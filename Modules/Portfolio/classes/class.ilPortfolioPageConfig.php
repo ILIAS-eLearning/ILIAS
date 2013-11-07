@@ -36,13 +36,17 @@ class ilPortfolioPageConfig extends ilPageConfig
 			$this->setEnablePCType("Skills", true);
 		}
 		
-		include_once './Services/Calendar/classes/class.ilCalendarUserSettings.php';
-		$settings = ilCalendarSettings::_getInstance();
-		if($settings->isEnabled() &&
-			$rbacsystem->checkAccess('add_consultation_hours', $settings->getCalendarSettingsId()) &&
-			$settings->areConsultationHoursEnabled())
+		// #12038
+		if(!stristr(get_class($this), "Template"))
 		{
-			$this->setEnablePCType("ConsultationHours", true);			
+			include_once './Services/Calendar/classes/class.ilCalendarUserSettings.php';
+			$settings = ilCalendarSettings::_getInstance();
+			if($settings->isEnabled() &&
+				$rbacsystem->checkAccess('add_consultation_hours', $settings->getCalendarSettingsId()) &&
+				$settings->areConsultationHoursEnabled())
+			{
+				$this->setEnablePCType("ConsultationHours", true);			
+			}
 		}
 	}	
 }
