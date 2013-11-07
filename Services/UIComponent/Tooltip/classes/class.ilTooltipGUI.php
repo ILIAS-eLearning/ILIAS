@@ -46,6 +46,10 @@ class ilTooltipGUI
 		$a_my = "bottom center", $a_at = "top center", $a_use_htmlspecialchars = true)
 	{
 		$addstr = "";
+
+		// not needed, just make sure the position plugin is included
+//		$addstr.= ", position: {viewport: $('#fixed_content')}";
+		
 		if ($a_container != "")
 		{
 			$addstr.= ", container: '".$a_container."'";
