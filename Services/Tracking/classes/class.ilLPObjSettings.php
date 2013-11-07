@@ -288,6 +288,12 @@ class ilLPObjSettings
 				
 			case self::LP_MODE_PLUGIN:
 				return $lng->txt('trac_mode_plugin');
+				
+			case self::LP_MODE_COLLECTION_MANUAL:
+				return $lng->txt('trac_mode_collection_manual');
+				
+			case self::LP_MODE_COLLECTION_TLT:
+				return $lng->txt('trac_mode_collection_tlt');
 		}
 	}
 	
@@ -336,6 +342,12 @@ class ilLPObjSettings
 				
 			case self::LP_MODE_EVENT:
 				return $lng->txt('trac_mode_event_info');
+				
+			case self::LP_MODE_COLLECTION_MANUAL:
+				return $lng->txt('trac_mode_collection_manual_info');
+				
+			case self::LP_MODE_COLLECTION_TLT:
+				return $lng->txt('trac_mode_collection_tlt_info');
 		}
 	}
 }
