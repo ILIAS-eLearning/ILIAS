@@ -2872,7 +2872,7 @@ ul.il_SubTab {
 li.subtabinactive {
 	float: left;
 	margin: 0;
-	padding-right: 15px;
+	margin-right: 15px;
 }
 
 a.subtabinactive {
@@ -2889,7 +2889,7 @@ a.subtabinactive:hover {
 li.subtabactive {
 	float: left;
 	margin: 0;
-	padding-right: 15px;
+	margin-right: 15px;
 }
 
 a.subtabactive, a.subtabactive:hover {
