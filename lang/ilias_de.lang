@@ -14122,3 +14122,5 @@ assessment#:#fq_question_desc#:#Sie definieren Variablen durch die Angabe von $v
 content#:#glo_hide_taxonomy#:#Hide Taxonomy###06 11 2013 new variable
 content#:#cont_col_ordering#:#Column Ordering###06 11 2013 new variable
 ecs#:#ecs_cmap_delete_rule#:#Zuordnung löschen
+wsp#:#wsp_list_excv#:#Übungszertifikat
+wsp#:#wsp_list_tstv#:#Testzertifikat

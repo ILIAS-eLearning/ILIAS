@@ -44,7 +44,7 @@ class ilObjExerciseVerification extends ilVerificationObject
 		$lng->loadLanguageModule("exercise");
 		
 		$newObj = new self();
-		$newObj->setTitle($lng->txt("wsp_type_excv")." \"".$a_exercise->getTitle()."\"");
+		$newObj->setTitle($a_exercise->getTitle());
 		$newObj->setDescription($a_exercise->getDescription());
 
 		include_once "Services/Tracking/classes/class.ilLPMarks.php";

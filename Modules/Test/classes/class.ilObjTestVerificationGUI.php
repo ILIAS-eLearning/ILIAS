@@ -99,7 +99,7 @@ class ilObjTestVerificationGUI extends ilObject2GUI
 	 */
 	public function render($a_return = false)
 	{
-		global $ilUser;
+		global $ilUser, $lng;
 		
 		if(!$a_return)
 		{					
@@ -110,10 +110,10 @@ class ilObjTestVerificationGUI extends ilObject2GUI
 			$tree = new ilWorkspaceTree($ilUser->getId());
 			$wsp_id = $tree->lookupNodeId($this->object->getId());
 			
-			$caption = $this->object->getTitle();			
+			$caption = $lng->txt("wsp_type_tstv").' "'.$this->object->getTitle().'"';				
 			$link = $this->getAccessHandler()->getGotoLink($wsp_id, $this->object->getId());
 			
-			return "<a href=\"".$link."\">".$caption."</a>";
+			return '<div><a href='.$link.'">'.$caption.'</a></div>';
 		}
 	}
 	

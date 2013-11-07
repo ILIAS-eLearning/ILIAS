@@ -44,7 +44,7 @@ class ilObjTestVerification extends ilVerificationObject
 		$lng->loadLanguageModule("wsp");
 		
 		$newObj = new self();
-		$newObj->setTitle($lng->txt("wsp_type_tstv")." \"".$a_test->getTitle()."\"");
+		$newObj->setTitle($a_test->getTitle());
 		$newObj->setDescription($a_test->getDescription());
 
 		$active_id = $a_test->getActiveIdOfUser($a_user_id);

@@ -35,5 +35,15 @@ class ilObjExerciseVerificationListGUI extends ilObjectListGUI
 		$this->commands = ilObjExerciseVerificationAccess::_getCommands();
 	}
 	
+	function getProperties()
+	{
+		global $lng;
+		
+		return array(
+			array("alert" => false, "property" => $lng->txt("type"),
+				"value" => $lng->txt("wsp_list_excv"))			
+		);
+	}
+	
 } // END class.ilObjTestVerificationListGUI
 ?>
