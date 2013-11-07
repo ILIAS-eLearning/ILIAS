@@ -6381,6 +6381,7 @@ class ilObjSurvey extends ilObject
 			}
 
 			$this->setReminderLastSent($today);
+			$this->saveToDb();
 
 			return true;
 		}
