@@ -50,10 +50,10 @@ class ilTestVerificationTableGUI extends ilTable2GUI
 		foreach(ilObjTest::_lookupFinishedUserTests($ilUser->getId()) as $test_id => $passed)
 		{
 			// #11210 - only available certificates!
-			$test = new ilObjTest($test_id, false);					
-			$active_id = $test->getActiveIdOfUser($ilUser->getId());
+			$test = new ilObjTest($test_id, false);								
 			$session = new ilTestSessionFactory($test);
-			if($test->canShowCertificate($session->getSession(null), $ilUser->getId(), $active_id))
+		    $session = $session->getSession(null);
+			if($test->canShowCertificate($session, $session->getUserId(), $session->getActiveId()))
 			{						
 				$data[] = array("id" => $test_id,
 					"title" => ilObject::_lookupTitle($test_id),

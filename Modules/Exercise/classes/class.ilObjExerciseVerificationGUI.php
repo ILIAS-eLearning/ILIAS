@@ -111,10 +111,34 @@ class ilObjExerciseVerificationGUI extends ilObject2GUI
 			$tree = new ilWorkspaceTree($ilUser->getId());
 			$wsp_id = $tree->lookupNodeId($this->object->getId());
 			
-			$caption = $lng->txt("wsp_type_excv").' "'.$this->object->getTitle().'"';			
-			$link = $this->getAccessHandler()->getGotoLink($wsp_id, $this->object->getId());
+			$caption = $lng->txt("wsp_type_excv").' "'.$this->object->getTitle().'"';	
 			
-			return '<div><a href='.$link.'">'.$caption.'</a></div>';
+			$valid = true;
+			if(!file_exists($this->object->getFilePath()))
+			{
+				$valid = false;
+				$message = $lng->txt("url_not_found");
+			}
+			else
+			{
+				include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
+				$access_handler = new ilWorkspaceAccessHandler($tree);
+				if(!$access_handler->checkAccess("read", "", $wsp_id))
+				{
+					$valid = false;
+					$message = $lng->txt("permission_denied");
+				}
+			}
+			
+			if($valid)
+			{
+				$link = $this->getAccessHandler()->getGotoLink($wsp_id, $this->object->getId());			
+				return '<div><a href="'.$link.'">'.$caption.'</a></div>';
+			}
+			else
+			{
+				return '<div>'.$caption.' ('.$message.')</div>';
+			}			
 		}
 	}
 	
