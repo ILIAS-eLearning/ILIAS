@@ -631,7 +631,7 @@ class assClozeTestGUI extends assQuestionGUI
 			$fb = $this->getSpecificFeedbackOutput($active_id, $pass);
 			$feedback .=  strlen($fb) ? $fb : '';
 		}
-		if (strlen($feedback)) $solutiontemplate->setVariable("FEEDBACK", $feedback);
+		if (strlen($feedback)) $solutiontemplate->setVariable("FEEDBACK", $this->object->prepareTextareaOutput($feedback, true));
 		
 		$solutiontemplate->setVariable("SOLUTION_OUTPUT", $questionoutput);
 

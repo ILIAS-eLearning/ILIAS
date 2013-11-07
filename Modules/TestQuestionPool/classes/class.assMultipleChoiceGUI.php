@@ -458,7 +458,7 @@ class assMultipleChoiceGUI extends assQuestionGUI
 							if (strlen($fb))
 							{
 								$template->setCurrentBlock("feedback");
-								$template->setVariable("FEEDBACK", $fb);
+								$template->setVariable("FEEDBACK", $this->object->prepareTextareaOutput($fb, true));
 								$template->parseCurrentBlock();
 							}
 						}
@@ -471,7 +471,7 @@ class assMultipleChoiceGUI extends assQuestionGUI
 					if (strlen($fb))
 					{
 						$template->setCurrentBlock("feedback");
-						$template->setVariable("FEEDBACK", $fb);
+						$template->setVariable("FEEDBACK", $this->object->prepareTextareaOutput($fb, true));
 						$template->parseCurrentBlock();
 					}					
 				}
@@ -486,7 +486,7 @@ class assMultipleChoiceGUI extends assQuestionGUI
 						if (strlen($fb))
 						{
 							$template->setCurrentBlock("feedback");
-							$template->setVariable("FEEDBACK", $fb);
+							$template->setVariable("FEEDBACK", $this->object->prepareTextareaOutput($fb, true));
 							$template->parseCurrentBlock();
 						}
 					}
@@ -677,7 +677,7 @@ class assMultipleChoiceGUI extends assQuestionGUI
 							if (strlen($fb))
 							{
 								$template->setCurrentBlock("feedback");
-								$template->setVariable("FEEDBACK", $fb);
+								$template->setVariable("FEEDBACK", $this->object->prepareTextareaOutput($fb, true));
 								$template->parseCurrentBlock();
 							}
 						}
@@ -690,7 +690,7 @@ class assMultipleChoiceGUI extends assQuestionGUI
 					if (strlen($fb))
 					{
 						$template->setCurrentBlock("feedback");
-						$template->setVariable("FEEDBACK", $fb);
+						$template->setVariable("FEEDBACK", $this->object->prepareTextareaOutput($fb, true));
 						$template->parseCurrentBlock();
 					}					
 				}
@@ -705,7 +705,7 @@ class assMultipleChoiceGUI extends assQuestionGUI
 						if (strlen($fb))
 						{
 							$template->setCurrentBlock("feedback");
-							$template->setVariable("FEEDBACK", $fb);
+							$template->setVariable("FEEDBACK", $this->object->prepareTextareaOutput( $fb, true));
 							$template->parseCurrentBlock();
 						}
 					}
