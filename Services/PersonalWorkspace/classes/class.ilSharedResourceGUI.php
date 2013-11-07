@@ -152,10 +152,17 @@ class ilSharedResourceGUI
 		else
 		{
 			include_once "Modules/Portfolio/classes/class.ilPortfolioAccessHandler.php";
-			$shared = ilPortfolioAccessHandler::getPermissions($a_node_id);
+			$shared = ilPortfolioAccessHandler::getPermissions($a_node_id);			
 			
+			// #12039
+			include_once "Modules/Portfolio/classes/class.ilObjPortfolio.php";
+			$prtf = new ilObjPortfolio($a_node_id, false);
+			if(!$prtf->isOnline())
+			{
+				return false;
+			}
 		}
-
+		
 		// object is "public"
 		if(in_array(ilWorkspaceAccessGUI::PERMISSION_ALL, $shared))
 		{
