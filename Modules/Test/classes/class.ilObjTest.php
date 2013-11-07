@@ -4037,7 +4037,7 @@ function getAnswerFeedbackPoints()
 		if( $this->isDynamicTest() )
 		{
 			require_once 'Modules/Test/classes/class.ilObjTestDynamicQuestionSetConfig.php';
-			$dynamicQuestionSetConfig = new ilObjTestDynamicQuestionSetConfig($tree, $ilDB, $this);
+			$dynamicQuestionSetConfig = new ilObjTestDynamicQuestionSetConfig($tree, $ilDB, $ilPluginAdmin, $this);
 			$dynamicQuestionSetConfig->loadFromDb();
 			
 			$testSequence->loadFromDb($dynamicQuestionSetConfig);
@@ -7738,7 +7738,7 @@ function getAnswerFeedbackPoints()
 			$testSequence = $testSequenceFactory->getSequence($testSession);
 
 			require_once 'Modules/Test/classes/class.ilObjTestDynamicQuestionSetConfig.php';
-			$dynamicQuestionSetConfig = new ilObjTestDynamicQuestionSetConfig($tree, $ilDB, $this);
+			$dynamicQuestionSetConfig = new ilObjTestDynamicQuestionSetConfig($tree, $ilDB, $ilPluginAdmin, $this);
 			$dynamicQuestionSetConfig->loadFromDb();
 			
 			$testSequence->loadFromDb($dynamicQuestionSetConfig);
