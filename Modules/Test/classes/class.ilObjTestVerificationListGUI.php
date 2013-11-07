@@ -34,5 +34,15 @@ class ilObjTestVerificationListGUI extends ilObjectListGUI
 		$this->commands = ilObjTestVerificationAccess::_getCommands();
 	}
 	
+	function getProperties()
+	{
+		global $lng;
+		
+		return array(
+			array("alert" => false, "property" => $lng->txt("type"),
+				"value" => $lng->txt("wsp_list_tstv"))			
+		);
+	}
+	
 } // END class.ilObjTestVerificationListGUI
 ?>

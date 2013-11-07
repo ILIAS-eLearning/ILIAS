@@ -19346,3 +19346,35 @@ if(!$ilDB->tableColumnExists("booking_reservation", "group_id"))
 }
 
 ?>
+<#4153>
+<?php
+
+$lang_map = array();
+$set = $ilDB->query("SELECT lang_key, value, identifier".
+	" FROM lng_data".
+	" WHERE ".$ilDB->in("identifier", array("wsp_type_tstv", "wsp_type_excv"), "", "text"));
+while($row = $ilDB->fetchAssoc($set))
+{	
+	$lang_map[substr($row["identifier"], -4)][$row["lang_key"]] = $row["value"];	
+}
+
+$set = $ilDB->query("SELECT type, obj_id, title".
+	" FROM object_data".
+	" WHERE ".$ilDB->in("type", array("tstv", "excv"), "", "text"));
+while($row = $ilDB->fetchAssoc($set))
+{
+	foreach($lang_map[$row["type"]] as $lang_item)
+	{
+		$lang_item .= ' "';
+		if(strpos($row["title"], $lang_item) === 0)
+		{
+			$title = substr($row["title"], strlen($lang_item), -1);
+			$ilDB->manipulate("UPDATE object_data".
+				" SET title = ".$ilDB->quote($title, "text").
+				" WHERE obj_id = ".$ilDB->quote($row["obj_id"]));
+			break;
+		}
+	}	
+}
+
+?>
