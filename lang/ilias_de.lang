@@ -13168,7 +13168,7 @@ rbac#:#root_create_bibl#:#Literaturliste anlegen
 ldap#:#ldap_edit_role_assignment#:#Zuordnung bearbeiten
 trac#:#trac_mode_collection_tlt#:#Typische Lerndauer (je Kapitel)
 trac#:#trac_mode_collection_tlt_info#:#Die Bearbeitungszeit der NutzerInnen aller relevanten Kapitel muss die 'Typische Lernzeit' überschreiten, um den Status 'Bearbeitet' zu erreichen.
-trac#:#trac_mode_collection_manual#:#MManuell durch NutzerInnen (je Kapitel)
+trac#:#trac_mode_collection_manual#:#Manuell durch NutzerInnen (je Kapitel)
 trac#:#trac_mode_collection_manual_info#:#Die NutzerInnen entscheiden selbst (je Kapitel), ob Sie den Status 'Bearbeitet' haben oder nicht.
 trac#:#trac_collection_manual_learner_info#:#Der Lernfortschritt für dieses Objekt wird manuell gesetzt.
 trac#:#trac_collection_manual_learner_changed_ts#:#Geändert am
