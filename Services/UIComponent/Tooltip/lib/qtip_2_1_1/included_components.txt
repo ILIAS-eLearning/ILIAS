@@ -3,3 +3,4 @@ Included Components:
 2.1.1 stable
 Core Styles
 Speech bubble 'tips'
+Viewport Adjustments
