@@ -153,7 +153,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
 				'BETWEEN '.
 				$ilDB->quote($a_node['path'],'text').' AND '.
 				$ilDB->quote($a_node['path'].'.Z','text').' '.
-				'AND '.$this->getTree()->getTreeTable().'.'.$this->getTree()->getTreePk().' = '.$ilDB->quote($this->getTree()->getTreeId(),'integer').
+				'AND '.$this->getTree()->getTreeTable().'.'.$this->getTree()->getTreePk().' = '.$ilDB->quote($this->getTree()->getTreeId(),'integer').' '.
 				$type_str.' '.
 				'ORDER BY '.$this->getTree()->getTreeTable().'.path';
 		
