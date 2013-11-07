@@ -544,6 +544,12 @@ abstract class ilObjPortfolioBase extends ilObject2
 
 			if($valid)
 			{							
+				// update xml from dom
+				$xml = $dom->saveXML();
+				$xml = eregi_replace("<\?xml[^>]*>","",$xml);
+				$xml = eregi_replace("<!DOCTYPE[^>]*>","",$xml);				
+				$target_page->setXMLContent($xml);
+				
 				$target_page->setType($page_type);
 				$target_page->setTitle($page_title);
 				$target_page->create();		
