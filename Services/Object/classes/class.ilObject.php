@@ -1055,8 +1055,10 @@ class ilObject
 	{
 		global $ilDB;
 		
-		$query = 'UPDATE object_reference SET deleted = '.$ilDB->quote($ilDB->now().' '.
-				'WHERE ref_id = '.$ilDB->in('ref_id',(array) $a_ref_ids,false,'integer'));
+		$query = 'UPDATE object_reference SET deleted = '.$ilDB->now().' '.
+				'WHERE '.$ilDB->in('ref_id',(array) $a_ref_ids,false,'integer');
+		
+		$GLOBALS['ilLog']->write(__METHOD__.': Query is '. $query);
 		$ilDB->manipulate($query);
 		return;
 	}
