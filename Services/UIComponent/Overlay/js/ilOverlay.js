@@ -175,8 +175,8 @@ il.Overlay = {
 		
 		
 		// make it smaller, if window height is not sufficient
-		if (cl_reg.height < el_reg.height + 20) {
-			newHeight = cl_reg.height - 20;
+		if (cl_reg.height < el_reg.height + 40) {
+			newHeight = cl_reg.height - 40;
 			if (newHeight < 150) {
 				newHeight = 150;
 			}
@@ -189,8 +189,8 @@ il.Overlay = {
 		}
 
 		// to low -> show it higher
-		if (cl_reg.bottom < el_reg.bottom) {
-			newy = el_reg.y - (el_reg.bottom - cl_reg.bottom);
+		if (cl_reg.bottom - 20 < el_reg.bottom) {
+			newy = el_reg.y - (el_reg.bottom - cl_reg.bottom + 20);
 			if (newy < cl_reg.top) {
 				newy = cl_reg.top;
 			}
@@ -199,8 +199,8 @@ il.Overlay = {
 		}
 
 		// to far to the right -> show it more to the left
-		if (cl_reg.right < el_reg.right) {
-			this.setX(id, el_reg.x - (el_reg.right - cl_reg.right));
+		if (cl_reg.right - 20 < el_reg.right) {
+			this.setX(id, el_reg.x - (el_reg.right - cl_reg.right + 20));
 		}
 
 		el.style.overflow = 'auto';
