@@ -718,6 +718,12 @@ class ilBookingEntry
 	 */
 	public function isAppointmentBookableForUser($a_app_id, $a_user_id)
 	{
+		// #12025
+		if($a_user_id == ANONYMOUS_USER_ID)
+		{
+			return false;
+		}
+		
 		// Check max bookings
 		if($this->getNumberOfBookings() <= $this->getCurrentNumberOfBookings($a_app_id))
 		{
