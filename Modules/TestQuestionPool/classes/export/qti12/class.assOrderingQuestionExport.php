@@ -102,9 +102,10 @@ class assOrderingQuestionExport extends assQuestionExport
 		else if($this->object->getOrderingType() == OQ_TERMS)
 			$ordering_type ='OQT';
 
-			$attrs = array(
-			"ident" => $ordering_type,
-			"rcardinality" => "Ordered");
+		$attrs = array(
+			"ident"        => $ordering_type,
+			"rcardinality" => "Ordered"
+		);
 
 		if ($this->object->getOutputType() == OUTPUT_JAVASCRIPT)
 		{
@@ -214,7 +215,6 @@ class assOrderingQuestionExport extends assQuestionExport
 				}
 				$a_xml_writer->xmlEndTag("material");
 			}
-			$a_xml_writer->xmlEndTag("material");
 			$a_xml_writer->xmlEndTag("response_label");
 		}
 		$a_xml_writer->xmlEndTag("render_choice");
