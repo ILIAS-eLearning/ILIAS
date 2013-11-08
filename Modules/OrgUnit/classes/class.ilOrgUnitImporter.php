@@ -1,6 +1,13 @@
 <?php
-
+/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 require_once("./Modules/Category/classes/class.ilCategoryImporter.php");
+/**
+ * Class ilOrgUnitImporter
+ *
+ * @author: Oskar Truffer <ot@studer-raimann.ch>
+ * @author: Martin Studer <ms@studer-raimann.ch>
+ *
+ */
 class ilOrgUnitImporter extends ilCategoryImporter {
 
 	/** @var  array lang_var => language variable, import_id => the reference or import id, depending on the ou_id_type */

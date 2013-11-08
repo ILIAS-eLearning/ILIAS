@@ -1,16 +1,15 @@
 <?php
-/**
- * Created by JetBrains PhpStorm.
- * @author: Oskar Truffer <ot@studer-raimann.ch>
- * Date: 16/07/13
- * Time: 3:30 PM
- * To change this template use File | Settings | File Templates.
- */
-
+/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 require_once("./Services/Table/classes/class.ilTable2GUI.php");
 require_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 require_once("./Services/Tracking/classes/class.ilObjUserTracking.php");
-
+/**
+ * Class ilOrgUnitStaffTableGUI
+ *
+ * @author            Oskar Truffer <ot@studer-raimann.ch>
+ * @author            Martin Studer <ms@studer-raimann.ch>
+ *
+ */
 class ilOrgUnitStaffTableGUI extends ilTable2GUI{
 
 	/** @var bool  */
@@ -129,16 +128,16 @@ class ilOrgUnitStaffTableGUI extends ilTable2GUI{
 	 * @param $selection ilAdvancedSelectionListGUI
 	 */
 	protected function addEmployeeActions(&$selection){
-		$selection->addItem($this->lng->txt("remove"), "delete_from_employees", $this->ctrl->getLinkTargetByClass("ilObjOrgUnitGUI", "confirmRemoveFromEmployees"));
-		$selection->addItem($this->lng->txt("change_to_superior"), "change_to_superior", $this->ctrl->getLinkTargetByClass("ilObjOrgUnitGUI", "fromEmployeeToSuperior"));
+		$selection->addItem($this->lng->txt("remove"), "delete_from_employees", $this->ctrl->getLinkTargetByClass("ilOrgUnitStaffGUI", "confirmRemoveFromEmployees"));
+		$selection->addItem($this->lng->txt("change_to_superior"), "change_to_superior", $this->ctrl->getLinkTargetByClass("ilOrgUnitStaffGUI", "fromEmployeeToSuperior"));
 	}
 
 	/**
 	 * @param $selection ilAdvancedSelectionListGUI
 	 */
 	protected function addSuperiorActions(&$selection){
-		$selection->addItem($this->lng->txt("remove"), "delete_from_superiors", $this->ctrl->getLinkTargetByClass("ilObjOrgUnitGUI", "confirmRemoveFromSuperiors"));
-		$selection->addItem($this->lng->txt("change_to_employee"), "change_to_employee", $this->ctrl->getLinkTargetByClass("ilObjOrgUnitGUI", "fromSuperiorToEmployee"));
+		$selection->addItem($this->lng->txt("remove"), "delete_from_superiors", $this->ctrl->getLinkTargetByClass("ilOrgUnitStaffGUI", "confirmRemoveFromSuperiors"));
+		$selection->addItem($this->lng->txt("change_to_employee"), "change_to_employee", $this->ctrl->getLinkTargetByClass("ilOrgUnitStaffGUI", "fromSuperiorToEmployee"));
 	}
 
 	/**

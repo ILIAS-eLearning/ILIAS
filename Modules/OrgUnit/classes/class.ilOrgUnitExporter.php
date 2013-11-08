@@ -1,16 +1,15 @@
 <?php
-/**
- * Created by JetBrains PhpStorm.
- * @author: Oskar Truffer <ot@studer-raimann.ch>
- * Date: 8/08/13
- * Time: 10:55 AM
- * To change this template use File | Settings | File Templates.
- */
-
+/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 require_once("./Modules/Category/classes/class.ilCategoryExporter.php");
 require_once("./Services/Xml/classes/class.ilXmlWriter.php");
-include_once("./Services/Export/classes/class.ilExport.php");
-
+require_once("./Services/Export/classes/class.ilExport.php");
+/**
+ * Class ilOrgUnitExporter
+ *
+ * @author: Oskar Truffer <ot@studer-raimann.ch>
+ * @author: Martin Studer <ms@studer-raimann.ch>
+ *
+ */
 class ilOrgUnitExporter extends ilCategoryExporter {
 
 

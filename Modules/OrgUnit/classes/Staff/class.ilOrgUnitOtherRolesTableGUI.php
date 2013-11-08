@@ -1,14 +1,12 @@
 <?php
-/**
- * Created by JetBrains PhpStorm.
- * @author: Martin Studer <ms@studer-raimann.ch>
- * Date: 16/07/13
- * Time: 3:30 PM
- * To change this template use File | Settings | File Templates.
- */
-
+/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 require_once("./Services/Table/classes/class.ilTable2GUI.php");
-
+/**
+ * Class ilOrgUnitOtherRolesTableGUI
+ *
+ * @author            Oskar Truffer <ot@studer-raimann.ch>
+ * @author            Martin Studer <ms@studer-raimann.ch>
+ */
 class ilOrgUnitOtherRolesTableGUI extends ilTable2GUI{
 
 
@@ -112,7 +110,7 @@ class ilOrgUnitOtherRolesTableGUI extends ilTable2GUI{
             $selection = new ilAdvancedSelectionListGUI();
             $selection->setListTitle($lng->txt("Actions"));
             $selection->setId("selection_list_user_other_roles_".$set["user_id"]);
-            $selection->addItem($this->lng->txt("remove"), "delete_from_role", $this->ctrl->getLinkTargetByClass("ilObjOrgUnitGUI", "confirmRemoveFromRole"));
+            $selection->addItem($this->lng->txt("remove"), "delete_from_role", $this->ctrl->getLinkTargetByClass("ilOrgUnitStaffGUI", "confirmRemoveFromRole"));
 		}
 		$this->tpl->setVariable("ACTIONS", $selection->getHTML());
 

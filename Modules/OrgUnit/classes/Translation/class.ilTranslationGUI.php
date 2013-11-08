@@ -1,27 +1,45 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-
+/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+require_once("./Services/Object/classes/class.ilObjectTranslationTableGUI.php");
 /**
- * Class ilOrgUnitTranslation GUI class
+ * Class ilTranslationGUI
  *
- * Based on Methods of ilObjCategoryGUI
+ * Based on methods of ilObjCategoryGUI
  *
- * @author: Martin Studer <ms@studer-raimann.ch>
- * Date: 4/07/13
- * Time: 1:09 PM
+ * @author            Oskar Truffer <ot@studer-raimann.ch>
+ * @author            Martin Studer <ms@studer-raimann.ch>
  *
- * @ilCtrl_Calls ilOrgUnitTranslationGUI:
  */
-
-
-//class ilObjOrgUnitGUI extends ilObjCategoryGUI{
-class ilOrgUnitTranslationGUI {
+class ilTranslationGUI {
+	/**
+	 * @var ilCtrl
+	 */
+	protected $ctrl;
+	/**
+	 * @var ilTemplate
+	 */
+	public $tpl;
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $ilAccess;
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+	/**
+	 * @var ilObjOrgUnitGui
+	 */
+	protected $ilObjOrgUnitGui;
+	/**
+	 * @var ilObjectOrgUnit
+	 */
+	protected $ilObjectOrgUnit;
 
 
 	function __construct(ilObjOrgUnitGUI $ilObjOrgUnitGUI)
     {
-		global $tpl, $ilCtrl, $ilDB, $lng;
+		global $tpl, $ilCtrl, $ilDB, $lng, $ilAccess;
 		/**
 		 * @var $tpl    ilTemplate
 		 * @var $ilCtrl ilCtrl
@@ -30,9 +48,17 @@ class ilOrgUnitTranslationGUI {
 		$this->tpl = $tpl;
 		$this->ctrl = $ilCtrl;
 		$this->lng = $lng;
-
         $this->ilObjOrgUnitGui = $ilObjOrgUnitGUI;
         $this->ilObjectOrgUnit = $ilObjOrgUnitGUI->object;
+	    $this->ilAccess = $ilAccess;
+
+
+
+	    if(!$ilAccess->checkAccess('write', '',$this->ilObjectOrgUnit->getRefId()))
+	    {
+		    ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
+		    $this->ctrl->redirect($this->parent_gui, "");
+	    }
     }
 
     public function executeCommand()
@@ -44,11 +70,8 @@ class ilOrgUnitTranslationGUI {
 
 	public function editTranslations($a_get_post_values = false, $a_add = false)
     {
-
         $this->lng->loadLanguageModule($this->ilObjectOrgUnit->getType());
-        //$this->setEditTabs("settings_trans");
 
-        include_once("./Services/Object/classes/class.ilObjectTranslationTableGUI.php");
         $table = new ilObjectTranslationTableGUI($this, "editTranslations", true,
             "Translation");
         if ($a_get_post_values)
@@ -77,8 +100,6 @@ class ilOrgUnitTranslationGUI {
             $table->setData($data["Fobject"]);
         }
         $this->tpl->setContent($table->getHTML());
-
-		//$this->setContentSubTabs();
 	}
 
 
@@ -176,5 +197,4 @@ class ilOrgUnitTranslationGUI {
         }
         $this->saveTranslations();
     }
-
 }

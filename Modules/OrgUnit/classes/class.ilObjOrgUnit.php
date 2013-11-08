@@ -1,15 +1,16 @@
 <?php
-/**
- * Created by JetBrains PhpStorm.
- * @author: Oskar Truffer <ot@studer-raimann.ch>
- * Date: 4/07/13
- * Time: 12:37 PM
- * To change this template use File | Settings | File Templates.
- */
-
+/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 require_once "./Services/Container/classes/class.ilContainer.php";
 require_once("./Modules/OrgUnit/classes/class.ilOrgUnitImporter.php");
-
+/**
+ * Class ilObjOrgUnit
+ *
+ * Based on methods of ilObjCategoryGUI
+ *
+ * @author: Oskar Truffer <ot@studer-raimann.ch>
+ * @author: Martin Studer <ms@studer-raimann.ch>
+ *
+ */
 class ilObjOrgUnit extends ilContainer {
 
 	protected static $root_ref_id;
@@ -48,7 +49,7 @@ class ilObjOrgUnit extends ilContainer {
 
 	private function loadRoles(){
 		global $ilLog;
-		if(!$this->employee_role || !$this->superior_role){
+			if(!$this->employee_role || !$this->superior_role){
 				$this->doLoadRoles();
 			}
 
