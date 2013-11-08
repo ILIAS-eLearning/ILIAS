@@ -2735,14 +2735,14 @@
 				<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
 				<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
 				<param name="movie">
-					<xsl:attribute name="value">http://www.youtube.com/v/<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Parameter[@Name='v']/@Value" />&amp;hl=en&amp;fs=1&amp;rel=0</xsl:attribute>
+					<xsl:attribute name="value">//www.youtube.com/v/<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Parameter[@Name='v']/@Value" />&amp;hl=en&amp;fs=1&amp;rel=0</xsl:attribute>
 				</param>
 				<param name="allowFullScreen" value="true"></param>
 				<embed type="application/x-shockwave-flash"
 					allowfullscreen="true">
 					<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
 					<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
-					<xsl:attribute name="src">http://www.youtube.com/v/<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Parameter[@Name='v']/@Value" />&amp;hl=en&amp;fs=1&amp;rel=0</xsl:attribute>
+					<xsl:attribute name="src">//www.youtube.com/v/<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Parameter[@Name='v']/@Value" />&amp;hl=en&amp;fs=1&amp;rel=0</xsl:attribute>
 					<xsl:comment>Comment to have separate embed ending tag</xsl:comment>
 				</embed>
 			</object>
@@ -2756,7 +2756,7 @@
 			<iframe frameBorder="0" scrolling="no">
 				<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
 				<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
-				<xsl:attribute name="src">http://www.flickr.com/slideShow/index.gne?<xsl:value-of select="$flickr_user_id" /><xsl:value-of select="$flickr_tags" /><xsl:value-of select="$flickr_sets" /></xsl:attribute>
+				<xsl:attribute name="src">//www.flickr.com/slideShow/index.gne?<xsl:value-of select="$flickr_user_id" /><xsl:value-of select="$flickr_tags" /><xsl:value-of select="$flickr_sets" /></xsl:attribute>
 				<xsl:comment>Comment to have separate iframe ending tag</xsl:comment>
 			</iframe>
 		</xsl:when>
@@ -2764,7 +2764,7 @@
 		<!-- GoogleVideo -->
 		<xsl:when test = "substring-after($data,'video.google') != ''">
 			<embed id="VideoPlayback" allowFullScreen="true"  type="application/x-shockwave-flash">
-				<xsl:attribute name="src">http://video.google.com/googleplayer.swf?docid=<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Parameter[@Name='docid']/@Value" />&amp;fs=true</xsl:attribute>
+				<xsl:attribute name="src">//video.google.com/googleplayer.swf?docid=<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Parameter[@Name='docid']/@Value" />&amp;fs=true</xsl:attribute>
 				<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
 				<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
 				<xsl:comment>Comment to have separate embed ending tag</xsl:comment>
@@ -2775,7 +2775,7 @@
 		<xsl:when test = "substring-after($data,'docs.google') != ''">
 			<xsl:variable name="googledoc_action"><xsl:if test = "//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Parameter[@Name='type']/@Value = 'Presentation'">EmbedSlideshow</xsl:if><xsl:if test = "//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Parameter[@Name='type']/@Value = 'Document'">View</xsl:if></xsl:variable>
 			<iframe frameborder='0'>
-				<xsl:attribute name="src">http://docs.google.com/<xsl:value-of select="$googledoc_action"/>?docid=<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Parameter[@Name='docid']/@Value" /></xsl:attribute>
+				<xsl:attribute name="src">//docs.google.com/<xsl:value-of select="$googledoc_action"/>?docid=<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Parameter[@Name='docid']/@Value" /></xsl:attribute>
 				<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
 				<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
 				<xsl:comment>Comment to have separate iframe ending tag</xsl:comment>
