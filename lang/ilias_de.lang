@@ -9030,7 +9030,7 @@ news#:#news_get_priv_feed_info#:#Dies ist die Adresse Ihres privaten Newsfeeds. 
 news#:#news_get_priv_feed_title#:#URL Ihres Privaten Newsfeeds
 news#:#news_hidden_news_block#:#Nachrichtenblock wird zur Zeit in der Lernersicht nicht angezeigt.
 news#:#news_hide_news_block#:#Nachrichtenblock verbergen
-news#:#news_hide_news_block_info#:#Verberge Block in der Lerneransicht. Der Nachrichtenblock wird nur für Benutzer mit Schreibberichtigung sichtbar sein.
+news#:#news_hide_news_block_info#:#Verberge Block in der Lerneransicht. Der Nachrichtenblock wird nur für Benutzer mit Schreibberechtigung sichtbar sein.
 news#:#news_hide_news_date#:#Startdatum
 news#:#news_hide_news_per_date#:#Nachrichten ab Datum anzeigen
 news#:#news_hide_news_per_date_info#:#Es werden nur Nachrichten ab einem bestimmten Datum angezeigt.
