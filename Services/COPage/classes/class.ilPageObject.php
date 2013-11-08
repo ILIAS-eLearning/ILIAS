@@ -4082,7 +4082,7 @@ abstract class ilPageObject
 			" AND parent_type = %s ".
 			" AND nr = %s".
 			" AND lang = %s",
-			array("integer", "text", "integer". "text"),
+			array("integer", "text", "integer", "text"),
 			array($this->getId(), $this->getParentType(), $a_old_nr, $this->getLanguage()));
 		if ($hrec = $ilDB->fetchAssoc($res))
 		{
