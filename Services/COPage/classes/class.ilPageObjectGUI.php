@@ -2443,12 +2443,14 @@ class ilPageObjectGUI
 	}
 	
 	/**
-	* Download file of file lists
-	*/
+	 * Download file of file lists
+	 */
 	function downloadFile()
 	{
 		$this->obj->buildDom();
-		$files = $this->obj->collectFileItems();
+		
+		include_once("./Services/COPage/classes/class.ilPCFileList.php");
+		$files = ilPCFileList::collectFileItems($this->obj, $this->obj->getDomDoc());
 
 		$file = explode("_", $_GET["file_id"]);
 		require_once("./Modules/File/classes/class.ilObjFile.php");
