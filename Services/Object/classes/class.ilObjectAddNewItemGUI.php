@@ -187,18 +187,18 @@ class ilObjectAddNewItemGUI
 			
 			$group_separators = array();
 			$pos_group_map[0] = $lng->txt("rep_new_item_group_other");		
-			$old_grp_id = 0;
+			$old_grp_ids = array();
 			foreach($groups as $item)
 			{
 				if($item["type"] == ilObjRepositorySettings::NEW_ITEM_GROUP_TYPE_GROUP)
 				{
 					$pos_group_map[$item["id"]] = $item["title"];
 				}
-				else if($old_grp_id)
-				{
-					$group_separators[] = $old_grp_id;
+				else if(sizeof($old_grp_ids))
+				{					
+					$group_separators[$item["id"]] = $old_grp_ids;
 				}
-				$old_grp_id = $item["id"];
+				$old_grp_ids[] = $item["id"];
 			}				
 			
 			$current_grp = null;
@@ -211,15 +211,26 @@ class ilObjectAddNewItemGUI
 					{
 						// if only assigned - do not add groups
 						if(sizeof($pos_group_map) > 1)
-						{
-							$obj_grp_id = (int)$grp_map[$type];
+						{														
+							$obj_grp_id = (int)$grp_map[$type];							
 							if($obj_grp_id !== $current_grp)
-							{
+							{															
 								// add seperator after last group?
-								if(in_array($current_grp, $group_separators))
+								$sdone = false;
+								foreach($group_separators as $idx => $spath)
 								{
-									$this->sub_objects[] = array("type" => "column_separator");		
-								}								 
+									// #11986 - all separators up to next group
+									if($current_grp && !in_array($obj_grp_id, $spath))
+									{
+										// 1 only separator between groups
+										if(!$sdone)
+										{
+											$this->sub_objects[] = array("type" => "column_separator");		
+											$sdone = true;
+										}
+										unset($group_separators[$idx]);
+									}	
+								}							
 								
 								$title = $pos_group_map[$obj_grp_id];
 
