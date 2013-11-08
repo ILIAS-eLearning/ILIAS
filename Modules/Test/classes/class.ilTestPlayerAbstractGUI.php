@@ -871,9 +871,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			ilSession::set('passincreased', $actualpass);
 		}
 
-		if ($this->object->getEnableArchiving() && ilSession::get('archived') == $actualpass)
+		if ( $this->object->getEnableArchiving() )
 		{
-			ilSession::set('archived', $actualpass);
 			$this->archiveParticipantSubmission( $active_id, $actualpass );
 		}
 
