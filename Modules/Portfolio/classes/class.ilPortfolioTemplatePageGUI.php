@@ -11,6 +11,7 @@ include_once("./Modules/Portfolio/classes/class.ilPortfolioPageGUI.php");
  *
  * @ilCtrl_Calls ilPortfolioTemplatePageGUI: ilPageEditorGUI, ilEditClipboardGUI
  * @ilCtrl_Calls ilPortfolioTemplatePageGUI: ilPageObjectGUI, ilMediaPoolTargetSelector
+ * @ilCtrl_Calls ilPortfolioTemplatePageGUI: ilCalendarMonthGUI, ilConsultationHoursGUI
  *
  * @ingroup ModulesPortfolio
  */
@@ -51,6 +52,11 @@ class ilPortfolioTemplatePageGUI extends ilPortfolioPageGUI
 	protected function renderProfile($a_user_id, $a_type, array $a_fields = null)
 	{	
 		return $this->addPlaceholderInfo(parent::renderProfile($a_user_id, $a_type, $a_fields));	
+	}
+	
+	protected function renderConsultationHours($a_user_id, $a_mode, $a_group_ids)
+	{	
+		return $this->addPlaceholderInfo(parent::renderConsultationHours($a_user_id, $a_mode, $a_group_ids));			
 	}
 	
 	protected function addPlaceholderInfo($a_html)

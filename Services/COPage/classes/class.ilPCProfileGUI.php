@@ -113,8 +113,7 @@ class ilPCProfileGUI extends ilPageContentGUI
 	{
 		global $ilCtrl, $ilToolbar;
 				
-		// :TODO: do we need a generic approach?
-		$is_template = ($this->getPage()->getParentType() == "prtt");
+		$is_template = ($this->getPageConfig()->getEnablePCType("PlaceHolder"));
 				
 		if(!$is_template)
 		{
