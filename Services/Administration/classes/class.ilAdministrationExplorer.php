@@ -124,24 +124,15 @@ class ilAdministrationExplorer extends ilExplorer
 
 	
 	/**
-	* get image path
-	*/
+	 * get image path
+	 */
 	function getImage($a_name, $a_type = "", $a_obj_id = "")
 	{
 		if ($a_type != "")
 		{
-			// custom icons
-			if ($this->ilias->getSetting("custom_icons") &&
-				in_array($a_type, array("cat","grp","crs")))
-			{
-				require_once("./Services/Container/classes/class.ilContainer.php");
-				if (($path = ilContainer::_lookupIconPath($a_obj_id, "tiny")) != "")
-				{
-					return $path;
-				}
-			}
+			return ilObject::_getIcon($a_obj_id, "tiny", $a_type);
 		}
-		
+	
 		return parent::getImage($a_name);
 	}
 
