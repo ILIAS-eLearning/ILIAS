@@ -530,11 +530,12 @@ abstract class ilObjPortfolioBase extends ilObject2
 					
 					if($direction == "t2p")
 					{
-						// update profile user id
+						// update profile/consultation hours user id
 						self::updateDomNodes($dom, "//PageContent/Profile", "User", $ilUser->getId());
-					}
-					
+						self::updateDomNodes($dom, "//PageContent/ConsultationHours", "User", $ilUser->getId());
+					}					
 
+					
 					// :TODO: skills 
 
 

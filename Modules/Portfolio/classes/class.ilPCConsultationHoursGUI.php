@@ -117,18 +117,25 @@ class ilPCConsultationHoursGUI extends ilPageContentGUI
 		$opt_manual->setInfo($this->lng->txt("cont_cach_mode_manual_info"));				
 		$mode->addOption($opt_manual);
 		
-		include_once "Services/Calendar/classes/ConsultationHours/class.ilConsultationHourGroups.php";
-		$grp_ids = ilConsultationHourGroups::getGroupsOfUser($ilUser->getId());
-		if(sizeof($grp_ids))
-		{			
-			$this->lng->loadLanguageModule("dateplaner");
-			$groups = new ilCheckboxGroupInputGUI($this->lng->txt("cal_ch_app_grp"), "grp");
-			$groups->setRequired(true);
-			$opt_manual->addSubItem($groups);
-		
-			foreach($grp_ids as $grp_obj)
+		if(!$this->getPageConfig()->getEnablePCType("PlaceHolder"))
+		{		
+			include_once "Services/Calendar/classes/ConsultationHours/class.ilConsultationHourGroups.php";
+			$grp_ids = ilConsultationHourGroups::getGroupsOfUser($ilUser->getId());
+			if(sizeof($grp_ids))
+			{			
+				$this->lng->loadLanguageModule("dateplaner");
+				$groups = new ilCheckboxGroupInputGUI($this->lng->txt("cal_ch_app_grp"), "grp");
+				$groups->setRequired(true);
+				$opt_manual->addSubItem($groups);
+
+				foreach($grp_ids as $grp_obj)
+				{
+					$groups->addOption(new ilCheckboxOption($grp_obj->getTitle(), $grp_obj->getGroupId()));
+				}
+			}
+			else
 			{
-				$groups->addOption(new ilCheckboxOption($grp_obj->getTitle(), $grp_obj->getGroupId()));
+				$opt_manual->setDisabled(true);
 			}
 		}
 		else
