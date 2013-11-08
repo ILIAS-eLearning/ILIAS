@@ -1,21 +1,19 @@
 <?php
-/**
- * Created by JetBrains PhpStorm.
- * @author: Oskar Truffer <ot@studer-raimann.ch>
- * Date: 23/07/13
- * Time: 4:39 PM
- * To change this template use File | Settings | File Templates.
- */
-
+/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 require_once("./Modules/OrgUnit/classes/class.ilMultiUserToolbarInputGUI.php");
-
+/**
+ * Class ilOrguUserPickerToolbarInputGUI
+ *
+ * @author: Oskar Truffer <ot@studer-raimann.ch>
+ * @author: Martin Studer <ms@studer-raimann.ch>
+ *
+ */
 class ilOrguUserPickerToolbarInputGUI extends ilMultiUserToolbarInputGUI {
 
 	protected $staff;
 
 	public function getToolbarHTML()
 	{
-		//TODO refactor into template.
 		$html = "<form method='post' class='ilOrguUserPicker' action='".$this->getSubmitLink()."'>";
 		$html .= $this->render();
 		$html .= $this->getSelectHTML();
@@ -26,7 +24,6 @@ class ilOrguUserPickerToolbarInputGUI extends ilMultiUserToolbarInputGUI {
 
 	protected function getSelectHTML(){
 		global $lng;
-		//todo refactor into template.
 		$html = "
 		<select name='".$this->searchPostVar()."_role"."'>
 			<option value='employee'>".$lng->txt("employee")."</option>
