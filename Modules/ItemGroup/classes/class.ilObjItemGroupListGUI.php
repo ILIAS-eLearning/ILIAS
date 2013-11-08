@@ -50,6 +50,31 @@ class ilObjItemGroupListGUI extends ilObjectListGUI
 	}
 
 	/**
+	 * Enable subscribtion (deactivated)
+	 * necessary due to bug 11509
+	 *
+	 * @param
+	 * @return
+	 */
+	function enableSubscribe($a_val)
+	{
+		$this->subscribe_enabled = false;
+	}
+	
+	/**
+	 * Prevent enabling info
+	 * necessary due to bug 11509
+	 *
+	 * @param bool
+	 * @return void
+	 */
+	function enableInfoScreen($a_info_screen)
+	{
+		$this->info_screen_enabled = false;
+	}
+
+
+	/**
 	* Get command link url.
 	*
 	* @param	int			$a_ref_id		reference id
