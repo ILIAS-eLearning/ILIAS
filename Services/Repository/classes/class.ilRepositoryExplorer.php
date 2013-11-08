@@ -364,7 +364,17 @@ class ilRepositoryExplorer extends ilExplorer
 					include_once './Modules/Session/classes/class.ilEventItems.php';
 					$this->session_materials[$container_parent_id] = ilEventItems::_getItemsOfContainer($container_parent_id);
 				}			
+				// get item group items only once
+				if(!isset($this->item_group_items[$container_parent_id]))
+				{
+					include_once './Modules/ItemGroup/classes/class.ilItemGroupItems.php';
+					$this->item_group_items[$container_parent_id] = ilItemGroupItems::_getItemsOfContainer($container_parent_id);
+				}			
 				if(in_array($a_ref_id, $this->session_materials[$container_parent_id]))
+				{
+					return false;
+				}
+				if(in_array($a_ref_id, $this->item_group_items[$container_parent_id]))
 				{
 					return false;
 				}

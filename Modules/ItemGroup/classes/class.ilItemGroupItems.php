@@ -271,5 +271,26 @@ class ilItemGroupItems
 		return true;
 	}
 	
+	function _getItemsOfContainer($a_ref_id)
+	{
+		global $ilDB,$tree;
+		
+		$itgr_nodes = $tree->getChildsByType($a_ref_id,'itgr');
+		foreach ($itgr_nodes as $node)
+		{
+			$itgr_ids[] = $node['obj_id'];
+		}
+		$query = "SELECT item_ref_id FROM item_group_item ".
+			"WHERE ".$ilDB->in('item_group_id', $itgr_ids,false,'integer');
+			
+
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$items[] = $row->item_ref_id;
+		}
+		return $items ? $items : array();
+	}
+
 }
 ?>
