@@ -2054,6 +2054,7 @@ else
 			
 			$ilDB = $this->setup->getClient()->db;
 			$this->lng->setDbHandler($ilDB);
+			include_once "./Services/Database/classes/class.ilDBUpdate.php";
 			$dbupdate = new ilDBUpdate($ilDB);
 			$db_status = $dbupdate->getDBVersionStatus();
 			$hotfix_available = $dbupdate->hotfixAvailable();
