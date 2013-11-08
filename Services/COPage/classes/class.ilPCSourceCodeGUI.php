@@ -15,14 +15,14 @@ require_once("./Services/COPage/classes/class.ilPageContentGUI.php");
 *
 * @ingroup ServicesCOPage
 */
-class ilPCSourcecodeGUI extends ilPageContentGUI
+class ilPCSourceCodeGUI extends ilPageContentGUI
 {
 	
 	/**
 	* Constructor
 	* @access	public
 	*/
-	function ilPCSourcecodeGUI($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id = "")
+	function ilPCSourceCodeGUI($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id = "")
 	{
 		parent::ilPageContentGUI($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
 	}
