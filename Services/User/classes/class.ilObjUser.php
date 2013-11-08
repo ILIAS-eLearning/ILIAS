@@ -3260,7 +3260,8 @@ class ilObjUser extends ilObject
 			while ($item_rec = $ilDB->fetchAssoc($item_set))
 			{
 				if ($tree->isInTree($item_rec["ref_id"])
-					&& $item_rec["type"] != "rolf")
+					&& $item_rec["type"] != "rolf"
+					&& $item_rec["type"] != "itgr")	// due to bug 11508
 				{
 					$parent_ref = $tree->getParentId($item_rec["ref_id"]);
 					$par_left = $tree->getLeftValue($parent_ref);
@@ -3282,6 +3283,7 @@ class ilObjUser extends ilObject
 		}
 		else
 		{
+			// due to bug 11508
 			if (!is_array($a_types))
 			{
 				$a_types = array($a_types);
@@ -3290,6 +3292,10 @@ class ilObjUser extends ilObject
 			$foundsurveys = array();
 			foreach($a_types as $a_type)
 			{
+				if ($a_type == "itgr")
+				{
+					continue;
+				}
 				$item_set = $ilDB->queryF("SELECT obj.obj_id, obj.description, oref.ref_id, obj.title FROM desktop_item it, object_reference oref ".
 					", object_data obj WHERE ".
 					"it.item_id = oref.ref_id AND ".
@@ -3313,6 +3319,7 @@ class ilObjUser extends ilObject
 			}
 			ksort($items);
 		}
+
 		return $items;
 	}
 
