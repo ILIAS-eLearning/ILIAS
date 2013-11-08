@@ -244,6 +244,24 @@ class ilObjItemGroupGUI extends ilObject2GUI
 	}
 
 	/**
+	 * Goto item group
+	 */
+	function gotoParent()
+	{
+		global $ilAccess, $ilErr, $lng, $tree;
+		
+		$ref_id = $this->object->getRefId();
+		$par_id = $tree->getParentId($ref_id);
+		
+		if ($ilAccess->checkAccess("read", "", $par_id))
+		{
+			include_once("./Services/Link/classes/class.ilLink.php");
+			ilUtil::redirect(ilLink::_getLink($par_id));
+			exit;
+		} 
+	}
+
+	/**
 	 * Custom callback after object is created (in parent containert
 	 * 
 	 * @param ilObject $a_obj 
