@@ -260,26 +260,16 @@ class ilObjItemGroupGUI extends ilObject2GUI
 	 */
 	function _goto($a_target)
 	{
-		global $ilAccess, $ilErr, $lng;
+		global $ilAccess, $ilErr, $lng, $tree;
 		
 		$targets = explode('_',$a_target);
-return;
-// todo
-		if(count((array) $targets) > 1)
+		$ref_id = $targets[0];
+		$par_id = $tree->getParentId($ref_id);
+		
+		if ($ilAccess->checkAccess("read", "", $par_id))
 		{
-			$ref_id = $targets[0];
-			$subitem_id = $targets[1];
-		}
-		else
-		{
-			$ref_id = $targets[0];
-		}
-
-		if ($ilAccess->checkAccess("read", "", $ref_id))
-		{
-			$_GET["baseClass"] = "ilMediaPoolPresentationGUI";
-			$_GET["ref_id"] = $ref_id;
-			include("ilias.php");
+			include_once("./Services/Link/classes/class.ilLink.php");
+			ilUtil::redirect(ilLink::_getLink($par_id));
 			exit;
 		} 
 		else if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID))
