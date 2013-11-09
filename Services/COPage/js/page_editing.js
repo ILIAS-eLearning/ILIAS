@@ -2447,7 +2447,7 @@ function doActionForm(cmd, command, value, target, type, char)
 		var loadergif = document.createElement('img');
 		loadergif.src = "./templates/default/images/loader.gif";
 		loadergif.border = 0;
-		loadergif.style.position = 'absolute';
+		//loadergif.style.position = 'absolute';
 		ccell.bgColor='';
 		ccell.appendChild(loadergif);
 	}
