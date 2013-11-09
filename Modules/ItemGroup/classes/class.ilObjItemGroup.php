@@ -164,6 +164,10 @@ class ilObjItemGroup extends ilObject2
 	 */
 	function cloneDependencies($a_target_id,$a_copy_id)
 	{
+		global $ilLog;
+		
+		$ilLog->write(__METHOD__.': Cloning item group dependencies -'.$a_source_id.'-');
+		
 		parent::cloneDependencies($a_target_id,$a_copy_id);
 
 		include_once('./Modules/ItemGroup/classes/class.ilItemGroupItems.php');
@@ -193,12 +197,19 @@ class ilObjItemGroup extends ilObject2
 	 	$ilLog->write(__METHOD__.': 2-'.$new_container_ref_id.'-');
 	 	$new_container_obj_id = ilObject::_lookupObjId($new_container_ref_id);
 	 	
-	 	include_once("./Services/Container/classes/class.ilContainerPage.php");
-		$new_page = new ilContainerPage($new_container_obj_id);
-		$new_page->buildDom();
-		include_once("./Services/COPage/classes/class.ilPCResources.php");
-		ilPCResources::modifyItemGroupRefIdsByMapping($new_page, $mappings);
-		$new_page->update();
+		include_once("./Services/COPage/classes/class.ilPageObject.php");
+		include_once("./Services/Container/classes/class.ilContainerPage.php");
+		$ilLog->write(__METHOD__.': 3'.$new_container_obj_id.'-');
+	 	if (ilPageObject::_exists("cont", $new_container_obj_id))
+	 	{
+			$ilLog->write(__METHOD__.': 4');
+	 		$new_page = new ilContainerPage($new_container_obj_id);
+			$new_page->buildDom();
+			include_once("./Services/COPage/classes/class.ilPCResources.php");
+			ilPCResources::modifyItemGroupRefIdsByMapping($new_page, $mappings);
+			$new_page->update();
+		}
+		$ilLog->write(__METHOD__.': 5');
 	}
 }
 
