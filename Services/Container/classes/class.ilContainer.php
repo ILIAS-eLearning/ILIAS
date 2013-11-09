@@ -395,7 +395,7 @@ class ilContainer extends ilObject
 			$new_page_object->setId($new_obj->getId());
 			$new_page_object->createFromXML();
 			$new_page_object->setXMLContent($orig_page->getXMLContent());
-			$new_page_object->buildDom();
+			$new_page_object->buildDom(true);
 			$new_page_object->update();
 		}
 		
@@ -412,6 +412,8 @@ class ilContainer extends ilObject
 	 */
 	public function cloneDependencies($a_target_id,$a_copy_id)
 	{
+		global $ilLog;
+		
 		parent::cloneDependencies($a_target_id, $a_copy_id);
 
 		include_once('./Services/Container/classes/class.ilContainerSorting.php');
@@ -426,6 +428,7 @@ class ilContainer extends ilObject
 		$collection = $olp->getCollectionInstance();
 		if($collection)
 		{
+			// this line seems to fail
 			$collection->cloneCollection($a_target_id, $a_copy_id);	 	
 		}
 
