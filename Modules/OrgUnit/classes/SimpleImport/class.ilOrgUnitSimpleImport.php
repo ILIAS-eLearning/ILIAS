@@ -2,7 +2,7 @@
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 require_once("./Modules/OrgUnit/classes/class.ilOrgUnitImporter.php");
 /**
- * Class ilOrgUnitImporter
+ * Class ilOrgUnitSimpleImport
  *
  * @author: Oskar Truffer <ot@studer-raimann.ch>
  * @author: Martin Studer <ms@studer-raimann.ch>
