@@ -119,3 +119,4 @@ class ilOrgUnitOtherRolesTableGUI extends ilTable2GUI{
 
 
 }
+?>

@@ -198,3 +198,4 @@ class ilTranslationGUI {
         $this->saveTranslations();
     }
 }
+?>
