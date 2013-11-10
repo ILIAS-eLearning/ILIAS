@@ -19390,3 +19390,7 @@ if($ilDB->getDBType() == 'mysql' || $ilDB->getDBType() == 'innodb')
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#4156>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

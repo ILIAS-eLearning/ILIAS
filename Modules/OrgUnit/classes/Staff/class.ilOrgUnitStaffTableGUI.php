@@ -149,3 +149,4 @@ class ilOrgUnitStaffTableGUI extends ilTable2GUI{
 
 
 }
+?>

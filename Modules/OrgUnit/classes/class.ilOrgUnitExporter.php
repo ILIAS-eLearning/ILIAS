@@ -153,3 +153,4 @@ class ilOrgUnitExporter extends ilCategoryExporter {
 		return $attr;
 	}
 }
+?>

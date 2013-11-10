@@ -77,3 +77,4 @@ class ilObjOrgUnitListGUI extends ilObjectListGUI {
     }
 
 }
+?>
