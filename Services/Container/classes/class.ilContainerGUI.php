@@ -627,41 +627,62 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$this->object->gotItems() ? true : false
 			);
 		}
-		if ($this->edit_order)
-		{			
-			if($this->object->gotItems() and $ilAccess->checkAccess("write", "", $this->object->getRefId()))
-			{
-				include_once('./Services/Container/classes/class.ilContainer.php');
-				
-				if ($this->object->getOrderType() == ilContainer::SORT_MANUAL)
+		else
+		{
+			if ($this->edit_order)
+			{			
+				if($this->object->gotItems() and $ilAccess->checkAccess("write", "", $this->object->getRefId()))
 				{
-					$GLOBALS["tpl"]->addAdminPanelCommand("saveSorting",
-						$this->lng->txt('sorting_save'));
-					
-					// button should appear at bottom, too
-					$GLOBALS["tpl"]->admin_panel_bottom = true;
+					include_once('./Services/Container/classes/class.ilContainer.php');
+
+					if ($this->object->getOrderType() == ilContainer::SORT_MANUAL)
+					{
+						// #11843
+						$GLOBALS['tpl']->setPageFormAction($this->ctrl->getFormAction($this));
+						
+						include_once './Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
+						$toolbar = new ilToolbarGUI();
+						$this->ctrl->setParameter($this, "type", "");
+						$this->ctrl->setParameter($this, "item_ref_id", "");
+
+						$toolbar->addFormButton(
+							$this->lng->txt('sorting_save'),
+							'saveSorting'
+						);
+
+						$GLOBALS['tpl']->addAdminPanelToolbar($toolbar, true, false);
+
+						/*																																			
+						$GLOBALS["tpl"]->addAdminPanelCommand("saveSorting",
+							$this->lng->txt('sorting_save'));
+
+						// button should appear at bottom, too
+						$GLOBALS["tpl"]->admin_panel_bottom = true;					 
+						*/
+					}
 				}
 			}
-		}
+			else if ($this->isMultiDownloadEnabled())
+			{
+				// #11843
+				$GLOBALS['tpl']->setPageFormAction($this->ctrl->getFormAction($this));						
 
-		// add download action if enabled AND admin panel is not showing
-		if ($this->isMultiDownloadEnabled() && !$this->isActiveAdministrationPanel())
-		{
-			include_once './Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
-			$toolbar = new ilToolbarGUI();
-			$this->ctrl->setParameter($this, "type", "");
-			$this->ctrl->setParameter($this, "item_ref_id", "");
-			
-			$toolbar->addFormButton(
-				$this->lng->txt('download_selected_items'),
-				'download'
-			);
-			
-			$GLOBALS['tpl']->addAdminPanelToolbar(
-				$toolbar,
-				$this->object->gotItems() ? true : false,
-				$this->object->gotItems() ? true : false
-			);
+				include_once './Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
+				$toolbar = new ilToolbarGUI();
+				$this->ctrl->setParameter($this, "type", "");
+				$this->ctrl->setParameter($this, "item_ref_id", "");
+
+				$toolbar->addFormButton(
+					$this->lng->txt('download_selected_items'),
+					'download'
+				);
+
+				$GLOBALS['tpl']->addAdminPanelToolbar(
+					$toolbar,
+					$this->object->gotItems() ? true : false,
+					$this->object->gotItems() ? true : false
+				);
+			}		
 		}
 	}
 
