@@ -251,7 +251,7 @@ class ilPublicUserProfileGUI
 	 */
 	function getEmbeddable($a_add_goto = false)
 	{
-		global $ilSetting, $lng, $ilCtrl, $lng, $ilSetting;
+		global $ilSetting, $lng, $ilCtrl, $lng, $ilSetting, $ilUser;
 		
 		// get user object
 		if (!ilObject::_exists($this->getUserId()))
@@ -266,7 +266,7 @@ class ilPublicUserProfileGUI
 		$tpl->setVariable("ROWCOL1", "tblrow1");
 		$tpl->setVariable("ROWCOL2", "tblrow2");
 
-		if(!$this->offline && $this->getUserId() != ANONYMOUS_USER_ID)
+		if(!$this->offline && $ilUser->getId() != ANONYMOUS_USER_ID)
 		{
 			$ref_url = str_replace("&amp;", "&", $this->getBackUrl());
 			if(!$ref_url)
