@@ -77,7 +77,7 @@ class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
 		// back link
 		$ilCtrl->setParameterByClass("ilskillrootgui", "obj_id",
 			$this->node_object->skill_tree->getRootId());
-		$ilTabs->setBackTarget($lng->txt("obj_skmg"),
+		$ilTabs->setBackTarget($lng->txt("skmg_skill_templates"),
 			$ilCtrl->getLinkTargetByClass("ilskillrootgui", "listTemplates"));
 		$ilCtrl->setParameterByClass("ilskillrootgui", "obj_id",
 			$_GET["obj_id"]);

@@ -987,6 +987,24 @@ $ilCtrl->redirectByClass("ilskillrootgui", "listTemplates");
 	{
 		global $ilUser, $tpl, $ilCtrl, $lng;
 
+		if ($a_templates)
+		{
+			if ($_GET["obj_id"] == "" || $_GET["obj_id"] == 1)
+			{
+				return;
+			}
+
+			if ($_GET["obj_id"] > 1)
+			{
+				$path = $this->skill_tree->getPathId($_GET["obj_id"]);
+				include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
+				if (ilSkillTreeNode::_lookupType($path[1]) == "sktp")
+				{
+					return;
+				}
+			}
+		}
+		
 		include_once("./Services/Skill/classes/class.ilSkillTreeExplorerGUI.php");
 		$ilCtrl->setParameter($this, "templates_tree", $a_templates);
 		$exp = new ilSkillTreeExplorerGUI($this, "showTree", $a_templates);
@@ -994,51 +1012,6 @@ $ilCtrl->redirectByClass("ilskillrootgui", "listTemplates");
 		{
 			$tpl->setLeftNavContent($exp->getHTML());
 		}
-		
-		return;
-
-		/*require_once ("./Services/Skill/classes/class.ilSkillExplorer.php");
-		$exp = new ilSkillExplorer($ilCtrl->getLinkTarget($a_gui, $a_gui_cmd),
-			$a_templates);
-		$exp->setTargetGet("obj_id");
-		
-		if ($a_templates)
-		{
-			$exp->setExpandTarget($this->ctrl->getLinkTarget($a_gui, $a_gui_cmd));
-		}
-		else
-		{
-			$exp->setExpandTarget($this->ctrl->getLinkTarget($a_gui, $a_gui_cmd));
-		}
-		
-		if ($_GET["skexpand"] == "")
-		{
-			$expanded = $this->skill_tree->readRootId();
-		}
-		else
-		{
-			$expanded = $_GET["skexpand"];
-		}
-
-		if ($_GET["obj_id"] > 0)
-		{
-			$path = $this->skill_tree->getPathId($_GET["obj_id"]);
-			$exp->setForceOpenPath($path);
-			$exp->highlightNode($_GET["obj_id"]);
-		}
-		else
-		{
-			$exp->highlightNode($this->skill_tree->readRootId());
-		}
-		$exp->setExpand($expanded);
-		$exp->setOutput(0);
-		$output = $exp->getOutput();
-
-		if ($ilCtrl->isAsynch())
-		{
-			echo $output; exit;
-		}
-		$tpl->setLeftNavContent($output);*/
 	}
 
 }
