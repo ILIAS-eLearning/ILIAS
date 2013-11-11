@@ -43,7 +43,8 @@ abstract class ilLPCollection
 		$cwo = ilCopyWizardOptions::_getInstance($a_copy_id);
 		$mappings = $cwo->getMappings();
 		
-		$new_collection = new self($target_obj_id, $this->mode);
+		// #12067
+		$new_collection = new static($target_obj_id, $this->mode);
 	 	foreach($this->items as $item)
 	 	{
 	 		if(!isset($mappings[$item]) or !$mappings[$item])
@@ -51,10 +52,10 @@ abstract class ilLPCollection
 	 			continue;
 	 		}
 			
-			// @FIXME clone this and not add it
-	 		$new_collection->addEntry($mappings[$item]);
-	 		$ilLog->write(__METHOD__.': Added learning progress collection.');
+	 		$new_collection->addEntry($mappings[$item]);	 		
 	 	}
+		
+		$ilLog->write(__METHOD__.': cloned learning progress collection.');
 	}
 	
 	
