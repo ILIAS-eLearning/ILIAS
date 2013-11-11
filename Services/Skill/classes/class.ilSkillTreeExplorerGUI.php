@@ -38,6 +38,23 @@ class ilSkillTreeExplorerGUI extends ilTreeExplorerGUI
 	}
 	
 	/**
+	 * Get root node
+	 *
+	 * @param
+	 * @return
+	 */
+	function getRootNode()
+	{
+		if ($this->templates)
+		{
+			$path = $this->getTree()->getPathId($_GET["obj_id"]);
+			return $this->getTree()->getNodeData($path[1]);
+		}
+		return parent::getRootNode();
+	}
+
+	
+	/**
 	 * Get childs of node
 	 *
 	 * @param int $a_parent_id parent id
