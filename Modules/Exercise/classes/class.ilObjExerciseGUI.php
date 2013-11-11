@@ -4007,6 +4007,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 		
 		$ass_id = (int)$_GET["ass_id"];
 		
+		ilUtil::sendInfo($lng->txt("exc_multi_feedb_info"));
+		
 		$ilTabs->activateTab("grades");
 		$this->checkPermission("write");
 		$this->addSubmissionSubTabs("assignment");
