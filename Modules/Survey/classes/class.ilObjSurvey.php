@@ -6345,7 +6345,7 @@ class ilObjSurvey extends ilObject
 		$cut = new ilDate($today, IL_CAL_DATE);
 		$cut->increment(IL_CAL_DAY, $this->getReminderFrequency()*-1);
 		if(!$this->getReminderLastSent() ||
-			$cut->get(IL_CAL_DATE) > $this->getReminderLastSent())				
+			$cut->get(IL_CAL_DATE) >= substr($this->getReminderLastSent(), 0, 10))					
 		{				
 			$user_ids = $this->getNotificationTargetUserIds();
 			if($user_ids)
