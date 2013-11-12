@@ -105,7 +105,9 @@ class ilExParticipantTableGUI extends ilTable2GUI
 	{
 		global $lng, $ilCtrl;
 		
-		$this->tpl->setVariable("TXT_ASS_TITLE", $d["title"]);
+		$this->tpl->setVariable("TXT_ASS_TITLE", $d["title"]);		
+		
+		$file_info = ilExAssignment::getDownloadedFilesInfoForTableGUIS($this->parent_obj, $this->exc_id, $d["type"], $d["id"], $this->part_id, $this->parent_cmd);
 		
 		$has_no_team_yet = false;
 		if($d["type"] == ilExAssignment::TYPE_UPLOAD_TEAM)
@@ -131,9 +133,25 @@ class ilExParticipantTableGUI extends ilTable2GUI
 			}
 			else
 			{
+				// #11957
 				$has_no_team_yet = true;
 				$this->tpl->setCurrentBlock("team_info");
 				$this->tpl->setVariable("TXT_TEAM_INFO", $lng->txt("exc_no_team_yet"));
+				$this->tpl->setVariable("TXT_CREATE_TEAM", $lng->txt("exc_create_team"));
+				
+				$ilCtrl->setParameter($this->parent_obj, "ass_id", $d["id"]);
+				$ilCtrl->setParameter($this->parent_obj, "lpart", $this->part_id);
+				$this->tpl->setVariable("URL_CREATE_TEAM", 						
+					$ilCtrl->getLinkTarget($this->getParentObject(), "createSingleMemberTeam"));
+				$ilCtrl->setParameter($this->parent_obj, "lpart", "");
+				$ilCtrl->setParameter($this->parent_obj, "ass_id", "");
+				
+				if($file_info["files"]["count"])
+				{
+					$this->tpl->setVariable("TEAM_FILES_INFO", "<br />".
+						$file_info["files"]["txt"].": ".
+						$file_info["files"]["count"]);
+				}
 				$this->tpl->parseCurrentBlock();
 			}
 		}
@@ -144,8 +162,6 @@ class ilExParticipantTableGUI extends ilTable2GUI
 				ilUtil::formCheckbox(0, "assid[".$d["id"]."]",1));
 			$this->tpl->setVariable("VAL_ID",
 				$d["id"]);
-
-			$file_info = ilExAssignment::getDownloadedFilesInfoForTableGUIS($this->parent_obj, $this->exc_id, $d["type"], $d["id"], $this->part_id, $this->parent_cmd);
 
 			$this->tpl->setVariable("VAL_LAST_SUBMISSION", $file_info["last_submission"]["value"]);
 			$this->tpl->setVariable("TXT_LAST_SUBMISSION", $file_info["last_submission"]["txt"]);

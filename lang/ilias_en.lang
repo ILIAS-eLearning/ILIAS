@@ -14108,7 +14108,7 @@ sop#:#sop_msg_push_tracking#:#Transfering tracking data to ILIAS. Please wait so
 sop#:#sop_msg_push_tracking_failure#:#Transfering tracking data was not successful
 sop#:#sop_msg_push_tracking_ok#:#Transfering tracking data was successful
 content#:#glo_hide_taxonomy#:#Hide Taxonomy
-exc#:#exc_no_team_yet#:#No team yet
+exc#:#exc_no_team_yet#:#Not assigned to a team
 exc#:#exc_no_feedback_dir_found_in_zip#:#The directory structure of the uploaded zip-archive could not be processed.
 rep#:#rep_add_new_def_grp_organisation#:#Organisation
 rep#:#rep_add_new_def_grp_content#:#Content
@@ -14129,3 +14129,5 @@ rep#:#rep_add_new_def_grp_templates#:#Templates
 cmps#:#cmps_repository_object_types#:#Repository Object Types
 rep#:#rep_new_item_menu#:#"Add New Item"-Menu
 exc#:#exc_team_member_remove_sure#:#Are you sure you want to remove the following members of your team? Please be aware that all files they have uploaded will also be removed from your team.
+exc#:#exc_create_team#:#Create Team
+exc#:#exc_create_team_times_up_warning#:#You cannot create a team anymore - please contact your tutor.

@@ -14107,7 +14107,7 @@ sop#:#sop_msg_export_tracking#:#Übertragung der Lernstandsdaten zum SCORM Offli
 sop#:#sop_msg_push_tracking#:#Übertragung der Lernstandsdaten zu ILIAS. Bitte warten Sie einige Sekunden
 sop#:#sop_msg_push_tracking_failure#:#Die Übertragung der Lernstandsdaten zu ILIAS war nicht erfolgreich.
 sop#:#sop_msg_push_tracking_ok#:#Die Übertragung der Lernstandsdaten zu ILIAS war erfolgreich.
-exc#:#exc_no_team_yet#:#Noch kein Team
+exc#:#exc_no_team_yet#:#Keinem Team zugeordnet
 exc#:#exc_no_feedback_dir_found_in_zip#:#Die Verzeichnisstruktur des hochgeladenen Zip-Archivs konnte nicht verarbeitet werden.
 rep#:#rep_add_new_def_grp_organisation#:#Organisation
 rep#:#rep_add_new_def_grp_content#:#Inhalt
@@ -14128,3 +14128,5 @@ rep#:#rep_add_new_def_grp_templates#:#Vorlagen
 cmps#:#cmps_repository_object_types#:#Magazinobjekttypen
 rep#:#rep_new_item_menu#:#"Neues Objekt hinzufügen"-Menü
 exc#:#exc_team_member_remove_sure#:#Wollen Sie wirklich die folgenden Mitglieder Ihres Teams entfernen? Bitte beachten Sie, dass auch die jeweiligen hochgeladenen Dateien aus dem Team entfernt werden.
+exc#:#exc_create_team#:#Team erstellen
+exc#:#exc_create_team_times_up_warning#:#Sie können kein Team mehr erstellen - bitte kontaktieren Sie Ihren Tutor.
