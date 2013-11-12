@@ -118,7 +118,7 @@ class ilSharedResourceGUI
 	
 	public static function hasAccess($a_node_id, $a_is_portfolio = false)
 	{
-		global $ilUser;				
+		global $ilUser, $ilSetting;				
 	
 		// if we have current user - check with normal access handler
 		if($ilUser->getId() != ANONYMOUS_USER_ID)
@@ -151,9 +151,22 @@ class ilSharedResourceGUI
 		}
 		else
 		{
-			include_once "Services/Portfolio/classes/class.ilPortfolioAccessHandler.php";
-			$shared = ilPortfolioAccessHandler::getPermissions($a_node_id);
+			// #12059
+			if (!$ilSetting->get('user_portfolios'))
+			{
+				return false;
+			}
 			
+			// #12039
+			include_once "Modules/Portfolio/classes/class.ilObjPortfolio.php";
+			$prtf = new ilObjPortfolio($a_node_id, false);
+			if(!$prtf->isOnline())
+			{
+				return false;
+			}		
+						
+			include_once "Modules/Portfolio/classes/class.ilPortfolioAccessHandler.php";
+			$shared = ilPortfolioAccessHandler::getPermissions($a_node_id);						
 		}
 
 		// object is "public"

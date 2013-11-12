@@ -86,8 +86,9 @@ class ilObjTestVerificationGUI extends ilObject2GUI
 	 * Render content
 	 * 
 	 * @param bool $a_return
+	 * @param string $a_url
 	 */
-	public function render($a_return = false)
+	public function render($a_return = false, $a_url = false)
 	{
 		global $ilUser;
 		
@@ -100,11 +101,51 @@ class ilObjTestVerificationGUI extends ilObject2GUI
 			$tree = new ilWorkspaceTree($ilUser->getId());
 			$wsp_id = $tree->lookupNodeId($this->object->getId());
 			
-			$caption = $this->object->getTitle();			
-			$link = $this->getAccessHandler()->getGotoLink($wsp_id, $this->object->getId());
+			$caption = $this->object->getTitle();	
 			
-			return "<a href=\"".$link."\">".$caption."</a>";
+			$valid = true;
+			if(!file_exists($this->object->getFilePath()))
+			{
+				$valid = false;
+				$message = $lng->txt("url_not_found");
+			}
+			else if(!$a_url)
+			{
+				include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
+				$access_handler = new ilWorkspaceAccessHandler($tree);
+				if(!$access_handler->checkAccess("read", "", $wsp_id))
+				{
+					$valid = false;
+					$message = $lng->txt("permission_denied");
+				}
+			}
+			
+			if($valid)
+			{
+				if(!$a_url)
+				{
+					$a_url = $this->getAccessHandler()->getGotoLink($wsp_id, $this->object->getId());			
+				}			
+				return '<div><a href="'.$a_url.'">'.$caption.'</a></div>';
+			}
+			else
+			{
+				return '<div>'.$caption.' ('.$message.')</div>';
+			}			
 		}
+	}
+	
+	function downloadFromPortfolioPage(ilPortfolioPage $a_page)
+	{		
+		global $ilErr;
+		
+		include_once "Services/COPage/classes/class.ilPCVerification.php";
+		if(ilPCVerification::isInPortfolioPage($a_page, $this->object->getType(), $this->object->getId()))
+		{
+			$this->deliver();
+		}
+		
+		$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->MESSAGE);
 	}
 	
 	function _goto($a_target)

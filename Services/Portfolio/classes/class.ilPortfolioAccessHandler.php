@@ -51,7 +51,13 @@ class ilPortfolioAccessHandler
 	 */
 	public function checkAccessOfUser($a_user_id, $a_permission, $a_cmd, $a_node_id, $a_type = "")
 	{
-		global $rbacreview, $ilUser;
+		global $rbacreview, $ilUser, $ilSetting;
+		
+		// #12059
+		if (!$ilSetting->get('user_portfolios'))
+		{
+			return false;
+		}
 
 		// :TODO: create permission for parent node with type ?!
 		

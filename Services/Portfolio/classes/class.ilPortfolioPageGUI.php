@@ -288,8 +288,35 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		include_once $objDefinition->getLocation($a_type)."/class.".$class.".php";
 		$verification = new $class($a_id, ilObject2GUI::WORKSPACE_OBJECT_ID);
 
-		return $verification->render(true);
-	}	
+		// direct download link
+		$this->ctrl->setParameter($this, "dlid", $a_id);
+		$url = $this->ctrl->getLinkTarget($this, "dl".$a_type);
+		$this->ctrl->setParameter($this, "dlid", "");
+		
+		return $verification->render(true, $url);
+	}
+	
+	protected function dltstv()
+	{
+		$id = $_GET["dlid"];
+		if($id)
+		{
+			include_once "Modules/Test/classes/class.ilObjTestVerificationGUI.php";
+			$verification = new ilObjTestVerificationGUI($id, ilObject2GUI::WORKSPACE_OBJECT_ID);
+			$verification->downloadFromPortfolioPage($this->getPageObject());
+		}
+	}
+	
+	protected function dlexcv()
+	{
+		$id = $_GET["dlid"];
+		if($id)
+		{
+			include_once "Modules/Exercise/classes/class.ilObjExerciseVerificationGUI.php";
+			$verification = new ilObjExerciseVerificationGUI($id, ilObject2GUI::WORKSPACE_OBJECT_ID);
+			$verification->downloadFromPortfolioPage($this->getPageObject());
+		}		
+	}
 	
 	protected function renderBlog($a_user_id, $a_blog_id, array $a_posting_ids = null)
 	{
