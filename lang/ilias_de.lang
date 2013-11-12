@@ -14130,3 +14130,4 @@ rep#:#rep_new_item_menu#:#"Neues Objekt hinzufügen"-Menü
 exc#:#exc_team_member_remove_sure#:#Wollen Sie wirklich die folgenden Mitglieder Ihres Teams entfernen? Bitte beachten Sie, dass auch die jeweiligen hochgeladenen Dateien aus dem Team entfernt werden.
 exc#:#exc_create_team#:#Team erstellen
 exc#:#exc_create_team_times_up_warning#:#Sie können kein Team mehr erstellen - bitte kontaktieren Sie Ihren Tutor.
+exc#:#exc_instruction_files#:#Dateien zur Arbeitsanweisung
