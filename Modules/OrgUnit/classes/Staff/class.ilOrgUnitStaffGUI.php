@@ -262,12 +262,10 @@ class ilOrgUnitStaffGUI {
 	 */
 	public function getStaffTableHTML($recursive = false, $table_cmd = "showStaff") {
 		global $lng, $rbacreview;
-		$superior_table = new ilOrgUnitStaffTableGUI($this, $table_cmd, "superior");
-		$superior_table->setRecursive($recursive);
+		$superior_table = new ilOrgUnitStaffTableGUI($this, $table_cmd, "superior", $recursive);
 		$superior_table->parseData();
 		$superior_table->setTitle($lng->txt("il_orgu_superior"));
-		$employee_table = new ilOrgUnitStaffTableGUI($this, $table_cmd, "employee");
-		$employee_table->setRecursive($recursive);
+		$employee_table = new ilOrgUnitStaffTableGUI($this, $table_cmd, "employee", $recursive);
 		$employee_table->parseData();
 		$employee_table->setTitle($lng->txt("il_orgu_employee"));
 

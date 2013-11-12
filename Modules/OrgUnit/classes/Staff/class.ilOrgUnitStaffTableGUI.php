@@ -18,7 +18,7 @@ class ilOrgUnitStaffTableGUI extends ilTable2GUI{
 	/** @var string "employee" | "superior" */
 	private $staff = "employee";
 
-	public function __construct($parent_obj, $parent_cmd, $staff = "employee", $template_context = ""){
+	public function __construct($parent_obj, $parent_cmd, $staff = "employee", $recursive = false, $template_context = ""){
 		parent::__construct($parent_obj, $parent_cmd, $template_context);
 
 		global $lng, $ilCtrl, $ilTabs;
@@ -34,7 +34,7 @@ class ilOrgUnitStaffTableGUI extends ilTable2GUI{
 		$this->setFormName('sr_orgu_'.$staff);
 		$this->setId("sr_orgu_".$staff);
 		$this->setStaff($staff);
-
+        $this->recursive = $recursive;
 		$this->setTableHeaders();
 		$this->setTopCommands(true);
 		$this->setEnableHeader(true);
@@ -51,6 +51,9 @@ class ilOrgUnitStaffTableGUI extends ilTable2GUI{
 	protected function setTableHeaders(){
 		$this->addColumn($this->lng->txt("firstname"), "first_name");
 		$this->addColumn($this->lng->txt("lastname"), "last_name");
+        if ($this->recursive) {
+            $this->addColumn($this->lng->txt('obj_orgu'), 'org_units');
+        }
 		$this->addColumn($this->lng->txt("action"));
 	}
 
@@ -97,13 +100,17 @@ class ilOrgUnitStaffTableGUI extends ilTable2GUI{
 		$set["last_name"] = $user->getLastname();
 		$set["user_object"] = $user;
 		$set["user_id"] = $user_id;
+        if ($this->recursive) $set["org_units"] = ilObjOrgUnitTree::_getInstance()->getOrgUnitOfUser($user_id, (int)$_GET['ref_id']);
 	}
 
 	function fillRow($set){
 		global $ilUser, $Access, $lng, $ilAccess;
 		$this->tpl->setVariable("FIRST_NAME", $set["first_name"]);
 		$this->tpl->setVariable("LAST_NAME", $set["last_name"]);
-
+        if ($this->recursive) {
+            $orgUnitsTitles = array_values(ilObjOrgUnitTree::_getInstance()->getTitles($set['org_units']));
+            $this->tpl->setVariable("ORG_UNITS", implode(', ', $orgUnitsTitles));
+        }
 		$this->ctrl->setParameterByClass("illearningprogressgui", "obj_id", $set["user_id"]);
 		$this->ctrl->setParameterByClass("ilobjorgunitgui", "obj_id", $set["user_id"]);
 		$selection = new ilAdvancedSelectionListGUI();
