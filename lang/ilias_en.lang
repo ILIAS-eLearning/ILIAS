@@ -14085,28 +14085,28 @@ common#:#obj_wiks#:#Wiki
 common#:#obj_wiks_desc#:#Global Wiki Settings
 blog#:#blog_edit_posting#:#Edit Posting
 sop#:#sop_check_system_requirements#:#Checking system requirements
-sop#:#sop_already_exported#:#The Learning Module is already exported. Please recall this page with your Firefox where you installed the SCORM Offline-Player addon.
-sop#:#sop_firefox_required#:#The Offline-Mode requires an up-to-date Mozilla-Firefox Browser (> 20)<br /><a href="http://www.mozilla.org/de/firefox/new" target="_new">Download Firefox</a>
-sop#:#sop_xpi_install#:#Please install the following Firefox-Addon: %s<br />After successfully installed the xpi the page must be refreshed with the "Reload page" button. After that the SCORM Learning Module is exportable for the offline-mode.
+sop#:#sop_already_exported#:#This Learning Module has already been exported. Please open it with the computer on which you have installed Firefox with the SCORM Offline Player addon.
+sop#:#sop_firefox_required#:#Using a SCORM module offline requires an up-to-date Mozilla Firefox Browser (> v. 20)<br /><a href="http://www.mozilla.org/en/firefox/new" target="_new">Download Firefox</a>
+sop#:#sop_xpi_install#:#Please install the following Firefox addon: %s<br />After having successfully installed the xpi you have to refresh the page using the "Reload page" button. Afterwards the SCORM Learning Module can be used in offline mode.
 sop#:#sop_reload_page#:#Reload page
-sop#:#sop_text_export#:#Export SCORM-Learning Module for offline-mode  
-sop#:#sop_export#:#SCORM-Learning Module Export
-sop#:#sop_desc_export#:#Offline learning modules are only available for offline usage. After trackingdata import the learning module will be online again.
+sop#:#sop_text_export#:#Export SCORM Learning Module for offline use  
+sop#:#sop_export#:#SCORM Learning Module Export
+sop#:#sop_desc_export#:#A learning module in offline mode can only be used offline. Once the tracking data has been imported back to ILIAS, the learning module will be online again.
 sop#:#sop_text_start_offline#:#Start learning module in offline mode
 sop#:#sop_start_offline#:#Start learning module offline
-sop#:#sop_text_start_som#:#Start SCORM-Offline-Manager
+sop#:#sop_text_start_som#:#Start SCORM Offline Manager
 sop#:#sop_start_som#:#Start SOM
 sop#:#sop_text_push_tracking#:#Import offline tracking data to ILIAS and switch to online mode
-sop#:#sop_push_tracking#:#Import trackingdata
-common#:#offline_mode#:#Offline-Mode
-sop#:#sop_msg_lm_not_exists#:#The learning module does not exist or is inactive in the SCORM-Offline-Manager. 
+sop#:#sop_push_tracking#:#Import tracking data
+common#:#offline_mode#:#Use Offline
+sop#:#sop_msg_lm_not_exists#:#The learning module does either not exist or is inactive in the SCORM Offline Manager. 
 sop#:#sop_msg_export_failure#:#Transfering content or data to SCORM Offline Manager was not successfull.
 sop#:#sop_msg_export_ok#:#Transfering content and tracking data was successfull
-sop#:#sop_msg_export_content#:#Transfering content to SCORM Offline Manager. This needs sometimes several minutes. Please wait some seconds
+sop#:#sop_msg_export_content#:#Transfering content to SCORM Offline Manager. This might need a moment. Please be patient.
 sop#:#sop_msg_export_tracking#:#Transfering tracking data to SCORM Offline Manager. Please wait some seconds
-sop#:#sop_msg_push_tracking#:#Transfering tracking data to ILIAS. Please wait some seconds
-sop#:#sop_msg_push_tracking_failure#:#Transfering tracking data was not successful
-sop#:#sop_msg_push_tracking_ok#:#Transfering tracking data was successful
+sop#:#sop_msg_push_tracking#:#Transfering tracking data to ILIAS. Please wait a moment.
+sop#:#sop_msg_push_tracking_failure#:#Transfer of tracking data was not successful.
+sop#:#sop_msg_push_tracking_ok#:#Transfer of tracking data was successful.
 content#:#glo_hide_taxonomy#:#Hide Taxonomy
 exc#:#exc_no_team_yet#:#Not assigned to a team
 exc#:#exc_no_feedback_dir_found_in_zip#:#The directory structure of the uploaded zip-archive could not be processed.
