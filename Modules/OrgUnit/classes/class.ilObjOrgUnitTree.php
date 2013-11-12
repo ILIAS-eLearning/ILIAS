@@ -286,7 +286,7 @@ class ilObjOrgUnitTree {
                 INNER JOIN object_reference refr ON refr.obj_id = orgu.obj_id
 				INNER JOIN object_data roles ON roles.title LIKE CONCAT('il_orgu_superior_',refr.ref_id) OR roles.title LIKE CONCAT('il_orgu_employee_',refr.ref_id)
 				INNER JOIN rbac_ua rbac ON rbac.usr_id = " . $this->db->quote($user_id, "integer") . " AND roles.obj_id = rbac.rol_id
-				WHERE orgu.type = 'orgu'";
+				WHERE orgu.type = 'orgu' AND refr.deleted IS NULL";
 		$set = $this->db->query($q);
 		$orgu_ref_ids = array();
 		while ($res = $this->db->fetchAssoc($set)) {
@@ -305,13 +305,14 @@ class ilObjOrgUnitTree {
 	}
 
 
-	/**
+    /**
      * getOrgUnitOfUser
      *
      * @param $user_id
+     * @param int $ref_id if given, only OrgUnits under this ID are returned (including $ref_id)
      * @return int[]
      */
-    public function getOrgUnitOfUser($user_id){
+    public function getOrgUnitOfUser($user_id, $ref_id = 0){
         $q = "SELECT orgu.obj_id, refr.ref_id FROM object_data orgu
                 INNER JOIN object_reference refr ON refr.obj_id = orgu.obj_id
 				INNER JOIN object_data roles ON roles.title LIKE CONCAT('il_orgu_superior_',refr.ref_id) OR roles.title LIKE CONCAT('il_orgu_employee_',refr.ref_id)
@@ -322,8 +323,16 @@ class ilObjOrgUnitTree {
         while($res = $this->db->fetchAssoc($set)){
             $orgu_ref_ids[] = $res['ref_id'];
         }
-
-        return array_unique($orgu_ref_ids);
+        $orgu_ref_ids = array_unique($orgu_ref_ids);
+        if ($ref_id) {
+            $childernOrgIds = $this->getAllChildren($ref_id);
+            foreach ($orgu_ref_ids as $k => $refId) {
+                if (!in_array($refId, $childernOrgIds)) {
+                    unset($orgu_ref_ids[$k]);
+                }
+            }
+        }
+        return $orgu_ref_ids;
     }
 
 	public function getTitles($org_refs){
