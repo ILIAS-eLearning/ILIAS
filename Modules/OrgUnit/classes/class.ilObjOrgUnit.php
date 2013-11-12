@@ -288,7 +288,7 @@ class ilObjOrgUnit extends ilContainer {
         $query = "DELETE FROM object_translation WHERE obj_id = ".$ilDB->quote($this->getId(),'integer');
         $res = $ilDB->manipulate($query);
 
-        $ilAppEventHandler->raise('Modules/Category',
+        $ilAppEventHandler->raise('Modules/OrgUnit',
             'delete',
             array('object' => $this,
                 'obj_id' => $this->getId()));

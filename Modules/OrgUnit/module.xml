@@ -14,7 +14,7 @@
 			<parent id="orgu">orgu</parent>
 		</object>
 	</objects>
-	<!--<events>		-->
-		<!--<event type="raise" id="delete" />-->
-	<!--</events>-->
+	<events>
+		<event type="raise" id="delete" />
+	</events>
 </module>
