@@ -2,14 +2,11 @@
 /**
 * ILIAS language file (All entries)
 *
-* @module			language file -lang_fr-
+* @module			language file Français
 * @modulegroup		language
 * @author			Sébastien Fraysse <sebastien@fraysse.eu>, Laurent Merle <laurent.merle@gmail.com>, Bernard Beron <drhat.tours.ead@gmail.com>
 * @version			$Id$
-* @il_server		http://www.ilias.de/test43
-* @il_version		4.3.5 2013-10-08
-* @created			2013-10-23 12:35:55
-* @created_by		Matthias Kunkel <kunkel@ilias.de>
+
 */
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
@@ -12895,18 +12892,18 @@ wsp#:#wsp_type_tstv#:#Certificat : Test
 wsp#:#wsp_type_webr#:#Lien Web
 wsp#:#wsp_type_wfld#:#Dossier
 sop#:#sop_check_system_requirements#:#Checking system requirements
-sop#:#sop_firefox_required#:#The Offline-Mode requires an up-to-date Mozilla-Firefox Browser (> 20)<br /><a href="http://www.mozilla.org/de/firefox/new" target="_new">Download Firefox</a>
-sop#:#sop_xpi_install#:#Please install the following Firefox-Addon: %s<br />After that the SCORM Learning Module is exportable for the Offline-Mode.
+sop#:#sop_firefox_required#:#The offline mode requires an up-to-date Mozilla-Firefox Browser (> 20)<br /><a href="http://www.mozilla.org/de/firefox/new" target="_new">Download Firefox</a>
+sop#:#sop_xpi_install#:#Please install the following Firefox-Addon: %s<br />After that the SCORM Learning Module is exportable for offline mode.
 sop#:#sop_text_export#:#Export SCORM-Learning Module for offline performance  
 sop#:#sop_export#:#SCORM-Learning Module Export
 sop#:#sop_desc_export#:#Offline learning modules are only available for offline usage. After trackingdata import the learning module will be online again.
 sop#:#sop_text_start_offline#:#Start learning module in offline mode
 sop#:#sop_start_offline#:#Start learning module offline
-sop#:#sop_text_start_som#:#Start SCORM-Offline-Manager
+sop#:#sop_text_start_som#:#Start SCORM Offline Manager
 sop#:#sop_start_som#:#Start SOM
 sop#:#sop_text_push_tracking#:#Import offline tracking data to ILIAS and switch to online mode
-sop#:#sop_push_tracking#:#Import trackingdata
-common#:#offline_mode#:#Offline-Mode
+sop#:#sop_push_tracking#:#Import tracking data
+common#:#offline_mode#:#Mode déconnecté
 assessment#:#essay_scoring_mode#:#Scoring Mode###24 10 2013 new variable
 assessment#:#essay_scoring_mode_without_keywords#:#No Automatic Scoring###24 10 2013 new variable
 assessment#:#essay_scoring_mode_without_keywords_desc#:#No points are granted unless the tutor's manual scoring.###24 10 2013 new variable
