@@ -3364,6 +3364,73 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$this->ctrl->redirect($this, "submissionScreenTeam");
 	}
 	
+	public function confirmRemoveTeamMemberObject()
+	{
+		global $ilUser, $tpl;
+		
+		$ids = $_POST["id"];
+		
+		if(!sizeof($ids))
+		{
+			ilUtil::sendFailure($this->lng->txt("select_one"), true);
+			$this->ctrl->redirect($this, "submissionScreenTeam");
+		}
+		
+		$team_id = $this->ass->getTeamId($ilUser->getId());
+		$members = $this->ass->getTeamMembers($team_id);
+		
+		$team_deleted = false;
+		if(sizeof($members) <= sizeof($ids))
+		{
+			if(sizeof($members) == 1 && $members[0] == $ilUser->getId())
+			{
+				// direct team deletion - no confirmation
+				return $this->removeTeamMemberObject();
+			}						
+			else
+			{
+				ilUtil::sendFailure($this->lng->txt("exc_team_at_least_one"), true);
+				$this->ctrl->redirect($this, "submissionScreenTeam");
+			}
+		}
+		
+		// #11957
+		
+		$team_id = $this->initTeamSubmission("showOverview");
+		
+		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+		$cgui = new ilConfirmationGUI();
+		$cgui->setFormAction($this->ctrl->getFormAction($this));
+		$cgui->setHeaderText($this->lng->txt("exc_team_member_remove_sure"));
+		$cgui->setCancel($this->lng->txt("cancel"), "submissionScreenTeam");
+		$cgui->setConfirm($this->lng->txt("remove"), "removeTeamMember");
+
+		$files = ilExAssignment::getDeliveredFiles($this->ass->getExerciseId(), 
+			$this->ass->getId(), $ilUser->getId());
+		
+		include_once "Services/User/classes/class.ilUserUtil.php";
+		
+		foreach($ids as $id)
+		{
+			foreach ($files as $file)
+			{
+				$details = array();
+				if($file["owner_id"] != $id)
+				{
+					$details[] = $file["filetitle"];
+				}				
+				$uname = ilUserUtil::getNamePresentation($id);
+				if(sizeof($details))
+				{
+					$uname .= ": ".implode(", ", $details);
+				}
+				$cgui->addItem("id[]", $id, $uname);
+			}
+		}
+
+		$tpl->setContent($cgui->getHTML());		
+	}
+	
 	public function removeTeamMemberObject()
 	{
 		global $ilUser;
