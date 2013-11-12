@@ -137,6 +137,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 					$fstorage->create();
 					include_once("./Services/FileSystem/classes/class.ilFileSystemGUI.php");
 					$fs_gui = new ilFileSystemGUI($fstorage->getPath());
+					$fs_gui->setTitle($lng->txt("exc_instruction_files"));
 					$fs_gui->setTableId("excassfil".$_GET["ass_id"]);
 					$fs_gui->setAllowDirectories(false);
 					$ret = $this->ctrl->forwardCommand($fs_gui);
@@ -2536,7 +2537,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 			
 			$ass->update();
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
-			$ilCtrl->redirect($this, "listAssignments");
+			$ilCtrl->redirect($this, "editAssignment");
 		}
 		else
 		{
@@ -2665,7 +2666,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 			$ilCtrl->getLinkTarget($this, "editAssignment"));
 
 		$ilTabs->addTab("ass_files",
-			$lng->txt("files"),
+			$lng->txt("exc_instruction_files"),
 			$ilCtrl->getLinkTargetByClass("ilfilesystemgui", "listFiles"));
 
 	}
