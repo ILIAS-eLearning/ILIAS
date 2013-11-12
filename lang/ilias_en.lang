@@ -13006,6 +13006,8 @@ crs#:#crs_passed_status_system#:#System
 crs#:#crs_passed_status_manual_by#:#Manual by
 poll#:#poll_voting_period_info#:#Deadline for Voting: %s
 book#:#book_reservation_failed_overbooked#:#The booking failed because the object is not available anymore.
-exc#:#exc_no_team_yet#:#No team yet
+exc#:#exc_no_team_yet#:#Not assigned to a team
 ecs#:#ecs_cmap_delete_rule#:#Delete Mapping
 exc#:#exc_team_member_remove_sure#:#Are you sure you want to remove the following members of your team? Please be aware that all files they have uploaded will also be removed from your team.
+exc#:#exc_create_team#:#Create Team
+exc#:#exc_create_team_times_up_warning#:#You cannot create a team anymore - please contact your tutor.

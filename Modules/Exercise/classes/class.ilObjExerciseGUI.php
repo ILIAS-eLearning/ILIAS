@@ -3254,20 +3254,20 @@ class ilObjExerciseGUI extends ilObjectGUI
 		
 		foreach($ids as $id)
 		{
+			$details = array();
 			foreach ($files as $file)
-			{
-				$details = array();
-				if($file["owner_id"] != $id)
+			{				
+				if($file["owner_id"] == $id)
 				{
 					$details[] = $file["filetitle"];
-				}				
-				$uname = ilUserUtil::getNamePresentation($id);
-				if(sizeof($details))
-				{
-					$uname .= ": ".implode(", ", $details);
-				}
-				$cgui->addItem("id[]", $id, $uname);
+				}							
 			}
+			$uname = ilUserUtil::getNamePresentation($id);
+			if(sizeof($details))
+			{
+				$uname .= ": ".implode(", ", $details);
+			}
+			$cgui->addItem("id[]", $id, $uname);
 		}
 
 		$tpl->setContent($cgui->getHTML());		
@@ -3335,6 +3335,26 @@ class ilObjExerciseGUI extends ilObjectGUI
 		
 		$this->tpl->setContent($tbl->getHTML());						
 	}
+	
+	function createSingleMemberTeamObject()
+	{
+		if(isset($_GET["lmem"]))
+		{				
+			$user_id = $_GET["lmem"];
+			$cmd = "members";												
+		}	
+		else
+		{
+			$user_id = $_GET["lpart"];
+			$cmd = "showParticipant";		
+		}
+		if($user_id)
+		{
+			$this->ass->getTeamId($user_id, true);		
+			ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+		}
+		$this->ctrl->redirect($this, $cmd);	
+	}			
 	
 	function showTeamLogObject()
 	{		

@@ -222,8 +222,9 @@ class ilExAssignmentGUI
 				switch($a_data["type"])
 				{
 					case ilExAssignment::TYPE_UPLOAD_TEAM:	
+						$no_team_yet = false;	
 						$team_members = ilExAssignment::getTeamMembersByAssignmentId($a_data["id"], $ilUser->getId());
-						if(sizeof($team_members) > 1)
+						if(sizeof($team_members))
 						{
 							$team = array();						
 							foreach($team_members as $member_id)
@@ -231,6 +232,19 @@ class ilExAssignmentGUI
 								$team[] = ilObjUser::_lookupFullname($member_id);
 							}
 							$info->addProperty($lng->txt("exc_team_members"), implode(", ", $team));	
+						}
+						else
+						{
+							$no_team_yet = true;
+							if(!sizeof($delivered_files))
+							{
+								$info->addProperty($lng->txt("exc_team_members"), $lng->txt("exc_no_team_yet"));								
+							}
+							else
+							{
+								$info->addProperty($lng->txt("exc_team_members"), 
+									'<span class="warning">'.$lng->txt("exc_no_team_yet").'</span>');		
+							}
 						}
 						// fallthrough
 						
@@ -250,15 +264,29 @@ class ilExAssignmentGUI
 	
 						if (!$times_up)
 						{
+							// #11957
+							if($no_team_yet && count($titles))
+							{								
+								$title = $lng->txt("exc_create_team");
+							}
+							else
+							{
+								$title = (count($titles) == 0
+									? $lng->txt("exc_hand_in")
+									: $lng->txt("exc_edit_submission"));
+							}							
 							$files_str.= ' <a class="submit" href="'.
 								$ilCtrl->getLinkTargetByClass("ilobjexercisegui", "submissionScreen").'">'.
-								(count($titles) == 0
-									? $lng->txt("exc_hand_in")
-									: $lng->txt("exc_edit_submission")).'</a>';
+								$title.'</a>';
 						}
 						else
 						{
-							if (count($titles) > 0)
+							if($no_team_yet)
+							{
+								$files_str .= '<div class="warning">'.
+									$lng->txt("exc_create_team_times_up_warning").'</div>';
+							}
+							else if (count($titles) > 0)
 							{
 								$files_str.= ' <a class="submit" href="'.
 									$ilCtrl->getLinkTargetByClass("ilobjexercisegui", "submissionScreen").'">'.

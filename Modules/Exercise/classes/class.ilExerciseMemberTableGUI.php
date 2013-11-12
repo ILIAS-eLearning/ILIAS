@@ -215,8 +215,22 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 			}
 			else
 			{
+				// #11957
 				$this->tpl->setCurrentBlock("team_info");
 				$this->tpl->setVariable("TXT_TEAM_INFO", $lng->txt("exc_no_team_yet"));
+				$this->tpl->setVariable("TXT_CREATE_TEAM", $lng->txt("exc_create_team"));
+				
+				$ilCtrl->setParameter($this->parent_obj, "lmem", $member_id);
+				$this->tpl->setVariable("URL_CREATE_TEAM", 						
+					$ilCtrl->getLinkTarget($this->getParentObject(), "createSingleMemberTeam"));
+				$ilCtrl->setParameter($this->parent_obj, "lmem", "");
+				
+				$files_nr = count(ilExAssignment::getDeliveredFiles($this->exc_id, $this->ass_id, $member_id));				
+				if($files_nr)
+				{
+					$this->tpl->setVariable("TEAM_FILES_INFO", "<br />".
+						$lng->txt("exc_files_returned").": ".$files_nr);
+				}
 				$this->tpl->parseCurrentBlock();
 			}						
 		}
