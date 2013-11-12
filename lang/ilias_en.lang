@@ -14128,3 +14128,4 @@ exc#:#exc_multi_feedb_info#:#On this screen you can upload multiple feedbacks in
 rep#:#rep_add_new_def_grp_templates#:#Templates
 cmps#:#cmps_repository_object_types#:#Repository Object Types
 rep#:#rep_new_item_menu#:#"Add New Item"-Menu
+exc#:#exc_team_member_remove_sure#:#Are you sure you want to remove the following members of your team? Please be aware that all files they have uploaded will also be removed from your team.
