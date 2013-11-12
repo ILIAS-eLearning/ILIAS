@@ -25,7 +25,7 @@ class ilModulesTableGUI extends ilTable2GUI
 		
 		$this->setId("repmodtbl");
 		
-		$this->setTitle($lng->txt("cmps_modules"));
+		$this->setTitle($lng->txt("cmps_repository_object_types"));
 
 		$this->addColumn($lng->txt("cmps_add_new_rank"), "");
 		$this->addColumn($lng->txt("cmps_rep_object"), "");	

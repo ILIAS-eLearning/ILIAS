@@ -1488,7 +1488,6 @@ cmps#:#cmps_languages#:#Languages
 cmps#:#cmps_main_dir#:#Main Directory
 cmps#:#cmps_missing#:#Missing
 cmps#:#cmps_module#:#Module
-cmps#:#cmps_modules#:#Modules
 cmps#:#cmps_name#:#Name
 cmps#:#cmps_needs_newer_ilias_version#:#This plugin version only runs on newer ILIAS versions. Please upgrade ILIAS.
 cmps#:#cmps_needs_newer_plugin_version#:#This ILIAS version needs a newer plugin version. Please upgrade the plugin.
@@ -1509,7 +1508,7 @@ cmps#:#cmps_refresh_plugins_inf#:#Refresh Plugins Information
 cmps#:#cmps_refresh#:#Refresh Languages
 cmps#:#cmps_rep_object#:#Repository Object Type
 cmps#:#cmps_responsible#:#Responsible
-cmps#:#cmps_save_options#:#Save Options
+cmps#:#cmps_save_options#:#Save
 cmps#:#cmps_service#:#Service
 cmps#:#cmps_services#:#Services
 cmps#:#cmps_show_details#:#Show Details
@@ -13624,7 +13623,7 @@ book#:#obj_book_duplicate#:#Copy Booking Pool
 administration#:#adm_user_starting_point_invalid_info#:#This feature is currently not active.
 ps#:#ps_password_settings#:#Password Settings
 rep#:#rep_new_item_group_unassigned#:#Not Assigned
-rep#:#rep_new_item_groups#:#New Item Groups
+rep#:#rep_new_item_groups#:#Groups
 rep#:#rep_new_item_group_add#:#Add Group
 rep#:#rep_new_item_group_nr_subitems#:#Number of Assigned Objects
 rep#:#rep_new_item_group_unassigned_subitems#:#Number of Unassigned Objects: %s
@@ -14126,3 +14125,6 @@ wsp#:#wsp_list_excv#:#Exercise Certificate
 wsp#:#wsp_list_tstv#:#Test Certificate
 assessment#:#fq_formula_desc#:#You may enter predefined variables ($v1 to $vn), defined results (e.g. $r1), braces for expressions, mathematical operators  + (addition), - (subtraction), * (multiplication), / (division), ^ (nth power), the constants 'pi' for pi and 'e‘ for euler's constant, as well as the functions 'sin', 'sinh', 'arcsin', 'asin', 'arcsinh', 'asinh', 'cos', 'cosh', 'arccos', 'acos', 'arccosh', 'acosh', 'tan', 'tanh', 'arctan', 'atan', 'arctanh', 'atanh', 'sqrt', 'abs', 'ln' and 'log'.
 exc#:#exc_multi_feedb_info#:#On this screen you can upload multiple feedbacks in one file. First click on "Download ZIP Structure", save the ZIP file and extract it on your local computer. Put the feedback files into the corresponding user directories. Now compress the whole directory as one ZIP file agin. Browse your local filesystem for the file and select it as the "Multi-Feedback File" in the form below. After that click "Upload". A confirmation screen will list the files. Please avoid using any special characters in your filenames.
+rep#:#rep_add_new_def_grp_templates#:#Templates
+cmps#:#cmps_repository_object_types#:#Repository Object Types
+rep#:#rep_new_item_menu#:#"Add New Item"-Menu

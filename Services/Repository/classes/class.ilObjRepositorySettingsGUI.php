@@ -66,7 +66,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 			$this->ctrl->getLinkTarget($this, "customIcons"));
 		
 		$this->tabs_gui->addTab("modules",
-			$this->lng->txt("cmps_modules"),
+			$this->lng->txt("cmps_repository_object_types"),
 			$this->ctrl->getLinkTarget($this, "listModules"));			
 		
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
@@ -381,7 +381,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 		$this->tabs_gui->activateTab('modules');
 		
 		$this->tabs_gui->addSubTab("list_mods",
-			$this->lng->txt("list"),
+			$this->lng->txt("rep_new_item_menu"),
 			$this->ctrl->getLinkTarget($this, "listModules"));
 		
 		$this->tabs_gui->addSubTab("new_item_groups",
