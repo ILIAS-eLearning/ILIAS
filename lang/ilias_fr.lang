@@ -13607,8 +13607,8 @@ exc#:#exc_team_notification_reason#:#You are receiving this email because you ar
 blog#:#blog_change_notification_reason#:#You are receiving this email because you activated notifications for the blog mentioned above.###24 10 2013 new variable
 survey#:#survey_notification_finished_introduction#:#The following participant has finished the survey.###24 10 2013 new variable
 survey#:#survey_notification_finished_reason#:#You are receiving this email because you activated notifications for the survey mentioned above.###24 10 2013 new variable
-content#:#cont_offline_mode_allow#:#Allow Offline Mode###24 10 2013 new variable
-content#:#cont_offline_mode_allow_info#:#In offline mode, learning modules can only be processed with the SCORM offline player. The tracking data are transferred if the learner clicks on 'finish offline mode' in ILIAS.###24 10 2013 new variable
+content#:#cont_offline_mode_allow#:#Permettre mode déconnecté
+content#:#cont_offline_mode_allow_info#:#Ce mode permet d'utiliser le module hors ligne avec le SCORM offline player SOP en exclusivité. Les données sont enregistré temporairement par le SOP et transféré à ILIAS au moment ou l'utilisateur terminera le mode déconnecté.
 wiki#:#wiki_start_page_info#:#If there does not exist a page with this title yet, a new page will be created.###24 10 2013 new variable
 administration#:#adm_https#:#HTTPS###24 10 2013 new variable
 common#:#obj_reps#:#Repository###24 10 2013 new variable
