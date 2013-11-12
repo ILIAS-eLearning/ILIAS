@@ -36,6 +36,7 @@ class ilAssQuestionTypeOrderer
 
 		'assClozeTest',
 		'assNumeric',
+		'assFormulaQuestion',
 		'assTextSubset',
 
 		'assOrderingQuestion',
@@ -47,8 +48,6 @@ class ilAssQuestionTypeOrderer
 
 		'assFlashQuestion',
 		'assJavaApplet',
-
-		'assFormulaQuestion'
 	);
 	
 	/**
@@ -68,7 +67,7 @@ class ilAssQuestionTypeOrderer
 	public function __construct($unOrderedTypes, $orderMode = self::ORDER_MODE_ALPHA)
 	{
 		self::$flippedQuestionTypeOrder = array_flip(self::$fixQuestionTypeOrder);
-		
+		#vd($unOrderedTypes);
 		$this->types = $unOrderedTypes;
 		
 		switch($orderMode)
@@ -87,6 +86,8 @@ class ilAssQuestionTypeOrderer
 				
 				throw new ilTestQuestionPoolException('invalid order mode given: '.$orderMode);
 		}
+
+		#vd($this->types);
 	}
 	
 	/**
@@ -109,18 +110,24 @@ class ilAssQuestionTypeOrderer
 	 */
 	public function fixQuestionTypeOrderSortCallback($a, $b)
 	{
-		$r = 0;
-		
 		if( self::$flippedQuestionTypeOrder[ $a['type_tag'] ] > self::$flippedQuestionTypeOrder[ $b['type_tag'] ] )
 		{
-			$r = 1;
+			return 1;
+		}
+		elseif( !isset(self::$flippedQuestionTypeOrder[ $a['type_tag'] ]) )
+		{
+			return 1;
 		}
 		elseif( self::$flippedQuestionTypeOrder[ $a['type_tag'] ] < self::$flippedQuestionTypeOrder[ $b['type_tag'] ] )
 		{
-			$r = -1;
+			return -1;
 		}
-		
-		return $r;
+		elseif( !isset(self::$flippedQuestionTypeOrder[ $b['type_tag'] ]) )
+		{
+			return -1;
+		}
+
+		return 0;
 	}
 	
 }
