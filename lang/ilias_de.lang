@@ -1998,7 +1998,6 @@ cmps#:#cmps_languages#:#Sprachen
 cmps#:#cmps_main_dir#:#Hauptverzeichnis
 cmps#:#cmps_missing#:#Fehlt
 cmps#:#cmps_module#:#Modul
-cmps#:#cmps_modules#:#Module
 cmps#:#cmps_name#:#Name
 cmps#:#cmps_needs_newer_ilias_version#:#Dieses Plugin kann nur mit einer neueren ILIAS-Version verwendet werden. Bitte aktualisieren Sie Ihre ILIAS-Version.
 cmps#:#cmps_needs_newer_plugin_version#:#Diese ILIAS-Version benötigt eine neuere Plugin-Version. Bitte aktualisieren Sie das Plugin.
@@ -2019,7 +2018,7 @@ cmps#:#cmps_refresh#:#Sprachen neu laden
 cmps#:#cmps_refresh_plugins_inf#:#Informationen über Plugins aktualisieren
 cmps#:#cmps_rep_object#:#Objekttyp im Magazin
 cmps#:#cmps_responsible#:#Verantwortlich
-cmps#:#cmps_save_options#:#Auswahlmöglichkeiten sichern
+cmps#:#cmps_save_options#:#Speichern
 cmps#:#cmps_service#:#Dienst
 cmps#:#cmps_services#:#Dienste
 cmps#:#cmps_show_details#:#Details anzeigen
@@ -13615,7 +13614,7 @@ book#:#obj_book_duplicate#:#Buchungspool kopieren
 administration#:#adm_user_starting_point_invalid_info#:#Dieses Feature ist aktuell nicht aktiviert.
 ps#:#ps_password_settings#:#Passworteinstellungen
 rep#:#rep_new_item_group_unassigned#:#Nicht zugeordnet
-rep#:#rep_new_item_groups#:#Gruppen für hinzuzufügende Objekte
+rep#:#rep_new_item_groups#:#Gruppen
 rep#:#rep_new_item_group_add#:#Gruppe hinzufügen
 rep#:#rep_new_item_group_nr_subitems#:#Anzahl zugeordnete Objekte
 rep#:#rep_new_item_group_unassigned_subitems#:#Anzahl nicht zugeordneter Objekte: %s
@@ -14125,3 +14124,6 @@ ecs#:#ecs_cmap_delete_rule#:#Zuordnung löschen
 wsp#:#wsp_list_excv#:#Übungszertifikat
 wsp#:#wsp_list_tstv#:#Testzertifikat
 assessment#:#fq_formula_desc#:#Erlaubt ist die Verwendung von bereits definierten Variablen ($v1 bis $vn), von bereits definierten Ergebnissen (z.B. $r1), das beliebige Klammern von Ausdrücken, die mathematischen Operatoren + (Addition), - (Subtraktion), * (Multiplikation), / (Division), ^ (Potenzieren), die Verwendung der Konstanten 'pi' für die Zahl Pi und 'e‘ für die Eulersche Zahl, sowie die mathematischen Funktionen 'sin', 'sinh', 'arcsin', 'asin', 'arcsinh', 'asinh', 'cos', 'cosh', 'arccos', 'acos', 'arccosh', 'acosh', 'tan', 'tanh', 'arctan', 'atan', 'arctanh', 'atanh', 'sqrt', 'abs', 'ln', 'log'. 	  				 	 	 	   	 	  	   		  	 
+rep#:#rep_add_new_def_grp_templates#:#Vorlagen
+cmps#:#cmps_repository_object_types#:#Magazinobjekttypen
+rep#:#rep_new_item_menu#:#"Neues Objekt hinzufügen"-Menü
