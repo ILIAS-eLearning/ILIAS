@@ -316,7 +316,7 @@ class ilObjOrgUnitTree {
                 INNER JOIN object_reference refr ON refr.obj_id = orgu.obj_id
 				INNER JOIN object_data roles ON roles.title LIKE CONCAT('il_orgu_superior_',refr.ref_id) OR roles.title LIKE CONCAT('il_orgu_employee_',refr.ref_id)
 				INNER JOIN rbac_ua rbac ON rbac.usr_id = ".$this->db->quote($user_id, "integer")." AND roles.obj_id = rbac.rol_id
-				WHERE orgu.type = 'orgu'";
+				WHERE orgu.type = 'orgu' AND refr.deleted IS NULL";
         $set = $this->db->query($q);
         $orgu_ref_ids = array();
         while($res = $this->db->fetchAssoc($set)){

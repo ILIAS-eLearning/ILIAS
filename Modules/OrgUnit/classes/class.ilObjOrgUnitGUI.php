@@ -16,6 +16,7 @@ require_once("./Modules/OrgUnit/classes/ExtId/class.ilExtIdGUI.php");
 require_once("./Modules/OrgUnit/classes/SimpleImport/class.ilOrgUnitSimpleImportGUI.php");
 require_once("./Modules/OrgUnit/classes/SimpleUserImport/class.ilOrgUnitSimpleUserImportGUI.php");
 require_once("./Modules/OrgUnit/classes/class.ilOrgUnitImporter.php");
+require_once("./Services/Object/classes/class.ilObjectAddNewItemGUI.php");
 require_once("class.ilOrgUnitExplorerGUI.php");
 require_once("class.ilOrgUnitExportGUI.php");
 require_once("class.ilObjOrgUnitAccess.php");
@@ -246,8 +247,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 	}
 
 
-	function showPossibleSubObjects() {
-		include_once "Services/Object/classes/class.ilObjectAddNewItemGUI.php";
+	public function showPossibleSubObjects() {
 		$gui = new ilObjectAddNewItemGUI($this->object->getRefId());
 		$gui->setMode(ilObjectDefinition::MODE_ADMINISTRATION);
 		$gui->setCreationUrl("ilias.php?ref_id=" . $_GET["ref_id"]
