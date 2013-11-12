@@ -215,6 +215,8 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 			$this->tpl->setVariable("VAL_ID",
 				$member_id);				
 		}
+		
+		$file_info = ilExAssignment::getDownloadedFilesInfoForTableGUIS($this->parent_obj, $this->exc_id, $this->type, $this->ass_id, $member_id, $this->parent_cmd);
 			
 		// name and login
 		if(!isset($member["team"]))
@@ -258,17 +260,29 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 				$this->tpl->parseCurrentBlock();
 			}
 			else
-			{
+			{				
+				// #11957
 				$this->tpl->setCurrentBlock("team_info");
 				$this->tpl->setVariable("TXT_TEAM_INFO", $lng->txt("exc_no_team_yet"));
+				$this->tpl->setVariable("TXT_CREATE_TEAM", $lng->txt("exc_create_team"));
+				
+				$ilCtrl->setParameter($this->parent_obj, "lmem", $member_id);
+				$this->tpl->setVariable("URL_CREATE_TEAM", 						
+					$ilCtrl->getLinkTarget($this->getParentObject(), "createSingleMemberTeam"));
+				$ilCtrl->setParameter($this->parent_obj, "lmem", "");
+				
+				if($file_info["files"]["count"])
+				{
+					$this->tpl->setVariable("TEAM_FILES_INFO", "<br />".
+						$file_info["files"]["txt"].": ".
+						$file_info["files"]["count"]);
+				}
 				$this->tpl->parseCurrentBlock();
 			}
 		}
 
 		if(!$has_no_team_yet)
-		{
-			$file_info = ilExAssignment::getDownloadedFilesInfoForTableGUIS($this->parent_obj, $this->exc_id, $this->type, $this->ass_id, $member_id, $this->parent_cmd);
-
+		{			
 			$this->tpl->setVariable("VAL_LAST_SUBMISSION", $file_info["last_submission"]["value"]);
 			$this->tpl->setVariable("TXT_LAST_SUBMISSION", $file_info["last_submission"]["txt"]);
 
