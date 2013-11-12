@@ -172,7 +172,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 			case 'illearningprogressgui':
 			case 'illplistofprogressgui':
 				$this->tabs_gui->clearTargets();
-				$this->tabs_gui->setBackTarget($this->lng->txt('backto_lua'), $this->ctrl->getLinkTargetByClass("ilOrgUnitStaffGUI", 'showStaff'));
+				$this->tabs_gui->setBackTarget($this->lng->txt('backto_staff'), $this->ctrl->getLinkTargetByClass("ilOrgUnitStaffGUI", 'showStaff'));
 				if (!ilObjOrgUnitAccess::_checkAccessToUserLearningProgress($this->object->getRefid(),$_GET['obj_id'])) {
 					ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
 					$this->ctrl->redirectByClass("ilOrgUnitStaffGUI", "showStaff");
