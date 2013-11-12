@@ -277,5 +277,25 @@ class ilPasteIntoMultipleItemsExplorer extends ilRepositoryExplorer
 		
 		$tpl->setVariable('OBJ_TITLE', $title);
 	}
+	
+	function showChilds($a_ref_id,$a_obj_id = 0)
+	{
+		global $ilAccess;
+
+		if ($a_ref_id == 0)
+		{
+			return true;
+		}
+		// #11778 - ilAccessHandler::doConditionCheck()
+		if ($ilAccess->checkAccess("read", "", $a_ref_id))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
 }
+
 ?>
