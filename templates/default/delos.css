@@ -3999,6 +3999,11 @@ td.dcl_actions {
 	font-size: 90%;
 }
 
+.ilDclTableDescription {
+    padding: 25px 0;
+    font-size: 90%;
+}
+
 /* Modules/Bibliographic */
 span.bibl_text_inline_Emph {
 	font-style: italic; 
