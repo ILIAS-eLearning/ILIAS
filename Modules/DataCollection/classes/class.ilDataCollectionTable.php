@@ -68,6 +68,11 @@ class ilDataCollectionTable
     protected $export_enabled;
 
     /**
+     * @var string Description for this table displayed above records
+     */
+    protected $description;
+
+    /**
 	 * Constructor
 	 * @access public
 	 * @param  integer fiel_id
@@ -105,6 +110,7 @@ class ilDataCollectionTable
 		$this->setLimitStart($rec["limit_start"]);
 		$this->setLimitEnd($rec["limit_end"]);
 		$this->setIsVisible($rec["is_visible"]);
+        $this->setDescription($rec['description']);
 	}
 	
 	/**
@@ -156,6 +162,7 @@ class ilDataCollectionTable
 			", limit_end".
 			", is_visible".
 			", export_enabled".
+            ", description".
 			" ) VALUES (".
 			$ilDB->quote($this->getId(), "integer")
 			.",".$ilDB->quote($this->getObjId(), "integer")
@@ -169,6 +176,7 @@ class ilDataCollectionTable
 			.",".$ilDB->quote($this->getLimitEnd(), "timestamp")
 			.",".$ilDB->quote($this->getIsVisible()?1:0, "integer")
 			.",".$ilDB->quote($this->getExportEnabled()?1:0, "integer")
+            .",".$ilDB->quote($this->getDescription(), "text")
 			.")";
 		$ilDB->manipulate($query);
 
@@ -213,7 +221,8 @@ class ilDataCollectionTable
 			"limit_start" => array("timestamp",$this->getLimitStart()),
 			"limit_end" => array("timestamp",$this->getLimitEnd()),
 			"is_visible" => array("integer",$this->getIsVisible()?1:0),
-			"export_enabled" => array("integer",$this->getExportEnabled()?1:0)
+			"export_enabled" => array("integer",$this->getExportEnabled()?1:0),
+            "description" => array("text",$this->getDescription()),
 		), array(
 			"id" => array("integer", $this->getId())
 		));
@@ -855,8 +864,24 @@ class ilDataCollectionTable
 	{
 		return $this->is_visible;
 	}
-	
-	/**
+
+    /**
+     * @param string $description
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
 	 * hasCustomFields
 	 * @return boolean
 	 */

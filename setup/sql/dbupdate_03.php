@@ -19394,3 +19394,16 @@ if($ilDB->getDBType() == 'mysql' || $ilDB->getDBType() == 'innodb')
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#4157>
+<?php
+if(!$ilDB->tableColumnExists('il_dcl_table','description')) {
+    $ilDB->addTableColumn(
+        'il_dcl_table',
+        'description',
+        array(
+            'type' => 'text',
+            'notnull' => false,
+            'length' => 4000,
+        ));
+}
+?>

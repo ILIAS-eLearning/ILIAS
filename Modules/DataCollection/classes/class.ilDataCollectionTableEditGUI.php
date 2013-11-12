@@ -111,7 +111,8 @@ class ilDataCollectionTableEditGUI
 			'limited'		=>	$this->table->getLimited(),
 			'limit_start'		=>	array("date" => substr($this->table->getLimitStart(),0,10), "time" => substr($this->table->getLimitStart(),-8)),
 			'limit_end'		=>	array("date" => substr($this->table->getLimitEnd(),0,10), "time" => substr($this->table->getLimitEnd(),-8)),
-			'is_visible'		=>	$this->table->getIsVisible()
+			'is_visible'		=>	$this->table->getIsVisible(),
+            'description' => $this->table->getDescription(),
 		);
 		if(!$this->table->getLimitStart())
 			$values['limit_start'] = NULL;
@@ -167,6 +168,12 @@ class ilDataCollectionTableEditGUI
 		$this->form->addItem($item);
 		$item = new ilCheckboxInputGUI($lng->txt('dcl_visible'),'is_visible');
 		$this->form->addItem($item);
+
+        $item = new ilTextAreaInputGUI($lng->txt('additional_info'), 'description');
+        $item->setUseRte(true);
+//        $item->setRTESupport($this->table->getId(), 'dcl', 'table_settings');
+        $item->setRteTagSet('mini');
+        $this->form->addItem($item);
 
         $section = new ilFormSectionHeaderGUI();
         $section->setTitle($lng->txt('dcl_permissions_form'));
@@ -265,7 +272,8 @@ class ilDataCollectionTableEditGUI
 			$this->table->setDeletePerm($this->form->getInput("delete_perm"));
 			$this->table->setEditByOwner($this->form->getInput("edit_by_owner"));
             $this->table->setExportEnabled($this->form->getInput("export_enabled"));
-			$this->table->setLimited($this->form->getInput("limited"));
+            $this->table->setDescription($this->form->getInput('description'));
+            $this->table->setLimited($this->form->getInput("limited"));
 			$limit_start = $this->form->getInput("limit_start");
 			$limit_end = $this->form->getInput("limit_end");
 			$this->table->setLimitStart($limit_start["date"]." ".$limit_start["time"]);

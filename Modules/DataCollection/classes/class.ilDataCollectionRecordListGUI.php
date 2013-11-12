@@ -121,7 +121,10 @@ class ilDataCollectionRecordListGUI
         $tpl->getStandardTemplate();
 
         $tpl->setPermanentLink("dcl", $this->parent_obj->ref_id);
-        $tpl->setContent($list->getHTML());
+        if ($desc = $this->table_obj->getDescription()) {
+            $desc = "<div class='ilDclTableDescription'>{$desc}</div>";
+        }
+        $tpl->setContent($desc . $list->getHTML());
     }
 
     /*

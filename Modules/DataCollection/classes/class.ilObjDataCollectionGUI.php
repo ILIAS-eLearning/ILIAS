@@ -477,7 +477,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 		$obj = new ilObjDataCollection($this->ref_id, true);
 		
 		return $obj;
-	}
+    }
 
 	/**
 	 * getSettingsValues
