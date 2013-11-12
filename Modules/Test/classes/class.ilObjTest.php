@@ -11275,7 +11275,7 @@ function getAnswerFeedbackPoints()
 		
 		$query = "SELECT question_set_type FROM tst_tests WHERE obj_fi = %s";
 		
-		$res = $ilDB->query($query);
+		$res = $ilDB->queryF($query, array('integer'), array($objId));
 		
 		$questionSetType = null;
 		
