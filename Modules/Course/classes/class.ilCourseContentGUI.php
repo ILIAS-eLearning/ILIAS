@@ -1196,7 +1196,11 @@ class ilCourseContentGUI
 			return $item;
 		}
 		$item['suggestion_start'] = $this->__toUnix($_POST['item'][$obj_id]['sug_start']);
-		$item['suggestion_end'] = $this->__toUnix($_POST['item'][$obj_id]['sug_end']);
+		if(isset($_POST['item'][$obj_id]['sug_end']))
+		{
+			// #9325
+			$item['suggestion_end'] = $this->__toUnix($_POST['item'][$obj_id]['sug_end']);
+		}
 		$item['earliest_start'] = $this->__toUnix($_POST['item'][$obj_id]['lim_start']);
 		$item['latest_end'] = $this->__toUnix($_POST['item'][$obj_id]['lim_end']);
 		$item['changeable'] = $_POST['item'][$obj_id]['change'];
