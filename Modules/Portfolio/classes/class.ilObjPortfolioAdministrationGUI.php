@@ -102,6 +102,7 @@ class ilObjPortfolioAdministrationGUI extends ilObjectGUI
 		
 		$this->tabs_gui->setTabActive('settings');	
 		
+		/*
 		if ($ilSetting->get('user_portfolios'))
 		{
 			ilUtil::sendInfo($lng->txt("prtf_admin_toggle_info"));
@@ -110,6 +111,7 @@ class ilObjPortfolioAdministrationGUI extends ilObjectGUI
 		{
 			ilUtil::sendInfo($lng->txt("prtf_admin_inactive_info"));
 		}
+		*/
 		
 		if(!$a_form)
 		{
@@ -124,20 +126,22 @@ class ilObjPortfolioAdministrationGUI extends ilObjectGUI
 	*/
 	public function saveSettings()
 	{
-		global $ilCtrl;
+		global $ilCtrl, $ilSetting;
 		
 		$this->checkPermission("write");
 		
 		$form = $this->initFormSettings();
 		if($form->checkInput())
 		{
+			$ilSetting->set('user_portfolios', (int)$form->getInput("prtf"));
+			
 			$banner = (bool)$form->getInput("banner");
 			
 			$prfa_set = new ilSetting("prfa");
 			$prfa_set->set("banner", $banner);
 			$prfa_set->set("banner_width", (int)$form->getInput("width"));
 			$prfa_set->set("banner_height", (int)$form->getInput("height"));			
-			$prfa_set->set("mask", (bool)$form->getInput("mask"));			
+			$prfa_set->set("mask", (bool)$form->getInput("mask"));		
 			
 			ilUtil::sendSuccess($this->lng->txt("settings_saved"),true);
 			$ilCtrl->redirect($this, "editSettings");
@@ -164,7 +168,7 @@ class ilObjPortfolioAdministrationGUI extends ilObjectGUI
 	 */
 	protected function initFormSettings()
 	{
-	    global $lng;
+	    global $lng, $ilSetting;
 		
 		include_once('Services/Form/classes/class.ilPropertyFormGUI.php');
 		$form = new ilPropertyFormGUI();
@@ -172,6 +176,15 @@ class ilObjPortfolioAdministrationGUI extends ilObjectGUI
 		$form->setTitle($this->lng->txt('prtf_settings'));
 		$form->addCommandButton('saveSettings',$this->lng->txt('save'));
 		$form->addCommandButton('cancel',$this->lng->txt('cancel'));
+		
+		// Enable 'Portfolios'
+		$lng->loadLanguageModule('pd');
+		$lng->loadLanguageModule('user');
+		$prtf_prop = new ilCheckboxInputGUI($lng->txt('pd_enable_prtf'), 'prtf');
+		$prtf_prop->setValue('1');
+		$prtf_prop->setInfo($lng->txt('user_portfolios_desc'));
+		$prtf_prop->setChecked(($ilSetting->get('user_portfolios') ? '1' : '0'));
+		$form->addItem($prtf_prop);
 
 		$banner = new ilCheckboxInputGUI($lng->txt("prtf_preview_banner"), "banner");
 		$banner->setInfo($lng->txt("prtf_preview_banner_info"));
@@ -207,5 +220,20 @@ class ilObjPortfolioAdministrationGUI extends ilObjectGUI
 
 		return $form;
 	}
+	
+	public function addToExternalSettingsForm($a_form_id)
+	{		
+		global $ilSetting;
+		
+		switch($a_form_id)
+		{
+			case ilAdministrationSettingsFormHandler::FORM_WSP:
+								
+				$fields = array('pd_enable_prtf' => array($ilSetting->get('user_portfolios'), ilAdministrationSettingsFormHandler::VALUE_BOOL));
+				
+				return array(array("editSettings", $fields));			
+		}
+	}
 }
+
 ?>

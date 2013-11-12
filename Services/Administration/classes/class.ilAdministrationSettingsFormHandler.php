@@ -22,6 +22,7 @@ class ilAdministrationSettingsFormHandler
 	const FORM_LDAP = 9;
 	const FORM_FORUM = 10;
 	const FORM_ACCESSIBILITY = 11;
+	const FORM_WSP = 12;
 
 	const SETTINGS_USER             = "usrf";
 	const SETTINGS_GENERAL          = "adm";
@@ -37,6 +38,7 @@ class ilAdministrationSettingsFormHandler
 	const SETTINGS_CALENDAR         = "cals";
 	const SETTINGS_AUTH             = "auth";
 	const SETTINGS_WIKI             = "wiks";
+	const SETTINGS_PORTFOLIO        = "prfa";
 
 	const VALUE_BOOL = "bool";
 	
@@ -120,6 +122,10 @@ class ilAdministrationSettingsFormHandler
 			case self::FORM_COURSE:
 			case self::FORM_GROUP:
 				$types = array(self::SETTINGS_PRIVACY_SECURITY, self::SETTINGS_CALENDAR, self::SETTINGS_GENERAL);
+				break;
+			
+			case self::FORM_WSP:
+				$types = array(self::SETTINGS_PORTFOLIO);
 				break;
 			
 			default:

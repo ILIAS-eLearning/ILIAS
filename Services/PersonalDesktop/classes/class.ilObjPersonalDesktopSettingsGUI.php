@@ -328,6 +328,7 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 		$link_prop->setChecked(($ilSetting->get('disable_wsp_links') ? '0' : '1'));
 		$wsp_prop->addSubItem($link_prop);			
 		
+		/*
 		// Enable 'Portfolios'
 		$lng->loadLanguageModule('user');
 		$prtf_prop = new ilCheckboxInputGUI($lng->txt('pd_enable_prtf'), 'prtf');
@@ -335,6 +336,7 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 		$prtf_prop->setInfo($lng->txt('user_portfolios_desc'));
 		$prtf_prop->setChecked(($ilSetting->get('user_portfolios') ? '1' : '0'));
 		$form->addItem($prtf_prop);
+		*/
 		
 		// Load the disk quota settings object
 		require_once 'Services/WebDAV/classes/class.ilObjDiskQuotaSettings.php';
@@ -347,6 +349,13 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 		$cb_prop->setChecked($disk_quota_obj->isPersonalWorkspaceDiskQuotaEnabled());
 		$cb_prop->setInfo($lng->txt('enable_personal_workspace_disk_quota_info'));
 		$form->addItem($cb_prop);
+				
+		require_once 'Services/Administration/classes/class.ilAdministrationSettingsFormHandler.php';
+		ilAdministrationSettingsFormHandler::addFieldsToForm(
+			ilAdministrationSettingsFormHandler::FORM_WSP,
+			$form,
+			$this
+		);
 		
 		// command buttons
 		$form->addCommandButton("saveWsp", $lng->txt("save"));
@@ -376,7 +385,7 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
 		$ilSetting->set('disable_wsp_files', (int)($_POST['file'] ? 0 : 1));
 		$ilSetting->set('disable_wsp_certificates', (int)($_POST['cert'] ? 0 : 1));
 		$ilSetting->set('disable_wsp_links', (int)($_POST['link'] ? 0 : 1));
-		$ilSetting->set('user_portfolios', (int)($_POST['prtf'] ? 1 : 0));
+		// $ilSetting->set('user_portfolios', (int)($_POST['prtf'] ? 1 : 0));
 		
 		// Load the disk quota settings object
 		require_once 'Services/WebDAV/classes/class.ilObjDiskQuotaSettings.php';
