@@ -88,7 +88,29 @@ class ilPCVerification extends ilPageContent
 		return array("pc_vrfc",
 			"ed_insert_verification");
 	}
-
+	
+	public static function isInPortfolioPage(ilPortfolioPage $a_page, $a_type, $a_id)
+	{
+		// try to find verification in portfolio page
+		$a_page->buildDom();
+		$dom = $a_page->getDom();					
+		if($dom instanceof php4DOMDocument)
+		{
+			$dom = $dom->myDOMDocument;
+		}		
+		$xpath_temp = new DOMXPath($dom);
+		$nodes = $xpath_temp->query("//PageContent/Verification");
+		foreach($nodes as $node)
+		{
+			if($node->getAttribute("Type") == $a_type &&
+				$node->getAttribute("Id") == $a_id)
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
 }
 
 ?>

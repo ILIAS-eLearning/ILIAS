@@ -96,8 +96,9 @@ class ilObjTestVerificationGUI extends ilObject2GUI
 	 * Render content
 	 * 
 	 * @param bool $a_return
+	 * @param string $a_url
 	 */
-	public function render($a_return = false)
+	public function render($a_return = false, $a_url = false)
 	{
 		global $ilUser, $lng;
 		
@@ -117,7 +118,7 @@ class ilObjTestVerificationGUI extends ilObject2GUI
 				$valid = false;
 				$message = $lng->txt("url_not_found");
 			}
-			else
+			else if(!$a_url)
 			{
 				include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
 				$access_handler = new ilWorkspaceAccessHandler($tree);
@@ -130,14 +131,30 @@ class ilObjTestVerificationGUI extends ilObject2GUI
 			
 			if($valid)
 			{
-				$link = $this->getAccessHandler()->getGotoLink($wsp_id, $this->object->getId());			
-				return '<div><a href="'.$link.'">'.$caption.'</a></div>';
+				if(!$a_url)
+				{
+					$a_url = $this->getAccessHandler()->getGotoLink($wsp_id, $this->object->getId());			
+				}			
+				return '<div><a href="'.$a_url.'">'.$caption.'</a></div>';
 			}
 			else
 			{
 				return '<div>'.$caption.' ('.$message.')</div>';
 			}			
 		}
+	}
+	
+	function downloadFromPortfolioPage(ilPortfolioPage $a_page)
+	{		
+		global $ilErr;
+		
+		include_once "Services/COPage/classes/class.ilPCVerification.php";
+		if(ilPCVerification::isInPortfolioPage($a_page, $this->object->getType(), $this->object->getId()))
+		{
+			$this->deliver();
+		}
+		
+		$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->MESSAGE);
 	}
 	
 	function _goto($a_target)
