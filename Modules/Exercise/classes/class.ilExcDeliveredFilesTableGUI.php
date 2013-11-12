@@ -36,6 +36,15 @@ class ilExcDeliveredFilesTableGUI extends ilTable2GUI
 		
 		$this->addColumn($this->lng->txt(""), "", "1", 1);
 		$this->addColumn($this->lng->txt("filename"), "filetitle");
+		
+		if($this->ass->getType() == ilExAssignment::TYPE_UPLOAD_TEAM)
+		{
+			// #11957
+			$this->lng->loadLanguageModule("file");
+			$this->addColumn($this->lng->txt("file_uploaded_by"));			
+			include_once "Services/User/classes/class.ilUserUtil.php";
+		}
+		
 		$this->addColumn($this->lng->txt("date"), "timestamp14");
 		
 		$this->setDefaultOrderField("filetitle");
@@ -77,8 +86,15 @@ class ilExcDeliveredFilesTableGUI extends ilTable2GUI
 
 		$this->tpl->setVariable("FILE_ID", $file["returned_id"]);
 		$this->tpl->setVariable("DELIVERED_FILE", $file["filetitle"]);
+		
 		$date = new ilDateTime($file['timestamp14'],IL_CAL_TIMESTAMP);
 		$this->tpl->setVariable("DELIVERED_DATE", ilDatePresentation::formatDate($date));
+		
+		if($this->ass->getType() == ilExAssignment::TYPE_UPLOAD_TEAM)
+		{
+			$this->tpl->setVariable("DELIVERED_OWNER",
+				ilUserUtil::getNamePresentation($file["owner_id"]));
+		}
 	}
 
 }

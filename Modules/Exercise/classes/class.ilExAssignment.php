@@ -892,6 +892,7 @@ class ilExAssignment
 				{
 					continue;
 				}
+				$row["owner_id"] = $row["user_id"];
 				$row["timestamp"] = $row["ts"];
 				$row["timestamp14"] = substr($row["ts"], 0, 4).
 					substr($row["ts"], 5, 2).substr($row["ts"], 8, 2).

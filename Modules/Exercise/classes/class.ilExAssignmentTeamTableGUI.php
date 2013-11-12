@@ -56,7 +56,7 @@ class ilExAssignmentTeamTableGUI extends ilTable2GUI
 		else
 		{
 			$this->setTitle($this->lng->txt("exc_team_members"));
-			$this->addMultiCommand("removeTeamMember", $this->lng->txt("remove"));
+			$this->addMultiCommand("confirmRemoveTeamMember", $this->lng->txt("remove"));
 		}
 		
 		$this->getItems();

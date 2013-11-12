@@ -13008,3 +13008,4 @@ poll#:#poll_voting_period_info#:#Ende der Abstimmung: %s
 book#:#book_reservation_failed_overbooked#:#Die Buchung ist fehlgeschlagen, da das Objekt nicht mehr verfügbar ist.
 exc#:#exc_no_team_yet#:#Noch kein Team
 ecs#:#ecs_cmap_delete_rule#:#Zuordnung löschen
+exc#:#exc_team_member_remove_sure#:#Wollen Sie wirklich die folgenden Mitglieder Ihres Teams entfernen? Bitte beachten Sie, dass auch die jeweiligen hochgeladenen Dateien aus dem Team entfernt werden.
