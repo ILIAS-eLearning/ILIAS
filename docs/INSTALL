@@ -478,12 +478,13 @@ components:
         --with-apxs=/opt/ilias/bin/apxs \
         --with-mysql=/opt/ilias \
         --with-zlib=/opt/ilias \
-        --with-gd
+        --with-gd \
         --with-jpeg-dir=/opt/ilias \
         --with-png-dir=/opt/ilias \
-        --with-config-file-path=/opt/ilias/config
+        --with-config-file-path=/opt/ilias/config \
         --with-libxml-dir=/opt/ilias \
-        --with-xsl=/opt/ilias
+        --with-xsl=/opt/ilias \
+        --enable-mbstring
         make
         make install
 		
