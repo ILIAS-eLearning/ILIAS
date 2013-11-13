@@ -183,16 +183,19 @@ class ilErrorHandling extends PEAR
 				ilUtil::redirect($updir."index.php");
 			}
 
-			// check if already GET-Parameters exists in Referer-URI
+			/* #12104 
+			check if already GET-Parameters exists in Referer-URI			 
 			if (substr($_SESSION["referer"],-4) == ".php")
 			{
 				$glue = "?";
 			}
 			else
 			{
+			    // this did break permanent links (".html&")
 				$glue = "&";
 			}
-			ilUtil::redirect($_SESSION["referer"].$glue);
+			*/
+			ilUtil::redirect($_SESSION["referer"]);			
 		}
 	}
 
