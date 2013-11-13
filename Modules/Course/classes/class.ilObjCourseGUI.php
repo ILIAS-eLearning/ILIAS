@@ -1623,7 +1623,8 @@ class ilObjCourseGUI extends ilContainerGUI
 				{					
 					$this->tabs_gui->addSubTabTarget(
 						"certificate",
-						$this->ctrl->getLinkTargetByClass("ilcertificategui", "certificateeditor"));					
+						$this->ctrl->getLinkTargetByClass("ilcertificategui", "certificateeditor"),
+						"", "ilcertificategui");					
 				}
 				break;
 			
