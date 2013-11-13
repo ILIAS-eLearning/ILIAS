@@ -361,15 +361,20 @@ class ilHelpGUI
 	 */
 	function initHelp($a_tpl)
 	{
-		global $ilUser;
+		global $ilUser, $ilSetting;
+
+		$module_id = (int) $ilSetting->get("help_module");
 		
-		if (ilSession::get("help_pg") > 0)
+		if ((OH_REF_ID > 0 || $module_id > 0) && $ilUser->getLanguage() == "de")
 		{
-			$a_tpl->addOnLoadCode("il.Help.showCurrentPage(".ilSession::get("help_pg").");", 3);
-		}
-		if ($ilUser->getPref("hide_help_tt"))
-		{
-			$a_tpl->addOnLoadCode("il.Help.switchTooltips();", 3);
+			if (ilSession::get("help_pg") > 0)
+			{
+				$a_tpl->addOnLoadCode("il.Help.showCurrentPage(".ilSession::get("help_pg").");", 3);
+			}
+			if ($ilUser->getPref("hide_help_tt"))
+			{
+				$a_tpl->addOnLoadCode("il.Help.switchTooltips();", 3);
+			}
 		}
 	}
 	
