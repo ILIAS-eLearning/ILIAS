@@ -1898,6 +1898,7 @@ div.ilTinyMenuSection {
 	top: 0;
 	left: 0;
 	text-decoration: blink;
+	z-index: 3;
 }
 
 .ilTinyMenuDropDown span {

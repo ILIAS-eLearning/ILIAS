@@ -157,8 +157,7 @@ var ilCOPage =
 
 	cmdSave: function (switch_to)
 	{
-		var el = document.getElementById('ilsaving');
-		el.style.display = '';
+		$('#ilsaving').removeClass("ilNoDisplay");
 
 		// table editing
 		if (ilCOPage.current_td != "")
@@ -222,8 +221,8 @@ var ilCOPage =
 	
 	cmdSaveReturn: function (and_new)
 	{
-		var el = document.getElementById('ilsaving');
-		el.style.display = '';
+		$('#ilsaving').removeClass("ilNoDisplay");
+		
 		var ed = tinyMCE.get('tinytarget');
 		this.autoResize(ed);
 		this.setEditStatus(false);
@@ -280,14 +279,13 @@ var ilCOPage =
 	
 	cmdCancel: function ()
 	{
-		//var el = document.getElementById('ilsaving');
-		//el.style.display = '';
 		var ed = tinyMCE.get('tinytarget');
 		this.autoResize(ed);
 		this.setEditStatus(false);
 		this.setInsertStatus(false);
 		this.copyInputToGhost(false);
 		this.removeTiny();
+		hideToolbar();
 		if (ilCOPage.current_td == "")
 		{
 			this.sendCmdRequest("cancel", ed_para, null, {},
@@ -1308,8 +1306,7 @@ if (add_final_spacer)
 	// quick saving has been done
 	quickSavingAjaxSuccess: function(o)
 	{
-		var el = document.getElementById('ilsaving');
-		el.style.display = 'none';
+		$('#ilsaving').addClass("ilNoDisplay");
 		ilCOPage.extractPCIdsFromResponse(o.responseText);
 		if (ilCOPage.pc_id_str != "")
 		{
@@ -1329,6 +1326,7 @@ if (add_final_spacer)
 	
 				tinyMCE.get('tinytarget').setContent('');
 				ilCOPage.removeTiny();
+				hideToolbar();
 				editParagraph(o.argument.switch_to, 'edit', true);
 			}
 		}
@@ -1337,8 +1335,7 @@ if (add_final_spacer)
 	// quick insert has been done
 	quickInsertAjaxSuccess: function(o)
 	{
-		var el = document.getElementById('ilsaving');
-		el.style.display = 'none';
+		$('#ilsaving').addClass("ilNoDisplay");
 		if(o.responseText !== undefined)
 		{
 			ilCOPage.extractPCIdsFromResponse(o.responseText);
@@ -1371,16 +1368,17 @@ if (add_final_spacer)
 				ed_para = ilCOPage.pc_id_str;
 			}
 
+			$('#ilsaving').addClass("ilNoDisplay");
+			
 			if (ilCOPage.error_str != "")
 			{
-				var el = document.getElementById('ilsaving');
-				el.style.display = 'none';
 				ilCOPage.displayError(ilCOPage.error_str);
 			}
 			else
 			{
 				ilCOPage.copyInputToGhost(false);
 				ilCOPage.removeTiny();
+				removeToolbar();
 				ilCOPage.setInsertStatus(false);
 
 				var edit_div = document.getElementById('il_EditPage');
@@ -1417,6 +1415,7 @@ if (add_final_spacer)
 				il = o.argument.il;
 			}
 			
+			removeToolbar();
 			$('#il_EditPage').replaceWith(o.responseText);
 			ilCOPage.initDragElements();
 			il.Tooltip.init();
@@ -2630,18 +2629,31 @@ function showToolbar(ed_id)
 	}
 	else
 	{
+		// move parent node to end of body to ensure layer being on top
+		if (!ilCOPage.menu_panel) {
+			var obj = document.getElementById('iltinymenu');
+			$(obj.parentNode).appendTo("body");
+		}
+		
+		$('#ilsaving').addClass("ilNoDisplay");
+
 		// make tinymenu a panel
-		var obj = document.getElementById('iltinymenu');
-		obj.style.display = "";
-		// Create a panel Instance, from the 'resizablepanel' DIV standard module markup
-		var menu_panel = new YAHOO.widget.Panel("iltinymenu", {
-			draggable: false,
-			close: false,
-			autofillheight: "body",
-			constraintoviewport:false
-		});
-		menu_panel.render();
-		ilCOPage.menu_panel = menu_panel;
+		if (!ilCOPage.menu_panel) {
+			var obj = document.getElementById('iltinymenu');
+			obj.style.display = "";
+			// Create a panel Instance, from the 'resizablepanel' DIV standard module markup
+			var menu_panel = new YAHOO.widget.Panel("iltinymenu", {
+				draggable: false,
+				close: false,
+				autofillheight: "body",
+				constraintoviewport:false
+			});
+			menu_panel.render();
+			ilCOPage.menu_panel = menu_panel;
+		} else {
+			ilCOPage.menu_panel.show();
+		}
+		
 
 		ilCOPage.menu_panel_opened = true;
 
@@ -2678,6 +2690,22 @@ function showToolbar(ed_id)
 
 	e = null;
 };
+
+function hideToolbar () {
+	if (ilCOPage.menu_panel) {
+		ilCOPage.menu_panel.hide();
+	}
+}
+
+function removeToolbar () {
+	if (ilCOPage.menu_panel) {
+		var obj = document.getElementById('iltinymenu_c');
+		$(obj.parentNode).remove();
+		ilCOPage.menu_panel.destroy();
+		ilCOPage.menu_panel = null;
+	}
+}
+
 
 //il.Util.addOnLoad(function(){ilCOPage.editTD('cell_0_0');});
 
