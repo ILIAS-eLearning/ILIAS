@@ -16,7 +16,7 @@ class ilTestSequenceFactory
 	 *
 	 * @var ilTestSequence|ilTestSequenceDynamicQuestionSet 
 	 */
-	private static $testSequence = null;
+	private $testSequence = null;
 	
 	/**
 	 * global ilDB object instance
@@ -81,14 +81,14 @@ class ilTestSequenceFactory
 	 */
 	public function getSequenceByPass($testSession, $pass)
 	{
-		if(self::$testSequence === null)
+		if($this->testSequence === null)
 		{
 			switch( $this->testOBJ->getQuestionSetType() )
 			{
 				case ilObjTest::QUESTION_SET_TYPE_FIXED:
 
 					require_once 'Modules/Test/classes/class.ilTestSequence.php';
-					self::$testSequence = new ilTestSequence(
+					$this->testSequence = new ilTestSequence(
 							$testSession->getActiveId(), $pass, $this->testOBJ->isRandomTest()
 					);
 					break;
@@ -96,7 +96,7 @@ class ilTestSequenceFactory
 				case ilObjTest::QUESTION_SET_TYPE_RANDOM:
 
 					require_once 'Modules/Test/classes/class.ilTestSequenceRandomQuestionSet.php';
-					self::$testSequence = new ilTestSequenceRandomQuestionSet(
+					$this->testSequence = new ilTestSequenceRandomQuestionSet(
 							$testSession->getActiveId(), $pass, $this->testOBJ->isRandomTest()
 					);
 					break;
@@ -108,13 +108,13 @@ class ilTestSequenceFactory
 					$questionSet = new ilTestDynamicQuestionSet(
 							$this->db, $this->lng, $this->pluginAdmin, $this->testOBJ
 					);
-					self::$testSequence = new ilTestSequenceDynamicQuestionSet(
+					$this->testSequence = new ilTestSequenceDynamicQuestionSet(
 							$this->db, $questionSet, $testSession->getActiveId()
 					);
 					break;
 			}
 		}
 
-		return self::$testSequence;
+		return $this->testSequence;
 	}
 }
