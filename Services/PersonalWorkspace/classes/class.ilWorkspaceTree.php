@@ -168,6 +168,19 @@ class ilWorkspaceTree extends ilTree
 		
 	    $this->deleteTree($root);
 	}
+	
+	/**
+	 * Get all workspace objects of specific type
+	 * 
+	 * @param string $a_type
+	 * @return array
+	 */
+	public function getObjectsFromType($a_type)
+	{
+		return $this->getSubTree(
+			$this->getNodeData($this->getRootId()), 
+			false, $a_type);		
+	}
 }
 
 ?>
