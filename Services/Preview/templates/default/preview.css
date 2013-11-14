@@ -146,7 +146,7 @@
     width: 100%;
 }
 .ilPreviewInlineTable {
-    width: 100%;
+    /* width: 100%; //provisory fix for #12096 */
     display: table;
     table-layout: fixed;
     margin: 0;
