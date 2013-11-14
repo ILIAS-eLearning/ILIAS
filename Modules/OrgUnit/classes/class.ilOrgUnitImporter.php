@@ -20,7 +20,7 @@ class ilOrgUnitImporter extends ilXmlImporter {
 	public $stats;
 
 
-	private function buildRef($id, $type){
+	protected function buildRef($id, $type){
 		if($type == "reference_id"){
 			if(!ilObjOrgUnit::_exists($id, true))
 				return false;
@@ -34,30 +34,6 @@ class ilOrgUnitImporter extends ilXmlImporter {
 			return array_shift($ref_ids);
 		}else
 			return false;
-	}
-
-	/**
-	 * @param $importer ilOrgUnitImporter
-	 */
-	public function displayImportResults($importer) {
-		if (! $importer->hasErrors() && ! $importer->hasWarnings()) {
-			$stats = $importer->getStats();
-			ilUtil::sendSuccess(sprintf($this->lng->txt("import_successful"), $stats["created"], $stats["updated"], $stats["deleted"]), true);
-		}
-		if ($importer->hasWarnings()) {
-			$msg = $this->lng->txt("import_terminated_with_warnings") . ":<br>";
-			foreach ($importer->getWarnings() as $warning) {
-				$msg .= "-" . $this->lng->txt($warning["lang_var"]) . " (import id: " . $warning["import_id"] . ")<br>";
-			}
-			ilUtil::sendInfo($msg, true);
-		}
-		if ($importer->hasErrors()) {
-			$msg = $this->lng->txt("import_terminated_with_errors") . ":<br>";
-			foreach ($importer->getErrors() as $warning) {
-				$msg .= "-" . $this->lng->txt($warning["lang_var"]) . " (import id: " . $warning["import_id"] . ")<br>";
-			}
-			ilUtil::sendFailure($msg, true);
-		}
 	}
 
 	public function hasErrors(){

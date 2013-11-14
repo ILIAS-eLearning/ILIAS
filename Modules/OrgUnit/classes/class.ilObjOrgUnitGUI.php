@@ -114,11 +114,15 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 				$this->tabs_gui->setTabActive("view_content");
 				$ilOrgUnitSimpleImportGUI = new ilOrgUnitSimpleImportGUI($this);
 				$this->ctrl->forwardCommand($ilOrgUnitSimpleImportGUI);
+				$this->tabs_gui->clearTargets();
+				$this->tabs_gui->setBackTarget($this->lng->txt("back"),$this->ctrl->getLinkTarget($this));
 				break;
 			case "ilorgunitsimpleuserimportgui":
 				$this->tabs_gui->setTabActive("view_content");
 				$ilOrgUnitSimpleUserImportGUI = new ilOrgUnitSimpleUserImportGUI($this);
 				$this->ctrl->forwardCommand($ilOrgUnitSimpleUserImportGUI);
+				$this->tabs_gui->clearTargets();
+				$this->tabs_gui->setBackTarget($this->lng->txt("back"),$this->ctrl->getLinkTarget($this));
 				break;
 			case "ilorgunitstaffgui":
 			case "ilrepositorysearchgui":
@@ -131,7 +135,8 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 					case "create":
 						$ilObjUserGUI = new ilObjUserGUI("", (int)$_GET['ref_id'], true, false);
 						$ilObjUserGUI->setCreationMode(true);
-						$ret = $this->ctrl->forwardCommand($ilObjUserGUI);
+						$this->ctrl->forwardCommand($ilObjUserGUI);
+						$this->tabs_gui->setBackTarget($this->lng->txt("back"),$this->ctrl->getLinkTargetByClass("illocalusergui", 'index'));
 						break;
 					case "view":
 					case "update":
@@ -145,11 +150,12 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 				}
 				break;
 			case "ilobjuserfoldergui":
-				$this->tabs_gui->setTabActive('administrate_users');
 				$ilObjUserFolderGUI = new ilObjUserFolderGUI("", (int)$_GET['ref_id'], true, false);
 				$ilObjUserFolderGUI->setUserOwnerId((int)$_GET['ref_id']);
 				$ilObjUserFolderGUI->setCreationMode(true);
 				$this->ctrl->forwardCommand($ilObjUserFolderGUI);
+				$this->tabs_gui->clearTargets();
+				$this->tabs_gui->setBackTarget($this->lng->txt("back"),$this->ctrl->getLinkTargetByClass("illocalusergui", 'index'));
 				break;
 			case "ilinfoscreengui":
 				$this->tabs_gui->setTabActive("info_short");
@@ -201,6 +207,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 					case '':
 					case 'view':
 					case 'render':
+					case 'cancel':
 						$this->view();
 					break;
 					case 'create':
@@ -247,6 +254,27 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 	}
 
 
+	/**
+	 * initCreationForms
+	 *
+	 * We override the method of class.ilObjectGUI because we have no copy functionality
+	 * at the moment
+	 *
+	 * @param string $a_new_type
+	 *
+	 * @return array
+	 */
+	protected function initCreationForms($a_new_type)
+	{
+		$forms = array(
+			self::CFORM_NEW => $this->initCreateForm($a_new_type),
+			self::CFORM_IMPORT => $this->initImportForm($a_new_type),
+		);
+
+		return $forms;
+	}
+
+
 	public function showPossibleSubObjects() {
 		$gui = new ilObjectAddNewItemGUI($this->object->getRefId());
 		$gui->setMode(ilObjectDefinition::MODE_ADMINISTRATION);
@@ -269,7 +297,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 	/**
 	 * called by prepare output
 	 */
-	function setTitleAndDescription() {
+	public function setTitleAndDescription() {
 		# all possible create permissions
 		//$possible_ops_ids = $rbacreview->getOperationsByTypeAndClass('orgu', 'create');
 		parent::setTitleAndDescription();
