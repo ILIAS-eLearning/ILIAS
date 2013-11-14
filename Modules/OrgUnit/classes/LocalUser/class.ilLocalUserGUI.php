@@ -49,6 +49,7 @@ class ilLocalUserGUI {
 	/**
 	 * @param $parent_gui
 	 */
+	//TODO MST 14.11.2013 - we should split this class into ilLocalUserTableGUI and ilLocalUserRoleGUI
 	function __construct($parent_gui) {
 		global $tpl, $ilCtrl, $ilTabs, $ilToolbar, $lng, $rbacsystem, $ilAccess;
 		$this->tpl = $tpl;
@@ -72,6 +73,9 @@ class ilLocalUserGUI {
 	public function executeCommand() {
 		$cmd = $this->ctrl->getCmd();
 		switch ($cmd) {
+			case "assignRoles":
+				$this->tabs_gui->clearTargets();
+				$this->tabs_gui->setBackTarget($this->lng->txt("back"),$this->ctrl->getLinkTargetByClass("illocalusergui", 'index'));
 			default:
 				$this->$cmd();
 				break;
