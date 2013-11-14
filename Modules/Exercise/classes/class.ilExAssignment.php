@@ -1276,7 +1276,7 @@ class ilExAssignment
 		chdir($tmpdir."/".$deliverFilename);
 		
 		//copy all files to a temporary directory and remove them afterwards
-		$parsed_files = array();
+		$parsed_files = $duplicates = array();
 		foreach ($array_filenames as $user_id => $files)
 		{
 			$pathname = $fs->getAbsoluteSubmissionPath()."/".$user_id;
@@ -1286,11 +1286,22 @@ class ilExAssignment
 				// remove timestamp
 				$newFilename = trim($filename);
 				$pos = strpos($newFilename , "_");
-				if ($pos === false)
-				{
-				} else
+				if ($pos !== false)
 				{
 					$newFilename= substr($newFilename, $pos + 1);
+				}
+				// #11070
+				$chkName = strtolower($newFilename);
+				if(array_key_exists($chkName, $duplicates))
+				{
+					$suffix = strrpos($newFilename, ".");						
+					$newFilename = substr($newFilename, 0, $suffix).
+						" (".(++$duplicates[$chkName]).")".
+						substr($newFilename, $suffix);
+				}
+				else
+				{
+					$duplicates[$chkName] = 1;
 				}
 				$newFilename = $tmpdir.DIRECTORY_SEPARATOR.$deliverFilename.DIRECTORY_SEPARATOR.$newFilename;
 				// copy to temporal directory
