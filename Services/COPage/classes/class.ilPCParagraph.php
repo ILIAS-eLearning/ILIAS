@@ -634,10 +634,14 @@ echo htmlentities($a_text);*/
 	 */
 	static function intLinks2xml($a_text)
 	{
+		global $objDefinition;
+
+		$rtypes = $objDefinition->getAllRepositoryTypes();
+
 		// internal links
 		//$any = "[^\]]*";	// this doesn't work :-(
 		$ws= "[ \t\r\f\v\n]*";
-		$ltypes = "page|chap|term|media|htlm|lm|dbk|glo|frm|exc|tst|svy|webr|chat|cat|crs|grp|file|fold|mep|wiki|sahs|mcst|obj|dfile|sess"; 
+		$ltypes = "page|chap|term|media|obj|dfile|sess|".implode($rtypes, "|");
 		// empty internal links
 		while (eregi("\[(iln$ws((inst$ws=$ws([\"0-9])*)?$ws".
 			"((".$ltypes.")$ws=$ws([\"0-9])*)$ws".
@@ -721,52 +725,38 @@ echo htmlentities($a_text);*/
 			}
 			// repository items (id is ref_id (will be used internally but will
 			// be replaced by object id for export purposes)
-			else if (isset($attribs["lm"]) || isset($attribs["dbk"]) || isset($attribs["glo"])
-					 || isset($attribs["frm"]) || isset($attribs["exc"]) || isset($attribs["tst"])
-					 || isset($attribs["svy"]) || isset($attribs["obj"]) || isset($attribs['webr'])
-					 || isset($attribs["htlm"]) || isset($attribs["chat"]) || isset($attribs["grp"])
-					 || isset($attribs["fold"]) || isset($attribs["sahs"]) || isset($attribs["mcst"])
-					 || isset($attribs["mep"]) || isset($attribs["wiki"]) || isset($attribs["sess"])
-					 || isset($attribs["cat"]) || isset($attribs["crs"]) || isset($attribs["file"]))
+			else
 			{
-				$obj_id = (isset($attribs["lm"])) ? $attribs["lm"] : $obj_id;
-				$obj_id = (isset($attribs["dbk"])) ? $attribs["dbk"] : $obj_id;
-				$obj_id = (isset($attribs["chat"])) ? $attribs["chat"] : $obj_id;
-				$obj_id = (isset($attribs["glo"])) ? $attribs["glo"] : $obj_id;
-				$obj_id = (isset($attribs["frm"])) ? $attribs["frm"] : $obj_id;
-				$obj_id = (isset($attribs["exc"])) ? $attribs["exc"] : $obj_id;
-				$obj_id = (isset($attribs["htlm"])) ? $attribs["htlm"] : $obj_id;
-				$obj_id = (isset($attribs["tst"])) ? $attribs["tst"] : $obj_id;
-				$obj_id = (isset($attribs["svy"])) ? $attribs["svy"] : $obj_id;
-				$obj_id = (isset($attribs["obj"])) ? $attribs["obj"] : $obj_id;
-				$obj_id = (isset($attribs["webr"])) ? $attribs["webr"] : $obj_id;
-				$obj_id = (isset($attribs["fold"])) ? $attribs["fold"] : $obj_id;
-				$obj_id = (isset($attribs["cat"])) ? $attribs["cat"] : $obj_id;
-				$obj_id = (isset($attribs["crs"])) ? $attribs["crs"] : $obj_id;
-				$obj_id = (isset($attribs["grp"])) ? $attribs["grp"] : $obj_id;
-				$obj_id = (isset($attribs["file"])) ? $attribs["file"] : $obj_id;
-				$obj_id = (isset($attribs["sahs"])) ? $attribs["sahs"] : $obj_id;
-				$obj_id = (isset($attribs["mcst"])) ? $attribs["mcst"] : $obj_id;
-				$obj_id = (isset($attribs["mep"])) ? $attribs["mep"] : $obj_id;
-				$obj_id = (isset($attribs["sess"])) ? $attribs["sess"] : $obj_id;
-				$obj_id = (isset($attribs["wiki"])) ? $attribs["wiki"] : $obj_id;
-				//$obj_id = (isset($attribs["obj"])) ? $attribs["obj"] : $obj_id;
-
-				if ($inst_str == "")
+				foreach ($objDefinition->getAllRepositoryTypes() as $t)
 				{
-					$a_text = eregi_replace("\[".$found[1]."\]",
-						"<IntLink Target=\"il_".$inst_str."_obj_".$obj_id."\" Type=\"RepositoryItem\">", $a_text);
+					if (isset($attribs[$t]))
+					{
+						$obj_id = $attribs[$t];
+					}
+				}
+				if (isset($attribs["obj"]))
+				{
+					$obj_id = $attribs["obj"];
+				}
+
+				if ($obj_id > 0)
+				{
+					if ($inst_str == "")
+					{
+						$a_text = eregi_replace("\[".$found[1]."\]",
+							"<IntLink Target=\"il_".$inst_str."_obj_".$obj_id."\" Type=\"RepositoryItem\">", $a_text);
+					}
+					else
+					{
+						$a_text = eregi_replace("\[".$found[1]."\]",
+							"<IntLink Target=\"il_".$inst_str."_".$found[6]."_".$obj_id."\" Type=\"RepositoryItem\">", $a_text);
+					}
 				}
 				else
 				{
-					$a_text = eregi_replace("\[".$found[1]."\]",
-						"<IntLink Target=\"il_".$inst_str."_".$found[6]."_".$obj_id."\" Type=\"RepositoryItem\">", $a_text);
+					$a_text = eregi_replace("\[".$found[1]."\]", "[error: iln".$found[1]."]",$a_text);
 				}
 			}			
-			else
-			{
-				$a_text = eregi_replace("\[".$found[1]."\]", "[error: iln".$found[1]."]",$a_text);
-			}
 		}
 		while (eregi("\[(iln$ws((inst$ws=$ws([\"0-9])*)?".$ws."media$ws=$ws([\"0-9])*)$ws)/\]", $a_text, $found))
 		{
