@@ -1005,30 +1005,18 @@ class ilInternalLinkGUI
 		// filter
 		$exp->setFiltered(true);
 		$exp->setFilterMode(IL_FM_POSITIVE);
-		$exp->addFilter("root");
-		$exp->addFilter("cat");
-		$exp->addFilter("grp");
-		$exp->addFilter("fold");
-		$exp->addFilter("crs");
-		$exp->addFilter("lm");
-		$exp->addFilter("htlm");
-		$exp->addFilter("dbk");
-		$exp->addFilter("glo");
-		$exp->addFilter("frm");
-		$exp->addFilter("exc");
-		$exp->addFilter("tst");
-		$exp->addFilter("svy");
-		$exp->addFilter("webr");
-		$exp->addFilter("file");
-		$exp->addFilter("chat");
-		$exp->addFilter("sahs");
-		$exp->addFilter("mcst");
-		$exp->addFilter("wiki");
-		$exp->addFilter("mep");
-		$exp->addFilter("sess");
+		
+		global $objDefinition;
 
-		$sel_types = array('lm','dbk','htlm','glo','frm','exc','tst','svy','webr','chat',
-			'cat','crs','grp','file','fold','sahs','mcst','wiki','mep','sess');
+		$rtypes = $objDefinition->getAllRepositoryTypes();
+
+		$exp->addFilter("root");
+		foreach ($rtypes as $t)
+		{
+			$exp->addFilter($t);
+		}
+
+		$sel_types = $rtypes;
 		$exp->setSelectableTypes($sel_types);
 
 

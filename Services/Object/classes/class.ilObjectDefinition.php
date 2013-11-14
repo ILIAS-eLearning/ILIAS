@@ -929,6 +929,29 @@ class ilObjectDefinition extends ilSaxParser
 	}
 
 	/**
+	* get all RBAC object types
+	*
+	* @access	public
+	* @return	array	object types set to development
+	*/
+	function getAllRepositoryTypes($a_incl_adm = false)
+	{
+		$types = array_keys($this->obj_data);
+		
+		foreach ($types as $type)
+		{
+			if ($this->isAllowedInRepository($type) &&
+				(!$this->isAdministrationObject($type) || $a_incl_adm))
+			{
+				$rbactypes[] = $type;
+			}
+		}
+
+		return $rbactypes ? $rbactypes : array();
+	}
+
+	
+	/**
 	* checks if object type can be used in workspace context
 	*
 	* @param	string	object type
