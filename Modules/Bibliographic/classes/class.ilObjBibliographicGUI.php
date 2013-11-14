@@ -191,50 +191,26 @@ class ilObjBibliographicGUI extends ilObject2GUI
      *
      * @param string $a_target
      */
-    public function _goto($a_target)
+    public static function _goto($a_target)
     {
-        global $ilAccess, $ilErr;
+        global $ilAccess, $ilErr, $ilCtrl;
 
         $id = explode("_", $a_target);
 
+	    $ilCtrl->setTargetScript("ilias.php");
+	    $ilCtrl->initBaseClass("ilRepositoryGUI");
+	    $ilCtrl->setParameterByClass("ilobjbibliographicgui", "ref_id",  $id[0]);
 
-        $_GET["baseClass"] = "ilRepositoryGUI";
-        $_GET["ref_id"] = $id[0];
-
-        if($id[1])
-        {
-            $_GET["entryId"] = $id[1];
-            $_GET["cmd"] = "showDetails";
-        }
-        else
-        {
-            $_GET["cmd"] = "view";
-        }
-
-
-        if ($ilAccess->checkAccess("read", "", $_GET["ref_id"]))
-        {
-            ilObjectGUI::_gotoRepositoryNode($_GET["ref_id"]);
-        }
-        else
-        {
-            if ($ilAccess->checkAccess("visible", "", $_GET["ref_id"]))
-            {
-                ilObjectGUI::_gotoRepositoryNode($_GET["ref_id"], "infoScreen");
-            }
-            else
-            {
-                if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID))
-                {
-                    ilUtil::sendFailure(sprintf($this->lng->txt("msg_no_perm_read_item"),
-                        ilObject::_lookupTitle(ilObject::_lookupObjId($_GET["ref_id"]))), true);
-                    ilObjectGUI::_gotoRepositoryRoot();
-                }
-            }
-        }
-        $ilErr->raiseError($this->lng->txt("msg_no_perm_read"), $ilErr->FATAL);
-
-        include("ilias.php");
+	    //Detail-View
+	    if($id[1])
+	    {
+		    $ilCtrl->setParameterByClass("ilobjbibliographicgui", "entryId",  $id[1]);
+		    $ilCtrl->redirectByClass(array( "ilRepositoryGUI", "ilobjbibliographicgui" ), "showDetails");
+	    }
+	    else
+	    {
+		    $ilCtrl->redirectByClass(array( "ilRepositoryGUI", "ilobjbibliographicgui" ), "view");
+	    }
     }
 
 
