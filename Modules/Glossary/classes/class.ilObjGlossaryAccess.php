@@ -82,6 +82,7 @@ class ilObjGlossaryAccess extends ilObjectAccess
 			array("permission" => "read", "cmd" => "view", "lang_var" => "show",
 				"default" => true),
 			array("permission" => "write", "cmd" => "edit", "lang_var" => "edit_content"),
+			array("permission" => "edit_content", "cmd" => "edit", "lang_var" => "edit_content"), // #11099
 			array("permission" => "write", "cmd" => "properties", "lang_var" => "settings")
 		);
 		

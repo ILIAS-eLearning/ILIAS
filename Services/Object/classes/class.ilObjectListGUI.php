@@ -102,10 +102,9 @@ class ilObjectListGUI
 	protected $rating_text = false;
 	protected $rating_ctrl_path = false;
 	
-	protected $timings_enabled = true;
-	
-	protected $force_visible_only = false;
-
+	protected $timings_enabled = true;	
+	protected $force_visible_only = false;	
+	protected $prevent_duplicate_commands = array();
 
 	static protected $cnt_notes = array();
 	static protected $cnt_tags = array();
@@ -2170,13 +2169,24 @@ class ilObjectListGUI
 	*/
 	function insertCommand($a_href, $a_text, $a_frame = "", $a_img = "", $a_cmd = "", $a_onclick = "")
 	{
-		$prevent_background_click = false;
-		if ($a_cmd =='mount_webfolder')
+		// #11099
+		$chksum = md5($a_href.$a_text);	
+		if($a_href == "#" || 
+			!in_array($chksum, $this->prevent_duplicate_commands))
 		{
-			$prevent_background_click = true;
-		}
-		$this->current_selection_list->addItem($a_text, "", $a_href, $a_img, $a_text, $a_frame,
-			"", $prevent_background_click, $a_onclick);
+			if($a_href != "#")
+			{
+				$this->prevent_duplicate_commands[] = $chksum;
+			}
+			
+			$prevent_background_click = false;
+			if ($a_cmd =='mount_webfolder')
+			{
+				$prevent_background_click = true;
+			}
+			$this->current_selection_list->addItem($a_text, "", $a_href, $a_img, $a_text, $a_frame,
+				"", $prevent_background_click, $a_onclick);
+		}				
 	}
 
 	/**
@@ -2621,6 +2631,7 @@ class ilObjectListGUI
 		}
 
 		$this->default_command = false;
+		$this->prevent_duplicate_commands = array();
 		
 		// we only allow the following commands inside the header actions
 		$valid_header_commands = array("mount_webfolder");
