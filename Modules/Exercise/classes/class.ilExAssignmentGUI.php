@@ -298,23 +298,20 @@ class ilExAssignmentGUI
 							$files_str);						
 						break;
 						
-					case ilExAssignment::TYPE_BLOG:
+					case ilExAssignment::TYPE_BLOG:													
+						include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";										
+						$wsp_tree = new ilWorkspaceTree($ilUser->getId());
+						
 						$files_str = "";
 						$valid_blog = false;
 						if(sizeof($delivered_files))
 						{													
 							$delivered_files = array_pop($delivered_files);
-							$blog_id = (int)$delivered_files["filetitle"];																
-														
-							include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
-							include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";						
-							$wsp_tree = new ilWorkspaceTree($ilUser->getId());
-							$node = $wsp_tree->getNodeData($blog_id);
-							
+							$blog_id = (int)$delivered_files["filetitle"];																							
+							$node = $wsp_tree->getNodeData($blog_id);							
 							if($node["title"])
 							{
-								// #10116
-								// $blog_link = ilWorkspaceAccessHandler::getGotoLink($blog_id, $node["obj_id"]);							
+								// #10116													
 								$ilCtrl->setParameterByClass("ilobjbloggui", "wsp_id", $blog_id);
 								$blog_link = $ilCtrl->getLinkTargetByClass(array("ilpersonaldesktopgui", "ilpersonalworkspacegui", "ilobjbloggui"), "");
 								$ilCtrl->setParameterByClass("ilobjbloggui", "wsp_id", "");
@@ -330,10 +327,16 @@ class ilExAssignmentGUI
 								$files_str .= '<a class="submit" href="'.
 									$ilCtrl->getLinkTargetByClass("ilobjexercisegui", "createBlog").'">'.
 									$lng->txt("exc_create_blog").'</a>';
-							}					
-							$files_str .=' <a class="submit" href="'.
-									$ilCtrl->getLinkTargetByClass("ilobjexercisegui", "selectBlog").'">'.
-									$lng->txt("exc_select_blog".($valid_blog ? "_change" : "")).'</a>';
+							}		
+							// #10462
+							$blogs = sizeof($wsp_tree->getObjectsFromType("blog"));						
+							if((!$valid_blog && $blogs) 
+								|| ($valid_blog && $blogs > 1))
+							{	
+								$files_str .=' <a class="submit" href="'.
+										$ilCtrl->getLinkTargetByClass("ilobjexercisegui", "selectBlog").'">'.
+										$lng->txt("exc_select_blog".($valid_blog ? "_change" : "")).'</a>';
+							}
 						}
 						if($files_str)
 						{
@@ -351,6 +354,8 @@ class ilExAssignmentGUI
 						break;
 						
 					case ilExAssignment::TYPE_PORTFOLIO:
+						include_once "Services/Portfolio/classes/class.ilObjPortfolio.php";
+						
 						$files_str = "";
 						$valid_prtf = false;
 						if(sizeof($delivered_files))
@@ -360,15 +365,11 @@ class ilExAssignmentGUI
 							
 							// #11746
 							if(ilObject::_exists($portfolio_id, false))
-							{
-								include_once "Services/Portfolio/classes/class.ilObjPortfolio.php";
-								include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";	
+							{								
 								$portfolio = new ilObjPortfolio($portfolio_id, false);											
-
 								if($portfolio->getTitle())
 								{								
-									// #10116
-									// $prtf_link = ilWorkspaceAccessHandler::getGotoLink($portfolio_id, $portfolio_id)						
+									// #10116				
 									$ilCtrl->setParameterByClass("ilobjportfoliogui", "prt_id", $portfolio_id);
 									$prtf_link = $ilCtrl->getLinkTargetByClass(array("ilpersonaldesktopgui", "ilobjportfoliogui"), "pages");
 									$ilCtrl->setParameterByClass("ilobjportfoliogui", "prt_id", "");
@@ -387,9 +388,15 @@ class ilExAssignmentGUI
 									$ilCtrl->getLinkTargetByClass("ilobjexercisegui", "createPortfolio").'">'.
 									$lng->txt("exc_create_portfolio").'</a>';
 							}
-							$files_str .= ' <a class="submit" href="'.
-									$ilCtrl->getLinkTargetByClass("ilobjexercisegui", "selectPortfolio").'">'.
-									$lng->txt("exc_select_portfolio".($valid_prtf ? "_change" : "")).'</a>';
+							// #10462
+							$prtfs = sizeof(ilObjPortfolio::getPortfoliosOfUser($ilUser->getId()));		
+							if((!$valid_prtf && $prtfs) 
+								|| ($valid_prtf && $prtfs > 1))
+							{	
+								$files_str .= ' <a class="submit" href="'.
+										$ilCtrl->getLinkTargetByClass("ilobjexercisegui", "selectPortfolio").'">'.
+										$lng->txt("exc_select_portfolio".($valid_prtf ? "_change" : "")).'</a>';
+							}
 						}
 						if($files_str)
 						{
