@@ -1888,7 +1888,6 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 //			$a_target_dir.'/js/'.ilPlayerUtil::getFlashVideoPlayerFilename());
 		ilPlayerUtil::copyPlayerFilesToTargetDirectory($this->flv_dir);
 		
-		copy('./Services/MediaObjects/flash_mp3_player/mp3player.swf', $a_target_dir.'/players/mp3player.swf');
 		copy('./Modules/Scorm2004/scripts/scorm_2004.js',$a_target_dir.'/js/scorm.js');
 		copy('./Modules/Scorm2004/scripts/pager.js',$a_target_dir.'/js/pager.js');
 		copy('./Modules/Scorm2004/scripts/questions/pure.js',$a_target_dir.'/js/pure.js');

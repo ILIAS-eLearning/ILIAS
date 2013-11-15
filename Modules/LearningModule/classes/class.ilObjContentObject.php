@@ -2129,8 +2129,6 @@ class ilObjContentObject extends ilObject
 //		copy(ilPlayerUtil::getFlashVideoPlayerFilename(true),
 //			$flv_dir."/".ilPlayerUtil::getFlashVideoPlayerFilename());
 		ilPlayerUtil::copyPlayerFilesToTargetDirectory($flv_dir);
-		copy("./Services/MediaObjects/flash_mp3_player/mp3player.swf",
-			$mp3_dir."/mp3player.swf");
 
 		// js files
 		ilUtil::makeDir($a_target_dir.'/js');
