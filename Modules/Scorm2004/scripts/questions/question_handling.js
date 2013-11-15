@@ -19,11 +19,21 @@ ilias.questions.txt = {
 	correct_answer_also: "Also correct is:",
 	ov_all_correct: "You have correctly answered all questions.",
 	ov_some_correct: "You have correctly answered [x] out of [y] questions.",
-	ov_wrong_answered: "The following questions were not answered or answered wrong"
+	ov_wrong_answered: "The following questions were not answered or answered wrong",
+	please_select: "Please Select"
 };
 
 ilias.questions.init = function() {
 	ilias.questions.shuffle();
+};
+
+ilias.questions.refresh_lang = function() {
+
+	jQuery(".ilc_qinput_ClozeGapSelect").each(function(){							
+		$(this).prepend("<option id='-1' value='-1' selected='selected'>-- "+
+			ilias.questions.txt.please_select+" --</option>");		
+	});		
+	
 };
 
 ilias.questions.shuffleAll = function() {
@@ -405,15 +415,17 @@ ilias.questions.assClozeTest = function(a_id) {
 		// select
 		if (type==1) {
 			var a_node = jQuery('select#'+a_id+"_"+i).get(0);
-			var selected = a_node.options[a_node.selectedIndex].id;
-			if (questions[a_id].gaps[i].item[selected].points <= 0) {
+			var selected = a_node.options[a_node.selectedIndex].id;			
+			if (parseInt(selected) < 0 || questions[a_id].gaps[i].item[selected].points <= 0) {
 				answers[a_id].passed = false;
 				answers[a_id].wrong++;
 				answers[a_id].answer[i]=false;
 			} else {
 				answers[a_id].answer[i]=true;
 			}
-			answers[a_id].choice.push(questions[a_id].gaps[i].item[selected].order);
+			if (parseInt(selected) >= 0) {
+				answers[a_id].choice.push(questions[a_id].gaps[i].item[selected].order);
+			}
 		}
 		else
 		{
@@ -472,7 +484,7 @@ ilias.questions.initClozeTest = function(a_id) {
 		 	input = jQuery.create('input', {'id': a_id+"_"+closecounter, 'type':'text', 'size':size, 'class': 'ilc_qinput_TextInput'});
 		}
 		if (type==1) {
-			input = jQuery.create('select', {'id': a_id+"_"+closecounter});
+			input = jQuery.create('select', {'id': a_id+"_"+closecounter, 'class': 'ilc_qinput_ClozeGapSelect'});			
 			for (var i=0;i<questions[a_id].gaps[closecounter].item.length;i++) {
 				var option = jQuery.create('option', {'id': i, 'value':i},questions[a_id].gaps[closecounter].item[i].value);
 				input.append(option);
