@@ -3588,6 +3588,8 @@ class ilPageObjectGUI
 			ilias.questions.txt.ov_all_correct = "'.$lng->txtlng("content", "cont_ov_all_correct", $a_lang).'";
 			ilias.questions.txt.ov_some_correct = "'.$lng->txtlng("content", "cont_ov_some_correct", $a_lang).'";
 			ilias.questions.txt.ov_wrong_answered = "'.$lng->txtlng("content", "cont_ov_wrong_answered", $a_lang).'";
+			ilias.questions.txt.please_select = "'.$lng->txtlng("content", "cont_please_select", $a_lang).'";
+			ilias.questions.refresh_lang();
 			';
 
 	}

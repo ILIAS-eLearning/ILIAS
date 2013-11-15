@@ -1584,7 +1584,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 		{
 			$items = array();
 			foreach ($gap->getItems() as $item)
-			{
+			{				
 				$jitem = array();
 				$jitem['points'] = $item->getPoints();
 				$jitem['value'] = $item->getAnswertext();
@@ -1593,6 +1593,10 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 				{
 					$jitem['lowerbound'] = $item->getLowerBound();
 					$jitem['upperbound'] = $item->getUpperBound();
+				}
+				else
+				{
+					$jitem['value'] = trim($jitem['value']);
 				}
 				array_push($items, $jitem);
 			}
