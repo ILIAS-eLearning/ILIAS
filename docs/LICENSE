@@ -1,13 +1,27 @@
 
 ILIAS is licensed under GPL version 2 or (at your option) any later version.
-ILIAS uses the following libraries that ar licensed under different licenses:
+
+In addition, as a special exception, we give permission to link the code of this
+program with those files in the PEAR library that are licensed under the
+PHP License (or with modified versions of those files that use the same license
+as those files), and distribute linked combinations including them.
+You must obey the GNU General Public License in all respects for all of the code
+used other than those files in the PEAR library that are licensed under the
+PHP License. If you modify this file, you may extend this exception to your
+version of the file, but you are not obligated to do so. If you do not wish to
+do so, delete this exception statement from your version.
+
+PHP PEAR library files, licensed under PHP license:
 
 - PEAR Auth (Services/PEAR) is licensed under PHP license.
+- PEAR NET_Socket (Services/PEAR) is licensed under PHP license
+
+Other included libraries:
+
 - PEAR MDB2 (Services/PEAR) is licensed under BSD license
 - PEAR HTML_Template_IT (Services/PEAR) is licensed under modified BSD license
 - PEAR Log (Services/PEAR) is licensed under MIT license
 - PEAR HTTP_Request/2 (Services/PEAR) is licensed under BSD license
-- PEAR NET_Socket (Services/PEAR) is licensed under PHP license
 - PEAR NET_Url/2 (Services/PEAR) is licensed under BSD license
 - PEAR XML_RPC2 (Services/PEAR) is licensed under LGPL license
 - YUI (Services/YUI) is licensed under BSD license
@@ -18,9 +32,6 @@ ILIAS uses the following libraries that ar licensed under different licenses:
 - jQuery UI (Services/jQuery/js) is licensed under MIT or GPL Version 2
 - jquery.ui.touch-punch.min.js (Services/jQuery/js) is licensed under MIT or GPL Version 2
 - jQuery outside events (Services/jQuery/js) licensed under the MIT and GPL
-- MP3 Player (Services/MediaObjects/flash_mp3_player) is CC licensed as
-  "Attribution-Noncommercial-Share Alike 3.0 Unported" or commercially:
-  https://www.longtailvideo.com/players/order/
 - TinyMCE (Services/RTE/tiny_mce) is licensed under LGPL
 - NuSOAP (Services/SOAPAuth/include) is licensed under LGPL
 - Info(Un)Zip (Services/Windows/bin32/(un)zip) is licensed under InfoZip license
@@ -32,7 +43,7 @@ ILIAS uses the following libraries that ar licensed under different licenses:
 - ilBrowser (classes) uses merged code of the php-mobile-detect project which is licensed under MIT license
 - Securimage (Services/Captcha/lib/securimage_3_5_1/) is licensed under the BSD License. 
 
-Other libraries used in ILIAS, that use GPL license:
+More libraries used in ILIAS, that use GPL license:
 
 - PHPExcel (Services/Excel)
 - Parts of MediaWiki (Services/COPage/mediawikidiff, Services/Utilities/classes,

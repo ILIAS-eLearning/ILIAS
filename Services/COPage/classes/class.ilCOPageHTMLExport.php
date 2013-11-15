@@ -131,11 +131,6 @@ class ilCOPageHTMLExport
 	 */
 	function exportSupportScripts()
 	{
-		// export flv/mp3 player
-		//copy(ilPlayerUtil::getFlashVideoPlayerFilename(true),
-		//	$this->js_dir."/".ilPlayerUtil::getFlashVideoPlayerFilename());
-		//copy("./Services/MediaObjects/flash_mp3_player/mp3player.swf",
-		//	$this->mp3_dir."/mp3player.swf");
 		
 		// basic js
 		copy('./Services/JavaScript/js/Basic.js', $this->js_dir.'/Basic.js');
