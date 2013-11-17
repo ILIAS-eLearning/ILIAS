@@ -2633,6 +2633,8 @@ function showToolbar(ed_id)
 		if (!ilCOPage.menu_panel) {
 			var obj = document.getElementById('iltinymenu');
 			$(obj.parentNode).appendTo("body");
+			var obj = document.getElementById('ilEditorPanel');
+			$(obj.parentNode).appendTo("body");
 		}
 		
 		$('#ilsaving').addClass("ilNoDisplay");
@@ -2703,6 +2705,9 @@ function removeToolbar () {
 		$(obj.parentNode).remove();
 		ilCOPage.menu_panel.destroy();
 		ilCOPage.menu_panel = null;
+		
+		var obj = document.getElementById('ilEditorPanel_c');
+		$(obj.parentNode).remove();
 	}
 }
 
