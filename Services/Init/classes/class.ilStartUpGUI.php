@@ -1739,7 +1739,7 @@ class ilStartUpGUI
 																											
 			// check if access will be possible with all (possible) member roles added
 			$rbacsystem->resetPACache($ilUser->getId(), $ref_id);
-			if($rbacsystem->checkAccess("read", $ref_id))
+			if($rbacsystem->checkAccess("read", $ref_id) && sizeof($block_obj)) // #12128
 			{																		
 				// this won't work with lm-pages (see above)
 				// include_once "Services/Link/classes/class.ilLink.php";
