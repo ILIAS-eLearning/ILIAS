@@ -226,7 +226,14 @@ class ilPCPlugged extends ilPageContent
 				$plugin_html.
 				substr($a_html, $end + 5);
 
-			$start = strpos($a_html, "{{{{{Plugged<pl", $start + 5);
+			if (strlen($a_html) > $start + 5)
+			{
+				$start = strpos($a_html, "{{{{{Plugged<pl", $start + 5);
+			}
+			else
+			{
+				$start = false;
+			}
 			$end = 0;
 			if (is_int($start))
 			{
