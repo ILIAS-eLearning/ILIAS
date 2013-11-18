@@ -1626,7 +1626,7 @@ class ilStartUpGUI
 			$objDefinition->isRBACObject($type) &&
 			$t_arr[1]) 
 		{			
-			global $tree, $rbacsystem;
+			global $tree, $rbacsystem, $ilAccess;
 			
 			// original type "pg" => pg_<page_id>[_<ref_id>]
 			if($t_arr[0] == "pg")
@@ -1660,21 +1660,28 @@ class ilStartUpGUI
 			{
 				$redirect_infopage = false;
 				$add_member_role = false;
-				
+												
 				$ptype = ilObject::_lookupType($path_ref_id, true);
-				if($ptype == "crs")
-				{					
-					$crs_obj_id = ilObject::_lookupObjId($path_ref_id);		
+				$pobj_id = ilObject::_lookupObjId($path_ref_id);		
 					
+				// core checks: timings/object-specific
+				if(!$ilAccess->doActivationCheck("read", "", $path_ref_id, $ilUser->getId(), $pobj_id, $ptype) ||
+					!$ilAccess->doStatusCheck("read", "", $path_ref_id, $ilUser->getId(), $pobj_id, $ptype))
+				{
+					// object in path is inaccessible - aborting
+					return false;
+				}
+				else if($ptype == "crs")
+				{												
 					// check if already participant
 					include_once "Modules/Course/classes/class.ilCourseParticipant.php";
-					$participants = new ilCourseParticipant($crs_obj_id, $ilUser->getId());
+					$participants = new ilCourseParticipant($pobj_id, $ilUser->getId());
 					if(!$participants->isAssigned())
 					{					
 						// subscription currently possible?
 						include_once "Modules/Course/classes/class.ilObjCourse.php";				
-						if(ilObjCourse::_isActivated($crs_obj_id) &&
-							ilObjCourse::_registrationEnabled($crs_obj_id))
+						if(ilObjCourse::_isActivated($pobj_id) &&
+							ilObjCourse::_registrationEnabled($pobj_id))
 						{
 							$block_obj[] = $path_ref_id;
 							$add_member_role = true;
@@ -1736,7 +1743,7 @@ class ilStartUpGUI
 					}
 				}
 			}	
-																											
+			
 			// check if access will be possible with all (possible) member roles added
 			$rbacsystem->resetPACache($ilUser->getId(), $ref_id);
 			if($rbacsystem->checkAccess("read", $ref_id) && sizeof($block_obj)) // #12128
