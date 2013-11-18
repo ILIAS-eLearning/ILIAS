@@ -109,6 +109,7 @@ class ilObjCourseAccess extends ilObjectAccess
 				if(!$active)
 				{
 					$ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
+					return false;
 				}
 				if($participants->isBlocked($a_user_id) and $participants->isAssigned($a_user_id))
 				{
