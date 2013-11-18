@@ -1460,7 +1460,7 @@ class ilPersonalProfileGUI
 	 */
 	function importPersonalData()
 	{
-		global $ilUser, $ilCtrl;
+		global $ilUser, $ilCtrl, $tpl, $ilTabs;
 		
 		$this->initPersonalDataImportForm();
 		if ($this->form->checkInput())
@@ -1477,8 +1477,11 @@ class ilPersonalProfileGUI
 		}
 		else
 		{
+			$ilTabs->activateTab("export");
+			$this->setHeader();
 			$this->form->setValuesByPost();
 			$tpl->setContent($this->form->getHtml());
+			$tpl->show();
 		}
 	}
 	
