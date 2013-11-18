@@ -158,6 +158,8 @@ class ilBookmarkDataSet extends ilDataSet
 				$usr_id = $a_mapping->getMapping("Services/User", "usr", $a_rec["UserId"]);
 				if ($usr_id > 0 && ilObject::_lookupType($usr_id) == "usr")
 				{
+//echo "<br><br>";
+//var_dump($a_rec);
 					switch ($a_rec["Type"])
 					{
 						case "bmf":
@@ -182,7 +184,23 @@ class ilBookmarkDataSet extends ilDataSet
 							break;
 	
 						case "bm":
-							$parent = (int) $a_mapping->getMapping("Services/Bookmarks", "bookmark_tree", $a_rec["Parent"]);
+							$parent = 0;
+							if (((int) $a_rec["Parent"]) > 0)
+							{
+								$parent = (int) $a_mapping->getMapping("Services/Bookmarks", "bookmark_tree", $a_rec["Parent"]);
+							}
+							else
+							{
+								return;
+							}
+							
+							if ($parent == 0)
+							{
+								$tree = new ilTree($usr_id);
+								$tree->setTableNames('bookmark_tree','bookmark_data');
+								$parent = $tree->readRootId();								
+							}
+//echo "-$parent-";
 							include_once("./Services/Bookmarks/classes/class.ilBookmark.php");
 							$bm = new ilBookmark(0, $usr_id);
 							$bm->setTitle($a_rec["Title"]);
