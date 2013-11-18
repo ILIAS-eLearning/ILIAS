@@ -519,6 +519,7 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
 		$numrows = $result->numRows();
 		
 		// count the answers for every answer value
+		$textanswers = array();
 		while ($row = $ilDB->fetchAssoc($result))
 		{
 			$cumulated[$row["value"]]++;
@@ -526,13 +527,13 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
 			// add text value to result array
 			if ($row["textanswer"])
 			{
-				$result_array["textanswers"][$row["value"]][] = $row["textanswer"];
+				$textanswers[$row["value"]][] = $row["textanswer"];
 			}
 		}
 		// sort textanswers by value
-		if (is_array($result_array["textanswers"]))
+		if (is_array($textanswers))
 		{
-			ksort($result_array["textanswers"], SORT_NUMERIC);
+			ksort($textanswers, SORT_NUMERIC);
 		}
 		asort($cumulated, SORT_NUMERIC);
 		end($cumulated);
@@ -578,6 +579,11 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
 				{
 					$percentage = ($maxvalues > 0) ? (float)((int)$cumulated[$cat->scale-1]/$maxvalues) : 0;
 				}
+			}
+			if(isset($textanswers[$cat->scale-1]))
+			{
+				// #12138
+				$result_array["textanswers"][$key] = $textanswers[$cat->scale-1];
 			}
 			$result_array["variables"][$key] = array("title" => $cat->title, "selected" => (int)$cumulated[$cat->scale-1], "percentage" => $percentage);
 		}
