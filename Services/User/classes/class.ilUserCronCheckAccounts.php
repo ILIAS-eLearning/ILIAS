@@ -88,7 +88,7 @@ class ilUserCronCheckAccounts extends ilCronJob
 			
 			$mail->From('noreply');
 			$mail->To($data['email']);
-			$mail->Subject($this->txt($data['language'],'account_expires_subject'));
+			$mail->Subject($this->txt($data['language'],'account_expires_subject'), true);
 			$mail->Body($this->txt($data['language'],'account_expires_body')." ".strftime('%Y-%m-%d %R',$data['expires']));
 			$mail->send();
 
