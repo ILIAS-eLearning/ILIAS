@@ -264,7 +264,7 @@ class ilObject
 		if ($translation_type == "sys")
 		{
 			$this->title = $this->lng->txt("obj_".$this->type);
-			$this->desc = $this->lng->txt("obj_".$this->type."_desc");
+			$this->setDescription($this->lng->txt("obj_".$this->type."_desc"));
 		}
 		elseif ($translation_type == "db")
 		{
