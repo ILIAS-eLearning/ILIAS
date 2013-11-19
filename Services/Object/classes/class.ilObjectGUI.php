@@ -618,6 +618,8 @@ class ilObjectGUI
 		
 		if ($_GET["admin_mode"] == "settings")	// system settings
 		{		
+			$this->ctrl->setParameterByClass("iladministrationgui",
+				"ref_id", SYSTEM_FOLDER_ID);
 			$ilLocator->addItem($this->lng->txt("administration"),
 				$this->ctrl->getLinkTargetByClass("iladministrationgui", "frameset"),
 				ilFrameTargetInfo::_getFrame("MainContent"));
