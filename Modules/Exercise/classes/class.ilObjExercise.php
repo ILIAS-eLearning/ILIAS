@@ -1214,16 +1214,16 @@ class ilObjExercise extends ilObject
 		
 		if($this->ref_id)
 		{
-			$crs_id = $tree->checkForParentType($this->ref_id, "crs");
-			if($crs_id)
-			{
-				return $crs_id;		
-			}
-
+			// #10704
 			$grp_id = $tree->checkForParentType($this->ref_id, "grp");
 			if($grp_id)
 			{
 				return $grp_id;		
+			}
+			$crs_id = $tree->checkForParentType($this->ref_id, "crs");
+			if($crs_id)
+			{
+				return $crs_id;		
 			}
 		}
 	}
