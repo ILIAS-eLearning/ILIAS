@@ -116,8 +116,8 @@ class ilRegistrationSettingsGUI
 			$option = new ilRadioOption($this->lng->txt('reg_type_confirmation'), IL_REG_ACTIVATION);
 			$option->setInfo($this->lng->txt('reg_type_confirmation_info'));
 				$lt = new ilNumberInputGUI($this->lng->txt('reg_confirmation_hash_life_time'), 'reg_hash_life_time');
-				$lt->setSize(5);
-				$lt->setMaxLength(5);
+				$lt->setSize(6); // #8511
+				$lt->setMaxLength(6);
 				$lt->setMinValue(ilRegistrationSettings::REG_HASH_LIFETIME_MIN_VALUE);
 				$lt->setRequired(true);
 				$lt->setInfo($this->lng->txt('reg_confirmation_hash_life_time_info'));
