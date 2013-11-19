@@ -11882,12 +11882,12 @@ chatroom#:#private_room_left#:#The user <b>#user#</b> has left the private room 
 chatroom#:#private_room_entered_user#:#The user <b>#user#</b> has entered the private room <b>#title#</b>.
 chatroom#:#kicked_from_private_room#:#You have been kicked from the private room <b>#title#</b>.
 assessment#:#tst_link_only_unassigned#:#You have selected at least one question that is already linked to a question pool. Only unassigned questions can be added to a question pool.
-administration#:#obj_otpl#:#Object Templates
-administration#:#obj_otpl_desc#:#Template for creation of new objects
-rbac#:#otpl_visible#:#Administration of Object Templates is visible
-rbac#:#otpl_read#:#User has read access to Object Templates administration
-rbac#:#otpl_write#:#User can edit settings of Object Templates
-rbac#:#otpl_edit_permission#:#User can change permission settings in administration of Object Templates
+administration#:#obj_otpl#:#Didactic Templates
+administration#:#obj_otpl_desc#:#Template for creating new objects with predefined permission settings
+rbac#:#otpl_visible#:#Administration of Didactic Templates is visible
+rbac#:#otpl_read#:#User has read access to Didactic Templates administration
+rbac#:#otpl_write#:#User can edit settings of Didactic Templates
+rbac#:#otpl_edit_permission#:#User can change permission settings in administration of Didactic Templates
 didactic#:#didactic_default_type_info#:#Uses default permissions for %s
 didactic#:#didactic_install_info#:#General Information
 didactic#:#didactic_not_changed#:#The didactic template setting is unchanged.

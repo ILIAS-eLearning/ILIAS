@@ -204,8 +204,8 @@ common#:#obj_frma#:#Forum
 common#:#obj_frma_desc#:#Globale Foreneinstellungen
 administration#:#obj_mds#:#Metadaten
 administration#:#obj_mds_desc#:#Einstellungen für Metadaten
-administration#:#obj_otpl#:#Objektvorlagen
-administration#:#obj_otpl_desc#:#Vorlagen für die Erstellung neuer Objekte
+administration#:#obj_otpl#:#Didaktische Vorlagen
+administration#:#obj_otpl_desc#:#Vorlagen für die Erstellung neuer Objekte mit vordefinierten Rechteeinstellungen
 administration#:#obj_prfa#:#Portfolio
 administration#:#obj_prfa_desc#:#Globale Portfolioeinstellungen
 administration#:#options#:#Optionen
@@ -9890,10 +9890,10 @@ rbac#:#mds_write#:#Einstellungen in Metadaten-Administration bearbeiten
 rbac#:#moderate#:#Moderieren
 rbac#:#moderate_frm#:#Moderieren
 rbac#:#msg_no_roles_of_type#:#Keine Rollen vorhanden mit der gewählten Filtereinstellung
-rbac#:#otpl_edit_permission#:#Rechteeinstellungen in Administration der Objektvorlagen ändern
-rbac#:#otpl_read#:#Lesezugriff auf Administration der Objektvorlagen
-rbac#:#otpl_visible#:#Administration der Objektvorlagen ist sichtbar
-rbac#:#otpl_write#:#Einstellungen für Objektvorlagen bearbeiten
+rbac#:#otpl_edit_permission#:#Rechteeinstellungen in Administration der Didaktischen Vorlagen ändern
+rbac#:#otpl_read#:#Lesezugriff auf Administration der Didaktischen Vorlagen
+rbac#:#otpl_visible#:#Administration der Didaktischen Vorlagen ist sichtbar
+rbac#:#otpl_write#:#Einstellungen für Didaktischen Vorlagen bearbeiten
 rbac#:#pdts_edit_permission#:#Rechteeinstellung in der Administration des Persönlichen Schreibtischs ändern
 rbac#:#pdts_read#:#Lesezugriff auf Administration des Persönlichen Schreibtischs
 rbac#:#pdts_visible#:#Administration des Persönlichen Schreibtischs ist sichtbar
@@ -14097,13 +14097,13 @@ sop#:#sop_text_start_som#:#SCORM-Offline-Manager starten
 sop#:#sop_start_som#:#SOM Starten
 sop#:#sop_text_push_tracking#:#Lernstandsdaten nach ILIAS importieren und wieder in den Online-Modus wechseln  
 sop#:#sop_push_tracking#:#Lernstandsdaten importieren
-common#:#obj_wiks#:#Wiki###24 10 2013 new variable
-common#:#obj_wiks_desc#:#Global Wiki Settings###24 10 2013 new variable
+common#:#obj_wiks#:#Wiki
+common#:#obj_wiks_desc#:#Globale Wiki-Einstellungen
 sop#:#sop_msg_lm_not_exists#:#Das Lernmodul existiert nicht im SCORM-Offline-Manager oder wurde deaktivert
-sop#:#sop_msg_export_failure#:#Die Übertragung der Dateien des Lernmoduls oder der Lernstandsdaten zum SCORM Offline Manager war nicht erfolgreich.
-sop#:#sop_msg_export_ok#:#Übertragung des Lernmodul Contents und der Lernstandsdaten zum SCORM Offline Manager war erfolgreich.
-sop#:#sop_msg_export_content#:#Übertragung der Lernstandsdaten zum SCORM Offline Manager. Dies kann je nach Lernmodulgröße einige Zeit in Anspruch nehmen. Bitte warten Sie einige Sekunden
-sop#:#sop_msg_export_tracking#:#Übertragung der Lernstandsdaten zum SCORM Offline Manager. Bitte warten Sie einge Sekunden
+sop#:#sop_msg_export_failure#:#Die Übertragung der Dateien des Lernmoduls oder der Lernstandsdaten zum SCORM-Offline-Manager war nicht erfolgreich.
+sop#:#sop_msg_export_ok#:#Übertragung des Lernmodul Contents und der Lernstandsdaten zum SCORM-Offline-Manager war erfolgreich.
+sop#:#sop_msg_export_content#:#Übertragung der Lernstandsdaten zum SCORM-Offline-Manager. Dies kann je nach Lernmodulgröße einige Zeit in Anspruch nehmen. Bitte warten Sie einige Sekunden
+sop#:#sop_msg_export_tracking#:#Übertragung der Lernstandsdaten zum SCORM-Offline-Manager. Bitte warten Sie einge Sekunden
 sop#:#sop_msg_push_tracking#:#Übertragung der Lernstandsdaten zu ILIAS. Bitte warten Sie einige Sekunden
 sop#:#sop_msg_push_tracking_failure#:#Die Übertragung der Lernstandsdaten zu ILIAS war nicht erfolgreich.
 sop#:#sop_msg_push_tracking_ok#:#Die Übertragung der Lernstandsdaten zu ILIAS war erfolgreich.
@@ -14118,18 +14118,18 @@ orgu#:#simple_xls#:#Simple Excel Export
 assessment#:#un_add_category#:#Kategorie hinzufügen
 assessment#:#un_add_unit#:#Einheit hinzufügen
 assessment#:#fq_question_desc#:#Sie definieren Variablen durch die Angabe von $v1, $v2 ... $vn, Ergebnisfelder mit $r1, $r2 .... $rn an den gewünschten Positionen im Text. Klicken Sie dann auf die Schaltfläche "Frage analysieren", um Bearbeitungsformulare für alle Variablen und Ergebnisse zu erzeugen.
-content#:#glo_hide_taxonomy#:#Hide Taxonomy###06 11 2013 new variable
-content#:#cont_col_ordering#:#Column Ordering###06 11 2013 new variable
+content#:#glo_hide_taxonomy#:#Taxonomie ausblenden
+content#:#cont_col_ordering#:#Spaltenanordnung
 ecs#:#ecs_cmap_delete_rule#:#Zuordnung löschen
 wsp#:#wsp_list_excv#:#Übungszertifikat
 wsp#:#wsp_list_tstv#:#Testzertifikat
 assessment#:#fq_formula_desc#:#Erlaubt ist die Verwendung von bereits definierten Variablen ($v1 bis $vn), von bereits definierten Ergebnissen (z.B. $r1), das beliebige Klammern von Ausdrücken, die mathematischen Operatoren + (Addition), - (Subtraktion), * (Multiplikation), / (Division), ^ (Potenzieren), die Verwendung der Konstanten 'pi' für die Zahl Pi und 'e‘ für die Eulersche Zahl, sowie die mathematischen Funktionen 'sin', 'sinh', 'arcsin', 'asin', 'arcsinh', 'asinh', 'cos', 'cosh', 'arccos', 'acos', 'arccosh', 'acosh', 'tan', 'tanh', 'arctan', 'atan', 'arctanh', 'atanh', 'sqrt', 'abs', 'ln', 'log'. 	  				 	 	 	   	 	  	   		  	 
 rep#:#rep_add_new_def_grp_templates#:#Vorlagen
-cmps#:#cmps_repository_object_types#:#Magazinobjekttypen
+cmps#:#cmps_repository_object_types#:#Objekttypen im Magazin
 rep#:#rep_new_item_menu#:#"Neues Objekt hinzufügen"-Menü
 exc#:#exc_team_member_remove_sure#:#Wollen Sie wirklich die folgenden Mitglieder Ihres Teams entfernen? Bitte beachten Sie, dass auch die jeweiligen hochgeladenen Dateien aus dem Team entfernt werden.
 exc#:#exc_create_team#:#Team erstellen
-exc#:#exc_create_team_times_up_warning#:#Sie können kein Team mehr erstellen - bitte kontaktieren Sie Ihren Tutor.
+exc#:#exc_create_team_times_up_warning#:#Sie können kein Team mehr erstellen. Bitte kontaktieren Sie Ihren Tutor.
 exc#:#exc_instruction_files#:#Dateien zur Arbeitsanweisung
 registration#:#reg_mail_new_user_confirmation#:#Anfrage zur Überprüfung der Anmeldung
-user#:#inform_user_mail_info#:#Falls aktiviert, wird eine Email an den Nutzer versendet. Deren Inhalt kann in Administration > Benutzerverwaltung > Einstellungen > Benachrichtigung über Neuanmeldung definiert werden.
+user#:#inform_user_mail_info#:#Falls aktiviert, wird eine E-Mail an den Benutzer gesendet. Deren Inhalt kann in 'Administration » Benutzerverwaltung » Einstellungen » Benachrichtigung über Neuanmeldung' definiert werden.
