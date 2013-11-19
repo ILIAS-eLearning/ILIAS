@@ -169,6 +169,8 @@ class ilMimeTypeUtil
 			'.nws'    => 'message/rfc822',
 			'.o'      => 'application/octet-stream',
 			'.ogg'    => 'application/ogg',
+			'.oga'    => 'audio/ogg',
+			'.ogv'    => 'video/ogg',
 			'.obj'    => 'application/octet-stream',
 			'.oda'    => 'application/oda',
 			'.p12'    => 'application/x-pkcs12',
