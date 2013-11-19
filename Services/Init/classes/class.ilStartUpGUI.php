@@ -146,9 +146,9 @@ class ilStartUpGUI
 			$WAYF = new ShibWAYF();
 		}
 
-		if (isset($WAYF) && $WAYF->isSelection())
+		if (isset($WAYF) && $WAYF->is_selection())
 		{
-			if ($WAYF->isValidSelection())
+			if ($WAYF->is_valid_selection())
 			{
 				// Set cookie
 				$WAYF->setSAMLCookie();

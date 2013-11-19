@@ -20,44 +20,39 @@
 	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
 	+-----------------------------------------------------------------------------+
 */
-
-
 include_once("./Services/Component/classes/class.ilService.php");
-
 /**
-* AuthShibboleth Service
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-* @ingroup ServicesAuthShibboleth
-*/
-class ilAuthShibbolethService extends ilService
-{
-	
+ * AuthShibboleth Service
+ *
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @version $Id$
+ *
+ * @ingroup ServicesAuthShibboleth
+ */
+class ilAuthShibbolethService extends ilService {
+
 	/**
-	* Constructor: read information on component
-	*/
-	function __construct()
-	{
+	 * Constructor: read information on component
+	 */
+	function __construct() {
 		parent::__construct();
 	}
-	
+
+
 	/**
-	* Core modules vs. plugged in modules
-	*/
-	function isCore()
-	{
+	 * Core modules vs. plugged in modules
+	 */
+	function isCore() {
 		return true;
 	}
 
+
 	/**
-	* Get version of service.
-	*/
-	function getVersion()
-	{
+	 * Get version of service.
+	 */
+	function getVersion() {
 		return "-";
 	}
-
 }
+
 ?>

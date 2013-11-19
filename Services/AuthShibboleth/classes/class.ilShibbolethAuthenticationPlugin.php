@@ -24,88 +24,90 @@
 include_once './Services/Component/classes/class.ilPlugin.php';
 include_once './Services/AuthShibboleth/interfaces/interface.ilShibbolethRoleAssignmentPlugin.php';
 
-/** 
-* Plugin definition
-* 
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-* 
-*
-* @ingroup ServicesAuthShibboleth
-*/
-abstract class ilShibbolethAuthenticationPlugin extends ilPlugin
-{
+/**
+ * Plugin definition
+ *
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @version $Id$
+ *
+ *
+ * @ingroup ServicesAuthShibboleth
+ */
+abstract class ilShibbolethAuthenticationPlugin extends ilPlugin {
+
 	/**
 	 * Get Component Type
 	 *
 	 * @return        string        Component Type
 	 */
-	public final function getComponentType()
-	{
+	public final function getComponentType() {
 		return IL_COMP_SERVICE;
 	}
-	
+
+
 	/**
 	 * Get Component Name
-	 * 
-	 * @return	string Component Name
+	 *
+	 * @return    string Component Name
 	 */
-	public final function getComponentName()
-	{
+	public final function getComponentName() {
 		return 'AuthShibboleth';
 	}
-	
+
+
 	/**
 	 * Get Slot Name
-	 * 
+	 *
 	 * @return string Slot Name
 	 */
-	 public final function getSlot()
-	 {
-	 	return 'ShibbolethAuthenticationHook';
-	 }
-	 
+	public final function getSlot() {
+		return 'ShibbolethAuthenticationHook';
+	}
+
+
 	/**
 	 * Get Slot Id
-	 * 
+	 *
 	 * @return string Slot Id
 	 */
-	public final function getSlotId()
-	{
+	public final function getSlotId() {
 		return 'shibhk';
 	}
-	
+
+
 	/**
 	 *  Object initialization done by slot.
 	 */
-	protected final function slotInit()
-	{
-		
+	protected final function slotInit() {
 	}
-	
-	protected function checkValue($a_user_data,$a_keyword,$a_value)
-	{
-		if(!$a_user_data[$a_keyword])
-		{
+
+
+	/**
+	 * @param $a_user_data
+	 * @param $a_keyword
+	 * @param $a_value
+	 *
+	 * @return bool
+	 */
+	protected function checkValue($a_user_data, $a_keyword, $a_value) {
+		if (! $a_user_data[$a_keyword]) {
 			return false;
 		}
-		if(is_array($a_user_data[$a_keyword]))
-		{
-			foreach($a_user_data[$a_keyword] as $values)
-			{
-				if(strcasecmp(trim($values),$a_value) == 0)
-				{
+		if (is_array($a_user_data[$a_keyword])) {
+			foreach ($a_user_data[$a_keyword] as $values) {
+				if (strcasecmp(trim($values), $a_value) == 0) {
 					return true;
 				}
 			}
+
 			return false;
 		}
-		if(strcasecmp(trim($a_user_data[$a_keyword]),trim($a_value)) == 0)
-		{
+		if (strcasecmp(trim($a_user_data[$a_keyword]), trim($a_value)) == 0) {
 			return true;
 		}
+
 		return false;
 	}
-	
 }
+
 ?>
