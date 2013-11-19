@@ -140,7 +140,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		$this->tpl->setVariable("TXT_FRAME_LEFT", $this->lng->txt("tree_left"));
 		$this->tpl->setVariable("TXT_FRAME_RIGHT", $this->lng->txt("tree_right"));
 
-		$this->tpl->setVariable("TXT_STYLE_SETTINGS", $this->lng->txt("basic_settings"));
+		$this->tpl->setVariable("TXT_STYLE_SETTINGS", $this->lng->txt("settings"));
 		$this->tpl->setVariable("TXT_ICONS_IN_TYPED_LISTS", $this->lng->txt("icons_in_typed_lists"));
 		$this->tpl->setVariable("TXT_ICONS_IN_HEADER", $this->lng->txt("icons_in_header"));
 		$this->tpl->setVariable("TXT_ICONS_IN_ITEM_ROWS", $this->lng->txt("icons_in_item_rows"));
@@ -1001,7 +1001,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 			
 		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()) && !$this->peditor_active)
 		{
-			$tabs_gui->addTarget("basic_settings",
+			$tabs_gui->addTarget("settings",
 				$this->ctrl->getLinkTarget($this, "editBasicSettings"), array("editBasicSettings","", "view"), "", "");
 
 			$tabs_gui->addTarget("system_styles",
