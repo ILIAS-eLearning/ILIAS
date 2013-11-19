@@ -1324,6 +1324,8 @@ class ilObjUser extends ilObject
 
 		// delete user_prefs
 		ilObjUser::_deleteAllPref($this->getId());
+		
+		$this->removeUserPicture(); // #8597
 
 		// delete user_session
 		include_once("./Services/Authentication/classes/class.ilSession.php");
