@@ -71,7 +71,7 @@ class ilRegistrationMailNotification extends ilMailNotification
 					$this->initLanguage($rcp);
 					$this->initMail();
 					$this->setSubject(
-						$this->getLanguageText('reg_mail_new_user')
+						$this->getLanguageText('reg_mail_new_user_confirmation')
 					);
 
 					$this->setBody(ilMail::getSalutation($rcp,$this->getLanguage()));
