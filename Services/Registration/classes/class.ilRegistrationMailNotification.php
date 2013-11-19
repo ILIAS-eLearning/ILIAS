@@ -91,6 +91,10 @@ class ilRegistrationMailNotification extends ilMailNotification
 
 					$this->appendBody("\n\n");
 					$this->appendBody($this->getLanguageText('reg_mail_body_reason'));
+									
+					$this->appendBody("\n\n"); // #4527
+					include_once "Services/Link/classes/class.ilLink.php";
+					$this->appendBody(ilLink::_getStaticLink($info['usr']->getId(), "usrf"));
 
 					$this->getMail()->appendInstallationSignature(true);
 					$this->getMail()->enableSoap(false);

@@ -262,15 +262,12 @@ class ilAdministrationGUI
 				{
 					$this->ctrl->setParameterByClass("ilobjuserfoldergui", "jmpToUser",
 						(int)$_GET["jmpToUser"]);
-					$fs_gui->setMainFrameSource(
-						$this->ctrl->getLinkTargetByClass("ilobjuserfoldergui", "jumpToUser"));
+					$this->ctrl->redirectByClass("ilobjuserfoldergui", "jumpToUser");
 				}
 				else
 				{
-					$fs_gui->setMainFrameSource(
-						$this->ctrl->getLinkTargetByClass("ilobjuserfoldergui", "view"));
+					$this->ctrl->redirectByClass("ilobjuserfoldergui", "view");
 				}
-				$this->ctrl->redirectByClass("ilobjuserfoldergui", "view");
 			}
 			else
 			{
