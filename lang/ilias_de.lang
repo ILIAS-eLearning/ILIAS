@@ -2071,7 +2071,7 @@ common#:#accesscount_registered_users#:#Gelesen von ILIAS-Benutzern (Anzahl)
 common#:#accessFree#:#Zeitliche Begrenzung aufheben
 common#:#accessRestrict#:#Zugriff zeitlich begrenzen
 common#:#account_expires_body#:#Ihr Benutzerzugang ist zeitlich begrenzt. Ablauftermin:
-common#:#account_expires_subject#:#[ILIAS] Benutzerzugang
+common#:#account_expires_subject#:#Benutzerzugang
 rbac#:#accs_edit_permission#:#Rechteeinstellungen der Einstellungen Barrierefreiheit ändern
 rbac#:#accs_read#:#Einstellungen Barrierefreiheit in Administration können gelesen werden
 rbac#:#accs_visible#:#Einstellungen Barrierefreiheit in Administration sind sichtbar  !! Recht wird nicht mehr genutzt !!

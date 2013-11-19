@@ -98,8 +98,18 @@ class ilMimeMail
 	 * Define the subject line of the email
 	 * @param string subject any monoline string
 	 */
-	function Subject($subject )
+	function Subject($subject, $a_add_prefix = false)
 	{
+		if($a_add_prefix)
+		{
+			// #9096
+			include_once "Services/Mail/classes/class.ilMail.php";
+			$prefix = ilMail::getSubjectPrefix();
+			if(trim($prefix))
+			{
+				$subject = trim($prefix)." ".$subject;
+			}
+		}		
 		$this->xheaders['Subject'] = ilMimeMail::_mimeEncode(strtr($subject,"\r\n"," "));
 	}
 
