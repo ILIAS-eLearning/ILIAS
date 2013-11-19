@@ -14133,3 +14133,4 @@ exc#:#exc_team_member_remove_sure#:#Are you sure you want to remove the followin
 exc#:#exc_create_team#:#Create Team
 exc#:#exc_create_team_times_up_warning#:#You cannot create a team anymore - please contact your tutor.
 exc#:#exc_instruction_files#:#Instruction Files
+registration#:#reg_mail_new_user_confirmation#:#Request for account confirmation
