@@ -4,11 +4,16 @@ il.MediaObjects = {
 	current_player_id: null,
 	current_wrapper: '',
 	player_config: {}, 
+	lb_opened: false,
 
 	init: function() {
 		$(".ilPlayerPreviewOverlayOuter").click(function (e) {
 				il.MediaObjects.processMediaPreviewClick(this, e);
 		});
+		
+		window.onhashchange = function() {
+			il.MediaObjects.onHashChange();
+		}
 	},
 	
 	setPlayerConfig: function (id, config) {
@@ -29,6 +34,9 @@ il.MediaObjects = {
 			video_el_wrap = $('#' + video_el.attr('id') + "_vtwrap");
 			
 			il.Lightbox.activateView('media_lightbox');
+			location.hash = "detail";
+			il.MediaObjects.lb_opened = true;
+			
 			//il.Lightbox.onDeactivation('media_lightbox', il.MediaObjects.onLightboxDeactivation);
 			il.Lightbox.loadWrapperToLightbox(video_el.attr('id') + "_wrapper", "media_lightbox");
 	
@@ -65,6 +73,9 @@ il.MediaObjects = {
 //					video_el_wrap = $('#' + video_el.attr('id') + "_vtwrap");
 					
 					il.Lightbox.activateView('media_lightbox');
+					location.hash = "detail";
+					il.MediaObjects.lb_opened = true;
+					
 					//il.Lightbox.onDeactivation('media_lightbox', il.MediaObjects.onLightboxDeactivation);
 //console.log(img_el);
 					img_el.removeClass('ilNoDisplay');
@@ -78,11 +89,21 @@ il.MediaObjects = {
 
 	onLightboxDeactivation: function(id) {
 		il.MediaObjects.stopCurrentPlayer();
+		il.MediaObjects.lb_opened = false;
+		location.hash = "";
 	},
 
 	processCloseIcon: function() {
 		il.Lightbox.deactivateView('media_lightbox');
 		il.MediaObjects.stopCurrentPlayer();
+		il.MediaObjects.lb_opened = false;
+		location.hash = "";
+	},
+	
+	onHashChange: function () {
+		if (location.hash == "" && il.MediaObjects.lb_opened) {
+			il.MediaObjects.processCloseIcon();
+		}
 	},
 
 	stopCurrentPlayer: function () {
