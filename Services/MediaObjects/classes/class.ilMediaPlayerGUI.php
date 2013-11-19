@@ -265,7 +265,7 @@ class ilMediaPlayerGUI
 		
 		// video tag
 		if (in_array($mimeType, array("video/mp4", "video/m4v", "video/rtmp",
-			"video/x-flv", "video/webm", "video/youtube", "video/vimeo")))
+			"video/x-flv", "video/webm", "video/youtube", "video/vimeo", "video/ogg")))
 		{
 			ilPlayerUtil::initMediaElementJs();
 
@@ -337,7 +337,8 @@ class ilMediaPlayerGUI
 		}
 
 		// audio/mpeg
-		if (is_int(strpos($mimeType,"audio/mpeg")))
+		if (is_int(strpos($mimeType,"audio/mpeg")) ||
+			in_array($mimeType, array("application/ogg", "audio/ogg")))
 		{
 			ilPlayerUtil::initMediaElementJs();
 			$mp_tpl = new ilTemplate("tpl.flv_player.html", true, true, "Services/MediaObjects");
