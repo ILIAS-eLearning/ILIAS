@@ -809,7 +809,7 @@ class ilExplorer
 		$tpl->addBlockFile("EXPLORER_TOP", "exp_top", "tpl.explorer_top.html");
 //echo "hh";
 		// set global body class
-		$tpl->setBodyClass("il_Explorer");
+//		$tpl->setBodyClass("il_Explorer");
 		
 		$tpl_tree = new ilTemplate("tpl.tree.html", true, true, "Services/UIComponent/Explorer");
 		
