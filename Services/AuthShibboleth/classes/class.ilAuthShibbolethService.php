@@ -20,7 +20,7 @@
 	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
 	+-----------------------------------------------------------------------------+
 */
-include_once("./Services/Component/classes/class.ilService.php");
+require_once('./Services/Component/classes/class.ilService.php');
 /**
  * AuthShibboleth Service
  *
@@ -31,16 +31,13 @@ include_once("./Services/Component/classes/class.ilService.php");
  */
 class ilAuthShibbolethService extends ilService {
 
-	/**
-	 * Constructor: read information on component
-	 */
 	function __construct() {
 		parent::__construct();
 	}
 
 
 	/**
-	 * Core modules vs. plugged in modules
+	 * @return bool
 	 */
 	function isCore() {
 		return true;
@@ -48,10 +45,10 @@ class ilAuthShibbolethService extends ilService {
 
 
 	/**
-	 * Get version of service.
+	 * @return string
 	 */
 	function getVersion() {
-		return "-";
+		return '-';
 	}
 }
 
