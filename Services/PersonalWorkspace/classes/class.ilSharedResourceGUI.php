@@ -158,14 +158,14 @@ class ilSharedResourceGUI
 			}
 			
 			// #12039
-			include_once "Modules/Portfolio/classes/class.ilObjPortfolio.php";
+			include_once "Services/Portfolio/classes/class.ilObjPortfolio.php";
 			$prtf = new ilObjPortfolio($a_node_id, false);
 			if(!$prtf->isOnline())
 			{
 				return false;
 			}		
 						
-			include_once "Modules/Portfolio/classes/class.ilPortfolioAccessHandler.php";
+			include_once "Services/Portfolio/classes/class.ilPortfolioAccessHandler.php";
 			$shared = ilPortfolioAccessHandler::getPermissions($a_node_id);						
 		}
 
