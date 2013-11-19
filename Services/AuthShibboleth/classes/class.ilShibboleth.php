@@ -85,11 +85,10 @@ class ShibAuth extends Auth {
 
 
 	/**
-	 * Constructor
-	 *
-	 * @access    public
+	 * @param      $authParams
+	 * @param bool $updateUserData
 	 */
-	function ShibAuth($authParams, $updateUserData = false) {
+	public function __construct($authParams, $updateUserData = false) {
 		if ($authParams['sessionName'] != '') {
 			parent::Auth('', array( 'sessionName' => $authParams['sessionName'] ));
 		} else {
