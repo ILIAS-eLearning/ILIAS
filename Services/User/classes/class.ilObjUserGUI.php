@@ -3518,6 +3518,8 @@ class ilObjUserGUI extends ilObjectGUI
 
 		if ($_GET["admin_mode"] == "settings")	// system settings
 		{
+			$this->ctrl->setParameterByClass("ilobjsystemfoldergui",
+				"ref_id", SYSTEM_FOLDER_ID);
 			$ilLocator->addItem($this->lng->txt("administration"),
 				$this->ctrl->getLinkTargetByClass(array("iladministrationgui", "ilobjsystemfoldergui"), ""),
 				ilFrameTargetInfo::_getFrame("MainContent"));
