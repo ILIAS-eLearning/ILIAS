@@ -14134,3 +14134,4 @@ exc#:#exc_create_team#:#Create Team
 exc#:#exc_create_team_times_up_warning#:#You cannot create a team anymore - please contact your tutor.
 exc#:#exc_instruction_files#:#Instruction Files
 registration#:#reg_mail_new_user_confirmation#:#Request for account confirmation
+user#:#inform_user_mail_info#:#If activated, an email will be sent to the user. Its content can be defined in Administration > User Management > Settings > New Account Mail.
