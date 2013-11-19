@@ -671,6 +671,11 @@ class ilPublicUserProfileGUI
 		$user = new ilObjUser($a_user_id);
 		if ($ilUser->getId() == ANONYMOUS_USER_ID && $user->getPref("public_profile") != "g")
 		{
+			// #12151
+			if($user->getPref("public_profile") == "y")
+			{
+				ilUtil::redirect("login.php?cmd=force_login&target=usr_".$a_user_id);
+			}
 			return false;
 		}
 		return true;
