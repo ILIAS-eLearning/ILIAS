@@ -65,14 +65,23 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 		$hasErrors = (!$always) ? $this->editQuestion(true) : false;
 		if (!$hasErrors)
 		{
+			$question_text = $_POST['question'];
+			$question_text = $this->removeIndizesFromGapText( $question_text );
+			$_POST['question'] = $question_text;
+			$this->object->setQuestion($question_text);
+
 			$this->writeQuestionGenericPostData();
 			$this->object->setClozeText($_POST["question"]);
 			$this->writeQuestionSpecificPostData();
 			//$this->object->flushGaps();
-			$this->writeAnswerSpecificPostData();			
+			$this->writeAnswerSpecificPostData();
 			$this->saveTaxonomyAssignments();
 			return 0;
 		}
+
+		$question_text = $_POST['question'];
+		$question_text = $this->applyIndizesToGapText($question_text);
+		$_POST['question'] = $question_text;
 		return 1;
 	}
 
@@ -167,6 +176,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 
 		// Modify "instructive" question textbox... get rid of this crap asap.
 		$q_item = $form->getItemByPostVar("question");
+		$q_item->setValue($this->applyIndizesToGapText($q_item->getValue()));
 		$q_item->setInfo($this->lng->txt("close_text_hint"));
 		$q_item->setTitle($this->lng->txt("cloze_text"));
 
@@ -1231,5 +1241,30 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 		return $html;
 	}
 
+	public function applyIndizesToGapText( $question_text )
+	{
+		$parts	= explode( '[gap', $question_text );
+		$i = 0;
+		$question_text = '';
+		foreach ( $parts as $part )
+		{
+			if ( $i == 0 )
+			{
+				$question_text .= $part;
+			}
+			else
+			{
+				$question_text .= '[gap ' . $i . $part;
+			}
+			$i++;
+		}
+		return $question_text;
+	}
 
+	public function removeIndizesFromGapText( $question_text )
+	{
+		$parts         = preg_split( '/\[gap \d*\]/', $question_text );
+		$question_text = implode( '[gap]', $parts );
+		return $question_text;
+	}
 }
