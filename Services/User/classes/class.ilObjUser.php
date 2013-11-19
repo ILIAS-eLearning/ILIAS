@@ -1324,6 +1324,8 @@ class ilObjUser extends ilObject
 
 		// delete user_prefs
 		ilObjUser::_deleteAllPref($this->getId());
+			
+		$this->removeUserPicture(false); // #8597
 
 		// delete user_session
 		include_once("./Services/Authentication/classes/class.ilSession.php");
@@ -4015,7 +4017,7 @@ class ilObjUser extends ilObject
 	/**
 	* Remove user picture.
 	*/
-	function removeUserPicture()
+	function removeUserPicture($a_do_update = true)
 	{
 		$webspace_dir = ilUtil::getWebspaceDir();
 		$image_dir = $webspace_dir."/usr_images";
@@ -4025,9 +4027,12 @@ class ilObjUser extends ilObject
 		$xxthumb_file = $image_dir."/usr_".$this->getID()."_xxsmall.jpg";
 		$upload_file = $image_dir."/upload_".$this->getID();
 
-		// remove user pref file name
-		$this->setPref("profile_image", "");
-		$this->update();
+		if($a_do_update)
+		{
+			// remove user pref file name
+			$this->setPref("profile_image", "");
+			$this->update();
+		}
 
 		if (@is_file($file))
 		{
