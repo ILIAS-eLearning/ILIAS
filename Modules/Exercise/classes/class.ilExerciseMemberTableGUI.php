@@ -191,7 +191,7 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 					{
 						$this->tpl->setVariable("TXT_MAIL_SENT",
 							sprintf($lng->txt("exc_sent_at"),
-							ilDatePresentation::formatDate(new ilDateTime($st,IL_CAL_DATE))));
+							ilDatePresentation::formatDate(new ilDateTime($st,IL_CAL_DATETIME))));
 					}
 					else
 					{
