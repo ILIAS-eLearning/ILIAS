@@ -55,6 +55,9 @@ class ilLPCollectionOfLMChapters extends ilLPCollection
 	{					
 		$data = array();	
 		
+		$parent_type = ilObject::_lookupType($a_parent_ref_id, true);		
+		include_once './Services/Link/classes/class.ilLink.php';
+		
 		foreach ($this->getPossibleItems($a_parent_ref_id) as $item)
 		{					
 			$tmp = array();
@@ -62,7 +65,10 @@ class ilLPCollectionOfLMChapters extends ilLPCollection
 			$tmp['ref_id'] = 0;
 			$tmp['title'] = $item['title'];
 			$tmp['type'] = $item['type'];
-			$tmp["status"] = $this->isAssignedEntry($item['obj_id']);
+			$tmp['status'] = $this->isAssignedEntry($item['obj_id']);
+			
+			// #12158
+			$tmp['url'] = ilLink::_getLink($a_parent_ref_id, $parent_type, null, "_".$tmp['id']);		
 			
 			if($this->mode == ilLPObjSettings::LP_MODE_COLLECTION_TLT)
 			{
