@@ -81,7 +81,7 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
 			$this->enable('sort');
 			$this->enable('header');
 			$this->enable('numinfo');
-			$this->enable('select_all');
+			$this->enable('select_all');			
 		}
 		else
 		{
@@ -227,7 +227,15 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
 		}
 		$this->addColumn($this->lng->txt('event_tbl_participated'),'participated');
 		$this->setRowTemplate("tpl.sess_members_row.html","Modules/Session");
-		$this->setDefaultOrderField('name');
+		if($this->isRegistrationEnabled())
+		{
+			$this->setDefaultOrderField('registered');
+			$this->setDefaultOrderDirection('desc');
+		}
+		else
+		{
+			$this->setDefaultOrderField('name');
+		}
 	}
 }
 ?>
