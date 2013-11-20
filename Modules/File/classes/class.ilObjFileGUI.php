@@ -616,7 +616,7 @@ class ilObjFileGUI extends ilObject2GUI
 		$title->setInfo($this->lng->txt("if_no_title_then_filename"));
 		$form->addItem($title);
 		
-		$upload_possible = false;
+		$upload_possible = true;
 		if($this->id_type == self::WORKSPACE_NODE_ID)
 		{
 			include_once "Services/DiskQuota/classes/class.ilDiskQuotaHandler.php";
