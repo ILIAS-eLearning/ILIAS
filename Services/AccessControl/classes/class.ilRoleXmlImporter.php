@@ -99,7 +99,7 @@ class ilRoleXmlImporter
 		{
 			return 0;
 		}
-
+		
 		$this->getRole()->setTitle(trim((string) $role->title));
 		$this->getRole()->setDescription(trim((string) $role->description));
 		
@@ -114,7 +114,14 @@ class ilRoleXmlImporter
 			$this->getRole()->create();
 		}
 
+		
 		$this->assignToRoleFolder();
+
+		$protected = (string) $role['protected'];
+		if($protected)
+		{
+			$rbacadmin->setProtected(0,$this->getRole()->getId(),'y');
+		}
 
 		// Add operations
 		$ops = $rbacreview->getOperations();
