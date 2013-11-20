@@ -141,7 +141,8 @@ class ilMainMenuGUI
 		global $rbacsystem, $lng, $ilias, $tree, $ilUser, $ilSetting, $ilPluginAdmin;
 		
 		if($this->logo_only)
-		{
+		{		
+			$this->tpl->setVariable("HEADER_URL", $this->getHeaderURL());
 			$this->tpl->setVariable("HEADER_ICON", ilUtil::getImagePath("HeaderIcon.png"));
 			return;
 		}
@@ -316,6 +317,7 @@ class ilMainMenuGUI
 			$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 	
 			$this->tpl->setVariable("TXT_LOGOUT", $lng->txt("logout"));
+			$this->tpl->setVariable("HEADER_URL", $this->getHeaderURL());
 			$this->tpl->setVariable("HEADER_ICON", ilUtil::getImagePath("HeaderIcon.png"));
 			$this->tpl->setVariable("HEADER_BG_IMAGE", ilUtil::getImagePath("HeaderBackground.png"));
 			include_once("./Modules/SystemFolder/classes/class.ilObjSystemFolder.php");
@@ -325,6 +327,7 @@ class ilMainMenuGUI
 		}
 		else
 		{
+			$this->tpl->setVariable("HEADER_URL", $this->getHeaderURL());
 			$this->tpl->setVariable("HEADER_ICON", ilUtil::getImagePath("HeaderIcon.png"));
 		}
 
@@ -1106,5 +1109,18 @@ class ilMainMenuGUI
 		$this->logo_only = (bool)$a_value;
 	}
 	
+	protected function getHeaderURL()
+	{						
+		include_once './Services/User/classes/class.ilUserUtil.php';						
+		$url = ilUserUtil::getStartingPointAsUrl();
+		
+		if(!$url)
+		{
+			$url = "./goto.php?target=root_1";
+		}
+		
+		return $url;
+	}	
 }
+
 ?>
