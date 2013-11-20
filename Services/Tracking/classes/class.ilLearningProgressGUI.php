@@ -173,16 +173,16 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 				
 				if($has_edit || $has_personal)
 				{														
-					// default
+					// default (#10928)
 					$tgt = null;
-					if($has_edit)
-					{
-						$tgt = 'illplistofobjectsgui';
-					}
-					else if($has_personal)
+					if($has_personal)
 					{
 						$tgt = 'illplistofprogressgui';
 					}
+					else if($has_edit)
+					{
+						$tgt = 'illplistofobjectsgui';
+					}			
 
 					// validate session
 					switch($_SESSION['il_lp_history'])
