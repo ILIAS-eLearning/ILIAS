@@ -125,43 +125,48 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
 					$this->tpl->setVariable("ANONYMIZED", $this->lng->txt('trac_anonymized_info_short'));
 				}
 			}
-			else if($this->getMode() == ilLPObjSettings::LP_MODE_COLLECTION_TLT)
+			else 
 			{								
-				// handle tlt settings
-				$this->tpl->setCurrentBlock("tlt");				
-				$this->tpl->setVariable("TXT_MONTH",$this->lng->txt('md_months'));				
-				$this->tpl->setVariable("TXT_DAYS",$this->lng->txt('md_days'));
-				$this->tpl->setVariable("TXT_TIME",$this->lng->txt('md_time'));
-				$this->tpl->setVariable("TLT_HINT", '(hh:mm)');		
+				$this->tpl->setVariable('COLL_LINK', $a_set['url']);
 				
-				// seconds to units
-				$mon = floor($a_set["tlt"]/(60*60*24*30));
-				$tlt = $a_set["tlt"]%(60*60*24*30);
-				$day = floor($tlt/(60*60*24));
-				$tlt = $tlt%(60*60*24);
-				$hr = floor($tlt/(60*60));
-				$tlt = $tlt%(60*60);				
-				$min = floor($tlt/60);
-				
-				$options = array();
-				for($i = 0;$i <= 24;$i++)
-				{
-					$options[$i] = sprintf('%02d',$i);
-				}
-				$this->tpl->setVariable("SEL_MONTHS",
-					ilUtil::formSelect($mon,'tlt['.$a_set['id'].'][mo]',$options,false,true));
+				if($this->getMode() == ilLPObjSettings::LP_MODE_COLLECTION_TLT)
+				{								
+					// handle tlt settings
+					$this->tpl->setCurrentBlock("tlt");				
+					$this->tpl->setVariable("TXT_MONTH",$this->lng->txt('md_months'));				
+					$this->tpl->setVariable("TXT_DAYS",$this->lng->txt('md_days'));
+					$this->tpl->setVariable("TXT_TIME",$this->lng->txt('md_time'));
+					$this->tpl->setVariable("TLT_HINT", '(hh:mm)');		
 
-				for($i = 0;$i <= 31;$i++)
-				{
-					$options[$i] = sprintf('%02d',$i);
+					// seconds to units
+					$mon = floor($a_set["tlt"]/(60*60*24*30));
+					$tlt = $a_set["tlt"]%(60*60*24*30);
+					$day = floor($tlt/(60*60*24));
+					$tlt = $tlt%(60*60*24);
+					$hr = floor($tlt/(60*60));
+					$tlt = $tlt%(60*60);				
+					$min = floor($tlt/60);
+
+					$options = array();
+					for($i = 0;$i <= 24;$i++)
+					{
+						$options[$i] = sprintf('%02d',$i);
+					}
+					$this->tpl->setVariable("SEL_MONTHS",
+						ilUtil::formSelect($mon,'tlt['.$a_set['id'].'][mo]',$options,false,true));
+
+					for($i = 0;$i <= 31;$i++)
+					{
+						$options[$i] = sprintf('%02d',$i);
+					}
+					$this->tpl->setVariable("SEL_DAYS", 
+						ilUtil::formSelect($day,'tlt['.$a_set['id'].'][d]',$options,false,true));
+
+					$this->tpl->setVariable("SEL_TLT",ilUtil::makeTimeSelect('tlt['.$a_set['id'].']',
+						true,$hr,$min,null,false));
+
+					$this->tpl->parseCurrentBlock();			
 				}
-				$this->tpl->setVariable("SEL_DAYS", 
-					ilUtil::formSelect($day,'tlt['.$a_set['id'].'][d]',$options,false,true));
-				
-				$this->tpl->setVariable("SEL_TLT",ilUtil::makeTimeSelect('tlt['.$a_set['id'].']',
-					true,$hr,$min,null,false));
-				
-				$this->tpl->parseCurrentBlock();			
 			}
 		}
 
