@@ -170,8 +170,12 @@ class ilObjFileListGUI extends ilObjectListGUI
 				"value" => $value,
 				"propertyNameVisible" => false);
 		}
+		
+		// #6040
+		include_once("./Services/History/classes/class.ilHistory.php");
+		$hist = array_shift(ilHistory::_getEntriesForObject($this->obj_id, "file"));
 		$props[] = array("alert" => false, "property" => $lng->txt("last_update"),
-			"value" => ilObject::_lookupLastUpdate($this->obj_id, true),
+			"value" => ilDatePresentation::formatDate(new ilDateTime($hist["date"],IL_CAL_DATETIME)),
 			'propertyNameVisible' => false);
 		// END WebDAV: Only display relevant information.
 
