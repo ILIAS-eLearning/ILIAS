@@ -472,9 +472,9 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 			reset($items);
 			$ilObjDataCache->preloadReferenceCache($ref_ids);
 			
-			include_once "Services/Tracking/classes/class.ilLPStatus.php";
-			ilLPStatus::preloadListGUIData($obj_ids);
-			
+			include_once("./Services/Object/classes/class.ilObjectListGUI.php");
+			ilObjectListGUI::preloadCommonProperties($obj_ids, ilObjectListGUI::CONTEXT_PERSONAL_DESKTOP);			
+		
 			include_once "Services/Object/classes/class.ilObjectActivation.php";
 			ilObjectActivation::preloadData($ref_ids);		
 			
@@ -627,8 +627,8 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 			reset($items);
 			$ilObjDataCache->preloadReferenceCache($ref_ids);
 			
-			include_once "Services/Tracking/classes/class.ilLPStatus.php";
-			ilLPStatus::preloadListGUIData($obj_ids);
+			include_once("./Services/Object/classes/class.ilObjectListGUI.php");
+			ilObjectListGUI::preloadCommonProperties($obj_ids, ilObjectListGUI::CONTEXT_PERSONAL_DESKTOP);		
 			
 			include_once "Services/Object/classes/class.ilObjectActivation.php";
 			ilObjectActivation::preloadData($ref_ids);		
@@ -844,9 +844,9 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 			$tree->preloadDepthParent($ref_ids);
 			$ilObjDataCache->preloadReferenceCache($ref_ids, true);
 			
-			include_once "Services/Tracking/classes/class.ilLPStatus.php";
-			ilLPStatus::preloadListGUIData($obj_ids);
-						
+			include_once("./Services/Object/classes/class.ilObjectListGUI.php");
+			ilObjectListGUI::preloadCommonProperties($obj_ids, ilObjectListGUI::CONTEXT_PERSONAL_DESKTOP);		
+			
 			include_once "Services/Object/classes/class.ilObjectActivation.php";
 			ilObjectActivation::preloadData($ref_ids);					
 		}
@@ -1034,8 +1034,8 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 			$tree->preloadDepthParent($ref_ids);
 			$ilObjDataCache->preloadReferenceCache($ref_ids);
 			
-			include_once "Services/Tracking/classes/class.ilLPStatus.php";
-			ilLPStatus::preloadListGUIData($obj_ids);
+			include_once("./Services/Object/classes/class.ilObjectListGUI.php");
+			ilObjectListGUI::preloadCommonProperties($obj_ids, ilObjectListGUI::CONTEXT_PERSONAL_DESKTOP);				
 			
 			include_once "Services/Object/classes/class.ilObjectActivation.php";
 			ilObjectActivation::preloadData($ref_ids);					

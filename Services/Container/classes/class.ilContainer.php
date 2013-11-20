@@ -692,7 +692,7 @@ class ilContainer extends ilObject
 			$rbacsystem->preloadRbacPaCache($all_ref_ids, $ilUser->getId());
 						
 			include_once("./Services/Object/classes/class.ilObjectListGUI.php");
-			ilObjectListGUI::preloadCommonProperties($all_obj_ids);			
+			ilObjectListGUI::preloadCommonProperties($all_obj_ids, ilObjectListGUI::CONTEXT_REPOSITORY);			
 			
 			include_once("./Services/Object/classes/class.ilObjectActivation.php");
 			ilObjectActivation::preloadData($all_ref_ids);		

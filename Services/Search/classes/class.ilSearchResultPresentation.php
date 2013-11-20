@@ -276,9 +276,9 @@ class ilSearchResultPresentation
 			return false;
 		}
 		
-		include_once "Services/Tracking/classes/class.ilLPStatus.php";
-		ilLPStatus::preloadListGUIData($obj_ids);
-
+		include_once("./Services/Object/classes/class.ilObjectListGUI.php");
+		ilObjectListGUI::preloadCommonProperties($obj_ids, ilObjectListGUI::CONTEXT_SEARCH);		
+		
 		$ilBench->start('Lucene','2900_tb');
 		include_once("./Services/Search/classes/class.ilSearchResultTableGUI.php");
 		$result_table = new ilSearchResultTableGUI($this->container, "showSavedResults", $this);
