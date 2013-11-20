@@ -24,6 +24,8 @@ class ilObjFileAccess extends ilObjectAccess
 	 */
 	protected static $_inlineFileExtensionsArray;
 	// END WebDAV cache inline file extensions
+	
+	protected static $preload_list_gui_data; // [array]
 
 
 	/**
@@ -351,6 +353,46 @@ class ilObjFileAccess extends ilObjectAccess
 		include_once("./Services/Link/classes/class.ilLink.php");
 		return ilLink::_getStaticLink($ref_id, "file", true, "_download");
 	}
+	
+	
+	//
+	// LIST GUI
+	//
+	
+	public static function preloadListGUIData(array $a_obj_ids)
+	{
+		global $ilDB;
+		
+		self::$preload_list_gui_data = array();
+		
+		$set = $ilDB->query("SELECT obj_id,max(hdate) latest".
+			" FROM history".
+			" WHERE obj_type = ".$ilDB->quote("file", "text").
+			" AND ".$ilDB->in("obj_id", $a_obj_ids, "", "integer").
+			" GROUP BY obj_id");
+		while($row = $ilDB->fetchAssoc($set))
+		{
+			self::$preload_list_gui_data[$row["obj_id"]]["date"] = $row["latest"];	
+		}
+		
+		$set = $ilDB->query("SELECT file_size,version,file_id".
+			" FROM file_data".
+			" WHERE ".$ilDB->in("file_id", $a_obj_ids, "", "integer"));
+		while($row = $ilDB->fetchAssoc($set))
+		{
+			self::$preload_list_gui_data[$row["file_id"]]["size"] = $row["file_size"];	
+			self::$preload_list_gui_data[$row["file_id"]]["version"] = $row["version"];	
+		}
+	}
+	
+	public static function getListGUIData($a_obj_id)
+	{
+		if(isset(self::$preload_list_gui_data[$a_obj_id]))
+		{
+			return self::$preload_list_gui_data[$a_obj_id];
+		}
+	}
+
 }
 
 ?>

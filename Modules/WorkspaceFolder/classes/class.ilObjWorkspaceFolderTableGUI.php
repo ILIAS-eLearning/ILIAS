@@ -47,6 +47,17 @@ class ilObjWorkspaceFolderTableGUI extends ilTable2GUI
 		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
 		$tree = new ilWorkspaceTree($ilUser->getId());
 		$nodes = $tree->getChilds($this->node_id, "title");
+						
+		if(sizeof($nodes))
+		{
+			$obj_ids = array();
+			foreach($nodes as $node)
+			{
+				$obj_ids[] = $node["obj_id"];
+			}
+			include_once("./Services/Object/classes/class.ilObjectListGUI.php");
+			ilObjectListGUI::preloadCommonProperties($obj_ids, ilObjectListGUI::CONTEXT_WORKSPACE);						
+		}
 		
 		$this->shared_objects = $this->access_handler->getObjectsIShare();
 		

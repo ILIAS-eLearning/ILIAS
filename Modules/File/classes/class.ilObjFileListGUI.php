@@ -148,35 +148,39 @@ class ilObjFileListGUI extends ilObjectListGUI
 			"value" => ilObjFileAccess::_getFileExtension($this->title),
 			'propertyNameVisible' => false
 			);
-
-		$fileData = ilObjFileAccess::_lookupFileData($this->obj_id);
-		$props[] = array("alert" => false, "property" => $lng->txt("size"),
-			"value" => ilFormat::formatSize($fileData['file_size'], 'short'),
-			'propertyNameVisible' => false);
-		$version = $fileData['version'];
-		if ($version > 1)
+						
+		$fileData = ilObjFileAccess::getListGUIData($this->obj_id);
+		if(is_array($fileData))
 		{
-			// add versions link
-			if (parent::checkCommandAccess("write", "versions", $this->ref_id, $this->type))
+			$props[] = array("alert" => false, "property" => $lng->txt("size"),
+				"value" => ilFormat::formatSize($fileData['size'], 'short'),
+				'propertyNameVisible' => false);
+			$version = $fileData['version'];
+			if ($version > 1)
 			{
-				$link = $this->getCommandLink("versions");
-				$value = "<a href=\"$link\">".$lng->txt("version").": $version</a>";
+				// add versions link
+				if (parent::checkCommandAccess("write", "versions", $this->ref_id, $this->type))
+				{
+					$link = $this->getCommandLink("versions");
+					$value = "<a href=\"$link\">".$lng->txt("version").": $version</a>";
+				}
+				else
+				{
+					$value = $lng->txt("version").": $version";
+				}
+				$props[] = array("alert" => false, "property" => $lng->txt("version"),
+					"value" => $value,
+					"propertyNameVisible" => false);
 			}
-			else
+
+			// #6040
+			if($fileData["date"])
 			{
-				$value = $lng->txt("version").": $version";
-			}
-			$props[] = array("alert" => false, "property" => $lng->txt("version"),
-				"value" => $value,
-				"propertyNameVisible" => false);
+				$props[] = array("alert" => false, "property" => $lng->txt("last_update"),
+					"value" => ilDatePresentation::formatDate(new ilDateTime($fileData["date"],IL_CAL_DATETIME)),
+					'propertyNameVisible' => false);
+			}			
 		}
-		
-		// #6040
-		include_once("./Services/History/classes/class.ilHistory.php");
-		$hist = array_shift(ilHistory::_getEntriesForObject($this->obj_id, "file"));
-		$props[] = array("alert" => false, "property" => $lng->txt("last_update"),
-			"value" => ilDatePresentation::formatDate(new ilDateTime($hist["date"],IL_CAL_DATETIME)),
-			'propertyNameVisible' => false);
 		// END WebDAV: Only display relevant information.
 
 		return $props;

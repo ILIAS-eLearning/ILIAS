@@ -30,6 +30,8 @@ class ilObjectListGUI
 	const CONTEXT_WORKSPACE = 2;
 	const CONTEXT_SHOP = 3;
 	const CONTEXT_WORKSPACE_SHARING = 4;
+	const CONTEXT_PERSONAL_DESKTOP = 5;
+	const CONTEXT_SEARCH = 6;
 	
 	const DOWNLOAD_CHECKBOX_NONE = 0;
 	const DOWNLOAD_CHECKBOX_ENABLED = 1;
@@ -3662,27 +3664,38 @@ class ilObjectListGUI
 	 * @param
 	 * @return
 	 */
-	static function preloadCommonProperties($a_obj_ids)
+	static function preloadCommonProperties($a_obj_ids, $a_context)
 	{
 		global $lng;
 		
-		$lng->loadLanguageModule("notes");
-		$lng->loadLanguageModule("tagging");
-		$lng->loadLanguageModule("rating");
+		if($a_context == self::CONTEXT_REPOSITORY)
+		{
+			$lng->loadLanguageModule("notes");
+			$lng->loadLanguageModule("tagging");
+			$lng->loadLanguageModule("rating");
+
+			include_once("./Services/Tagging/classes/class.ilTagging.php");
+			self::$cnt_tags = ilTagging::_countTags($a_obj_ids);
+
+			include_once("./Services/Notes/classes/class.ilNote.php");
+			self::$cnt_notes = ilNote::_countNotesAndCommentsMultiple($a_obj_ids, true);
+			self::$comments_activation = ilNote::getRepObjActivation($a_obj_ids);	
+						
+			include_once("./Services/Rating/classes/class.ilRating.php");		
+			include_once("./Services/Rating/classes/class.ilRatingGUI.php");		
+			ilRating::preloadListGUIData($a_obj_ids);		
+		}
 		
-		include_once("./Services/Tagging/classes/class.ilTagging.php");
-		self::$cnt_tags = ilTagging::_countTags($a_obj_ids);
+		if($a_context == self::CONTEXT_REPOSITORY ||
+			$a_context == self::CONTEXT_PERSONAL_DESKTOP ||
+			$a_context == self::CONTEXT_SEARCH)
+		{
+			include_once("./Services/Tracking/classes/class.ilLPStatus.php");
+			ilLPStatus::preloadListGUIData($a_obj_ids);
+		}
 		
-		include_once("./Services/Notes/classes/class.ilNote.php");
-		self::$cnt_notes = ilNote::_countNotesAndCommentsMultiple($a_obj_ids, true);
-		self::$comments_activation = ilNote::getRepObjActivation($a_obj_ids);	
-		
-		include_once("./Services/Tracking/classes/class.ilLPStatus.php");
-		ilLPStatus::preloadListGUIData($a_obj_ids);
-		
-		include_once("./Services/Rating/classes/class.ilRating.php");		
-		include_once("./Services/Rating/classes/class.ilRatingGUI.php");		
-		ilRating::preloadListGUIData($a_obj_ids);
+		include_once("./Modules/File/classes/class.ilObjFileAccess.php");	
+		ilObjFileAccess::preloadListGUIData($a_obj_ids);
 		
 		self::$preload_done = true;
 	}
