@@ -12481,7 +12481,7 @@ exc#:#exc_team_log_remove_file#:#Removed file %s.
 administration#:#adm_imprint#:#Legal Notice
 administration#:#adm_imprint_inactive#:#Legal notice is not active and users are not able to access it.
 common#:#imprint#:#Legal Notice
-trac#:#trac_filter_has_status#:#Show not attempted objects
+trac#:#trac_filter_has_status#:#Show also objects with status 'not attempted'
 cat#:#cat_import#:#Import Category
 mcst#:#mcst_preview_picture#:#Preview Picture
 mcst#:#mcst_preview_picture_info#:#Only supported by the following main media types:

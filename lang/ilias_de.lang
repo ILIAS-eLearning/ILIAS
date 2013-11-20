@@ -12403,7 +12403,7 @@ exc#:#exc_team_log_remove_file#:#Datei %s entfernt.
 administration#:#adm_imprint#:#Impressum
 administration#:#adm_imprint_inactive#:#Das Impressum ist nicht aktiviert und somit nicht für Benutzer erreichbar.
 common#:#imprint#:#Impressum
-trac#:#trac_filter_has_status#:#Zeige Objekte ohne Zugriff
+trac#:#trac_filter_has_status#:#Zeige auch Objekte mit Status 'Noch nicht begonnen'
 cat#:#cat_import#:#Kategorie importieren
 objref#:#objref_edit_ref#:#Ziel der Referenz 
 objref#:#objref_edit_title#:#Titel
