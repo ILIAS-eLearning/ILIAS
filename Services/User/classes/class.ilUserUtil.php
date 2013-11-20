@@ -277,7 +277,7 @@ class ilUserUtil
 	 */
 	public static function getStartingPoint()
 	{
-		global $ilSetting;
+		global $ilSetting, $ilUser;
 				
 		$valid = array_keys(self::getPossibleStartingPoints());
 		$current = $ilSetting->get("usr_starting_point");	
@@ -298,6 +298,10 @@ class ilUserUtil
 			}						
 			
 			self::setStartingPoint($current);
+		}
+		if($ilUser->getId() == ANONYMOUS_USER_ID)
+		{
+			$current = self::START_REPOSITORY;
 		}
 		return $current;
 	}	
