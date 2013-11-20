@@ -4421,7 +4421,7 @@ common#:#user_import_failed#:#User import failed.
 common#:#user_imported_with_warnings#:#User import complete with warnings.
 common#:#user_imported#:#User import complete.
 common#:#user_language#:#User Language
-common#:#user_new_account_mail_desc#:#Notification mail for new users
+common#:#user_new_account_mail_desc#:#This mail is sent automatically to users that have self-registered or to those who have been registered by an administrator with enabled setting 'Send mail to inform user about changes'.
 common#:#user_new_account_mail#:#New Account Mail
 common#:#user_not_chosen#:#You did not choose a group-member.
 common#:#user_not_known#:#Please insert a valid username.
@@ -7101,7 +7101,7 @@ mail#:#mail_nacc_target_block#:#This text is only included, if a target item is 
 mail#:#mail_nacc_target_title#:#Title of target item, e.g. course title.
 mail#:#mail_nacc_target_type#:#Type of target item, e.g. "Course" for a course item.
 mail#:#mail_nacc_target#:#URL of target item, e.g. a linked course that is passed to ILIAS from outside.
-mail#:#mail_nacc_use_placeholder#:#The following placeholders may be used
+mail#:#mail_nacc_use_placeholder#:#The following placeholders may be used (only in Message Content)
 mail#:#mail_new_entry#:#New Entry
 mail#:#mail_new_file#:#Add new file:
 mail#:#mail_no_attach_allowed#:#System messages are not allowed to contain attachments
@@ -7118,10 +7118,10 @@ mail#:#mail_s_unread#:#Unread Mail(s)
 mail#:#mail_s#:#Mail(s)
 mail#:#mail_salutation_anonymous#:#Hello
 mail#:#mail_salutation_f#:#Hello
-mail#:#mail_salutation_female#:#Salutation, female
-mail#:#mail_salutation_general#:#Salutation, general
+mail#:#mail_salutation_female#:#Output for placeholder [MAIL_SALUTATION], if gender is female
+mail#:#mail_salutation_general#:#Output for placeholder [MAIL_SALUTATION], no gender specified
 mail#:#mail_salutation_m#:#Hello
-mail#:#mail_salutation_male#:#Salutation, male
+mail#:#mail_salutation_male#:#Output for placeholder [MAIL_SALUTATION], if gender is male
 mail#:#mail_salutation_n#:#Hello
 mail#:#mail_saved#:#The message has been saved
 mail#:#mail_search_addressbook#:#search in Contacts
