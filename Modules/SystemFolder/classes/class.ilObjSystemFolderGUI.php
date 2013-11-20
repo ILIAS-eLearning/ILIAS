@@ -2502,14 +2502,14 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$cb->addSubItem($sub_mlist);
 
 				$default_setting = ilCronDeleteInactiveUserAccounts::DEFAULT_INACTIVITY_PERIOD;
-				$sub_text = new ilTextInputGUI(
+				$sub_text = new ilNumberInputGUI(
 					$this->lng->txt('delete_inactive_user_accounts_period'),
 					'cron_inactive_user_delete_period'
 				);
 				$sub_text->setInfo($this->lng->txt('delete_inactive_user_accounts_period_desc'));
 				$sub_text->setValue($ilSetting->get("cron_inactive_user_delete_period", $default_setting));
-				$sub_text->setSize(2);
-				$sub_text->setMaxLength(3);
+				$sub_text->setSize(4);
+				$sub_text->setMaxLength(4);
 		$cb->addSubItem($sub_text);
 
 		/*		$default_setting = ilCronDeleteInactiveUserAccounts::DEFAULT_SETTING_INCLUDE_ADMINS;
@@ -2565,14 +2565,14 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$cb->addSubItem($sub_mlist);
 
 				$default_setting = ilCronDeleteInactiveUserAccounts::DEFAULT_INACTIVITY_PERIOD;
-				$sub_text = new ilTextInputGUI(
+				$sub_text = new ilNumberInputGUI(
 					$this->lng->txt('delete_inactivated_user_accounts_period'),
 					'cron_inactivated_user_delete_period'
 				);
 				$sub_text->setInfo($this->lng->txt('delete_inactivated_user_accounts_period_desc'));
 				$sub_text->setValue($ilSetting->get("cron_inactivated_user_delete_period", $default_setting));
-				$sub_text->setSize(2);
-				$sub_text->setMaxLength(3);
+				$sub_text->setSize(4);
+				$sub_text->setMaxLength(4);
 		$cb->addSubItem($sub_text);
 
 		/*		$default_setting = ilCronDeleteInactiveUserAccounts::DEFAULT_SETTING_INCLUDE_ADMINS;
