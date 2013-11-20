@@ -148,14 +148,14 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
 		$a_form->addItem($sub_mlist);
 
 		$default_setting = self::DEFAULT_INACTIVITY_PERIOD;
-		$sub_text = new ilTextInputGUI(
+		$sub_text = new ilNumberInputGUI(
 			$lng->txt('delete_inactive_user_accounts_period'),
 			'cron_inactive_user_delete_period'
 		);
 		$sub_text->setInfo($lng->txt('delete_inactive_user_accounts_period_desc'));
 		$sub_text->setValue($ilSetting->get("cron_inactive_user_delete_period", $default_setting));
-		$sub_text->setSize(2);
-		$sub_text->setMaxLength(3);
+		$sub_text->setSize(4);
+		$sub_text->setMaxLength(4);
 		$sub_text->setRequired(true);
 		$a_form->addItem($sub_text);		
 		
