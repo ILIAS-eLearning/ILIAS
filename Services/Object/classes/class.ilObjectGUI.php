@@ -626,8 +626,10 @@ class ilObjectGUI
 			if ($this->object->getRefId() != SYSTEM_FOLDER_ID)
 			{
 				$ilLocator->addItem($this->object->getTitle(),
-					$this->ctrl->getLinkTarget($this, "view"));
+					$this->ctrl->getLinkTarget($this, "view"));							
 			}
+			$this->ctrl->setParameterByClass("iladministrationgui",
+				"ref_id", $this->object->getRefId());
 		}
 		else							// repository administration
 		{
