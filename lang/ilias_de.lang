@@ -8180,7 +8180,7 @@ mail#:#mail_nacc_target#:#URL des Zielobjekts, z. B. ein Kurs, auf den von auße
 mail#:#mail_nacc_target_block#:#Dieser Textblock wird nur eingefügt, wenn ein Zielobjekt angeboten wird.
 mail#:#mail_nacc_target_title#:#Titel des Zielobjekts, z. B. der Kurstitel
 mail#:#mail_nacc_target_type#:#Typ des Zielobjekts, z. B. "Kurs" für ein Kursobjekt
-mail#:#mail_nacc_use_placeholder#:#Die folgenden Platzhalter können verwendet werden
+mail#:#mail_nacc_use_placeholder#:#Im Feld 'Inhalt' können folgende Platzhalter verwendet werden
 mail#:#mail_new_entry#:#Neuer Eintrag
 mail#:#mail_new_file#:#Neue Datei hinzufügen:
 mail#:#mail_no_attach_allowed#:#Systemnachrichten können keine Anhänge beinhalten
@@ -8198,10 +8198,10 @@ mail#:#mail_s#:#Mails
 mail#:#mail_s_unread#:#Ungelesene Mails
 mail#:#mail_salutation_anonymous#:#Hallo
 mail#:#mail_salutation_f#:#Hallo
-mail#:#mail_salutation_female#:#Anrede, weiblich
-mail#:#mail_salutation_general#:#Anrede, allgemein
+mail#:#mail_salutation_female#:#Ausgabe für Platzhalter [MAIL_SALUTATION], wenn Empfänger weiblich
+mail#:#mail_salutation_general#:#Ausgabe für Platzhalter [MAIL_SALUTATION], wenn kein Geschlecht angegeben
 mail#:#mail_salutation_m#:#Hallo
-mail#:#mail_salutation_male#:#Anrede, männlich
+mail#:#mail_salutation_male#:#Ausgabe für Platzhalter [MAIL_SALUTATION], wenn Empfänger männlich
 mail#:#mail_salutation_n#:#Hallo
 mail#:#mail_saved#:#Ihre Mail wurde gespeichert
 mail#:#mail_search_addressbook#:#in Kontakten suchen
