@@ -14136,3 +14136,4 @@ user#:#inform_user_mail_info#:#Falls aktiviert, wird eine E-Mail an den Benutzer
 registration#:#reg_mail_body_timelimit#:#Ihr Zugang ist zeitlich limitiert: %s.
 mail#:#mail_nacc_if_timelimit#:#TDieser Textblock wird nur eingefügt, wenn der Benutzer einen limitierten Zugangszeitraum hat.
 mail#:#mail_nacc_timelimit#:#Zugangszeitraum des Benutzers
+common#:#msg_obj_already_deleted#:#Das Objekt wurde bereits gelöscht.
