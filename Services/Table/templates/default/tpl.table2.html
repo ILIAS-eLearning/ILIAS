@@ -189,7 +189,7 @@
 <!-- END tbl_hidden_row -->
 <!-- BEGIN select_all_checkbox -->
 <div class="ilTableSelectAll">
-	<input type="checkbox" name="{CHECKBOXNAME}" id="{CHECKBOXNAME}" value="1" onClick="il.Util.setChecked('{SELECT_ALL_FORM_NAME}', '{SELECT_ALL_CHECKBOX_NAME}', document.{SELECT_ALL_FORM_NAME}.{CHECKBOXNAME}.checked);" />
+	<input type="checkbox" name="{CHECKBOXNAME}" id="{CHECKBOXNAME}" value="1" onClick="il.Util.setChecked('{SELECT_ALL_FORM_NAME}', '{SELECT_ALL_CHECKBOX_NAME}', document.forms['{SELECT_ALL_FORM_NAME}'].elements['{CHECKBOXNAME}'].checked);" />
 	<label for="{CHECKBOXNAME}" class="small">{SELECT_ALL_TXT_SELECT_ALL}</label>
 </div>
 <!-- END select_all_checkbox -->
