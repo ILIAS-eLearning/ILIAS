@@ -14133,3 +14133,6 @@ exc#:#exc_create_team_times_up_warning#:#Sie können kein Team mehr erstellen. B
 exc#:#exc_instruction_files#:#Dateien zur Arbeitsanweisung
 registration#:#reg_mail_new_user_confirmation#:#Anfrage zur Überprüfung der Anmeldung
 user#:#inform_user_mail_info#:#Falls aktiviert, wird eine E-Mail an den Benutzer gesendet. Deren Inhalt kann in 'Administration » Benutzerverwaltung » Einstellungen » Benachrichtigung über Neuanmeldung' definiert werden.
+registration#:#reg_mail_body_timelimit#:#Ihr Zugang ist zeitlich limitiert: %s.
+mail#:#mail_nacc_if_timelimit#:#TDieser Textblock wird nur eingefügt, wenn der Benutzer einen limitierten Zugangszeitraum hat.
+mail#:#mail_nacc_timelimit#:#Zugangszeitraum des Benutzers
