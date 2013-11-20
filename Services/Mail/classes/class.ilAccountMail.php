@@ -189,6 +189,18 @@ class ilAccountMail
 						
 			// mail subject
 			$mail_subject = $tmp_lang->txt('reg_mail_subject');
+			
+			$timelimit = "";
+			if (!$user->checkTimeLimit())
+			{
+				$tmp_lang->loadLanguageModule("registration");
+				
+				// #6098			
+				$timelimit_from = new ilDateTime($user->getTimeLimitFrom(), IL_CAL_UNIX);
+				$timelimit_until = new ilDateTime($user->getTimeLimitUntil(), IL_CAL_UNIX);
+				$timelimit = ilDatePresentation::formatPeriod($timelimit_from, $timelimit_until);
+				$timelimit = "\n".sprintf($tmp_lang->txt('reg_mail_body_timelimit'), $timelimit)."\n\n";
+			}
 
 			// mail body
 			$mail_body = $tmp_lang->txt('reg_mail_body_salutation').' '.$user->getFullname().",\n\n".
@@ -197,7 +209,7 @@ class ilAccountMail
 				ILIAS_HTTP_PATH.'/login.php?client_id='.CLIENT_ID."\n";
 			$mail_body .= $tmp_lang->txt('login').': '.$user->getLogin()."\n";			
 			$mail_body.= $tmp_lang->txt('passwd').': '.$this->u_password."\n";
-			$mail_body.= "\n";
+			$mail_body.= "\n".$timelimit;			
 			$mail_body .= $tmp_lang->txt('reg_mail_body_text3')."\n\r";
 			$mail_body .= $user->getProfileAsString($tmp_lang);		
 		}
@@ -275,6 +287,17 @@ return true;*/
 				"", $a_string);
 			$a_string = eregi_replace("\[".$ws."IF_PASSWORD".$ws."\](.*)\[\/".$ws."IF_PASSWORD".$ws."\]",
 				"\\1", $a_string);
+		}
+				
+		if (!$a_user->checkTimeLimit())
+		{
+			// #6098
+			$a_string = eregi_replace("\[".$ws."IF_TIMELIMIT".$ws."\](.*)\[\/".$ws."IF_TIMELIMIT".$ws."\]",
+				"\\1", $a_string);
+			$timelimit_from = new ilDateTime($a_user->getTimeLimitFrom(), IL_CAL_UNIX);
+			$timelimit_until = new ilDateTime($a_user->getTimeLimitUntil(), IL_CAL_UNIX);
+			$timelimit = ilDatePresentation::formatPeriod($timelimit_from, $timelimit_until);
+			$a_string  = str_replace("[TIMELIMIT]", $timelimit, $a_string);
 		}
 		
 		// target

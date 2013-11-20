@@ -2691,6 +2691,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$ftpl->setVariable("TXT_TARGET_TITLE", $lng->txt("mail_nacc_target_title"));
 		$ftpl->setVariable("TXT_TARGET_TYPE", $lng->txt("mail_nacc_target_type"));
 		$ftpl->setVariable("TXT_TARGET_BLOCK", $lng->txt("mail_nacc_target_block"));	
+		$ftpl->setVariable("TXT_IF_TIMELIMIT", $lng->txt("mail_nacc_if_timelimit"));	
+		$ftpl->setVariable("TXT_TIMELIMIT", $lng->txt("mail_nacc_timelimit"));	
 		
 		$this->tpl->setContent($ftpl->get());
 	}
