@@ -1944,6 +1944,7 @@ class ilPageObjectGUI
 			: ilPlayerUtil::getFlashVideoPlayerFilename(true);
 		
 		// added UTF-8 encoding otherwise umlaute are converted too
+		include_once("./Services/GoogleMaps/classes/class.ilGoogleMapUtil.php");
 		$params = array ('mode' => $this->getOutputMode(), 'pg_title' => htmlentities($pg_title,ENT_QUOTES,"UTF-8"),
 						 'layout_mode' => $this->getLayoutMode() ? "y" : "n",
 						 'pg_id' => $this->obj->getId(), 'pg_title_class' => $pg_title_class,
@@ -1972,7 +1973,7 @@ class ilPageObjectGUI
 						 'citate' => $this->lng->txt('citate'),
 						 'enable_rep_objects' => $this->getEnabledRepositoryObjects() ? "y" : "n",
 						 'enable_login_page' => $this->getEnabledLoginPage() ? "y" : "n",
-						 'enable_map' => $this->getEnabledMaps() ? "y" : "n",
+						 'enable_map' => ($this->getEnabledMaps() && ilGoogleMapUtil::isActivated()) ? "y" : "n",
 						 'enable_tabs' => $this->getEnabledPCTabs() ? "y" : "n",
 						 'enable_sa_qst' => $this->getEnabledSelfAssessment() ? "y" : "n",
 						 'enable_file_list' => $this->getEnabledFileLists() ? "y" : "n",
