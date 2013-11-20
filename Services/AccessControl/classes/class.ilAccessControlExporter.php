@@ -61,8 +61,14 @@ class ilAccessControlExporter extends ilXmlExporter
 		include_once './Services/AccessControl/classes/class.ilRoleXmlExport.php';
 		$writer = new ilRoleXmlExport();
 		
-		$rolfs = $rbacreview->getFoldersAssignedToRole($a_id,false);
-		$rolf = end($rolfs);
+		include_once './Services/Export/classes/class.ilExportOptions.php';
+		$eo = ilExportOptions::getInstance();
+		$eo->read();
+		
+		$rolf = $eo->getOptionByObjId($a_id,ilExportOptions::KEY_ROOT);
+		
+		#$rolfs = $rbacreview->getFoldersAssignedToRole($a_id,false);
+		#$rolf = end($rolfs);
 		
 		$writer->setRoles(array($a_id => $rolf));
 		$writer->write();

@@ -105,6 +105,11 @@ class ilObjRoleGUI extends ilObjectGUI
 			case 'ilexportgui':
 					
 				$this->tabs_gui->setTabActive('export');
+				
+				include_once './Services/Export/classes/class.ilExportOptions.php';
+				$eo = ilExportOptions::newInstance(ilExportOptions::allocateExportId());
+				$eo->addOption(ilExportOptions::KEY_ROOT,0,$this->object->getId(),$this->rolf_ref_id);
+				
 				include_once './Services/Export/classes/class.ilExportGUI.php';
 				$exp = new ilExportGUI($this, new ilObjRole($this->object->getId()));
 				$exp->addFormat('xml');
