@@ -1638,6 +1638,10 @@ class ilObjCourseGUI extends ilContainerGUI
 					$this->tabs_gui->addSubTabTarget("crs_members_groups",
 													 $this->ctrl->getLinkTargetByClass("ilCourseParticipantsGroupsGUI", "show"),
 													 "", "ilCourseParticipantsGroupsGUI");
+
+					$this->tabs_gui->addSubTabTarget("crs_members_gallery",
+													 $this->ctrl->getLinkTarget($this,'membersGallery'),
+													 "membersGallery", get_class($this));
 				}
 				elseif(
 					$this->object->getShowMembers() == $this->object->SHOW_MEMBERS_ENABLED
