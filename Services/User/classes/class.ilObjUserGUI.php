@@ -3625,13 +3625,14 @@ class ilObjUserGUI extends ilObjectGUI
 		// #10888
 		if($a_target == md5("usrdelown"))
 		{						
-			if($ilUser->hasDeletionFlag())
+			if($ilUser->getId() != ANONYMOUS_USER_ID &&
+				$ilUser->hasDeletionFlag())
 			{
 				$ilCtrl->setTargetScript("ilias.php");
 				$ilCtrl->initBaseClass("ilpersonaldesktopgui");
 				$ilCtrl->redirectByClass(array("ilpersonaldesktopgui", "ilpersonalsettingsgui"), "deleteOwnAccount3");						
 			}
-			exit;
+			exit("This account is not flagged for deletion."); // #12160
 		}
 
 		if (substr($a_target, 0, 1) == "n")
