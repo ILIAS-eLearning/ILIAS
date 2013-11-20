@@ -14138,3 +14138,4 @@ user#:#inform_user_mail_info#:#If activated, an email will be sent to the user. 
 registration#:#reg_mail_body_timelimit#:#Your account has a limited period of validity: %s.
 mail#:#mail_nacc_if_timelimit#:#This text is only included, if the user has a limited access period.
 mail#:#mail_nacc_timelimit#:#User access period 
+common#:#msg_obj_already_deleted#:#The object has already been deleted.
