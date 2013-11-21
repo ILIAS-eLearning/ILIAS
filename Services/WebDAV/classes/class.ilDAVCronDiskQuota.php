@@ -155,6 +155,7 @@ class ilDAVCronDiskQuota extends ilCronJob
 		require_once 'Services/WebDAV/classes/class.ilObjDiskQuotaSettings.php';
 		$disk_quota_obj = ilObjDiskQuotaSettings::getInstance();	
 		$disk_quota_obj->setDiskQuotaEnabled((bool)$a_currently_active);
+		$disk_quota_obj->update(); 
 	}
 }
 
