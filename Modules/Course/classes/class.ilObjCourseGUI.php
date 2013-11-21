@@ -4602,16 +4602,18 @@ class ilObjCourseGUI extends ilContainerGUI
             //OTX: needed for plug-ins
             case '':
             //OTX END
-                if(!$this->creation_mode)
-                {
-                    $this->checkPermission('visible');
-                }
-                /*
-                if(!$this->creation_mode and !$ilAccess->checkAccess('visible','',$this->object->getRefId(),'crs'))
-                {
-                    $ilErr->raiseError($this->lng->txt("msg_no_perm_read"),$ilErr->MESSAGE);
-                }
-                */
+				if(!$this->creation_mode)
+				{
+					if ($cmd == "infoScreen")
+					{
+						$this->checkPermission("visible");
+					}
+					else
+					{
+//						$this->checkPermission("read");
+					}
+				}
+
                 if( !$this->creation_mode
                     && $cmd != 'infoScreen'
                     && $cmd != 'sendfile'
