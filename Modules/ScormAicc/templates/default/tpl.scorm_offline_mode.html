@@ -13,16 +13,16 @@ var ilClient = '{CLIENT_ID}',
  	importLmOk,
 	importTrackingOk,
 	pushTrackingOk,
-	msg_lm_not_exists = '{MSG_LM_NOT_EXISTS}',
-	msg_close_lm = '{MSG_CLOSE_LM}',
-	msg_result = '{MESSAGE_RESULT}',
-	msg_already_exported = '{ALREADY_EXPORTED}',
-	msg_firefox_required = '{FIREFOX_REQUIRED}',
-	msg_xpi_install = '{XPI_INSTALL}',
-	msg_export_content = '{MSG_EXPORT_CONTENT}',
-	msg_export_tracking = '{MSG_EXPORT_TRACKING}',
-	msg_push_tracking = '{MSG_PUSH_TRACKING}',
-	msg_push_tracking_ok = '{MSG_PUSH_TRACKING_OK}';
+	msg_lm_not_exists = "{MSG_LM_NOT_EXISTS}",
+	msg_close_lm = "{MSG_CLOSE_LM}",
+	msg_result = "{MESSAGE_RESULT}",
+	msg_already_exported = "{ALREADY_EXPORTED}",
+	msg_firefox_required = "{FIREFOX_REQUIRED}",
+	msg_xpi_install = "{XPI_INSTALL}",
+	msg_export_content = "{MSG_EXPORT_CONTENT}",
+	msg_export_tracking = "{MSG_EXPORT_TRACKING}",
+	msg_push_tracking = "{MSG_PUSH_TRACKING}",
+	msg_push_tracking_ok = "{MSG_PUSH_TRACKING_OK}";
 
 function checkCallback(success) {
 	mode = (mode=="") ? "online" : mode;
@@ -63,6 +63,7 @@ function checkCallback(success) {
 } 
 
 function checkSopConnector(handler) {
+	
 	var timeout = 5000;
 	var sopFound = false;
 	var counter = 0;
