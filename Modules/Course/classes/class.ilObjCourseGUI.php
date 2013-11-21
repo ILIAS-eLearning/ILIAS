@@ -4493,7 +4493,7 @@ class ilObjCourseGUI extends ilContainerGUI
 					}
 					else
 					{
-						$this->checkPermission("read");
+//						$this->checkPermission("read");
 					}
 				}
 //echo "h"; exit;
