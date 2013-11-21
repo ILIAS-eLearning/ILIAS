@@ -322,7 +322,12 @@ class ilCronManager
 			if($a_job->hasAutoActivation())
 			{
 				self::activateJob($a_job);							
-			}														
+			}		
+			else		
+			{
+				// to overwrite dependent settings
+				$a_job->activationWasToggled(false);	
+			}
 		}	
 		// existing job - but schedule is flexible now
 		else if($a_job->hasFlexibleSchedule() && !$schedule_type)
