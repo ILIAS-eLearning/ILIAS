@@ -394,11 +394,13 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 	}
 
 	public function _goto($ref_id) {
-		$this->ilctrl->initBaseClass("ilAdministrationGUI");
-		$this->ilctrl->setTargetScript("ilias.php");
-		$this->ilctrl->setParameterByClass("ilObjOrgUnitGUI", "ref_id", $ref_id);
-		$this->ilctrl->setParameterByClass("ilObjOrgUnitGUI", "admin_mode", "settings");
-		$this->ilctrl->redirectByClass(array( "ilAdministrationGUI", "ilObjOrgUnitGUI" ), "view");
+        global $ilCtrl;
+
+        $ilCtrl->initBaseClass("ilAdministrationGUI");
+        $ilCtrl->setTargetScript("ilias.php");
+        $ilCtrl->setParameterByClass("ilObjOrgUnitGUI", "ref_id", $ref_id);
+        $ilCtrl->setParameterByClass("ilObjOrgUnitGUI", "admin_mode", "settings");
+        $ilCtrl->redirectByClass(array( "ilAdministrationGUI", "ilObjOrgUnitGUI" ), "view");
 	}
 
 	public function showMoveIntoObjectTreeObject() {
