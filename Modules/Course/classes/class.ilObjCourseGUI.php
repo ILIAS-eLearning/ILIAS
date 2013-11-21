@@ -4599,20 +4599,31 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->ctrl->forwardCommand($service);
 				break;
 
-            //OTX: needed for plug-ins
-            case '':
-            //OTX END
-				if(!$this->creation_mode)
-				{
-					if ($cmd == "infoScreen")
-					{
-						$this->checkPermission("visible");
-					}
-					else
-					{
-//						$this->checkPermission("read");
-					}
-				}
+            default:
+                if(!$this->creation_mode)
+                {
+                    $this->checkPermission('visible');
+                }
+                /*
+                if(!$this->creation_mode and !$ilAccess->checkAccess('visible','',$this->object->getRefId(),'crs'))
+                {
+                    $ilErr->raiseError($this->lng->txt("msg_no_perm_read"),$ilErr->MESSAGE);
+                }
+                */
+
+                // #9401 - see also ilStartupGUI::_checkGoto()
+                if($cmd == 'infoScreenGoto')
+                {
+                    if(ilObjCourse::_isActivated($this->object->getId()) &&
+                        ilObjCourse::_registrationEnabled($this->object->getId()))
+                    {
+                        $cmd = 'join';
+                    }
+                    else
+                    {
+                        $cmd = 'infoScreen';
+                    }
+                }
 
                 if( !$this->creation_mode
                     && $cmd != 'infoScreen'
@@ -4661,15 +4672,6 @@ class ilObjCourseGUI extends ilContainerGUI
                 $this->$cmd();
 
                 break;
-            // OTX: needed for plug-ins
-            default:
-                $class_path = $this->ctrl->lookupClassPath($next_class);
-                include_once($class_path);
-                $class_name = $this->ctrl->getClassForClasspath($class_path);
-                $next = new $class_name($this);
-                $this->ctrl->forwardCommand($next);
-                break;
-            // OTX END
 		}
 		
 		$this->addHeaderAction();
