@@ -12892,7 +12892,7 @@ wsp#:#wsp_type_tstv#:#Certificat : Test
 wsp#:#wsp_type_webr#:#Lien Web
 wsp#:#wsp_type_wfld#:#Dossier
 sop#:#sop_check_system_requirements#:#Vérification du système en cours
-sop#:#sop_firefox_required#:#Le mode déconnecté requiert une version récente du navigateur Mozilla-Firefox (> 20)<br /><a href="http://www.mozilla.org/fr/firefox/new/" target="_new">Télécharger Firefox</a>
+sop#:#sop_firefox_required#:#Le mode déconnecté requiert une version récente du navigateur Mozilla-Firefox (> 20)<br /><a href='http://www.mozilla.org/fr/firefox/new/' target='_new'>Télécharger Firefox</a>
 sop#:#sop_xpi_install#:#Veuillez installer l'extension Firefox suivante : %s<br />Le Module SCORM sera alors exportable pour un accès déconnecté.
 sop#:#sop_text_export#:#Exporter le Module SCORM pour une utilisation déconnectée  
 sop#:#sop_export#:#Export du Module SCORM
