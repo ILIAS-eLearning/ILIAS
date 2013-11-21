@@ -626,6 +626,12 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$this->object->gotItems() ? true : false,
 				$this->object->gotItems() ? true : false
 			);
+
+			// form action needed, see http://www.ilias.de/mantis/view.php?id=9630
+			if ($this->object->gotItems())
+			{
+				$GLOBALS['tpl']->setPageFormAction($this->ctrl->getFormAction($this));
+			}
 		}
 		else
 		{
