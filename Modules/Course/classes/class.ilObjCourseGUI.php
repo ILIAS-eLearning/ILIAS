@@ -4460,10 +4460,10 @@ class ilObjCourseGUI extends ilContainerGUI
 				break;
 				
 			default:
-				if(!$this->creation_mode)
+/*				if(!$this->creation_mode)
 				{
 					$this->checkPermission('visible');
-				}
+				}*/
 				/*
 				if(!$this->creation_mode and !$ilAccess->checkAccess('visible','',$this->object->getRefId(),'crs'))
 				{
@@ -4484,6 +4484,19 @@ class ilObjCourseGUI extends ilContainerGUI
 						$cmd = 'infoScreen';
 					}
 				}
+				
+				if(!$this->creation_mode)
+				{
+					if ($cmd == "infoScreen")
+					{
+						$this->checkPermission("visible");
+					}
+					else
+					{
+						$this->checkPermission("read");
+					}
+				}
+//echo "h"; exit;
 				
 				if( !$this->creation_mode
 					&& $cmd != 'infoScreen'
@@ -4685,7 +4698,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	function _goto($a_target, $a_add = "")
 	{
 		global $ilAccess, $ilErr, $lng,$ilUser;
-		
+
 		include_once './Services/Membership/classes/class.ilMembershipRegistrationCodeUtils.php';
 		if(substr($a_add,0,5) == 'rcode')
 		{
