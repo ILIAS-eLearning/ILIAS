@@ -1681,19 +1681,19 @@ class ilExAssignment
 	}
 
 	/**
-	* was: setNoticeForMember($a_member_id,$a_notice)
+	 * was: setNoticeForMember($a_member_id,$a_notice)
 	 */
 	function updateNoticeForUser($a_ass_id, $a_user_id, $a_notice)
 	{
 		global $ilDB;
-
-		$ilDB->manipulateF("UPDATE exc_mem_ass_status ".
-			"SET notice = %s, status_time= %s ".
-			" WHERE ass_id = %s AND usr_id = %s AND ".
-			$ilDB->equalsNot("notice", $a_notice, "text", true),
-			array("text", "timestamp", "integer", "integer"),
-			array($a_notice, ilUtil::now(), $a_ass_id, $a_user_id));
-
+		
+		// #12181
+		$ilDB->manipulate("UPDATE exc_mem_ass_status".
+			" SET notice = ".$ilDB->quote($a_notice, "text").
+			",status_time= ".$ilDB->quote(ilUtil::now(), "timestamp").
+			" WHERE ass_id = ".$ilDB->quote($a_ass_id, "integer").
+			" AND usr_id = ".$ilDB->quote($a_user_id, "integer").
+			" AND ".$ilDB->equalsNot("notice", $a_notice, "text", true));
 	}
 
 	/**
