@@ -3680,22 +3680,7 @@ class ilObjectListGUI
 			include_once("./Services/Notes/classes/class.ilNote.php");
 			self::$cnt_notes = ilNote::_countNotesAndCommentsMultiple($a_obj_ids, true);
 			self::$comments_activation = ilNote::getRepObjActivation($a_obj_ids);	
-						
-			include_once("./Services/Rating/classes/class.ilRating.php");		
-			include_once("./Services/Rating/classes/class.ilRatingGUI.php");		
-			ilRating::preloadListGUIData($a_obj_ids);		
 		}
-		
-		if($a_context == self::CONTEXT_REPOSITORY ||
-			$a_context == self::CONTEXT_PERSONAL_DESKTOP ||
-			$a_context == self::CONTEXT_SEARCH)
-		{
-			include_once("./Services/Tracking/classes/class.ilLPStatus.php");
-			ilLPStatus::preloadListGUIData($a_obj_ids);
-		}
-		
-		include_once("./Modules/File/classes/class.ilObjFileAccess.php");	
-		ilObjFileAccess::preloadListGUIData($a_obj_ids);
 		
 		self::$preload_done = true;
 	}

@@ -354,12 +354,7 @@ class ilObjFileAccess extends ilObjectAccess
 		return ilLink::_getStaticLink($ref_id, "file", true, "_download");
 	}
 	
-	
-	//
-	// LIST GUI
-	//
-	
-	public static function preloadListGUIData(array $a_obj_ids)
+	public function _preloadData($a_obj_ids, $a_ref_ids)
 	{
 		global $ilDB;
 		
@@ -392,7 +387,6 @@ class ilObjFileAccess extends ilObjectAccess
 			return self::$preload_list_gui_data[$a_obj_id];
 		}
 	}
-
 }
 
 ?>
