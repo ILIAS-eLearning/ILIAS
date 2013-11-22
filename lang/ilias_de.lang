@@ -14137,3 +14137,4 @@ registration#:#reg_mail_body_timelimit#:#Ihr Zugang ist zeitlich limitiert: %s.
 mail#:#mail_nacc_if_timelimit#:#TDieser Textblock wird nur eingefügt, wenn der Benutzer einen limitierten Zugangszeitraum hat.
 mail#:#mail_nacc_timelimit#:#Zugangszeitraum des Benutzers
 common#:#msg_obj_already_deleted#:#Das Objekt wurde bereits gelöscht.
+rbac#:#rbac_create_prtt#:#Neue Portfoliovorlage anlegen
