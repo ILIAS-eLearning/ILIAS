@@ -1057,9 +1057,9 @@ div.il_ExplorerItemDescription {
 }
 
 a.ilTreeView {
-	position: absolute;
+	position: fixed;
 	left: -2px;
-	top: 270px;
+	top: 130px;
 }
 
 a.ilTreeView:hover {
@@ -2634,7 +2634,7 @@ img.ilAreaClose {
 	cursor: pointer;
 }
 
-div.ilLeftNavSpace {
+.ilLeftNavSpace {
 	/* padding: 0 20px 0 310px; */
 	left: 310px !important;
 }
