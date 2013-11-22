@@ -352,17 +352,7 @@ class ilObjectActivation
 		
 		$a_item['timing_type'] = $item['timing_type'];
 		
-		// #7359 - session sorting should always base on appointment date
-		if($a_item['type'] == 'sess')
-		{
-			include_once('./Modules/Session/classes/class.ilSessionAppointment.php');
-			$info = ilSessionAppointment::_lookupAppointment($a_item['obj_id']);
-
-			$a_item['start'] = $info['start'];
-			$a_item['end'] = $info['end'];
-			$a_item['activation_info'] = 'crs_timings_suggested_info';
-		}		 
-		elseif($item['changeable'] &&  
+		if($item['changeable'] &&  
 			$item['timing_type'] == self::TIMINGS_PRESETTING)
 		{
 			include_once 'Modules/Course/classes/Timings/class.ilTimingPlaned.php';
@@ -395,7 +385,20 @@ class ilObjectActivation
 		else
 		{
 			$a_item['start'] = 'abc';
-		}			
+		}		
+		
+		// #7359 - session sorting should always base on appointment date
+		if($a_item['type'] == 'sess')
+		{
+			include_once('./Modules/Session/classes/class.ilSessionAppointment.php');
+			$info = ilSessionAppointment::_lookupAppointment($a_item['obj_id']);
+
+			// #11987
+			$a_item['masked_start'] = $a_item['start'];
+			$a_item['masked_end'] = $a_item['end'];
+			$a_item['start'] = $info['start'];
+			$a_item['end'] = $info['end'];			
+		}
 	}
 	
 	/**
@@ -412,19 +415,29 @@ class ilObjectActivation
 		self::addAdditionalSubItemInformation($a_item);
 		if(isset($a_item['timing_type']))
 		{			
+			if(!isset($a_item['masked_start']))
+			{
+				$start = $a_item['start'];
+				$end = $a_item['end'];
+			}
+			else
+			{
+				$start = $a_item['masked_start'];
+				$end = $a_item['masked_end'];
+			}		
 			$activation = '';
 			switch($a_item['timing_type'])
 			{
 				case ilObjectActivation::TIMINGS_ACTIVATION:
 					$activation = ilDatePresentation::formatPeriod(
-						new ilDateTime($a_item['start'],IL_CAL_UNIX),
-						new ilDateTime($a_item['end'],IL_CAL_UNIX));
+						new ilDateTime($start,IL_CAL_UNIX),
+						new ilDateTime($end,IL_CAL_UNIX));
 					break;
 						
 				case ilObjectActivation::TIMINGS_PRESETTING:
 					$activation = ilDatePresentation::formatPeriod(
-						new ilDate($a_item['start'],IL_CAL_UNIX),
-						new ilDate($a_item['end'],IL_CAL_UNIX));
+						new ilDate($start,IL_CAL_UNIX),
+						new ilDate($end,IL_CAL_UNIX));
 					break;					
 			}
 			if ($activation != "")
