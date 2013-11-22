@@ -2916,23 +2916,6 @@ common#:#ext_cat_settings#:#Erweiterte Einstellungen bearbeiten
 common#:#ext_link#:#Link
 common#:#extt_configure#:#konfigurieren...
 rbac#:#extt_edit_permission#:#Rechteeinstellungen ändern
-common#:#extt_ilinc#:#netucate LearnLinc
-common#:#extt_ilinc_additional_options#:#Weitere Einstellungen
-common#:#extt_ilinc_akclassvalues_active#:#Kostenstellen aktivieren
-common#:#extt_ilinc_akclassvalues_active_info#:#Erlaubt die Verwendung von iLinc-Kostenstellen für Learnlinc-Seminare und Seminarräume
-common#:#extt_ilinc_akclassvalues_required#:#Kostenstelle erforderlich
-common#:#extt_ilinc_akclassvalues_required_info#:#Die Angabe mindestens einer Kostenstelle für jedes LearnLinc-Seminar ist erforderlich
-common#:#extt_ilinc_configure#:#Einstellungen für netucate LearnLinc
-common#:#extt_ilinc_connection_data#:#Verbindungsdaten
-common#:#extt_ilinc_customer_id#:#Kunden-ID
-common#:#extt_ilinc_desc#:#Bietet virtuelle Klassenräume. Kommerzieller Dienst. Für weitere Informationen wenden Sie sich bitte an die Firma netucate unter www.netucate.com
-common#:#extt_ilinc_enable#:#LearnLinc-Unterstützung aktivieren
-common#:#extt_ilinc_protocol_port#:#Protokoll und Port
-common#:#extt_ilinc_registrar_login#:#Benutzername ID
-common#:#extt_ilinc_registrar_passwd#:#Passwort
-common#:#extt_ilinc_server#:#Server
-common#:#extt_ilinc_settings_saved#:#LearnLinc-Einstellungen gespeichert
-common#:#extt_ilinc_timeout#:#Maximale Wartezeit auf Serverantwort
 common#:#extt_name#:#Software/Dienst
 rbac#:#extt_read#:#Lesezugriff auf Administration der Software von Drittanbietern
 common#:#extt_remark#:#Die oben aufgeführten Softwareprogramme oder Dienste sind nicht Bestandteil von ILIAS und es gelten ggf. andere Lizenzbestimmungen.
@@ -3295,32 +3278,12 @@ common#:#http_not_possible#:#Dieser Server unterstützt keine HTTP-Anfragen.
 common#:#http_path#:#HTTP-Pfad
 common#:#https_not_possible#:#Dieser Server unterstützt keine HTTPS-Verbindungen.
 common#:#i2passwd#:#ILIAS_2-Passwort
-common#:#icla#:#LearnLinc-Seminarraum
-common#:#icla_add#:#LearnLinc-Seminarraum anlegen
-common#:#icla_deleted#:#LearnLinc-Seminarräume gelöscht
-common#:#icla_edit#:#LearnLinc-Seminarraum bearbeiten
-common#:#icla_new#:#Neuen LearnLinc-Seminarraum anlegen
 common#:#icon#:#Symbol
 common#:#icon_settings#:#Icon
 common#:#icons_in_header#:#Kopfleiste
 common#:#icons_in_item_rows#:#Objektliste
 common#:#icons_in_typed_lists#:#Position der Symbole in Objektliste
 common#:#icons_in_typed_lists_info#:#Bestimmt, wo die Objektsymbole in der Objektliste dargestellt werden. Diese Einstellung ist wirksam bei Sortierung nach Objekttyp im Magazin und auf dem Persönlichen Schreibtisch.
-common#:#icrs#:#LearnLinc-Seminar
-common#:#icrs_add#:#LearnLinc-Seminar anlegen
-common#:#icrs_added#:#LearnLinc-Seminar angelegt
-common#:#icrs_copy#:#Kopiere LearnLinc-Seminar
-common#:#icrs_create_icla#:#LearnLinc-Seminarräume anlegen
-common#:#icrs_delete#:#LearnLinc-Seminar löschen
-common#:#icrs_edit#:#LearnLinc-Seminar bearbeiten
-common#:#icrs_edit_permission#:#Rechteeinstellungen ändern
-common#:#icrs_join#:#Benutzer kann LearnLinc-Seminar beitreten
-common#:#icrs_leave#:#Benutzer kann LearnLinc-Seminar verlassen
-common#:#icrs_members_gallery#:#Mitgliedergalerie
-common#:#icrs_new#:#Neues LearnLinc-Seminar anlegen
-common#:#icrs_read#:#Lesezugriff auf LearnLinc-Seminar
-common#:#icrs_visible#:#LearnLinc-Seminar ist sichtbar
-common#:#icrs_write#:#LearnLinc-Seminar bearbeiten
 common#:#id#:#ID
 common#:#identifier#:#Identifier
 common#:#if_no_title_then_filename#:#Geben Sie keinen Titel ein, wird stattdessen der Dateiname angezeigt
@@ -3342,53 +3305,9 @@ common#:#il_grp_admin#:#Gruppenadministrator
 common#:#il_grp_member#:#Gruppenmitglied
 common#:#il_grp_status_closed#:#Geschlossene Gruppe
 common#:#il_grp_status_open#:#Offene Gruppe
-common#:#il_icrs_admin#:#LearnLinc-Seminar-Administrator
-common#:#il_icrs_member#:#LearnLinc-Seminar-Mitglied
 common#:#ilias_and_webfolder_username#:#ILIAS und Webordner Benutzername
 common#:#ilias_username#:#ILIAS Benutzername
 common#:#ilias_version#:#ILIAS-Version
-common#:#ilinc_add_user#:#Benutzer hinzufügen
-common#:#ilinc_akclassvalue#:#Kostenstelle
-common#:#ilinc_akclassvalues#:#Kostenstellen
-common#:#ilinc_classroom_always_open#:#Raum ist ständig geöffnet
-common#:#ilinc_classroom_closed#:#Raum ist geschlossen
-common#:#ilinc_classroom_open#:#Raum ist offen
-common#:#ilinc_classrooms#:#LearnLinc-Seminarräume
-common#:#ilinc_coursemember_status#:#Eingetragen als
-common#:#ilinc_courses#:#LearnLinc-Seminare
-common#:#ilinc_dismiss_member#:#Sind Sie sicher, dass folgende Benutzer aus dem LearnLinc-Seminar ausgetragen werden sollen?
-common#:#ilinc_dismiss_myself#:#Sind Sie sicher, dass Sie sich selbst aus dem LearnLinc-Seminar ausgetragen wollen?
-common#:#ilinc_docent#:#Dozent
-common#:#ilinc_err_administrator_required#:#Jedem LearnLinc-Seminar muss mindestens ein Benutzer mit Administrationsrechten zugewiesen sein
-common#:#ilinc_err_at_least_one_groupadministrator_is_needed#:#Jedem LearnLinc-Seminar muss mindestens ein Benutzer mit Administrationsrechten zugewiesen sein
-common#:#ilinc_err_last_member#:#Entfernen des letzten Mitglieds nicht möglich, bitte löschen Sie das LearnLinc-Seminar !
-common#:#ilinc_err_member_could_not_be_removed#:#Mitglied konnte nicht entfernt werden. Bitte überprüfen Sie die Abhängigkeiten dieses Benutzers.
-common#:#ilinc_err_no_permission#:#Sie verfügen nicht über ausreichende Rechte, um diese Operation durchzuführen.
-common#:#ilinc_err_registration_data#:#Bitte geben Sie ein Passwort sowie Datum und Uhrzeit für die Gültigkeit des Beitrittszeitraums an !
-common#:#ilinc_header_edit_users#:#Liste der beteiligten Benutzer bearbeiten
-common#:#ilinc_id#:#iLinc-ID
-common#:#ilinc_involved_users#:#Beteiligte Benutzer
-common#:#ilinc_login#:#iLinc-Login
-common#:#ilinc_mail_body_new_subscription#:#Sie sind im oben genannten LearnLinc-Seminar als Teilnehmer aufgenommen worden.
-common#:#ilinc_mail_body_subscription_cancelled#:#Ihre Mitgliedschaft wurde aufgehoben.
-common#:#ilinc_mail_subj_new_subscription#:#Neue Mitgliedschaft
-common#:#ilinc_mail_subj_subscription_cancelled#:#Mitgliedschaft aufgehoben
-common#:#ilinc_manage_course_documents#:#Agenda
-common#:#ilinc_mem_change_status#:#Mitgliedsstatus ändern
-common#:#ilinc_mem_leave#:#Benutzer aus dem LearnLinc-Seminar austragen
-common#:#ilinc_mem_send_mail#:#Benutzer eine Mail senden
-common#:#ilinc_msg_joined#:#Sie sind dem LearnLinc Seminar beigetreten
-common#:#ilinc_msg_member_assigned#:#Benutzer zugewiesen
-common#:#ilinc_msg_membership_annulled#:#Mitgliedschaft aufgehoben
-common#:#ilinc_no_akclassvalues#:#keine
-common#:#ilinc_no_docent_assigned#:#Niemand zugewiesen
-common#:#ilinc_notset#:#Nicht gesetzt
-common#:#ilinc_passwd#:#iLinc Passwort
-common#:#ilinc_remark#:#Hinweis
-common#:#ilinc_server_not_active#:#Der iLinc-Server ist nicht aktiv
-common#:#ilinc_student#:#Teilnehmer
-common#:#ilinc_upload_pic_linktext#:#Hochladen
-common#:#ilinc_upload_pic_text#:#Um Ihr Bild in LearnLinc-Seminaren anzuzeigen, benutzen Sie bitte diesen Link:
 common#:#im_aim#:#AIM
 common#:#im_aim_icon#:#AIM-Logo
 common#:#im_icq#:#ICQ
@@ -4083,8 +4002,6 @@ common#:#obj_grp#:#Gruppe
 common#:#obj_grp_duplicate#:#Gruppe kopieren
 common#:#obj_grp_select#:#-- Bitte wählen Sie eine Gruppe aus --
 common#:#obj_htlm#:#Lernmodul HTML
-common#:#obj_icla#:#LearnLinc Seminarraum
-common#:#obj_icrs#:#LearnLinc Seminar
 common#:#obj_il_chat_moderator#:#Chatraum Moderator
 common#:#obj_ldap#:#LDAP-Einstellungen
 common#:#obj_ldap_desc#:#Globale LDAP-Konfiguration
@@ -4212,8 +4129,6 @@ common#:#objs_frm#:#Foren
 common#:#objs_glo#:#Glossare
 common#:#objs_grp#:#Gruppen
 common#:#objs_htlm#:#HTML-Lernmodule
-common#:#objs_icla#:#LearnLinc-Seminarräume
-common#:#objs_icrs#:#LearnLinc-Seminare
 common#:#objs_lm#:#ILIAS-Lernmodule
 common#:#objs_lng#:#Sprachen
 common#:#objs_lo#:#Lernobjekte
@@ -7931,20 +7846,6 @@ grp#:#grp_wrong_max_members#:#Bitte überprüfen Sie Ihre Eingabe für die maxim
 grp#:#grp_wrong_reg_time_limit#:#Bitte überprüfen Sie Ihre Eingaben zum Anmeldungszeitraum.
 grp#:#reg_grp_max_members_short#:#Mitgliederanzahl
 grp#:#reg_grp_max_members#:#Begrenzte Anzahl Mitglieder
-ilinc#:#akclassvalue1#:#Kostenstelle 1
-ilinc#:#akclassvalue2#:#Kostenstelle 2
-ilinc#:#akclassvalues#:#Kostenstellen
-ilinc#:#ilinc_akuservalue1#:#Kostenstelle 1
-ilinc#:#ilinc_akuservalue2#:#Kostenstelle 2
-ilinc#:#ilinc_akuservalues#:#Kostenstellen
-ilinc#:#ilinc_akuservalues_desc#:#Geben Sie die Kostenstellen für diesen Benutzer an. Die Daten werden auf dem iLinc-Server gespeichert.
-ilinc#:#ilinc_akuservalues_refreshed#:#Kostenstellen aktualisiert
-ilinc#:#ilinc_connection_error#:#Fehler: Keine Verbindung zum iLinc Server!
-ilinc#:#ilinc_member_administration#:#Teilnehmerverwaltung
-ilinc#:#ilinc_no_account_yet#:#Noch kein iLinc-Konto vorhanden
-ilinc#:#ilinc_user_added#:#Benutzerkonto angelegt auf iLinc-Server
-ilinc#:#ilinc_user_id#:#iLinc-Benutzer-ID
-ilinc#:#ilinc_user_settings#:#iLinc Benutzerdaten
 jscalendar#:#about_calendar#:#Über den Kalender
 jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector\n(c) dynarch.com 2002-2003\nFor latest version visit: http://dynarch.com/mishoo/calendar.epl\nDistributed under GNU LGPL. See http://gnu.org/licenses/lgpl.html for details.\n\nAuswahl des Datums:\n- Verwenden Sie die «, » Schaltflächen, um das Jahr auszuwählen\n- Verwenden Sie die <, > Schaltflächen, um den Monat auszuwählen\n- Lassen Sie die Maustaste über jeder der oberen Schaltflächen gedrückt, um eine Schnellauswahl zu erhalten.
 jscalendar#:#about_time#:#\n\nAuswahl der Zeit:\n- Klicken Sie auf die Zeitfelder, um den Wert zu erhöhen\n- or Umschalten+Klicken, um den Wert zu erniedrigen\n- oder klicken und ziehen für eine Schnellauswahl.
@@ -10023,7 +9924,6 @@ rbac#:#rbac_create_frm#:#Neues Forum anlegen
 rbac#:#rbac_create_glo#:#Neues Glossar anlegen
 rbac#:#rbac_create_grp#:#Neue Gruppe anlegen
 rbac#:#rbac_create_htlm#:#Neues HTML-Lernmodul anlegen
-rbac#:#rbac_create_icrs#:#Neues LearnLinc-Seminar anlegen
 rbac#:#rbac_create_lm#:#Neues ILIAS-Lernmodul anlegen
 rbac#:#rbac_create_mcst#:#Neuen Mediacast anlegen
 rbac#:#rbac_create_mep#:#Neuen Medienpool anlegen
@@ -12920,7 +12820,6 @@ trac#:#trac_lp_learner_access_info#:#Wenn aktiviert, können Benutzer ihren eige
 content#:#help_assign_help_ids#:#Zuordnung Screen-IDs zu Kapiteln
 search#:#search_option_online#:#Online
 search#:#search_option_offline#:#Offline
-common#:#ilinc_abandoned_info#:#Die integrierte netucate LearnLinc-Schnittstelle wird mit ILIAS 4.3 nicht mehr unterstützt. Bitte steigen Sie jetzt um auf das neue iLinc-Plugin, um virtuelle Klassenzimmer von LearnLinc in ILIAS zu verwenden. Weitere Infos auf der <a href="http://http://www.netucate.com/">netucate-Webseite.</a>
 forum#:#sort_by_date#:#Sortieren nach Datum
 forum#:#error_reading_file#:#Beim Lesen der Datei ist ein Fehler aufgetreten
 content#:#cont_presentation#:#Darstellung
