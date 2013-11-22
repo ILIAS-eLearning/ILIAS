@@ -237,13 +237,14 @@ class ilSearchResultPresentation
 		$this->html = '';
 		
 		$ilBench->start('Lucene','2000_pr');
-		$item_html = array();
 		$this->parseResultReferences();
 		$ilBench->stop('Lucene','2000_pr');
 		
-
-		$set = $obj_ids = array();
-		foreach($this->getResults() as $c_ref_id => $res_data)
+		include_once("./Services/Object/classes/class.ilObjectListGUIPreloader.php");
+		$preloader = new ilObjectListGUIPreloader(ilObjectListGUI::CONTEXT_SEARCH);
+			
+		$set = array();
+		foreach($this->getResults() as $c_ref_id => $obj_id)
 		{
 			$ilBench->start('Lucene','2100_res');
 			foreach($this->getAllReferences($c_ref_id) as $ref_id)
@@ -255,18 +256,20 @@ class ilSearchResultPresentation
 				}
 				$ilBench->stop('Lucene','2120_tree');
 				
+				$obj_type = ilObject::_lookupType($obj_id);
+				
 				$set[] = array(
 					"ref_id"		=> $ref_id, 
-					"obj_id"		=> $res_data,
-					"title"			=> $this->lookupTitle($res_data,0),
-					"title_sort"=> ilObject::_lookupTitle($res_data),
-					"description"	=> $this->lookupDescription($res_data,0),
-					"type"			=> ilObject::_lookupType($res_data),
-					"relevance"		=> $this->getRelevance($res_data),
-					"s_relevance"	=> sprintf("%03d",$this->getRelevance($res_data))
+					"obj_id"		=> $obj_id,
+					"title"			=> $this->lookupTitle($obj_id,0),
+					"title_sort"	=> ilObject::_lookupTitle($obj_id),
+					"description"	=> $this->lookupDescription($obj_id,0),
+					"type"			=> $obj_type,
+					"relevance"		=> $this->getRelevance($obj_id),
+					"s_relevance"	=> sprintf("%03d",$this->getRelevance($obj_id))
 				);
-				
-				$obj_ids[] = $res_data;
+								
+				$preloader->addItem($obj_id, $obj_type, $ref_id);					
 			}
 			$ilBench->stop('Lucene','2100_res');
 		}
@@ -276,8 +279,8 @@ class ilSearchResultPresentation
 			return false;
 		}
 		
-		include_once("./Services/Object/classes/class.ilObjectListGUI.php");
-		ilObjectListGUI::preloadCommonProperties($obj_ids, ilObjectListGUI::CONTEXT_SEARCH);		
+		$preloader->preload();
+		unset($preloader);
 		
 		$ilBench->start('Lucene','2900_tb');
 		include_once("./Services/Search/classes/class.ilSearchResultTableGUI.php");

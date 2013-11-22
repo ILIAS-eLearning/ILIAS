@@ -50,13 +50,14 @@ class ilObjWorkspaceFolderTableGUI extends ilTable2GUI
 						
 		if(sizeof($nodes))
 		{
-			$obj_ids = array();
+			include_once("./Services/Object/classes/class.ilObjectListGUIPreloader.php");
+			$preloader = new ilObjectListGUIPreloader(ilObjectListGUI::CONTEXT_WORKSPACE);
 			foreach($nodes as $node)
 			{
-				$obj_ids[] = $node["obj_id"];
+				$preloader->addItem($node["obj_id"], $node["type"]);				
 			}
-			include_once("./Services/Object/classes/class.ilObjectListGUI.php");
-			ilObjectListGUI::preloadCommonProperties($obj_ids, ilObjectListGUI::CONTEXT_WORKSPACE);						
+			$preloader->preload();
+			unset($preloader);						
 		}
 		
 		$this->shared_objects = $this->access_handler->getObjectsIShare();

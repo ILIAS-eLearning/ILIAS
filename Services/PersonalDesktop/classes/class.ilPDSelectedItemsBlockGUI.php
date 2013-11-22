@@ -462,22 +462,16 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		$item_html = array();		
 		if(count($items) > 0)
 		{
-			// preload object data cache
-			$ref_ids = $obj_ids = array();
+			include_once("./Services/Object/classes/class.ilObjectListGUIPreloader.php");
+			$preloader = new ilObjectListGUIPreloader(ilObjectListGUI::CONTEXT_PERSONAL_DESKTOP);
 			foreach($items as $item)
 			{
-				$ref_ids[] = $item['ref_id'];
-				$obj_ids[] = $item['obj_id'];
+				$preloader->addItem($item["obj_id"], $item["type"], $item["ref_id"]);				
 			}
+			$preloader->preload();
+			unset($preloader);
+			
 			reset($items);
-			$ilObjDataCache->preloadReferenceCache($ref_ids);
-			
-			include_once("./Services/Object/classes/class.ilObjectListGUI.php");
-			ilObjectListGUI::preloadCommonProperties($obj_ids, ilObjectListGUI::CONTEXT_PERSONAL_DESKTOP);			
-		
-			include_once "Services/Object/classes/class.ilObjectActivation.php";
-			ilObjectActivation::preloadData($ref_ids);		
-			
 			foreach($items as $item)
 			{
 				//echo "1";
@@ -609,6 +603,8 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 				"types" => $grpdata["objs"]);
 		}
 
+		include_once("./Services/Object/classes/class.ilObjectListGUIPreloader.php");
+		
 		foreach ($types as $t)
 		{			
 			$type = $t["types"];
@@ -616,32 +612,27 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 			$grp = $t["grp"];
 
 			$items = $this->getObjectsByMembership($type);
-//var_dump($items);
-			// preload object data cache
-			$ref_ids = $obj_ids = array();
-			foreach($items as $item)
-			{
-				$ref_ids[] = $item['ref_id'];
-				$obj_ids[] = $item["obj_id"];
-			}
-			reset($items);
-			$ilObjDataCache->preloadReferenceCache($ref_ids);
-			
-			include_once("./Services/Object/classes/class.ilObjectListGUI.php");
-			ilObjectListGUI::preloadCommonProperties($obj_ids, ilObjectListGUI::CONTEXT_PERSONAL_DESKTOP);		
-			
-			include_once "Services/Object/classes/class.ilObjectActivation.php";
-			ilObjectActivation::preloadData($ref_ids);		
-			
-			$item_html = array();
-			
-			if ($this->getCurrentDetailLevel() == 3)
-			{
-				$rel_header = "th_".$grp;
-			}
-			
+		
 			if (count($items) > 0)
-			{
+			{								
+				$preloader = new ilObjectListGUIPreloader(ilObjectListGUI::CONTEXT_PERSONAL_DESKTOP);
+				foreach($items as $item)
+				{
+					$preloader->addItem($item["obj_id"], $item["type"], $item["ref_id"]);				
+				}
+				$preloader->preload();
+				unset($preloader);
+
+				reset($items);				
+
+				
+				$item_html = array();
+
+				if ($this->getCurrentDetailLevel() == 3)
+				{
+					$rel_header = "th_".$grp;
+				}
+							
 				$tstCount = 0;
 				$unsetCount = 0;
 				$progressCount = 0;
@@ -832,23 +823,17 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		
 		$items = $ilUser->getDesktopItems();
 		if (count($items) > 0)
-		{
-			// preload object data cache
-			$ref_ids = $obj_ids = array();
+		{			
+			include_once("./Services/Object/classes/class.ilObjectListGUIPreloader.php");
+			$preloader = new ilObjectListGUIPreloader(ilObjectListGUI::CONTEXT_PERSONAL_DESKTOP);
 			foreach($items as $item)
 			{
-				$ref_ids[] = $item["ref_id"];
-				$obj_ids[] = $item["obj_id"];
+				$preloader->addItem($item["obj_id"], $item["type"], $item["ref_id"]);				
 			}
-			$tree->preloadDeleted($ref_ids);
-			$tree->preloadDepthParent($ref_ids);
-			$ilObjDataCache->preloadReferenceCache($ref_ids, true);
+			$preloader->preload();
+			unset($preloader);
 			
-			include_once("./Services/Object/classes/class.ilObjectListGUI.php");
-			ilObjectListGUI::preloadCommonProperties($obj_ids, ilObjectListGUI::CONTEXT_PERSONAL_DESKTOP);		
-			
-			include_once "Services/Object/classes/class.ilObjectActivation.php";
-			ilObjectActivation::preloadData($ref_ids);					
+			reset($items);		
 		}
 		
 		$output = false;
@@ -1022,24 +1007,16 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 
 		if (count($items) > 0)
 		{
-			// preload object data cache
-			$ref_ids = $obj_ids = array();
+			include_once("./Services/Object/classes/class.ilObjectListGUIPreloader.php");
+			$preloader = new ilObjectListGUIPreloader(ilObjectListGUI::CONTEXT_PERSONAL_DESKTOP);
 			foreach($items as $item)
 			{
-				$ref_ids[] = $item["ref_id"];
-				$obj_ids[] = $item["obj_id"];
+				$preloader->addItem($item["obj_id"], $item["type"], $item["ref_id"]);				
 			}
+			$preloader->preload();
+			unset($preloader);
+			
 			reset($items);
-			$tree->preloadDeleted($ref_ids);
-			$tree->preloadDepthParent($ref_ids);
-			$ilObjDataCache->preloadReferenceCache($ref_ids);
-			
-			include_once("./Services/Object/classes/class.ilObjectListGUI.php");
-			ilObjectListGUI::preloadCommonProperties($obj_ids, ilObjectListGUI::CONTEXT_PERSONAL_DESKTOP);				
-			
-			include_once "Services/Object/classes/class.ilObjectActivation.php";
-			ilObjectActivation::preloadData($ref_ids);					
-			
 			foreach($items as $item)
 			{
 				//echo "1";

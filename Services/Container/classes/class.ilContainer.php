@@ -598,9 +598,13 @@ class ilContainer extends ilObject
 		}
 
 		$found = false;
-		$all_obj_types = array();
 		$all_ref_ids = array();
-		$all_obj_ids = array();
+		
+		if(!self::$data_preloaded)
+		{
+			include_once("./Services/Object/classes/class.ilObjectListGUIPreloader.php");
+			$preloader = new ilObjectListGUIPreloader(ilObjectListGUI::CONTEXT_REPOSITORY);		
+		}		
 
 		include_once('Services/Container/classes/class.ilContainerSorting.php');
 		$sort = ilContainerSorting::_getInstance($this->getId());
@@ -609,7 +613,7 @@ class ilContainer extends ilObject
 		// get items attached to a session
 		include_once './Modules/Session/classes/class.ilEventItems.php';
 		$event_items = ilEventItems::_getItemsOfContainer($this->getRefId());
-
+		
 		foreach ($objects as $key => $object)
 		{
 			if ($a_get_single > 0 && $object["child"] != $a_get_single)
@@ -657,46 +661,20 @@ class ilContainer extends ilObject
 				continue;
 			}
 
-			$all_obj_types[$object["type"]] = $object["type"];
-			$obj_ids_of_type[$object["type"]][] = $object["obj_id"];
-			$ref_ids_of_type[$object["type"]][] = $object["child"];
-
+			if (!self::$data_preloaded)
+			{
+				$preloader->addItem($object["obj_id"], $object["type"], $object["child"]);					
+			}
+			
 			$all_ref_ids[] = $object["child"];
-			$all_obj_ids[] = $object["obj_id"];					
 		}
 						
 		// data preloader
-		if (!self::$data_preloaded && sizeof($all_ref_ids))
+		if (!self::$data_preloaded)
 		{
-			// type specific preloads
-			foreach ($all_obj_types as $t)
-			{
-				// condition handler: preload conditions
-				include_once("./Services/AccessControl/classes/class.ilConditionHandler.php");
-				ilConditionHandler::preloadConditionsForTargetRecords($t,
-					$obj_ids_of_type[$t]);
-
-				$class = $objDefinition->getClassName($t);
-				$location = $objDefinition->getLocation($t);
-				$full_class = "ilObj".$class."Access";
-				include_once($location."/class.".$full_class.".php");
-				call_user_func(array($full_class, "_preloadData"),
-					$obj_ids_of_type[$t], $ref_ids_of_type[$t]);
-			}
-
-			// general preloads
-			$tree->preloadDeleted($all_ref_ids);
-			$tree->preloadDepthParent($all_ref_ids);
-			$ilObjDataCache->preloadReferenceCache($all_ref_ids, false);
-			ilObjUser::preloadIsDesktopItem($ilUser->getId(), $all_ref_ids);
-			$rbacsystem->preloadRbacPaCache($all_ref_ids, $ilUser->getId());
-						
-			include_once("./Services/Object/classes/class.ilObjectListGUI.php");
-			ilObjectListGUI::preloadCommonProperties($all_obj_ids, ilObjectListGUI::CONTEXT_REPOSITORY);			
+			$preloader->preload();
+			unset($preloader);
 			
-			include_once("./Services/Object/classes/class.ilObjectActivation.php");
-			ilObjectActivation::preloadData($all_ref_ids);		
-
 			self::$data_preloaded = true;
 		}
 		
