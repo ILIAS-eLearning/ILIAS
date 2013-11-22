@@ -1574,6 +1574,26 @@ class ilTemplate extends ilTemplateX
 		$this->title = ilUtil::stripScriptHTML($a_title);
 		$this->header_page_title = $a_title;
 	}
+	
+	/**
+	 * Set title color
+	 *
+	 * @param string $a_val color	
+	 */
+	function setTitleColor($a_val)
+	{
+		$this->title_color = $a_val;
+	}
+	
+	/**
+	 * Get title color
+	 *
+	 * @return string color
+	 */
+	function getTitleColor()
+	{
+		return $this->title_color;
+	}
 
 	/**
 	 * Set alert properties
@@ -1617,6 +1637,11 @@ class ilTemplate extends ilTemplateX
 		{
 			$this->title = ilUtil::stripScriptHTML($this->title);			
 			$this->setVariable("HEADER", $this->title);
+			if ($this->getTitleColor() != "")
+			{
+				$this->setVariable("HEADER_COLOR", " style=\"color: #".$this->getTitleColor()."\"");
+			}
+			
 			if ($icon)
 			{
 				$this->setVariable("HICONCL", "ilHeaderHasIcon");
@@ -2367,20 +2392,9 @@ class ilTemplate extends ilTemplateX
 	{
 		$this->resetHeaderBlock(false);
 		
-		$this->setVariable("FULLSCREEN_TITLE", $a_title);
-		
-		if($a_description)
-		{			
-			$this->setCurrentBlock("fullscreen_descbl");
-			$this->setVariable("FULLSCREEN_DESCRIPTION", $a_description);
-						
-			if($a_font_color)
-			{
-				$this->setVariable("FULLSCREEN_FONT_COLOR", " style=\"color: #".$a_font_color."\"");
-			}
-			
-			$this->parseCurrentBlock();
-		}
+		$this->setTitle($a_title);
+		$this->setTitleColor($a_font_color);
+		$this->setDescription($a_description);
 		
 		if($a_icon)
 		{
@@ -2396,11 +2410,6 @@ class ilTemplate extends ilTemplateX
 		else
 		{
 			$this->setVariable("FRAME_BG_COLOR", " style=\"padding:1px;\"");
-		}
-		
-		if($a_font_color)
-		{
-			$this->setVariable("FULLSCREEN_FONT_COLOR", " style=\"color: #".$a_font_color."\"");
 		}
 		
 		if($a_img)

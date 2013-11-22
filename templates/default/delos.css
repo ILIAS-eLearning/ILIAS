@@ -1316,6 +1316,7 @@ h1.ilHeader {
 	border-bottom: 1px solid #EAEAEA;
 }
 
+
 h1.ilHeaderHasIcon {
 	margin-left: 50px;
 }
@@ -3560,13 +3561,13 @@ li.ilWikiBlockItem {
 
 /* Fixed Frame Width */
 div.ilFrameFixedWidth, .ilFrameFixedWidth #mainscrolldiv {
-	max-width: 900px;
+	max-width: 880px;
 	margin: 0 auto;
 }
 
 div.ilFrameFixedWidthHeader {
 	max-width: 880px;
-	margin: 0 auto 10px;
+	margin: 0 auto;
 	padding: 0;
 }
 
@@ -3575,22 +3576,24 @@ div.ilFrameFixedWidthHeader {
 	margin: 5px auto;
 }
 
-.ilFrameFixedWidthHeader div.ilHeaderImg {
+div.ilHeaderImg {
 	float: left; 
-	margin: 2px 10px 0 0;
+	margin: 2px 10px 10px 0;
 }
 
-.ilFrameFixedWidthHeader .ilHeaderImg img {
+.ilHeaderImg img {
 	border: none;
 	margin-right: 25px;
+	max-height: 120px;
 }
 
-.ilFrameFixedWidthHeader h1.ilHeader {
+.ilFrameFixedWidth h1.ilHeader {
 	padding: 0;
-	margin-top: 25px;
+	margin-top: 20px;
+	border-bottom: 0;
 }
 
-.ilFrameFixedWidthHeader div.ilHeaderDesc {
+.ilFrameFixedWidth div.ilHeaderDesc {
 	padding-left: 0;
 }
 
