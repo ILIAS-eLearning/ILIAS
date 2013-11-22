@@ -2010,6 +2010,11 @@ class ilTemplate extends ilTemplateX
 		// tree/flat icon
 		if ($this->tree_flat_link != "")
 		{
+			if ($this->left_nav_content != "")
+			{
+				$this->touchBlock("tree_lns");
+			}
+			
 			$this->setCurrentBlock("tree_mode");
 			$this->setVariable("LINK_MODE", $this->tree_flat_link);
 			if ($ilSetting->get("tree_frame") == "right")
