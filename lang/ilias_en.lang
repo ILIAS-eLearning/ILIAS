@@ -8509,7 +8509,6 @@ rbac#:#rbac_create_catr#:#Create Category Reference
 rbac#:#rbac_create_chat#:#Create Chat
 rbac#:#rbac_create_crs#:#Create Course
 rbac#:#rbac_create_crsr#:#Create Course Reference
-rbac#:#rbac_create_dbk#:#Create Digilib Book
 rbac#:#rbac_create_exc#:#Create Exercise
 rbac#:#rbac_create_feed#:#Create Web Feed
 rbac#:#rbac_create_file#:#Upload File
@@ -13418,7 +13417,7 @@ rbac#:#root_create_cld#:#Create Cloud Object
 rbac#:#cld_upload#:#User can upload files to the cloud object
 rbac#:#cld_download#:#User can download files from the cloud object
 rbac#:#cld_edit_permission#:#User can change permission settings
-rbac#:#rbac_create_cld#:#Create new Cloud Object
+rbac#:#rbac_create_cld#:#Create Cloud Object
 wsp#:#wsp_shared_date#:#Date of Share
 wsp#:#wsp_shared_type#:#Shared With
 wsp#:#wsp_shared_object_type#:#Type of Resource
