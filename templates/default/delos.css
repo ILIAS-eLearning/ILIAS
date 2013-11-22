@@ -3598,14 +3598,27 @@ div.ilHeaderImg {
 }
 
 /* Modules/Blog */
-div.ilBlogList {	
+h3.ilBlogMonthHeader {
+	border: 0;
+    color: #404040;
+    font-size: 130%;
+    margin: 15px 0 15px 0;
+    padding: 0;
+    font-weight: normal;
+}
+
+.ilFrameFixedWidth h3.ilBlogMonthHeader {
+	margin-top: 0px;
+}
+
+div.ilBlogList {
 	border: 1px solid #E0E0E0;
 	padding: 10px;
 }
 
 div.ilBlogListItem {
 	padding-bottom: 5px;
-	margin-bottom: 25px; 
+	margin-bottom: 35px; 
 }
 
 div.ilBlogListItemTitle {
@@ -3618,11 +3631,24 @@ div.ilBlogListItemTitle h3 {
 
 div.ilBlogListItemSubTitle {
 	margin-top: 5px;
+	color: #909090;
+	font-size: 80%;
+	text-align: right;
 }
 
 div.ilBlogListItemSnippet {
 	margin-top: 5px;
 	margin-bottom: 5px;
+}
+
+div.ilBlogListItemMore {
+	float: left;
+}
+
+div.ilBlogListItemCommtensPerma {
+	text-align: right;
+	font-size: 90%;
+	margin-top: 15px
 }
 
 div.ilBlogSideBlocks {
