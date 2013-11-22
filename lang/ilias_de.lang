@@ -14035,3 +14035,4 @@ mail#:#mail_nacc_if_timelimit#:#TDieser Textblock wird nur eingefügt, wenn der 
 mail#:#mail_nacc_timelimit#:#Zugangszeitraum des Benutzers
 common#:#msg_obj_already_deleted#:#Das Objekt wurde bereits gelöscht.
 rbac#:#rbac_create_prtt#:#Portfoliovorlage anlegen
+rbac#:#glo_edit_content#:#Benutzer kann Inhalt bearbeiten
