@@ -587,6 +587,8 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 				$this->populateQuestionMarkingBlockAsUnmarked();
 			}
 		}
+		
+		$this->populateCharSelector();
 
 		if ($this->object->getJavaScriptOutput())
 		{

@@ -13940,8 +13940,8 @@ adve#:#char_selector_disabled#:#Disabled
 adve#:#char_selector_inactive_info_admin#:#Deactivates the selector. Users and tests can't overwrite this setting.
 adve#:#char_selector_inherit_info_user#:#Take the platform setting.
 adve#:#char_selector_inherit_info_test#:#Take the platform or user specific setting.
-adve#:#char_selector_enabled_info_admin#:#Enables the selector, invoked through a button in the main menu. Users and tests can have individual settings.
-adve#:#char_selector_enabled_info_user#:#Enables the selector, invoked through a button in the main menu.
+adve#:#char_selector_enabled_info_admin#:#Enables the selector for tests and question pools. Users and tests can have individual settings.
+adve#:#char_selector_enabled_info_user#:#Enables the selector for tests and question pools. 
 adve#:#char_selector_enabled_info_test#:#Enables the selector during the a test run.
 adve#:#char_selector_disabled_info_admin#:#Disables the selector. Users and tests can have individual settings.
 adve#:#char_selector_disabled_info_user#:#Disables the selector. Tests can have an individual setting.

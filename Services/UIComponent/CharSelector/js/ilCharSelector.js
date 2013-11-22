@@ -64,8 +64,7 @@ il.CharSelector = new function() {
 		config = a_config;
 		texts = a_texts;
 	
-		// basic condition
-		//if (!self.pageHasInput()) {return;}
+		// basic condition		
 		if (config.pages.length < 1) { return; }
 		
 		if (config.current_page >= config.pages.length) {
@@ -80,9 +79,8 @@ il.CharSelector = new function() {
 			self.openPanel();
 		}
 		
-		$('#ilCharSelectorToggle').show();
-		$('#ilCharSelectorToggle').mousedown(function(){return false;});
-		$('#ilCharSelectorToggle').click(self.togglePanel); 
+		$('.ilCharSelectorToggle').mousedown(function(){return false;});
+		$('.ilCharSelectorToggle').click(self.togglePanel); 
 	};
 	
 	
@@ -123,17 +121,16 @@ il.CharSelector = new function() {
 		if ($('#fixed_content').length > 0)
 		{
 			// normal page
-			$('#fixed_content').addClass('ilContentFixedMovedDown');	
+			$('body').addClass('withCharSelector');
 		}
 		else if ($('#tst_output').length > 0)
 		{
-			// kiosk mode in tests
+			// test kiosk mode 
 			$('body').removeClass('kiosk');
 			$('body').addClass('kioskWithCharSelector');
-			$('#ilAll').addClass('ilAllMovedDown');
 		}
 
-		$('#ilCharSelectorToggle').addClass('ilCharSelectorToggleOpen');
+		$('.ilCharSelectorToggle').addClass('ilCharSelectorToggleOpen');
 		config.open = 1;
 	};
 
@@ -146,17 +143,16 @@ il.CharSelector = new function() {
 		if ($('#fixed_content').length > 0)
 		{
 			// normal page
-			$('#fixed_content').removeClass('ilContentFixedMovedDown');	
+			$('body').removeClass('withCharSelector');
 		}
 		else if ($('#tst_output').length > 0)
 		{
-			// kiosk mode in tests
-			$('#ilAll').removeClass('ilAllMovedDown');
+			// test kiosk mode
 			$('body').removeClass('kioskWithCharSelector');
-			$('body').addClass('kiosk');
+			$('body').addClass('kiosk');		
 		}
 
-		$('#ilCharSelectorToggle').removeClass('ilCharSelectorToggleOpen');
+		$('.ilCharSelectorToggle').removeClass('ilCharSelectorToggleOpen');
 		config.open = 0;
 	};
 
@@ -424,14 +420,19 @@ il.CharSelector = new function() {
 	 */
 	this.pageHasInput = function() {
 	
-		return ( 
-			$('#fixed_content').has(
-				'textarea'
-				+ ',input[type="text"]:not([readonly])'
-				+ ',input[type="password"]:not([readonly])'
-				+ ',input[type="email"]:not([readonly])'
-				+ ',input[type="search"]:not([readonly])'
-				+ ',input[type="url"]:not([readonly])'
-			).length > 0); 
+		var inputs = 
+			'textarea'
+			+ ',input[type="text"]:not([readonly])'
+			+ ',input[type="password"]:not([readonly])'
+			+ ',input[type="email"]:not([readonly])'
+			+ ',input[type="search"]:not([readonly])'
+			+ ',input[type="url"]:not([readonly])';
+		
+		if ($('#fixed_content').has(inputs) 
+			|| $('#tst_output').length > 0 ) {
+			return true;
+		} else {
+			return false;
+		}
 	};
 };

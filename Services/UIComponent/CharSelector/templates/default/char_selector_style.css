@@ -1,61 +1,21 @@
 /* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/******************************** 
- * Toggle button in the main menu 
- ********************************/
+/*************** 
+ * Toggle button
+ ***************/
 
-#ilCharSelectorToggle {
-	display: none;		/* will be shown if page has input fields */
-}
-#ilCharSelectorToggle a {
-	font-weight: bold;
-	font-size: 110%;
-}
-
-#ilCharSelectorToggle a:active, #ilCharSelectorToggle a:hover {
-	color: #000000;
-}
-#ilCharSelectorToggle.ilCharSelectorToggleOpen a {
-	color: #000000;
+#ilCharSelectorToggleTest 
+{
+	display: inline-block;
+	width: 17px;
+	height: 16px;
+	background-image: url(images/icon_omega_test.png);
+	background-repeat: no-repeat;
 }
 
-/************************************
- *  Positioning and size of the panel
- ************************************/
-
-#ilCharSelectorPanel {
-	position: absolute !important;
-	height: 120px;
-	left:0;
-	right:0;
-	background: #ffffff;
-	display:none;	/* will be shown when panel is openend */
-}
-
-.ilContentFixedMovedDown {
-	top: 205px !important;	/* 85px default + 120 px panel height */
-}
-
-/************************************
- *  Positioning in Test kiosk mode
- ************************************/
-
-body.kioskWithCharSelector {
-	background-color: rgb(250, 250, 250);
-}
-
-body.kioskWithCharSelector #ilCharSelectorPanel {
-	top: 0;
-}
-
-.ilAllMovedDown {
-	position:fixed;
-	overflow:auto;
-	top: 120px;		/* 120 px panel height */
-	left: 0;
-	right: 0;
-	bottom: 0;
-	padding: 2em;
+.ilCharSelectorToggleOpen 
+{
+	box-shadow: inset 2px 2px 4px #C0C0C0;
 }
 
 /****************

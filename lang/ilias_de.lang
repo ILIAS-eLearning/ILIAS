@@ -13913,8 +13913,8 @@ adve#:#char_selector_disabled#:#Deaktiviert
 adve#:#char_selector_inactive_info_admin#:#Deaktiviert die Auswahl komplett. Nutzer und Tests können diese Einstellung nicht überschreiben.
 adve#:#char_selector_inherit_info_user#:#Es werden die Plattformeinstellungen übernommen.
 adve#:#char_selector_inherit_info_test#:#Es werden die Plattform- oder Nutzereinstellungen übernommen.
-adve#:#char_selector_enabled_info_admin#:#Aktiviert die Auswahl über einen Knopf im Hauptmenü. Nutzer und Tests können eigene Einstellungen besitzen.
-adve#:#char_selector_enabled_info_user#:#Aktiviert die Auswahl über einen Knopf im Hauptmenü. Tests können eigene Einstellungen besitzen.
+adve#:#char_selector_enabled_info_admin#:#Aktiviert die Auswahl für Tests und Fragenpools. Nutzer und Tests können eigene Einstellungen besitzen.
+adve#:#char_selector_enabled_info_user#:#Aktiviert die Auswahl für Tests und Fragenpools. Tests können eigene Einstellungen besitzen.
 adve#:#char_selector_enabled_info_test#:#Aktiviert die Auswahl während eines Testdurchlaufs.
 adve#:#char_selector_disabled_info_admin#:#Deaktiviert die Auswahl. Nutzer und Tests können eigene Einstellungen besitzen.
 adve#:#char_selector_disabled_info_user#:#Deaktiviert die Auswahl. Tests können eigene Einstellungen besitzen.
