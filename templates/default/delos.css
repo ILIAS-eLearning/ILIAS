@@ -3559,7 +3559,7 @@ li.ilWikiBlockItem {
 
 
 /* Fixed Frame Width */
-div.ilFrameFixedWidth {
+div.ilFrameFixedWidth, .ilFrameFixedWidth #mainscrolldiv {
 	max-width: 900px;
 	margin: 0 auto;
 }
