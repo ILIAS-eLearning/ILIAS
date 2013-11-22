@@ -50,20 +50,13 @@
 			&nbsp;
 		</div>
 		<!-- END fullscreen_bannerbl -->
-		
-		<!-- BEGIN fullscreen_iconbl -->
-		<div class="ilHeaderImg">
-			<img id="headerimage" src="{FULLSCREEN_ICON}" alt="" />
-		</div>
-		<!-- END fullscreen_iconbl -->
-		
-		<div>
-			<h1 class="ilHeader"{FULLSCREEN_FONT_COLOR}>{FULLSCREEN_TITLE}</h1>		
-			<!-- BEGIN fullscreen_descbl --><div class="ilHeaderDesc"{FULLSCREEN_FONT_COLOR}>{FULLSCREEN_DESCRIPTION}</div><!-- END fullscreen_descbl -->
-		</div>
-		
 		<div class="ilClearFloat"></div>
 	</div>
+	<!-- BEGIN fullscreen_iconbl -->
+	<div class="ilHeaderImg" style="float:left;">
+		<img id="headerimage" src="{FULLSCREEN_ICON}" alt="" />
+	</div>
+	<!-- END fullscreen_iconbl -->
 	<!-- END fullscreen_headerbl -->
 	
 	<div class="il_HeaderInner"{FILEUPLOAD_DROPZONE_ID}>
@@ -74,7 +67,7 @@
 	<h1 class="ilHeader {HICONCL}">
 		<!-- BEGIN header_image --><span class="ilFloatLeft ilDisplayBlock" style="margin: 1px 0px 0px -45px;">
 			<img id="headerimage" src="{IMG_HEADER}" alt="{IMAGE_ALT}" title="{IMAGE_DESC}" /></span><!-- END header_image -->
-			<a class="ilAccAnchor" id="il_mhead_t_focus" name="il_mhead_t_focus">{HEADER}</a></h1><!-- END headerbl -->
+			<a class="ilAccAnchor" id="il_mhead_t_focus" name="il_mhead_t_focus" {HEADER_COLOR}>{HEADER}</a></h1><!-- END headerbl -->
 	<!-- BEGIN header_desc -->
 	<div class="ilHeaderDesc">{H_DESCRIPTION}</div><!-- END header_desc -->
 	<!-- BEGIN header_alert -->
