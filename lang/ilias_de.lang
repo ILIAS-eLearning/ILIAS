@@ -2601,7 +2601,7 @@ common#:#crs_cancel_waiting_list#:#Sind Sie sicher, dass Sie sich aus der Wartel
 common#:#crs_container_link_not_allowed#:#Es ist nicht möglich, diesen Objekttyp zu verknüpfen.
 rbac#:#crs_copy#:#Kurs kopieren
 common#:#crs_copy_threads_info#:#Bitte wählen Sie aus, welche Kursmaterialien kopiert, verknüpft oder aber bei dem Kopiervorgang ausgelassen werden sollen.
-rbac#:#rbac_create_fold#:#Neuen Ordner anlegen
+rbac#:#rbac_create_fold#:#Ordner anlegen
 rbac#:#crs_delete#:#Kurs löschen oder verschieben
 common#:#crs_edit#:#Kurs bearbeiten
 rbac#:#crs_edit_learning_progress#:#Lernfortschritt anderer Benutzer einsehen und Einstellungen bearbeiten
@@ -9911,30 +9911,28 @@ rbac#:#role_block_role_desc#:#Alle Rechte für dieses Objekt und seine Unterobje
 rbac#:#role_confirm_block_role_header#:#Möchten Sie wirklich die ausgewählten Rollen sperren?
 rbac#:#role_confirm_block_role_info#:#Die folgenden Einstellungsänderungen werden vorgenommen:<br /><br />- Alle Rechte für dieses Objekt und seine Unterobjekte werden entfernt.<br />- Diese Rechteeinstellungen werden geschützt und können nur geändert werden, in dem 'Rolle sperren' wieder aufgehoben wird.
 rbac#:#rbac_create_book#:#Buchungspool anlegen
-rbac#:#rbac_create_catr#:#Kategorienreferenz erzeugen
-rbac#:#rbac_create_chat#:#Neuen Chat anlegen
-rbac#:#rbac_create_chtr#:#Neuen Chatraum anlegen
-rbac#:#rbac_create_crs#:#Neuen Kurs anlegen
-rbac#:#rbac_create_crsr#:#Neue Kursreferenz anlegen
-rbac#:#rbac_create_dbk#:#Neues Digilib-Buch anlegen
-rbac#:#rbac_create_exc#:#Neue Übung anlegen
-rbac#:#rbac_create_feed#:#Neuen Webfeed anlegen
-rbac#:#rbac_create_file#:#Neue Datei hochladen
-rbac#:#rbac_create_frm#:#Neues Forum anlegen
-rbac#:#rbac_create_glo#:#Neues Glossar anlegen
-rbac#:#rbac_create_grp#:#Neue Gruppe anlegen
-rbac#:#rbac_create_htlm#:#Neues HTML-Lernmodul anlegen
-rbac#:#rbac_create_lm#:#Neues ILIAS-Lernmodul anlegen
-rbac#:#rbac_create_mcst#:#Neuen Mediacast anlegen
-rbac#:#rbac_create_mep#:#Neuen Medienpool anlegen
-rbac#:#rbac_create_qpl#:#Neuen Fragenpool für Tests anlegen
-rbac#:#rbac_create_rcrs#:#Neuen ECS-Kurs anlegen
-rbac#:#rbac_create_sahs#:#Neues SCORM/AICC-Lernmodul anlegen
-rbac#:#rbac_create_spl#:#Neuen Fragenpool für Umfragen anlegen
-rbac#:#rbac_create_svy#:#Neue Umfrage anlegen
-rbac#:#rbac_create_tst#:#Neuen Test anlegen
-rbac#:#rbac_create_webr#:#Neuen Weblink anlegen
-rbac#:#rbac_create_wiki#:#Neues Wiki anlegen
+rbac#:#rbac_create_catr#:#Kategorienreferenz anlegen
+rbac#:#rbac_create_chtr#:#Chatraum anlegen
+rbac#:#rbac_create_crs#:#Kurs anlegen
+rbac#:#rbac_create_crsr#:#Kursreferenz anlegen
+rbac#:#rbac_create_exc#:#Übung anlegen
+rbac#:#rbac_create_feed#:#Webfeed anlegen
+rbac#:#rbac_create_file#:#Datei hochladen
+rbac#:#rbac_create_frm#:#Forum anlegen
+rbac#:#rbac_create_glo#:#Glossar anlegen
+rbac#:#rbac_create_grp#:#Gruppe anlegen
+rbac#:#rbac_create_htlm#:#HTML-Lernmodul anlegen
+rbac#:#rbac_create_lm#:#ILIAS-Lernmodul anlegen
+rbac#:#rbac_create_mcst#:#Mediacast anlegen
+rbac#:#rbac_create_mep#:#Medienpool anlegen
+rbac#:#rbac_create_qpl#:#Fragenpool für Tests anlegen
+rbac#:#rbac_create_rcrs#:#ECS-Kurs anlegen
+rbac#:#rbac_create_sahs#:#SCORM/AICC-Lernmodul anlegen
+rbac#:#rbac_create_spl#:#Fragenpool für Umfragen anlegen
+rbac#:#rbac_create_svy#:#Umfrage anlegen
+rbac#:#rbac_create_tst#:#Test anlegen
+rbac#:#rbac_create_webr#:#Weblink anlegen
+rbac#:#rbac_create_wiki#:#Wiki anlegen
 rbac#:#sess_delete#:#Sitzung löschen
 rbac#:#sess_edit_event#:#Kalendertermine bearbeiten
 rbac#:#sess_edit_permission#:#Rechteeinstellungen ändern
@@ -12188,7 +12186,7 @@ rbac#:#blog_copy#:#Blog kopieren
 rbac#:#blog_write#:#Blog bearbeiten
 rbac#:#blog_delete#:#Blog löschen
 rbac#:#blog_edit_permission#:#Rechteeinstellungen ändern
-rbac#:#rbac_create_blog#:#Neues Blog anlegen
+rbac#:#rbac_create_blog#:#Blog anlegen
 help#:#help_tooltips#:#Hilfe-Tooltips
 help#:#help_tooltip_id#:#Tooltip-ID
 help#:#help_tt_text#:#Text
@@ -12214,7 +12212,7 @@ rbac#:#dcl_write#:#Datensammlung bearbeiten
 rbac#:#dcl_delete#:#Datensammlung löschen
 rbac#:#dcl_edit_permission#:#Rechteeinstellungen ändern
 rbac#:#dcl_add_entry#:#Eintrag hinzufügen
-rbac#:#rbac_create_dcl#:#Neue Datensammlung anlegen
+rbac#:#rbac_create_dcl#:#Datensammlung anlegen
 dcl#:#dcl_edit_type#:#Typ bearbeiten
 dcl#:#dcl_activate_rating#:#Bewertung von Einträgen
 dcl#:#dcl_activate_approval#:#Aktivierung von Einträgen
@@ -12330,8 +12328,8 @@ rbac#:#poll_write#:#Abstimmung bearbeiten
 rbac#:#poll_delete#:#Abstimmung löschen
 rbac#:#poll_copy#:#Abstimmung kopieren
 rbac#:#poll_edit_permission#:#Rechteeinstellungen ändern
-rbac#:#rbac_create_poll#:#Neue Abstimmung anlegen
-rbac#:#fld_create_poll#:#Neue Abstimmung anlegen
+rbac#:#rbac_create_poll#:#Abstimmung anlegen
+rbac#:#fld_create_poll#:#Abstimmung anlegen
 poll#:#poll_question#:#Frage
 poll#:#poll_image#:#Bild
 poll#:#poll_view_results#:#Ergebnisse anzeigen
@@ -13410,7 +13408,7 @@ rbac#:#root_create_cld#:#Cloud-Objekt erstellen
 rbac#:#cld_upload#:#Benutzer können Dateien in das Cloud-Objekt laden
 rbac#:#cld_download#:#Benutzer können Dateien vom Cloud-Objekt herunterladen
 rbac#:#cld_edit_permission#:#Rechteeinstellungen ändern
-rbac#:#rbac_create_cld#:#Neues Cloud-Objekt anlegen
+rbac#:#rbac_create_cld#:#Cloud-Objekt anlegen
 wsp#:#wsp_shared_date#:#Freigabedatum
 wsp#:#wsp_shared_type#:#Freigegeben für
 wsp#:#wsp_shared_object_type#:#Typ der Ressource
@@ -14036,4 +14034,4 @@ registration#:#reg_mail_body_timelimit#:#Ihr Zugang ist zeitlich limitiert: %s.
 mail#:#mail_nacc_if_timelimit#:#TDieser Textblock wird nur eingefügt, wenn der Benutzer einen limitierten Zugangszeitraum hat.
 mail#:#mail_nacc_timelimit#:#Zugangszeitraum des Benutzers
 common#:#msg_obj_already_deleted#:#Das Objekt wurde bereits gelöscht.
-rbac#:#rbac_create_prtt#:#Neue Portfoliovorlage anlegen
+rbac#:#rbac_create_prtt#:#Portfoliovorlage anlegen
