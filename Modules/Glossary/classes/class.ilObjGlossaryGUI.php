@@ -174,8 +174,8 @@ class ilObjGlossaryGUI extends ilObjectGUI
 				$tax_gui = new ilObjTaxonomyGUI();
 				$tax_gui->setMultiple(false);
 				
-				include_once("./Modules/Glossary/classes/class.ilTermTaxInfo.php");
-				$term_info = new ilTermTaxInfo();
+				/*include_once("./Modules/Glossary/classes/class.ilTermTaxInfo.php");
+				$term_info = new ilTermTaxInfo();*/
 				//$tax_gui->activateAssignedItemSorting($term_info, "glo", "term");
 				
 				$tax_gui->setAssignedObject($this->object->getId());
