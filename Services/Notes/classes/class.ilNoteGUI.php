@@ -614,6 +614,7 @@ if ($this->private_enabled && $this->public_enabled
 			$reldates = ilDatePresentation::useRelativeDates();
 			ilDatePresentation::setUseRelativeDates(false);
 			
+			$notes_given = false;
 			foreach($notes as $note)
 			{
 				if ($this->edit_note_form && ($note->getId() == $_GET["note_id"])
@@ -765,6 +766,21 @@ if ($this->private_enabled && $this->public_enabled
 					$tpl->parseCurrentBlock();
 				}
 				$tpl->setCurrentBlock("note_row");
+				$tpl->parseCurrentBlock();
+				$notes_given = true;
+			}
+			
+			if (!$notes_given)
+			{
+				$tpl->setCurrentBlock("no_notes");
+				if ($a_type == IL_NOTE_PUBLIC)
+				{
+					$tpl->setVariable("NO_NOTES", $lng->txt("notes_no_comments"));
+				}
+/*				else
+				{
+					$tpl->setVariable("NO_NOTES", $lng->txt("notes_no_notes"));
+				}*/
 				$tpl->parseCurrentBlock();
 			}
 			
