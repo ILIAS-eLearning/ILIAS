@@ -14038,4 +14038,5 @@ registration#:#reg_mail_body_timelimit#:#Your account has a limited period of va
 mail#:#mail_nacc_if_timelimit#:#This text is only included, if the user has a limited access period.
 mail#:#mail_nacc_timelimit#:#User access period 
 common#:#msg_obj_already_deleted#:#The object has already been deleted.
+notes#:#notes_no_comments#:#No comment has been posted yet.
 rbac#:#rbac_create_prtt#:#Create Portfolio Template
