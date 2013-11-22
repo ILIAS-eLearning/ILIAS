@@ -4600,10 +4600,10 @@ class ilObjCourseGUI extends ilContainerGUI
 				break;
 
             default:
-                if(!$this->creation_mode)
+/*                if(!$this->creation_mode)
                 {
                     $this->checkPermission('visible');
-                }
+                }*/
                 /*
                 if(!$this->creation_mode and !$ilAccess->checkAccess('visible','',$this->object->getRefId(),'crs'))
                 {
@@ -4624,6 +4624,19 @@ class ilObjCourseGUI extends ilContainerGUI
                         $cmd = 'infoScreen';
                     }
                 }
+                
+            	if(!$this->creation_mode)
+				{
+					if ($cmd == "infoScreen")
+					{
+						$this->checkPermission("visible");
+					}
+					else
+					{
+//						$this->checkPermission("read");
+					}
+				}
+
 
                 if( !$this->creation_mode
                     && $cmd != 'infoScreen'
