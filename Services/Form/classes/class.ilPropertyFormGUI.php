@@ -1,4 +1,4 @@
-<?php
+602<?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once("./Services/Form/classes/class.ilFormGUI.php");
@@ -599,16 +599,19 @@ class ilPropertyFormGUI extends ilFormGUI
 				$this->tpl->parseCurrentBlock();
 			}
 
-			if ($ilSetting->get('char_selector_availability') > 0)
+			if (is_object($ilSetting))
 			{
-				require_once 'Services/UIComponent/CharSelector/classes/class.ilCharSelectorGUI.php';
-				if (ilCharSelectorGUI::_isAllowed())
+				if ($ilSetting->get('char_selector_availability') > 0)
 				{
-					$char_selector = ilCharSelectorGUI::_getCurrentGUI();
-					if ($char_selector->getConfig()->getAvailability() == ilCharSelectorConfig::ENABLED)
+					require_once 'Services/UIComponent/CharSelector/classes/class.ilCharSelectorGUI.php';
+					if (ilCharSelectorGUI::_isAllowed())
 					{
-						$char_selector->addToPage();
-						$this->tpl->TouchBlock('char_selector');
+						$char_selector = ilCharSelectorGUI::_getCurrentGUI();
+						if ($char_selector->getConfig()->getAvailability() == ilCharSelectorConfig::ENABLED)
+						{
+							$char_selector->addToPage();
+							$this->tpl->TouchBlock('char_selector');
+						}
 					}
 				}
 			}
