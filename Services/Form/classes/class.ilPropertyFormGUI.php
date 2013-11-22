@@ -238,7 +238,7 @@ class ilPropertyFormGUI extends ilFormGUI
 	{
 		return $this->show_top_buttons;
 	}
-
+	
 	/**
 	* Add Item (Property, SectionHeader).
 	*
@@ -547,7 +547,7 @@ class ilPropertyFormGUI extends ilFormGUI
 	*/
 	function getContent()
 	{
-		global $lng, $tpl, $ilUser;
+		global $lng, $tpl, $ilUser, $ilSetting;
 	
 		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
 		ilYuiUtil::initEvent();
@@ -599,6 +599,20 @@ class ilPropertyFormGUI extends ilFormGUI
 				$this->tpl->parseCurrentBlock();
 			}
 
+			if ($ilSetting->get('char_selector_availability') > 0)
+			{
+				require_once 'Services/UIComponent/CharSelector/classes/class.ilCharSelectorGUI.php';
+				if (ilCharSelectorGUI::_isAllowed())
+				{
+					$char_selector = ilCharSelectorGUI::_getCurrentGUI();
+					if ($char_selector->getConfig()->getAvailability() == ilCharSelectorConfig::ENABLED)
+					{
+						$char_selector->addToPage();
+						$this->tpl->TouchBlock('char_selector');
+					}
+				}
+			}
+			
 			$this->tpl->setCurrentBlock("header");
 			$this->tpl->setVariable("TXT_TITLE", $this->getTitle());
 			$this->tpl->setVariable("LABEL", $this->getTopAnchor());

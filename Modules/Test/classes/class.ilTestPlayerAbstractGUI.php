@@ -153,7 +153,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$this->tpl->setVariable( "TEXT_MARKED", $this->lng->txt( "tst_remove_mark" ) );
 		$this->tpl->parseCurrentBlock();
 	}
-
+	
 	protected function populateNextButtonsLeadingToQuestion()
 	{
 		$this->populateUpperNextButtonBlockLeadingToQuestion();
@@ -382,6 +382,24 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$this->tpl->parseCurrentBlock();
 	}
 
+	protected function populateCharSelector()
+	{
+		global $ilSetting;
+		if ($ilSetting->get('char_selector_availability') > 0)
+		{
+			require_once 'Services/UIComponent/CharSelector/classes/class.ilCharSelectorGUI.php';
+			$char_selector = ilCharSelectorGUI::_getCurrentGUI($this->object);
+			if ($char_selector->getConfig()->getAvailability() == ilCharSelectorConfig::ENABLED)
+			{
+				$char_selector->addToPage();
+				$this->tpl->setCurrentBlock('char_selector');
+				$this->tpl->setVariable("CHAR_SELECTOR_TEXT", $this->lng->txt('char_selector'));
+				$this->tpl->setVariable("CHAR_SELECTOR_TEMPLATE", $char_selector->getSelectorHtml());
+				$this->tpl->parseCurrentBlock();
+			}
+		}
+	}
+
 	protected function showSideList()
 	{
 		global $ilUser;
@@ -402,7 +420,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			$this->outQuestionSummaryCmd( false );
 		}
 	}
-
+	
 	protected function populateSyntaxStyleBlock()
 	{
 		$this->tpl->setCurrentBlock( "SyntaxStyle" );
@@ -1086,17 +1104,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			$exam_id = $this->object->getExamId($active_id , $pass);
 			$template->setVariable(	"EXAM_ID", $exam_id);
 			$template->parseCurrentBlock();			
-		}
-		global $ilSetting;
-		if ($ilSetting->get('char_selector_availability') > 0)
-		{
-			require_once 'Services/UIComponent/CharSelector/classes/class.ilCharSelectorGUI.php';
-			$char_selector = ilCharSelectorGUI::_getCurrentGUI();
-			if ($char_selector->getConfig()->getAvailability() == ilCharSelectorConfig::ENABLED)
-			{
-				$char_selector->addToPage();
-				$template->setVariable("CHAR_SELECTOR_TEMPLATE", $char_selector->getSelectorHtml());
-			}
 		}
 		return $template->get();
 	}

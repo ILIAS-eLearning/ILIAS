@@ -6,10 +6,21 @@ require_once ('Services/UIComponent/CharSelector/classes/ilCharSelectorConfig.ph
 
 /**
 * This shows a character selector
-* this only works, if a parent has class="yui-skin-sam" attached.
 */
 class ilCharSelectorGUI
-{	
+{
+	/**
+	 * @static list of command classes for which the char selector is allowed 
+	 * (can also be a parent class of the actual command class)
+	 */
+	private static $allowed_guis = array (
+		'assQuestionGUI',
+		'ilAssQuestionFeedbackEditingGUI',
+		'ilAssQuestionHintGUI',
+		'ilObjTestSettingsGeneralGUI',
+		'ilTestScoringGUI'
+	);
+	
 	/**
 	 * @static ilCharSelectorGUI	instance used for the current selector
 	 */
@@ -36,6 +47,37 @@ class ilCharSelectorGUI
 	}
 	
 	/**
+	 * Check if the CharSelector is allowed for the current GUI
+	 * @return boolean CharSelector is allowed
+	 */
+	public static function _isAllowed()
+	{
+		global $ilCtrl;
+		
+		// get the command class 
+		// with correct case for checking parent classes
+		foreach ($ilCtrl->getCallHistory() as $call)
+		{
+			if ($call['mode'] == 'execComm')
+			{
+				$class = $call['class'];
+			}			
+		}
+
+		// check the class and her parent classes
+		while ($class != false)
+		{
+			if (in_array($class, self::$allowed_guis))
+			{
+				return true;
+			}
+			$class = get_parent_class($class);
+		} 
+
+		return false;
+	}
+
+	/**
 	 * Get the GUI that is used for the currently available selector
 	 * (other GUI instances may exist for configuration in property forms)
 	 * 
@@ -51,7 +93,7 @@ class ilCharSelectorGUI
 		}	
 		return self::$current_gui;
 	}
-
+	
 	/**
 	 * Set the configuraton object
 	 * @param ilCharSelectorConfig 
@@ -189,7 +231,8 @@ class ilCharSelectorGUI
 		// addLightbox() is just used to add the panel template outside the body
 		// The panel template is added as <script> to be not included in the DOM by default
 		// It will be included by js below the main header when the selector is switched on
-		$tpl->addCss(ilUtil::getStyleSheetLocation('','char_selector.css','Services/UIComponent/CharSelector'));
+		$tpl->addCss(ilUtil::getStyleSheetLocation('','char_selector_position.css','Services/UIComponent/CharSelector'));
+		$tpl->addCss(ilUtil::getStyleSheetLocation('','char_selector_style.css','Services/UIComponent/CharSelector'));
 		$tpl->addJavascript('./Services/UIComponent/CharSelector/js/ilCharSelector.js');
 		$tpl->addLightbox($this->getSelectorHTML(),2);
 		$tpl->addOnLoadCode('il.CharSelector.init('.json_encode($this->jsconfig).','.json_encode($this->jstexts).')');
