@@ -325,10 +325,6 @@ class ilObjBibliographicGUI extends ilObject2GUI
         $form = parent::initEditForm();
 
 
-
-
-
-
         // Add File-Upload
         $in_file = new ilFileInputGUI($lng->txt("bibliography file"), "bibliographic_file");
 
