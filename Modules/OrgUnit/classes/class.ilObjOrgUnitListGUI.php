@@ -64,8 +64,9 @@ class ilObjOrgUnitListGUI extends ilObjectListGUI {
         {
             return;
         }
-        $cmd_link = $this->getCommandLink("infoScreen");
+        $cmd_link = $this->ctrl->getLinkTargetByClass("ilinfoscreengui", "showSummary");
         $cmd_frame = $this->getCommandFrame("infoScreen");
+
         $this->insertCommand($cmd_link, $this->lng->txt("info_short"), $cmd_frame,
             ilUtil::getImagePath("cmd_info_s.png"));
     }

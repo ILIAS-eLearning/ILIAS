@@ -96,7 +96,13 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 		$cmd = $this->ctrl->getCmd();
 		$next_class = $this->ctrl->getNextClass($this);
 		parent::prepareOutput();
-		$this->showTree();
+
+        //Otherwise move-Objects would not work
+        if($cmd != "cut")
+        {
+            $this->showTree();
+        }
+
 
 		switch ($next_class) {
 			case "illocalusergui":
@@ -210,6 +216,9 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 					case 'cancel':
 						$this->view();
 					break;
+                    case 'performPaste':
+                        $this->performPaste();
+                        break;
 					case 'create':
 						parent::createObject();
 						break;
@@ -217,13 +226,17 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 						parent::saveObject();
 						break;
 					case 'delete':
+                        $this->tabs_gui->clearTargets();
+                        $this->tabs_gui->setBackTarget($this->lng->txt("back"),$this->ctrl->getLinkTarget($this));
 						parent::deleteObject();
 						break;
 					case 'confirmedDelete':
 						parent::confirmedDeleteObject();
 						break;
 					case 'cut':
-						parent::cutObject();
+                        $this->tabs_gui->clearTargets();
+                        $this->tabs_gui->setBackTarget($this->lng->txt("back"),$this->ctrl->getLinkTarget($this));
+                        parent::cutObject();
 						break;
 					case 'clear':
 						parent::clearObject();
@@ -234,6 +247,9 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 					case 'disableAdministrationPanel':
 						parent::disableAdministrationPanelObject();
 						break;
+                    case 'getAsynchItemList':
+                        parent::getAsynchItemListObject();
+                        break;
 				}
 				break;
 		}
@@ -404,13 +420,14 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 	}
 
 	public function showMoveIntoObjectTreeObject() {
-		require_once("./Services/Tree/classes/class.ilTree.php");
-		require_once("./Modules/OrgUnit/classes/class.ilOrgUnitExplorerGUI.php");
+
 		$this->ctrl->setCmd('performPaste');
+
 		$ilOrgUnitExplorerGUI = new ilOrgUnitExplorerGUI("orgu_explorer", "ilObjOrgUnitGUI", "showTree", new ilTree(1));
 		$ilOrgUnitExplorerGUI->setTypeWhiteList(array( "orgu" ));
+
 		if (!$ilOrgUnitExplorerGUI->handleCommand()) {
-			$this->tpl->setContent($ilOrgUnitExplorerGUI->getHTML());
+            $this->tpl->setContent($ilOrgUnitExplorerGUI->getHTML());
 		}
 	}
 
