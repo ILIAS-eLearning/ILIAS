@@ -14040,3 +14040,5 @@ common#:#msg_obj_already_deleted#:#The object has already been deleted.
 notes#:#notes_no_comments#:#No comment has been posted yet.
 rbac#:#rbac_create_prtt#:#Create Portfolio Template
 rbac#:#glo_edit_content#:#User can edit content
+rbac#:#rbac_create_rolt#:#Create new Role Template
+rbac#:#rbac_create_role#:#Create new Role
