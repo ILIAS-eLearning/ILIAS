@@ -14038,3 +14038,4 @@ rbac#:#rbac_create_prtt#:#Portfoliovorlage anlegen
 rbac#:#glo_edit_content#:#Benutzer kann Inhalt bearbeiten
 rbac#:#rbac_create_rolt#:#Neue Rollenvorlage anlegen
 rbac#:#rbac_create_role#:#Neue Rolle anlegen
+rbac#:#rbac_create_bibl#:#Bibliographische Liste anlegen

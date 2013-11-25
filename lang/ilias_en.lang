@@ -14042,3 +14042,4 @@ rbac#:#rbac_create_prtt#:#Create Portfolio Template
 rbac#:#glo_edit_content#:#User can edit content
 rbac#:#rbac_create_rolt#:#Create new Role Template
 rbac#:#rbac_create_role#:#Create new Role
+rbac#:#rbac_create_bibl#:#Create Bibliographic List
