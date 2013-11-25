@@ -2700,14 +2700,25 @@ function hideToolbar () {
 }
 
 function removeToolbar () {
+//console.log("removing toolbar");
 	if (ilCOPage.menu_panel) {
 		var obj = document.getElementById('iltinymenu_c');
 		$(obj.parentNode).remove();
+
 		ilCOPage.menu_panel.destroy();
 		ilCOPage.menu_panel = null;
 		
+		// this element exists, if internal link panel has been clicked
 		var obj = document.getElementById('ilEditorPanel_c');
-		$(obj.parentNode).remove();
+		if (obj && obj.parentNode) {
+			$(obj.parentNode).remove();
+		}
+
+		// this element still exists, if interna link panel has not been clicked
+		var obj = document.getElementById('ilEditorPanel');
+		if (obj && obj.parentNode) {
+			$(obj.parentNode).remove();
+		}
 	}
 }
 
