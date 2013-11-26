@@ -2587,7 +2587,7 @@ class ilObjectListGUI
 			$cmd_lnk = $this->ctrl->getLinkTargetByClass(array($this->gui_class_name, 'ilcommonactiondispatchergui', 'ilobjectactivationgui'),
 				'edit');
 			
-			$this->insertCommand($cmd_lnk, $this->lng->txt('activation'));			
+			$this->insertCommand($cmd_lnk, $this->lng->txt('obj_activation_list_gui'));			
 		}
 	}
 

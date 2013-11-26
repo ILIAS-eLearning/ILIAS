@@ -380,7 +380,7 @@ class ilObjectActivation
 		{
 			$a_item['start'] = $item['timing_start'];
 			$a_item['end'] = $item['timing_end'];
-			$a_item['activation_info'] = 'activation';
+			$a_item['activation_info'] = 'obj_activation_list_gui';
 		}
 		else
 		{
