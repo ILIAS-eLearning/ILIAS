@@ -19407,3 +19407,29 @@ if(!$ilDB->tableColumnExists('il_dcl_table','description')) {
         ));
 }
 ?>
+<#4158>
+<?php
+if(!$ilDB->tableColumnExists('il_wiki_data','rating_overall')) {
+    $ilDB->addTableColumn(
+        'il_wiki_data',
+        'rating_overall',
+        array(
+            'type' => 'integer',
+			'length' => 1,
+            'notnull' => false,
+            'default' => 0
+        ));
+}
+
+if(!$ilDB->tableColumnExists('content_object','rating_overall')) {
+    $ilDB->addTableColumn(
+        'content_object',
+        'rating_overall',
+        array(
+            'type' => 'integer',
+			'length' => 1,
+            'notnull' => false,
+            'default' => 0
+        ));
+}
+?>
