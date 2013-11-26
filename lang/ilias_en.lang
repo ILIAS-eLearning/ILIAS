@@ -14043,3 +14043,4 @@ rbac#:#glo_edit_content#:#User can edit content
 rbac#:#rbac_create_rolt#:#Create new Role Template
 rbac#:#rbac_create_role#:#Create new Role
 rbac#:#rbac_create_bibl#:#Create Bibliographic List
+obj#:#obj_activation_list_gui#:#Availability
