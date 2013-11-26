@@ -188,53 +188,24 @@ class ilRating
 	{
 		global $ilDB, $ilUser;
 		
-		$tmp = $tmp_sub = $res = $tmp_user = $res_user = array();
+		$tmp = $res = $tmp_user = $res_user = array();
 		
 		// collapse by categories
-		$q = "SELECT obj_id, obj_type, sub_obj_id, sub_obj_type, user_id, AVG(rating) av".
+		$q = "SELECT obj_id, obj_type, user_id, AVG(rating) av".
 			" FROM il_rating".
 			" WHERE ".$ilDB->in("obj_id", $a_obj_ids, "", "integer").
-			" GROUP BY obj_id, obj_type, sub_obj_id, sub_obj_type, user_id";
+			" AND sub_obj_id = ".$ilDB->quote(0, "integer").
+			" GROUP BY obj_id, obj_type, user_id";
 		$set = $ilDB->query($q);		
 		while($rec = $ilDB->fetchAssoc($set))
-		{
-			if($rec["sub_obj_id"])
+		{			
+			$tmp[$rec["obj_type"]."/".$rec["obj_id"]][$rec["user_id"]] = (float)$rec["av"];
+			if($rec["user_id"] == $ilUser->getId())		
 			{
-				$tmp_sub[$rec["obj_type"]."/".$rec["obj_id"]][$rec["sub_obj_type"]."/".$rec["sub_obj_id"]][$rec["user_id"]] = (float)$rec["av"];
-				if($rec["user_id"] == $ilUser->getId())		
-				{
-					// still needs to be aggregated for main object
-					$tmp_user[$rec["obj_type"]."/".$rec["obj_id"]][] = (float)$rec["av"];
-				}
-			}
-			else
-			{
-				$tmp[$rec["obj_type"]."/".$rec["obj_id"]][$rec["user_id"]] = (float)$rec["av"];
-				if($rec["user_id"] == $ilUser->getId())		
-				{
-					// add final average to user result (no sub-objects)
-					$res_user[$rec["obj_type"]."/".$rec["obj_id"]] = (float)$rec["av"];
-				}
-			}								
+				// add final average to user result (no sub-objects)
+				$res_user[$rec["obj_type"]."/".$rec["obj_id"]] = (float)$rec["av"];
+			}											
 		}		
-		
-		// main objects with sub-objects
-		foreach($tmp_sub as $obj_id => $sub_objs)
-		{
-			$res[$obj_id] = 0;		
-			$counter = 0;
-						
-			// average per sub-object
-			foreach($sub_objs as $sub_obj)
-			{				
-				$res[$obj_id] += array_sum($sub_obj)/sizeof($sub_obj);
-				$counter += sizeof($sub_obj);
-			}
-			
-			// average for main object
-			$res[$obj_id] = array("avg"=>$res[$obj_id]/sizeof($sub_objs),
-				"cnt"=>$counter);
-		}
 		
 		// average for main objects without sub-objects
 		foreach($tmp as $obj_id => $votes)
@@ -242,13 +213,6 @@ class ilRating
 			$res[$obj_id] = array("avg"=>array_sum($votes)/sizeof($votes),
 				"cnt"=>sizeof($votes));
 		}
-		
-		// average of current user for main objects with sub-objects
-		foreach($tmp_user as $obj_id => $votes)
-		{
-			$res_user[$obj_id] = array_sum($votes)/sizeof($votes);
-		}
-		
 		
 		// file/wiki/lm rating toggles
 		
@@ -268,17 +232,17 @@ class ilRating
 			}
 		}
 		
-		$set = $ilDB->query("SELECT id, rating".
+		$set = $ilDB->query("SELECT id, rating_overall".
 			" FROM il_wiki_data".
 			" WHERE ".$ilDB->in("id", $a_obj_ids, "", integer));
 		while($row = $ilDB->fetchAssoc($set))
 		{
 			$id = "wiki/".$row["id"];
-			if($row["rating"] && !isset($res[$id]))
+			if($row["rating_overall"] && !isset($res[$id]))
 			{
 				$res[$id] = array("avg"=>0, "cnt"=>0);
 			}
-			else if(!$row["rating"] && isset($res[$id]))
+			else if(!$row["rating_overall"] && isset($res[$id]))
 			{
 				unset($res[$id]);
 			}

@@ -3075,9 +3075,9 @@ class ilObjectListGUI
 		{									
 			include_once("./Services/Rating/classes/class.ilRatingGUI.php");
 			$rating_gui = new ilRatingGUI();
-			$rating_gui->enableCategories($this->rating_categories_enabled);			
-			$rating_gui->setObject($this->obj_id, $this->type, $this->sub_obj_id, 
-				$this->sub_obj_type);										
+			$rating_gui->enableCategories($this->rating_categories_enabled);
+			// never rate sub objects from header action!
+			$rating_gui->setObject($this->obj_id, $this->type);										
 			if($this->rating_text)
 			{
 				$rating_gui->setYourRatingText($this->rating_text);
@@ -3444,8 +3444,7 @@ class ilObjectListGUI
 		{						
 			if(ilRating::hasRatingInListGUI($this->obj_id, $this->type))
 			{				
-				$may_rate = ($this->type == "file" &&
-					$this->checkCommandAccess("read", "", $this->ref_id, $this->type));				
+				$may_rate = $this->checkCommandAccess("read", "", $this->ref_id, $this->type);				
 				
 				$rating = new ilRatingGUI();
 				$rating->setObject($this->obj_id, $this->type);

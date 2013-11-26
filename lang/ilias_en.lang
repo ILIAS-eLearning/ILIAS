@@ -14045,3 +14045,4 @@ rbac#:#rbac_create_role#:#Create new Role
 rbac#:#rbac_create_bibl#:#Create Bibliographic List
 obj#:#obj_activation_list_gui#:#Availability
 content#:#lm_activate_rating#:#Activate Rating For Pages
+wiki#:#wiki_rate_overall#:#Rate Wiki

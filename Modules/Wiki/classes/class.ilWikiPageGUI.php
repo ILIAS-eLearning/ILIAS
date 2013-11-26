@@ -197,12 +197,12 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		$lg->enableComments(ilObjWiki::_lookupPublicNotes($wiki_id), false);
 		
 		// rating
-		if (ilObjWiki::_lookupRating($wiki_id)
+		if (ilObjWiki::_lookupRatingOverall($wiki_id)
 			&& $this->getPageObject()->getRating()
 			&& $this->getPageObject()->old_nr == 0)
 		{
-			$lg->enableRating(true, $this->lng->txt("wiki_rate_page"), 
-				ilObjWiki::_lookupRatingCategories($wiki_id),
+			$lg->enableRating(true, $this->lng->txt("wiki_rate_overall"), 
+				false,
 				// so ilCtrl does not use the shortcut via ilWikiGUI
 				array("ilcommonactiondispatchergui", "ilratinggui"));
 		}

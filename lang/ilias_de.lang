@@ -14041,3 +14041,4 @@ rbac#:#rbac_create_role#:#Neue Rolle anlegen
 rbac#:#rbac_create_bibl#:#Bibliographische Liste anlegen
 obj#:#obj_activation_list_gui#:#Verfügbarkeit
 content#:#lm_activate_rating#:#Bewertung der Seiten erlauben
+wiki#:#wiki_rate_overall#:#Wiki bewerten
