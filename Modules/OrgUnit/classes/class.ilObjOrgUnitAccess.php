@@ -94,13 +94,13 @@ class ilObjOrgUnitAccess extends ilObjectAccess {
 
 		//Permission to view the Learning Progress of an OrgUnit
 		if ($ilAccess->checkAccess("view_learning_progress", "", $ref_id)
-			AND in_array($usr_id, ilObjOrgUnitTree::_getInstance()->getEmployees($_GET["ref_id"], false))) {
+			AND in_array($usr_id, ilObjOrgUnitTree::_getInstance()->getEmployees($ref_id, false))) {
 			return true;
 		}
 
 		//Permission to view the Learning Progress of an OrgUnit or SubOrgUnit!
 		if ($ilAccess->checkAccess("view_learning_progress_rec", "", $ref_id)
-		AND in_array($usr_id, ilObjOrgUnitTree::_getInstance()->getEmployees($_GET["ref_id"], true))) {
+		AND in_array($usr_id, ilObjOrgUnitTree::_getInstance()->getEmployees($ref_id, true))) {
 			return true;
 		}
 
