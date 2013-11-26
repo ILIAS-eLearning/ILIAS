@@ -260,7 +260,7 @@ class ilObjWikiGUI extends ilObjectGUI
 		$newObj->setStartPage($this->form_gui->getInput("startpage"));
 		$newObj->setShortTitle($this->form_gui->getInput("shorttitle"));
 		$newObj->setRating($this->form_gui->getInput("rating"));
-		$newObj->setRatingAsBlock($this->form_gui->getInput("rating_side"));
+		// $newObj->setRatingAsBlock($this->form_gui->getInput("rating_side"));
 		$newObj->setRatingForNewPages($this->form_gui->getInput("rating_new"));
 		$newObj->setRatingCategories($this->form_gui->getInput("rating_ext"));
 		if (!$ilSetting->get("disable_comments"))
@@ -631,8 +631,10 @@ class ilObjWikiGUI extends ilObjectGUI
 		$rating = new ilCheckboxInputGUI($lng->txt("wiki_activate_rating"), "rating");
 		$this->form_gui->addItem($rating);
 		
+		/* always active 
 		$side = new ilCheckboxInputGUI($lng->txt("wiki_activate_sideblock_rating"), "rating_side");
 		$rating->addSubItem($side);
+		*/ 
 		
 		$new = new ilCheckboxInputGUI($lng->txt("wiki_activate_new_page_rating"), "rating_new");
 		$rating->addSubItem($new);
@@ -703,7 +705,7 @@ class ilObjWikiGUI extends ilObjectGUI
 			$values["description"] = $this->object->getDescription();
 			$values["rating_overall"] = $this->object->getRatingOverall();
 			$values["rating"] = $this->object->getRating();
-			$values["rating_side"] = $this->object->getRatingAsBlock();
+			// $values["rating_side"] = $this->object->getRatingAsBlock();
 			$values["rating_new"] = $this->object->getRatingForNewPages();
 			$values["rating_ext"] = $this->object->getRatingCategories();
 			$values["public_notes"] = $this->object->getPublicNotes();
@@ -744,7 +746,7 @@ class ilObjWikiGUI extends ilObjectGUI
 				$this->object->setShortTitle($this->form_gui->getInput("shorttitle"));
 				$this->object->setRatingOverall($this->form_gui->getInput("rating_overall"));
 				$this->object->setRating($this->form_gui->getInput("rating"));
-				$this->object->setRatingAsBlock($this->form_gui->getInput("rating_side"));
+				// $this->object->setRatingAsBlock($this->form_gui->getInput("rating_side"));
 				$this->object->setRatingForNewPages($this->form_gui->getInput("rating_new"));
 				$this->object->setRatingCategories($this->form_gui->getInput("rating_ext"));
 				
@@ -1138,7 +1140,7 @@ class ilObjWikiGUI extends ilObjectGUI
 			// rating
 			$wiki_id =ilObject::_lookupObjId($a_wiki_ref_id);			
 			if(ilObjWiki::_lookupRating($wiki_id) && 
-				ilObjWiki::_lookupRatingAsBlock($wiki_id) &&
+				// ilObjWiki::_lookupRatingAsBlock($wiki_id) &&
 				$a_wp->getRating())
 			{
 				include_once("./Services/Rating/classes/class.ilRatingGUI.php");

@@ -75,6 +75,23 @@ class ilWikiDataSet extends ilDataSet
 						"RatingSide" => "integer",
 						"RatingNew" => "integer",
 						"RatingExt" => "integer");
+					
+				case "4.4.0":
+					return array(
+						"Id" => "integer",
+						"Title" => "text",
+						"Description" => "text",
+						"StartPage" => "text",
+						"Short" => "text",
+						"Introduction" => "text",
+						"Rating" => "integer",
+						"PublicNotes" => "integer",
+						// "ImpPages" => "integer",
+						"PageToc" => "integer",
+						"RatingSide" => "integer",
+						"RatingNew" => "integer",
+						"RatingExt" => "integer",
+						"RatingOverall" => "integer");
 			}
 		}
 
@@ -129,6 +146,14 @@ class ilWikiDataSet extends ilDataSet
 				case "4.3.0":
 					$this->getDirectDataFromQuery("SELECT id, title, description,".
 						" startpage start_page, short, rating, introduction,". // imp_pages,
+						" public_notes, page_toc, rating_side, rating_new, rating_ext".
+						" FROM il_wiki_data JOIN object_data ON (il_wiki_data.id = object_data.obj_id)".
+						" WHERE ".$ilDB->in("id", $a_ids, false, "integer"));
+					break;
+				
+				case "4.4.0":
+					$this->getDirectDataFromQuery("SELECT id, title, description,".
+						" startpage start_page, short, rating, rating_overall, introduction,". // imp_pages,
 						" public_notes, page_toc, rating_side, rating_new, rating_ext".
 						" FROM il_wiki_data JOIN object_data ON (il_wiki_data.id = object_data.obj_id)".
 						" WHERE ".$ilDB->in("id", $a_ids, false, "integer"));
@@ -205,6 +230,7 @@ class ilWikiDataSet extends ilDataSet
 				$newObj->setDescription($a_rec["Description"]);
 				$newObj->setShortTitle($a_rec["Short"]);
 				$newObj->setStartPage($a_rec["StartPage"]);
+				$newObj->setRatingOverall($a_rec["RatingOverall"]);
 				$newObj->setRating($a_rec["Rating"]);
 				$newObj->setIntroduction($a_rec["Introduction"]);
 				$newObj->setPublicNotes($a_rec["PublicNotes"]);

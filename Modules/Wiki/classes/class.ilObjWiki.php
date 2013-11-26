@@ -558,6 +558,18 @@ class ilObjWiki extends ilObject
 	}
 	
 	/**
+	 * Lookup whether rating is activated for whole object.
+	 *
+	 * @param	int			$a_wiki_id		Wiki ID
+	 *
+	 * @return	boolean		Rating activated?
+	 */
+	static function _lookupRatingOverall($a_wiki_id)
+	{
+		return ilObjWiki::_lookup($a_wiki_id, "rating_overall");
+	}
+	
+	/**
 	 * Lookup whether rating is activated.
 	 *
 	 * @param	int			$a_wiki_id		Wiki ID
