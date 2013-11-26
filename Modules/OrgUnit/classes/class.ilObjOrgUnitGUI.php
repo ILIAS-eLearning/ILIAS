@@ -192,7 +192,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 				$this->ctrl->saveParameterByClass("illearningprogressgui", "obj_id");
 				$this->ctrl->saveParameterByClass("illearningprogressgui", "recursive");
 				include_once './Services/Tracking/classes/class.ilLearningProgressGUI.php';
-				$new_gui =& new ilLearningProgressGUI(ilLearningProgressGUI::LP_CONTEXT_USER_FOLDER, USER_FOLDER_ID, $_GET["obj_id"]);
+				$new_gui =& new ilLearningProgressGUI(ilLearningProgressGUI::LP_CONTEXT_ORG_UNIT, $_GET["ref_id"], $_GET['obj_id']);
 				$this->ctrl->forwardCommand($new_gui);
 				break;
 			case 'ilorgunitexportgui':
