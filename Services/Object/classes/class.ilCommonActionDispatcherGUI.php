@@ -193,8 +193,16 @@ class ilCommonActionDispatcherGUI
 			
 			case "ilratinggui":
 				include_once("./Services/Rating/classes/class.ilRatingGUI.php");
-				$rating_gui = new ilRatingGUI();				
-				$rating_gui->setObject($this->obj_id, $this->obj_type, $this->sub_id, $this->sub_type);
+				$rating_gui = new ilRatingGUI();		
+				if(!$_GET["rnsb"])
+				{
+					$rating_gui->setObject($this->obj_id, $this->obj_type, $this->sub_id, $this->sub_type);
+				}
+				else
+				{
+					// coming from headaction ignore sub-objects
+					$rating_gui->setObject($this->obj_id, $this->obj_type);
+				}
 				$ilCtrl->forwardCommand($rating_gui);
 				if($this->rating_callback)
 				{

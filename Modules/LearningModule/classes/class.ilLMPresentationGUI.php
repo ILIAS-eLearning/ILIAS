@@ -1064,7 +1064,7 @@ class ilLMPresentationGUI
 				
 		if($this->lm->hasRating())
 		{
-			$lg->enableRating(true, null, false,
+			$lg->enableRating(true, $this->lng->txt("lm_rating"), false,
 				array("ilcommonactiondispatchergui", "ilratinggui"));
 		}		
 		

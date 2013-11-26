@@ -253,7 +253,9 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		}
 		else
 		{
-			return $lg->getHeaderAction();
+			// we need to add onload code manually (rating, comments, etc.)
+			return $lg->getHeaderAction().
+				$this->tpl->getOnLoadCodeForAsynch();
 		}
 	}
 		

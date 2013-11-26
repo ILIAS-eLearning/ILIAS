@@ -163,8 +163,7 @@ class ilRatingGUI
 		if(!$a_categories)
 		{										
 			if ($a_may_rate)
-			{					
-				
+			{									
 				$rating = ilRating::getRatingForUserAndObject($this->obj_id, $this->obj_type,
 					$this->sub_obj_id, $this->sub_obj_type, $this->getUserId(), 0);
 
@@ -209,6 +208,39 @@ class ilRatingGUI
 					$ttpl->setVariable("ALT_ICON", "(".$i."/5)");
 					$ttpl->parseCurrentBlock();
 				}
+				
+				// remove
+				if($rating)
+				{
+					$ttpl->setCurrentBlock("rating_simple_del_bl");	
+					$ttpl->setVariable("CAPTION_RATING_DEL", $lng->txt("rating_remove"));
+					
+					if(stristr($a_onclick, "%rating%"))
+					{
+						$url_save = "#";
+					}
+					else 
+					{
+						$ilCtrl->setParameter($this, "rating", 0);					
+						if(!$this->ctrl_path)
+						{
+							$url_save = $ilCtrl->getLinkTarget($this, "saveRating");
+						}
+						else
+						{
+							$url_save = $ilCtrl->getLinkTargetByClass($this->ctrl_path, "saveRating");
+						}														
+					}											
+					$ttpl->setVariable("HREF_RATING_DEL", $url_save);					
+				
+					if($a_onclick)
+					{
+						$onclick = str_replace("%rating%", 0, $a_onclick);						
+						$ttpl->setVariable("ONCLICK_RATING_DEL", ' onclick="'.$onclick.'"');
+					}
+					
+					$ttpl->parseCurrentBlock();
+				}
 
 				// user rating text
 				$ttpl->setCurrentBlock("user_rating_simple");
@@ -219,6 +251,7 @@ class ilRatingGUI
 		// categories: overall & user (form)
 		else
 		{							
+			$has_user_rating = false;
 			foreach($a_categories as $category)
 			{	
 				$user_rating = round(ilRating::getRatingForUserAndObject($this->obj_id, $this->obj_type,
@@ -231,6 +264,8 @@ class ilRatingGUI
 				{					
 					if ($a_may_rate && $i == $user_rating)
 					{
+						$has_user_rating = true;
+						
 						$ttpl->setCurrentBlock("rating_mark");
 						$ttpl->setVariable("SRC_MARK",
 							ilUtil::getImagePath("icon_rate_marker.png"));
@@ -292,7 +327,27 @@ class ilRatingGUI
 			}
 				
 			if($a_may_rate)
-			{				
+			{												
+				// remove
+				if($has_user_rating)
+				{
+					$ttpl->setCurrentBlock("user_rating_categories_del_bl");	
+					$ttpl->setVariable("CAPTION_RATING_DEL_CAT", $lng->txt("rating_remove"));
+					
+					$ilCtrl->setParameter($this, "rating", 0);					
+					if(!$this->ctrl_path)
+					{
+						$url_save = $ilCtrl->getLinkTarget($this, "resetUserRating");
+					}
+					else
+					{
+						$url_save = $ilCtrl->getLinkTargetByClass($this->ctrl_path, "resetUserRating");
+					}																										
+					$ttpl->setVariable("HREF_RATING_DEL_CAT", $url_save);					
+				
+					$ttpl->parseCurrentBlock();
+				}
+				
 				if(!$this->ctrl_path)
 				{
 					$url_form = $ilCtrl->getFormAction($this, "saveRating"); 
@@ -309,7 +364,7 @@ class ilRatingGUI
 				// overall / user title
 				$ttpl->setCurrentBlock("user_rating_categories");
 				$ttpl->setVariable("TXT_RATING_OVERALL", $lng->txt("rating_overlay_title_overall"));				
-				$ttpl->parseCurrentBlock();
+				$ttpl->parseCurrentBlock();				
 			}		
 		}
 		
@@ -492,9 +547,17 @@ class ilRatingGUI
 		
 		if(!is_array($_REQUEST["rating"]))
 		{				
-			ilRating::writeRatingForUserAndObject($this->obj_id, $this->obj_type,
-				$this->sub_obj_id, $this->sub_obj_type, $this->getUserId(),
-				ilUtil::stripSlashes($_GET["rating"]));		
+			$rating = (int)ilUtil::stripSlashes($_GET["rating"]);
+			if(!$rating)
+			{
+				$this->resetUserRating();
+			}
+			else
+			{
+				ilRating::writeRatingForUserAndObject($this->obj_id, $this->obj_type,
+					$this->sub_obj_id, $this->sub_obj_type, $this->getUserId(),
+					$rating);
+			}
 		}
 		else
 		{
@@ -510,6 +573,15 @@ class ilRatingGUI
 		{
 			exit();
 		}
+	}
+	
+	/**
+	* Reset Rating
+	*/
+	function resetUserRating()
+	{	
+		ilRating::resetRatingForUserAndObject($this->obj_id, $this->obj_type,
+				$this->sub_obj_id, $this->sub_obj_type, $this->getUserId());			
 	}
 	
 	function setExportCallback($a_callback, $a_subobj_title)
