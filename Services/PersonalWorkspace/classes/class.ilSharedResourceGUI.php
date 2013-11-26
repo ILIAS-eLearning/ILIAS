@@ -31,7 +31,7 @@ class ilSharedResourceGUI
 	
 	function executeCommand()
 	{
-		global $ilCtrl, $tpl, $ilMainMenu;
+		global $ilCtrl, $tpl, $ilMainMenu, $ilLocator, $ilUser, $lng;
 		
 		$next_class = $ilCtrl->getNextClass($this);
 		$cmd = $ilCtrl->getCmd();
@@ -40,6 +40,41 @@ class ilSharedResourceGUI
 		
 		// #8509
 		$ilMainMenu->setActive("desktop");
+		
+		// #12096
+		if($ilUser->getId() != ANONYMOUS_USER_ID &&
+			$next_class &&
+			!in_array($next_class, array("ilobjbloggui", "ilobjportfoliogui")))
+		{														
+			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
+			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";			
+			$tree = new ilWorkspaceTree($ilUser->getId());
+			$access_handler = new ilWorkspaceAccessHandler($tree);	
+			$owner_id = $tree->lookupOwner($this->node_id);						
+			$obj_id = $tree->lookupObjectId($this->node_id);
+			
+			$lng->loadLanguageModule("wsp");
+
+			// see ilPersonalWorkspaceGUI				
+			if($owner_id != $ilUser->getId())
+			{					
+				$ilCtrl->setParameterByClass("ilpersonaldesktopgui", "dsh", $owner_id);
+				$link = $ilCtrl->getLinkTargetByClass("ilpersonaldesktopgui", "jumptoworkspace");
+				$ilLocator->addItem($lng->txt("wsp_tab_shared"), $link);		
+
+				include_once "Services/User/classes/class.ilUserUtil.php";
+				$ilLocator->addItem(ilUserUtil::getNamePresentation($owner_id), $link);					
+			}
+			else
+			{					
+				$link = $ilCtrl->getLinkTargetByClass("ilpersonaldesktopgui", "jumptoworkspace");
+				$ilLocator->addItem($lng->txt("wsp_tab_personal"), $link);	
+			}
+			
+			$link = $access_handler->getGotoLink($this->node_id, $obj_id);														
+			$ilLocator->addItem(ilObject::_lookupTitle($obj_id), $link);				
+			$tpl->setLocator($ilLocator);		
+		}
 		
 		switch($next_class)
 		{

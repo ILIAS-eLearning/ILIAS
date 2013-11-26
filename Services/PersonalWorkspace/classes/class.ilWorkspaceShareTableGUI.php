@@ -247,7 +247,7 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
 					"firstname" => $user_data[$item["owner"]]["firstname"],
 					"login" => $user_data[$item["owner"]]["login"],
 					"acl_type" => $item["acl_type"],
-					"acl_date" => $item["acl_date"],
+					"acl_date" => $item["acl_date"]
 				);					
 			}			
 		}		
@@ -289,6 +289,7 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("ACL_DATE", 
 			ilDatePresentation::formatDate(new ilDateTime($node["acl_date"], IL_CAL_UNIX))); 
 		
+		asort($node["acl_type"]);
 		foreach($node["acl_type"] as $obj_id)
 		{
 			// see ilWorkspaceAccessTableGUI
