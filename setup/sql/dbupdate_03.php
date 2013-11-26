@@ -19433,3 +19433,7 @@ if(!$ilDB->tableColumnExists('content_object','rating_pages')) {
         ));
 }
 ?>
+<#4159>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

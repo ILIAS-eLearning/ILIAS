@@ -4,6 +4,7 @@ il.LearningModule = {
 	init_frame: {},
 	last_frame_url: {},
 	all_targets: ["center_bottom", "right", "right_top", "right_bottom"],
+	rating_url: '',	
 	
 	setSaveUrl: function (url) {
 		il.LearningModule.save_url = url;
@@ -132,9 +133,24 @@ il.LearningModule = {
 			il.Util.sendAjaxGetRequestToUrl(il.LearningModule.save_url + "&target=" + t + "&url=",
 				{}, {}, il.LearningModule.handleSuccess);
 		}
-	}
+	},
 	
+	setRatingUrl: function (url) {
+		this.rating_url = url;
+	},
 	
+	saveRating: function (rating) {		
+		$.ajax({
+			url: this.rating_url,
+			dataType: 'text',
+			type: 'POST',
+			data: {
+				rating: rating
+			}			
+		}).done(function(data) {			
+			 $('#ilrtrpg').html(data);
+		});
+	}	
 }
 
 $(function() {
