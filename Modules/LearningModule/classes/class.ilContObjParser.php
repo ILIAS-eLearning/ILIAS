@@ -717,6 +717,11 @@ class ilContObjParser extends ilMDSaxParser
 							$this->content_object->setRating(
 								ilUtil::yn2tf($a_attribs["Value"]));
 							break;
+						
+						case "RatingPages":
+							$this->content_object->setRatingPages(
+								ilUtil::yn2tf($a_attribs["Value"]));
+							break;
 							
 						case "HeaderPage":
 							if ($a_attribs["Value"] != "")

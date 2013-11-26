@@ -27,6 +27,7 @@ class ilObjContentObject extends ilObject
 	var $pg_header;
 	var $online;
 	protected $rating;
+	protected $rating_pages;
 	var $auto_glossaries = array();
 	
 	private $import_dir = '';
@@ -1034,6 +1035,7 @@ class ilObjContentObject extends ilObject
 		$this->setPublicExportFile("scorm", $lm_rec["public_scorm_file"]);
 		$this->setLayoutPerPage($lm_rec["layout_per_page"]);
 		$this->setRating($lm_rec["rating"]);
+		$this->setRatingPages($lm_rec["rating_pages"]);
 		$this->setDisableDefaultFeedback($lm_rec["disable_def_feedback"]);
 	}
 
@@ -1075,6 +1077,7 @@ class ilObjContentObject extends ilObject
 			" lm_menu_active = ".$ilDB->quote(ilUtil::tf2yn($this->isActiveLMMenu()), "text").", ".
 			" layout_per_page = ".$ilDB->quote($this->getLayoutPerPage(), "integer").", ".
 			" rating = ".$ilDB->quote($this->hasRating(), "integer").", ".
+			" rating_pages = ".$ilDB->quote($this->hasRatingPages(), "integer").", ".
 			" disable_def_feedback = ".$ilDB->quote($this->getDisableDefaultFeedback(), "integer")." ".
 			" WHERE id = ".$ilDB->quote($this->getId(), "integer");
 		$ilDB->manipulate($q);
@@ -1756,6 +1759,9 @@ class ilObjContentObject extends ilObject
 		// Rating
 		$attrs = array("Name" => "Rating", "Value" =>
 			ilUtil::tf2yn($this->hasRating()));
+		$a_xml_writer->xmlElement("Property", $attrs);
+		$attrs = array("Name" => "RatingPages", "Value" =>
+			ilUtil::tf2yn($this->hasRatingPages()));
 		$a_xml_writer->xmlElement("Property", $attrs);
 
 		// Header Page
@@ -3085,6 +3091,7 @@ class ilObjContentObject extends ilObject
 		$new_obj->setPublicAccessMode($this->getPublicAccessMode());
 		$new_obj->setPageHeader($this->getPageHeader());
 		$new_obj->setRating($this->hasRating());
+		$new_obj->setRatingPages($this->hasRatingPages());
 		
 		$new_obj->update();
 		
@@ -3256,6 +3263,16 @@ class ilObjContentObject extends ilObject
 	public function hasRating()
 	{
 		return $this->rating;
+	}
+	
+	public function setRatingPages($a_value)
+	{
+		$this->rating_pages = (bool)$a_value;
+	}
+	
+	public function hasRatingPages()
+	{
+		return $this->rating_pages;
 	}
 	
 	
