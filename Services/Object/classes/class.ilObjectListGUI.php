@@ -3084,6 +3084,7 @@ class ilObjectListGUI
 			}							
 			
 			$this->ctrl->setParameterByClass("ilRatingGUI", "cadh", $this->ajax_hash);	
+			$this->ctrl->setParameterByClass("ilRatingGUI", "rnsb", true);	
 			if($this->rating_ctrl_path)
 			{				
 				$rating_gui->setCtrlPath($this->rating_ctrl_path);		
