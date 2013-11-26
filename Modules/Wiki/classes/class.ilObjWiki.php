@@ -54,6 +54,26 @@ class ilObjWiki extends ilObject
 	}
 
 	/**
+	* Set Enable Rating For Object.
+	*
+	* @param	boolean	$a_rating	Enable Rating
+	*/
+	function setRatingOverall($a_rating)
+	{
+		$this->rating_overall = (bool)$a_rating;
+	}
+
+	/**
+	* Get Enable Rating For Object.
+	*
+	* @return	boolean	Enable Rating
+	*/
+	function getRatingOverall()
+	{
+		return $this->rating_overall;
+	}
+	
+	/**
 	* Set Enable Rating.
 	*
 	* @param	boolean	$a_rating	Enable Rating
@@ -334,6 +354,7 @@ class ilObjWiki extends ilObject
 			"is_online" => array("integer", $this->getOnline()),
 			"startpage" => array("text", $this->getStartPage()),
 			"short" => array("text", $this->getShortTitle()),
+			"rating_overall" => array("integer", $this->getRatingOverall()),
 			"rating" => array("integer", $this->getRating()),
 			"rating_side" => array("integer", $this->getRatingAsBlock()),
 			"rating_new" => array("integer", $this->getRatingForNewPages()),
@@ -380,6 +401,7 @@ class ilObjWiki extends ilObject
 		$this->setOnline($rec["is_online"]);
 		$this->setStartPage($rec["startpage"]);
 		$this->setShortTitle($rec["short"]);
+		$this->setRatingOverall($rec["rating_overall"]);
 		$this->setRating($rec["rating"]);
 		$this->setRatingAsBlock($rec["rating_side"]);
 		$this->setRatingForNewPages($rec["rating_new"]);
@@ -607,7 +629,7 @@ class ilObjWiki extends ilObject
 	*
 	* @param	int			$a_wiki_id		Wiki ID
 	*
-	* @return	boolean		Rating activated?
+	* @return	boolean		
 	*/
 	static function _lookupStartPage($a_wiki_id)
 	{
@@ -911,6 +933,7 @@ class ilObjWiki extends ilObject
 		$new_obj->setTitle($this->getTitle());
 		$new_obj->setStartPage($this->getStartPage());
 		$new_obj->setShortTitle($this->getShortTitle());
+		$new_obj->setRatingOverall($this->getRatingOverall());
 		$new_obj->setRating($this->getRating());
 		$new_obj->setRatingAsBlock($this->getRatingAsBlock());
 		$new_obj->setRatingForNewPages($this->getRatingForNewPages());

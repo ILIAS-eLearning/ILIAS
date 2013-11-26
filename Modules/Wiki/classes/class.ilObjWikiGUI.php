@@ -621,7 +621,13 @@ class ilObjWikiGUI extends ilObjectGUI
 		$this->form_gui->addItem($online);
 
 		
-		// rating
+		// rating		
+		
+		$lng->loadLanguageModule('rating');
+		$rate = new ilCheckboxInputGUI($lng->txt('rating_activate_rating'), 'rating_overall');
+		$rate->setInfo($lng->txt('rating_activate_rating_info'));
+		$this->form_gui->addItem($rate);
+				
 		$rating = new ilCheckboxInputGUI($lng->txt("wiki_activate_rating"), "rating");
 		$this->form_gui->addItem($rating);
 		
@@ -695,6 +701,7 @@ class ilObjWikiGUI extends ilObjectGUI
 			$values["startpage"] = $this->object->getStartPage();
 			$values["shorttitle"] = $this->object->getShortTitle();
 			$values["description"] = $this->object->getDescription();
+			$values["rating_overall"] = $this->object->getRatingOverall();
 			$values["rating"] = $this->object->getRating();
 			$values["rating_side"] = $this->object->getRatingAsBlock();
 			$values["rating_new"] = $this->object->getRatingForNewPages();
@@ -735,6 +742,7 @@ class ilObjWikiGUI extends ilObjectGUI
 				$this->object->setOnline($this->form_gui->getInput("online"));
 				$this->object->setStartPage($this->form_gui->getInput("startpage"));
 				$this->object->setShortTitle($this->form_gui->getInput("shorttitle"));
+				$this->object->setRatingOverall($this->form_gui->getInput("rating_overall"));
 				$this->object->setRating($this->form_gui->getInput("rating"));
 				$this->object->setRatingAsBlock($this->form_gui->getInput("rating_side"));
 				$this->object->setRatingForNewPages($this->form_gui->getInput("rating_new"));

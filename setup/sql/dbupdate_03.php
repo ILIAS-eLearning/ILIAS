@@ -19421,10 +19421,10 @@ if(!$ilDB->tableColumnExists('il_wiki_data','rating_overall')) {
         ));
 }
 
-if(!$ilDB->tableColumnExists('content_object','rating_overall')) {
+if(!$ilDB->tableColumnExists('content_object','rating_pages')) {
     $ilDB->addTableColumn(
         'content_object',
-        'rating_overall',
+        'rating_pages',
         array(
             'type' => 'integer',
 			'length' => 1,

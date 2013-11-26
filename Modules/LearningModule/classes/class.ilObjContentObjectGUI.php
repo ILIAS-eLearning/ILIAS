@@ -422,7 +422,9 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		$this->lng->loadLanguageModule('rating');
 		$rate = new ilCheckboxInputGUI($this->lng->txt('rating_activate_rating'), 'rating');
 		$rate->setInfo($this->lng->txt('rating_activate_rating_info'));
-		$this->form->addItem($rate);		
+		$this->form->addItem($rate);			
+		$ratep = new ilCheckboxInputGUI($this->lng->txt('lm_activate_rating'), 'rating_pages');
+		$this->form->addItem($ratep);	
 
 		// disable default feedback for questions
 		$qfeed = new ilCheckboxInputGUI($lng->txt("cont_disable_def_feedback"), "disable_def_feedback");
@@ -467,6 +469,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		}
 		$values["layout_per_page"] = $this->object->getLayoutPerPage();
 		$values["rating"] = $this->object->hasRating();
+		$values["rating_pages"] = $this->object->hasRatingPages();
 		$values["disable_def_feedback"] = $this->object->getDisableDefaultFeedback();
 		
 		$this->form->setValuesByArray($values);
@@ -496,6 +499,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 			$this->object->setHistoryUserComments($_POST["cobj_user_comments"]);
 			$this->object->setLayoutPerPage($_POST["layout_per_page"]);
 			$this->object->setRating($_POST["rating"]);
+			$this->object->setRatingPages($_POST["rating_pages"]);
 			$this->object->setDisableDefaultFeedback((int) $_POST["disable_def_feedback"]);
 			$this->object->updateProperties();
 			$this->object->update();

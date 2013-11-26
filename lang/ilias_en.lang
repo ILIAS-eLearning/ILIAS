@@ -9846,7 +9846,7 @@ webr#:#webr_new_link#:#Add New Weblink
 webr#:#webr_sort_manual#:#Sort Manually
 webr#:#webr_sort_title#:#Sort by Title
 webr#:#webr_sorting#:#Weblink Sorting
-wiki#:#wiki_activate_rating#:#Activate Rating
+wiki#:#wiki_activate_rating#:#Activate Rating For Pages
 wiki#:#wiki_all_pages#:#All Pages
 wiki#:#wiki_article#:#Article
 wiki#:#wiki_contributor#:#Contributor
@@ -14044,3 +14044,4 @@ rbac#:#rbac_create_rolt#:#Create new Role Template
 rbac#:#rbac_create_role#:#Create new Role
 rbac#:#rbac_create_bibl#:#Create Bibliographic List
 obj#:#obj_activation_list_gui#:#Availability
+content#:#lm_activate_rating#:#Activate Rating For Pages
