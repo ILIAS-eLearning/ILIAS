@@ -202,7 +202,9 @@ class ilDataCollectionTableEditGUI
 
 		$item = new ilCheckboxInputGUI($lng->txt('dcl_limited'),'limited');
 		$sitem1 = new ilDateTimeInputGUI($lng->txt('dcl_limit_start'),'limit_start');
+        $sitem1->setShowTime(true);
 		$sitem2 = new ilDateTimeInputGUI($lng->txt('dcl_limit_end'),'limit_end');
+        $sitem2->setShowTime(true);
 //		$item->setInfo($lng->txt("dcl_limited_info"));
 		$item->addSubItem($sitem1);
 		$item->addSubItem($sitem2);
