@@ -3886,8 +3886,8 @@ common#:#obj_chat#:#Chat
 common#:#obj_chta#:#Chat
 common#:#obj_chtr#:#Salle de Chat
 common#:#obj_chtr_duplicate#:#Copier Salle de Chat
-common#:#obj_cmps#:#Plugins, Modules et Services
-common#:#obj_cmps_desc#:#Paramétrage des plugins, modules et services
+common#:#obj_cmps#:#Plugins
+common#:#obj_cmps_desc#:#Paramétrage des plugins
 common#:#obj_crs#:#Cours
 common#:#obj_crs_duplicate#:#Copier Cours
 common#:#obj_crs_select#:#-- Veuillez sélectionner un Cours --
