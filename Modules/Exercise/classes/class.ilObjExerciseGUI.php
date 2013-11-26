@@ -3781,10 +3781,12 @@ class ilObjExerciseGUI extends ilObjectGUI
 			$rating = '<div id="rtr_widget">'.$rating->getHTML(false, true,
 				"il.ExcPeerReview.saveSingleRating(".$user_id.", %rating%)").'</div>';		
 			
+			$ilCtrl->setParameter($this, "ssrtg", 1);
 			$tpl->addJavaScript("Modules/Exercise/js/ilExcPeerReview.js");
 			$tpl->addOnLoadCode("il.ExcPeerReview.setAjax('".
-			$ilCtrl->getLinkTarget($this, "updatePeerReviewComments", "", true, false).
+				$ilCtrl->getLinkTarget($this, "updatePeerReviewComments", "", true, false).
 				"')");
+			$ilCtrl->setParameter($this, "ssrtg", "");
 		}
 		// personal
 		else
@@ -3961,9 +3963,17 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$rating = new ilRatingGUI();
 		$rating->setObject($this->ass->getId(), "ass", $rating_peer_id, "peer");
 		$rating->setUserId($giver_id);
-	
-		echo $rating->getHTML(false, true, 
-				"il.ExcPeerReview.saveComments(".$rating_peer_id.", %rating%)");	
+		
+		if(!$_REQUEST["ssrtg"])
+		{	
+			echo $rating->getHTML(false, true, 
+					"il.ExcPeerReview.saveComments(".$rating_peer_id.", %rating%)");	
+		}
+		else
+		{		
+			echo '<div id="rtr_widget">'.$rating->getHTML(false, true,
+				"il.ExcPeerReview.saveSingleRating(".$rating_peer_id.", %rating%)").'</div>';
+		}
 		
 		echo $tpl->getOnLoadCodeForAsynch();
 		exit();
