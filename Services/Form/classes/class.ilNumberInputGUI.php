@@ -384,7 +384,9 @@ class ilNumberInputGUI extends ilSubEnabledFormPropertyGUI
 				" disabled=\"disabled\"");
 		}
 		
+		/*
 		$tpl->setVariable("JS_DECIMALS_ALLOWED", (int)$this->areDecimalsAllowed());
+		*/ 
 		
 		// constraints
 		if ($this->areDecimalsAllowed() && $this->getDecimals() > 0)
