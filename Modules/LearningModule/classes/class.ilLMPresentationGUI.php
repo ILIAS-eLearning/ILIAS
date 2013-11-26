@@ -16,6 +16,7 @@ require_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 * @ilCtrl_Calls ilLMPresentationGUI: ilNoteGUI, ilInfoScreenGUI, ilShopPurchaseGUI
 * @ilCtrl_Calls ilLMPresentationGUI: ilLMPageGUI, ilGlossaryDefPageGUI, ilCommonActionDispatcherGUI
 * @ilCtrl_Calls ilLMPresentationGUI: ilLearningProgressGUI, ilAssGenFeedbackPageGUI
+* @ilCtrl_Calls ilLMPresentationGUI: ilRatingGUI
 *
 * @ingroup ModulesIliasLearningModule
 */
@@ -182,6 +183,13 @@ class ilLMPresentationGUI
 				include_once './Services/Tracking/classes/class.ilLearningProgressGUI.php';				
 				$new_gui = new ilLearningProgressGUI(ilLearningProgressGUI::LP_CONTEXT_REPOSITORY, $_GET["ref_id"], $ilUser->getId());						
 				$this->ctrl->forwardCommand($new_gui);				
+				break;
+			
+			case "ilratinggui":							
+				include_once("./Services/Rating/classes/class.ilRatingGUI.php");
+				$rating_gui = new ilRatingGUI();			
+				$rating_gui->setObject($this->lm->getId(), "lm", $_GET["obj_id"], "lm");
+				$this->ctrl->forwardCommand($rating_gui);
 				break;
 
 			default:
@@ -1618,10 +1626,69 @@ class ilLMPresentationGUI
 				$foot = $this->ilPage($a_page_node, $this->lm->getFooterPage());
 			}
 		}
-		$this->tpl->setVariable("PAGE_CONTENT", $head.$ret.$foot); 
+		
+		// rating
+		$rating = "";
+		if($this->lm->hasRatingPages())
+		{														
+			include_once("./Services/Rating/classes/class.ilRatingGUI.php");			
+			$rating_gui = new ilRatingGUI();
+			$rating_gui->setObject($this->lm->getId(), "lm", $page_id, "lm");	
+			$rating_gui->setYourRatingText($this->lng->txt("lm_rate_page"));		
+			
+			/*			
+				$this->tpl->setVariable("VAL_RATING", $rating->getHTML(false, true, 
+					"il.ExcPeerReview.saveComments(".$a_set["peer_id"].", %rating%)"));				
+			*/
+						
+			$this->ctrl->setParameter($this, "pgid", $page_id);
+			$this->tpl->addOnLoadCode("il.LearningModule.setRatingUrl('".
+				$this->ctrl->getLinkTarget($this, "updatePageRating", "", true, false).
+				"')");
+			$this->ctrl->setParameter($this, "pgid", "");
+			
+			$rating = '<div id="ilrtrpg" style="text-align:right">'.
+				$rating_gui->getHtml(true, true, "il.LearningModule.saveRating(%rating%);").
+				"</div>";
+		}
+		
+		$this->tpl->setVariable("PAGE_CONTENT", $rating.$head.$ret.$foot); 
 //echo htmlentities("-".$ret."-");
 		return $head.$ret.$foot;
-
+	}
+	
+	function updatePageRating()
+	{
+		global $ilUser;
+		
+		$pg_id = $_GET["pgid"];		
+		if(!$this->ctrl->isAsynch() || !$pg_id)
+		{
+			exit();
+		}
+				
+		include_once './Services/Rating/classes/class.ilRating.php';			
+		$rating = (int)$_POST["rating"];
+		if($rating)
+		{
+			ilRating::writeRatingForUserAndObject($this->lm->getId(), "lm", 
+				$pg_id, "lm", $ilUser->getId(), $_POST["rating"]);
+		}
+		else
+		{
+			ilRating::resetRatingForUserAndObject($this->lm->getId(), "lm", 
+				$pg_id, "lm", $ilUser->getId());
+		}		
+		
+		include_once './Services/Rating/classes/class.ilRatingGUI.php';
+		$rating = new ilRatingGUI();
+		$rating->setObject($this->lm->getId(), "lm", $pg_id, "lm", $ilUser->getId());
+		$rating->setYourRatingText($this->lng->txt("lm_rate_page"));		
+		
+		echo $rating->getHtml(true, true, "il.LearningModule.saveRating(%rating%);");
+		
+		echo $this->tpl->getOnLoadCodeForAsynch();
+		exit();
 	}
 
 	/**
