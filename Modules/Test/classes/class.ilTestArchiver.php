@@ -485,7 +485,7 @@ class ilTestArchiver
 		global $ilUser;
 		$this->appendToArchiveDataIndex(date(DATE_ISO8601), $active_fi, $pass, $ilUser->getFirstname(), $ilUser->getLastname(), $ilUser->getMatriculation());
 		$data_index_entry = $this->getPassDataDirectory($active_fi, $pass);
-		array_shift($data_index_entry);
+		@array_shift($data_index_entry);
 		return $this->getTestArchive() . self::DIR_SEP . implode(self::DIR_SEP, $data_index_entry);
 	}
 
