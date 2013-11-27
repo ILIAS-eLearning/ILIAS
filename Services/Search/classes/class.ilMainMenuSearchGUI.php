@@ -69,19 +69,34 @@ class ilMainMenuSearchGUI
 		iljQueryUtil::initjQueryUI();
 		$this->tpl = new ilTemplate('tpl.main_menu_search.html',true,true,'Services/Search');
 		
-		if ($ilUser->getId() != ANONYMOUS_USER_ID && (int) $_GET["ref_id"] > 0)
+		if ($ilUser->getId() != ANONYMOUS_USER_ID)
 		{
-			$this->tpl->setCurrentBlock("position");
-			$this->tpl->setVariable('TXT_GLOBALLY', $lng->txt("search_globally"));
-			$this->tpl->setVariable('TXT_CURRENT_POSITION', $lng->txt("search_at_current_position"));
-			$this->tpl->setVariable('REF_ID', (int) $_GET["ref_id"]);
-			$this->tpl->setVariable('ROOT_ID', ROOT_FOLDER_ID);
-			$this->tpl->parseCurrentBlock();
+			if(ilSearchSettings::getInstance()->isLuceneUserSearchEnabled() or (int) $_GET['ref_id'])
+			{
+				$this->tpl->setCurrentBlock("position");
+				$this->tpl->setVariable('TXT_GLOBALLY', $lng->txt("search_globally"));
+				$this->tpl->setVariable('ROOT_ID', ROOT_FOLDER_ID);
+				$this->tpl->parseCurrentBlock();
+			}
+			else
+			{
+				$this->tpl->setCurrentBlock("position_hid");
+				$this->tpl->setVariable('ROOT_ID_HID', ROOT_FOLDER_ID);
+				$this->tpl->parseCurrentBlock();
+			}
+			if((int) $_GET['ref_id'])
+			{
+				$this->tpl->setCurrentBlock('position_rep');
+				$this->tpl->setVariable('TXT_CURRENT_POSITION', $lng->txt("search_at_current_position"));
+				$this->tpl->setVariable('REF_ID', (int) $_GET["ref_id"]);
+				$this->tpl->parseCurrentBlock();
+			}
 		}
-		else
+
+		if($ilUser->getId() != ANONYMOUS_USER_ID && ilSearchSettings::getInstance()->isLuceneUserSearchEnabled())
 		{
-			$this->tpl->setCurrentBlock("position_hid");
-			$this->tpl->setVariable('ROOT_ID_HID', ROOT_FOLDER_ID);
+			$this->tpl->setCurrentBlock('usr_search');
+			$this->tpl->setVariable('TXT_USR_SEARCH',$this->lng->txt('search_users'));
 			$this->tpl->parseCurrentBlock();
 		}
 		

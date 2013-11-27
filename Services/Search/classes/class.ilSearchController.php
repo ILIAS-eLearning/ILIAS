@@ -17,6 +17,8 @@
 
 class ilSearchController
 {
+	const TYPE_USER_SEARCH = -1;
+	
 	var $ctrl = null;
 	var $ilias = null;
 	var $lng = null;
@@ -46,6 +48,12 @@ class ilSearchController
 		{
 			$default = 'ilsearchgui'; 
 		}
+		if($_REQUEST['root_id'] == self::TYPE_USER_SEARCH)
+		{
+			$default = 'illuceneusersearchgui';
+		}
+		
+		$this->setLastClass($default);
 		
 		return $_SESSION['search_last_class'] ? $_SESSION['search_last_class'] : $default;
 	}
