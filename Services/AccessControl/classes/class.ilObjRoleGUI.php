@@ -637,7 +637,8 @@ class ilObjRoleGUI extends ilObjectGUI
 				$this->form->getInput('pro') ? 'y' : 'n'
 			);
 			ilUtil::sendSuccess($this->lng->txt("role_added"),true);
-			$this->ctrl->returnToParent($this);
+			$this->ctrl->setParameter($this,'obj_id',$this->role->getId());
+			$this->ctrl->redirect($this,'perm');
 		}
 		
 		ilUtil::sendFailure($this->lng->txt('err_check_input'));

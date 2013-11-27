@@ -244,8 +244,11 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 					$roltObj->getId(),
 					$form->getInput('protected') ? 'y' : 'n'
 			);
+			
 			ilUtil::sendSuccess($this->lng->txt("rolt_added"),true);
-			$this->ctrl->returnToParent($this);
+			// redirect to permission screen
+			$this->ctrl->setParameter($this,'obj_id',$roltObj->getId());
+			$this->ctrl->redirect($this,'perm');
 		}
 		$form->setValuesByPost();
 		$this->createObject($form);
