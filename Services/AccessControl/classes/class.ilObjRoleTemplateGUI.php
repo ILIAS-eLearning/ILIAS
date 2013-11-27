@@ -89,6 +89,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 		{
 			$this->ctrl->setParameter($this, "new_type", 'rolt');
 		}
+		
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		
 		if($a_mode == self::FORM_MODE_CREATE)
@@ -111,15 +112,19 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 			{
 				$title->setDisabled(true);
 			}
+			$title->setValue($this->object->getTitle());
 		}
-		$title->setValue($this->object->getTitle());
 		$title->setSize(40);
 		$title->setMaxLength(70);
 		$title->setRequired(true);
 		$form->addItem($title);
 		
 		$desc = new ilTextAreaInputGUI($this->lng->txt('description'),'desc');
-		$desc->setValue($this->object->getDescription());
+		
+		if($a_mode != self::FORM_MODE_CREATE)
+		{
+			$desc->setValue($this->object->getDescription());
+		}
 		$desc->setCols(40);
 		$desc->setRows(3);
 		$form->addItem($desc);
