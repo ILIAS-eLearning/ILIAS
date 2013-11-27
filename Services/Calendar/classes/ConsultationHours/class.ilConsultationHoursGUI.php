@@ -133,7 +133,8 @@ class ilConsultationHoursGUI
 				break;
 			
 			default:				
-
+				$tpl->setTitle($this->lng->txt("cal_ch_form_header")); // #12220
+		
 				$this->setTabs();
 				if($ilUser->getId() != $this->user_id)
 				{
