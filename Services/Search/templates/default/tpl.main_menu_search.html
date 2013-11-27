@@ -16,8 +16,15 @@
 </div><div class="ilOverlay" style="display:none;" id="mm_search_menu">
 	<div id="mm_search_menu_head">
 		<p>	» <a target="_top" href="{HREF_SEARCH_LINK}">{TXT_SEARCH_LINK}</a></p>
-		<!-- BEGIN position --><p><input type="radio" name="root_id" value="{ROOT_ID}" checked="checked"/> {TXT_GLOBALLY}<br />
-		<input type="radio" name="root_id" value="{REF_ID}" /> {TXT_CURRENT_POSITION}</p><!-- END position -->
+		<!-- BEGIN position --><p><input type="radio" name="root_id" value="{ROOT_ID}" checked="checked"/> {TXT_GLOBALLY}<br /><!-- END position -->
+		<!-- BEGIN position_rep -->	
+		<input type="radio" name="root_id" value="{REF_ID}" /> {TXT_CURRENT_POSITION}</p>
+		<!-- END position_rep -->
+		<!-- BEGIN usr_search -->
+		<p>
+			<input type="radio" name="root_id" value="-1" /> {TXT_USR_SEARCH}
+		</p>
+		<!-- END usr_search -->
 		<!-- BEGIN position_hid --><input type="hidden" name="root_id" value="{ROOT_ID_HID}" /><!-- END position_hid -->
 	</div>
 	<div id="mm_search_menu_ac"></div></div>
