@@ -290,7 +290,7 @@ class ilCronManager
 	
 	public static function createDefaultEntry(ilCronJob $a_job, $a_component, $a_class, $a_path)
 	{
-		global $ilDB, $ilLog;
+		global $ilDB, $ilLog, $ilSetting;
 		
 		// already exists?			
 		$sql = "SELECT job_id, schedule_type FROM cron_job".
@@ -318,6 +318,13 @@ class ilCronManager
 			self::updateJobSchedule($a_job,  
 				$a_job->getDefaultScheduleType(),
 				$a_job->getDefaultScheduleValue());
+			
+			// #12221
+			if(!is_object($ilSetting))
+			{
+				include_once "Services/Administration/classes/class.ilSetting.php";
+				$ilSetting = new ilSetting();
+			}
 
 			if($a_job->hasAutoActivation())
 			{
