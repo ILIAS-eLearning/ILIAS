@@ -2629,7 +2629,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		{
 			ilUtil::sendSuccess($this->lng->txt("msg_cloned"),true);
 		}
-		else if ($last_command == 'link')
+		else if ($last_cmd == 'link')
 		// END WebDAV: Support copy command in repository
 		{
 			ilUtil::sendSuccess($this->lng->txt("msg_linked"),true);
