@@ -4056,7 +4056,7 @@ common#:#sorting_info_manual#:#This mode offers you the possibility to sort item
 common#:#sorting_info_title#:#Choose this mode to sort items automatically by title.
 common#:#sorting_manual_header#:#Sort Manually
 common#:#sorting_save#:#Save Sorting
-common#:#sorting_title_header#:#Sort by Title
+common#:#sorting_title_header#:#Titles by Alphabetical Order
 common#:#spacer#:#Spacer
 common#:#spl_add#:#Add Question Pool Survey
 rbac#:#spl_copy#:#User can copy question pool for surveys
@@ -5652,7 +5652,7 @@ crs#:#crs_sort_manual_info#:#This mode offers you the possibility to sort course
 crs#:#crs_sort_manual#:#Sort Manually
 crs#:#crs_sort_timing_info#:#Sort course items be their activation time or timing presettings.
 crs#:#crs_sort_title_info#:#Choose this mode to sort course items automatically by title.
-crs#:#crs_sort_title#:#Sort by Title
+crs#:#crs_sort_title#:#Titles by Alphabetical Order
 crs#:#crs_sortorder_abo#:#Content Item Sorting
 crs#:#crs_sortorder#:#Sort
 crs#:#crs_start_objects#:#Start Objects
@@ -7973,7 +7973,7 @@ payment#:#pay_topics_allow_custom_sorting#:#Custom Sorting of Topics
 payment#:#pay_topics_default_sorting_direction#:#Default Sorting Direction of Topics
 payment#:#pay_topics_default_sorting_type#:#Default Sorting Type of Topics
 payment#:#pay_topics_sort_by_date#:#By Date
-payment#:#pay_topics_sort_by_title#:#By Title
+payment#:#pay_topics_sort_by_title#:#Titles by Alphabetical Order
 payment#:#pay_topics_sort_manually#:#Manually
 payment#:#pay_update_view#:#Update view
 payment#:#paya_access#:#Access
@@ -9844,7 +9844,7 @@ webr#:#webr_list_desc#:#Description of Weblink List
 webr#:#webr_list_title#:#Title of Weblink List
 webr#:#webr_new_link#:#Add New Weblink
 webr#:#webr_sort_manual#:#Sort Manually
-webr#:#webr_sort_title#:#Sort by Title
+webr#:#webr_sort_title#:#Titles by Alphabetical Order
 webr#:#webr_sorting#:#Weblink Sorting
 wiki#:#wiki_activate_rating#:#Activate Rating For Pages
 wiki#:#wiki_all_pages#:#All Pages
@@ -11787,7 +11787,7 @@ rbac#:#otpl_visible#:#Administration of Didactic Templates is visible
 rbac#:#otpl_read#:#User has read access to Didactic Templates administration
 rbac#:#otpl_write#:#User can edit settings of Didactic Templates
 rbac#:#otpl_edit_permission#:#User can change permission settings in administration of Didactic Templates
-didactic#:#didactic_default_type_info#:#Uses default permissions for %s
+didactic#:#didactic_default_type_info#:#Default set of permissions will be applied.
 didactic#:#didactic_install_info#:#General Information
 didactic#:#didactic_not_changed#:#The didactic template setting is unchanged.
 didactic#:#didactic_selected_tpl_option#:#Applied didactic template:
@@ -12139,7 +12139,7 @@ user#:#user_delete_own_account_email_body#:#Your user account "%s" has been dele
 mcst#:#mcst_ordering#:#Sorting
 mcst#:#mcst_ordering_creation_date_asc#:#By Creation Date (Ascending)
 mcst#:#mcst_ordering_creation_date_desc#:#By Creation Date (Descending)
-mcst#:#mcst_ordering_title#:#By Title
+mcst#:#mcst_ordering_title#:#Titles by Alphabetical Order
 mcst#:#mcst_ordering_manual#:#Manual
 user#:#user_store_last_visited#:#Last Visited
 user#:#user_lv_keep_entries#:#Remember last visited
@@ -14051,3 +14051,7 @@ rating#:#rating_remove#:#Remove Rating
 content#:#lm_rate_page#:#Rate page
 rbac#:#il_orgu_employee#:#Organisational Unit Employee
 rbac#:#il_orgu_superior#:#Organisational Unit Superior
+obj#:#obj_tool_setting_info_tab_info#:#The "Info" tab will be displayed.
+common#:#obj_tool_setting_news_info#:#The "News" block will be displayed inside the "Content" tab.
+obj#:#obj_presentation#:#Presentation
+mcst#:#mcst_webfeed#:#RSS Web Feed
