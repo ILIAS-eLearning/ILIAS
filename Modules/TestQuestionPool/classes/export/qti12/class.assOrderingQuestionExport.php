@@ -204,7 +204,7 @@ class assOrderingQuestionExport extends assQuestionExport
 			{
 				$a_xml_writer->xmlStartTag("material");
 				$this->object->addQTIMaterial($a_xml_writer, $answer->getAnswertext(), TRUE, FALSE);
-				
+				$a_xml_writer->xmlEndTag("material");
 				$a_xml_writer->xmlStartTag("material");
 				if ($this->object->getOldLeveledOrdering())
 				{

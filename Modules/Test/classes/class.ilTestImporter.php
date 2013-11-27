@@ -74,8 +74,7 @@ class ilTestImporter extends ilXmlImporter
 
 		ilObjTest::_setImportDirectory();
 	}
-	
-	
+
 	/**
 	 * Create qti and xml file name
 	 * @return array 
