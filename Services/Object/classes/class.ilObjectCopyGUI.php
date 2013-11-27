@@ -185,6 +185,7 @@ class ilObjectCopyGUI
 		$exp->setExpandTarget($ilCtrl->getLinkTarget($this, 'showTargetSelectionTree'));
 		$exp->setTargetGet('ref_id');
 		$exp->setPostVar('target');
+		$exp->highlightNode($_GET['ref_id']);
 		$exp->setCheckedItems(array((int) $_POST['target']));
 		
 		// Filter to container
