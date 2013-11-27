@@ -1134,16 +1134,25 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		$tit->setValue($this->object->getTitle());
 		$tit->setRequired(true);
 		$this->form_gui->addItem($tit);
-
+		
 		// description
 		$des = new ilTextAreaInputGUI($lng->txt("description"), "description");
 		$des->setValue($this->object->getLongDescription());
 		$this->form_gui->addItem($des);
+		
+		$sh = new ilFormSectionHeaderGUI();
+		$sh->setTitle($lng->txt("activation"));
+		$this->form_gui->addItem($sh);
 
 		// Online
 		$online = new ilCheckboxInputGUI($lng->txt("online"), "online");
 		$online->setChecked($this->object->getOnline());
 		$this->form_gui->addItem($online);
+
+		// presentation
+		$sh = new ilFormSectionHeaderGUI();
+		$sh->setTitle($lng->txt("obj_presentation"));
+		$this->form_gui->addItem($sh);
 		
 		// Sorting
 		$sort = new ilRadioGroupInputGUI($lng->txt("mcst_ordering"), "order");
@@ -1163,8 +1172,13 @@ class ilObjMediaCastGUI extends ilObjectGUI
 			ilObjMediaCast::VIEW_LIST => $lng->txt("mcst_list"),
 			ilObjMediaCast::VIEW_GALLERY => $lng->txt("mcst_gallery")
 			);
-		$si = new ilSelectInputGUI($this->lng->txt("mcst_viewmode"), "viewmode");
-		$si->setOptions($options);
+		$si = new ilRadioGroupInputGUI($this->lng->txt("mcst_viewmode"), "viewmode");
+		$si->addOption(new ilRadioOption($lng->txt("mcst_list"), 
+			ilObjMediaCast::VIEW_LIST));
+		$si->addOption(new ilRadioOption($lng->txt("mcst_gallery"), 
+			ilObjMediaCast::VIEW_GALLERY));
+
+//		$si->setOptions($options);
 		$si->setValue($this->object->getViewMode());
 		$this->form_gui->addItem($si);
 		
@@ -1181,12 +1195,18 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		//Default Visibility
 		if ($enable_internal_rss)
 		{
+			// webfeed
+			$sh = new ilFormSectionHeaderGUI();
+			$sh->setTitle($lng->txt("mcst_webfeed"));
+			$this->form_gui->addItem($sh);
+
 			$radio_group = new ilRadioGroupInputGUI($lng->txt("news_default_visibility"), "defaultaccess");
 			$radio_option = new ilRadioOption($lng->txt("news_visibility_users"), "0");
+			$radio_option->setInfo($lng->txt("news_news_item_def_visibility_users_info"));
 			$radio_group->addOption($radio_option);					
 			$radio_option = new ilRadioOption($lng->txt("news_visibility_public"), "1");
+			$radio_option->setInfo($lng->txt("news_news_item_def_visibility_public_info"));
 			$radio_group->addOption($radio_option);
-			$radio_group->setInfo($lng->txt("news_news_item_visibility_info"));
 			$radio_group->setRequired(false);			
 			$radio_group->setValue($this->object->getDefaultAccess());			
 			#$ch->addSubItem($radio_group);

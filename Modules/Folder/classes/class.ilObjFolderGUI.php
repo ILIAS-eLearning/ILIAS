@@ -566,7 +566,7 @@ class ilObjFolderGUI extends ilContainerGUI
 		$this->showCustomIconsEditing(1, $form);
 		
 		// $form->setTitle($this->lng->txt('edit_grouping'));
-		$form->addCommandButton('updateIcons', $this->lng->txt('save'));					
+		$form->addCommandButton('updateIcons', $this->lng->txt('upload'));					
 		
 		return $form;
 	}

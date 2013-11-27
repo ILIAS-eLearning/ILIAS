@@ -66,14 +66,15 @@ class ilObjectServiceSettingsGUI
 		// info tab
 		if(in_array(self::INFO_TAB_VISIBILITY, $services))
 		{
-			$info = new ilCheckboxInputGUI('', self::INFO_TAB_VISIBILITY);
+			$info = new ilCheckboxInputGUI($GLOBALS['lng']->txt('obj_tool_setting_info_tab'), self::INFO_TAB_VISIBILITY);
 			$info->setValue(1);
 			$info->setChecked(ilContainer::_lookupContainerSetting(
 						$a_obj_id,
 						self::INFO_TAB_VISIBILITY,
 						true
 				));
-			$info->setOptionTitle($GLOBALS['lng']->txt('obj_tool_setting_info_tab'));
+			//$info->setOptionTitle($GLOBALS['lng']->txt('obj_tool_setting_info_tab'));
+			$info->setInfo($GLOBALS['lng']->txt('obj_tool_setting_info_tab_info'));
 			$form->addItem($info);
 		}
 		
@@ -84,11 +85,12 @@ class ilObjectServiceSettingsGUI
 			if(ilCalendarSettings::_getInstance()->isEnabled())
 			{
 				// Container tools (calendar, news, ... activation)
-				$cal = new ilCheckboxInputGUI('', self::CALENDAR_VISIBILITY);
+				$cal = new ilCheckboxInputGUI($GLOBALS['lng']->txt('obj_tool_setting_calendar'), self::CALENDAR_VISIBILITY);
 				$cal->setValue(1);
 				include_once './Services/Calendar/classes/class.ilObjCalendarSettings.php';
 				$cal->setChecked(ilCalendarSettings::lookupCalendarActivated($a_obj_id));
-				$cal->setOptionTitle($GLOBALS['lng']->txt('obj_tool_setting_calendar'));
+				//$cal->setOptionTitle($GLOBALS['lng']->txt('obj_tool_setting_calendar'));
+				$cal->setInfo($GLOBALS['lng']->txt('obj_tool_setting_calendar_info'));
 				$form->addItem($cal);
 			}
 		}
@@ -99,14 +101,15 @@ class ilObjectServiceSettingsGUI
 			if($ilSetting->get('block_activated_news'))
 			{
 				// Container tools (calendar, news, ... activation)
-				$news = new ilCheckboxInputGUI('', self::NEWS_VISIBILITY);
+				$news = new ilCheckboxInputGUI($GLOBALS['lng']->txt('obj_tool_setting_news'), self::NEWS_VISIBILITY);
 				$news->setValue(1);
 				$news->setChecked(ilContainer::_lookupContainerSetting(
 						$a_obj_id,
 						self::NEWS_VISIBILITY,
 						$ilSetting->get('block_activated_news',true)
 				));
-				$news->setOptionTitle($GLOBALS['lng']->txt('obj_tool_setting_news'));
+				//$news->setOptionTitle($GLOBALS['lng']->txt('obj_tool_setting_news'));
+				$news->setInfo($GLOBALS['lng']->txt('obj_tool_setting_news_info'));
 				$form->addItem($news);
 			}
 		}
@@ -117,9 +120,9 @@ class ilObjectServiceSettingsGUI
 			$GLOBALS['lng']->loadLanguageModule("rating");
 			
 			// auto rating for new objects
-			$rate = new ilCheckboxInputGUI('', self::AUTO_RATING_NEW_OBJECTS);
+			$rate = new ilCheckboxInputGUI($GLOBALS['lng']->txt('rating_new_objects_auto'), self::AUTO_RATING_NEW_OBJECTS);
 			$rate->setValue(1);
-			$rate->setOptionTitle($GLOBALS['lng']->txt('rating_new_objects_auto'));
+			//$rate->setOptionTitle($GLOBALS['lng']->txt('rating_new_objects_auto'));
 			$rate->setInfo($GLOBALS['lng']->txt('rating_new_objects_auto_info'));
 			$rate->setChecked(ilContainer::_lookupContainerSetting(
 						$a_obj_id,

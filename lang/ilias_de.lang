@@ -2341,7 +2341,7 @@ common#:#benchmark#:#Benchmark
 common#:#benchmark_settings#:#Benchmark Einstellungen
 common#:#benchmarks#:#Benchmarks
 common#:#bib_data#:#Bibliographische Daten
-common#:#big_icon#:#Grosses Symbol
+common#:#big_icon#:#Groß
 common#:#birthday#:#Geburtstag
 common#:#bkm_import#:#Bookmarks importieren
 common#:#bkm_import_ok#:#Es wurden %d Bookmarks und %d Bookmark Ordner erfolgreich importiert.
@@ -2402,7 +2402,7 @@ common#:#cat_clear_page#:#Seite leeren
 rbac#:#cat_copy#:#Kategorie kopieren
 common#:#cat_copy_threads_info#:#Bitte wählen Sie aus, welche Materialien der Kategorie kopiert, verknüpft oder aber bei dem Kopiervorgang ausgelassen werden sollen.
 rbac#:#cat_delete#:#Kategorie löschen oder verschieben
-common#:#cat_edit#:#Kategorie bearbeiten
+common#:#cat_edit#:#Einstellungen der Kategorie
 rbac#:#cat_edit_permission#:#Rechteeinstellungen ändern
 common#:#cat_new#:#Neue Kategorie anlegen
 common#:#cat_pages#:#Kategorienseiten
@@ -2954,7 +2954,7 @@ common#:#file_locked_by#:#Datei gesperrt von
 common#:#file_new#:#Neue Datei anlegen
 common#:#file_not_found#:#Datei nicht gefunden
 common#:#file_not_valid#:#Datei ist ungültig!
-common#:#file_notice#:#Bitte beachten Sie bei Ihrem Dateiupload die folgende Uploadgrenze:
+common#:#file_notice#:#Maximal erlaubte Upload-Größe:
 rbac#:#file_read#:#Datei herunterladen
 common#:#file_suffix_repl#:#Ersetzen der Endungen hochgeladener Dateien
 common#:#file_suffix_repl_info#:#Tragen Sie hier komma-separiert alle Dateitypen mit ihrer Dateiendung ein, die beim Upload als Dateiendung ".sec" erhalten sollen, wenn Sie in den Webspace hochgeladen werden. Dadurch wird ihre direkte Ausführung verhindert. Dies geschieht ohnehin automatisch für Dateien mit folgenden Endungen:
@@ -4716,11 +4716,11 @@ common#:#sort_by_this_column#:#Nach dieser Spalte sortieren
 common#:#sort_inherit_prefix#:#Standard
 common#:#sorting_header#:#Sortierung
 common#:#sorting_info_inherit#:#Die Sortierung wird vom übergeordneten Kurs übernommen.
-common#:#sorting_info_manual#:#Wenn ausgewählt, können die Materialien manuell in beliebiger Reihenfolge sortiert werden.
-common#:#sorting_info_title#:#Wählen Sie diese Einstellung, um die Materialien automatisch nach ihrem Titel zu sortieren.
-common#:#sorting_manual_header#:#Manuelle Sortierung
+common#:#sorting_info_manual#:#Die enthaltenen Objekte können in einer gewünschten Reihenfolge angeordnet werden.
+common#:#sorting_info_title#:#Die enthaltenen Objekte werden automatisch nach ihrem Titel sortiert. 
+common#:#sorting_manual_header#:#Manuell
 common#:#sorting_save#:#Sortierung speichern
-common#:#sorting_title_header#:#Nach Titel
+common#:#sorting_title_header#:#Alphabetisch nach Titel
 common#:#spacer#:#Trenner
 common#:#spl#:#Fragenpool für Umfragen
 common#:#spl_add#:#Fragenpool anlegen
@@ -4740,7 +4740,7 @@ common#:#st_added#:#Kapitel angelegt
 common#:#st_edit#:#Kapitel bearbeiten
 common#:#st_new#:#Neues Kapitel
 common#:#standard_fields#:#Standardfelder
-common#:#standard_icon#:#Standard-Icon
+common#:#standard_icon#:#Mittel
 common#:#startpage#:#ILIAS-Anmeldeseite
 common#:#stat_selected#:#Ausgewählt
 common#:#state_changed#:#geändert
@@ -4859,7 +4859,7 @@ common#:#time_limit_until#:#Bis (Zeitlimit)
 common#:#time_limit_users_updated#:#Die Benutzerdaten wurden aktualisiert
 common#:#time_limits#:#Zugang
 common#:#time_segment#:#Zeitraum
-common#:#tiny_icon#:#Kleines Icon
+common#:#tiny_icon#:#Klein
 common#:#title#:#Titel
 common#:#title_and_translations#:#Titel und Übersetzungen
 common#:#title_long#:#Langtitel
@@ -6572,7 +6572,7 @@ crs#:#crs_sort_activation#:#Nach Zeitvorgaben
 crs#:#crs_sort_manual#:#Manuelle Sortierung
 crs#:#crs_sort_manual_info#:#Wenn ausgewählt, können die Kursmaterialien manuell in beliebiger Reihenfolge sortiert werden.
 crs#:#crs_sort_timing_info#:#Automatische Sortierung nach Verfügbarkeit bzw. nach Lernplanung.
-crs#:#crs_sort_title#:#Nach Titel
+crs#:#crs_sort_title#:#Alphabetisch nach Titel
 crs#:#crs_sort_title_info#:#Wählen Sie diese Einstellung, um die Kursmaterialien automatisch nach ihrem Titel zu sortieren.
 crs#:#crs_sortorder#:#Sortierung
 crs#:#crs_sortorder_abo#:#Sortierung
@@ -7259,7 +7259,7 @@ didactic#:#didactic_confirm_apply_new_template#:#Sind Sie sicher, dass Sie diese
 didactic#:#didactic_confirm_delete_msg#:#Sind Sie sicher, dass die folgenden didaktischen Vorlagen gelöscht werden sollen?
 didactic#:#didactic_copy_suc_message#:#Die didaktische Vorlage wurde kopiert
 didactic#:#didactic_deactivated_msg#:#Die ausgewählten didaktischen Vorlagen wurden deaktiviert.
-didactic#:#didactic_default_type_info#:#Erzeugt Standard-Rechteeinstellungen für %s
+didactic#:#didactic_default_type_info#:#Es werden die Standardeinstellungen für Rechte verwendet.
 didactic#:#didactic_delete_msg#:#Die ausgewählten didaktischen Vorlagen wurden gelöscht.
 didactic#:#didactic_do_export#:#Exportieren
 didactic#:#didactic_edit_tpl#:#Didaktische Vorlage bearbeiten
@@ -8206,8 +8206,8 @@ mcst#:#mcst_det_playtime#:#Laufzeit bestimmen
 mcst#:#mcst_download_audioportable#:#Audio-Datei herunterladen
 mcst#:#mcst_download_standard#:#Download
 mcst#:#mcst_download_videoportable#:#Video-Datei herunterladen
-mcst#:#mcst_downloadable#:#Objekte herunterladbar
-mcst#:#mcst_downloadable_info#:#Wenn diese Option gesetzt ist, können Beiträge des Mediacasts direkt heruntergeladen werden
+mcst#:#mcst_downloadable#:#Download-Link
+mcst#:#mcst_downloadable_info#:#Benutzer können Beiträge direkt herunterladen.
 mcst#:#mcst_duration#:#Laufzeit
 mcst#:#mcst_duration_info#:#Wenn kein Wert eingegeben wird, bestimmt ILIAS die Laufzeit automatisch
 mcst#:#mcst_edit_item#:#Mediacast-Beitrag bearbeiten
@@ -8216,8 +8216,8 @@ mcst#:#mcst_entry#:#Mediacast-Beiträge
 mcst#:#mcst_file_extension_settings#:#Unterstützte Dateiformate
 mcst#:#mcst_global_settings#:#Globale Einstellungen
 mcst#:#mcst_import#:#Mediacast importieren
-mcst#:#mcst_incl_files_in_rss#:#Mediacast-Beiträge in Webfeed einfügen
-mcst#:#mcst_incl_files_in_rss_info#:#Wenn aktiviert, werden Mediacast-Beiträge als Anhang in den Webfeed eingefügt. Wenn nicht aktiviert, wird der Benutzer nur über einen neuen Beitrag benachrichtigt.
+mcst#:#mcst_incl_files_in_rss#:#Dateianhänge
+mcst#:#mcst_incl_files_in_rss_info#:#Die Dateien der Mediacast-Beiträge werden als Anhang im Webfeed bereitgestellt.
 mcst#:#mcst_last_submission#:#Letzter Beitrag
 mcst#:#mcst_media_cast#:#Mediacast
 mcst#:#mcst_media_cast_not_online#:#Mediacast ist nicht online
@@ -8231,7 +8231,7 @@ mcst#:#mcst_nr_items#:#Zahl der Objekte
 mcst#:#mcst_play_time#:#Laufzeit
 mcst#:#mcst_reference_info#:#URL zur Ressource, z.B. HTTP-Adresse.
 mcst#:#mcst_set_playtime#:#Die Laufzeit wurde gesetzt.
-mcst#:#mcst_settings#:#Einstellungen Mediacast
+mcst#:#mcst_settings#:#Einstellungen des Mediacasts
 mcst#:#mcst_standard_settings_info#:#Kommagetrennte Liste von Dateiendungen
 mcst#:#mcst_standard_settings_title#:#Dateiendungen für das Standard Format
 mcst#:#mcst_standard_title#:#Standard-Mediendatei
@@ -8912,7 +8912,7 @@ news#:#news_block_information#:#Der Nachrichtenblock zeigt chronologisch alle <b
 news#:#news_block_news_for_context#:#Nachrichten
 news#:#news_cache#:#Nachrichten-Cache (Minuten)
 news#:#news_cache_info#:#Aktualisierung des Nachrichtenblocks alle x-Minuten. '0' bedeutet jederzeit. Werte größer Null erhöhen die Performanz entsprechend. Allerdings können Links in Einzelfällen auf nicht mehr zugängliche Objekte verweisen.
-news#:#news_default_visibility#:#Standardzugriff
+news#:#news_default_visibility#:#Voreinstellung Zugriff
 news#:#news_edit_news_settings#:#Einstellungen
 news#:#news_enable_internal_news#:#Interne Nachrichten aktivieren
 news#:#news_enable_internal_news_info#:#Aktiviert Nachrichtenblöcke für Kategorien, Kurse, Gruppen und andere Objekte. Benutzer können diese Nachrichten abonnieren und erhalten diese auf ihrem Persönlichen Schreibtisch.
@@ -8962,8 +8962,8 @@ news#:#news_period_1_year#:#Letztes Jahr
 news#:#news_period_x_days#:#Letzte %s Tage
 news#:#news_period_x_months#:#Letzte %s Monate
 news#:#news_period_x_weeks#:#Letzte %s Wochen
-news#:#news_public_feed#:#Extra Webfeed-URL
-news#:#news_public_feed_info#:#Wenn diese Option gewählt wird, wird eine eigene Newsfeed-URL für diese Objekt erzeugt.
+news#:#news_public_feed#:#Eigene URL
+news#:#news_public_feed_info#:#Es wird ein RSS-Icon mit einer separaten Webfeed-URL angezeigt. 
 news#:#news_related_to#:#bezieht sich auf
 news#:#news_rss_period#:#RSS Zeitraum
 news#:#news_rss_title_format#:#RSS Titelformat
@@ -8974,7 +8974,7 @@ news#:#news_subscribe#:#Abonniere
 news#:#news_time_period#:#Zeitspanne
 news#:#news_unsubscribe#:#Löse Abonnement
 news#:#news_visibility_public#:#Öffentlich
-news#:#news_visibility_users#:#Angemeldete Benutzer
+news#:#news_visibility_users#:#Authentifizierte Benutzer
 news#:#news_x_files_created#:#Es wurden %s Dateien hinzugefügt.
 news#:#news_x_files_updated#:#Es wurden %s Dateien aktualisiert.
 news#:#news_x_postings#:#%s Beiträge hinzugefügt.
@@ -9182,7 +9182,7 @@ payment#:#pay_topics_allow_custom_sorting_info#:#Wenn aktiviert, können Benutze
 payment#:#pay_topics_default_sorting_direction#:#Standard-Sortierungrichtung der Themen
 payment#:#pay_topics_default_sorting_type#:#Standard-Sortierung der Themen
 payment#:#pay_topics_sort_by_date#:#Nach Datum
-payment#:#pay_topics_sort_by_title#:#Nach Title
+payment#:#pay_topics_sort_by_title#:#Alphabetisch nach Titel
 payment#:#pay_topics_sort_manually#:#Händisch
 payment#:#pay_update_view#:#Ansicht aktualisieren
 payment#:#paya_access#:#Zugriff
@@ -11920,7 +11920,7 @@ webr#:#webr_list_desc#:#Beschreibung der Weblinksammlung
 webr#:#webr_list_title#:#Titel der Weblinksammlung
 webr#:#webr_new_link#:#Neuen Weblink anlegen
 webr#:#webr_sort_manual#:#Manuelle Sortierung
-webr#:#webr_sort_title#:#Automatische Sortierung nach Titel
+webr#:#webr_sort_title#:#Alphabetisch nach Titel
 webr#:#webr_sorting#:#Sortierung der Weblinks
 wfld#:#wfld_add#:#Ordner anlegen
 wfld#:#wfld_edit#:#Ordner bearbeiten
@@ -12107,9 +12107,9 @@ user#:#user_delete_own_account_final_confirmation#:#Bitte bestätigen Sie ein le
 user#:#user_delete_own_account_email_subject#:#Benutzerkonto gelöscht
 user#:#user_delete_own_account_email_body#:#Ihr Benutzerkonto "%s" auf %s wurde am %s gelöscht.
 mcst#:#mcst_ordering#:#Sortierung
-mcst#:#mcst_ordering_creation_date_asc#:#Nach Erstellungsdatum (Aufsteigend)
-mcst#:#mcst_ordering_creation_date_desc#:#Nach Erstellungsdatum (Absteigend)
-mcst#:#mcst_ordering_title#:#Nach Titel
+mcst#:#mcst_ordering_creation_date_asc#:#Nach Erstellungsdatum, ältester Beitrag oben
+mcst#:#mcst_ordering_creation_date_desc#:#Nach Erstellungsdatum, neuester Beitrag oben
+mcst#:#mcst_ordering_title#:#Alphabetisch nach Titel
 mcst#:#mcst_ordering_manual#:#Manuell
 user#:#user_store_last_visited#:#Zuletzt besucht
 user#:#user_lv_keep_entries#:#Einträge speichern
@@ -12564,7 +12564,8 @@ dcl#:#dcl_export_enabled#:#Tabellen export für alle Benutzer erlauben
 dcl#:#dcl_inconsistent_at#:#Die Datenbank ist inkonsisten. Eine Referenz existiert nicht mehr.
 common#:#obj_tool_settings#:#Tools
 common#:#obj_tool_settings_title#:#Tool-Einstellungen
-common#:#obj_tool_setting_calendar#:#Kalender anzeigen
+common#:#obj_tool_setting_calendar#:#Kalender
+common#:#obj_tool_setting_calendar_info#:#Der Block "Kalender" wird im Reiter "Inhalt" angezeigt.
 crs#:#crs_copy#:#Kurs kopieren
 cat#:#cat_copy#:#Kategorie kopieren
 grp#:#grp_copy#:#Gruppe kopieren
@@ -12666,8 +12667,8 @@ pd#:#pd_notes#:#Notizen vom Persönlichen Schreibtisch
 pd#:#pd_private_calendars#:#Private Kalender
 mcst#:#mcst_preview_picture#:#Vorschaubild
 mcst#:#mcst_preview_picture_info#:#Nur von folgenden Dateitypen unterstützt:
-news#:#news_keep_minimal_x_items#:#Mindestanzahl von Einträgen
-news#:#news_keep_minimal_x_items_info#:#Wenn auf einen Wert größer 0 gesetzt, ist dies die Anzahl an Einträgen die der Feed erhält, selbst wenn diese älter als die maximale Vorhaltezeit sind.
+news#:#news_keep_minimal_x_items#:#Ältere Einträge vorhalten
+news#:#news_keep_minimal_x_items_info#:#Anzahl an Einträgen, die auch über den systemweit eingestellten RSS-Zeitraum hinaus im Webfeed bereit gestellt werden.
 mcst#:#mcst_conv_standard_to#:#Standarddatei umwandeln in
 mcst#:#mcst_conv_videoalternative_to#:#Alternatives Videoformat umwandeln in
 mcst#:#mcst_target#:#Ziel
@@ -12832,7 +12833,7 @@ content#:#cont_sequencing_info#:#Aktiviert das Verhalten für Sequencing & Navig
 content#:#cont_time_from_lms_info#:#Die Bearbeitungszeiten des SCOs werden von ILIAS und nach den strikten Vorgagen des SCORM-Standards ermittelt.
 mcst#:#mcst_viewmode#:#Ansicht
 mcst#:#mcst_list#:#Liste
-mcst#:#mcst_gallery#:#Galerie
+mcst#:#mcst_gallery#:#Kacheln
 mcst#:#mcst_manage#:#Verwalten
 mcst#:#mcst_play#:#Abspielen
 common#:#edit_assignments#:#Übungseinheiten bearbeiten
@@ -12851,7 +12852,8 @@ ecs#:#ecs_status_mapped#:#Gemappt
 ecs#:#ecs_status_deleted#:#Gelöscht
 ecs#:#ecs_status_legend#:#Legende:
 webr#:#invalid_links_tbl#:#Ungültige Links
-common#:#obj_tool_setting_news#:#Newsblock anzeigen
+common#:#obj_tool_setting_news#:#Nachrichten
+common#:#obj_tool_setting_news_info#:#Der Block "Nachrichten" wird im Reiter "Inhalt" angezeigt.
 common#:#obj_ecss#:#ECS
 common#:#obj_ecss_desc#:#Enthält globale Einstellungen für den E-Learning Community Server
 rbac#:#ecss_edit_permission#:#Rechteeinstellung der ECS-Administration ändern
@@ -13501,7 +13503,7 @@ administration#:#adm_external_setting_prefix#:#Externe Einstellungen
 administration#:#adm_external_setting_edit#:#Einstellungen bearbeiten
 ldap#:#ldap_user_sync_cron#:#LDAP-Benutzersynchronisierung
 rating#:#rating_new_objects_auto#:#Bewertung für neue Objekte
-rating#:#rating_new_objects_auto_info#:#Wenn aktiviert, können neue Dateien, Lernmodule und Wikis bewertet werden.
+rating#:#rating_new_objects_auto_info#:#Die Bewertungsfunktion ist in neu angelegten Dateien, Lernmodulen und Wikis automatisch aktiviert.
 rating#:#rating_activate_rating#:#Bewertung aktivieren
 rating#:#rating_activate_rating_info#:#Wenn aktiviert, können Benutzer dieses Objekt bewerten.
 exc#:#exc_peer_review_no_peers_reviewed_yet#:#Es wurden bisher noch keine Bewertungen vorgenommen.
@@ -13970,8 +13972,9 @@ mob#:#mob_srt_files_deleted#:#Dateien für Untertitel wurden gelöscht.
 content#:#cont_multilang_currently_deactivated#:#Mehrsprachigkeit ist aktuell nicht aktiviert.
 content#:#cont_multilinguality#:#Mehrsprachigkeit
 content#:#save_new#:#Speichern und neuer Absatz
-obj#:#obj_features#:#Features###11 10 2013 new variable
-obj#:#obj_tool_setting_info_tab#:#Show Info Tab###11 10 2013 new variable
+obj#:#obj_features#:#Zusätzliche Funktionen
+obj#:#obj_tool_setting_info_tab#:#Info-Reiter
+obj#:#obj_tool_setting_info_tab_info#:#Der Reiter "Info" wird angezeigt.
 administration#:#adm_captcha_anonymous_frm#:#Captcha für Anonymous im Forum. Bitte beachten Sie, dass die die Barrierefreiheit Ihrer Installation beeinträchtigen kann.
 administration#:#adm_captcha_anonymous_auth#:#Captcha für Anonymous im Anmeldeformular. Bitte beachten Sie, dass die die Barrierefreiheit Ihrer Installation beeinträchtigen kann.
 administration#:#adm_captcha_anonymous_reg#:#Captcha für Anonymous im Registrierungsformular. Bitte beachten Sie, dass die die Barrierefreiheit Ihrer Installation beeinträchtigen kann.
@@ -14047,3 +14050,7 @@ rating#:#rating_remove#:#Bewertung entfernen
 content#:#lm_rate_page#:#Seite bewerten
 rbac#:#il_orgu_employee#:#Organisationseinheit Mitarbeiter
 rbac#:#il_orgu_superior#:#Organisationseinheit Vorgesetzter
+obj#:#obj_presentation#:#Darstellung
+mcst#:#mcst_webfeed#:#RSS Webfeed
+news#:#news_news_item_def_visibility_users_info#:#Neue Nachrichten sind nur authentifizierten Benutzern zugänglich.
+news#:#news_news_item_def_visibility_public_info#:#Neue Nachrichten sind in einem öffentlichen RSS Webfeed zugänglich. Sie sollten keine vertraulichen Informationen enthalten.
