@@ -1749,12 +1749,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				ilUserAccountSettings::getInstance()->restrictUserAccess($this->form->getInput('lrua'));
 				ilUserAccountSettings::getInstance()->update();
 				
-				// TODO: move to user account settings
-				$save_blocking_time_in_seconds = (int)$ilSetting->get('loginname_change_blocking_time') * 86400;
-				
 				$ilSetting->set('allow_change_loginname', (int)$this->form->getInput('allow_change_loginname'));
 				$ilSetting->set('create_history_loginname', (int)$this->form->getInput('create_history_loginname'));
 				$ilSetting->set('reuse_of_loginnames', (int)$this->form->getInput('reuse_of_loginnames'));
+				$save_blocking_time_in_seconds = (int)($this->form->getInput('loginname_change_blocking_time') * 86400);
 				$ilSetting->set('loginname_change_blocking_time', (int)$save_blocking_time_in_seconds);
 				$ilSetting->set('user_adm_alpha_nav', (int)$this->form->getInput('user_adm_alpha_nav'));
 				// $ilSetting->set('user_ext_profiles', (int)$this->form->getInput('user_ext_profiles'));
