@@ -1820,7 +1820,7 @@ common#:#benchmark_settings#:#Benchmark Settings
 common#:#benchmark#:#Benchmark
 common#:#benchmarks#:#Benchmarks
 common#:#bib_data#:#Bibliographical Data
-common#:#big_icon#:#Big Icon
+common#:#big_icon#:#Big Size
 common#:#birthday#:#Birthday
 common#:#bkm_import_ok#:#Successfully imported %d bookmarks and %d bookmark folders.
 common#:#bkm_import#:#Import Bookmarks
@@ -1875,7 +1875,7 @@ common#:#cat_copy_threads_info#:#Please decide which category items should be co
 rbac#:#cat_copy#:#User can copy category
 rbac#:#cat_delete#:#User can move or delete category
 rbac#:#cat_edit_permission#:#User can change permission settings
-common#:#cat_edit#:#Edit Category
+common#:#cat_edit#:#Category Settings
 common#:#cat_new#:#New Category
 common#:#cat_pages_clear#:#Category page cleared.
 common#:#cat_pages_not_created#:#Category page not created yet.
@@ -2092,9 +2092,9 @@ common#:#cur_number_rec#:#Current number of records
 common#:#current_ip_alert#:#Notice: if you enter a wrong ip you won't be able to access the system with this profile anymore.
 common#:#current_ip#:#Current IP:
 common#:#current_password#:#Current Password
-common#:#custom_icon_size_big#:#Custom icon size (big)
-common#:#custom_icon_size_standard#:#Custom icon size (standard)
-common#:#custom_icon_size_tiny#:#Custom icon size (small)
+common#:#custom_icon_size_big#:#Big Size
+common#:#custom_icon_size_standard#:#Medium Size
+common#:#custom_icon_size_tiny#:#Small Size
 common#:#cut#:#Cut
 common#:#cutPage#:#Cut
 common#:#daily#:#daily
@@ -2698,7 +2698,7 @@ common#:#http_path#:#HTTP Path
 common#:#http#:#HTTP
 common#:#https_not_possible#:#This server is not supporting HTTPS connnections.
 common#:#i2passwd#:#ILIAS 2 password
-common#:#icon_settings#:#Icon Settings
+common#:#icon_settings#:#Custom Icons
 common#:#icon#:#Icon
 common#:#icons_in_header#:#Header row
 common#:#icons_in_item_rows#:#Item rows
@@ -4052,11 +4052,11 @@ common#:#socialbm_link_description#:#You can use the placeholders &#123;TITLE&#1
 common#:#socialbm_sure_delete_entry#:#Are you sure that you want to delete the selected Social Bookmarking services?
 common#:#sort_by_this_column#:#Sort by this column
 common#:#sorting_header#:#Content Item Sorting
-common#:#sorting_info_manual#:#This mode offers you the possibility to sort items manually.
-common#:#sorting_info_title#:#Choose this mode to sort items automatically by title.
-common#:#sorting_manual_header#:#Sort Manually
+common#:#sorting_info_manual#:#Content items can be arranged manually in a preferred order.
+common#:#sorting_info_title#:#Content items are arranged automatically by title in alphabetical order.
+common#:#sorting_manual_header#:#Manually
 common#:#sorting_save#:#Save Sorting
-common#:#sorting_title_header#:#Titles by Alphabetical Order
+common#:#sorting_title_header#:#Titles in Alphabetical Order
 common#:#spacer#:#Spacer
 common#:#spl_add#:#Add Question Pool Survey
 rbac#:#spl_copy#:#User can copy question pool for surveys
@@ -4075,7 +4075,7 @@ common#:#st_added#:#Chapter added
 common#:#st_edit#:#Edit chapter
 common#:#st_new#:#New chapter
 common#:#standard_fields#:#Standard Fields
-common#:#standard_icon#:#Standard Icon
+common#:#standard_icon#:#Medium Size
 common#:#startpage#:#ILIAS Loginpage
 common#:#stat_selected#:#Selected
 common#:#state_changed_inside#:#Changed Inside
@@ -4193,7 +4193,7 @@ common#:#time_limit#:#Access
 common#:#time_limits#:#Access
 common#:#time_segment#:#Period of time
 common#:#time#:#Time
-common#:#tiny_icon#:#Small Icon
+common#:#tiny_icon#:#Small Size
 common#:#title_long#:#Long Title
 common#:#title_required#:#Please insert a title.
 common#:#title#:#Title
@@ -5652,7 +5652,7 @@ crs#:#crs_sort_manual_info#:#This mode offers you the possibility to sort course
 crs#:#crs_sort_manual#:#Sort Manually
 crs#:#crs_sort_timing_info#:#Sort course items be their activation time or timing presettings.
 crs#:#crs_sort_title_info#:#Choose this mode to sort course items automatically by title.
-crs#:#crs_sort_title#:#Titles by Alphabetical Order
+crs#:#crs_sort_title#:#Titles in Alphabetical Order
 crs#:#crs_sortorder_abo#:#Content Item Sorting
 crs#:#crs_sortorder#:#Sort
 crs#:#crs_start_objects#:#Start Objects
@@ -7060,7 +7060,7 @@ mcst#:#mcst_det_playtime#:#Determine Play Time
 mcst#:#mcst_download_audioportable#:#Download Audio Portable
 mcst#:#mcst_download_standard#:#Download
 mcst#:#mcst_download_videoportable#:#Download Video Portable
-mcst#:#mcst_downloadable_info#:#If this option is enabled, links for downloading are provided.
+mcst#:#mcst_downloadable_info#:#If this option is enabled, links for downloading mediacast items are provided.
 mcst#:#mcst_downloadable#:#Download Links
 mcst#:#mcst_duration_info#:#If no value is entered, ILIAS tries do determine the play time automatically.
 mcst#:#mcst_duration#:#Play Time
@@ -7070,7 +7070,7 @@ mcst#:#mcst_entry#:#Mediacast Entries
 mcst#:#mcst_file_extension_settings#:#File Extensions
 mcst#:#mcst_global_settings#:#Global Settings
 mcst#:#mcst_incl_files_in_rss_info#:#If enabled, media files are includes as attachements in the RSS feed. Otherwise the feed just notifies subscribers about new items.
-mcst#:#mcst_incl_files_in_rss#:#Include Media Files in Feed
+mcst#:#mcst_incl_files_in_rss#:#Include Media Files as Attachment
 mcst#:#mcst_last_submission#:#Last Submission
 mcst#:#mcst_media_cast_not_online_text#:#Mediacast is not online or has been disabled
 mcst#:#mcst_media_cast_not_online#:#Mediacast is not online
@@ -7796,7 +7796,7 @@ news#:#news_subscribe#:#Subscribe
 news#:#news_time_period#:#Time Period
 news#:#news_unsubscribe#:#Unsubscribe
 news#:#news_visibility_public#:#Public
-news#:#news_visibility_users#:#Logged in Users
+news#:#news_visibility_users#:#Authenticated Users
 news#:#news_x_files_created#:#%s Files have been added.
 news#:#news_x_files_updated#:#%s Files have been updated.
 news#:#news_x_postings#:#%s Postings have been added.
@@ -7973,7 +7973,7 @@ payment#:#pay_topics_allow_custom_sorting#:#Custom Sorting of Topics
 payment#:#pay_topics_default_sorting_direction#:#Default Sorting Direction of Topics
 payment#:#pay_topics_default_sorting_type#:#Default Sorting Type of Topics
 payment#:#pay_topics_sort_by_date#:#By Date
-payment#:#pay_topics_sort_by_title#:#Titles by Alphabetical Order
+payment#:#pay_topics_sort_by_title#:#Titles in Alphabetical Order
 payment#:#pay_topics_sort_manually#:#Manually
 payment#:#pay_update_view#:#Update view
 payment#:#paya_access#:#Access
@@ -9844,7 +9844,7 @@ webr#:#webr_list_desc#:#Description of Weblink List
 webr#:#webr_list_title#:#Title of Weblink List
 webr#:#webr_new_link#:#Add New Weblink
 webr#:#webr_sort_manual#:#Sort Manually
-webr#:#webr_sort_title#:#Titles by Alphabetical Order
+webr#:#webr_sort_title#:#Titles in Alphabetical Order
 webr#:#webr_sorting#:#Weblink Sorting
 wiki#:#wiki_activate_rating#:#Activate Rating For Pages
 wiki#:#wiki_all_pages#:#All Pages
@@ -12137,9 +12137,9 @@ user#:#user_delete_own_account_final_confirmation#:#Please confirm for the last 
 user#:#user_delete_own_account_email_subject#:#User account deleted
 user#:#user_delete_own_account_email_body#:#Your user account "%s" has been deleted from %s on %s.
 mcst#:#mcst_ordering#:#Sorting
-mcst#:#mcst_ordering_creation_date_asc#:#By Creation Date (Ascending)
-mcst#:#mcst_ordering_creation_date_desc#:#By Creation Date (Descending)
-mcst#:#mcst_ordering_title#:#Titles by Alphabetical Order
+mcst#:#mcst_ordering_creation_date_asc#:#By Creation Date, Oldest Item on Top
+mcst#:#mcst_ordering_creation_date_desc#:#By Creation Date Newest Item on Top
+mcst#:#mcst_ordering_title#:#Titles in Alphabetical Order
 mcst#:#mcst_ordering_manual#:#Manual
 user#:#user_store_last_visited#:#Last Visited
 user#:#user_lv_keep_entries#:#Remember last visited
@@ -12459,8 +12459,8 @@ objref#:#objref_edit_title#:#Title Settings
 objref#:#objref_title_settings#:#Edit Reference Title
 objref#:#objref_reuse_title#:#Reuse Title of Reference
 objref#:#objref_custom_title#:#Use Custom Title
-news#:#news_keep_minimal_x_items#:#Keep at least x items
-news#:#news_keep_minimal_x_items_info#:#If set to a value > 0, this is the number of items that are kept in the feed, even if they are older than the default lifetime.
+news#:#news_keep_minimal_x_items#:#Keeping Older Items
+news#:#news_keep_minimal_x_items_info#:#Number of older items held available regardless of the system wide defined RSS period.
 dateplaner#:#cal_add_calendar#:#Add Calendar
 dateplaner#:#cal_import_appointments#:#Import Appointments
 dateplaner#:#cal_import_tbl#:#Import Appointments
@@ -12694,7 +12694,7 @@ dcl#:#dcl_height#:#Height
 dcl#:#dcl_notimage_exception#:#The file has to be a picture.
 common#:#obj_tool_settings#:#Tools
 common#:#obj_tool_settings_title#:#Tool Settings
-common#:#obj_tool_setting_calendar#:#Show Calendar
+common#:#obj_tool_setting_calendar#:#Calendar
 crs#:#crs_copy#:#Copy Course
 cat#:#cat_copy#:#Copy Category
 grp#:#grp_copy#:#Copy Group
@@ -12814,7 +12814,7 @@ survey#:#survey_question_pool_usage_inactive#:#Questions are created directly in
 survey#:#survey_question_pool_usage_inactive_info#:#The questions can be added to a question pool manually later but are created only for the survey first.
 mcst#:#mcst_viewmode#:#Presentation Mode
 mcst#:#mcst_list#:#List
-mcst#:#mcst_gallery#:#Gallery
+mcst#:#mcst_gallery#:#Tiles
 mcst#:#mcst_manage#:#Manage
 mcst#:#mcst_play#:#Play
 common#:#edit_assignments#:#Edit Assignments
@@ -12850,7 +12850,7 @@ ecs#:#ecs_status_mapped#:#Mapped
 ecs#:#ecs_status_deleted#:#Deleted
 ecs#:#ecs_status_legend#:#Legend
 webr#:#invalid_links_tbl#:#Invalid Links
-common#:#obj_tool_setting_news#:#Show News
+common#:#obj_tool_setting_news#:#News
 common#:#obj_ecss#:#ECS
 common#:#obj_ecss_desc#:#General ECS Settings
 rbac#:#ecss_edit_permission#:#User can edit permission settings of ECS administration
@@ -13510,8 +13510,8 @@ common#:#obj_grps_desc#:#General settings for Groups
 administration#:#adm_external_setting_prefix#:#External Settings
 administration#:#adm_external_setting_edit#:#Edit Settings
 ldap#:#ldap_user_sync_cron#:#LDAP User Synchronization 
-rating#:#rating_new_objects_auto#:#Enable Rating for new Objects
-rating#:#rating_new_objects_auto_info#:#If enabled, new files, learning modules and wikis can be rated.
+rating#:#rating_new_objects_auto#:#Default Object Rating
+rating#:#rating_new_objects_auto_info#:#Rating is activated by default for new files, learning modules and wikis.
 rating#:#rating_activate_rating#:#Enable Rating
 rating#:#rating_activate_rating_info#:#if enabled, users can rate this object.
 exc#:#exc_peer_review_no_peers_reviewed_yet#:#There was no feedback given yet.
@@ -13929,8 +13929,8 @@ poll#:#poll_voting_period_info#:#Deadline for Voting: %s
 cptch#:#captcha_code_reload#:#Load new image
 cptch#:#captcha_audio_title#:#Audio Captcha. Click to hear the letters and characters of the captcha.
 cptch#:#captcha_alt_txt#:#This is a visual captcha. Click the tab to get to an audio captcha
-obj#:#obj_features#:#Features
-obj#:#obj_tool_setting_info_tab#:#Show Info Tab
+obj#:#obj_features#:#Additional Features
+obj#:#obj_tool_setting_info_tab#:#Info Tab
 adve#:#char_selector#:#Selector for Unicode Characters
 adve#:#char_selector_inactive#:#Inactive
 adve#:#char_selector_inherit#:#Inherit
@@ -14053,5 +14053,8 @@ rbac#:#il_orgu_employee#:#Organisational Unit Employee
 rbac#:#il_orgu_superior#:#Organisational Unit Superior
 obj#:#obj_tool_setting_info_tab_info#:#The "Info" tab will be displayed.
 common#:#obj_tool_setting_news_info#:#The "News" block will be displayed inside the "Content" tab.
+common#:#obj_tool_setting_calendar_info#:#The "Calendar" block will be displayed inside the "Content" tab.
 obj#:#obj_presentation#:#Presentation
 mcst#:#mcst_webfeed#:#RSS Web Feed
+news#:#news_news_item_def_visibility_users_info#:#Only authenticated users have access to current news.
+news#:#news_news_item_def_visibility_public_info#:#Current news are accessible in a public RSS webfeed. They should not contain confidential information.
