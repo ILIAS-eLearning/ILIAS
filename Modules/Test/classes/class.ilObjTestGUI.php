@@ -1002,7 +1002,7 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 
 		// delete import directory
-		ilUtil::delDir(dirname(ilObjTest::_getImportDirectory()));
+		ilUtil::delDir(ilObjTest::_getImportDirectory());
 		ilUtil::sendSuccess($this->lng->txt("object_imported"),true);
 
 		$newObj->updateMetaData();
