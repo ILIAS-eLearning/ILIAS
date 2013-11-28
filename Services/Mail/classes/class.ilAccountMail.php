@@ -264,17 +264,14 @@ return true;*/
 		// (no) password sections
 		if ($this->getUserPassword() == "")
 		{
-			$a_string = eregi_replace("\[".$ws."IF_PASSWORD".$ws."\].*\[\/".$ws."IF_PASSWORD".$ws."\]",
-				"", $a_string);
-			$a_string = eregi_replace("\[".$ws."IF_NO_PASSWORD".$ws."\](.*)\[\/".$ws."IF_NO_PASSWORD".$ws."\]",
-				"\\1", $a_string);
+			// #12232
+			$a_string = preg_replace("/\[IF_PASSWORD\].*\[\/IF_PASSWORD\]/imsU", "", $a_string);
+			$a_string = preg_replace("/\[IF_NO_PASSWORD\](.*)\[\/IF_NO_PASSWORD\]/imsU", "$1", $a_string);
 		}
 		else
 		{
-			$a_string = eregi_replace("\[".$ws."IF_NO_PASSWORD".$ws."\].*\[\/".$ws."IF_NO_PASSWORD".$ws."\]",
-				"", $a_string);
-			$a_string = eregi_replace("\[".$ws."IF_PASSWORD".$ws."\](.*)\[\/".$ws."IF_PASSWORD".$ws."\]",
-				"\\1", $a_string);
+			$a_string = preg_replace("/\[IF_NO_PASSWORD\].*\[\/IF_NO_PASSWORD\]/imsU", "", $a_string);
+			$a_string = preg_replace("/\[IF_PASSWORD\](.*)\[\/IF_PASSWORD\]/imsU", "$1", $a_string);
 		}
 		
 		// target
@@ -309,13 +306,11 @@ return true;*/
 		// (no) target section
 		if (!$tar)
 		{
-			$a_string = eregi_replace("\[".$ws."IF_TARGET".$ws."\].*\[\/".$ws."IF_TARGET".$ws."\]",
-				"", $a_string);
+			$a_string = preg_replace("/\[IF_TARGET\].*\[\/IF_TARGET\]/imsU", "", $a_string);
 		}
 		else
 		{
-			$a_string = eregi_replace("\[".$ws."IF_TARGET".$ws."\](.*)\[\/".$ws."IF_TARGET".$ws."\]",
-				"\\1", $a_string);
+			$a_string = preg_replace("/\[IF_TARGET\](.*)\[\/IF_TARGET\]/imsU", "$1", $a_string);
 		}
 
 		return $a_string;
