@@ -33,6 +33,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
 		$lng->loadLanguageModule("mcst");
 		$lng->loadLanguageModule("news");
+		$lng->loadLanguageModule("rep");
 		
 		$ilCtrl->saveParameter($this, "item_id");
 		
@@ -1141,7 +1142,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		$this->form_gui->addItem($des);
 		
 		$sh = new ilFormSectionHeaderGUI();
-		$sh->setTitle($lng->txt("activation"));
+		$sh->setTitle($lng->txt("rep_activation_availability"));
 		$this->form_gui->addItem($sh);
 
 		// Online
