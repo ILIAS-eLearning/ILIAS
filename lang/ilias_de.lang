@@ -8962,7 +8962,7 @@ news#:#news_period_1_year#:#Letztes Jahr
 news#:#news_period_x_days#:#Letzte %s Tage
 news#:#news_period_x_months#:#Letzte %s Monate
 news#:#news_period_x_weeks#:#Letzte %s Wochen
-news#:#news_public_feed#:#Eigene URL
+news#:#news_public_feed#:#Eigener Webfeed
 news#:#news_public_feed_info#:#Es wird ein RSS-Icon mit einer separaten Webfeed-URL angezeigt. 
 news#:#news_related_to#:#bezieht sich auf
 news#:#news_rss_period#:#RSS Zeitraum
