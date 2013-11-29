@@ -125,16 +125,26 @@ class ilMath
 	*/
 	public static function _pow($left_operand, $right_operand, $scale = 50)
 	{
-		if (function_exists("bcpow"))
+		if(function_exists("bcpow"))
 		{
-			return bcpow(ilMath::exp2dec($left_operand), ilMath::exp2dec($right_operand), $scale);
+			// bcpow() only supports exponents less than or equal to 2^31-1.
+			// Also, bcpow() does not support decimal numbers.
+			// If you have scale set to 0, then the exponent is converted to an integer; otherwise an error is generated.
+			$left_operand_dec  = ilMath::exp2dec($left_operand);
+			$right_operand_dec = ilMath::exp2dec($right_operand);
+
+			$is_exponent_decimal_number = strpos($right_operand_dec, '.') !== false;
+			if(!$is_exponent_decimal_number || $scale > 14)
+			{
+				return bcpow($left_operand_dec, $right_operand_dec, $scale);
+			}
+
+			// fall through
 		}
-		else
-		{
-			$res = pow($left_operand, $right_operand);
-			if (is_numeric($scale)) $res = round($res, $scale);
-			return $res;
-		}
+
+		$res = pow($left_operand, $right_operand);
+		if (is_numeric($scale)) $res = round($res, $scale);
+		return $res;
 	}
 
 	/*
