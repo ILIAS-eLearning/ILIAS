@@ -81,8 +81,8 @@ class ilTimingPlaned
 	{
 		include_once './Services/Object/classes/class.ilObjectActivation.php';
 		$item = ilObjectActivation::getItem($this->getItemId());
-		
-		if($this->getPlanedEndingTime() > $item_data['latest_end'])
+		// #9326
+		if($this->getPlanedEndingTime() > $item['latest_end'])
 		{
 			return false;
 		}
