@@ -39,6 +39,7 @@ class assErrorTextGUITest extends PHPUnit_Framework_TestCase
 		$lng = $lng_mock;
 
 		$ilias_mock = new stdClass();
+		$ilias_mock->account = new stdClass();
 		$ilias_mock->account->id = 6;
 		$ilias_mock->account->fullname = 'Esther Tester';
 		global $ilias;
