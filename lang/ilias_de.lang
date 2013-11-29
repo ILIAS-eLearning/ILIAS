@@ -1130,7 +1130,7 @@ assessment#:#tst_random_questionpools#:#Fragenpools
 assessment#:#tst_random_select_questionpool#:#Wählen Sie einen Fragenpool, von dem die Fragen verwendet werden sollen.
 assessment#:#tst_random_selection_question_count_too_high#:#Die Anzahl der Fragen, die Sie eingegeben haben, war höher als die maximal verfügbare Anzahl von Fragen in einem Fragenpool. Der Wert wurde korrigiert.
 assessment#:#tst_random_selection_question_total_count_too_high#:#Die Anzahl der Fragen, die Sie eingegeben haben, war höher als die maximal verfügbare Anzahl von Fragen aller ausgewählten Fragenpools. Der Wert wurde korrigiert.
-assessment#:#tst_nonpool_questions_get_lost_warning#:#<b>Der aktuell Test Modus beinhaltet Fragen in seiner Konfiguration, die keinem Fragenpool zugeordnet sind. Wenn sie den Modus wechseln wechseln, gehen diese Fragen unwiederbringlich verloren.</b>
+assessment#:#tst_nonpool_questions_get_lost_warning#:#<b>Der aktuelle Test-Modus beinhaltet Fragen in seiner Konfiguration, die keinem Fragenpool zugeordnet sind. Wenn Sie den Modus des Tests ändern, gehen diese Fragen unwiederbringlich verloren.</b>
 assessment#:#tst_reached_points#:#Erreichte Punkte
 assessment#:#tst_remove_mark#:#Markierung entfernen
 assessment#:#tst_remove_question#:#Sind Sie sicher, dass Sie die folgende Frage aus Ihrem Test entfernen wollen?
@@ -1347,7 +1347,7 @@ assessment#:#tst_question_set_type_random#:#Test mit zufälliger Fragenauswahl
 assessment#:#tst_question_set_type_random_desc#:#In diesem Modus werden ein oder mehrere Fragenpool(s) ausgewählt, aus welchem für jeden Teilnehmer eine eigene zufällige Fragenauswahl verwendet wird. Abhängig von der weiteren Konfiguration des Tests haben die Teilnehmer einen oder mehrere Versuche für den Test.
 assessment#:#tst_question_set_type_dynamic#:#Fortlaufender Test über Fragenpool
 assessment#:#tst_question_set_type_dynamic_desc#:#In diesem Modus wird genau ein Fragenpool ausgewählt. Die Testdurchführung erfolgt in einem niemals endenden Durchlauf, in welchem die Fragenauswahl für jeden Teilnehmer individuell und zur Laufzeit erfolgt.
-assessment#:#tst_change_quest_set_type_from_old_to_new_with_conflict#:#Sie sind im Begriff den Test Modus von <b>%s</b> auf <b>%s</b> zu ändern, obwohl eine Test Modus abhängige Fragen/Fragenpool Konfiguration bereits existiert.<br />Diese bereits existierende Konfiguration wird verloren gehen.
+assessment#:#tst_change_quest_set_type_from_old_to_new_with_conflict#:#Sie sind im Begriff den Test Modus von <b>%s</b> auf <b>%s</b> zu ändern, obwohl eine Test-Modus-abhängige Fragen/Fragenpool Konfiguration bereits existiert.<br />Diese bereits existierende Konfiguration wird verloren gehen.
 assessment#:#tst_msg_dynamic_question_set_config_modified#:#Konfiguration für fortlaufende Fragenselektion wurde geändert.
 assessment#:#tst_msg_cannot_modify_dynamic_question_set_conf_due_to_part#:#Konfiguration für fortlaufende Fragenselektion kann nicht geändert werden, da bereits Teilnehmer Ergebisse vorliegen.
 assessment#:#tst_form_dynamic_question_set_config#:#Fortlaufende Fragenselektion
