@@ -252,7 +252,8 @@ class ilSkillTreeNodeGUI
 		{
 			include_once("./Services/Skill/classes/class.ilSkillTree.php");
 			$tree = new ilSkillTree();
-			$path = $this->node_object->skill_tree->getPathFull($this->node_object->getId());
+			$path = $this->node_object->skill_tree->getSkillTreePath($this->node_object->getId(),
+					$this->tref_id);
 			$desc = "";
 			foreach ($path as $p)
 			{

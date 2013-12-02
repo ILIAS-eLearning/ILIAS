@@ -20,11 +20,12 @@ class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
 	/**
 	 * Constructor
 	 */
-	function __construct($a_node_id = 0)
+	function __construct($a_node_id = 0, $a_tref_id)
 	{
 		global $ilCtrl;
 		
 		$ilCtrl->saveParameter($this, "obj_id");
+		$this->tref_id = $a_tref_id;
 		
 		parent::ilSkillTreeNodeGUI($a_node_id);
 	}
@@ -71,16 +72,22 @@ class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
 			$ilCtrl->getLinkTarget($this, 'listItems'));
 
 		// properties
-		$ilTabs->addTab("properties", $lng->txt("settings"),
-			$ilCtrl->getLinkTarget($this, 'editProperties'));
+		if ($this->tref_id == 0)
+		{
+			$ilTabs->addTab("properties", $lng->txt("settings"),
+				$ilCtrl->getLinkTarget($this, 'editProperties'));
+		}
 		
 		// back link
-		$ilCtrl->setParameterByClass("ilskillrootgui", "obj_id",
-			$this->node_object->skill_tree->getRootId());
-		$ilTabs->setBackTarget($lng->txt("skmg_skill_templates"),
-			$ilCtrl->getLinkTargetByClass("ilskillrootgui", "listTemplates"));
-		$ilCtrl->setParameterByClass("ilskillrootgui", "obj_id",
-			$_GET["obj_id"]);
+		if ($this->tref_id == 0)
+		{
+			$ilCtrl->setParameterByClass("ilskillrootgui", "obj_id",
+				$this->node_object->skill_tree->getRootId());
+			$ilTabs->setBackTarget($lng->txt("skmg_skill_templates"),
+				$ilCtrl->getLinkTargetByClass("ilskillrootgui", "listTemplates"));
+			$ilCtrl->setParameterByClass("ilskillrootgui", "obj_id",
+				$_GET["obj_id"]);
+		}
  
 		parent::setTitleIcon();
 		$tpl->setTitle(
@@ -101,12 +108,16 @@ class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
 	{
 		global $tpl;
 		
-		self::addCreationButtons();
+		if ($this->tref_id == 0)
+		{
+			self::addCreationButtons();
+		}
+
 		$this->setTabs("content");
 		
 		include_once("./Services/Skill/classes/class.ilSkillCatTableGUI.php");
 		$table = new ilSkillCatTableGUI($this, "listItems", (int) $_GET["obj_id"],
-			ilSkillCatTableGUI::MODE_SCTP);
+			ilSkillCatTableGUI::MODE_SCTP, $this->tref_id);
 		
 		$tpl->setContent($table->getHTML());
 	}

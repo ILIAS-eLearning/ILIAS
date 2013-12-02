@@ -16,15 +16,17 @@ class ilSkillCatTableGUI extends ilTable2GUI
 {
 	const MODE_SCAT = 0;
 	const MODE_SCTP = 1;
+	protected $tref_id = 0;
 	
 	/**
 	 * Constructor
 	 */
 	function __construct($a_parent_obj, $a_parent_cmd, $a_obj_id,
-		$a_mode = self::MODE_SCAT)
+		$a_mode = self::MODE_SCAT, $a_tref_id = 0)
 	{
 		global $ilCtrl, $lng, $ilAccess, $lng;
 		
+		$this->tref_id = $a_tref_id;
 		$ilCtrl->setParameter($a_parent_obj, "tmpmode", $a_mode);
 		
 		$this->mode = $a_mode;
@@ -55,19 +57,27 @@ class ilSkillCatTableGUI extends ilTable2GUI
 		}
 		$this->setTitle($lng->txt("skmg_items"));
 		
-		$this->addColumn($this->lng->txt(""), "", "1px", true);
+		if ($this->tref_id == 0)
+		{
+			$this->addColumn($this->lng->txt(""), "", "1px", true);
+		}
 		$this->addColumn($this->lng->txt("type"), "", "1px");
-		$this->addColumn($this->lng->txt("skmg_order"), "", "1px");
+		if ($this->tref_id == 0)
+		{
+			$this->addColumn($this->lng->txt("skmg_order"), "", "1px");
+		}
 		$this->addColumn($this->lng->txt("title"));
 		
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
 		$this->setRowTemplate("tpl.skill_cat_row.html", "Services/Skill");
 
-		$this->addMultiCommand("deleteNodes", $lng->txt("delete"));
-		$this->addMultiCommand("cutItems", $lng->txt("cut"));
-		$this->addMultiCommand("copyItems", $lng->txt("copy"));
-		$this->addCommandButton("saveOrder", $lng->txt("skmg_save_order"));
-
+		if ($this->tref_id == 0)
+		{
+			$this->addMultiCommand("deleteNodes", $lng->txt("delete"));
+			$this->addMultiCommand("cutItems", $lng->txt("cut"));
+			$this->addMultiCommand("copyItems", $lng->txt("copy"));
+			$this->addCommandButton("saveOrder", $lng->txt("skmg_save_order"));
+		}
 	}
 	
 	/**
@@ -117,11 +127,21 @@ class ilSkillCatTableGUI extends ilTable2GUI
 				break;
 		}
 
+		if ($this->tref_id == 0)
+		{
+			$this->tpl->setCurrentBlock("cb");
+			$this->tpl->setVariable("CB_ID", $a_set["child"]);
+			$this->tpl->parseCurrentBlock();
+
+			$this->tpl->setCurrentBlock("nr");
+			$this->tpl->setVariable("OBJ_ID", $a_set["child"]);
+			$this->tpl->setVariable("ORDER_NR", $a_set["order_nr"]);
+			$this->tpl->parseCurrentBlock();
+		}
+		
 		$this->tpl->setVariable("HREF_TITLE", $ret);
 		
 		$this->tpl->setVariable("TITLE", $a_set["title"]);
-		$this->tpl->setVariable("OBJ_ID", $a_set["child"]);
-		$this->tpl->setVariable("ORDER_NR", $a_set["order_nr"]);
 		$icon = ilSkillTreeNode::getIconPath($a_set["child"],
 			$a_set["type"], "", ilSkillTreeNode::_lookupDraft($a_set["child"]));
 		$this->tpl->setVariable("ICON", ilUtil::img($icon, ""));

@@ -89,25 +89,25 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 			case 'ilskilltemplatecategorygui':
 				$this->tabs_gui->activateTab("skill_templates");
 				include_once("./Services/Skill/classes/class.ilSkillTemplateCategoryGUI.php");
-				$sctp_gui = new ilSkillTemplateCategoryGUI((int) $_GET["obj_id"]);
+				$sctp_gui = new ilSkillTemplateCategoryGUI((int) $_GET["obj_id"], (int) $_GET["tref_id"]);
 				$sctp_gui->setParentGUI($this);
-				$this->showTree(true, $sctp_gui, "listItems");
+				$this->showTree(((int) $_GET["tref_id"] == 0), $sctp_gui, "listItems");
 				$ret = $this->ctrl->forwardCommand($sctp_gui);
 				break;
 
 			case 'ilbasicskilltemplategui':
 				$this->tabs_gui->activateTab("skill_templates");
 				include_once("./Services/Skill/classes/class.ilBasicSkillTemplateGUI.php");
-				$sktp_gui = new ilBasicSkillTemplateGUI((int) $_GET["obj_id"]);
+				$sktp_gui = new ilBasicSkillTemplateGUI((int) $_GET["obj_id"], (int) $_GET["tref_id"]);
 				$sktp_gui->setParentGUI($this);
-				$this->showTree(true, $sktp_gui, "edit");
+				$this->showTree(((int) $_GET["tref_id"] == 0), $sktp_gui, "edit");
 				$ret = $this->ctrl->forwardCommand($sktp_gui);
 				break;
 
 			case 'ilskilltemplatereferencegui':
 				$this->tabs_gui->activateTab("skills");
 				include_once("./Services/Skill/classes/class.ilSkillTemplateReferenceGUI.php");
-				$sktr_gui = new ilSkillTemplateReferenceGUI((int) $_GET["obj_id"]);
+				$sktr_gui = new ilSkillTemplateReferenceGUI((int) $_GET["tref_id"]);
 				$sktr_gui->setParentGUI($this);
 				$this->showTree(false, $sktr_gui, "listItems");
 				$ret = $this->ctrl->forwardCommand($sktr_gui);
@@ -1005,9 +1005,18 @@ $ilCtrl->redirectByClass("ilskillrootgui", "listTemplates");
 			}
 		}
 		
-		include_once("./Services/Skill/classes/class.ilSkillTreeExplorerGUI.php");
 		$ilCtrl->setParameter($this, "templates_tree", $a_templates);
-		$exp = new ilSkillTreeExplorerGUI($this, "showTree", $a_templates);
+		
+		if ($a_templates)
+		{
+			include_once("./Services/Skill/classes/class.ilSkillTemplateTreeExplorerGUI.php");
+			$exp = new ilSkillTemplateTreeExplorerGUI($this, "showTree");
+		}
+		else
+		{
+			include_once("./Services/Skill/classes/class.ilSkillTreeExplorerGUI.php");
+			$exp = new ilSkillTreeExplorerGUI($this, "showTree", $a_templates);
+		}
 		if (!$exp->handleCommand())
 		{
 			$tpl->setLeftNavContent($exp->getHTML());

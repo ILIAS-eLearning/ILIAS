@@ -2,7 +2,7 @@
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Skill/classes/class.ilSkillTreeNodeGUI.php");
+include_once("./Services/Skill/classes/class.ilBasicSkillTemplateGUI.php");
 include_once("./Services/Skill/classes/class.ilSkillTemplateReference.php");
 /**
  * Skill template reference GUI class
@@ -13,19 +13,26 @@ include_once("./Services/Skill/classes/class.ilSkillTemplateReference.php");
  * @ilCtrl_isCalledBy ilSkillTemplateReferenceGUI: ilObjSkillManagementGUI
  * @ingroup ServicesSkill
  */
-class ilSkillTemplateReferenceGUI extends ilSkillTreeNodeGUI
+class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
 {
 
 	/**
 	 * Constructor
 	 */
-	function __construct($a_node_id = 0)
+	function __construct($a_tref_id = 0)
 	{
 		global $ilCtrl;
 		
 		$ilCtrl->saveParameter($this, "obj_id");
+		$ilCtrl->saveParameter($this, "tref_id");
 		
-		parent::ilSkillTreeNodeGUI($a_node_id);
+		parent::__construct($a_tref_id);
+		
+		$this->tref_id = $a_tref_id;
+		if (is_object($this->node_object))
+		{
+			$this->base_skill_id = $this->node_object->getSkillTemplateId();
+		}
 	}
 
 	/**
@@ -64,24 +71,37 @@ class ilSkillTemplateReferenceGUI extends ilSkillTreeNodeGUI
 		global $ilTabs, $ilCtrl, $tpl, $lng;
 
 		$ilTabs->clearTargets();
-		
+
 		if (is_object($this->node_object))
-		{		
-			// content
-			$ilTabs->addTab("content", $lng->txt("content"),
-				$ilCtrl->getLinkTarget($this, 'listItems'));
+		{
+			$sk_id = $this->node_object->getSkillTemplateId();
+			$obj_type = ilSkillTreeNode::_lookupType($sk_id);
+
+			if ($obj_type == "sctp")
+			{			
+				// content
+				$ilTabs->addTab("content", $lng->txt("content"),
+					$ilCtrl->getLinkTarget($this, 'listItems'));
+			}
+			else
+			{
+				// content
+				$ilTabs->addTab("content", $lng->txt("skmg_skill_levels"),
+					$ilCtrl->getLinkTarget($this, 'listItems'));			
+			}
 	
 			// properties
 			$ilTabs->addTab("properties", $lng->txt("settings"),
 				$ilCtrl->getLinkTarget($this, 'editProperties'));
 			
 			// back link
+/*
 			$ilCtrl->setParameterByClass("ilskillrootgui", "obj_id",
 				$this->node_object->skill_tree->getRootId());
 			$ilTabs->setBackTarget($lng->txt("obj_skmg"),
 				$ilCtrl->getLinkTargetByClass("ilskillrootgui", "listSkills"));
 			$ilCtrl->setParameterByClass("ilskillrootgui", "obj_id",
-				$_GET["obj_id"]);
+				$_GET["obj_id"]);*/
 			
 			$tid = ilSkillTemplateReference::_lookupTemplateId($this->node_object->getId());
 			$add = " (".ilSkillTreeNode::_lookupTitle($tid).")";
@@ -161,10 +181,19 @@ class ilSkillTemplateReferenceGUI extends ilSkillTreeNodeGUI
 		{
 			$options[$tmplt["child"]] = $tmplt["title"];
 		}
-		$si = new ilSelectInputGUI($lng->txt("skmg_skill_template"), "skill_template_id");
-		$si->setOptions($options);
-		$si->setRequired(true);
-		$this->form->addItem($si);
+		if ($a_mode != "edit")
+		{
+			$si = new ilSelectInputGUI($lng->txt("skmg_skill_template"), "skill_template_id");
+			$si->setOptions($options);
+			$si->setRequired(true);
+			$this->form->addItem($si);
+		}
+		else
+		{
+			$ne = new ilNonEditableValueGUI($lng->txt("skmg_skill_template"), "");
+			$ne->setValue($options[$this->node_object->getSkillTemplateId()]);
+			$this->form->addItem($ne);
+		}
 		
 		// draft
 		$cb = new ilCheckboxInputGUI($lng->txt("skmg_draft"), "draft");
@@ -231,7 +260,7 @@ class ilSkillTemplateReferenceGUI extends ilSkillTreeNodeGUI
 		if ($this->form->checkInput())
 		{
 			// perform update
-			$this->node_object->setSkillTemplateId($_POST["skill_template_id"]);
+//			$this->node_object->setSkillTemplateId($_POST["skill_template_id"]);
 			$this->node_object->setTitle($_POST["title"]);
 			$this->node_object->setSelfEvaluation($_POST["selectable"]);
 			$this->node_object->setOrderNr($_POST["order_nr"]);
@@ -268,7 +297,24 @@ class ilSkillTemplateReferenceGUI extends ilSkillTreeNodeGUI
 
 		$this->setTabs("content");
 		
-		include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
+		$sk_id = $this->node_object->getSkillTemplateId();
+		$obj_type = ilSkillTreeNode::_lookupType($sk_id);
+
+		if ($obj_type == "sctp")
+		{
+			include_once("./Services/Skill/classes/class.ilSkillCatTableGUI.php");
+			$table = new ilSkillCatTableGUI($this, "listItems", (int) $sk_id,
+				ilSkillCatTableGUI::MODE_SCTP, $this->node_object->getId());
+			$tpl->setContent($table->getHTML());
+		}
+		else if ($obj_type == "sktp")
+		{
+			include_once("./Services/Skill/classes/class.ilSkillLevelTableGUI.php");
+			$table = new ilSkillLevelTableGUI((int) $sk_id, $this, "edit", $this->node_object->getId());
+			$tpl->setContent($table->getHTML());
+		}
+
+/*		include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
 		$bs = ilSkillTreeNode::getSkillTreeNodes((int) $_GET["obj_id"], false);
 		include_once("./Services/UIComponent/NestedList/classes/class.ilNestedList.php");
 		$ns = new ilNestedList();
@@ -281,7 +327,7 @@ class ilSkillTemplateReferenceGUI extends ilSkillTreeNodeGUI
 				$ns->addListNode(ilSkillTreeNode::_lookupTitle($b["id"]), $b["id"], $par);
 		}
 		
-		$tpl->setContent($ns->getHTML());
+		$tpl->setContent($ns->getHTML());*/
 	}
 
 }

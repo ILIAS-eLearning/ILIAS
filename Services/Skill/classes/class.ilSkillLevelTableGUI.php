@@ -19,22 +19,29 @@ class ilSkillLevelTableGUI extends ilTable2GUI
 	/**
 	 * Constructor
 	 */
-	function __construct($a_skill_id, $a_parent_obj, $a_parent_cmd)
+	function __construct($a_skill_id, $a_parent_obj, $a_parent_cmd, $a_tref_id = 0)
 	{
 		global $ilCtrl, $lng, $ilAccess, $lng;
 
 		include_once("./Services/Skill/classes/class.ilBasicSkill.php");
 		$this->skill_id = $a_skill_id;
 		$this->skill = new ilBasicSkill($a_skill_id);
+		$this->tref_id = $a_tref_id;
 
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		$this->setLimit(9999);
 		$this->setData($this->getSkillLevelData());
 		$this->setTitle($lng->txt("skmg_skill_levels"));
-		$this->setDescription($lng->txt("skmg_from_lower_to_higher_levels"));
+		if ($this->tref_id == 0)
+		{
+			$this->setDescription($lng->txt("skmg_from_lower_to_higher_levels"));
+		}
 
-		$this->addColumn("", "", "1", true);
-		$this->addColumn($this->lng->txt("skmg_nr"));
+		if ($this->tref_id == 0)
+		{
+			$this->addColumn("", "", "1", true);
+			$this->addColumn($this->lng->txt("skmg_nr"));
+		}
 		$this->addColumn($this->lng->txt("title"));
 		$this->addColumn($this->lng->txt("description"));
 //		$this->addColumn($this->lng->txt("skmg_trigger"));
@@ -49,10 +56,13 @@ class ilSkillLevelTableGUI extends ilTable2GUI
 		$this->setRowTemplate("tpl.skill_level_row.html", "Services/Skill");
 		$this->setEnableTitle(true);
 
-		$this->addMultiCommand("confirmLevelDeletion", $lng->txt("delete"));
-		if (count($this->getData()) > 0)
+		if ($this->tref_id == 0)
 		{
-			$this->addCommandButton("updateLevelOrder", $lng->txt("skmg_update_order"));
+			$this->addMultiCommand("confirmLevelDeletion", $lng->txt("delete"));
+			if (count($this->getData()) > 0)
+			{
+				$this->addCommandButton("updateLevelOrder", $lng->txt("skmg_update_order"));
+			}
 		}
 	}
 
@@ -83,7 +93,7 @@ class ilSkillLevelTableGUI extends ilTable2GUI
 		// add ressource data
 		$res = array();
 		include_once("./Services/Skill/classes/class.ilSkillResources.php");
-		$resources = new ilSkillResources($this->skill_id);
+		$resources = new ilSkillResources($this->skill_id, $this->tref_id);
 		foreach($resources->getResources() as $level_id => $item)
 		{			
 			$res[$level_id] = array_keys($item);
@@ -104,15 +114,34 @@ class ilSkillLevelTableGUI extends ilTable2GUI
 	{
 		global $lng, $ilCtrl;
 
+		if ($this->tref_id == 0)
+		{
+			$this->tpl->setCurrentBlock("cb");
+			$this->tpl->setVariable("CB_ID", $a_set["id"]);
+			$this->tpl->parseCurrentBlock();
+
+			$this->tpl->setCurrentBlock("nr");
+			$this->tpl->setVariable("ORD_ID", $a_set["id"]);
+			$this->tpl->setVariable("VAL_NR", ((int) $a_set["nr"]) * 10);
+			$this->tpl->parseCurrentBlock();
+
+		}
+		
 		$this->tpl->setCurrentBlock("cmd");
 		$this->tpl->setVariable("TXT_CMD", $lng->txt("edit"));
 		$ilCtrl->setParameter($this->parent_obj, "level_id", $a_set["id"]);
-		$this->tpl->setVariable("HREF_CMD",
-			$ilCtrl->getLinkTarget($this->parent_obj, "editLevel"));
+		if ($this->tref_id == 0)
+		{
+			$this->tpl->setVariable("HREF_CMD",
+				$ilCtrl->getLinkTarget($this->parent_obj, "editLevel"));
+		}
+		else
+		{
+			$this->tpl->setVariable("HREF_CMD",
+				$ilCtrl->getLinkTarget($this->parent_obj, "showLevelResources"));			
+		}
 		$this->tpl->parseCurrentBlock();
 
-		$this->tpl->setVariable("ID", $a_set["id"]);
-		$this->tpl->setVariable("VAL_NR", ((int) $a_set["nr"]) * 10);
 		$this->tpl->setVariable("TXT_TITLE", $a_set["title"]);
 		$this->tpl->setVariable("TXT_DESCRIPTION", $a_set["description"]);
 /*		$this->tpl->setVariable("TXT_CERTIFICATE",
