@@ -145,7 +145,7 @@ class ilLuceneSearcher
 		$ilBench->start('Lucene','SearchHighlightParser');
 		include_once './Services/Search/classes/Lucene/class.ilLuceneHighlighterResultParser.php';
 		$this->highlighter = new ilLuceneHighlighterResultParser();
-		$GLOBALS['ilLog']->write(__METHOD__.' Result is '. $res);
+		#$GLOBALS['ilLog']->write(__METHOD__.' Result is '. $res);
 		$this->highlighter->setResultString($res);
 		$this->highlighter->parse();
 		$ilBench->stop('Lucene','SearchHighlightParser');
@@ -257,7 +257,7 @@ class ilLuceneSearcher
 		include_once './Services/Search/classes/Lucene/class.ilLuceneSearchResultParser.php';
 		$parser = new ilLuceneSearchResultParser($res);
 		
-		$GLOBALS['ilLog']->write(__METHOD__.' Result is: ' . $res);
+		#$GLOBALS['ilLog']->write(__METHOD__.' Result is: ' . $res);
 		
 		$parser->parse($this->result);
 		$ilBench->stop('Lucene','ParseSearchResult');
