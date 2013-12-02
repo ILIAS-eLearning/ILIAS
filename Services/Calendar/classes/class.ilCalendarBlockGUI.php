@@ -811,7 +811,8 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		$seed = new ilDate(date('Y-m-d',time()),IL_CAL_DATE);
 		
 		include_once('./Services/Calendar/classes/class.ilCalendarSchedule.php');		
-		$schedule = new ilCalendarSchedule($seed, ilCalendarSchedule::TYPE_INBOX);				
+		$schedule = new ilCalendarSchedule($seed, ilCalendarSchedule::TYPE_INBOX);		
+		$schedule->addSubitemCalendars(true); // #12007
 		$events = $schedule->getEvents();
 		
 		$data = array();
