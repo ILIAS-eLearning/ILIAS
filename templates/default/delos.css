@@ -4553,6 +4553,7 @@ div[id^="ilFormField"] {
 
 	div.ilLeftNavSpace {
 		padding: 0;
+		left: 0px !important;
 	}
 
 	div.ilContentFixed {
