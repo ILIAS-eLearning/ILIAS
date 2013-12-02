@@ -55,6 +55,24 @@ class ilLinkResourceItems
 			
 	}
 	// END PATCH Lucene Search
+	
+	/**
+	 * Update title
+	 * @param type $a_link_id
+	 * @param type $a_title
+	 */
+	public static function updateTitle($a_link_id, $a_title)
+	{
+		global $ilDB;
+		
+		$query = 'UPDATE webr_items SET '.
+				'title = '.$ilDB->quote($a_title,'text').' '.
+				'WHERE link_id = '.$ilDB->quote($a_link_id,'integer');
+		$ilDB->manipulate($query);
+		return true;
+	}
+	
+	
 
 	// SET GET
 	function setLinkResourceRefId($a_ref_id)
