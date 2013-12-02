@@ -171,6 +171,7 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
 
 		$this->tpl->setVariable("VAL_ID", $a_set["usr_id"]);
 		
+		$link = '';
 		if($this->getType() == self::TYPE_GLOBAL_SEARCH)
 		{
 			include_once './Services/User/classes/class.ilUserUtil.php';
@@ -233,7 +234,18 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
 						$ilCtrl->setParameterByClass("ilobjusergui", "search", "1");
 						$link = $ilCtrl->getLinkTargetByClass(array("iladministrationgui", "ilobjusergui"), "view");
 						$a_set[$field] = "<a href=\"".$link."\">".$a_set[$field]."</a>";												
-					}					
+					}
+					elseif($this->getType() == self::TYPE_GLOBAL_SEARCH)
+					{
+						if($link)
+						{
+							$this->tpl->setCurrentBlock('login_linked');
+							$this->tpl->setVariable('LOGIN_NAME',$a_set[$field] ? $a_set[$field] : '');
+							$this->tpl->setVariable('LOGIN_LINK',$link);
+							$this->tpl->parseCurrentBlock();
+							break;
+						}
+					}
 					// fallthrough
 				
 				default:
