@@ -1412,10 +1412,13 @@ public function getLastMessages($number, $chatuser = null) {
 		// Check for parent because of an invalid parent node for the old public chat (thx @ jposselt ;-)).
 		// We cannot find this old public chat and clean this automatically
 		$query  = '
-			SELECT od.obj_id, od.title, ore.ref_id, od.type
+			SELECT od.obj_id, od.title, ore.ref_id, od.type, odp.title parent_title
 			FROM object_data od
 			INNER JOIN object_reference ore ON ore.obj_id = od.obj_id
 			INNER JOIN tree t ON t.child = ore.ref_id
+			INNER JOIN tree p ON p.child = t.parent
+			INNER JOIN object_reference orep ON orep.ref_id = p.child
+			INNER JOIN object_data odp ON odp.obj_id = orep.obj_id
 			INNER JOIN object_reference pre ON pre.ref_id = t.parent
 			INNER JOIN object_data pod ON pod.obj_id = pre.obj_id
 			WHERE od.type = %s AND t.tree > 0 AND ore.deleted IS NULL

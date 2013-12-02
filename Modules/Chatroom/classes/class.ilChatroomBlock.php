@@ -37,10 +37,11 @@ class ilChatroomBlock
 				if($room && !$room->isUserBanned($ilUser->getId()))
 				{
 					$readable_rooms[$object['obj_id']] = array(
-						'ref_id'  => $object['ref_id'],
-						'obj_id'  => $object['obj_id'],
-						'room_id' => $room->getRoomId(),
-						'title'   => $object['title']
+						'ref_id'       => $object['ref_id'],
+						'obj_id'       => $object['obj_id'],
+						'room_id'      => $room->getRoomId(),
+						'title'        => $object['title'],
+						'parent_title' => $object['parent_title']
 					);
 				}
 			}
@@ -74,7 +75,7 @@ class ilChatroomBlock
 		{
 			$tpl->setCurrentBlock('select_room_row');
 			$tpl->setVariable('ROW_VALUE', $room['ref_id']);
-			$tpl->setVariable('ROW_CAPTION', $room['title']);
+			$tpl->setVariable('ROW_CAPTION', sprintf($lng->txt('room_in_container'), $room['title'], $room['parent_title']));
 
 			if($ilUser->getPref('chatviewer_last_selected_room') == $room['ref_id'])
 				$tpl->setVariable('ROW_SELECTED', 'selected="selected"');
