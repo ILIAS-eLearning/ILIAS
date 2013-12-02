@@ -40,7 +40,7 @@ Allgemeine Skill ID: <skill_id>:<tref_id>
 - <skill_id> vom Typ
   - "skll" (dann <tref_id> gleich 0)
   - "sktp" (dann <tref_id> ungleich 0)
-- <tref_id> entweder vom Typ "sktr" oder "sctr"
+- <tref_id> entweder vom Typ "sktr" oder "sctr" oder 0
 
 
 Allgemeine Skill Tree ID: <skl_tree_id>:<skl_template_tree_id>
@@ -108,6 +108,23 @@ ilSkillTreeNode
 
 ilBasicSkill is ilSkillTreeNode
 
+
+ilPersonalSkillExplorer
+- used in ilPersonalSkillsGUI
+- old school explorer, offers selectable basic skills, refs or categories (nothing within templates)
+
+ilVirtualSkillTreeExplorerGUI
+- Base class that merges the main skill tree with the template trees to one virtual tree
+- uses <skl_tree_id>:<skl_template_tree_id> IDs internally
+
+ilSkillSelectorGUI
+- used in ilSurveySkillGUI
+- lists whole virtual tree, offers basic skills (or basic skill templates with tref) for selection
+  transforms into <skill_id>:<tref_id> IDs for selection
+
+ilSkillTreeExplorerGUI
+- used in ilObjSkillManagementGUI
+- offers links for all nodes but stops at reference nodes
 
 Survey
 ======

@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/UIComponent/Explorer2/classes/class.ilTreeExplorerGUI.php");
+include_once("./Services/Skill/classes/class.ilVirtualSkillTreeExplorerGUI.php");
 
 /**
  * Explorer class that works on tree objects (Services/Tree)
@@ -11,75 +11,21 @@ include_once("./Services/UIComponent/Explorer2/classes/class.ilTreeExplorerGUI.p
  *
  * @ingroup ServicesUIComponent
  */
-class ilSkillTreeExplorerGUI extends ilTreeExplorerGUI
+class ilSkillTreeExplorerGUI extends ilVirtualSkillTreeExplorerGUI
 {
 	/**
 	 * Constructor
 	 */
-	public function __construct($a_parent_obj, $a_parent_cmd, $a_templates = false)
+	public function __construct($a_parent_obj, $a_parent_cmd)
 	{
-		$this->templates = $a_templates;
-		include_once("./Services/Skill/classes/class.ilSkillTree.php");
-		$tree = new ilSkillTree();
-		parent::__construct("skill_exp", $a_parent_obj, $a_parent_cmd, $tree);
-
-		if ($this->templates)
-		{
-			$this->setTypeWhiteList(array("skrt", "sktp", "sctp"));
-		}
-		else
-		{
-			$this->setTypeWhiteList(array("skrt", "skll", "scat", "sktr"));
-		}
+		parent::__construct("skill_exp", $a_parent_obj, $a_parent_cmd);
 		
 		$this->setSkipRootNode(false);
-		$this->setAjax(true);
-		$this->setOrderField("order_nr");
+		$this->setAjax(false);
+		$this->setShowDraftNodes(true);
 	}
 	
-	/**
-	 * Get root node
-	 *
-	 * @param
-	 * @return
-	 */
-	function getRootNode()
-	{
-		if ($this->templates)
-		{
-			$path = $this->getTree()->getPathId($_GET["obj_id"]);
-			return $this->getTree()->getNodeData($path[1]);
-		}
-		return parent::getRootNode();
-	}
-
 	
-	/**
-	 * Get childs of node
-	 *
-	 * @param int $a_parent_id parent id
-	 * @return array childs
-	 */
-	function getChildsOfNode($a_parent_id)
-	{
-		$childs = parent::getChildsOfNode($a_parent_id);
-		
-		include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
-		foreach ($childs as $c)
-		{
-			$this->parent[$c["child"]] = $c["parent"];
-			if ($this->draft[$c["parent"]])
-			{
-				$this->draft[$c["child"]] = true;
-			}
-			else
-			{
-				$this->draft[$c["child"]] = ilSkillTreeNode::_lookupDraft($c["child"]);
-			}
-		}
-		return $childs;
-	}
-
 	/**
 	 * Get node content
 	 *
@@ -90,27 +36,34 @@ class ilSkillTreeExplorerGUI extends ilTreeExplorerGUI
 	{
 		global $lng;
 		
+		$a_parent_id_parts = explode(":", $a_node["id"]);
+		$a_parent_skl_tree_id = $a_parent_id_parts[0];
+		$a_parent_skl_template_tree_id = $a_parent_id_parts[1];
+		
 		// title
 		$title = $a_node["title"];
 		
 		// root?
 		if ($a_node["type"] == "skrt")
 		{
-			$title = ($this->templates)
-				? $lng->txt("skmg_skill_templates")
-				: $lng->txt("skmg_skills");
+			$title = $lng->txt("skmg_skills");
 		}
 		else
 		{
 			if ($a_node["type"] == "sktr")
 			{
 				include_once("./Services/Skill/classes/class.ilSkillTemplateReference.php");
-				$tid = ilSkillTemplateReference::_lookupTemplateId($a_node["child"]);
+				$tid = ilSkillTemplateReference::_lookupTemplateId($a_parent_skl_tree_id);
 				$title.= " (".ilSkillTreeNode::_lookupTitle($tid).")";
 			}
-			if (ilSkillTreeNode::_lookupSelfEvaluation($a_node["child"]))
+			
+			// @todo: fix this if possible for skill/tref_id combination
+			if (ilSkillTreeNode::_lookupSelfEvaluation($a_parent_skl_tree_id))
 			{
-				$title = "<u>".$title."</u>";
+				if ($a_parent_skl_template_tree_id == 0 || $a_node["type"] == "sktr")
+				{
+					$title = "<u>".$title."</u>";
+				}
 			}
 		}
 		
@@ -125,19 +78,22 @@ class ilSkillTreeExplorerGUI extends ilTreeExplorerGUI
 	 */
 	function getNodeIcon($a_node)
 	{
+		$a_parent_id_parts = explode(":", $a_node["id"]);
+		$a_parent_skl_tree_id = $a_parent_id_parts[0];
+		$a_parent_skl_template_tree_id = $a_parent_id_parts[1];
+
+		
 		// root?
 		if ($a_node["type"] == "skrt")
 		{
-			$icon = ($this->templates)
-				? ilUtil::getImagePath("icon_sctp_s.png")
-				: ilUtil::getImagePath("icon_scat_s.png");
+			$icon = ilUtil::getImagePath("icon_scat_s.png");
 		}
 		else
 		{
 			if (in_array($a_node["type"], array("skll", "scat", "sctr", "sktr")))
 			{
-				$icon = ilSkillTreeNode::getIconPath($a_node["child"], $a_node["type"], "_s",
-					$this->draft[$a_node["child"]]);
+				$icon = ilSkillTreeNode::getIconPath($a_parent_skl_tree_id, $a_node["type"], "_s",
+					in_array($a_node["id"], $this->drafts));
 			}
 			else
 			{
@@ -156,8 +112,27 @@ class ilSkillTreeExplorerGUI extends ilTreeExplorerGUI
 	 */
 	function isNodeHighlighted($a_node)
 	{
-		if ($a_node["child"] == $_GET["obj_id"] ||
-			($_GET["obj_id"] == "" && $a_node["type"] == "skrt"))
+		$id_parts = explode(":", $a_node["id"]);
+		if ($id_parts[1] == 0)
+		{
+			// skill in main tree
+			$skill_id = $a_node["id"];
+			$tref_id = 0;
+		}
+		else
+		{
+			// skill in template
+			$tref_id = $id_parts[0];
+			$skill_id = $id_parts[1];
+		}
+
+		if ($_GET["obj_id"] == "" && $a_node["type"] == "skrt")
+		{
+			return true;
+		}
+		
+		if ($skill_id == $_GET["obj_id"] &&
+			($_GET["tref_id"] == $tref_id))
 		{
 			return true;
 		}
@@ -173,61 +148,60 @@ class ilSkillTreeExplorerGUI extends ilTreeExplorerGUI
 	function getNodeHref($a_node)
 	{
 		global $ilCtrl;
-		
-		switch($a_node["type"])
-		{
-			// root
-			case "skrt":
-				$ilCtrl->setParameterByClass("ilskillrootgui", "obj_id", $a_node["child"]);
-				$ret = ($this->templates)
-					? $ilCtrl->getLinkTargetByClass("ilskillrootgui", "listTemplates")
-					: $ilCtrl->getLinkTargetByClass("ilskillrootgui", "listSkills");
-				$ilCtrl->setParameterByClass("ilskillrootgui", "obj_id", $_GET["obj_id"]);
-				return $ret;
-				break;
-				
-			// category
-			case "scat":
-				$ilCtrl->setParameterByClass("ilskillcategorygui", "obj_id", $a_node["child"]);
-				$ret = $ilCtrl->getLinkTargetByClass("ilskillcategorygui", "listItems");
-				$ilCtrl->setParameterByClass("ilskillcategorygui", "obj_id", $_GET["obj_id"]);
-				return $ret;
-				break;
-				
-			// skill template reference
-			case "sktr":
-				$ilCtrl->setParameterByClass("ilskilltemplatereferencegui", "obj_id", $a_node["child"]);
-				$ret = $ilCtrl->getLinkTargetByClass("ilskilltemplatereferencegui", "listItems");
-				$ilCtrl->setParameterByClass("ilskilltemplatereferencegui", "obj_id", $_GET["obj_id"]);
-				return $ret;
-				break;
-				
-			// skill
-			case "skll":
-				$ilCtrl->setParameterByClass("ilbasicskillgui", "obj_id", $a_node["child"]);
-				$ret = $ilCtrl->getLinkTargetByClass("ilbasicskillgui", "edit");
-				$ilCtrl->setParameterByClass("ilbasicskillgui", "obj_id", $_GET["obj_id"]);
-				return $ret;
-				break;
-				
-			// --------
-				
-			// template
-			case "sktp":
-				$ilCtrl->setParameterByClass("ilbasicskilltemplategui", "obj_id", $a_node["child"]);
-				$ret = $ilCtrl->getLinkTargetByClass("ilbasicskilltemplategui", "edit");
-				$ilCtrl->setParameterByClass("ilbasicskilltemplategui", "obj_id", $_GET["obj_id"]);
-				return $ret;
-				break;
 
-			// template category
-			case "sctp":
-				$ilCtrl->setParameterByClass("ilskilltemplatecategorygui", "obj_id", $a_node["child"]);
-				$ret = $ilCtrl->getLinkTargetByClass("ilskilltemplatecategorygui", "listItems");
-				$ilCtrl->setParameterByClass("ilskilltemplatecategorygui", "obj_id", $_GET["obj_id"]);
-				return $ret;
-				break;
+		$id_parts = explode(":", $a_node["id"]);
+		if ($id_parts[1] == 0)
+		{
+			// skill in main tree
+			$skill_id = $a_node["id"];
+			$tref_id = 0;
 		}
+		else
+		{
+			// skill in template
+			$tref_id = $id_parts[0];
+			$skill_id = $id_parts[1];
+		}
+
+		$gui_class = array(
+			"skrt" => "ilskillrootgui",
+			"scat" => "ilskillcategorygui",
+			"sktr" => "ilskilltemplatereferencegui",
+			"skll" => "ilbasicskillgui",
+			"sktp" => "ilbasicskilltemplategui",
+			"sctp" => "ilskilltemplatecategorygui"
+		);
+		
+		$cmd = array(
+			"skrt" => "listSkills",
+			"scat" => "listItems",
+			"sktr" => "listItems",
+			"skll" => "edit",
+			"sktp" => "edit",
+			"sctp" => "listItems"
+		);
+		
+		$gui_class = $gui_class[$a_node["type"]];
+		$cmd = $cmd[$a_node["type"]];
+		
+		$ilCtrl->setParameterByClass($gui_class, "tref_id", $tref_id);
+		$ilCtrl->setParameterByClass($gui_class, "obj_id", $skill_id);
+		$ret = $ilCtrl->getLinkTargetByClass($gui_class, $cmd);
+		$ilCtrl->setParameterByClass($gui_class, "obj_id", $_GET["obj_id"]);
+		$ilCtrl->setParameterByClass($gui_class, "tref_id", $_GET["tref_id"]);
+
+		return $ret;
+	}
+
+	/**
+	 * Is clickable
+	 *
+	 * @param
+	 * @return
+	 */
+	function isNodeClickable($a_node)
+	{
+		return true;
 	}
 
 }

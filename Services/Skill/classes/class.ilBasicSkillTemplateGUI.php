@@ -20,13 +20,15 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
 	/**
 	 * Constructor
 	 */
-	function __construct($a_node_id = 0)
+	function __construct($a_node_id = 0, $a_tref_id = 0)
 	{
 		global $ilCtrl;
 		
+		$this->tref_id = $a_tref_id;
+		
 		$ilCtrl->saveParameter($this, array("obj_id", "level_id"));
 		
-		parent::ilSkillTreeNodeGUI($a_node_id);
+		parent::__construct($a_node_id);
 	}
 
 	/**
@@ -114,9 +116,18 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
 
 		if ($_GET["level_id"] > 0)
 		{
-			$ilTabs->addTab("level_settings",
-				$lng->txt("settings"),
-				$ilCtrl->getLinkTarget($this, "editLevel"));
+			if ($this->tref_id == 0)
+			{
+				$ilTabs->addTab("level_settings",
+					$lng->txt("settings"),
+					$ilCtrl->getLinkTarget($this, "editLevel"));
+			}
+			else
+			{
+				$ilTabs->addTab("level_resources",
+					$lng->txt("skmg_resources"),
+					$ilCtrl->getLinkTarget($this, "showLevelResources"));
+			}
 
 /*			$ilTabs->addTab("level_trigger",
 				$lng->txt("skmg_trigger"),
@@ -151,6 +162,11 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
 			}
 		}
 		$tpl->setDescription($desc);
+		
+		$tpl->setTitleIcon(
+			ilSkillTreeNode::getIconPath(
+			0, "sktp", "_b", false));
+
 	}
 
 	/**
@@ -164,21 +180,36 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
 		global $ilTabs, $ilCtrl, $tpl, $lng;
 
 		$ilTabs->clearTargets();
-		$ilTabs->setBackTarget($lng->txt("skmg_skill_templates"),
-			$ilCtrl->getLinkTargetByClass("ilobjskillmanagementgui", "editSkillTemplates"));
+		
+		if ($this->tref_id == 0)
+		{
+			$ilTabs->setBackTarget($lng->txt("skmg_skill_templates"),
+				$ilCtrl->getLinkTargetByClass("ilobjskillmanagementgui", "editSkillTemplates"));
+		}
 
 		if (is_object($this->node_object))
 		{
-			$tpl->setTitle($lng->txt("skmg_skill_template").": ".
-				$this->node_object->getTitle());
+			if ($this->tref_id == 0)
+			{
+				$tpl->setTitle($lng->txt("skmg_skill_template").": ".
+					$this->node_object->getTitle());
+			}
+			else
+			{
+				$tpl->setTitle(
+					$this->node_object->getTitle());			
+			}
 			
 			// levels
 			$ilTabs->addTab("levels", $lng->txt("skmg_skill_levels"),
 				$ilCtrl->getLinkTarget($this, 'edit'));
 	
 			// properties
-			$ilTabs->addTab("properties", $lng->txt("settings"),
-				$ilCtrl->getLinkTarget($this, 'editProperties'));
+			if ($this->tref_id == 0)
+			{
+				$ilTabs->addTab("properties", $lng->txt("settings"),
+					$ilCtrl->getLinkTarget($this, 'editProperties'));
+			}
 			
 			$ilTabs->activateTab($a_tab);
 
@@ -219,5 +250,27 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
 		$ilCtrl->redirectByClass("ilbasicskilltemplategui", "edit");
 	}
 
+	/**
+	 * Edit skill
+	 *
+	 * @param
+	 * @return
+	 */
+	function edit()
+	{
+		global $tpl, $ilToolbar, $lng, $ilCtrl;
+
+		$this->setSkillHead("levels");
+		
+		if ($this->tref_id == 0)
+		{
+			$ilToolbar->addButton($lng->txt("skmg_add_level"),
+				$ilCtrl->getLinkTarget($this, "addLevel"));
+		}
+		
+		include_once("./Services/Skill/classes/class.ilSkillLevelTableGUI.php");
+		$table = new ilSkillLevelTableGUI((int) $_GET["obj_id"], $this, "edit", $this->tref_id);
+		$tpl->setContent($table->getHTML());
+	}
 }
 ?>

@@ -17,19 +17,22 @@ include_once("./Services/Skill/classes/class.ilBasicSkill.php");
 */
 class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 {
-
+	protected $tref_id = 0;
+	protected $base_skill_id;
+	
 	/**
 	 * Constructor
 	 */
 	function __construct($a_node_id = 0)
 	{
 		global $ilCtrl;
-		
+
 		$ilCtrl->saveParameter($this, array("obj_id", "level_id"));
+		$this->base_skill_id = $a_node_id;
 		
 		parent::ilSkillTreeNodeGUI($a_node_id);
 	}
-
+	
 	/**
 	 * Get Node Type
 	 */
@@ -148,7 +151,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 			$ilCtrl->getLinkTarget($this, "addLevel"));
 		
 		include_once("./Services/Skill/classes/class.ilSkillLevelTableGUI.php");
-		$table = new ilSkillLevelTableGUI((int) $_GET["obj_id"], $this, "edit");
+		$table = new ilSkillLevelTableGUI($this->base_skill_id, $this, "edit");
 		$tpl->setContent($table->getHTML());
 	}
 
@@ -438,9 +441,9 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 
 		// tabs
 		$ilTabs->clearTargets();
+		
 		$ilTabs->setBackTarget($lng->txt("back"),
 			$ilCtrl->getLinkTarget($this, "edit"));
-		$tpl->setLeftContent("");
 
 		if ($_GET["level_id"] > 0)
 		{
@@ -682,7 +685,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 		
 		include_once("./Services/Skill/classes/class.ilSkillLevelResourcesTableGUI.php");
 		$tab = new ilSkillLevelResourcesTableGUI($this, "showLevelResources",
-			$this->node_object->getId(), 0, (int) $_GET["level_id"]);
+			$this->base_skill_id, $this->tref_id, (int) $_GET["level_id"]);
 		
 		$tpl->setContent($tab->getHTML());
 	}
@@ -733,7 +736,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 		if ($ref_id > 0)
 		{
 			include_once("./Services/Skill/classes/class.ilSkillResources.php");
-			$sres = new ilSkillResources($this->node_object->getId(), 0);
+			$sres = new ilSkillResources($this->base_skill_id, $this->tref_id);
 			$sres->setResourceAsImparting((int) $_GET["level_id"], $ref_id);
 			$sres->save();
 
@@ -790,7 +793,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 		if (is_array($_POST["id"]))
 		{
 			include_once("./Services/Skill/classes/class.ilSkillResources.php");
-			$sres = new ilSkillResources($this->node_object->getId(), 0);
+			$sres = new ilSkillResources($this->base_skill_id, $this->tref_id);
 			foreach ($_POST["id"] as $i)
 			{
 				$sres->setResourceAsImparting((int) $_GET["level_id"], $i, false);
