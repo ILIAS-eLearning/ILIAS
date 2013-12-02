@@ -14054,3 +14054,4 @@ obj#:#obj_presentation#:#Darstellung
 mcst#:#mcst_webfeed#:#RSS Webfeed
 news#:#news_news_item_def_visibility_users_info#:#Neue Nachrichten sind nur authentifizierten Benutzern zugänglich.
 news#:#news_news_item_def_visibility_public_info#:#Neue Nachrichten sind in einem öffentlichen RSS Webfeed zugänglich. Sie sollten keine vertraulichen Informationen enthalten.
+chatroom#:#room_in_container#:#%s (in: %s)
