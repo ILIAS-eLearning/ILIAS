@@ -176,7 +176,14 @@ class ilObjLinkResource extends ilObject
 	 	include_once('Modules/WebResource/classes/class.ilLinkResourceItems.php');
 	 	$links = new ilLinkResourceItems($this->getId());
 	 	$links->cloneItems($new_obj->getId());
-	 	
+		
+		// append copy info weblink title
+		if(ilLinkResourceItems::_isSingular($new_obj->getId()))
+		{
+			$first = ilLinkResourceItems::_getFirstLink($new_obj->getId());
+			ilLinkResourceItems::updateTitle($first['link_id'], $new_obj->getTitle());
+		}
+		
 	 	return $new_obj;
 	}
 
