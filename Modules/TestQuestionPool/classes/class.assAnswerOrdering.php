@@ -72,10 +72,7 @@ class ASS_AnswerOrdering extends ASS_AnswerSimple {
 	{
 		global $ilDB;
 
-		$res = $ilDB->queryF('
-			SELECT * 
-			FROM qpl_a_ordering 
-			WHERE random_id = %s',
+		$res = $ilDB->queryF('SELECT * FROM qpl_a_ordering WHERE random_id = %s',
 			array('integer'), array($a_random_id));
 
 		while($row = $ilDB->fetchAssoc($res))
