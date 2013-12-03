@@ -14059,3 +14059,8 @@ mcst#:#mcst_webfeed#:#RSS Web Feed
 news#:#news_news_item_def_visibility_users_info#:#Only authenticated users have access to current news.
 news#:#news_news_item_def_visibility_public_info#:#Current news are accessible in a public RSS webfeed. They should not contain confidential information.
 chatroom#:#room_in_container#:#%s (in: %s)
+common#:#obj_crsv#:#Course Certificate
+wsp#:#wsp_type_crsv#:#Certificate: Course
+wsp#:#wsp_list_crsv#:#Course Certificate
+crsv#:#crsv_create#:#Create Course Certificate
+crsv#:#crsv_create_info#:#Select a completed course to generate a certificate for it

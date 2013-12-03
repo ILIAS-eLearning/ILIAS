@@ -14055,3 +14055,8 @@ mcst#:#mcst_webfeed#:#RSS Webfeed
 news#:#news_news_item_def_visibility_users_info#:#Neue Nachrichten sind nur authentifizierten Benutzern zugänglich.
 news#:#news_news_item_def_visibility_public_info#:#Neue Nachrichten sind in einem öffentlichen RSS Webfeed zugänglich. Sie sollten keine vertraulichen Informationen enthalten.
 chatroom#:#room_in_container#:#%s (in: %s)
+common#:#obj_crsv#:#Kurszertifikat
+wsp#:#wsp_type_crsv#:#Zertifikat: Kurs
+wsp#:#wsp_list_crsv#:#Kurszertifikat
+crsv#:#crsv_create#:#Kurszertifikat erstellen
+crsv#:#crsv_create_info#:#Wählen Sie einen Kurs, für den Sie ein Zertifikat benötigen
