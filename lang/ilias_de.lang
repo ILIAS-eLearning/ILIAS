@@ -14060,3 +14060,8 @@ wsp#:#wsp_type_crsv#:#Zertifikat: Kurs
 wsp#:#wsp_list_crsv#:#Kurszertifikat
 crsv#:#crsv_create#:#Kurszertifikat erstellen
 crsv#:#crsv_create_info#:#Wählen Sie einen Kurs, für den Sie ein Zertifikat benötigen
+common#:#obj_scov#:#SCORM-Zertifikat
+wsp#:#wsp_type_scov#:#Zertifikat: SCORM
+wsp#:#wsp_list_scov#:#SCORM-Zertifikat
+scov#:#scov_create#:#SCORM-Zertifikat erstellen
+scov#:#scov_create_info#:#Wählen Sie ein Lernmodul, für das Sie ein Zertifikat benötigen
