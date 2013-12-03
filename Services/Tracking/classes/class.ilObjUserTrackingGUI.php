@@ -98,14 +98,11 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 
 		$this->ctrl->setParameter($this,"ref_id",$this->ref_id);
 		
-		if ($rbacsystem->checkAccess("write",$this->object->getRefId()))
-		{	
-			$tabs_gui->addTarget("settings",
-				$this->ctrl->getLinkTarget($this,
-										"settings"),
-				"settings",
-				get_class($this));			
-		}
+		$tabs_gui->addTarget("settings",
+			$this->ctrl->getLinkTarget($this,
+									"settings"),
+			"settings",
+			get_class($this));					
 
 		if ($rbacsystem->checkAccess("read",$this->object->getRefId()))
 		{						
@@ -169,6 +166,8 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 	
 	protected function initSettingsForm()
 	{
+		global $rbacsystem;
+		
 		include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));
@@ -258,7 +257,20 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 		$valid->setRequired(true);
 		$form->addItem($valid);
 		
-		$form->addCommandButton('saveSettings', $this->lng->txt('save'));
+		// #12259
+		if ($rbacsystem->checkAccess("write",$this->object->getRefId()))
+		{	
+			$form->addCommandButton('saveSettings', $this->lng->txt('save'));
+		}
+		else
+		{
+			$lp->setDisabled(true);
+			$learner->setDisabled(true);
+			$extdata->setDisabled(true);
+			$objstat->setDisabled(true);
+			$user->setDisabled(true);
+			$valid->setDisabled(true);
+		}
 		
 		return $form;
 	}
