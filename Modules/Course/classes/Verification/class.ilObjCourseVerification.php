@@ -4,58 +4,53 @@
 include_once ('./Services/Verification/classes/class.ilVerificationObject.php');
 
 /**
-* Exercise Verification
+* Course Verification
 *
 * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
 *
 * @version $Id$
 *
-* @ingroup ModulesExercise
+* @ingroup ModulesCourse
 */
-class ilObjExerciseVerification extends ilVerificationObject
+class ilObjCourseVerification extends ilVerificationObject
 {
 	protected function initType()
 	{
-		$this->type = "excv";
+		$this->type = "crsv";
 	}
 
 	protected function getPropertyMap()
 	{
 		return array("issued_on" => self::TYPE_DATE,
 			"file" => self::TYPE_STRING
-			/*
-			"success" => self::TYPE_BOOL,
-			"mark" => self::TYPE_STRING,
-			"comment" => self::TYPE_STRING			 
-			*/
 			);
 	}
 
 	/**
-	 * Import relevant properties from given exercise
+	 * Import relevant properties from given course
 	 *
-	 * @param ilObjExercise $a_test
+	 * @param ilObjCourse $a_course
 	 * @return object
 	 */
-	public static function createFromExercise(ilObjExercise $a_exercise, $a_user_id)
+	public static function createFromCourse(ilObjCourse $a_course, $a_user_id)
 	{
 		global $lng;
 		
-		$lng->loadLanguageModule("exercise");
+		$lng->loadLanguageModule("crs");
 		
 		$newObj = new self();
-		$newObj->setTitle($a_exercise->getTitle());
-		$newObj->setDescription($a_exercise->getDescription());
+		$newObj->setTitle($a_course->getTitle());
+		$newObj->setDescription($a_course->getDescription());
 
 		include_once "Services/Tracking/classes/class.ilLPMarks.php";
-		$lp_marks = new ilLPMarks($a_exercise->getId(), $a_user_id);
+		$lp_marks = new ilLPMarks($a_course->getId(), $a_user_id);
 		$newObj->setProperty("issued_on", 
 			new ilDate($lp_marks->getStatusChanged(), IL_CAL_DATETIME));
 		
 		// create certificate
 		include_once "Services/Certificate/classes/class.ilCertificate.php";
-		include_once "Modules/Exercise/classes/class.ilExerciseCertificateAdapter.php";
-		$certificate = new ilCertificate(new ilExerciseCertificateAdapter($a_exercise));
+		include_once "Modules/Course/classes/class.ilCourseCertificateAdapter.php";
+		$certificate = new ilCertificate(new ilCourseCertificateAdapter($a_course));
 		$certificate = $certificate->outCertificate(array("user_id" => $a_user_id), false);
 		
 		// save pdf file
@@ -66,7 +61,7 @@ class ilObjExerciseVerification extends ilVerificationObject
 			
 			$path = self::initStorage($newObj->getId(), "certificate");
 			
-			$file_name = "exc_".$a_exercise->getId()."_".$a_user_id.".pdf";			
+			$file_name = "crs_".$a_course->getId()."_".$a_user_id.".pdf";			
 			if(file_put_contents($path.$file_name, $certificate))
 			{							
 				$newObj->setProperty("file", $file_name);

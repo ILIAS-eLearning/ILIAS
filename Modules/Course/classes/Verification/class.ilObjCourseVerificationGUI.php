@@ -5,24 +5,24 @@
 include_once ('./Services/Object/classes/class.ilObject2GUI.php');
 
 /**
-* GUI class for exercise verification
+* GUI class for course verification
 *
 * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
 * @version $Id: class.ilPersonalDesktopGUI.php 26976 2010-12-16 13:24:38Z akill $
 *
-* @ilCtrl_Calls ilObjExerciseVerificationGUI: ilWorkspaceAccessGUI
+* @ilCtrl_Calls ilObjCourseVerificationGUI: ilWorkspaceAccessGUI
 *
-* @ingroup ModulesExercise
+* @ingroup ModulesCourse
 */
-class ilObjExerciseVerificationGUI extends ilObject2GUI
+class ilObjCourseVerificationGUI extends ilObject2GUI
 {
 	public function getType()
 	{
-		return "excv";
+		return "crsv";
 	}
 
 	/**
-	 * List all exercises in which current user participated
+	 * List all tests in which current user participated
 	 */
 	public function create()
 	{
@@ -39,13 +39,13 @@ class ilObjExerciseVerificationGUI extends ilObject2GUI
 			}
 		}
 
-		$this->lng->loadLanguageModule("excv");
+		$this->lng->loadLanguageModule("crsv");
 
 		$ilTabs->setBackTarget($this->lng->txt("back"),
 			$this->ctrl->getLinkTarget($this, "cancel"));
 
-		include_once "Modules/Exercise/classes/class.ilExerciseVerificationTableGUI.php";
-		$table = new ilExerciseVerificationTableGUI($this, "create");
+		include_once "Modules/Course/classes/Verification/class.ilCourseVerificationTableGUI.php";
+		$table = new ilCourseVerificationTableGUI($this, "create");
 		$this->tpl->setContent($table->getHTML());
 	}
 
@@ -56,14 +56,14 @@ class ilObjExerciseVerificationGUI extends ilObject2GUI
 	{
 		global $ilUser;
 		
-		$exercise_id = $_REQUEST["exc_id"];
-		if($exercise_id)
+		$course_id = $_REQUEST["crs_id"];
+		if($course_id)
 		{
-			include_once "Modules/Exercise/classes/class.ilObjExercise.php";
-			$exercise = new ilObjExercise($exercise_id, false);
+			include_once "Modules/Course/classes/class.ilObjCourse.php";
+			$course = new ilObjCourse($course_id, false);
 
-			include_once "Modules/Exercise/classes/class.ilObjExerciseVerification.php";
-			$newObj = ilObjExerciseVerification::createFromExercise($exercise, $ilUser->getId());
+			include_once "Modules/Course/classes/Verification/class.ilObjCourseVerification.php";
+			$newObj = ilObjCourseVerification::createFromCourse($course, $ilUser->getId());
 			if($newObj)
 			{
 				$parent_id = $this->node_id;
@@ -112,7 +112,7 @@ class ilObjExerciseVerificationGUI extends ilObject2GUI
 			$tree = new ilWorkspaceTree($ilUser->getId());
 			$wsp_id = $tree->lookupNodeId($this->object->getId());
 			
-			$caption = $lng->txt("wsp_type_excv").' "'.$this->object->getTitle().'"';	
+			$caption = $lng->txt("wsp_type_crsv").' "'.$this->object->getTitle().'"';	
 			
 			$valid = true;
 			if(!file_exists($this->object->getFilePath()))
