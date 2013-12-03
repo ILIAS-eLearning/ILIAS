@@ -14064,3 +14064,8 @@ wsp#:#wsp_type_crsv#:#Certificate: Course
 wsp#:#wsp_list_crsv#:#Course Certificate
 crsv#:#crsv_create#:#Create Course Certificate
 crsv#:#crsv_create_info#:#Select a completed course to generate a certificate for it
+common#:#obj_scov#:#SCORM Certificate
+wsp#:#wsp_type_scov#:#Certificate: SCORM
+wsp#:#wsp_list_scov#:#SCORM Certificate
+scov#:#crsv_create#:#Create SCORM Certificate
+scov#:#crsv_create_info#:#Select a completed learning module to generate a certificate for it
