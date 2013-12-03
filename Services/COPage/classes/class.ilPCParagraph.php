@@ -641,7 +641,7 @@ echo htmlentities($a_text);*/
 		// internal links
 		//$any = "[^\]]*";	// this doesn't work :-(
 		$ws= "[ \t\r\f\v\n]*";
-		$ltypes = "page|chap|term|media|obj|dfile|sess|".implode($rtypes, "|");
+		$ltypes = "page|chap|term|media|obj|dfile|sess|wpage|".implode($rtypes, "|");
 		// empty internal links
 		while (eregi("\[(iln$ws((inst$ws=$ws([\"0-9])*)?$ws".
 			"((".$ltypes.")$ws=$ws([\"0-9])*)$ws".
@@ -701,6 +701,23 @@ echo htmlentities($a_text);*/
 				}
 				$a_text = eregi_replace("\[".$found[1]."\]",
 					"<IntLink Target=\"il_".$inst_str."_git_".$attribs[term]."\" Type=\"GlossaryItem\" $tframestr>", $a_text);
+			}
+			// wiki pages
+			else if (isset($attribs["wpage"]))
+			{
+				$tframestr = "";
+/*				switch ($found[10])
+				{
+					case "New":
+						$tframestr = " TargetFrame=\"New\" ";
+						break;
+
+					default:
+						$tframestr = " TargetFrame=\"Glossary\" ";
+						break;
+				}*/
+				$a_text = eregi_replace("\[".$found[1]."\]",
+					"<IntLink Target=\"il_".$inst_str."_wpage_".$attribs[wpage]."\" Type=\"WikiPage\" $tframestr>", $a_text);
 			}
 			// media object
 			else if (isset($attribs["media"]))
@@ -1079,6 +1096,14 @@ echo htmlentities($a_text);*/
 						? ""
 						: " target=\"".$attribs["TargetFrame"]."\"";
 					$a_text = eregi_replace("<IntLink".$found[1].">","[iln ".$inst_str."term=\"".$target_id."\"".$tframestr."]",$a_text);
+					break;
+
+				case "WikiPage":
+					$tframestr = "";
+					/*$tframestr = (empty($attribs["TargetFrame"]) || $attribs["TargetFrame"] == "Glossary")
+						? ""
+						: " target=\"".$attribs["TargetFrame"]."\"";*/
+					$a_text = eregi_replace("<IntLink".$found[1].">","[iln ".$inst_str."wpage=\"".$target_id."\"".$tframestr."]",$a_text);
 					break;
 
 				case "MediaObject":

@@ -186,6 +186,16 @@ class ilInternalLink
 				}
 				break;
 
+			case "WikiPage":
+				// no import IDs for wiki pages (yet)
+				//$id = ilGlossaryTerm::_getIdForImportId($a_target);
+				$id = 0;
+				if($id > 0)
+				{
+					return "il__wpage_".$id;
+				}
+				break;
+
 			case "MediaObject":
 				$id = ilObjMediaObject::_getIdForImportId($a_target);
 				if($id > 0)
@@ -260,6 +270,10 @@ class ilInternalLink
 
 			case "MediaObject":
 				return ilObjMediaObject::_exists($a_target);
+				break;
+				
+			case "WikiPage":
+				return ilWikiPage::_exists("wiki", (int)$a_target);
 				break;
 				
 			case "RepositoryItem":

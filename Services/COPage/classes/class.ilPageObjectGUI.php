@@ -2426,6 +2426,11 @@ class ilPageObjectGUI
 						$ilCtrl->setParameter($this, "mob_id", "");
 						break;
 
+					case "WikiPage":
+						include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
+						$href = ilWikiPage::getGotoForWikiPageTarget($target_id);
+						break;
+
 					case "RepositoryItem":
 						$obj_type = ilObject::_lookupType($target_id, true);
 						$obj_id = ilObject::_lookupObjId($target_id);

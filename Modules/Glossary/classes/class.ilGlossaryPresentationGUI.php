@@ -983,7 +983,11 @@ class ilGlossaryPresentationGUI
 						$t_frame = ilFrameTargetInfo::_getFrame("MainContent", $obj_type);
 						$ltarget = $t_frame;
 						break;
-
+						
+					case "WikiPage":
+						include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
+						$href = ilWikiPage::getGotoForWikiPageTarget($target_id);
+						break;
 				}
 				
 				$anc_par = 'Anchor="'.$anc.'"';

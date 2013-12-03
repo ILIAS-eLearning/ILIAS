@@ -1943,6 +1943,11 @@ class ilLMPresentationGUI
 						}
 						$ltarget = ilFrameTargetInfo::_getFrame("MainContent");
 						break;
+						
+					case "WikiPage":
+						include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
+						$href = ilWikiPage::getGotoForWikiPageTarget($target_id);
+						break;
 
 					case "File":
 						if (!$this->offlineMode())

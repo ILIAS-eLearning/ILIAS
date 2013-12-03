@@ -855,6 +855,22 @@ class ilObjWikiGUI extends ilObjectGUI
 			$a_page = substr($a_target, $i+1);
 			$a_target = substr($a_target, 0, $i);
 		}
+		
+		if ($a_target == "wpage")
+		{
+			$wpg_id = (int) $a_page;
+			include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
+			$w_id = ilWikiPage::lookupWikiId($wpg_id);
+			$refs = ilObject::_getAllReferences($w_id);
+			foreach ($refs as $r)
+			{
+				if ($ilAccess->checkAccess("read", "", $r))
+				{
+					$a_target = $r;
+					$a_page = ilWikiPage::lookupTitle($wpg_id);
+				}
+			}
+		}
 			
 		if ($ilAccess->checkAccess("read", "", $a_target))
 		{
