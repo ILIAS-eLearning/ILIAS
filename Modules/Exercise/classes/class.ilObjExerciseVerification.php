@@ -78,10 +78,6 @@ class ilObjExerciseVerification extends ilVerificationObject
 			// file creation failed, so remove to object, too
 			$newObj->delete();
 		}
-
-		// remove if certificate works
-		$newObj->create();
-		return $newObj;
 	}
 }
 
