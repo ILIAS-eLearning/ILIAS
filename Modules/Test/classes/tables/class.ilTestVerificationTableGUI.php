@@ -76,11 +76,14 @@ class ilTestVerificationTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("TITLE", $a_set["title"]);
 		$this->tpl->setVariable("PASSED", ($a_set["passed"]) ? $this->lng->txt("yes") :
 			$this->lng->txt("no"));
-		$this->tpl->setVariable("TXT_SELECT", $this->lng->txt("select"));
-
-		$ilCtrl->setParameter($this->parent_obj, "tst_id", $a_set["id"]);
-		$action = $ilCtrl->getLinkTarget($this->parent_obj, "save");
-		$this->tpl->setVariable("URL_SELECT", $action);
+		
+		if($a_set["passed"])
+		{
+			$ilCtrl->setParameter($this->parent_obj, "tst_id", $a_set["id"]);
+			$action = $ilCtrl->getLinkTarget($this->parent_obj, "save");
+			$this->tpl->setVariable("URL_SELECT", $action);
+			$this->tpl->setVariable("TXT_SELECT", $this->lng->txt("select"));
+		}
 	}
 }
 
