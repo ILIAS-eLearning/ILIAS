@@ -2838,6 +2838,10 @@ abstract class ilPageObject
 				case "File":
 					$t_type = "file";
 					break;
+
+				case "WikiPage":
+					$t_type = "wpage";
+					break;
 			}
 
 			$target = $node->getAttribute("Target");

@@ -35,6 +35,7 @@ class ilInternalLinkGUI
 		
 		if (($_SESSION["il_link_cont_obj"] != "" && !$tree->isInTree($_SESSION["il_link_cont_obj"])) ||
 			($_SESSION["il_link_glossary"] != "" && !$tree->isInTree($_SESSION["il_link_glossary"])) ||
+			($_SESSION["il_link_wiki"] != "" && !$tree->isInTree($_SESSION["il_link_wiki"])) ||
 			($_SESSION["il_link_mep"] != "" && !$tree->isInTree($_SESSION["il_link_mep"])))
 		{
 			$this->resetSessionVars();
@@ -71,6 +72,7 @@ class ilInternalLinkGUI
 			"Media_Media" => $lng->txt("cont_lk_media_media"),
 			"Media_FAQ" => $lng->txt("cont_lk_media_faq"),
 			"Media_New" => $lng->txt("cont_lk_media_new"),
+			"WikiPage" => $lng->txt("cont_wiki_page"),
 			"File" => $lng->txt("cont_lk_file"),
 			"RepositoryItem" => $lng->txt("cont_repository_item")
 			);		
@@ -259,6 +261,13 @@ class ilInternalLinkGUI
 					$_SESSION["il_link_mep"] = $this->default_obj;
 				}
 				break;
+
+			case "WikiPage":
+				if  (empty($_SESSION["il_link_wiki"]) && $def_type == "wiki")
+				{
+					$_SESSION["il_link_wiki"] = $this->default_obj;
+				}
+				break;
 		}
 
 		/*
@@ -278,6 +287,13 @@ class ilInternalLinkGUI
 				array("glo"))))
 		{
 			$this->changeTargetObject("glo");
+		}
+		if(($this->link_type == "WikiPage") &&
+			(empty($_SESSION["il_link_wiki"]) ||
+			!in_array(ilObject::_lookupType($_SESSION["il_link_wiki"], true),
+				array("wiki"))))
+		{
+			$this->changeTargetObject("wiki");
 		}
 		if(($this->link_type == "PageObject" || $this->link_type == "StructureObject") &&
 			(empty($_SESSION["il_link_cont_obj"]) ||
@@ -309,6 +325,10 @@ class ilInternalLinkGUI
 
 			case "Media":
 				$this->ctrl->setParameter($this, "target_type", "mep");
+				break;
+
+			case "WikiPage":
+				$this->ctrl->setParameter($this, "target_type", "wiki");
 				break;
 
 			default:
@@ -632,7 +652,32 @@ class ilInternalLinkGUI
 					$tpl->parseCurrentBlock();
 				}
 				break;
+
+			// glossary item link
+			case "WikiPage":
+				$wiki_id = ilObject::_lookupObjId($_SESSION["il_link_wiki"]);
+				require_once("./Modules/Wiki/classes/class.ilWikiPage.php");
+				$wpages = ilWikiPage::getAllPages($wiki_id);
+
+				// get all glossary items
+				$tpl->setCurrentBlock("chapter_list");
+				$tpl->setVariable("TXT_CONTENT_OBJECT", $this->lng->txt("obj_wiki"));
+				$tpl->setVariable("TXT_CONT_TITLE", ilObject::_lookupTitle($wiki_id));
+				$tpl->setCurrentBlock("change_cont_obj");
+				$tpl->setVariable("CMD_CHANGE_CONT_OBJ", "changeTargetObject");
+				$tpl->setVariable("BTN_CHANGE_CONT_OBJ", $this->lng->txt("change"));
+				$tpl->parseCurrentBlock();
+
+				foreach($wpages as $wpage)
+				{
+					$this->renderLink($tpl, $wpage["title"], $wpage["id"],
+						"WikiPage", "wpage", "wpage");
+				}
 				
+				$tpl->setCurrentBlock("chapter_list");
+				$tpl->parseCurrentBlock();
+				break;
+
 			// repository item
 			case "RepositoryItem":
 				$tpl->setVariable("LINK_HELP_CONTENT", $this->selectRepositoryItem());
@@ -841,6 +886,10 @@ class ilInternalLinkGUI
 				$exp->addFilter("glo");
 				break;
 
+			case "wiki":
+				$exp->addFilter("wiki");
+				break;
+
 			case "mep":
 				$exp->addFilter("mep");
 				break;
@@ -884,6 +933,10 @@ class ilInternalLinkGUI
 					$_SESSION["il_link_mep"] = $_GET["sel_id"];
 					break;
 
+				case "wiki":
+					$_SESSION["il_link_wiki"] = $_GET["sel_id"];
+					break;
+
 				default:
 					$_SESSION["il_link_cont_obj"] = $_GET["sel_id"];
 					break;
@@ -909,6 +962,10 @@ class ilInternalLinkGUI
 				{
 					$a_type = "mep";
 				}
+				if ($this->link_type == "WikiPage")
+				{
+					$a_type = "wiki";
+				}
 			}
 		}
 
@@ -919,6 +976,10 @@ class ilInternalLinkGUI
 		if ($a_type == "glo")
 		{
 			$tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("cont_choose_glossary"));
+		}
+		if ($a_type == "wiki")
+		{
+			$tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("cont_choose_wiki"));
 		}
 		else if ($a_type == "mep")
 		{

@@ -926,6 +926,24 @@ class ilWikiPage extends ilPageObject
 		return "12.1.1: Test User, Max";
 	}
 
-
+	/**
+	 * Get goto href for internal wiki page link target 
+	 *
+	 * @param
+	 * @return
+	 */
+	static function getGotoForWikiPageTarget($a_target, $a_offline = false)
+	{
+		if (!$a_offline)
+		{
+			$href = "./goto.php?target=wiki_wpage_".$a_target;
+		}
+		else
+		{
+			$href = ILIAS_HTTP_PATH."/goto.php?target=wiki_wpage_".$a_target;
+		}
+		return $href;
+	}
+	
 }
 ?>

@@ -14069,3 +14069,5 @@ wsp#:#wsp_type_scov#:#Certificate: SCORM
 wsp#:#wsp_list_scov#:#SCORM Certificate
 scov#:#crsv_create#:#Create SCORM Certificate
 scov#:#crsv_create_info#:#Select a completed learning module to generate a certificate for it
+content#:#cont_wiki_page#:#Wiki Page
+content#:#cont_choose_wiki#:#Choose Wiki

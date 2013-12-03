@@ -110,12 +110,26 @@ class ilObjWikiAccess extends ilObjectAccess
 		
 		$t_arr = explode("_", $a_target);
 
-		if ($t_arr[0] != "wiki" || ((int) $t_arr[1]) <= 0)
+		if ($t_arr[0] != "wiki" || (((int) $t_arr[1]) <= 0) && $t_arr[1] != "wpage")
 		{
 			return false;
 		}
-
-		if ($ilAccess->checkAccess("read", "", $t_arr[1]))
+		
+		if ($t_arr[1] == "wpage")
+		{
+			$wpg_id = (int) $t_arr[2];
+			include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
+			$w_id = ilWikiPage::lookupWikiId($wpg_id);
+			$refs = ilObject::_getAllReferences($w_id);
+			foreach ($refs as $r)
+			{
+				if ($ilAccess->checkAccess("read", "", $r))
+				{
+					return true;
+				}
+			}
+		}
+		else if ($ilAccess->checkAccess("read", "", $t_arr[1]))
 		{
 			return true;
 		}
