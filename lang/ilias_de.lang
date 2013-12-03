@@ -14065,3 +14065,5 @@ wsp#:#wsp_type_scov#:#Zertifikat: SCORM
 wsp#:#wsp_list_scov#:#SCORM-Zertifikat
 scov#:#scov_create#:#SCORM-Zertifikat erstellen
 scov#:#scov_create_info#:#Wählen Sie ein Lernmodul, für das Sie ein Zertifikat benötigen
+content#:#cont_wiki_page#:#Wiki-Seite
+content#:#cont_choose_wiki#:#Wiki auswählen
