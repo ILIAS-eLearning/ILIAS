@@ -101,7 +101,7 @@ class ilSCORMVerificationTableGUI extends ilTable2GUI
 																				
 							$data[] = array("id" => $obj_id,
 								"title" => ilObject::_lookupTitle($obj_id),
-								"passed" => $completed);			
+								"passed" => (bool)$completed);			
 						}																							
 					}					
 				}
@@ -122,12 +122,15 @@ class ilSCORMVerificationTableGUI extends ilTable2GUI
 
 		$this->tpl->setVariable("TITLE", $a_set["title"]);
 		$this->tpl->setVariable("PASSED", ($a_set["passed"]) ? $this->lng->txt("yes") :
-			$this->lng->txt("no"));
-		$this->tpl->setVariable("TXT_SELECT", $this->lng->txt("select"));
+			$this->lng->txt("no"));		
 
-		$ilCtrl->setParameter($this->parent_obj, "lm_id", $a_set["id"]);
-		$action = $ilCtrl->getLinkTarget($this->parent_obj, "save");
-		$this->tpl->setVariable("URL_SELECT", $action);
+		if($a_set["passed"])
+		{
+			$ilCtrl->setParameter($this->parent_obj, "lm_id", $a_set["id"]);
+			$action = $ilCtrl->getLinkTarget($this->parent_obj, "save");
+			$this->tpl->setVariable("URL_SELECT", $action);
+			$this->tpl->setVariable("TXT_SELECT", $this->lng->txt("select"));
+		}
 	}
 }
 

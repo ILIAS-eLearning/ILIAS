@@ -36,7 +36,7 @@ class ilObjSCORMVerification extends ilVerificationObject
 	{
 		global $lng;
 		
-		$lng->loadLanguageModule("crs");
+		$lng->loadLanguageModule("sahs");
 		
 		$newObj = new self();
 		$newObj->setTitle($a_lm->getTitle());
@@ -46,12 +46,24 @@ class ilObjSCORMVerification extends ilVerificationObject
 		$lp_marks = new ilLPMarks($a_lm->getId(), $a_user_id);
 		$newObj->setProperty("issued_on", 
 			new ilDate($lp_marks->getStatusChanged(), IL_CAL_DATETIME));
-		
+							
 		// create certificate
+		if(!stristr(get_class($a_lm), "2004"))
+		{
+			$last_access = ilObjSCORMLearningModule::_lookupLastAccess($a_lm->getId(), $a_user_id);
+		}
+		else
+		{				
+			$last_access = ilObjSCORM2004LearningModule::_lookupLastAccess($a_lm->getId(), $a_user_id);
+		}			
+		$params = array(
+			"user_data" => ilObjUser::_lookupFields($a_user_id),
+			"last_access" => $last_access
+		);				
 		include_once "Services/Certificate/classes/class.ilCertificate.php";
 		include_once "Modules/ScormAicc/classes/class.ilSCORMCertificateAdapter.php";
-		$certificate = new ilCertificate(new ilSCORMCertificateAdapter($a_lm));
-		$certificate = $certificate->outCertificate(array("user_id" => $a_user_id), false);
+		$certificate = new ilCertificate(new ilSCORMCertificateAdapter($a_lm));	
+		$certificate = $certificate->outCertificate($params, false);
 		
 		// save pdf file
 		if($certificate)
