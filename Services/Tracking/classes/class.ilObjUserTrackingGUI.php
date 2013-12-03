@@ -267,6 +267,7 @@ class ilObjUserTrackingGUI extends ilObjectGUI
 			$lp->setDisabled(true);
 			$learner->setDisabled(true);
 			$extdata->setDisabled(true);
+			$event->setDisabled(true);
 			$objstat->setDisabled(true);
 			$user->setDisabled(true);
 			$valid->setDisabled(true);
