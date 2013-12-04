@@ -14,6 +14,7 @@ require_once './Modules/TestQuestionPool/classes/class.assQuestion.php';
  * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
  * @author		Björn Heyser <bheyser@databay.de>
  * @author		Maximilian Becker <mbecker@databay.de>
+ * @author		Maximilian Becker <mbecker@databay.de>
  *          
  * @version		$Id$
  * 
@@ -1139,7 +1140,12 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		{
 			$this->populateKioskHead();
 		}
-
+		
+		$this->tpl->setVariable("TEST_ID", $this->object->getTestId());
+		$this->tpl->setVariable("LOGIN", $ilUser->getLogin());
+		$this->tpl->setVariable("SEQ_ID", $this->sequence);
+		$this->tpl->setVariable("QUEST_ID", $this->testSequence->questions[$this->sequence]);
+		 		
 		if ($this->object->getEnableProcessingTime())
 		{
 			$this->outProcessingTime($this->testSession->getActiveId());
@@ -1632,7 +1638,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 				$template->setVariable("QUESTION_TITLE", $question_gui->object->getTitle());
 				
 				$show_question_only = ($this->object->getShowSolutionAnswersOnly()) ? TRUE : FALSE;
-				$result_output = $question_gui->getSolutionOutput($active_id, $pass, FALSE, FALSE, $show_question_only, $this->object->getShowSolutionFeedback());
+				$result_output = $question_gui->getSolutionOutput($active_id, $pass, FALSE, FALSE, $show_question_only, $this->object->getShowSolutionFeedback());				
 				$template->setVariable("SOLUTION_OUTPUT", $result_output);
 				$this->tpl->setVariable("QUESTION_OUTPUT", $template->get());
 				$this->tpl->parseCurrentBlock();
