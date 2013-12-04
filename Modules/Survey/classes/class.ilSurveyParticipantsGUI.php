@@ -168,16 +168,24 @@ class ilSurveyParticipantsGUI
 				array("listAppraisees", "editRaters"),					 
 				"");						
 		}
-		
-		$ilTabs->addSubTabTarget
-		(
-			"codes", 
+	
+		$ilTabs->addSubTabTarget("codes", 
 			$this->ctrl->getLinkTarget($this,'codes'),
 			array("codes", "editCodes", "createSurveyCodes", "setCodeLanguage", "deleteCodes", "exportCodes",
 				"importExternalMailRecipientsFromFileForm", "importExternalMailRecipientsFromTextForm"),
 			""
 		);
 
+		if(!$this->object->get360Mode())		
+		{
+			// #12277 - invite
+			$ilTabs->addSubTabTarget("invitation",
+				 $this->ctrl->getLinkTarget($this, 'invite'),
+				 array("invite", "saveInvitationStatus",
+				 "inviteUserGroup", "disinviteUserGroup"),
+				 "");
+		}
+				
 		/*
 		$ilTabs->addSubTabTarget
 		(
