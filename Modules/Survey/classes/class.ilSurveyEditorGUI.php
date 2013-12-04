@@ -652,17 +652,17 @@ class ilSurveyEditorGUI
 		// no pool
 		if ($_POST["usage"] == 1)
 		{
-			$ref_id = $this->object->getRefId();			
+			$obj_id = $this->object->getId();	
 		}
 		// existing pool
 		else if ($_POST["usage"] == 3 && strlen($_POST["sel_spl"]))
 		{
-			$ref_id = $_POST["sel_spl"];			
+			$obj_id = ilObject::_lookupObjId($_POST["sel_spl"]);			
 		}
 		// new pool
 		elseif ($_POST["usage"] == 2 && strlen($_POST["name_spl"]))
 		{
-			$ref_id = $this->createQuestionPool($_POST["name_spl"]);		
+			$obj_id = $this->createQuestionPool($_POST["name_spl"]);		
 		}
 		else
 		{
@@ -683,7 +683,7 @@ class ilSurveyEditorGUI
 		
 		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestionGUI.php";
 		$q_gui = SurveyQuestionGUI::_getQuestionGUI($q_type);
-		$q_gui->object->setObjId($this->object->getId());
+		$q_gui->object->setObjId($obj_id); // survey/pool!
 		$q_gui->object->createNewQuestion();		
 		$q_gui_class = get_class($q_gui);	
 		
@@ -693,7 +693,7 @@ class ilSurveyEditorGUI
 			$this->ctrl->setParameterByClass($q_gui_class, "pgov_pos",$_REQUEST["pgov_pos"]);			
 		}
 				
-		$this->ctrl->setParameterByClass($q_gui_class, "ref_id", $ref_id);
+		$this->ctrl->setParameterByClass($q_gui_class, "ref_id", $this->object->getRefId());
 		$this->ctrl->setParameterByClass($q_gui_class, "new_for_survey", $this->object->getRefId());
 		$this->ctrl->setParameterByClass($q_gui_class, "q_id", $q_gui->object->getId());
 		$this->ctrl->setParameterByClass($q_gui_class, "sel_question_types", $q_gui->getQuestionType());		
@@ -718,7 +718,7 @@ class ilSurveyEditorGUI
 		$qpl->setOnline(1); // must be online to be available
 		$qpl->saveToDb();
 		
-		return $qpl->getRefId();
+		return $qpl->getId();
 	}
 	
 	
