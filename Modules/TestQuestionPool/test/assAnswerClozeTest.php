@@ -112,7 +112,7 @@ class assAnswerClozeTest extends PHPUnit_Framework_TestCase
 		// Assert
 		$this->assertEquals($expected, $actual);
 	}
-	
+
 	public function test_setGetUpperBound_nonNumericShouldSetAnswertext()
 	{
 		// Arrange
@@ -125,6 +125,6 @@ class assAnswerClozeTest extends PHPUnit_Framework_TestCase
 		$actual = $instance->getUpperBound();
 
 		// Assert
-		$this->assertEquals($expected, $actual);		
+		$this->assertEquals($expected, $actual);
 	}
 }

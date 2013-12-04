@@ -81,4 +81,19 @@ class assClozeGapTest extends PHPUnit_Framework_TestCase
 		// Assert
 		$this->assertEquals($expected, $actual);
 	}
+
+	public function test_arrayShuffle_shouldNotReturnArrayUnshuffled()
+	{
+		// Arrange
+		require_once './Modules/TestQuestionPool/classes/class.assClozeGap.php';
+		$instance = new assClozeGap(0); // 0 - text gap
+
+		// Act
+		$the_unexpected = array('Killing', 'Kunkel', 'Luetzenkirchen',
+			'Meyer', 'Jansen', 'Heyser', 'Becker');
+		$actual = $instance->arrayShuffle($the_unexpected);
+
+		// Assert
+		$this->assertNotEquals($the_unexpected, $actual);
+	}
 }
