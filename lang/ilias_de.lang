@@ -1304,7 +1304,7 @@ assessment#:#you_received_a_of_b_points#:#Sie haben %s von %s möglichen Punkten
 assessment#:#all_participants#:#Alle Teilnehmer
 assessment#:#with_solutions_participants#:#Teilnehmer mit Antworten
 assessment#:#without_solutions_participants#:#Teilnehmer ohne Antworten
-assessment#:#tst_show_toplist#:#Zeige Highscores
+assessment#:#tst_show_toplist#:#Zeige Platzierung
 assessment#:#toplist_by_score#:#Platzierung nach Punkten
 assessment#:#toplist_by_time#:#Platzierung nach Bearbeitungszeit
 assessment#:#toplist_top_n_results#:#Top-%s-Platzierungen
