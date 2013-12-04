@@ -41,6 +41,10 @@ class ilSurveyParticipantsGUI
 				
 				if(!$_REQUEST["appr360"] && !$_REQUEST["rate360"])
 				{					
+					$ilTabs->clearTargets();
+					$ilTabs->setBackTarget($this->lng->txt("btn_back"), 
+						$this->ctrl->getLinkTarget($this, "invite"));	
+					
 					$rep_search->setCallback($this,
 						'inviteUserGroupObject',
 						array(
@@ -50,7 +54,7 @@ class ilSurveyParticipantsGUI
 					// Set tabs
 					$this->ctrl->setReturn($this, 'invite');
 					$this->ctrl->forwardCommand($rep_search);
-					$this->tabs_gui->setTabActive('invitation');
+					$ilTabs->setTabActive('invitation');
 				}
 				else if($_REQUEST["rate360"])
 				{				
@@ -290,22 +294,9 @@ class ilSurveyParticipantsGUI
 		global $rbacsystem;
 		global $ilToolbar;
 		global $lng;
-
-		if (!$rbacsystem->checkAccess("visible,invite", $this->ref_id)) 
-		{
-			// allow only read and write access
-			ilUtil::sendInfo($this->lng->txt("cannot_edit_survey"), true);
-			$path = $this->tree->getPathFull($this->object->getRefID());
-			include_once "./Services/Utilities/classes/class.ilUtil.php";
-			ilUtil::redirect($this->getReturnLocation("cancel","./ilias.php?baseClass=ilRepositoryGUI&cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
-			return;
-		}
-
-		if ($this->object->getStatus() == ilObjSurvey::STATUS_OFFLINE)
-		{
-			ilUtil::sendInfo($this->lng->txt("survey_offline_message"));
-			return;
-		}
+		
+		$this->parent_gui->handleWriteAccess();		
+		$this->setCodesSubtabs();
 
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
