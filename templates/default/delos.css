@@ -4558,6 +4558,7 @@ div[id^="ilFormField"] {
 
 	div.ilContentFixed {
 		left: 0;
+		position: static;
 	}
 	
 	.ilFrameFixedWidthHeader div.ilHeaderBanner {

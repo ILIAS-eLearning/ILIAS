@@ -364,36 +364,38 @@ il.UICore = {
 			nb_reg, vp_reg;
 			
 		// fix fixed content
-		if (fc && sm) {
-			sm_reg = il.Util.getRegion(sm);
-			fc_reg = il.Util.getRegion(fc);
-			vp_reg = il.Util.getViewportRegion();
-			if (sm_reg.top < vp_reg.top) {
-				$(fc).offset({top: vp_reg.top});
-			} else {
-				$(fc).offset({top: sm_reg.top});
+		if ($(fc).css("position") != "static") {
+			if (fc && sm) {
+				sm_reg = il.Util.getRegion(sm);
+				fc_reg = il.Util.getRegion(fc);
+				vp_reg = il.Util.getViewportRegion();
+				if (sm_reg.top < vp_reg.top) {
+					$(fc).offset({top: vp_reg.top});
+				} else {
+					$(fc).offset({top: sm_reg.top});
+				}
 			}
-		}
-		
-		// fix left navigation area
-		if (el && sm) {
-			sm_reg = il.Util.getRegion(sm);
-			nb_reg = il.Util.getRegion(el);
-			vp_reg = il.Util.getViewportRegion();
-			if (sm_reg.top < vp_reg.top) {
-				$(el).css("top", "0px");
-				$(fc).css("top", "0px");
-			} else {
-				$(el).css("top", (sm_reg.top - vp_reg.top) + "px");
-				$(fc).css("top", (sm_reg.top - vp_reg.top) + "px");
-			}
-			
-			// bottom center area?
-			if (bc) {
-				bc_reg = il.Util.getRegion(bc);
-				$(fc).css("bottom", bc_reg.height + "px");
-			} else {
-				$(fc).css("bottom", "0px");
+
+			// fix left navigation area
+			if (el && sm) {
+				sm_reg = il.Util.getRegion(sm);
+				nb_reg = il.Util.getRegion(el);
+				vp_reg = il.Util.getViewportRegion();
+				if (sm_reg.top < vp_reg.top) {
+					$(el).css("top", "0px");
+					$(fc).css("top", "0px");
+				} else {
+					$(el).css("top", (sm_reg.top - vp_reg.top) + "px");
+					$(fc).css("top", (sm_reg.top - vp_reg.top) + "px");
+				}
+
+				// bottom center area?
+				if (bc) {
+					bc_reg = il.Util.getRegion(bc);
+					$(fc).css("bottom", bc_reg.height + "px");
+				} else {
+					$(fc).css("bottom", "0px");
+				}
 			}
 		}
 	},
