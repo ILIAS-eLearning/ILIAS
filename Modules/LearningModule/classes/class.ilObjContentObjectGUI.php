@@ -4005,6 +4005,12 @@ $tabs_gui = $ilTabs;
 		$ilCtrl->setParameter($this, "transl", $_GET["totransl"]); 
 		$ilCtrl->redirect($this, "chapters");
 	}
+	
+	function redrawHeaderAction()
+	{
+		// #12281
+		return parent::redrawHeaderActionObject();
+	}
 
 }
 ?>
