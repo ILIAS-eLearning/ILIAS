@@ -41,7 +41,7 @@ class ilMDTest extends PHPUnit_Framework_TestCase
 	}
 	
 	/**
-	 * 
+	 * @group IL_Init
 	 * @param
 	 * @return
 	 */
@@ -81,7 +81,8 @@ class ilMDTest extends PHPUnit_Framework_TestCase
 	}
 	
 	/**
-	 * test annotation 
+	 * test annotation
+	 * @group IL_Init
 	 * @param
 	 * @return
 	 */
@@ -108,7 +109,8 @@ class ilMDTest extends PHPUnit_Framework_TestCase
 	}
 	
 	/**
-	 * test classification 
+	 * test classification
+	 * @group IL_Init
 	 * @param
 	 * @return
 	 */
@@ -134,7 +136,8 @@ class ilMDTest extends PHPUnit_Framework_TestCase
 	}
 	
 	/**
-	 * test contribute 
+	 * test contribute
+	 * @group IL_Init
 	 * @return
 	 */
 	public function testContribute()
@@ -158,7 +161,8 @@ class ilMDTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * test Description 
+	 * test Description
+	 * @group IL_Init
 	 * @return
 	 */
 	public function testDescription()
@@ -182,7 +186,8 @@ class ilMDTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * test Educational 
+	 * test Educational
+	 * @group IL_Init 
 	 * @return
 	 */
 	public function testEducational()
@@ -205,7 +210,8 @@ class ilMDTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * test Entity 
+	 * test Entity
+	 * @group IL_Init
 	 * @return
 	 */
 	public function testEntity()
@@ -228,7 +234,8 @@ class ilMDTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * test Format 
+	 * test Format
+	 * @group IL_Init
 	 * @return
 	 */
 	public function testFormat()
@@ -251,7 +258,8 @@ class ilMDTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * test General 
+	 * test General
+	 * @group IL_Init
 	 * @return
 	 */
 	public function testGeneral()
@@ -274,7 +282,8 @@ class ilMDTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * test Identifier 
+	 * test Identifier
+	 * @group IL_Init
 	 * @return
 	 */
 	public function testIdentifier()
@@ -297,7 +306,8 @@ class ilMDTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * test Identifier_ 
+	 * test Identifier_
+	 * @group IL_Init 
 	 * @return
 	 */
 	public function testIdentifier_()
@@ -320,7 +330,8 @@ class ilMDTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * test Keyword 
+	 * test Keyword
+	 * @group IL_Init
 	 * @return
 	 */
 	public function testKeyword()
@@ -343,7 +354,8 @@ class ilMDTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * test Language 
+	 * test Language
+	 * @group IL_Init
 	 * @return
 	 */
 	public function testLanguage()
@@ -367,6 +379,7 @@ class ilMDTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * test lifecycle
+	 * @group IL_Init
 	 * @return
 	 */
 	public function testLifecycle()
@@ -390,6 +403,7 @@ class ilMDTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * test Location
+	 * @group IL_Init
 	 * @return
 	 */
 	public function testLocation()
@@ -413,6 +427,7 @@ class ilMDTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * test MetaData
+	 * @group IL_Init
 	 * @return
 	 */
 	public function testMetaMetadata()
@@ -436,6 +451,7 @@ class ilMDTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * test MetaData
+	 * @group IL_Init
 	 * @return
 	 */
 	public function testRelation()
@@ -459,6 +475,7 @@ class ilMDTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * test MetaData
+	 * @group IL_Init
 	 * @return
 	 */
 	public function testRequirement()
@@ -482,6 +499,7 @@ class ilMDTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * test MetaData
+	 * @group IL_Init
 	 * @return
 	 */
 	public function testRights()
@@ -505,6 +523,7 @@ class ilMDTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * test MetaData
+	 * @group IL_Init
 	 * @return
 	 */
 	public function testTaxon()
@@ -528,6 +547,7 @@ class ilMDTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * test MetaData
+	 * @group IL_Init
 	 * @return
 	 */
 	public function testTaxonPath()
@@ -551,6 +571,7 @@ class ilMDTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * test MetaData
+	 * @group IL_Init
 	 * @return
 	 */
 	public function testTechnical()
@@ -574,6 +595,7 @@ class ilMDTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * test MetaData
+	 * @group IL_Init
 	 * @return
 	 */
 	public function testTypicalAgeRange()

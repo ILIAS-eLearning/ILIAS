@@ -14,6 +14,7 @@ class ilObjUserTest extends PHPUnit_Framework_TestCase
 	/**
 	* Creates a user, sets preferences, lookups data, changes password,
 	* delete user
+	 * @group IL_Init
 	*/
 	public function testCreateSetLookupDelete()
 	{
@@ -133,6 +134,7 @@ class ilObjUserTest extends PHPUnit_Framework_TestCase
 	
 	/**
 	* Auth and email related methods
+	 * @group IL_Init
 	*/
 	public function testAuthAndEmailMethods()
 	{
@@ -213,6 +215,7 @@ class ilObjUserTest extends PHPUnit_Framework_TestCase
 
 	/**
 	* Personal Desktop Items
+	 * @group IL_Init
 	*/
 	public function testPersonalDesktopItems()
 	{
@@ -270,6 +273,7 @@ class ilObjUserTest extends PHPUnit_Framework_TestCase
 
 	/**
 	* Search methods
+	 * @group IL_Init
 	*/
 	public function testSearch()
 	{
@@ -302,6 +306,7 @@ class ilObjUserTest extends PHPUnit_Framework_TestCase
 
 	/**
 	* Clipboard
+	 * @group IL_Init
 	*/
 	public function testClipboard()
 	{
@@ -363,6 +368,7 @@ class ilObjUserTest extends PHPUnit_Framework_TestCase
 
 	/**
 	* Miscellaneous
+	 * @group IL_Init
 	*/
 	public function testMiscellaneous()
 	{

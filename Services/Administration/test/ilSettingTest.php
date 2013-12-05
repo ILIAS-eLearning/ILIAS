@@ -30,7 +30,10 @@ class ilSettingTest extends PHPUnit_Framework_TestCase
 		include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
 		ilUnitUtil::performInitialisation();
 	}
-	
+
+	/**
+	 * @group IL_Init
+	 */
 	public function testSetGetSettings()
 	{
 		$set = new ilSetting("test_module");
@@ -39,7 +42,10 @@ class ilSettingTest extends PHPUnit_Framework_TestCase
 		
 		$this->assertEquals("bar", $value);
 	}
-	
+
+	/**
+	 * @group IL_Init
+	 */
 	public function testDeletion()
 	{
 		// set two things for two modules
@@ -58,6 +64,9 @@ class ilSettingTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals("-bar2", $value);
 	}
 
+	/**
+	 * @group IL_Init
+	 */
 	public function testLikeDeletion()
 	{
 		$set = new ilSetting("test_module3");

@@ -41,7 +41,8 @@ class ilwebresourceTest extends PHPUnit_Framework_TestCase
 	}
 	
 	/**
-	 * Link check test 
+	 * Link check test
+	 * @group IL_Init
 	 * @param
 	 * @return
 	 */
@@ -66,7 +67,10 @@ class ilwebresourceTest extends PHPUnit_Framework_TestCase
 		$del = ilLinkCheckNotify::_deleteObject(99999);
 		$this->assertEquals($del,true);
 	}
-	
+
+	/**
+	 * @group IL_Init
+	 */
 	public function testWebResourceParameters()
 	{
 		include_once './Modules/WebResource/classes/class.ilParameterAppender.php';

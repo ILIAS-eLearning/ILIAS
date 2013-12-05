@@ -42,6 +42,7 @@ class ilCacheTest extends PHPUnit_Framework_TestCase
 	
 	/**
 	 * Cache tests
+	 * @group IL_Init
 	 * @param
 	 * @return
 	 */

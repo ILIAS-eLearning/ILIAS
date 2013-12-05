@@ -30,7 +30,10 @@ class ilXHTMLPageTest extends PHPUnit_Framework_TestCase
 		include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
 		ilUnitUtil::performInitialisation();
 	}
-	
+
+	/**
+	 * @group IL_Init
+	 */
 	public function testSetGetSettings()
 	{
 		include_once("./Services/XHTMLPage/classes/class.ilXHTMLPage.php");

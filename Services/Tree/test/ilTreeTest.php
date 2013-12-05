@@ -50,7 +50,7 @@ class ilTreeTest extends PHPUnit_Framework_TestCase
 	
 	/**
 	 * get childs by type
-	 *
+	 * @group IL_Init
 	 * @static
 	 */
 	 public function testGetChildsByType()
@@ -63,7 +63,7 @@ class ilTreeTest extends PHPUnit_Framework_TestCase
 	
 	/**
 	 * get childs by type filter
-	 *
+	 * @group IL_Init
 	 * @static
 	 */
 	 public function testGetChildsByTypeFilter()
@@ -76,7 +76,7 @@ class ilTreeTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * get childs by type filter
-	 *
+	 * @group IL_Init
 	 * @static
 	 */
 	 public function testGetSubTree()
@@ -92,6 +92,7 @@ class ilTreeTest extends PHPUnit_Framework_TestCase
 	 
 	 /**
 	 * get path ids using nested set 
+ 	 * @group IL_Init
 	 * @param
 	 * @return
 	 */
@@ -110,7 +111,8 @@ class ilTreeTest extends PHPUnit_Framework_TestCase
 	}
 	
 	/**
-	 * get path ids (adjacenca and nested set) 
+	 * get path ids (adjacenca and nested set)
+	 * @group IL_Init
 	 * @param
 	 * @return
 	 */
@@ -124,7 +126,7 @@ class ilTreeTest extends PHPUnit_Framework_TestCase
 	}
 	
 	/**
-	 * 
+	 * @group IL_Init
 	 * @param
 	 * @return
 	 */
@@ -135,7 +137,8 @@ class ilTreeTest extends PHPUnit_Framework_TestCase
 	}
 	 		
 	/**
-	 * get path ids (adjacenca and nested set) 
+	 * get path ids (adjacenca and nested set)
+	 * @group IL_Init
 	 * @param
 	 * @return
 	 */
@@ -146,7 +149,8 @@ class ilTreeTest extends PHPUnit_Framework_TestCase
 	}
 	 
 	/**
-	 * get path ids (adjacenca and nested set) 
+	 * get path ids (adjacenca and nested set)
+	 * @group IL_Init
 	 * @param
 	 * @return
 	 */
