@@ -10,7 +10,10 @@ class ilObjectTest extends PHPUnit_Framework_TestCase
 		include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
 		ilUnitUtil::performInitialisation();
 	}
-	
+
+	/**
+	 * @group IL_Init
+	 */
 	public function testCreationDeletion()
 	{
 		$obj = new ilObject();
@@ -44,7 +47,10 @@ class ilObjectTest extends PHPUnit_Framework_TestCase
 		
 		$this->assertEquals("create1-create2-create3-", $value);
 	}
-	
+
+	/**
+	 * @group IL_Init
+	 */
 	public function testSetGetLookup()
 	{
 		global $ilUser;
@@ -179,6 +185,9 @@ class ilObjectTest extends PHPUnit_Framework_TestCase
 			"lu1-lu2-lu3-lu4-lu5-lu6-lu7-lu8-lu9-lu10-lu11-dd1-", $value);
 	}
 
+	/**
+	 * @group IL_Init
+	 */
 	public function testTreeTrash()
 	{
 		global $tree;
@@ -252,7 +261,8 @@ class ilObjectTest extends PHPUnit_Framework_TestCase
 	}
 	
 	/**
-	 * test object reference queries 
+	 * test object reference queries
+	 * @group IL_Init
 	 */
 	public function testObjectReference()
 	{

@@ -30,7 +30,10 @@ class ilSessionTest extends PHPUnit_Framework_TestCase
 		include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
 		ilUnitUtil::performInitialisation();
 	}
-	
+
+	/**
+	 * @group IL_Init
+	 */
 	public function testBasicSessionBehaviour()
 	{
 		global $ilUser;
@@ -69,7 +72,10 @@ class ilSessionTest extends PHPUnit_Framework_TestCase
 		}
 		$this->assertEquals("exists-write-get-duplicate-destroy-destroyExp-destroyByUser-", $result);
 	}
-	
+
+	/**
+	 * @group IL_Init
+	 */
 	public function testPasswordAssisstanceSession()
 	{
 		global $ilUser;

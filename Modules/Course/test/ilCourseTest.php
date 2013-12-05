@@ -33,6 +33,7 @@ class ilCourseTest extends PHPUnit_Framework_TestCase
 	
 	/**
 	 * Test member agreement
+	 * @group IL_Init
 	 */
 	public function testMemberAgreement()
 	{

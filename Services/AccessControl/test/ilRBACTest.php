@@ -41,7 +41,8 @@ class ilRBACTest extends PHPUnit_Framework_TestCase
 	}
 	
 	/**
-	 * RBAC FA tests 
+	 * RBAC FA tests
+	 * @group IL_Init
 	 * @param
 	 * @return
 	 */
@@ -88,7 +89,8 @@ class ilRBACTest extends PHPUnit_Framework_TestCase
 	}
 	
 	/**
-	 * test rbac_ua 
+	 * test rbac_ua
+	 * @group IL_Init
 	 */
 	public function testRbacUA()
 	{
@@ -101,7 +103,8 @@ class ilRBACTest extends PHPUnit_Framework_TestCase
 	}
 	
 	/**
-	 * rbac ta test 
+	 * rbac ta test
+	 * @group IL_Init
 	 * @param
 	 * @return
 	 */
@@ -121,7 +124,8 @@ class ilRBACTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * test rbac_pa 
+	 * test rbac_pa
+	 * @group IL_Init
 	 */
 	public function testRbacPA()
 	{
@@ -136,6 +140,7 @@ class ilRBACTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * test preconditions
+	 * @group IL_Init
 	 * @param
 	 * @return
 	 */
@@ -171,7 +176,10 @@ class ilRBACTest extends PHPUnit_Framework_TestCase
 		ilConditionHandler::_getConditionsOfTarget(-1,-1);
 		ilConditionHandler::_getCondition(-1);
 	}
-	
+
+	/**
+	 * @group IL_Init
+	 */
 	public function testCache()
 	{
 		include_once './Services/AccessControl/classes/class.ilAccessHandler.php';

@@ -42,6 +42,7 @@ class ilMembershipTest extends PHPUnit_Framework_TestCase
 	
 	/**
 	 * Waiting list tes
+	 * @group IL_Init
 	 * @param
 	 * @return
 	 */
@@ -69,7 +70,7 @@ class ilMembershipTest extends PHPUnit_Framework_TestCase
 	}
 	
 	/**
-	 *  
+	 * @group IL_Init
 	 * @param
 	 * @return
 	 */

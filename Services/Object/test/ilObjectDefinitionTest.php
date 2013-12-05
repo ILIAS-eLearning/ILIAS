@@ -10,7 +10,10 @@ class ilObjectDefinitionTest extends PHPUnit_Framework_TestCase
 		include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
 		ilUnitUtil::performInitialisation();
 	}
-	
+
+	/**
+	 * @group IL_Init
+	 */
 	public function testObjDefinitionReader()
 	{
 		

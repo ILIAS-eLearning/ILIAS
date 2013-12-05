@@ -41,7 +41,8 @@ class ilTrackingTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * change event test 
+	 * change event test
+	 * @group IL_Init
 	 * @param
 	 * @return
 	 */
@@ -93,7 +94,8 @@ class ilTrackingTest extends PHPUnit_Framework_TestCase
 	*/
 	
 	/**
-	 * Test LP marks 
+	 * Test LP marks
+	 * @group IL_Init
 	 * @param
 	 * @return
 	 */
