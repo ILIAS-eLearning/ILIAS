@@ -447,6 +447,7 @@ class ilRbacReview
 				$local_part = $unambiguous_role_title;
 			}
 
+			$use_phrase = true;
 
 			// If the local part contains illegal characters, we use
 			//     the unambiguous role title instead.
@@ -454,7 +455,12 @@ class ilRbacReview
 			{
 				$local_part = $unambiguous_role_title;
 			}
-
+			else if(!preg_match('/^[\\x00-\\x7E]+$/i', $local_part))
+			{
+				// 2013-12-05: According to #12283, we do not accept umlauts in the local part
+				$local_part = $unambiguous_role_title;
+				$use_phrase = false;
+			}
 
 			// Add a "#" prefix to the local part
 			$local_part = '#'.$local_part;
@@ -479,14 +485,17 @@ class ilRbacReview
 				{
 					$phrase = $role_title;
 				}
-
-				// make phrase RFC 822 conformant:
-				// - strip excessive whitespace 
-				// - strip special characters
-				$phrase = preg_replace('/\s\s+/', ' ', $phrase);
-				$phrase = preg_replace('/[()<>@,;:\\".\[\]]/', '', $phrase);
-
-				$mailbox = $phrase.' <'.$mailbox.'>';
+				
+				if($use_phrase)
+				{
+					// make phrase RFC 822 conformant:
+					// - strip excessive whitespace 
+					// - strip special characters
+					$phrase = preg_replace('/\s\s+/', ' ', $phrase);
+					$phrase = preg_replace('/[()<>@,;:\\".\[\]]/', '', $phrase);
+	
+					$mailbox = $phrase.' <'.$mailbox.'>';
+				}
 			}
 
 			return $mailbox;
