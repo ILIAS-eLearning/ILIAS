@@ -96,4 +96,62 @@ class assClozeGapTest extends PHPUnit_Framework_TestCase
 		// Assert
 		$this->assertNotEquals($the_unexpected, $actual);
 	}
+	
+	public function test_addGetItem_shouldReturnValueUnchanged()
+	{
+		// Arrange
+		require_once './Modules/TestQuestionPool/classes/class.assClozeGap.php';
+		$instance = new assClozeGap(0); // 0 - text gap
+		require_once './Modules/TestQuestionPool/classes/class.assAnswerCloze.php';
+		$expected = new assAnswerCloze('Esther', 1.0, 0);
+		
+		// Act
+		$instance->addItem($expected);
+		$actual = $instance->getItem(0);
+		
+		// Assert
+		$this->assertEquals($expected, $actual);
+	}
+
+	public function test_addGetItem_shouldReturnValueUnchangedMultiple()
+	{
+		// Arrange
+		require_once './Modules/TestQuestionPool/classes/class.assClozeGap.php';
+		$instance = new assClozeGap(0); // 0 - text gap
+		require_once './Modules/TestQuestionPool/classes/class.assAnswerCloze.php';
+		$answer = new assAnswerCloze('Bert', 1.0, 0);
+		$expected = new assAnswerCloze('Esther', 1.0, 0);
+
+		// Act
+		$instance->addItem($answer);
+		$instance->addItem($expected);
+		$actual = $instance->getItem(0);
+
+		// Assert
+		$this->assertEquals($expected, $actual);
+	}
+
+	public function test_addGetItem_shouldReturnValueUnchangedMultiplePlus()
+	{
+		$this->markTestIncomplete('SUT defective. Please check the inappropriate use of array_push vs. order-indices.');
+
+		// Arrange
+		require_once './Modules/TestQuestionPool/classes/class.assClozeGap.php';
+		$instance = new assClozeGap(0); // 0 - text gap
+		require_once './Modules/TestQuestionPool/classes/class.assAnswerCloze.php';
+		$answer = new assAnswerCloze('Bert', 1.0, 2);
+		$answer2 = new assAnswerCloze('Fred', 1.0, 2);
+		$answer3 = new assAnswerCloze('Karl', 1.0, 1);
+		$expected = new assAnswerCloze('Esther', 1.0, 0);
+
+		// Act
+		$instance->addItem($answer);
+		$instance->addItem($answer2);
+		$instance->addItem($answer3);
+		$instance->addItem($expected);
+		$actual = $instance->getItem(0);
+
+		// Assert
+		$this->assertEquals($expected, $actual);
+	}
 }
