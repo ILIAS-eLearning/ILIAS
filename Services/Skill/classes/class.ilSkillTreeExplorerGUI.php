@@ -90,10 +90,10 @@ class ilSkillTreeExplorerGUI extends ilVirtualSkillTreeExplorerGUI
 		}
 		else
 		{
-			if (in_array($a_node["type"], array("skll", "scat", "sctr", "sktr")))
+			if (in_array($a_node["type"], array("skll", "scat", "sctr", "sktr", "sctp", "sktp")))
 			{
 				$icon = ilSkillTreeNode::getIconPath($a_parent_skl_tree_id, $a_node["type"], "_s",
-					in_array($a_node["id"], $this->drafts));
+					$this->vtree->isDraft($a_node["id"]));
 			}
 			else
 			{

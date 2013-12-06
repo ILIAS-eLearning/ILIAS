@@ -186,10 +186,15 @@ class ilSkillTreeNode
 	 * @param	int			node ID
 	 * @return	string		title
 	 */
-	static function _lookupTitle($a_obj_id)
+	static function _lookupTitle($a_obj_id, $a_tref_id = 0)
 	{
 		global $ilDB;
 
+		include_once("./Services/Skill/classes/class.ilSkillTemplateReference.php");
+		if ($a_tref_id > 0 && ilSkillTemplateReference::_lookupTemplateId($a_tref_id) == $a_obj_id)
+		{
+			return self::_lookup($a_tref_id, "title");
+		}
 		return self::_lookup($a_obj_id, "title");
 	}
 	
@@ -902,6 +907,15 @@ class ilSkillTreeNode
 	 */
 	function getIconPath($a_obj_id, $a_type, $a_size = "", $a_draft = false)
 	{
+		if ($a_draft && $a_type == "sctp")
+		{
+			$a_type = "scat";
+		}
+		if ($a_draft && $a_type == "sktp")
+		{
+			$a_type = "skll";
+		}
+		
 		$off = ($a_draft)
 			? "_off"
 			: "";

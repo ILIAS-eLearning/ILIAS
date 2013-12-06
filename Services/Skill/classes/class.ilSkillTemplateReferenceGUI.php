@@ -313,21 +313,6 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
 			$table = new ilSkillLevelTableGUI((int) $sk_id, $this, "edit", $this->node_object->getId());
 			$tpl->setContent($table->getHTML());
 		}
-
-/*		include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
-		$bs = ilSkillTreeNode::getSkillTreeNodes((int) $_GET["obj_id"], false);
-		include_once("./Services/UIComponent/NestedList/classes/class.ilNestedList.php");
-		$ns = new ilNestedList();
-		$ns->setListClass("il_Explorer");
-		foreach ($bs as $b)
-		{
-			$par = ($b["id"] == (int) $_GET["obj_id"])
-				? 0
-				: $b["parent"];
-				$ns->addListNode(ilSkillTreeNode::_lookupTitle($b["id"]), $b["id"], $par);
-		}
-		
-		$tpl->setContent($ns->getHTML());*/
 	}
 
 }

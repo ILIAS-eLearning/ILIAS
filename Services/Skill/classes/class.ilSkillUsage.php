@@ -2,6 +2,8 @@
 
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+include_once("./Services/Skill/interfaces/interface.ilSkillUsageInfo.php");
+
 /**
  * Skill usage
  *
@@ -21,9 +23,20 @@
  * @version $Id$
  * @ingroup ServicesSkill
  */
-class ilSkillUsage
+class ilSkillUsage implements ilSkillUsageInfo
 {
-	const TYPE_GENERAL = 1;
+	const TYPE_GENERAL = "gen";
+	const USER_ASSIGNED = "user";
+	const PERSONAL_SKILL = "pers";
+	const USER_MATERIAL = "mat";
+	const SELF_EVAL = "seval";
+	const PROFILE = "prof";
+	const RESOURCE = "res";
+	
+	// these classes implement the ilSkillUsageInfo interface
+	// currently this array is ok, we do not need any subscription model here
+	protected $classes = array("ilBasicSkill", "ilPersonalSkill",
+		"ilSkillSelfEvaluation", "ilSkillProfile", "ilSkillResources", "ilSkillUsage");
 	
 	/**
 	 * Set usage
@@ -82,7 +95,115 @@ class ilSkillUsage
 		return $obj_ids;
 	}
 	
+	/**
+	 * Get usage info
+	 *
+	 * @param
+	 * @return
+	 */
+	static public function getUsageInfo($a_cskill_ids, &$a_usages)
+	{
+		global $ilDB;
+		
+		self::getUsageInfoGeneric($a_cskill_ids, $a_usages, ilSkillUsage::TYPE_GENERAL,
+				"skl_usage", "obj_id");
+	}
 	
+	/**
+	 * Get standard usage query
+	 *
+	 * @param
+	 * @return
+	 */
+	static function getUsageInfoGeneric($a_cskill_ids, &$a_usages, $a_usage_type, $a_table, $a_key_field,
+			$a_skill_field = "skill_id", $a_tref_field = "tref_id")
+	{
+		global $ilDB;
+		
+		$w = "WHERE";
+		$q = "SELECT ".$a_key_field.", ".$a_skill_field.", ".$a_tref_field." FROM ".$a_table." ";
+		foreach ($a_cskill_ids as $sk)
+		{
+			$q.= $w." (".$a_skill_field." = ".$ilDB->quote($sk["skill_id"], "integer").
+			" AND ".$a_tref_field." = ".$ilDB->quote($sk["tref_id"], "integer").") ";
+			$w = "OR";
+		}
+		$q.= " GROUP BY ".$a_key_field.", ".$a_skill_field.", ".$a_tref_field;
+
+		$set = $ilDB->query($q);
+		while ($rec = $ilDB->fetchAssoc($set))
+		{
+			$a_usages[$rec[$a_skill_field].":".$rec[$a_tref_field]][$a_usage_type][] =
+					array("key" => $rec[$a_key_field]);
+		}
+	}
+
+	
+	/**
+	 * Get all usages info
+	 *
+	 * @param array of common skill ids ("skill_id" => skill_id, "tref_id" => tref_id)
+	 * @return
+	 */
+	function getAllUsagesInfo($a_cskill_ids)
+	{
+		$classes = $this->classes;
+		
+		$usages = array();
+		foreach ($classes as $class)
+		{
+			// make static call
+			include_once("./Services/Skill/classes/class.".$class.".php");
+			call_user_func($class.'::getUsageInfo', $a_cskill_ids, &$usages);
+		}
+		return $usages;
+	}
+
+	/**
+	 * Get type info string
+	 *
+	 * @param
+	 * @return
+	 */
+	static function getTypeInfoString($a_type)
+	{
+		global $lng;
+		
+		return $lng->txt("skmg_usage_type_info_".$a_type);
+	}
+
+	/**
+	 * Get type info string
+	 *
+	 * @param
+	 * @return
+	 */
+	static function getObjTypeString($a_type)
+	{
+		global $lng;
+		
+		switch ($a_type)
+		{
+			case self::TYPE_GENERAL:
+			case self::RESOURCE:
+				return $lng->txt("skmg_usage_obj_objects");
+				break;
+			
+			case self::USER_ASSIGNED:
+			case self::PERSONAL_SKILL:
+			case self::USER_MATERIAL:
+			case self::SELF_EVAL:
+				return $lng->txt("skmg_usage_obj_users");
+				break;
+
+			case self::PROFILE:
+				return $lng->txt("skmg_usage_obj_profiles");
+				break;
+		}
+		
+		return $lng->txt("skmg_usage_type_info_".$a_type);
+	}
+
 }
 
 ?>
