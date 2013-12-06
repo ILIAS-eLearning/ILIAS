@@ -1761,13 +1761,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$info->addMetaDataSections($this->object->getId(),0, $this->object->getType());
 		$this->ctrl->forwardCommand($info);
 	}
-
-	
-	
-	
-	
-	
-	
+						
 	function addLocatorItems()
 	{
 		global $ilLocator;
@@ -1797,6 +1791,19 @@ class ilObjSurveyGUI extends ilObjectGUI
 				break;
 		default:
 				$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""), "", $_GET["ref_id"]);
+						
+				// this has to be done here because ilSurveyEditorGUI is called after finalizing the locator
+				if ((int)$_GET["q_id"] && !(int)$_REQUEST["new_for_survey"])
+				{
+					// not on create
+					// see ilObjSurveyQuestionPool::addLocatorItems
+					$q_id = (int)$_GET["q_id"];
+					include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
+					$q_type = SurveyQuestion::_getQuestionType($q_id)."GUI";					
+					$this->ctrl->setParameterByClass($q_type, "q_id", $q_id);
+					$ilLocator->addItem(SurveyQuestion::_getTitle($q_id), 
+						$this->ctrl->getLinkTargetByClass(array("ilSurveyEditorGUI", $q_type), "editQuestion"));																			
+				}			
 				break;
 		}
 	}

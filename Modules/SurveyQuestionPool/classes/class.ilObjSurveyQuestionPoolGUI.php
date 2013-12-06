@@ -83,6 +83,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 
 		$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "survey.css", "Modules/Survey"), "screen");
 		$this->prepareOutput();
+	
 		$cmd = $this->ctrl->getCmd("questions");
 		$next_class = $this->ctrl->getNextClass($this);
 		$this->ctrl->setReturn($this, "questions");
@@ -147,6 +148,12 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 				// $q_gui->object->setObjId($this->object->getId());
 				$q_gui->setQuestionTabs();
 				$ret =& $this->ctrl->forwardCommand($q_gui);
+				
+				// not on create
+				if($q_gui->object->isComplete())
+				{
+					$this->tpl->setTitle($this->lng->txt("question").": ".$q_gui->object->getTitle());	
+				}
 				break;
 		}
 		if (strtolower($_GET["baseClass"]) != "iladministrationgui" &&
@@ -438,7 +445,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			$qtypes->setOptions($options);
 			
 			$ilToolbar->setFormAction($this->ctrl->getFormAction($this));
-			$ilToolbar->addFormButton($this->lng->txt("create"), "createQuestion");
+			$ilToolbar->addFormButton($this->lng->txt("svy_create_question"), "createQuestion");
 			
 			$ilToolbar->addSeparator();
 			
@@ -749,12 +756,19 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			$ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""), "", $_GET["ref_id"]);
 				break;
 		}
-		if ($_GET["q_id"] > 0)
+		if ((int)$_GET["q_id"])
 		{
+			$q_id = (int)$_GET["q_id"];
 			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
-			$q_type = SurveyQuestion::_getQuestionType($_GET["q_id"]) . "GUI";
-			$this->ctrl->setParameterByClass($q_type, "q_id", $_GET["q_id"]);
-			$ilLocator->addItem(SurveyQuestion::_getTitle($_GET["q_id"]), $this->ctrl->getLinkTargetByClass($q_type, "editQuestion"));
+			$q_type = SurveyQuestion::_getQuestionType($q_id) . "GUI";
+			$q_title = SurveyQuestion::_getTitle($q_id);		
+			if($q_title)
+			{
+				// not on create
+				$this->ctrl->setParameterByClass($q_type, "q_id", $q_id);			
+				$ilLocator->addItem($q_title,
+					$this->ctrl->getLinkTargetByClass($q_type, "editQuestion"));			
+			}
 		}
 	}
 	

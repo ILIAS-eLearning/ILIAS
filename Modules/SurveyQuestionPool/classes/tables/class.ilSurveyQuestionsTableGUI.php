@@ -61,8 +61,6 @@ class ilSurveyQuestionsTableGUI extends ilTable2GUI
 		$this->setStyle('table', 'fullwidth');
 		$this->addColumn('','f','1%');
 		$this->addColumn($this->lng->txt("title"),'title', '');
-		$this->addColumn('','edit', '');
-		$this->addColumn('','preview', '');
 		foreach ($this->getSelectedColumns() as $c)
 		{
 			if (strcmp($c, 'description') == 0) $this->addColumn($this->lng->txt("description"),'description', '');
@@ -71,7 +69,9 @@ class ilSurveyQuestionsTableGUI extends ilTable2GUI
 			if (strcmp($c, 'created') == 0) $this->addColumn($this->lng->txt("create_date"),'created', '');
 			if (strcmp($c, 'updated') == 0) $this->addColumn($this->lng->txt("last_update"),'tstamp', '');
 		}
-
+		
+		$this->addColumn("", "");		
+		
 		$this->setPrefix('q_id');
 		$this->setSelectAllCheckbox('q_id');
 		
@@ -203,9 +203,17 @@ class ilSurveyQuestionsTableGUI extends ilTable2GUI
 		$this->ctrl->setParameterByClass(strtolower($guiclass), "q_id", $data["question_id"]);
 		if ($this->getEditable())
 		{
-			$this->tpl->setCurrentBlock("edit_link");
-			$this->tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
-			$this->tpl->setVariable("LINK_EDIT", $this->ctrl->getLinkTargetByClass(strtolower($guiclass), "editQuestion"));
+			$url_edit = $this->ctrl->getLinkTargetByClass(strtolower($guiclass), "editQuestion");
+			
+			$this->tpl->setCurrentBlock("title_link_bl");
+			$this->tpl->setVariable("QUESTION_TITLE_LINK", $data["title"]);
+			$this->tpl->setVariable("URL_TITLE", $url_edit);
+			$this->tpl->parseCurrentBlock();			
+		}
+		else
+		{
+			$this->tpl->setCurrentBlock("title_nolink_bl");
+			$this->tpl->setVariable("QUESTION_TITLE", $data["title"]);
 			$this->tpl->parseCurrentBlock();
 		}
 		if ($data["complete"] == 0)
@@ -248,12 +256,24 @@ class ilSurveyQuestionsTableGUI extends ilTable2GUI
 				$this->tpl->setVariable("QUESTION_UPDATED", ilDatePresentation::formatDate(new ilDate($data["tstamp"],IL_CAL_UNIX)));
 				$this->tpl->parseCurrentBlock();
 			}
-		}
+		}						
 		$this->tpl->setVariable('QUESTION_ID', $data["question_id"]);
-		$this->tpl->setVariable("QUESTION_TITLE", $data["title"]);
-
-		$this->tpl->setVariable("TXT_PREVIEW", $this->lng->txt("preview"));
-		$this->tpl->setVariable("LINK_PREVIEW", $this->ctrl->getLinkTargetByClass(strtolower($guiclass), "preview"));
+					
+		// actions
+		include_once "Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php";
+		$list = new ilAdvancedSelectionListGUI();
+		$list->setId($data["question_id"]);
+		$list->setListTitle($this->lng->txt("actions"));
+		if($url_edit)
+		{
+			$list->addItem($this->lng->txt("edit"), "", $url_edit);
+		}
+		$list->addItem($this->lng->txt("preview"), "", 
+			$this->ctrl->getLinkTargetByClass(strtolower($guiclass), "preview"));
+		
+		$this->tpl->setCurrentBlock("actions");	
+		$this->tpl->setVariable("ACTION", $list->getHTML());		
+		$this->tpl->parseCurrentBlock();		
 	}
 	
 	public function setEditable($value)
