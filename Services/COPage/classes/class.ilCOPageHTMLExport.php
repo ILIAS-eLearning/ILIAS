@@ -351,7 +351,21 @@ class ilCOPageHTMLExport
 											$obj = new ilObjExerciseVerification($obj_id, false);
 											$this->files_direct[$obj_id] = array($obj->getFilePath(),
 												$obj->getOfflineFilename());	
-											break;														
+											break;		
+										
+										case "crsv":										
+											include_once "Modules/Course/classes/Verification/class.ilObjCourseVerification.php";
+											$obj = new ilObjCourseVerification($obj_id, false);
+											$this->files_direct[$obj_id] = array($obj->getFilePath(),
+												$obj->getOfflineFilename());	
+											break;	
+										
+										case "scov":										
+											include_once "Modules/ScormAicc/classes/Verification/class.ilObjSCORMVerification.php";
+											$obj = new ilObjSCORMVerification($obj_id, false);
+											$this->files_direct[$obj_id] = array($obj->getFilePath(),
+												$obj->getOfflineFilename());	
+											break;
 									}
 								}
 							}

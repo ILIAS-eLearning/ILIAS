@@ -87,6 +87,8 @@ class ilObjectAddNewItemGUI
 				"file" => "files",
 				"tstv" => "certificates",
 				"excv" => "certificates",
+				"crsv" => "certificates",
+				"scov" => "certificates",
 				"webr" => "links");
 	
 		$subtypes = $objDefinition->getCreatableSubObjects("wfld", ilObjectDefinition::MODE_WORKSPACE);		
