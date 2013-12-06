@@ -6887,7 +6887,7 @@ dateplaner#:#cal_confirm_booking#:#Sprechstunde buchen
 dateplaner#:#cal_confirm_booking_info#:#Bitte bestätigen Sie die Buchung der Sprechstunde.
 dateplaner#:#cal_confirm_reg_info#:#Bitte bestätigen Sie die Anmeldung für diesen Termin.
 dateplaner#:#cal_confirm_unreg_info#:#Bitte bestätigen Sie die Abmeldung von diesen Termin.
-dateplaner#:#cal_consultation_hours_for#:#Sprechstunden für
+dateplaner#:#cal_consultation_hours_for#:#Sprechstunde 
 dateplaner#:#cal_create#:#Erzeuge
 dateplaner#:#cal_created_appointment#:#Ein neuer Termin wurde angelegt.
 dateplaner#:#cal_created_milestone#:#Der Meilenstein wurde angelegt.
