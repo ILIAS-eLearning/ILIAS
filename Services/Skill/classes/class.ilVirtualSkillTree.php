@@ -285,7 +285,7 @@ class ilVirtualSkillTree
 		{
 			$result[] = $node;
 		}
-		$this->__getSubTreeRec($id, &$result, $a_only_basic);
+		$this->__getSubTreeRec($id, $result, $a_only_basic);
 				
 		return $result;
 	}
