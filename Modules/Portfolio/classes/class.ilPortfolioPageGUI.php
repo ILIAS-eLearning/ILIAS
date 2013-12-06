@@ -303,6 +303,28 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		}		
 	}
 	
+	protected function dlcrsv()
+	{
+		$id = $_GET["dlid"];
+		if($id)
+		{
+			include_once "Modules/Course/classes/Verification/class.ilObjCourseVerificationGUI.php";
+			$verification = new ilObjCourseVerificationGUI($id, ilObject2GUI::WORKSPACE_OBJECT_ID);
+			$verification->downloadFromPortfolioPage($this->getPageObject());
+		}
+	}
+	
+	protected function dlscov()
+	{
+		$id = $_GET["dlid"];
+		if($id)
+		{
+			include_once "Modules/ScormAicc/classes/Verification/class.ilObjSCORMVerificationGUI.php";
+			$verification = new ilObjSCORMVerificationGUI($id, ilObject2GUI::WORKSPACE_OBJECT_ID);
+			$verification->downloadFromPortfolioPage($this->getPageObject());
+		}
+	}
+	
 	protected function renderBlog($a_user_id, $a_blog_id, array $a_posting_ids = null)
 	{
 		global $ilCtrl;

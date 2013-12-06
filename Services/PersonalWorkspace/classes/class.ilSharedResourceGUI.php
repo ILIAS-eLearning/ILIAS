@@ -261,6 +261,8 @@ class ilSharedResourceGUI
 				
 			case "tstv":
 			case "excv":
+			case "crsv":
+			case "scov":
 				$ilCtrl->setParameterByClass($gui, "wsp_id", $a_node_id);
 				$ilCtrl->redirectByClass($gui, "deliver");
 				
