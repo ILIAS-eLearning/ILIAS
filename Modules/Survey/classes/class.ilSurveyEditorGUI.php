@@ -67,6 +67,12 @@ class ilSurveyEditorGUI
 					$q_gui->setBackUrl($this->ctrl->getLinkTarget($this, "questions"));
 					$q_gui->setQuestionTabs();									
 					$this->ctrl->forwardCommand($q_gui);
+					
+					if(!(int)$_REQUEST["new_for_survey"])
+					{
+						// not on create
+						$this->tpl->setTitle($this->lng->txt("question").": ".$q_gui->object->getTitle());	
+					}
 				}
 				else
 				{
