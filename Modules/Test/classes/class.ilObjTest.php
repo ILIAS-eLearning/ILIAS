@@ -4950,8 +4950,30 @@ function getAnswerFeedbackPoints()
 
 		switch( $questionSetType )
 		{
-			case ilObjTest::QUESTION_SET_TYPE_RANDOM:
+			case ilObjTest::QUESTION_SET_TYPE_DYNAMIC:
 				
+				$res = $ilDB->queryF("
+						SELECT		COUNT(qpl_questions.question_id) qcount,
+									SUM(qpl_questions.points) qsum
+						FROM		tst_active
+						INNER JOIN	tst_tests
+						ON			tst_tests.test_id = tst_active.test_fi
+						INNER JOIN	tst_dyn_quest_set_cfg
+						ON          tst_dyn_quest_set_cfg.test_fi = tst_tests.test_id
+						INNER JOIN  qpl_questions
+						ON          qpl_questions.obj_fi = tst_dyn_quest_set_cfg.source_qpl_fi
+						AND         qpl_questions.original_id IS NULL
+						AND         qpl_questions.complete = %s
+						WHERE		tst_active.active_id = %s
+					",
+					array('integer', 'integer'),
+					array(1, $active_id)
+				);
+				
+				break;
+			
+			case ilObjTest::QUESTION_SET_TYPE_RANDOM:
+
 				$res = $ilDB->queryF("
 						SELECT		tst_test_rnd_qst.pass,
 									COUNT(tst_test_rnd_qst.question_fi) qcount,
@@ -4970,9 +4992,9 @@ function getAnswerFeedbackPoints()
 					array('integer', 'integer'),
 					array($active_id, $pass)
 				);
-				
+
 				break;
-			
+
 			case ilObjTest::QUESTION_SET_TYPE_FIXED:
 				
 				$res = $ilDB->queryF("
