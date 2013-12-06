@@ -14,7 +14,6 @@ include_once("./Services/UIComponent/Explorer2/classes/class.ilExplorerBaseGUI.p
 class ilVirtualSkillTreeExplorerGUI extends ilExplorerBaseGUI
 {
 	protected $show_draft_nodes = false;
-	protected $drafts = array();
 	
 	/**
 	 * Constructor
@@ -23,8 +22,9 @@ class ilVirtualSkillTreeExplorerGUI extends ilExplorerBaseGUI
 	{
 		parent::__construct($a_id, $a_parent_obj, $a_parent_cmd);
 		
-		include_once("./Services/Skill/classes/class.ilSkillTree.php");
-		$this->tree = new ilSkillTree();
+		include_once("./Services/Skill/classes/class.ilVirtualSkillTree.php");
+		$this->vtree = new ilVirtualSkillTree();
+		
 		$this->setSkipRootNode(false);
 		$this->setAjax(false);
 	}
@@ -37,6 +37,7 @@ class ilVirtualSkillTreeExplorerGUI extends ilExplorerBaseGUI
 	function setShowDraftNodes($a_val)
 	{
 		$this->show_draft_nodes = $a_val;
+		$this->vtree->setIncludeDrafts($a_val);
 	}
 
 	/**
@@ -57,12 +58,7 @@ class ilVirtualSkillTreeExplorerGUI extends ilExplorerBaseGUI
 	 */
 	function getRootNode()
 	{
-		$root_id = $this->tree->readRootId();
-		$root_node = $this->tree->getNodeData($root_id);
-		unset($root_node["child"]);
-		$root_node["id"] = $root_id.":0";
-
-		return $root_node;
+		return $this->vtree->getRootNode();
 	}
 	
 	/**
@@ -84,65 +80,7 @@ class ilVirtualSkillTreeExplorerGUI extends ilExplorerBaseGUI
 	 */
 	function getChildsOfNode($a_parent_id)
 	{
-		$a_parent_id_parts = explode(":", $a_parent_id);
-		$a_parent_skl_tree_id = $a_parent_id_parts[0];
-		$a_parent_skl_template_tree_id = $a_parent_id_parts[1];
-
-		if ($a_parent_skl_template_tree_id == 0)
-		{
-			$childs = $this->tree->getChildsByTypeFilter($a_parent_skl_tree_id, array("scat", "skll", "sktr"), "order_nr");
-		}
-		else
-		{
-			$childs = $this->tree->getChildsByTypeFilter($a_parent_skl_template_tree_id, array("sktp", "sctp"), "order_nr");
-		}
-		
-		include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
-		$drafts = array();
-		foreach ($childs as $k => $c)
-		{
-			if ($a_parent_skl_template_tree_id > 0)
-			{
-				// we are in template tree only
-				$child_id = $a_parent_skl_tree_id.":".$c["child"]; 
-			}
-			else if (!in_array($c["type"], array("sktr", "sctr")))
-			{
-				// we are in main tree only
-				$child_id = $c["child"].":0";
-			}
-			else
-			{
-				// get template id for references
-				include_once("./Services/Skill/classes/class.ilSkillTemplateReference.php");
-				$child_id = $c["child"].":".ilSkillTemplateReference::_lookupTemplateId($c["child"]);
-			}
-			unset($childs[$k]["child"]);
-			unset($childs[$k]["skl_tree_id"]);
-			unset($childs[$k]["lft"]);
-			unset($childs[$k]["rgt"]);
-			unset($childs[$k]["depth"]);
-			$childs[$k]["id"] = $child_id;
-			$childs[$k]["parent"] = $a_parent_id;
-			
-			$this->parent[$c["id"]] = $a_parent_id;
-			
-			// @todo: prepare this for tref id?
-			if (ilSkillTreeNode::_lookupDraft($c["child"]))
-			{
-				$this->drafts[] = $child_id;
-				$drafts[] = $k;
-			}
-		}
-		if (!$this->getShowDraftNodes())
-		{
-			foreach ($drafts as $d)
-			{
-				unset($childs[$d]);
-			}
-		}
-		
-		return $childs;
+		return $this->vtree->getChildsOfNode($a_parent_id);
 	}
 
 	/**

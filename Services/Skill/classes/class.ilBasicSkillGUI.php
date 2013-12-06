@@ -462,6 +462,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 			$ilTabs->addTab("level_certificate",
 				$lng->txt("certificate"),
 				$ilCtrl->getLinkTargetByClass("ilcertificategui", "certificateEditor"));*/
+			
 		}
 
 		// title
@@ -514,7 +515,12 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 			// properties
 			$ilTabs->addTab("properties", $lng->txt("settings"),
 				$ilCtrl->getLinkTarget($this, 'editProperties'));
-			
+
+			// usage
+			$ilTabs->addTab("usage",
+				$lng->txt("skmg_usage"),
+				$ilCtrl->getLinkTarget($this, "showUsage"));
+
 			$ilCtrl->setParameterByClass("ilskillrootgui", "obj_id",
 				$this->node_object->skill_tree->getRootId());
 			$ilTabs->setBackTarget($lng->txt("obj_skmg"),
@@ -805,5 +811,37 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 		$ilCtrl->redirect($this, "showLevelResources");
 	}
 	
+	////
+	//// Usage
+	////
+	
+	/**
+	 * Show skill usage
+	 *
+	 * @param
+	 * @return
+	 */
+	function showUsage()
+	{
+		global $ilTabs, $tpl;
+		
+		$this->setSkillHead();
+		$ilTabs->activateTab("usage");
+		
+		include_once("./Services/Skill/classes/class.ilSkillUsage.php");
+		$usage_info = new ilSkillUsage();
+		$usages = $usage_info->getAllUsagesInfo(array(array("skill_id" => $this->node_object->getId(), "tref_id" => 0)));
+		
+		$html = "";
+		include_once("./Services/Skill/classes/class.ilSkillUsageTableGUI.php");
+		foreach ($usages as $usage)
+		{
+			$tab = new ilSkillUsageTableGUI($this, "showUsage", $usage);
+			$html.= $tab->getHTML();
+		}
+		
+		$tpl->setContent($html);
+	}
+
 }
 ?>

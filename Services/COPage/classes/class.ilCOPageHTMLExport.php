@@ -304,15 +304,27 @@ class ilCOPageHTMLExport
 					}				
 
 					// walk skill tree
-					$b_skills = ilSkillTreeNode::getSkillTreeNodes($skill_id, true);
+					include_once("./Services/Skill/classes/class.ilVirtualSkillTree.php");
+					$vtree = new ilVirtualSkillTree();
+					$tref_id = 0;
+					$skill_id = (int) $skill_id;
+					if (ilSkillTreeNode::_lookupType($skill_id) == "sktr")
+					{
+						include_once("./Services/Skill/classes/class.ilSkillTemplateReference.php");
+						$tref_id = $skill_id;
+						$skill_id = ilSkillTemplateReference::_lookupTemplateId($skill_id);
+					}
+					$b_skills = $vtree->getSubTreeForCSkillId($skill_id.":".$tref_id, true);
+					
+					//$b_skills = ilSkillTreeNode::getSkillTreeNodes($skill_id, true);
 					foreach ($b_skills as $bs)
-					{															
-						$skill = ilSkillTreeNodeFactory::getInstance($bs["id"]);
+					{
+						$skill = ilSkillTreeNodeFactory::getInstance($bs["skill_id"]);
 						$level_data = $skill->getLevelData();			
 						foreach ($level_data as $k => $v)
 						{
 							// get assigned materials from personal skill				
-							$mat = ilPersonalSkill::getAssignedMaterial($user_id, $bs["tref"], $v["id"]);
+							$mat = ilPersonalSkill::getAssignedMaterial($user_id, $bs["tref_id"], $v["id"]);
 							if(sizeof($mat))
 							{														
 								foreach($mat as $item)

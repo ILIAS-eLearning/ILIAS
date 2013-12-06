@@ -1,8 +1,9 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
+include_once("./Services/Skill/interfaces/interface.ilSkillUsageInfo.php");
 
 /**
  * Basic Skill
@@ -12,7 +13,7 @@ include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
  *
  * @ingroup ServicesSkill
  */
-class ilBasicSkill extends ilSkillTreeNode
+class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
 {
 	const ACHIEVED = 1;
 	const NOT_ACHIEVED = 0;
@@ -961,6 +962,19 @@ die("ilBasicSkill::getTriggerTitleForCertificate is deprecated.");
 		}
 	}
 
+	/**
+	 * Get usage info
+	 *
+	 * @param
+	 * @return
+	 */
+	static public function getUsageInfo($a_cskill_ids, &$a_usages)
+	{
+		global $ilDB;
+		
+		self::getUsageInfoGeneric($a_cskill_ids, $a_usages, ilSkillUsage::USER_ASSIGNED,
+				"skl_user_skill_level", "user_id");
+	}
 
 
 }
