@@ -221,7 +221,7 @@ class ilAssMultipleChoiceFeedback extends ilAssMultiOptionQuestionFeedback
 	protected function syncSpecificFeedback($originalQuestionId, $duplicateQuestionId)
 	{
 		// sync specific feedback setting to the original
-		$this->db->manipulate("
+		$this->db->manipulateF("
 				UPDATE {$this->getSpecificQuestionTableName()} SET feedback_setting = (
 					SELECT feedback_setting FROM {$this->getSpecificQuestionTableName()} WHERE question_fi = %s
 				) WHERE question_fi = %s
