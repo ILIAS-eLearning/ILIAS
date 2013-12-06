@@ -1382,7 +1382,7 @@ assessment#:#tst_question_feedback_edit_page#:#Inhalt bearbeiten
 assessment#:#tst_question_feedback_back_to_feedback_form#:#Zurück zur aufrufenden Frage
 assessment#:#enable_examview#:#Klausuransicht aktivieren
 assessment#:#enable_examview_desc#:#Aktiviert die Klausuransicht des Tests in einem Bildschirm vor Abgabe.
-assessment#:#test_enable_archiving#:#Archivierung aktivieren.
+assessment#:#test_enable_archiving#:#Archivierung aktivieren
 assessment#:#ass_create_archive_export#:#Archivexport erzeugen.
 assessment#:#cannot_export_archive#:#Archivexport kann nicht erzeugt werden.
 assessment#:#show_examview_html#:#Klausuransicht innerhalb der ILIAS-Seite.

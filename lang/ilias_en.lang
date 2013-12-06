@@ -1099,8 +1099,8 @@ assessment#:#tst_use_previous_answers#:#Option to Use Previous Answers
 assessment#:#tst_user_finished_test#:#User finished test (%s)
 assessment#:#tst_your_answer_was#:#Your answer was
 assessment#:#tst_your_answers#:#These are your answers given to the following questions.
-assessment#:#test_enable_archiving#:#Enable Archiving.
-assessment#:#ass_create_archive_export#:#Create Archive-Export.
+assessment#:#test_enable_archiving#:#Enable Archiving
+assessment#:#ass_create_archive_export#:#Create Archive-Export
 assessment#:#cannot_export_archive#:#Archive-Export cannot be created.
 assessment#:#tt_assessment#:#Assessment Test
 assessment#:#tt_online_exam#:#Online Exam
