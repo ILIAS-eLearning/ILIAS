@@ -12988,8 +12988,8 @@ forum#:#frm_merge_src#:#Ausgewähltes Thema: %s
 forum#:#frm_merge_target#:#Ziel: %s
 forum#:#merged_threads_successfully#:#Die selektierten Themen wurden erfolgreich zusammengeführt
 forum#:#switch_threads_for_merge#:#Das augewählte Thema ist älter als das Ziel-Thema. Um eine erfolgreiche Zusammenführung zu gewährleisten werden Quell- und Ziel-Thema getauscht.
-assessment#:#order_nested_terms#:#Ansicht wechseln: Terme verschachten
-assessment#:#order_nested_pictures#:#Ansicht wechselnn: Bilder verschachteln
+assessment#:#order_nested_terms#:#Ansicht wechseln: Terme verschachteln
+assessment#:#order_nested_pictures#:#Ansicht wechseln: Bilder verschachteln
 cron#:#cron_job_id#:#Id
 cron#:#cron_component#:#Komponente
 cron#:#cron_schedule#:#Zeitplan
