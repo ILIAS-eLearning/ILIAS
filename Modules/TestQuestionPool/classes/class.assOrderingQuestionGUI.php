@@ -497,18 +497,20 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 	}
 
 	/**
-	* Get the question solution output
-	*
-	* @param integer $active_id The active user id
-	* @param integer $pass The test pass
-	* @param boolean $graphicalOutput Show visual feedback for right/wrong answers
-	* @param boolean $result_output Show the reached points for parts of the question
-	* @param boolean $show_question_only Show the question without the ILIAS content around
-	* @param boolean $show_feedback Show the question feedback
-	* @param boolean $show_correct_solution Show the correct solution instead of the user solution
-	* @param boolean $show_manual_scoring Show specific information for the manual scoring output
-	* @return The solution output of the question as HTML code
-	*/
+	 * Get the question solution output
+	 *
+	 * @param integer $active_id             The active user id
+	 * @param integer $pass                  The test pass
+	 * @param boolean $graphicalOutput       Show visual feedback for right/wrong answers
+	 * @param boolean $result_output         Show the reached points for parts of the question
+	 * @param boolean $show_question_only    Show the question without the ILIAS content around
+	 * @param boolean $show_feedback         Show the question feedback
+	 * @param boolean $show_correct_solution Show the correct solution instead of the user solution
+	 * @param boolean $show_manual_scoring   Show specific information for the manual scoring output
+	 * @param bool    $show_question_text
+	 *
+	 * @return string The solution output of the question as HTML code
+	 */
 	function getSolutionOutput(
 		$active_id,
 		$pass = NULL,
@@ -650,7 +652,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		$solutions = array();
 		if (($active_id > 0) && (!$show_correct_solution))
 		{
-			$solutions =& $this->object->getSolutionValues($active_id, $pass);
+			$solutions = $this->object->getSolutionValues($active_id, $pass);
 		}
 		else
 		{
@@ -661,7 +663,20 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		}
 		foreach ($keys as $idx)
 		{
-			$answer = $this->object->answers[$idx];
+			if (!$show_correct_solution)
+			{
+				foreach($solutions as $index => $item)
+				{
+					if($item['value2'] == $idx+1)
+					{
+						$answer = $this->object->answers[$item['value1']];
+					}
+				}
+			}
+			else
+			{
+				$answer = $this->object->answers[$idx];
+			}
 			if (($active_id > 0) && (!$show_correct_solution))
 			{
 				if ($graphicalOutput)
