@@ -13057,11 +13057,6 @@ rbac#:#bibl_copy#:#User can copy bibliography
 rbac#:#bibl_write#:#User can edit bibliography settings
 rbac#:#bibl_delete#:#User can move or delete bibliography
 rbac#:#bibl_edit_permission#:#User can change permission settings
-rbac#:#cat_create_bibl#:#Create Bibliography
-rbac#:#crs_create_bibl#:#Create Bibliography
-rbac#:#fold_create_bibl#:#Create Bibliography
-rbac#:#grp_create_bibl#:#Create Bibliography
-rbac#:#root_create_bibl#:#Create Bibliography
 ldap#:#ldap_edit_role_assignment#:#Edit Role -> Group Assignment
 trac#:#trac_mode_collection_tlt#:#Typical Learning Time (per Chapter)
 trac#:#trac_mode_collection_tlt_info#:#Users who reached the Typical Learning Time of all relevant chapters will gain the status 'Completed'.
@@ -13409,15 +13404,9 @@ rbac#:#cld_read#:#User can open a Cloud Object
 rbac#:#cld_write#:#User can edit cloud object settings
 rbac#:#cld_delete#:#User can delete cloud object
 rbac#:#cld_permission#:#User can change permission settings
-rbac#:#cat_create_cld#:#Create Cloud Object
-rbac#:#crs_create_cld#:#Create Cloud Object
-rbac#:#fold_create_cld#:#Create Cloud Object
-rbac#:#grp_create_cld#:#Create Cloud Object
-rbac#:#root_create_cld#:#Create Cloud Object
 rbac#:#cld_upload#:#User can upload files to the cloud object
 rbac#:#cld_download#:#User can download files from the cloud object
 rbac#:#cld_edit_permission#:#User can change permission settings
-rbac#:#rbac_create_cld#:#Create Cloud Object
 wsp#:#wsp_shared_date#:#Date of Share
 wsp#:#wsp_shared_type#:#Shared With
 wsp#:#wsp_shared_object_type#:#Type of Resource
@@ -14042,7 +14031,6 @@ rbac#:#rbac_create_prtt#:#Create Portfolio Template
 rbac#:#glo_edit_content#:#User can edit content
 rbac#:#rbac_create_rolt#:#Create new Role Template
 rbac#:#rbac_create_role#:#Create new Role
-rbac#:#rbac_create_bibl#:#Create Bibliographic List
 obj#:#obj_activation_list_gui#:#Availability
 content#:#lm_activate_rating#:#Activate Rating For Pages
 wiki#:#wiki_rate_overall#:#Rate Wiki
