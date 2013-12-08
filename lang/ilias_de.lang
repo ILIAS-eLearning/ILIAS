@@ -13061,11 +13061,6 @@ rbac#:#bibl_copy#:#Literaturliste kopieren
 rbac#:#bibl_write#:#Literaturliste bearbeiten
 rbac#:#bibl_delete#:#Literaturliste löschen
 rbac#:#bibl_edit_permission#:#Rechteeinstellungen ändern
-rbac#:#cat_create_bibl#:#Literaturliste anlegen
-rbac#:#crs_create_bibl#:#Literaturliste anlegen
-rbac#:#fold_create_bibl#:#Literaturliste anlegen
-rbac#:#grp_create_bibl#:#Literaturliste anlegen
-rbac#:#root_create_bibl#:#Literaturliste anlegen
 ldap#:#ldap_edit_role_assignment#:#Zuordnung bearbeiten
 trac#:#trac_mode_collection_tlt#:#Typische Lerndauer (je Kapitel)
 trac#:#trac_mode_collection_tlt_info#:#Die Bearbeitungszeit der NutzerInnen aller relevanten Kapitel muss die 'Typische Lernzeit' überschreiten, um den Status 'Bearbeitet' zu erreichen.
@@ -13405,15 +13400,9 @@ rbac#:#cld_read#:#Benutzer können Cloud-Objekt öffnen
 rbac#:#cld_write#:#Benutzer können Cloud-Objekt Einstellungen bearbeiten
 rbac#:#cld_delete#:#Benutzer können können Cloud-Objekte löschen
 rbac#:#cld_permission#:#Benutzer können Rechteeinstellungen bearbeiten
-rbac#:#cat_create_cld#:#Cloud-Objekt erstellen
-rbac#:#crs_create_cld#:#Cloud-Objekt erstellen
-rbac#:#fold_create_cld#:#Cloud-Objekt erstellen
-rbac#:#grp_create_cld#:#Cloud-Objekt erstellen
-rbac#:#root_create_cld#:#Cloud-Objekt erstellen
 rbac#:#cld_upload#:#Benutzer können Dateien in das Cloud-Objekt laden
 rbac#:#cld_download#:#Benutzer können Dateien vom Cloud-Objekt herunterladen
 rbac#:#cld_edit_permission#:#Rechteeinstellungen ändern
-rbac#:#rbac_create_cld#:#Cloud-Objekt anlegen
 wsp#:#wsp_shared_date#:#Freigabedatum
 wsp#:#wsp_shared_type#:#Freigegeben für
 wsp#:#wsp_shared_object_type#:#Typ der Ressource
@@ -14044,7 +14033,6 @@ rbac#:#rbac_create_prtt#:#Portfoliovorlage anlegen
 rbac#:#glo_edit_content#:#Benutzer kann Inhalt bearbeiten
 rbac#:#rbac_create_rolt#:#Neue Rollenvorlage anlegen
 rbac#:#rbac_create_role#:#Neue Rolle anlegen
-rbac#:#rbac_create_bibl#:#Bibliographische Liste anlegen
 obj#:#obj_activation_list_gui#:#Verfügbarkeit
 content#:#lm_activate_rating#:#Bewertung der Seiten erlauben
 wiki#:#wiki_rate_overall#:#Wiki bewerten
