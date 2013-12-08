@@ -224,6 +224,7 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 				ilUtil::redirect("ilias.php?baseClass=ilPersonalDesktopGUI");
 				
 			case self::LP_CONTEXT_USER_FOLDER:
+			case self::LP_CONTEXT_ORG_UNIT:
 				if(ilObjUserTracking::_enabledUserRelatedData())
 				{
 					return 'illplistofprogressgui';

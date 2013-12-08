@@ -92,15 +92,26 @@ class ilObjOrgUnitAccess extends ilObjectAccess {
 	static function _checkAccessToUserLearningProgress($ref_id,$usr_id) {
 		global $ilAccess;
 
-		//Permission to view the Learning Progress of an OrgUnit
+		//Permission to view the Learning Progress of an OrgUnit: Employees
 		if ($ilAccess->checkAccess("view_learning_progress", "", $ref_id)
 			AND in_array($usr_id, ilObjOrgUnitTree::_getInstance()->getEmployees($ref_id, false))) {
 			return true;
 		}
+		//Permission to view the Learning Progress of an OrgUnit: Superiors
+		if ($ilAccess->checkAccess("view_learning_progress", "", $ref_id)
+			AND in_array($usr_id, ilObjOrgUnitTree::_getInstance()->getSuperiors($ref_id, false))) {
+			return true;
+		}
 
-		//Permission to view the Learning Progress of an OrgUnit or SubOrgUnit!
+		//Permission to view the Learning Progress of an OrgUnit or SubOrgUnit!: Employees
 		if ($ilAccess->checkAccess("view_learning_progress_rec", "", $ref_id)
 		AND in_array($usr_id, ilObjOrgUnitTree::_getInstance()->getEmployees($ref_id, true))) {
+			return true;
+		}
+
+		//Permission to view the Learning Progress of an OrgUnit or SubOrgUnit!: Superiors
+		if ($ilAccess->checkAccess("view_learning_progress_rec", "", $ref_id)
+			AND in_array($usr_id, ilObjOrgUnitTree::_getInstance()->getSuperiors($ref_id, true))) {
 			return true;
 		}
 
