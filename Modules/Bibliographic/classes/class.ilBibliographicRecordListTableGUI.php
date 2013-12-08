@@ -77,7 +77,6 @@ class ilDataBibliographicRecordListTableGUI  extends ilTable2GUI
         //Detail-Link
         $ilCtrl->setParameterByClass("ilObjBibliographicGUI", "entryId", $a_set['entry_id']);
         $this->tpl->setVariable("DETAIL_LINK", $ilCtrl->getLinkTargetByClass("ilObjBibliographicGUI", "showDetails"));
-        $this->tpl->setVariable("VIEW_IMAGE_SRC", ilUtil::img(ilUtil::getImagePath("cmd_view_s.png")));
 	}
 }
 
