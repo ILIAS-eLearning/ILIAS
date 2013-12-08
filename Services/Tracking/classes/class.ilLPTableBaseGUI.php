@@ -144,7 +144,12 @@ class ilLPTableBaseGUI extends ilTable2GUI
 			$object_search->setIdFilter($preset_obj_ids);
 		}		
 		$res =& $object_search->performSearch();
-		$res->setRequiredPermission($permission);
+
+		if($permission)
+		{
+			$res->setRequiredPermission($permission);
+		}
+
 		$res->setMaxHits(1000);
 		$res->addObserver($this, "searchFilterListener");
 

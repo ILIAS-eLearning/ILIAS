@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once("./Services/Tracking/classes/class.ilLPTableBaseGUI.php");
+require_once("./Services/Tracking/classes/class.ilLearningProgressGUI.php");
 
 /**
 * TableGUI class for learning progress
@@ -17,7 +18,7 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 	/**
 	* Constructor
 	*/
-	function __construct($a_parent_obj, $a_parent_cmd, $a_user = "", $obj_ids = NULL, $details = false, $mode = null, $personal_only = false, $a_parent_id = null)
+	function __construct($a_parent_obj, $a_parent_cmd, $a_user = "", $obj_ids = NULL, $details = false, $mode = null, $personal_only = false, $a_parent_id = null, $lp_context = null)
 	{
 		global $ilCtrl, $lng, $ilUser;
 
@@ -26,7 +27,8 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 		$this->details = $details;		
 		$this->mode = $mode;
 		$this->parent_obj_id = $a_parent_id;
-		
+		$this->lp_context = $lp_context;
+
 		$this->setId("lpprgtbl");
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
@@ -131,9 +133,16 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 					$this->filter["type"]);
 			}
 			if($membership_ids === null || sizeof($membership_ids))
-			{			
-				$obj_ids = $this->searchObjects($this->getCurrentFilter(true), "read",
-					$membership_ids);
+			{
+				switch($this->lp_context)
+				{
+					case ilLearningProgressGUI::LP_CONTEXT_ORG_UNIT:
+						$obj_ids = $this->searchObjects($this->getCurrentFilter(true),null,$membership_ids);
+						break;
+					default:
+						$obj_ids = $this->searchObjects($this->getCurrentFilter(true),"read",$membership_ids);
+						break;
+				}
 			}
 		}
 		if($obj_ids)
@@ -168,7 +177,7 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 						}
 					}
 					break;
-			}			
+			}
 			$this->setData($data);
 		}
 	}

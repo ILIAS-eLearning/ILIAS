@@ -33,6 +33,7 @@ class ilLearningProgressBaseGUI
 	const LP_CONTEXT_ADMINISTRATION = 2;
 	const LP_CONTEXT_REPOSITORY = 3;
 	const LP_CONTEXT_USER_FOLDER = 4;
+	const LP_CONTEXT_ORG_UNIT = 5;
 	
 	const LP_ACTIVE_SETTINGS = 1;
 	const LP_ACTIVE_OBJECTS = 2;
@@ -216,7 +217,7 @@ class ilLearningProgressBaseGUI
 				break;
 
 			case self::LP_CONTEXT_USER_FOLDER:
-				
+			case self::LP_CONTEXT_ORG_UNIT:
 				// No tabs default class is lpprogressgui
 				break;
 

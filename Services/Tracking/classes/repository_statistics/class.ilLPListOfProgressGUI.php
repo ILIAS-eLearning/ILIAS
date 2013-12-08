@@ -16,6 +16,7 @@
 
 include_once './Services/Tracking/classes/class.ilLearningProgressBaseGUI.php';
 include_once './Services/Tracking/classes/class.ilLPStatusWrapper.php';
+require_once './Modules/OrgUnit/classes/class.ilObjOrgUnitAccess.php';
 
 class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 {
@@ -27,7 +28,6 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 	function ilLPListOfProgressGUI($a_mode,$a_ref_id,$a_user_id = 0)
 	{
 		parent::ilLearningProgressBaseGUI($a_mode,$a_ref_id,$a_user_id);
-		
 		$this->__initUser($a_user_id);
 		
 		// Set item id for details
@@ -74,6 +74,7 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 				return $this->details();
 
 			case self::LP_CONTEXT_USER_FOLDER:
+			case self::LP_CONTEXT_ORG_UNIT:
 				// if called from user folder obj_id is id of current user
 				$this->__initUser($this->getUserId());
 				break;
@@ -161,7 +162,7 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 		}
 
 		include_once("./Services/Tracking/classes/repository_statistics/class.ilLPProgressTableGUI.php");
-		$lp_table = new ilLPProgressTableGUI($this, "", $this->tracked_user);
+		$lp_table = new ilLPProgressTableGUI($this, "", $this->tracked_user,null,false,null,false,null,$this->getMode());
 		$this->tpl->setVariable("LP_OBJECTS", $lp_table->getHTML());
 
 		$this->tpl->setVariable("LEGEND", $this->__getLegendHTML());
@@ -191,7 +192,12 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 		{
 			return true;
 		}
-		
+
+		if($this->mode == self::LP_CONTEXT_ORG_UNIT && ilObjOrgUnitAccess::_checkAccessToUserLearningProgress($this->ref_id,$a_usr_id))
+		{
+			return true;
+		}
+
 		// Check access
 		if(!$rbacreview->isAssigned($ilUser->getId(),SYSTEM_ROLE_ID))
 		{

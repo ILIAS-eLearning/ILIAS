@@ -30,7 +30,7 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
 	function __construct($a_parent_obj, $a_parent_cmd, array $a_preselect = null, $a_load_items = true, $a_is_chart = false, $a_is_details = false)
 	{
 		global $ilCtrl, $lng;
-			
+
 		$this->preselected = $a_preselect;
 		$this->is_chart = (bool)$a_is_chart;
 		$this->is_details = (bool)$a_is_details;

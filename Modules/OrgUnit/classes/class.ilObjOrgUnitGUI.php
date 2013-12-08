@@ -41,7 +41,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 	/**
 	 * @var ilCtrl
 	 */
-	protected $ctrl;
+	public $ctrl;
 	/**
 	 * @var ilTemplate
 	 */

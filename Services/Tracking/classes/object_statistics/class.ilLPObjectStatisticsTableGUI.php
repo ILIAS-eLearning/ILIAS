@@ -20,7 +20,7 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
 	function __construct($a_parent_obj, $a_parent_cmd, array $a_preselect = null, $a_load_items = true)
 	{
 		global $ilCtrl, $lng;
-		
+
 		$this->preselected = $a_preselect;
 
 		$this->setId("lpobjstattbl");
