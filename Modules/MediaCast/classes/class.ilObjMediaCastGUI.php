@@ -371,7 +371,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 		$news_set = new ilSetting("news");
 		$enable_internal_rss = $news_set->get("enable_rss_for_internal");
 
-		include("Services/Form/classes/class.ilPropertyFormGUI.php");
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form_gui = new ilPropertyFormGUI();
 		$this->form_gui->setMultipart(true);
 		
