@@ -14073,3 +14073,4 @@ skmg#:#skmg_usage_obj_users#:#User(s)
 skmg#:#skmg_usage_obj_profiles#:#Profile(s)
 rbac#:#rbac_create_bibl#:#Create Bibliography
 rbac#:#rbac_create_cld#:#Create Cloud Object
+prtf#:#prtf_template_import_new_skills#:#If activated, these items will be added to your personal competences.

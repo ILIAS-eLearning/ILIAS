@@ -782,7 +782,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 	
 	protected function initCreatePortfolioFromTemplateForm($a_prtt_id, $a_title)
 	{					
-		global $ilSetting;
+		global $ilSetting, $ilUser;
 	
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
@@ -822,18 +822,42 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		include_once "Services/WebDAV/classes/class.ilDiskQuotaActivationChecker.php";			
 		$check_quota = ilDiskQuotaActivationChecker::_isPersonalWorkspaceActive();			
 		$quota_sum = 0;				
-					
+							
+		include_once "Services/Skill/classes/class.ilPersonalSkill.php";
+		$pskills = array_keys(ilPersonalSkill::getSelectedUserSkills($ilUser->getId()));	
+		$skill_ids = array();
+		
 		include_once "Modules/Portfolio/classes/class.ilPortfolioTemplatePage.php";
 		foreach(ilPortfolioTemplatePage::getAllPages($a_prtt_id) as $page)
 		{
 			switch($page["type"])
 			{
-				case ilPortfolioTemplatePage::TYPE_PAGE:					
+				case ilPortfolioTemplatePage::TYPE_PAGE:	
+					// skills
+					$source_page = new ilPortfolioTemplatePage($page["id"]);	
+					$source_page->buildDom(true);
+					$dom = $source_page->getDom();					
+					if($dom instanceof php4DOMDocument)
+					{						
+						$dom = $dom->myDOMDocument;
+					}
+					$xpath = new DOMXPath($dom);
+					$nodes = $xpath->query("//PageContent/Skills");
+					foreach($nodes as $node)
+					{
+						$skill_id = $node->getAttribute("Id");
+						if(!in_array($skill_id, $pskills))
+						{
+							$skill_ids[] = $skill_id;
+						}
+					}
+					unset($nodes);
+					unset($xpath);
+					unset($dom);
 					if($check_quota)
-					{												
-						$source_page = new ilPortfolioTemplatePage($page["id"]);								
+					{																									
 						$quota_sum += $source_page->getPageDiskSize();
-					}					
+					}																					
 					break;
 				
 				case ilPortfolioTemplatePage::TYPE_BLOG_TEMPLATE:
@@ -872,6 +896,19 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 					break;								
 			}
 		}		
+		
+		if($skill_ids)
+		{
+			include_once "Services/Skill/classes/class.ilSkillTreeNode.php";						
+			$skills = new ilCheckboxGroupInputGUI($this->lng->txt("skills"), "skill_ids");
+			$skills->setInfo($this->lng->txt("prtf_template_import_new_skills"));
+			$skills->setValue($skill_ids);
+			foreach($skill_ids as $skill_id)
+			{				
+				$skills->addOption(new ilCheckboxOption(ilSkillTreeNode::_lookupTitle($skill_id), $skill_id));
+			}					
+			$form->addItem($skills);			
+		}
 		
 		if($quota_sum)
 		{
@@ -950,6 +987,8 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 							break;						
 					}
 				}
+				
+				$recipe["skills"] = (array)$form->getInput("skill_ids");														
 			}
 			else
 			{

@@ -400,6 +400,11 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 	
 	protected function renderSkills($a_user_id, $a_skills_id)
 	{
+		if($this->getOutputMode() == "preview")
+		{	
+			return $this->renderSkillsTeaser($a_user_id, $a_skills_id);
+		}
+	
 		include_once "Services/Skill/classes/class.ilPersonalSkillsGUI.php";
 		$gui = new ilPersonalSkillsGUI();
 		if($this->getOutputMode() == "offline")
