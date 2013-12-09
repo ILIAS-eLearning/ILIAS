@@ -923,7 +923,7 @@ $bs["tref"] = $bs["tref_id"];
 			$ilCtrl->getLinkTarget($this, ""));
 
 		include_once("./Services/Skill/classes/class.ilPersonalSkillExplorerGUI.php");
-		$exp = new ilPersonalSkillExplorerGUI($this, "listSkillsForAdd");
+		$exp = new ilPersonalSkillExplorerGUI($this, "listSkillsForAdd", $this, "addSkill");
 		if (!$exp->handleCommand())
 		{
 			$tpl->setContent($exp->getHTML());

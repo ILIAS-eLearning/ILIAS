@@ -17,8 +17,16 @@ class ilPersonalSkillExplorerGUI extends ilTreeExplorerGUI
 	/**
 	 * Constructor
 	 */
-	public function __construct($a_parent_obj, $a_parent_cmd)
+	public function __construct($a_parent_obj, $a_parent_cmd, $a_select_gui, $a_select_cmd, $a_select_par = "obj_id")
 	{
+		
+		$this->select_gui = (is_object($a_select_gui))
+			? strtolower(get_class($a_select_gui))
+			: $a_select_gui;
+		$this->select_cmd = $a_select_cmd;
+		$this->select_par = $a_select_par;
+
+		
 		include_once("./Services/Skill/classes/class.ilSkillTree.php");
 		$this->tree = new ilSkillTree();
 		$this->root_id = $this->tree->readRootId();
@@ -111,9 +119,9 @@ class ilPersonalSkillExplorerGUI extends ilTreeExplorerGUI
 		
 		$skill_id = $a_node["child"];
 		
-		$ilCtrl->setParameterByClass("ilpersonalskillsgui", "obj_id", $skill_id);
-		$ret = $ilCtrl->getLinkTargetByClass("ilpersonalskillsgui", "addSkill");
-		$ilCtrl->setParameterByClass("ilpersonalskillsgui", "obj_id", "");
+		$ilCtrl->setParameterByClass($this->select_gui, $this->select_par, $skill_id);
+		$ret = $ilCtrl->getLinkTargetByClass($this->select_gui, $this->select_cmd);
+		$ilCtrl->setParameterByClass($this->select_gui, $this->select_par, "");
 		
 		return $ret;
 	}
