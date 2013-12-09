@@ -11409,7 +11409,7 @@ survey#:#SurveyMatrixQuestion#:#Matrixfrage
 survey#:#SurveyMetricQuestion#:#Metrische Frage
 survey#:#SurveyMultipleChoiceQuestion#:#Multiple Choice Frage
 survey#:#SurveySingleChoiceQuestion#:#Single Choice Frage
-survey#:#SurveyTextQuestion#:#Textfrage
+survey#:#SurveyTextQuestion#:#Freitext eingeben
 survey#:#svy_all_user_data_deleted#:#Alle Benutzerdaten der Umfrage wurden gelöscht!
 survey#:#svy_check_evaluation_access_introduction#:#Da diese Auswertung nur für Teilnehmer der Umfrage verfügbar ist, müssen Sie Ihren Zugangsschlüssel für die Umfrage angeben, um die Auswertung zu öffnen.
 survey#:#svy_check_evaluation_authentication_needed#:#Authentifizierung erforderlich
