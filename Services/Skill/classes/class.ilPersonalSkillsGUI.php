@@ -921,7 +921,18 @@ $bs["tref"] = $bs["tref_id"];
 		
 		$ilTabs->setBackTarget($lng->txt("back"),
 			$ilCtrl->getLinkTarget($this, ""));
-		
+
+if (true)
+{
+	
+		include_once("./Services/Skill/classes/class.ilPersonalSkillExplorerGUI.php");
+		$exp = new ilPersonalSkillExplorerGUI($this, "listSkillsForAdd");
+		if (!$exp->handleCommand())
+		{
+			$tpl->setContent($exp->getHTML());
+		}
+return;
+}
 		include_once("./Services/Skill/classes/class.ilSkillTree.php");
 		$skill_tree = new ilSkillTree();
 		

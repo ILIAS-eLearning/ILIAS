@@ -84,6 +84,7 @@ class ilPersonalSkillExplorer extends ilExplorer
 		}
 		foreach ($this->getOriginalChildsOfNode($a_node_id) as $n)
 		{
+//echo "+".$n["child"]."+";
 			$this->buildSelectableTree($n["child"]);
 		}
 		if ($this->selectable[$a_node_id] &&
@@ -92,6 +93,9 @@ class ilPersonalSkillExplorer extends ilExplorer
 			$this->selectable_child_nodes[$this->node[$a_node_id]["parent"]][] =
 				$this->node[$a_node_id];
 		}
+/*var_dump($this->selectable);
+echo "<br><br>";
+var_dump($this->selectable_child_nodes);*/
 	}
 	
 
