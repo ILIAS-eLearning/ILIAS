@@ -353,7 +353,7 @@ class ilBookingObjectGUI
 	{
 		global $ilCtrl, $lng, $tpl;
 		
-		$id = (int)$_REQUEST["object_id"];
+		$id = (int)$_GET["object_id"];
 		if(!$id)
 		{
 			return;
@@ -365,8 +365,8 @@ class ilBookingObjectGUI
 		$conf->setHeaderText($lng->txt('book_confirm_cancel'));
 
 		include_once 'Modules/BookingManager/classes/class.ilBookingObject.php';
-		$type = new ilBookingObject((int)$_GET['object_id']);
-		$conf->addItem('object_id', (int)$_GET['object_id'], $type->getTitle());
+		$type = new ilBookingObject($id);
+		$conf->addItem('object_id', $id, $type->getTitle());
 		$conf->setConfirm($lng->txt('book_set_cancel'), 'rsvCancelUser');
 		$conf->setCancel($lng->txt('cancel'), 'render');
 
@@ -377,7 +377,7 @@ class ilBookingObjectGUI
 	{
 		global $ilCtrl, $ilUser, $lng;
 		
-		$id = (int)$_GET["object_id"];
+		$id = (int)$_REQUEST["object_id"];
 		if(!$id)
 		{
 			return;
