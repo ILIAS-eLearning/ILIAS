@@ -77,12 +77,26 @@ class ilPCSkillsGUI extends ilPageContentGUI
 		global $tpl;
 
 		$this->displayValidationError();
-
-		if(!$a_form)
+		
+		// template mode: get skills from global skill tree 		
+		if($this->getPageConfig()->getEnablePCType("PlaceHolder"))
 		{
-			$a_form = $this->initForm(true);
+			include_once "Services/Skill/classes/class.ilPersonalSkillExplorerGUI.php";
+			$exp = new ilPersonalSkillExplorerGUI($this, "insert", $this, "create", "skill_id");
+			if (!$exp->handleCommand())
+			{
+				$tpl->setContent($exp->getHTML());
+			}			
 		}
-		$tpl->setContent($a_form->getHTML());
+		// editor mode: use personal skills		
+		else
+		{			
+			if(!$a_form)
+			{
+				$a_form = $this->initForm(true);				
+			}			
+			$tpl->setContent($a_form->getHTML());
+		}
 	}
 
 	/**
@@ -96,11 +110,25 @@ class ilPCSkillsGUI extends ilPageContentGUI
 
 		$this->displayValidationError();
 
-		if(!$a_form)
+		// template mode: get skills from global skill tree 		
+		if($this->getPageConfig()->getEnablePCType("PlaceHolder"))
 		{
-			$a_form = $this->initForm();
+			include_once "Services/Skill/classes/class.ilPersonalSkillExplorerGUI.php";
+			$exp = new ilPersonalSkillExplorerGUI($this, "edit", $this, "update", "skill_id");
+			if (!$exp->handleCommand())
+			{
+				$tpl->setContent($exp->getHTML());
+			}			
 		}
-		$tpl->setContent($a_form->getHTML());
+		// editor mode: use personal skills		
+		else
+		{			
+			if(!$a_form)
+			{
+				$a_form = $this->initForm();				
+			}			
+			$tpl->setContent($a_form->getHTML());
+		}
 	}
 
 	/**
@@ -127,18 +155,8 @@ class ilPCSkillsGUI extends ilPageContentGUI
 		
 		$options = array();
 		include_once "Services/Skill/classes/class.ilPersonalSkill.php";
-		
-		// template mode: get skills from global skill tree 
-		if($this->getPageConfig()->getEnablePCType("PlaceHolder") && false)
-		{
-			// :TODO: use custom input gui here => skill explorer?
-			// needed for portfolio template
-		}
-		// editor mode: use personal skills
-		else
-		{
-			$skills = ilPersonalSkill::getSelectedUserSkills($ilUser->getId());
-		}				
+				
+		$skills = ilPersonalSkill::getSelectedUserSkills($ilUser->getId());				
 		if($skills)
 		{
 			foreach($skills as $skill)
@@ -176,12 +194,30 @@ class ilPCSkillsGUI extends ilPageContentGUI
 	*/
 	function create()
 	{
-		$form = $this->initForm(true);
-		if($form->checkInput())
-		{									
+		$valid = false;
+		
+		// template mode: get skills from global skill tree 		
+		if($this->getPageConfig()->getEnablePCType("PlaceHolder"))
+		{			
+			$data = (int)$_GET["skill_id"];
+			$valid = true;
+		}
+		// editor mode: use personal skills		
+		else
+		{
+			$form = $this->initForm(true);
+			if($form->checkInput())
+			{									
+				$data = $form->getInput("skill_id");
+				$valid = true;
+			}
+		}
+		
+		if($valid)
+		{
 			$this->content_obj = new ilPCSkills($this->getPage());
 			$this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
-			$this->content_obj->setData($form->getInput("skill_id"));
+			$this->content_obj->setData($data);
 			$this->updated = $this->pg_obj->update();
 			if ($this->updated === true)
 			{
@@ -198,10 +234,26 @@ class ilPCSkillsGUI extends ilPageContentGUI
 	*/
 	function update()
 	{		
-		$form = $this->initForm();
-		if($form->checkInput())
+		// template mode: get skills from global skill tree 		
+		if($this->getPageConfig()->getEnablePCType("PlaceHolder"))
+		{
+			$data = (int)$_GET["skill_id"];
+			$valid = true;
+		}
+		// editor mode: use personal skills		
+		else
+		{
+			$form = $this->initForm();
+			if($form->checkInput())
+			{									
+				$data = $form->getInput("skill_id");
+				$valid = true;
+			}
+		}
+						
+		if($valid)
 		{	
-			$this->content_obj->setData($form->getInput("skill_id"));
+			$this->content_obj->setData($data);
 			$this->updated = $this->pg_obj->update();
 			if ($this->updated === true)
 			{

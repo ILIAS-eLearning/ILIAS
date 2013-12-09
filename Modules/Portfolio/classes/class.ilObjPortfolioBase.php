@@ -442,6 +442,10 @@ abstract class ilObjPortfolioBase extends ilObject2
 			$a_target->update();
 		}
 
+		// personal skills
+		include_once "Services/Skill/classes/class.ilPersonalSkill.php";
+		$pskills = array_keys(ilPersonalSkill::getSelectedUserSkills($ilUser->getId()));	
+		
 		// copy pages
 		$blog_count = 0;
 		include_once "Modules/Portfolio/classes/class.ilPortfolioTemplatePage.php";
@@ -522,22 +526,45 @@ abstract class ilObjPortfolioBase extends ilObject2
 
 					// parse content / blocks		
 
-					$dom = $target_page->getDom();					
-					if($dom instanceof php4DOMDocument)
-					{
-						$dom = $dom->myDOMDocument;
-					}
-					
 					if($direction == "t2p")
-					{
+					{						
+						$dom = $target_page->getDom();					
+						if($dom instanceof php4DOMDocument)
+						{
+							$dom = $dom->myDOMDocument;
+						}					
+						
 						// update profile/consultation hours user id
 						self::updateDomNodes($dom, "//PageContent/Profile", "User", $ilUser->getId());
 						self::updateDomNodes($dom, "//PageContent/ConsultationHours", "User", $ilUser->getId());
-					}					
-
 					
-					// :TODO: skills 
+						// skills
+						$xpath = new DOMXPath($dom);
+						$nodes = $xpath->query("//PageContent/Skills");
+						foreach($nodes as $node)
+						{
+							$skill_id = $node->getAttribute("Id");
 
+							// existing personal skills
+							if(in_array($skill_id, $pskills))
+							{
+								$node->setAttribute("User", $ilUser->getId());									
+							}
+							// new skill
+							else if(in_array($skill_id, $a_recipe["skills"]))
+							{
+								include_once "Services/Skill/classes/class.ilPersonalSkill.php";
+								ilPersonalSkill::addPersonalSkill($ilUser->getId(), $skill_id);
+
+								$node->setAttribute("User", $ilUser->getId());	
+							}	
+							// remove skill
+							else
+							{
+
+							}
+						}
+					}
 
 					$valid = true;
 					break;

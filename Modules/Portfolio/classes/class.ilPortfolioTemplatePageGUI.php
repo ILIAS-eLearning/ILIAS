@@ -54,9 +54,14 @@ class ilPortfolioTemplatePageGUI extends ilPortfolioPageGUI
 		return $this->addPlaceholderInfo(parent::renderProfile($a_user_id, $a_type, $a_fields));	
 	}
 	
-	protected function renderConsultationHours($a_user_id, $a_mode, $a_group_ids)
+	protected function renderConsultationHoursTeaser($a_user_id, $a_mode, $a_group_ids)
 	{	
-		return $this->addPlaceholderInfo(parent::renderConsultationHours($a_user_id, $a_mode, $a_group_ids));			
+		return $this->addPlaceholderInfo(parent::renderConsultationHoursTeaser($a_user_id, $a_mode, $a_group_ids));			
+	}
+	
+	protected function renderSkillsTeaser($a_user_id, $a_skills_id)
+	{	
+		return $this->addPlaceholderInfo(parent::renderSkillsTeaser($a_user_id, $a_skills_id));			
 	}
 	
 	protected function addPlaceholderInfo($a_html)
