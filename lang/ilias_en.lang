@@ -13011,3 +13011,4 @@ ecs#:#ecs_cmap_delete_rule#:#Delete Mapping
 exc#:#exc_team_member_remove_sure#:#Are you sure you want to remove the following members of your team? Please be aware that all files they have uploaded will also be removed from your team.
 exc#:#exc_create_team#:#Create Team
 exc#:#exc_create_team_times_up_warning#:#You cannot create a team anymore - please contact your tutor.
+book#:#book_confirm_cancel#:#Are you sure you want to cancel the following reservation?

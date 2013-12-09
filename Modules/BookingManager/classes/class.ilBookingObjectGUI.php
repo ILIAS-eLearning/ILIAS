@@ -349,11 +349,36 @@ class ilBookingObjectGUI
 		$ilCtrl->redirect($this, 'render');
 	}
 	
+	function rsvConfirmCancelUser()
+	{
+		global $ilCtrl, $lng, $tpl;
+		
+		$id = (int)$_GET["object_id"];
+		if(!$id)
+		{
+			return;
+		}
+		
+		// #12310
+		include_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
+		$conf = new ilConfirmationGUI();
+		$conf->setFormAction($ilCtrl->getFormAction($this, 'rsvCancelUser'));
+		$conf->setHeaderText($lng->txt('book_confirm_cancel'));
+
+		include_once 'Modules/BookingManager/classes/class.ilBookingObject.php';
+		$type = new ilBookingObject((int)$_GET['object_id']);
+		$conf->addItem('object_id', (int)$_GET['object_id'], $type->getTitle());
+		$conf->setConfirm($lng->txt('book_set_cancel'), 'rsvCancelUser');
+		$conf->setCancel($lng->txt('cancel'), 'render');
+
+		$tpl->setContent($conf->getHTML());		
+	}
+	
 	function rsvCancelUser()
 	{
 		global $ilCtrl, $ilUser, $lng;
 		
-		$id = (int)$_GET["object_id"];
+		$id = (int)$_REQUEST["object_id"];
 		if(!$id)
 		{
 			return;
