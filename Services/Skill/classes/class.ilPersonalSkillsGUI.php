@@ -922,58 +922,12 @@ $bs["tref"] = $bs["tref_id"];
 		$ilTabs->setBackTarget($lng->txt("back"),
 			$ilCtrl->getLinkTarget($this, ""));
 
-if (true)
-{
-	
 		include_once("./Services/Skill/classes/class.ilPersonalSkillExplorerGUI.php");
 		$exp = new ilPersonalSkillExplorerGUI($this, "listSkillsForAdd");
 		if (!$exp->handleCommand())
 		{
 			$tpl->setContent($exp->getHTML());
 		}
-return;
-}
-		include_once("./Services/Skill/classes/class.ilSkillTree.php");
-		$skill_tree = new ilSkillTree();
-		
-		require_once ("./Services/Skill/classes/class.ilPersonalSkillExplorer.php");
-		$exp = new ilPersonalSkillExplorer($ilCtrl->getLinkTarget($this, "listSkillsForAdd"));
-		$exp->setTargetGet("obj_id");
-		
-		$exp->setExpandTarget($ilCtrl->getLinkTarget($this, "listSkillsForAdd"));
-		
-		if ($_GET["skpexpand"] == "")
-		{
-			$expanded = $skill_tree->readRootId();
-		}
-		else
-		{
-			$expanded = $_GET["skpexpand"];
-		}
-
-		if ($_GET["obj_id"] > 0)
-		{
-			$path = $this->skill_tree->getPathId($_GET["obj_id"]);
-			$exp->setForceOpenPath($path);
-			$exp->highlightNode($_GET["obj_id"]);
-		}
-		else
-		{
-			$exp->highlightNode($this->skill_tree->readRootId());
-		}
-		$exp->setExpand($expanded);
-		// build html-output
-		$exp->setOutput(0);
-		$output = $exp->getOutput();
-
-		// asynchronous output
-		if ($ilCtrl->isAsynch())
-		{
-			echo $output; exit;
-		}
-
-		$tpl->setContent($output);
-
 	}
 	
 	/**
