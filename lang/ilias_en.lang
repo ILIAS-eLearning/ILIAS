@@ -14075,3 +14075,4 @@ skmg#:#skmg_usage_obj_profiles#:#Profile(s)
 rbac#:#rbac_create_bibl#:#Create Bibliography
 rbac#:#rbac_create_cld#:#Create Cloud Object
 prtf#:#prtf_template_import_new_skills#:#If activated, these items will be added to your personal competences.
+book#:#book_confirm_cancel#:#Are you sure you want to cancel the following reservation?

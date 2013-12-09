@@ -148,8 +148,8 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 			{
 				$items['post'] = array($lng->txt('book_post_booking_information'), $ilCtrl->getLinkTarget($this->parent_obj, 'displayPostInfo'));
 			}	
-		
-			$items['cancel'] = array($lng->txt('book_set_cancel'), $ilCtrl->getLinkTarget($this->parent_obj, 'rsvCancelUser'));
+					
+			$items['cancel'] = array($lng->txt('book_set_cancel'), $ilCtrl->getLinkTarget($this->parent_obj, 'rsvConfirmCancelUser'));
 		}
 		
 		if($this->may_edit || $has_booking)
