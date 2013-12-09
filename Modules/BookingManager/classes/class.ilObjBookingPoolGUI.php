@@ -114,7 +114,6 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 	protected function afterSave(ilObject $a_new_object)
 	{
 		$a_new_object->setOffline(true);
-		$a_new_object->setNumberOfSlots(4);
 		$a_new_object->update();
 
 		// always send a message
@@ -152,15 +151,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		$none = new ilRadioOption($this->lng->txt("book_schedule_type_none"), ilObjBookingPool::TYPE_NO_SCHEDULE);
 		$none->setInfo($this->lng->txt("book_schedule_type_none_info"));
 		$type->addOption($none);
-
-		$slots = new ilNumberInputGUI($this->lng->txt("book_slots_no"), "slots");
-		$slots->setRequired(true);
-		$slots->setSize(4);
-		$slots->setMinValue(1);
-		$slots->setMaxValue(24);
-		$slots->setInfo($this->lng->txt("book_slots_no_info"));
-		$fixed->addSubItem($slots);
-				
+	
 		$public = new ilCheckboxInputGUI($this->lng->txt("book_public_log"), "public");
 		$public->setInfo($this->lng->txt("book_public_log_info"));
 		$a_form->addItem($public);		
@@ -170,7 +161,6 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 	{
 		$a_values["online"] = !$this->object->isOffline();
 		$a_values["public"] = $this->object->hasPublicLog();
-		$a_values["slots"] = $this->object->getNumberOfSlots();
 		$a_values["stype"] = $this->object->getScheduleType();
 	}
 
@@ -178,7 +168,6 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 	{
 		$this->object->setOffline(!$a_form->getInput('online'));
 		$this->object->setPublicLog($a_form->getInput('public'));
-		$this->object->setNumberOfSlots($a_form->getInput('slots'));
 		$this->object->setScheduleType($a_form->getInput('stype'));
 	}
 

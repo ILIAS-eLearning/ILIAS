@@ -15,7 +15,6 @@ class ilObjBookingPool extends ilObject
 	protected $offline;			// bool
 	protected $public_log;		// bool
 	protected $schedule_type;	// int
-	protected $slots_no;		// int
 	
 	const TYPE_FIX_SCHEDULE = 1;
 	const TYPE_NO_SCHEDULE = 2;
@@ -40,8 +39,7 @@ class ilObjBookingPool extends ilObject
 		$fields = array(
 			"schedule_type" => array("integer", $this->getScheduleType()),
 			"pool_offline" => array("integer", $this->isOffline()),
-			"public_log" => array("integer", $this->hasPublicLog()),
-			"slots_no" => array("integer", $this->getNumberOfSlots())			
+			"public_log" => array("integer", $this->hasPublicLog())		
 		);
 		
 		return $fields;
@@ -102,7 +100,6 @@ class ilObjBookingPool extends ilObject
 			$row = $ilDB->fetchAssoc($set);
 			$this->setOffline($row['pool_offline']);
 			$this->setPublicLog($row['public_log']);
-			$this->setNumberOfSlots($row['slots_no']);
 			$this->setScheduleType($row['schedule_type']);
 		}
 	}
@@ -277,24 +274,6 @@ class ilObjBookingPool extends ilObject
 		return (bool)$this->public_log;
 	}
 
-	/**
-	 * Set number of slots in schedules
-	 * @param int $a_value
-	 */
-	function setNumberOfSlots($a_value = true)
-    {
-		$this->slots_no = (int)$a_value;
-	}
-
-	/**
-	 * Get number of slots in schedules
-	 * @return int
-	 */
-	function getNumberOfSlots()
-	{
-		return (int)$this->slots_no;
-	}
-	
 	/**
 	 * Set schedule type
 	 * @param int $a_value
