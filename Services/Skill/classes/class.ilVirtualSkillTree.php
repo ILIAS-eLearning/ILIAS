@@ -14,7 +14,6 @@ class ilVirtualSkillTree
 {	
 	protected $include_drafts = false;
 	protected $drafts = array();
-	protected $type_filter = array();
 	
 	/**
 	 * Constructor
@@ -42,25 +41,6 @@ class ilVirtualSkillTree
 		return $root_node;
 	}
 	
-	/**
-	 * Set type filter
-	 *
-	 * @param array $a_val array of types	
-	 */
-	function setTypeFilter($a_val)
-	{
-		$this->type_filter = $a_val;
-	}
-
-	/**
-	 * Get type filter
-	 *
-	 * @return array array of types
-	 */
-	function getTypeFilter()
-	{
-		return $this->type_filter;
-	}
 	/**
 	 * Set include drafts
 	 *
