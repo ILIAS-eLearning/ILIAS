@@ -1108,12 +1108,54 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 			return array((int)$_GET["reservation_id"]);
 		}				
 	}
+	
+	function rsvConfirmCancelObject()
+	{
+		global $ilCtrl, $lng, $tpl;
+	
+		$ids = $this->getLogReservationIds();
+		if(!$ids)
+		{
+			$this->ctrl->redirect($this, 'log');
+		}
+		
+		$this->tabs_gui->clearTargets();
+		$this->tabs_gui->setBackTarget($lng->txt("back"),
+			$ilCtrl->getLinkTarget($this, "log"));
+			
+		include_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
+		$conf = new ilConfirmationGUI();
+		$conf->setFormAction($ilCtrl->getFormAction($this, 'rsvCancel'));
+		$conf->setHeaderText($lng->txt('book_confirm_cancel'));
+		$conf->setConfirm($lng->txt('book_set_cancel'), 'rsvCancel');
+		$conf->setCancel($lng->txt('cancel'), 'log');
+
+		include_once 'Modules/BookingManager/classes/class.ilBookingObject.php';
+		include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';
+		foreach($ids as $id)
+		{		
+			$rsv = new ilBookingReservation($id);
+			$obj = new ilBookingObject($rsv->getObjectId());
+			
+			$details = $obj->getTitle();
+			if($this->object->getScheduleType() != ilObjBookingPool::TYPE_NO_SCHEDULE)
+			{
+				$details .= ", ".ilDatePresentation::formatPeriod(
+					new ilDateTime($rsv->getFrom(), IL_CAL_UNIX),
+					new ilDateTime($rsv->getTo(), IL_CAL_UNIX));
+			}
+			
+			$conf->addItem('rsv_id[]', $id, $details);		
+		}
+	
+		$tpl->setContent($conf->getHTML());		
+	}
 
 	function rsvCancelObject()
 	{
 		global $ilAccess, $ilUser;
 				
-		$ids = $this->getLogReservationIds();
+		$ids = $_POST["rsv_id"];
 		if($ids)
 		{
 			include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';

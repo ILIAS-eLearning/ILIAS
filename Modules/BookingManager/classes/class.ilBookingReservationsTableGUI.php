@@ -84,7 +84,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 				
 		$this->addMultiCommand('rsvInUse', $lng->txt('book_set_in_use'));
 		$this->addMultiCommand('rsvNotInUse', $lng->txt('book_set_not_in_use'));
-		$this->addMultiCommand('rsvCancel', $lng->txt('book_set_cancel'));
+		$this->addMultiCommand('rsvConfirmCancel', $lng->txt('book_set_cancel'));
 		// $this->addMultiCommand('rsvUncancel', $lng->txt('book_set_not_cancel'));
 		$this->setSelectAllCheckbox('mrsv');
 		
@@ -292,7 +292,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 						{
 							$alist->addItem($lng->txt('book_set_in_use'), 'in_use', $ilCtrl->getLinkTarget($this->parent_obj, 'rsvInUse'));
 						}
-						$alist->addItem($lng->txt('book_set_cancel'), 'cancel', $ilCtrl->getLinkTarget($this->parent_obj, 'rsvCancel'));
+						$alist->addItem($lng->txt('book_set_cancel'), 'cancel', $ilCtrl->getLinkTarget($this->parent_obj, ' rsvConfirmCancel'));
 					}
 					else if($this->has_schedule)
 					{
@@ -301,7 +301,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 				}
 				else if($a_set['user_id'] == $ilUser->getId() && $a_set['status'] != ilBookingReservation::STATUS_CANCELLED)
 				{
-					$alist->addItem($lng->txt('book_set_cancel'), 'cancel', $ilCtrl->getLinkTarget($this->parent_obj, 'rsvCancel'));
+					$alist->addItem($lng->txt('book_set_cancel'), 'cancel', $ilCtrl->getLinkTarget($this->parent_obj, ' rsvConfirmCancel'));
 				}
 			}
 			else if($ilAccess->checkAccess('write', '', $this->ref_id) || $a_set['user_id'] == $ilUser->getId())
