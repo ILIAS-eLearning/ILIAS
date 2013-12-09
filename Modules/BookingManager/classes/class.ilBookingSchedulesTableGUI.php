@@ -81,12 +81,12 @@ class ilBookingSchedulesTableGUI extends ilTable2GUI
 	
 		if ($ilAccess->checkAccess('write', '', $this->ref_id))
 		{
+			$alist->addItem($lng->txt('edit'), 'edit', $ilCtrl->getLinkTarget($this->parent_obj, 'edit')); // #12306
+			
 			if(!$a_set["is_used"])
 			{
 				$alist->addItem($lng->txt('delete'), 'delete', $ilCtrl->getLinkTarget($this->parent_obj, 'confirmDelete'));
-			}
-
-			$alist->addItem($lng->txt('edit'), 'edit', $ilCtrl->getLinkTarget($this->parent_obj, 'edit'));
+			}		
 		}
 
 		$this->tpl->setVariable("LAYER", $alist->getHTML());
