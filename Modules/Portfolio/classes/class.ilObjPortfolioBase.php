@@ -561,7 +561,8 @@ abstract class ilObjPortfolioBase extends ilObject2
 							// remove skill
 							else
 							{
-
+								$page_element = $node->parentNode;
+								$page_element->parentNode->removeChild($page_element);
 							}
 						}
 					}
