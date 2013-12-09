@@ -2,6 +2,8 @@
 
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+include_once("./Services/Skill/interfaces/interface.ilSkillUsageInfo.php");
+
 /**
  * Manages resources for skills. This is not about user assigned materials,
  * it is about resources that are assigned to skill levels in the
@@ -16,7 +18,7 @@
  * @version $Id$
  * @ingroup Services/Skill
  */
-class ilSkillResources
+class ilSkillResources implements ilSkillUsageInfo
 {
 	protected $base_skill_id;	// base skill id
 	protected $tref_id;			// template reference id (if no template involved: 0)
@@ -211,7 +213,22 @@ class ilSkillResources
 		
 		$this->resources[$a_level_id][$a_rep_ref_id]["imparting"] = $a_imparting;
 	}
-	
+
+	/**
+	 * Get usage info
+	 *
+	 * @param
+	 * @return
+	 */
+	static public function getUsageInfo($a_cskill_ids, &$a_usages)
+	{
+		global $ilDB;
+		
+		include_once("./Services/Skill/classes/class.ilSkillUsage.php");
+		ilSkillUsage::getUsageInfoGeneric($a_cskill_ids, $a_usages, ilSkillUsage::RESOURCE,
+				"skl_skill_resource", "rep_ref_id", "base_skill_id");
+	}
+
 }
 
 ?>

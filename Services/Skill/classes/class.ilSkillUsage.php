@@ -35,8 +35,9 @@ class ilSkillUsage implements ilSkillUsageInfo
 	
 	// these classes implement the ilSkillUsageInfo interface
 	// currently this array is ok, we do not need any subscription model here
-	protected $classes = array("ilBasicSkill", "ilPersonalSkill",
-		"ilSkillSelfEvaluation", "ilSkillProfile", "ilSkillResources", "ilSkillUsage");
+	/*protected $classes = array("ilBasicSkill", "ilPersonalSkill",
+		"ilSkillSelfEvaluation", "ilSkillProfile", "ilSkillResources", "ilSkillUsage");*/
+	protected $classes = array("ilBasicSkill", "ilPersonalSkill", "ilSkillProfile",  "ilSkillResources", "ilSkillUsage");
 	
 	/**
 	 * Set usage

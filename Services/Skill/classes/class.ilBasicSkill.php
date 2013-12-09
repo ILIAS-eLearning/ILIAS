@@ -972,7 +972,8 @@ die("ilBasicSkill::getTriggerTitleForCertificate is deprecated.");
 	{
 		global $ilDB;
 		
-		self::getUsageInfoGeneric($a_cskill_ids, $a_usages, ilSkillUsage::USER_ASSIGNED,
+		include_once("./Services/Skill/classes/class.ilSkillUsage.php");
+		ilSkillUsage::getUsageInfoGeneric($a_cskill_ids, $a_usages, ilSkillUsage::USER_ASSIGNED,
 				"skl_user_skill_level", "user_id");
 	}
 

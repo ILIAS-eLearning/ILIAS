@@ -2,6 +2,8 @@
 
 /* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+include_once("./Services/Skill/interfaces/interface.ilSkillUsageInfo.php");
+
 /**
  * Personal skill
  *
@@ -9,7 +11,7 @@
  * @version $Id$
  * @ingroup 
  */
-class ilPersonalSkill
+class ilPersonalSkill implements ilSkillUsageInfo
 {
 	/**
 	 * Get personal selected user skills
@@ -278,6 +280,24 @@ class ilPersonalSkill
 		$rec  = $ilDB->fetchAssoc($set);
 		
 		return $rec["last_update"];
+	}
+
+	/**
+	 * Get usage info
+	 *
+	 * @param
+	 * @return
+	 */
+	static public function getUsageInfo($a_cskill_ids, &$a_usages)
+	{
+		global $ilDB;
+		
+		include_once("./Services/Skill/classes/class.ilSkillUsage.php");
+		ilSkillUsage::getUsageInfoGeneric($a_cskill_ids, $a_usages, ilSkillUsage::USER_MATERIAL,
+				"skl_assigned_material", "user_id");
+
+		ilSkillUsage::getUsageInfoGeneric($a_cskill_ids, $a_usages, ilSkillUsage::SELF_EVAL,
+				"skl_self_eval_level", "user_id");
 	}
 
 }
