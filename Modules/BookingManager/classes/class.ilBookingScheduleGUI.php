@@ -18,7 +18,6 @@ class ilBookingScheduleGUI
 	function __construct($a_parent_obj)
 	{
 		$this->ref_id = $a_parent_obj->ref_id;
-		$this->slots_no = $a_parent_obj->object->getNumberOfSlots();
 	}
 
 	/**
