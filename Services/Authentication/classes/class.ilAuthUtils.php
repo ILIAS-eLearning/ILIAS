@@ -692,6 +692,20 @@ class ilAuthUtils
 		{
 			return true;
 		}
+		
+		// begin-path auth_plugin
+		foreach(self::getAuthPlugins() as $pl)
+		{
+			foreach($pl->getAuthIds() as $auth_id)
+			{
+				if($pl->isAuthActive($auth_id) and $pl->isExternalAccountNameRequired($auth_id))
+				{
+					return true;
+				}
+			}
+		}
+		// end-path auth_plugin
+		
 		return false;
 	}
 	
@@ -732,7 +746,7 @@ class ilAuthUtils
 			case AUTH_LOCAL:
 			case AUTH_APACHE:
 				return false;
-			default: 
+			default:
 				return true;
 		}
 	}
