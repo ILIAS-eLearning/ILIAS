@@ -14063,6 +14063,7 @@ skmg#:#skmg_usage#:#Usage
 skmg#:#skmg_type#:#Type
 skmg#:#skmg_number#:#Number
 skmg#:#skmg_usage_type_info_gen#:#General Use in Repository Objects
+skmg#:#skmg_usage_type_info_mat#:#Users assigned material from their personal workspace
 skmg#:#skmg_usage_type_info_user#:#Assigned to Users
 skmg#:#skmg_usage_type_info_pers#:#Selected by Users as "Personal Skill"
 skmg#:#skmg_usage_type_info_seval#:#Self Evaluations

@@ -2,6 +2,8 @@
 
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+include_once("./Services/Skill/interfaces/interface.ilSkillUsageInfo.php");
+
 /**
  * Skill profile 
  *
@@ -9,7 +11,7 @@
  * @version $Id$
  * @ingroup Services/Skill
  */
-class ilSkillProfile
+class ilSkillProfile implements ilSkillUsageInfo
 {
 	protected $id;
 	protected $title;
@@ -395,6 +397,22 @@ class ilSkillProfile
 		$rec = $ilDB->fetchAssoc($set);
 		return (int) $rec["ucnt"];
 	}
+	
+	/**
+	 * Get usage info
+	 *
+	 * @param
+	 * @return
+	 */
+	static public function getUsageInfo($a_cskill_ids, &$a_usages)
+	{
+		global $ilDB;
+		
+		include_once("./Services/Skill/classes/class.ilSkillUsage.php");
+		ilSkillUsage::getUsageInfoGeneric($a_cskill_ids, $a_usages, ilSkillUsage::PROFILE,
+				"skl_profile_level", "profile_id", "base_skill_id");
+	}
+
 
 }
 

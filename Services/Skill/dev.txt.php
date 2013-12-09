@@ -72,23 +72,23 @@ skl_personal_skill ***user ilPersonalSkill
 - pk: user_id, skill_node_id
 - skills sind nur im "Hauptbaum" "selectable"!
 
-skl_assigned_material ***user ilPersonalSkill
+skl_assigned_material ***user ilPersonalSkill (ok)
 - pk: user_id, top_skill_id, skill_id, tref_id, level_id, wsp_id
 - User assignment
 
 skl_self_eval
 
 
-skl_self_eval_level ***user ilPersonalSkill + ilSkillSelfEvaluation
+skl_self_eval_level ***user ilPersonalSkill + ilSkillSelfEvaluation (ok)
 - pk: user_id, top_skill_id, skill_id, tref_id
 
 skl_profile
 - pk: id
 
-skl_profile_level ***profile ilSkillProfile
+skl_profile_level ***profile ilSkillProfile (ok)
 - pk: profile_id, base_skill_id, tref_id
 
-skl_skill_resource ***object ilSkillResources
+skl_skill_resource ***object ilSkillResources (ok)
 - pk: base_skill_id, tref_id, rep_ref_id
 
 skl_templ_ref
@@ -98,7 +98,7 @@ skl_tree
 
 skl_tree_node
 
-skl_usage ***object ilSkillUsage
+skl_usage ***object ilSkillUsage (ok)
 
 
 Klassen
