@@ -758,11 +758,11 @@ class assImagemapQuestionGUI extends assQuestionGUI
 				$answerobj->setCols(80);
 				$answerobj->setUseRte(true);
 				include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-				$answerobj->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("assessment"), null, false, '3.4.7');
+				$answerobj->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("assessment"));
 				$answerobj->addPlugin("latex");
 				$answerobj->addButton("latex");
 				$answerobj->addButton("pastelatex");
-				$answerobj->setRTESupport($this->object->getId(), "qpl", "assessment");
+				$answerobj->setRTESupport($this->object->getId(), "qpl", "assessment", null, false, '3.4.7');
 				$form->addItem($answerobj);
 			}
 		}
