@@ -816,7 +816,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 				$_GET['activecommand'] = 'summary_obligations_only';
 			}
 
-			$this->redirectQuestion();
+			$this->redirectQuestionCmd();
 			return;
 		}
 
