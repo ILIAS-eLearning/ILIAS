@@ -151,11 +151,17 @@ class ilDAVCronDiskQuota extends ilCronJob
 	}	
 	
 	public function activationWasToggled($a_currently_active)
-	{		
+	{	
+		// #12221
+		$settings = new ilSetting('disk_quota');
+		$settings->set('enabled', $a_currently_active);
+		
+		/* objDefinition is not available in setup, we cannot use ilObject
 		require_once 'Services/WebDAV/classes/class.ilObjDiskQuotaSettings.php';
 		$disk_quota_obj = ilObjDiskQuotaSettings::getInstance();	
 		$disk_quota_obj->setDiskQuotaEnabled((bool)$a_currently_active);
-		$disk_quota_obj->update(); 
+		$disk_quota_obj->update(); 		 
+		*/
 	}
 }
 
