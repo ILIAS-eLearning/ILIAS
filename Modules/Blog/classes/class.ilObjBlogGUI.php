@@ -254,9 +254,19 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		// goto link to blog posting
 		if($_GET["gtp"])
 		{
-			$ilCtrl->setCmdClass("ilblogpostinggui");			
-			$_GET["blpg"] = $_GET["gtp"];
-			$ilCtrl->setCmd("previewFullscreen");			
+			$page_id = (int)$_GET["gtp"];
+			include_once "Modules/Blog/classes/class.ilBlogPosting.php";
+			if(ilBlogPosting::exists($this->object_id, $page_id))
+			{			
+				// #12312
+				$ilCtrl->setCmdClass("ilblogpostinggui");			
+				$_GET["blpg"] = $page_id;
+				$ilCtrl->setCmd("previewFullscreen");			
+			}
+			else
+			{
+				ilUtil::sendFailure($lng->txt("blog_posting_not_found"));			
+			}							
 		}
 		
 		$next_class = $ilCtrl->getNextClass($this);
