@@ -760,7 +760,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
 //		}
 //		else
 //		{
-			$this->addFooterLink( $lng->txt("month"),
+			$this->addFooterLink( $lng->txt("app_month"),
 				$ilCtrl->getLinkTarget($this, "setPdModeMonth"),
 				$ilCtrl->getLinkTarget($this, "setPdModeMonth", "", true),
 				"block_".$this->getBlockType()."_".$this->block_id,
