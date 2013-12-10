@@ -9984,7 +9984,7 @@ rbac#:#svyf_edit_permission#:#Rechteeinstellung in Umfrage-Administration änder
 rbac#:#svyf_read#:#Lesezugriff auf Umfrage-Administration
 rbac#:#svyf_visible#:#Umfrage-Administration ist sichtbar
 rbac#:#svyf_write#:#Einstellungen in Umfrage-Administration bearbeiten
-rbac#:#usrf_create_usr#:#Benutzer anlegen können
+rbac#:#rbac_create_usr#:#Benutzer anlegen können
 rbac#:#write#:#Einstellungen bearbeiten
 rcrs#:#rcrs_call#:#ECS-Kurs aufrufen
 rcrs#:#rcrs_general_info#:#Allgemeine Informationen
