@@ -101,7 +101,7 @@ class ilCalendarPresentationGUI
 		switch($next_class)
 		{
 			case 'ilcalendarinboxgui':
-				$this->tabs_gui->activateTab('app_inbox');
+				$this->tabs_gui->activateTab('cal_upcoming_events_header');
 				$this->forwardToClass('ilcalendarinboxgui');
 				break;
 				
@@ -278,7 +278,7 @@ class ilCalendarPresentationGUI
 				
 			case 'ilcalendarinboxgui':
 				$ilUser->writePref('cal_last_class',$a_class);
-				$_SESSION['cal_last_tab'] = 'app_inbox';
+				$_SESSION['cal_last_tab'] = 'cal_upcoming_events_header';
 				$this->setCmdClass('ilcalendarinboxgui');
 				include_once('./Services/Calendar/classes/class.ilCalendarInboxGUI.php');
 				$inbox_gui = new ilCalendarinboxGUI($this->seed);
@@ -354,7 +354,7 @@ class ilCalendarPresentationGUI
 		
 		$ilHelp->setScreenIdComponent("cal");
 		
-		$this->tabs_gui->addTarget('app_inbox',$this->ctrl->getLinkTargetByClass('ilCalendarInboxGUI',''));
+		$this->tabs_gui->addTarget('cal_upcoming_events_header',$this->ctrl->getLinkTargetByClass('ilCalendarInboxGUI',''));
 		
 		if(
 			$rbacsystem->checkAccess('add_consultation_hours', ilCalendarSettings::_getInstance()->getCalendarSettingsId()) and
