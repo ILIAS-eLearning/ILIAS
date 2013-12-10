@@ -10570,7 +10570,7 @@ trac#:#trac_trash#:#Moved to Trash
 trac#:#trac_object_stat_daily#:#Daily Usage
 trac#:#trac_object_stat_admin#:#Manage Data
 trac#:#trac_delete_data#:#Delete Data
-trac#:#trac_sure_delete_data#:#Are you sure you want to delete the complete data for the following months?
+trac#:#trac_sure_delete_data#:#Are you sure you want to delete the complete data for the following months? This will remove all statistics for that period incl. Usage Intensity, Daily Usage, Learning Progress Statistics Course and Number of Objects.
 trac#:#trac_data_deleted#:#Data has been deleted.
 trac#:#trac_sync_obj_stats#:#Update Data
 trac#:#trac_sync_obj_stats_success#:#Data has been updated.

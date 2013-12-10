@@ -294,6 +294,7 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
 			return $this->admin();
 		}
 
+		$ilTabs->clearTargets();
 		$ilTabs->setBackTarget($lng->txt("back"),
 			$ilCtrl->getLinkTarget($this, "admin"));
 

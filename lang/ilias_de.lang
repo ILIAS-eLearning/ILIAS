@@ -11811,7 +11811,7 @@ trac#:#trac_status_changed#:#Letzte Statusänderung
 trac#:#trac_subitems#:#Unterobjekte zeigen
 trac#:#trac_sum#:#Summe
 trac#:#trac_summary#:#Zusammenfassung
-trac#:#trac_sure_delete_data#:#Wollen Sie wirklich die Daten der folgenden Monate löschen?
+trac#:#trac_sure_delete_data#:#Wollen Sie wirklich die Daten der folgenden Monate löschen? Dadurch werden folgende Statistiken für diesen Zeitraum entfernt: Nutzungsintensität, Tagesverlauf, Lernstandstatistik Kurs und Anzahl der Objekte.
 trac#:#trac_sync_obj_stats#:#Daten aktualisieren
 trac#:#trac_sync_obj_stats_success#:#Daten wurden aktualisiert.
 trac#:#trac_sync_session_stats#:#Daten aggregieren
