@@ -10544,7 +10544,7 @@ rbac#:#frma_read#:#User has read access to Forum Administration
 rbac#:#frma_write#:#User can edit settings in Forum Administration
 rbac#:#frma_edit_permission#:#User can change permission settings of Forum administration
 common#:#nr_following_sessions#:#%1d following session(s)...
-rbac#:#usrf_create_usr#:#User is allowed to create user accounts
+rbac#:#rbac_create_usr#:#User is allowed to create user accounts
 trac#:#trac_all#:#All
 trac#:#trac_view_mode#:#View Mode
 trac#:#trac_view_mode_all#:#All Objects
