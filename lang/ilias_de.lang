@@ -7446,8 +7446,8 @@ exc#:#exc_msg_all_mandatory_ass#:#Sie müssen alle obligatorischen Übungseinhei
 exc#:#exc_msg_failed_mandatory#:#Sie haben mindestens eine obgligatorische Übungseinheit nicht bestanden.
 exc#:#exc_msg_min_number_ass#:#Sie müssen mindestens %s Übungseinheiten bestehen um die Übung zu bestehen.
 exc#:#exc_msg_missed_minimum_number#:#Sie haben die Mindestanzahl an Übungseinheiten nicht bestanden.
-exc#:#exc_msg_new_feedback_file_uploaded#:#Es wurde einen neue Feedback-Datei zur Übungen "%s" hinzugefügt.
-exc#:#exc_msg_new_feedback_file_uploaded2#:#Ein Dozent hat eine neue Feedback-Datei für Sie hochgeladen.
+exc#:#exc_msg_new_feedback_file_uploaded#:#Es wurde eine neue Feedback-Datei zur Übungen "%s" hinzugefügt.
+exc#:#exc_msg_new_feedback_file_uploaded2#:#Eine neue Feedback-Datei wurde für Sie hochgeladen.
 exc#:#exc_msg_participants_removed#:#Die Teilnehmer wurden aus der Übung entfernt.
 exc#:#exc_msg_public_submission#:#Alle Lösungsabgaben werden nach dem Abgabetermin veröffentlicht.
 exc#:#exc_msg_saved_grades#:#Noten wurden gespeichert.
