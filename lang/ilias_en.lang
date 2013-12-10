@@ -14076,3 +14076,27 @@ rbac#:#rbac_create_bibl#:#Create Bibliography
 rbac#:#rbac_create_cld#:#Create Cloud Object
 prtf#:#prtf_template_import_new_skills#:#If activated, these items will be added to your personal competences.
 book#:#book_confirm_cancel#:#Are you sure you want to cancel the following reservation?
+rbac#:#crss_visible#:#Course administration is visible
+rbac#:#crss_read#:#User has read access to Course administration
+rbac#:#crss_write#:#Edit settings in Course administration
+rbac#:#crss_edit_permission#:#User can change permission settings in Course administration
+rbac#:#grps_visible#:#Group administration is visible
+rbac#:#grps_read#:#User has read access to Group administration
+rbac#:#grps_write#:#Edit settings in Group administration
+rbac#:#grps_edit_permission#:#User can change permission settings in Group administration
+rbac#:#wiks_visible#:#Wiki administration is visible
+rbac#:#wiks_read#:#User has read access to Wiki administration
+rbac#:#wiks_write#:#Edit settings in Wiki administration
+rbac#:#wiks_edit_permission#:#User can change permission settings in Wiki administration
+rbac#:#tos_visible#:#Terms of Service administration is visible
+rbac#:#tos_read#:#User has read access to Terms of Service administration
+rbac#:#tos_write#:#Edit settings in Terms of Service administration
+rbac#:#tos_edit_permission#:#User can change permission settings in Terms of Service administration
+rbac#:#wbrs_visible#:#Weblink administration is visible
+rbac#:#wbrs_read#:#User has read access to Weblink administration
+rbac#:#wbrs_write#:#Edit settings in Weblink administration
+rbac#:#wbrs_edit_permission#:#User can change permission settings in Weblink administration
+rbac#:#reps_visible#:#Repository administration is visible
+rbac#:#reps_read#:#User has read access to Repository administration
+rbac#:#reps_write#:#Edit settings in Repository administration
+rbac#:#reps_edit_permission#:#User can change permission settings in Repository administration
