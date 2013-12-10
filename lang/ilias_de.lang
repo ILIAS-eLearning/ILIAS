@@ -14060,3 +14060,27 @@ content#:#cont_wiki_page#:#Wiki-Seite
 content#:#cont_choose_wiki#:#Wiki auswählen
 prtf#:#prtf_template_import_new_skills#:#Wenn aktiviert, werden diese Kompetenzen zu Ihren persönlichen Kompetenzen hinzugefügt.
 book#:#book_confirm_cancel#:#Sind Sie sicher, dass Sie die folgende Reservierung stornieren möchten?
+rbac#:#crss_visible#:#Kurs-Administration ist sichtbar
+rbac#:#crss_read#:#Lesezugriff auf Kurs-Administration
+rbac#:#crss_write#:#Einstellungen in Kurs-Administration bearbeiten
+rbac#:#crss_edit_permission#:#Rechteeinstellungen für die Kurs-Administration ändern
+rbac#:#grps_visible#:#Gruppen-Administration ist sichtbar
+rbac#:#grps_read#:#Lesezugriff auf Gruppen-Administration
+rbac#:#grps_write#:#Einstellungen in Gruppen-Administration bearbeiten
+rbac#:#grps_edit_permission#:#Rechteeinstellungen für die Gruppen-Administration ändern
+rbac#:#reps_visible#:#Magazinverwaltung ist sichtbar
+rbac#:#reps_read#:#Lesezugriff auf Magazinverwaltung
+rbac#:#reps_write#:#Einstellungen in Magazinverwaltung bearbeiten
+rbac#:#reps_edit_permission#:#Rechteeinstellungen für die Magazinverwaltung ändern
+rbac#:#wiks_visible#:#Wiki-Verwaltung ist sichtbar
+rbac#:#wiks_read#:#Lesezugriff auf Wiki-Verwaltung
+rbac#:#wiks_write#:#Einstellungen in Wiki-Verwaltung bearbeiten
+rbac#:#wiks_edit_permission#:#Rechteeinstellungen für die Wiki-Verwaltung ändern
+rbac#:#tos_visible#:#Nutzungsvereinbarungs-Verwaltung ist sichtbar
+rbac#:#tos_read#:#Lesezugriff auf Nutzungsvereinbarungs-Verwaltung
+rbac#:#tos_write#:#Einstellungen in Nutzungsvereinbarungs-Verwaltung bearbeiten
+rbac#:#tos_edit_permission#:#Rechteeinstellungen für die Nutzungsvereinbarungs-Verwaltung ändern
+rbac#:#wbrs_visible#:#Weblink-Verwaltung ist sichtbar
+rbac#:#wbrs_read#:#Lesezugriff auf Weblink-Verwaltung
+rbac#:#wbrs_write#:#Einstellungen in Weblink-Verwaltung bearbeiten
+rbac#:#wbrs_edit_permission#:#Rechteeinstellungen für die Weblink-Verwaltung ändern
