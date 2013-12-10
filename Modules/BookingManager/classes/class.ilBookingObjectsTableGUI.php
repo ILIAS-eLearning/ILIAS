@@ -181,11 +181,6 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 		
 		$ilCtrl->setParameter($this->parent_obj, 'object_id', $a_set['booking_object_id']);
 		
-		if($a_set['info_file'])
-		{
-			$items['info'] = array($lng->txt('book_download_info'), $ilCtrl->getLinkTarget($this->parent_obj, 'deliverInfo'));
-		}	
-	
 		if(!$has_booking)
 		{
 			if($booking_possible)
@@ -203,15 +198,20 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 			$items['cancel'] = array($lng->txt('book_set_cancel'), $ilCtrl->getLinkTarget($this->parent_obj, 'rsvConfirmCancelUser'));
 		}
 
-		if ($this->may_edit)
+		if($a_set['info_file'])
 		{
+			$items['info'] = array($lng->txt('book_download_info'), $ilCtrl->getLinkTarget($this->parent_obj, 'deliverInfo'));
+		}	
+	
+		if ($this->may_edit)
+		{			
+			$items['edit'] = array($lng->txt('edit'), $ilCtrl->getLinkTarget($this->parent_obj, 'edit'));
+			
 			// #10890
 			if(!$has_reservations)
 			{
 				$items['delete'] = array($lng->txt('delete'), $ilCtrl->getLinkTarget($this->parent_obj, 'confirmDelete'));
 			}
-
-			$items['edit'] = array($lng->txt('edit'), $ilCtrl->getLinkTarget($this->parent_obj, 'edit'));
 		}
 
 		if(sizeof($items))
