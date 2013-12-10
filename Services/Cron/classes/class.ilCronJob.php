@@ -250,7 +250,8 @@ abstract class ilCronJob
 	 */
 	public function activationWasToggled($a_currently_active)
 	{
-		
+		// we cannot use ilObject or any higher level construct here
+		// this may be called from setup, so it is limited to handling ilSetting/ilDB mostly
 	}
 	
 	
