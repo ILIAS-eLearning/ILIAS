@@ -131,17 +131,37 @@ class assClozeGapTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($expected, $actual);
 	}
 
-	public function test_addGetItem_shouldReturnValueUnchangedMultiplePlus()
+	public function test_getItem_shouldReturnNullIfNoItemAtGivenIndex()
 	{
-		$this->markTestIncomplete('SUT defective. Please check the inappropriate use of array_push vs. order-indices.');
-		// @TODO: Investigate addItem-Method.
 		// Arrange
 		require_once './Modules/TestQuestionPool/classes/class.assClozeGap.php';
 		$instance = new assClozeGap(0); // 0 - text gap
 		require_once './Modules/TestQuestionPool/classes/class.assAnswerCloze.php';
-		$answer = new assAnswerCloze('Bert', 1.0, 2);
+		$answer1 = new assAnswerCloze('Bert', 1.0, 0);
+		$answer2 = new assAnswerCloze('Esther', 1.0, 1);
+
+		$instance->addItem($answer1);
+		$instance->addItem($answer2);
+
+		$expected = null;
+
+		// Act
+		$actual = $instance->getItem(2);
+
+		// Assert
+		$this->assertEquals($expected, $actual);
+	}
+	
+	public function test_addGetItem_shouldReturnValueUnchangedMultiplePlus()
+	{
+		// Arrange
+		require_once './Modules/TestQuestionPool/classes/class.assClozeGap.php';
+		$instance = new assClozeGap(0); // 0 - text gap
+
+		require_once './Modules/TestQuestionPool/classes/class.assAnswerCloze.php';
+		$answer = new assAnswerCloze('Bert', 1.0, 1);
 		$answer2 = new assAnswerCloze('Fred', 1.0, 2);
-		$answer3 = new assAnswerCloze('Karl', 1.0, 1);
+		$answer3 = new assAnswerCloze('Karl', 1.0, 3);
 		$expected = new assAnswerCloze('Esther', 1.0, 0);
 
 		// Act
@@ -162,9 +182,11 @@ class assClozeGapTest extends PHPUnit_Framework_TestCase
 		$instance = new assClozeGap(0); // 0 - text gap
 		require_once './Modules/TestQuestionPool/classes/class.assAnswerCloze.php';
 		$item1 = new assAnswerCloze('Bert', 1.0, 0);
-		$item2 = new assAnswerCloze('Fred', 1.0, 2);
-		$item3 = new assAnswerCloze('Karl', 1.0, 1);
+		$item2 = new assAnswerCloze('Fred', 1.0, 1);
+		$item3 = new assAnswerCloze('Karl', 1.0, 2);
 		$item4 = new assAnswerCloze('Esther', 1.0, 3);
+		$instance->setShuffle(false);
+		$expected = array($item1, $item2, $item3, $item4);
 
 		// Act
 		$instance->addItem($item1);
@@ -173,14 +195,8 @@ class assClozeGapTest extends PHPUnit_Framework_TestCase
 		$instance->addItem($item4);
 		$actual = $instance->getItems();
 
-		// I have the feeling, that the order of the items in the return value is broken.
-		// @TODO: Investigate addItem-Method.
 		// Assert
-		$this->assertTrue(is_array($actual));
-		$this->assertTrue(in_array($item1, $actual));
-		$this->assertTrue(in_array($item2, $actual));
-		$this->assertTrue(in_array($item3, $actual));
-		$this->assertTrue(in_array($item4, $actual));
+		$this->assertEquals($expected, $actual);
 	}
 
 	public function test_getItemsWithShuffle_shouldReturnItemsAddedShuffled()
@@ -191,9 +207,10 @@ class assClozeGapTest extends PHPUnit_Framework_TestCase
 		$instance->setShuffle(true);
 		require_once './Modules/TestQuestionPool/classes/class.assAnswerCloze.php';
 		$item1 = new assAnswerCloze('Bert', 1.0, 0);
-		$item2 = new assAnswerCloze('Fred', 1.0, 2);
-		$item3 = new assAnswerCloze('Karl', 1.0, 1);
+		$item2 = new assAnswerCloze('Fred', 1.0, 1);
+		$item3 = new assAnswerCloze('Karl', 1.0, 2);
 		$item4 = new assAnswerCloze('Esther', 1.0, 3);
+		$expected = array($item1, $item2, $item3, $item4);
 
 		// Act
 		$instance->addItem($item1);
@@ -202,14 +219,13 @@ class assClozeGapTest extends PHPUnit_Framework_TestCase
 		$instance->addItem($item4);
 		$actual = $instance->getItems();
 
-		// I have the feeling, that the order of the items in the return value is broken.
-		// @TODO: Investigate addItem-Method.
 		// Assert
 		$this->assertTrue(is_array($actual));
 		$this->assertTrue(in_array($item1, $actual));
 		$this->assertTrue(in_array($item2, $actual));
 		$this->assertTrue(in_array($item3, $actual));
 		$this->assertTrue(in_array($item4, $actual));
+		$this->assertNotEquals($expected, $actual);
 	}
 
 	public function test_getItemsRaw_shouldReturnItemsAdded()
@@ -219,9 +235,10 @@ class assClozeGapTest extends PHPUnit_Framework_TestCase
 		$instance = new assClozeGap(0); // 0 - text gap
 		require_once './Modules/TestQuestionPool/classes/class.assAnswerCloze.php';
 		$item1 = new assAnswerCloze('Bert', 1.0, 0);
-		$item2 = new assAnswerCloze('Fred', 1.0, 2);
-		$item3 = new assAnswerCloze('Karl', 1.0, 1);
+		$item2 = new assAnswerCloze('Fred', 1.0, 1);
+		$item3 = new assAnswerCloze('Karl', 1.0, 2);
 		$item4 = new assAnswerCloze('Esther', 1.0, 3);
+		$expected = array($item1, $item2, $item3, $item4);
 
 		// Act
 		$instance->addItem($item1);
@@ -230,14 +247,8 @@ class assClozeGapTest extends PHPUnit_Framework_TestCase
 		$instance->addItem($item4);
 		$actual = $instance->getItemsRaw();
 
-		// I have the feeling, that the order of the items in the return value is broken.
-		// @TODO: Investigate addItem-Method.
 		// Assert
-		$this->assertTrue(is_array($actual));
-		$this->assertTrue(in_array($item1, $actual));
-		$this->assertTrue(in_array($item2, $actual));
-		$this->assertTrue(in_array($item3, $actual));
-		$this->assertTrue(in_array($item4, $actual));
+		$this->assertEquals($expected, $actual);
 	}
 
 	public function test_getItemCount_shouldReturnCorrectCount()
@@ -251,11 +262,81 @@ class assClozeGapTest extends PHPUnit_Framework_TestCase
 		$item3 = new assAnswerCloze('Karl', 1.0, 1);
 		$item4 = new assAnswerCloze('Esther', 1.0, 3);
 		$expected = 4;
+
 		// Act
 		$instance->addItem($item1);
 		$instance->addItem($item2);
 		$instance->addItem($item3);
 		$instance->addItem($item4);
+		$actual = $instance->getItemCount();
+
+		// Assert
+		$this->assertEquals($expected, $actual);
+	}
+
+	public function test_setItemPoints_shouldSetItemPoints()
+	{
+		// Arrange
+		require_once './Modules/TestQuestionPool/classes/class.assClozeGap.php';
+		$instance = new assClozeGap(0); // 0 - text gap
+		require_once './Modules/TestQuestionPool/classes/class.assAnswerCloze.php';
+		$item1 = new assAnswerCloze('Esther', 1.0, 0);
+		$instance->addItem($item1);
+		$expected = 4;
+
+		// Act
+		$instance->setItemPoints(0, $expected);
+		/** @var assAnswerCloze $item_retrieved */
+		$item_retrieved = $instance->getItem(0);
+		$actual = $item_retrieved->getPoints();
+
+		// Assert
+		$this->assertEquals($expected, $actual);
+	}
+
+	public function test_deleteItem_shouldDeleteGivenItem()
+	{
+		// Arrange
+		require_once './Modules/TestQuestionPool/classes/class.assClozeGap.php';
+		$instance = new assClozeGap(0); // 0 - text gap
+		require_once './Modules/TestQuestionPool/classes/class.assAnswerCloze.php';
+		$item1 = new assAnswerCloze('Bert', 1.0, 0);
+		$item2 = new assAnswerCloze('Fred', 1.0, 1);
+
+		$instance->addItem($item1);
+		$instance->addItem($item2);
+
+		$expected = array('1' => $item2);
+
+		// Act
+		$instance->deleteItem(0);
+
+		$actual = $instance->getItemsRaw();
+
+		// Assert
+		$this->assertEquals($expected, $actual);
+	}
+
+	public function test_clearItems_shouldClearItems()
+	{
+		// Arrange
+		require_once './Modules/TestQuestionPool/classes/class.assClozeGap.php';
+		$instance = new assClozeGap(0); // 0 - text gap
+		require_once './Modules/TestQuestionPool/classes/class.assAnswerCloze.php';
+		$item1 = new assAnswerCloze('Bert', 1.0, 0);
+		$item2 = new assAnswerCloze('Fred', 1.0, 2);
+		$item3 = new assAnswerCloze('Karl', 1.0, 1);
+		$item4 = new assAnswerCloze('Esther', 1.0, 3);
+
+		$instance->addItem($item1);
+		$instance->addItem($item2);
+		$instance->addItem($item3);
+		$instance->addItem($item4);
+
+		$expected = 0;
+
+		// Act
+		$instance->clearItems();
 		$actual = $instance->getItemCount();
 
 		// Assert
