@@ -13013,3 +13013,4 @@ exc#:#exc_create_team#:#Create Team
 exc#:#exc_create_team_times_up_warning#:#You cannot create a team anymore - please contact your tutor.
 book#:#book_confirm_cancel#:#Are you sure you want to cancel the following reservation?
 common#:#obj_nota#:#Notifications
+blog#:#blog_posting_not_found#:#This blog posting is not available.
