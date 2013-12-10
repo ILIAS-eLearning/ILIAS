@@ -14084,3 +14084,4 @@ rbac#:#wbrs_visible#:#Weblink-Verwaltung ist sichtbar
 rbac#:#wbrs_read#:#Lesezugriff auf Weblink-Verwaltung
 rbac#:#wbrs_write#:#Einstellungen in Weblink-Verwaltung bearbeiten
 rbac#:#wbrs_edit_permission#:#Rechteeinstellungen für die Weblink-Verwaltung ändern
+common#:#obj_nota#:#Benachrichtigungen
