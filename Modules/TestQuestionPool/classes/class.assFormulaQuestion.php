@@ -235,7 +235,7 @@ class assFormulaQuestion extends assQuestion
 				}
 				$unit = (is_object($varObj->getUnit())) ? $varObj->getUnit()->getUnit() : "";
 				$val  = (strlen($varObj->getValue()) > 8) ? strtoupper(sprintf("%e", $varObj->getValue())) : $varObj->getValue();
-				$text = preg_replace("/\\\$" . substr($variable, 1) . "([^0123456789]{0,1})/", $val . " " . $unit . "\\1", $text);
+				$text = preg_replace("/\\$" . substr($variable, 1) . "(?![0-9]+)/", $val . " " . $unit . "\\1", $text);
 			}
 		}
 		if(preg_match_all("/(\\\$r\\d+)/ims", $this->getQuestion(), $rmatches))
@@ -426,8 +426,7 @@ class assFormulaQuestion extends assQuestion
 
 					$resultOutput = $template->get();
 				}
-				
-				$text = preg_replace("/\\\$" . substr($result, 1) . "([^0123456789]{0,1})/", $input . " " . $units . " " . $checkSign . " " . $resultOutput . " " . "\\1", $text);
+				$text = preg_replace("/\\\$" . substr($result, 1) . "(?![0-9]+)/", $input . " " . $units . " " . $checkSign . " " . $resultOutput . " " . "\\1", $text);
 			}
 		}
 		return $text;
