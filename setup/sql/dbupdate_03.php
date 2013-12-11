@@ -19441,3 +19441,12 @@ if(!$ilDB->tableColumnExists('content_object','rating_pages')) {
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#4161>
+<?php
+	$ilDB->manipulate("DELETE FROM ctrl_calls WHERE comp_prefix = " . $ilDB->quote('qpl_qst_formulaquestion', 'text'));
+	$ilDB->manipulate("DELETE FROM ctrl_classfile WHERE comp_prefix = " . $ilDB->quote('qpl_qst_formulaquestion', 'text'));
+?>
+<#4162>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
