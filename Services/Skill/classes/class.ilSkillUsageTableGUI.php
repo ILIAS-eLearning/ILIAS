@@ -18,9 +18,13 @@ class ilSkillUsageTableGUI extends ilTable2GUI
 	/**
 	 * Constructor
 	 */
-	function __construct($a_parent_obj, $a_parent_cmd, $a_usage)
+	function __construct($a_parent_obj, $a_parent_cmd, $a_cskill_id, $a_usage)
 	{
 		global $ilCtrl, $lng, $ilAccess, $lng;
+
+		$id_parts = explode(":", $a_cskill_id);
+		$this->skill_id = $id_parts[0];
+		$this->tref_id = $id_parts[1];
 
 		$data = array();
 		foreach ($a_usage as $k => $v)
@@ -30,12 +34,19 @@ class ilSkillUsageTableGUI extends ilTable2GUI
 
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		$this->setData($data);
-		$this->setTitle($lng->txt("skmg_usage").": ");
-		$this->addColumn($this->lng->txt("skmg_type"));
-		$this->addColumn($this->lng->txt("skmg_number"));
+		$this->setTitle(ilSkillTreeNode::_lookupTitle($this->skill_id, $this->tref_id));
+
+		include_once("./Services/Skill/classes/class.ilSkillTree.php");
+		$tree = new ilSkillTree();
+		$path = $tree->getSkillTreePathAsString($this->skill_id, $this->tref_id);
+		$this->setDescription($path);
+
+		$this->addColumn($this->lng->txt("skmg_type"), "", "50%");
+		$this->addColumn($this->lng->txt("skmg_number"), "", "50%");
 
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
 		$this->setRowTemplate("tpl.skill_usage_row.html", "Services/Skill");
+		$this->setEnableNumInfo(false);
 
 //		$this->addMultiCommand("", $lng->txt(""));
 //		$this->addCommandButton("", $lng->txt(""));

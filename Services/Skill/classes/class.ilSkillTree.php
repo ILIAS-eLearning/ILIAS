@@ -25,6 +25,7 @@ class ilSkillTree extends ilTree
 	 *
 	 * @param int $a_base_skill_id base skill id
 	 * @param int $a_tref_id template reference id
+	 * @return array path
 	 */
 	function getSkillTreePath($a_base_skill_id, $a_tref_id = 0)
 	{
@@ -54,7 +55,43 @@ class ilSkillTree extends ilTree
 		
 		return $path;
 	}
-	
+
+	/**
+	 * Get skill tree path as string
+	 *
+	 * @param int $a_base_skill_id base skill id
+	 * @param int $a_tref_id template reference id
+	 * @return string path
+	 */
+	function getSkillTreePathAsString($a_base_skill_id, $a_tref_id = 0)
+	{
+		$path = $this->getSkillTreePath($a_base_skill_id, $a_tref_id);
+		$str = "";
+		$sep = "";
+		foreach ($path as $p)
+		{
+			if ($p["type"] != "skrt" && $p["child"] != $a_base_skill_id)
+			{
+				$str.= $sep.$p["title"];
+				$sep = " > ";
+			}
+		}
+		return $str;
+	}
+
+	/**
+	 * Get top parent node id for a node
+	 *
+	 * @param int $a_node_id
+	 * @return int top parent node id
+	 */
+	function getTopParentNodeId($a_node_id)
+	{
+		$path = $this->getPathId($a_node_id);
+		return (int) $path[1];
+	}
+
+
 }
 
 ?>

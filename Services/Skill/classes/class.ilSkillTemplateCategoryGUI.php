@@ -71,6 +71,12 @@ class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
 		$ilTabs->addTab("content", $lng->txt("content"),
 			$ilCtrl->getLinkTarget($this, 'listItems'));
 
+		if ($this->tref_id > 0)
+		{
+			// usage
+			$this->addUsageTab($ilTabs);
+		}
+
 		// properties
 		if ($this->tref_id == 0)
 		{

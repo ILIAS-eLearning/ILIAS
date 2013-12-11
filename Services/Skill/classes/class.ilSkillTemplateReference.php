@@ -142,5 +142,41 @@ class ilSkillTemplateReference extends ilSkillTreeNode
 		return $obj_rec["templ_id"];
 	}
 
+	/**
+	 * Lookup tref ids for template id
+	 *
+	 * @param $a_template_id (top) template node id
+	 * @return array array of integer tref ids
+	 */
+	function _lookupTrefIdsForTopTemplateId($a_template_id)
+	{
+		global $ilDB;
+
+		$set = $ilDB->query("SELECT * FROM skl_templ_ref ".
+			" WHERE templ_id = ".$ilDB->quote($a_template_id, "integer")
+			);
+		$trefs = array();
+		while ($rec = $ilDB->fetchAssoc($set))
+		{
+			$trefs[] = $rec["skl_node_id"];
+		}
+		return $trefs;
+	}
+
+
+	/**
+	 * Get all tref ids for a template id
+	 *
+	 * @param int $a_tid template node id (node id in template tree)
+	 * @return array of ids
+	 */
+	static function _lookupTrefIdsForTemplateId($a_tid)
+	{
+		include_once("./Services/Skill/classes/class.ilSkillTree.php");
+		$tree = new ilSkillTree();
+		$top_template_id = $tree->getTopParentNodeId($a_tid);
+		return self::_lookupTrefIdsForTopTemplateId($top_template_id);
+	}
+
 }
 ?>

@@ -106,7 +106,7 @@ class ilVirtualSkillTree
 	/**
 	 * Get childs of node
 	 *
-	 * @param int $a_parent_id parent id
+	 * @param string $a_parent_id parent id
 	 * @return array childs
 	 */
 	function getChildsOfNode($a_parent_id)
@@ -178,6 +178,26 @@ class ilVirtualSkillTree
 		}
 		
 		return $childs;
+	}
+
+	/**
+	 * Get childs of node for cskill id
+	 *
+	 * @param string $a_cskill_id common skill id <skill_id>:<tref_id>
+	 * @return
+	 */
+	function getChildsOfNodeForCSkillId($a_cskill_id)
+	{
+		$id_parts = explode(":", $a_cskill_id);
+		if ($id_parts[1] == 0)
+		{
+			$id = $id_parts[0].":0";
+		}
+		else
+		{
+			$id = $id_parts[1].":".$id_parts[0];
+		}
+		return $this->getChildsOfNode($id);
 	}
 
 	/**
@@ -258,7 +278,7 @@ class ilVirtualSkillTree
 		}
 		
 		$result = array();
-//@todo
+
 		$node = $this->getNode($id);
 		if (!$a_only_basic || in_array($node["type"], array("skll", "sktp")) ||
 			($node["type"] == "sktr" && ilSkillTreeNode::_lookupType($node["skill_id"]) == "sktp"))

@@ -258,7 +258,7 @@ class ilPersonalSkill implements ilSkillUsageInfo
 		return (int) $rec["level_id"];
 	}
 
-		/**
+	/**
 	 * Get self evaluation
 	 *
 	 * @param int $a_user_id user id
@@ -285,19 +285,58 @@ class ilPersonalSkill implements ilSkillUsageInfo
 	/**
 	 * Get usage info
 	 *
-	 * @param
-	 * @return
+	 * @param array $a_cskill_ids skill ids
+	 * @param array $a_usages usages array
 	 */
 	static public function getUsageInfo($a_cskill_ids, &$a_usages)
 	{
 		global $ilDB;
-		
+
+		// material
 		include_once("./Services/Skill/classes/class.ilSkillUsage.php");
 		ilSkillUsage::getUsageInfoGeneric($a_cskill_ids, $a_usages, ilSkillUsage::USER_MATERIAL,
 				"skl_assigned_material", "user_id");
 
+		// self evaluations
 		ilSkillUsage::getUsageInfoGeneric($a_cskill_ids, $a_usages, ilSkillUsage::SELF_EVAL,
 				"skl_self_eval_level", "user_id");
+
+		// users that use the skills as personal skills
+		$pskill_ids = array();
+		$tref_ids = array();
+		foreach ($a_cskill_ids as $cs)
+		{
+			if ($cs["tref_id"] > 0)
+			{
+				include_once("./Services/Skill/classes/class.ilSkillTemplateReference.php");
+				if (ilSkillTemplateReference::_lookupTemplateId($cs["tref_id"]) == $cs["skill_id"])
+				{
+					$pskill_ids[$cs["tref_id"]] = $cs["tref_id"];
+					$tref_ids[(int) $cs["tref_id"]] = $cs["skill_id"];
+				}
+			}
+			else
+			{
+				$pskill_ids[$cs["skill_id"]] = $cs["skill_id"];
+			}
+		}
+		$set = $ilDB->query("SELECT skill_node_id, user_id FROM skl_personal_skill ".
+			" WHERE ".$ilDB->in("skill_node_id", $pskill_ids, false, "integer").
+			" GROUP BY skill_node_id, user_id"
+			);
+		while ($rec = $ilDB->fetchAssoc($set))
+		{
+			if (isset($tref_ids[(int) $rec["skill_node_id"]]))
+			{
+				$a_usages[$tref_ids[$rec["skill_node_id"]].":".$rec["skill_node_id"]][ilSkillUsage::PERSONAL_SKILL][] =
+					array("key" => $rec["user_id"]);
+			}
+			else
+			{
+				$a_usages[$rec["skill_node_id"].":0"][ilSkillUsage::PERSONAL_SKILL][] =
+					array("key" => $rec["user_id"]);
+			}
+		}
 	}
 
 }

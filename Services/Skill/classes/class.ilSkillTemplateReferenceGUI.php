@@ -93,7 +93,10 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
 			// properties
 			$ilTabs->addTab("properties", $lng->txt("settings"),
 				$ilCtrl->getLinkTarget($this, 'editProperties'));
-			
+
+			// usage
+			$this->addUsageTab($ilTabs);
+
 			// back link
 /*
 			$ilCtrl->setParameterByClass("ilskillrootgui", "obj_id",
