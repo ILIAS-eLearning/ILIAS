@@ -6,19 +6,22 @@ Todo 4.4
 - Nutzung von Skills von Benutzern/in Objekten im Skillmanagement sichtbar machen (done)
 - Löschen von Skills verhinden, wenn von Benutzern oder OBjekten in Benutzung (done)
 - Objekte sollen Nutzung "anmelden" (done)
-- Skill-Template muss in 360 nutzbar sein (2, done)
-- (tiefer) Skill Explorer inkl. Referenzen (1, done)
+- Skill-Template muss in 360 nutzbar sein (done)
+- (tiefer) Skill Explorer inkl. Referenzen (done)
   - Modules/Survey/classes/class.ilSurveySkillExplorer.php
   -> ilSkillSelectorGUI
-- historische Darstellung aller "has levels" (inkl. Datum + Objekttitel) (4, done)
+- historische Darstellung aller "has levels" (inkl. Datum + Objekttitel) (done)
 - Resources müssen Template/Basis Kombi zuordbar sein (done)
-- outdated status (1)
-- ilSkillSelektorGUI: keine Basisskillreferenzen selektierbar (2)
-- Resource Selection > neue Explorerklasse (3)
+- Skill Referenzen Editing verbieten (done)
+- spider netz anzeigen (done)
+
+- replace ilSkillProfileAssignmentExplorer
+- streamline draft status
+- outdated status
+- ilSkillSelektorGUI: keine Basisskillreferenzen selektierbar
+- Resource Selection > neue Explorerklasse
 - User Guide anpassen. (angefangen)
 -- trigger dokumentieren
-- Skill Referenzen Editing verbieten
-- spider netz anzeigen (done)
 - self_eval flag in has_level (pk)? ->
   - self evalution in diese Tabellen übertragen
   - 360 self eval übernahmen (mit flag)
