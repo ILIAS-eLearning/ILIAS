@@ -119,7 +119,7 @@ function reindexRows(rootel, postvar)
 	}
 }
 
-function removeListeners(rootel)
+function removeListeners_NO_SINGLETON_IN_USE(rootel)
 {
 	var addbuttons = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'singlechoicewizard_add') ? true : false; }, 'input', rootel);
 	for (i = 0; i < addbuttons.length; i++)
@@ -148,7 +148,7 @@ function addRow(e, obj)
 	var row = this.parentNode.parentNode;
 	var tbody = row.parentNode;
 	
-	removeListeners(tbody);
+	removeListeners_NO_SINGLETON_IN_USE(tbody);
 	rowclone = row.cloneNode(true);
 	cleanElements(rowclone);
 	
@@ -184,7 +184,7 @@ function removeRow(e, obj)
 	else
 	{
 		tbody.removeChild(row);
-		removeListeners(tbody);
+		removeListeners_NO_SINGLETON_IN_USE(tbody);
 		reindexRows(tbody, tbody.parentNode.parentNode.id);
 	}
 }
@@ -202,7 +202,7 @@ function moveRowUp(e, obj)
 
 	if (foundindex > 0)
 	{
-		removeListeners(tbody);
+		removeListeners_NO_SINGLETON_IN_USE(tbody);
 		temp = rows[foundindex-1];
 		rows[foundindex-1] = row;
 		rows[foundindex] = temp;
@@ -232,7 +232,7 @@ function moveRowDown(e, obj)
 
 	if (foundindex < rows.length-1)
 	{
-		removeListeners(tbody);
+		removeListeners_NO_SINGLETON_IN_USE(tbody);
 		temp = rows[foundindex+1];
 		rows[foundindex+1] = row;
 		rows[foundindex] = temp;
