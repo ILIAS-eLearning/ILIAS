@@ -126,6 +126,7 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
 
 		$this->tpl->setVariable('VAL_NAME', $row['participant']->getName());
 		$reached_points = new ilNumberInputGUI('', 'scoring[' . $row['pass_id'] . '][' . $row['active_id'] . '][' . $row['qst_id'] . ']');
+		$reached_points->allowDecimals(true);
 		$reached_points->setSize(5);
 		if( count($this->manPointsPostData) )
 		{
