@@ -145,7 +145,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 	{
 		global $tpl, $ilToolbar, $lng, $ilCtrl;
 
-		$this->setSkillHead("levels");
+		$this->setTabs("levels");
 		
 		$ilToolbar->addButton($lng->txt("skmg_add_level"),
 			$ilCtrl->getLinkTarget($this, "addLevel"));
@@ -213,7 +213,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 	 */
 	function editProperties()
 	{
-		$this->setSkillHead("properties");
+		$this->setTabs("properties");
 		parent::editProperties();
 	}
 	
@@ -382,7 +382,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 	{
 		global $ilCtrl, $tpl, $lng;
 
-		$this->setSkillHead("levels");
+		$this->setTabs("levels");
 
 		if (!is_array($_POST["id"]) || count($_POST["id"]) == 0)
 		{
@@ -497,7 +497,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 	 * @param
 	 * @return
 	 */
-	function setSkillHead($a_tab = "levels")
+	function setTabs($a_tab = "levels")
 	{
 		global $ilTabs, $ilCtrl, $tpl, $lng;
 
@@ -517,9 +517,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 				$ilCtrl->getLinkTarget($this, 'editProperties'));
 
 			// usage
-			$ilTabs->addTab("usage",
-				$lng->txt("skmg_usage"),
-				$ilCtrl->getLinkTarget($this, "showUsage"));
+			$this->addUsageTab($ilTabs);
 
 			$ilCtrl->setParameterByClass("ilskillrootgui", "obj_id",
 				$this->node_object->skill_tree->getRootId());
@@ -809,38 +807,6 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 		}
 		
 		$ilCtrl->redirect($this, "showLevelResources");
-	}
-	
-	////
-	//// Usage
-	////
-	
-	/**
-	 * Show skill usage
-	 *
-	 * @param
-	 * @return
-	 */
-	function showUsage()
-	{
-		global $ilTabs, $tpl;
-		
-		$this->setSkillHead();
-		$ilTabs->activateTab("usage");
-		
-		include_once("./Services/Skill/classes/class.ilSkillUsage.php");
-		$usage_info = new ilSkillUsage();
-		$usages = $usage_info->getAllUsagesInfo(array(array("skill_id" => $this->node_object->getId(), "tref_id" => 0)));
-		
-		$html = "";
-		include_once("./Services/Skill/classes/class.ilSkillUsageTableGUI.php");
-		foreach ($usages as $usage)
-		{
-			$tab = new ilSkillUsageTableGUI($this, "showUsage", $usage);
-			$html.= $tab->getHTML();
-		}
-		
-		$tpl->setContent($html);
 	}
 
 }

@@ -40,26 +40,9 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
 	}
 
 	/**
-	 * output tabs
-	 */
-	function setTabs()
-	{
-		global $ilTabs, $ilCtrl, $tpl, $lng;
-
-		// properties
-		$ilTabs->addTarget("properties",
-			 $ilCtrl->getLinkTarget($this,'showProperties'),
-			 "showProperties", get_class($this));
-			 
-		parent::setTitleIcon();
-		$tpl->setTitle(
-			$lng->txt("skmg_basic_skill_template").": ".$this->node_object->getTitle());
-	}
-
-	/**
 	 * Init form.
 	 *
-	 * @param        int        $a_mode        Edit Mode
+	 * @param string $a_mode edit mode
 	 */
 	public function initForm($a_mode = "edit")
 	{
@@ -101,9 +84,6 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
 
 	/**
 	 * Set header for level
-	 *
-	 * @param
-	 * @return
 	 */
 	function setLevelHead()
 	{
@@ -175,7 +155,7 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
 	 * @param
 	 * @return
 	 */
-	function setSkillHead($a_tab)
+	function setTabs($a_tab)
 	{
 		global $ilTabs, $ilCtrl, $tpl, $lng;
 
@@ -203,7 +183,14 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
 			// levels
 			$ilTabs->addTab("levels", $lng->txt("skmg_skill_levels"),
 				$ilCtrl->getLinkTarget($this, 'edit'));
-	
+
+			if ($this->tref_id > 0)
+			{
+				// usage
+				$this->addUsageTab($ilTabs);
+			}
+
+
 			// properties
 			if ($this->tref_id == 0)
 			{
@@ -260,7 +247,7 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
 	{
 		global $tpl, $ilToolbar, $lng, $ilCtrl;
 
-		$this->setSkillHead("levels");
+		$this->setTabs("levels");
 		
 		if ($this->tref_id == 0)
 		{

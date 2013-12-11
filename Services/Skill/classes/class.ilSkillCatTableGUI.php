@@ -73,9 +73,9 @@ class ilSkillCatTableGUI extends ilTable2GUI
 
 		if ($this->tref_id == 0)
 		{
-			$this->addMultiCommand("deleteNodes", $lng->txt("delete"));
 			$this->addMultiCommand("cutItems", $lng->txt("cut"));
 			$this->addMultiCommand("copyItems", $lng->txt("copy"));
+			$this->addMultiCommand("deleteNodes", $lng->txt("delete"));
 			$this->addCommandButton("saveOrder", $lng->txt("skmg_save_order"));
 		}
 	}

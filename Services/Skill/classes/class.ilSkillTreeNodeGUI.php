@@ -558,6 +558,53 @@ class ilSkillTreeNodeGUI
 			$obj_id, $this->getType(), "_b",
 			ilSkillTreeNode::_lookupDraft($obj_id)));
 	}
-	
+
+	////
+	//// Usage
+	////
+
+	/**
+	 * Add usage tab
+	 *
+	 * @param
+	 * @return
+	 */
+	function addUsageTab($a_tabs)
+	{
+		global $lng, $ilCtrl;
+
+		$a_tabs->addTab("usage",
+			$lng->txt("skmg_usage"),
+			$ilCtrl->getLinkTarget($this, "showUsage"));
+	}
+
+
+	/**
+	 * Show skill usage
+	 */
+	function showUsage()
+	{
+		global $tpl;
+
+		$this->setTabs("usage");
+
+		include_once("./Services/Skill/classes/class.ilSkillUsage.php");
+		$usage_info = new ilSkillUsage();
+		$base_skill_id = ($this->base_skill_id > 0)
+			? $this->base_skill_id
+			: $this->node_object->getId();
+		$usages = $usage_info->getAllUsagesInfoOfSubtree($base_skill_id.":".$this->tref_id);
+
+		$html = "";
+		include_once("./Services/Skill/classes/class.ilSkillUsageTableGUI.php");
+		foreach ($usages as $k => $usage)
+		{
+			$tab = new ilSkillUsageTableGUI($this, "showUsage", $k, $usage);
+			$html.= $tab->getHTML()."<br/><br/>";
+		}
+
+		$tpl->setContent($html);
+	}
+
 }
 ?>

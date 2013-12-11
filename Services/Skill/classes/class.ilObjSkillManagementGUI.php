@@ -291,9 +291,6 @@ $ilCtrl->redirectByClass("ilskillrootgui", "listSkills");
 
 	/**
 	 * Insert one or multiple basic skills
-	 *
-	 * @param
-	 * @return
 	 */
 	function insertBasicSkill()
 	{
@@ -335,9 +332,6 @@ $ilCtrl->redirectByClass("ilskillrootgui", "listSkills");
 
 	/**
 	 * Insert one or multiple basic skill templates
-	 *
-	 * @param
-	 * @return
 	 */
 	function insertBasicSkillTemplate()
 	{
@@ -379,9 +373,6 @@ $ilCtrl->redirectByClass("ilskillrootgui", "listSkills");
 
 	/**
 	 * Insert one or multiple skill categories
-	 *
-	 * @param
-	 * @return
 	 */
 	function insertSkillCategory()
 	{
@@ -564,7 +555,7 @@ $ilCtrl->redirectByClass("ilskillrootgui", "listSkills");
 	 */
 	function deleteNodes($a_gui)
 	{
-		global $lng, $tpl, $ilCtrl, $ilTabs;
+		global $lng, $tpl, $ilCtrl, $ilTabs, $ilToolbar;
 
 		if(!isset($_POST["id"]))
 		{
@@ -572,6 +563,71 @@ $ilCtrl->redirectByClass("ilskillrootgui", "listSkills");
 		}
 
 		$ilTabs->clearTargets();
+
+		// check usages
+		$mode = "";
+		$cskill_ids = array();
+		foreach($_POST["id"] as $id)
+		{
+			if (in_array(ilSkillTreeNode::_lookupType($id), array("skll", "scat", "sktr")))
+			{
+				if ($mode == "templates")
+				{
+					$this->ilias->raiseError("Skill Deletion - type mismatch.",$this->ilias->error_obj->MESSAGE);
+				}
+				$mode = "basic";
+				$skill_id = $id;
+				$tref_id = 0;
+				if (ilSkillTreeNode::_lookupType($id) == "sktr")
+				{
+					include_once("./Services/Skill/classes/class.ilSkillTemplateReference.php");
+					$skill_id = ilSkillTemplateReference::_lookupTemplateId($id);
+					$tref_id = $id;
+				}
+				$cskill_ids[] = array("skill_id" => $skill_id, "tref_id" => $tref_id);
+			}
+			if (in_array(ilSkillTreeNode::_lookupType($id), array("sktp", "sctp")))
+			{
+				if ($mode == "basic")
+				{
+					$this->ilias->raiseError("Skill Deletion - type mismatch.",$this->ilias->error_obj->MESSAGE);
+				}
+				$mode = "templates";
+
+				foreach (ilSkillTemplateReference::_lookupTrefIdsForTemplateId($id) as $tref_id)
+				{
+					$cskill_ids[] = array("skill_id" => $id, "tref_id" => $tref_id);
+				}
+			}
+			// for cats, skills and template references, get "real" usages
+			// for skill and category templates check usage in references
+		}
+
+		if ($mode == "basic" || $mode == "templates")
+		{
+			include_once("./Services/Skill/classes/class.ilSkillUsage.php");
+			$u = new ilSkillUsage();
+			$usages = $u->getAllUsagesInfoOfSubtrees($cskill_ids);
+			if (count($usages) > 0)
+			{
+				$html = "";
+				foreach ($usages as $k => $usage)
+				{
+					include_once("./Services/Skill/classes/class.ilSkillUsageTableGUI.php");
+					$tab = new ilSkillUsageTableGUI($this, "showUsage", $k, $usage);
+					$html.= $tab->getHTML()."<br/><br/>";
+				}
+				$tpl->setContent($html);
+				$ilToolbar->addButton($lng->txt("back"),
+					$ilCtrl->getLinkTarget($a_gui, "cancelDelete"));
+				ilUtil::sendFailure($lng->txt("skmg_cannot_delete_nodes_in_use"));
+				return;
+			}
+		}
+		else
+		{
+			$this->ilias->raiseError("Skill Deletion - type mismatch.",$this->ilias->error_obj->MESSAGE);
+		}
 		
 		// SAVE POST VALUES
 		$_SESSION["saved_post"] = $_POST["id"];

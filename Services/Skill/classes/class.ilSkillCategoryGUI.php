@@ -72,7 +72,10 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
 		// properties
 		$ilTabs->addTab("properties", $lng->txt("settings"),
 			$ilCtrl->getLinkTarget($this, 'editProperties'));
-		
+
+		// usage
+		$this->addUsageTab($ilTabs);
+
 		// back link
 		$ilCtrl->setParameterByClass("ilskillrootgui", "obj_id",
 			$this->node_object->skill_tree->getRootId());

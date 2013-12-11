@@ -45,6 +45,7 @@ class ilSkillUsage implements ilSkillUsageInfo
 	 * @param int $a_obj_id object id
 	 * @param int $a_skill_id skill id
 	 * @param int $a_tref_id tref id
+	 * @param bool $a_use in use true/false
 	 */
 	static function setUsage($a_obj_id, $a_skill_id, $a_tref_id, $a_use = true)
 	{
@@ -99,8 +100,8 @@ class ilSkillUsage implements ilSkillUsageInfo
 	/**
 	 * Get usage info
 	 *
-	 * @param
-	 * @return
+	 * @param array $a_cskill_ids skill ids
+	 * @param array $a_usages usages array
 	 */
 	static public function getUsageInfo($a_cskill_ids, &$a_usages)
 	{
@@ -113,8 +114,8 @@ class ilSkillUsage implements ilSkillUsageInfo
 	/**
 	 * Get standard usage query
 	 *
-	 * @param
-	 * @return
+	 * @param array $a_cskill_ids skill ids
+	 * @param array $a_usages usages array
 	 */
 	static function getUsageInfoGeneric($a_cskill_ids, &$a_usages, $a_usage_type, $a_table, $a_key_field,
 			$a_skill_field = "skill_id", $a_tref_field = "tref_id")
@@ -144,7 +145,7 @@ class ilSkillUsage implements ilSkillUsageInfo
 	 * Get all usages info
 	 *
 	 * @param array of common skill ids ("skill_id" => skill_id, "tref_id" => tref_id)
-	 * @return
+	 * @return array usages
 	 */
 	function getAllUsagesInfo($a_cskill_ids)
 	{
@@ -161,10 +162,52 @@ class ilSkillUsage implements ilSkillUsageInfo
 	}
 
 	/**
+	 * Get all usages info of subtree
+	 *
+	 * @param int $a_skill_id skill node id
+	 * @param int $a_tref_id tref id
+	 * @return array usages
+	 */
+	function getAllUsagesInfoOfSubtree($a_skill_id, $a_tref_id = 0)
+	{
+		// get nodes
+		include_once("./Services/Skill/classes/class.ilVirtualSkillTree.php");
+		$vtree = new ilVirtualSkillTree();
+		$nodes = $vtree->getSubTreeForCSkillId($a_skill_id.":".$a_tref_id);
+
+		return $this->getAllUsagesInfo($nodes);
+	}
+
+	/**
+	 * Get all usages info of subtree
+	 *
+	 * @param array $a_cskill_ids array of common skill ids ("skill_id" => skill_id, "tref_id" => tref_id)
+	 * @return array usages
+	 */
+	function getAllUsagesInfoOfSubtrees($a_cskill_ids)
+	{
+		// get nodes
+		include_once("./Services/Skill/classes/class.ilVirtualSkillTree.php");
+		$vtree = new ilVirtualSkillTree();
+		$allnodes = array();
+		foreach ($a_cskill_ids as $s)
+		{
+			$nodes = $vtree->getSubTreeForCSkillId($s["skill_id"].":".$s["tref_id"]);
+			foreach ($nodes as $n)
+			{
+				$allnodes[] = $n;
+			}
+		}
+
+		return $this->getAllUsagesInfo($allnodes);
+	}
+
+
+	/**
 	 * Get type info string
 	 *
-	 * @param
-	 * @return
+	 * @param string $a_type usage type
+	 * @return string lang string
 	 */
 	static function getTypeInfoString($a_type)
 	{
