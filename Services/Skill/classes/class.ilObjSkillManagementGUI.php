@@ -960,45 +960,9 @@ $ilCtrl->redirectByClass("ilskillrootgui", "listSkills");
 		global $tpl, $ilTabs, $lng, $ilCtrl;
 
 		$ilTabs->activateTab("skill_templates");
+		$ilCtrl->setParameterByClass("ilobjskillmanagementgui", "obj_id", $this->skill_tree->getRootId());
+		$ilCtrl->redirectByClass("ilskillrootgui", "listTemplates");
 
-$ilCtrl->setParameterByClass("ilobjskillmanagementgui", "obj_id", $this->skill_tree->getRootId());
-$ilCtrl->redirectByClass("ilskillrootgui", "listTemplates");
-
-		$a_form_action = $ilCtrl->getFormAction($this);
-		$a_top_node = $this->skill_tree->getRootId();
-
-		$a_gui_obj = $this;
-		$a_gui_cmd = "editSkillTemplates";
-
-		include_once("./Services/Skill/classes/class.ilSkillTemplateHFormGUI.php");
-		$form_gui = new ilSkillTemplateHFormGUI();
-		$form_gui->setParentCommand($a_gui_obj, $a_gui_cmd);
-		$form_gui->setFormAction($a_form_action);
-		$form_gui->setTitle($lng->txt("skmg_skill_templates"));
-		$form_gui->setTree($this->skill_tree);
-		$form_gui->setCurrentTopNodeId($a_top_node);
-		$form_gui->addMultiCommand($lng->txt("delete"), "deleteNodes");
-		$form_gui->addMultiCommand($lng->txt("cut"), "cutItems");
-		$form_gui->addMultiCommand($lng->txt("copy"), "copyItems");
-		$form_gui->addCommand($lng->txt("skmg_save_all_titles"), "saveAllTemplateTitles");
-		$form_gui->addCommand($lng->txt("expand_all"), "expandAllTemplates");
-		$form_gui->addCommand($lng->txt("collapse_all"), "collapseAllTemplates");
-		$form_gui->setTriggeredUpdateCommand("saveAllTemplateTitles");
-
-		// highlighted nodes
-		if ($_GET["highlight"] != "")
-		{
-			$hl = explode(":", $_GET["highlight"]);
-			$form_gui->setHighlightedNodes($hl);
-			$form_gui->setFocusId($hl[0]);
-		}
-
-		$ilCtrl->setParameter($this, "active_node", $_GET["obj_id"]);
-
-		$tpl->setContent($form_gui->getHTML());
-		
-		// show left handed tree
-		$this->showTree(true);
 	}
 
 	/**
