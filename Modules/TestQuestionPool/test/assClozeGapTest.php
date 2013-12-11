@@ -342,4 +342,115 @@ class assClozeGapTest extends PHPUnit_Framework_TestCase
 		// Assert
 		$this->assertEquals($expected, $actual);
 	}
+
+	public function test_setItemLowerBound_shouldSetItemsLowerBound()
+	{
+		// Arrange
+		require_once './Modules/TestQuestionPool/classes/class.assClozeGap.php';
+		$instance = new assClozeGap(0); // 0 - text gap
+		require_once './Modules/TestQuestionPool/classes/class.assAnswerCloze.php';
+		$item1 = new assAnswerCloze(20, 1.0, 0);
+
+		$instance->addItem($item1);
+
+		$expected = 10;
+
+		// Act
+		$instance->setItemLowerBound(0, $expected);
+		$item_retrieved = $instance->getItem(0);
+		$actual = $item_retrieved->getLowerBound();
+
+		// Assert
+		$this->assertEquals($expected, $actual);
+	}
+
+	public function test_setItemLowerBound_shouldSetItemsAnswerIfBoundTooHigh()
+	{
+		// Arrange
+		require_once './Modules/TestQuestionPool/classes/class.assClozeGap.php';
+		$instance = new assClozeGap(0); // 0 - text gap
+		require_once './Modules/TestQuestionPool/classes/class.assAnswerCloze.php';
+		$item1 = new assAnswerCloze(20, 1.0, 0);
+
+		$instance->addItem($item1);
+
+		$expected = 40;
+
+		// Act
+		$instance->setItemLowerBound(0, $expected);
+		$item_retrieved = $instance->getItem(0);
+		$actual = $item_retrieved->getLowerBound();
+
+		// Assert
+		$this->assertNotEquals($expected, $actual);
+		$this->assertEquals($item_retrieved->getAnswerText(), $actual);
+	}
+
+	public function test_setItemUpperBound_shouldSetItemsUpperBound()
+	{
+		// Arrange
+		require_once './Modules/TestQuestionPool/classes/class.assClozeGap.php';
+		$instance = new assClozeGap(0); // 0 - text gap
+		require_once './Modules/TestQuestionPool/classes/class.assAnswerCloze.php';
+		$item1 = new assAnswerCloze(5, 1.0, 0);
+
+		$instance->addItem($item1);
+
+		$expected = 10;
+
+		// Act
+		$instance->setItemUpperBound(0, $expected);
+		$item_retrieved = $instance->getItem(0);
+		$actual = $item_retrieved->getUpperBound();
+
+		// Assert
+		$this->assertEquals($expected, $actual);
+	}
+
+	public function test_setItemUpperBound_shouldSetItemsAnswerIfBoundTooLow()
+	{
+		// Arrange
+		require_once './Modules/TestQuestionPool/classes/class.assClozeGap.php';
+		$instance = new assClozeGap(0); // 0 - text gap
+		require_once './Modules/TestQuestionPool/classes/class.assAnswerCloze.php';
+		$item1 = new assAnswerCloze(20, 1.0, 0);
+
+		$instance->addItem($item1);
+
+		$expected = 10;
+
+		// Act
+		$instance->setItemUpperBound(0, $expected);
+		$item_retrieved = $instance->getItem(0);
+		$actual = $item_retrieved->getUpperBound();
+
+		// Assert
+		$this->assertNotEquals($expected, $actual);
+		$this->assertEquals($item_retrieved->getAnswerText(), $actual);
+	}
+
+	public function test_getMaxWidth_shouldReturnCharacterCountOfLongestAnswertext()
+	{
+		// Arrange
+		require_once './Modules/TestQuestionPool/classes/class.assClozeGap.php';
+		$instance = new assClozeGap(0); // 0 - text gap
+		require_once './Modules/TestQuestionPool/classes/class.assAnswerCloze.php';
+		$item1 = new assAnswerCloze('Bert', 1.0, 0);
+		$item2 = new assAnswerCloze('Fred', 1.0, 2);
+		$item3 = new assAnswerCloze('Karl', 1.0, 1);
+		$item4 = new assAnswerCloze('Esther', 1.0, 3);
+
+		$instance->addItem($item1);
+		$instance->addItem($item2);
+		$instance->addItem($item3);
+		$instance->addItem($item4);
+
+		$expected = strlen($item4->getAnswertext());
+
+		// Act
+		$actual = $instance->getMaxWidth();
+
+		// Assert
+		$this->assertEquals($expected, $actual);
+	}
 }
