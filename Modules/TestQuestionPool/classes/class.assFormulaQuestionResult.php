@@ -124,7 +124,7 @@ class assFormulaQuestionResult
 					continue;
 				}
 				$value   = $varObj->getBaseValue();
-				$formula = preg_replace("/\\\$" . substr($variable, 1) . "([^0123456789]{0,1})/", "(" . $value . ")" . "\\1", $formula);
+				$formula = preg_replace("/\\\$" . substr($variable, 1) . "(?![0-9]+)/", "(" . $value . ")" . "\\1", $formula);
 			}
 		}
 		$math                  = new EvalMath();
@@ -168,7 +168,7 @@ class assFormulaQuestionResult
 						continue;
 					}
 					$varObj->setRandomValue();
-					$formula = preg_replace("/\\\$" . substr($variable, 1) . "([^0123456789]{0,1})/", $varObj->getBaseValue() . "\\1", $formula);
+					$formula = preg_replace("/\\\$" . substr($variable, 1) . "(?![0-9]+)/", $varObj->getBaseValue() . "\\1", $formula);
 				}
 			}
 			$math                  = new EvalMath();
@@ -216,7 +216,7 @@ class assFormulaQuestionResult
 						continue;
 					}
 					$varObj->setRandomValue();
-					$formula = preg_replace("/\\\$" . substr($variable, 1) . "([^0123456789]{0,1})/", $varObj->getBaseValue() . "\\1", $formula);
+					$formula = preg_replace("/\\\$" . substr($variable, 1) . "(?![0-9]+)/", $varObj->getBaseValue() . "\\1", $formula);
 				}
 			}
 			$math                  = new EvalMath();
@@ -283,7 +283,7 @@ class assFormulaQuestionResult
 					$tmp_value = $varObj->getValue();
 				}
 
-				$formula = preg_replace("/\\\$" . substr($variable, 1) . "([^0123456789]{0,1})/", $tmp_value . "\\1", $formula);
+				$formula = preg_replace("/\\\$" . substr($variable, 1) . "(?![0-9]+)/", $tmp_value . "\\1", $formula);
 			}
 		}
 
@@ -526,7 +526,7 @@ class assFormulaQuestionResult
 					{
 						$tmp_value = $varObj->getValue();
 					}
-					$formula = preg_replace("/\\\$" . substr($variable, 1) . "([^0123456789]{0,1})/", $tmp_value . "\\1", $formula);
+					$formula = preg_replace("/\\\$" . substr($variable, 1) . "(?![0-9]+)/", $tmp_value . "\\1", $formula);
 				}
 			}
 
@@ -662,7 +662,7 @@ class assFormulaQuestionResult
 				foreach($matches[1] as $variable)
 				{
 					$varObj  = $variables[$variable];
-					$formula = preg_replace("/\\\$" . substr($variable, 1) . "([^0123456789]{0,1})/", $varObj->getBaseValue() . "\\1", $formula);
+					$formula = preg_replace("/\\\$" . substr($variable, 1) . "(?![0-9]+)/", $varObj->getBaseValue() . "\\1", $formula);
 				}
 			}
 			$math                  = new EvalMath();
