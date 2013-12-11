@@ -557,6 +557,7 @@ assessment#:#tst_inp_source_pool_label#:#Source Question Pool
 assessment#:#tst_inp_source_pool_filter_tax#:#Taxonomy Filter
 assessment#:#tst_inp_source_pool_no_tax_filter#:#Use No Taxonomy Based Filter
 assessment#:#tst_inp_source_pool_filter_tax_x#:#Use Taxonomy "%s" as Filter
+assessment#:#tst_inp_no_available_tax_hint#:#No Available Taxonomies for Selected Question Pool
 assessment#:#msg_deleted_export_files#:#Export file(s) deleted
 assessment#:#msg_number_of_terms_too_low#:#The number of terms must be greater or equal to the number of definitions.
 assessment#:#msg_poly_added#:#Polygon added
