@@ -114,9 +114,9 @@ ilSkillTreeNode
 ilBasicSkill is ilSkillTreeNode
 
 
-ilPersonalSkillExplorer
+ilPersonalSkillExplorerGUI
 - used in ilPersonalSkillsGUI
-- old school explorer, offers selectable basic skills, refs or categories (nothing within templates)
+- offers selectable basic skills, refs or categories (nothing within templates)
 
 ilVirtualSkillTreeExplorerGUI
 - Base class that merges the main skill tree with the template trees to one virtual tree
