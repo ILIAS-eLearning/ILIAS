@@ -1,18 +1,20 @@
 Skill Management
 ----------------
 
-Todo
-====
-- Nutzung von Skills von Benutzern/in Objekten im Skillmanagement sichtbar machen (6)
-- Löschen von Skills verhinden, wenn von Benutzern oder OBjekten in Benutzung (7)
-- Objekte sollen Nutzung "anmelden" (5)
-- Skill-Template muss in 360 nutzbar sein (2, done?)
+Todo 4.4
+========
+- Nutzung von Skills von Benutzern/in Objekten im Skillmanagement sichtbar machen (done)
+- Löschen von Skills verhinden, wenn von Benutzern oder OBjekten in Benutzung (done)
+- Objekte sollen Nutzung "anmelden" (done)
+- Skill-Template muss in 360 nutzbar sein (2, done)
 - (tiefer) Skill Explorer inkl. Referenzen (1, done)
   - Modules/Survey/classes/class.ilSurveySkillExplorer.php
   -> ilSkillSelectorGUI
 - historische Darstellung aller "has levels" (inkl. Datum + Objekttitel) (4, done)
-- Resources müssen Template/Basis Kombi zuordbar sein (3)
-- Resource Selection > neue Explorerklasse
+- Resources müssen Template/Basis Kombi zuordbar sein (done)
+- outdated status (1)
+- ilSkillSelektorGUI: keine Basisskillreferenzen selektierbar (2)
+- Resource Selection > neue Explorerklasse (3)
 - User Guide anpassen. (angefangen)
 -- trigger dokumentieren
 - Skill Referenzen Editing verbieten
