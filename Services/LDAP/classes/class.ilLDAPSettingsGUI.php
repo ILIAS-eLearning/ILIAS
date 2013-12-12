@@ -342,7 +342,7 @@ class ilLDAPSettingsGUI
 
 		$_SESSION['ldap_role_ass']['rule_id'] = $_REQUEST['rule_id'] ? $_REQUEST['rule_id'] : 0;
 		$_SESSION['ldap_role_ass']['role_search'] = $this->form->getInput('role_search');
-		$_SESSION['ldap_role_ass']['add_on_update'] = $this->form->getInput('add_on_update');
+		$_SESSION['ldap_role_ass']['add_on_update'] = $this->form->getInput('add_missing');
 		$_SESSION['ldap_role_ass']['remove_on_update'] = $this->form->getInput('remove_deprecated');
 		$_SESSION['ldap_role_ass']['type'] = $this->form->getInput('type');
 		$_SESSION['ldap_role_ass']['dn'] = $this->form->getInput('dn');
@@ -385,7 +385,7 @@ class ilLDAPSettingsGUI
 		$table = new ilRoleSelectionTableGUI($this,'showRoleSelection');
 		$table->setTitle($this->lng->txt('ldap_role_selection'));
 		$table->addMultiCommand('saveRoleSelection',$this->lng->txt('ldap_choose_role'));
-		$table->addCommandButton('roleAssignment',$this->lng->txt('cancel'));
+		#$table->addCommandButton('roleAssignment',$this->lng->txt('cancel'));
 		$table->parse($entries);
 		
 		$this->tpl->setContent($table->getHTML());
@@ -494,7 +494,7 @@ class ilLDAPSettingsGUI
 				// Search role
 				include_once './Services/Search/classes/class.ilQueryParser.php';
 				
-				$parser = new ilQueryParser($this->form->getInput('role_search'));
+				$parser = new ilQueryParser('"'.$this->form->getInput('role_search').'"');
 				
 				// TODO: Handle minWordLength
 				$parser->setMinWordLength(1,true);
@@ -533,15 +533,15 @@ class ilLDAPSettingsGUI
 		// LOAD from session
 		$this->rule = ilLDAPRoleAssignmentRule::_getInstanceByRuleId($a_rule_id);
 		$this->rule->setServerId(0);
-		$this->rule->enableAddOnUpdate((int) $_SESSION['ldap_role_ass']['add_missing']);
-		$this->rule->enableRemoveOnUpdate((int) $_SESSION['ldap_role_ass']['remove_deprecated']);
+		$this->rule->enableAddOnUpdate((int) $_SESSION['ldap_role_ass']['add_on_update']);
+		$this->rule->enableRemoveOnUpdate((int) $_SESSION['ldap_role_ass']['remove_on_update']);
 		$this->rule->setType(ilUtil::stripSlashes($_SESSION['ldap_role_ass']['type']));
 		$this->rule->setDN(ilUtil::stripSlashes($_SESSION['ldap_role_ass']['dn']));
 		$this->rule->setMemberAttribute( ilUtil::stripSlashes($_SESSION['ldap_role_ass']['at']));
 		$this->rule->setMemberIsDN( ilUtil::stripSlashes($_SESSION['ldap_role_ass']['isdn']));
 		$this->rule->setAttributeName( ilUtil::stripSlashes($_SESSION['ldap_role_ass']['name']));
 		$this->rule->setAttributeValue(ilUtil::stripSlashes($_SESSION['ldap_role_ass']['value']));
-		$this->rule->setPluginId(ilUtil::stripSlashes($_SESSION['ldap_role_ass']['plugin_id']));
+		$this->rule->setPluginId(ilUtil::stripSlashes($_SESSION['ldap_role_ass']['plugin']));
 		return true;
 	}
 	
