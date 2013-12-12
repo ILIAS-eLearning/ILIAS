@@ -14110,3 +14110,4 @@ skmg#:#skmg_status_publish_info#:#Item can be used if all parents are published,
 skmg#:#skmg_status_outdated#:#Outdated
 skmg#:#skmg_status_outdated_info#:#Item cannot be newly selected by users as personal skill, or newly assigned to repository objects or skill profiles. However existing assignments and data are still presented.
 skmg#:#skmg_status#:#Status
+ldap#:#ldap_choose_role#:#Choose Role

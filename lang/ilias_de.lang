@@ -14088,3 +14088,4 @@ rbac#:#wbrs_write#:#Einstellungen in Weblink-Verwaltung bearbeiten
 rbac#:#wbrs_edit_permission#:#Rechteeinstellungen für die Weblink-Verwaltung ändern
 common#:#obj_nota#:#Benachrichtigungen
 blog#:#blog_posting_not_found#:#Der Blog-Eintrag ist nicht verfügbar.
+ldap#:#ldap_choose_role#:#Rolle auswählen
