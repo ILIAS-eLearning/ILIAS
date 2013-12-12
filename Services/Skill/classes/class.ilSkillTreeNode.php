@@ -14,6 +14,9 @@ include_once("./Services/Skill/classes/class.ilSkillTree.php");
  */
 class ilSkillTreeNode
 {
+	const STATUS_PUBLISH = 0;
+	const STATUS_DRAFT = 1;
+	const STATUS_OUTDATED = 2;
 	var $type;
 	var $id;
 	var $title;
@@ -134,6 +137,41 @@ class ilSkillTreeNode
 	}
 
 	/**
+	 * Get all status
+	 *
+	 * @return array array of status, key is value, value is lang text
+	 */
+	static function getAllStatus()
+	{
+		global $lng;
+
+		return array(
+			self::STATUS_DRAFT => $lng->txt("skmg_status_draft"),
+			self::STATUS_PUBLISH => $lng->txt("skmg_status_publish"),
+			self::STATUS_OUTDATED => $lng->txt("skmg_status_outdated")
+		);
+	}
+
+	/**
+	 * Get status info
+	 *
+	 * @param int $a_status status
+	 * @return string info text
+	 */
+	static function getStatusInfo($a_status)
+	{
+		global $lng;
+
+		switch($a_status)
+		{
+			case self::STATUS_PUBLISH: return $lng->txt("skmg_status_publish_info");
+			case self::STATUS_DRAFT: return $lng->txt("skmg_status_draft_info");
+			case self::STATUS_OUTDATED: return $lng->txt("skmg_status_outdated_info");
+		}
+		return "";
+	}
+
+	/**
 	* Read Data of Node
 	*/
 	function read()
@@ -151,7 +189,7 @@ class ilSkillTreeNode
 		$this->setTitle($this->data_record["title"]);
 		$this->setOrderNr($this->data_record["order_nr"]);
 		$this->setSelfEvaluation($this->data_record["self_eval"]);
-		$this->setDraft($this->data_record["draft"]);
+		$this->setStatus($this->data_record["status"]);
 	}
 
 	/**
@@ -212,16 +250,16 @@ class ilSkillTreeNode
 	}
 	
 	/**
-	 * Lookup Draft
+	 * Lookup Status
 	 *
-	 * @param	int			node ID
-	 * @return	boolean		draft
+	 * @param int $a_obj_id node ID
+	 * @return int status
 	 */
-	static function _lookupDraft($a_obj_id)
+	static function _lookupStatus($a_obj_id)
 	{
 		global $ilDB;
 
-		return self::_lookup($a_obj_id, "draft");
+		return self::_lookup($a_obj_id, "status");
 	}
 	
 	/**
@@ -243,23 +281,23 @@ class ilSkillTreeNode
 	}
 
 	/**
-	 * Set draft
+	 * Set status
 	 *
-	 * @param boolean $a_val draft	
+	 * @param boolean $a_val status
 	 */
-	function setDraft($a_val)
+	function setStatus($a_val)
 	{
-		$this->draft = $a_val;
+		$this->status = $a_val;
 	}
 	
 	/**
-	 * Get draft
+	 * Get status
 	 *
-	 * @return boolean draft
+	 * @return int status
 	 */
-	function getDraft()
+	function getStatus()
 	{
-		return $this->draft;
+		return $this->status;
 	}
 	
 	/**
@@ -306,7 +344,7 @@ class ilSkillTreeNode
 
 		// insert object data
 		$id = $ilDB->nextId("skl_tree_node");
-		$query = "INSERT INTO skl_tree_node (obj_id, title, type, create_date, self_eval, order_nr, draft) ".
+		$query = "INSERT INTO skl_tree_node (obj_id, title, type, create_date, self_eval, order_nr, status) ".
 			"VALUES (".
 			$ilDB->quote($id, "integer").",".
 			$ilDB->quote($this->getTitle(), "text").",".
@@ -314,7 +352,7 @@ class ilSkillTreeNode
 			$ilDB->now().", ".
 			$ilDB->quote((int) $this->getSelfEvaluation(), "integer").", ".
 			$ilDB->quote((int) $this->getOrderNr(), "integer").", ".
-			$ilDB->quote((int) $this->getDraft(), "integer").
+			$ilDB->quote((int) $this->getStatus(), "integer").
 			")";
 		$ilDB->manipulate($query);
 		$this->setId($id);
@@ -331,7 +369,7 @@ class ilSkillTreeNode
 			" title = ".$ilDB->quote($this->getTitle(), "text").
 			" ,self_eval = ".$ilDB->quote((int) $this->getSelfEvaluation(), "integer").
 			" ,order_nr = ".$ilDB->quote((int) $this->getOrderNr(), "integer").
-			" ,draft = ".$ilDB->quote((int) $this->getDraft(), "integer").
+			" ,status = ".$ilDB->quote((int) $this->getStatus(), "integer").
 			" WHERE obj_id = ".$ilDB->quote($this->getId(), "integer");
 
 		$ilDB->manipulate($query);
@@ -902,21 +940,24 @@ class ilSkillTreeNode
 	/**
 	 * Get icon path
 	 *
-	 * @param
-	 * @return
+	 * @param int $a_obj_id node id
+	 * @param string $a_type node type
+	 * @param string $a_size size
+	 * @param int $a_status status
+	 * @return string icon path
 	 */
-	function getIconPath($a_obj_id, $a_type, $a_size = "", $a_draft = false)
+	static function getIconPath($a_obj_id, $a_type, $a_size = "", $a_status = 0)
 	{
-		if ($a_draft && $a_type == "sctp")
+		if ($a_status == self::STATUS_DRAFT && $a_type == "sctp")
 		{
 			$a_type = "scat";
 		}
-		if ($a_draft && $a_type == "sktp")
+		if ($a_status == self::STATUS_DRAFT && $a_type == "sktp")
 		{
 			$a_type = "skll";
 		}
 		
-		$off = ($a_draft)
+		$off = ($a_status == self::STATUS_DRAFT)
 			? "_off"
 			: "";
 			

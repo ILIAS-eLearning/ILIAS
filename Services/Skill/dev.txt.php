@@ -18,6 +18,9 @@ Todo 4.4
 - replace ilSkillProfileAssignmentExplorer
 - streamline draft status
 - outdated status
+- prevent draft if items are in use
+- prevent skill level deletion, if skills are in use
+- show draft/outdated status of parent in settings
 - ilSkillSelektorGUI: keine Basisskillreferenzen selektierbar
 - Resource Selection > neue Explorerklasse
 - User Guide anpassen. (angefangen)

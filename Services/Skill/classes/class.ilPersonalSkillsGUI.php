@@ -173,7 +173,7 @@ class ilPersonalSkillsGUI
 			// check draft
 			foreach ($path as $p)
 			{
-				if ($p["draft"])
+				if ($p["status"] == ilSkillTreeNode::STATUS_DRAFT)
 				{
 					continue(2);
 				}
@@ -256,7 +256,7 @@ $bs["tref"] = $bs["tref_id"];
 			// check draft
 			foreach ($path as $p)
 			{
-				if ($p["draft"])
+				if ($p["status"] == ilSkillTreeNode::STATUS_DRAFT)
 				{
 					continue(2);
 				}
@@ -1183,7 +1183,7 @@ $bs["tref"] = $bs["tref_id"];
 			// check draft
 			foreach ($path as $p)
 			{
-				if ($p["draft"])
+				if ($p["status"] == ilSkillTreeNode::STATUS_DRAFT)
 				{
 					continue(2);
 				}

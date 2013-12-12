@@ -279,6 +279,25 @@ class ilSkillTreeNodeGUI
 	}
 	
 	/**
+	 * Add status input
+	 *
+	 * @param ilPropertyFormGUI $a_form form
+	 */
+	function addStatusInput(ilPropertyFormGUI $a_form)
+	{
+		global $lng;
+
+		// status
+		$radg = new ilRadioGroupInputGUI($lng->txt("skmg_status"), "status");
+		foreach (ilSkillTreeNode::getAllStatus() as $k => $op)
+		{
+			$op = new ilRadioOption($op, $k, ilSkillTreeNode::getStatusInfo($k));
+			$radg->addOption($op);
+		}
+		$a_form->addItem($radg);
+	}
+	
+	/**
 	 * Edit properties form
 	 */
 	function editProperties()
@@ -300,7 +319,7 @@ class ilSkillTreeNodeGUI
 		$values["title"] = $this->node_object->getTitle();
 		$values["order_nr"] = $this->node_object->getOrderNr();
 		$values["self_eval"] = $this->node_object->getSelfEvaluation();
-		$values["draft"] = $this->node_object->getDraft();
+		$values["status"] = $this->node_object->getStatus();
 		
 		$this->form->setValuesByArray($values); 
     }
@@ -556,7 +575,7 @@ class ilSkillTreeNodeGUI
 		$tpl->setTitleIcon(
 			ilSkillTreeNode::getIconPath(
 			$obj_id, $this->getType(), "_b",
-			ilSkillTreeNode::_lookupDraft($obj_id)));
+			(ilSkillTreeNode::_lookupStatus($obj_id) == ilSkillTreeNode::STATUS_DRAFT)));
 	}
 
 	////

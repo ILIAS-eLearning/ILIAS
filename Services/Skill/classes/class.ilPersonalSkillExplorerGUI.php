@@ -68,7 +68,7 @@ class ilPersonalSkillExplorerGUI extends ilTreeExplorerGUI
 			$this->buildSelectableTree($n["child"]);
 		}
 		if ($this->selectable[$a_node_id] &&
-			!ilSkillTreeNode::_lookupDraft($a_node_id))
+			ilSkillTreeNode::_lookupStatus($a_node_id) != ilSkillTreeNode::STATUS_DRAFT)
 		{
 			$this->selectable_child_nodes[$this->node[$a_node_id]["parent"]][] =
 				$this->node[$a_node_id];

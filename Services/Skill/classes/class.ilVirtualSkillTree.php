@@ -162,7 +162,7 @@ class ilVirtualSkillTree
 			$this->parent[$c["id"]] = $a_parent_id;
 			
 			// @todo: prepare this for tref id?
-			if (ilSkillTreeNode::_lookupDraft($c["child"]) ||
+			if (ilSkillTreeNode::_lookupStatus($c["child"]) == ilSkillTreeNode::STATUS_DRAFT ||
 				in_array($a_parent_id, $this->drafts))
 			{
 				$this->drafts[] = $child_id;
@@ -313,8 +313,8 @@ class ilVirtualSkillTree
 	/**
 	 * Is draft
 	 *
-	 * @param
-	 * @return
+	 * @param int $a_node_id node id
+	 * @return bool is draft true/false
 	 */
 	function isDraft($a_node_id)
 	{

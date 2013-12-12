@@ -19450,3 +19450,14 @@ if(!$ilDB->tableColumnExists('content_object','rating_pages')) {
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#4163>
+<?php
+	// unused
+?>
+<#4164>
+<?php
+	if(!$ilDB->tableColumnExists("skl_tree_node", "status"))
+	{
+		$ilDB->renameTableColumn('skl_tree_node', 'draft', 'status');
+	}
+?>
