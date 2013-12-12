@@ -62,7 +62,13 @@ class ilPersonalSkillExplorerGUI extends ilTreeExplorerGUI
 		if (ilSkillTreeNode::_lookupSelfEvaluation($a_node_id))
 		{
 			$this->selectable[$a_node_id] = true;
-			$this->selectable[$this->parent[$a_node_id]] = true;
+			$cid = $a_node_id;
+			//$this->selectable[$this->parent[$a_node_id]] = true;
+			while(isset($this->parent[$cid]))
+			{
+				$this->selectable[$this->parent[$cid]] = true;
+				$cid = $this->parent[$cid];
+			}
 		}
 		foreach ($this->getOriginalChildsOfNode($a_node_id) as $n)
 		{
