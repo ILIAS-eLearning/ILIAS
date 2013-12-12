@@ -23,14 +23,15 @@ class ilSkillTreeExplorerGUI extends ilVirtualSkillTreeExplorerGUI
 		$this->setSkipRootNode(false);
 		$this->setAjax(false);
 		$this->setShowDraftNodes(true);
+		$this->setShowOutdatedNodes(true);
 	}
 	
 	
 	/**
 	 * Get node content
 	 *
-	 * @param array 
-	 * @return
+	 * @param array $a_node node data
+	 * @return string content
 	 */
 	function getNodeContent($a_node)
 	{
@@ -66,15 +67,20 @@ class ilSkillTreeExplorerGUI extends ilVirtualSkillTreeExplorerGUI
 				}
 			}
 		}
-		
+
+		if ($this->vtree->isOutdated($a_node["id"]))
+		{
+			$title = "<span class='light'>".$title."</span>";
+		}
+
 		return $title;
 	}
 	
 	/**
 	 * Get node content
 	 *
-	 * @param array 
-	 * @return
+	 * @param array $a_node node data
+	 * @return string icon path
 	 */
 	function getNodeIcon($a_node)
 	{
@@ -93,7 +99,7 @@ class ilSkillTreeExplorerGUI extends ilVirtualSkillTreeExplorerGUI
 			if (in_array($a_node["type"], array("skll", "scat", "sctr", "sktr", "sctp", "sktp")))
 			{
 				$icon = ilSkillTreeNode::getIconPath($a_parent_skl_tree_id, $a_node["type"], "_s",
-					$this->vtree->isDraft($a_node["id"]));
+					($this->vtree->isDraft($a_node["id"]) || $this->vtree->isOutdated($a_node["id"])));
 			}
 			else
 			{
@@ -196,8 +202,8 @@ class ilSkillTreeExplorerGUI extends ilVirtualSkillTreeExplorerGUI
 	/**
 	 * Is clickable
 	 *
-	 * @param
-	 * @return
+	 * @param array $a_node node data
+	 * @return bool clickable true/false
 	 */
 	function isNodeClickable($a_node)
 	{

@@ -109,35 +109,61 @@ skl_tree_node
 skl_usage ***object ilSkillUsage (ok)
 
 
-Klassen
-=======
-
-ilSkillTree
-- Table skl_tree joins table skl_tree_node
-- getSkillTreePath($a_base_skill_id, $a_tref_id = 0)
+Non-tree classes
+================
 
 ilSkillTreeNode
 
 
 ilBasicSkill is ilSkillTreeNode
 
+Tree classes
+============
 
-ilPersonalSkillExplorerGUI
-- used in ilPersonalSkillsGUI
-- offers selectable basic skills, refs or categories (nothing within templates)
+ilSkillTree (classic tree class)
+- Table skl_tree joins table skl_tree_node
+- getSkillTreePath($a_base_skill_id, $a_tref_id = 0)
 
-ilVirtualSkillTreeExplorerGUI
+ilVirtualSkillTree
 - Base class that merges the main skill tree with the template trees to one virtual tree
 - uses <skl_tree_id>:<skl_template_tree_id> IDs internally
+- added outdated handling
 
-ilSkillSelectorGUI
-- used in ilSurveySkillGUI
+Explorer classes
+=================
+
+ilPersonalSkillExplorerGUI (external use)
+- extends ilTreeExplorerGUI
+- used in ilPersonalSkillsGUI
+- offers selectable basic skills, refs or categories (nothing within templates)
+- added outdated handling (removed)
+
+ilVirtualSkillTreeExplorerGUI
+- no instances created in Modules/Services
+- only extended by
+-- ilSkillSelectorGUI
+-- ilSkillTreeExplorerGUI
+- added outdated handling
+
+ilSkillSelectorGUI (external use)
+- extends ilVirtualSkillTreeExplorerGUI
+- used in ilSurveySkillGUI (should be used in repository objects that want assign skills/levels to anything else
 - lists whole virtual tree, offers basic skills (or basic skill templates with tref) for selection
   transforms into <skill_id>:<tref_id> IDs for selection
+- outdated handling inherited from ilVirtualSkillTreeExplorerGUI
 
-ilSkillTreeExplorerGUI
+ilSkillTreeExplorerGUI (internal use)
+- extends ilVirtualSkillTreeExplorerGUI
 - used in ilObjSkillManagementGUI
 - offers links for all nodes but stops at reference nodes
+- added outdated handling
+
+ilTemplateTreeExplorerGUI (internal use)
+- extends ilTreeExplorerGUI
+- used in ilObjSkillManagementGUI
+- no outdated handling needed
+
+ilSkillProfileAssignmentExplorer (old, needs migration and outdated handling)
 
 Survey
 ======

@@ -11,10 +11,12 @@
  * @ingroup ServicesSkill
  */
 class ilVirtualSkillTree
-{	
+{
 	protected $include_drafts = false;
 	protected $drafts = array();
-	
+	protected $include_outdated = false;
+	protected $outdated = array();
+
 	/**
 	 * Constructor
 	 */
@@ -27,8 +29,7 @@ class ilVirtualSkillTree
 	/**
 	 * Get root node
 	 *
-	 * @param
-	 * @return
+	 * @return array root node array
 	 */
 	function getRootNode()
 	{
@@ -60,12 +61,32 @@ class ilVirtualSkillTree
 	{
 		return $this->include_drafts;
 	}
+
+	/**
+	 * Set include outdated
+	 *
+	 * @param bool $a_val include outdated
+	 */
+	function setIncludeOutdated($a_val)
+	{
+		$this->include_outdated = $a_val;
+	}
+
+	/**
+	 * Get include outdated
+	 *
+	 * @return bool include outdated
+	 */
+	function getIncludeOutdated()
+	{
+		return $this->include_outdated;
+	}
 	
 	/**
 	 * Get node
 	 *
-	 * @param
-	 * @return
+	 * @param string $a_id vtree id
+	 * @return array node array
 	 */
 	function getNode($a_id)
 	{
@@ -126,6 +147,7 @@ class ilVirtualSkillTree
 		
 		include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
 		$drafts = array();
+		$outdated = array();
 		foreach ($childs as $k => $c)
 		{
 			if ($a_parent_skl_template_tree_id > 0)
@@ -168,6 +190,12 @@ class ilVirtualSkillTree
 				$this->drafts[] = $child_id;
 				$drafts[] = $k;
 			}
+			if (ilSkillTreeNode::_lookupStatus($c["child"]) == ilSkillTreeNode::STATUS_OUTDATED ||
+				in_array($a_parent_id, $this->outdated))
+			{
+				$this->outdated[] = $child_id;
+				$outdated[] = $k;
+			}
 		}
 		if (!$this->getIncludeDrafts())
 		{
@@ -176,7 +204,14 @@ class ilVirtualSkillTree
 				unset($childs[$d]);
 			}
 		}
-		
+		if (!$this->getIncludeOutdated())
+		{
+			foreach ($outdated as $d)
+			{
+				unset($childs[$d]);
+			}
+		}
+
 		return $childs;
 	}
 
@@ -184,7 +219,7 @@ class ilVirtualSkillTree
 	 * Get childs of node for cskill id
 	 *
 	 * @param string $a_cskill_id common skill id <skill_id>:<tref_id>
-	 * @return
+	 * @return array array of childs
 	 */
 	function getChildsOfNodeForCSkillId($a_cskill_id)
 	{
@@ -203,8 +238,8 @@ class ilVirtualSkillTree
 	/**
 	 * Get common skill id for tree id
 	 *
-	 * @param
-	 * @return
+	 * @param string $a_vtree_id vtree id
+	 * @return string cskill id
 	 */
 	function getCSkillIdForVTreeId($a_vtree_id)
 	{
@@ -228,8 +263,8 @@ class ilVirtualSkillTree
 	/**
 	 * Get node content
 	 *
-	 * @param array 
-	 * @return
+	 * @param array $a_node node data
+	 * @return string title
 	 */
 	function getNodeTitle($a_node)
 	{
@@ -262,8 +297,9 @@ class ilVirtualSkillTree
 	/**
 	 * Get sub tree
 	 *
-	 * @param
-	 * @return
+	 * @param string $a_cskill_id cskill id
+	 * @param bool $a_only_basic return only basic skills (and basic skill templates)
+	 * @return array node array
 	 */
 	function getSubTreeForCSkillId($a_cskill_id, $a_only_basic = false)
 	{
@@ -293,8 +329,9 @@ class ilVirtualSkillTree
 	/**
 	 * Get subtree, internal
 	 *
-	 * @param
-	 * @return
+	 * @param string $id vtree id
+	 * @param array $result node array (called by reference)
+	 * @param bool $a_only_basic return only basic skills (and basic skill templates)
 	 */
 	private function __getSubTreeRec($id, &$result, $a_only_basic)
 	{
@@ -319,6 +356,17 @@ class ilVirtualSkillTree
 	function isDraft($a_node_id)
 	{
 		return in_array($a_node_id, $this->drafts);
+	}
+
+	/**
+	 * Is outdated
+	 *
+	 * @param int $a_node_id node id
+	 * @return bool is outdated true/false
+	 */
+	function isOutdated($a_node_id)
+	{
+		return in_array($a_node_id, $this->outdated);
 	}
 
 }
