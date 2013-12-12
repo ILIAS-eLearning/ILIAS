@@ -11946,8 +11946,6 @@ blog#:#blog_new_posting_info#:#The first text block is used as abstract in the p
 survey#:#svy_page_add_question#:#Add new %s
 skmg#:#skmg_from_lower_to_higher_levels#:#Please order the levels from lower ones on top to higher ones at the bottom.
 common#:#spl_import#:#Import Question Pool Survey
-skmg#:#skmg_draft#:#Draft (Offline)
-skmg#:#skmg_draft_info#:#Item will be hidden for learners.
 skmg#:#skmg_select_skill#:#Click on a competence to add it to your personal competences.
 survey#:#svy_create_question#:#Create Question
 common#:#contact_sysadmin#:#Contact Administration
@@ -14105,3 +14103,10 @@ rbac#:#reps_edit_permission#:#User can change permission settings in Repository 
 common#:#obj_nota#:#Notifications
 blog#:#blog_posting_not_found#:#This blog posting is not available.
 skmg#:#skmg_cannot_delete_nodes_in_use#:#Some items cannot be deleted, because they are still in use.
+skmg#:#skmg_status_draft#:#Draft (Offline)
+skmg#:#skmg_status_draft_info#:#Item will be hidden.
+skmg#:#skmg_status_publish#:#Published
+skmg#:#skmg_status_publish_info#:#Item can be used if all parents are published, too. Once items are used, the status cannot be set to draft anymore, neither can they be deleted.
+skmg#:#skmg_status_outdated#:#Outdated
+skmg#:#skmg_status_outdated_info#:#Item cannot be newly selected by users as personal skill, or newly assigned to repository objects or skill profiles. However existing assignments and data are still presented.
+skmg#:#skmg_status#:#Status

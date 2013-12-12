@@ -104,7 +104,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 		$it = new ilBasicSkill();
 		$it->setTitle($this->form->getInput("title"));
 		$it->setOrderNr($this->form->getInput("order_nr"));
-		$it->setDraft($this->form->getInput("draft"));
+		$it->setStatus($this->form->getInput("status"));
 		$it->setSelfEvaluation($_POST["self_eval"]);
 		$it->create();
 		ilSkillTreeNode::putInTree($it, (int) $_GET["obj_id"], IL_LAST_NODE);
@@ -131,7 +131,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 		$this->node_object->setTitle($this->form->getInput("title"));
 		$this->node_object->setOrderNr($this->form->getInput("order_nr"));
 		$this->node_object->setSelfEvaluation($_POST["self_eval"]);
-		$this->node_object->setDraft($_POST["draft"]);
+		$this->node_object->setStatus($_POST["status"]);
 		$this->node_object->update();
 	}
 
@@ -181,10 +181,8 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 		$ni->setRequired(true);
 		$this->form->addItem($ni);
 
-		// draft
-		$cb = new ilCheckboxInputGUI($lng->txt("skmg_draft"), "draft");
-		$cb->setInfo($lng->txt("skmg_draft_info"));
-		$this->form->addItem($cb);
+		// status
+		$this->addStatusInput($this->form);
 
 		// selectable
 		$cb = new ilCheckboxInputGUI($lng->txt("skmg_selectable"), "self_eval");

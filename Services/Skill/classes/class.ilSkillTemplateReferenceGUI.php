@@ -197,11 +197,9 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
 			$ne->setValue($options[$this->node_object->getSkillTemplateId()]);
 			$this->form->addItem($ne);
 		}
-		
-		// draft
-		$cb = new ilCheckboxInputGUI($lng->txt("skmg_draft"), "draft");
-		$cb->setInfo($lng->txt("skmg_draft_info"));
-		$this->form->addItem($cb);
+
+		// status
+		$this->addStatusInput($this->form);
 
 		// selectable
 		$cb = new ilCheckboxInputGUI($lng->txt("skmg_selectable"), "selectable");
@@ -232,7 +230,7 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
 		$values["skill_template_id"] = $this->node_object->getSkillTemplateId();
 		$values["title"] = $this->node_object->getTitle();
 		$values["selectable"] = $this->node_object->getSelfEvaluation();
-		$values["draft"] = $this->node_object->getDraft();
+		$values["status"] = $this->node_object->getStatus();
 		$values["order_nr"] = $this->node_object->getOrderNr();
 		$this->form->setValuesByArray($values);
 	}
@@ -247,7 +245,7 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
 		$sktr->setSkillTemplateId($_POST["skill_template_id"]);
 		$sktr->setSelfEvaluation($_POST["selectable"]);
 		$sktr->setOrderNr($_POST["order_nr"]);
-		$sktr->setDraft($_POST["draft"]);
+		$sktr->setStatus($_POST["status"]);
 		$sktr->create();
 		ilSkillTreeNode::putInTree($sktr, (int) $_GET["obj_id"], IL_LAST_NODE);
 	}
@@ -267,7 +265,7 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
 			$this->node_object->setTitle($_POST["title"]);
 			$this->node_object->setSelfEvaluation($_POST["selectable"]);
 			$this->node_object->setOrderNr($_POST["order_nr"]);
-			$this->node_object->setDraft($_POST["draft"]);
+			$this->node_object->setStatus($_POST["status"]);
 			$this->node_object->update();
 
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);

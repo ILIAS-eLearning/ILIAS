@@ -62,7 +62,7 @@ class ilSkillTemplateTreeExplorerGUI extends ilTreeExplorerGUI
 			}
 			else
 			{
-				$this->draft[$c["child"]] = ilSkillTreeNode::_lookupDraft($c["child"]);
+				$this->draft[$c["child"]] = (ilSkillTreeNode::_lookupStatus($c["child"]) == ilSkillTreeNode::STATUS_DRAFT);
 			}
 		}
 		return $childs;
