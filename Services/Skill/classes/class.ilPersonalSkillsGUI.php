@@ -270,19 +270,19 @@ $bs["tref"] = $bs["tref_id"];
 			{
 				if ($this->getProfileId() > 0)
 				{
-					$this->renderProfileTargetRow($tpl, $level_data, $a_top_skill_id, $bs["id"], $bs["tref"]);
+					$this->renderProfileTargetRow($tpl, $level_data, $a_top_skill_id, $bs["id"], $bs["tref"], $user->getId());
 				}
-				$this->renderActualLevelsRow($tpl, $level_data, $a_top_skill_id, $bs["id"], $bs["tref"]);
-				$this->renderGapSelfEvalRow($tpl, $level_data, $a_top_skill_id, $bs["id"], $bs["tref"]);
+				$this->renderActualLevelsRow($tpl, $level_data, $a_top_skill_id, $bs["id"], $bs["tref"], $user->getId());
+				$this->renderGapSelfEvalRow($tpl, $level_data, $a_top_skill_id, $bs["id"], $bs["tref"], $user->getId());
 				$this->renderSuggestedResources($tpl, $level_data, $bs["id"], $bs["tref"]);
 			}
 			else
 			{
 				if ($this->getProfileId() > 0)
 				{
-					$this->renderProfileTargetRow($tpl, $level_data, $a_top_skill_id, $bs["id"], $bs["tref"]);
+					$this->renderProfileTargetRow($tpl, $level_data, $a_top_skill_id, $bs["id"], $bs["tref"], $user->getId());
 				}
-				$this->renderMaterialsRow($tpl, $level_data, $a_top_skill_id, $bs["id"], $bs["tref"]);
+				$this->renderMaterialsRow($tpl, $level_data, $a_top_skill_id, $bs["id"], $bs["tref"], $user->getId());
 				
 				// get date of self evaluation
 				$se_date = ilPersonalSkill::getSelfEvaluationDate($user->getId(), $a_top_skill_id, $bs["tref"], $bs["id"]);
@@ -296,7 +296,7 @@ $bs["tref"] = $bs["tref_id"];
 					// render the self evaluation at the correct position within the list of object triggered entries
 					if ($se_date > $level_entry["status_date"] && !$se_rendered)
 					{
-						$this->renderSelfEvaluationRow($tpl, $level_data, $a_top_skill_id, $bs["id"], $bs["tref"]);
+						$this->renderSelfEvaluationRow($tpl, $level_data, $a_top_skill_id, $bs["id"], $bs["tref"], $user->getId());
 						$se_rendered = true;
 					}
 					$this->renderObjectEvalRow($tpl, $level_data, $level_entry);
@@ -305,7 +305,7 @@ $bs["tref"] = $bs["tref_id"];
 				// if not rendered yet, render self evaluation now
 				if (!$se_rendered)
 				{
-					$this->renderSelfEvaluationRow($tpl, $level_data, $a_top_skill_id, $bs["id"], $bs["tref"]);
+					$this->renderSelfEvaluationRow($tpl, $level_data, $a_top_skill_id, $bs["id"], $bs["tref"], $user->getId());
 				}
 			}
 			
