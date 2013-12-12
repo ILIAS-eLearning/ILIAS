@@ -453,4 +453,29 @@ class assClozeGapTest extends PHPUnit_Framework_TestCase
 		// Assert
 		$this->assertEquals($expected, $actual);
 	}
+
+	public function test_getBestSolutionIndexes_shouldReturnBestSolutionIndexes()
+	{
+		// Arrange
+		require_once './Modules/TestQuestionPool/classes/class.assClozeGap.php';
+		$instance = new assClozeGap(0); // 0 - text gap
+		require_once './Modules/TestQuestionPool/classes/class.assAnswerCloze.php';
+		$item1 = new assAnswerCloze('Bert', 1.0, 0);
+		$item2 = new assAnswerCloze('Fred', 2.0, 2);
+		$item3 = new assAnswerCloze('Karl', 3.0, 1);
+		$item4 = new assAnswerCloze('Esther', 4.0, 3);
+
+		$instance->addItem($item1);
+		$instance->addItem($item2);
+		$instance->addItem($item3);
+		$instance->addItem($item4);
+
+		$expected = array( 0 => 3 );
+
+		// Act
+		$actual = $instance->getBestSolutionIndexes();
+
+		// Assert
+		$this->assertEquals($expected, $actual);
+	}
 }
