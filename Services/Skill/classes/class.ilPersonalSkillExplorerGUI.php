@@ -14,6 +14,9 @@ include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
  */
 class ilPersonalSkillExplorerGUI extends ilTreeExplorerGUI
 {
+	protected $selectable = array();
+	protected $selectable_child_nodes = array();
+
 	/**
 	 * Constructor
 	 */
@@ -51,8 +54,7 @@ class ilPersonalSkillExplorerGUI extends ilTreeExplorerGUI
 	/**
 	 * Build selectable tree
 	 *
-	 * @param
-	 * @return
+	 * @param int $a_node_id tree id
 	 */
 	function buildSelectableTree($a_node_id)
 	{
@@ -68,7 +70,7 @@ class ilPersonalSkillExplorerGUI extends ilTreeExplorerGUI
 			$this->buildSelectableTree($n["child"]);
 		}
 		if ($this->selectable[$a_node_id] &&
-			ilSkillTreeNode::_lookupStatus($a_node_id) != ilSkillTreeNode::STATUS_DRAFT)
+			!in_array(ilSkillTreeNode::_lookupStatus($a_node_id), array(ilSkillTreeNode::STATUS_DRAFT, ilSkillTreeNode::STATUS_OUTDATED)))
 		{
 			$this->selectable_child_nodes[$this->node[$a_node_id]["parent"]][] =
 				$this->node[$a_node_id];

@@ -15,6 +15,9 @@ class ilSkillTemplateTreeExplorerGUI extends ilTreeExplorerGUI
 {
 	/**
 	 * Constructor
+	 *
+	 * @param object $a_parent_obj parent gui object
+	 * @param string $a_parent_cmd parent command
 	 */
 	public function __construct($a_parent_obj, $a_parent_cmd)
 	{
@@ -32,8 +35,7 @@ class ilSkillTemplateTreeExplorerGUI extends ilTreeExplorerGUI
 	/**
 	 * Get root node
 	 *
-	 * @param
-	 * @return
+	 * @return array node data
 	 */
 	function getRootNode()
 	{

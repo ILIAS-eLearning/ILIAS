@@ -14,6 +14,7 @@ include_once("./Services/UIComponent/Explorer2/classes/class.ilExplorerBaseGUI.p
 class ilVirtualSkillTreeExplorerGUI extends ilExplorerBaseGUI
 {
 	protected $show_draft_nodes = false;
+	protected $show_outdated_nodes = false;
 	
 	/**
 	 * Constructor
@@ -49,12 +50,32 @@ class ilVirtualSkillTreeExplorerGUI extends ilExplorerBaseGUI
 	{
 		return $this->show_draft_nodes;
 	}
+
+	/**
+	 * Set show outdated nodes
+	 *
+	 * @param boolean $a_val show outdated notes
+	 */
+	function setShowOutdatedNodes($a_val)
+	{
+		$this->show_outdated_nodes = $a_val;
+		$this->vtree->setIncludeOutdated($a_val);
+	}
+
+	/**
+	 * Get show outdated nodes
+	 *
+	 * @return boolean show outdated notes
+	 */
+	function getShowOutdatedNodes()
+	{
+		return $this->show_outdated_nodes;
+	}
 	
 	/**
 	 * Get root node
 	 *
-	 * @param
-	 * @return
+	 * @return array root node data
 	 */
 	function getRootNode()
 	{
@@ -64,8 +85,8 @@ class ilVirtualSkillTreeExplorerGUI extends ilExplorerBaseGUI
 	/**
 	 * Get node id
 	 *
-	 * @param
-	 * @return
+	 * @param array $a_node node data
+	 * @return string node id
 	 */
 	function getNodeId($a_node)
 	{
