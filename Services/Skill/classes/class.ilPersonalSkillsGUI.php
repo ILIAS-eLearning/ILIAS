@@ -917,16 +917,22 @@ $bs["tref"] = $bs["tref_id"];
 	{
 		global $ilUser, $tpl, $ilCtrl, $lng, $ilTabs;
 
-		ilUtil::sendInfo($lng->txt("skmg_select_skill"));
-		
 		$ilTabs->setBackTarget($lng->txt("back"),
 			$ilCtrl->getLinkTarget($this, ""));
 
 		include_once("./Services/Skill/classes/class.ilPersonalSkillExplorerGUI.php");
 		$exp = new ilPersonalSkillExplorerGUI($this, "listSkillsForAdd", $this, "addSkill");
-		if (!$exp->handleCommand())
+		if ($exp->getHasSelectableNodes())
 		{
-			$tpl->setContent($exp->getHTML());
+			if (!$exp->handleCommand())
+			{
+				$tpl->setContent($exp->getHTML());
+			}
+			ilUtil::sendInfo($lng->txt("skmg_select_skill"));
+		}
+		else
+		{
+			ilUtil::sendInfo($lng->txt("skmg_no_nodes_selectable"));
 		}
 	}
 	
