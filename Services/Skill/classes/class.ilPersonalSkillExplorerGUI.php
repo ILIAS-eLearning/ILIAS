@@ -16,6 +16,7 @@ class ilPersonalSkillExplorerGUI extends ilTreeExplorerGUI
 {
 	protected $selectable = array();
 	protected $selectable_child_nodes = array();
+	protected $has_selectable_nodes = false;
 
 	/**
 	 * Constructor
@@ -52,6 +53,26 @@ class ilPersonalSkillExplorerGUI extends ilTreeExplorerGUI
 	}
 
 	/**
+	 * Set selectable nodes exist?
+	 *
+	 * @param bool $a_val selectable nodes exist
+	 */
+	protected function setHasSelectableNodes($a_val)
+	{
+		$this->has_selectable_nodes = $a_val;
+	}
+
+	/**
+	 * Get selectable nodes exist?
+	 *
+	 * @return bool selectable nodes exist
+	 */
+	function getHasSelectableNodes()
+	{
+		return $this->has_selectable_nodes;
+	}
+
+	/**
 	 * Build selectable tree
 	 *
 	 * @param int $a_node_id tree id
@@ -59,6 +80,11 @@ class ilPersonalSkillExplorerGUI extends ilTreeExplorerGUI
 	function buildSelectableTree($a_node_id)
 	{
 //echo "<br>-$a_node_id-";
+		if (in_array(ilSkillTreeNode::_lookupStatus($a_node_id), array(ilSkillTreeNode::STATUS_DRAFT, ilSkillTreeNode::STATUS_OUTDATED)))
+		{
+			return;
+		}
+
 		if (ilSkillTreeNode::_lookupSelfEvaluation($a_node_id))
 		{
 			$this->selectable[$a_node_id] = true;
@@ -75,9 +101,9 @@ class ilPersonalSkillExplorerGUI extends ilTreeExplorerGUI
 //echo "+".$n["child"]."+";
 			$this->buildSelectableTree($n["child"]);
 		}
-		if ($this->selectable[$a_node_id] &&
-			!in_array(ilSkillTreeNode::_lookupStatus($a_node_id), array(ilSkillTreeNode::STATUS_DRAFT, ilSkillTreeNode::STATUS_OUTDATED)))
+		if ($this->selectable[$a_node_id])
 		{
+			$this->setHasSelectableNodes(true);
 			$this->selectable_child_nodes[$this->node[$a_node_id]["parent"]][] =
 				$this->node[$a_node_id];
 		}
