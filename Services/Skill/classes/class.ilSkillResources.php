@@ -99,7 +99,7 @@ class ilSkillResources implements ilSkillUsageInfo
 	 */
 	function readResources()
 	{
-		global $ilDB;
+		global $ilDB, $tree;
 		
 		$set = $ilDB->query("SELECT * FROM skl_skill_resource ".
 			" WHERE base_skill_id = ".$ilDB->quote($this->getBaseSkillId(), "integer").
@@ -107,12 +107,15 @@ class ilSkillResources implements ilSkillUsageInfo
 			);
 		while ($rec = $ilDB->fetchAssoc($set))
 		{
-			$this->resources[$rec["level_id"]][$rec["rep_ref_id"]] = array(
-				"level_id" => $rec["level_id"],
-				"rep_ref_id" => $rec["rep_ref_id"],
-				"trigger" => $rec["ltrigger"],
-				"imparting" => $rec["imparting"]
-				);
+			if ($tree->isInTree($rec["rep_ref_id"]))
+			{
+				$this->resources[$rec["level_id"]][$rec["rep_ref_id"]] = array(
+					"level_id" => $rec["level_id"],
+					"rep_ref_id" => $rec["rep_ref_id"],
+					"trigger" => $rec["ltrigger"],
+					"imparting" => $rec["imparting"]
+					);
+			}
 		}
 	}
 	
