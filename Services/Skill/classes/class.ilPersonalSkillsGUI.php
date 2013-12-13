@@ -325,79 +325,6 @@ $bs["tref"] = $bs["tref_id"];
 					ilTooltipGUI::addTooltip($tt_id, $v["description"]);
 				}
 				$tpl->parseCurrentBlock();
-
-				
-		// profile targel level
-/*
-				foreach ($this->profile_levels as $pl)
-				{
-					if ($pl["level_id"] == $v["id"] &&
-						$pl["base_skill_id"] == $v["skill_id"])
-					{
-						$too_low = true;
-						$current_target_level = $v["id"];
-					}
-				}
-				else
-				{
-					$tpl->setVariable("VAL_SELF_EVAL", " ");
-				}
-				$tpl->parseCurrentBlock();
-				if ($v["id"] == $se_level)
-				{
-					$found = true;
-				}
-
-				// assigned materials
-				if ($this->use_materials)
-				{
-
-					$mat_cnt = ilPersonalSkill::countAssignedMaterial($user->getId(),
-						$bs["tref"], $v["id"]);
-					if ($mat_cnt == 0)
-					{
-						$tpl->setCurrentBlock("material_td");
-						$tpl->setVariable("VAL_MATERIAL", " ");
-						$tpl->parseCurrentBlock();
-					}
-					else
-					{					
-						// links to material files
-						$tpl->setCurrentBlock("material_links");
-											
-						$mat_tt = array();
-						$cnt = 1;
-						foreach(ilPersonalSkill::getAssignedMaterial($user->getId(),
-							$bs["tref"], $v["id"]) as $item)
-						{												
-							$mat_data = $this->getMaterialInfo($item["wsp_id"]);
-							$tpl->setVariable("URL_MATERIAL", $mat_data[1]);
-							$tpl->setVariable("TXT_MATERIAL", $cnt);
-							
-							// tooltip
-							$mat_tt_id = "skmg_skl_tt_mat_".self::$skill_tt_cnt;
-							self::$skill_tt_cnt++;
-							$tpl->setVariable("TOOLTIP_MATERIAL_ID", $mat_tt_id);
-							
-							if(!$this->offline_mode)
-							{
-								ilTooltipGUI::addTooltip($mat_tt_id, $mat_data[0]);
-							}
-							else
-							{							
-								$this->tooltips[] = ilTooltipGUI::getTooltip($mat_tt_id, $mat_data[0]);
-							}
-							
-							$tpl->parseCurrentBlock();
-							$cnt++;
-						}																	
-						
-						$tpl->setCurrentBlock("material_td");
-						$tpl->setVariable("CLASS_MAT", "ilSkillMat");
-						$tpl->parseCurrentBlock();
-					}
-				}
-*/
 			}
 			
 			
@@ -478,15 +405,13 @@ $bs["tref"] = $bs["tref_id"];
 	 * @param int $a_wsp_id
 	 * @return array caption, url 
 	 */
-	function getMaterialInfo($a_wsp_id)
+	function getMaterialInfo($a_wsp_id, $a_user_id)
 	{
-		global $ilUser;
-		
 		if(!$this->ws_tree)
 		{
 			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
 			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
-			$this->ws_tree = new ilWorkspaceTree($ilUser->getId());
+			$this->ws_tree = new ilWorkspaceTree($a_user_id);
 			$this->ws_access = new ilWorkspaceAccessHandler($caption);
 		}
 		
@@ -1313,7 +1238,7 @@ $bs["tref"] = $bs["tref_id"];
 				foreach(ilPersonalSkill::getAssignedMaterial($a_user_id,
 					$a_tref_id, $v["id"]) as $item)
 				{												
-					$mat_data = $this->getMaterialInfo($item["wsp_id"]);
+					$mat_data = $this->getMaterialInfo($item["wsp_id"], $a_user_id);
 					$a_tpl->setVariable("HREF_LINK", $mat_data[1]);
 					$a_tpl->setVariable("TXT_LINK", $cnt);
 					
