@@ -270,13 +270,13 @@ class ilECSConnector
 
 			// Checking status code
 			$info = $this->curl->getInfo(CURLINFO_HTTP_CODE);
-			$ilLog->write(__METHOD__.': Checking HTTP status...');
+			#$ilLog->write(__METHOD__.': Checking HTTP status...');
 			if($info != self::HTTP_CODE_OK)
 			{
 				$ilLog->write(__METHOD__.': Cannot read event fifo, did not receive HTTP 200. ');
 				throw new ilECSConnectorException('Received HTTP status code: '.$info);
 			}
-			$ilLog->write(__METHOD__.': ... got HTTP 200 (ok)');
+			#$ilLog->write(__METHOD__.': ... got HTTP 200 (ok)');
 
 			$result = new ilECSResult($res);
 			
@@ -584,7 +584,7 @@ class ilECSConnector
 	 */
 	protected function prepareConnection()
 	{
-	 	$GLOBALS['ilLog']->write(__METHOD__.': '.$this->settings->getServerURI());
+	 	#$GLOBALS['ilLog']->write(__METHOD__.': '.$this->settings->getServerURI());
 
 		try
 	 	{
