@@ -3754,6 +3754,11 @@ function getAnswerFeedbackPoints()
 		}
 		while ($data = $ilDB->fetchObject($result)) 
 		{
+			if( $data->original_id === null )
+			{
+				continue;
+			}
+
 			array_push($existing_questions, $data->original_id);
 		}
 		return $existing_questions;
