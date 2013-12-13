@@ -353,7 +353,6 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
 			{
 				if($il_usr_id = ilObjUser::_lookupId($acc))
 				{
-					
 					if($role)
 					{
 					// Add user
@@ -368,6 +367,18 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
 					{
 						$this->createMember($person_id);
 						$GLOBALS['ilLog']->write(__METHOD__.': Added new user '. $person_id);
+					}
+					// Assign to role
+					if($role)
+					{
+						$acc = ilObjUser::_checkExternalAuthAccount(
+								ilECSSetting::lookupAuthMode(),
+								(string) $person_id);
+
+						if($il_usr_id = ilObjUser::_lookupId($acc))
+						{
+							$part->add($il_usr_id,$role);
+						}
 					}
 				}
 				
