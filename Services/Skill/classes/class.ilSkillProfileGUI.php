@@ -340,59 +340,23 @@ class ilSkillProfileGUI
 		$ilTabs->clearTargets();
 		$ilTabs->setBackTarget($lng->txt("back"),
 			$ilCtrl->getLinkTarget($this, "showLevels"));
-		
-		include_once("./Services/Skill/classes/class.ilSkillTree.php");
-		$skill_tree = new ilSkillTree();
-		
-		require_once ("./Services/Skill/classes/class.ilSkillProfileAssignmentExplorer.php");
-		$exp = new ilSkillProfileAssignmentExplorer($ilCtrl->getLinkTarget($this, "assignLevel"));
-		$exp->setTargetGet("level_id");
-		
-		$exp->setExpandTarget($ilCtrl->getLinkTarget($this, "assignLevel"));
-		
-		if ($_GET["skaexpand"] == "")
-		{
-			$expanded = $skill_tree->readRootId();
-		}
-		else
-		{
-			$expanded = $_GET["skaexpand"];
-		}
 
-/*		if ($_GET["level_id"] > 0)
+		include_once("./Services/Skill/classes/class.ilSkillSelectorGUI.php");
+		$exp = new ilSkillSelectorGUI($this, "assignLevel", $this, "assignLevelSelectSkill", "cskill_id");
+		if (!$exp->handleCommand())
 		{
-			$path = $this->skill_tree->getPathId($_GET["obj_id"]);
-			$exp->setForceOpenPath($path);
-			$exp->highlightNode($_GET["obj_id"]);
+			$tpl->setContent($exp->getHTML());
 		}
-		else
-		{
-			$exp->highlightNode($this->skill_tree->readRootId());
-		}*/
-		$exp->setExpand($expanded);
-		// build html-output
-		$exp->setOutput(0);
-		$output = $exp->getOutput();
-
-		// asynchronous output
-		if ($ilCtrl->isAsynch())
-		{
-			echo $output; exit;
-		}
-		
-		$tpl->setContent($output);
-
 	}
 	
 	/**
 	 * Output level table for profile assignment
-	 *
-	 * @param
-	 * @return
 	 */
 	function assignLevelSelectSkill()
 	{
 		global $tpl, $lng, $ilCtrl, $ilTabs;
+
+		$ilCtrl->saveParameter($this, "cskill_id");
 		
 		$tpl->setTitle($lng->txt("skmg_profile").": ".
 			$this->profile->getTitle());
@@ -404,22 +368,21 @@ class ilSkillProfileGUI
 
 		include_once("./Services/Skill/classes/class.ilSkillLevelProfileAssignmentTableGUI.php");
 		$tab = new ilSkillLevelProfileAssignmentTableGUI($this, "assignLevelSelectSkill",
-			$_GET["skill_id"]);
+			$_GET["cskill_id"]);
 		$tpl->setContent($tab->getHTML());
 	}
 	
 	/**
 	 * Assign level to profile
-	 *
-	 * @param
-	 * @return
 	 */
 	function assignLevelToProfile()
 	{
 		global $ilCtrl, $lng;
-		
-		$this->profile->addSkillLevel((int) $_GET["skill_id"],
-			(int) $_GET["tref_id"], (int) $_GET["level_id"]);
+
+		$parts = explode(":", $_GET["cskill_id"]);
+
+		$this->profile->addSkillLevel((int) $parts[0],
+			(int) $parts[1], (int) $_GET["level_id"]);
 		$this->profile->update();
 		
 		ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);

@@ -17,8 +17,8 @@ Todo 4.4
 - streamline draft status (done)
 - outdated status (done)
 - Resource Selection > neue Explorerklasse (done)
+- replace ilSkillProfileAssignmentExplorer (done)
 
-- replace ilSkillProfileAssignmentExplorer
 - prevent draft if items are in use
 - prevent skill level deletion, if skills are in use
 - show draft/outdated status of parent in settings
@@ -152,7 +152,6 @@ ilTemplateTreeExplorerGUI (internal use)
 - extends ilTreeExplorerGUI
 - used in ilObjSkillManagementGUI
 
-ilSkillProfileAssignmentExplorer (old, needs migration and outdated handling)
 
 Survey
 ======
