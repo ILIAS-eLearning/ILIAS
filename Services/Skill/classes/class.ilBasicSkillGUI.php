@@ -1,6 +1,6 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once("./Services/Skill/classes/class.ilSkillTreeNodeGUI.php");
 include_once("./Services/Skill/classes/class.ilBasicSkill.php");
@@ -137,9 +137,6 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 
 	/**
 	 * Edit skill
-	 *
-	 * @param
-	 * @return
 	 */
 	function edit()
 	{
@@ -224,9 +221,6 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 
 	/**
 	 * Add new level
-	 *
-	 * @param
-	 * @return
 	 */
 	function addLevel()
 	{
@@ -238,9 +232,6 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 
 	/**
 	 * Edit level
-	 *
-	 * @param
-	 * @return
 	 */
 	function editLevel()
 	{
@@ -302,7 +293,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 	/**
 	 * Init level form.
 	 *
-	 * @param        int        $a_mode        Edit Mode
+	 * @param string $a_mode form mode
 	 */
 	public function initLevelForm($a_mode = "edit")
 	{
@@ -359,9 +350,6 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 
 	/**
 	 * Update level order
-	 *
-	 * @param
-	 * @return
 	 */
 	function updateLevelOrder()
 	{
@@ -407,9 +395,6 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 
 	/**
 	 * Delete levels
-	 *
-	 * @param
-	 * @return
 	 */
 	function deleteLevel()
 	{
@@ -429,9 +414,6 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 
 	/**
 	 * Set header for level
-	 *
-	 * @param
-	 * @return
 	 */
 	function setLevelHead()
 	{
@@ -492,8 +474,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 	/**
 	 * Set header for skill
 	 *
-	 * @param
-	 * @return
+	 * @param string $a_tab active tab
 	 */
 	function setTabs($a_tab = "levels")
 	{
@@ -541,9 +522,6 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 
 	/**
 	 * Edit level trigger
-	 *
-	 * @param
-	 * @return
 	 */
 	function editLevelTrigger()
 	{
@@ -588,7 +566,6 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 
 	/**
 	 * Select skill level trigger
-	 *
 	 */
 	function selectLevelTrigger()
 	{
@@ -614,9 +591,6 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 
 	/**
 	 * Save level trigger
-	 *
-	 * @param
-	 * @return
 	 */
 	function saveLevelTrigger()
 	{
@@ -628,9 +602,6 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 
 	/**
 	 * Remove trigger
-	 *
-	 * @param
-	 * @return
 	 */
 	function removeLevelTrigger()
 	{
@@ -642,9 +613,6 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 	
 	/**
 	 * Redirect to parent (identified by current obj_id)
-	 *
-	 * @param
-	 * @return
 	 */
 	function redirectToParent()
 	{
@@ -670,9 +638,6 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 	
 	/**
 	 * Show level resources
-	 *
-	 * @param
-	 * @return
 	 */
 	function showLevelResources()
 	{
@@ -702,28 +667,13 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 		$this->setLevelHead();
 		$ilTabs->activateTab("level_resources");
 
-		include_once 'Services/Search/classes/class.ilSearchRootSelector.php';
-		$exp = new ilSearchRootSelector(
-			$ilCtrl->getLinkTarget($this,'addLevelResource'));
-		$exp->setExpand($_GET["search_root_expand"] ? $_GET["search_root_expand"] : $tree->readRootId());
-		$exp->setExpandTarget($ilCtrl->getLinkTarget($this,'addLevelResource'));
-		$exp->setTargetClass(get_class($this));
-		$exp->setCmd('saveLevelResource');
-		$exp->setClickableTypes(array("crs", "file", "lm", "tst", "sahs", "glo"));
-		$exp->addFilter("root");
-		$exp->addFilter("cat");
-		$exp->addFilter("grp");
-		$exp->addFilter("fold");
-		$exp->addFilter("crs");
-		$exp->addFilter("file");
-		$exp->addFilter("lm");
-		$exp->addFilter("tst");
-		$exp->addFilter("sahs");
-		$exp->addFilter("glo");
-		
-		// build html-output
-		$exp->setOutput(0);
-		$tpl->setContent($exp->getOutput());
+		include_once("./Services/Repository/classes/class.ilRepositorySelectorExplorerGUI.php");
+		$exp = new ilRepositorySelectorExplorerGUI($this, "addLevelResource",
+			$this, "saveLevelResource", "root_id");
+		if (!$exp->handleCommand())
+		{
+			$tpl->setContent($exp->getHTML());
+		}
 	}
 
 	/**
@@ -749,8 +699,8 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 	}
 
 	/**
-	* Confirm level resources removal
-	*/
+	 * Confirm level resources removal
+	 */
 	function confirmLevelResourcesRemoval()
 	{
 		global $ilCtrl, $tpl, $lng, $ilTabs;
@@ -784,9 +734,6 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 	
 	/**
 	 * Remove level resource
-	 *
-	 * @param
-	 * @return
 	 */
 	function removeLevelResources()
 	{
