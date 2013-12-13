@@ -239,9 +239,6 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 
 	/**
 	 * Edit skills
-	 *
-	 * @param
-	 * @return
 	 */
 	function editSkills()
 	{
@@ -249,209 +246,11 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 
 		$ilTabs->activateTab("skills");
 
-$ilCtrl->setParameterByClass("ilobjskillmanagementgui", "obj_id", $this->skill_tree->getRootId());
-$ilCtrl->redirectByClass("ilskillrootgui", "listSkills");
+		$ilCtrl->setParameterByClass("ilobjskillmanagementgui", "obj_id", $this->skill_tree->getRootId());
+		$ilCtrl->redirectByClass("ilskillrootgui", "listSkills");
 
-		$a_form_action = $ilCtrl->getFormAction($this);
-		$a_top_node = $this->skill_tree->getRootId();
-
-		$a_gui_obj = $this;
-		$a_gui_cmd = "editSkills";
-
-		
-		
-		include_once("./Services/Skill/classes/class.ilSkillHFormGUI.php");
-		$form_gui = new ilSkillHFormGUI();
-		$form_gui->setParentCommand($a_gui_obj, $a_gui_cmd);
-		$form_gui->setFormAction($a_form_action);
-		$form_gui->setTitle($lng->txt("skmg_skill_hierarchie"));
-		$form_gui->setTree($this->skill_tree);
-		$form_gui->setCurrentTopNodeId($a_top_node);
-		$form_gui->addMultiCommand($lng->txt("delete"), "deleteNodes");
-		$form_gui->addMultiCommand($lng->txt("cut"), "cutItems");
-		$form_gui->addMultiCommand($lng->txt("copy"), "copyItems");
-		$form_gui->addCommand($lng->txt("skmg_save_all_titles"), "saveAllTitles");
-		$form_gui->addCommand($lng->txt("expand_all"), "expandAll");
-		$form_gui->addCommand($lng->txt("collapse_all"), "collapseAll");
-		$form_gui->setTriggeredUpdateCommand("saveAllTitles");
-
-		// highlighted nodes
-		if ($_GET["highlight"] != "")
-		{
-			$hl = explode(":", $_GET["highlight"]);
-			$form_gui->setHighlightedNodes($hl);
-			$form_gui->setFocusId($hl[0]);
-		}
-
-		$tpl->setContent($form_gui->getHTML());
-		
-		// show left handed tree
-		$this->showTree();
 	}
 
-	/**
-	 * Insert one or multiple basic skills
-	 */
-	function insertBasicSkill()
-	{
-		global $ilCtrl, $lng;
-
-		include_once("./Services/Skill/classes/class.ilSkillHFormGUI.php");
-		include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
-
-		$num = ilSkillHFormGUI::getPostMulti();
-		$node_id = ilSkillHFormGUI::getPostNodeId();
-
-		if (!ilSkillHFormGUI::getPostFirstChild())	// insert after node id
-		{
-			$parent_id = $this->skill_tree->getParentId($node_id);
-			$target = $node_id;
-		}
-		else													// insert as first child
-		{
-			$parent_id = $node_id;
-			$target = IL_FIRST_NODE;
-		}
-		include_once("./Services/Skill/classes/class.ilBasicSkill.php");
-
-		$skill_ids = array();
-		for ($i = 1; $i <= $num; $i++)
-		{
-			$skill = new ilBasicSkill();
-			$skill->setTitle($lng->txt("skmg_new_skill"));
-			$skill->create();
-			ilSkillTreeNode::putInTree($skill, $parent_id, $target);
-			$skill_ids[] = $skill->getId();
-		}
-		$skill_ids = array_reverse($skill_ids);
-		$skill_ids = implode($skill_ids, ":");
-
-		$ilCtrl->setParameter($this, "highlight", $skill_ids);
-		$ilCtrl->redirect($this, "editSkills", "node_".$node_id);
-	}
-
-	/**
-	 * Insert one or multiple basic skill templates
-	 */
-	function insertBasicSkillTemplate()
-	{
-		global $ilCtrl, $lng;
-
-		include_once("./Services/Skill/classes/class.ilSkillHFormGUI.php");
-		include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
-
-		$num = ilSkillHFormGUI::getPostMulti();
-		$node_id = ilSkillHFormGUI::getPostNodeId();
-
-		if (!ilSkillHFormGUI::getPostFirstChild())	// insert after node id
-		{
-			$parent_id = $this->skill_tree->getParentId($node_id);
-			$target = $node_id;
-		}
-		else													// insert as first child
-		{
-			$parent_id = $node_id;
-			$target = IL_FIRST_NODE;
-		}
-		include_once("./Services/Skill/classes/class.ilBasicSkillTemplate.php");
-
-		$skill_ids = array();
-		for ($i = 1; $i <= $num; $i++)
-		{
-			$skill = new ilBasicSkillTemplate();
-			$skill->setTitle($lng->txt("skmg_new_skill_template"));
-			$skill->create();
-			ilSkillTreeNode::putInTree($skill, $parent_id, $target);
-			$skill_ids[] = $skill->getId();
-		}
-		$skill_ids = array_reverse($skill_ids);
-		$skill_ids = implode($skill_ids, ":");
-
-		$ilCtrl->setParameter($this, "highlight", $skill_ids);
-		$ilCtrl->redirect($this, "editSkillTemplates", "node_".$node_id);
-	}
-
-	/**
-	 * Insert one or multiple skill categories
-	 */
-	function insertSkillCategory()
-	{
-		global $ilCtrl, $lng;
-
-		include_once("./Services/Skill/classes/class.ilSkillHFormGUI.php");
-		include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
-
-		$num = ilSkillHFormGUI::getPostMulti();
-		$node_id = ilSkillHFormGUI::getPostNodeId();
-
-		if (!ilSkillHFormGUI::getPostFirstChild())	// insert after node id
-		{
-			$parent_id = $this->skill_tree->getParentId($node_id);
-			$target = $node_id;
-		}
-		else													// insert as first child
-		{
-			$parent_id = $node_id;
-			$target = IL_FIRST_NODE;
-		}
-		include_once("./Services/Skill/classes/class.ilSkillCategory.php");
-
-		$skill_ids = array();
-		for ($i = 1; $i <= $num; $i++)
-		{
-			$skill = new ilSkillCategory();
-			$skill->setTitle($lng->txt("skmg_new_skill_category"));
-			$skill->create();
-			ilSkillTreeNode::putInTree($skill, $parent_id, $target);
-			$skill_ids[] = $skill->getId();
-		}
-		$skill_ids = array_reverse($skill_ids);
-		$skill_ids = implode($skill_ids, ":");
-
-		$ilCtrl->setParameter($this, "highlight", $skill_ids);
-		$ilCtrl->redirect($this, "editSkills", "node_".$node_id);
-	}
-
-	/**
-	 * Insert one or multiple skill template categories
-	 */
-	function insertSkillTemplateCategory()
-	{
-		global $ilCtrl, $lng;
-
-		include_once("./Services/Skill/classes/class.ilSkillHFormGUI.php");
-		include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
-
-		$num = ilSkillHFormGUI::getPostMulti();
-		$node_id = ilSkillHFormGUI::getPostNodeId();
-
-		if (!ilSkillHFormGUI::getPostFirstChild())	// insert after node id
-		{
-			$parent_id = $this->skill_tree->getParentId($node_id);
-			$target = $node_id;
-		}
-		else													// insert as first child
-		{
-			$parent_id = $node_id;
-			$target = IL_FIRST_NODE;
-		}
-		include_once("./Services/Skill/classes/class.ilSkillTemplateCategory.php");
-
-		$skill_ids = array();
-		for ($i = 1; $i <= $num; $i++)
-		{
-			$skill = new ilSkillTemplateCategory();
-			$skill->setTitle($lng->txt("skmg_new_skill_template_category"));
-			$skill->create();
-			ilSkillTreeNode::putInTree($skill, $parent_id, $target);
-			$skill_ids[] = $skill->getId();
-		}
-		$skill_ids = array_reverse($skill_ids);
-		$skill_ids = implode($skill_ids, ":");
-
-		$ilCtrl->setParameter($this, "highlight", $skill_ids);
-		$ilCtrl->redirect($this, "editSkillTemplates", "node_".$node_id);
-	}
 
 	/**
 	 * Save all titles of chapters/scos/pages
@@ -963,37 +762,6 @@ $ilCtrl->redirectByClass("ilskillrootgui", "listSkills");
 		$ilCtrl->setParameterByClass("ilobjskillmanagementgui", "obj_id", $this->skill_tree->getRootId());
 		$ilCtrl->redirectByClass("ilskillrootgui", "listTemplates");
 
-	}
-
-	/**
-	 * Insert skill template reference
-	 *
-	 * @param
-	 * @return
-	 */
-	function insertSkillTemplateReference()
-	{
-		global $ilCtrl, $lng;
-
-		include_once("./Services/Skill/classes/class.ilSkillHFormGUI.php");
-		include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
-
-		$node_id = ilSkillHFormGUI::getPostNodeId();
-
-		if (!ilSkillHFormGUI::getPostFirstChild())	// insert after node id
-		{
-			$parent_id = $this->skill_tree->getParentId($node_id);
-			$target = $node_id;
-		}
-		else													// insert as first child
-		{
-			$parent_id = $node_id;
-			$target = IL_FIRST_NODE;
-		}
-		include_once("./Services/Skill/classes/class.ilSkillTemplateReferenceGUI.php");
-		$ilCtrl->setParameterByClass("ilskilltemplatereferencegui", "parent_id", $parent_id);
-		$ilCtrl->setParameterByClass("ilskilltemplatereferencegui", "target", $target);
-		$ilCtrl->redirectByClass("ilskilltemplatereferencegui", "insert");
 	}
 
 	//

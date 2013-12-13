@@ -315,8 +315,7 @@ class ilCOPageHTMLExport
 						$skill_id = ilSkillTemplateReference::_lookupTemplateId($skill_id);
 					}
 					$b_skills = $vtree->getSubTreeForCSkillId($skill_id.":".$tref_id, true);
-					
-					//$b_skills = ilSkillTreeNode::getSkillTreeNodes($skill_id, true);
+
 					foreach ($b_skills as $bs)
 					{
 						$skill = ilSkillTreeNodeFactory::getInstance($bs["skill_id"]);
