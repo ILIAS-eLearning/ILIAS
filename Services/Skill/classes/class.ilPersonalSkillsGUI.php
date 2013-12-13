@@ -232,8 +232,6 @@ class ilPersonalSkillsGUI
 		$act_list->setHeaderIcon(ilAdvancedSelectionListGUI::DOWN_ARROW_DARK);
 		$act_list->setUseImages(false);
 		
-//		$b_skills = ilSkillTreeNode::getSkillTreeNodes($a_top_skill_id, true, $a_tref_id);
-		
 		include_once("./Services/Skill/classes/class.ilVirtualSkillTree.php");
 		$vtree = new ilVirtualSkillTree();
 		$tref_id = $a_tref_id;
@@ -574,8 +572,6 @@ $bs["tref"] = $bs["tref_id"];
 		}
 		$bs = $vtree->getSubTreeForCSkillId($skill_id.":".$tref_id, true);
 		
-		
-		//$bs = ilSkillTreeNode::getSkillTreeNodes((int) $_GET["skill_id"], true);
 		$options = array();
 		foreach ($bs as $b)
 		{
@@ -770,22 +766,13 @@ $bs["tref"] = $bs["tref_id"];
 		}
 		$bs = $vtree->getSubTreeForCSkillId($skill_id.":".$tref_id, true);
 		
-		
-		//$bs = ilSkillTreeNode::getSkillTreeNodes((int) $_GET["skill_id"], true);
+
 		$options = array();
 		foreach ($bs as $b)
 		{
-			//$options[$b["id"]] = ilSkillTreeNode::_lookupTitle($b["id"]);
 			$options[$b["skill_id"]] = ilSkillTreeNode::_lookupTitle($b["skill_id"]);
 		}
 
-		/*$bs = ilSkillTreeNode::getSkillTreeNodes((int) $_GET["skill_id"], true);
-		$options = array();
-		foreach ($bs as $b)
-		{
-			$options[$b["id"]] = ilSkillTreeNode::_lookupTitle($b["id"]);
-		}*/
-		
 		$cur_basic_skill_id = ((int) $_POST["basic_skill_id"] > 0)
 			? (int) $_POST["basic_skill_id"]
 			: (((int) $_GET["basic_skill_id"] > 0)

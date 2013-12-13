@@ -14,15 +14,17 @@ Todo 4.4
 - Resources müssen Template/Basis Kombi zuordbar sein (done)
 - Skill Referenzen Editing verbieten (done)
 - spider netz anzeigen (done)
+- streamline draft status (done)
+- outdated status (done)
+- Resource Selection > neue Explorerklasse (done)
 
 - replace ilSkillProfileAssignmentExplorer
-- streamline draft status
-- outdated status
 - prevent draft if items are in use
 - prevent skill level deletion, if skills are in use
 - show draft/outdated status of parent in settings
 - ilSkillSelektorGUI: keine Basisskillreferenzen selektierbar
-- Resource Selection > neue Explorerklasse
+- make order number optional
+
 - User Guide anpassen. (angefangen)
 -- trigger dokumentieren
 - self_eval flag in has_level (pk)? ->
@@ -61,13 +63,6 @@ Allgemeine Skill Tree ID: <skl_tree_id>:<skl_template_tree_id>
 <skl_template_tree_id> entweder vom Typ "sktr" oder "sctr"
   - "sktp" ( muss unter von sctr/sktr oben referenziertem Knoten vorkommen)
   - "sctp" ( muss unter von sctr oben referenziertem Knoten vorkommen)
-
-Replace ilSkillTreeNode::getSkillTreeNodes with ilVirtualSkillTree->getSubTree
-==============================================================================
-- ilSkillTreeNode::getSkillTreeNodes
-  - ilCOPageHTMLExport (done)
-  - ilPersonalSKillsGUI (done)
-  - ilSkillTemplateReferenceGUI (done)
 
 
 skl_user_skill_level ***user ilBasicSkill
@@ -127,7 +122,6 @@ ilSkillTree (classic tree class)
 ilVirtualSkillTree
 - Base class that merges the main skill tree with the template trees to one virtual tree
 - uses <skl_tree_id>:<skl_template_tree_id> IDs internally
-- added outdated handling
 
 Explorer classes
 =================
@@ -136,32 +130,27 @@ ilPersonalSkillExplorerGUI (external use)
 - extends ilTreeExplorerGUI
 - used in ilPersonalSkillsGUI
 - offers selectable basic skills, refs or categories (nothing within templates)
-- added outdated handling (removed)
 
 ilVirtualSkillTreeExplorerGUI
 - no instances created in Modules/Services
 - only extended by
 -- ilSkillSelectorGUI
 -- ilSkillTreeExplorerGUI
-- added outdated handling
 
 ilSkillSelectorGUI (external use)
 - extends ilVirtualSkillTreeExplorerGUI
 - used in ilSurveySkillGUI (should be used in repository objects that want assign skills/levels to anything else
 - lists whole virtual tree, offers basic skills (or basic skill templates with tref) for selection
   transforms into <skill_id>:<tref_id> IDs for selection
-- outdated handling inherited from ilVirtualSkillTreeExplorerGUI
 
 ilSkillTreeExplorerGUI (internal use)
 - extends ilVirtualSkillTreeExplorerGUI
 - used in ilObjSkillManagementGUI
 - offers links for all nodes but stops at reference nodes
-- added outdated handling
 
 ilTemplateTreeExplorerGUI (internal use)
 - extends ilTreeExplorerGUI
 - used in ilObjSkillManagementGUI
-- no outdated handling needed
 
 ilSkillProfileAssignmentExplorer (old, needs migration and outdated handling)
 
