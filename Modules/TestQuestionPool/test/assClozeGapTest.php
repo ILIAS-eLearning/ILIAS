@@ -478,4 +478,132 @@ class assClozeGapTest extends PHPUnit_Framework_TestCase
 		// Assert
 		$this->assertEquals($expected, $actual);
 	}
+
+	public function test_getBestSolutionOutput_shouldReturnBestSolutionOutput_CaseText()
+	{
+		// Arrange
+		require_once './Modules/TestQuestionPool/classes/class.assClozeGap.php';
+		$instance = new assClozeGap(0); // 0 - text gap
+		require_once './Modules/TestQuestionPool/classes/class.assAnswerCloze.php';
+		$item1 = new assAnswerCloze('Bert', 1.0, 0);
+		$item2 = new assAnswerCloze('Fred', 2.0, 2);
+		$item3 = new assAnswerCloze('Karl', 3.0, 1);
+		$item4 = new assAnswerCloze('Esther', 4.0, 3);
+
+		// We need the $lng-mock.
+		require_once './Services/Language/classes/class.ilLanguage.php';
+		$lng_mock = $this->getMock('ilLanguage', array('txt'), array(), '', false);
+		$lng_mock->expects( $this->any() )->method( 'txt' )->will( $this->returnValue('Test') );
+		global $lng;
+		$lng = $lng_mock;
+
+		$instance->addItem($item1);
+		$instance->addItem($item2);
+		$instance->addItem($item3);
+		$instance->addItem($item4);
+
+		$expected = 'Esther';
+
+		// Act
+		$actual = $instance->getBestSolutionOutput();
+
+		// Assert
+		$this->assertEquals($expected, $actual);
+	}
+
+	public function test_getBestSolutionOutput_shouldReturnBestSolutionOutput_CaseTextMulti()
+	{
+		// Arrange
+		require_once './Modules/TestQuestionPool/classes/class.assClozeGap.php';
+		$instance = new assClozeGap(0); // 0 - text gap
+		require_once './Modules/TestQuestionPool/classes/class.assAnswerCloze.php';
+		$item1 = new assAnswerCloze('Bert', 1.0, 0);
+		$item2 = new assAnswerCloze('Fred', 2.0, 2);
+		$item3 = new assAnswerCloze('Karl', 4, 1);
+		$item4 = new assAnswerCloze('Esther', 4, 3);
+
+		// We need the $lng-mock.
+		require_once './Services/Language/classes/class.ilLanguage.php';
+		$lng_mock = $this->getMock('ilLanguage', array('txt'), array(), '', false);
+		$lng_mock->expects( $this->any() )->method( 'txt' )->will( $this->returnValue('or') );
+		global $lng;
+		$lng = $lng_mock;
+
+		$instance->addItem($item1);
+		$instance->addItem($item2);
+		$instance->addItem($item3);
+		$instance->addItem($item4);
+
+		$expected = 'Esther or Karl';
+
+		// Act
+		$actual = $instance->getBestSolutionOutput();
+
+		// Assert
+		$this->assertEquals($expected, $actual);
+	}
+
+	public function test_getBestSolutionOutput_shouldReturnBestSolutionOutput_CaseNumeric()
+	{
+		// Arrange
+		require_once './Modules/TestQuestionPool/classes/class.assClozeGap.php';
+		$instance = new assClozeGap(2); // 0 - text gap
+		require_once './Modules/TestQuestionPool/classes/class.assAnswerCloze.php';
+		$item1 = new assAnswerCloze(10, 1.0, 0);
+		$item2 = new assAnswerCloze(20, 2.0, 2);
+		$item3 = new assAnswerCloze(30, 3.0, 1);
+		$item4 = new assAnswerCloze(100, 4.0, 3);
+
+		// We need the $lng-mock.
+		require_once './Services/Language/classes/class.ilLanguage.php';
+		$lng_mock = $this->getMock('ilLanguage', array('txt'), array(), '', false);
+		$lng_mock->expects( $this->any() )->method( 'txt' )->will( $this->returnValue('Test') );
+		global $lng;
+		$lng = $lng_mock;
+
+		$instance->addItem($item1);
+		$instance->addItem($item2);
+		$instance->addItem($item3);
+		$instance->addItem($item4);
+
+		$expected = 100;
+
+		// Act
+		$actual = $instance->getBestSolutionOutput();
+
+		// Assert
+		$this->assertEquals($expected, $actual);
+	}
+
+	public function test_getBestSolutionOutput_shouldReturnEmptyStringOnUnknownType_WhichMakesNoSenseButK()
+	{
+		// Arrange
+		require_once './Modules/TestQuestionPool/classes/class.assClozeGap.php';
+		$instance = new assClozeGap(11); // 0 - text gap
+		require_once './Modules/TestQuestionPool/classes/class.assAnswerCloze.php';
+		$item1 = new assAnswerCloze(10, 1.0, 0);
+		$item2 = new assAnswerCloze(20, 2.0, 2);
+		$item3 = new assAnswerCloze(30, 3.0, 1);
+		$item4 = new assAnswerCloze(100, 4.0, 3);
+
+		// We need the $lng-mock.
+		require_once './Services/Language/classes/class.ilLanguage.php';
+		$lng_mock = $this->getMock('ilLanguage', array('txt'), array(), '', false);
+		$lng_mock->expects( $this->any() )->method( 'txt' )->will( $this->returnValue('Test') );
+		global $lng;
+		$lng = $lng_mock;
+
+		$instance->addItem($item1);
+		$instance->addItem($item2);
+		$instance->addItem($item3);
+		$instance->addItem($item4);
+
+		$expected = '';
+
+		// Act
+		$actual = $instance->getBestSolutionOutput();
+
+		// Assert
+		$this->assertEquals($expected, $actual);
+	}
 }
