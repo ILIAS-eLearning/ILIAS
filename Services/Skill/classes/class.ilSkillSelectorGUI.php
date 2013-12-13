@@ -24,7 +24,7 @@ class ilSkillSelectorGUI extends ilVirtualSkillTreeExplorerGUI
 			: $a_select_gui;
 		$this->select_cmd = $a_select_cmd;
 		$this->select_par = $a_select_par;
-		
+		$this->setSkipRootNode(true);
 	}
 
 	/**

@@ -47,8 +47,6 @@ class ilSkillProfileLevelsTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($a_set)
 	{
-		global $lng;
-
 		$path = $this->tree->getSkillTreePath($a_set["base_skill_id"],
 			$a_set["tref_id"]);
 		$path_items = array();

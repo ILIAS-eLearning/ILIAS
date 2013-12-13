@@ -160,7 +160,7 @@ class ilSkillProfile implements ilSkillUsageInfo
 			);
 		while ($rec = $ilDB->fetchAssoc($set))
 		{
-			$this->addSkillLevel((int) $rec["base_skill_id"], (int) $rec["base_tref_id"],
+			$this->addSkillLevel((int) $rec["base_skill_id"], (int) $rec["tref_id"],
 				(int) $rec["level_id"]);
 		}
 	}
