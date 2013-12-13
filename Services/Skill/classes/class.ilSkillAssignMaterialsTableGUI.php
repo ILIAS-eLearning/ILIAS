@@ -21,8 +21,13 @@ class ilSkillAssignMaterialsTableGUI extends ilTable2GUI
 	function __construct($a_parent_obj, $a_parent_cmd, $a_top_skill_id, $a_tref_id,
 		$a_basic_skill_id)
 	{
-		global $ilCtrl, $lng, $ilAccess, $lng, $ilUser;
-		
+		global $ilUser;
+
+		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
+		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
+		$this->ws_tree = new ilWorkspaceTree($ilUser->getId());
+		$this->ws_access = new ilWorkspaceAccessHandler();
+
 		$this->top_skill_id = $a_top_skill_id;
 		$this->tref_id = (int) $a_tref_id;
 		$this->basic_skill_id = $a_basic_skill_id;
@@ -105,6 +110,10 @@ class ilSkillAssignMaterialsTableGUI extends ilTable2GUI
 			$this->tpl->setVariable("TXT_REMOVE", $lng->txt("remove"));
 			$ilCtrl->setParameter($this->parent_obj, "wsp_id", $m["wsp_id"]);
 			$this->tpl->setVariable("HREF_REMOVE", $ilCtrl->getLinkTarget($this->parent_obj, "removeMaterial"));
+
+			$obj_id = $this->ws_tree->lookupObjectId($m["wsp_id"]);
+			$url = $this->ws_access->getGotoLink($m["wsp_id"], $obj_id);
+			$this->tpl->setVariable("HREF_MAT", $url);
 			$this->tpl->parseCurrentBlock();
 		}
 		
