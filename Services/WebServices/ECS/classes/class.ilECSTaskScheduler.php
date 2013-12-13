@@ -330,7 +330,7 @@ class ilECSTaskScheduler
 	 				if($part->isSelf())
 	 				{
 	 					$this->mids[] = $part->getMID();
-	 					$this->log->write('Fetch MID: '.$part->getMID());
+	 					#$this->log->write('Fetch MID: '.$part->getMID());
 	 				}
 	 			}
 	 		}
@@ -399,7 +399,7 @@ class ilECSTaskScheduler
 		$soap_client->setResponseTimeout(1);
 		$soap_client->enableWSDL(true);
 
-		$ilLog->write(__METHOD__.': Trying to call Soap client...');
+		#$ilLog->write(__METHOD__.': Trying to call Soap client...');
 		$new_session_id = ilSession::_duplicate($_COOKIE['PHPSESSID']);
 		$client_id = $_COOKIE['ilClientId'];
 
