@@ -3707,7 +3707,7 @@ div.ilSkill > h3 {
 div.ilSkill > h4 {
 	margin: 10px 0;
 	padding: 0;
-	font-size: .9em;
+	font-size: 1em;
 	color: #909090;
 	float: left;
 	clear: left;
@@ -3753,6 +3753,10 @@ td.ilSkillSelf {
 
 td.ilSkillMat {
 	background-color: #F0F0FF;
+}
+
+div.ilSkillSuggRes {
+    margin-left: 50px;
 }
 
 /* Top-Bar */

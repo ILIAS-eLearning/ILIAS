@@ -14112,3 +14112,4 @@ skmg#:#skmg_status_outdated_info#:#Item cannot be newly selected by users as per
 skmg#:#skmg_status#:#Status
 ldap#:#ldap_choose_role#:#Choose Role
 skmg#:#skmg_no_nodes_selectable#:#Currently there are no competences selectable.
+skmg#:#skmg_suggested_resources#:#Suggested Resources
