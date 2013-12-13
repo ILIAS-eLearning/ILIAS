@@ -1,6 +1,6 @@
 <?php
 
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once("./Services/Table/classes/class.ilTable2GUI.php");
 
@@ -30,7 +30,7 @@ class ilSkillProfileUserTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt("lastname"), "lastname");
 		$this->addColumn($this->lng->txt("firstname"), "firstname");
 		$this->addColumn($this->lng->txt("login"), "login");
-		$this->addColumn($this->lng->txt("actions"));
+//		$this->addColumn($this->lng->txt("actions"));
 		
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
 		$this->setRowTemplate("tpl.profile_user_row.html", "Services/Skill");

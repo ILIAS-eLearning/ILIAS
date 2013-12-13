@@ -18,9 +18,6 @@ class ilSkillProfileGUI
 	
 	/**
 	 * Constructor
-	 *
-	 * @param
-	 * @return
 	 */
 	function __construct()
 	{
@@ -490,9 +487,6 @@ class ilSkillProfileGUI
 	
 	/**
 	 * Show users
-	 *
-	 * @param
-	 * @return
 	 */
 	function showUsers()
 	{
