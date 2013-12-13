@@ -72,7 +72,12 @@ class ilECSCmsCourseCommandQueueHandler implements ilECSCommandQueueHandler
 					$this->getServer()->getServerId(),
 					$this->getMid()
 				);
-			return $gl_settings->isCourseAllocationEnabled();
+			$enabled = $gl_settings->isCourseAllocationEnabled();
+			if(!$enabled)
+			{
+				$GLOBALS['ilLog']->write(__METHOD__.': Course allocation disabled for '.$this->getMid());
+			}
+			return $enabled;
 		}
 		catch(ilECSConnectorException $e) 
 		{
