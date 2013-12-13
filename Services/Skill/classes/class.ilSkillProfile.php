@@ -21,8 +21,7 @@ class ilSkillProfile implements ilSkillUsageInfo
 	/**
 	 * Constructor
 	 *
-	 * @param
-	 * @return
+	 * @param int $a_id profile id
 	 */
 	function __construct($a_id = 0)
 	{
