@@ -307,6 +307,7 @@ $bs["tref"] = $bs["tref_id"];
 				{
 					$this->renderSelfEvaluationRow($tpl, $level_data, $a_top_skill_id, $bs["id"], $bs["tref"], $user->getId());
 				}
+				$this->renderSuggestedResources($tpl, $level_data, $bs["id"], $bs["tref"]);
 			}
 			
 			$too_low = true;
@@ -1483,84 +1484,129 @@ $bs["tref"] = $bs["tref_id"];
 	function renderSuggestedResources($a_tpl, $a_levels, $a_base_skill, $a_tref_id)
 	{
 		global $lng;
-		
-		if ($this->getProfileId() == 0)
-		{
-			return;
-		}
-		
-		$profile = new ilSkillProfile($this->getProfileId());
-		$profile_levels = $profile->getSkillLevels();
 
-		$too_low = true;
-		$current_target_level = 0;
+		// use a profile
+		if ($this->getProfileId() > 0)
+		{
+			$profile = new ilSkillProfile($this->getProfileId());
+			$profile_levels = $profile->getSkillLevels();
 
-		foreach ($a_levels as $k => $v)
-		{
-			foreach ($this->profile_levels as $pl)
+			$too_low = true;
+			$current_target_level = 0;
+
+
+			foreach ($a_levels as $k => $v)
 			{
-				if ($pl["level_id"] == $v["id"] &&
-					$pl["base_skill_id"] == $v["skill_id"])
+				foreach ($this->profile_levels as $pl)
 				{
-					$too_low = true;
-					$current_target_level = $v["id"];
-				}
-			}
-			
-			if ($this->actual_levels[$v["skill_id"]][0] == $v["id"])
-			{
-				$too_low = false;
-			}
-		}
-		
-		// suggested resources
-		if ($too_low)
-		{
-			include_once("./Services/Skill/classes/class.ilSkillResources.php");
-			$skill_res = new ilSkillResources($a_base_skill, $a_tref_id);
-			$res = $skill_res->getResources();
-			$imp_resources = array();
-			foreach ($res as $level)
-			{
-				foreach($level as $r)
-				{
-					if ($r["imparting"] == true &&
-						$current_target_level == $r["level_id"])
+					if ($pl["level_id"] == $v["id"] &&
+						$pl["base_skill_id"] == $v["skill_id"])
 					{
-						$imp_resources[] = $r;
+						$too_low = true;
+						$current_target_level = $v["id"];
 					}
 				}
+
+				if ($this->actual_levels[$v["skill_id"]][0] == $v["id"])
+				{
+					$too_low = false;
+				}
 			}
-			foreach($imp_resources as $r)
+
+			// suggested resources
+			if ($too_low)
 			{
-				$ref_id = $r["rep_ref_id"];
-				$obj_id = ilObject::_lookupObjId($ref_id);
-				$title = ilObject::_lookupTitle($obj_id);
-				include_once("./Services/Link/classes/class.ilLink.php");
-				$a_tpl->setCurrentBlock("resource_item");
-				$a_tpl->setVariable("TXT_RES", $title);
-				$a_tpl->setVariable("HREF_RES", ilLink::_getLink($ref_id));
-				$a_tpl->parseCurrentBlock();
-			}
-			if (count($imp_resources) > 0)
-			{
-				$a_tpl->touchBlock("resources_list");
-				$a_tpl->setCurrentBlock("resources");
-				$a_tpl->setVariable("SUGGESTED_MAT_MESS", $lng->txt("skmg_skill_needs_impr_res"));
-				$a_tpl->parseCurrentBlock();
+				include_once("./Services/Skill/classes/class.ilSkillResources.php");
+				$skill_res = new ilSkillResources($a_base_skill, $a_tref_id);
+				$res = $skill_res->getResources();
+				$imp_resources = array();
+				foreach ($res as $level)
+				{
+					foreach($level as $r)
+					{
+						if ($r["imparting"] == true &&
+							$current_target_level == $r["level_id"])
+						{
+							$imp_resources[] = $r;
+						}
+					}
+				}
+				foreach($imp_resources as $r)
+				{
+					$ref_id = $r["rep_ref_id"];
+					$obj_id = ilObject::_lookupObjId($ref_id);
+					$title = ilObject::_lookupTitle($obj_id);
+					include_once("./Services/Link/classes/class.ilLink.php");
+					$a_tpl->setCurrentBlock("resource_item");
+					$a_tpl->setVariable("TXT_RES", $title);
+					$a_tpl->setVariable("HREF_RES", ilLink::_getLink($ref_id));
+					$a_tpl->parseCurrentBlock();
+				}
+				if (count($imp_resources) > 0)
+				{
+					$a_tpl->touchBlock("resources_list");
+					$a_tpl->setCurrentBlock("resources");
+					$a_tpl->setVariable("SUGGESTED_MAT_MESS", $lng->txt("skmg_skill_needs_impr_res"));
+					$a_tpl->parseCurrentBlock();
+				}
+				else
+				{
+					$a_tpl->setCurrentBlock("resources");
+					$a_tpl->setVariable("SUGGESTED_MAT_MESS", $lng->txt("skmg_skill_needs_impr_no_res"));
+					$a_tpl->parseCurrentBlock();
+				}
 			}
 			else
 			{
 				$a_tpl->setCurrentBlock("resources");
-				$a_tpl->setVariable("SUGGESTED_MAT_MESS", $lng->txt("skmg_skill_needs_impr_no_res"));
+				$a_tpl->setVariable("SUGGESTED_MAT_MESS", $lng->txt("skmg_skill_no_needs_impr"));
 				$a_tpl->parseCurrentBlock();
 			}
 		}
 		else
 		{
-			$a_tpl->setCurrentBlock("resources");
-			$a_tpl->setVariable("SUGGESTED_MAT_MESS", $lng->txt("skmg_skill_no_needs_impr"));
-			$a_tpl->parseCurrentBlock();
+			// no profile, just list all resources
+			include_once("./Services/Skill/classes/class.ilSkillResources.php");
+			$skill_res = new ilSkillResources($a_base_skill, $a_tref_id);
+			$res = $skill_res->getResources();
+			// add $r["level_id"] info
+			$any = false;
+			foreach ($res as $level)
+			{
+				$available = false;
+				$cl = 0;
+				foreach($level as $r)
+				{
+					if ($r["imparting"])
+					{
+						$ref_id = $r["rep_ref_id"];
+						$obj_id = ilObject::_lookupObjId($ref_id);
+						$title = ilObject::_lookupTitle($obj_id);
+						include_once("./Services/Link/classes/class.ilLink.php");
+						$a_tpl->setCurrentBlock("resource_item");
+						$a_tpl->setVariable("TXT_RES", $title);
+						$a_tpl->setVariable("HREF_RES", ilLink::_getLink($ref_id));
+						$a_tpl->parseCurrentBlock();
+						$available = true;
+						$any = true;
+						$cl = $r["level_id"];
+					}
+				}
+				if ($available)
+				{
+					$a_tpl->setCurrentBlock("resources_list_level");
+					$a_tpl->setVariable("TXT_LEVEL", $lng->txt("skmg_level"));
+					$a_tpl->setVariable("LEVEL_NAME", ilBasicSkill::lookupLevelTitle($cl));
+					$a_tpl->parseCurrentBlock();
+					$a_tpl->touchBlock("resources_list");
+				}
+			}
+			if ($any)
+			{
+				$a_tpl->setCurrentBlock("resources");
+				$a_tpl->setVariable("SUGGESTED_MAT_MESS", $lng->txt("skmg_suggested_resources"));
+				$a_tpl->parseCurrentBlock();
+			}
 		}
 	}
 	
