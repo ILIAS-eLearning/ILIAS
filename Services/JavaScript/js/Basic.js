@@ -639,6 +639,8 @@ function startSAHS(SAHSurl, SAHStarget, SAHSopenMode, SAHSwidth, SAHSheight)
 		SAHSwidth = "100%";
 		SAHSheight = "650";
 		if(document.body.offsetHeight) SAHSheight=document.getElementById("mainspacekeeper").offsetHeight;
+		if(SAHSheight==0) SAHSheight=document.body.offsetHeight-200;
+		if(SAHSheight==0) SAHSheight=650;
 	}
 	if (SAHSopenMode == 1 || SAHSopenMode == 2){
 		document.getElementById("mainspacekeeper").innerHTML='<iframe src="'+SAHSurl+'" width="'+SAHSwidth+'" height='+SAHSheight+' frameborder="0"></iframe>';
