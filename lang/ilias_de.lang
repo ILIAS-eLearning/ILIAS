@@ -12832,7 +12832,7 @@ content#:#cont_rte_settings#:#RTE-Einstellungen
 content#:#cont_debugging#:#Debugging
 content#:#cont_auto_last_visited_info#:#Öffnet das zuletzt besuchte SCO (oder Asset), wenn der Lerner das Lernmodul wieder aufruft.
 content#:#cont_credit_mode_info#:#Diese Einstellung ist nur wirksam im Modus 'normal'.
-content#:#cont_sc_auto_review_info#:#Setzt den Modus auf 'review', wenn der Lerner das SCO bearbeitet hat.
+content#:#cont_sc_auto_review_info_12#:#Setzt den Modus auf 'review', wenn der Lerner das SCO vollständig bearbeitet oder bestanden hat.
 content#:#cont_sc_usession_info#:#Wenn aktiviert werden periodisch Anfragen an den Server gesendet, um die Session des Benutzers aufrecht zu erhalten.
 content#:#cont_sequencing_info#:#Aktiviert das Verhalten für Sequencing & Navigation gemäß den Vorgaben des Lernmoduls
 content#:#cont_time_from_lms_info#:#Die Bearbeitungszeiten des SCOs werden von ILIAS und nach den strikten Vorgagen des SCORM-Standards ermittelt.
