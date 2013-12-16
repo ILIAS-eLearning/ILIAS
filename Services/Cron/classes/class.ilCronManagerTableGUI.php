@@ -183,7 +183,7 @@ class ilCronManagerTableGUI extends ilTable2GUI
 		{
 			$result_info[] = $a_item["job_result_message"];
 		}
-		if($a_item["job_result_code"])
+		if(DEVMODE && $a_item["job_result_code"]) // #11866
 		{
 			$result_info[] = $a_item["job_result_code"];
 		}
