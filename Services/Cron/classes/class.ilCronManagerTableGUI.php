@@ -23,6 +23,7 @@ class ilCronManagerTableGUI extends ilTable2GUI
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		
+		$this->addColumn("", "", 1);
 		$this->addColumn($this->lng->txt("cron_job_id"), "title");
 		$this->addColumn($this->lng->txt("cron_component"), "component");
 		$this->addColumn($this->lng->txt("cron_schedule"), "schedule");
@@ -35,6 +36,10 @@ class ilCronManagerTableGUI extends ilTable2GUI
 		
 		$this->setTitle($this->lng->txt("cron_jobs"));
 		$this->setDefaultOrderField("title");
+		
+		$this->setSelectAllCheckbox("mjid");
+		$this->addMultiCommand("activate", $lng->txt("cron_action_activate"));
+		$this->addMultiCommand("deactivate", $lng->txt("cron_action_deactivate"));
 						
 		$this->setRowTemplate("tpl.cron_job_row.html", "Services/Cron");
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));
@@ -253,6 +258,7 @@ class ilCronManagerTableGUI extends ilTable2GUI
 		global $ilCtrl, $lng;
 		
 		$this->tpl->setVariable("VAL_ID", $a_set["title"]);
+		$this->tpl->setVariable("VAL_JID", $a_set["job_id"]);
 		
 		if($a_set["description"])
 		{
