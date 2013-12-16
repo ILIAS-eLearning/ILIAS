@@ -3029,7 +3029,20 @@ class ilObjExerciseGUI extends ilObjectGUI
 			
 			$this->tabs_gui->activateTab("team");
 			
-			return $this->ass->getTeamId($ilUser->getId(), true);
+			$team_id = $this->ass->getTeamId($ilUser->getId());
+			
+			if(!$team_id)
+			{
+				$team_id = $this->ass->getTeamId($ilUser->getId(), true);
+				
+				// #12337
+				if (!$this->object->members_obj->isAssigned($ilUser->getId()))
+				{
+					$this->object->members_obj->assignMember($ilUser->getId());
+				}				
+			}
+			
+			return $team_id;
 		}
 		else
 		{
