@@ -235,19 +235,21 @@ class ilCronManagerGUI
 	{
 		global $ilCtrl, $lng;
 		
-		$job_id = $_GET["jid"];
-		if($job_id)
+		$jobs = $this->getMultiActionData();
+		if($jobs)
 		{
-			$job = ilCronManager::getJobInstanceById($job_id);
-			if($job)
-			{
-				ilCronManager::resetJob($job);
-				ilCronManager::activateJob($job, true);
-				
-				ilUtil::sendSuccess($lng->txt("cron_action_activate_success"), true);	
+			foreach($jobs as $job)
+			{			
+				if(ilCronManager::isJobInactive($job->getId()))
+				{
+					ilCronManager::resetJob($job);
+					ilCronManager::activateJob($job, true);			
+				}
 			}
+			
+			ilUtil::sendSuccess($lng->txt("cron_action_activate_success"), true);	
 		}		
-		
+			
 		$ilCtrl->redirect($this, "render");
 	}
 	
@@ -260,16 +262,18 @@ class ilCronManagerGUI
 	{
 		global $ilCtrl, $lng;
 		
-		$job_id = $_GET["jid"];
-		if($job_id)
+		$jobs = $this->getMultiActionData();
+		if($jobs)
 		{
-			$job = ilCronManager::getJobInstanceById($job_id);
-			if($job)
-			{
-				ilCronManager::deactivateJob($job, true);
-				
-				ilUtil::sendSuccess($lng->txt("cron_action_deactivate_success"), true);	
+			foreach($jobs as $job)
+			{		
+				if(ilCronManager::isJobActive($job->getId()))
+				{					
+					ilCronManager::deactivateJob($job, true);				
+				}
 			}
+			
+			ilUtil::sendSuccess($lng->txt("cron_action_deactivate_success"), true);	
 		}	
 		
 		$ilCtrl->redirect($this, "render");
@@ -299,29 +303,70 @@ class ilCronManagerGUI
 		$ilCtrl->redirect($this, "render");
 	}
 	
+	protected function getMultiActionData()
+	{
+		$res = array();
+		
+		if($_REQUEST["jid"])
+		{
+			$job = ilCronManager::getJobInstanceById($_REQUEST["jid"]);
+			if($job)
+			{
+				$res[$job->getId()] = $job;
+			}
+		}
+		else if(is_array($_REQUEST["mjid"]))
+		{
+			foreach($_REQUEST["mjid"] as $job_id)
+			{
+				$job = ilCronManager::getJobInstanceById($job_id);
+				if($job)
+				{
+					$res[$job->getId()] = $job;
+				}
+			}			
+		}
+	
+		return $res;		
+	}
+	
 	protected function confirm($a_action)
 	{
 		global $ilCtrl, $tpl, $lng;
 		
-		$job = ilCronManager::getJobInstanceById($_REQUEST["jid"]);
-		if(!$job)
+		$jobs = $this->getMultiActionData();
+		if(!$jobs)
 		{
 			$ilCtrl->redirect($this, "render");
 		}
-		
-		$ilCtrl->setParameter($this, "jid", $_REQUEST["jid"]);
-		
-		$title = $job->getTitle();
-		if(!$title)
-		{
-			$title = preg_replace("[^A-Za-z0-9_\-]", "", $job->getId());
-		}
-		
+				
 		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
 		$cgui = new ilConfirmationGUI();
-		$cgui->setHeaderText(sprintf($lng->txt("cron_action_".$a_action."_sure"), 
-			$title));
+		
+		if(sizeof($jobs) == 1)
+		{
+			$job = array_pop($jobs);				
+			$title = $job->getTitle();
+			if(!$title)
+			{
+				$title = preg_replace("[^A-Za-z0-9_\-]", "", $job->getId());
+			}
 
+			$cgui->setHeaderText(sprintf($lng->txt("cron_action_".$a_action."_sure"), 
+				$title));
+
+			$ilCtrl->setParameter($this, "jid", $job->getId());
+		}
+		else
+		{
+			$cgui->setHeaderText($lng->txt("cron_action_".$a_action."_sure_multi"));
+			
+			foreach($jobs as $job)
+			{
+				$cgui->addItem("mjid[]", $job->getId(), $job->getTitle());
+			}			
+		}
+		
 		$cgui->setFormAction($ilCtrl->getFormAction($this, "confirmed".ucfirst($a_action)));
 		$cgui->setCancel($lng->txt("cancel"), "render");
 		$cgui->setConfirm($lng->txt("cron_action_".$a_action), "confirmed".ucfirst($a_action));

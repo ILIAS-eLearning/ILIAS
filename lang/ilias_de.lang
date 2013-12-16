@@ -14095,3 +14095,5 @@ trac#:#trac_object_statistics_info#:#Wenn aktiviert, werden Daten für die Zugri
 ldap#:#ldap_user_sync_cron_info#:#Wenn aktiviert, werden Benutzerkonten aus dem LDAP-Verzeichnis importiert und optional laufend synchronisiert.
 exc#:#exc_peer_review_cron_info#:#Wenn aktiviert, werden Übungsteilnehmer an ausstehendes Peer-Feedback erinnert.
 survey#:#survey_reminder_cron_info#:#Wenn aktiviert, werden Benutzer an die Teilnahme an Umfragen erinnert.
+cron#:#cron_action_activate_sure_multi#:#Wollen Sie wirklich die folgenden Cron-Jobs aktivieren?
+cron#:#cron_action_deactivate_sure_multi#:#Wollen Sie wirklich die folgenden Cron-Jobs deaktivieren?
