@@ -2872,7 +2872,7 @@ common#:#exc_members_already_assigned#:#Die ausgewählten Benutzer sind bereits 
 common#:#exc_members_assigned#:#Die Benutzer wurden der Übung zugeordnet
 common#:#exc_members_comments_saved#:#Die Kommentare zu den Übungen der ausgewählten Benutzer wurden gespeichert.
 common#:#exc_new#:#Neue Übung anlegen
-common#:#exc_next_deadline#:#Nächster Abgabetermin
+common#:#exc_next_deadline#:#Nächste Abgabefrist
 common#:#exc_no_members_assigned#:#Dieser Übung sind keine Mitglieder zugeordnet
 common#:#exc_notices#:#Bemerkungen
 common#:#exc_obj#:#Übung
@@ -7489,7 +7489,7 @@ exc#:#exc_start_time#:#Startzeit
 exc#:#exc_starting_on#:#Startet am
 exc#:#exc_submission_notification#:#Mail-Benachrichtigung bei Abgaben
 exc#:#exc_submission_notification_body#:#Eine neue Abgabe wurde für die Übung "%s" hochgeladen
-exc#:#exc_submission_notification_info#:#Sie werden benachrichtigt, sobald neue Abgaben hochgeladen werden.
+exc#:#exc_submission_notification_info#:#Sie werden benachrichtigt, sobald neue Abgaben hochgeladen werden. Dies ist eine persönliche Einstellung die andere Administratoren der Übung nicht betrifft.
 exc#:#exc_submission_notification_link#:#Link zur Übung: %s
 exc#:#exc_submission_notification_subject#:#Eine neue Abgabe wurde für die Übung "%s" hochgeladen
 exc#:#exc_submissions_and_grades#:#Abgaben und Noten
@@ -14089,3 +14089,4 @@ rbac#:#wbrs_edit_permission#:#Rechteeinstellungen für die Weblink-Verwaltung ä
 common#:#obj_nota#:#Benachrichtigungen
 blog#:#blog_posting_not_found#:#Der Blog-Eintrag ist nicht verfügbar.
 ldap#:#ldap_choose_role#:#Rolle auswählen
+cntr#:#exc_next_deadline_single#:#Abgabefrist

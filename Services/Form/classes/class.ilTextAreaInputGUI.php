@@ -472,7 +472,8 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
 						$rte->removeAllPlugins();
 						// #11980 - p-tag is mandatory but we do not want the icons it comes with
 						$rte->disableButtons(array("anchor", "justifyleft", "justifycenter", 
-							"justifyright", "justifyfull", "formatselect", "removeformat"));
+							"justifyright", "justifyfull", "formatselect", "removeformat",
+							"cut", "copy", "paste", "pastetext")); // JF, 2013-12-09
 					}
 					
 					$rte->addCustomRTESupport(0, "", $this->getRteTags());					
