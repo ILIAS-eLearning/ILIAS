@@ -56,7 +56,7 @@ class ilUserCronCheckAccounts extends ilCronJob
 	
 	public function run()
 	{			
-		global $ilDB, $ilLog;
+		global $ilDB, $ilLog, $lng;
 		
 		$status = ilCronJobResult::STATUS_NO_ACTION;
 		
@@ -88,8 +88,8 @@ class ilUserCronCheckAccounts extends ilCronJob
 			
 			$mail->From('noreply');
 			$mail->To($data['email']);
-			$mail->Subject($this->txt($data['language'],'account_expires_subject'), true);
-			$mail->Body($this->txt($data['language'],'account_expires_body')." ".strftime('%Y-%m-%d %R',$data['expires']));
+			$mail->Subject($lng->txt($data['language'],'account_expires_subject'), true);
+			$mail->Body($lng->txt($data['language'],'account_expires_body')." ".strftime('%Y-%m-%d %R',$data['expires']));
 			$mail->send();
 
 			// set status 'mail sent'
