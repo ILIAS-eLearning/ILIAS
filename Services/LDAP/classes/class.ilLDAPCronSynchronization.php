@@ -36,7 +36,10 @@ class ilLDAPCronSynchronization extends ilCronJob
 	
 	public function getDescription()
 	{
-
+		global $lng;
+		
+		$lng->loadLanguageModule("ldap");
+		return $lng->txt("ldap_user_sync_cron_info");
 	}
 	
 	public function getDefaultScheduleType()

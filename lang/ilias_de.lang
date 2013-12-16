@@ -14090,3 +14090,8 @@ common#:#obj_nota#:#Benachrichtigungen
 blog#:#blog_posting_not_found#:#Der Blog-Eintrag ist nicht verfügbar.
 ldap#:#ldap_choose_role#:#Rolle auswählen
 cntr#:#exc_next_deadline_single#:#Abgabefrist
+file#:#repository_disk_quota_info#:#Wenn aktiviert, wird für alle Benutzer die Disk-Quota im Magazin geprüft und optional Emails an Administratoren und Benutzer versendet.
+trac#:#trac_object_statistics_info#:#Wenn aktiviert, werden Daten für die Zugriffsstatistiken gesammelt.
+ldap#:#ldap_user_sync_cron_info#:#Wenn aktiviert, werden Benutzerkonten aus dem LDAP-Verzeichnis importiert und optional laufend synchronisiert.
+exc#:#exc_peer_review_cron_info#:#Wenn aktiviert, werden Übungsteilnehmer an ausstehendes Peer-Feedback erinnert.
+survey#:#survey_reminder_cron_info#:#Wenn aktiviert, werden Benutzer an die Teilnahme an Umfragen erinnert.
