@@ -282,7 +282,7 @@ class ilSCORMPresentationGUI
 	{
 		global $ilDB, $ilUser;
 		$res = $ilDB->queryF(
-			'SELECT package_attempts,count(*) cnt FROM sahs_user WHERE obj_id = %s AND user_id = %s',
+			'SELECT package_attempts,count(*) cnt FROM sahs_user WHERE obj_id = %s AND user_id = %s GROUP BY package_attempts',
 			array('integer','integer'),
 			array($this->slm->getId(),$ilUser->getId()));
 		$val_rec = $ilDB->fetchAssoc($res);

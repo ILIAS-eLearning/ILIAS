@@ -1289,16 +1289,16 @@ class ilSCORM13Player
 	{
 		global $ilDB, $ilUser;
 		$res = $ilDB->queryF(
-			'SELECT package_attempts,count(*) cnt FROM sahs_user WHERE obj_id = %s AND user_id = %s',
+			'SELECT package_attempts,count(*) cnt FROM sahs_user WHERE obj_id = %s AND user_id = %s GROUP BY package_attempts',
 			array('integer','integer'),
-			array($this->packageId,$this->userId));
+			array($this->slm->getId(),$ilUser->getId()));
 		$val_rec = $ilDB->fetchAssoc($res);
 		if ($val_rec["cnt"] == 0) { //offline_mode could be inserted
 			$attempts = 1;
 			$ilDB->manipulateF(
 				'INSERT INTO sahs_user (obj_id,user_id,package_attempts,module_version,last_access) VALUES(%s,%s,%s,%s,%s)',
 				array('integer', 'integer', 'integer', 'integer', 'timestamp'),
-				array($this->packageId, $this->userId, $attempts, $this->get_Module_Version(), date('Y-m-d H:i:s')));
+				array($this->slm->getId(), $ilUser->getId(), $attempts, $this->slm->getModuleVersion(), date('Y-m-d H:i:s')));
 		} else {
 			$attempts = $val_rec["package_attempts"];
 			if ($attempts == null) $attempts = 0;
@@ -1306,7 +1306,7 @@ class ilSCORM13Player
 			$ilDB->manipulateF(
 				'UPDATE sahs_user SET package_attempts = %s, module_version = %s, last_access=%s WHERE obj_id = %s AND user_id = %s ',
 				array('integer', 'integer', 'timestamp', 'integer', 'integer'),
-				array($attempts, $this->get_Module_Version(), date('Y-m-d H:i:s'), $this->packageId, $this->userId));
+				array($attempts, $this->slm->getModuleVersion(), date('Y-m-d H:i:s'), $this->slm->getId(), $ilUser->getId()));
 		}
 	}
 
