@@ -12804,7 +12804,7 @@ content#:#cont_rte_settings#:#RTE Settings
 content#:#cont_debugging#:#Debugging
 content#:#cont_auto_last_visited_info#:#Opens the last visited SCO/Asset when the learner reenters the learning module.
 content#:#cont_credit_mode_info#:#This setting is only affective if the lesson mode is 'normal'.
-content#:#cont_sc_auto_review_info#:#Set the lesson mode to 'review' when the the learner completes a SCO.
+content#:#cont_sc_auto_review_info_12#:#Set the lesson mode to 'review' when a learner has completed or passed a SCO.
 content#:#cont_sc_usession_info#:#This setting activates periodical requests to the server to keep the session alive.
 content#:#cont_sequencing_info#:#Enable the sequencing and navigation behaviour as defined by the learning module.
 content#:#cont_time_from_lms_info#:#Strict (according to the SCORM standard) check of values sent by the learning module to ILIAS.
