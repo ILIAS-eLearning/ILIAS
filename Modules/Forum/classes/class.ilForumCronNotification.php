@@ -27,7 +27,7 @@ class ilForumCronNotification extends ilCronJob
 	{
 		global $lng;
 			
-		return $lng->txt("cron_forum_notification_desc");
+		return $lng->txt("cron_forum_notification_crob_desc");
 	}
 	
 	public function getDefaultScheduleType()
