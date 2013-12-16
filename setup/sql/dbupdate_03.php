@@ -19461,3 +19461,25 @@ if(!$ilDB->tableColumnExists('content_object','rating_pages')) {
 		$ilDB->renameTableColumn('skl_tree_node', 'draft', 'status');
 	}
 ?>
+<#4165>
+<?php
+$ilinc_role_tpl_titles = array('il_icrs_admin', 'il_icrs_member');
+foreach($ilinc_role_tpl_titles as $title)
+{
+	$query = "SELECT obj_id FROM object_data WHERE title = " . $ilDB->quote($title, 'text') . " " .
+			 "AND type = " . $ilDB->quote('rolt', 'text');
+	$res = $ilDB->query($query);
+	$row = $ilDB->fetchAssoc($res);
+	if($row)
+	{
+		$query = "DELETE FROM rbac_templates WHERE rol_id = " . $ilDB->quote($row['obj_id'], 'integer');
+		$ilDB->manipulate($query);
+	
+		$query = "DELETE FROM rbac_fa WHERE rol_id = " . $ilDB->quote($row['obj_id'], 'integer');
+		$ilDB->manipulate($query);
+	
+		$query = "DELETE FROM object_data WHERE obj_id = " . $ilDB->quote($row['obj_id'], 'integer');
+		$ilDB->manipulate($query);
+	}
+}
+?>
