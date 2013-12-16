@@ -1,4 +1,4 @@
-// Build: 20131031232628 
+// Build: 20131216123027 
 
 function ADLAuxiliaryResource()
 {}
@@ -2696,15 +2696,11 @@ function updateControls(controlState)
 {if(mlaunch!=null){toggleClass('navContinue','disabled',(mlaunch.mNavState.mContinue==false||((mlaunch.mAcitivty)?typeof(activities[mlaunch.mActivityID].hideLMSUIs['continue'])=="object":false)));toggleClass('navExit','disabled',(mlaunch.mNavState.mContinueExit==false||((mlaunch.mAcitivty)?typeof(activities[mlaunch.mActivityID].hideLMSUIs['exit'])=="object":false)));toggleClass('navPrevious','disabled',(mlaunch.mNavState.mPrevious==false||((mlaunch.mAcitivty)?typeof(activities[mlaunch.mActivityID].hideLMSUIs['previous'])=="object":false)));toggleClass('navResumeAll','disabled',mlaunch.mNavState.mResume==false);if(mlaunch.mActivityID){toggleClass('navExitAll','disabled',typeof(activities[mlaunch.mActivityID].hideLMSUIs['exitAll'])=="object");}
 toggleClass('navStart','disabled',mlaunch.mNavState.mStart==false);toggleClass('navSuspendAll','disabled',(mlaunch.mNavState.mSuspend==false||((mlaunch.mAcitivty)?typeof(activities[mlaunch.mActivityID].hideLMSUIs['suspendAll'])=="object":false)));}}
 function setResource(id,url,base)
-{if(url.substring(0,4)!="http")url=base+url;if(!top.frames[RESOURCE_NAME])
-{var elm=window.document.getElementById(RESOURCE_PARENT);if(!elm)
+{if(url.substring(0,4)!="http")url=base+url;var elm=window.document.getElementById(RESOURCE_PARENT);if(!elm)
 {return window.alert("Window Container not found");}
 var h=elm.clientHeight-20;if(self.innerHeight&&navigator.userAgent.indexOf("Safari")!=-1)
 {h=self.innerHeight-60;}
-var resContainer=window.document.getElementById("res");resContainer.src=url;resContainer.name=RESOURCE_NAME;}
-else
-{open(url,RESOURCE_NAME);}
-if(guiItem)
+var resContainer=window.document.getElementById("res");resContainer.src=url;resContainer.name=RESOURCE_NAME;if(guiItem)
 {removeClass(guiItem,"ilc_rte_tlink_RTETreeCurrent");removeClass(guiItem.parentNode,"ilc_rte_status_RTERunning");}
 guiItem=all(ITEM_PREFIX+id);if(guiItem)
 {removeClass(guiItem.parentNode,"ilc_rte_status_RTENotAttempted",1);removeClass(guiItem.parentNode,"ilc_rte_status_RTEIncomplete",1);removeClass(guiItem.parentNode,"ilc_rte_status_RTECompleted",1);removeClass(guiItem.parentNode,"ilc_rte_status_RTEFailed",1);removeClass(guiItem.parentNode,"ilc_rte_status_RTEPassed",1);addClass(guiItem,"ilc_rte_tlink_RTETreeCurrent");addClass(guiItem.parentNode,"ilc_rte_status_RTERunning");}
