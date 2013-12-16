@@ -14114,3 +14114,8 @@ ldap#:#ldap_choose_role#:#Choose Role
 skmg#:#skmg_no_nodes_selectable#:#Currently there are no competences selectable.
 skmg#:#skmg_suggested_resources#:#Suggested Resources
 cntr#:#exc_next_deadline_single#:#Deadline
+file#:#repository_disk_quota_info#:#If activated, the disk-quota of the magazine will be checked for each user and emails will be sent to administrators and users optionally.
+trac#:#trac_object_statistics_info#:#If activated, the basic data for the usage statistics will be gathered and processed.
+ldap#:#ldap_user_sync_cron_info#:#If activated, user accounts will be imported from the LDAP directory and synchronised continuously as an option.
+exc#:#exc_peer_review_cron_info#:#If activated, exercise participants will be reminded to give pending peer feedback.
+survey#:#survey_reminder_cron_info#:#If activated, users will be reminded to participate in surveys.

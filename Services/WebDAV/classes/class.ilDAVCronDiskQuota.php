@@ -26,7 +26,10 @@ class ilDAVCronDiskQuota extends ilCronJob
 	
 	public function getDescription()
 	{
-	
+		global $lng;
+		
+		$lng->loadLanguageModule("file");		
+		return $lng->txt("repository_disk_quota_info");
 	}
 	
 	public function getDefaultScheduleType()

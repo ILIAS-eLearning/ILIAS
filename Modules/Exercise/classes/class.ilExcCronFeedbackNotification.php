@@ -25,6 +25,14 @@ class ilExcCronFeedbackNotification extends ilCronJob
 		return $lng->txt("exc_peer_review");
 	}
 	
+	public function getDescription()
+	{
+		global $lng;
+		
+		$lng->loadLanguageModule("exc");
+		return $lng->txt("exc_peer_review_cron_info");
+	}
+	
 	public function getDefaultScheduleType()
 	{
 		return self::SCHEDULE_TYPE_DAILY;
