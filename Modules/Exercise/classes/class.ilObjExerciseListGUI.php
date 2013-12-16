@@ -91,12 +91,14 @@ class ilObjExerciseListGUI extends ilObjectListGUI
 		global $lng, $ilUser;
 
 		$props = array();
-		$rem = ilObjExerciseAccess::_lookupRemainingWorkingTimeString($this->obj_id);
-		if ($rem != "")
+		$rem = ilObjExerciseAccess::_lookupRemainingWorkingTimeString($this->obj_id);		
+		if ($rem["mtime"] != "")
 		{
 			$props[] = array(
-				"property" => $this->lng->txt("exc_next_deadline"),
-				"value" => ilObjExerciseAccess::_lookupRemainingWorkingTimeString($this->obj_id)
+				"property" => ($rem["cnt"] > 1)
+					? $this->lng->txt("exc_next_deadline")
+					: $this->lng->txt("exc_next_deadline_single"),
+				"value" => $rem["mtime"]
 			);
 		}
 
