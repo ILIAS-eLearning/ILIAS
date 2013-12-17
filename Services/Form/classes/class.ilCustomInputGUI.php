@@ -22,14 +22,15 @@
 */
 
 require_once('./Services/Form/classes/class.ilSubEnabledFormPropertyGUI.php');
-
 /**
-* This class represents a custom property in a property form.
-*
-* @author Alex Killing <alex.killing@gmx.de> 
-* @version $Id$
-* @ingroup	ServicesForm
-*/
+ * This class represents a custom property in a property form.
+ *
+ * @author     Alex Killing <alex.killing@gmx.de>
+ * @version    $Id$
+ * @ingroup    ServicesForm
+ *
+ * @deprecated Deprecated since 4.4, inherit directly from InputGUI instead
+ */
 class ilCustomInputGUI extends ilSubEnabledFormPropertyGUI 
 {
 	protected $html;
