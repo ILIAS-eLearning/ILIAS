@@ -2,7 +2,6 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once("./Services/COPage/classes/class.ilPageContent.php");
-require_once("./Services/COPage/classes/class.ilWysiwygUtil.php");
 
 /**
 * Class ilPCParagraph
