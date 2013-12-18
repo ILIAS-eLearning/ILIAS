@@ -6514,14 +6514,14 @@ crs#:#crs_persons_on_waiting_list#:#Personen auf der Warteliste
 crs#:#crs_presentation_type#:#Ansicht
 crs#:#crs_print_list#:#Liste erstellen
 crs#:#crs_question_assignment#:#Fragen-Zuordnung
-crs#:#crs_reg#:#Kursbeitritt
+crs#:#crs_reg#:#Selbständiger Beitritt durch Benutzer
 crs#:#crs_reg_code#:#Beitritt per Link
 crs#:#crs_reg_code_enabled_info#:#Unabhängig vom ausgewählten Beitrittsverfahren ermöglicht diese Option einen direkten Beitritt durch Aufruf eines Links.
 crs#:#crs_reg_code_link#:#Link für direkten Beitritt
 crs#:#crs_reg_code_value#:#Link
 crs#:#crs_reg_deactivated#:#Anmeldung ausgeschaltet
 crs#:#crs_reg_lim_info#:#Diese Einstellung erlaubt den Kursbeitritt nur während eines definierten Zeitraumes. Wählen Sie außerdem noch ein Beitrittsverfahren aus.
-crs#:#crs_reg_max_info#:#Legen Sie hier die maximale Anzahl an Benutzern fest, die selbst beitreten können. Wird die Zahl überschritten, ist keine Selbstanmeldung möglich. ('0' bedeutet unbegrenzt)
+crs#:#crs_reg_max_info#:#Ist die maximale Mitgliederanzahl erreicht, ist ein selbständiger Beitritt nicht mehr möglich. ('0' bedeutet unbegrenzt)
 crs#:#crs_reg_notify_info#:#Wenn eingeschaltet werden alle Kursadministratoren und -tutoren die Status 'Benachrichtigung' haben, über neue Beitritte informiert.
 crs#:#crs_reg_period#:#Selbstregistrierung
 crs#:#crs_reg_subject#:#Nachricht
@@ -6536,8 +6536,8 @@ crs#:#crs_reg_user_already_assigned#:#Sie sind bereits Mitglied dieses Kurses
 crs#:#crs_reg_user_already_subscribed#:#Sie haben bereits einen Aufnahmeantrag gestellt! Bitte warten Sie auf die Bestätigung.
 crs#:#crs_reg_user_blocked#:#Ihr Zugang wurde gesperrt
 crs#:#crs_registration#:#Zum Kurs beitreten
-crs#:#crs_registration_deactivated#:#Bei dieser Einstellung ist die Selbstregistrierung deaktiviert. Benutzer können dann nicht selbst dem Kurs beitreten.
-crs#:#crs_registration_limited#:#Zeitlich begrenzt
+crs#:#crs_registration_deactivated#:#Nur Kursdministratoren können Benutzer in den Kurs aufnehmen.
+crs#:#crs_registration_limited#:#Zeitlich begrenzter Beitritt
 crs#:#crs_registration_type#:#Beitrittsverfahren
 crs#:#crs_registration_unlimited#:#Zeitlich unbegrenzt
 crs#:#crs_reject_subscriber#:#Ablehnung für Kurs "%s"
@@ -6602,8 +6602,8 @@ crs#:#crs_subscriber#:#Aufnahmeantrag gestellt
 crs#:#crs_subscribers#:#Aufnahmeanträge
 crs#:#crs_subscribers_deleted#:#Der Antrag wurde gelöscht
 crs#:#crs_subscription#:#Beitrittsverfahren
-crs#:#crs_subscription_max_members#:#Begrenzte Anzahl Mitglieder
-crs#:#crs_subscription_max_members_short#:#Mitgliederanzahl
+crs#:#crs_subscription_max_members#:#Maximale Anzahl
+crs#:#crs_subscription_max_members_short#:#Begrenzte Mitgliederanzahl
 crs#:#crs_subscription_notify#:#Benachrichtigung bei Beitritten
 crs#:#crs_subscription_options_confirmation#:#Antrag mit Bestätigung
 crs#:#crs_subscription_options_deactivated#:#Beantragung ausgeschaltet
@@ -6683,7 +6683,7 @@ crs#:#crs_view_objective#:#Lernziel-orientierte Ansicht
 crs#:#crs_view_timing#:#Lernplanungsansicht
 crs#:#crs_visibility_limitless#:#Unbegrenzt – wenn online geschaltet
 crs#:#crs_visibility_until#:#Zeitlich begrenzt – wenn online geschaltet
-crs#:#crs_wait_info#:#Wenn diese Option eingeschaltet und die Maximalanzahl von Benutzern erreicht ist, können sich Benutzer auf eine Warteliste setzen lassen.
+crs#:#crs_wait_info#:#Ist die maximale Mitgliederanzahl erreicht, können sich weitere Benutzer auf eine Warteliste setzen lassen.
 crs#:#crs_waiting_list#:#Warteliste
 crs#:#crs_warn_no_max_set_on_waiting_list#:#Die maximale Teilnehmeranzahl ist erreicht. Sie können sich jedoch auf die Warteliste für diesen Kurs setzen lassen und würden benachrichtigt, wenn Sie in den Kurs nachrücken könnten.
 crs#:#crs_warn_wl_set_on_waiting_list#:#Es sind bereits Teilnehmer auf der Warteliste eingetragen. Sie können sich jedoch auf die Warteliste für diesen Kurs setzen lassen. Sie werden per Mail benachrichtigt, sobald Ihr Aufnahmeantrag angenommen oder abgelehnt wurde.
@@ -14105,3 +14105,5 @@ exc#:#exc_peer_review_cron_info#:#Wenn aktiviert, werden Übungsteilnehmer an au
 survey#:#survey_reminder_cron_info#:#Wenn aktiviert, werden Benutzer an die Teilnahme an Umfragen erinnert.
 cron#:#cron_action_activate_sure_multi#:#Wollen Sie wirklich die folgenden Cron-Jobs aktivieren?
 cron#:#cron_action_deactivate_sure_multi#:#Wollen Sie wirklich die folgenden Cron-Jobs deaktivieren?
+crs#:#crs_registration_period#:#Zeitraum
+crs#:#crs_registration_confirmation_info#:#Der Beitritt erfolgt nur, wenn er durch einen Kursadministrator bestätigt wird.

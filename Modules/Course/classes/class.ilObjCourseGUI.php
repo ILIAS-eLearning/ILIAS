@@ -939,22 +939,45 @@ class ilObjCourseGUI extends ilContainerGUI
 		$archive_end = $this->loadDate('archive_end');				 
 		*/
 		$period = $form->getItemByPostVar("access_period");										
-		$sub_period = $form->getItemByPostVar("subscription_period");										
+		$sub_period = $form->getItemByPostVar("subscription_period");		
 		
 		$this->object->setOfflineStatus(!(bool)$_POST['activation_online']);
 		$this->object->setActivationType((int)$_POST['activation_type']);
 		$this->object->setActivationStart($period->getStart()->get(IL_CAL_UNIX));
 		$this->object->setActivationEnd($period->getEnd()->get(IL_CAL_UNIX));
 		$this->object->setActivationVisibility((int)$_POST['activation_visibility']);
-		$this->object->setSubscriptionLimitationType((int) $_POST['subscription_limitation_type']);
-		$this->object->setSubscriptionType((int) $_POST['subscription_type']);
+		
+		$sub_type = (int)$_POST['subscription_type'];
+		if($sub_type != IL_CRS_SUBSCRIPTION_DEACTIVATED)
+		{		
+			$this->object->setSubscriptionType($sub_type);
+						
+			if((int)$_POST['subscription_limitation_type'])
+			{
+				$this->object->setSubscriptionLimitationType(IL_CRS_SUBSCRIPTION_LIMITED);
+			}
+			else
+			{
+				$this->object->setSubscriptionLimitationType(IL_CRS_SUBSCRIPTION_UNLIMITED);
+			}
+		}
+		else
+		{
+			$this->object->setSubscriptionType(IL_CRS_SUBSCRIPTION_DIRECT);  // see ilObjCourse::__createDefaultSettings()
+			$this->object->setSubscriptionLimitationType(IL_CRS_SUBSCRIPTION_DEACTIVATED);
+		}		
+		
+		// save subitems anyways
 		$this->object->setSubscriptionPassword(ilUtil::stripSlashes($_POST['subscription_password']));
 		$this->object->setSubscriptionStart($sub_period->getStart()->get(IL_CAL_UNIX));
 		$this->object->setSubscriptionEnd($sub_period->getEnd()->get(IL_CAL_UNIX));
-		$this->object->enableSubscriptionMembershipLimitation((int) $_POST['subscription_membership_limitation']);
+		
+		$this->object->enableSubscriptionMembershipLimitation((int) $_POST['subscription_membership_limitation']);		
 		$this->object->setSubscriptionMaxMembers((int) $_POST['subscription_max']);
+		
 		$this->object->enableRegistrationAccessCode((int) $_POST['reg_code_enabled']);
 		$this->object->setRegistrationAccessCode(ilUtil::stripSlashes($_POST['reg_code']));
+		
 		$this->object->enableWaitingList((int) $_POST['waiting_list']);
 		#$this->object->setSubscriptionNotify((int) $_POST['subscription_notification']);
 		$this->object->setViewMode((int) $_POST['view_mode']);
@@ -1174,45 +1197,16 @@ class ilObjCourseGUI extends ilContainerGUI
 		$section->setTitle($this->lng->txt('crs_reg'));
 		$form->addItem($section);
 		
-		$reg_type = new ilRadioGroupInputGUI($this->lng->txt('crs_reg_period'),'subscription_limitation_type');
-		$reg_type->setValue($this->object->getSubscriptionLimitationType());		
-		
-			$opt = new ilRadioOption($this->lng->txt('crs_reg_deactivated'),IL_CRS_SUBSCRIPTION_DEACTIVATED);
-			$opt->setInfo($this->lng->txt('crs_registration_deactivated'));
-			$reg_type->addOption($opt);
-			
-			$opt = new ilRadioOption($this->lng->txt('crs_registration_unlimited'),IL_CRS_SUBSCRIPTION_UNLIMITED);
-			$opt->setInfo($this->lng->txt('crs_reg_unlim_info'));
-			$reg_type->addOption($opt);
-
-			$opt = new ilRadioOption($this->lng->txt('crs_registration_limited'),IL_CRS_SUBSCRIPTION_LIMITED);
-			$opt->setInfo($this->lng->txt('crs_reg_lim_info'));
-			
-				include_once "Services/Form/classes/class.ilDateDurationInputGUI.php";
-				$sdur = new ilDateDurationInputGUI("", "subscription_period");
-				$sdur->setShowTime(true);																	
-				$sdur->setStart(new ilDateTime($this->object->getSubscriptionStart(),IL_CAL_UNIX));
-				$sdur->setStartText($this->lng->txt('crs_start'));				
-				$sdur->setEnd(new ilDateTime($this->object->getSubscriptionEnd(),IL_CAL_UNIX));
-				$sdur->setEndText($this->lng->txt('crs_end'));				
-				$opt->addSubItem($sdur);
-			
-			$reg_type->addOption($opt);
-
-		$form->addItem($reg_type);
-		
-		
-		
 		$reg_proc = new ilRadioGroupInputGUI($this->lng->txt('crs_registration_type'),'subscription_type');
-		$reg_proc->setValue($this->object->getSubscriptionType());
-		$reg_proc->setInfo($this->lng->txt('crs_reg_type_info'));
+		$reg_proc->setValue(
+			($this->object->getSubscriptionLimitationType() != IL_CRS_SUBSCRIPTION_DEACTIVATED)
+				? $this->object->getSubscriptionType()
+				: IL_CRS_SUBSCRIPTION_DEACTIVATED);
+		// $reg_proc->setInfo($this->lng->txt('crs_reg_type_info'));
 
-			$opt = new ilRadioOption($this->lng->txt('crs_subscription_options_confirmation'),IL_CRS_SUBSCRIPTION_CONFIRMATION);
-			$reg_proc->addOption($opt);
-			
 			$opt = new ilRadioOption($this->lng->txt('crs_subscription_options_direct'),IL_CRS_SUBSCRIPTION_DIRECT);
 			$reg_proc->addOption($opt);
-
+		
 			$opt = new ilRadioOption($this->lng->txt('crs_subscription_options_password'),IL_CRS_SUBSCRIPTION_PASSWORD);
 			
 				$pass = new ilTextInputGUI('','subscription_password');
@@ -1223,15 +1217,23 @@ class ilObjCourseGUI extends ilContainerGUI
 			
 			$opt->addSubItem($pass);
 			$reg_proc->addOption($opt);
+		
+			$opt = new ilRadioOption($this->lng->txt('crs_subscription_options_confirmation'),IL_CRS_SUBSCRIPTION_CONFIRMATION);
+			$opt->setInfo($this->lng->txt('crs_registration_confirmation_info'));
+			$reg_proc->addOption($opt);			
+			
+			$opt = new ilRadioOption($this->lng->txt('crs_reg_deactivated'),IL_CRS_SUBSCRIPTION_DEACTIVATED);
+			$opt->setInfo($this->lng->txt('crs_registration_deactivated'));
+			$reg_proc->addOption($opt);			
 
 		$form->addItem($reg_proc);
 		
+		
 		// Registration codes
-		$reg_code = new ilCheckboxInputGUI('','reg_code_enabled');
+		$reg_code = new ilCheckboxInputGUI($this->lng->txt('crs_reg_code'),'reg_code_enabled');
 		$reg_code->setChecked($this->object->isRegistrationAccessCodeEnabled());
 		$reg_code->setValue(1);
 		$reg_code->setInfo($this->lng->txt('crs_reg_code_enabled_info'));
-		$reg_code->setOptionTitle($this->lng->txt('crs_reg_code'));
 		
 		/*
 		$code = new ilNonEditableValueGUI($this->lng->txt('crs_reg_code_value'));
@@ -1249,8 +1251,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		$reg_link = new ilHiddenInputGUI('reg_code');
 		$reg_link->setValue($this->object->getRegistrationAccessCode());
 		$form->addItem($reg_link);
-		
-		
+					
 		$link = new ilCustomInputGUI($this->lng->txt('crs_reg_code_link'));
 		include_once './Services/Link/classes/class.ilLink.php';
 		$val = ilLink::_getLink($this->object->getRefId(),$this->object->getType(),array(),'_rcode'.$this->object->getRegistrationAccessCode()); 
@@ -1260,10 +1261,25 @@ class ilObjCourseGUI extends ilContainerGUI
 		$form->addItem($reg_code);
 		
 		
+		// time limit
+		$time_limit = new ilCheckboxInputGUI($this->lng->txt('crs_registration_limited'),'subscription_limitation_type');
+		$time_limit->setChecked(($this->object->getSubscriptionLimitationType() ==  IL_CRS_SUBSCRIPTION_LIMITED) ? true : false);
+
+			include_once "Services/Form/classes/class.ilDateDurationInputGUI.php";
+			$sdur = new ilDateDurationInputGUI($this->lng->txt('crs_registration_period'), "subscription_period");
+			$sdur->setShowTime(true);																	
+			$sdur->setStart(new ilDateTime($this->object->getSubscriptionStart(),IL_CAL_UNIX));
+			$sdur->setStartText($this->lng->txt('crs_start'));				
+			$sdur->setEnd(new ilDateTime($this->object->getSubscriptionEnd(),IL_CAL_UNIX));
+			$sdur->setEndText($this->lng->txt('crs_end'));				
+			
+		$time_limit->addSubItem($sdur);
+		$form->addItem($time_limit);
+		
+		
 		// Max members
 		$lim = new ilCheckboxInputGUI($this->lng->txt('crs_subscription_max_members_short'),'subscription_membership_limitation');
 		$lim->setValue(1);
-		$lim->setOptionTitle($this->lng->txt('crs_subscription_max_members'));
 		$lim->setChecked($this->object->isSubscriptionMembershipLimited());
 		
 			$max = new ilTextInputGUI('','subscription_max');
@@ -1271,13 +1287,12 @@ class ilObjCourseGUI extends ilContainerGUI
 			$max->setSize(4);
 			$max->setMaxLength(4);
 			$max->setValue($this->object->getSubscriptionMaxMembers() ? $this->object->getSubscriptionMaxMembers() : '');
-			$max->setTitle($this->lng->txt('members').':');
+			$max->setTitle($this->lng->txt('crs_subscription_max_members'));
 			$max->setInfo($this->lng->txt('crs_reg_max_info'));
 		
 		$lim->addSubItem($max);
 		
-			$wait = new ilCheckboxInputGUI('','waiting_list');
-			$wait->setOptionTitle($this->lng->txt('crs_waiting_list'));
+			$wait = new ilCheckboxInputGUI($this->lng->txt('crs_waiting_list'),'waiting_list');
 			$wait->setChecked($this->object->enabledWaitingList());
 			$wait->setInfo($this->lng->txt('crs_wait_info'));
 			$lim->addSubItem($wait);
