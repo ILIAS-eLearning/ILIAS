@@ -1209,7 +1209,8 @@ class ilObjCourseGUI extends ilContainerGUI
 		
 			$opt = new ilRadioOption($this->lng->txt('crs_subscription_options_password'),IL_CRS_SUBSCRIPTION_PASSWORD);
 			
-				$pass = new ilTextInputGUI('','subscription_password');
+				$pass = new ilTextInputGUI($this->lng->txt("password"),'subscription_password');
+				$pass->setInfo($this->lng->txt('crs_reg_password_info'));
 				$pass->setSubmitFormOnEnter(true);
 				$pass->setSize(12);
 				$pass->setMaxLength(12);
