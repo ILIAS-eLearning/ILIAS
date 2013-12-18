@@ -2609,7 +2609,7 @@ function ilEditMultiAction(cmd)
 // copied from TinyMCE editor_template_src.js
 function showToolbar(ed_id)
 {
-	var DOM = tinyMCE.DOM;
+	var DOM = tinyMCE.DOM, obj;
 	var Event = tinyMCE.dom.Event;
 	var e = DOM.get(ed_id + '_external');
 	DOM.show(e);
@@ -2631,17 +2631,21 @@ function showToolbar(ed_id)
 	{
 		// move parent node to end of body to ensure layer being on top
 		if (!ilCOPage.menu_panel) {
-			var obj = document.getElementById('iltinymenu');
+			obj = document.getElementById('iltinymenu');
 			$(obj.parentNode).appendTo("body");
-			var obj = document.getElementById('ilEditorPanel');
-			$(obj.parentNode).appendTo("body");
+			obj = document.getElementById('ilEditorPanel');
+			// if statement added since this may miss if internal links not supported?
+			// e.g. table editing
+			if (obj) {
+				$(obj.parentNode).appendTo("body");
+			}
 		}
 		
 		$('#ilsaving').addClass("ilNoDisplay");
 
 		// make tinymenu a panel
 		if (!ilCOPage.menu_panel) {
-			var obj = document.getElementById('iltinymenu');
+			obj = document.getElementById('iltinymenu');
 			obj.style.display = "";
 			// Create a panel Instance, from the 'resizablepanel' DIV standard module markup
 			var menu_panel = new YAHOO.widget.Panel("iltinymenu", {
@@ -2673,7 +2677,7 @@ function showToolbar(ed_id)
 //		menu_panel.moveTo(ed_reg.x,
 //			ed_reg.y - m_reg.height + 1 + debug);
 
-		var obj = document.getElementById('iltinymenu_c');
+		obj = document.getElementById('iltinymenu_c');
 		obj.style.position = 'fixed';
 		obj.style.left = '0px';
 		obj.style.right = '0px';
