@@ -6675,7 +6675,7 @@ grp#:#grp_reg_limit_time#:#Enabled
 grp#:#grp_reg_limited#:#Self-Registration
 grp#:#grp_reg_max_members_info#:#Define the maximum number of users that can be assigned to this group.
 grp#:#grp_reg_passwd_info_screen#:#If a group administrator has given you the group password, you can join this group.
-grp#:#grp_reg_password_info#:#Users need to type in the correct password for joining the group.
+grp#:#grp_reg_password_info#:#Users need to type in this password when joining the group.
 grp#:#grp_reg_period#:#Self-Registration Period
 grp#:#grp_reg_req_info_screen#:#You can request membership for this group. You will get a message from a group administrator when your request has been admitted or declined.
 grp#:#grp_reg_request_info#:#Interested users can send a request/message to group administrator.
@@ -14132,3 +14132,4 @@ rep#:#rep_time_period#:#Period
 crs#:#crs_registration_period#:#Period
 crs#:#crs_registration_confirmation_info#:#Interested users can send a request/message to course administrator.
 crs#:#crs_reg_no_selfreg#:#No self-enrolment
+crs#:#crs_reg_password_info#:#Users need to type in this password when joining the course.
