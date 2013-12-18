@@ -14107,3 +14107,4 @@ cron#:#cron_action_activate_sure_multi#:#Wollen Sie wirklich die folgenden Cron-
 cron#:#cron_action_deactivate_sure_multi#:#Wollen Sie wirklich die folgenden Cron-Jobs deaktivieren?
 crs#:#crs_registration_period#:#Zeitraum
 crs#:#crs_registration_confirmation_info#:#Der Beitritt erfolgt nur, wenn er durch einen Kursadministrator bestätigt wird.
+crs#:#crs_reg_no_selfreg#:#Kein selbständiger Beitritt
