@@ -5614,7 +5614,7 @@ crs#:#crs_reg_user_already_assigned#:#You are already assigned to this course
 crs#:#crs_reg_user_already_subscribed#:#You have already requested membership for this course
 crs#:#crs_reg_user_blocked#:#You are blocked from this course
 crs#:#crs_reg#:#Registration Settings
-crs#:#crs_registration_deactivated#:#This option is disabling the course registration. No user can join this course independently.
+crs#:#crs_registration_deactivated#:#Only course administrators can add users to the course.
 crs#:#crs_registration_limited#:#Limited Registration Period
 crs#:#crs_registration_type#:#Registration Procedure
 crs#:#crs_registration_unlimited#:#Unlimited Registration Period
@@ -5673,8 +5673,8 @@ crs#:#crs_subscribe_wl#:#Your registration for course "%s"
 crs#:#crs_subscriber#:#Subscriber
 crs#:#crs_subscribers_deleted#:#Deleted subscriber(s)
 crs#:#crs_subscribers#:#Join Requests
-crs#:#crs_subscription_max_members_short#:#Number of Members
-crs#:#crs_subscription_max_members#:#Limited Number of Members
+crs#:#crs_subscription_max_members_short#:#Limited Number of Members
+crs#:#crs_subscription_max_members#:#Maximum Number
 crs#:#crs_subscription_notify#:#Notify for subscriptions
 crs#:#crs_subscription_options_confirmation#:#Request Membership
 crs#:#crs_subscription_options_deactivated#:#Deactivated
@@ -5755,7 +5755,7 @@ crs#:#crs_view_objective#:#Learning Objectives View
 crs#:#crs_view_timing#:#Timings View
 crs#:#crs_visibility_limitless#:#Unlimited
 crs#:#crs_visibility_until#:#Temporarily Available
-crs#:#crs_wait_info#:#If enabled and the maximum number of users is exceeded, new registrations will be placed on a waiting list.
+crs#:#crs_wait_info#:#If the maximum number of users is exceeded, new registrations will be placed on a waiting list.
 crs#:#crs_waiting_list#:#Waiting List
 crs#:#crs_warn_no_max_set_on_waiting_list#:#The maximum number of course members is exceeded. You can add your join request to the waiting list. You will receive a message from a course administrator when your request has been approved or rejected.
 crs#:#crs_warn_wl_set_on_waiting_list#:#Some users are already assigned to the waiting list. You can add your join request to the waiting list. You will receive a message from a course administrator when your request has been approved or rejected.
@@ -14129,3 +14129,5 @@ crs#:#crs_mail_all_info#:#Members, administrators and tutors can use the feature
 grp#:#grp_mail_tutors_only_info#:#Only administrators can use the feature "Mail to Members" in the "Members" tab.
 grp#:#grp_mail_all_info#:#Members and administrators can use the feature "Mail to Members" in the "Members" tab.
 rep#:#rep_time_period#:#Period
+crs#:#crs_registration_period#:#Period
+crs#:#crs_registration_confirmation_info#:#Interested users can send a request/message to course administrator.
