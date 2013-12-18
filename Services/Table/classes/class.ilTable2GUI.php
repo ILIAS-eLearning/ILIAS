@@ -2132,11 +2132,14 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 				$overlay->setAutoHide(false);
 				$overlay->add();
 
+				$lng->loadLanguageModule("form");
 				$this->tpl->setCurrentBlock("template_editor_delete_item");
-				$this->tpl->setVariable("TEMPLATE_DELETE_OPTION", "");
+				$this->tpl->setVariable("TEMPLATE_DELETE_OPTION_VALUE", "");
+				$this->tpl->setVariable("TEMPLATE_DELETE_OPTION", "- ".$lng->txt("form_please_select")." -");
 				$this->tpl->parseCurrentBlock();
 				foreach($templates as $name)
 				{
+					$this->tpl->setVariable("TEMPLATE_DELETE_OPTION_VALUE", $name);
 					$this->tpl->setVariable("TEMPLATE_DELETE_OPTION", $name);
 					$this->tpl->parseCurrentBlock();
 				}
