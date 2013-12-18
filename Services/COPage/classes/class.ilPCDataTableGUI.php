@@ -703,7 +703,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
 			$this->pg_obj->getParentType() == "wpg",
 			false,
 			$this->getStyleId(),
-			false, true));
+			false, true, false, false));
 
 
 	}

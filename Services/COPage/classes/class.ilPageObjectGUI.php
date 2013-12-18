@@ -2151,7 +2151,7 @@ class ilPageObjectGUI
 	static function getTinyMenu($a_par_type,
 		$a_int_links = false, $a_wiki_links = false, $a_keywords = false,
 		$a_style_id = 0, $a_paragraph_styles = true, $a_save_return = true,
-		$a_anchors = false)
+		$a_anchors = false, $a_save_new = true)
 	{
 		global $lng;
 
@@ -2318,7 +2318,10 @@ class ilPageObjectGUI
 			$btpl->setCurrentBlock("save_return");
 			$btpl->setVariable("TXT_SAVE_RETURN", $lng->txt("save_return"));
 			$btpl->parseCurrentBlock();
+		}
 
+		if ($a_save_new)
+		{
 			$btpl->setCurrentBlock("save_new");
 			$btpl->setVariable("TXT_SAVE_NEW", $lng->txt("save_new"));
 			$btpl->parseCurrentBlock();
