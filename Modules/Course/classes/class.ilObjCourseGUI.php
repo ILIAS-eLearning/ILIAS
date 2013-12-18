@@ -1222,7 +1222,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			$opt->setInfo($this->lng->txt('crs_registration_confirmation_info'));
 			$reg_proc->addOption($opt);			
 			
-			$opt = new ilRadioOption($this->lng->txt('crs_reg_deactivated'),IL_CRS_SUBSCRIPTION_DEACTIVATED);
+			$opt = new ilRadioOption($this->lng->txt('crs_reg_no_selfreg'),IL_CRS_SUBSCRIPTION_DEACTIVATED);
 			$opt->setInfo($this->lng->txt('crs_registration_deactivated'));
 			$reg_proc->addOption($opt);			
 
