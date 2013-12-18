@@ -6678,7 +6678,7 @@ crs#:#crs_users_removed_from_list#:#Die ausgewählten Benutzer wurden aus der Wa
 crs#:#crs_view_archive#:#Archivansicht
 crs#:#crs_view_info_objective#:#Lernziele werden in einer eigenen Liste angezeigt. Objekte, die keinen Lernzielen zugeordnet sind, werden darunter aufgelistet.
 crs#:#crs_view_info_timing#:#Objekte werden anhand eines Zeitplans dargestellt.
-crs#:#crs_view_mode#:#Kursdarstellung
+crs#:#crs_view_mode#:#Darstellung
 crs#:#crs_view_objective#:#Lernziel-orientierte Ansicht
 crs#:#crs_view_timing#:#Lernplanungsansicht
 crs#:#crs_visibility_limitless#:#Unbegrenzt – wenn online geschaltet
@@ -13748,9 +13748,9 @@ dateplaner#:#cal_edit_single#:#Diesen Termin bearbeiten
 dateplaner#:#cal_edit_recurrences#:#Alle Termine bearbeiten
 crs#:#crs_mail_type#:#Mail an Mitglieder
 crs#:#crs_mail_tutors_only#:#Nur für Administratoren und Tutoren
-crs#:#crs_mail_tutors_only_info#:#Nur Administratoren und Tutoren können die Funktion "Mail an Mitglieder" im Reiter Mitglieder nutzen.
+crs#:#crs_mail_tutors_only_info#:#Nur Administratoren und Tutoren können die Funktion "Mail an Mitglieder" im Reiter "Mitglieder" nutzen.
 crs#:#crs_mail_all#:#Für alle Mitglieder
-crs#:#crs_mail_all_info#:#Mitglieder, Administratoren und Tutoren können die Funktion "Mail an Mitglieder" im Reiter Mitglieder nutzen.
+crs#:#crs_mail_all_info#:#Mitglieder, Administratoren und Tutoren können die Funktion "Mail an Mitglieder" im Reiter "Mitglieder" nutzen.
 grp#:#grp_mail_type#:#Mail an Mitglieder
 grp#:#grp_mail_tutors_only#:#Nur für Administratoren
 grp#:#grp_mail_all#:#Für alle Mitglieder
