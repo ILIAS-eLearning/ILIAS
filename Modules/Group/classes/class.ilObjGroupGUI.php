@@ -2633,7 +2633,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			$reg_type->addOption($opt_dir);
 
 			$opt_pass = new ilRadioOption($this->lng->txt('grp_pass_request'),GRP_REGISTRATION_PASSWORD);
-			$pass = new ilTextInputGUI('','password');
+			$pass = new ilTextInputGUI($this->lng->txt("password"),'password');
 			$pass->setInfo($this->lng->txt('grp_reg_password_info'));
 			$pass->setValue($this->object->getPassword());
 			$pass->setSize(10);
@@ -2644,7 +2644,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			$opt_req = new ilRadioOption($this->lng->txt('grp_reg_request'),GRP_REGISTRATION_REQUEST,$this->lng->txt('grp_reg_request_info'));
 			$reg_type->addOption($opt_req);
 
-			$opt_deact = new ilRadioOption($this->lng->txt('grp_reg_disabled'),GRP_REGISTRATION_DEACTIVATED,$this->lng->txt('grp_reg_disabled_info'));
+			$opt_deact = new ilRadioOption($this->lng->txt('grp_reg_no_selfreg'),GRP_REGISTRATION_DEACTIVATED,$this->lng->txt('grp_reg_disabled_info'));
 			$reg_type->addOption($opt_deact);
 
 			// Registration codes
@@ -2654,9 +2654,27 @@ class ilObjGroupGUI extends ilContainerGUI
 			$reg_code->setInfo($this->lng->txt('grp_reg_code_enabled_info'));
 			$this->form->addItem($reg_type);
 
+			// Registration codes
+			if(!$this->object->getRegistrationAccessCode())
+			{
+				include_once './Services/Membership/classes/class.ilMembershipRegistrationCodeUtils.php';
+				$this->object->setRegistrationAccessCode(ilMembershipRegistrationCodeUtils::generateCode());
+			}
+			$reg_link = new ilHiddenInputGUI('reg_code');
+			$reg_link->setValue($this->object->getRegistrationAccessCode());
+			$this->form->addItem($reg_link);
+
+			$link = new ilCustomInputGUI($this->lng->txt('grp_reg_code_link'));
+			include_once './Services/Link/classes/class.ilLink.php';
+			$val = ilLink::_getLink($this->object->getRefId(),$this->object->getType(),array(),'_rcode'.$this->object->getRegistrationAccessCode());
+			$link->setHTML('<font class="small">'.$val.'</font>');
+			$reg_code->addSubItem($link);
+			$this->form->addItem($reg_code);
+
+
 			// time limit
 			$time_limit = new ilCheckboxInputGUI($this->lng->txt('grp_reg_limited'),'reg_limit_time');
-			$time_limit->setOptionTitle($this->lng->txt('grp_reg_limit_time'));
+//			$time_limit->setOptionTitle($this->lng->txt('grp_reg_limit_time'));
 			$time_limit->setChecked($this->object->isRegistrationUnlimited() ? false : true);
 
 			$this->lng->loadLanguageModule('dateplaner');
@@ -2677,43 +2695,26 @@ class ilObjGroupGUI extends ilContainerGUI
 			// max member
 			$lim = new ilCheckboxInputGUI($this->lng->txt('reg_grp_max_members_short'),'registration_membership_limited');
 			$lim->setValue(1);
-			$lim->setOptionTitle($this->lng->txt('reg_grp_max_members'));
+//			$lim->setOptionTitle($this->lng->txt('reg_grp_max_members'));
 			$lim->setChecked($this->object->isMembershipLimited());
 
 
-			$max = new ilTextInputGUI('','registration_max_members');
+			$max = new ilTextInputGUI($this->lng->txt('reg_grp_max_members'),'registration_max_members');
 			$max->setValue($this->object->getMaxMembers() ? $this->object->getMaxMembers() : '');
-			$max->setTitle($this->lng->txt('members').':');
+			//$max->setTitle($this->lng->txt('members'));
 			$max->setSize(3);
 			$max->setMaxLength(4);
 			$max->setInfo($this->lng->txt('grp_reg_max_members_info'));
 			$lim->addSubItem($max);
 
-			$wait = new ilCheckboxInputGUI('','waiting_list');
+			$wait = new ilCheckboxInputGUI($this->lng->txt('grp_waiting_list'),'waiting_list');
 			$wait->setValue(1);
-			$wait->setOptionTitle($this->lng->txt('grp_waiting_list'));
+			//$wait->setOptionTitle($this->lng->txt('grp_waiting_list'));
 			$wait->setInfo($this->lng->txt('grp_waiting_list_info'));
 			$wait->setChecked($this->object->isWaitingListEnabled() ? true : false);
 			$lim->addSubItem($wait);
 			$this->form->addItem($lim);
 
-
-			// Registration codes
-			if(!$this->object->getRegistrationAccessCode())
-			{
-				include_once './Services/Membership/classes/class.ilMembershipRegistrationCodeUtils.php';
-				$this->object->setRegistrationAccessCode(ilMembershipRegistrationCodeUtils::generateCode());
-			}
-			$reg_link = new ilHiddenInputGUI('reg_code');
-			$reg_link->setValue($this->object->getRegistrationAccessCode());
-			$this->form->addItem($reg_link);
-
-			$link = new ilCustomInputGUI($this->lng->txt('grp_reg_code_link'));
-			include_once './Services/Link/classes/class.ilLink.php';
-			$val = ilLink::_getLink($this->object->getRefId(),$this->object->getType(),array(),'_rcode'.$this->object->getRegistrationAccessCode());
-			$link->setHTML('<font class="small">'.$val.'</font>');
-			$reg_code->addSubItem($link);
-			$this->form->addItem($reg_code);
 
 
 			// Group presentation
@@ -2729,15 +2730,15 @@ class ilObjGroupGUI extends ilContainerGUI
 				switch($this->object->getViewMode())
 				{
 					case ilContainer::VIEW_SESSIONS:							
-						$course_view_mode = ' ('.$this->lng->txt('cntr_view_sessions').')';
+						$course_view_mode = ': '.$this->lng->txt('cntr_view_sessions');
 						break;
 
 					case ilContainer::VIEW_SIMPLE:
-						$course_view_mode = ' ('.$this->lng->txt('cntr_view_simple').')';
+						$course_view_mode = ': '.$this->lng->txt('cntr_view_simple');
 						break;
 
 					case ilContainer::VIEW_BY_TYPE:
-						$course_view_mode = ' ('.$this->lng->txt('cntr_view_by_type').')';
+						$course_view_mode = ': '.$this->lng->txt('cntr_view_by_type');
 						break;
 				}																		
 				
@@ -2787,7 +2788,7 @@ class ilObjGroupGUI extends ilContainerGUI
 				$sde->setValue(ilContainer::SORT_INHERIT);
 
 				$title = $this->lng->txt('sort_inherit_prefix');
-				$title .= ' ('.ilContainerSortingSettings::sortModeToString(ilContainerSortingSettings::lookupSortModeFromParentContainer(ilObject::_lookupObjectId($ref_id))).') ';
+				$title .= ': '.ilContainerSortingSettings::sortModeToString(ilContainerSortingSettings::lookupSortModeFromParentContainer(ilObject::_lookupObjectId($ref_id)));
 				$sde->setTitle($title);
 				$sde->setInfo($this->lng->txt('sorting_info_inherit'));
 				$sog->addOption($sde);
@@ -2806,7 +2807,12 @@ class ilObjGroupGUI extends ilContainerGUI
 			$sog->addOption($sti);
 
 			$this->form->addItem($sog);
-			
+
+			// additional features
+			$feat = new ilFormSectionHeaderGUI();
+			$feat->setTitle($this->lng->txt('obj_features'));
+			$this->form->addItem($feat);
+
 			include_once './Services/Object/classes/class.ilObjectServiceSettingsGUI.php';
 			ilObjectServiceSettingsGUI::initServiceSettingsForm(
 					$this->object->getId(),
@@ -2819,18 +2825,20 @@ class ilObjGroupGUI extends ilContainerGUI
 				);
 
 			// Notification Settings
-			$notification = new ilFormSectionHeaderGUI();
+			/*$notification = new ilFormSectionHeaderGUI();
 			$notification->setTitle($this->lng->txt('grp_notification'));
-			$this->form->addItem($notification);
+			$this->form->addItem($notification);*/
 		
 			// Show members type
 			$mail_type = new ilRadioGroupInputGUI($this->lng->txt('grp_mail_type'), 'mail_type');
 			$mail_type->setValue($this->object->getMailToMembersType());
 
-			$mail_tutors = new ilRadioOption($this->lng->txt('grp_mail_tutors_only'), ilObjGroup::MAIL_ALLOWED_TUTORS);
+			$mail_tutors = new ilRadioOption($this->lng->txt('grp_mail_tutors_only'), ilObjGroup::MAIL_ALLOWED_TUTORS,
+				$this->lng->txt('grp_mail_tutors_only_info'));
 			$mail_type->addOption($mail_tutors);
 
-			$mail_all = new ilRadioOption($this->lng->txt('grp_mail_all'),  ilObjGroup::MAIL_ALLOWED_ALL);
+			$mail_all = new ilRadioOption($this->lng->txt('grp_mail_all'),  ilObjGroup::MAIL_ALLOWED_ALL,
+				$this->lng->txt('grp_mail_all_info'));
 			$mail_type->addOption($mail_all);
 			$this->form->addItem($mail_type);
 		}

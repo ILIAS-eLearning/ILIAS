@@ -2046,12 +2046,12 @@ cntr#:#cntr_switch_to_new_editor_cmd#:#Zu untenstehenden Inhalten wechseln. Alte
 cntr#:#cntr_switch_to_new_editor_message#:#Dies ist der Standard-Seiteneditor. Wenn Sie ihn nutzen möchten, müssen Sie die Inhalte per Klick auf die Platzhalter unten hinzufügen. Wenn Sie auf den nachfolgenden Link klicken, werden die unterstehenden Inhalte für die Seitendarstellung genutzt.
 cntr#:#cntr_switched_editor#:#Auf neue Darstellung umgestellt
 cntr#:#cntr_text_media_editor#:#Seite gestalten
-cntr#:#cntr_view_by_type#:#Ansicht nach Typen
-cntr#:#cntr_view_info_by_type#:#Diese Kursansicht ordnet alle Kursinhalte nach ihrem Objekttyp.
-cntr#:#cntr_view_info_sessions#:#In dieser Kursansicht werden zunächst alle Sitzungen angezeigt. Kursinhalte, die nicht Sitzungen zugeordnet sind, werden darunter aufgeführt.
-cntr#:#cntr_view_info_simple#:#Diese Kursansicht stellt alle Kursinhalte in einer Liste dar.
+cntr#:#cntr_view_by_type#:#Gruppiert nach Typen
+cntr#:#cntr_view_info_by_type#:#Alle Objekte eines Typs werden in einer eigenen Liste dargestellt.
+cntr#:#cntr_view_info_sessions#:#Sitzungen werden in einer eigenen Liste angezeigt. Objekte, die keinen Sitzungen zugeordnet sind, werden darunter aufgelistet.
+cntr#:#cntr_view_info_simple#:#Alle Objekte werden in einer einzigen Liste dargestellt.
 cntr#:#cntr_view_sessions#:#Sitzungsansicht
-cntr#:#cntr_view_simple#:#Einfache Ansicht
+cntr#:#cntr_view_simple#:#Einfache Liste
 cntr#:#container_import_zip_file_invalid#:#Die hochgeladene Datei ist kein gültiger ILIAS Export. Um Verzeichnisstrukturen hochzuladen benutzen Sie bitte ein Datei-Objekt.
 cntr#:#edit_questions#:#Fragen bearbeiten
 common#:#3rd_party_software#:#Drittanbieter-Software
@@ -2606,7 +2606,7 @@ rbac#:#crs_copy#:#Kurs kopieren
 common#:#crs_copy_threads_info#:#Bitte wählen Sie aus, welche Kursmaterialien kopiert, verknüpft oder aber bei dem Kopiervorgang ausgelassen werden sollen.
 rbac#:#rbac_create_fold#:#Ordner anlegen
 rbac#:#crs_delete#:#Kurs löschen oder verschieben
-common#:#crs_edit#:#Kurs bearbeiten
+common#:#crs_edit#:#Einstellungen des Kurses
 rbac#:#crs_edit_learning_progress#:#Lernfortschritt anderer Benutzer einsehen und Einstellungen bearbeiten
 rbac#:#crs_edit_permission#:#Rechteeinstellungen ändern
 common#:#crs_info#:#Info
@@ -3169,7 +3169,7 @@ rbac#:#grp_delete#:#Gruppe löschen oder verschieben
 common#:#grp_deleted_export_files#:#Die ausgewählte Datei wurde gelöscht.
 common#:#grp_dismiss_member#:#Sind Sie sicher, dass folgende Mitglieder aus der Gruppe ausgetragen werden sollen?
 common#:#grp_dismiss_myself#:#Möchten Sie sich aus der Gruppe austragen?
-common#:#grp_edit#:#Gruppe bearbeiten
+common#:#grp_edit#:#Einstellungen der Gruppe
 rbac#:#grp_edit_learning_progress#:#Lernfortschritt anderer Benutzer einsehen und Einstellungen bearbeiten
 rbac#:#grp_edit_permission#:#Rechteeinstellungen ändern
 common#:#grp_err_administrator_required#:#Gruppenmitglied wurde nicht entfernt, es wird mindestens ein Administrator pro Gruppe benötigt.
@@ -4716,9 +4716,9 @@ common#:#socialbm_link_description#:#Sie können die Platzhalter &#123;TITLE&#12
 common#:#socialbm_sure_delete_entry#:#Sind Sie sicher, dass Sie die ausgewählten Social Bookmark-Dienste gelöscht werden sollen?
 common#:#sort_activation_header#:#Nach Zeitvorgaben
 common#:#sort_by_this_column#:#Nach dieser Spalte sortieren
-common#:#sort_inherit_prefix#:#Standard
+common#:#sort_inherit_prefix#:#Durch Kurs bestimmt
 common#:#sorting_header#:#Sortierung
-common#:#sorting_info_inherit#:#Die Sortierung wird vom übergeordneten Kurs übernommen.
+common#:#sorting_info_inherit#:#Wird die Sortierung des übergeordneten Kurses geändert, ändert sich auch die Gruppensortierung.
 common#:#sorting_info_manual#:#Die enthaltenen Objekte können in einer gewünschten Reihenfolge angeordnet werden.
 common#:#sorting_info_title#:#Die enthaltenen Objekte werden automatisch nach ihrem Titel sortiert. 
 common#:#sorting_manual_header#:#Manuell
@@ -6201,8 +6201,8 @@ crs#:#crs_add_grp_assignment#:#Kurs(e) zuordnen
 crs#:#crs_add_html_archive#:#HTML-Archiv hinzufügen
 crs#:#crs_add_member#:#Mitglied(er) hinzufügen
 crs#:#crs_add_objective#:#Neues Lernziel hinzufügen
-crs#:#crs_add_remove_from_desktop#:#Auf den Schreibtisch
-crs#:#crs_add_remove_from_desktop_info#:#Wenn eingeschaltet, haben die Teilnehmer die Möglichkeit Kursmaterialien auf ihren Persönlichen Schreibtisch zu platzieren.
+crs#:#crs_add_remove_from_desktop#:#Auf Schreibtisch legen
+crs#:#crs_add_remove_from_desktop_info#:#Mitglieder können Kursobjekte auf ihren Schreibtisch legen.
 crs#:#crs_add_starter#:#Startobjekt hinzufügen
 crs#:#crs_add_subscribers#:#In Kurs aufnehmen
 crs#:#crs_add_to_group#:#Zu Gruppe hinzufügen
@@ -6257,13 +6257,13 @@ crs#:#crs_copy_cat_not_allowed#:#Es ist nicht möglich Kategorien zu kopieren.
 crs#:#crs_count_members#:#Anzahl der Mitglieder
 crs#:#crs_count_questions#:#Anzahl von Fragen
 crs#:#crs_course_group_notification_link#:#Link:
-crs#:#crs_course_status_of_users#:#Bestanden-Status der Benutzer
+crs#:#crs_course_status_of_users#:#Bestehen des Kurses
 crs#:#crs_create_date#:#Erstellungsdatum
 crs#:#crs_crs_structure#:#Kursstruktur
 crs#:#crs_custom_user_fields#:#Kursspezifische Benutzerdaten
 crs#:#crs_dates#:#Termine
 crs#:#crs_auto_notification#:#Begrüßungsmail für neue Mitglieder
-crs#:#crs_auto_notification_info#:#Versand von Mail-Benachrichtigungen an jene Mitglieder, die über die Teilnehmerverwaltung in den Kurs aufgenommen wurden.
+crs#:#crs_auto_notification_info#:#Mail-Benachrichtigungen werden automatisch an jene Mitglieder versendet, die von einem Tutor oder Administrator in den Kurs aufgenommen wurden.
 crs#:#crs_deactivate_notification#:#Benachrichtigung deaktivieren
 crs#:#crs_deassign_lm_sure#:#Sind Sie sicher, dass diese Zuordnung entfernt werden soll?
 crs#:#crs_delete_file#:#Datei löschen?
@@ -6567,16 +6567,16 @@ crs#:#crs_show_link_objectives#:#Lernziele anzeigen
 crs#:#crs_show_link_or#:#Andere Objekte anzeigen
 crs#:#crs_show_link_session#:#Sitzungen anzeigen
 crs#:#crs_show_link_tst#:#Tests anzeigen
-crs#:#crs_show_members#:#Mitglieder anzeigen
-crs#:#crs_show_members_info#:#Wenn eingeschaltet, können Mitglieder des Kurses angezeigt werden.
+crs#:#crs_show_members#:#Mitglieder-Reiter
+crs#:#crs_show_members_info#:#Alle Mitglieder können in diesem Reiter die Mitgliedergalerie einsehen.
 crs#:#crs_show_objectives_view#:#Lernziel-Ansicht
 crs#:#crs_size#:#Dateigröße
 crs#:#crs_sort_activation#:#Nach Zeitvorgaben
 crs#:#crs_sort_manual#:#Manuelle Sortierung
-crs#:#crs_sort_manual_info#:#Wenn ausgewählt, können die Kursmaterialien manuell in beliebiger Reihenfolge sortiert werden.
-crs#:#crs_sort_timing_info#:#Automatische Sortierung nach Verfügbarkeit bzw. nach Lernplanung.
+crs#:#crs_sort_manual_info#:#Die enthaltenen Objekte können in einer gewünschten Reihenfolge angeordnet werden.
+crs#:#crs_sort_timing_info#:#Die enthaltenen Objekte werden automatisch nach dem empfohlenen Bearbeitungszeitraum und ihrer Verfügbarkeit sortiert.
 crs#:#crs_sort_title#:#Alphabetisch nach Titel
-crs#:#crs_sort_title_info#:#Wählen Sie diese Einstellung, um die Kursmaterialien automatisch nach ihrem Titel zu sortieren.
+crs#:#crs_sort_title_info#:#Die enthaltenen Objekte werden automatisch nach ihrem Titel sortiert.
 crs#:#crs_sortorder#:#Sortierung
 crs#:#crs_sortorder_abo#:#Sortierung
 crs#:#crs_start#:#Start
@@ -6587,9 +6587,10 @@ crs#:#crs_starters_already_assigned#:#Dieses Objekt wurde bereits zugewiesen.
 crs#:#crs_status#:#Status
 crs#:#crs_status_changed#:#Status in Kurs "%s"
 crs#:#crs_status_changed_body#:#ihr Status in Kurs "%s" wurde geändert.
-crs#:#crs_status_determination#:#Bestimmung
+crs#:#crs_status_determination#:#Bestimmung des Status "Bestanden"
 crs#:#crs_status_determination_lp#:#Aus Lernfortschritt ableiten
-crs#:#crs_status_determination_manual#:#Unabhängig vom Lernfortschritt bestimmen
+crs#:#crs_status_determination_lp_info#:#Wechselt der Lernfortschritt auf "Bearbeitet", wird der Status "Bestanden" gesetzt. Der Tutor kann den Status manuell überschreiben.
+crs#:#crs_status_determination_manual#:#Nur manuell durch Tutor
 crs#:#crs_status_determination_sync#:#Den Bestanden-Status aller Mitglieder jetzt auf Grundlage des Lernfortschritts festlegen.
 crs#:#crs_structure#:#Kursstruktur
 crs#:#crs_subject_course_group_notification#:#Mail-Zusammenfassung für %s
@@ -6675,8 +6676,8 @@ crs#:#crs_users_added#:#Benutzer wurde(n) in den Kurs aufgenommen
 crs#:#crs_users_already_assigned#:#Ein Benutzer ist bereits Mitglied dieses Kurses
 crs#:#crs_users_removed_from_list#:#Die ausgewählten Benutzer wurden aus der Warteliste ausgetragen.
 crs#:#crs_view_archive#:#Archivansicht
-crs#:#crs_view_info_objective#:#Wählen Sie diese Kursansicht, wenn die Kursinhalte entsprechend der zugrundeliegenden Lernziele und der beim jeweiligen Lerner vorhandenen Kompetenzen angezeigt werden sollen.
-crs#:#crs_view_info_timing#:#Ansicht für Lernplanung
+crs#:#crs_view_info_objective#:#Lernziele werden in einer eigenen Liste angezeigt. Objekte, die keinen Lernzielen zugeordnet sind, werden darunter aufgelistet.
+crs#:#crs_view_info_timing#:#Objekte werden anhand eines Zeitplans dargestellt.
 crs#:#crs_view_mode#:#Kursdarstellung
 crs#:#crs_view_objective#:#Lernziel-orientierte Ansicht
 crs#:#crs_view_timing#:#Lernplanungsansicht
@@ -6993,7 +6994,7 @@ dateplaner#:#cal_share_search_usr_header#:#Benutzerauswahl
 dateplaner#:#cal_shared_calendars#:#Kalender freigeben (Einladungen)
 dateplaner#:#cal_shared_header#:#Kalender freigeben für:
 dateplaner#:#cal_shared_selected_usr#:#Der Kalender wurde für die ausgewählten Benutzer/Rollen freigegeben.
-dateplaner#:#cal_start#:#Start
+dateplaner#:#cal_start#:#Anfang
 dateplaner#:#cal_subscription_header#:#Kalender-Adresse
 dateplaner#:#cal_subscription_info#:#Verwenden Sie die folgende Adresse, um mittels anderer Anwendungen auf Ihren Kalender zuzugreifen. Sie können diese Adresse kopieren und in jeden Kalender einfügen, der das iCal-Format unterstützt.
 dateplaner#:#cal_subscription_url#:#Kalender URL:
@@ -7792,7 +7793,7 @@ grp#:#grp_open_info#:#Die Gruppe und dessen Inhalt ist für Nicht-Mitglieder sic
 grp#:#grp_pass_request#:#Beitritt mit Gruppenpasswort
 grp#:#grp_presentation_type#:#Ansicht
 grp#:#grp_public#:#Öffentliche Gruppe
-grp#:#grp_public_info#:#Die Gruppe ist für Nicht-Mitglieder sichtbar, es gelten jedoch besondere Regelungen, um die Mitgliedschaft zu erlangen.
+grp#:#grp_public_info#:#Die Gruppe ist auch für Nicht-Mitglieder sichtbar. Es gelten jedoch besondere Regelungen, um die Mitgliedschaft zu erlangen.
 grp#:#grp_reg_code#:#Beitritt per Link
 grp#:#grp_reg_code_enabled_info#:#Unabhängig vom ausgewählten Beitrittsverfahren ermöglicht diese Option einen direkten Beitritt durch Aufruf eines Links.
 grp#:#grp_reg_code_link#:#Link für direkten Beitritt
@@ -7802,20 +7803,21 @@ grp#:#grp_reg_direct#:#Direkter Beitritt
 grp#:#grp_reg_direct_info#:#Direkter Beitritt
 grp#:#grp_reg_direct_info_screen#:#Sie können dieser Gruppe direkt beitreten.
 grp#:#grp_reg_disabled#:#Zur Zeit ist kein Beitritt möglich.
-grp#:#grp_reg_disabled_info#:#Nur Gruppenadministratoren können Teilnehmer in die Gruppe aufnehmen.
-grp#:#grp_reg_end#:#Ende:
+grp#:#grp_reg_no_selfreg#:#Kein selbständiger Beitritt
+grp#:#grp_reg_disabled_info#:#Nur Gruppenadministratoren können Benutzer in die Gruppe aufnehmen.
+grp#:#grp_reg_end#:#Ende
 grp#:#grp_reg_limit_num#:#Begrenzung der Teilnehmeranzahl
 grp#:#grp_reg_limit_num_info#:#Zeitliche Begrenzung der Anmeldung
 grp#:#grp_reg_limit_time#:#Zeitlich begrenzte Anmeldung
-grp#:#grp_reg_limited#:#Anmeldungszeitraum
-grp#:#grp_reg_max_members_info#:#Legen Sie hier die maximale Anzahl an Benutzern fest, die selbst beitreten können. Wird die Zahl überschritten, ist keine Selbstanmeldung möglich. ('0' bedeutet unbegrenzt)
+grp#:#grp_reg_limited#:#Zeitlich begrenzter Beitritt
+grp#:#grp_reg_max_members_info#:#Ist die maximale Mitgliederanzahl erreicht, ist ein selbständiger Beitritt nicht mehr möglich.
 grp#:#grp_reg_passwd_info_screen#:#Wenn Sie das Gruppenpasswort von einem Gruppenadministrator erhalten haben, können Sie in dieser Gruppe beitreten.
-grp#:#grp_reg_password_info#:#Benutzer müssen das Passwort kennen, um der Gruppe beitreten zu können.
-grp#:#grp_reg_period#:#Anmeldezeitraum
+grp#:#grp_reg_password_info#:#Benutzer müssen dieses Passwort eingeben, um der Gruppe beitreten zu können.
+grp#:#grp_reg_period#:#Zeitraum
 grp#:#grp_reg_req_info_screen#:#Sie können die Aufnahme in diese Gruppe beantragen. Sobald ein Gruppenadministrator Ihren Antrag angenommen oder abgelehnt hat, werden Sie per Mail benachrichtigt.
-grp#:#grp_reg_request#:#Beitritt beantragen
-grp#:#grp_reg_request_info#:#Benutzer können eine Anfrage zur Aufnahme an die Gruppenadministratoren stellen.
-grp#:#grp_reg_start#:#Start:
+grp#:#grp_reg_request#:#Beitritt nach Bestätigung
+grp#:#grp_reg_request_info#:#Der Beitritt erfolgt nur, wenn er durch einen Gruppenadministrator bestätigt wird.
+grp#:#grp_reg_start#:#Start
 grp#:#grp_reg_subject#:#Nachricht
 grp#:#grp_registration_unlimited#:#Zeitlich unbegrenzt
 grp#:#grp_role_status#:#Rolle/Status
@@ -7823,11 +7825,11 @@ grp#:#grp_search_users#:#Benutzer suchen
 grp#:#grp_select_one_file#:#Bitte wählen Sie mindestens eine Datei aus.
 grp#:#grp_selected_users#:#Ausgewählte Teilnehmer
 grp#:#grp_set_on_waiting_list#:#Wenn Sie einen Aufnahmeantrag stellen, werden Sie auf die Warteliste gesetzt. Sie werden dann von der Gruppenleitung benachrichtigt, ob Ihr Aufnahmeantrag angenommen oder abgelehnt wird.
-grp#:#grp_setting_header_presentation#:#Gruppendarstellung
-grp#:#grp_setting_header_registration#:#Gruppenbeitritt
+grp#:#grp_setting_header_presentation#:#Darstellung
+grp#:#grp_setting_header_registration#:#Selbständiger Beitritt durch Benutzer
 grp#:#grp_settings#:#Gruppeneinstellungen
 grp#:#grp_subscriber#:#Aufnahmeantrag gestellt
-grp#:#grp_typ#:#Art der Gruppe
+grp#:#grp_typ#:#Typ
 grp#:#grp_type_changed_info#:#Die Gruppenart wurde geändert.
 grp#:#grp_unsubscribe#:#Gruppenmitgliedschaft beenden
 grp#:#grp_update_subscr_request#:#Aufnahmeantrag aktualisieren
@@ -7836,19 +7838,19 @@ grp#:#grp_user_agreement_info#:#Für Gruppenadministratoren freigegebene Daten
 grp#:#grp_users_added#:#Der/die Benutzer wurde(n) in die Gruppe aufgenommen.
 grp#:#grp_users_already_assigned#:#Ein Benutzer ist bereits Mitglied dieser Gruppe.
 grp#:#grp_users_removed_from_list#:#Die ausgewählten Benutzer wurden aus der Warteliste ausgetragen.
-grp#:#grp_view_info_by_type#:#Diese Gruppenansicht ordnet alle Gruppeninhalte nach ihrem Objekttyp.
-grp#:#grp_view_info_simple#:#Diese Gruppenansicht stellt alle Gruppeninhalte in einer Liste dar.
-grp#:#grp_view_inherit#:#Standard
-grp#:#grp_view_inherit_info#:#Die Gruppenansicht wird vom übergeordneten Kurs übernommen.
+grp#:#grp_view_info_by_type#:#Alle Objekte eines Typs werden in einer eigenen Liste dargestellt.
+grp#:#grp_view_info_simple#:#Alle Objekte werden in einer einzigen Liste dargestellt.
+grp#:#grp_view_inherit#:#Durch Kurs bestimmt
+grp#:#grp_view_inherit_info#:#Wird die Ansicht des übergeordneten Kurses geändert, ändert sich auch die Gruppenansicht.
 grp#:#grp_waiting_list#:#Warteliste
-grp#:#grp_waiting_list_info#:#Wenn diese Option eingeschaltet ist und die Maximalanzahl von Benutzern erreicht ist, können sich Benutzer auf eine Warteliste setzen lassen.
+grp#:#grp_waiting_list_info#:#Ist die maximale Mitgliederanzahl erreicht, können sich weitere Benutzer auf eine Warteliste setzen lassen.
 grp#:#grp_warn_grp_type_changed#:#Sind Sie sicher, dass Sie die Gruppenart ändern möchten? Die Rechteeinstellungen dieser Gruppe werden überschrieben und an die neue Art der Gruppe angepasst.
 grp#:#grp_warn_no_max_set_on_waiting_list#:#Die maximale Teilnehmeranzahl ist erreicht. Sie können sich jedoch auf die Warteliste für dieser Gruppe setzen lassen und werden dann per Mail benachrichtigt, wenn Sie nachrücken können
 grp#:#grp_warn_wl_set_on_waiting_list#:#Es sind bereits Benutzer in der Warteliste eingetragen. Sie können sich jedoch auf die Warteliste für diese Gruppe setzenund werden dann per Mail benachrichtigt, wenn Sie nachrücken können.
 grp#:#grp_wrong_max_members#:#Bitte überprüfen Sie Ihre Eingabe für die maximale Teilnehmeranzahl.
 grp#:#grp_wrong_reg_time_limit#:#Bitte überprüfen Sie Ihre Eingaben zum Anmeldungszeitraum.
-grp#:#reg_grp_max_members_short#:#Mitgliederanzahl
-grp#:#reg_grp_max_members#:#Begrenzte Anzahl Mitglieder
+grp#:#reg_grp_max_members_short#:#Begrenzte Mitgliederanzahl
+grp#:#reg_grp_max_members#:#Maximale Anzahl
 jscalendar#:#about_calendar#:#Über den Kalender
 jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector\n(c) dynarch.com 2002-2003\nFor latest version visit: http://dynarch.com/mishoo/calendar.epl\nDistributed under GNU LGPL. See http://gnu.org/licenses/lgpl.html for details.\n\nAuswahl des Datums:\n- Verwenden Sie die «, » Schaltflächen, um das Jahr auszuwählen\n- Verwenden Sie die <, > Schaltflächen, um den Monat auszuwählen\n- Lassen Sie die Maustaste über jeder der oberen Schaltflächen gedrückt, um eine Schnellauswahl zu erhalten.
 jscalendar#:#about_time#:#\n\nAuswahl der Zeit:\n- Klicken Sie auf die Zeitfelder, um den Wert zu erhöhen\n- or Umschalten+Klicken, um den Wert zu erniedrigen\n- oder klicken und ziehen für eine Schnellauswahl.
@@ -12300,12 +12302,12 @@ rating#:#rating_overlay_title_overall#:#Gesamtbewertung
 rating#:#rating_overlay_submit#:#Bewerten
 rep#:#rep_activation_availability#:#Verfügbarkeit
 rep#:#rep_activation_online#:#Online
-crs#:#crs_activation_online_info#:#Setzen Sie den Kurs online, damit Kursmitglieder ihn sehen und benutzen können. Wenn nicht, haben nur Kursadministratoren und Tutoren Zugriffsrechte.
+crs#:#crs_activation_online_info#:#Nur wenn der Kurs online geschaltet ist, können Benutzer dem Kurs beitreten und Kursmitglieder auf den Kurs zugreifen. Wenn nicht, ist der Kurs nur für Administratoren und Tutoren verfügbar.
 rep#:#rep_activation_access#:#Zugriff
-rep#:#rep_activation_limited_start#:#Startzeit
-rep#:#rep_activation_limited_end#:#Endzeit
+rep#:#rep_activation_limited_start#:#Anfang
+rep#:#rep_activation_limited_end#:#Ende
 rep#:#rep_activation_limited_visibility#:#Immer sichtbar
-crs#:#crs_activation_limited_visibility_info#:#Falls aktiv, ist der Kurs auch ausserhab der Zugriffszeiten sichtbar.
+crs#:#crs_activation_limited_visibility_info#:#Außerhalb des angegebenen Zeitraums wird der Kurstitel angezeigt, die Inhalte aber nicht.
 rep#:#rep_visibility_limitless#:#Unbegrenzt
 rep#:#rep_visibility_until#:#Zeitlich begrenzt
 assessment#:#tst_availability_limitless_info#:#Wählen Sie diese Einstellung, um den Kurs für Benutzer verfügbar zumachen. Die Verfügbarkeit ist abhängig von der unten ausgewählten Einstellung für Teilnehmer.
@@ -12433,7 +12435,7 @@ common#:#grp_list_reg_end#:#Anmeldungsende
 common#:#grp_list_reg_noreg#:#Keine Anmeldung möglich
 common#:#grp_list_reg_limit_full#:#Keine freien Plätze verfügbar
 common#:#grp_list_reg_limit_places#:#Freie Plätze
-common#:#grp_list_reg_period#:#Anmeldungszeitraum
+common#:#grp_list_reg_period#:#Beitrittszeitraum
 crs#:#crs_member_passed_status_changed#:#Update Status 
 common#:#obj_hlps#:#Online-Hilfe
 common#:#add_entry#:#Eintragen
@@ -13745,11 +13747,15 @@ crs#:#crs_passed_status_manual_by#:#Manuell durch
 dateplaner#:#cal_edit_single#:#Diesen Termin bearbeiten
 dateplaner#:#cal_edit_recurrences#:#Alle Termine bearbeiten
 crs#:#crs_mail_type#:#Mail an Mitglieder
-crs#:#crs_mail_tutors_only#:#Ausschließlich für Administratoren und Tutoren
-crs#:#crs_mail_all#:#Für alle Teilnehmer
+crs#:#crs_mail_tutors_only#:#Nur für Administratoren und Tutoren
+crs#:#crs_mail_tutors_only_info#:#Nur Administratoren und Tutoren können die Funktion "Mail an Mitglieder" im Reiter Mitglieder nutzen.
+crs#:#crs_mail_all#:#Für alle Mitglieder
+crs#:#crs_mail_all_info#:#Mitglieder, Administratoren und Tutoren können die Funktion "Mail an Mitglieder" im Reiter Mitglieder nutzen.
 grp#:#grp_mail_type#:#Mail an Mitglieder
-grp#:#grp_mail_tutors_only#:#Ausschließlich für Administratoren
-grp#:#grp_mail_all#:#Für alle Teilnehmer
+grp#:#grp_mail_tutors_only#:#Nur für Administratoren
+grp#:#grp_mail_all#:#Für alle Mitglieder
+grp#:#grp_mail_tutors_only_info#:#Nur Administratoren können die Funktion "Mail an Mitglieder" im Reiter Mitglieder nutzen.
+grp#:#grp_mail_all_info#:#Mitglieder und  Administratoren können die Funktion "Mail an Mitglieder" im Reiter Mitglieder nutzen.
 content#:#cont_ed_insert_consultation_hours#:#Sprechstunden hinzufügen
 content#:#cont_insert_consultation_hours#:#Sprechstunden hinzufügen
 content#:#cont_update_consultation_hours#:#Sprechstunden bearbeiten
@@ -14090,6 +14096,7 @@ rbac#:#wbrs_edit_permission#:#Rechteeinstellungen für die Weblink-Verwaltung ä
 common#:#obj_nota#:#Benachrichtigungen
 blog#:#blog_posting_not_found#:#Der Blog-Eintrag ist nicht verfügbar.
 ldap#:#ldap_choose_role#:#Rolle auswählen
+rep#:#rep_time_period#:#Zeitraum
 cntr#:#exc_next_deadline_single#:#Abgabefrist
 file#:#repository_disk_quota_info#:#Wenn aktiviert, wird für alle Benutzer die Disk-Quota im Magazin geprüft und optional Emails an Administratoren und Benutzer versendet.
 trac#:#trac_object_statistics_info#:#Wenn aktiviert, werden Daten für die Zugriffsstatistiken gesammelt.

@@ -1152,7 +1152,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			
 				$this->tpl->addJavaScript('./Services/Form/js/date_duration.js');
 				include_once "Services/Form/classes/class.ilDateDurationInputGUI.php";
-				$dur = new ilDateDurationInputGUI("", "access_period");
+				$dur = new ilDateDurationInputGUI($this->lng->txt('rep_time_period'), "access_period");
 				$dur->setShowTime(true);																	
 				$dur->setStart(new ilDateTime($this->object->getActivationStart(),IL_CAL_UNIX));
 				$dur->setStartText($this->lng->txt('rep_activation_limited_start'));				
@@ -1390,7 +1390,39 @@ class ilObjCourseGUI extends ilContainerGUI
 			
 
 		$form->addItem($sort);
-		
+
+
+		// lp vs. course status
+		include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
+		if(ilObjUserTracking::_enabledLearningProgress())
+		{
+			include_once './Services/Object/classes/class.ilObjectLP.php';
+			$olp = ilObjectLP::getInstance($this->object->getId());
+			if($olp->getCurrentMode())
+			{
+				$lp_status = new ilFormSectionHeaderGUI();
+				$lp_status->setTitle($this->lng->txt('crs_course_status_of_users'));
+				$form->addItem($lp_status);
+
+				$lp_status_options = new ilRadioGroupInputGUI($this->lng->txt('crs_status_determination'), "status_dt");
+//				$lp_status_options->setRequired(true);
+				$lp_status_options->setValue($this->object->getStatusDetermination());
+
+				$lp_option = new ilRadioOption($this->lng->txt('crs_status_determination_lp'),
+					ilObjCourse::STATUS_DETERMINATION_LP, $this->lng->txt('crs_status_determination_lp_info'));
+				$lp_status_options->addOption($lp_option);
+				$lp_status_options->addOption(new ilRadioOption($this->lng->txt('crs_status_determination_manual'),
+					ilObjCourse::STATUS_DETERMINATION_MANUAL));
+
+				$form->addItem($lp_status_options);
+			}
+		}
+
+		// additional features
+		$feat = new ilFormSectionHeaderGUI();
+		$feat->setTitle($this->lng->txt('obj_features'));
+		$form->addItem($feat);
+
 		include_once './Services/Object/classes/class.ilObjectServiceSettingsGUI.php';
 		ilObjectServiceSettingsGUI::initServiceSettingsForm(
 				$this->object->getId(),
@@ -1401,37 +1433,29 @@ class ilObjCourseGUI extends ilContainerGUI
 					ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS
 				)
 			);
-		
-		// lp vs. course status
-		include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
-		if(ilObjUserTracking::_enabledLearningProgress())
-		{					
-			include_once './Services/Object/classes/class.ilObjectLP.php';
-			$olp = ilObjectLP::getInstance($this->object->getId());
-			if($olp->getCurrentMode())
-			{							
-				$lp_status = new ilFormSectionHeaderGUI();
-				$lp_status->setTitle($this->lng->txt('crs_course_status_of_users'));
-				$form->addItem($lp_status);
 
-				$lp_status_options = new ilRadioGroupInputGUI($this->lng->txt('crs_status_determination'), "status_dt");
-				$lp_status_options->setRequired(true);
-				$lp_status_options->setValue($this->object->getStatusDetermination());
-								
-				$lp_option = new ilRadioOption($this->lng->txt('crs_status_determination_lp'), 
-					ilObjCourse::STATUS_DETERMINATION_LP);
-				$lp_status_options->addOption($lp_option);
-				$lp_status_options->addOption(new ilRadioOption($this->lng->txt('crs_status_determination_manual'),
-					ilObjCourse::STATUS_DETERMINATION_MANUAL));			
-				
-				$form->addItem($lp_status_options);		
-			}
-		}
-		
+		$mem = new ilCheckboxInputGUI($this->lng->txt('crs_show_members'),'show_members');
+		$mem->setChecked($this->object->getShowMembers());
+		$mem->setInfo($this->lng->txt('crs_show_members_info'));
+		$form->addItem($mem);
+
+		// Show members type
+		$mail_type = new ilRadioGroupInputGUI($this->lng->txt('crs_mail_type'), 'mail_type');
+		$mail_type->setValue($this->object->getMailToMembersType());
+
+		$mail_tutors = new ilRadioOption($this->lng->txt('crs_mail_tutors_only'), ilCourseConstants::MAIL_ALLOWED_TUTORS,
+			$this->lng->txt('crs_mail_tutors_only_info'));
+		$mail_type->addOption($mail_tutors);
+
+		$mail_all = new ilRadioOption($this->lng->txt('crs_mail_all'),  ilCourseConstants::MAIL_ALLOWED_ALL,
+			$this->lng->txt('crs_mail_all_info'));
+		$mail_type->addOption($mail_all);
+		$form->addItem($mail_type);
+
 		// Notification Settings
-		$notification = new ilFormSectionHeaderGUI();
+		/*$notification = new ilFormSectionHeaderGUI();
 		$notification->setTitle($this->lng->txt('crs_notification'));
-		$form->addItem($notification);
+		$form->addItem($notification);*/
 		
 		// Self notification
 		$not = new ilCheckboxInputGUI($this->lng->txt('crs_auto_notification'), 'auto_notification');
@@ -1440,32 +1464,18 @@ class ilObjCourseGUI extends ilContainerGUI
 		$not->setChecked( $this->object->getAutoNotification() );
 		$form->addItem($not);
 		
-		// Show members type
-		$mail_type = new ilRadioGroupInputGUI($this->lng->txt('crs_mail_type'), 'mail_type');
-		$mail_type->setValue($this->object->getMailToMembersType());
-		
-		$mail_tutors = new ilRadioOption($this->lng->txt('crs_mail_tutors_only'), ilCourseConstants::MAIL_ALLOWED_TUTORS);
-		$mail_type->addOption($mail_tutors);
-		
-		$mail_all = new ilRadioOption($this->lng->txt('crs_mail_all'),  ilCourseConstants::MAIL_ALLOWED_ALL);
-		$mail_type->addOption($mail_all);
-		$form->addItem($mail_type);
-		
+
 		// Further information
-		$further = new ilFormSectionHeaderGUI();
-		$further->setTitle($this->lng->txt('crs_further_settings'));
-		$form->addItem($further);
+		//$further = new ilFormSectionHeaderGUI();
+		//$further->setTitle($this->lng->txt('crs_further_settings'));
+		//$form->addItem($further);
 		
 		$desk = new ilCheckboxInputGUI($this->lng->txt('crs_add_remove_from_desktop'),'abo');
 		$desk->setChecked($this->object->getAboStatus());
 		$desk->setInfo($this->lng->txt('crs_add_remove_from_desktop_info'));
 		$form->addItem($desk);
 		
-		$mem = new ilCheckboxInputGUI($this->lng->txt('crs_show_members'),'show_members');
-		$mem->setChecked($this->object->getShowMembers());
-		$mem->setInfo($this->lng->txt('crs_show_members_info'));
-		$form->addItem($mem);
-		
+
 		// Edit ecs export settings
 		include_once 'Modules/Course/classes/class.ilECSCourseSettings.php';
 		$ecs = new ilECSCourseSettings($this->object);		
