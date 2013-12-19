@@ -16,8 +16,8 @@
 </div><div class="ilOverlay" style="display:none;" id="mm_search_menu">
 	<div id="mm_search_menu_head">
 		<p>	» <a target="_top" href="{HREF_SEARCH_LINK}">{TXT_SEARCH_LINK}</a></p>
-		<!-- BEGIN position --><p><input type="radio" name="root_id" value="{ROOT_ID}" checked="checked"/> {TXT_GLOBALLY}<br />
-		<input type="radio" name="root_id" value="{REF_ID}" /> {TXT_CURRENT_POSITION}</p><!-- END position -->
+		<!-- BEGIN position --><p><input type="radio" name="root_id" value="{ROOT_ID}" checked="checked" id="ilmmsg" /><label for="ilmmsg"> {TXT_GLOBALLY}</label><br />
+		<input type="radio" name="root_id" value="{REF_ID}" id="ilmmsc" /><label for="ilmmsc"> {TXT_CURRENT_POSITION}</label></p><!-- END position -->
 		<!-- BEGIN position_hid --><input type="hidden" name="root_id" value="{ROOT_ID_HID}" /><!-- END position_hid -->
 	</div>
 	<div id="mm_search_menu_ac"></div></div>
@@ -68,6 +68,11 @@
 								$("#mm_search_form").submit();
 							}
 						});
+						
+					$("#mm_search_menu_head input[type='radio']").change(function(){
+						// $("#main_menu_search").focus(); 	
+						document.getElementById('main_menu_search').focus();
+						});		
 				}
 			}
 		);
