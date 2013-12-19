@@ -328,7 +328,7 @@ class ilObjTestSettingsGeneralGUI
 		$this->testOBJ->setOnline($form->getItemByPostVar('online')->getChecked());
 
 		// activation
-		if($form->getItemByPostVar('activation_type')->getValue() == ilObjectActivation::TIMINGS_ACTIVATION)
+		if($form->getItemByPostVar('activation_type')->getChecked())
 		{	
 			$this->testOBJ->setActivationLimited(true);								    			
 			$this->testOBJ->setActivationVisibility($form->getItemByPostVar('activation_visibility')->getChecked());
@@ -751,38 +751,28 @@ class ilObjTestSettingsGeneralGUI
 		$online->setChecked($this->testOBJ->isOnline());
 		$online->setInfo($this->lng->txt('tst_activation_online_info').$act_obj_info);
 		$form->addItem($online);				
+							
+		$act_type = new ilCheckboxInputGUI($this->lng->txt('rep_visibility_until'), 'activation_type');
+		$act_type->setChecked($this->testOBJ->isActivationLimited());
+		// $act_type->setInfo($this->lng->txt('tst_availability_until_info'));
 		
-		$act_type = new ilRadioGroupInputGUI($this->lng->txt('rep_activation_access'),'activation_type');
-		$act_type->setInfo($act_ref_info);
-		$act_type->setValue($this->testOBJ->isActivationLimited() ? 
-			ilObjectActivation::TIMINGS_ACTIVATION : ilObjectActivation::TIMINGS_DEACTIVATED);
-		
-			$opt = new ilRadioOption($this->lng->txt('rep_visibility_limitless'), ilObjectActivation::TIMINGS_DEACTIVATED);
-			$opt->setInfo($this->lng->txt('tst_availability_limitless_info'));
-			$act_type->addOption($opt);
+			$this->tpl->addJavaScript('./Services/Form/js/date_duration.js');
+			include_once "Services/Form/classes/class.ilDateDurationInputGUI.php";
+			$dur = new ilDateDurationInputGUI($this->lng->txt("rep_time_period"), "access_period");
+			$dur->setShowTime(true);						
+			$date = $this->testOBJ->getActivationStartingTime();				
+			$dur->setStart(new ilDateTime($date ? $date : time(), IL_CAL_UNIX));
+			$dur->setStartText($this->lng->txt('rep_activation_limited_start'));				
+			$date = $this->testOBJ->getActivationEndingTime();
+			$dur->setEnd(new ilDateTime($date ? $date : time(), IL_CAL_UNIX));
+			$dur->setEndText($this->lng->txt('rep_activation_limited_end'));				
+			$act_type->addSubItem($dur);
+
+			$visible = new ilCheckboxInputGUI($this->lng->txt('rep_activation_limited_visibility'), 'activation_visibility');
+			$visible->setInfo($this->lng->txt('tst_activation_limited_visibility_info'));
+			$visible->setChecked($this->testOBJ->getActivationVisibility());
+			$act_type->addSubItem($visible);
 			
-			$opt = new ilRadioOption($this->lng->txt('rep_visibility_until'), ilObjectActivation::TIMINGS_ACTIVATION);
-			$opt->setInfo($this->lng->txt('tst_availability_until_info'));
-			
-				$this->tpl->addJavaScript('./Services/Form/js/date_duration.js');
-				include_once "Services/Form/classes/class.ilDateDurationInputGUI.php";
-				$dur = new ilDateDurationInputGUI("", "access_period");
-				$dur->setShowTime(true);						
-				$date = $this->testOBJ->getActivationStartingTime();				
-				$dur->setStart(new ilDateTime($date ? $date : time(), IL_CAL_UNIX));
-				$dur->setStartText($this->lng->txt('rep_activation_limited_start'));				
-				$date = $this->testOBJ->getActivationEndingTime();
-				$dur->setEnd(new ilDateTime($date ? $date : time(), IL_CAL_UNIX));
-				$dur->setEndText($this->lng->txt('rep_activation_limited_end'));				
-				$opt->addSubItem($dur);
-			
-				$visible = new ilCheckboxInputGUI($this->lng->txt('rep_activation_limited_visibility'), 'activation_visibility');
-				$visible->setInfo($this->lng->txt('tst_activation_limited_visibility_info'));
-			    $visible->setChecked($this->testOBJ->getActivationVisibility());
-				$opt->addSubItem($visible);
-				
-			$act_type->addOption($opt);
-		
 		$form->addItem($act_type);
 		
 		if( !$this->settingsTemplate || $this->formShowBeginningEndingInformation($this->settingsTemplate->getSettings()) )

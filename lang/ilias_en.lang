@@ -5754,7 +5754,7 @@ crs#:#crs_view_mode#:#Course Presentation
 crs#:#crs_view_objective#:#Learning Objectives View
 crs#:#crs_view_timing#:#Timings View
 crs#:#crs_visibility_limitless#:#Unlimited
-crs#:#crs_visibility_until#:#Temporarily Available
+crs#:#crs_visibility_until#:#Limited Availability Period
 crs#:#crs_wait_info#:#If the maximum number of users is exceeded, new registrations will be placed on a waiting list.
 crs#:#crs_waiting_list#:#Waiting List
 crs#:#crs_warn_no_max_set_on_waiting_list#:#The maximum number of course members is exceeded. You can add your join request to the waiting list. You will receive a message from a course administrator when your request has been approved or rejected.
@@ -12311,7 +12311,7 @@ wiki#:#wiki_deactivate_page_rating#:#Deactivate Rating
 rating#:#rating_overlay_title_overall#:#Overall Rating
 rating#:#rating_overlay_submit#:#Submit Rating
 rep#:#rep_visibility_limitless#:#Unlimited
-rep#:#rep_visibility_until#:#Temporarily Available
+rep#:#rep_visibility_until#:#Limited Availability Period
 assessment#:#tst_availability_limitless_info#:#Choose this mode for making the test available and accessible to users (depending on participants restriction settings below).
 assessment#:#tst_availability_until_info#:#Choose this mode for making the test available and accessible to users for a fixed period of time (depending on participants restriction settings below).
 assessment#:#tst_activation_online_info#:#If offline, only administrators can see and edit the test.
@@ -12712,7 +12712,7 @@ poll#:#poll_delete_votes_sure#:#Are you sure you want to delete all votes?
 poll#:#poll_voting_period_and_results#:#Voting Period and Results
 poll#:#poll_voting_period#:#Voting Period
 poll#:#poll_voting_period_unlimited#:#Unlimited
-poll#:#poll_voting_period_limited#:#Limited
+poll#:#poll_voting_period_limited#:#Limited Voting Period
 poll#:#poll_voting_period_start#:#Starting Time
 poll#:#poll_voting_period_end#:#Ending Time
 blog#:#blog_keywords#:#Keywords
