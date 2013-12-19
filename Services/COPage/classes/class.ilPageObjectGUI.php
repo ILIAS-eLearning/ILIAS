@@ -1210,7 +1210,8 @@ class ilPageObjectGUI
 					ilYuiUtil::initConnection();
 					ilYuiUtil::initPanel(false);
 					$GLOBALS["tpl"]->addJavaScript("./Services/COPage/js/ilcopagecallback.js");
-					$GLOBALS["tpl"]->addJavascript("Services/COPage/js/page_editing.js");
+					//$GLOBALS["tpl"]->addJavascript("Services/COPage/js/page_editing.js");
+					$GLOBALS["tpl"]->addJavascript("Services/COPage/js/page_editing_4_0_12.js");
 
 					include_once './Services/Style/classes/class.ilObjStyleSheet.php';
 					$GLOBALS["tpl"]->addOnloadCode("var preloader = new Image();
@@ -1221,7 +1222,8 @@ class ilPageObjectGUI
 						", ./Services/COPage/css/tiny_extra.css".
 						"')");
 
-					$GLOBALS["tpl"]->addJavascript("Services/RTE/tiny_mce_3_3_9_2/il_tiny_mce_src.js");
+					//$GLOBALS["tpl"]->addJavascript("Services/RTE/tiny_mce_3_3_9_2/il_tiny_mce_src.js");
+					$GLOBALS["tpl"]->addJavascript("Services/COPage/tiny/4_0_12/tinymce.js");
 					$tpl->touchBlock("init_dragging");
 
 					$cfg = $this->getPageConfig();
