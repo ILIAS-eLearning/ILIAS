@@ -589,10 +589,10 @@ assessment#:#javaapplet#:#Java-Applet
 assessment#:#keywords_hint#:#Um eine automatische Punktevergabe bei einer Freitext eingeben-Frage zu erreichen, geben Sie hier bitte eine Liste von Schlagwörtern an, die durch Leerzeichen oder Zeilenumbrüche voneinander getrennt sind. Wenn eines der Schlagwörter im Antworttext gefunden wird, vergibt ILIAS die für die Frage eingetragene maximale Punktezahl anstelle der üblichen Bewertung von 0 Punkten.
 assessment#:#kiosk#:#Kiosk-Modus
 assessment#:#kiosk_description#:#Führt den Test im sogenannten Kiosk-Modus aus. Alle Bildschirmelemente, die nicht zum Test gehören, werden ausgeblendet, damit die Teilnehmer keine Möglichkeit haben, den Test zu verlassen.
-assessment#:#kiosk_options#:#Kiosk-Modus Einstellungen
+assessment#:#kiosk_options#:#Kiosk-Modus-Einstellungen
 assessment#:#kiosk_options_desc#:#Wählen Sie aus, ob der Titel des Tests und/oder der Name des aktuellen Teilnehmers/der aktuellen Teilnehmerin während der Aktivierung des Kiosk-Modus im Kopf der Seite angezeigt werden sollen.
 assessment#:#kiosk_show_participant#:#Name des Teilnehmers anzeigen
-assessment#:#kiosk_show_title#:#Test Titel anzeigen
+assessment#:#kiosk_show_title#:#Testtitel anzeigen
 assessment#:#last_update#:#Letzte Aktualisierung
 assessment#:#legend#:#Legende
 assessment#:#locked#:#gesperrt
@@ -988,7 +988,7 @@ assessment#:#tst_eval_total_passed_average_points#:#Durchschnittliche Punktezahl
 assessment#:#tst_eval_total_passed_average_time#:#Mittlere Bearbeitungsdauer aller bestandenen Tests
 assessment#:#tst_eval_total_persons#:#Gesamtzahl der Personen, die den Test gestartet haben
 assessment#:#tst_eval_user_answer#:#Antwort
-assessment#:#tst_exp_sc_short#:#Komprimierte Übersicht für Single Choice Fragen erzeugen
+assessment#:#tst_exp_sc_short#:#Komprimierte Übersicht für Single-Choice-Fragen erzeugen
 assessment#:#tst_export_settings#:#Exporteinstellungen
 assessment#:#tst_express_allow_question_pool#:#Erlaube Fragenpool in Seitenansicht
 assessment#:#tst_express_allow_question_pool_description#:#Wenn aktiviert, können Fragen einen Fragenpool zugeordnet werden.
@@ -1038,7 +1038,7 @@ assessment#:#tst_list_of_questions_end#:#Die Fragenübersicht anzeigen, bevor Te
 assessment#:#tst_list_of_questions_start#:#Die Fragenübersicht anzeigen, bevor Teilnehmer die erste Frage bearbeiten
 assessment#:#tst_list_of_questions_with_description#:#Fragenbeschreibungen in der Fragenübersicht anzeigen
 assessment#:#tst_list_of_questions_yes#:#Ja, und zusätzlich
-assessment#:#tst_mail_notification#:#Mail Benachrichtigungen
+assessment#:#tst_mail_notification#:#Mail-Benachrichtigungen
 assessment#:#tst_manscoring_question_section_header#:#Frage: %s
 assessment#:#tst_manscoring_user_notification#:#Benachrichtigung senden
 assessment#:#tst_mark#:#Note
@@ -1171,13 +1171,13 @@ assessment#:#tst_save_manscoring_failed#:#Die manuelle Bewertung für Testdurchl
 assessment#:#tst_manscoring_maxpoints_exceeded_input_alert#:#Die maximale Anzahl von %s Punkt(en) ist überschritten!
 assessment#:#tst_manscoring_input_max_points_for_question#:#Maximale Punktezahl für die Frage
 assessment#:#tst_manscoring_input_question_and_user_solution#:#Frage und Teilnehmerlösung
-assessment#:#tst_manscoring_input_best_solution#:#Muster Lösung
+assessment#:#tst_manscoring_input_best_solution#:#Musterlösung
 assessment#:#tst_score_cut_question#:#Negative Punkte für alle Fragen bei Null abschneiden
 assessment#:#tst_score_cut_test#:#Negative Punkte für die Gesamtsumme aller Fragenergebnisse bei Null abschneiden
 assessment#:#tst_score_cutting#:#Negative Punkte abschneiden
 assessment#:#tst_score_cutting_description#:#Negative Punkte können für einzelne Fragen oder aber für die Summe aller Fragenergebnisse auf 0 zurückgesetzt werden. Bei der Summe aller Fragenergebnisse fallen negative Punkte stärker ins Gewicht.
-assessment#:#tst_score_mcmr_questions#:#Multiple Choice-Fragen
-assessment#:#tst_score_mcmr_questions_description#:#Abhängig von der Punktevergabe bei Multiple Choice Fragen kann es passieren, dass für Fragen, bei denen keine Antwort ausgewählt wurde, Punkte vergeben werden. Dies wird durch die Standardeinstellung verhindert, indem in diesem Fall die Frage als nicht beantwortet gewertet wird und die Punkte automatisch auf Null gesetzt werden.
+assessment#:#tst_score_mcmr_questions#:#Multiple-Choice-Fragen
+assessment#:#tst_score_mcmr_questions_description#:#Abhängig von der Punktevergabe bei Multiple-Choice-Fragen kann es passieren, dass für Fragen, bei denen keine Antwort ausgewählt wurde, Punkte vergeben werden. Dies wird durch die Standardeinstellung verhindert, indem in diesem Fall die Frage als nicht beantwortet gewertet wird und die Punkte automatisch auf Null gesetzt werden.
 assessment#:#tst_score_mcmr_use_scoring_system#:#Vergabe der Punktezahl, auch wenn keine Antwort ausgewählt wurde
 assessment#:#tst_score_mcmr_zero_points_when_unanswered#:#Vergabe von 0 Punkten, wenn keine Antwort ausgewählt wurde
 assessment#:#tst_score_reporting#:#Ergebnisausgabe
@@ -1268,14 +1268,14 @@ assessment#:#tst_total_questions_description#:#Wenn Sie diesen Wert setzen, werd
 assessment#:#tst_tst_date#:#Datum des Tests
 assessment#:#tst_type#:#Test-Typ
 assessment#:#exam_id#:#Klausurnummer: 
-assessment#:#examid_in_kiosk#:#Klausurnummer im Kioskmodus anzeigen 
+assessment#:#examid_in_kiosk#:#Klausurnummer im Kiosk-Modus anzeigen 
 assessment#:#show_exam_id#:#Klausurnummer anzeigen 
 assessment#:#tst_type_changed#:#Sie haben den Testtyp geändert. Alle bereits durchgeführten Tests wurden gelöscht!
 assessment#:#tst_type_comment#:#Warnung: Das Ändern des Testtyps bei einem laufenden Test löscht alle bereits durchgeführten Tests!
 assessment#:#tst_types#:#Test-Typen
 assessment#:#tst_use_javascript#:#JavaScript für das Ziehen und Ablegen von Antworten verwenden
 assessment#:#tst_use_previous_answers#:#Option zur Verwendung vorheriger Lösungen
-assessment#:#tst_use_previous_answers_description#:#Aktiviert das Kontrollkästchen auf der Startseite des Tests, um die Lösungen aus einem vorherigen Testdurchlauf als vorgegebene Werte in zukünftigen Testdurchläufen zu verwenden. Diese Option auf der Startseite ist standardmässig deaktiviert.
+assessment#:#tst_use_previous_answers_description#:#Aktiviert das Kontrollkästchen auf der Startseite des Tests, um die Lösungen aus einem vorherigen Testdurchlauf als vorgegebene Werte in zukünftigen Testdurchläufen zu verwenden. Diese Option auf der Startseite ist standardmäßig deaktiviert.
 assessment#:#tst_use_previous_answers_user#:#Meine Lösungen aus einem vorherigen Testdurchlauf als vorgegebene Werte verwenden
 assessment#:#tst_user_finished_test#:#Ein Teilnehmer hat den Test beendet (%s)
 assessment#:#tst_your_answer_was#:#Sie haben die folgende Antwort gegeben
@@ -1342,7 +1342,7 @@ assessment#:#tst_highscore_top_num_description#:#Bestimmt, wie viele Einträge i
 assessment#:#tst_highscore_top_num_unit#:#Platzierungen
 assessment#:#tst_rnd_quest_cfg_tab_general#:#Allgemeine Konfiguration
 assessment#:#tst_rnd_quest_cfg_tab_pool#:#Quell-Fragenpools
-assessment#:#tst_question_set_type#:#Test Modus
+assessment#:#tst_question_set_type#:#Testmodus
 assessment#:#tst_question_set_type_fixed#:#Test mit fest definierter Fragenauswahl
 assessment#:#tst_question_set_type_fixed_desc#:#In diesem Modus kann eine feste Auswahl von Fragen definiert werden, welche für alle Teilnehmer gilt. Abhängig von der weiteren Konfiguration des Tests haben die Teilnehmer einen oder mehrere Versuche für den Test.
 assessment#:#tst_question_set_type_random#:#Test mit zufälliger Fragenauswahl
@@ -1357,14 +1357,14 @@ assessment#:#tst_input_dynamic_question_set_source_questionpool#:#Quell-Fragenpo
 assessment#:#tst_dynamic_question_set_source_questionpool_summary_string#:#%s (Pfad: %s) [%s Fragen]
 assessment#:#tst_dyn_quest_set_src_qpl_summary_string_trashed#:#%s (Aktuell im Papierkorb) [%s Fragen]
 assessment#:#tst_dyn_quest_set_src_qpl_summary_string_deleted#:#%s (Endgültig gelöscht)
-assessment#:#tst_input_dynamic_question_set_taxonomie_filter_enabled#:#Zeige Taxonomie Filter
+assessment#:#tst_input_dynamic_question_set_taxonomie_filter_enabled#:#Zeige Taxonomiefilter
 assessment#:#tst_input_dynamic_question_set_question_ordering#:#Fragen Ordnung
 assessment#:#tst_input_dynamic_question_set_question_ordering_by_date#:#Ordne Fragen nach Datum
 assessment#:#tst_inp_dyn_quest_set_quest_ordering_by_date_desc#:#Die Reihenfolge der Fragen orientiert sich am Datum der letzten Änderung.
 assessment#:#tst_input_dynamic_question_set_question_ordering_by_tax#:#Ordne Fragen nach Taxonomie
 assessment#:#tst_inp_dyn_quest_set_quest_ordering_by_tax_desc#:#Die Reihenfolge der Fragen orientiert sich an den Zuweisungen der Fragen in einer Taxonomie.
-assessment#:#tst_input_dynamic_question_set_ordering_tax#:#Ordnungs Taxonomie
-assessment#:#tst_input_dynamic_question_set_ordering_tax_description#:#Die Test Fragen werden entsprechend der Zuweisungen der Fragen in der gewählten Taxonomie angeordnet präsentiert.
+assessment#:#tst_input_dynamic_question_set_ordering_tax#:#Ordnungstaxonomie
+assessment#:#tst_input_dynamic_question_set_ordering_tax_description#:#Die Testfragen werden entsprechend ihrer Zuweisungen in der gewählten Taxonomie präsentiert.
 assessment#:#tst_start_dyn_test_with_cur_quest_sel#:#Test mit aktueller Fragen Auswahl starten
 assessment#:#tst_resume_dyn_test_with_cur_quest_sel#:#Test mit aktueller Fragen Auswahl fortsetzen
 assessment#:#tst_back_dyn_test_with_cur_quest_sel#:#Zurück zum Test mit aktueller Fragen Auswahl
@@ -1840,8 +1840,8 @@ chatroom#:#chat_right_box_user#:#Benutzer
 chatroom#:#chat_to_mainroom#:#Zum Hauptraum
 chatroom#:#chat_whisper#:#Flüstern
 chatroom#:#chatroom_smiley_keyword#:#Schlagwort
-chatroom#:#chatserver_address#:#IP-Adresse des Chatservers
-chatroom#:#chatserver_port#:#Port des Chatservers
+chatroom#:#chatserver_address#:#IP-Adresse des Chat-Servers
+chatroom#:#chatserver_port#:#Port des Chat-Servers
 chatroom#:#chtr_add#:#Chatraum anlegen
 chatroom#:#chtr_moderate#:#Moderieren
 chatroom#:#chtr_new#:#Neuen Chatraum anlegen
@@ -1868,7 +1868,7 @@ chatroom#:#hint_display_past_msgs#:#Anzahl der vergangenen Nachrichten, die beim
 chatroom#:#hint_enable_smilies#:#Wenn aktiviert, werden konfigurierte Textbausteine durch ein Bild ersetzt. Die Konfiguration kamm im Smilies-Tab vorgenommen werden.
 chatroom#:#hint_osd#:#Wenn aktiviert, werden Benutzer durch ein Popup über neue Einladungen informiert.
 chatroom#:#hint_osd_interval#:#Eine geringere Zeit ermöglicht zeitnähere Benachrichtigungen, erhöht aber die Serverlast.
-chatroom#:#hint_unique_name#:#Ein eindeutiger Name der diesen ILIAS-Mandanten beim Chatserver identifiziert. Diese Einstellung ist vorallem bei der Nutzung von mehreren ILIAS-Mandanten auf einem Chatserver zu beachten.
+chatroom#:#hint_unique_name#:#Ein eindeutiger Name der diesen ILIAS-Mandanten beim Chat-Server identifiziert. Diese Einstellung ist vorallem bei der Nutzung von mehreren ILIAS-Mandanten auf einem Chat-Server zu beachten.
 chatroom#:#history_by_day#:#Tageshistorie
 chatroom#:#history_by_session#:#Sitzungshistorie
 chatroom#:#history_byday_title#:#Tageshistorie
@@ -1886,7 +1886,7 @@ chatroom#:#kicked_from_private_room#:#Sie wurden aus dem Separée <b>#title#</b>
 chatroom#:#large#:#Groß
 chatroom#:#layout#:#Layout
 chatroom#:#leave_private_room#:#Séparée verlassen
-chatroom#:#lost_connection#:#Die Verbindung zum Chatserver wurde unterbrochen.
+chatroom#:#lost_connection#:#Die Verbindung zum Chat-Server wurde unterbrochen.
 chatroom#:#main#:#Hauptraum
 chatroom#:#moderate#:#Moderieren
 chatroom#:#no_further_users#:#Keine weiteren Benutzer anwesend
@@ -1917,7 +1917,7 @@ chatroom#:#soap_must_be_enabled#:#Bitte aktivieren Sie den SOAP Server in den al
 chatroom#:#soap_user#:#Name des SOAP-Benutzer
 chatroom#:#soap_user_password#:#Passwort des SOAP-Benutzer
 chatroom#:#speak_to#:#<b>#user#</b>&nbsp;ansprechen
-chatroom#:#unable_to_connect#:#Die Verbindung zum Chatserver konnte nicht hergestellt werden.
+chatroom#:#unable_to_connect#:#Die Verbindung zum Chat-Server konnte nicht hergestellt werden.
 chatroom#:#unban#:#Entsperren
 chatroom#:#underlined#:#Unterstrichen
 chatroom#:#unkown_private_room#:#Unbekanntes Séparée
@@ -1959,18 +1959,18 @@ chatroom_adm#:#https#:#HTTPS
 chatroom_adm#:#instance#:#Instanz
 chatroom_adm#:#keypass#:#Keypass
 chatroom_adm#:#keystore#:#Keystore
-administration#:#obj_chta_desc#:#Administration des Chat-Tools und des Chat-Servers
+administration#:#obj_chta_desc#:#Administration des Chat-Objekts und des Chat-Servers
 chatroom_adm#:#osd_intervall#:#Abfrageintervall (Sekunden)
 chatroom_adm#:#play_invitation_sound#:#Ton bei Erhalt einer neuen Einladung abspielen
-chatroom_adm#:#port_info#:#Oft werden selten genutzte Ports von Firewalls oder Proxy-Servern geblockt. Benutzer werden mit ihrem Browser keine Verbindung zum Chatserver aufbauen können, wenn der eingetragene Port nicht offen ist.
+chatroom_adm#:#port_info#:#Oft werden selten genutzte Ports von Firewalls oder Proxy-Servern geblockt. Benutzer werden mit ihrem Browser keine Verbindung zum Chat-Server aufbauen können, wenn der eingetragene Port nicht offen ist.
 chatroom_adm#:#priv_hosts#:#Bevorzugte Hosts
 chatroom_adm#:#protocol#:#Protokoll
 chatroom_adm#:#public_chat_permissions#:#Öffentlicher Chatraum : Rechte
 chatroom_adm#:#public_chat_settings#:#Öffentlicher Chatraum : Einstellungen
-chatroom_adm#:#server_settings#:#Chatserver Einstellungen
+chatroom_adm#:#server_settings#:#Chat-Server-Einstellungen
 chatroom_adm#:#settings_has_been_saved#:#Einstellungen wurden gespeichert.
 chatroom_adm#:#smiley#:#Smilies
-chatroom_adm#:#soap_user_hint#:#Dieser Benutzer wird benötigt, um vom Chatserver Informationen an diese ILIAS-Installation senden zu können. Es werden keine speziellen Berechtigungen benötigt.<br />Wenn Sie einen neuen Account erstellen, stellen Sie bitte sicher, dass sich der Benutzer anmelden kann (z.B. Akzeptieren der Nutzungsvereinbarung).
+chatroom_adm#:#soap_user_hint#:#Dieser Benutzer wird benötigt, um vom Chat-Server Informationen an diese ILIAS-Installation senden zu können. Es werden keine speziellen Berechtigungen benötigt.<br />Wenn Sie einen neuen Account erstellen, stellen Sie bitte sicher, dass sich der Benutzer anmelden kann (z.B. Akzeptieren der Nutzungsvereinbarung).
 chatroom_adm#:#storepass#:#Storepass
 cmps#:#cmps_activate#:#Aktivieren
 cmps#:#cmps_active#:#Aktiv
@@ -2268,7 +2268,7 @@ common#:#auth_ldap_migration_info#:#Aktivieren Sie diese Einstellung, um neuen B
 common#:#auth_ldap_not_configured#:#LDAP ist noch nicht eingerichtet
 common#:#auth_ldap_settings_saved#:#LDAP-Einstellungen gespeichert
 common#:#auth_local#:#ILIAS Auth
-common#:#auth_local_desc#:#Benutze die ILIAS Datenbank (Standard)
+common#:#auth_local_desc#:#Benutze die ILIAS-Datenbank (Standard)
 common#:#auth_login_instructions#:#Anweisungen auf dem Anmeldebildschirm
 common#:#auth_mode#:#Authentifizierungsmodus
 common#:#auth_mode_not_changed#:#(Keine Änderung)
@@ -2458,8 +2458,8 @@ common#:#chapter_number#:#Kapitelnummer
 common#:#chapter_title#:#Kapiteltitel
 common#:#characters#:#Zeichen
 common#:#chat_enter_public_room#:#Öffentl. Chat
-common#:#chat_enter_public_room_tooltip#:#In den öffentl. Chat eintreten.
-common#:#chat_invite_public_room_tooltip#:#In den öffentl. Chat einladen.
+common#:#chat_enter_public_room_tooltip#:#In den öffentlichen Chatraum eintreten.
+common#:#chat_invite_public_room_tooltip#:#In den öffentlichen Chatraum einladen.
 chatroom#:#chat_settings#:#Chat-Einstellungen
 common#:#chat_users_active#:#Aktive Benutzer
 common#:#check#:#Prüfen
@@ -2467,16 +2467,16 @@ common#:#check_all#:#Alle auswählen
 common#:#check_langfile#:#Bitte überprüfen Sie die Sprachdatei!
 common#:#check_languages#:#Alle Sprachen überprüfen
 common#:#check_link#:#Externe Links überprüfen
-common#:#check_link_desc#:#Wenn eingeschaltet, werden alle ILIAS-Lernmodule nach ungültigen externen Links überprüft.
+common#:#check_link_desc#:#Wenn eingeschaltet, werden alle ILIAS-Lernmodule auf ungültige externe Links überprüft.
 common#:#check_max_allowed_packet_size#:#Der Seiteninhalt ist zu umfangreich.
 common#:#check_user_accounts#:#Benutzerzugänge überprüfen
 common#:#check_user_accounts_desc#:#Wenn eingeschaltet, werden alle Benutzer, deren Zugang zeitlich begrenzt ist, zwei Wochen vor Ablauf darüber informiert. Außerdem werden alle Benutzer gelöscht, die ihren Zugang nach einer Neuanmeldung mit E-Mail-Bestätigungslink nicht fristgerecht aktiviert haben.
 common#:#check_web_resources#:#Weblinks überprüfen
-common#:#check_web_resources_desc#:#Wenn eingeschaltet, werden alle Weblinks nach ungültigen externen Links überprüft.
+common#:#check_web_resources_desc#:#Wenn eingeschaltet, werden alle Weblinks auf ungültige externe Links überprüft.
 common#:#checked#:#Ausgewählt
 common#:#checked_files#:#Importierbare Dateien
-common#:#chg_ilias_and_webfolder_password#:#Webordner Passwort ändern
-common#:#chg_ilias_password#:#ILIAS Passwort ändern
+common#:#chg_ilias_and_webfolder_password#:#Webordner-Passwort ändern
+common#:#chg_ilias_password#:#ILIAS-Passwort ändern
 common#:#chg_language#:#Sprache ändern
 common#:#chg_password#:#Passwort ändern
 common#:#choose_language#:#Bitte wählen Sie Ihre Sprache!
@@ -2582,7 +2582,7 @@ common#:#cron_forum_notification_never#:#Nie (deaktiviert)
 common#:#cron_jobs#:#Cron-Jobs
 common#:#cron_jobs_desc#:#Ein Cron-Job ist ein automatisierter Prozess, der zu bestimmten vorgegebenen Zeitpunkten abläuft. Sie finden Informationen zur Aktivierung dieser Cron-Jobs in der Installationsanleitung.
 common#:#cron_lucene_index#:#Lucene-Suchindex aktualisieren
-common#:#cron_lucene_index_info#:#Wenn eingeschaltet, wird der Lucene Suchindex aktualisiert. Bitte konfigurieren Sie vorher den Lucene-Server unter 'Administration -> Suche'.
+common#:#cron_lucene_index_info#:#Wenn eingeschaltet, wird der Lucene-Suchindex aktualisiert. Bitte konfigurieren Sie vorher den Lucene-Server unter 'Administration » Suche'.
 common#:#cron_mail_notification#:#Mail-Benachrichtigungen versenden
 common#:#cron_mail_notification_cron#:#Regelmäßig per Cron-Job
 common#:#cron_mail_notification_desc#:#Wenn diese Option eingeschaltet ist, werden Benutzer über neue Mails benachrichtigt. Bitte deaktivieren Sie vorher die Option 'Versand von externen E-Mails verhinden' um diese Funktion nutzen zu können.
@@ -2734,7 +2734,7 @@ common#:#disk_quota_on_role_desc#:#Die Disk-Quota einer Rolle wirkt sich auf all
 common#:#disk_quota_reminder_mail#:#Erinnerungsnachricht
 common#:#disk_quota_reminder_mail_desc#:#Die Disk-Quota Erinnerungsnachricht wird an alle aktiven Benutzer versandt, die Ihre Disk-Quota überschritten haben. Der Versand erfolgt einmal täglich. Benutzer die bereits eine Erinnerungsnachricht erhalten haben, erhalten diese alle 7 Tage erneut, bis dass ihre Disk-Quota wieder unterschritten wird.
 common#:#disk_quota_report#:#Disk-Quota-Bericht
-common#:#disk_quota_report_not_run_yet#:#Keine Disk-Quota-Berichte vorhanden. Der tägliche Cronjob zur Ermittlung der Speicherverwendung muss zuerst ausgeführt werden.
+common#:#disk_quota_report_not_run_yet#:#Keine Disk-Quota-Berichte vorhanden. Der tägliche Cron-Job zur Ermittlung der Speicherverwendung muss zuerst ausgeführt werden.
 common#:#disk_quota_summary_rctp#:#Empfänger der Zusammenfassung
 common#:#disk_quota_summary_rctp_desc#:#Tragen Sie hier kommasepariert die Benutzernamen jener Personen ein, an die ILIAS täglich eine Zusammenfassung der überschrittenen Disk-Quotas senden soll.
 common#:#disk_quota_summary_subject#:#Zusammenfassung von überschrittenen Disk-Quotas
@@ -2798,7 +2798,7 @@ common#:#enable_password_assistance#:#Passwort-Unterstützung aktivieren
 common#:#enable_registration#:#Registrierung von Benutzerkonten zulassen
 common#:#enable_sahs_protocol_data#:#Protokolldaten aktivieren
 common#:#enable_sahs_protocol_data_desc#:#Anzeige der Protokolldaten (SCORM/AICC)
-common#:#enable_search_engine#:#Öffentlichen Bereich für Suchmaschinen (z.B. Google) freigeben.<br />Bitte beachten Sie, dass für diese Einstellung das Apache Modul "rewrite" benötigt wird und dass .htaccess Konfigurationen genutzt werden müssen.
+common#:#enable_search_engine#:#Öffentlichen Bereich für Suchmaschinen (z.B. Google) freigeben.<br />Bitte beachten Sie, dass für diese Einstellung das Apache-Modul "rewrite" benötigt wird, und dass .htaccess-Konfigurationen genutzt werden müssen.
 common#:#enable_trash#:#Papierkorb verwenden
 common#:#enable_trash_info#:#Wenn aktiviert, werden gelöschte Objekte in den Papierkorb verschoben und können später wieder hergestellt werden. Ist der Papierkorb deaktiviert, werden gelöschte Objekte unwiderruflich aus dem System entfernt!
 common#:#enable_webdav#:#WebDAV Zugriff aktivieren
@@ -3308,8 +3308,8 @@ common#:#il_grp_admin#:#Gruppenadministrator
 common#:#il_grp_member#:#Gruppenmitglied
 common#:#il_grp_status_closed#:#Geschlossene Gruppe
 common#:#il_grp_status_open#:#Offene Gruppe
-common#:#ilias_and_webfolder_username#:#ILIAS und Webordner Benutzername
-common#:#ilias_username#:#ILIAS Benutzername
+common#:#ilias_and_webfolder_username#:#ILIAS- und Webordner-Benutzername
+common#:#ilias_username#:#ILIAS-Benutzername
 common#:#ilias_version#:#ILIAS-Version
 common#:#im_aim#:#AIM
 common#:#im_aim_icon#:#AIM-Logo
@@ -3495,14 +3495,14 @@ common#:#link_check_message_disabled#:#Der Versand von Mails ist deaktiviert.
 common#:#link_check_message_enabled#:#Der Versand von Mails ist aktiviert.
 common#:#link_check_subject#:#[ILIAS] Weblink überprüfen
 common#:#link_checker_refreshed#:#Die Ansicht wurde aktualisiert.
-common#:#link_dynamic_info#:#Hier können Sie dynamische Parameter wie z.B. die ILIAS Benutzer-ID an einen Link anhängen.
+common#:#link_dynamic_info#:#Hier können Sie dynamische Parameter wie z.B. die ILIAS-Benutzer-ID an einen Link anhängen.
 common#:#link_selected_items#:#Verknüpfen
 common#:#linked_object#:#Das Objekt wurde verknüpft.
 common#:#linked_pages#:#Verknüpft mit den Seiten
 common#:#links_add_param#:#Parameter hinzufügen:
 common#:#links_dyn_parameter#:#Dynamische Parameter
 common#:#links_dynamic#:#Dynamische Parameter
-common#:#links_dynamic_info#:#Wenn aktiviert, können Weblinks dynamische Parameter wie z.B die ILIAS Benutzer-ID oder der Benutzername hinzugefügt werden.
+common#:#links_dynamic_info#:#Wenn aktiviert, können Weblinks dynamische Parameter wie z.B die ILIAS-Benutzer-ID oder der Benutzername hinzugefügt werden.
 common#:#links_existing_params#:#Vorhandene Parameter:
 common#:#links_name#:#Parameter Name
 common#:#links_no_name_given#:#Bitte geben Sie einen Parameternamen ein.
@@ -3510,9 +3510,9 @@ common#:#links_no_value_given#:#Bitte wählen Sie einen Parameterwert aus.
 common#:#links_not_available#:#Nicht vorhanden
 common#:#links_parameter_deleted#:#Der Parameter wurde gelöscht.
 common#:#links_select_one#:#- Bitte treffen Sie eine Auswahl -
-common#:#links_session_id#:#ILIAS Session-ID
-common#:#links_user_id#:#ILIAS Benutzer-ID
-common#:#links_user_name#:#ILIAS Benutzername
+common#:#links_session_id#:#ILIAS-Session-ID
+common#:#links_user_id#:#ILIAS-Benutzer-ID
+common#:#links_user_name#:#ILIAS-Benutzername
 common#:#links_value#:#Parameter Wert
 common#:#list#:#Liste
 common#:#list_of_pages#:#Seitenliste
@@ -3902,7 +3902,7 @@ common#:#no_license_available#:#Keine Lizenz verfügbar!
 common#:#no_limit#:#Kein Limit
 common#:#no_lo_in_personal_list#:#Es sind keine Lernobjekte abonniert.
 common#:#no_local_users#:#Es sind keine lokalen Benutzer angelegt.
-common#:#no_mkisofs_configured#:#Sie müssen das mkisofs Tool im ILIAS setup konfigurieren, um den ISO Export ausführen zu können.
+common#:#no_mkisofs_configured#:#Sie müssen das mkisofs Tool im ILIAS-Setup konfigurieren, um den ISO-Export ausführen zu können.
 common#:#no_objects#:#Keine Objekte
 common#:#no_owner#:#Kein Besitzer
 common#:#no_parent_access#:#Kein Zugriff auf ein übergeordnetes Objekt!
@@ -3949,7 +3949,7 @@ common#:#obj_accs_desc#:#Einstellungen zur Barrierefreiheit
 common#:#obj_adm#:#Administration
 common#:#obj_adm_desc#:#Beinhaltet alle Verwaltungstools für Ihre ILIAS-Installation.
 common#:#obj_adve#:#Editor
-common#:#obj_adve_desc#:#Administrationseinstellungen für den ILIAS Editor und TinyMCE.
+common#:#obj_adve_desc#:#Administrationseinstellungen für den ILIAS-Editor und TinyMCE.
 common#:#obj_alm#:#Lernmodul AICC
 common#:#obj_ass#:#Asset
 common#:#obj_assf#:#Test und Assessment
@@ -4233,7 +4233,7 @@ common#:#pay_methods#:#Bezahlarten
 common#:#payment_buyable#:#Kaufbar
 common#:#payment_demo#:#Demo
 common#:#payment_in_sc#:#Bereits im Warenkorb
-common#:#payment_notification#:#Sende Shop Benachrichtigungen
+common#:#payment_notification#:#Sende Shop-Benachrichtigungen
 common#:#payment_notification_days#:#Anzahl der Tage
 common#:#payment_notification_days_desc#:#Bitte geben Sie die Anzahl der Tage ein, die für den Versand verwendet werden soll bevor der Zugriff auf das gekaufte Objekt ausläuft
 common#:#payment_notification_desc#:#Wenn aktiviert, erhalten die Benutzer eine Benachrichtigung um die Zugriffsdauer bereits gekaufter Objekte zu verlängern.
@@ -4505,8 +4505,8 @@ common#:#rolt_new#:#Neue Rollenvorlage
 rbac#:#rbac_create_cat#:#Benutzer kann Kategorien anlegen
 common#:#root_edit#:#Systemknoten bearbeiten
 rbac#:#root_edit_permission#:#Rechteeinstellungen ändern
-rbac#:#root_read#:#Lesezugriff auf ILIAS System
-rbac#:#root_visible#:#ILIAS System ist sichtbar
+rbac#:#root_read#:#Lesezugriff auf ILIAS-System
+rbac#:#root_visible#:#ILIAS-System ist sichtbar
 rbac#:#root_write#:#Daten des Systemknotens bearbeiten
 common#:#row#:#Zeile
 common#:#rows#:#Zeilen
@@ -4534,7 +4534,7 @@ common#:#save_and_back#:#Speichern und zurück
 common#:#save_customer_address#:#Speichern der Rechnungsadresse
 common#:#save_customer_address_info#:#Wenn aktiviert, wird die vom Kunden angegebene Rechnungsadresse gespeichert
 common#:#save_message#:#Als Entwurf speichern
-common#:#save_params_for_cron#:#Speichere Parameter für Cronjob
+common#:#save_params_for_cron#:#Speichere Parameter für Cron-Job
 common#:#save_refresh#:#Speichern und aktualisieren
 common#:#save_return#:#Speichern und zurückkehren
 common#:#save_settings#:#Einstellungen speichern
@@ -4552,7 +4552,7 @@ common#:#scorm_create_export_file_scrom2004_4th#:#Exportdatei erstellen (SCORM 2
 common#:#scorm_new#:#Neues SCORM-Lernmodul anlegen
 common#:#search#:#Suche
 common#:#search_active#:#Aktive Benutzer
-common#:#search_engine#:#Lesbare .html URLs
+common#:#search_engine#:#Lesbare .html-URLs
 common#:#search_for#:#Suchen
 common#:#search_in#:#Suchen in
 common#:#search_inactive#:#Inaktive Benutzer
@@ -4708,7 +4708,7 @@ common#:#smtp#:#SMTP
 common#:#soap_user_administration#:#Administration über SOAP
 common#:#soap_user_administration_desc#:#Wenn eingeschaltet, kann ILIAS über die SOAP-Schnittstelle verwaltet werden.
 common#:#soap_wsdl_path#:#WSDL-Pfad
-common#:#soap_wsdl_path_info#:#Hier können Sie den Pfad zur WSDL-Datei angeben, die von ILIAS für den Webservice genutzt werden soll. Falls Sie dieses Feld leer lassen, wird folgender Pfad als Standard verwendet:%s
+common#:#soap_wsdl_path_info#:#Hier können Sie den Pfad zur WSDL-Datei angeben, die von ILIAS für den Web-Service genutzt werden soll. Falls Sie dieses Feld leer lassen, wird folgender Pfad als Standard verwendet:%s
 common#:#socialbm_disable#:#Deaktivieren
 common#:#socialbm_enable#:#Aktivieren
 common#:#socialbm_extt_social_bookmarks#:#Social Bookmarks
@@ -4811,8 +4811,8 @@ common#:#system_language#:#Systemsprache
 common#:#system_message#:#Systemnachrichten
 common#:#system_style_settings#:#Einstellungen für System-Styles
 common#:#system_styles#:#System-Styles
-common#:#systemcheck_cron#:#System Check via Cronjob
-common#:#systemcheck_cronform#:#Aktivierung des System Checks im Cronjob
+common#:#systemcheck_cron#:#System Check per Cron-Job
+common#:#systemcheck_cronform#:#Aktivierung des System Checks im Cron-Job
 common#:#table_mail_import#:#Import von Mails
 common#:#tabs#:#Reiter
 common#:#tagging_my_tags#:#Meine Tags
@@ -4969,11 +4969,11 @@ common#:#unzip#:#Entzippen
 common#:#up#:#Hoch
 common#:#update#:#Übernehmen
 common#:#update_applied#:#Datenbankupdate erfolgreich
-common#:#update_language#:#Sprache updaten
+common#:#update_language#:#Sprache aktualisieren
 common#:#update_on_conflict#:#Aktualisiere bei Konflikt
 common#:#upload#:#Hochladen
 common#:#upload_error_file_not_found#:#Fehler beim Hochladen: Datei nicht gefunden
-common#:#uploaded_and_checked#:#Die Datei wurde heraufgeladen und überprüft, Sie können sie nun importieren.
+common#:#uploaded_and_checked#:#Die Datei wurde hochgeladen und überprüft, Sie können sie nun importieren.
 common#:#uri#:#URI
 common#:#url#:#URL
 common#:#url_a#:#eine URL
@@ -5189,7 +5189,7 @@ common#:#your_message#:#Ihre Nachricht
 common#:#yyyy_mm_dd#:#JJJJ-MM-TT
 common#:#zip#:#PLZ
 common#:#zip_structure_error#:#Archiv enthält gleiche Dateinamen. Upload abgebrochen
-common#:#zip_test_failed#:#Der ZIP-Test ist fehlgeschlagen. Bitte kontaktieren Sie ihren ILIAS Administrator.
+common#:#zip_test_failed#:#Der ZIP-Test ist fehlgeschlagen. Bitte kontaktieren Sie ihren ILIAS-Administrator.
 common#:#zipcode#:#Postleitzahl
 content#:#add_menu_entry#:#Menüeintrag hinzufügen >>
 content#:#all#:#Alle
@@ -6076,7 +6076,7 @@ content#:#cont_update_tabs#:#Register aktualisieren
 content#:#cont_update_titles_and_actions#:#Titel und Aktionen aktualisieren
 content#:#cont_update_verification#:#Zertifikat bearbeiten
 content#:#cont_upload_dir#:#Upload-Verzeichnis
-content#:#cont_upload_dir_info#:#Server-Verzeichnis, von dem große SCORM- und HTML-Pakete kopiert werden können, statt sie direkt hochzuladen. Nur ILIAS Administratoren sehen eine Auswahl von Dateien aus diesem Verzeichnis. Bitte geben Sie einen vollständigen Serverpfad ohne Slash am Ende ein.
+content#:#cont_upload_dir_info#:#Server-Verzeichnis, von dem große SCORM- und HTML-Pakete kopiert werden können, statt sie direkt hochzuladen. Nur ILIAS-Administratoren sehen eine Auswahl von Dateien aus diesem Verzeichnis. Bitte geben Sie einen vollständigen Serverpfad ohne Slash am Ende ein.
 content#:#cont_upload_file#:#Datei hochladen
 content#:#cont_uploaded_file#:#Vorhandene Datei
 content#:#cont_url#:#URL
@@ -7360,9 +7360,9 @@ ecs#:#ecs_invalid_import_type_cms#:#Sie können den Import-Typ "Campus Mamagment
 ecs#:#ecs_key_password#:#Schlüsselpasswort
 ecs#:#ecs_local_settings#:#Lokale Einstellungen
 ecs#:#ecs_mapping_crs#:#Zuordnung für Kurse
-ecs#:#ecs_mapping_exp_tbl#:#Zuordnung von ILIAS Erweiterten Metadaten zu ECS-Daten
+ecs#:#ecs_mapping_exp_tbl#:#Zuordnung der Erweiterten Metadaten zu ECS-Daten
 ecs#:#ecs_mapping_rcrs#:#Zuordnung für ECS-Kurse
-ecs#:#ecs_mapping_tbl#:#Zuordnung von ECS-Daten zu ILIAS Erweiterten Metadaten
+ecs#:#ecs_mapping_tbl#:#Zuordnung von ECS-Daten zu Erweiterten Metadaten
 ecs#:#ecs_mappings#:#Zuordnung von ECS-Daten
 ecs#:#ecs_meta_data#:#Metadaten
 ecs#:#ecs_new_approval_subject#:#Ein neuer Kurs wurde freigegeben
@@ -7855,7 +7855,7 @@ jscalendar#:#about_calendar#:#Über den Kalender
 jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector\n(c) dynarch.com 2002-2003\nFor latest version visit: http://dynarch.com/mishoo/calendar.epl\nDistributed under GNU LGPL. See http://gnu.org/licenses/lgpl.html for details.\n\nAuswahl des Datums:\n- Verwenden Sie die «, » Schaltflächen, um das Jahr auszuwählen\n- Verwenden Sie die <, > Schaltflächen, um den Monat auszuwählen\n- Lassen Sie die Maustaste über jeder der oberen Schaltflächen gedrückt, um eine Schnellauswahl zu erhalten.
 jscalendar#:#about_time#:#\n\nAuswahl der Zeit:\n- Klicken Sie auf die Zeitfelder, um den Wert zu erhöhen\n- or Umschalten+Klicken, um den Wert zu erniedrigen\n- oder klicken und ziehen für eine Schnellauswahl.
 jscalendar#:#close#:#Schließen
-jscalendar#:#day_first#:#%s zuerst Anzeigen
+jscalendar#:#day_first#:#%s zuerst anzeigen
 jscalendar#:#def_date_format#:#%Y-%m-%d
 jscalendar#:#drag_to_move#:#Ziehen zum Verschieben
 jscalendar#:#go_today#:#Heute
@@ -8929,10 +8929,10 @@ news#:#news_feed_url#:#Feed-URL
 news#:#news_feed_url_for#:#Feed-URL für '%s'
 news#:#news_first_letter_of_word_notification#:#B
 news#:#news_get_feed_info#:#Dies ist die Adresse Ihres persönlichen Newsfeeds. Dieser Newsfeed enthält alle Nachrichten, die von den jeweiligen Verfassern als öffentlich definiert wurden. Dieser Newsfeed wird durch keinerlei Authentifzierungsmaßnahme geschützt.
-news#:#news_get_feed_title#:#URL Ihres Persönlichen Newsfeeds
+news#:#news_get_feed_title#:#URL Ihres persönlichen Newsfeeds
 news#:#news_get_feed_url#:#Newsfeed-URL bekommen
 news#:#news_get_priv_feed_info#:#Dies ist die Adresse Ihres privaten Newsfeeds. Dieser Newsfeed enthält neben öffentlichen Nachrichten auch solche, die von den jeweiligen Verfassern als privat definiert wurden. Dieser Newsfeed wird durch ein Kennwort geschützt, welches Sie unter "Einstellungen" einrichten können. Bitte ersetzen Sie in der unten angezeigten URL -password- durch Ihr Feed-Passwort.
-news#:#news_get_priv_feed_title#:#URL Ihres Privaten Newsfeeds
+news#:#news_get_priv_feed_title#:#URL Ihres privaten Newsfeeds
 news#:#news_hidden_news_block#:#Nachrichtenblock wird zur Zeit in der Lernersicht nicht angezeigt.
 news#:#news_hide_news_block#:#Nachrichtenblock verbergen
 news#:#news_hide_news_block_info#:#Verberge Block in der Lerneransicht. Der Nachrichtenblock wird nur für Benutzer mit Schreibberechtigung sichtbar sein.
@@ -8970,14 +8970,14 @@ news#:#news_period_x_weeks#:#Letzte %s Wochen
 news#:#news_public_feed#:#Eigener Webfeed
 news#:#news_public_feed_info#:#Es wird ein RSS-Icon mit einer separaten Webfeed-URL angezeigt. 
 news#:#news_related_to#:#bezieht sich auf
-news#:#news_rss_period#:#RSS Zeitraum
-news#:#news_rss_title_format#:#RSS Titelformat
+news#:#news_rss_period#:#RSS-Zeitraum
+news#:#news_rss_title_format#:#RSS-Titelformat
 news#:#news_rss_title_format_news_obj#:#Nachrichtentitel (Objekttitel)
 news#:#news_rss_title_format_obj_news#:#Objekttitel - Nachrichtentitel
 news#:#news_settings#:#Einstellungen für Nachrichten
 news#:#news_subscribe#:#Abonniere
 news#:#news_time_period#:#Zeitspanne
-news#:#news_unsubscribe#:#Löse Abonnement
+news#:#news_unsubscribe#:#Beende Abonnement
 news#:#news_visibility_public#:#Öffentlich
 news#:#news_visibility_users#:#Authentifizierte Benutzer
 news#:#news_x_files_created#:#Es wurden %s Dateien hinzugefügt.
@@ -8989,9 +8989,9 @@ news#:#priv_feed_no_access_body#:#Bitte wenden Sie sich an den Systemadministrat
 news#:#priv_feed_no_access_title#:#Private Newsfeeds sind nicht freigeschaltet.
 news#:#priv_feed_no_auth_body#:#Bitte überprüfen Sie, ob Sie das Kennwort für den privaten Newsfeed gesetzt und richtig eingegeben haben.
 news#:#priv_feed_no_auth_title#:#Authentifizierung fehlgeschlagen
-news#:#priv_feed_settings#:#Einstellungen für Privaten Newsfeed
+news#:#priv_feed_settings#:#Einstellungen für privaten Newsfeed
 news#:#show_news_end_date#:#Enddatum
-notes#:#comments_feature_currently_not_activated_for_object#:#Die öffentliche Kommentarfunktion ist für diese Ressource zur Zeit nicht aktiviert.
+notes#:#comments_feature_currently_not_activated_for_object#:#Die öffentliche Kommentarfunktion ist für dieses Objekt zur Zeit nicht aktiviert.
 notes#:#note_add_comment#:#Kommentar hinzufügen
 notes#:#note_add_note#:#Notiz hinzufügen
 notes#:#note_update_comment#:#Kommentar aktualisieren
@@ -9035,7 +9035,7 @@ payment#:#delete_addresses_bmf#:#Lösche BMF-Adressen
 payment#:#delete_addresses_paypal#:#Lösche Paypal-Adressen
 payment#:#documents#:#Dokumente
 payment#:#duration#:#Dauer
-payment#:#edit_topic#:#Thema Bearbeiten
+payment#:#edit_topic#:#Thema bearbeiten
 payment#:#enable_ean#:#EAN aktivieren
 payment#:#enable_ean_info#:#This is required for invoicing the public sector in Denmark. Click here to read <a href="http://www.oes.dk/sw1903.asp" target="_blank">more about EAN</a>.
 payment#:#excel_export#:#Excel Export
@@ -9044,7 +9044,7 @@ payment#:#external_bill_no#:#%s Rechnungsnr.
 payment#:#filter_by#:#nach
 payment#:#have_existing_account#:#Besitzen Sie bereits ein Benutzerkonto? Dann geben Sie bitte nun ihren Benutzernamen und ihr Passwort ein.
 payment#:#have_no_existing_account#:#Falls Sie noch kein Benutzerkonto besitzen, wurde soeben ein Account erstellt(Benutzername: %s  Passwort: %s ).
-payment#:#ilias_invoice_number#:#ILIAS Rechnungsnummer
+payment#:#ilias_invoice_number#:#Von ILIAS vergebene Rechnungsnummer
 payment#:#import_use_only_textfile#:#Hinweis: Bitte verwenden Sie eine reine Textdatei mit je einem Code pro Zeile.
 payment#:#incremental_current_value#:#aktuell verwendete aufsteigende Nummer
 payment#:#incremental_start_value#:#Aufsteigende Nummer
@@ -9111,7 +9111,7 @@ payment#:#pay_crs_max_members_exceeded#:#Die maximale Teilnehmerzahl für diesen
 payment#:#pay_customer_no#:#Kundennr.
 payment#:#pay_deleted_booking#:#Der Datensatz wurde gelöscht.
 payment#:#pay_deleted_items#:#Die ausgewählten Artikel wurden gelöscht.
-payment#:#pay_edit_abstract#:#Abstract Bearbeiten
+payment#:#pay_edit_abstract#:#Abstract bearbeiten
 payment#:#pay_enable_shop#:#Shop aktivieren
 payment#:#pay_enable_shop_info#:#Wenn aktiviert, ist der ILIAS-Webshop verfügbar und Objekte können von Benutzern gekauft werden.
 payment#:#pay_ending#:#hört auf mit
@@ -9124,7 +9124,7 @@ payment#:#pay_goto_buyed_objects#:#Zu den gekauften Objekten
 payment#:#pay_goto_shopping_cart#:#Zum Warenkorb
 payment#:#pay_header#:#Shop
 payment#:#pay_hide_advanced_search#:#Erweiterte Suche verbergen
-payment#:#pay_hide_advanced_search_info#:#Verberge Tab für Erweiterte Suche für einen Shop mit wenigen Objekten.
+payment#:#pay_hide_advanced_search_info#:#Verberge den Reiter für "Erweiterte Suche" für einen Shop mit wenigen Objekten.
 payment#:#pay_hide_coupons#:#Verberge Coupons
 payment#:#pay_hide_coupons_info#:#Verbirgt Coupons für den Einkäufer. Falls Ihr Shop keine Coupons benutzt, vereinfacht dies die Handhabung für Ihre Kunden.
 payment#:#pay_hide_filtering#:#Verberge Filter
@@ -9132,7 +9132,7 @@ payment#:#pay_hide_filtering_info#:#Verberge Filter für Objekte
 payment#:#pay_hide_news#:#Verberge Nachrichten
 payment#:#pay_hide_news_info#:#Verbirgt Tab für Shop-News, falls Sie keine News verwenden.
 payment#:#pay_hide_shop_info#:#Verberge Shop-Informationen
-payment#:#pay_hide_shop_info_info#:#Verbirgt den Tab Shop-Informationen
+payment#:#pay_hide_shop_info_info#:#Verbirgt den Reiter Shop-Informationen
 payment#:#pay_hint_epay#:#Trinkgeld für ePay
 payment#:#pay_hint_paypal#:#Hinweis zu PayPal
 payment#:#pay_info#:#Der Zugang zu diesem Bereich ist nicht frei verfügbar. Wenn Sie einen Zugang zu diesem Objekt erwerben möchten, wählen Sie bitte einen Preis aus. Sie können dann eines oder mehrere Objekte über den Warenkorb des 'Persönlichen Schreibtisches' kaufen und erhalten sofort für dieses Objekt einen Zugang für die ausgewählte Dauer.
@@ -9211,10 +9211,10 @@ payment#:#paya_coupons_availability#:#Maximale Nutzbarkeit eines Codes
 payment#:#paya_coupons_code#:#Code
 payment#:#paya_coupons_code_chars#:#Zeichen
 payment#:#paya_coupons_code_deleted_successfully#:#Der Code wurde erfolgreich gelöscht.
-payment#:#paya_coupons_code_generation#:#Code Generierung
-payment#:#paya_coupons_code_length#:#Code Länge
+payment#:#paya_coupons_code_generation#:#Code-Generierung
+payment#:#paya_coupons_code_length#:#Code-Länge
 payment#:#paya_coupons_codes#:#Codes
-payment#:#paya_coupons_codes_import#:#Codes Importieren
+payment#:#paya_coupons_codes_import#:#Codes importieren
 payment#:#paya_coupons_codes_not_available#:#Es sind keine Codes angelegt.
 payment#:#paya_coupons_coupon#:#Gutschein
 payment#:#paya_coupons_coupon_added#:#Der Gutschein wurde hinzugefügt.
@@ -9338,15 +9338,15 @@ payment#:#payment_cannot_save_existing_vat#:#Ein vorhandener Steuersatz kann nic
 payment#:#payment_cannot_update_nonexisting_vat#:#Kann einen nicht existierenden Steuersatz nicht aktualisieren.
 payment#:#payment_edit_vat#:#Steuersatz bearbeiten
 payment#:#payment_login_to_buy_object#:#Bitte melden Sie sich bei ILIAS an, damit das Objekt in den Warenkorb gelegt werden kann.
-payment#:#payment_news#:#Shop Nachrichten
-payment#:#payment_news_add_news#:#Shop Nachricht hinzufügen
+payment#:#payment_news#:#Shop-Nachrichten
+payment#:#payment_news_add_news#:#Shop-Nachricht hinzufügen
 payment#:#payment_news_archive_period#:#Archiv-Zeitraum
 payment#:#payment_news_archive_period_info#:#Anzahl der Tage, nach denen eine Nachricht ins Archiv verschoben wird
 payment#:#payment_news_created#:#Shop Nachricht hinzugefügt
-payment#:#payment_news_delete_sure#:#Sind Sie sicher, dass Sie diese Shop Nachricht löschen möchten?
+payment#:#payment_news_delete_sure#:#Sind Sie sicher, dass Sie diese Shop-Nachricht löschen möchten?
 payment#:#payment_news_deleted#:#Die Nachricht wurde gelöscht
 payment#:#payment_news_no_news_items#:#Keine Nachrichten vorhanden
-payment#:#payment_news_settings#:#Shop Nachrichten Einstellungen
+payment#:#payment_news_settings#:#Shop-Nachrichten-Einstellungen
 payment#:#payment_news_settings_saved#:#Die Einstellungen wurden gespeichert
 payment#:#payment_news_updated#:#Die Nachricht wurde gespeichert
 payment#:#payment_no_price_selected#:#Es wurde kein Preis ausgewählt.
@@ -9487,13 +9487,13 @@ payment#:#select_subtype#:#Unteroption
 payment#:#set_filter#:#Filter setzen
 payment#:#shop_activation_ok#:#Die Shop Einstellungen sind vollständig. Sie können nun den Webshop aktivieren.
 payment#:#shop_bought_objects_url#:#Link zu den gekauften Objekten
-payment#:#shop_info#:#Shop Information
+payment#:#shop_info#:#Shop-Information
 payment#:#shop_url#:#Link zum Shop
 payment#:#show_general_filter#:#Allgemeinen Filter verwenden
 payment#:#show_general_filter_info#:#Mit diesem Filter können Benutzer nach einem kaufbaren Objekt suchen
 payment#:#show_shop_explorer#:#Shop-Baum verwenden
 payment#:#show_shop_explorer_info#:#Der Shop-Baum vereinfacht die Navigation innerhalb des Shops
-payment#:#show_topics_filter#:#Themen Filter verwenden
+payment#:#show_topics_filter#:#Themenfilter verwenden
 payment#:#show_topics_filter_info#:#Mit diesem Filter können Benutzer kaufbare Objekte nach Themen filtern
 payment#:#sort#:#Sortieren
 payment#:#sort_asc#:#aufsteigend sortieren
@@ -10027,7 +10027,7 @@ registration#:#reg_unknown_recipients#:#Die folgenden Benutzer sind nicht gülti
 registration#:#registration_code#:#Code
 registration#:#registration_code_no_role#:#Der angegebene Code ist ohne Rolle definiert und kann momentan nicht benutzt werden. Bitte kontaktieren Sie den System-Administrator.
 registration#:#registration_code_not_valid#:#Der gegebene Registrierungscode ist ungültig oder wurde bereits benutzt.
-registration#:#registration_code_optional_info#:#Einen evtl. vorhandenen ILIAS Registrierungs-Code können Sie hier eingeben.
+registration#:#registration_code_optional_info#:#Einen evtl. vorhandenen ILIAS-Registrierungs-Code können Sie hier eingeben.
 registration#:#registration_code_required_info#:#Ein ILIAS-Registrierungs-Code ist Voraussetzung für die erfolgreiche Registrierung.
 registration#:#registration_codes_add#:#Codes erzeugen
 registration#:#registration_codes_edit_header#:#Neue Codes erzeugen
@@ -10041,7 +10041,7 @@ registration#:#registration_no_valid_role#:#Es ist momentan keine Rolle für Reg
 registration#:#registration_reg_type_codes#:#Registrieren mit Codes
 registration#:#registration_reg_type_codes_info#:#Bei dieser Registrierungsmethode benötigt der neue Benutzer einen gültigen Code.
 registration#:#registration_roles_all#:#Alle Rollen
-registration#:#registration_settings#:#ILIAS Auth / Selbstregistrierung
+registration#:#registration_settings#:#ILIAS-Auth / Selbstregistrierung
 registration#:#registration_tab_codes#:#Registrierungscodes
 registration#:#registration_tab_settings#:#Einstellungen
 registration#:#registration_used#:#Verbraucht am
@@ -10062,7 +10062,7 @@ sahs#:#cont_insert_into_chap#:#Elemente innerhalb eines Kapitels einfügen.
 sahs#:#sahs_activate_expert_mode#:#Sequencing-Expertenmodus aktivieren
 sahs#:#sahs_activate_expert_mode_info#:#In diesem Modus können Sie direkt die Sequencing-Informationen des SCORM-Packages editieren. Achtung: ILIAS prüft dabei nicht Ihre Eingaben auf Gültigkeit.
 sahs#:#sahs_authoring_mode#:#Autorenmodus
-sahs#:#sahs_authoring_mode_info#:#Die SCORM ZIP-Datei muß mit dem ILIAS SCORM-Editor erstellt worden sein und als SCORM 1.2/2004 Package exportiert worden sein.
+sahs#:#sahs_authoring_mode_info#:#Die SCORM ZIP-Datei muß mit dem ILIAS-SCORM-Editor erstellt worden sein und als SCORM 1.2/2004 Package exportiert worden sein.
 sahs#:#sahs_chapter#:#Kapitel
 sahs#:#sahs_choose_page_template#:#Seitenvorlage auswählen
 sahs#:#sahs_choose_pages_chap_scos_ass_only#:#Bitte wählen Sie nur entweder Seiten, SCOs, Assets oder Kapitel aus.
@@ -10104,7 +10104,7 @@ sahs#:#sahs_sco_final_message#:#Sie haben erfolgreich "%s" beendet.
 sahs#:#sahs_sco_objective#:#SCOs und ihre Lernziele
 sahs#:#sahs_sequencing#:#Sequencing
 sahs#:#sahs_std_sequencing#:#Standard-Sequencing
-sahs#:#sahs_std_sequencing_info#:#ILIAS Standard-Sequencing Verhalten benutzen (empfohlen).
+sahs#:#sahs_std_sequencing_info#:#ILIAS-Standard-Sequencing Verhalten benutzen (empfohlen).
 sahs#:#sahs_unit#:#SCO
 sahs#:#scorm_create_export_file_html_one#:#Exportdatei erzeugen (HTML, eine Seite, Review Mode)
 scormdebug#:#adl.nav.request#:#auszuf&uuml;hrender Navigationsaufruf nach Terminate()
@@ -12278,7 +12278,7 @@ payment#:#please_choose_category#:#Bitte wählen Sie eine Kategorie
 forum#:#select_max_one_thread#:#Bitte wählen Sie nur ein Thema aus!
 common#:#shib_matriculation#:#Attribut für Matrikelnummer
 common#:#soap_connect_timeout#:#Timeout für Verbindungsaufbau
-common#:#soap_connect_timeout_info#:#Die maximale Zeit in Sekunden, die gewartet wird, bis eine Verbindung zum SOAP-Webservice aufgebaut werden kann.
+common#:#soap_connect_timeout_info#:#Die maximale Zeit in Sekunden, die gewartet wird, bis eine Verbindung zum SOAP-Web-Service aufgebaut werden kann.
 dateplaner#:#cal_ical_infoscreen#:#Abonnieren
 trac#:#trac_lp_on_personal_desktop#:#Lernfortschritt auf Persönlichem Schreibtisch
 trac#:#trac_lp_learner_access#:#Eigenen Lernfornschritt einsehen
@@ -12311,9 +12311,9 @@ crs#:#crs_activation_limited_visibility_info#:#Außerhalb des angegebenen Zeitra
 rep#:#rep_visibility_limitless#:#Unbegrenzt
 rep#:#rep_visibility_until#:#Zeitlich begrenzt
 assessment#:#tst_availability_limitless_info#:#Wählen Sie diese Einstellung, um den Kurs für Benutzer verfügbar zumachen. Die Verfügbarkeit ist abhängig von der unten ausgewählten Einstellung für Teilnehmer.
-assessment#:#tst_availability_until_info#:#Wählen Sie diese Einstellung, um den Kurs, abhängig von der unten ausgewählten Einstellung für Teilnehmer - nur während eines definierten Zeitraums freizuschalten.
+assessment#:#tst_availability_until_info#:#Wählen Sie diese Einstellung, um den Kurs, abhängig von der unten ausgewählten Einstellung für Teilnehmer, nur während eines definierten Zeitraums freizuschalten.
 assessment#:#tst_activation_online_info#:#Falls nicht online, haben nur Administratoren Zugriff auf den Test
-assessment#:#tst_activation_limited_visibility_info#:#Falls aktiv, ist der Test auch ausserhalb der Zugriffszeiten sichtbar.
+assessment#:#tst_activation_limited_visibility_info#:#Falls aktiv, ist der Test auch außerhalb der Zugriffszeiten sichtbar.
 book#:#booking_nr_of_items#:#Anzahl
 book#:#book_schedule_type_fixed#:#Fester Zeitplan
 book#:#book_schedule_type_fixed_info#:#Dieser Typ ist geeignet für Räume, Beamer, etc.
@@ -12719,7 +12719,7 @@ dcl#:#dcl_actions#:#Actionen
 dcl#:#dcl_owner_editable#:#Nur eigene Einträge bearbeiten
 dcl#:#dcl_msg_table_created#:#Tabelle angelegt
 dcl#:#dcl_record_deleted#:#Eintrag gelöscht
-dcl#:#dcl_ILIAS_reference#:#Link zu einem ILIAS Modul
+dcl#:#dcl_ILIAS_reference#:#Link zu einem ILIAS-Modul
 dcl#:#dcl_learning_progress#:#Zeige den Lernfortschritt des verlinkten Moduls bezüglich des Betrachters
 dcl#:#dcl_status#:#Dein Status
 dcl#:#dcl_mob#:#Bild
@@ -12815,7 +12815,7 @@ survey#:#survey_question_pool_usage_inactive_info#:#Die Frage wird zuerst nur f�
 dateplaner#:#cal_notification_crsgrp#:#Benachrichtigung für Kurs/Gruppenteilnehmer
 dateplaner#:#cal_notification_users#:#Benachtrichtigung für ausgewählte Benutzer
 dateplaner#:#cal_adm_notification_user_info#:#Wählen Sie diese Einstellung, um eine optionale Mailbenachrichtigung an einzelne, auswählbare Benutzer versenden zu können.
-dateplaner#:#cal_err_invalid_notification_rcps#:#Die Empfänger für die E-Mail-Benachrichtigung sind nicht gültig. Bitte wählen geben sie ausschließlich ILIAS Benutzerkontennamen oder gültige E-Mail-Adressen an.
+dateplaner#:#cal_err_invalid_notification_rcps#:#Die Empfänger für die E-Mail-Benachrichtigung sind nicht gültig. Bitte wählen geben sie ausschließlich ILIAS-Benutzerkontennamen oder gültige E-Mail-Adressen an.
 dateplaner#:#cal_user_notification#:#Benutzerbenachrichtigung
 dateplaner#:#cal_user_notification_info#:#Die ausgewählten Benutzer erhalten eine E-Mail mit den Termindetails. Bitte geben Sie ILIAS-Benutzernamen oder gültige E-Mailadressen ein.
 dateplaner#:#cal_cg_notification#:#Kurs/Gruppenbenachrichtigung
@@ -12958,7 +12958,7 @@ tos#:#tos_tos_settings#:#Einstellungen
 tos#:#tos_status_enable#:#Aktivieren
 tos#:#tos_status_desc#:#Falls aktiviert, werden Benutzer zum Unterzeichnen der Nutzungsvereinbarung aufgefordert, bevor sie ILIAS nutzen können.
 tos#:#tos_reset_tos_for_all_users#:#Nutzungsvereinbarungen zurücksetzen
-tos#:#tos_sure_reset_tos#:#Sind Sie sicher, dass die Nutzungsvereinbarungen für alle Benutzer im System zurückgesetzt werden sollen? Dies betrifft auch jene Benutzerkonten, die evtl. für die SOAP-Web-Services, den Chatserver, oder Cronjobs genutzt werden.
+tos#:#tos_sure_reset_tos#:#Sind Sie sicher, dass die Nutzungsvereinbarungen für alle Benutzer im System zurückgesetzt werden sollen? Dies betrifft auch jene Benutzerkonten, die evtl. für die SOAP-Web-Services, den Chat-Server, oder Cron-Jobs genutzt werden.
 tos#:#tos_reset_successfull#:#Die Nutzungsvereinbarungen wurden erfolgreich zurückgesetzt.
 user#:#tos_show_signed_text#:#Zeige Details
 user#:#tos_not_accepted_yet#:#Noch nicht akzeptiert
@@ -12979,7 +12979,7 @@ forum#:#frm_sorting_threads#:#Themen-Sortierung
 forum#:#frm_sorting_posts#:#Beitrags-Sortierung
 forum#:#sticky_threads_always_on_top#:#"Top-Themen" erscheinen generell immer ganz oben in der Liste der Themen. Innerhalb der "Top-Themen" haben Sie bei Wahl dieser Option die Möglichkeit, die Sortierung manuell anzupassen.
 mail#:#cron_update_addressbook#:#Adressbucheinträge automatisch synchronisieren 
-mail#:#cron_update_addressbook_desc#:#Wenn diese Option eingeschaltet ist, haben Benutzer die Möglichkeit festzulegen, ob mit Benutzerkonten verknüpfte Adressbucheintrage durch den Cronjob synchronisiert werden sollen. Es werden nur jene Daten aktualisiert, die vom Benutzer freigegeben wurden. 
+mail#:#cron_update_addressbook_desc#:#Wenn diese Option eingeschaltet ist, haben Benutzer die Möglichkeit festzulegen, ob mit Benutzerkonten verknüpfte Adressbucheintrage durch den Cron-Job synchronisiert werden sollen. Es werden nur jene Daten aktualisiert, die vom Benutzer freigegeben wurden. 
 mail#:#auto_update#:#Aktualisierung
 blog#:#blog_toggle_draft_admin#:#Blog-Eintrag deaktivieren
 blog#:#blog_keywords_info#:#Benutzen Sie die +/- Icons um Schlagwörter hinzuzufügen und zu entfernen.
@@ -13445,7 +13445,7 @@ common#:#preview_none#:#Vorschau (noch nicht vorhanden)
 common#:#preview_settings#:#Dateivorschau
 common#:#enable_preview#:#Vorschau aktivieren
 common#:#enable_preview_info#:#Wenn aktiviert, werden Vorschaubilder bei den unterstützten Dateien angezeigt.
-common#:#max_previews_per_object#:#Anzahl Vorschaubildern pro Datei
+common#:#max_previews_per_object#:#Anzahl Vorschaubilder pro Datei
 common#:#max_previews_per_object_info#:#Legt die Anzahl an Vorschaubildern fest, die pro Datei erzeugt werden.
 common#:#preview_create#:#Vorschau erstellen
 common#:#preview_delete#:#Vorschau löschen
@@ -13480,7 +13480,7 @@ blog#:#blog_change_notification_reason#:#Sie erhalten diese Nachricht, da sie di
 survey#:#survey_notification_finished_introduction#:#der folgende Teilnehmer hat die Umfrage beendet.
 survey#:#survey_notification_finished_reason#:#Sie erhalten diese Nachricht, da sie die Benachrichtigsfunktion für die oben genannte Umfrage aktiviert haben.
 content#:#cont_offline_mode_allow#:#Offline-Modus erlauben
-content#:#cont_offline_mode_allow_info#:#Im Offline-Modus können Lernmodule nur im ILIAS-SCORM-Offline-Player dargestelllt werden. Lernstandsdaten werden übertragen, wenn die Lernenden den Offline Modus beenden.
+content#:#cont_offline_mode_allow_info#:#Im Offline-Modus können Lernmodule nur im SCORM-Offline-Player von ILIAS dargestelllt werden. Lernstandsdaten werden übertragen, wenn die Lernenden den Offline-Modus beenden.
 wiki#:#wiki_start_page_info#:#Gibt es noch keine Wikiseite mit diesem Titel, wird eine neue, leere Seite erstellt.
 administration#:#adm_https#:#HTTPS
 common#:#obj_reps#:#Magazin 
@@ -13741,7 +13741,7 @@ assessment#:#rating#:#Bewertung
 assessment#:#advanced_rating#:#Erweiterte Bewertung
 assessment#:#advanced_rating_info#:#Die erweiterte Bewertung ist nur dann möglich, wenn Sie für das Ergebnis eine Einheit bestimmt haben.
 prtt#:#prtt_import#:#Portfoliovorlage importieren
-orgu#:#simple_user_import#:#XML Benutzerzuweisung
+orgu#:#simple_user_import#:#XML-Benutzerzuweisung
 crs#:#crs_passed_status_system#:#System
 crs#:#crs_passed_status_manual_by#:#Manuell durch
 dateplaner#:#cal_edit_single#:#Diesen Termin bearbeiten
@@ -13931,14 +13931,14 @@ adve#:#char_selector_custom_items_info3b#:#Zusammenhängende Zeichen landen geme
 adve#:#char_selector_custom_items_info4a#:#A-Z
 adve#:#char_selector_custom_items_info4b#:#Zeichenbereiche können mit einem "-" definiert werden
 adve#:#char_selector_custom_items_info5a#:#U+00C0
-adve#:#char_selector_custom_items_info5b#:#Ein Zeichen kann auch in Unicode-Notation angegeben werden (Groß/Kleinschreibung beliebig)
+adve#:#char_selector_custom_items_info5b#:#Ein Zeichen kann auch in Unicode-Notation angegeben werden (Groß-/Kleinschreibung beliebig).
 adve#:#char_selector_custom_items_info6a#:#U+00C0-U+00CF
 adve#:#char_selector_custom_items_info6b#:#Auch Zeichenbereiche können in Unicode-Notation angegeben werden 
 adve#:#char_selector_unicode_all#:#Alle Unicode-Blöcke
 adve#:#adve_char_selector_settings#:#Zeichenauswahl
 common#:#scorm_login_as_learner_id#:#SCORM 2004: verwende ILIAS-Benutzername als cmi.learner_id
 common#:#scorm_login_as_learner_id_info#:#Lernmodule erhalten den ILIAS-Benutzernamen statt der UserId bei Abfrage von cmi.learner_id.
-content#:#cont_sc_auto_review_2004#:#Automatischer Review Modus
+content#:#cont_sc_auto_review_2004#:#Automatischer Review-Modus
 content#:#cont_sc_auto_review_info_2004#:#Wenn der automatische Review-Modus aktiviert ist, dann wird der Lernstand für ein Kapitel (SCO) des Lernmoduls nicht mehr gespeichert sobald eine der genannten Bedingungen zutrifft. Sofern der seltene Fall zutrifft, dass das Lernmodul Sequencing & Navigation gemäß SCORM 2004 nutzt, sollte diese Option nicht aktiviert werden.
 content#:#cont_sc_auto_review_no#:#deaktiviert
 content#:#cont_sc_auto_review_completed_not_failed_or_passed#:#wenn 'vollständig bearbeitet' oder 'bestanden', jedoch nicht 'nicht bestanden' (empfohlen)
