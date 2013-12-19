@@ -59,6 +59,8 @@ public class RPCIndexHandler {
 	 */
 	public boolean index(String clientKey, boolean incremental) {
 		
+		Boolean doPurge = true;
+		
 		// Set client key
 		LocalSettings.setClientKey(clientKey);
 		DBFactory.init();
@@ -77,6 +79,7 @@ public class RPCIndexHandler {
 			if(ilServerStatus.isIndexerActive(clientKey)) {
 				logger.error("An Indexer is already running for this client. Aborting!");
 				System.err.println("An Indexer is already running for this client. Aborting!");
+				doPurge = false;
 				return false;
 			}
 			
@@ -128,8 +131,10 @@ public class RPCIndexHandler {
 		}
 		finally {
 			// Purge resources
-			ilServerStatus.removeIndexer(clientKey);
-			DBFactory.closeAll();
+			if(doPurge) {
+				ilServerStatus.removeIndexer(clientKey);
+				DBFactory.closeAll();
+			}
 		}
 		
 		return false;
