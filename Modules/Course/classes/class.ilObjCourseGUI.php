@@ -941,8 +941,15 @@ class ilObjCourseGUI extends ilContainerGUI
 		$period = $form->getItemByPostVar("access_period");										
 		$sub_period = $form->getItemByPostVar("subscription_period");		
 		
-		$this->object->setOfflineStatus(!(bool)$_POST['activation_online']);
-		$this->object->setActivationType((int)$_POST['activation_type']);
+		if((int)$_POST['activation_type'])
+		{
+			$this->object->setActivationType(IL_CRS_ACTIVATION_LIMITED);
+		}
+		else
+		{
+			$this->object->setActivationType(IL_CRS_ACTIVATION_UNLIMITED);
+		}		
+		$this->object->setOfflineStatus(!(bool)$_POST['activation_online']);		
 		$this->object->setActivationStart($period->getStart()->get(IL_CAL_UNIX));
 		$this->object->setActivationEnd($period->getEnd()->get(IL_CAL_UNIX));
 		$this->object->setActivationVisibility((int)$_POST['activation_visibility']);
@@ -1163,33 +1170,25 @@ class ilObjCourseGUI extends ilContainerGUI
 		$online->setInfo($this->lng->txt('crs_activation_online_info'));
 		$form->addItem($online);				
 		
-		$act_type = new ilRadioGroupInputGUI($this->lng->txt('rep_activation_access'),'activation_type');
-		$act_type->setValue($this->object->getActivationType());
+		$act_type = new ilCheckboxInputGUI($this->lng->txt('crs_visibility_until'), 'activation_type');
+		$act_type->setChecked($this->object->getActivationType() == IL_CRS_ACTIVATION_LIMITED);
+		// $act_type->setInfo($this->lng->txt('crs_availability_until_info'));
 		
-			$opt = new ilRadioOption($this->lng->txt('crs_visibility_limitless'),IL_CRS_ACTIVATION_UNLIMITED);
-			$opt->setInfo($this->lng->txt('crs_availability_limitless_info'));
-			$act_type->addOption($opt);
-			
-			$opt = new ilRadioOption($this->lng->txt('crs_visibility_until'),IL_CRS_ACTIVATION_LIMITED);
-			$opt->setInfo($this->lng->txt('crs_availability_until_info'));
-			
-				$this->tpl->addJavaScript('./Services/Form/js/date_duration.js');
-				include_once "Services/Form/classes/class.ilDateDurationInputGUI.php";
-				$dur = new ilDateDurationInputGUI($this->lng->txt('rep_time_period'), "access_period");
-				$dur->setShowTime(true);																	
-				$dur->setStart(new ilDateTime($this->object->getActivationStart(),IL_CAL_UNIX));
-				$dur->setStartText($this->lng->txt('rep_activation_limited_start'));				
-				$dur->setEnd(new ilDateTime($this->object->getActivationEnd(),IL_CAL_UNIX));
-				$dur->setEndText($this->lng->txt('rep_activation_limited_end'));				
-				$opt->addSubItem($dur);
-			
-				$visible = new ilCheckboxInputGUI($this->lng->txt('rep_activation_limited_visibility'), 'activation_visibility');
-				$visible->setInfo($this->lng->txt('crs_activation_limited_visibility_info'));
-			    $visible->setChecked($this->object->getActivationVisibility());
-				$opt->addSubItem($visible);
-				
-			$act_type->addOption($opt);
-		
+			$this->tpl->addJavaScript('./Services/Form/js/date_duration.js');
+			include_once "Services/Form/classes/class.ilDateDurationInputGUI.php";
+			$dur = new ilDateDurationInputGUI($this->lng->txt('rep_time_period'), "access_period");
+			$dur->setShowTime(true);																	
+			$dur->setStart(new ilDateTime($this->object->getActivationStart(),IL_CAL_UNIX));
+			$dur->setStartText($this->lng->txt('rep_activation_limited_start'));				
+			$dur->setEnd(new ilDateTime($this->object->getActivationEnd(),IL_CAL_UNIX));
+			$dur->setEndText($this->lng->txt('rep_activation_limited_end'));				
+			$act_type->addSubItem($dur);
+
+			$visible = new ilCheckboxInputGUI($this->lng->txt('rep_activation_limited_visibility'), 'activation_visibility');
+			$visible->setInfo($this->lng->txt('crs_activation_limited_visibility_info'));
+			$visible->setChecked($this->object->getActivationVisibility());
+			$act_type->addSubItem($visible);
+
 		$form->addItem($act_type);
 		
 		

@@ -6682,7 +6682,7 @@ crs#:#crs_view_mode#:#Darstellung
 crs#:#crs_view_objective#:#Lernziel-orientierte Ansicht
 crs#:#crs_view_timing#:#Lernplanungsansicht
 crs#:#crs_visibility_limitless#:#Unbegrenzt – wenn online geschaltet
-crs#:#crs_visibility_until#:#Zeitlich begrenzt – wenn online geschaltet
+crs#:#crs_visibility_until#:#Zeitlich begrenzte Verfügbarkeit
 crs#:#crs_wait_info#:#Ist die maximale Mitgliederanzahl erreicht, können sich weitere Benutzer auf eine Warteliste setzen lassen.
 crs#:#crs_waiting_list#:#Warteliste
 crs#:#crs_warn_no_max_set_on_waiting_list#:#Die maximale Teilnehmeranzahl ist erreicht. Sie können sich jedoch auf die Warteliste für diesen Kurs setzen lassen und würden benachrichtigt, wenn Sie in den Kurs nachrücken könnten.
@@ -12309,7 +12309,7 @@ rep#:#rep_activation_limited_end#:#Ende
 rep#:#rep_activation_limited_visibility#:#Immer sichtbar
 crs#:#crs_activation_limited_visibility_info#:#Außerhalb des angegebenen Zeitraums wird der Kurstitel angezeigt, die Inhalte aber nicht.
 rep#:#rep_visibility_limitless#:#Unbegrenzt
-rep#:#rep_visibility_until#:#Zeitlich begrenzt
+rep#:#rep_visibility_until#:#Zeitlich begrenzte Verfügbarkeit
 assessment#:#tst_availability_limitless_info#:#Wählen Sie diese Einstellung, um den Kurs für Benutzer verfügbar zumachen. Die Verfügbarkeit ist abhängig von der unten ausgewählten Einstellung für Teilnehmer.
 assessment#:#tst_availability_until_info#:#Wählen Sie diese Einstellung, um den Kurs, abhängig von der unten ausgewählten Einstellung für Teilnehmer, nur während eines definierten Zeitraums freizuschalten.
 assessment#:#tst_activation_online_info#:#Falls nicht online, haben nur Administratoren Zugriff auf den Test
@@ -12589,7 +12589,7 @@ poll#:#poll_delete_votes_sure#:#Sind sie sicher, dass Sie alle Stimmen löschen 
 poll#:#poll_voting_period_and_results#:#Stimmperiode und Ergebnisse
 poll#:#poll_voting_period#:#Stimmperiode
 poll#:#poll_voting_period_unlimited#:#Unlimitiert
-poll#:#poll_voting_period_limited#:#Limitiert
+poll#:#poll_voting_period_limited#:#Zeitlich begrenzte Stimmperiode
 poll#:#poll_voting_period_start#:#Beginn
 poll#:#poll_voting_period_end#:#Ende
 blog#:#blog_keywords#:#Schlagwörter

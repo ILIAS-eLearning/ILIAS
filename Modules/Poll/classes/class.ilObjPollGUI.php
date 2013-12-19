@@ -64,30 +64,21 @@ class ilObjPollGUI extends ilObject2GUI
 		$online->setInfo($this->lng->txt('poll_activation_online_info').$act_obj_info);
 		$a_form->addItem($online);				
 		
-		$act_type = new ilRadioGroupInputGUI($this->lng->txt('rep_activation_access'),'access_type');
-		$act_type->setInfo($act_ref_info);
+		$act_type = new ilCheckboxInputGUI($this->lng->txt('rep_visibility_until'),'access_type');
+		// $act_type->setInfo($this->lng->txt('poll_availability_until_info'));
 		
-			$opt = new ilRadioOption($this->lng->txt('rep_visibility_limitless'), ilObjectActivation::TIMINGS_DEACTIVATED);
-			$opt->setInfo($this->lng->txt('poll_availability_limitless_info'));
-			$act_type->addOption($opt);
-			
-			$opt = new ilRadioOption($this->lng->txt('rep_visibility_until'), ilObjectActivation::TIMINGS_ACTIVATION);
-			$opt->setInfo($this->lng->txt('poll_availability_until_info'));
-			
-				$this->tpl->addJavaScript('./Services/Form/js/date_duration.js');
-				include_once "Services/Form/classes/class.ilDateDurationInputGUI.php";
-				$dur = new ilDateDurationInputGUI("", "access_period");
-				$dur->setShowTime(true);						
-				$date = $this->object->getAccessBegin();				
-				$dur->setStart(new ilDateTime($date ? $date : time(), IL_CAL_UNIX));
-				$dur->setStartText($this->lng->txt('rep_activation_limited_start'));				
-				$date = $this->object->getAccessEnd();
-				$dur->setEnd(new ilDateTime($date ? $date : time(), IL_CAL_UNIX));
-				$dur->setEndText($this->lng->txt('rep_activation_limited_end'));				
-				$opt->addSubItem($dur);
+			$this->tpl->addJavaScript('./Services/Form/js/date_duration.js');
+			include_once "Services/Form/classes/class.ilDateDurationInputGUI.php";
+			$dur = new ilDateDurationInputGUI($this->lng->txt('rep_time_period'), "access_period");
+			$dur->setShowTime(true);						
+			$date = $this->object->getAccessBegin();				
+			$dur->setStart(new ilDateTime($date ? $date : time(), IL_CAL_UNIX));
+			$dur->setStartText($this->lng->txt('rep_activation_limited_start'));				
+			$date = $this->object->getAccessEnd();
+			$dur->setEnd(new ilDateTime($date ? $date : time(), IL_CAL_UNIX));
+			$dur->setEndText($this->lng->txt('rep_activation_limited_end'));				
+			$act_type->addSubItem($dur);
 
-			$act_type->addOption($opt);
-		
 		$a_form->addItem($act_type);				
 		
 		
@@ -97,15 +88,9 @@ class ilObjPollGUI extends ilObject2GUI
 		$section->setTitle($this->lng->txt('poll_voting_period_and_results'));
 		$a_form->addItem($section);
 		
-		$prd = new ilRadioGroupInputGUI($this->lng->txt('poll_voting_period'),'period');
+		$prd = new ilCheckboxInputGUI($this->lng->txt('poll_voting_period_limited'),'period');
 		
-			$opt = new ilRadioOption($this->lng->txt('poll_voting_period_unlimited'), 0);		
-			$prd->addOption($opt);
-			
-			$opt = new ilRadioOption($this->lng->txt('poll_voting_period_limited'), 1);			
-			$prd->addOption($opt);
-					
-			$vdur = new ilDateDurationInputGUI("", "voting_period");
+			$vdur = new ilDateDurationInputGUI($this->lng->txt('rep_time_period'), "voting_period");
 			$vdur->setShowTime(true);						
 			$date = $this->object->getVotingPeriodBegin();				
 			$vdur->setStart(new ilDateTime($date ? $date : time(), IL_CAL_UNIX));
@@ -113,7 +98,7 @@ class ilObjPollGUI extends ilObject2GUI
 			$date = $this->object->getVotingPeriodEnd();
 			$vdur->setEnd(new ilDateTime($date ? $date : time(), IL_CAL_UNIX));
 			$vdur->setEndText($this->lng->txt('poll_voting_period_end'));				
-			$opt->addSubItem($vdur);
+			$prd->addSubItem($vdur);
 			
 		$a_form->addItem($prd);	
 						
@@ -132,9 +117,11 @@ class ilObjPollGUI extends ilObject2GUI
 
 	protected function getEditFormCustomValues(array &$a_values)
 	{
+		include_once "Services/Object/classes/class.ilObjectActivation.php";	
+		
 		$a_values["online"] = $this->object->IsOnline();	
 		$a_values["results"] = $this->object->getViewResults();
-		$a_values["access_type"] = $this->object->getAccessType();	
+		$a_values["access_type"] = ($this->object->getAccessType() == ilObjectActivation::TIMINGS_ACTIVATION);	
 		$a_values["period"] = $this->object->getVotingPeriod();		
 	}
 
@@ -143,20 +130,31 @@ class ilObjPollGUI extends ilObject2GUI
 		$this->object->setViewResults($a_form->getInput("results"));
 		$this->object->setOnline($a_form->getInput("online"));
 						
-		include_once "Services/Object/classes/class.ilObjectActivation.php";
-		$this->object->setAccessType($a_form->getInput("access_type"));
-		if($this->object->getAccessType() == ilObjectActivation::TIMINGS_ACTIVATION)
+		include_once "Services/Object/classes/class.ilObjectActivation.php";	
+		if($a_form->getInput("access_type"))
 		{
+			$this->object->setAccessType(ilObjectActivation::TIMINGS_ACTIVATION);
+			
 			$period = $a_form->getItemByPostVar("access_period");													
 			$this->object->setAccessBegin($period->getStart()->get(IL_CAL_UNIX));	
 			$this->object->setAccessEnd($period->getEnd()->get(IL_CAL_UNIX));			
 		}		
-		$this->object->setVotingPeriod($a_form->getInput("period"));
-		if($this->object->getVotingPeriod())
+		else
+		{
+			$this->object->setAccessType(ilObjectActivation::TIMINGS_DEACTIVATED);
+		}
+				
+		if($a_form->getInput("period"))
 		{		
+			$this->object->setVotingPeriod(1);
+			
 			$period = $a_form->getItemByPostVar("voting_period");
 			$this->object->setVotingPeriodBegin($period->getStart()->get(IL_CAL_UNIX));			
 			$this->object->setVotingPeriodEnd($period->getEnd()->get(IL_CAL_UNIX));
+		}
+		else
+		{
+			$this->object->setVotingPeriod(0);
 		}
 	}
 
