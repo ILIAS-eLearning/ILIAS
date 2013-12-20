@@ -557,7 +557,12 @@ class ilObjCategoryGUI extends ilContainerGUI
 		
 		// Show didactic template type
 		$this->initDidacticTemplate($form);
-		
+
+		// presentation
+		$pres = new ilFormSectionHeaderGUI();
+		$pres->setTitle($this->lng->txt('obj_presentation'));
+		$form->addItem($pres);
+
 		// sorting
 		include_once('Services/Container/classes/class.ilContainerSortingSettings.php');
 		$settings = new ilContainerSortingSettings($this->object->getId());
