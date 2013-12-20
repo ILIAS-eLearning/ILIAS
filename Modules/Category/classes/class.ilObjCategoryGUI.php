@@ -524,8 +524,37 @@ class ilObjCategoryGUI extends ilContainerGUI
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		$form->setTitle($this->lng->txt($this->object->getType()."_edit"));
+		
+		// title/description
+		
+		$trans = $this->object->getTranslations();
+		$def = $trans["Fobject"][0]; // default
+	
+		$title = new ilTextInputGUI($this->lng->txt("title"), "title");
+		$title->setRequired(true);
+		$title->setSize(40);
+		$title->setMaxLength(128);		
+		$title->setValue($def["title"]);
+		$form->addItem($title);
+				
+		if(sizeof($trans["Fobject"]) > 1)
+		{
+			include_once('Services/MetaData/classes/class.ilMDLanguageItem.php');
+			$languages = ilMDLanguageItem::_getLanguages();
+			
+			$title->setInfo($this->lng->txt("language").": ".$languages[$def["lang"]].
+				' <a href="'.$this->ctrl->getLinkTarget($this, "editTranslations").
+				'">&raquo; '.$this->lng->txt("cat_more_translations").'</a>');
 
+			unset($languages);
+		}		
 
+		$desc = new ilTextAreaInputGUI($this->lng->txt("description"), "desc");
+		$desc->setRows(2);
+		$desc->setCols(40);
+		$desc->setValue($def["desc"]);
+		$form->addItem($desc);
+		
 		// Show didactic template type
 		$this->initDidacticTemplate($form);
 		
@@ -596,7 +625,16 @@ class ilObjCategoryGUI extends ilContainerGUI
 		{
 			$form = $this->initEditForm();
 			if($form->checkInput())
-			{
+			{				
+				$title = $form->getInput("title");
+				$desc = $form->getInput("desc");
+				$lang = $this->object->getTranslations();
+				$lang = $lang["Fobject"][0]["lang"]; 
+				$this->object->deleteTranslation($lang);
+				$this->object->addTranslation($title, $desc, $lang, true);	
+				$this->object->setTitle($title);
+				$this->object->setDescription($desc);
+				
 				include_once('Services/Container/classes/class.ilContainerSortingSettings.php');
 				$settings = new ilContainerSortingSettings($this->object->getId());
 				$settings->setSortMode($form->getInput("sorting"));
