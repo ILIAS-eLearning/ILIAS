@@ -1052,7 +1052,8 @@ class ilPageObjectGUI
 			case "ilpagemultilanggui":
 				$ilCtrl->setReturn($this, "edit");
 				include_once("./Services/COPage/classes/class.ilPageMultiLangGUI.php");
-				$ml_gui = new ilPageMultiLangGUI($this->getPageObject()->getParentType(), $this->getPageObject()->getParentId());
+				$ml_gui = new ilPageMultiLangGUI($this->getPageObject()->getParentType(), $this->getPageObject()->getParentId(),
+					$this->getPageConfig()->getSinglePageMode());
 				//$this->setTabs("settings");
 				//$this->setSubTabs("cont_multilinguality");
 				$ret = $this->ctrl->forwardCommand($ml_gui);
