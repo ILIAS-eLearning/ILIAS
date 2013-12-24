@@ -14,15 +14,19 @@ include_once("./Services/COPage/classes/class.ilPageMultiLang.php");
  */
 class ilPageMultiLangGUI
 {
+	protected $single_page_mode = false;
+
 	/**
 	 * Constructur
 	 *
 	 * @param string $a_parent_type parent object type
 	 * @param int $a_parent_id parent object id
+	 * @param bool $a_single_page_mode single page mode (page includes ml managing)
 	 */
-	function __construct($a_parent_type, $a_parent_id)
+	function __construct($a_parent_type, $a_parent_id, $a_single_page_mode = false)
 	{
 		$this->ml = new ilPageMultiLang($a_parent_type, $a_parent_id);
+		$this->single_page_mode = $a_single_page_mode;
 	}
 	
 	/**
@@ -345,9 +349,12 @@ class ilPageMultiLangGUI
 	{
 		global $ilTabs, $lng, $ilCtrl;
 
-		$ilTabs->clearTargets();
-		$ilTabs->setBackTarget($lng->txt("cont_back_to_page"),
-			$ilCtrl->getLinkTarget($this, "cancel"));
+		if ($this->single_page_mode)
+		{
+			$ilTabs->clearTargets();
+			$ilTabs->setBackTarget($lng->txt("cont_back_to_page"),
+				$ilCtrl->getLinkTarget($this, "cancel"));
+		}
 	}
 
 }
