@@ -2064,12 +2064,6 @@ class ilPageObjectGUI
 			{
 				$lng->loadLanguageModule("meta");
 				
-				if ($cfg->getSinglePageMode())
-				{
-					$a_list->addItem($lng->txt("cont_deactivate_multi_lang"), "",
-						$ilCtrl->getLinkTarget($this, "confirmDeactivateMultiLanguage"));
-				}
-
 				if ($this->getPageObject()->getLanguage() != "-")
 				{
 					$l = $ml->getMasterLanguage();
@@ -2089,6 +2083,13 @@ class ilPageObjectGUI
 						$ilCtrl->setParameter($this, "totransl", $_GET["totransl"]);
 					}
 				}
+
+				if ($cfg->getSinglePageMode())
+				{
+					$a_list->addItem($lng->txt("cont_manage_multilang"), "",
+						$ilCtrl->getLinkTargetByClass("ilpagemultilanggui", "settings"));
+				}
+
 				include_once("./Services/COPage/classes/class.ilPageMultiLangGUI.php");
 				$ml_gui = new ilPageMultiLangGUI($this->getPageObject()->getParentType(),
 					$this->getPageObject()->getParentId());
@@ -3726,9 +3727,6 @@ class ilPageObjectGUI
 	
 	/**
 	 * Switch to language
-	 *
-	 * @param
-	 * @return
 	 */
 	function switchToLanguage()
 	{
@@ -3768,9 +3766,6 @@ class ilPageObjectGUI
 	
 	/**
 	 * Edit master language
-	 *
-	 * @param
-	 * @return
 	 */
 	function editMasterLanguage()
 	{
@@ -3782,9 +3777,6 @@ class ilPageObjectGUI
 	
 	/**
 	 * Create page translation
-	 *
-	 * @param
-	 * @return
 	 */
 	function createPageTranslation()
 	{
@@ -3795,8 +3787,7 @@ class ilPageObjectGUI
 		$ilCtrl->setParameter($this, "transl", $l);
 		$ilCtrl->redirect($this, "edit");
 	}
-	
-	
-	
+
+
 }
 ?>

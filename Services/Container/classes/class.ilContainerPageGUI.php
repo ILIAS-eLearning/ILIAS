@@ -21,7 +21,7 @@ class ilContainerPageGUI extends ilPageObjectGUI
 	/**
 	* Constructor
 	*/
-	function __construct($a_id = 0, $a_old_nr = 0, $a_lang = "-")
+	function __construct($a_id = 0, $a_old_nr = 0, $a_lang = "")
 	{
 		global $tpl;
 

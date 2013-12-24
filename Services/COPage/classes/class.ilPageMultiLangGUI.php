@@ -17,8 +17,8 @@ class ilPageMultiLangGUI
 	/**
 	 * Constructur
 	 *
-	 * @param
-	 * @return
+	 * @param string $a_parent_type parent object type
+	 * @param int $a_parent_id parent object id
 	 */
 	function __construct($a_parent_type, $a_parent_id)
 	{
@@ -27,9 +27,6 @@ class ilPageMultiLangGUI
 	
 	/**
 	 * Execute command
-	 *
-	 * @param
-	 * @return
 	 */
 	function executeCommand()
 	{
@@ -42,7 +39,9 @@ class ilPageMultiLangGUI
 			default:
 				$cmd = $ilCtrl->getCmd("settings");
 				if (in_array($cmd, array("settings", "activateMultilinguality", "cancel",
-					"saveMultilingualitySettings")))
+					"saveMultilingualitySettings", "confirmDeactivateMultiLanguage", "addLanguage",
+					"saveLanguages", "deactivateMultiLang", "confirmRemoveLanguages",
+					"removeLanguages")))
 				{
 					$this->$cmd();
 				}
@@ -51,13 +50,12 @@ class ilPageMultiLangGUI
 	
 	/**
 	 * Settings
-	 *
-	 * @param
-	 * @return
 	 */
 	function settings()
 	{
 		global $tpl, $ilToolbar, $lng, $ilCtrl;
+
+		$this->setTabs();
 		
 		if (!$this->ml->getActivated())
 		{
@@ -67,8 +65,23 @@ class ilPageMultiLangGUI
 		}
 		else
 		{
+			$ilToolbar->addButton($lng->txt("cont_add_lang"),
+				$ilCtrl->getLinkTarget($this, "addLanguage"));
+
 			$ilToolbar->addButton($lng->txt("cont_deactivate_multi_lang"),
-				$ilCtrl->getLinkTarget($this, "deactivateMultilinguality"));
+				$ilCtrl->getLinkTarget($this, "confirmDeactivateMultiLanguage"));
+
+			include_once("./Services/COPage/classes/class.ilPageMultiLangTableGUI.php");
+			$tab = new ilPageMultiLangTableGUI($this, "managaMultiLanguage");
+			$langs[] = array("master" => true, "lang" => $this->ml->getMasterLanguage());
+			foreach ($this->ml->getLanguages() as $l)
+			{
+				$langs[] = array("master" => false, "lang" => $l);
+			}
+			$tab->setData($langs);
+
+
+			$tpl->setContent($tab->getHTML());
 		}
 	}
 	
@@ -78,7 +91,9 @@ class ilPageMultiLangGUI
 	function activateMultilinguality()
 	{
 		global $tpl, $lng;
-		
+
+		$this->setTabs();
+
 		ilUtil::sendInfo($lng->txt("cont_select_master_lang"));
 		
 		$form = $this->getMultiLangForm();
@@ -88,7 +103,7 @@ class ilPageMultiLangGUI
 	/**
 	 * Get multi language form
 	 */
-	function getMultiLangForm()
+	function getMultiLangForm($a_add = false)
 	{
 		global $tpl, $lng, $ilCtrl, $ilUser;
 		
@@ -96,12 +111,15 @@ class ilPageMultiLangGUI
 		$form = new ilPropertyFormGUI();
 		
 		// master language
-		include_once("./Services/MetaData/classes/class.ilMDLanguageItem.php");
-		$options = ilMDLanguageItem::_getLanguages();
-		$si = new ilSelectInputGUI($lng->txt("cont_master_lang"), "master_lang");
-		$si->setOptions($options);
-		$si->setValue($ilUser->getLanguage());
-		$form->addItem($si);
+		if (!$a_add)
+		{
+			include_once("./Services/MetaData/classes/class.ilMDLanguageItem.php");
+			$options = ilMDLanguageItem::_getLanguages();
+			$si = new ilSelectInputGUI($lng->txt("cont_master_lang"), "master_lang");
+			$si->setOptions($options);
+			$si->setValue($ilUser->getLanguage());
+			$form->addItem($si);
+		}
 		
 		// additional languages
 		include_once("./Services/MetaData/classes/class.ilMDLanguageItem.php");
@@ -111,9 +129,17 @@ class ilPageMultiLangGUI
 		$si->setOptions($options);
 		$si->setMulti(true);
 		$form->addItem($si);
-		
-		$form->addCommandButton("saveMultilingualitySettings", $lng->txt("save"));
-		$form->addCommandButton("cancel", $lng->txt("cancel"));
+
+		if ($a_add)
+		{
+			$form->addCommandButton("saveLanguages", $lng->txt("save"));
+			$form->addCommandButton("settings", $lng->txt("cancel"));
+		}
+		else
+		{
+			$form->addCommandButton("saveMultilingualitySettings", $lng->txt("save"));
+			$form->addCommandButton("cancel", $lng->txt("cancel"));
+		}
 		$form->setTitle($lng->txt("cont_activate_multi_lang"));
 		$form->setFormAction($ilCtrl->getFormAction($this));
 		
@@ -122,9 +148,6 @@ class ilPageMultiLangGUI
 
 	/**
 	 * Return to parent
-	 *
-	 * @param
-	 * @return
 	 */
 	function cancel()
 	{
@@ -164,9 +187,6 @@ class ilPageMultiLangGUI
 
 	/**
 	 * Get multi lang info
-	 *
-	 * @param
-	 * @return
 	 */
 	function getMultiLangInfo($a_page_lang = "-")
 	{
@@ -189,8 +209,147 @@ class ilPageMultiLangGUI
 		$tpl->setVariable("VAL_CL", $lng->txt("meta_l_".$cl));
 		return $tpl->get();
 	}
-	
-	
+
+	/**
+	 * Confirm page translation creation
+	 */
+	function confirmDeactivateMultiLanguage()
+	{
+		global $ilCtrl, $tpl, $lng;
+
+		$this->setTabs();
+
+		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+		$cgui = new ilConfirmationGUI();
+		$cgui->setFormAction($ilCtrl->getFormAction($this));
+		$cgui->setHeaderText($lng->txt("cont_deactivate_multi_lang_conf"));
+		$cgui->setCancel($lng->txt("cancel"), "settings");
+		$cgui->setConfirm($lng->txt("confirm"), "deactivateMultiLang");
+		$tpl->setContent($cgui->getHTML());
+	}
+
+	/**
+	 * Deactivate multilanguage
+	 */
+	function deactivateMultiLang()
+	{
+		global $lng, $ilCtrl;
+
+		$this->ml->delete();
+		ilUtil::sendSuccess($lng->txt("cont_multilang_deactivated"), true);
+		$ilCtrl->redirect($this, "settings");
+	}
+
+	/**
+	 * Add language
+	 */
+	function addLanguage()
+	{
+		global $tpl;
+
+		$this->setTabs();
+		$form = $this->getMultiLangForm(true);
+		$tpl->setContent($form->getHTML());
+	}
+
+	/**
+	 * Save languages
+	 */
+	function saveLanguages()
+	{
+		global $ilCtrl, $lng;
+
+		$form = $this->getMultiLangForm();
+		if ($form->checkInput())
+		{
+			$ad = $form->getInput("additional_langs");
+			if (is_array($ad))
+			{
+				$ml = $this->ml->getMasterLanguage();
+				foreach ($ad as $l)
+				{
+					if ($l != $ml && $l != "")
+					{
+						$this->ml->addLanguage($l);
+					}
+				}
+			}
+		}
+		$this->ml->save();
+		ilUtil::sendInfo($lng->txt("msg_obj_modified"), true);
+		$ilCtrl->redirect($this, "settings");
+	}
+
+	/**
+	 * Confirm remove languages
+	 */
+	function confirmRemoveLanguages()
+	{
+		global $ilCtrl, $tpl, $lng;
+
+		$this->setTabs();
+
+		$lng->loadLanguageModule("meta");
+			
+		if (!is_array($_POST["lang"]) || count($_POST["lang"]) == 0)
+		{
+			ilUtil::sendInfo($lng->txt("no_checkbox"), true);
+			$ilCtrl->redirect($this, "settings");
+		}
+		else
+		{
+			include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+			$cgui = new ilConfirmationGUI();
+			$cgui->setFormAction($ilCtrl->getFormAction($this));
+			$cgui->setHeaderText($lng->txt("cont_conf_delete_lang"));
+			$cgui->setCancel($lng->txt("cancel"), "settings");
+			$cgui->setConfirm($lng->txt("remove"), "removeLanguages");
+			
+			foreach ($_POST["lang"] as $i)
+			{
+				$cgui->addItem("lang[]", $i, $lng->txt("meta_l_".$i));
+			}
+			
+			$tpl->setContent($cgui->getHTML());
+		}
+	}
+
+	/**
+	 * Remove languages
+	 */
+	function removeLanguages()
+	{
+		global $lng, $ilCtrl;
+
+		if (is_array($_POST["lang"]))
+		{
+			$langs = $this->ml->getLanguages();
+			foreach ($langs as $k => $l)
+			{
+				if (in_array($l, $_POST["lang"]))
+				{
+					unset($langs[$k]);
+				}
+			}
+			$this->ml->setLanguages($langs);
+			$this->ml->save();
+			ilUtil::sendInfo($lng->txt("msg_obj_modified"), true);
+		}
+		$ilCtrl->redirect($this, "settings");
+	}
+
+	/**
+	 * Set tab
+	 */
+	function setTabs()
+	{
+		global $ilTabs, $lng, $ilCtrl;
+
+		$ilTabs->clearTargets();
+		$ilTabs->setBackTarget($lng->txt("cont_back_to_page"),
+			$ilCtrl->getLinkTarget($this, "cancel"));
+	}
+
 }
 
 ?>
