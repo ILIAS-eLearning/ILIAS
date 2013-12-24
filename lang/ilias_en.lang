@@ -14134,3 +14134,11 @@ crs#:#crs_registration_confirmation_info#:#Interested users can send a request/m
 crs#:#crs_reg_no_selfreg#:#No self-enrolment
 crs#:#crs_reg_password_info#:#Users need to type in this password when joining the course.
 cat#:#cat_more_translations#:#More Translations
+content#:#cont_deactivate_multi_lang_conf#:#Do you really want to deactivate multilinguality? Only contents of the master language will be kept.
+content#:#cont_multilang_deactivated#:#Multilinguality has been deactivated.
+content#:#cont_manage_multilang#:#Manage Multilinguality
+content#:#cont_languages#:#Languages
+content#:#cont_language#:#Language
+content#:#cont_add_lang#:#Add Language
+content#:#cont_conf_delete_lang#:#Do you really want to drop support for the following languages?
+content#:#cont_back_to_page#:#Back to Page

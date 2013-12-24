@@ -21,8 +21,9 @@ class ilPageMultiLang
 	/**
 	 * Constructor
 	 *
-	 * @param
-	 * @return
+	 * @param string $a_parent_type parent object type
+	 * @param int $a_parent_id parent object id
+	 * @throws ilCOPageException
 	 */
 	function __construct($a_parent_type, $a_parent_id)
 	{
@@ -195,24 +196,30 @@ class ilPageMultiLang
 			$this->addLanguage($rec["lang"]);
 		}
 	}
-	
+
 	/**
-	 * Save
-	 *
-	 * @param
-	 * @return
+	 * Delete
 	 */
-	function save()
+	function delete()
 	{
 		$this->db->manipulate("DELETE FROM copg_multilang ".
 			" WHERE parent_type = ".$this->db->quote($this->getParentType(), "text").
 			" AND parent_id = ".$this->db->quote($this->getParentId(), "integer")
-			);
+		);
 		$this->db->manipulate("DELETE FROM copg_multilang_lang ".
 			" WHERE parent_type = ".$this->db->quote($this->getParentType(), "text").
 			" AND parent_id = ".$this->db->quote($this->getParentId(), "integer")
-			);
-		
+		);
+	}
+
+
+	/**
+	 * Save
+	 */
+	function save()
+	{
+		$this->delete();
+
 		$this->db->manipulate("INSERT INTO copg_multilang ".
 			"(parent_type, parent_id, master_lang) VALUES (".
 			$this->db->quote($this->getParentType(), "text").",".
