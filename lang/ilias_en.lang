@@ -14142,3 +14142,6 @@ content#:#cont_language#:#Language
 content#:#cont_add_lang#:#Add Language
 content#:#cont_conf_delete_lang#:#Do you really want to drop support for the following languages?
 content#:#cont_back_to_page#:#Back to Page
+content#:#cont_got_lock#:#This page has been locked for your editing. Please release the page after you have done all your changes.
+content#:#cont_finish_editing#:#Finish Editing
+content#:#cont_page_lock_released#:#Editing finished. Page lock has been released.

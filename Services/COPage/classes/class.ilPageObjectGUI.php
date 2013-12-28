@@ -2895,6 +2895,25 @@ class ilPageObjectGUI
 			ilUtil::sendInfo($info);
 			return "";
 		}
+		else
+		{
+			$aset = new ilSetting("adve");
+
+			$min = (int) $aset->get("block_mode_minutes") ;
+			if ($min > 0)
+			{
+				$info = $lng->txt("cont_got_lock");
+				include_once("./Services/User/classes/class.ilUserUtil.php");
+				$lock = $this->getPageObject()->getEditLockInfo();
+				//$info.= "</br>".$lng->txt("content_until").": ".
+				//	ilDatePresentation::formatDate(new ilDateTime($lock["edit_lock_until"],IL_CAL_UNIX));
+				//$info.= "</br>".$lng->txt("obj_usr").": ".
+				//	ilUserUtil::getNamePresentation($lock["edit_lock_user"]);
+				$info.= " <a class='small submit' href='".$ilCtrl->getLinkTarget($this, "releasePageLock")."'>".
+					$lng->txt("cont_finish_editing")."</a>";
+				ilUtil::sendInfo($info);
+			}
+		}
 		
 		$this->setOutputMode(IL_PAGE_EDIT);
 
@@ -3789,6 +3808,17 @@ class ilPageObjectGUI
 		$ilCtrl->redirect($this, "edit");
 	}
 
+	/**
+	 * Release page lock
+	 */
+	function releasePageLock()
+	{
+		global $ilCtrl, $lng;
+
+		$this->getPageObject()->releasePageLock();
+		ilUtil::sendSuccess($lng->txt("cont_page_lock_released"), true);
+		$ilCtrl->redirect($this, "preview");
+	}
 
 }
 ?>
