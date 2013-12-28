@@ -2438,16 +2438,22 @@ span.MMSpan {
 	display: block;
 }
 
+a.MMInactive:link, a.MMInactive:visited,
+a.MMActive:link, a.MMActive:visited {
+    display: block;
+    color: #038;
+    font-size: 85%;
+    text-decoration: none;
+    line-height: 26px;
+    height: 26px;
+    vertical-align: middle;
+    padding: 0 10px 3px;
+    margin: 1px 0 2px -1px;
+    font-weight: normal;
+    white-space: nowrap;
+}
+
 a.MMInactive:link, a.MMInactive:visited {
-	display: block;
-	color: #038;
-	font-size: 85%;
-	text-decoration: none;
-	line-height: 26px;
-	padding: 0 10px 3px;
-	margin: 1px 0 2px -1px;
-	font-weight: normal;
-	white-space: nowrap;
 	background: url(images/mm_back2.png) repeat-x;
 }
 
@@ -2458,15 +2464,6 @@ a.MMInactive:hover {
 }
 
 a.MMActive:link, a.MMActive:visited {
-	display: block;
-	color: #038;
-	font-size: 85%;
-	text-decoration: none;
-	line-height: 26px;
-	padding: 0 10px 3px;
-	margin: 1px 0 2px -1px;
-	font-weight: normal;
-	white-space: nowrap;
 	background: url(images/mm_back3.png) repeat-x #D0E8FF;
 }
 

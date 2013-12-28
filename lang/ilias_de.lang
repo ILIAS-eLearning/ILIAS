@@ -13955,13 +13955,13 @@ content#:#cont_current_lang#:#Aktuelle Sprache
 content#:#cont_deactivate_multi_lang#:#Mehrsprachigkeit deaktivieren
 content#:#cont_edit_language_version#:#Version bearbeiten
 content#:#cont_page_translation_does_not_exist#:#Die Seite existiert noch nicht in dieser Sprache und wird jetzt erstellt.
-adve#:#adve_blocking_mode#:#Sperre bearbeiten
+adve#:#adve_blocking_mode#:#Bearbeitungssperre
 adve#:#adve_minutes#:#Minuten
 adve#:#adve_minutes_info#:#Zeitraum in Minuten bis die Seite wegen fehlender Aktivität wieder freigegeben und dann von einem anderen Benutzer bearbeitet werden kann.
-content#:#content_until#:#Bearbeitung für andere Benutzer gesperrt bis:
+content#:#content_until#:#Bearbeitung für andere Benutzer gesperrt bis
 content#:#content_no_edit_lock#:#Die Seite wird aktuell durch einen anderen Benutzer bearbeitet.
-content#:#cont_disable_def_feedback#:#Disable Default Question Feedback###11 10 2013 new variable
-content#:#cont_disable_def_feedback_info#:#If disabled, answered questions will not show any feedback for the learner. You need to provide custom feedbacks for your questions.###11 10 2013 new variable
+content#:#cont_disable_def_feedback#:#Standard-Feebdack deaktivieren
+content#:#cont_disable_def_feedback_info#:#Deaktiviert das Standard-Feebdack nach der Beantwortung von Fragen.
 mob#:#mob_general#:#Allgemein
 mob#:#mob_subtitles#:#Untertitel
 mob#:#mob_subtitle_files#:#Dateien für Untertitel
@@ -14110,3 +14110,6 @@ crs#:#crs_registration_confirmation_info#:#Der Beitritt erfolgt nur, wenn er dur
 crs#:#crs_reg_no_selfreg#:#Kein selbständiger Beitritt
 crs#:#crs_reg_password_info#:#Benutzer müssen dieses Passwort eingeben, um dem Kurs beitreten zu können.
 cat#:#cat_more_translations#:#Weitere Übersetzungen
+content#:#cont_got_lock#:#Diese Seite wurde für Ihre Bearbeitung gesperrt. Bitte geben Sie die Seite nach Ihren Änderungen wieder frei.
+content#:#cont_finish_editing#:#Bearbeitung beenden
+content#:#cont_page_lock_released#:#Die Bearbeitung wurde beendet. Die Seite wurde wieder freigegeben.

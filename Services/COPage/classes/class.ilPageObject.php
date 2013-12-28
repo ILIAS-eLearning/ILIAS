@@ -4782,9 +4782,6 @@ abstract class ilPageObject
 	
 	/**
 	 * Get page lock
-	 *
-	 * @param
-	 * @return
 	 */
 	function getEditLock()
 	{
@@ -4821,10 +4818,45 @@ abstract class ilPageObject
 	}
 
 	/**
+	 * Release page lock
+	 */
+	function releasePageLock()
+	{
+		global $ilUser, $ilDB;
+
+		$aset = new ilSetting("adve");
+
+		$min = (int) $aset->get("block_mode_minutes") ;
+		if ($min > 0)
+		{
+			// try to set the lock for the user
+			$ts = time();
+			$ilDB->manipulate("UPDATE page_object SET ".
+				" edit_lock_user = ".$ilDB->quote($ilUser->getId(), "integer").",".
+				" edit_lock_ts = 0".
+				" WHERE edit_lock_user = ".$ilDB->quote($ilUser->getId(), "integer").
+				" AND page_id = ".$ilDB->quote($this->getId(), "integer").
+				" AND parent_type = ".$ilDB->quote($this->getParentType(), "text")
+			);
+
+			$set = $ilDB->query("SELECT edit_lock_user FROM page_object ".
+				" WHERE page_id = ".$ilDB->quote($this->getId(), "integer").
+				" AND parent_type = ".$ilDB->quote($this->getParentType(), "text")
+			);
+			$rec = $ilDB->fetchAssoc($set);
+			if ($rec["edit_lock_user"] != $ilUser->getId())
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
 	 * Get edit lock info
 	 *
-	 * @param
-	 * @return
+	 * @return array info array
 	 */
 	function getEditLockInfo()
 	{
