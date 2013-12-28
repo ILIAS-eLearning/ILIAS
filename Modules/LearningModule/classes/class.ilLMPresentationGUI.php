@@ -1022,7 +1022,8 @@ class ilLMPresentationGUI
 
 			$title = $this->lm->getTitle();
 			$pg_title = ilLMPageObject::_getPresentationTitle($page_id,
-				$this->lm->getPageHeader(), $this->lm->isActiveNumbering());
+				$this->lm->getPageHeader(), $this->lm->isActiveNumbering(),
+				$this->lm_set->get("time_scheduled_page_activation"), false, 0, $this->lang);
 			if ($pg_title != "")
 			{
 				$title.= ": ".$pg_title;
@@ -1229,7 +1230,9 @@ class ilLMPresentationGUI
 						$ilLocator->addItem(
 							ilUtil::shortenText(
 								ilStructureObject::_getPresentationTitle($row["child"],
-								$this->lm->isActiveNumbering()),50,true),
+									$this->lm->isActiveNumbering(),
+									$this->lm_set->get("time_scheduled_page_activation"), 0, $this->lang),
+								50,true),
 							$this->getLink($_GET["ref_id"], "layout", $row["child"], $frame_param, "StructureObject"),
 							$frame_target);
 					}
@@ -1562,7 +1565,7 @@ class ilLMPresentationGUI
 			$page_object_gui->setPresentationTitle(
 				ilLMPageObject::_getPresentationTitle($lm_pg_obj->getId(),
 				$this->lm->getPageHeader(), $this->lm->isActiveNumbering(),
-				$this->lm_set->get("time_scheduled_page_activation")));
+				$this->lm_set->get("time_scheduled_page_activation"), false, 0, $this->lang));
 
 			// update learning progress
 			if ($ilUser->getId() != ANONYMOUS_USER_ID)
@@ -2361,7 +2364,7 @@ class ilLMPresentationGUI
 			// get presentation title
 			$prev_title = ilLMPageObject::_getPresentationTitle($pre_node["obj_id"],
 				$this->lm->getPageHeader(), $this->lm->isActiveNumbering(),
-				$this->lm_set->get("time_scheduled_page_activation"));
+				$this->lm_set->get("time_scheduled_page_activation"), false, 0, $this->lang);
 			$prev_title = ilUtil::shortenText($prev_title, 50, true);
 			$prev_img = 
 				ilUtil::getImagePath("nav_arr_L.png", false, "output", $this->offlineMode());
@@ -2419,7 +2422,7 @@ class ilLMPresentationGUI
 			// get presentation title
 			$succ_title = ilLMPageObject::_getPresentationTitle($succ_node["obj_id"],
 				$this->lm->getPageHeader(), $this->lm->isActiveNumbering(),
-				$this->lm_set->get("time_scheduled_page_activation"));
+				$this->lm_set->get("time_scheduled_page_activation"), false, 0, $this->lang);
 			$succ_title = ilUtil::shortenText($succ_title, 50, true);
 			$succ_img =
 				ilUtil::getImagePath("nav_arr_R.png", false, "output", $this->offlineMode());
@@ -2904,7 +2907,7 @@ class ilLMPresentationGUI
 					$text =
 						ilLMPageObject::_getPresentationTitle($node["obj_id"],
 						$this->lm->getPageHeader(), $this->lm->isActiveNumbering(),
-						$this->lm_set->get("time_scheduled_page_activation"));
+						$this->lm_set->get("time_scheduled_page_activation"), false, 0, $this->lang);
 					
 					if(($ilUser->getId() == ANONYMOUS_USER_ID || $this->needs_to_be_purchased)&&
 					   $this->lm_gui->object->getPublicAccessMode() == "selected")
@@ -2930,7 +2933,8 @@ class ilLMPresentationGUI
 				case "st":
 					$text =
 						ilStructureObject::_getPresentationTitle($node["obj_id"],
-						$this->lm->isActiveNumbering());
+							$this->lm->isActiveNumbering(),
+							$this->lm_set->get("time_scheduled_page_activation"), 0, $this->lang);
 					if(($ilUser->getId() == ANONYMOUS_USER_ID || $this->needs_to_be_purchased) && 
 					   $this->lm_gui->object->getPublicAccessMode() == "selected")
 					{
@@ -2961,7 +2965,7 @@ class ilLMPresentationGUI
 			$text =
 				ilLMPageObject::_getPresentationTitle($_GET["obj_id"],
 				$this->lm->getPageHeader(), $this->lm->isActiveNumbering(),
-				$this->lm_set->get("time_scheduled_page_activation"));
+				$this->lm_set->get("time_scheduled_page_activation"), false, 0, $this->lang);
 			
 			if(($ilUser->getId() == ANONYMOUS_USER_ID || $this->needs_to_be_purchased) &&
 			   $this->lm_gui->object->getPublicAccessMode() == "selected")
@@ -3229,7 +3233,8 @@ class ilLMPresentationGUI
 					$this->tpl->setCurrentBlock("print_chapter");
 
 					$chapter_title = $chap->_getPresentationTitle($node["obj_id"],
-						$this->lm->isActiveNumbering());
+						$this->lm->isActiveNumbering(),
+						$this->lm_set->get("time_scheduled_page_activation"), 0, $this->lang);
 					$this->tpl->setVariable("CHAP_TITLE",
 						$chapter_title);
 						
@@ -3284,7 +3289,7 @@ class ilLMPresentationGUI
 					{
 						$page_title = ilLMPageObject::_getPresentationTitle($lm_pg_obj->getId(),
 								$this->lm->getPageHeader(), $this->lm->isActiveNumbering(),
-								$this->lm_set->get("time_scheduled_page_activation"));
+								$this->lm_set->get("time_scheduled_page_activation"), false, 0, $this->lang);
 
 						// prevent page title after chapter title
 						// that have the same content
@@ -3546,7 +3551,8 @@ class ilLMPresentationGUI
 					$this->tpl->setCurrentBlock("toc_entry");
 					$this->tpl->setVariable("TXT_TOC_TITLE",
 						ilStructureObject::_getPresentationTitle($node2["obj_id"],
-						$this->lm->isActiveNumbering()));
+							$this->lm->isActiveNumbering(),
+							$this->lm_set->get("time_scheduled_page_activation"), 0, $this->lang));
 					$this->tpl->parseCurrentBlock();
 				}
 			}
