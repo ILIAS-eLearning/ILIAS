@@ -1,9 +1,7 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/UIComponent/Explorer2/classes/class.ilTreeExplorerGUI.php");
-include_once("./Modules/LearningModule/classes/class.ilStructureObject.php");
-include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
+include_once("./Modules/LearningModule/classes/class.ilLMExplorerGUI.php");
 
 /**
  * LM editor explorer GUI class
@@ -13,58 +11,14 @@ include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
  *
  * @ingroup ModulesLearningModule
  */
-class ilLMEditorExplorerGUI extends ilTreeExplorerGUI
+class ilLMEditorExplorerGUI extends ilLMExplorerGUI
 {
-	/**
-	 * Constructor
-	 */
-	public function __construct($a_parent_obj, $a_parent_cmd, $a_lm)
-	{
-		global $ilUser;
-		
-		$this->lm = $a_lm;
-		
-		$tree = new ilTree($this->lm->getId());
-		$tree->setTableNames('lm_tree','lm_data');
-		$tree->setTreeTablePK("lm_id");
 
-		parent::__construct("lm_ed_exp", $a_parent_obj, $a_parent_cmd, $tree);
-		
-//		$this->setTypeWhiteList(array("dummy", "fold"));
-		$this->setSkipRootNode(false);
-		$this->setAjax(false);
-		
-		include_once("./Services/COPage/classes/class.ilPageMultiLang.php");
-		$this->ml = new ilPageMultiLang("lm", $this->lm->getId());
-	}
-
-	/**
-	 * Get node content
-	 *
-	 * @param array 
-	 * @return
-	 */
-	function getNodeContent($a_node)
-	{
-		global $lng, $ilUser;
-
-		if ($a_node["child"] == $this->getNodeId($this->getRootNode()))
-		{
-			return $this->lm->getTitle();
-		}
-
-		$lang = ($_GET["transl"] != "")
-			? $_GET["transl"]
-			: "-";
-		return ilLMObject::_getPresentationTitle($a_node, IL_PAGE_TITLE,
-			false, false, false, $this->lm->getId(), $lang);		
-	}
-	
 	/**
 	 * Get node icon
 	 *
-	 * @param array 
-	 * @return
+	 * @param array $a_node node array
+	 * @return string icon path
 	 */
 	function getNodeIcon($a_node)
 	{
@@ -114,7 +68,7 @@ class ilLMEditorExplorerGUI extends ilTreeExplorerGUI
 	/**
 	 * Get node icon alt text
 	 *
-	 * @param array node array
+	 * @param array $a_node node array
 	 * @return string alt text
 	 */
 	function getNodeIconAlt($a_node)
@@ -146,22 +100,6 @@ class ilLMEditorExplorerGUI extends ilTreeExplorerGUI
 		}
 		return parent::getNodeIconAlt($a_node);
 	}
-	
-	/**
-	 * Is node highlighted?
-	 *
-	 * @param mixed $a_node node object/array
-	 * @return boolean node visible true/false
-	 */
-	function isNodeHighlighted($a_node)
-	{
-		if ($a_node["child"] == $_GET["obj_id"] ||
-			($_GET["obj_id"] == "" && $a_node["child"] == $this->getNodeId($this->getRootNode())))
-		{
-			return true;
-		}
-		return false;
-	}	
 	
 	/**
 	 * Get href for node

@@ -491,7 +491,7 @@ class ilLMObject
 		return true;
 	}
 	
-	function _isPagePublic($a_node_id,$a_check_public_mode = false)
+	static function _isPagePublic($a_node_id,$a_check_public_mode = false)
 	{
 		global $ilDB,$ilLog;
 
@@ -1429,7 +1429,7 @@ class ilLMObject
 	 * @param
 	 * @return
 	 */
-	function _getPresentationTitle($a_node, $a_mode = IL_PAGE_TITLE,
+	static function _getPresentationTitle($a_node, $a_mode = IL_PAGE_TITLE,
 		$a_include_numbers = false, $a_time_scheduled_activation = false,
 		$a_force_content = false, $a_lm_id = 0, $a_lang = "-")
 	{

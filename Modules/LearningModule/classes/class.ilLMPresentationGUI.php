@@ -813,14 +813,61 @@ class ilLMPresentationGUI
 	/**
 	* table of contents
 	*/
-	function ilTOC($a_target)
+	function ilTOC()
 	{
-		require_once("./Modules/LearningModule/classes/class.ilLMTOCExplorer.php");
-		if ($this->lm->cleanFrames())
+		if (true)
 		{
-			$a_target = "";
+			include_once("./Modules/LearningModule/classes/class.ilLMTOCExplorerGUI.php");
+			$exp = new ilLMTOCExplorerGUI($this, "ilTOC", $this, $this->lang);
+			if (!$exp->handleCommand())
+			{
+				// determine highlighted and force open nodes
+				$page_id = $this->getCurrentPageId();
+				if ($this->deactivated_page)
+				{
+					$page_id = $_GET["obj_id"];
+				}
+				if ($page_id > 0)
+				{
+					$exp->setPathOpen((int) $page_id);
+				}
+				if (!$this->offlineMode())
+				{
+					// empty chapter
+					if ($this->chapter_has_no_active_page &&
+						ilLMObject::_lookupType($_GET["obj_id"]) == "st")
+					{
+						$exp->setHighlightNode($_GET["obj_id"]);
+					}
+					else
+					{
+						if ($this->lm->getTOCMode() == "pages")
+						{
+							if ($this->deactivated_page)
+							{
+								$exp->setHighlightNode($_GET["obj_id"]);
+							}
+							else
+							{
+								$exp->setHighlightNode($page_id);
+							}
+						}
+						else
+						{
+							$exp->setHighlightNode($this->lm_tree->getParentId($page_id));
+						}
+					}
+				}
+
+				$this->tpl->setCurrentBlock("il_toc");
+				$this->tpl->setVariable("EXPLORER", $exp->getHTML());
+				$this->tpl->parseCurrentBlock();
+			}
+			return;
 		}
-		$exp = new ilLMTOCExplorer($this->getLink($this->lm->getRefId(), "layout", "", $a_target), $this->lm, $this->lang);
+
+		require_once("./Modules/LearningModule/classes/class.ilLMTOCExplorer.php");
+		$exp = new ilLMTOCExplorer($this->getLink($this->lm->getRefId(), "layout", "", ""), $this->lm, $this->lang);
 		$exp->setExpandTarget($this->getLink($this->lm->getRefId(), $_GET["cmd"], $_GET["obj_id"], $_GET["frame"]));
 		$exp->setTargetGet("obj_id");
 		if ($this->lm->cleanFrames())
