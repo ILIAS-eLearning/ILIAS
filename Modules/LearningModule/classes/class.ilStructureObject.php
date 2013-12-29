@@ -165,7 +165,7 @@ class ilStructureObject extends ilLMObject
 	* get presentation title
 	*
 	*/
-	function _getPresentationTitle($a_st_id, $a_include_numbers = false,
+	static function _getPresentationTitle($a_st_id, $a_include_numbers = false,
 		$a_time_scheduled_activation = false, $a_lm_id = 0, $a_lang = "-")
 	{
 		global $ilDB;

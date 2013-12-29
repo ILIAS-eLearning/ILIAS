@@ -402,7 +402,7 @@ class ilLMPageObject extends ilLMObject
 	*
 	* @param	string	$a_mode		IL_CHAPTER_TITLE | IL_PAGE_TITLE | IL_NO_HEADER
 	*/
-	function _getPresentationTitle($a_pg_id, $a_mode = IL_CHAPTER_TITLE,
+	static function _getPresentationTitle($a_pg_id, $a_mode = IL_CHAPTER_TITLE,
 		$a_include_numbers = false, $a_time_scheduled_activation = false,
 		$a_force_content = false, $a_lm_id = 0, $a_lang = "-")
 	{

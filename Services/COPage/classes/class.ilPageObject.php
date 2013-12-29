@@ -535,7 +535,7 @@ abstract class ilPageObject
 	/**
 	 * lookup activation status
 	 */
-	function _lookupActive($a_id, $a_parent_type, $a_check_scheduled_activation = false, $a_lang = "-")
+	static function _lookupActive($a_id, $a_parent_type, $a_check_scheduled_activation = false, $a_lang = "-")
 	{
 		global $ilDB;
 		
@@ -4009,7 +4009,7 @@ abstract class ilPageObject
 	/**
 	* lookup whether page contains deactivated elements
 	*/
-	function _lookupContainsDeactivatedElements($a_id, $a_parent_type, $a_lang = "-")
+	static function _lookupContainsDeactivatedElements($a_id, $a_parent_type, $a_lang = "-")
 	{
 		global $ilDB;
 		
