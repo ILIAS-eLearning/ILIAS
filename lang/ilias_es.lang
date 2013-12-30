@@ -2547,9 +2547,9 @@ common#:#crs_info#:#Info
 common#:#crs_list_reg_end#:#Fin del matrícula
 common#:#crs_list_reg_limit_full#:#No quedan plazas disponibles
 common#:#crs_list_reg_limit_places#:#Plazas libres
-common#:#crs_list_reg_noreg#:#No es posible la matrícula
-common#:#crs_list_reg_period#:#Periodo de matrícula
-common#:#crs_list_reg_start#:#Inicio de matrícula
+common#:#crs_list_reg_noreg#:#No es posible el alta
+common#:#crs_list_reg_period#:#Periodo de solicitud de altas
+common#:#crs_list_reg_start#:#Inicio de solicitud de altas
 common#:#crs_management_system#:#Sistema de Gestión de Cursos
 common#:#crs_member_not_passed#:#No superado
 common#:#crs_member_passed#:#Superado
@@ -2562,8 +2562,8 @@ common#:#crs_removed_from_waiting_list#:#Usted ha sido suprimido de la lista de 
 common#:#crsr#:#Enlace a curso
 common#:#crsr_new#:#Crear nuevo enlace a Curso
 common#:#crs_status_blocked#:#[Acceso denegado]
-common#:#crs_status_pending#:#[Esperando confirmación de matricula]
-common#:#crs_subscribers_assigned#:#Nuevo(s) usuario(s) asignado(s)
+common#:#crs_status_pending#:#[Esperando confirmación de alta]
+common#:#crs_subscribers_assigned#:#Nueva(s) alta(s) de usuario(s)
 common#:#crs_title#:#Título del curso
 common#:#crs_unsubscribe#:#Darse de baja
 common#:#crs_wizard_page#:#Copiar Curso (Paso 2/2)
@@ -3035,23 +3035,23 @@ common#:#group_memstat_admin#:#Administrador
 common#:#group_memstat#:#Estado de Miembro
 common#:#group_memstat_member#:#Miembro
 common#:#group_name#:#Nombre de Grupo
-common#:#group_new_registrations#:#Nuevos registrados
+common#:#group_new_registrations#:#Nuevas solicitudes de alta
 common#:#group_no_registration_msg#:#Ha dejado de ser un miembro de este grupo. Debido a motivos de administración es necesario unirse al grupo solicitado.<br> Como miembro de este grupo tiene las siguientes ventajas:<br>Será informado de noticias y actualizaciones As a member you have the following advantages:<br>-<br>- Puede acceder a los objetos tales como foros, objetos de aprendizaje, etc...<br><br>Puede anular su pertenencia al grupo en cualquier momento
 common#:#group_no_registration#:#no se requiere registrarse
 common#:#group_not_available#:#cualquier grupo disponible
 common#:#group_objects#:#Objetos de Grupo
-common#:#group_password_registration_msg#:#Si sabe la contraseña del grupo, puede unirse a este grupo. Contacte con el administrador del grupo si quiere obtener una contraseña.
-common#:#group_registration_expiration_date#:#Fecha de Expiración
-common#:#group_registration_expiration_time#:#Hora de Expiración
-common#:#group_registration_expired#:#El Período de Matrícula
+common#:#group_password_registration_msg#:#Utilice la clave de acceso que le ha proporcionado uno de los administradores del grupo para darse de alta.
+common#:#group_registration_expiration_date#:#Fecha de finalización
+common#:#group_registration_expiration_time#:#Hora de finalización
+common#:#group_registration_expired#:#El periodo de alta ha finalizado
 common#:#group_registration_expired_msg#:#El período para unirse a este grupo expiro. Por favor contacte con un administrador del grupo, si se quiere unir a este grupo.
-common#:#group_registration#:#Matrícula
-common#:#group_registration_mode#:#Modo de Registro
-common#:#group_registration_time#:#Período de Matrícula
-common#:#group_req_direct#:#Unirse directamente
-common#:#group_req_password#:#Se requiere contraseña para el Registro
-common#:#group_req_registration_msg#:#Para unirse a este grupo tiene que registrarse. El administrador de grupo le asignará al grupo. Por favor escriba un asunto para explicar las razones de su solicitud.<br>Recibirá un mensaje cuando le asignen al grupo.
-common#:#group_req_registration#:#Se requiere el registro
+common#:#group_registration#:#Solicitud de alta
+common#:#group_registration_mode#:#Modo de admisión
+common#:#group_registration_time#:#Período de admisión
+common#:#group_req_direct#:#Alta directa
+common#:#group_req_password#:#Se requiere clave para darse de alta
+common#:#group_req_registration_msg#:#Debe solicitar el alta en este grupo. Añada cualquier información adicional que desea hacer constar. Por favor, añada cualquier información adicional que considere de interés para su solicitud.<br>Recibirá un mensaje cuando acepten o denieguen su solicitud.
+common#:#group_req_registration#:#Se requiere el solicitud de alta
 common#:#group_reset#:#Resetear Grupo
 common#:#groups#:#Grupos
 common#:#groups_overview#:#Resumen de grupos
@@ -3081,20 +3081,20 @@ common#:#grp_err_error#:#Ocurrió un error
 common#:#grp_err_last_member#:#El último miembro no pudo ser eliminado, por favor, en su lugar, elimine el grupo
 common#:#grp_err_member_could_not_be_removed#:#El Miembro no pudo ser eliminado. Por favor, verifique todas las dependencias de este usuario.
 common#:#grp_err_no_permission#:#No tiene permiso para esta operación.
-common#:#grp_err_registration_data#:#¡Por favor introduzca una contraseña, la fecha de expiración y un período de registro válido!
+common#:#grp_err_registration_data#:#¡Por favor introduzca una clave de acceso, una fecha y hora de finalización de periodo de solicitud de altas!
 common#:#grp#:#Grupo
 common#:#grp_header_edit_members#:#Editar Miembros
-common#:#grp_list_reg_end#:#Fin de matrícula
+common#:#grp_list_reg_end#:#Fin de solicitud de altas
 common#:#grp_list_reg_limit_full#:#No quedan plazas disponibles
 common#:#grp_list_reg_limit_places#:#Plazas libres
-common#:#grp_list_reg_noreg#:#No es posible matricularse
-common#:#grp_list_reg_period#:#Periodo de matrícula
-common#:#grp_list_reg_start#:#Inicio de matrícula
+common#:#grp_list_reg_noreg#:#No es posible darse de alta
+common#:#grp_list_reg_period#:#Periodo de solicitud de altas
+common#:#grp_list_reg_start#:#Comienzo de altas
 common#:#grp_list_users#:#Listar usuarios
-common#:#grp_mail_body_new_subscription#:#Has sido suscrito a este grupo.
-common#:#grp_mail_body_subscription_cancelled#:#Su pertenencia ha sido cancelada.
-common#:#grp_mail_subj_new_subscription#:#Nueva suscripción
-common#:#grp_mail_subj_subscription_cancelled#:#Suscripción cancelada
+common#:#grp_mail_body_new_subscription#:#Has sido admitido a este grupo.
+common#:#grp_mail_body_subscription_cancelled#:#Su acceso al grupo ha sido cancelado.
+common#:#grp_mail_subj_new_subscription#:#Nueva alta
+common#:#grp_mail_subj_subscription_cancelled#:#Acceso cancelado
 common#:#grp_members_gallery#:#Galería del grupo
 common#:#grp_mem_change_status#:#Modificar el estado del miembro
 common#:#grp_mem_leave#:#Dar de baja Miembro del Grupo
@@ -3110,10 +3110,10 @@ common#:#grp_no_groups_selected#:#No se ha seleccionado un grupo
 common#:#grp_no_results_found#:#No se han encontrado resultados
 common#:#grp_no_roles_selected#:#No hay roles seleccionados
 common#:#grp_options#:#Opciones
-common#:#grp_register#:#Registrar
-common#:#grp_registration_completed#:#Registro completado
-common#:#grp_registration#:#Unirse al grupo
-common#:#grp_removed_from_waiting_list#:#Usted ha sido borrado de la lista de espera de grupo "%s".
+common#:#grp_register#:#Solicitud de alta
+common#:#grp_registration_completed#:#Alta completada
+common#:#grp_registration#:#Solicitar alta en el grupo
+common#:#grp_removed_from_waiting_list#:#Usted ha sido eliminado de la lista de espera del grupo "%s".
 common#:#grp_search_enter_search_string#:#Por favor entre una cadena de búsqueda
 common#:#grp_search_members#:#Búsqueda de usuarios (miembros)
 common#:#grp_select_one_file_only#:#Por favor seleccione exactamente un archivo.
@@ -3255,10 +3255,10 @@ common#:#ilinc_header_edit_users#:#Editar lista de usuarios involucrados
 common#:#ilinc_id#:#iLinc ID
 common#:#ilinc_involved_users#:#Usuarios involucrados
 common#:#ilinc_login#:#Usuario iLinc
-common#:#ilinc_mail_body_new_subscription#:#Ha sido suscrito a este Seminario LearnLinc
+common#:#ilinc_mail_body_new_subscription#:#Ha sido dado de alta a este Seminario LearnLinc
 common#:#ilinc_mail_body_subscription_cancelled#:#Su pertenencia ha sido cancelada.
-common#:#ilinc_mail_subj_new_subscription#:#Nueva pertenencia
-common#:#ilinc_mail_subj_subscription_cancelled#:#pertenencia cancelada
+common#:#ilinc_mail_subj_new_subscription#:#Nueva alta
+common#:#ilinc_mail_subj_subscription_cancelled#:#Acceso cancelado
 common#:#ilinc_manage_course_documents#:#Materiales
 common#:#ilinc_mem_change_status#:#Modificar estado del usuario
 common#:#ilinc_mem_leave#:#Retirar usuario del seminario LearnLinc
@@ -3360,7 +3360,7 @@ common#:#insert#:#Insertar
 common#:#insert_object_here#:#Insertar objeto aquí
 common#:#installed#:#instalado
 common#:#installed_local#:#Instalado con archivo de idioma local
-common#:#install#:#instalar
+common#:#install#:#Instalar
 common#:#install_local#:#Instalar con archivo de idioma local
 common#:#instant_messengers#:#Mensajería Instantánea
 common#:#inst_id#:#ID de instalación
@@ -3391,7 +3391,7 @@ common#:#java_server_no_connection#:#Atención: No se puede conectar al servidor
 common#:#java_server_port#:#Puerto
 common#:#java_server_readme#:#Información de Setup
 common#:#java_server#:#Servidor-Java
-common#:#join#:#Matricularse
+common#:#join#:#Darse de alta
 common#:#join_session#:#Apuntarse
 common#:#kb#:#KByte
 common#:#keywords#:#Palabras clave
@@ -3606,16 +3606,16 @@ common#:#member#:#Miembro
 common#:#membership_annulled#:#Tu pertenencia ha sido cancelada
 common#:#membership_leave#:#Salir
 common#:#members#:#Miembros
-common#:#member_status#:#Estado del participante:
+common#:#member_status#:#Estado del solicitud
 common#:#mem_end#:#Registro termina:
 common#:#mem_free_places#:#Plazas disponibles:
 common#:#mem_max_users#:#Máximo de Usuarios:
 common#:#mem_participants#:#Participantes
 common#:#mem_reg_expired#:#El registro ha finalizado
 common#:#mem_reg_not_started#:#El registro no ha comenzado
-common#:#mem_reg_period#:#Periodo de registro
-common#:#mem_reg_type#:#Tipo de registro
-common#:#mem_start#:#Registro comienza:
+common#:#mem_reg_period#:#Periodo de solicitud de alta
+common#:#mem_reg_type#:#Tipo de solicitud de alta
+common#:#mem_start#:#El periodo de solicitud e alta comienza:
 common#:#mem_unlimited#:#Ilimitado
 common#:#mem_view_activate#:#Activar vista de miembro
 common#:#mem_view_close#:#Cerrar vista de miembros
@@ -4339,7 +4339,7 @@ common#:#recipient#:#destinatario
 common#:#reference_deleted#:#Enlace no válido
 common#:#reference_of#:#Referencia de:
 common#:#referral_comment#:#¿Cómo conociste ILIAS?
-common#:#refresh#:#actualizar
+common#:#refresh#:#Actualizar
 common#:#refresh_languages#:#Actualizar Idiomas
 common#:#refresh_list#:#actualizar lista
 common#:#refuse#:#Rechazar
@@ -4479,8 +4479,8 @@ common#:#sahs_create#:#Crear Módulo de aprendizaje SCORM/AICC
 common#:#sahs_insert_chap_from_clip#:#Pegar capítulos desde el Portapapeles
 common#:#sahs_insert_page_from_clip#:#Pegar páginas desde el Portapapeles
 common#:#sahs_insert_sco_from_clip#:#Pegar SCOs desde el Portapapeles
-common#:#sahs_join#:#Subscribirse a Módulo de aprendizaje SCORM/AICC
-common#:#sahs_leave#:#Desuscribirse de Módulo de aprendizaje SCORM/AICC
+common#:#sahs_join#:#Darse de alta en Módulo de aprendizaje SCORM/AICC
+common#:#sahs_leave#:#Darse de baja en Módulo de aprendizaje SCORM/AICC
 common#:#sahs#:#Módulo de aprendizaje SCORM/AICC
 common#:#salutation_f#:#Sr./Sra.
 common#:#salutation_m#:#Sr.
@@ -4720,7 +4720,7 @@ common#:#submit#:#enviar
 common#:#subobjects#:#Subobjetos
 common#:#sub_request_deleted#:#Solicitud de adhesión eliminada
 common#:#sub_request_saved#:#Solicitud de adhesión almacenada
-common#:#subscription#:#subscripción
+common#:#subscription#:#Alta
 common#:#subtabs#:#Subpestañas
 common#:#success_message#:#Mensaje correcto
 common#:#summary#:#resumen
@@ -4805,7 +4805,7 @@ common#:#title#:#Título
 common#:#to#:#a:
 common#:#to_client_list#:#Seleccionar Instalación
 common#:#today#:#Hoy
-common#:#to_desktop#:#Al escritorio
+common#:#to_desktop#:#Al escritorio personal
 common#:#to_filter#:#Filtro
 common#:#toggleGlobalDefault#:#Cambiar Global por defecto
 common#:#toggleGlobalFixed#:#Cambiar Global Fijo
@@ -4881,8 +4881,8 @@ common#:#ums_login_account#:#Cuenta de Entrada
 common#:#unambiguousness#:#Identificación
 common#:#uncheck_all#:#deseleccionar todo
 common#:#unchecked#:#No marcado
-common#:#uninstall#:#desinstalar
-common#:#uninstalled#:#desinstalado
+common#:#uninstall#:#Desinstalar
+common#:#uninstalled#:#Desinstalado
 common#:#unknown#:#DESCONOCIDO
 common#:#unlabeled#:#Sin etiquetar
 common#:#unread_lowercase#:#no leído
@@ -6136,7 +6136,7 @@ crs#:#contact_email_not_valid#:#El email de contacto no es válido.
 crs#:#crs_accept_subscriber#:#Admisión en el curso "%s"
 crs#:#crs_accept_subscriber_body#:#Has sido admitido en el curso "%s"
 crs#:#crs_access#:#Acceso
-crs#:#crs_access_password#:#Contraseña
+crs#:#crs_access_password#:#Clave de acceso
 crs#:#crs_activate_notification#:#Activar notificaciones
 crs#:#crs_activation#:#Activación
 crs#:#crs_activation_limited_visibility_info#:#Si activo, el curso es visible incluso fuera de la disponibilidad especificada.
@@ -6158,15 +6158,15 @@ crs#:#crs_add_objective#:#Añadir objetivo
 crs#:#crs_add_remove_from_desktop#:#Añadir/Eliminar del escritorio
 crs#:#crs_add_remove_from_desktop_info#:#Permitir a los miembros añadir items del curso al escritorio personal
 crs#:#crs_add_starter#:#Añadir objeto inicial
-crs#:#crs_add_subscribers#:#Añadir matriculados
+crs#:#crs_add_subscribers#:#Añadir solicitudes de alta
 crs#:#crs_add_to_group#:#Añadir al grupo
 crs#:#crs_admin#:#Administrador
 crs#:#crs_administrators#:#Administradores
 crs#:#crs_admin_no_notify#:#Administrador (sin notificación)
 crs#:#crs_admin_notify#:#Administrador (notificación)
-crs#:#crs_agree#:#Aceptación
+crs#:#crs_agree#:#Conformidad
 crs#:#crs_agreement_header#:#Acuerdo de usuario
-crs#:#crs_agreement_required#:#Tienes que aceptar el acuerdo de usuario, si quieres matricularte en este curso
+crs#:#crs_agreement_required#:#Tienes que aceptar el acuerdo de usuario, si quieres darte de alta en este curso
 crs#:#crs_allow_abo#:#Permitir suscripción a los items del curso
 crs#:#crs_already_assigned_to_list#:#Ha sido asignado a la lista de espera.
 crs#:#crs_archive#:#Archivar
@@ -6191,7 +6191,7 @@ crs#:#crs_blocked_member#:#Pertenencia en el Curso "%s"
 crs#:#crs_cancel_subscription_body2#:#Podría haber otros miembros en lista de espera en su curso.\nDebe revisar la lista de espera.\nPara ver los miembros de tu curso, click aquí:
 crs#:#crs_cancel_subscription_body#:#Un usuario se ha dado de baja en el curso "%s"
 crs#:#crs_cancel_subscription#:#Su pertenencia al curso "%s" ha sido cancelada
-crs#:#crs_cancel_subscr_request#:#Eliminar Petición de miembro.
+crs#:#crs_cancel_subscr_request#:#Eliminar solicitud de alta.
 crs#:#crs_change_status#:#Modificar estado del objetivo:
 crs#:#crs_chapter_already_assigned#:#Estos capítulos ya están asignados.
 crs#:#crs_contact_consultation#:#Tutorías
@@ -6220,8 +6220,8 @@ crs#:#crs_delete_from_waiting_list#:#Quitar de la lista de espera
 crs#:#crs_delete_member#:#Eliminar miembros
 crs#:#crs_delete_members_sure#:#¿Quiere eliminar los siguientes miembros de este curso?
 crs#:#crs_delete_objectve_sure#:#¿Está seguro de que quiere eliminar los objetivos seleccionados?
-crs#:#crs_delete_subscribers#:#Eliminar subscriptor
-crs#:#crs_delete_subscribers_sure#:#¿Quiere eliminar los siguientes usuarios?
+crs#:#crs_delete_subscribers#:#Eliminar solicitudes de alta
+crs#:#crs_delete_subscribers_sure#:#¿Quiere eliminar las solicitudes de los siguientes usuarios?
 crs#:#crs_details#:#Detalles del curso
 crs#:#crs_dismiss_member_body#:#Su pertenencia al curso "%s" ha finalizado
 crs#:#crs_dismiss_member#:#Pertenencia al curso "%s" finalizada
@@ -6263,14 +6263,14 @@ crs#:#crs_grp_crs_assignment#:#Asignación de curso
 crs#:#crs_grp_deassigned_courses#:#Eliminar asignación
 crs#:#crs_grp_enter_title#:#Por favor introduzca un título.
 crs#:#crs_grp_info_reg#:#Únicamente puede registrarse en uno de estos cursos:
-crs#:#crs_grp_matriculation_required#:#Esta agrupación de cursos requiere un número de matricula única.<br />Por favor inserte este valor en su configuración en el escritorio personal.
+crs#:#crs_grp_matriculation_required#:#Esta agrupación de cursos requiere un número de matricula único.<br />Por favor inserte este valor en su configuración en el escritorio personal.
 crs#:#crs_grp_modified_grouping#:#Modificaciones guardadas.
 crs#:#crs_grp_no_courses_assigned#:#No hay cursos asignados.
 crs#:#crs_grp_no_course_selected#:#Por favor seleccione un curso.
 crs#:#crs_grp_table_assigned_courses#:#Cursos asignados.
 crs#:#crs_header_archives#:#Archivos del Curso
 crs#:#crs_header_delete_members#:#Eliminar miembros
-crs#:#crs_header_delete_subscribers#:#Eliminar miembros
+crs#:#crs_header_delete_subscribers#:#Eliminar solicitudes de alta
 crs#:#crs_header_edit_members#:#Editar miembros
 crs#:#crs_header_members#:#Miembros del Curso
 crs#:#crs_header_remove_from_waiting_list#:#Lista de espera: quitar usuarios
@@ -6285,11 +6285,11 @@ crs#:#crs_import#:#Importar curso
 crs#:#crs_info_agreement#:#Los siguientes tipos de datos son visibles para los administradores del curso:
 crs#:#crs_info_agree#:#Yo acepto que la información arriba señalada esté disponible para los administradores del curso.
 crs#:#crs_info_download#:#Archivos para descarga
-crs#:#crs_info_reg_confirmation#:#Este curso necesita confirmación por un administrador del curso. Recibirá un mensaje si ha sido asignado al curso.
-crs#:#crs_info_reg_deactivated#:#No es posible el registro
-crs#:#crs_info_reg_direct#:#Puede registrarse en este curso directamente
-crs#:#crs_info_reg#:#Información de registro
-crs#:#crs_info_reg_password#:#Si un administrador le ha proporcionado una contraseña del curso, puede entrar al mismo.
+crs#:#crs_info_reg_confirmation#:#El alta en este curso necesita confirmación por uno de sus administradores. Recibirá un mensaje si ha sido admitido en el curso.
+crs#:#crs_info_reg_deactivated#:#No es posible el alta
+crs#:#crs_info_reg_direct#:#Puede darse de alta en este curso directamente
+crs#:#crs_info_reg#:#Información de alta
+crs#:#crs_info_reg_password#:#Utilice la clave de acceso que le haya proporcionado alguno de los responsables del curso
 crs#:#crs_info_settings#:#Información del curso
 crs#:#crs_info_start#:#Por favor, trabaje sobre los items del curso señalados más abajo..<br />Después de haber estudiado todos los objetos marcados en rojo, se activarán nuevos items del curso.
 crs#:#crs_intro_course_group_notification_for#:#Resumen de noticias diario para: %s
@@ -6340,9 +6340,9 @@ crs#:#crs_new_search#:#Nueva Búsqueda
 crs#:#crs_news#:#Novedades del Curso
 crs#:#crs_new_status#:#Tu nuevo estado es:
 crs#:#crs_new_subscription_body#:#El usuario %s se unió al curso "%s".
-crs#:#crs_new_subscription_request_body2#:#Debe dirigirse a la administración de miembros de ese curso para aceptar o rechazar la solicitud de pertenencia.
-crs#:#crs_new_subscription_request_body#:#El usuario %s ha solicitado matricularse en el curso "%s".
-crs#:#crs_new_subscription_request#:#Petición para matricularse en el curso "%s"
+crs#:#crs_new_subscription_request_body2#:#Debe dirigirse a la administración de miembros de ese curso para aceptar o rechazar la solicitud de alta.
+crs#:#crs_new_subscription_request_body#:#El usuario %s ha solicitado el alta en el curso "%s".
+crs#:#crs_new_subscription_request#:#Petición de alta en el curso "%s"
 crs#:#crs_new_subscription#:#Un nuevo usuario se unió al curso "%s"
 crs#:#crs_no_archives_available#:#No hay archivos disponibles
 crs#:#crs_no_archive_selected#:#No hay archivos seleccionados
@@ -6469,29 +6469,29 @@ crs#:#crs_reg_code_link#:#URL de registro automático
 crs#:#crs_reg_code#:#Registro mediante enlace URL
 crs#:#crs_reg_code_value#:#Código
 crs#:#crs_reg_deactivated#:#Deshabilitado
-crs#:#crs_registration_deactivated#:#Escoja esta opción para deshabilitar la matrícula. Ningún usuario puede matricularse en este curso
-crs#:#crs_registration_limited#:#Período de matrícula Limitado
-crs#:#crs_registration#:#Matrícula de Curso
-crs#:#crs_registration_type#:#Modo de matrícula
+crs#:#crs_registration_deactivated#:#Escoja esta opción para deshabilitar nuevas altas. Ningún usuario puede darse de alta en este curso
+crs#:#crs_registration_limited#:#Período de solicitud de alta Limitado
+crs#:#crs_registration#:#Solicitud de alta en curso
+crs#:#crs_registration_type#:#Modo de solicitud de alta
 crs#:#crs_registration_unlimited#:#Ilimitado en el tiempo
-crs#:#crs_reg_lim_info#:#La matrícula es únicamente posible durante un período fijo de tiempo.
-crs#:#crs_reg#:#Matrícula
-crs#:#crs_reg_max_info#:#Define el número máximo de usuarios que puede ser asignado a este curso. '0' significa ilimitado.
-crs#:#crs_reg_notify_info#:#Si se habilita todos los tutores/administradores del curso con el estado 'Notificar' serán informados vía e-mail sobre las nuevas matrículas.
-crs#:#crs_reg_period#:#Periodo de matrícula
+crs#:#crs_reg_lim_info#:#La solicitud de alta es únicamente posible durante un período fijo de tiempo.
+crs#:#crs_reg#:#Solicitud de alta
+crs#:#crs_reg_max_info#:#Define el número máximo de usuarios que puede ser asignados a este curso. '0' significa ilimitado.
+crs#:#crs_reg_notify_info#:#Si se habilita todos los tutores/administradores del curso con el estado 'Notificar' serán informados vía e-mail sobre las nuevas altas.
+crs#:#crs_reg_period#:#Periodo de solicitud de alta
 crs#:#crs_reg_subject#:#Mensaje
-crs#:#crs_reg_subscription_deactivated#:#Matriculación deshabilitada
-crs#:#crs_reg_subscription_end_earlier#:#El período de matrícula ha finalizado
+crs#:#crs_reg_subscription_deactivated#:#Petición de alta deshabilitada
+crs#:#crs_reg_subscription_end_earlier#:#El período de solicitud de alta ha finalizado
 crs#:#crs_reg_subscription_max_members_reached#:#Se ha excedido el máximo número de usuarios.
-crs#:#crs_reg_subscription_start_later#:#El período de matrícula comienza más tarde
+crs#:#crs_reg_subscription_start_later#:#El período de solicitud de alta comienza más tarde
 crs#:#crs_reg_type_info#:#Esta configuración sólo es relevante, si el registro no está 'Deshabilitado'.
 crs#:#crs_reg_unlim_info#:#Si se habilita, no hay limite de tiempo para la matrícula. Por favor escoja uno de los modos de matrícula comentados.
 crs#:#crs_reg_until#:#Período de matrícula
 crs#:#crs_reg_user_already_assigned#:#Usted ya está asignado a este curso
-crs#:#crs_reg_user_already_subscribed#:#Usted ya solicito registro en este curso
+crs#:#crs_reg_user_already_subscribed#:#Usted ya solicito el alta en este curso
 crs#:#crs_reg_user_blocked#:#Se ha bloqueado su acceso a este curso
-crs#:#crs_reject_subscriber_body#:#Su petición de matrícula en el curso "%s" ha sido rechazada.
-crs#:#crs_reject_subscriber#:#Matrícula en "%s" rechazada
+crs#:#crs_reject_subscriber_body#:#Su petición de alta en el curso "%s" ha sido rechazada.
+crs#:#crs_reject_subscriber#:#Solicitud de alta en "%s" rechazada
 crs#:#crs_reset_results#:#Reinicializar resultados
 crs#:#crs_role#:#Rol
 crs#:#crs_role_status#:#Rol / Estado
@@ -6543,24 +6543,24 @@ crs#:#crs_status_determination_sync#:#Sincronizar ahora el estado final con el p
 crs#:#crs_status#:#Estado
 crs#:#crs_structure#:#Estructura del curso
 crs#:#crs_subject_course_group_notification#:#Correo diario para %s
-crs#:#crs_subscribe_member_body#:#Estamos encantados de confirmar tu registro en el curso "%s".
-crs#:#crs_subscribe_member#:#Tu registro del curso "%s"
-crs#:#crs_subscribers_deleted#:#Usuario(s) matriculado(s) eliminado(s)
-crs#:#crs_subscribers#:#Suscripciones
-crs#:#crs_subscriber#:#Suscriptor
+crs#:#crs_subscribe_member_body#:#Estamos encantados de confirmar tu admisión en el curso "%s".
+crs#:#crs_subscribe_member#:#Tu alta en el curso "%s"
+crs#:#crs_subscribers_deleted#:#Solicitud(es) de alta eliminada(s)
+crs#:#crs_subscribers#:#Solicitudes de alta
+crs#:#crs_subscriber#:#Solicitante
 crs#:#crs_subscribe_wl_body#:#has sido asignado a la lista de espera del curso "%s".\nHas sido asignado a la posición %s de la lista.\n\n Recibirás un mensaje del administrador del curso cuando tu petición de pertenencia sea confirmada o rechazada.
-crs#:#crs_subscribe_wl#:#Su registro para el curso "%s".
+crs#:#crs_subscribe_wl#:#Su solicitud de alta para el curso "%s".
 crs#:#crs_subscription_max_members#:#Máximo nº de miembros
 crs#:#crs_subscription_max_members_short#:#Número de miembros
-crs#:#crs_subscription_notify#:#Notificar suscripciones
-crs#:#crs_subscription_options_confirmation#:#Confirmación de matrícula
+crs#:#crs_subscription_notify#:#Notificar altas
+crs#:#crs_subscription_options_confirmation#:#Confirmación de alta
 crs#:#crs_subscription_options_deactivated#:#Desactivado
-crs#:#crs_subscription_options_direct#:#Matricula Directa
-crs#:#crs_subscription_options_password#:#Matrícula con contraseña de curso
-crs#:#crs_subscription_requested#:#Ha solicitado matricularse en este curso
-crs#:#crs_subscription_successful#:#Ha sido matriculado en este curso
-crs#:#crs_subscription#:#Suscripción
-crs#:#crs_subscription_type#:#Tipo de matricula
+crs#:#crs_subscription_options_direct#:#Alta Directa
+crs#:#crs_subscription_options_password#:#Alta utilizando clave de acceso al curso
+crs#:#crs_subscription_requested#:#Ha solicitado darse de alta en este curso
+crs#:#crs_subscription_successful#:#Ha sido dado de alta en este curso
+crs#:#crs_subscription#:#Solicitud de alta
+crs#:#crs_subscription_type#:#Tipo de alta
 crs#:#crs_suggested_sections#:#Secciones sugeridas
 crs#:#crs_suggestion_end#:#Sugerencia de Final
 crs#:#crs_suggest_lm#:#Sugerir materiales de aprendizaje si:
@@ -6611,12 +6611,12 @@ crs#:#crs_unblocked#:#Entrada Libre
 crs#:#crs_unblocked_member_body#:#Su pertenencia al curso "%s" ha sido restaurada
 crs#:#crs_unblocked_member#:#Estado en el Curso "%s"
 crs#:#crs_unlimited#:#Ilimitado
-crs#:#crs_unsubscribed_from_crs#:#Se ha suscrito en este curso
-crs#:#crs_unsubscribe_member_body#:#confirmamos tu cancelación de pertenencia al curso "%s". Esperamos que hayas encontrado la oportunidad de participar en otro curso.
-crs#:#crs_unsubscribe_member#:#Tu membresía ha sido cancelada en el curso "%s"
+crs#:#crs_unsubscribed_from_crs#:#Se ha dado de baja de este curso
+crs#:#crs_unsubscribe_member_body#:#confirmamos tu baja en el curso "%s".
+crs#:#crs_unsubscribe_member#:#Se ha cancelado tu acceso curso "%s"
 crs#:#crs_unsubscribe_sure#:#¿Quiere darse de baja en este curso?
 crs#:#crs_update_objective#:#Editar objetivo de aprendizaje
-crs#:#crs_update_subscr_request#:#Actualizar Peticiones de Membresía
+crs#:#crs_update_subscr_request#:#Actualizar solicitudes de alta.
 crs#:#crs_user_agreement_info#:#Datos personales visibles para administradores del Curso
 crs#:#crs_user_agreement#:#Tipos de datos liberados
 crs#:#crs_user_already_assigned#:#El usuario elegido ya está asignado a este curso
@@ -6730,7 +6730,7 @@ crs#:#sess_num_next#:#Número de sesiones futuras.
 crs#:#sess_num_prev#:#Número de sesiones pasadas.
 crs#:#sess_print_attendance_list#:#Imprimir lista de asistencia
 crs#:#sess_signature#:#Firma
-crs#:#subscription_times_not_valid#:#El período de matrícula no es válido.
+crs#:#subscription_times_not_valid#:#El período de solicitud de alta no es válido.
 crs#:#timing_accepted#:#Aceptada
 crs#:#timing_accept_table#:#Planificación / Observaciones
 crs#:#timing_not_accepted#:#No Aceptada
@@ -7348,7 +7348,7 @@ dcl#:#dcl_update_field#:#Actualizar campo
 dcl#:#dcl_update_record#:#Actualizar registro
 dcl#:#dcl_url#:#URL
 dcl#:#dcl_view_viewdefinition#:#Definición de Vista
-dcl#:#dcl_visible#:#Visible en tabla
+dcl#:#dcl_visible#:#Visible en listado
 dcl#:#dcl_width#:#Ancho
 dcl#:#dcl_wrong_input_type#:#El valor introducido no tiene el tipo adecuado
 dcl#:#dcl_wrong_length#:#El texto introducido es demasiado largo
@@ -7941,7 +7941,7 @@ forum#:#move_chosen_topics#:#Mover temas seleccionados
 forum#:#new_post#:#Nuevo mensaje
 forum#:#no_forum_available_for_moving_threads#:#No hay foro disponible para mover los temas seleccionados.
 forum#:#no_forum_selected#:#No se seleccionó un foro para mover los temas seleccionados
-forum#:#number_of_threads#:#Búmero de temas por página
+forum#:#number_of_threads#:#Número de temas por página
 forum#:#post_activation_desc#:#Si se habilita, el moderador tiene que autorizar los nuevos mensajes enviados
 forum#:#post_censored_comment_by_moderator#:#Mensaje censurado, comentario por el moderador
 forum#:#post_reply#:#Re:
@@ -7989,11 +7989,11 @@ grp#:#grp_accept_subscriber_body#:#Ha sido admitido en el grupo "%1$s".\n\n%2$s
 grp#:#grp_activate_notification#:#Activar notificación
 grp#:#grp_added_to_list#:#Ha sido a&ntilde;adido a la lista de espera. Está en la posición %s de la lista.
 grp#:#grp_admins#:#Administradores
-grp#:#grp_agree#:#Aceptación
+grp#:#grp_agree#:#Conformidad
 grp#:#grp_agreement_header#:#Acuerdo de usuario
 grp#:#grp_agreement_required#:#Tienes que aceptar el acuerdo de usuario si quieres acceder al contenido del grupo.
-grp#:#grp_already_assigned#:#Ya tienes una petición de pertenencia para este grupo.
-grp#:#grp_cancel_subscr_request#:#Eliminar la petición de pertenencia.
+grp#:#grp_already_assigned#:#Ya tienes una solicitud de alta para este grupo.
+grp#:#grp_cancel_subscr_request#:#Eliminar la solicitud de alta.
 grp#:#grp_change_type#:#Cambiar tipo de grupo
 grp#:#grp_closed#:#Grupo cerrado
 grp#:#grp_closed_info#:#Este grupo no esta visible para los usuarios que no son miembros.
@@ -8037,12 +8037,12 @@ grp#:#grp_mail_sub_acc_bod#:#estamos encantados de confirmar tu registro para el
 grp#:#grp_mail_sub_acc_sub#:#Registro confirmado para "%s"
 grp#:#grp_mail_sub_dec_bod#:#Sentimos decir que su registro ha sido rechazado para el grupo "%s".
 grp#:#grp_mail_sub_dec_sub#:#Registro rechazado para el grupo "%s"
-grp#:#grp_mail_subscribe_member_bod#:#estamos encantados de confirmar su registro para el grupo "%s".
-grp#:#grp_mail_subscribe_member_sub#:#Tu registro para el grupo "%s"
-grp#:#grp_mail_unsubscribe_member_bod#:#confirmamos su cancelación de pertenencia al grupo %s.\nEsperamos que encuentre oportunidad de participar en algún otro grupo.
-grp#:#grp_mail_unsubscribe_member_sub#:#Su cancelación de pertenencia en el grupo "%s"
-grp#:#grp_mail_wl_bod#:#ha sido asignado a la lista de espera del grupo "%s".\nHa sido asignado en la posición %s de la lista.\n\n Usted recibirá un mensaje del administrador del grupo cuando su petición sea aprobada o rechazada.
-grp#:#grp_mail_wl_sub#:#Su registro en el grupo "%s".
+grp#:#grp_mail_subscribe_member_bod#:#estamos encantados de confirmar tu alta para el grupo "%s".
+grp#:#grp_mail_subscribe_member_sub#:#Tu alta en el grupo "%s"
+grp#:#grp_mail_unsubscribe_member_bod#:#confirmamos su baja del grupo %s.\n
+grp#:#grp_mail_unsubscribe_member_sub#:#Su baja en el grupo "%s"
+grp#:#grp_mail_wl_bod#:#ha sido asignado a la lista de espera del grupo "%s".\nHa sido asignado en la posición %s de la lista.\n\n Usted recibirá un mensaje del administrador del grupo cuando su solicitud sea aprobada o rechazada.
+grp#:#grp_mail_wl_sub#:#Su alta en el grupo "%s"
 grp#:#grp_map_location#:#Mapa de Localización de Grupo
 grp#:#grp_map_settings#:#Configuración del mapa
 grp#:#grp_members_map#:#Mapa de miembros del grupo
@@ -8050,7 +8050,7 @@ grp#:#grp_members#:#Miembros
 grp#:#grp_members_print_title#:#Miembros del grupo
 grp#:#grp_min_one_admin#:#Tiene que haber al menos un administrador asignado al grupo.
 grp#:#grp_missing_grp_type#:#Por favor, elija un tipo de grupo.
-grp#:#grp_missing_password#:#Por favor, introduzca una contraseña de grupo.
+grp#:#grp_missing_password#:#Por favor, introduzca una clave de acceso al grupo.
 grp#:#grp_missing_title#:#Por favor, introduzca un título de grupo.
 grp#:#grp_new_status#:#Su nuevo estado es:
 grp#:#grp_notification_activated#:#Notificación activada
@@ -8062,12 +8062,12 @@ grp#:#grp_notify_off#:#Notificación de nuevos registros desactivada.
 grp#:#grp_notify_on#:#Notificación de nuevos registros activada.
 grp#:#grp_open#:#Grupo abierto
 grp#:#grp_open_info#:#Los usuarios que no sean miembros pueden ver este grupo y a&ntilde;adirse a él directamente..
-grp#:#grp_pass_request#:#Unirse mediante contraseña de grupo
+grp#:#grp_pass_request#:#Unirse mediante clave de acceso al grupo
 grp#:#grp_presentation_type#:#Tipo de presentación
 grp#:#grp_print_list#:#Generar lista
 grp#:#grp_public#:#Grupo público
 grp#:#grp_public_info#:#Este grupo es visible para usuarios que no son miembros pero tienen interés en unirse.
-grp#:#grp_reg_code_enabled_info#:#Si esta activo, el usuario puede matricularse automáticamente accediendo a un enlace URL específico
+grp#:#grp_reg_code_enabled_info#:#Si esta activo, el usuario puede darse de alta automáticamente accediendo a un enlace URL específico
 grp#:#grp_reg_code_link#:#URL de Registro
 grp#:#grp_reg_code#:#URL de registro automático
 grp#:#grp_reg_code_value#:#Código
@@ -8078,33 +8078,33 @@ grp#:#grp_reg_direct#:#Registro directo
 grp#:#grp_reg_disabled_info#:#Sólo los administradores del grupo pueden a&ntilde;adir usuarios al grupo.
 grp#:#grp_reg_disabled#:#No es posible registrarse
 grp#:#grp_reg_end#:#Fin de registro:
-grp#:#grp_registration_unlimited#:#Período de registro ilimitado
-grp#:#grp_reg_limited#:#Periodo de registro
-grp#:#grp_reg_limit_num_info#:#Periodo de registro limitado
+grp#:#grp_registration_unlimited#:#Período de altas ilimitado
+grp#:#grp_reg_limited#:#Periodo de solicitud de altas
+grp#:#grp_reg_limit_num_info#:#Periodo de alta limitado
 grp#:#grp_reg_limit_num#:#Máximo de usuarios.
-grp#:#grp_reg_limit_time#:#Periodo de registro
+grp#:#grp_reg_limit_time#:#Periodo de alta
 grp#:#grp_reg_max_members_info#:#Defina el máximo de usuarios que puedan ser a&ntilde;adidos al grupo.
-grp#:#grp_reg_passwd_info_screen#:#Si el administrador del grupo te da la contrase&ntilde;a, puedes unirte a él.
-grp#:#grp_reg_password_info#:#Los usuarios necesitan escribir la contrase&ntilde;a correctamente para unirse al grupo.
-grp#:#grp_reg_period#:#Periodo de registro.
-grp#:#grp_reg_req_info_screen#:#Puede realizar una petición para unirse a este grupo. Recibirá un mensaje del administrador del grupo cuando su petición sea aceptada o rechazada.
-grp#:#grp_reg_request_info#:#Los usuarios interesados enviarán una solicitud de autorización al administrador del grupo.
-grp#:#grp_reg_request#:#Solicitud de nuevo miembro
-grp#:#grp_reg_start#:#Inicio de registro:
+grp#:#grp_reg_passwd_info_screen#:#Utiliza la clave de acceso que te haya proporcionado algún administrador del grupo.
+grp#:#grp_reg_password_info#:#Los usuarios necesitan escribir clave de acceso correctamente para darse de alta en el grupo.
+grp#:#grp_reg_period#:#Periodo de alta.
+grp#:#grp_reg_req_info_screen#:#Puede realizar una solicitud de alta a este grupo. Recibirá un mensaje del administrador del grupo cuando su solicitud sea aceptada o rechazada.
+grp#:#grp_reg_request_info#:#Los usuarios interesados enviarán una solicitud de alta al administrador del grupo.
+grp#:#grp_reg_request#:#Solicitud de alta
+grp#:#grp_reg_start#:#Inicio de periodo de altas:
 grp#:#grp_reg_subject#:#Mensaje
 grp#:#grp_role_status#:#Rol/Estado
 grp#:#grp_search_users#:#Búsqueda de Usuarios.
 grp#:#grp_selected_users#:#Participantes seleccionados
 grp#:#grp_select_one_file#:#Por favor seleccione un Archivo.
-grp#:#grp_set_on_waiting_list#:#Puede añadir su petición a la lista de espera. Se le enviará un mensaje del administrador del grupo cuando su petición sea aceptada o rechazada.
+grp#:#grp_set_on_waiting_list#:#Puede añadir su solicitud a la lista de espera. Se le enviará un mensaje del administrador del grupo cuando su solicitud sea aceptada o rechazada.
 grp#:#grp_setting_header_presentation#:#Presentación del grupo
-grp#:#grp_setting_header_registration#:#Registro del grupo
+grp#:#grp_setting_header_registration#:#Alta en el grupo
 grp#:#grp_settings#:#Opciones de grupo
-grp#:#grp_subscriber#:#Subscriptor
+grp#:#grp_subscriber#:#Solicitud de alta
 grp#:#grp_type_changed_info#:#Cambiar el tipo de grupo inicializará los permisos
 grp#:#grp_typ#:#Tipo de grupo
 grp#:#grp_unsubscribe#:#Darse de baja
-grp#:#grp_update_subscr_request#:#Actualizar peticiones de miembros.
+grp#:#grp_update_subscr_request#:#Actualizar solicitudes de alta de miembros.
 grp#:#grp_user_agreement_info#:#Datos Personales visibles para Grupo de Administradores
 grp#:#grp_user_agreement#:#Liberación del tipo de dato
 grp#:#grp_users_added#:#Añadido usuario al grupo.
@@ -9907,7 +9907,7 @@ pd#:#pd_enable_comments#:#Activar Comentarios
 pd#:#pd_enable_global_profiles#:#Habilitar Perfiles Globales
 pd#:#pd_enable_global_profiles_info#:#Si está activada, los usuarios pueden hacer su perfil visible a Internet.
 pd#:#pd_enable_my_memberships#:#Activar "Matriculados"
-pd#:#pd_enable_my_memberships_info#:#Matriculados' contiene los grupos y corsos en los que el usuario está matriculado
+pd#:#pd_enable_my_memberships_info#:#'Matriculados' contiene los grupos y cursos en los que el usuario está matriculado
 pd#:#pd_enable_my_offers#:#Habilitar 'Elementos seleccionados'
 pd#:#pd_enable_my_offers_info#:#La vista 'Objetos Seleccionados" contiene todos los objetos colocados en el escritorio personal
 pd#:#pd_enable_notes#:#Habilitar anotaciones
@@ -9923,7 +9923,7 @@ pd#:#pd_export_profile#:#Exportar datos personales
 pd#:#pd_import_personal_data#:#Importar datos personales
 pd#:#pd_my_memberships_intro2#:#Este es tu espacio personal en todos los cursos y grupos en los que participas.
 pd#:#pd_my_memberships_intro#:#Bienvenido a sus subscripciones
-pd#:#pd_my_memberships#:#Matriculados
+pd#:#pd_my_memberships#:#Subscripciones
 pd#:#pd_my_offers#:#Objetos seleccionados
 pd#:#pd_notes#:#Anotaciones en Escritorio Personal
 pd#:#pd_osi_host#:#Host OSI
@@ -10255,7 +10255,7 @@ rbac#:#crs_delete#:#Eliminar curso
 rbac#:#crs_edit_event#:#Editar eventos de calendario
 rbac#:#crs_edit_learning_progress#:#Editar seguimiento
 rbac#:#crs_edit_permission#:#Modificar configuración de permisos
-rbac#:#crs_join#:#Subscribir al curso
+rbac#:#crs_join#:#Alta en curso
 rbac#:#crs_leave#:#Darse de baja en el curso
 rbac#:#crsr_copy#:#Copiar enlace de curso
 rbac#:#crsr_delete#:#Borrar enlace a curso
@@ -13002,3 +13002,10 @@ survey#:#survey_notification_tutor_link#:#Enlace a la encuesta
 dcl#:#fieldtitle_allow_chars#:#Caracteres permitidos
 crs#:#crs_passed_status_system#:#Sistema
 crs#:#crs_passed_status_manual_by#:#De forma manual
+poll#:#poll_voting_period_info#:#Fecha de finalización para votación: %s
+book#:#book_reservation_failed_overbooked#:#La reserva no se realizó porque el elemento ya no está disponible.
+exc#:#exc_no_team_yet#:#No hay equipo todavía
+ecs#:#ecs_cmap_delete_rule#:#Borrar asignación
+exc#:#exc_team_member_remove_sure#:#¿Estás seguro de que deseas borrar los siguientes miembros de tu equipo? Ten en cuenta que también se eliminarán de tu equipo todos los ficheros que ellos hayan subido.
+exc#:#exc_create_team#:#Crear equipo
+exc#:#exc_create_team_times_up_warning#:#No puedes crear un equipo. Contacta con el responsable de la entrega de trabajos.
