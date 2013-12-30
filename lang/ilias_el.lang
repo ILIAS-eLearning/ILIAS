@@ -1066,7 +1066,6 @@ cmps#:#cmps_lang_prefix#:#Language Variables Prefix
 cmps#:#cmps_main_dir#:#Main Directory
 cmps#:#cmps_missing#:#Missing
 cmps#:#cmps_module#:#Module
-cmps#:#cmps_modules#:#Modules
 cmps#:#cmps_name#:#Name
 cmps#:#cmps_needs_newer_ilias_version#:#This plugin version only runs on newer ILIAS versions. Please upgrade ILIAS.
 cmps#:#cmps_needs_newer_plugin_version#:#This ILIAS version needs a newer plugin version. Please upgrade the plugin.
@@ -1414,7 +1413,6 @@ common#:#cat_added#:#Η κατηγορία προστέθηκε
 rbac#:#cat_cat_administrate_users#:#Διαχείριση λογαριασμών τοπικών χρηστών
 common#:#cat_clear_page#:#Καθαρισμός σελίδας
 rbac#:#cat_copy#:#Αντιγραφή Κατηγορίας
-rbac#:#cat_copy_threads_info#:#Please decide which category items should be copied, linked or even omitted.
 rbac#:#cat_delete#:#Διαγραφή κατηγορίας
 common#:#cat_edit#:#Επεξεργασία κατηγορίας
 rbac#:#cat_edit_permission#:#Ρυθμίσεις αλλαγής αδειών
@@ -1577,7 +1575,6 @@ common#:#crs_at_least_one_admin#:#Πρέπει να υπάρχει τουλάχ�
 common#:#crs_available#:#Διαθέσιμα μαθήματα
 common#:#crs_container_link_not_allowed#:#Δεν είναι δυνατόν να συνδεθούν αντικείμενα υποδοχείς
 rbac#:#crs_copy#:#Copy Course
-rbac#:#crs_copy_threads_info#:#Please decide which course materials should be copied, linked or even omitted.
 rbac#:#rbac_create_fold#:#Δημιουργία φακέλου
 rbac#:#crs_delete#:#Διαγραφή μαθήματος
 common#:#crs_edit#:#Επεξεργασία μαθήματος
@@ -1823,23 +1820,6 @@ common#:#export_xml#:#Εξαγωγή ως αρχείο XML
 common#:#exp_html#:#Εξαγωγή σε HTML
 common#:#extt_configure#:#ρύθμιση...
 rbac#:#extt_edit_permission#:#Αλλαγή ρυθμίσεων άδειας
-common#:#extt_ilinc#:#netucate LearnLinc
-common#:#extt_ilinc_additional_options#:#Επιπλέον επιλογές
-common#:#extt_ilinc_akclassvalues_active#:#Ενεργοποίηση κέντρων κόστους
-common#:#extt_ilinc_akclassvalues_active_info#:#Με ενεργή αυτή την επιλογή μπορείτε να χρησιμοποιήσετε κέντρα κόστους iLinc για Σεμινάρια Learnlinc και τάξεις
-common#:#extt_ilinc_akclassvalues_required#:#Απαιτείται κέντρο κόστους
-common#:#extt_ilinc_akclassvalues_required_info#:#Απαιτείται καθορισμός τουλάχιστο ενός κέντρου κόστους για ένα σεμινάριο LearnLinc
-common#:#extt_ilinc_configure#:#Ρύθμιση του netucate LearnLinc
-common#:#extt_ilinc_connection_data#:#Δεδομένα σύνδεσης
-common#:#extt_ilinc_customer_id#:#Αναγνωριστικό πελάτη
-common#:#extt_ilinc_desc#:#Παρέχει εικονικές τάξεις διδασκαλίας. Εμπορική υπηρεσία. Για έναν λογαριασμό και επιπλέον πληροφορίες παρακαλώ επικοινωνήστε με το netucate στο www.netucate.com
-common#:#extt_ilinc_enable#:#Ενεργοποίηση υποστήριξης LearnLinc
-common#:#extt_ilinc_protocol_port#:#Πρωτόκολλο & θύρα
-common#:#extt_ilinc_registrar_login#:#Αναγνωριστικό ονόματος λογαριασμού
-common#:#extt_ilinc_registrar_passwd#:#Κωδικός
-common#:#extt_ilinc_server#:#Διακομιστής
-common#:#extt_ilinc_settings_saved#:#Οι ρυθμίσεις LearnLinc αποθηκεύτηκαν
-common#:#extt_ilinc_timeout#:#Μέγιστος χρόνος αναμονής για ανταπόκριση του διακομιστή
 common#:#extt_name#:#Λογισμικό/Υπηρεσία
 rbac#:#extt_read#:#Πρόσβαση σε ρυθμίσεις λογισμικού τρίτων κατασκευαστών
 common#:#extt_remark#:#Όλο το λογισμικό και οι υπηρεσίες που βρίσκονται παραπάνω δεν είναι μέρος του ILIAS και δεν περιλαμβάνονται στην άδεια χρήσης του προγράμματος ανοιχτού κώδικα ILIAS.
@@ -2177,31 +2157,11 @@ common#:#https_not_possible#:#Αυτός ο διακομιστής δεν υπο
 common#:#http_not_possible#:#Αυτός ο διακομιστής δεν υποστηρίζει αιτήσεις http.
 common#:#http_path#:#Διαδρομή Http
 common#:#i2passwd#:#Συνθηματικό ILIAS 2
-common#:#icla#:#Τάξη διδασκαλίας LearnLinc
-common#:#icla_add#:#Προσθήκη τάξης διδασκαλίας LearnLinc
-common#:#icla_deleted#:#Η/Οι Τάξη/εις διδασκαλίας LearnLinc διαγράφηκε
-common#:#icla_edit#:#Επεξεργασία τάξης διδασκαλίας LearnLinc
-common#:#icla_new#:#Νέα τάξη διδασκαλίας LearnLinc
 common#:#icons_in_header#:#Σειρά επικεφαλίδας
 common#:#icons_in_item_rows#:#Σειρές αντικειμένων
 common#:#icons_in_typed_lists#:#Θέση εικονιδίου στις λίστες αντικειμένων
 common#:#icons_in_typed_lists_info#:#Καθορίζει τη θέση εμφάνισης των εικονιδίων στις λίστες αντικειμένων ταξινομημένες ανά τύπο στον αποθηκευτικό χώρο και στην επιφάνεια εργασίας.
 common#:#icon_settings#:#Ρυθμίσεις εικονιδίου
-common#:#icrs#:#Σεμινάριο LearnLinc
-common#:#icrs_add#:#Προσθήκη σεμιναρίου LearnLinc
-common#:#icrs_added#:#Το σεμινάριο LearnLinc προστέθηκε
-common#:#icrs_copy#:#Copy LearnLinc Seminar
-common#:#icrs_create_icla#:#Δημιουργία τάξεων διδασκαλίας LearnLinc
-common#:#icrs_delete#:#Διαγραφή σεμιναρίου LearnLinc
-common#:#icrs_edit#:#Επεξεργασία σεμιναρίου LearnLinc
-common#:#icrs_edit_permission#:#Επεξεργασία ρυθμίσεων άδειας
-common#:#icrs_join#:#Ο χρήστης μπορεί να συμμετάσχει στο σεμινάριο LearnLinc
-common#:#icrs_leave#:#Ο χρήστης μπορεί να αποχωρήσει από το σεμινάριο LearnLinc
-common#:#icrs_members_gallery#:#Γκαλερί μελών σεμιναρίου
-common#:#icrs_new#:#Νέο σεμινάριο LearnLinc
-common#:#icrs_read#:#Πρόσβαση ανάγνωσης στο σεμινάριο LearnLinc
-common#:#icrs_visible#:#Το σεμινάριο LearnLinc είναι ορατό
-common#:#icrs_write#:#Επεξεργασία σεμιναρίου LearnLinc
 common#:#id#:#Αναγνωριστικό
 common#:#identifier#:#Αναγνωριστικό
 common#:#if_no_title_then_filename#:#Αφήστε κενό για εμφάνιση του ονόματος του αρχείου
@@ -2210,48 +2170,6 @@ common#:#ignore_on_conflict#:#Αγνόηση διαμάχης
 common#:#ilias_and_webfolder_username#:#ILIAS and Webfolder User Name
 common#:#ilias_username#:#ILIAS User Name
 common#:#ilias_version#:#έκδοση ILIAS
-common#:#ilinc_add_user#:#Προσθήκη χρήστη/ών
-common#:#ilinc_akclassvalue#:#Κέντρο κόστους
-common#:#ilinc_akclassvalues#:#Κέντρα κόστους
-common#:#ilinc_classrooms#:#Τάξεις διδασκαλίας Learnlinc
-common#:#ilinc_classroom_always_open#:#Η τάξη είναι πάντα ανοικτή
-common#:#ilinc_classroom_closed#:#Η τάξη έκλεισε
-common#:#ilinc_classroom_open#:#Η τάξη είναι ανοικτή
-common#:#ilinc_coursemember_status#:#Παρακολουθεί ως
-common#:#ilinc_courses#:#Σεμινάρια Learnlinc
-common#:#ilinc_dismiss_member#:#Είστε σίγουροι οτι θέλετε να αποβάλλετε τον παρακάτω χρήστη/ες από το σεμινάριο Learnlinc;
-common#:#ilinc_dismiss_myself#:#Είστε σίγουροι οτι θέλετε να αποβάλλετε τον εαυτό σας από το Σεμινάριο Learnlinc;
-common#:#ilinc_docent#:#Δάσκαλος
-common#:#ilinc_err_administrator_required#:#Το μέλος δεν μπορούσε να διαγραφεί, απαιτείται τουλάχιστον ένας διαχειριστής ανά σεμινάριο Learnlinc!
-common#:#ilinc_err_at_least_one_groupadministrator_is_needed#:#Κάθε σεμινάριο Learnlinc χρειάζεται τουλάχιστον έναν διαχειριστή
-common#:#ilinc_err_last_member#:#Το τελευταίο μέλος δεν μπορούσε να διαγραφεί, αντί αυτού παρακαλώ διαγράψτε το σεμινάριο Learnlinc.
-common#:#ilinc_err_member_could_not_be_removed#:#Το μέλος δεν μπορούσε να διαγραφεί. Παρακαλώ επιβεβαιώστε όλες τις εξαρτήσεις του χρήστη αυτού.
-common#:#ilinc_err_no_permission#:#Δεν διαθέτετε άδειες για αυτή τη λειτουργία.
-common#:#ilinc_err_registration_data#:#Παρακαλώ πληκτρολογήστε κωδικό, ημερομηνία και ώρα λήξης για έγκυρη περίοδο εγγραφής!
-common#:#ilinc_header_edit_users#:#Επεξεργασία καταλόγου εμπλεκόμενων χρηστών
-common#:#ilinc_id#:#Ταυτότητα iLinc
-common#:#ilinc_involved_users#:#Εμπλεκόμενοι χρήστες
-common#:#ilinc_login#:#iLinc Login
-common#:#ilinc_mail_body_new_subscription#:#Έχετε εγγραφεί σε αυτό το σεμινάριο Learnlinc.
-common#:#ilinc_mail_body_subscription_cancelled#:#Η ιδιότητα μέλους σας έχει ακυρωθεί.
-common#:#ilinc_mail_subj_new_subscription#:#Νέα εγγραφή
-common#:#ilinc_mail_subj_subscription_cancelled#:#Η εγγραφή ακυρώθηκε
-common#:#ilinc_manage_course_documents#:#Υλικά
-common#:#ilinc_mem_change_status#:#Αλλαγή κατάστασης χρήστη
-common#:#ilinc_mem_leave#:#Αποβολή χρήστη από το σεμινάριο Learnlinc
-common#:#ilinc_mem_send_mail#:#Αποστολή μηνύματος στο χρήστη
-common#:#ilinc_msg_joined#:#Ενταχθήκατε στο σεμινάριο Learnlinc
-common#:#ilinc_msg_membership_annulled#:#Η συνδρομή ακυρώθηκε
-common#:#ilinc_msg_member_assigned#:#Ο χρήστης/ες ανατέθηκε/αν
-common#:#ilinc_notset#:#Δεν ορίστηκε
-common#:#ilinc_no_akclassvalues#:#κανένα
-common#:#ilinc_no_docent_assigned#:#Δεν ανατέθηκε
-common#:#ilinc_passwd#:#iLinc Password
-common#:#ilinc_remark#:#Παρατήρηση
-common#:#ilinc_server_not_active#:#Ο διακομιστής iLinc δεν ενεργοποιήθηκε
-common#:#ilinc_student#:#Συμμετέχων
-common#:#ilinc_upload_pic_linktext#:#Ανέβασμα
-common#:#ilinc_upload_pic_text#:#Για την απεικόνιση της εικόνας σας στα σεμινάρια LearnLinc παρακαλώ χρησιμοποιήστε αυτό τον σύνδεσμο:
 common#:#il_chat_moderator#:#Μεσολαβητής συνομιλίας
 common#:#il_crs_admin#:#Διαχειριστής μαθήματος
 common#:#il_crs_member#:#Μέλος μαθήματος
@@ -2262,8 +2180,6 @@ common#:#il_grp_admin#:#Διαχειριστής ομάδας
 common#:#il_grp_member#:#Μέλος ομάδας
 common#:#il_grp_status_closed#:#Group closed
 common#:#il_grp_status_open#:#Group open
-common#:#il_icrs_admin#:#Διαχειριστής σεμιναρίου LearnLinc
-common#:#il_icrs_member#:#Μέλος σεμιναρίου LearnLinc
 common#:#image#:#Εικόνα
 common#:#image_gen_unsucc#:#Η παραγωγή της εικόνας δεν ήταν επιτυχής. Επικοινωνήστε με τον διαχειριστή του συστήματος και επαληθεύστε τη διαδρομή μετατροπής.
 common#:#import#:#Εισαγωγή
@@ -2856,8 +2772,6 @@ common#:#objs_frm#:#Φόρουμ
 common#:#objs_glo#:#Γλωσσάρια
 common#:#objs_grp#:#Ομάδες
 common#:#objs_htlm#:#Εκπαιδευτικές μονάδες HTML
-common#:#objs_icla#:#Τάξεις διδασκαλίας LearnLinc
-common#:#objs_icrs#:#Σεμινάρια LearnLinc
 common#:#objs_lm#:#Εκπαιδευτικές μονάδες ILIAS
 common#:#objs_lng#:#Γλώσσες
 common#:#objs_lo#:#Εκπαιδευτικά Αντικείμενα
@@ -2933,8 +2847,6 @@ common#:#obj_grp#:#Ομάδα
 common#:#obj_grp_duplicate#:#Copy Group
 common#:#obj_grp_select#:#-- Please select one Group --
 common#:#obj_htlm#:#Εκπαιδευτική Μονάδα HTML
-common#:#obj_icla#:#Τάξη διδασκαλίας LearnLinc
-common#:#obj_icrs#:#Σεμινάριο LearnLinc
 common#:#obj_ldap#:#Ρυθμίσεις LDAP
 common#:#obj_ldap_desc#:#Ρύθμιση καθολικών ρυθμίσεων LDAP εδώ.
 common#:#obj_lm#:#Εκπαιδευτική Μονάδα ILIAS
@@ -5633,20 +5545,6 @@ grp#:#grp_warn_grp_type_changed#:#Do you really want to change the group type? A
 grp#:#grp_wrong_max_members#:#Please check the maximum number of users.
 grp#:#reg_grp_max_members#:#Maximum Of Users
 grp#:#reg_grp_max_members_short#:#Number of Members
-ilinc#:#akclassvalue1#:#Κέντρο κόστους 1
-ilinc#:#akclassvalue2#:#Κέντρο κόστους 2
-ilinc#:#akclassvalues#:#Κέντρα κόστους
-ilinc#:#ilinc_akuservalue1#:#Κέντρο κόστους 1
-ilinc#:#ilinc_akuservalue2#:#Κέντρο κόστους 2
-ilinc#:#ilinc_akuservalues#:#Κέντρα κόστους
-ilinc#:#ilinc_akuservalues_desc#:#Εισάγετε εδώ τον κώδικα των κέντρων κόστους για το χρήστη. Αυτές οι τιμές θ' αποθηκευθούν στο διακομιστή iLinc.
-ilinc#:#ilinc_akuservalues_refreshed#:#Ενημερώθηκαν τα κέντρα κόστους
-ilinc#:#ilinc_connection_error#:#Λάθος: Δεν υπάρχει σύνδεση με το διακομιστή iLinc!
-ilinc#:#ilinc_member_administration#:#Edit Participants
-ilinc#:#ilinc_no_account_yet#:#Δεν υπάρχει λογαριασμός iLinc
-ilinc#:#ilinc_user_added#:#Δημιουργήθηκε ο λογαριασμός χρήστη στο διακομιστή iLinc
-ilinc#:#ilinc_user_id#:#iLinc UserID
-ilinc#:#ilinc_user_settings#:#Ρυθμίσεις χρήστη iLinc
 jscalendar#:#about_calendar#:#Σχετικά με το ημερολόγιο
 jscalendar#:#about_calendar_long#:#Ημερομηνία DHTML/Επιλογέας χρόνου\n(c) dynarch.com 2002-2003\nΓια την τελευταία έκδοση επισκεφτείτε: http://dynarch.com/mishoo/calendar.epl\nΔιανεμήθηκε σύμφωνα με την GNU LGPL. Δείτε http://gnu.org/licenses/lgpl.html για λεπτομέρειες.\n\nΕπιλογή Ημερομηνίας:\n- Χρησιμοποιείστε τα κουμπιά «, » για να επιλέξετε έτος\n- Χρησιμοποιείστε τα κουμπιά <, > για να επιλέξετε μήνα\n- Για ταχύτερη επιλογή κρατήστε πατημένο το κουμπί του ποντικιού μαζί με οποιοδήποτε από τα παραπάνω κουμπιά.
 jscalendar#:#about_time#:#\n\nΕπιλογή χρόνου:\n- Πατήστε σε οποιοδήποτε από τα μέρη της ώρα για να την αυξήσετε\n- ή Shift-κλικ για να τη μειώσετε\n- ή σύρτε-ρίξτε για πιο γρήγορη επιλογή.
@@ -9467,14 +9365,12 @@ grp#:#grp_join_request#:#Send###16 09 2009 new variable
 crs#:#crs_join_request#:#Send###16 09 2009 new variable
 rbac#:#rbac_create_chat#:#Create Chat###16 09 2009 new variable
 rbac#:#rbac_create_crs#:#Create Course###16 09 2009 new variable
-rbac#:#rbac_create_dbk#:#Create Digilib Book###16 09 2009 new variable
 rbac#:#rbac_create_exc#:#Create Exercise###16 09 2009 new variable
 rbac#:#rbac_create_file#:#Upload File###16 09 2009 new variable
 rbac#:#rbac_create_frm#:#Create Forum###16 09 2009 new variable
 rbac#:#rbac_create_glo#:#Create Glossary###16 09 2009 new variable
 rbac#:#rbac_create_grp#:#Create Group###16 09 2009 new variable
 rbac#:#rbac_create_htlm#:#Create HTML Learning Module###16 09 2009 new variable
-rbac#:#rbac_create_icrs#:#Create LearnLinc Seminar###16 09 2009 new variable
 rbac#:#rbac_create_lm#:#Create ILIAS Learning Module###16 09 2009 new variable
 rbac#:#rbac_create_mep#:#Create Media Pool###16 09 2009 new variable
 rbac#:#rbac_create_qpl#:#Create Question Pool Test###16 09 2009 new variable
@@ -10440,7 +10336,6 @@ rbac#:#frma_read#:#Read access to Forum Administration###20 10 2010 new variable
 rbac#:#frma_write#:#Write access to Forum Administration###20 10 2010 new variable
 rbac#:#frma_edit_permission#:#Change permission settings###20 10 2010 new variable
 common#:#nr_following_sessions#:#%1d following session(s)...###20 10 2010 new variable
-rbac#:#usrf_create_usr#:#Create User###20 10 2010 new variable
 trac#:#trac_all#:#All###20 10 2010 new variable
 trac#:#trac_view_mode#:#View Mode###20 10 2010 new variable
 trac#:#trac_view_mode_all#:#All Objects###20 10 2010 new variable
@@ -11827,8 +11722,6 @@ blog#:#blog_new_posting_info#:#The first text block is used as abstract in the p
 survey#:#svy_page_add_question#:#Add new %s###10 11 2011 new variable
 skmg#:#skmg_from_lower_to_higher_levels#:#Please order the levels from lower ones on top to higher ones at the bottom.###10 11 2011 new variable
 common#:#spl_import#:#Import Question Pool Survey###10 11 2011 new variable
-skmg#:#skmg_draft#:#Draft (Offline)###10 11 2011 new variable
-skmg#:#skmg_draft_info#:#Item will be hidden for learners.###10 11 2011 new variable
 skmg#:#skmg_select_skill#:#Click on a competence to add it to your personal competences.###10 11 2011 new variable
 survey#:#svy_create_question#:#Create Question###10 11 2011 new variable
 common#:#contact_sysadmin#:#Contact System Administration###10 11 2011 new variable
@@ -12760,7 +12653,6 @@ content#:#cont_rte_settings#:#RTE Settings###27 10 2012 new variable
 content#:#cont_debugging#:#Debugging###27 10 2012 new variable
 content#:#cont_auto_last_visited_info#:#Opens the last visited SCO/Asset when the learner reenters the learning module.###27 10 2012 new variable
 content#:#cont_credit_mode_info#:#This setting is only affective if the lesson mode is 'normal'.###27 10 2012 new variable
-content#:#cont_sc_auto_review_info#:#Set the lesson mode to 'review' when the the learner completes a SCO.###27 10 2012 new variable
 content#:#cont_sc_usession_info#:#This setting activates periodical requests to the server to keep the session alive.###27 10 2012 new variable
 content#:#cont_sequencing_info#:#Enable the sequencing and navigation behaviour as defined by the learning module.###27 10 2012 new variable
 content#:#cont_time_from_lms_info#:#Strict (according to the SCORM standard) check of values sent by the learning module to ILIAS.###27 10 2012 new variable
@@ -12793,7 +12685,6 @@ trac#:#trac_lp_learner_access_info#:#If active, users can access their own learn
 content#:#help_assign_help_ids#:#Chapter/Screen-IDs Assignment###27 10 2012 new variable
 search#:#search_option_online#:#Online###27 10 2012 new variable
 search#:#search_option_offline#:#Offline###27 10 2012 new variable
-common#:#ilinc_abandoned_info#:#The integrated netucate LearnLinc interface will be abandoned with ILIAS 4.3. Please install the new iLinc plugin to use the virtual classroom of LearnLinc in ILIAS. For more information please visit the <a href="http://http://www.netucate.com/">netucate homepage</a>.###27 10 2012 new variable
 forum#:#sort_by_date#:#Sort by date###27 10 2012 new variable
 forum#:#error_reading_file#:#There was an error reading the file###27 10 2012 new variable
 assessment#:#edit_page#:#Edit Page###28 11 2012 new variable
@@ -13195,11 +13086,6 @@ rbac#:#bibl_copy#:#User can copy bibliography###24 10 2013 new variable
 rbac#:#bibl_write#:#User can edit bibliography settings###24 10 2013 new variable
 rbac#:#bibl_delete#:#User can move or delete bibliography###24 10 2013 new variable
 rbac#:#bibl_edit_permission#:#User can change permission settings###24 10 2013 new variable
-rbac#:#cat_create_bibl#:#Create Bibliography###24 10 2013 new variable
-rbac#:#crs_create_bibl#:#Create Bibliography###24 10 2013 new variable
-rbac#:#fold_create_bibl#:#Create Bibliography###24 10 2013 new variable
-rbac#:#grp_create_bibl#:#Create Bibliography###24 10 2013 new variable
-rbac#:#root_create_bibl#:#Create Bibliography###24 10 2013 new variable
 ldap#:#ldap_edit_role_assignment#:#Edit Role -> Group Assignment###24 10 2013 new variable
 trac#:#trac_mode_collection_tlt#:#Typical Learning Time (per Chapter)###24 10 2013 new variable
 trac#:#trac_mode_collection_tlt_info#:#Users who reached the Typical Learning Time of all relevant chapters will gain the status 'Completed'.###24 10 2013 new variable
@@ -13522,11 +13408,6 @@ rbac#:#cld_read#:#User can open a Cloud Object###24 10 2013 new variable
 rbac#:#cld_write#:#User can edit cloud object settings###24 10 2013 new variable
 rbac#:#cld_delete#:#User can delete cloud object###24 10 2013 new variable
 rbac#:#cld_permission#:#User can change permission settings###24 10 2013 new variable
-rbac#:#cat_create_cld#:#Create Cloud Object###24 10 2013 new variable
-rbac#:#crs_create_cld#:#Create Cloud Object###24 10 2013 new variable
-rbac#:#fold_create_cld#:#Create Cloud Object###24 10 2013 new variable
-rbac#:#grp_create_cld#:#Create Cloud Object###24 10 2013 new variable
-rbac#:#root_create_cld#:#Create Cloud Object###24 10 2013 new variable
 rbac#:#cld_upload#:#User can upload files to the cloud object Dateien in das Cloud Objekt laden###24 10 2013 new variable
 rbac#:#cld_download#:#User can download files from the cloud object###24 10 2013 new variable
 rbac#:#cld_edit_permission#:#User can change permission settings###24 10 2013 new variable
@@ -14126,3 +14007,146 @@ orgu#:#simple_xls#:#Simple Excel Export###06 11 2013 new variable
 assessment#:#un_add_category#:#Add Category###06 11 2013 new variable
 assessment#:#un_add_unit#:#Add Unit###06 11 2013 new variable
 assessment#:#fq_question_desc#:#You can define variables by inserting $v1, $v2 ... $vn, results by inserting $r1, $r2 .... $rn at the desired position in the question text. Click on the button "Parse Question" to create editing forms for variables and results.###06 11 2013 new variable
+assessment#:#tst_inp_no_available_tax_hint#:#No Available Taxonomies for Selected Question Pool###30 12 2013 new variable
+assessment#:#tst_msg_source_pool_definitions_deleted#:#The source question pool definition has been deleted successfully.###30 12 2013 new variable
+common#:#cat_copy_threads_info#:#Please decide which category items should be copied, linked or even omitted.###30 12 2013 new variable
+common#:#cron_forum_notification_crob_desc#:#If enabled, all users who have enabled forum notifications will get a daily mail about all new posts but no immediate notification for each submitted posting.###30 12 2013 new variable
+common#:#crs_copy_threads_info#:#Please decide which course materials should be copied, linked or even omitted.###30 12 2013 new variable
+rbac#:#rbac_create_usr#:#User is allowed to create user accounts###30 12 2013 new variable
+content#:#cont_sc_auto_review_info_12#:#Set the lesson mode to 'review' when a learner has completed or passed a SCO.###30 12 2013 new variable
+orgu#:#backto_staff#:#Back to staff###30 12 2013 new variable
+ecs#:#ecs_cmap_delete_rule#:#Delete Mapping###30 12 2013 new variable
+wsp#:#wsp_list_excv#:#Exercise Certificate###30 12 2013 new variable
+wsp#:#wsp_list_tstv#:#Test Certificate###30 12 2013 new variable
+assessment#:#fq_formula_desc#:#You may enter predefined variables ($v1 to $vn), defined results (e.g. $r1), braces for expressions, mathematical operators  + (addition), - (subtraction), * (multiplication), / (division), ^ (nth power), the constants 'pi' for pi and 'e‘ for euler's constant, as well as the functions 'sin', 'sinh', 'arcsin', 'asin', 'arcsinh', 'asinh', 'cos', 'cosh', 'arccos', 'acos', 'arccosh', 'acosh', 'tan', 'tanh', 'arctan', 'atan', 'arctanh', 'atanh', 'sqrt', 'abs', 'ln' and 'log'.###30 12 2013 new variable
+exc#:#exc_multi_feedb_info#:#On this screen you can upload multiple feedbacks in one file. First click on "Download ZIP Structure", save the ZIP file and extract it on your local computer. Put the feedback files into the corresponding user directories. Now compress the whole directory as one ZIP file agin. Browse your local filesystem for the file and select it as the "Multi-Feedback File" in the form below. After that click "Upload". A confirmation screen will list the files. Please avoid using any special characters in your filenames.###30 12 2013 new variable
+rep#:#rep_add_new_def_grp_templates#:#Templates###30 12 2013 new variable
+cmps#:#cmps_repository_object_types#:#Repository Object Types###30 12 2013 new variable
+rep#:#rep_new_item_menu#:#"Add New Item"-Menu###30 12 2013 new variable
+exc#:#exc_team_member_remove_sure#:#Are you sure you want to remove the following members of your team? Please be aware that all files they have uploaded will also be removed from your team.###30 12 2013 new variable
+exc#:#exc_create_team#:#Create Team###30 12 2013 new variable
+exc#:#exc_create_team_times_up_warning#:#You cannot create a team anymore - please contact your tutor.###30 12 2013 new variable
+exc#:#exc_instruction_files#:#Instruction Files###30 12 2013 new variable
+registration#:#reg_mail_new_user_confirmation#:#Request for account confirmation###30 12 2013 new variable
+user#:#inform_user_mail_info#:#If activated, an email will be sent to the user. Its content can be defined in Administration > User Management > Settings > New Account Mail.###30 12 2013 new variable
+registration#:#reg_mail_body_timelimit#:#Your account has a limited period of validity: %s.###30 12 2013 new variable
+mail#:#mail_nacc_if_timelimit#:#This text is only included, if the user has a limited access period.###30 12 2013 new variable
+mail#:#mail_nacc_timelimit#:#User access period ###30 12 2013 new variable
+common#:#msg_obj_already_deleted#:#The object has already been deleted.###30 12 2013 new variable
+notes#:#notes_no_comments#:#No comment has been posted yet.###30 12 2013 new variable
+rbac#:#rbac_create_prtt#:#Create Portfolio Template###30 12 2013 new variable
+rbac#:#glo_edit_content#:#User can edit content###30 12 2013 new variable
+rbac#:#rbac_create_rolt#:#Create new Role Template###30 12 2013 new variable
+rbac#:#rbac_create_role#:#Create new Role###30 12 2013 new variable
+obj#:#obj_activation_list_gui#:#Availability###30 12 2013 new variable
+content#:#lm_activate_rating#:#Activate Rating For Pages###30 12 2013 new variable
+wiki#:#wiki_rate_overall#:#Rate Wiki###30 12 2013 new variable
+content#:#lm_rating#:#Rate Learning Module###30 12 2013 new variable
+rating#:#rating_remove#:#Remove Rating###30 12 2013 new variable
+content#:#lm_rate_page#:#Rate page###30 12 2013 new variable
+rbac#:#il_orgu_employee#:#Organisational Unit Employee###30 12 2013 new variable
+rbac#:#il_orgu_superior#:#Organisational Unit Superior###30 12 2013 new variable
+obj#:#obj_tool_setting_info_tab_info#:#The "Info" tab will be displayed.###30 12 2013 new variable
+common#:#obj_tool_setting_news_info#:#The "News" block will be displayed inside the "Content" tab.###30 12 2013 new variable
+common#:#obj_tool_setting_calendar_info#:#The "Calendar" block will be displayed inside the "Content" tab.###30 12 2013 new variable
+obj#:#obj_presentation#:#Presentation###30 12 2013 new variable
+mcst#:#mcst_webfeed#:#RSS Web Feed###30 12 2013 new variable
+news#:#news_news_item_def_visibility_users_info#:#Only authenticated users have access to current news.###30 12 2013 new variable
+news#:#news_news_item_def_visibility_public_info#:#Current news are accessible in a public RSS webfeed. They should not contain confidential information.###30 12 2013 new variable
+chatroom#:#room_in_container#:#%s (in: %s)###30 12 2013 new variable
+common#:#obj_crsv#:#Course Certificate###30 12 2013 new variable
+wsp#:#wsp_type_crsv#:#Certificate: Course###30 12 2013 new variable
+wsp#:#wsp_list_crsv#:#Course Certificate###30 12 2013 new variable
+crsv#:#crsv_create#:#Create Course Certificate###30 12 2013 new variable
+crsv#:#crsv_create_info#:#Select a completed course to generate a certificate for it###30 12 2013 new variable
+common#:#obj_scov#:#SCORM Certificate###30 12 2013 new variable
+wsp#:#wsp_type_scov#:#Certificate: SCORM###30 12 2013 new variable
+wsp#:#wsp_list_scov#:#SCORM Certificate###30 12 2013 new variable
+scov#:#crsv_create#:#Create SCORM Certificate###30 12 2013 new variable
+scov#:#crsv_create_info#:#Select a completed learning module to generate a certificate for it###30 12 2013 new variable
+content#:#cont_wiki_page#:#Wiki Page###30 12 2013 new variable
+content#:#cont_choose_wiki#:#Choose Wiki###30 12 2013 new variable
+skmg#:#skmg_usage#:#Usage###30 12 2013 new variable
+skmg#:#skmg_type#:#Type###30 12 2013 new variable
+skmg#:#skmg_number#:#Number###30 12 2013 new variable
+skmg#:#skmg_usage_type_info_gen#:#General Use in Repository Objects###30 12 2013 new variable
+skmg#:#skmg_usage_type_info_mat#:#Users assigned material from their personal workspace###30 12 2013 new variable
+skmg#:#skmg_usage_type_info_user#:#Assigned to Users###30 12 2013 new variable
+skmg#:#skmg_usage_type_info_pers#:#Selected by Users as Personal Skill###30 12 2013 new variable
+skmg#:#skmg_usage_type_info_seval#:#Self Evaluations###30 12 2013 new variable
+skmg#:#skmg_usage_type_info_prof#:#Used in Skill Profiles###30 12 2013 new variable
+skmg#:#skmg_usage_type_info_res#:#Repository Objects Assigned as Suggested Resource###30 12 2013 new variable
+skmg#:#skmg_usage_obj_objects#:#Object(s)###30 12 2013 new variable
+skmg#:#skmg_usage_obj_users#:#User(s)###30 12 2013 new variable
+skmg#:#skmg_usage_obj_profiles#:#Profile(s)###30 12 2013 new variable
+rbac#:#rbac_create_bibl#:#Create Bibliography###30 12 2013 new variable
+prtf#:#prtf_template_import_new_skills#:#If activated, these items will be added to your personal competences.###30 12 2013 new variable
+book#:#book_confirm_cancel#:#Are you sure you want to cancel the following reservation?###30 12 2013 new variable
+rbac#:#crss_visible#:#Course administration is visible###30 12 2013 new variable
+rbac#:#crss_read#:#User has read access to Course administration###30 12 2013 new variable
+rbac#:#crss_write#:#Edit settings in Course administration###30 12 2013 new variable
+rbac#:#crss_edit_permission#:#User can change permission settings in Course administration###30 12 2013 new variable
+rbac#:#grps_visible#:#Group administration is visible###30 12 2013 new variable
+rbac#:#grps_read#:#User has read access to Group administration###30 12 2013 new variable
+rbac#:#grps_write#:#Edit settings in Group administration###30 12 2013 new variable
+rbac#:#grps_edit_permission#:#User can change permission settings in Group administration###30 12 2013 new variable
+rbac#:#wiks_visible#:#Wiki administration is visible###30 12 2013 new variable
+rbac#:#wiks_read#:#User has read access to Wiki administration###30 12 2013 new variable
+rbac#:#wiks_write#:#Edit settings in Wiki administration###30 12 2013 new variable
+rbac#:#wiks_edit_permission#:#User can change permission settings in Wiki administration###30 12 2013 new variable
+rbac#:#tos_visible#:#Terms of Service administration is visible###30 12 2013 new variable
+rbac#:#tos_read#:#User has read access to Terms of Service administration###30 12 2013 new variable
+rbac#:#tos_write#:#Edit settings in Terms of Service administration###30 12 2013 new variable
+rbac#:#tos_edit_permission#:#User can change permission settings in Terms of Service administration###30 12 2013 new variable
+rbac#:#wbrs_visible#:#Weblink administration is visible###30 12 2013 new variable
+rbac#:#wbrs_read#:#User has read access to Weblink administration###30 12 2013 new variable
+rbac#:#wbrs_write#:#Edit settings in Weblink administration###30 12 2013 new variable
+rbac#:#wbrs_edit_permission#:#User can change permission settings in Weblink administration###30 12 2013 new variable
+rbac#:#reps_visible#:#Repository administration is visible###30 12 2013 new variable
+rbac#:#reps_read#:#User has read access to Repository administration###30 12 2013 new variable
+rbac#:#reps_write#:#Edit settings in Repository administration###30 12 2013 new variable
+rbac#:#reps_edit_permission#:#User can change permission settings in Repository administration###30 12 2013 new variable
+common#:#obj_nota#:#Notifications###30 12 2013 new variable
+blog#:#blog_posting_not_found#:#This blog posting is not available.###30 12 2013 new variable
+skmg#:#skmg_cannot_delete_nodes_in_use#:#Some items cannot be deleted, because they are still in use.###30 12 2013 new variable
+skmg#:#skmg_status_draft#:#Draft (Offline)###30 12 2013 new variable
+skmg#:#skmg_status_draft_info#:#Item will be hidden.###30 12 2013 new variable
+skmg#:#skmg_status_publish#:#Published###30 12 2013 new variable
+skmg#:#skmg_status_publish_info#:#Item can be used if all parents are published, too. Once items are used, the status cannot be set to draft anymore, neither can they be deleted.###30 12 2013 new variable
+skmg#:#skmg_status_outdated#:#Outdated###30 12 2013 new variable
+skmg#:#skmg_status_outdated_info#:#Item cannot be newly selected by users as personal skill, or newly assigned to repository objects or skill profiles. However existing assignments and data are still presented.###30 12 2013 new variable
+skmg#:#skmg_status#:#Status###30 12 2013 new variable
+ldap#:#ldap_choose_role#:#Choose Role###30 12 2013 new variable
+skmg#:#skmg_no_nodes_selectable#:#Currently there are no competences selectable.###30 12 2013 new variable
+skmg#:#skmg_suggested_resources#:#Suggested Resources###30 12 2013 new variable
+cntr#:#exc_next_deadline_single#:#Deadline###30 12 2013 new variable
+file#:#repository_disk_quota_info#:#If activated, the disk-quota of the magazine will be checked for each user and emails will be sent to administrators and users optionally.###30 12 2013 new variable
+trac#:#trac_object_statistics_info#:#If activated, the basic data for the usage statistics will be gathered and processed.###30 12 2013 new variable
+ldap#:#ldap_user_sync_cron_info#:#If activated, user accounts will be imported from the LDAP directory and synchronised continuously as an option.###30 12 2013 new variable
+exc#:#exc_peer_review_cron_info#:#If activated, exercise participants will be reminded to give pending peer feedback.###30 12 2013 new variable
+survey#:#survey_reminder_cron_info#:#If activated, users will be reminded to participate in surveys.###30 12 2013 new variable
+cron#:#cron_action_activate_sure_multi#:#Are you sure you want to activate the following cron-jobs?###30 12 2013 new variable
+cron#:#cron_action_deactivate_sure_multi#:#Are you sure you want to deactivate the following cron-jobs?###30 12 2013 new variable
+crs#:#crs_status_determination_lp_info#:#When the learning progress changes to "Completed", the course status "Passed" will be set automatically. Tutors still can overwrite the status manually.###30 12 2013 new variable
+grp#:#grp_reg_no_selfreg#:#No self-enrolment###30 12 2013 new variable
+crs#:#crs_mail_tutors_only_info#:#Only administrators and tutors can use the feature "Mail to Members" in the "Members" tab.###30 12 2013 new variable
+crs#:#crs_mail_all_info#:#Members, administrators and tutors can use the feature "Mail to Members" in the "Members" tab.###30 12 2013 new variable
+grp#:#grp_mail_tutors_only_info#:#Only administrators can use the feature "Mail to Members" in the "Members" tab.###30 12 2013 new variable
+grp#:#grp_mail_all_info#:#Members and administrators can use the feature "Mail to Members" in the "Members" tab.###30 12 2013 new variable
+rep#:#rep_time_period#:#Period###30 12 2013 new variable
+crs#:#crs_registration_period#:#Period###30 12 2013 new variable
+crs#:#crs_registration_confirmation_info#:#Interested users can send a request/message to course administrator.###30 12 2013 new variable
+crs#:#crs_reg_no_selfreg#:#No self-enrolment###30 12 2013 new variable
+crs#:#crs_reg_password_info#:#Users need to type in this password when joining the course.###30 12 2013 new variable
+cat#:#cat_more_translations#:#More Translations###30 12 2013 new variable
+content#:#cont_deactivate_multi_lang_conf#:#Do you really want to deactivate multilinguality? Only contents of the master language will be kept.###30 12 2013 new variable
+content#:#cont_multilang_deactivated#:#Multilinguality has been deactivated.###30 12 2013 new variable
+content#:#cont_manage_multilang#:#Manage Multilinguality###30 12 2013 new variable
+content#:#cont_languages#:#Languages###30 12 2013 new variable
+content#:#cont_language#:#Language###30 12 2013 new variable
+content#:#cont_add_lang#:#Add Language###30 12 2013 new variable
+content#:#cont_conf_delete_lang#:#Do you really want to drop support for the following languages?###30 12 2013 new variable
+content#:#cont_back_to_page#:#Back to Page###30 12 2013 new variable
+content#:#cont_got_lock#:#This page has been locked for your editing. Please release the page after you have done all your changes.###30 12 2013 new variable
+content#:#cont_finish_editing#:#Finish Editing###30 12 2013 new variable
+content#:#cont_page_lock_released#:#Editing finished. Page lock has been released.###30 12 2013 new variable
