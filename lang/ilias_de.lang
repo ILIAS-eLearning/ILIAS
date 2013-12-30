@@ -10477,8 +10477,6 @@ skmg#:#skmg_create_skill_template#:#Vorlage erstellen
 skmg#:#skmg_create_skill_template_category#:#Vorlagenkategorie erstellen
 skmg#:#skmg_create_skill_template_reference#:#Vorlage einfügen
 skmg#:#skmg_create_skll#:#Kompetenz erstellen
-skmg#:#skmg_draft#:#In Vorbereitung (Offline)
-skmg#:#skmg_draft_info#:#Nicht sichbar für Lerner.
 skmg#:#skmg_edit_level#:#Ausprägung editieren
 skmg#:#skmg_edit_scat#:#Kategorie ändern
 skmg#:#skmg_edit_sctp#:#Vorlagenkategorie erstellen
@@ -14063,8 +14061,6 @@ crsv#:#crsv_create_info#:#Wählen Sie einen Kurs, für den Sie ein Zertifikat be
 common#:#obj_scov#:#SCORM-Zertifikat
 wsp#:#wsp_type_scov#:#Zertifikat: SCORM
 wsp#:#wsp_list_scov#:#SCORM-Zertifikat
-scov#:#scov_create#:#SCORM-Zertifikat erstellen
-scov#:#scov_create_info#:#Wählen Sie ein Lernmodul, für das Sie ein Zertifikat benötigen
 content#:#cont_wiki_page#:#Wiki-Seite
 content#:#cont_choose_wiki#:#Wiki auswählen
 prtf#:#prtf_template_import_new_skills#:#Wenn aktiviert, werden diese Kompetenzen zu Ihren persönlichen Kompetenzen hinzugefügt.
@@ -14113,3 +14109,39 @@ cat#:#cat_more_translations#:#Weitere Übersetzungen
 content#:#cont_got_lock#:#Diese Seite wurde für Ihre Bearbeitung gesperrt. Bitte geben Sie die Seite nach Ihren Änderungen wieder frei.
 content#:#cont_finish_editing#:#Bearbeitung beenden
 content#:#cont_page_lock_released#:#Die Bearbeitung wurde beendet. Die Seite wurde wieder freigegeben.
+rbac#:#rbac_create_chat#:#Create Chat###30 12 2013 new variable
+orgu#:#backto_staff#:#Back to staff###30 12 2013 new variable
+exc#:#exc_multi_feedb_info#:#On this screen you can upload multiple feedbacks in one file. First click on "Download ZIP Structure", save the ZIP file and extract it on your local computer. Put the feedback files into the corresponding user directories. Now compress the whole directory as one ZIP file agin. Browse your local filesystem for the file and select it as the "Multi-Feedback File" in the form below. After that click "Upload". A confirmation screen will list the files. Please avoid using any special characters in your filenames.###30 12 2013 new variable
+scov#:#crsv_create#:#Create SCORM Certificate###30 12 2013 new variable
+scov#:#crsv_create_info#:#Select a completed learning module to generate a certificate for it###30 12 2013 new variable
+skmg#:#skmg_usage#:#Usage###30 12 2013 new variable
+skmg#:#skmg_type#:#Type###30 12 2013 new variable
+skmg#:#skmg_number#:#Number###30 12 2013 new variable
+skmg#:#skmg_usage_type_info_gen#:#General Use in Repository Objects###30 12 2013 new variable
+skmg#:#skmg_usage_type_info_mat#:#Users assigned material from their personal workspace###30 12 2013 new variable
+skmg#:#skmg_usage_type_info_user#:#Assigned to Users###30 12 2013 new variable
+skmg#:#skmg_usage_type_info_pers#:#Selected by Users as Personal Skill###30 12 2013 new variable
+skmg#:#skmg_usage_type_info_seval#:#Self Evaluations###30 12 2013 new variable
+skmg#:#skmg_usage_type_info_prof#:#Used in Skill Profiles###30 12 2013 new variable
+skmg#:#skmg_usage_type_info_res#:#Repository Objects Assigned as Suggested Resource###30 12 2013 new variable
+skmg#:#skmg_usage_obj_objects#:#Object(s)###30 12 2013 new variable
+skmg#:#skmg_usage_obj_users#:#User(s)###30 12 2013 new variable
+skmg#:#skmg_usage_obj_profiles#:#Profile(s)###30 12 2013 new variable
+skmg#:#skmg_cannot_delete_nodes_in_use#:#Some items cannot be deleted, because they are still in use.###30 12 2013 new variable
+skmg#:#skmg_status_draft#:#Draft (Offline)###30 12 2013 new variable
+skmg#:#skmg_status_draft_info#:#Item will be hidden.###30 12 2013 new variable
+skmg#:#skmg_status_publish#:#Published###30 12 2013 new variable
+skmg#:#skmg_status_publish_info#:#Item can be used if all parents are published, too. Once items are used, the status cannot be set to draft anymore, neither can they be deleted.###30 12 2013 new variable
+skmg#:#skmg_status_outdated#:#Outdated###30 12 2013 new variable
+skmg#:#skmg_status_outdated_info#:#Item cannot be newly selected by users as personal skill, or newly assigned to repository objects or skill profiles. However existing assignments and data are still presented.###30 12 2013 new variable
+skmg#:#skmg_status#:#Status###30 12 2013 new variable
+skmg#:#skmg_no_nodes_selectable#:#Currently there are no competences selectable.###30 12 2013 new variable
+skmg#:#skmg_suggested_resources#:#Suggested Resources###30 12 2013 new variable
+content#:#cont_deactivate_multi_lang_conf#:#Do you really want to deactivate multilinguality? Only contents of the master language will be kept.###30 12 2013 new variable
+content#:#cont_multilang_deactivated#:#Multilinguality has been deactivated.###30 12 2013 new variable
+content#:#cont_manage_multilang#:#Manage Multilinguality###30 12 2013 new variable
+content#:#cont_languages#:#Languages###30 12 2013 new variable
+content#:#cont_language#:#Language###30 12 2013 new variable
+content#:#cont_add_lang#:#Add Language###30 12 2013 new variable
+content#:#cont_conf_delete_lang#:#Do you really want to drop support for the following languages?###30 12 2013 new variable
+content#:#cont_back_to_page#:#Back to Page###30 12 2013 new variable
