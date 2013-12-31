@@ -281,8 +281,10 @@ class ilDataCollectionFieldEditGUI
 						$subitem = new ilCheckboxInputGUI($lng->txt('dcl_'.$property['title']), 'prop_'.$property['id']);
 						$opt->addSubItem($subitem);
 					}
-					else
-					{
+					else if ($property['inputformat'] == ilDataCollectionDatatype::INPUTFORMAT_NUMBER) {
+                        $subitem = new ilNumberInputGUI($lng->txt('dcl_'.$property['title']), 'prop_'.$property['id']);
+                        $opt->addSubItem($subitem);
+                    } else {
                         $subitem = new ilTextInputGUI($lng->txt('dcl_'.$property['title']), 'prop_'.$property['id']);
                         $opt->addSubItem($subitem);
 					}
