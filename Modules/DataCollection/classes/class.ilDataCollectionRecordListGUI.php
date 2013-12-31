@@ -108,7 +108,7 @@ class ilDataCollectionRecordListGUI
             ilUtil::sendInfo($lng->txt("dcl_no_fields_yet")." ".($this->table_obj->hasPermissionToFields($this->parent_obj->ref_id)?$lng->txt("dcl_create_fields"):""));
         }
 
-		$list = new ilDataCollectionRecordListTableGUI($this, $ilCtrl->getCmd(), $this->table_obj);
+		$list = new ilDataCollectionRecordListTableGUI($this, "listRecords", $this->table_obj);
 		$tpl->getStandardTemplate();
 
         $tpl->setPermanentLink("dcl", $this->parent_obj->ref_id);
@@ -155,8 +155,9 @@ class ilDataCollectionRecordListGUI
 	{
 		global $ilCtrl;
 		
-		$table =  new ilDataCollectionRecordListTableGUI($this, $ilCtrl->getCmd(), $this->table_obj);
-		$table->writeFilterToSession();
+		$table =  new ilDataCollectionRecordListTableGUI($this, "listRecords", $this->table_obj);
+        $table->resetOffset();
+        $table->writeFilterToSession();
 		$this->listRecords();
 	}
 	
@@ -167,8 +168,9 @@ class ilDataCollectionRecordListGUI
 	{
 		global $ilCtrl;
 		
-		$table =  new ilDataCollectionRecordListTableGUI($this, $ilCtrl->getCmd(), $this->table_obj);
-		$table->resetFilter();
+		$table =  new ilDataCollectionRecordListTableGUI($this, "listRecords", $this->table_obj);
+        $table->resetOffset();
+        $table->resetFilter();
 		$this->listRecords();
 	}
 
