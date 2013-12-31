@@ -13041,6 +13041,7 @@ dcl#:#dcl_simulate_info#:#Simulating the import will not add any fields into the
 dcl#:#dcl_multiple_selection#:#Multiple Selection
 dcl#:#dcl_field_title_unique#:#There exists already a field with this title. Title must be unique.
 dcl#:#dcl_table_title_unique#:#There exists already a table with this title. Title must be unique.
+dcl#:#dcl_please_select#:#--- Please select ---
 common#:#obj_bibl#:#Bibliography
 common#:#objs_bibl#:#Bibliographies
 bibl#:#bibl_new#:#New Bibliography
