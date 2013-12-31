@@ -170,7 +170,7 @@ class ilDataCollectionRecordEditGUI
 				$reffield = ilDataCollectionCache::getFieldCache($fieldref);
                 $options = array();
                 if(!$field->isNRef())
-				    $options[""] = '--';
+				    $options[""] = $lng->txt('dcl_please_select');
 				$reftable = ilDataCollectionCache::getTableCache($reffield->getTableId());
 				foreach($reftable->getRecords() as $record)
 				{
