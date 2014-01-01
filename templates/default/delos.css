@@ -1611,10 +1611,11 @@ input.submit:hover, a.submit:hover {
 input.emphsubmit, a.emphsubmit, a.emphsubmit:hover {
 	background-color: #5dbf61;
 	background-image: none;	/* IE10 will not work otherwise */
-	background-image: -moz-linear-gradient(center top , #5dbf61, #4fa152);
-	background-image: -webkit-linear-gradient(center top , #5dbf61, #4fa152);
-	background-image: -ms-linear-gradient(center top , #5dbf61, #4fa152); 
-	background-repeat: repeat-x; 		
+	background-image: -moz-linear-gradient(top , #5dbf61, #4fa152);
+	background-image: -webkit-linear-gradient(top , #5dbf61, #4fa152);
+	background-image: -o-linear-gradient(top , #5dbf61, #4fa152);
+	background-image: linear-gradient(to bottom , #5dbf61, #4fa152);
+	background-repeat: repeat-x;
 	border-color: #0044CC #0044CC #003AAD;
 	color: #FFFFFF;
 	font-weight: 600;
@@ -4426,9 +4427,15 @@ div[id^="ilFormField"] {
 	}
 	
 	li.ilMainMenu {
-		width: 49%;
+		width: 50%;
+        border: 0;
 	}
-	
+
+    a.MMActive, a.MMInactive {
+        border-left: 1px solid #A3C8FF;
+        border-right: 1px solid #A3C8FF;
+    }
+
 	div.ilMainMenuSection {
 		background-color: #9BC5ED;
 	}
@@ -4462,14 +4469,18 @@ div[id^="ilFormField"] {
 	}
 	
 	#il_center_col.one_side_col ,
-	#il_center_col.two_side_col {
-		width: 100%;
-		padding: 0;
+	#il_center_col.two_side_col,
+    #il_right_col {
+		width: auto;
+        float: none;
+		padding: 0 10px;
 	}
 	
 	div.il_Block {
-    border: 0 none;
-}
+		/* due to mantis #10052 ? */
+		/* alex, 1.Jan.2014: I do not see a reason to remove the border here, this looks odd */
+		/* border: 0 none; */
+	}
 
 	textarea {
 		max-width: 100%; 
@@ -4497,7 +4508,7 @@ div[id^="ilFormField"] {
 		margin: 0 5px 10px;
 		background-color: #F4F4F4;
 		border: 1px solid #E0E0E0;
-		padding: 2px;
+		padding: 2px 2px 4px 2px;
 		clear: both;
 	}
 	
@@ -4530,7 +4541,10 @@ div[id^="ilFormField"] {
 	div.ilTabContentOuter {
 		box-shadow: none;
 		border: none;
-		width: auto;
+        /* since the div in the main template got also a display table-cell
+        through ilTabsTableCell the width:auto shrinks the div to the size of the content.
+        We do not want that */
+		/* width: auto; */
 	}
 	
 	div.ilFormOption {
