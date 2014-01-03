@@ -207,11 +207,7 @@ class ilScoringAdjustmentGUI
 
 	protected function editQuestion()
 	{
-		$question_id = $_GET['q_id'];
-		$question_pool_id = $_GET['qpl_id'];
-		$form = $this->buildAdjustQuestionForm( $question_id, $question_pool_id );
-		// @TODO: Add statistical data to the output.
-
+		$form = $this->buildAdjustQuestionForm( (int)$_GET['q_id'], (int)$_GET['qpl_id'] );
 		$this->outputAdjustQuestionForm( $form );
 	}
 
@@ -247,25 +243,24 @@ class ilScoringAdjustmentGUI
 		$question = assQuestion::instantiateQuestionGUI( $question_id );
 		$form->setTitle( $question->object->getTitle() . '<br /><small>(' . $question->outQuestionType() . ')</small>' );
 
-		$hidden_q_id = new ilHiddenInputGUI('q_id');
-		$hidden_q_id->setValue( $question_id );
-		$form->addItem( $hidden_q_id );
+		$hidden_question_id = new ilHiddenInputGUI('q_id');
+		$hidden_question_id->setValue( $question_id );
+		$form->addItem( $hidden_question_id );
 
 		$hidden_qpl_id = new ilHiddenInputGUI('qpl_id');
 		$hidden_qpl_id->setValue( $question_pool_id );
 		$form->addItem( $hidden_qpl_id );
 
-		if ($question instanceof ilGuiQuestionScoringAdjustable)
-		{
-			$question->populateQuestionSpecificFormPart( $form );
-			$this->suppressPostParticipationFormElements( $form, $question->getAfterParticipationSuppressionQuestionPostVars() );
-		}
+		$this->populateScoringAdjustments( $question, $form );
 
-		if ($question instanceof ilGuiAnswerScoringAdjustable)
-		{
-			$question->populateAnswerSpecificFormPart( $form );
-			$this->suppressPostParticipationFormElements( $form, $question->getAfterParticipationSuppressionAnswerPostVars());
-		}
+		$manscoring_section = new ilFormSectionHeaderGUI();
+		$manscoring_section->setTitle($this->lng->txt('manscoring'));
+		$form->addItem($manscoring_section);
+		
+		$manscoring_preservation = new ilCheckboxInputGUI($this->lng->txt('preserve_manscoring'), 'preserve_manscoring');
+		$manscoring_preservation->setChecked(true);
+		$manscoring_preservation->setInfo($this->lng->txt('preserve_manscoring_info'));
+		$form->addItem($manscoring_preservation);
 
 		$form->addCommandButton("save", $this->lng->txt("save"));
 
@@ -374,10 +369,34 @@ class ilScoringAdjustmentGUI
 
 		require_once './Modules/Test/classes/class.ilTestScoring.php';
 		$scoring = new ilTestScoring($this->object);
+		$scoring->setPreserveManualScores($_POST['preserve_manscoring'] == 1 ? true : false);
 		$scoring->recalculateSolutions();
 
 		ilUtil::sendSuccess($this->lng->txt('saved_adjustment'));
 		$this->questionsObject();
 		
+	}
+
+	/**
+	 * @param $question
+	 * @param $form
+	 */
+	protected function populateScoringAdjustments( $question, $form )
+	{
+		if ( $question instanceof ilGuiQuestionScoringAdjustable )
+		{
+			$question->populateQuestionSpecificFormPart( $form );
+			$this->suppressPostParticipationFormElements( $form,
+														  $question->getAfterParticipationSuppressionQuestionPostVars()
+			);
+		}
+
+		if ( $question instanceof ilGuiAnswerScoringAdjustable )
+		{
+			$question->populateAnswerSpecificFormPart( $form );
+			$this->suppressPostParticipationFormElements( $form,
+														  $question->getAfterParticipationSuppressionAnswerPostVars()
+			);
+		}
 	}
 }

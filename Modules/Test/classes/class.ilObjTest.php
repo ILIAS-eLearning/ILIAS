@@ -363,7 +363,7 @@ class ilObjTest extends ilObject
 	* @var object
 	*/
 	var $testSequence;
-	
+
 	/**
 	* Determines whether or not a final statement should be shown on test completion
 	*
@@ -4835,7 +4835,9 @@ function getAnswerFeedbackPoints()
 						$row["question_fi"],
 						$row["maxpoints"],
 						$row["points"],
-						$row['answered']
+						$row['answered'],
+						null,
+						$row['manual']
 					)
 			;
 		}
@@ -11356,10 +11358,11 @@ function getAnswerFeedbackPoints()
 		return $this->participantDataExist;
 	}
 	
-	public function recalculateScores()
+	public function recalculateScores($preserve_manscoring = false)
 	{
 		require_once 'class.ilTestScoring.php';
 		$scoring = new ilTestScoring($this);
+		$scoring->setPreserveManualScores($preserve_manscoring);
 		$scoring->recalculateSolutions();
 	}
 	

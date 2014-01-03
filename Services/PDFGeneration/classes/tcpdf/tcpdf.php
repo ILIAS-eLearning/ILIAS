@@ -17820,9 +17820,23 @@ Putting 1 is equivalent to putting 0 and calling Ln() just after. Default value:
 						// total table width without cellspaces
 						$table_columns_width = ($table_width - ($cellspacing['H'] * ($dom[$key]['cols'] - 1)));
 						// minimum column width
-						$table_min_column_width = ($table_columns_width / $dom[$key]['cols']);
-						// array of custom column widths
-						$table_colwidths = array_fill(0, $dom[$key]['cols'], $table_min_column_width);
+
+						// Begin Patch: Get rid of division by zero warning
+						if ($table_columns_width == 0 || $dom[$key]['cols'] == 0)
+						{
+							$table_min_column_width = 1;
+						}
+						else
+						{
+							$table_min_column_width = ($table_columns_width / $dom[$key]['cols']);
+						}
+						if ($dom[$key]['cols'] != 0)
+						{
+							// array of custom column widths
+							$table_colwidths = array_fill(0, $dom[$key]['cols'], $table_min_column_width);
+						}
+						// End Patch: Get rid of division by zero warning
+
 					}
 					// table row
 					if ($dom[$key]['value'] == 'tr') {

@@ -1221,6 +1221,8 @@ assessment#:#misc#:#Misc Options
 assessment#:#saved_adjustment#:#Changes saved.
 assessment#:#sign_submission#:#Digitally sign test submissions
 assessment#:#sign_submission_info#:#If this is activated and a signature plugin is installed and active, participants will be send to digitally sign their submissions.
+assessment#:#preserve_manscoring#:#Preserve manual scorings
+assessment#:#preserve_manscoring_info#:#Changes in the scoring of a question may make it necessary to void manual scorings. This option allows to void ALL manual scorings in the test and should be used only in rare occasions.
 auth#:#auth_account_migration_keep#:#Migrate Existing User Account
 auth#:#auth_account_migration_name#:#Migration
 auth#:#auth_account_migration_new#:#Create New User Account
