@@ -27,14 +27,35 @@ class ilTestScoring
 	
 	/** @var ilObjTestGUI $testGUI*/
 	protected $testGUI;
-	
+
+	/** @var bool $preserve_manual_scores */
+	protected $preserve_manual_scores;
+
 	public function __construct(ilObjTest $test)
 	{
 		$this->test = $test;
+		$this->preserve_manual_scores = false;
+
 		require_once './Modules/Test/classes/class.ilObjTestGUI.php';
 		$this->testGUI = new ilObjTestGUI();
 	}
 
+	/**
+	 * @param boolean $preserve_manual_scores
+	 */
+	public function setPreserveManualScores( $preserve_manual_scores )
+	{
+		$this->preserve_manual_scores = $preserve_manual_scores;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function getPreserveManualScores()
+	{
+		return $this->preserve_manual_scores;
+	}
+	
 	public function recalculateSolutions()
 	{
 		$participants = $this->test->getCompleteEvaluationData(false)->getParticipants();
@@ -72,7 +93,8 @@ class ilTestScoring
 				{
 					// requires out of the loop!
 					$test_evaluation_gui = new ilTestEvaluationGUI($this->test);
-					$overview = $test_evaluation_gui->getPassListOfAnswers($passdata,$active_id, $pass, true, false, false, true);
+					$result_array = $this->test->getTestResult($active_id, $pass);
+					$overview = $test_evaluation_gui->getPassListOfAnswers($result_array, $active_id, $pass, true, false, false, true);
 					$filename = ilUtil::getWebspaceDir() . '/assessment/scores-'.$this->test->getId() . '-' . $active_id . '-' . $pass . '.pdf';
 					ilTestPDFGenerator::generatePDF($overview, ilTestPDFGenerator::PDF_OUTPUT_FILE, $filename);
 					$archiver = new ilTestArchiver($this->test->getId());
@@ -110,18 +132,27 @@ class ilTestScoring
 	 */
 	public function recalculateQuestionScore($question_gui, $active_id, $pass, $questiondata)
 	{
+		/** @var assQuestion $question_gui */
 		if (is_object( $question_gui ))
 		{
 			$reached = $question_gui->object->calculateReachedPoints( $active_id, $pass );
 			$actual_reached = $question_gui->object->adjustReachedPointsByScoringOptions($reached, $active_id, $pass);
-			assQuestion::_setReachedPoints( $active_id,
-											$questiondata['id'],
-											$actual_reached,
-											$question_gui->object->getMaximumPoints(),
-											$pass,
-											false,
-											true
-			);
+
+			if ($this->preserve_manual_scores == true && $questiondata['manual'] == '1')
+			{
+				// Do we need processing here?
+			}
+			else
+			{
+				assQuestion::_setReachedPoints( $active_id,
+												$questiondata['id'],
+												$actual_reached,
+												$question_gui->object->getMaximumPoints(),
+												$pass,
+												false,
+												true
+				);
+			}
 		}
 	}
 

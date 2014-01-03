@@ -677,6 +677,10 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			{
 				$answer = $this->object->answers[$idx];
 			}
+			if (!$answer)
+			{
+				continue;
+			}
 			if (($active_id > 0) && (!$show_correct_solution))
 			{
 				if ($graphicalOutput)

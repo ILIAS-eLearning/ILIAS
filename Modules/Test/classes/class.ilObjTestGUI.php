@@ -1081,6 +1081,34 @@ class ilObjTestGUI extends ilObjectGUI
 
 	function confirmScoringObject($confirmCmd = 'saveScoring', $cancelCmd = 'scoring')
 	{
+		// display confirmation message
+		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+		$cgui = new ilConfirmationGUI();
+		$cgui->setFormAction($this->ctrl->getFormAction($this));
+		$cgui->setHeaderText($this->lng->txt('tst_trigger_result_refreshing'));
+		$cgui->setCancel($this->lng->txt("cancel"), "scoring");
+		$cgui->setConfirm($this->lng->txt("confirm"), "saveScoring");
+
+		foreach ($_POST as $key => $value)
+		{
+			if (strcmp($key, "cmd") == 0)
+			{
+				continue;
+			}
+			if (strcmp($key, 'reporting_date') == 0)
+			{
+				$timestamp = strtotime($value['date']['d'] . '.' . $value['date']['m'] . '.' . $value['date']['y'] . ' ' .
+				$value['time']['h'] . ':' . $value['time']['m']); 
+				$cgui->addHiddenItem('reporting_ts', $timestamp );
+				continue;
+			}
+			$cgui->addHiddenItem($key, $value);
+		}
+
+		/*
+		 * 
+		 * this->lng->txt('tst_trigger_result_refreshing')
+		
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_properties_save_confirmation.html", "Modules/Test");
 		$information = $this->lng->txt('tst_trigger_result_refreshing');
 
@@ -1105,7 +1133,8 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("BTN_CONFIRM", $this->lng->txt("confirm"));
 		$this->tpl->setVariable("CMD_CANCEL", $cancelCmd);
 		$this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
-		$this->tpl->parseCurrentBlock();
+		*/
+		$this->tpl->setContent($cgui->getHTML());
 	}
 
 	/**
@@ -1211,6 +1240,12 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function saveScoringObject()
 	{
+		$_POST['reporting_date']['date']['y'] = date('Y', $_POST['reporting_ts'] );
+		$_POST['reporting_date']['date']['m'] = date('m', $_POST['reporting_ts'] );
+		$_POST['reporting_date']['date']['d'] = date('d', $_POST['reporting_ts'] );
+		$_POST['reporting_date']['time']['h'] = date('H', $_POST['reporting_ts'] );
+		$_POST['reporting_date']['time']['m'] = date('i', $_POST['reporting_ts'] );
+		
 		$hasErrors = $this->scoringObject(true);
 		if (!$hasErrors)
 		{
@@ -1252,11 +1287,13 @@ class ilObjTestGUI extends ilObjectGUI
                          */
             $this->object->setScoringFeedbackOptionsByArray($_POST['instant_feedback']);
 
-
+			
 			$this->object->setScoreReporting($_POST["results_access"]);
 			if ($this->object->getScoreReporting() == REPORT_AFTER_DATE)
 			{
-				$this->object->setReportingDate(str_replace(array(':', '-'), '', $_POST["reporting_date"]['date'].$_POST["reporting_date"]['time']));
+				// The reporting date is given in database TIMESTAMP notation (yyyymmddhhmmss).
+				///$this->object->setReportingDate(str_replace(array(':', '-'), '', $_POST["reporting_date"]['date'].$_POST["reporting_date"]['time']));
+				$this->object->setReportingDate( date('YmdHis', $_POST['reporting_ts'] ));
 			}
 			else
 			{
@@ -1282,7 +1319,7 @@ class ilObjTestGUI extends ilObjectGUI
 
 			if ($total != 0)
 			{
-				$this->object->recalculateScores();
+				$this->object->recalculateScores(true);
 			}
 			
 			$this->ctrl->redirect($this, "scoring");
