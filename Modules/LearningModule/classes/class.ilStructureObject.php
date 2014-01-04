@@ -98,7 +98,12 @@ class ilStructureObject extends ilLMObject
 		include_once("Services/MetaData/classes/class.ilMD.php");
 		$md = new ilMD($this->getLMId(), $this->getId(), $this->getType());
 		$new_md =& $md->cloneMD($a_target_lm->getId(), $chap->getId(), $this->getType());
-		
+
+		// copy translations
+		include_once("./Modules/LearningModule/classes/class.ilLMObjTranslation.php");
+		ilLMObjTranslation::copy($this->getId(), $chap->getId());
+
+
 		return $chap;
 	}
 

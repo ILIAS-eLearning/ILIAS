@@ -4778,15 +4778,32 @@ abstract class ilPageObject
 		include_once("./Services/COPage/classes/class.ilPageObjectFactory.php");
 		foreach (self::lookupTranslations($this->getParentType(), $this->getId()) as $l)
 		{
+			$existed = false;
 			$orig_page = ilPageObjectFactory::getInstance($this->getParentType(), $this->getId(), 0, $l);
-			$new_page_object = ilPageObjectFactory::getInstance($a_parent_type, 0, 0, $l);
-			$new_page_object->setParentId($a_parent_id);
-			$new_page_object->setId($a_id);
+			if (ilPageObject::_exists($a_parent_type, $a_id, $l))
+			{
+				$new_page_object = ilPageObjectFactory::getInstance($a_parent_type, $a_id, 0, $l);
+				$existed = true;
+			}
+			else
+			{
+				$new_page_object = ilPageObjectFactory::getInstance($a_parent_type, 0, 0, $l);
+				$new_page_object->setParentId($a_parent_id);
+				$new_page_object->setId($a_id);
+			}
 			$new_page_object->setXMLContent($orig_page->copyXMLContent());
 			$new_page_object->setActive($orig_page->getActive());
 			$new_page_object->setActivationStart($orig_page->getActivationStart());
 			$new_page_object->setActivationEnd($orig_page->getActivationEnd());
-			$new_page_object->create();
+			if ($existed)
+			{
+				$new_page_object->buildDom();
+				$new_page_object->update();
+			}
+			else
+			{
+				$new_page_object->create();
+			}
 		}
 
 	}

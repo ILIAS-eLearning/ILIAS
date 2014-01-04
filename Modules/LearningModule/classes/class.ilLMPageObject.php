@@ -144,12 +144,18 @@ class ilLMPageObject extends ilLMObject
 
 		// copy page content and activation
 		$page = $lm_page->getPageObject();
-		$page->setXMLContent($this->page_object->copyXMLContent());
+		$this->page_object->copy($page->getId(), $page->getParentType(), $page->getParentId());
+		/*$page->setXMLContent($this->page_object->copyXMLContent());
 		$page->setActive($this->page_object->getActive());
 		$page->setActivationStart($this->page_object->getActivationStart());
 		$page->setActivationEnd($this->page_object->getActivationEnd());
 		$page->buildDom();
-		$page->update();
+		$page->update();*/
+		$lm_page->read();	// this gets the updated page object into lm page
+
+		// copy translations
+		include_once("./Modules/LearningModule/classes/class.ilLMObjTranslation.php");
+		ilLMObjTranslation::copy($this->getId(), $lm_page->getId());
 
 		return $lm_page;
 	}
