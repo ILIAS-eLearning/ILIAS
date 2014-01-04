@@ -17,9 +17,10 @@ class ilPageObjectFactory
 	 * @param string $a_parent_type parent type
 	 * @param int $a_id page id
 	 * @param int $a_old_nr history number of page
+	 * @param string $a_lang language
 	 * @return object
 	 */
-	function getInstance($a_parent_type, $a_id = 0, $a_old_nr = 0, $a_lang = "-")
+	static function getInstance($a_parent_type, $a_id = 0, $a_old_nr = 0, $a_lang = "-")
 	{
 		include_once("./Services/COPage/classes/class.ilCOPageObjDef.php");
 		$def = ilCOPageObjDef::getDefinitionByParentType($a_parent_type);
@@ -37,7 +38,7 @@ class ilPageObjectFactory
 	 * @param string $a_parent_type parent type
 	 * @return object
 	 */
-	function getConfigInstance($a_parent_type)
+	static function getConfigInstance($a_parent_type)
 	{
 		include_once("./Services/COPage/classes/class.ilCOPageObjDef.php");
 		$def = ilCOPageObjDef::getDefinitionByParentType($a_parent_type);

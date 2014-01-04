@@ -4756,12 +4756,69 @@ abstract class ilPageObject
 	{
 		
 	}
-	
+
 	/**
 	 * Copy page
 	 *
-	 * @param
-	 * @return
+	 * @param int $a_id target page id
+	 * @param string $a_parent_type target parent type
+	 * @param int $a_parent_id target parent id
+	 */
+	function copy($a_id, $a_parent_type = "", $a_parent_id = 0)
+	{
+		if ($a_parent_type == "")
+		{
+			$a_parent_type = $this->getParentType();
+			if ($a_parent_id == 0)
+			{
+				$a_parent_id = $this->getParentId();
+			}
+		}
+
+		include_once("./Services/COPage/classes/class.ilPageObjectFactory.php");
+		foreach (self::lookupTranslations($this->getParentType(), $this->getId()) as $l)
+		{
+			$orig_page = ilPageObjectFactory::getInstance($this->getParentType(), $this->getId(), 0, $l);
+			$new_page_object = ilPageObjectFactory::getInstance($a_parent_type, 0, 0, $l);
+			$new_page_object->setParentId($a_parent_id);
+			$new_page_object->setId($a_id);
+			$new_page_object->setXMLContent($orig_page->copyXMLContent());
+			$new_page_object->setActive($orig_page->getActive());
+			$new_page_object->setActivationStart($orig_page->getActivationStart());
+			$new_page_object->setActivationEnd($orig_page->getActivationEnd());
+			$new_page_object->create();
+		}
+
+	}
+
+	/**
+	 * Lookup translations
+	 *
+	 * @param string $a_parent_type parent type
+	 * @param int $a_id page id
+	 * @return array language codes
+	 */
+	static function lookupTranslations($a_parent_type, $a_id)
+	{
+		global $ilDB;
+		
+		$set = $ilDB->query("SELECT lang FROM page_object ".
+			" WHERE page_id = ".$ilDB->quote($a_id, "integer").
+			" AND parent_type = ".$ilDB->quote($a_parent_type, "text")
+			);
+		$langs = array();
+		while ($rec = $ilDB->fetchAssoc($set))
+		{
+			$langs[] = $rec["lang"];
+		}
+		return $langs;
+	}
+	
+
+	/**
+	 * Copy page to translation
+	 *
+	 * @param string $a_target_lang target language
 	 */
 	function copyPageToTranslation($a_target_lang)
 	{

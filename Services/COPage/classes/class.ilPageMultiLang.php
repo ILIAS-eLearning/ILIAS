@@ -1,13 +1,13 @@
 <?php
 
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Multi-language properties 
  *
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
- * @ingroup 
+ * @ingroup ServicesCOPage
  */
 class ilPageMultiLang
 {
@@ -132,8 +132,7 @@ class ilPageMultiLang
 	/**
 	 * Add language
 	 *
-	 * @param
-	 * @return
+	 * @param string $a_lang language
 	 */
 	function addLanguage($a_lang)
 	{
@@ -166,9 +165,6 @@ class ilPageMultiLang
 	
 	/**
 	 * Read
-	 *
-	 * @param
-	 * @return
 	 */
 	function read()
 	{
@@ -212,7 +208,6 @@ class ilPageMultiLang
 		);
 	}
 
-
 	/**
 	 * Save
 	 */
@@ -239,10 +234,35 @@ class ilPageMultiLang
 	}
 
 	/**
-	 * Get effective language
+	 * Copy multilinguality settings
 	 *
-	 * @param
-	 * @return
+	 * @param string $a_target_parent_type parent object type
+	 * @param int $a_target_parent_id parent object id
+	 * @return ilPageMultiLang target multilang object
+	 */
+	function copy($a_target_parent_type, $a_target_parent_id)
+	{
+		if ($this->getActivated())
+		{
+			$target_ml = new ilPageMultiLang($a_target_parent_type, $a_target_parent_id);
+			$target_ml->setMasterLanguage($this->getMasterLanguage());
+			$target_ml->setLanguages($this->getLanguages());
+			$target_ml->save();
+			return $target_ml;
+		}
+
+		return null;
+	}
+
+
+	/**
+	 * Get effective language for given language. This checks if
+	 * - multilinguality is activated and
+	 * - the given language is part of the available translations
+	 * If not a "-" is returned (master language).
+	 *
+	 * @param string $a_lang language
+	 * @return string effective language ("-" for master)
 	 */
 	function getEffectiveLang($a_lang)
 	{
