@@ -14147,3 +14147,6 @@ content#:#cont_back_to_page#:#Back to Page###30 12 2013 new variable
 content#:#cont_got_lock#:#This page has been locked for your editing. Please release the page after you have done all your changes.###30 12 2013 new variable
 content#:#cont_finish_editing#:#Finish Editing###30 12 2013 new variable
 content#:#cont_page_lock_released#:#Editing finished. Page lock has been released.###30 12 2013 new variable
+assessment#:#preserve_manscoring#:#Preserve manual scorings###04 01 2014 new variable
+assessment#:#preserve_manscoring_info#:#Changes in the scoring of a question may make it necessary to void manual scorings. This option allows to void ALL manual scorings in the test and should be used only in rare occasions.###04 01 2014 new variable
+dcl#:#dcl_please_select#:#--- Please select ---###04 01 2014 new variable
