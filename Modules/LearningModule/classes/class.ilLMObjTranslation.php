@@ -11,11 +11,16 @@
  */
 class ilLMObjTranslation
 {
+	protected $lang;
+	protected $title;
+	protected $create_date;
+	protected $last_update;
+
 	/**
 	 * Constructor
 	 *
-	 * @param
-	 * @return
+	 * @param int $a_id object id (page, chapter)
+	 * @param string $a_lang language code
 	 */
 	function __construct($a_id = 0, $a_lang = "")
 	{
@@ -109,9 +114,6 @@ class ilLMObjTranslation
 	
 	/**
 	 * Read
-	 *
-	 * @param
-	 * @return
 	 */
 	function read()
 	{
@@ -159,8 +161,9 @@ class ilLMObjTranslation
 	/**
 	 * Check for existence
 	 *
-	 * @param
-	 * @return
+	 * @param int $a_id object id (page, chapter)
+	 * @param string $a_lang language code
+	 * @return bool true/false
 	 */
 	static function exists($a_id, $a_lang)
 	{
@@ -176,7 +179,28 @@ class ilLMObjTranslation
 		}
 		return false;
 	}
-	
+
+	/**
+	 * Copy all translations of an object
+	 *
+	 * @param int $a_source_id source id
+	 * @param int $a_target_id target
+	 */
+	static function copy($a_source_id, $a_target_id)
+	{
+		global $ilDB;
+
+		$set = $ilDB->query("SELECT * FROM lm_data_transl ".
+			" WHERE id = ".$ilDB->quote($a_source_id, "integer")
+			);
+		while ($rec = $ilDB->fetchAssoc($set))
+		{
+			$lmobjtrans = new ilLMObjTranslation($a_target_id, $rec["lang"]);
+			$lmobjtrans->setTitle($rec["title"]);
+			$lmobjtrans->save();
+		}
+	}
+
 }
 
 ?>
