@@ -377,6 +377,8 @@ class ilContainer extends ilObject
 	 */
 	public function cloneObject($a_target_id,$a_copy_id = 0)
 	{
+		global $ilLog;
+
 		$new_obj = parent::cloneObject($a_target_id,$a_copy_id);
 	
 		include_once('./Services/Container/classes/class.ilContainerSortingSettings.php');
@@ -385,18 +387,28 @@ class ilContainer extends ilObject
 		$sorting->update();
 		
 		// copy content page
+		$ilLog->write("copy container, lookup page");
 		include_once("./Services/Container/classes/class.ilContainerPage.php");
 		if (ilContainerPage::_exists("cont",
 			$this->getId()))
 		{
+			$ilLog->write("...page found");
 			$orig_page = new ilContainerPage($this->getId());
-			$new_page_object = new ilContainerPage();
+			$orig_page->copy($new_obj->getId(), "cont", $new_obj->getId());
+			/*$new_page_object = new ilContainerPage();
 			$new_page_object->setParentId($new_obj->getId());
 			$new_page_object->setId($new_obj->getId());
 			$new_page_object->createFromXML();
 			$new_page_object->setXMLContent($orig_page->getXMLContent());
 			$new_page_object->buildDom(true);
-			$new_page_object->update();
+			$new_page_object->update();*/
+
+			$ilLog->write("...copy ml");
+
+			// copy (page) multilang settings
+			include_once("./Services/COPage/classes/class.ilPageMultiLang.php");
+			$ml = new ilPageMultiLang("cont", $this->getId());
+			$ml->copy("cont", $new_obj->getId());
 		}
 		
 		return $new_obj;

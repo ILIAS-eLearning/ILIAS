@@ -48,10 +48,10 @@ class ilCOPageObjDef
 	/**
 	 * Get definition by parent type
 	 *
-	 * @param string parent type
+	 * @param string $a_parent_type parent type
 	 * @return array definition
 	 */
-	function getDefinitionByParentType($a_parent_type)
+	static function getDefinitionByParentType($a_parent_type)
 	{
 		self::init();
 		return self::$page_obj_def[$a_parent_type];
