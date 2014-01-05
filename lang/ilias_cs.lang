@@ -6,11 +6,15 @@
 * @modulegroup		language
 * @author			Petr Vobecky <pvobecky@nbox.cz>, Tomas Cerha <cerha@brailcom.org>
 * @version			$Id$
+* @il_server		http://www.ilias.de/test43
+* @il_version		4.3.5 2013-10-08
+* @created			2014-01-05 11:07:34
+* @created_by		Matthias Kunkel <kunkel@ilias.de>
 */
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
-// NOTICE: Character coding of all ILIAS lang files is UTF-8! Please set your editor
+// NOTICE: Character coding of all ILIAS 3 lang files is UTF-8! Please set your editor
 // to the corresponding mode! 
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
@@ -508,6 +512,11 @@ assessment#:#errors#:#Chyby
 assessment#:#errors_section#:#Chyba dat
 assessment#:#errortext#:#Chyba textu
 assessment#:#errortext_info#:#Vložte prosím chybný text. K označení slova jako chyby vložte prosím znak křížku (#) na začátku slova. Pokud stisknete tlačítko &quot;Analyzovat chyby textu&quot;, všechna označená slova budou vyjmuta pro další zpracování.
+assessment#:#essay_keyword_relation#:#Body jsou přiděleny
+assessment#:#essay_keyword_relation_all#:#Jen když jsou nalezena všechna klíčová slova.
+assessment#:#essay_keyword_relation_any#:#Při nalezení některého klíčového slova.
+assessment#:#essay_keyword_relation_desc#:#Je-li vybrána volba 'všechna klíčová slova', účastníkovi nejsou přiděleny žádné body dokud nejsou nalezena všechna klíčová slova. Volba 'jedno klíčové slovo' přiděluje plné body na všechny odpovědi, pokud je nalezeno jedno klíčové slovo.
+assessment#:#essay_keyword_relation_one#:#nezkráceně, když je nalezeno jedno klíčové slovo.
 assessment#:#eval_all_users#:#Hodnocení pro všechny uživatele
 assessment#:#eval_choice_result#:#Volba s hodnotou %s je %s. Získal(a) jste %s bodů.
 assessment#:#eval_cloze_result#:#Mezera číslo %s s hodnotou %s je %s. Získal(a) jste %s bodů.
@@ -1514,7 +1523,7 @@ block_html#:#block_html_block_content#:#Obsah
 block_html#:#block_html_block_head#:#Blok HTML
 block_html#:#block_html_block_title#:#Název
 blog#:#blog_add#:#Vytvořit blog
-blog#:#blog_add_contributor#:#Přidat spolupracovníka
+blog#:#blog_add_contributor#:#Přidat přispěvatele
 blog#:#blog_add_posting#:#Přidat záznam
 blog#:#blog_admin_inactive_info#:#Můžete aktivovat rysy blogu ve správě Osobní pracovní plochy.
 blog#:#blog_admin_toggle_info#:#Můžete deaktivovat rysy blogu úplně ve správě Osobní pracovní plochy.
@@ -1775,7 +1784,7 @@ certificate#:#certificate_var_user_login#:#jnovak
 certificate#:#certificate_var_user_salutation#:#Pan
 certificate#:#certificate_var_user_street#:#Hlavní třída 100
 certificate#:#certificate_var_user_title#:#Ing.
-certificate#:#certificate_var_user_zipcode#:#61200
+certificate#:#certificate_var_user_zipcode#:#11200
 certificate#:#certificate_visibility#:#Viditelnost
 certificate#:#certificate_visibility_always#:#Vždy viditelné
 certificate#:#certificate_visibility_introduction#:#Tlačítko ve výsledcích testu nabízející tento certifikát je
@@ -2029,7 +2038,7 @@ cntr#:#cntr_saved_sorting#:#Řazení uloženo.
 cntr#:#cntr_switch_to_new_editor_cmd#:#Přepnout zobrazení na tuto stránku
 cntr#:#cntr_switch_to_new_editor_message#:#To je podporovaný standardní editor. Použijte jej prosím k nastavení obsahu stránky. Pokud klepnete na následující odkaz, obsah zobrazení úložiště bude přepnut ze starého editoru obsahu na tuto stránku.
 cntr#:#cntr_switched_editor#:#Přepnuto na nový obsah.
-cntr#:#cntr_text_media_editor#:#Editor Text/Media
+cntr#:#cntr_text_media_editor#:#Přizpůsobit stránku
 cntr#:#cntr_view_by_type#:#Zobrazit sekupení podle typu
 cntr#:#cntr_view_info_by_type#:#Toto zobrazení obsahu seskupuje všechny položky podle zdrojového typu.
 cntr#:#cntr_view_info_sessions#:#Toto zobrazení obsahu nejprve seskupuje všechny lekce. Pak vypisuje ostatní obsah kurzu.
@@ -2072,7 +2081,7 @@ common#:#active_roles#:#Aktivní role
 common#:#add#:#Přidat
 common#:#add_author#:#Přidat autora
 common#:#add_comments#:#Upravit komentáře
-common#:#add_condition#:#Vytvořit novou asociaci
+common#:#add_condition#:#Přidat předpoklad
 common#:#add_entry#:#Přidat/upravit vstup
 common#:#add_member#:#Přidat člena
 common#:#add_members#:#Přidat členy
@@ -2087,7 +2096,7 @@ common#:#add_user#:#Přidat lokálního uživatele
 common#:#add_user_defined_field#:#Přidat nové pole
 common#:#added_new_condition#:#Nová podmínka vytvořena.
 common#:#added_to_desktop#:#Položka byla přidána na pracovní plochu.
-common#:#additional_info#:#Doplňková podmínka
+common#:#additional_info#:#Doplňkové informace
 common#:#address#:#Adresa
 common#:#adm_create_tax#:#Vytvořit taxonomii
 common#:#admin_force_noti#:#Oznamování aktivní
@@ -2197,7 +2206,7 @@ common#:#assign_lo_forum#:#Přiřadit výukovému objektu fórum
 common#:#assign_local_role#:#Přidělit k lokální roli
 common#:#assign_user_to_role#:#Přiřadit uživateli roli
 common#:#assigned_members#:#Přiřazení členové
-common#:#assigned_roles#:#Přidělené role
+common#:#assigned_roles#:#Přiřazené role
 common#:#assigned_users#:#Přiřazení uživatelé
 common#:#associated_user#:#Sdružený uživatel
 common#:#associated_users#:#Sdružení uživatelé
@@ -2521,12 +2530,12 @@ common#:#cron_jobs_desc#:#Práce cronu je automatický proces, který pracuje v 
 common#:#cron_lucene_index#:#Aktualizovat vyhledávač Lucene
 common#:#cron_lucene_index_info#:#Pokud je zapnuto, vyhledávač Lucene bude aktualizován. Konfigurujte prosím Lucene server ve 'Správa -> Hledat'
 common#:#cron_mail_notification#:#Odeslat oznámení pošty
-common#:#cron_mail_notification_cron#:#řádně přes práci cron
+common#:#cron_mail_notification_cron#:#řádně přes práci cronu
 common#:#cron_mail_notification_desc#:#Je-li zapnuto, všichni uživatelé, kteří chtějí být informováni o nové poště, obdrží oznámení externí poštou
 common#:#cron_mail_notification_message#:#Zaslat e-mailové oznámení zprávou e-mailem
 common#:#cron_mail_notification_message_info#:#Je-li zapnuto, všichni uživatelé obdrží e-mail oznámení cestou externí pošty.
 common#:#cron_mail_notification_never#:#nikdy
-common#:#cronjob_last_start#:#Poslední spuštění Cron Job
+common#:#cronjob_last_start#:#Poslední spuštění práce cronu
 common#:#cronjob_last_start_unknown#:#Neurčitý
 common#:#crs#:#Kurz
 common#:#crs_a#:#kurz
@@ -2538,7 +2547,7 @@ common#:#crs_archives#:#Archívy
 common#:#crs_at_least_one_admin#:#Zde musí být alespoň jeden správce kurzu.
 common#:#crs_available#:#Dostupné kurzy
 common#:#crs_cancel_waiting_list#:#Skutečně se chcete vymazat ze seznamu čekatelů kurzu "%s"?
-common#:#crs_container_link_not_allowed#:#Není možné spojit kontejner objektů
+common#:#crs_container_link_not_allowed#:#Není možné se spojit s kontejnerem objektů
 common#:#crs_edit#:#Upravit kurz
 common#:#crs_info#:#Info
 common#:#crs_list_reg_end#:#Konec registrace
@@ -2588,7 +2597,7 @@ common#:#days#:#Dny
 common#:#days_of_period#:#Dny periody
 common#:#db_host#:#Hostitel databáze
 common#:#db_name#:#Název databáze
-common#:#db_need_hotfix#:#Hotfix dostupný. Otevřete prosím setup program.
+common#:#db_need_hotfix#:#Hotfix dostupný. Otevřete prosím <a href="setup/setup.php">»Setup</a>!
 common#:#db_need_update#:#Databáze vyžaduje aktualizaci!
 common#:#db_pass#:#Heslo k databázi
 common#:#db_type#:#Typ databáze
@@ -2752,7 +2761,7 @@ common#:#err_auth_soap_no_ilias_user#:#Přihlášení selhalo. Autentizace SOAP 
 common#:#err_check_input#:#Nastavení nelze uložit. Zkontrolujte prosím svůj vstup.
 common#:#err_count_param#:#Důvod: Chybný počet parametrů
 common#:#err_enter_current_passwd#:#Vložte prosím své vstupní heslo.
-common#:#err_in_line#:#Chyba na řádce
+common#:#err_in_line#:#Chyba na řádku
 common#:#err_inactive#:#Tento účet nebyl aktivován. Kontaktujte prosím svého systémového administrátora.
 common#:#err_invalid_port#:#Chybné číslo portu
 common#:#err_ldap_auth_failed#:#Uživatel neautentizován LDAP serverem! Zajistěte prosím, aby měl stejné heslo v ILIAS i v LDAP.
@@ -2764,13 +2773,13 @@ common#:#err_no_langfile_found#:#Jazykový soubor nebyl nalezen!
 common#:#err_no_param#:#Žádný parametr!
 common#:#err_over_3_param#:#Více než 3 parametry!
 common#:#err_role_not_assignable#:#Nemůžete přiřadit uživatele do této role v tomto umístění
-common#:#err_session_expired#:#Vaše lekce vypršela!
+common#:#err_session_expired#:#Čas vašeho sezení vypršel!
 common#:#err_unknown_error#:#Neznámá chyba
 common#:#err_wrong_header#:#Důvod: Chybná hlavička.
 common#:#err_wrong_login#:#Chybné přihlášení
 common#:#err_wrong_password#:#Chybné heslo
 common#:#error#:#Chyba
-common#:#error_parser#:#Chyba startu parseru.
+common#:#error_parser#:#Chyba startu analyzátoru syntaxe.
 common#:#error_recipient#:#Příjemce chybových hlášení
 common#:#event_ass_materials_prop#:#Materiály sezení
 common#:#event_assign_files#:#Přiřazení souboru
@@ -2893,7 +2902,7 @@ common#:#file_suffix_repl#:#Změnit příponu odesílaného souboru
 common#:#file_suffix_repl_info#:#Soubory s těmito příponami (odděleno čárkou) budou přejmenovány s příponou ".sec" když budou uloženy do webového prostoru. To je výchozí nastavení pro přípony:
 common#:#file_updated#:#Soubor byl aktualizován.
 common#:#file_upload_pending#:#Nevyřízený soubor
-common#:#file_valid#:#Soubor je v pořádku!
+common#:#file_valid#:#Soubor je v platnosti!
 common#:#file_version#:#Verze poskytnutá v souboru
 common#:#filename#:#Název souboru
 common#:#filename_extension_missing#:#Schází přípona souboru
@@ -2977,7 +2986,7 @@ common#:#frm_edit#:#Upravit fórum
 common#:#frm_edit_post#:#Přidat nový zápis
 common#:#frm_latest_postings#:#Poslední články
 common#:#frm_new#:#Nové fórum
-common#:#frm_statistics_ranking#:#Klasifikace
+common#:#frm_statistics_ranking#:#Hodnocení
 common#:#frm_status_new#:#Status 'Nový'
 common#:#frm_status_new_desc#:#Vyberte prosím délku trvání stavu 'Nový' ve vstupech fóra.
 common#:#from#:#Od
@@ -2987,15 +2996,18 @@ common#:#further_informations#:#Další informace
 common#:#gdf_add#:#Přidat definici
 common#:#gdf_new#:#Nová definice
 common#:#gender#:#Pohlaví
-common#:#gender_f#:#žena
-common#:#gender_m#:#muž
+common#:#gender_f#:#Žena
+common#:#gender_m#:#Muž
 common#:#general_settings#:#Obecná nastavení
 common#:#generate#:#Generovat
 common#:#glo#:#Glosář
+common#:#glo_a#:#Glosář
 common#:#glo_add#:#Přidat glosář
 common#:#glo_added#:#Glosář přidán
 common#:#glo_create#:#Vytvořit glosář
 common#:#glo_import#:#Import glosáře
+common#:#glo_join#:#Odebírat glosář
+common#:#glo_leave#:#Odepsat se z glosáře
 common#:#glo_mode#:#Mód
 common#:#glo_mode_desc#:#Virtuální glosář pracuje jako běžný glosář. Obsahuje navíc termíny ze všech glosářů umístěných na stejné úrovni úložiště jako virtuální glosář, respektive všech glosářů umístěných na nižší úrovni úložiště.
 common#:#glo_mode_level#:#virtuální (jen tato úroveň)
@@ -3034,14 +3046,14 @@ common#:#group_not_available#:#Žádná skupina není k dispozici
 common#:#group_objects#:#Skupinové objekty
 common#:#group_password_registration_msg#:#Když znáte heslo skupiny, můžete se připojit k této skupině. Neznáte-li heslo, kontaktujte svého administrátora skupiny.
 common#:#group_registration#:#Registrace
-common#:#group_registration_expiration_date#:#Datum vypršení
-common#:#group_registration_expiration_time#:#Čas vypršení
+common#:#group_registration_expiration_date#:#Datum ukončení
+common#:#group_registration_expiration_time#:#Čas ukončení
 common#:#group_registration_expired#:#Registrační období této skupiny vypršelo
-common#:#group_registration_expired_msg#:#Registrační období této skupiny vypršelo. Pokud se chcete k této skupině připojit, kontaktujte svého aministrátora skupiny.
-common#:#group_registration_mode#:#Registrační mód
+common#:#group_registration_expired_msg#:#Registrační období této skupiny vypršelo. Pokud se chcete k této skupině připojit, kontaktujte administrátora skupiny.
+common#:#group_registration_mode#:#Registrační procedura
 common#:#group_registration_time#:#Registrační období
-common#:#group_req_direct#:#Přímé přihlášení
-common#:#group_req_password#:#Připojit se skupinovým heslem.
+common#:#group_req_direct#:#Přihlásit přímo
+common#:#group_req_password#:#Přihlásit se skupinovým heslem.
 common#:#group_req_registration#:#Požadavek členství
 common#:#group_req_registration_msg#:#Můžete požádat o členství v této skupině. Obdržíte zprávu, zda administrátor skupiny Váš požadavek přijal, nebo zamítl.
 common#:#group_reset#:#Resetovat oprávnění skupiny
@@ -3108,7 +3120,7 @@ common#:#grp_no_roles_selected#:#Nevybrána žádná role
 common#:#grp_options#:#Volby
 common#:#grp_register#:#Připojit se
 common#:#grp_registration#:#Připojit ke skupině
-common#:#grp_registration_completed#:#Registrace ukončena
+common#:#grp_registration_completed#:#Jste zařazen(a) do skupiny
 common#:#grp_removed_from_waiting_list#:#Byl(a) jste odstraněn(a) ze seznamu čekatelů "%s".
 common#:#grp_search_enter_search_string#:#Vložte prosím hledaný řetězec
 common#:#grp_search_members#:#Hledání uživatele
@@ -3117,7 +3129,7 @@ common#:#grp_select_one_file_only#:#Vložte prosím přesně jeden soubor.
 common#:#grp_wizard_page#:#Kopírovat skupinu (krok 2/2)
 common#:#guest#:#Host
 common#:#guests#:#Hosté
-common#:#header_searchable#:#Prohledané
+common#:#header_searchable#:#Prohledávatelné
 common#:#header_title#:#Název hlavičky
 common#:#header_visible_registration#:#Viditelné v registraci
 common#:#header_zip#:#Odeslat archív zip
@@ -3441,6 +3453,7 @@ common#:#ldap_version#:#Verze protokolu LDAP
 common#:#ldap_visible#:#Nastavení LDAP je viditelné
 common#:#ldap_write#:#Upravit nastavení LDAP
 common#:#learning module#:#Learning Module
+common#:#learning_module#:#Výukový modul
 common#:#learning_objects#:#Výukové objekty
 common#:#learning_progress#:#Postup výuky
 common#:#learning_resourc#:#Výukový materiál
@@ -3608,7 +3621,7 @@ common#:#mem_reg_period#:#Období registrace
 common#:#mem_reg_type#:#Typ registrace
 common#:#mem_start#:#Registrace začíná:
 common#:#mem_unlimited#:#Neomezeno
-common#:#mem_view_activate#:#Activate Members View
+common#:#mem_view_activate#:#Aktivovat zobrazení členů
 common#:#mem_view_close#:#Zavřít zobrazení členů
 common#:#mem_view_deactivate#:#Deaktivovat zobrazení členů
 common#:#mem_view_long#:#Zobrazení členů
@@ -4184,7 +4197,7 @@ common#:#password_assistance_info#:#Pokud je asistent hesla zapnutý, je v přih
 common#:#password_change_on_first_login_demand#:#Vaše původní heslo musí být změněno před započetím užívání služeb ILIAS.
 common#:#password_contains_invalid_chars#:#Heslo obsahuje chybné znaky
 common#:#password_empty#:#Heslo nesmí být prázdné.
-common#:#password_expired#:#Patnost Vašeho hesla vypršela a musí být změněno, protože jeho poslední změna proběhla před %s dny.
+common#:#password_expired#:#Platnost Vašeho hesla vypršela a musí být změněno, protože jeho poslední změna proběhla před %s dny.
 common#:#password_multiple_errors#:#Vícenásobné kriteria nejsou splněna:
 common#:#password_must_chars_and_numbers#:#Heslo musí obsahovat písmena a číslice.
 common#:#password_must_special_chars#:#Heslo musí obsahovat zvláštní znaky.
@@ -4270,11 +4283,11 @@ common#:#pos_top#:#Nahoře
 common#:#position#:#Pracoviště
 common#:#precondition#:#Předpoklad
 common#:#precondition_not_accessible#:#Nemáte odpovídající oprávnění ke zobrazení předpokladů této položky.
-common#:#precondition_required_itemlist#:#Požadované podmínky
-common#:#precondition_toggle#:#Pro přístup k tomuto objektu musí být splněny tyto podmínky
+common#:#precondition_required_itemlist#:#Požadované předpoklady
+common#:#precondition_toggle#:#Pro přístup k tomuto objektu musí být splněny tyto předpoklady
 common#:#preconditions#:#Přepoklady
-common#:#preconditions_obligatory_hint#:#Musíte splnit všechny následující podmínky
-common#:#preconditions_optional_hint#:#Musíte splnít <b>%s</b> následujících podmínek
+common#:#preconditions_obligatory_hint#:#Musíte splnit všechny následující předpoklady
+common#:#preconditions_optional_hint#:#Musíte splnít <b>%s</b> následujících předpokladů
 common#:#predefined_template#:#Předdefinovaná šablona role
 common#:#preferences#:#Uživatelsky definované preference
 common#:#presentation_options#:#Volby prezentace
@@ -4291,7 +4304,7 @@ common#:#profile_changed#:#ILIAS eLearning - Váš profil byl změněn
 common#:#profile_incomplete#:#Váš profil není kompletní. Vyplňte prosím všechna požadovaná data.
 common#:#profile_of#:#Profil pro
 common#:#properties#:#Vlastnosti
-common#:#proxy#:#Proxy
+common#:#proxy#:#Server Proxy
 common#:#proxy_connectable#:#Spojení zajištěno.
 common#:#proxy_host#:#Hostitel
 common#:#proxy_host_info#:#Vložte prosím hostitele.
@@ -4362,7 +4375,7 @@ common#:#registration_disabled#:#Dostupné pouze s použitím lokální autentiz
 common#:#registration_expired#:#Registrační období vypršelo...
 common#:#related_to#:#Příslušné k:
 common#:#remove#:#Odstranit
-common#:#remove_entries#:#Odstranit vstup
+common#:#remove_entries#:#Odstranit položky
 common#:#remove_personal_picture#:#Odstranit
 common#:#remove_translation#:#Odstranit překlad
 common#:#removed_from_desktop#:#Tato položka byla odstraněna z pracovní plochy.
@@ -4479,8 +4492,8 @@ common#:#sahs_insert_sco_from_clip#:#Vložit SCO ze schránky
 common#:#sahs_join#:#Zapsat do výukového modulu SCORM/AICC
 common#:#sahs_leave#:#Vyškrtnout z výukového modulu SCORM/AICC
 common#:#salutation#:#Oslovení
-common#:#salutation_f#:#paní/slečna
-common#:#salutation_m#:#pan
+common#:#salutation_f#:#Paní/Slečna
+common#:#salutation_m#:#Pan
 common#:#save#:#Uložit
 common#:#save_and_back#:#Uložit a zpět
 common#:#save_customer_address#:#Vložit účtovací adresu
@@ -4521,7 +4534,7 @@ common#:#search_user#:#Hledat uživatele
 common#:#seas_max_hits#:#Max. počet nálezů
 common#:#seas_max_hits_info#:#Vložte prosím počet výsledků hledání.
 common#:#seas_settings#:#Nastavení hledání
-common#:#second#:#Druhý
+common#:#second#:#Sekunda
 common#:#seconds#:#sekund
 common#:#sections#:#Sekce
 common#:#sel_country#:#Země
@@ -4883,7 +4896,7 @@ common#:#unlabeled#:#Neoznačený
 common#:#unread#:#nepřečtených
 common#:#unread_lowercase#:#nepřečteno
 common#:#unselected#:#Nevybráno
-common#:#unsubscribe#:#Zrušit účast
+common#:#unsubscribe#:#Odstranit z pracovní plochy
 common#:#unzip#:#Unzip
 common#:#up#:#Nahoru
 common#:#update#:#Upravit
@@ -5291,7 +5304,7 @@ content#:#cont_double_click_to_delete#:#Dvojklik na prvky obsahu k jejich výbě
 content#:#cont_download_no_download#:#Stažení pro uživatele nebude dostupné, dokud nebude aktivována vlastnost ke stažení.
 content#:#cont_download_no_menu#:#Stažení pro uživatele nebude dostupné, dokud nebude aktivována nabídka výukového modulu.
 content#:#cont_download_title#:#Název ke stažení
-content#:#cont_downloads#:#Stáhnout
+content#:#cont_downloads#:#Nabídnout stahování
 content#:#cont_downloads_desc#:#Umožňuje stahování všech veřejných exportních souborů.
 content#:#cont_downloads_public_desc#:#Umožňuje stahování dokonce i anonymním uživatelům (na veřejné ploše)
 content#:#cont_drag_and_drop_elements#:#Pro přesun prvků obsahu je uchopte a přesuňte na určené místo.
@@ -5438,7 +5451,7 @@ content#:#cont_fix_tree#:#Pevná struktura
 content#:#cont_fix_tree_confirm#:#Tento příkaz proveďte prosím jen tehdy, když stromová struktura tohoto výukového modulu je narušena, např. pokud se ve zobrazení prohlížeče vyskytnou prázdné položky.
 content#:#cont_fn#:#Poznámka pod čarou
 content#:#cont_footer#:#Zápatí
-content#:#cont_force_all_open#:#Donutit vše otevřít
+content#:#cont_force_all_open#:#Vše stále otevřeno
 content#:#cont_format#:#Formát
 content#:#cont_format_error#:#Tato operace zde není povolena!
 content#:#cont_frame_botright#:#Podrobnosti obsahu (Glosář)
@@ -5950,7 +5963,7 @@ content#:#cont_TableContent#:#Obsah tabulky
 content#:#cont_tabs#:#Tabulky
 content#:#cont_tabs_acc_hor#:#Horizontální skladba
 content#:#cont_tabs_acc_ver#:#Vertikální rozložení
-content#:#cont_tabs_accordion#:#Akordeon
+content#:#cont_tabs_accordion#:#Rozložení
 content#:#cont_tabs_confirm_deletion#:#Určitě mají být smazány tyto tabulky a jejich obsah?
 content#:#cont_tabs_hor_align_info#:#Horizontální skladba bude zarovnána vlevo
 content#:#cont_tabs_hor_tabs#:#Horizontální tabulky
@@ -6065,6 +6078,7 @@ content#:#glo_used_in_scorm#:#Daný glosář je používán SCORM modulem. Bude-
 content#:#help_assign_help_ids#:#Chapter/Screen-IDs Assignment
 content#:#htlm_import#:#Import výukového modulu HTML
 content#:#HTML export#:#HTML Export
+content#:#HTML_export#:#HTML Export
 content#:#import_sco_object#:#Import SCO
 content#:#lm_menu_edit_entry#:#Upravit položky menu
 content#:#lm_menu_entry_target#:#Cíl
@@ -6083,11 +6097,14 @@ content#:#msg_page_not_public#:#Stránka není veřejná
 content#:#page_does_not_exist#:#Je nám líto, ale tato stránka neexistuje.
 content#:#Pages#:#Stránky
 content#:#pages from#:#Pages From
+content#:#pages_from#:#Stránky z
 content#:#par#:#Odstavec
 content#:#PDF export#:#PDF Export
+content#:#PDF_export#:#PDF Export
 content#:#pg#:#Stránka
 content#:#public_section#:#Veřejná plocha
 content#:#read offline#:#Read Offline
+content#:#read_offline#:#Číst Offline
 content#:#sahs_empty_objectives_are_not_allowed#:#Vložte prosím cíl výuky.
 content#:#saved_media_object#:#Uložené mediální objekty.
 content#:#scplayer_collapsetree#:#Sklapnout všechno
@@ -6121,6 +6138,7 @@ content#:#seq_toc#:#Z tabulky obsahu vlevo vyberte aktivitu k započetí kurzu.
 content#:#set_public_mode#:#Nastavit mód veřejného přístupu
 content#:#st#:#Kapitola
 content#:#start export#:#Start Export
+content#:#start_export#:#Start Export
 content#:#text_repr#:#Reprezentace textu
 content#:#text_repr_info#:#Pro obrázek použit "alt" atribut.
 cptch#:#cptch_freetype_support_needed#:#K použití tohoto rysu musíte zapnout podporu volného typu ve Vašem PHP.
@@ -7219,6 +7237,7 @@ dateplaner#:#wk_short#:#Týd
 dateplaner#:#year#:#Rok
 dateplaner#:#yui_cal_choose_month#:#Měsíc:
 dateplaner#:#yui_cal_choose_year#:#Rok:
+dcl#:#-dcl_table_info_title-#:#Info
 dcl#:#dcl_actions#:#Akce
 dcl#:#dcl_activate_approval#:#Aktivivat schválení záznamu
 dcl#:#dcl_activate_notification#:#Aktivovat upozornění
@@ -7387,7 +7406,7 @@ ecs#:#ecs_attribute_name#:#Název atributu
 ecs#:#ecs_auth_type#:#Typ autentizace
 ecs#:#ecs_auth_type_apache#:#Uživatelské jméno/Heslo
 ecs#:#ecs_auth_type_cert#:#Základ certifikátu
-ecs#:#ecs_availability#:#Availability
+ecs#:#ecs_availability#:#Dostupnost
 ecs#:#ecs_available_ecs#:#Dostupné ECS
 ecs#:#ecs_back_settings#:#Nastavení ECS
 ecs#:#ecs_ca_cert#:#CA Certifikát
@@ -7424,7 +7443,7 @@ ecs#:#ecs_cmap_def_cat#:#Default Category
 ecs#:#ecs_cmap_def_cat_info#:#Please enter the id of a category where all courses will be created that cannot be handled by other rules.
 ecs#:#ecs_cmap_delete_attribute_btn#:#Delete Last Attribute
 ecs#:#ecs_cmap_enable#:#Course Allocation
-ecs#:#ecs_cmap_form_all_values#:#All Values
+ecs#:#ecs_cmap_form_all_values#:#Všechny hodnoty
 ecs#:#ecs_cmap_form_create_subdirs#:#Create Subdirectories
 ecs#:#ecs_cmap_form_current_dir#:#Current Directory
 ecs#:#ecs_cmap_form_dir_relation#:#Directory Reference
@@ -7683,20 +7702,20 @@ exc#:#exc_submitted_files_deleted#:#Vybrané soubory byly smazány.
 exc#:#exc_team#:#Team
 exc#:#exc_team_at_least_one#:#There has to be at least 1 team member.
 exc#:#exc_team_log#:#Team Log
-exc#:#exc_team_log_add_file#:#Added file %s.
-exc#:#exc_team_log_add_member#:#Added member %s.
+exc#:#exc_team_log_add_file#:#Přidán soubor %s.
+exc#:#exc_team_log_add_member#:#Přidán člen %s.
 exc#:#exc_team_log_create_team#:#Team created.
 exc#:#exc_team_log_remove_file#:#Removed file %s.
 exc#:#exc_team_log_remove_member#:#Removed member %s.
-exc#:#exc_team_member_add#:#Add Team Member (Search)
-exc#:#exc_team_member_container_add#:#Add Team Member from Course/Group
+exc#:#exc_team_member_add#:#Přidat členy týmu (Hledat)
+exc#:#exc_team_member_container_add#:#Přidat členy týmu pro kurz/skupinu
 exc#:#exc_team_members#:#Team Members
 exc#:#exc_team_notification_body_add#:#you have been added to a team upload assignment.
 exc#:#exc_team_notification_body_rmv#:#you have been removed from  a team upload assignment.
 exc#:#exc_team_notification_changed_by#:#Status changed by
 exc#:#exc_team_notification_link#:#Link to exercise
 exc#:#exc_team_notification_salutation#:#Hello %s,
-exc#:#exc_team_notification_subject_add#:#Added as team member to upload assignment
+exc#:#exc_team_notification_subject_add#:#Přidán jako člen týmu do přiřazení pro upload
 exc#:#exc_team_notification_subject_rmv#:#Removed from a team upload assignment
 exc#:#exc_total_exc#:#Cvičení celkem
 exc#:#exc_type_blog#:#Blog
@@ -8112,7 +8131,7 @@ grp#:#grp_wrong_max_members#:#Zkontrolujte prosím maximální počet uživatel�
 grp#:#grp_wrong_reg_time_limit#:#Zkontrolujte prosím počátek a konec registrace.
 grp#:#reg_grp_max_members#:#Maximální počet uživatelů
 grp#:#reg_grp_max_members_short#:#Počet členů
-help#:#help_all#:#All
+help#:#help_all#:#Vše
 help#:#help_component#:#Component
 help#:#help_filter#:#Filter
 help#:#help_help_file#:#Help Package File
@@ -8143,8 +8162,8 @@ ilinc#:#ilinc_no_account_yet#:#Žádný účet iLinc doposud není
 ilinc#:#ilinc_user_added#:#Účet uživatele na iLinc serveru vytvořen
 ilinc#:#ilinc_user_id#:#ID uživatele iLinc
 ilinc#:#ilinc_user_settings#:#Nastavení uživatele iLinc
-itgr#:#itgr_assigned_materials#:#Assigned Materials
-itgr#:#itgr_assignment#:#Assignment
+itgr#:#itgr_assigned_materials#:#Přiřazené materiály
+itgr#:#itgr_assignment#:#Přiřazení
 itgr#:#itgr_edit#:#Edit Item Groups
 itgr#:#itgr_item#:#Item
 itgr#:#itgr_materials#:#Materials
@@ -8559,7 +8578,7 @@ mcst#:#mcst_play_time#:#Hrací doba
 mcst#:#mcst_preview_picture#:#Preview Picture
 mcst#:#mcst_preview_picture_info#:#Only supported by the following main media types:
 mcst#:#mcst_purpose_standard#:#Standard File
-mcst#:#mcst_purpose_videoalternative#:#Alternative Video File
+mcst#:#mcst_purpose_videoalternative#:#Alternativní video soubor
 mcst#:#mcst_reference_info#:#Poskytnout směrování URL zdroje
 mcst#:#mcst_save_order#:#Save Order
 mcst#:#mcst_second#:#Second
@@ -8570,7 +8589,7 @@ mcst#:#mcst_standard_settings_title#:#Přípony souborů pro standardní formát
 mcst#:#mcst_standard_title#:#Běžný mediální soubor
 mcst#:#mcst_target#:#Target
 mcst#:#mcst_unable_to_determin_playtime#:#Nelze určit hrací dobu. Nastavte ji prosím manuálně klepnutím na Upravit.
-mcst#:#mcst_videoalternative_title#:#Alternative Video File (Use in Browser)
+mcst#:#mcst_videoalternative_title#:#Alternativní video soubor (použít v prohlížeči)
 mcst#:#mcst_videoportable_settings_info#:#Seznam přípon souborů oddělených čárkami.
 mcst#:#mcst_videoportable_settings_title#:#Přípony souborů pro Video formát
 mcst#:#mcst_videoportable_title#:#Přídavný video soubor pro přenosná zařízení
@@ -9925,50 +9944,50 @@ pdesk#:#pdesk_intro#:#Vítejte na své pracovní ploše!
 pdesk#:#pdesk_intro2#:#Toto je Váš osobní prostor pro organizaci Vaší práce a učení. Zde můžete odkládat materiály z jiných ploch na svou osobní pracovní plochu. To provedete ve dvou krocích:
 pdesk#:#pdesk_intro3#:#Klepněte na '%s' a vyhledejte existující pracovní a výukové materiály.
 pdesk#:#pdesk_intro4#:#Pokud jste nalezl(a) něco zajímavého, přidejte to na Vaši pracovní plochu klepnutím na tlačítko <i>Přidat na pracovní plochu</i>.
-poll#:#poll_absolute#:#Current Votes
-poll#:#poll_activation_limited_visibility_info#:#If chosen, the poll is visible even outside of the given availability.
+poll#:#poll_absolute#:#Aktuální hlasy
+poll#:#poll_activation_limited_visibility_info#:#Je-li vybráno, tato anketa je viditelná i mimo udanou dostupnost.
 poll#:#poll_activation_online_info#:#Aktivujte toto nastavení ke zpřístupnění hlasování uživatelům.
-poll#:#poll_active_no_edit#:#This poll is currently active and cannot be edited.
-poll#:#poll_add#:#Add Poll
+poll#:#poll_active_no_edit#:#Tato anketa je aktuálně aktivní a nemůže být upravována.
+poll#:#poll_add#:#Přidat anketu
 poll#:#poll_add_answer#:#Přidat odpověď
-poll#:#poll_answer#:#Answer
-poll#:#poll_answers#:#Possible Answers
-poll#:#poll_availability_limitless_info#:#Choose this mode for making the poll available limitless.
-poll#:#poll_availability_until_info#:#Choose this mode for making the poll available for a fixed period of time.
-poll#:#poll_block_message_already_voted#:#You already voted in this poll.
-poll#:#poll_block_message_inactive#:#This poll will be available from %s.
-poll#:#poll_block_message_no_answers#:#This poll is incomplete.
-poll#:#poll_block_message_offline#:#This poll is offline.
-poll#:#poll_block_results_available_on#:#The results will be available on %s.
-poll#:#poll_copy#:#Copy Poll
-poll#:#poll_delete_votes#:#Delete All Votes
-poll#:#poll_delete_votes_sure#:#Are you sure you want to delete all votes?
-poll#:#poll_edit#:#Edit Poll
-poll#:#poll_edit_answer#:#Edit Answer
-poll#:#poll_image#:#Image
-poll#:#poll_import#:#Import Poll
-poll#:#poll_info_delete_sure#:#Are you sure that you want to delete the following answers?
-poll#:#poll_new#:#Add New Poll
-poll#:#poll_participants#:#Participants
-poll#:#poll_percentage#:#Current Percentage
+poll#:#poll_answer#:#Odpověď
+poll#:#poll_answers#:#Možné odpovědi
+poll#:#poll_availability_limitless_info#:#Tento mód vyberte pro vytvoření ankety dostupné po neomezené časové období.
+poll#:#poll_availability_until_info#:#Tento mód vyberte pro vytvoření ankety dostupné po pevně dané časové období.
+poll#:#poll_block_message_already_voted#:#V této anketě jste již hlasoval(a).
+poll#:#poll_block_message_inactive#:#Tato anketa je dostupná z %s.
+poll#:#poll_block_message_no_answers#:#Tato anketa není kompletní.
+poll#:#poll_block_message_offline#:#Tato anketa je offline.
+poll#:#poll_block_results_available_on#:#Tyto výsledky budou dostupné na %s.
+poll#:#poll_copy#:#Kopírovat anketu
+poll#:#poll_delete_votes#:#Smazat všechny hlasy
+poll#:#poll_delete_votes_sure#:#Skutečně chcete smazat všechny hlasy?
+poll#:#poll_edit#:#Upravit anketu
+poll#:#poll_edit_answer#:#Upravit odpověď
+poll#:#poll_image#:#Obrázek
+poll#:#poll_import#:#Importovat anketu
+poll#:#poll_info_delete_sure#:#Určitě chcete smazat následující odpovědi?
+poll#:#poll_new#:#Přidat novou anketu
+poll#:#poll_participants#:#Účastníci
+poll#:#poll_percentage#:#Aktuální procento
 poll#:#poll_population#:#%s Hlasů
-poll#:#poll_question#:#Question
-poll#:#poll_result#:#Voting Result
-poll#:#poll_sortorder#:#Order
-poll#:#poll_update_order#:#Update Order
-poll#:#poll_view_results#:#Display Results
+poll#:#poll_question#:#Otázka
+poll#:#poll_result#:#Výsledky hlasování
+poll#:#poll_sortorder#:#Pořadí
+poll#:#poll_update_order#:#Aktualizovat řazení
+poll#:#poll_view_results#:#Zobrazit výsledky
 poll#:#poll_view_results_after_period#:#After Voting Period 
-poll#:#poll_view_results_after_vote#:#After Vote
-poll#:#poll_view_results_always#:#Always
-poll#:#poll_view_results_never#:#Never
-poll#:#poll_vote#:#Vote
-poll#:#poll_votes_no_edit#:#This poll already contains votes. You cannot edit the poll until you delete these votes.
-poll#:#poll_voting_period#:#Voting Period
-poll#:#poll_voting_period_and_results#:#Voting Period and Results
-poll#:#poll_voting_period_end#:#Ending Time
-poll#:#poll_voting_period_limited#:#Limited
-poll#:#poll_voting_period_start#:#Starting Time
-poll#:#poll_voting_period_unlimited#:#Unlimited
+poll#:#poll_view_results_after_vote#:#Po hlasování
+poll#:#poll_view_results_always#:#Vždy
+poll#:#poll_view_results_never#:#Nikdy
+poll#:#poll_vote#:#Hlas
+poll#:#poll_votes_no_edit#:#Tato anketa již obsahuje hlasy. Nemůžete tuto anketu upravovat, dokud tyto hlasy nesmažete.
+poll#:#poll_voting_period#:#Období hlasování
+poll#:#poll_voting_period_and_results#:#Období hlasování a výsledky
+poll#:#poll_voting_period_end#:#Čas ukončení
+poll#:#poll_voting_period_limited#:#Omezeno
+poll#:#poll_voting_period_start#:#Čas zahájení
+poll#:#poll_voting_period_unlimited#:#Neomezeno
 prtf#:#prtf_add_blog#:#Přidat Blog
 prtf#:#prtf_add_page#:#Přidat stránku
 prtf#:#prtf_add_portfolio#:#Přidat Portfolio
@@ -10738,7 +10757,7 @@ registration#:#reg_add_assignment#:#Nové přiřazení
 registration#:#reg_added_assignment#:#Přidáno nové přiřazení.
 registration#:#reg_allow_codes#:#Povolit kódy
 registration#:#reg_allow_codes_info#:#Uživatelům je také umožněna registrace pomocí kódů.
-registration#:#reg_allowed_domains#:#Allowed Email Address Domains
+registration#:#reg_allowed_domains#:#Povolené domény emailových adres
 registration#:#reg_allowed_domains_info#:#Use * as wildcard and ; as separator.
 registration#:#reg_approve#:#Registrace se schválením
 registration#:#reg_approve_info#:#Je-li vybráno, každý nový uživatel musí být  odsouhlasen správcem.
@@ -10809,10 +10828,10 @@ registration#:#registration_used#:#Datum použití
 registration#:#registration_user_new_account_mail#:#Upravit e-mail nového účtu
 rep#:#rep_activation_access#:#Přístup
 rep#:#rep_activation_access_ref_info#:#This setting only affects this and no other reference in the repository.
-rep#:#rep_activation_availability#:#Availability
+rep#:#rep_activation_availability#:#Dostupnost
 rep#:#rep_activation_limited_end#:#Ending Time
 rep#:#rep_activation_limited_start#:#Starting Time
-rep#:#rep_activation_limited_visibility#:#Always Visible
+rep#:#rep_activation_limited_visibility#:#Vždy viditelné
 rep#:#rep_activation_online#:#Online
 rep#:#rep_activation_online_object_info#:#This setting affects all references in the repository.
 rep#:#rep_dependencies#:#Závislosti
@@ -10895,6 +10914,9 @@ scormdebug#:#adl.nav.request_valid.continue#:#Used by a SCO to determine if a Co
 scormdebug#:#adl.nav.request_valid.previous#:#Used by a SCO to determine if a Previous navigation request will succeed.
 scormdebug#:#all_API-calls_shown#:#Všechna API-volání jsou právě zobrazena.
 scormdebug#:#API-call#:#API-volání
+scormdebug#:#cmi_entry#:#Asserts whether the learner has previously accessed the SCO
+scormdebug#:#cmi_max_time_allowed#:#Množství souhrnného času studenta je povoleno k použití SCO
+scormdebug#:#cmi_session_time#:#Množství času, které student strávil v aktuální výukové lekci pro tento SCO
 scormdebug#:#cmi._version#:#Represents the version of the data model
 scormdebug#:#cmi.comments_from_learner._children#:#Listing of supported data model elements
 scormdebug#:#cmi.comments_from_learner._count#:#Current number of learner comments
@@ -11363,7 +11385,7 @@ style#:#sty_add_template#:#Přidat šablonu
 style#:#sty_added_characteristic#:#Přidán styl třídy.
 style#:#sty_all#:#Všechny
 style#:#sty_all_styles_obligatory#:#Všechny vybrané styly jsou povinné a nemohou být smazány.
-style#:#sty_assign_categories#:#Assign Categories
+style#:#sty_assign_categories#:#Přiřadit kategorie
 style#:#sty_background#:#Pozadí
 style#:#sty_background_attachment#:#Vodoznak
 style#:#sty_background_color#:#Barva pozadí
@@ -12309,7 +12331,7 @@ tagging#:#tagging_tags#:#Značky
 tagging#:#tagging_users_using_tag#:#Uživatelsky použitá značka
 tax#:#obj_taxn#:#Node
 tax#:#tax_add_taxonomy#:#Přidat taxonomii
-tax#:#tax_alphabetical#:#Alphabetical
+tax#:#tax_alphabetical#:#Abecedně
 tax#:#tax_confirm_deletion#:#Do you really want to delete the whole taxonomy and all its relations?
 tax#:#tax_create_node#:#Create Node
 tax#:#tax_delete_taxonomy#:#Delete Taxononmy
@@ -12445,7 +12467,7 @@ trac#:#trac_active_both#:#Sledování uživatelů a postupu výuky aktivováno
 trac#:#trac_active_lp_only#:#Postup výuky aktivován
 trac#:#trac_active_ut_only#:#Sledování uživatelů aktivováno
 trac#:#trac_added_no_shown_list#:#Vybrané objekty budou skryty.
-trac#:#trac_aggregation#:#Aggregation
+trac#:#trac_aggregation#:#Seskupení
 trac#:#trac_all#:#Vše
 trac#:#trac_anonymized#:#Anonymní
 trac#:#trac_anonymized_info#:#Je-li zapnuto, všechny statistiky budou anonymní.
@@ -12458,7 +12480,7 @@ trac#:#trac_below#:#Pod:
 trac#:#trac_closed_expire#:#Timeout
 trac#:#trac_closed_idle#:#Idle Time
 trac#:#trac_closed_idle_first#:#Idle Time (1st Request)
-trac#:#trac_closed_login#:#Anonymous To Login
+trac#:#trac_closed_login#:#Anonymní přihlášení
 trac#:#trac_closed_manual#:#Logout
 trac#:#trac_closed_misc#:#Misc.
 trac#:#trac_collection_assign#:#Vybrat pro určení postupu výuky
@@ -12635,7 +12657,7 @@ trac#:#trac_session_statistics_mode_week#:#Week
 trac#:#trac_session_statistics_mode_year#:#Year
 trac#:#trac_session_statistics_no_data#:#No data for this statistics could be found.
 trac#:#trac_sessions_closed#:#Leavings
-trac#:#trac_sessions_opened#:#Admissions
+trac#:#trac_sessions_opened#:#Přístupy
 trac#:#trac_settings#:#Nastavení
 trac#:#trac_settings_saved#:#nastavení uloženo.
 trac#:#trac_short_system_load#:#Short term
@@ -12652,7 +12674,7 @@ trac#:#trac_summary#:#Souhrnně
 trac#:#trac_sure_delete_data#:#Skutečně chcete smazat úplné údaje pro následující měsíce?
 trac#:#trac_sync_obj_stats#:#Aktualizovat údaje
 trac#:#trac_sync_obj_stats_success#:#Údaje byly aktualizovány
-trac#:#trac_sync_session_stats#:#Aggregate Data
+trac#:#trac_sync_session_stats#:#Shromáždit údaje
 trac#:#trac_sync_session_stats_success#:#Data aggregation was done successfully.
 trac#:#trac_time_passed#:#Čas editace překročen
 trac#:#trac_title#:#Název
@@ -12712,7 +12734,7 @@ user#:#user_activation#:#Aktivace
 user#:#user_add_page#:#Přidat stránku
 user#:#user_adm_enable_alpha_nav#:#Abecední navigace v uživatelské správě
 user#:#user_all#:#Všichni
-user#:#user_allow_delete_own_account#:#Allow users to delete own account
+user#:#user_allow_delete_own_account#:#Povolit uživatelům smazat svůj účet
 user#:#user_any#:#Kterýkoli
 user#:#user_delete_own_account#:#Smazat účet
 user#:#user_delete_own_account_email_body#:#Your user account "%s" has been deleted from %s on %s.
@@ -12934,71 +12956,3 @@ wsp#:#wsp_type_file#:#Soubor
 wsp#:#wsp_type_tstv#:#Verifikace: Test
 wsp#:#wsp_type_webr#:#Weblový odkaz
 wsp#:#wsp_type_wfld#:#Složka
-assessment#:#essay_scoring_mode#:#Scoring Mode###08 03 2013 new variable
-assessment#:#essay_scoring_mode_without_keywords#:#No Automatic Scoring###08 03 2013 new variable
-assessment#:#essay_scoring_mode_without_keywords_desc#:#No points are granted unless the tutor's manual scoring.###08 03 2013 new variable
-assessment#:#essay_scoring_mode_keyword_relation_any#:#Automatic Scoring with Keywords on Finding ANY###08 03 2013 new variable
-assessment#:#essay_scoring_mode_keyword_relation_any_desc#:#For any found keyword the corresponding points are granted automatically.###08 03 2013 new variable
-assessment#:#essay_scoring_mode_keyword_relation_all#:#Automatic Scoring with Keywords on Finding ALL###08 03 2013 new variable
-assessment#:#essay_scoring_mode_keyword_relation_all_desc#:#The points are granted automatically, if all keywords are found.###08 03 2013 new variable
-assessment#:#essay_scoring_mode_keyword_relation_one#:#Automatic Scoring with Keywords on Finding ONE###08 03 2013 new variable
-assessment#:#essay_scoring_mode_keyword_relation_one_desc#:#The points are granted automatically, if at least one keyword is found.###08 03 2013 new variable
-assessment#:#tst_pass_deletion#:#Previous Passes###08 03 2013 new variable
-assessment#:#tst_pass_deletion_not_allowed#:#The Deletion of Previous Passes is NOT allowed###08 03 2013 new variable
-assessment#:#tst_pass_deletion_allowed#:#The Deletion of Previous Passes is allowed###08 03 2013 new variable
-common#:#soap_user_administration_desc_extended#:#Enabling this, the ILIAS client is visible via the SOAP API.###08 03 2013 new variable
-content#:#cont_localfile#:#Local File###08 03 2013 new variable
-chatroom#:#no_username_given#:#Please choose a username###08 03 2013 new variable
-dcl#:#dcl_export_enabled#:#Allow export function for all users###08 03 2013 new variable
-dcl#:#dcl_no_fields_yet#:#There are no fields defined for this table thus you cannot create any entries yet.###08 03 2013 new variable
-dcl#:#dcl_create_fields#:#Please create at least one field in the tab "List Fields".###08 03 2013 new variable
-rbac#:#itgr_visible#:#Item group is visible###08 03 2013 new variable
-content#:#glo_term_must_belong_to_glo#:#The action can only be performed on terms, which are defined in this glossary.###08 03 2013 new variable
-common#:#edited_on#:#Edited on###08 03 2013 new variable
-ecs#:#ecs_sync_trees#:#Synchronise Directory Trees###08 03 2013 new variable
-survey#:#svy_invite_action#:#Invite users to a survey###08 03 2013 new variable
-rbac#:#chtr_delete#:#User can move or delete course###08 03 2013 new variable
-ecs#:#ecs_role_mappings#:#Course/Group Role Mappings###08 03 2013 new variable
-ecs#:#ecs_role_mapping_value#:#Attribute Value###08 03 2013 new variable
-blog#:#blog_toggle_draft_admin#:#Deactivate Blog Posting###08 03 2013 new variable
-blog#:#blog_keywords_info#:#Use +/- icons to add and remove keywords.###08 03 2013 new variable
-crs#:#crs_notification_list_title#:#Notification About New Members###08 03 2013 new variable
-dcl#:#dcl_hello#:#Dear###26 04 2013 new variable
-dcl#:#dcl_field_title_change_warning#:#You changed the title of the field hence some placeholders in the view definition might be broken. Those have to be fixed manually should the occasion arise.###26 04 2013 new variable
-dcl#:#dcl_inconsistent_at#:#The Data Collection is inconsistant. A reference no longer exists.###26 04 2013 new variable
-dcl#:#dcl_change_why_you_receive_this_email#:#You receive this message because you have activated the notification about this datacollection.###26 04 2013 new variable
-obj#:#edit_questions#:#Edit Questions###26 04 2013 new variable
-user#:#user_delete_own_account_logout_confirmation#:#Your account has been flagged for deletion. Please authenticate to continue the process.###26 04 2013 new variable
-user#:#user_delete_own_account_logout_button#:#Proceed to Authentication###26 04 2013 new variable
-user#:#user_delete_own_account_aborted#:#Aborted deletion, account was not changed.###26 04 2013 new variable
-rbac#:#edit_userassignment#:#Edit User Assignment###26 04 2013 new variable
-blog#:#blog_posting_edit_approval_info#:#Posting remains to be approved by a tutor before being published.###26 04 2013 new variable
-assessment#:#tst_save_manscoring_failed#:#Saving the manual scoring for test pass %s has failed.###10 07 2013 new variable
-assessment#:#tst_manscoring_maxpoints_exceeded_input_alert#:#The maximum of %s point(s) is exceeded!###10 07 2013 new variable
-assessment#:#tst_manscoring_input_max_points_for_question#:#Maximum Points for Question###10 07 2013 new variable
-assessment#:#tst_manscoring_input_question_and_user_solution#:#Question and User Solution###10 07 2013 new variable
-assessment#:#tst_manscoring_input_best_solution#:#Best Solution###10 07 2013 new variable
-dcl#:#dcl_record#:#Record###10 07 2013 new variable
-mail#:#mail_add_folder#:#Add New Subfolder###10 07 2013 new variable
-mail#:#mail_rename_folder#:#Rename Folder###10 07 2013 new variable
-common#:#rpc_pdf_generation#:#PDF-Generation###10 07 2013 new variable
-common#:#rpc_pdf_font#:#Fonts###10 07 2013 new variable
-common#:#rpc_pdf_font_info#:#Additional fonts for the generation of PDF files. Other fonts than "Helvetica" and "unifont" must be installed on the ILIAS server.###10 07 2013 new variable
-didactic#:#didactic_default_type#:#Default###10 07 2013 new variable
-blog#:#blog_draft_info_contributors#:#This posting draft is only visible for the contributors.###10 07 2013 new variable
-exp#:#exp_file_created#:#The export file has been created.###10 07 2013 new variable
-ecs#:#ecs_cmap_att_courseType#:#Course Type###10 07 2013 new variable
-ecs#:#ecs_cmap_att_degreeProgramme#:#Degree Programme###10 07 2013 new variable
-ecs#:#ecs_cmap_att_module#:#Module###10 07 2013 new variable
-ecs#:#ecs_cmap_att_venue#:#Venue###10 07 2013 new variable
-mcst#:#mcst_download_videoalternative#:#Download Alternative File###10 07 2013 new variable
-dateplaner#:#remote_pass_info#:#Please enter your account data if the access to the webcalendar ist protected.###10 07 2013 new variable
-prtf#:#prtf_allow_html#:#Allow HTML/Javascript###10 07 2013 new variable
-prtf#:#prtf_allow_html_info#:#Enables users to include HTML and/or Javascript in their portfolio pages. This can lead to security issues.###10 07 2013 new variable
-blog#:#blog_allow_html#:#Allow HTML/Javascript###10 07 2013 new variable
-blog#:#blog_allow_html_info#:#Enables users to include HTML and/or Javascript in their blog postings. This can lead to security issues.###10 07 2013 new variable
-wiki#:#wiki_start_page_info#:#If there does not exist a page with this title yet, a new page will be created.###10 07 2013 new variable
-survey#:#survey_notification_tutor_link#:#Link to Survey###16 09 2013 new variable
-dcl#:#fieldtitle_allow_chars#:#Allowed chars: %s###16 09 2013 new variable
-crs#:#crs_passed_status_system#:#System###16 09 2013 new variable
-crs#:#crs_passed_status_manual_by#:#Manual by###16 09 2013 new variable
