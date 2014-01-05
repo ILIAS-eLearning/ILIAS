@@ -14148,3 +14148,4 @@ content#:#cont_language#:#Language###30 12 2013 new variable
 content#:#cont_add_lang#:#Add Language###30 12 2013 new variable
 content#:#cont_conf_delete_lang#:#Do you really want to drop support for the following languages?###30 12 2013 new variable
 content#:#cont_back_to_page#:#Back to Page###30 12 2013 new variable
+notes#:#note_content_removed#:#Der Inhalt wurde entfernt.
