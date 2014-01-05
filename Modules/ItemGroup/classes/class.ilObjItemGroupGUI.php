@@ -97,13 +97,13 @@ class ilObjItemGroupGUI extends ilObject2GUI
 		}
 	}
 
-	/*protected function initCreationForms($a_new_type)
+	protected function initCreationForms($a_new_type)
 	{
-		$forms = array(self::CFORM_NEW => $this->initCreateForm($a_new_type),
-			self::CFORM_IMPORT => $this->initImportForm($a_new_type));
+		$forms = array(self::CFORM_NEW => $this->initCreateForm($a_new_type)
+			);
 
 		return $forms;
-	}*/
+	}
 
 	/**
 	 * After save
