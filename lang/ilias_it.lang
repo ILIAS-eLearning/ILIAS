@@ -10067,7 +10067,6 @@ rbac#:#cals_write#:#Edita le impostazioni del Calendario
 rbac#:#cat_administrate_users#:#Administrate Local User Accounts
 rbac#:#cat_cat_administrate_users#:#Amministrare utenti locali
 rbac#:#cat_copy#:#Copia Categoria
-rbac#:#cat_copy_threads_info#:#Decidi per favore quali oggetti della categoria devono essere copiati, linkati o sospesi.
 rbac#:#cat_delete#:#Elimina un contesto
 rbac#:#cat_edit_permission#:#Modificare le impostazioni dei permessi
 rbac#:#cat_read#:#Accedere in lettura ad un contesto
@@ -10102,7 +10101,6 @@ rbac#:#cmps_visible#:#Le impostazioni dei componenti sono visibili
 rbac#:#cmps_write#:#Edita le impostazioni dei Componenti
 rbac#:#contribute#:#Contribuisci
 rbac#:#crs_copy#:#Copia Corso
-rbac#:#crs_copy_threads_info#:#Decidi per favore quali contenuti del corso devono essere copiati, linkati o omessi
 rbac#:#rbac_create_fold#:#Crea una cartella
 rbac#:#rbac_create_sess#:#Crea sessione
 rbac#:#crs_delete#:#Cancella un corso
@@ -10514,7 +10512,6 @@ rbac#:#tst_read#:#Accedere in lettura ad un test
 rbac#:#tst_tst_statistics#:#Access to Test Statistics
 rbac#:#tst_visible#:#Vedere un test
 rbac#:#tst_write#:#Modificare un test
-rbac#:#usrf_create_usr#:#Create User
 rbac#:#usrf_delete#:#Eliminare un utente
 rbac#:#usrf_edit_permission#:#Modificare le impostazioni dei permessi
 rbac#:#usrf_edit_roleassignment#:#Cambiare i ruoli assegnati agli utenti
@@ -13002,3 +12999,20 @@ survey#:#survey_notification_tutor_link#:#Link to Survey###16 09 2013 new variab
 dcl#:#fieldtitle_allow_chars#:#Allowed chars: %s###16 09 2013 new variable
 crs#:#crs_passed_status_system#:#System###16 09 2013 new variable
 crs#:#crs_passed_status_manual_by#:#Manual by###16 09 2013 new variable
+common#:#cat_copy_threads_info#:#Please decide which category items should be copied, linked or even omitted.###05 01 2014 new variable
+common#:#crs_copy_threads_info#:#Please decide which course materials should be copied, linked or even omitted.###05 01 2014 new variable
+rbac#:#rbac_create_usr#:#User is allowed to create user accounts###05 01 2014 new variable
+dcl#:#dcl_field_title_unique#:#There exists already a field with this title. Title must be unique.###05 01 2014 new variable
+dcl#:#dcl_table_title_unique#:#There exists already a table with this title. Title must be unique.###05 01 2014 new variable
+poll#:#poll_voting_period_info#:#Deadline for Voting: %s###05 01 2014 new variable
+book#:#book_reservation_failed_overbooked#:#The booking failed because the object is not available anymore.###05 01 2014 new variable
+exc#:#exc_no_team_yet#:#Not assigned to a team###05 01 2014 new variable
+ecs#:#ecs_cmap_delete_rule#:#Delete Mapping###05 01 2014 new variable
+exc#:#exc_team_member_remove_sure#:#Are you sure you want to remove the following members of your team? Please be aware that all files they have uploaded will also be removed from your team.###05 01 2014 new variable
+exc#:#exc_create_team#:#Create Team###05 01 2014 new variable
+exc#:#exc_create_team_times_up_warning#:#You cannot create a team anymore - please contact your tutor.###05 01 2014 new variable
+book#:#book_confirm_cancel#:#Are you sure you want to cancel the following reservation?###05 01 2014 new variable
+common#:#obj_nota#:#Notifications###05 01 2014 new variable
+blog#:#blog_posting_not_found#:#This blog posting is not available.###05 01 2014 new variable
+ldap#:#ldap_choose_role#:#Choose Role###05 01 2014 new variable
+notes#:#note_content_removed#:#The content has been removed.###05 01 2014 new variable

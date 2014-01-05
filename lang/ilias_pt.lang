@@ -2195,7 +2195,6 @@ common#:#cat_added#:#Categoria adicionada
 rbac#:#cat_cat_administrate_users#:#Administrar contas locais do usuário ###11 Sep 2004 new variable
 common#:#cat_clear_page#:#Clear Page
 rbac#:#cat_copy#:#Copiar Categoria###02 04 2007 new variable
-rbac#:#cat_copy_threads_info#:#Please decide which category items should be copied, linked or even omitted.
 rbac#:#cat_delete#:#Apagar Categoria
 common#:#cat_edit#:#Editar Categoria
 rbac#:#cat_edit_permission#:#Mudar definições de permissões
@@ -2394,7 +2393,6 @@ common#:#crs_available#:#Cursos disponíveis
 common#:#crs_cancel_waiting_list#:#Do you really want to remove yourself from the waiting list of course "%s"?
 common#:#crs_container_link_not_allowed#:#It is not possible to link container objects
 rbac#:#crs_copy#:#Copiar Curso###02 04 2007 new variable
-rbac#:#crs_copy_threads_info#:#Please decide which course materials should be copied, linked or even omitted.
 rbac#:#rbac_create_fold#:#Criar Pasta###19 Oct 2004 new variable
 rbac#:#crs_delete#:#Apagar Curso
 common#:#crs_edit#:#Editar Curso
@@ -9833,7 +9831,6 @@ rbac#:#svyf_edit_permission#:#Change permission settings
 rbac#:#svyf_read#:#Read access to survey settings
 rbac#:#svyf_visible#:#Survey settings are visible
 rbac#:#svyf_write#:#Edit survey settings
-rbac#:#usrf_create_usr#:#Create User
 rbac#:#write#:#Editar configurações ###20 08 2010 new variable
 rcrs#:#rcrs_call#:#Call Remote Course
 rcrs#:#rcrs_general_info#:#Informações gerais###23 07 2008 new variable
@@ -13002,3 +12999,20 @@ survey#:#survey_notification_tutor_link#:#Link to Survey###16 09 2013 new variab
 dcl#:#fieldtitle_allow_chars#:#Allowed chars: %s###16 09 2013 new variable
 crs#:#crs_passed_status_system#:#System###16 09 2013 new variable
 crs#:#crs_passed_status_manual_by#:#Manual by###16 09 2013 new variable
+common#:#cat_copy_threads_info#:#Please decide which category items should be copied, linked or even omitted.###05 01 2014 new variable
+common#:#crs_copy_threads_info#:#Please decide which course materials should be copied, linked or even omitted.###05 01 2014 new variable
+rbac#:#rbac_create_usr#:#User is allowed to create user accounts###05 01 2014 new variable
+dcl#:#dcl_field_title_unique#:#There exists already a field with this title. Title must be unique.###05 01 2014 new variable
+dcl#:#dcl_table_title_unique#:#There exists already a table with this title. Title must be unique.###05 01 2014 new variable
+poll#:#poll_voting_period_info#:#Deadline for Voting: %s###05 01 2014 new variable
+book#:#book_reservation_failed_overbooked#:#The booking failed because the object is not available anymore.###05 01 2014 new variable
+exc#:#exc_no_team_yet#:#Not assigned to a team###05 01 2014 new variable
+ecs#:#ecs_cmap_delete_rule#:#Delete Mapping###05 01 2014 new variable
+exc#:#exc_team_member_remove_sure#:#Are you sure you want to remove the following members of your team? Please be aware that all files they have uploaded will also be removed from your team.###05 01 2014 new variable
+exc#:#exc_create_team#:#Create Team###05 01 2014 new variable
+exc#:#exc_create_team_times_up_warning#:#You cannot create a team anymore - please contact your tutor.###05 01 2014 new variable
+book#:#book_confirm_cancel#:#Are you sure you want to cancel the following reservation?###05 01 2014 new variable
+common#:#obj_nota#:#Notifications###05 01 2014 new variable
+blog#:#blog_posting_not_found#:#This blog posting is not available.###05 01 2014 new variable
+ldap#:#ldap_choose_role#:#Choose Role###05 01 2014 new variable
+notes#:#note_content_removed#:#The content has been removed.###05 01 2014 new variable

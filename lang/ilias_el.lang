@@ -1421,7 +1421,6 @@ common#:#cat_added#:#Η κατηγορία προστέθηκε
 rbac#:#cat_cat_administrate_users#:#Διαχείριση λογαριασμών τοπικών χρηστών
 common#:#cat_clear_page#:#Καθαρισμός σελίδας
 rbac#:#cat_copy#:#Αντιγραφή Κατηγορίας
-rbac#:#cat_copy_threads_info#:#Please decide which category items should be copied, linked or even omitted.
 rbac#:#cat_delete#:#Διαγραφή κατηγορίας
 common#:#cat_edit#:#Επεξεργασία κατηγορίας
 rbac#:#cat_edit_permission#:#Ρυθμίσεις αλλαγής αδειών
@@ -1584,7 +1583,6 @@ common#:#crs_at_least_one_admin#:#Πρέπει να υπάρχει τουλάχ�
 common#:#crs_available#:#Διαθέσιμα μαθήματα
 common#:#crs_container_link_not_allowed#:#Δεν είναι δυνατόν να συνδεθούν αντικείμενα υποδοχείς
 rbac#:#crs_copy#:#Copy Course
-rbac#:#crs_copy_threads_info#:#Please decide which course materials should be copied, linked or even omitted.
 rbac#:#rbac_create_fold#:#Δημιουργία φακέλου
 rbac#:#crs_delete#:#Διαγραφή μαθήματος
 common#:#crs_edit#:#Επεξεργασία μαθήματος
@@ -10480,7 +10478,6 @@ rbac#:#frma_read#:#Read access to Forum Administration###20 10 2010 new variable
 rbac#:#frma_write#:#Write access to Forum Administration###20 10 2010 new variable
 rbac#:#frma_edit_permission#:#Change permission settings###20 10 2010 new variable
 common#:#nr_following_sessions#:#%1d following session(s)...###20 10 2010 new variable
-rbac#:#usrf_create_usr#:#Create User###20 10 2010 new variable
 trac#:#trac_all#:#All###20 10 2010 new variable
 trac#:#trac_view_mode#:#View Mode###20 10 2010 new variable
 trac#:#trac_view_mode_all#:#All Objects###20 10 2010 new variable
@@ -13007,3 +13004,20 @@ survey#:#survey_notification_tutor_link#:#Link to Survey###16 09 2013 new variab
 dcl#:#fieldtitle_allow_chars#:#Allowed chars: %s###16 09 2013 new variable
 crs#:#crs_passed_status_system#:#System###16 09 2013 new variable
 crs#:#crs_passed_status_manual_by#:#Manual by###16 09 2013 new variable
+common#:#cat_copy_threads_info#:#Please decide which category items should be copied, linked or even omitted.###05 01 2014 new variable
+common#:#crs_copy_threads_info#:#Please decide which course materials should be copied, linked or even omitted.###05 01 2014 new variable
+rbac#:#rbac_create_usr#:#User is allowed to create user accounts###05 01 2014 new variable
+dcl#:#dcl_field_title_unique#:#There exists already a field with this title. Title must be unique.###05 01 2014 new variable
+dcl#:#dcl_table_title_unique#:#There exists already a table with this title. Title must be unique.###05 01 2014 new variable
+poll#:#poll_voting_period_info#:#Deadline for Voting: %s###05 01 2014 new variable
+book#:#book_reservation_failed_overbooked#:#The booking failed because the object is not available anymore.###05 01 2014 new variable
+exc#:#exc_no_team_yet#:#Not assigned to a team###05 01 2014 new variable
+ecs#:#ecs_cmap_delete_rule#:#Delete Mapping###05 01 2014 new variable
+exc#:#exc_team_member_remove_sure#:#Are you sure you want to remove the following members of your team? Please be aware that all files they have uploaded will also be removed from your team.###05 01 2014 new variable
+exc#:#exc_create_team#:#Create Team###05 01 2014 new variable
+exc#:#exc_create_team_times_up_warning#:#You cannot create a team anymore - please contact your tutor.###05 01 2014 new variable
+book#:#book_confirm_cancel#:#Are you sure you want to cancel the following reservation?###05 01 2014 new variable
+common#:#obj_nota#:#Notifications###05 01 2014 new variable
+blog#:#blog_posting_not_found#:#This blog posting is not available.###05 01 2014 new variable
+ldap#:#ldap_choose_role#:#Choose Role###05 01 2014 new variable
+notes#:#note_content_removed#:#The content has been removed.###05 01 2014 new variable

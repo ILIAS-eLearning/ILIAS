@@ -10232,7 +10232,6 @@ rbac#:#cals_write#:#Administration autorisée
 rbac#:#cat_administrate_users#:#Administratrer les Comptes Utilisateurs Locaux
 rbac#:#cat_cat_administrate_users#:#L'utilisateur peut créer et administrer des comptes utilisateurs locaux
 rbac#:#cat_copy#:#L'utilisateur peut copier l'objet
-rbac#:#cat_copy_threads_info#:#SVP, décidez quels éléments de catégorie doivent être copiés, liés ou même omis.
 rbac#:#cat_delete#:#L'utilisateur peut déplacer et supprimer l'objet
 rbac#:#cat_edit_permission#:#L'utilisateur peut modifier les permissions de l'objet
 rbac#:#cat_read#:#L'utilisateur a accès à la catégorie
@@ -10268,7 +10267,6 @@ rbac#:#cmps_visible#:#Panneau d'administration visible
 rbac#:#cmps_write#:#Administration autorisée
 rbac#:#contribute#:#Contribuer
 rbac#:#crs_copy#:#L'utilisateur peut copier l'objet
-rbac#:#crs_copy_threads_info#:#Veuillez désigner quels matériaux de cours doit être copié, lié ou même omis.
 rbac#:#crs_delete#:#L'utilisateur peut déplacer et supprimer l'objet
 rbac#:#crs_edit_event#:#L'utilisateur peut éditer les événements de l'agenda
 rbac#:#crs_edit_learning_progress#:#L'utilisateur peut voir la progression et modifer ses paramètres
@@ -10722,7 +10720,6 @@ rbac#:#tst_read#:#L'utilisateur peut effectuer le test
 rbac#:#tst_tst_statistics#:#L'utilisateur a accès aux statistics du test
 rbac#:#tst_visible#:#L'objet est visible
 rbac#:#tst_write#:#L'utilisateur peut modifier les paramètres et éditer le contenu de l'objet
-rbac#:#usrf_create_usr#:#Création de Comptes Utilisateurs
 rbac#:#usrf_delete#:#Suppression des comptes utilisateurs
 rbac#:#usrf_edit_permission#:#Permissions d'administration modifiables
 rbac#:#usrf_edit_roleassignment#:#Attribution de rôles à un compte utilisateur
@@ -13006,3 +13003,20 @@ survey#:#survey_notification_tutor_link#:#Link to Survey###16 09 2013 new variab
 dcl#:#fieldtitle_allow_chars#:#Allowed chars: %s###16 09 2013 new variable
 crs#:#crs_passed_status_system#:#System###16 09 2013 new variable
 crs#:#crs_passed_status_manual_by#:#Manual by###16 09 2013 new variable
+common#:#cat_copy_threads_info#:#Please decide which category items should be copied, linked or even omitted.###05 01 2014 new variable
+common#:#crs_copy_threads_info#:#Please decide which course materials should be copied, linked or even omitted.###05 01 2014 new variable
+rbac#:#rbac_create_usr#:#User is allowed to create user accounts###05 01 2014 new variable
+dcl#:#dcl_field_title_unique#:#There exists already a field with this title. Title must be unique.###05 01 2014 new variable
+dcl#:#dcl_table_title_unique#:#There exists already a table with this title. Title must be unique.###05 01 2014 new variable
+poll#:#poll_voting_period_info#:#Deadline for Voting: %s###05 01 2014 new variable
+book#:#book_reservation_failed_overbooked#:#The booking failed because the object is not available anymore.###05 01 2014 new variable
+exc#:#exc_no_team_yet#:#Not assigned to a team###05 01 2014 new variable
+ecs#:#ecs_cmap_delete_rule#:#Delete Mapping###05 01 2014 new variable
+exc#:#exc_team_member_remove_sure#:#Are you sure you want to remove the following members of your team? Please be aware that all files they have uploaded will also be removed from your team.###05 01 2014 new variable
+exc#:#exc_create_team#:#Create Team###05 01 2014 new variable
+exc#:#exc_create_team_times_up_warning#:#You cannot create a team anymore - please contact your tutor.###05 01 2014 new variable
+book#:#book_confirm_cancel#:#Are you sure you want to cancel the following reservation?###05 01 2014 new variable
+common#:#obj_nota#:#Notifications###05 01 2014 new variable
+blog#:#blog_posting_not_found#:#This blog posting is not available.###05 01 2014 new variable
+ldap#:#ldap_choose_role#:#Choose Role###05 01 2014 new variable
+notes#:#note_content_removed#:#The content has been removed.###05 01 2014 new variable

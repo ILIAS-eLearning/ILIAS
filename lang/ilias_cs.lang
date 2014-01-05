@@ -512,11 +512,6 @@ assessment#:#errors#:#Chyby
 assessment#:#errors_section#:#Chyba dat
 assessment#:#errortext#:#Chyba textu
 assessment#:#errortext_info#:#Vložte prosím chybný text. K označení slova jako chyby vložte prosím znak křížku (#) na začátku slova. Pokud stisknete tlačítko &quot;Analyzovat chyby textu&quot;, všechna označená slova budou vyjmuta pro další zpracování.
-assessment#:#essay_keyword_relation#:#Body jsou přiděleny
-assessment#:#essay_keyword_relation_all#:#Jen když jsou nalezena všechna klíčová slova.
-assessment#:#essay_keyword_relation_any#:#Při nalezení některého klíčového slova.
-assessment#:#essay_keyword_relation_desc#:#Je-li vybrána volba 'všechna klíčová slova', účastníkovi nejsou přiděleny žádné body dokud nejsou nalezena všechna klíčová slova. Volba 'jedno klíčové slovo' přiděluje plné body na všechny odpovědi, pokud je nalezeno jedno klíčové slovo.
-assessment#:#essay_keyword_relation_one#:#nezkráceně, když je nalezeno jedno klíčové slovo.
 assessment#:#eval_all_users#:#Hodnocení pro všechny uživatele
 assessment#:#eval_choice_result#:#Volba s hodnotou %s je %s. Získal(a) jste %s bodů.
 assessment#:#eval_cloze_result#:#Mezera číslo %s s hodnotou %s je %s. Získal(a) jste %s bodů.
@@ -3001,13 +2996,10 @@ common#:#gender_m#:#Muž
 common#:#general_settings#:#Obecná nastavení
 common#:#generate#:#Generovat
 common#:#glo#:#Glosář
-common#:#glo_a#:#Glosář
 common#:#glo_add#:#Přidat glosář
 common#:#glo_added#:#Glosář přidán
 common#:#glo_create#:#Vytvořit glosář
 common#:#glo_import#:#Import glosáře
-common#:#glo_join#:#Odebírat glosář
-common#:#glo_leave#:#Odepsat se z glosáře
 common#:#glo_mode#:#Mód
 common#:#glo_mode_desc#:#Virtuální glosář pracuje jako běžný glosář. Obsahuje navíc termíny ze všech glosářů umístěných na stejné úrovni úložiště jako virtuální glosář, respektive všech glosářů umístěných na nižší úrovni úložiště.
 common#:#glo_mode_level#:#virtuální (jen tato úroveň)
@@ -3453,7 +3445,6 @@ common#:#ldap_version#:#Verze protokolu LDAP
 common#:#ldap_visible#:#Nastavení LDAP je viditelné
 common#:#ldap_write#:#Upravit nastavení LDAP
 common#:#learning module#:#Learning Module
-common#:#learning_module#:#Výukový modul
 common#:#learning_objects#:#Výukové objekty
 common#:#learning_progress#:#Postup výuky
 common#:#learning_resourc#:#Výukový materiál
@@ -6078,7 +6069,6 @@ content#:#glo_used_in_scorm#:#Daný glosář je používán SCORM modulem. Bude-
 content#:#help_assign_help_ids#:#Chapter/Screen-IDs Assignment
 content#:#htlm_import#:#Import výukového modulu HTML
 content#:#HTML export#:#HTML Export
-content#:#HTML_export#:#HTML Export
 content#:#import_sco_object#:#Import SCO
 content#:#lm_menu_edit_entry#:#Upravit položky menu
 content#:#lm_menu_entry_target#:#Cíl
@@ -6097,14 +6087,11 @@ content#:#msg_page_not_public#:#Stránka není veřejná
 content#:#page_does_not_exist#:#Je nám líto, ale tato stránka neexistuje.
 content#:#Pages#:#Stránky
 content#:#pages from#:#Pages From
-content#:#pages_from#:#Stránky z
 content#:#par#:#Odstavec
 content#:#PDF export#:#PDF Export
-content#:#PDF_export#:#PDF Export
 content#:#pg#:#Stránka
 content#:#public_section#:#Veřejná plocha
 content#:#read offline#:#Read Offline
-content#:#read_offline#:#Číst Offline
 content#:#sahs_empty_objectives_are_not_allowed#:#Vložte prosím cíl výuky.
 content#:#saved_media_object#:#Uložené mediální objekty.
 content#:#scplayer_collapsetree#:#Sklapnout všechno
@@ -6138,7 +6125,6 @@ content#:#seq_toc#:#Z tabulky obsahu vlevo vyberte aktivitu k započetí kurzu.
 content#:#set_public_mode#:#Nastavit mód veřejného přístupu
 content#:#st#:#Kapitola
 content#:#start export#:#Start Export
-content#:#start_export#:#Start Export
 content#:#text_repr#:#Reprezentace textu
 content#:#text_repr_info#:#Pro obrázek použit "alt" atribut.
 cptch#:#cptch_freetype_support_needed#:#K použití tohoto rysu musíte zapnout podporu volného typu ve Vašem PHP.
@@ -7237,7 +7223,6 @@ dateplaner#:#wk_short#:#Týd
 dateplaner#:#year#:#Rok
 dateplaner#:#yui_cal_choose_month#:#Měsíc:
 dateplaner#:#yui_cal_choose_year#:#Rok:
-dcl#:#-dcl_table_info_title-#:#Info
 dcl#:#dcl_actions#:#Akce
 dcl#:#dcl_activate_approval#:#Aktivivat schválení záznamu
 dcl#:#dcl_activate_notification#:#Aktivovat upozornění
@@ -10222,7 +10207,6 @@ rbac#:#cals_write#:#Upravit nastavení kalendáře
 rbac#:#cat_administrate_users#:#Spravovat lokální uživatelské účty
 rbac#:#cat_cat_administrate_users#:#Správa lokálních účtů uživatelů
 rbac#:#cat_copy#:#Kopírovat kategorii
-rbac#:#cat_copy_threads_info#:#Rozhodněte prosím, která kategorie položek má být zkopírována, připojena, nebo odmítnuta.
 rbac#:#cat_delete#:#Smazat kategorii
 rbac#:#cat_edit_permission#:#Změnit nastavení oprávnění
 rbac#:#cat_read#:#Právo číst na kategorii
@@ -10257,7 +10241,6 @@ rbac#:#cmps_visible#:#Nastavení komponent je viditelné
 rbac#:#cmps_write#:#Upravit nastavení komponenty
 rbac#:#contribute#:#Contribute
 rbac#:#crs_copy#:#Kopírovat kurz
-rbac#:#crs_copy_threads_info#:#Určete prosím, které materiály kurzu mají být zkopírovány, připojeny či dokonce vynechány.
 rbac#:#crs_delete#:#Smazat kurz
 rbac#:#crs_edit_event#:#Upravit události kalendáře
 rbac#:#crs_edit_learning_progress#:#Upravit výukový postup
@@ -10710,7 +10693,6 @@ rbac#:#tst_read#:#Přístup číst na test
 rbac#:#tst_tst_statistics#:#Access to Test Statistics
 rbac#:#tst_visible#:#Test je viditelný
 rbac#:#tst_write#:#Upravit test
-rbac#:#usrf_create_usr#:#Vytvořit uživatele
 rbac#:#usrf_delete#:#Smazat účet uživatele
 rbac#:#usrf_edit_permission#:#Změnit přístup k účtům uživatele
 rbac#:#usrf_edit_roleassignment#:#Změnit přiřazení role účtům uživatele
@@ -10914,9 +10896,6 @@ scormdebug#:#adl.nav.request_valid.continue#:#Used by a SCO to determine if a Co
 scormdebug#:#adl.nav.request_valid.previous#:#Used by a SCO to determine if a Previous navigation request will succeed.
 scormdebug#:#all_API-calls_shown#:#Všechna API-volání jsou právě zobrazena.
 scormdebug#:#API-call#:#API-volání
-scormdebug#:#cmi_entry#:#Asserts whether the learner has previously accessed the SCO
-scormdebug#:#cmi_max_time_allowed#:#Množství souhrnného času studenta je povoleno k použití SCO
-scormdebug#:#cmi_session_time#:#Množství času, které student strávil v aktuální výukové lekci pro tento SCO
 scormdebug#:#cmi._version#:#Represents the version of the data model
 scormdebug#:#cmi.comments_from_learner._children#:#Listing of supported data model elements
 scormdebug#:#cmi.comments_from_learner._count#:#Current number of learner comments
@@ -12956,3 +12935,88 @@ wsp#:#wsp_type_file#:#Soubor
 wsp#:#wsp_type_tstv#:#Verifikace: Test
 wsp#:#wsp_type_webr#:#Weblový odkaz
 wsp#:#wsp_type_wfld#:#Složka
+assessment#:#essay_scoring_mode#:#Scoring Mode###05 01 2014 new variable
+assessment#:#essay_scoring_mode_without_keywords#:#No Automatic Scoring###05 01 2014 new variable
+assessment#:#essay_scoring_mode_without_keywords_desc#:#No points are granted unless the tutor's manual scoring.###05 01 2014 new variable
+assessment#:#essay_scoring_mode_keyword_relation_any#:#Automatic Scoring with Keywords on Finding ANY###05 01 2014 new variable
+assessment#:#essay_scoring_mode_keyword_relation_any_desc#:#For any found keyword the corresponding points are granted automatically.###05 01 2014 new variable
+assessment#:#essay_scoring_mode_keyword_relation_all#:#Automatic Scoring with Keywords on Finding ALL###05 01 2014 new variable
+assessment#:#essay_scoring_mode_keyword_relation_all_desc#:#The points are granted automatically, if all keywords are found.###05 01 2014 new variable
+assessment#:#essay_scoring_mode_keyword_relation_one#:#Automatic Scoring with Keywords on Finding ONE###05 01 2014 new variable
+assessment#:#essay_scoring_mode_keyword_relation_one_desc#:#The points are granted automatically, if at least one keyword is found.###05 01 2014 new variable
+assessment#:#tst_pass_deletion#:#Previous Passes###05 01 2014 new variable
+assessment#:#tst_pass_deletion_not_allowed#:#The Deletion of Previous Passes is NOT allowed###05 01 2014 new variable
+assessment#:#tst_pass_deletion_allowed#:#The Deletion of Previous Passes is allowed###05 01 2014 new variable
+common#:#cat_copy_threads_info#:#Please decide which category items should be copied, linked or even omitted.###05 01 2014 new variable
+common#:#crs_copy_threads_info#:#Please decide which course materials should be copied, linked or even omitted.###05 01 2014 new variable
+common#:#soap_user_administration_desc_extended#:#Enabling this, the ILIAS client is visible via the SOAP API.###05 01 2014 new variable
+content#:#cont_localfile#:#Local File###05 01 2014 new variable
+rbac#:#rbac_create_usr#:#User is allowed to create user accounts###05 01 2014 new variable
+chatroom#:#no_username_given#:#Please choose a username###05 01 2014 new variable
+assessment#:#tst_save_manscoring_failed#:#Saving the manual scoring for test pass %s has failed.###05 01 2014 new variable
+assessment#:#tst_manscoring_maxpoints_exceeded_input_alert#:#The maximum of %s point(s) is exceeded!###05 01 2014 new variable
+assessment#:#tst_manscoring_input_max_points_for_question#:#Maximum Points for Question###05 01 2014 new variable
+assessment#:#tst_manscoring_input_question_and_user_solution#:#Question and User Solution###05 01 2014 new variable
+assessment#:#tst_manscoring_input_best_solution#:#Best Solution###05 01 2014 new variable
+dcl#:#dcl_record#:#Record###05 01 2014 new variable
+dcl#:#dcl_hello#:#Dear###05 01 2014 new variable
+dcl#:#dcl_field_title_change_warning#:#You changed the title of the field hence some placeholders in the view definition might be broken. Those have to be fixed manually should the occasion arise.###05 01 2014 new variable
+dcl#:#dcl_export_enabled#:#Allow export function for all users###05 01 2014 new variable
+dcl#:#dcl_no_fields_yet#:#There are no fields defined for this table thus you cannot create any entries yet.###05 01 2014 new variable
+dcl#:#dcl_create_fields#:#Please create at least one field in the tab "List Fields".###05 01 2014 new variable
+dcl#:#dcl_inconsistent_at#:#The Data Collection is inconsistant. A reference no longer exists.###05 01 2014 new variable
+dcl#:#dcl_field_title_unique#:#There exists already a field with this title. Title must be unique.###05 01 2014 new variable
+dcl#:#dcl_table_title_unique#:#There exists already a table with this title. Title must be unique.###05 01 2014 new variable
+dcl#:#dcl_change_why_you_receive_this_email#:#You receive this message because you have activated the notification about this datacollection.###05 01 2014 new variable
+rbac#:#itgr_visible#:#Item group is visible###05 01 2014 new variable
+content#:#glo_term_must_belong_to_glo#:#The action can only be performed on terms, which are defined in this glossary.###05 01 2014 new variable
+common#:#edited_on#:#Edited on###05 01 2014 new variable
+ecs#:#ecs_sync_trees#:#Synchronise Directory Trees###05 01 2014 new variable
+survey#:#svy_invite_action#:#Invite users to a survey###05 01 2014 new variable
+rbac#:#chtr_delete#:#User can move or delete course###05 01 2014 new variable
+ecs#:#ecs_role_mappings#:#Course/Group Role Mappings###05 01 2014 new variable
+ecs#:#ecs_role_mapping_value#:#Attribute Value###05 01 2014 new variable
+blog#:#blog_toggle_draft_admin#:#Deactivate Blog Posting###05 01 2014 new variable
+blog#:#blog_keywords_info#:#Use +/- icons to add and remove keywords.###05 01 2014 new variable
+crs#:#crs_notification_list_title#:#Notification About New Members###05 01 2014 new variable
+obj#:#edit_questions#:#Edit Questions###05 01 2014 new variable
+user#:#user_delete_own_account_logout_confirmation#:#Your account has been flagged for deletion. Please authenticate to continue the process.###05 01 2014 new variable
+user#:#user_delete_own_account_logout_button#:#Proceed to Authentication###05 01 2014 new variable
+user#:#user_delete_own_account_aborted#:#Aborted deletion, account was not changed.###05 01 2014 new variable
+rbac#:#edit_userassignment#:#Edit User Assignment###05 01 2014 new variable
+blog#:#blog_posting_edit_approval_info#:#Posting remains to be approved by a tutor before being published.###05 01 2014 new variable
+mail#:#mail_add_folder#:#Add New Subfolder###05 01 2014 new variable
+mail#:#mail_rename_folder#:#Rename Folder###05 01 2014 new variable
+common#:#rpc_pdf_generation#:#PDF-Generation###05 01 2014 new variable
+common#:#rpc_pdf_font#:#Fonts###05 01 2014 new variable
+common#:#rpc_pdf_font_info#:#Additional fonts for the generation of PDF files. Other fonts than "Helvetica" and "unifont" must be installed on the ILIAS server.###05 01 2014 new variable
+didactic#:#didactic_default_type#:#Default###05 01 2014 new variable
+blog#:#blog_draft_info_contributors#:#This posting draft is only visible for the contributors.###05 01 2014 new variable
+exp#:#exp_file_created#:#The export file has been created.###05 01 2014 new variable
+ecs#:#ecs_cmap_att_courseType#:#Course Type###05 01 2014 new variable
+ecs#:#ecs_cmap_att_degreeProgramme#:#Degree Programme###05 01 2014 new variable
+ecs#:#ecs_cmap_att_module#:#Module###05 01 2014 new variable
+ecs#:#ecs_cmap_att_venue#:#Venue###05 01 2014 new variable
+mcst#:#mcst_download_videoalternative#:#Download Alternative File###05 01 2014 new variable
+dateplaner#:#remote_pass_info#:#Please enter your account data if the access to the webcalendar ist protected.###05 01 2014 new variable
+prtf#:#prtf_allow_html#:#Allow HTML/Javascript###05 01 2014 new variable
+prtf#:#prtf_allow_html_info#:#Enables users to include HTML and/or Javascript in their portfolio pages. This can lead to security issues.###05 01 2014 new variable
+blog#:#blog_allow_html#:#Allow HTML/Javascript###05 01 2014 new variable
+blog#:#blog_allow_html_info#:#Enables users to include HTML and/or Javascript in their blog postings. This can lead to security issues.###05 01 2014 new variable
+wiki#:#wiki_start_page_info#:#If there does not exist a page with this title yet, a new page will be created.###05 01 2014 new variable
+survey#:#survey_notification_tutor_link#:#Link to Survey###05 01 2014 new variable
+dcl#:#fieldtitle_allow_chars#:#Allowed chars: %s###05 01 2014 new variable
+crs#:#crs_passed_status_system#:#System###05 01 2014 new variable
+crs#:#crs_passed_status_manual_by#:#Manual by###05 01 2014 new variable
+poll#:#poll_voting_period_info#:#Deadline for Voting: %s###05 01 2014 new variable
+book#:#book_reservation_failed_overbooked#:#The booking failed because the object is not available anymore.###05 01 2014 new variable
+exc#:#exc_no_team_yet#:#Not assigned to a team###05 01 2014 new variable
+ecs#:#ecs_cmap_delete_rule#:#Delete Mapping###05 01 2014 new variable
+exc#:#exc_team_member_remove_sure#:#Are you sure you want to remove the following members of your team? Please be aware that all files they have uploaded will also be removed from your team.###05 01 2014 new variable
+exc#:#exc_create_team#:#Create Team###05 01 2014 new variable
+exc#:#exc_create_team_times_up_warning#:#You cannot create a team anymore - please contact your tutor.###05 01 2014 new variable
+book#:#book_confirm_cancel#:#Are you sure you want to cancel the following reservation?###05 01 2014 new variable
+common#:#obj_nota#:#Notifications###05 01 2014 new variable
+blog#:#blog_posting_not_found#:#This blog posting is not available.###05 01 2014 new variable
+ldap#:#ldap_choose_role#:#Choose Role###05 01 2014 new variable
+notes#:#note_content_removed#:#The content has been removed.###05 01 2014 new variable

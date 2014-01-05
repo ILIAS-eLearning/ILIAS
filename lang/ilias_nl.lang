@@ -10238,7 +10238,6 @@ rbac#:#catr_write#:#Wijzigen Categorie referentie
 rbac#:#cat_administrate_users#:#Beheer lokale gebruikers account
 rbac#:#cat_cat_administrate_users#:#Lokale gebruikers beheren
 rbac#:#cat_copy#:#Kopieër Categorie
-rbac#:#cat_copy_threads_info#:#Please decide which category items should be copied, linked or even omitted.
 rbac#:#cat_delete#:#Verwijder categorie
 rbac#:#cat_edit_permission#:#Wijzig instellingen van de rechten
 rbac#:#cat_read#:#Leestoegang categorie
@@ -10274,7 +10273,6 @@ rbac#:#crsr_read#:#Lees toegang tot Cursus Referentie
 rbac#:#crsr_visible#:#Cursus referentie is zichtbaar
 rbac#:#crsr_write#:#Wijzigen cursus referentie
 rbac#:#crs_copy#:#Kopieër Cursus
-rbac#:#crs_copy_threads_info#:#Gelieve te beslissen welke cursusmaterialen gekopieerd moeten worden.
 rbac#:#crs_delete#:#Cursus verwijderen
 rbac#:#crs_edit_event#:#Agenda-afspraken wijzigen
 rbac#:#crs_edit_learning_progress#:#Voortgang aanpassen
@@ -10722,7 +10720,6 @@ rbac#:#tst_read#:#Leesrechten op test
 rbac#:#tst_tst_statistics#:#Toegang tot toetsstatistieken
 rbac#:#tst_visible#:#De test is zichtbaar
 rbac#:#tst_write#:#Test wijzigen
-rbac#:#usrf_create_usr#:#Creëer gebruiker
 rbac#:#usrf_delete#:#Verwijderen gebruiker
 rbac#:#usrf_edit_permission#:#Wijzigen toegang tot gebruikers
 rbac#:#usrf_edit_roleassignment#:#Wijzigen rol-toewijzing van gebruikers
@@ -13006,3 +13003,20 @@ survey#:#survey_notification_tutor_link#:#Link to Survey###16 09 2013 new variab
 dcl#:#fieldtitle_allow_chars#:#Allowed chars: %s###16 09 2013 new variable
 crs#:#crs_passed_status_system#:#System###16 09 2013 new variable
 crs#:#crs_passed_status_manual_by#:#Manual by###16 09 2013 new variable
+common#:#cat_copy_threads_info#:#Please decide which category items should be copied, linked or even omitted.###05 01 2014 new variable
+common#:#crs_copy_threads_info#:#Please decide which course materials should be copied, linked or even omitted.###05 01 2014 new variable
+rbac#:#rbac_create_usr#:#User is allowed to create user accounts###05 01 2014 new variable
+dcl#:#dcl_field_title_unique#:#There exists already a field with this title. Title must be unique.###05 01 2014 new variable
+dcl#:#dcl_table_title_unique#:#There exists already a table with this title. Title must be unique.###05 01 2014 new variable
+poll#:#poll_voting_period_info#:#Deadline for Voting: %s###05 01 2014 new variable
+book#:#book_reservation_failed_overbooked#:#The booking failed because the object is not available anymore.###05 01 2014 new variable
+exc#:#exc_no_team_yet#:#Not assigned to a team###05 01 2014 new variable
+ecs#:#ecs_cmap_delete_rule#:#Delete Mapping###05 01 2014 new variable
+exc#:#exc_team_member_remove_sure#:#Are you sure you want to remove the following members of your team? Please be aware that all files they have uploaded will also be removed from your team.###05 01 2014 new variable
+exc#:#exc_create_team#:#Create Team###05 01 2014 new variable
+exc#:#exc_create_team_times_up_warning#:#You cannot create a team anymore - please contact your tutor.###05 01 2014 new variable
+book#:#book_confirm_cancel#:#Are you sure you want to cancel the following reservation?###05 01 2014 new variable
+common#:#obj_nota#:#Notifications###05 01 2014 new variable
+blog#:#blog_posting_not_found#:#This blog posting is not available.###05 01 2014 new variable
+ldap#:#ldap_choose_role#:#Choose Role###05 01 2014 new variable
+notes#:#note_content_removed#:#The content has been removed.###05 01 2014 new variable

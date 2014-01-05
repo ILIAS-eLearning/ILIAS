@@ -10214,7 +10214,6 @@ rbac#:#cals_write#:#Editar opciones de calendario
 rbac#:#cat_administrate_users#:#Administrar cuentas locales de usuario
 rbac#:#cat_cat_administrate_users#:#Administrar cuentas de usuario locales
 rbac#:#cat_copy#:#Copiar Categoría
-rbac#:#cat_copy_threads_info#:#Por favor, elige qué elementos de la categoría deberán copiarse, enlazarse u omitirse
 rbac#:#cat_delete#:#Eliminar Categoría
 rbac#:#cat_edit_permission#:#Modificar configuración de permisos
 rbac#:#catr_copy#:#Copiar enlace de categoría
@@ -10250,7 +10249,6 @@ rbac#:#cmps_visible#:#Las opciones de calendario son visibles
 rbac#:#cmps_write#:#Editar preferencia del componente
 rbac#:#contribute#:#Contribuir
 rbac#:#crs_copy#:#Copiar Curso
-rbac#:#crs_copy_threads_info#:#Por favor decida qué materiales del curso deben ser copiados, enlazados o bien omitidos.
 rbac#:#crs_delete#:#Eliminar curso
 rbac#:#crs_edit_event#:#Editar eventos de calendario
 rbac#:#crs_edit_learning_progress#:#Editar seguimiento
@@ -10704,7 +10702,6 @@ rbac#:#tst_read#:#Acceso de lectura al Test
 rbac#:#tst_tst_statistics#:#El usuario tiene acceso a las estadísticas del test
 rbac#:#tst_visible#:#Test visible
 rbac#:#tst_write#:#Editar Test
-rbac#:#usrf_create_usr#:#Crear usuario
 rbac#:#usrf_delete#:#Eliminar cuentas de usuario
 rbac#:#usrf_edit_permission#:#Modificar configuración de permisos
 rbac#:#usrf_edit_roleassignment#:#Modificar asignación de roles de las cuentas de usuario
@@ -13009,3 +13006,13 @@ ecs#:#ecs_cmap_delete_rule#:#Borrar asignación
 exc#:#exc_team_member_remove_sure#:#¿Estás seguro de que deseas borrar los siguientes miembros de tu equipo? Ten en cuenta que también se eliminarán de tu equipo todos los ficheros que ellos hayan subido.
 exc#:#exc_create_team#:#Crear equipo
 exc#:#exc_create_team_times_up_warning#:#No puedes crear un equipo. Contacta con el responsable de la entrega de trabajos.
+common#:#cat_copy_threads_info#:#Please decide which category items should be copied, linked or even omitted.###05 01 2014 new variable
+common#:#crs_copy_threads_info#:#Please decide which course materials should be copied, linked or even omitted.###05 01 2014 new variable
+rbac#:#rbac_create_usr#:#User is allowed to create user accounts###05 01 2014 new variable
+dcl#:#dcl_field_title_unique#:#There exists already a field with this title. Title must be unique.###05 01 2014 new variable
+dcl#:#dcl_table_title_unique#:#There exists already a table with this title. Title must be unique.###05 01 2014 new variable
+book#:#book_confirm_cancel#:#Are you sure you want to cancel the following reservation?###05 01 2014 new variable
+common#:#obj_nota#:#Notifications###05 01 2014 new variable
+blog#:#blog_posting_not_found#:#This blog posting is not available.###05 01 2014 new variable
+ldap#:#ldap_choose_role#:#Choose Role###05 01 2014 new variable
+notes#:#note_content_removed#:#The content has been removed.###05 01 2014 new variable

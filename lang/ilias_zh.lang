@@ -1658,7 +1658,6 @@ common#:#cat_added#:#类目已增加
 rbac#:#cat_cat_administrate_users#:#管理本地用户账号
 common#:#cat_clear_page#:#清除页面
 rbac#:#cat_copy#:#复制类目(Category)
-rbac#:#cat_copy_threads_info#:#请决定类目中哪些条目将被复制、链接或者甚至被省略。
 rbac#:#cat_delete#:#删除类目
 common#:#cat_edit#:#编辑类目
 rbac#:#cat_edit_permission#:#更改许可设置
@@ -1838,7 +1837,6 @@ common#:#crs_available#:#可提供的课程
 common#:#crs_cancel_waiting_list#:#您确认想从课程 %s 的等待列表中移除自己吗？
 common#:#crs_container_link_not_allowed#:#不能连接容器对象
 rbac#:#crs_copy#:#复制课程
-rbac#:#crs_copy_threads_info#:#请决定哪些课程资料将被复制、链接或甚至省略。
 rbac#:#rbac_create_fold#:#创建文件夹
 rbac#:#crs_delete#:#删除课程
 common#:#crs_edit#:#编辑课程
@@ -10468,7 +10466,6 @@ rbac#:#frma_read#:#论坛管理读访问权限
 rbac#:#frma_write#:#论坛管理写权限
 rbac#:#frma_edit_permission#:#更改权限设置
 common#:#nr_following_sessions#:#%1d 以下会话...
-rbac#:#usrf_create_usr#:#创建用户
 trac#:#trac_all#:#所有
 trac#:#trac_view_mode#:#视图模式
 trac#:#trac_view_mode_all#:#所有对象 
@@ -13000,3 +12997,20 @@ survey#:#survey_notification_tutor_link#:#Link to Survey###16 09 2013 new variab
 dcl#:#fieldtitle_allow_chars#:#Allowed chars: %s###16 09 2013 new variable
 crs#:#crs_passed_status_system#:#System###16 09 2013 new variable
 crs#:#crs_passed_status_manual_by#:#Manual by###16 09 2013 new variable
+common#:#cat_copy_threads_info#:#Please decide which category items should be copied, linked or even omitted.###05 01 2014 new variable
+common#:#crs_copy_threads_info#:#Please decide which course materials should be copied, linked or even omitted.###05 01 2014 new variable
+rbac#:#rbac_create_usr#:#User is allowed to create user accounts###05 01 2014 new variable
+dcl#:#dcl_field_title_unique#:#There exists already a field with this title. Title must be unique.###05 01 2014 new variable
+dcl#:#dcl_table_title_unique#:#There exists already a table with this title. Title must be unique.###05 01 2014 new variable
+poll#:#poll_voting_period_info#:#Deadline for Voting: %s###05 01 2014 new variable
+book#:#book_reservation_failed_overbooked#:#The booking failed because the object is not available anymore.###05 01 2014 new variable
+exc#:#exc_no_team_yet#:#Not assigned to a team###05 01 2014 new variable
+ecs#:#ecs_cmap_delete_rule#:#Delete Mapping###05 01 2014 new variable
+exc#:#exc_team_member_remove_sure#:#Are you sure you want to remove the following members of your team? Please be aware that all files they have uploaded will also be removed from your team.###05 01 2014 new variable
+exc#:#exc_create_team#:#Create Team###05 01 2014 new variable
+exc#:#exc_create_team_times_up_warning#:#You cannot create a team anymore - please contact your tutor.###05 01 2014 new variable
+book#:#book_confirm_cancel#:#Are you sure you want to cancel the following reservation?###05 01 2014 new variable
+common#:#obj_nota#:#Notifications###05 01 2014 new variable
+blog#:#blog_posting_not_found#:#This blog posting is not available.###05 01 2014 new variable
+ldap#:#ldap_choose_role#:#Choose Role###05 01 2014 new variable
+notes#:#note_content_removed#:#The content has been removed.###05 01 2014 new variable

@@ -10261,7 +10261,6 @@ rbac#:#cals_write#:#カレンダー設定を編集
 rbac#:#cat_administrate_users#:#ローカルユーザーアカウントを管理
 rbac#:#cat_cat_administrate_users#:#ユーザはこのカテゴリ内のローカルユーザ管理と作成ができます
 rbac#:#cat_copy#:#ユーザはカテゴリのコピーができます
-rbac#:#cat_copy_threads_info#:#どのカテゴリアイテムをコピー、リンク、除外するか確定してください。
 rbac#:#cat_delete#:#ユーザはコテゴリの移動または削除ができます
 rbac#:#cat_edit_permission#:#ユーザはアクセス権設定を変更できます
 rbac#:#cat_read#:#ユーザはカテゴリへの読込アクセス権があります
@@ -10297,7 +10296,6 @@ rbac#:#cmps_visible#:#コンポーネント設定を表示
 rbac#:#cmps_write#:#コンポーネント設定を編集
 rbac#:#contribute#:#貢献
 rbac#:#crs_copy#:#ユーザはコースをコピーできます
-rbac#:#crs_copy_threads_info#:#どのコース教材をコピー、リンク、除外するか確定してください。
 rbac#:#crs_delete#:#ユーザはコースを移動または削除できます
 rbac#:#crs_edit_event#:#カレンダー行事を編集
 rbac#:#crs_edit_learning_progress#:#ユーザはコースメンバーの学習進捗の閲覧と学習進捗設定を編集できます
@@ -10752,7 +10750,6 @@ rbac#:#tst_read#:#ユーザはテストを実行できます
 rbac#:#tst_tst_statistics#:#ユーザはテスト統計へのアクセス権があります
 rbac#:#tst_visible#:#テストを表示
 rbac#:#tst_write#:#ユーザはテストの内容と設定を編集できます
-rbac#:#usrf_create_usr#:#ユーザーを作成
 rbac#:#usrf_delete#:#ユーザはユーザアカウントを削除できます
 rbac#:#usrf_edit_permission#:#ユーザはユーザ欄理のアクセス権設定を変更できます
 rbac#:#usrf_edit_roleassignment#:#ユーザはユーザアカウントの役割割り当てを変更できます
@@ -13002,3 +12999,20 @@ wsp#:#wsp_type_tstv#:#検証: テスト
 wsp#:#wsp_type_webr#:#Webリンク
 wsp#:#wsp_type_wfld#:#フォルダー
 content#:#cont_LocalFile#:#Local File###08 10 2013 new variable
+common#:#cat_copy_threads_info#:#Please decide which category items should be copied, linked or even omitted.###05 01 2014 new variable
+common#:#crs_copy_threads_info#:#Please decide which course materials should be copied, linked or even omitted.###05 01 2014 new variable
+rbac#:#rbac_create_usr#:#User is allowed to create user accounts###05 01 2014 new variable
+dcl#:#dcl_field_title_unique#:#There exists already a field with this title. Title must be unique.###05 01 2014 new variable
+dcl#:#dcl_table_title_unique#:#There exists already a table with this title. Title must be unique.###05 01 2014 new variable
+poll#:#poll_voting_period_info#:#Deadline for Voting: %s###05 01 2014 new variable
+book#:#book_reservation_failed_overbooked#:#The booking failed because the object is not available anymore.###05 01 2014 new variable
+exc#:#exc_no_team_yet#:#Not assigned to a team###05 01 2014 new variable
+ecs#:#ecs_cmap_delete_rule#:#Delete Mapping###05 01 2014 new variable
+exc#:#exc_team_member_remove_sure#:#Are you sure you want to remove the following members of your team? Please be aware that all files they have uploaded will also be removed from your team.###05 01 2014 new variable
+exc#:#exc_create_team#:#Create Team###05 01 2014 new variable
+exc#:#exc_create_team_times_up_warning#:#You cannot create a team anymore - please contact your tutor.###05 01 2014 new variable
+book#:#book_confirm_cancel#:#Are you sure you want to cancel the following reservation?###05 01 2014 new variable
+common#:#obj_nota#:#Notifications###05 01 2014 new variable
+blog#:#blog_posting_not_found#:#This blog posting is not available.###05 01 2014 new variable
+ldap#:#ldap_choose_role#:#Choose Role###05 01 2014 new variable
+notes#:#note_content_removed#:#The content has been removed.###05 01 2014 new variable
