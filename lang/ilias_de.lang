@@ -13015,3 +13015,4 @@ book#:#book_confirm_cancel#:#Sind Sie sicher, dass Sie die folgende Reservierung
 common#:#obj_nota#:#Benachrichtigungen
 blog#:#blog_posting_not_found#:#Der Blog-Eintrag ist nicht verfügbar.
 ldap#:#ldap_choose_role#:#Rolle auswählen
+notes#:#note_content_removed#:#Der Inhalt wurde entfernt.

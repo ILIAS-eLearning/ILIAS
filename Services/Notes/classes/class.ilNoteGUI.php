@@ -756,7 +756,10 @@ if ($this->private_enabled && $this->public_enabled
 					}
 					$tpl->setCurrentBlock("note");
 					$tpl->setVariable("ROWCLASS", $rowclass);
-					$tpl->setVariable("NOTE_TEXT", nl2br($note->getText()));
+					$text = (trim($note->getText()) != "")
+						? nl2br($note->getText())
+						: "<p class='subtitle'>".$lng->txt("note_content_removed")."</p>";
+					$tpl->setVariable("NOTE_TEXT", $text);
 					$tpl->setVariable("VAL_SUBJECT", $note->getSubject());
 					$tpl->setVariable("NOTE_ID", $note->getId());
 					$tpl->setVariable("CLASS", $a_type == IL_NOTE_PUBLIC
@@ -1084,7 +1087,10 @@ return;
 		}
 		
 		$tpl->setVariable("VAL_SUBJECT", $note->getSubject());
-		$tpl->setVariable("NOTE_TEXT", nl2br($note->getText()));
+		$text = (trim($note->getText()) != "")
+			? nl2br($note->getText())
+			: "<p class='subtitle'>".$lng->txt("note_content_removed")."</p>";
+		$tpl->setVariable("NOTE_TEXT", $text);
 		$this->showTargets($tpl, $target["rep_obj_id"], $note_id, $target["obj_type"], $target["obj_id"]);
 		return $tpl->get();
 	}
@@ -1371,8 +1377,8 @@ return;
 			$note);
 
 //		if ($this->form->checkInput())
-		if ($_POST["note"] != "")
-		{			
+//		if ($_POST["note"] != "")
+//		{
 			$note->setText(ilUtil::stripSlashes($_POST["note"]));
 			$note->setSubject(ilUtil::stripSlashes($_POST["sub_note"]));
 			$note->setLabel(ilUtil::stripSlashes($_POST["note_label"]));
@@ -1385,7 +1391,7 @@ return;
 				$ilCtrl->setParameter($this, "note_mess", "mod");
 			}
 			$ilCtrl->redirect($this, "showNotes", "notes_top", $this->ajax);
-		}
+//		}
 $ilCtrl->redirect($this, "showNotes", "notes_top", $this->ajax);
 		$this->note_mess = "frmfld";
 		$this->form->setValuesByPost();

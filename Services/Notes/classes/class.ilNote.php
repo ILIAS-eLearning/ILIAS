@@ -501,7 +501,7 @@ class ilNote
 				" AND author = ".$ilDB->quote($ilUser->getId(), "integer").
 				" AND (no_repository IS NULL OR no_repository < ".$ilDB->quote(1, "integer").")".
 				" ORDER BY rep_obj_id";
-				
+
 			$set = $ilDB->query($q);
 			$reps = array();
 			while($rep_rec = $ilDB->fetchAssoc($set))

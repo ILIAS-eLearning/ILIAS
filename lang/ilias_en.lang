@@ -13015,3 +13015,4 @@ book#:#book_confirm_cancel#:#Are you sure you want to cancel the following reser
 common#:#obj_nota#:#Notifications
 blog#:#blog_posting_not_found#:#This blog posting is not available.
 ldap#:#ldap_choose_role#:#Choose Role
+notes#:#note_content_removed#:#The content has been removed.
