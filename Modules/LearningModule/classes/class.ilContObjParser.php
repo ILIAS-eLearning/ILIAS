@@ -531,6 +531,8 @@ class ilContObjParser extends ilMDSaxParser
 
 			case "MediaObject":
 				$this->in_media_object = true;
+case "InteractiveImage":
+
 				$this->media_meta_start = true;
 				$this->media_meta_cache = array();
 				$this->media_object =& new ilObjMediaObject();
@@ -1112,6 +1114,8 @@ class ilContObjParser extends ilMDSaxParser
 
 			case "MediaObject":
 				$this->in_media_object = false;
+case "InteractiveImage":
+
 //echo "ENDMediaObject:ImportId:".$this->media_object->getImportId()."<br>";
 				// create media object on first occurence of an Id
 				
@@ -1168,8 +1172,11 @@ class ilContObjParser extends ilMDSaxParser
 				// append media alias to page, if we are in a page
 				if ($this->in_page_object || $this->in_glossary_definition)
 				{
-					$this->page_object->appendXMLContent($this->media_object->getXML(IL_MODE_ALIAS));
+					if ($a_name != "InteractiveImage")
+					{
+						$this->page_object->appendXMLContent($this->media_object->getXML(IL_MODE_ALIAS));
 //echo "Appending:".htmlentities($this->media_object->getXML(IL_MODE_ALIAS))."<br>";
+					}
 				}
 
 				break;
