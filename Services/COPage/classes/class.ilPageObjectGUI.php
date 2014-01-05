@@ -1401,6 +1401,10 @@ class ilPageObjectGUI
 
 
 		$GLOBALS["tpl"]->addJavaScript("./Services/COPage/js/ilCOPagePres.js");
+
+		// needed for overlays in iim
+		include_once("./Services/UIComponent/Overlay/classes/class.ilOverlayGUI.php");
+		ilOverlayGUI::initJavascript();
 		
 		include_once("./Services/MediaObjects/classes/class.ilPlayerUtil.php");
 		ilPlayerUtil::initMediaElementJs($GLOBALS["tpl"]);
