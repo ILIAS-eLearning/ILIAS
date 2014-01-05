@@ -15,11 +15,23 @@
 	<!-- BEGIN js_file -->
 	<script type="text/javascript" src="{JS_FILE}"></script>
 	<!-- END js_file -->
+	<!-- BEGIN css_file -->
+	<link rel="stylesheet" type="text/css" href="{CSS_FILE}" media="{CSS_MEDIA}" />
+	<!-- END css_file -->
 
 </head>
 <body>
 <!-- BEGIN ilPage -->
 {PAGE_CONTENT}
 <!-- END ilPage -->
+<!-- BEGIN on_load_code -->
+<script type="text/javascript">
+	il.Util.addOnLoad(function() {
+		<!-- BEGIN on_load_code_inner -->
+		{OLCODE}
+		<!-- END on_load_code_inner -->
+	});
+</script>
+<!-- END on_load_code -->
 </body>
 </html>
