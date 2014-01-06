@@ -260,14 +260,6 @@ class ilMailFormGUI
 		$this->showForm();
 	}
 
-	public function searchRcpTo()
-	{
-		$_SESSION["mail_search"] = 'to';
-		ilUtil::sendInfo($this->lng->txt("mail_insert_query"));
-
-		$this->showSearchForm();
-	}
-
 	public function searchUsers($save = true)
 	{
 		global $ilUser, $ilCtrl;
@@ -348,22 +340,6 @@ class ilMailFormGUI
 
 		$this->ctrl->setParameterByClass('ilmailsearchgroupsgui', 'ref', 'mail');
 		$this->ctrl->redirectByClass('ilmailsearchgroupsgui');
-	}
-
-	public function searchRcpCc()
-	{
-		$_SESSION["mail_search"] = 'cc';
-		ilUtil::sendInfo($this->lng->txt("mail_insert_query"));
-
-		$this->showSearchForm();
-	}
-
-	public function searchRcpBc()
-	{
-		$_SESSION["mail_search"] = 'bc';
-		ilUtil::sendInfo($this->lng->txt("mail_insert_query"));
-
-		$this->showSearchForm();
 	}
 
 	public function search()
