@@ -49,56 +49,64 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
 	public function changeToPictures()
 	{
-		if($_SESSION['ordering_type'] != OQ_NESTED_PICTURES
-		&& $_SESSION['ordering_type'] != OQ_PICTURES)
+		if($this->object->getOrderingType() != OQ_NESTED_PICTURES && $this->object->getOrderingType() != OQ_PICTURES)
 		{
-			$_SESSION['ordering_type'] = OQ_PICTURES;
-			$this->writePostData(true, true);
+			$clearAnswers = true;
 		}
-		else 
+		else
 		{
-			$_SESSION['ordering_type'] = OQ_PICTURES;
-			$this->writePostData(true);
+			$clearAnswers = false;
 		}
+
+		$this->object->setOrderingType(OQ_PICTURES);
+		$this->writePostData(true, $clearAnswers);
+		$this->object->saveToDb();
+
 		$this->editQuestion();
 	}
 
 	public function changeToText()
 	{
-		if($_SESSION['ordering_type'] != OQ_NESTED_TERMS
-		&& $_SESSION['ordering_type'] != OQ_TERMS)
+		if($this->object->getOrderingType() != OQ_NESTED_TERMS && $this->object->getOrderingType() != OQ_TERMS)
 		{
-			$_SESSION['ordering_type'] = OQ_TERMS;
-			$this->writePostData(true, true);
+			$clearAnswers = true;
 		}
 		else
 		{
-			$_SESSION['ordering_type'] = OQ_TERMS;
-			$this->writePostData(true);
+			$clearAnswers = false;
 		}
+
+		$this->object->setOrderingType(OQ_TERMS);
+		$this->writePostData(true, $clearAnswers);
+		$this->object->saveToDb();
+
 		$this->editQuestion();
 	}
 
 	public function orderNestedTerms()
 	{
-		if($_SESSION['ordering_type'] != OQ_NESTED_TERMS
-			&& $_SESSION['ordering_type'] != OQ_TERMS)
+		if($this->object->getOrderingType() != OQ_NESTED_TERMS && $this->object->getOrderingType() != OQ_TERMS)
 		{
-			$_SESSION['ordering_type'] = OQ_NESTED_TERMS;
-			$this->writePostData(true, true);
+			$clearAnswers = true;
 		}
 		else
 		{
-			$_SESSION['ordering_type'] = OQ_NESTED_TERMS;
-			$this->writePostData(true);
+			$clearAnswers = false;
 		}
+
+		$this->object->setOrderingType(OQ_NESTED_TERMS);
+		$this->writePostData(true, $clearAnswers);
+		$this->object->saveToDb();
+
 		$this->editQuestion();
 	}
 
 	public function orderNestedPictures()
 	{
-		$_SESSION['ordering_type'] = OQ_NESTED_PICTURES;
+		$this->object->setOrderingType(OQ_NESTED_PICTURES);
 		$this->writePostData(true);
+		$this->object->saveToDb();
+
 		$this->editQuestion();
 	}
 
@@ -437,8 +445,10 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		$save = $this->isSaveCommand();
 		$this->getQuestionTemplate();
 
+		//$orderingtype = $this->getOrderingTypeFromPost();
+		$orderingtype = $this->object->getOrderingType();
+
 		require_once "./Services/Form/classes/class.ilPropertyFormGUI.php";
-		$orderingtype = $this->getOrderingTypeFromPost();
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		$form->setTitle($this->outQuestionType());
