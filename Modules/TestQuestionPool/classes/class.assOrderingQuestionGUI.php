@@ -190,7 +190,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 	{
 		$this->object->setThumbGeometry( $_POST["thumb_geometry"] );
 		$this->object->setElementHeight( $_POST["element_height"] );
-		$this->object->setOrderingType( $_POST["ordering_type"] );
+		//$this->object->setOrderingType( $_POST["ordering_type"] );
 		$this->object->setPoints($_POST["points"]);
 	}
 
@@ -276,43 +276,9 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		}
 	}
 
-	public function getOrderingTypeFromPost()
-	{
-		if (isset($_SESSION['ordering_type']))
-		{
-			$orderingtype = $_SESSION['ordering_type'];
-			return $orderingtype;
-		} 
-		elseif (strcmp( $this->ctrl->getCmd(), 'changeToPictures' ) == 0)
-		{
-			$orderingtype = OQ_PICTURES;
-			return $orderingtype;
-		} 
-		elseif (strcmp( $this->ctrl->getCmd(), 'orderNestedTerms' ) == 0)
-		{
-			$orderingtype = OQ_NESTED_TERMS;
-			return $orderingtype;
-		}
-		elseif (strcmp( $this->ctrl->getCmd(), 'orderNestedPictures' ) == 0)
-		{	
-			$orderingtype = OQ_NESTED_PICTURES;
-			return $orderingtype;
-		}
-		elseif (strcmp( $this->ctrl->getCmd(), 'changeToText' ) == 0)
-		{
-			$orderingtype = OQ_TERMS;
-			return $orderingtype;
-		}
-		else
-		{
-			$orderingtype = (array_key_exists( 'ordering_type',$_POST)) ? $_POST['ordering_type'] : $this->object->getOrderingType();
-			return $orderingtype;
-		}
-	}
-
 	public function populateAnswerSpecificFormPart(\ilPropertyFormGUI $form)
 	{
-		$orderingtype = $this->getOrderingTypeFromPost();
+		$orderingtype = $this->object->getOrderingType();
 
 		if (count($this->object->getAnswers()) == 0)
 		{
@@ -365,12 +331,13 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
 	public function populateQuestionSpecificFormPart(\ilPropertyFormGUI $form)
 	{
-		$orderingtype = $this->getOrderingTypeFromPost();
+		$orderingtype = $this->object->getOrderingType();
 
 		// Edit mode
-		$hidden = new ilHiddenInputGUI("ordering_type");
-		$hidden->setValue( $orderingtype );
-		$form->addItem( $hidden );
+
+		//$hidden = new ilHiddenInputGUI("ordering_type");
+		//$hidden->setValue( $orderingtype );
+		//$form->addItem( $hidden );
 
 		if (!$this->object->getSelfAssessmentEditingMode())
 		{
@@ -445,7 +412,6 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		$save = $this->isSaveCommand();
 		$this->getQuestionTemplate();
 
-		//$orderingtype = $this->getOrderingTypeFromPost();
 		$orderingtype = $this->object->getOrderingType();
 
 		require_once "./Services/Form/classes/class.ilPropertyFormGUI.php";
