@@ -314,22 +314,11 @@ class ilMailFormGUI
 		{
 			$inp->setValue(ilUtil::prepareFormOutput(trim($_SESSION["mail_search_search"]), true));
 		}
-
 		$form->addItem($inp);
-		
-		$chb = new ilCheckboxInputGUI($this->lng->txt("mail_search_addressbook"), 'type_addressbook');
-		if ($_SESSION['mail_search_type_addressbook'])
-			$chb->setChecked(true);
-		$inp->addSubItem($chb);
 
-		$chb = new ilCheckboxInputGUI($this->lng->txt("mail_search_system"), 'type_system');
-		if ($_SESSION['mail_search_type_system'])
-			$chb->setChecked(true);
-		$inp->addSubItem($chb);
-		
 		$form->addCommandButton('search', $this->lng->txt("search"));
 		$form->addCommandButton('cancelSearch', $this->lng->txt("cancel"));
-		
+
 		$this->tpl->setContent($form->getHtml());
 		$this->tpl->show();
 	}
@@ -377,77 +366,33 @@ class ilMailFormGUI
 		$this->showSearchForm();
 	}
 
-	public function showSearchForm()
-	{
-		global $ilUser;
-
-		$this->tpl->setCurrentBlock("search");
-		$this->tpl->setVariable("TXT_SEARCH_FOR",$this->lng->txt("search_for"));
-		$this->tpl->setVariable("TXT_SEARCH_SYSTEM",$this->lng->txt("mail_search_system"));
-		$this->tpl->setVariable("TXT_SEARCH_ADDRESS",$this->lng->txt("mail_search_addressbook"));
-
-		if ($pref = $ilUser->getPref("mail_search"))
-		{
-				if ($pref == "system" || $pref == "all") $this->tpl->setVariable("SEARCH_SYSTEM_CHECKED", "checked=\"checked\"");
-				if ($pref == "addressbook" || $pref == "all") $this->tpl->setVariable("SEARCH_ADDRESS_CHECKED", "checked=\"checked\"");
-		}
-		else
-		{
-				$this->tpl->setVariable("SEARCH_SYSTEM_CHECKED", "checked=\"checked\"");
-		}
-
-		$this->tpl->setVariable("BUTTON_SEARCH",$this->lng->txt("search"));
-		$this->tpl->setVariable("BUTTON_CANCEL",$this->lng->txt("cancel"));
-		if (strlen(trim($_POST['search'])) > 0)
-		{
-			$this->tpl->setVariable("VALUE_SEARCH_FOR", ilUtil::prepareFormOutput(trim($_POST["search"]), true));
-		}
-		$this->tpl->parseCurrentBlock();
-
-		$this->showForm();
-	}
-
 	public function search()
 	{
-		global $ilUser;
-		
 		$_SESSION["mail_search_search"] = $_POST["search"];
-		$_SESSION["mail_search_type_system"] = $_POST["type_system"];
-		$_SESSION["mail_search_type_addressbook"] = $_POST["type_addressbook"];
-
-		if (strlen(trim($_SESSION["mail_search_search"])) == 0)
+		if(strlen(trim($_SESSION["mail_search_search"])) == 0)
 		{
 			ilUtil::sendInfo($this->lng->txt("mail_insert_query"));
-			#$this->showSearchForm();
-			$this->searchUsers(false);
-		}
-		else if(strlen(trim($_SESSION["mail_search_search"])) < 3)
-		{
-			$this->lng->loadLanguageModule('search');
-			ilUtil::sendInfo($this->lng->txt('search_minimum_three'));
-			#$this->showSearchForm();
 			$this->searchUsers(false);
 		}
 		else
 		{
-			$this->ctrl->setParameterByClass("ilmailsearchgui", "search", urlencode($_SESSION["mail_search_search"]));
-			if($_SESSION["mail_search_type_system"])
+			if(strlen(trim($_SESSION["mail_search_search"])) < 3)
 			{
-				$this->ctrl->setParameterByClass("ilmailsearchgui", "system", 1);
+				$this->lng->loadLanguageModule('search');
+				ilUtil::sendInfo($this->lng->txt('search_minimum_three'));
+				$this->searchUsers(false);
 			}
-			if($_SESSION["mail_search_type_addressbook"])
+			else
 			{
-				$this->ctrl->setParameterByClass("ilmailsearchgui", "addressbook", 1);
+				$this->ctrl->setParameterByClass("ilmailsearchgui", "search", urlencode($_SESSION["mail_search_search"]));
+				$this->ctrl->redirectByClass("ilmailsearchgui");
 			}
-			$this->ctrl->redirectByClass("ilmailsearchgui");
 		}
 	}
 
 	public function cancelSearch()
 	{
 		unset($_SESSION["mail_search"]);
-
-		#$this->showForm();
 		$this->searchResults();
 	}
 
@@ -488,7 +433,7 @@ class ilMailFormGUI
 	public function searchResults()
 	{
 		$_GET["type"] = "search_res";
-		$this->showForm();		
+		$this->showForm();
 	}
 
 	public function mailUser()

@@ -130,8 +130,6 @@ class ilMailSearchGUI
 	function search()
 	{
 		$_SESSION["mail_search_search"] = $_POST["search"];
-		$_SESSION["mail_search_type_system"] = $_POST["type_system"];
-		$_SESSION["mail_search_type_addressbook"] = $_POST["type_addressbook"];
 
 		if (strlen(trim($_SESSION["mail_search_search"])) == 0)
 		{
@@ -177,17 +175,7 @@ class ilMailSearchGUI
 			$inp->setValue(ilUtil::prepareFormOutput(trim($_SESSION["mail_search_search"]), true));
 		}
 		$form->addItem($inp);
-		
-		$chb = new ilCheckboxInputGUI($this->lng->txt("mail_search_addressbook"), 'type_addressbook');
-		if ($_SESSION['mail_search_type_addressbook'])
-			$chb->setChecked(true);
-		$inp->addSubItem($chb);
 
-		$chb = new ilCheckboxInputGUI($this->lng->txt("mail_search_system"), 'type_system');
-		if ($_SESSION['mail_search_type_system'])
-			$chb->setChecked(true);
-		$inp->addSubItem($chb);
-		
 		$form->addCommandButton('search', $this->lng->txt("search"));
 		$form->addCommandButton('cancel', $this->lng->txt("cancel"));
 		
@@ -196,7 +184,7 @@ class ilMailSearchGUI
 
 	public function showResults()
 	{	
-		global $rbacsystem, $lng, $ilUser, $ilCtrl, $rbacreview;
+		global $lng, $ilUser, $rbacreview;
 
 		$form = $this->initSearchForm();
 
@@ -207,21 +195,12 @@ class ilMailSearchGUI
 		
 		$this->tpl->setVariable('SEARCHFORM', $form->getHtml());
 
-		if (strlen(trim($_SESSION["mail_search_search"])) > 0)
+		if(strlen(trim($_SESSION["mail_search_search"])) > 0)
 		{
 			$this->tpl->setVariable("VALUE_SEARCH_FOR", ilUtil::prepareFormOutput(trim($_SESSION["mail_search_search"]), true));
 		}
 		
-		if ($_SESSION['mail_search_type_addressbook']) $this->tpl->setVariable('CHECKED_TYPE_ADDRESSBOOK', "checked=\"checked\"");
-		if ($_SESSION['mail_search_type_system'])$this->tpl->setVariable('CHECKED_TYPE_SYSTEM', "checked=\"checked\"");
-
-		if ($_SESSION['mail_search_type_addressbook'] == NULL && $_SESSION['mail_search_type_system'] == NULL)
-		{
-			$this->lng->loadLanguageModule('search');
-			ilUtil::sendFailure($this->lng->txt('search_one_action'));
-		}
-
-		if ($_SESSION['mail_search_type_addressbook'] && strlen(trim($_SESSION["mail_search_search"])) >= 3)
+		if(strlen(trim($_SESSION["mail_search_search"])) >= 3)
 		{
 			$abook = new ilAddressbook($ilUser->getId());
 			$entries = $abook->searchUsers(addslashes(urldecode($_SESSION['mail_search_search'])));
@@ -305,7 +284,7 @@ class ilMailSearchGUI
 				$this->tpl->setVariable('TABLE_ADDR', $tbl_addr->getHTML());				
 			}
 		}		
-		if ($_SESSION['mail_search_type_system'] && strlen(trim($_SESSION["mail_search_search"])) >= 3)
+		if(strlen(trim($_SESSION["mail_search_search"])) >= 3)
 		{
 			include_once 'Services/Search/classes/class.ilQueryParser.php';
 			include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
@@ -501,8 +480,7 @@ class ilMailSearchGUI
 				$this->tpl->setVariable('BUTTON_ADOPT', $this->lng->txt('wsp_share_with_users'));	
 			}
 		}
-		else if (strlen(trim($_SESSION["mail_search_search"])) >= 3
-		&& ($_SESSION['mail_search_type_addressbook'] != NULL || $_SESSION['mail_search_type_system'] != NULL))
+		else if (strlen(trim($_SESSION["mail_search_search"])) >= 3)
 		{
 			$this->lng->loadLanguageModule('search');			
 			ilUtil::sendInfo($this->lng->txt('search_no_match'));
