@@ -315,7 +315,7 @@ class ilBlogPosting extends ilPageObject
 	 * @param int $a_offset
 	 * @return array
 	 */
-	static function getAllPostings($a_blog_id, $a_limit = 100, $a_offset = 0)
+	static function getAllPostings($a_blog_id, $a_limit = 1000, $a_offset = 0)
 	{
 		global $ilDB;
 		
