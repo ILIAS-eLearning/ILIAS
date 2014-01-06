@@ -7030,8 +7030,6 @@ mail#:#mail_salutation_m#:#Hello
 mail#:#mail_salutation_male#:#Output for placeholder [MAIL_SALUTATION], if gender is male
 mail#:#mail_salutation_n#:#Hello
 mail#:#mail_saved#:#The message has been saved
-mail#:#mail_search_addressbook#:#search in Contacts
-mail#:#mail_search_system#:#search in system
 mail#:#mail_select_attachment#:#Please select an attachment for download.
 mail#:#mail_select_course#:#Please select at least one course.
 mail#:#mail_select_group#:#Please select at least one group.
