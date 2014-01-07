@@ -3605,41 +3605,6 @@ class ilUtil
 	}
 
 	/**
-	* get the user_ids which correspond a search string
-	* static function
-	* @param	string search string
-	* @access	public
-	* @static
-	* 
-	*/
-	public static function searchGroups($a_search_str)
-	{
-		global $ilDB;
-
-		$q = "SELECT * ".
-			"FROM object_data ,object_reference ".
-			"WHERE (".$ilDB->like("object_data.title", "text", "%".$a_search_str."%")." ".
-			"OR ".$ilDB->like("object_data.description", "text", "%".$a_search_str."%").") ".
-			"AND object_data.type = 'grp' ".
-			"AND object_data.obj_id = object_reference.obj_id ".
-			"ORDER BY title ";
-
-		$res = $ilDB->query($q);
-
-		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			// STORE DATA IN ARRAY WITH KEY obj_id
-			// SO DUPLICATE ENTRIES ( LINKED OBJECTS ) ARE UNIQUE
-			$ids[$row->obj_id] = array(
-			"ref_id"        => $row->ref_id,
-			"title"         => $row->title,
-			"description"   => $row->description);
-		}
-
-		return $ids ? $ids : array();
-	}
-
-	/**
 	* get current memory usage as string
 	* 
 	* @static
