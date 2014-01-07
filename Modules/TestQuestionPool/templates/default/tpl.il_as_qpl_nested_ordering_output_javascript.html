@@ -212,7 +212,7 @@ p {
 
         if({PERFORM_JAVASCRIPT} == 1)
         {   
-            var updateOutput = function (e) 
+            var updateOutput__{INSTANCE_ID} = function (e)
             {
                 var list = e.length ? e : $(e.target),
                     output = list.data('output');
@@ -223,18 +223,18 @@ p {
             };
 
              // activate Nestable for list 
-            $('#nestable').nestable({
+            $('#nestable__{INSTANCE_ID}').nestable({
                 group:1,
                 expandBtnHTML:'',
                 collapseBtnHTML:''
     
-            }).on('change', updateOutput);
+            }).on('change', updateOutput__{INSTANCE_ID});
    
             // output initial serialized data
-            updateOutput($('#nestable').data('output', $('#answers_ordering')));
+            updateOutput__{INSTANCE_ID}($('#nestable__{INSTANCE_ID}').data('output', $('#answers_ordering__{INSTANCE_ID}')));
         }
 	});
 </script>
 <div class="cf nestable-lists">		
 {HTML_OUTPUT}
-<input type="hidden" id="answers_ordering" name='answers_ordering'></div><!-- END js_include -->
+<input type="hidden" id="answers_ordering__{INSTANCE_ID}" name='answers_ordering__{INSTANCE_ID}'></div><!-- END js_include -->

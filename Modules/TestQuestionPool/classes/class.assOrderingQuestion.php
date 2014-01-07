@@ -890,7 +890,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 			else if($this->getOrderingType() == OQ_NESTED_TERMS 
 				||$this->getOrderingType() == OQ_NESTED_PICTURES) 
 			{
-				$answers_ordering = $_POST['answers_ordering'];
+				$answers_ordering = $_POST['answers_ordering__participant'];
 				$user_solution_hierarchy = json_decode($answers_ordering);
 				$with_random_id = true;
 				$this->setLeveledOrdering($user_solution_hierarchy, $with_random_id);

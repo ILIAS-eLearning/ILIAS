@@ -12,6 +12,8 @@ include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 
 class ilNestedOrderingGUI extends ilNonEditableValueGUI
 {
+	protected $instanceId = 'default';
+
 	public $answers = array();
 	public $ordering_type = NULL;
 	public $image_path = null;
@@ -26,6 +28,16 @@ class ilNestedOrderingGUI extends ilNonEditableValueGUI
 	{
 		parent::__construct($a_title, $a_postvar);
 		$this->graphical_output = (bool)$graphical_output;
+	}
+
+	public function setInstanceId($instanceId)
+	{
+		$this->instanceId = $instanceId;
+	}
+
+	public function getInstanceId()
+	{
+		return $this->instanceId;
 	}
 
 	/**
@@ -118,7 +130,9 @@ class ilNestedOrderingGUI extends ilNonEditableValueGUI
 	public function renderBeginSortableContainer()
 	{
 		$js_include_tpl = new ilTemplate("tpl.il_as_qpl_nested_ordering_output_html.html", TRUE, TRUE, "Modules/TestQuestionPool");
-		$js_include_tpl->touchBlock('begin_sortablecontainer');
+		$js_include_tpl->setCurrentBlock('begin_sortablecontainer');
+		$js_include_tpl->setVariable('INSTANCE_ID', $this->getInstanceId());
+		$js_include_tpl->parseCurrentBlock();
 
 		return $js_include_tpl->get();
 	}
@@ -277,7 +291,7 @@ class ilNestedOrderingGUI extends ilNonEditableValueGUI
 					{
 						// (1) pcn: 000
 //						echo"(1)";
-						$html_output .= $this->renderListItem($cur_answer, $i);
+						$html_output .= $this->renderListItem($cur_answer, $cur_answer['random_id']);
 						$html_output .= $this->renderEndListItem();
 					}
 					else if($current_depth > $next_depth)
@@ -286,7 +300,7 @@ class ilNestedOrderingGUI extends ilNonEditableValueGUI
 						{
 							// (8) pcn: 110 
 //							echo"(8)";
-							$html_output .= $this->renderListItem($cur_answer, $i);
+							$html_output .= $this->renderListItem($cur_answer, $cur_answer['random_id']);
 							$html_output .= $this->renderEndListItem();
 							$html_output .= $this->renderEndSubList();
 							$html_output .= $this->renderEndListItem();
@@ -295,7 +309,7 @@ class ilNestedOrderingGUI extends ilNonEditableValueGUI
 						{
 							// (12) pcn: 220 
 //							echo"(12)";
-							$html_output .= $this->renderListItem($cur_answer, $i);
+							$html_output .= $this->renderListItem($cur_answer, $cur_answer['random_id']);
 	
 							for($openlists = $next_depth; $openlists < $current_depth; $openlists++)
 							{
@@ -309,7 +323,7 @@ class ilNestedOrderingGUI extends ilNonEditableValueGUI
 					{
 						// (2) pcn: 001
 //						echo"(2)";
-						$html_output .= $this->renderListItem($cur_answer, $i);
+						$html_output .= $this->renderListItem($cur_answer, $cur_answer['random_id']);
 						$html_output .= $this->renderBeginSubList();
 					}
 				}
@@ -319,14 +333,14 @@ class ilNestedOrderingGUI extends ilNonEditableValueGUI
 					{
 						// (6) pcn: 100  
 //						echo"(6)";
-						$html_output .= $this->renderListItem($cur_answer, $i);
+						$html_output .= $this->renderListItem($cur_answer, $cur_answer['random_id']);
 						$html_output .= $this->renderEndListItem();
 					}
 					else if($current_depth > $next_depth)
 					{
 						// (11) pcn: 210
 //						echo"(11)";
-						$html_output .= $this->renderListItem($cur_answer, $i);
+						$html_output .= $this->renderListItem($cur_answer, $cur_answer['random_id']);
 						$html_output .= $this->renderEndListItem();
 						$html_output .= $this->renderEndSubList();
 					}
@@ -336,14 +350,14 @@ class ilNestedOrderingGUI extends ilNonEditableValueGUI
 						{
 							// (7) pcn: 101
 //							echo"(7)";
-							$html_output .= $this->renderListItem($cur_answer, $i);
+							$html_output .= $this->renderListItem($cur_answer, $cur_answer['random_id']);
 							$html_output .= $this->renderBeginSubList();
 						}
 						else if($previous_depth > $next_depth)
 						{
 							// (10) pcn: 201 
 //							echo"(10)";
-							$html_output .= $this->renderListItem($cur_answer, $i);
+							$html_output .= $this->renderListItem($cur_answer, $cur_answer['random_id']);
 							for($openlists = $next_depth; $openlists < $current_depth; $openlists++)
 							{
 								$html_output .= $this->renderEndSubList();
@@ -358,7 +372,7 @@ class ilNestedOrderingGUI extends ilNonEditableValueGUI
 					{
 						// (4) pcn: 011  
 //						echo"(4)";
-						$html_output .= $this->renderListItem($cur_answer, $i);
+						$html_output .= $this->renderListItem($cur_answer, $cur_answer['random_id']);
 						$html_output .= $this->renderEndListItem();
 					}
 					else if($current_depth > $next_depth)
@@ -367,7 +381,7 @@ class ilNestedOrderingGUI extends ilNonEditableValueGUI
 						{
 							// (3) pcn: 010, 
 //							echo"(3)";
-							$html_output .= $this->renderListItem($cur_answer, $i);
+							$html_output .= $this->renderListItem($cur_answer, $cur_answer['random_id']);
 							$html_output .= $this->renderEndListItem();
 							$html_output .= $this->renderEndSubList();
 							$html_output .= $this->renderEndListItem();
@@ -377,7 +391,7 @@ class ilNestedOrderingGUI extends ilNonEditableValueGUI
 						{
 							// (9) pcn: 120 
 //							echo"(9)";
-							$html_output .= $this->renderListItem($cur_answer, $i);
+							$html_output .= $this->renderListItem($cur_answer, $cur_answer['random_id']);
 							for($openlists = $next_depth; $openlists < $current_depth; $openlists++)
 							{
 								$html_output .= $this->renderEndListItem();
@@ -389,7 +403,7 @@ class ilNestedOrderingGUI extends ilNonEditableValueGUI
 					{
 						// (5) pcn: 012 
 //						echo"(5)";
-						$html_output .= $this->renderListItem($cur_answer, $i);
+						$html_output .= $this->renderListItem($cur_answer, $cur_answer['random_id']);
 						$html_output .= $this->renderBeginSubList();
 					}
 				}
@@ -412,6 +426,7 @@ class ilNestedOrderingGUI extends ilNonEditableValueGUI
 		$js_include_tpl->setCurrentBlock('js_include');
 
 		$js_include_tpl->setVariable('PERFORM_JAVASCRIPT', $this->getPerformJavascript());
+		$js_include_tpl->setVariable('INSTANCE_ID', $this->getInstanceId());
 
 		$js_include_tpl->setVariable('HTML_OUTPUT', $html_output);
 
