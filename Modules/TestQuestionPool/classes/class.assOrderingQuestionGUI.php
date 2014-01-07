@@ -67,6 +67,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
 	public function changeToText()
 	{
+		vd($this->object->getOrderingType());
 		if($this->object->getOrderingType() != OQ_NESTED_TERMS && $this->object->getOrderingType() != OQ_TERMS)
 		{
 			$clearAnswers = true;
@@ -85,6 +86,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
 	public function orderNestedTerms()
 	{
+		vd($this->object->getOrderingType());
 		if($this->object->getOrderingType() != OQ_NESTED_TERMS && $this->object->getOrderingType() != OQ_TERMS)
 		{
 			$clearAnswers = true;
@@ -196,7 +198,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
 	public function writeAnswerSpecificPostData($clear_answers = false)
 	{
-		$ordering_type = $_POST["ordering_type"];
+		$ordering_type = $this->object->getOrderingType();
 		// Delete all existing answers and create new answers from the form data
 		$this->object->flushAnswers();
 		$saved = false;
