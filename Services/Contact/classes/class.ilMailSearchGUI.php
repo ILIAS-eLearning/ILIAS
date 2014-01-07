@@ -196,7 +196,7 @@ class ilMailSearchGUI
 
 	public function showResults()
 	{	
-		global $rbacsystem, $lng, $ilUser, $ilCtrl, $rbacreview;
+		global $rbacsystem, $lng, $ilUser, $ilCtrl, $rbacreview, $ilObjDataCache;
 
 		$form = $this->initSearchForm();
 
@@ -418,22 +418,49 @@ class ilMailSearchGUI
 				$tbl_users->setFormName('recipients');
 	
 				$this->tpl->setVariable('TABLE_USERS', $tbl_users->getHTML());
-			}			
+			}
 
-			$groups = ilUtil::searchGroups(addslashes(urldecode(addcslashes($_SESSION['mail_search_search'],'%_'))));
+			include_once 'Services/Search/classes/class.ilQueryParser.php';
+			include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
+			include_once 'Services/Search/classes/class.ilSearchResult.php';
+			include_once 'Services/Membership/classes/class.ilParticipants.php';
 
-			if (count($groups))
-			{					
+			$group_results = new ilSearchResult();
+
+			$query_parser = new ilQueryParser(addcslashes($_SESSION['mail_search_search'], '%_'));
+			$query_parser->setCombination(QP_COMBINATION_OR);
+			$query_parser->setMinWordLength(3);
+			$query_parser->parse();
+
+			$search = ilObjectSearchFactory::_getObjectSearchInstance($query_parser);
+			$search->setFilter(array('grp'));
+			$result = $search->performSearch();
+			$group_results->mergeEntries($result);
+			$group_results->setMaxHits(PHP_INT_MAX);
+			$group_results->preventOverwritingMaxhits(true);
+			$group_results->setRequiredPermission('read');
+			$group_results->filter(ROOT_FOLDER_ID, QP_COMBINATION_OR);
+
+			$visible_groups = array();
+			if($group_results->getResults())
+			{
 				$tbl_grp = new ilTable2GUI($this);
 				$tbl_grp->setTitle($lng->txt('system').': '.$lng->txt('groups'));
 				$tbl_grp->setRowTemplate('tpl.mail_search_groups_row.html','Services/Contact');
 				
 				$result = array();				
 				$counter = 0;
-				
-				
+
+				$ilObjDataCache->preloadReferenceCache(array_keys($group_results->getResults()));
+
+				$groups = $group_results->getResults();
 				foreach ($groups as $grp)
 				{
+					if(!ilParticipants::hasParticipantListAccess($grp['obj_id']))
+					{
+						continue;
+					}
+
 					if($_GET["ref"] != "wsp")
 					{
 						$members = array();
@@ -457,37 +484,41 @@ class ilMailSearchGUI
 					}
 					else
 					{
-						$result[$counter]['check']	= ilUtil::formCheckbox(0, 'search_name_to_grp[]', ilObject::_lookupObjId($grp['ref_id'])); 
+						$result[$counter]['check']	= ilUtil::formCheckbox(0, 'search_name_to_grp[]', $grp['obj_id']); 
 					}
-					$result[$counter]['title'] = $grp['title'];
-					$result[$counter]['description'] = $grp['description'];
-											
+					$result[$counter]['title']       = $ilObjDataCache->lookupTitle($grp['obj_id']);
+					$result[$counter]['description'] = $ilObjDataCache->lookupDescription($grp['obj_id']);
+					$visible_groups[] = $grp;
 					++$counter;
 				}
-				$tbl_grp->setData($result);			
 
-				if($_GET["ref"] != "wsp")
+				if($visible_groups)
 				{
-					$tbl_grp->addColumn($this->lng->txt('mail_to') . '/' . $this->lng->txt('cc') . '/' . $this->lng->txt('bc'), 'check', '10%');
-				}
-				else
-				{
-					$tbl_grp->addColumn("", "", "1%");
-				}
-			 	$tbl_grp->addColumn($this->lng->txt('title'), 'title', '15%');
-			 	$tbl_grp->addColumn($this->lng->txt('description'), 'description', '15%');
-
-			 	$tbl_grp->setDefaultOrderField('title');							
-				$tbl_grp->setPrefix('grp_');			
-				$tbl_grp->enable('select_all');		
-				$tbl_grp->setSelectAllCheckbox('search_name_to_grp');
-				$tbl_grp->setFormName('recipients');			
+					$tbl_grp->setData($result);			
 	
-				$this->tpl->setVariable('TABLE_GRP', $tbl_grp->getHTML());
+					if($_GET["ref"] != "wsp")
+					{
+						$tbl_grp->addColumn($this->lng->txt('mail_to') . '/' . $this->lng->txt('cc') . '/' . $this->lng->txt('bc'), 'check', '10%');
+					}
+					else
+					{
+						$tbl_grp->addColumn("", "", "1%");
+					}
+					$tbl_grp->addColumn($this->lng->txt('title'), 'title', '15%');
+					$tbl_grp->addColumn($this->lng->txt('description'), 'description', '15%');
+	
+					$tbl_grp->setDefaultOrderField('title');							
+					$tbl_grp->setPrefix('grp_');			
+					$tbl_grp->enable('select_all');		
+					$tbl_grp->setSelectAllCheckbox('search_name_to_grp');
+					$tbl_grp->setFormName('recipients');			
+		
+					$this->tpl->setVariable('TABLE_GRP', $tbl_grp->getHTML());
+				}
 			}
 		}
 		
-		if (count($users) || count($groups) || count($entries))
+		if (count($users) || count($visible_groups) || count($entries))
 		{
 			$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.png"));
 			$this->tpl->setVariable("ALT_ARROW", '');
