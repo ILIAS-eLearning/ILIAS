@@ -428,26 +428,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
 		if (true || !$this->object->getSelfAssessmentEditingMode())
 		{
-			if ($orderingtype == OQ_PICTURES)
-			{
-				$form->addCommandButton("changeToText", $this->lng->txt("order_terms"));
-				$form->addCommandButton("orderNestedPictures", $this->lng->txt("order_nested_pictures"));
-			}
-			else if($orderingtype == OQ_NESTED_TERMS)
-			{
-				$form->addCommandButton("changeToPictures", $this->lng->txt("order_pictures"));
-				$form->addCommandButton("changeToText", $this->lng->txt("order_terms"));
-			}
-			else if($orderingtype == OQ_NESTED_PICTURES)
-			{
-				$form->addCommandButton("changeToPictures", $this->lng->txt("order_pictures"));
-				$form->addCommandButton("changeToText", $this->lng->txt("order_terms"));
-			}
-			else
-			{
-				$form->addCommandButton("changeToPictures", $this->lng->txt("order_pictures"));
-				$form->addCommandButton("orderNestedTerms", $this->lng->txt("order_nested_terms"));
-			}
+			$this->populateCommandButtons($form);
 		}
 
 		$this->populateTaxonomyFormSection($form);
@@ -463,6 +444,36 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
 		if (!$checkonly) $this->tpl->setVariable("QUESTION_DATA", $form->getHTML());
 		return $errors;
+	}
+
+	private function populateCommandButtons(ilPropertyFormGUI $form)
+	{
+		switch( $this->object->getOrderingType() )
+		{
+			case OQ_TERMS:
+
+				$form->addCommandButton("changeToPictures", $this->lng->txt("oq_btn_use_order_pictures"));
+				$form->addCommandButton("orderNestedTerms", $this->lng->txt("oq_btn_nest_terms"));
+				break;
+
+			case OQ_PICTURES:
+
+				$form->addCommandButton("changeToText", $this->lng->txt("oq_btn_use_order_terms"));
+				$form->addCommandButton("orderNestedPictures", $this->lng->txt("oq_btn_nest_pictures"));
+				break;
+
+			case OQ_NESTED_TERMS:
+
+				$form->addCommandButton("changeToPictures", $this->lng->txt("oq_btn_use_order_pictures"));
+				$form->addCommandButton("changeToText", $this->lng->txt("oq_btn_define_terms"));
+				break;
+
+			case OQ_NESTED_PICTURES:
+
+				$form->addCommandButton("changeToText", $this->lng->txt("oq_btn_use_order_terms"));
+				$form->addCommandButton("changeToPictures", $this->lng->txt("oq_btn_define_pictures"));
+				break;
+		}
 	}
 
 	function outQuestionForTest($formaction, $active_id, $pass = NULL, $is_postponed = FALSE, $user_post_solution = FALSE)

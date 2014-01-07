@@ -704,8 +704,8 @@ assessment#:#online_exam_show_answer_print_sheet#:#Sie haben Ihre Online-Prüfun
 assessment#:#online_exam_show_finish_test#:#Sie müssen Ihre Online-Prüfung noch endgültig abschicken. Bitte klicken Sie auf die &quot;Test beenden&quot;-Schaltfläche, um die Online-Prüfung endgültig abzuschicken.
 assessment#:#optional_keywords#:#Optionale Eingabe von Schlagwörtern
 assessment#:#or#:#oder
-assessment#:#order_pictures#:#Verwende Antwort mit Bildern
-assessment#:#order_terms#:#Verwende Antwort mit Termen
+assessment#:#oq_btn_use_order_pictures#:#Verwende Antwort mit Bildern
+assessment#:#oq_btn_use_order_terms#:#Verwende Antwort mit Termen
 assessment#:#ordering_answer_sequence_info#:#Die hier definierte Reihenfolge der Antworten wird als korrekte Lösungsreihenfolge verwendet.
 assessment#:#ordering_question_javascript_hint#:#Bitte ziehen Sie die Bilder bzw. Texte in vertikaler Richtung, um die Reihenfolge zu verändern.
 assessment#:#ordertext#:#Anzuordnender Text
@@ -12992,8 +12992,10 @@ forum#:#frm_merge_src#:#Ausgewähltes Thema: %s
 forum#:#frm_merge_target#:#Ziel: %s
 forum#:#merged_threads_successfully#:#Die selektierten Themen wurden erfolgreich zusammengeführt
 forum#:#switch_threads_for_merge#:#Das augewählte Thema ist älter als das Ziel-Thema. Um eine erfolgreiche Zusammenführung zu gewährleisten werden Quell- und Ziel-Thema getauscht.
-assessment#:#order_nested_terms#:#Ansicht wechseln: Terme verschachteln
-assessment#:#order_nested_pictures#:#Ansicht wechseln: Bilder verschachteln
+assessment#:#oq_btn_nest_terms#:#Zur Ansicht: Terme gliedern
+assessment#:#oq_btn_nest_pictures#:#Zur Ansicht: Bilder gliedern
+assessment#:#oq_btn_define_terms#:#Zur Ansicht: Terme anlegen
+assessment#:#oq_btn_define_pictures#:#Zur Ansicht: Bilder hochladen
 cron#:#cron_job_id#:#Id
 cron#:#cron_component#:#Komponente
 cron#:#cron_schedule#:#Zeitplan
