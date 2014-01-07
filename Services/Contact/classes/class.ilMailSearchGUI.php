@@ -193,10 +193,6 @@ class ilMailSearchGUI
 		$this->tpl->setTitle($this->lng->txt("mail"));
 		$this->tpl->setVariable('SEARCHFORM', $form->getHtml());
 
-		if(!strlen(trim($_SESSION["mail_search_search"])) >= 3)
-		{
-		}
-
 		$abook   = new ilAddressbook($ilUser->getId());
 		$entries = $abook->searchUsers(addslashes(urldecode($_SESSION['mail_search_search'])));
 
