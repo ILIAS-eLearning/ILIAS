@@ -285,6 +285,10 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			$this->object->addAnswer();
 		}
 
+		$header = new ilFormSectionHeaderGUI();
+		$header->setTitle($this->lng->txt('oq_header_ordering_elements'));
+		$form->addItem($header);
+
 		if ($orderingtype == OQ_PICTURES)
 		{
 			$answerImageUpload = $this->getAnswerImageFileUploadWizardFormProperty();
@@ -326,6 +330,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			$answers->setInfo( $this->lng->txt( 'ordering_answer_sequence_info' ) );
 			$form->addItem( $answers );
 		}
+
 		return $form;
 	}
 

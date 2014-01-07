@@ -12987,6 +12987,7 @@ assessment#:#oq_btn_nest_terms#:#Switch to term nesting view
 assessment#:#oq_btn_nest_pictures#:#Switch to picture nesting view
 assessment#:#oq_btn_define_terms#:#Switch to term definition view
 assessment#:#oq_btn_define_pictures#:#Switch to picture definition view
+assessment#:#oq_header_ordering_elements#:#Ordering Elements
 cron#:#cron_job_id#:#Id
 cron#:#cron_component#:#Component
 cron#:#cron_schedule#:#Schedule
