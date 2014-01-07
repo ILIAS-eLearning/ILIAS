@@ -189,6 +189,7 @@ class ilMailSearchGUI
 		$form = $this->initSearchForm();
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mail_search.html", "Services/Contact");
+		$this->tpl->setVariable("ACTION", $this->ctrl->getFormAction($this));
 		$this->tpl->setTitle($this->lng->txt("mail"));
 		$this->tpl->setVariable('SEARCHFORM', $form->getHtml());
 
