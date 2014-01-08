@@ -1093,19 +1093,27 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$ilToolbar->addButton($this->lng->txt("exc_multi_feedback"),
 			$this->ctrl->getLinkTarget($this, "showMultiFeedback"));
 		
-		if (count(ilExAssignment::getAllDeliveredFiles($this->object->getId(), $_GET["ass_id"])))
-		{
-			include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
-			$ass = new ilExAssignment((int)$_GET["ass_id"]);
-			if($ass->getType() != ilExAssignment::TYPE_TEXT)
-			{
-				$ilToolbar->addSeparator();
-				$ilToolbar->addFormButton($lng->txt("download_all_returned_files"), "downloadAll");
-			}
-		}		
-
 		if (count($ass) > 0)
 		{
+			$ctype = null;
+			foreach($ass as $item)
+			{
+				if($item["id"] == $_GET["ass_id"])
+				{
+					$ctype = $item["type"];
+				}
+			}						
+			if($ctype == ilExAssignment::TYPE_TEXT)
+			{
+				$ilToolbar->addSeparator();
+				$ilToolbar->addFormButton($lng->txt("exc_list_text_assignment"), "listTextAssignment");					
+			}		
+			else if(count(ilExAssignment::getAllDeliveredFiles($this->object->getId(), $_GET["ass_id"])))
+			{			
+				$ilToolbar->addSeparator();
+				$ilToolbar->addFormButton($lng->txt("download_all_returned_files"), "downloadAll");			
+			}		
+			
 			include_once("./Modules/Exercise/classes/class.ilExerciseMemberTableGUI.php");
 			$exc_tab = new ilExerciseMemberTableGUI($this, "members", $this->object, $_GET["ass_id"]);
 			$tpl->setContent($exc_tab->getHTML());
@@ -3850,6 +3858,39 @@ class ilObjExerciseGUI extends ilObjectGUI
 		}		
 	
 		$this->tpl->setContent($a_form->getHTML());	
+	}
+	
+	function listTextAssignmentWithPeerReviewObject()
+	{
+		$this->listTextAssignmentObject(true);
+	}
+	
+	function listTextAssignmentObject($a_show_peer_review = false)
+	{
+		global $tpl, $ilToolbar, $ilCtrl, $ilTabs, $lng;
+		
+		$this->checkPermission("write");
+		
+		if(!$this->ass || $this->ass->getType() != ilExAssignment::TYPE_TEXT)
+		{
+			$ilCtrl->redirect($this, "member");
+		}
+
+		$ilTabs->clearTargets();
+		$ilTabs->setBackTarget($lng->txt("back"),
+			$ilCtrl->getLinkTarget($this, "members"));
+		
+		if($a_show_peer_review)
+		{
+			$cmd = "listTextAssignmentWithPeerReview";
+		}
+		else
+		{
+			$cmd = "listTextAssignment";
+		}
+		include_once "Modules/Exercise/classes/class.ilExAssignmentListTextTableGUI.php";
+		$tbl = new ilExAssignmentListTextTableGUI($this, $cmd, $this->ass, $a_show_peer_review);		
+		$tpl->setContent($tbl->getHTML());		
 	}
 	
 	function editPeerReviewObject()

@@ -2532,6 +2532,34 @@ class ilExAssignment
 		return $res;
 	}
 	
+	public function getAllPeerReviews()
+	{
+		global $ilDB;
+		
+		$res = array();
+
+		include_once './Services/Rating/classes/class.ilRating.php';
+		
+		$set = $ilDB->query("SELECT *".
+			" FROM exc_assignment_peer".
+			" WHERE ass_id = ".$ilDB->quote($this->getId(), "integer").
+			" ORDER BY peer_id");
+		while($row = $ilDB->fetchAssoc($set))
+		{
+			$rating = round(ilRating::getRatingForUserAndObject($this->getId(), 
+					"ass", $row["peer_id"], "peer", $row["giver_id"]));		
+			
+			$comment = $row["pcomment"];
+			
+			if($comment || $rating)
+			{
+				$res[$row["peer_id"]][$row["giver_id"]] = array($comment, $rating);
+			}
+		}						
+		
+		return $res;		
+	}
+	
 	public function hasPeerReviewAccess($a_peer_id)
 	{
 		global $ilDB, $ilUser;
