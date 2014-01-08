@@ -23,7 +23,7 @@
 		<Param format="list" type="int" value="mail_id" />
 		<DataSource type="Directory" action="append">
 			<PathCreator name="MailAttachmentPathCreator" />
-			<Field store="YES" index="ANALYZED" name="content">
+			<Field store="YES" index="ANALYZED" name="mattachment">
 				<Transformer name="LinefeedSanitizer" />
 			</Field>
 		</DataSource>
