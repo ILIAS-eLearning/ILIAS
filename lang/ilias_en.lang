@@ -14150,3 +14150,5 @@ content#:#cont_got_lock#:#This page has been locked for your editing. Please rel
 content#:#cont_finish_editing#:#Finish Editing
 content#:#cont_page_lock_released#:#Editing finished. Page lock has been released.
 notes#:#note_content_removed#:#The content has been removed.
+exc#:#exc_list_text_assignment#:#List All Submissions
+exc#:#exc_show_peer_review#:#Show Peer-Feedback 
