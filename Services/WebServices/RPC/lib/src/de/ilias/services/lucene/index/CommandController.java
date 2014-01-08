@@ -172,6 +172,16 @@ public class CommandController {
 		queue.addNonIncremental();
 		queue.loadFromDb();
 	}
+
+	/**
+	 * Load queue elements from given obj ids list
+	 * @param objIds
+	 * @throws SQLException 
+	 */
+	public void initObjects(Vector<Integer> objIds)  throws SQLException {
+		
+		queue.loadFromObjectList(objIds);
+	}
 	
 	
 	/**

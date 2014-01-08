@@ -158,6 +158,48 @@ public class CommandQueue {
 		logger.info("Found " + counter + " new update events!");
 	}
 	
+	
+	/**
+	 * 
+	 * @param objIds 
+	 */
+	public synchronized void loadFromObjectList(Vector<Integer> objIds) throws SQLException {
+		
+		
+		PreparedStatement pst = DBFactory.getPreparedStatement(
+				"SELECT obj_id,type FROM object_data " +
+				"WHERE obj_id = ? ");
+		
+		int counter = 0;
+		for(int objId : objIds) {
+			
+			pst.setInt(1, objId);
+			ResultSet res = pst.executeQuery();
+			
+			while(res.next()) {
+				
+				CommandQueueElement element = new CommandQueueElement();
+
+				//logger.debug("Found type: " + res.getString("obj_type") + " with id " + res.getInt("obj_id"));
+				element.setObjId(res.getInt("obj_id"));
+				element.setObjType(DBFactory.getString(res, "type"));
+				element.setSubId(0);
+				element.setSubType("");
+				element.setCommand("reset");
+				element.setFinished(false);
+
+				getElements().add(element);
+				counter++;
+			}
+			try {
+				res.close();
+			} catch (SQLException e) {
+				logger.warn(e);
+			}
+		}
+		logger.info("Found " + counter + " new update events!");
+	}
+	
 
 
 	/**
