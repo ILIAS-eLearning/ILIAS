@@ -19483,3 +19483,20 @@ foreach($ilinc_role_tpl_titles as $title)
 	}
 }
 ?>
+<#4166>
+<?php
+
+// #12419 - find all original questions which are not in a question pool
+$set = $ilDB->query("SELECT sqo.question_id".
+	" FROM svy_question sqp".
+	" JOIN svy_question sqo ON (sqp.question_id = sqo.original_id)".
+	" JOIN object_data od ON (sqp.obj_fi = od.obj_id)".
+	" WHERE od.type <> ".$ilDB->quote("spl", "text"));
+while($row = $ilDB->fetchAssoc($set))
+{	
+	$ilDB->manipulate("UPDATE svy_question".
+		" SET original_id = NULL".
+		" WHERE question_id = ".$ilDB->quote($row["question_id"], "integer"));	
+}
+
+?>
