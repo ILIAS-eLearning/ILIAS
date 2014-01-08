@@ -4229,7 +4229,7 @@ class ilObjSurvey extends ilObject
 			if($question) // #10824
 			{
 				$question->id = -1;
-				$original_id = SurveyQuestion::_getOriginalId($question_id);
+				$original_id = SurveyQuestion::_getOriginalId($question_id, false);
 				$question->saveToDb($original_id);
 				$newObj->questions[$key] = $question->getId();
 				$question_pointer[$question_id] = $question->getId();
