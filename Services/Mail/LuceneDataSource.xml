@@ -7,7 +7,7 @@
 	</Query>
 	<Param format="list" type="int" value="objId" />
 	<Field global="YES" store="YES" index="ANALYZED" column="m_message" type="text" name="content" />
-	<Field global="YES" store="YES" index="ANALYZED" column="m_subject" type="text" name="title" />
+	<Field global="NO" store="YES" index="ANALYZED" column="m_subject" type="text" name="title" />
 	<Field global="YES" store="YES" index="ANALYZED" column="rcp_to" type="text" name="mrcp" />
 	<Field global="YES" store="YES" index="ANALYZED" column="rcp_cc" type="text" name="mrcp" />
 	<Field global="YES" store="YES" index="ANALYZED" column="rcp_bcc" type="text" name="mrcp" />
