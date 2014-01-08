@@ -15,4 +15,17 @@
 	<Field global="YES" store="YES" index="NOT_ANALYZED" column="mail_id" type="integer" name="subItem" />
 	<Field global="NO" store="YES" index="NOT_ANALYZED" column="user_id" type="integer" name="objId" />
 	<Field global="NO" store="YES" index="NOT_ANALYZED" column="type" type="text" name="type" />
+	<DataSource type="JDBC" action="append">
+		<Query>
+			SELECT path FROM mail_attachment
+			WHERE mail_id IN (?);
+		</Query>
+		<Param format="list" type="int" value="mail_id" />
+		<DataSource type="Directory" action="append">
+			<PathCreator name="MailAttachmentPathCreator" />
+			<Field store="YES" index="ANALYZED" name="content">
+				<Transformer name="LinefeedSanitizer" />
+			</Field>
+		</DataSource>
+	</DataSource>
 </DataSource>
