@@ -90,6 +90,43 @@ class ilLuceneIndexer extends ilCronJob
 		$result->setStatus($status);		
 		return $result;
 	}
+	
+	
+	/**
+	 * Update lucene index
+	 * @param type $a_obj_ids
+	 */
+	public static function updateLuceneIndex($a_obj_ids)
+	{
+		global $ilSetting;
+		
+		include_once './Services/Search/classes/class.ilSearchSettings.php';
+		if(!ilSearchSettings::getInstance()->isLuceneUserSearchEnabled())
+		{
+			return false;
+		}
+		
+		try
+		{
+			include_once './Services/WebServices/RPC/classes/class.ilRpcClientFactory.php';
+			ilRpcClientFactory::factory('RPCIndexHandler')->indexObjects(
+				CLIENT_ID.'_'.$ilSetting->get('inst_id',0),
+				$a_obj_ids
+			);
+		}
+		catch(XML_RPC2_FaultException $e)
+		{
+			$error_message = $e->getMessage();
+			$GLOBALS['ilLog']->write(__METHOD__.': '.$e->getMessage());
+		}
+		catch(Exception $e)
+		{
+			$error_message = $e->getMessage();
+			$GLOBALS['ilLog']->write(__METHOD__.': '.$e->getMessage());
+		}
+		
+	}
+	
 }
 
 ?>

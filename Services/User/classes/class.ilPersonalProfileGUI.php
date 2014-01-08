@@ -486,6 +486,11 @@ class ilPersonalProfileGUI
 			$ilUser->setDescription($ilUser->getEmail());
 
 			$ilUser->update();
+			
+			// update lucene index
+			include_once './Services/Search/classes/Lucene/class.ilLuceneIndexer.php';
+			ilLuceneIndexer::updateLuceneIndex(array($GLOBALS['ilUser']->getId()));
+			
 
 			// reload page only if skin or style were changed
 			// feedback
@@ -500,7 +505,7 @@ class ilPersonalProfileGUI
 			else if ($reload)
 			{
 				// feedback
-				ilUtil::sendSuccess($this->lng->txt("saved_successfully"),true);
+				ilUtil::sendSuccess($this->lng->txt("saved_successfully"),true);	
 				$this->ctrl->redirect($this, "");
 				//$this->tpl->setVariable("RELOAD","<script language=\"Javascript\">\ntop.location.href = \"./start.php\";\n</script>\n");
 			}
@@ -512,7 +517,7 @@ class ilPersonalProfileGUI
 
 		$this->showProfile();
 	}
-
+	
 	/**
 	* show profile form
 	*
@@ -1341,6 +1346,11 @@ class ilPersonalProfileGUI
 			}
 
 			$ilUser->update();
+			
+			// update lucene index
+			include_once './Services/Search/classes/Lucene/class.ilLuceneIndexer.php';
+			ilLuceneIndexer::updateLuceneIndex(array((int) $GLOBALS['ilUser']->getId()));
+			
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 			$ilCtrl->redirect($this, "showPublicProfile");
 		}
