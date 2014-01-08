@@ -663,7 +663,7 @@ class SurveyQuestion
 			return;
 		}
 		$clone = $this;
-		$original_id = SurveyQuestion::_getOriginalId($this->getId());
+		$original_id = SurveyQuestion::_getOriginalId($this->getId(), false);
 		$clone->setId(-1);
 		$source_questionpool = $this->getObjId();
 		$clone->setObjId($target_questionpool);
@@ -1196,7 +1196,7 @@ class SurveyQuestion
 * @return integer The database id of the original question
 * @access public
 */
-	function _getOriginalId($question_id)
+	function _getOriginalId($question_id, $a_return_question_id_if_no_original = true)
 	{
 		global $ilDB;
 		$result = $ilDB->queryF("SELECT * FROM svy_question WHERE question_id = %s",
@@ -1210,7 +1210,7 @@ class SurveyQuestion
 			{
 				return $row["original_id"];
 			}
-			else
+			else if((bool)$a_return_question_id_if_no_original) // #12419
 			{
 				return $row["question_id"];
 			}
