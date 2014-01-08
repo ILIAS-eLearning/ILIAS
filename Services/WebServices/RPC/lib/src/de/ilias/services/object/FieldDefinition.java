@@ -358,7 +358,7 @@ public class FieldDefinition {
 		
 		for(int i = 0; i < getTransformers().size(); i++) {
 			
-			logger.info(getTransformers().get(i).getName());
+			logger.debug(getTransformers().get(i).getName());
 			trans = TransformerFactory.factory(getTransformers().get(i).getName());
 			if(trans != null) 
 				value = trans.transform(value);
