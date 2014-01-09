@@ -43,8 +43,9 @@ class ilObjOrgUnitAccess extends ilObjectAccess {
 	static function _checkAccessStaff($ref_id) {
 		global $ilAccess;
 
-		if ($ilAccess->checkAccess("write", "", $ref_id)
-			OR $ilAccess->checkAccess("view_learning_progress", "", $ref_id)) {
+		if (($ilAccess->checkAccess("write", "", $ref_id)
+			OR $ilAccess->checkAccess("view_learning_progress", "", $ref_id))
+			AND $ilAccess->checkAccess("read", "", $ref_id)) {
 			return true;
 		}
 
@@ -59,8 +60,9 @@ class ilObjOrgUnitAccess extends ilObjectAccess {
 	static function _checkAccessStaffRec($ref_id) {
 		global $ilAccess;
 
-		if ($ilAccess->checkAccess("write", "", $ref_id)
-			OR $ilAccess->checkAccess("view_learning_progress_rec", "", $ref_id)) {
+		if (($ilAccess->checkAccess("write", "", $ref_id)
+			OR $ilAccess->checkAccess("view_learning_progress_rec", "", $ref_id))
+			AND $ilAccess->checkAccess("read", "", $ref_id)) {
 			return true;
 		}
 

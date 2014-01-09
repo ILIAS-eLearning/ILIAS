@@ -67,6 +67,7 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI
 		 * Get childs of node
 		 *
 		 * @param $a_parent_node_id
+		 * @global ilAccessHandler $ilAccess
 		 * @internal param int $a_parent_id parent id
 		 * @return array childs
 		 */
@@ -102,7 +103,7 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI
             //Check Access
             foreach($childs as $key => $child)
             {
-                if(!$ilAccess->checkAccess('read', '', $child['ref_id']))
+                if(!$ilAccess->checkAccess('visible', '', $child['ref_id']))
                 {
                     unset($childs[$key]);
                 }
@@ -135,5 +136,23 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI
         {
             return strcmp($a["title"], $b["title"]);
         }
+
+		/**
+		 * Is node clickable?
+		 *
+		 * @param mixed $a_node node object/array
+		 * @global ilAccessHandler $ilAccess
+		 * @return boolean node clickable true/false
+		 */
+		function isNodeClickable($a_node)
+		{
+			global $ilAccess;
+
+			if($ilAccess->checkAccess('read', '', $a_node['ref_id']))
+			{
+				return true;
+			}
+			return false;
+		}
 	}
 ?>

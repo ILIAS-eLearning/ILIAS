@@ -76,7 +76,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 	protected $ilLog;
 
 
-	function __construct() {
+	public function __construct() {
 		global $tpl, $ilCtrl, $ilAccess, $ilToolbar, $ilLocator, $tree, $lng, $ilLog;
 		parent::ilContainerGUI(array(), $_GET["ref_id"], true, false);
 
@@ -165,7 +165,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 				break;
 			case "ilinfoscreengui":
 				$this->tabs_gui->setTabActive("info_short");
-				if (!$this->ilAccess->checkAccess("visible", "", $this->ref_id)) {
+				if (!$this->ilAccess->checkAccess("read", "", $this->ref_id) AND !$this->ilAccess->checkAccess("visible", "", $this->ref_id)) {
 					$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"), $this->ilias->error_obj->MESSAGE);
 				}
 				$info = new ilInfoScreenGUI($this);
@@ -258,7 +258,15 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 
 
 	public function view() {
-		$this->checkPermission("read");
+
+		if (!$this->ilAccess->checkAccess("read", "",  $_GET["ref_id"])) {
+			if($this->ilAccess->checkAccess("visible", "",  $_GET["ref_id"])) {
+				ilUtil::sendFailure($this->lng->txt("msg_no_perm_read"));
+				$this->ctrl->redirectByClass('ilinfoscreengui', '');
+			}
+
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read"),$this->ilias->error_obj->WARNING);
+		}
 
 		parent::renderObject();
 		$this->tabs_gui->setTabActive("view_content");
@@ -411,7 +419,6 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 
 	public function _goto($ref_id) {
         global $ilCtrl;
-
         $ilCtrl->initBaseClass("ilAdministrationGUI");
         $ilCtrl->setTargetScript("ilias.php");
         $ilCtrl->setParameterByClass("ilObjOrgUnitGUI", "ref_id", $ref_id);
@@ -458,14 +465,21 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 	function doUserAutoCompleteObject() {
 	}
 
-	/*
-	 * METHODS for local user administration
+	//
+	// METHODS for local user administration.
+	//
+	/**
+	 * @return ilTableGUI
+	 * @description Make protected function avaiable for ilLocalUserGUI...
 	 */
-	//Make protected function avaiable for ilLocalUserGUI...
 	public function __initTableGUI() {
 		return parent::__initTableGUI();
 	}
-	//Make protected function avaiable for ilLocalUserGUI
+
+	/**
+	 * @return ilTableGUI
+	 * @description Make protected function avaiable for ilLocalUserGUI...
+	 */
 	public function __setTableGUIBasicData($tbl, $a_result_set, $a_from, $a_form) {
 		return parent::__setTableGUIBasicData($tbl, $a_result_set, $a_from, $a_form);
 	}
