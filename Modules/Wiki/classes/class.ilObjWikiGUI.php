@@ -702,7 +702,7 @@ class ilObjWikiGUI extends ilObjectGUI
 			$values["title"] = $this->object->getTitle();
 			$values["startpage"] = $this->object->getStartPage();
 			$values["shorttitle"] = $this->object->getShortTitle();
-			$values["description"] = $this->object->getDescription();
+			$values["description"] = $this->object->getLongDescription();
 			$values["rating_overall"] = $this->object->getRatingOverall();
 			$values["rating"] = $this->object->getRating();
 			// $values["rating_side"] = $this->object->getRatingAsBlock();

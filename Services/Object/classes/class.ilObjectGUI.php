@@ -1198,7 +1198,7 @@ class ilObjectGUI
 	protected function getEditFormValues()
 	{
 		$values["title"] = $this->object->getTitle();
-		$values["desc"] = $this->object->getDescription();
+		$values["desc"] = $this->object->getLongDescription();
 		$this->getEditFormCustomValues($values);
 		return $values;
 	}
