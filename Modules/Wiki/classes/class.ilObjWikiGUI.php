@@ -1076,6 +1076,9 @@ class ilObjWikiGUI extends ilObjectGUI
 				$page->setRating(true);
 			}
 			
+			// needed for notification
+			$page->setWikiRefId($this->object->getRefId());
+			
 			$page->create();
 
 			// redirect to newly created page
