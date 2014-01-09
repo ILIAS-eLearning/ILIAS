@@ -42,7 +42,7 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 
 		$this->setPrefix("dcl_record_list");
         $this->setFormName('record_list');
-        $this->setId("dcl_record_list");
+        $this->setId("dcl_record_list" . $table->getId());
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
         $this->table = $table;
