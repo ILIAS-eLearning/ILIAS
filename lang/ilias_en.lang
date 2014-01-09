@@ -13597,8 +13597,8 @@ orgu#:#ou_id_type_not_valid#:#The ou_id type is not valid. Valid are: "reference
 orgu#:#ou_parent_id_not_valid#:#The ou_parent_id type is not valid. Valid are: "reference_id" or "external_id".
 orgu#:#import_successful#:#The import terminated successfully. Created: %s, edited/moved: %s, deleted: %s.
 orgu#:#import_terminated_with_warnings#:#The import terminated with warnings
-orgu#:#import_terminated_with_errors#:#The import terminated with errors, some organisational couldn't be created, edited or deleted.
-orgu#:#import_failed#:#The import failed. Make sure your file is in the xml format and is has a valid structure.
+orgu#:#import_terminated_with_errors#:#The import terminated with errors.
+orgu#:#import_failed#:#The import failed. Make sure your file is in the xml format and has a valid structure.
 orgu#:#orgu_already_deleted#:#The object was already deleted.
 orgu#:#orgu_new#:#New Organisational Unit
 orgu#:#orgu_add#:#Add Organisational Unit
@@ -14153,3 +14153,6 @@ notes#:#note_content_removed#:#The content has been removed.
 exc#:#exc_list_text_assignment#:#List All Submissions
 exc#:#exc_show_peer_review#:#Show Peer-Feedback
 orgu#:#ou_external_id_exists#:#A unit with the External ID already exists on this system or in trash bin.
+orgu#:#user_import_successful#:#The import terminated successfully. Assigned: %s, Removed: %s.
+orgu#:#no_orgunit#:#Please check your XML-File. There is no Organisational Unit.
+orgu#:#no_assignment#:#Please check your XML-File. There is no User Assignment.

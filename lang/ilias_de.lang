@@ -13590,7 +13590,7 @@ orgu#:#ou_id_type_not_valid#:#Der ou_id Typ ist nicht gültig. Gültig sind: "re
 orgu#:#ou_parent_id_not_valid#:#Der ou_parent_id Typ ist nicht gültig. Gültig sind: "reference_id" oder "external_id".
 orgu#:#import_successful#:#Der Import wurde erfolgreich durchgeführt. Neu erstellt: %s, Bearbeitet/Verschoben: %s, Gelöscht: %s.
 orgu#:#import_terminated_with_warnings#:#Der Import hat Warnungen erzeugt
-orgu#:#import_terminated_with_errors#:#Der Import hat Fehler erkannt. Einige Organisationseinheiten konnten nicht erzeugt beziehungsweise bearbeitet werden.
+orgu#:#import_terminated_with_errors#:#Der Import hat Fehler erkannt.
 orgu#:#import_failed#:#Der Import ist fehlgeschlagen. Stellen Sie sicher, dass die Datei im XML-Format geschrieben ist und eine valide Struktur aufweist.
 orgu#:#orgu_already_deleted#:#Das Objekt wurde bereits gelöscht.
 orgu#:#orgu_new#:#Neue Organisationseinheit
@@ -14153,3 +14153,6 @@ notes#:#note_content_removed#:#Der Inhalt wurde entfernt.
 exc#:#exc_list_text_assignment#:#Liste aller Abgaben
 exc#:#exc_show_peer_review#:#Peer-Feedback anzeigen
 orgu#:#ou_external_id_exists#:#Eine Organisationseinheit mit der Externen ID existiert bereits auf ILIAS oder im Papierkorb.
+orgu#:#user_import_successful#:#Der Import wurde erfolgreich durchgeführt. Neu zugeordnet: %s, Zuordnung entfernt: %s.
+orgu#:#no_orgunit#:#Bitte prüfen Sie Ihre XML-Datei. Es konnte keine Organisationseinheit gefunden werden.
+orgu#:#no_assignment#:#Bitte prüfen Sie Ihre XML-Datei. Es konnte keine Benutzerzuweisung gefunden werden.

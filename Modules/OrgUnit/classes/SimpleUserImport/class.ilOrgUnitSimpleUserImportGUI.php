@@ -103,7 +103,7 @@ class ilOrgUnitSimpleUserImportGUI {
 			try {
 				$importer->simpleUserImport($file["tmp_name"]);
 			} catch (Exception $e) {
-				$this->ilLog->wirte($e->getMessage() . "\\n" . $e->getTraceAsString());
+				$this->ilLog->wirte($e->getMessage() . " - " . $e->getTraceAsString());
 				ilUtil::sendFailure($lng->txt("import_failed"), true);
 				$this->ctrl->redirect($this, "render");
 			}
@@ -117,19 +117,19 @@ class ilOrgUnitSimpleUserImportGUI {
 	public function displayImportResults($importer) {
 		if (! $importer->hasErrors() && ! $importer->hasWarnings()) {
 			$stats = $importer->getStats();
-			ilUtil::sendSuccess(sprintf($this->lng->txt("import_successful"), $stats["created"], $stats["updated"], $stats["removed"]), true);
+			ilUtil::sendSuccess(sprintf($this->lng->txt("user_import_successful"), $stats["created"], $stats["removed"]), true);
 		}
 		if ($importer->hasWarnings()) {
-			$msg = $this->lng->txt("import_terminated_with_warnings") . ":<br>";
+			$msg = $this->lng->txt("import_terminated_with_warnings") . "<br>";
 			foreach ($importer->getWarnings() as $warning) {
-				$msg .= "-" . $this->lng->txt($warning["lang_var"]) . " (import id: " . $warning["import_id"] . ")<br>";
+				$msg .= "-" . $this->lng->txt($warning["lang_var"]) . " (Import ID: " . $warning["import_id"] . ")<br>";
 			}
 			ilUtil::sendInfo($msg, true);
 		}
 		if ($importer->hasErrors()) {
-			$msg = $this->lng->txt("import_terminated_with_errors") . ":<br>";
+			$msg = $this->lng->txt("import_terminated_with_errors") . "<br>";
 			foreach ($importer->getErrors() as $warning) {
-				$msg .= "-" . $this->lng->txt($warning["lang_var"]) . " (import id: " . $warning["import_id"] . ")<br>";
+				$msg .= "- " . $this->lng->txt($warning["lang_var"]) . " (Import ID: " . $warning["import_id"] . ")<br>";
 			}
 			ilUtil::sendFailure($msg, true);
 		}

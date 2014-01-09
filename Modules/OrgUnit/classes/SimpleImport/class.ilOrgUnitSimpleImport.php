@@ -12,9 +12,15 @@ class ilOrgUnitSimpleImport extends ilOrgUnitImporter {
 
 	public function simpleImport($file_path){
 		global $lng;
-		$this->stats = array("updated" => 0, "deleted" => 0, "edited" => 0);
+		$this->stats = array("created" => 0, "updated" => 0, "deleted" => 0);
 		$a = file_get_contents($file_path, "r");
 		$xml = new SimpleXMLElement($a);
+
+		if(!count($xml->OrgUnit)) {
+			$this->addError("no_orgunit",null,null);
+			return;
+		}
+
 		foreach($xml->OrgUnit as $o){
 			$this->simpleImportElement($o);
 		}
@@ -96,7 +102,7 @@ class ilOrgUnitSimpleImport extends ilOrgUnitImporter {
 			if($external_id){
 				if(ilObject::_lookupObjIdByImportId($external_id))
 				{
-					$this->addError("ou_external_id_exists", $ou_id, $action);exit;
+					$this->addError("ou_external_id_exists", $ou_id, $action);
 					return;
 				}
 			}
