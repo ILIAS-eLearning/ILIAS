@@ -43,7 +43,7 @@ class ilOrgUnitSimpleImportGUI {
 	 * @param $parent_gui
 	 */
 	function __construct($parent_gui) {
-		global $tpl, $ilCtrl, $ilTabs, $ilToolbar, $lng, $ilAccess;
+		global $tpl, $ilCtrl, $ilTabs, $ilToolbar, $lng, $ilAccess, $ilLog;
 		$this->tpl = $tpl;
 		$this->ctrl = $ilCtrl;
 		$this->parent_gui = $parent_gui;
@@ -53,6 +53,7 @@ class ilOrgUnitSimpleImportGUI {
 		$this->lng = $lng;
 		$this->ilAccess = $ilAccess;
 		$this->lng->loadLanguageModule('user');
+		$this->ilLog = $ilLog;
 		if (! $this->ilAccess->checkaccess("write", "", $this->parent_gui->object->getRefId())) {
 			ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
 		}
@@ -104,7 +105,7 @@ class ilOrgUnitSimpleImportGUI {
 			try {
 				$importer->simpleImport($file["tmp_name"]);
 			} catch (Exception $e) {
-				$this->ilLog->wirte($e->getMessage() . "\\n" . $e->getTraceAsString());
+				$this->ilLog->write($e->getMessage() . " - " . $e->getTraceAsString());
 				ilUtil::sendFailure($this->lng->txt("import_failed"), true);
 				$this->ctrl->redirect($this, "render");
 			}
