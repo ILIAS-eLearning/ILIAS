@@ -11,9 +11,15 @@ require_once("./Modules/OrgUnit/classes/class.ilOrgUnitImporter.php");
 class ilOrgUnitSimpleUserImport extends ilOrgUnitImporter {
 
 	public function simpleUserImport($file_path){
-		$this->stats = array("updated" => 0, "deleted" => 0, "edited" => 0);
+		$this->stats = array("created" => 0, "removed" => 0);
 		$a = file_get_contents($file_path, "r");
 		$xml = new SimpleXMLElement($a);
+
+		if(!count($xml->Assignment)) {
+			$this->addError("no_assignment",null,null);
+			return;
+		}
+
 		foreach($xml->Assignment as $a){
 			$this->simpleUserImportElement($a);
 		}
@@ -21,6 +27,7 @@ class ilOrgUnitSimpleUserImport extends ilOrgUnitImporter {
 
 	public function simpleUserImportElement(SimpleXMLElement $a){
 		global $rbacadmin;
+
 		$attributes = $a->attributes();
 		$action = $attributes->action;
 		$user_id_type = $a->User->attributes()->id_type;
@@ -57,7 +64,7 @@ class ilOrgUnitSimpleUserImport extends ilOrgUnitImporter {
 			$rbacadmin->deassignUser($role_id, $user_id);
 			$this->stats["removed"]++;
 		}else{
-			$this->addError("not_a_valid_role", $user_id);
+			$this->addError("not_a_valid_action", $user_id);
 		}
 	}
 
