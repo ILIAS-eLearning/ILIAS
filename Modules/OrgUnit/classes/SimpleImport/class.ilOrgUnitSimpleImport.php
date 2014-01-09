@@ -93,6 +93,13 @@ class ilOrgUnitSimpleImport extends ilOrgUnitImporter {
 				$this->addError("ou_parent_id_not_valid", $ou_id, $action);
 				return;
 			}
+			if($external_id){
+				if(ilObject::_lookupObjIdByImportId($external_id))
+				{
+					$this->addError("ou_external_id_exists", $ou_id, $action);exit;
+					return;
+				}
+			}
 			$object = new ilObjOrgUnit();
 			$object->setTitle($title);
 			$object->setDescription($description);

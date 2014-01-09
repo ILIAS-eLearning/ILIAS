@@ -129,9 +129,9 @@ class ilOrgUnitSimpleImportGUI {
 			ilUtil::sendInfo($msg, true);
 		}
 		if ($importer->hasErrors()) {
-			$msg = $this->lng->txt("import_terminated_with_errors") . ":<br>";
+			$msg = $this->lng->txt("import_terminated_with_errors") . "<br/>";
 			foreach ($importer->getErrors() as $warning) {
-				$msg .= "-" . $this->lng->txt($warning["lang_var"]) . " (import id: " . $warning["import_id"] . ")<br>";
+				$msg .= "- " . $this->lng->txt($warning["lang_var"]) . " (Import ID: " . $warning["import_id"] . ")<br>";
 			}
 			ilUtil::sendFailure($msg, true);
 		}
