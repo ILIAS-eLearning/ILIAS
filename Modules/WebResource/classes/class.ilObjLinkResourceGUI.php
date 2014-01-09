@@ -899,6 +899,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 					break;
 			}
 		}
+		$GLOBALS['tpl']->setPermanentLink($this->object->getType(),$this->object->getRefId());
 		return true;
 	}
 	
