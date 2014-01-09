@@ -485,7 +485,7 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 				
 				$fields['cal_cg_registrations'] = array($this->settings->isCGRegistrationEnabled(), ilAdministrationSettingsFormHandler::VALUE_BOOL);
 								
-				return array(array("showPrivacy", $fields));	
+				return array(array("settings", $fields));	
 				
 			case ilAdministrationSettingsFormHandler::FORM_GROUP:
 				
@@ -504,7 +504,7 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 					
 				$fields['cal_cg_registrations'] = array($this->settings->isCGRegistrationEnabled(), ilAdministrationSettingsFormHandler::VALUE_BOOL);
 				
-				return array(array("showPrivacy", $fields));	
+				return array(array("settings", $fields));	
 		}
 	}
 }
