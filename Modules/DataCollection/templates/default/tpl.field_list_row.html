@@ -14,9 +14,18 @@
     <td class="visible">
         <input type="checkbox" name="{CHECKBOX_VISIBLE}" {CHECKBOX_VISIBLE_CHECKED}>
     </td>
+
+    <!-- BEGIN filter -->
 	<td class="filter">
         <input type="checkbox" name="{CHECKBOX_FILTERABLE}" {CHECKBOX_FILTERABLE_CHECKED}>
     </td>
+    <!-- END filter -->
+    <!-- BEGIN no_filter -->
+    <td class="filter">
+        {NO_FILTER}
+    </td>
+    <!-- END no_filter -->
+
     <!-- BEGIN locked -->
     <td class="dcl_locked">
         <input type="checkbox" name="{CHECKBOX_NAME_LOCKED}" {CHECKBOX_CHECKED_LOCKED}>

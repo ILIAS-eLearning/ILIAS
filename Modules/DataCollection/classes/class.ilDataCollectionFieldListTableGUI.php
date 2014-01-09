@@ -92,11 +92,29 @@ class ilDataCollectionFieldListTableGUI extends ilTable2GUI
 			$this->tpl->setVariable("CHECKBOX_VISIBLE_CHECKED", "checked");
 		}
 
-		$this->tpl->setVariable("CHECKBOX_FILTERABLE", "filterable[".$a_set->getId()."]");
-		if($a_set->isFilterable())
-		{
-			$this->tpl->setVariable("CHECKBOX_FILTERABLE_CHECKED", "checked");
-		}
+        /* Don't enable setting filter for MOB fields or reference fields that reference a MOB field */
+        $showFilter = true;
+        if ($a_set->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_MOB || $a_set->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_FILE) {
+            $showFilter = false;
+        }
+        if ($a_set->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_REFERENCE) {
+            $refField = ilDataCollectionCache::getFieldCache((int) $a_set->getFieldRef());
+            if ($refField && ($refField->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_MOB || $refField->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_FILE)) {
+                $showFilter = false;
+            }
+        }
+        if($showFilter)
+        {
+            $this->tpl->setVariable("CHECKBOX_FILTERABLE", "filterable[".$a_set->getId()."]");
+            if($a_set->isFilterable())
+            {
+                $this->tpl->setVariable("CHECKBOX_FILTERABLE_CHECKED", "checked");
+            }
+        }
+        else
+        {
+            $this->tpl->setVariable("NO_FILTER", "");
+        }
 
 		$this->tpl->setVariable("CHECKBOX_EXPORTABLE", "exportable[".$a_set->getId()."]");
 		if($a_set->getExportable())
