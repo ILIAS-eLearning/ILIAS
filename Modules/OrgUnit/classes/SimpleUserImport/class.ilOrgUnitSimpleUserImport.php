@@ -37,7 +37,7 @@ class ilOrgUnitSimpleUserImport extends ilOrgUnitImporter {
 		$role = (string) $a->Role;
 
 		if(!$user_id = $this->buildUserId($user_id, $user_id_type)){
-			$this->addError("user_not_found", $user_id);
+			$this->addError("user_not_found", $a->User);
 			return;
 		}
 

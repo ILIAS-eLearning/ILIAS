@@ -212,6 +212,12 @@ class ilOrgUnitStaffGUI {
 				$user_ids[] = $user_id;
 			}
 		}
+
+		if(!count($user_ids)) {
+			ilUtil::sendFailure($this->lng->txt("user_not_found"), true);
+			$this->ctrl->redirect($this,"showStaff");
+		}
+
 		$user_type = isset($_POST['user_type']) ? $_POST['user_type'] : 0;
 		if ($user_type == "employee") {
 			$this->parent_object->assignUsersToEmployeeRole($user_ids);
