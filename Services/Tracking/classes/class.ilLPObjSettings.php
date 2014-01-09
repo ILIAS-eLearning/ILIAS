@@ -161,7 +161,7 @@ class ilLPObjSettings
 			$ilDB->quote($this->getObjId() ,'integer').", ".
 			$ilDB->quote($this->getObjType(),'text').", ".
 			$ilDB->quote($this->getMode(),'integer').", ".
-			$ilDB->quote(0, 'integer').
+			$ilDB->quote($this->getVisits(), 'integer').  // #12482
 			")";
 		$res = $ilDB->manipulate($query);
 		$this->__read();
