@@ -185,7 +185,8 @@ class ilDataCollectionRecordEditGUI
                         $options[$record->getId()] = $record->getRecordFieldValue($fieldref);
                     }
 				}
-				$item->setOptions($options);
+                asort($options);
+                $item->setOptions($options);
 			}
 			if($this->record_id)
 			{
