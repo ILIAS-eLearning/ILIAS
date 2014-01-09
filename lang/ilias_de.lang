@@ -14152,3 +14152,4 @@ content#:#cont_back_to_page#:#Back to Page###30 12 2013 new variable
 notes#:#note_content_removed#:#Der Inhalt wurde entfernt.
 exc#:#exc_list_text_assignment#:#Liste aller Abgaben
 exc#:#exc_show_peer_review#:#Peer-Feedback anzeigen
+orgu#:#ou_external_id_exists#:#Eine Organisationseinheit mit der Externen ID existiert bereits auf ILIAS oder im Papierkorb.
