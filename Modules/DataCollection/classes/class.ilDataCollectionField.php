@@ -561,7 +561,7 @@ class ilDataCollectionField
 	 */
 	private function loadExportability()
 	{
-		if($this->editable == NULL)
+		if($this->exportable == NULL)
 		{
 		   $this->loadViewDefinition(self::EXPORTABLE_VIEW);
 		}
@@ -757,7 +757,7 @@ class ilDataCollectionField
 				break;
 			case self::EXPORTABLE_VIEW:
 				$set = $this->getExportable();
-				if($set && $this->order === NULL)
+                if($set && $this->order === NULL)
 					$this->order = 0;
 				break;
 		}
