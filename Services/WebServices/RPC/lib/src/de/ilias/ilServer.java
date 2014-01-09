@@ -50,6 +50,8 @@ import de.ilias.services.settings.ServerSettings;
  */
 public class ilServer {
 
+	private String version = "4.4.0.1";
+	
 	private String[] arguments;
 	private String command;
 	
@@ -71,7 +73,7 @@ public class ilServer {
 		ilServer server = null;
 		
 		BasicConfigurator.configure();
-		logger.setLevel(Level.DEBUG);
+		logger.setLevel(Level.INFO);
 		
 		server = new ilServer(args);
 		server.handleRequest();
@@ -85,6 +87,14 @@ public class ilServer {
 		if(arguments.length < 1) {
 			logger.error(getUsage());
 			return false;
+		}
+		
+		if(arguments.length == 1) {
+			command = arguments[0];
+			if(command.compareTo("version") == 0) {
+				System.out.println("ILIAS java server version \"" + version + "\"");
+				return true;
+			}
 		}
 		command = arguments[1];
 		if(command.compareTo("start") == 0) {
