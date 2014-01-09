@@ -529,12 +529,15 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 		{
 			$data = $_POST['links'][$link_id];
 			
+			$orig = ilLinkResourceItems::lookupItem($this->object->getId(),$link_id);
+			
 			$links->setLinkId($link_id);
 			$links->setTitle(ilUtil::stripSlashes($data['tit']));
 			$links->setDescription(ilUtil::stripSlashes($data['des']));
 			$links->setTarget(ilUtil::stripSlashes($data['tar']));
 			$links->setActiveStatus((int) $data['act']);
 			$links->setDisableCheckStatus((int) $data['che']);
+			$links->setLastCheckDate($orig['last_check']);
 			$links->setValidStatus((int) $data['vali']);
 			$links->update();
 			
