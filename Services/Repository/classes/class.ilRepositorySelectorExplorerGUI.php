@@ -276,6 +276,11 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
 	{
 		global $ilAccess;
 
+		if ($this->select_postvar != "")
+		{
+			return false;
+		}
+
 		if (!$ilAccess->checkAccess("read", "", $a_node["child"]))
 		{
 			return false;
