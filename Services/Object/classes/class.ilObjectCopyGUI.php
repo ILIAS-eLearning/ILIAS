@@ -251,7 +251,6 @@ class ilObjectCopyGUI
 	
 	/**
 	 * Show target selection
-	 * @return 
 	 */
 	public function showSourceSelectionTree()
 	{

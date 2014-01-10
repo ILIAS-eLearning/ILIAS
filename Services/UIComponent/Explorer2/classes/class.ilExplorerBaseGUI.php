@@ -20,7 +20,8 @@ abstract class ilExplorerBaseGUI
 	protected $ajax = false;
 	protected $custom_open_nodes = array();
 	protected $selected_nodes = array();
-	
+	protected $select_postvar = "";
+
 	/**
 	 * Constructor
 	 */

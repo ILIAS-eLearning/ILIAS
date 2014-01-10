@@ -1584,7 +1584,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	function cutObject()
 	{
 		global $rbacsystem, $ilCtrl;
-		
+
 		if ($_GET["item_ref_id"] != "")
 		{
 			$_POST["id"] = array($_GET["item_ref_id"]);
@@ -1646,7 +1646,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	function copyObject()
 	{
 		global $rbacsystem, $ilCtrl;
-		
+
 		if ($_GET["item_ref_id"] != "")
 		{
 			$_POST["id"] = array($_GET["item_ref_id"]);
@@ -1969,13 +1969,13 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 			switch ($command)
 			{
 				case 'cut':
-					$this->showMoveIntoObjectTreeObject();
+					$this->showPasteTreeObject();
 					break;
 				case 'copy':
-					$this->showCopyIntoMultipleObjectsTreeObject();
+					$this->showPasteTreeObject();
 					break;
 				case 'link':
-					$this->showLinkIntoMultipleObjectsTreeObject();
+					$this->showPasteTreeObject();
 					break;
 			}
 			return;
@@ -2053,13 +2053,13 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 			switch ($command)
 			{
 				case 'cut':
-					$this->showMoveIntoObjectTreeObject();
+					$this->showPasteTreeObject();
 					break;
 				case 'copy':
-					$this->showCopyIntoMultipleObjectsTreeObject();
+					$this->showPasteTreeObject();
 					break;
 				case 'link':
-					$this->showLinkIntoMultipleObjectsTreeObject();
+					$this->showPasteTreeObject();
 					break;
 			}
 			return;
@@ -2224,10 +2224,70 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$_SESSION['paste_linked_repexpand'][] = $node_id;
 		}
 		
-		return $this->showLinkIntoMultipleObjectsTreeObject();
+		return $this->showPasteTreeObject();
 	}
-	
-	public function showLinkIntoMultipleObjectsTreeObject()
+
+	/**
+	 * Show paste tree
+	 */
+	public function showPasteTreeObject()
+	{
+		global $ilTabs, $ilToolbar;
+
+		$ilTabs->setTabActive('view_content');
+
+		if(!in_array($_SESSION['clipboard']['cmd'], array('link', 'copy', 'cut')))
+		{
+			$message = __METHOD__.": Unknown action.";
+			$this->ilias->raiseError($message, $this->ilias->error_obj->WARNING);
+		}
+		$cmd = $_SESSION['clipboard']['cmd'];
+
+		require_once './Services/Object/classes/class.ilPasteIntoMultipleItemsExplorer.php';
+
+		//
+		include_once("./Services/Repository/classes/class.ilRepositorySelectorExplorerGUI.php");
+		$exp = new ilRepositorySelectorExplorerGUI($this, "showPasteTree");
+		$exp->setTypeWhiteList(array("root", "cat", "grp", "crs", "fold"));
+		if ($cmd == "link")
+		{
+			$exp->setSelectMode("nodes", true);
+		}
+		else
+		{
+			$exp->setSelectMode("nodes[]", false);
+		}
+		if ($exp->handleCommand())
+		{
+			return;
+		}
+		$output = $exp->getHTML();
+
+		$txt_var = ($cmd == "copy")
+			? "copy"
+			: "paste";
+
+		// toolbars
+		$t = new ilToolbarGUI();
+		$t->setFormAction($this->ctrl->getFormAction($this, "performPasteIntoMultipleObjects"));
+		$t->addFormButton($this->lng->txt($txt_var), "performPasteIntoMultipleObjects");
+		$t->addSeparator();
+		$t->addFormButton($this->lng->txt("obj_insert_into_clipboard"), "keepObjectsInClipboard");
+		$t->addFormButton($this->lng->txt("cancel"), "cancelMoveLink");
+		$t->setCloseFormTag(false);
+		$t->setLeadingImage(ilUtil::getImagePath("arrow_upright.png"), " ");
+		$output = $t->getHTML().$output;
+		$t->setLeadingImage(ilUtil::getImagePath("arrow_downright.png"), " ");
+		$t->setCloseFormTag(true);
+		$t->setOpenFormTag(false);
+		$output.= "<br />".$t->getHTML();
+
+		$this->tpl->setContent($output);
+	}
+
+
+
+/*	public function showLinkIntoMultipleObjectsTreeObject()
 	{
 		global $ilTabs, $ilToolbar;
 	
@@ -2274,7 +2334,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->tpl->setVariable('TXT_SUBMIT', $this->lng->txt('paste'));
 		
 		$ilToolbar->addButton($this->lng->txt('cancel'), $this->ctrl->getLinkTarget($this,'cancelMoveLink'));
-	}
+	}*/
 
 	/**
 	 * Cancel move|link
@@ -2285,11 +2345,21 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		unset($_SESSION['clipboard']);
 		$GLOBALS['ilCtrl']->returnToParent($this);
 	}
+
+	/**
+	 * Keep objects in the clipboard
+	 */
+	function keepObjectsInClipboardObject()
+	{
+		ilUtil::sendSuccess($this->lng->txt("obj_inserted_clipboard"), true);
+		$GLOBALS['ilCtrl']->returnToParent($this);
+	}
+
 	
 	public function initAndDisplayCopyIntoMultipleObjectsObject()
 	{
 		global $tree;
-		
+
 		// empty session on init
 		$_SESSION['paste_copy_repexpand'] = array();
 		
@@ -2304,10 +2374,10 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$_SESSION['paste_copy_repexpand'][] = $node_id;
 		}
 		
-		return $this->showCopyIntoMultipleObjectsTreeObject();
+		return $this->showPasteTreeObject();
 	}
 	
-	public function showCopyIntoMultipleObjectsTreeObject()
+	/*public function showCopyIntoMultipleObjectsTreeObject()
 	{
 		global $ilTabs, $ilToolbar;
 		
@@ -2353,7 +2423,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->tpl->setVariable('TXT_SUBMIT', $this->lng->txt('copy'));
 		
 		$ilToolbar->addButton($this->lng->txt('cancel'), $this->ctrl->getLinkTarget($this,'cancelMoveLink'));
-	}
+	}*/
 	
 	public function initAndDisplayMoveIntoObjectObject()
 	{
@@ -2373,10 +2443,10 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$_SESSION['paste_cut_repexpand'][] = $node_id;
 		}
 		
-		return $this->showMoveIntoObjectTreeObject();
+		return $this->showPasteTreeObject();
 	}
 	
-	public function showMoveIntoObjectTreeObject()
+	/*public function showMoveIntoObjectTreeObject()
 	{
 		global $ilTabs, $ilToolbar;
 	
@@ -2423,7 +2493,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->tpl->setVariable('TXT_SUBMIT', $this->lng->txt('paste'));
 		
 		$ilToolbar->addButton($this->lng->txt('back'), $this->ctrl->getLinkTarget($this,'cancelMoveLink'));
-	}
+	}*/
 
 	/**
 	* paste object from clipboard to current place

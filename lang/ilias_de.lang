@@ -14156,3 +14156,5 @@ orgu#:#ou_external_id_exists#:#Eine Organisationseinheit mit der Externen ID exi
 orgu#:#user_import_successful#:#Der Import wurde erfolgreich durchgeführt. Neu zugeordnet: %s, Zuordnung entfernt: %s.
 orgu#:#no_orgunit#:#Bitte prüfen Sie Ihre XML-Datei. Es konnte keine Organisationseinheit gefunden werden.
 orgu#:#no_assignment#:#Bitte prüfen Sie Ihre XML-Datei. Es konnte keine Benutzerzuweisung gefunden werden.
+obj#:#obj_insert_into_clipboard#:#In Zwischenablage einfügen
+obj#:#obj_inserted_clipboard#:#Die Objekte wurden in die Zwischenablage eingefügt

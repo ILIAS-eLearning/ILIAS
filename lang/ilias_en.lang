@@ -14156,3 +14156,5 @@ orgu#:#ou_external_id_exists#:#A unit with the External ID already exists on thi
 orgu#:#user_import_successful#:#The import terminated successfully. Assigned: %s, Removed: %s.
 orgu#:#no_orgunit#:#Please check your XML-File. There is no Organisational Unit.
 orgu#:#no_assignment#:#Please check your XML-File. There is no User Assignment.
+obj#:#obj_insert_into_clipboard#:#Insert into Clipboard
+obj#:#obj_inserted_clipboard#:#Objects have been moved to the clipboard.
