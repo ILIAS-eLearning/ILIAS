@@ -142,6 +142,7 @@ class ilAuthContainerApache extends Auth_Container
 				$config = $this->server->toPearAuthArray();
 								
 				$query = new ilLDAPQuery($this->server);
+				$query->bind();
 				$ldapUser = $query->fetchUser($a_username);
 
 				if ($ldapUser && $ldapUser[$a_username] && $ldapUser[$a_username][$config['userattr']] == $a_username)
