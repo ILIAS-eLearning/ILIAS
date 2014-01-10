@@ -27,7 +27,7 @@ class ilObjectOwnershipManagementTableGUI extends ilTable2GUI
 		$this->setId('objownmgmt');
 		
 		$this->addColumn($lng->txt("title"), "title");
-		$this->addColumn($lng->txt("path"), "");
+		$this->addColumn($lng->txt("path"), "path");
 		$this->addColumn($lng->txt("action"), "");
 
 		// $this->setTitle($this->lng->txt(''));
