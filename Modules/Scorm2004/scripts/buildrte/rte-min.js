@@ -1,4 +1,4 @@
-// Build: 20131216123027 
+// Build: 2014110155834 
 
 function ADLAuxiliaryResource()
 {}
@@ -2936,7 +2936,7 @@ function onItemDeliver(item,wasSuspendAll)
 {var data=getAPI(item.foreignId);if(this.config.sequencing_enabled)loadSharedData(item.cp_node_id);data.adl={nav:{request_valid:{}}};var validRequests=msequencer.mSeqTree.getValidRequests();data.adl.nav.request_valid['continue']=String(validRequests['mContinue']);data.adl.nav.request_valid['previous']=String(validRequests['mPrevious']);var adlcpData=Array();for(ds in sharedData)
 {var dat=Array();dat["id"]=ds;dat["store"]=sharedData[ds].store;dat["readable"]=sharedData[ds].readSharedData;dat["writeable"]=sharedData[ds].writeSharedData;adlcpData.push(dat);}
 data.adl.data=adlcpData;var choice=validRequests['mChoice'];for(var k in choice){}
-data.cmi.learner_name=globalAct.learner_name;data.cmi.learner_id=this.config.cmi_learner_id;data.cmi.cp_node_id=item.foreignId;data.scoid=item.id;data.cmi.session_time=undefined;data.cmi.completion_threshold=item.completionThreshold;data.cmi.launch_data=item.dataFromLMS;data.cmi.time_limit_action=item.timeLimitAction;data.cmi.max_time_allowed=item.attemptAbsoluteDurationLimit;data.cmi.learner_preference={audio_level:(item.audio_level)?item.audio_level:1,delivery_speed:(item.delivery_speed)?item.delivery_speed:1,language:item.language,audio_captioning:item.audio_captioning};if(item.objectives)
+data.cmi.learner_name=globalAct.learner_name;data.cmi.learner_id=this.config.cmi_learner_id;data.cmi.cp_node_id=item.foreignId;data.scoid=item.id;data.cmi.session_time=undefined;data.cmi.completion_threshold=item.completionThreshold;data.cmi.launch_data=item.dataFromLMS;data.cmi.time_limit_action=item.timeLimitAction;data.cmi.max_time_allowed=item.attemptAbsoluteDurationLimit;data.cmi.entry="";data.cmi.learner_preference={audio_level:(item.audio_level)?item.audio_level:1,delivery_speed:(item.delivery_speed)?item.delivery_speed:1,language:item.language,audio_captioning:item.audio_captioning};if(item.objectives)
 {for(k in item.objectives){v=item.objectives[k];if(v.primary==true){if(v.satisfiedByMeasure&&v.minNormalizedMeasure!==undefined)
 {v=v.minNormalizedMeasure;}
 else if(v.satisfiedByMeasure)
@@ -2945,9 +2945,9 @@ else
 {v=null;}
 data.cmi.scaled_passing_score=v;break;}}}
 item.options=new Object();item.options.notracking=false;if(globalAct.auto_review!='n'){if((globalAct.auto_review=='r'&&((item.completion_status=='completed'&&item.success_status!='failed')||item.success_status=='passed'))||(globalAct.auto_review=='p'&&item.success_status=='passed')||(globalAct.auto_review=='q'&&(item.success_status=='passed'||item.success_status=='failed'))||(globalAct.auto_review=='c'&&item.completion_status=='completed')||(globalAct.auto_review=='d'&&(item.completion_status=='completed'&&item.success_status=='passed'))||(globalAct.auto_review=='y'&&(item.completion_status=='completed'||item.success_status=='passed'))){data.cmi.mode="review";}}
-if(data.cmi.mode=="review"){data.cmi.credit="no-credit";item.options.notracking=true;}
-if(item.exit!="suspend"){data.cmi.completion_status="unknown";data.cmi.success_status="unknown";data.cmi.entry="ab-initio";data.cmi.suspend_data=null;}
-if(item.exit=="suspend"||wasSuspendAll)data.cmi.entry="resume";else data.cmi.entry="";data.cmi.exit="";currentAPI=window[Runtime.apiname]=new Runtime(data,onCommit,onTerminate);}
+if(data.cmi.mode=="review"){data.cmi.credit="no-credit";item.options.notracking=true;}else{if(item.exit!="suspend"){data.cmi.completion_status="unknown";data.cmi.success_status="unknown";data.cmi.entry="ab-initio";data.cmi.suspend_data=null;}
+if(item.exit=="suspend"||wasSuspendAll)data.cmi.entry="resume";}
+data.cmi.exit="";currentAPI=window[Runtime.apiname]=new Runtime(data,onCommit,onTerminate);}
 syncSharedCMI(item);updateNav();updateControls();scoStartTime=currentTime();var envEditor=this.config.envEditor;var randNumber="";if(envEditor==1){randNumber="?rand="+Math.floor(Math.random()*1000000)+"&";}
 if(item.parameters==null){item.parameters="";}
 if(item.parameters!=""&&item.parameters.indexOf('?')===-1&&envEditor==false){item.parameters="?"+item.parameters;}
