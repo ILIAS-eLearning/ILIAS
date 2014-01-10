@@ -38,7 +38,7 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 	 */
 	public function  __construct(ilDataCollectionRecordListGUI $a_parent_obj, $a_parent_cmd, ilDataCollectionTable $table)
 	{
-		global $lng, $tpl, $ilCtrl;
+		global $lng, $ilCtrl;
 
 		$this->setPrefix("dcl_record_list");
         $this->setFormName('record_list');
@@ -68,10 +68,8 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
             if($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_NUMBER)
                 $this->numeric_fields[] = $field->getTitle();
 		}
-		$this->setId("dcl_record_list");
-		
+
 		$this->addColumn($lng->txt("actions"), "", 	 "30px");
-        //$ilCtrl->saveParameterByClass("ildatacollectionrecordlistgui", "dcl_record_list_trows");
 
 		$this->setTopCommands(true);
 		$this->setEnableHeader(true);
@@ -85,13 +83,8 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 
         $this->object_data = $table->getRecordsByFilter($this->filter);
         $this->buildData();
-
-//		$this->setData($table->getRecordsByFilter($this->filter));
-
-		//leave these two
-		$this->setExternalSegmentation(false);
-//		$this->setExternalSorting(true);
-	}
+        $this->setStyle('table', $this->getStyle('table') . ' ' . 'dcl_record_list');
+    }
 	
 	/*
 	 * fillHeaderExcel
@@ -225,7 +218,6 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 		{
             $title = $field->getTitle();
 			$this->tpl->setCurrentBlock("field");
-
             $record = $record_data["_record"];
             $arr_properties = $field->getProperties();
             $options = array();
@@ -252,10 +244,9 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 			$this->tpl->setVariable("VIEW_IMAGE_LINK", $record_data["_front"]);
 			$this->tpl->setVariable("VIEW_IMAGE_SRC", ilUtil::img(ilUtil::getImagePath("cmd_view_s.png")));
 		}
-
 		$this->tpl->setVariable("ACTIONS", $record_data["_actions"]);
 
-		return true;
+        return true;
 	}
 
 	/**

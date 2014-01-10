@@ -4026,7 +4026,7 @@ td.dcl_actions {
 	padding-right: 5px;
 }
 
-#dcl_record_list td, #dcl_field_list td {
+.dcl_record_list td, .dcl_field_list td {
 	padding: 10px 7px;
 	font-size: 90%;
 }
