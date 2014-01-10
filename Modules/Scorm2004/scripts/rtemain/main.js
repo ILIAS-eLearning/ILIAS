@@ -3146,6 +3146,8 @@ function onItemDeliver(item, wasSuspendAll) // onDeliver called from sequencing 
 		data.cmi.time_limit_action = item.timeLimitAction;
 		data.cmi.max_time_allowed = item.attemptAbsoluteDurationLimit;
 		
+		data.cmi.entry="";
+		
 		//Add learner prefs (since the map stuff is completely nuts and doesn't work right)
 		data.cmi.learner_preference = {
 			audio_level : (item.audio_level) ? item.audio_level : 1,
@@ -3197,23 +3199,23 @@ function onItemDeliver(item, wasSuspendAll) // onDeliver called from sequencing 
 		if (data.cmi.mode == "review") {
 			data.cmi.credit = "no-credit";
 			item.options.notracking = true;//UK: no better score for example!
+		} else {
+
+			if (item.exit!="suspend") {
+				//provide us with a clean data set - UK not really clean! goal: get out of database only total_time if exit!=suspend
+				//data.cmi=Runtime.models.cmi;
+				//explicitly set some entries
+				data.cmi.completion_status="unknown";
+				data.cmi.success_status="unknown";
+				data.cmi.entry="ab-initio";
+				data.cmi.suspend_data = null;
+				//data.cmi.total_time="PT0H0M0S"; //UK: not in specification
+			} 
+
+			//set resume manually if suspendALL happened before
+			//alert(wasSuspendAll);
+			if (item.exit=="suspend" || wasSuspendAll) data.cmi.entry="resume";
 		}
-
-		if (item.exit!="suspend") {
-			//provide us with a clean data set - UK not really clean! goal: get out of database only total_time if exit!=suspend
-			//data.cmi=Runtime.models.cmi;
-			//explicitly set some entries
-			data.cmi.completion_status="unknown";
-			data.cmi.success_status="unknown";
-			data.cmi.entry="ab-initio";
-			data.cmi.suspend_data = null;
-			//data.cmi.total_time="PT0H0M0S"; //UK: not in specification
-		} 
-
-		//set resume manually if suspendALL happened before
-		//alert(wasSuspendAll);
-		if (item.exit=="suspend" || wasSuspendAll) data.cmi.entry="resume";
-		else data.cmi.entry="";
 
 		//RTE-4-45: If there are additional learner sessions within a learner attempt, the cmi.exit becomes uninitialized (i.e., reinitialized to its default value of (“”) - empty characterstring) at the beginning of each additional learner session within the learner attempt.
 		data.cmi.exit="";
