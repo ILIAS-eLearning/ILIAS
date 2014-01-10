@@ -7,6 +7,7 @@ require_once 'class.ilDataCollectionRecordViewGUI.php';
 require_once 'class.ilDataCollectionField.php';
 require_once './Services/Tracking/classes/class.ilLPStatus.php';
 require_once './Services/Tracking/classes/class.ilLearningProgressBaseGUI.php';
+require_once 'class.ilDataCollectionDatatype.php';
 
 /**
  * Class ilDataCollectionField
@@ -23,7 +24,7 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 {
 
     const DATETIME_SORTING_STR = '_timestamp';
-
+    const RATING_SORTING_STR = '_rating';
 	private $table;
 
     /**
@@ -44,31 +45,31 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
         $this->setFormName('record_list');
         $this->setId("dcl_record_list" . $table->getId());
         parent::__construct($a_parent_obj, $a_parent_cmd);
-
         $this->table = $table;
-
-        include_once("class.ilDataCollectionDatatype.php");
-
         $this->parent_obj = $a_parent_obj;
-
 		$this->setRowTemplate("tpl.record_list_row.html", "Modules/DataCollection");
-		
+
+        // Setup columns and sorting columns
 		$this->addColumn("", "_front", "15px");
         $this->numeric_fields = array();
         foreach($this->table->getVisibleFields() as $field)
 		{
 			$title = $field->getTitle();
             $sort_field = $title;
-            if ($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_DATETIME) $sort_field = $title . self::DATETIME_SORTING_STR;
+            if ($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_DATETIME) {
+                $sort_field = $title . self::DATETIME_SORTING_STR;
+            }
+            if ($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_RATING) {
+                $sort_field = $title . self::RATING_SORTING_STR;
+            }
             $this->addColumn($title, $sort_field);
-
             if($field->getLearningProgress()){
 				$this->addColumn($lng->txt("dcl_status"), "_status_".$field->getTitle());
 			}
-            if($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_NUMBER)
-                $this->numeric_fields[] = $field->getTitle();
-		}
-
+            if($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_NUMBER) {
+                $this->numeric_fields[] = $title;
+            }
+        }
 		$this->addColumn($lng->txt("actions"), "", 	 "30px");
 
 		$this->setTopCommands(true);
@@ -80,7 +81,6 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 		$this->setDefaultOrderDirection("asc");
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, "applyFilter"));
 		$this->initFilter();
-
         $this->object_data = $table->getRecordsByFilter($this->filter);
         $this->buildData();
         $this->setStyle('table', $this->getStyle('table') . ' ' . 'dcl_record_list');
@@ -93,7 +93,6 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 	{
 		$this->writeFilterToSession();
 		$this->initFilter();
-//		$this->setData($this->table->getRecordsByFilter($this->filter));
 		$col = 0;
 		
 		foreach($this->table->getFields() as $field)
@@ -110,6 +109,9 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
         return in_array($field, $this->numeric_fields);
     }
 
+    /**
+     * Parse data from record objects to an array that is then set to this table with ::setData()
+     */
     private function buildData(){
         global $ilCtrl, $lng;
 
@@ -123,32 +125,29 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
                 //Check Options of Displaying
                 $options = array();
                 $arr_properties = $field->getProperties();
-                if($arr_properties[ilDataCollectionField::PROPERTYID_REFERENCE_LINK]) {
+                if ($arr_properties[ilDataCollectionField::PROPERTYID_REFERENCE_LINK]) {
                     $options['link']['display'] = true;
                 }
-                if($arr_properties[ilDataCollectionField::PROPERTYID_ILIAS_REFERENCE_LINK]) {
+                if ($arr_properties[ilDataCollectionField::PROPERTYID_ILIAS_REFERENCE_LINK]) {
                     $options['link']['display'] = true;
                 }
                 if ($field->getDatatypeId() == ilDataCollectionDataType::INPUTFORMAT_DATETIME) {
-                    $record_data[$title] = ($record->getRecordFieldHTML($field->getId(),$options)?$record->getRecordFieldHTML($field->getId(),$options):null);
-                    // Add (hidden) column for timestamp, needed for correct sorting of the column
+                    $record_data[$title] = ($record->getRecordFieldHTML($field->getId(), $options) ? $record->getRecordFieldHTML($field->getId(), $options) : null);
+                    // Needs additional sorting column
                     $timestamp = strtotime($record->getRecordFieldValue($field->getId()));
                     $record_data[$title . self::DATETIME_SORTING_STR] = $timestamp;
+                } else if (($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_RATING)) {
+                    $record_data[$title] = $record->getRecordFieldHTML($field->getId(), $options);
+                    // Needs additional sorting column
+                    $val = ilRating::getOverallRatingForObject($record->getId(), "dcl_record", $field->getId(), "dcl_field");
+                    $record_data[$title . self::RATING_SORTING_STR] =  str_pad(round($val["avg"]*100,0), 3, 0, STR_PAD_LEFT).".".str_pad($val["cnt"], 10, 0, STR_PAD_LEFT);
+                } else {
+                    $record_data[$title] = $record->getRecordFieldHTML($field->getId(), $options);
                 }
-
-                if(($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_RATING)){
-                    $val = ilRating::getOverallRatingForObject($record->getId(), "dcl_record",
-                        $field->getId(), "dcl_field");
-
-                    //Sorting of Ratings
-                    $record_data[$title] =  str_pad(round($val["avg"]*100,0), 3, 0, STR_PAD_LEFT).".".str_pad($val["cnt"], 10, 0, STR_PAD_LEFT);
-                }
-                else{
-                    //$record_data[$title] = ($record->getRecordFieldHTML($field->getId(),$options)?$record->getRecordFieldHTML($field->getId(),$options):null);
-                    $record_data[$title] = $record->getRecordFieldHTML($field->getId(),$options);
-                }
-                if($field->getLearningProgress())
+                // Additional column filled in ::filRow() method, showing the learning progress
+                if ($field->getLearningProgress()) {
                     $record_data["_status_".$title] = $this->getStatus($record, $field);
+                }
             }
 
             $ilCtrl->setParameterByClass("ildatacollectionfieldeditgui", "record_id", $record->getId());
@@ -182,7 +181,6 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
             }
 
             $record_data["_actions"] = $alist->getHTML();
-            $record_data["_record"] = $record;
             $data[] = $record_data;
         }
         $this->setData($data);
@@ -213,22 +211,11 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 	 */
 	public function fillRow($record_data)
 	{
-        //print_r($record_data);
 		foreach($this->table->getVisibleFields() as $field)
 		{
             $title = $field->getTitle();
 			$this->tpl->setCurrentBlock("field");
-            $record = $record_data["_record"];
-            $arr_properties = $field->getProperties();
-            $options = array();
-            if($arr_properties[ilDataCollectionField::PROPERTYID_REFERENCE_LINK]) {
-                $options['link']['display'] = true;
-            }
-            if($arr_properties[ilDataCollectionField::PROPERTYID_ILIAS_REFERENCE_LINK]) {
-                $options['link']['display'] = true;
-            }
-//            $this->tpl->setVariable("CONTENT", $record->getRecordFieldHTML($field->getId(),$options)?$record->getRecordFieldHTML($field->getId(),$options):"");
-            $content = $record->getRecordFieldHTML($field->getId(),$options);
+            $content = $record_data[$title];
             if ($content === false || $content === null) $content = ''; // SW - This ensures to display also zeros in the table...
             $this->tpl->setVariable("CONTENT", $content);
 			$this->tpl->parseCurrentBlock();
@@ -257,8 +244,7 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 	private function getStatus(ilDataCollectionRecord $record, ilDataCollectionField $field){
 		$record_field = ilDataCollectionCache::getRecordFieldCache($record, $field);
         $return = "";
-        if($record_field->getStatus()){
-			$status = $record_field->getStatus();
+        if($status = $record_field->getStatus()){
             $return = "<img src='".ilLearningProgressBaseGUI::_getImagePathForStatus($status->status)."'>";
         }
         return $return;
