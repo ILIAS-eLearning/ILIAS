@@ -27,7 +27,7 @@ class ilObjectOwnershipManagementTableGUI extends ilTable2GUI
 		$this->setId('objownmgmt');
 		
 		$this->addColumn($lng->txt("title"), "title");
-		$this->addColumn($lng->txt("path"), "");
+		$this->addColumn($lng->txt("path"), "path");
 		$this->addColumn($lng->txt("action"), "");
 
 		// $this->setTitle($this->lng->txt(''));
@@ -103,7 +103,7 @@ class ilObjectOwnershipManagementTableGUI extends ilTable2GUI
 			include_once("./Services/Component/classes/class.ilPlugin.php");
 			$txt_type = ilPlugin::lookupTxt("rep_robj", $row["type"], "obj_".$row["type"]);						
 		}
-	
+		
 		$this->tpl->setVariable("TITLE", $row["title"]);
 		$this->tpl->setVariable("ALT_ICON", $txt_type);
 		$this->tpl->setVariable("SRC_ICON", ilObject::_getIcon("", "tiny", $row["type"]));
