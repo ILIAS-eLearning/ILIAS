@@ -72,7 +72,8 @@ class ilDataCollectionFieldListTableGUI extends ilTable2GUI
 		require_once('./Modules/DataCollection/classes/class.ilDataCollectionDatatype.php'); //wird dies benötigt?
 		$this->setTitle($lng->txt("dcl_table_list_fields"));
 		$this->setRowTemplate("tpl.field_list_row.html", "Modules/DataCollection");
-	}
+        $this->setStyle('table', $this->getStyle('table') . ' ' . 'dcl_record_list');
+    }
 	/**
 	 * fill row 
 	 *
