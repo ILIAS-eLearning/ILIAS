@@ -384,7 +384,13 @@ $this->ctrl->redirect($this, "properties");
 		$cb = new ilCheckboxInputGUI($this->lng->txt("cont_offline_mode_allow"), "cobj_offline_mode");
 		$cb->setValue("y");
 		$cb->setChecked($this->object->getOfflineMode());
-		$cb->setInfo($this->lng->txt("cont_offline_mode_allow_info"));
+		include_once("./Modules/ScormAicc/classes/class.ilSCORMOfflineMode.php");
+		if ($this->object->getOfflineMode()== true && ilSCORMOfflineMode::checkIfAnyoneIsInOfflineMode($this->object->getID()) == true) {
+			$cb->setDisabled(true);
+			$cb->setInfo($this->lng->txt("cont_offline_mode_disable_not_allowed_info"));
+		} else {
+			$cb->setInfo($this->lng->txt("cont_offline_mode_allow_info"));
+		}
 		$this->form->addItem($cb);
 
 		//
