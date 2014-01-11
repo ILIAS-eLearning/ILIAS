@@ -65,29 +65,6 @@ class ilSCORMOfflineMode
 			$resources = json_decode($ob2004->getCPDataInit());
 			$cmi = $ob2004->getCMIData($ilUser->getID(), $this->obj_id);
 			$max_attempt = $ob2004->get_max_attempts();
-			// if ($max_attempt == null) $max_attempt = 0;
-			// $result = array(
-				// 'client_data' => array(
-					// $support_mail
-				// ),
-				// 'user_data' => $this->il2sopUserData(),
-				// 'lm' => array(
-					// ilObject::_lookupTitle($this->obj_id),
-					// ilObject::_lookupDescription($this->obj_id),
-					// $scorm_version,
-					// 1,//active
-					// $init_data,
-					// $resources,
-					// $tree,
-					// $module_version,
-					// "", //offline_zip_created!!!!!!!!
-					// 1,//learning_progress_enabled !!!!
-					// 1,//certificate_enabled !!!!!
-					// $max_attempt
-				// ),
-				// 'sahs_user' => $sahs_user,
-				// 'cmi' => $cmi
-			// );
 		} else {
 			include_once "./Modules/ScormAicc/classes/SCORM/class.ilObjSCORMInitData.php";
 			$slm_obj =& new ilObjSCORMLearningModule($_GET["ref_id"]);
@@ -306,5 +283,16 @@ class ilSCORMOfflineMode
 				$this->offlineMode = "online";
 			}
 		}
+	}
+	
+	public function checkIfAnyoneIsInOfflineMode($obj_id) {
+		global $ilDB;
+		$res = $ilDB->queryF("SELECT count(*) cnt FROM sahs_user WHERE obj_id=%s AND offline_mode = 'offline'",
+			array('integer'),
+			array($obj_id)
+		);
+		$val_rec = $ilDB->fetchAssoc($res);
+		if ($val_rec["cnt"] == 0) return false;
+		return true;
 	}
 }
