@@ -1349,82 +1349,21 @@ function showTrackingItem()
 	/**
 	* Confirmed tracking deletion
 	*
-	* @todo alex, 14 Apr.: This does not confirm to our guidelines, please move DB access to application class
 	*/
 	function confirmedDeleteTracking()
 	{
-	 	global $ilDB, $ilUser;
-    
-    	$scos = array();
-
-		//get all SCO's of this object		
-	
-    	$val_set = $ilDB->queryF('
-			SELECT cp_node_id FROM cp_node 
-			WHERE nodename = %s 
-			AND cp_node.slm_id = %s',
-			array('text', 'integer'),
-			array('item',$this->object->getId()));
-			
-		while ($val_rec = $ilDB->fetchAssoc($val_set)) 
-		{
-			array_push($scos,$val_rec['cp_node_id']);
-		}
-		
 	 	foreach ($_POST["user"] as $user)
 	 	{
-		
-			foreach ($scos as $sco)
-			{
+			include_once("./Modules/Scorm2004/classes/class.ilSCORM2004DeleteData.php");
+			ilSCORM2004DeleteData::removeCMIDataForUserAndPackage($user,$this->object->getId());
 
-				$ret = $ilDB->manipulateF('
-				DELETE FROM cmi_node 
-				WHERE user_id = %s
-				AND cp_node_id = %s',
-				array('integer','integer'),
-				array($user,$sco));
- 			}
-			
 			include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");	
 			ilLPStatusWrapper::_updateStatus($this->object->getId(), $user);
-
 	 	}
-    
+
 	 	$this->ctrl->redirect($this, "showTrackingItems");
 	}
 	
-	// function decreaseAttempts()
-	// {
-		// global $ilDB, $ilUser;
-		// if (!isset($_POST["user"]) || !is_array($_POST["user"]))
-		// {
-			// ilUtil::sendInfo($this->lng->txt("no_checkbox"),true);
-		// }
-		
-		// foreach ($_POST["user"] as $user)
-		// {
-			// //first check if there is a package_attempts entry
-
-			// $val_set = $ilDB->queryF('SELECT package_attempts FROM sahs_user WHERE user_id = %s AND obj_id = %s',
-			// array('integer','integer'),
-			// array($user,$this->object->getID()));
-			
-			// $val_rec = $ilDB->fetchAssoc($val_set);
-			
-			// if ($val_rec["package_attempts"] != null && $val_rec["package_attempts"] != 0) 
-			// {
-				// $new_rec = 0;
-				// //decrease attempt by 1
-				// if ((int)$val_rec["package_attempts"] > 0) $new_rec = (int)$val_rec["package_attempts"]-1;
-				// $ilDB->manipulateF('UPDATE sahs_user SET package_attempts = %s WHERE user_id = %s AND obj_id = %s',
-					// array('integer','integer','integer'),
-					// array($new_rec,$user,$this->object->getID()));
-			// }
-		// }
-
-		// //$this->ctrl->saveParameter($this, "cdir");
-		// $this->ctrl->redirect($this, "showTrackingItems");
-	// }
 	
 	function deleteTrackingData()
 	{
