@@ -3191,7 +3191,7 @@ class ilObjectListGUI
 	*/
 	function modifySAHSlaunch($a_link,$wtarget)
 	{
-		if (strstr($a_link, 'ilSAHSPresentationGUI'))
+		if (strstr($a_link, 'ilSAHSPresentationGUI') && !$this->offline_mode)
 		{
 			include_once 'Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php';
 			$sahs_obj = new ilObjSAHSLearningModule($this->ref_id);
