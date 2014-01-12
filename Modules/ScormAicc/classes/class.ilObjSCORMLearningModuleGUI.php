@@ -19,6 +19,7 @@ require_once("./Modules/ScormAicc/classes/class.ilObjSCORMLearningModule.php");
 * @ilCtrl_Calls ilObjSCORMLearningModuleGUI: ilInfoScreenGUI
 * @ilCtrl_Calls ilObjSCORMLearningModuleGUI: ilCertificateGUI
 * @ilCtrl_Calls ilObjSCORMLearningModuleGUI: ilLicenseGUI
+* @ilCtrl_Calls ilObjSCORMLearningModuleGUI: ilSCORMOfflineModeUsersTableGUI
 *
 * @ingroup ModulesScormAicc
 */
@@ -902,52 +903,6 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 				ilLPStatusWrapper::_updateStatus($this->object->getId(), $user);
 			}
 		}
-		// foreach ($_POST["user"] as $user)
-		// {
-			// $val_set = $ilDB->queryF('
-			// SELECT * FROM scorm_tracking 
-			// WHERE user_id = %s
-			// AND sco_id = %s 
-			// AND lvalue = %s
-			// AND obj_id = %s',
-			// array('integer','integer','text','integer'),
-			// array($user,0,'package_attempts',$this->object->getID()));
-
-			// $val_rec = $ilDB->fetchAssoc($val_set);
-
-			// $val_rec["rvalue"] = str_replace("\r\n", "\n", $val_rec["rvalue"]);
-			// if ($val_rec["rvalue"] != null && $val_rec["rvalue"] != 0) 
-			// {
-				// $new_rec =  $val_rec["rvalue"]-1;
-				// if($res = $ilDB->numRows($val_set) > 0)
-				// {		
-					// $ilDB->update('scorm_tracking',
-						// array(
-							// 'rvalue'	=> array('clob', $new_rec)
-						// ),
-						// array(
-							// 'user_id'	=> array('integer', $user),
-							// 'sco_id'	=> array('integer', 0),
-							// 'obj_id'	=> array('integer', $this->object->getId()),
-							// 'lvalue'	=> array('text', 'package_attempts')
-						// )
-					// );
-				// }
-				// else //TODO: check if it is necessary
-				// {
-					// $ilDB->insert('scorm_tracking', array(
-						// 'rvalue'	=> array('clob', $new_rec),
-						// 'user_id'	=> array('integer', $user),
-						// 'sco_id'	=> array('integer', 0),
-						// 'obj_id'	=> array('integer', $this->object->getId()),
-						// 'lvalue'	=> array('text', 'package_attempts')
-					// ));
-				// }
-				
-				// include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");	
-				// ilLPStatusWrapper::_updateStatus($this->object->getId(), $user);
-			// }
-		// }
 
 		//$this->ctrl->saveParameter($this, "cdir");
 		$this->ctrl->redirect($this, "showTrackingItems");
@@ -1034,6 +989,77 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 			$this->ctrl->getLinkTarget($this, "showTrackingItemsBySco"), array("edit", ""),
 			get_class($this));
 	}
+
+	/**
+	 * Manage offline mode for users
+	 * @global ilTabs $ilTabs
+	 * $global ilToolbar $ilToolbar
+	 */
+	protected function offlineModeManager()
+	{
+		global $rbacsystem, $tree, $tpl, $lng, $ilToolbar, $ilCtrl, $ilSetting;
+
+		include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
+		if(!ilLearningProgressAccess::checkAccess($this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
+		}
+
+		include_once './Modules/ScormAicc/classes/class.ilSCORMOfflineModeUsersTableGUI.php';
+		$tbl = new ilSCORMOfflineModeUsersTableGUI($this->object->getId(), $this, 'offlineModeManager');
+		$tbl->parse();
+		$this->tpl->setContent($tbl->getHTML());
+
+	}
+	/**
+	 * Stop offline mode for selected users
+	 */
+	protected function stopUserOfflineMode()
+	{
+		if(!count((array) $_POST['user']))
+		{
+			ilUtil::sendFailure($this->lng->txt('select_one'),true);
+			$this->ctrl->redirect($this,'offlineModeManager');
+		}
+		// display confirmation message
+		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+		$cgui = new ilConfirmationGUI();
+		$cgui->setFormAction($this->ctrl->getFormAction($this));
+		$cgui->setHeaderText($this->lng->txt("info_stop_offline_mode_sure"));
+		$cgui->setCancel($this->lng->txt("cancel"), "cancelStopUserOfflineMode");
+		$cgui->setConfirm($this->lng->txt("confirm"), "confirmedStopUserOfflineMode");
+		foreach($_POST["user"] as $id)
+		{
+			if (ilObject::_exists($id) && ilObject::_lookUpType($id)=="usr" )
+			{
+				$user = new ilObjUser($id);
+				$caption = ilUtil::getImageTagByType("sahs_offline", $this->tpl->tplPath).
+					" ".$this->lng->txt("stop_user_offline_mode_for_user").
+					": ".$user->getLastname().", ".$user->getFirstname();
+				$cgui->addItem("user[]", $id, $caption);
+			}
+		}
+		$this->tpl->setContent($cgui->getHTML());
+	}
+
+	function cancelStopUserOfflineMode()
+	{
+		ilUtil::sendInfo($this->lng->txt("msg_cancel"), true);
+		$this->ctrl->redirect($this, "offlineModeManager");
+	}
+
+	function confirmedStopUserOfflineMode()
+	{
+
+		include_once './Modules/ScormAicc/classes/class.ilSCORMOfflineMode.php';
+		foreach($_POST["user"] as $id)
+		{
+			ilSCORMOfflineMode::stopOfflineModeForUser($this->object->getId(),$id);
+		}
+
+		$this->offlineModeManager();
+	}
+
 
 }
 // END class.ilObjSCORMLearningModule
