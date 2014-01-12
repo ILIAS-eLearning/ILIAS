@@ -295,4 +295,27 @@ class ilSCORMOfflineMode
 		if ($val_rec["cnt"] == 0) return false;
 		return true;
 	}
+
+	public function usersInOfflineMode($obj_id) {
+		global $ilDB;
+		$users = array();
+		$res = $ilDB->queryF("SELECT user_id, lastname, firstname FROM sahs_user, usr_data "
+							."WHERE sahs_user.obj_id=%s AND sahs_user.offline_mode = 'offline' AND sahs_user.user_id=usr_data.usr_id",
+			array('integer'),
+			array($obj_id)
+		);
+		while($row = $ilDB->fetchAssoc($res))
+		{
+			$users[] = $row;
+		}
+		return $users;
+	}
+
+	public function stopOfflineModeForUser($obj_id,$user_id) {
+		global $ilDB;
+		$res = $ilDB->queryF("UPDATE sahs_user SET offline_mode='online' WHERE obj_id=%s AND user_id=%s",
+			array('integer','integer'),
+			array($obj_id,$user_id)
+		);
+	}
 }

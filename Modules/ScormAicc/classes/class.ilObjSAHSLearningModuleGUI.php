@@ -641,10 +641,20 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 			$this->ctrl->getLinkTarget($this, "properties"), array("", "properties"),
 			get_class($this));
 			
-		// learning progress
+		// learning progress and ofline mode
 		include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
 		if(ilLearningProgressAccess::checkAccess($this->object->getRefId()))
 		{
+			//if scorm && offline_mode activated
+			if ($this->object->getSubType() == "scorm2004" || $this->object->getSubType() == "scorm") {
+				if ($this->object->getOfflineMode() == true) {
+					$tabs_gui->addTarget("offline_mode_manager",
+										$this->ctrl->getLinkTarget($this, "offlineModeManager"), 
+										"offlineModeManager",
+										"ilobjscormlearningmodulegui");
+				}
+			}
+			
 			$tabs_gui->addTarget('learning_progress',
 								 $this->ctrl->getLinkTargetByClass(array('illearningprogressgui'),''),
 								 '',
