@@ -21,19 +21,31 @@ class ilOrgUnitImporter extends ilXmlImporter {
 
 
 	protected function buildRef($id, $type){
-		if($type == "reference_id"){
+		if($type == "reference_id")
+		{
 			if(!ilObjOrgUnit::_exists($id, true))
+			{
 				return false;
+			}
 			return $id;
 		}
-		elseif($type == "external_id"){
+		elseif($type == "external_id")
+		{
 			$obj_id = ilObject::_lookupObjIdByImportId($id);
 			$ref_ids = ilObject::_getAllReferences($obj_id);
 			if(!count($ref_ids))
+			{
 				return false;
-			return array_shift($ref_ids);
-		}else
+			}
+			if(count($ref_ids))
+			{
+				return array_shift($ref_ids);
+			}
+		}
+		else
+		{
 			return false;
+		}
 	}
 
 	public function hasErrors(){

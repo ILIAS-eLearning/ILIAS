@@ -42,7 +42,7 @@ class ilOrgUnitSimpleUserImport extends ilOrgUnitImporter {
 		}
 
 		if(!$org_unit_id = $this->buildRef($org_unit_id, $org_unit_id_type)){
-			$this->addError("org_unit_not_found", $org_unit_id);
+			$this->addError("org_unit_not_found", $a->OrgUnit);
 			return;
 		}
 		$org_unit = new ilObjOrgUnit($org_unit_id);
