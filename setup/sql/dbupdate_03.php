@@ -19504,3 +19504,52 @@ while($row = $ilDB->fetchAssoc($set))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#4168>
+<?php
+	if(!$ilDB->tableColumnExists('sahs_lm','fourth_edition'))
+	{
+		$ilDB->addTableColumn(
+			'sahs_lm',
+			'fourth_edition',
+			array(
+				"type" => "text",
+				'length' => 1,
+				"notnull" => true,
+				"default" => 'n'
+			)
+		);
+	$ilDB->query("UPDATE sahs_lm SET fourth_edition = 'n'");
+}
+?>
+<#4169>
+<?php
+	if(!$ilDB->tableColumnExists('sahs_lm','ie_compatibility'))
+	{
+		$ilDB->addTableColumn(
+			'sahs_lm',
+			'ie_compatibility',
+			array(
+				"type" => "text",
+				'length' => 1,
+				"notnull" => false
+			)
+		);
+}
+?>
+<#4170>
+<?php
+	if(!$ilDB->tableColumnExists('sahs_lm','ie_force_render'))
+	{
+		$ilDB->addTableColumn(
+			'sahs_lm',
+			'ie_force_render',
+			array(
+				"type" => "text",
+				'length' => 1,
+				"notnull" => true,
+				"default" => 'n'
+			)
+		);
+	$ilDB->query("UPDATE sahs_lm SET ie_force_render = 'n'");
+}
+?>
