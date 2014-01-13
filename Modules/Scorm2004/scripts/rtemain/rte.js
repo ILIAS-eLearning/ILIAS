@@ -207,7 +207,7 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 				//statusHandler(cmiItem.scoid,"success",statusValues[1]);
 				var returnValue = onCommit(cmiItem);
 				if (returnValue && saveOnCommit == true) {
-					if (config.sequencing_enabled) {
+					if (config.fourth_edition) {
 						var sgo=saveSharedData(cmiItem);
 					}
 					returnValue = save();

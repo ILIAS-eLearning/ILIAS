@@ -507,6 +507,13 @@ $this->ctrl->redirect($this, "properties");
 		$cb->setInfo($this->lng->txt("cont_sc_usession_info"));
 		$this->form->addItem($cb);
 		
+		// SCORM 2004 fourth edition features
+		$cb = new ilCheckboxInputGUI($this->lng->txt("cont_fourth_edition"), "cobj_fourth_edition");
+		$cb->setValue("y");
+		$cb->setChecked($this->object->getFourth_edition());
+		$cb->setInfo($this->lng->txt("cont_fourth_edition_info"));
+		$this->form->addItem($cb);
+		
 		// sequencing
 		$cb = new ilCheckboxInputGUI($this->lng->txt("cont_sequencing"), "cobj_sequencing");
 		$cb->setValue("y");
@@ -694,9 +701,11 @@ $this->ctrl->redirect($this, "properties");
 		{
 			//check if OfflineMode-Zip has to be created
 			$tmpOfflineMode= ilUtil::yn2tf($_POST["cobj_offline_mode"]);
+			$tmpFourth_edition = ilUtil::yn2tf($_POST["cobj_fourth_edition"]);
 			$tmpSequencing = ilUtil::yn2tf($_POST["cobj_sequencing"]);
 			if ($tmpOfflineMode == true) {
-				$tmpSequencing = false; //actually no sequencing for offline_mode
+//				$tmpSequencing = false; //actually no sequencing for offline_mode
+				$tmpFourth_edition = false; //4th edition is not possible
 				if ($this->object->getOfflineMode() == false) {
 					$this->object->zipLmForOfflineMode();
 				}
@@ -714,6 +723,7 @@ $this->ctrl->redirect($this, "properties");
 			$this->object->setNoMenu(ilUtil::yn2tf($_POST["cobj_nomenu"]));
 			$this->object->setHideNavig(ilUtil::yn2tf($_POST["cobj_hidenavig"]));
 			$this->object->setAuto_last_visited(ilUtil::yn2tf($_POST["cobj_auto_last_visited"]));
+			$this->object->setFourth_edition($tmpFourth_edition);
 			$this->object->setSequencing($tmpSequencing);
 			$this->object->setInteractions(ilUtil::yn2tf($_POST["cobj_interactions"]));
 			$this->object->setObjectives(ilUtil::yn2tf($_POST["cobj_objectives"]));

@@ -1,4 +1,4 @@
-// Build: 2014113141001 
+// Build: 2014113161648 
 
 function ADLAuxiliaryResource()
 {}
@@ -2933,7 +2933,7 @@ function onWindowUnload()
 {summaryOnUnload=true;var result={};result["hash"]=config.status.hash;result["p"]=config.status.p;result["last"]="";if(config.auto_last_visited==true)result["last"]=activities[mlaunch.mActivityID].id;if(typeof SOP!="undefined"&&SOP==true)result=scormPlayerUnload(result);else result=this.config.scorm_player_unload_url?sendJSONRequest(this.config.scorm_player_unload_url,result):{};removeResource();}
 function onItemDeliver(item,wasSuspendAll)
 {var url=item.href,v;if(item.sco)
-{var data=getAPI(item.foreignId);if(this.config.sequencing_enabled)loadSharedData(item.cp_node_id);data.adl={nav:{request_valid:{}}};var validRequests=msequencer.mSeqTree.getValidRequests();data.adl.nav.request_valid['continue']=String(validRequests['mContinue']);data.adl.nav.request_valid['previous']=String(validRequests['mPrevious']);var adlcpData=Array();for(ds in sharedData)
+{var data=getAPI(item.foreignId);if(this.config.fourth_edition)loadSharedData(item.cp_node_id);data.adl={nav:{request_valid:{}}};var validRequests=msequencer.mSeqTree.getValidRequests();data.adl.nav.request_valid['continue']=String(validRequests['mContinue']);data.adl.nav.request_valid['previous']=String(validRequests['mPrevious']);var adlcpData=Array();for(ds in sharedData)
 {var dat=Array();dat["id"]=ds;dat["store"]=sharedData[ds].store;dat["readable"]=sharedData[ds].readSharedData;dat["writeable"]=sharedData[ds].writeSharedData;adlcpData.push(dat);}
 data.adl.data=adlcpData;var choice=validRequests['mChoice'];for(var k in choice){}
 data.cmi.learner_name=globalAct.learner_name;data.cmi.learner_id=this.config.cmi_learner_id;data.cmi.cp_node_id=item.foreignId;data.scoid=item.id;data.cmi.session_time=undefined;data.cmi.completion_threshold=item.completionThreshold;data.cmi.launch_data=item.dataFromLMS;data.cmi.time_limit_action=item.timeLimitAction;data.cmi.max_time_allowed=item.attemptAbsoluteDurationLimit;data.cmi.entry="";data.cmi.learner_preference={audio_level:(item.audio_level)?item.audio_level:1,delivery_speed:(item.delivery_speed)?item.delivery_speed:1,language:item.language,audio_captioning:item.audio_captioning};if(item.objectives)
@@ -3128,7 +3128,7 @@ switch(state)
 {case NOT_INITIALIZED:if(logActive)
 sendLogEntry(getMsecSinceStart(),'Commit',param,"","false",142);return setReturn(142,'','false');case RUNNING:if((!cmiItem.cmi.mode||cmiItem.cmi.mode==="normal")&&(typeof cmiItem.cmi.session_time!="undefined"||config.time_from_lms==true)){if(config.time_from_lms==true){var interval=(currentTime()-msec)/1000;var dur=new ADLDuration({iFormat:FORMAT_SECONDS,iValue:interval});cmiItem.cmi.session_time=dur.format(FORMAT_SCHEMA);}
 var total_time=addTimes(total_time_at_initialize,cmiItem.cmi.session_time);cmiItem.cmi.total_time=total_time.toString();}
-if(config.auto_suspend==true)cmiItem.cmi.exit="suspend";var statusValues=syncCMIADLTree();var returnValue=onCommit(cmiItem);if(returnValue&&saveOnCommit==true){if(config.sequencing_enabled){var sgo=saveSharedData(cmiItem);}
+if(config.auto_suspend==true)cmiItem.cmi.exit="suspend";var statusValues=syncCMIADLTree();var returnValue=onCommit(cmiItem);if(returnValue&&saveOnCommit==true){if(config.fourth_edition){var sgo=saveSharedData(cmiItem);}
 returnValue=save();}
 if(returnValue)
 {dirty=false;if(logActive&&commitByTerminate==false)

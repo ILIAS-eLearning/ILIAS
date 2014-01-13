@@ -87,6 +87,7 @@ class ilObjSAHSLearningModule extends ilObject
 			$this->setSession(ilUtil::yn2tf($lm_rec["unlimited_session"]));
 			$this->setNoMenu(ilUtil::yn2tf($lm_rec["no_menu"]));
 			$this->setHideNavig(ilUtil::yn2tf($lm_rec["hide_navig"]));
+			$this->setFourth_edition(ilUtil::yn2tf($lm_rec["fourth_edition"]));
 			$this->setSequencing(ilUtil::yn2tf($lm_rec["sequencing"]));
 			$this->setInteractions(ilUtil::yn2tf($lm_rec["interactions"]));
 			$this->setObjectives(ilUtil::yn2tf($lm_rec["objectives"]));
@@ -508,6 +509,19 @@ class ilObjSAHSLearningModule extends ilObject
 	}
 
 	/**
+	* SCORM 2004 4th edition features
+	*/
+	function getFourth_Edition()
+	{
+		return $this->fourth_edition;
+	}
+
+	function setFourth_edition($a_fourth_edition)
+	{
+		$this->fourth_edition = $a_fourth_edition;
+	}
+
+	/**
 	* sequencing
 	*/
 	function getSequencing()
@@ -796,6 +810,7 @@ class ilObjSAHSLearningModule extends ilObject
 				unlimited_session = %s,
 				no_menu = %s,
 				hide_navig = %s,
+				fourth_edition =%s,
 				sequencing = %s,
 				interactions = %s,
 				objectives = %s,
@@ -837,6 +852,7 @@ class ilObjSAHSLearningModule extends ilObject
 				'text',
 				'text',
 				'text',
+				'text',
 				'integer',
 				'text',
 				'integer',
@@ -865,6 +881,7 @@ class ilObjSAHSLearningModule extends ilObject
 				ilUtil::tf2yn($this->getSession()),
 				ilUtil::tf2yn($this->getNoMenu()),
 				ilUtil::tf2yn($this->getHideNavig()),
+				ilUtil::tf2yn($this->getFourth_edition()),
 				ilUtil::tf2yn($this->getSequencing()),
 				ilUtil::tf2yn($this->getInteractions()),
 				ilUtil::tf2yn($this->getObjectives()),
@@ -1242,6 +1259,7 @@ class ilObjSAHSLearningModule extends ilObject
 		$new_obj->setSession($this->getSession());
 		$new_obj->setNoMenu($this->getNoMenu());
 		$new_obj->setHideNavig($this->getHideNavig());
+		$new_obj->setFourth_edition($this->getFourth_edition());
 		$new_obj->setSequencing($this->getSequencing());
 		$new_obj->setInteractions($this->getInteractions());
 		$new_obj->setObjectives($this->getObjectives());
