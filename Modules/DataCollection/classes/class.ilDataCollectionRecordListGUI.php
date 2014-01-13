@@ -118,8 +118,10 @@ class ilDataCollectionRecordListGUI
         }
 
         $list = new ilDataCollectionRecordListTableGUI($this, "listRecords", $this->table_obj);
-        $tpl->getStandardTemplate();
+        $records = $this->table_obj->getRecordsByFilter($list->getFilter());
+        $list->setRecordData($records);
 
+        $tpl->getStandardTemplate();
         $tpl->setPermanentLink("dcl", $this->parent_obj->ref_id);
         if ($desc = $this->table_obj->getDescription()) {
             $desc = "<div class='ilDclTableDescription'>{$desc}</div>";
@@ -133,7 +135,6 @@ class ilDataCollectionRecordListGUI
     public function exportExcel()
     {
         global $ilCtrl, $lng;
-
         if(!($this->table_obj->getExportEnabled() || $this->table_obj->hasPermissionToFields($this->parent_obj->ref_id))){
             echo $lng->txt("access_denied");
             exit;
@@ -141,8 +142,7 @@ class ilDataCollectionRecordListGUI
 
         require_once('./Modules/DataCollection/classes/class.ilDataCollectionRecordListTableGUI.php');
         $list = new ilDataCollectionRecordListTableGUI($this, $ilCtrl->getCmd(), $this->table_obj);
-        $table = ilDataCollectionCache::getTableCache($this->table_id);
-//        $list->setData($table->getRecords());
+        $list->setRecordData($this->table_obj->getRecordsByFilter($list->getFilter()));
         $list->setExternalSorting(true);
         $list->exportData(ilTable2GUI::EXPORT_EXCEL, true);
         $this->listRecords();

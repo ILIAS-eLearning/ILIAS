@@ -33,7 +33,9 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
     protected $object_data;
 
     protected $numeric_fields;
-	
+
+    protected $filter = array();
+
 	/*
 	 * __construct
 	 */
@@ -81,11 +83,24 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 		$this->setDefaultOrderDirection("asc");
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, "applyFilter"));
 		$this->initFilter();
-        $this->object_data = $table->getRecordsByFilter($this->filter);
-        $this->buildData();
+//        $this->object_data = $table->getRecordsByFilter($this->filter);
+//        $this->buildData();
         $this->setStyle('table', $this->getStyle('table') . ' ' . 'dcl_record_list');
     }
-	
+
+    /**
+     * Return array of fields that are currently stored in the filter. Return empty array if no filtering is required.
+     * @return array
+     */
+    public function getFilter() {
+        return $this->filter;
+    }
+
+    public function setRecordData($data) {
+        $this->object_data = $data;
+        $this->buildData($data);
+    }
+
 	/*
 	 * fillHeaderExcel
 	 */
@@ -119,6 +134,9 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
         foreach($this->object_data as $record){
             $record_data = array();
             $record_data["_front"] = null;
+            // The record object is only needed if we are exporting the data, see fillRowExcel() method
+            $record_data['_record'] = ($ilCtrl->getCmd() == 'exportExcel') ? $record : null;
+
             foreach($this->table->getVisibleFields() as $field)
             {
                 $title = $field->getTitle();
@@ -144,7 +162,7 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
                 } else {
                     $record_data[$title] = $record->getRecordFieldHTML($field->getId(), $options);
                 }
-                // Additional column filled in ::filRow() method, showing the learning progress
+                // Additional column filled in ::fillRow() method, showing the learning progress
                 if ($field->getLearningProgress()) {
                     $record_data["_status_".$title] = $this->getStatus($record, $field);
                 }
@@ -255,12 +273,19 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 	 */
 	public function initFilter()
 	{
-
-		foreach($this->table->getFilterableFields() as $field)
-		{
+		foreach($this->table->getFilterableFields() as $field) {
 			$input = ilDataCollectionDatatype::addFilterInputFieldToTable($field, $this);
 			$input->readFromSession();
-			$this->filter["filter_".$field->getId()] = $input->getValue();
+			$value = $input->getValue();
+            if (is_array($value)) {
+                if ($value['from'] || $value['to']) {
+                    $this->filter["filter_".$field->getId()] = $value;
+                }
+            } else {
+                if ($value != '') {
+                    $this->filter["filter_".$field->getId()] = $value;
+                }
+            }
 		}
 	}
 
