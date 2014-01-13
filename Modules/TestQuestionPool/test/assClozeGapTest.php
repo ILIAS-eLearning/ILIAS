@@ -534,13 +534,14 @@ class assClozeGapTest extends PHPUnit_Framework_TestCase
 		$instance->addItem($item3);
 		$instance->addItem($item4);
 
-		$expected = 'Esther or Karl';
+		$expected1 = 'Karl or Esther';
+		$expected2 = 'Esther or Karl';
 
 		// Act
 		$actual = $instance->getBestSolutionOutput();
 
 		// Assert
-		$this->assertEquals($expected, $actual);
+		$this->assertTrue( ($actual == $expected1) || ($actual == $expected2) );
 	}
 
 	public function test_getBestSolutionOutput_shouldReturnBestSolutionOutput_CaseNumeric()
