@@ -329,19 +329,19 @@ class ilDataCollectionTable
 	 * in case of integers they have to be integers as well.
      * @return ilDataCollectionRecord[]
 	 */
-	public function getRecordsByFilter($filter)
+	public function getRecordsByFilter(array $filter=array())
 	{
 		$this->loadRecords();
-		$filtered = array();
-		
-		foreach($this->getRecords() as $record)
-		{
-			if($record->passThroughFilter($filter?$filter:array()))
-			{
-				array_push($filtered, $record);
+        // Only pass records trough filter if there is filtering required #performance-improvements
+        if (!count($filter)) {
+            return $this->records;
+        }
+        $filtered = array();
+		foreach($this->getRecords() as $record) {
+			if($record->passThroughFilter($filter)) {
+				$filtered[] = $record;
 			}
 		}
-		
 		return $filtered;
 	}
 
