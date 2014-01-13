@@ -1,4 +1,4 @@
-// Build: 2014110155834 
+// Build: 2014113141001 
 /*
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
@@ -13987,18 +13987,17 @@ function onItemDeliver(item, wasSuspendAll) // onDeliver called from sequencing 
 		} else {
 
 			if (item.exit!="suspend") {
-				//provide us with a clean data set - UK not really clean! goal: get out of database only total_time if exit!=suspend
+				//provide us with a clean data set - UK not really clean!
 				//data.cmi=Runtime.models.cmi;
 				//explicitly set some entries
 				data.cmi.completion_status="unknown";
 				data.cmi.success_status="unknown";
 				data.cmi.entry="ab-initio";
 				data.cmi.suspend_data = null;
-				//data.cmi.total_time="PT0H0M0S"; //UK: not in specification
+				data.cmi.total_time="PT0H0M0S"; //UK: not in specification but required by test suite
 			} 
 
 			//set resume manually if suspendALL happened before
-			//alert(wasSuspendAll);
 			if (item.exit=="suspend" || wasSuspendAll) data.cmi.entry="resume";
 		}
 
