@@ -44,6 +44,9 @@ class ilObjTestSettingsGeneralGUI
 	/** @var ilPluginAdmin $pluginAdmin */
 	protected $pluginAdmin = null;
 
+	/** @var ilObjUser $activeUser */
+	protected $activeUser = null;
+
 	/** @var ilObjTest $testOBJ */
 	protected $testOBJ = null;
 
@@ -90,6 +93,7 @@ class ilObjTestSettingsGeneralGUI
 		ilTree $tree,
 		ilDB $db,
 		ilPluginAdmin $pluginAdmin,
+		ilObjUser $activeUser,
 		ilObjTestGUI $testGUI
 	)
 	{
@@ -100,6 +104,7 @@ class ilObjTestSettingsGeneralGUI
 		$this->tree = $tree;
 		$this->db = $db;
 		$this->pluginAdmin = $pluginAdmin;
+		$this->activeUser = $activeUser;
 
 		$this->testGUI = $testGUI;
 		$this->testOBJ = $testGUI->object;
@@ -603,15 +608,68 @@ class ilObjTestSettingsGeneralGUI
 					}
 
 					break;
-					
+
 				case 'duration':
-					
+
 					$confirmation->addHiddenItem("{$item->getPostVar()}[MM]", (int)$item->getMonths());
 					$confirmation->addHiddenItem("{$item->getPostVar()}[dd]", (int)$item->getDays());
 					$confirmation->addHiddenItem("{$item->getPostVar()}[hh]", (int)$item->getHours());
 					$confirmation->addHiddenItem("{$item->getPostVar()}[mm]", (int)$item->getMinutes());
 					$confirmation->addHiddenItem("{$item->getPostVar()}[ss]", (int)$item->getSeconds());
-					
+
+					break;
+
+				case 'dateduration':
+
+					$confirmation->addHiddenItem(
+						"{$item->getPostVar()}[start][date][y]",
+						(int) $item->getStart()->get(IL_CAL_FKT_DATE,'Y',$this->activeUser->getTimeZone())
+					);
+					$confirmation->addHiddenItem(
+						"{$item->getPostVar()}[start][date][m]",
+						(int) $item->getStart()->get(IL_CAL_FKT_DATE,'m',$this->activeUser->getTimeZone())
+					);
+					$confirmation->addHiddenItem(
+						"{$item->getPostVar()}[start][date][d]",
+						(int) $item->getStart()->get(IL_CAL_FKT_DATE,'d',$this->activeUser->getTimeZone())
+					);
+					$confirmation->addHiddenItem(
+						"{$item->getPostVar()}[start][time][h]",
+						(int) $item->getStart()->get(IL_CAL_FKT_DATE,'H',$this->activeUser->getTimeZone())
+					);
+					$confirmation->addHiddenItem(
+						"{$item->getPostVar()}[start][time][m]",
+						(int) $item->getStart()->get(IL_CAL_FKT_DATE,'i',$this->activeUser->getTimeZone())
+					);
+					$confirmation->addHiddenItem(
+						"{$item->getPostVar()}[start][time][s]",
+						(int) $item->getStart()->get(IL_CAL_FKT_DATE,'s',$this->activeUser->getTimeZone())
+					);
+					$confirmation->addHiddenItem(
+						"{$item->getPostVar()}[end][date][y]",
+						(int) $item->getEnd()->get(IL_CAL_FKT_DATE,'Y',$this->activeUser->getTimeZone())
+					);
+					$confirmation->addHiddenItem(
+						"{$item->getPostVar()}[end][date][m]",
+						(int) $item->getEnd()->get(IL_CAL_FKT_DATE,'m',$this->activeUser->getTimeZone())
+					);
+					$confirmation->addHiddenItem(
+						"{$item->getPostVar()}[end][date][d]",
+						(int) $item->getEnd()->get(IL_CAL_FKT_DATE,'d',$this->activeUser->getTimeZone())
+					);
+					$confirmation->addHiddenItem(
+						"{$item->getPostVar()}[end][time][h]",
+						(int) $item->getEnd()->get(IL_CAL_FKT_DATE,'H',$this->activeUser->getTimeZone())
+					);
+					$confirmation->addHiddenItem(
+						"{$item->getPostVar()}[end][time][m]",
+						(int) $item->getEnd()->get(IL_CAL_FKT_DATE,'i',$this->activeUser->getTimeZone())
+					);
+					$confirmation->addHiddenItem(
+						"{$item->getPostVar()}[end][time][s]",
+						(int) $item->getEnd()->get(IL_CAL_FKT_DATE,'s',$this->activeUser->getTimeZone())
+					);
+
 					break;
 
 				case 'checkboxgroup':
