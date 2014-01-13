@@ -30,9 +30,7 @@ class ilSCORMOfflineModeUsersTableGUI extends ilTable2GUI
 	{
 		$this->obj_id = $a_obj_id;
 
-//		$this->setId('sco_tr_usrs_'.$this->obj_id);
 		parent::__construct($a_parent_obj, $a_parent_cmd);
-//		$this->initFilter();
 	}
 
 	/**
@@ -51,12 +49,6 @@ class ilSCORMOfflineModeUsersTableGUI extends ilTable2GUI
 	{
 		$this->initTable();
 
-		// @TODO add filter
-		// $users = $this->getParentObject()->object->getTrackedUsers($this->filter['lastname']);
-		// $attempts = $this->getParentObject()->object->getAttemptsForUsers();
-		// $versions = $this->getParentObject()->object->getModuleVersionForUsers();
-
-		// $data = array();
 		include_once './Modules/ScormAicc/classes/class.ilSCORMOfflineMode.php';
 		$users=ilSCORMOfflineMode::usersInOfflineMode($this->getObjId());
 		foreach($users as $user)
@@ -65,21 +57,11 @@ class ilSCORMOfflineModeUsersTableGUI extends ilTable2GUI
 			$tmp['user'] = $user['user_id'];
 			$tmp['firstname'] = $user['firstname'];
 			$tmp['lastname'] = $user['lastname'];
-			// $dt = new ilDateTime($user['last_access'],IL_CAL_DATETIME);
-			// $tmp['last_access'] = $dt->get(IL_CAL_UNIX);
-			// $tmp['attempts'] = (int) $attempts[$user['user_id']];
-			// $tmp['version'] = (int) $versions[$user['user_id']];
 
 			$data[] = $tmp;
 		}
 		$this->setData($data);
 	}
-
-	// public function  initFilter()
-	// {
-		// $item = $this->addFilterItemByMetaType("lastname", ilTable2GUI::FILTER_TEXT);
-		// $this->filter["lastname"] = $item->getValue();
-	// }
 
 	/**
 	 * Fill row template
@@ -102,11 +84,6 @@ class ilSCORMOfflineModeUsersTableGUI extends ilTable2GUI
 	{
 		global $ilCtrl;
 
-		// $this->setFilterCommand('applyUserTableFilter');
-		// $this->setResetCommand('resetUserTableFilter');
-
-		// $this->setDisableFilterHiding(false);
-
 		$this->setFormAction($ilCtrl->getFormAction($this->getParentObject()));
 		$this->setRowTemplate('tpl.scorm_offline_mode_users.html', 'Modules/ScormAicc');
 		$this->setTitle($this->lng->txt('offline_mode_users'));
@@ -117,8 +94,6 @@ class ilSCORMOfflineModeUsersTableGUI extends ilTable2GUI
 		$this->enable('select_all');
 		$this->setSelectAllCheckbox('user');
 
-//		$this->addMultiCommand('deleteTrackingForUser', $this->lng->txt('delete'));
-//		$this->addMultiCommand('decreaseAttempts', $this->lng->txt('decrease_attempts'));
 		$this->addMultiCommand('stopUserOfflineMode', $this->lng->txt('stop_user_offline_mode'));
 	}
 }

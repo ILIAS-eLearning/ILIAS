@@ -37,7 +37,7 @@ class ilSCORMOfflineMode
 	}
 
 	function il2sop() {
-		global $ilUser;
+		global $ilUser, $ilias;
 		$this->setOfflineMode("il2sop");
 		header('Content-Type: text/javascript; charset=UTF-8');
 
@@ -57,6 +57,8 @@ class ilSCORMOfflineMode
 		
 		$certificate_enabled = 0;
 
+		$adlact_data = null;
+		$ilias_version = $ilias->getSetting("ilias_version");
 
 		if ($this->type == 'scorm2004') {
 			include_once "./Modules/Scorm2004/classes/ilSCORM13Player.php";
@@ -65,6 +67,8 @@ class ilSCORMOfflineMode
 			$resources = json_decode($ob2004->getCPDataInit());
 			$cmi = $ob2004->getCMIData($ilUser->getID(), $this->obj_id);
 			$max_attempt = $ob2004->get_max_attempts();
+			$adlact_data = json_decode($ob2004->getADLActDataInit());
+			//$globalobj_data = $ob2004->readGObjectiveInit();	
 		} else {
 			include_once "./Modules/ScormAicc/classes/SCORM/class.ilObjSCORMInitData.php";
 			$slm_obj =& new ilObjSCORMLearningModule($_GET["ref_id"]);
@@ -92,7 +96,9 @@ class ilSCORMOfflineMode
 				"", //offline_zip_created!!!!!!!!
 				$learning_progress_enabled,
 				$certificate_enabled,
-				$max_attempt
+				$max_attempt,
+				$adlact_data,
+				$ilias_version
 			),
 			'sahs_user' => $sahs_user,
 			'cmi' => $cmi
@@ -228,7 +234,7 @@ class ilSCORMOfflineMode
 		} else {
 			$ret['msg'][]  = "post data recieved";
 		}
-		header('Content-Type: text/plain; charset=UTF-8');//stimmt das?
+		header('Content-Type: text/plain; charset=UTF-8');
 		print json_encode($ret);
 	}
 	
