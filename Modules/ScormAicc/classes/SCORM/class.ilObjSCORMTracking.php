@@ -310,15 +310,14 @@ class ilObjSCORMTracking
 
 		//end sync access number and time in read event table
 
-		// if($saved_global_status != $new_global_status)
-		// {
-			// update learning progress
+		// update learning progress
+		if ($new_global_status != null) {//could only happen when synchronising from SCORM Offline Player
 			include_once("./Services/Tracking/classes/class.ilObjUserTracking.php");
 			include_once("./Services/Tracking/classes/class.ilLPStatus.php");
 			ilLPStatus::writeStatus($packageId, $userId,$new_global_status,$data->percentageCompleted);
 
 //			here put code for soap to MaxCMS e.g. when if($saved_global_status != $new_global_status)
-		// }
+		}
 		return true;
 	}
 
