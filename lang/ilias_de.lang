@@ -14158,3 +14158,4 @@ orgu#:#no_orgunit#:#Bitte prüfen Sie Ihre XML-Datei. Es konnte keine Organisati
 orgu#:#no_assignment#:#Bitte prüfen Sie Ihre XML-Datei. Es konnte keine Benutzerzuweisung gefunden werden.
 obj#:#obj_insert_into_clipboard#:#In Zwischenablage einfügen
 obj#:#obj_inserted_clipboard#:#Die Objekte wurden in die Zwischenablage eingefügt
+orgu#:#org_unit_not_found#:#Die Organisationseinheit wurde nicht gefunden.
