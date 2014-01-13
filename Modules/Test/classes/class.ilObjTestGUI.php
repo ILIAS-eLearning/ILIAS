@@ -90,7 +90,7 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function executeCommand()
 	{
-		global $ilAccess, $ilNavigationHistory, $ilCtrl, $ilErr, $tpl, $lng, $ilTabs, $ilPluginAdmin, $ilDB, $tree;
+		global $ilAccess, $ilNavigationHistory, $ilCtrl, $ilErr, $tpl, $lng, $ilTabs, $ilPluginAdmin, $ilDB, $tree, $ilUser;
 
 		if((!$ilAccess->checkAccess("read", "", $_GET["ref_id"])) && (!$ilAccess->checkAccess("visible", "", $_GET["ref_id"])))
 		{
@@ -270,7 +270,7 @@ class ilObjTestGUI extends ilObjectGUI
 				$this->addHeaderAction();
 				require_once 'Modules/Test/classes/class.ilObjTestSettingsGeneralGUI.php';
 				$gui = new ilObjTestSettingsGeneralGUI(
-						$this->ctrl, $ilAccess, $this->lng, $this->tpl, $this->tree, $ilDB, $ilPluginAdmin, $this
+						$this->ctrl, $ilAccess, $this->lng, $this->tpl, $this->tree, $ilDB, $ilPluginAdmin, $ilUser, $this
 				);
 				$this->ctrl->forwardCommand($gui);
 				break;
