@@ -3102,7 +3102,7 @@ function onItemDeliver(item, wasSuspendAll) // onDeliver called from sequencing 
 
 		// get data in cmi-1.3 format
 		var data = getAPI(item.foreignId);
-		if (this.config.sequencing_enabled) loadSharedData(item.cp_node_id);
+		if (this.config.fourth_edition) loadSharedData(item.cp_node_id);
 		
 		// add ADL Request namespace data
 		data.adl = {nav : {request_valid: {}}};

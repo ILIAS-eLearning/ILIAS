@@ -307,6 +307,7 @@ class ilSCORM13Player
 			'auto_review' => $this->slm->getAutoReviewChar(),
 			'hide_navig' => $this->slm->getHideNavig(),
 			'hide_menu' => $this->slm->getNoMenu(),
+			'fourth_edition' => $this->slm->getFourth_edition(),
 			'sequencing_enabled' => $this->slm->getSequencing(),
 			'interactions_storable' => $this->slm->getInteractions(),
 			'objectives_storable' => $this->slm->getObjectives(),

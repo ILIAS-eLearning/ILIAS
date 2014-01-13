@@ -1,4 +1,4 @@
-// Build: 2014113141001 
+// Build: 2014113161648 
 /*
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
@@ -13887,7 +13887,7 @@ function onItemDeliver(item, wasSuspendAll) // onDeliver called from sequencing 
 
 		// get data in cmi-1.3 format
 		var data = getAPI(item.foreignId);
-		if (this.config.sequencing_enabled) loadSharedData(item.cp_node_id);
+		if (this.config.fourth_edition) loadSharedData(item.cp_node_id);
 		
 		// add ADL Request namespace data
 		data.adl = {nav : {request_valid: {}}};
@@ -15074,7 +15074,7 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 				//statusHandler(cmiItem.scoid,"success",statusValues[1]);
 				var returnValue = onCommit(cmiItem);
 				if (returnValue && saveOnCommit == true) {
-					if (config.sequencing_enabled) {
+					if (config.fourth_edition) {
 						var sgo=saveSharedData(cmiItem);
 					}
 					returnValue = save();
