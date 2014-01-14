@@ -11,7 +11,7 @@
  */
 abstract class ilPageConfig
 {
-	protected $int_link_filter = array();
+	protected $int_link_filter = array("File");
 	protected $prevent_rte_usage = false;
 	protected $use_attached_content = false;
 	protected $pc_defs = array();
