@@ -14159,3 +14159,11 @@ orgu#:#no_assignment#:#Bitte prüfen Sie Ihre XML-Datei. Es konnte keine Benutze
 obj#:#obj_insert_into_clipboard#:#In Zwischenablage einfügen
 obj#:#obj_inserted_clipboard#:#Die Objekte wurden in die Zwischenablage eingefügt
 orgu#:#org_unit_not_found#:#Die Organisationseinheit wurde nicht gefunden.
+content#:#cont_fourth_edition#:#SCORM 2004 4th edition
+content#:#cont_fourth_edition_info#:#SCORM 2004 4th edition bietet gegenüber der 3rd edition einige Vorteile. So können weitere Daten über SCO-Grenzen hinweg ausgetauscht werden. Diese Optionen werden allerdings nur selten genutzt und wirken sich negativ auf die Geschwindigkeit aus.
+content#:#offline_mode_manager#:#Offline-Nutzung
+content#:#offline_mode_users#:#Nutzer im Offline-Modus
+content#:#cont_offline_mode_disable_not_allowed_info#:#Da das Lernmodul von Nutzern aktuell im Offline-Modus genutzt wird, kann der Offline-Modus nicht deaktiviert werden.
+content#:#stop_user_offline_mode#:#Offline-Modus beenden
+content#:#stop_user_offline_mode_for_user#:#Offline-Modus beenden für
+content#:#info_stop_offline_mode_sure#:#Achtung: Der im Offline-Modus erzielte Lernfortschritt geht verloren. Sind Sie sicher?
