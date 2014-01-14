@@ -19,7 +19,8 @@ class ilContainerPageConfig extends ilPageConfig
 	function init()
 	{
 		global $ilSetting;
-		
+
+		$this->setEnableInternalLinks(true);
 		$this->setIntLinkHelpDefaultType("RepositoryItem");
 		$this->setEnablePCType("FileList", false);
 		$this->setEnablePCType("Map", true);
