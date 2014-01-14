@@ -334,9 +334,10 @@ class ilAdvancedMDRecordGUI
 	 				case ilAdvancedMDFieldDefinition::TYPE_DATE:
 	 					
 	 					$unixtime = $value->getValue() ? $value->getValue() : mktime(8,0,0,date('m'),date('d'),date('Y'));
-	 				
+
 	 					$time = new ilDateTimeInputGUI($def->getTitle(),'md['.$def->getFieldId().']');
 	 					$time->setShowTime(false);
+						$time->setStartYear(1970);
 	 					$time->setDate(new ilDate($unixtime,IL_CAL_UNIX));
 	 					$time->enableDateActivation($this->lng->txt('enabled'),
 							'md_activated['.$def->getFieldId().']',
