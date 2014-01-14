@@ -23,6 +23,7 @@ class ilTaxNodeAssignment
 	 * @param int $a_obj_id repository object id of the object that is responsible for the assignment
 	 * @param string $a_item_type item type (e.g. "term", must be unique component wide)
 	 * @param int $a_tax_id taxonomy id
+	 * @throws ilTaxonomyException
 	 */
 	function __construct($a_component_id, $a_obj_id, $a_item_type, $a_tax_id)
 	{

@@ -68,8 +68,16 @@ class ilGlossaryImporter extends ilXmlImporter
 			{
 				$a_mapping->addMapping("Services/Taxonomy", "tax_item",
 						"glo:term:".$k, $v);
+
+				// this is since 4.3 does not export these ids but 4.4 tax node assignment needs it
+				$a_mapping->addMapping("Services/Taxonomy", "tax_item_obj_id",
+					"glo:term:".$k, $newObj->getId());
+
 			}
-	
+
+			$a_mapping->addMapping("Services/Taxonomy", "tax_item",
+				"glo:term:".$k, $v);
+
 			$a_mapping->addMapping("Modules/Glossary", "glo", $a_id, $newObj->getId());
 			
 			$this->current_glo = $newObj;

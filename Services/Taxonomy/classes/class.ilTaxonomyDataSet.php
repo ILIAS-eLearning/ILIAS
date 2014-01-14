@@ -272,10 +272,15 @@ class ilTaxonomyDataSet extends ilDataSet
 				$new_item_id = (int) $a_mapping->getMapping("Services/Taxonomy", "tax_item",
 					$a_rec["Component"].":".$a_rec["ItemType"].":".$a_rec["ItemId"]);
 				$new_node_id = (int) $a_mapping->getMapping("Services/Taxonomy", "tax_tree", $a_rec["NodeId"]);
-				if ($new_item_id > 0 && $new_node_id > 0)
+
+				// this is needed since 4.4 (but not exported with 4.3)
+				// with 4.4 this should be part of export/import
+				$new_item_id_obj = (int) $a_mapping->getMapping("Services/Taxonomy", "tax_item_obj_id",
+					$a_rec["Component"].":".$a_rec["ItemType"].":".$a_rec["ItemId"]);
+				if ($new_item_id > 0 && $new_node_id > 0 && $new_item_id_obj  > 0)
 				{
 					include_once("./Services/Taxonomy/classes/class.ilTaxNodeAssignment.php");
-					$node_ass = new ilTaxNodeAssignment($a_rec["Component"], $a_rec["ItemType"], $this->current_obj->getId());
+					$node_ass = new ilTaxNodeAssignment($a_rec["Component"], $new_item_id_obj, $a_rec["ItemType"], $this->current_obj->getId());
 					$node_ass->addAssignment($new_node_id, $new_item_id);
 				}
 				break;
