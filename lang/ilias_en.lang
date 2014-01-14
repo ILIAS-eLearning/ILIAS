@@ -14159,3 +14159,11 @@ orgu#:#no_assignment#:#Please check your XML-File. There is no User Assignment.
 obj#:#obj_insert_into_clipboard#:#Insert into Clipboard
 obj#:#obj_inserted_clipboard#:#Objects have been moved to the clipboard.
 orgu#:#org_unit_not_found#:#Organisational Unit not found.
+content#:#cont_fourth_edition#:#SCORM 2004 4th edition
+content#:#cont_fourth_edition_info#:#SCORM 2004 4th edition offers some advantages compared to the 3rd edition. Further data over SCO boundaries can be exchanged for example. These options are however rarely used and have a negative effect on the speed.
+content#:#offline_mode_manager#:#Offline use
+content#:#offline_mode_users#:#Users in offline mode
+content#:#cont_offline_mode_disable_not_allowed_info#:#Since the learning module is currently used in offline mode, the offline mode can not be disabled.
+content#:#stop_user_offline_mode#:#Stop offline mode
+content#:#stop_user_offline_mode_for_user#:#Stop offline mode for
+content#:#info_stop_offline_mode_sure#:#Note: The learning progress achieved in offline mode are lost. Are you sure?
