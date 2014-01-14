@@ -247,6 +247,7 @@ class assMultipleChoiceImport extends assQuestionImport
 		$this->object->setEstimatedWorkingTime($duration["h"], $duration["m"], $duration["s"]);
 		$this->object->setShuffle($shuffle);
 		$this->object->setThumbSize($item->getMetadataEntry("thumb_size"));
+
 		foreach ($answers as $answer)
 		{
 			if (is_array($answer["imagefile"]) && (count($answer["imagefile"]) > 0))
@@ -283,6 +284,13 @@ class assMultipleChoiceImport extends assQuestionImport
 				}
 			}
 		}
+
+		$feedbackSetting = $item->getMetadataEntry('feedback_setting');
+		if( !is_null($feedbackSetting) )
+		{
+			$this->object->feedbackOBJ->saveSpecificFeedbackSetting($this->object->getId(), $feedbackSetting);
+		}
+
 		// handle the import of media objects in XHTML code
 		foreach ($feedbacks as $ident => $material)
 		{

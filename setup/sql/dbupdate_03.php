@@ -19553,3 +19553,16 @@ while($row = $ilDB->fetchAssoc($set))
 	$ilDB->query("UPDATE sahs_lm SET ie_force_render = 'n'");
 }
 ?>
+<#4171>
+<?php
+	if (!$ilDB->tableColumnExists('qpl_qst_sc', 'feedback_setting'))
+	{
+		$ilDB->addTableColumn('qpl_qst_sc', 'feedback_setting', array(
+			"type" => "integer",
+			"notnull" => false,
+			"length" => 1,
+			"default" => 2
+		));
+	}
+?>
+

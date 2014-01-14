@@ -300,12 +300,34 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 			}
 			if ($show_feedback)
 			{
-				if (strcmp($user_solution, $answer_id) == 0)
+				$feedbackOutputRequired = false;
+
+				switch( $this->object->getSpecificFeedbackSetting() )
+				{
+					case 1:
+						$feedbackOutputRequired = true;
+						break;
+
+					case 2:
+						if (strcmp($user_solution, $answer_id) == 0)
+						{
+							$feedbackOutputRequired = true;
+						}
+						break;
+
+					case 3:
+						if ($this->object->getAnswer($answer_id)->getPoints() > 0)
+						{
+							$feedbackOutputRequired = true;
+						}
+						break;
+				}
+
+				if($feedbackOutputRequired)
 				{
 					$fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation(
-							$this->object->getId(), $answer_id
+						$this->object->getId(), $answer_id
 					);
-					
 					if (strlen($fb))
 					{
 						$template->setCurrentBlock("feedback");
@@ -482,15 +504,38 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 			}
 			if ($show_feedback)
 			{
-				if (strcmp($user_solution, $answer_id) == 0)
+				$feedbackOutputRequired = false;
+
+				switch( $this->object->getSpecificFeedbackSetting() )
 				{
-					$feedback = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation(
-							$this->object->getId(), $answer_id
+					case 1:
+						$feedbackOutputRequired = true;
+						break;
+
+					case 2:
+						if (strcmp($user_solution, $answer_id) == 0)
+						{
+							$feedbackOutputRequired = true;
+						}
+						break;
+
+					case 3:
+						if ($this->object->getAnswer($answer_id)->getPoints() > 0)
+						{
+							$feedbackOutputRequired = true;
+						}
+						break;
+				}
+
+				if($feedbackOutputRequired)
+				{
+					$fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation(
+						$this->object->getId(), $answer_id
 					);
-					if (strlen($feedback))
+					if (strlen($fb))
 					{
 						$template->setCurrentBlock("feedback");
-						$template->setVariable("FEEDBACK", $this->object->prepareTextareaOutput($feedback, TRUE));
+						$template->setVariable("FEEDBACK", $this->object->prepareTextareaOutput( $fb, true ));
 						$template->parseCurrentBlock();
 					}
 				}

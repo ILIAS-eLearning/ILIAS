@@ -284,6 +284,13 @@ class assSingleChoiceImport extends assQuestionImport
 				}
 			}
 		}
+
+		$feedbackSetting = $item->getMetadataEntry('feedback_setting');
+		if( !is_null($feedbackSetting) )
+		{
+			$this->object->feedbackOBJ->saveSpecificFeedbackSetting($this->object->getId(), $feedbackSetting);
+		}
+
 		foreach ($feedbacks as $ident => $material)
 		{
 			$m = $this->object->QTIMaterialToString($material);
