@@ -601,7 +601,10 @@ class ilObjFile extends ilObject2
 			$data = $this->parseInfoParams($entry);
 			$file = $this->getDirectory($data["version"])."/".$data["filename"];
 		}
-		$this->setFileSize(filesize($file));
+		if (is_file($file))
+		{
+			$this->setFileSize(filesize($file));
+		}
 	}
 	
 	function sendFile($a_hist_entry_id = null)
