@@ -276,7 +276,8 @@ class ilPresentationListTableGUI extends ilTable2GUI
 						break;
 
 					case ilAdvancedMDFieldDefinition::TYPE_DATE:
-						$val = ($term["md_".$id] > 0)
+//var_dump($term["md_".$id]); echo "<br>";
+						$val = ($term["md_".$id] != 0)
 							? ilDatePresentation::formatDate(new ilDate($term["md_".$id], IL_CAL_UNIX))
 							: " ";
 						break;
