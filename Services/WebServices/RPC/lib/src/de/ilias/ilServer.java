@@ -75,6 +75,9 @@ public class ilServer {
 		BasicConfigurator.configure();
 		logger.setLevel(Level.INFO);
 		
+		Logger root = Logger.getLogger("org");
+		root.setLevel(Level.OFF);
+		
 		server = new ilServer(args);
 		server.handleRequest();
 	}

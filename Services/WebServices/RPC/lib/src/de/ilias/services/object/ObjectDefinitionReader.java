@@ -112,7 +112,7 @@ public class ObjectDefinitionReader {
 		
 		// Traverse through Modules
 		File start = new File(absolutePath.getAbsoluteFile() + System.getProperty("file.separator") + "Modules");
-		logger.info("Start path is : " + start.getAbsoluteFile());
+		logger.debug("Start path is : " + start.getAbsoluteFile());
 		traverse(start);
 
 		// Traverse through Modules
@@ -122,7 +122,7 @@ public class ObjectDefinitionReader {
 
 		// Traverse through Plugins
 		File plugin = new File(absolutePath.getAbsoluteFile() + System.getProperty("file.separator") + ObjectDefinitionReader.pluginPath);
-		logger.info("Start path is : " + plugin.getAbsoluteFile());
+		logger.debug("Start path is : " + plugin.getAbsoluteFile());
 		traverse(plugin);
 	}
 	
@@ -135,7 +135,7 @@ public class ObjectDefinitionReader {
 		if(dir == null) {
 			return;
 		}
-		logger.info("Start path is : " + dir.getAbsoluteFile());
+		logger.debug("Start path is : " + dir.getAbsoluteFile());
 
 		File[] entries = dir.listFiles(
 				new FileFilter()
