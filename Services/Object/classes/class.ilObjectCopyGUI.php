@@ -177,7 +177,39 @@ class ilObjectCopyGUI
 			"Services/Object");
 		
 		ilUtil::sendInfo($this->lng->txt('msg_copy_clipboard'));
-		
+
+		if (!true)
+		{
+			include_once("./Services/Repository/classes/class.ilRepositorySelectorExplorerGUI.php");
+			$exp = new ilRepositorySelectorExplorerGUI($this, "showTargetSelectionTree");
+			$exp->setTypeWhiteList(array("root", "cat", "grp", "crs", "fold"));
+			$exp->setSelectMode("target", false);
+			if ($exp->handleCommand())
+			{
+				return;
+			}
+			$output = $exp->getHTML();
+
+			// toolbars
+			$t = new ilToolbarGUI();
+			$t->setFormAction($this->ctrl->getFormAction("copy", "saveSource"));
+			$t->addFormButton($this->lng->txt("copy"), "saveSource");
+			$t->addSeparator();
+			$t->addFormButton($this->lng->txt("obj_insert_into_clipboard"), "keepObjectsInClipboard");
+			$t->addFormButton($this->lng->txt("cancel"), "cancel");
+			$t->setCloseFormTag(false);
+			$t->setLeadingImage(ilUtil::getImagePath("arrow_upright.png"), " ");
+			$output = $t->getHTML().$output;
+			$t->setLeadingImage(ilUtil::getImagePath("arrow_downright.png"), " ");
+			$t->setCloseFormTag(true);
+			$t->setOpenFormTag(false);
+			$output.= "<br />".$t->getHTML();
+
+			$this->tpl->setContent($output);
+			return;
+		}
+
+
 		include_once './Services/Object/classes/class.ilPasteIntoMultipleItemsExplorer.php';
 		$exp = new ilPasteIntoMultipleItemsExplorer(
 			ilPasteIntoMultipleItemsExplorer::SEL_TYPE_RADIO,
@@ -224,7 +256,7 @@ class ilObjectCopyGUI
 		$this->tpl->setVariable('OBJECT_TREE', $output);
 		
 		$this->tpl->setVariable('CMD_SUBMIT', 'saveTarget');
-		
+
 		if($objDefinition->isContainer($this->getType()))
 		{
 			$this->tpl->setVariable('TXT_SUBMIT',$this->lng->txt('btn_next'));			
@@ -261,7 +293,6 @@ class ilObjectCopyGUI
 			"Services/Object");
 		
 		ilUtil::sendInfo($this->lng->txt('msg_copy_clipboard_source'));
-		
 		include_once './Services/Object/classes/class.ilPasteIntoMultipleItemsExplorer.php';
 		$exp = new ilPasteIntoMultipleItemsExplorer(
 			ilPasteIntoMultipleItemsExplorer::SEL_TYPE_RADIO,
