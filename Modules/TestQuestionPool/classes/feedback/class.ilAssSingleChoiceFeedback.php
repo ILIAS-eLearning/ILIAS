@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Modules/TestQuestionPool/classes/feedback/class.ilAssMultiOptionQuestionFeedback.php';
+require_once 'Modules/TestQuestionPool/classes/feedback/class.ilAssConfigurableMultiOptionQuestionFeedback.php';
 
 /**
  * feedback class for assSingleChoice questions
@@ -11,6 +11,20 @@ require_once 'Modules/TestQuestionPool/classes/feedback/class.ilAssMultiOptionQu
  * 
  * @package		Modules/TestQuestionPool
  */
-class ilAssSingleChoiceFeedback extends ilAssMultiOptionQuestionFeedback
+class ilAssSingleChoiceFeedback extends ilAssConfigurableMultiOptionQuestionFeedback
 {
+	/**
+	 * table name for specific feedback
+	 */
+	const SPECIFIC_QUESTION_TABLE_NAME = 'qpl_qst_sc';
+
+	/**
+	 * returns the table name for specific question itself
+	 *
+	 * @return string $specificFeedbackTableName
+	 */
+	protected function getSpecificQuestionTableName()
+	{
+		return self::SPECIFIC_QUESTION_TABLE_NAME;
+	}
 }

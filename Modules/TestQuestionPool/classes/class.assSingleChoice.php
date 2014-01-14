@@ -48,6 +48,14 @@ class assSingleChoice extends assQuestion implements  ilObjQuestionScoringAdjust
 	protected $thumb_size;
 
 	/**
+	 * 1 - Feedback is shown for all answer options.
+	 * 2 - Feedback is shown for all checked/selected options.
+	 * 3 - Feedback is shown for all correct options.
+	 * @var int
+	 */
+	protected $feedback_setting;
+
+	/**
 	 * assSingleChoice constructor
 	 *
 	 * The constructor takes possible arguments an creates an instance of the assSingleChoice object.
@@ -75,6 +83,7 @@ class assSingleChoice extends assQuestion implements  ilObjQuestionScoringAdjust
 		$this->output_type = $output_type;
 		$this->answers = array();
 		$this->shuffle = 1;
+		$this->feedback_setting = 2;
 	}
 
 	/**
@@ -219,7 +228,8 @@ class assSingleChoice extends assQuestion implements  ilObjQuestionScoringAdjust
 			$this->setThumbSize($data['thumb_size']);
 			$this->isSingleline = ($data['allow_images']) ? false : true;
 			$this->lastChange = $data['tstamp'];
-			
+			$this->feedback_setting = $data['feedback_setting'];
+
 			try
 			{
 				$this->setAdditionalContentEditingMode($data['add_cont_edit_mode']);
@@ -1118,7 +1128,42 @@ class assSingleChoice extends assQuestion implements  ilObjQuestionScoringAdjust
 		global $ilUser;
 		$ilUser->writePref("tst_multiline_answers", $a_setting);
 	}
-	
+
+	/**
+	 * Sets the feedback settings in effect for the question.
+	 * Options are:
+	 * 1 - Feedback is shown for all answer options.
+	 * 2 - Feedback is shown for all checked/selected options.
+	 * 3 - Feedback is shown for all correct options.
+	 *
+	 * @param integer $a_feedback_setting
+	 */
+	public function setSpecificFeedbackSetting($a_feedback_setting)
+	{
+		$this->feedback_setting = $a_feedback_setting;
+	}
+
+	/**
+	 * Gets the current feedback settings in effect for the question.
+	 * Values are:
+	 * 1 - Feedback is shown for all answer options.
+	 * 2 - Feedback is shown for all checked/selected options.
+	 * 3 - Feedback is shown for all correct options.
+	 *
+	 * @return integer
+	 */
+	public function getSpecificFeedbackSetting()
+	{
+		if ($this->feedback_setting)
+		{
+			return $this->feedback_setting;
+		}
+		else
+		{
+			return 1;
+		}
+	}
+
 	/**
 	 * returns boolean wether the question
 	 * is answered during test pass or not

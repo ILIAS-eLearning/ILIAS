@@ -67,7 +67,13 @@ class assSingleChoiceExport extends assQuestionExport
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "thumb_size");
 		$a_xml_writer->xmlElement("fieldentry", NULL, $this->object->getThumbSize());
-		$a_xml_writer->xmlEndTag("qtimetadatafield");		
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "feedback_setting");
+		$a_xml_writer->xmlElement("fieldentry", NULL, $this->object->getSpecificFeedbackSetting());
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+
 		$a_xml_writer->xmlEndTag("qtimetadata");
 		$a_xml_writer->xmlEndTag("itemmetadata");
 

@@ -50,22 +50,6 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 	protected $thumb_size;
 
 	/**
-	 * @param mixed $feedback_setting
-	 */
-	public function setFeedbackSetting($feedback_setting)
-	{
-		$this->feedback_setting = $feedback_setting;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getFeedbackSetting()
-	{
-		return $this->feedback_setting;
-	}
-
-	/**
 	 * @param mixed $isSingleline
 	 */
 	public function setIsSingleline($isSingleline)
