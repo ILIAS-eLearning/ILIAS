@@ -2459,7 +2459,7 @@ abstract class ilPageObject
 						$old_domdoc = new DOMDocument();
 						$old_nr = $last_nr["mnr"] + 1;
 						$old_domdoc->loadXML('<?xml version="1.0" encoding="UTF-8"?>'.$old_content);
-						
+
 						// after history entry creation event
 						$this->__afterHistoryEntry($old_domdoc, $old_content, $old_nr);
 						

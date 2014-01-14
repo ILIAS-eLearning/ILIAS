@@ -638,6 +638,9 @@ case "InteractiveImage":
 				$this->glossary_definition->assignPageObject($this->page_object);
 				$this->current_object = $this->glossary_definition;
 				$this->glossary_definition->create(true);
+				// see bug #12465, we need to clear xml after creation, since it will be <PageObject></PageObject>
+				// otherwise, and appendXML calls will lead to "<PageObject></PageObject><PageObject>....</PageObject>"
+				$this->page_object->setXMLContent("");
 				break;
 
 			case "FileItem":
@@ -1397,6 +1400,8 @@ case "InteractiveImage":
 			case "Definition":
 				$this->in_glossary_definition = false;
 				$this->page_object->updateFromXML();
+//echo "&nbsp;&nbsp;after def update, xml:".htmlentities($this->page_object->getXMLContent()).":<br>";
+//echo "<br>".$this->page_object->getId()."-".$this->page_object->getParentType()."-";
 				$this->page_object->buildDom();
 				$this->glossary_definition->setShortText($this->page_object->getFirstParagraphText());
 				$this->glossary_definition->update();
