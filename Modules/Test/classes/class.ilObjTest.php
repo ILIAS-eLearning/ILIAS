@@ -11119,6 +11119,7 @@ function getAnswerFeedbackPoints()
 				array($active_id, $minutes, time())
 			);
 
+			require_once 'Modules/Test/classes/class.ilObjAssessmentFolder.php';
 			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
 			{
 				$this->logAction(sprintf($this->lng->txtlng("assessment", "log_added_extratime", ilObjAssessmentFolder::_getLogLanguage()), $minutes, $active_id));
