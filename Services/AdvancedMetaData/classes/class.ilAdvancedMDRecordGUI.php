@@ -337,7 +337,7 @@ class ilAdvancedMDRecordGUI
 
 	 					$time = new ilDateTimeInputGUI($def->getTitle(),'md['.$def->getFieldId().']');
 	 					$time->setShowTime(false);
-						$time->setStartYear(1970);
+						$time->setStartYear(1901);
 	 					$time->setDate(new ilDate($unixtime,IL_CAL_UNIX));
 	 					$time->enableDateActivation($this->lng->txt('enabled'),
 							'md_activated['.$def->getFieldId().']',
