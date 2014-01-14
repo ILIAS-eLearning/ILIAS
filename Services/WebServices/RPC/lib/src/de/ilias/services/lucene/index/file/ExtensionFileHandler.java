@@ -67,12 +67,22 @@ public class ExtensionFileHandler {
 		if(!checkFileSizeLimit(file)) {
 			throw new FileHandlerException("File size limit exceeded. Ignoring file " + file.getAbsolutePath());
 		}
+		
+       	logger.info("Current file is: " + file.getAbsolutePath());
+		
        
     	try {
 	        String fname = file.getName();
 	        int dotIndex = fname.lastIndexOf(".");
 	        if((dotIndex > 0) && (dotIndex < fname.length())) {
 	            String extension = fname.substring(dotIndex + 1, fname.length());
+				
+				
+				// Do not index xslx
+				if(extension.equalsIgnoreCase("xlsx")) {
+	                logger.info("Ignoring xslx: " + file.getName());
+					return "";
+				}
 	            
 	            // Handled extensions are: html,pdf,txt
 	            if(extension.equalsIgnoreCase("pdf")) {
@@ -144,13 +154,11 @@ public class ExtensionFileHandler {
         }
     	catch (FileHandlerException e) {
         	logger.warn("Parsing failed with message: " + e);
-        	logger.info("Current file is: " + file.getAbsolutePath());
         	return "";
     	}
     	
     	catch(Exception e) {
         	logger.warn("Parsing failed with message: " + e);
-        	logger.info("Current file is: " + file.getAbsolutePath());
         	return "";
         }
     	
