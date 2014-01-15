@@ -20,7 +20,12 @@ class ilDataCollectionRecordViewViewdefinition extends ilPageObject
 	protected $table_id; 	// [int]
 	protected $type = 0; 		// [int]  0 = recordview 
 	protected $formtype = 0; 	// [int]  0 = copage
-	
+
+    /**
+     * @var array Cache record views per table-id, key=table-id, value=view definition id
+     */
+    protected static $recordViewCache = array();
+
 	/**
 	 * Get parent type
 	 *
@@ -144,13 +149,17 @@ class ilDataCollectionRecordViewViewdefinition extends ilPageObject
 	 */
 	public static function getIdByTableId($a_table_id)
 	{
-		global $ilDB;
-		
-		//FIXME die werte bei type und formtype sollten vom constructor genommen werden
-		$set = $ilDB->query("SELECT id FROM il_dcl_view".
-			" WHERE table_id = ".$ilDB->quote($a_table_id, "integer")." AND type = ".$ilDB->quote(0, "integer")." and formtype = ".$ilDB->quote(0, "integer"));
-		$row = $ilDB->fetchAssoc($set);
-		return $row["id"];
+		if (!isset(self::$recordViewCache[$a_table_id])) {
+            global $ilDB;
+            //FIXME die werte bei type und formtype sollten vom constructor genommen werden
+            $set = $ilDB->query("SELECT id FROM il_dcl_view".
+                " WHERE table_id = ".$ilDB->quote($a_table_id, "integer")." AND type = ".$ilDB->quote(0, "integer")." and formtype = ".$ilDB->quote(0, "integer"));
+            $row = $ilDB->fetchAssoc($set);
+            self::$recordViewCache[$a_table_id] = $row['id'];
+            return $row['id'];
+        } else {
+            return self::$recordViewCache[$a_table_id];
+        }
 	}
 	
 	/**
