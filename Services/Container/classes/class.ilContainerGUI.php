@@ -510,13 +510,13 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		if ((int) $_GET["ref_id"] > 1 && $ilSetting->get("rep_tree_synchronize"))
 		{
 			$ilCtrl->setParameter($this, "active_node", (int) $_GET["ref_id"]);
-			$tpl->addOnloadCode("
+			/*$tpl->addOnloadCode("
 				if (parent && parent.tree && parent.tree.updater)
 				{
 					parent.tree.updater('tree_div', '".
 					$ilCtrl->getLinkTarget($this, "showTree", "", true, false)
 					."');
-				}");
+				}");*/
 		}
 	}
 

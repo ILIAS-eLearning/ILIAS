@@ -1952,8 +1952,8 @@ function showTrackingItem()
 		}
 
 		$ilCtrl->setParameter($this, "active_node", $_GET["obj_id"]);
-		$form_gui->setExplorerUpdater("tree", "tree_div",
-			$ilCtrl->getLinkTarget($this, "showTree", "", true));
+//		$form_gui->setExplorerUpdater("tree", "tree_div",
+//			$ilCtrl->getLinkTarget($this, "showTree", "", true));
 		$sc_tpl = new ilTemplate("tpl.scormeditor_orga_screen.html", true, true, "Modules/Scorm2004");
 		$sc_tpl->setVariable("ORGANIZATION", $form_gui->getHTML());
 		$sc_tpl->setVariable("NOTES", $this->getNotesHTML());

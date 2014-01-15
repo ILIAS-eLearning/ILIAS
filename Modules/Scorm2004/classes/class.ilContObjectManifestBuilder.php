@@ -356,7 +356,9 @@ class ilContObjectManifestBuilder
 							$this->writer->xmlElement("file", array("href"=>"./".$obj['obj_id']."/objects/il_".IL_INST_ID."_mob_".$mob_id."/".rawurlencode($media_obj->getLocation())), "");
 					}
 				}
-				$file_ids = $page_obj->collectFileItems();
+
+				include_once("./Services/COPage/classes/class.ilPCFileList.php");
+				$file_ids = ilPCFileList::collectFileItems($page_obj, $page_obj->getDomDoc());
 				foreach($file_ids as $file_id)
 				{
 					if (ilObject::_lookupType($file_id) == "file")

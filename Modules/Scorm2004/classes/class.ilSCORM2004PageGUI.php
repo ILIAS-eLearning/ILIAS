@@ -34,7 +34,9 @@ class ilSCORM2004PageGUI extends ilPageObjectGUI
 
 		$this->glo_id = $a_glo_id;
 		$this->slm_id = $a_slm_id;
-		
+
+		$a_parent_type = "sahs";
+
 		parent::__construct($a_parent_type, $a_id, $a_old_nr);
 		$this->getPageObject()->setGlossaryId($this->glo_id);
 		

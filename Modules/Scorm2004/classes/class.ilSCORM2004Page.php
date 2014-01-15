@@ -258,7 +258,8 @@ class ilSCORM2004Page extends ilPageObject
 		$this->insertInstIntoIDs($a_inst);
 		$cont_obj =& $this->getContentObject("pg");
 		$this->mobs_contained = $this->collectMediaObjects(false);
-		$this->files_contained = $this->collectFileItems();
+		include_once("./Services/COPage/classes/class.ilPCFileList.php");
+		$this->files_contained = ilPCFileList::collectFileItems($this, $this->getDomDoc());
 		$xml = $this->getXMLFromDom(false, false, false, "", true);
 		$xml = str_replace("&","&amp;", $xml);
 		$a_xml_writer->appendXML($xml);

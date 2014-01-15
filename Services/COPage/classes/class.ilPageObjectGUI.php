@@ -657,6 +657,7 @@ class ilPageObjectGUI
 	*/
 	function setExplorerUpdater($a_exp_frame, $a_exp_id, $a_exp_target_script)
 	{
+return;
 		$this->exp_frame = $a_exp_frame;
 		$this->exp_id = $a_exp_id;
 		$this->exp_target_script = $a_exp_target_script;
@@ -1161,11 +1162,11 @@ class ilPageObjectGUI
 				// explorer updater
 				if ($this->exp_frame != "")
 				{
-					$tpl->setCurrentBlock("updater");
+/*					$tpl->setCurrentBlock("updater");
 					$tpl->setVariable("UPDATER_FRAME", $this->exp_frame);
 					$tpl->setVariable("EXP_ID_UPDATER", $this->exp_id);
 					$tpl->setVariable("HREF_UPDATER", $this->exp_target_script);
-					$tpl->parseCurrentBlock();
+					$tpl->parseCurrentBlock();*/
 				}
 
 /*				$tpl->setVariable("TXT_INSERT_BEFORE", $this->lng->txt("cont_set_before"));
