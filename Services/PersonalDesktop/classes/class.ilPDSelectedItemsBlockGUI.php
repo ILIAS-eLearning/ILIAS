@@ -813,12 +813,13 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		
 		if($this->manage)
 		{
-			// #11355 - see ilTable2GUI::render()
-			$sel_all = '<div class="ilTableSelectAll"><input type="checkbox" name="ilToolbarSelectAll" id="ilToolbarSelectAll" value="1"'.
-				' onClick="il.Util.setChecked(\'ilToolbar\', \'id\', document.forms[\'ilToolbar\'].elements[\'ilToolbarSelectAll\'].checked);" />'.
-				'<label for="ilToolbarSelectAll" class="small">'.$this->lng->txt("select_all").'</label></div>';
-			
-			$this->addStandardRow($tpl, $sel_all);
+			// #11355 - see ContainerContentGUI::renderSelectAllBlock()			
+			$tpl->setCurrentBlock("select_all_row");
+			$tpl->setVariable("CHECKBOXNAME", "ilToolbarSelectAll");
+			$tpl->setVariable("SEL_ALL_PARENT", "ilToolbar");
+			$tpl->setVariable("SEL_ALL_CB_NAME", "id");
+			$tpl->setVariable("TXT_SELECT_ALL", $this->lng->txt("select_all"));
+			$tpl->parseCurrentBlock();			
 		}
 		
 		return $tpl->get();
