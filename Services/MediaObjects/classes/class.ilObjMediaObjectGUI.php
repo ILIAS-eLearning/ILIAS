@@ -1749,7 +1749,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			$st_item =& $this->object->getMediaItem("Standard");
 
 			// video tools
-			if (substr($st_item->getFormat(), 0, 6) == "video/")
+			if (substr($st_item->getFormat(), 0, 6) == "video/" && DEVMODE)
 			{
 				$ilTabs->addTarget("mob_video_tools",
 					$this->ctrl->getLinkTargetByClass("ilobjmediaobjectgui", "showVideoTool"),
