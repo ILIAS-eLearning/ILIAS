@@ -519,7 +519,8 @@ class ilGlossaryDefinition
 		$this->page_object->buildDom();
 		$this->page_object->insertInstIntoIDs($a_inst);
 		$this->mobs_contained = $this->page_object->collectMediaObjects(false);
-		$this->files_contained = $this->page_object->collectFileItems();
+		include_once("./Services/COPage/classes/class.ilPCFileList.php");
+		$this->files_contained = ilPCFileList::collectFileItems($this->page_object, $this->page_object->getDomDoc());
 		$xml = $this->page_object->getXMLFromDom(false, false, false, "", true);
 		$xml = str_replace("&","&amp;", $xml);
 		$a_xml_writer->appendXML($xml);

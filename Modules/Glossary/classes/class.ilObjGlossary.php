@@ -820,7 +820,8 @@ class ilObjGlossary extends ilObject
 				$this->page_object->buildDom();
 				$this->page_object->insertInstIntoIDs(IL_INST_ID);
 				$mob_ids = $this->page_object->collectMediaObjects(false);
-				$file_ids = $this->page_object->collectFileItems();
+				include_once("./Services/COPage/classes/class.ilPCFileList.php");
+				$file_ids = ilPCFileList::collectFileItems($this->page_object, $this->page_object->getDomDoc());
 				foreach($mob_ids as $mob_id)
 				{
 					$this->mob_ids[$mob_id] = $mob_id;
@@ -888,17 +889,6 @@ class ilObjGlossary extends ilObject
 			$ilBench->start("GlossaryExport", "exportGlossaryItem_XML");
 			$glo_term->exportXML($a_xml_writer, $a_inst);
 			$ilBench->stop("GlossaryExport", "exportGlossaryItem_XML");
-
-			// collect all file items
-			/*
-			$ilBench->start("GlossaryExport", "exportGlossaryItem_CollectFileItems");
-			$file_ids = $page_obj->getFileItemIds();
-			foreach($file_ids as $file_id)
-			{
-				$this->file_ids[$file_id] = $file_id;
-			}
-			$ilBench->stop("GlossaryExport", "exportGlossaryItem_CollectFileItems");
-			*/
 
 			unset($glo_term);
 
