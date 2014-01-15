@@ -14167,3 +14167,7 @@ content#:#cont_offline_mode_disable_not_allowed_info#:#Since the learning module
 content#:#stop_user_offline_mode#:#Stop offline mode
 content#:#stop_user_offline_mode_for_user#:#Stop offline mode for
 content#:#info_stop_offline_mode_sure#:#Note: The learning progress achieved in offline mode are lost. Are you sure?
+init#:#init_error_redirect_click#:#Please click to continue.
+init#:#init_error_redirect_info#:#Redirect not supported by context.
+init#:#init_error_maintenance#:#The server is not available due to maintenance. We apologise for any inconvenience.
+init#:#init_error_authentication_fail#:#Authentication failed.
