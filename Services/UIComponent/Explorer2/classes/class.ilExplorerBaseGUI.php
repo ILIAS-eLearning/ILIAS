@@ -457,7 +457,7 @@ abstract class ilExplorerBaseGUI
 				$open_nodes[] = $dnode;
 			}
 		}
-		
+
 		// ilias config options
 		if (is_object($this->parent_obj))
 		{
@@ -602,7 +602,8 @@ abstract class ilExplorerBaseGUI
 		
 		$tpl->touchBlock("tag");
 		
-		if (!$this->getAjax() || in_array($this->getNodeId($a_node), $this->open_nodes))
+		if (!$this->getAjax() || in_array($this->getNodeId($a_node), $this->open_nodes)
+			|| in_array($this->getNodeId($a_node), $this->custom_open_nodes))
 		{
 			$this->renderChilds($this->getNodeId($a_node), $tpl);
 		}
