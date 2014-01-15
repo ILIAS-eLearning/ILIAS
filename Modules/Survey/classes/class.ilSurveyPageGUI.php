@@ -406,13 +406,14 @@ class ilSurveyPageGUI
 			$q_gui->object->createNewQuestion();		
 			$q_gui_class = get_class($q_gui);	
 
-			$this->ctrl->setParameterByClass($q_gui_class, "pgov", $this->current_page);
-			$this->ctrl->setParameterByClass($q_gui_class, "pgov_pos",$id);						
-			$this->ctrl->setParameterByClass($q_gui_class, "ref_id", $this->ref_id);
-			$this->ctrl->setParameterByClass($q_gui_class, "new_for_survey", $this->ref_id);
-			$this->ctrl->setParameterByClass($q_gui_class, "q_id", $q_gui->object->getId());
-			$this->ctrl->setParameterByClass($q_gui_class, "sel_question_types", $q_gui->getQuestionType());		
-			$this->ctrl->redirectByClass($q_gui_class, "editQuestion");					
+			// #12531
+			$ilCtrl->setParameterByClass($q_gui_class, "pgov", $this->current_page);
+			$ilCtrl->setParameterByClass($q_gui_class, "pgov_pos",$id);						
+			$ilCtrl->setParameterByClass($q_gui_class, "ref_id", $this->ref_id);
+			$ilCtrl->setParameterByClass($q_gui_class, "new_for_survey", $this->ref_id);
+			$ilCtrl->setParameterByClass($q_gui_class, "q_id", $q_gui->object->getId());
+			$ilCtrl->setParameterByClass($q_gui_class, "sel_question_types", $q_gui->getQuestionType());		
+			$ilCtrl->redirectByClass($q_gui_class, "editQuestion");					
 		}
 	}
 	
