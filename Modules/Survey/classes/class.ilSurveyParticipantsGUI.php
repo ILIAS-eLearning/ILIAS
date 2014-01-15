@@ -143,21 +143,6 @@ class ilSurveyParticipantsGUI
 	{
 		global $ilTabs;
 	
-		if (!($this->object->getAnonymize() == 1 || $this->object->isAccessibleWithCodeForAll()))
-		{
-			return;
-			
-			/*
-			// code
-			$tabs_gui->addTarget("codes",
-				 $this->ctrl->getLinkTarget($this,'codes'),
-				 array("codes", "exportCodes", 'codesMail', 'saveMailTableFields', 'importExternalMailRecipients',
-					'mailCodes', 'sendCodesMail', 'importExternalRecipientsFromFile', 'importExternalRecipientsFromText',
-					'importExternalRecipientsFromDataset', 'insertSavedMessage', 'deleteSavedMessage'),
-				 "");			 
-			*/
-		}			 
-		
 		// maintenance
 		$ilTabs->addSubTabTarget("results",
 			 $this->ctrl->getLinkTarget($this,'maintenance'),
