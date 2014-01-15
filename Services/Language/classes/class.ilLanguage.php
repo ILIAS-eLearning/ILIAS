@@ -137,6 +137,7 @@ class ilLanguage
 		{
 			if (is_object($ilias))
 			{
+				require_once "./Services/Logging/classes/class.ilLog.php";
 				$this->log = new ilLog(ILIAS_LOG_DIR,ILIAS_LOG_FILE,$ilias->getClientId(),ILIAS_LOG_ENABLED);
 			}
 		}

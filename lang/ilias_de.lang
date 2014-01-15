@@ -14167,3 +14167,7 @@ content#:#cont_offline_mode_disable_not_allowed_info#:#Da das Lernmodul von Nutz
 content#:#stop_user_offline_mode#:#Offline-Modus beenden
 content#:#stop_user_offline_mode_for_user#:#Offline-Modus beenden für
 content#:#info_stop_offline_mode_sure#:#Achtung: Der im Offline-Modus erzielte Lernfortschritt geht verloren. Sind Sie sicher?
+init#:#init_error_redirect_click#:#Bitte klicken um fortzufahren.
+init#:#init_error_redirect_info#:#Weiterleitungen werden durch Kontext nicht unterstützt.
+init#:#init_error_maintenance#:#Der Server ist aufgrund von Wartungsarbeiten nicht verfügbar. Wir bitten um Verständnis.
+init#:#init_error_authentication_fail#:#Authentifizierung fehlgeschlagen.
