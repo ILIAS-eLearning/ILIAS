@@ -678,7 +678,8 @@ die("deprecated");
 						$i++;
 					}
 				}
-				$file_ids = $page_obj->collectFileItems();
+				include_once("./Services/COPage/classes/class.ilPCFileList.php");
+				$file_ids =ilPCFileList::collectFileItems($page_obj, $page_obj->getDomDoc());
 				foreach($file_ids as $file_id)
 				{
 					$file_obj = new ilObjFile($file_id, false);
