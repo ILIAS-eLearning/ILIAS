@@ -73,20 +73,20 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
 		switch($a_cmd)
 		{
 			case "view":
-				// require_once "./Modules/ScormAicc/classes/class.ilObjSAHSLearningModuleAccess.php";
-				// if (!ilObjSAHSLearningModuleAccess::_lookupEditable($this->obj_id))
-				// {
+				require_once "./Modules/ScormAicc/classes/class.ilObjSAHSLearningModuleAccess.php";
+				if (!ilObjSAHSLearningModuleAccess::_lookupEditable($this->obj_id))
+				{
 					if ($this->offline_mode) {
 						$cmd_link = "ilias.php?baseClass=ilSAHSPresentationGUI&amp;ref_id=".$this->ref_id."&amp;cmd=offlineModeStart";
 					}
 					else {
 						$cmd_link = "ilias.php?baseClass=ilSAHSPresentationGUI&amp;ref_id=".$this->ref_id;
 					}
-				// }
-				// else
-				// {
-					// $cmd_link = "ilias.php?baseClass=ilSAHSEditGUI&amp;ref_id=".$this->ref_id;
-				// }
+				}
+				else
+				{
+					$cmd_link = "ilias.php?baseClass=ilSAHSEditGUI&amp;ref_id=".$this->ref_id;
+				}
 
 				break;
 			case "offlineModeView":
