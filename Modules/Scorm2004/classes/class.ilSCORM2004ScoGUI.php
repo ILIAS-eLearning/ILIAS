@@ -368,6 +368,8 @@ die("deprecated");
 		iljQueryUtil::initjQueryUI();
 		$tpl->addJavaScript("./Modules/Scorm2004/scripts/questions/pure.js");
 		$tpl->addJavaScript("./Modules/Scorm2004/scripts/pager.js");
+
+		$tpl->addOnLoadCode("pager.Init();");
 		
 		$tree = new ilTree($this->slm_object->getId());
 		$tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');

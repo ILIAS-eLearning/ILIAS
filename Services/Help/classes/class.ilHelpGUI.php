@@ -373,7 +373,7 @@ class ilHelpGUI
 			}
 			if ($ilUser->getPref("hide_help_tt"))
 			{
-				$a_tpl->addOnLoadCode("il.Help.switchTooltips();", 3);
+				$a_tpl->addOnLoadCode("if (il && il.Help) il.Help.switchTooltips();", 3);
 			}
 		}
 	}
