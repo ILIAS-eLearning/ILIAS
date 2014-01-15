@@ -80,8 +80,7 @@ class ilDataCollectionRecord
 	{
 		global $ilDB;
 		//build query
-		$query = "Select * From il_dcl_record rc WHERE rc.id = ".$ilDB->quote($this->getId(),"integer")." ORDER BY rc.id";
-
+		$query = "Select * From il_dcl_record WHERE id = ".$ilDB->quote($this->getId(),"integer")." ORDER BY id";
 
 		$set = $ilDB->query($query);
 		$rec = $ilDB->fetchAssoc($set);
@@ -571,17 +570,16 @@ class ilDataCollectionRecord
 	 */
 	public function passThroughFilter(array $filter)
 	{
-		$pass = true;
 		$this->loadTable();
-		foreach($this->table->getFields() as $field)
-		{
-			if(!ilDataCollectionDatatype::passThroughFilter($this, $field, $filter["filter_".$field->getId()]))
+		// If one field returns false, the whole record does not pass the filter #performance-improvements
+        foreach ($this->table->getFilterableFields() as $field) {
+            if (!isset($filter["filter_" . $field->getId()]) || !$filter["filter_" . $field->getId()]) continue;
+            if(!ilDataCollectionDatatype::passThroughFilter($this, $field, $filter["filter_".$field->getId()]))
 			{
-				$pass = false;
+                return false;
 			}
 		}
-		
-		return $pass;
+		return true;
 	}
 	
 	/*
