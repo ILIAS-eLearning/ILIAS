@@ -138,7 +138,10 @@ class ilQuestionExporter
 		foreach ($this->json_decoded->answers as $answer) {
 			if ($answer->image!="") {
 				array_push(self::$media_files,$this->q_gui->object->getImagePath().$answer->image);
-				array_push(self::$media_files,$this->q_gui->object->getImagePath()."thumb.".$answer->image);
+				if (is_file($this->q_gui->object->getImagePath()."thumb.".$answer->image))
+				{
+					array_push(self::$media_files,$this->q_gui->object->getImagePath()."thumb.".$answer->image);
+				}
 			}
 		}
 //		$this->setHeaderFooter();
