@@ -32,7 +32,6 @@ class ilInternalLinkGUI
 		global $lng, $ilias, $ilCtrl, $tree;
 
 		$this->initLinkTypes();
-		
 		if (($_SESSION["il_link_cont_obj"] != "" && !$tree->isInTree($_SESSION["il_link_cont_obj"])) ||
 			($_SESSION["il_link_glossary"] != "" && !$tree->isInTree($_SESSION["il_link_glossary"])) ||
 			($_SESSION["il_link_wiki"] != "" && !$tree->isInTree($_SESSION["il_link_wiki"])) ||
@@ -89,7 +88,8 @@ class ilInternalLinkGUI
 			: $_SESSION["il_link_type"];
 		$ltype_arr = explode("_", $ltype);
 		
-		if (!isset($this->ltypes[$ltype_arr[0]]))
+		if (!isset($this->ltypes[$ltype_arr[0]]) &&
+			!isset($this->ltypes[$ltype]))
 		{
 			$this->link_type = $this->default_type;
 		}
@@ -789,13 +789,16 @@ class ilInternalLinkGUI
 		$mob =& new ilObjMediaObject($a_id);
 		$med =& $mob->getMediaItem("Standard");
 		$target = $med->getThumbnailTarget("small");
+		$suff = "";
 		if ($this->getSetLinkTargetScript() != "")
 		{
 			$tpl->setCurrentBlock("thumbnail_link");
+			$suff = "_link";
 		}
 		else if ($this->isEnabledJavaScript())
 		{
 			$tpl->setCurrentBlock("thumbnail_js");
+			$suff = "_js";
 		}
 		else
 		{
@@ -804,7 +807,7 @@ class ilInternalLinkGUI
 
 		if ($target != "")
 		{
-			$tpl->setCurrentBlock("thumb");
+			$tpl->setCurrentBlock("thumb".$suff);
 			$tpl->setVariable("SRC_THUMB", $target);
 			$tpl->parseCurrentBlock();
 		}
@@ -1211,8 +1214,8 @@ class ilInternalLinkGUI
 			if ($a_type == "MediaObject")
 			{
 				$this->outputThumbnail($tpl, $a_obj_id);
+				$tpl->setCurrentBlock($chapterRowBlock);
 			}
-
 			$tpl->setVariable("ROWCLASS", $this->css_row);
 			$tpl->setVariable("TXT_CHAPTER", $a_title);
 			if ($this->isEnabledJavaScript())

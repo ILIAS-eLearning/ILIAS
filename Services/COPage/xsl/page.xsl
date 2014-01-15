@@ -1282,9 +1282,12 @@
 			<xsl:variable name="link_href">
 				<xsl:value-of select="//IntLinkInfos/IntLinkInfo[@Type=$type and @TargetFrame=$targetframe and @Target=$target and @Anchor=concat('',$anchor)]/@LinkHref"/>
 			</xsl:variable>
+			<xsl:variable name="link_target">
+				<xsl:value-of select="//IntLinkInfos/IntLinkInfo[@Type=$type and @TargetFrame=$targetframe and @Target=$target and @Anchor=concat('',$anchor)]/@LinkTarget"/>
+			</xsl:variable>
 			<xsl:if test="$mode != 'edit'">
 			<script type="text/javascript">
-				il.Util.addOnLoad(function() {il.LearningModule.initContentFrame('<xsl:value-of select='$link_href'/>');});
+				il.Util.addOnLoad(function() {il.LearningModule.initContentFrame('<xsl:value-of select='$link_href'/>', '<xsl:value-of select='$link_target'/>');});
 			</script>
 			</xsl:if>
 		</xsl:when>
