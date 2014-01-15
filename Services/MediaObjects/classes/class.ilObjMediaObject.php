@@ -254,9 +254,9 @@ class ilObjMediaObject extends ilObject
 	*
 	* @param	object		$a_item		media item object
 	*/
-	function addMediaItem(&$a_item)
+	function addMediaItem($a_item)
 	{
-		$this->media_items[] =& $a_item;
+		$this->media_items[] = $a_item;
 	}
 
 
@@ -1749,7 +1749,7 @@ class ilObjMediaObject extends ilObject
 		}
 
 		$new_obj->create(false, true);
-		
+
 		// files
 		$new_obj->createDirectory();
 		self::_createThumbnailDirectory($new_obj->getId());
