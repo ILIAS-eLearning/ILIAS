@@ -162,7 +162,7 @@ class ilWaitingListTableGUI extends ilTable2GUI
 				
 		}
 				
-		$this->tpl->setVariable('VAL_ID',$a_set['id']);
+		$this->tpl->setVariable('VAL_ID',$a_set['usr_id']);
 		$this->tpl->setVariable('VAL_NAME',$a_set['lastname'].', '.$a_set['firstname']);
 
 		foreach($this->getSelectedColumns() as $field)
