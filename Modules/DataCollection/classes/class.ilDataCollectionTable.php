@@ -446,15 +446,17 @@ class ilDataCollectionTable
 		{
 			global $ilDB;
 			
-			$query = "SELECT field.id, field.table_id, field.title, field.description, field.datatype_id, field.required, field.is_unique, field.is_locked FROM il_dcl_field field INNER JOIN il_dcl_view view ON view.table_id = field.table_id INNER JOIN il_dcl_viewdefinition def ON def.view_id = view.id WHERE field.table_id =".$ilDB->quote($this->getId(), "integer")." ORDER BY def.field_order DESC";
+			$query = "SELECT DISTINCT field.* FROM il_dcl_field AS field
+			          INNER JOIN il_dcl_view AS view ON view.table_id = field.table_id
+			          INNER JOIN il_dcl_viewdefinition AS def ON def.view_id = view.id
+			          WHERE field.table_id =".$ilDB->quote($this->getId(), "integer")."
+			          ORDER BY def.field_order DESC";
 			$fields = array();
 			$set = $ilDB->query($query);
 			
 			while($rec = $ilDB->fetchAssoc($set))
 			{
                 $field = ilDataCollectionCache::buildFieldFromRecord($rec);
-//				$field = new ilDataCollectionField();
-//				$field->buildFromDBRecord($rec);
 				$fields[$field->getId()] = $field;
 			}
             $this->sortByOrder($fields);
@@ -542,7 +544,7 @@ class ilDataCollectionTable
 		{
 			if(!$field->getLocked())
 			{
-				array_push($editableFields, $field);
+				$editableFields[] = $field;
 			}
 		}
 
@@ -563,7 +565,7 @@ class ilDataCollectionTable
 		{
 			if($field->isFilterable())
 			{
-				array_push($filterableFields, $field);
+				$filterableFields[] = $field;
 			}
 		}
 

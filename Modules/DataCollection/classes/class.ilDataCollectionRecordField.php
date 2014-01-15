@@ -42,7 +42,7 @@ class ilDataCollectionRecordField
 	{
 		global $ilDB;
 		
-		$query = "SELECT * FROM il_dcl_record_field WHERE field_id LIKE ".$ilDB->quote($this->field->getId(), "text")." AND record_id = ".$ilDB->quote($this->record->getId(), "integer");
+		$query = "SELECT * FROM il_dcl_record_field WHERE field_id = ".$ilDB->quote($this->field->getId(), "integer")." AND record_id = ".$ilDB->quote($this->record->getId(), "integer");
 		$set = $ilDB->query($query);
 		$rec = $ilDB->fetchAssoc($set);
 		$this->id = $rec['id'];
