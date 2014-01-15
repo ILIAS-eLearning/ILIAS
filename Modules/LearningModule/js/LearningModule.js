@@ -24,8 +24,10 @@ il.LearningModule = {
 	
 	openInitFrames: function () {
 		var i, t;
+console.log(il.LearningModule.init_frame);
 		for (i = 0; i < il.LearningModule.all_targets.length; i++) {
 			t = il.LearningModule.all_targets[i];
+console.log(t);
 			if (il.LearningModule.init_frame[t]) {
 				il.LearningModule.loadContentFrame(il.LearningModule.init_frame[t], t);
 			} else if (il.LearningModule.last_frame_url[t]) {
