@@ -421,7 +421,9 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 								if($media_obj->hasFullscreenItem())
 									$media_obj->exportMediaFullscreen($a_target_dir, $def_pg);
 							}
-							$file_ids = $def_pg->collectFileItems();
+							include_once("./Services/COPage/classes/class.ilPCFileList.php");
+							$file_ids = ilPCFileList::collectFileItems($def_pg, $def_pg->getDomDoc());
+
 							foreach($file_ids as $file_id)
 							{
 								$this->file_ids[$file_id] = $file_id;
@@ -432,7 +434,8 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 			}
 //exit;
 			// collect all file items
-			$file_ids = $page_obj->getSCORM2004Page()->collectFileItems();
+			include_once("./Services/COPage/classes/class.ilPCFileList.php");
+			$file_ids = ilPCFileList::collectFileItems($page_obj->getSCORM2004Page(), $page_obj->getSCORM2004Page()->getDomDoc());
 			foreach($file_ids as $file_id)
 			{
 				$this->file_ids[$file_id] = $file_id;
