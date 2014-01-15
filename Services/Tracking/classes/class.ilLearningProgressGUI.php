@@ -371,7 +371,7 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 		if($collection)
 		{					
 			$coll_items = $collection->getItems();
-			$possible_items = $collection->getPossibleItems(); // for titles
+			$possible_items = $collection->getPossibleItems($this->getRefId()); // for titles
 		}
 			
 		include_once "Services/Tracking/classes/class.ilLPStatusFactory.php";
