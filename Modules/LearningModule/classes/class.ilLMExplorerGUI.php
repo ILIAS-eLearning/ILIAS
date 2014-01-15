@@ -108,7 +108,7 @@ class ilLMExplorerGUI extends ilTreeExplorerGUI
 					$olp->getCurrentMode() == ilLPObjSettings::LP_MODE_COLLECTION_TLT)
 				{
 					include_once "Services/Tracking/classes/class.ilLPStatusFactory.php";
-					$class = ilLPStatusFactory::_getClassById($this->lm_obj->getId(), $olp->getCurrentMode());
+					$class = ilLPStatusFactory::_getClassById($this->lm->getId(), $olp->getCurrentMode());
 					$info = $class::_getStatusInfo($this->lm->getId());
 				}
 
@@ -139,7 +139,7 @@ class ilLMExplorerGUI extends ilTreeExplorerGUI
 		if(is_array($this->lp_cache[$this->lm->getId()]) &&
 			isset($this->lp_cache[$this->lm->getId()][$a_id]))
 		{
-			return ilLearningProgressBaseGUI::_getImagePathForStatus($this->lp_cache[$this->lm_obj->getId()][$a_id]);
+			return ilLearningProgressBaseGUI::_getImagePathForStatus($this->lp_cache[$this->lm->getId()][$a_id]);
 		}
 
 		return "";
