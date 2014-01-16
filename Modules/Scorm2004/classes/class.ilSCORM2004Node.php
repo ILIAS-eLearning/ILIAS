@@ -1010,7 +1010,7 @@ class ilSCORM2004Node
 				? $child["id"]
 				: $child["child"];
 			ilSCORM2004Node::pasteTree($a_target_slm, $child_id, $target_item->getId(),
-				IL_LAST_NODE, $a_insert_time, $a_copied_nodes, $a_as_copy);
+				IL_LAST_NODE, $a_insert_time, $a_copied_nodes, $a_as_copy, $a_from_clipboard);
 		}
 		
 		return $target_item->getId();
