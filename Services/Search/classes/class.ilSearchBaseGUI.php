@@ -80,7 +80,7 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
 	public function initStandardSearchForm($a_mode)
 	{
 		global $lng, $ilCtrl;
-	
+
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
 		$this->form->setOpenTag(false);
