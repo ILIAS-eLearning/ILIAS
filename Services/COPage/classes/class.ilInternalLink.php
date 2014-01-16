@@ -273,6 +273,7 @@ class ilInternalLink
 				break;
 				
 			case "WikiPage":
+				include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
 				return ilWikiPage::_exists("wiki", (int)$a_target);
 				break;
 				
