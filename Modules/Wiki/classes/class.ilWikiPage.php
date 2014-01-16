@@ -137,6 +137,29 @@ class ilWikiPage extends ilPageObject
 	}
 
 	/**
+	 * Create page from xml
+	 */
+	function createFromXML()
+	{
+		global $ilDB;
+
+		// ilWikiDataset creates wiki pages without copage objects
+		// (see create function in this class, parameter $a_prevent_page_creation)
+		// The ilCOPageImporter will call createFromXML without running through the read
+		// method -> we will miss the important wiki id, thus we read it now
+		// see also bug #12224
+		$set = $ilDB->query("SELECT id FROM il_wiki_page ".
+			" WHERE id = ".$ilDB->quote($this->getId(), "integer")
+			);
+		if ($rec = $ilDB->fetchAssoc($set))
+		{
+			$this->read(true);
+		}
+
+		parent::createFromXML();
+	}
+
+	/**
 	* Create new wiki page
 	*/
 	function create($a_prevent_page_creation = false)
@@ -210,7 +233,7 @@ class ilWikiPage extends ilPageObject
 	/**
 	* Read wiki data
 	*/
-	function read()
+	function read($a_omit_page_read = false)
 	{
 		global $ilDB;
 		
@@ -225,7 +248,10 @@ class ilWikiPage extends ilPageObject
 		$this->setRating($rec["rating"]);
 		
 		// get co page
-		parent::read();
+		if (!$a_omit_page_read)
+		{
+			parent::read();
+		}
 	}
 
 
