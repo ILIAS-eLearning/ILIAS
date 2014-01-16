@@ -12,7 +12,7 @@ require_once("./Modules/Scorm2004/classes/class.ilSCORM2004PageNode.php");
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @ilCtrl_Calls ilSCORM2004PageNodeGUI: ilSCORM2004PageGUI
+* @ilCtrl_Calls ilSCORM2004PageNodeGUI: ilSCORM2004PageGUI, ilAssGenFeedbackPageGUI
 *
 * @ingroup ModulesScorm2004
 */
