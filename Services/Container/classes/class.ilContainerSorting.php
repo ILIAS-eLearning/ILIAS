@@ -183,8 +183,16 @@ class ilContainerSorting
 				case ilContainer::SORT_TITLE:
 					foreach((array) $a_items as $type => $data)
 					{
-//						$sorted[$type] = ilUtil::sortArray((array) $data,'title','asc',false);
-						$sorted[$type] = $data;
+						// this line used until #4389 has been fixed (3.10.6)
+						// reanimated with 4.4.0
+						$sorted[$type] = ilUtil::sortArray((array) $data,'title','asc',false);
+
+						// the next line tried to use db sorting and has replaced sortArray due to bug #4389
+						// but leads to bug #12165. PHP should be able to do a proper sorting, if the locale
+						// is set correctly, so we witch back to sortArray (with 4.4.0) and see what
+						// feedback we get
+						// (next line has been used from 3.10.6 to 4.3.x)
+//						$sorted[$type] = $data;
 					}
 					return $sorted ? $sorted : array();
 					
