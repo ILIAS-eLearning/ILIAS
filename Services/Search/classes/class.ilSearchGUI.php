@@ -227,12 +227,20 @@ class ilSearchGUI extends ilSearchBaseGUI
 		$this->tpl->setVariable("ARR_IMG", ilUtil::img(ilUtil::getImagePath("mm_down_arrow_dark.png")));
 		$this->tpl->setVariable("TXT_COMBINATION", $lng->txt("search_term_combination"));
 		$this->tpl->setVariable('TXT_COMBINATION_DEFAULT', ilSearchSettings::getInstance()->getDefaultOperator() == ilSearchSettings::OPERATOR_AND ? $lng->txt('search_all_words') : $lng->txt('search_any_word'));
-		$this->tpl->setVariable('TXT_TYPE_DEFAULT',$lng->txt("search_fast_info"));
+
+		if (ilSearchSettings::getInstance()->isLuceneItemFilterEnabled())
+		{
+			$this->tpl->setCurrentBlock("type_sel");
+			$this->tpl->setVariable('TXT_TYPE_DEFAULT',$lng->txt("search_fast_info"));
+			$this->tpl->setVariable("TXT_TYPE", $lng->txt("search_type"));
+			$this->initStandardSearchForm(ilSearchBaseGUI::SEARCH_FORM_STANDARD);
+			$this->tpl->setVariable("ARR_IMGT", ilUtil::img(ilUtil::getImagePath("mm_down_arrow_dark.png")));
+			$this->tpl->setVariable("FORM", $this->form->getHTML());
+			$this->tpl->parseCurrentBlock();
+		}
+
 		$this->tpl->setVariable("TXT_AREA", $lng->txt("search_area"));
-		$this->tpl->setVariable("TXT_TYPE", $lng->txt("search_type"));
 		
-		$this->initStandardSearchForm(ilSearchBaseGUI::SEARCH_FORM_STANDARD);
-		$this->tpl->setVariable("FORM", $this->form->getHTML());
 
 		// search area form
 		$this->tpl->setVariable('SEARCH_AREA_FORM', $this->getSearchAreaForm()->getHTML());
