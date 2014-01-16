@@ -423,7 +423,7 @@ class ilTestSequenceDynamicQuestionSet
 			$questionSequence = array_merge($questionSequence, $questions);
 		}
 		
-		return $questions;
+		return $questionSequence;
 	}
 	
 }
