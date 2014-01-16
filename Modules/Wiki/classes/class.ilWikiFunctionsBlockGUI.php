@@ -196,12 +196,12 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
 
 		
 		// page actions
+		$list = new ilAdvancedSelectionListGUI();
+		$list->setListTitle($lng->txt("wiki_page_actions"));
+		$list->setId("wiki_pgactions");
+
 		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
 		{
-			$list = new ilAdvancedSelectionListGUI();
-			$list->setListTitle($lng->txt("wiki_page_actions"));
-			$list->setId("wiki_pgactions");
-			
 			// rating
 			if(ilObjWiki::_lookupRating($this->getPageObject()->getWikiId()))
 			{			
@@ -216,11 +216,17 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
 						$ilCtrl->getLinkTargetByClass("ilwikipagegui", "deactivateWikiPageRating"));
 				}
 			}
+		}
 
+		if ($ilAccess->checkAccess("read", "", $_GET["ref_id"]))
+		{
 			// rename
 			$list->addItem($lng->txt("wiki_rename_page"), "",
 				$ilCtrl->getLinkTargetByClass("ilwikipagegui", "renameWikiPage"));
+		}
 
+		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
+		{
 			// block/unblock
 			if ($this->getPageObject()->getBlocked())
 			{
@@ -240,15 +246,18 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
 				$list->addItem($lng->txt("wiki_delete_page"), "",
 					$ilCtrl->getLinkTargetByClass("ilwikipagegui", "deleteWikiPageConfirmationScreen"));
 			}
-									
+		}
+
+		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]) ||
+			$ilAccess->checkAccess("read", "", $_GET["ref_id"]))
+		{
 			$tpl->setCurrentBlock("plain");
 			$tpl->setVariable("PLAIN", $list->getHTML());
 			$tpl->parseCurrentBlock();
 			$tpl->touchBlock("item");
 		}
 
-		
-		// permissions
+			// permissions
 //		if ($ilAccess->checkAccess('edit_permission', "", $_GET["ref_id"]))
 //		{
 //			$actions[] = array(
