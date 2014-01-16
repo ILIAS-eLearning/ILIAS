@@ -182,8 +182,8 @@ ilias.questions.assMultipleChoice = function(a_id) {
 };
 
 ilias.questions.assTextQuestion = function(a_id) {
-	jQuery('#button'+a_id).attr("disabled", "disabled");
-	jQuery('#textarea'+a_id).attr("disabled", "disabled");
+	jQuery('#button'+a_id).prop("disabled",true);
+	jQuery('#textarea'+a_id).prop("disabled",true);
 	jQuery('#feedback'+a_id).addClass("ilc_qfeedr_FeedbackRight");
 	jQuery('#feedback'+a_id).html('<b>Answer submitted!</b><br>');
 	jQuery('#feedback'+a_id).slideToggle();
@@ -596,7 +596,7 @@ ilias.questions.showFeedback =function(a_id) {
 	}
 	fbtext = "";
 	if (answers[a_id].passed===true || (answers[a_id].tries >=questions[a_id].nr_of_tries && questions[a_id].nr_of_tries!=0)) {
-		jQuery('#button'+a_id).attr("disabled", "true");
+		jQuery('#button'+a_id).prop("disabled",true);
 		if (answers[a_id].passed===true) {
 			jQuery('#feedback'+a_id).removeClass("ilc_qfeedw_FeedbackWrong");				
 			jQuery('#feedback'+a_id).addClass("ilc_qfeedr_FeedbackRight");
@@ -748,12 +748,12 @@ ilias.questions.showCorrectAnswers =function(a_id) {
 		
 		case 'assSingleChoice':				
 			for (var i=0;i<questions[a_id].answers.length;i++) {
-				jQuery('input[name="answers'+a_id+'"]').eq(i).attr("disabled",true);
-				jQuery('input[name="answers'+a_id+'"]').eq(i).attr("checked",false);
+				jQuery('input[name="answers'+a_id+'"]').eq(i).prop("disabled",true);
+				jQuery('input[name="answers'+a_id+'"]').eq(i).prop("checked",false);
 			}
 			for (var i=0;i<questions[a_id].answers.length;i++) {
 				if (questions[a_id].answers[i].points > 0) {
-					jQuery('input[name="answers'+a_id+'"]').eq(i).attr("checked",true);
+					jQuery('input[name="answers'+a_id+'"]').eq(i).prop("checked",true);
 				}
 			}
 			break;
@@ -762,11 +762,11 @@ ilias.questions.showCorrectAnswers =function(a_id) {
 		case 'assMultipleChoice':	
 			for (var i=0;i<questions[a_id].answers.length;i++) {
 				if (questions[a_id].answers[i].points_checked > 0) {
-					jQuery('input[name="answers'+a_id+'"]').eq(i).attr("checked",true);
+					jQuery('input[name="answers'+a_id+'"]').eq(i).prop("checked",true);
 				} else {
-					jQuery('input[name="answers'+a_id+'"]').eq(i).attr("checked",false);
+					jQuery('input[name="answers'+a_id+'"]').eq(i).prop("checked",false);
 				}
-				jQuery('input[name="answers'+a_id+'"]').eq(i).attr("disabled",true);
+				jQuery('input[name="answers'+a_id+'"]').eq(i).prop("disabled",true);
 				
 			}
 			break;
@@ -820,7 +820,7 @@ ilias.questions.showCorrectAnswers =function(a_id) {
 				
 				jQuery('select#'+questions[a_id].pairs[i].def_id).removeAttr("selected");
 				jQuery('select#'+questions[a_id].pairs[i].def_id+" option[id="+term_id+"]").attr("selected","selected");
-				jQuery('select#'+questions[a_id].pairs[i].def_id).attr("disabled",true);
+				jQuery('select#'+questions[a_id].pairs[i].def_id).prop("disabled",true);
 			}
 		break;
 		//end assMatchingQuestion
@@ -830,7 +830,7 @@ ilias.questions.showCorrectAnswers =function(a_id) {
 				var type = questions[a_id].gaps[i].type;
 				if (type==1) {
 					var cid;
-					jQuery('select#'+a_id+"_"+i).attr("disabled",true);
+					jQuery('select#'+a_id+"_"+i).prop("disabled",true);
 					//look for correct solution
 					for (var j=0;j<questions[a_id].gaps[i].item.length;j++)
 					{
@@ -843,7 +843,7 @@ ilias.questions.showCorrectAnswers =function(a_id) {
 				}
 				if (type==0 || type==2) {
 					var cvalue;
-					jQuery('input#'+a_id+"_"+i).attr("disabled",true);
+					jQuery('input#'+a_id+"_"+i).prop("disabled",true);
 					//look for correct solution
 						for (var j=0;j<questions[a_id].gaps[i].item.length;j++)
 						{
@@ -864,7 +864,7 @@ ilias.questions.showCorrectAnswers =function(a_id) {
 			for (var i=0;i<a_node.length;i++) {
 
 				var answer = a_node.get(i).value;
-				jQuery(a_node[i]).attr("disabled",true);
+				jQuery(a_node[i]).prop("disabled",true);
 				
 				if(questions[a_id].matching_method == "ci")
 				{
