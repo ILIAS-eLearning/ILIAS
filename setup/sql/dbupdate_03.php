@@ -19569,5 +19569,9 @@ while($row = $ilDB->fetchAssoc($set))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#4173>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
 
 
