@@ -294,7 +294,11 @@ class ilRbacSystem
 			}
 			foreach ($a_ref_ids as $ref_id)
 			{
-				self::$_paCache[$a_user_id.":".$ref_id] = $ops[$ref_id];
+				// #11313
+				if (!isset(self::$_paCache[$a_user_id.":".$ref_id]))
+				{
+					self::$_paCache[$a_user_id.":".$ref_id] = $ops[$ref_id];
+				}
 			}
 		}
 	}
