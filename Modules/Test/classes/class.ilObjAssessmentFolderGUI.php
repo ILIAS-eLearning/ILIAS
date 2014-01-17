@@ -247,7 +247,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		$scoring_types = array();
 		foreach ($questiontypes as $name => $row)
 		{
-			if (in_array($row["question_type_id"], $_POST["chb_scoring_adjustment"]))
+			if (in_array($row["question_type_id"], (array)$_POST["chb_scoring_adjustment"]))
 			{
 				array_push($scoring_types, $row["question_type_id"]);
 			}
