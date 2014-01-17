@@ -688,6 +688,13 @@ class ilParticipants
 		$this->readParticipants();
 		$this->readParticipantsStatus();
 		
+		if($this->type == 'crs')
+		{
+		 	// Add event: used for ecs accounts
+			$GLOBALS['ilAppEventHandler']->raise("Modules/Course", "deleteParticipant", array('obj_id' => $this->obj_id, 'usr_id' => $a_usr_id));
+		}		
+		
+		
 		return true;
 	}
 
