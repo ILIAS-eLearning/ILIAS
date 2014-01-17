@@ -578,7 +578,7 @@ class ilUnitConfigurationRepository
 		}
 
 		$ilDB->manipulateF(
-			'UPDATE il_qpl_qst_fq_ucat SET category = %s WHERE question_fi = % AND category_id = %s',
+			'UPDATE il_qpl_qst_fq_ucat SET category = %s WHERE question_fi = %s AND category_id = %s',
 			array('text', 'integer', 'integer'),
 			array($category->getCategory(), $this->getConsumerId(), $category->getId())
 		);
