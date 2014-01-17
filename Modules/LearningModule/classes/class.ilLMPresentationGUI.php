@@ -165,7 +165,7 @@ class ilLMPresentationGUI
 				break;
 
 			case "illmpagegui":
-				include_once("./Modules/LearningModules/classes/class.ilLMPageGUI.php");
+				include_once("./Modules/LearningModule/classes/class.ilLMPageGUI.php");
 				$page_gui = $this->getLMPageGUI($_GET["obj_id"]);
 				$this->basicPageGuiInit($page_gui);
 				$ret = $ilCtrl->forwardCommand($page_gui);
