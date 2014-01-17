@@ -210,7 +210,6 @@ var ilCOPage =
 				alert("Error: Calling saveJS without pc_id_str.");
 				return;
 			}
-
 			this.sendCmdRequest("saveJS", this.pc_id_str, null,
 				{ajaxform_content: content,
 				pc_id_str: this.pc_id_str,
@@ -846,8 +845,9 @@ tinymce.activeEditor.formatter.register('mycode', {
 	prepareTinyForEditing: function(insert, switched)
 	{
 		var ed = tinyMCE.get('tinytarget');
-		tinyMCE.execCommand('mceAddControl', false, 'tinytarget');
-//console.log("prepareTiny");
+		//tinyMCE.execCommand('mceAddControl', false, 'tinytarget');
+		tinyMCE.execCommand('mceAddEditor', false, 'tinytarget');
+console.log("prepareTiny");
 		if (!switched)
 		{
 			showToolbar('tinytarget');
@@ -897,10 +897,12 @@ this.copyInputToGhost(false);
 				if (fc != null)
 				{
 					// set selection to start of first div
-					var rn = ed.dom.createRng();
+					// this does not seem to be necessary
+					// with 4.0.12 (firefox, chrome, safari)
+/*					var rn = ed.dom.createRng();
 					rn.setStart(fc, 0);
 					rn.setEnd(fc, 0);
-					ed.selection.setRng(rn);
+					ed.selection.setRng(rn);*/
 				}
 				if (r.className != null)
 				{
@@ -910,17 +912,17 @@ this.copyInputToGhost(false);
 
 				ed.getWin().focus();
 			}
-			
 		}, timeout);
 	},
 
 	removeTiny: function() {
-		tinyMCE.execCommand('mceRemoveControl', false, 'tinytarget');
+		tinyMCE.execCommand('mceRemoveEditor', false, 'tinytarget');
+//		tinyMCE.execCommand('mceRemoveControl', false, 'tinytarget');
 		var tt = document.getElementById("tinytarget");
 		tt.style.display = 'none';
 	},
 	
-		// set frame size of editor
+	// set frame size of editor
 	setEditFrameSize: function(width, height)
 	{
 		var tinyifr = document.getElementById("tinytarget_ifr");
@@ -940,7 +942,6 @@ this.copyInputToGhost(false);
 	// copy input of tiny to ghost div in background
 	copyInputToGhost: function(add_final_spacer)
 	{
-		
 if (add_final_spacer)
 {
 //	console.trace();
@@ -995,7 +996,6 @@ if (add_final_spacer)
 		}
 		else
 		{
-			ilCOPage.autoScroll();
 			back_el = document.getElementById(this.edit_ghost);
 		}
 
@@ -1035,7 +1035,7 @@ if (add_final_spacer)
 			back_el.style.height = (cl_reg.top + cl_reg.height - back_reg.y - 20) + "px";
 			back_reg = YAHOO.util.Region.getRegion(back_el);
 		}
-		
+
 		if (this.current_td)
 		{
 			YAHOO.util.Dom.setX(tinyifr, back_reg.x -2);
@@ -1060,8 +1060,12 @@ if (add_final_spacer)
 					back_reg.height);
 			}
 		}
-		
-		// force redraw for webkit based browsers (ILIAS chrome bug #0010871)
+
+		if (!this.current_td) {
+			ilCOPage.autoScroll();
+		}
+
+			// force redraw for webkit based browsers (ILIAS chrome bug #0010871)
 		// http://stackoverflow.com/questions/3485365/how-can-i-force-webkit-to-redraw-repaint-to-propagate-style-changes
 		// no feature detection here since we are fixing a webkit bug and IE does not like this patch (starts flickering
 		// on "short" pages)
@@ -1074,24 +1078,37 @@ if (add_final_spacer)
 		}
 	},
 
-	autoResize: function(ed)
-	{
+	autoResize: function(ed) {
 		this.copyInputToGhost(true);
 		this.synchInputRegion();
 	},
 	
 	// scrolls position of editor under editor menu
-	autoScroll: function()
-	{
-		var tinyifr = document.getElementById("tinytarget_parent");
-		var menu = document.getElementById('iltinymenu');
+	autoScroll: function() {
+		var tiny_reg, menu_reg, cl_reg, diff;
 
-		if (tinyifr && menu)
-		{
-			var tiny_reg = YAHOO.util.Region.getRegion(tinyifr);
-			var menu_reg = YAHOO.util.Region.getRegion(menu);
-			var cl_reg = YAHOO.util.Dom.getClientRegion();
-			window.scrollTo(0, -20 + tiny_reg.y - (menu_reg.height + menu_reg.y - cl_reg.top));
+		//var tinyifr = document.getElementById("tinytarget_parent");
+		var tinyifr = document.getElementById("tinytarget_ifr");
+		var menu = document.getElementById('iltinymenu');
+		var fc = document.getElementById('fixed_content');
+
+		if (tinyifr && menu) {
+
+			if ($(fc).css("position") == "static") {
+				tiny_reg = YAHOO.util.Region.getRegion(tinyifr);
+				menu_reg = YAHOO.util.Region.getRegion(menu);
+				console.log(tiny_reg);
+				console.log(menu_reg);
+				cl_reg = YAHOO.util.Dom.getClientRegion();
+				console.log(cl_reg);
+				console.log(-20 + tiny_reg.y - (menu_reg.height + menu_reg.y - cl_reg.top));
+				window.scrollTo(0, -20 + tiny_reg.y - (menu_reg.height + menu_reg.y - cl_reg.top));
+			} else {
+				diff = Math.floor($(menu).offset().top + $(menu).height()  + 20 - $(tinyifr).offset().top);
+				if (diff > 1 || diff < -1) {
+					$(fc).scrollTop($(fc).scrollTop() - diff);
+				}
+			}
 		}
 	},
 
@@ -1339,8 +1356,10 @@ if (add_final_spacer)
 				ilCOPage.copyInputToGhost(false);
 	
 				tinyMCE.get('tinytarget').setContent('');
+
 				ilCOPage.removeTiny();
-				hideToolbar();
+//				hideToolbar();
+
 				editParagraph(o.argument.switch_to, 'edit', true);
 			}
 		}
@@ -2220,7 +2239,6 @@ ilCOPage.copyInputToGhost(false);
 				{
 					var ed = tinyMCE.get('tinytarget');
 //console.log("onNodeChange");
-
 //console.log("----");
 //console.trace();
 					// clean content after paste (has this really an effect?)
