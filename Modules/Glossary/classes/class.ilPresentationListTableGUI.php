@@ -13,7 +13,9 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
  * @ilCtrl_Calls ilPresentationListTableGUI: ilFormPropertyDispatchGUI
  */
 class ilPresentationListTableGUI extends ilTable2GUI
-{	
+{
+	protected $adv_cols_order = array();
+
 	/**
 	 * Constructor
 	 */
