@@ -214,26 +214,30 @@ class ilLMPageObject extends ilLMObject
 				break;
 		}
 
-		$source_lm_page =& new ilLMPageObject($cont_obj, $a_page_id);
+		$source_lm_page = new ilLMPageObject($cont_obj, $a_page_id);
 
 		// create new page
-		$lm_page =& new ilLMPageObject($cont_obj);
+		$lm_page = new ilLMPageObject($cont_obj);
 		$lm_page->setTitle($source_lm_page->getTitle());
 		$lm_page->setLMId($source_lm_page->getLMId());
 		$lm_page->setType($source_lm_page->getType());
 		$lm_page->setDescription($source_lm_page->getDescription());
 		$lm_page->create(true);
 		
+
+		// copy complete content of source page to new page
+		$source_page = $source_lm_page->getPageObject();
+		$page = $lm_page->getPageObject();
+		$page->setXMLContent($source_page->copyXMLContent());
+//echo htmlentities($source_page->copyXMLContent());
+		$page->buildDom(true);
+		$page->update();
+//		echo "-".$page->getId()."-".$page->getParentType()."-";
+
 		// copy meta data
 		include_once("Services/MetaData/classes/class.ilMD.php");
 		$md = new ilMD($source_lm_page->getLMId(), $a_page_id, $source_lm_page->getType());
-		$new_md =& $md->cloneMD($source_lm_page->getLMId(), $lm_page->getId(), $source_lm_page->getType());
-
-		// copy complete content of source page to new page
-		$source_page =& $source_lm_page->getPageObject();
-		$page =& $lm_page->getPageObject();
-		$page->setXMLContent($source_page->getXMLContent());
-		$page->buildDom();
+		$md->cloneMD($source_lm_page->getLMId(), $lm_page->getId(), $source_lm_page->getType());
 
 		// insert new page in tree (after original page)
 		$tree = new ilTree($cont_obj->getId());
@@ -244,10 +248,11 @@ class ilLMPageObject extends ilLMObject
 			$parent_node = $tree->getParentNodeData($source_lm_page->getId());
 			$tree->insertNode($lm_page->getId(), $parent_node["child"], $source_lm_page->getId());
 		}
-		
+
 		// remove all nodes < hierarchical id from new page (incl. update)
 		$page->addHierIds();
 		$page->deleteContentBeforeHierId($a_hier_id);
+//		$page->update();
 
 		// remove all nodes >= hierarchical id from source page
 		$source_page->buildDom();
@@ -418,7 +423,12 @@ class ilLMPageObject extends ilLMObject
 		{
 			$a_lm_id = ilLMObject::_lookupContObjID($a_pg_id);
 		}
-		
+
+		if ($a_lm_id == 0)
+		{
+			return "";
+		}
+
 		// @todo: optimize
 		include_once("./Services/COPage/classes/class.ilPageMultiLang.php");
 		$ml = new ilPageMultiLang("lm", $a_lm_id);
