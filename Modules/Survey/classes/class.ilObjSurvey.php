@@ -2333,7 +2333,12 @@ class ilObjSurvey extends ilObject
 				array('integer','integer','integer','text','integer'),
 				array($next_id, $this->getSurveyId(), $question_fi, (strlen($obligatory)) ? $obligatory : 0, time())
 			);
-		}
+			
+			// #12420
+			$ilDB->manipulate("UPDATE svy_question".
+				" SET obligatory = ".$ilDB->quote($obligatory, "integer").
+				" WHERE question_id = ".$ilDB->quote($question_fi, "integer"));
+		}			
 	}
 	
 /**
