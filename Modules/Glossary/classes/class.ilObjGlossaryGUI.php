@@ -1599,7 +1599,7 @@ return;
 	function applyFilter()
 	{		
 		include_once("./Modules/Glossary/classes/class.ilTermListTableGUI.php");
-		$prtab = new ilTermListTableGUI($this, "listTerms");
+		$prtab = new ilTermListTableGUI($this, "listTerms", $this->tax_node);
 		$prtab->resetOffset();
 		$prtab->writeFilterToSession();
 		$this->listTerms();		
@@ -1612,7 +1612,7 @@ return;
 	function resetFilter()
 	{
 		include_once("./Modules/Glossary/classes/class.ilTermListTableGUI.php");
-		$prtab = new ilTermListTableGUI($this, "listTerms");
+		$prtab = new ilTermListTableGUI($this, "listTerms", $this->tax_node);
 		$prtab->resetOffset();
 		$prtab->resetFilter();
 		$this->listTerms();
