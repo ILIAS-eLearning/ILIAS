@@ -179,6 +179,11 @@ class ilStructureObject extends ilLMObject
 		{
 			$a_lm_id = ilLMObject::_lookupContObjID($a_st_id);
 		}
+
+		if ($a_lm_id == 0)
+		{
+			return "";
+		}
 		
 		// @todo: optimize
 		include_once("./Services/COPage/classes/class.ilPageMultiLang.php");

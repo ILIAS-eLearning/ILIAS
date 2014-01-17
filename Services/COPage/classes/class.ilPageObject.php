@@ -2479,7 +2479,7 @@ abstract class ilPageObject
 			// @todo: pass dom instead?
 			$iel = $this->containsDeactivatedElements($content);
 			$inl = $this->containsIntLinks($content);
-				
+
 			$ilDB->update("page_object", array(
 				"content" => array("clob", $content),
 				"parent_id" => array("integer", $this->getParentId()),
