@@ -14003,6 +14003,7 @@ sop#:#sop_push_tracking#:#Lernstandsdaten importieren
 common#:#obj_wiks#:#Wiki
 common#:#obj_wiks_desc#:#Globale Wiki-Einstellungen
 sop#:#sop_msg_lm_not_exists#:#Das Lernmodul existiert nicht im SCORM-Offline-Manager oder wurde deaktivert
+sop#:#sop_msg_close_lm#:#Das Lernmodul ist noch geöffnet. Bitte schließen Sie den SCORM-Offline-Player.
 sop#:#sop_msg_export_failure#:#Die Übertragung der Dateien des Lernmoduls oder der Lernstandsdaten zum SCORM-Offline-Manager war nicht erfolgreich.
 sop#:#sop_msg_export_ok#:#Übertragung des Lernmoduls und der Lernstandsdaten zum SCORM-Offline-Manager war erfolgreich.
 sop#:#sop_msg_export_content#:#Übertragung der Lernstandsdaten zum SCORM-Offline-Manager. Dies kann je nach Lernmodulgröße einige Zeit in Anspruch nehmen. Bitte warten Sie einige Sekunden

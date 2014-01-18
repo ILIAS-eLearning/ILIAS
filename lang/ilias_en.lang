@@ -13992,7 +13992,8 @@ sop#:#sop_start_som#:#Start SOM
 sop#:#sop_text_push_tracking#:#Import offline tracking data to ILIAS and switch to online mode
 sop#:#sop_push_tracking#:#Import tracking data
 common#:#offline_mode#:#Use Offline
-sop#:#sop_msg_lm_not_exists#:#The learning module does either not exist or is inactive in the SCORM Offline Manager. 
+sop#:#sop_msg_lm_not_exists#:#The learning module does either not exist or is inactive in the SCORM Offline Manager.
+sop#:#sop_msg_close_lm#:#The learning module is still open. Please close the SCORM Offline Player. 
 sop#:#sop_msg_export_failure#:#Transfering content or data to SCORM Offline Manager was not successfull.
 sop#:#sop_msg_export_ok#:#Transfering content and tracking data was successfull
 sop#:#sop_msg_export_content#:#Transfering content to SCORM Offline Manager. This might need a moment. Please be patient.
