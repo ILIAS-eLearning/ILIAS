@@ -13482,7 +13482,7 @@ blog#:#blog_change_notification_reason#:#Sie erhalten diese Nachricht, da sie di
 survey#:#survey_notification_finished_introduction#:#der folgende Teilnehmer hat die Umfrage beendet.
 survey#:#survey_notification_finished_reason#:#Sie erhalten diese Nachricht, da sie die Benachrichtigsfunktion für die oben genannte Umfrage aktiviert haben.
 content#:#cont_offline_mode_allow#:#Offline-Modus erlauben
-content#:#cont_offline_mode_allow_info#:#Im Offline-Modus können Lernmodule nur im SCORM-Offline-Player von ILIAS dargestelllt werden. Lernstandsdaten werden übertragen, wenn die Lernenden den Offline-Modus beenden.
+content#:#cont_offline_mode_allow_info#:#Wenn der Offline-Modus erlaubt ist, erscheint unter 'Aktionen' beim Lernmodul zusätzlich die Option 'Offline-Modus' und für Nutzer mit dem Recht zur Bearbeitung des Lernfortschritts unter 'Einstellungen' zusätzlich der Reiter 'Offline-Nutzung'. Im Offline-Modus können Lernmodule nur im SCORM-Offline-Player von ILIAS (Firefox Add-on) dargestelllt werden. Zum Beenden des Offline-Modus können Nutzer über die Option 'Offline-Modus' Lernstandsdaten importieren. Daten im SCORM-Offline-Player werden somit für dieses Lernmodul gelöscht. Bevor Sie den Offline-Modus erlauben, sollten Sie die erforderlichen Einstellungen zum Lernfortschritt abgeschlossen haben.
 wiki#:#wiki_start_page_info#:#Gibt es noch keine Wikiseite mit diesem Titel, wird eine neue, leere Seite erstellt.
 administration#:#adm_https#:#HTTPS
 common#:#obj_reps#:#Magazin 
@@ -14002,7 +14002,7 @@ sop#:#sop_text_push_tracking#:#Lernstandsdaten nach ILIAS importieren und wieder
 sop#:#sop_push_tracking#:#Lernstandsdaten importieren
 common#:#obj_wiks#:#Wiki
 common#:#obj_wiks_desc#:#Globale Wiki-Einstellungen
-sop#:#sop_msg_lm_not_exists#:#Das Lernmodul existiert nicht im SCORM-Offline-Manager oder wurde deaktivert
+sop#:#sop_msg_lm_not_exists#:#Das Lernmodul existiert nicht im SCORM-Offline-Manager.
 sop#:#sop_msg_close_lm#:#Das Lernmodul ist noch geöffnet. Bitte schließen Sie den SCORM-Offline-Player.
 sop#:#sop_msg_export_failure#:#Die Übertragung der Dateien des Lernmoduls oder der Lernstandsdaten zum SCORM-Offline-Manager war nicht erfolgreich.
 sop#:#sop_msg_export_ok#:#Übertragung des Lernmoduls und der Lernstandsdaten zum SCORM-Offline-Manager war erfolgreich.
