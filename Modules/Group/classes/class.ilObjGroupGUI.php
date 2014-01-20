@@ -976,8 +976,8 @@ class ilObjGroupGUI extends ilContainerGUI
 	}
 	
     
-	protected function readMemberData($ids,$role = 'admin',$selected_columns = null)
-	{			
+	public function readMemberData($ids,$role = 'admin',$selected_columns = null)
+	{
 		include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
 		$privacy = ilPrivacySettings::_getInstance();
 
