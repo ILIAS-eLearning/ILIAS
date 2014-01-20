@@ -220,7 +220,7 @@ class ilObjTestAccess extends ilObjectAccess
 							if (strlen($active_id) && strlen($pass))
 							{
 								include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-								assQuestion::_updateTestPassResults($active_id, $pass);
+								$res = assQuestion::_updateTestPassResults($active_id, $pass);
 								$max = $res['maxpoints'];
 								$reached = $res['points'];
 							}
