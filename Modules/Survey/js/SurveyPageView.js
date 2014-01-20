@@ -404,7 +404,7 @@ function ilEditMultiAction(cmd, subcmd)
 	var hform_multi = document.getElementById("il_hform_multi");
 	hform_multi.value = sel_ids;
 
-	form.submit();
+	obj.submit();
 
 	return false;
 }

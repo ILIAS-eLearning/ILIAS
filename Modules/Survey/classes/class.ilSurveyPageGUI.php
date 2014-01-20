@@ -1688,7 +1688,7 @@ class ilSurveyPageGUI
 			$a_tpl->setVariable("TXT_NODE_CONTENT", $a_content);
 			if($double)
 			{
-				$a_tpl->setVariable("VAL_DBLCLICK", "onDblClick=\"doMouseDblClick(event,this.id);\"");
+				$a_tpl->setVariable("VAL_DBLCLICK", " onDblClick=\"doMouseDblClick(event,this.id);\"");
 			}
 			$a_tpl->parseCurrentBlock();
 		}
