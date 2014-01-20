@@ -972,7 +972,7 @@ class ilObjGroupGUI extends ilContainerGUI
 	}
 	
     
-	protected function readMemberData($ids,$role = 'admin')
+	public function readMemberData($ids,$role = 'admin')
 	{
 		include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
 		$privacy = ilPrivacySettings::_getInstance();
