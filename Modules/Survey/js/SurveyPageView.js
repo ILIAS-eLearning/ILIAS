@@ -272,6 +272,28 @@ function doMouseDblClick(e, id)
 	}
 }
 
+function doSelectAll()
+{
+	var divs = $("div.il_editarea_drag");
+	if (divs.length > 0)
+	{
+		for (var i = 0; i < divs.length; i++)
+		{
+			sel_edit_areas[divs[i].id] = true;
+			divs[i].className = "il_editarea_selected";
+		}
+	}
+	else
+	{
+		var divs = $("div.il_editarea_selected");
+		for (var i = 0; i < divs.length; i++)
+		{
+			sel_edit_areas[divs[i].id] = false;
+			divs[i].className = "il_editarea";
+		}
+	}
+}
+
 function doCloseContextMenu() 
 {
 	if (doCloseContextMenuCounter>-1) 
@@ -360,7 +382,7 @@ function M_out(cell)
 }
 
 function doActionForm(cmd, node, subcmd)
-{
+{	
 	if(subcmd != "#editParagraph")
 	{
 		var obj = document.getElementById("form_hform");
@@ -383,6 +405,12 @@ function doActionForm(cmd, node, subcmd)
 
 function ilEditMultiAction(cmd, subcmd)
 {
+	if(subcmd == "selectAll")
+	{
+		doSelectAll();
+		return false;
+	}	
+	
 	var obj = document.getElementById("form_hform");
 	var hform_cmd = document.getElementById("il_hform_cmd");
 	hform_cmd.value = "1";
@@ -404,7 +432,7 @@ function ilEditMultiAction(cmd, subcmd)
 	var hform_multi = document.getElementById("il_hform_multi");
 	hform_multi.value = sel_ids;
 
-	form.submit();
+	obj.submit();
 
 	return false;
 }

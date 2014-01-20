@@ -1366,7 +1366,8 @@ class ilSurveyPageGUI
 				{
 					$multi_commands[] = array("cmd"=>"multiDelete", "text"=>$lng->txt("delete"));
 					$multi_commands[] = array("cmd"=>"multiCut", "text"=>$lng->txt("cut"));
-					$multi_commands[] = array("cmd"=>"multiCopy", "text"=>$lng->txt("copy"));
+					$multi_commands[] = array("cmd"=>"multiCopy", "text"=>$lng->txt("copy"));					
+					$multi_commands[] = array("cmd"=>"selectAll", "text"=>$lng->txt("select_all"));
 				}
 				else
 				{
@@ -1706,7 +1707,7 @@ class ilSurveyPageGUI
 			$a_tpl->setVariable("TXT_NODE_CONTENT", $a_content);
 			if($double)
 			{
-				$a_tpl->setVariable("VAL_DBLCLICK", "onDblClick=\"doMouseDblClick(event,this.id);\"");
+				$a_tpl->setVariable("VAL_DBLCLICK", " onDblClick=\"doMouseDblClick(event,this.id);\"");
 			}
 			$a_tpl->parseCurrentBlock();
 		}
