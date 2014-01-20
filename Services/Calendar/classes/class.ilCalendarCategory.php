@@ -455,7 +455,7 @@ class ilCalendarCategory
 			
 			if($row->remote_sync)
 			{
-				$this->remote_sync = new ilDateTime($row->remote_sync,IL_CAL_DATETIME);
+				$this->remote_sync = new ilDateTime($row->remote_sync,IL_CAL_DATETIME,'UTC');
 			}
 			else
 			{
