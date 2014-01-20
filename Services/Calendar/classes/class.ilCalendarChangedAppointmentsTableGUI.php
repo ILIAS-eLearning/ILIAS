@@ -74,8 +74,8 @@ class ilCalendarChangedAppointmentsTableGUI extends ilTable2GUI
 		$this->enable('header');
 		$this->enable('numinfo');
 		
-		$this->setDefaultOrderField('last_update');
-		$this->setDefaultOrderDirection('desc');
+		$this->setDefaultOrderField('begin');
+		$this->setDefaultOrderDirection('asc');
 	}
 	
 	
