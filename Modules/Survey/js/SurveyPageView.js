@@ -227,7 +227,8 @@ function doMouseClick(e, id)
 		{
 			openedMenu = nextMenu;
 
-			showMenu(openedMenu, Mposx, Mposy-10);
+			// #12556 - menu vs double click selection
+			showMenu(openedMenu, Mposx+10, Mposy-10);
 		}
 		doCloseContextMenuCounter = 20;
 	}
