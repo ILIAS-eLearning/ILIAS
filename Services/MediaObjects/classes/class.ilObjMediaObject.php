@@ -1346,6 +1346,7 @@ class ilObjMediaObject extends ilObject
 					case "cat":
 					case "fold":
 					case "root":
+					case "cont":
 						// repository pages
 						$obj_id = $id;
 						break;
