@@ -4719,5 +4719,10 @@ div[id^="ilFormField"] {
 	div.ilTabsTableCell {
 		display: block;
 	}
+	
+	div.ilContentFixed {
+		left: 0;
+		position: static;
+	}
 }
 
