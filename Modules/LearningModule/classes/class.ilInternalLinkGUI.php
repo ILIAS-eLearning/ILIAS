@@ -1052,7 +1052,15 @@ class ilInternalLinkGUI
 			$this->ctrl->getTargetScript(), "do=set"));
 		if ($_GET["expand"] == "")
 		{
-			$expanded = $this->tree->readRootId();
+			if((int)$_GET["ref_id"])
+			{
+				// #12504
+				$expanded = (int)$_GET["ref_id"];
+			}
+			else
+			{
+				$expanded = $this->tree->readRootId();
+			}
 		}
 		else
 		{
