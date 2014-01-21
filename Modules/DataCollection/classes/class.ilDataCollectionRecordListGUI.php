@@ -109,6 +109,16 @@ class ilDataCollectionRecordListGUI
         }
 
 		$list = new ilDataCollectionRecordListTableGUI($this, "listRecords", $this->table_obj);
+        $list->setExternalSegmentation(true);
+        $list->setExternalSorting(true);
+        $list->determineLimit();
+        $list->determineOffsetAndOrder();
+        $data = $this->table_obj->getPartialRecords($list->getOrderField(), $list->getOrderDirection(), $list->getLimit(), $list->getOffset(), $list->getFilter());
+        $records = $data['records'];
+        $total = $data['total'];
+        $list->setMaxCount($total);
+        $list->setRecordData($records);
+
 		$tpl->getStandardTemplate();
 
         $tpl->setPermanentLink("dcl", $this->parent_obj->ref_id);
@@ -129,11 +139,9 @@ class ilDataCollectionRecordListGUI
 
         require_once('./Modules/DataCollection/classes/class.ilDataCollectionRecordListTableGUI.php');
         $list = new ilDataCollectionRecordListTableGUI($this, $ilCtrl->getCmd(), $this->table_obj);
-        $table = ilDataCollectionCache::getTableCache($this->table_id);
-//        $list->setData($table->getRecords());
+        $list->setRecordData($this->table_obj->getRecordsByFilter($list->getFilter()));
         $list->setExternalSorting(true);
         $list->exportData(ilTable2GUI::EXPORT_EXCEL, true);
-        $this->listRecords();
     }
 
 
