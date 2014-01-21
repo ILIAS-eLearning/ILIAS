@@ -118,7 +118,14 @@ class ilDataCollectionRecordListGUI
         }
 
         $list = new ilDataCollectionRecordListTableGUI($this, "listRecords", $this->table_obj);
-        $records = $this->table_obj->getRecordsByFilter($list->getFilter());
+        $list->setExternalSegmentation(true);
+        $list->setExternalSorting(true);
+        $list->determineLimit();
+        $list->determineOffsetAndOrder();
+        $data = $this->table_obj->getPartialRecords($list->getOrderField(), $list->getOrderDirection(), $list->getLimit(), $list->getOffset(), $list->getFilter());
+        $records = $data['records'];
+        $total = $data['total'];
+        $list->setMaxCount($total);
         $list->setRecordData($records);
 
         $tpl->getStandardTemplate();

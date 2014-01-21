@@ -23,15 +23,12 @@ require_once 'class.ilDataCollectionDatatype.php';
 class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 {
 
-    const DATETIME_SORTING_STR = '_timestamp';
-    const RATING_SORTING_STR = '_rating';
 	private $table;
 
     /**
      * @var ilDataCollectionRecord[]
      */
     protected $object_data;
-
     protected $numeric_fields;
 
     protected $filter = array();
@@ -58,12 +55,6 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 		{
 			$title = $field->getTitle();
             $sort_field = $title;
-            if ($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_DATETIME) {
-                $sort_field = $title . self::DATETIME_SORTING_STR;
-            }
-            if ($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_RATING) {
-                $sort_field = $title . self::RATING_SORTING_STR;
-            }
             $this->addColumn($title, $sort_field);
             if($field->getLearningProgress()){
 				$this->addColumn($lng->txt("dcl_status"), "_status_".$field->getTitle());
@@ -83,8 +74,6 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 		$this->setDefaultOrderDirection("asc");
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, "applyFilter"));
 		$this->initFilter();
-//        $this->object_data = $table->getRecordsByFilter($this->filter);
-//        $this->buildData();
         $this->setStyle('table', $this->getStyle('table') . ' ' . 'dcl_record_list');
     }
 
@@ -149,19 +138,8 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
                 if ($arr_properties[ilDataCollectionField::PROPERTYID_ILIAS_REFERENCE_LINK]) {
                     $options['link']['display'] = true;
                 }
-                if ($field->getDatatypeId() == ilDataCollectionDataType::INPUTFORMAT_DATETIME) {
-                    $record_data[$title] = ($record->getRecordFieldHTML($field->getId(), $options) ? $record->getRecordFieldHTML($field->getId(), $options) : null);
-                    // Needs additional sorting column
-                    $timestamp = strtotime($record->getRecordFieldValue($field->getId()));
-                    $record_data[$title . self::DATETIME_SORTING_STR] = $timestamp;
-                } else if (($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_RATING)) {
-                    $record_data[$title] = $record->getRecordFieldHTML($field->getId(), $options);
-                    // Needs additional sorting column
-                    $val = ilRating::getOverallRatingForObject($record->getId(), "dcl_record", $field->getId(), "dcl_field");
-                    $record_data[$title . self::RATING_SORTING_STR] =  str_pad(round($val["avg"]*100,0), 3, 0, STR_PAD_LEFT).".".str_pad($val["cnt"], 10, 0, STR_PAD_LEFT);
-                } else {
-                    $record_data[$title] = $record->getRecordFieldHTML($field->getId(), $options);
-                }
+                $record_data[$title] = $record->getRecordFieldHTML($field->getId(), $options);
+
                 // Additional column filled in ::fillRow() method, showing the learning progress
                 if ($field->getLearningProgress()) {
                     $record_data["_status_".$title] = $this->getStatus($record, $field);
@@ -244,7 +222,7 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
             }
 		}
 
-		if($record_data["_front"])
+		if ($record_data["_front"])
 		{
 			$this->tpl->setVariable("VIEW_IMAGE_LINK", $record_data["_front"]);
 			$this->tpl->setVariable("VIEW_IMAGE_SRC", ilUtil::img(ilUtil::getImagePath("cmd_view_s.png")));
