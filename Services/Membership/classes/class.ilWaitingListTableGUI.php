@@ -324,26 +324,11 @@ class ilWaitingListTableGUI extends ilTable2GUI
 		// Waiting list subscription
 		foreach($this->wait as $usr_id => $usr_data)
 		{
-			$a_user_data[$user['usr_id']]['sub_time'] = $usr_data['time'];
+			$a_user_data[$usr_id]['sub_time'] = $usr_data['time'];
 		}
 		
 		$this->setMaxCount($usr_data['cnt'] ? $usr_data['cnt'] : 0);
-		return $this->setData($a_user_data);
-		
-		
-		foreach($this->wait as $usr_id => $usr_data)
-		{
-				$tmp_arr['id'] = $usr_id;
-				$tmp_arr['sub_time'] = $usr_data['time'];
-
-				$name = ilObjUser::_lookupName($usr_id);
-				$tmp_arr['name'] = $name['lastname'].', '.$name['firstname'];
-				$tmp_arr['login'] = ''.ilObjUser::_lookupLogin($usr_id).'';
-
-				$wait[] = $tmp_arr;
-		}
-		$this->setData($wait ? $wait: array());
-		
+		return $this->setData($a_user_data);		
 	}
 	
 	
