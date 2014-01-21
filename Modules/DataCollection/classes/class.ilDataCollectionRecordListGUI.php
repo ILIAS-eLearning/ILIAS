@@ -152,7 +152,6 @@ class ilDataCollectionRecordListGUI
         $list->setRecordData($this->table_obj->getRecordsByFilter($list->getFilter()));
         $list->setExternalSorting(true);
         $list->exportData(ilTable2GUI::EXPORT_EXCEL, true);
-        $this->listRecords();
     }
 
     public function showImportExcel($form = null){

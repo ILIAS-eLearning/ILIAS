@@ -44,7 +44,7 @@ class ilDataCollectionILIASRefField extends ilDataCollectionRecordField{
       */
 	public function getHTML(array $options = array()){
 		$value = $this->getValue();
-		$link = ilLink::_getStaticLink($value);
+//		$link = ilLink::_getStaticLink($value);
 		$id = ilObject::_lookupObjId($value);
 
 
