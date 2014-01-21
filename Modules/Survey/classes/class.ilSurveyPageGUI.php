@@ -508,7 +508,16 @@ class ilSurveyPageGUI
 		$pages = $this->object->getSurveyPages();
 		$source = $pages[$data["source"]-1];
 		$target = $pages[$this->current_page-1];
-		$nodes = $data["nodes"];
+				
+		// #12558 - use order of source page
+		$nodes = array();
+		foreach($source as $src_qst)
+		{
+			if(in_array($src_qst["question_id"], $data["nodes"]))
+			{
+				$nodes[] = $src_qst["question_id"];
+			}
+		}
 		
 		// append to last position?
 		$pos = 0;
