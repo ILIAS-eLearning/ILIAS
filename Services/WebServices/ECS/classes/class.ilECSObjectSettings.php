@@ -130,6 +130,13 @@ abstract class ilECSObjectSettings
 		{
 			return true;
 		}
+		if(
+			$GLOBALS['tree']->checkForParentType($GLOBALS['tree']->getParentId($this->getContentObject()->getRefId()),'crs',false) or
+			$GLOBALS['tree']->checkForParentType($GLOBALS['tree']->getParentId($this->getContentObject()->getRefId()),'grp',false)
+		)
+		{
+			return true;
+		}
 
 		$lng->loadLanguageModule('ecs');
 
