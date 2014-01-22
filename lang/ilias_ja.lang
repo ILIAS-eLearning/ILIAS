@@ -40,7 +40,6 @@ administration#:#adm_add_settings_template#:#テンプレート追加
 administration#:#adm_adm_role_protect#:#管理者役割を保護
 administration#:#adm_adm_role_protect_info#:#有効にすると管理者だけしか管理者役割とユーザ間の割り当て・解除ができなくなります。
 administration#:#adm_basic#:#基本
-administration#:#adm_captcha_anonymous#:# (掲示板/Wiki/Login/登録)匿名用Captcha(画像認証)を有効化。有効にするとシステムアクセス性に影響の可能性があることに注意願います。
 administration#:#adm_captcha_anonymous_auth#:#匿名ログインフォーム用のCaptcha(画像認証)を有効化。有効にするとシステムアクセス性に影響の可能性があることに注意願います。
 administration#:#adm_captcha_anonymous_frm#:#掲示板の匿名用Captcha(画像認証)を有効化。有効にするとシステムアクセス性に影響の可能性があることに注意願います。
 administration#:#adm_captcha_anonymous_reg#:#登録フォームの匿名用Captcha(画像認証)を有効化。有効にするとシステムアクセス性に影響の可能性があることに注意願います。
@@ -817,10 +816,6 @@ assessment#:#online_exam_show_answer_print_sheet#:#オンライン試験を終�
 assessment#:#online_exam_show_finish_test#:#オンライン試験の最終提出を呼出す必要があります。 &quot;テスト終了&quot; ボタンを押して最終提出を呼出してください。
 assessment#:#optional_keywords#:#キーワード入力オプション
 assessment#:#or#:#または
-assessment#:#order_nested_pictures#:#図形式のネスト表示に切り替える
-assessment#:#order_nested_terms#:#用語形式のネスト表示に切り替える
-assessment#:#order_pictures#:#図の解答を使用
-assessment#:#order_terms#:#用語の解答を使用
 assessment#:#ordering_answer_sequence_info#:#ここで定義する解答順序は正解として使用されます。
 assessment#:#ordering_question_javascript_hint#:#定義/画像をドラッグして、置いてドロップしたい場所へ定義/画像を合わせてください。基になる定義/画像とすべての次の定義/画像は下方向に移動します。
 assessment#:#ordertext#:#整列するテキスト
@@ -1763,7 +1758,6 @@ barometer#:#votes#:#投票
 barometer#:#weeks#:#週間
 barometer#:#worst#:#最低
 barometer#:#year#:#年
-bata2-key#:#beta2-sub#:#batas-des
 bibitem#:#bibitem_add#:#追加
 bibitem#:#bibitem_author#:#作成者
 bibitem#:#bibitem_av#:#AV
@@ -5623,7 +5617,6 @@ content#:#cont_added_comment#:#コメントが履歴に追加されました。
 content#:#cont_added_tab#:#タブを作成しました。
 content#:#cont_added_term#:#条件追加
 content#:#cont_Additional#:#追加情報
-content#:#cont_additional_langs#:#追加言語
 content#:#cont_adjust_size#:#サイズを調整
 content#:#cont_AdvancedKnowledge#:#詳細知識
 content#:#cont_align#:#整列
@@ -5774,8 +5767,6 @@ content#:#cont_de_activate#:#アクティブ(解除)
 content#:#cont_deactivate_html#:#HTMLレンディングをオフにする
 content#:#cont_deactivate_js#:#フォームモードを起動
 content#:#cont_deactivate_media#:#メディアをオフにする
-content#:#cont_deactivate_multi_lang#:#多言語を無効
-content#:#cont_deactivate_multi_lang_conf#:#本当に多言語対応を無効にしますか?マスタ言語のコンテンツのみとなってしまいます。
 content#:#cont_deactivate_page#:#ページのアクティブ解除
 content#:#cont_deactivated#:#アクティブ解除
 content#:#cont_debug#:#デバグメニューを表示
@@ -6125,7 +6116,6 @@ content#:#cont_manifest#:#マニフェスト
 content#:#cont_map_areas#:#リンクエリヤ
 content#:#cont_map_file_not_generated#:#申し訳ありませんが編集用のマップファイルを生成できません。
 content#:#cont_marker#:#マーカー
-content#:#cont_master_lang#:#マスター言語
 content#:#cont_mastery_score#:#adlcp：masteryscore
 content#:#cont_max_time_allowed#:#adlcp：maxtimeallowed
 content#:#cont_Media#:#メディア (標準)
@@ -6148,8 +6138,6 @@ content#:#cont_more_functions#:#詳細
 content#:#cont_move_object#:#オブジェクトを移動
 content#:#cont_msg_multiple_editions#:#複数の版の詳細を表示する事はできません
 content#:#cont_multilang_currently_deactivated#:#多言語サポートは現在利用できない状態です。
-content#:#cont_multilang_deactivated#:#多言語対応は無効になりました。
-content#:#cont_multilinguality#:#多言語
 content#:#cont_name#:#名前
 content#:#cont_never#:#未トライ
 content#:#cont_new_area#:#新規リンクエリア
@@ -6404,7 +6392,6 @@ content#:#cont_select#:#選択
 content#:#cont_select_file#:#ファイルをセレクト
 content#:#cont_select_from_upload_dir#:#--アップロードディレクイトリーから選択 --
 content#:#cont_select_item#:#アイテムを一つは選択してください.
-content#:#cont_select_master_lang#:#マスター言語を選択してください。現在のコンテンツはマスター言語に割り当てられます。
 content#:#cont_select_max_one_item#:#アイテムを一つのみ選択してください。
 content#:#cont_select_max_one_term#:#用語を一つだけ選択してください。
 content#:#cont_select_media_pool#:#メディア集を選択
@@ -8667,11 +8654,8 @@ forum#:#frm_statistics_ranking#:#投稿数
 forum#:#frm_subject_setting#:#Subject設定
 forum#:#frm_sure_delete_threads#:#本当に次のスレッドを削除しますか?
 forum#:#frm_sure_merge_threads#:#本当にこれらのスレッドをマージしますか?　警告: これは後戻りできません。ソーススレッドの最初の投稿がターゲットスレッドの最初の投稿以前に行われると最終的にILIASはソースとターゲットのスレッドをスワップします。
-forum#:#frm_title_required#:#タイトルを挿入してください。
 forum#:#frm_wizard_page#:#フォーラムをコピー (Step 2/2)
 forum#:#is_read#:#既読としてマーク
-forum#:#make_topic_non_sticky#:#トピックを付箋しない
-forum#:#make_topic_sticky#:#トピックを付箋
 forum#:#make_topics_non_sticky#:#トピックを付箋しない
 forum#:#make_topics_sticky#:#トピックを付箋
 forum#:#mark_moderator_posts#:#モデレータのポストをマーク
@@ -9236,8 +9220,6 @@ mail#:#mail_salutation_m#:#こんにちは
 mail#:#mail_salutation_male#:#男性向けの挨拶文
 mail#:#mail_salutation_n#:#こんにちは
 mail#:#mail_saved#:#メッセージは保存されました
-mail#:#mail_search_addressbook#:#連絡先を検索
-mail#:#mail_search_system#:#システムを検索
 mail#:#mail_select_attachment#:#ダウンロード用の添付ファイルを選択してください。
 mail#:#mail_select_course#:#コースを一つは選択してください。
 mail#:#mail_select_group#:#グループを一つは選んでください。
@@ -14152,3 +14134,48 @@ wsp#:#wsp_type_scov#:#証明書: SCORM
 wsp#:#wsp_type_tstv#:#検証: テスト
 wsp#:#wsp_type_webr#:#Webリンク
 wsp#:#wsp_type_wfld#:#フォルダ
+assessment#:#oq_btn_use_order_pictures#:#Use answer pictures###22 01 2014 new variable
+assessment#:#oq_btn_use_order_terms#:#Use answer terms###22 01 2014 new variable
+content#:#cont_LocalFile#:#Local File###22 01 2014 new variable
+assessment#:#oq_btn_nest_terms#:#Switch to term nesting view###22 01 2014 new variable
+assessment#:#oq_btn_nest_pictures#:#Switch to picture nesting view###22 01 2014 new variable
+assessment#:#oq_btn_define_terms#:#Switch to term definition view###22 01 2014 new variable
+assessment#:#oq_btn_define_pictures#:#Switch to picture definition view###22 01 2014 new variable
+assessment#:#oq_header_ordering_elements#:#Ordering Elements###22 01 2014 new variable
+obj#:#obj_select_master_lang#:#Please select the master language. The current content will be assigned to the master language. The master language cannot be changed afterwards.###22 01 2014 new variable
+obj#:#obj_master_lang#:#Master Language###22 01 2014 new variable
+obj#:#obj_additional_langs#:#Additional Languages###22 01 2014 new variable
+obj#:#obj_deactivate_content_lang#:#Deactivate Translation for Page Editing###22 01 2014 new variable
+obj#:#obj_multilinguality#:#Multilinguality###22 01 2014 new variable
+sop#:#sop_msg_close_lm#:#The learning module is still open. Please close the SCORM Offline Player. ###22 01 2014 new variable
+obj#:#obj_deactivate_content_transl_conf#:#Do you really want to deactivate translation for page editing? Only contents of the master language will be kept.###22 01 2014 new variable
+obj#:#obj_cont_transl_deactivated#:#Translation for page editing has been deactivated.###22 01 2014 new variable
+notes#:#note_content_removed#:#The content has been removed.###22 01 2014 new variable
+exc#:#exc_list_text_assignment#:#List All Submissions###22 01 2014 new variable
+exc#:#exc_show_peer_review#:#Show Peer-Feedback###22 01 2014 new variable
+orgu#:#ou_external_id_exists#:#A unit with the External ID already exists on this system or in trash bin.###22 01 2014 new variable
+orgu#:#user_import_successful#:#The import terminated successfully. Assigned: %s, Removed: %s.###22 01 2014 new variable
+orgu#:#no_orgunit#:#Please check your XML-File. There is no Organisational Unit.###22 01 2014 new variable
+orgu#:#no_assignment#:#Please check your XML-File. There is no User Assignment.###22 01 2014 new variable
+obj#:#obj_insert_into_clipboard#:#Insert into Clipboard###22 01 2014 new variable
+obj#:#obj_inserted_clipboard#:#Objects have been moved to the clipboard.###22 01 2014 new variable
+orgu#:#org_unit_not_found#:#Organisational Unit not found.###22 01 2014 new variable
+content#:#cont_fourth_edition#:#SCORM 2004 4th edition###22 01 2014 new variable
+content#:#cont_fourth_edition_info#:#SCORM 2004 4th edition offers some advantages compared to the 3rd edition. Further data over SCO boundaries can be exchanged for example. These options are however rarely used and have a negative effect on the speed.###22 01 2014 new variable
+content#:#offline_mode_manager#:#Offline use###22 01 2014 new variable
+content#:#offline_mode_users#:#Users in offline mode###22 01 2014 new variable
+content#:#cont_offline_mode_disable_not_allowed_info#:#Since the learning module is currently used in offline mode, the offline mode can not be disabled.###22 01 2014 new variable
+content#:#stop_user_offline_mode#:#Stop offline mode###22 01 2014 new variable
+content#:#stop_user_offline_mode_for_user#:#Stop offline mode for###22 01 2014 new variable
+content#:#info_stop_offline_mode_sure#:#Note: The learning progress achieved in offline mode are lost. Are you sure?###22 01 2014 new variable
+init#:#init_error_redirect_click#:#Please click to continue.###22 01 2014 new variable
+init#:#init_error_redirect_info#:#Redirect not supported by context.###22 01 2014 new variable
+init#:#init_error_maintenance#:#The server is not available due to maintenance. We apologise for any inconvenience.###22 01 2014 new variable
+init#:#init_error_authentication_fail#:#Authentication failed.###22 01 2014 new variable
+obj#:#obj_multilang_title_descr_only#:#Translation is activated for title and description only. Translation support for Page editing ("Customize Page") needs additional activation.###22 01 2014 new variable
+obj#:#obj_activate_content_lang#:#Activate Translation for Page Editing###22 01 2014 new variable
+obj#:#obj_add_languages#:#Add Languages###22 01 2014 new variable
+obj#:#obj_activate_multilang#:#Activate Multilinguality###22 01 2014 new variable
+obj#:#obj_deactivate_multilang#:#Deactivate Multilinguality###22 01 2014 new variable
+obj#:#obj_deactivate_multilang_conf#:#Do you really want to deactivate multilinguality? Only contents of the master language will be kept.###22 01 2014 new variable
+obj#:#obj_multilang_deactivated#:#Multilinguality has been deactivated.###22 01 2014 new variable

@@ -13788,7 +13788,6 @@ tax#:#tax_assigned_items#:#ZUgewiesene Einträge
 cld#:#service_specific_settings#:#Besondere Einstellungen
 content#:#content_plugin_not_activated#:#Das Plugin für Seiteninhalte ist im Moment nicht aktiviert.
 content#:#cont_activate_multi_lang#:#Mehrsprachigkeit aktivieren
-content#:#cont_select_master_lang#:#Bitte wählen Sie die Standardsprache aus. Der aktuelle Inhalt wird dieser Sprache zugeordnet.
 rbac#:#rbac_copy_role_add_perm#:#Rechte hinzufügen
 rbac#:#rbac_copy_role_remove_perm#:#Rechte entfernen
 rbac#:#rbac_copy_role_copy#:#Rechte kopieren
@@ -13951,10 +13950,7 @@ content#:#cont_sc_auto_review_completed_and_passed#:#wenn 'vollständig bearbeit
 content#:#cont_sc_auto_review_completed_or_passed#:#wenn 'vollständig bearbeitet' oder 'bestanden'
 content#:#cont_auto_suspend#:#Abruf vorhandener Lernstandsdaten sicherstellen
 content#:#cont_auto_suspend_info#:#Diese Option ist für SCORM-Lernmodule, die SCORM 2004 in einer unzureichenden Weise unterstützen, indem sie keine geeigneten Werte für cmi.exit senden.
-content#:#cont_master_lang#:#Standardsprache
-content#:#cont_additional_langs#:#Zusätzliche Sprachen
 content#:#cont_current_lang#:#Aktuelle Sprache
-content#:#cont_deactivate_multi_lang#:#Mehrsprachigkeit deaktivieren
 content#:#cont_edit_language_version#:#Version bearbeiten
 content#:#cont_page_translation_does_not_exist#:#Die Seite existiert noch nicht in dieser Sprache und wird jetzt erstellt.
 adve#:#adve_blocking_mode#:#Bearbeitungssperre
@@ -13973,7 +13969,6 @@ mob#:#mob_file#:#Datei
 mob#:#mob_really_delete_srt#:#Möchten Sie wirklich die folgenden srt-Dateien löschen?
 mob#:#mob_srt_files_deleted#:#Dateien für Untertitel wurden gelöscht.
 content#:#cont_multilang_currently_deactivated#:#Mehrsprachigkeit ist aktuell nicht aktiviert.
-content#:#cont_multilinguality#:#Mehrsprachigkeit
 content#:#save_new#:#Speichern und neuer Absatz
 obj#:#obj_features#:#Zusätzliche Funktionen
 obj#:#obj_tool_setting_info_tab#:#Info-Reiter
@@ -14142,8 +14137,6 @@ skmg#:#skmg_status_outdated_info#:#Item cannot be newly selected by users as per
 skmg#:#skmg_status#:#Status###30 12 2013 new variable
 skmg#:#skmg_no_nodes_selectable#:#Currently there are no competences selectable.###30 12 2013 new variable
 skmg#:#skmg_suggested_resources#:#Suggested Resources###30 12 2013 new variable
-content#:#cont_deactivate_multi_lang_conf#:#Do you really want to deactivate multilinguality? Only contents of the master language will be kept.###30 12 2013 new variable
-content#:#cont_multilang_deactivated#:#Multilinguality has been deactivated.###30 12 2013 new variable
 content#:#cont_manage_multilang#:#Manage Multilinguality###30 12 2013 new variable
 content#:#cont_languages#:#Languages###30 12 2013 new variable
 content#:#cont_language#:#Language###30 12 2013 new variable
@@ -14172,3 +14165,17 @@ init#:#init_error_redirect_click#:#Bitte klicken um fortzufahren.
 init#:#init_error_redirect_info#:#Weiterleitungen werden durch Kontext nicht unterstützt.
 init#:#init_error_maintenance#:#Der Server ist aufgrund von Wartungsarbeiten nicht verfügbar. Wir bitten um Verständnis.
 init#:#init_error_authentication_fail#:#Authentifizierung fehlgeschlagen.
+obj#:#obj_select_master_lang#:#Bitte wählen Sie die Standardsprache aus. Bestehende Inhalte werden dieser Sprache zugeordnet. Die Standardsprache kann anschließend nicht geändert werden.
+obj#:#obj_master_lang#:#Standardsprache
+obj#:#obj_additional_langs#:#Zusätzliche Sprachen
+obj#:#obj_deactivate_content_lang#:#Mehrsprachigkeit für Seiteneditor deaktivieren.
+obj#:#obj_multilinguality#:#Mehrsprachigkeit
+obj#:#obj_deactivate_content_transl_conf#:#Wollen Sie die Unterstützung für mehrsprachige Inhalte im Seiteneditor wirklich deaktivieren? Nur die Inhalte der Standardsprache werden verfügbar bleiben.
+obj#:#obj_cont_transl_deactivated#:#Die Unterstützung für mehrsprachige Inhalte im Seiteneditor wurde deaktiviert.
+obj#:#obj_multilang_title_descr_only#:#Die Mehrsprachigkeit ist nur für Titel und Beschreibung aktiviert. Die Unterstützung für Inhalte im Seiteneditor ("Seite gestalten") kann separat aktiviert werden.
+obj#:#obj_activate_content_lang#:#Aktiviere Mehrsprachigkeit für Seiteneditor
+obj#:#obj_add_languages#:#Sprachen hinzufügen
+obj#:#obj_activate_multilang#:#Aktiviere Mehrsprachigkeit
+obj#:#obj_deactivate_multilang#:#Deaktiviere Mehrsprachigkeit
+obj#:#obj_deactivate_multilang_conf#:#Wollen Sie die Unterstützung für mehrsprachige Inhalte wirklich deaktivieren? Nur die Inhalte der Standardsprache werden verfügbar bleiben.
+obj#:#obj_multilang_deactivated#:#Die Unterstützung für mehrsprachige Inhalte wurde deaktiviert.
