@@ -19573,5 +19573,39 @@ while($row = $ilDB->fetchAssoc($set))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
-
-
+<#4174>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#4175>
+<?php
+if(!$ilDB->tableExists('obj_content_master_lng'))
+{
+	$fields = array (
+		'obj_id'    => array ('type' => 'integer', 'length'  => 4, 'notnull' => true, 'default' => 0),
+		'master_lang'   => array ('type' => 'text', 'notnull' => true, 'length' => 2, 'fixed' => false)
+	);
+	$ilDB->createTable('obj_content_master_lng', $fields);
+	$ilDB->addPrimaryKey('obj_content_master_lng', array('obj_id'));
+}
+?>
+<#4176>
+<?php
+	$set = $ilDB->query("SELECT * FROM copg_multilang");
+	while ($rec = $ilDB->fetchAssoc($set))
+	{
+		$ilDB->manipulate("INSERT INTO obj_content_master_lng ".
+			"(obj_id, master_lang) VALUES (".
+			$ilDB->quote($rec["parent_id"], "integer").",".
+			$ilDB->quote($rec["master_lang"], "text").
+			")");
+	}
+?>
+<#4177>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#4178>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

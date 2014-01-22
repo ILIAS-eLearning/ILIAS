@@ -52,17 +52,19 @@ class ilLMPresentationGUI
 		$this->lm = $this->lm_gui->object;
 		
 		// language translation
-		include_once("./Services/COPage/classes/class.ilPageMultiLang.php");
-		$this->ml = new ilPageMultiLang("lm", $this->lm->getId());
+		include_once("./Services/Object/classes/class.ilObjectTranslation.php");
+		$this->ot = new ilObjectTranslation($this->lm->getId());
+		//include_once("./Services/COPage/classes/class.ilPageMultiLang.php");
+		//$this->ml = new ilPageMultiLang("lm", $this->lm->getId());
 		$this->lang = "-";
-		if ($this->ml->getActivated())
+		if ($this->ot->getContentActivated())
 		{
-			$langs = $this->ml->getLanguages();
-			if (in_array($_GET["transl"], $langs) || $_GET["transl"] == $this->ml->getMasterLanguage())
+			$langs = $this->ot->getLanguages();
+			if (isset($langs[$_GET["transl"]]) || $_GET["transl"] == $this->ot->getMasterLanguage())
 			{
 				$this->lang = $_GET["transl"];
 			}
-			else if (in_array($ilUser->getLanguage(), $langs))
+			else if (isset($langs[$ilUser->getLanguage()]))
 			{
 				$this->lang = $ilUser->getLanguage();
 			}

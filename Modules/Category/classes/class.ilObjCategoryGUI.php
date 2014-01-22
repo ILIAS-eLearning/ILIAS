@@ -12,7 +12,7 @@ require_once "./Services/Container/classes/class.ilContainerGUI.php";
 * @version $Id$
 *
 * @ilCtrl_Calls ilObjCategoryGUI: ilPermissionGUI, ilContainerPageGUI, ilContainerLinkListGUI, ilObjUserGUI, ilObjUserFolderGUI
-* @ilCtrl_Calls ilObjCategoryGUI: ilInfoScreenGUI, ilObjStyleSheetGUI, ilCommonActionDispatcherGUI
+* @ilCtrl_Calls ilObjCategoryGUI: ilInfoScreenGUI, ilObjStyleSheetGUI, ilCommonActionDispatcherGUI, ilObjectTranslationGUI
 * @ilCtrl_Calls ilObjCategoryGUI: ilColumnGUI, ilObjectCopyGUI, ilUserTableGUI, ilDidacticTemplateGUI, ilExportGUI
 * 
 * @ingroup ModulesCategory
@@ -174,6 +174,16 @@ class ilObjCategoryGUI extends ilContainerGUI
 				$exp = new ilExportGUI($this);
 				$exp->addFormat('xml');
 				$this->ctrl->forwardCommand($exp);
+				break;
+
+			case 'ilobjecttranslationgui':
+				$this->checkPermissionBool("write");
+				$this->prepareOutput();
+				//$this->tabs_gui->setTabActive('export');
+				$this->setEditTabs("settings_trans");
+				include_once("./Services/Object/classes/class.ilObjectTranslationGUI.php");
+				$transgui = new ilObjectTranslationGUI($this);
+				$this->ctrl->forwardCommand($transgui);
 				break;
 
 			default:
@@ -490,11 +500,14 @@ class ilObjCategoryGUI extends ilContainerGUI
 			$this->lng->txt("settings"),
 			$this->ctrl->getLinkTarget($this, "edit"));
 
-		$this->tabs_gui->addSubTab("settings_trans",
+		/*$this->tabs_gui->addSubTab("settings_trans",
 			$this->lng->txt("title_and_translations"),
-			$this->ctrl->getLinkTarget($this, "editTranslations"));
+			$this->ctrl->getLinkTarget($this, "editTranslations"));*/
 
-		
+		$this->tabs_gui->addSubTab("settings_trans",
+			$this->lng->txt("obj_multilinguality"),
+			$this->ctrl->getLinkTargetByClass("ilobjecttranslationgui", ""));
+
 		// custom icon
 		if ($ilSetting->get("custom_icons"))
 		{
@@ -706,6 +719,9 @@ class ilObjCategoryGUI extends ilContainerGUI
 	function editTranslationsObject($a_get_post_values = false, $a_add = false)
 	{
 		global $tpl;
+
+	$this->ctrl->redirectByClass("ilobjecttranslationgui", "");
+
 
 		$this->lng->loadLanguageModule($this->object->getType());
 		$this->setEditTabs("settings_trans");

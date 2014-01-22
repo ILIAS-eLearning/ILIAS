@@ -14,14 +14,28 @@ Multi lang
 =================================
 
 - new table
-- copg_page_properties
-  - multi_lang_def_lang, default "-" -> no support
-  - if activated, default lang is set, e.g. to "de"
+- copg_multilang
+  - defines default language per repository obj id (-> "-" records)
   -> page_object record with "-" in lang mean "de", but value is not
      set in page_object (no dependent tables need to be updated)
-     OR
-  -> page object record with "-" is set to "de" and parts of delelete/update
-     are invoked to update dependencies
+- copg_multilang_lang
+  - contains all other languages supported by the repository object
+- object_translation
+  - general title/description multilinguality for objects
+-> idea remove copg_multilang_lang (use object_translation instead) and
+   rename copy_multilang to obj_copg_master_lang (only contain obj_id and master_lang)
+- Support in Objects
+  - Learning Modules
+  - Categories
+  - Magazin
+  - Courses? Problem -> Rest of course (e.g. Course Information) is not multilingual
+  - Groups? See course
+  - Folders? Should only support, if courses and groups offer support
+   
+   ilObjectTranslationTableGUI
+   
+  
+  
 - page_object
   - new pk lang with "-" as default
 - page_history
