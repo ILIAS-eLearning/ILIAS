@@ -3119,9 +3119,9 @@ class ilObjContentObject extends ilObject
 		unset($obj_settings);
 
 		// copy (page) multilang settings
-		include_once("./Services/COPage/classes/class.ilPageMultiLang.php");
-		$ml = new ilPageMultiLang($this->getType(), $this->getId());
-		$ml->copy($this->getType(), $new_obj->getId());
+		include_once("./Services/Object/classes/class.ilObjectTranslation.php");
+		$ot = new ilObjectTranslation($this->getId());
+		$ot->copy($new_obj->getId());
 
 		return $new_obj;
 	}

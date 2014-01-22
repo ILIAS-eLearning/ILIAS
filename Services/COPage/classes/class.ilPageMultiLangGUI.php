@@ -25,8 +25,13 @@ class ilPageMultiLangGUI
 	 */
 	function __construct($a_parent_type, $a_parent_id, $a_single_page_mode = false)
 	{
-		$this->ml = new ilPageMultiLang($a_parent_type, $a_parent_id);
-		$this->single_page_mode = $a_single_page_mode;
+		//$this->ml = new ilPageMultiLang($a_parent_type, $a_parent_id);
+
+		// object translation
+		include_once("./Services/Object/classes/class.ilObjectTranslation.php");
+		$this->ot = new ilObjectTranslation($a_parent_id);
+		
+//		$this->single_page_mode = $a_single_page_mode;
 	}
 	
 	/**
@@ -55,7 +60,7 @@ class ilPageMultiLangGUI
 	/**
 	 * Settings
 	 */
-	function settings()
+/*	function settings()
 	{
 		global $tpl, $ilToolbar, $lng, $ilCtrl;
 
@@ -88,11 +93,11 @@ class ilPageMultiLangGUI
 			$tpl->setContent($tab->getHTML());
 		}
 	}
-	
+*/
 	/**
 	 * Activate multi language (-> master language selection)
 	 */
-	function activateMultilinguality()
+/*	function activateMultilinguality()
 	{
 		global $tpl, $lng;
 
@@ -103,11 +108,11 @@ class ilPageMultiLangGUI
 		$form = $this->getMultiLangForm();
 		$tpl->setContent($form->getHTML());
 	}
-	
+*/
 	/**
 	 * Get multi language form
 	 */
-	function getMultiLangForm($a_add = false)
+/*	function getMultiLangForm($a_add = false)
 	{
 		global $tpl, $lng, $ilCtrl, $ilUser;
 		
@@ -149,21 +154,21 @@ class ilPageMultiLangGUI
 		
 		return $form;
 	}
-
+*/
 	/**
 	 * Return to parent
 	 */
-	function cancel()
+/*	function cancel()
 	{
 		global $ilCtrl;
 
 		$ilCtrl->returnToParent($this);
 	}
-	
+*/
 	/**
 	 * Save multlilinguality settings
 	 */
-	function saveMultilingualitySettings()
+/*	function saveMultilingualitySettings()
 	{
 		global $ilCtrl;
 		
@@ -187,7 +192,7 @@ class ilPageMultiLangGUI
 		}
 		
 		$ilCtrl->redirect($this, "settings");
-	}
+	}*/
 
 	/**
 	 * Get multi lang info
@@ -204,10 +209,10 @@ class ilPageMultiLangGUI
 		$lng->loadLanguageModule("meta");
 		
 		$tpl = new ilTemplate("tpl.page_multi_lang_info.html", true, true, "Services/COPage");
-		$tpl->setVariable("TXT_MASTER_LANG", $lng->txt("cont_master_lang"));
-		$tpl->setVariable("VAL_ML", $lng->txt("meta_l_".$this->ml->getMasterLanguage()));
+		$tpl->setVariable("TXT_MASTER_LANG", $lng->txt("obj_master_lang"));
+		$tpl->setVariable("VAL_ML", $lng->txt("meta_l_".$this->ot->getMasterLanguage()));
 		$cl = ($a_page_lang == "-")
-			? $this->ml->getMasterLanguage()
+			? $this->ot->getMasterLanguage()
 			: $a_page_lang;
 		$tpl->setVariable("TXT_CURRENT_LANG", $lng->txt("cont_current_lang"));
 		$tpl->setVariable("VAL_CL", $lng->txt("meta_l_".$cl));
@@ -217,7 +222,7 @@ class ilPageMultiLangGUI
 	/**
 	 * Confirm page translation creation
 	 */
-	function confirmDeactivateMultiLanguage()
+/*	function confirmDeactivateMultiLanguage()
 	{
 		global $ilCtrl, $tpl, $lng;
 
@@ -230,36 +235,36 @@ class ilPageMultiLangGUI
 		$cgui->setCancel($lng->txt("cancel"), "settings");
 		$cgui->setConfirm($lng->txt("confirm"), "deactivateMultiLang");
 		$tpl->setContent($cgui->getHTML());
-	}
+	}*/
 
 	/**
 	 * Deactivate multilanguage
 	 */
-	function deactivateMultiLang()
+/*	function deactivateMultiLang()
 	{
 		global $lng, $ilCtrl;
 
 		$this->ml->delete();
 		ilUtil::sendSuccess($lng->txt("cont_multilang_deactivated"), true);
 		$ilCtrl->redirect($this, "settings");
-	}
+	}*/
 
 	/**
 	 * Add language
 	 */
-	function addLanguage()
+/*	function addLanguage()
 	{
 		global $tpl;
 
 		$this->setTabs();
 		$form = $this->getMultiLangForm(true);
 		$tpl->setContent($form->getHTML());
-	}
+	}*/
 
 	/**
 	 * Save languages
 	 */
-	function saveLanguages()
+/*	function saveLanguages()
 	{
 		global $ilCtrl, $lng;
 
@@ -282,12 +287,12 @@ class ilPageMultiLangGUI
 		$this->ml->save();
 		ilUtil::sendInfo($lng->txt("msg_obj_modified"), true);
 		$ilCtrl->redirect($this, "settings");
-	}
+	}*/
 
 	/**
 	 * Confirm remove languages
 	 */
-	function confirmRemoveLanguages()
+/*	function confirmRemoveLanguages()
 	{
 		global $ilCtrl, $tpl, $lng;
 
@@ -317,11 +322,11 @@ class ilPageMultiLangGUI
 			$tpl->setContent($cgui->getHTML());
 		}
 	}
-
+*/
 	/**
 	 * Remove languages
 	 */
-	function removeLanguages()
+/*	function removeLanguages()
 	{
 		global $lng, $ilCtrl;
 
@@ -340,12 +345,12 @@ class ilPageMultiLangGUI
 			ilUtil::sendInfo($lng->txt("msg_obj_modified"), true);
 		}
 		$ilCtrl->redirect($this, "settings");
-	}
+	}*/
 
 	/**
 	 * Set tab
 	 */
-	function setTabs()
+/*	function setTabs()
 	{
 		global $ilTabs, $lng, $ilCtrl;
 
@@ -355,7 +360,7 @@ class ilPageMultiLangGUI
 			$ilTabs->setBackTarget($lng->txt("cont_back_to_page"),
 				$ilCtrl->getLinkTarget($this, "cancel"));
 		}
-	}
+	}*/
 
 }
 

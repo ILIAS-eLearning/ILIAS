@@ -186,17 +186,21 @@ class ilStructureObject extends ilLMObject
 		}
 		
 		// @todo: optimize
-		include_once("./Services/COPage/classes/class.ilPageMultiLang.php");
-		$ml = new ilPageMultiLang("lm", $a_lm_id);
+		//include_once("./Services/COPage/classes/class.ilPageMultiLang.php");
+		//$ml = new ilPageMultiLang("lm", $a_lm_id);
+		include_once("./Services/Object/classes/class.ilObjectTranslation.php");
+		$ot = new ilObjectTranslation($a_lm_id);
+
 
 		// get chapter data
 		$query = "SELECT * FROM lm_data WHERE obj_id = ".
 			$ilDB->quote($a_st_id, "integer");
 		$st_set = $ilDB->query($query);
 		$st_rec = $ilDB->fetchAssoc($st_set);
-		
-		if ($a_lang != "-" && $ml->getActivated() && in_array($a_lang,
-			$ml->getLanguages()))
+
+		$languages = $ot->getLanguages();
+
+		if ($a_lang != "-" && $ot->getContentActivated() && isset($languages[$a_lang]))
 		{
 			include_once("./Modules/LearningModule/classes/class.ilLMObjTranslation.php");
 			$lmobjtrans = new ilLMObjTranslation($a_st_id, $a_lang);

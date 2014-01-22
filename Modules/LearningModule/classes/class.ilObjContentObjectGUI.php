@@ -33,6 +33,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 //echo "<br>ilobjcontobjgui-constructor-id-$a_id";
 		$this->ctrl =& $ilCtrl;
 		$lng->loadLanguageModule("content");
+		$lng->loadLanguageModule("obj");
 		parent::ilObjectGUI($a_data,$a_id,$a_call_by_reference,false);
 	}
 
@@ -231,13 +232,28 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 				$ret = $this->ctrl->forwardCommand($exp_gui);
 				break;
 
+			case 'ilobjecttranslationgui':
+				$this->addHeaderAction();
+				$this->addLocations(true);
+				//$this->checkPermissionBool("write");
+				//$this->prepareOutput();
+				//$this->tabs_gui->setTabActive('export');
+				$this->setTabs("settings");
+				$this->setSubTabs("obj_multilinguality");
+				include_once("./Services/Object/classes/class.ilObjectTranslationGUI.php");
+				$transgui = new ilObjectTranslationGUI($this);
+				$transgui->setTitleDescrOnlyMode(false);
+				$this->ctrl->forwardCommand($transgui);
+				break;
+
+
 			case "ilcommonactiondispatchergui":
 				include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
 				$gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
 				$this->ctrl->forwardCommand($gui);
 				break;
 				
-			case "ilpagemultilanggui":
+/*			case "ilpagemultilanggui":
 				$this->addHeaderAction();
 				$this->addLocations(true);
 				$ilCtrl->setReturn($this, "properties");
@@ -246,7 +262,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 				$this->setTabs("settings");
 				$this->setSubTabs("cont_multilinguality");
 				$ret = $this->ctrl->forwardCommand($ml_gui);
-				break;
+				break;*/
 			
 			default:
 				$new_type = $_POST["new_type"]
@@ -1264,16 +1280,17 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		global $lng, $ilCtrl;
 		
 		// multi language
-		include_once("./Services/COPage/classes/class.ilPageMultiLang.php");
-		$ml = new ilPageMultiLang("lm", $a_lm_id);
-		if ($ml->getActivated())
+		include_once("./Services/Object/classes/class.ilObjectTranslation.php");
+		$ot = new ilObjectTranslation($a_lm_id);
+		//include_once("./Services/COPage/classes/class.ilPageMultiLang.php");
+		//$ml = new ilPageMultiLang("lm", $a_lm_id);
+		if ($ot->getContentActivated())
 		{
 			$lng->loadLanguageModule("meta");
 			
 			// info
 			include_once("./Services/COPage/classes/class.ilPageMultiLangGUI.php");
 			$ml_gui = new ilPageMultiLangGUI("lm", $a_lm_id);
-			include_once("./Services/COPage/classes/class.ilPageMultiLangGUI.php");
 			$ml_head = $ml_gui->getMultiLangInfo($_GET["transl"]);
 			
 			// language switch
@@ -1284,14 +1301,14 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 			$entries = false;
 			if (!in_array($_GET["transl"], array("", "-")))
 			{
-				$l = $ml->getMasterLanguage();
+				$l = $ot->getMasterLanguage();
 				$list->addItem($lng->txt("cont_edit_language_version").": ".
 					$lng->txt("meta_l_".$l), "",
 					$ilCtrl->getLinkTarget($a_gui_class, "editMasterLanguage"));
 				$entries = true;
 			}
 
-			foreach ($ml->getLanguages() as $al)
+			foreach ($ot->getLanguages() as $al => $lang)
 			{
 				if ($_GET["transl"] != $al)
 				{
@@ -2576,6 +2593,7 @@ $tabs_gui = $ilTabs;
 			$lng->txt("settings"),
 			$this->ctrl->getLinkTarget($this,'properties'));
 
+
 		// learning progress
 		include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
 		if(ilLearningProgressAccess::checkAccess($this->object->getRefId()) and ($this->object->getType() == 'lm' or $this->object->getType() == 'dbk'))
@@ -2638,7 +2656,7 @@ $tabs_gui = $ilTabs;
 
 		if (in_array($a_active,
 			array("cont_general_properties", "cont_style", "cont_lm_menu", "public_section",
-				"cont_glossaries", "cont_multilinguality")))
+				"cont_glossaries", "cont_multilinguality", "obj_multilinguality")))
 		{
 			// general properties
 			$ilTabs->addSubTabTarget("cont_general_properties",
@@ -2672,10 +2690,12 @@ $tabs_gui = $ilTabs;
 			}
 
 			// multilinguality
-			$ilTabs->addSubTabTarget("cont_multilinguality",
+			/* $ilTabs->addSubTabTarget("cont_multilinguality",
 				$this->ctrl->getLinkTargetByClass("ilPageMultiLangGUI", ''),
-				"", "");
+				"", "");*/
 
+			$ilTabs->addSubTabTarget("obj_multilinguality",
+				$this->ctrl->getLinkTargetByClass("ilobjecttranslationgui", ""));
 
 			$ilTabs->setSubTabActive($a_active);
 		}

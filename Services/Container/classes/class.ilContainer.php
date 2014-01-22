@@ -406,9 +406,13 @@ class ilContainer extends ilObject
 			//$ilLog->write("...copy ml");
 
 			// copy (page) multilang settings
-			include_once("./Services/COPage/classes/class.ilPageMultiLang.php");
+			/*include_once("./Services/COPage/classes/class.ilPageMultiLang.php");
 			$ml = new ilPageMultiLang("cont", $this->getId());
-			$ml->copy("cont", $new_obj->getId());
+			$ml->copy("cont", $new_obj->getId());*/
+
+			include_once("./Services/Object/classes/class.ilObjectTranslation.php");
+			$ot = new ilObjectTranslation($this->getId());
+			$ot->copy($new_obj->getId());
 		}
 		
 		return $new_obj;

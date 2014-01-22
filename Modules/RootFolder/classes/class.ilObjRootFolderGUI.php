@@ -11,7 +11,7 @@
 *
 * @ilCtrl_Calls ilObjRootFolderGUI: ilPermissionGUI, ilContainerPageGUI, ilContainerLinkListGUI, 
 * @ilCtrl_Calls ilObjRootFolderGUI: ilColumnGUI, ilObjectCopyGUI, ilObjStyleSheetGUI
-* @ilCtrl_Calls ilObjRootFolderGUI: ilCommonActionDispatcherGUI
+* @ilCtrl_Calls ilObjRootFolderGUI: ilCommonActionDispatcherGUI, ilObjectTranslationGUI
 * 
 * @extends ilObjectGUI
 */
@@ -33,6 +33,7 @@ class ilObjRootFolderGUI extends ilContainerGUI
 		$this->ilContainerGUI($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 		
 		$lng->loadLanguageModule("cntr");
+		$lng->loadLanguageModule("obj");
 	}
 
 	/**
@@ -161,7 +162,17 @@ class ilObjRootFolderGUI extends ilContainerGUI
 				$gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
 				$this->ctrl->forwardCommand($gui);
 				break;
-			
+
+			case 'ilobjecttranslationgui':
+				$this->checkPermissionBool("write");
+				$this->prepareOutput();
+				//$this->tabs_gui->setTabActive('export');
+				$this->setEditTabs("settings_trans");
+				include_once("./Services/Object/classes/class.ilObjectTranslationGUI.php");
+				$transgui = new ilObjectTranslationGUI($this);
+				$this->ctrl->forwardCommand($transgui);
+				break;
+
 			default:
 				
 				// fix bug http://www.ilias.de/mantis/view.php?id=10305
@@ -240,9 +251,14 @@ class ilObjRootFolderGUI extends ilContainerGUI
 			$this->lng->txt("settings"),
 			$this->ctrl->getLinkTarget($this, "edit"));
 
-		$this->tabs_gui->addSubTab("settings_trans",
+		/*$this->tabs_gui->addSubTab("settings_trans",
 			$this->lng->txt("title_and_translations"),
-			$this->ctrl->getLinkTarget($this, "editTranslations"));
+			$this->ctrl->getLinkTarget($this, "editTranslations"));*/
+
+		$this->tabs_gui->addSubTab("settings_trans",
+			$this->lng->txt("obj_multilinguality"),
+			$this->ctrl->getLinkTargetByClass("ilobjecttranslationgui", ""));
+
 
 		$this->tabs_gui->activateTab("settings");
 		$this->tabs_gui->activateSubTab($active_tab);
@@ -363,6 +379,9 @@ class ilObjRootFolderGUI extends ilContainerGUI
 	function editTranslationsObject($a_get_post_values = false)
 	{
 		global $tpl;
+
+
+		$this->ctrl->redirectByClass("ilobjecttranslationgui", "");
 
 		$this->lng->loadLanguageModule($this->object->getType());
 		$this->setEditTabs("settings_trans");

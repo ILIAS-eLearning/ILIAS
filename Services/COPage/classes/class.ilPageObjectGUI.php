@@ -1050,7 +1050,7 @@ return;
 				$ilCtrl->forwardCommand($gui);
 				break;
 
-			case "ilpagemultilanggui":
+/*			case "ilpagemultilanggui":
 				$ilCtrl->setReturn($this, "edit");
 				include_once("./Services/COPage/classes/class.ilPageMultiLangGUI.php");
 				$ml_gui = new ilPageMultiLangGUI($this->getPageObject()->getParentType(), $this->getPageObject()->getParentId(),
@@ -1058,7 +1058,7 @@ return;
 				//$this->setTabs("settings");
 				//$this->setSubTabs("cont_multilinguality");
 				$ret = $this->ctrl->forwardCommand($ml_gui);
-				break;
+				break;*/
 
 			default:
 				$cmd = $this->ctrl->getCmd("preview");
@@ -2052,19 +2052,22 @@ return;
 		// general multi lang support and single page mode?
 		if ($cfg->getMultiLangSupport())
 		{
-			include_once("./Services/COPage/classes/class.ilPageMultiLang.php");
-			$ml = new ilPageMultiLang($this->getPageObject()->getParentType(),
-				$this->getPageObject()->getParentId());
+			//include_once("./Services/COPage/classes/class.ilPageMultiLang.php");
+			//$ml = new ilPageMultiLang($this->getPageObject()->getParentType(),
+			//	$this->getPageObject()->getParentId());
+
+			include_once("./Services/Object/classes/class.ilObjectTranslation.php");
+			$ot = new ilObjectTranslation($this->getPageObject()->getParentId());
 			
-			if (!$ml->getActivated())
+			if (!$ot->getContentActivated())
 			{
-				if ($cfg->getSinglePageMode())
+/*				if ($cfg->getSinglePageMode())
 				{
 					$a_list->addItem($lng->txt("cont_activate_multi_lang"), "",
 						$ilCtrl->getLinkTargetByClass("ilpagemultilanggui", "activateMultilinguality"));
 	
 					$any_items = true;
-				}
+				}*/
 			}
 			else
 			{
@@ -2072,13 +2075,13 @@ return;
 				
 				if ($this->getPageObject()->getLanguage() != "-")
 				{
-					$l = $ml->getMasterLanguage();
+					$l = $ot->getMasterLanguage();
 					$a_list->addItem($lng->txt("cont_edit_language_version").": ".
 						$lng->txt("meta_l_".$l), "",
 						$ilCtrl->getLinkTarget($this, "editMasterLanguage"));
 				}
 
-				foreach ($ml->getLanguages() as $al)
+				foreach ($ot->getLanguages() as $al => $lang)
 				{
 					if ($this->getPageObject()->getLanguage() != $al)
 					{
@@ -2090,11 +2093,11 @@ return;
 					}
 				}
 
-				if ($cfg->getSinglePageMode())
+/*				if ($cfg->getSinglePageMode())
 				{
 					$a_list->addItem($lng->txt("cont_manage_multilang"), "",
 						$ilCtrl->getLinkTargetByClass("ilpagemultilanggui", "settings"));
-				}
+				}*/
 
 				include_once("./Services/COPage/classes/class.ilPageMultiLangGUI.php");
 				$ml_gui = new ilPageMultiLangGUI($this->getPageObject()->getParentType(),
