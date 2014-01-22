@@ -1645,7 +1645,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 */
 	function copyObject()
 	{
-		global $rbacsystem, $ilCtrl;
+		global $rbacsystem, $ilCtrl, $objDefinition;
 
 		if ($_GET["item_ref_id"] != "")
 		{
@@ -1658,10 +1658,18 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		}
 
 		// FOR ALL OBJECTS THAT SHOULD BE COPIED
+		$containers = 0;
 		foreach ($_POST["id"] as $ref_id)
 		{
 			// GET COMPLETE NODE_DATA OF ALL SUBTREE NODES
 			$node_data = $this->tree->getNodeData($ref_id);
+
+			// count containers
+			if ($objDefinition->isContainer($node_data["type"]))
+			{
+				$containers++;
+			}
+
 			$subtree_nodes = $this->tree->getSubTree($node_data);
 
 			$all_node_data[] = $node_data;
@@ -1681,12 +1689,30 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 				}
 			}
 		}
+
+		if ($containers > 0 && count($_POST["id"]) > 1)
+		{
+			$this->ilias->raiseError($this->lng->txt("cntr_container_only_on_their_own"), $this->ilias->error_obj->MESSAGE);
+		}
+
 		// IF THERE IS ANY OBJECT WITH NO PERMISSION TO 'delete'
 		if (count($no_copy))
 		{
 			$this->ilias->raiseError(
 				$this->lng->txt("msg_no_perm_copy") . " " . implode(',',$this->getTitlesByRefId($no_copy)),
 				$this->ilias->error_obj->MESSAGE);
+		}
+
+		// if we have a single container, set it as source id and redirect to ilObjectCopyGUI
+		if (count($_POST["id"]) == 1)
+		{
+			$ilCtrl->setParameterByClass("ilobjectcopygui", "source_id", $_POST["id"][0]);
+			$ilCtrl->redirectByClass("ilobjectcopygui", "initTargetSelection");
+		}
+		else
+		{
+			$ilCtrl->setParameterByClass("ilobjectcopygui", "source_ids", implode($_POST["id"],"_"));
+			$ilCtrl->redirectByClass("ilobjectcopygui", "initTargetSelection");
 		}
 
 		$_SESSION["clipboard"]["parent"] = $_GET["ref_id"];
@@ -2243,8 +2269,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		}
 		$cmd = $_SESSION['clipboard']['cmd'];
 
-		require_once './Services/Object/classes/class.ilPasteIntoMultipleItemsExplorer.php';
-
 		//
 		include_once("./Services/Repository/classes/class.ilRepositorySelectorExplorerGUI.php");
 		$exp = new ilRepositorySelectorExplorerGUI($this, "showPasteTree");
@@ -2504,7 +2528,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	function pasteObject()
 	{
 		global $rbacsystem, $rbacadmin, $rbacreview, $log,$tree;
-		global $ilUser, $lng;
+		global $ilUser, $lng, $ilCtrl;
 
 		// BEGIN ChangeEvent: Record paste event.
 		require_once('Services/Tracking/classes/class.ilChangeEvent.php');
@@ -2592,6 +2616,26 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		// process COPY command
 		if ($_SESSION["clipboard"]["cmd"] == "copy")
 		{
+			unset($_SESSION["clipboard"]["cmd"]);
+
+			// new implementation, redirects to ilObjectCopyGUI
+			if (count($ref_ids) == 1)
+			{
+				$ilCtrl->setParameterByClass("ilobjectcopygui", "target", $this->object->getRefId());
+				$ilCtrl->setParameterByClass("ilobjectcopygui", "source_id", $ref_ids[0]);
+				$ilCtrl->redirectByClass("ilobjectcopygui", "saveTarget");
+			}
+			else
+			{
+				$ilCtrl->setParameterByClass("ilobjectcopygui", "target", $this->object->getRefId());
+				$ilCtrl->setParameterByClass("ilobjectcopygui", "source_ids", implode($ref_ids, "_"));
+				$ilCtrl->redirectByClass("ilobjectcopygui", "saveTarget");
+			}
+
+
+
+			/* old implementation
+
 			foreach($ref_ids as $ref_id)
 			{
 				$revIdMapping = array(); 
@@ -2617,7 +2661,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 					$this->object->getId());
 				ilChangeEvent::_catchupWriteEvents($newNode_data['obj_id'], $ilUser->getId());				
 				// END ChangeEvent: Record copy event.
-			}
+			}*/
+
 			$log->write("ilObjectGUI::pasteObject(), copy finished");
 		}
 		// END WebDAV: Support a Copy command in the repository
@@ -2812,7 +2857,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		// FORMAT DATA
 		$counter = 0;
 		$f_result = array();
-
 		foreach($_SESSION["clipboard"]["ref_ids"] as $ref_id)
 		{
 			if(!$tmp_obj = ilObjectFactory::getInstanceByRefId($ref_id,false))

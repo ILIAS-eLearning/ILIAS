@@ -14179,3 +14179,5 @@ obj#:#obj_activate_multilang#:#Activate Multilinguality
 obj#:#obj_deactivate_multilang#:#Deactivate Multilinguality
 obj#:#obj_deactivate_multilang_conf#:#Do you really want to deactivate multilinguality? Only contents of the master language will be kept.
 obj#:#obj_multilang_deactivated#:#Multilinguality has been deactivated.
+cntr#:#cntr_container_only_on_their_own#:#Categories, courses, groups or folders can only be copied as single objects. Please select one item only.
+cntr#:#objects_duplicated#:#Objects copied
