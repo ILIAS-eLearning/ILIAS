@@ -22,7 +22,13 @@ class ilDataCollectionRecordListGUI
 
     protected $max_imports = 100;
 
-    protected $supported_import_datatypes = array(ilDataCollectionDatatype::INPUTFORMAT_BOOLEAN, ilDataCollectionDatatype::INPUTFORMAT_NUMBER, ilDataCollectionDatatype::INPUTFORMAT_REFERENCE, ilDataCollectionDatatype::INPUTFORMAT_TEXT);
+    protected $supported_import_datatypes = array(
+        ilDataCollectionDatatype::INPUTFORMAT_BOOLEAN,
+        ilDataCollectionDatatype::INPUTFORMAT_NUMBER,
+        ilDataCollectionDatatype::INPUTFORMAT_REFERENCE,
+        ilDataCollectionDatatype::INPUTFORMAT_TEXT,
+        ilDataCollectionDatatype::INPUTFORMAT_DATETIME
+    );
 
     private $table_obj;
     /**
@@ -243,13 +249,16 @@ class ilDataCollectionRecordListGUI
                     if($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_REFERENCE){
                         $old = $value;
                         $value = $this->getReferenceFromValue($field, $value);
-                        if(!$value)
-                            $warnings [] = "(".$i.", ".$this->getExcelCharForInteger($col).") ".$lng->txt("dcl_no_such_reference")." ".$old;
+                        if(!$value) $warnings[] = "(".$i.", ".$this->getExcelCharForInteger($col).") ".$lng->txt("dcl_no_such_reference")." ".$old;
+                        $value = utf8_encode($value);
+                    } else if ($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_DATETIME) {
+                        $value = array(
+                            'date' => $value,
+                            'time' => '',
+                        );
                     }
-                    $value = utf8_encode($value);
                     $field->checkValidity($value, $record->getId());
-                    if(!$simulate)
-                        $record->setRecordFieldValue($field->getId(), $value);
+                    if(!$simulate) $record->setRecordFieldValue($field->getId(), $value);
                 }catch(ilDataCollectionInputException $e){
                     $warnings[] = "(".$i.", ".$this->getExcelCharForInteger($col).") ".$e;
                 }
