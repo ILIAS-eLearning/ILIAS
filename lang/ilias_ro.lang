@@ -322,8 +322,6 @@ assessment#:#online_exam_show_answer_print_sheet#:#You have finished your online
 assessment#:#online_exam_show_finish_test#:#You still have to call the final submission of your online exam. Please press the &quot;Finish the test&quot; button to call the final submission.###23 Dec 2005 new variable
 assessment#:#optional_keywords#:#Optional input of keywords###10 Jul 2006 new variable
 assessment#:#or#:#sau
-assessment#:#order_pictures#:#Ordonati imagini
-assessment#:#order_terms#:#Ordonati termeni
 assessment#:#ordering_question_javascript_hint#:#Please drag a definition/picture over the definition/picture where you want to put it and drop it. The underlying definition/picture and all following definitions/pictures will move downwards.###10 Jul 2006 new variable
 assessment#:#output_mode#:#Output mode###10 Jul 2006 new variable
 assessment#:#participants#:#Participanti
@@ -4332,8 +4330,6 @@ mail#:#mail_salutation_female#:#Salutation, female###10 Jul 2006 new variable
 mail#:#mail_salutation_general#:#Salutation, general###10 Jul 2006 new variable
 mail#:#mail_salutation_male#:#Salutation, male###10 Jul 2006 new variable
 mail#:#mail_saved#:#Mesajul a fost salvat
-mail#:#mail_search_addressbook#:#Cautati in agenda
-mail#:#mail_search_system#:#Cautati in sistem
 mail#:#mail_select_one_entry#:#Trebuie sa selectati o intrare
 mail#:#mail_select_one_file#:#Trebuie sa selectati un fisier
 mail#:#mail_send_with_system_address#:#Send With System Address###10 Jul 2006 new variable
@@ -13006,8 +13002,6 @@ forum#:#frm_merge_src#:#Selected Thread: %s###24 10 2013 new variable
 forum#:#frm_merge_target#:#Target: %s###24 10 2013 new variable
 forum#:#merged_threads_successfully#:#The selected threads were merged successfully###24 10 2013 new variable
 forum#:#switch_threads_for_merge#:#The selected thread is older than the target thread. To ensure a successful merge, the source and target thread will be switched.###24 10 2013 new variable
-assessment#:#order_nested_terms#:#Switch to term nesting view ###24 10 2013 new variable
-assessment#:#order_nested_pictures#:#Switch to picture nesting view###24 10 2013 new variable
 cron#:#cron_job_id#:#Id###24 10 2013 new variable
 cron#:#cron_component#:#Component###24 10 2013 new variable
 cron#:#cron_schedule#:#Schedule###24 10 2013 new variable
@@ -13767,10 +13761,7 @@ search#:#search_mime_filter_form#:#Mime Type Filter###24 10 2013 new variable
 search#:#lucene_prefix_wildcard#:#Prefix Wildcard Queries###24 10 2013 new variable
 search#:#lucene_prefix_wildcard_info#:#If enabled, prefix wildcard queries (*LIAS finds ILIAS) are supported.###24 10 2013 new variable
 content#:#cont_activate_multi_lang#:#Activate Multilinguality###24 10 2013 new variable
-content#:#cont_select_master_lang#:#Please select the master language. The current content will be assigned to the master language.###24 10 2013 new variable
 assessment#:#show_answer_overview#:#Show Answer Overview###24 10 2013 new variable
-content#:#cont_master_lang#:#Master Language###24 10 2013 new variable
-content#:#cont_additional_langs#:#Additional Languages###24 10 2013 new variable
 rbac#:#rbac_copy_role_add_perm#:#Add Permissions###24 10 2013 new variable
 rbac#:#rbac_copy_role_remove_perm#:#Remove Permissions###24 10 2013 new variable
 rbac#:#rbac_copy_role_copy#:#Copy Permissions###24 10 2013 new variable
@@ -13784,7 +13775,6 @@ common#:#password_contains_parts_of_login_err#:#The chosen password contains you
 common#:#password_must_contain_lcase_chars#:#The password must contain at least %s lower case letters.###24 10 2013 new variable
 common#:#password_must_contain_ucase_chars#:#The password must contain at least %s capital letters.###24 10 2013 new variable
 content#:#cont_current_lang#:#Current Language###24 10 2013 new variable
-content#:#cont_deactivate_multi_lang#:#Deactivate Multilinguality###24 10 2013 new variable
 content#:#cont_edit_language_version#:#Edit Version###24 10 2013 new variable
 content#:#cont_page_translation_does_not_exist#:#The translation page does not exist yet and will be created###24 10 2013 new variable
 search#:#search_user_search_form#:#User Search###24 10 2013 new variable
@@ -13897,7 +13887,6 @@ prtf#:#prtf_properties#:#Portfolio Properties###24 10 2013 new variable
 prtf#:#prtf_style#:#Portfolio Style###24 10 2013 new variable
 prtt#:#prtt_properties#:#Portfolio Template Properties###24 10 2013 new variable
 prtt#:#prtt_style#:#Portfolio Template Style###24 10 2013 new variable
-content#:#cont_multilinguality#:#Multilinguality###24 10 2013 new variable
 exc#:#exc_save_all#:#Save All###24 10 2013 new variable
 exc#:#exc_save_selected#:#Save Selected###24 10 2013 new variable
 mail#:#search_content#:#Search Result###24 10 2013 new variable
@@ -14134,8 +14123,6 @@ crs#:#crs_registration_confirmation_info#:#Interested users can send a request/m
 crs#:#crs_reg_no_selfreg#:#No self-enrolment###30 12 2013 new variable
 crs#:#crs_reg_password_info#:#Users need to type in this password when joining the course.###30 12 2013 new variable
 cat#:#cat_more_translations#:#More Translations###30 12 2013 new variable
-content#:#cont_deactivate_multi_lang_conf#:#Do you really want to deactivate multilinguality? Only contents of the master language will be kept.###30 12 2013 new variable
-content#:#cont_multilang_deactivated#:#Multilinguality has been deactivated.###30 12 2013 new variable
 content#:#cont_manage_multilang#:#Manage Multilinguality###30 12 2013 new variable
 content#:#cont_languages#:#Languages###30 12 2013 new variable
 content#:#cont_language#:#Language###30 12 2013 new variable
@@ -14148,3 +14135,47 @@ content#:#cont_page_lock_released#:#Editing finished. Page lock has been release
 assessment#:#preserve_manscoring#:#Preserve manual scorings###04 01 2014 new variable
 assessment#:#preserve_manscoring_info#:#Changes in the scoring of a question may make it necessary to void manual scorings. This option allows to void ALL manual scorings in the test and should be used only in rare occasions.###04 01 2014 new variable
 dcl#:#dcl_please_select#:#--- Please select ---###04 01 2014 new variable
+assessment#:#oq_btn_use_order_pictures#:#Use answer pictures###22 01 2014 new variable
+assessment#:#oq_btn_use_order_terms#:#Use answer terms###22 01 2014 new variable
+assessment#:#oq_btn_nest_terms#:#Switch to term nesting view###22 01 2014 new variable
+assessment#:#oq_btn_nest_pictures#:#Switch to picture nesting view###22 01 2014 new variable
+assessment#:#oq_btn_define_terms#:#Switch to term definition view###22 01 2014 new variable
+assessment#:#oq_btn_define_pictures#:#Switch to picture definition view###22 01 2014 new variable
+assessment#:#oq_header_ordering_elements#:#Ordering Elements###22 01 2014 new variable
+obj#:#obj_select_master_lang#:#Please select the master language. The current content will be assigned to the master language. The master language cannot be changed afterwards.###22 01 2014 new variable
+obj#:#obj_master_lang#:#Master Language###22 01 2014 new variable
+obj#:#obj_additional_langs#:#Additional Languages###22 01 2014 new variable
+obj#:#obj_deactivate_content_lang#:#Deactivate Translation for Page Editing###22 01 2014 new variable
+obj#:#obj_multilinguality#:#Multilinguality###22 01 2014 new variable
+sop#:#sop_msg_close_lm#:#The learning module is still open. Please close the SCORM Offline Player. ###22 01 2014 new variable
+obj#:#obj_deactivate_content_transl_conf#:#Do you really want to deactivate translation for page editing? Only contents of the master language will be kept.###22 01 2014 new variable
+obj#:#obj_cont_transl_deactivated#:#Translation for page editing has been deactivated.###22 01 2014 new variable
+notes#:#note_content_removed#:#The content has been removed.###22 01 2014 new variable
+exc#:#exc_list_text_assignment#:#List All Submissions###22 01 2014 new variable
+exc#:#exc_show_peer_review#:#Show Peer-Feedback###22 01 2014 new variable
+orgu#:#ou_external_id_exists#:#A unit with the External ID already exists on this system or in trash bin.###22 01 2014 new variable
+orgu#:#user_import_successful#:#The import terminated successfully. Assigned: %s, Removed: %s.###22 01 2014 new variable
+orgu#:#no_orgunit#:#Please check your XML-File. There is no Organisational Unit.###22 01 2014 new variable
+orgu#:#no_assignment#:#Please check your XML-File. There is no User Assignment.###22 01 2014 new variable
+obj#:#obj_insert_into_clipboard#:#Insert into Clipboard###22 01 2014 new variable
+obj#:#obj_inserted_clipboard#:#Objects have been moved to the clipboard.###22 01 2014 new variable
+orgu#:#org_unit_not_found#:#Organisational Unit not found.###22 01 2014 new variable
+content#:#cont_fourth_edition#:#SCORM 2004 4th edition###22 01 2014 new variable
+content#:#cont_fourth_edition_info#:#SCORM 2004 4th edition offers some advantages compared to the 3rd edition. Further data over SCO boundaries can be exchanged for example. These options are however rarely used and have a negative effect on the speed.###22 01 2014 new variable
+content#:#offline_mode_manager#:#Offline use###22 01 2014 new variable
+content#:#offline_mode_users#:#Users in offline mode###22 01 2014 new variable
+content#:#cont_offline_mode_disable_not_allowed_info#:#Since the learning module is currently used in offline mode, the offline mode can not be disabled.###22 01 2014 new variable
+content#:#stop_user_offline_mode#:#Stop offline mode###22 01 2014 new variable
+content#:#stop_user_offline_mode_for_user#:#Stop offline mode for###22 01 2014 new variable
+content#:#info_stop_offline_mode_sure#:#Note: The learning progress achieved in offline mode are lost. Are you sure?###22 01 2014 new variable
+init#:#init_error_redirect_click#:#Please click to continue.###22 01 2014 new variable
+init#:#init_error_redirect_info#:#Redirect not supported by context.###22 01 2014 new variable
+init#:#init_error_maintenance#:#The server is not available due to maintenance. We apologise for any inconvenience.###22 01 2014 new variable
+init#:#init_error_authentication_fail#:#Authentication failed.###22 01 2014 new variable
+obj#:#obj_multilang_title_descr_only#:#Translation is activated for title and description only. Translation support for Page editing ("Customize Page") needs additional activation.###22 01 2014 new variable
+obj#:#obj_activate_content_lang#:#Activate Translation for Page Editing###22 01 2014 new variable
+obj#:#obj_add_languages#:#Add Languages###22 01 2014 new variable
+obj#:#obj_activate_multilang#:#Activate Multilinguality###22 01 2014 new variable
+obj#:#obj_deactivate_multilang#:#Deactivate Multilinguality###22 01 2014 new variable
+obj#:#obj_deactivate_multilang_conf#:#Do you really want to deactivate multilinguality? Only contents of the master language will be kept.###22 01 2014 new variable
+obj#:#obj_multilang_deactivated#:#Multilinguality has been deactivated.###22 01 2014 new variable

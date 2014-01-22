@@ -45,7 +45,6 @@ administration#:#adm_captcha_anonymous_frm#:#Inschakelen captcha voor anonieme t
 administration#:#adm_captcha_anonymous_reg#:#Activate captcha voor anonieme registratie. Dit kan de toegankelijkheid van je installatie beïnvloeden.
 administration#:#adm_captcha_anonymous_short#:#Captcha
 administration#:#adm_captcha_anonymous_wiki#:#Activate captcha voor anonieme wiki's. Dit kan de toegankelijkheid van je installatie beïnvloeden.
-administration#:#adm_captcha_wiki_forum#:#Inschakelen Captcha voor anoniem gebruik (Forum/Wiki)
 administration#:#adm_db_benchmark#:#DB Benchmark
 administration#:#adm_db_benchmark_user#:#Gebruikers account naam
 administration#:#adm_db_benchmark_user_desc#:#Uitsluitend  resultaat berekeningen van deze gebruiker maken.
@@ -224,8 +223,6 @@ administration#:#nothing_to_restore#:#Niets te herstellen...
 administration#:#obj_blga#:#Blog
 administration#:#obj_blga_desc#:#Globale Blog instellingen
 administration#:#obj_chta_desc#:#Chat Beheer
-administration#:#obj_frma#:#Forum
-administration#:#obj_frma_desc#:#Algemene foruminstellingen
 administration#:#obj_mds#:#Meta Data
 administration#:#obj_mds_desc#:#Configureer Meta Data en Geavanceerde Meta Data Instellingen
 administration#:#obj_otpl#:#Object Sjablonen
@@ -458,8 +455,6 @@ assessment#:#changelog_heading#:#Verander log
 assessment#:#changeSuggestedSolution#:#Wijzig de voorgestelde oplossing
 assessment#:#change_adm_categories_not_allowed#:#Je hebt geen rechten op deze categorie.
 assessment#:#change_adm_units_not_allowed#:#Deze eenheid kan alleen worden gewijzigd door een beheerder
-assessment#:#change_properties_from_random_to_standard#:#Je staat op het punt om de eigenschappen van de toets te wijzigen van een willekeurige toets naar een niet-willekeurige toets. De informatie uit de vragenpoolen die toegevoegd zijn aan een willekeurige toets zullen verwijderd worden uit de toets. Ben je zeker dat je deze eigenschappen wil veranderen
-assessment#:#change_properties_from_standard_to_random#:#Je staat op het punt om de eigenschappen van de toets te wijzigen van een niet-willekeurige toets naar een willekeurige toets. De vragen die toegevoegd zijn aan de toets zullen verwijderd worden, omdat, voor een willekeurige toets, je een vragenpool moet gebruiken. Ben je zeker dat je deze eigenschappen wil veranderen?
 assessment#:#change_solution#:#Verander voorgestelde oplossing
 assessment#:#checkbox_checked#:#Geselecteerd
 assessment#:#checkbox_unchecked#:#Niet geselecteerd
@@ -789,7 +784,6 @@ assessment#:#msg_number_of_terms_too_low#:#Het aantal termen moet groter of geli
 assessment#:#msg_poly_added#:#Polygon toegevoegd
 assessment#:#msg_questions_moved#:#Vragen verplaatst
 assessment#:#msg_question_count_too_low#:#Voer een vraag aantal groeter dan 0 in
-assessment#:#msg_randompool_duplicate_qpl#:#Gebruik alleen unieke vragenpoolen
 assessment#:#msg_rect_added#:#Rectangle added
 assessment#:#msg_selected_for_move#:#Question(s) selected for moving
 assessment#:#msg_total_questions_too_high#:#Het aantal vragen is groter dan het aantal beschikbare vragen in de geselecteerde vragenbanken.
@@ -826,10 +820,6 @@ assessment#:#ordering_answer_sequence_info#:#De antwoorden volgorde die je hebt 
 assessment#:#ordering_question_javascript_hint#:#Sleep een afbeelding/definitie van de rechterkant over een begrip aan de linkerkant en zet de afbeelding/definitie neer op een afbeelding/definitie waartoe deze behoort
 assessment#:#ordertext#:#Tekstvolgorde
 assessment#:#ordertext_info#:#Voer de tekst in die horizontaal komt te staan. De tekst wordt gescheiden door spaties. Als je daarvoor iets anders wenst gebruik dan %s om je teskstonderdelen te scheiden.
-assessment#:#order_nested_pictures#:#Switch to picture nesting view
-assessment#:#order_nested_terms#:#Switch to term nesting view 
-assessment#:#order_pictures#:#Volgorder afbeeldingen
-assessment#:#order_terms#:#Sorteer begrippen
 assessment#:#output#:#Output
 assessment#:#output_mode#:#Output modus
 assessment#:#parseQuestion#:#Vraag ontleden
@@ -898,8 +888,6 @@ assessment#:#qpl_import_no_items#:#Error:Het import bestand bevat geen vragen
 assessment#:#qpl_import_verify_found_questions#:#ILIAS heeft de volgende vraag gevonden in het import bestand. Selecteer de vragen die je wilt importeren
 assessment#:#qpl_move_insert_clipboard#:#De geselecteerde vragen zijn gemarkeerd om te verwijderen
 assessment#:#qpl_move_select_none#:#Selecteer tenminste 1 vraag om te markeren voor verwijdering
-assessment#:#qpl_online_property#:#Online
-assessment#:#qpl_online_property_description#:#Als de vragenpool niet online is dan kan het niet gebruikt worden in de toetsen
 assessment#:#qpl_paste_no_objects#:#Er zijn geen vragen op het klembord. Kopiëer een vraag naar het klembord
 assessment#:#qpl_paste_success#:#De vragen zijn toegevoegd aan de vragenbank
 assessment#:#qpl_qst_edit_form_taxonomy#:#Taxonomy "%s"
@@ -1063,7 +1051,6 @@ assessment#:#term_image#:#Term Image
 assessment#:#term_text#:#Term Text
 assessment#:#test_cancelled#:#De test is geannuleerd
 assessment#:#test_confirm_template_reset#:#Ben je zeker dat je deze template niet meer wilt gebruiken?
-assessment#:#test_create_question#:#Aanmaken vraag
 assessment#:#test_delete_page#:#Verwijder vraag
 assessment#:#test_edit_settings#:#Wijzig instellingen
 assessment#:#test_enable_archiving#:#Enable Archiving.
@@ -1449,12 +1436,9 @@ assessment#:#tst_question_unmark#:#Verwijder de aanduiding voor deze vraag.
 assessment#:#tst_random_nr_of_questions#:#Hoe veel vragen
 assessment#:#tst_random_qpl_unselected#:#Er is tenminste 1 niet geselecteerde vragenbank! Je hoeft geen nieuwe vragenbank toe te voegen.
 assessment#:#tst_random_questionpools#:#Bron vragenbanken
-assessment#:#tst_random_selection#:#Willekeurige selectie van vragen
 assessment#:#tst_random_selection_question_count_too_high#:#Het vragen aantal is hoger dan het maximum beschikbare vragen. Het vragen aantal is automatisch aangepast
 assessment#:#tst_random_selection_question_total_count_too_high#:#Het aantal vragen is hoger dan het maximum beschikbare vragen voor alle vragenbanken. Het aantal vragen is automatisch aangepast
 assessment#:#tst_random_select_questionpool#:#Selecteer een vraagbank om een vraag te kiezen
-assessment#:#tst_random_test#:#Willekeurige toets
-assessment#:#tst_random_test_description#:#Indien geselecteerd, zullen de vragen van de toets automatisch gegenereerd worden
 assessment#:#tst_reached_points#:#Gehaalde punten
 assessment#:#tst_remove_mark#:#Verwijder de markering
 assessment#:#tst_remove_question#:#Ben je zeker dat je de volgende vragen wilt verwijderen uit de test?
@@ -1526,7 +1510,6 @@ assessment#:#tst_setting_enable_obligations_label#:#Verplichte vragen
 assessment#:#tst_setting_offer_hints_info#:#If enabled, existing question specific hints are offered.
 assessment#:#tst_setting_offer_hints_label#:#Vraag-specifieke Hints
 assessment#:#tst_set_offline_due_to_switched_question_set_type_setting#:#The test has been set to offline, because the test mode setting has been changed. You have to set a new test mode relating question config before the test can be set to online again.
-assessment#:#tst_set_offline_due_to_switched_random_test_setting#:#Toets staat offline, omdat de omzetting van de instelling van willekeurige vraagselectie tot gevolg heeft dat  de al bestaande vragen worden verwijderd.
 assessment#:#tst_show_answer_sheet#:#Toon antwoorden
 assessment#:#tst_show_cancel#:#Toon toetsopties
 assessment#:#tst_show_cancel_description#:#Indien aangevinkt, wordt een knop om de toets op te schorten getoond tijdens de maken van de toets
@@ -1859,7 +1842,6 @@ bibl#:#bib_default_type#:#Type
 bibl#:#bib_default_url#:#URL
 bibl#:#bib_default_volume#:#Volume
 bibl#:#bib_default_year#:#Jaar
-bibl#:#Boekenlijst file#:#Boekenlijstbestand
 bibl#:#detail_view#:#Detailsbeeld
 bibl#:#Download Original File#:#Downloaden Origineel Bestand
 bibl#:#obj_bibl_duplicate#:#Dupliceren Boekenlijst
@@ -1944,7 +1926,6 @@ blog#:#blog_change_notification_subject#:#Blog "%s" has been updated
 blog#:#blog_comments#:#Opmerkingen
 blog#:#blog_contribute_other_roles#:#The following roles give an active "contribute" permission: %s.
 blog#:#blog_contributors#:#Contributors
-blog#:#blog_contributor_container_add#:#Toevoegen gebruikers van cursus/groep
 blog#:#blog_copy#:#Copy Blog
 blog#:#blog_draft#:#Draft
 blog#:#blog_draft_info#:#This posting draft is only visible for the author.
@@ -2464,7 +2445,6 @@ cmps#:#cmps_lang_prefix#:#Language Variables Prefix
 cmps#:#cmps_main_dir#:#Main Directory
 cmps#:#cmps_missing#:#Missing
 cmps#:#cmps_module#:#Module
-cmps#:#cmps_modules#:#Modules
 cmps#:#cmps_name#:#Name
 cmps#:#cmps_needs_newer_ilias_version#:#This plugin version only runs on newer ILIAS versions. Please upgrade ILIAS.
 cmps#:#cmps_needs_newer_plugin_version#:#This ILIAS version needs a newer plugin version. Please upgrade the plugin.
@@ -3122,7 +3102,6 @@ common#:#delete_inactive_user_accounts_desc#:#Indien ingeschakeld, zullen gebrui
 common#:#delete_inactive_user_accounts_include_roles#:#inclusieve rollen
 common#:#delete_inactive_user_accounts_include_roles_desc#:#Defines the roles that will participate in the deletion.
 common#:#delete_inactive_user_accounts_interval#:#Frequentie
-common#:#delete_inactive_user_accounts_interval_desc#:#Verwijder condities zal in deze frequentie worden bekeken
 common#:#delete_inactive_user_accounts_period#:#Aantal dagen sinds de laatste login
 common#:#delete_inactive_user_accounts_period_desc#:#Verwijdering zal worden toegepast als deze tijdsperiode is verstreken sinds de laatste login
 common#:#delete_object#:#Verwijder object(en)
@@ -3210,7 +3189,6 @@ common#:#enable_course_group_notifications#:#Dagelijkse e-mail voor groep- en cu
 common#:#enable_course_group_notifications_desc#:#If enabled, Participants can subscribe to a daily summary of news.
 common#:#enable_custom_icons#:#Tonen standaard iconen
 common#:#enable_custom_icons_info#:#Dit laat toe om standaard iconen in te stellen per categorie, cursus en groepen. De sectie eigenschappen van categorie, cursus en groep zal de mogelijkheid bieden om een afbeelding te uploaden
-common#:#enable_disk_quota#:#Activate Disk Quota
 common#:#enable_disk_quota_info#:#Allows to specify a disk quota for each user account and each global role. The disk usage of a user account is determined once every day using a cron job and listed in the user edit form and in the disk quota report.
 common#:#enable_disk_quota_reminder_mail#:#Send disk quota reminder e-mails
 common#:#enable_disk_quota_summary_mail#:#Verzend  Disk Quota Summary
@@ -3350,23 +3328,6 @@ common#:#export_xml#:#exporteren als xml-bestand
 common#:#exp_html#:#Uitvoeren naar HTML-bestand
 common#:#extracting#:#Bezig met uitpakken...
 common#:#extt_configure#:#configureren...
-common#:#extt_ilinc#:#netucate LearnLinc
-common#:#extt_ilinc_additional_options#:#Bijkomende opties
-common#:#extt_ilinc_akclassvalues_active#:#Inschakelen kosten0center
-common#:#extt_ilinc_akclassvalues_active_info#:#Met deze optie kan je de iLinc cost centers voor Learlinc-Seminars en Classrooms inschakelen
-common#:#extt_ilinc_akclassvalues_required#:#Cost center verplicht
-common#:#extt_ilinc_akclassvalues_required_info#:#Specifieer tenminste 1 Cost center voor een LearnLinc Seminar
-common#:#extt_ilinc_configure#:#Configureer netucate LearnLinc
-common#:#extt_ilinc_connection_data#:#Verbindingsgegevens
-common#:#extt_ilinc_customer_id#:#Gebruikers ID
-common#:#extt_ilinc_desc#:#Voorziening van Virtual Classroom. Om een account aan te maken of voor meer informatie: www.netucate.com
-common#:#extt_ilinc_enable#:#Inschakelen LearnLinc ondersteuning
-common#:#extt_ilinc_protocol_port#:#Protocol & Port
-common#:#extt_ilinc_registrar_login#:#Login ID
-common#:#extt_ilinc_registrar_passwd#:#Wachtwoord
-common#:#extt_ilinc_server#:#Server
-common#:#extt_ilinc_settings_saved#:#LearnLinc instellingen bewaard
-common#:#extt_ilinc_timeout#:#Maximum tijd voor antwoord van de server
 common#:#extt_name#:#Software/Service
 common#:#extt_remark#:#Alle software en services in de lijst hierboven maken niet deel uit van ILIAS en behoren niet tot het ILIAS open source licence agreement.
 common#:#extt_title_configure#:#Configureer externe software
@@ -3480,7 +3441,6 @@ common#:#forum_direct_notification#:#Dir. Notification
 common#:#forum_general_notification#:#Gen. Notification
 common#:#forum_import#:#Forum import
 common#:#forum_import_file#:#Importeren bestand
-common#:#forum_notification#:#Bekendmaking
 common#:#forum_notify_me#:#Informeer mij wanneer een antwoord wordt ontvangen
 common#:#forum_notify_me_directly#:#Informeer mij wanneer een antwoord wordt gegeven op mijn vraag
 common#:#forum_notify_me_generally#:#Informeer mij wanneer een antwoord wordt gegeven op mijn onderwerp
@@ -3697,32 +3657,12 @@ common#:#https_not_possible#:#Deze server ondersteunt geen HTTPS verbindingen.
 common#:#http_not_possible#:#Deze server ondersteunt geen HTTP verbindingen.
 common#:#http_path#:#HTTP-pad
 common#:#i2passwd#:#ILIAS 2 wachtwoord
-common#:#icla#:#iLinc Classroom
-common#:#icla_add#:#Voeg iLinc Classroom toe
-common#:#icla_deleted#:#LearnLinc classroom(s) verwijderd
-common#:#icla_edit#:#Pas LearnLinc Classroom aan
-common#:#icla_new#:#Nieuw iLinc Classroom
 common#:#icon#:#Icoon
 common#:#icons_in_header#:#Hoofding rij
 common#:#icons_in_item_rows#:#Rij items
 common#:#icons_in_typed_lists#:#Icoon positie in item lijst
 common#:#icons_in_typed_lists_info#:#Bepaalt waar de iconen in de itemlijst moeten worden weergegeven
 common#:#icon_settings#:#Icoon instellingen
-common#:#icrs#:#iLinc Cursus
-common#:#icrs_add#:#Voeg iLinc Course toe
-common#:#icrs_added#:#LearnLinc Seminar toegevoegd
-common#:#icrs_copy#:#Kopieër LearnLinc Seminar
-common#:#icrs_create_icla#:#Creëer LearnLinc Classrooms
-common#:#icrs_delete#:#Verwijder iLinc Cursus
-common#:#icrs_edit#:#Pas LearnLinc Seminar aan
-common#:#icrs_edit_permission#:# Pas instellingen van de rechten aan
-common#:#icrs_join#:#Gebruikers mogen LearnLinc Seminar gebruiken
-common#:#icrs_leave#:#Gebruikers moeten LearnLinc Seminar verlaten
-common#:#icrs_members_gallery#:#Seminarie deelnemers
-common#:#icrs_new#:#Nieuw iLinc Cursus
-common#:#icrs_read#:#Leesrechten voor iLinc cursus
-common#:#icrs_visible#:#iLinc cursus is zichtbaar
-common#:#icrs_write#:#Pas iLinc Cursus aan
 common#:#id#:#ID
 common#:#identifier#:#Identificatiecode
 common#:#if_no_title_then_filename#:#Laat leeg om de bestandsnaam te tonen
@@ -3733,49 +3673,6 @@ common#:#ignore_required_fields_info#:#Indien geactiveerd zullen verplichte veld
 common#:#ilias_and_webfolder_username#:#ILIAS and Webfolder User Name
 common#:#ilias_username#:#ILIAS Gebruikersnaam
 common#:#ilias_version#:#ILIAS versie
-common#:#ilinc_abandoned_info#:#The integrated netucate LearnLinc interface will be abandoned with ILIAS 4.3. Please install the new iLinc plugin to use the virtual classroom of LearnLinc in ILIAS. For more information please visit the <a href="http://http://www.netucate.com/">netucate homepage</a>.
-common#:#ilinc_add_user#:#Voeg gebruiker(s) toe
-common#:#ilinc_akclassvalue#:#Cost center
-common#:#ilinc_akclassvalues#:#Cost centers
-common#:#ilinc_classrooms#:#iLinc Classrooms
-common#:#ilinc_classroom_always_open#:#Classroom is altijd open
-common#:#ilinc_classroom_closed#:#Classroom is gesloten
-common#:#ilinc_classroom_open#:#Classroom is open
-common#:#ilinc_coursemember_status#:#Wachten op
-common#:#ilinc_courses#:#iLinc Cursus
-common#:#ilinc_dismiss_member#:#Ben je zeker dat je de volgende deelnemers wilt uitschrijven van de LearnLinc Seminar
-common#:#ilinc_dismiss_myself#:#Ben je zeker dat je zelf wilt uitschrijven van de LearnLinc Seminar
-common#:#ilinc_docent#:#Instructeur
-common#:#ilinc_err_administrator_required#:#Deelnemer kon niet verwijderd worden, er moet tenminste 1 beheerder in LearnLinc Seminar aanwezig zijn !
-common#:#ilinc_err_at_least_one_groupadministrator_is_needed#:#Iedere LearnLinc Seminar moet minstens 1 beheerder hebben
-common#:#ilinc_err_last_member#:#Laatste deelnemer kon niet worden verwijderd, verwijder LearnLinc Seminar in de plaats.
-common#:#ilinc_err_member_could_not_be_removed#:#Deelnemer kon niet worden verwijderd.
-common#:#ilinc_err_no_permission#:#U hebt niet de voldoende machtigingen om deze actie uit te voeren
-common#:#ilinc_err_registration_data#:#Gelieve een wachtwoord in te geven, de vervaldatum en de tijd voor een geldige registratieperiode
-common#:#ilinc_header_edit_users#:#Wijzigen de lijst van betrokken gebruikers
-common#:#ilinc_id#:#iLinc ID
-common#:#ilinc_involved_users#:#Betrokken gebruikers
-common#:#ilinc_login#:#iLinc aanmelden
-common#:#ilinc_mail_body_new_subscription#:#U bent uitgeschreven voor deze LearnLinc Seminar.
-common#:#ilinc_mail_body_subscription_cancelled#:#Je deelname is geannuleerd
-common#:#ilinc_mail_subj_new_subscription#:#Nieuwe inschrijving
-common#:#ilinc_mail_subj_subscription_cancelled#:#Inschrijving geannuleerd
-common#:#ilinc_manage_course_documents#:#Materiaalen
-common#:#ilinc_mem_change_status#:#Verander gebruikers status
-common#:#ilinc_mem_leave#:#Verwijder gebruiker voor LearnLinc Seminar
-common#:#ilinc_mem_send_mail#:#Stuur gebruiker een bericht
-common#:#ilinc_msg_joined#:#You joined the LearnLinc Seminar
-common#:#ilinc_msg_membership_annulled#:#Inschrijving geannuleerd
-common#:#ilinc_msg_member_assigned#:#Gebruikers toegevoegd
-common#:#ilinc_notset#:#Niet ingesteld
-common#:#ilinc_no_akclassvalues#:#geen
-common#:#ilinc_no_docent_assigned#:#Niet ingeschreven
-common#:#ilinc_passwd#:#iLinc wachtwoord
-common#:#ilinc_remark#:#Opmerking
-common#:#ilinc_server_not_active#:#iLinc server is niet actief
-common#:#ilinc_student#:#Deelnemer
-common#:#ilinc_upload_pic_linktext#:#Upload
-common#:#ilinc_upload_pic_text#:#Om je afbeelding in LearnLinc Seminars te tonen, gelieve deze link te gebruiken:
 common#:#il_blog_contributor#:#Blog Contributor
 common#:#il_chat_moderator#:#Chat moderator
 common#:#il_chat_moderator_moderate#:#Moderate Chat Room
@@ -3791,8 +3688,6 @@ common#:#il_grp_admin#:#Beheerder
 common#:#il_grp_member#:#Deelnemer
 common#:#il_grp_status_closed#:#Group closed
 common#:#il_grp_status_open#:#Group open
-common#:#il_icrs_admin#:#LearnLinc Seminar beheerder
-common#:#il_icrs_member#:#LearnLinc Seminar deelnemer
 common#:#image#:#Afbeelding
 common#:#image_gen_unsucc#:#Het invoegen van een afbeelding is niet gelukt. Neem contact op met de Systeembeheerder en controleer het conversiepad.
 common#:#import#:#Importeren
@@ -3963,7 +3858,6 @@ common#:#ldap_version#:#LDAP protocol versie
 common#:#ldap_visible#:#LDAP-instellingen zijn zichtbaar
 common#:#ldap_write#:#Wijzigen LDAP-instellingen
 common#:#learning module#:#Lesmodule
-common#:#learning_module#:#Lesmodule
 common#:#learning_objects#:#Lesobjecten
 common#:#learning_progress#:#Voortgang
 common#:#learning_resourc#:#Leerbronn
@@ -4438,8 +4332,6 @@ common#:#objs_frm#:#Fora
 common#:#objs_glo#:#Verklarende begrippenlijsten
 common#:#objs_grp#:#Groepen
 common#:#objs_htlm#:#HTML Lesmodules
-common#:#objs_icla#:#iLinc Classrooms
-common#:#objs_icrs#:#LearnLinc seminars
 common#:#objs_itgr#:#Item Groups
 common#:#objs_lm#:#lesmodules
 common#:#objs_lng#:#Talen
@@ -4558,8 +4450,6 @@ common#:#obj_hlps#:#Help Systeem
 common#:#obj_hlps_desc#:#Settings for the online help
 common#:#obj_htlm#:#HTML lesmodule
 common#:#obj_htlm_duplicate#:#Copy HTML Learning Module
-common#:#obj_icla#:#iLinc Classroom
-common#:#obj_icrs#:#iLinc Course
 common#:#obj_il_chat_moderator#:#Chat Room Moderator
 common#:#obj_itgr#:#Item Groep
 common#:#obj_itgr_duplicate#:#Kopieer groep itemCopy Item Group
@@ -5254,7 +5144,6 @@ common#:#soap_connect_timeout#:#Connection Timeout
 common#:#soap_connect_timeout_info#:#The maximum time in seconds until a connect attempt to the SOAP-Webservice is interrupted.
 common#:#soap_user_administration#:#Beheer via SOAP
 common#:#soap_user_administration_desc#:#Indien ingeschakeld, kan ILIAS worden beheerd via SOAP
-common#:#soap_user_administration_desc_extended#:#Enabling this, the ILIAS client is visible via the SOAP API.
 common#:#soap_wsdl_path#:#WSDL Path
 common#:#soap_wsdl_path_info#:#Please enter the path to the ilias wsdl file which should be used for the webservice. If you leave this field blank, the following path will be used per default:%s
 common#:#socialbm_disable#:#Disable
@@ -5425,7 +5314,6 @@ common#:#tst_anon_eval#:#Results
 common#:#tst_edit_questions#:#Wijzigen Vragen
 common#:#tst_new#:#Nieuwe test
 common#:#tst_no_content#:#Geen test beschikbaar
-common#:#tst_random_test_description_warning#:#<br /><b>Deze toets heeft vragen die niet in een vragenpool staan. Als je verandert naar random toetsmodus, dan zullen deze vragen verloren gaan</b>
 common#:#tst_run#:#Start
 common#:#tst_statistical_evaluation#:#Statistieken
 common#:#tst_statistics#:#Access to Test Statistics
@@ -5722,7 +5610,6 @@ content#:#cont_added_comment#:#Commentaar is aan geschiedenis toegevoegd
 content#:#cont_added_tab#:#Tab gecreëerd.
 content#:#cont_added_term#:#Begrip toegevoegd
 content#:#cont_Additional#:#Additioneel
-content#:#cont_additional_langs#:#Extra talen
 content#:#cont_add_area#:#Voeg gebied in
 content#:#cont_add_change_comment#:#Voeg commentaar toe
 content#:#cont_add_circle#:#Add Circle
@@ -5886,8 +5773,6 @@ content#:#cont_deactivated#:#Deactivated
 content#:#cont_deactivate_html#:#Uitschakelen HTML weergave
 content#:#cont_deactivate_js#:#Activeren formuliermodus
 content#:#cont_deactivate_media#:#Uitschakelen Media
-content#:#cont_deactivate_multi_lang#:#Meertaligheid uitschakelen
-content#:#cont_deactivate_multi_lang_conf#:#Wil je echt meertaligheid uitschakelen? Alleen de inhoud van de mastertaal zal worden bewaard.
 content#:#cont_deactivate_page#:#Deactiveer pagina
 content#:#cont_debug#:#Tonen debug menu
 content#:#cont_debugging#:#Debugging
@@ -6238,7 +6123,6 @@ content#:#cont_map_areas#:#Link gebied
 content#:#cont_map_file_not_generated#:#Sorry. Unable to generate map file for editing.
 content#:#cont_marker#:#Marker
 content#:#cont_mastery_score#:#Mastryscore
-content#:#cont_master_lang#:#Master Taal
 content#:#cont_max_time_allowed#:#max.tijd beschikbaar
 content#:#cont_Media#:#Media (Standard)
 content#:#cont_media_placeh#:#Klikken om media in te voegen en te wijzigen
@@ -6260,8 +6144,6 @@ content#:#cont_more_functions#:#Meer
 content#:#cont_move_object#:#Verplaats object
 content#:#cont_msg_multiple_editions#:#Het is niet mogelijk om details van meerdere edities te tonen
 content#:#cont_multilang_currently_deactivated#:#Ondersteuning meertaligheid is momenteel niet ingeschakeld.
-content#:#cont_multilang_deactivated#:#Meertaligheid is uitgeschakeld.
-content#:#cont_multilinguality#:#Meertaligheid
 content#:#cont_name#:#Naam
 content#:#cont_never#:#Nooit
 content#:#cont_new_area#:#Nieuw link gebied
@@ -6487,7 +6369,6 @@ content#:#cont_sc_auto_review_completed#:#als gedaan
 content#:#cont_sc_auto_review_completed_and_passed#:#als gedaan en geslaagd
 content#:#cont_sc_auto_review_completed_not_failed_or_passed#:#als gedaan of geslaagd, maar niet gezakt (aanbevolen voor Automatische "herzien" modus)
 content#:#cont_sc_auto_review_completed_or_passed#:#als gedaan of geslaagd
-content#:#cont_sc_auto_review_info#:#Stel de lesmodus in op 'herzien' als de student SCO afgerond heeft
 content#:#cont_sc_auto_review_info_12#:#Zet de modus op "herzien" als een deelnemeers een SCO heeft gedaan of ervoor is geslaagd. 
 content#:#cont_sc_auto_review_info_2004#:#Als de "Herzien" modus is ingeschakeld, zullen de voortgangsgegevens van een hoofdstuk (SCO) van de leermodule niet worden opgeslagen als een van deze condities geldt. Echter, in het zeldzame geval dat de leermodule gebruikt maakt van Sequencing & Navigation volgens SCORM 2004, moet je deze optie niet inschakelen.
 content#:#cont_sc_auto_review_no#:#Uitgeschakeld
@@ -6521,7 +6402,6 @@ content#:#cont_selection#:#Selectie
 content#:#cont_select_file#:#Selecteer File
 content#:#cont_select_from_upload_dir#:#-- Select from the upload directory --
 content#:#cont_select_item#:#Seleteer één item
-content#:#cont_select_master_lang#:#Selecteer de master taal. De huidige inhoud zal worden toegekend aan de master taal.
 content#:#cont_select_max_one_item#:#Selecteer maximum één item
 content#:#cont_select_max_one_term#:#Selecteer maximum één term
 content#:#cont_select_media_pool#:#Select Mediabank
@@ -7995,7 +7875,6 @@ dateplaner#:#wk_short#:#Wk
 dateplaner#:#year#:#Jaar
 dateplaner#:#yui_cal_choose_month#:#Maand:
 dateplaner#:#yui_cal_choose_year#:#Jaar:
-dcl#:#-dcl_import_records#:#Importeren .xls
 dcl#:#dcl_actions#:#Actions
 dcl#:#dcl_activate_approval#:#Activate Record Approval
 dcl#:#dcl_activate_notification#:#Activate Notification
@@ -8065,8 +7944,6 @@ dcl#:#dcl_height#:#Height
 dcl#:#dcl_hello#:#Beste
 dcl#:#dcl_ILIAS_reference#:#Link to an ILIAS module
 dcl#:#dcl_ILIAS_reference_link#:#Show as link in table view
-dcl#:#dcl_import#:#Importeren .xls
-dcl#:#dcl_import_records#:#Importeren .xls
 dcl#:#dcl_import_records .xls#:#Import .xls
 dcl#:#dcl_import_terminated#:#The import terminated. Entries added
 dcl#:#dcl_inconsistent_at#:#De gegevensverzameling is niet consistent; een referentie is verwenen.
@@ -8690,7 +8567,6 @@ forum#:#ascending_order#:#Laatste bericht onderaan
 forum#:#close_topics#:#Close
 forum#:#cont_captcha_code#:#Code
 forum#:#deactivate_current_and_childs#:#Deactivate All Posts
-forum#:#deactivate_post#:#Deactivate
 forum#:#deactivate_post_txt#:#Would you really like to deactivate the current post and all its child posts
 forum#:#descending_order#:#Laatste bericht bovenaan
 forum#:#empty_subject#:#Bij het antwoorden moet de gebruiker een nieuwe titel opgeven
@@ -8702,8 +8578,6 @@ forum#:#forums#:#Fora
 forum#:#forums_all_threads_marked_read#:#Alle onderwerpen zijn gemarkeerd als gelezen.
 forum#:#forums_attachments#:#Bijlagen
 forum#:#forums_attachments_add#:#Bijlage toevoegen
-forum#:#forums_attachments_edit#:#Bijlage wijzigen
-forum#:#forums_available#:#Beschikbare forums
 forum#:#forums_censor_comment#:#Commentaar van de censor
 forum#:#forums_count#:#Aantal fora
 forum#:#forums_count_art#:#Aantal artikelen
@@ -8719,47 +8593,33 @@ forum#:#forums_info_censor2_post#:#Herroep censor
 forum#:#forums_info_censor_post#:#Ben je zeker dat je dit bericht wilt verbergen
 forum#:#forums_info_delete_post#:#Ben je zeker dat je dit bericht wilt verwijderen  inclusief alle antwoorden
 forum#:#forums_mark_read#:#Markeer alles als gelezen
-forum#:#forums_new_entries#:#Nieuw forum bericht
 forum#:#forums_new_thread#:#Nieuw onderwerp
 forum#:#forums_notification#:#Berichtgeving
 forum#:#forums_notification_disabled#:#Kennisgeving uitgeschakeld
 forum#:#forums_notification_enabled#:#Laat berichtgeving toe
 forum#:#forums_notification_intro#:#Deze e-mail werd automatisch verstuurd vanuit ILIAS
-forum#:#forums_notification_is_disabled#:#Je bericht in dit onderwerp is (nog) niet beschikbaar.
-forum#:#forums_notification_is_enabled#:#Op dit moment is berichtgeving al ingeschakeld
 forum#:#forums_notification_show_post#:#Toon bericht:
 forum#:#forums_notification_subject#:#Nieuw bericht in een onderwerp
-forum#:#forums_not_available#:#Forum niet beschikbaar
 forum#:#forums_no_posts_available#:#This topic has no posts yet or the moderator deactivated the first post.
-forum#:#forums_overview#:#Forumoverzicht
 forum#:#forums_posts#:#Alle artikelen
 forum#:#forums_posts_not_available#:#Artikelen niet beschikbaar
 forum#:#forums_post_activation_mail#:#Zolang onderstaande posting niet geactiveerd is, zal het niet zichtbaar zijn voor andere forum gebruikers. Je ontvangt deze mail omdat je moderator bent en permissie heeft om deze posting te activeren.
 forum#:#forums_post_and_children_were_activated#:#The post and all its child posts were activated.
-forum#:#forums_post_and_children_were_deactivated#:#The post and all its child posts were deactivated.
 forum#:#forums_post_deleted#:#Artikel verwijderd
 forum#:#forums_post_modified#:#Een nieuw artikel werd gewijzigd
 forum#:#forums_post_needs_to_be_activated#:#Een nieuwe artikel is aangemaakt maar het moet eerst worden geactiveerd door de moderator
 forum#:#forums_post_new_entry#:#Nieuw artikel is gecreëerd
 forum#:#forums_post_was_activated#:#The post was activated.
 forum#:#forums_print_thread#:#Onderwerp afdrukken
-forum#:#forums_print_view#:#Afdrukvoorbeeld
-forum#:#forums_quote#:#Citaat
-forum#:#forums_respond#:#Beantwoorden
 forum#:#forums_subject#:#Onderwerp
 forum#:#forums_the_post#:#Artikel
 forum#:#forums_thread#:#Thema
-forum#:#forums_threads_not_available#:#Thema niet beschikbaar
-forum#:#forums_thread_articles#:#Artikelen van thema
 forum#:#forums_thread_create_date#:#Gecreëerd op
 forum#:#forums_thread_create_from#:#Gecreëerd door
 forum#:#forums_thread_marked#:#Dit thema werd gemarkeerd als gelezen.
 forum#:#forums_thread_new_entry#:#Nieuw thema werd toegevoegd
-forum#:#forums_topics_overview#:#Themaoverzicht
 forum#:#forums_your_reply#:#Je antwoord
 forum#:#forum_add_quote#:#Citaat toevoegen
-forum#:#forum_anonymize#:#Schrijf anoniem
-forum#:#forum_anonymize_desc#:#Schrijf dit bericht anoniem (Je ILIAS-gebruikersnaam zal nergens getoond worden).
 forum#:#frm_anonymous_posting#:#Anoniem antwoorden
 forum#:#frm_anonymous_posting_desc#:#Indien niet uitgeschakeld, dan kan je anoniem antwoorden in dit forum.
 forum#:#frm_at_least_one_moderator#:#There has to be at least one moderator.
@@ -8771,11 +8631,7 @@ forum#:#frm_merge_src#:#Selected Thread: %s
 forum#:#frm_merge_target#:#Target: %s
 forum#:#frm_moderators#:#Moderatoren
 forum#:#frm_moderators_detached_role_successfully#:#The moderator role was detached for all selected users successfully.
-forum#:#frm_moderators_do_search#:#Search
-forum#:#frm_moderators_matches_in_no_results#:#Your search did not match any results.
 forum#:#frm_moderators_not_exist_yet#:#Kies een moderator
-forum#:#frm_moderators_search#:#User Search
-forum#:#frm_moderators_search_query#:#Searchterm(s)
 forum#:#frm_moderators_select_at_least_one#:#Kies minstens één moderator
 forum#:#frm_moderators_select_one#:#Kies één gebuiker
 forum#:#frm_moderator_f#:#Moderator
@@ -8797,13 +8653,10 @@ forum#:#frm_statistics_ranking#:#Rankschikking
 forum#:#frm_subject_setting#:#Instellingen onderwerp
 forum#:#frm_sure_delete_threads#:#Are you sure you want to delete the following threads
 forum#:#frm_sure_merge_threads#:#Are you sure you want to merge these threads? Warning: This action can not be undone! Eventually ILIAS swaps source and target thread if the first posting of the source thread is created earlier than the first posting of the target thread.
-forum#:#frm_title_required#:#Gelieve een titel in te geven.
 forum#:#frm_wizard_page#:#Kopieer forum (Stap 2/2)
 forum#:#is_read#:#Markeer gelezen
 forum#:#make_topics_non_sticky#:#Make Topics Non-Sticky
 forum#:#make_topics_sticky#:#Make Topics Sticky
-forum#:#make_topic_non_sticky#:#Verwijderen markering van onderwerp als top-thema
-forum#:#make_topic_sticky#:#Markeren van onderwerp als top-thema
 forum#:#mark_moderator_posts#:#Markeer berichten van moderator
 forum#:#mark_moderator_posts_desc#:#Als geactiveerd, zullen berichten van de moderator gehighlight zijn
 forum#:#merge#:#Samenvoegen
@@ -8811,7 +8664,6 @@ forum#:#merged_threads_successfully#:#The selected threads were merged successfu
 forum#:#move_chosen_topics#:#Meer gekozen onderwerpen
 forum#:#new_post#:#Nieuw bericht
 forum#:#not_allowed_to_merge_into_another_forum#:#It is not possible to merge threads of different forums.
-forum#:#no_forum_available_for_moving_threads#:#Er is geen forum beschikbaar om het gekozen onderwerp nar te verplaatsen
 forum#:#no_forum_selected#:#Geen forum geselecteerd om de gekozen onderwerpen te verplaatsen
 forum#:#number_of_threads#:#Displayed Number of Threads per Page
 forum#:#please_choose_target#:#Kies een onderwerp om mee samen te voegen.
@@ -8819,7 +8671,6 @@ forum#:#post_activation_desc#:#Als geactiveerd, zal de moderator nieuwe berichte
 forum#:#post_censored_comment_by_moderator#:#Post Censored, Comment by Moderator
 forum#:#post_reply#:#Re:
 forum#:#preset_subject#:#Preset onderwerp bij beantwoorden
-forum#:#preset_subject_info#:#Als uitgeschakeld moet de gebruiker een nieuwe titel geven voor berichten.
 forum#:#reopen_topics#:#Reopen
 forum#:#select_at_least_one_thread#:#Please select at least one topic.
 forum#:#select_max_one_thread#:#Please select one thread only!
@@ -8828,13 +8679,11 @@ forum#:#sort_by_date#:#Sorteren per datum
 forum#:#sort_by_posts#:#Sorteren per bericht
 forum#:#sticky#:#sticky
 forum#:#sticky_threads_always_on_top#:#"Top-thema" berichten worden altijd getoond boven alle andere onderwerpen. Binnen deze top-thema onderwerpen kun je handmatig sorteren als die optie is ingeschakeld.
-forum#:#sure_move_threads#:#Weet je zeker dat je de gekozen onderwerpen wilt verplaatsen?
 forum#:#switch_threads_for_merge#:#The selected thread is older than the target thread. To ensure a successful merge, the source and target thread will be switched.
 forum#:#thread#:#Thema
 forum#:#threads_moved_successfully#:#De gekozen onderwerpen zijn verplaatst naar een ander forum
 forum#:#topics_please_select_one_action#:#Please select an action.
 forum#:#topic_close#:#close
-forum#:#to_forum#:#To Forum
 forum#:#user_decides_notification#:#Iedere gebruiker bepaalt meldingen
 glo#:#glo_term#:#Woordenboekdefinitie
 gmaps#:#gmaps_api_key#:#API Key
@@ -9023,20 +8872,6 @@ help#:#help_tooltips_and_help#:#Tooltips and Workflow Help
 help#:#help_tooltips_only#:#Tooltips Only
 help#:#help_tooltip_id#:#Tooltip ID
 help#:#help_tt_text#:#Text
-ilinc#:#akclassvalue1#:#Cost center 1
-ilinc#:#akclassvalue2#:#Cost center 2
-ilinc#:#akclassvalues#:#Cost centers
-ilinc#:#ilinc_akuservalue1#:#Cost center 1
-ilinc#:#ilinc_akuservalue2#:#Cost center 2
-ilinc#:#ilinc_akuservalues#:#Cost centers
-ilinc#:#ilinc_akuservalues_desc#:#Enter here the code of the cost center(s) for this user. These values will be stored at the iLinc server.
-ilinc#:#ilinc_akuservalues_refreshed#:#Cost centers geüpdate
-ilinc#:#ilinc_connection_error#:#Error:geen verbinding met iLinc Server!!
-ilinc#:#ilinc_member_administration#:#Wijzig deelnemers
-ilinc#:#ilinc_no_account_yet#:#Nog geen iLinc account
-ilinc#:#ilinc_user_added#:#Gebruikersaccount gemaakt op iLinc Server
-ilinc#:#ilinc_user_id#:#iLinc GebruikersID
-ilinc#:#ilinc_user_settings#:#iLinc gebruikersinstelligen
 itgr#:#itgr_assigned_materials#:#Assigned Materials
 itgr#:#itgr_assignment#:#Assignment
 itgr#:#itgr_edit#:#Wijzigen Item Groepen
@@ -9383,8 +9218,6 @@ mail#:#mail_salutation_m#:#Hello
 mail#:#mail_salutation_male#:#Aanspreking, man
 mail#:#mail_salutation_n#:#Hello
 mail#:#mail_saved#:#Het bericht is opgeslagen
-mail#:#mail_search_addressbook#:#zoek in adresboek
-mail#:#mail_search_system#:#zoek in het systeem
 mail#:#mail_select_attachment#:#Gelieve een bijlage te selecteren om te downloaden.
 mail#:#mail_select_course#:#Selecteer minstens 1 cursus
 mail#:#mail_select_group#:#Gelieve minsten 1 groep te selecteren
@@ -11244,7 +11077,6 @@ rbac#:#catr_write#:#Wijzigen Categorie referentie
 rbac#:#cat_administrate_users#:#Beheer lokale gebruikers account
 rbac#:#cat_cat_administrate_users#:#Lokale gebruikers beheren
 rbac#:#cat_copy#:#Kopieër Categorie
-rbac#:#cat_copy_threads_info#:#Please decide which category items should be copied, linked or even omitted.
 rbac#:#cat_delete#:#Verwijder categorie
 rbac#:#cat_edit_permission#:#Wijzig instellingen van de rechten
 rbac#:#cat_read#:#Leestoegang categorie
@@ -11297,7 +11129,6 @@ rbac#:#crss_read#:#Gebruiker heeft leestoegang tot cursusbeheer
 rbac#:#crss_visible#:#Cursusbeheer is zichtbaar
 rbac#:#crss_write#:#Wijzigen instellingen in cursusbeheer
 rbac#:#crs_copy#:#Kopieër Cursus
-rbac#:#crs_copy_threads_info#:#Gelieve te beslissen welke cursusmaterialen gekopieerd moeten worden.
 rbac#:#crs_delete#:#Cursus verwijderen
 rbac#:#crs_edit_event#:#Agenda-afspraken wijzigen
 rbac#:#crs_edit_learning_progress#:#Voortgang aanpassen
@@ -11574,7 +11405,6 @@ rbac#:#rbac_create_chtr#:#Aanmaken Chatroom
 rbac#:#rbac_create_cld#:#Aanmaken nieuw cloudobject
 rbac#:#rbac_create_crs#:#Aanmaken Cursus
 rbac#:#rbac_create_crsr#:#Aanmaken Course Referenc
-rbac#:#rbac_create_dbk#:#Creëer Digilib Book
 rbac#:#rbac_create_dcl#:#Aanmaken Data Collection
 rbac#:#rbac_create_exc#:#Aanmaken Oefening
 rbac#:#rbac_create_feed#:#Creëer Web Feed
@@ -11584,7 +11414,6 @@ rbac#:#rbac_create_frm#:#Aanmaken Forum
 rbac#:#rbac_create_glo#:#Aanmaken Woordenlijst
 rbac#:#rbac_create_grp#:#Aanmaken Groep
 rbac#:#rbac_create_htlm#:#Aanmaken HTML Learning Module
-rbac#:#rbac_create_icrs#:#Creëer LearnLinc Seminar
 rbac#:#rbac_create_itgr#:#Aanmaken Item Group
 rbac#:#rbac_create_lm#:#Aanmaken ILIAS Learning Module
 rbac#:#rbac_create_mcst#:#Aanmaken Mediacast
@@ -11785,7 +11614,6 @@ rbac#:#tst_read#:#Leesrechten op test
 rbac#:#tst_tst_statistics#:#Toegang tot toetsstatistieken
 rbac#:#tst_visible#:#De test is zichtbaar
 rbac#:#tst_write#:#Test wijzigen
-rbac#:#usrf_create_usr#:#Creëer gebruiker
 rbac#:#usrf_delete#:#Verwijderen gebruiker
 rbac#:#usrf_edit_permission#:#Wijzigen toegang tot gebruikers
 rbac#:#usrf_edit_roleassignment#:#Wijzigen rol-toewijzing van gebruikers
@@ -12094,17 +11922,6 @@ scormdebug#:#cmi.suspend_data#:#Provides space to store and retrieve data betwee
 scormdebug#:#cmi.time_limit_action#:#Indicates what the SCO should do when cmi.max_time_allowed is exceeded
 scormdebug#:#cmi.total_time#:#Sum of all of the learner's session times accumulated in the current learner attempt
 scormdebug#:#cmi._version#:#Represents the version of the data model
-scormdebug#:#cmi_comments_from_learner__children#:#Listing of supported data model elements
-scormdebug#:#cmi_comments_from_lms__children#:#Listing of supported data model elements
-scormdebug#:#cmi_interactions_n_id#:#Unique label for the interaction
-scormdebug#:#cmi_interactions_n_objectives_n_id#:#Label for objectives associated with the interaction
-scormdebug#:#cmi_interactions__children#:#Listing of supported data model elements
-scormdebug#:#cmi_learner_preference__children#:#Listing of supported data model elements
-scormdebug#:#cmi_objectives_n_id#:#Unique label for the objective
-scormdebug#:#cmi_objectives_n_score__children#:#Listing of supported data model elements
-scormdebug#:#cmi_objectives__children#:#Listing of supported data model elements
-scormdebug#:#cmi_score__children#:#Listing of supported data model elements
-scormdebug#:#cmi__version#:#Represents the version of the data model
 scormdebug#:#comment#:#Comment
 scormdebug#:#Commit#:#store data
 scormdebug#:#completion_status_by_progress_measure#:#Because there is a value for cmi.completion_threshold, the value for cmi.completion_status is evaluated by the LMS! This is done by comparing the value for cmi.completion_threshold with the value for cmi.progress_measure. The value for cmi.completion_status is currently:
@@ -12440,8 +12257,6 @@ skmg#:#skmg_create_skill_template_category#:#Aanmaken categorie voor competentie
 skmg#:#skmg_create_skill_template_reference#:#Aanmaken competentie categorie referentie
 skmg#:#skmg_create_skll#:#Aanmaken competitie
 skmg#:#skmg_delete_profiles#:#Wil je de volgende profielen verwijderen?
-skmg#:#skmg_draft#:#Klad (Offline)
-skmg#:#skmg_draft_info#:#Item zal niet zichtbaar zijn voor deelnemers
 skmg#:#skmg_edit_level#:#Wijzigen niveau
 skmg#:#skmg_edit_profile#:#Wijzigen profiel
 skmg#:#skmg_edit_scat#:#Wijzigen competentiecategorie
@@ -14318,3 +14133,49 @@ wsp#:#wsp_type_scov#:#Certificaat: SCORM
 wsp#:#wsp_type_tstv#:#Certificaat: Test
 wsp#:#wsp_type_webr#:#Weblink
 wsp#:#wsp_type_wfld#:#Map
+assessment#:#oq_btn_use_order_pictures#:#Use answer pictures###22 01 2014 new variable
+assessment#:#oq_btn_use_order_terms#:#Use answer terms###22 01 2014 new variable
+content#:#cont_LocalFile#:#Local File###22 01 2014 new variable
+assessment#:#oq_btn_nest_terms#:#Switch to term nesting view###22 01 2014 new variable
+assessment#:#oq_btn_nest_pictures#:#Switch to picture nesting view###22 01 2014 new variable
+assessment#:#oq_btn_define_terms#:#Switch to term definition view###22 01 2014 new variable
+assessment#:#oq_btn_define_pictures#:#Switch to picture definition view###22 01 2014 new variable
+assessment#:#oq_header_ordering_elements#:#Ordering Elements###22 01 2014 new variable
+bibl#:#bibliography file#:#Bibliography File###22 01 2014 new variable
+obj#:#obj_select_master_lang#:#Please select the master language. The current content will be assigned to the master language. The master language cannot be changed afterwards.###22 01 2014 new variable
+obj#:#obj_master_lang#:#Master Language###22 01 2014 new variable
+obj#:#obj_additional_langs#:#Additional Languages###22 01 2014 new variable
+obj#:#obj_deactivate_content_lang#:#Deactivate Translation for Page Editing###22 01 2014 new variable
+obj#:#obj_multilinguality#:#Multilinguality###22 01 2014 new variable
+sop#:#sop_msg_close_lm#:#The learning module is still open. Please close the SCORM Offline Player. ###22 01 2014 new variable
+obj#:#obj_deactivate_content_transl_conf#:#Do you really want to deactivate translation for page editing? Only contents of the master language will be kept.###22 01 2014 new variable
+obj#:#obj_cont_transl_deactivated#:#Translation for page editing has been deactivated.###22 01 2014 new variable
+notes#:#note_content_removed#:#The content has been removed.###22 01 2014 new variable
+exc#:#exc_list_text_assignment#:#List All Submissions###22 01 2014 new variable
+exc#:#exc_show_peer_review#:#Show Peer-Feedback###22 01 2014 new variable
+orgu#:#ou_external_id_exists#:#A unit with the External ID already exists on this system or in trash bin.###22 01 2014 new variable
+orgu#:#user_import_successful#:#The import terminated successfully. Assigned: %s, Removed: %s.###22 01 2014 new variable
+orgu#:#no_orgunit#:#Please check your XML-File. There is no Organisational Unit.###22 01 2014 new variable
+orgu#:#no_assignment#:#Please check your XML-File. There is no User Assignment.###22 01 2014 new variable
+obj#:#obj_insert_into_clipboard#:#Insert into Clipboard###22 01 2014 new variable
+obj#:#obj_inserted_clipboard#:#Objects have been moved to the clipboard.###22 01 2014 new variable
+orgu#:#org_unit_not_found#:#Organisational Unit not found.###22 01 2014 new variable
+content#:#cont_fourth_edition#:#SCORM 2004 4th edition###22 01 2014 new variable
+content#:#cont_fourth_edition_info#:#SCORM 2004 4th edition offers some advantages compared to the 3rd edition. Further data over SCO boundaries can be exchanged for example. These options are however rarely used and have a negative effect on the speed.###22 01 2014 new variable
+content#:#offline_mode_manager#:#Offline use###22 01 2014 new variable
+content#:#offline_mode_users#:#Users in offline mode###22 01 2014 new variable
+content#:#cont_offline_mode_disable_not_allowed_info#:#Since the learning module is currently used in offline mode, the offline mode can not be disabled.###22 01 2014 new variable
+content#:#stop_user_offline_mode#:#Stop offline mode###22 01 2014 new variable
+content#:#stop_user_offline_mode_for_user#:#Stop offline mode for###22 01 2014 new variable
+content#:#info_stop_offline_mode_sure#:#Note: The learning progress achieved in offline mode are lost. Are you sure?###22 01 2014 new variable
+init#:#init_error_redirect_click#:#Please click to continue.###22 01 2014 new variable
+init#:#init_error_redirect_info#:#Redirect not supported by context.###22 01 2014 new variable
+init#:#init_error_maintenance#:#The server is not available due to maintenance. We apologise for any inconvenience.###22 01 2014 new variable
+init#:#init_error_authentication_fail#:#Authentication failed.###22 01 2014 new variable
+obj#:#obj_multilang_title_descr_only#:#Translation is activated for title and description only. Translation support for Page editing ("Customize Page") needs additional activation.###22 01 2014 new variable
+obj#:#obj_activate_content_lang#:#Activate Translation for Page Editing###22 01 2014 new variable
+obj#:#obj_add_languages#:#Add Languages###22 01 2014 new variable
+obj#:#obj_activate_multilang#:#Activate Multilinguality###22 01 2014 new variable
+obj#:#obj_deactivate_multilang#:#Deactivate Multilinguality###22 01 2014 new variable
+obj#:#obj_deactivate_multilang_conf#:#Do you really want to deactivate multilinguality? Only contents of the master language will be kept.###22 01 2014 new variable
+obj#:#obj_multilang_deactivated#:#Multilinguality has been deactivated.###22 01 2014 new variable
