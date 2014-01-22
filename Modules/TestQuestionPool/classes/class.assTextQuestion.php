@@ -230,7 +230,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
 		$clone->copyXHTMLMediaObjectsOfQuestion($this_id);
 		#$clone->duplicateAnswers($this_id);
 		
-		$clone->onDuplicate($this_id, $clone->getId());
+		$clone->onDuplicate($thisObjId, $this_id, $clone->getObjId(), $clone->getId());
 
 		return $clone->id;
 	}

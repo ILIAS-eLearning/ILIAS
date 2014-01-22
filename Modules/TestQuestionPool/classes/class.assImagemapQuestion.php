@@ -227,7 +227,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		// duplicate the image
 		$clone->duplicateImage($this_id, $thisObjId);
 		
-		$clone->onDuplicate($this_id, $clone->getId());
+		$clone->onDuplicate($thisObjId, $this_id, $clone->getObjId(), $clone->getId());
 		
 		return $clone->id;
 	}
