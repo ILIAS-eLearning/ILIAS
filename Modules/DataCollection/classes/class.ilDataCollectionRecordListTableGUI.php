@@ -72,6 +72,7 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 		$this->setEnableHeader(true);
 		$this->setEnableTitle(true);
 		$this->setDefaultOrderDirection("asc");
+        $this->setDefaultOrderField('id');
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, "applyFilter"));
 		$this->initFilter();
         $this->setStyle('table', $this->getStyle('table') . ' ' . 'dcl_record_list');
