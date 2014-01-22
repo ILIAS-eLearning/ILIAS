@@ -318,8 +318,8 @@ class ilSubscriberTableGUI extends ilTable2GUI
 		// Waiting list subscription
 		foreach($sub_data as $usr_id => $usr_data)
 		{
-			$a_user_data[$user['usr_id']]['sub_time'] = $usr_data['time'];
-			$a_user_data[$user['usr_id']]['subject'] = $usr_data['subject'];
+			$a_user_data[$usr_id]['sub_time'] = $usr_data['time'];
+			$a_user_data[$usr_id]['subject'] = $usr_data['subject'];
 		}
 		
 		$this->setMaxCount($usr_data['cnt'] ? $usr_data['cnt'] : 0);
