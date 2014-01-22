@@ -2371,21 +2371,30 @@ class ilTree
 	* 				  int (object ref_id) > 0 if path container course, int 0 if pathc does not contain the object type 
 	*/
 	function checkForParentType($a_ref_id,$a_type,$a_exclude_source_check = false)
-	{
+	{				
+		// #12577
+		$cache_key = $a_ref_id.'.'.$a_type.'.'.((int)$a_exclude_source_check);
+		
 		// Try to return a cached result
-		if ($this->isCacheUsed() &&
-				array_key_exists($a_ref_id.'.'.$a_type, $this->parent_type_cache)) {
-			return $this->parent_type_cache[$a_ref_id.'.'.$a_type];
+		if($this->isCacheUsed() &&
+			array_key_exists($cache_key, $this->parent_type_cache)) 
+		{			
+			return $this->parent_type_cache[$cache_key];
 		}
+		
+		// Store up to 1000 results in cache
+		$do_cache = ($this->__isMainTree() && count($this->parent_type_cache) < 1000);
 
+		// ref_id is not in tree
 		if(!$this->isInTree($a_ref_id))
 		{
-            // Store up to 1000 results in cache
-            if ($this->__isMainTree() && count($this->parent_type_cache) < 1000) {
-                $this->parent_type_cache[$a_ref_id.'.'.$a_type] = false;
+            if($do_cache) 
+			{
+                $this->parent_type_cache[$cache_key] = false;
             }
 			return false;
 		}
+		
 		$path = array_reverse($this->getPathFull($a_ref_id));
 
 		// remove first path entry as it is requested node
@@ -2396,18 +2405,20 @@ class ilTree
 
 		foreach($path as $node)
 		{
+			// found matching parent
 			if($node["type"] == $a_type)
 			{
-            // Store up to 1000 results in cache
-            if ($this->__isMainTree() && count($this->parent_type_cache) < 1000) {
-                $this->parent_type_cache[$a_ref_id.'.'.$a_type] = $node["child"];
-            }
+				if($do_cache) 
+				{
+					$this->parent_type_cache[$cache_key] = $node["child"];
+				}
 				return $node["child"];
 			}
 		}
-		// Store up to 1000 results in cache
-		if ($this->__isMainTree() && count($this->parent_type_cache) < 1000) {
-			$this->parent_type_cache[$a_ref_id.'.'.$a_type] = false;
+		
+		if($do_cache)
+		{
+			$this->parent_type_cache[$cache_key] = false;
 		}
 		return 0;
 	}
