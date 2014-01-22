@@ -885,7 +885,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 		// copy XHTML media objects
 		$clone->copyXHTMLMediaObjectsOfQuestion($this_id);
 
-		$clone->onDuplicate($this_id, $clone->getId());
+		$clone->onDuplicate($thisObjId, $this_id, $clone->getObjId(), $clone->getId());
 
 		return $clone->getId();
 	}

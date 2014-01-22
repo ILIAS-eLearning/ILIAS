@@ -322,7 +322,7 @@ class assSingleChoice extends assQuestion implements  ilObjQuestionScoringAdjust
 		// duplicate the images
 		$clone->duplicateImages($this_id, $thisObjId);
 		
-		$clone->onDuplicate($this_id, $clone->getId());
+		$clone->onDuplicate($thisObjId, $this_id, $clone->getObjId(), $clone->getId());
 
 		return $clone->id;
 	}
