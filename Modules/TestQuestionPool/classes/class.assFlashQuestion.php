@@ -220,7 +220,8 @@ class assFlashQuestion extends assQuestion
 		// duplicate the applet
 		$clone->duplicateApplet($this_id, $thisObjId);
 
-		$clone->onDuplicate($this_id);
+		$clone->onDuplicate($thisObjId, $this_id, $clone->getObjId(), $clone->getId());
+		
 		return $clone->id;
 	}
 

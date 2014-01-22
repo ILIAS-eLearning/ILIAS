@@ -261,7 +261,8 @@ class assTextQuestion extends assQuestion
 		// duplicate the generic feedback
 		$clone->duplicateGenericFeedback($this_id);
 		#$clone->duplicateAnswers($this_id);
-		$clone->onDuplicate($this_id);
+
+		$clone->onDuplicate($thisObjId, $this_id, $clone->getObjId(), $clone->getId());
 
 		return $clone->id;
 	}

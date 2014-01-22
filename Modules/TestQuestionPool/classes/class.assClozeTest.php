@@ -799,7 +799,7 @@ class assClozeTest extends assQuestion
 		// duplicate the specific feedback
 		$clone->duplicateSpecificFeedback($this_id);
 
-		$clone->onDuplicate($this_id);
+		$clone->onDuplicate($thisObjId, $this_id, $clone->getObjId(), $clone->getId());
 
 		return $clone->getId();
 	}

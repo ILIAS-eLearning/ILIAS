@@ -288,7 +288,8 @@ class assTextSubset extends assQuestion
 		$clone->copyXHTMLMediaObjectsOfQuestion($this_id);
 		// duplicate the generic feedback
 		$clone->duplicateGenericFeedback($this_id);
-		$clone->onDuplicate($this_id);
+
+		$clone->onDuplicate($thisObjId, $this_id, $clone->getObjId(), $clone->getId());
 
 		return $clone->id;
 	}

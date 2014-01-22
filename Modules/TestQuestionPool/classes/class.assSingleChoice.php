@@ -344,7 +344,8 @@ class assSingleChoice extends assQuestion
 		$clone->duplicateGenericFeedback($this_id);
 		// duplicate the answer specific feedback
 		$clone->duplicateFeedbackAnswer($this_id);
-		$clone->onDuplicate($this_id);
+
+		$clone->onDuplicate($thisObjId, $this_id, $clone->getObjId(), $clone->getId());
 
 		return $clone->id;
 	}

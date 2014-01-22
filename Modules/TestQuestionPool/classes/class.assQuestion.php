@@ -2078,12 +2078,12 @@ abstract class assQuestion
 	/**
 	* Will be called when a question is duplicated (inside a question pool or for insertion in a test)
 	*/
-	protected function onDuplicate($source_question_id)
+	protected function onDuplicate($originalParentId, $originalQuestionId, $duplicateParentId, $duplicateQuestionId)
 	{
-		$this->duplicateSuggestedSolutionFiles($source_question_id);
-		
+		$this->duplicateSuggestedSolutionFiles($originalParentId, $originalQuestionId);
+
 		// duplicate question hints
-		$this->duplicateQuestionHints($source_question_id, $this->getId());
+		$this->duplicateQuestionHints($originalQuestionId, $this->getId());
 	}
 	
 	/**
@@ -2182,7 +2182,7 @@ abstract class assQuestion
 	/**
 	* Duplicates the files of a suggested solution if the question is duplicated
 	*/
-	protected function duplicateSuggestedSolutionFiles($question_id)
+	protected function duplicateSuggestedSolutionFiles($parent_id, $question_id)
 	{
 		global $ilLog;
 
@@ -2191,7 +2191,11 @@ abstract class assQuestion
 			if (strcmp($solution["type"], "file") == 0)
 			{
 				$filepath = $this->getSuggestedSolutionPath();
-				$filepath_original = str_replace("/$this->id/solution", "/$question_id/solution", $filepath);
+				$filepath_original = str_replace(
+					"/{$this->obj_id}/{$this->id}/solution",
+					"/$parent_id/$question_id/solution",
+					$filepath
+				);
 				if (!file_exists($filepath))
 				{
 					ilUtil::makeDirParents($filepath);
