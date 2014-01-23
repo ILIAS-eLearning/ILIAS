@@ -545,7 +545,7 @@ assessment#:#msg_circle_added#:#Circle added
 assessment#:#tst_rnd_quest_set_tb_add_pool_btn#:#Add New Source Question Pool Definition
 assessment#:#tst_src_quest_pool_def_list_table#:#Source Question Pool Definitions
 assessment#:#tst_source_question_pool#:#Source Question Pool
-assessment#:#tst_filter_taxonomy#:#Filter Taxonomy
+assessment#:#tst_filter_taxonomy#:#Taxonomy
 assessment#:#tst_filter_tax_node#:#Taxonomy Node
 assessment#:#tst_msg_random_question_set_config_modified#:#The configuration for the random test was successfully modified.
 assessment#:#tst_msg_rand_quest_set_stage_pool_last_sync#:#The generation of random test passes for participants is possible with the current configuration.<br />The moment of the last synchronisation of the selected source question pools was: <b>%s</b>
@@ -957,6 +957,8 @@ assessment#:#tst_inp_quest_amount_cfg_mode#:#Question Amount
 assessment#:#tst_inp_quest_amount_cfg_mode_test#:#Configuration of the Question Amount per Test
 assessment#:#tst_inp_quest_amount_cfg_mode_pool#:#Configuration of the Question Amount per Selected Question Pools
 assessment#:#tst_inp_quest_amount_per_test#:#Number of Questions for the Whole Test
+assessment#:#tst_inp_quest_amount_per_source_pool#:#Question Amount
+assessment#:#tst_question_amount#:#Question Amount
 assessment#:#tst_question_title#:#Title
 assessment#:#tst_question_type#:#Question Type
 assessment#:#tst_question_unmark#:#Remove the mark for this question
