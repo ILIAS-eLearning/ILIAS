@@ -197,6 +197,13 @@ class ilDBGenerator
 		{
 			$this->tables = $r;
 		}
+
+		// fix for 12570
+		if (!in_array("sahs_sc13_seq_seq", $r))
+		{
+			$this->tables[] = "sahs_sc13_seq_seq";
+		}
+
 		return $this->tables;
 	}
 	

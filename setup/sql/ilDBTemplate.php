@@ -50531,5 +50531,222 @@ $ilDB->addIndex("xmlvalue", $in_fields, "i2", true);
 
 $ilDB->createSequence("xmlvalue", 1);
 
+
+//
+// sahs_sc13_seq_seq
+//
+$fields = array (
+	"importid" => array (
+		"notnull" => false
+		,"length" => 32
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"activityabsolutedurationlimit" => array (
+		"notnull" => false
+		,"length" => 20
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"activityexperienceddurlimit" => array (
+		"notnull" => false
+		,"length" => 20
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"attemptabsolutedurationlimit" => array (
+		"notnull" => false
+		,"length" => 20
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"attemptexperienceddurlimit" => array (
+		"notnull" => false
+		,"length" => 20
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"attemptlimit" => array (
+		"notnull" => false
+		,"length" => 4
+		,"unsigned" => false
+		,"type" => "integer"
+	)
+	,"begintimelimit" => array (
+		"notnull" => false
+		,"length" => 20
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"choice" => array (
+		"notnull" => false
+		,"length" => 1
+		,"unsigned" => false
+		,"type" => "integer"
+	)
+	,"choiceexit" => array (
+		"notnull" => false
+		,"length" => 1
+		,"unsigned" => false
+		,"type" => "integer"
+	)
+	,"completionsetbycontent" => array (
+		"notnull" => false
+		,"length" => 1
+		,"unsigned" => false
+		,"type" => "integer"
+	)
+	,"constrainchoice" => array (
+		"notnull" => false
+		,"length" => 1
+		,"unsigned" => false
+		,"type" => "integer"
+	)
+	,"seqnodeid" => array (
+		"notnull" => true
+		,"length" => 4
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"endtimelimit" => array (
+		"notnull" => false
+		,"length" => 20
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"flow" => array (
+		"notnull" => false
+		,"length" => 1
+		,"unsigned" => false
+		,"type" => "integer"
+	)
+	,"forwardonly" => array (
+		"notnull" => false
+		,"length" => 1
+		,"unsigned" => false
+		,"type" => "integer"
+	)
+	,"id" => array (
+		"notnull" => false
+		,"length" => 200
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"measuresatisfactionifactive" => array (
+		"notnull" => false
+		,"length" => 1
+		,"unsigned" => false
+		,"type" => "integer"
+	)
+	,"objectivemeasureweight" => array (
+		"notnull" => false
+		,"type" => "float"
+	)
+	,"objectivesetbycontent" => array (
+		"notnull" => false
+		,"length" => 1
+		,"unsigned" => false
+		,"type" => "integer"
+	)
+	,"preventactivation" => array (
+		"notnull" => false
+		,"length" => 1
+		,"unsigned" => false
+		,"type" => "integer"
+	)
+	,"randomizationtiming" => array (
+		"notnull" => false
+		,"length" => 50
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"reorderchildren" => array (
+		"notnull" => false
+		,"length" => 1
+		,"unsigned" => false
+		,"type" => "integer"
+	)
+	,"requiredforcompleted" => array (
+		"notnull" => false
+		,"length" => 50
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"requiredforincomplete" => array (
+		"notnull" => false
+		,"length" => 50
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"requiredfornotsatisfied" => array (
+		"notnull" => false
+		,"length" => 50
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"requiredforsatisfied" => array (
+		"notnull" => false
+		,"length" => 50
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"rollupobjectivesatisfied" => array (
+		"notnull" => false
+		,"length" => 1
+		,"unsigned" => false
+		,"type" => "integer"
+	)
+	,"rollupprogresscompletion" => array (
+		"notnull" => false
+		,"length" => 1
+		,"unsigned" => false
+		,"type" => "integer"
+	)
+	,"selectcount" => array (
+		"notnull" => false
+		,"length" => 4
+		,"unsigned" => false
+		,"type" => "integer"
+	)
+	,"selectiontiming" => array (
+		"notnull" => false
+		,"length" => 50
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"sequencingid" => array (
+		"notnull" => false
+		,"length" => 50
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"tracked" => array (
+		"notnull" => false
+		,"length" => 1
+		,"unsigned" => false
+		,"type" => "integer"
+	)
+	,"usecurrentattemptobjectiveinfo" => array (
+		"notnull" => false
+		,"length" => 1
+		,"unsigned" => false
+		,"type" => "integer"
+	)
+	,"usecurrentattemptprogressinfo" => array (
+		"notnull" => false
+		,"length" => 1
+		,"unsigned" => false
+		,"type" => "integer"
+	)
+);
+$ilDB->createTable("sahs_sc13_seq_seq", $fields);
+
+$pk_fields = array("seqnodeid");
+$ilDB->addPrimaryKey("sahs_sc13_seq_seq", $pk_fields);
+
+$in_fields = array("id");
+$ilDB->addIndex("sahs_sc13_seq_seq", $in_fields, "i1", false);
+
 }
 ?>
