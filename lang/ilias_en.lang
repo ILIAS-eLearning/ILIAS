@@ -542,23 +542,23 @@ assessment#:#maxsize#:#Maximum file upload size
 assessment#:#meaning#:#Meaning
 assessment#:#min_percentage_ne_0#:#You must define a minimum percentage of 0 percent! The mark schema wasn't saved.
 assessment#:#msg_circle_added#:#Circle added
-assessment#:#tst_rnd_quest_set_tb_add_pool_btn#:#Add New Source Question Pool Definition
-assessment#:#tst_src_quest_pool_def_list_table#:#Source Question Pool Definitions
-assessment#:#tst_source_question_pool#:#Source Question Pool
+assessment#:#tst_rnd_quest_set_tb_add_pool_btn#:#New Rule for Selection of Questions
+assessment#:#tst_src_quest_pool_def_list_table#:#Rules for Random Selection of Questions
+assessment#:#tst_source_question_pool#:#Question Pool
 assessment#:#tst_filter_taxonomy#:#Taxonomy
 assessment#:#tst_filter_tax_node#:#Taxonomy Node
-assessment#:#tst_msg_random_question_set_config_modified#:#The configuration for the random test was successfully modified.
-assessment#:#tst_msg_rand_quest_set_stage_pool_last_sync#:#The generation of random test passes for participants is possible with the current configuration.<br />The moment of the last synchronisation of the selected source question pools was: <b>%s</b>
-assessment#:#tst_msg_rand_quest_set_pass_not_buildable#:#The generation of random test passes for participants is not possible with the current configuration of source question pools and question amount(s).
-assessment#:#tst_msg_rand_quest_set_no_src_pool_defs#:#Without the definition of source question pools, the generation of random test passes for participants is not possible.
-assessment#:#tst_msg_rand_quest_set_incomplete_quest_amount_cfg#:#Without a correctly defined question amount, the generation of random test passes for participants is not possible.
-assessment#:#tst_rnd_quest_set_cfg_pool_form#:#Source Question Pool Definition
-assessment#:#tst_inp_source_pool_label#:#Source Question Pool
+assessment#:#tst_msg_random_question_set_config_modified#:#The configuration for the random set of questions has been modified successfully.
+assessment#:#tst_msg_rand_quest_set_stage_pool_last_sync#:#A test with a random set of questions is possible with the current configuration.<br />Date of last synchronisation of selected question pools: <b>%s</b>
+assessment#:#tst_msg_rand_quest_set_pass_not_buildable#:#A test with a random set of questions is not possible with the current selection of question pools and the amount of questions.
+assessment#:#tst_msg_rand_quest_set_no_src_pool_defs#:#A test with a random set of questions is not possible without selecting at least one question pool.
+assessment#:#tst_msg_rand_quest_set_incomplete_quest_amount_cfg#:#A test with a random set of questions is not possible without a correctly defined amount of questions.
+assessment#:#tst_rnd_quest_set_cfg_pool_form#:#Rule for Selection of Questions
+assessment#:#tst_inp_source_pool_label#:#Question Pool
 assessment#:#tst_inp_source_pool_filter_tax#:#Taxonomy Filter
 assessment#:#tst_inp_source_pool_no_tax_filter#:#Use No Taxonomy Based Filter
 assessment#:#tst_inp_source_pool_filter_tax_x#:#Use Taxonomy "%s" as Filter
 assessment#:#tst_inp_no_available_tax_hint#:#No Available Taxonomies for Selected Question Pool
-assessment#:#tst_msg_source_pool_definitions_deleted#:#The source question pool definition has been deleted successfully.
+assessment#:#tst_msg_source_pool_definitions_deleted#:#The rule has been deleted successfully.
 assessment#:#msg_deleted_export_files#:#Export file(s) deleted
 assessment#:#msg_number_of_terms_too_low#:#The number of terms must be greater or equal to the number of definitions.
 assessment#:#msg_poly_added#:#Polygon added
@@ -698,7 +698,7 @@ assessment#:#radio_unset#:#Unset
 assessment#:#random_accept_sample#:#Accept Sample
 assessment#:#random_another_sample#:#Get another Sample
 assessment#:#random_selection#:#Random Selection
-assessment#:#tst_rnd_quest_set_cfg_general_form#:#Random Question Selection Config
+assessment#:#tst_rnd_quest_set_cfg_general_form#:#Configure Random Set of Questions
 assessment#:#range_lower_limit#:#Lower Bound
 assessment#:#range_upper_limit#:#Upper Bound
 assessment#:#range#:#Range
@@ -951,11 +951,11 @@ assessment#:#tst_question_offer#:#Do you accept this sample or do you want anoth
 assessment#:#tst_question_selection_description#:#If you only use question pools which contain questions with an equal maximum number of available points, the test will have an equal number of maximum points for all participating users and thus the test results will be better comparable. It is recommended to choose this selection mode.
 assessment#:#tst_question_selection_equal#:#Use question pools with equal maximum points
 assessment#:#tst_question_selection#:#Question Selection
-assessment#:#tst_inp_all_quest_points_equal_per_pool#:#Require Pools with Homogeneous Scored Questions
-assessment#:#tst_inp_all_quest_points_equal_per_pool_desc#:#If enabled, only question pools with homogeneous scored questions will be offered. The test will have an equal number of maximum points for all participating users and thus the test results will be better comparable. It is recommended to choose this selection mode.
-assessment#:#tst_inp_quest_amount_cfg_mode#:#Question Amount
-assessment#:#tst_inp_quest_amount_cfg_mode_test#:#Configuration of the Question Amount per Test
-assessment#:#tst_inp_quest_amount_cfg_mode_pool#:#Configuration of the Question Amount per Selected Question Pools
+assessment#:#tst_inp_all_quest_points_equal_per_pool#:#Use Only Pools with Equal Scored Questions
+assessment#:#tst_inp_all_quest_points_equal_per_pool_desc#:#If enabled, only question pools in which all questions have the same points are offered. Participants of such a test can all have the same number of maximum points, thus the test results will be better comparable. It is recommended to choose this option.
+assessment#:#tst_inp_quest_amount_cfg_mode#:#Amount of Questions
+assessment#:#tst_inp_quest_amount_cfg_mode_test#:#Define the amount of questions per test
+assessment#:#tst_inp_quest_amount_cfg_mode_pool#:#Define the amount of questions per selected question pool and taxonomy node.
 assessment#:#tst_inp_quest_amount_per_test#:#Number of Questions for the Whole Test
 assessment#:#tst_inp_quest_amount_per_source_pool#:#Question Amount
 assessment#:#tst_question_amount#:#Question Amount
@@ -966,7 +966,7 @@ assessment#:#tst_questions_inserted#:#Question(s) inserted!
 assessment#:#tst_questions_removed#:#Question(s) removed!
 assessment#:#tst_random_nr_of_questions#:#How many questions?
 assessment#:#tst_random_qpl_unselected#:#There is at least one unselected question pool! You don't need to add a new question pool.
-assessment#:#tst_random_questionpools#:#Source Question Pools
+assessment#:#tst_random_questionpools#:#Question Pools
 assessment#:#tst_random_select_questionpool#:#Select the question pool to choose the questions from
 assessment#:#tst_random_selection_question_count_too_high#:#The question count you entered was higher than the maximum number of available questions. The question count has been reduced automatically.
 assessment#:#tst_random_selection_question_total_count_too_high#:#The question count you entered was higher than the maximum number of available questions for all selected question pools. The question count has been reduced automatically.
@@ -1166,8 +1166,8 @@ assessment#:#tst_highscore_top_table_description#:#Controls, if the table 'top r
 assessment#:#tst_highscore_top_num#:#Number of ranks
 assessment#:#tst_highscore_top_num_description#:#Controls, how many ranks should be included in the top ranking table.
 assessment#:#tst_highscore_top_num_unit#:#entries
-assessment#:#tst_rnd_quest_cfg_tab_general#:#General Config
-assessment#:#tst_rnd_quest_cfg_tab_pool#:#Source Question Pools
+assessment#:#tst_rnd_quest_cfg_tab_general#:#Configuration
+assessment#:#tst_rnd_quest_cfg_tab_pool#:#Selected Question Pools
 assessment#:#tst_question_set_type#:#Test Mode
 assessment#:#tst_question_set_type_fixed#:#Testing with Fixed Set of Questions
 assessment#:#tst_question_set_type_fixed_desc#:#With this mode a fixed set of questions is to be selected and is used for all participants. Depending on the detailed test configuration the participants can take one or more test passes.
@@ -1197,7 +1197,7 @@ assessment#:#tst_back_dyn_test_with_cur_quest_sel#:#Back to Test with Current Qu
 assessment#:#tst_tracked_question_list#:#Previously Answered Questions
 assessment#:#tst_filtered_question_list#:#Test Question Selection
 assessment#:#tst_change_dyn_test_question_selection#:#Change Current Question Selection
-assessment#:#tst_dyn_test_msg_currently_finished_completely#:#Currently you have answered all questions from the source questin pool successfully. When there are new or edited questions in the question pool you can proceed the test.
+assessment#:#tst_dyn_test_msg_currently_finished_completely#:#Currently you have answered all questions from the selected questin pool successfully. When there are new or edited questions in the question pool you can proceed the test.
 assessment#:#tst_dyn_test_msg_currently_finished_selection#:#With the current question selection you have answered all questions successfully. Change the question selection to proceed the test.
 assessment#:#feedback_setting#:#Mode of answer specific feedback.
 assessment#:#feedback_all#:#Show answer specific feedback for all answers.
