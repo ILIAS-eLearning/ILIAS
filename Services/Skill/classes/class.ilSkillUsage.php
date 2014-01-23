@@ -156,7 +156,8 @@ class ilSkillUsage implements ilSkillUsageInfo
 		{
 			// make static call
 			include_once("./Services/Skill/classes/class.".$class.".php");
-			call_user_func($class.'::getUsageInfo', $a_cskill_ids, &$usages);
+			//call_user_func($class.'::getUsageInfo', $a_cskill_ids, $usages);
+			$class::getUsageInfo($a_cskill_ids, $usages);
 		}
 		return $usages;
 	}
