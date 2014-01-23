@@ -813,6 +813,9 @@ class ilObjectCopyGUI
 			}
 		}
 
+		unset($_SESSION["clipboard"]["ref_ids"]);
+		unset($_SESSION["clipboard"]["cmd"]);
+
 		if (count($a_sources) == 1)
 		{
 			ilUtil::sendSuccess($this->lng->txt("object_duplicated"),true);
@@ -863,7 +866,11 @@ class ilObjectCopyGUI
 		$options = $_POST['cp_options'] ? $_POST['cp_options'] : array();
 		$orig = ilObjectFactory::getInstanceByRefId($this->getSource());
 		$result = $orig->cloneAllObject($_COOKIE['PHPSESSID'], $_COOKIE['ilClientId'], $this->getType(), $this->getTarget(), $this->getSource(), $options);
-		
+
+
+		unset($_SESSION["clipboard"]["ref_ids"]);
+		unset($_SESSION["clipboard"]["cmd"]);
+
 		// Check if copy is in progress
 		if ($result == $this->getTarget())
 		{
