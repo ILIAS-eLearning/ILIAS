@@ -48,7 +48,7 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
 		$this->selection_cmd = $a_selection_cmd;
 		$this->selection_par = $a_selection_par;
 
-		parent::__construct("rep_exp", $a_parent_obj, $a_parent_cmd, $tree);
+		parent::__construct("rep_exp_sel", $a_parent_obj, $a_parent_cmd, $tree);
 
 		$this->setSkipRootNode(false);
 		$this->setAjax(true);
