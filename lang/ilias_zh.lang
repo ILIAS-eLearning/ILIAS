@@ -14179,3 +14179,5 @@ obj#:#obj_deactivate_multilang_conf#:#Do you really want to deactivate multiling
 obj#:#obj_multilang_deactivated#:#Multilinguality has been deactivated.###22 01 2014 new variable
 cntr#:#cntr_container_only_on_their_own#:#Categories, courses, groups or folders can only be copied as single objects. Please select one item only.###22 01 2014 new variable
 cntr#:#objects_duplicated#:#Objects copied###22 01 2014 new variable
+assessment#:#tst_inp_quest_amount_per_source_pool#:#Question Amount###23 01 2014 new variable
+assessment#:#tst_question_amount#:#Question Amount###23 01 2014 new variable
