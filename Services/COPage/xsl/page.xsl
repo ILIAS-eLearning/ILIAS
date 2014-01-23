@@ -2143,7 +2143,16 @@
 	</xsl:if>
 	<xsl:if test="../MediaAliasItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'RightFloat'
 		and $mode != 'fullscreen' and $mode != 'media'">
-		<xsl:call-template name="MOBTable"/>
+		<xsl:choose>
+			<xsl:when test="name(..) = 'InteractiveImage' and $mode = 'edit'">
+			<div align="right" style="clear:both;">
+				<xsl:call-template name="MOBTable"/>
+			</div>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:call-template name="MOBTable"/>
+			</xsl:otherwise>
+		</xsl:choose>
 	</xsl:if>
 	<xsl:if test="../MediaAliasItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'LeftFloat'
 		and $mode != 'fullscreen' and $mode != 'media'">
@@ -2977,9 +2986,17 @@
 	<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_iim']/@value"/></xsl:with-param></xsl:call-template>
 	</xsl:if>
 	<div>
-	<xsl:if test="$mode = 'edit'">
-		<xsl:attribute name="style">border: 2px solid #000000; padding: 20px;</xsl:attribute>
-	</xsl:if>
+		<xsl:if test="$mode = 'edit'">
+			<xsl:attribute name="style">border: 2px solid #000000; padding: 20px;</xsl:attribute>
+		</xsl:if>
+		<xsl:if test="$mode != 'edit'">
+			<xsl:if test="./MediaAliasItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'LeftFloat'">
+				<xsl:attribute name="style">float:left; clear:both;</xsl:attribute>
+			</xsl:if>
+			<xsl:if test="./MediaAliasItem[@Purpose='Standard']/Layout[1]/@HorizontalAlign = 'RightFloat'">
+				<xsl:attribute name="style">float:right; clear:both;</xsl:attribute>
+			</xsl:if>
+		</xsl:if>
 		<xsl:apply-templates select="MediaAlias"/>
 		<xsl:apply-templates select="Trigger"/>
 		<xsl:for-each select="./Trigger">
