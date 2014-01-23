@@ -2034,7 +2034,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 				}
 	
 				// CHECK IF PASTE OBJECT SHALL BE CHILD OF ITSELF
-				if($tree->isGrandChild($ref_id, $folder_ref_id))
+				if ($tree->isGrandChild($ref_id, $folder_ref_id) ||
+					$ref_id == $folder_ref_id)
 				{
 					$is_child[] = sprintf($this->lng->txt('msg_paste_object_not_in_itself'), $obj_data->getTitle().' ['.$obj_data->getRefId().']');
 				}
@@ -2563,7 +2564,12 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 			// CHECK IF PASTE OBJECT SHALL BE CHILD OF ITSELF
 			if ($this->tree->isGrandChild($ref_id,$this->object->getRefId()))
 			{
-				$is_child[] = $ref_id;
+				$is_child[] = ilObject::_lookupTitle(ilObject::_lookupObjId($ref_id));
+			}
+
+			if ($ref_id == $this->object->getRefId())
+			{
+				$is_child[] = ilObject::_lookupTitle(ilObject::_lookupObjId($ref_id));
 			}
 
 			// CHECK IF OBJECT IS ALLOWED TO CONTAIN PASTED OBJECT AS SUBOBJECT
