@@ -23,7 +23,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 	var $header;
 	var $ctrl;
 
-	function ilPCMediaObjectGUI(&$a_pg_obj, &$a_content_obj, $a_hier_id = 0, $a_pc_id = "")
+	function ilPCMediaObjectGUI($a_pg_obj, $a_content_obj, $a_hier_id = 0, $a_pc_id = "")
 	{
 		global $ilCtrl;
 
