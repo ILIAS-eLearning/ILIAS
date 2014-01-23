@@ -1156,7 +1156,7 @@ return;
 					$tpl->setCurrentBlock("change_comment");
 					$tpl->setVariable("TXT_ADD_COMMENT", $this->lng->txt("cont_add_change_comment"));
 					$tpl->parseCurrentBlock();
-					$tpl->setCurrentBlock("adm_content");
+//					$tpl->setCurrentBlock("adm_content");
 				}
 
 				// explorer updater
