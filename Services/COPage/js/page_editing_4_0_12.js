@@ -847,7 +847,7 @@ tinymce.activeEditor.formatter.register('mycode', {
 		var ed = tinyMCE.get('tinytarget');
 		//tinyMCE.execCommand('mceAddControl', false, 'tinytarget');
 		tinyMCE.execCommand('mceAddEditor', false, 'tinytarget');
-console.log("prepareTiny");
+//console.log("prepareTiny");
 		if (!switched)
 		{
 			showToolbar('tinytarget');
