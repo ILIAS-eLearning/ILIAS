@@ -664,7 +664,7 @@ assessment#:#msg_questions_moved#:#Frage(n) verschoben
 assessment#:#tst_rnd_quest_set_tb_add_pool_btn#:#Neue Quell-Fragenpool Definition hinzufügen
 assessment#:#tst_src_quest_pool_def_list_table#:#Quell-Fragenpool Definition
 assessment#:#tst_source_question_pool#:#Quell-Fragenpool
-assessment#:#tst_filter_taxonomy#:#Filter Taxonomie
+assessment#:#tst_filter_taxonomy#:#Taxonomie
 assessment#:#tst_filter_tax_node#:#Taxonomie Knoten
 assessment#:#tst_msg_random_question_set_config_modified#:#Die Konfiguration für den Zufalls Test wurde erfolgreich modifiziert.
 assessment#:#tst_msg_rand_quest_set_stage_pool_last_sync#:#Die Generierung zufälliger Test Durchläufe für Teilnehmer ist mit der aktuellen Konfiguration möglich.<br />Zeitpunkt der letzten Synchronisierung der ausgewählten Quell-Fragenpools war: <b>%s</b>
@@ -1121,6 +1121,8 @@ assessment#:#tst_inp_quest_amount_cfg_mode#:#Fragen Menge
 assessment#:#tst_inp_quest_amount_cfg_mode_test#:#Konfiguration der Fragen Menge für den gesamten Test
 assessment#:#tst_inp_quest_amount_cfg_mode_pool#:#Konfiguration der Fragen Menge je ausgewähltem Fragenpool
 assessment#:#tst_inp_quest_amount_per_test#:#Anzahl Fragen für den gesamten Test
+assessment#:#tst_inp_quest_amount_per_source_pool#:#Anzahl Fragen
+assessment#:#tst_question_amount#:#Fragen Anzahl
 assessment#:#tst_question_title#:#Titel
 assessment#:#tst_question_type#:#Fragetyp
 assessment#:#tst_question_unmark#:#Markierung für diese Frage entfernen
