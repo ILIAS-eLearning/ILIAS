@@ -363,7 +363,7 @@ class ilObjectCopyGUI
 	 */
 	protected function saveTarget()
 	{
-		global $objDefinition;
+		global $objDefinition, $tree;
 
 
 		if(isset($_REQUEST['target']))
@@ -379,6 +379,23 @@ class ilObjectCopyGUI
 
 		if($_GET["source_ids"] == "" && $objDefinition->isContainer($this->getType()))
 		{
+			// check, if object should be copied into itself
+			$is_child = array();
+			if ($tree->isGrandChild($this->getSource(), $this->getTarget()))
+			{
+				$is_child[] = ilObject::_lookupTitle(ilObject::_lookupObjId($this->getSource()));
+			}
+			if ($this->getSource() == $this->getTarget())
+			{
+				$is_child[] = ilObject::_lookupTitle(ilObject::_lookupObjId($this->getSource()));
+			}
+			if (count($is_child) > 0)
+			{
+				ilUtil::sendFailure($this->lng->txt("msg_not_in_itself")." ".implode(',',$is_child));
+				$this->showTargetSelectionTree();
+				return false;
+			}
+
 			$this->showItemSelection();
 		}
 		else
