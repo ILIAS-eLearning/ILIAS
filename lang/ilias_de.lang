@@ -279,9 +279,9 @@ adve#:#adve_use_physical#:#str/emp/imp durch b/i/u ersetzen
 adve#:#adve_use_physical_info#:#Die Einstellung ersetzt die Buttons der semantischen Styleklassen für strong, emphatic und important durch die physikalischen Auszeichnungen b (bold), i (italic) und u (underline). Achtung, hierbei kann es zu Inkonsistenzen kommen, wenn über den Styleeditor den Styleklassen für strong, emphatic und important andere Auszeichnungen zugeordnet werden.
 adve#:#adve_use_tiny_mce#:#TinyMCE für WYSIWYG-Editieren aktivieren
 assessment#:#autosave#:#Automatisches Speichern
-assessment#:#autosave_info#:#Wenn ausgewählt, werden Antworten im Hintergrund gespeichert um Datenverlusten vorzubeugen. (Bei ausgewählten Fragetypen.)
+assessment#:#autosave_info#:#Wenn ausgewählt, werden Antworten im Hintergrund gespeichert, um einen Datenverlust zu vermeiden.
 assessment#:#autosave_ival#:#Intervall
-assessment#:#autosave_ival_info#:#Intervall, in dem Antworten im Hintergrund gespeichert werden (Sekunden)
+assessment#:#autosave_ival_info#:#Intervall, in dem Antworten im Hintergrund gespeichert werden (in Sekunden)
 assessment#:#for#:#für
 assessment#:#solution_contain_keywords#:#Punkte werden auf Basis des Vorkommens der folgenden Begriffe vergeben:
 assessment#:#essay_scoring_mode#:#Bewertungs Modus
@@ -293,15 +293,15 @@ assessment#:#essay_scoring_mode_keyword_relation_all#:#Automatische Bewertung be
 assessment#:#essay_scoring_mode_keyword_relation_all_desc#:#Die Punkte werden automatisch vergeben, wenn alle Begriffe gefunden werden.
 assessment#:#essay_scoring_mode_keyword_relation_one#:#Automatische Bewertung bei Nennung eines Begriffs
 assessment#:#essay_scoring_mode_keyword_relation_one_desc#:#Die Punkte werden automatisch vergeben, wenn mindestens ein Begriff gefunden wird.
-assessment#:#mark_schema_invalid#:#Das Notenschema konnte nicht erfolgreich validiert werden. Bitte erstellen Sie ein valides Schema.
+assessment#:#mark_schema_invalid#:#Das Notenschema konnte nicht erfolgreich validiert werden. Bitte erstellen Sie ein gültiges Schema.
 assessment#:#assessment_scoring_adjust#:#Aktiviere Nachkorrekturmodus
-assessment#:#assessment_scoring_adjust_desc#:#Aktiviert den Nachkorrekturmodus, mit dem nachträglich Fragen in Tests hinsichtlich ihrer Bewertung konfiguriert werden können.
+assessment#:#assessment_scoring_adjust_desc#:#Aktiviert den Nachkorrekturmodus, um nachträglich die Bewertung von Fragen in Tests anzupassen.
 assessment#:#assessment_log_scoring_adjustment_activate#:#Verfügbare Fragetypen für den Nachkorrekturmodus
-assessment#:#assessment_log_scoring_adjustment_desc#:#Gewählte Fragetypen stehen im Nachkorrekturmodus zur Verfügung. Dieses Setting berücksichtigt nicht die Fähigkeit einer Frage im Nachkorrekturmodus behandelt zu werden.
+assessment#:#assessment_log_scoring_adjustment_desc#:#Gewählte Fragetypen stehen im Nachkorrekturmodus zur Verfügung. Diese Einstellung berücksichtigt nicht, ob die Frage im Nachkorrekturmodus bearbeitet werden kann.
 assessment#:#0_unlimited#:#(0 = unbegrenzt)
 assessment#:#action#:#Aktion
 assessment#:#add_answer#:#Antwort hinzufügen
-assessment#:#add_answer_tf#:#Wahr-/Falsch-Antworten
+assessment#:#add_answer_tf#:#Richtig-/Falsch-Antworten
 assessment#:#add_answer_yn#:#Ja-/Nein-Antworten
 assessment#:#add_applet_parameter#:#Applet-Parameter hinzufügen
 assessment#:#add_area#:#Region hinzufügen
@@ -319,7 +319,7 @@ assessment#:#adm_settings_templates#:#Einstellungsvorlagen
 assessment#:#all_available_question_pools#:#Alle vorhandenen Fragenpools
 assessment#:#allow_images#:#Grafikunterstützung für Antworten
 assessment#:#allowedextensions#:#Erlaubte Dateierweiterungen
-assessment#:#allowedextensions_info#:#Geben Sie eine kommagetrennte Liste der erlaubten Dateierweiterungen an, wenn Sie das Hochladen auf bestimmte Dateitypen einschränken wollen (z.B. doc,xls,odt).
+assessment#:#allowedextensions_info#:#Geben Sie eine kommagetrennte Liste der erlaubten Dateierweiterungen an, wenn Sie das Hochladen auf bestimmte Dateitypen einschränken wollen (z.B. doc,pdf,odt).
 assessment#:#analyze_errortext#:#Text analysieren
 assessment#:#answer#:#Antwort
 assessment#:#answer_image#:#Antwort-Grafik
@@ -341,7 +341,7 @@ assessment#:#ass_completion_by_submission#:#Bestehen durch Abgabe
 assessment#:#ass_completion_by_submission_info#:#Falls aktiviert, führt die Abgabe einer Lösungsdatei zur Vergabe der Maximalpunktzahl für diese Frage. Die Bewertung kann jederzeit manuell angepasst werden. Das Ändern dieser Einstellung hat keine nachträglichen Auswirkungen auf bereits eingereichte Lösungen.
 assessment#:#ass_create_export_file#:#Erstelle Exportdatei
 assessment#:#ass_create_export_test_results#:#Erstelle Ergebnisdatei
-assessment#:#ass_create_export_test_archive#:#Erstelle Test Archivdatei
+assessment#:#ass_create_export_test_archive#:#Erstelle Archivdatei für Test
 assessment#:#ass_export_files#:#Exportdateien
 assessment#:#ass_file#:#Datei
 assessment#:#ass_question#:#Frage
@@ -354,14 +354,14 @@ assessment#:#assessment_new_pool#:#Neuen Fragenpool erstellen und verwenden
 assessment#:#assessment_no_pool#:#Keinen Fragenpool verwenden
 assessment#:#assessment_pool_selection#:#Poolauswahl
 assessment#:#assFileUpload#:#Datei hochladen
-assessment#:#assFlashQuestion#:#Eingebettete Frage - Flash
+assessment#:#assFlashQuestion#:#Eingebettete Frage : Flash
 assessment#:#assImagemapQuestion#:#Hotspot/Imagemap
-assessment#:#assJavaApplet#:#Eingebettete Frage - Java Applet
+assessment#:#assJavaApplet#:#Eingebettete Frage : Java Applet
 assessment#:#assMatchingQuestion#:#Zuordnungsfrage
 assessment#:#assMultipleChoice#:#Multiple Choice
 assessment#:#assNumeric#:#Numerische Antwort
-assessment#:#assOrderingHorizontal#:#Anordnungsfrage - horizontal
-assessment#:#assOrderingQuestion#:#Anordnungsfrage - vertikal
+assessment#:#assOrderingHorizontal#:#Anordnungsfrage : horizontal
+assessment#:#assOrderingQuestion#:#Anordnungsfrage : vertikal
 assessment#:#assQuestions#:#Fragen
 assessment#:#assSingleChoice#:#Single Choice
 assessment#:#assTextQuestion#:#Freitext eingeben
@@ -374,7 +374,7 @@ assessment#:#average_reached_points#:#Durchschnittlich erreichte Punktezahl
 assessment#:#backtocallingtest#:#Zurück zum aufrufenden Test
 assessment#:#by#:#nach
 assessment#:#cancel_test#:#Test unterbrechen
-assessment#:#cannot_edit_marks#:#Der Test wurde bereits von Teilnehmern durchgeführt. Sie können die Noten nur ändern, wenn ein Datum für die Ergebnisausgabe eingestellt wurde und dieses Datum noch nicht erreicht wurde.
+assessment#:#cannot_edit_marks#:#Der Test wurde bereits von Teilnehmern durchgeführt. Sie können die Bewertung nur ändern, wenn ein Datum für die Ergebnisausgabe eingestellt wurde, das aktuell noch in der Zukunft liegt.
 assessment#:#cannot_edit_test#:#Sie besitzen keine ausreichenden Rechte, um den Test zu bearbeiten!
 assessment#:#cannot_execute_test#:#Sie besitzen keine ausreichenden Rechte, um den Test auszuführen!
 assessment#:#cannot_export_qpl#:#Sie besitzen keine ausreichenden Rechte, um den Fragenpool zu exportieren!
@@ -400,7 +400,7 @@ assessment#:#cloze_fixed_textlength_description#:#Wenn Sie einen Wert größer a
 assessment#:#cloze_text#:#Lückentextfrage
 assessment#:#cloze_textgap_case_insensitive#:#Zwischen Groß- und Kleinschreibung wird nicht unterschieden
 assessment#:#cloze_textgap_case_sensitive#:#Groß- und Kleinschreibung beachten
-assessment#:#cloze_textgap_levenshtein_of#:#Levenshtein Abstand von %s
+assessment#:#cloze_textgap_levenshtein_of#:#Levenshtein-Abstand von %s
 assessment#:#cloze_textgap_rating#:#Textlückenbewertung
 assessment#:#code#:#Code
 assessment#:#codebase#:#Codebase
@@ -424,8 +424,8 @@ assessment#:#definition#:#Definition
 assessment#:#definition_image#:#Bild
 assessment#:#definition_text#:#Text
 assessment#:#definitions#:#Definitionen
-assessment#:#delete_all_user_data#:#Testdaten aller Benutzer löschen
-assessment#:#delete_all_user_data_confirmation#:#Wollen Sie wirklich die Testdaten aller Benutzer löschen?
+assessment#:#delete_all_user_data#:#Testdaten aller Teilnehmer löschen
+assessment#:#delete_all_user_data_confirmation#:#Wollen Sie wirklich die Testdaten aller Teilnehmer löschen?
 assessment#:#delete_area#:#Region löschen
 assessment#:#delete_image#:#Bild löschen
 assessment#:#delete_image_header#:#Bild löschen
@@ -445,7 +445,7 @@ assessment#:#detailed_output_printview#:#Detailausgabe mit Druckansicht der Frag
 assessment#:#detailed_output_solutions#:#Detailausgabe mit Lösungen
 assessment#:#direct_feedback#:#Überprüfen Sie Ihre Lösung
 assessment#:#disable_javascript#:#Klicken Sie hier, um die JavaScript-Unterstützung zu deaktivieren
-assessment#:#dont_use_questionpool#:#Fragen nicht in einen Fragenpool einfügen und nur für diesen Test verfügbar machen
+assessment#:#dont_use_questionpool#:#Fragen nicht in einen Fragenpool einfügen sondern nur im vorliegenden Test nutzen
 assessment#:#duplicate#:#Kopieren
 assessment#:#duplicate_matching_values_selected#:#Sie haben mindestens einen doppelten Zuordnungswert ausgewählt!
 assessment#:#duplicate_order_values_entered#:#Sie haben mindestens eine doppelte Reihenfolge angegeben!
@@ -458,13 +458,13 @@ assessment#:#ects_grade_b#:#überdurchschnittliche Leistungen, aber einige Fehle
 assessment#:#ects_grade_b_short#:#SEHR GUT
 assessment#:#ects_grade_c#:#insgesamt gute und solide Arbeit, jedoch mit einigen grundlegenden Fehlern
 assessment#:#ects_grade_c_short#:#GUT
-assessment#:#ects_grade_d#:#mittelmäßig, jedoch deutliche Mangel
+assessment#:#ects_grade_d#:#mittelmäßig, jedoch deutliche Mängel
 assessment#:#ects_grade_d_short#:#BEFRIEDIGEND
 assessment#:#ects_grade_e#:#die gezeigten Leistungen entsprechen den Mindestanforderungen
 assessment#:#ects_grade_e_short#:#AUSREICHEND
 assessment#:#ects_grade_f#:#es sind erhebliche Verbesserungen erforderlich
 assessment#:#ects_grade_f_short#:#NICHT BESTANDEN
-assessment#:#ects_grade_fx#:#es sind Verbesserungen erforderlich, bevor die Leistungen anerkannt werden
+assessment#:#ects_grade_fx#:#es sind Verbesserungen erforderlich, bevor die Leistung anerkannt wird
 assessment#:#ects_grade_fx_short#:#NICHT BESTANDEN
 assessment#:#ects_output_of_ects_grades#:#Ausgabe von ECTS-Noten
 assessment#:#ects_range_error_a#:#Bitte geben Sie einen Wert zwischen 0 und 100 für die ECTS-Note A an!
@@ -539,14 +539,14 @@ assessment#:#feedback_incomplete_solution#:#Mindestens eine Antwort ist nicht ri
 assessment#:#feedback_answers#:#Rückmeldung für jede Antwort
 assessment#:#file_uploads#:#Hochgeladene Dateien
 assessment#:#fileDownload#:#Datei-Download
-assessment#:#fill_out_all_answer_fields#:#Bitte füllen Sie alle Antwortfelder aus, bevor Sie ein Neues erzeugen
-assessment#:#fill_out_all_matching_pairs#:#Bitte füllen Sie alle Zuordnungspaare aus, bevor Sie ein Neues erzeugen
-assessment#:#fill_out_all_required_fields_add_answer#:#Sie müssen zuerst alle Pflichtfelder ausfüllen, bevor Sie Antworten hinzufügen!
-assessment#:#fill_out_all_required_fields_add_matching#:#Sie müssen zuerst alle Pflichtfelder ausfüllen, bevor Sie Zuordnungspaare hinzufügen!
-assessment#:#fill_out_all_required_fields_create_gaps#:#Sie müssen zuerst alle Pflichtfelder ausfüllen, bevor Sie Lücken hinzufügen!
-assessment#:#fill_out_all_required_fields_upload_image#:#Sie müssen zuerst alle Pflichtfelder ausfüllen, bevor Sie Bilder hochladen!
-assessment#:#fill_out_all_required_fields_upload_imagemap#:#Sie müssen zuerst alle Pflichtfelder ausfüllen, bevor Sie Imagemaps hochladen!
-assessment#:#fill_out_all_required_fields_upload_material#:#Sie müssen zuerst alle Pflichtfelder ausfüllen, bevor Sie Materialien hochladen!
+assessment#:#fill_out_all_answer_fields#:#Bitte füllen Sie alle Antwortfelder aus, bevor Sie ein neues Feld erzeugen
+assessment#:#fill_out_all_matching_pairs#:#Bitte füllen Sie alle Zuordnungspaare aus, bevor Sie ein neues Paar erzeugen
+assessment#:#fill_out_all_required_fields_add_answer#:#Sie müssen zuerst alle Pflichtfelder ausfüllen, bevor Sie Antworten hinzufügen können!
+assessment#:#fill_out_all_required_fields_add_matching#:#Sie müssen zuerst alle Pflichtfelder ausfüllen, bevor Sie Zuordnungspaare hinzufügen können!
+assessment#:#fill_out_all_required_fields_create_gaps#:#Sie müssen zuerst alle Pflichtfelder ausfüllen, bevor Sie Lücken hinzufügen können!
+assessment#:#fill_out_all_required_fields_upload_image#:#Sie müssen zuerst alle Pflichtfelder ausfüllen, bevor Sie Bilder hochladen können!
+assessment#:#fill_out_all_required_fields_upload_imagemap#:#Sie müssen zuerst alle Pflichtfelder ausfüllen, bevor Sie Imagemaps hochladen können!
+assessment#:#fill_out_all_required_fields_upload_material#:#Sie müssen zuerst alle Pflichtfelder ausfüllen, bevor Sie Materialien hochladen können!
 assessment#:#filter#:#Filter
 assessment#:#filter_all_question_types#:#Alle Fragetypen
 assessment#:#filter_all_questionpools#:#Alle Fragenpools
@@ -574,8 +574,8 @@ assessment#:#height#:#Höhe
 assessment#:#identical_scoring#:#Identische Bewertung
 assessment#:#identical_scoring_desc#:#Wenn ausgewählt, werden Lücken mit identischen Lösungen entsprechend der Vorgaben bewertet, selbst wenn die gleiche Lösung mehrere Male verwendet wurde. Ist das Kontrollkästchen nicht ausgewählt, wird nur die erste verwendete identische Lösung bewertet.
 assessment#:#imagemap#:#Imagemap
-assessment#:#imagemap_file#:#Imagemap Datei
-assessment#:#imagemap_source#:#Imagemap Quelltext
+assessment#:#imagemap_file#:#Imagemap-Datei
+assessment#:#imagemap_source#:#Imagemap-Quelltext
 assessment#:#import_errors_qti#:#Während des Parsens der QTI-Datei trat ein Fehler auf. Der Import wurde daher abgebrochen.
 assessment#:#import_question#:#Frage(n) importieren
 assessment#:#imported#:#importiert
@@ -586,18 +586,18 @@ assessment#:#internal_links#:#Interne Verweise
 assessment#:#internal_links_update#:#Aktualisierung
 assessment#:#intro_desc#:#Dieser Text erscheint zu Beginn des Test.
 assessment#:#javaapplet#:#Java-Applet
-assessment#:#keywords_hint#:#Um eine automatische Punktevergabe bei einer Freitext eingeben-Frage zu erreichen, geben Sie hier bitte eine Liste von Schlagwörtern an, die durch Leerzeichen oder Zeilenumbrüche voneinander getrennt sind. Wenn eines der Schlagwörter im Antworttext gefunden wird, vergibt ILIAS die für die Frage eingetragene maximale Punktezahl anstelle der üblichen Bewertung von 0 Punkten.
+assessment#:#keywords_hint#:#Um eine automatische Punktevergabe bei einer Frage vom Typ Freitext eingeben zu erreichen, geben Sie hier bitte eine Liste von Schlagwörtern an. Die Schlagwörter müssen durch Leerzeichen oder Zeilenumbrüche voneinander getrennt sein. Ist eines der Schlagwörter im Antworttext vorhanden, vergibt ILIAS die für die Frage eingetragene maximale Punktezahl anstelle der üblichen Bewertung von 0 Punkten.
 assessment#:#kiosk#:#Kiosk-Modus
-assessment#:#kiosk_description#:#Führt den Test im sogenannten Kiosk-Modus aus. Alle Bildschirmelemente, die nicht zum Test gehören, werden ausgeblendet, damit die Teilnehmer keine Möglichkeit haben, den Test zu verlassen.
+assessment#:#kiosk_description#:#Führt den Test im sogenannten Kiosk-Modus aus. Alle Bildschirmelemente, die nicht zum Test gehören, werden ausgeblendet. Die Teilnehmer haben damit keine Möglichkeit, den Test zu verlassen.
 assessment#:#kiosk_options#:#Kiosk-Modus-Einstellungen
-assessment#:#kiosk_options_desc#:#Wählen Sie aus, ob der Titel des Tests und/oder der Name des aktuellen Teilnehmers/der aktuellen Teilnehmerin während der Aktivierung des Kiosk-Modus im Kopf der Seite angezeigt werden sollen.
+assessment#:#kiosk_options_desc#:#Wählen Sie aus, ob während des Kiosk-Modus der Titel des Tests und/oder der Name des aktuellen Teilnehmers im Kopf der Seite angezeigt wird.
 assessment#:#kiosk_show_participant#:#Name des Teilnehmers anzeigen
-assessment#:#kiosk_show_title#:#Testtitel anzeigen
+assessment#:#kiosk_show_title#:#Titel des Tests anzeigen
 assessment#:#last_update#:#Letzte Aktualisierung
 assessment#:#legend#:#Legende
 assessment#:#locked#:#gesperrt
-assessment#:#log_answer_changed_points#:#Manuelles Setzen der Punkte der Testperson %s von %d auf %d Punkte durch %s
-assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#Der Teilnehmer konnte den Test nicht starten, da die maximale Anzahl der gleichzeitiger Teilnahmer für diesen Kurs erreicht wurde
+assessment#:#log_answer_changed_points#:#Manuelles Setzen der Punkte des Teilnehmers %s von %d auf %d Punkte durch %s
+assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#Der Teilnehmer konnte den Test nicht starten, da die maximale Anzahl der gleichzeitiger Teilnehmer für diesen Kurs bereits erreicht ist.
 assessment#:#log_create_new_test#:#Neuer Test erzeugt
 assessment#:#log_manual_feedback#:#%s hat eine manuelle Bewertung für den Teilnehmer %s und die Frage %s erstellt: %s
 assessment#:#log_mark_added#:#Note hinzugefügt
@@ -619,20 +619,20 @@ assessment#:#mailnottype#:#Ein Versand findet auch beim Beenden einzelner Testdu
 assessment#:#maintenance#:#Wartung
 assessment#:#manscoring#:#Manuelle Bewertung
 assessment#:#manscoring_done#:#Bereits bewertete Teilnehmer
-assessment#:#manscoring_hint#:#Sie haben mindestens eine Frage hinzugefügt, die eine manuelle Bewertung erfordert. Um eine aussagekräftige Ausgabe der Testergebnisse zu garantieren, wird Ihnen dringend empfohlen, den Zugang zu den Testergebnissen bis zu einer abgeschlossenen Bewertung zu unterbinden, indem Sie ein Datum und eine Uhrzeit für den Zugang festlegen.
+assessment#:#manscoring_hint#:#Im Test ist mindestens eine Frage enthalten, die manuell bewertet werden muss. Um eine vollständige Bewertung aller Tests zu gewährleisten, darf bis zum Abschluß der manuellen Bewertung kein Zugang der Teilnehmer zu ihren Testergebnissen gewährt werden. Legen Sie daher ein entsprechend spätes Datum für den Zugang zu den Testergebnissen fest.
 assessment#:#manscoring_none#:#Nicht bewertete Teilnehmer
-assessment#:#manscoring_not_allowed#:#Die manuelle Bewertung wurde für keinen Fragetyp aktiviert. Sie haben keine Berechtigung, diese Funktion zu verwenden!
+assessment#:#manscoring_not_allowed#:#Die manuelle Bewertung wurde für keinen Fragetyp aktiviert. Sie können daher diese Funktion nicht verwenden!
 assessment#:#manscoring_pending#:#Teilweise bewertete Teilnehmer
 assessment#:#manscoring_questions_not_found#:#Dieser Testdurchlauf beinhaltet keine Fragetypen, die manuell bewertet werden können.
 assessment#:#manscoring_results_pass#:#Manuell bewertbare Fragen für Testdurchlauf %s
 assessment#:#manscoring_select_user#:#Bitte wählen Sie einen Teilnehmer aus, den Sie bewerten wollen
 assessment#:#mark_schema#:#Notenschema
 assessment#:#mark_tst_ects#:#Ihre ECTS-Note lautet &quot;[markects]&quot;
-assessment#:#mark_tst_failed#:#Leider haben Sie den Test nicht bestanden.<br />Sie haben die Note &quot;[mark]&quot; erzielt.
-assessment#:#mark_tst_failed_obligations_answered#:#Leider haben Sie den Test nicht bestanden.<br />Sie haben alle obligatorischen Fragen beantwortet.<br />Sie haben die Note &quot;[mark]&quot; erzielt.
-assessment#:#mark_tst_failed_obligations_missing#:#Leider haben Sie den Test nicht bestanden.<br />Sie haben nicht alle obligatorischen Fragen beantwortet.<br />Sie haben die Note &quot;[mark]&quot; erzielt.
-assessment#:#mark_tst_passed#:#Herzlichen Glückwunsch! Sie haben den Test bestanden und dabei die Note &quot;[mark]&quot; erzielt.
-assessment#:#mark_tst_passed_obligations_answered#:#Herzlichen Glückwunsch! Sie haben den Test bestanden und dabei die Note &quot;[mark]&quot; erzielt.<br />Sie haben alle obligatorischen Fragen beantwortet.
+assessment#:#mark_tst_failed#:#Sie haben den Test leider <b>nicht bestanden</b>.<br /><br />Sie haben die Note &quot;[mark]&quot; erzielt.
+assessment#:#mark_tst_failed_obligations_answered#:#Sie haben den Test leider <b>nicht bestanden</b>.<br /><br />Alle obligatorischen Fragen wurden beantwortet.<br />Sie haben die Note &quot;[mark]&quot; erzielt.
+assessment#:#mark_tst_failed_obligations_missing#:#Sie haben den Test leider <b>nicht bestanden</b>.<br /><br />Nicht alle obligatorischen Fragen wurden beantwortet.<br />Sie haben die Note &quot;[mark]&quot; erzielt.
+assessment#:#mark_tst_passed#:#Herzlichen Glückwunsch! Sie haben den Test <b>bestanden</b> und dabei die Note &quot;[mark]&quot; erzielt.
+assessment#:#mark_tst_passed_obligations_answered#:#Herzlichen Glückwunsch! Sie haben den Test <b>bestanden</b> und dabei die Note &quot;[mark]&quot; erzielt.<br />Alle obligatorischen Fragen wurden beantwortet.
 assessment#:#match_terms_and_definitions#:#Zuordnung von Termen und Definitionen
 assessment#:#match_terms_and_pictures#:#Zuordnung von Termen und Bildern
 assessment#:#matches#:#passt zu
@@ -664,17 +664,17 @@ assessment#:#msg_questions_moved#:#Frage(n) verschoben
 assessment#:#tst_rnd_quest_set_tb_add_pool_btn#:#Neue Quell-Fragenpool Definition hinzufügen
 assessment#:#tst_src_quest_pool_def_list_table#:#Quell-Fragenpool Definition
 assessment#:#tst_source_question_pool#:#Quell-Fragenpool
-assessment#:#tst_filter_taxonomy#:#Taxonomie
-assessment#:#tst_filter_tax_node#:#Taxonomie Knoten
-assessment#:#tst_msg_random_question_set_config_modified#:#Die Konfiguration für den Zufalls Test wurde erfolgreich modifiziert.
-assessment#:#tst_msg_rand_quest_set_stage_pool_last_sync#:#Die Generierung zufälliger Test Durchläufe für Teilnehmer ist mit der aktuellen Konfiguration möglich.<br />Zeitpunkt der letzten Synchronisierung der ausgewählten Quell-Fragenpools war: <b>%s</b>
-assessment#:#tst_msg_rand_quest_set_pass_not_buildable#:#Mit der aktuellen Konfiguration von Quell-Fragenpools und Fragenanzahl(en) ist die Generierung zufälliger Test Durchläufe für Teilnehmer nicht möglich.
-assessment#:#tst_msg_rand_quest_set_no_src_pool_defs#:#Ohne die Konfiguration von Quell-Fragenpools können keine zufälligen Test Durchläufe für Teilnehmer erzeugt werden.
-assessment#:#tst_msg_rand_quest_set_incomplete_quest_amount_cfg#:#Ohne die Angabe einer Fragenanzahl können keine zufälligen Test Durchläufe für Teilnehmer erzeugt werden.
+assessment#:#tst_filter_taxonomy#:#Taxonomiefilter
+assessment#:#tst_filter_tax_node#:#Taxonomieknoten
+assessment#:#tst_msg_random_question_set_config_modified#:#Die Konfiguration für den Test mit zufälliger Fragenauswahl wurde erfolgreich geändert.
+assessment#:#tst_msg_rand_quest_set_stage_pool_last_sync#:#Ein Test mit zufälliger Fragenauswahl ist mit der aktuellen Konfiguration möglich.<br />Zeitpunkt der letzten Synchronisierung der ausgewählten Quell-Fragenpools war: <b>%s</b>
+assessment#:#tst_msg_rand_quest_set_pass_not_buildable#:#Mit der aktuellen Auswahl an Fragenpools und der Fragenanzahl kann kein Test mit zufälliger Fragenauswahl erzeugt werden.
+assessment#:#tst_msg_rand_quest_set_no_src_pool_defs#:#Um einen Test mit zufälliger Fragenauswahl zu ermöglichen, muss mindestens ein Fragenpool ausgewählt sein, aus dem Fragen entnommen werden können.
+assessment#:#tst_msg_rand_quest_set_incomplete_quest_amount_cfg#:#Ohne die Angabe einer Fragenanzahl kann kein Test mit zufälliger Fragenauswahl erzeugt werden.
 assessment#:#tst_rnd_quest_set_cfg_pool_form#:#Quell-Fragenpool Definition
 assessment#:#tst_inp_source_pool_label#:#Quell-Fragenpool
-assessment#:#tst_inp_source_pool_filter_tax#:#Taxonomie Filter
-assessment#:#tst_inp_source_pool_no_tax_filter#:#Verwende keinen Taxonomie basierten Filter
+assessment#:#tst_inp_source_pool_filter_tax#:#Taxonomiefilter
+assessment#:#tst_inp_source_pool_no_tax_filter#:#Verwende keine Taxonomie als Filter
 assessment#:#tst_inp_source_pool_filter_tax_x#:#Verwende Taxonomie "%s" als Filter
 assessment#:#tst_inp_no_available_tax_hint#:#Für den ausgewählten Fragenpool stehen keine Taxonomien zur Verfügung
 assessment#:#tst_msg_source_pool_definitions_deleted#:#Die Quell-Fragenpool Definition wurde erfolgreich gelöscht.
@@ -745,7 +745,7 @@ assessment#:#postponed#:#zurückgestellt
 assessment#:#preview#:#Vorschau
 assessment#:#previous_question_rows#:#<< Fragen %d - %d von %d
 assessment#:#print_answers#:#Antworten drucken
-assessment#:#qpl_qst_edit_form_taxonomy_section#:#Taxonomies
+assessment#:#qpl_qst_edit_form_taxonomy_section#:#Zuordnung zu Taxonomieknoten
 assessment#:#qpl_qst_edit_form_taxonomy#:#Taxonomie "%s"
 assessment#:#qpl_answertext_fields_not_filled#:#Die Frage kann nur gespeichert werden, wenn Sie alle Antwortfelder ausfüllen!
 assessment#:#qpl_assessment_no_assessment_of_questions#:#Für die ausgewählte Frage ist keine statistische Auswertung vorhanden. Die Frage wurde bislang nie in einem Test verwendet.
@@ -763,12 +763,12 @@ assessment#:#qpl_display_fullsize_image#:#Klicken Sie hier, um die Originalgrafi
 assessment#:#qpl_edit_rbac_error#:#Sie haben keine Berechtigung, diese Frage zu bearbeiten!
 assessment#:#qpl_edit_select_multiple#:#Bitte wählen Sie nur genau eine Frage für die Bearbeitung aus!
 assessment#:#qpl_edit_select_none#:#Bitte wählen Sie eine Frage für die Bearbeitung aus!
-assessment#:#qpl_export_excel#:#Microsoft Excel Datei
+assessment#:#qpl_export_excel#:#Microsoft Excel-Datei
 assessment#:#qpl_export_select_none#:#Bitte wählen Sie mindestens eine Frage für die Exportfunktion aus!
 assessment#:#qpl_export_xml#:#QTI XML Datei
-assessment#:#qpl_settings_general_form_property_nav_taxonomy#:#Taxonomie Filter als Navigationsbaum
-assessment#:#qpl_settings_general_form_property_nav_taxonomy_description#:#Wenn eine Taxonomy ausgewählt ist, wird diese statt als Tabellen Filter als Navigationsbaum angezeigt.
-assessment#:#qpl_settings_general_form_property_opt_notax_selected#:#Verwende keine Taxonomie als Navigationsbaum
+assessment#:#qpl_settings_general_form_property_nav_taxonomy#:#Taxonomie als Navigationsbaum
+assessment#:#qpl_settings_general_form_property_nav_taxonomy_description#:#Ist eine Taxonomie ausgewählt, wird diese nicht als Filter sondern als Navigationsbaum angezeigt.
+assessment#:#qpl_settings_general_form_property_opt_notax_selected#:#Keine Taxonomie als Navigationsbaum verwenden
 assessment#:#tst_pass_deletion#:#Vorherige Durchläufe
 assessment#:#tst_pass_deletion_not_allowed#:#Die Löschung von vorherigen Durchläufen ist NICHT erlaubt
 assessment#:#tst_pass_deletion_allowed#:#Die Löschung von vorherigen Durchläufen ist erlaubt
@@ -776,7 +776,7 @@ assessment#:#qpl_general_properties#:#Allgemeine Eigenschaften
 assessment#:#qpl_imagemap_preview_missing#:#ILIAS konnte keine temporäre Vorschaudatei mit den Imagemap-Regionen erzeugen. Statt dessen wird das Original-Bild angezeigt. Das bedeutet, dass entweder das ImageMagick-Werkzeug auf dem Webserver nicht korrekt konfiguriert ist oder dass Sie im temporären Verzeichnis nicht über Schreibrechte verfügen! Bitte kontaktieren Sie den Systemadministrator.
 assessment#:#qpl_import_create_new_qpl#:#In einen neuen Fragenpool importieren
 assessment#:#qpl_import_no_items#:#Fehler: die Importdatei enthält keine Fragen!
-assessment#:#qpl_import_non_ilias_files#:#Fehler: Die Importdatei enthält QTI-Dateien, die nicht von einem ILIAS-System erstellt wurden. bitte kontaktieren Sie das ILIAS-Team, um einen Importfilter für Ihr QTI-Dateiformat zu bekommen.
+assessment#:#qpl_import_non_ilias_files#:#Fehler: Die Importdatei enthält QTI-Dateien, die nicht von einem ILIAS-System erstellt wurden. Bitte kontaktieren Sie das ILIAS-Team, um einen Importfilter für Ihr QTI-Dateiformat zu bekommen.
 assessment#:#qpl_import_verify_found_questions#:#ILIAS hat die folgenden Fragen in der Importdatei gefunden. Bitte wählen Sie die Fragen aus, die Sie importieren wollen.
 assessment#:#qpl_move_insert_clipboard#:#Die ausgewählte(n) Frage(n) wurden zum Verschieben markiert
 assessment#:#qpl_move_select_none#:#Bitte wählen Sie mindestens eine Frage zum Verschieben aus
@@ -785,14 +785,14 @@ assessment#:#qpl_settings_subtab_taxonomies#:#Taxonomien
 assessment#:#qpl_form_general_settings#:#Allgemeine Einstellungen
 assessment#:#qpl_settings_general_form_property_online#:#Online
 assessment#:#qpl_settings_general_form_property_online_description#:#Ein Fragenpool muss online sein, um in Tests verwendet werden zu können.
-assessment#:#qpl_settings_general_form_prop_show_tax_desc#:#Erstellte Taxonomien werden für Filterzwecke gezeigt.
-assessment#:#qpl_settings_general_form_property_show_taxonomies#:#Zeige Taxonomies
+assessment#:#qpl_settings_general_form_prop_show_tax_desc#:#Vorhandene Taxonomien können zum Filtern der Fragen genutzt werden.
+assessment#:#qpl_settings_general_form_property_show_taxonomies#:#Taxonomien
 assessment#:#qpl_paste_no_objects#:#Es befinden sich keine Fragen in der Zwischenablage. Bitte kopieren oder verschieben Sie wenigstens eine Frage in die Zwischenablage.
 assessment#:#qpl_paste_success#:#Die Frage(n) wurde(n) in den Fragenpool eingefügt
 assessment#:#qpl_question_is_in_use#:#Die Frage, die Sie jetzt bearbeiten möchten, existiert bereits in %s Test(s). Wenn Sie diese Frage jetzt verändern, so hat das KEINE Auswirkungen auf bereits in Tests eingebundene Fragen, da das System automatisch eine Kopie der Frage anlegt, wenn diese in einen Test eingebunden wird!
 assessment#:#qpl_questions_deleted#:#Frage(n) gelöscht
-assessment#:#qpl_select_file_for_import#:#Sie müssen eine Datei zum importieren auswählen!
-assessment#:#qst_hint_self#:#Selbstlernkontrolle aktiv! Geben Sie 0 Punkte für falsche und einen Punkt für richtige Antworten.
+assessment#:#qpl_select_file_for_import#:#Sie müssen eine Datei zum Importieren auswählen!
+assessment#:#qst_hint_self#:#Selbstlernkontrolle aktiv! Geben Sie 0 Punkte für falsche und mindestens einen Punkt für richtige Antworten.
 assessment#:#qst_nr_of_tries#:#Anzahl der Versuche
 assessment#:#qt_multiple_choice#:#Multiple Choice
 assessment#:#question_cumulated_statistics#:#Kumulierte Fragenstatistik
@@ -814,7 +814,7 @@ assessment#:#radio_unset#:#Nicht ausgewählt
 assessment#:#random_accept_sample#:#Zusammenstellung akzeptieren
 assessment#:#random_another_sample#:#Neue Zusammenstellung
 assessment#:#random_selection#:#Zufällige Auswahl
-assessment#:#tst_rnd_quest_set_cfg_general_form#:#Zufällige Fragen-Auswahl Konfiguration
+assessment#:#tst_rnd_quest_set_cfg_general_form#:#Konfiguration der zufälligen Fragenauswahl 
 assessment#:#range#:#Bereich
 assessment#:#range_lower_limit#:#Untere Schranke
 assessment#:#range_upper_limit#:#Obere Schranke
@@ -913,7 +913,7 @@ assessment#:#test_jump_to#:#Zu Frage springen
 assessment#:#test_move_page#:#Frage verschieben
 assessment#:#test_next_question#:#Nächste Frage
 assessment#:#test_prev_question#:#Vorherige Frage
-assessment#:#test_question_pool_usage#:#Fragenpool-Auswahl beim Anlegen von Fragen
+assessment#:#test_question_pool_usage#:#Auswahl des Fragenpools beim Anlegen von Fragen
 assessment#:#test_reference#:#Test-Verknüpfung
 assessment#:#test_template_reset#:#Die Vorlage wurde entfernt.
 assessment#:#test_using_template#:#Dieser Test verwendet die Vorlage %s. Wenn Sie keine Vorlage und alle Einstellungen verwenden wollen, klicken Sie bitte hier: %s.
@@ -936,7 +936,7 @@ assessment#:#too_many_empty_parameters#:#Bitte tragen Sie erst die leeren Applet
 assessment#:#too_many_targets_selected_for_move#:#Sie müssen genau eine Zielposition auswählen!
 assessment#:#true#:#Wahr
 assessment#:#tst_access_code_created#:#Um Ihnen einen dauerhaften Zugang zu Ihren Testergebnissen zu ermöglichen und Ihnen die Möglichkeit zu eröffnen, einen abgebrochenen Test wiederaufnehmen zu können, wurde für Sie ein persönlicher Zugangsschlüssel erzeugt. Bitte notieren Sie sich diesen Code, damit Sie ihn für spätere Aktionen nutzen können.
-assessment#:#tst_all_user_data_deleted#:#Die Testdaten aller Benutzer wurden gelöscht!
+assessment#:#tst_all_user_data_deleted#:#Die Daten aller Testteilnehmer wurden gelöscht!
 assessment#:#tst_allow_fixed_participants#:#Diesen Test nur für feste Teilnehmer verfügbar machen
 assessment#:#tst_allow_instant_verification#:#Direkte Überprüfung der Antworten anbieten
 assessment#:#tst_allowed_users#:#Maximale Anzahl gleichzeitiger Teilnehmer
@@ -1006,7 +1006,7 @@ assessment#:#tst_fixed_participants_disable#:#Statuswechsel bestätigen
 assessment#:#tst_fixed_participants_disable_description#:#Sie sind dabei, die Unterstützung für feste Teilnehmer zu deaktivieren. Allerdings befinden sich bereits feste Teilnehmer in diesem Test. Wenn Sie diese Teilnehmer entfernen, werden die Testergebnisse der Teilnehmer nicht gelöscht. Sind Sie sicher, dass Sie weitermachen wollen?
 assessment#:#tst_fixed_participating_users#:#Feste Teilnehmer in diesem Test
 assessment#:#tst_general_properties#:#Allgemeine Einstellungen
-assessment#:#tst_generate_xls#:#Excel erzeugen
+assessment#:#tst_generate_xls#:#Excel-Datei erzeugen
 assessment#:#tst_heading_scoring#:#Bewertung
 assessment#:#tst_hide_previous_results#:#Vorherige Ergebnisse nicht anzeigen
 assessment#:#tst_hide_previous_results_description#:#Die vorherigen Ergebnisse von Lernenden werden in weiteren Testdurchläufen eines Tests nicht als voreingestellte Werte übernommen
@@ -1117,9 +1117,9 @@ assessment#:#tst_question_selection_description#:#Wenn Sie nur Fragenpools verwe
 assessment#:#tst_question_selection_equal#:#Nur Fragenpools mit Fragen gleicher maximaler Punktezahl verwenden
 assessment#:#tst_inp_all_quest_points_equal_per_pool#:#Verlange Fragenpools mit homogen bewerteten Fragen
 assessment#:#tst_inp_all_quest_points_equal_per_pool_desc#:#Wenn aktiviert, werden nur Fragenpools mit homogen bewerteten Fragen angeboten. Dieser Test wird dann die gleiche maximale Punktezahl für alle Teilnehmer haben, wodurch die Testergebnisse besser miteinander vergleichbar sind. Diese Vorgehensweise wird empfohlen.
-assessment#:#tst_inp_quest_amount_cfg_mode#:#Fragen Menge
-assessment#:#tst_inp_quest_amount_cfg_mode_test#:#Konfiguration der Fragen Menge für den gesamten Test
-assessment#:#tst_inp_quest_amount_cfg_mode_pool#:#Konfiguration der Fragen Menge je ausgewähltem Fragenpool
+assessment#:#tst_inp_quest_amount_cfg_mode#:#Fragenanzahl
+assessment#:#tst_inp_quest_amount_cfg_mode_test#:#Konfiguration der Fragenanzahl für den gesamten Test
+assessment#:#tst_inp_quest_amount_cfg_mode_pool#:#Konfiguration der Fragenanzahl pro ausgewähltem Fragenpool
 assessment#:#tst_inp_quest_amount_per_test#:#Anzahl Fragen für den gesamten Test
 assessment#:#tst_inp_quest_amount_per_source_pool#:#Anzahl Fragen
 assessment#:#tst_question_amount#:#Fragen Anzahl
@@ -1188,8 +1188,8 @@ assessment#:#tst_score_type#:#Art der Ergebnisausgabe
 assessment#:#tst_search_users#:#Teilnehmer suchen
 assessment#:#tst_select_file_for_import#:#Sie müssen eine Datei für den Import auswählen!
 assessment#:#tst_select_qpls#:#Bitte wählen Sie einen Fragenpool zum Kopieren aus
-assessment#:#tst_select_questionpool#:#Bitte wählen Sie einen Fragenpool aus, in dem Sie die erstellte Frage platzieren
-assessment#:#tst_select_questionpools#:#Bitte wählen Sie einen Fragenpool aus, in dem Sie die importierten Fragen platzieren
+assessment#:#tst_select_questionpool#:#Bitte wählen Sie einen Fragenpool aus, in dem Sie die erstellte Frage ablegen
+assessment#:#tst_select_questionpools#:#Bitte wählen Sie einen Fragenpool aus, in dem Sie die importierten Fragen ablegen
 assessment#:#tst_select_random_questions#:#Bitte wählen Sie die Fragenpools und die Anzahl der Fragen für den Zufallstest aus
 assessment#:#tst_select_tsts#:#Bitte wählen Sie einen Test zum Kopieren aus
 assessment#:#tst_selected_user_data_deleted#:#Die Testdaten der ausgewählten Benutzer wurden erfolgreich gelöscht
@@ -1198,12 +1198,12 @@ assessment#:#tst_sequence_fixed#:#Die Reihenfolge der Fragen muss eingehalten we
 assessment#:#tst_sequence_postpone#:#Fragen können an das Ende eines Testdurchlaufs zurückgestellt werden
 assessment#:#tst_sequence_properties#:#Einstellungen Reihenfolge
 assessment#:#tst_session_settings#:#Einstellungen Arbeitssitzung
-assessment#:#tst_set_offline_due_to_switched_question_set_type_setting#:#Der Test wurde auf Offline gesetzt, da der Test Modus gewechselt wurde. Sie müssen eine neue Test Modus bezogene Fragen Konfiguration erstellen bevor Sie den Test wieder online setzen können.
-assessment#:#tst_cannot_online_due_to_switched_quest_set_type_setting#:#Der Test konnte nicht auf online gesetzt werden, da der Test Modus gewechselt wurde. Sie müssen eine Test Modus bezogene Fragen Konfiguration erstellen bevor Sie den Test online setzen können.
+assessment#:#tst_set_offline_due_to_switched_question_set_type_setting#:#Der Test wurde auf Offline gesetzt, da der Testmodus gewechselt wurde. Sie müssen eine neue Testmodus-bezogene Fragenkonfiguration erstellen, bevor Sie den Test wieder online setzen können.
+assessment#:#tst_cannot_online_due_to_switched_quest_set_type_setting#:#Der Test konnte nicht auf online gesetzt werden, da der Testmodus gewechselt wurde. Sie müssen eine neue Testmodus-bezogene Fragenkonfiguration erstellen, bevor Sie den Test wieder online setzen können.
 assessment#:#tst_settings_template#:#Vorlage
 assessment#:#tst_show_answer_sheet#:#Antwortenübersicht anzeigen
-assessment#:#tst_show_cancel#:#"Test unterbrechen" Option anzeigen
-assessment#:#tst_show_cancel_description#:#Zeigt während der Testdurchführung eine Schaltfläche an, mit der der Test unterbrochen werden kann. Nutzen Sie diese Option nicht gemeinsam mit einer 'Maximalen Bearbeitungsdauer' des Tests.
+assessment#:#tst_show_cancel#:#Option "Test unterbrechen" anzeigen
+assessment#:#tst_show_cancel_description#:#Zeigt während der Testdurchführung eine Schaltfläche an, mit der der Test unterbrochen werden kann. Nutzen Sie diese Option nicht gemeinsam mit einer 'Maximalen Bearbeitungsdauer' des Tests, da das Unterbrechen des Tests nicht die Bearbeitungszeit anhält.
 assessment#:#tst_show_pass_details#:#Ergebnisübersicht für laufende Tests anbieten
 assessment#:#tst_show_results#:#Testergebnisse anzeigen
 assessment#:#tst_show_side_list#:#Fragenliste seitlich anzeigen
@@ -1283,12 +1283,12 @@ assessment#:#tst_user_finished_test#:#Ein Teilnehmer hat den Test beendet (%s)
 assessment#:#tst_your_answer_was#:#Sie haben die folgende Antwort gegeben
 assessment#:#tst_your_answers#:#Dies sind die Antworten, die Sie zu den folgenden Fragen gegeben haben. Bitte kontrollieren Sie ihre Antworten und senden Sie diese dann ab.
 assessment#:#tt_assessment#:#Test unter Prüfungsbedingungen
-assessment#:#tt_online_exam#:#Online Prüfung
+assessment#:#tt_online_exam#:#Online-Prüfung
 assessment#:#tt_self_assessment#:#Selbsteinschätzung
 assessment#:#tt_varying_randomtest#:#Wechselnder Zufallstest
 assessment#:#unlimited#:#unbegrenzt
 assessment#:#unlock#:#Entsperren
-assessment#:#unlock_question#:#Diese Frage wird in mindestens einem Test verwendet und es existieren %s Ergebnisse. Wenn Sie diese Frage entsperren, werden alle existierenden Testergebnisse der betroffenen Benutzer gelöscht, sobald Sie diese Frage speichern. Wenn Sie eine veränderte Version dieser Frage nutzen wollen, ohne bestehende Testergebnisse zu löschen, dann können Sie diese Frage im Fragenpool kopieren und nach Ihren Vorstellungen verändern.
+assessment#:#unlock_question#:#Diese Frage wird in mindestens einem Test verwendet, und es existieren %s Ergebnisse. Wenn Sie diese Frage entsperren, werden alle existierenden Testergebnisse der betroffenen Benutzer gelöscht, sobald Sie diese Frage speichern. Wenn Sie eine veränderte Version dieser Frage nutzen wollen, ohne bestehende Testergebnisse zu löschen, können Sie diese Frage im Fragenpool kopieren und nach Ihren Vorstellungen verändern.
 assessment#:#upload_image#:#Bild hochladen
 assessment#:#upload_imagemap#:#Imagemap hochladen
 assessment#:#uploaded_material#:#Hochgeladene Materialien
@@ -1351,27 +1351,27 @@ assessment#:#tst_question_set_type_random#:#Test mit zufälliger Fragenauswahl
 assessment#:#tst_question_set_type_random_desc#:#In diesem Modus werden ein oder mehrere Fragenpool(s) ausgewählt, aus welchem für jeden Teilnehmer eine eigene zufällige Fragenauswahl verwendet wird. Abhängig von der weiteren Konfiguration des Tests haben die Teilnehmer einen oder mehrere Versuche für den Test.
 assessment#:#tst_question_set_type_dynamic#:#Fortlaufender Test über Fragenpool
 assessment#:#tst_question_set_type_dynamic_desc#:#In diesem Modus wird genau ein Fragenpool ausgewählt. Die Testdurchführung erfolgt in einem niemals endenden Durchlauf, in welchem die Fragenauswahl für jeden Teilnehmer individuell und zur Laufzeit erfolgt.
-assessment#:#tst_change_quest_set_type_from_old_to_new_with_conflict#:#Sie sind im Begriff den Test-Modus von <b>%s</b> auf <b>%s</b> zu ändern, obwohl eine Test-Modus-abhängige Fragen/Fragenpool Konfiguration bereits existiert.<br />Diese bereits existierende Konfiguration wird verloren gehen.
-assessment#:#tst_msg_dynamic_question_set_config_modified#:#Konfiguration für fortlaufende Fragenselektion wurde geändert.
-assessment#:#tst_msg_cannot_modify_dynamic_question_set_conf_due_to_part#:#Konfiguration für fortlaufende Fragenselektion kann nicht geändert werden, da bereits Teilnehmer Ergebisse vorliegen.
-assessment#:#tst_form_dynamic_question_set_config#:#Fortlaufende Fragenselektion
+assessment#:#tst_change_quest_set_type_from_old_to_new_with_conflict#:#Sie sind im Begriff den Test-Modus von <b>%s</b> auf <b>%s</b> zu ändern, obwohl eine Test-Modus-abhängige Fragen/Fragenpool Konfiguration bereits existiert.<br />Diese bereits existierende Konfiguration wird verloren gehen, wenn Sie den Test-Modus ändern.
+assessment#:#tst_msg_dynamic_question_set_config_modified#:#Konfiguration für fortlaufende Fragenauswahl wurde geändert.
+assessment#:#tst_msg_cannot_modify_dynamic_question_set_conf_due_to_part#:#Konfiguration für fortlaufende Fragenauswahl kann nicht geändert werden, da bereits Teilnehmerergebisse vorliegen.
+assessment#:#tst_form_dynamic_question_set_config#:#Fortlaufende Fragenauswahl
 assessment#:#tst_input_dynamic_question_set_source_questionpool#:#Quell-Fragenpool
 assessment#:#tst_dynamic_question_set_source_questionpool_summary_string#:#%s (Pfad: %s) [%s Fragen]
 assessment#:#tst_dyn_quest_set_src_qpl_summary_string_trashed#:#%s (Aktuell im Papierkorb) [%s Fragen]
 assessment#:#tst_dyn_quest_set_src_qpl_summary_string_deleted#:#%s (Endgültig gelöscht)
 assessment#:#tst_input_dynamic_question_set_taxonomie_filter_enabled#:#Zeige Taxonomiefilter
-assessment#:#tst_input_dynamic_question_set_question_ordering#:#Fragen Ordnung
+assessment#:#tst_input_dynamic_question_set_question_ordering#:#Fragen-Ordnung
 assessment#:#tst_input_dynamic_question_set_question_ordering_by_date#:#Ordne Fragen nach Datum
 assessment#:#tst_inp_dyn_quest_set_quest_ordering_by_date_desc#:#Die Reihenfolge der Fragen orientiert sich am Datum der letzten Änderung.
-assessment#:#tst_input_dynamic_question_set_question_ordering_by_tax#:#Ordne Fragen nach Taxonomie
+assessment#:#tst_input_dynamic_question_set_question_ordering_by_tax#:#Ordne Fragen nach Taxonomieknoten
 assessment#:#tst_inp_dyn_quest_set_quest_ordering_by_tax_desc#:#Die Reihenfolge der Fragen orientiert sich an den Zuweisungen der Fragen in einer Taxonomie.
 assessment#:#tst_input_dynamic_question_set_ordering_tax#:#Ordnungstaxonomie
 assessment#:#tst_input_dynamic_question_set_ordering_tax_description#:#Die Testfragen werden entsprechend ihrer Zuweisungen in der gewählten Taxonomie präsentiert.
-assessment#:#tst_start_dyn_test_with_cur_quest_sel#:#Test mit aktueller Fragen Auswahl starten
-assessment#:#tst_resume_dyn_test_with_cur_quest_sel#:#Test mit aktueller Fragen Auswahl fortsetzen
-assessment#:#tst_back_dyn_test_with_cur_quest_sel#:#Zurück zum Test mit aktueller Fragen Auswahl
+assessment#:#tst_start_dyn_test_with_cur_quest_sel#:#Test mit aktueller Fragenauswahl starten
+assessment#:#tst_resume_dyn_test_with_cur_quest_sel#:#Test mit aktueller Fragenauswahl fortsetzen
+assessment#:#tst_back_dyn_test_with_cur_quest_sel#:#Zurück zum Test mit aktueller Fragenauswahl
 assessment#:#tst_tracked_question_list#:#Vorherige beantwortete Fragen
-assessment#:#tst_filtered_question_list#:#Auswahl der Test Fragen
+assessment#:#tst_filtered_question_list#:#Auswahl der Testfragen
 assessment#:#tst_change_dyn_test_question_selection#:#Aktuelle Fragenauswahl ändern
 assessment#:#tst_dyn_test_msg_currently_finished_completely#:#Aktuell haben Sie alle Fragen des Quellfragenpool erfolgreich beantwortet. Sowie neue oder veränderte Fragen im Quellfragenpool vorliegen können Sie den Test fortführen.
 assessment#:#tst_dyn_test_msg_currently_finished_selection#:#In der aktuellen Fragenauswahl haben Sie alle Fragen erfolgreich beantwortet. Ändern Sie die Fragenauswahl um den Test fort zu führen.
@@ -1380,8 +1380,8 @@ assessment#:#feedback_all#:#Zeige Feedback bei allen Antwortmöglichkeiten.
 assessment#:#feedback_checked#:#Zeige Feedback bei ausgewählten Antworten des Prüflings.
 assessment#:#feedback_correct#:#Zeige Feedback bei richtigen Antworten.(Richtige Antworten sind die, die zu einer positiven Punktvergabe führen.)
 assessment#:#tst_add_quest_cont_edit_mode#:#Editierungsmodus für zusätzliche Frageninhalte
-assessment#:#tst_add_quest_cont_edit_mode_default#:#Standard Editierungsmodus für zusätzliche Frageninhalte
-assessment#:#tst_add_quest_cont_edit_mode_page_object#:#Editierung zusätzlicher Frageninhalte mit dem ILIAS Seiten Editor
+assessment#:#tst_add_quest_cont_edit_mode_default#:#Standard-Editierungsmodus für zusätzliche Frageninhalte
+assessment#:#tst_add_quest_cont_edit_mode_page_object#:#Editierung zusätzlicher Frageninhalte mit dem ILIAS-Seiteneditor
 assessment#:#tst_question_feedback_edit_page#:#Inhalt bearbeiten
 assessment#:#tst_question_feedback_back_to_feedback_form#:#Zurück zur aufrufenden Frage
 assessment#:#enable_examview#:#Klausuransicht aktivieren
@@ -1405,8 +1405,8 @@ assessment#:#sign_submission_info#:#Wenn diese Option aktiviert wurde und ein Si
 assessment#:#preserve_manscoring#:#Manuelle Bewertungen erhalten
 assessment#:#preserve_manscoring_info#:#Aufgrund von Veränderungen in der Fragebewertung kann es erforderlich sein, bislang erfolgte manuelle Bewertungen zu verwerfen. Dieser Schalter gestattet die Entwertung ALLER manuellen Bewertungen in einem Test und sollte nur in Ausnahmefällen genutzt werden. 
 auth#:#auth_account_code#:#Code
-auth#:#auth_account_code_info#:#Um Ihr Benutzerkonto zu reaktivieren können Sie einen ILIAS-Benutzerkonten-Code benutzen.
-auth#:#auth_account_code_title#:#Benutzerkonten Code
+auth#:#auth_account_code_info#:#Um Ihr Benutzerkonto zu reaktivieren, können Sie einen ILIAS-Benutzerkonten-Code benutzen.
+auth#:#auth_account_code_title#:#Benutzerkonten-Code
 auth#:#auth_account_code_used#:#Ihr Account wurde re-aktiviert. Bitte loggen Sie sich zur Sicherheit erneut ein.
 auth#:#auth_account_migration#:#Neues ILIAS-Benutzerkonto
 auth#:#auth_account_migration_keep#:#Bestehendes Benutzerkonto migrieren
@@ -12165,7 +12165,7 @@ assessment#:#tst_question_hints_form_cmd_save#:#Hinweis speichern
 assessment#:#tst_question_hints_form_saved_msg#:#Der Hinweis wurde erfolgreich gespeichert.
 assessment#:#tst_question_hints_form_invalid_msg#:#Der Hinweis konnte nicht gespeichert werden. Bitte überprüfen sie ihre Eingaben.
 assessment#:#tst_question_hints_item_stored_in_ordering_clipboard#:#Hinweis %s befindet sich in der Sortierungs-Zwischenablage.
-assessment#:#tst_question_hints_ordering_clipboard_resetted#:#Die Sortierungs-Zwischenablage wurde zurückgesetzt.
+assessment#:#tst_question_hints_ordering_clipboard_resetted#:#Die Sortierungszwischenablage wurde zurückgesetzt.
 assessment#:#tst_question_hints_save_order_success_msg#:#Die Reihenfolge der Hinweise wurde erfolgreich gespeichert.
 assessment#:#tst_question_hints_paste_before_success_msg#:#Der Hinweis %s wurde vor dem Hinweis %s erfolgreich eingefügt.
 assessment#:#tst_question_hints_paste_after_success_msg#:#Der Hinweis %s wurde nach dem Hinweis %s erfolgreich eingefügt.
@@ -12182,8 +12182,8 @@ assessment#:#tst_question_hints_requested_hint_count_header#:#Angeforderte Hinwe
 assessment#:#tst_question_hints_table_link_edit_hint_points#:#Punkte bearbeiten
 assessment#:#tst_question_hints_table_link_edit_hint_page#:#Seite bearbeiten
 assessment#:#tst_question_hints_form_cmd_save_points#:#Speichere Punkte
-assessment#:#tst_question_hints_form_cmd_save_points_and_edit_page#:# Speichere Punkte und Bearbeite Seite
-assessment#:#tst_question_hints_back_to_hint_list#:#Fragen Hinweis Liste
+assessment#:#tst_question_hints_form_cmd_save_points_and_edit_page#:# Speichere Punkte und bearbeite Seite
+assessment#:#tst_question_hints_back_to_hint_list#:#Liste der Fragenhinweise 
 assessment#:#conf_delete_pass#:#Durchgang wirklich löschen?
 common#:#objs_blog#:#Blogs
 common#:#obj_blog_duplicate#:#Blog kopieren
@@ -12631,7 +12631,7 @@ tax#:#tax_new_tax_node#:#Neuer Knoten
 tax#:#tax_order#:#Reihenfolge
 exc#:#exc_no_deadline_specified#:#Es wurde kein Abgabetermin festgelegt.
 content#:#glo_style#:#Glossar-Style
-content#:#glo_show_taxonomy#:#Zeige Taxonomie
+content#:#glo_show_taxonomy#:#Taxonomie
 tax#:#tax_sorting#:#Sortierung#
 tax#:#tax_alphabetical#:#Alphabetisch
 tax#:#tax_manual#:#Manuell
@@ -13300,20 +13300,20 @@ survey#:#survey_default_mode#:#Umfrage
 survey#:#survey_default_mode_info#:#Für Evaluationen
 survey#:#survey_360_mode_info#:#Für Peer-Reviews von Personen
 blog#:#blog_draft_info_contributors#:#Dieser Eintrag ist als Entwurf nur für die Mitwirkenden sichtbar.
-assessment#:#tst_extratime_added#:#Die Bearbeitungszeit des Teilnehmers/der Teilnehmerin wurde um %s Minuten verlängert.
-assessment#:#tst_extratime_nodata#:#Es gibt noch keine Einträge für den ausgewählten Teilnehmer/die ausgewählte Teilnehmerin.
+assessment#:#tst_extratime_added#:#Die Bearbeitungszeit des Teilnehmers wurde um %s Minuten verlängert.
+assessment#:#tst_extratime_nodata#:#Es gibt noch keine Einträge für den ausgewählten Teilnehmer.
 assessment#:#tst_extratime_notavailable#:#Zeitverlängerungen können nur für Tests mit einem Durchlauf und einer vorgegebenen Bearbeitungszeit durchgeführt werden.
 assessment#:#extratime#:#Zeitverlängerung
 assessment#:#log_added_extratime#:#Es wurden zusätzliche %d Minuten Bearbeitungsdauer für die Teilnehmer-ID %d hinzugefügt
 assessment#:#timing#:#Zeitverlängerung
-assessment#:#tst_change_workingtime#:#Zeitverlängerung für einen Teilnehmer/eine Teilnehmerin erstellen
+assessment#:#tst_change_workingtime#:#Zeitverlängerung für einen Teilnehmer erstellen
 assessment#:#tst_imap_qst_mode#:#Antwortmodus
 assessment#:#tst_imap_qst_mode_sc#:#Single Choice
 assessment#:#tst_imap_qst_mode_mc#:#Multiple Choice
 assessment#:#tst_test_execution#:#Testdurchführung
 assessment#:#redirect_after_finishing_tst#:#Weiterleitung nach Abgabe der Klausur
 assessment#:#redirect_in_kiosk_mode#:#Weiterleitung nur im Kiosk-Modus
-assessment#:#redirection_url#:#Weiterleitungsziel
+assessment#:#redirection_url#:#Ziel der Weiterleitung
 ecs#:#ecs_cmap_att_courseType#:#Veranstaltungsart
 ecs#:#ecs_cmap_att_degreeProgramme#:#Studiengang
 ecs#:#ecs_cmap_att_module#:#Modul
@@ -13720,9 +13720,9 @@ assessment#:#result_dec#:#Dezimal
 assessment#:#result_frac#:#Bruch
 assessment#:#result_co_frac#:#Teilerfremder Bruch
 assessment#:#no_result_type#:#Keinen Ergebnistyp festlegen
-assessment#:#result_dec_info#:#Gültige Dezimalzahlen sind z.B: 2,3 und 2.3
-assessment#:#result_frac_info#:#Z.B.: 1/3 und 2/6  sind gültige Ergebnisse
-assessment#:#result_co_frac_info#:#Gekürzter Bruch z.B.: Nur 1/3 ist ein gültiges Ergebnis
+assessment#:#result_dec_info#:#Gültige Dezimalzahlen sind beispielsweise 2,3 und 2.3
+assessment#:#result_frac_info#:#Die Eingaben 1/3 und 2/6  sind beides gültige Ergebnisse
+assessment#:#result_co_frac_info#:#Nur ein vollständig gekürzter Bruch (z.B. 1/3) ist ein gültiges Ergebnis
 assessment#:#unit_editor#:#Einheiteneditor
 assessment#:#custom_categories#:#Fragen-Kategorien
 assessment#:#adm_categories#:#Pool-Kategorien
@@ -13786,7 +13786,7 @@ tax#:#tax_added#:#Die Taxonomie wurde erstellt.
 tax#:#tax_max_one_tax#:#Sie können hier nur eine Taxonomie verwenden.
 tax#:#tax_node_sorting#:#Sortierung der Knoten
 tax#:#tax_item_sorting#:#Sortierung der zugewiesenen Einträge unterstützen
-tax#:#tax_assigned_items#:#ZUgewiesene Einträge
+tax#:#tax_assigned_items#:#Zugewiesene Einträge
 cld#:#service_specific_settings#:#Besondere Einstellungen
 content#:#content_plugin_not_activated#:#Das Plugin für Seiteninhalte ist im Moment nicht aktiviert.
 content#:#cont_activate_multi_lang#:#Mehrsprachigkeit aktivieren
