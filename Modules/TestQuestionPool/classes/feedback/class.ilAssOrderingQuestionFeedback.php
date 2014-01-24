@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Modules/TestQuestionPool/classes/feedback/class.ilAssSingleOptionQuestionFeedback.php';
+require_once 'Modules/TestQuestionPool/classes/feedback/class.ilAssMultiOptionQuestionFeedback.php';
 
 /**
  * feedback class for assOrderingQuestion questions
@@ -11,6 +11,6 @@ require_once 'Modules/TestQuestionPool/classes/feedback/class.ilAssSingleOptionQ
  * 
  * @package		Modules/TestQuestionPool
  */
-class ilAssOrderingQuestionFeedback extends ilAssSingleOptionQuestionFeedback
+class ilAssOrderingQuestionFeedback extends ilAssMultiOptionQuestionFeedback
 {
 }

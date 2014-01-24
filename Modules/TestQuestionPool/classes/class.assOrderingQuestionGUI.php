@@ -618,8 +618,18 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 				$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
 			}
 			$questionoutput = $template->get();
-			$feedback = ($show_feedback) ? $this->getAnswerFeedbackOutput($active_id, $pass) : "";
+
+			$feedback = '';
+			if($show_feedback)
+			{
+				$fb = $this->getGenericFeedbackOutput($active_id, $pass);
+				$feedback .=  strlen($fb) ? $fb : '';
+
+				$fb = $this->getSpecificFeedbackOutput($active_id, $pass);
+				$feedback .=  strlen($fb) ? $fb : '';
+			}
 			if (strlen($feedback)) $solutiontemplate->setVariable("FEEDBACK", $this->object->prepareTextareaOutput( $feedback, true ));
+
 			$solutiontemplate->setVariable("SOLUTION_OUTPUT", $questionoutput);
 
 			$solutionoutput = $solutiontemplate->get();
@@ -1356,7 +1366,19 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
 	function getSpecificFeedbackOutput($active_id, $pass)
 	{
-		$output = "";
+		$output = '<table class="ilTstSpecificFeedbackTable"><tbody>';
+
+		foreach($this->object->getAnswers() as $idx => $answer)
+		{
+			$feedback = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation(
+				$this->object->getId(), $idx
+			);
+
+			$output .= "<tr><td><b><i>{$answer->getAnswerText()}</i></b></td><td>{$feedback}</td></tr>";
+		}
+
+		$output .= '</tbody></table>';
+
 		return $this->object->prepareTextareaOutput($output, TRUE);
 	}
 	
