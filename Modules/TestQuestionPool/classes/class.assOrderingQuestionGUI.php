@@ -211,7 +211,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			if (is_array( $answers ))
 			{
 				//// get leveled ordering
-				$answers_ordering = $_POST['answers_ordering'];
+				$answers_ordering = $_POST['answers_ordering__default']; // __default is added by js
 				$new_hierarchy    = json_decode( $answers_ordering );
 
 				$this->getOldLeveledOrdering();
