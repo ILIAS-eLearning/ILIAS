@@ -1048,31 +1048,7 @@ abstract class assQuestionGUI
 	*/
 	function getAnswerFeedbackOutput($active_id, $pass)
 	{
-		$output = "";
-		include_once "./Modules/Test/classes/class.ilObjTest.php";
-		$manual_feedback = ilObjTest::getManualFeedback($active_id, $this->object->getId(), $pass);
-		if (strlen($manual_feedback))
-		{
-			return $manual_feedback;
-		}
-		
-		$correct_feedback = $this->object->feedbackOBJ->getGenericFeedbackTestPresentation($this->object->getId(), true);
-		$incorrect_feedback = $this->object->feedbackOBJ->getGenericFeedbackTestPresentation($this->object->getId(), false);
-		
-		if (strlen($correct_feedback.$incorrect_feedback))
-		{
-			$reached_points = $this->object->calculateReachedPoints($active_id, $pass);
-			$max_points = $this->object->getMaximumPoints();
-			if ($reached_points == $max_points)
-			{
-				$output = $correct_feedback;
-			}
-			else
-			{
-				$output = $incorrect_feedback;
-			}
-		}
-		return $this->object->prepareTextareaOutput($output, TRUE);
+		return $this->getGenericFeedbackOutput($active_id, $pass);
 	}
 
 	/**
