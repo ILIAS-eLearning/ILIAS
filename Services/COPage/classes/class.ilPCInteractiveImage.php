@@ -697,9 +697,41 @@ die("pcinteractiveimage: setstyleclass");
 			{
 				$tr_node->set_attribute("Title",
 					$a_titles["".$tr_node->get_attribute("Nr")]);
+				$this->setExtLinkTitle($tr_node->get_attribute("Nr"),
+					$a_titles["".$tr_node->get_attribute("Nr")]);
 			}
 		}
 	}
+
+	/**
+	 * Set ExtLink Title
+	 *
+	 * @param
+	 * @return
+	 */
+	function setExtLinkTitle($a_nr, $a_title)
+	{
+		if ($this->getPcId() != "")
+		{
+			$xpc = xpath_new_context($this->dom);
+			$path = "//PageContent[@PCID = '".$this->getPcId()."']/InteractiveImage/MediaAliasItem/MapArea[@Id='".$a_nr."']/ExtLink";
+			$res = xpath_eval($xpc, $path);
+			if (count($res->nodeset) > 0)
+			{
+				$res->nodeset[0]->set_content($a_title);
+			}
+			return;
+		}
+
+		$xpc = xpath_new_context($this->dom);
+		$path = "//PageContent[@HierId = '".$this->hier_id."']/InteractiveImage/MediaAliasItem/MapArea[@Id='".$a_nr."']/ExtLink";
+		$res =& xpath_eval($xpc, $path);
+		if (count($res->nodeset) > 0)
+		{
+			$res->nodeset[0]->set_content($a_title);
+		}
+	}
+
 
 }
 ?>
