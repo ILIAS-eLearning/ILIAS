@@ -19609,3 +19609,9 @@ if(!$ilDB->tableExists('obj_content_master_lng'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#4179>
+<?php
+	$ilDB->modifyTableColumn('il_subscribers', 'subject',
+		array("type" => "text", "length" => 4000, "notnull" => false));
+?>
+
