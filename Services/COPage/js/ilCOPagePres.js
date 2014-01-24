@@ -457,15 +457,15 @@ ilCOPagePres =
 		mark.css('position', 'absolute');
 		var mx = parseInt(m['markx']);
 		var my = parseInt(m['marky']);
-		mark.css('left', pos.left + mx);
-		mark.css('top', pos.top + my);
+		mark.css('left', pos.left + mx + $("#fixed_content").scrollLeft());
+		mark.css('top', pos.top + my + $("#fixed_content").scrollTop());
 		mark.css('display', '');
 	},
 	
 	fixMarkerPositions: function ()
 	{
 		var m, tr, k, i;
-				
+
 		for (k in ilCOPagePres.iim_marker)
 		{
 			m = ilCOPagePres.iim_marker[k];
@@ -476,8 +476,8 @@ ilCOPagePres =
 			mark.css('position', 'absolute');
 			var mx = parseInt(m['markx']);
 			var my = parseInt(m['marky']);
-			mark.css('left', pos.left + mx);
-			mark.css('top', pos.top + my);
+			mark.css('left', pos.left + mx + $("#fixed_content").scrollLeft());
+			mark.css('top', pos.top + my + $("#fixed_content").scrollTop());
 		}
 		
 		/*
@@ -518,6 +518,7 @@ ilCOPagePres =
 			{
 				var mark = ilCOPagePres.iim_marker[k];
 				$("a#" + ilCOPagePres.iim_marker[k]['m_id']).css("display", "");
+				ilCOPagePres.fixMarkerPositions();
 				$("a#" + ilCOPagePres.iim_marker[k]['m_id']).draggable({
 					drag: function(event, ui) {
 						var base = $("img#base_img_" + mark.iim_id);
@@ -568,11 +569,10 @@ ilCOPagePres =
 				
 				var base = $("img#base_img_" + dtr.iim_id);
 				var bpos = base.position();
-				
 				ovx = parseInt(dtr['ovx']);
 				ovy = parseInt(dtr['ovy']);
-				ov.css('left', bpos.left + ovx);
-				ov.css('top', bpos.top + ovy);
+				ov.css('left', bpos.left + ovx + $("#fixed_content").scrollLeft());
+				ov.css('top', bpos.top + ovy + $("#fixed_content").scrollTop());
 				ov.css('display', '');
 				ov.css("position", "absolute");
 
@@ -635,8 +635,8 @@ ilCOPagePres =
 						popx = parseInt(dtr['popx']);
 						popy = parseInt(dtr['popy']);
 						pdummy.css("position", "absolute");
-						pdummy.css('left', bpos.left + popx);
-						pdummy.css('top', bpos.top + popy);
+						pdummy.css('left', bpos.left + popx + $("#fixed_content").scrollLeft());
+						pdummy.css('top', bpos.top + popy + $("#fixed_content").scrollTop());
 						pdummy.css('width', dtr['popwidth']);
 						pdummy.css('height', dtr['popheight']);
 						pdummy.css('display', '');
