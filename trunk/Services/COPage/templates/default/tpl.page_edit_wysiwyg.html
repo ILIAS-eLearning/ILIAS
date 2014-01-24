@@ -1,0 +1,122 @@
+<!-- BEGIN reload_tree -->
+<script language="JavaScript" type="text/javascript">
+// parent.tree.location.replace('{LINK_TREE}');
+</script>
+<!-- END reload_tree -->{PREPENDING_HTML}
+<!-- BEGIN activation_txt --><div class="subtitle" style="margin: 5px 0px; ">{TXT_SCHEDULED_ACTIVATION}: {SA_FROM} - {SA_TO}</div><!-- END activation_txt -->
+{MULTI_LANG_INFO}
+<div class="small" style="margin-bottom: 5px; width: 100%; text-align: right;"><span style="padding-right:20px;">{PAGE_ACTIONS}</span> {EDIT_MODE}</div>
+<!-- BEGIN edit_page --><div id="il_EditPage">
+<form action="{FORMACTION}" name="objectItems" method="post">
+<div class="ilc_page_cont_PageContainer" id="ilEditorTD">
+<div class="ilc_page_Page">
+{PAGE_CONTENT}
+</div>
+</div>
+<table class="fullwidth" id="ilPageEditActionBar">
+<!-- BEGIN multi_actions -->
+<tr><td class="submit">
+<img border="0" src="{IMG_ARROW}" style="vertical-align:middle;"/>
+<input class="submit" {ONCLICK_DELETE_SELECTED} type="submit" value="{TXT_DELETE_SELECTED}" name="cmd[deleteSelected]">
+<input class="submit" {ONCLICK_COPY_SELECTED} type="submit" value="{TXT_COPY_SELECTED}" name="cmd[copySelected]">
+<input class="submit" {ONCLICK_CUT_SELECTED} type="submit" value="{TXT_CUT_SELECTED}" name="cmd[cutSelected]">
+<input class="submit" {ONCLICK_DE_ACTIVATE_SELECTED} type="submit" value="{TXT_DE_ACTIVATE_SELECTED}" name="cmd[activateSelected]">
+<input class="submit" {ONCLICK_ASSIGN_CHARACTERISTIC} type="submit" value="{TXT_ASSIGN_CHARACTERISTIC}" name="cmd[assignCharacteristicForm]">
+<input class="submit" {ONCLICK_SELECT_ALL} type="submit" value="{TXT_SELECT_ALL}">
+</td></tr>
+<!-- END multi_actions -->
+<!-- BEGIN med_link -->
+<tr class="std">
+<td class="submit">
+{TXT_LINKED_MOBS} {SEL_MED_LINKS} <input class="submit" type="submit" value="{TXT_EDIT_MEDIA}" name="cmd[editLinkedMedia]" />
+<input class="submit" type="submit" value="{TXT_COPY_TO_CLIPBOARD}" name="cmd[copyLinkedMediaToClipboard]" />
+</td>
+</tr>
+<!-- END med_link -->
+<!-- BEGIN content_snippets_used -->
+<tr class="std">
+<td class="submit">
+{TXT_CONTENT_SNIPPETS_USED} {SEL_SNIPPETS} <input class="submit" type="submit" value="{TXT_SHOW_INFO}" name="cmd[showSnippetInfo]" />
+</td>
+</tr>
+<!-- END content_snippets_used -->
+<!-- BEGIN change_comment -->
+<tr class="std">
+<td class="submit">
+<textarea rows="3" cols="60" width="95%" name="change_comment"></textarea>
+<br /><input class="submit" style="margin: 3px 0px;" type="submit" value="{TXT_ADD_COMMENT}" name="cmd[addChangeComment]">
+</td>
+</tr>
+<!-- END change_comment -->
+</table>
+</form>
+
+<!-- BEGIN help -->
+<div style="margin-top: 10px;" id="ilPageEditLegend">
+<!-- BEGIN help_item -->
+<div>
+<!-- BEGIN help_img --><img alt="{ALT_HELP}" src="{IMG_HELP}" /><!-- END  help_img --> <span class="subtitle">{TXT_HELP}</span>
+</div>
+<!-- END help_item -->
+</div>
+<!-- END help -->
+
+<!-- form used for ajax actions -->
+<form name="ajaxform" id="ajaxform" method="post" action="{WYSIWYG_ACTION}">
+<input type="hidden" id="ajaxform_target" name="target[]" value="" />
+<input type="hidden" id="ajaxform_cmd" name="" value="" />
+<input type="hidden" id="ajaxform_exec" name="" value="Ok" />
+<input type="hidden" id="ajaxform_content" name="ajaxform_content" />
+<input type="hidden" id="ajaxform_char" name="ajaxform_char" />
+<input type="hidden" id="ajaxform_hier_id" name="ajaxform_hier_id" />
+</form>
+<form name="ajaxform2" id="ajaxform2" method="post" action="{WYSIWYG_ACTION}">
+</form>
+<!-- form used for menu actions actions -->
+<form style="visibility:hidden;" name="cmform" id="cmform" method="post" action="{FORMACTION}">
+<input type="hidden" id="cmform_target" name="target[]" value="" />
+<input type="hidden" id="cmform_cmd" name="" value="" />
+<input type="hidden" id="cmform_exec" name="" value="Ok" />
+</form>
+
+<!-- content of this layer will be changed to create a form to submit the action of the selected menuitem -->
+
+<script language="JavaScript" type="text/javascript">
+
+//ilFormUrl = "{WYSIWYG_ACTION}";
+//alert("ilFormUrl: " + ilFormUrl);
+
+<!-- BEGIN add_dhtml -->
+<!-- END add_dhtml -->
+	
+//alert("initDragElements: outer");
+<!-- BEGIN init_dragging -->
+ilCOPage.initDragElements();
+<!-- END init_dragging -->
+var confirm_delete="{TXT_CONFIRM_DELETE}";
+</script>
+
+
+<!-- BEGIN updater -->
+<script language="JavaScript" type="text/javascript">
+if (parent && parent.{UPDATER_FRAME} && parent.{UPDATER_FRAME}.updater)
+{
+	parent.{UPDATER_FRAME}.updater('{EXP_ID_UPDATER}', '{HREF_UPDATER}');
+}
+</script>
+<!-- END updater -->
+{IL_TINY_MENU}
+
+<!-- tiny style -->
+<style type="text/css">
+td.mceIframeContainer {
+	background-color:#FFFFFF;
+}
+</style>
+
+
+<!-- BEGIN int_link_prep -->
+{INT_LINK_PREP}
+<!-- END int_link_prep -->
+</div>
+<!-- END edit_page -->

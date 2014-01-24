@@ -1,0 +1,20 @@
+<noscript>
+<form id="ilNavHistory" class="ilNavHistoryForm" method="post" action="{ACTION}" target="_top">
+{NAVI_SELECT}
+<input class="ilEditSubmit" type="submit" value="{TXT_GO}"/>
+</form>
+</noscript>
+<div onmouseover="ilLastVisitedNavOn();" onmouseout="ilLastVisitedNavOff();"
+	style="position:absolute; display:none; text-align:right; right:15px;" id ="ilNavHistoryDiv">
+<a class="MMInactive" href="#" target="_top">{TXT_LAST_VISITED}
+<img border="0" src="{IMG_DOWN}" alt="{TXT_LAST_VISITED}"/></a>
+<table style="display:none;" class="std" id="ilNavHistoryTable">
+<!-- BEGIN item -->
+<tr class="{CSS_ROW}" onclick="parent.location='{HREF_ITEM}';"><td class="std"><img src="{IMG_ITEM}" alt="{ALT_ITEM}"/></td><td class="std"><a class="small" target="_top" href="{HREF_ITEM}">{TXT_ITEM}</a></td></tr>
+<!-- END item -->
+</table>
+</div>
+<!-- this works as a placeholder, if nav menu is overlapping main menu -->
+<div style="float:right; display:none; visibility:hidden; margin-right:15px;" id="ilNavHistoryDivPH">
+<a class="MMInactive" href="#" target="_top">{TXT_LAST_VISITED}</a>
+<img border="0" src="{IMG_DOWN}" alt="{TXT_LAST_VISITED}"/></div>

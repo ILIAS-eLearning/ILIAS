@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ObjectDefinition xmlns:xi="http://www.w3.org/2001/XInclude" type="frm">
+	<Document type="default">
+		<xi:include href="../../Services/Object/LuceneDataSource.xml" />
+		<xi:include href="../../Services/Tagging/LuceneDataSource.xml" />
+	</Document>
+	<Document type="subItem">
+		<DataSource type="JDBC" action="create">
+			<Query>
+				SELECT 'frm' type,thr_subject,thr_usr_id, thr_pk, top_frm_fk 
+				FROM frm_data JOIN frm_threads ON top_pk = thr_top_fk
+				WHERE top_frm_fk IN (?)
+			</Query>
+			<Param format="list" type="int" value="objId" />
+			<Field store="YES" index="ANALYZED" column="thr_subject" type="text" name="propertyMedium" />
+			<Field store="YES" index="NOT_ANALYZED" column="thr_usr_id" type="integer" name="owner" />
+			<Field store="YES" index="NOT_ANALYZED" column="thr_pk" type="integer" name="subItem" />
+			<Field global="NO" store="YES" index="NOT_ANALYZED" column="top_frm_fk" type="integer" name="objId" />
+			<Field global="NO" store="YES" index="NOT_ANALYZED" column="type" type="text" name="type" />
+			<DataSource type="JDBC" action="append">
+				<Query>
+					SELECT pos_usr_id, pos_message, pos_subject 
+					FROM frm_posts 
+					JOIN frm_data ON pos_top_fk = top_pk 
+					WHERE pos_thr_fk IN (?)
+				</Query>
+				<Param format="single" type="int" value="thr_pk" />
+				<Field store="YES" index="ANALYZED" column="pos_message" type="text" name="content">
+					<Transformer name="QuotingSanitizer" />
+				</Field>
+				<Field store="YES" index="ANALYZED" column="pos_subject" type="text" name="propertyLow" />
+				<Field store="YES" index="NOT_ANALYZED" column="pos_usr_id" type="integer" name="owner" />
+			</DataSource>
+		</DataSource>
+	</Document>
+</ObjectDefinition>

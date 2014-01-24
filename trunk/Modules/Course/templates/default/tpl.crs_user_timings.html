@@ -1,0 +1,73 @@
+<table class="fullwidth">
+  <tr class="tbltitle">
+	<th class="std" colspan="4">
+	  <img src="{HEADER_IMG}" alt="{HEADER_ALT}" title="{HEADER_ALT}" />
+	  &nbsp;{TABLE_HEADER}: {USER_NAME}
+	</th>
+  </tr>
+  <tr class="tblheader">
+	<th class="std ilValignTop"><div style="margin-left:26px">{TXT_TITLE}</div></th>
+	<th class="std ilValignTop">{TXT_START_END}<div class="subtitle">{TXT_INFO_START_END}</div></th>
+	<th class="std ilValignTop ilCenter">{TXT_CHANGED}</th>
+	<th class="std ilValignTop">{TXT_OWN_PRESETTING}<div class="subtitle">{TXT_INFO_OWN_PRESETTING}</div></th>
+  </tr>
+  <!-- BEGIN container_standard_row -->
+  <tr class="{ROWCLASS}">
+	<td>
+	  <!-- BEGIN start_indent --><div style="padding-left:26px"><!-- END start_indent -->
+		<div class="ilFloatLeft">
+		  <img src="{TYPE_IMG}" alt="{TYPE_ALT_IMG}" title="{TYPE_ALT_IMG}" />
+		</div>
+		<div class="ilFloatLeft" style="padding-left:5px">
+		  <!-- BEGIN title_plain -->
+		  <b>{TITLE}</b>
+		  <!-- END title_plain -->
+		  <!-- BEGIN item_description -->
+		  <div class="il_Description" >{DESC}</div>
+		  <!-- END item_description -->
+		  <!-- BEGIN tlt -->
+		  <div class="il_ItemProperties">
+			<div class="il_ItemProperty">{TXT_TLT}: {TLT_VAL}</div>
+		  </div>
+		  <!-- END tlt -->
+		</div>
+		<!-- BEGIN end_indent --></div><!-- END end_indent -->
+	</td>
+	<td>
+	  {SUG_START}<br />
+	  {SUG_END}
+	</td>
+	<td class="std ilCenter">
+	  <!-- BEGIN changed -->
+	  <img src="{OK_IMG}" alt="{OK_ALT}" title="{OK_ALT}" />
+	  <!-- END changed -->
+	</td>
+	<td>
+	  {OWN_START}<br />
+	  {OWN_END}
+	</td>
+  </tr>
+  <!-- END container_standard_row -->
+</table>
+<br />
+<table class="std">
+  <tr class="tblheader">
+	<th colspan="2">{TIMING_ACCEPT}</th>
+  </tr>
+  <tr class="std">
+	<td class="option">
+	  {TXT_ACCEPTED}
+	</td>
+	<td class="option_value">
+	  <img src="{ACC_IMG}" alt="{ACC_ALT}" title="{ACC_ALT}" />
+	</td>
+  </tr>
+  <tr class="std">
+	<td class="option">
+	  {TXT_REMARK}
+	</td>
+	<td class="option_value">
+	  {REMARK}
+	</td>
+  </tr>
+</table>

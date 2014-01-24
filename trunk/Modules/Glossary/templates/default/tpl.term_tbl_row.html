@@ -1,0 +1,61 @@
+<tr class="{CSS_ROW}">
+	<!-- BEGIN check_col -->
+	<td class="std">
+		<input type="checkbox" name="id[]" value="{CHECKBOX_ID}" {CHECKED} />
+	</td>
+	<!-- END check_col -->
+	<td class="std">
+		<!-- BEGIN view_term -->
+			<a href="{LINK_VIEW_TERM}">{TEXT_TERM}</a>
+		<!-- END view_term -->
+		<!-- BEGIN edit_term -->
+			<div class="small"><b>{TEXT_TERM}</b></div>
+			<a class="il_ContainerItemCommand" href="{LINK_EDIT_TERM}">{TXT_EDIT_TERM}</a>
+		<!-- END edit_term -->
+	</td>
+	<!-- BEGIN td_lang -->
+	<td class="std small">
+		{TEXT_LANGUAGE}
+	</td>
+	<!-- END td_lang -->
+	<!-- BEGIN td_usage -->
+	<td class="std small">
+		<!-- BEGIN link_usage --><a href="{LINK_USAGE}">{LUSAGE}</a><!-- END link_usage -->
+		<!-- BEGIN usage -->{USAGE}<!-- END usage -->
+	</td>
+	<!-- END td_usage -->
+	<!-- BEGIN td_md -->
+	<td class="std small">
+		{MD_VAL}
+	</td>
+	<!-- END td_md -->
+	<td class="std">
+	<!-- BEGIN definition_row -->
+		<!-- BEGIN def_head -->
+			<i>{DEF_TEXT}</i><br />
+		<!-- END def_head -->
+		<!-- BEGIN definition -->
+			<div class="small">{DEF_SHORT}</div>
+		<!-- END definition -->
+		<div class="il_ContainerItemCommands ilRight"> 
+		<!-- BEGIN move_up -->
+			<a class="il_ContainerItemCommand" href="{LINK_UP}">{TXT_UP}</a>
+		<!-- END move_up -->
+		<!-- BEGIN move_down -->
+			<a class="il_ContainerItemCommand" href="{LINK_DOWN}">{TXT_DOWN}</a>
+		<!-- END move_down -->
+		<!-- BEGIN delete -->
+			<a class="il_ContainerItemCommand" href="{LINK_DELETE}">{TXT_DELETE}</a>
+		<!-- END delete -->
+		<!-- BEGIN edit -->
+			<a class="il_ContainerItemCommand" href="{LINK_EDIT}">{TXT_EDIT}</a>
+		<!-- END edit -->
+		</div>
+	<!-- END definition_row -->
+	</td>
+	<!-- BEGIN glossary -->
+	<td class="std small">
+		{GLO_TITLE}
+	</td>
+	<!-- END glossary -->
+</tr>

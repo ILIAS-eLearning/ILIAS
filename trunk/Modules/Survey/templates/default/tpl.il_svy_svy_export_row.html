@@ -1,0 +1,15 @@
+<tr class="{CSS_ROW}">
+<!-- BEGIN checkbox -->
+	<td class="std" style="vertical-align: top">
+		<input type="checkbox" name="file[]" value="{CB_FILE}" id="cb_{CB_ID}" {VAL_CHECKED} />
+	</td>
+<!-- END checkbox -->
+	<td class="std" style="vertical-align: top">
+		<label for="cb_{ID}">{FILE}</label>
+<!-- BEGIN hidden -->
+		<input type="hidden" name="file[]" value="{HIDDEN_FILE}" />
+<!-- END hidden -->
+	</td>
+	<td class="std" style="vertical-align: top">{SIZE}</td>
+	<td class="std" style="vertical-align: top">{DATE}</td>
+</tr>

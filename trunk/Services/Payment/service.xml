@@ -1,0 +1,20 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<service xmlns="http://www.w3.org" version="$Id$"
+	id="paym">
+	<baseclasses>
+		<baseclass name="ilShopController" dir="classes" />
+	</baseclasses>
+	<objects>
+		<object id="pays" class_name="PaymentSettings" dir="classes"
+			checkbox="0" inherit="0" translate="sys" rbac="1" system="1" administration="1">
+			<subobj id="rolf" max="1">rolf</subobj>
+			<parent id="adm" max="1">adm</parent>
+		</object>
+	</objects>
+	<crons>		
+		<cron id="pay_notification" class="ilPaymentCronNotification" />
+	</crons>
+	<copage>
+		<pageobject parent_type="shop" class_name="ilShopPage" directory="classes"/>
+	</copage>
+</service>

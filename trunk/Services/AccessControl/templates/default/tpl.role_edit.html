@@ -1,0 +1,66 @@
+<form action="{FORMACTION}" {TARGET} method="post">
+<table class="std">
+<tr class="tblheader">
+  <td class="std" colspan="2">
+  <table class="invisible_border" width="100%">
+    <tr>
+      <td>{TXT_HEADER}</td>
+    </tr>
+  </table>
+  </td>
+</tr>
+<tr>
+  <td class="option">{TXT_TITLE}<span class="asterisk">*</span></td>
+  <td class="option_value">
+<!-- BEGIN edit_title -->
+  <input name="Fobject[title]" value="{TITLE}" size="40" maxlength="70" style="width:300px;"/>
+<!-- END edit_title -->
+  {SHOW_TITLE}
+  </td>
+</tr>
+<tr>
+  <td class="option">{TXT_DESC}</td>
+  <td class="option_value">
+<!-- BEGIN edit_desc -->
+  <textarea name="Fobject[desc]" rows="2" cols="40" style="width:300px;">{DESC}</textarea></td>
+<!-- END edit_desc -->
+  {SHOW_DESC}
+</tr>
+<!-- BEGIN allow_register -->
+<tr>
+  <td class="option">{TXT_ALLOW_REGISTER}</td>
+  <td class="option_value"><input type="checkbox" name="Fobject[allow_register]" value="1" {ALLOW_REGISTER}/></td>
+</tr>
+<!-- END allow_register -->
+<!-- BEGIN assign_users -->
+<tr>
+  <td class="option">{TXT_ASSIGN_USERS}</td>
+  <td class="option_value"><input type="checkbox" name="Fobject[assign_users]" value="1" {ASSIGN_USERS}/></td>
+</tr>
+<!-- END assign_users -->
+<!-- BEGIN protect_permissions -->
+<tr>
+  <td class="option">{TXT_PROTECT_PERMISSIONS}</td>
+  <td class="option_value"><input type="checkbox" name="Fobject[protect_permissions]" value="1" {PROTECT_PERMISSIONS}/></td>
+</tr>
+<!-- END protect_permissions -->
+<!-- BEGIN disk_quota -->
+<tr>
+  <td class="option">{TXT_DISK_QUOTA}</td>
+  <td class="option_value">
+  <input name="Fobject[disk_quota]" value="{DISK_QUOTA}" size="40" maxlength="70" style="width:120px;"/>
+  <br><small>{TXT_DISK_QUOTA_DESC}</small>
+  </td>
+</tr>
+<!-- END disk_quota -->
+<tr>
+  <td class="submit" colspan="2">
+  <span class="asterisk">*</span><span class="small"> {TXT_REQUIRED_FLD}</span>
+  <div align="right">
+	<input class="submit" type="submit" name="cmd[{CMD_SUBMIT}]" value="{TXT_SUBMIT}" />
+	<input class="submit" type="submit" name="cmd[cancel]" value="{TXT_CANCEL}" />
+  </div>
+  </td>
+</tr>
+</table>
+</form>

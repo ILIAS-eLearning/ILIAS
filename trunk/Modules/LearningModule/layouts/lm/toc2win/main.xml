@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ilLayout>
+	<ilFrame name="maincontent">
+		<StructureObject template="tpl.page_new.html" template_location="module">
+			<ilTOC />
+			<ilPage/>
+			<ilLMNavigation/>
+			<ilLocator/>
+			<ilMainMenu/>
+			<ilLMMenu />
+			<ilLMHead />
+			<ilLMSubMenu />
+			<ilLMNotes />
+		</StructureObject>
+		<PageObject template="tpl.page_new.html" template_location="module">
+			<ilTOC />
+			<ilPage/>
+			<ilLMNavigation/>
+			<ilLocator/>
+			<ilMainMenu/>
+			<ilLMMenu />
+			<ilLMHead />
+			<ilLMSubMenu />
+			<ilLMNotes />
+		</PageObject>
+	</ilFrame>
+	<ilLinkTargets>
+		<LinkTarget Type="New" Frame="_blank"/>
+		<LinkTarget Type="FAQ" Frame="_blank"/>
+		<LinkTarget Type="Glossary" Frame="_blank"/>
+		<LinkTarget Type="Media" Frame="_blank"/>
+	</ilLinkTargets>
+</ilLayout>

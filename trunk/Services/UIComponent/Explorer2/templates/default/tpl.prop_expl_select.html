@@ -1,0 +1,21 @@
+<div id="{ID}_cont">
+<div id="{ID}_cont_txt" style="white-space: normal; max-width: 150px; max-height: 75px; overflow: auto;">{VAL_TXT}</div>
+<div><a name="{ID}_anchor" class="ilAccAnchor">{TXT_ITEM}</a></div>
+<a href="#" id="{ID}_select">{TXT_SELECT}</a><br />
+<a href="#" id="{ID}_reset">{TXT_RESET}</a>
+<script type="text/javascript">
+il.Util.addOnLoad(function() {
+	il.Explorer2.initSelect('{ID}');
+});
+</script>
+</div>
+<div id="{ID}_hid"><!-- BEGIN node_hid --><input type="hidden" name="{HID_NAME}" value="{HID_VAL}" /><!-- END node_hid --></div>
+<div id="{ID}_expl_wrapper" class="ilNoDisplay">
+<div id="{ID}_expl_content" style="padding:20px;">
+{TOP_TB}
+<div style="padding:20px 0px;">
+{EXPL}
+</div>
+{BOT_TB}
+</div>
+</div>

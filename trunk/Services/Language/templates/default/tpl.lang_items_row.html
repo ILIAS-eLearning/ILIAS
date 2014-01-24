@@ -1,0 +1,18 @@
+<!-- BEGIN row -->
+<tr class="tblrow2"> 
+    <td class="ilFormOption" style="text-align:left;">{MODULE}</td>
+    <td class="ilFormOption" style="text-align:left;">{TOPIC}</td>
+    <td class="ilFormValue"><textarea name="{T_NAME}" rows="{T_ROWS}" cols="{T_SIZE}">{T_USER_VALUE}</textarea>
+    <!-- BEGIN comment -->
+    <div class="il_ItemNotice">
+    <label for="{COM_ID}">{TXT_COMMENT}</label>
+    <input type="text" id="{COM_ID}" name="{COM_NAME}" value="{COM_VALUE}" size="{COM_SIZE}" maxlength="{COM_MAX}" />
+    </div>
+    <!-- END comment -->
+    <!-- BEGIN hidden_comment -->
+    <input type="hidden" name="{COM_NAME}" value="{COM_VALUE}" />
+    <!-- END hidden_comment -->
+    </td>
+    <td class="ilFormValue">{DEFAULT_VALUE}<div class="il_ItemNotice">{COMMENT}</div></td>
+</tr>
+<!-- END row -->

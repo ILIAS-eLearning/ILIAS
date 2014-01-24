@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0 plus SVG 1.1//EN"
+	"http://www.w3.org/2002/04/xhtml-math-svg/xhtml-math-svg.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<title>{WINDOW_TITLE} {PAGETITLE}</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link rel="stylesheet" type="text/css" href="{LOCATION_STYLESHEET}" />
+	<!-- BEGIN ContentStyle -->
+	<link rel="stylesheet" type="text/css" href="{LOCATION_CONTENT_STYLESHEET}" />
+	<!-- END ContentStyle -->
+	<!-- BEGIN SyntaxStyle -->
+	<link rel="stylesheet" type="text/css" href="{LOCATION_SYNTAX_STYLESHEET}" />
+	<!-- END SyntaxStyle -->
+ 	<!-- BEGIN js_file -->
+	<script type="text/javascript" src="{JS_FILE}"></script>
+	<!-- END js_file -->
+	<!-- BEGIN css_file -->
+	<link rel="stylesheet" type="text/css" href="{CSS_FILE}" media="{CSS_MEDIA}" />
+	<!-- END css_file -->
+ 
+</head>
+
+
+<body>
+
+<!-- inserted javascript for navigating additionally by keys -->
+<script type="text/javascript">
+
+var visibl = "1";
+
+function TasteGedrueckt (Ereignis) {
+  if (!Ereignis)
+    Ereignis = window.event;
+  if (Ereignis.which) {
+    Tastencode = Ereignis.which;
+  } else if (Ereignis.keyCode) {
+    Tastencode = Ereignis.keyCode;
+  }
+  if ((Tastencode == 40) || (Tastencode == 13) || (Tastencode == 99) || (Tastencode == 34))
+  {
+    location.href = document.getElementById("succ").href+'&visibl='+visibl;
+  }
+  if ((Tastencode == 38) || (Tastencode == 105) || (Tastencode == 33))
+  {
+    location.href = document.getElementById("prev").href+'&visibl='+visibl;
+  }
+  if (Tastencode == 49)
+  {
+    document.getElementById("pptnavi").style.display = "none";
+    visibl = "0";
+  }
+  if (Tastencode == 50)
+  {
+    document.getElementById("pptnavi").style.display = "block";
+    visibl = "1";
+  }
+  
+}
+document.onkeydown = TasteGedrueckt;
+</script>
+<!-- end of inserted javascript -->
+
+<!-- BEGIN ilLMNavigation -->
+<div id="pptnavi" title="Ein- und Ausblenden mit 1 und 2, navigieren mit Pfeil- oder Bildtasten">
+<div class="ilc_page_tnav_TopNavigation">
+	<!-- BEGIN ilLMNavigation_Prev -->
+	<div class="ilc_page_lnav_LeftNavigation">
+	<a {PREV_ACC_KEY} class="ilc_page_lnavlink_LeftNavigationLink" href="{HREF_PREV}" {FRAME_PREV}>
+	<img class="ilc_page_lnavimage_LeftNavigationImage" src="{SPACER_PREV}" alt="{ALT_PREV}" title="{ALT_PREV}" class="ilc_page_rnavimage_RightNavigationImage" />{TXT_PREV}&nbsp;</a>
+	</div>
+	<!-- END ilLMNavigation_Prev -->
+	<!-- BEGIN ilLMNavigation_Next -->
+	<div class="ilc_page_rnav_RightNavigation">
+	<a {NEXT_ACC_KEY} class="ilc_page_rnavlink_RightNavigationLink" href="{HREF_SUCC}" {FRAME_SUCC}>&nbsp;
+	{TXT_SUCC}<img class="ilc_page_rnavimage_RightNavigationImage" src="{SPACER_SUCC}" alt="{ALT_SUCC}" title="{ALT_SUCC}" class="ilc_page_rnavimage_RightNavigationImage" /></a>
+	</div>
+	<!-- END ilLMNavigation_Next -->
+	<div class="ilClearFloat"></div>
+</div>
+</div>
+<!-- END ilLMNavigation -->
+
+<!-- checking if navigation was on or off in previous page -->
+<script type="text/javascript">
+path = document.URL;
+if ((path.indexOf("visibl=0")) != -1)
+    {
+    document.getElementById("pptnavi").style.display = "none";
+    visibl = "0";
+    }
+if ((path.indexOf("visibl=1")) != -1)
+    {
+    document.getElementById("pptnavi").style.display = "block";
+    visibl = "1";
+    }
+</script>
+
+<!-- BEGIN ilPage -->
+<div class="ilc_page_cont_PageContainer">
+<span class="ilAccHidden"><a name="il_lm_head" id="il_lm_head"></a></span>
+{PAGE_CONTENT}
+</div>
+<!-- END ilPage -->
+<!-- BEGIN ilLMNavigation2 -->
+	<!-- BEGIN ilLMNavigation_Prev2 -->
+	<!-- END ilLMNavigation_Prev2 -->
+	<!-- BEGIN ilLMNavigation_Next2 -->
+	<!-- END ilLMNavigation_Next2 -->
+<!-- END ilLMNavigation2 -->
+
+<!-- BEGIN on_load_code -->
+<script type="text/javascript">
+il.Util.addOnLoad(function() {
+<!-- BEGIN on_load_code_inner -->{OLCODE}
+<!-- END on_load_code_inner -->
+});
+</script>
+<!-- END on_load_code -->
+</body>
+</html>

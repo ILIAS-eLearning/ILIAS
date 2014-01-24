@@ -1,0 +1,83 @@
+div.ilc_Code {
+	overflow: auto;
+	max-width: 100%;
+	max-height: 400px;
+	border: 1px solid #E0E0E0;
+	background: white;
+	padding: 20px 5px;
+	margin: 10px 0px;
+	font-family: Pragmata, Menlo, 'DejaVu LGC Sans Mono', 'DejaVu Sans Mono', Consolas, 'Everson Mono', 'Lucida Console', 'Andale Mono', 'Nimbus Mono L', 'Liberation Mono', FreeMono, 'Osaka Monospaced', Courier, 'New Courier', monospace;
+	font-size: 80%;
+}
+
+@media print {
+	div.ilc_Code {
+		max-width: auto;
+		max-height: auto;
+		overflow: visible;
+	}
+}
+
+
+table.ilc_Sourcecode {
+}
+
+td.ilc_LineNumbers {
+	background: #ffffff;
+	padding-left: 10px;
+	text-align: right;	
+}
+
+td.ilc_Sourcecode {
+	background: white;
+	padding-left: 10px;
+	
+}
+
+span.ilc_CodeCategory_1 {	
+	text-decoration: underline;
+	color: navy;	
+}
+
+span.ilc_CodeCategory_2 {
+	color: navy;
+
+}
+
+span.ilc_CodeCategory_3 {
+	color: #555555;
+
+}
+
+span.ilc_CodeQuote {
+	color: green;
+
+}
+
+span.ilc_CodeLinecomment {
+	color: gray;
+
+}
+
+span.ilc_CodeBlockcomment {
+	color: gray;
+
+}
+
+span.ilc_CodePrepro {
+	color: black;
+
+}
+
+span.ilc_CodeSelect {
+	color: black;
+
+}
+
+pre.ilc_Code {
+	font-size: 1em;	
+}
+
+span.ilc_LineNumber {
+	font-size: 1em;
+}

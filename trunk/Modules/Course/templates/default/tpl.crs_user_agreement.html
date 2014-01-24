@@ -1,0 +1,60 @@
+	<form action="{FORMACTION}" method="post">
+	  <table class="fullwidth" >
+		  <tr class="tblheader">
+			<td colspan="3">
+			  {AGREEMENT_HEADER}
+			</td>
+		  </tr>
+		  <tr>
+			<td class="option">{TXT_AGREEMENT}</td>
+			<td class="option_value">
+			  {TXT_INFO_AGREEMENT}<br />
+			  <ul class="il_listItem">
+				<!-- BEGIN field -->
+				<li>{FIELD_NAME}</li>
+				<!-- END field -->
+			  </ul>
+			  <!-- BEGIN cdf -->
+			  {CDF_TXT}
+			  <ul>
+				<!-- BEGIN cdf_row -->
+				<li style="padding-bottom: 5px">
+				  {CDF_FIELD_NAME}<!-- BEGIN cdf_required --><font class="warning">*</font><!-- END cdf_required -->:<br />
+				  <!-- BEGIN sel_row -->
+				  {SEL_SELECT}
+				  <!-- END sel_row -->
+				  <!-- BEGIN sel_open_row -->
+				  {SEL_OPEN_RADIO} {SEL_OPEN_TEXT}<!-- BEGIN sel_open_txt -->  <input size="80" max="800" type="text" name="cdf[{OPEN_TXT_NAME}]" value="{OPEN_TXT_VALUE}" /><!-- END sel_open_txt --><br/>
+				  <!-- END sel_open_row -->
+				  <!-- BEGIN txt_row -->
+				  <input type="text" name="cdf[{TXT_ROW_NAME}]" value="{TXT_ROW_VALUE}" size="32" maxlength="64" />
+				  <!-- END txt_row -->
+				</li>
+				<!-- END cdf_row -->
+			  </ul>
+			  <!-- END cdf -->
+			</td>
+		  </tr>
+		  <!-- BEGIN agreement -->
+		<tr>
+		  <td class="option">{TXT_AGREE}</td>
+		  <td class="option_value">
+			{CHECK_AGREE} {INFO_AGREE}
+		  </td>
+		</tr>
+		  <!-- END agreement -->
+		<tr>
+		  <td class="submit" colspan="3">
+			<!-- BEGIN info_required -->
+			<div class="ilFloatLeft">
+			  <font class="warning">* </font>{TXT_REQUIRED}
+			</div>
+			<!-- END info_required -->
+			<div class="ilRight">
+			  <input class="submit" type="submit" name="cmd[save]" value="{TXT_SAVE}" />
+			</div>
+		  </td>
+		</tr>
+	  </table>
+	</form>
+	

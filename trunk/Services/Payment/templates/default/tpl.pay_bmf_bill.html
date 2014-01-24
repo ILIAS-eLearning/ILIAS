@@ -1,0 +1,92 @@
+<!-- MEDIA LEFT 50 -->
+<!-- MEDIA RIGHT 15 -->
+<html>
+<head>
+<meta HTTP-EQUIV="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+<body bgcolor="#FFFFFF">
+
+<table width="100%" cellspacing=0 cellpadding=0 border=0>
+<tr>
+	<td width="89%" valign="top">
+<p><br><br><br><br><br><br><br><br><br><b>{CUSTOMER_FIRSTNAME} {CUSTOMER_LASTNAME}</b><br>
+{CUSTOMER_STREET_POBOX}<br>
+{CUSTOMER_ZIPCODE} {CUSTOMER_CITY}<br>
+{CUSTOMER_COUNTRY}</p>
+
+<p><br><br><br><br><font size=+1><b>{TXT_BILL}</b></font></p>
+
+<p>{TXT_BILL_NO}: {BILL_NO}<br>
+{TXT_DATE}: {DATE}</p>
+
+<table width="100%" cellspacing=1 cellpadding=3 border=0>
+<tr bgcolor="#CCCCCC">
+	<td width="99%"><b>{TXT_ARTICLE}</b></td>
+	<td width="1%"><b>{TXT_VAT_RATE}</b></td>
+	<td width="1%"><b>{TXT_VAT_UNIT}</b></td>			
+	<td width="1%"><b>{TXT_PRICE}</b></td>
+</tr>
+<!-- BEGIN loop -->
+<tr bgcolor="#EEEEEE">
+	<td valign="top">
+		<i>{LOOP_OBJ_TYPE}:</i><br>
+		{LOOP_TITLE}<br>
+		<font size=-2>{LOOP_TXT_ENTITLED_RETRIEVE}: {LOOP_DURATION}</font>
+	</td>
+	<td nowrap valign="top">{LOOP_VAT_RATE}</td>
+	<td nowrap valign="top">{LOOP_VAT_UNIT}</td>
+	<td nowrap valign="top">{LOOP_PRICE}</td>
+</tr>
+<!-- END loop -->
+<tr bgcolor="#CCCCCC">
+	<td width="100%" colspan="4">
+		<div align="right">
+		<table align="right">
+		<!-- BEGIN coupons -->
+		<tr>
+			<td align="right"><b>{TXT_SUBTOTAL_AMOUNT}:</b></td>
+			<td align="right"><b>{SUBTOTAL_AMOUNT}</b></td>
+		</tr>
+		<!-- BEGIN cloop -->
+		<tr>
+			<td align="right">{TXT_COUPON}:</td>
+			<td align="right">{BONUS}</td>
+		</tr>
+		<!-- END cloop -->
+		<!-- END coupons -->
+		<tr>
+			<td align="right"><b>{TXT_TOTAL_AMOUNT}:</b></td>
+			<td align="right"><b>{TOTAL_AMOUNT}</b></td>
+		</tr>
+		<!-- BEGIN vat -->
+		<tr>
+			<td align="right"><font size=-2>{TXT_TOTAL_VAT}:</font></td>
+			<td align="right"><font size=-2> {TOTAL_VAT}</font></td>
+		</tr>
+		<!-- END vat -->
+		</table>
+		</div>
+	</td>
+</tr>
+</table>
+
+<p>{TXT_PAYMENT_TYPE}</p>
+	</td>
+	<td width="10%">&nbsp;</td>
+	<td width="1%" valign="top" align="right">
+		<table cellspacing=0 cellpadding=0 border=0>
+		<tr>
+			<td nowrap>
+				<p><font size=-2>{VENDOR_ADDRESS}</font></p>
+				<p><font size=-2><b>{TXT_BANK_DATA}</b><br>
+				{VENDOR_BANK_DATA}</font></p>
+				<p><font size=-2>{VENDOR_ADD_INFO}</font></p>
+			</td>
+		</tr>
+		</table>
+	</td>
+</tr>
+</table>
+
+</body>
+</html>

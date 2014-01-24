@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<DataSource type="JDBC" action="append">
+	<Query>
+		SELECT tag FROM il_tag
+		WHERE obj_id IN (?)
+		AND obj_type IN (?)
+		AND sub_obj_id = 0
+		AND is_offline = 0
+	</Query>
+	<Param format="list" type="int" value="objId" />
+	<Param format="list" type="string" value="objType" />
+	<Field store="YES" index="ANALYZED" column="tag" type="text" name="tag" />
+</DataSource>

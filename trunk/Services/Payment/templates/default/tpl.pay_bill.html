@@ -1,0 +1,131 @@
+<!-- MEDIA LEFT 50 -->
+<!-- MEDIA RIGHT 15 -->
+<html>
+<head>
+<meta HTTP-EQUIV="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+<body bgcolor="#FFFFFF">
+
+<table width="100%" cellspacing=0 cellpadding=0 border=0>
+<tr>
+	<td width="60%" valign="top"><img src="{HTTP_PATH}/Customizing/images/logo_1.png" width="316" height="68"/><br><br><br></td><td></td>
+</tr>
+<tr><td valign="top"><p><font size=-3>______________________________________________</font></p></td><td></td>
+</tr>
+<tr>
+	<td valign="top">
+		<p>{CUSTOMER_FIRSTNAME} {CUSTOMER_LASTNAME}<br>
+{CUSTOMER_STREET}<br>
+{CUSTOMER_ZIPCODE} {CUSTOMER_CITY}<br>
+{CUSTOMER_COUNTRY}</p>
+	</td>
+	<td valign="top" align="right" width="40%">
+		<table align="right" width="100%" border=0>
+			<tr><td></td><td><img src="{HTTP_PATH}/Customizing/images/logo_2.jpg" width="95" height="23"/><br></td></tr>
+			<tr>
+				<td align="right"><font size=-3> </font></td>
+				<td><p><font size=-3>{VENDOR_ADDRESS}</font><br></p></td>
+			</tr>
+			<tr>
+				<td valign="top" align="right"><font size=-3></font></td>
+				<td><p><font size=-3>{VENDOR_ADD_INFO}</font></p></td>
+			</tr>
+			<tr>
+				<td valign="top" align="right"><font size=-3></font></td>
+				<td><p><font size=-3>{DATE}</font></p></td>
+			</tr>
+		</table>
+		<br><br>
+	</td>
+</tr>
+<tr><td colspan="2"><p><font size=+1><b>{TXT_BILL} / {TXT_CREDIT}</b></font></p><br><br><br></td></tr>
+<tr>
+	<td colspan="2">
+
+		<table align="right" width="100%" border=0>
+			<tr>
+				<td>
+		<p><font size=-1>{TXT_BILL_NO}: {BILL_NO}<br>
+		{TXT_EXTERNAL_BILL_NO}: {EXTERNAL_BILL_NO}<br><br><br>
+		</font></p>
+	</td>
+	<td valign="top" align="left"><p><font size=-1>{TXT_DAY_OF_SERVICE_PROVISION}: {DATE}</font></p>
+		</tr>
+	</table>
+	</td></tr>
+<tr>
+<td colspan ="2"><font size="-2">
+<!-- BEGIN tbl_articles -->
+	<table width="95%" cellspacing=1 cellpadding="3" border=0>
+<tr bgcolor="#CCCCCC">
+		<!-- BEGIN col_position --><td width="1"><b>{TXT_POSITION}</b></td><!-- END col_position -->
+		<!-- BEGIN col_amount --><td width="5"><b>{TXT_AMOUNT}</b></td><!-- END col_amount -->
+		<!-- BEGIN col_article --><td width="91%"><b>{TXT_ARTICLE}</b></td><!-- END col_article -->
+		<!-- BEGIN col_vat_rate --><td width="1%"><b>{TXT_VAT_RATE}</b></td><!-- END col_vat_rate -->
+		<!-- BEGIN col_vat_unit --><td width="1%"><b>{__TXT_VAT_UNIT}</b></td><!-- END col_vat_unit -->
+		<!-- BEGIN col_unit_price --><td width="1%"><b>{TXT_UNIT_PRICE}</b></td><!-- END col_unit_price -->
+		<!-- BEGIN col_price --><td width="1%"><b>{TXT_PRICE}</b></td><!-- END col_price -->
+</tr>
+<!-- BEGIN loop -->
+<tr bgcolor="#EEEEEE">
+		<!-- BEGIN col_loop_position --><td>{LOOP_POSITION}</td><!-- END col_loop_position -->
+		<!-- BEGIN col_loop_amount --><td>{LOOP_AMOUNT}</td><!-- END col_loop_amount -->
+		<!-- BEGIN col_loop_article -->	<td valign="top"><i>{LOOP_OBJ_TYPE}:</i><br>{LOOP_TITLE}<br>
+			<font size=-2>{__LOOP_TXT_ENTITLED_RETRIEVE}{LOOP_TXT_PERIOD_OF_SERVICE_PROVISION}: {LOOP_DURATION}</font></td>
+		<!-- END col_loop_article -->
+		<!-- BEGIN col_loop_vat_rate --><td nowrap valign="top">{LOOP_VAT_RATE}</td><!-- END col_loop_vat_rate -->
+		<!-- BEGIN col_loop_vat_unit --><td nowrap valign="top">{__LOOP_VAT_UNIT}</td><!-- END col_loop_vat_unit -->
+		<!-- BEGIN col_loop_unit_price --><td nowrap valign="top">{LOOP_UNIT_PRICE}</td><!-- END col_loop_unit_price -->
+		<!-- BEGIN col_loop_price --><td nowrap valign="top">{LOOP_PRICE}</td><!-- END col_loop_price -->
+</tr>
+<!-- END loop -->
+<tr bgcolor="#CCCCCC">
+		<td width="95%" colspan="6">
+		<div align="right">
+		<table align="right">
+			<!-- BEGIN netprice -->
+			<tr>
+				<td align="right"><font size=-2>{TXT_TOTAL_NETPRICE}:</font></td>
+				<td align="right"><font size=-2>{TOTAL_NETPRICE}</font></td>
+			</tr>
+			<!-- END netprice -->
+
+			<!-- BEGIN vat -->
+			<tr>
+				<td align="right"><font size=-2>{TXT_TOTAL_VAT}:</font></td>
+				<td align="right"><font size=-2> {TOTAL_VAT}</font></td>
+			</tr>
+			<!-- END vat -->
+		<!-- BEGIN coupons -->
+		<tr>
+			<td align="right"><b>{TXT_SUBTOTAL_AMOUNT}:</b></td>
+			<td align="right"><b>{SUBTOTAL_AMOUNT}</b></td>
+		</tr>
+		<!-- BEGIN cloop -->
+	<tr>
+			<td align="right">{TXT_COUPON}:</td>
+			<td align="right">{BONUS}</td>
+		</tr>
+		<!-- END cloop -->
+		<!-- END coupons -->
+		<tr>
+			<td align="right"><b>{TXT_TOTAL_AMOUNT}:</b></td>
+			<td align="right"><b>{TOTAL_AMOUNT}</b></td>
+		</tr>
+		</table>
+		</div>
+	</td>
+</tr>
+</table>
+<!-- END tbl_articles -->
+	</td>
+</tr>
+<tr>
+	<td colspan="2"><br>
+		<p><font size=-1>{TXT_PAYMENT_TYPE}
+				<br></font></p>
+	</td>
+</tr>
+</table>
+</body>
+</html>

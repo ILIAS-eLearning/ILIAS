@@ -1,0 +1,13 @@
+<IfModule mod_rewrite.c>
+	RewriteEngine on
+	RewriteCond %{QUERY_STRING}  ^lang=([^=]*)$
+	RewriteRule ^goto_(.*)_(wiki_[0-9]+(.*)).html$ goto.php?client_id=$1&target=$2&lang=%1 [L]
+	RewriteRule ^goto_(.*)_(wiki_[0-9]+(.*)).html$ goto.php?client_id=$1&target=$2 [L]
+	RewriteRule ^([^\/]*)_user_(.*)$ goto.php?client_id=$1&target=usr_n$2 [L]
+	RewriteCond %{QUERY_STRING}  ^lang=([^=]*)$
+        RewriteRule ^goto_(.*)_([a-z]+_[0-9]+(.*)).html$ goto.php?client_id=$1&target=$2&lang=%1 [L]
+	RewriteRule ^goto_(.*)_([a-z]+_[0-9]+(.*)).html$ goto.php?client_id=$1&target=$2 [L]
+</IfModule>
+AddType video/ogg .ogv
+AddType video/mp4 .mp4
+AddType video/webm .webm

@@ -1,0 +1,103 @@
+<input type="hidden" id="il_hform_cmd" name="" value="" />
+<input type="hidden" id="il_hform_node" name="il_hform_node" value="" />
+<input type="hidden" id="il_hform_fc" name="il_hform_fc" value="" />
+<input type="hidden" id="il_hform_as_subitem" name="il_hform_as_subitem" value="" />
+<input type="hidden" id="il_hform_multi" name="il_hform_multi" value="" />
+<input type="hidden" id="il_hform_source_id" name="il_hform_source_id" value="" />
+<input type="hidden" id="il_hform_target_id" name="il_hform_target_id" value="" />
+<input type="hidden" id="il_hform_expand" name="il_hform_expand" value="" />
+<table class="fullwidth">
+<!-- <tr class="tblheader">
+	<th class="std"><!-- BEGIN icon --><img src="{SRC_ICON}" alt="{ALT_ICON}" border="0" /><!-- END icon --> {TITLE}</th>
+</tr>-->
+<!-- BEGIN commands2 -->
+<tr>
+	<td class="submit" colspan="2">
+		<div style="float:right;">
+			<!-- BEGIN cmd2 -->
+			<input class="submit" type="submit" name="cmd[{CMD}]" value="{CMD_TXT}" />
+			<!-- END cmd2 -->
+		</div>
+		<!-- BEGIN multi_cmds2 -->
+		<img border="0" alt="{MCMD_ALT}" src="{MCMD_IMG}" />
+		<!-- BEGIN multi_cmd2 -->
+		<input class="submit" type="submit" name="cmd[{MULTI_CMD}]" value="{MULTI_CMD_TXT}" />
+		<!-- END multi_cmd2 -->
+		<!-- END multi_cmds2 -->
+	</td>
+</tr>
+<!-- END commands2 -->
+<tr class="std">
+	<td class="tblrow1">
+	{NODES}
+	</td>
+</tr>
+<!-- BEGIN commands1 -->
+<tr>
+	<td class="submit" colspan="2">
+		<div style="float:right;">
+			<!-- BEGIN cmd1 -->
+			<input class="submit" type="submit" name="cmd[{CMD}]" value="{CMD_TXT}" />
+			<!-- END cmd1 -->
+		</div>
+		<!-- BEGIN multi_cmds1 -->
+		<img border="0" alt="{MCMD_ALT}" src="{MCMD_IMG}" />
+		<!-- BEGIN multi_cmd1 -->
+		<input class="submit" type="submit" name="cmd[{MULTI_CMD}]" value="{MULTI_CMD_TXT}" />
+		<!-- END multi_cmd1 -->
+		<!-- END multi_cmds1 -->
+	</td>
+</tr>
+<!-- END commands1 -->
+</table>
+
+<div style="margin-top: 10px;">
+<!-- BEGIN help_section -->
+<div>
+<!-- BEGIN help_img --><img alt="{ALT_HELP}" src="{IMG_HELP}" /><!-- END help_img --> <span class="subtitle">{TXT_HELP}</span>
+</div>
+<!-- END help_section -->
+</div>
+
+<!-- BEGIN disambiguation_menu -->
+<div style="position:absolute;left:0;top:0;visibility:hidden;" id="diss_menu_{DNODE_ID}_{GRP}">
+<table class="il_editmenu" cellspacing="0" cellpadding="3">
+<!-- BEGIN dmenu_cmd -->
+<tr>
+<td class="small" style="white-space:nowrap;" onMouseOver="M_in(this);" onMouseOut="M_out(this);" onClick="doDisam('{SUBITEM}');">
+{TXT_MENU_CMD}
+</td>
+</tr>
+<!-- END dmenu_cmd -->
+</table>
+</div>
+<!-- END disambiguation_menu -->
+<script language="JavaScript" type="text/javascript">
+var as_subitem = Object();
+<!-- BEGIN as_subitem_flag -->
+as_subitem['{SI_NODE_ID}' + '_' + '{SI_GRP}'] = "{SI_SI}";
+<!-- END as_subitem_flag -->
+
+<!-- BEGIN dragtarget -->
+	d = new ilDragTarget("droparea_" + "{EL_ID}", "{GROUP}");
+<!-- END dragtarget -->
+<!-- BEGIN dragcontent -->
+	d = new ilDragContent("il_img_" + "{EL_ID}", "{GROUP}");
+<!-- END dragcontent -->
+</script>
+<!-- BEGIN updater -->
+<script language="JavaScript" type="text/javascript">
+parent.{UPDATER_FRAME}.updater('{EXP_ID_UPDATER}', '{HREF_UPDATER}');
+</script>
+<!-- END updater -->
+
+<!-- This one is called from other frames/contents -->
+<!-- BEGIN tr_update -->
+<script language="JavaScript" type="text/javascript">
+function ilHierarchyFormUpdater()
+{
+	doActionForm('{UPDATE_CMD}', 0, 0, 0);
+}
+</script>
+<!-- END tr_update -->
+<div id="ilsaving" class="ilHighlighted" style="display:none;">{TXT_SAVING}</div>

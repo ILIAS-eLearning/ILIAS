@@ -1,0 +1,28 @@
+<form action="{FORMACTION}" name="Scan" method="post">
+<table class="fullwidth">
+<tr class="tbltitle">
+  <td colspan="{COLSPAN}">
+  <table class="fullwidth_invisible">
+    <tr class="tbltitle">
+	  <td class="tbltitle" align="left">&nbsp;{TXT_TITLE}</td>
+	  <td align="right">&nbsp;</td>
+	</tr>
+  </table>
+  </td>
+</tr>
+  <tr>
+   <td class="tblrow2" colspan="3">
+   {TXT_SCAN_LOG}
+   <p class="subtitle">{TXT_MODE}</p>
+   </td>
+  </tr>
+  <tr>
+	<td class="submit" colspan="3" align="right">
+<!-- BEGIN BTN_VIEW_LOG -->
+	<input class="submit" type="submit" name="cmd[viewScanLog]" value="{TXT_VIEW_LOG}"/>
+<!-- END BTN_VIEW_LOG -->
+	<input class="submit" type="submit" name="cmd[check]" value="{TXT_DONE}"/>
+	</td>
+  </tr>
+</table>
+</form>

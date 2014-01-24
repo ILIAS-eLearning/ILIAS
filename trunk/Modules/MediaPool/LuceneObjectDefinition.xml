@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ObjectDefinition xmlns:xi="http://www.w3.org/2001/XInclude" type="mep">
+	<Document type="default">
+		<xi:include href="../../Services/Object/LuceneDataSource.xml" />
+		<xi:include href="../../Services/Tagging/LuceneDataSource.xml" />
+	</Document>
+	<Document type="subItem">
+		<DataSource type="JDBC" action="create">
+			<Query>
+				SELECT title, obj_id, type, mep_id, type FROM mep_tree 
+				JOIN mep_item ON child = obj_id
+				WHERE type = 'fold'
+				AND mep_id IN (?)
+			</Query>
+			<Param format="list" type="int" value="objId" />
+			<Field store="YES" index="ANALYZED" column="title" type="text" name="propertyHigh" />
+			<Field store="YES" index="NOT_ANALYZED" column="obj_id" type="integer" name="subItem" />
+			<Field store="YES" index="NOT_ANALYZED" column="mep_id" type="integer" name="objId" global="NO" /> 
+			<Field store="YES" index="NOT_ANALYZED" column="type" type="text" name="type" global="NO" />
+		</DataSource>
+		<DataSource type="JDBC" action="create">
+			<Query>
+				SELECT title, obj_id, foreign_id AS metaObjId, mep_id, type AS metaType,0 AS metaRbacId, child FROM mep_tree 
+				JOIN mep_item ON child = obj_id
+				WHERE type = 'mob'
+				AND mep_id IN (?)
+			</Query>
+			<Param format="list" type="int" value="objId" />
+			<Field store="YES" index="ANALYZED" column="title" type="text" name="propertyHigh" />
+			<Field store="YES" index="NOT_ANALYZED" column="obj_id" type="integer" name="subItem" />
+			<Field store="YES" index="NOT_ANALYZED" column="mep_id" type="integer" name="objId" global="NO" /> 
+			<Field store="YES" index="NOT_ANALYZED" column="metaType" type="text" name="type" global="NO" />
+			<xi:include href="../../Services/MetaData/LuceneDataSource.xml" />
+			<DataSource type="JDBC" action="append">
+				<Query>
+					SELECT caption, location, text_representation FROM media_item
+					WHERE mob_id IN (?)
+				</Query>
+				<Param format="list" type="int" value="metaObjId" />
+				<Field store="YES" index="ANALYZED" column="location" type="text" name="mimeType">
+					<Transformer name="MimeTypeExtractor" />
+				</Field>
+				<Field store="YES" index="ANALYZED" column="caption" type="text" name="propertyMedium" />
+				<Field store="YES" index="ANALYZED" column="text_representation" type="text" name="propertyLow" />
+			</DataSource>
+		</DataSource>
+	</Document>
+</ObjectDefinition>

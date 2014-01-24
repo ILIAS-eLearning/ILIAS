@@ -1,0 +1,40 @@
+	<form action="{FILTER_ACTION}" class="il_Form" METHOD="post">
+	  <table class="std">
+		  <tr class="tblheader">
+			<td class="std" rowspan="3">
+			  {TBL_TITLE}
+			</td>
+			<td class="option">
+			  {TXT_LOGIN}
+			</td>
+			<td class="option_value">
+			  <input type="text" name="filter[login]" value="{QUERY}" size="32" maxsize="64" />
+			</td>
+			<td class="option">
+			  &nbsp;
+			</td>
+			<td class="option">
+			  &nbsp;
+			</td>
+		  </tr>
+		  <tr>
+			<td class="option">
+			  {TXT_FIRSTNAME}
+			</td>
+			<td nowrap="{NOWRAP}"  class="option_value">
+			  <input type="text" name="filter[firstname]" value="{FIRSTNAME}" size="32" maxsize="64" />
+			</td>
+			<td class="option">
+			  {TXT_LASTNAME}
+			</td>
+			<td nowrap="{NOWRAP}"  class="option_value">
+			  <input type="text" name="filter[lastname]" value="{LASTNAME}" size="32" maxsize="64" />
+			</td>
+		  </tr>
+		  <tr>
+			<td class="submit" colspan="4" style="text-align:right;">
+			  <input class="submit" type="SUBMIT" name="cmd[refresh]" value="{BTN_REFRESH}"/>
+			</td>
+		  </tr>
+	  </table>
+	</form>

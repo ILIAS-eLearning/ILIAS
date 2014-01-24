@@ -1,0 +1,9 @@
+Add Page ID with Catalog ILIAS_NID and entry value of the following list.
+
+
+Learning Modules
+----------------
+lm_intro: Introduction Page for Learning Modules (Authors)
+lm_properties: Learning Module properties
+lm_page_edit: Page editing
+

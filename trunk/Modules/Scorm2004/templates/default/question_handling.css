@@ -1,0 +1,16 @@
+/* we need because of the placeholder element */
+ul.ordering_vrt_terms li {
+	min-height:20px;
+	width:400px;
+}
+ul.ordering_vrt_images li {
+
+}
+ul.ordering_hrz li {
+}
+span.errortext_corrected {
+}
+a.image_details {
+}
+img.mc_image {
+}

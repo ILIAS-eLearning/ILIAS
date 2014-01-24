@@ -1,0 +1,276 @@
+<!-- BEGIN offline_content -->
+<script type="text/javascript">
+var ilClient = '{CLIENT_ID}',
+	refId = {REF_ID},
+	lmId = {LM_ID},
+	mode = '{OFFLINE_MODE}',
+	id = "",
+	client = '{CLIENT_ID_SOP}',//window.location.hostname.replace(/www./,'')+(window.location.pathname.substring(0,window.location.pathname.indexOf('/ilias.php'))),
+	cmdUrl = document.URL.substring(0,document.URL.indexOf('?'))+'?baseClass=ilSAHSPresentationGUI&ref_id='+refId+'&client_id='+ilClient+'&cmd=',
+	importContentUrl = cmdUrl+"offlineMode_il2sopContent",
+	importTrackingUrl = cmdUrl+"offlineMode_il2sop",
+	pushTrackingUrl = cmdUrl+"offlineMode_sop2il",
+ 	importLmOk,
+	importTrackingOk,
+	pushTrackingOk,
+	msg_lm_not_exists = "{MSG_LM_NOT_EXISTS}",
+	msg_close_lm = "{MSG_CLOSE_LM}",
+	msg_result = "{MESSAGE_RESULT}",
+	msg_already_exported = "{ALREADY_EXPORTED}",
+	msg_firefox_required = "{FIREFOX_REQUIRED}",
+	msg_xpi_install = "{XPI_INSTALL}",
+	msg_export_content = "{MSG_EXPORT_CONTENT}",
+	msg_export_tracking = "{MSG_EXPORT_TRACKING}",
+	msg_push_tracking = "{MSG_PUSH_TRACKING}",
+	msg_push_tracking_ok = "{MSG_PUSH_TRACKING_OK}";
+
+function checkCallback(success) {
+	mode = (mode=="") ? "online" : mode;
+	if (success) {
+		print(msg_result,false); // any messages?
+		id=sopConnector.atoB(client)+'_'+lmId;
+		if (mode=="offline") { 
+			if (sopConnector.lmExists(id)) {
+				formView();
+			}			
+			else {
+				print(msg_lm_not_exists,true);
+			} 
+		}
+		else {
+			formView();
+		}
+	}
+	else {
+		var isFirefox = ((navigator.userAgent.toLowerCase().indexOf('firefox') != -1) || (navigator.userAgent.toLowerCase().indexOf('fennec') != -1));
+		if (isFirefox) {
+			if (mode=="offline") {
+				print(msg_already_exported,true);
+			}
+			else {
+				formView("install");
+			}
+		}
+		else {
+			if (mode=="offline") {
+				print(msg_already_exported,true);
+			}
+			else {
+				print(msg_firefox_required,true);
+			}
+		}
+	}
+} 
+
+function checkSopConnector(handler) {
+	
+	var timeout = 5000;
+	var sopFound = false;
+	var counter = 0;
+	
+	var timer = setInterval(function() { 
+		counter+=200;
+		addPrint(" .");
+		try {
+			if (sopConnector) {
+				sopFound = true;
+				clearInterval(timer);
+				return;
+			}
+		}
+		catch(e) {}
+		finally {
+			if (sopFound) {
+				clearInterval(timer);
+				if (typeof handler == "function") {
+					handler.call(null,true);
+				}
+				return;
+			}
+			if (counter > timeout) {
+				clearInterval(timer);
+				if (typeof handler == "function") {
+					handler.call(null,false);
+				}
+				return;
+			}
+		}
+	} , 200);
+}
+
+function checkSopVersion(v) { // obsolet?
+	var metas = document.getElementsByTagName('meta');  
+	for (var i=0; i<metas.length; i++) {
+		if (metas[i].getAttribute("name") == "require-sop-version") {
+			var reqV =  metas[i].getAttribute("content");
+			//alert(v + reqV);
+		} 
+	}
+}
+
+function getOfflineUrl(id) {
+	var url = sopConnector.getOfflineUrl(id);
+	return url;
+}
+
+function openLm() {
+	var url = getOfflineUrl(id);
+//	var url = getOfflineUrl("client0_205");
+	open(url,"SCORM Offline Player");
+}
+
+function il2sopLmWait(counter) {
+	if (importLmOk==true) {
+		return;
+	}
+	msg_export_content+=' .';
+	print(msg_export_content,false);
+	window.setTimeout('il2sopLmWait('+(counter++)+')',200);
+}
+
+function il2sopDataWait(counter) {
+	if (importLmOk==true) {
+		//document.getElementById("divImportTracking").innerHTML=msg_export_tracking_ok;
+		return;
+	}
+	msg_export_tracking+=' .';
+	print(msg_export_tracking,true,"2");
+	window.setTimeout('il2sopDataWait('+(counter++)+')',100);
+}
+
+function il2sopWait(counter) {
+	if (importLmOk == false || importTrackingOk == false) {
+		location.replace(cmdUrl+'offlineMode_il2sopStop');
+	}
+	else if (importLmOk == true && importTrackingOk == true) {
+		sopConnector.getAllLm();
+		location.replace(cmdUrl+'offlineMode_il2sopOk');
+	}
+	else window.setTimeout('il2sopWait('+(counter++)+')',100);
+}
+
+function sop2ilWait(counter) {
+	if (pushTrackingOk == false) {
+		location.replace(cmdUrl+'offlineMode_sop2ilStop');
+	}
+	else if (pushTrackingOk == true) { 
+		location.replace(cmdUrl+'offlineMode_sop2ilOk');
+	}
+	else {
+		msg_push_tracking+=' .';
+		print(msg_push_tracking,true);
+		window.setTimeout('sop2ilWait('+(counter++)+')',100);
+	}
+}
+
+function importSOP() {
+	function importLm() { // url: network address for binary and async zip download
+		var url = sopConnector.atoB(importContentUrl);
+		function handler(success) {
+			importLmOk=success;
+		}
+		sopConnector.importLm(id, url, handler);
+		window.setTimeout('il2sopLmWait(1)',200);
+	}
+	function importTracking() {
+		var url = sopConnector.atoB(importTrackingUrl);
+		function handler(success) {
+			importTrackingOk=success;
+		}
+		sopConnector.importTracking(id,url,handler);
+		window.setTimeout('il2sopDataWait(1)',100);
+	}
+	//hideForm();
+	sopConnector.runEnv();
+	importLm();
+	importTracking();
+	window.setTimeout('il2sopWait(1)',1000);
+}
+
+function pushTracking() {
+	sopConnector.runEnv();
+	if (sopConnector.isPlayerOpen(id)) {
+		alert(msg_close_lm);
+		return false;
+	}
+	var url = sopConnector.atoB(pushTrackingUrl);
+	function handler(success) {
+		print(msg_push_tracking_ok,false);
+		pushTrackingOk=success;
+	}
+	sopConnector.pushTracking(id,url,handler);
+	window.setTimeout('sop2ilWait(1)',1000);
+	//alert(JSON.stringify(ret.data));
+}
+
+function openSOM() {
+	sopConnector.openSOM();
+}
+
+function formView(m) {
+	var view = (m) ? m : mode; 
+	document.getElementById("divOfflineManager").style.display="block";
+	switch (view) {
+		case  "offline" :
+			document.getElementById("onlineForm").style.display="none";
+			document.getElementById("installForm").style.display="none";
+		break;
+		case "online" :
+			document.getElementById("offlineForm").style.display="none";
+			document.getElementById("installForm").style.display="none";
+		break;
+		
+	} 
+	document.getElementById(view+"Form").style.display="block";
+}
+	
+function print(txt,hide,out) {
+	if (hide==true) {
+		hideForm();
+	}
+	var o = (out) ? out : "1";
+	var divOut = document.getElementById("out"+o);
+	divOut.innerHTML = "";
+	divOut.innerHTML = txt;
+}
+
+function addPrint(msg,out) {
+	var o = (out) ? out : "1";
+	var divOut = document.getElementById("out"+o);
+	divOut.innerHTML += msg;
+}
+
+function hideForm() {
+	document.getElementById("divOfflineManager").style.display="none";
+}
+
+checkSopConnector(checkCallback);
+
+
+</script>
+
+<div id="out1">{CHECK_SYSTEM_REQUIREMENTS}</div>
+<div id="out2"></div>
+<div id="out3"></div>
+<hr />
+<div id="divOfflineManager">
+	<div id="installForm" style="display:none">
+		<div>{XPI_INSTALL}</div>
+		<hr />
+		<div><input class="submit" type="button" value="{RELOAD_PAGE}" onclick="window.location.reload()"/></div>
+	</div>	
+	<div id="onlineForm" style="display:none">
+		<div><input class="submit" type="button" value="{EXPORT}" onclick="importSOP()"/>&nbsp;&nbsp;{TEXT_EXPORT}</div>
+		<div class="ilHeaderDesc">{DESC_EXPORT}</div>
+	</div>
+	<div id="offlineForm" style="display:none">
+		<div><input class="submit" type="button" value="{START_OFFLINE}" onclick="openLm()"/>&nbsp;&nbsp;{TEXT_START_OFFLINE}</div><br />
+		<div><input class="submit" type="button" value="{START_SOM}" onclick="openSOM()"/>&nbsp;&nbsp;{TEXT_START_SOM}</div>
+		<br />
+		<hr />
+		<br />
+		<div><input class="submit" type="button" value="{PUSH_TRACKING}" onclick="pushTracking()"/>&nbsp;&nbsp;{TEXT_PUSH_TRACKING}</div><br />
+	</div>
+</div>
+<!-- END offline_content -->
+

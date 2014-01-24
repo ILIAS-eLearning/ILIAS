@@ -1,0 +1,90 @@
+<script type="text/javascript">
+<!--
+function setDefaultPort(a_http_port, a_ssl_port)
+{
+		if (document.ILINCOptions.ilinc_protocol.options[0].selected == true) {
+    		document.ILINCOptions.ilinc_port.value = a_http_port;
+    	}
+    	
+  		if (document.ILINCOptions.ilinc_protocol.options[1].selected == true) {
+    		document.ILINCOptions.ilinc_port.value = a_ssl_port;
+    	}
+
+    return true;
+}
+//-->
+</script>
+
+<form action="{FORMACTION}" name="ILINCOptions" method="post">
+<table class="fullwidth">
+<tr class="tbltitle">
+  <td colspan="2">
+  <table class="fullwidth_invisible">
+    <tr class="tbltitle">
+	  <td class="tbltitle" align="left">&nbsp;{TXT_ILINC_TITLE}</td>
+	  <td align="right">&nbsp;</td>
+	</tr>
+  </table>
+  </td>
+</tr>
+  <tr class="tblheader">
+    <td class="std" colspan="3">{TXT_ILINC_CONNECTION_DATA}</td>
+  </tr>
+     <tr>
+      <td class="option">{TXT_ILINC_ACTIVE}</td>
+      <td class="option_value"><input type="checkbox" name="ilinc[active]" value="1" {CHK_ILINC_ACTIVE}/></td>
+    </tr>
+     <tr>
+      <td class="option">{TXT_ILINC_SERVER} <span class="asterisk">*</span><span class="small"></td>
+      <td class="option_value"><input type="text" size="60" maxlength="256" name="ilinc[server]" value="{ILINC_SERVER}" /></td>
+    </tr>
+     <tr>
+      <td class="option">{TXT_ILINC_PROTOCOL_PORT} <span class="asterisk">*</span><span class="small"></td>
+      <td class="option_value">
+      <select name="ilinc[protocol]" size="0" id="ilinc_protocol" onchange="setDefaultPort('{ILINC_DEFAULT_HTTP_PORT}','{ILINC_DEFAULT_SSL_PORT}');return true;">
+ 	  <option value="http" {ILINC_PROTOCOL_HTTP_SEL}>{TXT_HTTP}</option>
+ 	  <option value="https" {ILINC_PROTOCOL_SSL_SEL}>{TXT_SSL}</option>
+ 	  </select>     
+      &nbsp;
+      <input type="text" size="7" maxlength="5" name="ilinc[port]" id="ilinc_port" value="{ILINC_PORT}" /></td>
+    </tr>
+     <tr>
+      <td class="option">{TXT_ILINC_TIMEOUT}</td>
+      <td class="option_value"><input type="text" size="7" maxlength="5" name="ilinc[timeout]" value="{ILINC_TIMEOUT}" /> {TXT_SECONDS}</td>
+    </tr>
+     <tr>
+      <td class="option">{TXT_ILINC_REGISTRAR_LOGIN} <span class="asterisk">*</span><span class="small"></td>
+      <td class="option_value"><input type="text" size="30" maxlength="64" name="ilinc[registrar_login]" value="{ILINC_REGISTRAR_LOGIN}" /></td>
+    </tr>
+     <tr>
+      <td class="option">{TXT_ILINC_REGISTRAR_PASSWD} <span class="asterisk">*</span><span class="small"></td>
+      <td class="option_value"><input type="password" size="30" maxlength="64" name="ilinc[registrar_passwd]" value="{ILINC_REGISTRAR_PASSWD}" /></td>
+    </tr>
+     <tr>
+      <td class="option">{TXT_ILINC_CUSTOMER_ID} <span class="asterisk">*</span><span class="small"></td>
+      <td class="option_value"><input type="text" size="30" maxlength="64" name="ilinc[customer_id]" value="{ILINC_CUSTOMER_ID}" /></td>
+    </tr>
+  <tr class="tblheader">
+    <td class="std" colspan="3">{TXT_ILINC_ADDITIONAL_OPTIONS}</td>
+  </tr>
+     <tr>
+      <td class="option">{TXT_ILINC_AKCLASSVALUES_ACTIVE}</td>
+      <td class="option_value"><input type="checkbox" name="ilinc[akclassvalues_active]" value="1" {CHK_ILINC_AKCLASSVALUES_ACTIVE}/>
+      <br/><span class="subtitle">{TXT_ILINC_AKCLASSVALUES_ACTIVE_INFO}</span></td>
+    </tr>
+     <tr>
+      <td class="option">{TXT_ILINC_AKCLASSVALUES_REQUIRED}</td>
+      <td class="option_value"><input type="checkbox" name="ilinc[akclassvalues_required]" value="1" {CHK_ILINC_AKCLASSVALUES_REQUIRED}/>
+      <br><span class="subtitle">{TXT_ILINC_AKCLASSVALUES_REQUIRED_INFO}</span></td>
+    </tr>
+  <tr>
+	<td class="submit" colspan="3" align="left">
+	<span class="asterisk">*</span><span class="small"> {TXT_REQUIRED_FLD}</span>
+  <div align="right">
+	<input class="submit" type="submit" name="cmd[{CMD_SUBMIT}]" value="{TXT_SUBMIT}" />
+	<input class="submit" type="submit" name="cmd[cancel]" value="{TXT_CANCEL}" />
+  </div>
+	</td>
+  </tr>
+</table>
+</form>

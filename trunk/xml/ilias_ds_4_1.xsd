@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<schema xmlns = 'http://www.w3.org/2001/XMLSchema'
+	targetNamespace = "http://www.ilias.de/Services/DataSet/ds/4_1"
+	xmlns:t = 'http://www.ilias.de/Services/DataSet/ds/4_1'>
+
+	<!-- DataSet -->
+	<element name='DataSet'>
+		<complexType>
+		<sequence>
+			<element ref='t:Types' minOccurs='0' maxOccurs='unbounded'/>
+			<element ref='t:Rec' minOccurs='0' maxOccurs='unbounded'/>
+		</sequence>
+		<attribute name='InstallationId' type='string' use='required'/>
+		<attribute name='InstallationUrl' type='string' use='required'/>
+		<attribute name='TopEntity' type='string' use='required'/>
+		</complexType>
+	</element>
+
+	<!-- Types -->
+	<element name='Types'>
+		<complexType>
+		<sequence>
+			<element ref='t:FieldType' minOccurs='0' maxOccurs='unbounded'/>
+		</sequence>
+		<attribute name='Entity' type='string' use='required'/>
+		<attribute name='TargetRelease' type='string' use='required'/>
+		</complexType>
+	</element>
+
+	<!-- FieldType -->
+	<element name='FieldType'>
+		<complexType>
+		<sequence>
+		</sequence>
+		<attribute name='Name' type='string' use='required'/>
+		<attribute name='Type' type='string' use='required'/>
+		</complexType>
+	</element>
+
+	<!-- Rec -->
+	<element name='Rec'>
+		<complexType>
+		<sequence>
+			<any minOccurs="1" maxOccurs='1'/>
+		</sequence>
+		<attribute name='Entity' type='string' use='required'/>
+		</complexType>
+	</element>
+
+</schema>

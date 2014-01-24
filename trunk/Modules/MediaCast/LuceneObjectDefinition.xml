@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ObjectDefinition xmlns:xi="http://www.w3.org/2001/XInclude" type="mcst">
+	<Document type="default">
+		<xi:include href="../../Services/Object/LuceneDataSource.xml" />
+		<xi:include href="../../Services/Tagging/LuceneDataSource.xml" />
+		<DataSource type="JDBC" action="append">
+			<Query>
+				SELECT 1 as offline FROM il_media_cast_data
+				WHERE is_online = 0
+				AND id IN(?)
+			</Query>
+			<Param format="list" type="int" value="objId" />
+			<Field store="YES" index="NOT_ANALYZED" column="offline" type="text" name="offline" />
+		</DataSource>
+	</Document>
+</ObjectDefinition>

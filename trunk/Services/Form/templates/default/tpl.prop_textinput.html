@@ -1,0 +1,74 @@
+<div style="{STYLE_PAR}">
+	<input <!-- BEGIN submit_form_on_enter -->onkeypress="return il.Util.submitOnEnter(event, this.form);"<!-- END submit_form_on_enter --> type="{PROP_INPUT_TYPE}" <!-- BEGIN stylecss -->style="{CSS_STYLE}" <!-- END stylecss -->size="{SIZE}" id="{ID}" <!-- BEGIN classcss --> class="{CLASS_CSS}" <!-- END classcss --> maxlength="{MAXLENGTH}" name="{POST_VAR}" <!-- BEGIN prop_text_propval -->value="{PROPERTY_VALUE}" <!-- END prop_text_propval -->{DISABLED} {AUTOCOMPLETE}/> {INPUT_SUFFIX}
+	{HIDDEN_INPUT}
+	{MULTI_ICONS}
+	
+	<!-- BEGIN prop_text_autocomplete -->	
+	<script type="text/javascript">
+		il.Util.addOnLoad(	
+			
+			function() {
+					
+				<!-- BEGIN ac_multi -->ilMultiFormValues.addAutocomplete('{ID_AUTOCOMPLETE}', '{MURL_AUTOCOMPLETE}');<!-- END ac_multi -->
+				
+				<!-- BEGIN autocomplete_bl -->
+				$('{SEL_AUTOCOMPLETE}').autocomplete({
+					source: "{URL_AUTOCOMPLETE}", 
+					minLength: 3
+				});			
+				<!-- END autocomplete_bl -->
+				
+				<!-- BEGIN autocomplete_delimiter_bl -->
+				function split( val ) {
+					if(val !== undefined)
+					{
+						return val.split( /{AUTOCOMPLETE_DELIMITER}\s*/ );
+					}
+				}
+
+				function extractLast( term ) {
+					return split( term ).pop();
+				}
+									
+				$('{SEL_AUTOCOMPLETE_DELIMITER}').autocomplete({
+					source: function( request, response ) {
+						$.getJSON( "{URL_AUTOCOMPLETE_DELIMITER}", {
+							term: extractLast( request.term )
+						}, response );
+					},
+					search: function() {				
+						// custom minLength
+						var term = extractLast( this.value );
+						if ( term.length < 3 ) {
+							return false;
+						}
+					},
+					focus: function() {
+						// prevent value inserted on focus
+						return false;
+					},
+					select: function( event, ui ) {
+						var terms = split( this.value );
+						// remove the current input
+						terms.pop();
+						// add the selected item
+						terms.push( ui.item.value );
+						// add placeholder to get the comma-and-space at the end
+						terms.push( "" );
+						this.value = terms.join( "{AUTOCOMPLETE_DELIMITER} " );
+						return false;
+					}
+				})
+				// don't navigate away from the field on tab when selecting an item
+				$('{SEL_AUTOCOMPLETE_DELIMITER}').bind( "keydown", function( event ) {					
+					if ( event.keyCode === $.ui.keyCode.TAB &&
+						$( this ).autocomplete("widget").is(':visible') ) {
+							event.preventDefault();
+					}
+				})				
+				<!-- END autocomplete_delimiter_bl -->
+			}
+		);	
+	</script>
+	<!-- END prop_text_autocomplete -->		
+</div>

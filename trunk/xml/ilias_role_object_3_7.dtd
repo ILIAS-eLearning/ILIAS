@@ -1,0 +1,17 @@
+<!ELEMENT Roles (Role*)>
+
+<!-- Role -->
+<!ELEMENT Role (Title, Description, Translation?, AssignedObject?)>
+<!ATTLIST Role
+	id CDATA #REQUIRED
+	role_type (Global | Local | Linked | Template) #REQUIRED
+>
+<!ELEMENT Title (#PCDATA)>
+<!ELEMENT Description (#PCDATA)>
+<!ELEMENT Translation (#PCDATA)>
+<!ELEMENT AssignedObject (Title, Description)>
+<!ATTLIST AssignedObject
+    obj_id CDATA #REQUIRED
+    ref_id CDATA #REQUIRED
+    type  CDATA #REQUIRED
+>

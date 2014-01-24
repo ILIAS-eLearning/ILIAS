@@ -1,0 +1,50 @@
+<?{XML} version="1.0" encoding="{CONTENT_ENCODING}" ?>
+<rdf:RDF
+	xmlns:rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+	xmlns = "http://purl.org/rss/1.0/"
+	xmlns:dc = "http://purl.org/dc/elements/1.1/"
+	xmlns:enc = "http://purl.oclc.org/net/rss_2.0/enc#">
+<channel rdf:about="{CHANNEL_ABOUT}">
+	<title>{CHANNEL_TITLE}</title>
+	<link>{CHANNEL_LINK}</link>
+	<description>{CHANNEL_DESCRIPTION}</description>
+	<!-- BEGIN channel_image -->
+	<image rdf:resource="{CHANNEL_IMAGE}" />
+	<!-- END channel_image -->
+	<items>
+		<rdf:Seq>
+			<!-- BEGIN rdf_seq -->
+			<rdf:li rdf:resource="{RESOURCE}" />
+			<!-- END rdf_seq -->
+		</rdf:Seq>
+	</items>
+</channel>
+
+<!-- BEGIN image -->
+<!-- END image -->
+
+<!-- BEGIN item -->
+<item rdf:about="{ITEM_ABOUT}">
+	<title>{ITEM_TITLE}</title>
+	<link>{ITEM_LINK}</link>
+	<description>{ITEM_DESCRIPTION}</description>
+	<!-- BEGIN authdate -->
+	<author>{ITEM_AUTHOR}</author>
+	<pubDate>{ITEM_DATE}</pubDate>
+	<!-- END authdate -->
+	<!-- BEGIN enclosure -->
+	<enc:enclosure>
+		<enc:Enclosure>
+			<enc:type>{ENC_TYPE}</enc:type>
+			<enc:length>{ENC_LENGTH}</enc:length>
+			<enc:url>{ENC_URL}</enc:url>
+		</enc:Enclosure>
+	</enc:enclosure>
+	<!-- END enclosure -->
+</item>
+<!-- END item -->
+
+<!-- BEGIN textinput -->
+<!-- END textinput -->
+
+</rdf:RDF>

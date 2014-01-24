@@ -1,0 +1,12 @@
+<!-- paragraph plugins dtd, has to be put in each plugin directory -->
+<!ELEMENT plugin (title, link, description?)>
+<!ATTLIST plugin
+	classfile CDATA #REQUIRED
+	classname CDATA #REQUIRED
+	active (true|false) #REQUIRED
+	filetype CDATA #REQUIRED
+>
+
+<!ELEMENT title (#PCDATA)>
+<!ELEMENT link (#PCDATA)>
+<!ELEMENT description (#PCDATA)>

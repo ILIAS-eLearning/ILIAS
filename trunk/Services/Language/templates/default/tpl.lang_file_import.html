@@ -1,0 +1,32 @@
+<form action="{FORMACTION}" method="post" enctype="multipart/form-data">
+<table class="std">
+<tr class="tblheader">
+  <td class="std" colspan="2">
+      {TXT_HEADER}
+  </td>
+</tr>
+  <td class="option">{TXT_FILE}</td>
+  <td class="option_value">
+    <input type="file" name="userfile" size="30" />
+  </td>
+</tr>
+</tr>
+  <td class="option">{TXT_MODE}</td>
+  <td class="option_value">
+    <input type="radio" name="mode_existing" value="keepall" />{TXT_MODE_KEEPALL}<br />
+    <input type="radio" name="mode_existing" value="keepnew" checked="checked"/>{TXT_MODE_KEEPNEW}<br />
+    <input type="radio" name="mode_existing" value="replace" />{TXT_MODE_REPLACE}<br />
+    <input type="radio" name="mode_existing" value="delete"/>{TXT_MODE_DELETE}<br />
+  </td>
+</tr>
+<tr>
+  <td class="submit" colspan="2">
+  <div align="right">
+	<input class="submit" type="submit" name="cmd[{CMD_UPLOAD}]" value="{TXT_UPLOAD}" />
+  </div>
+  </td>
+</tr>
+</table>
+</form>
+
+

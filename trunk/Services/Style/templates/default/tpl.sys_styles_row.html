@@ -1,0 +1,26 @@
+<tr class="{CSS_ROW}">
+<td class="std">
+{TITLE}
+</td>
+<td class="std">
+<input type="radio" name="default_skin_style" value="{ID}" {CHECKED_DEFAULT} />
+</td>
+<td class="std">
+{USERS}
+</td>
+<td class="std">
+<input type="checkbox" name="st_act[{ID}]" value="1" {CHECKED} />
+</td>
+<td class="std">
+<!-- BEGIN substyles -->
+<ul>
+<!-- BEGIN substyle --><li>{SUB_STYLE}
+<!-- BEGIN cats --><ul><!-- BEGIN cat --><li>{CAT}</li><!-- END cat --></ul><!-- END cats -->
+</li><!-- END substyle -->
+</ul>
+<!-- END substyles -->
+</td>
+<td class="std">
+<!-- BEGIN cmd --><a href="{HREF_CMD}">{TXT_CMD}</a><!-- END cmd -->
+</td>
+</tr>

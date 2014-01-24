@@ -1,0 +1,40 @@
+<!-- Mit XMLSpy v2005 rel. 3 U bearbeitet (http://www.altova.com) von  () -->
+<!-- Mit XMLSpy v2005 rel. 3 U bearbeitet (http://www.altova.com) von  () -->
+<!ELEMENT File (Filename, Title?, Description?, Content?, Versions?)>
+<!--
+        obj_id is internal ILIAS ID
+        version contains version of current file, readonly purpose
+        size contains file size, readonly purpose
+        type contains mime type, readonly purpose
+-->
+<!ATTLIST File
+	obj_id CDATA #REQUIRED
+	version CDATA #IMPLIED
+	size CDATA #IMPLIED
+	type CDATA #IMPLIED
+>
+<!-- filename will be used as title as well -->
+<!ELEMENT Filename (#PCDATA)>
+<!--
+Base64 encoded file content
+-->
+<!ELEMENT Content (#PCDATA)>
+<!ATTLIST Content
+	mode (PLAIN | ZLIB | GZIP | COPY) #IMPLIED
+>
+<!-- meta information -->
+<!ELEMENT Title (#PCDATA)>
+<!ELEMENT Description (#PCDATA)>
+<!-- the version tags and its attributes are for readonly purpose only -->
+<!ELEMENT Versions (Version*)>
+<!ELEMENT Version EMPTY>
+<!--
+    id is numeric id of version
+    usr_id is user id in ILIAS ID format
+    date is unix timestamp
+-->
+<!ATTLIST Version
+	id CDATA #REQUIRED
+	usr_id CDATA #REQUIRED
+	date CDATA #REQUIRED
+>

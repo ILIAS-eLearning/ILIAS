@@ -1,0 +1,14 @@
+<div style="padding: 10px 0px;">
+<!-- BEGIN form -->
+<form id="ilFileLinkUploadForm" action="{FORM_ACTION}" method="post" enctype="multipart/form-data">
+<div style="padding: 5px 0px;">{TXT_SELECT_FILE}</div>
+<div style="padding: 5px 0px;">{INPUT}</div>
+<input id="ilSaveFileLink" type="submit" class="submit" name="cmd[{CMD_SAVE_LINK}]" value="{TXT_SAVE_LINK}" />
+</form>
+<!-- END form -->
+<!-- BEGIN link_js -->
+<script>
+parent.il.IntLink.addInternalLink('{TAG_B}','{TAG_E}', null);
+</script>
+<!-- END link_js -->
+</div>

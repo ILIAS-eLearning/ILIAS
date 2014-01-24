@@ -1,0 +1,55 @@
+    <div class="ilTableHeaderTitle">
+		<h3 class="ilTableHeaderTitle">{OBJ_TITLE}</h3>
+	</div>
+	<div class="subtitle">{OBJ_SUBTITLE}</div>
+	<br />
+	<form action="{FORMACTION}" method="post">
+	  <table class="std" width="50%">
+		<tr class="tbltitle">
+		  <td colspan="3">
+			<table class="fullwidth_invisible" cellspacing="0">
+			  <tr class="tbltitle">
+				<td width="10"><img src="{TYPE_IMG}" alt="{ALT_IMG}" title="{ALT_IMG}" border="0" vspace="0" align="left" /></td>
+				<td class="tbltitle" align="left">&nbsp;{TXT_LP}&nbsp;{ALT_IMG}</td>
+			  </tr>
+			</table>
+		  </td>
+		</tr>
+		<!-- BEGIN mark_row -->
+		<tr>
+		  <td class="option">
+			{TXT_MARK}
+		  </td>
+		  <td class="option_value">
+			<input class="text" type="text" name="mark" value="{MARK}" size="16" maxlength="32" />
+		  </td>
+		</tr>
+		<!-- END mark_row -->
+		<tr>
+		  <td class="option">
+			{TXT_COMMENT}
+		  </td>
+		  <td class="option_value">
+			<input class="text" type="text" name="comment" value="{COMMENT}" size="64" maxlength="255" />
+		  </td>
+		</tr>
+		<!-- BEGIN mode_manual -->
+		<tr>
+		  <td class="option">
+			{TXT_COMPLETED}
+		  </td>
+		  <td class="option_value">
+			{CHECK_COMPLETED}
+		  </td>
+		</tr>
+		<!-- END mode_manual -->
+		<tr class="tablefooter">
+		  <td class="submit" colspan="3">
+			<div align="right">
+			  <input class="submit" type="SUBMIT" name="cmd[updateUser]" value="{TXT_SAVE}">
+			  <input class="submit" type="SUBMIT" name="cmd[{CMD_CANCEL}]" value="{TXT_CANCEL}">
+			</div>
+		  </td>
+		</tr>
+	  </table>
+	</form>

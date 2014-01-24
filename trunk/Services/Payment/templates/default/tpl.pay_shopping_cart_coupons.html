@@ -1,0 +1,34 @@
+ <form action="{COUPON_FORMACTION}" method="post">
+ <input type="hidden" name="payment_type" value="{PAYMENT_TYPE}" />
+	<p><table class="fullwidth">
+	  <tr class="tbltitle">
+		<td colspan="2">
+		  <table class="fullwidth_invisible" cellspacing="0">
+			<tr class="tbltitle">
+			  <td width="10"><img src="{TYPE_IMG}" alt="{ALT_IMG}" title="{ALT_IMG}" border="0" vspace="0" align="left" /></td>
+			  <td class="tbltitle" align="left">&nbsp;{TITLE}</td>
+			</tr>
+		  </table>
+		</td>
+	  </tr>
+	  <!-- BEGIN used_coupons -->	  
+	  <!-- BEGIN loop -->
+	  <tr class="tblrow{LOOP_ROW}">
+	  	<td class="std">
+	  		{LOOP_TXT_COUPON} {LOOP_CODE}:
+	  		<br /><b>{LOOP_TITLE}</b>
+	  		<!-- BEGIN description --><br />{LOOP_DESCRIPTION}<!-- END description -->
+	  		<br />{LOOP_TYPE}
+	  	</td>
+	  	<td class="std" valign="top">{LOOP_REMOVE}</td>
+	  </tr>
+	  <!-- END loop -->
+	  <!-- END used_coupons -->
+	  <tr class="tblfooter">
+		<td class="submit" colspan="2">
+			<b>{TXT_CODE}</b>&nbsp;
+			<input type="text" name="coupon_code" value="" maxlength="25">&nbsp;
+			<input class="submit" type="submit" name="cmd[{CMD}]" value="{CMD_VALUE}" /></td>
+	  </tr>	 
+	</table></p>
+</form>

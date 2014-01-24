@@ -1,0 +1,141 @@
+<div id="treeViewContainer"><div id="treeView"></div></div>
+
+<script type="text/javascript">
+$(function() {
+	// Create the TreeView instance:
+	var tree = new ExtendedTreeView("treeView");
+	
+	// Define anonymous function for loading children
+	tree.setDynamicLoad(function (node, onCompleteCallback) {
+		// Leave for leafnodes
+		if (node.isLeafNode()) {
+			return onCompleteCallback();
+		}
+		
+		var matches = node.data.match(/id='frm_node_(\d+)'/);
+		if (typeof matches != "object" || typeof matches[1] == "undefined") {
+			return onCompleteCallback();
+		}
+		
+		// Check if children for the current node already exist
+		var length = node.tree.getOnloadNodesFetchedWithChildren().length;
+		for (var i = 0; i < length; i++) {
+			if (matches[1] == node.tree.getOnloadNodesFetchedWithChildren()[i]) {
+				return onCompleteCallback();
+			}
+		}
+		var fetchChildrenCallback = {
+			success: function(oResponse) {
+				var oResults = eval("(" + oResponse.responseText + ")");			
+				if (typeof oResults.success != "undefined" && oResults.success == true) {
+					var nodeHashMap = new Array();
+					for (var i = 0; i < oResults.children.length; i++) {
+						var child = oResults.children[i];
+						
+						// Check if node is expanded
+						var expanded = false;
+						var length = node.tree.getExpandedNodes().length;
+						for (var j = 0; j < length; j++) {
+							if (child.nodeId == node.tree.getExpandedNodes()[j]) {
+								expanded = true;
+								break;
+							}
+						}
+						
+						var parentNode = (oResponse.argument.nodeId == child.parentId) ?
+										 node :
+										 nodeHashMap[child.parentId];
+						var newNode = new YAHOO.widget.ilHtmlFrmTreeNode(
+							child.html, parentNode, expanded, true, child.hasChildren
+						);
+						
+						node.tree.getOnloadNodes().push(child.nodeId);
+
+						if (child.fetchedWithChildren) {
+							node.tree.getOnloadNodesFetchedWithChildren().push(child.nodeId);
+						}
+						
+						nodeHashMap[child.nodeId] = newNode;
+					}
+				}				
+				
+				oResponse.argument.fnLoadComplete();
+			},			
+			failure: function(oResponse) {
+				oResponse.argument.fnLoadComplete();
+			},
+			argument: {
+				"nodeId": matches[1],
+				"node": node, 
+				"fnLoadComplete": onCompleteCallback
+			}
+		};
+
+		var request = YAHOO.util.Connect.asyncRequest('GET', "{THR_TREE_FETCH_CHILDREN_URL}&nodeId=" + matches[1], fetchChildrenCallback);
+	});
+	
+	tree.subscribe("expand", function(node) {
+		var matches = node.data.match(/id='frm_node_(\d+)'/);
+		if (typeof matches == "object" && typeof matches[1] != "undefined") {	
+			var found = false;
+			var length = this.getExpandedNodes().length;
+			for (var i = 0; i < length; i++) {
+				if (this.getExpandedNodes()[i] == matches[1]) {					
+					found = true;
+					break;
+				}
+			}
+			if (!found) {			
+				this.getExpandedNodes().push(matches[1]);
+				this.currentNodeId = matches[1];
+				ilFrmTreeStateHandler.call(this);
+			}
+		}
+	});	 
+	tree.subscribe("collapse", function(node) {
+		var matches = node.data.match(/id='frm_node_(\d+)'/);
+		if (typeof matches == "object") {
+			var tmp = [];
+			var length = this.getExpandedNodes().length;
+			for (var i = 0; i < length; i++) {
+				if (this.getExpandedNodes()[i] != matches[1]) {
+					tmp.push(this.getExpandedNodes()[i]);
+				}
+			}
+			this.setExpandedNodes(tmp);
+			
+			this.currentNodeId = matches[1] * -1;
+			ilFrmTreeStateHandler.call(this);
+		}
+	});
+	
+	function ilFrmTreeStateHandler() {
+		var request = YAHOO.util.Connect.asyncRequest("GET", "{THR_TREE_STATE_URL}&nodeId=" + this.currentNodeId, {
+			success: function(o) {
+			},
+			failure: function(o) {
+			},
+			argument: {
+			}
+		});
+
+		return false;
+	}
+	
+	// Root node: This is the root node for yui tree, not for the forum tree
+	var node = {FRM_TREE_ROOT_NODE_LINK};
+	var {FRM_TREE_ROOT_NODE_VARIABLE} = new YAHOO.widget.ilHtmlFrmTreeNode(node.html, tree.getRoot(), false, true, {FRM_TREE_ROOT_NODE_HAS_CHILDREN});
+	// Begin adding children<!-- BEGIN frm_nodes -->
+	var node = {FRM_NODES_LINK};
+	var {FRM_NODES_VARNAME} = new YAHOO.widget.ilHtmlFrmTreeNode(node.html, {FRM_NODES_PARENT_VARNAME}, false, true, {FRM_NODES_HAS_CHILDREN});<!-- END frm_nodes -->
+	
+	// Set expanded nodes
+	tree.expandCertainNodes({THR_OPEN_NODES});
+	// All Nodes which are give initially on page load
+	tree.setOnloadNodes({THR_ONLOAD_NODES});
+	// Nodes which are loaded with children
+	tree.setOnloadNodesFetchedWithChildren({THR_ONLOAD_NODES_FETCHED_WITH_CHILDREN});
+	// The tree won't show up until you draw (render) it
+	tree.draw();
+});
+</script>

@@ -1,0 +1,14 @@
+<form name="form_questions" method="POST" action="{ACTION_QUESTION_FORM}">
+<!-- BEGIN move -->
+<input type="hidden" name="move_{MOVE_COUNTER}" value="{MOVE_VALUE}">
+<!-- END move -->
+<!-- BEGIN browser_actions -->
+<p><input type="submit" class="submit" name="cmd[browseForQuestions]" value="{BUTTON_INSERT_QUESTION}" />&nbsp;{TEXT_CREATE_NEW}&nbsp;
+<select name="sel_question_types">
+<!-- BEGIN QTypes -->
+<option value="{QUESTION_TYPE_ID}"{QUESTION_TYPE_SELECTED}>{QUESTION_TYPE}</option>
+<!-- END QTypes -->
+</select>&nbsp;<input type="submit" class="submit" name="cmd[createQuestion]" value="{BUTTON_CREATE_QUESTION}" /> {TXT_OR} <input type="submit" class="submit" name="cmd[randomselect]" value="{TEXT_RANDOM_SELECT}" /></p>
+<!-- END browser_actions -->
+</form>
+{QUESTIONBROWSER}

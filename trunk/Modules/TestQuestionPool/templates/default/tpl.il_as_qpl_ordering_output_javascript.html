@@ -1,0 +1,50 @@
+<script>
+	var initialorder = new Array();
+	
+	function saveInitialOrder()
+	{
+		var ul = document.getElementById("orderlist");
+		var listelements = ul.getElementsByTagName("li");
+		for (var i = 0; i < listelements.length; i++)
+		{
+			initialorder.push(listelements[i].id);
+		}
+	}
+
+	function restoreInitialOrder()
+	{
+		for (var i = initialorder.length - 1; i > 0; i--)
+		{
+			var $a = $("#" + initialorder[i]);
+			var $b = $("#" + initialorder[i- 1]);
+			$a.before($b);
+		}
+	}
+
+	function saveOrder(listID)
+	{
+		var list = document.getElementById(listID);
+		var items = list.getElementsByTagName("li");
+		var itemsString = "";
+		for(var i = 0; i < items.length; i++)
+		{
+			if (itemsString.length > 0) itemsString += ":";
+			itemsString += items[i].id;
+		}
+		document.test_output.orderresult.value = itemsString;
+	}
+
+	function createSortable() {
+		$("#orderlist").sortable({
+			opacity: 0.6,
+			revert: true,
+			cursor: "move",
+			axis: "y"
+		}).disableSelection();
+	}
+
+	$(function() {
+		createSortable();
+		saveInitialOrder();
+	});
+</script>

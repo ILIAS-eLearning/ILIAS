@@ -1,0 +1,18 @@
+<?php xml version = "1.0" encoding = "UTF-8"?>
+<module xmlns="http://www.w3.org" version="$Id: modules.xml 15671 2008-01-04 13:08:30Z akill $"
+	id="catr">
+	<baseclasses>
+		<baseclass name="ilObjCategoryReferenceGUI" dir="classes" />
+	</baseclasses>
+	<objects>
+		<object id="catr" class_name="CategoryReference" dir="classes" default_pos="15" default_pres_pos="10"
+			checkbox="1" inherit="0" allow_link="0" allow_copy="1" translate="0" rbac="1" devmode="0" group="cat" export="1">
+			<subobj id="rolf" max="1">rolf</subobj>
+			<parent id="cat">cat</parent>
+			<parent id="grp">grp</parent>
+			<parent id="recf">recf</parent>
+			<parent id="root">root</parent>
+			<parent id="crs">crs</parent>
+		</object>
+	</objects>
+</module>

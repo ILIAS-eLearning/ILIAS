@@ -1,0 +1,31 @@
+<tr class="{CSS_ROW}">
+	<!-- BEGIN chck -->
+	<td class="std small">
+		<input type="checkbox" name="prtfs[]" value="{VAL_ID}" />
+	</td>
+	<!-- END chck -->
+	<td class="std small">
+		<!-- BEGIN title_form -->
+		<input type="text" size="75" maxlength="200" name="title[{VAL_ID}]" value="{VAL_TITLE}" />
+		<!-- END title_form -->
+		<!-- BEGIN title_static -->
+		{VAL_TITLE}
+		<!-- END title_static -->
+		<!-- BEGIN shared -->
+		<span class="il_ItemAlertProperty">{TXT_SHARED}</span>
+		<!-- END shared -->
+	</td>
+	<!-- BEGIN edit -->
+	<td class="std small">
+		<input type="checkbox" name="online[]" value="{VAL_ID}"{STATUS_ONLINE} />
+	</td>
+	<td class="std small">
+		{VAL_DEFAULT}
+	</td>
+	<!-- END edit -->
+	<td class="std small">
+		<!-- BEGIN action -->
+		<a href="{URL_ACTION}">{TXT_ACTION}</a><br />
+		<!-- END action -->
+	</td>
+</tr>

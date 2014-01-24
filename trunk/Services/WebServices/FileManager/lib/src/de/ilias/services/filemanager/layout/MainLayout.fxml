@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.*?>
+
+
+<StackPane fx:id="rootStack" xmlns:fx="http://javafx.com/fxml" fx:controller="de.ilias.services.filemanager.controller.MainController">
+	<children>
+		<BorderPane id="root" prefHeight="600" prefWidth="1000" fx:id="root" >
+			<top>
+				<HBox id="mainMenu" prefHeight="80" spacing="10" alignment="center_left" 
+							onMousePressed="#windowMoveInit"
+							onMouseDragged="#windowMove"
+							onMouseClicked="#windowToggleOnDoubleClick"
+						>
+					<children>
+						<ImageView>
+							<image>
+								<Image url="@../skin/ilias/images/HeaderIcon.png" />
+							</image>
+						</ImageView>
+						<Label id="mainMenuTitle" fx:id="mainTitle" />
+								<!--
+								<Button id="button" text="Click Me!" onAction="#handleButtonAction" fx:id="button" />
+								<Label id="label"  minHeight="16" minWidth="69" prefHeight="16" prefWidth="69" fx:id="label" />
+								-->
+						<VBox HBox.hgrow="ALWAYS" spacing="8" alignment="bottom_right">
+							<children>
+										<!--
+										<Label id="loginInfo" text="Logged in as Stefan Meyer" />
+										-->
+								<TextField id="searchTextField" promptText="Search" fx:id="search"
+											minHeight="24"
+											maxHeight="24"
+											minWidth="180"
+											maxWidth="180"
+										/>
+							</children>
+						</VBox>
+						<VBox id="mainWindowButtons"  alignment="center_right" fx:id="windowButtons">
+							<children>
+								<Button id="window-close" onAction="#windowClose" />
+								<Button id="window-min"  onAction="#windowMinimize" />
+								<Button id="window-max" onAction="#windowToggle" />
+							</children>
+						</VBox>
+					</children>
+				</HBox>
+			</top>
+			<center>
+				<SplitPane id="contentSplitPane" fx:id="contentSplitPane">
+					<items>
+						<!-- Left local frame -->
+						<BorderPane id="localContent" minWidth="100" prefWidth="300" fx:id="localFrame">
+							<center>
+								<ListView id="localList" fx:id="localList" />
+							</center>
+						</BorderPane>
+						<!-- Right remote frame -->
+						<BorderPane id="remoteContent" minWidth="100" fx:id="remoteFrame">
+							<center>
+								<TabPane id="contentTab" fx:id="remoteTabs">
+									<tabs>
+										<Tab text="Filemanager" closable="false" fx:id="remoteRepositoryTab">
+											<content>
+												<VBox>
+													<children>
+														<ListView fx:id="remoteBreadcrumb" />
+														<ListView fx:id="remoteList" />
+													</children>
+												</VBox>
+											</content>
+										</Tab>
+									</tabs>
+								</TabPane>
+							</center>
+						</BorderPane>
+					</items>
+				</SplitPane>
+			</center>
+		</BorderPane>
+		<StackPane fx:id="dialogStack" id="ModalDimmer" >
+			
+		</StackPane>
+	</children>
+</StackPane>
+

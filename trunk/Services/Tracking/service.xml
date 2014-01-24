@@ -1,0 +1,21 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<service xmlns="http://www.w3.org" version="$Id$"
+	id="trac">
+	<baseclasses>
+	</baseclasses>
+	<objects>
+		<object id="trac" class_name="UserTracking" dir="classes"
+			checkbox="0" inherit="0" translate="sys" rbac="1" system="1" administration="1">
+			<subobj id="rolf" max="1">rolf</subobj>
+			<parent id="adm" max="1">adm</parent>
+		</object>
+	</objects>
+	<events>		
+		<event type="raise" id="updateStatus" />	
+		<event type="listen" id="Services/Object" />
+		<event type="listen" id="Services/Tree" />
+	</events>
+	<crons>
+		<cron id="lp_object_statistics" class="ilLPCronObjectStatistics" />
+	</crons>
+</service>

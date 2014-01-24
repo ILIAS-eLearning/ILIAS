@@ -1,0 +1,23 @@
+<!--
+this dtd describes the structure of the settings passed to the function copyObject (via soap).
+It describe how the sub structure will be handled. Each object can be linked, copied or ignored.
+Link and copy are not supported by each object. This will be checked by the parser.
+
+Important: Every id is numeric ILIAS reference ID
+-->
+
+<!ELEMENT Settings (Option*)>
+<!ATTLIST Settings
+	source_id CDATA #REQUIRED
+	target_id CDATA #REQUIRED
+	default_action (IGNORE|LINK|COPY) #REQUIRED
+>
+<!ELEMENT Option EMPTY>
+
+<!--
+Id describes reference ID
+-->
+<!ATTLIST Option
+	id CDATA #REQUIRED
+	action (IGNORE|LINK|COPY) #REQUIRED
+>

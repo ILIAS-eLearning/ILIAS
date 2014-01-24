@@ -1,0 +1,95 @@
+<div id="stats_overview_content_{FORM_ELEMENT_NAME}">{ANSWER_OVERVIEW}</div><a id="stats_overview_trigger_{FORM_ELEMENT_NAME}" href="#" class="submit">{TXT_SHOW_ANSWER_OVERVIEW}</a>
+<script>
+	$(function() {
+		il.Overlay.hideAllOverlays = function(e, force, omit) {
+			var k, isIn, tgt, el, el_reg;
+
+			for (k in il.Overlay.overlays) {
+				isIn = false;
+
+				if (k == omit) {
+					continue;
+				}
+
+				if (k == "adjustment_stats_container_{FORM_ELEMENT_NAME}" && !force) {
+					continue;
+				}
+
+				// problems with form select: pageXY can be outside layer
+				if (!force) {
+					try {
+						tgt = e.target;
+						if (tgt.offsetParent.id == k) {
+							isIn = true;
+						}
+					} catch (err) {
+					}
+				}
+
+				// try with event coordiantes
+				if (!force && !isIn) {
+					el = document.getElementById(k);
+					if (el != null) {
+						if (il.Util.coordsInElement(e.pageX, e.pageY, el)) {
+							isIn = true;
+						}
+					}
+				}
+
+				if (!isIn) {
+					if (k != "ilHelpPanel") {
+						il.Overlay.hide(null, k);
+					}
+				}
+			}
+		};
+
+		var $content = $("#stats_overview_content_{FORM_ELEMENT_NAME}");
+
+		$("#stats_overview_trigger_{FORM_ELEMENT_NAME}").on("click", function(e) {
+
+			il.Overlay.hideAllOverlays(e.originalEvent, true);
+
+			var $panel = $("#adjustment_stats_container_{FORM_ELEMENT_NAME}");
+
+			if ($panel.size() == 0) {
+				var $panel = $("<div class=\"ilOverlay\" style=\"overflow: auto; display: none;\" id=\"adjustment_stats_container_{FORM_ELEMENT_NAME}\"></div>")
+						.css({
+							position: "fixed",
+							top: "0px",
+							bottom: "0px",
+							left: "",
+							right: "0px",
+							width: "40%",
+							padding: "5px"
+						});
+				$panel.insertAfter("#mainscrolldiv");
+
+				$content.appendTo($panel);
+
+				$closeBtn = $("<a href=\"#\">{TXT_CLOSE}<img src=\"{IMG_SRC_CLOSE}\" alt=\"{TXT_CLOSE}\" id=\"adjustment_stats_container_close_{FORM_ELEMENT_NAME}\" /></a>")
+						.css({
+							display: "block",
+							position: "absolute",
+							right: "10px",
+							top: "10px"
+						});
+				$closeBtn.appendTo($panel);
+				$closeBtn.on("click", function(e) {
+					il.Overlay.hideAllOverlays(e.originalEvent, true);
+					return false;
+				});
+
+				il.Overlay.add("adjustment_stats_container_{FORM_ELEMENT_NAME}", {yuicfg: {visible: true}});
+				il.Overlay.show(e.originalEvent, "adjustment_stats_container_{FORM_ELEMENT_NAME}");
+				setTimeout(function() {
+					$("#adjustment_stats_container_{FORM_ELEMENT_NAME}").css("visibility", "visible");
+				}, 250);
+			} else {
+				il.Overlay.show(e.originalEvent, "adjustment_stats_container_{FORM_ELEMENT_NAME}");
+			}
+		});
+
+		$("#stats_overview_trigger_{FORM_ELEMENT_NAME}").trigger("click");
+	});
+</script>

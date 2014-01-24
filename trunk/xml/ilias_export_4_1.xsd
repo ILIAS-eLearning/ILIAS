@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<schema xmlns = 'http://www.w3.org/2001/XMLSchema'
+	targetNamespace = "http://www.ilias.de/Services/Export/exp/4_1"
+	xmlns:t = 'http://www.ilias.de/Services/Export/exp/4_1'>
+
+	<!-- Export -->
+	<element name='Export'>
+		<complexType>
+		<sequence>
+			<element ref='t:ExportItem' minOccurs='0' maxOccurs='unbounded'/>
+		</sequence>
+		<attribute name='InstallationId' type='string' use='required'/>
+		<attribute name='InstallationUrl' type='string' use='required'/>
+		<attribute name='Entity' type='string' use='required'/>
+		<attribute name='TargetRelease' type='string' use='required'/>
+		<attribute name='SchemaVersion' type='string' use='required'/>
+		</complexType>
+	</element>
+
+	<!-- ExportItem -->
+	<element name='ExportItem'>
+		<complexType>
+		<sequence>
+			<any minOccurs="0" maxOccurs='unbounded'/>
+		</sequence>
+		<attribute name='Id' type='string' use='required'/>
+		</complexType>
+	</element>
+
+</schema>

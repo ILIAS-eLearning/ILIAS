@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ObjectDefinition xmlns:xi="http://www.w3.org/2001/XInclude" type="poll" indexType="incremental">
+	<Document type="default">
+		<xi:include href="../../Services/Object/LuceneDataSource.xml" />
+		<xi:include href="../../Services/Tagging/LuceneDataSource.xml" />
+		<xi:include href="../../Modules/LearningModule/LucenePageEditorDataSource.xml" />
+	</Document>
+</ObjectDefinition>

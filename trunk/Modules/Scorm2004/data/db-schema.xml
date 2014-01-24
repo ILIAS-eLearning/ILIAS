@@ -1,0 +1,582 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2005 sp1 U (http://www.xmlspy.com) by any (Ru-Board) -->
+<!--
+ILIAS Open Source
+================================
+Implementation of ADL SCORM 2004
+
+This program is free software. The use and distribution terms for this software
+are covered by the GNU General Public License Version 2
+	<http://opensource.org/licenses/gpl-license.php>.
+By using this software in any fashion, you are agreeing to be bound by the terms 
+of this license.
+
+You must not remove this notice, or any other, from this software.
+
+PRELIMINARY EDITION 
+This is work in progress and therefore incomplete and buggy ... 
+
+@author Alfred Kohnert <alfred.kohnert@bigfoot.com>
+@version $Id$
+@copyright: (c) 2007 Alfred Kohnert
+
+-->
+<database>
+	<table name="cmi_comment" collation="unicode">
+		<field name="cmi_comment_id" required="true" type="integer" size="4" autoincrement="true" default="0"/>
+		<field name="cmi_node_id" required="true" type="integer" size="4" default="0"/>
+		<field name="comment" required="false" type="string"/>
+		<field name="timestamp" required="true" type="date" size="8" default="0"/>
+		<field name="location" required="false" type="string" size="255"/>
+		<field name="sourceIsLMS" required="true" type="boolean" size="1" default="false"/>
+		<key name="cmi_itemcmi_comment" type="foreign" table="cmi_node">
+			<reference name="cmi_node_id"/>
+		</key>
+		<key name="PrimaryKey" type="primary">
+			<reference name="cmi_comment_id"/>
+		</key>
+		<index name="cmi_comment_id" unique="false">
+			<reference name="cmi_comment_id"/>
+		</index>
+		<index name="cmi_id" unique="false">
+			<reference name="cmi_node_id"/>
+		</index>
+	</table>
+	<table name="cmi_correct_response" collation="unicode">
+		<field name="cmi_correct_response_id" required="true" type="integer" size="4" autoincrement="true" default="0"/>
+		<field name="cmi_interaction_id" required="true" type="integer" size="4" default="0"/>
+		<field name="pattern" required="false" type="string" size="255"/>
+		<key name="cmi_interactioncmi_correct_response" type="foreign" table="cmi_interaction">
+			<reference name="cmi_interaction_id"/>
+		</key>
+		<key name="PrimaryKey" type="primary">
+			<reference name="cmi_correct_response_id"/>
+		</key>
+		<index name="cmi_correct_response_id" unique="false">
+			<reference name="cmi_correct_response_id"/>
+		</index>
+		<index name="cmi_correct_responsecmi_interaction_id" unique="false">
+			<reference name="cmi_interaction_id"/>
+		</index>
+	</table>
+	<table name="cmi_interaction" collation="unicode">
+		<field name="cmi_interaction_id" required="true" type="integer" size="4" autoincrement="true" default="0"/>
+		<field name="cmi_node_id" required="true" type="integer" size="4" default="0"/>
+		<field name="description" required="false" type="string"/>
+		<field name="id" required="false" type="string" size="255"/>
+		<field name="latency" required="true" type="date" size="8" default="0"/>
+		<field name="learner_response" required="false" type="string"/>
+		<field name="result" required="false" type="string"/>
+		<field name="timestamp" required="true" type="date" size="8" default="0"/>
+		<field name="type" required="false" type="string" size="32"/>
+		<field name="weighting" required="true" type="float" size="8" default="0"/>
+		<key name="PrimaryKey" type="primary">
+			<reference name="cmi_interaction_id"/>
+		</key>
+		<index name="cmi_interaction_id" unique="false">
+			<reference name="cmi_interaction_id"/>
+		</index>
+		<index name="id" unique="false">
+			<reference name="id"/>
+		</index>
+		<index name="type" unique="false">
+			<reference name="type"/>
+		</index>
+	</table>
+	<table name="cmi_node" collation="unicode">
+		<field name="accesscount" required="true" type="integer" size="4" default="0"/>
+		<field name="accessduration" required="true" type="date" size="8" default="0"/>
+		<field name="accessed" required="true" type="date" size="8" default="0"/>
+		<field name="activityAbsoluteDuration" required="true" type="date" size="8" default="0"/>
+		<field name="activityAttemptCount" required="true" type="integer" size="4" default="0"/>
+		<field name="activityExperiencedDuration" required="true" type="date" size="8" default="0"/>
+		<field name="activityProgressStatus" required="true" type="boolean" size="1" default="false"/>
+		<field name="attemptAbsoluteDuration" required="true" type="date" size="8" default="0"/>
+		<field name="attemptCompletionAmount" required="true" type="float" size="4" default="0"/>
+		<field name="attemptCompletionStatus" required="true" type="boolean" size="1" default="false"/>
+		<field name="attemptExperiencedDuration" required="true" type="date" size="8" default="0"/>
+		<field name="attemptProgressStatus" required="true" type="boolean" size="1" default="false"/>
+		<field name="audio_captioning" required="true" type="integer" size="1" unsigned="true" default="0"/>
+		<field name="audio_level" required="true" type="float" size="4" default="0"/>
+		<field name="availableChildren" required="false" type="string" size="255" default="0"/>
+		<field name="cmi_node_id" required="true" type="integer" size="4" autoincrement="true" default="0"/>
+		<field name="completion" required="true" type="float" size="8" default="0"/>
+		<field name="completion_status" required="false" type="string" size="32"/>
+		<field name="completion_threshold" required="false" type="string" size="32"/>
+		<field name="cp_node_id" required="true" type="integer" size="4" default="0"/>
+		<field name="created" required="true" type="date" size="8" default="0"/>
+		<field name="credit" required="false" type="string" size="32"/>
+		<field name="delivery_speed" required="true" type="float" size="4" default="0"/>
+		<field name="exit" required="false" type="string" size="255"/>
+		<field name="language" required="false" type="string" size="5"/>
+		<field name="launch_data" required="false" type="string"/>
+		<field name="learner_name" required="false" type="string" size="255"/>
+		<field name="location" required="false" type="string" size="255"/>
+		<field name="max" required="true" type="float" size="8" default="0"/>
+		<field name="min" required="true" type="float" size="8" default="0"/>
+		<field name="mode" required="true" type="string" size="20"/>
+		<field name="modified" required="true" type="date" size="8" default="0"/>
+		<field name="progress_measure" required="true" type="float" size="8" default="0"/>
+		<field name="raw" required="true" type="float" size="8" default="0"/>
+		<field name="scaled" required="true" type="float" size="8" default="0"/>
+		<field name="scaled_passing_score" required="true" type="float" size="8" default="0"/>
+		<field name="session_time" required="true" type="date" size="8" default="0"/>
+		<field name="success_status" required="false" type="string" size="255"/>
+		<field name="suspend_data" required="false" type="string"/>
+		<field name="total_time" required="true" type="date" size="8" default="0"/>
+		<field name="user_id" required="true" type="integer" size="4" default="0"/>
+		<key name="cmi_interactioncmi_item" type="foreign" table="cmi_interaction">
+			<reference name="cmi_node_id"/>
+		</key>
+		<key name="cp_nodecmi_node" type="foreign" table="cp_node">
+			<reference name="cp_node_id"/>
+		</key>
+		<key name="PrimaryKey" type="primary">
+			<reference name="cmi_node_id"/>
+		</key>
+		<key name="usr_datacmi_node" type="foreign" table="usr_data">
+			<reference name="user_id"/>
+		</key>
+		<index name="cmi_itemcp_id" unique="false">
+			<reference name="cp_node_id"/>
+		</index>
+		<index name="completion_status" unique="false">
+			<reference name="completion_status"/>
+		</index>
+		<index name="credit" unique="false">
+			<reference name="credit"/>
+		</index>
+		<index name="id" unique="false">
+			<reference name="cmi_node_id"/>
+		</index>
+		<index name="user_id" unique="false">
+			<reference name="user_id"/>
+		</index>
+	</table>
+	<table name="cmi_objective" collation="unicode">
+		<field name="cmi_interaction_id" required="true" type="integer" size="4" default="0"/>
+		<field name="cmi_node_id" required="true" type="integer" size="4" default="0"/>
+		<field name="cmi_objective_id" required="true" type="integer" size="4" autoincrement="true" default="0"/>
+		<field name="completion_status" required="false" type="string" size="32"/>
+		<field name="description" required="false" type="string"/>
+		<field name="id" required="false" type="string" size="255"/>
+		<field name="max" required="true" type="float" size="8" default="0"/>
+		<field name="min" required="true" type="float" size="8" default="0"/>
+		<field name="raw" required="true" type="float" size="8" default="0"/>
+		<field name="scaled" required="true" type="float" size="8" default="0"/>
+		<field name="progress_measure" required="false" type="float" size="8"/>
+		<field name="success_status" required="false" type="string" size="32"/>
+		<field name="scope" required="true" type="string" size="16" default="system"/>
+		<key name="cmi_interactioncmi_objective" type="foreign" table="cmi_interaction">
+			<reference name="cmi_interaction_id"/>
+		</key>
+		<key name="cmi_nodecmi_objective" type="foreign" table="cmi_node">
+			<reference name="cmi_node_id"/>
+		</key>
+		<key name="PrimaryKey" type="primary">
+			<reference name="cmi_objective_id"/>
+		</key>
+		<index name="cmi_objective_id" unique="false">
+			<reference name="cmi_objective_id"/>
+		</index>
+		<index name="cmi_objectivecmi_interaction_id" unique="false">
+			<reference name="cmi_interaction_id"/>
+		</index>
+		<index name="id" unique="false">
+			<reference name="id"/>
+		</index>
+		<index name="success_status" unique="false">
+			<reference name="success_status"/>
+		</index>
+	</table>
+	<table name="cp_auxilaryResource" collation="unicode">
+		<field name="auxiliaryResourceID" required="false" type="string" size="255"/>
+		<field name="cp_node_id" required="true" type="integer" size="4" default="0"/>
+		<field name="purpose" required="false" type="string" size="255"/>
+		<key name="Index_CBC4A8A7_55B5_43F3" type="primary">
+			<reference name="cp_node_id"/>
+		</key>
+	</table>
+	<table name="cp_condition" collation="unicode">
+		<field name="condition" required="false" type="string" size="50"/>
+		<field name="cp_node_id" required="true" type="integer" size="4" default="0"/>
+		<field name="measureThreshold" required="false" type="string" size="50"/>
+		<field name="operator" required="false" type="string" size="50"/>
+		<field name="referencedObjective" required="false" type="string" size="50"/>
+		<key name="Index_CBC4A8A7_55B5_43F3" type="primary">
+			<reference name="cp_node_id"/>
+		</key>
+	</table>
+	<table name="cp_dependency" collation="unicode">
+		<field name="cp_node_id" required="true" type="integer" size="4" default="0"/>
+		<field name="resourceId" required="false" type="string" size="50"/>
+		<key name="cp_treecp_dependency" type="foreign" table="cp_node">
+			<reference name="cp_node_id"/>
+		</key>
+		<key name="PrimaryKey" type="primary">
+			<reference name="cp_node_id"/>
+		</key>
+		<index name="cp_id" unique="false">
+			<reference name="cp_node_id"/>
+		</index>
+		<index name="identifierref" unique="false">
+			<reference name="resourceId"/>
+		</index>
+	</table>
+	<table name="cp_file" collation="unicode">
+		<field name="cp_node_id" required="true" type="integer" size="4" default="0"/>
+		<field name="href" required="false" type="string" size="50"/>
+		<key name="cp_treecp_file" type="foreign" table="cp_node">
+			<reference name="cp_node_id"/>
+		</key>
+		<key name="PrimaryKey" type="primary">
+			<reference name="cp_node_id"/>
+		</key>
+		<index name="cp_id" unique="false">
+			<reference name="cp_node_id"/>
+		</index>
+	</table>
+	<table name="cp_hideLMSUI" collation="unicode">
+		<field name="cp_node_id" required="true" type="integer" size="4" default="0"/>
+		<field name="value" required="true" type="string" size="50"/>
+		<key name="Index_CBC4A8A7_55B5_43F3" type="primary">
+			<reference name="cp_node_id"/>
+		</key>
+		<index name="ss_sequencing_id" unique="false">
+			<reference name="value"/>
+		</index>
+	</table>
+	<table name="cp_item" collation="unicode">
+		<field name="completionThreshold" required="false" type="string" size="50"/>
+		<field name="cp_node_id" required="true" type="integer" size="4" default="0"/>
+		<field name="dataFromLMS" required="false" type="string" size="255"/>
+		<field name="id" required="false" type="string" size="200"/>
+		<field name="isvisible" required="false" type="string" size="32"/>
+		<field name="parameters" required="false" type="string" size="255"/>
+		<field name="resourceId" required="false" type="string" size="200"/>
+		<field name="sequencingId" required="false" type="string" size="50"/>
+		<field name="timeLimitAction" required="false" type="string" size="30"/>
+		<field name="title" required="false" type="string" size="255"/>
+		<key name="cp_sequencingcp_item" type="foreign" table="cp_sequencing">
+			<reference name="sequencingId"/>
+		</key>
+		<key name="cp_treecp_item" type="foreign" table="cp_node">
+			<reference name="cp_node_id"/>
+		</key>
+		<key name="Index_CBC4A8A7_55B5_43F3" type="primary">
+			<reference name="cp_node_id"/>
+		</key>
+		<index name="cp_itemidentifier" unique="false">
+			<reference name="id"/>
+		</index>
+		<index name="ss_sequencing_id" unique="false">
+			<reference name="sequencingId"/>
+		</index>
+	</table>
+	<table name="cp_manifest" collation="unicode">
+		<field name="base" required="false" type="string" size="200"/>
+		<field name="cp_node_id" required="true" type="integer" size="4" default="0"/>
+		<field name="defaultOrganization" required="false" type="string" size="50"/>
+		<field name="id" required="false" type="string" size="200"/>
+		<field name="title" required="false" type="string" size="255"/>
+		<field name="uri" required="false" type="string" size="255"/>
+		<field name="version" required="false" type="string" size="200"/>
+		<key name="cp_organizationcp_manifest" type="foreign" table="cp_organization">
+			<reference name="defaultOrganization"/>
+		</key>
+		<key name="cp_treecp_manifest" type="foreign" table="cp_node">
+			<reference name="cp_node_id"/>
+		</key>
+		<key name="Index_99E60BC6_E378_4808" type="primary">
+			<reference name="cp_node_id"/>
+		</key>
+		<index name="identifier" unique="false">
+			<reference name="id"/>
+		</index>
+	</table>
+	<table name="cp_mapinfo" collation="unicode">
+		<field name="cp_node_id" required="true" type="integer" size="4" default="0"/>
+		<field name="readNormalizedMeasure" required="true" type="boolean" size="1" default="false"/>
+		<field name="readSatisfiedStatus" required="true" type="boolean" size="1" default="false"/>
+		<field name="targetObjectiveID" required="false" type="string" size="50"/>
+		<field name="writeNormalizedMeasure" required="true" type="boolean" size="1" default="false"/>
+		<field name="writeSatisfiedStatus" required="true" type="boolean" size="1" default="false"/>
+		<key name="Index_CBC4A8A7_55B5_43F3" type="primary">
+			<reference name="cp_node_id"/>
+		</key>
+		<index name="targetObjectiveId" unique="false">
+			<reference name="targetObjectiveID"/>
+		</index>
+	</table>
+	<table name="cp_node" collation="unicode">
+		<field name="cp_node_id" required="true" type="integer" size="4" autoincrement="true" default="0"/>
+		<field name="nodeName" required="false" type="string" size="50"/>
+		<field name="slm_id" required="true" type="integer" size="4" default="0"/>
+		<key name="cp_hideLMSUIcp_node" type="foreign" table="cp_hideLMSUI">
+			<reference name="cp_node_id"/>
+		</key>
+		<key name="cp_packagecp_tree" type="foreign" table="cp_package">
+			<reference name="slm_id"/>
+		</key>
+		<key name="PrimaryKey" type="primary">
+			<reference name="cp_node_id"/>
+		</key>
+		<key name="ss_auxilarycp_tree" type="foreign" table="cp_auxilaryResource">
+			<reference name="cp_node_id"/>
+		</key>
+		<key name="ss_conditioncp_tree" type="foreign" table="cp_condition">
+			<reference name="cp_node_id"/>
+		</key>
+		<key name="ss_mapinfocp_tree" type="foreign" table="cp_mapinfo">
+			<reference name="cp_node_id"/>
+		</key>
+		<key name="ss_objectivecp_tree" type="foreign" table="cp_objective">
+			<reference name="cp_node_id"/>
+		</key>
+		<key name="ss_rulecp_tree" type="foreign" table="cp_rule">
+			<reference name="cp_node_id"/>
+		</key>
+		<index name="cp_id" unique="false">
+			<reference name="cp_node_id"/>
+		</index>
+		<index name="nodeName" unique="false">
+			<reference name="nodeName"/>
+		</index>
+	</table>
+	<table name="cp_objective" collation="unicode">
+		<field name="cp_node_id" required="true" type="integer" size="4" default="0"/>
+		<field name="minNormalizedMeasure" required="false" type="string" size="50"/>
+		<field name="objectiveID" required="false" type="string" size="200"/>
+		<field name="primary" required="true" type="boolean" size="1" default="false"/>
+		<field name="satisfiedByMeasure" required="true" type="boolean" size="1" default="false"/>
+		<key name="cp_mapinfocp_objective" type="foreign" table="cp_mapinfo">
+			<reference name="objectiveID"/>
+		</key>
+		<key name="Index_CBC4A8A7_55B5_43F3" type="primary">
+			<reference name="cp_node_id"/>
+		</key>
+		<key name="ss_conditionss_objective" type="foreign" table="cp_condition">
+			<reference name="objectiveID"/>
+		</key>
+	</table>
+	<table name="cp_organization" collation="unicode">
+		<field name="cp_node_id" required="true" type="integer" size="4" default="0"/>
+		<field name="id" required="false" type="string" size="200"/>
+		<field name="objectivesGlobalToSystem" required="true" type="boolean" size="1" default="false"/>
+		<field name="sequencingId" required="false" type="string" size="50"/>
+		<field name="structure" required="false" type="string" size="200"/>
+		<field name="title" required="false" type="string" size="255"/>
+		<key name="cp_sequencingcp_organization" type="foreign" table="cp_sequencing">
+			<reference name="sequencingId"/>
+		</key>
+		<key name="cp_treecp_organization" type="foreign" table="cp_node">
+			<reference name="cp_node_id"/>
+		</key>
+		<key name="Index_CBC4A8A7_55B5_43F3" type="primary">
+			<reference name="cp_node_id"/>
+		</key>
+		<index name="cp_organizationid" unique="false">
+			<reference name="id"/>
+		</index>
+		<index name="ss_sequencing_id" unique="false">
+			<reference name="sequencingId"/>
+		</index>
+	</table>
+	<table name="cp_package" collation="unicode">
+		<field name="created" required="true" type="date" size="8" default="0"/>
+		<field name="identifier" required="false" type="string" size="255"/>
+		<field name="jsdata" required="false" type="string"/>
+		<field name="modified" required="true" type="date" size="8" default="0"/>
+		<field name="obj_id" required="true" type="integer" size="4" default="0"/>
+		<field name="persistPreviousAttempts" required="true" type="integer" size="4" default="0"/>
+		<field name="settings" required="false" type="string" size="255"/>
+		<field name="xmldata" required="false" type="string"/>
+		<key name="identifier">
+			<reference name="identifier"/>
+		</key>
+		<key name="Index_C3F50366_C526_4388" type="primary">
+			<reference name="obj_id"/>
+		</key>
+		<index name="identifier" unique="true">
+			<reference name="identifier"/>
+		</index>
+	</table>
+	<table name="cp_resource" collation="unicode">
+		<field name="base" required="false" type="string" size="200"/>
+		<field name="cp_node_id" required="true" type="integer" size="4" default="0"/>
+		<field name="href" required="false" type="string" size="250"/>
+		<field name="id" required="false" type="string" size="200"/>
+		<field name="scormType" required="false" type="string" size="32"/>
+		<field name="type" required="false" type="string" size="30"/>
+		<key name="cp_dependencycp_resource" type="foreign" table="cp_dependency">
+			<reference name="id"/>
+		</key>
+		<key name="cp_itemcp_resource" type="foreign" table="cp_item">
+			<reference name="id"/>
+		</key>
+		<key name="cp_treecp_resource" type="foreign" table="cp_node">
+			<reference name="cp_node_id"/>
+		</key>
+		<key name="Index_8ECF5085_B488_4D94" type="primary">
+			<reference name="cp_node_id"/>
+		</key>
+		<index name="import_id" unique="false">
+			<reference name="id"/>
+		</index>
+	</table>
+	<table name="cp_rule" collation="unicode">
+		<field name="action" required="false" type="string" size="50"/>
+		<field name="childActivitySet" required="false" type="string" size="50"/>
+		<field name="conditionCombination" required="false" type="string" size="50"/>
+		<field name="cp_node_id" required="true" type="integer" size="4" default="0"/>
+		<field name="minimumCount" required="true" type="integer" size="4" default="0"/>
+		<field name="minimumPercent" required="false" type="string" size="50"/>
+		<field name="type" required="false" type="string" size="50"/>
+		<key name="Index_CBC4A8A7_55B5_43F3" type="primary">
+			<reference name="cp_node_id"/>
+		</key>
+	</table>
+	<table name="cp_sequencing" collation="unicode">
+		<field name="activityAbsoluteDurationLimit" required="true" type="date" size="8" default="0"/>
+		<field name="activityExperiencedDurationLimit" required="true" type="date" size="8" default="0"/>
+		<field name="attemptAbsoluteDurationLimit" required="true" type="date" size="8" default="0"/>
+		<field name="attemptExperiencedDurationLimit" required="true" type="date" size="8" default="0"/>
+		<field name="attemptLimit" required="true" type="integer" size="4" default="0"/>
+		<field name="beginTimeLimit" required="true" type="date" size="8" default="0"/>
+		<field name="choice" required="true" type="boolean" size="1" default="false"/>
+		<field name="choiceExit" required="true" type="boolean" size="1" default="false"/>
+		<field name="completionSetByContent" required="true" type="boolean" size="1" default="false"/>
+		<field name="constrainChoice" required="true" type="boolean" size="1" default="false"/>
+		<field name="cp_node_id" required="true" type="integer" size="4" default="0"/>
+		<field name="endTimeLimit" required="true" type="date" size="8" default="0"/>
+		<field name="flow" required="true" type="boolean" size="1" default="false"/>
+		<field name="forwardOnly" required="true" type="boolean" size="1" default="false"/>
+		<field name="id" required="false" type="string" size="200"/>
+		<field name="measureSatisfactionIfActive" required="true" type="boolean" size="1" default="false"/>
+		<field name="objectiveMeasureWeight" required="true" type="float" size="4" default="0"/>
+		<field name="objectiveSetByContent" required="true" type="boolean" size="1" default="false"/>
+		<field name="preventActivation" required="true" type="boolean" size="1" default="false"/>
+		<field name="randomizationTiming" required="false" type="string" size="50"/>
+		<field name="reorderChildren" required="true" type="boolean" size="1" default="false"/>
+		<field name="requiredForCompleted" required="false" type="string" size="50"/>
+		<field name="requiredForIncomplete" required="false" type="string" size="50"/>
+		<field name="requiredForNotSatisfied" required="false" type="string" size="50"/>
+		<field name="requiredForSatisfied" required="false" type="string" size="50"/>
+		<field name="rollupObjectiveSatisfied" required="true" type="boolean" size="1" default="false"/>
+		<field name="rollupProgressCompletion" required="true" type="boolean" size="1" default="false"/>
+		<field name="selectCount" required="true" type="integer" size="4" default="0"/>
+		<field name="selectionTiming" required="false" type="string" size="50"/>
+		<field name="sequencingId" required="false" type="string" size="50"/>
+		<field name="tracked" required="true" type="boolean" size="1" default="false"/>
+		<field name="useCurrentAttemptObjectiveInfo" required="true" type="boolean" size="1" default="false"/>
+		<field name="useCurrentAttemptProgressInfo" required="true" type="boolean" size="1" default="false"/>
+		<key name="cp_treecp_sequencing" type="foreign" table="cp_node">
+			<reference name="cp_node_id"/>
+		</key>
+		<key name="Index_CBC4A8A7_55B5_43F3" type="primary">
+			<reference name="cp_node_id"/>
+		</key>
+		<index name="cp_sequencingid" unique="false">
+			<reference name="id"/>
+		</index>
+	</table>
+	<table name="cp_tree" collation="unicode">
+		<field name="child" required="true" type="integer" size="4" default="0"/>
+		<field name="depth" required="true" type="integer" size="4" default="0"/>
+		<field name="lft" required="true" type="integer" size="4" default="0"/>
+		<field name="obj_id" required="true" type="integer" size="4" default="0"/>
+		<field name="parent" required="true" type="integer" size="4" default="0"/>
+		<field name="rgt" required="true" type="integer" size="4" default="0"/>
+		<key name="cp_nodecp_tree" type="foreign" table="cp_node">
+			<reference name="child"/>
+		</key>
+		<key name="cp_packagecp_tree1" type="foreign" table="cp_package">
+			<reference name="obj_id"/>
+		</key>
+		<index name="child" unique="false">
+			<reference name="child"/>
+		</index>
+		<index name="cp_treeobj_id" unique="false">
+			<reference name="obj_id"/>
+		</index>
+		<index name="parent" unique="false">
+			<reference name="parent"/>
+		</index>
+	</table>
+	<table name="object_data" collation="unicode">
+		<field name="create_date" required="true" type="date" size="8" default="0"/>
+		<field name="description" required="true" type="string" size="128"/>
+		<field name="import_id" required="true" type="string" size="50"/>
+		<field name="last_update" required="true" type="date" size="8" default="0"/>
+		<field name="obj_id" required="true" type="integer" size="4" autoincrement="true" default="0"/>
+		<field name="owner" required="true" type="integer" size="4" default="0"/>
+		<field name="title" required="true" type="string" size="70"/>
+		<field name="type" required="true" type="string" size="4"/>
+		<key name="Index_4C038519_AFFA_4E6C" type="primary">
+			<reference name="obj_id"/>
+		</key>
+	</table>
+	<table name="object_reference" collation="unicode">
+		<field name="obj_id" required="true" type="integer" size="4" default="0"/>
+		<field name="ref_id" required="true" type="integer" size="4" autoincrement="true" default="0"/>
+		<key name="Index_A06B0B01_AFDA_4099" type="primary">
+			<reference name="ref_id"/>
+		</key>
+		<key name="Reference3" type="foreign" table="object_data">
+			<reference name="obj_id"/>
+		</key>
+		<index name="object_referenceobj_id" unique="false">
+			<reference name="obj_id"/>
+		</index>
+	</table>
+	<table name="sahs_lm" collation="unicode">
+		<field name="api_adapter" required="false" type="string" size="80"/>
+		<field name="api_func_prefix" required="false" type="string" size="20"/>
+		<field name="auto_review" required="false" type="string" size="1"/>
+		<field name="credit" required="false" type="string" size="32"/>
+		<field name="default_lesson_mode" required="false" type="string" size="32"/>
+		<field name="id" required="true" type="integer" size="4" default="0"/>
+		<field name="online" required="false" type="string" size="1"/>
+		<field name="type" required="false" type="string" size="32"/>
+		<key name="cp_packagesahs_lm" type="foreign" table="cp_package">
+			<reference name="id"/>
+		</key>
+		<key name="Index_D5C6D223_3BF9_4F91" type="primary">
+			<reference name="id"/>
+		</key>
+		<key name="Reference4" type="foreign" table="object_data">
+			<reference name="id"/>
+		</key>
+	</table>
+	<table name="usr_data" collation="unicode">
+		<field name="email" required="true" type="string" size="80"/>
+		<field name="firstname" required="true" type="string" size="32"/>
+		<field name="ilinc_id" required="true" type="integer" size="4" default="0"/>
+		<field name="lastname" required="true" type="string" size="32"/>
+		<field name="login" required="true" type="string" size="80"/>
+		<field name="matriculation" required="false" type="string" size="50"/>
+		<field name="passwd" required="true" type="string" size="32"/>
+		<field name="title" required="true" type="string" size="32"/>
+		<field name="usr_id" required="true" type="integer" size="4" autoincrement="true" default="0"/>
+		<key name="Index_410C63CC_7B9C_4D3A" type="primary">
+			<reference name="usr_id"/>
+		</key>
+	</table>
+	<table name="lng_data" collation="unicode">
+		<field name="module" required="true" type="string" size="30" default=""/>
+		<field name="identifier" required="true" type="string" size="50" default=""/>
+		<field name="lang_key" required="true" type="string" size="2" default=""/>
+		<field name="value" required="true" type="binary"/>
+		<key name="lng_data_primary" type="primary">
+			<reference name="module"/>
+			<reference name="identifier"/>
+			<reference name="lang_key"/>
+		</key>
+		<index name="lng_data_module" unique="false">
+			<reference name="module"/>
+		</index>
+		<index name="lng_data_lang_key" unique="false">
+			<reference name="lang_key"/>
+		</index>
+	</table>
+</database>

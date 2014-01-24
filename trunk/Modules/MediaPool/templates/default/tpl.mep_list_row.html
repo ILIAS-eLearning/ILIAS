@@ -1,0 +1,36 @@
+<tr class="{CSS_ROW}">
+	<td class="std" valign="top" width="1">
+		<!-- BEGIN chbox -->
+		<input type="checkbox" name="id[]" value="{CHECKBOX_ID}" {CHECKED}/>
+		<!-- END chbox -->
+		<!-- BEGIN radio -->
+		<input type="radio" name="id[]" value="{RADIO_ID}"/>
+		<!-- END radio -->
+	</td>
+	<td class="std" valign="top" nowrap="1" width="1">
+		{IMG}
+	</td>
+	<td class="std" valign="top">
+		<!-- BEGIN link -->
+		<div class="ilFloatLeft">
+			<a href="{LINK_VIEW}" <!-- BEGIN nf --> target="_blank" <!-- END nf --> >
+			{TXT_TITLE}
+			</a>{TXT_NO_LINK_TITLE}
+		</div>
+		<div class="il_ContainerItemCommands ilFloatRight">
+			<!-- BEGIN edit -->
+			<a class="il_ContainerItemCommand" href="{EDIT_LINK}">{TXT_EDIT}</a>
+			<!-- END edit -->
+			<!-- BEGIN show -->
+			<a class="il_ContainerItemCommand" href="{SHOW_LINK}" target="_blank">{TXT_SHOW}</a>
+			<!-- END show -->
+		</div>
+		<!-- END link -->
+		<div class="ilClearFloat">
+		{MEDIA_INFO}
+		<!-- BEGIN additional_info -->
+		{ADD_INFO}<br />
+		<!-- END additional_info -->
+		</div>
+	</td>
+</tr>

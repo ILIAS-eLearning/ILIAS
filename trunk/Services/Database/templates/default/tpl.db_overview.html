@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0 plus SVG 1.1//EN"
+	"http://www.w3.org/2002/04/xhtml-math-svg/xhtml-math-svg.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<title>{TXT_TITLE}</title>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+	<style type="text/css">
+	<!--
+	body {
+		margin:30px;
+		background-color: #F0F0FF;
+		font-family:Verdana,Arial,Helvetica,sans-serif;
+		font-size: 0.9em;
+	}
+	
+	h1.il_db_title {
+		font-size: 120%;
+		font-weight: normal;
+		margin: 10px 0px 20px 0px;
+	}
+
+	h2.il_db_table_name {
+		font-size: 110%;
+		font-weight: normal;
+		margin: 0px 0px 10px 0px;
+		border-bottom-style: solid;
+		border-bottom-width: 1px;
+		border-bottom-color: #C0C0C0;
+		padding: 0px 0px 3px 0px;
+	}
+	
+	span.il_db_seq {
+		font-size: 75%;
+	}
+	
+	div.il_db_table {
+		margin: 5px 0px 20px 0px;
+		padding: 20px;
+		border-color: #C0C0C0;
+		border-style: solid;
+		border-width: 1px;
+		background-color: #FFFFFF;
+	}
+	
+	div.il_cnt {
+		text-align: right;
+		font-size: 70%;
+	}
+	
+	table.il_db_table_table {
+		border-color: #C0C0C0;
+		border-style: solid;
+		border-width: 1px;
+		border-collapse: collapse;
+		padding: 5px;
+		margin: 10px 0px;
+	}
+	
+	th {
+		font-weight: normal;
+		text-align: left;
+		font-size: 90%;
+		padding: 5px;
+		border-bottom-style: solid;
+		border-bottom-width: 1px;
+		border-bottom-color: #C0C0C0;
+		border-right-style: solid;
+		border-right-width: 1px;
+		border-right-color: #C0C0C0;
+		background-color: #F0F0F0;
+	}
+	
+	td {
+		font-size: 90%;
+		padding: 5px;
+		border-bottom-style: solid;
+		border-bottom-width: 1px;
+		border-bottom-color: #C0C0C0;
+		border-right-style: solid;
+		border-right-width: 1px;
+		border-right-color: #C0C0C0;
+	}
+	-->
+	</style>
+</head>
+<body>
+<h1 class="il_db_title">{TXT_TITLE}</h1>
+<!-- BEGIN table -->
+<div class="il_db_table">
+<h2 class="il_db_table_name">{TXT_TABLE_NAME} <span class="il_db_seq">({TXT_SEQUENCE})</span></h2>
+<!-- BEGIN field_table -->
+<table class="il_db_table_table" cellspacing="0">
+<tr>
+	<th>Field</th>
+	<th>Type</th>
+	<th>Length</th>
+	<th>Default</th>
+	<th>Not Null</th>
+	<th>Fixed</th>
+	<th>Unsigned</th>
+	<th>Native Type</th>
+	<th>Alternative Types</th>
+</tr>
+<!-- BEGIN field -->
+<tr>
+	<td>{VAL_FIELD}</td>
+	<td>{VAL_TYPE}</td>
+	<td>{VAL_LENGTH}</td>
+	<td>{VAL_DEFAULT}</td>
+	<td>{VAL_NOT_NULL}</td>
+	<td>{VAL_FIXED}</td>
+	<td>{VAL_UNSIGNED}</td>
+	<td>{VAL_NATIVETYPE}</td>
+	<td>{VAL_ALTERNATIVE_TYPES}</td>
+</tr>
+<!-- END field -->
+</table>
+<!-- END field_table -->
+<!-- BEGIN index_table -->
+<table class="il_db_table_table">
+<tr>
+	<th>Index</th>
+	<th>Fields</th>
+</tr>
+<!-- BEGIN index -->
+<tr>
+	<td>{VAL_INDEX}</td>
+	<td>{VAL_FIELDS}</td>
+</tr>
+<!-- END index -->
+</table>
+<!-- END index_table -->
+<!-- BEGIN constraint_table -->
+<table class="il_db_table_table">
+<tr>
+	<th>Constraint</th>
+	<th>Type</th>
+	<th>Fields</th>
+</tr>
+<!-- BEGIN constraint -->
+<tr>
+	<td>{VAL_CONSTRAINT}</td>
+	<td>{VAL_CTYPE}</td>
+	<td>{VAL_CFIELDS}</td>
+</tr>
+<!-- END constraint -->
+</table>
+<!-- END constraint_table -->
+<div class="il_cnt">{VAL_CNT}</div>
+</div>
+<!-- END table -->
+</body>
+</html>

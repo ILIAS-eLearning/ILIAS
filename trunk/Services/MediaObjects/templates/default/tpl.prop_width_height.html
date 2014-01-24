@@ -1,0 +1,13 @@
+<div style="white-space:nowrap;">
+<input type="text" id="prop_{POST_VAR}_width" name="{POST_VAR}[width]" onkeyup="ilPropWidthHeightSync(this.id);" size="4" maxlength="10" value="{VAL_WIDTH}" {DISABLED}/> /
+<input type="text" id="prop_{POST_VAR}_height" name="{POST_VAR}[height]" onkeyup="ilPropWidthHeightSync(this.id);" size="4" maxlength="10" value="{VAL_HEIGHT}" {DISABLED}/>
+</div>
+<div style="margin-bottom:3px; margin-left:3px;">
+<span class="subtitle">{TXT_CONSTR_PROP} <input value="1" onclick="ilPropWidthHeightSync(this.id);" id="prop_{POST_VAR}_constr" type="checkbox" name="{POST_VAR}[constr_prop]" {CHECKED} {DISABLED} /></span>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+prop_width_height["prop_{POST_VAR}"] = {WH_RATIO};
+//]]>
+</script>
+

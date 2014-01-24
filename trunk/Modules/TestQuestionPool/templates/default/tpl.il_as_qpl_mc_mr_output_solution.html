@@ -1,0 +1,37 @@
+	{QUESTIONTEXT}
+	<table class="nobackground">
+<!-- BEGIN answer_row -->	
+		<tr>
+			<td class="middle" width="15">
+				<img src="{SOLUTION_IMAGE}" alt="{SOLUTION_ALT}" title="{SOLUTION_ALT}" />
+			</td>
+			<td class="middle">
+<!-- BEGIN answer_image -->
+				<img src="{ANSWER_IMAGE_URL}" alt="{ANSWER_IMAGE_ALT}" title="{ANSWER_IMAGE_TITLE}" {ATTR} />
+<!-- END answer_image -->
+				{ANSWER_TEXT}
+			</td>
+			<td>
+<!-- BEGIN icon_ok -->
+				<img src="{ICON_OK}" alt="{TEXT_OK}" title="{TEXT_OK}" />
+<!-- END icon_ok -->
+<!-- BEGIN icon_not_ok -->
+				<img src="{ICON_NOT_OK}" alt="{TEXT_NOT_OK}" title="{TEXT_NOT_OK}" />
+<!-- END icon_not_ok -->
+			</td>
+			<td class="middle">
+<!-- BEGIN result_output -->
+				<em>{RESULT_OUTPUT}</em>
+<!-- END result_output -->
+			</td>
+		</tr>
+<!-- BEGIN feedback -->
+		<tr>
+			<td></td>
+			<td colspan="3">
+				<span class="feedback">{FEEDBACK}</span>
+			</td>
+		</tr>
+<!-- END feedback -->
+<!-- END answer_row -->	
+	</table>

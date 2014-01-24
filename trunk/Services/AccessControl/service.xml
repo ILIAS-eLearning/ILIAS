@@ -1,0 +1,19 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<service xmlns="http://www.w3.org" version="$Id$"
+	id="ac">
+	<baseclasses>
+	</baseclasses>
+	<objects>
+		<object id="rolf" class_name="RoleFolder" dir="classes"
+			checkbox="0" inherit="0" translate="sys" rbac="1" system="1" administration="1">
+			<subobj id="rolt">rolt</subobj>
+			<subobj id="role">role</subobj>
+		</object>
+		<object id="role" class_name="Role" dir="classes"
+			checkbox="1" inherit="0" translate="0" rbac="0">
+		</object>
+		<object id="rolt" class_name="RoleTemplate" dir="classes"
+			checkbox="1" inherit="0" translate="0" rbac="0">
+		</object>
+	</objects>
+</service>

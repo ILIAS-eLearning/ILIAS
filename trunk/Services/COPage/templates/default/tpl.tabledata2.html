@@ -1,0 +1,65 @@
+<style type="text/css">
+.defaultSkin table.mceLayout tr.mceFirst td {
+    border: 2px solid #FFBB88;
+}
+.defaultSkin table.mceLayout tr.mceLast td {
+    border: 2px solid #FFBB88;
+}
+</style>
+
+<form action="{FORMACTION}" id="post" name="post" method="post">
+<input type="hidden" id="dtform_type" name="type" value="" />
+<input type="hidden" id="dtform_command" name="action" value="" />
+<input type="hidden" id="dtform_nr" name="id" value="" />
+<table style="border-collapse:collapse;" id="ed_datatable">
+<!-- BEGIN row -->
+<tr>
+	<!-- BEGIN empty_td -->
+	<td style="border: 1px solid #CCCCCC;">&nbsp;</td>
+	<!-- END  empty_td -->
+	<!-- BEGIN col_icon -->
+	<td style="text-align: center; border: 1px solid #CCCCCC;">
+		<img src="{COL_ICON}" onclick="current_row_col = {NR}; doMouseClick(event, '{COL_ONCLICK}');" border="0" />
+	</td>
+	<!-- END col_icon -->
+	<!-- BEGIN row_icon -->
+	<td style="vertical-align: middle; border: 1px solid #CCCCCC;">
+		<img src="{ROW_ICON}" onclick="current_row_col = {NR}; doMouseClick(event, '{ROW_ONCLICK}');" border="0" />
+	</td>
+	<!-- END row_icon -->
+	<!-- BEGIN cell -->
+	<td {COLSPAN} {ROWSPAN} id="td_{PAR_TA_ID}" style="border: 1px solid #CCCCCC;" onclick="ilCOPage.editTD('{PAR_TA_ID}');">
+	<div id="div_{PAR_TA_ID}" style="padding:3px 10px;">{PAR_TA_CONTENT}</div><!-- td_div_end -->
+	</td>
+	<!-- END cell -->
+</tr>
+<!-- END row -->
+</table>
+</form>
+
+<!-- BEGIN menu -->
+</div><div class="ilOverlay il_editmenu ilNoDisplay" id="{TYPE}_menu_{MOVE}">
+<!-- BEGIN menu_item -->
+<a href="#" class="ilGroupedListLE" onMouseOver="M_in(this);" onMouseOut="M_out(this);" onClick="ilCOPage.handleDataTableCommand('{TYPE}', '{CMD}');">{MENU_ITEM_TITLE}</a>
+<!-- END menu_item -->
+</div>
+<!-- END menu -->
+
+<!-- data table command form -->
+<!-- <form style="visibility:hidden;" name="dtform" id="dtform" method="post" action="{FORMACTION2}">
+<input type="hidden" id="dtform_type" name="type" value="" />
+<input type="hidden" id="dtform_command" name="action" value="" />
+<input type="hidden" id="dtform_nr" name="id" value="" />
+</form> -->
+{IL_TINY_MENU}
+
+<form name="ajaxform" id="ajaxform" method="post" action="{WYSIWYG_ACTION}">
+<input type="hidden" id="ajaxform_target" name="target[]" value="" />
+<input type="hidden" id="ajaxform_cmd" name="" value="" />
+<input type="hidden" id="ajaxform_exec" name="" value="Ok" />
+<input type="hidden" id="ajaxform_content" name="ajaxform_content" />
+<input type="hidden" id="ajaxform_char" name="ajaxform_char" />
+<input type="hidden" id="ajaxform_hier_id" name="ajaxform_hier_id" />
+</form>
+<form name="ajaxform2" id="ajaxform2" method="post" action="{WYSIWYG_ACTION}">
+</form>

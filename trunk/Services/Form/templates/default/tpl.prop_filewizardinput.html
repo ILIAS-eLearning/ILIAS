@@ -1,0 +1,18 @@
+<div id="{ELEMENT_ID}">
+<!-- BEGIN row -->
+<div class="{ROW_CLASS}">
+<!-- BEGIN image -->	<img style="margin: 5px 0px 5px 0px;" src="{SRC_IMAGE}" alt="{ALT_IMAGE}" {WIDTH} {HEIGHT} border="0" /><input type="hidden" name="picture_{ID}" value="{PICTURE_FILE}" /><br /><!-- END image -->
+	<input type="file" id="{ID}" name="{POST_VAR}" size="30" />
+	<input type="image" alt="{ALT_ADD}" title="{ALT_ADD}" name="{CMD_ADD}" class="imagewizard_add" id="add_{ID}" src="{ADD_BUTTON}" onclick="javascript: void(0); return false;" />
+	<input type="image" alt="{ALT_REMOVE}" title="{ALT_REMOVE}" name="{CMD_REMOVE}" class="imagewizard_remove" id="remove_{ID}" src="{REMOVE_BUTTON}" onclick="javascript: void(0); return false;" />
+<!-- BEGIN move -->
+	<input type="image" name="{CMD_UP}" class="imagewizard_up" id="up_{ID}" src="{UP_BUTTON}" onclick="javascript: void(0); return false;" />
+	<input type="image" name="{CMD_DOWN}" class="imagewizard_down" id="down_{ID}" src="{DOWN_BUTTON}" onclick="javascript: void(0); return false;" />
+<!-- END move -->
+	<div class="ilFormInfo">{TXT_MAX_SIZE}</div>
+<!-- BEGIN allowed_image_suffixes -->
+	<div class="ilFormInfo">{TXT_ALLOWED_SUFFIXES}</div>
+<!-- END allowed_image_suffixes -->
+</div>
+<!-- END row -->
+</div>

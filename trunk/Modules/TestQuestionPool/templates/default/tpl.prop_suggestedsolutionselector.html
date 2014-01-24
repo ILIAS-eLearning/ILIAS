@@ -1,0 +1,14 @@
+<!-- BEGIN delete_internallink -->
+<div><input type="checkbox" name="{POST_VAR}_delete" id="{POST_VAR}_delete" value="1" /> <label for="{POST_VAR}_delete">{TEXT_DELETE_INTERNALLINK}</label></div>
+<!-- END delete_internallink -->
+<!-- BEGIN prop_internallink_selector -->
+<select name="{POST_VAR}" id="{POST_VAR}" {DISABLED}>
+<!-- BEGIN prop_intlink_select_option -->
+	<option value="{VAL_SELECT_OPTION}" {CHK_SEL_OPTION}>{TXT_SELECT_OPTION}</option>
+<!-- END prop_intlink_select_option -->
+</select>
+<input type="submit" class="submit" name="cmd[{CMD_ADD_INTERNALLINK}]" value="{TEXT_ADD_INTERNALLINK}" />
+<!-- BEGIN internal_link -->
+<div><a href="{HREF_INT_LINK}" target="content">{TEXT_INT_LINK}</a></div>
+<!-- END internal_link -->
+<!-- END prop_internallink_selector -->

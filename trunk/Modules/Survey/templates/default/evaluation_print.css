@@ -1,0 +1,93 @@
+body {
+	color : black; 
+	background : white; 
+	font-family : Tahoma, Helvetica, sans-serif; 
+	font-size : 10pt; 
+}
+
+.il_Locator, .tabinactive, .tabactive, .il_Footer {
+	visibility: hidden;
+	display: none;
+}
+
+.il_Header {
+	border: 0px white none;
+	margin: 0;
+	padding: 0;
+}
+
+#form_evaluation, #legend {
+	visibility: hidden;
+	display: none;
+}
+
+input[type="submit"], input[type="button"] {
+	visibility: hidden;
+	display: none;
+}
+
+.fullwidth {
+	width: 100%;
+	border-collapse: collapse;
+	border-spacing: 0px;
+	border: 1px solid gray;
+}
+
+.tblheader {
+	border-collapse: collapse;
+	border-spacing: 0px;
+	border: 1px solid gray;
+	font-weight: bold;
+	vertical-align: top;
+}
+
+.tblrow1 {
+	background: #EEEEEE;
+	border-collapse: collapse;
+	border-spacing: 0px;
+	border: 1px solid gray;
+	vertical-align: top;
+}
+
+.tblrow2 {
+	background: #cccccc;
+	border-collapse: collapse;
+	border-spacing: 0px;
+	border: 1px solid gray;
+	vertical-align: top;
+}
+
+.tblrow1top {
+	background: #EEEEEE;
+	border-collapse: collapse;
+	border-spacing: 0px;
+	border: 1px solid gray;
+	vertical-align: top;
+}
+
+.tblrow2top {
+	background: #cccccc;
+	border-collapse: collapse;
+	border-spacing: 0px;
+	border: 1px solid gray;
+	vertical-align: top;
+}
+
+h2 {
+	border: 1px dashed gray;
+}
+
+.option {
+	font-weight: bold;
+	vertical-align: top;
+}
+
+h1 {
+	text-decoration: underline;
+	font-weight: bold;
+}
+
+.option_value {
+	font-weight: normal;
+	vertical-align: top;
+}

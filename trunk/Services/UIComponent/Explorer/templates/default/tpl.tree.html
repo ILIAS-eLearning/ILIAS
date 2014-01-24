@@ -1,0 +1,36 @@
+<div id="tree_div">
+<div {TREE_ID} class="il_ExplorerTree"><!-- BEGIN tree_lead -->{TREE_LEAD}<!-- END tree_lead -->
+<!-- BEGIN element -->
+<!-- BEGIN start_list -->
+<ul class="il_Explorer">
+<!-- END start_list -->
+<!-- BEGIN start_list_no_indent -->
+<ul class="il_ExplorerNoIndent">
+<!-- END start_list_no_indent -->
+<!-- BEGIN start_list_item -->
+<li class="il_Explorer">
+<!-- END start_list_item -->
+<!-- BEGIN list_item -->
+<!-- BEGIN expander --><a name="{LINK_NAME}" href="{LINK_TARGET_EXPANDER}" {ONCLICK_TARGET_EXPANDER}><img alt="{EXP_DESC}" title="{EXP_DESC}" src="{IMGPATH}" /></a><!-- END expander --><!-- BEGIN blank --><img src="{BLANK_PATH}" alt="" /><!-- END blank --><!-- BEGIN icon --><img id="{TARGET_ID}" name="{TARGET_ID}" src="{ICON_IMAGE}" alt="{TXT_ALT_IMG}" title="{TXT_ALT_IMG}" /><!-- END icon -->
+<!-- BEGIN link --><a {A_CLASS} href="{LINK_TARGET}" {TARGET} {ONCLICK}>{TITLE}</a> <div class="il_ExplorerItemDescription">{DESC}</div><!-- END link -->
+<!-- BEGIN select -->{OBJ_SEL}<!-- END select -->
+<!-- BEGIN check -->{OBJ_CHECK}<!-- END check -->
+<!-- BEGIN text -->{OBJ_TITLE}<div class="il_ExplorerItemDescription">{OBJ_DESC}</div><!-- END text -->
+<!-- END list_item -->
+<!-- BEGIN end_list_item -->
+</li>
+<!-- END end_list_item -->
+<!-- BEGIN end_list -->
+</ul>
+<!-- END end_list -->
+<!-- END element -->
+</div>
+</div>
+<!-- BEGIN updater -->
+<script language="JavaScript" type="text/javascript">
+if (parent && parent.{UPDATE_FRAME} && parent.{UPDATE_FRAME}.{UPDATE_SCRIPT})
+{
+	parent.{UPDATE_FRAME}.{UPDATE_SCRIPT}({UPDATE_PARAMS});
+}
+</script>
+<!-- END updater -->

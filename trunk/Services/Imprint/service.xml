@@ -1,0 +1,11 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<service xmlns="http://www.w3.org" version="$Id$" id="impr">
+	<baseclasses>
+		<baseclass name="ilImprintGUI" dir="classes" />
+	</baseclasses>
+	<objects>
+	</objects>
+	<copage>
+		<pageobject parent_type="impr" class_name="ilImprint" directory="classes"/>
+	</copage>
+</service>

@@ -1,0 +1,31 @@
+<?php xml version = "1.0" encoding = "UTF-8"?>
+<module xmlns="http://www.w3.org" version="$Id: modules.xml 15671 2008-01-04 13:08:30Z akill $"
+	id="grp">
+	<baseclasses>
+	</baseclasses>
+	<objectgroups>
+		<objectgroup id="grp" name="Groups" default_pres_pos="70"/>
+	</objectgroups>
+	<objects>
+		<object id="grp" class_name="Group" dir="classes" default_pos="50" default_pres_pos="70"
+			checkbox="1" inherit="1" translate="0" rbac="1" allow_copy="1" export="1">
+			<subobj id="rolf" max="1">rolf</subobj>
+			<parent id="cat">cat</parent>
+			<parent id="crs">crs</parent>
+			<parent id="grp">grp</parent>
+			<parent id="fold">fold</parent>
+			<parent id="recf">recf</parent>
+			<parent id="root">root</parent>
+		</object>
+		<object id="grps" class_name="GroupAdministration" dir="classes"
+			checkbox="0" inherit="0" translate="sys" rbac="1" system="1" administration="1">
+			<parent id="adm" max="1">adm</parent>
+			<subobj id="rolf" max="1">rolf</subobj>
+		</object>
+	</objects>
+	<events>		
+		<event type="raise" id="create" />
+		<event type="raise" id="update" />
+		<event type="raise" id="delete" />
+	</events>
+</module>

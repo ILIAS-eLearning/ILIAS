@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0 plus SVG 1.1//EN"
+	"http://www.w3.org/2002/04/xhtml-math-svg/xhtml-math-svg.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<title>{WINDOW_TITLE} {PAGETITLE}</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link rel="stylesheet" type="text/css" href="{LOCATION_STYLESHEET}" />
+</head>
+<body class="il_Explorer">
+
+	<div class="ilExplorerFrame">
+		<table class="ilExplorer">
+			<tr>
+				<td class="ilExpH">
+					<div class="ilExpH">
+						<h1 class="ilExplorerHead">{TXT_HELP_HEADER}</h1>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td class="ilExpBody">
+					<div class="il_Explorer">
+						<form action="{FORMACTION}" name="intlink_post" method="post">
+							<table class="fullwidth">
+								<tr class="tblheader">
+									<td class="std">{TXT_TYPE}</td>
+								</tr>
+								<tr class="std">
+									<td class="option_value">{SELECT_TYPE}</td>
+								</tr>
+								<tr>
+									<td class="submit">
+									<input type="submit" class="submit" name="cmd[{CMD_CHANGETYPE}]" value="{BTN_CHANGETYPE}" />
+									<!-- BEGIN buttonclose -->
+									<input type="submit" class="submit" name="cmd[{CMD_CLOSE}]" value="{BTN_CLOSE}" />
+									<!-- END buttonclose -->
+									<!-- BEGIN buttonclosejs -->
+									<input type="button" class="submit" value="{BTN_CLOSE_JS}" onClick="window.close();" />
+									<!-- END buttonclosejs -->
+									</td>
+								</tr>
+							</table>
+						</form>
+						{LINK_HELP_CONTENT}
+						<form action="{FORMACTION2}" name="post" method="post" {TARGET2}>
+							<!-- BEGIN chapter_list -->
+							<table class="fullwidth">
+								<tr class="tblheader">
+									<td class="std" colspan="{COLSPAN}">{TXT_CONTENT_OBJECT}</td>
+								</tr>
+								<tr class="std">
+									<td class="option_value" colspan="{COLSPAN}">{TXT_CONT_TITLE}</td>
+								</tr>
+								<tr>
+									<td class="submit" colspan="{COLSPAN}">
+									<!-- BEGIN change_cont_obj -->
+									<input type="submit" class="submit" name="cmd[{CMD_CHANGE_CONT_OBJ}]" value="{BTN_CHANGE_CONT_OBJ}" />
+									<!-- END change_cont_obj -->
+									<!-- BEGIN new_mob -->
+									<input type="submit" class="submit" name="cmd[{CMD_NEW_MOB}]" value="{BTN_NEW_MOB}" />
+									<!-- END new_mob -->
+									</td>
+								</tr>
+								<!-- BEGIN row -->
+								<!-- BEGIN chapter_row -->
+								<tr class="{ROWCLASS}">
+									<!-- BEGIN thumbnail -->
+									<td>{NO_THUMB}<!-- BEGIN thumb --><img src="{SRC_THUMB}" alt="" /><!-- END thumb --></td>
+									<!-- END thumbnail -->
+									<td class="std"><b>{TXT_CHAPTER}</b><br />{LINK_CHAPTER}
+									<!-- BEGIN anchor_link -->
+										<div style="padding-left:20px;" class="small">{HREF_LINK} <!-- {TXT_LINK} --></div>
+									<!-- END anchor_link -->
+									</td>
+								</tr>
+								<!-- END chapter_row -->
+								<!-- BEGIN chapter_row_js -->
+								<tr class="{ROWCLASS}">
+									<!-- BEGIN thumbnail_js -->
+									<td>{NO_THUMB}<!-- BEGIN thumb --><img src="{SRC_THUMB}" alt="" /><!-- END thumb --></td>
+									<!-- END thumbnail_js -->
+									<td class="std">
+										<a href="#" onClick="parent.content.addInternalLink('{LINK_CHAPTER}','{TXT_CHAPTER_JS}', event);setTimeout('window.close()',300);return(false);">{TXT_CHAPTER}</a>
+										<!-- BEGIN anchor_link_js -->
+										<div style="padding-left:20px;" class="small"><a href="#" onClick="parent.content.addInternalLink('{HREF_LINK}','{TXT_LINK}', event);setTimeout('window.close()',300);return(false);">{TXT_LINK}</a></div>
+										<!-- END anchor_link_js -->
+									</td>
+								</tr>
+								<!-- END chapter_row_js -->
+								<!-- BEGIN link_row -->
+								<tr class="{ROWCLASS}">
+									<!-- BEGIN thumbnail_link -->
+									<td width="1">{NO_THUMB}<!-- BEGIN thumb --><img src="{SRC_THUMB}" alt="" /><!-- END thumb --></td>
+									<!-- END thumbnail_link -->
+									<!-- BEGIN icon -->
+										<td class="std ilWhiteSpaceNowrap" width="1">
+										<img src="{ICON_SRC}" alt="" />
+										</td>
+									<!-- END icon -->
+									<td class="stdilWhiteSpaceNowrap">
+									<a href="{LINK}" target="{LINK_TARGET}">{TXT_CHAPTER}</a></td>
+								</tr>
+								<!-- END link_row -->
+
+								<!-- END row -->
+							</table>
+							<!-- END chapter_list -->
+						</form>
+					</div>
+				</td>
+			</tr>
+		</table>
+	</div>
+<!-- {FOOTER} -->
+</body>
+</html>

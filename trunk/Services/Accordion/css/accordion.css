@@ -1,0 +1,35 @@
+/* Vertical Accordion */
+
+div.il_VAccordionToggleDef
+{
+	display: block;
+}
+
+div.il_VAccordionToggleActiveDef
+{
+}
+
+div.il_VAccordionContentDef
+{
+	overflow: hidden;
+}
+	
+/*
+	Horizontal Accordion
+*/
+
+div.il_HAccordionToggleDef
+{
+	float: left;	/* This make sure it stays horizontal */
+	display: block;
+}
+
+div.il_HAccordionToggleActiveDef
+{
+}
+
+div.il_HAccordionContentDef
+{
+	float: left;	/* This make sure it stays horizontal */
+	overflow: hidden;
+}

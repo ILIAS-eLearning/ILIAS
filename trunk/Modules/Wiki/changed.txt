@@ -1,0 +1,15 @@
+14611 dann:
+
+goto.php
+lang/ilias_en.lang
+Services/COPage/classes/class.ilPageObjectGUI.php
+Services/COPage/classes/class.ilPageEditorGUI.php
+objects.xml
+classes/class.ilObjSystemFolderGUI.php
+classes/class.ilContainerGUI.php
+templates/default/tpl.adm_basicdata.html
+modules.xml
+delos.css
+
+all files
+Services/COPage/classes/class.il<PageContentType>GUI.php

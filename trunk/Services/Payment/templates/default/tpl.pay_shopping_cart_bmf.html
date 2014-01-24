@@ -1,0 +1,20 @@
+<!-- BEGIN loop -->
+{ITEMS_TABLE}
+<p>{COUPON_TABLE}<br /></p>
+<!-- BEGIN buy_link -->
+<div align="right">
+	<!-- BEGIN buy -->
+	<script language="JavaScript">
+	document.write('<a class="submit" href="#" onClick="w = window.open(\'{SCRIPT_LINK}\', \'payment\', \'width=620,height=480,scrollbars=yes,resizable=yes,menubar=yes\'); w.focus(); return false">&nbsp;{TXT_BUY}&nbsp;</a>');
+	</script>
+	<noscript>
+	<a class="submit" href="{SCRIPT_LINK}" target="payment">&nbsp;{TXT_BUY}&nbsp;</a>
+	</noscript>
+	<!-- END buy -->
+	<!-- BEGIN unlock -->
+	<a class="submit" href="{LINK_UNLOCK}">&nbsp;{TXT_UNLOCK}&nbsp;</a>
+	<!-- END unlock -->
+</div>
+<div style="clear:both">&nbsp;</div>
+<!-- END buy_link -->
+<!-- END loop -->

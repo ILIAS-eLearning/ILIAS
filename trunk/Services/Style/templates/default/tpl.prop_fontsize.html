@@ -1,0 +1,18 @@
+<div>
+<input type="radio" name="{POSTVAR}[type]" value="numeric" {NUMERIC_SELECTED} />
+<input type="text" name="{POSTVAR}[num_value]" value="{VAL_NUM}" size="8" style="text-align:right;" />
+<select name="{POSTVAR}[num_unit]">
+<!-- BEGIN unit_option -->
+	<option value="{VAL_UNIT}" {UNIT_SELECTED}>{TXT_UNIT}</option>
+<!-- END unit_option -->
+</select>
+</div>
+<div>
+<input type="radio" name="{POSTVAR}[type]" value="predefined" {PREDEFINED_SELECTED} />
+<select name="{POSTVAR}[pre_value]">
+<!-- BEGIN pre_option -->
+	<option value="{VAL_PRE}" {PRE_SELECTED}>{TXT_PRE}</option>
+<!-- END pre_option -->
+</select>
+</div>
+

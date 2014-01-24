@@ -1,0 +1,42 @@
+<!-- this dtd describes a list of ilias clients -->
+
+<!ENTITY AdvancedMetaDataRecords SYSTEM "ilias_advanced_meta_data_records_3_9.dtd">
+<!ENTITY UDFDefinitions SYSTEM "ilias_udf_definition_3_10.dtd">
+<!-- include the reused dtd -->
+%UDFDefinitions;
+%AdvancedMetaDataRecords;
+
+<!-- new elements defined here -->
+
+
+<!ELEMENT Installation (Settings, Clients)>
+<!ATTLIST Installation
+	version CDATA #REQUIRED
+	path	CDATA #REQUIRED
+>
+
+<!ELEMENT Clients (Client*)>	
+<!ELEMENT Client  (Name, Description, Institution, Settings, AdvancedMetaDataRecords?, UDFDefinitions?)>
+<!ATTLIST Client
+	inst_id CDATA #REQUIRED
+	id ID #REQUIRED
+	enabled (TRUE|FALSE) #REQUIRED
+	default_lang    CDATA #REQUIRED
+	>	
+<!ELEMENT Name (#PCDATA)>
+<!ELEMENT Responsible (Firstname, Lastname, Title, Institution?, Position?, Email, Street, ZipCode, City, Country, Phone)>
+<!ELEMENT Firstname (#PCDATA)>
+<!ELEMENT Lastname (#PCDATA)>
+<!ELEMENT Institution (#PCDATA)>
+<!ELEMENT Position (#PCDATA)>
+<!ELEMENT Email (#PCDATA)>
+<!ELEMENT Street  (#PCDATA)>
+<!ELEMENT ZipCode  (#PCDATA)>
+<!ELEMENT City (#PCDATA)>
+<!ELEMENT Country (#PCDATA)>
+<!ELEMENT Phone (#PCDATA)>
+<!ELEMENT Settings (Setting*)>
+<!ELEMENT Setting (#PCDATA)>
+<!ATTLIST Setting
+	key CDATA #REQUIRED>
+      

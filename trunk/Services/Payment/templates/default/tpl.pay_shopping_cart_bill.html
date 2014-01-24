@@ -1,0 +1,55 @@
+<!-- BEGIN loop -->
+{ITEMS_TABLE}
+<p>{COUPON_TABLE}<br /></p>
+<!-- BEGIN buy_link -->
+<div align="right">
+<form name ="sc_bill" id="sc_bill" action="{SCRIPT_LINK}" method="post" />
+	<!-- BEGIN buy -->
+
+	<a class="submit" href="{SCRIPT_LINK}" target="payment">&nbsp;{TXT_BUY}&nbsp;</a>
+	<!-- END buy -->
+	<!-- BEGIN unlock -->
+	<a class="submit" href="{LINK_UNLOCK}">&nbsp;{TXT_UNLOCK}&nbsp;</a>
+	<!-- END unlock -->
+	<!-- BEGIN terms_checkbox -->
+<font size="-2">{TERMS_CONDITIONS}<input type="checkbox" name="terms_conditions_bill" id="terms_conditions_bill" onclick="enableButtonBill()"></font>
+<!-- END terms_checkbox -->
+<input  name="sb_bill" id="sb_bill" class="submit" type="submit" value="{TXT_BUY}" disabled="disabled"/>
+</form>
+</div>
+<script language="JavaScript">
+    <!--
+    function enableButtonBill()
+    {
+      if(document.sc_bill.terms_conditions_bill.checked == true)
+      {
+		document.sc_bill.sb_bill.disabled = false;
+      }
+	  else
+      if(document.sc_bill.terms_conditions_bill.checked == false)
+      {
+		document.sc_bill.sb_bill.disabled = true;
+      }
+	}
+
+	<!-- BEGIN attach_submit_event_bill -->
+	document.getElementById("sb_bill").onclick = function() {
+		if (document.getElementById("terms_conditions_bill").checked == true) {
+			w = window.open("blank", "ilLogin", "width=800,height=768,status=no,toolbar=no,menubar=no,location=no,dependent=yes,scrollbars=yes")
+
+			document.getElementById("sc_bill").setAttribute("target", "ilLogin");
+			document.getElementById("sc_bill").submit();
+
+			if ("undefined" != typeof w &&
+				"undefined" != typeof w.focus) {
+				w.focus();
+			}
+		}
+		return false;
+	}
+	<!-- END attach_submit_event_bill -->
+-->
+</script>
+<div style="clear:both">&nbsp;</div>
+<!-- END buy_link -->
+<!-- END loop -->

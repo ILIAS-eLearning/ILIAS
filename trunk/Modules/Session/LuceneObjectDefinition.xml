@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ObjectDefinition xmlns:xi="http://www.w3.org/2001/XInclude" type="sess">
+	<Document type="default">
+		<xi:include href="../../Services/Object/LuceneDataSource.xml" />
+		<xi:include href="../../Services/Tagging/LuceneDataSource.xml" />
+		<DataSource type="JDBC" action="append">
+			<Query>
+				SELECT location, tutor_name, tutor_email, tutor_phone, details 
+				FROM event WHERE obj_id IN(?)
+			</Query>
+			<Param format="list" type="int" value="objId" />
+			<Field store="YES" index="ANALYZED" column="location" type="text" name="propertyLow" />
+			<Field store="YES" index="ANALYZED" column="tutor_name" type="text" name="propertyMedium" />
+			<Field store="YES" index="ANALYZED" column="tutor_email" type="text" name="propertyMedium" />
+			<Field store="YES" index="ANALYZED" column="tutor_phone" type="text" name="propertyMedium" />
+			<Field store="YES" index="ANALYZED" column="details" type="text" name="propertyLow" />
+		</DataSource>
+	</Document>
+</ObjectDefinition>

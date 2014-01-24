@@ -1,0 +1,60 @@
+<div class="ilMainHeader">
+<div class="ilMainMenuHeadSection">
+	<!-- BEGIN osd_enabled --><script type="text/javascript">var OSDNotifier; $(function() { OSDNotifier = OSDNotifications({initialNotifications: {INITIAL_NOTIFICATIONS}, pollingIntervall: {OSD_POLLING_INTERVALL}, playSound: {OSD_PLAY_SOUND}})});</script><!-- END osd_enabled -->
+	<!-- BEGIN osd_container -->
+        <div class="osdNotificationContainer">
+
+        </div>
+	<!-- END osd_container -->
+	<div id="il_main_logo">
+		<a href="{HEADER_URL}" target="_top"><img src="{HEADER_ICON}" alt="Logo" /></a>
+	</div><!-- BEGIN header_top_title -->
+	<div class="ilTopTitle">
+		{TXT_HEADER_TITLE}
+	</div><!-- END header_top_title -->
+
+	<!-- BEGIN userisanonymous -->
+	<div class="ilLogin">
+		<span class="il_menu">
+		{TXT_NOT_LOGGED_IN}.&nbsp;&nbsp;
+		<a href="{LINK_LOGIN}" class="ilLogin" target="_top">{TXT_LOGIN}</a>
+		<!-- BEGIN registration_link -->&nbsp;&nbsp;<a href="{LINK_REGISTER}" class="ilLogin" target="_top">{TXT_REGISTER}</a><!-- END registration_link -->
+		&nbsp;&nbsp;{LANG_SELECT}</span>
+	</div>
+	<!-- END userisanonymous -->
+	<!-- BEGIN userisloggedin -->
+	<div class="ilLogin">
+		{USERNAME} » <a class="ilLogin" href="{LINK_LOGOUT2}" target="_top">{TXT_LOGOUT2}</a>
+	</div>
+	<!-- END userisloggedin -->
+	<!-- BEGIN status_box -->
+	<div id="il_status_box">
+		<!-- BEGIN status_item --><a class="il_ItemProperty" target="_top" href="{STATUS_HREF}"><img src="{STATUS_IMG}" alt="" /><!-- BEGIN status_text --><span class="ilMMStatus">{STATUS_TXT}</span><span class="small ilMMHidStatus">{STATUS_TXT}</span><!-- END status_text --></a><!-- END status_item -->
+	</div>
+	<!-- END status_box -->
+
+</div>
+<div class="ilMainMenuSection">
+	<div class="ilMainMenu">
+		<h1 class="ilAccHeadingHidden">{TXT_MAIN_MENU}</h1>
+		{MAIN_MENU_LIST_ENTRIES}
+	</div>
+	<ul class="ilMainMenu ilMainMenuSide">
+	<!-- BEGIN help_icon -->
+	<li class="ilMainMenu"><a class="MMInactive" id="help_tr" href="#" onclick="return il.Help.listHelp(event, false);"><img src="{IMG_HELP}" alt="" /></a></li>
+	<!-- END help_icon -->
+	<!-- BEGIN help_tt_icon -->
+	<li class="ilMainMenu"><a class="MMInactive" id="help_tt" href="#" onclick="return il.Help.switchTooltips(event);"><img src="{IMG_TT_ON}" id="help_tt_switch_on" alt="" /><img class="ilNoDisplay" src="{IMG_TT_OFF}" id="help_tt_switch_off" alt="" /></a></li>
+	<!-- END help_tt_icon -->
+	<!-- BEGIN search_box -->
+	<li class="ilMainMenu">{SEARCHBOX}</li>
+	<!-- END search_box -->
+	</ul>
+	<!-- BEGIN screen_id -->
+	<div id="il_screen_id" class="ilHighlighted small">Screen-ID: {SCREEN_ID}</div>
+	<!-- END screen_id -->
+	<!-- BEGIN top_section -->
+	<!-- END top_section -->
+<div class="ilClearFloat"></div>
+</div>
+</div>

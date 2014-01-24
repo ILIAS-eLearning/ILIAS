@@ -1,0 +1,47 @@
+<!-- ilias_user.dtd for ILIAS mail import -->
+<!-- For comments refer to our mailing list: xml-ilias@uni-koeln.de -->
+<!-- $Id$Id: ilias_mail_0_1.dtd,v 1.1 2004/03/31 13:42:19 smeyer Exp $ -->
+
+<!-- Users -->
+<!ELEMENT users (user*)>
+<!ATTLIST users
+    exportVersion CDATA #REQUIRED
+>
+
+<!-- User -->
+<!ELEMENT user (signature*, linebreak*, mail*)>
+<!ATTLIST user
+	id CDATA #REQUIRED
+>
+<!-- Signature -->
+<!ELEMENT signature (#PCDATA)>
+
+<!-- Linebreak -->
+<!ELEMENT linebreak (#PCDATA)>
+
+<!-- Mail -->
+<!ELEMENT mail (targetFolder,sender,sendTime,to,cc?,bcc?,url?,urlDescription?,message?,subject)>
+
+<!ATTLIST mail
+    asEmail CDATA #REQUIRED
+    systemMessage CDATA #REQUIRED
+>
+<!-- targetFolder inbox | sentbox | draft | trash -->
+<!ELEMENT targetFolder (#PCDATA)>
+<!ATTLIST sender 
+    id CDATA #REQUIRED
+    import_name CDATA #REQUIRED
+>
+<!ELEMENT sender EMPTY>
+<!-- Should be a unix time -->
+<!ELEMENT sendTime (#PCDATA)>
+<!-- String of to recipients ',' seperated e.g. root,bla@blub.de,#gruppe1,@all -->
+<!ELEMENT to (#PCDATA)>
+<!-- String of cc recipients ',' seperated -->
+<!ELEMENT cc (#PCDATA)>
+<!-- String of bcc recipients ',' seperated -->
+<!ELEMENT bcc (#PCDATA)>
+<!ELEMENT url (#PCDATA)>
+<!ELEMENT urlDescription (#PCDATA)>
+<!ELEMENT subject (#PCDATA)>
+<!ELEMENT message (#PCDATA)>

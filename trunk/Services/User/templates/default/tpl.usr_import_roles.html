@@ -1,0 +1,89 @@
+{IMPORT_LOG}
+<!-- BEGIN role_selection_form -->
+<form action="{FORMACTION}" method="post">
+<table class="std">
+	<tr class="tbltitle">
+		<td class="tbltitle" colspan="2">{TXT_IMPORT_USERS}</td>
+	</tr>
+	<tr>
+		<td class="option">
+			{TXT_IMPORT_FILE}
+		</td>
+		<td class="option_value">
+			{IMPORT_FILE}
+		</td>
+	</tr>
+	<tr>
+		<td class="option">
+			{TXT_USER_ELEMENT_COUNT}
+		</td>
+		<td class="option_value">
+			{USER_ELEMENT_COUNT}
+		</td>
+	</tr>
+	<tr class="tblheader">
+		<td class="std" colspan="2">{TXT_ROLE_ASSIGNMENT}</td>
+	</tr>
+	<!-- BEGIN global_role_section -->
+	<tr class="tblheader">
+		<td class="std">{TXT_GLOBAL_ROLES_IMPORT}</td>
+		<td class="std">{TXT_GLOBAL_ROLES}</td>
+	</tr>
+	<!-- BEGIN global_role -->
+	<tr>
+		<td class="option">
+			{TXT_IMPORT_GLOBAL_ROLE}
+		</td>
+		<td class="option_value">
+			{SELECT_GLOBAL_ROLE}
+		</td>
+	</tr>
+	<!-- END global_role -->
+	<!-- END global_role_section -->
+	<!-- BEGIN local_role_section -->
+	<tr class="tblheader">
+		<td class="std">{TXT_LOCAL_ROLES_IMPORT}</td>
+		<td class="std">{TXT_LOCAL_ROLES}</td>
+	</tr>
+	<!-- BEGIN local_role -->
+	<tr>
+		<td class="option">
+			{TXT_IMPORT_LOCAL_ROLE}
+		</td>
+		<td class="option_value">
+			{SELECT_LOCAL_ROLE}
+		</td>
+	</tr>
+	<!-- END local_role -->
+	<!-- END local_role_section -->
+	<tr class="tblheader">
+		<td class="std" colspan="2">{TXT_CONFLICT_HANDLING}</td>
+	</tr>
+	<tr>
+		<td class="option">
+			{TXT_CONFLICT_CHOICE}
+		</td>
+		<td class="option_value">
+			{SELECT_CONFLICT}
+                        <br><span class="subtitle">{TXT_CONFLICT_HANDLING_INFO}</br>
+		</td>
+	</tr>
+	<!-- BEGIN inform_user -->
+	<tr class="tblheader">
+		<td class="std" colspan="2">{TXT_ACCOUNT_MAIL}</td>
+	</tr>
+	<tr>
+		<td class="option" >{TXT_INFORM_USER_MAIL} </td>
+		<td class="option_value"><input type="checkbox" name="send_mail"  value="y" {SEND_MAIL} /></td>
+	</tr>
+	<!-- END inform_user -->
+	<tr class="submit">
+		<td class="submit" colspan="2">
+			<input class="submit" type="submit" name="cmd[importUsers]" value="{BTN_IMPORT}"/>
+			<input class="submit" type="submit" name="cmd[importCancelled]" value="{BTN_CANCEL}"/>
+			<input type="hidden" name="xml_file" value="{XML_FILE_NAME}"/>
+		</td>
+	</tr>
+</table>
+</form>
+<!-- END role_selection_form -->

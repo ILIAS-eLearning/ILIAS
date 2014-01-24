@@ -1,0 +1,21 @@
+<form action="{FORMACTION}" name="post" method="post" enctype="multipart/form-data">
+<table class="std">
+<tr class="tblheader">
+	<td class="std" colspan="2">
+		{TXT_ACTION}
+	</td>
+</tr>
+<!-- File -->
+<tr>
+  <td class="option">{TXT_FILE}<span class="asterisk">*</span><span class="small"></td>
+  <td class="option_value"><input type="file" name="Fobject[file]" size="30"/></td>
+</tr>
+<!-- BEGIN commands -->
+<tr>
+	<td class="submit" colspan="2">
+		<input class="submit" type="submit" name="cmd[{BTN_NAME}]" value="{BTN_TEXT}" />
+	</td>
+</tr>
+<!-- END commands -->
+</table>
+</form>

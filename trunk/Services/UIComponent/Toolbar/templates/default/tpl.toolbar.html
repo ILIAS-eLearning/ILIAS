@@ -1,0 +1,31 @@
+<!-- BEGIN form_open --><form method="post" id="ilToolbar" action="{FORMACTION}" {TARGET} {ENC_TYPE} {FORMNAME} class="ilForm"><!-- END form_open -->
+<div class="ilToolbar" {STYLE} {ID}><h3 class="ilAccHeadingHidden">{TXT_FUNCTIONS}</h3>
+<!-- BEGIN lead_image --><img border="0" src="{IMG_SRC}" alt="{IMG_ALT}" /><!-- END lead_image -->
+<!-- BEGIN item -->
+<!-- BEGIN button -->
+<a {BTN_ACC_KEY} {BID} class="{BTN_CLASS}" href="{BTN_LINK}" {BTN_TARGET} {BTN_ADD_ARG}>&nbsp;{BTN_TXT}&nbsp;</a>
+<!-- END button -->
+<!-- BEGIN form_button -->
+<input class="submit{SUB_CLASS}" type="submit" name="cmd[{SUB_CMD}]" value="{SUB_TXT}" />
+<!-- END form_button -->
+<!-- BEGIN input -->
+<!-- BEGIN input_label -->{TXT_INPUT}&nbsp;<!-- END input_label -->{INPUT_HTML}
+<!-- END input -->
+<!-- BEGIN separator -->
+<span class="ilToolbarSeparator">&nbsp;</span>&nbsp;
+<!-- END separator -->
+<!-- BEGIN spacer -->
+<span style="padding:0px {SPACER_WIDTH}px;">&nbsp;</span>
+<!-- END spacer -->
+<!-- BEGIN link -->
+<a href="{LINK_URL}">&nbsp;{LINK_TXT}&nbsp;</a>
+<!-- END link -->
+<!-- BEGIN text -->
+&nbsp;{VAL_TEXT}&nbsp;
+<!-- END text -->
+<!-- BEGIN link_disabled -->
+<span class="ilTableFootLight">&nbsp;{LINK_DISABLED_TXT}&nbsp;</span>
+<!-- END link_disabled -->
+<!-- END item -->
+</div>
+<!-- BEGIN form_close --></form><!-- END form_close -->

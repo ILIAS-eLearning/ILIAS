@@ -1,0 +1,26 @@
+<form action="{FORMACTION}" method="post" name="cmd">
+<input type="hidden" name="wizard_search_title" value="{WIZARD_SEARCH_TITLE}" />
+<table class="std" width="60%">
+	<tr class="tblheader">
+		<th class="std" colspan="2">
+			<img src="{TYPE_IMG}" alt="{ALT_IMG}" title="{ALT_IMG}" />
+			{TXT_DUPLICATE}<div class="subtitle">{INFO_THREADS}</div>
+		</th>
+	</tr>
+	<tr>
+		<td class="option">{THREADS}</td>
+		<td class="option_value">
+			  <!-- BEGIN thread_row -->
+			  {CHECK_THREAD} {NAME_THREAD}<br />
+			  <!-- END thread_row -->
+			  <input name="chb_check_all" value="1" id="active_all" 
+				onclick="il.Util.setChecked('cmd', '{JS_FIELD}', document.cmd.active_all.checked);" type="checkbox"> <strong>{SELECT_ALL}</strong>
+		</td>
+	</tr>
+	<tr>
+		<td class="submit ilRight" colspan="2">
+			<input class="submit" type="submit" name="cmd[cloneAll]" value="{BTN_COPY}" />
+			<input class="submit" type="submit" name="cmd[{BACK_CMD}]" value="{BTN_BACK}" />
+		</td>
+	</tr>
+</table>

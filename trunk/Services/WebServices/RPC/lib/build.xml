@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<project name="ilServer" default="buildSource" basedir=".">
+    <description>
+            Compile and create ilServer.jar, ilServer.source.jar
+    </description>
+	<property name="src" location="src" />
+	<property name="tmp" location="tmp" />
+	<property name="build" location="bin"/>
+	<property name="lib" location="jars" />
+	<property name="excl" location="ilias/**" />
+	
+	<fileset id="fileset-all-libs"
+	         dir="${lib}"
+	         includes="**/*.jar"
+	/>
+	<path id="path-compile">
+		<fileset refid="fileset-all-libs" />
+	</path>
+
+	<target name="init" depends="">
+    	<delete dir="bin" />
+    	<delete dir="${tmp}" />
+		<mkdir dir="bin" />
+	</target>
+	<target name="compile" depends="init" >
+        <javac srcdir="${src}"
+        	destdir="${build}"
+        	source="1.6"
+        	target="1.6"
+			classpathref="path-compile"
+			debug="yes">
+			<exclude name="ilias/**" /> 
+        </javac>
+	<copy todir="${build}">
+		<fileset dir="${src}">
+			<include name="**/*.xml" />
+			<include name="**/*.ttf" />
+		</fileset>
+	</copy>
+    </target>
+
+    <!-- - - - - - - - - - - - - - - - - - 
+          target: depends                      
+         - - - - - - - - - - - - - - - - - -->
+    <target name="buildSource" depends="build">
+	<!--
+    	<delete file="ilServer.source.jar" />
+    	<zip destfile="ilServer.source.zip">
+    		<zipfileset dir="${lib}" prefix="lib"/>
+    		<zipfileset dir="${src}" prefix="src" />
+    		<zipfileset file="*.xml" />
+    		<zipfileset file="*.properties" />
+	    </zip>
+	<delete dir="${tmp}" />
+	-->
+    </target>
+    <target name="build" depends="compile">
+    	<mkdir dir="${tmp}"/>
+    	<unjar dest="${tmp}">
+    		<fileset dir="${lib}" includes="**/*.jar" />
+		</unjar>
+    	<delete file="ilServer.jar" />
+    	<jar jarfile="ilServer.jar" >
+    		<fileset dir="${build}" />
+			<fileset dir="${tmp}" />
+    		<manifest>
+    			<attribute name="Main-Class" value="de.ilias.ilServer"/>
+    			<attribute name="MODULE-VERSION" value="4.3.2" />
+			<section name="de/ilias/config/unifont.ttf">
+				<attribute name="Content-Type" value="application/x-font" />
+			</section>
+    		</manifest>
+    	</jar>
+    </target>
+</project>

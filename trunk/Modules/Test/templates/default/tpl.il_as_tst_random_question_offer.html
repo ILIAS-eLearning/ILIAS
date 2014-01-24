@@ -1,0 +1,30 @@
+<form name="form_qpl_select" method="POST" action="{FORM_ACTION}">
+<p>{TEXT_QUESTION_OFFER}</p>
+<input type="hidden" name="sel_qpl" value="{VALUE_QUESTIONPOOL_SELECTION}" />
+<input type="hidden" name="nr_of_questions" value="{VALUE_NR_OF_QUESTIONS}" />
+<input type="hidden" name="chosen_questions" value="{VALUE_CHOSEN_QUESTIONS}" />
+<table class="fullwidth">
+<thead>
+	<tr class="tblheader">
+		<th class="std">{QUESTION_TITLE}</th>
+		<th class="std">{QUESTION_COMMENT}</th>
+		<th class="std">{QUESTION_TYPE}</th>
+		<th class="std">{QUESTION_AUTHOR}</th>
+		<th class="std">{QUESTION_POOL}</th>
+	</tr>
+</thead>
+<!-- BEGIN QTab --> 
+<tr class="{COLOR_CLASS}"><td class="{COLOR_CLASS}">{QUESTION_TITLE}</td><td class="{COLOR_CLASS}">{QUESTION_COMMENT}</td><td class="{COLOR_CLASS}">{QUESTION_TYPE}</td><td class="{COLOR_CLASS}">{QUESTION_AUTHOR}</td><td class="{COLOR_CLASS}">{QUESTION_POOL}</td></tr>
+<!-- END QTab --> 
+<!-- BEGIN Emptytable --> 
+<tr class="tblfooter"><td colspan="5">{TEXT_NO_QUESTIONS_AVAILABLE}</td></tr>
+<!-- END Emptytable --> 
+<tr class="tblfooter"><td colspan="5" align="right">
+<!-- BEGIN Selectionbuttons -->
+<input class="submit" type="submit" name="cmd[insertRandomSelection]" value="{BTN_YES}" />
+<input class="submit" type="submit" name="cmd[createRandomSelection]" value="{BTN_NO}" />&nbsp;&nbsp;
+<!-- END Selectionbuttons -->
+<input class="submit" type="submit" name="cmd[cancelRandomSelect]" value="{BTN_CANCEL}" />
+</td></tr>
+</table>
+</form>

@@ -1,0 +1,44 @@
+<tr class="{CSS_ROW}">
+	<td style="padding: 8px" class="std">
+		<!-- BEGIN obj_icon -->
+		<!-- BEGIN padding --><div style="padding-left: 22px"><!-- END padding -->
+		<img src="{TREE_IMG}" style="vertical-align:middle;" alt="{TREE_ALT_IMG}" title="{TREE_ALT_IMG}" border="0" vspace="0" />&nbsp;{TREE_TITLE}
+		<!-- BEGIN end_padding --></div><!-- END end_padding -->
+		<!-- END obj_icon -->
+	</td>
+	<td class="std">
+		<!-- BEGIN missing_copy_perm -->
+		<font class="il_Helptext">{TXT_MISSING_COPY_PERM}</font>
+		<!-- END missing_copy_perm -->
+		<!-- BEGIN radio_copy -->
+		<input type="radio" name="{NAME_COPY}" value="{VALUE_COPY}" id="{ID_COPY}" {COPY_CHECKED} onClick="ilDisableChilds('cmd')"; />
+		<label for="{ID_COPY}">{TXT_COPY}</label>
+		<!-- END radio_copy -->
+		<!-- BEGIN footer_copy -->
+		<input type="radio" name="select_all" value="1" id="copy_all" onClick="ilCheckByAction('cmd','copy','document.cmd.copy_all.checked');ilDisableChilds('cmd');" /> 
+		<strong><label for="copy_all">{TXT_COPY_ALL}</label></strong>
+		<!-- END footer_copy -->		
+	</td>
+	<td class="std">
+		<!-- BEGIN missing_link_perm -->
+		<font class="il_Helptext">{TXT_MISSING_LINK_PERM}</font>
+		<!-- END missing_link_perm -->
+		<!-- BEGIN radio_link -->
+		<input type="radio" name="{NAME_LINK}" value="{VALUE_LINK}" id="{ID_LINK}" {LINK_CHECKED} onClick="ilDisableChilds('cmd');" />
+		<label for="{ID_LINK}">{TXT_LINK}</label>
+		<!-- END radio_link -->
+		<!-- BEGIN footer_link -->
+		<input type="radio" name="select_all" value="1" id="link_all" onClick="ilCheckByAction('cmd','link','document.cmd.link_all.checked');ilDisableChilds('cmd');" /> 
+		<strong><label for="link_all">{TXT_LINK_ALL}</label></strong>
+		<!-- END footer_link -->		
+	</td>
+	<td class="std">
+		<!-- BEGIN omit_radio -->
+		<input type="radio" name="{NAME_OMIT}" value="{VALUE_OMIT}" id="{ID_OMIT}" {OMIT_CHECKED} onClick="ilDisableChilds('cmd');" /><label for="{ID_OMIT}">{TXT_OMIT}</label>
+		<!--  END omit_radio --> 
+		<!-- BEGIN footer_omit -->
+		<input type="radio" name="select_all" value="1" id="omit_all" onClick="ilCheckByAction('cmd','omit','document.cmd.omit_all.checked');ilDisableChilds('cmd');" /> 
+		<strong><label for="omit_all">{TXT_OMIT_ALL}</label></strong>
+		<!-- END footer_omit -->		
+	</td>
+<tr>

@@ -1,0 +1,93 @@
+<div class="il_Block" datatable="0">
+<div <!-- BEGIN hclass -->class="ilBlockHeader"<!-- END hclass --><!-- BEGIN hclassb -->class="ilBlockHeaderBig"<!-- END hclassb -->>
+<!-- BEGIN hitem -->
+<!-- BEGIN header_commands -->
+<div style="float:right;">
+<!-- BEGIN header_command -->
+<a class="il_ContainerItemCommand" href="{HREF_HCOMM}">{TXT_HCOMM}</a>
+<!-- END header_command -->
+<!-- BEGIN header_config -->
+<!-- <a href="{HREF_CONFIG}" <!-- BEGIN oncclick -->onclick="return ilBlockJSHandler('{OC_BLOCK_ID}','{OC_HREF}')"<!-- END oncclick -->><img border="0" alt="{ALT_CONFIG}" src="{IMG_CONFIG}" /></a> -->
+<!-- END header_config -->
+<!-- BEGIN header_close -->
+<a href="{HREF_CLOSE}"><img border="0" alt="{ALT_CLOSE}" title="{ALT_CLOSE}" src="{IMG_CLOSE}" /></a>
+<!-- END header_close -->
+</div>
+<!-- END header_commands -->
+<div style="float:right;">
+{ADV_DROPDOWN}
+</div>
+<!-- BEGIN header_title -->
+<div>
+<!-- BEGIN block_img --><!-- <img border="0" src="{IMG_BLOCK}" alt="{IMG_ALT}" title="{IMG_ALT}" id="{IMID}_blimg" /> --><!-- END block_img -->
+<h3 class="ilBlockHeader"><a class="ilAccAnchor" name="{BTID}_blhead" id="{BTID}_blhead">{BLOCK_TITLE}</a><span class="ilAccHidden"> ({TXT_BLOCK})</span></h3> <span id="{BTID}_loader"></span>
+<!-- BEGIN block_subtitle --><div>{BLOCK_SUBTITLE}</div><!-- END block_subtitle -->
+</div>
+<!-- END header_title -->
+<!-- END hitem -->
+<!-- BEGIN header_links -->
+<div style="float:right;" class="il_BlockInfo">
+<!-- BEGIN head_item -->
+<!-- BEGIN head_delim --><span style="font-weight: normal;"> | </span><!-- END head_delim -->
+<!-- BEGIN head_text --><span style="font-weight: normal;">{HTEXT}</span><!-- END head_text -->
+<!-- BEGIN head_link --><a style="font-weight: normal;" href="{HHREF}" <!-- BEGIN head_onclick -->onclick="return ilBlockJSHandler('{OC_BLOCK_ID}','{OC_HREF}')"<!-- END head_onclick -->>{HLINK}</a><!-- END head_link -->
+<!-- END head_item -->
+</div>
+<!-- END header_links -->
+</div>
+<!-- BEGIN top_row -->
+<div class="ilBlockInfo">
+	<!-- colspan="{PCOLSPAN}" -->
+	{NUMINFO}
+	<!-- BEGIN top_item -->
+	<!-- BEGIN top_delim --> | <!-- END top_delim -->
+	<!-- BEGIN top_text -->{FTEXT}<!-- END top_text -->
+	<!-- BEGIN top_link --><a href="{FHREF}" <!-- BEGIN top_onclick -->onclick="return ilBlockJSHandler('{OC_BLOCK_ID}','{OC_HREF}')"<!-- END top_onclick -->>{FLINK}</a><!-- END top_link -->
+	<!-- END top_item -->
+</div>
+<!-- END top_row -->
+{BLOCK_ROW}
+<!-- BEGIN data_section -->
+<div class="ilBlockContent">{DATA}</div>
+<!-- END data_section -->
+<!-- BEGIN detail_setting -->
+<div class="ilBlockInfo">
+	<!-- colspan="{DCOLSPAN}" -->
+	<!-- BEGIN det_info -->
+	<img style="cursor:help;" alt="{ALT_DET_INFO}" src="{IMG_DET_INFO}" border="0" onclick="ilBlockToggleInfo('{DI_BLOCK_ID}');" />
+	<div class="small" style="clear:both; margin-top:2px;">
+	<span id="det_info_{DI_BLOCK_ID}" style="display:none;">{INFO_TEXT}</span>
+	<script type="text/javascript"></script>
+	<noscript>{INFO_TEXT}
+	</noscript>
+	</div>
+	<!-- END det_info -->
+</div>
+<!-- END detail_setting -->
+<!-- BEGIN foot_row -->
+<div class="tblfooter">
+	<!-- colspan="{PCOLSPAN}" -->
+	<div style="float:right;" class="il_BlockInfo">
+	<!-- BEGIN foot_item -->
+	<!-- BEGIN foot_delim --> | <!-- END foot_delim -->
+	<!-- BEGIN foot_text -->{FTEXT}<!-- END foot_text -->
+	<!-- BEGIN foot_link --><a href="{FHREF}" <!-- BEGIN foot_onclick -->onclick="return ilBlockJSHandler('{OC_BLOCK_ID}','{OC_HREF}')"<!-- END foot_onclick -->>{FLINK}</a><!-- END foot_link -->
+	<!-- END foot_item -->
+	</div>
+	<div class="il_BlockInfo">{NUMINFO}</div>
+</div>
+<!-- END foot_row -->
+<!-- BEGIN footer_information -->
+<div class="submit"><!-- colspan="{FICOLSPAN}" --><div class="small">
+{FOOTER_INFO}
+</div></div>
+<!-- END footer_information -->
+<!-- BEGIN block_commands -->
+<div class="ilBlockInfo" style="text-align:left;"> <!-- colspan="{CCOLSPAN}" -->
+<!-- BEGIN block_check --><input type="checkbox" name="id[]" value="{BL_REF_ID}" /><!-- END block_check -->
+<!-- BEGIN block_command -->
+<a {BC_CLASS} href="{CMD_HREF}" <!-- BEGIN bc_target -->target="{CMD_TARGET}"<!-- END bc_target --> ><!-- BEGIN bc_image --><img src="{SRC_BC}" border="0" title="{ALT_BC}" alt="{ALT_BC}" /><!-- END bc_image -->{CMD_TEXT}</a>
+<!-- END block_command -->
+</div>
+<!-- END block_commands -->
+</div>

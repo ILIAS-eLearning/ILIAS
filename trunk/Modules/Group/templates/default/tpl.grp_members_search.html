@@ -1,0 +1,41 @@
+	<form action="{F_ACTION}" name="post" method="post" >
+	  <table class="std">
+	    <tr class="tblheader">
+          <td class="std" colspan="2">
+          <table class="invisible_border" width="100%">
+            <tr>
+              <td>{SEARCH_ASSIGN_USR}</td>
+            </tr>
+            </table>
+            </td>
+          </tr>
+		  <tr>
+			<td class="option"><label for="search_str">{SEARCH_SEARCH_TERM}</label></td>
+			<td class="option_value"><input type="text" name="search_str" id="search_str" size="30" maxsize="30" value="{SEARCH_VALUE}"/></td>
+		  </tr>
+		  <tr>
+			<td class="option" rowspan="3">{SEARCH_FOR}</td>
+			<td class="option_value">{SEARCH_ROW_CHECK_USER}&nbsp; <label for="usr">{SEARCH_ROW_TXT_USER}</label></td>
+		  </tr>
+		  <tr>
+			<td class="option_value">{SEARCH_ROW_CHECK_ROLE}&nbsp; <label for="role">{SEARCH_ROW_TXT_ROLE}</label></td>
+		  </tr>
+		  <tr>
+			<td class="option_value">{SEARCH_ROW_CHECK_GROUP}&nbsp; <label for="grp">{SEARCH_ROW_TXT_GROUP}</label></td>
+		  </tr>
+		  <tr>
+            <td class="submit" colspan="2">
+              <span class="asterisk"></span><span class="small"> {TXT_REQUIRED_FLD}&nbsp;</span>
+            <div align="right">
+			  <input class="submit" type="submit" name="cmd[search]" value="{BTN1_VALUE}" />
+			  <input class="submit" type="submit" name="cmd[cancelMember]" value="{BTN2_VALUE}" />
+            </div>
+            </td>
+		  </tr>
+	  </table>
+	</form>
+<script type="text/javascript">
+<!--
+	document.post.search_str.focus();
+//-->
+</script>

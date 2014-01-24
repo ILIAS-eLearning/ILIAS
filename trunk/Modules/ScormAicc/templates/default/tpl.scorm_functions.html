@@ -1,0 +1,45 @@
+<script type="text/javascript">
+
+function {PREFIX}GetValue(dataModelElement) {
+ 	return parent.parent._api.document.APIAdapter.LMSGetValue(dataModelElement);
+}
+
+function {PREFIX}SetValue(dataModelElement,elemValue) {
+	return parent.parent._api.document.APIAdapter.LMSSetValue(dataModelElement,elemValue);
+}
+
+function {PREFIX}Initialize(inString) 
+{	
+	parent.parent._api.document.APIAdapter.SetParameter(user_id, item_id, session_id, code_base);
+	
+	parent.parent._api.document.APIAdapter.LMSInitialize(inString);
+  
+	//parent.parent._api.document.getElementById("APIAdapter").SetParameter(user_id, item_id, session_id, code_base);
+ 	//return parent.parent._api.document.getElementById("APIAdapter").LMSInitialize(inString);
+}
+
+function {PREFIX}Finish(inString) { 
+	return parent.parent._api.document.APIAdapter.LMSFinish(inString);
+}
+
+function {PREFIX}Commit(inString) {
+ return parent.parent._api.document.APIAdapter.LMSCommit(inString);
+}
+
+function {PREFIX}GetLastError() {
+ 	return parent.parent._api.document.APIAdapter.LMSGetLastError();
+}
+
+function {PREFIX}GetErrorString(errorNumber) {
+ 	return parent.parent._api.document.APIAdapter.APIAdapter.LMSGetErrorString(errorNumber);
+}
+
+function {PREFIX}GetDiagnostics(inString) {
+	return parent.parent._api.document.APIAdapter.LMSGetDiagnostics(inString);
+}
+
+function {PREFIX}Terminate(inString) {
+ return parent.parent._api.document.APIAdapter.LMSFinish(inString);
+}
+
+</script>

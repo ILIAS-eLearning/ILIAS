@@ -1,0 +1,44 @@
+<form action="{FORMACTION}" {TARGET} method="post">
+<table class="std">
+<!-- BEGIN obj_form -->
+<tr class="tblheader">
+  <td class="std" colspan="2">
+  <table class="invisible_border" width="100%">
+    <tr>
+      <td>{TXT_HEADER}</td>
+<!-- BEGIN removeTranslation -->
+      <td align="right"><a href="{LINK_REMOVE_TRANSLATION}">{TXT_REMOVE_TRANSLATION}</a></td>
+<!-- END removeTranslation -->
+    </tr>
+  </table>
+  </td>
+</tr>
+<tr>
+  <td class="option">{TXT_TITLE}</td>
+  <td class="option_value"><input name="Fobject[{NUM}][title]" value="{TITLE}" size="40" maxlength="70" style="width:300px;"/></td>
+</tr>
+<tr>
+  <td class="option">{TXT_DESC}</td>
+  <td class="option_value"><textarea name="Fobject[{NUM}][desc]" rows="2" cols="40" style="width:300px;">{DESC}</textarea></td>
+</tr>
+<tr>
+  <td class="option">{TXT_LANGUAGE}<span class="asterisk">*</span></td>
+  <td class="option_value">{SEL_LANGUAGE}
+  <input type="radio" name="default_language" value="{NUM}" {CHECKED} /> {TXT_DEFAULT}
+<!-- BEGIN addTranslation -->
+  <div align="right"><input class="submit" type="submit" name="cmd[addHeaderTitleTranslation]" value="{TXT_ADD_TRANSLATION}" /></div>
+<!-- END addTranslation -->
+  </td>
+</tr>
+<!-- END obj_form -->
+<tr>
+  <td class="submit" colspan="2">
+  <span class="asterisk">*</span><span class="small"> {TXT_REQUIRED_FLD}</span>
+  <div align="right">
+	<input class="submit" type="submit" name="cmd[{CMD_SUBMIT}]" value="{TXT_SUBMIT}" />
+	<input class="submit" type="submit" name="cmd[cancel]" value="{TXT_CANCEL}" />
+  </div>
+  </td>
+</tr>
+</table>
+</form>

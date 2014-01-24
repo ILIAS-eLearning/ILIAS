@@ -1,0 +1,33 @@
+<tr class="{CSS_ROW}">
+<td class="std" style="vertical-align:top;">
+<input type="checkbox" name="news_id[]" value="{VAL_ID}" />
+</td>
+<td class="std">
+{VAL_TITLE}
+<!-- BEGIN content -->
+<p class="small">{VAL_CONTENT}</p>
+<!-- END content -->
+<!-- BEGIN long -->
+<div class="small">{VAL_LONG_CONTENT}</div>
+<!-- END long -->
+</div>
+</td>
+<td class="std small">
+{CONTEXT}
+</td>
+<td class="std small">
+<!-- BEGIN access -->{VAL_ACCESS}<!-- END access -->
+</td>
+<td class="std small">
+	<!-- BEGIN user_info -->{VAL_AUTHOR}<!-- END user_info -->
+</td>
+<td class="std small">
+	{VAL_CREATION_DATE}
+</td>
+<td class="std small">
+	<!-- BEGIN ni_update -->{VAL_LAST_UPDATE}<!-- END ni_update -->
+</td>
+<td class="std">
+	<!-- BEGIN edit --><a class="il_ContainerItemCommand" href="{CMD_EDIT}">{TXT_EDIT}</a><!-- END edit -->
+</td>
+</tr>

@@ -1,0 +1,494 @@
+<?php xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE objects SYSTEM "./objects.dtd">
+<objects xmlns="http://www.w3.org" version="$Id: objects.xml 15735 2008-01-16 08:37:08Z smeyer $">
+<object name="root" class_name="RootFolder" location="Modules/RootFolder/classes" module="Modules/RootFolder" checkbox="0" inherit="0" translate="0" rbac="1" system="1">
+	<subobj name="cat">cat</subobj>
+	<subobj name="adm" max="1">adm</subobj>
+	<property name="view">view_content</property>
+	<property name="edit">edit_properties</property>
+	<property name="perm">perm_settings</property>
+	<property name="trash">trash</property>
+	<action name="cut">cut</action>
+	<action name="copy">copy</action>
+	<action name="delete">delete</action>
+	<action name="paste">paste</action>
+	<action name="clear">clear</action>
+</object>
+<object name="adm" class_name="SystemFolder" location="Modules/SystemFolder/classes" module="Modules/SystemFolder" checkbox="0" inherit="0" translate="sys" rbac="1" system="1">
+	<subobj name="usrf" max="1">usrf</subobj>
+	<subobj name="rolf" max="1">rolf</subobj>
+	<subobj name="objf" max="1">objf</subobj>
+	<subobj name="lngf" max="1">lngf</subobj>
+	<subobj name="mail" max="1">mail</subobj>
+	<subobj name="chac" max="1">chac</subobj>
+	<subobj name="recf" max="1">recf</subobj>
+	<subobj name="trac" max="1">trac</subobj>
+	<subobj name="auth" max="1">auth</subobj>
+	<subobj name="assf" max="1">assf</subobj>
+	<subobj name="adve" max="1">adve</subobj>
+	<subobj name="stys" max="1">stys</subobj>
+	<subobj name="seas" max="1">seas</subobj>
+	<subobj name="extt" max="1">extt</subobj>
+	<subobj name="ps" max="1">ps</subobj>
+	<subobj name="nwss" max="1">nwss</subobj>
+	<subobj name="cmps" max="1">cmps</subobj>
+	<subobj name="pdts" max="1">pdts</subobj>
+	<subobj name="mds" max="1">pdts</subobj>
+	<subobj name="pays" max="1">pdts</subobj>
+	<property name="view">settings</property>
+	<property name="perm">perm_settings</property>
+	<property name="check">system_check</property>
+	<property name="benchmark">benchmarks</property>
+</object>
+<object name="cat" class_name="Category" location="Modules/Category/classes" module="Modules/Category" checkbox="1" inherit="1" translate="db" rbac="1">
+	<subobj name="cat">cat</subobj>
+	<subobj name="crs">crs</subobj>
+	<subobj name="rcrs">crs</subobj>
+	<subobj name="grp">grp</subobj>
+	<subobj name="chat">chat</subobj>
+	<subobj name="frm">frm</subobj>
+	<subobj name="feed">feed</subobj>
+	<subobj name="file" module="1">file</subobj>
+	<subobj name="webr">webr</subobj>
+	<subobj name="mcst">mcst</subobj>
+	<subobj name="wiki">wiki</subobj>
+	<subobj name="lm" import="1">lm</subobj>
+	<subobj name="htlm">htlm</subobj>
+	<subobj name="sahs" import="1">sahs</subobj>
+	<subobj name="dbk">dbk</subobj>
+	<subobj name="glo">glo</subobj>
+	<subobj name="exc">exc</subobj>
+	<subobj name="tst">tst</subobj>
+	<subobj name="svy">svy</subobj>
+	<subobj name="mep">mep</subobj>
+	<subobj name="qpl">qpl</subobj>
+	<subobj name="spl">spl</subobj>
+	<subobj name="icrs">icrs</subobj>
+	<subobj name="rolf" max="1">rolf</subobj>
+	<property name="view">view_content</property>
+	<property name="edit">edit_properties</property>
+<!--
+	<property name="listUsers">administrate_users</property>
+-->
+	<property name="perm">perm_settings</property>
+	<property name="trash">trash</property>
+	<action name="cut">cut</action>
+	<action name="copy">copy</action>
+	<action name="delete">delete</action>
+	<action name="link">link</action>
+	<action name="paste">paste</action>
+	<action name="clear">clear</action>
+</object>
+<object name="dbk" class_name="DlBook" location="Modules/LearningModule/classes" module="Modules/LearningModule" checkbox="1" inherit="1" translate="0" allow_link="1" rbac="1">
+	<subobj name="rolf" max="1">rolf</subobj>
+	<property name="properties" module="1">properties</property>
+	<property name="chapters" module="1">cont_chapters</property>
+	<property name="pages" module="1">cont_all_pages</property>
+	<property name="perm">perm_settings</property>
+</object>
+<object name="crs" class_name="Course" location="Modules/Course/classes" module="Modules/Course" checkbox="1" inherit="1" translate="0" allow_copy="1" rbac="1">
+	<subobj name="fold">fold</subobj>
+	<subobj name="grp">grp</subobj>
+	<subobj name="chat">chat</subobj>
+	<subobj name="frm" import="1">frm</subobj>
+	<subobj name="feed">feed</subobj>
+	<subobj name="file">file</subobj>
+	<subobj name="webr">webr</subobj>
+	<subobj name="mcst">mcst</subobj>
+	<subobj name="wiki">wiki</subobj>
+	<subobj name="lm">lm</subobj>
+	<subobj name="htlm">htlm</subobj>
+	<subobj name="sahs" import="1">sahs</subobj>
+	<subobj name="dbk">dbk</subobj>
+	<subobj name="glo">glo</subobj>
+	<subobj name="exc">exc</subobj>
+	<subobj name="tst">tst</subobj>
+	<subobj name="svy">svy</subobj>
+	<subobj name="mep">mep</subobj>
+	<subobj name="qpl">qpl</subobj>
+	<subobj name="spl">spl</subobj>
+	<subobj name="icrs">icrs</subobj>
+	<subobj name="rolf" max="1">rolf</subobj>
+	<property name="view">view_content</property>
+	<property name="perm">perm_settings</property>
+	<property name="trash">trash</property>
+	<action name="cut">cut</action>
+	<action name="link">link</action>
+	<action name="delete">delete</action>
+	<action name="paste">paste</action>
+	<action name="clear">clear</action>
+</object>
+<object name="fold" class_name="Folder" location="Modules/Folder/classes" module="Modules/Folder" checkbox="1" inherit="1" translate="0" allow_copy="1" rbac="1">
+	<subobj name="fold">fold</subobj>
+	<subobj name="grp">grp</subobj>
+	<subobj name="chat">chat</subobj>
+	<subobj name="frm" import="1">frm</subobj>
+	<subobj name="file">file</subobj>
+	<subobj name="webr">webr</subobj>
+	<subobj name="mcst">mcst</subobj>
+	<subobj name="wiki">wiki</subobj>
+	<subobj name="lm">lm</subobj>
+	<subobj name="htlm">htlm</subobj>
+	<subobj name="sahs" import="1">sahs</subobj>
+	<subobj name="dbk">dbk</subobj>
+	<subobj name="glo">glo</subobj>
+	<subobj name="exc">exc</subobj>
+	<subobj name="tst">tst</subobj>
+	<subobj name="svy">svy</subobj>
+	<subobj name="mep">mep</subobj>
+	<subobj name="qpl">qpl</subobj>
+	<subobj name="spl">spl</subobj>
+	<subobj name="rolf" max="1">rolf</subobj>
+	<property name="view">view_content</property>
+	<property name="edit" module="1">edit_properties</property>
+	<property name="perm">perm_settings</property>
+	<property name="trash">trash</property>
+	<action name="cut">cut</action>
+	<action name="copy">copy</action>
+	<action name="link">link</action>
+	<action name="delete">delete</action>
+	<action name="paste">paste</action>
+	<action name="clear">clear</action>
+</object>
+<object name="frm" class_name="Forum" location="Modules/Forum/classes" module="Modules/Forum" checkbox="1" inherit="1" translate="0" allow_link="1" allow_copy="1" rbac="1">
+	<subobj name="rolf" max="1">rolf</subobj>
+	<property name="view">view_content</property>
+	<property name="edit" module="1">edit_properties</property>
+	<property name="perm">perm_settings</property>
+	<action name="copy">copy</action>
+</object>
+<object name="grp" class_name="Group" location="Modules/Group/classes" module="Modules/Group" checkbox="1" inherit="1" translate="0" rbac="1" allow_copy="1">
+	<subobj name="fold">fold</subobj>
+	<subobj name="grp">grp</subobj>
+	<subobj name="chat">chat</subobj>
+	<subobj name="frm" import="1">frm</subobj>
+	<subobj name="feed">feed</subobj>
+	<subobj name="file">file</subobj>
+	<subobj name="webr">webr</subobj>
+	<subobj name="mcst">mcst</subobj>
+	<subobj name="wiki">wiki</subobj>
+	<subobj name="lm">lm</subobj>
+	<subobj name="htlm">htlm</subobj>
+	<subobj name="sahs" import="1">sahs</subobj>
+	<subobj name="dbk">dbk</subobj>
+	<subobj name="glo">glo</subobj>
+	<subobj name="exc">exc</subobj>
+	<subobj name="tst">tst</subobj>
+	<subobj name="svy">svy</subobj>
+	<subobj name="mep">mep</subobj>
+	<subobj name="qpl">qpl</subobj>
+	<subobj name="spl">spl</subobj>
+	<subobj name="icrs">icrs</subobj>
+	<subobj name="rolf" max="1">rolf</subobj>
+	<property name="view">view_content</property>
+	<property name="edit" module="1">edit_properties</property>
+	<property name="members" module="1">group_members</property>
+	<property name="export" module="1">export</property>
+	<property name="shownewRegistrations" module="1">group_new_registrations</property>
+	<property name="perm">perm_settings</property>
+	<property name="trash">trash</property>
+	<action name="cut">cut</action>
+	<action name="copy">copy</action>
+	<action name="link">link</action>
+	<action name="delete">delete</action>
+	<action name="paste">paste</action>
+	<action name="clear">clear</action>
+</object>
+<object name="lm" class_name="LearningModule" location="Modules/LearningModule/classes" module="Modules/LearningModule" checkbox="1" inherit="1" translate="0" allow_link="1" rbac="1">
+	<subobj name="rolf" max="1">rolf</subobj>
+	<property name="properties" module="1">properties</property>
+	<property name="chapters" module="1">cont_chapters</property>
+	<property name="pages" module="1">cont_all_pages</property>
+	<property name="exportList" module="1">export</property>
+	<property name="linkChecker" module="1">link_check</property>
+	<property name="perm">perm_settings</property>
+</object>
+<object name="sahs" class_name="SAHSLearningModule" location="Modules/ScormAicc/classes" module="Modules/ScormAicc" checkbox="1" inherit="1" translate="0" allow_link="1" rbac="1">
+	<subobj name="rolf" max="1">rolf</subobj>
+	<property name="perm">perm_settings</property>
+</object>
+<object name="glo" class_name="Glossary" location="Modules/Glossary/classes" module="Modules/Glossary" checkbox="1" inherit="1" translate="0" allow_link="1" rbac="1">
+	<subobj name="rolf" max="1">rolf</subobj>
+	<property name="listTerms" module="1">cont_terms</property>
+	<property name="perm">perm_settings</property>
+</object>
+<object name="lng" class_name="Language" location="Services/Language/classes" module="Services/Language" checkbox="1" translate="0" rbac="0">
+	<property name="edit">edit_properties</property>
+</object>
+<object name="lngf" class_name="LanguageFolder" location="Services/Language/classes" module="Services/Language" checkbox="0" inherit="0" translate="sys" rbac="1" system="1" devmode="0">
+	<subobj name="lng">lng</subobj>
+	<property name="view">view_content</property>
+	<property name="perm">perm_settings</property>
+	<action name="install">install</action>
+	<action name="installLocal">install_local</action>
+	<action name="uninstall">uninstall</action>
+	<action name="setSystemLanguage">setSystemLanguage</action>
+	<action name="setUserLanguage">setUserLanguage</action>
+</object>
+<object name="mep" class_name="MediaPool" location="Modules/MediaPool/classes" module="Modules/MediaPool" checkbox="1" inherit="1" translate="0" allow_link="1" rbac="1">
+	<subobj name="rolf" max="1">rolf</subobj>
+	<property name="listMedia" module="1">view_content</property>
+	<property name="perm">perm_settings</property>
+</object>
+<object name="htlm" class_name="FileBasedLM" location="Modules/HTMLLearningModule/classes" module="Modules/HTMLLearningModule" checkbox="1" inherit="1" translate="0" allow_link="1" rbac="1">
+	<subobj name="rolf" max="1">rolf</subobj>
+	<property name="listFiles" module="1">list_files</property>
+	<property name="perm">perm_settings</property>
+</object>
+<object name="mail" class_name="Mail" location="Services/Mail/classes" module="Services/Mail" checkbox="0" inherit="0" translate="sys" rbac="1">
+	<property name="view">view_content</property>
+	<property name="perm">perm_settings</property>
+	<property name="import">mail_import</property>
+</object>
+<object name="objf" class_name="ObjectFolder" location="Services/Object/classes" module="Services/Object" checkbox="0" inherit="0" translate="sys" rbac="1" devmode="1" system="1">
+	<subobj name="typ">typ</subobj>
+	<property name="view">view_content</property>
+	<property name="perm">perm_settings</property>
+</object>
+<object name="role" class_name="Role" location="Services/AccessControl/classes" module="Services/AccessControl" checkbox="1" inherit="0" translate="0" rbac="0">
+	<property name="edit">edit_properties</property>
+	<property name="perm">default_perm_settings</property>
+	<property name="userassignment">user_assignment</property>
+	<property name="listDesktopItems">desktop_items</property>
+</object>
+<object name="rolf" class_name="RoleFolder" location="Services/AccessControl/classes" module="Services/AccessControl" checkbox="0" inherit="0" translate="sys" rbac="1" system="1">
+	<subobj name="rolt">rolt</subobj>
+	<subobj name="role">role</subobj>
+	<property name="view">view_content</property>
+	<property name="perm">perm_settings</property>
+	<action name="delete">delete</action>
+</object>
+<object name="rolt" class_name="RoleTemplate" location="Services/AccessControl/classes" module="Services/AccessControl" checkbox="1" inherit="0" translate="0" rbac="0">
+	<property name="edit">edit_properties</property>
+	<property name="perm">default_perm_settings</property>
+	<action name="delete">delete</action>
+</object>
+<object name="typ" class_name="TypeDefinition" location="Services/Object/classes" module="Services/Object" checkbox="0" inherit="0" translate="0" rbac="0">
+	<property name="view">view_content</property>
+	<property name="edit">edit_operations</property>
+</object>
+<object name="usr" class_name="User" location="Services/User/classes" module="Services/User" checkbox="1" inherit="0" translate="0" rbac="0">
+	<property name="edit">edit_properties</property>
+	<property name="roleassignment">role_assignment</property>
+</object>
+<object name="usrf" class_name="UserFolder" location="Services/User/classes" module="Services/User" checkbox="0" inherit="1" translate="sys" rbac="1" system="1">
+	<subobj name="rolf" max="1">rolf</subobj>
+	<subobj name="usr">usr</subobj>
+	<property name="view">view_content</property>
+	<property name="settings">global_settings</property>
+	<property name="export">export</property>
+	<property name="perm">perm_settings</property>
+	<action name="delete">delete</action>
+	<action name="activate">activate</action>
+	<action name="deactivate">deactivate</action>
+	<action name="accessRestrict">accessRestrict</action>
+	<action name="accessFree">accessFree</action>
+	<action name="export">export</action>
+</object>
+<object name="sty" class_name="StyleSheet" location="Services/Style/classes" module="Services/Style" checkbox="1" inherit="0" translate="0" rbac="0">
+	<property name="view">cont_content</property>
+</object>
+<object name="stys" class_name="StyleSettings" location="Services/Style/classes" module="Services/Style" checkbox="0" inherit="0" translate="sys" rbac="1" system="1">
+	<subobj name="sty">sty</subobj>
+	<property name="editBasicSettings">basic_settings</property>
+	<property name="editSystemStyles">system_styles</property>
+	<property name="editContentStyles">content_styles</property>
+	<property name="perm">perm_settings</property>
+	<action name="delete">delete</action>
+</object>
+<object name="exc" class_name="Exercise" location="Modules/Exercise/classes" module="Modules/Exercise" checkbox="1" inherit="1" allow_link="1" allow_copy="1" rbac="1">
+	<subobj name="rolf" max="1">rolf</subobj>
+	<property name="perm">perm_settings</property>
+	<property name="trash">trash</property>
+</object>
+<object name="mcst" class_name="MediaCast" location="Modules/MediaCast/classes" module="Modules/MediaCast" checkbox="1" inherit="1" allow_link="1" rbac="1">
+	<subobj name="rolf" max="1">rolf</subobj>
+	<property name="perm">perm_settings</property>
+	<property name="trash">trash</property>
+</object>
+<object name="wiki" class_name="Wiki" location="Modules/Wiki/classes" module="Modules/Wiki" checkbox="1" inherit="1" allow_link="1" rbac="1">
+	<subobj name="rolf" max="1">rolf</subobj>
+	<property name="perm">perm_settings</property>
+	<property name="trash">trash</property>
+</object>
+<object name="feed" class_name="ExternalFeed" location="Modules/ExternalFeed/classes" module="Modules/ExternalFeed" checkbox="1" inherit="1" allow_link="1" allow_copy="1" rbac="1" sideblock="1">
+	<property name="perm">perm_settings</property>
+	<property name="trash">trash</property>
+</object>
+<object name="file" class_name="File" location="Modules/File/classes" module="Modules/File" checkbox="1" inherit="0" translate="0" rbac="1" allow_link="1" allow_copy="1">
+	<subobj name="rolf" max="1">rolf</subobj>
+	<property name="perm">perm_settings</property>
+	<property name="trash">trash</property>
+</object>
+<object name="qpl" class_name="QuestionPool" location="Modules/TestQuestionPool/classes" module="Modules/TestQuestionPool" checkbox="1" inherit="1" allow_link="1" translate="0" rbac="1">
+	<subobj name="rolf" max="1">rolf</subobj>
+	<property name="properties" module="1">properties</property>
+	<property name="questions" module="1">ass_questions</property>
+	<property name="export" module="1">export</property>
+	<property name="perm">perm_settings</property>
+	<action name="delete">delete</action>
+</object>
+<object name="tst" class_name="Test" location="Modules/Test/classes" module="Modules/Test" checkbox="1" inherit="1" allow_link="1" allow_copy="1" translate="0" rbac="1">
+	<subobj name="rolf" max="1">rolf</subobj>
+	<property name="properties" module="1">properties</property>
+	<property name="questions" module="1">ass_questions</property>
+	<property name="marks" module="1">mark_schema</property>
+	<property name="participants" module="1">participants</property>
+	<property name="print" module="1">print</property>
+	<property name="export" module="1">export</property>
+	<property name="maintenance" module="1">maintenance</property>
+	<property name="status" module="1">status</property>
+	<property name="perm">perm_settings</property>
+	<action name="delete">delete</action>
+</object>
+<object name="svy" class_name="Survey" location="Modules/Survey/classes" module="Modules/Survey" checkbox="1" inherit="1" allow_link="1" allow_copy="1" translate="0" rbac="1">
+	<subobj name="rolf" max="1">rolf</subobj>
+	<property name="properties" module="1">properties</property>
+	<property name="questions" module="1">survey_questions</property>
+	<property name="invite" module="1">invite_participants</property>
+	<property name="export" module="1">export</property>
+	<property name="maintenance" module="1">maintenance</property>
+	<property name="status" module="1">status</property>
+	<property name="codes" module="1">codes</property>
+	<property name="perm">perm_settings</property>
+	<action name="delete">delete</action>
+</object>
+<object name="spl" class_name="SurveyQuestionPool" location="Modules/SurveyQuestionPool/classes" module="Modules/SurveyQuestionPool" checkbox="1" inherit="1" allow_link="1" translate="0" rbac="1">
+	<subobj name="rolf" max="1">rolf</subobj>
+	<property name="properties" module="1">properties</property>
+	<property name="questions" module="1">survey_questions</property>
+	<property name="phrases" module="1">manage_phrases</property>
+	<property name="export" module="1">export</property>
+	<property name="perm">perm_settings</property>
+	<action name="delete">delete</action>
+</object>
+<object name="chat" class_name="Chat" location="Modules/Chat/classes" module="Modules/Chat" checkbox="1" inherit="1" translate="0" rbac="1" allow_link="1" allow_copy="1">
+	<subobj name="rolf" max="1">rolf</subobj>
+	<property name="view">view_content</property>
+	<property name="recordings">chat_recordings</property>
+	<property name="blockedUsers">chat_blocked_users</property>
+	<property name="perm">perm_settings</property>
+</object>
+<object name="chac" class_name="ChatServer" location="Modules/Chat/classes" module="Modules/Chat" checkbox="0" inherit="0" translate="sys" rbac="1" system="1">
+	<property name="view">view_content</property>
+	<property name="edit">edit_properties</property>
+	<property name="perm">perm_settings</property>
+</object>
+<object name="recf" class_name="RecoveryFolder" location="Services/Administration/classes" module="Services/Administration" checkbox="0" inherit="0" translate="sys" rbac="1" system="1">
+	<subobj name="cat">cat</subobj>
+	<subobj name="fold">fold</subobj>
+	<subobj name="crs">crs</subobj>
+	<subobj name="grp">grp</subobj>
+	<subobj name="chat">chat</subobj>
+	<subobj name="frm">frm</subobj>
+	<subobj name="lm">lm</subobj>
+	<subobj name="htlm">htlm</subobj>
+	<subobj name="sahs">sahs</subobj>
+	<subobj name="dbk">dbk</subobj>
+	<subobj name="glo">glo</subobj>
+	<subobj name="file">file</subobj>
+	<subobj name="exc">exc</subobj>
+	<subobj name="tst">tst</subobj>
+	<subobj name="svy">svy</subobj>
+	<subobj name="mep">mep</subobj>
+	<subobj name="qpl">qpl</subobj>
+	<subobj name="spl">spl</subobj>
+	<subobj name="rolf" max="1">rolf</subobj>
+	<property name="view">view_content</property>
+	<property name="edit">edit_properties</property>
+	<action name="cut">cut</action>
+	<action name="clear">clear</action>
+	<action name="removeFromSystem">btn_remove_system</action>
+</object>
+<object name="cals" class_name="CalendarSettings" location="Services/Calendar/classes" module="Services/Calendar" checkbox="0" inherit="0" translate="sys" rbac="1" devmode="0" system="1">
+	<property name="view">view_content</property>
+	<property name="perm">perm_settings</property>
+	<property name="trash">trash</property>
+	<action name="delete">delete</action>
+</object>
+<object name="trac" class_name="UserTracking" location="Services/Tracking/classes" module="Services/Tracking" checkbox="0" inherit="0" translate="sys" rbac="1" system="1">
+	<property name="trackingDataQueryForm">tracking_data</property>
+	<property name="settings">settings</property>
+	<property name="manageData">manage_tracking_data</property>
+	<property name="learningProgress">learning_progress</property>
+	<property name="perm">perm_settings</property>
+</object>
+<object name="assf" class_name="AssessmentFolder" location="Modules/Test/classes" module="Modules/Test" checkbox="0" inherit="0" translate="sys" rbac="1" system="1">
+	<property name="settings">settings</property>
+	<property name="logs">logs</property>
+	<property name="perm">perm_settings</property>
+</object>
+<object name="adve" class_name="AdvancedEditing" location="Services/AdvancedEditing/classes" module="Services/AdvancedEditing" checkbox="0" inherit="0" translate="sys" rbac="1" system="1">
+	<property name="settings">settings</property>
+	<property name="perm">perm_settings</property>
+</object>
+<object name="auth" class_name="AuthSettings" location="Services/Authentication/classes" module="Services/Authentication" checkbox="0" inherit="0" translate="sys" rbac="1" system="1">
+	<property name="view">settings</property>
+	<property name="perm">perm_settings</property>
+</object>
+<object name="pays" class_name="PaymentSettings" location="Services/Payment/classes" module="Services/Payment" checkbox="0" inherit="0" translate="sys" rbac="1" system="1">
+	<property name="generalSettings">general_settings</property>
+	<property name="statistic">statistic</property>
+	<property name="vendors">vendors</property>
+	<property name="payMethods">pay_methods</property>
+	<property name="perm">perm_settings</property>
+</object>
+<object name="icrs" class_name="iLincCourse" location="Modules/ILinc/classes" module="Modules/ILinc" checkbox="1" inherit="1" translate="0" rbac="1" devmode="0">
+	<subobj name="rolf" max="1">rolf</subobj>
+	<subobj name="icla">icla</subobj>
+	<property name="view">view_rooms</property>
+	<property name="edit">edit_properties</property>
+	<property name="members">members</property>
+	<property name="perm">perm_settings</property>
+</object>
+<object name="icla" class_name="iLincClassroom" location="Modules/ILinc/classes" module="Modules/ILinc" checkbox="0" inherit="0" translate="0" rbac="0" devmode="0">
+</object>
+<object name="webr" class_name="LinkResource" location="Modules/WebResource/classes" module="Modules/WebResource" checkbox="1" inherit="0" allow_link="1" allow_copy="1" translate="0" rbac="1" devmode="0">
+	<subobj name="rolf" max="1">rolf</subobj>
+	<property name="perm">perm_settings</property>
+	<action name="cut">cut</action>
+	<action name="copy">copy</action>
+	<action name="link">link</action>
+	<action name="delete">delete</action>
+	<action name="paste">paste</action>
+	<action name="clear">clear</action>
+</object>
+<object name="seas" class_name="SearchSettings" module="Services/Search" location="Services/Search/classes" checkbox="0" inherit="0" translate="sys" rbac="1" system="1">
+	<property name="settings">settings</property>
+	<property name="perm">perm_settings</property>
+</object>
+<object name="extt" class_name="ExternalToolsSettings" location="Services/Administration/classes" module="Services/Administration" checkbox="0" inherit="0" translate="sys" rbac="1" devmode="0" system="1">
+	<property name="view">settings</property>
+	<property name="perm">perm_settings</property>
+</object>
+<object name="ps" class_name="PrivacySecurity" location="Services/PrivacySecurity/classes" module="Services/PrivacySecurity" checkbox="0" inherit="0" translate="sys" rbac="1" system="1">
+	<property name="privacy">privacy</property>
+	<property name="perm">perm_settings</property>
+</object>
+<object name="nwss" class_name="NewsSettings" location="Services/News/classes" module="Services/News" checkbox="0" inherit="0" translate="sys" rbac="1" system="1">
+	<property name="news_settings">news_settings</property>
+	<property name="perm">perm_settings</property>
+</object>
+<object name="cmps" class_name="ComponentSettings" location="Services/Component/classes" module="Services/Component" checkbox="0" inherit="0" translate="sys" rbac="1" system="1">
+	<property name="cmps_settings">cmps_settings</property>
+	<property name="perm">perm_settings</property>
+</object>
+<object name="pdts" class_name="PersonalDesktopSettings" location="Services/PersonalDesktop/classes" module="Services/PersonalDesktop" checkbox="0" inherit="0" translate="sys" rbac="1" system="1">
+	<property name="news_settings">pdesk_settings</property>
+	<property name="perm">perm_settings</property>
+</object>
+<object name="rcrs" class_name="RemoteCourse" location="Modules/RemoteCourse/classes" module="Modules/RemoteCourse" checkbox="1" inherit="0" allow_link="1" allow_copy="1" translate="0" rbac="1" devmode="1">
+	<subobj name="rolf" max="1">rolf</subobj>
+	<property name="perm">perm_settings</property>
+	<action name="cut">cut</action>
+	<action name="copy">copy</action>
+	<action name="link">link</action>
+	<action name="delete">delete</action>
+	<action name="paste">paste</action>
+	<action name="clear">clear</action>
+</object>
+<object name="mds" class_name="MDSettings" location="Services/MetaData/classes" module="Services/MetaData" checkbox="0" inherit="0" translate="sys" rbac="1" system="1">
+	<property name="settings">settings</property>
+	<property name="md_advanced_settings">md_advanced</property>
+</object>
+</objects>

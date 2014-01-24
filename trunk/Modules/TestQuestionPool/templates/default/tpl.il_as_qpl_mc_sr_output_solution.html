@@ -1,0 +1,35 @@
+	{QUESTIONTEXT}
+	<table class="nobackground middle" >
+<!-- BEGIN answer_row -->	
+		<tr>
+			<td class="middle" width="15">
+				<img src="{SOLUTION_IMAGE}" alt="{SOLUTION_ALT}" title="{SOLUTION_ALT}" />
+			</td>
+			<td class="middle">
+<!-- BEGIN answer_image -->
+				<img id="singlechoice" src="{ANSWER_IMAGE_URL}" alt="{ANSWER_IMAGE_ALT}" title="{ANSWER_IMAGE_TITLE}" {ATTR} />
+<!-- END answer_image -->
+				<span>{ANSWER_TEXT}</span>
+			</td>
+			
+<!-- BEGIN icon_ok -->
+            <td><img src="{ICON_OK}" alt="{TEXT_OK}" title="{TEXT_OK}" /></td>
+<!-- END icon_ok -->
+<!-- BEGIN icon_not_ok -->
+            <td><img src="{ICON_NOT_OK}" alt="{TEXT_NOT_OK}" title="{TEXT_NOT_OK}" /></td>
+<!-- END icon_not_ok -->	
+<!-- BEGIN result_output -->
+            <td class="middle"><em>{RESULT_OUTPUT}</em></td>
+<!-- END result_output -->
+			
+		</tr>
+<!-- BEGIN feedback -->
+		<tr>
+			<td></td>
+			<td colspan="3">
+				<span class="feedback">{FEEDBACK}</span>
+			</td>
+		</tr>
+<!-- END feedback -->
+<!-- END answer_row -->	
+	</table>

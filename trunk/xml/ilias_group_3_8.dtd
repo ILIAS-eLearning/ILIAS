@@ -1,0 +1,64 @@
+<!-- ilias_user.dtd for ILIAS mail import -->
+<!-- For comments refer to our mailing list: xml-ilias@uni-koeln.de -->
+<!-- $Id: ilias_group_0_1.dtd 8910 2005-10-24 15:50:53 +0200 (Mo, 24 Okt 2005) smeyer $ -->
+
+<!-- GROUP -->
+<!-- Added registration as optional due to BC to ILIAS 2 export -->
+<!ELEMENT group (title,description,owner?,registration?,admin*,member*,file*,folder*)>
+<!-- type is 'open' or 'closed' will be ignored for updates -->
+<!ATTLIST group
+    exportVersion CDATA #REQUIRED
+    id CDATA #REQUIRED
+    type CDATA #REQUIRED
+>
+
+<!-- TITLE -->
+<!ELEMENT title (#PCDATA)>
+
+<!-- DESCRIPTION -->
+<!ELEMENT description (#PCDATA)>
+
+<!-- OWNER -->
+<!ELEMENT owner EMPTY>
+<!ATTLIST owner
+    id CDATA #REQUIRED
+>
+
+<!-- ADMIN -->
+<!ELEMENT admin EMPTY>
+<!ATTLIST admin
+    id CDATA #REQUIRED
+    action (Attach|Detach) #IMPLIED
+>
+
+<!-- ADMIN -->
+<!ELEMENT member EMPTY>
+<!ATTLIST member
+    id CDATA #REQUIRED
+    action (Attach|Detach) #IMPLIED
+>
+
+<!-- Registration settings -->
+<!ELEMENT registration (password?,expiration?)>
+<!-- type is 'enabled' 'disabled' or 'password' -->
+<!ATTLIST registration
+    type CDATA #REQUIRED
+>
+<!-- Password -->
+<!ELEMENT password (#PCDATA)>
+<!ELEMENT expiration (#PCDATA)>
+
+
+<!-- FILE stored in objects directory with filename "id" -->
+<!ELEMENT file EMPTY>
+<!ATTLIST file
+    id CDATA #REQUIRED
+    fileName CDATA #REQUIRED>
+
+<!-- FOLDER -->
+<!ELEMENT folder (folderTitle,file*,folder*)>
+
+<!-- TITLE -->
+<!ELEMENT folderTitle (#PCDATA)>
+
+

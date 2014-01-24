@@ -1,0 +1,14 @@
+<?php xml version = "1.0" encoding = "UTF-8"?>
+<module xmlns="http://www.w3.org" version="$Id: modules.xml 15671 2008-01-04 13:08:30Z akill $"
+	id="wfld">
+	<baseclasses>
+	</baseclasses>
+	<objects>
+		<object id="wfld" class_name="WorkspaceFolder" dir="classes" default_pos="300" default_pres_pos="300"
+			checkbox="1" inherit="1" translate="0" allow_copy="0" rbac="0" export="0" workspace="1"
+			repository="0">
+			<parent id="wfld">wfld</parent>
+			<parent id="wsrt">wsrt</parent>
+		</object>
+	</objects>
+</module>

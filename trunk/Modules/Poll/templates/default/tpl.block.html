@@ -1,0 +1,58 @@
+<tr class="{CSS_ROW}">
+	<td class="std">
+		<a name="poll{ANCHOR_ID}"></a>
+		
+		<!-- BEGIN desc -->
+		<div class="ilPollDescription">
+			{TXT_DESC}
+		</div>
+		<!-- END desc -->
+				
+		<div class="ilPollQuestion">				
+			{TXT_QUESTION}<br />
+			<!-- BEGIN image -->
+			<img  class="ilPollQuestionImage" src="{URL_IMAGE}" />
+			<!-- END image -->
+		</div>
+		
+		<!-- BEGIN answers_vote -->
+		<div class="ilPollQuestionAnswers">	
+			
+			<form method="post" action="{URL_FORM}" target="_top">
+
+				<!-- BEGIN answer -->
+				<div class="ilPollQuestionAnswer">
+					<input type="radio" name="aw" value="{VALUE_ANSWER}" />{TXT_ANSWER_VOTE}
+				</div>
+				<!-- END answer -->
+
+				<input type="submit" class="submit" value="{TXT_SUBMIT}" name="cmd[{CMD_FORM}]" />
+								
+				<!-- BEGIN voting_period_bl -->
+				<div class="small">{TXT_VOTING_PERIOD}</div>
+				<!-- END voting_period_bl -->
+			</form>			
+			
+		</div>
+		<!-- END answers_vote -->
+		
+		<!-- BEGIN answers_result -->
+		<div class="ilPollQuestionResults">
+			<!-- BEGIN answer_result -->
+			<div class="ilPollQuestionResult">
+				{TXT_ANSWER_RESULT}<br />
+				<div class="ilPollQuestionResultBar">
+					<div style="width:{PERC_ANSWER_RESULT}%" class="ilPollQuestionResultBarInner">&nbsp;</div>
+				</div>
+				<div class="ilPollQuestionResultPerc">
+					{PERC_ANSWER_RESULT}%
+				</div>
+				<br style="clear:both" />
+			</div>
+			<!-- END answer_result -->
+			{TOTAL_ANSWERS}
+		</div>
+		<!-- END answers_result -->
+		
+	</td>
+</tr>

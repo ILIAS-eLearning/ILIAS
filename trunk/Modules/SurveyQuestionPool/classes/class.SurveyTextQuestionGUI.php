@@ -1,0 +1,260 @@
+<?php
+ /*
+   +----------------------------------------------------------------------------+
+   | ILIAS open source                                                          |
+   +----------------------------------------------------------------------------+
+   | Copyright (c) 1998-2001 ILIAS open source, University of Cologne           |
+   |                                                                            |
+   | This program is free software; you can redistribute it and/or              |
+   | modify it under the terms of the GNU General Public License                |
+   | as published by the Free Software Foundation; either version 2             |
+   | of the License, or (at your option) any later version.                     |
+   |                                                                            |
+   | This program is distributed in the hope that it will be useful,            |
+   | but WITHOUT ANY WARRANTY; without even the implied warranty of             |
+   | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the              |
+   | GNU General Public License for more details.                               |
+   |                                                                            |
+   | You should have received a copy of the GNU General Public License          |
+   | along with this program; if not, write to the Free Software                |
+   | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. |
+   +----------------------------------------------------------------------------+
+*/
+
+include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestionGUI.php";
+
+/**
+* Text survey question GUI representation
+*
+* The SurveyTextQuestionGUI class encapsulates the GUI representation
+* for text survey question types.
+*
+* @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
+* @version	$Id$
+* @extends SurveyQuestionGUI
+* @ingroup ModulesSurveyQuestionPool
+*/
+class SurveyTextQuestionGUI extends SurveyQuestionGUI 
+{	
+	protected function initObject()
+	{	
+		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyTextQuestion.php";
+		$this->object = new SurveyTextQuestion();		
+	}
+	
+	
+	// 
+	// EDITOR
+	//
+	
+	public function setQuestionTabs()
+	{
+		$this->setQuestionTabsForClass("surveytextquestiongui");
+	}
+
+	protected function addFieldsToEditForm(ilPropertyFormGUI $a_form)
+	{	
+		// maximum number of characters
+		$maxchars = new ilNumberInputGUI($this->lng->txt("maxchars"), "maxchars");
+		$maxchars->setRequired(false);
+		$maxchars->setSize(5);		
+		$maxchars->setDecimals(0);
+		$a_form->addItem($maxchars);
+		
+		// textwidth
+		$textwidth = new ilNumberInputGUI($this->lng->txt("width"), "textwidth");
+		$textwidth->setRequired(true);
+		$textwidth->setSize(3);		
+		$textwidth->setDecimals(0);
+		$textwidth->setMinValue(10);
+		$a_form->addItem($textwidth);
+		
+		// textheight
+		$textheight = new ilNumberInputGUI($this->lng->txt("height"), "textheight");
+		$textheight->setRequired(true);
+		$textheight->setSize(3);
+		
+		$textheight->setDecimals(0);
+		$textheight->setMinValue(1);
+		$a_form->addItem($textheight);		
+		
+		// values
+		if ($this->object->getMaxChars() > 0)
+		{
+			$maxchars->setValue($this->object->getMaxChars());
+		}
+		$textwidth->setValue($this->object->getTextWidth());
+		$textheight->setValue($this->object->getTextHeight());
+	}
+	
+	protected function importEditFormValues(ilPropertyFormGUI $a_form)
+	{
+		$max = $a_form->getInput("maxchars");		
+		$this->object->setMaxChars(strlen($max) ? $max : null);
+		$this->object->setTextWidth($a_form->getInput("textwidth"));
+		$this->object->setTextHeight($a_form->getInput("textheight"));
+	}	
+	
+	public function getPrintView($question_title = 1, $show_questiontext = 1, $survey_id = null)
+	{
+		$template = new ilTemplate("tpl.il_svy_qpl_text_printview.html", TRUE, TRUE, "Modules/SurveyQuestionPool");
+		if ($show_questiontext)
+		{
+			$this->outQuestionText($template);
+		}
+		if ($question_title)
+		{
+			$template->setVariable("QUESTION_TITLE", $this->object->getTitle());
+		}
+		$template->setVariable("TEXT_ANSWER", $this->lng->txt("answer"));
+		$template->setVariable("TEXTBOX_IMAGE", ilUtil::getHtmlPath(ilUtil::getImagePath("textbox.png")));
+		$template->setVariable("TEXTBOX", $this->lng->txt("textbox"));
+		$template->setVariable("TEXTBOX_WIDTH", $this->object->getTextWidth()*16);
+		$template->setVariable("TEXTBOX_HEIGHT", $this->object->getTextHeight()*16);
+		$template->setVariable("QUESTION_ID", $this->object->getId());
+		if ($this->object->getMaxChars())
+		{
+			$template->setVariable("TEXT_MAXCHARS", sprintf($this->lng->txt("text_maximum_chars_allowed"), $this->object->getMaxChars()));
+		}
+		return $template->get();
+	}
+	
+	
+	// 
+	// EXECUTION
+	// 
+
+	/**
+	* Creates the question output form for the learner
+	*/
+	public function getWorkingForm($working_data = "", $question_title = 1, $show_questiontext = 1, $error_message = "", $survey_id = null)
+	{
+		$template = new ilTemplate("tpl.il_svy_out_text.html", TRUE, TRUE, "Modules/SurveyQuestionPool");
+		$template->setCurrentBlock("material_text");
+		$template->setVariable("TEXT_MATERIAL", $this->getMaterialOutput());
+		$template->parseCurrentBlock();
+
+		if ($this->object->getTextHeight() == 1)
+		{
+			$template->setCurrentBlock("textinput");
+			if (is_array($working_data))
+			{
+				if (strlen($working_data[0]["textanswer"]))
+				{
+					$template->setVariable("VALUE_ANSWER", " value=\"" . ilUtil::prepareFormOutput($working_data[0]["textanswer"]) . "\"");
+				}
+			}
+			$template->setVariable("QUESTION_ID", $this->object->getId());
+			$template->setVariable("WIDTH", $this->object->getTextWidth());
+			if ($this->object->getMaxChars())
+			{
+				$template->setVariable("MAXLENGTH", " maxlength=\"" . $this->object->getMaxChars() . "\"");
+			}
+			$template->parseCurrentBlock();
+		}
+		else
+		{
+			$template->setCurrentBlock("textarea");
+			if (is_array($working_data))
+			{
+				$template->setVariable("VALUE_ANSWER", ilUtil::prepareFormOutput($working_data[0]["textanswer"]));
+			}
+			$template->setVariable("QUESTION_ID", $this->object->getId());
+			$template->setVariable("WIDTH", $this->object->getTextWidth());
+			$template->setVariable("HEIGHT", $this->object->getTextHeight());
+			$template->parseCurrentBlock();
+		}
+		$template->setCurrentBlock("question_data_text");
+		if ($show_questiontext)
+		{
+			$this->outQuestionText($template);
+		}
+		if ($question_title)
+		{
+			$template->setVariable("QUESTION_TITLE", $this->object->getTitle());
+		}
+		$template->setVariable("TEXT_ANSWER", $this->lng->txt("answer"));
+		$template->setVariable("LABEL_QUESTION_ID", $this->object->getId());
+		if (strcmp($error_message, "") != 0)
+		{
+			$template->setVariable("ERROR_MESSAGE", "<p class=\"warning\">$error_message</p>");
+		}
+		if ($this->object->getMaxChars())
+		{
+			$template->setVariable("TEXT_MAXCHARS", sprintf($this->lng->txt("text_maximum_chars_allowed"), $this->object->getMaxChars()));
+		}
+		$template->parseCurrentBlock();
+		return $template->get();
+	}
+
+
+	// 
+	// EVALUATION
+	// 
+	
+	/**
+	* Creates the detailed output of the cumulated results for the question
+	*
+	* @param integer $survey_id The database ID of the survey
+	* @param integer $counter The counter of the question position in the survey
+	* @return string HTML text with the cumulated results
+	* @access private
+	*/
+	function getCumulatedResultsDetails($survey_id, $counter, $finished_ids)
+	{
+		if (count($this->cumulated) == 0)
+		{
+			if(!$finished_ids)
+			{
+				include_once "./Modules/Survey/classes/class.ilObjSurvey.php";			
+				$nr_of_users = ilObjSurvey::_getNrOfParticipants($survey_id);
+			}
+			else
+			{
+				$nr_of_users = sizeof($finished_ids);
+			}
+			$this->cumulated =& $this->object->getCumulatedResults($survey_id, $nr_of_users, $finished_ids);
+		}
+		
+		$output = "";
+		include_once "./Services/UICore/classes/class.ilTemplate.php";
+		$template = new ilTemplate("tpl.il_svy_svy_cumulated_results_detail.html", TRUE, TRUE, "Modules/Survey");
+
+		$template->setCurrentBlock("detail_row");
+		$template->setVariable("TEXT_OPTION", $this->lng->txt("question"));
+		$questiontext = $this->object->getQuestiontext();
+		$template->setVariable("TEXT_OPTION_VALUE", $this->object->prepareTextareaOutput($questiontext, TRUE));
+		$template->parseCurrentBlock();
+		$template->setCurrentBlock("detail_row");
+		$template->setVariable("TEXT_OPTION", $this->lng->txt("question_type"));
+		$template->setVariable("TEXT_OPTION_VALUE", $this->lng->txt($this->getQuestionType()));
+		$template->parseCurrentBlock();
+		$template->setCurrentBlock("detail_row");
+		$template->setVariable("TEXT_OPTION", $this->lng->txt("users_answered"));
+		$template->setVariable("TEXT_OPTION_VALUE", $this->cumulated["USERS_ANSWERED"]);
+		$template->parseCurrentBlock();
+		$template->setCurrentBlock("detail_row");
+		$template->setVariable("TEXT_OPTION", $this->lng->txt("users_skipped"));
+		$template->setVariable("TEXT_OPTION_VALUE", $this->cumulated["USERS_SKIPPED"]);
+		$template->parseCurrentBlock();
+		
+		$template->setCurrentBlock("detail_row");
+		$template->setVariable("TEXT_OPTION", $this->lng->txt("given_answers"));
+		$textvalues = "";
+		if (is_array($this->cumulated["textvalues"]))
+		{
+			foreach ($this->cumulated["textvalues"] as $textvalue)
+			{
+				$textvalues .= "<li>" . preg_replace("/\n/", "<br>", $textvalue) . "</li>";
+			}
+		}
+		$textvalues = "<ul>$textvalues</ul>";
+		$template->setVariable("TEXT_OPTION_VALUE", $textvalues);
+		$template->parseCurrentBlock();
+
+		$template->setVariable("QUESTION_TITLE", "$counter. ".$this->object->getTitle());
+		return $template->get();
+	}
+}
+
+?>

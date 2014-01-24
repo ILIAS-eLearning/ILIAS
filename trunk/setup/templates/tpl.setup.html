@@ -1,0 +1,177 @@
+<div class="invisible_border">
+<!-- BEGIN title -->
+<div class="il_Header"><h1>{TXT_TITLE}</h1></div>
+<!-- END title -->
+<!-- BEGIN message -->
+<p class="msg"><font color="red">{TXT_MSG}</font></p>
+<!-- END message -->
+<!-- BEGIN step0 -->
+<p>{TXT_SETUP_WELCOME}
+<ul>
+  <li>{TXT_SETUP_INIFILE_DESC}</li>
+  <li>{TXT_SETUP_DATABASE_DESC}</li>
+  <li>{TXT_SETUP_LANGUAGES_DESC}</li>
+  <li>{TXT_SETUP_PASSWORD_DESC}</li>
+</ul>
+</p>
+<h3>{TXT_ENV_TITLE}</h3>
+<p>{TXT_ENV_INTRO}</p>
+<p>{TXT_ENV_COMMENT}</p>
+<h3>{TXT_PRE_TITLE}</h3>
+<p>{TXT_PRE_INTRO}</p>
+<table>
+<!-- BEGIN preliminary -->
+<tr>
+  <td>&nbsp;-&nbsp;</td>
+  <td>&nbsp;{TXT_PRE}&nbsp;</td>
+  <td>&nbsp;{STATUS_PRE}&nbsp;</td>
+  <td>&nbsp;<i>{COMMENT_PRE}</i>&nbsp;</td>
+</tr>
+<!-- END preliminary -->
+<!-- BEGIN preliminary_js -->
+<tr>
+  <td>&nbsp;-&nbsp;</td>
+  <td>&nbsp;{TXT_PRE}&nbsp;</td>
+<script type="text/javascript">
+<!--
+document.write("<td>&nbsp;<font color=\"green\"><strong>OK</strong></font>&nbsp;</td><td>&nbsp;<i></i>&nbsp;</td>");
+//-->
+</script>
+<noscript>
+<td>&nbsp;{STATUS_PRE}&nbsp;</td><td>&nbsp;<i>{COMMENT_PRE}</i>&nbsp;</td>
+</noscript>
+</tr>
+<!-- END preliminary_js -->
+</table>
+<!-- BEGIN all_ok -->
+<p><a href="{LINK_OVERVIEW}">[ {TXT_INSTALLATION} ]</a></p>
+<!-- END all_ok -->
+<!-- BEGIN premessage -->
+<div class="ilSetupFailureMessage">{TXT_PRE_ERR}</div>
+<!-- END premessage -->
+<!-- END step0 -->
+
+<!-- BEGIN begininstallation -->
+<h3>{TXT_TITLE}</h3>
+<p>{TXT_SETUP_INTRO_INSTALL}</p>
+<table>
+<!-- BEGIN link -->
+<tr>
+  <td>&nbsp;&nbsp;&nbsp;&nbsp;{NR}. </td>
+  <td><a href="{LINK}">&nbsp;[ {TXT_LINK} ]&nbsp;</a></td>
+  <td>&nbsp;{STATUS}&nbsp;</td>
+  <td>&nbsp;{TXT_REMARK}&nbsp;</td>
+</tr>
+<!-- END link -->
+</table>
+<!-- BEGIN ready -->
+<div align="center">
+<p>{TXT_SETUP_READY}</p>
+<p><a href="{LINK_LOGIN}">[ {TXT_LOGIN} ]</a></p>
+</div>
+<!-- END ready -->
+<!-- END begininstallation -->
+<!-- BEGIN step1 -->
+<form method="post" name="form" action="setup.php?step=2&amp;lang={LANG}">
+<table>
+  <tr>
+    <td>{TXT_DB_TYPE}</td>
+    <td><select name="dbtype">
+<!-- BEGIN seldbtype -->
+    <option value="{DBTYPESHORT}" {SELDBSELECTED}>{DBTYPE}</option>
+<!-- END seldbtype -->
+    </select></td>
+  </tr>
+  <tr>
+    <td>{TXT_DB_HOST}</td>
+    <td><input type="text" size=40 name="dbhost" value="{DB_HOST}" /></td>
+  </tr>
+  <tr>
+    <td>{TXT_DB_NAME}</td>
+    <td><input type="text" size=20 name="dbname" value="{DB_NAME}" /></td>
+  </tr>
+  <tr>
+    <td>{TXT_DB_USER}</td>
+    <td><input type="text" size=15 name="dbuser" value="{DB_USER}" /></td>
+  </tr>
+  <tr>
+    <td>{TXT_DB_PASS}</td>
+    <td><input type="text" size=15 name="dbpass" value="{DB_PASS}" /></td>
+  </tr>
+  <tr>
+    <td>{TXT_DATA_PATH}</td>
+    <td><input type="text" size=64 name="dpath" value="{D_PATH}" /></td>
+  </tr>
+  <tr>
+    <td>{TXT_IMAGE_PATH}</td>
+    <td><input type="text" size=64 name="ipath" value="{I_PATH}" /></td>
+  </tr>
+
+</table>
+<input type="submit" name="butSubmit" value="{TXT_SUBMIT}" />&nbsp;
+<input type="reset" name="butReset" value="{TXT_RESET}" />
+</form>
+<!-- END step1 -->
+<!-- BEGIN step2 -->
+		<table>
+		<tr bgcolor="#eeeeee">
+			<td>
+				<font size=2>
+				<pre>
+{INIFILECONTENT}
+				</pre>
+				</font>
+			</td>
+		</tr>
+		</table>
+<!-- END step2 -->
+<!-- BEGIN step4 -->
+<form method="post" name="form" action="setup.php?step=5&amp;lang={LANG}">
+<table>
+<tr>
+<td>&nbsp;<input type="checkbox" name="dummy" checked="checked" />&nbsp;</td>
+<td>&nbsp;{TXT_LANG}&nbsp;</td>
+<td>&nbsp;{TXT_OK}&nbsp;</td>
+<td>&nbsp;<i>{TXT_REMARK}</i>&nbsp;</td>
+</tr>
+<!-- BEGIN language_row -->
+<tr>
+<td>&nbsp;<input type="checkbox" name="{ARR_LANG_KEY}" {CHECKED} />&nbsp;</td>
+<td>&nbsp;{TXT_LANG}&nbsp;</td>
+<td>&nbsp;{TXT_OK}&nbsp;</td>
+<td>&nbsp;<i>{TXT_REMARK}</i>&nbsp;</td>
+</tr>
+<!-- END language_row -->
+<tr>
+<td colspan="4"><input type="submit" name="submit" value="{TXT_SUBMIT}" /></td>
+</tr>
+</table>
+</form>
+<!-- END step4 -->
+<!-- BEGIN step6 -->
+<form action="setup.php?step=7&amp;lang={LANG}" method="post">
+<p>{TXT_CHOOSE_PASSWD}: 
+<input type="password" name="passwd" size="20"/>
+<input type="submit" name="ok" value="ok" />
+</p>
+</form>
+<!-- END step6 -->
+<!-- BEGIN login -->
+<form action="setup.php?step=9&amp;lang={LANG}" method="post">
+<p>{TXT_ENTER_PASSWD}: 
+<input type="password" name="passwd" size="20"/>
+<input type="submit" name="ok" value="ok" />
+</p>
+</form>
+<!-- END login -->
+<!-- BEGIN changepasswd -->
+<form action="setup.php?step=12&amp;lang={LANG}" method="post">
+<p>{TXT_SET_OLDPASSWD}: 
+<input type="password" name="passwdold" size="20"/>
+{TXT_SET_NEWPASSWD}: 
+<input type="password" name="passwdnew" size="20"/>
+<input type="submit" name="ok" value="ok" />
+</p>
+</form>
+<!-- END changepasswd -->
+</div>

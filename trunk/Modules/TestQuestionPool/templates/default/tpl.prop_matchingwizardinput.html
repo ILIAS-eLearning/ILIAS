@@ -1,0 +1,45 @@
+<div id="{ELEMENT_ID}">
+	<table class="matchingwizard">
+		<thead>
+			<tr>
+				<th>{NUMBER_TEXT}</th>
+				<th>{ANSWER_TEXT}</th>
+				<th class="imagecolumn"><!-- BEGIN image_heading -->{ANSWER_IMAGE}<!-- END image_heading --></th>
+				<th>{COMMANDS_TEXT}</th>
+			</tr>
+		</thead>
+		<tbody>
+<!-- BEGIN row -->
+			<tr class="{ROW_CLASS}">
+				<td>{ROW_NUMBER}<input type="hidden" name="{SINGLELINE_POST_VAR}[identifier][{SINGLELINE_ROW_NUMBER}]" value="{ROW_IDENTIFIER}" /></td>
+				<td>
+					<input type="text" size="{SIZE}" id="{SINGLELINE_ID}" maxlength="{MAXLENGTH}" name="{SINGLELINE_POST_VAR}[answer][{SINGLELINE_ROW_NUMBER}]" <!-- BEGIN prop_text_propval -->value="{PROPERTY_VALUE}" <!-- END prop_text_propval -->{DISABLED_SINGLELINE}/>
+				</td>
+				<td class="imagecolumn">
+<!-- BEGIN addimage -->
+					<div class="imageselection">
+					<div><input type="file" id="{IMAGE_ID}" name="{IMAGE_POST_VAR}[image][{IMAGE_ROW_NUMBER}]" size="20" /> <input type="submit" class="submit" name="cmd[upload{IMAGE_POST_VAR}][{IMAGE_ROW_NUMBER}]" value="{IMAGE_SUBMIT}" /></div>
+<!-- BEGIN image -->
+					<div class="imagepresentation">
+						<input type="hidden" name="{IMAGE_POST_VAR}[imagename][{IMAGE_ROW_NUMBER}]" value="{IMAGE_NAME}" />
+						<img style="margin: 5px 0px 5px 0px;" src="{SRC_IMAGE}" alt="{ALT_IMAGE}" {WIDTH} {HEIGHT} border="0" /><br />
+						<input type="submit" class="submit" name="cmd[removeimage{IMAGE_POST_VAR}][{IMAGE_ROW_NUMBER}]" value="{TXT_DELETE_EXISTING}" /><br />
+					</div>
+<!-- END image -->
+					</div>
+<!-- END addimage -->
+				</td>
+				<td style="vertical-align: top;">
+					<input type="image" name="{CMD_ADD}" class="matchingwizard_add" id="add_{ID}" src="{ADD_BUTTON}" />
+					<input type="image" name="{CMD_REMOVE}" class="matchingwizard_remove" id="remove_{ID}" src="{REMOVE_BUTTON}" />
+<!-- BEGIN move -->
+					<input type="image" name="{CMD_UP}" class="matchingwizard_up" id="up_{ID}" src="{UP_BUTTON}" />
+					<input type="image" name="{CMD_DOWN}" class="matchingwizard_down" id="down_{ID}" src="{DOWN_BUTTON}" />
+<!-- END move -->
+				</td>
+			</tr>
+<!-- END row -->
+		</tbody>
+	</table>
+	<div class="ilFormInfo">{TXT_MAX_SIZE}<!-- BEGIN allowed_image_suffixes --> {TXT_ALLOWED_SUFFIXES}<!-- END allowed_image_suffixes --></div>
+</div>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ObjectDefinition xmlns:xi="http://www.w3.org/2001/XInclude" type="lm">
+	<Document type="default">
+		<xi:include href="../../Services/Object/LuceneDataSource.xml" />
+		<xi:include href="../../Services/Tagging/LuceneDataSource.xml" />
+		<xi:include href="../../Services/MetaData/LuceneDataSource.xml" />
+		<DataSource type="JDBC" action="append">
+			<Query>
+				SELECT 1 as offline FROM content_object
+				WHERE is_online = 'n'
+				AND id IN(?)
+			</Query>
+			<Param format="list" type="int" value="objId" />
+			<Field store="YES" index="NOT_ANALYZED" column="offline" type="text" name="offline" />
+		</DataSource>
+	</Document>
+	<Document type="subItem">
+		<xi:include href="../../Modules/File/LuceneFileListDataSource.xml" />
+		<DataSource type="JDBC" action="create">
+			<Query>
+				SELECT title,content, lm_id, obj_id AS metaObjId, 'pg' AS metaType, parent_type 
+				FROM lm_data ld
+				JOIN page_object po ON ld.obj_id = po.page_id
+				WHERE parent_type = 'lm'
+				AND po.active = 1
+				AND type = 'pg'
+				AND lm_id IN (?)
+			</Query>
+			<Param format="list" type="int" value="objId" />
+			<Field store="YES" index="ANALYZED" column="content" type="clob" name="content">
+				<Transformer name="ContentObjectTransformer" />
+			</Field>
+			<Field store="YES" index="NOT_ANALYZED" column="lm_id" type="integer" name="objId" global="NO" />
+			<Field store="YES" index="ANALYZED" column="title" type="text" name="propertyMedium" />
+			<Field store="YES" index="NOT_ANALYZED" column="metaObjId" type="integer" name="subItem" />
+			<Field store="YES" index="NOT_ANALYZED" column="parent_type" type="text" name="type" global="NO"/>
+			<xi:include href="../../Services/MetaData/LuceneDataSource.xml" />
+		</DataSource>
+		<DataSource type="JDBC" action="create">
+			<Query>
+				SELECT title, lm_id, obj_id, 'st' AS metaType
+				FROM lm_data
+				WHERE type = 'st'
+				AND lm_id IN (?)
+			</Query>
+			<Param format="list" type="int" value="objId" />
+			<Field store="YES" index="NOT_ANALYZED" column="lm_id" type="integer" name="objId" global="NO" />
+			<Field store="YES" index="ANALYZED" column="title" type="text" name="propertyMedium" />
+			<Field store="YES" index="NOT_ANALYZED" column="obj_id" type="integer" name="subItem" />
+			<Field store="YES" index="NOT_ANALYZED" column="metaType" type="text" name="type" global="NO"/>
+		</DataSource>		
+	</Document>
+</ObjectDefinition>

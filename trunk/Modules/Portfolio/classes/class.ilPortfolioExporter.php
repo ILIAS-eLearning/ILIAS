@@ -1,0 +1,65 @@
+<?php
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+include_once './Services/Export/classes/class.ilXmlExporter.php';
+
+/**
+ * Portfolio definition
+ * 
+ * Only for portfolio templates!
+ *
+ * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @version $Id$
+ * @ingroup ModulesPortfolio
+ */
+class ilPortfolioExporter extends ilXmlExporter
+{	
+	protected $ds;
+	
+	public function init()
+	{
+		include_once("./Modules/Portfolio/classes/class.ilPortfolioDataSet.php");
+		$this->ds = new ilPortfolioDataSet();	
+		$this->ds->setDSPrefix("ds");
+	}
+	
+	public function getXmlExportTailDependencies($a_entity, $a_target_release, $a_ids)
+	{
+		include_once("./Modules/Portfolio/classes/class.ilPortfolioTemplatePage.php");
+		$pg_ids = array();		
+		foreach ($a_ids as $id)
+		{			
+			foreach(ilPortfolioTemplatePage::getAllPages($id) as $p)
+			{
+				$pg_ids[] = "prtt:".$p["id"];
+			}
+		}
+		
+		return array (
+			array(
+				"component" => "Services/COPage",
+				"entity" => "pg",
+				"ids" => $pg_ids)
+			);
+	}
+	
+	public function getXmlRepresentation($a_entity, $a_schema_version, $a_id)
+	{
+		$this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
+		return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, $a_id, "", true, true);	
+	}
+	
+	public function getValidSchemaVersions($a_entity)
+	{
+		return array (
+                "4.4.0" => array(
+                        "namespace" => "http://www.ilias.de/Modules/Portfolio/4_4",
+                        "xsd_file" => "ilias_portfolio_4_4.xsd",
+                        "uses_dataset" => true,
+                        "min" => "4.4.0",
+                        "max" => "")
+        );
+	}		
+}
+
+?>

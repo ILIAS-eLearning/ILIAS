@@ -1,0 +1,90 @@
+<!-- BEGIN no_relation -->
+	{TXT_NO_RELATION} <a class="il_ContainerItemCommand" href="{ACTION_ADD_RELATION}">{TXT_ADD_RELATION}</a>
+
+	<!-- END no_relation -->
+	<!-- BEGIN relation -->
+	<form action="{EDIT_ACTION}" {TARGET} name="post" method="post">
+	  <table class="std">
+		<!-- BEGIN relation_loop -->
+		<tr class="tblheader">
+		  <td class="std" colspan="4">
+			<div style="float:left">{TXT_RELATION}
+			  <a class="il_ContainerItemCommand" href="{ACTION_DELETE}">{TXT_DELETE}</a>
+			  <a class="il_ContainerItemCommand" href="{ACTION_ADD}">{TXT_ADD}</a>
+			</div>
+		  </td>
+		</tr>
+		<tr>
+		  <td class="option" colspan="3">{TXT_KIND}</td>
+		  <td class="option_value">
+			<select name="relation[{REL_ID}][Kind]" size="1">
+			  <option value="">{TXT_PLEASE_SELECT}</option>
+			  <option value="IsPartOf"{VAL_KIND_ISPARTOF}>{TXT_ISPARTOF}</option>
+			  <option value="HasPart"{VAL_KIND_HASPART}>{TXT_HASPART}</option>
+			  <option value="IsVersionOf"{VAL_KIND_ISVERSIONOF}>{TXT_ISVERSIONOF}</option>
+			  <option value="HasVersion"{VAL_KIND_HASVERSION}>{TXT_HASVERSION}</option>
+			  <option value="IsFormatOf"{VAL_KIND_ISFORMATOF}>{TXT_ISFORMATOF}</option>
+			  <option value="HasFormat"{VAL_KIND_HASFORMAT}>{TXT_HASFORMAT}</option>
+			  <option value="References"{VAL_KIND_REFERENCES}>{TXT_REFERENCES}</option>
+			  <option value="IsReferencedBy"{VAL_KIND_ISREFERENCEDBY}>{TXT_ISREFERENCEDBY}</option>
+			  <option value="IsBasedOn"{VAL_KIND_ISBASEDON}>{TXT_ISBASEDON}</option>
+			  <option value="IsBasisFor"{VAL_KIND_ISBASISFOR}>{TXT_ISBASISFOR}</option>
+			  <option value="Requires"{VAL_KIND_REQUIRES}>{TXT_REQUIRES}</option>
+			  <option value="IsRequiredBy"{VAL_KIND_ISREQUIREDBY}>{TXT_ISREQUIREDBY}</option>
+			</select>
+		  </td>
+		</tr>
+		<tr>
+		  <td class="option" colspan="4">
+			<div align="left">{IDENTIFIER_LOOP_TXT_IDENTIFIER}
+			  {TXT_RESOURCE}
+			</div>
+		  </td>
+		</tr>
+		<!-- BEGIN identifier_loop -->
+		<tr>
+		  <td class="option" width="10" rowspan="3">&nbsp;</td>
+		  <td class="option" colspan="3">
+			<div align="left">{IDENTIFIER_LOOP_TXT_IDENTIFIER}
+			  <!-- BEGIN identifier_delete -->
+			  <a class="il_ContainerItemCommand" href="{IDENTIFIER_LOOP_ACTION_DELETE}">{IDENTIFIER_LOOP_TXT_DELETE}</a>
+			  <!-- END identifier_delete -->
+			  <a class="il_ContainerItemCommand" href="{IDENTIFIER_LOOP_ACTION_ADD}">{IDENTIFIER_LOOP_TXT_ADD}</a></div>
+		  </td>
+		</tr>
+		<tr>
+		  <td class="option" width="10" rowspan="2">&nbsp;</td>
+		  <td class="sub_option">{IDENTIFIER_LOOP_TXT_CATALOG}</td>
+		  <td class="option_value"><input type="text" maxlength="200" name="relation[Resource][Identifier][{IDENTIFIER_LOOP_NO}][Catalog]" value="{IDENTIFIER_LOOP_VAL_CATALOG}"></td>
+		</tr>
+		<tr>
+		  <td class="sub_option">{IDENTIFIER_LOOP_TXT_ENTRY}</td>
+		  <td class="option_value"><input type="text" maxlength="200" name="relation[Resource][Identifier][{IDENTIFIER_LOOP_NO}][Entry]" value="{IDENTIFIER_LOOP_VAL_ENTRY}"></td>
+		</tr>
+		<!-- END identifier_loop -->
+		<!-- BEGIN description_loop -->
+		<tr>
+		  <td class="option" width="10" rowspan="2">&nbsp;</td>
+		  <td class="option" colspan="2">
+			<div align="left">{DESCRIPTION_LOOP_TXT_DESCRIPTION}
+			  <!-- BEGIN description_delete -->
+			  <a class="il_ContainerItemCommand" href="{DESCRIPTION_LOOP_ACTION_DELETE}">{DESCRIPTION_LOOP_TXT_DELETE}</a>
+			  <!-- END description_delete -->
+			  <a class="il_ContainerItemCommand" href="{DESCRIPTION_LOOP_ACTION_ADD}">{DESCRIPTION_LOOP_TXT_ADD}</a>
+			</div>
+		  </td>
+		  <td class="option_value"><textarea name="relation[Resource][Description][{DESCRIPTION_LOOP_NO}][Value]">{DESCRIPTION_LOOP_VAL}</textarea></td>
+		</tr>
+		<tr>
+		  <td class="option" width="10">&nbsp;</td>
+		  <td class="sub_option">{DESCRIPTION_LOOP_TXT_LANGUAGE}</td>
+		  <td class="option_value">{DESCRIPTION_LOOP_VAL_LANGUAGE}</td>
+		</tr>
+		<!-- END description_loop -->
+		<!-- END relation_loop -->
+		<tr>
+		  <td class="submit" colspan="4"><div align="right"><input class="submit" type="submit" name="cmd[updateRelation]" value="{TXT_SAVE}"/></div></td>
+		</tr>
+	  </table>
+	</form>
+	<!-- END relation -->

@@ -1,0 +1,65 @@
+<!-- BEGIN no_js_section -->
+<noscript>
+<!-- BEGIN no_js_links --><!-- BEGIN no_js_link -->
+<a class="{LINKS_CLASS}" href="{LINKS_HREF}" <!-- BEGIN no_js_link_frame -->target="{TARGET_NO_JS}"<!-- END no_js_link_frame --> >{LINKS_TXT}</a>
+<!-- END no_js_link --><!-- END no_js_links -->
+<!-- BEGIN no_js_form_select -->
+	<!-- BEGIN no_js_form_begin -->
+	<form id="{FRM_ID}" class="{FRM_CLASS}" method="post" action="{FRM_ACTION}" target="{FRM_TARGET}">
+	<!-- END no_js_form_begin -->
+	<select {ACCKEYNJS} name="{FRM_SELECT_NAME}"  class="{FRM_SELECT_CLASS}" size="0">
+	<!-- BEGIN no_js_form_option -->
+	<option value="{FRM_OPTION_VAL}" {SELECTED}>{FRM_OPTION_TXT}</option>
+	<!-- END no_js_form_option -->
+	</select>
+	<!-- BEGIN no_js_form_button -->
+	<input class="{FRM_BT_CLASS}" type="submit" {FRM_BT_CMD} value="{FRM_BT_TXT}" />
+	<!-- END no_js_form_button -->
+	<!-- BEGIN no_js_form_end -->
+	</form>
+	<!-- END no_js_form_end -->
+<!-- END no_js_form_select -->
+</noscript>
+<!-- END no_js_section -->
+<!-- BEGIN js_section -->
+<span class="ilNoDisplay ilWhiteSpaceNowrap {CLASS_SEL_TOP_SPAN}" id="ilAdvSelListAnchorElement_{ID}">
+					<!-- il.AdvancedSelectionList.toggle('{ID}', {TOGGLE_OPTIONS}); -->
+<!-- Important: The next a-tag had a this.blur(); in the onclick event before. Please do not add it again, see bug #8723 -->
+<a onclick="return false;" {ACCKEY} class="{CLASS_SEL_TOP}" href="#" target="_top">
+<span id="ilAdvSelListAnchorText_{ID}">{TXT_SEL_TOP}</span><!-- BEGIN top_img --> <img src="{IMG_DOWN}" alt="{ALT_SEL_TOP}" /><!-- END top_img --></a>
+</span>
+<!-- onmouseover="il.AdvancedSelectionList.listOn('{ID}', false);" onmouseout="il.AdvancedSelectionList.listOff('{ID}');" -->
+<div>
+	<div class="il_adv_sel" id="ilAdvSelListTable_{ID}">
+	<!-- BEGIN cmd_table -->
+	<table class="il_adv_sel">
+	<!-- BEGIN asynch_request -->
+	<tr class="il_adv_sel">
+	<td class="il_adv_sel ilAsyncImgLoader"><img src="{IMG_LOADER}" alt="loading" /></td>
+	</tr>
+	<!-- END asynch_request -->
+	<!-- BEGIN item -->
+	<tr id="{ID_ITEM_TR}" class="il_adv_sel" onmouseover="il.AdvancedSelectionList.itemOn(this);" onmouseout="il.AdvancedSelectionList.itemOff(this);" {ONCLICK_ITEM}><!-- BEGIN no_image --><td class="il_adv_sel_ic"></td><!-- END no_image --><!-- BEGIN image --><td class="il_adv_sel_ic"><img src="{IMG_ITEM}" alt="{ALT_ITEM}" /></td><!-- END image --><td class="il_adv_sel"><!-- BEGIN href_s --><a id="{ID_ITEM}" {HREF_ITEM} <!-- BEGIN frame -->target="{TARGET_ITEM}"<!-- END frame -->><span <!-- BEGIN item_link_class -->class="{ITEM_LINK_CLASS}"<!-- END item_link_class -->><!-- END href_s -->{TXT_ITEM}<!-- BEGIN href_e --></span></a><!-- END href_e --></td></tr>
+	<!-- END item -->
+	</table>
+	<!-- END cmd_table -->
+	<!-- BEGIN hidden_input -->
+	<input type="hidden" id="ilAdvSelListHidden_{HID}" />
+	<input type="hidden" id="ilAdvSelListHiddenCmd_{HID}" />
+	<!-- END hidden_input -->
+	</div>
+</div>
+<script type="text/javascript">
+il.AdvancedSelectionList.init['{ID}'] = function ()
+{
+	il.AdvancedSelectionList.add('{ID}', {CFG});
+	<!-- BEGIN js_item -->
+	il.AdvancedSelectionList.addItem('{IT_ID}', '{IT_HID_NAME}', '{IT_HID_VAL}', '{IT_TITLE}');
+	<!-- END js_item -->
+	<!-- BEGIN init_hidden_input -->
+	il.AdvancedSelectionList.setHiddenInput('{H2ID}', '{HID_NAME}', '{HID_VALUE}');
+	<!-- END init_hidden_input -->
+}
+il.AdvancedSelectionList.init['{ID}']();
+</script>
+<!-- END js_section -->

@@ -1,0 +1,331 @@
+<!---/**************************************************************************
+**
+** Filename:  GenericRunTimeWrapper.htm
+**
+** File Description: This file allows SCORM 1.2 content to run within a
+** SCORM 2004 run time enviroment.
+/*******************************************************************************
+**
+** Advanced Distributed Learning (ADL) grants you ("Licensee") a non-
+** exclusive, royalty free, license to use, modify and redistribute this
+** software in source and binary code form, provided that i) this copyright
+** notice and license appear on all copies of the software; and ii)Licensee does
+** not utilize the software in a manner which is disparaging to ADL.
+**
+** This software is provided "AS IS," without a warranty of any kind.  ALL
+** EXPRESS OR IMPLIED CONDITIONS, REPRESENTATIONS AND WARRANTIES, INCLUDING ANY
+** IMPLIED WARRANTY OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE OR NON-
+** INFRINGEMENT, ARE HEREBY EXCLUDED.  ADL AND ITS LICENSORS SHALL NOT BE LIABLE
+** FOR ANY DAMAGES SUFFERED BY LICENSEE AS A RESULT OF USING, MODIFYING OR
+** DISTRIBUTING THE SOFTWARE OR ITS DERIVATIVES.  IN NO EVENT WILL ADL  OR ITS
+** LICENSORS BE LIABLE FOR ANY LOST REVENUE, PROFIT OR DATA, OR FOR DIRECT,
+** INDIRECT, SPECIAL, CONSEQUENTIAL, INCIDENTAL OR PUNITIVE DAMAGES, HOWEVER
+** CAUSED AND REGARDLESS OF THE THEORY OF LIABILITY, ARISING OUT OF THE USE OF
+** OR INABILITY TO USE SOFTWARE, EVEN IF ADL HAS BEEN ADVISED OF THE POSSIBILITY
+** OF SUCH DAMAGES.
+**
+****************************************************************************/-->
+
+<html>
+<head>
+    <title>GenericRunTimeWrapper</title>
+
+    <script language="JavaScript" src="SCOPlayerWrapper.js"
+    type="text/javascript">
+    </script>
+
+    <script language="JavaScript">
+
+    var _InternalErrCode = 0;
+    var errorcode12 = null;
+    var result = "";
+
+    /**************************************************************************
+    **
+    ** Function:  initAPI()
+    ** Input:   none
+    ** Output:  none
+    **
+    ** Description:  This function reads in the querystring from the url and
+    **               parses through the string to find the sco in the package
+    **               that is to be launched, upon finding the correct sco by
+    **               finding the scourl variable value the remaining querystring
+    **               is appended to the launch path.
+    **
+    **************************************************************************/
+    function initAPI()
+    {
+       var mySCOName = "";
+       var flag = null;
+       var appendURL = "";
+       var firstAppend = 0;
+       var strSearch = window.location.search;
+       var idx = strSearch.indexOf('?');
+       if ( idx != -1 )
+       {
+	
+	      var pairs = strSearch.substring(idx+1, strSearch.length).split('?').join('&').split('&');
+    
+          for ( var i=0; i<pairs.length; i++ )
+          {
+             nameVal = pairs[i].split('=');
+
+             if (nameVal[i] == "scourl")
+             {
+                mySCOName = nameVal[i+1];
+                flag = i;
+                break;
+             }
+          }
+
+          // Populate the appending value
+          for (var j=0; j<pairs.length; j++)
+          {
+             if (j != flag)
+             {
+               if (firstAppend != 1)
+               {
+                  appendURL = appendURL + pairs[j];
+               }
+               else
+               {
+                 appendURL = appendURL + "&" + pairs[j];
+               }
+               firstAppend = 1;
+             }
+          }
+       }
+       var sco = "../" + mySCOName + "?" + appendURL;
+       if(mySCOName.indexOf("?") != -1){
+          sco = "../" + mySCOName + appendURL;
+       }
+       SCOHolder.location=sco;
+    }
+
+    /**************************************************************************
+    **
+    ** Function: API Object
+    ** Inputs:  Catch all for 1.2 SCO calls
+    ** Return:  none
+    **
+    ** Description:
+    ** APIObject is a JavaScript Object that acts as the SCORM 1.2 api and is
+    ** used to catch all the SCORM 1.2 calls prior to sending the calls onto
+    ** the LMS.
+    **
+    **************************************************************************/
+    function APIObject()
+    {
+       this.LMSInitialize = LMSInitialize;
+       this.LMSFinish = LMSFinish;
+       this.LMSGetValue = LMSGetValue;
+       this.LMSSetValue = LMSSetValue;
+       this.LMSCommit = LMSCommit;
+       this.LMSGetLastError = LMSGetLastError;
+       this.LMSGetErrorString = LMSGetErrorString;
+       this.LMSGetDiagnostic = LMSGetDiagnostic;
+    }
+
+    /**************************************************************************
+    **
+    ** Function: LMSInitialize()
+    ** Inputs:  None
+    ** Return:  A string indicating whether or not the function completed
+    **          successfully (true or false)
+    **
+    ** Description:
+    ** Initialize communication with LMS by calling the Initialize
+    ** function which will be implemented by the LMS. The result is returned
+    ** by the SCOPlayerWrapper.js file.
+    **
+    **************************************************************************/
+    function LMSInitialize()
+    {
+       // CALL INITIALIZE
+       result = doLMSInitialize();
+       return result.toString();
+    }
+
+    /**************************************************************************
+    **
+    ** Function: LMSFinish()
+    ** Inputs:  None
+    ** Return:  A string indicating whether or not the function completed
+    **          successfully (true or false)
+    **
+    ** Description:
+    ** LMSFinish comunicates with the LMS via SCOPlayerWrapper, converting the
+    ** LMSFinish call to Terminate and passing on to the LMS.
+    **
+    **************************************************************************/
+    function LMSFinish()
+    {
+       // CALL TERMINATE
+       result = doLMSFinish();
+       return result.toString();
+    }
+
+    /**************************************************************************
+    **
+    ** Function: LMSGetValue()
+    ** Inputs:  Name of Element to retrieve
+    ** Return:  Result of the getValue call
+    **
+    ** Description:
+    ** This funciton takes in the name of the element that is attempting to be
+    ** set, passes the element along to the SCOPlayerWrapper.js and in return
+    ** the SCOPlayerWrapper.js file returns the appropriate SCORM 1.2 conformant
+    ** value.
+    **
+    **************************************************************************/
+    function LMSGetValue(name)
+    {
+       result = doLMSGetValue(name);
+       return result.toString();
+    }
+
+    /**************************************************************************
+    **
+    ** Function: LMSSetValue()
+    ** Inputs:  Element name and value to set it to
+    ** Return:  A string indicating whether or not the function completed
+    **          successfully (true or false)
+    **
+    ** Description:
+    ** LMSSetValue accepts the value and element name to set, passing them on
+    ** to doLMSSetValue within SCOPlayerWrapper.js to complete the conversion
+    ** process communicating with the SCORM 2004 LMS.
+    **
+    ***************************************************************************/
+    function LMSSetValue(name, value)
+    {
+       result = doLMSSetValue(name, value);
+       return result.toString();
+    }
+
+    /**************************************************************************
+    **
+    ** Function: LMSCommit()
+    ** Inputs:  None
+    ** Return:  A string indicating whether or not the function completed
+    **          successfully (true or false)
+    **
+    ** Description:
+    ** LMSCommit calls doLMSCommit within SCOPlayerWrapper.js file passing the
+    ** call on to the SCORM 2004 LMS.
+    **
+    ***************************************************************************/
+    function LMSCommit()
+    {
+       var result = doLMSCommit();
+       return result.toString();
+    }
+
+    /***************************************************************************
+    **
+    ** Function doLMSGetLastError()
+    ** Inputs:  None
+    ** Return:  The error code that was set by the last LMS function call
+    **
+    ** Description:
+    ** Calls the doLMSGetLastError function, located in SCOPlayerWrapper.js
+    ** which converts the SCORM 2004 error code provided by the LMS to
+    ** SCORM 1.2.
+    **
+    ***************************************************************************/
+    function LMSGetLastError()
+    {
+       if ( _InternalErrCode == 1 )
+       {
+          // There is no error the APIWrapper caught the last call and did not
+          // comunicate with the LMS
+          return 0;
+       }
+       else
+       {
+          errorcode12 = doLMSGetLastError();
+          return errorcode12;
+       }
+    }
+
+    /***************************************************************************
+    **
+    ** Function doLMSGetErrorString(errorCode)
+    ** Inputs:  errorCode - Error Code
+    ** Return:  The textual description that corresponds to the input error code
+    **
+    ** Description:
+    ** Calls doLMSGetErrorString function located within SCOPlayerWrapper.js.
+    **
+    ***************************************************************************/
+    function LMSGetErrorString(errorCode)
+    {
+       var errString = doLMSGetErrorString(errorCode);
+       return errString;
+    }
+
+    /***************************************************************************
+    **
+    ** Function doLMSGetDiagnostic(errorCode)
+    ** Inputs:  errorCode - Error Code(integer format), or null
+    ** Return:  The vendor specific textual description that corresponds to the
+    **          input error code
+    **
+    ** Description:
+    ** Calls doLMSGetDiagnostic function located within SCOPlayerWrapper.js.n
+    **
+    ***************************************************************************/
+    function LMSGetDiagnostic(errorCode)
+    {
+       var errString = getErrorString(errorCode);
+       return errString;
+    }
+
+    function searchAndDestroyAPI(win)
+    {
+    	var oldwin=null;
+
+    	while(win!=null && win!=oldwin)
+    	{
+			if (win.API != null)
+			{
+		   		win.API=null;
+			}
+
+			if (win.length > 0)  // does the window have frames?
+			{
+		  	 	for (var i=0;i<win.length;i++)
+		   		{
+		   			if(win.frames[i].API!=null)
+		   			{
+		   				win.frames[i].API=null;
+		   			}
+		      	}
+		   	}
+
+			oldwin=win;
+		   	win=win.parent;
+		}
+    }
+
+	//search and destroy any LMS provided SCORM 1.2 APIs
+   	searchAndDestroyAPI(window);
+
+    if (this.opener != null)
+    {
+     	searchAndDestroyAPI(this.opener);
+    }
+
+    // JavaScript API object defined
+    var API = new APIObject();
+    </script>
+
+</head>
+<!-- frames -->
+<frameset  rows="100%" onload="javascript:initAPI()">
+    <frame id="SCOHolder" name="SCOHolder" src="about:blank" marginwidth="10"
+                             marginheight="10" scrolling="yes" frameborder="0">
+</frameset>
+
+</html>
+

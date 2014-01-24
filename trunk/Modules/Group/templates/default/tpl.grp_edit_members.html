@@ -1,0 +1,32 @@
+<!-- BEGIN waiting_list_table -->
+{TABLE_WAIT}
+<br />
+<!-- END waiting_list_table -->
+<!-- BEGIN subscriber_table -->
+{TABLE_SUB}
+<br />
+<!-- END subscriber_table -->
+<form method="post" name="participants" action="{FORMACTION}">
+<!-- BEGIN admin_block -->
+{ADMINS}
+<br/>
+<!-- END admin_block -->
+<!-- BEGIN member_block -->
+{MEMBERS}
+<br />
+<!-- END member_block -->
+
+<table class="fullwidth ilClearFloat">
+	<tr class="tblheader">
+		<td>{TXT_SELECTED_USER}</td>
+	</tr>
+	<tr>
+		<td class="submit">
+			<img src="{ARROW_DOWN}" alt="{ARROW_ALT}" />
+			<input class="submit" name="cmd[editMembers]" value="{BTN_FOOTER_EDIT}" type="submit" />
+			<input class="submit" name="cmd[confirmDeleteMembers]" value="{BTN_FOOTER_VAL}" type="submit" />
+			<input class="submit" name="cmd[sendMailToSelectedUsers]" value="{BTN_FOOTER_MAIL}" type="submit" />
+		</td>
+	</tr>
+</table>
+</form>

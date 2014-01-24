@@ -1,0 +1,16 @@
+<tr class="{CSS_ROW}">
+	<td class="std" style="vertical-align: top">
+		<input type="checkbox" name="chbUser[]" value="{USER_ID}" id="cb_{USER_ID}" {VAL_CHECKED} />
+	</td>
+	<td class="std" style="vertical-align: top"><label for="cb_{USER_ID}">{LOGIN}</label></td>
+	<td class="std" style="vertical-align: top">{FULLNAME}</td>
+	<td class="std" style="vertical-align: top">{STARTED}</td>
+	<td class="std" style="vertical-align: top">{PASSES}</td>
+	<td class="std" style="vertical-align: top">{FINISHED}</td>
+	<td class="std" style="vertical-align: top">{ACCESS}</td>
+	<!-- BEGIN actions_column -->
+		<td class="std" style="vertical-align: top">
+			<!-- BEGIN action_results --><a href="{RESULTS}">{RESULTS_TEXT}</a><!-- END action_results -->
+		</td>
+	<!-- END actions_column -->
+</tr>

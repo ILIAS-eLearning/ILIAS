@@ -1,0 +1,23 @@
+<div class="ilBlockContent">
+	<div class="il_ContainerItemCommands" style="float:right;">
+	<!-- BEGIN edit_note -->
+	<a class="il_ContainerItemCommand" href="{LINK_EDIT_NOTE}">{TXT_EDIT_NOTE}</a>
+	<!-- END edit_note -->
+	</div>
+	<a name="note_{NOTE_ID}">{EXP_ICON}<!-- BEGIN note_img --><img src="{IMG_NOTE}" alt="{ALT_NOTE}" title="{ALT_NOTE}" border="0" /><!-- END note_img --></a>
+	<b>{VAL_SUBJECT}  
+		</b><br /><div style="margin-top:4px;">{NOTE_TEXT}</div>
+	<div class="subtitle" style="text-align:right; margin-top:4px;">{TXT_CREATED} {VAL_DATE}<!-- BEGIN last_edit --><br />
+	{TXT_LAST_EDIT} {DATE_LAST_EDIT}
+	<!-- END last_edit --></div>
+	<!-- BEGIN target_objects -->
+		<div style="margin-top:4px;" class="subtitle">
+		<!-- BEGIN target_object -->
+			<div>{TXT_CONTAINER} > <a href="{LINK_TARGET}">{TXT_TARGET}</a></div>
+		<!-- END target_object -->
+		<!-- BEGIN exp_target_object -->
+			<div>{TXT_CONTAINER} > {TXT_TARGET}</div>
+		<!-- END exp_target_object -->
+		</div>
+	<!-- END target_objects -->
+</div>

@@ -1,0 +1,11 @@
+<div class="ilToolbar dontprint"><h3 class="ilAccHeadingHidden">Printview Selection</h3>
+<form name="printviewOptions" action="{FORMACTION}" method="POST">
+{OUTPUT_MODE}: <select name="output" onchange="javascript:document.printviewOptions.submit();">
+	<option value="overview">{TEXT_OVERVIEW}</option>
+	<option value="detailed"{SELECTED_DETAILED}>{TEXT_DETAILED}</option>
+	<option value="detailed_printview"{SELECTED_DETAILED_PRINTVIEW}>{TEXT_DETAILED_PRINTVIEW}</option>
+</select>
+<input type="submit" class="submit" name="cmd[print]" value="{TEXT_SUBMIT}" />
+</form>
+</div>	
+{TABLE}

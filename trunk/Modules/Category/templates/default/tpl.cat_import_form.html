@@ -1,0 +1,135 @@
+<script language="Javascript">
+
+// due to IE problems with getElementsByName we need to define something else
+function getElementsByNameAndTag(name, tag) {
+          var tam, lista, tags;
+         
+          lista = new Array();
+          tam = 0;
+          tags = document.getElementsByTagName(tag);
+          for(i = 0; i<tags.length; i++) {
+             if (tags[i].getAttribute("name")==name)
+                lista[tam++] = tags[i];
+           
+          }
+          return lista;
+}
+
+function disableFields() {
+
+var checkboxes = getElementsByNameAndTag("adopt[]","input");
+
+
+for (i=0; i<checkboxes.length;i++) {
+   checkboxes[i].disabled=true;
+}
+
+var labels = getElementsByNameAndTag("adoptedRole","label");
+
+for (i=0; i<labels.length;i++) {
+   labels[i].disabled=true;
+}
+
+var cmdimport = getElementsByNameAndTag("cmd[importCategories]","input");
+cmdimport.disabled = false;
+var cmdimportw = getElementsByNameAndTag("cmd[importCategoriesWithRol]","input");
+cmdimportw.disabled = true;
+
+}
+
+function enableFields() {
+
+var checkboxes = getElementsByNameAndTag("adopt[]","input");
+
+for (i=0; i<checkboxes.length;i++) {
+   checkboxes[i].disabled=false;
+}
+
+checkboxes[0].checked = true;
+
+var labels = getElementsByNameAndTag("adoptedRole","label");
+
+for (i=0; i<labels.length;i++) {
+   labels[i].disabled=false
+}
+
+var cmdimport = getElementsByNameAndTag("cmd[importCategories]","input")
+cmdimport.disabled = true
+var cmdimportw = getElementsByNameAndTag("cmd[importCategoriesWithRol]","input")
+cmdimportw.disabled = false
+
+}
+
+function ChangeImportType() {
+
+   var lista = getElementsByNameAndTag("checkWithRol","input")
+   var c = lista[0];
+
+   if (c.checked) {
+     enableFields()
+     var tmp = getElementsByNameAndTag("cmd[importCategories]","input")
+//     alert(tmp[0].name)
+     tmp[0].name="cmd[importCategoriesWithRol]"
+
+   }
+   else {
+      disableFields()
+      var tmp2 = getElementsByNameAndTag("cmd[importCategoriesWithRol]","input")
+/      alert(tmp2[0].name)
+      tmp2[0].name="cmd[importCategories]"
+
+   }
+}
+
+</script>
+
+<form action="{FORMACTION}" name="importForm" method="post" enctype="multipart/form-data">
+	<table class="std">
+		<tr class="tblheader">
+			<td class="std" colspan="3">{TXT_IMPORT_CATEGORIES}</td>
+		</tr>
+		<tr>
+			<td class="option">&nbsp;</td>
+			<td class="option">{TXT_IMPORT_FILE}</td>
+			<td class="option_value">
+				<input type="file" name="importFile" /></td>
+		</tr>
+		<tr>		
+			<td class="option">&nbsp;</td>
+			<td class="option">{TXT_HIERARCHY_OPTION}</td>
+			<td class="option_value">
+				<input type="checkbox" name="checkWithRol" onClick="javascript:ChangeImportType();" /></td>
+		</tr>
+		<tr>
+			<td class="std" colspan="3"></td>
+		</tr>		
+		<tr>
+			<td class="std ilRight" colspan="3">The following table is only meaningful if the checkbox is set</td>
+		</tr>		
+		<tr>
+			<td class="std" colspan="3"></td>
+		</tr>		
+		<tr class="tblheader">
+			<td class="std">&nbsp;</td>
+			<td class="std">Role</td>
+			<td class="std">Type</td>
+		</tr>	
+		<!-- BEGIN ADOPT_PERM_ROW -->
+		<tr class={CSS_ROW_ADOPT}>
+			<td	class="std">{CHECK_ADOPT}</td>
+			<td class="std"><label name="adoptedRole" for="{LABEL_ID}" disabled="disabled">{ROLE_NAME}</label></td>
+			<td class="std">{TYPE}</td>
+		</tr>	
+		<!-- END ADOPT_PERM_ROW -->
+		<tr class="submit">
+			<td class="submit ilRight" colspan="3">
+				<input class="submit" type="submit" name="cmd[importCancelled]" value="{BTN_CANCEL}" />
+				<input class="submit" type="submit" name="cmd[importCategories]" value="{BTN_IMPORT}" />
+		<!--	<input class="submit" type="submit" name="cmd[importCategoriesWithRol]" value="Import with roles"/>	-->
+			</td>
+		</tr>
+	</table>
+</form>
+
+
+

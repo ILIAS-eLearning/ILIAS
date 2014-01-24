@@ -1,0 +1,25 @@
+<form name="form" action="{FORMACTION}" method="post">
+<input type="hidden" name="menu_entry" value="{ENTRY_ID}" />
+<input type="hidden" name="link_ref_id" value="{LINK_REF_ID}" />
+
+<table class="std">
+<tr class="tblheader">
+	<td class="std" colspan="2">{TXT_NEW_ENTRY}</td>
+</tr>
+<tr>
+	<td class="option"><b>{TXT_TITLE}</b></td>
+	<td class="option_value"><input type="text" maxlength="255" SIZE="40" name="title" value="{TITLE}"></td>
+</tr>
+<tr>
+	<td class="option"><b>{TXT_TARGET}</b></td>
+	<td class="option_value"><input type="text" maxlength="255" SIZE="40" name="target" value="{TARGET}"></td>
+</tr>
+<tr>
+	<td class="submit" colspan="2">
+		<input class="submit" type="submit" name="cmd[{BTN_NAME}]" value="{BTN_TEXT}" />
+		<input class="submit" type="submit" name="cmd[{BTN_NAME2}]" value="{BTN_TEXT2}" />
+	</td>
+</tr>
+</table>
+
+</form>

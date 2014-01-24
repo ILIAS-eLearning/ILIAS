@@ -1,0 +1,123 @@
+<!-- BEGIN no_classification -->
+	{TXT_NO_CLASSIFICATION} <a class="il_ContainerItemCommand" href="{ACTION_ADD_CLASSIFICATION}">{TXT_ADD_CLASSIFICATION}</a>
+
+	<!-- END no_classification -->
+	<!-- BEGIN classification -->
+	<form action="{EDIT_ACTION}" {TARGET} name="post" method="post">
+	  <table class="std">
+		<!-- BEGIN classification_loop -->
+		<tr class="tblheader">
+		  <td class="std" colspan="4">
+			<div style="float:left">{TXT_CLASSIFICATION}
+			  <a class="il_ContainerItemCommand" href="{ACTION_DELETE}">{TXT_DELETE}</a>
+			  <a class="il_ContainerItemCommand" href="{ACTION_ADD}">{TXT_ADD}</a>
+			</div>
+			<div style="text-align:right;">
+			  <select name="section_element" size="1">
+				<option value="TaxonPath_{CLASS_ID}"{META_NAME_VAL_TAXONPATH}>{TXT_TAXONPATH}</option>
+				<option value="Keyword_{CLASS_ID}"{META_NAME_VAL_KEYWORD}>{TXT_KEYWORD}</option>
+			  </select>
+			  <input class="submit" type="submit" name="cmd[addSectionElement]" value="{TXT_ADD}"/>
+			</div>
+		  </td>
+		</tr>
+		<tr>
+		  <td class="option" colspan="3">{TXT_PURPOSE}</td>
+		  <td class="option_value">
+			<select name="classification[{CLASS_ID}][Purpose]" size="1">
+			  <option value="">{TXT_PLEASE_SELECT}</option>
+			  <option value="Discipline"{VAL_PURPOSE_DISCIPLINE}>{TXT_DISCIPLINE}</option>
+			  <option value="Idea"{VAL_PURPOSE_IDEA}>{TXT_IDEA}</option>
+			  <option value="Prerequisite"{VAL_PURPOSE_PREREQUISITE}>{TXT_PREREQUISITE}</option>
+			  <option value="EducationalObjective"{VAL_PURPOSE_EDUCATIONALOBJECTIVE}>{TXT_EDUCATIONALOBJECTIVE}</option>
+			  <option value="AccessibilityRestrictions"{VAL_PURPOSE_ACCESSIBILITYRESTRICTIONS}>{TXT_ACCESSIBILITYRESTRICTIONS}</option>
+			  <option value="EducationalLevel"{VAL_PURPOSE_EDUCATIONALLEVEL}>{TXT_EDUCATIONALLEVEL}</option>
+			  <option value="SkillLevel"{VAL_PURPOSE_SKILLLEVEL}>{TXT_SKILLLEVEL}</option>
+			  <option value="SecurityLevel"{VAL_PURPOSE_SECURITYLEVEL}>{TXT_SECURITYLEVEL}</option>
+			  <option value="Competency"{VAL_PURPOSE_COMPETENCY}>{TXT_COMPETENCY}</option>
+			</select>
+		  </td>
+		</tr>
+		<!-- BEGIN taxonpath_loop -->
+		<tr>
+		  <td class="option" colspan="3">
+			<div style="float:left">{TAXONPATH_LOOP_TXT_TAXONPATH}
+			  <!-- BEGIN taxonpath_delete -->
+			  <a class="il_ContainerItemCommand" href="{TAXONPATH_LOOP_ACTION_DELETE}">{TAXONPATH_LOOP_TXT_DELETE}</a>
+			  <!-- END taxonpath_delete -->
+			  <a class="il_ContainerItemCommand" href="{TAXONPATH_LOOP_ACTION_ADD}">{TAXONPATH_LOOP_TXT_ADD}</a>
+			</div>
+		  </td>
+		  <td class="option_value">&nbsp;</td>
+		  <tr>
+			<td class="option" width="10" rowspan="{TAXONPATH_LOOP_ROWSPAN}">&nbsp;</td>
+			<td class="sub_option" colspan="2">
+			  <div align="left">{TAXONPATH_LOOP_TXT_SOURCE}</div>
+			</td>
+			<td class="option_value"><input type="text" maxlength="200" name="classification[TaxonPath][{TAXONPATH_LOOP_NO}][Source][Value]" value="{TAXONPATH_LOOP_VAL_SOURCE}"></td>
+		  </tr>
+		  <tr>
+			<td class="sub_option" width="10">&nbsp;</td>
+			<td class="option">{TAXONPATH_LOOP_TXT_LANGUAGE}</td>
+			<td class="option_value">{TAXONPATH_LOOP_VAL_SOURCE_LANGUAGE}</td>
+		  </tr>
+		  <!-- BEGIN taxonpath_taxon_loop -->
+		  <tr>
+			<td class="sub_option" colspan="2">
+			  <div align="left">{TAXONPATH_TAXON_LOOP_TXT_TAXON}
+				<!-- BEGIN taxon_delete -->
+				<a class="il_ContainerItemCommand" href="{TAXONPATH_TAXON_LOOP_ACTION_DELETE}">{TAXONPATH_TAXON_LOOP_TXT_DELETE}</a>
+				<!-- END taxon_delete -->
+				<a class="il_ContainerItemCommand" href="{TAXONPATH_TAXON_LOOP_ACTION_ADD}">{TAXONPATH_TAXON_LOOP_TXT_ADD}</a></div>
+			</td>
+			<td class="option_value"><input type="text" maxlength="200" name="classification[TaxonPath][Taxon][{TAXONPATH_TAXON_LOOP_NO}][Value]" value="{TAXONPATH_TAXON_LOOP_VAL_TAXON}"></td>
+		  </tr>
+		  <tr>
+			<td class="sub_option" width="10" rowspan="2">&nbsp;</td>
+			<td class="option">{TAXONPATH_TAXON_LOOP_TXT_LANGUAGE}</td>
+			<td class="option_value">{TAXONPATH_TAXON_LOOP_VAL_TAXON_LANGUAGE}</td>
+		  </tr>
+		  <tr>
+			<td class="option">{TAXONPATH_TAXON_LOOP_TXT_ID}</td>
+			<td class="option_value"><input type="text" maxlength="200" name="classification[TaxonPath][Taxon][{TAXONPATH_TAXON_LOOP_NO}][Id]" value="{TAXONPATH_TAXON_LOOP_VAL_ID}"></td>
+		  </tr>
+		  <!-- END taxonpath_taxon_loop -->
+		  <!-- END taxonpath_loop -->
+
+		  <tr>
+			<td class="option" colspan="3">
+			  <div align="left">{TXT_DESCRIPTION}</div>
+			</td>
+			<td class="option_value"><textarea name="classification[{CLASS_ID}][Description]">{VAL_DESCRIPTION}</textarea></td>
+		  </tr>
+		  <tr>
+			<td class="option"width="10">&nbsp;</td>
+			<td class="sub_option" colspan="2">{TXT_LANGUAGE}</td>
+			<td class="option_value">{VAL_DESCRIPTION_LANGUAGE}</td>
+		  </tr>
+
+		  <!-- BEGIN keyword_loop -->
+		  <tr>
+			<td class="option" colspan="3">
+			  <div align="left">{KEYWORD_LOOP_TXT_KEYWORD}
+				<!-- BEGIN keyword_delete -->
+				<a class="il_ContainerItemCommand" href="{KEYWORD_LOOP_ACTION_DELETE}">{KEYWORD_LOOP_TXT_DELETE}</a>
+				<!-- END keyword_delete -->
+				<a class="il_ContainerItemCommand" href="{KEYWORD_LOOP_ACTION_ADD}">{KEYWORD_LOOP_TXT_ADD}</a>
+			  </div>
+			</td>
+			<td class="option_value"><input type="text" maxlength="200" name="classification[Keyword][{KEYWORD_LOOP_NO}][Value]" value="{KEYWORD_LOOP_VAL}"></td>
+		  </tr>
+		  <tr>
+			<td class="option"width="10">&nbsp;</td>
+			<td class="sub_option" colspan="2">{KEYWORD_LOOP_TXT_LANGUAGE}</td>
+			<td class="option_value">{KEYWORD_LOOP_VAL_LANGUAGE}</td>
+		  </tr>
+		  <!-- END keyword_loop -->
+		  <!-- END classification_loop -->
+		  <tr>
+			<td class="submit" colspan="4"><div align="right"><input class="submit" type="submit" name="cmd[updateClassification]" value="{TXT_SAVE}"/></div></td>
+		  </tr>
+	  </table>
+	</form>
+	<!-- END classification -->

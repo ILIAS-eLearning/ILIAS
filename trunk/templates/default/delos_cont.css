@@ -1,0 +1,79 @@
+table {
+	font-size: 100%;
+}
+
+th
+{
+	text-align: left;
+}
+
+h1 {
+	margin-top:12px;
+	margin-bottom:8px;
+	font-size: 140%;
+	font-weight: normal;
+}
+
+h2 {
+	margin-top:12px;
+	margin-bottom:8px;
+	font-size: 130%;
+	font-weight: normal;
+}
+
+h3 {
+	margin-top:12px;
+	margin-bottom:8px;
+	font-size: 120%;
+	font-weight: normal;
+}
+
+h4 {
+	margin-top:12px;
+	margin-bottom:8px;
+	font-size: 115%;
+	font-weight: normal;
+}
+
+h5 {
+	margin-top:12px;
+	margin-bottom:8px;
+	font-size: 110%;
+	font-weight: normal;
+}
+
+h6 {
+	margin-top:12px;
+	margin-bottom:8px;
+	font-size: 105%;
+	font-weight: normal;
+}
+
+p {
+	margin-top:8px;
+	margin-bottom:8px;
+}
+
+pre {
+	font-size: 100%;
+}
+
+img {
+	vertical-align: middle;
+	border: 0px;
+}
+
+span.latex {
+	color: green;
+	font-weight: bold;
+}
+
+div.framed {
+	border: 1px;
+	border-style: solid;
+	padding: 0px 10px;
+	border-color: #9EADBA;
+	background-color: #FFFFFF;
+	background-image: url(images/FramedBack.png);
+	background-repeat:repeat-x;
+}

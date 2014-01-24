@@ -1,0 +1,81 @@
+<div class="ilBlogSideBlocks">
+	
+	<div class="il_Block" datatable="0">
+		<div class="ilBlockHeader">
+			<div>				
+				<h3 class="ilBlockHeader">{NAVIGATION_TITLE}</h3>
+			</div>
+		</div>
+		<div class="ilBlockContent">
+			<!-- BEGIN navigation_month_details -->
+			<div>
+				<a href="{URL_MONTH}">{NAV_MONTH}</a>
+				<ul class="ilBlogSideBlockNavigation">
+					<!-- BEGIN navigation_item -->
+					<li class="small"><a href="{NAV_ITEM_URL}">{NAV_ITEM_CAPTION}</a>
+						<!-- BEGIN navigation_item_draft -->
+						<span class="ilBlogNavigationItemDraft">({NAV_ITEM_DRAFT})</span>
+						<!-- END navigation_item_draft -->
+						<!-- BEGIN navigation_item_approval -->
+						<span class="ilBlogNavigationItemDraft">({NAV_ITEM_APPROVAL})</span>
+						<!-- END navigation_item_approval -->
+					</li>
+					<!-- END navigation_item -->
+				</ul>
+			</div>
+			<!-- END navigation_month_details -->
+			<!-- BEGIN navigation_month -->
+			<div>
+				<a href="{URL_MONTH}">{MONTH_NAME}</a> ({MONTH_COUNT})
+			</div>
+			<!-- END navigation_month -->	
+		</div>
+	</div>
+	
+	<!-- BEGIN authors -->
+	<div class="il_Block" datatable="0">
+		<div class="ilBlockHeader">
+			<div>				
+				<h3 class="ilBlockHeader">{AUTHORS_TITLE}</h3>
+			</div>
+		</div>
+		<div class="ilBlockContent">
+			<!-- BEGIN author -->
+			<div class="ilBlogSideBlockAuthor small"><a href="{URL_AUTHOR}">{TXT_AUTHOR}</a></div>
+			<!-- END author -->
+		</div>
+	</div>	
+	<!-- END authors -->
+	
+	<!-- BEGIN keywords -->
+	<div class="il_Block" datatable="0">
+		<div class="ilBlockHeader">
+			<div>				
+				<h3 class="ilBlockHeader">{KEYWORDS_TITLE}</h3>
+			</div>
+		</div>
+		<div class="ilBlockContent">
+			<!-- BEGIN keywords_list -->
+			<div class="small">
+			<!-- BEGIN keyword -->
+			<a href="{URL_KEYWORD}" style="font-size:{SIZE_KEYWORD}%;">{TXT_KEYWORD}</a>
+			<!-- END keyword -->
+			</div>
+			<!-- END keywords_list -->
+			<!-- BEGIN no_keywords -->
+			{TXT_NO_KEYWORDS}
+			<!-- END no_keywords -->	
+		</div>
+		<!-- BEGIN edit_keywords -->
+		<div class="ilBlockInfo">
+			<div class="ilBlogSideBlockCommand"><a href="{URL_EDIT_KEYWORDS}">{TXT_EDIT_KEYWORDS}</a></div>
+		</div>
+		<!-- END edit_keywords -->
+	</div>			
+	<!-- END keywords -->
+	
+	<!-- BEGIN rss -->		
+	<a href="{URL_RSS}"><img src="{IMG_RSS}" alt="" /></a>		
+	<!-- END rss -->
+	
+</div>

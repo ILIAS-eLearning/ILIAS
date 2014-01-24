@@ -1,0 +1,55 @@
+<!-- BEGIN login_information -->
+<div class="small">{TXT_LOGIN_INFORMATION}</div>
+<!-- END login_information -->
+
+<div>
+	<!-- BEGIN login_page_editor -->
+	{LPE}
+	<!-- END login_page_editor -->
+</div>
+<div class="ilStartupSection">
+	<!-- BEGIN shib_login_form -->
+	<p>
+		{SHIB_LOGIN_FORM}
+	</p>
+	<!-- END shib_login_form -->
+	<!-- BEGIN cas_login -->
+	<p>
+		{CAS_LOGIN_FORM}
+	</p>
+	<!-- END cas_login_form -->
+	<!-- BEGIN ilias_login -->
+	<p>
+		{LOGIN_FORM}
+	</p>
+	<!-- END ilias_login -->
+	<!-- BEGIN openid_login -->
+	<p>
+		{OID_LOGIN_FORM}
+	</p>
+	<!-- END openid_login -->
+	<!-- BEGIN reg_links -->
+	<p class="ilStartupSection">
+		{REG_PWD_CLIENT_LINKS}
+	</p>
+	<!-- END reg_links -->
+	<!-- BEGIN lang_sel -->
+	<p>
+		{LANG_SELECTION}
+	</p>
+	<!-- END lang_sel -->
+	<!-- BEGIN agreement -->
+	<p>
+		{USER_AGREEMENT}
+	</p>
+	<!-- END agreement -->
+</div>
+<script language="JavaScript">
+<!--
+if (document.formlogin.username && document.formlogin.password)
+{
+	if(document.formlogin.username.value!="") document.formlogin.password.focus();
+	else document.formlogin.username.focus();
+}
+//-->
+</script>

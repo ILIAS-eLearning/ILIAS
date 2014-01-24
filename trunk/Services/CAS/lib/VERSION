@@ -1,0 +1,36 @@
+<?php
+	/*
+		http://downloads.jasig.org/cas-clients/php/
+		Version 1.1.2 	03. Aug 2010
+	*/
+	
+	// Changes
+	
+	// Support service tickets for CAS_VERSION_2
+	client.php line 674
+					case CAS_VERSION_2_0: // check for a Service or Proxy Ticket
+					if( preg_match('/^ST-/',$ticket) ) {
+						phpCAS::trace('ST \''.$ticket.'\' found');
+						$this->setST($ticket);
+						unset($_GET['ticket']);
+					}
+					elseif(preg_match('/PT-/', $ticket)) {
+						phpCAS::trace('PT \''.$ticket.'\' found');
+						$this->setPT($ticket);
+						unset($_GET['ticket']);
+					} else if ( !empty($ticket) ) {
+						//ill-formed ticket, halt
+						phpCAS::error('ill-formed ticket found in the URL (ticket=`'.htmlentities($ticket).'\')');
+					} 
+					break;
+					
+	// smeyer 05.12.12
+	// Removed duplicate domxml include
+	// Services/CAS/lib/CAS.php line 41
+	if (version_compare(PHP_VERSION, '5', '>=') && !(function_exists('domxml_new_doc'))) {
+		//require_once (dirname(__FILE__) . '/CAS/domxml-php4-to-php5.php'); // not required
+	}
+					
+	
+	
+?>

@@ -1,0 +1,237 @@
+<!-- BEGIN no_technical -->
+	{TXT_NO_TECHNICAL} <a class="il_ContainerItemCommand" href="{ACTION_ADD_TECHNICAL}">{TXT_ADD_TECHNICAL}</a>
+	<!-- END no_technical -->
+	<!-- BEGIN technical -->
+	<form action="{EDIT_ACTION}" {TARGET} name="post" method="post">
+	  <table class="std">
+		<tr class="tblheader">
+		  <td class="std" colspan="6">
+			<div style="float:left">{TXT_TECHNICAL}
+			  <a class="il_ContainerItemCommand" href="{ACTION_DELETE}">{TXT_DELETE}</a>
+			</div>
+			<div style="text-align:right;"><!-- BEGIN subelements -->{SEL_SUBELEMENTS}<!-- END subelements -->
+			  <input class="submit" type="submit" name="cmd[addSectionElement]" value="{TXT_ADD}"/>
+			</div>
+		  </td>
+		</tr>
+		<!-- BEGIN format_loop -->
+		<tr>
+		  <td class="option" colspan="5">
+			<div align="left">{FORMAT_LOOP_TXT_FORMAT}
+			  <a class="il_ContainerItemCommand" href="{FORMAT_LOOP_ACTION_DELETE}">{FORMAT_LOOP_TXT_DELETE}</a>
+			</div>
+		  </td>
+		  <td class="option_value">
+			<input type="text" maxlength="200" name="met_format[{FORMAT_LOOP_NO}][Format]" value="{FORMAT_LOOP_VAL}">
+		  </td>
+		</tr>
+		<!-- END format_loop -->
+		<tr>
+		  <td class="option" colspan="5">
+			<div align="left">{SIZE_TXT_SIZE}</div>
+		  </td>
+		  <td class="option_value"><input type="text" maxlength="200" name="met_size" value="{SIZE_VAL}"></td>
+		</tr>
+
+		<!-- BEGIN location_loop -->
+		<tr>
+		  <td class="option" colspan="5">
+			<div align="left">{LOCATION_LOOP_TXT_LOCATION}
+			  <a class="il_ContainerItemCommand" href="{LOCATION_LOOP_ACTION_DELETE}">{LOCATION_LOOP_TXT_DELETE}</a>
+			</div>
+		  </td>
+		  <td class="option_value">
+			<input type="text" maxlength="200" name="met_location[{LOCATION_LOOP_NO}][Location]" value="{LOCATION_LOOP_VAL}">
+		  </td>
+		</tr>
+		<tr>
+		  <td class="option" width="10">&nbsp;</td>
+		  <td class="sub_option" colspan="4">{LOCATION_LOOP_TXT_TYPE}</td>
+		  <td class="option_value">
+			{SEL_LOCATION_TYPE}
+		  </td>
+		</tr>
+		<!-- END location_loop -->
+
+		<!-- BEGIN requirement_loop -->
+		<tr>
+		  <td class="option" colspan="6">
+			<div align="left">{REQUIREMENT_LOOP_TXT_REQUIREMENT}
+			  <a class="il_ContainerItemCommand" href="{REQUIREMENT_LOOP_ACTION_DELETE}">{REQUIREMENT_LOOP_TXT_DELETE}</a>
+			</div>
+		  </td>
+		</tr>
+		<tr>
+		  <td class="option" width="10" rowspan="9">&nbsp;</td>
+		  <td class="sub_option" colspan="4">
+			<div align="left">{REQUIREMENT_LOOP_TXT_TYPE}</div>
+		  </td>
+		  <td class="option_value">&nbsp;</td>
+		</tr>
+		<tr>
+		  <td class="sub_option" width="10" rowspan="8">&nbsp;</td>
+		  <td class="option" colspan="3">
+			<div align="left">{REQUIREMENT_LOOP_TXT_OPERATINGSYSTEM}</div>
+		  </td>
+		  <td class="option_value">&nbsp;</td>
+		</tr>
+		<tr>
+		  <td class="option" width="10" rowspan="3">&nbsp;</td>
+		  <td class="sub_option" colspan="2">{REQUIREMENT_LOOP_TXT_NAME}</td>
+		  <td class="option_value">
+			{REQUIREMENT_SEL_OS_NAME}
+		  </td>
+		</tr>
+		<tr>
+		  <td class="sub_option" colspan="2">{REQUIREMENT_LOOP_TXT_MINIMUMVERSION}</td>
+		  <td class="option_value">
+			<input type="text" maxlength="200" name="met_re[{REQUIREMENT_LOOP_NO}][os][MinimumVersion]" 
+			  value="{REQUIREMENT_LOOP_VAL_OPERATINGSYSTEM_MINIMUMVERSION}"></td>
+		</tr>
+		<tr>
+		  <td class="sub_option" colspan="2">{REQUIREMENT_LOOP_TXT_MAXIMUMVERSION}</td>
+		  <td class="option_value">
+			<input type="text" maxlength="200" name="met_re[{REQUIREMENT_LOOP_NO}][os][MaximumVersion]" 
+			  value="{REQUIREMENT_LOOP_VAL_OPERATINGSYSTEM_MAXIMUMVERSION}"></td>
+		</tr>
+		<tr>
+		  <td class="option" colspan="3">
+			<div align="left">{REQUIREMENT_LOOP_TXT_BROWSER}</div>
+		  </td>
+		  <td class="option_value">&nbsp;</td>
+		</tr>
+		<tr>
+		  <td class="option" width="10" rowspan="3">&nbsp;</td>
+		  <td class="sub_option" colspan="2">{REQUIREMENT_LOOP_TXT_NAME}</td>
+		  <td class="option_value">
+			{REQUIREMENT_SEL_BROWSER_NAME}
+		  </td>
+		</tr>
+		<tr>
+		  <td class="sub_option" colspan="2">{REQUIREMENT_LOOP_TXT_MINIMUMVERSION}</td>
+		  <td class="option_value">
+			<input type="text" maxlength="200" name="met_re[{REQUIREMENT_LOOP_NO}][browser][MinimumVersion]" 
+			  value="{REQUIREMENT_LOOP_VAL_BROWSER_MINIMUMVERSION}"></td>
+		</tr>
+		<tr>
+		  <td class="sub_option" colspan="2">{REQUIREMENT_LOOP_TXT_MAXIMUMVERSION}</td>
+		  <td class="option_value">
+			<input type="text" maxlength="200" name="met_re[{REQUIREMENT_LOOP_NO}][browser][MaximumVersion]" 
+			  value="{REQUIREMENT_LOOP_VAL_BROWSER_MAXIMUMVERSION}"></td>
+		</tr>
+		<!-- END requirement_loop -->
+
+		<!-- BEGIN orcomposite_loop -->
+		<tr>
+		  <td class="option" colspan="6">
+			<div style="float:left">{ORCOMPOSITE_LOOP_TXT_ORCOMPOSITE}
+			  <a class="il_ContainerItemCommand" href="{ORCOMPOSITE_LOOP_ACTION_DELETE}">{ORCOMPOSITE_LOOP_TXT_DELETE}</a>
+			</div>
+		  </td>
+		</tr>
+		<!-- BEGIN orrequirement_loop -->
+		<tr>
+		  <td class="option" colspan="6">
+			<div style="float:left">{ORREQUIREMENT_LOOP_TXT_REQUIREMENT}
+			  <a class="il_ContainerItemCommand" href="{ORREQUIREMENT_LOOP_ACTION_DELETE}">{ORREQUIREMENT_LOOP_TXT_DELETE}</a>
+			</div>
+		  </td>
+		</tr>
+		<tr>
+		  <td class="option" width="10" rowspan="9">&nbsp;</td>
+		  <td class="sub_option" colspan="4">
+			<div align="left">{ORREQUIREMENT_LOOP_TXT_TYPE}</div>
+		  </td>
+		  <td class="option_value">&nbsp;</td>
+		</tr>
+		<tr>
+		  <td class="sub_option" width="10" rowspan="8">&nbsp;</td>
+		  <td class="option" colspan="3">
+			<div align="left">{ORREQUIREMENT_LOOP_TXT_OPERATINGSYSTEM}</div>
+		  </td>
+		  <td class="option_value">&nbsp;</td>
+		</tr>
+		<tr>
+		  <td class="option" width="10" rowspan="3">&nbsp;</td>
+		  <td class="sub_option" colspan="2">{ORREQUIREMENT_LOOP_TXT_NAME}</td>
+		  <td class="option_value">
+			{ORREQUIREMENT_SEL_OS_NAME}
+		  </td>
+		</tr>
+		<tr>
+		  <td class="sub_option" colspan="2">{ORREQUIREMENT_LOOP_TXT_MINIMUMVERSION}</td>
+		  <td class="option_value">
+			<input type="text" maxlength="200" name="met_re[{ORREQUIREMENT_LOOP_NO}][os][MinimumVersion]" 
+			  value="{ORREQUIREMENT_LOOP_VAL_OPERATINGSYSTEM_MINIMUMVERSION}"></td>
+		</tr>
+		<tr>
+		  <td class="sub_option" colspan="2">{ORREQUIREMENT_LOOP_TXT_MAXIMUMVERSION}</td>
+		  <td class="option_value">
+			<input type="text" maxlength="200" name="met_re[{ORREQUIREMENT_LOOP_NO}][os][MaximumVersion]" 
+			  value="{ORREQUIREMENT_LOOP_VAL_OPERATINGSYSTEM_MAXIMUMVERSION}"></td>
+		</tr>
+		<tr>
+		  <td class="option" colspan="3">
+			<div align="left">{ORREQUIREMENT_LOOP_TXT_BROWSER}</div>
+		  </td>
+		  <td class="option_value">&nbsp;</td>
+		</tr>
+		<tr>
+		  <td class="option" width="10" rowspan="3">&nbsp;</td>
+		  <td class="sub_option" colspan="2">{ORREQUIREMENT_LOOP_TXT_NAME}</td>
+		  <td class="option_value">
+			{ORREQUIREMENT_SEL_BROWSER_NAME}
+		  </td>
+		</tr>
+		<tr>
+		  <td class="sub_option" colspan="2">{ORREQUIREMENT_LOOP_TXT_MINIMUMVERSION}</td>
+		  <td class="option_value">
+			<input type="text" maxlength="200" name="met_re[{ORREQUIREMENT_LOOP_NO}][browser][MinimumVersion]" 
+			  value="{ORREQUIREMENT_LOOP_VAL_BROWSER_MINIMUMVERSION}"></td>
+		</tr>
+		<tr>
+		  <td class="sub_option" colspan="2">{ORREQUIREMENT_LOOP_TXT_MAXIMUMVERSION}</td>
+		  <td class="option_value">
+			<input type="text" maxlength="200" name="met_re[{ORREQUIREMENT_LOOP_NO}][browser][MaximumVersion]" 
+			  value="{ORREQUIREMENT_LOOP_VAL_BROWSER_MAXIMUMVERSION}"></td>
+		</tr>
+		<!-- END orrequirement_loop -->
+		<!-- END orcomposite_loop -->
+
+		<tr>
+		  <td class="option" colspan="5">
+			<div align="left">{INSTALLATIONREMARKS_TXT_INSTALLATIONREMARKS}<br>
+		  </td>
+		  <td class="option_value">
+			<input type="text" maxlength="200" name="met_inst" value="{INSTALLATIONREMARKS_VAL}"></td>
+		</tr>
+		<tr>
+		  <td class="option" width="10">&nbsp;</td>
+		  <td class="sub_option" colspan="4">{INSTALLATIONREMARKS_TXT_LANGUAGE}</td>
+		  <td class="option_value">{INSTALLATIONREMARKS_VAL_LANGUAGE}</td>
+		</tr>
+		<tr>
+		  <td class="option" colspan="5">
+			<div align="left">{OTHERPLATTFORMREQUIREMENTS_TXT_OTHERPLATTFORMREQUIREMENTS}<br>
+		  </td>
+		  <td class="option_value">
+			<input type="text" maxlength="200" name="met_opr" value="{OTHERPLATTFORMREQUIREMENTS_VAL}"></td>
+		</tr>
+		<tr>
+		  <td class="option" width="10">&nbsp;</td>
+		  <td class="sub_option" colspan="4">{OTHERPLATTFORMREQUIREMENTS_TXT_LANGUAGE}</td>
+		  <td class="option_value">{OTHERPLATTFORMREQUIREMENTS_VAL_LANGUAGE}</td>
+		</tr>
+		<tr>
+		  <td class="option" colspan="5">
+			<div align="left">{DURATION_TXT_DURATION}<br>
+		  </td>
+		  <td class="option_value"><input type="text" maxlength="200" name="duration" value="{DURATION_VAL}"></td>
+		</tr>
+		<tr>
+		  <td class="submit" colspan="6">
+			<div align="right"><input class="submit" type="submit" name="cmd[updateTechnical]" value="{TXT_SAVE}"/></div></td>
+		</tr>
+	  </table>
+	</form>
+	<!-- END technical -->

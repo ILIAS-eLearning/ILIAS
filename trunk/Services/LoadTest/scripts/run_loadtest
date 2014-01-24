@@ -1,0 +1,103 @@
+#! /usr/bin/php
+<?php
+	
+	// basic command line script
+	// for running load (needs config file)
+
+	echo "Running load test (PHP ".phpversion().")\n";
+
+	echo "Reading Config File... ";
+	$cfg_file = $argv[1];
+	if ($cfg_file == "")
+	{
+		$cfg_file = "./Services/LoadTest/config/cfg.loadtest.php";
+	}
+	if (!is_file($cfg_file))
+	{
+		echo "Not Found: ".$cfg_file."\n";
+		exit;
+	}
+	echo $cfg_file."\n";
+	include_once($cfg_file);
+	
+	// change to base directory
+	echo "Changing to ILIAS web dir: ".$iliaswebdir."\n";
+	chdir($iliaswebdir);
+
+	echo "Getting data loader instance.\n";
+	include_once("./Services/LoadTest/classes/class.ilDataLoader.php");
+	$loader = new ilDataLoader();
+	
+	// get db
+	echo "Connecting to DB. Host: ".$db_host.", Name: ".$db_name.
+		", User: ".$db_user.", Password: ".(trim($db_pw) != "" ? "Y" : "N").".\n";
+	include_once("./Services/Init/classes/class.ilErrorHandling.php");
+	include_once("./Services/Database/classes/class.ilDBWrapperFactory.php");
+	$ilDB = ilDBWrapperFactory::getWrapper("mysql");
+	$ilDB->setDbUser($db_user);
+	$ilDB->setDbPassword($db_pw);
+	$ilDB->setDbHost($db_host);
+	$ilDB->setDbName($db_name);
+	$ilDB->connect();
+	$GLOBALS["ilDB"] = $ilDB;
+
+	// svn update
+//	system("svn update");
+	
+	// read loadtest suite, foreach test
+	echo "Runnin Tests.\n";
+	if (is_array($tests))
+	{
+		foreach ($tests as $test)
+		{
+			echo "  ".$test["title"].".\n";
+			
+			// load db template
+			echo "    Load DB Template ".$test["db"].".\n";
+//			$loader->loadSqlTemplate($test["db"]);
+			
+			// run db update
+			
+			// delete jtl file
+			$log_file = $test["jtlfile"];
+			if (is_file($log_file))
+			{
+				echo "    Delete Log File: ".$log_file.".\n";
+				unlink($log_file);
+			}
+			if (is_file($log_file))
+			{
+				echo "    ERROR: Could not delete log file.\n";
+			}
+			
+			// run test
+			$p = "";
+			foreach ($test["parameter"] as $k => $v)
+			{
+				$p.= " -J".$k."=".$v;
+			}
+			$p.= " -Jwebhost=".$web_host;
+			$p.= " -Jrelwebdir=".$iliasrelwebdir;
+			$p.= " -Jloops=".$test["loops"];
+			$p.= " -Jthreads=".$test["threads"];
+			$p.= " -Jrampup=".$test["ramp_up"];
+			$p.= " -Jjtlfile=".$test["jtlfile"];
+			$p.= " -Jclient=".$client;
+			$cmd = ($jmeter_base."/bin/jmeter -n -t ".$test["testplan"].$p);
+			echo "    Run jmeter: ".$cmd.".\n";
+			system($cmd);
+
+			if (!is_file($log_file))
+			{
+				echo "    ERROR: Log File does not exist (".$log_file.").\n";
+			}
+			
+			// collect data, write to db
+			
+			// generate graphs
+			
+			// trigger warning e-mails
+		}
+	}
+	
+?>

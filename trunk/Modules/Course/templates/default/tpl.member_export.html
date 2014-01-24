@@ -1,0 +1,66 @@
+	  <!-- BEGIN file_list -->
+	{FILE_LIST_TABLE}<br /><br />
+	<!-- END file_list -->
+	<form class="il_Form" name="cmd" method="post" action="{FORM_ACTION}">
+	  <table class="fullwidth">
+		<tr class="tblheader">
+		  <th class="std ilLeft" colspan="2">
+			{TXT_EXPORT_SETTINGS}
+		  </th>
+		</tr>
+		<tr class="std">
+		  <td class="option">{TXT_USER_SELECTION}</td>
+		  <td class="option_value">
+			{CHECK_EXPORT_ADMIN}&nbsp;{TXT_EXPORT_ADMIN}<br />
+			<!-- BEGIN tutor_check -->
+			{CHECK_EXPORT_TUTOR}&nbsp;{TXT_EXPORT_TUTOR}<br />
+			<!-- END tutor_check -->
+			{CHECK_EXPORT_MEMBER}&nbsp;{TXT_EXPORT_MEMBER}<br />
+			{CHECK_EXPORT_SUB}&nbsp;{TXT_EXPORT_SUB}<br />
+			{CHECK_EXPORT_WAIT}&nbsp;{TXT_EXPORT_WAIT}<br />
+		  </td>
+		</tr>
+		<tr class="tblheader">
+		  <td class="std" colspan="2">
+			<div class="ilFloatLeft">{TXT_EXPORT_USER_DATA_HEADER}</div>
+		  </td>
+		</tr>
+		<tr class="std">
+		  <td class="option">{TXT_USER_DATA_SELECTION}</td>
+		  <td class="option_value">
+			<!-- BEGIN user_data_row -->
+			{CHECK_EXPORT_USER_DATA}&nbsp;{TXT_EXPORT_USER_DATA}<br />
+			<!-- END user_data_row -->
+		  </td>
+		</tr>
+		<!-- BEGIN cdf_fields -->
+		<tr class="std">
+		  <td class="option">{TXT_CDF_SELECTION}</td>
+		  <td class="option_value">
+			<!-- BEGIN cdf_row -->
+			{CHECK_CDF_DATA}&nbsp;{TXT_CDF_NAME}<br />
+			<!-- END cdf_row -->
+		  </td>
+		</tr>
+		<!-- END cdf_fields -->
+		<!-- BEGIN consultation -->
+		<tr class="std">
+		  <td class="option">{TXT_CH}</td>
+		  <td class="option_value">
+			{CHECK_EXPORT_CH}&nbsp;{TXT_EXPORT_CH}<br />
+		  </td>
+		</tr>
+		<!-- END consultation -->
+		<tr>
+		  <td class="submit ilRight" colspan="2">
+			<input type="submit" class="submit" name="cmd[export]" value="{TXT_EXPORT}" />
+			<input type="submit" class="submit" name="cmd[exportExcel]" value="{TXT_EXPORT_EXCEL}" />
+		  </td>
+		</tr>			
+	  </table>
+	</form>
+
+<!-- BEGIN iframe -->
+<iframe src="{SOURCE}" width="1" height="1" name="export_frame">
+</iframe>
+<!-- END iframe -->

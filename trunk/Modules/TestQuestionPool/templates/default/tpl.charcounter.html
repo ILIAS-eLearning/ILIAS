@@ -1,0 +1,19 @@
+<script type="text/javascript">
+var maxL={MAXCHARS};
+
+function taCount(taObj,Cnt) { 
+	cc = createObject('charcounter');
+	if (cc != null) cc.style.visibility = 'visible';
+	objCnt=createObject(Cnt);
+	objVal=taObj.value;
+	if (objCnt) objCnt.value=maxL-objVal.length;
+	return true;
+}
+function createObject(objId) {
+	if (document.getElementById) return document.getElementById(objId);
+	else if (document.layers) return eval("document." + objId);
+	else if (document.all) return eval("document.all." + objId);
+	else return eval("document." + objId);
+}
+</script>
+

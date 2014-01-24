@@ -1,0 +1,28 @@
+<?php xml version = "1.0" encoding = "UTF-8"?>
+<module xmlns="http://www.w3.org" version="$Id: modules.xml 15671 2008-01-04 13:08:30Z akill $"
+	id="qpl">
+	<baseclasses>
+		<baseclass name="ilObjQuestionPoolGUI" dir="classes" />
+	</baseclasses>
+	<objects>
+		<object id="qpl" class_name="QuestionPool" dir="classes" default_pos="210" default_pres_pos="200"
+			checkbox="1" inherit="1" allow_link="1" allow_copy="1" translate="0" rbac="1" export="1">
+			<subobj id="rolf" max="1">rolf</subobj>
+			<parent id="cat">cat</parent>
+			<parent id="crs">crs</parent>
+			<parent id="fold">fold</parent>
+			<parent id="grp">grp</parent>
+			<parent id="recf">recf</parent>
+			<parent id="root">root</parent>
+		</object>
+	</objects>
+	<pluginslots>
+		<pluginslot id="qst" name="Questions" />
+	</pluginslots>
+	<copage>
+		<pageobject parent_type="qht" class_name="ilAssHintPage" directory="classes"/>
+		<pageobject parent_type="qpl" class_name="ilAssQuestionPage" directory="classes"/>
+		<pageobject parent_type="qfbg" class_name="ilAssGenFeedbackPage" directory="classes/feedback"/>
+		<pageobject parent_type="qfbs" class_name="ilAssSpecFeedbackPage" directory="classes/feedback"/>
+	</copage>
+</module>

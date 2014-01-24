@@ -1,0 +1,29 @@
+<div {ID} class="ilExplorerFrame">
+<table class="ilExplorer"><tr><td class="ilExpH">
+<div class="ilExpH">
+<h1 class="ilExplorerHead">{TXT_EXPLORER_HEADER}</h1>
+</div>
+</td></tr><tr><td class="ilExpBody">
+<div class="il_Explorer">
+{EXPLORER}
+<br/>
+<div>
+  <form action="{ACTION}" method="post">
+    <input class="submit" type="submit" name="cmd[refresh]" value="{EXP_REFRESH}" />
+	<!-- BEGIN exp_button -->
+	<input class="submit" type="submit" name="cmd[{CMD_EXP_BTN}]" value="{TXT_EXP_BTN}" />
+	<!-- END exp_button -->
+	<!-- BEGIN exp2_button -->
+	<input class="submit" type="submit" name="{CMD_EXP2_BTN}" value="{TXT_EXP2_BTN}" />
+	<!-- END exp2_button -->
+  </form>
+</div>
+</div>
+<script language="JavaScript" type="text/javascript">
+function updater(exp_id, script)
+{
+	il.Explorer.refresh(exp_id, script);
+}
+</script>
+</td></tr></table>
+</div>

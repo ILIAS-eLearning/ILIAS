@@ -1,0 +1,24 @@
+<!-- BEGIN standard -->
+<tr class="{CSS_ROW}" class="font-class: small">
+  <td class="std" valign="top" align="center">
+	<div style="text-align:center">
+	  <input type="checkbox" name="languages[]" value="{LANGID}" {CHECKED_LANGKEY} />
+	  <input type="hidden" name="visible_languages[]" value="{LANGID}"  />
+	</div>
+  </td>
+  <td class="std" valign="top">
+	  {TXT_LANGUAGE} <!-- BEGIN system_block --><font class="font-style: bold" style="font-size: 80%">({TXT_SYSTEM})</font><!-- END system_block -->
+  </td>
+  <td class="std" valign="top">
+	  <img src="{STATUS_SRC}" alt="{STATUS_ALT}" />
+  </td>
+
+  <td class="std">
+	<div style="float:left;">
+	  <!-- BEGIN link -->
+	  <a class="il_ContainerItemCommand" href="{LINK_NAME}">{LINK_TXT}</a>
+	  <!-- END link -->
+	</div>
+  </td>
+</tr>
+<!-- END standard -->

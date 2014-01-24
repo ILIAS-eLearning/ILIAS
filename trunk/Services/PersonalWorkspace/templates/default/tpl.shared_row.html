@@ -1,0 +1,37 @@
+<tr class="{CSS_ROW}">	
+	<td class="std small">
+		{LASTNAME}
+	</td>	
+	<td class="std small">
+		{FIRSTNAME}
+	</td>	
+	<td class="std small">
+		{LOGIN}
+	</td>	
+	<!-- BEGIN obj_type_bl -->
+	<td class="std small">
+		<img src="{ICON}" alt="{ICON_ALT}" title="{ICON_ALT}" /> {TYPE}
+	</td>	
+	<!-- END obj_type_bl -->
+	<td class="std small">
+		{ACL_DATE}
+	</td>
+	<td class="std small">
+		<a href="{URL_TITLE}">{TITLE}</a>
+	</td> 
+	<td class="std small">
+		<!-- BEGIN acl_type_bl -->
+			<!-- BEGIN acl_type_icon_bl -->
+			<img src="{ACL_ICON}" alt="{ACL_ICON_ALT}" title="{ACL_ICON_ALT}" />
+			<!-- END acl_type_icon_bl -->
+			{ACL_TYPE}<br />		
+		<!-- END acl_type_bl -->
+	</td> 
+	<!-- BEGIN action_col_bl -->
+	<td class="std small">
+		<!-- BEGIN action_bl -->
+		<a href="{URL_ACTION}">{ACTION}</a>
+		<!-- END action_bl -->
+	</td> 
+	<!-- END action_col_bl -->
+</tr>

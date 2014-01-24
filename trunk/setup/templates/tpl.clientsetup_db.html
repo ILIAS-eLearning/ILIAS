@@ -1,0 +1,64 @@
+{FORM}
+<form method="post" action="{FORMACTION}">
+<input type="hidden" name="form[db_flag]" value="1"/>
+<table class="std">
+<tr class="tblheader">
+	<td class="std" colspan="3">{TXT_DB_HEADER}</td>
+</tr>
+<tr>
+	<td class="option">{TXT_DB_TYPE}</td>
+	<td class="option_value" colspan="2">{VAL_DB_TYPE}</td>
+</tr>
+<tr>
+	<td class="option">{TXT_DB_VERSION}</td>
+	<td class="option_value" colspan="2">{VAL_DB_VERSION}</td>
+</tr>
+<!-- <tr>
+	<td class="option">{TXT_DB_MODE} <span style="color:#FF0000;">[*]</span></td>
+	<td class="option_value" colspan="2">{VAL_DB_MODE}</td>
+</tr> -->
+<tr>
+	<td class="option">{TXT_DB_HOST}</td>
+	<td class="option_value" colspan="2">{DB_HOST}</td>
+</tr>
+<tr>
+	<td class="option">{TXT_DB_NAME}</td>
+	<td class="option_value" colspan="2">{DB_NAME}</td>
+</tr>
+<tr>
+	<td class="option">{TXT_DB_USER}</td>
+	<td class="option_value" colspan="2">{DB_USER}</td>
+</tr>
+<!-- <tr>
+	<td class="option">{TXT_DB_PASS}</td>
+	<td class="option_value" colspan="2">{DB_PASS}</td>
+</tr> -->
+<!-- BEGIN collation_selection -->
+<tr>
+	<td class="option">{TXT_COLLATION}</td>
+	<td class="option_value" colspan="2">
+	<select name="collation">
+		<!-- BEGIN collation_item -->
+		<option value="{VAL_COLLATION_ITEM}">{TXT_COLLATION_ITEM}</option>
+		<!-- END collation_item -->
+	</select>
+	</td>
+</tr>
+<!-- END collation_selection -->
+<!-- BEGIN option_db_create -->
+<tr>
+	<td class="option"><label for="chk_db_create">{TXT_DB_CREATE}</label></td>
+	<td class="option_value" colspan="2"><input type="checkbox" name="form[chk_db_create]" value="1" id="chk_db_create" {DB_CREATE_CHECK}/></td>
+</tr>
+<!-- END option_db_create -->
+<!-- BEGIN btn_submit -->
+<tr>
+	<td class="submit" colspan="3">
+	<div align="right"><input class="submit" type="submit" name="cmd[db]" value="{TXT_SAVE}"/></div>
+	</td>
+</tr>
+<!-- END btn_submit -->
+</table>
+</form>
+{COLLATION_INFO2}
+</div>

@@ -1,0 +1,34 @@
+<tr class="{CSS_ROW}" style="font-size: small">
+	<td class="std" style="vertical-align:top;">
+		<!-- BEGIN tpl_check -->
+		<input type="checkbox" name="tpls[]" value="{VAL_ID}" />
+		<!-- END tpl_check -->
+	</td>
+	<td class="std"  style="vertical-align:top;">
+		<!-- BEGIN title_plain -->
+		{VAL_TITLE}
+		<!-- END title_plain -->
+		<!-- BEGIN title_linked -->
+		<a href="{VAL_LINK}">{VAL_TITLE_LINKED}</a>
+		<!-- END title_linked -->
+		<!-- BEGIN desc -->
+		<div class="il_Description">{VAL_DESC}</div>
+		<!-- END desc -->
+		<!-- BEGIN info -->
+		<div class="il_Description">{VAL_INFO}</div>
+		<!-- END info -->
+	</td>
+	<td class="std" style="vertical-align:top">
+		{VAL_APPLICABLE}
+	</td>
+	<td class="std" style="vertical-align:top">
+		<img src="{VAL_IMAGE}" title="{VAL_ENABLED_TXT}" alt="{VAL_ENABLED_TXT}" />
+	</td>
+	<!-- BEGIN action_col -->
+	<td class="std" style="vertical-align:top">
+			<!-- BEGIN action_link -->
+			<div><a class="il_ContainerItemCommand2" href="{A_LINK}">{A_TEXT}</a></div>
+			<!-- END action_link -->
+	</td>
+	<!-- END action_col -->
+</tr>

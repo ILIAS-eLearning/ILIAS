@@ -1,0 +1,37 @@
+<h3 class="ilBlogMonthHeader">{TXT_CURRENT_MONTH}</h3>
+<div class="ilBlogList">
+	<!-- BEGIN posting -->
+	<div class="ilBlogListItem{DRAFT_CLASS}">
+		<!-- BEGIN actions -->
+		<div class="ilFloatRight small">
+			<!-- BEGIN item_approval -->
+			<span class="ilBlogNavigationItemDraft smallred">{APPROVAL}</span>
+			<!-- END item_approval -->
+			{ACTION_SELECTOR}</div>
+		<!-- END actions -->
+		<div class="ilBlogListItemTitle">
+			<h3><a href="{URL_TITLE}">{TITLE}</a></h3>
+		</div>
+		<div class="ilBlogListItemSubTitle">{DATETIME}</div>
+		<div class="ilBlogListItemSnippet">
+			{CONTENT}
+		</div>
+		<!-- BEGIN more -->
+		<div class="ilBlogListItemMore">
+		<span class="small"><a href="{URL_MORE}" class="submit">{TEXT_MORE}&hellip;</a></span>
+		</div>
+		<!-- END more -->
+		<div class="ilBlogListItemCommtensPerma">
+			<!-- BEGIN comments -->
+			<a href="{URL_COMMENTS}">{TEXT_COMMENTS}</a> ({COUNT_COMMENTS})
+			<!-- END comments -->
+			<!-- BEGIN permalink -->
+			 &middot;  <a href="{URL_PERMALINK}">{TEXT_PERMALINK}</a>
+			 <!-- END permalink -->
+		</div>
+	</div>
+	<!-- END posting -->
+</div>
+<div class="ilBlogListPermalink">
+{PERMALINK}
+</div>

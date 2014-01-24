@@ -1,0 +1,161 @@
+<!ENTITY UDFDefinitions SYSTEM "ilias_udf_definition_3_10.dtd">
+<!-- include the reused dtd -->
+%UDFDefinitions;
+<!-- new elements defined here -->
+
+
+<!-- ilias_user.dtd for ILIAS Users -->
+<!-- For comments refer to our mailing list: xml-ilias@uni-koeln.de -->
+<!-- $Id: ilias_user_3_8.dtd,v 1.1 2006/05/12 09:29:22 rku Exp $ -->
+<!-- Language codes referring to ISO 639-1 Alpha-2 code, see http://www.oasis-open.org/cover/iso639a.html for details -->
+<!ENTITY % langcode "none | aa | ab | af | am | ar | as | ay | az | ba | be | bg | bh | bi | bn | bo | br | ca | co | cs | cy | da | de | dz | el | en | eo | es | et | eu | fa | fi | fj | fo | fr | fy | ga | gd | gl | gn | gu | ha | he | hi | hr | hu | hy | ia | ie | ik | id | is | it | iu | ja | jv | ka | kk | kl | km | kn | ko | ks | ku | ky | la | ln | lo | lt | lv | mg | mi | mk | ml | mn | mo | mr | ms | mt | my | na | ne | nl | no | oc | om | or | pa | pl | ps | pt | qu | rm | rn | ro | ru | rw | sa | sd | sg | sh  | si | sk | sl | sm | sn | so | sq | sr | ss | st | su | sv | sw | ta | te | tg | th | ti | tk | tl | tn | to | tr | ts | tt | tw | ug | uk | ur | uz | vi | vo | wo | xh | yi | yo | za | zh | zu">
+
+<!-- Action attribute for entities. -->
+<!ENTITY % entityAction "Insert | Update | Delete">
+
+<!-- Action attribute for relationships. -->
+<!ENTITY % relationshipAction "Assign | AssignWithParents | Detach">
+
+<!-- Users -->
+<!ELEMENT Users (UDFDefinitions?,User*)>
+
+<!-- User -->
+<!ELEMENT User (Login, Role*, Password?, Firstname?, Lastname?, Title?, PersonalPicture?, Gender?, Email?,
+	Institution?, Street?, City?, PostalCode?, Country?, PhoneOffice?, PhoneHome?,
+	PhoneMobile?, Fax?, Hobby?, Department?, Comment?, Matriculation?, Active?, ClientIP?,
+	TimeLimitOwner?, TimeLimitUnlimited?, TimeLimitFrom?, TimeLimitUntil?, TimeLimitMessage?,
+	ApproveDate?, AgreeDate?, (iLincID, iLincLogin, iLincPasswd)?, AuthMode?, ExternalAccount?, Look?, LastUpdate?, LastLogin?, UserDefinedField*, AccountInfo*, GMapsInfo?, Feedhash?, Prefs?)>
+
+<!--
+Id is ILIAS ID or unique identifier for this xml file
+-->
+<!ATTLIST User
+	Id CDATA #REQUIRED
+	Language (%langcode;) #REQUIRED
+	Action (%entityAction;) "Insert"
+>
+
+<!-- Role -->
+<!ELEMENT Role (#PCDATA)>
+
+<!--
+Id is ILIAS ID or unique identifier for this xml file
+-->
+<!ATTLIST Role
+	Id CDATA #REQUIRED
+	Type (Global | Local) #REQUIRED
+	Action (%relationshipAction;) "Assign"
+	
+>
+
+<!-- personal picture -->
+<!ENTITY % I_Encoding " encoding  (Base64 | UUEncode )  'Base64'">
+
+<!ELEMENT PersonalPicture (#PCDATA)>
+
+<!ATTLIST PersonalPicture imagetype CDATA  'image/jpeg'
+                     %I_Encoding; >
+
+<!-- AuthMode -->
+<!ENTITY % A_Mode " type  (default | local | ldap | radius | shibboleth | cas | soap | script )  'default'">
+<!ELEMENT AuthMode (#PCDATA)>
+<!ATTLIST AuthMode %A_Mode;>
+
+<!-- Look -->
+<!ELEMENT Look (#PCDATA)>
+<!ATTLIST Look
+    Skin CDATA #REQUIRED
+    Style CDATA #REQUIRED
+>
+
+<!-- Other Elements -->
+<!ELEMENT Login (#PCDATA)>
+<!ELEMENT Password (#PCDATA)>
+<!ATTLIST Password
+	Type (ILIAS2 | ILIAS3 | PLAIN) #REQUIRED
+>
+<!ELEMENT Firstname (#PCDATA)>
+<!ELEMENT Lastname (#PCDATA)>
+<!ELEMENT Title (#PCDATA)>
+<!ELEMENT Gender (#PCDATA)> <!-- content must be "f" (female) or "m" (male) -->
+<!ELEMENT Email (#PCDATA)>
+<!ELEMENT Institution (#PCDATA)>
+<!ELEMENT Street (#PCDATA)>
+<!ELEMENT City (#PCDATA)>
+<!ELEMENT PostalCode (#PCDATA)>
+<!ELEMENT Country (#PCDATA)>
+<!ELEMENT PhoneOffice (#PCDATA)>
+<!ELEMENT PhoneHome (#PCDATA)>
+<!ELEMENT PhoneMobile (#PCDATA)>
+<!ELEMENT Fax (#PCDATA)>
+<!ELEMENT Hobby (#PCDATA)>
+<!ELEMENT Department (#PCDATA)>
+<!ELEMENT Comment (#PCDATA)>
+<!ELEMENT Matriculation (#PCDATA)>
+<!ELEMENT Active (#PCDATA)> <!-- content must be "true" or "false" -->
+<!ELEMENT ClientIP (#PCDATA)><!-- content must be a valid IP address xxx.xxx.xxx.xxx -->
+<!ELEMENT TimeLimitOwner (#PCDATA)> <!-- content must be an integer value -->
+<!ELEMENT TimeLimitUnlimited (#PCDATA)> <!-- content must be 0 or 1 -->
+<!ELEMENT TimeLimitFrom (#PCDATA)> <!-- content must be a unix timestamp -->
+<!ELEMENT TimeLimitUntil (#PCDATA)> <!-- content must be a unix timestamp -->
+<!ELEMENT TimeLimitMessage (#PCDATA)> <!-- content must be 0 or 1 -->
+<!ELEMENT ApproveDate (#PCDATA)> <!-- content must be a mysql datetime -->
+<!ELEMENT AgreeDate (#PCDATA)> <!-- content must be a mysql datetime -->
+<!ELEMENT LastUpdate (#PCDATA)> <!-- @soap: read only property, is mysql timestamp e.g. 2003-08-15 10:07:30  -->
+<!ELEMENT LastLogin (#PCDATA)><!-- date of last login -->
+<!ELEMENT iLincID (#PCDATA)>
+<!ELEMENT iLincLogin (#PCDATA)>
+<!ELEMENT iLincPasswd (#PCDATA)>
+<!ELEMENT ExternalAccount (#PCDATA)>
+<!ELEMENT UserDefinedField (#PCDATA)>
+<!ATTLIST UserDefinedField
+    Id CDATA #REQUIRED
+    Name CDATA #REQUIRED
+>
+
+<!ELEMENT AccountInfo (#PCDATA)>
+<!ATTLIST AccountInfo
+	Type CDATA #REQUIRED
+>
+
+
+<!ELEMENT GMapsInfo EMPTY>
+<!ATTLIST GMapsInfo
+	longitude CDATA #REQUIRED
+	latitude CDATA #REQUIRED
+	zoom CDATA #REQUIRED
+>
+<!ELEMENT Feedhash (#PCDATA)>
+<!-- preferences store indivual settings like mail forwarding, hits per page, etc. -->
+<!-- each setting is identitied by a unique key -->
+<!-- up to now the following keys will be delivered, they accept the values after the colon -->
+<!-- 
+hits_per_page: numeric, unlimited = 9999
+public_city: y,n
+public_country: y,n
+public_department: y,n
+public_email: y,n
+public_fax: y,n
+public_hobby: y,n
+public_institution: y,n
+public_matriculation: y,n
+public_phone: y,n
+public_phone_home: y,n
+public_phone_mobile: y,n
+public_phone_office: y,n
+public_profile: y,n
+public_street: y,n
+public_upload: y,n
+public_zip: y,n
+send_info_mails: y,n
+show_users_online: y,n, associated
+hide_own_online_status: y, n
+user_tz: must be valid timezone, e.g. Europe/Berlin
+mail_incoming_type: 0 (local), 1 (email), 2 (both)
+mail_signature: text
+mail_linebreak: numeric
+-->
+<!ELEMENT Prefs (Pref*)>
+<!ELEMENT Pref (#PCDATA)>
+<!ATTLIST Pref
+	key ID #REQUIRED>

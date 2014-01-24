@@ -1,0 +1,8 @@
+{QUESTIONTEXT}<br />
+<!-- BEGIN maximum_char_hint -->
+	<p class="quote">{MAXIMUM_CHAR_HINT}</p>
+<!-- END maximum_char_hint -->
+<textarea class="fullwidth textinput" cols="40" rows="10" name="TEXT" id="TEXT" onKeyUp="return taCount(this,'myCounter')">{ESSAY}</textarea>
+<!-- BEGIN maxchars_counter -->
+<p id="charcounter" style="visibility: hidden;">(<input type="text" readonly="readonly" id="myCounter" style="border: 0; background: transparent;" size="{TEXTBOXSIZE}" value="{MAXCHARS}" /> {CHARACTERS})</p>
+<!-- END maxchars_counter -->

@@ -1,0 +1,32 @@
+<tr>
+  <td class="option" rowspan="{ROWSPAN}" width="1%">
+	<img src="{OBJ_IMG}" style="vertical-align:middle;" alt="{OBJ_ALT}" title="{OBJ_ALT}" border="0" vspace="0" />
+  </td>
+  <td class="option">
+	<div style="text-align: left">
+	  {OBJ_ALT}:
+	</div>
+  </td>
+  <td class="{OPTION_CLASS}">
+	<!-- BEGIN obj_options -->
+	<input name="chb_check_all" value="1" id="{JS_TYPE}" {OBJ_CHECKED}
+	  onclick="setCheckedById('cmd', '{JS_FIELD}', document.cmd.{JS_TYPE}.checked);" type="radio">
+	<label for="{JS_TYPE}"><strong>{NAME_OPTIONS}</strong></label><br />
+	<!-- END obj_options -->
+  </td>
+</tr>
+<!-- BEGIN item_row -->
+<tr>
+  <td class="sub_option">
+	<div style="text-align: left">
+	  {ITEM_TITLE}
+	  <div class="il_Description">{DESCRIPTION}</div>
+	</div>
+  </td>
+  <td class="option_value">
+	<!-- BEGIN item_options -->
+	<input type="radio" {ITEM_CHECKED} name="{ITEM_CHECK_NAME}" value="{ITEM_VALUE}" id="{ITEM_ID}">{ITEM_NAME_OPTION}<br />
+	<!-- END item_options -->
+  </td>
+</tr>
+<!-- END item_row -->

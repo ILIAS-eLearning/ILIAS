@@ -1,0 +1,136 @@
+<!-- Course dtd. -->
+<!-- For MetaData definition have a look at ilias_co.dtd.
+    Maybe we should use an include and store the MetaData definistion in a single file -->
+<!ELEMENT Course (MetaData?,Admin+,Tutor*,Member*,Subscriber*,WaitingList*,Settings?)>
+<!ATTLIST Course
+    exportVersion CDATA #REQUIRED
+    id CDATA #IMPLIED
+>
+<!-- All course admins
+    id: Id is ILIAS user id. User must exist in ILIAS database
+    notification: In the moment "0" (No notifications for new subsciptions) or "1" (Notification). Default => "0"
+    passed: "No" (User hasn't passed the course) or "Yes" (Passed) => Default is 'no'
+-->
+<!ELEMENT Admin EMPTY>
+<!ATTLIST Admin
+    id CDATA #REQUIRED
+    notification (Yes | No) #IMPLIED
+    passed (Yes | No) #IMPLIED
+	action (Attach|Detach) #IMPLIED
+>
+<!-- All course tutors
+    @see element Admin
+-->
+<!ELEMENT Tutor EMPTY>
+<!ATTLIST Tutor
+    id CDATA #REQUIRED
+    notification (Yes | No) #REQUIRED
+    passed (Yes | No) #REQUIRED
+	action (Attach|Detach) #IMPLIED
+>
+<!-- All course members
+    @see element Admin
+    blocked: Default "0" (not blocked) or "1" (course member is blocked => no access to course content)
+-->
+<!ELEMENT Member EMPTY>
+<!ATTLIST Member
+    id CDATA #REQUIRED
+    blocked (Yes | No) #IMPLIED
+    passed (Yes | No) #IMPLIED
+	action (Attach|Detach) #IMPLIED
+>
+<!-- All users whose registration isn't finished and needs a confirmation by a course admin or tutor
+    id: user id. User must exist in ILIAS database.
+    subscriptionTime: Unix time of subscription
+-->
+<!ELEMENT Subscriber EMPTY>
+<!ATTLIST Subscriber
+    id CDATA #REQUIRED
+    subscriptionTime CDATA #REQUIRED
+	action (Attach|Detach) #IMPLIED
+>
+<!-- All users that are on the waiting list of a course.
+    id: user id. User must exist in ILIAS database.
+    subscriptionTime: Unix time of subscription
+-->
+<!ELEMENT WaitingList EMPTY>
+<!ATTLIST WaitingList
+    id CDATA #REQUIRED
+    subscriptionTime CDATA #REQUIRED
+	action (Attach|Detach) #IMPLIED
+>
+<!-- Description of course settings -->
+<!ELEMENT Settings (Availability?,Syllabus?,ImportantInformation?,Contact?,Registration?,Sort?,Archive?)>
+
+<!-- Availability -->
+<!ELEMENT Availability (NotAvailable | Unlimited | TemporarilyAvailable)>
+
+<!-- Offline status => course is not available for course members -->
+<!ELEMENT NotAvailable EMPTY>
+
+<!-- Unlimited status -->
+<!ELEMENT Unlimited EMPTY>
+
+<!-- Temporarily available -->
+<!ELEMENT TemporarilyAvailable (Start,End)>
+
+<!-- Start time (unix time stamp) -->
+<!ELEMENT Start (#PCDATA)>
+
+<!-- End time (unix time stamp) -->
+<!ELEMENT End (#PCDATA)>
+
+<!-- course syllabus => free text -->
+<!ELEMENT Syllabus (#PCDATA)>
+
+<!-- course important information => free text -->
+<!ELEMENT ImportantInformation (#PCDATA)>
+
+
+<!-- Contact data -->
+<!ELEMENT Contact (Name?,Responsibility?,Phone?,Email?,Consultation?)>
+
+<!ELEMENT Name (#PCDATA)>
+<!ELEMENT Responsibility (#PCDATA)>
+<!ELEMENT Phone (#PCDATA)>
+<!ELEMENT Email (#PCDATA)>
+<!ELEMENT Consultation (#PCDATA)>
+
+<!-- Registration settings -->
+<!ELEMENT Registration ((Disabled | Unlimited | TemporarilyAvailable),Password?)>
+
+<!-- Password -->
+<!ELEMENT Password (#PCDATA)>
+
+<!-- registration disabled -->
+<!ELEMENT Disabled EMPTY >
+
+<!-- Registration settings:
+    registrationType: Confirmation => registration needs confirmation by a course admin or tutor
+    maxMembers: "0" means unlimited
+    notification: if enabled all course admins/tutors whose status is 'notification will receive a message about new registrations
+    waitin list: if enabled and the maximum number of members is exceeded, new users get possibility the use the waiting list.
+-->
+<!ATTLIST Registration
+    registrationType (Confirmation | Direct | Password) #IMPLIED
+    maxMembers CDATA #IMPLIED
+    notification (Yes | No) #IMPLIED
+    waitingList (Yes | No) #IMPLIED
+>
+
+<!-- Sort order of course items -->
+<!ELEMENT Sort EMPTY>
+
+<!-- Definition of sort order of course items -->
+<!ATTLIST Sort
+    type (Manual | Title | Activation) #REQUIRED
+>
+<!-- Archives -->
+<!ELEMENT Archive (Start,End)>
+
+<!-- Archive settings
+    Access: Disabled, read access (no course content is visible), download (no course content, read and download access to archives)
+-->
+<!ATTLIST Archive
+    Access (Disabled | Read | Download) #REQUIRED
+>

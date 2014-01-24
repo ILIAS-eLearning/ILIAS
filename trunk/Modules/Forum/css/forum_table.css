@@ -1,0 +1,14 @@
+/* ---------------- alternating tablerowcolors ----------------- */
+
+.tblstickyrow1 {
+	background-color:#FBF2D5;
+	color:#222222;
+	padding:3px;
+}
+
+.tblstickyrow2 {
+	background-color:#F8E2B1;
+	color:#222222;
+	padding:3px;
+}
+

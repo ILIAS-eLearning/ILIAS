@@ -1,0 +1,46 @@
+<tr class="{CSS_ROW}">
+	<!-- BEGIN check_col -->
+	<td class="std" valign="top">
+		<input class="{CSS_ROW}" type="checkbox" name="id[]" value="{CHECKBOX_ID}" {CHECKED}/>
+	</td>
+	<!-- END check_col -->
+	<!-- BEGIN fd_td -->
+	<td class="std" valign="top">
+		{FULL_DEF}
+	</td>
+	<!-- END fd_td -->
+	<!-- BEGIN td -->
+	<td class="std" valign="top">
+		<!-- BEGIN link_start --><a href="{LINK_VIEW_TERM}"><b><!-- END link_start -->{TEXT}<!-- BEGIN link_end --></b></a><a name="{ANCHOR_TERM}"/><!-- END link_end -->
+	</td>
+	<!-- END td -->
+	<!-- BEGIN def_td -->
+	<td class="std" valign="top">
+	<!-- BEGIN definition_row -->
+		<!-- BEGIN def_head -->
+			<i>{DEF_TEXT}</i><br />
+		<!-- END def_head -->
+		<!-- BEGIN definition -->
+			{DEF_SHORT}<br />
+		<!-- END definition -->
+		<!-- BEGIN move_up -->
+			[<a href="{LINK_UP}">{TXT_UP}</a>]
+		<!-- END move_up -->
+		<!-- BEGIN move_down -->
+			[<a href="{LINK_DOWN}">{TXT_DOWN}</a>]
+		<!-- END move_down -->
+		<!-- BEGIN delete -->
+			[<a href="{LINK_DELETE}">{TXT_DELETE}</a>]
+		<!-- END delete -->
+		<!-- BEGIN edit -->
+			[<a href="{LINK_EDIT}">{TXT_EDIT}</a>]<br />
+		<!-- END edit -->
+	<!-- END definition_row -->
+	</td>
+	<!-- END def_td -->
+<!-- BEGIN glossary_row -->
+	<td class="std" valign="top">
+		{GLO_TITLE}
+	</td>
+<!-- END glossary_row -->
+</tr>

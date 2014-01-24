@@ -1,0 +1,174 @@
+<script type="text/javascript">
+<!--
+function updateScan(form)
+{
+	// I removed this check, because Objects can be savely restored or
+	// purged from the trash without having to cleang the repository
+	// W. Randelshofer, 2007-04-18
+/*
+	if (form.clean.checked ||
+            form.restore.checked || 
+            form.purge.checked ||
+            form.restore_trash.checked ||
+            form.purge_trash.checked)
+        {
+            form.scan.checked = true;
+            form.scan.disabled = true;
+        }
+        else
+        {
+            form.scan.disabled = false;
+        }*/
+}
+
+function handleClean(form)
+{
+	updateScan(form);
+}
+
+function handleRestore(form)
+{
+	if (form.restore.checked)
+	{
+		form.purge.disabled = true;
+	}
+	else
+	{
+		form.purge.disabled = false;	
+	}
+	updateScan(form);
+}
+
+function handlePurge(form)
+{
+	if (form.purge.checked)
+	{
+		form.restore.disabled = true;
+	}
+	else
+	{
+		form.restore.disabled = false;	
+	}
+	updateScan(form);
+}
+
+function handleRestoreTrash(form)
+{
+	if (form.restore_trash.checked)
+	{
+		form.purge_trash.disabled = true;
+	}
+	else
+	{
+		form.purge_trash.disabled = false;	
+	}
+	updateScan(form);
+}
+
+function handlePurgeTrash(form)
+{
+	if (form.purge_trash.checked)
+	{
+		form.restore_trash.disabled = true;
+	}
+	else
+	{
+		form.restore_trash.disabled = false;	
+	}
+	updateScan(form);
+}
+//-->
+</script>
+<form action="{FORMACTION}" name="ScanOptions" method="post">
+<table class="std">
+<tr class="tbltitle">
+  <td colspan="{COLSPAN}">
+  <table class="fullwidth_invisible">
+    <tr class="tbltitle">
+	  <td class="tbltitle" align="left">&nbsp;{TXT_ANALYZE_TITLE}</td>
+	  <td align="right">&nbsp;</td>
+	</tr>
+  </table>
+  </td>
+</tr>
+  <tr class="tblheader">
+    <td class="std" colspan="3">{TXT_ANALYSIS_OPTIONS}</td>
+  </tr>
+  <tr>
+   <td class="option"><label for="scan">{TXT_SCAN}</label></td>
+   <td class="option_value"><input type="checkbox"<!-- BEGIN mode_scan_checked --> checked="checked"<!-- END mode_scan_checked --> name="mode[scan]"  value="1" id="scan" checked="checked" /></td>
+   <td class="option_desc">{TXT_SCAN_DESC}</td>
+  </tr>
+  <tr>
+   <td class="option"><label for="dump_tree">{TXT_DUMP_TREE}</label></td>
+   <td class="option_value"><input type="checkbox"<!-- BEGIN mode_dump_tree_checked --> checked="checked"<!-- END mode_dump_tree_checked --> name="mode[dump_tree]"  value="1" id="dump_tree"/></td>
+   <td class="option_desc">{TXT_DUMP_TREE_DESC}</td>
+  </tr>
+  <tr class="tblheader">
+    <td class="std" colspan="3">{TXT_REPAIR_OPTIONS}</td>
+  </tr>
+  <tr>
+   <td class="option"><label for="clean">{TXT_CLEAN}</label></td>
+   <td class="option_value"><input type="checkbox"<!-- BEGIN mode_clean_checked --> checked="checked"<!-- END mode_clean_checked --> name="mode[clean]" value="1" id="clean" onClick="handleClean(document.ScanOptions)" /></td>
+   <td class="option_desc">{TXT_CLEAN_DESC}</td>
+  </tr>
+  <tr>
+   <td class="option"><label for="restore">{TXT_RESTORE}</label></td>
+   <td class="option_value"><input type="checkbox"<!-- BEGIN mode_restore_disabled --> disabled="disabled"<!-- END mode_restore_disabled --><!-- BEGIN mode_restore_checked --> checked="checked"<!-- END mode_restore_checked --> name="mode[restore]" value="1" id="restore" onClick="handleRestore(document.ScanOptions)" /></td>
+   <td class="option_desc">{TXT_RESTORE_DESC}</td>
+  </tr>
+  <tr>
+   <td class="option"><label for="purge">{TXT_PURGE}</label></td>
+   <td class="option_value"><input type="checkbox"<!-- BEGIN mode_purge_disabled --> disabled="disabled"<!-- END mode_purge_disabled --><!-- BEGIN mode_purge_checked --> checked="checked"<!-- END mode_purge_checked --> name="mode[purge]"  value="1" id="purge" onClick="handlePurge(document.ScanOptions)" /></td>
+   <td class="option_desc">{TXT_PURGE_DESC}</td>
+  </tr>
+  <tr>
+   <td class="option"><label for="restore_trash">{TXT_RESTORE_TRASH}</label></td>
+   <td class="option_value"><input type="checkbox"<!-- BEGIN mode_restore_trash_disabled --> disabled="disabled"<!-- END mode_restore_trash_disabled --><!-- BEGIN mode_restore_trash_checked --> checked="checked"<!-- END mode_restore_trash_checked --> name="mode[restore_trash]" id="restore_trash" value="1" onClick="handleRestoreTrash(document.ScanOptions)" /></td>
+   <td class="option_desc">{TXT_RESTORE_TRASH_DESC}</td>
+  </tr>
+  <tr>
+   <td class="option"><label for="purge_trash">{TXT_PURGE_TRASH}</label></td>
+   <td class="option_value"><input type="checkbox"<!-- BEGIN mode_purge_trash_disabled --> disabled="disabled"<!-- END mode_purge_trash_disabled --><!-- BEGIN mode_purge_trash_checked --> checked="checked"<!-- END mode_purge_trash_checked --> name="mode[purge_trash]" id="purge_trash" value="1" onClick="handlePurgeTrash(document.ScanOptions)" /></td>
+  <td class="option_desc">{TXT_PURGE_TRASH_DESC}
+      <p>
+	  <label for="count_limit">{TXT_COUNT_LIMIT}:</label>
+	  <input type="input" name="count_limit" id="count_limit" value="{COUNT_LIMIT_VALUE}"/>
+	  <br/>
+	  {TXT_COUNT_LIMIT_DESC}
+      </p>
+      <p>
+	<label for="age_limit">{TXT_AGE_LIMIT}:</label>
+	<input type="input" name="age_limit" id="age_limit" value="{AGE_LIMIT_VALUE}"/>
+	<br/>
+	{TXT_AGE_LIMIT_DESC}
+      </p>
+      <p>
+	<label for="type_limit">{TXT_TYPE_LIMIT}:</label>
+	{TYPE_LIMIT_CHOICE}
+	<br/>
+	{TXT_TYPE_LIMIT_DESC}
+      </p>
+    </td>
+  </tr>
+  <tr class="tblheader">
+    <td class="std" colspan="3">{TXT_OUTPUT_OPTIONS}</td>
+  </tr>
+  <tr>
+   <td class="option"><label for="log_scan">{TXT_LOG_SCAN}</label></td>
+   <td class="option_value"><input type="checkbox"<!-- BEGIN log_scan_checked --> checked="checked"<!-- END log_scan_checked --> name="log_scan" id="log_scan" value="1" checked="checked"/></td>
+   <td class="option_desc">{TXT_LOG_SCAN_DESC}</td>
+  </tr>
+  <tr>
+	<td class="submit" colspan="3" align="right">
+<!-- BEGIN BTN_VIEW_LOG -->
+	<input class="submit" type="submit" name="cmd[viewScanLog]" value="{TXT_VIEW_LOG}"/>
+<!-- END BTN_VIEW_LOG -->
+	<input class="submit" type="submit" name="cmd[saveCheckParams]" value="{TXT_SAVE}"/>
+	<input class="submit" type="submit" name="cmd[check]" value="{TXT_SUBMIT}"/>
+	</td>
+  </tr>
+</table>
+</form>
+<br />
+{CRON_FORM}

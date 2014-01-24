@@ -1,0 +1,483 @@
+<!-- ilias_pg.dtd for ILIAS Page Objects only -->
+<!-- $Id$ -->
+<!-- Language codes referring to ISO 639-1 Alpha-2 code, see http://www.oasis-open.org/cover/iso639a.html for details -->
+<!ENTITY % langcode "none | aa | ab | af | am | ar | as | ay | az | ba | be | bg | bh | bi | bn | bo | br | ca | co | cs | cy | da | de | dz | el | en | eo | es | et | eu | fa | fi | fj | fo | fr | fy | ga | gd | gl | gn | gu | ha | he | hi | hr | hu | hy | ia | ie | ik | id | is | it | iu | ja | jv | ka | kk | kl | km | kn | ko | ks | ku | ky | la | ln | lo | lt | lv | mg | mi | mk | ml | mn | mo | mr | ms | mt | my | na | ne | nl | no | oc | om | or | pa | pl | ps | pt | qu | rm | rn | ro | ru | rw | sa | sd | sg | sh  | si | sk | sl | sm | sn | so | sq | sr | ss | st | su | sv | sw | ta | te | tg | th | ti | tk | tl | tn | to | tr | ts | tt | tw | ug | uk | ur | uz | vi | vo | wo | xh | yi | yo | za | zh | zu">
+<!-- Types of (textual) content -->
+<!ENTITY % text "#PCDATA | br | Comment | PageTurn | Footnote | Emph | Strong | Accent | Important | Quotation | Anchor | Keyw | Code | ExtLink | IntLink | SimpleBulletList | SimpleNumberedList">
+<!ENTITY % commenttext "#PCDATA | br | Emph | PageTurn | Footnote | Strong | Accent | Important | Quotation | Anchor | Keyw | Code | ExtLink | IntLink">
+<!ENTITY % emphtext "#PCDATA | br | Comment | PageTurn | Footnote | Strong | Accent | Important | Quotation | Anchor | Keyw | Code | ExtLink | IntLink">
+<!ENTITY % strongtext "#PCDATA | br | Comment | PageTurn | Footnote | Emph | Accent | Important | Quotation | Anchor | Keyw | Code | ExtLink | IntLink">
+<!ENTITY % acctext "#PCDATA | br | Comment | PageTurn | Footnote | Emph | Important | Strong | Quotation | Anchor | Keyw | Code | ExtLink | IntLink">
+<!ENTITY % imptext "#PCDATA | br | Comment | PageTurn | Footnote | Emph | Accent | Strong | Quotation | Anchor | Keyw | Code | ExtLink | IntLink">
+<!ENTITY % kwtext "#PCDATA | br | Comment | Footnote | Strong | Emph | Accent | Important | Quotation | Code">
+<!ENTITY % linktext "#PCDATA | br | Comment | Emph | Strong | Quotation | Code">
+<!ENTITY % simpletext "#PCDATA | br | Emph | Strong | Quotation | Code | Anchor | ExtLink | IntLink">
+<!ENTITY % footnotetext "#PCDATA | br | Comment | Emph | Accent | Strong | Anchor | ExtLink | IntLink | Important | Quotation | Code">
+<!ENTITY % titletext "#PCDATA | br | Emph | Strong | Quotation | Code">
+<!ENTITY % codetext "#PCDATA | br | Emph | Strong | Accent | Important | Quotation | Footnote">
+
+<!-- PageObject -->
+<!-- Object for displaying content on a screen and comparable to a page of a book; a PageObject contains MediaObjects (=images, applets, ...) and/or paragraphs of textual content; a PageObject must not include StructureObjects or PageObjects! -->
+<!-- PageObjects are comparable to LOM LearningObjects of aggregation level 2 -->
+<!ELEMENT PageObject (PageContent*, Layout?, InitOpenedContent?)>
+
+<!ELEMENT PageContent ((Paragraph | MediaObject | Table | List | FileList | Question | PlaceHolder | Section | Resources | LoginPageElement | Map | Plugged | Tabs | ContentInclude | InteractiveImage | Profile | Verification | Blog | QuestionOverview | Skills | ConsultationHours), BibItemIdentifier*)>
+
+<!-- enable/disable paragraph elements -->
+<!ATTLIST PageContent
+	PCID CDATA #IMPLIED
+	Enabled (True|False) #IMPLIED	
+>
+
+<!-- BibItemIdentifier specify from which BibItem(s) the content comes -->
+<!ELEMENT BibItemIdentifier EMPTY>
+<!ATTLIST BibItemIdentifier
+	Catalog CDATA #IMPLIED
+	Entry CDATA #REQUIRED
+>
+
+
+<!-- PageTurn -->
+<!ELEMENT PageTurn (BibItemIdentifier)>
+<!ATTLIST PageTurn
+	NumberingType (Roman | Arabic | Alphanumeric) #REQUIRED
+	Number CDATA #IMPLIED
+>
+
+<!-- Identifier -->
+<!ELEMENT Identifier EMPTY>
+<!ATTLIST Identifier
+	Catalog CDATA #IMPLIED
+	Entry CDATA #REQUIRED
+>
+
+<!-- Title -->
+<!ELEMENT Title (%titletext;)*>
+<!ATTLIST Title
+	Language (%langcode;) #REQUIRED
+>
+
+<!-- MediaObject -->
+<!-- Object of lowest complexity that contains only raw media data or fragments (e.g. an image or applet); Textual content cannot be a MediaObject! -->
+<!-- MediaObjects are comparable to LOM LearningObjects of aggregation level 1 -->
+<!ELEMENT MediaObject (MediaAlias, MediaAliasItem+)>
+<!-- MediaAlias -->
+<!-- Alias for an already existing MediaObject; this allows an easy reuse of existing MediaObjects; an alias is not a copy but only a reference to the original object-->
+<!ELEMENT MediaAlias EMPTY>
+<!ATTLIST MediaAlias
+	OriginId CDATA #REQUIRED
+	Class CDATA #IMPLIED
+>
+<!-- MediaAliasItem -->
+<!ELEMENT MediaAliasItem (Layout?, Caption?, TextRepresentation?, Parameter*, MapArea*)>
+<!ATTLIST MediaAliasItem
+	Purpose (Standard | Fullscreen | Additional) #REQUIRED
+>
+
+<!-- MapAreas should be only defined for image objects with purpose Standard or Fullscreen -->
+<!-- Id has been introduced with 4.2, is optional -->
+<!ELEMENT MapArea (ExtLink | IntLink)>
+<!ATTLIST MapArea
+	Shape (Rect | Circle | Poly | WholePicture) #REQUIRED
+	Coords CDATA #IMPLIED
+	HighlightMode CDATA #IMPLIED
+	HighlightClass CDATA #IMPLIED
+	Id CDATA #IMPLIED
+>
+
+<!-- Text Representation -->
+<!ELEMENT TextRepresentation (#PCDATA)>
+
+<!ELEMENT Format (#PCDATA)>
+
+<!ELEMENT Location (#PCDATA)>
+<!ATTLIST Location
+	Type (LocalFile | Reference) #REQUIRED
+>
+
+<!-- Interactive Image -->
+<!ELEMENT InteractiveImage (MediaAlias, MediaAliasItem+, Trigger*, ContentPopup*)>
+<!ELEMENT Trigger EMPTY>
+<!ATTLIST Trigger
+	Nr CDATA #REQUIRED
+	Type (Area | Marker) #REQUIRED
+	Title CDATA #IMPLIED
+	OverlayX CDATA #IMPLIED
+	OverlayY CDATA #IMPLIED
+	MarkerX CDATA #IMPLIED
+	MarkerY CDATA #IMPLIED
+	Overlay CDATA #IMPLIED
+	PopupNr CDATA #IMPLIED
+	PopupX CDATA #IMPLIED
+	PopupY CDATA #IMPLIED
+	PopupWidth CDATA #IMPLIED
+	PopupHeight CDATA #IMPLIED
+>
+<!ELEMENT ContentPopup (PageContent*)>
+<!ATTLIST ContentPopup
+	Nr CDATA #REQUIRED
+	PCID CDATA #IMPLIED
+	Title CDATA #IMPLIED
+	ContentWidth CDATA #IMPLIED
+	ContentHeight CDATA #IMPLIED
+>
+
+<!-- Question Overview -->
+<!ELEMENT QuestionOverview EMPTY>
+<!ATTLIST QuestionOverview
+	ShortMessage (y | n) #IMPLIED
+	ListWrongQuestions (y | n) #IMPLIED
+>
+
+<!-- Paragraph -->
+<!-- All textual content of a PageObject has to be divided in single paragraphs -->
+<!ELEMENT Paragraph (%text;)*>
+<!ATTLIST Paragraph
+	Language (%langcode;) #REQUIRED
+	Characteristic CDATA #IMPLIED
+	SubCharacteristic CDATA #IMPLIED
+	AutoIndent (y | n) #IMPLIED
+	ShowLineNumbers (y | n) #IMPLIED
+	DownloadTitle CDATA #IMPLIED
+>
+
+<!-- br -->
+<!ELEMENT br EMPTY>
+
+<!-- Comment -->
+<!ELEMENT Comment (%commenttext;)*>
+<!ATTLIST Comment
+	Language (%langcode;) #REQUIRED
+>
+<!-- Emph -->
+<!ELEMENT Emph (%emphtext;)*>
+<!ATTLIST Emph
+	Reason (Intuition | MetaLanguageUse) #IMPLIED
+>
+
+<!-- Footnote -->
+<!ELEMENT Footnote (%footnotetext;)*>
+<!ATTLIST Footnote
+	Creator (Editor | Translator | Author) #IMPLIED
+>
+
+<!-- Strong -->
+<!ELEMENT Strong (%strongtext;)*>
+<!ATTLIST Strong
+	Reason (Intuition | MetaLanguageUse) #IMPLIED
+>
+
+<!-- Accent -->
+<!ELEMENT Accent (%acctext;)*>
+
+<!-- Important -->
+<!ELEMENT Important (%imptext;)*>
+
+<!-- Quotation -->
+<!ELEMENT Quotation (%text;)*>
+<!ATTLIST Quotation
+	Language (%langcode;) #REQUIRED
+	Reference IDREF #IMPLIED
+>
+
+<!-- Keyword -->
+<!ELEMENT Keyw (%kwtext;)*>
+
+<!-- Code -->
+<!ELEMENT Code (%codetext;)*>
+<!ATTLIST Code
+	Id ID #IMPLIED
+	ProgrammingLanguage CDATA #IMPLIED
+>
+
+<!-- Anchor -->
+<!ELEMENT Anchor (%text;)*>
+<!ATTLIST Anchor
+	Name CDATA #IMPLIED
+>
+
+<!-- List -->
+<!ELEMENT List (Title?, ListItem+)>
+<!ATTLIST List
+	Id ID #IMPLIED
+	Type (Ordered | Unordered) #REQUIRED
+	Class CDATA #IMPLIED
+	NumberingType (Decimal | Roman | roman | Alphabetic | alphabetic | Number) #IMPLIED
+	StartValue CDATA #IMPLIED
+>
+<!ELEMENT ListItem (PageContent*)>
+<!ATTLIST ListItem
+	PCID CDATA #IMPLIED
+>
+
+<!-- Simple Lists -->
+<!ELEMENT SimpleBulletList (SimpleListItem*)>
+<!ELEMENT SimpleNumberedList (SimpleListItem*)>
+<!ELEMENT SimpleListItem (%text;)*>
+
+<!-- FileList -->
+<!ELEMENT FileList (Title?, FileItem*)>
+<!ELEMENT FileItem (Identifier, Location, Format?)>
+<!ATTLIST FileItem
+	PCID CDATA #IMPLIED
+	Class CDATA #IMPLIED
+>
+
+
+<!-- Table -->
+<!-- Table model is some kind of a mixture of mimalized CALS and HTML dtd -->
+<!-- Only a minimum of style elements and attributes defined -->
+<!ELEMENT Table (Title?, Caption?, Summary?, TableRow+)>
+<!ATTLIST Table
+	Language (%langcode;) #REQUIRED
+	Id ID #IMPLIED
+	Width CDATA #IMPLIED
+	Border CDATA #IMPLIED
+	HorizontalAlign (Left | Center | Right | LeftFloat | RightFloat) #IMPLIED
+	CellPadding CDATA #IMPLIED
+	CellSpacing CDATA #IMPLIED
+	Class CDATA #IMPLIED
+	DataTable (y | n) #IMPLIED
+	Template CDATA #IMPLIED
+	HeaderRows CDATA #IMPLIED
+	HeaderCols CDATA #IMPLIED
+	FooterRows CDATA #IMPLIED
+	FooterCols CDATA #IMPLIED
+>
+<!ELEMENT Caption (%titletext;)*>
+<!ATTLIST Caption
+	Align (top | bottom) #REQUIRED
+>
+<!ELEMENT Summary (%simpletext;)*>
+<!ELEMENT TableRow (TableData+)>
+<!ATTLIST TableRow
+	PCID CDATA #IMPLIED
+>
+
+<!-- Table Cell. The Hidden Attribute must be set to "Y", if a cell is hidden due to anothers (non-hidden) cell 
+col or row span. -->
+<!ELEMENT TableData (PageContent*)>
+<!ATTLIST TableData
+	Width CDATA #IMPLIED
+	Class CDATA #IMPLIED
+	PCID CDATA #IMPLIED
+	ColSpan CDATA #IMPLIED
+	RowSpan CDATA #IMPLIED
+	HorizontalAlign (Left | Center | Right) #IMPLIED
+	Hidden (Y | N) #IMPLIED
+>
+
+<!-- ExtLink -->
+<!-- An element to link to _external_ resources outside the ILIAS system, e.g. to a web site-->
+<!ELEMENT ExtLink (%linktext;)*>
+<!ATTLIST ExtLink
+	Href CDATA #IMPLIED
+	Title CDATA #IMPLIED
+	TargetFrame (Media | FAQ | Glossary | New) #IMPLIED
+>
+
+<!-- IntLink -->
+<!ELEMENT IntLink (%linktext;)*>
+<!ATTLIST IntLink
+	Target CDATA #REQUIRED
+	Type (StructureObject | PageObject | MediaObject | GlossaryItem | RepositoryItem | File | WikiPage) #REQUIRED
+	TargetFrame (Media | FAQ | Glossary | New) #IMPLIED
+	Anchor CDATA #IMPLIED
+>
+
+<!-- Question -->
+<!ELEMENT Question EMPTY>
+<!ATTLIST Question
+	QRef CDATA #REQUIRED
+>
+
+<!-- PlaceHolder -->
+<!ELEMENT PlaceHolder EMPTY>
+<!ATTLIST PlaceHolder
+	ContentClass (Media | Text | Question | Verification) #REQUIRED
+	Width CDATA #IMPLIED
+	Height CDATA #IMPLIED
+>
+
+<!-- Section -->
+<!-- il_Block, il_Example, il_Special, il_Additional, il_Excursus -->
+<!ELEMENT Section (PageContent*)>
+<!ATTLIST Section
+	Characteristic CDATA #IMPLIED
+	PCID CDATA #IMPLIED
+>
+
+<!-- Resources -->
+<!ELEMENT Resources (ResourceList | ItemGroup)>
+<!ELEMENT ResourceList EMPTY>
+<!ATTLIST ResourceList
+	Type CDATA #REQUIRED
+>
+<!ELEMENT ItemGroup EMPTY>
+<!ATTLIST ItemGroup
+	RefId CDATA #REQUIRED
+>
+
+<!-- LoginPageElement -->
+<!ELEMENT LoginPageElement EMPTY>
+<!ATTLIST LoginPageElement
+	Type CDATA #REQUIRED
+	HorizontalAlign (Left | Center | Right | LeftFloat | RightFloat) #IMPLIED
+>
+
+<!-- Map -->
+<!ELEMENT Map (Layout?, MapCaption?)>
+<!ATTLIST Map
+	Latitude CDATA #REQUIRED
+	Longitude CDATA #REQUIRED
+	Zoom CDATA #REQUIRED
+>
+<!ELEMENT MapCaption (%titletext;)*>
+
+<!-- Plugged Component -->
+<!ELEMENT Plugged (PluggedProperty*)>
+<!ATTLIST Plugged
+	PluginName CDATA #REQUIRED
+	PluginVersion CDATA #REQUIRED
+>
+<!ELEMENT PluggedProperty (#PCDATA)>
+<!-- <!ELEMENT PluggedProperty EMPTY> -->
+<!ATTLIST PluggedProperty
+	Name CDATA #REQUIRED
+>
+
+<!-- TabbedContent -->
+<!ELEMENT Tabs (Tab*)>
+<!ATTLIST Tabs
+	Type (HorizontalAccordion | VerticalAccordion) #REQUIRED
+	HorizontalAlign (Left | Center | Right | LeftFloat | RightFloat) #IMPLIED
+	Behavior (AllClosed | FirstOpen | ForceAllOpen) #IMPLIED
+	ContentWidth CDATA #IMPLIED
+	ContentHeight CDATA #IMPLIED
+	Template CDATA #IMPLIED
+>
+<!ELEMENT Tab (PageContent*, TabCaption?)>
+<!ATTLIST Tab
+	PCID CDATA #IMPLIED
+>
+<!ELEMENT TabCaption (%titletext;)*>
+
+<!-- ContentInclude: Example: ContentId 13, ContentType: mep, InstId: ''-->
+<!ELEMENT ContentInclude EMPTY>
+<!ATTLIST ContentInclude
+	ContentId CDATA #REQUIRED
+	ContentType CDATA #REQUIRED
+	InstId CDATA #IMPLIED
+>
+
+
+<!-- Layout -->
+<!-- Layout information for formatting content output different from default layout -->
+<!ELEMENT Layout EMPTY>
+<!ATTLIST Layout
+	HorizontalAlign (Left | Center | Right | LeftFloat | RightFloat) #IMPLIED
+	Width CDATA #IMPLIED
+	Height CDATA #IMPLIED
+>
+<!-- Parameter -->
+<!-- Special parameters needed for MediaObjects, e.g. a starting class for Java objects; parameters depend on types of MediaObjects -->
+<!ELEMENT Parameter EMPTY>
+<!ATTLIST Parameter
+	Name CDATA #REQUIRED
+	Value CDATA #REQUIRED
+>
+
+<!-- BibItem -->
+<!ELEMENT BibItem (Identifier, Language+, Author*, Booktitle, CrossRef*, Edition, Editor*, HowPublished, WherePublished*, Institution*, Journal?, Keyword*, Month?, Pages?, Publisher, School*, Series?, Year, (URL | (ISSN?, ISBN?)))>
+<!ATTLIST BibItem
+	Type (book | inbook | journalarticle | proceedings | inproceedings | dissertation | phdthesis | mastersthesis | techreport | manual | newspaperarticle | av | internet | unpublished) #REQUIRED
+	Label ID #REQUIRED
+>
+
+<!ELEMENT Author (FirstName*, MiddleName*, LastName)>
+<!ELEMENT Booktitle (#PCDATA)>
+<!ATTLIST Booktitle
+	Language (%langcode;) #REQUIRED
+>
+<!ELEMENT CrossRef (#PCDATA)>
+<!ELEMENT Edition (#PCDATA)>
+<!ELEMENT Editor (#PCDATA)>
+<!ELEMENT HowPublished EMPTY>
+<!ATTLIST HowPublished
+	Type (GreyLiterature | Print | Internet) #REQUIRED
+>
+<!ELEMENT WherePublished (#PCDATA)>
+<!ELEMENT Institution (#PCDATA)>
+<!ELEMENT Journal (#PCDATA)>
+<!ATTLIST Journal
+	Note CDATA #IMPLIED
+	Number CDATA #REQUIRED
+	Organization CDATA #IMPLIED
+>
+
+<!ELEMENT Month (#PCDATA)>
+<!ELEMENT Pages (#PCDATA)>
+<!ELEMENT Publisher (#PCDATA)>
+<!ELEMENT School (#PCDATA)>
+<!ELEMENT Series (SeriesTitle, SeriesEditor*, SeriesVolume?)>
+<!ELEMENT SeriesTitle (#PCDATA)>
+<!ELEMENT SeriesEditor (#PCDATA)>
+<!ELEMENT SeriesVolume (#PCDATA)>
+<!ELEMENT Volume (#PCDATA)>
+<!ELEMENT Year (#PCDATA)>
+
+<!ELEMENT ISBN (#PCDATA)>
+<!ELEMENT ISSN (#PCDATA)>
+<!ELEMENT URL (#PCDATA)>
+
+<!ELEMENT LastName (#PCDATA)>
+<!ELEMENT FirstName (#PCDATA)>
+<!ELEMENT MiddleName (#PCDATA)>
+
+<!ELEMENT Profile (ProfileField*)>
+<!ATTLIST Profile
+	User CDATA #REQUIRED
+	Mode (manual | inherit) #REQUIRED
+>
+
+<!ELEMENT ProfileField EMPTY>
+<!ATTLIST ProfileField
+	Name CDATA #REQUIRED
+>
+
+<!ELEMENT Verification EMPTY>
+<!ATTLIST Verification
+	Type (excv | tstv | crsv | scov) #REQUIRED
+	Id CDATA #REQUIRED
+	User CDATA #REQUIRED
+>
+
+<!ELEMENT Blog (BlogPosting*)>
+<!ATTLIST Blog
+	User CDATA #REQUIRED
+	Id CDATA #REQUIRED
+>
+
+<!ELEMENT BlogPosting EMPTY>
+<!ATTLIST BlogPosting
+	Id CDATA #REQUIRED
+>
+
+<!ELEMENT Skills EMPTY>
+<!ATTLIST Skills
+	Id CDATA #REQUIRED
+	User CDATA #REQUIRED
+>
+
+<!ELEMENT ConsultationHours (ConsultationHoursGroup*)>
+<!ATTLIST ConsultationHours
+	Mode (auto | manual) #REQUIRED	
+	User CDATA #REQUIRED
+>
+
+<!ELEMENT ConsultationHoursGroup EMPTY>
+<!ATTLIST ConsultationHoursGroup
+	Id CDATA #REQUIRED
+>
+
+<!ELEMENT InitOpenedContent (IntLink?)>

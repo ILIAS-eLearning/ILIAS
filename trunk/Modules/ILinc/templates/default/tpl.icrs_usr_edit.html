@@ -1,0 +1,55 @@
+<table class="std">
+<form action="{FORMACTION}" {TARGET} method="post">
+    <tr class="tblheader">
+        <td class="std" colspan="2">
+            <table class="invisible_border" width="100%">
+            <tr>
+                <td>{TXT_HEADER}</td>
+            </tr>
+            </table>
+        </td>
+    </tr>
+    <tr class="tblheader">
+        <td class="std" colspan="2">{TXT_LOGIN_DATA}</td>
+    </tr>
+    <tr>
+        <td class="option">{TXT_ILINC_ID}</td>
+	<td class="option_value">{ILINC_ID}</td>
+    </tr>
+    <tr>
+        <td class="option">{TXT_ILINC_LOGIN}</td>
+	<td class="option_value">{ILINC_LOGIN}</td>
+    </tr>
+    
+<!--
+    <tr>
+        <td class="option">{TXT_ILINC_PASSWD}</td>
+	<td class="option_value">{ILINC_PASSWD}</td>
+-->
+    </tr>
+    <tr class="tblheader">
+        <td class="std" colspan="2">{TXT_ILINC_AKUSERVALUES}</td>
+    </tr>
+    <tr>
+        <td class="option_desc" colspan="2"><small>{TXT_ILINC_AKUSERVALUES_DESC}</small></td>
+    </tr>
+    <tr>
+        <td class="option">{TXT_ILINC_AKUSERVALUE1}</td>
+        <td class="option_value"><input type="text" name="Fobject[ilinc_akuservalue1]"  value="{ILINC_AKUSERVALUE1}" size="40" maxlength="64" /></td>
+    </tr>
+    <tr>
+        <td class="option">{TXT_ILINC_AKUSERVALUE2}</td>
+        <td class="option_value"><input type="text" name="Fobject[ilinc_akuservalue2]"  value="{ILINC_AKUSERVALUE2}" size="40" maxlength="64" /></td>
+    </tr>
+
+    <tr>
+        <td class="submit" colspan="2">
+	<span class="asterisk">&nbsp;</span><span class="small"> {TXT_REQUIRED_FLD}</span>
+            <div align="right">
+                <input class="submit" type="submit" name="cmd[{CMD_SUBMIT}]" value="{TXT_SUBMIT}" />
+                <input class="submit" type="submit" name="cmd[cancel]" value="{TXT_CANCEL}" />
+            </div>
+        </td>
+    </tr>
+</form>
+</table>

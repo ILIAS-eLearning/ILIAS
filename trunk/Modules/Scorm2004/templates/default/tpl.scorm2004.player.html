@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" id="scormplayer">
+	<head>
+		<title>{DOC_TITLE}</title>
+		<script type="text/javascript">//<![CDATA[
+		Date.remoteOffset = (new Date()).getTime() - {TIMESTAMP};
+		//]]></script>
+
+		<style>
+			{INLINE_CSS}
+		</style>
+
+		<link type="text/css" href="{LOCATION_STYLESHEET}" rel="stylesheet"/>
+		<link type="text/css" href="{BASE_DIR}templates/default/player.css" rel="stylesheet"/>
+		<!-- BEGIN rte_css -->
+		<link type="text/css" href="{RTE_CSS}" rel="stylesheet"/>
+		<!-- END rte_css -->
+
+		<base target="frmResource" />
+				
+	</head>
+	<body class="loadingState">
+		<div id="zmove"></div>
+
+		<div {VAL_DISPLAY} id="toolbar">
+			<div class="iosRTEMenu ilc_rte_menu_RTEMenu" style="clear:both;">
+				<div class="iosRTELogo ilc_rte_menu_RTELogo" ></div>
+				<div class="ilc_rte_menu_RTELinkBar">
+					<a target="_self" href="#" class="ilc_rte_mlink_RTELink" onclick="toggleView();" id="treeToggle">{btnhidetree}</a>
+					&nbsp;
+					<a target="_self" href="#" class="ilc_rte_mlink_RTELink" id="navStart">{btnStart}</a>
+					<a target="_self" href="#" class="ilc_rte_mlink_RTELink" id="navExit">{btnExit}</a>
+					<a target="_self" href="#" class="ilc_rte_mlink_RTELink" id="navExitAll">{btnExitAll}</a>
+					<a target="_self" href="#" class="ilc_rte_mlink_RTELink" id="navSuspendAll">{btnSuspendAll}</a>
+					<a target="_self" href="#" class="ilc_rte_mlink_RTELink" id="navPrevious">&lt; {btnPrevious}</a>
+					<a target="_self" href="#" class="ilc_rte_mlink_RTELink" id="navContinue">{btnContinue} &gt;</a>
+				</div>
+				<div style="clear:both;"></div>
+			</div>
+		</div>
+		<div id="intro" style="display:none;">
+			<div id="introLabel">loading</div>
+		</div>
+		<div id="mainTable">
+			<div id="leftView">
+				<div class="ilc_rte_tree_RTETree">
+					<div id="treeView"></div>
+					<div id="ilLog">
+						<pre id="ilLogPre"></pre>
+					</div>
+					<div id="treeControls" class="ilc_rte_tree_RTETreeControl">
+						<!--<a id="toggleLog" href="#" onclick="toggleLog();">Show Log</a>&nbsp;&nbsp;-->
+						<a class="ilc_rte_tclink_RTETreeControlLink" id="toggleLog" href="#" onclick="{DEBUG_URL}">{TXT_DEBUGGER}</a>&nbsp;&nbsp;
+						<a class="ilc_rte_tclink_RTETreeControlLink" id="toggleTree" href="#" onclick="toggleTree();">{TXT_COLLAPSE}</a>
+					</div>
+				</div>
+			</div>
+			<div id="dragbar" class="dragbar ilc_rte_drag_RTEDragBar"></div>
+			<div id="tdResource">
+				<iframe id="res" style="width: 100%; height:100%;" frameborder="0"></iframe>
+			</div>
+		</div>
+		
+		<script type="text/javascript" src="{YUI_PATH}yahoo/yahoo-min.js"></script>
+		<script type="text/javascript" src="{YUI_PATH}event/event-min.js"></script>
+		<script type="text/javascript" src="./Modules/Scorm2004/scripts/yui/treeview/treeview-min.js"></script>
+		<script type="text/javascript" src="./Modules/Scorm2004/scripts/jquery-1.4.4.min.js"></script>
+		<script type="text/javascript" src="./Modules/Scorm2004/scripts/rteconfig.js"></script>
+		<script type="text/javascript" src="{TREE_JS}"></script>
+
+		<script type="text/javascript" src="{JS_SCRIPTS}"></script>		
+		<script type="text/javascript">
+		//<![CDATA[
+			init_cp_data={INIT_CP_DATA};
+			init_cmi_data={INIT_CMI_DATA};
+			init_adlact_data={INIT_ADLACT_DATA};
+			init_globalobj_data={INIT_GLOBALOBJ_DATA};
+			scorm_init({JS_DATA});
+		//]]>
+		</script>
+		
+	</body>
+</html>

@@ -1,0 +1,23 @@
+	<form action="{FORMACTION}" method="post">
+	  <table class="fullwidth">
+		<!-- BEGIN table_header -->
+		  <tr class="tblheader">
+			<td class="std" colspan="1">{TEXT}</td>
+		  </tr>
+		  <!-- END table_header -->
+		  <!-- BEGIN table_row -->
+		  <tr class="{CSS_ROW}">
+			<td class="std" valign="top">
+			  {TEXT_TYPE}: {DATE}
+			</td>
+		  </tr>
+		  <!-- END table_row -->
+		  <tr>
+			<td class="submit" align="left" colspan="1">
+			  <!-- BEGIN operation_btn -->
+			  <input class="submit" type="submit" name="cmd[{BTN_NAME}]" value="{BTN_VALUE}" />
+			  <!-- END operation_btn -->
+			</td>
+		  </tr>
+	  </table>
+	</form>

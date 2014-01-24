@@ -1,0 +1,19 @@
+<!-- defines definitions which can be refered to the id attribute in user defined fields -->
+<!-- Up to now these are readonly values, hence you can read but not update them -->
+<!-- Attribut Id: contains il_ prefix with id, content equals attribute id in UserDefinedField tag -->
+<!-- Attribut UDFName: contains il_ prefix with id, content equals attribute name in UserDefinedField tag -->
+<!-- Tag UDFValue: only together with type "SELECT", possible field values, at least one should match UserDefinedField tag content-->
+<!ELEMENT UDFDefinitions (UDFDefinition*)>
+<!ELEMENT UDFDefinition (UDFName, UDFValue*)>
+<!ATTLIST UDFDefinition
+	Id CDATA #REQUIRED
+	Type       (TEXT|SELECT) #REQUIRED
+	Visible    (TRUE|FALSE) #REQUIRED
+	Changeable (TRUE|FALSE) #REQUIRED
+	Required   (TRUE|FALSE)  #REQUIRED
+	Searchable (TRUE|FALSE)  #REQUIRED
+	CourseExport (TRUE|FALSE) #REQUIRED
+	Export (TRUE|FALSE) #REQUIRED
+>
+<!ELEMENT UDFName (#PCDATA)>
+<!ELEMENT UDFValue (#PCDATA)>

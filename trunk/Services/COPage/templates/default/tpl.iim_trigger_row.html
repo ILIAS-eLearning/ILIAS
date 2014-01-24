@@ -1,0 +1,34 @@
+<tr class="{CSS_ROW}">
+	<td class="std">
+		{CHECKBOX}
+	</td>
+	<td class="std">
+		<input type="text" size="20" maxlength="200" name="{VAR_NAME}" value="{VAL_NAME}" />
+	</td>
+	<td class="std">
+		{TYPE}
+	</td>
+	<td class="std small">
+		<!-- BEGIN coords --><div class="small">{VAL_COORDS}</div><!-- END coords -->
+		<!-- BEGIN marker_pos --><p>{TXT_MLEFT}, {TXT_MTOP}<br />
+		<input type="text" size="12" maxlength="40" id="{ID_MARK_POS}" name="{VAR_MARK_POS}" value="{VAL_MARK_POS}" /></p><!-- END marker_pos -->
+	</td>
+	<td class="std small" style="vertical-align:top;">
+		<p>{TXT_IMG}<br />
+		{OVERLAY_IMAGE}</p>
+		<p>{TXT_LEFT}, {TXT_TOP}<br />
+		<input type="text" size="12" maxlength="40" id="{ID_OV_POS}" name="{VAR_POS}" value="{VAL_POS}" />
+	</td>
+	<td class="std small" style="vertical-align:top;">
+		<p>{TXT_TITLE}<br />
+		{CONTENT_POPUP}</p>
+		<p>{TXT_LEFT}, {TXT_TOP}<br />
+		<input type="text" size="12" maxlength="40" id="{ID_POP_POS}" name="{VAR_POP_POS}" value="{VAL_POP_POS}" />
+		<p>{TXT_WIDTH}, {TXT_HEIGHT}<br />
+		<input type="text" size="12" maxlength="40" name="{VAR_POP_SIZE}" value="{VAL_POP_SIZE}" />
+	</td>
+	<td class="std small" style="white-space:nowrap;">
+		<!-- BEGIN cmd --><div><a class="{CMD_CLASS}" id="{CMD_ID}" href="#">{TXT_CMD}</a></div><!-- END cmd -->
+	</td>
+</tr>
+

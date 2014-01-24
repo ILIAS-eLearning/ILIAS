@@ -1,0 +1,57 @@
+<tr class="{CSS_ROW}">
+	<td class="std">{VAL_TS}</td>
+	<td class="std">{VAL_LOGIN}</td><!-- BEGIN optional_column -->
+	<td class="std">{OPTIONAL_COLUMN_VAL}</td><!-- END optional_column -->
+	<td class="std">{VAL_LNG}</td>
+	<td class="std">{VAL_SRC}
+		<a class="il_ContainerItemCommand" id="accpt_doc_trigger_{VAL_ID}" href="#"><img border="0" src="{VAL_IMG_DOWN}" alt="" /></a>
+		<script>
+			(function($) {
+				$("#accpt_doc_trigger_{VAL_ID}").click(function(e) {
+
+					il.Overlay.hideAllOverlays(e.originalEvent, true);
+
+					var $this = $(this);
+					var $panel = $('#answer_container_' + $this.attr('id'));
+
+					if ($panel.size() == 0) {
+						var $panel = $('<div class="ilOverlay" style="overflow: auto; display: none;" id="answer_container_' + $this.attr('id') + '"></div>')
+							.css({
+								position: 'fixed',
+								top: '0px',
+								bottom: '0px',
+								left: '',
+								right: '0px',
+								width: '40%',
+								padding: '5px'
+							});
+						$("<iframe></iframe>").appendTo($panel);
+						$panel.insertAfter($this);
+
+						$.ajax({
+							url: '{VAL_CONTENT_LINK}',
+							dataType: 'json',
+							success: function(response) {
+								if (1 == response.status) {
+									var $iframe = $panel.find("iframe");
+									$iframe.css({width: '100%', height: '100%'});
+									$iframe.get(0).contentWindow.document.open('text/html', 'replace');
+									$iframe.get(0).contentWindow.document.write(response.body);
+									$iframe.get(0).contentWindow.document.close();
+	
+									il.Overlay.add('answer_container_' + $this.attr('id'), {yuicfg: {
+									}});
+									il.Overlay.show(e.originalEvent, 'answer_container_' + $this.attr('id'));
+								}
+							}
+						})
+					} else {
+						il.Overlay.show(e.originalEvent, 'answer_container_' + $this.attr('id'));
+					}
+					return false;
+
+				});
+			}(jQuery));
+		</script>
+	</td>
+</tr>

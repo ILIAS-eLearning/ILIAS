@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<schema xmlns = 'http://www.w3.org/2001/XMLSchema'
+	targetNamespace = "http://www.ilias.de/Modules/Wiki/wiki/4_3"
+	xmlns:t = 'http://www.ilias.de/Modules/Wiki/wiki/4_3'>
+
+	<!-- t:Data type -->
+	<complexType name='Data' mixed='true'>
+	</complexType>
+
+
+	<!-- Mob -->
+	<element name='Wiki'>
+		<complexType>
+		<sequence>
+			<element ref='t:Id' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Title' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Description' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:StartPage' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Short' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Rating' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Introduction' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:PublicNotes' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:PageToc' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:RatingSide' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:RatingNew' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:RatingExt' minOccurs='1' maxOccurs='1'/>
+		</sequence>
+		</complexType>
+	</element>
+
+	<element name='Id' type='t:Data' />
+	<element name='Title' type='t:Data' />
+	<element name='Description' type='t:Data' />
+	<element name='StartPage' type='t:Data' />
+	<element name='Short' type='t:Data' />
+	<element name='Introduction' type='t:Data' />
+	<element name='Rating' type='t:Data' />
+	<element name='PublicNotes' type='t:Data' />
+	<element name='PageToc' type='t:Data' />
+	<element name='RatingSide' type='t:Data' />
+	<element name='RatingNew' type='t:Data' />
+	<element name='RatingExt' type='t:Data' />
+
+	<!-- Wpg -->
+	<element name='Wpg'>
+		<complexType>
+		<sequence>
+			<element ref='t:Id' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Title' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:WikiId' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Blocked' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Rating' minOccurs='1' maxOccurs='1'/>
+		</sequence>
+		</complexType>
+	</element>
+
+	<element name='Id' type='t:Data' />
+	<element name='Title' type='t:Data' />
+	<element name='WikiId' type='t:Data' />
+	<element name='Blocked' type='t:Data' />
+	<element name='Rating' type='t:Data' />
+
+</schema>

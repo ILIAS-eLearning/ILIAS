@@ -1,0 +1,34 @@
+<tr class="{CSS_ROW}">
+	<td class="std">
+		<input type="checkbox" name="materials[]" value="{VAL_ID}" id="{VAL_ID}" {VAL_CHECKED} />
+	</td>	
+	<td class="std ilCenter">
+  		<label for="{VAL_ID}">
+			<img src="{ROW_TYPE_IMG}" alt="{ROW_TYPE_ALT}" title="{ROW_TYPE_ALT}" />
+		</label>
+	</td>
+	<td class="std">
+  		<label for="{VAL_ID}">
+			{VAL_TITLE}
+			<!-- BEGIN row_desc --><div class="il_Description">{VAL_DESC}</div><!-- END row_desc -->
+		</label>
+		<!-- BEGIN chapters -->
+		<div>
+			<strong>{TXT_CHAPTER}:</strong>
+			<ul class="noStyle noMargin">
+				<!-- BEGIN chapter -->
+				<!--  BEGIN begin_depth --><div class="listIndent"><!--  END begin_depth -->
+				<li>
+					<input type="checkbox" name="chapters[]" value="{CHAP_ID}" id="{CHAP_ID}" {CHAP_CHECKED} />
+					<label for="{CHAP_ID}"> 
+						<img src="{CHAP_TYPE_IMG}" alt="{CHAP_TYPE_ALT}" title="{CHAP_TYPE_ALT}" />
+						{CHAPTER_TITLE}
+					</label>
+				</li>
+				<!--  BEGIN end_depth --></div><!-- END end_depth -->
+				<!-- END chapter -->
+			</ul>
+		</div>
+		<!-- END chapters -->
+	</td>
+</tr>

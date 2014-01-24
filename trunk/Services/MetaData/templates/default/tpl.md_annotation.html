@@ -1,0 +1,41 @@
+<!-- BEGIN no_annotation -->
+	{TXT_NO_ANNOTATION} <a class="il_ContainerItemCommand" href="{ACTION_ADD_ANNOTATION}">{TXT_ADD_ANNOTATION}</a>
+
+	<!-- END no_annotation -->
+	<!-- BEGIN annotation -->
+	<form action="{EDIT_ACTION}" {TARGET} name="post" method="post">
+	  <table class="std">
+		<!-- BEGIN annotation_loop -->
+		<tr class="tblheader">
+		  <td class="std" colspan="3">
+			<div align="left">{TXT_ANNOTATION} (Annotation)
+			  <a class="il_ContainerItemCommand" href="{ACTION_DELETE}">{TXT_DELETE}</a>
+			  <a class="il_ContainerItemCommand" href="{ACTION_ADD}">{TXT_ADD}</a>
+			</div>
+		  </td>
+		</tr>
+		<tr>
+		  <td class="option" colspan="2">{TXT_ENTITY}</td>
+		  <td class="option_value"><input type="text" maxlength="200" name="annotation[{ANNOTATION_ID}][Entity]" value="{VAL_ENTITY}"></td>
+		</tr>
+		<tr>
+		  <td class="option" colspan="2">{TXT_DATE}</td>
+		  <td class="option_value"><input type="text" maxlength="200" name="annotation[{ANNOTATION_ID}][Date]" value="{VAL_DATE}"></td>
+		</tr>
+		<tr>
+		  <td class="option" colspan="2">
+			<div align="left">{TXT_DESCRIPTION}</div>
+		  </td>
+		  <td class="option_value"><textarea name="annotation[{ANNOTATION_ID}][Description]">{VAL_DESCRIPTION}</textarea></td>
+		</tr>
+		<tr>
+		  <td class="option" colspan="2">{TXT_LANGUAGE}</td>
+		  <td class="option_value">{VAL_DESCRIPTION_LANGUAGE}</td>
+		</tr>
+		<!-- END annotation_loop -->
+		<tr>
+		  <td class="submit" colspan="4"><div align="right"><input class="submit" type="submit" name="cmd[updateAnnotation]" value="{TXT_SAVE}"/></div></td>
+		</tr>
+	  </table>
+	</form>
+	<!-- END annotation -->

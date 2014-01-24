@@ -1,0 +1,47 @@
+<tr class="{CSS_ROW}" style="font-size: 80%">
+	<td style="padding: 8px" class="std">
+		<!-- BEGIN obj_icon -->
+		<!-- BEGIN padding --><div style="padding-left: 22px"><!-- END padding -->
+		<img src="{TREE_IMG}" style="vertical-align:middle;" alt="{TREE_ALT_IMG}" title="{TREE_ALT_IMG}" border="0" vspace="0" />&nbsp;{TREE_TITLE}
+		<!-- BEGIN end_padding --></div><!-- END end_padding -->
+		<!-- END obj_icon -->
+	</td>
+	<td class="std">
+		{VAL_LAST_EXPORT}
+	</td>
+	<td class="std">
+		<!-- BEGIN missing_export_e_perm -->
+		<font class="il_Helptext">{TXT_MISSING_EXPORT_PERM}</font>
+		<!-- END missing_export_e_perm -->
+		<!-- BEGIN radio_export_e -->
+		<input type="radio" name="{NAME_EXPORT_E}" value="{VALUE_EXPORT_E}" id="{ID_EXPORT_E}" {EXPORT_E_CHECKED} onClick="ilDisableChilds('cmd')"; />
+		<label for="{ID_EXPORT_E}">{TXT_EXPORT_E}</label>
+		<!-- END radio_export_e -->
+		<!-- BEGIN footer_export_e -->
+		<input type="radio" name="select_all" value="1" id="export_e_all" onClick="ilCheckByAction('cmd','export_e','document.cmd.export_e_all.checked');ilDisableChilds('cmd');" /> 
+		<strong><label for="export_e_all">{TXT_EXPORT_E_ALL}</label></strong>
+		<!-- END footer_export_e -->		
+	</td>
+	<td class="std">
+		<!-- BEGIN missing_export_perm -->
+		<font class="il_Helptext">{TXT_MISSING_EXPORT_PERM}</font>
+		<!-- END missing_export_perm -->
+		<!-- BEGIN radio_export -->
+		<input type="radio" name="{NAME_EXPORT}" value="{VALUE_EXPORT}" id="{ID_EXPORT}" {EXPORT_CHECKED} onClick="ilDisableChilds('cmd');" />
+		<label for="{ID_EXPORT}">{TXT_EXPORT}</label>
+		<!-- END radio_export -->
+		<!-- BEGIN footer_export -->
+		<input type="radio" name="select_all" value="1" id="export_all" onClick="ilCheckByAction('cmd','export','document.cmd.export_all.checked');ilDisableChilds('cmd');" /> 
+		<strong><label for="export_all">{TXT_EXPORT_ALL}</label></strong>
+		<!-- END footer_export -->		
+	</td>
+	<td class="std">
+		<!-- BEGIN omit_radio -->
+		<input type="radio" name="{NAME_OMIT}" value="{VALUE_OMIT}" id="{ID_OMIT}" {OMIT_CHECKED} onClick="ilDisableChilds('cmd');" /><label for="{ID_OMIT}">{TXT_OMIT}</label>
+		<!--  END omit_radio --> 
+		<!-- BEGIN footer_omit -->
+		<input type="radio" name="select_all" value="1" id="omit_all" onClick="ilCheckByAction('cmd','omit','document.cmd.omit_all.checked');ilDisableChilds('cmd');" /> 
+		<strong><label for="omit_all">{TXT_OMIT_ALL}</label></strong>
+		<!-- END footer_omit -->		
+	</td>
+<tr>

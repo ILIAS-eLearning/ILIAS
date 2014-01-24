@@ -1,0 +1,204 @@
+<script type="text/javascript">
+<!--
+function handleLocal(form)
+{
+	if (form.local.checked)
+	{
+		form.btn_ldap.disabled = true;
+		form.btn_ldap.style.color = "grey";
+		form.btn_shib.disabled = false;
+		form.btn_shib.style.color = "#2255a0";
+		form.btn_radius.disabled = true;
+		form.btn_radius.style.color = "grey";
+		form.btn_script.disabled = true;
+		form.btn_script.style.color = "grey";
+	}
+}
+
+function handleLDAP(form)
+{
+	if (form.ldap.checked)
+	{
+		form.btn_ldap.disabled = false;
+		form.btn_ldap.style.color = "#2255a0";
+		form.btn_shib.disabled = false;
+		form.btn_shib.style.color = "#2255a0";
+		form.btn_radius.disabled = true;
+		form.btn_radius.style.color = "grey";
+		form.btn_script.disabled = true;
+		form.btn_script.style.color = "grey";
+	}
+}
+
+function handleSHIB(form)
+{
+	if (form.shib.checked)
+	{
+		form.btn_ldap.disabled = true;
+		form.btn_ldap.style.color = "grey";
+		form.btn_shib.disabled = false;
+		form.btn_shib.style.color = "#2255a0";
+		form.btn_radius.disabled = true;
+		form.btn_radius.style.color = "grey";
+		form.btn_script.disabled = true;
+		form.btn_script.style.color = "grey";
+	}
+}
+
+function handleRADIUS(form)
+{
+	if (form.radius.checked)
+	{
+		form.btn_ldap.disabled = true;
+		form.btn_ldap.style.color = "grey";
+		form.btn_shib.disabled = false;
+		form.btn_shib.style.color = "#2255a0";
+		form.btn_radius.disabled = false;
+		form.btn_radius.style.color = "#2255a0";
+		form.btn_script.disabled = true;
+		form.btn_script.style.color = "grey";
+	}
+}
+
+function handleScript(form)
+{
+	if (form.script.checked)
+	{
+		form.btn_ldap.disabled = true;
+		form.btn_ldap.style.color = "grey";
+		form.btn_shib.disabled = false;
+		form.btn_shib.style.color = "#2255a0";
+		form.btn_radius.disabled = true;
+		form.btn_radius.style.color = "grey";
+		form.btn_script.disabled = false;
+		form.btn_script.style.color = "#2255a0";
+	}
+}
+
+function handleAPACHE(form)
+{
+/*	if (form.script.checked)
+	{
+		form.btn_ldap.disabled = true;
+		form.btn_ldap.style.color = "grey";
+		form.btn_shib.disabled = false;
+		form.btn_shib.style.color = "#2255a0";
+		form.btn_radius.disabled = true;
+		form.btn_radius.style.color = "grey";
+		form.btn_script.disabled = false;
+		form.btn_script.style.color = "#2255a0";
+	} */
+}
+
+//-->
+</script>
+<form action="{FORMACTION}" name="AuthOptions" method="post">
+<table class="fullwidth">
+<tr class="tbltitle">
+	<td colspan="4">
+	<table class="fullwidth_invisible">
+	<tr class="tbltitle">
+	<td class="tbltitle" align="left">&nbsp;{TXT_AUTH_TITLE}</td>
+	<td align="right">&nbsp;</td>
+	</tr>
+	</table>
+	</td>
+</tr>
+<tr class="tblheader">
+	<td class="std">{TXT_AUTH_MODE}</td>
+	<td class="std">{TXT_AUTH_DEFAULT}</td>
+	<td class="std">{TXT_AUTH_ACTIVE}</td>
+	<td class="std">{TXT_AUTH_NUM_USERS}</td>
+</tr>
+<tr>
+	<td class="option"><label for="local">{TXT_LOCAL}</label></td>
+	<td class="option_value"><input type="radio" name="auth_mode"  value="1" id="local" {CHK_LOCAL}onClick="handleLocal(document.AuthOptions)"/></td>
+	<td class="option_value">{AUTH_LOCAL_ACTIVE}</td>
+	<td class="option_value">{NUM_LOCAL}</td>
+</tr>
+<tr>
+	<td class="option"><label for="ldap">{TXT_LDAP}</label></td>
+	<td class="option_value" nowrap="nowrap"><input type="radio" name="auth_mode" value="2" id="ldap" {CHK_LDAP}onClick="handleLDAP(document.AuthOptions)" />
+	</td>
+	<td class="option_value" nowrap="nowrap">{AUTH_LDAP_ACTIVE}</td>
+	<td class="option_value">{NUM_LDAP}</td>
+</tr>
+<tr>
+	<td class="option"><label for="shib">{TXT_SHIB}</label></td>
+	<td class="option_value" nowrap="nowrap"><input type="radio" name="auth_mode" value="5" id="shib" {CHK_SHIB}onClick="handleSHIB(document.AuthOptions)" />
+	</td>
+	<td class="option_value" nowrap="nowrap">{AUTH_SHIB_ACTIVE}</td>
+	<td class="option_value">{NUM_SHIBBOLETH}</td>
+</tr>
+<tr>
+	<td class="option"><label for="cas">{TXT_CAS}</label></td>
+	<td class="option_value" nowrap="nowrap"><input type="radio" name="auth_mode" value="6" id="cas" {CHK_CAS}onClick="handleSHIB(document.AuthOptions)" />
+	</td>
+	<td class="option_value" nowrap="nowrap">{AUTH_CAS_ACTIVE}</td>
+	<td class="option_value">{NUM_CAS}</td>
+</tr>
+<tr>
+	<td class="option"><label for="radius">{TXT_RADIUS}</label></td>
+	<td class="option_value" nowrap="nowrap"><input type="radio" name="auth_mode" value="3" id="radius" {CHK_RADIUS}onClick="handleRADIUS(document.AuthOptions)" />
+	</td>
+	<td class="option_value" nowrap="nowrap">{AUTH_RADIUS_ACTIVE}</td>
+	<td class="option_value">{NUM_RADIUS}</td>
+</tr>
+<tr>
+    	<td class="option"><label for="apache">{TXT_APACHE}</label></td>
+	<td class="option_value" nowrap="nowrap"><input type="radio" name="auth_mode" value="11" id="apache" {CHK_APACHE}onClick="handleAPACHE(document.AuthOptions)" />
+	</td>
+	<td class="option_value" nowrap="nowrap">{AUTH_APACHE_ACTIVE}</td>
+	<td class="option_value">{NUM_APACHE}</td>
+</tr>
+<tr>
+	<td class="submit" colspan="4" align="left">
+	<span class="asterisk">*</span><span class="small"> {TXT_AUTH_REMARK}</span>
+	<div align="right">
+	<input class="submit" type="submit" name="cmd[{CMD_SUBMIT}]" value="{TXT_SUBMIT}" />
+	</div>
+	</td>
+</tr>
+</table>
+</form>
+
+<br/>
+{TABLE_AUTH_DETERMINATION}
+<br/>
+<form action="{FORMACTION_ROLES}" name="AuthRoles" method="post">
+<table class="fullwidth">
+<tr class="tbltitle">
+  <td colspan="2">
+  <table class="fullwidth_invisible">
+    <tr class="tbltitle">
+	  <td class="tbltitle" align="left">&nbsp;{TXT_AUTH_ROLES}</td>
+	  <td align="right">&nbsp;</td>
+	</tr>
+  </table>
+  </td>
+</tr>
+  <tr class="tblheader">
+    <td class="std" >{TXT_ROLE}</td>
+    <td class="std" >{TXT_ROLE_AUTH_MODE}</td>
+  </tr>
+<!-- BEGIN roles -->
+  <tr>
+	<td class="option">{ROLE}</td>
+	<td class="option_value">
+	<select name="Fobject[{ROLE_ID}]">
+<!-- BEGIN auth_mode_selection -->
+		<option {SELECTED_AUTH_MODE} value="{AUTH_MODE}">{AUTH_MODE_NAME}</option>
+<!-- END auth_mode_selection -->
+	</select>
+	</td>
+  </tr>
+<!-- END roles -->
+  <tr>
+	<td class="submit" colspan="3" align="left">
+  <div align="right">
+	<input class="submit" type="submit" name="cmd[{CMD_SUBMIT_ROLES}]" value="{TXT_SUBMIT}" />
+  </div>
+	</td>
+  </tr>
+</table>
+</form>

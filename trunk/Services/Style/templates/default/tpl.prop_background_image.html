@@ -1,0 +1,12 @@
+<div>
+<input type="radio" name="{POSTVAR}[type]" value="internal" {INTERNAL_SELECTED} />
+<select name="{POSTVAR}[int_value]">
+<!-- BEGIN int_option -->
+	<option value="{VAL_INT}" {INT_SELECTED}>{TXT_INT}</option>
+<!-- END int_option -->
+</select>
+</div>
+<div>
+<input type="radio" name="{POSTVAR}[type]" value="external" {EXTERNAL_SELECTED} />
+<input type="text" name="{POSTVAR}[ext_value]" value="{VAL_EXT}" size="60" maxlength="250"/>
+</div>

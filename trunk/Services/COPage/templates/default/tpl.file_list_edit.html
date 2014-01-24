@@ -1,0 +1,37 @@
+<form action="{FORMACTION}" name="post" method="post">
+<table class="std">
+<tr class="tblheader">
+	<td class="std" colspan="2">
+		{TXT_ACTION}
+	</td>
+</tr>
+<!-- Title -->
+<tr class="std">
+	<td class="option">
+	{TXT_TITLE}
+	</td>
+	<td class="option_value">
+	<input name="{INPUT_TITLE}" value="{VALUE_TITLE}" size="40" maxlength="80" />
+	<!-- <input value="{VALUE_TITLE2}" /><br />
+	{VALUE_TITLE2} -->
+	</td>
+</tr>
+<!-- Language -->
+<tr class="std">
+	<td class="option">
+	{TXT_LANGUAGE}
+	</td>
+	<td class="option_value">
+	{SELECT_LANGUAGE}
+	</td>
+</tr>
+<!-- BEGIN commands -->
+<tr>
+	<td class="submit" colspan="2" style="text-align:right;">
+		<input class="submit" type="submit" name="cmd[{BTN_NAME}]" value="{BTN_TEXT}" />
+		<input class="submit" type="submit" name="cmd[{BTN_CANCEL}]" value="{TXT_CANCEL}" />
+	</td>
+</tr>
+<!-- END commands -->
+</table>
+</form>

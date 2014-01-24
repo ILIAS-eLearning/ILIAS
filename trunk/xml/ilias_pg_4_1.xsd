@@ -1,0 +1,1258 @@
+<schema
+  xmlns = 'http://www.w3.org/2001/XMLSchema'
+  targetNamespace = "http://www.ilias.de/Services/COPage/pg/4_1"
+  xmlns:t = 'http://www.ilias.de/Services/COPage/pg/4_1'>
+
+<!-- Type: LanguageCode -->
+<simpleType name='LanguageCode'>
+ <restriction base='string'>
+  <enumeration value='none'/>
+  <enumeration value='aa'/>
+  <enumeration value='ab'/>
+  <enumeration value='af'/>
+  <enumeration value='am'/>
+  <enumeration value='ar'/>
+  <enumeration value='as'/>
+  <enumeration value='ay'/>
+  <enumeration value='az'/>
+  <enumeration value='ba'/>
+  <enumeration value='be'/>
+  <enumeration value='bg'/>
+  <enumeration value='bh'/>
+  <enumeration value='bi'/>
+  <enumeration value='bn'/>
+  <enumeration value='bo'/>
+  <enumeration value='br'/>
+  <enumeration value='ca'/>
+  <enumeration value='co'/>
+  <enumeration value='cs'/>
+  <enumeration value='cy'/>
+  <enumeration value='da'/>
+  <enumeration value='de'/>
+  <enumeration value='dz'/>
+  <enumeration value='el'/>
+  <enumeration value='en'/>
+  <enumeration value='eo'/>
+  <enumeration value='es'/>
+  <enumeration value='et'/>
+  <enumeration value='eu'/>
+  <enumeration value='fa'/>
+  <enumeration value='fi'/>
+  <enumeration value='fj'/>
+  <enumeration value='fo'/>
+  <enumeration value='fr'/>
+  <enumeration value='fy'/>
+  <enumeration value='ga'/>
+  <enumeration value='gd'/>
+  <enumeration value='gl'/>
+  <enumeration value='gn'/>
+  <enumeration value='gu'/>
+  <enumeration value='ha'/>
+  <enumeration value='he'/>
+  <enumeration value='hi'/>
+  <enumeration value='hr'/>
+  <enumeration value='hu'/>
+  <enumeration value='hy'/>
+  <enumeration value='ia'/>
+  <enumeration value='ie'/>
+  <enumeration value='ik'/>
+  <enumeration value='id'/>
+  <enumeration value='is'/>
+  <enumeration value='it'/>
+  <enumeration value='iu'/>
+  <enumeration value='ja'/>
+  <enumeration value='jv'/>
+  <enumeration value='ka'/>
+  <enumeration value='kk'/>
+  <enumeration value='kl'/>
+  <enumeration value='km'/>
+  <enumeration value='kn'/>
+  <enumeration value='ko'/>
+  <enumeration value='ks'/>
+  <enumeration value='ku'/>
+  <enumeration value='ky'/>
+  <enumeration value='la'/>
+  <enumeration value='ln'/>
+  <enumeration value='lo'/>
+  <enumeration value='lt'/>
+  <enumeration value='lv'/>
+  <enumeration value='mg'/>
+  <enumeration value='mi'/>
+  <enumeration value='mk'/>
+  <enumeration value='ml'/>
+  <enumeration value='mn'/>
+  <enumeration value='mo'/>
+  <enumeration value='mr'/>
+  <enumeration value='ms'/>
+  <enumeration value='mt'/>
+  <enumeration value='my'/>
+  <enumeration value='na'/>
+  <enumeration value='ne'/>
+  <enumeration value='nl'/>
+  <enumeration value='no'/>
+  <enumeration value='oc'/>
+  <enumeration value='om'/>
+  <enumeration value='or'/>
+  <enumeration value='pa'/>
+  <enumeration value='pl'/>
+  <enumeration value='ps'/>
+  <enumeration value='pt'/>
+  <enumeration value='qu'/>
+  <enumeration value='rm'/>
+  <enumeration value='rn'/>
+  <enumeration value='ro'/>
+  <enumeration value='ru'/>
+  <enumeration value='rw'/>
+  <enumeration value='sa'/>
+  <enumeration value='sd'/>
+  <enumeration value='sg'/>
+  <enumeration value='sh'/>
+  <enumeration value='si'/>
+  <enumeration value='sk'/>
+  <enumeration value='sl'/>
+  <enumeration value='sm'/>
+  <enumeration value='sn'/>
+  <enumeration value='so'/>
+  <enumeration value='sq'/>
+  <enumeration value='sr'/>
+  <enumeration value='ss'/>
+  <enumeration value='st'/>
+  <enumeration value='su'/>
+  <enumeration value='sv'/>
+  <enumeration value='sw'/>
+  <enumeration value='ta'/>
+  <enumeration value='te'/>
+  <enumeration value='tg'/>
+  <enumeration value='th'/>
+  <enumeration value='ti'/>
+  <enumeration value='tk'/>
+  <enumeration value='tl'/>
+  <enumeration value='tn'/>
+  <enumeration value='to'/>
+  <enumeration value='tr'/>
+  <enumeration value='ts'/>
+  <enumeration value='tt'/>
+  <enumeration value='tw'/>
+  <enumeration value='ug'/>
+  <enumeration value='uk'/>
+  <enumeration value='ur'/>
+  <enumeration value='uz'/>
+  <enumeration value='vi'/>
+  <enumeration value='vo'/>
+  <enumeration value='wo'/>
+  <enumeration value='xh'/>
+  <enumeration value='yi'/>
+  <enumeration value='yo'/>
+  <enumeration value='za'/>
+  <enumeration value='zh'/>
+  <enumeration value='zu'/>
+ </restriction>
+</simpleType>
+
+
+<!-- Text -->
+<complexType name='Text' mixed='true'>
+	<choice minOccurs='0' maxOccurs='unbounded'>
+		<element ref='t:br'/>
+		<element ref='t:Comment'/>
+		<element ref='t:PageTurn'/>
+		<element ref='t:Footnote'/>
+		<element ref='t:Emph'/>
+		<element ref='t:Strong'/>
+		<element ref='t:Accent'/>
+		<element ref='t:Important'/>
+		<element ref='t:Quotation'/>
+		<element ref='t:Anchor'/>
+		<element ref='t:Keyw'/>
+		<element ref='t:Code'/>
+		<element ref='t:ExtLink'/>
+		<element ref='t:IntLink'/>
+		<element ref='t:SimpleBulletList'/>
+		<element ref='t:SimpleNumberedList'/>
+	</choice>
+</complexType>
+
+<!-- CommentText -->
+<complexType name='CommentText' mixed='true'>
+	<choice minOccurs='0' maxOccurs='unbounded'>
+		<element ref='t:br'/>
+		<element ref='t:Emph'/>
+		<element ref='t:PageTurn'/>
+		<element ref='t:Footnote'/>
+		<element ref='t:Strong'/>
+		<element ref='t:Accent'/>
+		<element ref='t:Important'/>
+		<element ref='t:Quotation'/>
+		<element ref='t:Anchor'/>
+		<element ref='t:Keyw'/>
+		<element ref='t:Code'/>
+		<element ref='t:ExtLink'/>
+		<element ref='t:IntLink'/>
+	</choice>
+</complexType>
+
+
+<!-- EmphText -->
+<complexType name='EmphText' mixed='true'>
+	<choice minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:br'/>
+    <element ref='t:Comment'/>
+    <element ref='t:PageTurn'/>
+    <element ref='t:Footnote'/>
+    <element ref='t:Strong'/>
+    <element ref='t:Accent'/>
+    <element ref='t:Important'/>
+    <element ref='t:Quotation'/>
+    <element ref='t:Anchor'/>
+    <element ref='t:Keyw'/>
+    <element ref='t:Code'/>
+    <element ref='t:ExtLink'/>
+    <element ref='t:IntLink'/>
+ 	</choice>
+</complexType>
+
+<!-- StrongText -->
+<complexType name='StrongText' mixed='true'>
+	<choice minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:br'/>
+    <element ref='t:Comment'/>
+    <element ref='t:PageTurn'/>
+    <element ref='t:Footnote'/>
+    <element ref='t:Emph'/>
+    <element ref='t:Accent'/>
+    <element ref='t:Important'/>
+    <element ref='t:Quotation'/>
+    <element ref='t:Anchor'/>
+    <element ref='t:Keyw'/>
+    <element ref='t:Code'/>
+    <element ref='t:ExtLink'/>
+    <element ref='t:IntLink'/>
+ 	</choice>
+</complexType>
+
+<!-- AccentText -->
+<complexType name='AccentText' mixed='true'>
+	<choice minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:br'/>
+    <element ref='t:Comment'/>
+    <element ref='t:PageTurn'/>
+    <element ref='t:Footnote'/>
+    <element ref='t:Emph'/>
+    <element ref='t:Important'/>
+    <element ref='t:Strong'/>
+    <element ref='t:Quotation'/>
+    <element ref='t:Anchor'/>
+    <element ref='t:Keyw'/>
+    <element ref='t:Code'/>
+    <element ref='t:ExtLink'/>
+    <element ref='t:IntLink'/>
+ 	</choice>
+</complexType>
+
+
+<!-- ImportantText -->
+<complexType name='ImportantText' mixed='true'>
+	<choice minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:br'/>
+    <element ref='t:Comment'/>
+    <element ref='t:PageTurn'/>
+    <element ref='t:Footnote'/>
+    <element ref='t:Emph'/>
+    <element ref='t:Accent'/>
+    <element ref='t:Strong'/>
+    <element ref='t:Quotation'/>
+    <element ref='t:Anchor'/>
+    <element ref='t:Keyw'/>
+    <element ref='t:Code'/>
+    <element ref='t:ExtLink'/>
+    <element ref='t:IntLink'/>
+ 	</choice>
+</complexType>
+
+<!-- KeywText -->
+<complexType name='KeywText' mixed='true'>
+	<choice minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:br'/>
+    <element ref='t:Comment'/>
+    <element ref='t:Footnote'/>
+    <element ref='t:Strong'/>
+    <element ref='t:Emph'/>
+    <element ref='t:Accent'/>
+    <element ref='t:Important'/>
+    <element ref='t:Quotation'/>
+    <element ref='t:Code'/>
+ 	</choice>
+</complexType>
+
+<!-- LinkText -->
+<complexType name='LinkText' mixed='true'>
+   <choice minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:br'/>
+    <element ref='t:Comment'/>
+    <element ref='t:Emph'/>
+    <element ref='t:Strong'/>
+    <element ref='t:Quotation'/>
+    <element ref='t:Code'/>
+ 	</choice>
+</complexType>
+
+
+<!-- SimpleText -->
+<complexType name='SimpleText' mixed='true'>
+   <choice minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:br'/>
+    <element ref='t:Emph'/>
+    <element ref='t:Strong'/>
+    <element ref='t:Quotation'/>
+    <element ref='t:Code'/>
+    <element ref='t:Anchor'/>
+    <element ref='t:ExtLink'/>
+    <element ref='t:IntLink'/>
+ 	</choice>
+</complexType>
+
+
+<!-- FootnoteText -->
+<complexType name='FootnoteText' mixed='true'>
+   <choice minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:br'/>
+    <element ref='t:Comment'/>
+    <element ref='t:Emph'/>
+    <element ref='t:Accent'/>
+    <element ref='t:Strong'/>
+    <element ref='t:Anchor'/>
+    <element ref='t:ExtLink'/>
+    <element ref='t:IntLink'/>
+    <element ref='t:Important'/>
+    <element ref='t:Quotation'/>
+    <element ref='t:Code'/>
+   </choice>
+</complexType>
+
+
+<!-- TitleText -->
+<complexType name='TitleText' mixed='true'>
+   <choice minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:br'/>
+    <element ref='t:Emph'/>
+    <element ref='t:Strong'/>
+    <element ref='t:Quotation'/>
+    <element ref='t:Code'/>
+   </choice>
+</complexType>
+
+<!-- PageObject -->
+ <element name='PageObject'>
+  <complexType>
+   <sequence>
+    <element ref='t:PageContent' minOccurs='0' maxOccurs='unbounded'/>
+    <element ref='t:Layout' minOccurs='0' maxOccurs='1'/>
+   </sequence>
+  </complexType>
+ </element>
+
+<!-- PageContent -->
+ <element name='PageContent'>
+  <complexType>
+   <sequence>
+    <choice>
+     <element ref='t:Paragraph'/>
+     <element ref='t:MediaObject'/>
+     <element ref='t:Table'/>
+     <element ref='t:List'/>
+     <element ref='t:FileList'/>
+     <element ref='t:Question'/>
+     <element ref='t:PlaceHolder'/>
+     <element ref='t:Section'/>
+     <element ref='t:Resources'/>
+     <element ref='t:Map'/>
+     <element ref='t:Plugged'/>
+     <element ref='t:Tabs'/>
+     <element ref='t:ContentInclude'/>
+    </choice>
+    <element ref='t:BibItemIdentifier' minOccurs='0' maxOccurs='unbounded'/>
+   </sequence>
+   <attribute name='PCID' type='string' use='optional'/>
+   <attribute name='Enabled' use='optional'>
+    <simpleType>
+     <restriction base='string'>
+      <enumeration value='True'/>
+      <enumeration value='False'/>
+     </restriction>
+    </simpleType>
+   </attribute>
+  </complexType>
+ </element>
+
+ <!-- BibItemIdentifier -->
+ <element name='BibItemIdentifier'>
+  <complexType>
+   <attribute name='Catalog' type='string' use='optional'/>
+   <attribute name='Entry' type='string' use='required'/>
+  </complexType>
+ </element>
+
+ <!-- PageTurn -->
+ <element name='PageTurn'>
+  <complexType>
+   <sequence>
+    <element ref='t:BibItemIdentifier'/>
+   </sequence>
+   <attribute name='NumberingType' use='required'>
+    <simpleType>
+     <restriction base='string'>
+      <enumeration value='Roman'/>
+      <enumeration value='Arabic'/>
+      <enumeration value='Alphanumeric'/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name='Number' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <!-- Identifier -->
+ <element name='Identifier'>
+  <complexType>
+   <attribute name='Catalog' type='string' use='optional'/>
+   <attribute name='Entry' type='string' use='required'/>
+  </complexType>
+ </element>
+
+ <!-- Title -->
+ <element name='Title'>
+  <complexType mixed='true'>
+   <complexContent>
+    <extension base="t:TitleText">
+     <attribute name='Language' type='t:LanguageCode' use='required' />
+    </extension>
+   </complexContent>
+  </complexType>
+ </element>
+
+ <!-- MediaObject -->
+ <element name='MediaObject'>
+  <complexType>
+    <sequence>
+     <element ref='t:MediaAlias'/>
+     <element ref='t:MediaAliasItem' maxOccurs='unbounded'/>
+    </sequence>
+  </complexType>
+ </element>
+
+ <!-- MediaObject -->
+ <element name='MediaAlias'>
+  <complexType>
+   <attribute name='OriginId' type='string' use='required'/>
+   <attribute name='Class' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <!-- MediaAliasItem -->
+ <element name='MediaAliasItem'>
+  <complexType>
+   <sequence>
+    <element ref='t:Layout' minOccurs='0' maxOccurs='1'/>
+    <element ref='t:Caption' minOccurs='0' maxOccurs='1'/>
+    <element ref='t:TextRepresentation' minOccurs='0' maxOccurs='1'/>
+    <element ref='t:Parameter' minOccurs='0' maxOccurs='unbounded'/>
+    <element ref='t:MapArea' minOccurs='0' maxOccurs='unbounded'/>
+   </sequence>
+   <attribute name='Purpose' use='required'>
+    <simpleType>
+     <restriction base='string'>
+      <enumeration value='Standard'/>
+      <enumeration value='Fullscreen'/>
+      <enumeration value='Additional'/>
+     </restriction>
+    </simpleType>
+   </attribute>
+  </complexType>
+ </element>
+
+ <!-- MapArea -->
+ <element name='MapArea'>
+  <complexType>
+   <choice>
+    <element ref='t:ExtLink'/>
+    <element ref='t:IntLink'/>
+   </choice>
+   <attribute name='Shape' use='required'>
+    <simpleType>
+     <restriction base='string'>
+      <enumeration value='Rect'/>
+      <enumeration value='Circle'/>
+      <enumeration value='Poly'/>
+      <enumeration value='WholePicture'/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name='Coords' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <!-- Text Representation -->
+ <element name='TextRepresentation'>
+  <complexType mixed='true'>
+  </complexType>
+ </element>
+
+ <!-- Format -->
+ <element name='Format'>
+  <complexType mixed='true'>
+  </complexType>
+ </element>
+
+ <!-- Location -->
+ <element name='Location'>
+  <complexType mixed='true'>
+   <attribute name='Type' use='required'>
+    <simpleType>
+     <restriction base='string'>
+      <enumeration value='LocalFile'/>
+      <enumeration value='Reference'/>
+     </restriction>
+    </simpleType>
+   </attribute>
+  </complexType>
+ </element>
+
+ <!-- Paragraph -->
+ <element name='Paragraph'>
+  <complexType mixed='true'>
+   <complexContent>
+    <extension base="t:Text">
+	   <attribute name='Language' type='t:LanguageCode' use='required' />
+	   <attribute name='Characteristic' type='string' use='optional'/>
+	   <attribute name='SubCharacteristic' type='string' use='optional'/>
+	   <attribute name='AutoIndent' use='optional'>
+		<simpleType>
+		 <restriction base='string'>
+		  <enumeration value='y'/>
+		  <enumeration value='n'/>
+		 </restriction>
+		</simpleType>
+	   </attribute>
+	   <attribute name='ShowLineNumbers' use='optional'>
+		<simpleType>
+		 <restriction base='string'>
+		  <enumeration value='y'/>
+		  <enumeration value='n'/>
+		 </restriction>
+		</simpleType>
+	   </attribute>
+	   <attribute name='DownloadTitle' type='string' use='optional'/>
+    </extension>
+   </complexContent>
+  </complexType>
+ </element>
+
+ <!-- br -->
+ <element name='br'>
+  <complexType/>
+ </element>
+
+ <!-- Comment -->
+ <element name='Comment' type='t:CommentText' />
+
+ <!-- Emph -->
+ <element name='Emph' type='t:EmphText' />
+
+ <!-- Footnote -->
+ <element name='Footnote' type='t:FootnoteText' />
+
+ <!-- Strong -->
+ <element name='Strong' type='t:StrongText' />
+
+ <!-- Accent -->
+ <element name='Accent' type='t:AccentText' />
+
+ <!-- Important -->
+ <element name='Important' type='t:AccentText' />
+
+ <!-- Quotation -->
+ <element name='Quotation'>
+  <complexType mixed='true'>
+   <complexContent>
+    <extension base="t:Text">
+		<attribute name='Language' type='t:LanguageCode' use='required' />
+		<attribute name='Reference' type='IDREF' use='optional'/>
+	</extension>
+   </complexContent>
+  </complexType>
+ </element>
+
+ <!-- Keyw -->
+ <element name='Keyw' type='t:KeywText' />
+
+ <!-- Code -->
+ <element name='Code'>
+  <complexType mixed='true'>
+   <sequence minOccurs='0' maxOccurs='unbounded'>
+    <element ref='t:br'/>
+   </sequence>
+   <attribute name='Id' type='ID' use='optional'/>
+   <attribute name='ProgrammingLanguage' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <!-- Anchor -->
+ <element name='Anchor'>
+  <complexType mixed='true'>
+   <complexContent>
+    <extension base="t:Text">
+		<attribute name='Name' type='string' use='optional'/>
+	</extension>
+   </complexContent>
+  </complexType>
+ </element>
+
+ <!-- List -->
+ <element name='List'>
+  <complexType>
+   <sequence>
+    <element ref='t:Title' minOccurs='0' maxOccurs='1'/>
+    <element ref='t:ListItem' maxOccurs='unbounded'/>
+   </sequence>
+   <attribute name='Id' type='ID' use='optional'/>
+   <attribute name='Type' use='required'>
+    <simpleType>
+     <restriction base='string'>
+      <enumeration value='Ordered'/>
+      <enumeration value='Unordered'/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name='Class' type='string' use='optional'/>
+   <attribute name='NumberingType' use='optional'>
+    <simpleType>
+     <restriction base='string'>
+      <enumeration value='Decimal'/>
+      <enumeration value='Roman'/>
+      <enumeration value='roman'/>
+      <enumeration value='Alphabetic'/>
+      <enumeration value='alphabetic'/>
+      <enumeration value='Number'/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name='StartValue' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <!-- ListItem -->
+ <element name='ListItem'>
+  <complexType>
+   <sequence>
+    <element ref='t:PageContent' minOccurs='0' maxOccurs='unbounded'/>
+   </sequence>
+   <attribute name='PCID' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <!-- SimpleBulletList -->
+ <element name='SimpleBulletList'>
+  <complexType>
+   <sequence>
+    <element ref='t:SimpleListItem' minOccurs='0' maxOccurs='unbounded'/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <!-- SimpleNumberedList -->
+ <element name='SimpleNumberedList'>
+  <complexType>
+   <sequence>
+    <element ref='t:SimpleListItem' minOccurs='0' maxOccurs='unbounded'/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <!-- SimpleListItem -->
+ <element name='SimpleListItem' type='t:Text' />
+
+ <!-- FileList -->
+ <element name='FileList'>
+  <complexType>
+   <sequence>
+    <element ref='t:Title' minOccurs='0' maxOccurs='1'/>
+    <element ref='t:FileItem' minOccurs='0' maxOccurs='unbounded'/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <!-- FileItem -->
+ <element name='FileItem'>
+  <complexType>
+   <sequence>
+    <element ref='t:Identifier'/>
+    <element ref='t:Location'/>
+    <element ref='t:Format' minOccurs='0' maxOccurs='1'/>
+   </sequence>
+   <attribute name='PCID' type='string' use='optional'/>
+   <attribute name='Class' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <!-- Table -->
+ <element name='Table'>
+  <complexType>
+   <sequence>
+    <element ref='t:Title' minOccurs='0' maxOccurs='1'/>
+    <element ref='t:Caption' minOccurs='0' maxOccurs='1'/>
+    <element ref='t:Summary' minOccurs='0' maxOccurs='1'/>
+    <element ref='t:TableRow' maxOccurs='unbounded'/>
+   </sequence>
+   <attribute name='Language' type='t:LanguageCode' use='required' />
+   <attribute name='Id' type='ID' use='optional'/>
+   <attribute name='Width' type='string' use='optional'/>
+   <attribute name='Border' type='string' use='optional'/>
+   <attribute name='HorizontalAlign' use='optional'>
+    <simpleType>
+     <restriction base='string'>
+      <enumeration value='Left'/>
+      <enumeration value='Center'/>
+      <enumeration value='Right'/>
+      <enumeration value='LeftFloat'/>
+      <enumeration value='RightFloat'/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name='CellPadding' type='string' use='optional'/>
+   <attribute name='CellSpacing' type='string' use='optional'/>
+   <attribute name='Class' type='string' use='optional'/>
+   <attribute name='DataTable' use='optional'>
+    <simpleType>
+     <restriction base='string'>
+      <enumeration value='y'/>
+      <enumeration value='n'/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name='Template' type='string' use='optional'/>
+   <attribute name='HeaderRows' type='string' use='optional'/>
+   <attribute name='HeaderCols' type='string' use='optional'/>
+   <attribute name='FooterRows' type='string' use='optional'/>
+   <attribute name='FooterCols' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <!-- Caption -->
+ <element name='Caption'>
+  <complexType mixed='true'>
+   <complexContent>
+    <extension base="t:TitleText">
+	   <attribute name='Align' use='required'>
+		<simpleType>
+		 <restriction base='string'>
+		  <enumeration value='top'/>
+		  <enumeration value='bottom'/>
+		 </restriction>
+		</simpleType>
+	   </attribute>
+    </extension>
+   </complexContent>
+  </complexType>
+ </element>
+
+ <!-- Summary -->
+ <element name='Summary' type='t:SimpleText' />
+
+ <!-- TableRow -->
+ <element name='TableRow'>
+  <complexType>
+   <sequence>
+    <element ref='t:TableData' maxOccurs='unbounded'/>
+   </sequence>
+   <attribute name='PCID' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <!-- TableData -->
+ <element name='TableData'>
+  <complexType>
+   <sequence>
+    <element ref='t:PageContent' minOccurs='0' maxOccurs='unbounded'/>
+   </sequence>
+   <attribute name='Width' type='string' use='optional'/>
+   <attribute name='Class' type='string' use='optional'/>
+   <attribute name='PCID' type='string' use='optional'/>
+   <attribute name='ColSpan' type='string' use='optional'/>
+   <attribute name='RowSpan' type='string' use='optional'/>
+   <attribute name='HorizontalAlign' use='optional'>
+    <simpleType>
+     <restriction base='string'>
+      <enumeration value='Left'/>
+      <enumeration value='Center'/>
+      <enumeration value='Right'/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name='Hidden' use='optional'>
+    <simpleType>
+     <restriction base='string'>
+      <enumeration value='Y'/>
+      <enumeration value='N'/>
+     </restriction>
+    </simpleType>
+   </attribute>
+  </complexType>
+ </element>
+
+ <!-- ExtLink -->
+ <element name='ExtLink'>
+  <complexType mixed='true'>
+   <complexContent>
+    <extension base="t:LinkText">
+	   <attribute name='Href' type='string' use='required'/>
+	   <attribute name='Title' type='string' use='optional'/>
+	   <attribute name='TargetFrame' use='optional'>
+		<simpleType>
+		 <restriction base='string'>
+		  <enumeration value='Media'/>
+		  <enumeration value='FAQ'/>
+		  <enumeration value='Glossary'/>
+		  <enumeration value='New'/>
+		 </restriction>
+		</simpleType>
+	   </attribute>
+    </extension>
+   </complexContent>
+  </complexType>
+ </element>
+
+ <!-- IntLink -->
+ <element name='IntLink'>
+  <complexType mixed='true'>
+   <complexContent>
+    <extension base="t:LinkText">
+	   <attribute name='Target' type='string' use='required'/>
+	   <attribute name='Type' use='required'>
+		<simpleType>
+		 <restriction base='string'>
+		  <enumeration value='StructureObject'/>
+		  <enumeration value='PageObject'/>
+		  <enumeration value='MediaObject'/>
+		  <enumeration value='GlossaryItem'/>
+		  <enumeration value='RepositoryItem'/>
+		  <enumeration value='File'/>
+		 </restriction>
+		</simpleType>
+	   </attribute>
+	   <attribute name='TargetFrame' use='optional'>
+		<simpleType>
+		 <restriction base='string'>
+		  <enumeration value='Media'/>
+		  <enumeration value='FAQ'/>
+		  <enumeration value='Glossary'/>
+		  <enumeration value='New'/>
+		 </restriction>
+		</simpleType>
+	   </attribute>
+	   <attribute name='Anchor' type='string' use='optional'/>
+    </extension>
+   </complexContent>
+  </complexType>
+ </element>
+
+ <!-- Question -->
+ <element name='Question'>
+  <complexType>
+   <attribute name='QRef' type='string' use='required'/>
+  </complexType>
+ </element>
+
+ <!-- PlaceHolder -->
+ <element name='PlaceHolder'>
+  <complexType>
+   <attribute name='ContentClass' use='required'>
+    <simpleType>
+     <restriction base='string'>
+      <enumeration value='Media'/>
+      <enumeration value='Text'/>
+      <enumeration value='Question'/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name='Width' type='string' use='optional'/>
+   <attribute name='Height' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <!-- Section -->
+ <element name='Section'>
+  <complexType>
+   <sequence>
+    <element ref='t:PageContent' minOccurs='0' maxOccurs='unbounded'/>
+   </sequence>
+   <attribute name='Characteristic' type='string' use='optional'/>
+   <attribute name='PCID' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <!-- Resources -->
+ <element name='Resources'>
+  <complexType>
+   <sequence>
+    <element ref='t:ResourceList' minOccurs='0' maxOccurs='unbounded'/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <!-- ResourceList -->
+ <element name='ResourceList'>
+  <complexType>
+   <attribute name='Type' type='string' use='required'/>
+  </complexType>
+ </element>
+
+ <!-- Map -->
+ <element name='Map'>
+  <complexType>
+   <sequence>
+    <element ref='t:Layout' minOccurs='0' maxOccurs='1'/>
+    <element ref='t:MapCaption' minOccurs='0' maxOccurs='1'/>
+   </sequence>
+   <attribute name='Latitude' type='string' use='required'/>
+   <attribute name='Longitude' type='string' use='required'/>
+   <attribute name='Zoom' type='string' use='required'/>
+  </complexType>
+ </element>
+
+ <!-- MapCaption -->
+ <element name='MapCaption' type='t:TitleText' />
+
+ <!-- Plugged -->
+ <element name='Plugged'>
+  <complexType>
+   <sequence>
+    <element ref='t:PluggedProperty' minOccurs='0' maxOccurs='unbounded'/>
+   </sequence>
+   <attribute name='PluginName' type='string' use='required'/>
+   <attribute name='PluginVersion' type='string' use='required'/>
+  </complexType>
+ </element>
+
+ <!-- PluggedProperty -->
+ <element name='PluggedProperty'>
+  <complexType mixed='true'>
+   <attribute name='Name' type='string' use='required'/>
+  </complexType>
+ </element>
+
+ <!-- Tabs -->
+ <element name='Tabs'>
+  <complexType>
+   <sequence>
+    <element ref='t:Tab' minOccurs='0' maxOccurs='unbounded'/>
+   </sequence>
+   <attribute name='Type' use='required'>
+    <simpleType>
+     <restriction base='string'>
+      <enumeration value='HorizontalAccordion'/>
+      <enumeration value='VerticalAccordion'/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name='HorizontalAlign' use='optional'>
+    <simpleType>
+     <restriction base='string'>
+      <enumeration value='Left'/>
+      <enumeration value='Center'/>
+      <enumeration value='Right'/>
+      <enumeration value='LeftFloat'/>
+      <enumeration value='RightFloat'/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name='Behavior' use='optional'>
+    <simpleType>
+     <restriction base='string'>
+      <enumeration value='AllClosed'/>
+      <enumeration value='FirstOpen'/>
+      <enumeration value='ForceAllOpen'/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name='ContentWidth' type='string' use='optional'/>
+   <attribute name='ContentHeight' type='string' use='optional'/>
+   <attribute name='Template' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <!-- Tab -->
+ <element name='Tab'>
+  <complexType>
+   <sequence>
+    <element ref='t:PageContent' minOccurs='0' maxOccurs='unbounded'/>
+    <element ref='t:TabCaption' minOccurs='0' maxOccurs='1'/>
+   </sequence>
+   <attribute name='PCID' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <!-- TabCaption -->
+ <element name='TabCaption' type='t:TitleText' />
+
+ <!-- ContentInclude -->
+ <element name='ContentInclude'>
+  <complexType>
+   <attribute name='ContentId' type='string' use='required'/>
+   <attribute name='ContentType' type='string' use='required'/>
+   <attribute name='InstId' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <!-- Layout -->
+ <element name='Layout'>
+  <complexType>
+   <attribute name='HorizontalAlign' use='optional'>
+    <simpleType>
+     <restriction base='string'>
+      <enumeration value='Left'/>
+      <enumeration value='Center'/>
+      <enumeration value='Right'/>
+      <enumeration value='LeftFloat'/>
+      <enumeration value='RightFloat'/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name='Width' type='string' use='optional'/>
+   <attribute name='Height' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <!-- Parameter -->
+ <element name='Parameter'>
+  <complexType>
+   <attribute name='Name' type='string' use='required'/>
+   <attribute name='Value' type='string' use='required'/>
+  </complexType>
+ </element>
+
+ <!-- BibItem -->
+ <element name='BibItem'>
+  <complexType>
+   <sequence>
+    <element ref='t:Identifier'/>
+    <element ref='t:Author' minOccurs='0' maxOccurs='unbounded'/>
+    <element ref='t:Booktitle'/>
+    <element ref='t:CrossRef' minOccurs='0' maxOccurs='unbounded'/>
+    <element ref='t:Edition'/>
+    <element ref='t:Editor' minOccurs='0' maxOccurs='unbounded'/>
+    <element ref='t:HowPublished'/>
+    <element ref='t:WherePublished' minOccurs='0' maxOccurs='unbounded'/>
+    <element ref='t:Institution' minOccurs='0' maxOccurs='unbounded'/>
+    <element ref='t:Journal' minOccurs='0' maxOccurs='1'/>
+    <element ref='t:Month' minOccurs='0' maxOccurs='1'/>
+    <element ref='t:Pages' minOccurs='0' maxOccurs='1'/>
+    <element ref='t:Publisher'/>
+    <element ref='t:School' minOccurs='0' maxOccurs='unbounded'/>
+    <element ref='t:Series' minOccurs='0' maxOccurs='1'/>
+    <element ref='t:Year'/>
+    <choice>
+     <element ref='t:URL'/>
+     <sequence>
+      <element ref='t:ISSN' minOccurs='0' maxOccurs='1'/>
+      <element ref='t:ISBN' minOccurs='0' maxOccurs='1'/>
+     </sequence>
+    </choice>
+   </sequence>
+   <attribute name='Type' use='required'>
+    <simpleType>
+     <restriction base='string'>
+      <enumeration value='book'/>
+      <enumeration value='inbook'/>
+      <enumeration value='journalarticle'/>
+      <enumeration value='proceedings'/>
+      <enumeration value='inproceedings'/>
+      <enumeration value='dissertation'/>
+      <enumeration value='phdthesis'/>
+      <enumeration value='mastersthesis'/>
+      <enumeration value='techreport'/>
+      <enumeration value='manual'/>
+      <enumeration value='newspaperarticle'/>
+      <enumeration value='av'/>
+      <enumeration value='internet'/>
+      <enumeration value='unpublished'/>
+     </restriction>
+    </simpleType>
+   </attribute>
+   <attribute name='Label' type='ID' use='required'/>
+  </complexType>
+ </element>
+
+ <!-- Author -->
+ <element name='Author'>
+  <complexType>
+   <sequence>
+    <element ref='t:FirstName' minOccurs='0' maxOccurs='unbounded'/>
+    <element ref='t:MiddleName' minOccurs='0' maxOccurs='unbounded'/>
+    <element ref='t:LastName'/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <!-- Booktitle -->
+ <element name='Booktitle'>
+  <complexType mixed='true'>
+   <attribute name='Language' type='t:LanguageCode' use='required' />
+  </complexType>
+ </element>
+
+ <!-- CrossRef -->
+ <element name='CrossRef'>
+  <complexType mixed='true'>
+  </complexType>
+ </element>
+
+ <!-- Edition -->
+ <element name='Edition'>
+  <complexType mixed='true'>
+  </complexType>
+ </element>
+
+ <!-- Editor -->
+ <element name='Editor'>
+  <complexType mixed='true'>
+  </complexType>
+ </element>
+
+ <!-- HowPublished -->
+ <element name='HowPublished'>
+  <complexType>
+   <attribute name='Type' use='required'>
+    <simpleType>
+     <restriction base='string'>
+      <enumeration value='GreyLiterature'/>
+      <enumeration value='Print'/>
+      <enumeration value='Internet'/>
+     </restriction>
+    </simpleType>
+   </attribute>
+  </complexType>
+ </element>
+
+ <!-- WherePublished -->
+ <element name='WherePublished'>
+  <complexType mixed='true'>
+  </complexType>
+ </element>
+
+ <!-- Institution -->
+ <element name='Institution'>
+  <complexType mixed='true'>
+  </complexType>
+ </element>
+
+ <!-- Journal -->
+ <element name='Journal'>
+  <complexType mixed='true'>
+   <attribute name='Note' type='string' use='optional'/>
+   <attribute name='Number' type='string' use='required'/>
+   <attribute name='Organization' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <!-- Month -->
+ <element name='Month'>
+  <complexType mixed='true'>
+  </complexType>
+ </element>
+
+ <!-- Pages -->
+ <element name='Pages'>
+  <complexType mixed='true'>
+  </complexType>
+ </element>
+
+ <!-- Publisher -->
+ <element name='Publisher'>
+  <complexType mixed='true'>
+  </complexType>
+ </element>
+
+ <!-- School -->
+ <element name='School'>
+  <complexType mixed='true'>
+  </complexType>
+ </element>
+
+ <!-- Series -->
+ <element name='Series'>
+  <complexType>
+   <sequence>
+    <element ref='t:SeriesTitle'/>
+    <element ref='t:SeriesEditor' minOccurs='0' maxOccurs='unbounded'/>
+    <element ref='t:SeriesVolume' minOccurs='0' maxOccurs='1'/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <!-- SeriesTitle -->
+ <element name='SeriesTitle'>
+  <complexType mixed='true'>
+  </complexType>
+ </element>
+
+ <!-- SeriesEditor -->
+ <element name='SeriesEditor'>
+  <complexType mixed='true'>
+  </complexType>
+ </element>
+
+ <!-- SeriesVolume -->
+ <element name='SeriesVolume'>
+  <complexType mixed='true'>
+  </complexType>
+ </element>
+
+ <!-- Volumne -->
+ <element name='Volume'>
+  <complexType mixed='true'>
+  </complexType>
+ </element>
+
+ <!-- Year -->
+ <element name='Year'>
+  <complexType mixed='true'>
+  </complexType>
+ </element>
+
+ <!-- ISBN -->
+ <element name='ISBN'>
+  <complexType mixed='true'>
+  </complexType>
+ </element>
+
+ <!-- ISSN -->
+ <element name='ISSN'>
+  <complexType mixed='true'>
+  </complexType>
+ </element>
+
+ <!-- URL -->
+ <element name='URL'>
+  <complexType mixed='true'>
+  </complexType>
+ </element>
+
+ <!-- LastName -->
+ <element name='LastName'>
+  <complexType mixed='true'>
+  </complexType>
+ </element>
+
+ <!-- FirstName -->
+ <element name='FirstName'>
+  <complexType mixed='true'>
+  </complexType>
+ </element>
+
+ <!-- MiddleName -->
+ <element name='MiddleName'>
+  <complexType mixed='true'>
+  </complexType>
+ </element>
+ 
+</schema>

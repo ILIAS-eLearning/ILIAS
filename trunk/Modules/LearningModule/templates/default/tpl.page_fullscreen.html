@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0 plus SVG 1.1//EN"
+	"http://www.w3.org/2002/04/xhtml-math-svg/xhtml-math-svg.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<title>{WINDOW_TITLE} {PAGETITLE}</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link rel="stylesheet" type="text/css" href="{LOCATION_STYLESHEET}" />
+	<!-- BEGIN ContentStyle -->
+	<link rel="stylesheet" type="text/css" href="{LOCATION_CONTENT_STYLESHEET}" />
+	<!-- END ContentStyle -->
+	<!-- BEGIN SyntaxStyle -->
+	<link rel="stylesheet" type="text/css" href="{LOCATION_SYNTAX_STYLESHEET}" />
+	<!-- END SyntaxStyle -->
+	<!-- BEGIN js_file -->
+	<script type="text/javascript" src="{JS_FILE}"></script>
+	<!-- END js_file -->
+	<!-- BEGIN css_file -->
+	<link rel="stylesheet" type="text/css" href="{CSS_FILE}" media="{CSS_MEDIA}" />
+	<!-- END css_file -->
+
+</head>
+<body>
+<!-- BEGIN ilPage -->
+{PAGE_CONTENT}
+<!-- END ilPage -->
+<!-- BEGIN on_load_code -->
+<script type="text/javascript">
+	il.Util.addOnLoad(function() {
+		<!-- BEGIN on_load_code_inner -->
+		{OLCODE}
+		<!-- END on_load_code_inner -->
+	});
+</script>
+<!-- END on_load_code -->
+</body>
+</html>

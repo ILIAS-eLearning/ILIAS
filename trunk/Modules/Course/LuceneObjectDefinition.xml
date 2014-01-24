@@ -1,0 +1,33 @@
+<?xml version="1.0" ?>
+<ObjectDefinition xmlns:xi="http://www.w3.org/2001/XInclude" type="crs">
+	<Document type="default">
+		<xi:include href="../../Services/Object/LuceneDataSource.xml" />
+		<xi:include href="../../Services/Tagging/LuceneDataSource.xml" />
+		<xi:include href="../../Services/MetaData/LuceneDataSource.xml" />
+		<xi:include href="../../Services/AdvancedMetaData/LuceneDataSource.xml" />
+		<xi:include href="../../Modules/LearningModule/LucenePageEditorDataSource.xml" />
+		<DataSource type="JDBC" action="append">
+			<Query>
+				SELECT * FROM crs_settings
+				WHERE obj_id IN(?)
+			</Query>
+			<Param format="list" type="int" value="objId" />
+			<Field store="YES" index="ANALYZED" column="syllabus" type="text" name="propertyMedium" />
+			<Field store="YES" index="ANALYZED" column="important" type="text" name="propertyHigh" />
+			<Field store="YES" index="ANALYZED" column="contact_name" type="text" name="propertyMedium" />
+			<Field store="YES" index="ANALYZED" column="contact_responsibility" type="text" name="propertyMedium" />
+			<Field store="YES" index="ANALYZED" column="contact_phone" type="text" name="propertyMedium" />
+			<Field store="YES" index="ANALYZED" column="contact_email" type="text" name="propertyMedium" />
+			<Field store="YES" index="ANALYZED" column="contact_consultation" type="text" name="propertyLow" />
+		</DataSource>
+		<DataSource type="JDBC" action="append">
+			<Query>
+				SELECT 1 as offline FROM crs_settings
+				WHERE activation_type = 0
+				AND obj_id IN(?)
+			</Query>
+			<Param format="list" type="int" value="objId" />
+			<Field store="YES" index="NOT_ANALYZED" column="offline" type="text" name="offline" />
+		</DataSource>
+	</Document>
+</ObjectDefinition>

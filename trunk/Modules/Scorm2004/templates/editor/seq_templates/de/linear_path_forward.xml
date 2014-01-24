@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<seqTemplate xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../xsd/seq_template.xsd" identifier="linearpathforward">
+    <metadata>
+        <version> 1.0</version>
+        <thumbnail>linear_forward.png</thumbnail>
+        <title>Linearer Lernpfad Vorwärts</title>
+        <description>Erzeugt einen linearen Lernpfad. Der Lerner kann die Kapitel nicht frei wählen
+            und nur vorwärts durch den Kurs navigieren. </description>
+        <replacenode>false</replacenode>
+    </metadata>
+    <item type="lesson">
+        <title>Linearer Lernpfad</title>
+        <sequencing>
+            <controlMode flow="true" choice="false" forwardOnly="true"/>
+        </sequencing>
+        <item type="sco">
+            <title>SCO 1</title>
+            <sequencing>
+                <objectives>
+                    <primaryObjective objectiveID="Lernziel SCO 1"/>
+                </objectives>
+            </sequencing>
+        </item>
+        <item type="sco">
+            <title>SCO 2</title>
+            <sequencing>
+                <objectives>
+                    <primaryObjective objectiveID="Lernziel SCO 2"/>
+                </objectives>
+            </sequencing>
+        </item>
+        <item type="sco">
+            <title>SCO 3</title>
+            <sequencing>
+                <objectives>
+                    <primaryObjective objectiveID="Lernziel SCO 3"/>
+                </objectives>
+            </sequencing>
+        </item>
+    </item>
+</seqTemplate>

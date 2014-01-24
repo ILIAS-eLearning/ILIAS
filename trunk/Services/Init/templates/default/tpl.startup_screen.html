@@ -1,0 +1,54 @@
+{RELOAD}
+<div class="ilStartupFrame">
+	<div id="il_startup_logo">
+		<img src="{HEADER_ICON}" alt="Logo" />
+	</div>
+	<div id="il_startup_content">
+		<!-- BEGIN page_headline -->
+		<div class="il_Header">
+			<!-- BEGIN lang_headline -->
+			<form action="{LANG_CHANGE_FORMACTION}" method="post">
+			<input type="hidden" name="cmd[{LANG_CHANGE_CMD}]" value="1" />
+			<div class="ilFloatRight">
+				<select name="change_lang_to" onchange="this.form.submit();">
+					<option value="">{LANG_CHANGE_TXT_CHOOSE_LANGUAGE}</option>
+					<!-- BEGIN lang_headline_languages -->
+					<option value="{LANG_HEADLINE_LANGUAGES_LANG_KEY}"{LANG_HEADLINE_LANGUAGES_SELECTED_LANG}>{LANG_HEADLINE_LANGUAGES_LANG_NAME}</option>
+					<!-- END lang_headline_languages -->
+				</select>
+				<input class="submit" type="submit" value="{LANG_CHANGE_TXT_OK}" />
+			</div>
+			</form>
+			<!-- END lang_headline -->
+			<h1><!-- BEGIN img_headline --><img src="{IMG_PAGEHEADLINE}" /> <!-- END img_headline -->{TXT_PAGEHEADLINE}</h1>
+		</div>
+		<!-- END page_headline -->
+		{MESSAGE}
+		<div class="ilMessageBox">
+			<!-- BEGIN warning -->
+			<img class="ilFailureMessage" alt="{ALT_IMAGE}" title="{ALT_IMAGE}" src="{SRC_IMAGE}" />
+			<div class="ilFailureMessage">
+				<h5 class="ilAccHeadingHidden"><a id="il_message_focus" name="il_message_focus">{MESSAGE_HEADING}</a></h5>
+				{TXT_MSG_LOGIN_FAILED}
+			</div>
+			<!-- END warning -->
+			<!-- BEGIN success -->
+			<img class="ilSuccessMessage" alt="{ALT_IMAGE}" title="{ALT_IMAGE}" src="{SRC_IMAGE}" />
+			<div class="ilSuccessMessage">
+				<h5 class="ilAccHeadingHidden"><a id="il_message_focus" name="il_message_focus">{MESSAGE_HEADING}</a></h5>
+				{TXT_MSG_LOGIN_SUCCESS}
+			</div>
+			<!-- END success -->
+		</div>
+		{STARTUP_CONTENT}
+		<!-- BEGIN links_bl -->
+		<div class="ilCenter" style="padding-top: 25px">
+			<!-- BEGIN link_item_bl -->
+			<a class="il_ContainerItemCommand" href="{LINK_URL}">{LINK_TXT}</a>
+			<!-- END link_item_bl -->
+		</div>
+		<!-- END links_bl -->
+	</div>	
+</div>
+{FOOTER}
+{SCRIPT}
