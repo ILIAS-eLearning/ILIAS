@@ -1,0 +1,29 @@
+<tr class="{CSS_ROW}">
+<td class="std" valign="middle">
+	<input class="{CSS_ROW}" type="checkbox" name="pglayout[]" value="{CHECKBOX_ID}" {CHECKED}/>
+</td>
+<td class="std" style="text-align: center;"><img src="{IMG_ACTIVE}" border="0"/></td>
+<td class="std">
+	{VAL_PREVIEW_HTML}
+</td>
+<td class="std small">
+<a href="{HREF_EDIT_PGLAYOUT}">{VAL_TITLE}</a>
+</td>
+<td class="std small">
+	{VAL_DESCRIPTION}
+</td>
+<td class="std small">
+	{STYLE}
+</td>
+<td class="std">
+	{TYPE}
+</td>
+<td class="std">
+	<!-- BEGIN mod -->
+	<input type="checkbox" name="module[{LAYOUT_ID}][{MODULE_ID}]" value="1"{MOD_STATUS} /> {MOD_NAME}<br />
+	<!-- END mod -->
+</td>
+<td class="std small">
+	<!-- BEGIN action --><div><a href="{HREF_ACTION}">{TXT_ACTION}</a></div><!-- END action -->
+</td>
+</tr>

@@ -1,0 +1,18 @@
+<?php xml version = "1.0" encoding = "UTF-8"?>
+<module xmlns="http://www.w3.org" version="$Id: modules.xml 15671 2008-01-04 13:08:30Z akill $"
+	id="crsr">
+	<baseclasses>
+		<baseclass name="ilObjCourseReferenceGUI" dir="classes" />
+	</baseclasses>
+	<objects>
+		<object id="crsr" class_name="CourseReference" dir="classes" default_pos="25" default_pres_pos="20"
+			checkbox="1" inherit="0" allow_link="0" allow_copy="1" translate="0" rbac="1" devmode="0" group="crs" export="1">
+			<subobj id="rolf" max="1">rolf</subobj>
+			<parent id="recf">recf</parent>
+			<parent id="cat">cat</parent>
+			<parent id="grp">grp</parent>
+			<parent id="root">root</parent>
+			<parent id="crs">crs</parent>
+		</object>
+	</objects>
+</module>

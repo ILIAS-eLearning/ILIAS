@@ -1,0 +1,20 @@
+<?php xml version = "1.0" encoding = "UTF-8"?>
+<module xmlns="http://www.w3.org" version="$Id: modules.xml 15671 2008-01-04 13:08:30Z akill $"
+	id="htlm">
+	<baseclasses>
+		<baseclass name="ilHTLMEditorGUI" dir="classes" />
+		<baseclass name="ilHTLMPresentationGUI" dir="classes" />
+	</baseclasses>
+	<objects>
+		<object id="htlm" class_name="FileBasedLM" dir="classes" default_pos="130"
+			checkbox="1" inherit="1" translate="0" allow_link="1" rbac="1" group="lres" export="1" allow_copy="1">
+			<subobj id="rolf" max="1">rolf</subobj>
+			<parent id="cat">cat</parent>
+			<parent id="crs">crs</parent>
+			<parent id="fold">fold</parent>
+			<parent id="grp">grp</parent>
+			<parent id="recf">recf</parent>
+			<parent id="root">root</parent>
+		</object>
+	</objects>
+</module>

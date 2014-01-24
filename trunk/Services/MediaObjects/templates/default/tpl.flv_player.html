@@ -1,0 +1,95 @@
+<!-- BEGIN mejs_video -->
+<div id="player_{PLAYER_NR}_wrapper" class="ilPlayerPreviewOverlayOuter">
+	<!-- BEGIN preview -->
+	<div class="ilPlayerPreviewOverlay">
+		<img src="{IMG_SRC}" alt="{IMG_ALT}"/>
+		<div class="ilPlayerPreviewDescription">{PTITLE}</div>
+		<div class="ilPlayerPreviewPlayButton"></div>
+	</div>
+	<!-- END preview -->
+	<!-- preload none is currently not working in IE: http://www.longtailvideo.com/html5 (April 2012) -->
+	<div id="player_{PLAYER_NR}_vtwrap" class="{CLASS}">
+		<div style="background-color:black; padding: 10px;">
+			<video id="player_{PLAYER_NR}" width="{DISPLAY_WIDTH}" height="{DISPLAY_HEIGHT}" style="max-width: 100%;" controls="controls" preload="none" class="{CLASS}">
+				<!-- BEGIN source --><source src="{FILE}" type="{MIME}" /><!-- END source -->
+				<object width="{DISPLAY_WIDTH}" height="{DISPLAY_HEIGHT}" type="application/x-shockwave-flash" data="{SWF_FILE}">
+					<param name="movie" value="{SWF_FILE}" />
+					<param name="flashvars" value="controls=true&amp;file={FFILE}" />
+				</object>
+			</video>
+			<div style="padding-top: 10px; font-size: 80%; color: #808080;">
+				<a href="#" onclick="il.MediaObjects.processCloseIcon(); return false;" class="ilMediaLightboxClose"></a>
+				<p>{TITLE}</p>
+				<div>{DESCRIPTION}</div>
+			</div>
+		</div>
+	</div>
+</div>
+	<script>
+	$(function() {
+		il.MediaObjects.setPlayerConfig('player_{PLAYER_NR}', {event_url: '{EVENT_URL}'});
+	});
+	</script>
+<!-- END mejs_video -->
+<!-- BEGIN flv -->
+<p id="player{PLAYER_NR}">
+<object width="{DISPLAY_WIDTH}" height="{DISPLAY_HEIGHT}" type="application/x-shockwave-flash" data="{SWF_FILE}">
+	<param name="movie" value="{SWF_FILE}" />
+	<param name="flashvars" value="controls=true&file={FILE}" />
+</object>
+</p>
+<!-- END flv -->
+<!-- BEGIN audio -->
+<div id="player{APLAYER_NR}_wrapper">
+	<!-- BEGIN apreview -->
+	<div class="ilPlayerPreviewOverlayOuter">
+	<div class="ilPlayerPreviewOverlay">
+		<img src="{IMG_SRC}" alt="{IMG_ALT}"/>
+		<div class="ilPlayerPreviewDescription">{PTITLE}</div>
+		<div class="ilPlayerPreviewPlayButton"></div>
+	</div>
+	</div>
+	<!-- END apreview -->
+	<div style="{ASTYLE}">
+	<audio id="player_{APLAYER_NR}" src="{AFILE}" width="{AWIDTH}" height="{AHEIGHT}"></audio>
+	<script>
+	$(function() {
+		$('#player_{APLAYER_NR}').mediaelementplayer({
+			success: function (mediaElement, domObject) {
+				// add event listener
+				mediaElement.addEventListener('play', function(e) {
+					il.MediaObjects.playerStarted('player_{APLAYER_NR}');
+					}, false);		
+				}
+		});
+		il.MediaObjects.setPlayerConfig('player_{APLAYER_NR}', {event_url: '{AEVENT_URL}'});
+	});
+	</script>
+	</div>
+</div>
+<!-- END audio -->
+<!-- BEGIN image -->
+<div id="player{IPLAYER_NR}_wrapper">
+	<!-- BEGIN ipreview -->
+	<div class="ilPlayerPreviewOverlayOuter ilPlayerPreviewImage">
+	<div class="ilPlayerPreviewOverlay">
+		<img src="{IMG_SRC}" alt="{IMG_ALT}"/>
+		<div class="ilPlayerPreviewDescription">{PTITLE}</div>		
+		<!-- <div class="ilPlayerPreviewPlayButton"></div> -->
+	</div>
+	</div>
+	<!-- END ipreview -->
+	<div id="player{IPLAYER_NR}_vtwrap" class="ilPlayerImage ilNoDisplay" width="{IWIDTH}" style="max-width:100%;">
+		<img src="{IFILE}" alt="{IMG_ALT}" style="max-width:100%;"/>
+		<div style="padding-top: 10px; font-size: 80%; color: #808080;">
+				<a href="#" onclick="il.MediaObjects.processCloseIcon(); return false;" class="ilMediaLightboxClose"></a>
+				<p>{ITITLE}</p>
+				<div>{IDESCRIPTION}</div>
+		</div>
+	</div>
+</div>
+<!-- END image -->
+<!-- BEGIN default -->
+<p id="player{PLAYER_NR}">
+</p>
+<!-- END default -->

@@ -1,0 +1,31 @@
+<?xml version="1.0" ?>
+<DataSource type="JDBC" action="create">
+	<Query>
+		SELECT 'mail' type, mail_id, user_id, folder_id, m_subject, m_message, rcp_to, rcp_cc, rcp_bcc
+		FROM mail
+		WHERE user_id IN (?);
+	</Query>
+	<Param format="list" type="int" value="objId" />
+	<Field global="YES" store="YES" index="ANALYZED" column="m_message" type="text" name="content" />
+	<Field global="NO" store="YES" index="ANALYZED" column="m_subject" type="text" name="title" />
+	<Field global="YES" store="YES" index="ANALYZED" column="rcp_to" type="text" name="mrcp" />
+	<Field global="YES" store="YES" index="ANALYZED" column="rcp_cc" type="text" name="mrcp" />
+	<Field global="YES" store="YES" index="ANALYZED" column="rcp_bcc" type="text" name="mrcp" />
+	<Field global="YES" store="YES" index="NOT_ANALYZED" column="folder_id" type="text" name="mfolder_id" />
+	<Field global="YES" store="YES" index="NOT_ANALYZED" column="mail_id" type="integer" name="subItem" />
+	<Field global="NO" store="YES" index="NOT_ANALYZED" column="user_id" type="integer" name="objId" />
+	<Field global="NO" store="YES" index="NOT_ANALYZED" column="type" type="text" name="type" />
+	<DataSource type="JDBC" action="append">
+		<Query>
+			SELECT path FROM mail_attachment
+			WHERE mail_id IN (?);
+		</Query>
+		<Param format="list" type="int" value="mail_id" />
+		<DataSource type="Directory" action="append">
+			<PathCreator name="MailAttachmentPathCreator" />
+			<Field store="YES" index="ANALYZED" name="mattachment">
+				<Transformer name="LinefeedSanitizer" />
+			</Field>
+		</DataSource>
+	</DataSource>
+</DataSource>

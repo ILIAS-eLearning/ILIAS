@@ -1,0 +1,44 @@
+{STATUSLINE}
+<div class="il_HeaderOuter">
+<div class="il_Header">
+<div class="il_HeaderInner">
+	<h1><!-- BEGIN header_image --><img src="{IMG_HEADER}">&nbsp;<!-- END header_image -->
+	{HEADER}</h1><div class="il_Description">{DESCRIPTION}</div></div>
+	<!-- BEGIN tree_icons -->
+	<div style="float:right; margin-right:15px;  margin-top:5px;">
+		<!-- BEGIN top -->
+		<a class="{CLASS_TOP}" href="{LINK_TOP}"><img src="{IMG_TOP}"></a>&nbsp;
+		<!-- END top -->
+		<!-- BEGIN tree_mode -->
+		<a class="{CLASS_TREE}" href="{LINK_MODE}" target="_top"><img src="{IMG_TREE}"></a>
+		<!-- END tree_mode -->
+	</div>
+	<!-- END tree_icons -->
+	<div class="ilClearFloat"><!-- BEGIN stop_floating -->&nbsp;<!-- END stop_floating --></div>
+{TABS}
+</div>
+</div>
+<div class="ilClearFloat" style="margin-left:15px;">{SUB_TABS}</div>
+<div class="il_ColumnLayout">
+	<!-- BEGIN left_column -->
+	<div id="il_left_col">{LEFT_CONTENT}</div>
+	<!-- END left_column -->
+	<div id="il_center_col"  class="{COL_LAY_SKIN}">
+		<!-- BEGIN add_commands -->
+		<form class="il_Form" action="{H_FORMACTION}" method="post">
+		<div style="text-align:right; margin-bottom:10px;">
+		{SELECT_OBJTYPE_REPOS}
+		<input class="submit" type="submit" name="cmd[{BTN_NAME_REPOS}]" value="{TXT_ADD_REPOS}" />
+		</div>
+		</form>
+		<!-- END add_commands -->
+		{BUTTONS}
+		{MESSAGE}
+		{ADM_CONTENT}
+		{OBJECTS}
+		{SYSTEMSETTINGS}
+	</div>
+	<!-- BEGIN right_column -->
+	<div id="il_right_col">{RIGHT_CONTENT}</div>
+	<!-- END right_column -->
+</div>

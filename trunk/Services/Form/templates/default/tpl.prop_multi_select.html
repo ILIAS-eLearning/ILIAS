@@ -1,0 +1,34 @@
+<div class="input" id="{ID}" style="width:{WIDTH}px; height:{HEIGHT}px; overflow:auto;">
+<!-- BEGIN item -->
+<div style="white-space:nowrap"><input type="checkbox" name="{POST_VAR}[]" id="{IID}_{ID_VAL}" value="{VAL}" {DISABLED} {CHECKED}/>
+<label for="{IID}_{ID_VAL}">{TXT_OPTION}</label></div>
+<!-- END item -->
+</div>
+<!-- BEGIN toggle_all_bl -->	
+<script type="text/javascript">		
+	il.Util.addOnLoad(				
+		function() {
+			var $toggle = $('#{TOGGLE_ALL_ID}');
+			var $parent =  $toggle.closest("#{TOGGLE_FIELD_ID}");
+			
+			// current toggle status
+			var num_all = $parent.find('input:checkbox[id*="{TOGGLE_ALL_CBOX_ID}"]').size();
+			var num_checked = $parent.find('input:checkbox[id*="{TOGGLE_ALL_CBOX_ID}"]:checked').size();			
+			if (0 === num_checked) {
+				$toggle.prop("checked", false);
+				$toggle.prop("indeterminate", false)
+			} else if (num_checked === num_all) {
+				$toggle.prop("checked", true);
+				$toggle.prop("indeterminate", false)
+			} else {
+				$toggle.prop("checked", true);
+				$toggle.prop("indeterminate", true)
+			}	
+
+			// toggle bind event
+			$toggle.on('change', function() {
+				$parent.find('input:checkbox[id*="{TOGGLE_ALL_CBOX_ID}"]').prop("checked", this.checked);
+			});
+		});
+</script>
+<!-- END toggle_all_bl -->		

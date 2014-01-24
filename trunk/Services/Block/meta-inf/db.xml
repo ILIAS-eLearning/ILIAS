@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<db app_item="Block">
+<step entity="Block">CREATE table `il_block`
+(
+	`id` int not null auto_increment primary key,
+	`type` varchar(20),
+	`title` varchar(200)
+);</step><step entity="Column">CREATE table `il_column`
+(
+	`id` int not null auto_increment primary key
+);</step><step entity="Column">CREATE table `il_column`
+(
+	`id` int not null auto_increment primary key
+);</step><step entity="CustomBlock">DROP TABLE IF EXISTS il_custom_block;
+CREATE table `il_custom_block`
+(
+	`id` int not null auto_increment primary key,
+	`context_obj_id` int,
+	`context_obj_type` char(10),
+	`context_sub_obj_id` int,
+	`context_sub_obj_type` char(10),
+	`type` varchar(20),
+	`title` varchar(200)
+);</step><step entity="HtmlBlock">DROP TABLE IF EXISTS il_html_block;
+CREATE table `il_html_block`
+(
+	`id` int not null auto_increment primary key,
+	`content` text
+);</step><step entity="ExternalFeedBlock">DROP TABLE IF EXISTS il_external_feed_block;
+CREATE table `il_external_feed_block`
+(
+	`id` int not null auto_increment primary key,
+	`feed_url` varchar(250)
+);</step></db>

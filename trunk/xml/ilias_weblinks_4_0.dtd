@@ -1,0 +1,156 @@
+<!-- ilias_weblink_4_0.dtd for the administration of ILIAS weblink containers and single weblinks -->
+<!ENTITY % MetaData SYSTEM "./ilias_co_3_10.dtd">
+<!-- Reusing LOM-metadata -->
+%MetaData;
+<!-- 
+	The root element. It must contain a LOM MetaData element 
+-->
+<!ELEMENT WebLinks (MetaData,Sorting?,WebLink*)>
+
+<!-- 
+	obj_id is the internal ILIAS id
+	il_{INST_ID}_webr_{ILIAS ID}
+-->
+<!ATTLIST WebLinks
+	obj_id CDATA #REQUIRED
+>
+
+<!-- 
+	Defines the sorting mode for the presentation of single weblinks.
+	The default sorting mode is "Title"
+ -->
+<!ELEMENT Sorting EMPTY>
+<!ATTLIST Sorting
+	type (Title | Manual) #REQUIRED
+>
+
+<!-- 
+	Definition of single weblinks 
+-->
+<!ELEMENT WebLink (Title,Description?,Target,DynamicParameter*)>
+
+<!-- 
+	Attribute list of a weblink
+	active				=> defines whether the link active (visible for learners) or not. Default is "1".
+	invalid				=> defines whether the link is valid or not. Default is "0".
+	disableValidation	=> Do not allow the validation by the link checker. Default is "0".
+-->
+<!ATTLIST WebLink
+	id CDATA #IMPLIED
+	action (Create | Delete | Update) #IMPLIED
+	active CDATA #IMPLIED
+	invalid CDATA #IMPLIED
+	disableValidation CDATA #IMPLIED
+>
+
+<!-- 
+	Title of weblink
+	The length is limited to 127 bytes. Additional bytes will truncated.
+-->
+<!ELEMENT Title (#PCDATA)>
+
+<!-- 
+	Description of weblink
+	The length is limited to 4000 bytes. Additional bytes will be truncated.
+-->
+<!ELEMENT Description (#PCDATA)>
+
+<!-- 
+	Target (URL) of weblink
+	The length is limited to 4000 bytes. Additional bytes will be truncated.
+-->
+<!ELEMENT Target (#PCDATA)>
+
+<!-- 
+	Dynamic parameters are appended to each web link target and contain the 
+	user_id, username or matriculation number of the current logged in user
+-->
+<!ELEMENT DynamicParameter EMPTY>
+
+<!-- 	
+	Value of dynamic parameters is one of:  UserId,UserName,MatriculationNumber
+	Name is used as the name of the generated GET-parameter e.g &user_id=... 
+-->
+<!ATTLIST DynamicParameter
+	id	CDATA #IMPLIED
+	name CDATA #REQUIRED
+	type (userName | userId | matriculation) #REQUIRED
+>
+<!-- ilias_weblink_4_0.dtd for the administration of ILIAS weblink containers and single weblinks -->
+<!ENTITY % MetaData SYSTEM "./ilias_co_3_10.dtd">
+<!-- Reusing LOM-metadata -->
+%MetaData;
+<!-- 
+	The root element. It must contain a LOM MetaData element 
+-->
+<!ELEMENT WebLinks (MetaData,Sorting?,WebLink*)>
+
+<!-- 
+	obj_id is the internal ILIAS id
+	il_{INST_ID}_webr_{ILIAS ID}
+-->
+<!ATTLIST WebLinks
+	obj_id CDATA #REQUIRED
+>
+
+<!-- 
+	Defines the sorting mode for the presentation of single weblinks.
+	The default sorting mode is "Title"
+ -->
+<!ELEMENT Sorting EMPTY>
+<!ATTLIST Sorting
+	type (Title | Manual) #REQUIRED
+>
+
+<!-- 
+	Definition of single weblinks 
+-->
+<!ELEMENT WebLink (Title,Description?,Target,DynamicParameter*)>
+
+<!-- 
+	Attribute list of a weblink
+	active				=> defines whether the link active (visible for learners) or not. Default is "1".
+	invalid				=> defines whether the link is valid or not. Default is "0".
+	disableValidation	=> Do not allow the validation by the link checker. Default is "0".
+-->
+<!ATTLIST WebLink
+	id CDATA #IMPLIED
+	action (Create | Delete | Update) #IMPLIED
+	active CDATA #IMPLIED
+	invalid CDATA #IMPLIED
+	disableValidation CDATA #IMPLIED
+>
+
+<!-- 
+	Title of weblink
+	The length is limited to 127 bytes. Additional bytes will truncated.
+-->
+<!ELEMENT Title (#PCDATA)>
+
+<!-- 
+	Description of weblink
+	The length is limited to 4000 bytes. Additional bytes will be truncated.
+-->
+<!ELEMENT Description (#PCDATA)>
+
+<!-- 
+	Target (URL) of weblink
+	The length is limited to 4000 bytes. Additional bytes will be truncated.
+-->
+<!ELEMENT Target (#PCDATA)>
+
+<!-- 
+	Dynamic parameters are appended to each web link target and contain the 
+	user_id, username or matriculation number of the current logged in user
+-->
+<!ELEMENT DynamicParameter EMPTY>
+
+<!-- 	
+	Value of dynamic parameters is one of:  UserId,UserName,MatriculationNumber
+	Name is used as the name of the generated GET-parameter e.g &user_id=... 
+-->
+<!ATTLIST DynamicParameter
+	id	CDATA #IMPLIED
+	name CDATA #REQUIRED
+	type (userName | userId | matriculation) #REQUIRED
+>

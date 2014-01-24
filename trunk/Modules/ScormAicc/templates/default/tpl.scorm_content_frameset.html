@@ -1,0 +1,23 @@
+<html>
+<head>
+	<title></title>
+	<meta http-equiv="Content-Type" content="text/html" />
+	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">		
+	<script type="text/javascript">	
+		
+	function start()
+	{			
+		contentframe.location.href="../{ITEM_LOCATION}";								
+	}	
+	
+</script>
+</head>
+<frameset rows="10,*" frameborder="0" framespacing="0" border="0">
+
+<frame src="scorm_presentation.php?cmd=api&obj_id={ITEM_ID}&ref_id={REF_ID}&user_id={USER_ID}&item_location={ITEM_LOCATION}" name="{ADAPTER_NAME}" marginwidth="0" marginheight="0" scrolling="no" noresize>
+<frame src="dummy.html" name="contentframe" marginwidth="0" marginheight="0" scrolling="auto">
+<noframes>
+The editor interface requires a <b>frames-capable</b> web browser.
+</noframes>
+</frameset>
+</html>

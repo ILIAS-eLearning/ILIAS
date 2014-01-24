@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<db APP_ITEM="News">
+<step entity="NewsItem">CREATE table `il_news_item`
+(
+	`id` int not null auto_increment primary key,
+	`creation_date` datetime,
+	`priority` enum(0,1,2) default 1,
+	`title` varchar(200),
+	`content` text default 'test',
+	`context_obj_id` int,
+	`context_obj_type` char(10),
+	`context_sub_obj_id` int,
+	`context_sub_obj_type` char(10),
+	`content_type` enum(text,html)
+);</step><step entity="NewsItem"/><step entity="NewsItem"/><step entity="NewsItem"/><step entity="NewsItem"/><step entity="NewsItem"/><step entity="NewsItem">ALTER TABLE `il_news_item`
+	`title` varchar(206)</step><step entity="NewsItem">ALTER TABLE `il_news_item`
+	`creation_date` datetime default '1999-12-12';</step><step entity="NewsItem">ALTER TABLE `il_news_item`
+	`priority` enum(0,1,2,3) default 1;</step><step entity="NewsItem">ALTER TABLE `il_news_item`
+	`content` text;</step><step entity="NewsItem">ALTER TABLE `il_news_item`
+	`creation_date` datetime;</step><step entity="NewsItem">ALTER TABLE `il_news_item`
+	`priority` enum(0,1,2) default 1;</step><step entity="NewsItem">ALTER TABLE `il_news_item`
+	`title` varchar(200);</step><step entity="NewsItem">ALTER TABLE `il_news_item`
+	`title` varchar(200) default 'tt';</step><step entity="NewsItem">ALTER TABLE `il_news_item`
+	`title` varchar(200);</step><step entity="NewsItem">ALTER TABLE `il_news_item`
+	`visiblity` enum(users);</step><step entity="NewsItem">ALTER TABLE `il_news_item`
+	`visiblity` enum(users,public);</step><step entity="NewsItem">ALTER TABLE `il_news_item`
+	`content_type` enum(text,html) default 'text';</step><step entity="NewsItem">ALTER TABLE `il_news_item`
+	`visiblity` enum(users,public) default 'users';</step><step entity="NewsItem">ALTER TABLE `il_news_item`
+	`visibility` enum(users) default 'users';</step><step entity="NewsItem">ALTER TABLE `il_news_item`
+	`visibility` enum(users,public) default 'users';</step><step entity="NewsItem">ALTER TABLE `il_news_item`
+	MODIFY `priority` int default 1;</step><step entity="NewsItem">ALTER TABLE `il_news_item`
+	MODIFY `content_is_lang_var` tinyint default 0;</step><step entity="NewsItem">ALTER TABLE `il_news_item`
+	MODIFY `content_type` enum('text','html','') default 'text';</step><step entity="NewsItem">ALTER TABLE `il_news_item`
+	MODIFY `playtime` varchar(8);</step><step entity="NewsItem">ALTER TABLE `il_news_item`
+	MODIFY `content_type` enum('text','html','audio') default 'text';</step></db>

@@ -1,0 +1,45 @@
+<?php xml version = "1.0" encoding = "UTF-8"?>
+<module xmlns="http://www.w3.org" version="$Id: modules.xml 15671 2008-01-04 13:08:30Z akill $"
+	id="lm">
+	<baseclasses>
+		<baseclass name="ilLMEditorGUI" dir="classes" />
+		<baseclass name="ilLMPresentationGUI" dir="classes" />
+	</baseclasses>
+	<objectgroups>
+		<objectgroup id="lres" name="LearningResources" default_pres_pos="100"/>
+	</objectgroups>
+	<objects>
+		<object id="lm" class_name="LearningModule" dir="classes" checkbox="1"
+			inherit="1" translate="db" allow_link="1" allow_copy="1" rbac="1" group="lres"
+			default_pos="120" export="1">
+			<subobj id="rolf" max="1">rolf</subobj>
+			<parent id="cat">cat</parent>
+			<parent id="crs">crs</parent>
+			<parent id="fold">fold</parent>
+			<parent id="grp">grp</parent>
+			<parent id="recf">recf</parent>
+			<parent id="root">root</parent>
+		</object>
+		<!-- <object id="dbk" class_name="DlBook" dir="classes" checkbox="1"
+			inherit="1" translate="0" allow_link="1" rbac="1" group="lres"
+			default_pos="150">
+			<subobj id="rolf" max="1">rolf</subobj>
+			<parent id="cat">cat</parent>
+			<parent id="crs">crs</parent>
+			<parent id="fold">fold</parent>
+			<parent id="grp">grp</parent>
+			<parent id="recf">recf</parent>
+			<parent id="root">root</parent>
+		</object>-->
+		<object id="lrss" class_name="LearningResourcesSettings" dir="classes"
+			checkbox="0" inherit="0" translate="sys" rbac="1" system="1" administration="1">
+			<parent id="adm" max="1">adm</parent>
+		</object>
+	</objects>
+	<crons>
+		<cron id="lm_link_check" class="ilLearningModuleCronLinkCheck" />
+	</crons>
+	<copage>
+		<pageobject parent_type="lm" class_name="ilLMPage" directory="classes"/>
+	</copage>
+</module>

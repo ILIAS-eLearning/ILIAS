@@ -1,0 +1,30 @@
+<div id="{ELEMENT_ID}">
+	<table class="kvpwizard">
+		<thead>
+			<tr>
+				<th>{KEY_TEXT}</th>
+				<th>{VALUE_TEXT}</th>
+			</tr>
+		</thead>
+		<tbody>
+<!-- BEGIN row -->
+			<tr class="{ROW_CLASS}">
+				<td>
+					<input type="text" size="{KEY_SIZE}" id="{KEY_ID}" maxlength="{KEY_MAXLENGTH}" name="{POST_VAR}[key][{ROW_NUMBER}]" <!-- BEGIN prop_key_propval -->value="{PROPERTY_VALUE}" <!-- END prop_key_propval -->{DISABLED_KEY}/>
+				</td>
+				<td>
+					<input type="text" size="{VALUE_SIZE}" id="{VALUE_ID}" maxlength="{VALUE_MAXLENGTH}" name="{POST_VAR}[value][{ROW_NUMBER}]" <!-- BEGIN prop_value_propval -->value="{PROPERTY_VALUE}" <!-- END prop_value_propval -->{DISABLED_VALUE}/>
+				</td>
+				<td style="vertical-align: top;">
+					<input type="image" name="{CMD_ADD}" class="kvp_add" id="add_{ID}" src="{ADD_BUTTON}" onclick="javascript: void(0); return false;" />
+					<input type="image" name="{CMD_REMOVE}" class="kvp_remove" id="remove_{ID}" src="{REMOVE_BUTTON}" onclick="javascript: void(0); return false;" />
+<!-- BEGIN move -->
+					<input type="image" name="{CMD_UP}" class="kvp_up" id="up_{ID}" src="{UP_BUTTON}" onclick="javascript: void(0); return false;" />
+					<input type="image" name="{CMD_DOWN}" class="kvp_down" id="down_{ID}" src="{DOWN_BUTTON}" onclick="javascript: void(0); return false;" />
+<!-- END move -->
+				</td>
+			</tr>
+<!-- END row -->
+		</tbody>
+	</table>
+</div>

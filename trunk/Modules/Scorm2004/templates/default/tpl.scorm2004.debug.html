@@ -1,0 +1,205 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>Debugger</title>
+	<meta name="generator" content="TextMate http://macromates.com/">
+	<meta name="author" content="Hendrik Holtmann, modified by Uwe Kohnle">
+	<link rel="stylesheet" href="{PATH_YUI}fonts/fonts.css" type="text/css" media="screen" title="no title" charset="utf-8">	
+	<link rel="stylesheet" href="{PATH_YUI}container/assets/skins/sam/container.css" type="text/css" media="screen" title="no title" charset="utf-8">	
+	<link rel="stylesheet" href="{PATH_YUI}button/assets/skins/sam/button.css" type="text/css" media="screen" title="no title" charset="utf-8">	
+	<link rel="stylesheet" href="{PATH_YUI}tabview/assets/skins/sam/tabview.css" type="text/css" media="screen" title="no title" charset="utf-8">	
+	<link rel="stylesheet" href="{PATH_YUI}datatable/assets/skins/sam/datatable.css" type="text/css" media="screen" title="no title" charset="utf-8">	
+
+	<script type="text/javascript" src="{PATH_YUI}yahoo-dom-event/yahoo-dom-event.js"></script>
+	<script type="text/javascript" src="{PATH_YUI}element/element-min.js"></script>
+	<script type="text/javascript" src="{PATH_YUI}button/button-min.js"></script>
+	<script type="text/javascript" src="{PATH_YUI}tabview/tabview-min.js"></script>
+	<script type="text/javascript" src="{PATH_YUI}container/container-min.js"></script>
+	<script type="text/javascript" src="{PATH_YUI}utilities/utilities.js"></script>
+	<script type="text/javascript" src="{PATH_YUI}datasource/datasource-min.js"></script>
+	<script type="text/javascript" src="{PATH_YUI}paginator/paginator.js"></script>
+	<script type="text/javascript" src="{PATH_YUI}datatable/datatable.js"></script>
+
+<script type="text/javascript">
+	var recordImg = '{RECORD_IMG}';
+	var stopImg = '{STOP_IMG}';
+
+	var recording = window.opener.logActive;
+	var filesData = {FILES_DATA};
+
+	//added for iframe
+	var debuggerShowAllAPIcalls=1;
+
+	function loadLiveLog() {
+		if (/MSIE (\d+\.\d+);/.test(navigator.userAgent)){
+			document.frames("livelog").location.reload(true);
+		} else {
+			document.getElementById("livelog").contentDocument.location.reload(true);
+		}
+	}
+	function updateLiveLog() {
+		window.setTimeout("loadLiveLog()",2000);
+	}
+	
+	function deleteFile(filename) {
+		var answer = confirm ("{DELETE_LOGFILE} "+filename+" ?")
+		if (answer) {
+			window.opener.sendLogEntry("",'DELETE',"filename",filename,"","");
+		}
+	}
+	
+	function switchRecording()
+	{
+		if (!recording) {
+			document.getElementById("state").src = stopImg;
+			recording = true;
+			document.getElementById("state").title = "{STOP_RECORDING}";
+			window.opener.logActive = true;	
+		} else {
+			document.getElementById("state").src = recordImg;
+			recording = false;			
+			document.getElementById("state").title = "{START_RECORDING}";
+			window.opener.logActive = false;
+			window.opener.createSummary();
+		}
+	}	
+
+	YAHOO.widget.DataTable.formatDate = function(elCell, oRecord, oColumn, oData) {
+		var minutes = oData.getMinutes();
+		var month = oData.getMonth()+1;
+		if (minutes<10) {
+			minutes = "0"+minutes;
+		}
+		var strDate = oData.getDate() + "." + month + "." + oData.getFullYear()+" " +oData.getHours()+":"+minutes;
+		elCell.innerHTML = strDate;
+	};
+	
+	function initDebugger() {
+
+		// Define various event handlers for Dialog
+		var handleSubmit = function() {
+			if (this.validate()) {
+				var data = this.getData();
+				window.opener.sendLogEntry("","COMMENT","",data.comment,"","");
+				this.hide();
+			}	
+		};
+		var handleCancel = function() {
+			this.cancel();
+		};
+		var handleSuccess = function(o) {
+		};
+		var handleFailure = function(o) {
+			alert("{SUBMISSION_FAILED}: " + o.status);
+		};
+
+		// Instantiate the Dialog
+		commtentDialog = new YAHOO.widget.Dialog("commentDialog", 
+								{ width : "250px",
+								  fixedcenter : true,
+								  visible : false, 
+								  modal : true,
+								  constraintoviewport : true,
+								  buttons : [ { text:"{SUBMIT}", handler:handleSubmit, isDefault:true },
+									      { text:"{CANCEL}", handler:handleCancel } ]
+								});
+
+		commtentDialog.validate = function() {
+			var data = this.getData();
+			if (data.comment == "") {
+				alert("{COMMENT_ENTER}.");
+				return false;
+			} else {
+				return true;
+			}
+		};
+
+		// Wire up the success and failure handlers
+		commtentDialog.callback = { success: handleSuccess,
+							     failure: handleFailure };
+
+		commtentDialog.render();
+	}
+	
+	function initTable() {
+				
+		// Instantiate the Dialog
+		var myTabs = new YAHOO.widget.TabView("debuggerTabs"); 
+		
+		// Instantiate DataTable
+		var myColumnDefs = [
+            {label:"{FILENAME}",key:"filename", sortable:true, resizeable:true,width:150},
+            {label:"{DATE}",key:"date", formatter:YAHOO.widget.DataTable.formatDate, sortable:true, sortOptions:{defaultDir:YAHOO.widget.DataTable.CLASS_DESC},resizeable:true,width:150},
+            {label:"{ACTION}",key:"action", sortable:false, resizeable:true,width:200}
+        ];
+        var myDataSource = new YAHOO.util.DataSource(filesData);
+        myDataSource.responseType = YAHOO.util.DataSource.TYPE_JSARRAY;
+        myDataSource.responseSchema = {
+            fields: [{key:'filename'},{key:'date',parser:YAHOO.util.DataSource.parseDate},{key:'action'}]
+        };
+		if (filesData.length>20) {
+			var myConfigs = { 
+				paginator : new YAHOO.widget.Paginator({ 
+				rowsPerPage:18, firstPageLinkLabel:"<<", lastPageLinkLabel:">>", previousPageLinkLabel:"<", nextPageLinkLabel:">" }),
+				sortedBy:{key:"date", dir:YAHOO.widget.DataTable.CLASS_DESC}
+			}; 
+			myDataTable = new YAHOO.widget.DataTable("filesTab", myColumnDefs, myDataSource,myConfigs);
+		}
+		else myDataTable = new YAHOO.widget.DataTable("filesTab", myColumnDefs, myDataSource);
+	}
+
+	YAHOO.util.Event.onDOMReady(initDebugger);
+	
+	
+</script>
+
+	
+</head>
+<body class="yui-skin-sam">
+
+	<div id="debuggerTabs" class="yui-navset"> 
+		<ul class="yui-nav"> 
+			<li class="selected"><a href="#tab1"><em>{CONSOLE}</em></a></li> 
+			<li><a href="#tab2"><em>{LOGS}</em></a></li> 
+		</ul>
+		<div style="float:right; margin-top:-40px">
+			<a href="#" onclick="switchRecording();"><img id ="state" border="0" width="32" src="not" title="{START_RECORDING}" /></a>
+			<a href="#" onclick="commtentDialog.show();"><img id ="comment" border="0" width="32" src="{COMMENT_IMG}" title="{COMMENT}" /></a>
+		</div>
+		<div class="yui-content"> 
+           <div id="liveLogTab">
+			<iframe style="width:760px;height:535px;" id="livelog" src="{LOGFILE}">
+			</iframe>
+			</div>
+           <div id="filesTab">
+		   </div> 
+       </div> 
+	</div>
+
+	<div id="commentDialog"> 
+	     <div class="hd">{COMMENT_ENTER}</div> 
+	     <div class="bd"> 
+	         <form method="POST"> 
+	             <textarea name="comment" style="width:200px;height:150px;"></textarea> 
+	                 <div class="clear"></div> 
+	         </form> 
+	     </div> 
+	</div> 
+
+<script>
+	//initial state
+	if (recording===true) {
+		document.getElementById("state").src = stopImg;
+		document.getElementById("state").title = "{STOP_RECORDING}";
+	} else {
+		document.getElementById("state").src = recordImg;
+		document.getElementById("state").title = "{START_RECORDING}";
+	}
+
+	initTable();
+</script>	
+</body>
+</html>

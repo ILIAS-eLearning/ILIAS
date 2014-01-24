@@ -1,0 +1,753 @@
+<StyleSheet>
+<Title>Default Style</Title>
+<Description></Description>
+
+<!-- Link -->
+<Style Tag="a" Type="link" Class="ExtLink">
+	<StyleParameter Name="text-decoration" Value="underline"/>
+	<StyleParameter Name="font-weight" Value="normal"/>
+	<StyleParameter Name="color" Value="blue"/>
+</Style>
+
+<Style Tag="a" Type="link" Class="FootnoteLink">
+	<StyleParameter Name="font-weight" Value="normal"/>
+	<StyleParameter Name="color" Value="blue"/>
+</Style>
+<Style Tag="a" Type="link" Class="IntLink">
+	<StyleParameter Name="text-decoration" Value="underline"/>
+	<StyleParameter Name="font-weight" Value="normal"/>
+	<StyleParameter Name="color" Value="blue"/>
+</Style>
+<Style Tag="a" Type="link" Class="GlossaryLink">
+	<StyleParameter Name="text-decoration" Value="underline"/>
+	<StyleParameter Name="font-weight" Value="normal"/>
+	<StyleParameter Name="color" Value="blue"/>
+</Style>
+<Style Tag="a" Type="link" Class="FileLink">
+	<StyleParameter Name="text-decoration" Value="underline"/>
+	<StyleParameter Name="font-weight" Value="normal"/>
+	<StyleParameter Name="color" Value="blue"/>
+</Style>
+
+<!-- List Item -->
+<Style Tag="li" Type="list_item" Class="StandardListItem">
+</Style>
+
+<!-- Numbered List -->
+<Style Tag="ol" Type="list_o" Class="NumberedList">
+</Style>
+
+<!-- Bulleted List -->
+<Style Tag="ul" Type="list_u" Class="BulletedList">
+</Style>
+
+<!-- File List Container -->
+<Style Tag="div" Type="flist_cont" Class="FileListContainer">
+	<StyleParameter Name="margin-left" Value="0px"/>
+	<StyleParameter Name="margin-bottom" Value="10px"/>
+	<StyleParameter Name="margin-top" Value="10px"/>
+	<StyleParameter Name="margin-right" Value="0px"/>
+	<StyleParameter Name="border-style" Value="solid"/>
+	<StyleParameter Name="border-color" Value="#9EADBA"/>
+	<StyleParameter Name="border-width" Value="1px"/>
+</Style>
+
+<!-- File List Heading -->
+<Style Tag="div" Type="flist_head" Class="FileListHeading">
+	<StyleParameter Name="text-align" Value="left"/>
+	<StyleParameter Name="font-weight" Value="bold"/>
+	<StyleParameter Name="padding" Value="3px"/>
+	<StyleParameter Name="background-color" Value="#E0E0E0"/>
+</Style>
+
+<!-- File List -->
+<Style Tag="ul" Type="flist" Class="FileList">
+	<StyleParameter Name="list-style-type" Value="none"/>
+	<StyleParameter Name="padding" Value="0px"/>
+	<StyleParameter Name="margin" Value="0px"/>
+</Style>
+
+<!-- File List Item -->
+<Style Tag="li" Type="flist_li" Class="FileListItem">
+	<StyleParameter Name="padding" Value="3px"/>
+</Style>
+
+<!-- File List Item Link -->
+<Style Tag="a" Type="flist_a" Class="FileListItemLink">
+</Style>
+
+<!-- Media Container -->
+<Style Tag="table" Type="media_cont" Class="MediaContainer">
+	<StyleParameter Name="margin" Value="10px"/>
+	<StyleParameter Name="padding" Value="0px"/>
+	<StyleParameter Name="background-color" Value="#F5F5F5"/>
+	<StyleParameter Name="border-width" Value="1px"/>
+	<StyleParameter Name="border-color" Value="#B0B0B0"/>
+	<StyleParameter Name="border-style" Value="solid"/>
+</Style>
+
+<!-- Media Caption -->
+<Style Tag="div" Type="media_caption" Class="MediaCaption">
+	<StyleParameter Name="padding" Value="5px"/>
+	<StyleParameter Name="font-size" Value="90%"/>
+</Style>
+
+<!-- Content popup for interactive images -->
+<Style Tag="div" Type="iim" Class="ContentPopup">
+	<StyleParameter Name="background-color" Value="#FFFFFF"/>
+	<StyleParameter Name="border-color" Value="#A0A0A0"/>
+	<StyleParameter Name="border-style" Value="solid"/>
+	<StyleParameter Name="border-width" Value="2px"/>
+	<StyleParameter Name="padding-top" Value="5px"/>
+	<StyleParameter Name="padding-right" Value="10px"/>
+	<StyleParameter Name="padding-bottom" Value="5px"/>
+	<StyleParameter Name="padding-left" Value="10px"/>
+</Style>
+
+<Style Tag="a" Type="marker" Class="Marker">
+	<StyleParameter Name="display" Value="block"/>
+	<StyleParameter Name="cursor" Value="pointer"/>
+	<StyleParameter Name="width" Value="27px"/>
+	<StyleParameter Name="height" Value="32px"/>
+	<StyleParameter Name="position" Value="absolute"/>
+	<StyleParameter Name="background-image" Value="icon_pin.png"/>
+</Style>
+
+<Style Tag="a" Type="marker" Class="Marker:hover">
+	<StyleParameter Name="background-image" Value="icon_pin_on.png"/>
+</Style>
+
+<!-- Page -->
+<Style Tag="div" Type="page_frame" Class="PageFrame">
+	<StyleParameter Name="padding-left" Value="15px"/>
+	<StyleParameter Name="padding-right" Value="15px"/>
+</Style>
+<Style Tag="div" Type="page_cont" Class="PageContainer">
+	<StyleParameter Name="background-color" Value="#FFFFFF"/>
+	<StyleParameter Name="border-width" Value="1px"/>
+	<StyleParameter Name="border-color" Value="#D6D6D6"/>
+	<StyleParameter Name="border-style" Value="solid"/>
+	<StyleParameter Name="margin" Value="0px"/>
+	<StyleParameter Name="padding" Value="20px"/>
+</Style>
+<Style Tag="div" Type="page" Class="Page">
+	<StyleParameter Name="min-height" Value="300px"/>
+</Style>
+<Style Tag="h1" Type="page_title" Class="PageTitle">
+	<StyleParameter Name="border-color" Value="#000000"/>
+	<StyleParameter Name="border-bottom-style" Value="solid"/>
+	<StyleParameter Name="border-bottom-width" Value="1px"/>
+	<StyleParameter Name="padding-bottom" Value="3px"/>
+	<StyleParameter Name="font-size" Value="140%"/>
+	<StyleParameter Name="margin-bottom" Value="20px"/>
+	<StyleParameter Name="margin-top" Value="5px"/>
+	<StyleParameter Name="font-weight" Value="normal"/>
+</Style>
+<Style Tag="div" Type="page_tnav" Class="TopNavigation">
+	<StyleParameter Name="padding" Value="3px"/>
+	<StyleParameter Name="border-style" Value="solid"/>
+	<StyleParameter Name="border-color" Value="#D6D6D6"/>
+	<StyleParameter Name="border-left-width" Value="1px"/>
+	<StyleParameter Name="border-right-width" Value="1px"/>
+	<StyleParameter Name="border-top-width" Value="1px"/>
+	<StyleParameter Name="border-bottom-width" Value="0px"/>
+	<StyleParameter Name="background-color" Value="#F6F6F6"/>
+	<StyleParameter Name="margin" Value="0px"/>
+</Style>
+<Style Tag="div" Type="page_bnav" Class="BottomNavigation">
+	<StyleParameter Name="padding" Value="3px"/>
+	<StyleParameter Name="border-style" Value="solid"/>
+	<StyleParameter Name="border-color" Value="#D6D6D6"/>
+	<StyleParameter Name="border-left-width" Value="1px"/>
+	<StyleParameter Name="border-right-width" Value="1px"/>
+	<StyleParameter Name="border-top-width" Value="0px"/>
+	<StyleParameter Name="border-bottom-width" Value="1px"/>
+	<StyleParameter Name="background-color" Value="#F6F6F6"/>
+	<StyleParameter Name="margin" Value="0px"/>
+</Style>
+<Style Tag="div" Type="page_lnav" Class="LeftNavigation">
+	<StyleParameter Name="float" Value="left"/>
+	<StyleParameter Name="width" Value="50%"/>
+	<StyleParameter Name="text-align" Value="left"/>
+	<StyleParameter Name="font-size" Value="80%"/>
+</Style>
+<Style Tag="a" Type="page_lnavlink" Class="LeftNavigationLink">
+</Style>
+<Style Tag="img" Type="page_lnavimage" Class="LeftNavigationImage">
+	<StyleParameter Name="background-position" Value="left 1px"/>
+	<StyleParameter Name="background-repeat" Value="no-repeat"/>
+	<StyleParameter Name="background-image" Value="nav_arr_L_s.png"/>
+	<StyleParameter Name="width" Value="16px"/>
+	<StyleParameter Name="height" Value="16px"/>
+</Style>
+<Style Tag="div" Type="page_rnav" Class="RightNavigation">
+	<StyleParameter Name="text-align" Value="right"/>
+	<StyleParameter Name="font-size" Value="80%"/>
+</Style>
+<Style Tag="a" Type="page_rnavlink" Class="RightNavigationLink">
+</Style>
+<Style Tag="img" Type="page_rnavimage" Class="RightNavigationImage">
+	<StyleParameter Name="background-position" Value="right 1px"/>
+	<StyleParameter Name="background-repeat" Value="no-repeat"/>
+	<StyleParameter Name="background-image" Value="nav_arr_R_s.png"/>
+	<StyleParameter Name="width" Value="16px"/>
+	<StyleParameter Name="height" Value="16px"/>
+</Style>
+<Style Tag="div" Type="page_fn" Class="Footnote">
+	<StyleParameter Name="font-style" Value="italic"/>
+	<StyleParameter Name="margin-bottom" Value="5px"/>
+	<StyleParameter Name="margin-top" Value="5px"/>
+</Style>
+
+<!-- Question -->
+<Style Tag="div" Type="question" Class="Standard">
+	<StyleParameter Name="margin-top" Value="20px"/>
+	<StyleParameter Name="margin-bottom" Value="0px"/>
+	<StyleParameter Name="padding-top" Value="10px"/>
+	<StyleParameter Name="padding-bottom" Value="60px"/>
+	<StyleParameter Name="padding-left" Value="10px"/>
+	<StyleParameter Name="padding-right" Value="30px"/>
+	<StyleParameter Name="background-color" Value="#F4F4FF"/>
+	<StyleParameter Name="border-width" Value="1px"/>
+	<StyleParameter Name="border-color" Value="#D0D0FF"/>
+	<StyleParameter Name="border-style" Value="solid"/>
+	<StyleParameter Name="background-image" Value="qmark.png"/>
+	<StyleParameter Name="background-repeat" Value="no-repeat"/>
+	<StyleParameter Name="background-position" Value="top right"/>	
+</Style>
+<Style Tag="div" Type="question" Class="SingleChoice">
+</Style>
+<Style Tag="div" Type="question" Class="MultipleChoice">
+</Style>
+<Style Tag="div" Type="question" Class="TextQuestion">
+</Style>
+<Style Tag="div" Type="question" Class="OrderingQuestion">
+</Style>
+<Style Tag="div" Type="question" Class="MatchingQuestion">
+</Style>
+<Style Tag="div" Type="question" Class="ImagemapQuestion">
+</Style>
+<Style Tag="div" Type="question" Class="ClozeTest">
+</Style>
+<Style Tag="div" Type="question" Class="ErrorText">
+</Style>
+<Style Tag="div" Type="question" Class="TextSubset">
+</Style>
+<Style Tag="div" Type="qtitle" Class="Title">
+	<StyleParameter Name="margin-bottom" Value="10px"/>
+</Style>
+<Style Tag="div" Type="qanswer" Class="Answer">
+</Style>
+<Style Tag="img" Type="qimg" Class="QuestionImage">
+	<StyleParameter Name="margin" Value="5px"/>
+</Style>
+<Style Tag="a" Type="qimgd" Class="ImageDetailsLink">
+	<StyleParameter Name="font-size" Value="90%"/>
+</Style>
+<Style Tag="ul" Type="qordul" Class="OrderList">
+	<StyleParameter Name="margin" Value="0px"/>
+	<StyleParameter Name="padding" Value="0px"/>
+	<StyleParameter Name="list-style" Value="none"/>
+	<StyleParameter Name="list-style-position" Value="outside"/>
+</Style>
+<Style Tag="li" Type="qordli" Class="OrderListItem">
+	<StyleParameter Name="margin-top" Value="5px"/>
+	<StyleParameter Name="margin-bottom" Value="5px"/>
+	<StyleParameter Name="margin-left" Value="0px"/>
+	<StyleParameter Name="margin-right" Value="0px"/>
+	<StyleParameter Name="border-width" Value="1px"/>
+	<StyleParameter Name="border-style" Value="solid"/>
+	<StyleParameter Name="border-color" Value="#D0D0FF"/>
+	<StyleParameter Name="padding" Value="10px"/>
+	<StyleParameter Name="cursor" Value="move"/>
+</Style>
+<Style Tag="a" Type="qetitem" Class="ErrorTextItem">
+	<StyleParameter Name="text-decoration" Value="none"/>
+	<StyleParameter Name="color" Value="#000000"/>
+	<StyleParameter Name="padding" Value="2px"/>
+</Style>
+<Style Tag="a" Type="qetitem" Class="ErrorTextItem:hover">
+	<StyleParameter Name="text-decoration" Value="none"/>
+	<StyleParameter Name="color" Value="#000000"/>
+	<StyleParameter Name="background-color" Value="#D0D0D0"/>
+</Style>
+<Style Tag="a" Type="qetitem" Class="ErrorTextSelected">
+	<StyleParameter Name="background-color" Value="#9BD9FE"/>
+	<StyleParameter Name="border-width" Value="1px"/>
+	<StyleParameter Name="border-style" Value="solid"/>
+	<StyleParameter Name="border-color" Value="#606060"/>
+</Style>
+<Style Tag="span" Type="qetcorr" Class="ErrorTextCorrected">
+	<StyleParameter Name="text-decoration" Value="line-through"/>
+	<StyleParameter Name="color" Value="#909090"/>
+</Style>
+<Style Tag="input" Type="qinput" Class="TextInput">
+</Style>
+<Style Tag="textarea" Type="qlinput" Class="LongTextInput">
+</Style>
+<Style Tag="input" Type="qsubmit" Class="Submit">
+</Style>
+<Style Tag="div" Type="qfeedr" Class="FeedbackRight">
+	<StyleParameter Name="margin-top" Value="10px"/>
+	<StyleParameter Name="margin-bottom" Value="10px"/>
+	<StyleParameter Name="padding" Value="5px"/>
+	<StyleParameter Name="border-width" Value="1px"/>
+	<StyleParameter Name="border-style" Value="solid"/>
+	<StyleParameter Name="border-color" Value="#808080"/>
+	<StyleParameter Name="background-color" Value="#E7FFE7"/>
+</Style>
+<Style Tag="div" Type="qfeedw" Class="FeedbackWrong">
+	<StyleParameter Name="margin-top" Value="10px"/>
+	<StyleParameter Name="margin-bottom" Value="10px"/>
+	<StyleParameter Name="padding" Value="5px"/>
+	<StyleParameter Name="border-width" Value="1px"/>
+	<StyleParameter Name="border-style" Value="solid"/>
+	<StyleParameter Name="border-color" Value="#808080"/>
+	<StyleParameter Name="background-color" Value="#FFE7E7"/>
+</Style>
+
+<!-- Glossary -->
+<Style Tag="div" Type="glo_overlay" Class="GlossaryOverlay">
+	<StyleParameter Name="background-color" Value="#FFFFFF"/>
+	<StyleParameter Name="border-color" Value="#A0A0A0"/>
+	<StyleParameter Name="border-style" Value="solid"/>
+	<StyleParameter Name="border-width" Value="2px"/>
+	<StyleParameter Name="padding-top" Value="5px"/>
+	<StyleParameter Name="padding-bottom" Value="5px"/>
+	<StyleParameter Name="padding-left" Value="10px"/>
+	<StyleParameter Name="padding-right" Value="10px"/>
+</Style>
+<Style Tag="h1" Type="glo_ovtitle" Class="GlossaryOvTitle">
+	<StyleParameter Name="font-size" Value="120%"/>
+	<StyleParameter Name="margin-bottom" Value="10px"/>
+	<StyleParameter Name="margin-top" Value="10px"/>
+	<StyleParameter Name="font-weight" Value="normal"/>
+</Style>
+<Style Tag="a" Type="glo_ovclink" Class="GlossaryOvCloseLink">
+	<StyleParameter Name="text-decoration" Value="underline"/>
+	<StyleParameter Name="font-weight" Value="normal"/>
+	<StyleParameter Name="color" Value="blue"/>
+</Style>
+<Style Tag="a" Type="glo_ovuglink" Class="GlossaryOvUnitGloLink">
+	<StyleParameter Name="text-decoration" Value="underline"/>
+	<StyleParameter Name="font-weight" Value="normal"/>
+	<StyleParameter Name="color" Value="blue"/>
+</Style>
+<Style Tag="a" Type="glo_ovuglistlink" Class="GlossaryOvUGListLink">
+	<StyleParameter Name="text-decoration" Value="underline"/>
+	<StyleParameter Name="font-weight" Value="normal"/>
+	<StyleParameter Name="color" Value="blue"/>
+</Style>
+
+
+<!-- SCO -->
+<Style Tag="div" Type="sco_desc" Class="Description">
+</Style>
+<Style Tag="div" Type="sco_keyw" Class="Keywords">
+</Style>
+<Style Tag="div" Type="sco_obj" Class="Objective">
+</Style>
+<Style Tag="div" Type="sco_title" Class="Title">
+	<StyleParameter Name="border-color" Value="#000000"/>
+	<StyleParameter Name="border-bottom-style" Value="solid"/>
+	<StyleParameter Name="border-bottom-width" Value="1px"/>
+	<StyleParameter Name="padding-bottom" Value="3px"/>
+	<StyleParameter Name="font-size" Value="140%"/>
+	<StyleParameter Name="margin-bottom" Value="20px"/>
+	<StyleParameter Name="margin-top" Value="5px"/>
+</Style>
+<Style Tag="div" Type="sco_fmess" Class="FinalMessage">
+	<StyleParameter Name="margin" Value="100px"/>
+	<StyleParameter Name="padding" Value="50px"/>
+	<StyleParameter Name="font-size" Value="125%"/>
+	<StyleParameter Name="border-width" Value="1px"/>
+	<StyleParameter Name="border-style" Value="solid"/>
+	<StyleParameter Name="border-color" Value="#F0F0F0"/>
+	<StyleParameter Name="background-color" Value="#FAFAFA"/>
+	<StyleParameter Name="text-align" Value="center"/>
+</Style>
+<Style Tag="div" Type="qover" Class="Correct">
+	<StyleParameter Name="margin-top" Value="20px"/>
+	<StyleParameter Name="margin-bottom" Value="20px"/>
+	<StyleParameter Name="padding-top" Value="10px"/>
+	<StyleParameter Name="padding-right" Value="60px"/>
+	<StyleParameter Name="padding-bottom" Value="10px"/>
+	<StyleParameter Name="padding-left" Value="30px"/>
+	<StyleParameter Name="background-color" Value="#E7FFE7"/>
+	<StyleParameter Name="border-width" Value="1px"/>
+	<StyleParameter Name="border-color" Value="#808080"/>
+	<StyleParameter Name="border-style" Value="solid"/>
+</Style>
+<Style Tag="div" Type="qover" Class="Incorrect">
+	<StyleParameter Name="margin-top" Value="20px"/>
+	<StyleParameter Name="margin-bottom" Value="20px"/>
+	<StyleParameter Name="padding-top" Value="10px"/>
+	<StyleParameter Name="padding-right" Value="60px"/>
+	<StyleParameter Name="padding-bottom" Value="10px"/>
+	<StyleParameter Name="padding-left" Value="30px"/>
+	<StyleParameter Name="background-color" Value="#FFE7E7"/>
+	<StyleParameter Name="border-width" Value="1px"/>
+	<StyleParameter Name="border-color" Value="#808080"/>
+	<StyleParameter Name="border-style" Value="solid"/>
+</Style>
+<Style Tag="div" Type="qover" Class="StatusMessage">
+	<StyleParameter Name="padding-bottom" Value="7px"/>
+</Style>
+<Style Tag="div" Type="qover" Class="WrongAnswersMessage">
+</Style>
+
+<!-- RTE -->
+<Style Tag="div" Type="rte_menu" Class="RTEMenu">
+</Style>
+<Style Tag="div" Type="rte_menu" Class="RTELogo">
+	<StyleParameter Name="float" Value="left"/>
+</Style>
+<Style Tag="div" Type="rte_menu" Class="RTELinkBar">
+</Style>
+<Style Tag="a" Type="rte_mlink" Class="RTELink">
+</Style>
+<Style Tag="a" Type="rte_mlink" Class="RTELinkDisabled">
+</Style>
+<Style Tag="div" Type="rte_tree" Class="RTETree">
+</Style>
+<Style Tag="div" Type="rte_node" Class="RTECourse">
+</Style>
+<Style Tag="div" Type="rte_node" Class="RTEChapter">
+</Style>
+<Style Tag="div" Type="rte_node" Class="RTESco">
+</Style>
+<Style Tag="div" Type="rte_node" Class="RTEAsset">
+</Style>
+<Style Tag="div" Type="rte_node" Class="RTECourseDisabled">
+</Style>
+<Style Tag="div" Type="rte_node" Class="RTEChapterDisabled">
+</Style>
+<Style Tag="div" Type="rte_node" Class="RTEScoDisabled">
+</Style>
+<Style Tag="div" Type="rte_node" Class="RTEAssetDisabled">
+</Style>
+<Style Tag="div" Type="rte_status" Class="RTEAsset">
+</Style>
+<Style Tag="div" Type="rte_status" Class="RTECompleted">
+</Style>
+<Style Tag="div" Type="rte_status" Class="RTENotAttempted">
+</Style>
+<Style Tag="div" Type="rte_status" Class="RTERunning">
+</Style>
+<Style Tag="div" Type="rte_status" Class="RTEIncomplete">
+</Style>
+<Style Tag="div" Type="rte_status" Class="RTEPassed">
+</Style>
+<Style Tag="div" Type="rte_status" Class="RTEFailed">
+</Style>
+<Style Tag="div" Type="rte_status" Class="RTEBrowsed">
+</Style>
+<Style Tag="a" Type="rte_tlink" Class="RTETreeLink">
+</Style>
+<Style Tag="a" Type="rte_tlink" Class="RTETreeLinkDisabled">
+</Style>
+<Style Tag="a" Type="rte_tlink" Class="RTETreeCurrent">
+</Style>
+
+<Style Tag="ul" Type="rte_tul" Class="RTETreeList">
+</Style>
+<Style Tag="li" Type="rte_tli" Class="RTETreeItem">
+</Style>
+<Style Tag="a" Type="rte_texp" Class="RTETreeExpanded">
+</Style>
+<Style Tag="a" Type="rte_texp" Class="RTETreeCollapsed">
+</Style>
+
+<Style Tag="div" Type="rte_tree" Class="RTETreeControl">
+</Style>
+<Style Tag="a" Type="rte_tclink" Class="RTETreeControlLink">
+</Style>
+<Style Tag="div" Type="rte_drag" Class="RTEDragBar">
+</Style>
+
+
+<!-- Section -->
+<Style Tag="div" Type="section" Class="Additional">
+	<StyleParameter Name="margin-bottom" Value="10px"/>
+	<StyleParameter Name="margin-top" Value="10px"/>
+	<StyleParameter Name="border-color" Value="blue"/>
+	<StyleParameter Name="border-style" Value="solid"/>
+	<StyleParameter Name="border-width" Value="1px"/>
+	<StyleParameter Name="padding" Value="10px"/>
+</Style>
+<Style Tag="div" Type="section" Class="Block">
+	<StyleParameter Name="margin-bottom" Value="10px"/>
+	<StyleParameter Name="margin-top" Value="10px"/>
+	<StyleParameter Name="background-color" Value="#FFFFFF"/>
+	<StyleParameter Name="border-color" Value="#A0A0A0"/>
+	<StyleParameter Name="border-style" Value="solid"/>
+	<StyleParameter Name="border-width" Value="1px"/>
+	<StyleParameter Name="padding-bottom" Value="5px"/>
+	<StyleParameter Name="padding-top" Value="5px"/>
+	<StyleParameter Name="padding-right" Value="10px"/>
+	<StyleParameter Name="padding-left" Value="10px"/>
+</Style>
+<Style Tag="div" Type="section" Class="Example">
+	<StyleParameter Name="margin-bottom" Value="10px"/>
+	<StyleParameter Name="margin-top" Value="10px"/>
+	<StyleParameter Name="border-left-color" Value="blue"/>
+	<StyleParameter Name="border-left-style" Value="solid"/>
+	<StyleParameter Name="border-left-width" Value="3px"/>
+	<StyleParameter Name="padding-left" Value="20px"/>
+</Style>
+<Style Tag="div" Type="section" Class="Excursus">
+	<StyleParameter Name="margin-bottom" Value="10px"/>
+	<StyleParameter Name="margin-top" Value="10px"/>
+	<StyleParameter Name="background-color" Value="#F7FFF7"/>
+	<StyleParameter Name="border-color" Value="#A0A0A0"/>
+	<StyleParameter Name="border-style" Value="solid"/>
+	<StyleParameter Name="border-width" Value="1px"/>
+	<StyleParameter Name="padding-bottom" Value="5px"/>
+	<StyleParameter Name="padding-top" Value="5px"/>
+	<StyleParameter Name="padding-right" Value="10px"/>
+	<StyleParameter Name="padding-left" Value="10px"/>
+</Style>
+<Style Tag="div" Type="section" Class="Mnemonic">
+	<StyleParameter Name="margin-bottom" Value="10px"/>
+	<StyleParameter Name="margin-top" Value="10px"/>
+	<StyleParameter Name="border-color" Value="red"/>
+	<StyleParameter Name="border-style" Value="solid"/>
+	<StyleParameter Name="border-width" Value="2px"/>
+	<StyleParameter Name="padding" Value="10px"/>
+	<StyleParameter Name="margin-right" Value="20px"/>
+	<StyleParameter Name="margin-left" Value="20px"/>
+</Style>
+<Style Tag="div" Type="section" Class="Remark">
+	<StyleParameter Name="margin-bottom" Value="10px"/>
+	<StyleParameter Name="margin-top" Value="10px"/>
+	<StyleParameter Name="text-align" Value="center"/>
+	<StyleParameter Name="background-color" Value="#D0D0D0"/>
+	<StyleParameter Name="border-color" Value="#909090"/>
+	<StyleParameter Name="border-style" Value="solid"/>
+	<StyleParameter Name="border-width" Value="1px"/>
+	<StyleParameter Name="padding" Value="10px"/>
+</Style>
+<Style Tag="div" Type="section" Class="Special">
+	<StyleParameter Name="margin-bottom" Value="10px"/>
+	<StyleParameter Name="margin-top" Value="10px"/>
+	<StyleParameter Name="background-color" Value="#FFF7F7"/>
+	<StyleParameter Name="border-color" Value="#A0A0A0"/>
+	<StyleParameter Name="border-style" Value="solid"/>
+	<StyleParameter Name="border-width" Value="1px"/>
+	<StyleParameter Name="padding-bottom" Value="5px"/>
+	<StyleParameter Name="padding-top" Value="5px"/>
+	<StyleParameter Name="padding-right" Value="10px"/>
+	<StyleParameter Name="padding-left" Value="10px"/>
+</Style>
+<Style Tag="div" Type="section" Class="AdvancedKnowledge">
+	<StyleParameter Name="margin-bottom" Value="20px"/>
+	<StyleParameter Name="margin-top" Value="20px"/>
+	<StyleParameter Name="background-color" Value="#FFF9EF"/>
+	<StyleParameter Name="border-color" Value="#FFDDA5"/>
+	<StyleParameter Name="border-style" Value="solid"/>
+	<StyleParameter Name="border-width" Value="1px"/>
+	<StyleParameter Name="padding-bottom" Value="10px"/>
+	<StyleParameter Name="padding-top" Value="10px"/>
+	<StyleParameter Name="padding-right" Value="20px"/>
+	<StyleParameter Name="padding-left" Value="20px"/>
+	<StyleParameter Name="background-image" Value="advknow.png"/>
+	<StyleParameter Name="background-repeat" Value="no-repeat"/>
+	<StyleParameter Name="background-position" Value="top right"/>	
+</Style>
+
+<!-- Table -->
+<Style Tag="table" Type="table" Class="StandardTable">
+	<StyleParameter Name="border-color" Value="#9EADBA"/>
+	<StyleParameter Name="margin-bottom" Value="10px"/>
+	<StyleParameter Name="margin-top" Value="10px"/>
+	<StyleParameter Name="background-color" Value="#FFFFFF"/>
+	<StyleParameter Name="border-collapse" Value="collapse"/>
+</Style>
+
+<!-- Table Cell -->
+<Style Tag="td" Type="table_cell" Class="Cell1">
+<StyleParameter Name="background-color" Value="#FFCCCC"/>
+</Style>
+<Style Tag="td" Type="table_cell" Class="Cell2">
+<StyleParameter Name="background-color" Value="#CCCCFF"/>
+</Style>
+<Style Tag="td" Type="table_cell" Class="Cell3">
+<StyleParameter Name="background-color" Value="#CCFFCC"/>
+</Style>
+<Style Tag="td" Type="table_cell" Class="Cell4">
+<StyleParameter Name="background-color" Value="#FFFFCC"/>
+</Style>
+
+<!-- Text (block) -->
+<Style Tag="div" Type="text_block" Class="Additional">
+	<StyleParameter Name="margin-bottom" Value="10px"/>
+	<StyleParameter Name="margin-top" Value="10px"/>
+	<StyleParameter Name="border-color" Value="blue"/>
+	<StyleParameter Name="border-style" Value="solid"/>
+	<StyleParameter Name="border-width" Value="1px"/>
+	<StyleParameter Name="padding" Value="10px"/>
+</Style>
+<Style Tag="div" Type="text_block" Class="Citation">
+	<StyleParameter Name="margin-bottom" Value="10px"/>
+	<StyleParameter Name="margin-top" Value="10px"/>
+	<StyleParameter Name="font-style" Value="italic"/>
+	<StyleParameter Name="color" Value="brown"/>
+</Style>
+<Style Tag="div" Type="text_block" Class="Example">
+	<StyleParameter Name="margin-bottom" Value="10px"/>
+	<StyleParameter Name="margin-top" Value="10px"/>
+	<StyleParameter Name="border-left-color" Value="blue"/>
+	<StyleParameter Name="border-left-style" Value="solid"/>
+	<StyleParameter Name="border-left-width" Value="3px"/>
+	<StyleParameter Name="padding-left" Value="20px"/>
+</Style>
+<Style Tag="h1" Type="heading1" Class="Headline1">
+	<StyleParameter Name="font-size" Value="140%"/>
+	<StyleParameter Name="margin-bottom" Value="10px"/>
+	<StyleParameter Name="margin-top" Value="20px"/>
+	<StyleParameter Name="font-weight" Value="normal"/>
+</Style>
+<Style Tag="h2" Type="heading2" Class="Headline2">
+	<StyleParameter Name="font-size" Value="130%"/>
+	<StyleParameter Name="margin-bottom" Value="10px"/>
+	<StyleParameter Name="margin-top" Value="20px"/>
+	<StyleParameter Name="font-weight" Value="normal"/>
+</Style>
+<Style Tag="h3" Type="heading3" Class="Headline3">
+	<StyleParameter Name="font-size" Value="120%"/>
+	<StyleParameter Name="margin-bottom" Value="10px"/>
+	<StyleParameter Name="margin-top" Value="20px"/>
+	<StyleParameter Name="font-weight" Value="normal"/>
+</Style>
+<Style Tag="div" Type="text_block" Class="List">
+	<StyleParameter Name="margin-bottom" Value="3px"/>
+	<StyleParameter Name="margin-top" Value="3px"/>
+</Style>
+<Style Tag="div" Type="text_block" Class="Mnemonic">
+	<StyleParameter Name="margin-bottom" Value="10px"/>
+	<StyleParameter Name="margin-top" Value="10px"/>
+	<StyleParameter Name="border-color" Value="red"/>
+	<StyleParameter Name="border-style" Value="solid"/>
+	<StyleParameter Name="border-width" Value="2px"/>
+	<StyleParameter Name="padding" Value="10px"/>
+	<StyleParameter Name="margin-right" Value="20px"/>
+	<StyleParameter Name="margin-left" Value="20px"/>
+</Style>
+<Style Tag="div" Type="text_block" Class="Remark">
+	<StyleParameter Name="margin-bottom" Value="10px"/>
+	<StyleParameter Name="margin-top" Value="10px"/>
+	<StyleParameter Name="text-align" Value="center"/>
+	<StyleParameter Name="background-color" Value="#D0D0D0"/>
+	<StyleParameter Name="border-color" Value="#909090"/>
+	<StyleParameter Name="border-style" Value="solid"/>
+	<StyleParameter Name="border-width" Value="1px"/>
+	<StyleParameter Name="padding" Value="10px"/>
+</Style>
+<Style Tag="div" Type="text_block" Class="Standard">
+	<StyleParameter Name="margin-bottom" Value="10px"/>
+	<StyleParameter Name="margin-top" Value="10px"/>
+</Style>
+<Style Tag="div" Type="text_block" Class="TableContent">
+	<StyleParameter Name="padding-bottom" Value="0px"/>
+	<StyleParameter Name="padding-top" Value="0px"/>
+	<StyleParameter Name="padding-right" Value="0px"/>
+	<StyleParameter Name="padding-left" Value="0px"/>
+	<StyleParameter Name="margin-bottom" Value="0px"/>
+	<StyleParameter Name="margin-top" Value="0px"/>
+	<StyleParameter Name="margin-right" Value="0px"/>
+	<StyleParameter Name="margin-left" Value="0px"/>
+</Style>
+
+<!-- Text (inline) -->
+<Style Tag="span" Type="text_inline" Class="Comment">
+	<StyleParameter Name="color" Value="green"/>
+</Style>
+<Style Tag="span" Type="text_inline" Class="Emph">
+	<StyleParameter Name="font-style" Value="italic"/>
+</Style>
+<Style Tag="span" Type="text_inline" Class="Quotation">
+	<StyleParameter Name="font-style" Value="italic"/>
+	<StyleParameter Name="color" Value="brown"/>
+</Style>
+<Style Tag="span" Type="text_inline" Class="Strong">
+	<StyleParameter Name="font-weight" Value="bold"/>
+</Style>
+<Style Tag="span" Type="text_inline" Class="Important">
+	<StyleParameter Name="text-decoration" Value="underline"/>
+</Style>
+<Style Tag="span" Type="text_inline" Class="Accent">
+	<StyleParameter Name="color" Value="#E000E0"/>
+</Style>
+
+<!-- Tabs -->
+<Style Tag="div" Type="va_cntr" Class="VAccordCntr">
+	<StyleParameter Name="margin-top" Value="5px"/>
+</Style>
+<Style Tag="div" Type="va_icntr" Class="VAccordICntr">
+	<StyleParameter Name="background-color" Value="#FFFFFF"/>
+	<StyleParameter Name="margin-bottom" Value="5px"/>
+	<StyleParameter Name="border-width" Value="1px"/>
+	<StyleParameter Name="border-color" Value="#9EADBA"/>
+	<StyleParameter Name="border-style" Value="solid"/>
+</Style>
+<Style Tag="div" Type="va_ihead" Class="VAccordIHead">
+	<StyleParameter Name="padding-left" Value="24px"/>
+	<StyleParameter Name="padding-right" Value="3px"/>
+	<StyleParameter Name="padding-bottom" Value="3px"/>
+	<StyleParameter Name="padding-top" Value="3px"/>
+	<StyleParameter Name="background-color" Value="#E2EAF4"/>
+	<StyleParameter Name="text-align" Value="left"/>
+	<StyleParameter Name="cursor" Value="pointer"/>
+	<StyleParameter Name="background-image" Value="accordion_arrow.png"/>
+	<StyleParameter Name="background-repeat" Value="no-repeat"/>
+	<StyleParameter Name="background-position" Value="3px 4px"/>
+</Style>
+<Style Tag="div" Type="va_ihead" Class="VAccordIHead:hover">
+	<StyleParameter Name="background-color" Value="#D2D8E2"/>
+</Style>
+<Style Tag="div" Type="va_icont" Class="VAccordICont">
+	<StyleParameter Name="padding" Value="3px"/>
+	<StyleParameter Name="background-color" Value="#FFFFFF"/>
+</Style>
+
+<Style Tag="div" Type="ha_cntr" Class="HAccordCntr">
+</Style>
+<Style Tag="div" Type="ha_icntr" Class="HAccordICntr">
+	<StyleParameter Name="background-color" Value="#FFFFFF"/>
+	<StyleParameter Name="margin-right" Value="5px"/>
+	<StyleParameter Name="border-width" Value="1px"/>
+	<StyleParameter Name="border-color" Value="#9EADBA"/>
+	<StyleParameter Name="border-style" Value="solid"/>
+</Style>
+<Style Tag="div" Type="ha_ihead" Class="HAccordIHead">
+	<StyleParameter Name="padding-left" Value="20px"/>
+	<StyleParameter Name="padding-right" Value="10px"/>
+	<StyleParameter Name="padding-bottom" Value="3px"/>
+	<StyleParameter Name="padding-top" Value="3px"/>
+	<StyleParameter Name="background-color" Value="#E2EAF4"/>
+	<StyleParameter Name="text-align" Value="left"/>
+	<StyleParameter Name="cursor" Value="pointer"/>
+	<StyleParameter Name="background-image" Value="haccordion_arrow.png"/>
+	<StyleParameter Name="background-repeat" Value="no-repeat"/>
+	<StyleParameter Name="background-position" Value="3px 4px"/>
+</Style>
+<Style Tag="div" Type="ha_ihead" Class="HAccordIHead:hover">
+	<StyleParameter Name="background-color" Value="#D2D8E2"/>
+</Style>
+<Style Tag="div" Type="ha_icont" Class="HAccordICont">
+	<StyleParameter Name="padding" Value="3px"/>
+	<StyleParameter Name="background-color" Value="#FFFFFF"/>
+</Style>
+<StyleTemplate Type="vaccordion" Name="VerticalAccordion">
+<StyleTemplateClass ClassType="va_cntr" Class="VAccordCntr" />
+<StyleTemplateClass ClassType="va_icntr" Class="VAccordICntr" />
+<StyleTemplateClass ClassType="va_ihead" Class="VAccordIHead" />
+<StyleTemplateClass ClassType="va_icont" Class="VAccordICont" />
+</StyleTemplate>
+<StyleTemplate Type="haccordion" Name="HorizontalAccordion">
+<StyleTemplateClass ClassType="ha_cntr" Class="HAccordCntr" />
+<StyleTemplateClass ClassType="ha_icntr" Class="HAccordICntr" />
+<StyleTemplateClass ClassType="ha_ihead" Class="HAccordIHead" />
+<StyleTemplateClass ClassType="ha_icont" Class="HAccordICont" />
+</StyleTemplate>
+</StyleSheet>

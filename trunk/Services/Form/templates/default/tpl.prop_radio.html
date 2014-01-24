@@ -1,0 +1,19 @@
+<div id="{ID}">
+<!-- BEGIN prop_radio_option -->
+	<div class="ilFormRadioItem">
+	<input class="ilFormRadio" type="radio" onclick="il.Form.showSubForm('subform_{OP_ID}', '{FID}', null);" name="{POST_VAR}" id="{OP_ID}" value="{VAL_RADIO_OPTION}" {CHK_RADIO_OPTION} {DISABLED}/>
+	<div class="ilFormRadioOption"><label for="{OP_ID}">{TXT_RADIO_OPTION}</label>
+<!-- BEGIN radio_option_desc -->
+	<div class="ilFormRadioInfo">{RADIO_OPTION_DESC}</div>
+<!-- END radio_option_desc -->
+	</div>
+	<!-- BEGIN radio_option_subform -->
+	<div class="ilSubForm" id="subform_{SOP_ID}">{SUB_FORM}</div>
+	<!-- BEGIN prop_radio_opt_hide --><script type="text/javascript">
+	il.Form.hideSubForm('subform_{HOP_ID}');
+	</script><!-- END prop_radio_opt_hide -->
+	<!-- END radio_option_subform -->
+	</div>
+<!-- END prop_radio_option -->
+{HIDDEN_INPUT}
+</div>

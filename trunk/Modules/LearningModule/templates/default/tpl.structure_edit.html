@@ -1,0 +1,71 @@
+<!-- BEGIN form -->
+<form action="{FORMACTION}" name="objectItems" method="post">
+<table class="fullwidth">
+<tr class="tblheader">
+	<td class="std" valign="top" width="1">
+	<input class="std" type="checkbox" name="id[]" value="{CHECKBOX_TOP}" />
+	</td>
+ 	<td class="std" colspan="2" width="100%"><strong>{HEADER_TEXT}</strong></td>
+</tr>
+<!-- BEGIN table_row -->
+<tr class="{CSS_ROW}">
+	<td class="std" valign="top">
+	<input class="{CSS_ROW}" type="checkbox" name="id[]" value="{CHECKBOX_ID}" />
+	</td>
+	<td width="1" valign="top">
+	<a href="{LINK_TARGET}">
+	<img src="{IMG_OBJ}" border="0" />
+	</a>
+	</td>
+	<td class="std" valign="top" width="100%">
+	<a href="{LINK_TARGET}">
+	{TEXT_CONTENT}
+	</a><br />
+	<!-- BEGIN deactivated -->
+	<div class="il_ItemProperties">
+	<span class="il_ItemAlertProperty">{TXT_DEACTIVATED}</span>
+	</div>
+	<!-- END deactivated -->
+	</td>
+</tr>
+<!-- END table_row -->
+<!-- BEGIN notfound -->
+<tr class="std">
+  <td class="std" colspan="{NUM_COLS}" align="center" valign="top">
+    <i>{TXT_OBJECT_NOT_FOUND}</i>
+  </td>
+</tr>
+<!-- END notfound -->
+<!-- BEGIN operation -->
+<tr>
+	<td class="submit" colspan="{NUM_COLS}" align="left">
+		<table cellpadding="0" cellspacing="0" border="0">
+		<tr>
+		<td>
+		<img src="{IMG_ARROW}" border="0" />
+		</td>
+		<td>&nbsp;
+		<!-- BEGIN operation_btn -->
+		<input class="submit" type="submit" name="cmd[{BTN_NAME}]" value="{BTN_VALUE}" />
+		<!-- END operation_btn -->
+		</td>
+		</tr>
+		</table>
+	</td>
+</tr>
+<!-- END operation -->
+<!-- BEGIN add_object -->
+<tr>
+	<td class="submit" colspan="{NUM_COLS}" align="left" valign="top">
+		{SELECT_OBJTYPE}
+		<input class="submit" type="submit" name="cmd[{BTN_NAME}]" value="{TXT_ADD}" />
+	</td>
+</tr>
+<!-- END add_object -->
+</table>
+</form>
+<!-- END form -->
+<br />
+<div class="il_ContainerItemCommands2">
+<a class="il_ContainerItemCommand2" href="{HREF_JS_EDIT}">{TXT_JS_EDIT}</a>
+</div>

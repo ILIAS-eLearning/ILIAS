@@ -1,0 +1,111 @@
+<style>
+body { margin:15px; }
+</style>
+<h1>{TXT_ACTION}</h1>
+
+<p>
+
+<form method=post action="{EXPORT_ACTION}" TARGET="{EXPORT_TARGET}">
+
+<table class="std">
+
+	<tr class="tblheader">
+		<td class="std" colspan="2">
+			{TXT_TYPE}
+		</td>
+	</tr>
+	
+	<!-- BEGIN pdfhtml -->
+	<tr class="std">
+		<td class="option"><input type="radio" name="type" value="html" {OFFLINE_CHECKED}></input>
+		</td>
+		<td class="option_value">
+		{TXT_HTMLEXPORT}
+		</td>
+	</tr>
+
+	<tr class="std">
+		<td class="option"><input type="radio" name="type" value="pdf"></input>
+		</td>
+		<td class="option_value">
+		{TXT_PDFEXPORT}
+		</td>
+	</tr>
+
+	<tr class="std">
+		<td class="option"><input type="radio" name="type" value="xml"></input>
+		</td>
+		<td class="option_value">
+		{TXT_XMLEXPORT}
+		</td>
+	</tr>
+    
+	<!-- END pdfhtml -->
+
+	<!-- BEGIN print -->
+	<tr class="std">
+		<td class="option"><input type="radio" name="type" value="print"	{PRINT_CHECKED}></input>
+		</td>
+		<td class="option_value">
+		{TXT_PRINTEXPORT}
+		</td>
+	</tr>
+	<!-- END print -->
+
+	<tr class="tblheader">
+		<td class="std" colspan="2">
+			{TXT_PAGES}
+		</td>
+	</tr>
+
+	<tr class="std">
+		<td class="option"><input type="radio" name="pages" value="all" checked></input>
+		</td>
+		<td class="option_value">
+		{TXT_PAGESALL}
+		</td>
+	</tr>
+<!--
+	<tr class="std">
+		<td class="option"><input type="radio" name="pages" value="chapter" ></input>
+		</td>
+		<td class="option_value">
+		{TXT_PAGESCHAPTER}
+		</td>
+	</tr>
+-->	
+	<!-- BEGIN thispage -->
+<!--
+	<tr class="std">
+		<td class="option"><input type="radio" name="pages" value="page" ></input>
+		</td>
+		<td class="option_value">
+		{TXT_PAGESPAGE}
+		</td>
+	</tr>
+-->
+	<!-- END thispage -->
+
+	<tr class="std">
+		<td class="option"><input type="radio" name="pages" value="fromto" ></input>
+		</td>
+		<td class="option_value">
+		{TXT_PAGESFROM}
+		<input type=text size="4" name="pagefrom" value="">
+		{TXT_PAGESTO}
+		<input type=text size="4" name="pageto" value="">
+		</td>
+	</tr>
+
+	<tr>
+		<td class="submit" align="left">
+		<input class="submit" type="submit" name="cmd[{BTN_NAME}]" value="{BTN_VALUE}" />
+		</td>
+		<td class="submit" align="right">
+		<input class="submit" type="submit" name="cmd[cancel]" value="{BTN_C_VALUE}" />
+		</td>
+	</tr>
+	
+</table>
+
+</form>

@@ -1,0 +1,332 @@
+body {
+	color:#222222;
+	background-color:#dddddd;
+	font-family:Verdana,Arial,Helvetica,sans-serif;
+	font-size:13px;
+	margin:10px;
+}
+
+td {
+	font-size:13px;
+}
+
+.btnbar {
+	background-color:#006699;
+}
+
+input, textarea {
+	font-family:Verdana,Arial,Helvetica,sans-serif;
+	font-size:13px;
+}
+
+a.menu:link, a.menu:visited {
+	color:#a0c0ff;
+	text-decoration:underline;
+}
+
+a.menu:hover {
+	color:#ff9900;
+}
+
+span.il_menu {
+	color:#f7f7f7;
+}
+
+/* ---------------- alternating tablerowcolors ----------------- */
+
+.tblrow2 {
+	color:#222222;
+	background-color:#ffffff;
+	font-size:13px;
+	padding:3px;
+}
+
+.tblrow1 {
+	color:#222222;
+	background-color:#ffffff;
+	font-size:13px;
+	padding:3px;
+}
+
+/* -------------------- table formatting ------------------ */
+
+table.std {
+	border-spacing: 0px;
+}
+
+table.fullwidth {
+	width: 100%;
+	border-spacing:1px;
+}
+
+table.fullwidth_invisible {
+	width: 100%;
+	border-spacing:0px;
+}
+
+td.std {
+	padding:3px;
+}
+
+.tbltitle {
+	font-size:16px;
+	font-weight:bold;
+	color:#ffffff;
+	background-color:#006699;
+}
+
+.tblheader {
+	font-weight:bold;
+	color:#ffffff;
+	background-color:#666677;
+}
+
+.tblfooter {
+	color:#ffffff;
+	background-color:#666677;
+}
+
+td.option {
+	padding:3px;
+	border-bottom:1px solid #000000;
+}
+
+td.option_value {
+	padding:3px;
+	border-bottom:1px solid #000000;
+}
+
+td.submit {
+	background-color:#d0d0d0;
+	color:#222222;
+	padding:4px;
+	font-size:13px;
+	vertical-align:top;
+}
+
+/* must reset all values of td style */
+td.il_no_style {
+	font-size:normal;
+	font-weight:normal;
+	background-image:none;
+	background-color:white;
+}
+
+/* locator */
+
+div.locator {
+	padding-top:2px;
+	padding-left:5px;
+	padding-right:5px;
+	padding-bottom:2px;
+	font-size:13px;
+	vertical-align:top;
+	text-align:left;
+	background-color:#dddddd;
+	border-width:2px;
+	border-style:solid;
+	border-color:#606060;
+}
+
+
+/* ---------------- headlines ------------------ */
+
+h1 {
+	font-size:16px;
+	color:#222222;
+	white-space:nowrap;
+}
+
+h2 {
+	font-size:16px;
+	color:#222222;
+}
+
+/* ----------------- invisible border ------------- */
+div.top_border {
+	margin:0px;
+	padding-top:10px;
+	padding-bottom:5px;
+	padding-right:15px;
+	padding-left:15px;
+	background-color: black;
+}
+div.invisible_border {
+	margin-top:12px;
+	margin-bottom:12px;
+	margin-right:15px;
+	margin-left:15px;
+}
+
+div.il_Footer
+{
+	margin-top:30px;
+	margin-bottom:10px;
+	font-size: 10px;
+	text-align:center;
+}
+
+/* ----------------- alternative text styles ------------- */
+.small {
+	text-decoration:none;
+	font-size:11px;
+}
+
+.smallgreen {
+	text-decoration:none;
+	font-size:11px;
+	color:green;
+}
+
+.smallred {
+	text-decoration:none;
+	font-size:11px;
+	color:red;
+}
+
+.warning {
+	text-decoration:none;
+	font-weight:bold;
+	color:red;
+}
+
+.asterisk {
+	color:red;
+	font-size:11px;
+}
+
+.default {
+	text-decoration:none;
+	font-weight:normal;
+}
+
+.quote {
+	font-style:italic;
+	font-weight:normal;
+}
+
+.subtitle {
+	font-style:italic;
+	font-weight:normal;
+	font-size:11px;
+}
+
+.moderator_small {
+	text-decoration:none;
+	font-size:11px;
+	color:red;
+}
+
+.moderator {
+	text-decoration:none;
+	font-size:13px;
+	color:red;
+}
+
+.bold {
+	font-weight:bold;
+}
+
+/* ----------------- normal links ------------- */
+a {
+	text-decoration:none;
+	color:#0066ff;
+}
+
+a:hover {
+	color:#0066ff;
+}
+
+a:visited {
+	color:#0066ff;
+}
+
+/* ------------------- mail links ----------- */
+a.mailread
+{
+	font-weight:normal;
+	color:blue;
+}
+
+a.mailunread
+{
+	color:blue;
+	font-weight:bold;
+}
+
+/* ------------------ buttons -------------- */
+
+.btn {
+	background-color:#006699;
+	color:#ffffff;
+}
+
+a.btn {
+	color:#ffffff;
+	text-decoration:none;
+	font-size:13px;
+}
+
+a.tblheader:visited, a.tblheader:hover  {
+	color:#ffffff;
+}
+
+a.tblfooter:visited, a.tblfooter:hover  {
+	color:#ffffff;
+}
+
+a.btn:visited {
+	color:#ffffff;
+	text-decoration:none;
+	font-size:13px;
+}
+
+a.btn:hover {
+	color:#eeeeff;
+}
+
+.message {
+	color:#dd0000;
+	line-height:25px;
+	font-weight:bold;
+	text-align:center;
+	vertical-align:top;
+}
+
+/* ------------------ tabs -------------- */
+.tab {
+	font-size:11px;
+	color:#000000;
+	background-color:#000000;
+}
+
+.tabactive {
+	background-color:#F0F0F0;
+}
+.tabinactive {
+	background-color:#C5C5C5;
+}
+
+/* --- to prevent tab-images from spacing when using DOCTYPE xhtml --- */
+img.imgtab {
+	display:block;
+}
+
+/* ------------------ content window body tag (not used yet) -------------- */
+.content {
+	margin:0px;
+}
+
+/* --- Editor styles ---*/
+div.il_editarea
+{
+	border-style: dotted;
+	border-width: 1px;
+}
+
+
+/* ------------------ blind image - spacer gif --------------
+   please use this style class always when using this blind image */
+img.spacer {
+	display:block;
+}

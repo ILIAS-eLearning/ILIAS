@@ -1,0 +1,43 @@
+<h2>{TXT_QUESTION_TITLE}</h2>
+<table class="fullwidth">
+<thead>
+	<tr class="tblheader">
+		<th class="std">{TXT_RESULT}</th>
+		<th class="std">{TXT_VALUE}</th>
+	</tr>
+</thead>
+<!-- BEGIN row --> 
+<tr class="{COLOR_CLASS}">
+<td class="{COLOR_CLASS}">{TXT_RESULT}</td>
+<td class="{COLOR_CLASS}">{TXT_VALUE}</td>
+</tr>
+<!-- END row --> 
+<!-- BEGIN emptyrow --> 
+<tr class="{COLOR_CLASS}">
+<td class="{COLOR_CLASS}" colspan="2">{TXT_NO_ASSESSMENT}</td>
+</tr>
+<!-- END emptyrow --> 
+</table>
+<!-- BEGIN instances -->
+<br />
+<h2>{INSTANCES_TITLE}</h2>
+<table class="fullwidth">
+	<tr class="tblheader">
+		<th>{TEXT_TEST_TITLE}</th>
+		<th>{TEXT_TEST_AUTHOR}</th>
+		<th>{TEXT_TEST_LOCATION}</th>
+	</tr>
+<!-- BEGIN instance_row -->
+	<tr>
+		<td class="{COLOR_CLASS}">{TEST_TITLE}</td>
+		<td class="{COLOR_CLASS}">{TEST_AUTHOR}</td>
+		<td class="{COLOR_CLASS}">
+<!-- BEGIN references -->
+			<a href="{GOTO}" class="il_ContainerItemCommand">{TEXT_GOTO}</a>
+<!-- END references -->
+		</td>
+	</tr>
+<!-- END instance_row -->
+</table>
+<!-- END instances -->
+

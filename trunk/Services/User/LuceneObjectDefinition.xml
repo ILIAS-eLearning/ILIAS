@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ObjectDefinition xmlns:xi="http://www.w3.org/2001/XInclude" type="usr">
+	<Document type="default">
+		<DataSource type="JDBC" action="create">
+			<Query>
+				SELECT obj_id, type, login title
+				FROM object_data JOIN usr_data ON obj_id = usr_id
+				WHERE obj_id IN (?)
+			</Query>
+			<Param format="list" type="int" value="objId" />
+			<Field store="YES" index="NOT_ANALYZED" column="obj_id" type="integer" name="objId" />
+			<Field store="YES" index="NOT_ANALYZED" column="type" type="text" name="type" />
+			<Field store="YES" index="ANALYZED" column="title" type="text" name="title" />
+		</DataSource>
+		<DataSource type="JDBC" action="append">
+			<Query>
+				SELECT firstname,lastname FROM usr_data u 
+				JOIN usr_pref p ON u.usr_id = p.usr_id
+				WHERE u.usr_id IN (?) AND
+				keyword = 'public_profile' AND
+				value = 'y' 
+			</Query>
+			<Param format="list" type="int" value="objId" />
+			<Field store="YES" index="ANALYZED" column="firstname" type="text" name="uFirstname" />
+			<Field store="YES" index="ANALYZED" column="lastname" type="text" name="uLastname" />
+			<Field store="YES" index="ANALYZED" column="firstname" type="text" name="uPropertyHigh" />
+			<Field store="YES" index="ANALYZED" column="lastname" type="text" name="uPropertyHigh" />
+		</DataSource>
+		<DataSource type="JDBC" action="append">
+			<Query>
+				SELECT email FROM usr_data u 
+				JOIN usr_pref p ON u.usr_id = p.usr_id
+				WHERE u.usr_id IN (?) AND
+				keyword = 'public_email' AND
+				value = 'y' 
+			</Query>
+			<Param format="list" type="int" value="objId" />
+			<Field store="YES" index="ANALYZED" column="email" type="text" name="uEmail" />
+			<Field store="YES" index="ANALYZED" column="email" type="text" name="uPropertyHigh" />
+		</DataSource>
+		<DataSource type="JDBC" action="append">
+			<Query>
+				SELECT institution FROM usr_data u 
+				JOIN usr_pref p ON u.usr_id = p.usr_id
+				WHERE u.usr_id IN (?) AND
+				keyword = 'public_institution' AND
+				value = 'y' 
+			</Query>
+			<Param format="list" type="int" value="objId" />
+			<Field store="YES" index="ANALYZED" column="institution" type="text" name="uInstitution" />
+			<Field store="YES" index="ANALYZED" column="institution" type="text" name="uPropertyHigh" />
+		</DataSource>
+		<DataSource type="JDBC" action="append">
+			<Query>
+				SELECT department FROM usr_data u 
+				JOIN usr_pref p ON u.usr_id = p.usr_id
+				WHERE u.usr_id IN (?) AND
+				keyword = 'public_department' AND
+				value = 'y' 
+			</Query>
+			<Param format="list" type="int" value="objId" />
+			<Field store="YES" index="ANALYZED" column="department" type="text" name="uDepartment" />
+			<Field store="YES" index="ANALYZED" column="department" type="text" name="uPropertyHigh" />
+		</DataSource>
+		<DataSource type="JDBC" action="append">
+			<Query>
+				SELECT street FROM usr_data u 
+				JOIN usr_pref p ON u.usr_id = p.usr_id
+				WHERE u.usr_id IN (?) AND
+				keyword = 'public_street' AND
+				value = 'y' 
+			</Query>
+			<Param format="list" type="int" value="objId" />
+			<Field store="YES" index="ANALYZED" column="street" type="text" name="uStreet" />
+			<Field store="YES" index="ANALYZED" column="street" type="text" name="uPropertyHigh" />
+		</DataSource>
+		<DataSource type="JDBC" action="append">
+			<Query>
+				SELECT zipcode FROM usr_data u 
+				JOIN usr_pref p ON u.usr_id = p.usr_id
+				WHERE u.usr_id IN (?) AND
+				keyword = 'public_zipcode' AND
+				value = 'y' 
+			</Query>
+			<Param format="list" type="int" value="objId" />
+			<Field store="YES" index="ANALYZED" column="zipcode" type="text" name="uZipCode" />
+			<Field store="YES" index="ANALYZED" column="zipcode" type="text" name="uPropertyHigh" />
+		</DataSource>
+		<DataSource type="JDBC" action="append">
+			<Query>
+				SELECT city FROM usr_data u 
+				JOIN usr_pref p ON u.usr_id = p.usr_id
+				WHERE u.usr_id IN (?) AND
+				keyword = 'public_city' AND
+				value = 'y' 
+			</Query>
+			<Param format="list" type="int" value="objId" />
+			<Field store="YES" index="ANALYZED" column="city" type="text" name="uCity" />
+			<Field store="YES" index="ANALYZED" column="city" type="text" name="uPropertyHigh" />
+		</DataSource>
+		<DataSource type="JDBC" action="append">
+			<Query>
+				SELECT country FROM usr_data u 
+				JOIN usr_pref p ON u.usr_id = p.usr_id
+				WHERE u.usr_id IN (?) AND
+				keyword = 'public_country' AND
+				value = 'y' 
+			</Query>
+			<Param format="list" type="int" value="objId" />
+			<Field store="YES" index="ANALYZED" column="country" type="text" name="uCountry" />
+			<Field store="YES" index="ANALYZED" column="country" type="text" name="uPropertyHigh" />
+		</DataSource>
+		<DataSource type="JDBC" action="append">
+			<Query>
+				SELECT email FROM usr_data u 
+				JOIN usr_pref p ON u.usr_id = p.usr_id
+				WHERE u.usr_id IN (?) AND
+				keyword = 'public_email' AND
+				value = 'y' 
+			</Query>
+			<Param format="list" type="int" value="objId" />
+			<Field store="YES" index="ANALYZED" column="email" type="text" name="uEmail" />
+			<Field store="YES" index="ANALYZED" column="email" type="text" name="uPropertyHigh" />
+		</DataSource>
+		<DataSource type="JDBC" action="append">
+			<Query>
+				SELECT hobby FROM usr_data u 
+				JOIN usr_pref p ON u.usr_id = p.usr_id
+				WHERE u.usr_id IN (?) AND
+				keyword = 'public_hobby' AND
+				value = 'y' 
+			</Query>
+			<Param format="list" type="int" value="objId" />
+			<Field store="YES" index="ANALYZED" column="hobby" type="text" name="uHobby" />
+			<Field store="YES" index="ANALYZED" column="hobby" type="text" name="uPropertyHigh" />
+		</DataSource>
+		<DataSource type="JDBC" action="append">
+			<Query>
+				SELECT matriculation FROM usr_data u 
+				JOIN usr_pref p ON u.usr_id = p.usr_id
+				WHERE u.usr_id IN (?) AND
+				keyword = 'public_matriculation' AND
+				value = 'y' 
+			</Query>
+			<Param format="list" type="int" value="objId" />
+			<Field store="YES" index="ANALYZED" column="matriculation" type="text" name="uDepartment" />
+			<Field store="YES" index="ANALYZED" column="matriculation" type="text" name="uPropertyHigh" />
+		</DataSource>
+	</Document>
+	<Document type="subItem">
+		<xi:include href="../../Services/Mail/LuceneDataSource.xml" />
+	</Document>
+</ObjectDefinition>

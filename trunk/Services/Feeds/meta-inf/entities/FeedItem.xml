@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity name="FeedItem" app_class="" last_generation="2006-08-23 09:03:56">
+<authors>Alex Killing &lt;alex.killing@gmx.de&gt;</authors><description>A FeedItem represents an item in a News Feed.</description><property name="About" type="varchar" length="200"/><property name="Title" type="varchar" length="200"/><property name="Link" type="varchar" length="200"/><property name="Description" type="text" length=""/></entity>

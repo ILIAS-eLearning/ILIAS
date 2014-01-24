@@ -1,0 +1,34 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<module xmlns="http://www.w3.org" version="$Id$"
+	id="prtf">
+	<baseclasses>
+		<baseclass name="ilObjPortfolioGUI" dir="classes" />
+		<baseclass name="ilPortfolioRepositoryGUI" dir="classes" />
+	</baseclasses>
+	<objects>
+		<object id="prtf" class_name="Portfolio" dir="classes"
+			checkbox="0" inherit="0" translate="0" rbac="0" workspace="0" repository="0">
+		</object>
+		<object id="prtt" class_name="PortfolioTemplate" dir="classes" default_pos="500" default_pres_pos="500"
+			checkbox="0" inherit="0" translate="0" allow_link="1" allow_copy="1" 
+			rbac="1" export="0" workspace="0" repository="1">
+			<subobj id="rolf" max="1">rolf</subobj>
+			<parent id="cat">cat</parent>
+			<parent id="crs">crs</parent>
+			<parent id="fold">fold</parent>
+			<parent id="grp">grp</parent>
+			<parent id="recf">recf</parent>
+			<parent id="root">root</parent>		
+		</object>
+		<object id="prfa" class_name="PortfolioAdministration" dir="classes"
+			checkbox="0" inherit="0" translate="sys" rbac="1" system="1" administration="1">
+			<parent id="adm" max="1">adm</parent>
+			<subobj id="rolf" max="1">rolf</subobj>
+		</object>
+	</objects>
+	<copage>
+		<pageobject parent_type="prtf" class_name="ilPortfolioPage" directory="classes"/>
+		<pageobject parent_type="prtt" class_name="ilPortfolioTemplatePage" directory="classes"/>
+		<pagecontent pc_type="cach" name="ConsultationHours" directory="classes" int_links="0" style_classes="0" xsl="0" def_enabled="0"/>
+	</copage>
+</module>

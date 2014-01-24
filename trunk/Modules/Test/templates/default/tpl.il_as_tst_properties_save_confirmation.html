@@ -1,0 +1,23 @@
+<form name="saveConfirmation" method="post" action="{FORM_ACTION}">
+<table class="std">
+	<thead>
+		<tr class="tblheader">
+			<th>{TXT_CONFIRMATION}</th>
+		</tr>
+	</thead>
+	<tr class="tblrow1">
+		<td>{TXT_INFORMATION}</td>
+	</tr>
+	<tr>
+		<td class="submit">
+			<div align="right">
+				<input class="submit" type="submit" name="cmd[{CMD_CONFIRM}]" value="{BTN_CONFIRM}" />
+				<input class="submit" type="submit" name="cmd[{CMD_CANCEL}]" value="{BTN_CANCEL}" />
+			</div>
+		</td>
+	</tr>
+</table>
+<!-- BEGIN hidden_variable -->
+<input type="hidden" name="{HIDDEN_KEY}" value="{HIDDEN_VALUE}" />
+<!-- END hidden_variable -->
+

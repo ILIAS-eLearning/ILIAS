@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<fop version="1.0">
+	<strict-configuration>true</strict-configuration>
+	<use-cache>true</use-cache>
+	<renderers>
+		<renderer mime="application/pdf">
+			<fonts>
+				<directory recursive="true">./fonts</directory>
+				<auto-detect />
+			</fonts>
+		</renderer>
+	</renderers>
+</fop>

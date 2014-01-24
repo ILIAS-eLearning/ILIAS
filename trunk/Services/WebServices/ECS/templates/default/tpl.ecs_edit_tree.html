@@ -1,0 +1,18 @@
+{GENERAL_FORM}
+<br />
+<form action="{TFORM_ACTION}" id="map" method="post">
+	<div style="width: 100%; padding: 20px; border: 1px solid">
+		<input class="submit" type="submit" name="cmd[dMap]" value="Mapping durchführen" />
+		<font class="small">
+			{LEGEND}:
+			<font style="font-weight: bold">{PENDING_UNMAPPED}</font> 
+			<font style="font-weight: bold; font-style: italic">{PENDING_UNMAPPED_DISCON}</font>
+			<font style="font-weight: bold; font-style: italic">{PENDING_UNMAPPED_NONDISCON}</font>
+			{MAPPED}
+			<font class="warning">{DELETED}</font>
+		</font>
+	</div>
+	<br />
+	<div style="float:left;padding: 20px;width: 47%;border: 1px solid;overflow-x: auto">{LOCAL_EXPLORER}</div>
+	<div style="float:right;padding: 20px;width: 47%;border: 1px solid;overflow-x: auto">{REMOTE_EXPLORER}</div>
+</form>

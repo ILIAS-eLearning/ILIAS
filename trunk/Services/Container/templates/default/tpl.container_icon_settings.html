@@ -1,0 +1,36 @@
+<tr class="tblheader">
+	<td class="std" colspan="{SPAN_TITLE}">{ICON_SETTINGS}</td>
+</tr>
+<tr>
+	<td class="option">{BIG_ICON} {BIG_SIZE}</td>
+	<td class="option_value" colspan="{SPAN_INPUT}">
+		<!-- BEGIN big_icon -->
+		<img border="0" src="{SRC_BIG_ICON}" />
+		<!-- END big_icon -->
+		<input type="file" name="cont_big_icon" />
+		<input class="submit" type="submit" name="cmd[removeBigIcon]" value="{TXT_REMOVE}" />
+	</td>
+</tr>
+<!-- BEGIN small_icon_row -->
+<tr>
+	<td class="option">{SMALL_ICON} {SMALL_SIZE}</td>
+	<td class="option_value" colspan="{SPAN_INPUT}">
+		<!-- BEGIN small_icon -->
+		<img border="0" src="{SRC_SMALL_ICON}" />
+		<!-- END small_icon -->
+		<input type="file" name="cont_small_icon" />
+		<input class="submit" type="submit" name="cmd[removeSmallIcon]" value="{TXT_REMOVE_S}" />
+	</td>
+</tr>
+<!-- END small_icon_row -->
+<tr>
+	<td class="option">{TINY_ICON} {TINY_SIZE}</td>
+	<td class="option_value" colspan="{SPAN_INPUT}">
+		<!-- BEGIN tiny_icon -->
+		<img border="0" src="{SRC_TINY_ICON}" />
+		<!-- END tiny_icon -->
+		<input type="file" name="cont_tiny_icon" />
+		<input class="submit" type="submit" name="cmd[removeTinyIcon]" value="{TXT_REMOVE}" />
+	</td>
+</tr>
+

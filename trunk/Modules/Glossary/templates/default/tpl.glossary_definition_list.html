@@ -1,0 +1,40 @@
+<div id="ilGloContent" class="ilc_page_cont_PageContainer">
+<h1 class="ilc_page_title_PageTitle">{TXT_TERM}</h1>
+<!-- BEGIN definition -->
+<!-- BEGIN definition_header -->
+<div class="ilc_DefinitionHeader">{TXT_DEFINITION}</div>
+<!-- END definition_header -->
+<!-- BEGIN submit_btns -->
+<div class="il_ContainerItemCommands ilRight" style="margin: 0 0 10px 10px;">
+	<a class="il_ContainerItemCommand" href="{LINK_EDIT}">{TXT_EDIT}</a>
+	<a class="il_ContainerItemCommand" href="{LINK_DELETE}">{TXT_DELETE}</a>
+	<!-- BEGIN up -->
+	<a class="il_ContainerItemCommand" href="{LINK_UP}">{TXT_UP}</a>&nbsp;&nbsp;
+	<!-- END up -->
+	<!-- BEGIN down -->
+	<a class="il_ContainerItemCommand" href="{LINK_DOWN}">{TXT_DOWN}</a>&nbsp;&nbsp;
+	<!-- END down -->
+</div>
+<!-- END submit_btns -->
+<div>{PAGE_CONTENT}</div>
+<br />
+<!-- END definition -->
+<!-- BEGIN backlink_list -->
+<div class="ilc_BacklinkTitle">{BACKLINK_TITLE}:</div>
+<!-- BEGIN backlink_item -->
+<p class="ilc_List"><a class="ilc_IntLink" href="{BACKLINK_LINK}">{BACKLINK_ITEM}</a></p>
+<!-- END backlink_item -->
+<!-- END backlink_list -->
+</div>
+<form action="{FORMACTION}" name="post" method="post">
+<!-- BEGIN add_def -->
+<br /><div class="ilToolbar">
+<input type="submit" class="submit" name="cmd[{BTN_ADD}]" value="{TXT_ADD_DEFINITION}">
+</div>
+<!-- END add_def -->
+</form>
+<!-- BEGIN perma_link -->
+<div class="il_info"><br /><br />
+{TXT_PERMA_LINK}: <a href="{PERMA_LINK}" target="{PERMA_TARGET}">{PERMA_LINK}</a>
+</div>
+<!-- END perma_link -->

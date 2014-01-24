@@ -1,0 +1,29 @@
+<div class="ilFileUploadContainer">
+	<div id="ilFileUploadDropArea_{UPLOAD_ID}" class="ilFileUploadDropArea">
+		<div id="ilFileUploadDropZone_{UPLOAD_ID}" class="ilFileUploadDropZone"><i class='ilFileDropTargetOverlayImage'></i> {TXT_DRAG_FILES_HERE}<br />&nbsp;<span class="ilFileUploadFileCount">{TXT_NUM_OF_SELECTED_FILES}</span>&nbsp;</div>
+		<br />- {TXT_OR} -
+	</div>
+	<div class="ilFileUploadDropAlternative">
+		<a id="ilFileUploadFileSelect_{UPLOAD_ID}" class="submit" href="#">
+			<span><img src="{FILE_SELECT_ICON}"> {TXT_SELECT_FILES_FROM_COMPUTER}</span>
+            <input id="ilFileUploadInput_{UPLOAD_ID}" type="file" name="upload_files" accept="{INPUT_ACCEPT_SUFFIXES}" multiple>
+		</a>
+	</div>
+	<div id="ilFileUploadList_{UPLOAD_ID}" class="ilFileUploadList">
+		<div class="ilFileUploadListTitle">{TXT_SELECTED_FILES}:
+            <div class="ilFileUploadToggleOptions">
+                <a class="ilFileUploadShowOptions" href="#">{TXT_SHOW_ALL_DETAILS}
+                </a>
+                <a class="ilFileUploadHideOptions" href="#">{TXT_HIDE_ALL_DETAILS}
+                </a>
+            </div>
+		</div>
+	</div>
+	<!-- BEGIN max_size -->
+	<div class="ilFormInfo">{TXT_MAX_SIZE}</div>
+	<!-- END max_size -->
+	<!-- BEGIN allowed_suffixes -->
+	<div class="ilFormInfo">{TXT_ALLOWED_SUFFIXES}</div>
+	<!-- END allowed_suffixes -->
+</div>
+{FILE_UPLOAD}

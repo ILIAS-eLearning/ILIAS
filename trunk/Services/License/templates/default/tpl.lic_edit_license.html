@@ -1,0 +1,40 @@
+	<form action="{FORMACTION}" name="editLicense" method="POST">
+	  <table class="std" width="100%">
+        <colgroup>
+            <col width="20%" />
+            <col width="80%"/>
+        </colgroup> 
+		<tr class="tbltitle">
+		  <td colspan="2">{TXT_EDIT_LICENSE}</td>
+		</tr>
+        <tr>
+            <td class="option">{TXT_EXISTING_LICENSES}</td>
+            <td class="option_value"><input name="licenses" value="{LICENSES}" size="10" maxlength="10" />
+                <br />{TXT_ZERO_LICENSES_EXPLANATION}</td>
+		</tr>
+        <tr>
+            <td class="option">{TXT_USED_LICENSES}</td>
+            <td class="option_value"><b>{USED_LICENSES}</b>
+                <br />{TXT_USED_LICENSES_EXPLANATION}</td>
+		</tr>
+        <tr>
+            <td class="option">{TXT_REMAINING_LICENSES}</td>
+            <td class="option_value"><b>{REMAINING_LICENSES}</b>
+                <br />{TXT_REMAINING_LICENSES_EXPLANATION}</td>
+		</tr>
+        <tr>
+            <td class="option">{TXT_POTENTIAL_ACCESSES}</td>
+            <td class="option_value"><b>{POTENTIAL_ACCESSES}</b>
+                <br />{TXT_POTENTIAL_ACCESSES_EXPLANATION}</td>
+		</tr>
+        <tr>
+            <td class="option">{TXT_REMARKS}</td>
+            <td class="option_value"><textarea name="remarks" rows="5" cols="40" style="width:95%">{REMARKS}</textarea></td>
+        </tr>
+		<tr>
+			<td class="submit" colspan="2">
+				<input class="submit" type="submit" name="cmd[updateLicense]" value="{BTN_UPDATE}" />
+			</td>
+		</tr>
+	 </table>
+    </form>

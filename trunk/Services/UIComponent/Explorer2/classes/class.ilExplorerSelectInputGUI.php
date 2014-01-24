@@ -1,0 +1,250 @@
+<?php
+
+/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+include_once("./Services/Table/interfaces/interface.ilTableFilterItem.php");
+include_once("./Services/Form/classes/class.ilFormPropertyGUI.php");
+
+/**
+ * Select explorer tree nodes input GUI
+ *
+ * @author Alex Killing <alex.killing@gmx.de> 
+ * @version $Id$
+ *
+ * @ingroup	ServicesForm
+ */
+abstract class ilExplorerSelectInputGUI extends ilFormPropertyGUI implements ilTableFilterItem
+{
+	/**
+	 * Constructor
+	 *
+	 * @param	string	$a_title	Title
+	 * @param	string	$a_postvar	Post Variable
+	 */
+	function __construct($a_title, $a_postvar, $a_explorer_gui, $a_multi = false)
+	{
+		global $lng;
+		
+		$this->multi_nodes = $a_multi;
+		$this->explorer_gui = $a_explorer_gui;
+		
+		parent::__construct($a_title, $a_postvar);
+		$this->setType("exp_select");		
+	}
+
+	/**
+	 * Get explorer handle command function
+	 *
+	 * @param
+	 * @return
+	 */
+	function getExplHandleCmd()
+	{
+		return "handleExplorerCommand";
+	}
+	
+	/**
+	 * Handle explorer command
+	 */
+	function handleExplorerCommand()
+	{
+		$this->explorer_gui->handleCommand();
+	}
+	
+	/**
+	 * Get title for node id (needs to be overwritten, if explorer is not a tree eplorer
+	 *
+	 * @param
+	 * @return
+	 */
+	abstract function getTitleForNodeId($a_id);
+	
+	/**
+	 * Set Value.
+	 *
+	 * @param mixed tax node id or array of node ids (multi mode)
+	 */
+	function setValue($a_value)
+	{
+		if ($this->multi_nodes && !is_array($a_value))
+		{
+			if ($a_value !== false)
+			{
+				$this->value = array($a_value);
+			}
+			else
+			{
+				$this->value = array();
+			}
+		}
+		else
+		{
+			$this->value = $a_value;
+		}
+	}
+
+	/**
+	 * Get Value.
+	 *
+	 * @return mixed tax node id or array of node ids (multi mode)
+	 */
+	function getValue()
+	{
+		return $this->value;
+	}
+
+	/**
+	 * Set value by array
+	 *
+	 * @param	array	$a_values	value array
+	 */
+	function setValueByArray($a_values)
+	{		
+		$this->setValue($a_values[$this->getPostVar()]);
+	}
+
+	/**
+	 * Check input, strip slashes etc. set alert, if input is not ok.
+	 *
+	 * @return	boolean		Input ok, true/false
+	 */	
+	function checkInput()
+	{
+		global $lng;
+		
+		// sanitize
+		if ($this->multi_nodes)
+		{
+			if (!is_array($_POST[$this->getPostVar()]))
+			{
+				$_POST[$this->getPostVar()] = array();
+			}
+			
+			foreach ($_POST[$this->getPostVar()] as $k => $v)
+			{
+				$_POST[$this->getPostVar()][$k] = ilUtil::stripSlashes($v);
+			}
+		}
+		else
+		{
+			$_POST[$this->getPostVar()] = ilUtil::stripSlashes($_POST[$this->getPostVar()]);
+		}
+		
+		// check required
+		if ($this->getRequired())
+		{
+			if ((!$this->multi_nodes && trim($_POST[$this->getPostVar()]) == "") ||
+				($this->multi_nodes && count($_POST[$this->getPostVar()]) == 0))
+			{
+				$this->setAlert($lng->txt("msg_input_is_required"));
+				return false;
+			}
+		}
+		return true;
+	}
+
+	
+	/**
+	 * Render item
+	 */
+	function render($a_mode = "property_form")
+	{
+		global $lng, $ilCtrl, $ilObjDataCache, $tree;
+		
+		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
+		ilYuiUtil::initPanel();
+		$GLOBALS["tpl"]->addJavascript("./Services/UIComponent/Explorer2/js/Explorer2.js");
+		
+		$tpl = new ilTemplate("tpl.prop_expl_select.html", true, true, "Services/UIComponent/Explorer2");
+
+
+		// set values		
+		$val = $this->getValue();
+		if (is_array($val))
+		{
+			$val_txt = $sep = "";
+			foreach ($val as $v)
+			{
+				$tpl->setCurrentBlock("node_hid");
+				$tpl->setVariable("HID_NAME", $this->getPostVar()."[]");
+				$tpl->setVariable("HID_VAL", $v);
+				$tpl->parseCurrentBlock();
+				$val_txt.= $sep.$this->getTitleForNodeId($v);
+				$sep = ", ";
+				$this->explorer_gui->setNodeOpen($v);
+				$this->explorer_gui->setNodeSelected($v);
+			}
+			$tpl->setVariable("VAL_TXT", $val_txt);
+		}
+		else if ($val != "")
+		{
+			$tpl->setCurrentBlock("node_hid");
+			$tpl->setVariable("HID_NAME", $this->getPostVar());
+			$tpl->setVariable("HID_VAL", $val);
+			$tpl->parseCurrentBlock();
+			$tpl->setVariable("VAL_TXT", $this->getTitleForNodeId($val));
+			$this->explorer_gui->setNodeOpen($val);
+			$this->explorer_gui->setNodeSelected($val);
+		}
+
+		$tpl->setVariable("POST_VAR", $this->getPostVar());
+		$tpl->setVariable("ID", $this->getFieldId());
+//		$tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($this->getValue()));
+		$tpl->setVariable("TXT_SELECT", $lng->txt("select"));
+		$tpl->setVariable("TXT_RESET", $lng->txt("reset"));
+		
+		$tpl->setVariable("EXPL", $this->explorer_gui->getHTML());
+		
+		$top_tb = new ilToolbarGUI();
+		$top_tb->addButton($lng->txt("select"), "#", "", "", "", "", "submit ilExplSelectInputButS");
+		$top_tb->addButton($lng->txt("cancel"), "#", "", "", "", "", "submit ilExplSelectInputButC");
+		$tpl->setVariable("TOP_TB", $top_tb->getHTML());
+		$tpl->setVariable("BOT_TB", $top_tb->getHTML());
+
+		//$tpl->setVariable("HREF_SELECT",
+		//	$ilCtrl->getLinkTargetByClass(array($parent_gui, "ilformpropertydispatchgui", "ilrepositoryselectorinputgui"),
+		//	"showRepositorySelection"));
+
+		/*if ($this->getValue() > 0 && $this->getValue() != ROOT_FOLDER_ID)
+		{
+			$tpl->setVariable("TXT_ITEM",
+				$ilObjDataCache->lookupTitle($ilObjDataCache->lookupObjId($this->getValue())));
+		}
+		else
+		{
+			$nd = $tree->getNodeData(ROOT_FOLDER_ID);
+			$title = $nd["title"];
+			if ($title == "ILIAS")
+			{
+				$title = $lng->txt("repository");
+			}
+			if (in_array($nd["type"], $this->getClickableTypes()))
+			{
+				$tpl->setVariable("TXT_ITEM", $title);
+			}
+		}*/
+		
+		return $tpl->get();
+	}
+	
+	/**
+	 * Insert property html
+	 * @param ilTemplate
+	 */
+	function insert(&$a_tpl)
+	{
+		$a_tpl->setCurrentBlock("prop_generic");
+		$a_tpl->setVariable("PROP_GENERIC", $this->render());
+		$a_tpl->parseCurrentBlock();
+	}
+
+	/**
+	 * Get HTML for table filter
+	 */
+	function getTableFilterHTML()
+	{
+		$html = $this->render("table_filter");
+		return $html;
+	}
+
+}

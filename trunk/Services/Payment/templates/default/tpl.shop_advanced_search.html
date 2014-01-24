@@ -1,0 +1,108 @@
+<form action="{SEARCH_ACTION}" class="il_Form" method="post">
+<table class="std">
+<tr class="tblheader">
+	<td class="std" colspan="4">{TBL_TITLE}</td>
+</tr>
+<tr class="tblrow1">
+	<td class="option">{TXT_SEARCHTERM}</td>
+	<td class="option_value">
+		<input type="TEXT" name="search[string]" value="{FORM_SEARCH_STR}" size="30" />
+	</td>
+	<td align="center" class="option_value">
+		<input type="RADIO" name="search[combination]" value="or" {OR_CHECKED} />{TXT_OR}
+	</td>
+	<td align="center" class="option_value">
+		<input type="RADIO" name="search[combination]" value="and" {AND_CHECKED}>{TXT_AND}
+	</td>
+</tr>
+<tr class="tblrow1">
+	<td class="option">{TXT_OBJECT_TYPE} </td>
+	<td class="option_value" colspan="3">
+		<table width="100%" border="0">
+		<tr>
+			<td align="left" valign="middle" width="33%" nowrap="nowrap">{CHECK_CRS} {CRS}</td>
+			<td align="left" valign="middle" width="33%" nowrap="nowrap">{CHECK_LMS} {LMS}</td>
+			<td align="left" valign="middle" width="33%" nowrap="nowrap">{CHECK_TST} {TST}</td>
+		</tr>
+		<tr>
+			<td align="left" valign="middle" width="33%" nowrap="nowrap">{CHECK_FIL} {FIL}</td>
+		</tr>
+		</table>
+	</td>
+</tr>
+<tr class="tblrow1">
+	<td class="option">{TXT_TOPIC} </td>
+	<td class="option_value" colspan="3">{SELECT_TOPIC}</td>
+</tr>
+<tr class="tablefooter">
+	<td class="submit" colspan="4">
+		<div align="right">
+			<input class="submit" type="SUBMIT" name="cmd[performSearch]" value="{BTN_SEARCH}" />
+		</div>
+	</td>
+</tr>
+ </table>
+</form>
+
+<!-- BEGIN sorting -->
+<form method="post" action="{SORTING_FORM_ACTION}">
+<table class="invisible" align="right">
+<!-- BEGIN topics_sort_block -->
+<tr>	
+ 	<td valign="middle">{SORT_TOPICS_BY_TEXT}:&nbsp;</td>
+ 	<td valign="middle">
+	 	<select name="topics_sorting_type"  size="1">
+			<option value="{SORTING_TYPE_BY_TITLE}" {SORTING_TYPE_BY_TITLE_SELECTED}>{SORTING_TYPE_BY_TITLE_TEXT}</option>
+			<option value="{SORTING_TYPE_BY_DATE}" {SORTING_TYPE_BY_DATE_SELECTED}>{SORTING_TYPE_BY_DATE_TEXT}</option>
+			<!-- BEGIN sort_manually -->
+			<option value="{SORTING_TYPE_MANUALLY}" {SORTING_TYPE_MANUALLY_SELECTED}>{SORTING_TYPE_MANUALLY_TEXT}</option>
+			<!-- END sort_manually -->
+		</select>
+	</td>
+	<td valign="middle">
+		<select name="topics_sorting_direction"  size="1">
+			<option value="ASC" {SORTING_DIRECTION_ASC_SELECTED}>{SORTING_DIRECTION_ASCENDING_TEXT}</option>
+			<option value="DESC" {SORTING_DIRECTION_DESC_SELECTED}>{SORTING_DIRECTION_DESCENDING_TEXT}</option>
+		</select>
+	</td>
+</tr>
+<!-- END topics_sort_block -->
+<tr>
+	 <td valign="middle">{SORT_BY_TEXT}:&nbsp;</td>
+	 <td valign="middle">
+	 	<select name="order_field"  size="1">
+	 		<!-- BEGIN order_field -->
+			<option value="{ORDER_FIELD_VALUE}" {ORDER_FIELD_SELECTED}>{ORDER_FIELD_TEXT}</option>
+			<!-- END order_field -->
+		</select>				
+	</td>
+	<td valign="middle">		
+		<select name="order_direction"  size="1">
+			<option value="asc" {ORDER_DIRECTION_ASC_SELECTED}>{ASCENDING_TEXT}</option>
+			<option value="desc" {ORDER_DIRECTION_DESC_SELECTED}>{DESCENDING_TEXT}</option>
+		</select>
+	</td>
+</tr>
+<tr>
+	<td valign="middle">&nbsp;&nbsp;</td>
+	<td valign="middle">&nbsp;&nbsp;</td>
+	<td valign="middle" align="right"><input class="submit" type="submit" name="cmd[{CMD_SORT}]" value="{SORT_TEXT}"/></td>
+</tr>
+</table>
+</form>
+<div style="clear: both; height: 1px; line-height: 1px; display: block;"></div>
+<!-- END sorting -->
+
+<!-- BEGIN results -->
+<br />
+<!--  BEGIN prev_next -->
+<center>{SEARCH_PAGE} 
+<!--  BEGIN prev --><a href="{PREV_LINK}">{TXT_PREV} </a><!--  END prev -->
+<!-- BEGIN pages_link -->{NUMBER} <!-- END pages_link -->
+<!-- BEGIN next --><a href="{NEXT_LINK}">{TXT_NEXT}</a><!-- END next -->
+</center>
+<br />
+<!--  END prev_next -->	 
+
+{RESULTS}
+<!-- END results -->

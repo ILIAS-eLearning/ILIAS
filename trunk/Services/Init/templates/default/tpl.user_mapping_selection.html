@@ -1,0 +1,61 @@
+<div class="ilStartupSection">
+<br />
+<!-- BEGIN msg -->
+<div class="warning">{TXT_MSG_LOGIN_FAILED}<br /><br /></div>
+<!-- END msg -->
+<form method="post" action="{FORMACTION}" name="formlogin">
+<!-- <input type="hidden" name="sendLogin" value="1" /> -->
+<table class="std" width="400">
+	<tr class="tblheader">
+		<th class="std" colspan="2">{TXT_ILIAS_LOGIN}</th>
+	</tr>
+	<tr class="tblrow1">
+		<td class="std" colspan="2">{TXT_EXPLANATION}</td>
+	</tr>
+	<!-- BEGIN one_user -->
+	<tr>
+		<td class="option">{TXT_USERNAME}</td>
+		<td class="option_value">
+		<input type="hidden" name="usr_id" value="{USER_ID}" />
+		{VAL_USERNAME}</td>
+	</tr>
+	<!-- END one_user -->
+	<!-- BEGIN multiple_user -->
+		<!-- BEGIN user -->
+		<tr class="tblrow1">
+			<td class="std" style="text-align:right;"><input type="radio" name="usr_id" value="{USR_ID}" /></td>
+			<td class="std">{VAL_USER}</td>
+		</tr>
+		<!-- END user -->
+	<!-- END multiple_user -->
+	<tr>
+		<td class="option">{TXT_PASSWORD}</td>
+		<td class="option_value"><input type="password" name="password" value="{PASSWORD}"/></td>
+	</tr>
+	<tr class="tblfooter">
+		<td class="submit" colspan="2" align="center"><input class="submit" type="submit" name="LoginMappedUser" value="{TXT_SUBMIT}"/>
+		</td>
+	</tr>
+	<tr class="tblrow1">
+		<td class="std" colspan="2">{TXT_EXPLANATION_2}</td>
+	</tr>
+	<tr class="tblfooter">
+		<td class="submit" colspan="2" align="center"><input class="submit" type="submit" name="CreateUser" value="{TXT_CREATE_USER}"/>
+		</td>
+	</tr>
+</table>
+</form>
+
+<!--
+<p><form name="languageselection" action="{LANG_FORM_ACTION}" method="post">
+<input type="hidden" name="cmd[showUserMappingSelection]" value="1" />
+<select name="change_lang_to" onChange="this.form.submit()">
+<option value="">{TXT_CHOOSE_LANGUAGE}</option>
+< !-- BEGIN languages -- >
+<option value="{LANG_KEY}" {SELECTED_LANG}>{LANG_NAME}</option>
+< !-- END languages -- >
+</select>
+<input class="submit" type="submit" value="{TXT_OK}"/>
+</form>
+</p>-->
+</div>

@@ -1,0 +1,55 @@
+<tr class="{CSS_ROW}">
+	<!-- BEGIN column_checkbox -->
+	<td class="std" style="vertical-align:top;">
+	<input type="checkbox" name="item_id[]" value="{OBJ_ID}" />
+	</td>
+	<!-- END column_checkbox -->
+	<td class="std">
+	<img src="{ICON_SRC}" alt="{ICON_ALT}" title="{ICON_ALT}" /> {TITLE_TEXT}
+	<!-- BEGIN offline -->
+	<div class="il_ItemProperties">
+		<span class="il_ItemAlertProperty">{TEXT_STATUS}: {TEXT_OFFLINE}</span>
+	</div>
+	<!-- END offline -->
+	</td>
+	<td class="std" style="padding-left: 20px;">
+	<img border="0" src="{STATUS_IMG}" alt="{STATUS_ALT}" title="{STATUS_ALT}" />
+	<!-- BEGIN warning_img -->
+	<img border="0" src="{WARNING_IMG}" alt="{WARNING_ALT}" title="{WARNING_ALT}" />
+	<!-- END warning_img -->
+	</td>
+	<!-- BEGIN status_details -->
+	<td class="std">
+	{STATUS_CHANGED_VAL}
+	</td>
+	<td class="std">
+	{PERCENTAGE_VALUE}
+	</td>
+	<td class="std">
+	{MARK_VALUE}
+	</td>
+	<td class="std">
+	{COMMENT_TEXT}
+	</td>
+	<td class="std small">
+	{MODE_TEXT}
+	</td>
+	<td class="std small">
+    <!-- BEGIN item_path -->
+	{PATH_ITEM}<br />
+	<!-- END item_path -->
+	</td>
+	<!-- END status_details -->
+	<!-- BEGIN score_col -->
+	<td class="std">
+	{SCORE_VAL}
+	</td>	
+	<!-- END score_col -->
+	<!-- BEGIN column_action -->
+	<td class="std" nowrap="nowrap">
+	<!-- BEGIN item_command -->
+	<a class="il_ContainerItemCommand" href="{HREF_COMMAND}">{TXT_COMMAND}</a>
+	<!-- END item_command -->
+	</td>
+	<!-- END column_action -->
+</tr>

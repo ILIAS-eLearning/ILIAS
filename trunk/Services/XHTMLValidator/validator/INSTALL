@@ -1,0 +1,21 @@
+INSTALL
+=======
+
+The installation is simple:
+1) Be sure you have PHP 5 installed and all the
+  required PHP extensions:
+	* Tidy (1st June 2004 or newer)
+	* OpenSSL
+	* iconv
+	* pspell
+	* xdiff [optional]
+
+  Note that PHP >= 5.0.2 is recommended
+  Note 2: PHP 5.1.0 is required to enable spell checking
+
+2) Copy the files to the installation folder
+
+3) Tweak the "AllowOverride" setting to allow the
+  .htaccess file to set some PHP settings
+
+4) Fire up your browser and enjoy :)

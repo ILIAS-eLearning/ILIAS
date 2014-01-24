@@ -1,0 +1,24 @@
+<tr class="{CSS_ROW}">
+	<td class="std" valign="middle" align="center" width="1">
+		<input type="checkbox" name="bm_id[]" value="{VAL_ID}"/>
+	</td>
+	<td class="std" valign="middle">
+		<img src="{VAL_ICON}" title="{VAL_ICON_ALT}" alt="{VAL_ICON_ALT}" />
+	</td>
+	<td valign="middle">
+			<div class="il_ContainerListItem">
+				<!-- BEGIN bm_admrow_bm -->
+					<h4 class="il_ContainerItemTitle"><a class="il_ContainerItemTitle" href="{VAL_BM_TARGET}" target="{FRAME_TARGET_BM}">{VAL_BM_TITLE}</a></h4>
+					<!-- BEGIN bm_admrow_description --><div class="il_Description">{VAL_BM_DESCRIPTION}</div><!-- END bm_admrow_description -->
+					<div class="il_ItemProperties"><div class="il_ItemProperty"><a href="{VAL_BM_TARGET}" target="{FRAME_TARGET_BM}">{VAL_BM_TARGET}</a></div></div>
+				<!-- END bm_admrow_bm -->
+				<!-- BEGIN bm_admrow_bmf -->
+					<h4 class="il_ContainerItemTitle"><a class="il_ContainerItemTitle" href="{VAL_BMF_TARGET}">{VAL_BMF_TITLE}</a></h4>
+				<!-- END bm_admrow_bmf -->
+			</div>
+	</td>
+	<td valign="middle">
+		{COMMAND_SELECTION_LIST}
+		<!-- BEGIN bm_admrow_edit --><a class="il_ContainerItemCommand2"href="{EDIT_HREF}">{EDIT_TXT}</a><!-- END bm_admrow_edit -->
+	</td>
+</tr>

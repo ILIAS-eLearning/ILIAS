@@ -1,0 +1,47 @@
+<form action="{FORMACTION}" name="post" method="post" enctype="multipart/form-data">
+<table class="std">
+<tr class="tblheader">
+	<td class="std" colspan="2">
+		{TXT_ACTION}
+	</td>
+</tr>
+<!-- Title -->
+<tr class="std">
+	<td class="option">
+	{TXT_TITLE}
+	</td>
+	<td class="option_value">
+	<input name="{INPUT_TITLE}" value="{VALUE_TITLE}" size="40" maxlength="80" />
+	</td>
+</tr>
+<!-- Language -->
+<tr class="std">
+	<td class="option">
+	{TXT_LANGUAGE}
+	</td>
+	<td class="option_value">
+	{SELECT_LANGUAGE}
+	</td>
+</tr>
+<!-- BEGIN new_file -->
+<tr>
+  <td class="option">{TXT_FILE}<span class="asterisk">*</span><span class="small"></td>
+  <td class="option_value"><input type="file" name="Fobject[file]" size="30"/></td>
+</tr>
+<!-- END new_file -->
+<!-- BEGIN rep_file -->
+<tr>
+  <td class="option">{TXT_FILE}<span class="asterisk">*</span><span class="small"></td>
+  <td class="option_value">{TXT_FILE_TITLE}<input type="hidden" name="file_ref_id" value="{FILE_REF_ID}"/></td>
+</tr>
+<!-- END rep_file -->
+<!-- BEGIN commands -->
+<tr>
+	<td class="submit" colspan="2" style="text-align:right;">
+		<input class="submit" type="submit" name="cmd[{BTN_NAME}]" value="{BTN_TEXT}" />
+		<input class="submit" type="submit" name="cmd[{BTN_CANCEL}]" value="{TXT_CANCEL}" />
+	</td>
+</tr>
+<!-- END commands -->
+</table>
+</form>

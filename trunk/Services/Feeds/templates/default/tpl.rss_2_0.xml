@@ -1,0 +1,25 @@
+<?{XML} version="1.0" encoding="{CONTENT_ENCODING}" ?>
+<rss version="2.0">
+	<channel>
+		<title>{CHANNEL_TITLE}</title>
+		<link>{CHANNEL_LINK}</link>
+		<description>{CHANNEL_DESCRIPTION}</description>
+		<!-- BEGIN channel_image --><!-- END channel_image -->
+		<!-- BEGIN rdf_seq --><!-- END rdf_seq -->
+		<!-- BEGIN image --><!-- END image -->
+
+		<!-- BEGIN item -->
+		<item>
+			<title>{ITEM_TITLE}</title>
+			<link>{ITEM_LINK}</link>
+			<description>{ITEM_DESCRIPTION}</description><!-- BEGIN date -->
+			<pubDate>{ITEM_DATE}</pubDate><!-- END date -->
+			<guid>{ITEM_ABOUT}</guid>
+			<!-- BEGIN author --><author>{ITEM_AUTHOR}</author><!-- END author -->
+			<!-- BEGIN enclosure -->
+			<enclosure url="{ENC_URL}" length="{ENC_LENGTH}" type="{ENC_TYPE}" />
+			<!-- END enclosure -->
+		</item>
+		<!-- END item -->
+	</channel>
+</rss>

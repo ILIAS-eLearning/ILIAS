@@ -1,0 +1,71 @@
+<!-- BEGIN purchase --> 
+<form action="{DETAILS_FORMACTION}" method="post" style="display: inline;" target="_top">
+	<p><table class="std shop">
+	  <tr class="tbltitle">
+		<td colspan="2">
+		  <table class="fullwidth_invisible" cellspacing="0">
+			<tr class="tbltitle">
+			  <td width="10"><img src="{TYPE_IMG}" alt="{ALT_IMG}" title="{ALT_IMG}" border="0" vspace="0" align="left" /></td>
+			  <td class="tbltitle" align="left">&nbsp;{TITLE}</td>
+			</tr>
+		  </table>
+		</td>
+	  </tr>	
+	  <tr>
+		<td class="option" style="width: 20%;">{TXT_INFO}</td>
+		<td class="option_value">{INFO_PAY}</td>
+	  </tr>
+	  <tr>
+		<td rowspan="{ROWSPAN}" class="option">{TXT_PRICES}</td>
+		<td class="option_value">
+		  <table>
+			<tr>
+			  <td>{CHECKBOX}</td>
+			  <td>{DURATION}</td>
+			  <td>{PRICE}</td>
+			</tr>
+<!-- BEGIN price_description -->				
+			<tr>
+			 	 <td>&nbsp;</td>
+			 	 <td colspan="2" noborder="top">{DESCRIPTION}</td>
+			</tr>
+<!-- END price_description -->					
+		  </table>
+		</td>
+	  </tr>
+	  <!-- BEGIN price_row -->
+	  <tr>
+		<td class="option_value">
+		  <table>
+				<tr>
+			  <td>{ROW_CHECKBOX}</td>
+			  <td>{ROW_DURATION}</td>
+			  <td>{ROW_PRICE}</td>
+			</tr>
+<!-- BEGIN price_row_description -->					
+			  <tr>
+			  <td>&nbsp;</td>
+			  <td colspan="2" noborder="top">{ROW_DESCRIPTION}</td>
+			</tr>
+<!-- END price_row_description -->		
+		  </table>
+		</td>
+	  </tr>
+	  <!-- END price_row -->	  
+	<!-- BEGIN button -->
+	  <tr class="tblfooter" >
+		<td class="submit" colspan="2" ><input class="submit" type="submit" name="cmd[{INPUT_CMD}]" value="{INPUT_VALUE}" /></td>
+	  </tr>
+	<!-- END button -->
+	</table></p>
+</form>
+<!-- END purchase -->
+<!-- BEGIN shopping_cart_1 -->
+<p><a class="il_ContainerItemCommand" href="{LINK_GOTO_SHOPPING_CART}" target="_top">{TXT_GOTO_SHOPPING_CART}</a>
+<!-- BEGIN buy_button --><script language="JavaScript">
+document.write('<a class="il_ContainerItemCommand" href="#" onClick="w = window.open(\'{LINK_BUY}\', \'payment\', \'width=620,height=480,scrollbars=yes,resizable=yes\'); w.focus(); return false">{TXT_BUY}</a>');
+</script>
+<noscript>
+<a class="il_ContainerItemCommand" href="{LINK_BUY}" target="payment">{TXT_BUY}</a>
+</noscript><!-- END buy_button --></p>
+<!-- END shopping_cart_1 -->

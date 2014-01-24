@@ -1,0 +1,12 @@
+<?php xml version = "1.0" encoding = "UTF-8"?>
+<module xmlns="http://www.w3.org" version="$Id: modules.xml 15671 2008-01-04 13:08:30Z akill $"
+	id="root">
+	<baseclasses>
+	</baseclasses>
+	<objects>
+		<object id="root" class_name="RootFolder" dir="classes"
+			checkbox="0" inherit="0" translate="0" rbac="1" system="1">
+			<subobj id="adm" max="1">adm</subobj>
+		</object>
+	</objects>
+</module>

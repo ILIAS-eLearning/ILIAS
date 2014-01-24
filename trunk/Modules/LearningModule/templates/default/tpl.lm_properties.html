@@ -1,0 +1,124 @@
+<script type="text/javascript">
+<!--
+function toggleDownloadsPublic(form)
+{
+	if (form.downloads.checked)
+	{
+		form.downloads_public.disabled = false;
+	}
+	else
+	{
+		form.downloads_public.disabled = true;
+	}
+}
+//-->
+</script>
+
+<form action="{FORMACTION}" name="post" method="post">
+<table class="std">
+<tr class="tblheader">
+	<td class="std" colspan="2">
+		{TXT_LM_MENU}
+	</td>
+</tr>
+<tr class="std">
+	<td class="option">
+	{TXT_ACT_MENU}
+	</td>
+	<td class="option_value">
+	<input type="checkbox" name="{CBOX_LM_MENU}" value="{VAL_LM_MENU}" {CHK_LM_MENU} />
+	</td>
+</tr>
+<tr class="std">
+	<td class="option">
+	{TXT_TOC}
+	</td>
+	<td class="option_value">
+	<input type="checkbox" name="{CBOX_TOC}" value="{VAL_TOC}" {CHK_TOC} />
+	</td>
+</tr>
+<tr class="std">
+	<td class="option">
+	{TXT_PRINT}
+	</td>
+	<td class="option_value">
+	<input type="checkbox" name="{CBOX_PRINT}" value="{VAL_PRINT}" {CHK_PRINT} /><br />
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<input type="checkbox" name="{CBOX_PRINT_PREV_GLO}" value="{VAL_PRINT_PREV_GLO}" {CHK_PRINT_PREV_GLO} />
+	{TXT_PRINT_PREV_GLO}
+	</td>
+</tr>
+<tr class="std">
+	<td class="option">
+	{TXT_DOWNLOADS}
+	</td>
+	<td class="option_value">
+	<input type="checkbox" name="{CBOX_DOWNLOADS}" id="downloads" value="{VAL_DOWNLOADS}" {CHK_DOWNLOADS} onClick="toggleDownloadsPublic(document.post)" />
+	<span class="small"><br />{TXT_DOWNLOADS_DESC}</span>
+	<br/>
+	<input type="checkbox" name="{CBOX_DOWNLOADS_PUBLIC}" id="downloads_public" value="{VAL_DOWNLOADS_PUBLIC}" {CHK_DOWNLOADS_PUBLIC} {CHK2_DOWNLOADS_PUBLIC} />
+	<span class="small"><br />{TXT_DOWNLOADS_PUBLIC_DESC}</span>
+	</td>
+</tr>
+<!-- BEGIN menu_entries -->
+<tr class="std">
+	<td class="option">
+	<a href="{ENTRY_LINK}" target="_blank">{ENTRY_TITLE}</a> 
+	</td>
+	<td class="option_value">
+	<table><tr>
+		<td>
+		<input type="checkbox" name="{CBOX_ENTRY}" value="{VAL_ENTRY}" {CHK_ENTRY} />
+		</td>
+		<td class="std" width="1px">{EDIT}
+		  <a href="{LINK_EDIT}" class="navigation" target="{TARGET_EDIT}">
+			<img src="{IMG_EDIT}" title="{TXT_EDIT}" alt="{TXT_EDIT}" />
+		  </a>
+		</td>
+		<td class="std" width="1px">{DROP}
+		 <a href="{LINK_DROP}" class="navigation" target="{TARGET_DROP}">
+		   <img src="{IMG_DROP}" title="{TXT_DROP}" alt="{TXT_DROP}" />
+		 </a>
+		 </td>
+	  </tr></table>
+	  </td>
+	</tr>
+	</td>
+</tr>
+<!-- END menu_entries -->
+<!-- BEGIN commands -->
+<tr>
+	<td class="submit ilRight" colspan="2">
+		<input class="submit" type="submit" name="cmd[{BTN_NAME}]" value="{BTN_TEXT}" />
+		<input class="submit" type="submit" name="cmd[{BTN_NAME2}]" value="{BTN_TEXT2}" />
+	</td>
+</tr>
+<!-- END commands -->
+</table>
+<!-- BEGIN TRANSLATION -->
+	  <br />
+	  <table class="std">
+		  <tr class="tblheader">
+			<td class="std" colspan="2">
+			  {TRANSLATION_HEADER}
+			</td>
+		  </tr>
+		  <!-- BEGIN TRANSLATION_ROW -->
+		  <tr class="std">
+			<td class="option_value"><input type="checkbox" name="id[]" value="{ROW_ID}" /></td>
+			<td class="option_value">{ROW_TITLE}</td>
+		  </tr>
+		  <!-- END TRANSLATION_ROW -->
+		  <tr>
+			<td class="submit" colspan="2">
+			  <input class="submit" type="submit" name="cmd[{BTN1_NAME}]" value="{BTN1_TEXT}" />&nbsp;
+			  <!-- BEGIN TRANSLATION_DELETE -->
+			  <input class="submit" type="submit" name="cmd[{BTN2_NAME}]" value="{BTN2_TEXT}" />
+			  <!-- END TRANSLATION_DELETE -->
+			</td>
+		  </tr>
+	  </table>
+<!-- END TRANSLATION -->
+	</form>
+		  
+		

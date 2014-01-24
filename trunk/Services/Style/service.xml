@@ -1,0 +1,20 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<service xmlns="http://www.w3.org" version="$Id$"
+	id="styl">
+	<baseclasses>
+	</baseclasses>
+	<objects>
+		<object id="sty" class_name="StyleSheet" dir="classes"
+			checkbox="1" inherit="0" translate="0" rbac="0">
+		</object>
+		<object id="stys" class_name="StyleSettings" dir="classes"
+			checkbox="0" inherit="0" translate="sys" rbac="1" system="1" administration="1">
+			<subobj id="rolf" max="1">rolf</subobj>
+			<subobj id="sty">sty</subobj>
+			<parent id="adm" max="1">adm</parent>
+		</object>
+	</objects>
+	<copage>
+		<pageobject parent_type="stys" class_name="ilPageLayoutPage" directory="classes"/>
+	</copage>
+</service>

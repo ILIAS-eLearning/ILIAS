@@ -1,0 +1,32 @@
+<form action="{FORMACTION}" name="ExttOptions" method="post">
+<table class="fullwidth">
+<tr class="tbltitle">
+  <td colspan="4">
+  <table class="fullwidth_invisible">
+    <tr class="tbltitle">
+	  <td class="tbltitle" align="left">&nbsp;{TXT_EXTT_TITLE}</td>
+	  <td align="right">&nbsp;</td>
+	</tr>
+  </table>
+  </td>
+</tr>
+  <tr class="tblheader">
+    <td class="std" width="32%">{TXT_EXTT_NAME}</td>
+    <td class="std" width="6%">&nbsp;</td>
+    <td class="std" width="2%">{TXT_EXTT_ACTIVE}</td>
+    <td class="std" width="60%">{TXT_EXTT_DESC}</td>
+  </tr>
+  <tr>
+   <td class="option"><label for="ldap">{TXT_EXTT_ILINC_NAME}</label></td>
+   <td class="option_value" nowrap="nowrap">
+   <input class="submit{SUB_ILINC}" type="submit" name="cmd[editiLinc]" value="{TXT_CONFIGURE}" id="btn_ilinc" {BTN_ILINC}/></td>
+   <td class="option_value" nowrap="nowrap">{EXTT_ILINC_ACTIVE}</td>
+   <td class="option_desc">{TXT_EXTT_ILINC_DESC}</td>
+  </tr>
+  <tr>
+	<td class="submit" colspan="4" align="left">
+	<span class="asterisk">*</span><span class="small"> {TXT_EXTT_REMARK}</span>
+	</td>
+  </tr>
+</table>
+</form>

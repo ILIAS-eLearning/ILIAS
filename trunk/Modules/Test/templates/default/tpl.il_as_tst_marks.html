@@ -1,0 +1,70 @@
+<form name="frm_marks" action="{ACTION_MARKS}" method="post">
+<!-- BEGIN mark_actions -->
+<p><input type="submit" class="submit" name="cmd[addMarkStep]" value="{BUTTON_NEW}" />&nbsp;<input type="submit" class="submit" name="cmd[addSimpleMarkSchema]" value="{BUTTON_NEW_SIMPLE}" /></p>
+<!-- END mark_actions -->
+<table class="std">
+<thead>
+	<tr class="tblheader">
+		<th class="std"></th>
+		<th class="std">{HEADER_SHORT}</th>
+		<th class="std">{HEADER_OFFICIAL}</th>
+		<th class="std">{HEADER_PERCENTAGE}</th>
+		<th class="std">{HEADER_PASSED}</th>
+	</tr>
+</thead>
+<!-- BEGIN markrow -->
+<tr class="{ROW_CLASS}">
+  <td class="{ROW_CLASS}"><input type="checkbox" name="cb_{MARK_ID}" value="1" id="cb_{MARK_ID}" /></td>
+  <td class="{ROW_CLASS}"><input type="text" name="mark_short_{MARK_ID}" value="{MARK_SHORT}" size="10" /></td>
+  <td class="{ROW_CLASS}"><input type="text" name="mark_official_{MARK_ID}" value="{MARK_OFFICIAL}" size="20" /></td>
+  <td class="{ROW_CLASS}"><input type="text" name="mark_percentage_{MARK_ID}" value="{MARK_PERCENTAGE}" size="10" /></td>
+  <td class="{ROW_CLASS}"><input type="checkbox" name="passed_{MARK_ID}" id="passed_{MARK_ID}" value="1"{MARK_PASSED_CHECKED}/> <label for="passed_{MARK_ID}">{MARK_PASSED}</label></td>
+</tr>
+<!-- END markrow -->
+<!-- BEGIN Emptyrow -->
+<tr><td class="{ROW_CLASS}"><td class="{ROW_CLASS}" colspan="5">{EMPTY_ROW}</td></tr>
+<!-- END Emptyrow -->
+<!-- BEGIN selectall -->
+<tr class="{ROW_CLASS}">
+	<td class="{ROW_CLASS}"><input type="checkbox" name="chb_check_all" id="chb_check_all" value="1" onclick="il.Util.setChecked('frm_marks', 'cb_', document.frm_marks.chb_check_all.checked);" /></td>
+	<td class="{ROW_CLASS}" colspan="4"><label for="chb_check_all"><strong>{SELECT_ALL}</strong></label></td>
+</tr>
+<!-- END selectall -->
+<!-- BEGIN Footer -->
+<tr><td class="submit">{ARROW}</td><td class="submit" colspan="4"><input class="submit" type="submit" name="cmd[deleteMarkSteps]" value="{BUTTON_DELETE}" /></td></tr>
+<!-- END Footer -->
+</table>
+<!-- BEGIN ects -->
+<br />
+<table class="std">
+<thead>
+	<tr class="tblheader">
+		<th class="std"></th>
+		<th class="std">{TEXT_OUTPUT_ECTS_GRADES}</th>
+	</tr>
+</thead>
+<tr class="tblrow1">
+	<td class="tblrow1" valign="top"><input type="checkbox" name="chbECTS" value="1" id="chbECTS"{CHECKED_ECTS} /></td>
+	<td class="tblrow1"><label for="chbECTS">{TEXT_ALLOW_ECTS_GRADES}</label>
+	<table border="0">
+	<tr><td class="bold">{ECTS_GRADE}</td><td class="bold">{PERCENTILE}</td></tr>
+	<tr><td>{ECTS_GRADE_A}</td><td><input type="text" name="ects_grade_a" value="{VALUE_GRADE_A}" size="3" /></td></tr>
+	<tr><td>{ECTS_GRADE_B}</td><td><input type="text" name="ects_grade_b" value="{VALUE_GRADE_B}" size="3" /></td></tr>
+	<tr><td>{ECTS_GRADE_C}</td><td><input type="text" name="ects_grade_c" value="{VALUE_GRADE_C}" size="3" /></td></tr>
+	<tr><td>{ECTS_GRADE_D}</td><td><input type="text" name="ects_grade_d" value="{VALUE_GRADE_D}" size="3" /></td></tr>
+	<tr><td>{ECTS_GRADE_E}</td><td><input type="text" name="ects_grade_e" value="{VALUE_GRADE_E}" size="3" /></td></tr>
+	</table>
+	</td>
+</tr>
+<tr class="tblrow2">
+	<td class="tblrow2"><input type="checkbox" name="chbUseFX" value="1" id="chbUseFX"{CHECKED_FX} /></td>
+	<td class="tblrow2"><label for="chbUseFX">{TEXT_USE_FX}</label> <input type="text" name="percentFX" {VALUE_PERCENT_FX}size="5" maxlength="5" /> {TEXT_PERCENT}</td>
+</tr>
+</table>
+<!-- END ects -->
+<!-- BEGIN action_buttons -->
+<p>
+<input name="cmd[saveMarks]" type="submit" class="submit" id="save" value="{SAVE}" />&nbsp;&nbsp;<input name="cmd[cancelMarks]" type="submit" class="submit" id="cancel" value="{CANCEL}" />
+</p>
+<!-- END action_buttons -->
+</form>

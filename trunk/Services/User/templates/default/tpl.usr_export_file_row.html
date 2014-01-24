@@ -1,0 +1,24 @@
+<!-- BEGIN standard_row -->
+<tr class="{CSS_ROW}">
+	<td class="std" valign="top">
+		<input class="{CSS_ROW}" type="checkbox" name="file[]" value="{CHECKBOX_ID}" {CHECKED}/>
+	</td>
+	<td class="std" valign="top">
+		{TXT_FILENAME}
+	</td>
+	<td class="std" valign="top">
+		{TXT_SIZE}
+	</td>
+	<td class="std" valign="top">
+		{TXT_DATE}
+	</td>
+</tr>
+<!-- END standard_row -->
+<!-- BEGIN selectall -->
+<tr class="{CSS_ROW}">
+	<td class="std" valign="top">
+		<input type="checkbox" name="chb_check_all" id="chb_check_all" value="1" onclick="il.Util.setChecked('cmd', 'file', document.cmd.chb_check_all.checked);" />
+	</td>
+	<td class="std" valign="top" colspan="3"><label for="chb_check_all"><strong>{SELECT_ALL}</strong></label></td>
+</tr>
+<!-- END selectall -->

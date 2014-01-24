@@ -1,0 +1,41 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Unbenanntes Dokument</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+</head>
+
+<body style="background-color:#c0c0c0;">
+<applet code="IliasApiAdapterApplet" codebase="./Modules/ScormAicc/apiadapter"
+archive="gnu.jar,PfPLMS-API-adapter-core.jar,IliasApiAdapterApplet.jar"
+	ID="APIX" NAME="APIX" width="9" height="9">
+<param name="mayscript" value="true" >
+<param name="scriptable" value="true" >
+<param name="ref_id" value="{REF_ID}" >
+<param name="student_id" value="{USER_ID}">
+<param name="student_name" value="{USER_LASTNAME}, {USER_FIRSTNAME}">
+<param name="student_login" value="{USER_LOGIN}">
+<param name="student_ou" value="{USER_OU}">
+<param name="session_id" value="{SESSION_ID}">
+<param name="language" value="de_DE">
+<param name="ping_session" value="{PING_SESSION}">
+</applet>
+
+<script language="JavaScript">
+function setupApi () {
+	this.API = window.document.APIX;
+}
+
+<!-- BEGIN auto_launch -->
+function autoLaunch () {
+	this.setupApi();
+	this.API.{AUTO_LAUNCH_ITEM_CMD}({AUTO_LAUNCH_ID});
+}
+{AUTO_LAUNCH_CMD}
+<!-- END auto_launch -->
+</script>
+
+
+</body>
+</html>

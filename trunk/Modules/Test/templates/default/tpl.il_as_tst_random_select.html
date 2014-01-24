@@ -1,0 +1,25 @@
+<form name="form_qpl_select" method="POST" action="{FORM_ACTION}">
+<table class="invisible">
+<tr>
+<td><label for="txt_nr">{TXT_NR_OF_QUESTIONS}</label></td>
+<td><input type="text" name="nr_of_questions" id="txt_nr" value="5" size="4" maxlength="2" /></td>
+</tr>
+<tr>
+<td><label for="sel_qpl">{TXT_QPL_SELECT}</label>:</td>
+<td><select name="sel_qpl" id="sel_qpl">
+<!-- BEGIN option --> 
+<option value="{VALUE_OPTION}">{TEXT_OPTION}</option>
+<!-- END option -->
+</select>
+</td>
+</tr>
+<tr><td colspan="2" height="15"></td></tr>
+<tr><td colspan="2" align="right">
+<input class="submit" type="submit" name="cmd[createRandomSelection]" value="{BTN_SUBMIT}" />
+<input class="submit" type="submit" name="cmd[cancelRandomSelect]" value="{BTN_CANCEL}" />
+<!-- BEGIN hidden -->
+<input type="hidden" name="{HIDDEN_NAME}" value="{HIDDEN_VALUE}" />
+<!-- END hidden -->
+</td></tr>
+</table>
+</form>

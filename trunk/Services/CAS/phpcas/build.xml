@@ -1,0 +1,29 @@
+<project name="esup-phpcas" default="help" basedir=".">
+
+  <property name="conf.dir"             value="properties"/>
+  <property name="src.dir"              value="source"/>
+
+  <property file="${conf.dir}/build.properties"/>
+
+  <!-- ==========================================================
+       Default target
+  -->  
+  <target name="help" description="Help">
+    <echo>Please refer to http://esup-phpcas.sourceforge.net.</echo>
+  </target>
+
+  <!-- ==========================================================
+       Deploy source code
+  -->  
+  <target name="deploy" description="Deploy into a target folder">
+    <fail message="please set ${deploy.home} in ${conf.dir}/build.properties" unless="deploy.home"/>
+    <copy todir="${deploy.home}">
+      <fileset dir="${src.dir}" includes="CAS/**"/>
+      <filterchain>
+        <expandproperties/>
+      </filterchain>
+    </copy>
+  </target>
+  
+</project>
+

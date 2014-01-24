@@ -1,0 +1,10 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<service xmlns="http://www.w3.org" version="$Id:$"
+	id="cron">
+	<baseclasses>
+		<baseclass name="ilCronManagerGUI" dir="classes" />
+	</baseclasses>
+	<pluginslots>
+		<pluginslot id="crnhk" name="CronHook" />
+    </pluginslots>
+</service>

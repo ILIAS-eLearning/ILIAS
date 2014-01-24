@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ilLayout>
+	<ilFrame name="maincontent">
+		<StructureObject template="tpl.page_fullscreen.html" template_location="module">
+			<ilPage/>
+		</StructureObject>
+		<PageObject template="tpl.page_fullscreen.html" template_location="module">
+			<ilPage/>
+		</PageObject>
+	</ilFrame>
+	<ilLinkTargets>
+		<LinkTarget Type="New" Frame="_blank"/>
+		<LinkTarget Type="FAQ" Frame="_blank"/>
+		<LinkTarget Type="Glossary" Frame="_blank"/>
+		<LinkTarget Type="Media" Frame="_blank"/>
+	</ilLinkTargets>
+</ilLayout>

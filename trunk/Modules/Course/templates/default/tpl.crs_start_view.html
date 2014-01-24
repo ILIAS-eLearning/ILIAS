@@ -1,0 +1,61 @@
+	<table class="fullwidth_invisible">
+  <tr>
+	<td class="option_value_center"><b>{INFO_STRING}</b></td>
+  </tr>
+	</table>
+	<table class="fullwidth_invisible">
+  <tr>
+	<td>
+	  <table class="fullwidth">
+		<tr class="tbltitle">
+		  <td colspan="4">
+			<table class="fullwidth_invisible">
+			  <tr class="tbltitle">
+				<td class="tbltitle">&nbsp;{TBL_TITLE_START}</td>
+			  </tr>
+			</table>
+		  </td>
+		</tr>
+		<tr class="tblheader">
+		  <td class="std ilWhiteSpaceNowrap ilCenter" width="5%"><div align="center">{HEADER_NR}</div></td>
+		  <td class="std ilWhiteSpaceNowrap ilCenter" width="45%">{HEADER_DESC}</td>
+		  <td class="std ilWhiteSpaceNowrap ilCenter" width="25%"><div align="center">{HEADER_EDITED}</div></td>
+		  <td class="std ilWhiteSpaceNowrap ilCenter" width="25%"></td>
+		</tr>
+		<!-- BEGIN start_row -->
+		<tr class="std">
+		  <td class="{ROW_CLASS_CENTER}"><b>{OBJ_NR_START}</b></td>
+		  <td class="{ROW_CLASS}">
+			<!-- BEGIN start_visible -->
+			<b>{VISIBLE_LINK_START}</b>
+			<!-- END start_visible -->
+			<!-- BEGIN start_read -->
+			<a href="{READ_LINK_START}" target="{READ_TARGET_START}">{READ_TITLE_START}</a>
+			<!-- END start_read -->
+			<!-- BEGIN start_desklink -->
+			[<a href="{DESK_LINK_START}">{TXT_DESK_START}</a>]<br />
+			<!-- END start_desklink -->
+			<!-- BEGIN start_continuelink -->
+			[<a href="{CONTINUE_LINK_START}" target="{CONTINUE_LINK_TARGET}">{TXT_CONTINUE_START}</a>]
+			<!-- END start_continuelink -->
+			<!-- BEGIN start_description -->
+			<div class="il_Description">{DESCRIPTION_START}</div>
+			<!-- END start_description -->
+		  </td>
+		  <td class="{ROW_CLASS_CENTER}">
+			<img src="{EDITED_IMG}" alt="{EDITED_ALT}" title="{EDITED_ALT}" />
+		  </td>
+		  <td class="{ROW_CLASS_CENTER}">
+			  <div class="ilFloatRight">
+			  <!-- BEGIN link -->
+			  <a class="il_ContainerItemCommand" href="{LINK_HREF}" target="{LINK_TARGET}">{LINK_NAME}</a>
+			  <!-- END link -->
+			</div>
+		  </td>
+		</tr>
+		<!-- END start_row -->
+	  </table>
+	</td>
+  </tr>
+	</table>
+	

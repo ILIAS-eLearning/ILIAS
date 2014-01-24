@@ -1,0 +1,207 @@
+<form action="{FORMACTION}" name="post" method="post">
+<table class="std">
+	<tr class="tblheader">
+		<td class="std" colspan="2">
+			<table cellspacing="0" cellpadding="0" width="100%">
+				<tr>
+					<td>{TXT_PROPERTIES} (SCORM 2004)</td>
+					<td align="right">{TXT_VERSION} {VAL_VERSION} </td>
+				</tr>	
+			</table>
+		</td>
+	</tr>
+<!-- BEGIN editable -->
+<tr class="std">
+	<td class="option">
+	{TXT_GLOSSARY}
+	</td>
+	<td class="option_value">
+	{VAL_GLOSSARY}
+	</td>
+</tr>
+<tr class="std">
+	<td class="option">
+	{TXT_QTRIES}
+	</td>
+	<td class="option_value">
+	<input type="text" size="1" length="1" name="q_tries" value="{VAL_QTRIES}">
+	</td>
+</tr><!-- END editable -->
+<!-- BEGIN noneditable -->
+<tr class="std">
+	<td class="option">
+	{TXT_ONLINE}
+	</td>
+	<td class="option_value">
+	<input type="checkbox" name="{CBOX_ONLINE}" value="{VAL_ONLINE}" {CHK_ONLINE}>
+	</td>
+</tr>
+
+<tr class="std">
+	<td class="option">
+	{TXT_OPEN}
+	</td>
+	<td>
+	{SEL_OPEN}
+	</td>
+</tr>
+
+<tr class="std">
+	<td class="option">
+	{TXT_WIDTH}
+	</td>
+	<td class="option_value">
+	<input type="text" size="4" length="4" name="width" value="{VAL_WIDTH}">
+	</td>
+</tr>
+
+<tr class="std">
+	<td class="option">
+	{TXT_HEIGHT}
+	</td>
+	<td class="option_value">
+	<input type="text" size="4" length="4" name="height" value="{VAL_HEIGHT}">
+	</td>
+</tr>
+
+<tr class="std">
+	<td class="option">
+	{MAX_ATTEMPTS}
+	</td>
+	<td class="option_value">
+	<input type="text" size="3" length="3" name="max_attempt" value="{VAL_MAX_ATTEMPT}">
+	</td>
+</tr>
+
+<tr class="std">
+	<td class="option">
+	{TXT_LESSON_MODE}
+	</td>
+	<td>
+	{SEL_LESSON_MODE}
+	</td>
+</tr>
+<tr class="std">
+	<td class="option">
+	{TXT_CREDIT_MODE}
+	</td>
+	<td>
+	{SEL_CREDIT_MODE}
+	</td>
+</tr>
+<tr class="std">
+	<td class="option">
+	{TXT_AUTO_REVIEW}
+	</td>
+	<td class="option_value">
+	<input type="checkbox" name="{CBOX_AUTO_REVIEW}" value="{VAL_AUTO_REVIEW}" {CHK_AUTO_REVIEW}>
+	</td>
+</tr>
+
+<tr class="std">
+	<td class="option">
+	{TXT_SESSION}
+	</td>
+	<td class="option_value">
+	<input type="checkbox" name="{CBOX_SESSION}" value="{VAL_SESSION}" {CHK_SESSION}>
+	</td>
+</tr>
+
+<tr class="std">
+	<td class="option">
+	{TXT_NOMENU}
+	</td>
+	<td class="option_value">
+	<input type="checkbox" name="{CBOX_NOMENU}" value="{VAL_NOMENU}" {CHK_NOMENU}>
+	</td>
+</tr>
+
+<tr class="std">
+	<td class="option">
+	{TXT_HIDENAVIG}
+	</td>
+	<td class="option_value">
+	<input type="checkbox" name="{CBOX_HIDENAVIG}" value="{VAL_HIDENAVIG}" {CHK_HIDENAVIG}>
+	</td>
+</tr>
+
+<tr class="std">
+	<td class="option">
+	{TXT_AUTO_LAST_VISITED}
+	</td>
+	<td class="option_value">
+	<input type="checkbox" name="{CBOX_AUTO_LAST_VISITED}" value="{VAL_AUTO_LAST_VISITED}" {CHK_AUTO_LAST_VISITED}>
+	</td>
+</tr>
+
+<tr class="std">
+	<td class="option">
+	{TXT_SEQUENCING}
+	</td>
+	<td class="option_value">
+	<input type="checkbox" name="{CBOX_SEQUENCING}" value="{VAL_SEQUENCING}" {CHK_SEQUENCING}>
+	</td>
+</tr>
+
+<tr class="std">
+	<td class="option">
+	{TXT_INTERACTIONS}
+	</td>
+	<td class="option_value">
+	<input type="checkbox" name="{CBOX_INTERACTIONS}" value="{VAL_INTERACTIONS}" {CHK_INTERACTIONS}>
+	</td>
+</tr>
+
+<tr class="std">
+	<td class="option">
+	{TXT_OBJECTIVES}
+	</td>
+	<td class="option_value">
+	<input type="checkbox" name="{CBOX_OBJECTIVES}" value="{VAL_OBJECTIVES}" {CHK_OBJECTIVES}>
+	</td>
+</tr>
+<tr class="std">
+	<td class="option">
+	{TXT_COMMENTS}
+	</td>
+	<td class="option_value">
+	<input type="checkbox" name="{CBOX_COMMENTS}" value="{VAL_COMMENTS}" {CHK_COMMENTS}>
+	</td>
+</tr>
+<tr class="std">
+	<td class="option">
+	{TXT_TIME_FROM_LMS}
+	</td>
+	<td class="option_value">
+	<input type="checkbox" name="{CBOX_TIME_FROM_LMS}" value="{VAL_TIME_FROM_LMS}" {CHK_TIME_FROM_LMS}>
+	</td>
+</tr>
+
+<tr class="std">
+	<td class="option">
+	{TXT_CHECK_VALUES}
+	</td>
+	<td class="option_value">
+	<input type="checkbox" name="{CBOX_CHECK_VALUES}" value="{VAL_CHECK_VALUES}" {CHK_CHECK_VALUES}>
+	</td>
+</tr>
+
+<tr class="std">
+	<td class="option">
+	{TXT_DEBUG}
+	</td>
+	<td class="option_value">
+	<input type="checkbox" name="{CBOX_DEBUG}" value="{VAL_DEBUG}" {CHK_DEBUG} {CHK_ACTIVATED}> {TXT_ACTIVATED}
+	</td>
+</tr>
+
+<!-- END noneditable -->
+<!-- BEGIN commands -->
+<tr>
+	<td class="submit" colspan="2" style="text-align:right;">
+		<input class="submit" type="submit" name="cmd[{BTN_NAME}]" value="{BTN_TEXT}" />
+	</td>
+</tr>
+<!-- END commands -->
+</table>
+</form>

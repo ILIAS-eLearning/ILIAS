@@ -1,0 +1,215 @@
+<!-- BEGIN kiosk_message -->{MESSAGE}<!-- END kiosk_message -->
+<!-- BEGIN kiosk_options -->
+{KIOSK_HEAD}
+<!-- END kiosk_options -->
+<div id="tst_output">
+<form id="taForm" name="test_output" method="post" style="clear: both;" {ENCTYPE} action="{FORMACTION}"<!-- BEGIN onsubmit --> onsubmit="{ON_SUBMIT}"<!-- END onsubmit -->>
+<div id="tst_left">{LIST_OF_QUESTIONS}</div>
+<div id="tst_right">
+<!-- BEGIN enableprocessingtime -->
+<div class="ilTstWorkingFormBlock_WorkingTime">
+	<span class="ilTstWorkingFormInfo_UserWorkingTime">{USER_WORKING_TIME}</span>
+	<span id="timeleft" class="ilTstWorkingFormInfo_ProcessTimeLeft">{USER_REMAINING_TIME}</span>
+</div>
+<!-- END enableprocessingtime -->
+<input type="hidden" name="formtimestamp" value="{FORM_TIMESTAMP}" />
+<table class="fullwidth_invisible">
+		<tr>
+			<td>
+<!-- BEGIN view_sidelist -->
+	<input type="image" name="cmd[togglesidelist][list]" src="{IMAGE_SIDELIST}" title="{TEXT_SIDELIST}" />
+<!-- END view_sidelist -->
+<!-- BEGIN question_status -->
+<!-- BEGIN ismarked -->
+	<input type="image" name="cmd[{CMD_MARKED}][mark]" src="{IMAGE_MARKED}" title="{TEXT_MARKED}" />
+<!-- END ismarked -->
+<!-- BEGIN isnotmarked -->
+	<input type="image" name="cmd[{CMD_UNMARKED}][mark]" src="{IMAGE_UNMARKED}" title="{TEXT_UNMARKED}" />
+<!-- END isnotmarked -->
+<!-- END question_status -->
+<!-- BEGIN char_selector -->
+	<input type="image" value=" " id="ilCharSelectorToggleTest" class="ilCharSelectorToggle" title="{CHAR_SELECTOR_TEXT}" /> 
+{CHAR_SELECTOR_TEMPLATE}
+<!-- END char_selector -->
+			</td>
+			<td style="text-align: right;">
+<!-- BEGIN cancel_test -->
+				<a href="{HREF_CANCELTEXT}">{TEXT_CANCELTEST}</a>&nbsp;<a href="{HREF_IMGCANCELTEST}"><img align="middle" alt="{TEXT_ALTCANCELTEXT}" title="{TEXT_TITLECANCELTEXT}" src="{IMAGE_CANCEL}" border="0" /></a>
+<!-- END cancel_test -->
+			</td>
+		</tr>
+</table>
+<table class="fullwidth">
+	<tr>
+	<td align="left" width="33%" class="submit">
+<!-- BEGIN prev -->
+		<input type="submit" class="submit" name="cmd[{CMD_PREV}]" value="{BTN_PREV}" id="prevbutton" />
+<!-- END prev -->
+	</td>
+	<td align="center" width="1" class="submit">
+<!-- BEGIN summary -->
+		<input type="submit" class="submit" name="cmd[{CMD_SUMMARY}]" value="{BTN_SUMMARY}" id="summarybutton" />
+<!-- END summary -->
+	</td>
+	<td align="right" width="33%" class="submit">
+<!-- BEGIN postpone -->
+	<input type="submit" class="submit" name="cmd[{CMD_POSTPONE}]" value="{BTN_POSTPONE}" id="postponebutton" />
+	&nbsp;&nbsp;
+<!-- END postpone -->
+<!-- BEGIN next -->
+	<input type="submit" class="submit" name="cmd[{CMD_NEXT}]" value="{BTN_NEXT}" id="nextbutton" />
+<!-- END next -->
+	</td>
+	</tr>
+</table>
+<!-- BEGIN closeform --></form><!-- END closeform -->
+<table class="fullwidth">
+	<tr class="std">
+		<td class="ilc_Page">
+			<div class="ilc_Page" id="ilc_Page">
+				<div id="javascript_switch" style="z-index: 10; float: right; display: none;"><a href="{JAVASCRIPT_URL}"><img src="{JAVASCRIPT_IMAGE}" alt="{JAVASCRIPT_IMAGE_ALT}" title="{JAVASCRIPT_IMAGE_TITLE}" /></a></div>
+				{QUESTION_OUTPUT}
+				<!-- BEGIN question_obligatory -->
+				<p>* {QUESTION_OBLIGATORY}</p>
+				<!-- END question_obligatory -->
+            </div>
+			<!-- BEGIN question_related_navigation -->
+			<div class="ilAssQuestionRelatedNavigationContainer">
+				<!-- BEGIN direct_feedback -->
+					<input type="submit" class="submit" name="cmd[{CMD_SHOW_INSTANT_RESPONSE}]" id="directfeedback" value="{TEXT_SHOW_INSTANT_RESPONSE}" />
+				<!-- END direct_feedback -->
+				<!-- BEGIN button_request_next_question_hint -->
+					<input type="submit" class="submit" name="cmd[{CMD_REQUEST_NEXT_QUESTION_HINT}]" id="requestNextQuestionHint" value="{TEXT_REQUEST_NEXT_QUESTION_HINT}" />
+				<!-- END button_request_next_question_hint -->
+				<!-- BEGIN button_show_requested_question_hints -->
+					<input type="submit" class="submit" name="cmd[{CMD_SHOW_REQUESTED_QUESTION_HINTS}]" id="showRequestedQuestionHints" value="{TEXT_SHOW_REQUESTED_QUESTION_HINTS}" />
+				<!-- END button_show_requested_question_hints -->
+			</div>
+			<!-- END question_related_navigation -->
+			<!-- BEGIN received_points_information -->
+            <p>{RECEIVED_POINTS_INFORMATION}</p>
+			<!-- END received_points_information -->
+            <!-- BEGIN answer_feedback -->
+            <p>{ANSWER_FEEDBACK}</p>
+            <!-- END answer_feedback -->
+            <!-- BEGIN specific_feedback -->
+            <p>{SPECIFIC_FEEDBACK}</p>
+            <!-- END specific_feedback -->
+            <!-- BEGIN solution_output -->
+			<!-- BEGIN solution_output_details -->
+			<p><strong>{CORRECT_SOLUTION}</strong>:</p>
+			<div class="ilc_Page" id="ilc_Page">
+			{QUESTION_FEEDBACK}
+			</div>
+			<!-- END solution_output_details -->
+			<!-- END solution_output -->
+		</td>
+	</tr>
+</table>
+<!-- BEGIN reopenform --><form name="test_output_bottom" method="post" action="{FORMACTION_REOPENFORM}"><!-- END reopenform -->
+<!-- BEGIN navigation_bottom -->
+<table class="fullwidth">
+	<tr>
+		<td align="left" width="33%" class="submit">
+<!-- BEGIN prev_bottom -->
+			<input type="submit" class="submit" name="cmd[{CMD_PREV}]" value="{BTN_PREV}" id="bottomprevbutton" />
+<!-- END prev_bottom -->
+		</td>
+		<td align="center" width="1" class="submit">
+<!-- BEGIN summary_bottom  -->
+			<input type="submit" class="submit" name="cmd[{CMD_SUMMARY}]" value="{BTN_SUMMARY}" id="bottomsummarybutton" />
+<!-- END summary_bottom -->
+		</td>
+		<td align="right" width="33%" class="submit">
+<!-- BEGIN postpone_bottom -->
+			<input type="submit" class="submit" name="cmd[{CMD_POSTPONE}]" value="{BTN_POSTPONE}" id="bottompostponebutton" />
+			&nbsp;&nbsp;
+<!-- END postpone_bottom -->
+<!-- BEGIN next_bottom -->
+			<input type="submit" class="submit" name="cmd[{CMD_NEXT}]" value="{BTN_NEXT}" id="bottomnextbutton" />
+<!-- END next_bottom -->
+		</td>
+	</tr>
+</table>
+<!-- END navigation_bottom -->
+    <!-- BEGIN exam_id -->
+    <p>{EXAM_ID_TXT}&nbsp;{EXAM_ID}</p>
+    <!-- END exam_id -->
+<p></p>
+<input type="hidden" name="formtimestamp" value="{FORM_TIMESTAMP}" />
+<!-- BEGIN js_initialize -->
+{JS_INITIALIZE}
+<!-- END js_initialize -->
+<!-- BEGIN jsswitch -->
+<script type="text/javascript" charset="utf-8">
+	var jsswitch = document.getElementById("javascript_switch");
+	if (jsswitch != null)
+	{
+		jsswitch.style.display = "block";
+	}
+</script>
+<!-- END jsswitch -->
+<script type="text/javascript" charset="utf-8">
+	function saveformOnTimeReached()
+	{
+		if(typeof saveOrder == 'function') 
+		{
+			saveOrder('orderlist');
+		}
+		autosave('{AUTOSAVE_URL}');
+	}
+	function saveTextarea(editor)
+	{
+		document.forms["taForm"].submit();
+	}
+	function charCounter(e)
+	{
+		if(e.type == 'keyup')
+		{
+			content = tinyMCE.selectedInstance.getDoc().body.innerHTML;
+			content = content.replace(/&lt;/ig, "<");
+			content = content.replace(/&gt;/ig, ">");
+			stripped = content.replace(/(<([^>]+)>)/ig,"");
+			counterblock = YAHOO.util.Dom.get("charcounter");
+			if (counterblock != null)
+			{
+				counterblock.style.visibility = 'visible';
+				counter = YAHOO.util.Dom.get("myCounter");
+				if (maxL > 0) counter.value = maxL - stripped.length;
+			}
+			
+		}
+	}
+	
+	function initCharCounter()
+	{
+		content = YAHOO.util.Dom.get("TEXT").innerHTML;
+		content = content.replace(/&lt;/ig, "<");
+		content = content.replace(/&gt;/ig, ">");
+		stripped = content.replace(/(<([^>]+)>)/ig,"");
+		counterblock = YAHOO.util.Dom.get("charcounter");
+		if (counterblock != null)
+		{
+			counterblock.style.visibility = 'visible';
+			counter = YAHOO.util.Dom.get("myCounter");
+			if (maxL > 0) counter.value = maxL - stripped.length;
+		}
+	}
+
+    <!-- BEGIN autosave -->
+    function saveIt() {
+        autosave('{AUTOSAVEFORMACTION}');
+        window.setTimeout("saveIt()", {AUTOSAVEINTERVAL});
+    }
+
+    function startSave() {
+        window.setTimeout("saveIt()", {AUTOSAVEINTERVAL});
+    }
+    YAHOO.util.Event.onDOMReady(startSave);
+    <!-- END autosave -->
+	YAHOO.util.Event.onDOMReady(initCharCounter);
+</script>
+<div id="autosavemessage" style="font-style: italic; border: 1px #666 solid; background-color: #ffffe0; position: fixed; right: 0; top: 0;"></div>
+</div>
+</form>
+</div>

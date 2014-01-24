@@ -1,0 +1,36 @@
+<div class="{CSS_ROW} small">
+	<div class="<!-- BEGIN usr_image_space -->ilUserOnlineRow<!-- END usr_image_space -->" >
+		<div class="il_ContainerItemCommand ilFloatRight">
+			<!-- BEGIN mailto_link -->
+			<a class="il_ContainerItemCommand" href="{MAIL_URL}">{TXT_MAIL}</a>
+			<!-- END mailto_link -->
+			<!-- BEGIN chat_link -->
+			<a class="il_ContainerItemCommand" href="{CHAT_LINK}" title="{TXT_CHAT_INVITE_TOOLTIP}" target="_blank">{TXT_CHAT_INVITE}</a>
+			<!-- END chat_link -->
+		</div>
+
+		<!-- BEGIN usr_image -->
+		<div class="ilUserImage ilFloatLeft">
+			<img src="{USR_IMAGE}" title="{USR_ALT}" alt="{USR_ALT}" /></div>
+		<!-- END usr_image -->
+		
+		<div>
+			<span id="username">
+				<!-- BEGIN profile_link --><a href="{LINK_PROFILE}">{LINK_FULLNAME}</a><!-- END profile_link -->
+				{USR_FULLNAME}
+				{TXT_STATUS_NOT_ACTIVE}
+				{USR_LOGIN}</span></div>
+
+		<!--  BEGIN chat_info -->
+		<div class="il_Description_no_margin">
+			{CHAT_ACTIVE_IN}<a  href="{CHAT_LINK}" target="chat" onclick="openChatWindow(this); return false;">{CHAT_TITLE}</a>
+		</div>
+		<!--  END chat_info -->
+		<!-- BEGIN instant_messengers -->
+		<!-- BEGIN im_link_start --><a href="{URL_IM}" target="_blank"><!-- END im_link_start -->
+			<img id="{ICON_ID}" src="{IMG_IM_ICON}" alt="{TXT_IM_ICON}" title="{TXT_IM_ICON}" />
+		<!-- BEGIN im_link_end --></a><!-- END im_link_end -->
+		<!-- END instant_messengers -->
+	</div>
+	<div class="ilClearFloat"></div>
+</div>

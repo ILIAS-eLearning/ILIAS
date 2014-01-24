@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<schema xmlns = 'http://www.w3.org/2001/XMLSchema'
+	targetNamespace = "http://www.ilias.de/Services/MediaObjects/mob/4_1"
+	xmlns:t = 'http://www.ilias.de/Services/MediaObjects/mob/4_1'>
+
+	<!-- t:Data type -->
+	<complexType name='Data' mixed='true'>
+	</complexType>
+
+
+	<!-- Mob -->
+	<element name='Mob'>
+		<complexType>
+		<sequence>
+			<element ref='t:Id' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Title' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Description' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Dir' minOccurs='1' maxOccurs='1'/>
+		</sequence>
+		</complexType>
+	</element>
+
+	<element name='Id' type='t:Data' />
+	<element name='Title' type='t:Data' />
+	<element name='Description' type='t:Data' />
+	<element name='Dir' type='t:Data' />
+
+	<!-- MobMediaItem -->
+	<element name='MobMediaItem'>
+		<complexType>
+		<sequence>
+			<element ref='t:Id' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:MobId' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Width' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Height' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Halign' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Caption' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Nr' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Purpose' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Location' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:LocationType' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Format' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:TextRepresentation' minOccurs='1' maxOccurs='1'/>
+		</sequence>
+		</complexType>
+	</element>
+	
+	<element name='MobId' type='t:Data' />
+	<element name='Width' type='t:Data' />
+	<element name='Height' type='t:Data' />
+	<element name='Halign' type='t:Data' />
+	<element name='Caption' type='t:Data' />
+	<element name='Nr' type='t:Data' />
+	<element name='Purpose' type='t:Data' />
+	<element name='Location' type='t:Data' />
+	<element name='LocationType' type='t:Data' />
+	<element name='Format' type='t:Data' />
+	<element name='TextRepresentation' type='t:Data' />
+
+	<!-- MobMiMapArea -->
+	<element name='MobMiMapArea'>
+		<complexType>
+		<sequence>
+			<element ref='t:MiId' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Nr' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Shape' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Coords' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:LinkType' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Title' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Href' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Target' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Type' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:TargetFrame' minOccurs='1' maxOccurs='1'/>
+		</sequence>
+		</complexType>
+	</element>
+
+	<element name='MiId' type='t:Data' />
+	<element name='Shape' type='t:Data' />
+	<element name='Coords' type='t:Data' />
+	<element name='LinkType' type='t:Data' />
+	<element name='Href' type='t:Data' />
+	<element name='Target' type='t:Data' />
+	<element name='Type' type='t:Data' />
+	<element name='TargetFrame' type='t:Data' />
+
+	<!-- MobMiParameter -->
+	<element name='MobMiParameter'>
+		<complexType>
+		<sequence>
+			<element ref='t:MiId' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Name' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Value' minOccurs='1' maxOccurs='1'/>
+		</sequence>
+		</complexType>
+	</element>
+
+	<element name='Name' type='t:Data' />
+	<element name='Value' type='t:Data' />
+
+</schema>

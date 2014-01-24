@@ -1,0 +1,76 @@
+<!-- BEGIN table_old -->
+<form action="{FORMACTION}" name="cmd" method="post">
+	  <table class="std" width="75%">
+		  <tr class="tbltitle">
+			<td colspan="3">
+			  <table class="fullwidth_invisible" cellspacing="0">
+				  <tr class="tbltitle">
+					<td width="10"><img src="{TYPE_IMG}" alt="{ALT_IMG}" title="{ALT_IMG}" border="0" vspace="0" align="left" /></td>
+					<td class="tbltitle" align="left">&nbsp;{TXT_TRACKING_SETTINGS}</td>
+				  </tr>
+			  </table>
+			</td>
+		  </tr>
+		  <tr>
+			<td class="option">
+			  {TXT_ACTIVATE_TRACKING}
+			</td>
+			<td class="option_value">
+			<div align="center">
+			  <img src="{ACTIVATED_IMG_OK}" alt="{ACTIVATED_STATUS}" title="{ACTIVATED_STATUS}" border="0" vspace="0" />
+			</div>
+			</td>
+		  </tr>
+		  <tr>
+			<td class="option">
+			  {TXT_USER_RELATED_DATA}
+			</td>
+			<td class="option_value">
+			<div align="center">
+			  <img src="{ANONYMIZED_IMG_OK}" alt="{ANONYMIZED_STATUS}" title="{ANONYMIZED_STATUS}" border="0" vspace="0" />
+			</div>
+			</td>
+		  </tr>
+		  <tr>
+			<td class="option">
+			  {TXT_VALID_REQUEST}
+			</td>
+			<td class="option_value">
+			  {VAL_SECONDS}&nbsp;{SECONDS}
+			  <div class="il_Description_no_margin">{INFO_VALID_REQUEST}</div>
+			</td>
+		  </tr>
+		  <tr>
+		  	<td class="option">
+		  		{TXT_MODE}
+		  	</td>
+		  	<td class="option_value">
+		  	<!-- BEGIN mode_check -->
+		  	<input type="radio" name="modus" id="{RADIO_ID}" {RADIO_CHECKED} value="{RADIO_VALUE}" /> <label for="{RADIO_ID}">{MODE_NAME}</label><br />
+		  	<div class="il_Description_no_margin">{MODE_INFO}</div>
+		  	<!-- END mode_check -->
+		<!-- BEGIN visits -->
+		<tr>
+		  <td class="option">
+			{TXT_VISITS}
+		  </td>
+		  <td class="option_value">
+			<input type="text" size="4" maxlength="4" name="visits" value="{NUM_VISITS}" />
+			<div class="il_Description_no_margin">{INFO_VISITS}</div>
+		  </td>
+		</tr>
+		<!-- END visits -->
+		  <tr class="tablefooter">
+			<td class="submit" colspan="3">
+			  <div align="right">
+				<input class="submit" type="SUBMIT" name="cmd[saveSettings]" value="{TXT_SAVE}">
+			  </div>
+			</td>
+		  </tr>
+	  </table>
+<!-- END table_old -->
+
+{PROP_FORM}
+<br />
+{COLLECTION_TABLE}
+</form>

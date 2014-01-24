@@ -1,0 +1,30 @@
+div.questionPrintview {
+	/*background-color:#F9F9F9;*/
+	border:1px solid #ccc;
+}
+.questionTitle {
+	font-weight:normal;
+	font-size:14pt;
+	line-height:1em;
+	border-bottom:1px solid #000;
+}
+td.pdfContent {
+	width:441px;
+}
+td.pdfSpacer {
+	width:20px;
+}
+
+.ilAccAnchor {
+	font-weight:normal;
+}
+.solutionbox {
+	background-color:#ddd;
+	font-weight:bold;
+}
+a {
+	text-decoration:none;
+}
+.sel {
+	background-color:#9BD9FE;
+}

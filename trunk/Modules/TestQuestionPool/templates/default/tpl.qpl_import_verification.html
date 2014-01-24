@@ -1,0 +1,29 @@
+<h1>{VERIFICATION_HEADING}</h1>
+<p>{FOUND_QUESTIONS_INTRODUCTION}</p>
+<form name="form_verification" method="post" action="{FORMACTION}">
+<!-- BEGIN import_qpl -->
+<p>{TEXT_CREATE_NEW_QUESTIONPOOL}: <input type="text" name="qpl_new" size="30" value="{VALUE_NEW_QUESTIONPOOL}" /></p>
+<!-- END import_qpl -->
+<table class="fullwidth">
+<tr class="tblheader">
+	<td class="std"></td>
+	<td class="std">{TEXT_TITLE}</td>
+	<td class="std">{TEXT_TYPE}</td>
+</tr>
+<!-- BEGIN verification_row -->
+<tr class="{ROW_CLASS}">
+	<td class="std"><input type="checkbox" name="ident[]" id="{QUESTION_IDENT}" value="{QUESTION_IDENT}" checked="checked" /></td>
+	<td class="std">{QUESTION_TITLE}</td>
+	<td class="std">{QUESTION_TYPE}</td>
+</tr>
+<!-- END verification_row -->
+<tr class="tblfooter">
+	<td colspan="3">
+		<img src="{ARROW}" alt="arrow" />
+		<input type="submit" class="submit" name="cmd[importVerifiedFile]" value="{VALUE_IMPORT}" />
+	</td>
+</tr>
+</table>
+<p><input type="submit" class="submit" name="cmd[cancelImport]" value="{VALUE_CANCEL}" /></p>
+<input type="hidden" name="questions_only" value="{VALUE_QUESTIONS_ONLY}" />
+</form>

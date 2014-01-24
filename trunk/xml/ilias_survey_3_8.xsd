@@ -1,0 +1,452 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+  <xs:element name="surveyobject">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">
+        This is the root element. The top-most elements are either the survey or surveyquestions elements. Multiple surveyquestions are supported.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="survey" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="surveyquestions" minOccurs="1" maxOccurs="1"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="survey">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">
+        The survey element is equivalent to a survey object in ILIAS. It contains all of the information necessary to present and process a survey. Surveys can be imported/exported.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="description" minOccurs="0"/>
+        <xs:element ref="author"/>
+        <xs:element ref="comment" minOccurs="0"/>
+        <xs:element ref="objectives" minOccurs="0"/>
+        <xs:element ref="anonymisation" minOccurs="0"/>
+        <xs:element ref="restrictions" minOccurs="0"/>
+        <xs:element minOccurs="0" ref="constraints"/>
+        <xs:element ref="metadata" minOccurs="0"/>
+      </xs:sequence>
+      <xs:attribute name="id" use="required" type="xs:string">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">
+            The id attribute is used to define a (unique) identifier for the element. The uniqueness of the identifier is not maintained by the XML and so a naming convention should be adopted. This identifier may be referenced by other elements and so it is essential that no logical conflicts occur within the XML file. The identifier string is typically 1-256 characters in length and there is no restriction on the available character-set. In ILIAS usually it contains the database ID of the referenced ILIAS object.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="label" type="xs:string">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">
+            The label attribute is intended for optionally labelling elements so that authoring tools can easily identify them. This means that elements that are to be used in similar manners should be commonly labelled e.g. all QuickTime video material could be labelled as "quicktimevideo". An editing/authoring tool could then easily search for all such instances with the file.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="title" type="xs:string">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">
+            The title attribute is an optional naming of the associated element. In this case it should contain the survey title. The title is used to help readability of the XML files. The title is usually 1-256 characters in length.           
+          </xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="objectives">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">
+        The objectives element is the container for the description of the objectives of a survey. The context is defied by the usage. Usually it should contain an introduction text and a final statement.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" ref="material"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="anonymisation">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">
+        The anonymisation element defines the handling of user related data for the survey. If anonymisation is active, all user data will be anonymised for the survey statistics, so no relation between a given user and his/her results could be created.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:attribute name="enabled" default="1" type="bytebool"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="restrictions">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">
+        The restrictions element defines restrictions that could be used to allow/deny access to the survey. This could be a general restriction in the form of a valid user account or a survey code or a time/date restriction to reduce the availability of the survey. 
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="access"/>
+        <xs:element ref="startingtime" minOccurs="0"/>
+        <xs:element ref="endingtime" minOccurs="0"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="access">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">
+        The access element defines possible access restrictions for a survey. If the access is restricted, the learning management system which uses the survey must take care that the survey could not be accessed with an authorisation.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:attribute name="type" default="restricted" type="accesstype">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">
+            The type attribute defines the type of access restriction for the survey. The default is 'restricted' access to the survey. If you don't want the survey to be restricted, you may select 'free'.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="startingtime">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">
+        The startingtime element defines a starting time/date for a survey. The survey could not be accessed by anyone prior to the defined starting time/date.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:dateTime">
+          <xs:attribute name="type" type="timeformat" default="time"/>
+          <xs:attribute name="label" type="xs:string"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="endingtime">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">
+        The startingtime element defines an ending time/date for a survey. The survey could not be accessed by anyone after the defined ending time/date.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:dateTime">
+          <xs:attribute name="type" type="timeformat" default="date"/>
+          <xs:attribute name="label" type="xs:string"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="surveyquestions">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:sequence minOccurs="1" maxOccurs="unbounded">
+          <xs:element ref="textblock" minOccurs="0" maxOccurs="1"/>
+          <xs:element ref="question" minOccurs="0" maxOccurs="1"/>
+          <xs:element ref="questionblock" minOccurs="0" maxOccurs="1"/>
+        </xs:sequence>
+        <xs:element ref="metadata" minOccurs="0"/>
+      </xs:sequence>
+      <xs:attribute name="id" use="required" type="xs:string"/>
+      <xs:attribute name="label" type="xs:string"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="questionblock">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="questionblocktitle"/>
+        <xs:sequence maxOccurs="unbounded">
+          <xs:element ref="textblock" minOccurs="0" maxOccurs="1"/>
+          <xs:element ref="question"/>
+        </xs:sequence>
+      </xs:sequence>
+    	<xs:attribute name="id" use="required" type="xs:string"/>
+    	<xs:attribute name="showQuestiontext" use="optional" default="1" type="bytebool"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="questionblocktitle">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute name="type" type="xs:string" default="text/plain"/>
+          <xs:attribute name="label" type="xs:string"/>
+          <xs:attribute name="charset" type="xs:string" default="utf-8"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="textblock">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute name="type" type="xs:string" default="text/plain"/>
+          <xs:attribute name="label" type="xs:string"/>
+          <xs:attribute name="charset" type="xs:string" default="utf-8"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="description">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute name="type" type="xs:string" default="text/plain"/>
+          <xs:attribute name="label" type="xs:string"/>
+          <xs:attribute name="charset" type="xs:string" default="utf-8"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="author" type="xs:string"/>
+  <xs:element name="comment">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute name="type" type="xs:string" default="text/plain"/>
+          <xs:attribute name="label" type="xs:string"/>
+          <xs:attribute name="charset" type="xs:string" default="utf-8"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="material">
+  	<xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" ref="mattext"/>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="matimage"/>
+      </xs:sequence>
+      <xs:attribute name="label" type="xs:string"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="mattext">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute name="type" type="xs:string" default="text/plain"/>
+          <xs:attribute name="label" type="xs:string"/>
+          <xs:attribute name="charset" type="xs:string" default="utf-8"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="matimage">
+  	<xs:complexType mixed="true">
+        <xs:attribute name="type" type="xs:string" default="image/jpg"/>
+        <xs:attribute name="label" type="xs:string"/>
+        <xs:attribute name="charset" type="xs:string" default="utf-8"/>
+        <xs:attribute name="uri" type="xs:string"/>
+        <xs:attribute name="height" type="xs:positiveInteger"/>
+        <xs:attribute name="width" type="xs:positiveInteger"/>
+        <xs:attribute name="embedded" type="xs:string" default="base64"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="metadata">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" ref="metadatafield"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="metadatafield">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="fieldlabel"/>
+        <xs:element ref="fieldentry"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="fieldlabel">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="fieldentry">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="question">
+    <xs:complexType>
+      <xs:sequence minOccurs="0">
+        <xs:element ref="description"/>
+        <xs:element ref="author"/>
+        <xs:element ref="comment" minOccurs="0"/>
+        <xs:element ref="questiontext"/>
+        <xs:choice minOccurs="0">
+          <xs:element ref="responses"/>
+          <xs:sequence>
+            <xs:element ref="matrix" minOccurs="0"/>
+          </xs:sequence>
+        </xs:choice>
+        <xs:element ref="material" minOccurs="0"/>
+        <xs:element ref="metadata" minOccurs="0"/>
+      </xs:sequence>
+      <xs:attribute name="id" use="required" type="xs:string"/>
+      <xs:attribute name="type" use="required" type="xs:string"/>
+      <xs:attribute name="label" type="xs:string"/>
+      <xs:attribute name="obligatory" default="0" type="xs:integer"/>
+      <xs:attribute name="subtype" type="xs:string"/>
+      <xs:attribute name="title" type="xs:string"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="constraints">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="constraint" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="constraint">
+    <xs:complexType>
+      <xs:attribute name="sourceref" use="required" type="xs:string"/>
+      <xs:attribute name="destref" use="required" type="xs:string"/>
+      <xs:attribute name="relation" use="required" type="xs:string"/>
+      <xs:attribute name="value" use="required" type="xs:string"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="questiontext">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="material"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="matrix">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="matrixrows"/>
+        <xs:element ref="responses"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="matrixrows">
+    <xs:complexType>
+      <xs:sequence maxOccurs="unbounded">
+        <xs:element ref="matrixrow"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="matrixrow">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="material"/>
+      </xs:sequence>
+      <xs:attribute name="id" use="required" type="xs:string"/>
+      <xs:attribute name="label" type="xs:string"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="responses">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" ref="bipolar_adjectives"/>
+        <xs:choice>
+          <xs:element maxOccurs="unbounded" ref="response_single"/>
+          <xs:element maxOccurs="unbounded" ref="response_multiple"/>
+          <xs:element maxOccurs="unbounded" ref="response_text"/>
+          <xs:element maxOccurs="unbounded" ref="response_num"/>
+          <xs:element maxOccurs="unbounded" ref="response_time"/>
+        </xs:choice>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="bipolar_adjectives">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="2" ref="adjective"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="adjective">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute name="type"/>
+          <xs:attribute name="label" type="xs:string"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="response_single">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="material" maxOccurs="1"/>
+      </xs:sequence>
+      <xs:attribute name="id" use="required" type="xs:string"/>
+      <xs:attribute name="label" type="xs:string"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="response_multiple">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="material" maxOccurs="1"/>
+      </xs:sequence>
+      <xs:attribute name="id" use="required" type="xs:string"/>
+      <xs:attribute name="label" type="xs:string"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="response_text">
+    <xs:complexType>
+      <xs:sequence minOccurs="0">
+        <xs:element ref="material" maxOccurs="1"/>
+      </xs:sequence>
+      <xs:attribute name="columns" type="xs:string"/>
+      <xs:attribute name="id" use="required" type="xs:string"/>
+      <xs:attribute name="label" type="xs:string"/>
+      <xs:attribute name="maxlength" type="xs:string"/>
+      <xs:attribute name="rows" type="xs:string"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="response_num">
+    <xs:complexType>
+      <xs:sequence minOccurs="0">
+        <xs:element ref="material" maxOccurs="1"/>
+      </xs:sequence>
+      <xs:attribute name="format" default="integer" type="numberformat"/>
+      <xs:attribute name="id" use="required" type="xs:string"/>
+      <xs:attribute name="label" type="xs:string"/>
+      <xs:attribute name="max" type="xs:double"/>
+      <xs:attribute name="min" type="xs:double"/>
+      <xs:attribute name="size" type="xs:positiveInteger"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="response_time">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="material" maxOccurs="1"/>
+      </xs:sequence>
+      <xs:attribute name="format" use="required" type="xs:string"/>
+      <xs:attribute name="id" use="required" type="xs:string"/>
+      <xs:attribute name="label" type="xs:string"/>
+      <xs:attribute name="max" type="xs:string"/>
+      <xs:attribute name="min" type="xs:string"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:simpleType name="bytebool">
+    <xs:restriction base="xs:byte">
+      <xs:enumeration value="0"/>
+      <xs:enumeration value="1"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="accesstype">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="free"/>
+      <xs:enumeration value="restricted"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="timeformat">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="date"/>
+      <xs:enumeration value="time"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="numberformat">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="integer"/>
+      <xs:enumeration value="double"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

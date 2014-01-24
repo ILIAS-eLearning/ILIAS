@@ -1,0 +1,76 @@
+<div class="ilProfile">
+<!-- BEGIN back_url -->
+<div style="margin-bottom: 15px;"><a href="{HREF_BACK}" class="submit">{TXT_BACK}</a></div>
+<!-- END back_url -->
+<div style="float: right; text-align:right ">
+	<!-- BEGIN image -->
+	<img style="margin: 0px 0px 5px 20px;" src="{IMAGE_PATH}" title="{IMAGE_ALT}" alt="{IMAGE_ALT}" /><br />
+	<!-- END image -->
+	<!-- BEGIN link -->
+	<a class="il_ContainerItemCommand" href="{HREF_LINK}">{TXT_LINK}</a><br />
+	<!-- END link -->
+	<!-- BEGIN mail -->
+	<a class="il_ContainerItemCommand" href="{HREF_MAIL}">{TXT_MAIL}</a><br />
+	<!-- END mail -->
+	<!-- BEGIN vcard -->
+	<a class="il_ContainerItemCommand" href="{HREF_VCARD}"><!-- <img src="{IMG_VCARD}" alt="{TXT_DOWNLOAD_VCARD}" title="{TXT_DOWNLOAD_VCARD}" border="0"/>-->{TXT_DOWNLOAD_VCARD}</a>
+	<!-- END vcard -->
+</div>
+<h3 class="ilProfileName">{FIRSTNAME} {LASTNAME}</h3>
+<!-- BEGIN address -->
+<div class="ilProfileSection">
+	<h3 class="ilProfileSectionHead">{TXT_ADDRESS}</h3>
+	<!-- BEGIN address_line -->
+	{TXT_ADDRESS_LINE}<br />
+	<!-- END address_line -->
+</div>
+<!-- END address -->
+<!-- BEGIN inst_dep -->
+<div class="ilProfileSection">
+	<h3 class="ilProfileSectionHead">{TXT_INST_DEP}</h3>
+	{INST_DEP}
+</div>
+<!-- END inst_dep -->
+<!-- BEGIN contact -->
+<div class="ilProfileSection">
+	<h3 class="ilProfileSectionHead">{TXT_CONTACT}</h3>
+	{CONTACT}
+</div>
+<!-- END inst_dep -->
+<!-- BEGIN profile_data -->
+<div class="ilProfileSection">
+	<h3 class="ilProfileSectionHead">{TXT_DATA}</h3>
+	<!-- BEGIN im_icon -->
+	<img src="{IMG_ICON}" alt="{TXT_ICON}" title="{TXT_ICON}" border="0"/>
+	<!-- END im_icon -->
+	{DATA}
+</div>
+<!-- END profile_data -->
+<!-- BEGIN udf_data -->
+<div class="ilProfileSection">
+	<h3 class="ilProfileSectionHead">{TXT_UDF_DATA}</h3>
+	{UDF_DATA}
+</div>
+<!-- END udf_data -->
+<!-- BEGIN map -->
+<div class="ilProfileSection" style="clear:both;">
+	<h3 class="ilProfileSectionHead">{TXT_LOCATION}</h3>
+	{MAP_CONTENT}
+</div>
+<!-- END map -->
+<!-- BEGIN delicious_row -->
+<div class="ilProfileSection">
+	<h3 class="ilProfileSectionHead">{TXT_DELICIOUS}</h3>
+	<!-- <img src="{SRC_DEL_ICON}" alt="{TXT_DEL_ICON}" title="{TXT_DEL_ICON}" border="0"/>
+	<a target="_blank" href="http://del.icio.us/{DEL_ACCOUNT}">{DEL_ACCOUNT}</a> -->
+	<script type="text/javascript" src="http://feeds.delicious.com/v2/js/tags/{DEL_ACCOUNT}?count=100&sort=alpha&title={DEL_ACCOUNT}&flow=cloud&color=6688bb-002299&size=12-16">
+	</script>
+</div>
+<!-- END delicious_row -->
+<div style="clear:both;"></div>
+</div>
+<br />
+<!-- BEGIN table_start -->
+<!-- END table_start -->
+<!-- BEGIN table_end -->
+<!-- END table_end -->

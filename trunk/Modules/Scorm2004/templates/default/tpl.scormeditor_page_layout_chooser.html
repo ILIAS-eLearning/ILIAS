@@ -1,0 +1,36 @@
+
+<form action="{FORMACTION}" {TARGET} method="post" name="form">
+<table class="std" width="100%" border="1">
+	<tr class="tblheader">
+		<td class="std" colspan="4">
+		{TXT_TITLE}</td>
+	</tr>
+			<!-- BEGIN option_item -->
+			{BEGIN_ROW}
+				<td class="option_value" width="25%" align="center" style="text-align:center;">
+						<table border="0" style="display:{VAL_DISPLAY};">
+						<tr>
+							<td align="center"><input type="radio" {VAL_CHECKED} name="layout_id" value="{VAL_LAYOUT_ID}" /></td>
+						</tr>
+						<tr>
+							<td align="center">{VAL_LAYOUT_IMAGE}</td>
+						</tr>
+						<tr>
+							<td align="center"><small>{VAL_LAYOUT_TITLE}</small></td>
+						</tr>
+					</table>	
+				</td>	
+			{END_ROW}
+			<!-- END option_item -->
+<tr>
+	<td class="submit" align="right" colspan="4">
+		<input class="submit" type="submit" name="cmd[{BTN_NAME}]" value="{TXT_INSERT}" />
+		<input class="submit" type="submit" name="cmd[{CMD_CANCEL}]" value="{TXT_CANCEL}" />
+		<input type="hidden" name="node_id" value="{VAL_NODE_ID}" />
+		<input type="hidden" name="multi" value="{VAL_MULTI}" />
+		<input type="hidden" name="first_child" value="{VAL_FIRST_CHILD}" />
+	</td>
+</tr>
+</table>
+
+</form>

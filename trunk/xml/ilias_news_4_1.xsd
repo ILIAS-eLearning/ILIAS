@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<schema xmlns = 'http://www.w3.org/2001/XMLSchema'
+	targetNamespace = "http://www.ilias.de/Services/News/news/4_1"
+	xmlns:t = 'http://www.ilias.de/Services/News/news/4_1'>
+
+	<!-- t:Data type -->
+	<complexType name='Data' mixed='true'>
+	</complexType>
+
+
+	<!-- News -->
+	<element name='News'>
+		<complexType>
+		<sequence>
+			<element ref='t:Id' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Title' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Content' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Priority' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:ContextObjId' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:ContextObjType' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:ContextSubObjId' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:ContextSubObjType' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:ContentType' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Visibility' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:ContentLong' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:ContentIsLangVar' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:MobId' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Playtime' minOccurs='1' maxOccurs='1'/>
+		</sequence>
+		</complexType>
+	</element>
+
+	<element name='Id' type='t:Data' />
+	<element name='Title' type='t:Data' />
+	<element name='Content' type='t:Data' />
+	<element name='Priority' type='t:Data' />
+	<element name='ContextObjId' type='t:Data' />
+	<element name='ContextObjType' type='t:Data' />
+	<element name='ContextSubObjId' type='t:Data' />
+	<element name='ContextSubObjType' type='t:Data' />
+	<element name='ContentType' type='t:Data' />
+	<element name='Visibility' type='t:Data' />
+	<element name='ContentLong' type='t:Data' />
+	<element name='ContentIsLangVar' type='t:Data' />
+	<element name='MobId' type='t:Data' />
+	<element name='Playtime' type='t:Data' />
+
+</schema>

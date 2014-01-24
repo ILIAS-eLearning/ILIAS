@@ -1,0 +1,156 @@
+{STATUSLINE}
+<br />
+<!-- BEGIN javascript -->
+<script language="javascript">
+function do_on_change() {
+while (this.search.lm.length > 0) {
+		this.search.lm.options[this.search.lm.length --] = null;
+	}
+	this.search.lm.options[this.search.lm.length] = new Option ("{ALL_LMS}",  "0" );
+	<!-- BEGIN select_value -->
+	if(this.search.author.options[this.search.author.selectedIndex].value =="{VALUE}")
+	{
+		this.search.lm.options[this.search.lm.length] = new Option ("{LMVALUE}",  "{LMVALUE}" );
+	}
+	<!-- END select_value -->
+}
+</script>
+<!-- END javascript -->
+<!-- BEGIN javascript1 -->
+<script language="javascript">
+function do_on_change1() {
+while (this.search.tst.length > 0) {
+		this.search.tst.options[this.search.tst.length --] = null;
+	}
+	this.search.tst.options[this.search.tst.length] = new Option ("{ALL_TSTS}",  "0" );
+	<!-- BEGIN select_value1 -->
+	if(this.search.author1.options[this.search.author1.selectedIndex].value =="{VALUE1}")
+	{
+		this.search.tst.options[this.search.tst.length] = new Option ("{TSTVALUE}",  "{TSTVALUE}" );
+	}
+	<!-- END select_value1 -->
+}
+</script>
+<!-- END javascript1 -->
+<style type="text/css">
+ .Auswahl
+   { background-color:#eeeeee; width:100px; border:0px solid #222222; }
+</style>
+<form name="search" action="{SEARCH_ACTION}" METHOD="post">
+	<table class="std">
+		<tr class="tblheader">
+		<td class="std" colspan="3" >{TXT_TRACKING_DATA}</td>
+		</tr>
+		<tr>
+		<td class="option">
+			{TXT_TIME_SEGMENT}
+		</td>
+		<td class="option_value" colspan="2">
+			<select name="yearf">
+				<!-- BEGIN fromyear_selection -->
+				<option value="{YEARF}" {YEARF_SEL}>{YEARFR}</option>
+				<!-- END fromyear_selection -->
+			</select>
+			<select name="monthf">
+				<!-- BEGIN frommonth_selection -->
+				<option value="{MONTHF}" {MONTHF_SEL}>{MONTHFR}</option>
+				<!-- END frommonth_selection -->
+			</select>
+			<select name="dayf">
+				<!-- BEGIN fromday_selection -->
+				<option value="{DAYF}" {DAYF_SEL}>{DAYFR}</option>
+				<!-- END fromday_selection -->
+			</select>
+			&nbsp;to&nbsp;
+			<select name="yeart">
+				<!-- BEGIN toyear_selection -->
+				<option value="{YEART}" {YEART_SEL}>{YEARTO}</option>
+				<!-- END toyear_selection -->
+			</select>
+			<select name="montht">
+				<!-- BEGIN tomonth_selection -->
+				<option value="{MONTHT}" {MONTHT_SEL}>{MONTHTO}</option>
+				<!-- END tomonth_selection -->
+			</select>
+			<select name="dayt">
+				<!-- BEGIN today_selection -->
+				<option value="{DAYT}" {DAYT_SEL}>{DAYTO}</option>
+				<!-- END today_selection -->
+			</select>
+		</td>
+		</tr>
+		<tr>
+		<td class="option">
+			{TXT_STATISTIC}
+		</td>
+		<td align="center" class="option_value" colspan="2">
+			<input type="RADIO" name="stat" value="h" {H_CHK}>{TXT_STATISTIC_H}</input><br/>
+			<input type="RADIO" name="stat" value="d" {D_CHK}>{TXT_STATISTIC_D}</input><br/>
+			<input type="RADIO" name="stat" value="o"{O_CHK}>{TXT_STATISTIC_O}</input><br/>
+			<!-- BEGIN user_stat -->
+			<input type="RADIO" name="stat" value="u" {U_CHK}>{TXT_STATISTIC_U}</input>
+			<!-- END user_stat -->
+		</td>
+		</tr>
+		<tr>
+			<td class="option">{TXT_USER_LANGUAGE}</td>
+			<td class="option_value" colspan="2">
+				<select name="language">
+				<!-- BEGIN language_selection -->
+				<option value="{LANGSHORT}" {LANG_SEL}>{LANG}</option>
+				<!-- END language_selection -->
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td class="option">
+                {TXT_TRACKED_OBJECTS}
+            </td>
+
+
+            <td class="option_value">
+            	<!-- BEGIN lm_selection -->
+            	{LM_DESC}<input name="lmID" type="hidden" value="{LM_ID}"/>
+            	<!-- END lm_selection -->
+			</td>
+
+		</tr>
+		<tr>
+			<td class="option">
+                {TXT_TRACKED_USER}
+            </td>
+
+
+			<td align="center" class="option_value" colspan="2">
+			<div align="left">
+			    <input type="RADIO" name="stat2" value="all" {ALL_CHK}>{TXT_ALLE}</input>
+                <br>
+                <input type="RADIO" name="stat2" value="choice" {DISABLED} {CHC_CHK}>{TXT_AUSWAHL} </input>
+
+                <input class="submit" type="SUBMIT" name="cmd[searchUserForm]" {DISABLED}  value="{TXT_SHOW_TR_DATA2}">&nbsp;{INFO1}
+               <!-- <select class="Auswahl" name="user"> -->
+                        <!-- BEGIN user_selection -->
+                       <!--  <option value="{USER1}">{USER2}</option> -->
+                      <!-- END user_selection -->
+                   <!--  </select>) -->
+            </div>
+            </td>
+
+		</tr>
+
+		<tr class="tablefooter">
+		    <td class="submit" colspan="3">
+                <div align="right">
+                <input class="submit" type="SUBMIT" name="cmd[outputStatistics]" value="{TXT_SHOW_TR_DATA}">
+                </div>
+            </td>
+		</tr>
+
+
+	</table>
+
+	</form>
+
+<!--</div>-->
+{TESTMODULE}
+

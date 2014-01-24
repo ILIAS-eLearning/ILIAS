@@ -1,0 +1,38 @@
+<script type="text/javascript">
+<!--
+function setCheckboxes(a_form, a_page, a_nodes, a_check)
+{
+	for(i=0;i<a_nodes.length;i++) {
+		if (typeof(document.forms[a_form].elements[a_page + a_nodes[i]]) != 'undefined') {
+    		document.forms[a_form].elements[a_page + a_nodes[i]].checked = a_check;
+    	}
+    }
+
+    return true;
+}
+
+function alterCheckboxes(a_form, a_page, a_nodes)
+{
+	for(i=0;i<a_nodes.length;i++) {
+		if (typeof(document.forms[a_form].elements[a_page + a_nodes[i]]) != 'undefined') {
+    		document.forms[a_form].elements[a_page + a_nodes[i]].checked = (document.forms[a_form].elements[a_page + a_nodes[i]].checked ^ true);
+    	}
+    }
+
+    return true;
+}
+//-->
+</script>
+<form name="PublicSelector" action="{FORMACTION}" {TARGET} method="post">
+{TOOLBAR}
+<br />
+<!-- BEGIN select_pages -->
+<div>{EXPLORER}</div>
+<br />
+<div class="ilToolbar">
+    <a class="submit" href="#" onclick="setCheckboxes('PublicSelector','page_',{ONCLICK},true); return false;">{TXT_CHECKALL}</a>
+    <a class="submit" href="#" onclick="setCheckboxes('PublicSelector','page_',{ONCLICK},false); return false;">{TXT_UNCHECKALL}</a>
+    <input class="submit" type="submit" name="cmd[savePublicSection]" value="{TXT_SAVE}" />
+</div>
+<!-- END select_pages -->
+</form>

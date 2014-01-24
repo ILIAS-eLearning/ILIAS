@@ -1,0 +1,443 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ILIAS Open Source
+================================
+Implementation of ADL SCORM 2004
+
+This program is free software. The use and distribution terms for this software
+are covered by the GNU General Public License Version 2
+	<http://opensource.org/licenses/gpl-license.php>.
+By using this software in any fashion, you are agreeing to be bound by the terms 
+of this license.
+
+You must not remove this notice, or any other, from this software.
+
+PRELIMINARY EDITION 
+This is work in progress and therefore incomplete and buggy ... 
+
+@author Alfred Kohnert <alfred.kohnert@bigfoot.com>
+@version $Id$
+@copyright: (c) 2007 Alfred Kohnert
+
+All compressed SCORM 1.3 Schema Definitions in one File.
+-->
+<xs:schema targetNamespace="http://www.openpalms.net/scorm/scorm13" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.openpalms.net/scorm/scorm13" elementFormDefault="qualified" attributeFormDefault="unqualified" version="OpenPALMS Version 20061125">
+	<!-- -->
+	<xs:element name="manifest" type="cp_manifestType">
+		<xs:key name="key_resource">
+			<xs:selector xpath="resource"/>
+			<xs:field xpath="@id"/>
+		</xs:key>
+		<xs:key name="key_sequencing">
+			<xs:selector xpath="sequencing"/>
+			<xs:field xpath="@id"/>
+		</xs:key>
+	</xs:element>
+	<!-- -->
+	<xs:complexType name="cp_dependencyType">
+		<xs:attribute name="foreignId" type="xs:integer" use="optional"/>
+		<xs:attribute name="resourceId" type="xs:IDREF" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="cp_fileType">
+		<xs:attribute name="foreignId" type="xs:integer" use="optional"/>
+		<xs:attribute name="href" type="xs:anyURI" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="cp_hideLMSUIType">
+		<xs:attribute name="value" type="adlnav_hideLMSUIType" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="cp_itemType">
+		<xs:sequence>
+			<xs:element name="item" type="cp_itemType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="hideLMSUI" type="cp_hideLMSUIType" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="datamap" type="adlcp_dataType" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+		<xs:attribute name="foreignId" type="xs:integer" use="optional"/>
+		<xs:attribute name="id" type="xs:ID" use="required"/>
+		<xs:attribute name="resourceId" type="xs:IDREF" use="optional"/>
+		<xs:attribute name="isvisible" type="xs:boolean" use="optional" default="true"/>
+		<xs:attribute name="parameters" type="cp_parametersType" use="optional"/>
+		<xs:attribute name="title" type="cp_titleType" use="required"/>
+		<xs:attribute name="dataFromLMS" type="adlcp_dataFromLMSType" use="optional"/>
+		<xs:attribute name="completionThreshold" type="adlcp_completionThresholdType" use="optional"/>
+		<xs:attribute name="completedByMeasure" type="xs:boolean" use="optional"/>
+		<xs:attribute name="progressWeight" type="seq_weightType" use="optional"/>
+		<xs:attribute name="sequencingId" type="xs:IDREF" use="optional"/>
+		<xs:attribute name="timeLimitAction" type="adlcp_timeLimitActionType" use="optional"/>
+  </xs:complexType>
+	<xs:complexType name="cp_manifestType">
+		<xs:sequence>
+			<xs:element name="organization" type="cp_organizationType" maxOccurs="unbounded">
+				<xs:keyref name="item_resourceId" refer="key_resource">
+					<xs:selector xpath=".//item"/>
+					<xs:field xpath="@resourceId"/>
+				</xs:keyref>
+				<xs:keyref name="item_sequencingId" refer="key_sequencing">
+					<xs:selector xpath=".//item"/>
+					<xs:field xpath="@sequencingId"/>
+				</xs:keyref>
+			</xs:element>
+			<xs:element name="resource" type="cp_resourceType" maxOccurs="unbounded"/>
+			<xs:element name="sequencing" type="seq_sequencingType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="foreignId" type="xs:integer" use="optional"/>
+		<xs:attribute name="id" type="xs:ID" use="required"/>
+		<xs:attribute name="version" type="xs:string" use="optional"/>
+		<xs:attribute name="uri" type="xs:anyURI" use="optional"/>
+		<xs:attribute name="base" type="cp_baseType" use="optional"/>
+		<xs:attribute name="title" type="cp_titleType" use="optional"/>
+		<xs:attribute name="defaultOrganization" type="xs:IDREF" use="required"/>
+		<xs:attribute name="credit" type="xs:string" use="optional" default="credit"/>
+		<xs:attribute name="defaultLessonMode" type="xs:string" use="optional" default="normal"/>
+		<xs:attribute name="autoReview" type="xs:string" use="optional" default="review"/>
+		<xs:attribute name="persistPreviousAttempts" type="xs:boolean" use="optional" default="false"/>
+	</xs:complexType>
+	<xs:complexType name="cp_organizationType">
+		<xs:sequence>
+			<xs:element name="item" type="cp_itemType" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="foreignId" type="xs:integer" use="optional"/>
+		<xs:attribute name="id" type="xs:ID" use="required"/>
+		<xs:attribute name="structure" type="cp_structureType" use="optional" default="hierarchical"/>
+		<xs:attribute name="objectivesGlobalToSystem" type="adlseq_objectivesGlobalToSystemType" use="optional" default="true"/>
+    <xs:attribute name="shared_data_global_to_system" type="adlseq_sharedDataGlobalToSystemType" use="optional" default="true"/>
+    <xs:attribute name="title" type="cp_titleType" use="required"/>
+		<xs:attribute name="sequencingId" type="xs:IDREF" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="cp_resourceType">
+		<xs:sequence>
+			<xs:element name="file" type="cp_fileType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="dependency" type="cp_dependencyType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="foreignId" type="xs:integer" use="optional"/>
+		<xs:attribute name="id" type="xs:ID" use="required"/>
+		<xs:attribute name="type" type="xs:string" use="required"/>
+		<xs:attribute name="base" type="cp_baseType" use="optional"/>
+		<xs:attribute name="href" type="xs:anyURI" use="optional"/>
+		<xs:attribute name="scormType" type="adlcp_scormType" use="required"/>
+	</xs:complexType>
+	<xs:simpleType name="cp_dataFromLMSType">
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:simpleType name="cp_parametersType">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="1000"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="cp_schemaType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="ADL SCORM"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="cp_schemaversionType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="CAM 1.3"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="cp_titleType">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="200"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="cp_versionType">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="20"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="cp_structureType">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="200"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="cp_baseType">
+		<xs:restriction base="xs:anyURI"/>
+	</xs:simpleType>
+	<!-- -->
+	<xs:attributeGroup name="seq_controlModeType">
+		<xs:attribute name="choice" type="xs:boolean" default="true"/>
+		<xs:attribute name="choiceExit" type="xs:boolean" default="true"/>
+		<xs:attribute name="flow" type="xs:boolean" default="false"/>
+		<xs:attribute name="forwardOnly" type="xs:boolean" default="false"/>
+		<xs:attribute name="useCurrentAttemptObjectiveInfo" type="xs:boolean" default="true"/>
+		<xs:attribute name="useCurrentAttemptProgressInfo" type="xs:boolean" default="true"/>
+	</xs:attributeGroup>
+	<xs:attributeGroup name="seq_limitConditionsType">
+		<xs:attribute name="attemptLimit" type="xs:nonNegativeInteger"/>
+		<xs:attribute name="attemptAbsoluteDurationLimit" type="xs:duration"/>
+		<xs:attribute name="attemptExperiencedDurationLimit" type="xs:duration"/>
+		<xs:attribute name="activityAbsoluteDurationLimit" type="xs:duration"/>
+		<xs:attribute name="activityExperiencedDurationLimit" type="xs:duration"/>
+		<xs:attribute name="beginTimeLimit" type="xs:dateTime"/>
+		<xs:attribute name="endTimeLimit" type="xs:dateTime"/>
+	</xs:attributeGroup>
+	<xs:attributeGroup name="seq_deliveryControlsType">
+		<xs:attribute name="tracked" type="xs:boolean" default="true"/>
+		<xs:attribute name="completionSetByContent" type="xs:boolean" default="false"/>
+		<xs:attribute name="objectiveSetByContent" type="xs:boolean" default="false"/>
+	</xs:attributeGroup>
+	<xs:attributeGroup name="seq_randomizationType">
+		<xs:attribute name="randomizationTiming" type="seq_randomTimingType" default="never"/>
+		<xs:attribute name="selectCount" type="xs:nonNegativeInteger"/>
+		<xs:attribute name="reorderChildren" type="xs:boolean" default="false"/>
+		<xs:attribute name="selectionTiming" type="seq_randomTimingType" default="never"/>
+	</xs:attributeGroup>
+	<xs:attributeGroup name="seq_rollupRulesAttributes">
+		<xs:attribute name="rollupObjectiveSatisfied" type="xs:boolean" default="true"/>
+		<xs:attribute name="rollupProgressCompletion" type="xs:boolean" default="true"/>
+		<xs:attribute name="objectiveMeasureWeight" type="seq_weightType" default="1.0000"/>
+	</xs:attributeGroup>
+	<xs:attributeGroup name="seq_rollupRuleAttributes">
+		<xs:attribute name="childActivitySet" type="seq_childActivityType" default="all"/>
+		<xs:attribute name="minimumCount" type="xs:nonNegativeInteger" default="0"/>
+		<xs:attribute name="minimumPercent" type="seq_percentType" default="0"/>
+	</xs:attributeGroup>
+	<xs:complexType name="seq_objectiveMappingType">
+		<xs:attribute name="foreignId" type="xs:integer" use="optional"/>
+		<xs:attribute name="targetObjectiveID" type="xs:string" use="optional"/>
+		<xs:attribute name="readSatisfiedStatus" type="xs:boolean" default="true"/>
+		<xs:attribute name="readNormalizedMeasure" type="xs:boolean" default="true"/>
+		<xs:attribute name="writeSatisfiedStatus" type="xs:boolean" default="false"/>
+		<xs:attribute name="writeNormalizedMeasure" type="xs:boolean" default="false"/>
+	</xs:complexType>  
+  <xs:complexType name="seq_auxiliaryResourceType">
+		<xs:attribute name="foreignId" type="xs:integer" use="optional"/>
+		<xs:attribute name="auxiliaryResourceID" type="xs:anyURI" use="optional"/>
+		<xs:attribute name="purpose" type="xs:string" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="seq_objectiveType">
+		<xs:sequence>
+			<xs:element name="mapInfo" type="seq_objectiveMappingType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="foreignId" type="xs:integer" use="optional"/>
+		<xs:attribute name="objectiveID" type="xs:anyURI" use="optional"/>
+		<xs:attribute name="minNormalizedMeasure" type="seq_measureType" default="1.00000"/>
+		<xs:attribute name="satisfiedByMeasure" type="xs:boolean" default="false"/>
+		<xs:attribute name="primary" type="xs:boolean" default="false"/>
+	</xs:complexType>
+  <xs:complexType name="adlcp_dataType">
+    <xs:attribute name="target_id" type="xs:anyURI" use="required"/>
+    <xs:attribute name="read_shared_data" type="xs:boolean" default="true"/>
+    <xs:attribute name="write_shared_data" type="xs:boolean" default="true"/>
+  </xs:complexType>
+  <xs:complexType name="seq_sequencingType">
+		<xs:sequence>
+			<xs:element name="rule" type="seq_ruleType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="auxiliaryResource" type="seq_auxiliaryResourceType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="objective" type="seq_objectiveType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="foreignId" type="xs:integer" use="optional"/>
+		<xs:attribute name="id" type="xs:ID"/>
+		<xs:attribute name="sequencingId" type="xs:IDREF" use="optional"/>
+		<xs:attributeGroup ref="seq_controlModeType"/>
+		<xs:attributeGroup ref="adlseq_constrainedChoiceConsiderationsType"/>
+		<xs:attributeGroup ref="adlseq_rollupConsiderationsType"/>
+		<xs:attributeGroup ref="seq_limitConditionsType"/>
+		<xs:attributeGroup ref="seq_randomizationType"/>
+		<xs:attributeGroup ref="seq_deliveryControlsType"/>
+		<xs:attributeGroup ref="seq_rollupRulesAttributes"/>
+	</xs:complexType>
+	<xs:complexType name="seq_ruleType">
+		<xs:sequence>
+			<xs:element name="condition" type="seq_conditionType" maxOccurs="unbounded"/>
+		</xs:sequence>
+		<xs:attribute name="foreignId" type="xs:integer" use="optional"/>
+		<xs:attribute name="conditionCombination" type="seq_conditionCombinationType"/>
+		<xs:attribute name="type" type="op_ruleType" use="required"/>
+		<xs:attribute name="action" type="xs:token" use="required"/>
+		<xs:attributeGroup ref="seq_rollupRuleAttributes"/>
+	</xs:complexType>
+	<xs:complexType name="seq_conditionType">
+		<xs:attribute name="foreignId" type="xs:integer" use="optional"/>
+		<xs:attribute name="referencedObjective" type="xs:string"/>
+		<xs:attribute name="measureThreshold" type="seq_measureType"/>
+		<xs:attribute name="operator" type="seq_conditionOperatorType" default="noOp"/>
+		<xs:attribute name="condition" type="seq_sequencingRuleConditionType" use="required"/>
+	</xs:complexType>
+	<xs:simpleType name="seq_childActivityType">
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="all"/>
+			<xs:enumeration value="any"/>
+			<xs:enumeration value="none"/>
+			<xs:enumeration value="atLeastCount"/>
+			<xs:enumeration value="atLeastPercent"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="seq_conditionCombinationType">
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="all"/>
+			<xs:enumeration value="any"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="seq_conditionOperatorType">
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="not"/>
+			<xs:enumeration value="noOp"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="seq_exitConditionRuleActionType">
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="exit"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="seq_measureType">
+		<xs:restriction base="xs:decimal">
+			<xs:maxInclusive value="1"/>
+			<xs:minInclusive value="-1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="seq_percentType">
+		<xs:restriction base="xs:decimal">
+			<xs:maxInclusive value="1"/>
+			<xs:minInclusive value="0"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="seq_postConditionRuleActionType">
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="exitParent"/>
+			<xs:enumeration value="exitAll"/>
+			<xs:enumeration value="retry"/>
+			<xs:enumeration value="retryAll"/>
+			<xs:enumeration value="continue"/>
+			<xs:enumeration value="previous"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="seq_preConditionRuleActionType">
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="skip"/>
+			<xs:enumeration value="disabled"/>
+			<xs:enumeration value="hiddenFromChoice"/>
+			<xs:enumeration value="stopForwardTraversal"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="seq_randomTimingType">
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="never"/>
+			<xs:enumeration value="once"/>
+			<xs:enumeration value="onEachNewAttempt"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="seq_rollupActionType">
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="satisfied"/>
+			<xs:enumeration value="notSatisfied"/>
+			<xs:enumeration value="completed"/>
+			<xs:enumeration value="incomplete"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="seq_rollupRuleConditionType">
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="satisfied"/>
+			<xs:enumeration value="objectiveStatusKnown"/>
+			<xs:enumeration value="objectiveMeasureKnown"/>
+			<xs:enumeration value="completed"/>
+			<xs:enumeration value="activityProgressKnown"/>
+			<xs:enumeration value="attempted"/>
+			<xs:enumeration value="attemptLimitExceeded"/>
+			<xs:enumeration value="timeLimitExceeded"/>
+			<xs:enumeration value="outsideAvailableTimeRange"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="seq_sequencingRuleConditionType">
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="satisfied"/>
+			<xs:enumeration value="objectiveStatusKnown"/>
+			<xs:enumeration value="objectiveMeasureKnown"/>
+			<xs:enumeration value="objectiveMeasureGreaterThan"/>
+			<xs:enumeration value="objectiveMeasureLessThan"/>
+			<xs:enumeration value="completed"/>
+			<xs:enumeration value="activityProgressKnown"/>
+			<xs:enumeration value="attempted"/>
+			<xs:enumeration value="attemptLimitExceeded"/>
+			<xs:enumeration value="timeLimitExceeded"/>
+			<xs:enumeration value="outsideAvailableTimeRange"/>
+			<xs:enumeration value="always"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="seq_weightType">
+		<xs:restriction base="xs:decimal">
+			<xs:maxInclusive value="1"/>
+			<xs:minInclusive value="0"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- -->
+	<xs:simpleType name="adlcp_completionThresholdType">
+		<xs:restriction base="xs:decimal">
+			<xs:minInclusive value="0.0"/>
+			<xs:maxInclusive value="1.0"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="adlcp_dataFromLMSType">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="4096"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="adlcp_locationType">
+		<xs:restriction base="xs:anyURI">
+			<xs:maxLength value="1000"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="adlcp_persistStateType">
+		<xs:restriction base="xs:boolean"/>
+	</xs:simpleType>
+	<xs:simpleType name="adlcp_scormType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="sco"/>
+			<xs:enumeration value="asset"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="adlcp_timeLimitActionType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="exit,message"/>
+			<xs:enumeration value="exit,no message"/>
+			<xs:enumeration value="continue,message"/>
+			<xs:enumeration value="continue,no message"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- -->
+	<xs:simpleType name="adlnav_hideLMSUIType">
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="abandon"/>
+			<xs:enumeration value="abandonAll"/>
+			<xs:enumeration value="continue"/>
+			<xs:enumeration value="exit"/>
+			<xs:enumeration value="exitAll"/>
+			<xs:enumeration value="previous"/>
+			<xs:enumeration value="suspendAll"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- -->
+	<xs:attributeGroup name="adlseq_constrainedChoiceConsiderationsType">
+		<xs:attribute name="preventActivation" type="xs:boolean" default="false"/>
+		<xs:attribute name="constrainChoice" type="xs:boolean" default="false"/>
+	</xs:attributeGroup>
+	<xs:attributeGroup name="adlseq_rollupConsiderationsType">
+		<xs:attribute name="requiredForSatisfied" type="adlseq_rollupConsiderationType" default="always"/>
+		<xs:attribute name="requiredForNotSatisfied" type="adlseq_rollupConsiderationType" default="always"/>
+		<xs:attribute name="requiredForCompleted" type="adlseq_rollupConsiderationType" default="always"/>
+		<xs:attribute name="requiredForIncomplete" type="adlseq_rollupConsiderationType" default="always"/>
+		<xs:attribute name="measureSatisfactionIfActive" type="xs:boolean" default="true"/>
+	</xs:attributeGroup>
+	<xs:simpleType name="adlseq_objectivesGlobalToSystemType">
+		<xs:restriction base="xs:boolean"/>
+	</xs:simpleType>
+  <xs:simpleType name="adlseq_sharedDataGlobalToSystemType">
+    <xs:restriction base="xs:boolean"/>
+  </xs:simpleType>
+  <xs:simpleType name="adlseq_rollupConsiderationType">
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="always"/>
+			<xs:enumeration value="ifAttempted"/>
+			<xs:enumeration value="ifNotSkipped"/>
+			<xs:enumeration value="ifNotSuspended"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- -->
+	<xs:simpleType name="op_ruleType">
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="pre"/>
+			<xs:enumeration value="exit"/>
+			<xs:enumeration value="post"/>
+			<xs:enumeration value="rollup"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

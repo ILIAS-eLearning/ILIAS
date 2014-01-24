@@ -1,0 +1,12 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<service xmlns="http://www.w3.org" version="$Id$"
+    id="ldap">
+    <baseclasses>
+    </baseclasses>
+    <pluginslots>
+    	<pluginslot id="ldaphk" name="LDAPHook" />
+    </pluginslots>
+	<crons>
+		<cron id="ldap_sync" class="ilLDAPCronSynchronization" />
+	</crons>
+</service>

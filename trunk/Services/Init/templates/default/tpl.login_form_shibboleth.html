@@ -1,0 +1,52 @@
+<div class="ilForm">
+	<form method="post" action="{SHIB_FORMACTION}" name="formlogin">
+		<input type="hidden" name="sendLogin" value="1" />
+		<!-- BEGIN shibboleth_wayf_login -->
+		<div class="ilFormHeader">
+			<h3 class="ilFormHeader">
+				{TXT_SHIB_LOGIN} {TXT_SHIB_FEDERATION_NAME}
+			</h3>
+		</div>
+		<div class="ilFormRow">
+			<div class="ilFormValue" style="text-align: center">
+				{TXT_SELECT_HOME_ORGANIZATION}
+			</div>
+		</div>
+		<div class="ilFormRow">
+			<div class="ilFormValue" style="text-align: center">
+				<p>
+					<span class="warning">{TXT_SHIB_INVALID_SELECTION}</span><br/>{SHIB_IDP_LIST} </p>
+				<p>
+					<input type="hidden" name="il_target" value="{ILW_TARGET}" />
+					<input type="submit" name="home_organization_selection" value="{TXT_CONTINUE}" />
+				</p>
+			</div>
+		</div>
+		<div class="ilFormRow">
+			<div class="ilFormValue" style="text-align: center">
+				{TXT_SHIB_LOGIN_INSTRUCTIONS}
+				{TXT_SHIB_CUSTOM_LOGIN_INSTRUCTIONS}
+			</div>
+		</div>
+		<!-- END shibboleth_wayf_login -->
+		<!-- BEGIN shibboleth_login -->
+		<div class="ilFormHeader">
+			<h3 class="ilFormHeader">
+				{TXT_SHIB_LOGIN} {TXT_SHIB_FEDERATION_NAME}
+			</h3>
+		</div>
+		<div class="ilFormRow">
+			<div class="ilFormValue" style="text-align: center">
+				<p><a href="shib_login.php?target={IL_TARGET}"><img src="{TXT_SHIB_LOGIN_BUTTON}" style="border:0;" alt="Shibboleth Login Button"></a></p>
+			</div>
+		</div>
+		<div class="ilFormRow">
+			<div class="ilFormValue" style="text-align: center">
+				{TXT_SHIB_LOGIN_INSTRUCTIONS}
+				{TXT_SHIB_CUSTOM_LOGIN_INSTRUCTIONS}
+			</div>
+		</div>
+		<!-- END shibboleth_login -->
+	</form>
+</div>
+	

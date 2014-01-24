@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:element name="seqTemplate" type="seqTemplateType"/>
+    <xs:complexType name="seqTemplateType">
+        <xs:sequence>
+            <xs:element ref="metadata" minOccurs="1"/>
+            <xs:element ref="item" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="identifier" type="xs:string" use="required"/>
+        <xs:anyAttribute namespace="##other" processContents="strict"/>
+    </xs:complexType>
+
+    <xs:element name="metadata" type="metadataType"/>
+    <xs:complexType name="metadataType">
+        <xs:sequence>
+            <xs:element name="version" type="xs:string"/>
+            <xs:element name="thumbnail" type="xs:string"/>
+            <xs:element name="title" type="xs:string"/>
+            <xs:element name="description" type="xs:string"/>
+            <xs:element name="replacenode" type="xs:boolean"/>
+        </xs:sequence>
+        <xs:anyAttribute namespace="##other" processContents="strict"/>
+    </xs:complexType>
+
+    <xs:element name="item" type="itemType"/>
+    <xs:complexType name="itemType">
+        <xs:sequence>
+            <xs:element ref="title" minOccurs="1"/>
+            <xs:element ref="sequencing" minOccurs="0"/>
+            <xs:element ref="item" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element ref="pagetemplate" minOccurs="0"/>
+        </xs:sequence>
+        <xs:attribute name="type" type="scormType" use="required"/>
+        <xs:attribute name="nodelete" type="xs:boolean"/>
+        <xs:attribute name="nocopy" type="xs:boolean"/>
+        <xs:attribute name="nomove" type="xs:boolean"/>
+        <xs:anyAttribute namespace="##other" processContents="strict"/>
+    </xs:complexType>
+
+    <xs:element name="sequencing" type="sequencingType"/>
+
+    <xs:complexType name="sequencingType">
+        <xs:sequence>
+            <xs:element ref="controlMode" minOccurs="0" maxOccurs="1"/>
+            <xs:element ref="sequencingRules" minOccurs="0" maxOccurs="1"/>
+            <xs:element ref="objectives" minOccurs="0" maxOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:element name="identifier" type="identifierType"/>
+    <xs:simpleType name="identifierType">
+        <xs:restriction base="xs:string"/>
+    </xs:simpleType>
+
+    <xs:element name="description" type="descriptionType"/>
+    <xs:simpleType name="descriptionType">
+        <xs:restriction base="xs:string"/>
+    </xs:simpleType>
+
+    <xs:element name="title" type="titleType"/>
+    <xs:simpleType name="titleType">
+        <xs:restriction base="xs:string"/>
+    </xs:simpleType>
+
+    <xs:element name="version" type="versionType"/>
+    <xs:simpleType name="versionType">
+        <xs:restriction base="xs:string"/>
+    </xs:simpleType>
+
+    <xs:element name="thumbnail" type="thumbnailType"/>
+    <xs:simpleType name="thumbnailType">
+        <xs:restriction base="xs:string"/>
+    </xs:simpleType>
+
+    <xs:element name="pagetemplate" type="pagetemplateType"/>
+    <xs:simpleType name="pagetemplateType">
+        <xs:restriction base="xs:string"/>
+    </xs:simpleType>
+
+    <xs:simpleType name="scormType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="lesson"/>
+            <xs:enumeration value="sco"/>
+            <xs:enumeration value="asset"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:element name="controlMode" type="controlModeType"/>
+
+    <!--Main Types-->
+    <xs:complexType name="controlModeType">
+        <xs:attribute name="choice" type="xs:boolean" use="optional"/>
+        <xs:attribute name="flow" type="xs:boolean" use="optional"/>
+        <xs:attribute name="choiceExit" type="xs:boolean" use="optional"/>
+        <xs:attribute name="forwardOnly" type="xs:boolean" use="optional"/>
+        <xs:anyAttribute namespace="##other" processContents="strict"/>
+    </xs:complexType>
+    <xs:element name="objectives" type="objectivesType"/>
+    <xs:complexType name="objectiveType">
+        <xs:sequence>
+            <xs:element name="minNormalizedMeasure" type="measureType" block="#all"
+                default="1.00000" minOccurs="0"/>
+            <xs:element name="mapInfo" block="#all" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                    <xs:complexContent>
+                        <xs:extension base="objectiveMappingType"/>
+                    </xs:complexContent>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="satisfiedByMeasure" default="false" type="xs:boolean"/>
+    </xs:complexType>
+
+    <xs:element name="sequencingRules" type="sequencingRulesType"/>
+    <xs:complexType name="sequencingRulesType">
+        <xs:sequence>
+            <xs:element name="preConditionRule" type="preConditionRuleType" block="#all"
+                minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="exitConditionRule" type="exitConditionRuleType" block="#all"
+                minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="postConditionRule" type="postConditionRuleType" block="#all"
+                minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!--Main Types End-->
+
+    <!--Helper Types-->
+    <xs:complexType name="objectivesType">
+        <xs:sequence>
+            <xs:element name="primaryObjective" block="#all">
+                <xs:complexType>
+                    <xs:complexContent>
+                        <xs:extension base="objectiveType">
+                            <xs:attribute name="objectiveID" type="xs:anyURI"/>
+                        </xs:extension>
+                    </xs:complexContent>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="objective" block="#all" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                    <xs:complexContent>
+                        <xs:extension base="objectiveType">
+                            <xs:attribute name="objectiveID" use="required" type="xs:anyURI"/>
+                        </xs:extension>
+                    </xs:complexContent>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="objectiveMappingType">
+        <xs:attribute name="targetObjectiveID" use="required" type="xs:anyURI"/>
+        <xs:attribute name="readSatisfiedStatus" default="true" type="xs:boolean"/>
+        <xs:attribute name="readNormalizedMeasure" default="true" type="xs:boolean"/>
+        <xs:attribute name="writeSatisfiedStatus" default="false" type="xs:boolean"/>
+        <xs:attribute name="writeNormalizedMeasure" default="false" type="xs:boolean"/>
+    </xs:complexType>
+
+    <xs:complexType name="sequencingRuleType" abstract="true">
+        <xs:sequence>
+            <xs:element name="ruleConditions" block="#all" minOccurs="0">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="ruleCondition" block="#all" maxOccurs="unbounded">
+                            <xs:complexType>
+                                <xs:attribute name="referencedObjective" type="xs:anyURI"/>
+                                <xs:attribute name="measureThreshold" type="measureType"/>
+                                <xs:attribute name="operator" default="noOp"
+                                    type="conditionOperatorType"/>
+                                <xs:attribute name="condition" use="required"
+                                    type="sequencingRuleConditionType"/>
+                            </xs:complexType>
+                        </xs:element>
+                    </xs:sequence>
+                    <xs:attribute name="conditionCombination" default="all"
+                        type="conditionCombinationType"/>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="exitConditionRuleType">
+        <xs:complexContent>
+            <xs:extension base="sequencingRuleType">
+                <xs:sequence>
+                    <xs:element name="ruleAction" block="#all">
+                        <xs:complexType>
+                            <xs:attribute name="action" use="required"
+                                type="exitConditionRuleActionType"/>
+                        </xs:complexType>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="postConditionRuleType">
+        <xs:annotation>
+            <xs:documentation>postConditionSequencingRuleType is derived by extension from
+                sequencingRuleType. It adds an element ruleAction that is a simpleType constrained
+                to a vocabulary relevant to post-Condition sequencing rules</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="sequencingRuleType">
+                <xs:sequence>
+                    <xs:element name="ruleAction" block="#all">
+                        <xs:complexType>
+                            <xs:attribute name="action" use="required"
+                                type="postConditionRuleActionType"/>
+                        </xs:complexType>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="preConditionRuleType">
+        <xs:complexContent>
+            <xs:extension base="sequencingRuleType">
+                <xs:sequence>
+                    <xs:element name="ruleAction" block="#all">
+                        <xs:complexType>
+                            <xs:attribute name="action" use="required"
+                                type="preConditionRuleActionType"/>
+                        </xs:complexType>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:simpleType name="exitConditionRuleActionType">
+        <xs:restriction base="xs:token">
+            <xs:enumeration value="exit"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="postConditionRuleActionType">
+        <xs:restriction base="xs:token">
+            <xs:enumeration value="exitParent"/>
+            <xs:enumeration value="exitAll"/>
+            <xs:enumeration value="retry"/>
+            <xs:enumeration value="retryAll"/>
+            <xs:enumeration value="continue"/>
+            <xs:enumeration value="previous"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="preConditionRuleActionType">
+        <xs:restriction base="xs:token">
+            <xs:enumeration value="skip"/>
+            <xs:enumeration value="disabled"/>
+            <xs:enumeration value="hiddenFromChoice"/>
+            <xs:enumeration value="stopForwardTraversal"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+
+    <xs:simpleType name="childActivityType">
+        <xs:restriction base="xs:token">
+            <xs:enumeration value="all"/>
+            <xs:enumeration value="any"/>
+            <xs:enumeration value="none"/>
+            <xs:enumeration value="atLeastCount"/>
+            <xs:enumeration value="atLeastPercent"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="conditionCombinationType">
+        <xs:restriction base="xs:token">
+            <xs:enumeration value="all"/>
+            <xs:enumeration value="any"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="conditionOperatorType">
+        <xs:restriction base="xs:token">
+            <xs:enumeration value="not"/>
+            <xs:enumeration value="noOp"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="measureType">
+        <xs:restriction base="xs:decimal">
+            <xs:maxInclusive value="1"/>
+            <xs:minInclusive value="-1"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="percentType">
+        <xs:restriction base="xs:decimal">
+            <xs:maxInclusive value="1"/>
+            <xs:minInclusive value="0"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="rollupRuleConditionType">
+        <xs:restriction base="xs:token">
+            <xs:enumeration value="satisfied"/>
+            <xs:enumeration value="objectiveStatusKnown"/>
+            <xs:enumeration value="objectiveMeasureKnown"/>
+            <xs:enumeration value="completed"/>
+            <xs:enumeration value="activityProgressKnown"/>
+            <xs:enumeration value="attempted"/>
+            <xs:enumeration value="attemptLimitExceeded"/>
+            <xs:enumeration value="timeLimitExceeded"/>
+            <xs:enumeration value="outsideAvailableTimeRange"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="rollupActionType">
+        <xs:restriction base="xs:token">
+            <xs:enumeration value="satisfied"/>
+            <xs:enumeration value="notSatisfied"/>
+            <xs:enumeration value="completed"/>
+            <xs:enumeration value="incomplete"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="sequencingRuleConditionType">
+        <xs:restriction base="xs:token">
+            <xs:enumeration value="satisfied"/>
+            <xs:enumeration value="objectiveStatusKnown"/>
+            <xs:enumeration value="objectiveMeasureKnown"/>
+            <xs:enumeration value="objectiveMeasureGreaterThan"/>
+            <xs:enumeration value="objectiveMeasureLessThan"/>
+            <xs:enumeration value="completed"/>
+            <xs:enumeration value="activityProgressKnown"/>
+            <xs:enumeration value="attempted"/>
+            <xs:enumeration value="attemptLimitExceeded"/>
+            <xs:enumeration value="timeLimitExceeded"/>
+            <xs:enumeration value="outsideAvailableTimeRange"/>
+            <xs:enumeration value="always"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="weightType">
+        <xs:restriction base="xs:decimal">
+            <xs:maxInclusive value="1"/>
+            <xs:minInclusive value="0"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="randomTimingType">
+        <xs:restriction base="xs:token">
+            <xs:enumeration value="never"/>
+            <xs:enumeration value="once"/>
+            <xs:enumeration value="onEachNewAttempt"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <!--Helper Types End-->
+
+</xs:schema>

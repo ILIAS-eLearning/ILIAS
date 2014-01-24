@@ -1,0 +1,69 @@
+<form action="{FORMACTION}" id="post" name="post" method="post">
+
+<input type="hidden" name="usedwsiwygeditor" id="usedwsiwygeditor" value="0">
+
+<table class="fullwidth">
+<tr class="tblheader">
+	<td class="std" colspan="2">
+		{TXT_ACTION}
+	</td>
+</tr>
+<!-- BEGIN commands2 -->
+<!-- <tr>
+	<td class="submit"  colspan="2" style="text-align:right;">
+		<input class="submit" type="submit" name="cmd[{BTN_NAME}]" value="{BTN_TEXT}" />
+		<input class="submit" type="submit" name="cmd[{BTN_CANCEL}]" value="{TXT_CANCEL}" />
+	</td>
+</tr> -->
+<!-- END commands2 -->
+<tr>
+	<td class="option" style="white-space:nowrap;" width="1">
+		{TXT_CHARACTERISTIC}
+	</td>
+	<td class="option_value" width="99%">{ADV_SEL_STYLE}</td>
+</tr>
+<tr class="std">
+	<td class="option_value" colspan="2">
+	{BB_MENU}
+	</td>
+</tr>
+<tr class="std">
+<td class="std" colspan="2">
+<textarea id="{PAR_TA_NAME}" name="{PAR_TA_NAME}" onfocus="initInsertions();" onkeyup="storeCaret(this);" onselect="storeCaret(this);" onclick="storeCaret(this);" style="width:100%;" onkeyup="storeCaret(this);" cols="80" rows="12" wrap="virtual">{PAR_TA_CONTENT}</textarea>
+</td>
+</tr>
+<tr>
+	<td class="option" style="white-space:nowrap;" width="1">
+		{TXT_LANGUAGE}
+	</td>
+	<td class="option_value" width="99%">
+		{SELECT_LANGUAGE}
+	</td>
+</tr>
+<!-- BEGIN commands -->
+<tr>
+	<td class="submit"  colspan="2" style="text-align:right;">
+		<input class="submit" type="submit" name="cmd[{BTN_NAME}]" value="{BTN_TEXT}" />
+		<input class="submit" type="submit" name="cmd[{BTN_CANCEL}]" value="{TXT_CANCEL}" />
+	</td>
+</tr>
+<!-- END commands -->
+<!-- BEGIN content_selection -->
+<tr>
+	<td class="submit"  colspan="2">
+		{SELECT_CONTENT}
+		<input class="submit" type="submit" name="cmd[{BTN_NAME}]" value="{TXT_SELECT}" />
+	</td>
+</tr>
+<!-- END content_selection -->
+</table>
+</form>
+<!-- BEGIN help -->
+<div style="margin-top: 7px;" id="ilParagraphHelp">
+<!-- BEGIN help_item -->
+<div style="margin-top: 3px;">
+<!-- BEGIN help_img --><img alt="{ALT_HELP}" src="{IMG_HELP}" /><!-- END  help_img --> <span class="subtitle">{TXT_HELP}</span>
+</div>
+<!-- END help_item -->
+<div>
+<!-- END help -->

@@ -1,0 +1,87 @@
+<!-- BEGIN credit_card -->
+{ITEMS_TABLE}
+{COUPON_TABLE}
+
+  <form action="{CREDIT_CARD_FORMACTION}" method="post">
+	<p><table class="fullwidth">
+	  <tr class="tbltitle">
+		<td colspan="3">
+		  <table class="fullwidth_invisible" cellspacing="0">
+			<tr class="tbltitle">
+			  <td width="10"><img src="{TYPE_IMG}" alt="{ALT_IMG}" title="{ALT_IMG}" border="0" vspace="0" align="left" /></td>
+			  <td class="tbltitle" align="left">&nbsp;{TITLE}</td>
+			</tr>
+		  </table>
+		</td>
+	  </tr>
+	  <tr>
+		<td class="sub_option">{TXT_CARD_HOLDER}</td>
+		<td class="option_value"><input type="text" name="card_holder" value="{CARD_HOLDER}" maxlength="25"></td>
+	  </tr>
+	  <tr>
+		<td class="sub_option">{TXT_CARD_NUMBER}</td>
+		<td nowrap class="option_value">
+			<input type="text" name="card_number[block_1]" value="{CARD_NUMBER_BLOCK_1}" size="5" maxlength="4"> -
+			<input type="text" name="card_number[block_2]" value="{CARD_NUMBER_BLOCK_2}" size="5" maxlength="4"> -
+			<input type="text" name="card_number[block_3]" value="{CARD_NUMBER_BLOCK_3}" size="5" maxlength="4"> -
+			<input type="text" name="card_number[block_4]" value="{CARD_NUMBER_BLOCK_4}" size="5" maxlength="4">
+		</td>
+	  </tr>
+	  <tr>
+		<td class="sub_option">{TXT_CHECK_NUMBER}</td>
+		<td class="option_value"><input type="text" name="check_number" value="{CHECK_NUMBER}" size="5" maxlength="25"></td>
+	  </tr>
+	  <tr>
+		<td class="sub_option">{TXT_VALIDITY}</td>
+		<td nowrap class="option_value">
+			<select name="validity[month]" size=1>
+<!-- BEGIN loop_validity_months -->
+				<option value="{LOOP_VALIDITY_MONTHS}"{LOOP_VALIDITY_MONTHS_SELECTED}>{LOOP_VALIDITY_MONTHS_TXT}</option>
+<!-- END loop_validity_months -->
+			</select> /
+			<select name="validity[year]" size=1>
+<!-- BEGIN loop_validity_years -->
+				<option value="{LOOP_VALIDITY_YEARS}"{LOOP_VALIDITY_YEARS_SELECTED}>{LOOP_VALIDITY_YEARS_TXT}</option>
+<!-- END loop_validity_years -->
+			</select>
+		</td>
+	  </tr>
+	  <tr>
+		<td class="sub_option">{TXT_TERMS_CONDITIONS}</td>
+		<td class="option_value">
+			<table cellspacing=0 cellpadding=0 border=0>
+			<tr>
+				<td valign=top><input type="checkbox" name="terms_conditions" value="1"{TERMS_CONDITIONS_1}></td>
+				<td>&nbsp;</td>
+				<td valign=top>{TXT_TERMS_CONDITIONS_READ} [<a href="{LINK_TERMS_CONDITIONS}" target="_blank">{TXT_TERMS_CONDITIONS_SHOW}</a>]</a></td>
+			</tr>
+			</table>
+		</td>
+	  </tr>
+	  <tr>
+		<td class="sub_option">{TXT_PASSWORD}</td>
+		<td class="option_value">
+			{TXT_CONFIRM_ORDER}<br>
+			<input type="password" name="password" value="{PASSWORD}" maxlength="25">
+		</td>
+	  </tr>
+	  <tr class="tblfooter" >
+		<td class="submit" colspan="3" >
+			<input class="submit" type="submit" name="cmd[getCreditCard]" value="{INPUT_VALUE}" />
+<!--			<input class="submit" type="submit" name="cmd[cancel]" value="{CANCEL}" />//-->
+		</td>
+	  </tr>
+	</table></p>
+</form>
+<!-- END credit_card -->
+<!-- BEGIN buyed_objects -->
+<script language="JavaScript">
+document.write('<p><a class="il_ContainerItemCommand" href="#" onClick="window.opener.location.href=\'{LINK_GOTO_BUYED_OBJECTS}\'; window.close(); return false">{TXT_GOTO_BUYED_OBJECTS}</a></p>');
+</script>
+<noscript>
+<p><a class="il_ContainerItemCommand" href="{LINK_GOTO_BUYED_OBJECTS}">{TXT_GOTO_BUYED_OBJECTS}</a></p>
+</noscript>
+<!-- END buyed_objects -->
+<script language="JavaScript">
+document.write('<p><a class="il_ContainerItemCommand" href="javascript:window.close()">{TXT_CLOSE_WINDOW}</a></p>');
+</script>

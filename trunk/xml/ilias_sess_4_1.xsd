@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<schema xmlns = 'http://www.w3.org/2001/XMLSchema'
+	targetNamespace = "http://www.ilias.de/Modules/Session/sess/4_1"
+	xmlns:t = 'http://www.ilias.de/Modules/Session/sess/4_1'>
+
+	<!-- t:Data type -->
+	<complexType name='Data' mixed='true'>
+	</complexType>
+
+	<!-- Sess -->
+	<element name='Sess'>
+		<complexType>
+		<sequence>
+			<element ref='t:Id' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Title' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Description' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Location' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:TutorName' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:TutorEmail' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:TutorPhone' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Details' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Registration' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:EventStart' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:EventEnd' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:StartingTime' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:EndingTime' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Fulltime' minOccurs='1' maxOccurs='1'/>
+		</sequence>
+		</complexType>
+	</element>
+
+	<element name='Id' type='t:Data' />
+	<element name='Title' type='t:Data' />
+	<element name='Description' type='t:Data' />
+	<element name='Location' type='t:Data' />
+	<element name='TutorName' type='t:Data' />
+	<element name='TutorEmail' type='t:Data' />
+	<element name='TutorPhone' type='t:Data' />
+	<element name='Details' type='t:Data' />
+	<element name='Registration' type='t:Data' />
+	<element name='EventStart' type='t:Data' />
+	<element name='EventEnd' type='t:Data' />
+	<element name='StartingTime' type='t:Data' />
+	<element name='EndingTime' type='t:Data' />
+	<element name='Fulltime' type='t:Data' />
+
+	<!-- SessItem -->
+	<element name='SessItem'>
+		<complexType>
+		<sequence>
+			<element ref='t:SessionId' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:ItemId' minOccurs='1' maxOccurs='1'/>
+		</sequence>
+		</complexType>
+	</element>
+	
+	<element name='SessionId' type='t:Data' />
+	<element name='ItemId' type='t:Data' />
+
+</schema>

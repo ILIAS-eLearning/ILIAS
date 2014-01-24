@@ -1,0 +1,21 @@
+<!ELEMENT RepositoryObject (Title, Description, InternalLink, GotoLink,StructureObjects)>
+<!ATTLIST RepositoryObject
+	obj_id CDATA #REQUIRED
+	ref_id CDATA #REQUIRED
+	type CDATA #REQUIRED
+>
+
+<!ELEMENT StructureObjects (StructureObject*)>
+
+<!ELEMENT StructureObject (Title, Description, InternalLink, GotoLink,StructureObjects)>
+<!ATTLIST StructureObject
+	obj_id CDATA #REQUIRED
+	type CDATA #REQUIRED
+>
+<!ELEMENT Title (#PCDATA)>
+<!ELEMENT Description (#PCDATA)>
+<!ELEMENT InternalLink (#PCDATA)>
+<!ELEMENT GotoLink (#PCDATA)>
+
+
+

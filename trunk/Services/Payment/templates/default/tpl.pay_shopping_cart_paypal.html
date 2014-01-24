@@ -1,0 +1,65 @@
+<!-- BEGIN loop -->
+{ITEMS_TABLE}
+<p>{COUPON_TABLE}<br /></p>
+<!-- BEGIN buy_link -->
+<p><b>{PAYPAL_HINT}:</b> {PAYPAL_INFO}</p>
+<div align="right">
+<form name ="sc" id="sc" action="{SCRIPT_LINK}" method="post" />
+<input type="hidden" name="cmd" value="_cart" />
+<input type="hidden" name="upload" value="1" />
+<input type="hidden" name="charset" value="utf-8" />
+<input type="hidden" name="business" value="{VENDOR}" />
+<input type="hidden" name="currency_code" value="{CURRENCY}" />
+<input type="hidden" name="return" value="{RETURN}" />
+<input type="hidden" name="rm" value="2" />
+<input type="hidden" name="cancel_return" value="{CANCEL_RETURN}" />
+<input type="hidden" name="custom" value="{CUSTOM}" />
+<input type="hidden" name="page_style" value="{PAGE_STYLE}" />
+<input type="hidden" name="mc_fee" value="{MC_FEE}" />
+<!-- BEGIN loop_items -->
+<input type="hidden" name="item_name_{LOOP_ITEMS_NO}" value="{LOOP_ITEMS_NAME}" />
+<input type="hidden" name="amount_{LOOP_ITEMS_NO}" value="{LOOP_ITEMS_AMOUNT}" />
+<!-- END loop_items -->
+
+<!-- BEGIN terms_checkbox -->
+<font size="-2">{TERMS_CONDITIONS}<input type="checkbox" name="terms_conditions" id="terms_conditions" onclick="enableButton()"></font>
+<!-- END terms_checkbox -->
+<input  name="sb" id="sb" class="submit" type="submit" value="{TXT_BUY}" disabled="disabled"/>
+</form>
+</div>
+ <script language="JavaScript">
+
+    function enableButton()
+    {
+      if(document.sc.terms_conditions.checked == true)
+      {
+		document.sc.sb.disabled = false;
+      }
+	  else
+      if(document.sc.terms_conditions.checked == false)
+      {
+		document.sc.sb.disabled = true;
+      }
+	}
+
+	<!-- BEGIN attach_submit_event -->
+	document.getElementById("sb").onclick = function() {
+		if (document.getElementById("terms_conditions").checked == true) {
+			w = window.open("blank", "ilLogin", "width=800,height=768,status=no,toolbar=no,menubar=no,location=no,dependent=yes,scrollbars=yes")
+
+			document.getElementById("sc").setAttribute("target", "ilLogin");
+			document.getElementById("sc").submit();
+
+			if ("undefined" != typeof w &&
+				"undefined" != typeof w.focus) {
+				w.focus();
+			}
+		}
+		return false;
+	}
+	<!-- END attach_submit_event -->
+
+</script>
+<div style="clear:both">&nbsp;</div>
+<!-- END buy_link -->
+<!-- END loop -->

@@ -1,0 +1,28 @@
+<form enctype="multipart/form-data" action="{FORMACTION}" {TARGET} method="post">
+<table class="std">
+<tr class="tblheader">
+	<td class="std" colspan="2">
+	<img src="{TYPE_IMG}" style="vertical-align:middle;" alt="{ALT_IMG}" title="{ALT_IMG}" border="0" vspace="0" />
+	{TXT_EXPORT_TRACKING}</td>
+</tr>
+<tr>
+	<td class="option">{TXT_SELECT_TYPE}</td>
+	<td class="option_value">
+		<input type="radio" name="export_type" value="raw" checked /> {TXT_EXPORT_RAW} <br/>
+		<input type="radio" name="export_type" value="success" /> {TXT_EXPORT_SUCCESS}
+		
+	</td>
+</tr>
+<tr>
+	<td class="submit" align="right" colspan="2">
+		<input class="submit" type="submit" name="cmd[{BTN_NAME}]" value="{TXT_EXPORT}" />
+		<input class="submit" type="submit" name="cmd[cancel]" value="{TXT_CANCEL}" />
+		<input type="hidden" name="user" value="{VAL_USER}" />
+		<input type="hidden" name="export_all" value="{VAL_EXPORTALL}" />
+		
+	</td>
+</tr>
+<br>
+</table>
+</form>
+

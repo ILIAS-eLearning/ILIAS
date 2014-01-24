@@ -1,0 +1,9 @@
+README
+======
+
+This directory contains Text_Diff (a PEAR package), version 0.0.5,
+which is licensed under the LGPL license.
+
+More info at: http://pear.php.net/package/Text_Diff/
+
+Note: It was modified to be PHP 5 compatible (E_STRICT).

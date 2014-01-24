@@ -1,0 +1,32 @@
+  <form action="{FORMACTION}" method="post" enctype="multipart/form-data">
+	<table class="std">
+	  <tr class="tblheader">
+		<th id="header-import" class="std" colspan="2">{TXT_IMPORT_MAIL}</th>
+	  </tr>
+	  <!-- BEGIN imported -->
+	  <tr>
+		<td id="header-imported" class="option">
+		  {TXT_IMPORTED_FILE}
+		</td>
+		<td headers="header-imported header-import" class="option_value">{XML_FILE}</td>
+	  </tr>
+	  <!-- END imported -->
+	  <tr>
+		<td id="header-file" class="option">
+		  {TXT_IMPORT_FILE}
+		</td>
+		<td headers="header-file header-import" class="option_value">
+		  <input type="file" name="importFile"/>
+		</td>
+	  </tr>
+	  <tr class="submit">
+		<td class="submit" colspan="2">
+			<input class="submit" type="submit" name="cmd[upload]" value="{BTN_UPLOAD}"/>
+			  <!-- BEGIN import -->
+			  <input class="submit" type="submit" name="cmd[performImport]" value="{BTN_IMPORT}"/>
+				<!-- END import -->
+		  <input class="submit" type="submit" name="cmd[view]" value="{BTN_CANCEL}"/>
+		</td>
+	  </tr>
+	</table>
+  </form>

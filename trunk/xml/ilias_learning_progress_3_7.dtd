@@ -1,0 +1,34 @@
+<!ELEMENT LearningProgress (Title,Header,Footer,Info*,Items)>
+<!ELEMENT Title (#PCDATA)>
+<!ELEMENT Header (#PCDATA)>
+<!ELEMENT Footer (#PCDATA)>
+
+<!-- Object info or filter -->
+<!ELEMENT Info (InfoHeader?,InfoBody?)>
+<!ELEMENT InfoHeader (#PCDATA)>
+<!ELEMENT InfoBody (InfoRow*)>
+<!ELEMENT InfoRow (InfoColumn+)>
+<!ATTLIST InfoRow
+    Style CDATA #IMPLIED>
+<!ELEMENT InfoColumn (#PCDATA)>
+<!ATTLIST InfoColumn
+    Style CDATA #REQUIRED
+    Colspan CDATA #IMPLIED>
+
+<!ELEMENT Items (ItemHeader,Item*)>
+<!ELEMENT ItemHeader (HeaderTitle,HeaderInfo?)>
+<!ELEMENT HeaderTitle (#PCDATA)>
+<!-- In the moment only float right to simulate a table -->
+<!ELEMENT HeaderInfo (#PCDATA)>
+
+<!ELEMENT Item (ItemText+,ItemInfo+,Item)>
+<!ELEMENT ItemText (#PCDATA)>
+<!ATTLIST ItemText
+    Style CDATA #REQUIRED>
+
+<!ELEMENT ItemInfo (ItemInfoName,ItemInfoValue)>
+<!ATTLIST ItemInfo
+    Style CDATA #REQUIRED>
+<!ELEMENT ItemInfoName (#PCDATA)>    
+<!ELEMENT ItemInfoValue (#PCDATA)>
+

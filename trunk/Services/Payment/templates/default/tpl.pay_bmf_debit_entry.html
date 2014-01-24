@@ -1,0 +1,66 @@
+<!-- BEGIN debit_entry -->
+{ITEMS_TABLE}
+{COUPON_TABLE}
+
+  <form action="{DEBIT_ENTRY_FORMACTION}" method="post">
+	<p><table class="fullwidth">
+	  <tr class="tbltitle">
+		<td colspan="3">
+		  <table class="fullwidth_invisible" cellspacing="0">
+			<tr class="tbltitle">
+			  <td width="10"><img src="{TYPE_IMG}" alt="{ALT_IMG}" title="{ALT_IMG}" border="0" vspace="0" align="left" /></td>
+			  <td class="tbltitle" align="left">&nbsp;{TITLE}</td>
+			</tr>
+		  </table>
+		</td>
+	  </tr>
+	  <tr>
+		<td class="sub_option">{TXT_ACCOUNT_HOLDER}</td>
+		<td class="option_value"><input type="text" name="account_holder" value="{ACCOUNT_HOLDER}" maxlength="25"></td>
+	  </tr>
+	  <tr>
+		<td class="sub_option">{TXT_ACCOUNT_NUMBER}</td>
+		<td class="option_value"><input type="text" name="account_number" value="{ACCOUNT_NUMBER}"size="17" maxlength="16"></td>
+	  </tr>
+	  <tr>
+		<td class="sub_option">{TXT_BANK_CODE}</td>
+		<td class="option_value"><input type="text" name="bank_code" value="{BANK_CODE}" size="9" maxlength="8"></td>
+	  </tr>
+	  <tr>
+		<td class="sub_option">{TXT_TERMS_CONDITIONS}</td>
+		<td class="option_value">
+			<table cellspacing=0 cellpadding=0 border=0>
+			<tr>
+				<td valign=top><input type="checkbox" name="terms_conditions" value="1"{TERMS_CONDITIONS_1}></td>
+				<td>&nbsp;</td>
+				<td valign=top>{TXT_TERMS_CONDITIONS_READ} [<a href="{LINK_TERMS_CONDITIONS}" target="_blank">{TXT_TERMS_CONDITIONS_SHOW}</a>]</a></td>
+			</tr>
+			</table>
+		</td>
+	  </tr>
+	  <tr>
+		<td class="sub_option">{TXT_PASSWORD}</td>
+		<td class="option_value">
+			{TXT_CONFIRM_ORDER}<br>
+			<input type="password" name="password" value="{PASSWORD}" maxlength="25">
+		</td>
+	  <tr class="tblfooter" >
+		<td class="submit" colspan="3" >
+<!--			<input class="submit" type="submit" name="cmd[cancel]" value="{CANCEL}" />//-->
+			<input class="submit" type="submit" name="cmd[getDebitEntry]" value="{INPUT_VALUE}" />
+		</td>
+	  </tr>
+	</table></p>
+</form>
+<!-- END debit_entry -->
+<!-- BEGIN buyed_objects -->
+<script language="JavaScript">
+document.write('<p><a class="il_ContainerItemCommand" href="#" onClick="window.opener.location.href=\'{LINK_GOTO_BUYED_OBJECTS}\'; window.close(); return false">{TXT_GOTO_BUYED_OBJECTS}</a></p>');
+</script>
+<noscript>
+<p><a class="il_ContainerItemCommand" href="{LINK_GOTO_BUYED_OBJECTS}">{TXT_GOTO_BUYED_OBJECTS}</a></p>
+</noscript>
+<!-- END buyed_objects -->
+<script language="JavaScript">
+document.write('<p><a class="il_ContainerItemCommand" href="javascript:window.close()">{TXT_CLOSE_WINDOW}</a></p>');
+</script>

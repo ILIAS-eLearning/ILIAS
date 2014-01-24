@@ -1,0 +1,47 @@
+<!-- BEGIN no_rights -->
+{TXT_NO_RIGHTS} <a class="il_ContainerItemCommand" href="{ACTION_ADD_RIGHTS}">{TXT_ADD_RIGHTS}</a>
+<!-- END no_rights -->
+<!-- BEGIN rights -->
+<form action="{EDIT_ACTION}" {TARGET} name="post" method="post">
+<table class="std">
+<tr class="tblheader">
+	<td class="std" colspan="3">
+		<div align="left">{TXT_RIGHTS}
+		<a class="il_ContainerItemCommand" href="{ACTION_DELETE}">{TXT_DELETE}</a></div>
+	</td>
+</tr>
+<tr>
+	<td class="option" colspan="2">{TXT_COST}</td>
+	<td class="option_value">
+		<select name="rights[Cost]" size="1">
+			<option value="">{TXT_PLEASE_SELECT}</option>
+			<option value="Yes"{VAL_COST_YES}>{TXT_YES}</option>
+			<option value="No"{VAL_COST_NO}>{TXT_NO}</option>
+		</select>
+	</td>
+</tr>
+<tr>
+	<td class="option" colspan="2">{TXT_COPYRIGHTANDOTHERRESTRICTIONS}</td>
+	<td class="option_value">
+		<select name="rights[CopyrightAndOtherRestrictions]" size="1">
+			<option value="">{TXT_PLEASE_SELECT}</option>
+			<option value="Yes"{VAL_COPYRIGHTANDOTHERRESTRICTIONS_YES}>{TXT_YES}</option>
+			<option value="No"{VAL_COPYRIGHTANDOTHERRESTRICTIONS_NO}>{TXT_NO}</option>
+		</select>
+	</td>
+</tr>
+
+<tr>
+	<td class="option" colspan="2">
+		<div align="right">{DESCRIPTION_LOOP_TXT_DESCRIPTION}</div>
+	</td>
+	<td class="option_value"><textarea cols="60" rows="4" name="rights[Description]">{DESCRIPTION_LOOP_VAL}</textarea>
+	<br />{DESCRIPTION_LOOP_VAL_LANGUAGE}
+	</td>
+</tr>
+<tr>
+	<td class="submit" colspan="4"><div align="right"><input class="submit" type="submit" name="cmd[updateRights]" value="{TXT_SAVE}"/></div></td>
+</tr>
+</table>
+</form>
+<!-- END rights -->

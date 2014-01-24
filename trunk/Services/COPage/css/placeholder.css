@@ -1,0 +1,37 @@
+div.ilc_QuestionPlaceHolder
+{
+	padding: 10px 10px 10px 10px;
+	background-color: #F4F4FF;
+	border-width: 1px;
+	font-size: 10px;
+	border-color: #D0D0FF;
+	border-style: solid;
+	background-image: url(../../../templates/default/images/question_placeholder.png);
+	font-weight: bold;
+}
+
+div.ilc_MediaPlaceHolder
+{
+	padding: 10px 10px 10px 10px;
+	background-color: #F4F4FF;
+	border-width: 1px;
+	font-size: 10px;
+	border-color: #D0D0FF;
+	border-style: solid;
+	min-height:100px;
+	font-weight: bold;
+	background-image: url(../../../templates/default/images/media_placeholder.png);	
+}
+
+div.ilc_TextPlaceHolder,
+div.ilc_VerificationPlaceHolder /* no custom image yet */
+{
+	padding: 10px 10px 10px 10px;
+	background-color: #F4F4FF;
+	border-width: 1px;
+	font-size: 10px;
+	border-color: #D0D0FF;
+	border-style: solid;
+	font-weight: bold;
+	background-image: url(../../../templates/default/images/text_placeholder.png);
+}

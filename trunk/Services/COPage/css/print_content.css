@@ -1,0 +1,200 @@
+body {
+	background-color:#FFFFFF;
+	font-family:Verdana,Arial,Helvetica,sans-serif;
+	font-size:13px;
+	margin:40px;
+}
+
+td {
+	font-size:13px;
+}
+
+a.menu:link, a.menu:visited {
+	color:#a0c0ff;
+}
+
+table.fullwidth_invisible {
+	color:#222222;
+	background-color:#FFFFFF;
+	width:100%;
+	border-spacing:0px;
+}
+
+td.ilInvisibleBorder
+{
+	padding:40px;
+}
+
+div.ilInvisibleBorder
+{
+	padding:40px;
+}
+
+
+/* --- content styles (will move to content.css) --- */
+table.ilc_Page {
+	border-width: 0px;
+	border-spacing: 0px;
+	margin: 0px;
+	padding: 0px;
+	background-color:#EEEEEE;
+	width:100%;
+}
+
+div.ilc_PrintChapterTitle
+{
+	margin-top: 5px;
+	margin-bottom: 20px;
+	font-size: 18px;
+	padding-bottom: 3px;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-color: #000000;
+}
+
+div.ilc_PrintPageTitle
+{
+	margin-top: 3px;
+	margin-bottom: 15px;
+	font-size: 18px;
+	padding-bottom: 3px;
+}
+
+div.ilc_PrintDefinitionTitle
+{
+	font-size: 14px;
+	font-style: italic;
+}
+
+td.ilc_Page
+{
+	padding:20px;
+	margin-bottom: 0px;
+}
+
+span.ilc_Print_IntLink
+{
+	color: blue;
+	font-weight: normal;
+	text-decoration: underline;
+}
+
+span.ilc_Print_FileItem
+{
+	font-weight: bold;
+}
+
+
+div.ilc_DefinitionHeader
+{
+	margin-top: 10px;
+	margin-bottom: 10px;
+	font-size:18px;
+	padding-bottom: 5px;
+	padding-top: 5px;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-top-width: 1px;
+	border-top-style: solid;
+	border-color: #000000;
+}
+
+table.ilc_Fullscreen
+{
+	background-color:#EEEEEE;
+	position: absolute;
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	width: 100%;
+}
+
+html.ilc_Fullscreen, body.ilc_Fullscreen
+{
+	margin: 0;
+	padding: 0;
+	height: 100%;
+}
+
+table.ilc_FileList
+{
+	color: #222222;
+	background-color: #c0c0c0;
+	width: 100%;
+	border-spacing: 1px;
+	border-style: outset;
+	border-color: #bbbbbb;
+	border-width: 1px;
+	margin-bottom: 5px;
+	margin-top: 5px;
+}
+
+th.ilc_FileList
+{
+	font-size: 13px;
+	text-align: left;
+	padding: 3px;
+}
+
+td.ilc_FileItem
+{
+	border-top-width: 1px;
+	border-bottom-width: 1px;
+	border-left-width: 0px;
+	border-right-width: 0px;
+	background-color: #FFFFFF;
+	padding: 3px;
+}
+
+
+div#printViewPageContainer {
+	border: 0;
+}
+
+/* --- Test & Assessment styles --- */
+
+div.ilc_Question
+{
+	padding-left: 20px;
+	border-left: 3px;
+	border-left-style: solid;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	border-left-color: red;
+}
+
+.testSheet {
+	background: #EEEEEE;
+	border-spacing: 1px;
+	border: 1px outset #BBBBBB;
+	margin: 5px;
+	padding: 2em;
+}
+
+.questionTitle {
+	border-bottom: thin solid #333333;
+	font-size: 14px;
+	font-weight: bold;
+	padding-bottom: 0.5em;
+}
+
+/* --- Survey tool styles --- */
+
+.surveySheet {
+	background: #EEEEEE;
+	border-spacing: 1px;
+	border: 1px outset #BBBBBB;
+	margin: 5px;
+	padding: 2em;
+}
+
+.questionblockTitle {
+	margin-bottom: 10px;
+	border: thin ridge #cccccc;
+	background: #cccccc;
+	padding: 5px;
+}
+
+#ilGloContent {
+	border: 0;
+}

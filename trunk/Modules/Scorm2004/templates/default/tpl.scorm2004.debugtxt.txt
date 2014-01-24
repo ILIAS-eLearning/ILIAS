@@ -1,0 +1,373 @@
+<!-- BEGIN default -->
+<!-- END default -->
+
+<!-- BEGIN NewLog -->
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>Log for the learning module: {COURSETITLE} (Id: {COURSEID})</title>
+<meta name="author" content="Uwe Kohnle">
+<style type="text/css">
+	body {font-family:arial,helvetica,sans-serif;font-size:90%;background-color:white}
+	div{vertical-align:top}
+	.important0{clear:both;background-color:white;border-color:white;border-width:1px;border-style:solid;margin-top:5px}
+	.important1{clear:both;background-color:#EEEEEE;border-color:#EEEEEE;border-width:1px;border-style:solid;margin-top:5px}
+	.header{background-color:white;clear:both;border-width:1px;border-color:brown;border-style:solid;margin-top:5px;margin-bottom:5px;padding:5px}
+	.header .scotitle{font-weight:bold}
+	.header .left{float:left;width:110px;font-weight:normal}
+	.color, .colorgreen, .colorred, .colororange, .colorfuchsia, .colorgray{float:left;width:20px;margin-right:5px}
+	.colorred{background-color:red;color:red}
+	.colorgreen{background-color:green;color:green}
+	.colororange{background-color:#FFA500;color:#FFA500}
+	.colorfuchsia{background-color:fuchsia;color:fuchsia}
+	.colorgray{background-color:gray;color:gray}
+	.timespan{float:left;text-align:right;width:85px;margin-right:5px}
+	.key{float:left;overflow:auto;white-space:nowrap;height:2.3em;width:340px;margin-right:5px}
+	.result{float:left;overflow:auto;white-space:nowrap;height:2.3em;width:190px;margin-right:5px}
+	.errorcode{display:inline;text-align:center;width:50px}
+	.description{clear:both;overflow:auto;margin-left:115px}
+</style>
+<script type="text/javascript">
+<!--
+var showAllAPIcalls=1;
+var errors = [
+	[0,'{error0}'],
+	[101,'{error101}'],
+	[102,'{error102}'],
+	[103,'{error103}'],
+	[104,'{error104}'],
+	[111,'{error111}'],
+	[112,'{error112}'],
+	[113,'{error113}'],
+	[122,'{error122}'],
+	[123,'{error123}'],
+	[132,'{error132}'],
+	[133,'{error133}'],
+	[142,'{error142}'],
+	[143,'{error143}'],
+	[201,'{error201}'], 
+	[301,'{error301}'],
+	[351,'{error351}'], 
+	[391,'{error391}'],
+	[401,'{error401}'],
+	[402,'{error402}'],
+	[403,'{error403}'],
+	[404,'{error404}'],
+	[405,'{error405}'],
+	[406,'{error406}'],
+	[407,'{error407}'],
+	[408,'{error408}']
+];
+var actionDescription=[
+	["SetValue","{SetValue}"],
+	["GetValue","{GetValue}"],
+	["Commit","{Commit}"],
+	["Initialize","{Initialize}"],
+	["Terminate","{Terminate}"],
+	["GetErrorString","{GetErrorString}"],
+	["GetLastError","{GetLastError}"],
+	["GetDiagnostic","{GetDiagnostic}"]
+	];
+var keyDescription=[
+	["cmi._version","characterstring, ReadOnly","{cmi._version}"],
+	["cmi.comments_from_learner._children","comment,location.timestamp, ReadOnly","{cmi.comments_from_learner._children}"],
+	["cmi.comments_from_learner._count","non-negative integer, ReadOnly","{cmi.comments_from_learner._count}"],
+	["cmi.comments_from_learner.n.comment","localized_string_type (SPM: 4000), ReadWrite","{cmi.comments_from_learner.n.comment}"],
+	["cmi.comments_from_learner.n.location","characterstring (SPM: 250), ReadWrite","{cmi.comments_from_learner.n.location}"],
+	["cmi.comments_from_learner.n.timestamp","time (second,10,0), ReadWrite","{cmi.comments_from_learner.n.timestamp}"],
+	["cmi.comments_from_lms._children","comment,location.timestamp, ReadOnly","{cmi.comments_from_lms._children}"],
+	["cmi.comments_from_lms._count","non-negative integer, ReadOnly","{cmi.comments_from_lms._count}"],
+	["cmi.comments_from_lms.n.comment","localized_string_type (SPM: 4000), ReadOnly","{cmi.comments_from_lms.n.comment}"],
+	["cmi.comments_from_lms.n.location","characterstring (SPM: 250), ReadOnly","{cmi.comments_from_lms.n.location}"],
+	["cmi.comments_from_lms.n.timestamp","time(second,10,0), ReadOnly","{cmi.comments_from_lms.n.timestamp}"],
+	["cmi.completion_status","state (completed, incomplete, not attempted, unknown), ReadWrite","{cmi.completion_status}"],
+	["cmi.completion_threshold","real(10,7) range (0..1), ReadOnly","{cmi.completion_threshold}"],
+	["cmi.credit","state (credit, no_credit), ReadOnly","{cmi.credit}"],
+	["cmi.entry","state (ab_initio, resume, \"\"), ReadOnly","{cmi.entry}"],
+	["cmi.exit","state (timeout, suspend, logout, normal, \"\"), Write","{cmi.exit}"],
+	["cmi.interactions._children","id,type,objectives,timestamp,correct_responses,weighting,learner_resposne,result,latency,description, ReadOnly","{cmi.interactions._children}"],
+	["cmi.interactions._count","non-negative integer, ReadOnly","{cmi.interactions._count}"],
+	["cmi.interactions.n.id","long_identifier_type (SPM: 4000), ReadWrite","{cmi.interactions.n.id}"],
+	["cmi.interactions.n.type","state (true_false, multiple_choice, fill_in, long_fill_in, matching, performance, sequencing, likert, numeric, other), ReadWrite","{cmi.interactions.n.type}"],
+	["cmi.interactions.n.objectives._count","non-negative integer, ReadOnly","{cmi.interactions.n.objectives._count}"],
+	["cmi.interactions.n.objectives.n.id","long_identifier_type (SPM: 4000), ReadWrite","{cmi.interactions.n.objectives.n.id}"],
+	["cmi.interactions.n.timestamp","time(second,10,0), ReadWrite","{cmi.interactions.n.timestamp}"],
+	["cmi.interactions.n.correct_responses._count","non-negative integer, ReadOnly","{cmi.interactions.n.correct_responses._count}"],
+	["cmi.interactions.n.correct_responses.n.pattern","format depends on interaction type, ReadWrite","{cmi.interactions.n.correct_responses.n.pattern}"],
+	["cmi.interactions.n.weighting","real (10,7), ReadWrite","{cmi.interactions.n.weighting}"],
+	["cmi.interactions.n.learner_response","format depends on interaction type, ReadWrite","{cmi.interactions.n.learner_response}"],
+	["cmi.interactions.n.result","state (correct, incorrect, unanticipated, neutral, real (10,7) ), ReadWrite","{cmi.interactions.n.result}"],
+	["cmi.interactions.n.latency","timeinterval (second,10,2), ReadWrite","{cmi.interactions.n.latency}"],
+	["cmi.interactions.n.description","localized_string_type (SPM: 250), ReadWrite","{cmi.interactions.n.description}"],
+	["cmi.launch_data","characterstring (SPM: 4000), ReadOnly","{cmi.launch_data}"],
+	["cmi.learner_id","long_identifier_type (SPM: 4000), ReadOnly","{cmi.learner_id}"],
+	["cmi.learner_name","localized_string_type (SPM: 250), ReadOnly","{cmi.learner_name}"],
+	["cmi.learner_preference._children","audio_level,language,delivery_speed,audio_captioning, ReadOnly","{cmi.learner_preference._children}"],
+	["cmi.learner_preference.audio_level","real(10,7), range (0..*), ReadWrite","{cmi.learner_preference.audio_level}"],
+	["cmi.learner_preference.language","language_type (SPM 250), ReadWrite","{cmi.learner_preference.language}"],
+	["cmi.learner_preference.delivery_speed","real(10,7), range (0..*), ReadWrite","{cmi.learner_preference.delivery_speed}"],
+	["cmi.learner_preference.audio_captioning","state (-1,0,1), ReadWrite","{cmi.learner_preference.audio_captioning}"],
+	["cmi.location","characterstring (SPM: 1000), ReadWrite","{cmi.location}"],
+	["cmi.max_time_allowed","timeinterval (second,10,2), ReadOnly","{cmi.max_time_allowed}"],
+	["cmi.mode","state (browse, normal, review), ReadOnly","{cmi.mode}"],
+	["cmi.objectives._children","id,score,success_status,completion_status,description, ReadOnly","{cmi.objectives._children}"],
+	["cmi.objectives._count","non-negative integer, ReadOnly","{cmi.objectives._count}"],
+	["cmi.objectives.n.id","long_identifier_type (SPM: 4000), ReadWrite","{cmi.objectives.n.id}"],
+	["cmi.objectives.n.score._children","scaled,raw,min,max, ReadOnly","{cmi.objectives.n.score._children}"],
+	["cmi.objectives.n.score.scaled","real (10,7) range (-1..1), ReadWrite","{cmi.objectives.n.score.scaled}"],
+	["cmi.objectives.n.score.raw","real (10,7), ReadWrite","{cmi.objectives.n.score.raw}"],
+	["cmi.objectives.n.score.min","real (10,7), ReadWrite","{cmi.objectives.n.score.min}"],
+	["cmi.objectives.n.score.max","real (10,7), ReadWrite","{cmi.objectives.n.score.max}"],
+	["cmi.objectives.n.success_status","state (passed, failed, unknown), ReadWrite","{cmi.objectives.n.success_status}"],
+	["cmi.objectives.n.completion_status","state (completed, incomplete, not attempted, unknown), ReadWrite","{cmi.objectives.n.completion_status}"],
+	["cmi.objectives.n.progress_measure","real (10,7) range (0..1), ReadWrite","{cmi.objectives.n.progress_measure}"],
+	["cmi.objectives.n.description","localized_string_type (SPM: 250), ReadWrite","{cmi.objectives.n.description}"],
+	["cmi.progress_measure","real (10,7) range (0..1), ReadWrite","{cmi.progress_measure}"],
+	["cmi.scaled_passing_score","real(10,7) range (-1 .. 1), ReadOnly","{cmi.scaled_passing_score}"],
+	["cmi.score._children","scaled,raw,min,max, ReadOnly","{cmi.score._children}"],
+	["cmi.score.scaled","real (10,7) range (-1..1), ReadWrite","{cmi.score.scaled}"],
+	["cmi.score.raw","real (10,7), ReadWrite","{cmi.score.raw}"],
+	["cmi.score.min","real (10,7), ReadWrite","{cmi.score.min}"],
+	["cmi.score.max","real (10,7), ReadWrite","{cmi.score.max}"],
+	["cmi.session_time","timeinterval (second,10,2), WriteOnly","{cmi.session_time}"],
+	["cmi.success_status","state (passed, failed, unknown), ReadWrite","{cmi.success_status}"],
+	["cmi.suspend_data","characterstring (SPM: 64000), ReadWrite","{cmi.suspend_data}"],
+	["cmi.time_limit_action","state (exit,message, continue,message, exit,no message, continue,no message), ReadOnly","{cmi.time_limit_action}"],
+	["cmi.total_time","timeinterval (second,10,2), ReadOnly","{cmi.total_time}"],
+	["adl.nav.request","request(continue, previous, choice, exit, exitAll, abandon, abandonAll, _none_), ReadWrite","{adl.nav.request}"],
+	["adl.nav.request_valid.continue","state (true, false, unknown), ReadOnly","{adl.nav.request_valid.continue}"],
+	["adl.nav.request_valid.previous","state (true, false, unknown), ReadOnly","{adl.nav.request_valid.previous}"],
+	["adl.nav.request_valid.choice","state (true, false, unknown), ReadOnly","{adl.nav.request_valid.choice}"]
+];
+var colorDescription=[
+	["green","{i_green}"],
+	["red","{i_red}"],
+	["orange","{i_orange}"],
+	["fuchsia","{i_fuchsia}"],
+	["gray","{i_gray}"]
+];
+
+function showError(ElementId,error) {
+	var divId = ElementId + "Error";
+	if (showedDescription(divId) == false) {
+		var en = "{error} "+error;
+		var ren = "{strange_error}";
+		for (var i=0;i<errors.length;i++){
+			if (""+error == ""+errors[i][0]) {
+				ren = errors[i][1];
+			}
+		}
+		showDescription(ElementId, divId, en+": "+ren);
+	}
+}
+function showActionDescription(ElementId,action) {
+	var divId = ElementId + "Action";
+	if (showedDescription(divId) == false) {
+		var ren = "strange API-Call";
+		for (var i=0;i<actionDescription.length;i++) {
+			if (action == actionDescription[i][0]) {
+				ren = actionDescription[i][1];
+			}
+		}
+		showDescription(ElementId, divId, action+": "+ren);
+	}
+}
+function showKeyDescription(ElementId,key) {
+	var divId = ElementId + "Key";
+	if (showedDescription(divId) == false) {
+		var ren = "{unknown}";
+		var keyt = key;
+		var keyr = key.replace(/.\d+./g,".n.");
+		for (var i=0;i<keyDescription.length;i++) {
+			if (keyr == keyDescription[i][0]) {
+				keyt = "<span title='"+keyDescription[i][1]+"' style='cursor:help'>"+key+"</span>";
+				ren = keyDescription[i][2];
+			}
+		}
+		showDescription(ElementId, divId, keyt+": "+ren);
+	}
+}
+function showColorDescription(ElementId,color) {
+	var divId = ElementId + "Color";
+	if (showedDescription(divId) == false) {
+		var ren = color+": {undefined color}";
+		for (var i=0;i<colorDescription.length;i++) {
+			if (color == colorDescription[i][0]) {
+				ren = colorDescription[i][1];
+			}
+		}
+		showDescription(ElementId, divId, "status-code "+ren);
+	}
+}
+function showDescription(ElementId,divId,sen) {
+	var en = "{description_for} "+sen+" <a href=\"javascript:hideDescription('"+divId+"')\">{hide}</a>";
+	document.getElementById(ElementId).innerHTML+='<div id="'+divId+'" style="display:block">'+en+'</div>';
+}
+function hideDescription(divId) {
+	document.getElementById(divId).style.display="none";
+}
+function showedDescription(divId) {
+	if (document.getElementById(divId)) {
+		if (document.getElementById(divId).style.display=="block") hideDescription(divId);
+		else document.getElementById(divId).style.display="block";
+		return true;
+	}
+	return false;
+}
+
+function showImportant(thisnode,b_all) {
+	if(thisnode.className && thisnode.className=="important0") {
+		if (b_all==1) thisnode.style.display="block";
+		else thisnode.style.display="none";
+	}
+	if (thisnode.hasChildNodes()) {		
+		for (var z=0; z<thisnode.childNodes.length; z++) {
+			if (thisnode.childNodes[z].nodeType==1) {showImportant(thisnode.childNodes[z],b_all);}
+		}
+	}
+	showAllAPIcalls = b_all;
+	if(typeof(parent.debuggerShowAllAPIcalls) != "undefined") parent.debuggerShowAllAPIcalls=b_all;
+	textImportant();
+}
+function textImportant() {
+	var s;
+	if (showAllAPIcalls == 1){
+		s = '{all_API-calls_shown} <a href="javascript:showImportant(document.body,0)">{show_only_important_API-calls}</a>';
+	} else {
+		s = '{only_important_API-Calls_shown} <a href="javascript:showImportant(document.body,1)">{show_all_API-calls}</a>';
+	}
+	document.getElementById("showAllAPIcalls").innerHTML = s;
+}
+function scrollDown() {
+	if (typeof(parent.debuggerShowAllAPIcalls)!="undefined") window.scrollTo(0,window.document.body.scrollHeight);
+}
+
+if(typeof(parent.debuggerShowAllAPIcalls)!="undefined") {
+	showAllAPIcalls=parent.debuggerShowAllAPIcalls;
+	if (showAllAPIcalls == 0) document.write('<style type="text/css">.important0{display:none}</style>');
+}
+//-->
+</script>
+</head>
+<body onload="scrollDown()">
+<h2>{log_for}: {COURSETITLE}</h2>
+<div>
+{started}: {TIMESTAMP}; 
+{nr_session}: {SESSION}; 
+{id_learning_module}: {COURSEID}
+</div>
+<div>{CHECK_VALUES}</div>
+<div id="showAllAPIcalls">
+{all_API-calls_shown}
+</div>
+<script type="text/javascript">
+<!--
+textImportant();
+//-->
+</script>
+<!-- END NewLog -->
+
+<!-- BEGIN InitializeStart -->
+<div class="header">
+<div class="scotitle"><div class="left">{SCO-title}</div>{SCO_TITLE}</div>
+<div><div class="left">{SCO-name}</div>{SCO_NAME}</div>
+<div><div class="left">{started}</div>{TIMESTAMP}</div>
+</div>
+<div style="border-width:1px;border-color:brown;border-style:solid;margin-bottom:5px">
+<div class="color">SC</div>
+<div class="timespan">{milliseconds}</div>
+<div class="key">{API-call}</div>
+<div class="result">{return_value}</div>
+<div class="errorcode" title="errorcode">{error}</div>
+<div class="description"></div>
+</div>
+<!-- END InitializeStart -->
+
+<!-- BEGIN defaultCall -->
+<div class="important{IMPORTANTKEY}">
+<div class="color{COLOR}">!<a href="javascript:showColorDescription('{TIMESPAN}{ACTION}{KEY}','{COLOR}')">?</a>!</div>
+<div class="timespan">{TIMESPAN}</div>
+<div class="key"><a href="javascript:showActionDescription('{TIMESPAN}{ACTION}{KEY}','{ACTION}')">{ACTION}</a>("{KEY}"){VALUE}</div>
+<div class="result">{RESULT}</div>
+<div class="errorcode"><a href="javascript:showError('{TIMESPAN}{ACTION}{KEY}',{ERRORCODE})">{ERRORCODE}</a></div>
+<div class="description" id="{TIMESPAN}{ACTION}{KEY}"></div>
+</div>
+<!-- END defaultCall -->
+
+<!-- BEGIN SetValue --> 
+<div class="important{IMPORTANTKEY}">
+<div class="color{COLOR}">!<a href="javascript:showColorDescription('{TIMESPAN}{ACTION}{KEY}','{COLOR}')">?</a>!</div>
+<div class="timespan">{TIMESPAN}</div>
+<div class="key"><a href="javascript:showActionDescription('{TIMESPAN}{ACTION}{KEY}','{ACTION}')">{ACTION}</a>("<a href="javascript:showKeyDescription('{TIMESPAN}{ACTION}{KEY}','{KEY}')">{KEY}</a>",{VALUE})</div>
+<div class="result">{RESULT}</div>
+<div class="errorcode"><a href="javascript:showError('{TIMESPAN}{ACTION}{KEY}',{ERRORCODE})">{ERRORCODE}</a></div>
+<div class="description" id="{TIMESPAN}{ACTION}{KEY}"></div>
+</div>
+<!-- END SetValue -->
+
+<!-- BEGIN GetValue --> 
+<div class="important{IMPORTANTKEY}">
+<div class="color{COLOR}">!<a href="javascript:showColorDescription('{TIMESPAN}{ACTION}{KEY}','{COLOR}')">?</a>!</div>
+<div class="timespan">{TIMESPAN}</div>
+<div class="key"><a href="javascript:showActionDescription('{TIMESPAN}{ACTION}{KEY}','{ACTION}')">{ACTION}</a>("<a href="javascript:showKeyDescription('{TIMESPAN}{ACTION}{KEY}','{KEY}')">{KEY}</a>"){VALUE}</div>
+<div class="result">{RESULT}</div>
+<div class="errorcode"><a href="javascript:showError('{TIMESPAN}{ACTION}{KEY}',{ERRORCODE})">{ERRORCODE}</a></div>
+<div class="description" id="{TIMESPAN}{ACTION}{KEY}"></div>
+</div>
+<!-- END GetValue -->
+
+<!-- BEGIN GetLastError -->
+<div class="important0">
+<div class="colorgreen">&nbsp;</div>
+<div class="timespan">{TIMESPAN}</div>
+<div class="key"><a href="javascript:showActionDescription('{TIMESPAN}GetLastError','GetLastError')">GetLastError</a>()</div>
+<div class="result">{RESULT}</div>
+<div class="errorcode">&nbsp;</div>
+<div class="description" id="{TIMESPAN}GetLastError"></div>
+</div>
+<!-- END GetLastError -->
+
+<!-- BEGIN GetDiagnostic -->
+<div class="important0">
+<div class="colororange">&nbsp;</div>
+<div class="timespan">{TIMESPAN}</div>
+<div class="key"><a href="javascript:showActionDescription('{TIMESPAN}GetDiagnostic','GetDiagnostic')">GetDiagnostic</a>("{KEY}")</div>
+<div class="result">{RESULT}</div>
+<div class="errorcode">&nbsp;</div>
+<div class="description" id="{TIMESPAN}GetDiagnostic"></div>
+</div>
+<!-- END GetDiagnostic -->
+
+<!-- BEGIN INFO -->
+<div class="header" style="border-color:#FFA500">
+<b>{hint}</b>: {KEY} {VALUE}
+</div>
+<!-- END INFO -->
+
+<!-- BEGIN COMMENT -->
+<div class="header" style="border-color:grey">
+<b>{comment}</b> ({generated}: {TIMESTAMP})<br/>{VALUE} 
+</div>
+<!-- END COMMENT -->
+
+<!-- BEGIN SqlLog -->
+Wrote to Database: {SQL_STRING} 
+<!-- END SqlLog -->
+
+<!-- BEGIN ANALYZE -->
+<div class="header" style="border-color:{COLOR}">
+<b>{summary_for_SCO_without_test}</b> ({generated}: {TIMESTAMP})<br/>{ANALYZE_SUMMARY}<br/>{VALUE}
+</div>
+<!-- END ANALYZE -->
+
+<!-- BEGIN ANALYZETEST -->
+<div class="header" style="border-color:{COLOR}">
+<b>{summary_for_SCO_with_test}</b> ({generated}: {TIMESTAMP})<br/>{ANALYZE_SUMMARY}<br/>{VALUE}
+</div>
+<!-- END ANALYZETEST -->
+
+<!-- BEGIN SUMMARY -->
+<div class="header">
+{summary_csv} ({TIMESTAMP}).<br/>{summary_download}
+</div>
+<!-- END SUMMARY -->

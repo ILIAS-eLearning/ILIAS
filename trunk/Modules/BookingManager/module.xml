@@ -1,0 +1,17 @@
+<?php xml version = "1.0" encoding = "UTF-8"?>
+<module xmlns="http://www.w3.org" version="$Id: modules.xml 15671 2008-01-04 13:08:30Z akill $"
+	id="book">
+	<baseclasses>
+	</baseclasses>
+	<objects>
+		<object id="book" class_name="BookingPool" dir="classes"
+			default_pos="250" default_pres_pos="250" allow_copy="1" 
+			checkbox="1" inherit="1" allow_link="1" rbac="1">
+			<parent id="cat">cat</parent>
+			<parent id="crs">crs</parent>
+			<parent id="grp">grp</parent>
+			<parent id="root">root</parent>
+			<parent id="fold">fold</parent>
+		</object>
+	</objects>
+</module>

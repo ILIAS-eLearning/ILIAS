@@ -1,0 +1,30 @@
+<script type="text/javascript" src="http://www.epay.dk/js/standardwindow.js"></script>
+<!-- BEGIN loop -->
+{ITEMS_TABLE}
+<p>{COUPON_TABLE}<br /></p>
+<!-- BEGIN buy_link -->
+<p><b>{EPAY_HINT}:</b> {EPAY_INFO}</p>
+<div align="right">
+<form action="{SCRIPT_LINK}"  method="post" name="ePay" target="ePay_window" id="ePay" />
+<input type="hidden" name="merchantnumber" value="{MERCHANT_NUMBER}" />
+<input type="hidden" name="amount" value="{AMOUNT}" />
+<input type="hidden" name="currency" value="{CURRENCY}" />
+<input type="hidden" name="orderid" value="{ORDERID}" />
+<input type="hidden" name="accepturl" value="{ACCEPT_URL}" />
+<input type="hidden" name="declineurl" value="{DECLINE_URL}" />
+<input type="hidden" name="callbackurl" value="{CALLBACK_URL}" />
+<input type="hidden" name="instantcapture" value="{INSTANT_CAPTURE}" />
+<input type="hidden" name="group" value="{GROUP}" />
+<input type="hidden" name="description" value="{DESCRIPTION}" />
+<input type="hidden" name="windowstate" value="1" />
+<input type="hidden" name="authmail" value="{AUTH_MAIL}" />
+<input type="hidden" name="cardtype" value="{CARDTYPE}" />
+<input type="hidden" name="addfee" value="{ADDFEE}" />
+<input type="hidden" name="language" value="{LANGUAGE}" />
+<input type="hidden" name="MD5Key" value="{MD5KEY}" />
+<input class="button" type="submit" value="{TXT_BUY}" onclick="open_ePay_window()" />
+</form>
+</div>
+<div style="clear:both">&nbsp;</div>
+<!-- END buy_link -->
+<!-- END loop -->

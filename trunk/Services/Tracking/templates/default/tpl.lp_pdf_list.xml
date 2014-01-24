@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format">
+<fo:layout-master-set>
+  <fo:simple-page-master master-name="A4">
+    <fo:region-body margin="10mm" />
+  </fo:simple-page-master>
+</fo:layout-master-set>
+
+<fo:page-sequence master-reference="A4">
+  <fo:flow flow-name="xsl-region-body">
+  	<fo:block 
+	  font-size="1.5em"
+	  font-family="any"
+	  space-before="5mm"
+	  space-after="5mm">
+		{LEARNING_PROGRESS_OF}: {USER_FULLNAME}  ({DATE})
+	</fo:block>
+    {FILTER}
+    <fo:table width="180mm" table-layout="fixed" padding-top="8mm">
+		<fo:table-column column-width="180mm" />
+		<fo:table-body>
+			<fo:table-row>
+				<fo:table-cell border-style="solid" border-width="0.5mm" padding="1mm" background-color="#ccdbf2">
+					<fo:block font-weight="bold">{TXT_OBJS}</fo:block>
+				</fo:table-cell>
+			</fo:table-row>
+			<!-- BEGIN item -->
+			<fo:table-row>			
+				<fo:table-cell border-style="solid" border-width="0.5mm" padding="1mm">
+					<fo:block font-weight="bold">{OBJ_TITLE}</fo:block>
+					<!-- BEGIN description -->
+					<fo:block>{OBJ_DESC}</fo:block>
+					<!-- END description -->
+					<!-- BEGIN status_row -->
+					<fo:block margin-top="1mm" color="red">
+						{STATUS_PROP}: {STATUS_VAL}
+					</fo:block>
+					<!-- END status_row -->				
+				</fo:table-cell>
+			</fo:table-row>
+			<!-- END item -->
+		</fo:table-body>		
+	</fo:table>
+  </fo:flow>
+</fo:page-sequence>
+</fo:root>

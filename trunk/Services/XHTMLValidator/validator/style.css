@@ -1,0 +1,100 @@
+div.code {
+	background-color: #FDF5E6;
+	border: solid 2px navy;
+	padding: 0.2em;
+	margin: 0.6em;
+}
+
+div.Access {
+	background-color: #9CF;
+	border: solid 2px #06F;
+	padding: 0.2em;
+	margin: 0.6em;
+}
+
+div.Warning, div.Error {
+	background-color: #fee;
+	border: solid 2px #f77;
+	padding: 0.2em;
+	margin: 0.6em;
+}
+
+div.Spell {
+	background-color: #dfd;
+	border: solid 2px #0a0;
+	padding: 0.2em;
+	margin: 0.6em;
+}
+
+span.diffadd {
+	color: green;
+}
+
+span.diffsub {
+	color: red;
+}
+
+span.diffjmp {
+	color: blue;
+}
+
+tr.ok {
+	background-color: #90EE90;
+}
+
+tr.old {
+	background-color: #FFFF60;
+}
+
+tr.critical {
+	background-color: #F33;
+}
+
+div.header {
+	position: relative;
+	clear: right;
+	border: 1px solid black;
+	background-color: teal;
+	padding: 10px;
+	text-align: right;
+}
+
+div.header a {
+	color: #F90;
+}
+
+h1 {
+	font-family: verdana, arial, helvetica, sans-serif;
+	text-align: center;
+	color: #888;
+}
+
+h2 {
+	font-family: verdana, arial, helvetica, sans-serif;
+	text-align: center;
+	color: maroon;
+}
+
+img {
+	border: none;
+}
+
+p, li {
+	font-size: 12pt;
+	text-align: justify;
+	font-family: verdana, arial, helvetica, sans-serif;
+}
+
+#redir {
+	font-size: 10pt;
+	color: red;
+}
+
+div.centered {
+	text-align: center;
+}
+
+div.centered table {
+	margin: 0 auto;
+	text-align: left;
+}

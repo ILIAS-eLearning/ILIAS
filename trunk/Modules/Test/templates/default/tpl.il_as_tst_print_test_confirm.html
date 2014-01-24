@@ -1,0 +1,21 @@
+<!-- BEGIN navigation_buttons -->
+<div id="dontprint">
+	<p>
+		<a href="javascript:window.print();" class="submit">{BUTTON_PRINT}</a>
+<!-- BEGIN pdf_export -->
+		<a class="submit" href="{PDF_URL}"><img src="{PDF_IMG_URL}" alt="{PDF_IMG_ALT}" title="{PDF_IMG_ALT}" /> {PDF_TEXT}</a>
+<!-- END pdf_export -->
+	</p>
+</div>
+<!-- END navigation_buttons -->
+<form name="print" method="GET" action="#">
+<h1>{PRINT_TEST}</h1>
+<h3>{TITLE}</h3>
+<p>{TXT_PRINT_DATE}:&nbsp;{VALUE_PRINT_DATE}&nbsp;&nbsp;{TXT_MAXIMUM_POINTS}:&nbsp;{VALUE_MAXIMUM_POINTS}</p>
+<!-- BEGIN question -->
+<div class="questionPrintview clearfix">
+	<p class="questionTitle">{COUNTER_QUESTION} {QUESTION_TITLE} <em>({QUESTION_POINTS})</em><!-- BEGIN id_info_block --> [{TXT_QUESTION_ID}: {QUESTION_ID}]<!-- END id_info_block --></p>
+	<p>{SOLUTION_OUTPUT}</p>
+</div>
+<!-- END question -->
+</form>

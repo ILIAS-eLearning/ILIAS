@@ -1,0 +1,33 @@
+  <form action="{PAYMENT_TYPE_FORMACTION}" method="post">
+	<p><table class="std">
+	  <tr class="tbltitle">
+		<td colspan="3">
+		  <table class="fullwidth_invisible" cellspacing="0">
+			<tr class="tbltitle">
+			  <td width="10"><img src="{TYPE_IMG}" alt="{ALT_IMG}" title="{ALT_IMG}" border="0" vspace="0" align="left" /></td>
+			  <td class="tbltitle" align="left">&nbsp;{TITLE}</td>
+			</tr>
+		  </table>
+		</td>
+	  </tr>
+<!-- BEGIN debit_entry -->
+	  <tr>
+		<td class="option_value"><input type="radio" name="payment_type" value="debit_entry"{PAYMENT_TYPE_DEBIT_ENTRY}></td>
+		<td class="sub_option"><div align="left">{TXT_DEBIT_ENTRY}</div></td>
+	  </tr>
+<!-- END debit_entry -->
+	  <tr>
+		<td class="option_value"><input type="radio" name="payment_type" value="credit_card"{PAYMENT_TYPE_CREDIT_CARD}></td>
+		<td class="sub_option"><div align="left">{TXT_CREDIT_CARD}</div></td>
+	  </tr>
+	  <tr class="tblfooter" >
+		<td class="submit" colspan="3" >
+			<input class="submit" type="submit" name="cmd[getPaymentType]" value="{INPUT_VALUE}" />
+<!--			<input class="submit" type="submit" name="cmd[cancel]" value="{CANCEL}" />//-->
+		</td>
+	  </tr>
+	</table></p>
+</form>
+<script language="JavaScript">
+document.write('<p><a class="il_ContainerItemCommand" href="javascript:window.close()">{TXT_CLOSE_WINDOW}</a></p>');
+</script>

@@ -1,0 +1,30 @@
+<tr class="{CSS_ROW}">
+	<td class="std"  style="vertical-align:top;">
+		{VAL_TITLE}
+		<div class="il_Description">{VAL_DESC}</div>
+		<input type="hidden" name="sci_mid[{S_ID}][{M_ID}]" value="1" />
+	</td>
+	<td class="std"  style="vertical-align:top;">
+		<small>
+			<strong>{TXT_ORG}:</strong> {VAL_ORG}<br />
+			<strong>{TXT_DNS}:</strong> {VAL_DNS}<br />
+			<strong>{TXT_EMAIL}:</strong> <a href="mailto:{VAL_EMAIL}">{VAL_EMAIL}</a><br />
+			<strong>{TXT_ABR}:</strong> {VAL_ABR}<br />
+			<strong>{TXT_ID}:</strong> {VAL_ID}
+		</small>
+	</td>
+	<td class="std" style="vertical-align:center;">
+		<input type="checkbox" name="export[{S_ID}][{M_ID}]" value="1" {EXP_CHECKED} />
+	</td>
+	<td class="std" style="vertical-align:center;">
+		<input type="checkbox" name="import[{S_ID}][{M_ID}]" value="1" {IMP_CHECKED} />
+	</td>
+	<td class="std" style="vertical-align:center;">
+		{IMPORT_SEL}
+	</td>
+	<td class="std" style="vertical-align:center;text-align: center">
+		<small>
+			{ACTIONS}
+		</small>
+	</td>
+</tr>

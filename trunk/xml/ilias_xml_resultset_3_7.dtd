@@ -1,0 +1,8 @@
+<!ELEMENT result  (colspecs, rows)>
+<!ELEMENT colspecs (colspec+)>
+<!ELEMENT colspec EMPTY>
+<!ATTLIST colspec name CDATA #REQUIRED>
+<!ATTLIST colspec idx CDATA #REQUIRED>
+<!ELEMENT rows (row*)>
+<!ELEMENT row (column*)>
+<!ELEMENT column (#PCDATA)>

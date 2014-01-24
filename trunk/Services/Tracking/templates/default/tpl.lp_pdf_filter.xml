@@ -1,0 +1,59 @@
+   <PageContent>
+      <Paragraph Language="de" Characteristic="Headline1">{LEARNING_PROGRESS_OF}: {USER_FULLNAME}  ({DATE})</Paragraph>
+    </PageContent>
+    <PageContent>
+      <Table Language="de" Width="24cm">
+        <TableRow>
+          <TableData>
+            <PageContent>
+              <Paragraph Language="de" Characteristic="TableContent">
+                <Strong>{FILTER}</Strong>
+              </Paragraph>
+            </PageContent>
+          </TableData>
+          <TableData/>
+        </TableRow>
+        <TableRow>
+          <TableData>
+            <PageContent>
+              <Paragraph Language="de" Characteristic="TableContent">
+                <Strong>{TXT_TITLE}</Strong>
+              </Paragraph>
+            </PageContent>
+          </TableData>
+          <TableData>
+            <PageContent>
+              <Paragraph Language="de" Characteristic="TableContent">{TITLE}</Paragraph>
+            </PageContent>
+          </TableData>
+        </TableRow>
+        <TableRow>
+          <TableData>
+            <PageContent>
+              <Paragraph Language="de" Characteristic="TableContent">
+                <Strong>{TXT_TYPE}</Strong>
+              </Paragraph>
+            </PageContent>
+          </TableData>
+          <TableData>
+            <PageContent>
+              <Paragraph Language="de" Characteristic="TableContent">{TYPE}</Paragraph>
+            </PageContent>
+          </TableData>
+        </TableRow>
+       <TableRow>
+          <TableData>
+            <PageContent>
+              <Paragraph Language="de" Characteristic="TableContent">
+                <Strong>{TXT_AREA}</Strong>
+              </Paragraph>
+            </PageContent>
+          </TableData>
+          <TableData>
+            <PageContent>
+              <Paragraph Language="de" Characteristic="TableContent">{AREA}</Paragraph>
+            </PageContent>
+          </TableData>
+        </TableRow>
+      </Table>
+ </PageContent>

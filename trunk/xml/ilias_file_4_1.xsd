@@ -1,0 +1,74 @@
+<schema
+  xmlns = 'http://www.w3.org/2001/XMLSchema'
+  targetNamespace = "http://www.ilias.de/Modules/File/file/4_1"
+  xmlns:t = 'http://www.ilias.de/Modules/File/file/4_1'>
+
+ <!-- File -->
+ <element name='File'>
+  <complexType>
+   <sequence>
+    <element ref='t:Filename'/>
+    <element ref='t:Title' minOccurs='0' maxOccurs='1'/>
+    <element ref='t:Description' minOccurs='0' maxOccurs='1'/>
+    <element ref='t:Content' minOccurs='0' maxOccurs='1'/>
+    <element ref='t:Versions' minOccurs='0' maxOccurs='1'/>
+   </sequence>
+   <attribute name='obj_id' type='string' use='required'/>
+   <attribute name='version' type='string' use='optional'/>
+   <attribute name='size' type='string' use='optional'/>
+   <attribute name='type' type='string' use='optional'/>
+  </complexType>
+ </element>
+
+ <!-- Filename -->
+ <element name='Filename'>
+  <complexType mixed='true'>
+  </complexType>
+ </element>
+
+ <!-- Content -->
+ <element name='Content'>
+  <complexType mixed='true'>
+   <attribute name='mode' use='optional'>
+    <simpleType>
+     <restriction base='string'>
+      <enumeration value='PLAIN'/>
+      <enumeration value='ZLIB'/>
+      <enumeration value='GZIP'/>
+	  <enumeration value='COPY'/>
+     </restriction>
+    </simpleType>
+   </attribute>
+  </complexType>
+ </element>
+
+ <!-- Title -->
+ <element name='Title'>
+  <complexType mixed='true'>
+  </complexType>
+ </element>
+
+ <!-- Description -->
+ <element name='Description'>
+  <complexType mixed='true'>
+  </complexType>
+ </element>
+
+ <!-- Versions -->
+ <element name='Versions'>
+  <complexType>
+   <sequence>
+    <element ref='t:Version' minOccurs='0' maxOccurs='unbounded'/>
+   </sequence>
+  </complexType>
+ </element>
+
+ <!-- Version -->
+ <element name='Version'>
+  <complexType>
+   <attribute name='id' type='string' use='required'/>
+   <attribute name='usr_id' type='string' use='required'/>
+   <attribute name='date' type='string' use='required'/>
+  </complexType>
+ </element>
+</schema>

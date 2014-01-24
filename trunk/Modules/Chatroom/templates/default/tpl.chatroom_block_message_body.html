@@ -1,0 +1,23 @@
+<div id="ilChatBlockMessageBody" style="height:{BLOCK_HEIGHT}px;overflow:auto"></div>
+<div id="ilChatBlockMessageHeader" class="tblfooter option small">
+	<input checked="checked" type="checkbox" value="1" name="ilChatBlockMessageBodyEnableAutoscroll" id="ilChatBlockMessageBodyEnableAutoscroll" /><label for="ilChatBlockMessageBodyEnableAutoscroll">{TXT_ENABLE_AUTOSCROLL}</label>
+</div>
+<script type="text/javascript">
+	$(document).ready(function () {
+		$('body').ilChatViewer({
+			base_url:                  '{CHATBLOCK_BASE_URL}',
+			smilies:                   {SMILIES},
+			message_container_selector:'#ilChatBlockMessageBody',
+			message_header_selector:   '#ilChatBlockMessageHeader',
+			room_selector:             '#ilChatBlockRoomSelect',
+			autoscroll_selector:       '#ilChatBlockMessageBodyEnableAutoscroll',
+			polling_interval:          20,
+			lang:                      {
+				connect:                    {LBL_CONNECT},
+				disconnected:               {LBL_DISCONNECT},
+				timeformat:                 {LBL_TIMEFORMAT},
+				dateformat:                 {LBL_DATEFORMAT}
+			}
+		});
+	});
+</script>

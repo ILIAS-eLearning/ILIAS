@@ -1,0 +1,162 @@
+{RELOAD}
+<div class="ilStartupFrame">
+	<div id="il_startup_logo">
+		<img src="./templates/default/images/HeaderIcon.png" alt="Logo" />
+	</div>
+	<div id="il_startup_content">
+		<div class="ilMessageBox">
+			<!-- BEGIN warning -->
+			<img class="ilFailureMessage" alt="{ALT_IMAGE}" title="{ALT_IMAGE}" src="{SRC_IMAGE}" />
+			<div class="ilFailureMessage">
+				<h5 class="ilAccHeadingHidden"><a id="il_message_focus" name="il_message_focus">{MESSAGE_HEADING}</a></h5>
+				{TXT_MSG_LOGIN_FAILED}
+			</div>
+			<!-- END warning -->
+			<!-- BEGIN success -->
+			<img class="ilSuccessMessage" alt="{ALT_IMAGE}" title="{ALT_IMAGE}" src="{SRC_IMAGE}" />
+			<div class="ilSuccessMessage">
+				<h5 class="ilAccHeadingHidden"><a id="il_message_focus" name="il_message_focus">{MESSAGE_HEADING}</a></h5>
+				{TXT_MSG_LOGIN_SUCCESS}
+			</div>
+			<!-- END success -->
+		</div>
+
+		<!-- BEGIN login_information -->
+		<div class="small">{TXT_LOGIN_INFORMATION}</div>
+		<!-- END login_information -->
+		
+		<div class="ilStartupSection">
+			<!-- BEGIN cookies_howto -->
+			<p>
+				<a class="il_ContainerItemCommand" href="{LINK_NO_COOKIES}" target="_blank">{COOKIES_HOWTO}</a>
+			</p>
+			<!-- END cookies_howto -->
+			
+			<div class="ilShopLogin">
+				<form method="post" action="{FORMACTION}" name="formlogin">
+					<input type="hidden" name="sendLogin" value="1" />
+					
+					<!-- BEGIN cas_login -->
+					<table class="std" width="400">
+						<tr class="tblheader">
+							<td class="std">
+								{TXT_CAS_LOGIN}
+							</td>
+						</tr>
+						<tr class="tblrow1">
+							<td class="std ilCenter">
+								<a href="{TARGET_CAS_LOGIN}"><img src="{TXT_CAS_LOGIN_BUTTON}" alt="CAS Login Button"></a>
+							</td>
+						</tr>
+						<tr class="tblrow1">
+							<td class="std ilCenter">
+								{TXT_CAS_LOGIN_INSTRUCTIONS}
+							</td>
+						</tr>
+					</table>
+					<!-- END cas_login -->
+					
+					<!-- BEGIN shibboleth_wayf_login -->
+					<table class="std" width="400">
+						<tr class="tblheader">
+							<td class="std ilCenter">
+								{TXT_SHIB_LOGIN} {TXT_SHIB_FEDERATION_NAME}
+							</td>
+						</tr>
+						<tr class="tblrow1">
+							<td class="std">
+								{TXT_SELECT_HOME_ORGANIZATION}
+							</td>
+						</tr>
+						<tr class="tblrow1">
+							<td class="std ilCenter">
+								<p>
+									<span class="warning">{TXT_SHIB_INVALID_SELECTION}</span><br/>
+									{SHIB_IDP_LIST} 
+								</p>
+								<p>
+									<input type="hidden" name="il_target" value="{ILW_TARGET}" />
+									<input type="submit" name="home_organization_selection" value="{TXT_CONTINUE}" />
+								</p>
+							</td>
+						</tr>
+						<tr class="tblrow1">
+							<td class="std">
+								{TXT_SHIB_LOGIN_INSTRUCTIONS}
+								{TXT_SHIB_CUSTOM_LOGIN_INSTRUCTIONS}
+							</td>
+						</tr>
+					</table>
+					<!-- END shibboleth_wayf_login -->
+					
+					<!-- BEGIN shibboleth_login -->
+					<table class="std" width="400">
+						<tr class="tblheader">
+							<td class="std">
+								{TXT_SHIB_LOGIN} {TXT_SHIB_FEDERATION_NAME}
+							</td>
+						</tr>
+						<tr class="tblrow1">
+							<td class="std center">
+								<p>
+									<a href="shib_login.php?target={IL_TARGET}">
+										<img src="{TXT_SHIB_LOGIN_BUTTON}" alt="Shibboleth Login Button"></a></p>
+							</td>
+						</tr>
+						<tr class="tblrow1">
+							<td class="std">
+								{TXT_SHIB_LOGIN_INSTRUCTIONS}
+								{TXT_SHIB_CUSTOM_LOGIN_INSTRUCTIONS}
+							</td>
+						</tr>
+					</table>
+					<!-- END shibboleth_login -->
+
+					<!-- BEGIN ilias_login -->
+					{LOGIN_FORM}
+					<!-- END ilias_login -->
+				</form>
+				
+				<!-- BEGIN openid_login -->
+				{OID_LOGIN_FORM}
+				<!-- END openid_login -->
+				
+			</div>
+			
+			<div class="ilShopRegistration" >	
+				<!-- BEGIN new_shop_registration -->
+				{SHOP_REGISTER}
+				<!-- END new_shop_registration -->
+				
+				<!-- BEGIN new_registration -->
+				<!-- END new_registration -->
+			</div>
+		
+			<p class="ilStartupSection">
+				<!-- BEGIN homelink -->
+				<!-- END homelink -->
+				
+				<!-- BEGIN password_assistance -->
+				<!-- END password_assistance -->
+				
+				<!-- BEGIN client_list -->
+				<!-- END client_list -->
+			</p>
+			
+			<p class="ilStartupSection">
+				<!-- BEGIN languages -->
+				<!-- END languages -->
+			</p>
+		</div>
+	</div>
+</div>
+
+<script language="JavaScript">
+<!--
+if (document.formlogin.username && document.formlogin.password)
+{
+	if(document.formlogin.username.value!="") document.formlogin.password.focus();
+	else document.formlogin.username.focus();
+}
+//-->
+</script>

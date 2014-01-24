@@ -1,0 +1,16 @@
+<!-- BEGIN submit_allowed -->
+<p class="warning">{TEXT_CONFIRM_SUBMIT_RESULTS}</p>
+<!-- END submit_allowed -->
+<!-- BEGIN not_submit_allowed -->
+<p class="warning">{TEXT_ALREADY_SUBMITTED}</p>
+<!-- END not_submit_allowed -->
+<table>
+<tr valign="top">
+<td>
+<form name="test_output" method="post" action="{FORMACTION}">
+	<input type="submit" class="submit" name="cmd[finalSubmission]" value="{BTN_OK}" />&nbsp;&nbsp;
+	<input type="submit" class="submit" name="cmd[show_answers]" value="{BTN_BACK}" />
+</form>
+</td>
+</tr>
+</table>

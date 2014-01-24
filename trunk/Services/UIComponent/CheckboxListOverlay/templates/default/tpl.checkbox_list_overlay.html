@@ -1,0 +1,17 @@
+<span style="white-space:nowrap;" id="ilChkboxListAnchorEl_{ID}">
+<a id="ilChkboxListTrigger_{ID}" onclick="return false;" class="{CLASS_SEL_TOP}" href="#" target="_top">
+<span id="ilChkboxListAnchorText_{ID}">{TXT_SEL_TOP}</span> <!-- BEGIN top_img --><img border="0" src="{IMG_DOWN}" alt="{ALT_SEL_TOP}" style="position:relative; top:-1px; vertical-align:middle;"/><!-- END top_img --></a>
+</span>
+<div id="ilChkboxListOverlay_{ID}" class="ilOverlay" style="display:none; position:absolute; z-index:5000;">
+<!-- I used a table since divs and checkboxes produced unwanted scrollbars in firefox 3.5.8 -->
+<table cellspacing="2" cellpadding="0" border="0">
+<!-- BEGIN list_entry -->
+<tr><td><input type="checkbox" name="{VAR}[]" value="{VAL_ENTRY}" {CHECKED}/></td>
+<td style="white-space:nowrap;">{TXT_ENTRY}</td></tr>
+<!-- END list_entry -->
+</table>
+<input type="hidden" name="{HIDDEN_VAR}" value="1"/>
+<div class="submit" style="margin:5px;">
+	<input type="submit" class="submit" {ONCLICK} value="{VAL_SUBMIT}" name="cmd[{CMD_SUBMIT}]" />
+</div>
+</div>

@@ -1,0 +1,21 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<service xmlns="http://www.w3.org" version="$Id$"
+	id="cal">
+	<baseclasses>
+	</baseclasses>
+	<objects>
+		<object id="cals" class_name="CalendarSettings" dir="classes"
+			checkbox="0" inherit="0" translate="sys" rbac="1" devmode="0" system="1" administration="1">
+			<subobj id="rolf" max="1">rolf</subobj>
+			<parent id="adm" max="1">adm</parent>
+		</object>
+	</objects>
+	<events>		
+		<event type="listen" id="Modules/Group" />
+		<event type="listen" id="Modules/Session" />
+		<event type="listen" id="Modules/Course" />
+	</events>
+	<crons>
+		<cron id="cal_consultation" class="ilConsultationHourCron" path="Services/Calendar/classes/ConsultationHours/" />
+	</crons>
+</service>

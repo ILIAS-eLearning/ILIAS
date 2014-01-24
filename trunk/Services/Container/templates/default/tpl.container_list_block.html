@@ -1,0 +1,47 @@
+<!-- BEGIN container_block -->
+<table class="ilContainerBlock" {CB_ID}>
+<!-- BEGIN container_row -->
+<!-- BEGIN container_header_row_image -->
+<tr>
+<th class="ilContainerBlockHeader">
+<img border="0" alt="{HEADER_ALT}" title="{HEADER_ALT}" src="{HEADER_IMG}" />
+<h3 class="ilContainerBlockHeader">{BLOCK_HEADER_CONTENT}</h3></th>
+</tr>
+<!-- END container_header_row_image -->
+<!-- BEGIN container_header_row -->
+<tr>
+<th class="ilContainerBlockHeader" style="padding:3px;"><h3 class="ilContainerBlockHeader">{BLOCK_HEADER_CONTENT}</h3><div style="float:right; text-align:right; font-weight:normal; padding-right:15px;">{CHR_COMMANDS}</div></th>
+</tr>
+<!-- END container_header_row -->
+<!-- BEGIN container_standard_row -->
+<!-- BEGIN row_type_1 -->
+<tr class="ilCLIRow1" {ROW_ID}>
+<!-- END row_type_1 -->
+<!-- BEGIN row_type_2 -->
+<tr class="ilCLIRow2" {ROW_ID}>
+<!-- END row_type_2 -->
+<td class="ilCLI">{BLOCK_ROW_CONTENT}</td>
+</tr>
+<!-- END container_standard_row -->
+<!-- BEGIN container_details_row -->
+<tr class="tblfooter">
+	<td class="tblfooter" colspan="1">
+		<div style="float: right;" class="il_BlockInfo">{TXT_DETAILS}: 
+			<!-- BEGIN details_img -->
+			<a href="{DETAILS_LINK}"><img src="{DETAILS_SRC}" alt="{DETAILS_ALT}" title="{DETAILS_ALT}" /></a> 
+			<!-- END details_img -->
+		</div>
+	</td>
+</tr>
+<!-- END container_details_row -->
+<!-- END container_row -->
+<!-- BEGIN select_all_row -->
+<tr class="tblfooter">
+	<td class="ilContainerListFooter">
+	<input type="checkbox" name="{CHECKBOXNAME}" id="{CHECKBOXNAME}" value="1" onClick="javascript:il.Util.setChecked('{SEL_ALL_PARENT}', '{SEL_ALL_CB_NAME}', this.checked);" />
+	<label for="{CHECKBOXNAME}" class="small">{TXT_SELECT_ALL}</label>
+</td>
+</tr>
+<!-- END select_all_row -->
+</table>
+<!-- END container_block -->

@@ -1,0 +1,22 @@
+<tr style="font-size: 75%" class="{CSS_ROW}">
+	<!-- BEGIN perm_td -->
+	<td class="std" style="vertical-align: top" width="1px">
+		<input type="checkbox" name="template_perm[{OBJ_TYPE}][]" id="template_perm_{OBJ_TYPE}_{PERM_PERM_ID}" value="{PERM_PERM_ID}" {PERM_DISABLED} {PERM_CHECKED} />
+	</td>
+	<!-- END perm_td -->
+	<!-- BEGIN perm_desc_td -->
+	<td class="std" width="100%">
+		<label for="template_perm_{DESC_TYPE}_{DESC_PERM_ID}"><font>{TXT_PERMISSION}</font></label>
+	</td>
+	<!-- END perm_desc_td -->
+	<!-- BEGIN ce_td -->
+	<td class="std" style="vertical-align: top" width="1px">
+		<input type="checkbox" name="recursive_list[]" id="ce_{CE_TYPE}" value="{CE_TYPE}" />
+	</td>
+	<!-- END ce_td -->
+	<!-- BEGIN ce_desc_td -->
+	<td class="std">
+		<label for="ce_{CE_DESC_TYPE}" title="{CE_LONG}"><font class="bold">{TXT_CE}</font></label>
+	</td>
+	<!-- END ce_desc_td -->
+</tr>

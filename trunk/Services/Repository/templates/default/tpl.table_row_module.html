@@ -1,0 +1,30 @@
+<tr class="{CSS_ROW}">
+	<!-- BEGIN mod_bl -->
+	<td class="std" valign="top">
+		{GROUP_SEL}
+		<input type="text" name="{VAR_POS}" value="{VAL_POS}" size="3" maxlength="3" />
+	</td>
+	<td class="std" valign="top">{DUMMY}
+		<!-- BEGIN rep_object -->
+		<div style="margin: 0px 0px 10px 0px;">
+			<img alt="{TXT_REP_OBJECT}" src="{IMG_REP_OBJECT}" border="0"/>
+			&nbsp;{TXT_REP_OBJECT} [{TXT_REP_OBJECT_ID}]			
+		</div>
+		<!-- END rep_object -->
+	</td>
+	<td class="std" valign="top">
+		{TXT_MODULE_NAME}
+	</td>
+	<td class="std" valign="top">
+		<!-- BEGIN group -->
+		{VAL_GROUP} [{VAL_GROUP_ID}]
+		<!-- END group -->
+	</td>		
+	<td class="std" valign="top">
+		<input type="checkbox" value="1" name="{VAR_DISABLE_CREATION}" {CHECKED_DISABLE_CREATION} />
+	</td>
+	<!-- END mod_bl -->
+	<!-- BEGIN pos_grp_bl -->
+	<td class="std" colspan="5"><h3>{TXT_POS_GRP}</h3></td>
+	<!-- END pos_grp_bl -->
+</tr>

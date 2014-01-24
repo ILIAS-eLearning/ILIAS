@@ -1,0 +1,24 @@
+<!-- BEGIN row -->
+<tr class="{CSS_ROW}">
+	<td class="std" ><input type="checkbox" {CHECKED} name="mail_id[]" value="{MAIL_ID}" {CHECKBOX_CHECKED}></td>
+	<td class="std"  width="1px" valign="middle">
+	<!-- BEGIN pers_image -->
+	<img src="{IMG_SENDER}" alt="{ALT_SENDER}" border="0" />
+	<!-- END pers_image -->
+	</td>
+	<td class="std"  valign="middle">
+	<!-- BEGIN mails_from -->
+		{MAIL_FROM}<br />
+	<!-- END mails_from -->
+		{MAIL_LOGIN}
+	</td>
+	<!-- BEGIN mail_subject --><td class="std"  valign="middle"><a class="{MAILCLASS}" href="{MAIL_LINK_READ}">{MAIL_SUBJECT}</a></td><!-- END mail_subject -->
+	<!-- BEGIN search_result -->
+	<td class="std">
+	<!-- BEGIN msr_subject --><p><a class="{MSR_SUBJECT_MAILCLASS}" href="{MSR_SUBJECT_LINK_READ}">{MSR_SUBJECT}</a></p><!-- END msr_subject -->
+	<!-- BEGIN msr_data -->{MSR_DATA}<!-- END msr_data -->
+	</td>
+	<!-- END search_result -->
+	<td class="std"  valign="middle">{MAIL_DATE}</td>
+</tr>
+<!-- END row -->

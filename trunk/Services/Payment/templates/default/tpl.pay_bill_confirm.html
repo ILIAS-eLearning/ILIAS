@@ -1,0 +1,37 @@
+<!-- BEGIN bill_confirm -->
+{ITEMS_TABLE}
+{COUPON_TABLE}
+
+  <form action="{BILL_CONFIRM_FORMACTION}" method="post">
+	<p><table class="fullwidth">
+	  <tr class="tbltitle">
+		<td colspan="3">
+		  <table class="fullwidth_invisible" cellspacing="0">
+			<tr class="tbltitle">
+			  <td width="10"><img src="{TYPE_IMG}" alt="{ALT_IMG}" title="{ALT_IMG}" border="0" vspace="0" align="left" /></td>
+			  <td class="tbltitle" align="left">&nbsp;{TITLE}</td>
+			</tr>
+		  </table>
+		</td>
+	  </tr>
+		
+	  <tr class="tblfooter" >
+		<td class="submit" colspan="3" >
+<!--			<input class="submit" type="submit" name="cmd[cancel]" value="{CANCEL}" />//-->
+			<input class="submit" type="submit" name="cmd[getBill]" value="{INPUT_VALUE}" />
+		</td>
+	  </tr>
+	</table></p>
+</form>
+<!-- END bill_confirm -->
+<!-- BEGIN buyed_objects -->
+<script language="JavaScript">
+document.write('<p><a class="il_ContainerItemCommand" href="#" onClick="window.opener.location.href=\'{LINK_GOTO_BUYED_OBJECTS}\'; window.close(); return false">{TXT_GOTO_BUYED_OBJECTS}</a></p>');
+</script>
+<noscript>
+<p><a class="il_ContainerItemCommand" href="{LINK_GOTO_BUYED_OBJECTS}">{TXT_GOTO_BUYED_OBJECTS}</a></p>
+</noscript>
+<!-- END buyed_objects -->
+<script language="JavaScript">
+document.write('<p><a class="il_ContainerItemCommand" href="javascript:window.close()">{TXT_CLOSE_WINDOW}</a></p>');
+</script>

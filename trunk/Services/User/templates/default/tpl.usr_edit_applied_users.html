@@ -1,0 +1,36 @@
+	<form action="{FORMACTION}" {TARGET} method="post">
+	  <table class="std">
+		  <tr class="tbltitle">
+			<td colspan="3">
+			  <table class="fullwidth_invisible" cellspacing="0">
+				  <tr class="tbltitle">
+					<td width="10"><img src="{TYPE_IMG}" alt="{ALT_IMG}" title="{ALT_IMG}" border="0" vspace="0" align="left" /></td>
+					<td class="tbltitle" align="left" nowrap="nowrap">&nbsp;{TITLE}</td>
+				  </tr>
+			  </table>
+			</td>
+		  </tr>
+		  <tr>
+			<td class="option" align="top" rowspan="{ROWSPAN}">{TXT_TIME_LIMIT}</td>
+			<td class="sub_option">{TXT_TIME_LIMIT_START}</td>
+			<td class="option_value">{SELECT_TIME_LIMIT_START_DAY}&nbsp;{SELECT_TIME_LIMIT_START_MONTH}&nbsp;{SELECT_TIME_LIMIT_START_YEAR}&nbsp;{SELECT_TIME_LIMIT_START_HOUR}:&nbsp;{SELECT_TIME_LIMIT_START_MINUTE}</td>
+		  </tr>
+		  <tr>
+			<td class="sub_option">{TXT_TIME_LIMIT_END}</td>
+			<td class="option_value">{SELECT_TIME_LIMIT_END_DAY}&nbsp;{SELECT_TIME_LIMIT_END_MONTH}&nbsp;{SELECT_TIME_LIMIT_END_YEAR}&nbsp;{SELECT_TIME_LIMIT_END_HOUR}:&nbsp;{SELECT_TIME_LIMIT_END_MINUTE}</td>
+		  </tr>
+		<!-- BEGIN unlimited -->
+		  <tr>
+			<td class="sub_option">{TXT_TIME_LIMIT_UNLIMITED}</td>
+			<td class="option_value">{TIME_LIMIT_UNLIMITED}</td>
+		  </tr>
+		<!-- END unlimited -->
+			<td class="submit" colspan="3">
+			  <div align="right">
+				<input class="submit" type="submit" name="cmd[{CMD_SUBMIT}]" value="{TXT_SUBMIT}" />
+				<input class="submit" type="submit" name="cmd[appliedUsers]" value="{TXT_CANCEL}" />
+			  </div>
+			</td>
+		  </tr>
+	  </table>
+	</form>

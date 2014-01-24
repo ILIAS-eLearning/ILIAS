@@ -1,0 +1,27 @@
+<?php xml version = "1.0" encoding = "UTF-8"?>
+<module xmlns="http://www.w3.org" version="$Id: modules.xml 15671 2008-01-04 13:08:30Z akill $"
+	id="glo">
+	<baseclasses>
+		<baseclass name="ilGlossaryEditorGUI" dir="classes" />
+		<baseclass name="ilGlossaryPresentationGUI" dir="classes" />
+	</baseclasses>
+	<objectgroups>
+		<objectgroup id="glo" name="Glossaries" default_pres_pos="110"/>
+	</objectgroups>
+	<objects>
+		<object id="glo" class_name="Glossary" dir="classes" default_pos="160" default_pres_pos="110"
+			checkbox="1" inherit="1" translate="0" allow_link="1" rbac="1" export="1" allow_copy="1">
+			<subobj id="rolf" max="1">rolf</subobj>
+			<parent id="cat">cat</parent>
+			<parent id="crs">crs</parent>
+			<parent id="fold">fold</parent>
+			<parent id="grp">grp</parent>
+			<parent id="recf">recf</parent>
+			<parent id="root">root</parent>
+			<sub_type id="term" amet="1" />
+		</object>
+	</objects>
+	<copage>
+		<pageobject parent_type="gdf" class_name="ilGlossaryDefPage" directory="classes"/>
+	</copage>
+</module>

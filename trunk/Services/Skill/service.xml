@@ -1,0 +1,13 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<service xmlns="http://www.w3.org" version="$Id$"
+	id="skll">
+	<baseclasses>
+	</baseclasses>
+	<objects>
+		<object id="skmg" class_name="SkillManagement" dir="classes"
+			checkbox="0" inherit="0" translate="sys" rbac="1" system="1" administration="1">
+			<parent id="adm" max="1">adm</parent>
+			<subobj id="rolf" max="1">rolf</subobj>
+		</object>
+	</objects>
+</service>

@@ -1,0 +1,30 @@
+<tr class="{CSS_ROW}">
+	<td class="std">
+		{VAL_NAME}
+	</td>
+	<td class="std">
+		{VAL_LOGIN}
+	</td>
+	<!--  BEGIN access_time -->
+	<td class="std">
+		{VAL_ACCESS}
+	</td>
+	<!--  END access_time -->
+	<td class="std ilCenter">
+		<input type="checkbox" name="passed[]" value="{VAL_ID}" {VAL_PASSED_CHECKED} />
+	</td>
+	<td class="std ilCenter">
+		<input type="checkbox" name="blocked[]" value="{VAL_ID}" {VAL_BLOCKED_CHECKED} />
+	</td>
+	<td class="std ilCenter">
+		<input type="checkbox" name="notification[]" value="{VAL_ID}" {VAL_NOTIFICATION_CHECKED} />
+	</td>
+	<td class="std">
+		<input type="hidden" name="participants[]" value="{VAL_ID}" />
+		<select multiple="multiple" name="roles[{VAL_ID}][]" size="{NUM_ROLES}">
+			<!-- BEGIN roles -->
+			<option value="{ROLE_ID}" {ROLE_CHECKED}>{ROLE_NAME}</option>
+			<!-- END roles -->
+		</select>
+	</td>
+</tr>

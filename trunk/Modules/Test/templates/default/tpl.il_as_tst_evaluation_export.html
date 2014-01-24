@@ -1,0 +1,13 @@
+<div>
+	<form name="form_output_eval" method="post" action="{FORM_ACTION}">
+	{EXPORT_DATA}
+		<select name="export_type" size="1">
+			<option value="excel">{TEXT_EXCEL}</option>
+			<option value="csv">{TEXT_CSV}</option>
+	<!-- BEGIN certificate -->					
+			<option value="certificate">{TEXT_CERTIFICATE}</option>
+	<!-- END certificate -->					
+		</select> 
+		<input type="submit" class="submit" name="cmd[{CMD_EXPORT}]" value="{BTN_EXPORT}" />
+	</form>
+</div>

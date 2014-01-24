@@ -1,0 +1,29 @@
+<?php xml version = "1.0" encoding = "UTF-8"?>
+<module xmlns="http://www.w3.org" version="$Id: modules.xml 15671 2008-01-04 13:08:30Z akill $"
+	id="blog">
+	<baseclasses>
+	</baseclasses>
+	<objects>
+		<object id="blog" class_name="Blog" dir="classes" default_pos="330" default_pres_pos="330"
+			checkbox="1" inherit="1" translate="0" allow_link="1" allow_copy="1" rbac="1" export="1" 
+			workspace="1" repository="1">
+			<subobj id="rolf" max="1">rolf</subobj>
+			<parent id="cat">cat</parent>
+			<parent id="crs">crs</parent>
+			<parent id="fold">fold</parent>
+			<parent id="grp">grp</parent>
+			<parent id="recf">recf</parent>
+			<parent id="root">root</parent>
+			<parent id="wfld">wfld</parent>
+			<parent id="wsrt">wsrt</parent>			
+		</object>
+		<object id="blga" class_name="BlogAdministration" dir="classes"
+			checkbox="0" inherit="0" translate="sys" rbac="1" system="1" administration="1">
+			<parent id="adm" max="1">adm</parent>
+			<subobj id="rolf" max="1">rolf</subobj>
+		</object>
+	</objects>
+	<copage>
+		<pageobject parent_type="blp" class_name="ilBlogPosting" directory="classes"/>
+	</copage>
+</module>

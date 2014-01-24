@@ -1,0 +1,55 @@
+<tr class="{CSS_ROW} small">
+	<td class="std">
+		<input type="checkbox" name="{VAL_POSTNAME}[]" value="{VAL_ID}" {VAL_CHECKED} />
+		<input type="hidden" name="visible_member_ids[]" value="{VAL_ID}" />		
+	</td>
+	<td class="std">
+		{VAL_NAME}
+		<!-- BEGIN access_warning -->
+		<br />
+		<font class="smallred">
+			{PARENT_ACCESS}
+		</font>
+		<!-- END access_warning -->
+	</td>
+	<!-- BEGIN custom_fields -->
+	<td class="std">
+		{VAL_CUST}
+	</td>
+	<!-- END custom_fields -->
+	<!-- BEGIN lp -->
+	<td class="std">
+		<img src="{LP_STATUS_PATH}" alt="{LP_STATUS_ALT}" title="{LP_STATUS_ALT}" /> {LP_STATUS_ALT}
+	</td>
+	<!-- END lp -->
+	<!--  BEGIN access_time -->
+	<td class="std ilWhiteSpaceNowrap">
+		{VAL_ACCESS}
+	</td>
+	<!--  END access_time -->
+	<td class="std">
+		<input type="checkbox" name="passed[]" value="{VAL_PASSED_ID}" {VAL_PASSED_CHECKED} />		
+	</td>
+	<!-- BEGIN passed_info_col -->
+	<td class="std">
+		{PASSED_INFO}
+	</td>
+	<!-- END passed_info_col -->
+	<!-- BEGIN notification -->
+	<td class="std">
+		<input type="checkbox" name="notification[]" value="{VAL_NOTIFICATION_ID}" {VAL_NOTIFICATION_CHECKED} />
+	</td>
+	<!-- END notification -->
+	<!-- BEGIN blocked -->
+	<td class="std">
+		<input type="checkbox" name="blocked[]" value="{VAL_BLOCKED_ID}" {VAL_BLOCKED_CHECKED} />
+	</td>
+	<!-- END blocked -->
+	<td class="std">
+			<div class="il_ContainerItemCommands2">
+			<!-- BEGIN link -->
+		  <a class="il_ContainerItemCommand2" href="{LINK_NAME}">{LINK_TXT}</a><br />
+		 	<!-- END link -->
+		 	</div>
+	</td>
+</tr>

@@ -1,0 +1,53 @@
+/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/************************************
+ *  Basic positioning and dimensions
+ ***********************************/
+
+#ilCharSelectorPanel {
+	position: absolute !important;
+	height: 120px;
+	left:0;
+	right:0;
+	background: #ffffff;
+	display:none;	/* will be shown when panel is openend */
+}
+
+/*****************************
+ *  Positioning in normal mode
+ *****************************/
+
+body.withCharSelector #fixed_content
+{
+	top: 205px !important;	/* 85px default + 120 px panel height */
+}
+
+/*********************************
+ *  Positioning in test kiosk mode
+ *********************************/
+
+body.kioskWithCharSelector {
+	background-color: rgb(250, 250, 250);
+}
+
+body.kioskWithCharSelector #ilCharSelectorPanel {
+	top: 0;
+}
+
+body.kioskWithCharSelector #ilAll {
+	position:fixed;
+	overflow:auto;
+	top: 120px;		/* 120 px panel height */
+	left: 0;
+	right: 0;
+	bottom: 0;
+	padding: 2em;
+}
+
+/*********************************
+ *  Positioning with seb kiosk mode
+ *********************************/
+
+body.sebKioskWithCharSelector #ilCharSelectorPanel { 
+	top: 55px;
+}

@@ -1,0 +1,41 @@
+<html>
+	<head>
+		<title>{ROOM_TITLE}</title>
+
+		<style type="text/css">
+			* {
+				font-family: sans-serif;
+			}
+			.chat.username {
+			    font-weight: bold;
+			    color: blue;
+			}
+			.chat.date {
+			    color: green;
+			}
+		</style>
+	</head>
+	<body>
+<!-- BEGIN PERIOD_FORM -->
+<div class="ilFloatLeft">
+{PERIOD_FORM}
+</div>
+<!-- END PERIOD_FORM -->
+<div class="ilFloatLeft" style="margin: 0 10px;">
+	<!-- BEGIN HISTORY_TITLE --><br /><h2 class="ilHeader">{ROOM_TITLE}</h2><br /><!-- END HISTORY_TITLE -->
+<!-- BEGIN MESSAGELINE -->
+<div class="messageLine chat {MESSAGECLASS} small">
+	<!-- BEGIN MESSAGE_DATE -->
+		<p><span class="chat content date">{MESSAGEDATE} </span></p>
+	<!-- END MESSAGE_DATE -->
+	&nbsp;&nbsp;<span class="chat content username">{MESSAGESENDER}</span>
+	<span class="chat content messageseparator">:</span>
+	<span class="chat content message">{MESSAGECONTENT}</span>
+</div>
+<!-- END MESSAGELINE -->
+<!-- BEGIN NO_MESSAGES -->
+<p>{LBL_NO_MESSAGES}</p>
+<!-- END NO_MESSAGES -->
+</div>
+	</body>
+</html>

@@ -1,0 +1,24 @@
+<h2>{TEXT_ADD_PHRASE}</h2>
+<form name="addPhrases" method="post" action="{FORM_ACTION}">
+<p>{TEXT_INTRODUCTION}</p>
+<table class="std">
+<thead>
+	<tr class="tblheader">
+		<th class="std"></th>
+		<th class="std">{TEXT_PHRASE}</th>
+		<th class="std">{TEXT_CONTENT}</th>
+	</tr>
+</thead>
+<!-- BEGIN phraserow -->
+<tr class="{COLOR_CLASS}" valign="top">
+<td><input type="radio" name="phrases" id="phrase_{PHRASE_VALUE}" value="{PHRASE_VALUE}" /></td>
+<td><label for="phrase_{PHRASE_VALUE}">{PHRASE_NAME}</label></td>
+<td>{PHRASE_CONTENT}</td>
+</tr>
+<!-- END phraserow -->
+</table>
+<!-- BEGIN hidden -->
+<input type="hidden" name="{HIDDEN_NAME}" value="{HIDDEN_VALUE}" />
+<!-- END hidden -->
+<p><input type="submit" name="cmd[addSelectedPhrase]" value="{TEXT_ADD_PHRASE}" class="submit" /> <input type="submit" name="cmd[cancelViewPhrase]" value="{TEXT_CANCEL}" class="submit" /></p>
+</form>

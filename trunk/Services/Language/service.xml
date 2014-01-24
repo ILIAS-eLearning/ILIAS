@@ -1,0 +1,17 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<service xmlns="http://www.w3.org" version="$Id$"
+	id="lang">
+	<baseclasses>
+	</baseclasses>
+	<objects>
+		<object id="lngf" class_name="LanguageFolder" dir="classes"
+			checkbox="0" inherit="0" translate="sys" rbac="1" system="1" devmode="0" administration="1">
+			<subobj id="rolf" max="1">rolf</subobj>
+			<subobj id="lng">lng</subobj>
+			<parent id="adm" max="1">adm</parent>
+		</object>
+		<object id="lng" class_name="Language" dir="classes"
+			checkbox="1" translate="0" rbac="0">
+		</object>
+	</objects>
+</service>

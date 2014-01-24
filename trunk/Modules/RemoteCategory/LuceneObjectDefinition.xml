@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ObjectDefinition xmlns:xi="http://www.w3.org/2001/XInclude" type="rcat">
+	<Document type="default">
+		<xi:include href="../../Services/Object/LuceneDataSource.xml" />
+		<xi:include href="../../Services/Tagging/LuceneDataSource.xml" />
+		<xi:include href="../../Services/AdvancedMetaData/LuceneDataSource.xml" />
+		<DataSource type="JDBC" action="append">
+			<Query>
+				SELECT local_information, organization
+				FROM rcat_settings
+				WHERE obj_id IN (?)
+			</Query>
+			<Param format="list" type="int" value="objId" />
+			<Field store="YES" index="ANALYZED" column="local_information" type="text" name="propertyMedium" /> 
+			<Field store="YES" index="ANALYZED" column="organization" type="text" name="propertyHigh" /> 
+		</DataSource>
+	</Document>
+</ObjectDefinition>

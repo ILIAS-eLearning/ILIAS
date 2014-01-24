@@ -1,0 +1,58 @@
+<form action="{FORMACTION}" name="post" method="post"  enctype="multipart/form-data">
+<table class="fullwidth">
+<tr class="tblheader">
+	<td class="std" colspan="2">
+		{TXT_ACTION}
+	</td>
+</tr>
+<tr>
+	<td class="option" >
+		{TXT_LANGUAGE}
+	</td>
+	<td class="option_value" >
+		{SELECT_LANGUAGE}
+	</td>
+</tr>
+<tr>
+	<td class="option" nowrap="true">
+		{TXT_SUBCHARACTERISTIC}
+	</td>
+	<td class="option_value" nowrap="true">
+		{SELECT_SUBCHARACTERISTIC}&nbsp;<input type="checkbox" name="par_showlinenumbers" {SHOWLINENUMBERS}/>&nbsp;{TXT_SHOWLINENUMBERS}&nbsp;<input type="checkbox" name="par_autoindent" {AUTOINDENT}/>&nbsp;{TXT_AUTOINDENT}
+	</td>
+	
+</tr>
+<tr class="std">
+	<td class="std" colspan="2">
+		<textarea wrap="off" style="width:98%" name="{PAR_TA_NAME}" cols="80" rows="12" wrap="virtual">{PAR_TA_CONTENT}</textarea>
+	</td>
+</tr>
+<!-- BEGIN commands -->
+<tr>
+	<td class="option">	
+		{TXT_DOWNLOADTITLE}
+	</td>
+	<td class="option_value"  colspan="1">	
+		<input name="par_downloadtitle" size="40" type="text" value="{DOWNLOAD_TITLE_VALUE}"/>
+	</td>
+</tr>
+<!--</form>-->
+<!-- END commands -->
+<tr>
+	<td class="option">				
+			{TXT_IMPORTFILE}
+	</td>
+	<td class="option_value"  colspan="1">
+			<input name="userfile" size="40" type="file">&nbsp;<input class="submit" type="submit" name="cmd[{UPLOAD_BTN_NAME}]" value="{TXT_UPLOAD_BTN}">		
+	</td>
+</tr>
+<tr>
+	<td class="submit"  colspan="2" style="text-align:right;">
+		<input class="submit" type="submit" name="cmd[{BTN_NAME}]" value="{BTN_TEXT}" />
+		<input class="submit" type="submit" name="cmd[{BTN_CANCEL}]" value="{TXT_CANCEL}" />
+	</td>
+</tr>
+
+<input type="hidden" name="MAX_FILE_SIZE" value="30000">
+</table>
+</form>

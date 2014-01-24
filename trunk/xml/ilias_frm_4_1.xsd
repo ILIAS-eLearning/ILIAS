@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns = "http://www.w3.org/2001/XMLSchema"
+		targetNamespace = "http://www.ilias.de/Modules/Forum/frm/4_1"
+		xmlns:t = "http://www.ilias.de/Modules/Forum/frm/4_1"
+		elementFormDefault = "qualified">
+
+	<element name="Forum">
+		<complexType>
+			<sequence>
+				<element name="Id" type="integer" minOccurs="1" maxOccurs="1" />
+				<element name="ObjId" type="integer" minOccurs="1" maxOccurs="1" />
+				<element name="Title" type="string" minOccurs="1" maxOccurs="1" />
+				<element name="Description" type="string" minOccurs="1" maxOccurs="1" />
+				<element name="DefaultView" type="integer" minOccurs="1" maxOccurs="1" />
+				<element name="Pseudonyms" type="integer" minOccurs="1" maxOccurs="1" />
+				<element name="Statistics" type="integer" minOccurs="1" maxOccurs="1" />
+				<element name="PostingActivation" type="integer" minOccurs="1" maxOccurs="1" />
+				<element name="PresetSubject" type="integer" minOccurs="1" maxOccurs="1" />
+				<element name="PresetRe" type="integer" minOccurs="1" maxOccurs="1" />
+				<element name="NotificationType" type="string" minOccurs="1" maxOccurs="1" />
+				<element name="ForceNotification" type="integer" minOccurs="1" maxOccurs="1" />
+				<element name="ToggleNotification" type="integer" minOccurs="1" maxOccurs="1" />
+				<element name="LastPost" type="string" minOccurs="1" maxOccurs="1" />
+				<element name="Moderator" type="integer" minOccurs="1" maxOccurs="1" />
+				<element name="CreateDate" type="string" minOccurs="1" maxOccurs="1" />
+				<element name="UpdateDate" type="string" minOccurs="1" maxOccurs="1" />				
+				<element name="UpdateUserId" type="integer" minOccurs="1" maxOccurs="1" />
+				<element name="UserId" type="integer" minOccurs="1" maxOccurs="1" />				
+				<element ref="t:Thread" minOccurs="0" maxOccurs="unbounded" />
+			</sequence>
+		</complexType>
+	</element>
+
+	<element name="Thread">
+		<complexType>
+			<sequence>
+				<element name="Id" type="integer" minOccurs="1" maxOccurs="1" />
+				<element name="Subject" type="string" minOccurs="1" maxOccurs="1" />				
+				<element name="UserId" type="integer" minOccurs="1" maxOccurs="1" />
+				<element name="Alias" type="string" minOccurs="1" maxOccurs="1" />
+				<element name="LastPost" type="string" minOccurs="1" maxOccurs="1" />
+				<element name="CreateDate" type="string" minOccurs="1" maxOccurs="1" />
+				<element name="UpdateDate" type="string" minOccurs="1" maxOccurs="1" />
+				<element name="ImportName" type="string" minOccurs="1" maxOccurs="1" />
+				<element name="Sticky" type="integer" minOccurs="1" maxOccurs="1" />
+				<element name="Closed" type="integer" minOccurs="1" maxOccurs="1" />
+				<element ref="t:Post" minOccurs="1" maxOccurs="unbounded" />
+			</sequence>
+		</complexType>
+	</element>
+
+	<element name="Post">
+		<complexType>
+			<sequence>
+				<element name="Id" type="integer" minOccurs="1" maxOccurs="1" />
+				<element name="UserId" type="integer" minOccurs="1" maxOccurs="1" />
+				<element name="Alias" type="string" minOccurs="1" maxOccurs="1" />
+				<element name="Subject" type="string" minOccurs="1" maxOccurs="1" />
+				<element name="CreateDate" type="string" minOccurs="1" maxOccurs="1" />
+				<element name="UpdateDate" type="string" minOccurs="1" maxOccurs="1" />
+				<element name="UpdateUserId" type="integer" minOccurs="1" maxOccurs="1" />				
+				<element name="Censorship" type="boolean" minOccurs="1" maxOccurs="1" />
+				<element name="CensorshipMessage" type="string" minOccurs="1" maxOccurs="1" />
+				<element name="Notification" type="boolean" minOccurs="1" maxOccurs="1" />
+				<element name="ImportName" type="string" minOccurs="1" maxOccurs="1" />
+				<element name="Status" type="integer" minOccurs="1" maxOccurs="1" />
+				<element name="Message" type="string" minOccurs="1" maxOccurs="1" />
+				<element ref="t:MessageMediaObjects" minOccurs="0" maxOccurs="1" />
+				<element name="Lft" type="integer" minOccurs="1" maxOccurs="1" />
+				<element name="Rgt" type="integer" minOccurs="1" maxOccurs="1" />
+				<element name="Depth" type="integer" minOccurs="1" maxOccurs="1" />
+				<element name="ParentId" type="integer" minOccurs="1" maxOccurs="1" />
+				<element ref="t:Attachment" minOccurs="0" maxOccurs="unbounded" />
+			</sequence>
+		</complexType>
+	</element>
+
+	<element name="Attachment">
+		<complexType>
+			<sequence>
+				<element name="Content" type="string" minOccurs="1" maxOccurs="unbounded" />
+			</sequence>
+		</complexType>
+	</element>
+
+	<element name="MessageMediaObjects">
+		<complexType>
+			<sequence>
+				<element name="MediaObject" minOccurs="1" maxOccurs="unbounded" />
+			</sequence>
+		</complexType>
+	</element>
+
+	<element name="MediaObject">
+		<complexType>
+			<attribute name="label" use="required" type="string" />
+			<attribute name="uri" use="required" type="string" />
+		</complexType>
+	</element>
+
+</schema>

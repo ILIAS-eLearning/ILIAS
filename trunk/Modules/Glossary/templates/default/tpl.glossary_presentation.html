@@ -1,0 +1,37 @@
+<!-- BEGIN glo_menu -->
+<div class="il_Tab">
+<!-- BEGIN glo_menu_btn -->
+<a class="ilc_LMMenu" href="{BTN_LINK}" target="{BTN_TARGET}">{BTN_TXT}</a>
+<!-- END glo_menu_btn -->
+</div>
+<br />
+<!-- END glo_menu -->
+<!-- BEGIN search_form -->
+<form action="{FORMACTION1}" name="post" method="post">
+<table class="std">
+	<tr class="ilValignMiddle">
+		<td class="option">
+		{TXT_TERM}
+		</td>
+		<td class="option_value" colspan="2">
+			<input type="text" name="term" size="30" value="{TERM}" maxlength="80" />
+			<input type="submit" class="submit" name="cmd[searchTerms]" value="{TXT_SEARCH}" />
+			<input type="submit" class="submit" name="cmd[clearTerms]" value="{TXT_CLEAR}" />
+		</td>
+	</tr>
+</table>
+</form>
+<!-- END search_form -->
+{TERM_TABLE}
+<br />
+<!-- BEGIN edit_glossary -->
+<div class="ilFloatRight">
+<a class="il_ContainerItemCommand" href="{EDIT_LINK}" target="{EDIT_TARGET}">{EDIT_TXT}</a>
+</div>
+<!-- END edit_glossary -->
+<!-- BEGIN perma_link -->
+<div class="il_info">
+{TXT_PERMA_LINK}: <a href="{PERMA_LINK}" target="{PERMA_TARGET}">{PERMA_LINK}</a>
+</div>
+<!-- END perma_link -->
+

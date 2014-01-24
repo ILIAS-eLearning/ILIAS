@@ -1,0 +1,61 @@
+<!-- ilias_user.dtd for ILIAS mail import -->
+<!-- For comments refer to our mailing list: xml-ilias@uni-koeln.de -->
+<!-- $Id$Id: ilias_forum_0_1.dtd,v 1.2 2004/04/15 11:11:53 smeyer Exp $ -->
+
+<!-- FORUM -->
+<!ELEMENT forum (title,description,moderator*,thread*)>
+<!ATTLIST forum
+    exportVersion CDATA #REQUIRED
+    id CDATA #REQUIRED
+    anonymize CDATA #REQUIRED
+>
+
+<!-- TITLE -->
+<!ELEMENT title (#PCDATA)>
+
+<!-- DESCRIPTION -->
+<!ELEMENT description (#PCDATA)>
+
+<!-- MODERATOR -->
+<!ELEMENT moderator EMPTY>
+<!ATTLIST moderator
+    id CDATA #REQUIRED
+    login CDATA #REQUIRED
+>
+
+<!-- THREAD -->
+<!-- it's not possible to create threads without a first posting in I2/I3 => therefore 'posting +' -->
+<!ELEMENT thread (threadTitle,threadAuthor,threadCreationDate,posting+)>
+
+<!-- POSTING -->
+<!ELEMENT posting (postingTitle,postingAuthor,postingCreationDate,message,posting*)>
+
+<!-- TITLE -->
+<!ELEMENT threadTitle (#PCDATA)>
+
+<!-- TITLE -->
+<!ELEMENT postingTitle (#PCDATA)>
+
+<!-- AUTHOR -->
+<!ELEMENT threadAuthor EMPTY>
+<!ATTLIST threadAuthor
+    id CDATA #REQUIRED
+    login CDATA #REQUIRED
+>
+
+<!-- AUTHOR -->
+<!ELEMENT postingAuthor EMPTY>
+<!ATTLIST postingAuthor
+    id CDATA #REQUIRED
+    login CDATA #REQUIRED
+>
+
+<!-- CREATIONDATE -->
+<!ELEMENT threadCreationDate (#PCDATA)>
+
+<!-- CREATIONDATE -->
+<!ELEMENT postingCreationDate (#PCDATA)>
+
+<!-- MESSAGE -->
+<!ELEMENT message (#PCDATA)> 
+

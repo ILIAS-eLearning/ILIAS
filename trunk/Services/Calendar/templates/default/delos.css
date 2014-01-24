@@ -1,0 +1,285 @@
+table.calstd {
+	color:#222222;
+	width:100%;
+	background-color:#FFFFFF;
+	border-spacing:0px;
+	border-collapse:collapse;
+	border-width:0px;
+	border-style:solid;
+	border-color:#D6D6D6;
+	font-size: 100%;
+}
+
+.calheader {
+	color:#222222;
+	font-weight: normal;
+	background-color: #F9F9F9;
+}
+
+
+th.calstd {
+	text-align: center;
+	border-spacing:0px;
+	background-color: #F9F9F9;
+	border-collapse:collapse;
+	border-width:1px;
+	border-style:solid;
+	border-color:#D6D6D6;
+	font-weight: normal;
+}
+
+td.calheadertime {
+	width: 6em;
+	text-align: center;
+	border-spacing:0px;
+	background-color: #FFFFFF;
+	border-collapse:collapse;
+	border-width:1px;
+	border-style: solid;
+	border-color:#D6D6D6;
+	font-size: 90%;
+	padding: 3px;
+}
+	
+td.calempty {
+	background-color:#ffffff;
+	border-spacing:0px;
+	border-bottom-width:1px;
+	border-bottom-style:dotted;
+	border-bottom-color:#D6D6D6;
+}
+
+td.calempty_border {
+	background-color:#ffffff;
+	border-spacing:0px;
+	border-bottom-width:1px;
+	border-bottom-style:solid;
+	border-bottom-color:#D6D6D6;
+}
+
+th.calempty {
+	background-color:#ffffff;
+}
+
+td.calrightborder {
+	border-spacing:0px;
+	border-right-width:1px;
+	border-right-style:solid;
+	border-right-color:#D6D6D6;
+}	
+
+
+tr.calstd {
+	background-color: inherit;
+	height: 6em;
+}
+
+tr.calstdtime {
+	height: 1.2em;
+	background-color: inherit;
+	border-right-width:1px;
+	border-right-style:solid;
+	border-right-color:#D6D6D6;
+}
+		
+
+td.calstd {
+	vertical-align: top;
+	background-color:#ffffff;
+	border-spacing:0px;
+	border-collapse:collapse;
+	border-width:1px;
+	border-style:solid;
+	border-color:#D6D6D6;
+	padding: 2px 0px;
+}
+
+td.caltoday {
+	vertical-align: top;
+	background-color:#FFE79C;
+	border-spacing:0px;
+	border-collapse:collapse;
+	border-width:1px;
+	border-style:solid;
+	border-color:#D6D6D6;
+}
+
+
+td.calnow {
+	vertical-align: top;
+	background-color:#FFF0C4;
+	border-spacing:0px;
+	border-collapse:collapse;
+	border-width:1px;
+	border-style:solid;
+	border-color:#D6D6D6;
+}
+
+td.calnext { 
+	vertical-align: top;
+	background-color:#F9F9F9;
+	border-spacing:0px;
+	border-collapse:collapse;
+	border-width:1px;
+	border-style:solid;
+	border-color:#D6D6D6;
+}
+
+td.calprev {
+	vertical-align: top;
+	background-color:#F9F9F9;
+	border-spacing:0px;
+	border-collapse:collapse;
+	border-width:1px;
+	border-style:solid;
+	border-color:#D6D6D6;
+}
+
+p.il_calevent {
+	color:white;
+	margin: 2px 0px 0px 0px;
+	padding: 2px;
+	border-spacing: 0px;
+	font-size: 90%;
+}
+
+td.calevent {
+	color:white;
+	vertical-align: top;
+	padding: 3px;
+	border-spacing:0px;
+	border-collapse:collapse;
+	border-width:1px;
+	border-style: solid;
+	border-color: #D6D6D6;
+	font-size:90%;
+}
+
+div.calevent {
+	font-size:90%;
+	padding: 3px;
+	margin: 3px;
+}
+
+p.il_cal_monthday {
+	padding: 2px;
+	margin: 0px;
+	font-weight: normal;
+}
+
+p.il_cal_navigation {
+	padding: 0px 3px 0px 0px;
+	margin: 0px;
+}
+
+a.callink:link, a.callink:visited {
+	color: inherit;
+}
+a.callink:hover {
+	text-decoration: underline;
+	color: inherit;
+}
+
+table.calmini 
+{
+	width:100%;
+	border-spacing:0px;
+	border-collapse:collapse;
+	border-width:1px;
+	border-style:solid;
+	border-color: #D6D6D6;
+}
+
+.calminiheader {
+	color:#222222;
+	background-color: #F9F9F9;
+}
+
+th.calmini {
+	text-align: center;
+	font-size:90%;
+	font-weight:normal;
+	background-color: #FFFFFF;
+}
+
+tr.calmini {
+}
+
+a.calminiapp {
+	font-weight: bold;
+}
+
+p.il_calmini_monthday, div.il_calmini_monthday {
+	margin: 1px;
+	text-align:center;
+}
+
+td.calministd {
+	vertical-align: top;
+	border-collapse:collapse;
+	background-color:#ffffff;
+	border-spacing:0px;
+	border-width:1px;
+	border-style:solid;
+	border-color:#D6D6D6;
+	font-size:90%;
+	text-align:center;
+	vertical-align:middle;
+}
+
+td.calminitoday {
+	vertical-align: top;
+	background-color:#FFE79C;
+	border-width:1px;
+	border-style:solid;
+	border-color:#D6D6D6;
+	font-size:90%;
+	text-align:center;
+	vertical-align:middle;
+}
+
+td.calmininow {
+	vertical-align: top;
+	background-color:#FFF0C4;
+	border-width:1px;
+	border-style:solid;
+	border-color:#D6D6D6;
+	font-size:90%;
+	text-align:center;
+	vertical-align:middle;
+}
+
+td.calmininext { 
+	vertical-align: top;
+	background-color:#F9F9F9;
+	border-width:1px;
+	border-style:solid;
+	border-color:#D6D6D6;
+	font-size:90%;
+	text-align:center;
+	vertical-align:middle;
+}
+
+td.calminiprev {
+	vertical-align: top;
+	background-color:#F9F9F9;
+	border-width:1px;
+	border-style:solid;
+	border-color:#D6D6D6;
+	font-size:90%;
+	text-align:center;
+	vertical-align:middle;
+}
+
+td.calminiweek, th.calminiweek {
+	vertical-align: top;
+	background-color: #FFFFFF;
+	font-size:60%;
+	text-align:center;
+	vertical-align:middle;
+}
+
+span.calminiinactive {
+	color: #CCCCCC;
+}
+

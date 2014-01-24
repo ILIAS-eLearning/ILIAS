@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ObjectDefinition xmlns:xi="http://www.w3.org/2001/XInclude" type="file" indexType="incremental">
+	<Document type="default">
+		<xi:include href="../../Services/Object/LuceneDataSource.xml" />
+		<xi:include href="../../Services/Tagging/LuceneDataSource.xml" />
+		<xi:include href="../../Services/MetaData/LuceneDataSource.xml" />
+		<DataSource type="JDBC" action="append">
+			<Query>
+				SELECT MAX(version) version, file_name
+				FROM file_data
+				WHERE file_id IN (?)
+				GROUP BY file_id,file_name
+			</Query>
+			<Param format="list" type="int" value="objId" />
+			<Field store="YES" index="ANALYZED" column="file_name" type="text" name="propertyHigh">
+				<Transformer name="FilenameExtractor" />
+			</Field>
+			<Field store="YES" index="ANALYZED" column="file_name" type="text" name="mimeType">
+				<Transformer name="MimeTypeExtractor" />
+			</Field>
+			<DataSource type="File" action="append">
+				<PathCreator name="FileObjectPathCreator41" />
+				<Field store="YES" index="ANALYZED" name="content">
+					<Transformer name="LinefeedSanitizer" />
+				</Field>
+			</DataSource>
+		</DataSource>
+	</Document>
+</ObjectDefinition>

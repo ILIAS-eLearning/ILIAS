@@ -1,0 +1,17 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<service xmlns="http://www.w3.org" version="$Id$"
+	id="news">
+	<baseclasses>
+	</baseclasses>
+	<objects>
+		<object id="nwss" class_name="NewsSettings" dir="classes"
+			checkbox="0" inherit="0" translate="sys" rbac="1" system="1" administration="1">
+			<subobj id="rolf" max="1">rolf</subobj>
+			<parent id="adm" max="1">adm</parent>
+		</object>
+	</objects>
+	<events>		
+		<event type="raise" id="readNews" />
+		<event type="raise" id="unreadNews" />
+	</events>
+</service>

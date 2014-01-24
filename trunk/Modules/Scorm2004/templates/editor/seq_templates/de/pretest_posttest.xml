@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<seqTemplate xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../xsd/seq_template.xsd" identifier="pretestpost">
+    <metadata>
+        <version> 1.0</version>
+        <thumbnail>pretestpost.png</thumbnail>
+        <title>PreTest-PostTest</title>
+        <description>Stellt ein Vorabtest/Nachtest Szenario zur Verfügung </description>
+        <replacenode>true</replacenode>
+    </metadata>
+    <item type="lesson">
+        <title>Vorabtest/Nachtest</title>
+        <sequencing>
+            <controlMode flow="false" choice="false"/>
+        </sequencing>
+        <item type="sco" nocopy="true" nodelete="true">
+            <title>Vorabtest</title>
+            <sequencing>
+                <controlMode choiceExit="false"/>
+                <objectives>
+                    <primaryObjective satisfiedByMeasure="false" objectiveID="primary_obj"/>
+                    <objective satisfiedByMeasure="false" objectiveID="Vorabtest Lernziel 1">
+                        <mapInfo targetObjectiveID="gobj1" readSatisfiedStatus="false"
+                            readNormalizedMeasure="false" writeSatisfiedStatus="true"
+                            writeNormalizedMeasure="true"/>
+                    </objective>
+                    <objective satisfiedByMeasure="false" objectiveID="Vorabtest Lernziel 2">
+                        <mapInfo targetObjectiveID="gobj2" readSatisfiedStatus="false"
+                            readNormalizedMeasure="false" writeSatisfiedStatus="true"
+                            writeNormalizedMeasure="true"/>
+                    </objective>
+                    <objective satisfiedByMeasure="false" objectiveID="Vorabtest Lernziel 3">
+                        <mapInfo targetObjectiveID="gobj2" readSatisfiedStatus="false"
+                            readNormalizedMeasure="false" writeSatisfiedStatus="true"
+                            writeNormalizedMeasure="true"/>
+                    </objective>
+                </objectives>
+            </sequencing>
+        </item>
+        <item type="sco">
+            <title>SCO 1</title>
+            <sequencing>
+                <sequencingRules>
+                    <preConditionRule>
+                        <ruleConditions conditionCombination="all">
+                            <ruleCondition operator="noOp" referencedObjective="SCO 1 Objective"
+                                condition="satisfied"/>
+                        </ruleConditions>
+                        <ruleAction action="skip"/>
+                    </preConditionRule>
+                </sequencingRules>
+                <objectives>
+                    <primaryObjective objectiveID="SCO 1 Objective">
+                        <mapInfo targetObjectiveID="gobj1" readSatisfiedStatus="true"
+                            readNormalizedMeasure="true" writeSatisfiedStatus="false"
+                            writeNormalizedMeasure="false"/>
+                    </primaryObjective>
+                </objectives>
+            </sequencing>
+        </item>
+        <item type="sco">
+            <title>SCO 2</title>
+            <sequencing>
+                <sequencingRules>
+                    <preConditionRule>
+                        <ruleConditions conditionCombination="all">
+                            <ruleCondition operator="noOp" referencedObjective="SCO 2 Objective"
+                                condition="satisfied"/>
+                        </ruleConditions>
+                        <ruleAction action="skip"/>
+                    </preConditionRule>
+                </sequencingRules>
+                <objectives>
+                    <primaryObjective objectiveID="SCO 2 Objective">
+                        <mapInfo targetObjectiveID="gobj2" readSatisfiedStatus="true"
+                            readNormalizedMeasure="true" writeSatisfiedStatus="false"
+                            writeNormalizedMeasure="false"/>
+                    </primaryObjective>
+                </objectives>
+            </sequencing>
+        </item>
+        <item type="sco">
+            <title>SCO 3</title>
+            <sequencing>
+                <sequencingRules>
+                    <preConditionRule>
+                        <ruleConditions conditionCombination="all">
+                            <ruleCondition operator="noOp" referencedObjective="SCO 3 Objective"
+                                condition="satisfied"/>
+                        </ruleConditions>
+                        <ruleAction action="skip"/>
+                    </preConditionRule>
+                </sequencingRules>
+                <objectives>
+                    <primaryObjective objectiveID="SCO 3 Objective">
+                        <mapInfo targetObjectiveID="gobj3" readSatisfiedStatus="true"
+                            readNormalizedMeasure="true" writeSatisfiedStatus="false"
+                            writeNormalizedMeasure="false"/>
+                    </primaryObjective>
+                </objectives>
+            </sequencing>
+        </item>
+        <item type="sco">
+            <title>Nachtest</title>
+            <sequencing>
+                <controlMode choiceExit="false"/>
+            </sequencing>
+        </item>
+    </item>
+</seqTemplate>

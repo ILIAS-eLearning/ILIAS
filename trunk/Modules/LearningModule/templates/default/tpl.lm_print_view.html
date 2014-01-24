@@ -1,0 +1,72 @@
+<div class="ilc_page_cont_PageContainer" id="printViewPageContainer">
+<div class="ilc_page_Page">
+<!-- BEGIN print_start_block -->
+<!-- BEGIN print_header -->
+<div class="ilc_PrintChapterTitle">{LM_TITLE}</div>
+<p class="ilc_Standard">{LM_DESCRIPTION}</p>
+<br />
+<!-- END print_header -->
+<!-- BEGIN author -->
+<p class="ilc_Standard">{TXT_AUTHOR}: {LM_AUTHOR}</p>
+<!-- END author -->
+<!-- BEGIN copyright -->
+<p class="ilc_Standard">{TXT_COPYRIGHT}: {LM_COPYRIGHT}</p>
+<!-- END copyright -->
+<!-- BEGIN toc -->
+<div class="ilc_PrintPageTitle">{TXT_TOC}</div>
+<!-- BEGIN toc_entry -->
+<table cellpadding="1" cellspacing="0" border="0">
+<tr>
+<!-- BEGIN indent -->
+<td nowrap="1" valign="top" align="left"><img class="spacer" src="{IMG_BLANK}" border="0" /></td>
+<!-- END indent -->
+<td align="left" nowrap="1">
+{TXT_TOC_TITLE}
+</td>
+</tr>
+</table>
+<!-- END toc_entry -->
+<br />
+<!-- END toc -->
+<!-- END print_start_block -->
+<!-- BEGIN print_block -->
+<!-- BEGIN print_chapter -->
+<br />
+{CHAP_HEADER}
+<div class="ilc_PrintChapterTitle">{CHAP_TITLE}</div>
+<p class="ilc_Standard">{CHAP_DESCRIPTION}</p>
+<!-- END print_chapter -->
+<!-- BEGIN print_item -->
+{CONTENT}
+<!-- END print_item -->
+<!-- END print_block -->
+<!-- BEGIN glossary -->
+<div class="ilc_PrintChapterTitle">{TXT_GLOSSARY}</div>
+<!-- BEGIN term -->
+<div class="ilc_PrintPageTitle">{VAL_TERM}</div>
+<!-- BEGIN definition -->
+<!-- BEGIN def_title -->
+<div class="ilc_PrintDefinitionTitle">{TXT_DEFINITION}</div>
+<!-- END def_title -->
+{VAL_DEFINITION}
+<br />
+<!-- END definition -->
+<!-- END term -->
+<!-- END glossary -->
+<!-- BEGIN ref_images -->
+<br />
+<div class="ilc_PrintChapterTitle">{TXT_REF_IMAGES}</div>
+<!-- BEGIN ref_image -->
+<div>
+<img src="{IMG_SOURCE}" border="0" alt="{IMG_TITLE}" title="{IMG_TITLE}"/><br />{IMG_TITLE}<br /><br /><br />
+</div>
+<!-- END ref_image -->
+<!-- END ref_images -->
+</div></div>
+<script type="text/javascript" language="javascript1.2">
+<!--
+	il.Util.addOnLoad(function () {
+		il.Util.print();
+	});
+//-->
+</script>

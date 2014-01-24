@@ -1,0 +1,15 @@
+<?php xml version = "1.0" encoding = "UTF-8"?>
+<module xmlns="http://www.w3.org" version="$Id: modules.xml 15671 2008-01-04 13:08:30Z akill $"
+	id="xxx">
+	<baseclasses>
+	</baseclasses>
+	<objects>
+		<object id="xx1" class_name="TestDefinition1" dir="classes" checkbox="1"
+			inherit="1" translate="db" allow_copy="1" rbac="1" default_pres_pos="1001"
+			default_pos="1001" force_active="1" group="cat">
+			<subobj id="xx2" max="1">xx2</subobj>
+			<subobj id="xx4">xx4</subobj>
+			<parent id="xx3">xx3</parent>
+		</object>
+	</objects>
+</module>

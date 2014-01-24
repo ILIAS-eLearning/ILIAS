@@ -1,0 +1,8 @@
+<tr class="{CSS_ROW}"><!-- BEGIN chb_block -->
+	<td class="std">{VAL_CHB}</td><!-- END chb_block -->
+	<td class="std">{VAL_SEQUENCE}</td>
+	<td class="std">{VAL_UNIT}</td>
+	<td class="std">{VAL_BASEUNIT}</td>
+	<td class="std">{VAL_FACTOR}</td><!-- BEGIN actions_block -->
+	<td class="std">{VAL_ACTIONS}</td><!-- END actions_block -->
+</tr>

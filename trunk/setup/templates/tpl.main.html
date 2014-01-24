@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0 plus SVG 1.1//EN"
+	"http://www.w3.org/2002/04/xhtml-math-svg/xhtml-math-svg.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<title>ILIAS {PAGETITLE}</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link rel="stylesheet" type="text/css" href="{LOCATION_STYLESHEET}" />
+	<link rel="stylesheet" type="text/css" href="{LOCATION_CONTENT_STYLESHEET}" />
+	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+	<script type="text/javascript" src="../Services/JavaScript/js/Basic.js"></script>
+	<!-- BEGIN js_file -->
+	<script type="text/javascript" src="../{JS_FILE}"></script>
+	<!-- END js_file -->
+</head>
+<body class="ilSetup">
+<div class="ilSetupFrame">
+<div class="ilSetupFrameH">
+<div class="ilSetupFrameTL">
+<div class="ilSetupFrameTR">
+<div class="ilSetupFrameBL">
+<div class="ilSetupFrameBR">
+	
+<div class="ilMainHeader">
+	<div class="ilSetupLogin">
+		<form name="languageselection" method="get" style="margin:0;">
+		<input type="hidden" name="cmd" value="{VAL_CMD}" />
+		<select name="lang" onChange="this.form.submit()">
+		<option value="">{TXT_CHOOSE_LANGUAGE}</option>
+		<!-- BEGIN languages -->
+		<option value="{LANG_KEY}" {SELECTED_LANG}>{LANG_NAME}</option>
+		<!-- END languages -->
+		</select>
+		<input class="submit" type="submit" value="{TXT_OK}"/>
+		</form>
+	</div>
+	<div class="ilSetupTitle">
+		<a href="http://www.ilias.de" target="_blank">
+		<img style="vertical-align:middle; padding:0px 15px 0px 0px;" width="44" height="44" border="0" src="../templates/default/images/HeaderIcon.png" alt="ILIAS open source - Homepage" title="ILIAS open source - Homepage" /></a>
+		<span class="ilSetupTitle">{TXT_SETUP}</span> <span class="ilSetupAccessMode">{TXT_ACCESS_MODE}</span>
+	</div>
+</div>
+<table border="0" cellpadding="0" cellspacing="0" datatable="0" width="100%">
+<tr>
+<td style="width:150px; vertical-align:top; padding: 0px;">
+	<ul class="ilSetupMenu">
+<!-- BEGIN preliminaries -->
+		<li class="{TAB_CLASS}"><a class="{TAB_CLASS}" href="setup.php?cmd=preliminaries">{TXT_PRELIMINARIES}</a></li>
+<!-- END preliminaries -->
+<!-- BEGIN edit_pathes -->
+		<li class="{TAB_CLASS}"><a class="{TAB_CLASS}" href="setup.php?cmd=mastersettings">{TXT_EDIT_PATHES}</a></li>
+<!-- END edit_pathes -->
+<!-- BEGIN display_list -->
+		<li class="{TAB_CLASS}"><a class="{TAB_CLASS}" href="setup.php?cmd=clientlist">{TXT_LIST}</a></li>
+<!-- END display_list -->
+<!-- BEGIN add_client -->
+		<!-- <a class="MMInactive" href="setup.php?cmd=newclient">{TXT_ADD_CLIENT}</a> -->
+<!-- END add_client -->
+<!-- BEGIN change_password -->
+		<li class="{TAB_CLASS}"><a class="{TAB_CLASS}" href="setup.php?cmd=changepassword">{TXT_CHANGE_PASSWORD}</a></li>
+<!-- END change_password -->
+<!-- BEGIN logout -->
+		<li class="ilSMInactive"><a class="ilSMInactive" href="setup.php?cmd=logout">{TXT_LOGOUT}</a></li>
+<!-- END logout -->
+	</div>
+</td><td>
+<div class="ilSetupContent">
+{CONTENT}
+</div>
+</td></tr></table>
+<p style="text-align:center;"><small>{TXT_ILIAS_VERSION} ({TXT_SETUP} {TXT_VERSION} {VERSION})</small></p>
+</div></div></div></div></div></div>
+</body>
+</html>
