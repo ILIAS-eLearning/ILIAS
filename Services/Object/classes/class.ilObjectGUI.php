@@ -1739,55 +1739,6 @@ class ilObjectGUI
 		$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));
 		$tbl->setData($result_set);
 	}
-	
-	protected function __showClipboardTable($a_result_set,$a_from = "")
-	{
-		global $ilCtrl;
-		
-    	$tbl =& $this->__initTableGUI();
-		$tpl =& $tbl->getTemplateObject();
-
-		$tpl->setCurrentBlock("tbl_form_header");
-		$tpl->setVariable("FORMACTION", $ilCtrl->getFormAction($this));
-		$tpl->parseCurrentBlock();
-
-		$tpl->setCurrentBlock("tbl_action_btn");
-		$tpl->setVariable("BTN_NAME","paste");
-		$tpl->setVariable("BTN_VALUE",$this->lng->txt("insert_object_here"));
-		$tpl->parseCurrentBlock();
-		
-		$tpl->setCurrentBlock("tbl_action_btn");
-		$tpl->setVariable("BTN_NAME","clear");
-		$tpl->setVariable("BTN_VALUE",$this->lng->txt("clear_clipboard"));
-		$tpl->parseCurrentBlock();
-
-		$tpl->setCurrentBlock("tbl_action_row");
-		$tpl->setVariable("COLUMN_COUNTS",3);
-		$tpl->setVariable("IMG_ARROW",ilUtil::getImagePath("spacer.png"));
-		$tpl->parseCurrentBlock();
-		
-		$tbl->setTitle($this->lng->txt("clipboard"),"icon_typ_b.png",$this->lng->txt("clipboard"));
-		$tbl->setHeaderNames(array($this->lng->txt('obj_type'),
-								   $this->lng->txt('title'),
-								   $this->lng->txt('action')));
-		$tbl->setHeaderVars(array('type',
-                                  'title',
-								  'act'),
-							array('ref_id' => $this->object->getRefId(),
-								  'cmd' => 'clipboard',
-								  'cmdClass' => $_GET['cmdClass'],
-								  'cmdNode' => $_GET['cmdNode']));
-
-		$tbl->setColumnWidth(array("","80%","19%"));
-
-
-		$this->__setTableGUIBasicData($tbl,$a_result_set,$a_from);
-		$tbl->render();
-		
-		$this->tpl->setVariable("RESULT_TABLE",$tbl->tpl->get());
-
-		return true;
-	}
 
 	/**
 	* redirects to (repository) view per ref id
