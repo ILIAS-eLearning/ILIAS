@@ -442,11 +442,8 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 		$this->getTabs($tabs_gui);
 	}
 
-	/*
-	 * performPasteObject
-	 *
-	 * Prepare $_POST for the generic method performPasteIntoMultipleObjectsObject
-	 *
+	/**
+	 * @description Prepare $_POST for the generic method performPasteIntoMultipleObjectsObject
 	 */
 	public function performPaste() {
 		if (! in_array($_SESSION['clipboard']['cmd'], array( 'cut' ))) {
@@ -476,12 +473,19 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 		return parent::__initTableGUI();
 	}
 
+
 	/**
-	 * @return ilTableGUI
+	 * @param        $tbl
+	 * @param        $a_result_set
+	 * @param string $a_from
+	 * @param        $a_form
+	 *
 	 * @description Make protected function avaiable for ilLocalUserGUI...
+	 *
+	 * @hint no usage
 	 */
-	public function __setTableGUIBasicData($tbl, $a_result_set, $a_from, $a_form) {
+	/*public function __setTableGUIBasicData($tbl, $a_result_set, $a_from, $a_form) {
 		return parent::__setTableGUIBasicData($tbl, $a_result_set, $a_from, $a_form);
-	}
+	}*/
 }
 ?>
