@@ -2811,7 +2811,7 @@ common#:#inifile#:#Ini-File
 common#:#inline_file_extensions_info#:#Files with these extensions are displayed in the browser window.<br/>For example: <b>gif jpg mp3 pdf png</b><br/> All other files are offered for downloading.
 common#:#inline_file_extensions#:#Web-enabled files
 common#:#input_error#:#Input error
-common#:#insert_object_here#:#Insert object here
+common#:#insert_object_here#:#Insert at Current Position
 common#:#insert#:#Insert
 common#:#inst_id#:#Installation ID
 common#:#inst_info#:#Installation Info

@@ -548,8 +548,7 @@ abstract class ilObject2GUI extends ilObjectGUI
 	final protected function hitsperpageObject() { die("ilObject2GUI::hitsperpageObject() is deprecated."); }
 	final protected function __initTableGUI() { die("ilObject2GUI::__initTableGUI() is deprecated."); }
 	final protected function __setTableGUIBasicData() { die("ilObject2GUI::__setTableGUIBasicData() is deprecated."); }
-	final protected function __showClipboardTable() { die("ilObject2GUI::__showClipboardTable() is deprecated."); }
-	
+
 	/**
 	 * Functions to be overwritten
 	 */
