@@ -241,8 +241,8 @@ class ilTemplate extends ilTemplateX
 			$this->fillLeftNav();
 			$this->fillRightContent();
 			$this->fillAdminPanel();
-			$this->fillPermanentLink();
 			$this->fillToolbar();
+			$this->fillPermanentLink();
 			
 			$this->setCenterColumnClass();
 
@@ -505,8 +505,8 @@ class ilTemplate extends ilTemplateX
 			$this->fillLeftNav();
 			$this->fillRightContent();
 			$this->fillAdminPanel();
-			$this->fillPermanentLink();
 			$this->fillToolbar();
+			$this->fillPermanentLink();
 			
 			$this->setCenterColumnClass();
 
@@ -648,8 +648,14 @@ class ilTemplate extends ilTemplateX
 	function fillToolbar()
 	{
 		global $ilToolbar;
-		
-		$this->setVariable("BUTTONS", $ilToolbar->getHTML());
+
+		$thtml = $ilToolbar->getHTML();
+		if ($thtml != "")
+		{
+			$this->setCurrentBlock("toolbar_buttons");
+			$this->setVariable("BUTTONS", $thtml);
+			$this->parseCurrentBlock();
+		}
 	}
 
 	function fillPageFormAction()
