@@ -631,10 +631,11 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 					);
 				}
 			}
+
 			$GLOBALS['tpl']->addAdminPanelToolbar(
 				$toolbar,
-				$this->object->gotItems() ? true : false,
-				$this->object->gotItems() ? true : false
+				($this->object->gotItems() && !$_SESSION["clipboard"]) ? true : false,
+				($this->object->gotItems() && !$_SESSION["clipboard"]) ? true : false
 			);
 
 			// form action needed, see http://www.ilias.de/mantis/view.php?id=9630
