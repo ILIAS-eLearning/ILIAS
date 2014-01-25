@@ -1,4 +1,0 @@
-<!ELEMENT AdvancedMetaData (Value*)>
-<!ATTLIST Value
-	id CDATA #REQUIRED>
-<!ELEMENT Value (#PCDATA)>
