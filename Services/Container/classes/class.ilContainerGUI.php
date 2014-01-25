@@ -599,14 +599,24 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 			}
 			else
 			{				
-				/*$GLOBALS["tpl"]->addAdminPanelCommand("paste",
-                    $this->lng->txt("paste_clipboard_items")); 
-                    
-                if($_SESSION["clipboard"]["cmd"] == "link")
-                {                    
-                    $GLOBALS["tpl"]->addAdminPanelCommand("initAndDisplayLinkIntoMultipleObjects",
-                        $this->lng->txt("paste_clipboard_items_into_multiple_objects"));
-                }*/
+				//$GLOBALS["tpl"]->addAdminPanelCommand("paste",
+                //    $this->lng->txt("paste_clipboard_items"));
+
+				$toolbar->addFormButton(
+					$this->lng->txt('paste_clipboard_items'),
+					'paste'
+				);
+
+				if($_SESSION["clipboard"]["cmd"] == "link")
+				{
+					//$GLOBALS["tpl"]->addAdminPanelCommand("initAndDisplayLinkIntoMultipleObjects",
+					//	$this->lng->txt("paste_clipboard_items_into_multiple_objects"));
+					/*$toolbar->addFormButton(
+						$this->lng->txt('paste_clipboard_items_into_multiple_objects'),
+						'initAndDisplayLinkIntoMultipleObjects'
+					);*/
+				}
+
 				$toolbar->addFormButton(
 					$this->lng->txt('clear_clipboard'),
 					'clear'
@@ -2847,7 +2857,9 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	*/
 	function clipboardObject()
 	{
-		global $ilErr,$ilLog;
+		global $ilErr,$ilLog, $ilTabs;
+
+		$ilTabs->activateTab("clipboard");
 
 		// function should not be called if clipboard is empty
 		if (empty($_SESSION['clipboard']) or !is_array($_SESSION['clipboard']))
