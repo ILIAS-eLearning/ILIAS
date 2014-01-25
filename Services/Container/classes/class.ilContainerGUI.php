@@ -2857,7 +2857,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	*/
 	function clipboardObject()
 	{
-		global $ilErr,$ilLog, $ilTabs;
+		global $ilErr, $ilLog, $ilTabs, $tpl, $ilToolbar, $ilCtrl, $lng;
 
 		$ilTabs->activateTab("clipboard");
 
@@ -2869,12 +2869,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$ilErr->raiseError($this->lng->txt("permission_denied"),$ilErr->WARNING);
 		}
 
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.rep_clipboard.html",
-			"Services/Container");
-
-		// FORMAT DATA
-		$counter = 0;
-		$f_result = array();
+		$data = array();
 		foreach($_SESSION["clipboard"]["ref_ids"] as $ref_id)
 		{
 			if(!$tmp_obj = ilObjectFactory::getInstanceByRefId($ref_id,false))
@@ -2882,17 +2877,31 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 				continue;
 			}
 
-			//$f_result[$counter][] = ilUtil::formCheckbox(0,"user[]",$user);
-			$f_result[$counter][] = $this->lng->txt("obj_".$tmp_obj->getType());
-			$f_result[$counter][] = $tmp_obj->getTitle();
-			//$f_result[$counter][] = $tmp_obj->getDescription();
-			$f_result[$counter][] = ($_SESSION["clipboard"]["cmd"] == "cut") ? $this->lng->txt("move") :$this->lng->txt($_SESSION["clipboard"]["cmd"]);
+			$data[] = array(
+				"type" => $tmp_obj->getType(),
+				"type_txt" => $this->lng->txt("obj_".$tmp_obj->getType()),
+				"title" => $tmp_obj->getTitle(),
+				"cmd" => ($_SESSION["clipboard"]["cmd"] == "cut") ? $this->lng->txt("move") :$this->lng->txt($_SESSION["clipboard"]["cmd"]),
+				"ref_id" => $ref_id,
+				"obj_id" => $tmp_obj->getId()
+			);
 
 			unset($tmp_obj);
-			++$counter;
 		}
 
-		$this->__showClipboardTable($f_result, "clipboardObject");
+		include_once("./Services/Object/classes/class.ilObjClipboardTableGUI.php");
+		$tab = new ilObjClipboardTableGUI($this, "clipboard");
+		$tab->setData($data);
+		$tpl->setContent($tab->getHTML());
+
+		if (count($data) > 0)
+		{
+			$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
+			$ilToolbar->addFormButton($lng->txt("insert_object_here"),
+				"paste");
+			$ilToolbar->addFormButton($lng->txt("clear_clipboard"),
+				"clear");
+		}
 
 		return true;
 	}
