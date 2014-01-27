@@ -3444,33 +3444,92 @@ abstract class assQuestion
 	*/
 	static function _includeClass($question_type, $gui = 0)
 	{
-		$type = $question_type;
-		if ($gui) $type .= "GUI";
-		if (file_exists("./Modules/TestQuestionPool/classes/class.".$type.".php"))
+		if( self::isCoreQuestionType($question_type) )
 		{
-			include_once "./Modules/TestQuestionPool/classes/class.".$type.".php";
+			self::includeCoreClass($question_type, $gui);
 		}
 		else
 		{
-			global $ilPluginAdmin;
-			$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_MODULE, "TestQuestionPool", "qst");
-			foreach ($pl_names as $pl_name)
+			self::includePluginClass($question_type, $gui);
+		}
+	}
+
+	public static function getGuiClassNameByQuestionType($questionType)
+	{
+		return $questionType.'GUI';
+	}
+
+	public static function getObjectClassNameByQuestionType($questionType)
+	{
+		return $questionType;
+	}
+
+	public static function getFeedbackClassNameByQuestionType($questionType)
+	{
+		return str_replace('ass', 'ilAss', $questionType).'Feedback';
+	}
+
+	public static function isCoreQuestionType($questionType)
+	{
+		$guiClassName = self::getGuiClassNameByQuestionType($questionType);
+		return file_exists("Modules/TestQuestionPool/classes/class.{$guiClassName}.php");
+	}
+
+	public static function includeCoreClass($questionType, $withGuiClass)
+	{
+		if( $withGuiClass )
+		{
+			$guiClassName = self::getGuiClassNameByQuestionType($questionType);
+			require_once "Modules/TestQuestionPool/classes/class.{$guiClassName}.php";
+
+			// object class is included by gui classes constructor
+		}
+		else
+		{
+			$objectClassName = self::getGuiClassNameByQuestionType($questionType);
+			require_once "Modules/TestQuestionPool/classes/class.{$objectClassName}.php";
+		}
+
+		$feedbackClassName = self::getFeedbackClassNameByQuestionType($questionType);
+		require_once "Modules/TestQuestionPool/classes/feedback/class.{$feedbackClassName}.php";
+	}
+
+	public static function includePluginClass($questionType, $withGuiClass)
+	{
+		global $ilPluginAdmin;
+
+		$classes = array(
+			self::getObjectClassNameByQuestionType($questionType),
+			self::getFeedbackClassNameByQuestionType($questionType)
+		);
+
+		if( $withGuiClass )
+		{
+			$classes[] = self::getGuiClassNameByQuestionType($questionType);
+		}
+
+		$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_MODULE, "TestQuestionPool", "qst");
+		foreach ($pl_names as $pl_name)
+		{
+			$pl = ilPlugin::getPluginObject(IL_COMP_MODULE, "TestQuestionPool", "qst", $pl_name);
+			if (strcmp($pl->getQuestionType(), $questionType) == 0)
 			{
-				$pl = ilPlugin::getPluginObject(IL_COMP_MODULE, "TestQuestionPool", "qst", $pl_name);
-				if (strcmp($pl->getQuestionType(), $question_type) == 0)
+				foreach($classes as $class)
 				{
-					$pl->includeClass("class.".$type.".php");
+					$pl->includeClass("class.{$class}.php");
 				}
+
+				break;
 			}
 		}
 	}
 
 	/**
-	* Return the translation for a given question type tag
-	*
-	* @param string $type_tag The type tag of the question type
-	* @access public
-	*/
+	 * Return the translation for a given question type tag
+	 *
+	 * @param string $type_tag The type tag of the question type
+	 * @access public
+	 */
 	static function _getQuestionTypeName($type_tag)
 	{
 		if (file_exists("./Modules/TestQuestionPool/classes/class.".$type_tag.".php"))
@@ -3522,17 +3581,16 @@ abstract class assQuestion
 		if (strcmp($a_question_id, "") != 0)
 		{
 			$question_type = assQuestion::_getQuestionType($a_question_id);
-			$question_type_gui = $question_type . "GUI";
+
 			assQuestion::_includeClass($question_type, 1);
+
+			$question_type_gui = self::getGuiClassNameByQuestionType($question_type);
 			$question_gui = new $question_type_gui();
 			$question_gui->object->loadFromDb($a_question_id);
 
-			$feedbackObjectClassname = str_replace('ass', 'ilAss', $question_type).'Feedback';
-			require_once "Modules/TestQuestionPool/classes/feedback/class.$feedbackObjectClassname.php";
+			$feedbackObjectClassname = self::getFeedbackClassNameByQuestionType($question_type);
 			$question_gui->object->feedbackOBJ = new $feedbackObjectClassname($question_gui->object, $ilCtrl, $ilDB, $lng);
-
-			
-		} 
+		}
 		else 
 		{
 			global $ilLog;
