@@ -231,14 +231,13 @@ abstract class assQuestionGUI
 		}
 		
 		if (strlen($question_type) == 0) return NULL;
-		
-		$question_type_gui = $question_type . "GUI";
-		
+
 		assQuestion::_includeClass($question_type, 1);
+
+		$question_type_gui = assQuestion::getGuiClassNameByQuestionType($question_type);
 		$question =& new $question_type_gui();
 
-		$feedbackObjectClassname = str_replace('ass', 'ilAss', $question_type).'Feedback';
-		require_once "Modules/TestQuestionPool/classes/feedback/class.$feedbackObjectClassname.php";
+		$feedbackObjectClassname = assQuestion::getFeedbackClassNameByQuestionType($question_type);
 		$question->object->feedbackOBJ = new $feedbackObjectClassname($question->object, $ilCtrl, $ilDB, $lng);
 		
 		if ($question_id > 0)
@@ -248,7 +247,10 @@ abstract class assQuestionGUI
 		
 		return $question;
 	}
-	
+
+	/**
+	 * @deprecated
+	 */
 	function _getGUIClassNameForId($a_q_id)
 	{
 		include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
@@ -258,6 +260,9 @@ abstract class assQuestionGUI
 		return $class_name;
 	}
 
+	/**
+	 * @deprecated
+	 */
 	function _getClassNameForQType($q_type)
 	{
 		return $q_type . "GUI";
@@ -272,6 +277,8 @@ abstract class assQuestionGUI
 	* @param integer $question_id The database ID of an existing question to load it into assQuestionGUI
 	* @return object The alias to the question object
 	* @access public
+	 *
+	 * @deprecated: WTF is this? GUIobject::question should be a GUIobject !? WTF is a question alias !?
 	*/
 	function &createQuestionGUI($question_type, $question_id = -1)
 	{
