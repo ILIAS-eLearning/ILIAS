@@ -1591,9 +1591,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		if ($_GET["admin_mode"] == "settings"
 			&& $_GET["ref_id"] == ROLE_FOLDER_ID)	// system settings
 		{		
-			$ilLocator->addItem($this->lng->txt("administration"),
-				$this->ctrl->getLinkTargetByClass("iladministrationgui", "frameset"),
-				ilFrameTargetInfo::_getFrame("MainContent"));
+			parent::addAdminLocatorItems(true);
 
 			$ilLocator->addItem($this->lng->txt("obj_".ilObject::_lookupType(
 				ilObject::_lookupObjId($_GET["ref_id"]))),
