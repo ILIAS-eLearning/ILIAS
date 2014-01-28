@@ -627,8 +627,10 @@ class ilObjectGUI
 	/**
 	* should be overwritten to add object specific items
 	* (repository items are preloaded)
+	* 
+	* @param bool $a_do_not_add_object
 	*/
-	protected function addAdminLocatorItems()
+	protected function addAdminLocatorItems($a_do_not_add_object = false)
 	{
 		global $ilLocator;
 		
@@ -639,7 +641,7 @@ class ilObjectGUI
 			$ilLocator->addItem($this->lng->txt("administration"),
 				$this->ctrl->getLinkTargetByClass(array("iladministrationgui", "ilobjsystemfoldergui"), "")
 				);
-			if ($this->object->getRefId() != SYSTEM_FOLDER_ID)
+			if ($this->object->getRefId() != SYSTEM_FOLDER_ID && !$a_do_not_add_object)
 			{
 				$ilLocator->addItem($this->object->getTitle(),
 					$this->ctrl->getLinkTarget($this, "view"));

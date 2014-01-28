@@ -636,9 +636,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
 	{
 		global $ilLocator;
 		
-		$ilLocator->addItem($this->lng->txt("administration"),
-			$this->ctrl->getLinkTargetByClass("iladministrationgui", "frameset"),
-			ilFrameTargetInfo::_getFrame("MainContent"));
+		parent::addAdminLocatorItems(true);
 				
 		$ilLocator->addItem(ilObject::_lookupTitle(
 			ilObject::_lookupObjId($_GET["ref_id"])),
