@@ -3486,7 +3486,7 @@ abstract class assQuestion
 		}
 		else
 		{
-			$objectClassName = self::getGuiClassNameByQuestionType($questionType);
+			$objectClassName = self::getObjectClassNameByQuestionType($questionType);
 			require_once "Modules/TestQuestionPool/classes/class.{$objectClassName}.php";
 		}
 
