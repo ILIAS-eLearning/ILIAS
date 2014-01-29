@@ -2826,7 +2826,7 @@ abstract class assQuestion
 			if (!strlen($question_type)) return null;
 			assQuestion::_includeClass($question_type);
 			$objectClassname = self::getObjectClassNameByQuestionType($question_type);
-			$question = new $objectClassName();
+			$question = new $objectClassname();
 			$question->loadFromDb($question_id);
 			
 			$feedbackObjectClassname = self::getFeedbackClassNameByQuestionType($question_type);
