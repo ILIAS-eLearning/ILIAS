@@ -15,6 +15,7 @@ class ilObjectDataCache
 	var $db = null;
 	var $reference_cache = array();
 	var $object_data_cache = array();
+	var $description_trans = array();
 
 	function ilObjectDataCache()
 	{
@@ -201,6 +202,7 @@ class ilObjectDataCache
 					{
 						$this->object_data_cache[$a_obj_id]['title'] = $row->title;
 						$this->object_data_cache[$a_obj_id]['description'] = $row->description;
+						$this->description_trans[] = $a_obj_id;
 					}
 					$this->trans_loaded[$a_obj_id] = true;
 				}
@@ -208,6 +210,12 @@ class ilObjectDataCache
 		}
 		
 		return true;
+	}
+	
+	function isTranslatedDescription($a_obj_id)
+	{
+		return (is_array($this->description_trans) &&
+			in_array($a_obj_id, $this->description_trans));
 	}
 	
 	/**
@@ -294,6 +302,7 @@ class ilObjectDataCache
 			{
 				$this->object_data_cache[$row2->obj_id]['title'] = $row2->title;
 				$this->object_data_cache[$row2->obj_id]['description'] = $row2->description;
+				$this->description_trans[] = $row2->obj_id;
 			}
 		}
 	}
