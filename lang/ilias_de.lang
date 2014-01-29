@@ -6242,7 +6242,7 @@ crs#:#crs_availability_limitless_info#:#Bei dieser Einstellung steht ein online 
 crs#:#crs_availability_until_info#:#Bei dieser Einstellung steht ein online geschalteter Kurs nur während eines definierten Zeitraums zur Verfügung.
 crs#:#crs_blocked#:#Zugang gesperrt
 crs#:#crs_blocked_member#:#Status in Kurs "%s"
-crs#:#crs_blocked_member_body#:#ihre Mitgliedschaft in Kurs "%s" wurde gesperrt.
+crs#:#crs_blocked_member_body#:#ihre Mitgliedschaft im Kurs "%s" wurde gesperrt.
 crs#:#crs_cancel_subscr_request#:#Aufnahmeantrag zurückziehen
 crs#:#crs_cancel_subscription#:#Austritt aus Kurs "%s"
 crs#:#crs_cancel_subscription_body#:#die Teilnehmerin/der Teilnehmer %s ist aus dem Kurs "%s" ausgetreten.
@@ -6279,8 +6279,8 @@ crs#:#crs_delete_objectve_sure#:#Sind Sie sicher, dass die ausgewählten Lernzie
 crs#:#crs_delete_subscribers#:#Antrag löschen
 crs#:#crs_delete_subscribers_sure#:#Sind Sie sicher, dass die folgenden Anträge gelöscht werden sollen?
 crs#:#crs_details#:#Kursdetails
-crs#:#crs_dismiss_member#:#Mitgliedschaft in Kurs "%s" beendet
-crs#:#crs_dismiss_member_body#:#ihre Mitgliedschaft in Kurs "%s" ist beendet worden.
+crs#:#crs_dismiss_member#:#Mitgliedschaft im Kurs "%s" beendet
+crs#:#crs_dismiss_member_body#:#ihre Mitgliedschaft im Kurs "%s" ist beendet worden.
 crs#:#crs_edit_archive#:#Archive bearbeiten
 crs#:#crs_edit_content#:#Inhalt bearbeiten
 crs#:#crs_edit_start_objects#:#Startobjekte bearbeiten
@@ -12814,7 +12814,7 @@ survey#:#survey_question_pool_usage_active_info#:#Beim Anlegen einer Fragen muss
 survey#:#survey_question_pool_usage_inactive#:#Fragen werden direkt in der Umfrage angelegt.
 survey#:#survey_question_pool_usage_inactive_info#:#Die Frage wird zuerst nur für die Umfrage erstellt und kann später manuell zu einem Fragenpool hinzugefügt werden.
 dateplaner#:#cal_notification_crsgrp#:#Benachrichtigung für Kurs/Gruppenteilnehmer
-dateplaner#:#cal_notification_users#:#Benachtrichtigung für ausgewählte Benutzer
+dateplaner#:#cal_notification_users#:#Benachrichtigung für ausgewählte Benutzer
 dateplaner#:#cal_adm_notification_user_info#:#Wählen Sie diese Einstellung, um eine optionale Mailbenachrichtigung an einzelne, auswählbare Benutzer versenden zu können.
 dateplaner#:#cal_err_invalid_notification_rcps#:#Die Empfänger für die E-Mail-Benachrichtigung sind nicht gültig. Bitte wählen geben sie ausschließlich ILIAS-Benutzerkontennamen oder gültige E-Mail-Adressen an.
 dateplaner#:#cal_user_notification#:#Benutzerbenachrichtigung
