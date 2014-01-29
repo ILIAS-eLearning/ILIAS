@@ -14,7 +14,8 @@ include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 * @defgroup ModulesTest Modules/Test
 * @extends ilObject
 */
-class ilObjTest extends ilObject
+class
+ilObjTest extends ilObject
 {
 	#region Properties
 	
@@ -5355,7 +5356,7 @@ function getAnswerFeedbackPoints()
 		include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
 		assQuestion::_includeClass($question_type, 1);
 		
-		$question_type_gui = $question_type . "GUI";
+		$question_type_gui = assQuestion::getGuiClassNameByQuestionType($question_type);
 		$question = new $question_type_gui();
 		
 		$question->object->setObligationsToBeConsidered( $this->areObligationsEnabled() );
@@ -5366,8 +5367,7 @@ function getAnswerFeedbackPoints()
 			
 			global $ilCtrl, $ilDB, $lng;
 			
-			$feedbackObjectClassname = str_replace('ass', 'ilAss', $question_type).'Feedback';
-			require_once "Modules/TestQuestionPool/classes/feedback/class.$feedbackObjectClassname.php";
+			$feedbackObjectClassname = assQuestion::getFeedbackClassNameByQuestionType($question_type);
 			$question->object->feedbackOBJ = new $feedbackObjectClassname($question->object, $ilCtrl, $ilDB, $lng);
 		}
 		
