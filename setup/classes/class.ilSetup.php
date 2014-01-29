@@ -476,7 +476,7 @@ class ilSetup extends PEAR
 
 		$arr["status"] = true;
 		$arr["comment"] = "PHP ".$version;
-		if (version_compare($version, '5.1.3', '<'))
+		if (version_compare($version, '5.2.6', '<'))
 		{
 			$arr["status"] = false;
 			$arr["comment"] = "PHP ".$version.". ".$this->lng->txt("pre_php_version_too_low");
