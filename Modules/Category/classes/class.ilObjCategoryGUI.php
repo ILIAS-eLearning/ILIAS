@@ -652,6 +652,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 				$this->object->addTranslation($title, $desc, $lang, true);	
 				$this->object->setTitle($title);
 				$this->object->setDescription($desc);
+				$this->object->update();
 				
 				include_once('Services/Container/classes/class.ilContainerSortingSettings.php');
 				$settings = new ilContainerSortingSettings($this->object->getId());
