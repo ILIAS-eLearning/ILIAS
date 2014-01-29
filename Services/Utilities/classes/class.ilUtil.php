@@ -3106,27 +3106,6 @@ class ilUtil
 		return $a_str;
 	}
 
-
-	/**
-	* add slashes if magic qoutes is disabled
-	* don't use that for db inserts/updates! use prepareDBString
-	* instead
-	* 
-	* @static
-	* 
-	*/
-	public static function addSlashes($a_str)
-	{
-		if (ini_get("magic_quotes_gpc"))
-		{
-			return $a_str;
-		}
-		else
-		{
-			return addslashes($a_str);
-		}
-	}
-
 	/**
 	* prepares string output for html forms
 	* @access	public
