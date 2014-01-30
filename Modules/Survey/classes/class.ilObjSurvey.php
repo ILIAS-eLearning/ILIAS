@@ -4211,7 +4211,16 @@ class ilObjSurvey extends ilObject
 		$newObj->setShowQuestionTitles($this->getShowQuestionTitles());
 		$newObj->setTemplate($this->getTemplate());
 		
-		// :;TODO: 360° ?!
+		// #12661
+		if($this->get360Mode())
+		{
+			$newObj->set360Mode(true);
+			$newObj->set360SelfEvaluation($this->get360SelfEvaluation());
+			$newObj->set360SelfAppraisee($this->get360SelfAppraisee());
+			$newObj->set360SelfRaters($this->get360SelfRaters());
+			$newObj->set360Results($this->get360Results());
+			$newObj->set360SkillService($this->get360SkillService());
+		}
 				
 		// reminder/notification
 		$newObj->setReminderStatus($this->getReminderStatus());
