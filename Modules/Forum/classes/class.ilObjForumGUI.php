@@ -1945,7 +1945,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$_SESSION['viewmode'] = ilForumProperties::VIEW_DATE;
 		}
 
-		if(!$ilAccess->checkAccess('read,visible', '', $this->object->getRefId()))
+		if(!$ilAccess->checkAccess('read', '', $this->object->getRefId()))
 		{
 			$this->ilias->raiseError($lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
 		}
