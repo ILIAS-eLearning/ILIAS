@@ -19616,5 +19616,20 @@ if(!$ilDB->tableExists('obj_content_master_lng'))
 ?>
 <#4180>
 <?php
-$ilCtrlStructureReader->getStructure();
+	$ilCtrlStructureReader->getStructure();
+
+
+
+
+//////////////////////////////////////////////////////////////////
+//
+//      PLEASE DO  NOT ADD ANY ADDITIONAL STEPS IN THIS BRANCH
+//
+//      CONTACT THE CORE TEAM, IF A BUGFIX NEEDS ANY DB CHANGES
+//
+//////////////////////////////////////////////////////////////////
+
+
+
+
 ?>
