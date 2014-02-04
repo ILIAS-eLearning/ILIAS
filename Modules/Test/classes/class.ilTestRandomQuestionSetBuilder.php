@@ -78,7 +78,7 @@ abstract class ilTestRandomQuestionSetBuilder
 
 	protected function getQuestionStageForSourcePoolDefinition(ilTestRandomQuestionSetSourcePoolDefinition $definition)
 	{
-		$this->stagingPoolQuestionList->resetQuestions();
+		$this->stagingPoolQuestionList->resetQuestionList();
 
 		$this->stagingPoolQuestionList->setTestObjId( $this->testOBJ->getId() );
 		$this->stagingPoolQuestionList->setTestId( $this->testOBJ->getTestId() );
