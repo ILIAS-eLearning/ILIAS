@@ -556,7 +556,7 @@ class ilCalendarEntry implements ilDatePeriod
 	 	global $ilDB;
 	 	
 	 	$now = new ilDateTime(time(),IL_CAL_UNIX);
-	 	$utc_timestamp = $now->get(IL_CAL_TIMESTAMP,'',ilTimeZone::UTC);
+	 	$utc_timestamp = $now->get(IL_CAL_DATETIME,'',ilTimeZone::UTC);
 	 	
 	 	
 	 	$query = "UPDATE cal_entries ".
@@ -593,7 +593,7 @@ class ilCalendarEntry implements ilDatePeriod
 	 	
 	 	$next_id = $ilDB->nextId('cal_entries');
 	 	$now = new ilDateTime(time(),IL_CAL_UNIX);
-	 	$utc_timestamp = $now->get(IL_CAL_TIMESTAMP,'',ilTimeZone::UTC);
+	 	$utc_timestamp = $now->get(IL_CAL_DATETIME,'',ilTimeZone::UTC);
 
 	 	$query = "INSERT INTO cal_entries (cal_id,title,last_update,subtitle,description,location,fullday,starta,enda, ".
 			"informations,auto_generated,context_id,translation_type, completion, is_milestone, notification) ".
