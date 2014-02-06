@@ -3711,18 +3711,47 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		
 		$item_data = $this->object->getSubItems(false, false, (int) $_GET["child_ref_id"]);
 		$container_view = $this->getContentGUI();
-		foreach ($this->object->items["_all"] as $id)
-		{
-			if ($id["child"] == (int) $_GET["child_ref_id"])
-			{
-				echo $container_view->renderItem($id);
-				
-				// we need to add onload code manually (rating, comments, etc.)
-				echo $tpl->getOnLoadCodeForAsynch();		
-
-				exit;
+		
+		// list item is session material (not part of "_all"-items - see below)
+		include_once './Modules/Session/classes/class.ilEventItems.php';
+		$event_items = ilEventItems::_getItemsOfContainer($this->object->getRefId());
+		if(in_array((int)$_GET["child_ref_id"], $event_items))
+		{			
+			include_once('./Services/Object/classes/class.ilObjectActivation.php');				
+			foreach ($this->object->items["sess"] as $id)
+			{					
+				$items = ilObjectActivation::getItemsByEvent($id['obj_id']);
+				foreach($items as $id)
+				{
+					if ($id["child"] == (int) $_GET["child_ref_id"])
+					{
+						$html = $container_view->renderItem($id);
+					}
+				}
 			}
 		}
+					
+		// "normal" list item
+		if(!$html)
+		{
+			foreach ($this->object->items["_all"] as $id)
+			{
+				if ($id["child"] == (int) $_GET["child_ref_id"])
+				{
+					$html = $container_view->renderItem($id);				
+				}
+			}
+		}
+		
+		if($html)
+		{
+			echo $html;
+			
+			// we need to add onload code manually (rating, comments, etc.)
+			echo $tpl->getOnLoadCodeForAsynch();	
+		}
+						
+		exit;
 	}
 
 	// begin-patch fm
