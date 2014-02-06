@@ -476,7 +476,7 @@ class ilInitialisation
 		if( version_compare(PHP_VERSION, '5.2.0', '>=') )
 		{
 			// PHP version >= 5.2.0
-			define('IL_COOKIE_HTTPONLY',false); // Default Value
+			define('IL_COOKIE_HTTPONLY',true); // Default Value
 			session_set_cookie_params(
 					IL_COOKIE_EXPIRE, IL_COOKIE_PATH, IL_COOKIE_DOMAIN, IL_COOKIE_SECURE, IL_COOKIE_HTTPONLY
 			);
