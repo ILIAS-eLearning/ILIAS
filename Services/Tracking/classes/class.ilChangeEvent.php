@@ -293,7 +293,8 @@ class ilChangeEvent
 	{
 		global $ilDB;
 		
-		if (!ilObjUserTracking::_enabledObjectStatistics())
+		if (!ilObjUserTracking::_enabledObjectStatistics() || 
+			(int)$a_obj_id <= 0) // #12706
 		{
 			return;
 		}
