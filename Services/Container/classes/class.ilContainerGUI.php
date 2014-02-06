@@ -3709,6 +3709,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	{
 		global $tpl;
 		
+		$html = null;
+		
 		$item_data = $this->object->getSubItems(false, false, (int) $_GET["child_ref_id"]);
 		$container_view = $this->getContentGUI();
 		
