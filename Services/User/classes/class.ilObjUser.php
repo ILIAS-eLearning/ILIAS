@@ -1005,7 +1005,7 @@ class ilObjUser extends ilObject
 		}
 
 		// Update not necessary
-		if($a_login == self::_lookupLogin($this->getId()))
+		if(0 == strcmp($a_login, self::_lookupLogin($this->getId())))
 		{
 			return false;
 		}		
