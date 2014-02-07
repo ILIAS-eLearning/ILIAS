@@ -247,7 +247,7 @@ class ilSessionStatistics
 		}			
 		
 		// #12728
-		self::deleteAggregatedRaw();
+		self::deleteAggregatedRaw($a_now);
 	}
 	
 	/**
@@ -389,22 +389,18 @@ class ilSessionStatistics
 	
 	/**
 	 * Remove already aggregated raw data
+	 * 
+	 * @param integer $a_now
 	 */
-	protected static function deleteAggregatedRaw()
+	protected static function deleteAggregatedRaw($a_now)
 	{
 		global $ilDB;
+	
+		// we are rather defensive here - 7 days BEFORE current aggregation
+		$cut = $a_now-(60*60*24*7);
 		
-		// get latest aggregated slot in db
-		$sql = "SELECT MAX(slot_end) aggr_slot_end".
-			" FROM usr_session_stats";
-		$res = $ilDB->query($sql);
-		$row = $ilDB->fetchAssoc($res);
-		$aggr_slot_end = $row["aggr_slot_end"];		
-		if($aggr_slot_end)
-		{				
-			$ilDB->manipulate("DELETE FROM usr_session_stats_raw".
-				" WHERE end_time <= ".$ilDB->quote($aggr_slot_end, "integer"));
-		}		
+		$ilDB->manipulate("DELETE FROM usr_session_stats_raw".
+			" WHERE start_time <= ".$ilDB->quote($cut, "integer"));		
 	}
 	
 	/**
