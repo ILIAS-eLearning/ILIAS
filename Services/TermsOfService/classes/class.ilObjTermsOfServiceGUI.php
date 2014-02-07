@@ -330,13 +330,12 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
 		{
 			return;
 		}
-		
-		
+
 		$provider = $this->factory->getByContext(ilTermsOfServiceTableDataProviderFactory::CONTEXT_AGRREMENT_BY_LANGUAGE);
 		$list     = $provider->getList(array(), array());
 		
 		$has_documents = false;
-		foreach($list as $item)
+		foreach($list['items'] as $item)
 		{
 			if($item['agreement_document'])
 			{
