@@ -121,7 +121,7 @@ class ilObjectTranslation
 	 * Add language
 	 *
 	 * @param string $a_lang language
-	 * * @param string $a_title title
+	 * @param string $a_title title
 	 * @param string $a_description description
 	 * @param bool $a_default default language?
 	 */
@@ -129,10 +129,84 @@ class ilObjectTranslation
 	{
 		if ($a_lang != "" && !isset($this->languages[$a_lang]))
 		{
+			if ($a_default)
+			{
+				foreach ($this->languages as $k => $l)
+				{
+					$this->languages[$k]["lang_default"] = false;
+				}
+			}
 			$this->languages[$a_lang] = array("lang_code" => $a_lang, "lang_default" => $a_default,
 				"title" => $a_title, "description" => $a_description);
 		}
 	}
+
+	/**
+	 * Get default title
+	 *
+	 * @return string title of default language
+	 */
+	function getDefaultTitle()
+	{
+		foreach ($this->languages as $l)
+		{
+			if ($l["lang_default"])
+			{
+				return $l["title"];
+			}
+		}
+		return "";
+	}
+
+	/**
+	 * Set default title
+	 *
+	 * @param string $a_title title
+	 */
+	function setDefaultTitle($a_title)
+	{
+		foreach ($this->languages as $k => $l)
+		{
+			if ($l["lang_default"])
+			{
+				$this->languages[$k]["title"] = $a_title;
+			}
+		}
+	}
+
+	/**
+	 * Get default description
+	 *
+	 * @return string description of default language
+	 */
+	function getDefaultDescription()
+	{
+		foreach ($this->languages as $l)
+		{
+			if ($l["lang_default"])
+			{
+				return $l["description"];
+			}
+		}
+		return "";
+	}
+
+	/**
+	 * Set default description
+	 *
+	 * @param string $a_description description
+	 */
+	function setDefaultDescription($a_description)
+	{
+		foreach ($this->languages as $k => $l)
+		{
+			if ($l["lang_default"])
+			{
+				$this->languages[$k]["description"] = $a_description;
+			}
+		}
+	}
+
 
 	/**
 	 * Remove language

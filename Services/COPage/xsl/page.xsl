@@ -2839,7 +2839,7 @@
 				<!-- subtitle tracks -->
 				<xsl:for-each select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Subtitle">
 					<track kind="subtitles">
-						<xsl:attribute name="src"><xsl:value-of select="@File"/></xsl:attribute>
+						<xsl:attribute name="src"><xsl:value-of select="$webspace_path"/>mobs/mm_<xsl:value-of select="substring-after($cmobid,'mob_')"/>/<xsl:value-of select="@File"/></xsl:attribute>
 						<xsl:attribute name="srclang"><xsl:value-of select="@Language"/></xsl:attribute>
 						<xsl:if test = "@Default = 'true'">
 							<xsl:attribute name="default">default</xsl:attribute>

@@ -158,7 +158,6 @@ class ilObject
 		global $objDefinition, $ilBench, $ilDB, $log;
 
 		$ilBench->start("Core", "ilObject_read");
-
 		if (isset($this->obj_data_record) && !$a_force_db)
 		{
 			$obj = $this->obj_data_record;
@@ -274,7 +273,6 @@ class ilObject
 				 "AND NOT lang_default = 1";
 			$r = $this->ilias->db->query($q);
 			$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
-
 			if ($row)
 			{
 				$this->title = $row->title;
