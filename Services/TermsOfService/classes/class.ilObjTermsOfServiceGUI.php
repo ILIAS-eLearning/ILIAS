@@ -199,6 +199,8 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
 			$ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->MESSAGE);
 		}
 
+		$this->showMissingDocuments();
+
 		$this->initSettingsForm();
 		if($init_from_database)
 		{
@@ -316,6 +318,36 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
 			ilDatePresentation::setUseRelativeDates(false);
 			$ilToolbar->addText(sprintf($this->lng->txt('tos_last_reset_date'), ilDatePresentation::formatDate($this->object->getLastResetDate())));
 			ilDatePresentation::setUseRelativeDates($status);
+		}
+	}
+
+	/**
+	 * 
+	 */
+	protected function showMissingDocuments()
+	{
+		if(!$this->object->getStatus())
+		{
+			return;
+		}
+		
+		
+		$provider = $this->factory->getByContext(ilTermsOfServiceTableDataProviderFactory::CONTEXT_AGRREMENT_BY_LANGUAGE);
+		$list     = $provider->getList(array(), array());
+		
+		$has_documents = false;
+		foreach($list as $item)
+		{
+			if($item['agreement_document'])
+			{
+				$has_documents = true;
+				break;
+			}
+		}
+
+		if(!$has_documents)
+		{
+			ilUtil::sendInfo($this->lng->txt('tos_no_documents_exist'));
 		}
 	}
 
