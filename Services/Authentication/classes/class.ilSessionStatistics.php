@@ -245,6 +245,9 @@ class ilSessionStatistics
 			self::aggregateRawHelper($slot[0], $slot[1]);			
 			$slot = self::createNewAggregationSlot($a_now);
 		}			
+		
+		// #12728
+		self::deleteAggregatedRaw();
 	}
 	
 	/**
@@ -382,6 +385,26 @@ class ilSessionStatistics
 		$ilDB->update("usr_session_stats", $fields, 
 			array("slot_begin" => array("integer", $a_begin),
 				"slot_end" => array("integer", $a_end)));			
+	}
+	
+	/**
+	 * Remove already aggregated raw data
+	 */
+	protected static function deleteAggregatedRaw()
+	{
+		global $ilDB;
+		
+		// get latest aggregated slot in db
+		$sql = "SELECT MAX(slot_end) aggr_slot_end".
+			" FROM usr_session_stats";
+		$res = $ilDB->query($sql);
+		$row = $ilDB->fetchAssoc($res);
+		$aggr_slot_end = $row["aggr_slot_end"];		
+		if($aggr_slot_end)
+		{				
+			$ilDB->manipulate("DELETE FROM usr_session_stats_raw".
+				" WHERE end_time <= ".$ilDB->quote($aggr_slot_end, "integer"));
+		}		
 	}
 	
 	/**
