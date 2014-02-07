@@ -377,11 +377,18 @@ class ilRatingGUI
 	 * @param bool $a_show_overall
 	 * @param bool $a_may_rate
 	 * @param string $a_onclick
+	 * @param string $a_additional_id
 	 * @return string
 	 */
-	function getHTML($a_show_overall = true, $a_may_rate = true, $a_onclick = null)
+	function getHTML($a_show_overall = true, $a_may_rate = true, $a_onclick = null, $a_additional_id = null)
 	{
 		global $lng;	
+		
+		$unique_id = $this->id;
+		if($a_additional_id)
+		{
+			$unique_id .= "_".$a_additional_id;
+		}
 		
 		$categories = array();
 		if($this->enable_categories)
@@ -470,7 +477,7 @@ class ilRatingGUI
 				$tt = sprintf($lng->txt("rat_nr_ratings"), $rating["cnt"]);
 			}		
 			include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");
-			ilTooltipGUI::addTooltip($this->id."_tt", $tt);
+			ilTooltipGUI::addTooltip($unique_id."_tt", $tt);
 
 			if ($rating["cnt"] > 0)
 			{
@@ -484,12 +491,12 @@ class ilRatingGUI
 		if ($has_overlay)
 		{
 			include_once("./Services/UIComponent/Overlay/classes/class.ilOverlayGUI.php");
-			$ov = new ilOverlayGUI($this->id);
-			$ov->setTrigger("tr_".$this->id, "click", "tr_".$this->id);
+			$ov = new ilOverlayGUI($unique_id);
+			$ov->setTrigger("tr_".$unique_id, "click", "tr_".$unique_id);
 			$ov->add();
 			
 			$ttpl->setCurrentBlock("act_rat_start");
-			$ttpl->setVariable("ID", $this->id);
+			$ttpl->setVariable("ID", $unique_id);
 			$ttpl->setVariable("SRC_ARROW", ilUtil::getImagePath("mm_down_arrow_dark.png"));
 			$ttpl->parseCurrentBlock();
 
@@ -509,11 +516,11 @@ class ilRatingGUI
 				$this->renderDetails("rtov_", $may_rate, $categories, $a_onclick));
 			
 			$ttpl->setCurrentBlock("user_rating");
-			$ttpl->setVariable("ID", $this->id);
+			$ttpl->setVariable("ID", $unique_id);
 			$ttpl->parseCurrentBlock();		
 		}
 
-		$ttpl->setVariable("TTID", $this->id);
+		$ttpl->setVariable("TTID", $unique_id);
 
 		return $ttpl->get();
 	}
@@ -595,12 +602,15 @@ class ilRatingGUI
 	 * 
 	 * @param int $a_ref_id
 	 * @param bool $a_may_rate
+	 * @param string $a_ajax_hash
+	 * @param int $_parent_ref_id
 	 * @return string
 	 */
-	public function getListGUIProperty($a_ref_id, $a_may_rate, $a_ajax_hash)
+	public function getListGUIProperty($a_ref_id, $a_may_rate, $a_ajax_hash, $_parent_ref_id)
 	{				
 		return $this->getHTML(true, $a_may_rate, 
-			"il.Object.saveRatingFromListGUI(".$a_ref_id.", '".$a_ajax_hash."', %rating%);");		
+			"il.Object.saveRatingFromListGUI(".$a_ref_id.", '".$a_ajax_hash."', %rating%);",
+			$_parent_ref_id);		
 	}
 }
 

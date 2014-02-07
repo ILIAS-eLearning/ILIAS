@@ -269,11 +269,15 @@ il.Object = {
 		return this.url_redraw_li;
 	},
 	
-	redrawListItem: function(ref_id) {
-		var li = document.getElementById("lg_div_" + ref_id);
-		if (this.url_redraw_li && li !== null)
+	redrawListItem: function(ref_id) {	
+		if (this.url_redraw_li)
 		{
-			il.Util.ajaxReplace(this.url_redraw_li + "&child_ref_id=" + ref_id, "lg_div_" + ref_id);
+			var url = this.url_redraw_li;
+			$('div[id^=lg_div_' + ref_id + '_pref_]').each(function() {		
+				var id = $(this).attr('id');
+				var parent = id.split("_").pop();				
+				il.Util.ajaxReplace(url + "&child_ref_id=" + ref_id + "&parent_ref_id=" + parent, id);
+			});
 		}
 	},
 	
@@ -329,11 +333,11 @@ il.Object = {
 	},
 			
 	redrawAfterRatingFromListGUI: function(o) {	
-		var li = document.getElementById("lg_div_" + o.argument.ref_id);
-		if (li !== null)
-		{
-			il.Util.ajaxReplace(o.argument.url_redraw + "&child_ref_id=" + o.argument.ref_id, "lg_div_" + o.argument.ref_id);
-		}
+		$('div[id^=lg_div_' + o.argument.ref_id + '_pref_]').each(function() {		
+			var id = $(this).attr('id');
+			var parent = id.split("_").pop();
+			il.Util.ajaxReplace(o.argument.url_redraw + "&child_ref_id=" + o.argument.ref_id + "&parent_ref_id=" + parent, id);
+		});
 	}
 }
 

@@ -273,7 +273,11 @@ abstract class ilContainerContentGUI
 		else
 		{
 			$item_list_gui =& $this->list_gui[$item_data["type"]];
+		
 		}
+					
+		// unique js-ids
+		$item_list_gui->setParentRefId($item_data["parent"]);
 
 		// show administration command buttons (or not)
 		if (!$this->getContainerGUI()->isActiveAdministrationPanel())
@@ -523,6 +527,9 @@ abstract class ilContainerContentGUI
 				$item_list_gui2 = $this->getItemGUI($item);
 				$item_list_gui2->enableIcon(true);
 				$item_list_gui2->enableItemDetailLinks(false);
+				
+				// unique js-ids
+				$item_list_gui2->setParentRefId($a_item_data['ref_id']);
 				
 				// @see mantis 10488
 				if(!$item_readable and !$ilAccess->checkAccess('write','',$item['ref_id']))
