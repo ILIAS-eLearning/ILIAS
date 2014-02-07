@@ -2064,6 +2064,16 @@ class ilObjUser extends ilObject
 	}
 
 	/**
+	 * Set current language
+	 *
+	 * @param string $a_val current language
+	 */
+	function setCurrentLanguage($a_val)
+	{
+		$_SESSION['lang'] = $a_val;
+	}
+
+	/**
 	* set user's last login
 	* @access	public
 	* @param	string	login date

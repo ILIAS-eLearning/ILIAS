@@ -493,18 +493,20 @@ class ilObjContentObject extends ilObject
 		// create Export subdirectory (data_dir/lm_data/lm_<id>/Export)
 		switch ($a_type)
 		{
-			// html
-			case "html":
-				$export_dir = $lm_dir."/export_html";
-				break;
-
 			// scorm
 			case "scorm":
 				$export_dir = $lm_dir."/export_scorm";
 				break;
 
 			default:		// = xml
-				$export_dir = $lm_dir."/export";
+				if (substr($a_type, 0, 4) == "html")
+				{
+					$export_dir = $lm_dir."/export_".$a_type;
+				}
+				else
+				{
+					$export_dir = $lm_dir."/export";
+				}
 				break;
 		}
 		ilUtil::makeDir($export_dir);
@@ -522,16 +524,19 @@ class ilObjContentObject extends ilObject
 	{
 		switch  ($a_type)
 		{
-			case "html":
-				$export_dir = ilUtil::getDataDir()."/lm_data"."/lm_".$this->getId()."/export_html";
-				break;
-
 			case "scorm":
 				$export_dir = ilUtil::getDataDir()."/lm_data"."/lm_".$this->getId()."/export_scorm";
 				break;
 				
 			default:			// = xml
-				$export_dir = ilUtil::getDataDir()."/lm_data"."/lm_".$this->getId()."/export";
+				if (substr($a_type, 0, 4) == "html")
+				{
+					$export_dir = ilUtil::getDataDir()."/lm_data"."/lm_".$this->getId()."/export_".$a_type;
+				}
+				else
+				{
+					$export_dir = ilUtil::getDataDir()."/lm_data"."/lm_".$this->getId()."/export";
+				}
 				break;
 		}
 		return $export_dir;
@@ -1942,9 +1947,17 @@ class ilObjContentObject extends ilObject
 	/**
 	* export html package
 	*/
-	function exportHTML($a_target_dir, $log, $a_zip_file = true, $a_export_format = "html")
+	function exportHTML($a_target_dir, $log, $a_zip_file = true, $a_export_format = "html", $a_lang = "")
 	{
-		global $tpl, $ilBench, $ilLocator, $ilUser;
+		global $tpl, $ilBench, $ilLocator, $ilUser, $ilObjDataCache, $ilias;
+
+		$user_lang = $ilUser->getLanguage();
+		if ($a_lang != "")
+		{
+			$ilUser->setLanguage($a_lang);
+			$ilUser->setCurrentLanguage($a_lang);
+			$ilObjDataCache->deleteCachedEntry($this->getId());
+		}
 
 		// initialize temporary target directory
 		ilUtil::delDir($a_target_dir);
@@ -2020,6 +2033,18 @@ class ilObjContentObject extends ilObject
 		$lm_gui->setOfflineMode(true);
 		$lm_gui->setOfflineDirectory($a_target_dir);
 		$lm_gui->setExportFormat($a_export_format);
+		$ot = new ilObjectTranslation($this->getId());
+		if ($a_lang != "")
+		{
+			if ($a_lang == $ot->getMasterLanguage())
+			{
+				$lm_gui->lang = "";
+			}
+			else
+			{
+				$lm_gui->lang = $a_lang;
+			}
+		}
 
 		// export pages
 		$ilBench->start("ExportHTML", "exportHTMLPages");
@@ -2154,22 +2179,33 @@ class ilObjContentObject extends ilObject
 		$tpl->setVariable("LOCATION_STYLESHEET",$location_stylesheet);
 		$tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
 
-		// zip everything
-		$ilBench->start("ExportHTML", "zip");
-		if (true)
+		if ($a_lang != "")
 		{
-			if ($a_zip_file)
-			{
-				// zip it all
-				$date = time();
-				$zip_file = $this->getExportDirectory("html")."/".$date."__".IL_INST_ID."__".
-					$this->getType()."_".$this->getId().".zip";
-				ilUtil::zip($a_target_dir, $zip_file);
-				ilUtil::delDir($a_target_dir);
-			}
+			$ilUser->setLanguage($user_lang);
+			$ilUser->setCurrentLanguage($user_lang);
 		}
-		$ilBench->stop("ExportHTML", "zip");
 
+		// zip everything
+		if ($a_zip_file)
+		{
+			if ($a_lang == "")
+			{
+				$zip_target_dir = $this->getExportDirectory("html");
+			}
+			else
+			{
+				$zip_target_dir = $this->getExportDirectory("html_".$a_lang);
+				ilUtil::makeDir($zip_target_dir);
+			}
+
+			// zip it all
+			$date = time();
+			$zip_file = $zip_target_dir."/".$date."__".IL_INST_ID."__".
+				$this->getType()."_".$this->getId().".zip";
+//echo "-".$a_target_dir."-".$zip_file."-"; exit;
+			ilUtil::zip($a_target_dir, $zip_file);
+			ilUtil::delDir($a_target_dir);
+		}
 	}
 
 	/**

@@ -2103,6 +2103,8 @@ class ilLMPresentationGUI
 	*/
 	function ilMedia()
 	{
+		global $ilUser;
+
 		$this->tpl->setCurrentBlock("ContentStyle");
 		if (!$this->offlineMode())
 		{
