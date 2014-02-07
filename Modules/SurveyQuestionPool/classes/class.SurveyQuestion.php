@@ -839,40 +839,44 @@ class SurveyQuestion
 		$survey_fi = $ilDB->fetchAssoc($set);
 		$survey_fi = $survey_fi["survey_id"];
 		
-		$set = $ilDB->query("SELECT obligatory FROM svy_qst_oblig".
-			 " WHERE survey_fi = ".$ilDB->quote($survey_fi, "integer").
-			" AND question_fi = ".$ilDB->quote($this->getId(), "integer"));
-		$has_obligatory_states_entry = (bool)$ilDB->numRows($set);
-		$is_obligatory = $ilDB->fetchAssoc($set);
-		$is_obligatory = (bool)$is_obligatory["obligatory"];
-		
-		if(!$this->getObligatory())
-		{
-			if($has_obligatory_states_entry)
+		// pool?
+		if($survey_fi)
+		{	
+			$set = $ilDB->query("SELECT obligatory FROM svy_qst_oblig".
+				 " WHERE survey_fi = ".$ilDB->quote($survey_fi, "integer").
+				" AND question_fi = ".$ilDB->quote($this->getId(), "integer"));
+			$has_obligatory_states_entry = (bool)$ilDB->numRows($set);
+			$is_obligatory = $ilDB->fetchAssoc($set);
+			$is_obligatory = (bool)$is_obligatory["obligatory"];
+
+			if(!$this->getObligatory())
 			{
-				$ilDB->manipulate("DELETE FROM svy_qst_oblig".
-					" WHERE survey_fi = ".$ilDB->quote($survey_fi, "integer").
-					" AND question_fi = ".$ilDB->quote($this->getId(), "integer"));			
+				if($has_obligatory_states_entry)
+				{
+					$ilDB->manipulate("DELETE FROM svy_qst_oblig".
+						" WHERE survey_fi = ".$ilDB->quote($survey_fi, "integer").
+						" AND question_fi = ".$ilDB->quote($this->getId(), "integer"));			
+				}
 			}
-		}
-		else if($this->getObligatory())
-		{
-			if(!$has_obligatory_states_entry)
+			else if($this->getObligatory())
 			{
-				// ilObjSurvey::setObligatoryStates()
-				$next_id = $ilDB->nextId('svy_qst_oblig');
-				$affectedRows = $ilDB->manipulateF("INSERT INTO svy_qst_oblig (question_obligatory_id, survey_fi, question_fi, " .
-					"obligatory, tstamp) VALUES (%s, %s, %s, %s, %s)",
-					array('integer','integer','integer','text','integer'),
-					array($next_id, $survey_fi, $this->getId(), 1, time())
-				);
-			}
-			else if(!$is_obligatory)
-			{
-				 $ilDB->manipulate("UPDATE svy_qst_oblig".
-					" SET obligatory = ".$ilDB->quote(1, "integer").
-					" WHERE survey_fi = ".$ilDB->quote($survey_fi, "integer").
-					" AND question_fi = ".$ilDB->quote($this->getId(), "integer"));	
+				if(!$has_obligatory_states_entry)
+				{
+					// ilObjSurvey::setObligatoryStates()
+					$next_id = $ilDB->nextId('svy_qst_oblig');
+					$affectedRows = $ilDB->manipulateF("INSERT INTO svy_qst_oblig (question_obligatory_id, survey_fi, question_fi, " .
+						"obligatory, tstamp) VALUES (%s, %s, %s, %s, %s)",
+						array('integer','integer','integer','text','integer'),
+						array($next_id, $survey_fi, $this->getId(), 1, time())
+					);
+				}
+				else if(!$is_obligatory)
+				{
+					 $ilDB->manipulate("UPDATE svy_qst_oblig".
+						" SET obligatory = ".$ilDB->quote(1, "integer").
+						" WHERE survey_fi = ".$ilDB->quote($survey_fi, "integer").
+						" AND question_fi = ".$ilDB->quote($this->getId(), "integer"));	
+				}
 			}
 		}
 		
