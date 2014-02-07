@@ -1331,7 +1331,8 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 
 			foreach ($ot->getLanguages() as $al => $lang)
 			{
-				if ($_GET["transl"] != $al)
+				if ($_GET["transl"] != $al &&
+					$al != $ot->getMasterLanguage())
 				{
 					$ilCtrl->setParameter($a_gui_class, "totransl", $al);
 					$list->addItem($lng->txt("cont_edit_language_version").": ".

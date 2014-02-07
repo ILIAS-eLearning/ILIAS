@@ -2072,7 +2072,7 @@ return;
 			else
 			{
 				$lng->loadLanguageModule("meta");
-				
+//echo $this->getPageObject()->getLanguage();
 				if ($this->getPageObject()->getLanguage() != "-")
 				{
 					$l = $ot->getMasterLanguage();
@@ -2083,7 +2083,8 @@ return;
 
 				foreach ($ot->getLanguages() as $al => $lang)
 				{
-					if ($this->getPageObject()->getLanguage() != $al)
+					if ($this->getPageObject()->getLanguage() != $al &&
+						$al != $ot->getMasterLanguage())
 					{
 						$ilCtrl->setParameter($this, "totransl", $al);
 						$a_list->addItem($lng->txt("cont_edit_language_version").": ".
