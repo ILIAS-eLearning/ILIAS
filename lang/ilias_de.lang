@@ -12970,6 +12970,7 @@ tos#:#tos_period#:#Zeitraum
 tos#:#tos_period_from#:#Von
 tos#:#tos_period_until#:#Bis
 tos#:#tos_acceptance_datetime#:#Datum
+tos#:#tos_no_documents_exist#:#Aktuell liegen in keiner installierten Sprache Nutzungsvereinbarungen vor.
 ecs#:#ecs_sync_trees#:#CMS-Verzeichnisbäume aktualisieren
 survey#:#svy_invite_action#:#NutzerInnen zu einer Umfrage einladen
 rbac#:#chtr_delete#:#Chat löschen oder verschieben
