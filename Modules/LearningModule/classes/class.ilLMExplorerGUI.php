@@ -66,7 +66,7 @@ class ilLMExplorerGUI extends ilTreeExplorerGUI
 			? $_GET["transl"]
 			: "-";
 		return ilLMObject::_getPresentationTitle($a_node, IL_PAGE_TITLE,
-			false, false, false, $this->lm->getId(), $lang);		
+			$this->lm->isActiveNumbering(), false, false, $this->lm->getId(), $lang);
 	}
 	
 	/**

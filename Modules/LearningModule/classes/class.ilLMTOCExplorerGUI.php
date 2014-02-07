@@ -166,7 +166,7 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
 
 			// is page scheduled?
 			$img_sc = ($lm_set->get("time_scheduled_page_activation") &&
-				ilLMPage::_isScheduledActivation($a_node["child"], $this->lm->getType()))
+				ilLMPage::_isScheduledActivation($a_node["child"], $this->lm->getType()) && !$active)
 				? "_sc"
 				: "";
 
@@ -182,7 +182,7 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
 					$this->lm->getType());
 				if ($contains_dis)
 				{
-					$a_name = "icon_pg_del".$img_sc."_s.png";
+//					$a_name = "icon_pg_del".$img_sc."_s.png";
 				}
 			}
 		}
@@ -321,6 +321,37 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
 //			}
 		}
 
+	}
+
+	/**
+	 * Is node visible?
+	 *
+	 * @param mixed $a_node node object/array
+	 * @return boolean node visible true/false
+	 */
+	function isNodeVisible($a_node)
+	{
+		include_once("./Services/COPage/classes/class.ilPageObject.php");
+		$active = ilPageObject::_lookupActive($a_node["child"], "lm",
+			$this->lm_set->get("time_scheduled_page_activation"));
+
+		if(!$active && $a_node["type"] == "pg")
+		{
+			$act_data = ilPageObject::_lookupActivationData((int) $a_node["child"], "lm");
+			if ($act_data["show_activation_info"] &&
+				(ilUtil::now() < $act_data["activation_start"]))
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+		else
+		{
+			return true;
+		}
 	}
 
 }
