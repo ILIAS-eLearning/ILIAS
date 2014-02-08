@@ -45,6 +45,9 @@ il.Explorer2 = {
 		//console.log(type + ": " + id);
 		//console.log(t.configs[container_id].url);
 		url = t.configs[container_id].url;
+		if (url == '') {
+			return;
+		}
 		if (type == "open_node") {
 			url = url + "&exp_cmd=openNode";
 		} else {

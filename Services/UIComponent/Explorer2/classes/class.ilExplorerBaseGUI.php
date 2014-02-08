@@ -15,12 +15,14 @@
  */
 abstract class ilExplorerBaseGUI
 {
-	protected static $js_tree_path = "Services/UIComponent/Explorer2/lib/jstree-v.pre1.0/jquery.jstree.js";
+	protected static $js_tree_path = "./Services/UIComponent/Explorer2/lib/jstree-v.pre1.0/jquery.jstree.js";
+	protected static $js_expl_path = "./Services/UIComponent/Explorer2/js/Explorer2.js";
 	protected $skip_root_node = false;
 	protected $ajax = false;
 	protected $custom_open_nodes = array();
 	protected $selected_nodes = array();
 	protected $select_postvar = "";
+	protected $offline_mode = false;
 
 	/**
 	 * Constructor
@@ -42,6 +44,35 @@ abstract class ilExplorerBaseGUI
 		}
 		
 	}
+
+	/**
+	 * Get local path of explorer js
+	 */
+	static function getLocalExplorerJsPath()
+	{
+		return self::$js_expl_path;
+	}
+
+	/**
+	 * Get local path of jsTree js
+	 */
+	static function getLocalJsTreeJsPath()
+	{
+		return self::$js_tree_path;
+	}
+
+	/**
+	 * Create html export directories
+	 *
+	 * @param string $a_target_dir target directory
+	 */
+	static function createHTMLExportDirs($a_target_dir)
+	{
+		ilUtil::makeDirParents($a_target_dir."/Services/UIComponent/Explorer2/lib/jstree-v.pre1.0");
+		ilUtil::makeDirParents($a_target_dir."/Services/UIComponent/Explorer2/js");
+	}
+
+
 
 	//
 	// Abstract functions that need to be overwritten in derived classes
@@ -335,7 +366,27 @@ abstract class ilExplorerBaseGUI
 		{
 			$this->selected_nodes[] = $a_id;
 		}
-	}	
+	}
+
+	/**
+	 * Set offline mode
+	 *
+	 * @param bool $a_val offline mode
+	 */
+	function setOfflineMode($a_val)
+	{
+		$this->offline_mode = $a_val;
+	}
+
+	/**
+	 * Get offline mode
+	 *
+	 * @return bool offline mode
+	 */
+	function getOfflineMode()
+	{
+		return $this->offline_mode;
+	}
 
 	//
 	// Standard functions that usually are not overwritten / internal use
@@ -429,16 +480,13 @@ abstract class ilExplorerBaseGUI
 	
 	/**
 	 * Get HTML
-	 *
-	 * @param
-	 * @return
 	 */
 	final function getHTML()
 	{
 		global $tpl, $ilCtrl;
-		
-		$tpl->addJavascript("./Services/UIComponent/Explorer2/js/Explorer2.js");
-		$tpl->addJavascript(self::$js_tree_path);
+
+		$tpl->addJavascript(self::getLocalExplorerJsPath());
+		$tpl->addJavascript(self::getLocalJsTreeJsPath());
 		
 		$container_id = $this->getContainerId();
 		$container_outer_id = "il_expl2_jstree_cont_out_".$this->getId();
@@ -459,13 +507,17 @@ abstract class ilExplorerBaseGUI
 		}
 
 		// ilias config options
-		if (is_object($this->parent_obj))
+		$url = "";
+		if (!$this->getOfflineMode())
 		{
-			$url = $ilCtrl->getLinkTarget($this->parent_obj, $this->parent_cmd, "", true);
-		}
-		else
-		{
-			$url = $ilCtrl->getLinkTargetByClass($this->parent_obj, $this->parent_cmd, "", true);
+			if (is_object($this->parent_obj))
+			{
+				$url = $ilCtrl->getLinkTarget($this->parent_obj, $this->parent_cmd, "", true);
+			}
+			else
+			{
+				$url = $ilCtrl->getLinkTargetByClass($this->parent_obj, $this->parent_cmd, "", true);
+			}
 		}
 		$config = array(
 			"container_id" => $container_id,
@@ -489,7 +541,6 @@ abstract class ilExplorerBaseGUI
 			);
 		
 		$tpl->addOnLoadCode('il.Explorer2.init('.json_encode($config).', '.json_encode($js_tree_config).');');
-		
 		$etpl = new ilTemplate("tpl.explorer2.html", true, true, "Services/UIComponent/Explorer2");
 
 		// render childs

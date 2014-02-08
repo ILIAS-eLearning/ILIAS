@@ -381,11 +381,15 @@ class ilLMPresentationGUI
 			if ($this->lm->getLayoutPerPage())
 			{
 				$pg_id = $this->getCurrentPageId();
-				
-				if ((in_array($_GET["cmd"], array("media", "glossary")) ||
-					!in_array($_GET["frame"], array("", "_blank"))) && $_GET["from_page"] > 0)
+				if (!in_array($_GET["frame"], array("", "_blank")) && $_GET["from_page"] > 0)
 				{
 					$pg_id = (int) $_GET["from_page"];
+				}
+
+				// this is needed, e.g. lm is toc2win, page is 3window and media linked to media frame
+				if (in_array($_GET["cmd"], array("media", "glossary")) && $_GET["back_pg"] > 0)
+				{
+					$pg_id = (int) $_GET["back_pg"];
 				}
 
 				if ($pg_id > 0)
@@ -693,6 +697,8 @@ class ilLMPresentationGUI
 		}
 		else
 		{
+			$this->tpl->fillLeftNav();
+			$this->tpl->fillOnLoadCode();
 			$content =  $this->tpl->get();
 		}
 
@@ -833,7 +839,7 @@ class ilLMPresentationGUI
 				{
 					$exp->setPathOpen((int) $page_id);
 				}
-				if (!$this->offlineMode())
+				if (true)
 				{
 					// empty chapter
 					if ($this->chapter_has_no_active_page &&
@@ -859,6 +865,10 @@ class ilLMPresentationGUI
 							$exp->setHighlightNode($this->lm_tree->getParentId($page_id));
 						}
 					}
+				}
+				if ($this->offlineMode())
+				{
+					$exp->setOfflineMode(true);
 				}
 
 				$this->tpl->setCurrentBlock("il_toc");
