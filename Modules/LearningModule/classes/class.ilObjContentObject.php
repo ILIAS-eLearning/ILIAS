@@ -2160,6 +2160,9 @@ class ilObjContentObject extends ilObject
 //		copy(ilPlayerUtil::getFlashVideoPlayerFilename(true),
 //			$flv_dir."/".ilPlayerUtil::getFlashVideoPlayerFilename());
 		ilPlayerUtil::copyPlayerFilesToTargetDirectory($flv_dir);
+		include_once("./Services/UIComponent/Explorer2/classes/class.ilExplorerBaseGUI.php");
+		ilExplorerBaseGUI::createHTMLExportDirs($a_target_dir);
+		ilPlayerUtil::copyPlayerFilesToTargetDirectory($flv_dir);
 
 		// js files
 		ilUtil::makeDir($a_target_dir.'/js');
@@ -2219,6 +2222,7 @@ class ilObjContentObject extends ilObject
 		include_once("./Services/YUI/classes/class.ilYuiUtil.php");
 		include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
 		include_once("./Services/MediaObjects/classes/class.ilPlayerUtil.php");
+		include_once("./Services/UIComponent/Explorer2/classes/class.ilExplorerBaseGUI.php");
 		$scripts = array(
 			array("source" => ilYuiUtil::getLocalPath('yahoo/yahoo-min.js'),
 				"target" => $a_target_dir.'/js/yahoo/yahoo-min.js',
@@ -2264,7 +2268,16 @@ class ilObjContentObject extends ilObject
 				"type" => "js"),
 			array("source" => ilPlayerUtil::getLocalMediaElementCssPath(),
 				"target" => $a_target_dir."/".ilPlayerUtil::getLocalMediaElementCssPath(),
-				"type" => "css")
+				"type" => "css"),
+			array("source" => ilExplorerBaseGUI::getLocalExplorerJsPath(),
+				"target" => $a_target_dir."/".ilExplorerBaseGUI::getLocalExplorerJsPath(),
+				"type" => "js"),
+			array("source" => ilExplorerBaseGUI::getLocalJsTreeJsPath(),
+				"target" => $a_target_dir."/".ilExplorerBaseGUI::getLocalJsTreeJsPath(),
+				"type" => "js"),
+			array("source" => './Modules/LearningModule/js/LearningModule.js',
+				"target" => $a_target_dir.'/js/LearningModule.js',
+				"type" => "js")
 		);
 		
 		$mathJaxSetting = new ilSetting("MathJax");
@@ -2550,11 +2563,7 @@ class ilObjContentObject extends ilObject
 			return;
 		}
 
-		$ilBench->start("ExportHTML", "layout");
-		$ilBench->start("ExportHTML", "layout_".$a_frame);
 		$content =& $a_lm_gui->layout("main.xml", false);
-		$ilBench->stop("ExportHTML", "layout_".$a_frame);
-		$ilBench->stop("ExportHTML", "layout");
 
 		// open file
 		if (!($fp = @fopen($file,"w+")))
@@ -2578,10 +2587,8 @@ class ilObjContentObject extends ilObject
 		}
 
 		// write frames of frameset
-		$ilBench->start("ExportHTML", "getCurrentFrameSet");
 		$frameset = $a_lm_gui->getCurrentFrameSet();
-		$ilBench->stop("ExportHTML", "getCurrentFrameSet");
-		
+
 		foreach ($frameset as $frame)
 		{				
 			$this->exportPageHTML($a_lm_gui, $a_target_dir, $a_lm_page_id, $frame);

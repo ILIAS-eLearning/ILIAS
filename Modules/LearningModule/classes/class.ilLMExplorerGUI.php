@@ -32,7 +32,13 @@ class ilLMExplorerGUI extends ilTreeExplorerGUI
 		$tree->setTableNames('lm_tree','lm_data');
 		$tree->setTreeTablePK("lm_id");
 
-		parent::__construct("lm_exp", $a_parent_obj, $a_parent_cmd, $tree);
+		$id = "lm_exp";
+		if ($this->getOfflineMode())
+		{
+			$id = "lm_exp_off";
+		}
+
+		parent::__construct($id, $a_parent_obj, $a_parent_cmd, $tree);
 		
 		$this->setSkipRootNode(false);
 		$this->setAjax(false);
