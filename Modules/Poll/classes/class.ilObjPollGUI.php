@@ -116,9 +116,9 @@ class ilObjPollGUI extends ilObject2GUI
 		
 		$sort = new ilRadioGroupInputGUI($lng->txt("poll_result_sorting"), "sort");
 		$sort->setRequired(true);
-		$a_form->addItem($sort);		
 		$sort->addOption(new ilRadioOption($lng->txt("poll_result_sorting_answers"), 0));
 		$sort->addOption(new ilRadioOption($lng->txt("poll_result_sorting_votes"), 1));
+		$a_form->addItem($sort);				
 	}
 
 	protected function getEditFormCustomValues(array &$a_values)
@@ -325,6 +325,17 @@ class ilObjPollGUI extends ilObject2GUI
 			$img->setImage($file);
 		}					
 		
+		$anonymous = new ilRadioGroupInputGUI($lng->txt("poll_mode"), "mode");
+		$anonymous->setRequired(true);
+		$option = new ilRadioOption($lng->txt("poll_mode_anonymous"), 0);
+		$option->setInfo($lng->txt("poll_mode_anonymous_info"));
+		$anonymous->addOption($option);
+		$option = new ilRadioOption($lng->txt("poll_mode_personal"), 1);
+		$option->setInfo($lng->txt("poll_mode_personal_info"));
+		$anonymous->addOption($option);
+		$anonymous->setValue($this->object->getNonAnonymous());
+		$form->addItem($anonymous);
+		
 		$nanswers = new ilNumberInputGUI($lng->txt("poll_max_number_of_answers"), "nanswers");
 		$nanswers->setRequired(true);
 		$nanswers->setMinValue(1);
@@ -365,6 +376,7 @@ class ilObjPollGUI extends ilObject2GUI
 		{			
 			$this->object->setQuestion($form->getInput("question"));
 			$this->object->setMaxNumberOfAnswers($form->getInput("nanswers"));
+			$this->object->setNonAnonymous($form->getInput("mode"));
 						
 			$image = $form->getItemByPostVar("image");				
 			if($_FILES["image"]["tmp_name"]) 

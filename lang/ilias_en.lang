@@ -14192,3 +14192,9 @@ poll#:#poll_result_sorting_answers#:#In the order of the answers
 poll#:#poll_result_sorting_votes#:#By number of votes (descending)
 content#:#cont_edit_definitions#:#Edit Definitions
 content#:#cont_edit_definition#:#Edit Definition
+poll#:#poll_mode#:#Mode
+poll#:#poll_mode_anonymous#:#Anonymous
+poll#:#poll_mode_anonymous_info#:#Votes cannot be traced back to users.
+poll#:#poll_mode_personal#:#Personal
+poll#:#poll_mode_personal_info#:#A list of users with their respective votes is available when having sufficient permission.
+poll#:#poll_non_anonymous_warning#:#This is a non-anonymous poll.

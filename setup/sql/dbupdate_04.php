@@ -10,3 +10,15 @@
 		));
 	}
 ?>
+<#4184>
+<?php
+	if (!$ilDB->tableColumnExists('il_poll', 'non_anon'))
+	{
+		$ilDB->addTableColumn('il_poll', 'non_anon', array(
+			"type" => "integer",
+			"notnull" => true,
+			"length" => 1,
+			"default" => 0
+		));
+	}
+?>

@@ -14192,3 +14192,9 @@ poll#:#poll_result_sorting_answers#:#In der Reihenfolge der Antworten
 poll#:#poll_result_sorting_votes#:#Nach Anzahl der Stimmen (absteigend)
 content#:#cont_edit_definitions#:#Definitionen bearbeiten
 content#:#cont_edit_definition#:#Definition bearbeiten
+poll#:#poll_mode#:#Modus
+poll#:#poll_mode_anonymous#:#Anonym
+poll#:#poll_mode_anonymous_info#:#Stimmen können Nutzern nicht zugeordnet werden.
+poll#:#poll_mode_personal#:#Personalisiert
+poll#:#poll_mode_personal_info#:#A Liste der Nutzer mit ihren Stimmen ist mit ausreichenden Rechten verfügbar.
+poll#:#poll_non_anonymous_warning#:#Dies ist eine nicht-anonyme Abstimmung.

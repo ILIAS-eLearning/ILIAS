@@ -30,6 +30,7 @@ class ilObjPoll extends ilObject2
 	// 4.5
 	protected $max_number_answers = 1; // [int]
 	protected $result_sort_by_votes; // [bool]
+	protected $mode_non_anonymous; // [bool]
 	
 	const VIEW_RESULTS_ALWAYS = 1;
 	const VIEW_RESULTS_NEVER = 2;
@@ -181,6 +182,16 @@ class ilObjPoll extends ilObject2
 	{
 		return $this->result_sort_by_votes;
 	}
+	
+	function setNonAnonymous($a_value)
+	{
+		$this->mode_non_anonymous = (bool)$a_value;
+	}
+	
+	function getNonAnonymous()
+	{
+		return $this->mode_non_anonymous;
+	}
 
 	protected function doRead()
 	{
@@ -198,6 +209,7 @@ class ilObjPoll extends ilObject2
 		$this->setVotingPeriodEnd($row["period_end"]);
 		$this->setMaxNumberOfAnswers($row["max_answers"]);
 		$this->setSortResultByVotes($row["result_sort"]);
+		$this->setNonAnonymous($row["non_anon"]);
 		
 		if($this->ref_id)
 		{
@@ -220,7 +232,8 @@ class ilObjPoll extends ilObject2
 			"period_begin" => array("integer", $this->getVotingPeriodBegin()),
 			"period_end" => array("integer", $this->getVotingPeriodEnd()),
 			"max_answers" => array("integer", $this->getMaxNumberOfAnswers()),
-			"result_sort" => array("integer", $this->getSortResultByVotes())
+			"result_sort" => array("integer", $this->getSortResultByVotes()),
+			"non_anon" => array("integer", $this->getNonAnonymous()),
 		);
 						
 		return $fields;

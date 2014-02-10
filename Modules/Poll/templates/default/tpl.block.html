@@ -16,10 +16,14 @@
 		</div>
 		
 		<!-- BEGIN answers_vote -->
-		<div class="ilPollQuestionAnswers">	
+		<div class="ilPollQuestionAnswers">		
+			
+			<!-- BEGIN non_anon_bl -->
+			<div class="il_Footer light">{NON_ANONYMOUS}</div>
+			<!-- END non_anon_bl -->			
 			
 			<!-- BEGIN error_bl -->
-			<div class="alert">{FORM_ERROR}</div>
+			<div class="ilFailureMessage">{FORM_ERROR}</div>
 			<!-- END error_bl -->
 			
 			<form method="post" action="{URL_FORM}" target="_top">
