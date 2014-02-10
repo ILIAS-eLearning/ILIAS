@@ -5483,7 +5483,7 @@ content#:#cont_edit_src#:#Programmcode bearbeiten
 content#:#cont_edit_style#:#Style Editieren
 content#:#cont_edit_tab_properties#:#Tabellen-Eigenschaften
 content#:#cont_edit_tabs#:#Eigenschaften
-content#:#cont_edit_term#:#Begriff editieren
+content#:#cont_edit_term#:#Begriff bearbeiten
 content#:#cont_edition#:#Ausgabe
 content#:#cont_empty_mep_folder#:#Es sind keine Medien in diesem Ordner.
 content#:#cont_empty_question#:#Die Frage ist noch nicht fertiggestellt. Bitte bearbeiten Sie diese abschließend oder löschen Sie die Frage.
@@ -14184,3 +14184,5 @@ obj#:#obj_deactivate_multilang_conf#:#Wollen Sie die Unterstützung für mehrspr
 obj#:#obj_multilang_deactivated#:#Die Unterstützung für mehrsprachige Inhalte wurde deaktiviert.
 cntr#:#cntr_container_only_on_their_own#:#Kategorien, Kurse, Gruppen und Ordner können nur einzeln kopiert werden. Bitte wählen Sie nur ein solches Objekt aus.
 cntr#:#objects_duplicated#:#Die Objekte wurden kopiert.
+content#:#cont_edit_definitions#:#Definitionen bearbeiten
+content#:#cont_edit_definition#:#Definition bearbeiten

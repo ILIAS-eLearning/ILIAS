@@ -14184,3 +14184,5 @@ obj#:#obj_deactivate_multilang_conf#:#Do you really want to deactivate multiling
 obj#:#obj_multilang_deactivated#:#Multilinguality has been deactivated.
 cntr#:#cntr_container_only_on_their_own#:#Categories, courses, groups or folders can only be copied as single objects. Please select one item only.
 cntr#:#objects_duplicated#:#Objects copied
+content#:#cont_edit_definitions#:#Edit Definitions
+content#:#cont_edit_definition#:#Edit Definition

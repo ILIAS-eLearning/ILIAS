@@ -14188,3 +14188,6 @@ cntr#:#cntr_container_only_on_their_own#:#Categories, courses, groups or folders
 cntr#:#objects_duplicated#:#Objects copied###22 01 2014 new variable
 assessment#:#tst_inp_quest_amount_per_source_pool#:#Question Amount###23 01 2014 new variable
 assessment#:#tst_question_amount#:#Question Amount###23 01 2014 new variable
+tos#:#tos_no_documents_exist#:#Currently there are no terms of service for any of the installed languages.###10 02 2014 new variable
+content#:#cont_edit_definitions#:#Edit Definitions###10 02 2014 new variable
+content#:#cont_edit_definition#:#Edit Definition###10 02 2014 new variable
