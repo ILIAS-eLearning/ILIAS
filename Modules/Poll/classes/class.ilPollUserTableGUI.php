@@ -42,6 +42,8 @@ class ilPollUserTableGUI extends ilTable2GUI
 		$this->setRowTemplate("tpl.user_row.html", "Modules/Poll");		
 		$this->setDefaultOrderField("login");
 		$this->setDefaultOrderDirection("asc");				
+		
+		$this->setExportFormats(array(self::EXPORT_CSV, self::EXPORT_EXCEL));
 	}	
 	
 	protected function getItems(array $a_answer_ids)
@@ -54,13 +56,8 @@ class ilPollUserTableGUI extends ilTable2GUI
 			unset($vote["answers"]);
 			
 			foreach($a_answer_ids as $answer_id)
-			{
-				$status = "";
-				if(in_array($answer_id, $answers))
-				{
-					$status = "x";
-				}
-				$vote["answer".$answer_id] = $status;
+			{				
+				$vote["answer".$answer_id] = in_array($answer_id, $answers);
 			}
 			
 			$data[] = $vote;
@@ -70,17 +67,62 @@ class ilPollUserTableGUI extends ilTable2GUI
 	}	
 	
 	protected function fillRow($a_set)
-	{				
+	{						
 		$this->tpl->setCurrentBlock("answer_bl");
 		foreach($this->answer_ids as $answer_id)
 		{			
-			$this->tpl->setVariable("ANSWER", $a_set["answer".$answer_id]);
+			if($a_set["answer".$answer_id])
+			{				
+				$this->tpl->setVariable("ANSWER", '<img src="'.ilUtil::getImagePath("icon_ok_s.png").'" />');							
+			}
+			else
+			{				
+				$this->tpl->setVariable("ANSWER", "&nbsp;");				
+			}
 			$this->tpl->parseCurrentBlock();
 		}	
 		
 		$this->tpl->setVariable("LOGIN", $a_set["login"]);		
 		$this->tpl->setVariable("FIRSTNAME", $a_set["firstname"]);
 		$this->tpl->setVariable("LASTNAME", $a_set["lastname"]);		
+	}
+	
+	protected function fillRowCSV($a_csv, $a_set)
+	{
+		$a_csv->addColumn($a_set["login"]);
+		$a_csv->addColumn($a_set["firstname"]);
+		$a_csv->addColumn($a_set["lastname"]);
+		foreach($this->answer_ids as $answer_id)
+		{			
+			if($a_set["answer".$answer_id])
+			{				
+				$a_csv->addColumn(true);					
+			}
+			else
+			{				
+				$a_csv->addColumn(false);				
+			}
+		}	
+		$a_csv->addRow();
+	}
+	
+	protected function fillRowExcel($a_worksheet, &$a_row, $a_set)
+	{
+		$a_worksheet->write($a_row, 0, $a_set["login"]);
+		$a_worksheet->write($a_row, 1, $a_set["firstname"]);
+		$a_worksheet->write($a_row, 2, $a_set["lastname"]);		
+		$col = 2;
+		foreach($this->answer_ids as $answer_id)
+		{			
+			if($a_set["answer".$answer_id])
+			{				
+				$a_worksheet->write($a_row, ++$col, true);						
+			}
+			else
+			{				
+				$a_worksheet->write($a_row, ++$col, false);				
+			}
+		}	
 	}
 }
 

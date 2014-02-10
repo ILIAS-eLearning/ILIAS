@@ -43,7 +43,9 @@ class ilPollAnswerTableGUI extends ilTable2GUI
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));
 		$this->setRowTemplate("tpl.answer_row.html", "Modules/Poll");		
 		$this->setDefaultOrderField("pos");
-		$this->setDefaultOrderDirection("asc");				
+		$this->setDefaultOrderDirection("asc");		
+				
+		$this->setExportFormats(array(self::EXPORT_CSV, self::EXPORT_EXCEL));
 	}
 	
 	public function numericOrdering($a_field) 
@@ -88,6 +90,23 @@ class ilPollAnswerTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("TXT_ANSWER", nl2br($a_set["answer"]));		
 		$this->tpl->setVariable("VALUE_VOTES", $a_set["votes"]);
 		$this->tpl->setVariable("VALUE_PERCENTAGE", $a_set["percentage"]);
+	}
+	
+	protected function fillRowCSV($a_csv, $a_set)
+	{
+		$a_csv->addColumn($a_set["pos"]/10);
+		$a_csv->addColumn($a_set["answer"]);
+		$a_csv->addColumn($a_set["votes"]);
+		$a_csv->addColumn($a_set["percentage"]);
+		$a_csv->addRow();
+	}
+	
+	protected function fillRowExcel($a_worksheet, &$a_row, $a_set)
+	{
+		$a_worksheet->write($a_row, 0, $a_set["pos"]/10);
+		$a_worksheet->write($a_row, 1, $a_set["answer"]);
+		$a_worksheet->write($a_row, 2, $a_set["votes"]);
+		$a_worksheet->write($a_row, 3, $a_set["percentage"]);		
 	}
 }
 
