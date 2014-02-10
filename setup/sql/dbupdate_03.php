@@ -19634,4 +19634,13 @@ $ilCtrlStructureReader->getStructure();
 <?php	
 	$ilDB->dropPrimaryKey("il_poll_vote");
 	$ilDB->addPrimaryKey("il_poll_vote", array("user_id", "poll_id", "answer_id"));
+
+
+
+
+
+					// FILE ENDS HERE, DO NOT ADD ANY ADDITIONAL STEPS
+    				//
+    				//         USE dbupdate_04.php INSTEAD
+
 ?>
