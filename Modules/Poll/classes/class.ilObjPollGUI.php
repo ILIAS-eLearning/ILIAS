@@ -112,7 +112,13 @@ class ilObjPollGUI extends ilObject2GUI
 			ilObjPoll::VIEW_RESULTS_AFTER_VOTE));
 		$results->addOption(new ilRadioOption($lng->txt("poll_view_results_after_period"), 
 			ilObjPoll::VIEW_RESULTS_AFTER_PERIOD));
-		$a_form->addItem($results);												
+		$a_form->addItem($results);		
+		
+		$sort = new ilRadioGroupInputGUI($lng->txt("poll_result_sorting"), "sort");
+		$sort->setRequired(true);
+		$a_form->addItem($sort);		
+		$sort->addOption(new ilRadioOption($lng->txt("poll_result_sorting_answers"), 0));
+		$sort->addOption(new ilRadioOption($lng->txt("poll_result_sorting_votes"), 1));
 	}
 
 	protected function getEditFormCustomValues(array &$a_values)
@@ -123,12 +129,14 @@ class ilObjPollGUI extends ilObject2GUI
 		$a_values["results"] = $this->object->getViewResults();
 		$a_values["access_type"] = ($this->object->getAccessType() == ilObjectActivation::TIMINGS_ACTIVATION);	
 		$a_values["period"] = $this->object->getVotingPeriod();		
+		$a_values["sort"] = $this->object->getSortResultByVotes();		
 	}
 
 	protected function updateCustom(ilPropertyFormGUI $a_form)
 	{		
 		$this->object->setViewResults($a_form->getInput("results"));
 		$this->object->setOnline($a_form->getInput("online"));
+		$this->object->setSortResultByVotes($a_form->getInput("sort"));
 						
 		include_once "Services/Object/classes/class.ilObjectActivation.php";	
 		if($a_form->getInput("access_type"))

@@ -179,18 +179,33 @@ class ilPollBlockGUI extends ilBlockGUI
 			if($this->poll_block->maySeeResults($ilUser->getId()))
 			{	
 				if(!$this->poll_block->mayNotResultsYet($ilUser->getId()))
-				{				
+				{	
+					$answers = array();
+					foreach($a_poll->getAnswers() as $item)
+					{
+						$answers[$item["id"]] = $item["answer"];						
+					}
+					
 					$perc = $this->poll_block->getPoll()->getVotePercentages();
 					$total = $perc["total"];
 					$perc = $perc["perc"];
 
 					$this->tpl->setVariable("TOTAL_ANSWERS", sprintf($lng->txt("poll_population"), $total));
+															
+					if($this->poll_block->getPoll()->getSortResultByVotes())
+					{
+						$order = array_keys(ilUtil::sortArray($perc, "abs", "desc", true, true));						
+					}
+					else
+					{
+						$order = array_keys($answers);						
+					}
 
 					$this->tpl->setCurrentBlock("answer_result");
-					foreach($a_poll->getAnswers() as $item)
+					foreach($order as $answer_id)
 					{			
-						$this->tpl->setVariable("TXT_ANSWER_RESULT", nl2br($item["answer"]));
-						$this->tpl->setVariable("PERC_ANSWER_RESULT", round($perc[$item["id"]]["perc"]));
+						$this->tpl->setVariable("TXT_ANSWER_RESULT", nl2br($answers[$answer_id]));
+						$this->tpl->setVariable("PERC_ANSWER_RESULT", round($perc[$answer_id]["perc"]));
 						$this->tpl->parseCurrentBlock();
 					}		
 				}

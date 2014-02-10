@@ -14187,3 +14187,6 @@ cntr#:#objects_duplicated#:#Die Objekte wurden kopiert.
 poll#:#poll_max_number_of_answers#:#Maximale Anzahl Antworten je Benutzer
 poll#:#poll_vote_error_single#:#Wählen Sie eine Antwort aus.
 poll#:#poll_vote_error_multi#:#Wählen Sie maximal %s Antworten aus.
+poll#:#poll_result_sorting#:#Sortierung
+poll#:#poll_result_sorting_answers#:#In der Reihenfolge der Antworten
+poll#:#poll_result_sorting_votes#:#Nach Anzahl der Stimmen (absteigend)

@@ -14187,3 +14187,6 @@ cntr#:#objects_duplicated#:#Objects copied
 poll#:#poll_max_number_of_answers#:#Maximum Number Of Answers per User
 poll#:#poll_vote_error_single#:#Please select 1 answer.
 poll#:#poll_vote_error_multi#:#Please select no more than %s answers.
+poll#:#poll_result_sorting#:#Sorting
+poll#:#poll_result_sorting_answers#:#In the order of the answers
+poll#:#poll_result_sorting_votes#:#By number of votes (descending)
