@@ -497,6 +497,7 @@ class ilSecuritySettings
 				}
 			}
 	    } 
+		/*
 		elseif(!ilHTTPS::_checkHTTP())
 		{
 			$code = ilSecuritySettings::$SECURITY_SETTINGS_ERR_CODE_HTTP_NOT_AVAILABLE;
@@ -510,7 +511,7 @@ class ilSecuritySettings
 						->setAlert(ilObjPrivacySecurityGUI::getErrorMessage($code));
 			}
 		}
-
+		*/
 		if( $this->getPasswordMinLength() < 0 )
 		{
 			$code = self::SECURITY_SETTINGS_ERR_CODE_INVALID_PASSWORD_MIN_LENGTH;
