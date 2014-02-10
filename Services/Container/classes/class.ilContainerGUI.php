@@ -3723,11 +3723,16 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 			foreach ($this->object->items["sess"] as $id)
 			{					
 				$items = ilObjectActivation::getItemsByEvent($id['obj_id']);
-				foreach($items as $id)
+				foreach($items as $event_item)
 				{
-					if ($id["child"] == (int) $_GET["child_ref_id"])
+					if ($event_item["child"] == (int)$_GET["child_ref_id"])
 					{
-						$html = $container_view->renderItem($id);
+						// sessions
+						if((int)$_GET["parent_ref_id"])
+						{
+							$event_item["parent"] = (int)$_GET["parent_ref_id"];
+						}
+						$html = $container_view->renderItem($event_item);
 					}
 				}
 			}
