@@ -29,6 +29,7 @@ class ilObjPoll extends ilObject2
 	
 	// 4.5
 	protected $max_number_answers = 1; // [int]
+	protected $result_sort_by_votes; // [bool]
 	
 	const VIEW_RESULTS_ALWAYS = 1;
 	const VIEW_RESULTS_NEVER = 2;
@@ -170,6 +171,16 @@ class ilObjPoll extends ilObject2
 	{
 		return $this->max_number_answers;
 	}
+	
+	function setSortResultByVotes($a_value)
+	{
+		$this->result_sort_by_votes = (bool)$a_value;
+	}
+	
+	function getSortResultByVotes()
+	{
+		return $this->result_sort_by_votes;
+	}
 
 	protected function doRead()
 	{
@@ -186,6 +197,7 @@ class ilObjPoll extends ilObject2
 		$this->setVotingPeriodBegin($row["period_begin"]);
 		$this->setVotingPeriodEnd($row["period_end"]);
 		$this->setMaxNumberOfAnswers($row["max_answers"]);
+		$this->setSortResultByVotes($row["result_sort"]);
 		
 		if($this->ref_id)
 		{
@@ -207,7 +219,8 @@ class ilObjPoll extends ilObject2
 			"period" => array("integer", $this->getVotingPeriod()),
 			"period_begin" => array("integer", $this->getVotingPeriodBegin()),
 			"period_end" => array("integer", $this->getVotingPeriodEnd()),
-			"max_answers" => array("integer", $this->getMaxNumberOfAnswers())
+			"max_answers" => array("integer", $this->getMaxNumberOfAnswers()),
+			"result_sort" => array("integer", $this->getSortResultByVotes())
 		);
 						
 		return $fields;
