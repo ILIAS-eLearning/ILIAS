@@ -504,10 +504,11 @@ class ilSecuritySettings
 				return ilSecuritySettings::$SECURITY_SETTINGS_ERR_CODE_HTTPS_NOT_AVAILABLE;
 			}
 	    } 
-		elseif(!ilHTTPS::_checkHTTP())
-		{
-		    return ilSecuritySettings::$SECURITY_SETTINGS_ERR_CODE_HTTP_NOT_AVAILABLE;
-		}
+		# disabled http check mantis 12727
+		#elseif(!ilHTTPS::_checkHTTP())
+		#{
+		#    return ilSecuritySettings::$SECURITY_SETTINGS_ERR_CODE_HTTP_NOT_AVAILABLE;
+		#}
 
 		if( $this->getAccountSecurityMode() == self::ACCOUNT_SECURITY_MODE_CUSTOMIZED )
 		{

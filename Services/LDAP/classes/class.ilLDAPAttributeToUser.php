@@ -173,7 +173,37 @@ class ilLDAPAttributeToUser
 				++$cnt_create;
 				// Create user
 				$this->writer->xmlStartTag('User',array('Action' => 'Insert'));
-				$this->writer->xmlElement('Login',array(),ilAuthUtils::_generateLogin($external_account));
+				
+				// begin-patch ldap_username
+				$rules = $this->mapping->getRules();
+				foreach($rules as $field => $data)
+				{
+					if(!($value = $this->doMapping($user,$data)))
+					{
+						continue;
+					}
+					switch($field)
+					{
+						case 'firstname':
+							$firstname = $value;
+							break;
+						
+						case 'lastname':
+							$lastname = $value;
+							break;
+					}
+				}
+				$il_account = $firstname.'_'.$lastname;
+				include_once './Services/Utilities/classes/class.ilStr.php';
+				$il_account = ilStr::strToLower($il_account);
+				$uml = array('ä','ö','ü','ß','ñ','é','è','á','ó','ú','Ä','Ö','Ü');
+				$rep = array('ae','oe','ue','ss','n','e','e','a','o','u','Ae','Oe','Ue');
+				$il_account = str_replace($uml, $rep, $il_account);
+				$il_account = str_replace(' ', '_', $il_account);
+				
+				$this->writer->xmlElement('Login',array(),self::_generateLogin($il_account));
+				#$this->writer->xmlElement('Login',array(),ilAuthUtils::_generateLogin($external_account));
+				// end-patch ldap_username
 				
 				include_once './Services/LDAP/classes/class.ilLDAPRoleAssignmentRules.php';
 				foreach(ilLDAPRoleAssignmentRules::getAssignmentsForCreation($external_account, $user) as $role_data)
@@ -184,7 +214,9 @@ class ilLDAPAttributeToUser
 								'Action' => $role_data['action']),'');
 				}
 
-				$rules = $this->mapping->getRules();
+				// begin-patch ldap_username
+				#$rules = $this->mapping->getRules();
+				// end-patch ldap_username
 
 			}
 
@@ -398,6 +430,42 @@ class ilLDAPAttributeToUser
 		include_once('Services/User/classes/class.ilUserDefinedFields.php');
 		$this->udf = ilUserDefinedFields::_getInstance();
 	}
+	
+	// begin-patch ldap_username
+	protected static function _generateLogin($a_login)
+	{
+		global $ilDB;
+		
+		// Check if username already exists
+		$found = false;
+		$postfix = 0;
+		$c_login = $a_login;
+		while(!$found)
+		{
+			$r = $ilDB->query("SELECT login FROM usr_data WHERE login = ".
+				$ilDB->quote($c_login));
+			if ($r->numRows() > 0)
+			{
+				$postfix++;
+				if($postfix < 10)
+				{
+					$c_login = $a_login.'00'.$postfix;
+				}
+				elseif($postfix < 100)
+				{
+					$c_login = $a_login.'00'.$postfix;
+				}
+			}
+			else
+			{
+				$found = true;
+			}
+		}
+		
+		return $c_login;
+	}
+	// end-patch ldap_username
+
 }
 
 

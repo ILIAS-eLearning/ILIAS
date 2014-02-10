@@ -441,7 +441,7 @@ class ilUserProfile
 			switch ($p["input"])
 			{
 				case "login":
-					if ((int)$ilSetting->get('allow_change_loginname') || self::$mode == self::MODE_REGISTRATION)
+					if ((int)$ilSetting->get('allow_change_loginname') && self::$mode != self::MODE_REGISTRATION)
 					{
 						$val = new ilTextInputGUI($lng->txt('username'),'username');
 						if($a_user)
@@ -451,8 +451,9 @@ class ilUserProfile
 						$val->setMaxLength(32);
 						$val->setSize(40);
 						$val->setRequired(true);
+						$a_form->addItem($val);
 					}
-					else
+					elseif(self::$mode != self::MODE_REGISTRATION)
 					{
 						// user account name
 						$val = new ilNonEditableValueGUI($lng->txt("username"), 'ne_un');
@@ -460,8 +461,8 @@ class ilUserProfile
 						{
 							$val->setValue($a_user->getLogin());
 						}
+						$a_form->addItem($val);
 					}
-					$a_form->addItem($val);
 					break;
 				
 				case "text":
