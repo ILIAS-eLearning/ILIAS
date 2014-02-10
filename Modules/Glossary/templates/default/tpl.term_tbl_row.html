@@ -4,14 +4,11 @@
 		<input type="checkbox" name="id[]" value="{CHECKBOX_ID}" {CHECKED} />
 	</td>
 	<!-- END check_col -->
-	<td class="std">
-		<!-- BEGIN view_term -->
-			<a href="{LINK_VIEW_TERM}">{TEXT_TERM}</a>
-		<!-- END view_term -->
-		<!-- BEGIN edit_term -->
-			<div class="small">{TEXT_TERM}</div>
-		<!-- END edit_term -->
+	<!-- BEGIN td -->
+	<td class="std small">
+		{TD_VAL}
 	</td>
+	<!-- END td -->
 	<!-- BEGIN td_lang -->
 	<td class="std small">
 		{TEXT_LANGUAGE}
@@ -23,11 +20,6 @@
 		<!-- BEGIN usage -->{USAGE}<!-- END usage -->
 	</td>
 	<!-- END td_usage -->
-	<!-- BEGIN td_md -->
-	<td class="std small">
-		{MD_VAL}
-	</td>
-	<!-- END td_md -->
 	<td class="std">
 	<!-- BEGIN definition_row -->
 		<!-- BEGIN def_head -->
