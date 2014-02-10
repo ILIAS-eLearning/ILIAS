@@ -1391,21 +1391,11 @@ return;
 	function addDefinition()
 	{
 		global $ilCtrl;
-		
-		if (count($_POST["id"]) < 1)
-		{
-			ilUtil::sendFailure($this->lng->txt("cont_select_term"), true);
-			$ilCtrl->redirect($this, "listTerms");
-		}
 
-		if (count($_POST["id"]) > 1)
-		{
-			ilUtil::sendFailure($this->lng->txt("cont_select_max_one_term"), true);
-			$ilCtrl->redirect($this, "listTerms");
-		}
+		$term_id = (int) $_GET["term_id"];
 
 		include_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
-		$term_glo_id = ilGlossaryTerm::_lookGlossaryID((int) $_POST["id"][0]);
+		$term_glo_id = ilGlossaryTerm::_lookGlossaryID((int) $term_id);
 		if ($term_glo_id != $this->object->getId())
 		{
 			ilUtil::sendFailure($this->lng->txt("glo_term_must_belong_to_glo"), true);
@@ -1414,10 +1404,10 @@ return;
 
 		// add term
 		include_once ("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
-		$term =& new ilGlossaryTerm($_POST["id"][0]);
+		$term = new ilGlossaryTerm($term_id);
 
 		// add first definition
-		$def =& new ilGlossaryDefinition();
+		$def = new ilGlossaryDefinition();
 		$def->setTermId($term->getId());
 		$def->setTitle(ilUtil::stripSlashes($term->getTerm()));
 		$def->create();
