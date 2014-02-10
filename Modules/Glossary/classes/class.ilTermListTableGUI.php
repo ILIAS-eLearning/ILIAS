@@ -25,16 +25,8 @@ class ilTermListTableGUI extends ilTable2GUI
 		$this->setId("glotl".$this->glossary->getId());
 		$this->tax_node = $a_tax_node;
 
-		// selectable columns
-		$this->selectable_cols = array(
-			"language" => array(
-				"txt" => $lng->txt("language"),
-				"default" => true),
-			"usage" => array(
-				"txt" => $lng->txt("cont_usage"),
-				"default" => true)
-		);
-		
+		$this->selectable_cols = array();
+
 		include_once("./Modules/Glossary/classes/class.ilGlossaryAdvMetaDataAdapter.php");
 		$adv_ad = new ilGlossaryAdvMetaDataAdapter($this->glossary->getId());
 		$this->adv_fields = $adv_ad->getAllFields();
@@ -45,33 +37,52 @@ class ilTermListTableGUI extends ilTable2GUI
 				"default" => false
 				);
 		}
-		
+
+		// selectable columns
+		$this->selectable_cols["language"] = array(
+			"txt" => $lng->txt("language"),
+			"default" => true);
+		$this->selectable_cols["usage"] = array(
+			"txt" => $lng->txt("cont_usage"),
+			"default" => true);
+
 		// selectable columns of advanced metadata
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		$this->setTitle($lng->txt("cont_terms"));
 		
 		$this->addColumn("", "", "1", true);
-		$this->addColumn($this->lng->txt("cont_term"));
-		
-		
-		foreach ($this->getSelectedColumns() as $c)
+		//$this->addColumn($this->lng->txt("cont_term"));
+
+		include_once("./Modules/Glossary/classes/class.ilGlossaryAdvMetaDataAdapter.php");
+		$adv_ap = new ilGlossaryAdvMetaDataAdapter($this->glossary->getId());
+		$this->adv_cols_order = $adv_ap->getColumnOrder();
+		$this->selected_cols = $this->getSelectedColumns();
+		foreach ($this->adv_cols_order as $c)
 		{
-			if (in_array($c, array ("language", "usage")))
+			if ($c["id"] == 0)
+			{
+				$this->addColumn($lng->txt("cont_term"), "term");
+			}
+			else
+			{
+				if (in_array("md_".$c["id"], $this->selected_cols))
+				{
+					$this->addColumn($c["text"], "md_".$c["id"]);
+				}
+			}
+		}
+
+		foreach (array ("language", "usage") as $c)
+		{
+			if (in_array($c, $this->selected_cols))
 			{
 				$this->addColumn($this->selectable_cols[$c]["txt"]);
 			}
-			else if (substr($c, 0, 3) == "md_")
-			{
-				$id = (int) substr($c, 3);
-				$this->addColumn($this->adv_fields[$id]["title"]);
-			}
-			
-//			$this->addColumn($this->lng->txt("language"));
-//			$this->addColumn($this->lng->txt("cont_usage"));
 		}
 
-		
+		$this->setDefaultOrderDirection("asc");
+		$this->setDefaultOrderField("term");
 		$this->addColumn($this->lng->txt("cont_definitions"));
 		
 		if (in_array($this->glossary->getVirtualMode(),
@@ -155,26 +166,28 @@ class ilTermListTableGUI extends ilTable2GUI
 		$ilCtrl->setParameterByClass("ilglossarydefpagegui", "term_id", $term["id"]);
 
 		// actions drop down
-		$list = new ilAdvancedSelectionListGUI();
-		$list->addItem($lng->txt("cont_edit_term"), "", $ilCtrl->getLinkTargetByClass("ilglossarytermgui", "editTerm"));
-		if (count($defs) > 1)
+		if ($this->glossary->getId() == $term["glo_id"])
 		{
-			$list->addItem($lng->txt("cont_edit_definitions"), "", $ilCtrl->getLinkTargetByClass("ilglossarytermgui", "listDefinitions"));
-		}
-		else if (count($defs) == 1)
-		{
-			$ilCtrl->setParameterByClass("ilglossarydefpagegui", "def", $defs[0]["id"]);
-			$list->addItem($lng->txt("cont_edit_definition"), "", $ilCtrl->getLinkTargetByClass(array("ilglossarytermgui",
-				"iltermdefinitioneditorgui",
-				"ilglossarydefpagegui"), "edit"));
-		}
-		$list->addItem($lng->txt("cont_add_definition"), "", $ilCtrl->getLinkTargetByClass("ilobjglossarygui", "addDefinition"));
-		$ilCtrl->setParameterByClass("ilglossarydefpagegui", "def", "");
+			$list = new ilAdvancedSelectionListGUI();
+			$list->addItem($lng->txt("cont_edit_term"), "", $ilCtrl->getLinkTargetByClass("ilglossarytermgui", "editTerm"));
+			if (count($defs) > 1)
+			{
+				$list->addItem($lng->txt("cont_edit_definitions"), "", $ilCtrl->getLinkTargetByClass("ilglossarytermgui", "listDefinitions"));
+			}
+			else if (count($defs) == 1)
+			{
+				$ilCtrl->setParameterByClass("ilglossarydefpagegui", "def", $defs[0]["id"]);
+				$list->addItem($lng->txt("cont_edit_definition"), "", $ilCtrl->getLinkTargetByClass(array("ilglossarytermgui",
+					"iltermdefinitioneditorgui",
+					"ilglossarydefpagegui"), "edit"));
+			}
+			$list->addItem($lng->txt("cont_add_definition"), "", $ilCtrl->getLinkTargetByClass("ilobjglossarygui", "addDefinition"));
+			$ilCtrl->setParameterByClass("ilglossarydefpagegui", "def", "");
 
-
-		$list->setId("act_term_".$term["id"]);
-		$list->setListTitle($lng->txt("actions"));
-		$this->tpl->setVariable("ACTIONS", $list->getHTML());
+			$list->setId("act_term_".$term["id"]);
+			$list->setListTitle($lng->txt("actions"));
+			$this->tpl->setVariable("ACTIONS", $list->getHTML());
+		}
 
 
 		for($j=0; $j<count($defs); $j++)
@@ -258,17 +271,8 @@ class ilTermListTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("CHECKBOX_ID", $term["id"]);
 		$this->tpl->parseCurrentBlock();
 
-		// edit term link
-		$this->tpl->setCurrentBlock("edit_term");
-		$this->tpl->setVariable("TEXT_TERM", $term["term"]);
 		$ilCtrl->setParameter($this->parent_obj, "term_id", $term["id"]);
-		if ($this->glossary->getId() == $term["glo_id"])
-		{
-			$this->tpl->setVariable("LINK_EDIT_TERM",
-				$ilCtrl->getLinkTargetByClass("ilglossarytermgui", "editTerm"));
-			$this->tpl->setVariable("TXT_EDIT_TERM", $lng->txt("edit"));
-		}
-		$this->tpl->parseCurrentBlock();
+
 
 		// usage
 		if (in_array("usage", $this->getSelectedColumns()))
@@ -311,39 +315,46 @@ class ilTermListTableGUI extends ilTable2GUI
 			$this->tpl->parseCurrentBlock();
 		}
 
-		// adv metadata
-		foreach ($this->getSelectedColumns() as $c)
+
+		foreach ($this->adv_cols_order as $c)
 		{
-			if (substr($c, 0, 3) == "md_")
+			if ($c["id"] == 0)
 			{
-				$id = (int) substr($c, 3);
-				$this->tpl->setCurrentBlock("td_md");
-				switch ($this->adv_fields[$id]["type"])
-				{
-					case ilAdvancedMDFieldDefinition::TYPE_DATETIME:
-						$val = ($term["md_".$id] > 0)
-							? ilDatePresentation::formatDate(new ilDateTime($term["md_".$id], IL_CAL_UNIX))
-							: " ";
-						break;
-						
-					case ilAdvancedMDFieldDefinition::TYPE_DATE:
-						$val = ($term["md_".$id] > 0)
-							? ilDatePresentation::formatDate(new ilDate($term["md_".$id], IL_CAL_UNIX))
-							: " ";
-						break;
-						
-					default:
-						$val = ($term["md_".$id] != "")
-							? $term["md_".$id]
-							: " ";
-						breal;
-				}
-				$this->tpl->setVariable("MD_VAL", $val);
+				$this->tpl->setCurrentBlock("td");
+				$this->tpl->setVariable("TD_VAL", $term["term"]);
 				$this->tpl->parseCurrentBlock();
 			}
+			else
+			{
+				if (in_array("md_".$c["id"], $this->selected_cols))
+				{
+					$id = (int) $c["id"];
+					$this->tpl->setCurrentBlock("td");
+					switch ($this->adv_fields[$id]["type"])
+					{
+						case ilAdvancedMDFieldDefinition::TYPE_DATETIME:
+							$val = ($term["md_".$id] > 0)
+								? ilDatePresentation::formatDate(new ilDateTime($term["md_".$id], IL_CAL_UNIX))
+								: " ";
+							break;
+
+						case ilAdvancedMDFieldDefinition::TYPE_DATE:
+							$val = ($term["md_".$id] > 0)
+								? ilDatePresentation::formatDate(new ilDate($term["md_".$id], IL_CAL_UNIX))
+								: " ";
+							break;
+
+						default:
+							$val = ($term["md_".$id] != "")
+								? $term["md_".$id]
+								: " ";
+							break;
+					}
+					$this->tpl->setVariable("TD_VAL", $val);
+					$this->tpl->parseCurrentBlock();
+				}
+			}
 		}
-
-
 	}
 
 }

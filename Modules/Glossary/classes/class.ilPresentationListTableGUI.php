@@ -59,20 +59,7 @@ class ilPresentationListTableGUI extends ilTable2GUI
 				}
 			}
 						
-			// advanced metadata
-			/*
-			foreach ($this->adv_fields as $f)
-			{
-				$this->addColumn($f["title"], "md_".$f["id"]);
-			}*/
-			
-			/*
-			include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
-			$record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_TABLE_HEAD,'glo',$this->glossary->getId(),'term');
-			$record_gui->setSelectedOnly(true);
-			$record_gui->setTableGUI($this);
-			$record_gui->parse();*/
-			
+
 			$this->addColumn($lng->txt("cont_definitions"));
 			if ($this->glossary->isVirtual())
 			{
