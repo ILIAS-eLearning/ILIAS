@@ -19618,3 +19618,20 @@ if(!$ilDB->tableExists('obj_content_master_lng'))
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#4181>
+<?php
+	if (!$ilDB->tableColumnExists('il_poll', 'max_answers'))
+	{
+		$ilDB->addTableColumn('il_poll', 'max_answers', array(
+			"type" => "integer",
+			"notnull" => true,
+			"length" => 1,
+			"default" => 1
+		));
+	}
+?>
+<#4182>
+<?php	
+	$ilDB->dropPrimaryKey("il_poll_vote");
+	$ilDB->addPrimaryKey("il_poll_vote", array("user_id", "poll_id", "answer_id"));
+?>

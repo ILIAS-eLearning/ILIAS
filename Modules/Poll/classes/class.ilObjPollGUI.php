@@ -317,6 +317,14 @@ class ilObjPollGUI extends ilObject2GUI
 			$img->setImage($file);
 		}					
 		
+		$nanswers = new ilNumberInputGUI($lng->txt("poll_max_number_of_answers"), "nanswers");
+		$nanswers->setRequired(true);
+		$nanswers->setMinValue(1);
+		$nanswers->setSize(3);
+		$nanswers->setValue($this->object->getMaxNumberOfAnswers());
+		$nanswers->setDisabled($a_read_only);
+		$form->addItem($nanswers);	
+		
 		$answers = new ilTextInputGUI($lng->txt("poll_answers"), "answers");
 		$answers->setRequired(true);
 		$answers->setMulti(true, true);
@@ -348,6 +356,7 @@ class ilObjPollGUI extends ilObject2GUI
 		if($form->checkInput())
 		{			
 			$this->object->setQuestion($form->getInput("question"));
+			$this->object->setMaxNumberOfAnswers($form->getInput("nanswers"));
 						
 			$image = $form->getItemByPostVar("image");				
 			if($_FILES["image"]["tmp_name"]) 
@@ -431,9 +440,34 @@ class ilObjPollGUI extends ilObject2GUI
 	{
 		global $tree, $ilUser;
 		
-		if($_POST["aw"])
+		$valid = true;
+		if($this->object->getMaxNumberOfAnswers() > 1)
 		{
+			if(sizeof($_POST["aw"]) > $this->object->getMaxNumberOfAnswers())
+			{
+				$valid = false;
+			}		
+			if(!sizeof($_POST["aw"]))
+			{
+				$valid = false;
+			}
+		}
+		else
+		{
+			if((int)!$_POST["aw"])
+			{
+				$valid = false;
+			}
+		}
+		
+		if($valid)
+		{			
+			unset($_SESSION["last_poll_vote"][$this->object->getId()]);		
 			$this->object->saveVote($ilUser->getId(), $_POST["aw"]);
+		}
+		else
+		{			
+			$_SESSION["last_poll_vote"][$this->object->getId()] = $_POST["aw"];		
 		}
 		
 		include_once "Services/Link/classes/class.ilLink.php";

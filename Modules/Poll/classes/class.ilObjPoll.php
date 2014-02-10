@@ -27,6 +27,9 @@ class ilObjPoll extends ilObject2
 	protected $period_begin; // [timestamp]
 	protected $period_end; // [timestamp]
 	
+	// 4.5
+	protected $max_number_answers = 1; // [int]
+	
 	const VIEW_RESULTS_ALWAYS = 1;
 	const VIEW_RESULTS_NEVER = 2;
 	const VIEW_RESULTS_AFTER_VOTE = 3;
@@ -157,6 +160,16 @@ class ilObjPoll extends ilObject2
 	{
 		return $this->period_end;
 	}
+	
+	function setMaxNumberOfAnswers($a_value)
+	{
+		$this->max_number_answers = (int)$a_value;
+	}
+	
+	function getMaxNumberOfAnswers()
+	{
+		return $this->max_number_answers;
+	}
 
 	protected function doRead()
 	{
@@ -172,6 +185,7 @@ class ilObjPoll extends ilObject2
 		$this->setVotingPeriod($row["period"]);
 		$this->setVotingPeriodBegin($row["period_begin"]);
 		$this->setVotingPeriodEnd($row["period_end"]);
+		$this->setMaxNumberOfAnswers($row["max_answers"]);
 		
 		if($this->ref_id)
 		{
@@ -192,7 +206,8 @@ class ilObjPoll extends ilObject2
 			"view_results" => array("integer", $this->getViewResults()),
 			"period" => array("integer", $this->getVotingPeriod()),
 			"period_begin" => array("integer", $this->getVotingPeriodBegin()),
-			"period_end" => array("integer", $this->getVotingPeriodEnd())
+			"period_end" => array("integer", $this->getVotingPeriodEnd()),
+			"max_answers" => array("integer", $this->getMaxNumberOfAnswers())
 		);
 						
 		return $fields;
@@ -629,7 +644,7 @@ class ilObjPoll extends ilObject2
 	// votes
 	//
 	
-	function saveVote($a_user_id, $a_answer_id)
+	function saveVote($a_user_id, $a_answers)
 	{
 		global $ilDB;
 		
@@ -638,11 +653,18 @@ class ilObjPoll extends ilObject2
 			return;
 		}
 		
-		$fields = array("user_id" => array("integer", $a_user_id),
-			"poll_id" => array("integer", $this->getId()),
-			"answer_id" => array("integer", $a_answer_id));
+		if(!is_array($a_answers))
+		{
+			$a_answers = array($a_answers);
+		}
 		
-		$ilDB->insert("il_poll_vote", $fields);
+		foreach($a_answers as $answer_id)
+		{
+			$fields = array("user_id" => array("integer", $a_user_id),
+				"poll_id" => array("integer", $this->getId()),
+				"answer_id" => array("integer", $answer_id));
+			$ilDB->insert("il_poll_vote", $fields);
+		}				
 	}
 	
 	function hasUserVoted($a_user_id)
@@ -653,6 +675,7 @@ class ilObjPoll extends ilObject2
 			" FROM il_poll_vote".
 			" WHERE poll_id = ".$ilDB->quote($this->getId(), "integer").
 			" AND user_id = ".$ilDB->quote($a_user_id, "integer");
+		$ilDB->setLimit(1);
 	    $set = $ilDB->query($sql);
 		return (bool)$ilDB->numRows($set);
 	}
@@ -661,7 +684,7 @@ class ilObjPoll extends ilObject2
 	{
 		global $ilDB;
 		
-		$sql = "SELECT count(*) cnt".
+		$sql = "SELECT COUNT(DISTINCT(user_id)) cnt".
 			" FROM il_poll_vote".
 			" WHERE poll_id = ".$ilDB->quote($this->getId(), "integer");
 		$set = $ilDB->query($sql);
@@ -692,7 +715,7 @@ class ilObjPoll extends ilObject2
 			$res[$id]["perc"] = $item["abs"]/$cnt*100;
 		}
 		
-		return array("perc"=>$res, "total"=>$cnt);
+		return array("perc"=>$res, "total"=>$this->countVotes());
 	}	
 }
 

@@ -106,12 +106,49 @@ class ilPollBlockGUI extends ilBlockGUI
 		if(!$_SESSION["il_cont_admin_panel"])
 		{
 			// vote
-
+			
+			$is_multi_answer = ($this->poll_block->getPoll()->getMaxNumberOfAnswers() > 1);
+			
+			if(isset($_SESSION["last_poll_vote"][$this->poll_block->getPoll()->getId()]))
+			{
+				$last_vote = $_SESSION["last_poll_vote"][$this->poll_block->getPoll()->getId()];				
+				unset($_SESSION["last_poll_vote"][$this->poll_block->getPoll()->getId()]);
+			
+				if($is_multi_answer)
+				{
+					$error = sprintf($lng->txt("poll_vote_error_multi"),
+						$this->poll_block->getPoll()->getMaxNumberOfAnswers());						
+				}
+				else
+				{
+					$error = $lng->txt("poll_vote_error_single");
+				}
+				
+				$this->tpl->setCurrentBlock("error_bl");				
+				$this->tpl->setVariable("FORM_ERROR", $error);
+				$this->tpl->parseCurrentBlock();
+			}
+		
 			if($this->poll_block->mayVote($ilUser->getId()))
 			{		
 				$this->tpl->setCurrentBlock("answer");
 				foreach($a_poll->getAnswers() as $item)
-				{			
+				{								
+					if(!$is_multi_answer)
+					{
+						$this->tpl->setVariable("ANSWER_INPUT", "radio");
+						$this->tpl->setVariable("ANSWER_NAME", "aw"); 
+					}
+					else
+					{
+						$this->tpl->setVariable("ANSWER_INPUT", "checkbox");
+						$this->tpl->setVariable("ANSWER_NAME", "aw[]"); 
+						
+						if(is_array($last_vote) && in_array($item["id"], $last_vote))
+						{
+							$this->tpl->setVariable("ANSWER_STATUS", 'checked="checked"'); 
+						}
+					}						
 					$this->tpl->setVariable("VALUE_ANSWER", $item["id"]);
 					$this->tpl->setVariable("TXT_ANSWER_VOTE", nl2br($item["answer"]));
 					$this->tpl->parseCurrentBlock();

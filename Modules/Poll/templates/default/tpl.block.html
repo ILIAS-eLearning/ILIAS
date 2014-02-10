@@ -18,11 +18,15 @@
 		<!-- BEGIN answers_vote -->
 		<div class="ilPollQuestionAnswers">	
 			
+			<!-- BEGIN error_bl -->
+			<div class="alert">{FORM_ERROR}</div>
+			<!-- END error_bl -->
+			
 			<form method="post" action="{URL_FORM}" target="_top">
 
 				<!-- BEGIN answer -->
 				<div class="ilPollQuestionAnswer">
-					<input type="radio" name="aw" value="{VALUE_ANSWER}" />{TXT_ANSWER_VOTE}
+					<input type="{ANSWER_INPUT}" name="{ANSWER_NAME}" value="{VALUE_ANSWER}"{ANSWER_STATUS} />{TXT_ANSWER_VOTE}
 				</div>
 				<!-- END answer -->
 
