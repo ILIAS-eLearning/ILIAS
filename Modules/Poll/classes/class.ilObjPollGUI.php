@@ -334,6 +334,7 @@ class ilObjPollGUI extends ilObject2GUI
 		$option->setInfo($lng->txt("poll_mode_personal_info"));
 		$anonymous->addOption($option);
 		$anonymous->setValue($this->object->getNonAnonymous());
+		$anonymous->setDisabled($a_read_only);
 		$form->addItem($anonymous);
 		
 		$nanswers = new ilNumberInputGUI($lng->txt("poll_max_number_of_answers"), "nanswers");
@@ -401,6 +402,23 @@ class ilObjPollGUI extends ilObject2GUI
 		$this->render($form);
 	}
 	
+	protected function setParticipantsSubTabs($a_active)
+	{
+		global $ilTabs, $lng, $ilCtrl;
+		
+		if(!$this->object->getNonAnonymous())
+		{
+			return;
+		}
+		
+		$ilTabs->addSubTab("result_answers", $lng->txt("poll_result_answers"),
+			$ilCtrl->getLinkTarget($this, "showParticipants"));
+		$ilTabs->addSubTab("result_users", $lng->txt("poll_result_users"),
+			$ilCtrl->getLinkTarget($this, "showParticipantVotes"));
+		
+		$ilTabs->activateSubTab($a_active);
+	}
+	
 	function showParticipants()
 	{
 		global $lng, $ilTabs, $tpl;
@@ -412,9 +430,29 @@ class ilObjPollGUI extends ilObject2GUI
 		}
 		
 		$ilTabs->activateTab("participants");
+		$this->setParticipantsSubTabs("result_answers");
 	
 		include_once "Modules/Poll/classes/class.ilPollAnswerTableGUI.php";
 		$tbl = new ilPollAnswerTableGUI($this, "showParticipants");	
+		$tpl->setContent($tbl->getHTML());		
+	}
+	
+	function showParticipantVotes()
+	{
+		global $ilTabs, $lng, $tpl;
+		
+		if(!$this->checkPermissionBool("write") || 
+			!$this->object->getNonAnonymous())
+		{
+			ilUtil::sendInfo($lng->txt("no_permission"));
+			return;
+		}
+		
+		$ilTabs->activateTab("participants");
+		$this->setParticipantsSubTabs("result_users");
+		
+		include_once "Modules/Poll/classes/class.ilPollUserTableGUI.php";
+		$tbl = new ilPollUserTableGUI($this, "showParticipantVotes");	
 		$tpl->setContent($tbl->getHTML());		
 	}
 	

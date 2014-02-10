@@ -43,9 +43,7 @@ class ilPollAnswerTableGUI extends ilTable2GUI
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));
 		$this->setRowTemplate("tpl.answer_row.html", "Modules/Poll");		
 		$this->setDefaultOrderField("pos");
-		$this->setDefaultOrderDirection("asc");
-		
-		
+		$this->setDefaultOrderDirection("asc");				
 	}
 	
 	public function numericOrdering($a_field) 

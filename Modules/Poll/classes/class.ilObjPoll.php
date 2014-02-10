@@ -743,6 +743,29 @@ class ilObjPoll extends ilObject2
 		
 		return array("perc"=>$res, "total"=>$this->countVotes());
 	}	
+	
+	public function getVotesByUsers()
+	{
+		global $ilDB;
+		
+		$res = array();
+		
+		$sql = "SELECT answer_id, user_id, firstname, lastname, login".
+			" FROM il_poll_vote".
+			" JOIN usr_data ON (usr_data.usr_id = il_poll_vote.user_id)".
+			" WHERE poll_id = ".$ilDB->quote($this->getId(), "integer");
+		$set = $ilDB->query($sql);
+		while($row = $ilDB->fetchAssoc($set))
+		{			
+			if(!isset($res[$row["user_id"]]))
+			{
+				$res[$row["user_id"]] = $row;
+			}			
+			$res[$row["user_id"]]["answers"][] = $row["answer_id"];
+		}
+	
+		return $res;
+	}
 }
 
 ?>

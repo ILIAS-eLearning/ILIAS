@@ -107,37 +107,37 @@ class ilPollBlockGUI extends ilBlockGUI
 		{
 			// vote
 			
-			if($this->poll_block->getPoll()->getNonAnonymous())
-			{
-				$this->tpl->setCurrentBlock("non_anon_bl");				
-				$this->tpl->setVariable("NON_ANONYMOUS", $lng->txt("poll_non_anonymous_warning"));
-				$this->tpl->parseCurrentBlock();
-			}
-			
-			$is_multi_answer = ($this->poll_block->getPoll()->getMaxNumberOfAnswers() > 1);
-			
-			if(isset($_SESSION["last_poll_vote"][$this->poll_block->getPoll()->getId()]))
-			{
-				$last_vote = $_SESSION["last_poll_vote"][$this->poll_block->getPoll()->getId()];				
-				unset($_SESSION["last_poll_vote"][$this->poll_block->getPoll()->getId()]);
-			
-				if($is_multi_answer)
-				{
-					$error = sprintf($lng->txt("poll_vote_error_multi"),
-						$this->poll_block->getPoll()->getMaxNumberOfAnswers());						
-				}
-				else
-				{
-					$error = $lng->txt("poll_vote_error_single");
-				}
-				
-				$this->tpl->setCurrentBlock("error_bl");				
-				$this->tpl->setVariable("FORM_ERROR", $error);
-				$this->tpl->parseCurrentBlock();
-			}
-		
 			if($this->poll_block->mayVote($ilUser->getId()))
-			{		
+			{						
+				if($this->poll_block->getPoll()->getNonAnonymous())
+				{
+					$this->tpl->setCurrentBlock("non_anon_bl");				
+					$this->tpl->setVariable("NON_ANONYMOUS", $lng->txt("poll_non_anonymous_warning"));
+					$this->tpl->parseCurrentBlock();
+				}
+
+				$is_multi_answer = ($this->poll_block->getPoll()->getMaxNumberOfAnswers() > 1);
+
+				if(isset($_SESSION["last_poll_vote"][$this->poll_block->getPoll()->getId()]))
+				{
+					$last_vote = $_SESSION["last_poll_vote"][$this->poll_block->getPoll()->getId()];				
+					unset($_SESSION["last_poll_vote"][$this->poll_block->getPoll()->getId()]);
+
+					if($is_multi_answer)
+					{
+						$error = sprintf($lng->txt("poll_vote_error_multi"),
+							$this->poll_block->getPoll()->getMaxNumberOfAnswers());						
+					}
+					else
+					{
+						$error = $lng->txt("poll_vote_error_single");
+					}
+
+					$this->tpl->setCurrentBlock("error_bl");				
+					$this->tpl->setVariable("FORM_ERROR", $error);
+					$this->tpl->parseCurrentBlock();
+				}		
+				
 				$this->tpl->setCurrentBlock("answer");
 				foreach($a_poll->getAnswers() as $item)
 				{								
@@ -202,6 +202,14 @@ class ilPollBlockGUI extends ilBlockGUI
 					if($this->poll_block->getPoll()->getSortResultByVotes())
 					{
 						$order = array_keys(ilUtil::sortArray($perc, "abs", "desc", true, true));						
+						
+						foreach(array_keys($answers) as $answer_id)
+						{
+							if(!in_array($answer_id, $order))
+							{
+								$order[] = $answer_id;
+							}
+						}
 					}
 					else
 					{

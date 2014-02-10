@@ -14198,3 +14198,5 @@ poll#:#poll_mode_anonymous_info#:#Stimmen können Nutzern nicht zugeordnet werde
 poll#:#poll_mode_personal#:#Personalisiert
 poll#:#poll_mode_personal_info#:#A Liste der Nutzer mit ihren Stimmen ist mit ausreichenden Rechten verfügbar.
 poll#:#poll_non_anonymous_warning#:#Dies ist eine nicht-anonyme Abstimmung.
+poll#:#poll_result_answers#:#Stimmen
+poll#:#poll_result_users#:#Teilnehmer
