@@ -79,6 +79,8 @@ class ilTermListTableGUI extends ilTable2GUI
 		{
 			$this->addColumn($this->lng->txt("obj_glo"));
 		}
+
+		$this->addColumn("", "", "1");
 		
 		$this->setEnableHeader(true);
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
@@ -86,7 +88,7 @@ class ilTermListTableGUI extends ilTable2GUI
 		$this->setEnableTitle(true);
 
 		$this->addMultiCommand("confirmTermDeletion", $lng->txt("delete"));
-		$this->addMultiCommand("addDefinition", $lng->txt("cont_add_definition"));
+		//$this->addMultiCommand("addDefinition", $lng->txt("cont_add_definition"));
 		
 		$this->setShowRowsSelector(true);
 		
@@ -145,14 +147,41 @@ class ilTermListTableGUI extends ilTable2GUI
 	{
 		global $lng, $ilCtrl;
 
+		include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
+
 		$defs = ilGlossaryDefinition::getDefinitionList($term["id"]);
+		$ilCtrl->setParameterByClass("ilobjglossarygui", "term_id", $term["id"]);
 		$ilCtrl->setParameterByClass("ilglossarytermgui", "term_id", $term["id"]);
-		
+		$ilCtrl->setParameterByClass("ilglossarydefpagegui", "term_id", $term["id"]);
+
+		// actions drop down
+		$list = new ilAdvancedSelectionListGUI();
+		$list->addItem($lng->txt("cont_edit_term"), "", $ilCtrl->getLinkTargetByClass("ilglossarytermgui", "editTerm"));
+		if (count($defs) > 1)
+		{
+			$list->addItem($lng->txt("cont_edit_definitions"), "", $ilCtrl->getLinkTargetByClass("ilglossarytermgui", "listDefinitions"));
+		}
+		else if (count($defs) == 1)
+		{
+			$ilCtrl->setParameterByClass("ilglossarydefpagegui", "def", $defs[0]["id"]);
+			$list->addItem($lng->txt("cont_edit_definition"), "", $ilCtrl->getLinkTargetByClass(array("ilglossarytermgui",
+				"iltermdefinitioneditorgui",
+				"ilglossarydefpagegui"), "edit"));
+		}
+		$list->addItem($lng->txt("cont_add_definition"), "", $ilCtrl->getLinkTargetByClass("ilobjglossarygui", "addDefinition"));
+		$ilCtrl->setParameterByClass("ilglossarydefpagegui", "def", "");
+
+
+		$list->setId("act_term_".$term["id"]);
+		$list->setListTitle($lng->txt("actions"));
+		$this->tpl->setVariable("ACTIONS", $list->getHTML());
+
+
 		for($j=0; $j<count($defs); $j++)
 		{
 			$def = $defs[$j];
 
-			if ($this->glossary->getId() == $term["glo_id"])
+			/*if ($this->glossary->getId() == $term["glo_id"])
 			{
 				// up
 				if ($j > 0)
@@ -197,7 +226,7 @@ class ilTermListTableGUI extends ilTable2GUI
 					"ilglossarydefpagegui"), "edit"));
 				$this->tpl->setVariable("TXT_EDIT", $lng->txt("edit"));
 				$this->tpl->parseCurrentBlock();
-			}
+			}*/
 
 			// text
 			$this->tpl->setCurrentBlock("definition");
@@ -313,7 +342,8 @@ class ilTermListTableGUI extends ilTable2GUI
 				$this->tpl->parseCurrentBlock();
 			}
 		}
-		
+
+
 	}
 
 }
