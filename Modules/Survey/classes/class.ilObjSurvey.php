@@ -4606,6 +4606,8 @@ class ilObjSurvey extends ilObject
 	function getSurveyCodesForExport(array $a_codes = null, array $a_ids = null)
 	{
 		global $ilDB, $ilUser;
+		
+		include_once "./Services/Link/classes/class.ilLink.php";
 
 		$sql = "SELECT svy_anonymous.*, svy_finished.state".
 			" FROM svy_anonymous".
@@ -4625,7 +4627,6 @@ class ilObjSurvey extends ilObject
 		$result = $ilDB->query($sql);
 		$export = array();
 		$default_lang = $ilUser->getPref("survey_code_language");
-		$lang = (strlen($default_lang)) ? "&lang=" . $default_lang : "";
 		while ($row = $ilDB->fetchAssoc($result))
 		{			
 			$item = array();						
@@ -4646,16 +4647,19 @@ class ilObjSurvey extends ilObject
 			}
 						
 			// No relative (today, tomorrow...) dates in export.
-			$date = new ilDate($row['tstamp'],IL_CAL_UNIX);;
+			$date = new ilDate($row['tstamp'],IL_CAL_UNIX);
 			$item[] = $date->get(IL_CAL_DATE);
 			
 			$item[] = ($this->isSurveyCodeUsed($row["survey_key"])) ? 1 : 0;
 			$item[] = ($row["sent"]) ? 1 : 0;
 			
-			$item[] = ILIAS_HTTP_PATH."/goto.php?cmd=infoScreen&target=svy_".
-				$this->getRefId() . "&client_id=" . CLIENT_ID . "&accesscode=".
-				$row["survey_key"].$lang;		
-					
+			$params = array("accesscode" => $row["survey_key"]);
+			if ($default_lang) 
+			{
+				$params["lang"] = $default_lang;
+			}
+			$item[] = ilLink::_getLink($this->getRefId(), "svy", $params);		
+				
 			$export[] = '"'.implode('";"', $item).'"';
 		}
 		return implode("\n", $export);
@@ -4668,14 +4672,14 @@ class ilObjSurvey extends ilObject
 	* @return array The requested data
 	* @access public
 	*/
-	public function &getSurveyCodesTableData($lang = "en", array $ids = null)
+	public function getSurveyCodesTableData(array $ids = null, $lang = null)
 	{
 		global $ilDB;
 		
+		include_once "./Services/Link/classes/class.ilLink.php";
+		
 		$codes = array();
 
-		if (strlen($lang) == 0) $lang = "en";
-		
 		$sql = "SELECT svy_anonymous.*, svy_finished.state".
 			" FROM svy_anonymous".
 			" LEFT JOIN svy_finished ON (svy_anonymous.survey_key = svy_finished.anonymous_id)".
@@ -4701,12 +4705,12 @@ class ilObjSurvey extends ilObject
 				}
 				else
 				{
-					$addlang = "";
-					if (strlen($lang))
+					$params = array("accesscode" => $row["survey_key"]);
+					if ($lang)
 					{
-						$addlang = "&amp;lang=$lang";
+						$params["lang"] = $lang;
 					}
-					$href = ILIAS_HTTP_PATH."/goto.php?cmd=infoScreen&target=svy_".$this->getRefId() . "&amp;client_id=" . CLIENT_ID . "&amp;accesscode=".$row["survey_key"].$addlang;					
+					$href = ilLink::_getLink($this->getRefId(), "svy", $params);					
 				}
 				
 				
@@ -4795,7 +4799,7 @@ class ilObjSurvey extends ilObject
 		return $ids;
 	}
 
-	function sendCodes($not_sent, $subject, $message, $lang = "en")
+	function sendCodes($not_sent, $subject, $message, $lang)
 	{
 		/*
 		 * 0 = all
@@ -4806,6 +4810,7 @@ class ilObjSurvey extends ilObject
 		$check_finished = ($not_sent > 1);
 		
 		include_once "./Services/Mail/classes/class.ilMail.php";
+		include_once "./Services/Link/classes/class.ilLink.php";
 		$user_id = $this->getOwner();
 		$mail = new ilMail($user_id);
 		$recipients = $this->getExternalCodeRecipients($check_finished);
@@ -4836,7 +4841,11 @@ class ilObjSurvey extends ilObject
 				{			
 					// build text
 					$messagetext = $message;
-					$url = ILIAS_HTTP_PATH."/goto.php?cmd=infoScreen&target=svy_".$this->getRefId() . "&client_id=" . CLIENT_ID . "&accesscode=".$data["code"]."&lang=".$lang;
+					$url = ilLink::_getLink($this->getRefId(), "svy",
+						array(
+							"accesscode" => $data["code"],
+							"lang" => $lang
+						));				
 					$messagetext = str_replace('[url]', "<" . $url . ">", $messagetext);
 					foreach ($data as $key => $value)
 					{
@@ -5802,7 +5811,7 @@ class ilObjSurvey extends ilObject
 		
 		if(sizeof($anonymous_ids))
 		{
-			$data = $this->getSurveyCodesTableData("en", $anonymous_ids);
+			$data = $this->getSurveyCodesTableData($anonymous_ids);
 			foreach($data as $item)
 			{
 				if(isset($res["a".$item["id"]]))
