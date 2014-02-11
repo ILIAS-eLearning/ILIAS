@@ -199,17 +199,11 @@ class ilLPStatus
 
 		$status = $this->determineStatus($a_obj_id, $a_usr_id, $a_obj);
 		$percentage = $this->determinePercentage($a_obj_id, $a_usr_id, $a_obj);
-		ilLPStatus::writeStatus($a_obj_id, $a_usr_id, $status, $percentage);
+		$changed = ilLPStatus::writeStatus($a_obj_id, $a_usr_id, $status, $percentage);
 		
-		if(!$a_no_raise)
+		if(!$a_no_raise && $changed)
 		{
-			global $ilAppEventHandler;
-			$ilAppEventHandler->raise("Services/Tracking", "updateStatus", array(
-				"obj_id" => $a_obj_id,
-				"usr_id" => $a_usr_id,
-				"status" => $status,
-				"percentage" => $percentage
-				));
+			self::raiseEvent($a_obj_id, $a_usr_id, $status, $percentage);		
 		}
 	}
 	
@@ -289,6 +283,18 @@ class ilLPStatus
 		}
 	}
 	
+	protected function raiseEvent($a_obj_id, $a_usr_id, $a_status, $a_percentage)
+	{
+		global $ilAppEventHandler;
+		
+		$ilAppEventHandler->raise("Services/Tracking", "updateStatus", array(
+			"obj_id" => $a_obj_id,
+			"usr_id" => $a_usr_id,
+			"status" => $a_status,
+			"percentage" => $a_percentage
+			));
+	}
+	
 	/**
 	 * Refresh status
 	 *
@@ -302,25 +308,37 @@ class ilLPStatus
 		foreach ($not_attempted as $user_id)
 		{
 			$percentage = $this->determinePercentage($a_obj_id, $user_id);
-			ilLPStatus::writeStatus($a_obj_id, $user_id, LP_STATUS_NOT_ATTEMPTED_NUM, $percentage, true);
+			if(ilLPStatus::writeStatus($a_obj_id, $user_id, LP_STATUS_NOT_ATTEMPTED_NUM, $percentage, true))
+			{
+				self::raiseEvent($a_obj_id, $user_id, LP_STATUS_NOT_ATTEMPTED_NUM, $percentage);
+			}
 		}
 		$in_progress = ilLPStatusWrapper::_getInProgress($a_obj_id);
 		foreach ($in_progress as $user_id)
 		{
 			$percentage = $this->determinePercentage($a_obj_id, $user_id);
-			ilLPStatus::writeStatus($a_obj_id, $user_id, LP_STATUS_IN_PROGRESS_NUM, $percentage, true);
+			if(ilLPStatus::writeStatus($a_obj_id, $user_id, LP_STATUS_IN_PROGRESS_NUM, $percentage, true))
+			{
+				self::raiseEvent($a_obj_id, $user_id, LP_STATUS_IN_PROGRESS_NUM, $percentage);
+			}
 		}
 		$completed = ilLPStatusWrapper::_getCompleted($a_obj_id);
 		foreach ($completed as $user_id)
 		{
 			$percentage = $this->determinePercentage($a_obj_id, $user_id);
-			ilLPStatus::writeStatus($a_obj_id, $user_id, LP_STATUS_COMPLETED_NUM, $percentage, true);
+			if(ilLPStatus::writeStatus($a_obj_id, $user_id, LP_STATUS_COMPLETED_NUM, $percentage, true))
+			{
+				self::raiseEvent($a_obj_id, $user_id, LP_STATUS_COMPLETED_NUM, $percentage);
+			}
 		}
 		$failed = ilLPStatusWrapper::_getFailed($a_obj_id);
 		foreach ($failed as $user_id)
 		{
 			$percentage = $this->determinePercentage($a_obj_id, $user_id);
-			ilLPStatus::writeStatus($a_obj_id, $user_id, LP_STATUS_FAILED_NUM, $percentage, true);
+			if(ilLPStatus::writeStatus($a_obj_id, $user_id, LP_STATUS_FAILED_NUM, $percentage, true))
+			{
+				self::raiseEvent($a_obj_id, $user_id, LP_STATUS_FAILED_NUM, $percentage);
+			}
 		}
 		if($a_users)
 		{		
@@ -339,7 +357,7 @@ class ilLPStatus
 	 * Write status for user and object
 	 *
 	 * @param
-	 * @return
+	 * @return bool
 	 */
 	static function writeStatus($a_obj_id, $a_user_id, $a_status, $a_percentage = false, $a_force_per = false)
 	{
@@ -430,6 +448,8 @@ class ilLPStatus
 				}
 			}
 		}
+		
+		return $update_collections;
 	}
 	
 	/**
