@@ -170,7 +170,7 @@ class ilObjBibliographic extends ilObject2
         $target_dir = $this->getFileDirectory();
 
         if(!is_dir($target_dir)){
-                ilUtil::makeDir($target_dir);
+                ilUtil::makeDirParents($target_dir);
         }
 
         if($_FILES['bibliographic_file']['name']){
