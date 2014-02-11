@@ -519,7 +519,7 @@ class ilSurveyParticipantsGUI
 
 		include_once "./Modules/Survey/classes/tables/class.ilSurveyCodesTableGUI.php";
 		$table_gui = new ilSurveyCodesTableGUI($this, 'codes');
-		$survey_codes =& $this->object->getSurveyCodesTableData($default_lang);
+		$survey_codes = $this->object->getSurveyCodesTableData(null, $default_lang);
 		$table_gui->setData($survey_codes);		
 		$this->tpl->setContent($table_gui->getHTML());	
 	}
@@ -545,7 +545,7 @@ class ilSurveyParticipantsGUI
 		
 		include_once "./Modules/Survey/classes/tables/class.ilSurveyCodesEditTableGUI.php";
 		$table_gui = new ilSurveyCodesEditTableGUI($this, 'editCodes');	
-		$table_gui->setData($this->object->getSurveyCodesTableData(null, $ids));		
+		$table_gui->setData($this->object->getSurveyCodesTableData($ids));		
 		$this->tpl->setContent($table_gui->getHTML());	
 	}
 	
@@ -582,7 +582,7 @@ class ilSurveyParticipantsGUI
 			$cgui->setCancel($this->lng->txt("cancel"), "codes");
 			$cgui->setConfirm($this->lng->txt("confirm"), "deleteCodes");
 			
-			$data = $this->object->getSurveyCodesTableData(null, $_POST["chb_code"]);		
+			$data = $this->object->getSurveyCodesTableData($_POST["chb_code"]);		
 
 			foreach ($data as $item)
 			{
@@ -778,7 +778,7 @@ class ilSurveyParticipantsGUI
 				$lang = $ilUser->getPref("survey_code_language");
 				if(!$lang)
 				{
-					$lang = "en";
+					$lang = $this->lng->getDefaultLanguage();
 				}			
 				$this->object->sendCodes($_POST['m_notsent'], $_POST['m_subject'], $_POST['m_message'],$lang);
 				ilUtil::sendSuccess($this->lng->txt('mail_sent'), true);
