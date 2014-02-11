@@ -2141,12 +2141,7 @@ class ilObjectListGUI
 			}
 			$conditions = ilUtil::sortArray($conditions,'title','DESC');
 			
-			// revert to reference original id
-			$div_id = $this->reference_ref_id;
-			if(!$div_id)
-			{
-				$div_id = $this->ref_id;
-			}
+			$div_id = $this->getUniqueItemId();
 
 			// Show obligatory and optional preconditions seperated
 			$all_done_obl = $this->parseConditions($div_id,$conditions,true);
