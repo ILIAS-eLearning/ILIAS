@@ -263,7 +263,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 			$this->tpl->setVariable("VALUE_DATE", ilDatePresentation::formatPeriod($date_from, $date_to));
 		}
 	
-		if (!$this->has_schedule || $date_from->get(IL_CAL_UNIX) > time())
+		if (!$this->has_schedule || $date_to->get(IL_CAL_UNIX) > time())
 		{
 			include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 			$alist = new ilAdvancedSelectionListGUI();
