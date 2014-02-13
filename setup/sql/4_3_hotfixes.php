@@ -533,3 +533,7 @@ if (!$ilDB->tableColumnExists("usr_data", "is_self_registered"))
 	$ilDB->dropTableColumn('qpl_hints', 'qht_hint_text');
 	$ilDB->renameTableColumn('qpl_hints', 'hint_text_tmp', 'qht_hint_text');
 ?>
+<#32>
+<?php
+    $ilCtrlStructureReader->getStructure();
+?>

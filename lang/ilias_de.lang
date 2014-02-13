@@ -13016,3 +13016,5 @@ common#:#obj_nota#:#Benachrichtigungen
 blog#:#blog_posting_not_found#:#Der Blog-Eintrag ist nicht verfügbar.
 ldap#:#ldap_choose_role#:#Rolle auswählen
 notes#:#note_content_removed#:#Der Inhalt wurde entfernt.
+book#:#book_copy#:#Buchungspool kopieren
+book#:#obj_book_duplicate#:#Buchungspool kopieren

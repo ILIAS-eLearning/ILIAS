@@ -13016,3 +13016,5 @@ common#:#obj_nota#:#Notifications
 blog#:#blog_posting_not_found#:#This blog posting is not available.
 ldap#:#ldap_choose_role#:#Choose Role
 notes#:#note_content_removed#:#The content has been removed.
+book#:#book_copy#:#Copy Booking Pool
+book#:#obj_book_duplicate#:#Copy Booking Pool
