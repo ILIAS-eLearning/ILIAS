@@ -303,6 +303,8 @@ class ilObjBibliographic extends ilObject2
 
     static function __readRisFile($full_filename){
 
+	self::__setCharsetToUtf8($full_filename);
+
         require_once "./Modules/Bibliographic/lib/LibRIS/src/LibRIS/RISReader.php";
 
         $ris_reader = new RISReader();
@@ -311,6 +313,8 @@ class ilObjBibliographic extends ilObject2
     }
 
     static function __readBibFile($full_filename){
+
+	self::__setCharsetToUtf8($full_filename);
 
         require_once 'Modules/Bibliographic/lib/PEAR_BibTex_1.0.0RC5/Structures/BibTex.php';
 
@@ -346,6 +350,18 @@ class ilObjBibliographic extends ilObject2
         return $bibtex_reader->data;
     }
 
+
+    static function __setCharsetToUtf8($full_filename){
+        //If file charset does not seem to be Unicode, we assume that it is ISO-8859-1, and convert it to UTF-8.
+        $filedata = file_get_contents($full_filename);
+        if(strlen($filedata) == strlen(utf8_decode($filedata)))
+        {
+            // file charset is not UTF-8
+            $filedata = mb_convert_encoding($filedata, 'UTF-8', 'ISO-8859-1');
+            file_put_contents($full_filename, $filedata);
+        }
+
+    }
 
 	/**
 	 * Clone BIBL
