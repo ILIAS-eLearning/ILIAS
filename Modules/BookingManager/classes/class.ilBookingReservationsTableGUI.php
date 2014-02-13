@@ -207,21 +207,15 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 		{
 			$ids = array($filter["object"]);
 		}
+		
+		if(!$this->show_all)
+		{
+			$filter["user_id"] = $ilUser->getId();
+		}
 	
 		include_once "Modules/BookingManager/classes/class.ilBookingReservation.php";
 		$data = ilBookingReservation::getGroupedList($ids, $this->getLimit(), $this->getOffset(), $filter, $this->group_id);
 		
-		if(!$this->show_all)
-		{
-			foreach($data['data'] as $idx => $item)
-			{				
-				if($item["user_id"] != $ilUser->getId())
-				{
-					unset($data['data'][$idx]);
-				}				
-			}
-		}
-				
 		$this->setData($data['data']);
 		$this->setMaxCount($data['counter']);
 	}

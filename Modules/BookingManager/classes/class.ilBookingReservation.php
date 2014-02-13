@@ -498,10 +498,14 @@ class ilBookingReservation
 		{
 			$where[] = 'date_to <= '.$ilDB->quote($filter['to'], 'integer');
 		}
+		if($filter['user_id'])
+		{
+			$where[] = 'user_id = '.$ilDB->quote($filter['user_id'], 'integer');
+		}	
 		if($a_group_id)
 		{
 			$where[] = 'group_id = '.$ilDB->quote(substr($a_group_id, 1), 'integer');
-		}
+		}		
 		if(sizeof($where))
 		{
 			$sql .= ' WHERE '.implode(' AND ', $where);		
@@ -584,6 +588,8 @@ class ilBookingReservation
 				}				
 			}			
 		}
+		
+		$res = ilUtil::sortArray($res, "date_from", "desc", true);
 		
 		return array('data'=>$res, 'counter'=>$counter);
 	}
