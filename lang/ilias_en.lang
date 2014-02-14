@@ -7973,6 +7973,7 @@ payment#:#pay_order_date_til#:#Order date til
 payment#:#pay_order_paid_body#:#Your invoice for %products% is attached this mail. Thank you for your order.
 payment#:#pay_order_paid_subject#:#Your invoice
 payment#:#pay_payed_bill#:#Rechnung bezahlt
+payment#:#pay_unpayed_bill#:#Please wire the open balance to the given bank account.
 payment#:#pay_payed_credit_card#:#The order was paid by credit card.
 payment#:#pay_payed_debit_entry#:#The order was paid by debit entry.
 payment#:#pay_payed_paypal#:#The order was paid by PayPal.
