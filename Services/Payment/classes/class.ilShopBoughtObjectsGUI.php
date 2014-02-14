@@ -131,7 +131,16 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 		if($bookings[$i]['street'] == NULL) 	$bookings[$i]['street'] = nl2br(utf8_decode($customer->getStreet()));
 		if($bookings[$i]['zipcode'] == NULL)	$bookings[$i]['zipcode'] = nl2br(utf8_decode($customer->getZipcode()));
 		if($bookings[$i]['city'] == NULL)		$bookings[$i]['city'] = nl2br(utf8_decode($customer->getCity()));
-		if($bookings[$i]['country'] == NULL)	$bookings[$i]['country'] = nl2br(utf8_decode($customer->getCountry()));
+		if($bookings[$i]['country'] == NULL)
+		{
+			$bookings[$i]['country'] = nl2br(utf8_decode($customer->getCountry()));
+		}
+
+		if(2 == strlen($bookings[$i]['country']))
+		{
+			$this->lng->loadLanguageModule('meta');
+			$bookings[$i]['country'] = utf8_decode($this->lng->txt('meta_c_'.strtoupper($bookings[$i]['country'])));
+		}
 		
 		$this->tpl->addBlockfile('ADM_CONTENT','adm_content','tpl.pay_bill.html','Services/Payment');		
 		$tpl = new ilTemplate('tpl.pay_bill.html', true, true, 'Services/Payment');
@@ -147,8 +156,11 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 		$tpl->setVariable('TXT_DAY_OF_SERVICE_PROVISION',$this->lng->txt('day_of_service_provision'));
 		include_once './Services/Payment/classes/class.ilPayMethods.php';
 		$str_paymethod = ilPayMethods::getStringByPaymethod($bookings[$i]['b_pay_method']);
-		$tpl->setVariable('TXT_EXTERNAL_BILL_NO', str_replace('%s',$str_paymethod,utf8_decode($this->lng->txt('external_bill_no'))));
-		$tpl->setVariable('EXTERNAL_BILL_NO', $bookings[$i]['transaction_extern']);
+		if(strlen(trim($bookings[$i]['transaction_extern'])))
+		{
+			$tpl->setVariable('TXT_EXTERNAL_BILL_NO', str_replace('%s',$str_paymethod,utf8_decode($this->lng->txt('external_bill_no'))));
+			$tpl->setVariable('EXTERNAL_BILL_NO', $bookings[$i]['transaction_extern']);
+		}
 		$tpl->setVariable('TXT_POSITION',$this->lng->txt('position'));
 		$tpl->setVariable('TXT_AMOUNT',$this->lng->txt('amount'));
 		$tpl->setVariable('TXT_UNIT_PRICE', utf8_decode($this->lng->txt('unit_price')));
@@ -272,8 +284,14 @@ class ilShopBoughtObjectsGUI extends ilShopBaseGUI
 			$tpl->setVariable('TOTAL_VAT',number_format( $bookings['total_vat'], 2, ',', '.') . ' ' .$currency);
 			$tpl->setVariable('TXT_TOTAL_VAT', utf8_decode($this->lng->txt('plus_vat')));
 		}
-
-		$tpl->setVariable('TXT_PAYMENT_TYPE', utf8_decode($this->lng->txt('pay_payed_bill')));
+		if(1 == $bookings[0]['b_pay_method'])
+		{
+			$tpl->setVariable('TXT_PAYMENT_TYPE', utf8_decode($this->lng->txt('pay_unpayed_bill')));
+		}
+		else
+		{
+			$tpl->setVariable('TXT_PAYMENT_TYPE', utf8_decode($this->lng->txt('pay_payed_bill')));
+		}
 
 		if (!@file_exists($genSet->get('pdf_path')))
 		{

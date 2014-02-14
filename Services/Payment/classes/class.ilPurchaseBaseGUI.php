@@ -450,7 +450,7 @@ class ilPurchaseBaseGUI extends ilShopBaseGUI
 					"price_type" => $sc[$i]["price_type"],
                     "duration_from" => $sc[$i]["duration_from"],
                     "duration_until" => $sc[$i]["duration_until"],
-
+					"b_pay_method" => $pobjectData["pay_method"],
 					'discount'=> $discount,
 					'access_startdate' => $book_obj->getAccessStartdate(),
 					'access_enddate' => $book_obj->getAccessEnddate()
@@ -481,7 +481,14 @@ class ilPurchaseBaseGUI extends ilShopBaseGUI
 		$bookings['street'] = $book_obj->getStreet();
 		$bookings['zipcode'] = $book_obj->getZipCode();
 		$bookings['city'] = $book_obj->getCity();
-		$bookings['country'] = $book_obj->getCountry();
+		if(2 == strlen($book_obj->getCountry()))
+		{
+			$bookings['country'] = $this->__getCountryName(strtoupper($book_obj->getCountry()));
+		}
+		else
+		{
+			$bookings['country'] = $book_obj->getCountry();
+		}
 		$bookings['transaction_extern'] = $book_obj->getTransactionExtern();
 
 		$this->user_obj->_toggleActiveStatusOfUsers(array($this->user_obj->getId()), 1);
@@ -493,6 +500,8 @@ class ilPurchaseBaseGUI extends ilShopBaseGUI
 	public function __sendBill($bookings)
 	{
 		global $tpl, $ilSetting;
+
+		$i = 0;
 
 		include_once './Services/UICore/classes/class.ilTemplate.php';
 		include_once './Services/Utilities/classes/class.ilUtil.php';
@@ -518,8 +527,11 @@ class ilPurchaseBaseGUI extends ilShopBaseGUI
 		$tpl->setVariable('TXT_DAY_OF_SERVICE_PROVISION',$this->lng->txt('day_of_service_provision'));
 		include_once './Services/Payment/classes/class.ilPayMethods.php';
 		$str_paymethod = ilPayMethods::getStringByPaymethod($bookings['list'][$i]['b_pay_method']);
-		$tpl->setVariable('TXT_EXTERNAL_BILL_NO', str_replace('%s',$str_paymethod,utf8_decode($this->lng->txt('external_bill_no'))));
-		$tpl->setVariable('EXTERNAL_BILL_NO', $bookings['transaction_extern']);
+		if(strlen(trim($bookings['transaction_extern'])))
+		{
+			$tpl->setVariable('TXT_EXTERNAL_BILL_NO', str_replace('%s',$str_paymethod,utf8_decode($this->lng->txt('external_bill_no'))));
+			$tpl->setVariable('EXTERNAL_BILL_NO', $bookings['transaction_extern']);
+		}
 		$tpl->setVariable('TXT_POSITION',$this->lng->txt('position'));
 		$tpl->setVariable('TXT_AMOUNT',$this->lng->txt('amount'));
 		$tpl->setVariable('TXT_UNIT_PRICE', utf8_decode($this->lng->txt('unit_price')));
@@ -648,8 +660,14 @@ class ilPurchaseBaseGUI extends ilShopBaseGUI
 			$tpl->setVariable('TOTAL_VAT',number_format( $bookings['total_vat'], 2, ',', '.') . ' ' .$currency);
 			$tpl->setVariable('TXT_TOTAL_VAT', utf8_decode($this->lng->txt('plus_vat')));
 		}
-
-		$tpl->setVariable('TXT_PAYMENT_TYPE', utf8_decode($this->lng->txt('pay_payed_bill')));
+		if(1 == $bookings['list'][0]['b_pay_method'])
+		{
+			$tpl->setVariable('TXT_PAYMENT_TYPE', utf8_decode($this->lng->txt('pay_unpayed_bill')));
+		}
+		else
+		{
+			$tpl->setVariable('TXT_PAYMENT_TYPE', utf8_decode($this->lng->txt('pay_payed_bill')));
+		}
 
 		if (!@file_exists($genSet->get('pdf_path')))
 		{
