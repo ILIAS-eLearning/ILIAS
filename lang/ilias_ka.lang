@@ -14190,3 +14190,4 @@ assessment#:#tst_question_amount#:#Question Amount###23 01 2014 new variable
 tos#:#tos_no_documents_exist#:#Currently there are no terms of service for any of the installed languages.###10 02 2014 new variable
 content#:#cont_edit_definitions#:#Edit Definitions###10 02 2014 new variable
 content#:#cont_edit_definition#:#Edit Definition###10 02 2014 new variable
+payment#:#pay_unpayed_bill#:#Please wire the open balance to the given bank account.###14 02 2014 new variable
