@@ -1040,6 +1040,69 @@ class ilCertificate
 		return $fields;
 	}
 
-}
+	/**
+	 * @return string
+	 */
+	public function getExchangeContent()
+	{
+		if(!file_exists($this->getXSLPath()))
+		{
+			return '';
+		}
 
-?>
+		$output           = '';
+		$xsl_file_content = file_get_contents($this->getXSLPath());
+		$xsl              = file_get_contents("./Services/Certificate/xml/fo2xhtml.xsl");
+
+		if((strlen($xsl_file_content)) && (strlen($xsl)))
+		{
+			$args   = array('/_xml' => $xsl_file_content, '/_xsl' => $xsl);
+			$xh     = xslt_create();
+			$output = xslt_process($xh, "arg:/_xml", "arg:/_xsl", NULL, $args, NULL);
+			xslt_error($xh);
+			xslt_free($xh);
+		}
+
+		$output = preg_replace("/<\?xml[^>]+?>/", "", $output);
+		// dirty hack: the php xslt processing seems not to recognize the following
+		// replacements, so we do it in the code as well
+		$output = str_replace("&#xA0;", "<br />", $output);
+		$output = str_replace("&#160;", "<br />", $output);
+
+		return $output;
+	}
+
+	public function outCertificateWithGivenContentAndVariables($content, $insert_tags)
+	{
+		global $ilLog;
+
+		ilDatePresentation::setUseRelativeDates(false);
+
+		$form_fields = $this->getFormFieldsFromFO();
+		$form_fields['certificate_text'] = $content;
+		$xslfo = $this->processXHTML2FO($form_fields);
+
+		$content = $this->exchangeCertificateVariables($xslfo, $insert_tags);
+		$content = str_replace('[BR]', "<fo:block/>", $content);
+
+		include_once './Services/WebServices/RPC/classes/class.ilRpcClientFactory.php';
+		try
+		{
+			$pdf_base64 = ilRpcClientFactory::factory('RPCTransformationHandler')->ilFO2PDF($content);
+			include_once "./Services/Utilities/classes/class.ilUtil.php";
+			ilUtil::deliverData($pdf_base64->scalar, $this->getAdapter()->getCertificateFilename(array()), "application/pdf");
+		}
+		catch(XML_RPC2_FaultException $e)
+		{
+			$ilLog->write(__METHOD__.': '.$e->getMessage());
+			return false;
+		}
+		catch(Exception $e)
+		{
+			$ilLog->write(__METHOD__.': '.$e->getMessage());
+			return false;
+		}
+
+		ilDatePresentation::setUseRelativeDates(true);
+	}
+}
