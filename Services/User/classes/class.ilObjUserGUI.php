@@ -1134,7 +1134,7 @@ class ilObjUserGUI extends ilObjectGUI
 
 		if($a_mode == "edit")
 		{
-			$id = new ilNonEditableValueGUI($lng->txt("system_usr_id"), "id");
+			$id = new ilNonEditableValueGUI($lng->txt("usr_id"), "id");
 			$id->setValue($this->object->getId());
 			$this->form_gui->addItem($id);
 		}

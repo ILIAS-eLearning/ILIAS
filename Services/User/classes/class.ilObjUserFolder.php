@@ -651,6 +651,7 @@ class ilObjUserFolder extends ilObject
 				}
 			}
 		}
+		array_push($export_settings, "usr_id");
 		array_push($export_settings, "login");
 		array_push($export_settings, "last_login");
 		array_push($export_settings, "last_update");
