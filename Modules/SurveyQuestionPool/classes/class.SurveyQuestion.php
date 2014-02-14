@@ -1179,6 +1179,11 @@ class SurveyQuestion
 			$mob_obj =& new ilObjMediaObject($mob);
 			$mob_obj->delete();
 		}
+		
+		// #12772 - untie question copies from pool question 
+		$ilDB->manipulate("UPDATE svy_question".
+			" SET original_id = NULL".
+			" WHERE original_id  = ".$ilDB->quote($question_id, "integer"));		
 	}
 
 /**
