@@ -14200,3 +14200,4 @@ poll#:#poll_mode_personal_info#:#A Liste der Nutzer mit ihren Stimmen ist mit au
 poll#:#poll_non_anonymous_warning#:#Dies ist eine nicht-anonyme Abstimmung.
 poll#:#poll_result_answers#:#Stimmen
 poll#:#poll_result_users#:#Teilnehmer
+user#:#system_usr_id#:#Systeminterne ID
