@@ -205,7 +205,7 @@ class ilCertificateGUI
 	/**
 	* Get the form values from an HTTP POST
 	*/
-	private function getFormFieldsFromPOST()
+	protected function getFormFieldsFromPOST()
 	{
 		$form_fields = array(
 			"pageformat" => ilUtil::stripSlashes($_POST["pageformat"]),
@@ -226,7 +226,7 @@ class ilCertificateGUI
 	/**
 	* Get the form values from the certificate xsl-fo
 	*/
-	private function getFormFieldsFromFO()
+	protected function getFormFieldsFromFO()
 	{		
 		$form_fields = $this->object->getFormFieldsFromFO();
 		$form_fields["active"] = $this->object->readActive();
