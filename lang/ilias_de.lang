@@ -9158,7 +9158,7 @@ payment#:#pay_order_date_til#:#Zeitraum bis
 payment#:#pay_order_paid_body#:#Ihre Rechnung für %products% ist an diese E-Mail angehängt. Vielen Dank für Ihren Auftrag.
 payment#:#pay_order_paid_subject#:#Ihre Rechnung
 payment#:#pay_payed_bill#:#Rechnung bezahlt
-payment#:#pay_unpayed_bill#:#Bitte überweisen Sie den Rechnungsbetrag auf das folgende Konto:
+payment#:#pay_unpayed_bill#:#Bitte überweisen Sie den Rechnungsbetrag auf das angegebene Konto.
 payment#:#pay_payed_credit_card#:#Die Bestellung wurde per Kreditkarte bezahlt.
 payment#:#pay_payed_debit_entry#:#Die Bestellung wurde per Lastschriftverfahren bezahlt.
 payment#:#pay_payed_paypal#:#Die Bestellung wurde per PayPal bezahlt.
