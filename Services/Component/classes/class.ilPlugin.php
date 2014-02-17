@@ -449,7 +449,7 @@ abstract class ilPlugin
 		//$dbupdate->getCurrentVersion();
 		
 		$result = $dbupdate->applyUpdate();
-
+        $message = '';
 		if ($dbupdate->updateMsg == "no_changes")
 		{
 			$message = $lng->txt("no_changes").". ".$lng->txt("database_is_uptodate");
@@ -789,15 +789,26 @@ abstract class ilPlugin
 		return $result;
 	}
 
-	/**
+
+    /**
+     * After deactivation processing
+     */
+    protected function afterDeactivation()
+    {
+    }
+
+    /**
 	 * Update plugin
 	 */
 	final function update()
 	{
 		global $ilDB, $ilCtrl;
 		
-		$result = true;
-		
+		$result = $this->beforeUpdate();
+		if ($result === false) {
+            return false;
+        }
+
 		// DB update
 		if ($result === true)
 		{
@@ -806,7 +817,7 @@ abstract class ilPlugin
 		
 		// Load language files
 		$this->updateLanguages();
-		
+
 		// load control structure
 		include_once("./setup/classes/class.ilCtrlStructureReader.php");
 		$structure_reader = new ilCtrlStructureReader();
@@ -817,7 +828,7 @@ abstract class ilPlugin
 		// add config gui to the ctrl calls
 		$ilCtrl->insertCtrlCalls("ilobjcomponentsettingsgui", ilPlugin::getConfigureClassName($this->getPluginName()),
 			$this->getPrefix());
-		
+
 		// set last update version to current version
 		if ($result === true)
 		{
@@ -826,14 +837,33 @@ abstract class ilPlugin
 				" AND component_name = ".$ilDB->quote($this->getComponentName(), "text").
 				" AND slot_id = ".$ilDB->quote($this->getSlotId(), "text").
 				" AND name = ".$ilDB->quote($this->getPluginName(), "text");
-				
+
 			$ilDB->manipulate($q);
+            $this->afterUpdate();
 		}
 
 		return $result;
 	}
-	
-	/**
+
+    /**
+     * Before update processing
+     */
+    protected function beforeUpdate()
+    {
+        return true;	// false would indicate that anything went wrong
+        // update would not proceed
+        // throw an exception in this case
+        //throw new ilPluginException($lng->txt(""));
+    }
+
+    /**
+     * After update processing
+     */
+    protected function afterUpdate()
+    {
+    }
+
+    /**
 	* Get plugin object.
 	*
 	* @param	string	$a_ctype	IL_COMP_MODULE | IL_COMP_SERVICE
