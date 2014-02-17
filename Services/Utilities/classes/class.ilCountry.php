@@ -48,7 +48,7 @@ class ilCountry
 			"TK", "TL", "TM", "TN", "TO", "TR", "TT", "TV",
 			"TW", "TZ", "UA", "UG", "UM", "US", "UY", "UZ",
 			"VA", "VC", "VE", "VG", "VI", "VN", "VU", "WF",
-			"WS", "YE", "YT", "ZA", "ZM", "ZW");
+			"WS", "YE", "YT", "ZA", "ZM", "ZW", "XK");
 		return $cntcodes;
 	}
 }
