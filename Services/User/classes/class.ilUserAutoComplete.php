@@ -378,7 +378,8 @@ class ilUserAutoComplete
 		// In 'anonymous' context we do not need this additional conditions,
 		// because we checked the privacy setting in the condition above: profile = 'g' 
 		if(self::PRIVACY_MODE_RESPECT_USER_SETTING == $this->getPrivacyMode() &&
-			$this->getUser() instanceof ilObjUser && !$this->getUser()->isAnonymous()
+			$this->getUser() instanceof ilObjUser && !$this->getUser()->isAnonymous() &&
+			$field_conditions
 		)
 		{
 			$fields = implode(' OR ', $field_conditions);
