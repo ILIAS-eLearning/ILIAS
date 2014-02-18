@@ -11,7 +11,7 @@ include_once('./Services/Calendar/classes/class.ilDatePresentation.php');
 * @author Sascha Hofmann <saschahofmann@gmx.de>
 * @version $Id$
 *
-* @ilCtrl_Calls ilObjUserGUI: ilLearningProgressGUI, ilObjiLincUserGUI, ilObjectOwnershipManagementGUI
+* @ilCtrl_Calls ilObjUserGUI: ilLearningProgressGUI, ilObjectOwnershipManagementGUI
 *
 * @ingroup ServicesUser
 */
@@ -85,12 +85,6 @@ class ilObjUserGUI extends ilObjectGUI
 				$this->ctrl->forwardCommand($new_gui);
 				break;
 
-			case "ilobjilincusergui":
-				include_once './Modules/ILinc/classes/class.ilObjiLincUserGUI.php';
-				$new_gui =& new ilObjiLincUserGUI($this->object,$this->usrf_ref_id);
-				$this->ctrl->forwardCommand($new_gui);
-				break;
-			
 			case "ilobjectownershipmanagementgui":
 				include_once("Services/Object/classes/class.ilObjectOwnershipManagementGUI.php");
 				$gui = new ilObjectOwnershipManagementGUI($this->object->getId());
@@ -193,14 +187,6 @@ class ilObjUserGUI extends ilObjectGUI
 								 array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui'));
 		}
 
-		if ($this->ilias->getSetting("ilinc_active"))
-		{
-			$tabs_gui->addTarget("extt_ilinc",
-			$this->ctrl->getLinkTargetByClass('ilobjilincusergui',''),
-			'',
-			array('ilobjilincusergui'));
-		}
-		
 		$tabs_gui->addTarget('user_ownership',
 			$this->ctrl->getLinkTargetByClass('ilobjectownershipmanagementgui',''),
 			'',
