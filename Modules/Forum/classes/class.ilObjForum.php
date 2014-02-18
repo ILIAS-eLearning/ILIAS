@@ -975,7 +975,7 @@ class ilObjForum extends ilObject
 				
 				UNION ALL
 				 
-				(SELECT COUNT(frm_user_read.post_id) cnt
+				(SELECT COUNT(DISTINCT(frm_user_read.post_id)) cnt
 				FROM frm_user_read
 				INNER JOIN frm_posts ON frm_user_read.post_id = frm_posts.pos_pk
 				INNER JOIN frm_threads ON frm_threads.thr_pk = frm_posts.pos_thr_fk 
