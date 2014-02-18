@@ -245,12 +245,12 @@ class ilDataCollectionRecordListGUI
                 $record->doCreate();
             foreach($fields as $col => $field){
                 $value = $excel->val($i, $col);
+                $value = utf8_encode($value);
                 try{
                     if($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_REFERENCE){
                         $old = $value;
                         $value = $this->getReferenceFromValue($field, $value);
                         if(!$value) $warnings[] = "(".$i.", ".$this->getExcelCharForInteger($col).") ".$lng->txt("dcl_no_such_reference")." ".$old;
-                        $value = utf8_encode($value);
                     } else if ($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_DATETIME) {
                         $value = array(
                             'date' => $value,
