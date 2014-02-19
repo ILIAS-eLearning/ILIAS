@@ -565,7 +565,7 @@ class ilSurveyEvaluationGUI
 			// #12756			
 			array_push($csvrow, (trim($resultset["lastname"])) 
 				? $resultset["lastname"] 
-				: $resultset["fullname"]); // anonymous
+				: $resultset["name"]); // anonymous
 			array_push($csvrow, $resultset["firstname"]);
 			
 			array_push($csvrow, $resultset["login"]); // #10579
