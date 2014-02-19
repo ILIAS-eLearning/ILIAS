@@ -927,7 +927,7 @@ class ilSurveyEvaluationGUI
 				exit();
 				break;
 				
-			case ilObjSurvey::TYPE_SPSS:
+			case self::TYPE_SPSS:
 				$csv = "";
 				$separator = ";";
 				foreach ($csvfile as $csvrow)
