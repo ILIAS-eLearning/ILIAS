@@ -733,8 +733,10 @@ class ilSurveyEvaluationGUI
 		$csvrow2 = array();
 		$questions = array();
 		$questions =& $this->object->getSurveyQuestions(true);
-		array_push($csvrow, $this->lng->txt("username"));
+		array_push($csvrow, $this->lng->txt("lastname")); // #12756
+		array_push($csvrow, $this->lng->txt("firstname"));
 		array_push($csvrow, $this->lng->txt("login"));
+		array_push($csvrow2, "");
 		array_push($csvrow2, "");
 		array_push($csvrow2, "");
 		if ($this->object->canExportSurveyCode())
@@ -794,7 +796,13 @@ class ilSurveyEvaluationGUI
 			
 			$resultset =& $this->object->getEvaluationByUser($questions, $user_id);
 			$csvrow = array();
-			array_push($csvrow, $resultset["name"]);
+			
+			// #12756			
+			array_push($csvrow, (trim($resultset["lastname"])) 
+				? $resultset["lastname"] 
+				: $resultset["fullname"]); // anonymous
+			array_push($csvrow, $resultset["firstname"]);
+			
 			array_push($csvrow, $resultset["login"]); // #10579
 			if ($this->object->canExportSurveyCode())
 			{

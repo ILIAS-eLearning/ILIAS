@@ -3592,6 +3592,8 @@ class ilObjSurvey extends ilObject
 		$userdata = $this->getUserDataFromActiveId($active_id);
 		$resultset = array(
 			"name" => $userdata["fullname"],
+			"firstname" => $userdata["firstname"],
+			"lastname" => $userdata["lastname"],
 			"login" => $userdata["login"],
 			"gender" => $userdata["gender"],
 			"answers" => array()
