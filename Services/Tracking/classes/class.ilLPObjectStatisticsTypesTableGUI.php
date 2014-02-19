@@ -31,7 +31,8 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
 		
 		$this->addColumn("", "", "1", true);
 		$this->addColumn($lng->txt("type"), "title");
-		foreach($this->getMonthsYear() as $num => $caption)
+		// #12788
+		foreach($this->getMonthsYear($this->filter["year"]) as $num => $caption)
 		{
 			$this->addColumn($caption, "month_".$num, "", false, "ilRight");
 		}
@@ -135,21 +136,24 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
 
 	function getItems()
 	{
+		global $objDefinition;
+		
 		include_once "Services/Tracking/classes/class.ilTrQuery.php";	
 			$res = ilTrQuery::getObjectTypeStatisticsPerMonth($this->filter["aggregation"], $this->filter["year"]);	
-				
-		// get plugin titles
-		include_once("./Services/Repository/classes/class.ilRepositoryObjectPluginSlot.php");
-		$plugins = array();
-		$plugins = ilRepositoryObjectPluginSlot::addCreatableSubObjects($plugins);
 		
 		$data = array();
 		foreach($res as $type => $months)
 		{
+			// inactive plugins, etc.
+			if(!$objDefinition->getLocation($type))
+			{
+				continue;
+			}
+			
 			$data[$type]["type"] = $type;
  			
 			// to enable sorting by title
-			if(array_key_exists($type, $plugins))
+			if($objDefinition->isPluginTypeName($type))
 			{
 				include_once("./Services/Component/classes/class.ilPlugin.php");
 				$data[$type]["title"] = ilPlugin::lookupTxt("rep_robj", $type, "obj_".$type);
@@ -175,10 +179,16 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
 			$live = ilTrQuery::getObjectTypeStatistics();			
 			foreach($live as $type => $item)
 			{
+				// inactive plugins, etc.
+				if(!$objDefinition->getLocation($type))
+				{
+					continue;
+				}
+			
 				$data[$type]["type"] = $type;
 
 				// to enable sorting by title
-				if(array_key_exists($type, $plugins))
+				if($objDefinition->isPluginTypeName($type))
 				{
 					include_once("./Services/Component/classes/class.ilPlugin.php");
 					$data[$type]["title"] = ilPlugin::lookupTxt("rep_robj", $type, "obj_".$type);
@@ -214,7 +224,7 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
 		}
 		
 		$this->tpl->setCurrentBlock("item");
-		foreach(array_keys($this->getMonthsYear()) as $month)
+		foreach(array_keys($this->getMonthsYear($this->filter["year"])) as $month)
 		{
 			$this->tpl->setVariable("VALUE_ITEM", $this->anonymizeValue((int)$a_set["month_".$month]));
 			$this->tpl->parseCurrentBlock();
@@ -243,7 +253,7 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
 			$types[$id] = $item["title"];
  		}
 
-		foreach(array_values($this->getMonthsYear(null, true)) as $idx => $caption)
+		foreach(array_values($this->getMonthsYear($this->filter["year"], true)) as $idx => $caption)
 		{
 			$labels[$idx+1] = $caption;
 		}
@@ -256,7 +266,7 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
 				$series = new ilChartData("lines");
 				$series->setLabel($types[$type]);
 				
-				foreach(array_keys($this->getMonthsYear()) as $idx => $month)
+				foreach(array_keys($this->getMonthsYear($this->filter["year"])) as $idx => $month)
 				{					
 					$series->addPoint($idx+1, (int)$object["month_".$month]);
 				}
@@ -278,7 +288,7 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
 		$a_worksheet->write($a_row, 0, $a_set["title"]);	
 		
 		$cnt = 1;		
-		foreach(array_keys($this->getMonthsYear()) as $month)
+		foreach(array_keys($this->getMonthsYear($this->filter["year"])) as $month)
 		{
 			$value = $this->anonymizeValue((int)$a_set["month_".$month]);
 			$a_worksheet->write($a_row, $cnt, $value);
@@ -299,7 +309,7 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
 	{
 		$a_csv->addColumn($a_set["title"]);
 		
-		foreach(array_keys($this->getMonthsYear()) as $month)
+		foreach(array_keys($this->getMonthsYear($this->filter["year"])) as $month)
 		{
 			$value = $this->anonymizeValue((int)$a_set["month_".$month]);
 			$a_csv->addColumn($value);
