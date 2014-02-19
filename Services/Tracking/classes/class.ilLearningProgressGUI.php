@@ -166,6 +166,14 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 					return "";
 				}
 				
+				// #12771
+				include_once './Services/Object/classes/class.ilObjectLP.php';
+				$olp = ilObjectLP::getInstance(ilObject::_lookupObjId($this->getRefId()));			
+				if(!$olp->isActive())
+				{
+					return 'illplistofsettingsgui';
+				}
+				
 				if(!$this->anonymized and 
 				   $ilAccess->checkAccess('edit_learning_progress','',$this->getRefId()))
 				{

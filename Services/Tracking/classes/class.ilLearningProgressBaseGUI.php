@@ -152,52 +152,51 @@ class ilLearningProgressBaseGUI
 
 				if($rbacsystem->checkAccess('edit_learning_progress',$this->getRefId()))
 				{
-					if($this->isAnonymized())
+					// #12771 - do not show status if learning progress is deactivated					
+					include_once './Services/Object/classes/class.ilObjectLP.php';
+					$olp = ilObjectLP::getInstance($this->obj_id);			
+					if($olp->isActive())
 					{
-						$this->ctrl->setParameterByClass('illplistofprogressgui','user_id',$this->getUserId());
-						$this->tabs_gui->addSubTabTarget('trac_progress',
-														 $this->ctrl->getLinkTargetByClass('illplistofprogressgui',''),
-														 "","","",$a_active == self::LP_ACTIVE_PROGRESS);
-					}
-					else
-					{
-						// Check if it is a course
-						$sub_tab = ($ilObjDataCache->lookupType($ilObjDataCache->lookupObjId($this->getRefId())) == 'crs') ?
-							'trac_crs_objects' :
-							'trac_objects';
+						if($this->isAnonymized())
+						{
+							$this->ctrl->setParameterByClass('illplistofprogressgui','user_id',$this->getUserId());
+							$this->tabs_gui->addSubTabTarget('trac_progress',
+															 $this->ctrl->getLinkTargetByClass('illplistofprogressgui',''),
+															 "","","",$a_active == self::LP_ACTIVE_PROGRESS);
+						}
+						else
+						{
+							// Check if it is a course
+							$sub_tab = ($ilObjDataCache->lookupType($ilObjDataCache->lookupObjId($this->getRefId())) == 'crs') ?
+								'trac_crs_objects' :
+								'trac_objects';
 
-						$this->tabs_gui->addSubTabTarget($sub_tab,
-														 $this->ctrl->getLinkTargetByClass("illplistofobjectsgui",''),
-														 "","","",$a_active == self::LP_ACTIVE_OBJECTS);
+							$this->tabs_gui->addSubTabTarget($sub_tab,
+															 $this->ctrl->getLinkTargetByClass("illplistofobjectsgui",''),
+															 "","","",$a_active == self::LP_ACTIVE_OBJECTS);
 
-					}
+						}
 
-					/*
-					if ($this->statistics_activated)
-					{
-						$this->tabs_gui->addSubTabTarget('trac_lm_statistics',
-														 $this->ctrl->getLinkTargetByClass('illmstatisticsgui',''),
-														 "","","",$a_active == self::LP_ACTIVE_LM_STATISTICS);
-					}
-					*/ 
-					
-					if(!$this->isAnonymized() && !in_array($this->obj_type, array('tst', 'htlm', 'exc')))
-					{
-						// do not show status if learning progress is deactivated
-						// matrix only consists of status...
-						include_once './Services/Object/classes/class.ilObjectLP.php';
-						$olp = ilObjectLP::getInstance($this->obj_id);			
-						if($olp->isActive())
+						/*
+						if ($this->statistics_activated)
+						{
+							$this->tabs_gui->addSubTabTarget('trac_lm_statistics',
+															 $this->ctrl->getLinkTargetByClass('illmstatisticsgui',''),
+															 "","","",$a_active == self::LP_ACTIVE_LM_STATISTICS);
+						}
+						*/ 
+
+						if(!$this->isAnonymized() && !in_array($this->obj_type, array('tst', 'htlm', 'exc')))
 						{
 							$this->tabs_gui->addSubTabTarget("trac_matrix",
 															$this->ctrl->getLinkTargetByClass("illplistofobjectsgui", 'showUserObjectMatrix'),
-															"", "", "", $a_active == self::LP_ACTIVE_MATRIX);
+															"", "", "", $a_active == self::LP_ACTIVE_MATRIX);							
 						}
-					}
 
-					$this->tabs_gui->addSubTabTarget("trac_summary",
-													$this->ctrl->getLinkTargetByClass("illplistofobjectsgui", 'showObjectSummary'),
-													"", "", "", $a_active == self::LP_ACTIVE_SUMMARY);
+						$this->tabs_gui->addSubTabTarget("trac_summary",
+														$this->ctrl->getLinkTargetByClass("illplistofobjectsgui", 'showObjectSummary'),
+														"", "", "", $a_active == self::LP_ACTIVE_SUMMARY);
+					}
 
 					$this->tabs_gui->addSubTabTarget('trac_settings',
 													 $this->ctrl->getLinkTargetByClass('illplistofsettingsgui',''),
