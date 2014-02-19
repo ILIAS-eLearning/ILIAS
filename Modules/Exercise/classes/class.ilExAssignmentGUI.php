@@ -380,9 +380,9 @@ class ilExAssignmentGUI
 								$portfolio = new ilObjPortfolio($portfolio_id, false);											
 								if($portfolio->getTitle())
 								{								
-									// #10116													
+									// #10116 / #12791													
 									$ilCtrl->setParameterByClass("ilobjportfoliogui", "prt_id", $portfolio_id);
-									$prtf_link = $ilCtrl->getLinkTargetByClass(array("ilpersonaldesktopgui", "ilobjportfoliogui"), "pages");
+									$prtf_link = $ilCtrl->getLinkTargetByClass(array("ilpersonaldesktopgui", "ilobjportfoliogui"), "view");
 									$ilCtrl->setParameterByClass("ilobjportfoliogui", "prt_id", "");
 
 									$files_str = '<a href="'.$prtf_link.
