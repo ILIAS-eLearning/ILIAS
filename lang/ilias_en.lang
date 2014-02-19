@@ -14203,3 +14203,5 @@ poll#:#poll_results_answers#:#Votes
 poll#:#poll_result_users#:#Participants
 user#:#usr_id#:#System ID
 meta#:#meta_c_XK#:#Kosovo
+certificate#:#certificate_var_matriculation#:#12345
+certificate#:#certificate_ph_matriculation#:#Matriculation number of the user
