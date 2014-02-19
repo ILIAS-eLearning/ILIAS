@@ -157,6 +157,14 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 				return 'illplistofobjectsgui';
 
 			case LP_MODE_REPOSITORY:
+				// #12771 - do not show status if learning progress is deactivated	
+				include_once './Services/Tracking/classes/class.ilLPObjSettings.php';
+				$mode = ilLPObjSettings::_lookupMode(ilObject::_lookupObjId($this->getRefId()));
+				if($mode == LP_MODE_DEACTIVATED || $mode == LP_MODE_LP_MODE_UNDEFINED)
+				{
+					return 'illplistofsettingsgui';					
+				}
+				
 				if(!$this->anonymized and 
 				   !$this->isObjectAnonymized() and 
 				   $ilAccess->checkAccess('edit_learning_progress','',$this->getRefId()))
