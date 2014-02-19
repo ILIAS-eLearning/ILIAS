@@ -14188,3 +14188,5 @@ cntr#:#objects_duplicated#:#Objects copied
 content#:#cont_edit_definitions#:#Edit Definitions
 content#:#cont_edit_definition#:#Edit Definition
 meta#:#meta_c_XK#:#Kosovo
+certificate#:#certificate_var_matriculation#:#12345
+certificate#:#certificate_ph_matriculation#:#Matriculation number of the user
