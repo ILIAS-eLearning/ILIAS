@@ -14206,3 +14206,9 @@ meta#:#meta_c_XK#:#Kosovo
 certificate#:#certificate_var_matriculation#:#12345
 certificate#:#certificate_ph_matriculation#:#Matrikelnummer des Benutzers
 survey#:#mailparticipantdata_placeholder#:# Bei personalisierten Umfragen werden folgende Platzhalter durch die entsprechenden Benutzerdaten ersetzt:
+poll#:#poll_notification_subscribe#:#Benachrichtigung aktivieren
+poll#:#poll_notification_unsubscribe#:#Benachrichtigung deaktivieren
+poll#:#poll_vote_notification_subject#:#Abstimmung "%s": neue Stimme
+poll#:#poll_vote_notification_body#:#die folgende Abstimmung hat eine Stimme erhalten
+poll#:#poll_vote_notification_link#:#Link zur Abstimmung
+poll#:#poll_vote_notification_reason#:#Sie erhalten diese Nachricht, da sie die Benachrichtigsfunktion für die oben genannte Abstimmung aktiviert haben.

@@ -14206,3 +14206,9 @@ meta#:#meta_c_XK#:#Kosovo
 certificate#:#certificate_var_matriculation#:#12345
 certificate#:#certificate_ph_matriculation#:#Matriculation number of the user
 survey#:#mailparticipantdata_placeholder#:#The following placeholders will be replaced with real user data in personalized surveys:
+poll#:#poll_notification_subscribe#:#Activate Notification
+poll#:#poll_notification_unsubscribe#:#Deactivate Notification
+poll#:#poll_vote_notification_subject#:#Poll "%s": new vote
+poll#:#poll_vote_notification_body#:#the following poll has received a vote.
+poll#:#poll_vote_notification_link#:#Link to Poll
+poll#:#poll_vote_notification_reason#:#You are receiving this email because you activated notifications for the poll mentioned above.

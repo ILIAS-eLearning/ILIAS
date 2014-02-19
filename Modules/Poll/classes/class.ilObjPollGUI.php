@@ -521,7 +521,9 @@ class ilObjPollGUI extends ilObject2GUI
 		if($valid)
 		{			
 			unset($_SESSION["last_poll_vote"][$this->object->getId()]);		
-			$this->object->saveVote($ilUser->getId(), $_POST["aw"]);
+			$this->object->saveVote($ilUser->getId(), $_POST["aw"]);	
+			
+			$this->sendNotifications();
 		}
 		else
 		{			
@@ -531,6 +533,58 @@ class ilObjPollGUI extends ilObject2GUI
 		include_once "Services/Link/classes/class.ilLink.php";
 		ilUtil::redirect(ilLink:: _getLink($tree->getParentId($this->ref_id)));
 	}		
+	
+	function subscribe()
+	{
+		global $ilUser, $tree, $lng;
+		
+		include_once "./Services/Notification/classes/class.ilNotification.php";
+		ilNotification::setNotification(ilNotification::TYPE_POLL, $ilUser->getId(), $this->object->getId(), true);
+		
+		ilUtil::sendSuccess($lng->txt("settings_saved"), true);
+		include_once "Services/Link/classes/class.ilLink.php";
+		ilUtil::redirect(ilLink:: _getLink($tree->getParentId($this->ref_id)));
+	}
+	
+	function unsubscribe()
+	{
+		global $ilUser, $tree, $lng;
+		
+		include_once "./Services/Notification/classes/class.ilNotification.php";
+		ilNotification::setNotification(ilNotification::TYPE_POLL, $ilUser->getId(), $this->object->getId(), false);
+		
+		ilUtil::sendSuccess($lng->txt("settings_saved"), true);
+		include_once "Services/Link/classes/class.ilLink.php";
+		ilUtil::redirect(ilLink:: _getLink($tree->getParentId($this->ref_id)));
+	}
+	
+	protected function sendNotifications()
+	{
+		global $ilUser;
+		
+		// recipients
+		include_once "./Services/Notification/classes/class.ilNotification.php";		
+		$users = ilNotification::getNotificationsForObject(ilNotification::TYPE_POLL, 
+			$this->object->getId(), null, true);		
+		if(!sizeof($users))
+		{
+			return;
+		}			
+								
+		include_once "./Services/Notification/classes/class.ilSystemNotification.php";
+		$ntf = new ilSystemNotification();		
+		$ntf->setLangModules(array("poll"));
+		$ntf->setRefId($this->ref_id);
+		$ntf->setChangedByUserId($ilUser->getId());
+		$ntf->setSubjectLangId('poll_vote_notification_subject');
+		$ntf->setIntroductionLangId('poll_vote_notification_body');		
+		$ntf->setGotoLangId('poll_vote_notification_link');				
+		$ntf->setReasonLangId('poll_vote_notification_reason');				
+				
+		$notified = $ntf->sendMail($users, null, "read");								
+
+		ilNotification::updateNotificationTime(ilNotification::TYPE_POLL,  $this->object->getId(), $notified);				
+	}
 	
 	/**
 	 * return user view

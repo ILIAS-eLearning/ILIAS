@@ -264,7 +264,7 @@ class ilPollBlockGUI extends ilBlockGUI
 	*/
 	function getHTML()
 	{
-		global $ilCtrl, $lng, $ilAccess, $ilUser, $tree, $objDefinition;
+		global $ilCtrl, $lng, $ilAccess, $ilUser;
 		
 		$this->poll_block->setRefId($this->getRefId());		
 		$this->may_write = $ilAccess->checkAccess("write", "", $this->getRefId());
@@ -278,12 +278,33 @@ class ilPollBlockGUI extends ilBlockGUI
 		$poll_obj = $this->poll_block->getPoll();
 		$this->setTitle($poll_obj->getTitle());
 		$this->setData(array($poll_obj));	
+		
+		$ilCtrl->setParameterByClass("ilobjpollgui",
+			"ref_id", $this->getRefId());	
+				
+		if(!$this->poll_block->getMessage($ilUser->getId()))
+		{
+			// notification
+			include_once "./Services/Notification/classes/class.ilNotification.php";
+			if(ilNotification::hasNotification(ilNotification::TYPE_POLL, $ilUser->getId(), $this->poll_block->getPoll()->getId()))
+			{						
+				$this->addBlockCommand(
+					$ilCtrl->getLinkTargetByClass(array("ilrepositorygui", "ilobjpollgui"),
+						"unsubscribe"),
+					$lng->txt("poll_notification_unsubscribe"));
+			}
+			else
+			{
+				$this->addBlockCommand(
+					$ilCtrl->getLinkTargetByClass(array("ilrepositorygui", "ilobjpollgui"),
+						"subscribe"),
+					$lng->txt("poll_notification_subscribe"));
+			}
+		}
 	
 		if ($this->may_write)
 		{
-			// edit
-			$ilCtrl->setParameterByClass("ilobjpollgui",
-				"ref_id", $this->getRefId());		
+			// edit				
 			$this->addBlockCommand(
 				$ilCtrl->getLinkTargetByClass(array("ilrepositorygui", "ilobjpollgui"),
 					"render"),
@@ -306,10 +327,10 @@ class ilPollBlockGUI extends ilBlockGUI
 					$ilCtrl->getLinkTargetByClass($class, "delete"),
 					$lng->txt("delete"));	
 			}			 
-			*/
-			
-			$ilCtrl->clearParametersByClass("ilobjpollgui");
+			*/						
 		}
+		
+		$ilCtrl->clearParametersByClass("ilobjpollgui");
 		
 		return parent::getHTML();
 	}
