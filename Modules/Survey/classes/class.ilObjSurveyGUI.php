@@ -676,9 +676,25 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$participantdata->setCols(80);
 		$participantdata->setUseRte(false);
 		$participantdata->setInfo($this->lng->txt('mailparticipantdata_info'));
+		
+		// #12755 - because of privacy concerns we restrict user data to a minimum
+		$placeholders = array(
+			"FIRST_NAME" => "firstname",
+			"LAST_NAME" => "lastname",			
+			"LOGIN" => "login"
+		);
+		$txt = array();
+		foreach($placeholders as $placeholder => $caption)
+		{
+			$txt[] = "[".strtoupper($placeholder)."]: ".$this->lng->txt($caption);
+		}
+		$txt = implode("<br />", $txt);		
+		$participantdatainfo = new ilNonEditableValueGUI($this->lng->txt("mailparticipantdata_placeholder"), "", true);
+		$participantdatainfo->setValue($txt);
 
 		$mailnotification->addSubItem($mailaddresses);
 		$mailnotification->addSubItem($participantdata);
+		$mailnotification->addSubItem($participantdatainfo);
 		$form->addItem($mailnotification);
 
 		$form->addCommandButton("saveProperties", $this->lng->txt("save"));

@@ -3034,21 +3034,32 @@ class ilObjSurvey extends ilObject
 	{
 		include_once "./Services/User/classes/class.ilObjUser.php";
 		include_once "./Services/Mail/classes/class.ilMail.php";
+		
+		// #12755
+		$placeholders = array(
+			"FIRST_NAME" => "firstname",
+			"LAST_NAME" => "lastname",		
+			"LOGIN" => "login",		
+			// old style
+			"firstname" => "firstname"
+		);		
+		
 		$mail = new ilMail(ANONYMOUS_USER_ID);
 		$recipients = preg_split('/,/', $this->mailaddresses);
 		foreach ($recipients as $recipient)
 		{
 			$messagetext = $this->mailparticipantdata;
 			$data = ilObjUser::_getUserData(array($user_id));
-			foreach ($data[0] as $key => $value)
-			{
+			$data = $data[0];
+			foreach ($placeholders as $key => $mapping)
+			{		
 				if ($this->getAnonymize())
 				{
 					$messagetext = str_replace('[' . $key . ']', '', $messagetext);
 				}
 				else
 				{
-					$messagetext = str_replace('[' . $key . ']', $value, $messagetext);
+					$messagetext = str_replace('[' . $key . ']', trim($data[$mapping]), $messagetext);
 				}
 			}
 			$active_id = $this->getActiveID($user_id, $anonymize_id);

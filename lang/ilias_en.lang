@@ -10256,7 +10256,7 @@ survey#:#mailnotification#:#Email notification
 survey#:#mailaddresses#:#Recipient addresses
 survey#:#mailaddresses_info#:#Enter a comma separated list of recipients who will receive a notification on finished surveys.
 survey#:#mailparticipantdata#:#Additional participant data
-survey#:#mailparticipantdata_info#:#Add an introductory message to the notification mail. You may use placeholders for participant related data like [matriculation], [email], [firstname]. The placeholders will be replaced with real user data in personalized surveys.
+survey#:#mailparticipantdata_info#:#Add an introductory message to the notification mail.
 survey#:#table_fields#:#Definition of field names for external mails
 survey#:#tablefields#:#Field names
 survey#:#mail_import_example1#:#email;firstname;lastname
@@ -13020,3 +13020,4 @@ notes#:#note_content_removed#:#The content has been removed.
 book#:#book_copy#:#Copy Booking Pool
 common#:#obj_book_duplicate#:#Copy Booking Pool
 meta#:#meta_c_XK#:#Kosovo
+survey#:#mailparticipantdata_placeholder#:#The following placeholders will be replaced with real user data in personalized surveys:
