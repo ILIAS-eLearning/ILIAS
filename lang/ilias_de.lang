@@ -11101,7 +11101,7 @@ survey#:#mailaddresses#:#Empfängeradressen
 survey#:#mailaddresses_info#:#Tragen Sie hier eine kommagetrennte Liste der Empfänger ein, an die eine Benachrichtigung über abgeschlossene Umfragen versendet werden soll.
 survey#:#mailnotification#:#E-Mail-Benachrichtigung
 survey#:#mailparticipantdata#:#Zusätzliche Teilnehmerdaten
-survey#:#mailparticipantdata_info#:#Fügen Sie einen einleitenden Text hinzu, der vor den Ergebnisdaten eines Teilnehmers in die E-Mail eingetragen wird. Sie dürfen dabei Platzhalter mit Datenbankfeldern der Benutzerdaten verwenden, z.B. [matriculation], [email], [firstname]. Bei personalisierten Umfragen werden diese Platzhalter durch die entsprechenden Benutzerdaten ersetzt.
+survey#:#mailparticipantdata_info#:#Fügen Sie einen einleitenden Text hinzu, der vor den Ergebnisdaten eines Teilnehmers in die E-Mail eingetragen wird.
 survey#:#maintenance#:#Teilnehmer
 survey#:#manage_phrases#:#Meine Phrasen
 survey#:#material#:#Material
@@ -14205,3 +14205,4 @@ user#:#usr_id#:#Systeminterne ID
 meta#:#meta_c_XK#:#Kosovo
 certificate#:#certificate_var_matriculation#:#12345
 certificate#:#certificate_ph_matriculation#:#Matrikelnummer des Benutzers
+survey#:#mailparticipantdata_placeholder#:# Bei personalisierten Umfragen werden folgende Platzhalter durch die entsprechenden Benutzerdaten ersetzt:

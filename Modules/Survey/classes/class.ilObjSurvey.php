@@ -3104,7 +3104,16 @@ class ilObjSurvey extends ilObject
 	function sendNotificationMail($user_id, $anonymize_id, $appr_id)
 	{		
 		include_once "./Services/User/classes/class.ilObjUser.php";
-		include_once "./Services/User/classes/class.ilUserUtil.php";		
+		include_once "./Services/User/classes/class.ilUserUtil.php";	
+		
+		// #12755
+		$placeholders = array(
+			"FIRST_NAME" => "firstname",
+			"LAST_NAME" => "lastname",		
+			"LOGIN" => "login",		
+			// old style
+			"firstname" => "firstname"
+		);		
 
 		$recipients = preg_split('/,/', $this->mailaddresses);
 		foreach ($recipients as $recipient)
@@ -3118,17 +3127,18 @@ class ilObjSurvey extends ilObject
 								
 			$messagetext = $this->mailparticipantdata;
 			if(trim($messagetext))
-			{
+			{									
 				$data = ilObjUser::_getUserData(array($user_id));
-				foreach ($data[0] as $key => $value)
-				{
+				$data = $data[0];
+				foreach ($placeholders as $key => $mapping)
+				{									
 					if ($this->getAnonymize())
 					{
 						$messagetext = str_replace('[' . $key . ']', '', $messagetext);
 					}
 					else
-					{
-						$messagetext = str_replace('[' . $key . ']', $value, $messagetext);
+					{									
+						$messagetext = str_replace('[' . $key . ']', trim($data[$mapping]), $messagetext);
 					}
 				}		
 				$ntf->setIntroductionDirect($messagetext);
