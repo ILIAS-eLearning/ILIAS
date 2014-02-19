@@ -1473,6 +1473,8 @@ class ilSurveyParticipantsGUI
 	
 	function mailRatersActionObject()
 	{						
+		global $ilUser;
+		
 		$appr_id = $this->handleRatersAccess();		
 		$this->ctrl->setParameter($this, "appr_id", $appr_id);
 		
@@ -1488,7 +1490,12 @@ class ilSurveyParticipantsGUI
 			$txt_u = $form->getInput("message_u");
 			$txt_a = $form->getInput("message_a");
 			$subj = $form->getInput("subject");
-			
+					
+			// #12743
+			$sender_id = (trim($ilUser->getEmail())) 
+				? $ilUser->getId() 
+				: ANONYMOUS_USER_ID;
+				
 			include_once "./Services/Mail/classes/class.ilMail.php";
 
 			$all_data = $this->object->getRatersData($appr_id);			
@@ -1516,9 +1523,9 @@ class ilSurveyParticipantsGUI
 					$mytxt = str_replace("[lastname]", $user["lastname"], $mytxt); 
 					$mytxt = str_replace("[firstname]", $user["firstname"], $mytxt); 
 					$mytxt = str_replace("[url]", $url, $mytxt); 
-					$mytxt = str_replace("[code]", $user["code"], $mytxt); 			
-
-					$mail = new ilMail($this->object->getOwner());					
+					$mytxt = str_replace("[code]", $user["code"], $mytxt); 		
+					
+					$mail = new ilMail($sender_id);					
 					$mail->sendMail(
 						$user["email"], // to
 						"", // cc
