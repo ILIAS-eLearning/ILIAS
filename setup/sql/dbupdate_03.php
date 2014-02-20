@@ -15590,6 +15590,8 @@ function quotaHandleMob($a_obj_id, $a_owner_id)
 $ilDB->manipulate("DELETE FROM il_disk_quota".
 	" WHERE src_type = ".$ilDB->quote("mob", "text"));
 
+$quota_done = array();
+
 // get all mob usage for workspace blogs
 $set = $ilDB->query("SELECT od.owner, mu.id".
 	" FROM object_data od".
