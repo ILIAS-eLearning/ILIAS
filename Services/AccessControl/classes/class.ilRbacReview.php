@@ -745,28 +745,24 @@ class ilRbacReview
 	{
 		global $ilDB;
 		
-		$role_list = array();
-		$where = $this->__setTemplateFilter(false);
 		
-		$query = "SELECT fa.*, dat.* ".
-			"FROM tree root ".
-			"JOIN tree node ON node.tree = root.tree ".
-			"AND node.lft > root.lft AND node.rgt < root.rgt ".
-			"JOIN object_reference ref ON ref.ref_id = node.child ".
-			"JOIN rbac_fa fa ON fa.parent = ref.ref_id ".
-			"JOIN object_data dat ON dat.obj_id = fa.rol_id ".
-			"WHERE root.child = ".$this->ilDB->quote($ref_id,'integer')." ".
-			"AND root.tree = 1 ".
-			"AND fa.assign = 'y' ".
-			"ORDER BY dat.title";
-		$res = $ilDB->query($query);
+		$query = 'SELECT rol_id FROM rbac_fa fa '.
+				'JOIN tree t1 ON t1.child = fa.parent '.
+				'JOIN object_data obd ON fa.rol_id = obd.obj_id ' .
+				'WHERE assign = '.$ilDB->quote('y','text').' '.
+				'AND obd.type = '.$ilDB->quote('role','text').' '.
+				'AND t1.parent IN ('.
+				$GLOBALS['tree']->getSubTreeQuery($ref_id,array('child')).' '.
+				') ';
+		
 
-		while($row = $ilDB->fetchAssoc($res))
-		{
-			$role_list[] = $row;
-		}
+		$res = $ilDB->query($query);
 		
-		$role_list = $this->__setRoleType($role_list);
+		$role_list = array();
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$role_list[] = $row->rol_id;
+		}
 		return $role_list;
 	}
 
