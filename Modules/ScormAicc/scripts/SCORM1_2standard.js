@@ -368,7 +368,7 @@ function LMSInitialize(param){
 	var mode=iv.lesson_mode;
 	if (iv.b_autoReview==true) {
 		var st=getValueIntern(sco_id,'cmi.core.lesson_status');
-		if (st=="completed" || st=="passed") {
+		if (st=="completed" || st=="passed" || getValueIntern(sco_id,'cmi.core.lesson_mode')=="review") {
 			mode='review';
 			entryAtInitialize=""; //specs 3-26
 			setValueIntern(sco_id,'cmi.core.entry',"",true);
