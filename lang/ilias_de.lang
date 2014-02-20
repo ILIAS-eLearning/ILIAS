@@ -13832,7 +13832,7 @@ bibl#:#bib_default_keywords#:#Schlagwörter
 bibl#:#bib_default_isbn#:#ISSN/ISBN
 bibl#:#bib_default_cite#:#Bib Cite
 bibl#:#ris_default_ty#:#Typ
-bibl#:#ris_default_id#:#Reference ID
+bibl#:#ris_default_id#:#Referenz-ID
 bibl#:#ris_default_t1#:#Titel
 bibl#:#ris_default_ti#:#Buchtitel
 bibl#:#ris_default_ct#:#Titel der unveröffentlichten Referenz
