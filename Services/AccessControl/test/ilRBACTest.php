@@ -69,10 +69,6 @@ class ilRBACTest extends PHPUnit_Framework_TestCase
 		$rbacreview->getRoleListByObject(8);
 		$rbacreview->getAssignableRoles();
 		
-		// Child roles
-		$child1 = $rbacreview->getAssignableRolesInSubtree(8);
-		$child2 = $rbacreview->getAssignableChildRoles(8);
-		$this->assertEquals($child1,$child2);
 		
 		$ass = $rbacreview->isAssignable(4,8);
 		$this->assertEquals($ass,true);

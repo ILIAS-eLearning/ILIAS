@@ -571,15 +571,21 @@ class ilCalendarCategories
 		$this->readPrivateCalendars();
 		$this->readConsultationHoursCalendar();
 
-		$query = "SELECT ref_id,obd.obj_id obj_id FROM tree t1 ".
-			"JOIN object_reference obr ON t1.child = obr.ref_id ".
-			"JOIN object_data obd ON obd.obj_id = obr.obj_id ".
-			"WHERE t1.lft >= (SELECT lft FROM tree WHERE child = ".$this->db->quote($this->root_ref_id,'integer')." ) ".
-			"AND t1.lft <= (SELECT rgt FROM tree WHERE child = ".$this->db->quote($this->root_ref_id,'integer')." ) ".
-			"AND ".$ilDB->in('type',array('crs','grp','sess'),false,'text')." ".
-			"AND tree = 1";
+		#$query = "SELECT ref_id,obd.obj_id obj_id FROM tree t1 ".
+		#	"JOIN object_reference obr ON t1.child = obr.ref_id ".
+		#	"JOIN object_data obd ON obd.obj_id = obr.obj_id ".
+		#	"WHERE t1.lft >= (SELECT lft FROM tree WHERE child = ".$this->db->quote($this->root_ref_id,'integer')." ) ".
+		#	"AND t1.lft <= (SELECT rgt FROM tree WHERE child = ".$this->db->quote($this->root_ref_id,'integer')." ) ".
+		#	"AND ".$ilDB->in('type',array('crs','grp','sess'),false,'text')." ".
+		#	"AND tree = 1";
 		
-		$res = $ilDB->query($query);
+		$subtree_query = $GLOBALS['tree']->getSubTreeQuery(
+				$this->root_ref_id,
+				array('object_reference.ref_id','object_data.obj_id'),
+				array('crs','grp','sess')
+		);
+		
+		$res = $ilDB->query($subtree_query);
 		$obj_ids = array();
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
