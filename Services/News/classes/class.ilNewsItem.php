@@ -462,9 +462,10 @@ class ilNewsItem extends ilNewsItemGen
 		// get subtree
 		$cur_node = $tree->getNodeData($a_ref_id);
 
-		if ($cur_node["lft"] != "")		// should never be empty
+		// do not check for lft (materialized path)
+		if($cur_node)
 		{
-			$nodes = $tree->getSubTree($cur_node, true);
+			$nodes = (array) $tree->getSubTree($cur_node,true);
 		}
 		else
 		{
