@@ -377,7 +377,18 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 	}
 	
 	protected function toRepository()
-	{				
+	{		
+		global $ilAccess;
+		
+		// return to exercise (portfolio assignment)
+		$exc_ref_id = (int)$_REQUEST["exc_id"];
+		if($exc_ref_id &&
+			$ilAccess->checkAccess("read", "", $exc_ref_id))
+		{
+			include_once "Services/Link/classes/class.ilLink.php";
+			ilUtil::redirect(ilLink::_getLink($exc_ref_id, "exc"));
+		}
+		
 		$this->ctrl->redirectByClass("ilportfoliorepositorygui", "show");
 	}	
 	
@@ -766,12 +777,6 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 				
 		$this->ctrl->setParameter($this, "prtt", $prtt_id);
 		
-		if((int)$_REQUEST["exc_id"])
-		{
-			$this->ctrl->setParameter($this, "exc_id", (int)$_REQUEST["exc_id"]);		
-			$this->ctrl->setParameter($this, "ass_id", (int)$_REQUEST["ass_id"]);		
-		}
-		
 		if(!$a_form)
 		{
 			$a_form = $this->initCreatePortfolioFromTemplateForm($prtt_id, $title);
@@ -789,6 +794,12 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 	protected function initCreatePortfolioFromTemplateForm($a_prtt_id, $a_title)
 	{					
 		global $ilSetting, $ilUser;
+				
+		if((int)$_REQUEST["exc_id"])
+		{
+			$this->ctrl->setParameter($this, "exc_id", (int)$_REQUEST["exc_id"]);		
+			$this->ctrl->setParameter($this, "ass_id", (int)$_REQUEST["ass_id"]);		
+		}		
 	
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
