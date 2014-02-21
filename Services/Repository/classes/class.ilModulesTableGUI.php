@@ -61,8 +61,12 @@ class ilModulesTableGUI extends ilTable2GUI
 		include_once("Services/Repository/classes/class.ilObjRepositorySettings.php");
 		foreach(ilObjRepositorySettings::getNewItemGroups() as $item)
 		{
-			$this->pos_group_options[$item["id"]] = $item["title"];
-			$pos_group_map[$item["id"]] = $item["pos"];
+			// #12807
+			if($item["type"] == ilObjRepositorySettings::NEW_ITEM_GROUP_TYPE_GROUP)
+			{
+				$this->pos_group_options[$item["id"]] = $item["title"];
+				$pos_group_map[$item["id"]] = $item["pos"];
+			}
 		}				
 				
 		$obj_types = array();
