@@ -14212,3 +14212,4 @@ poll#:#poll_vote_notification_subject#:#Poll "%s": new vote
 poll#:#poll_vote_notification_body#:#the following poll has received a vote.
 poll#:#poll_vote_notification_link#:#Link to Poll
 poll#:#poll_vote_notification_reason#:#You are receiving this email because you activated notifications for the poll mentioned above.
+exc#:#exc_create_portfolio_no_template#:#Do not use template

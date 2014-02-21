@@ -14212,3 +14212,4 @@ poll#:#poll_vote_notification_subject#:#Abstimmung "%s": neue Stimme
 poll#:#poll_vote_notification_body#:#die folgende Abstimmung hat eine Stimme erhalten
 poll#:#poll_vote_notification_link#:#Link zur Abstimmung
 poll#:#poll_vote_notification_reason#:#Sie erhalten diese Nachricht, da sie die Benachrichtigsfunktion für die oben genannte Abstimmung aktiviert haben.
+exc#:#exc_create_portfolio_no_template#:#Keine Vorlage verwenden

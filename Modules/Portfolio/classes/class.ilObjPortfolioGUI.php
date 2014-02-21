@@ -377,7 +377,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 	}
 	
 	protected function toRepository()
-	{		
+	{				
 		$this->ctrl->redirectByClass("ilportfoliorepositorygui", "show");
 	}	
 	
@@ -764,7 +764,13 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		}
 		unset($templates);
 				
-		$this->ctrl->setParameter($this, "prtt", $prtt_id);		
+		$this->ctrl->setParameter($this, "prtt", $prtt_id);
+		
+		if((int)$_REQUEST["exc_id"])
+		{
+			$this->ctrl->setParameter($this, "exc_id", (int)$_REQUEST["exc_id"]);		
+			$this->ctrl->setParameter($this, "ass_id", (int)$_REQUEST["ass_id"]);		
+		}
 		
 		if(!$a_form)
 		{
@@ -935,7 +941,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 	
 	protected function createPortfolioFromTemplateProcess($a_process_form = true)
 	{
-		global $ilSetting;
+		global $ilSetting, $ilUser, $ilAccess;
 		
 		$title = trim($_REQUEST["pt"]);
 		$prtt_id = (int)$_REQUEST["prtt"];
@@ -1007,7 +1013,25 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		$target_id = $target->getId();
 				
 		$source->clonePagesAndSettings($source, $target, $recipe);
-			
+						
+		// link portfolio to exercise assignment
+		$exc_ref_id = (int)$_REQUEST["exc_id"];
+		$ass_id = (int)$_REQUEST["ass_id"];		
+		if($exc_ref_id &&
+			$ass_id && 
+			$ilAccess->checkAccess("read", "", $exc_ref_id))
+		{			
+			include_once "Modules/Exercise/classes/class.ilObjExercise.php";
+			include_once "Modules/Exercise/classes/class.ilExAssignment.php";							
+			$exc = new ilObjExercise($exc_ref_id);						
+			$ass = new ilExAssignment($ass_id);			
+			if($ass->getExerciseId() == $exc->getId() &&
+				$ass->getType() == ilExAssignment::TYPE_PORTFOLIO)
+			{				
+				$exc->addResourceObject($target_id, $ass_id, $ilUser->getId());
+			}
+		}
+		
 		ilUtil::sendSuccess($this->lng->txt("prtf_portfolio_created"), true);
 		$this->ctrl->setParameter($this, "prt_id", $target_id);
 		$this->ctrl->redirect($this, "view");
