@@ -14191,3 +14191,4 @@ meta#:#meta_c_XK#:#Kosovo
 certificate#:#certificate_var_matriculation#:#12345
 certificate#:#certificate_ph_matriculation#:#Matrikelnummer des Benutzers
 survey#:#mailparticipantdata_placeholder#:# Bei personalisierten Umfragen werden folgende Platzhalter durch die entsprechenden Benutzerdaten ersetzt:
+exc#:#exc_create_portfolio_no_template#:#Keine Vorlage verwenden

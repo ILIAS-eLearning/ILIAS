@@ -382,7 +382,7 @@ class ilExAssignmentGUI
 								{								
 									// #10116 / #12791													
 									$ilCtrl->setParameterByClass("ilobjportfoliogui", "prt_id", $portfolio_id);
-									$prtf_link = $ilCtrl->getLinkTargetByClass(array("ilpersonaldesktopgui", "ilobjportfoliogui"), "view");
+									$prtf_link = $ilCtrl->getLinkTargetByClass(array("ilpersonaldesktopgui", "ilportfoliorepositorygui", "ilobjportfoliogui"), "view");
 									$ilCtrl->setParameterByClass("ilobjportfoliogui", "prt_id", "");
 
 									$files_str = '<a href="'.$prtf_link.
@@ -401,8 +401,14 @@ class ilExAssignmentGUI
 						{
 							if(!$valid_prtf)
 							{
+								// if there are portfolio templates available show form first
+								include_once "Modules/Portfolio/classes/class.ilObjPortfolioTemplate.php";
+								$has_prtt = sizeof(ilObjPortfolioTemplate::getAvailablePortfolioTemplates())
+									? "Template"
+									: "";
+								
 								$files_str .= '<a class="submit" href="'.
-									$ilCtrl->getLinkTargetByClass("ilobjexercisegui", "createPortfolio").'">'.
+									$ilCtrl->getLinkTargetByClass("ilobjexercisegui", "createPortfolio".$has_prtt).'">'.
 									$lng->txt("exc_create_portfolio").'</a>';
 							}
 							// #10462

@@ -3142,6 +3142,86 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$this->tpl->setContent($tpl->get());
 	}
 	
+	protected function initPortfolioTemplateForm(array $a_templates)
+	{
+		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
+		$form = new ilPropertyFormGUI();		
+		$form->setTitle($this->lng->txt("exc_create_portfolio").": ".$this->ass->getTitle());	
+		$form->setFormAction($this->ctrl->getFormAction($this, "setSelectedPortfolioTemplate"));
+				
+		$prtt = new ilRadioGroupInputGUI($this->lng->txt("obj_prtt"), "prtt");
+		$prtt->setRequired(true);
+		$prtt->addOption(new ilRadioOption($this->lng->txt("exc_create_portfolio_no_template"), -1));		
+		foreach($a_templates as $id => $title)
+		{
+			$prtt->addOption(new ilRadioOption('"'.$title.'"', $id));
+		}
+		$prtt->setValue(-1);
+		$form->addItem($prtt);
+			
+		$form->addCommandButton("setSelectedPortfolioTemplate", $this->lng->txt("save"));				
+		$form->addCommandButton("showOverview", $this->lng->txt("cancel"));
+		
+		return $form;		
+	}
+	
+	protected function createPortfolioTemplateObject(ilPropertyFormGUI $a_form = null)
+	{
+		$this->checkPermission("read");
+		
+		include_once "Modules/Portfolio/classes/class.ilObjPortfolioTemplate.php";
+		$templates = ilObjPortfolioTemplate::getAvailablePortfolioTemplates();
+		if(!sizeof($templates))
+		{
+			$this->ctrl->redirect($this, "showOverview");
+		}
+		
+		$this->tabs_gui->clearTargets();
+		$this->tabs_gui->setBackTarget($this->lng->txt("back"), $this->ctrl->getLinkTarget($this, "showOverview"));
+		
+		if(!$a_form)
+		{
+			$a_form = $this->initPortfolioTemplateForm($templates);
+		}
+		
+		$this->tpl->setContent($a_form->getHTML());		
+	}
+	
+	protected function setSelectedPortfolioTemplateObject()
+	{
+		$this->checkPermission("read");
+		
+		include_once "Modules/Portfolio/classes/class.ilObjPortfolioTemplate.php";
+		$templates = ilObjPortfolioTemplate::getAvailablePortfolioTemplates();
+		if(!sizeof($templates))
+		{
+			$this->ctrl->redirect($this, "showOverview");
+		}
+		
+		$form = $this->initPortfolioTemplateForm($templates);
+		if($form->checkInput())
+		{
+			$prtt = $form->getInput("prtt");
+			if($prtt > 0 && array_key_exists($prtt, $templates))
+			{
+				$title = $this->object->getTitle()." - ".$this->ass->getTitle();
+				$this->ctrl->setParameterByClass("ilObjPortfolioGUI", "exc_id", $this->object->getRefId());
+				$this->ctrl->setParameterByClass("ilObjPortfolioGUI", "ass_id", $this->ass->getId());
+				$this->ctrl->setParameterByClass("ilObjPortfolioGUI", "pt", $title);
+				$this->ctrl->setParameterByClass("ilObjPortfolioGUI", "prtt", $prtt);
+				$this->ctrl->redirectByClass(array("ilPersonalDesktopGUI", "ilPortfolioRepositoryGUI", "ilObjPortfolioGUI"), "createPortfolioFromTemplate");
+			}
+			else
+			{
+				// do not use template
+				return $this->createPortfolioObject();
+			}			
+		}
+		
+		$form->setValuesByPost();
+		$this->createPortfolioTemplateObject($form);
+	}
+	
 	protected function createPortfolioObject()
 	{
 		global $ilUser;
