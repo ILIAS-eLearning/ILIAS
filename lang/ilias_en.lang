@@ -13583,7 +13583,7 @@ common#:#obj_orgu#:#Organisational Unit
 orgu#:#view_learning_progress#:#View Learning Progress
 orgu#:#il_orgu_employee#:#Employee
 orgu#:#orgu_staff_deassign#:#Are you sure you want to deassign these users from this role?
-orgu#:#deassign_user_successful#:#Users have been deasigned successfuly from this role.
+orgu#:#deassign_user_successful#:#Users have been successfully deassigned from this role.
 orgu#:#il_orgu_superior#:#Superior
 orgu#:#orgu_staff#:#Staff
 orgu#:#orgu_view_learning_progress_rec#:#View Learning Progress of Unit incl. Subunits
