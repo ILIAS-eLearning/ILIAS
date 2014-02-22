@@ -74,8 +74,11 @@ class ilLocalUserGUI {
 		$cmd = $this->ctrl->getCmd();
 		switch ($cmd) {
 			case "assignRoles":
+			case "assignSave":
 				$this->tabs_gui->clearTargets();
 				$this->tabs_gui->setBackTarget($this->lng->txt("back"),$this->ctrl->getLinkTargetByClass("illocalusergui", 'index'));
+				$this->$cmd();
+				break;
 			default:
 				$this->$cmd();
 				break;
