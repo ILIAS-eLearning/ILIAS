@@ -14192,3 +14192,12 @@ certificate#:#certificate_var_matriculation#:#12345
 certificate#:#certificate_ph_matriculation#:#Matriculation number of the user
 survey#:#mailparticipantdata_placeholder#:#The following placeholders will be replaced with real user data in personalized surveys:
 exc#:#exc_create_portfolio_no_template#:#Do not use template
+rbac#:#orgu_view_learning_progress#:#View Learning Progress
+rbac#:#orgu_visible#:#Organisational Unit is visible
+rbac#:#orgu_read#:#User has read access to Organisational Unit
+rbac#:#orgu_write#:#User can edit settings of Organisational Unit
+rbac#:#orgu_read_users#:#User can read local user accounts created in this Organisational Unit
+rbac#:#orgu_cat_administrate_users#:#User can create and administrate local user accounts in this Organisational Unit
+rbac#:#orgu_delete#:#User can move or delete Organisational Unit
+rbac#:#orgu_edit_permission#:#User can change permission settings
+rbac#:#rbac_create_orgu#:#Create Organisational Units

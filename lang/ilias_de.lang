@@ -14192,3 +14192,12 @@ certificate#:#certificate_var_matriculation#:#12345
 certificate#:#certificate_ph_matriculation#:#Matrikelnummer des Benutzers
 survey#:#mailparticipantdata_placeholder#:# Bei personalisierten Umfragen werden folgende Platzhalter durch die entsprechenden Benutzerdaten ersetzt:
 exc#:#exc_create_portfolio_no_template#:#Keine Vorlage verwenden
+rbac#:#orgu_view_learning_progress#:#Lernfortschritt einsehen
+rbac#:#orgu_visible#:#Organisationseinheit ist sichtbar.
+rbac#:#orgu_read#:#Lesezugriff auf Organisationseinheit
+rbac#:#orgu_write#:#Einstellungen der Organisationseinheit bearbeiten
+rbac#:#orgu_read_users#:#Lokale Benutzerkonten dieser Organisationseinheit können eingesehen werden
+rbac#:#orgu_cat_administrate_users#:#Lokale Benutzerkonten können angelegt und verwaltet werden
+rbac#:#orgu_delete#:#Organisationseinheit löschen oder verschieben
+rbac#:#orgu_edit_permission#:#Rechteeinstellungen ändern
+rbac#:#rbac_create_orgu#:#Benutzer kann Organisationseinheiten anlegen
