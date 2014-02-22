@@ -105,6 +105,7 @@ function ilCloudFileList(url_get_block, url_create_folder, url_upload_file, url_
 	    perm_link = $("#current_perma_link").val();
 	    escaped_current_path = encodeURIComponent(current_path);
 	    perm_link = perm_link.replace(/path_.*_endPath/,"path_"+ escaped_current_path+"_endPath");
+	    $("#current_perma_link").val(perm_link);
 
 	    //Show or hide Tabs
         this.toggleTabs();
