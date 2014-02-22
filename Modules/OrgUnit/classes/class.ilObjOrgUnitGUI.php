@@ -148,6 +148,8 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 						$ilObjUserGUI = new ilObjUserGUI("",$_GET['ref_id'],true, false);
 						$ilObjUserGUI->setCreationMode(true);
 						$this->ctrl->forwardCommand($ilObjUserGUI);
+						$this->tabs_gui->clearTargets();
+						$this->tabs_gui->setBackTarget($this->lng->txt("back"),$this->ctrl->getLinkTargetByClass("illocalusergui", 'index'));
 						break;
 					case "view":
 					case "update":
@@ -456,11 +458,8 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 		$this->getTabs($tabs_gui);
 	}
 
-	/*
-	 * performPasteObject
-	 *
-	 * Prepare $_POST for the generic method performPasteIntoMultipleObjectsObject
-	 *
+	/**
+	 * @description Prepare $_POST for the generic method performPasteIntoMultipleObjectsObject
 	 */
 	public function performPaste() {
 		if (! in_array($_SESSION['clipboard']['cmd'], array( 'cut' ))) {
