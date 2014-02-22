@@ -42,7 +42,8 @@ class ilLMExplorerGUI extends ilTreeExplorerGUI
 		
 		$this->setSkipRootNode(false);
 		$this->setAjax(false);
-		
+		$this->setPreloadChilds(true);
+
 		//include_once("./Services/COPage/classes/class.ilPageMultiLang.php");
 		//$this->ml = new ilPageMultiLang("lm", $this->lm->getId());
 
