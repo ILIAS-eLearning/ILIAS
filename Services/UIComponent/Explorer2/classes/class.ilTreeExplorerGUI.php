@@ -15,8 +15,12 @@ abstract class ilTreeExplorerGUI extends ilExplorerBaseGUI
 {
 	protected $tree = null;
 	protected $order_field = "";
+	protected $order_field_numeric = false;
 	protected $type_white_list = array();
 	protected $type_black_list = array();
+	protected $childs = array();			// preloaded childs
+	protected $preloaded = false;
+	protected $preload_childs = false;
 	
 	/**
 	 * Constructor
@@ -42,9 +46,10 @@ abstract class ilTreeExplorerGUI extends ilExplorerBaseGUI
 	 *
 	 * @param string $a_val order field key	
 	 */
-	function setOrderField($a_val)
+	function setOrderField($a_val, $a_numeric = false)
 	{
 		$this->order_field = $a_val;
+		$this->order_field_numeric = $a_numeric;
 	}
 	
 	/**
@@ -96,15 +101,77 @@ abstract class ilTreeExplorerGUI extends ilExplorerBaseGUI
 	{
 		return $this->type_black_list;
 	}
-	
+
+	/**
+	 * Set preload childs
+	 *
+	 * @param boolean $a_val preload childs
+	 */
+	function setPreloadChilds($a_val)
+	{
+		$this->preload_childs = $a_val;
+	}
+
+	/**
+	 * Get preload childs
+	 *
+	 * @return boolean preload childs
+	 */
+	function getPreloadChilds()
+	{
+		return $this->preload_childs;
+	}
+
+	/**
+	 * Preload childs
+	 */
+	protected function preloadChilds()
+	{
+		$subtree = $this->tree->getSubTree($this->getRootNode());
+		foreach ($subtree as $s)
+		{
+			$wl = $this->getTypeWhiteList();
+			if (is_array($wl) && count($wl) > 0 && !in_array($s["type"], $wl))
+			{
+				continue;
+			}
+			$bl = $this->getTypeBlackList();
+			if (is_array($bl) && count($bl) > 0 && in_array($s["type"], $bl))
+			{
+				continue;
+			}
+			$this->childs[$s["parent"]][] = $s;
+		}
+
+		if ($this->order_field != "")
+		{
+			foreach ($this->childs as $k => $childs)
+			{
+				$this->childs[$k] = ilUtil::sortArray($childs, $this->order_field, "acc", $this->order_field_numeric);
+			}
+		}
+
+		$this->preloaded = true;
+	}
+
+
 	/**
 	 * Get childs of node
 	 *
-	 * @param int $a_parent_id parent id
+	 * @param int $a_parent_node_id parent id
 	 * @return array childs
 	 */
 	function getChildsOfNode($a_parent_node_id)
 	{
+		if ($this->preloaded)
+		{
+			if (is_array($this->childs[$a_parent_node_id]))
+			{
+				return $this->childs[$a_parent_node_id];
+			}
+			return array();
+		}
+
 		$wl = $this->getTypeWhiteList();
 		if (is_array($wl) && count($wl) > 0)
 		{
@@ -136,8 +203,8 @@ abstract class ilTreeExplorerGUI extends ilExplorerBaseGUI
 	/**
 	 * Get id for node
 	 *
-	 * @param
-	 * @return
+	 * @param mixed $a_node node object/array
+	 * @return string id
 	 */
 	function getNodeId($a_node)
 	{
@@ -160,8 +227,7 @@ abstract class ilTreeExplorerGUI extends ilExplorerBaseGUI
 	/**
 	 * Get root node
 	 *
-	 * @param
-	 * @return
+	 * @return mixed node object/array
 	 */
 	function getRootNode()
 	{
@@ -182,6 +248,21 @@ abstract class ilTreeExplorerGUI extends ilExplorerBaseGUI
 			$this->setNodeOpen($id);
 		}
 	}
+
+	/**
+	 * Get HTML
+	 *
+	 * @return string html
+	 */
+	function getHTML()
+	{
+		if ($this->getPreloadChilds())
+		{
+			$this->preloadChilds();
+		}
+		return parent::getHTML();
+	}
+
 
 }
 

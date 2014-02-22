@@ -481,7 +481,7 @@ abstract class ilExplorerBaseGUI
 	/**
 	 * Get HTML
 	 */
-	final function getHTML()
+	function getHTML()
 	{
 		global $tpl, $ilCtrl;
 

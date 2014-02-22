@@ -32,8 +32,19 @@ class ilTaxonomyExplorerGUI extends ilTreeExplorerGUI
 		{
 			$this->id = "tax_expl_".$this->tax_tree->getTreeId();
 		}
+		include_once("./Services/Taxonomy/classes/class.ilObjTaxonomy.php");
+		if (ilObjTaxonomy::lookupSortingMode($a_tax_id) == ilObjTaxonomy::SORT_ALPHABETICAL)
+		{
+			$this->setOrderField("title");
+		}
+		else
+		{
+			$this->setOrderField("order_nr", true);
+		}
+		$this->setPreloadChilds(true);
 		$this->target_gui = $a_target_gui; 
-		$this->target_cmd = $a_target_cmd; 
+		$this->target_cmd = $a_target_cmd;
+		//$this->setOrderField("title");
 		parent::__construct($this->id, $a_parent_obj, $a_parent_cmd, $this->tax_tree);
 	}
 	
