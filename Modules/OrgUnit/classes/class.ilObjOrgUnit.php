@@ -349,13 +349,21 @@ class ilObjOrgUnit extends ilContainer {
             $a_title = "NO TITLE";
         }
 
-        $query = "UPDATE object_translation ".
-            "SET title = ". $ilDB->quote($a_title,'text').",".
-            "description = ".$ilDB->quote($a_desc,'text').",".
-            "lang_code = ".$ilDB->quote($a_lang,'text') . ",".
-            "lang_default = ".$ilDB->quote($a_lang_default,'integer')." ".
-            "WHERE ".
-            " obj_id = ".$ilDB->quote($this->getId(),'integer');
+        $query = "UPDATE object_translation SET ";
+
+
+	    $query .= " title = ". $ilDB->quote($a_title,'text');
+
+
+	    if($a_desc != "") {
+		    $query .= ", description = ".$ilDB->quote($a_desc,'text')." ";
+	    }
+
+	    if($a_lang_default) {
+		    $query .= ", lang_default = ".$ilDB->quote($a_lang_default,'integer')." ";
+	    }
+
+	    $query .=  " WHERE obj_id = ".$ilDB->quote($this->getId(),'integer')." AND lang_code = ".$ilDB->quote($a_lang,'text');
         $res = $ilDB->manipulate($query);
 
         return true;
