@@ -144,11 +144,18 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 						$this->ctrl->forwardCommand($ilObjUserGUI);
 						$this->tabs_gui->setBackTarget($this->lng->txt("back"),$this->ctrl->getLinkTargetByClass("illocalusergui", 'index'));
 						break;
+					case "save":
+						$ilObjUserGUI = new ilObjUserGUI("",$_GET['ref_id'],true, false);
+						$ilObjUserGUI->setCreationMode(true);
+						$this->ctrl->forwardCommand($ilObjUserGUI);
+						break;
 					case "view":
 					case "update":
 						$ilObjUserGUI = new ilObjUserGUI("", (int)$_GET['obj_id'], false, false);
 						$ilObjUserGUI->setCreationMode(false);
 						$this->ctrl->forwardCommand($ilObjUserGUI);
+						$this->tabs_gui->clearTargets();
+						$this->tabs_gui->setBackTarget($this->lng->txt("back"),$this->ctrl->getLinkTargetByClass("illocalusergui", 'index'));
 						break;
 					case "cancel":
 						$this->ctrl->redirectByClass("illocalusergui","index");
@@ -156,12 +163,19 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 				}
 				break;
 			case "ilobjuserfoldergui":
-				$ilObjUserFolderGUI = new ilObjUserFolderGUI("", (int)$_GET['ref_id'], true, false);
-				$ilObjUserFolderGUI->setUserOwnerId((int)$_GET['ref_id']);
-				$ilObjUserFolderGUI->setCreationMode(true);
-				$this->ctrl->forwardCommand($ilObjUserFolderGUI);
-				$this->tabs_gui->clearTargets();
-				$this->tabs_gui->setBackTarget($this->lng->txt("back"),$this->ctrl->getLinkTargetByClass("illocalusergui", 'index'));
+				switch ($cmd) {
+					case "view":
+						$this->ctrl->redirectByClass("illocalusergui","index");
+						break;
+					default:
+						$ilObjUserFolderGUI = new ilObjUserFolderGUI("", (int)$_GET['ref_id'], true, false);
+						$ilObjUserFolderGUI->setUserOwnerId((int)$_GET['ref_id']);
+						$ilObjUserFolderGUI->setCreationMode(true);
+						$this->ctrl->forwardCommand($ilObjUserFolderGUI);
+						$this->tabs_gui->clearTargets();
+						$this->tabs_gui->setBackTarget($this->lng->txt("back"),$this->ctrl->getLinkTargetByClass("illocalusergui", 'index'));
+						break;
+				}
 				break;
 			case "ilinfoscreengui":
 				$this->tabs_gui->setTabActive("info_short");
