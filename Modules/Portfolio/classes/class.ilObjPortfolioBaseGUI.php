@@ -537,16 +537,28 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 		if($_REQUEST["back_url"])
 		{
 			$back = $_REQUEST["back_url"];						
-		}		
-		// shared
+		}			
 		else if($_GET["baseClass"] != "ilPublicUserProfileGUI" && 
 			$this->user_id && $this->user_id != ANONYMOUS_USER_ID)
 		{
 			if(!$this->checkPermissionBool("write"))
 			{
-				$this->ctrl->setParameterByClass("ilportfoliorepositorygui", "shr_id", $this->object->getOwner());
-				$back = $this->ctrl->getLinkTargetByClass(array("ilpersonaldesktopgui", "ilportfoliorepositorygui"), "showOther");
-				$this->ctrl->setParameterByClass("ilportfoliorepositorygui", "shr_id", "");
+				// shared
+				if($this->id_type != self::REPOSITORY_NODE_ID)
+				{
+					$this->ctrl->setParameterByClass("ilportfoliorepositorygui", "shr_id", $this->object->getOwner());
+					$back = $this->ctrl->getLinkTargetByClass(array("ilpersonaldesktopgui", "ilportfoliorepositorygui"), "showOther");
+					$this->ctrl->setParameterByClass("ilportfoliorepositorygui", "shr_id", "");
+				}
+				// listgui / parent container
+				else
+				{
+					// #12819
+					global $tree;
+					$parent_id = $tree->getParentId($this->node_id);
+					include_once "Services/Link/classes/class.ilLink.php";
+					$back = ilLink::_getStaticLink($parent_id);
+				}
 			}
 			// owner
 			else
