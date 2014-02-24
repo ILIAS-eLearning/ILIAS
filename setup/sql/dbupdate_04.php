@@ -91,3 +91,7 @@ if(!$ilDB->tableColumnExists('il_blog','abs_img_height'))
 }
 
 ?>
+<#4186>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

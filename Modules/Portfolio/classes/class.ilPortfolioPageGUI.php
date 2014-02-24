@@ -180,7 +180,9 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 			"Skills" => array("0-9", "0-9"),  // user, skill id
 			"SkillsTeaser" => array("0-9", "0-9"),  // user, skill id
 			"ConsultationHours" => array("0-9", "a-z", "0-9;\W"),  // user, mode, group ids
-			"ConsultationHoursTeaser" => array("0-9", "a-z", "0-9;\W")  // user, mode, group ids
+			"ConsultationHoursTeaser" => array("0-9", "a-z", "0-9;\W"),  // user, mode, group ids
+			"MyCourses" => array("0-9"),  // user
+			"MyCoursesTeaser" => array("0-9")  // user
 			);
 			
 		foreach($parts as $type => $def)
@@ -200,6 +202,8 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 						case "SkillsTeaser":
 						case "ConsultationHours":
 						case "ConsultationHoursTeaser":
+						case "MyCourses":
+						case "MyCoursesTeaser":
 							$subs = null;
 							if(trim($blocks[3][$idx]))
 							{
@@ -512,6 +516,182 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		
 		return $this->ctrl->getHTML($month_gui);	
 	}	
+	
+	protected function renderMyCoursesTeaser($a_user_id)
+	{
+		global $lng;
+		
+		return "<div style=\"margin:5px\">".$lng->txt("prtf_page_element_my_courses_teaser")."</div>";
+	}	
+	
+	protected function renderMyCourses($a_user_id)
+	{		
+		global $lng;
+		
+		if($this->getOutputMode() == "preview")
+		{	
+			return $this->renderMyCoursesTeaser($a_user_id);
+		}
+		
+		if($this->getOutputMode() == "offline")
+		{	
+			return;
+		}
+		
+		$data = $this->getCoursesOfUser($a_user_id);
+		if(sizeof($data))
+		{			
+			$tpl = new ilTemplate("tpl.pc_my_courses.html", true, true, "Modules/Portfolio");
+			$tpl->setVariable("TITLE", $lng->txt("prtf_page_element_my_courses_title"));
+		
+			include_once("./Services/Tracking/classes/class.ilLearningProgressBaseGUI.php");
+			$lng->loadLanguageModule("trac");
+			$lng->loadLanguageModule("crs");
+			
+			include_once("./Services/Container/classes/class.ilContainerObjectiveGUI.php");
+			
+			foreach($data as $course)
+			{				
+				if(isset($course["lp_status"]))
+				{					
+					$lp_icon = ilLearningProgressBaseGUI::_getImagePathForStatus($course["lp_status"]);
+					$lp_alt = ilLearningProgressBaseGUI::_getStatusText($course["lp_status"]);
+					
+					$tpl->setCurrentBlock("lp_bl");
+					$tpl->setVariable("LP_ICON_URL", $lp_icon);
+					$tpl->setVariable("LP_ICON_ALT", $lp_alt);
+					$tpl->parseCurrentBlock();	
+				}
+				
+				if(isset($course["objectives"]))
+				{
+					foreach($course["objectives"] as $objtv)
+					{
+						$lp_icon = ilLearningProgressBaseGUI::_getImagePathForStatus($objtv["lp_status"]);
+						$lp_alt = ilLearningProgressBaseGUI::_getStatusText($objtv["lp_status"]);
+						
+						$tpl->setCurrentBlock("objective_bl");
+						$tpl->setVariable("OBJECTIVE_TITLE", $objtv["title"]);
+						$tpl->setVariable("LP_OBJTV_ICON_URL", $lp_icon);
+						$tpl->setVariable("LP_OBJTV_ICON_ALT", $lp_alt);
+						
+						/* :TODO: merge course objectives from optes branch
+						if($objtv["type"])
+						{
+							$tpl->setVariable("LP_OBJTV_PROGRESS", 
+								ilContainerObjectiveGUI::buildObjectiveProgressBar($objtv["obj_id"], $objtv));
+						}
+						*/
+						
+						$tpl->parseCurrentBlock();	
+					}
+				}
+				
+				$tpl->setCurrentBlock("course_bl");
+				$tpl->setVariable("COURSE_TITLE", $course["title"]);
+				$tpl->setVariable("COURSE_URL", $course["url"]);
+				$tpl->parseCurrentBlock();				
+			}
+			
+			return $tpl->get();					
+		}					
+	}	
+	
+	protected function getCoursesOfUser($a_user_id)
+	{
+		global $ilObjDataCache, $tree, $ilAccess;
+		
+		// see ilPDSelectedItemsBlockGUI
+		
+		include_once 'Services/Membership/classes/class.ilParticipants.php';
+		$items = ilParticipants::_getMembershipByType($a_user_id, 'crs');
+		
+		include_once 'Services/Link/classes/class.ilLink.php';
+		$references = $lp_obj_refs = array();
+		foreach($items as $obj_id)
+		{
+			$item_references = ilObject::_getAllReferences($obj_id);
+			if(is_array($item_references) && count($item_references))
+			{
+				foreach($item_references as $ref_id)
+				{
+					if($ilAccess->checkAccessOfUser($a_user_id, "read", "", $ref_id, "crs"))
+					{
+						$title = $ilObjDataCache->lookupTitle($obj_id);					
+						$references[$ref_id] =
+							array('ref_id' => $ref_id,
+								  'obj_id' => $obj_id, 							
+								  'title' => $title,
+								  'url' => ilLink::_getLink($ref_id)
+								  // 'description' => $ilObjDataCache->lookupDescription($obj_id),
+								  // 'parent_ref' => $tree->getParentId($ref_id)
+								  );	
+						
+						$lp_obj_refs[$obj_id] = $ref_id;
+					}
+				}	
+			}		
+		}								
+		
+		// get lp data for valid courses
+		
+		if(sizeof($lp_obj_refs))
+		{
+			// lp must be active, personal and not anonymized
+			include_once "Services/Tracking/classes/class.ilObjUserTracking.php";
+			if (ilObjUserTracking::_enabledLearningProgress() &&
+				ilObjUserTracking::_enabledUserRelatedData() &&
+				ilObjUserTracking::_hasLearningProgressLearner())
+			{				
+				// see ilLPProgressTableGUI
+				include_once "Services/Tracking/classes/class.ilTrQuery.php";
+				include_once "Services/Tracking/classes/class.ilLPStatusFactory.php";				
+				$lp_data = ilTrQuery::getObjectsStatusForUser($a_user_id, $lp_obj_refs);
+				foreach($lp_data as $item)
+				{
+					$ref_id = $item["ref_ids"];
+					$references[$ref_id]["lp_status"] = $item["status"];							
+					
+					// add objectives
+					if($item["u_mode"] == ilLPObjSettings::LP_MODE_OBJECTIVES)
+					{					
+						// we need the collection for the correct order
+						include_once "Services/Tracking/classes/collection/class.ilLPCollectionOfObjectives.php";
+						$coll_objtv = new ilLPCollectionOfObjectives($item["obj_id"], $item["u_mode"]);
+						$coll_objtv = $coll_objtv->getItems();
+						if($coll_objtv)
+						{
+							$objtv_data = ilTrQuery::getUserObjectiveMatrix($item["obj_id"], array($a_user_id));								
+							$tmp = array();
+							foreach($objtv_data["set"] as $objective)
+							{
+								$tmp[$objective["obj_id"]] = array(
+									"id" => $objective["obj_id"],
+									"title" => $objective["title"],
+									"lp_status" => (int)$objective["status"],
+									// loc_user_results
+									"result_perc" => $objective["result_perc"],
+									"limit_perc" => $objective["limit_perc"],
+									"status" => $objective["loc_status"],
+									"type" => $objective["type"],
+								);							
+							}	
+							
+							// order
+							foreach($coll_objtv as $objtv_id)
+							{
+								$references[$ref_id]["objectives"][] = $tmp[$objtv_id];
+							}
+						}
+					}
+				}												
+			}									
+		}		
+		
+		$references = ilUtil::sortArray($references, "title", "ASC");
+		
+		return $references;
+	}
 	
 	function getJsOnloadCode()
 	{

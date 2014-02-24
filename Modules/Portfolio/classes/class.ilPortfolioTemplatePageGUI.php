@@ -64,6 +64,11 @@ class ilPortfolioTemplatePageGUI extends ilPortfolioPageGUI
 		return $this->addPlaceholderInfo(parent::renderSkillsTeaser($a_user_id, $a_skills_id));			
 	}
 	
+	protected function renderMyCourses($a_user_id)
+	{	
+		return $this->addPlaceholderInfo(parent::renderMyCourses($a_user_id));			
+	}	
+	
 	protected function addPlaceholderInfo($a_html)
 	{
 		return '<fieldset style="border: 1px dashed red; padding: 3px; margin: 5px;">'.

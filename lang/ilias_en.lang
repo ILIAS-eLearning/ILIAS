@@ -14231,3 +14231,9 @@ blog#:#blog_abstract_image_info#:#Images which are smaller will not be used.
 blog#:#blog_abstract_image_width#:#Width
 blog#:#blog_abstract_image_height#:#Height
 blog#:#blog_abstract_image_pixels#:#Px
+content#:#cont_ed_insert_my_courses#:#Insert My Courses
+content#:#cont_insert_my_courses#:#Insert My Courses
+content#:#cont_update_my_courses#:#Edit My Courses
+content#:#cont_my_courses_no_settings#:#There are no settings yet.
+prtf#:#prtf_page_element_my_courses_teaser#:#My Courses
+prtf#:#prtf_page_element_my_courses_title#:#Current Courses

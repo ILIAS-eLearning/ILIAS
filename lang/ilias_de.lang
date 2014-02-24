@@ -14231,3 +14231,9 @@ blog#:#blog_abstract_image_info#:#Bilder, die kleiner sind, werden nicht benutzt
 blog#:#blog_abstract_image_width#:#Breite
 blog#:#blog_abstract_image_height#:#Höhe
 blog#:#blog_abstract_image_pixels#:#Px
+content#:#cont_ed_insert_my_courses#:#Meine Kurse einfügen
+content#:#cont_insert_my_courses#:#Meine Kurse einfügen
+content#:#cont_update_my_courses#:#Meine Kurse bearbeiten
+content#:#cont_my_courses_no_settings#:#Es gibt momentan keine Einstellungen.
+prtf#:#prtf_page_element_my_courses_teaser#:#Meine Kurse
+prtf#:#prtf_page_element_my_courses_title#:#Aktuelle Kurse

@@ -537,6 +537,7 @@ abstract class ilObjPortfolioBase extends ilObject2
 						// update profile/consultation hours user id
 						self::updateDomNodes($dom, "//PageContent/Profile", "User", $ilUser->getId());
 						self::updateDomNodes($dom, "//PageContent/ConsultationHours", "User", $ilUser->getId());
+						self::updateDomNodes($dom, "//PageContent/MyCourses", "User", $ilUser->getId());
 					
 						// skills
 						$xpath = new DOMXPath($dom);

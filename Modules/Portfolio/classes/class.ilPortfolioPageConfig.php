@@ -44,6 +44,8 @@ class ilPortfolioPageConfig extends ilPageConfig
 		{
 			$this->setEnablePCType("ConsultationHours", true);			
 		}		
+		
+		$this->setEnablePCType("MyCourses", true);	
 	}	
 }
 
