@@ -874,7 +874,11 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 					if($check_quota)
 					{																									
 						$quota_sum += $source_page->getPageDiskSize();
-					}																					
+					}			
+					if(sizeof($skill_ids))
+					{
+						$has_form_content = true;
+					}
 					break;
 				
 				case ilPortfolioTemplatePage::TYPE_BLOG_TEMPLATE:
