@@ -1344,11 +1344,11 @@ class ilObjTestSettingsGeneralGUI
 	 */
 	private function confirmedResetTemplateCmd()
 	{
-		$this->object->setTemplate(null);
-		$this->object->saveToDB();
+		$this->testOBJ->setTemplate(null);
+		$this->testOBJ->saveToDB();
 
 		ilUtil::sendSuccess($this->lng->txt("test_template_reset"), true);
-		$this->ctrl->redirect($this, "properties");
+		$this->ctrl->redirect($this, self::CMD_SHOW_FORM);
 	}
 	
 	private function getQuestionSetTypeTranslation($questionSetType)
