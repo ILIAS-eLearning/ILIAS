@@ -649,6 +649,12 @@ class ilWikiUtil
 		
 		// #11138
 		$ignore_threshold = ($a_action == "comment");
+		
+		// 1st update will be converted to new - see below
+		if($a_action == "new")
+		{
+			return;
+		}
 
 		if($a_type == ilNotification::TYPE_WIKI_PAGE)
 		{
@@ -683,6 +689,38 @@ class ilWikiUtil
 		include_once "./Services/User/classes/class.ilObjUser.php";
 		include_once "./Services/Language/classes/class.ilLanguageFactory.php";
 		include_once("./Services/User/classes/class.ilUserUtil.php");
+				
+		
+		// see ilBlogPostingGUI::getSnippet()
+		// see ilBlogPosting::getNotificationAbstract()
+
+		include_once "Modules/Wiki/classes/class.ilWikiPageGUI.php";
+		$pgui = new ilWikiPageGUI($page->getId());			
+		$pgui->setRawPageContent(true);
+		$pgui->setAbstractOnly(true);		
+		$pgui->setFileDownloadLink(".");
+		$pgui->setFullscreenLink(".");
+		$pgui->setSourcecodeDownloadScript(".");						
+		$snippet = $pgui->showPage();				
+		$snippet = ilPageObject::truncateHTML($snippet, 500, "...");		
+
+		// making things more readable
+		$snippet = str_replace('<br/>', "\n", $snippet);
+		$snippet = str_replace('<br />', "\n", $snippet);
+		$snippet = str_replace('</p>', "\n", $snippet);
+		$snippet = str_replace('</div>', "\n", $snippet);
+
+		$snippet = trim(strip_tags($snippet));				
+
+		// "fake" new (to enable snippet - if any)
+		$current_version = array_shift($page->getHistoryEntries());
+		$current_version = $current_version["nr"];
+		if(!$current_version)
+		{				
+			$a_type = ilNotification::TYPE_WIKI;
+			$a_action = "new";
+		}
+		
 
 		foreach(array_unique($users) as $idx => $user_id)
 		{
@@ -704,6 +742,14 @@ class ilWikiUtil
 					$message .= $ulng->txt('page').": ".$page->getTitle()."\n";
 					$message .= $ulng->txt('wiki_changed_by').": ".ilUserUtil::getNamePresentation($ilUser->getId())."\n";
 					
+					if($snippet)
+					{
+						$message .= "\n".$ulng->txt('content')."\n".
+							"----------------------------------------\n".
+							$snippet."\n".
+							"----------------------------------------\n";
+					}
+					
 					// include comment/note text
 					if($a_comment)
 					{	
@@ -719,6 +765,15 @@ class ilWikiUtil
 					$message .= $ulng->txt('wiki').": ".$wiki->getTitle()."\n";
 					$message .= $ulng->txt('page').": ".$page->getTitle()."\n";
 					$message .= $ulng->txt('wiki_changed_by').": ".ilUserUtil::getNamePresentation($ilUser->getId())."\n\n";
+					
+					if($snippet)
+					{
+						$message .= $ulng->txt('content')."\n".
+							"----------------------------------------\n".
+							$snippet."\n".
+							"----------------------------------------\n\n";
+					}
+					
 					$message .= $ulng->txt('wiki_change_notification_link').": ".$link;
 				}
 

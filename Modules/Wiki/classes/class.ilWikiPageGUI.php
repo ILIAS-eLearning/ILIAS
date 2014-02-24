@@ -364,8 +364,13 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		$tpl->parseCurrentBlock();
 */
 		$this->setTemplateOutput(false);
-		$this->setPresentationTitle($this->getWikiPage()->getTitle());
-		$this->increaseViewCount();			
+		
+		if(!$this->getAbstractOnly())
+		{
+			$this->setPresentationTitle($this->getWikiPage()->getTitle());
+			$this->increaseViewCount();		
+		}
+		
 		$output = parent::showPage();
 		
 		return $output;
