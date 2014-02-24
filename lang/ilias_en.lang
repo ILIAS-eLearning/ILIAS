@@ -14199,7 +14199,7 @@ poll#:#poll_mode_anonymous_info#:#Votes cannot be traced back to users.
 poll#:#poll_mode_personal#:#Personal
 poll#:#poll_mode_personal_info#:#A list of users with their respective votes is available when having sufficient permission.
 poll#:#poll_non_anonymous_warning#:#This is a non-anonymous poll.
-poll#:#poll_results_answers#:#Votes
+poll#:#poll_result_answers#:#Votes
 poll#:#poll_result_users#:#Participants
 user#:#usr_id#:#System ID
 meta#:#meta_c_XK#:#Kosovo
