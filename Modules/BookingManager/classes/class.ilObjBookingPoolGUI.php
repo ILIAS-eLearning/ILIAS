@@ -574,6 +574,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';		
 		
 		$success = false;
+		$rsv_ids = array();
 		
 		if($this->object->getScheduleType() == ilObjBookingPool::TYPE_NO_SCHEDULE)
 		{	
@@ -584,7 +585,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 				{
 					if(ilBookingReservation::isObjectAvailableNoSchedule($object_id))				
 					{
-						$this->processBooking($object_id);
+						$rsv_ids[] = $this->processBooking($object_id);						
 						$success = $object_id;	
 					}
 					else
@@ -635,7 +636,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 							}
 							else
 							{								
-								$this->processBooking($object_id, $fromto[0], $fromto[1], $group_id);
+								$rsv_ids[] = $this->processBooking($object_id, $fromto[0], $fromto[1], $group_id);
 								$success = $object_id;									
 							}
 						}
@@ -701,7 +702,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		
 		if($success)
 		{
-			$this->handleBookingSuccess($success);
+			$this->handleBookingSuccess($success, $rsv_ids);
 		}
 		else
 		{
@@ -710,7 +711,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		}
 	}
 	
-	protected function handleBookingSuccess($a_obj_id)
+	protected function handleBookingSuccess($a_obj_id, array $a_rsv_ids = null)
 	{
 		ilUtil::sendSuccess($this->lng->txt('book_reservation_confirmed'), true);
 			
@@ -721,6 +722,10 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		$ptext = $obj->getPostText();
 		if(trim($ptext) || $pfile)
 		{
+			if(sizeof($a_rsv_ids))
+			{
+				$this->ctrl->setParameterByClass('ilbookingobjectgui', 'rsv_ids', implode(";", $a_rsv_ids));		
+			}
 			$this->ctrl->setParameterByClass('ilbookingobjectgui', 'object_id', $obj->getId());				
 			$this->ctrl->redirectByClass('ilbookingobjectgui', 'displayPostInfo');
 		}
@@ -894,6 +899,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		if($form->checkInput())
 		{					
 			$success = false;
+			$rsv_ids = array();
 			foreach($counter as $id => $all_nr)
 			{				
 				$book_nr = $form->getInput("conf_nr__".$id."_".$all_nr);
@@ -911,14 +917,14 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 					$book_nr = min($book_nr, $counter);							
 					for($loop = 0; $loop < $book_nr; $loop++)
 					{
-						$this->processBooking($obj_id, $from, $to, $group_id);
+						$rsv_ids[] = $this->processBooking($obj_id, $from, $to, $group_id);
 						$success = $obj_id;									
 					}
 				}
 			}
 			if($success)
 			{
-				$this->handleBookingSuccess($success);
+				$this->handleBookingSuccess($success, $rsv_ids);
 			}
 			else
 			{
@@ -940,6 +946,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 	 * @param int $a_from timestamp
 	 * @param int $a_to timestamp
 	 * @param int $a_group_id 
+	 * @return int
 	 */
 	function processBooking($a_object_id, $a_from = null, $a_to = null, $a_group_id = null)
 	{
@@ -982,6 +989,8 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 			$assignment = new ilCalendarCategoryAssignments($entry->getEntryId());
 			$assignment->addAssignment($def_cat->getCategoryId());
 		}
+		
+		return $reservation->getId();
 	}
 
 	/**

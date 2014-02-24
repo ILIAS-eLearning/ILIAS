@@ -14222,3 +14222,4 @@ rbac#:#orgu_cat_administrate_users#:#User can create and administrate local user
 rbac#:#orgu_delete#:#User can move or delete Organisational Unit
 rbac#:#orgu_edit_permission#:#User can change permission settings
 rbac#:#rbac_create_orgu#:#Create Organisational Units
+book#:#book_post_booking_text_info#:#Use [PERIOD] and [OBJECT] to add booking details to the text.

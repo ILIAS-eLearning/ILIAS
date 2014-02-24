@@ -383,7 +383,7 @@ class ilBookingReservation
 		return $row;
 	}
 	
-	static function getObjectReservationForUser($a_object_id, $a_user_id)
+	static function getObjectReservationForUser($a_object_id, $a_user_id, $a_multi = false)
 	{
 		global $ilDB;
 		
@@ -392,8 +392,21 @@ class ilBookingReservation
 			' AND object_id = '.$ilDB->quote($a_object_id, 'integer').
 			' AND (status <> '.$ilDB->quote(self::STATUS_CANCELLED, 'integer').
 			' OR STATUS IS NULL)');
-		$row = $ilDB->fetchAssoc($set);
-		return $row['booking_reservation_id'];
+		if(!$a_multi)
+		{
+			$row = $ilDB->fetchAssoc($set);
+			return $row['booking_reservation_id'];
+		}
+		else
+		{
+			// patch ub tuebingen
+			$res = array();
+			while($row = $ilDB->fetchAssoc($set))
+			{
+				$res[] = $row['booking_reservation_id'];
+			}
+			return $res;
+		}
 	}
 
 	/**

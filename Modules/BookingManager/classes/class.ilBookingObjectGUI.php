@@ -155,6 +155,7 @@ class ilBookingObjectGUI
 		$pdesc = new ilTextAreaInputGUI($lng->txt("book_post_booking_text"), "post_text");
 		$pdesc->setCols(70);
 		$pdesc->setRows(15);
+		$pdesc->setInfo($lng->txt("book_post_booking_text_info"));
 		$form_gui->addItem($pdesc);
 		
 		$pfile = new ilFileInputGUI($lng->txt("book_post_booking_file"), "post_file");
@@ -426,8 +427,49 @@ class ilBookingObjectGUI
 			return;
 		}
 		
+		
+		// placeholder 
+		
 		include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';
-		$book_id = ilBookingReservation::getObjectReservationForUser($id, $ilUser->getId());
+		$book_ids = ilBookingReservation::getObjectReservationForUser($id, $ilUser->getId(), true);				
+		$tmp = array();
+		$rsv_ids = explode(";", $_GET["rsv_ids"]);
+		foreach($book_ids as $book_id)
+		{		
+			if(in_array($book_id, $rsv_ids))
+			{
+				$obj = new ilBookingReservation($book_id);
+				$from = $obj->getFrom();
+				$to = $obj->getTo();
+				if($from > time())
+				{
+					$tmp[$from."-".$to]++;
+				}
+			}
+		}
+		
+		$olddt = ilDatePresentation::useRelativeDates();
+		ilDatePresentation::setUseRelativeDates(false);		
+		
+		$period = array();
+		ksort($tmp);
+		foreach($tmp as $time => $counter)
+		{
+			$time = explode("-", $time);
+			$time = ilDatePresentation::formatPeriod(
+				new ilDateTime($time[0], IL_CAL_UNIX),
+				new ilDateTime($time[1], IL_CAL_UNIX));
+			if($counter > 1)
+			{
+				$time .= " (".$counter.")";
+			}
+			$period[] = $time;
+		}
+		$book_id = array_shift($book_ids);
+		
+		ilDatePresentation::setUseRelativeDates($olddt);		
+		
+		
 		$obj = new ilBookingReservation($book_id);
 		if ($obj->getUserId() != $ilUser->getId())
 		{
@@ -444,6 +486,10 @@ class ilBookingObjectGUI
 
 		if($ptext)
 		{
+			// placeholder
+			$ptext = str_replace("[OBJECT]", $obj->getTitle(), $ptext);						
+			$ptext = str_replace("[PERIOD]", implode("<br />", $period), $ptext);
+			
 			$mytpl->setVariable("POST_TEXT", nl2br($ptext));
 		}
 

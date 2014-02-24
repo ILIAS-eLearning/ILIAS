@@ -14222,3 +14222,4 @@ rbac#:#orgu_cat_administrate_users#:#Lokale Benutzerkonten können angelegt und 
 rbac#:#orgu_delete#:#Organisationseinheit löschen oder verschieben
 rbac#:#orgu_edit_permission#:#Rechteeinstellungen ändern
 rbac#:#rbac_create_orgu#:#Benutzer kann Organisationseinheiten anlegen
+book#:#book_post_booking_text_info#:#Verwenden Sie [PERIOD] und [OBJECT] um Buchungsdetails zum Infotext hinzuzufügen.
