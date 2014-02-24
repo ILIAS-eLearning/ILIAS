@@ -175,7 +175,7 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
 		{
 			$this->tpl->setCurrentBlock('external');
 			$this->tpl->setVariable('VAL_ID',$a_set['id']);
-			$this->tpl->setVariable('VAL_TARGET',$a_set['target']);
+			$this->tpl->setVariable('VAL_TARGET',ilUtil::prepareFormOutput($a_set['target']));
 			$this->tpl->parseCurrentBlock();
 		}
 		else
