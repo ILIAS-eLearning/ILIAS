@@ -148,6 +148,31 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 
 		$font_color = new ilColorPickerInputGUI($lng->txt("blog_font_color"), "font_color");
 		$a_form->addItem($font_color);	
+		
+		$abs_shorten = new ilCheckboxInputGUI($lng->txt("blog_abstract_shorten"), "abss");
+		$a_form->addItem($abs_shorten);
+		
+		$abs_shorten_len = new ilNumberInputGUI($lng->txt("blog_abstract_shorten_length"), "abssl");
+		$abs_shorten_len->setSize(5);
+		$abs_shorten_len->setRequired(true);
+		$abs_shorten_len->setSuffix($lng->txt("blog_abstract_shorten_characters"));
+		$abs_shorten->addSubItem($abs_shorten_len);
+		
+		$abs_img = new ilCheckboxInputGUI($lng->txt("blog_abstract_image"), "absi");
+		$abs_img->setInfo($lng->txt("blog_abstract_image_info"));
+		$a_form->addItem($abs_img);
+		
+		$abs_img_width = new ilNumberInputGUI($lng->txt("blog_abstract_image_width"), "absiw");
+		$abs_img_width->setSize(5);
+		$abs_img_width->setRequired(true);
+		$abs_img_width->setSuffix($lng->txt("blog_abstract_image_pixels"));
+		$abs_img->addSubItem($abs_img_width);
+		
+		$abs_img_height = new ilNumberInputGUI($lng->txt("blog_abstract_image_height"), "absih");
+		$abs_img_height->setSize(5);
+		$abs_img_height->setRequired(true);
+		$abs_img_height->setSuffix($lng->txt("blog_abstract_image_pixels"));
+		$abs_img->addSubItem($abs_img_height);
 	}
 
 	protected function getEditFormCustomValues(array &$a_values)
@@ -162,6 +187,11 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		$a_values["font_color"] = $this->object->getFontColor();
 		$a_values["banner"] = $this->object->getImage();
 		$a_values["rss"] = $this->object->hasRSS();
+		$a_values["abss"] = $this->object->hasAbstractShorten();
+		$a_values["abssl"] = $this->object->getAbstractShortenLength();
+		$a_values["absi"] = $this->object->hasAbstractImage();
+		$a_values["absiw"] = $this->object->getAbstractImageWidth();
+		$a_values["absih"] = $this->object->getAbstractImageHeight();
 	}
 
 	protected function updateCustom(ilPropertyFormGUI $a_form)
@@ -175,6 +205,11 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		$this->object->setBackgroundColor($a_form->getInput("bg_color"));
 		$this->object->setFontColor($a_form->getInput("font_color"));
 		$this->object->setRSS($a_form->getInput("rss"));
+		$this->object->setAbstractShorten($a_form->getInput("abss"));
+		$this->object->setAbstractShortenLength($a_form->getInput("abssl"));
+		$this->object->setAbstractImage($a_form->getInput("absi"));
+		$this->object->setAbstractImageWidth($a_form->getInput("absiw"));
+		$this->object->setAbstractImageHeight($a_form->getInput("absih"));
 		
 		// banner field is optional
 		$banner = $a_form->getItemByPostVar("banner");
@@ -1292,7 +1327,13 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				$wtpl->parseCurrentBlock();				
 			}
 						
-			$snippet = ilBlogPostingGUI::getSnippet($item["id"]);	
+			$snippet = ilBlogPostingGUI::getSnippet($item["id"], 
+				$this->object->hasAbstractShorten(),
+				$this->object->getAbstractShortenLength(),
+				"&hellip;",
+				$this->object->hasAbstractImage(),
+				$this->object->getAbstractImageWidth(),
+				$this->object->getAbstractImageHeight());	
 			
 			if($snippet)
 			{

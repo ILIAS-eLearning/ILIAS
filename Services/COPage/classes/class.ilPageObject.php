@@ -4949,6 +4949,153 @@ abstract class ilPageObject
 		return $rec;
 	}
 	
+	/**
+	 * Truncate (html) string
+	 * 
+	 * @see http://dodona.wordpress.com/2009/04/05/how-do-i-truncate-an-html-string-without-breaking-the-html-code/
+	 * 
+	 * @param string $a_text
+	 * @param int $a_length
+	 * @param string $a_ending
+	 * @param bool $a_exact
+	 * @param bool $a_consider_html
+	 * @return string
+	 */
+	public static function truncateHTML($a_text, $a_length = 100, $a_ending = '...', $a_exact = false, $a_consider_html = true) 
+	{
+		include_once "Services/Utilities/classes/class.ilStr.php";
+					
+		if ($a_consider_html) 
+		{			
+			// if the plain text is shorter than the maximum length, return the whole text
+			if(strlen(preg_replace('/<.*?>/', '', $a_text)) <= $a_length) 
+			{
+				return $a_text;
+			}
+			
+			// splits all html-tags to scanable lines			
+			$total_length = strlen($a_ending);
+			$open_tags = array();
+			$truncate = '';
+			preg_match_all('/(<.+?>)?([^<>]*)/s', $a_text, $lines, PREG_SET_ORDER);
+			foreach($lines as $line_matchings) 
+			{
+				// if there is any html-tag in this line, handle it and add it (uncounted) to the output
+				if(!empty($line_matchings[1])) 
+				{
+					// if it's an "empty element" with or without xhtml-conform closing slash
+					if(preg_match('/^<(\s*.+?\/\s*|\s*(img|br|input|hr|area|base|basefont|col|frame|isindex|link|meta|param)(\s.+?)?)>$/is', $line_matchings[1])) 
+					{
+						// do nothing					
+					} 
+					// if tag is a closing tag
+					else if(preg_match('/^<\s*\/([^\s]+?)\s*>$/s', $line_matchings[1], $tag_matchings)) 
+					{
+						// delete tag from $open_tags list
+						$pos = array_search($tag_matchings[1], $open_tags);
+						if ($pos !== false) 
+						{
+							unset($open_tags[$pos]);
+						}					
+					} 
+					// if tag is an opening tag
+					else if (preg_match('/^<\s*([^\s>!]+).*?>$/s', $line_matchings[1], $tag_matchings)) 
+					{					
+						// add tag to the beginning of $open_tags list
+						array_unshift($open_tags, strtolower($tag_matchings[1]));
+					}
+					// add html-tag to $truncate'd text
+					$truncate .= $line_matchings[1];
+				}
+				
+				// calculate the length of the plain text part of the line; handle entities as one character
+				$content_length = strlen(preg_replace('/&[0-9a-z]{2,8};|&#[0-9]{1,7};|[0-9a-f]{1,6};/i', ' ', $line_matchings[2]));
+				if($total_length+$content_length > $a_length) 
+				{
+					// the number of characters which are left
+					$left = $a_length - $total_length;
+					$entities_length = 0;
+					// search for html entities
+					if(preg_match_all('/&[0-9a-z]{2,8};|&#[0-9]{1,7};|[0-9a-f]{1,6};/i', $line_matchings[2], $entities, PREG_OFFSET_CAPTURE)) 
+					{
+						// calculate the real length of all entities in the legal range
+						foreach($entities[0] as $entity) 
+						{
+							if($entity[1]+1-$entities_length <= $left) 
+							{
+								$left--;
+								$entities_length += strlen($entity[0]);
+							} 
+							else 
+							{
+								// no more characters left
+								break;
+							}
+						}
+					}
 
+					// $truncate .= substr($line_matchings[2], 0, $left+$entities_length);			
+					$truncate .= ilStr::shortenText($line_matchings[2], 0, $left+$entities_length);
+					
+					// maximum lenght is reached, so get off the loop
+					break;
+				} 
+				else 
+				{
+					$truncate .= $line_matchings[2];
+					$total_length += $content_length;
+				}
+				
+				// if the maximum length is reached, get off the loop
+				if($total_length >= $a_length) 
+				{
+					break;
+				}
+			}
+		} 
+		else 
+		{
+			if(strlen($a_text) <= $a_length) 
+			{
+				return $a_text;
+			} 
+			else 
+			{
+				// $truncate = substr($a_text, 0, $a_length - strlen($a_ending));
+				$truncate = ilStr::shortenText($a_text, 0, $a_length - strlen($a_ending));
+			}
+		}
+		
+		// THIS IS BUGGY AS IT MIGHT BREAK AN OPEN TAG AT THE END
+		if(!sizeof($open_tags))
+		{
+			// if the words shouldn't be cut in the middle...
+			if (!$a_exact)
+			{						
+				// ...search the last occurance of a space...
+				$spacepos = strrpos($truncate, ' ');
+				if($spacepos !== false) 
+				{
+					// ...and cut the text in this position
+					// $truncate = substr($truncate, 0, $spacepos);
+					$truncate = ilStr::shortenText($truncate, 0, $spacepos);
+				}			
+			}
+		}
+				
+		// add the defined ending to the text
+		$truncate .= $a_ending;						
+		
+		if($a_consider_html) 
+		{
+			// close all unclosed html-tags
+			foreach($open_tags as $tag) 
+			{
+				$truncate .= '</'.$tag.'>';
+			}
+		}
+		
+		return $truncate;
+	}
 }
 ?>

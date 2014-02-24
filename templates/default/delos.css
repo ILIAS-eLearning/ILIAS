@@ -3639,6 +3639,11 @@ div.ilBlogListItemSnippet {
 	margin-bottom: 5px;
 }
 
+img.ilBlogListItemSnippetPreviewImage {
+	margin-right: 10px;
+	margin-bottom: 5px;
+}
+
 div.ilBlogListItemMore {
 	float: left;
 }

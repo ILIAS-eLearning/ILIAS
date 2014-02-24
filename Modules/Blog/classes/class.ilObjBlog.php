@@ -22,6 +22,11 @@ class ilObjBlog extends ilObject2
 	protected $rss; // [bool]
 	protected $approval; // [bool]
 	protected $style; // [bool]
+	protected $abstract_shorten = false; // [bool]
+	protected $abstract_shorten_length = 500; // [int]
+	protected $abstract_image = false; // [bool]
+	protected $abstract_image_width = 144; // [int]
+	protected $abstract_image_height= 144; // [int]
 	
 	function initType()
 	{
@@ -42,6 +47,11 @@ class ilObjBlog extends ilObject2
 		$this->setImage($row["img"]);
 		$this->setRSS($row["rss_active"]);
 		$this->setApproval($row["approval"]);
+		$this->setAbstractShorten($row["abs_shorten"]);
+		$this->setAbstractShortenLength($row["abs_shorten_len"]);
+		$this->setAbstractImage($row["abs_image"]);
+		$this->setAbstractImageWidth($row["abs_img_width"]);
+		$this->setAbstractImageHeight($row["abs_img_height"]);
 		
 		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 		$this->setStyleSheetId(ilObjStyleSheet::lookupObjectStyle($this->id));
@@ -51,12 +61,20 @@ class ilObjBlog extends ilObject2
 	{
 		global $ilDB;
 		
-		$ilDB->manipulate("INSERT INTO il_blog (id,notes,ppic,rss_active,approval) VALUES (".
+		$ilDB->manipulate("INSERT INTO il_blog (id,notes,ppic,rss_active,approval".
+			",abs_shorten,abs_shorten_len,abs_image,abs_img_width,abs_img_height".
+			") VALUES (".
 			$ilDB->quote($this->id, "integer").",".
 			$ilDB->quote(true, "integer").",".
 			$ilDB->quote(true, "integer").",".
 			$ilDB->quote(true, "integer").",".
-			$ilDB->quote(false, "integer").")");
+			$ilDB->quote(false, "integer").",".		
+			$ilDB->quote($this->hasAbstractShorten(), "integer").",".
+			$ilDB->quote($this->getAbstractShortenLength(), "integer").",".
+			$ilDB->quote($this->hasAbstractImage(), "integer").",".
+			$ilDB->quote($this->getAbstractImageWidth(), "integer").",".
+			$ilDB->quote($this->getAbstractImageHeight(), "integer").	
+			")");
 		
 		/*
 		if ($this->getStyleSheetId() > 0)
@@ -98,8 +116,12 @@ class ilObjBlog extends ilObject2
 					",img = ".$ilDB->quote($this->getImage(), "text").
 					",rss_active = ".$ilDB->quote($this->hasRSS(), "text").
 					",approval = ".$ilDB->quote($this->hasApproval(), "integer").
-					" WHERE id = ".$ilDB->quote($this->id, "integer"));
-			
+					",abs_shorten = ".$ilDB->quote($this->hasAbstractShorten(), "integer").
+					",abs_shorten_len = ".$ilDB->quote($this->getAbstractShortenLength(), "integer").
+					",abs_image = ".$ilDB->quote($this->hasAbstractImage(), "integer").
+					",abs_img_width = ".$ilDB->quote($this->getAbstractImageWidth(), "integer").
+					",abs_img_height = ".$ilDB->quote($this->getAbstractImageHeight(), "integer").
+					" WHERE id = ".$ilDB->quote($this->id, "integer"));			
 			
 			include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 			ilObjStyleSheet::writeStyleUsage($this->id, $this->getStyleSheetId());
@@ -126,6 +148,11 @@ class ilObjBlog extends ilObject2
 		$new_obj->setFontColor($this->getFontColor());
 		$new_obj->setRSS($this->hasRSS());
 		$new_obj->setApproval($this->hasApproval());
+		$new_obj->setAbstractShorten($this->hasAbstractShorten());
+		$new_obj->setAbstractShortenLength($this->getAbstractShortenLength());
+		$new_obj->setAbstractImage($this->hasAbstractImage());
+		$new_obj->setAbstractImageWidth($this->getAbstractImageWidth());
+		$new_obj->setAbstractImageHeight($this->getAbstractImageHeight());
 		$new_obj->update();		
 		
 		// set/copy stylesheet
@@ -420,6 +447,56 @@ class ilObjBlog extends ilObject2
 	function setStyleSheetId($a_style)
 	{
 		$this->style = (int)$a_style;
+	}
+	
+	function hasAbstractShorten()
+	{
+		return $this->abstract_shorten;
+	}
+	
+	function setAbstractShorten($a_value)
+	{
+		$this->abstract_shorten = (bool)$a_value;
+	}
+	
+	function getAbstractShortenLength()
+	{
+		return $this->abstract_shorten_length;
+	}
+	
+	function setAbstractShortenLength($a_value)
+	{
+		$this->abstract_shorten_length = (int)$a_value;
+	}
+			
+	function hasAbstractImage()
+	{
+		return $this->abstract_image;
+	}
+	
+	function setAbstractImage($a_value)
+	{
+		$this->abstract_image = (bool)$a_value;
+	}
+	
+	function getAbstractImageWidth()
+	{
+		return $this->abstract_image_width;
+	}
+	
+	function setAbstractImageWidth($a_value)
+	{
+		$this->abstract_image_width = (int)$a_value;
+	}
+	
+	function getAbstractImageHeight()
+	{
+		return $this->abstract_image_height;
+	}
+	
+	function setAbstractImageHeight($a_value)
+	{
+		$this->abstract_image_height = (int)$a_value;
 	}
 	
 	static function sendNotification($a_action, $a_in_wsp, $a_blog_node_id, $a_posting_id, $a_comment = null)

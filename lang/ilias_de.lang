@@ -14223,3 +14223,11 @@ rbac#:#orgu_delete#:#Organisationseinheit löschen oder verschieben
 rbac#:#orgu_edit_permission#:#Rechteeinstellungen ändern
 rbac#:#rbac_create_orgu#:#Benutzer kann Organisationseinheiten anlegen
 book#:#book_post_booking_text_info#:#Verwenden Sie [PERIOD] und [OBJECT] um Buchungsdetails zum Infotext hinzuzufügen.
+blog#:#blog_abstract_shorten#:#Auszug kürzen
+blog#:#blog_abstract_shorten_length#:#Maximale Länge
+blog#:#blog_abstract_shorten_characters#:#Zeichen
+blog#:#blog_abstract_image#:#Bild zum Auszug hinzufügen
+blog#:#blog_abstract_image_info#:#Bilder, die kleiner sind, werden nicht benutzt.
+blog#:#blog_abstract_image_width#:#Breite
+blog#:#blog_abstract_image_height#:#Höhe
+blog#:#blog_abstract_image_pixels#:#Px

@@ -715,21 +715,100 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 	 * Get first text paragraph of page
 	 * 
 	 * @param int $a_id
+	 * @param bool $a_truncate
+	 * @param int $a_truncate_length
+	 * @param bool $a_include_picture
+	 * @param int $a_picture_width
+	 * @param int $a_picture_height
 	 * @return string 
 	 */
-	static function getSnippet($a_id)
-	{
+	static function getSnippet($a_id, $a_truncate = false, $a_truncate_length = 500, $a_truncate_sign = "...", $a_include_picture = false, $a_picture_width = 144, $a_picture_height = 144)
+	{					
 		$bpgui = new self(0, null, $a_id);
+		
+		// scan the full page for media objects
+		if($a_include_picture)
+		{
+			$img = $bpgui->getFirstMediaObjectAsTag($a_picture_width, $a_picture_height);
+		}
+		
 		$bpgui->setRawPageContent(true);
-		$bpgui->setAbstractOnly(true);
+		$bpgui->setAbstractOnly(true);		
 
 		// #8627: export won't work - should we set offline mode?
 		$bpgui->setFileDownloadLink(".");
 		$bpgui->setFullscreenLink(".");
-		$bpgui->setSourcecodeDownloadScript(".");
-
-		return $bpgui->showPage();		
+		$bpgui->setSourcecodeDownloadScript(".");						
+		 
+		// render without title
+		$page = $bpgui->showPage();		
+		
+		if($a_truncate)
+		{
+			$page = ilPageObject::truncateHTML($page, $a_truncate_length, $a_truncate_sign);		
+		}
+		
+		if($img)
+		{
+			$page = '<div>'.$img.$page.'</div><div style="clear:both;"></div>';			
+		}
+	
+		return $page;				
 	}
+	
+	protected function getFirstMediaObjectAsTag($a_width = 144, $a_height = 144)
+	{
+		$this->obj->buildDom();
+		$mob_ids = $this->obj->collectMediaObjects();
+		if($mob_ids)
+		{
+			require_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
+			foreach($mob_ids as $mob_id)
+			{				
+				$mob_obj = new ilObjMediaObject($mob_id);
+				$mob_item = $mob_obj->getMediaItem("Standard");
+				if(stristr($mob_item->getFormat(), "image"))
+				{				
+					$mob_size = $mob_item->getOriginalSize();
+					if($mob_size["width"] >= $a_width ||
+						$mob_size["height"] >= $a_height)
+					{
+						$mob_dir = ilObjMediaObject::_getDirectory($mob_obj->getId());
+						
+						$mob_res = self::parseImage($mob_size["width"],
+							$mob_size["height"], $a_width, $a_height);
+						
+						return '<img'.
+							' src="'.$mob_dir."/".$mob_item->getLocation().'"'.
+							' width="'.$mob_res[0].'"'.
+							' height="'.$mob_res[1].'"'.
+							' class="ilBlogListItemSnippetPreviewImage"'.
+							' style="float:left;"'.
+							' />';
+					}
+				}
+			}
+		}
+	}
+	
+	protected static function parseImage($src_width, $src_height, $tgt_width, $tgt_height)
+	{	
+		$ratio_width = $ratio_height = 1;
+		if($src_width > $tgt_width)
+		{
+			$ratio_width = $tgt_width / $src_width;
+		}	
+		if($src_height > $tgt_height)
+		{
+			$ratio_height = $tgt_height / $src_height;
+		}			
+		$shrink_ratio = min($ratio_width, $ratio_height);
+						
+		return array(
+			(int)round($src_width*$shrink_ratio), 
+			(int)round($src_height*$shrink_ratio)
+		);
+	}	
 }
 
 ?>

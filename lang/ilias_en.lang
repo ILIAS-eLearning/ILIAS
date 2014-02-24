@@ -14223,3 +14223,11 @@ rbac#:#orgu_delete#:#User can move or delete Organisational Unit
 rbac#:#orgu_edit_permission#:#User can change permission settings
 rbac#:#rbac_create_orgu#:#Create Organisational Units
 book#:#book_post_booking_text_info#:#Use [PERIOD] and [OBJECT] to add booking details to the text.
+blog#:#blog_abstract_shorten#:#Shorten Abstract
+blog#:#blog_abstract_shorten_length#:#Maximum Length
+blog#:#blog_abstract_shorten_characters#:#Characters
+blog#:#blog_abstract_image#:#Add Image To Abstract
+blog#:#blog_abstract_image_info#:#Images which are smaller will not be used.
+blog#:#blog_abstract_image_width#:#Width
+blog#:#blog_abstract_image_height#:#Height
+blog#:#blog_abstract_image_pixels#:#Px
