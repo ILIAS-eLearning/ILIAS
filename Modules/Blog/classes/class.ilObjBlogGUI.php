@@ -581,13 +581,14 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 	function createPosting()
 	{
 		global $ilCtrl, $ilUser;
-
-		if($_POST["title"])
+		
+		$title = trim(ilUtil::stripSlashes($_POST["title"]));
+		if($title)
 		{
 			// create new posting
 			include_once("./Modules/Blog/classes/class.ilBlogPosting.php");
 			$posting = new ilBlogPosting();
-			$posting->setTitle($_POST["title"]);
+			$posting->setTitle($title);
 			$posting->setBlogId($this->object->getId());
 			$posting->setActive(false);
 			$posting->setAuthor($ilUser->getId());
