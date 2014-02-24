@@ -415,6 +415,20 @@ class ilBlogPosting extends ilPageObject
 		}
 		return $ids;
 	}
+	
+	public function getNotificationAbstract()
+	{	
+		include_once "Modules/Blog/classes/class.ilBlogPostingGUI.php";
+		$snippet = ilBlogPostingGUI::getSnippet($this->getId(), true);
+		
+		// making things more readable
+		$snippet = str_replace('<br/>', "\n", $snippet);
+		$snippet = str_replace('<br />', "\n", $snippet);
+		$snippet = str_replace('</p>', "\n", $snippet);
+		$snippet = str_replace('</div>', "\n", $snippet);
+	
+		return trim(strip_tags($snippet));			
+	}
 }
 
 ?>

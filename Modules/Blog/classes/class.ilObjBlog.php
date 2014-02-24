@@ -572,7 +572,13 @@ class ilObjBlog extends ilObject2
 			$ntf->addAdditionalInfo('comment', $a_comment, true);
 		}	
 		$ntf->setGotoLangId('blog_change_notification_link');				
-		$ntf->setReasonLangId('blog_change_notification_reason');				
+		$ntf->setReasonLangId('blog_change_notification_reason');		
+		
+		$abstract = $posting->getNotificationAbstract();
+		if($abstract)
+		{
+			$ntf->addAdditionalInfo('content', $abstract, true);
+		}	
 				
 		$notified = $ntf->sendMail($users, "_".$a_posting_id, 
 			($admin_only ? "write" : "read"));								
