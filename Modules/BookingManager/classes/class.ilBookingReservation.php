@@ -551,12 +551,17 @@ class ilBookingReservation
 			}
 		}
 		
+		include_once('./Services/Calendar/classes/class.ilCalendarUtil.php');
+		
 		foreach($res as $idx => $item)
 		{
 			if(isset($item["details"]))
 			{
 				$res[$idx]["date_from"] = null;
-				$res[$idx]["date_to"] = null;				
+				$res[$idx]["date_to"] = null;		
+				
+				$weekdays = array();
+				$recur = $last = 0;
 				
 				foreach($item["details"] as $detail)
 				{
@@ -565,6 +570,16 @@ class ilBookingReservation
 					$res[$idx]["object_id"] = $detail["object_id"];
 					$res[$idx]["title"] = $detail["title"];
 					$res[$idx]["booking_reservation_id"] = $detail["booking_reservation_id"];
+					
+					$sortkey = date("wHi", $detail["date_from"])."_".date("wHi", $detail["date_to"]);				
+					$weekdays[$sortkey] = ilCalendarUtil::_numericDayToString(date("w", $detail["date_from"]), false).
+						", ".date("H:i", $detail["date_from"]).
+						" - ".date("H:i", $detail["date_to"]);		
+					
+					if($last && $last-$detail["date_to"] > $recur)
+					{
+						$recur = $last-$detail["date_to"];
+					}				
 					
 					// min/max period
 					if(!$res[$idx]["date_from"] || $detail["date_from"] < $res[$idx]["date_from"])
@@ -579,6 +594,11 @@ class ilBookingReservation
 				
 				if(sizeof($item["details"]) > 1)
 				{
+					$weekdays = array_unique($weekdays);
+					ksort($weekdays);
+					$res[$idx]["weekdays"] = array_values($weekdays);
+					$res[$idx]["recurrence"] = $recur ? (int)ceil(($recur/(60*60*24))/7) : 0;	
+					
 					$res[$idx]["booking_reservation_id"] = $idx;								
 					$res[$idx]["title"] .= " (".sizeof($item["details"]).")";
 				}

@@ -254,7 +254,31 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 		{
 			$date_from = new ilDateTime($a_set['date_from'], IL_CAL_UNIX);
 			$date_to = new ilDateTime($a_set['date_to'], IL_CAL_UNIX);
-			$this->tpl->setVariable("VALUE_DATE", ilDatePresentation::formatPeriod($date_from, $date_to));
+			
+			$period = ilDatePresentation::formatPeriod($date_from, $date_to);
+			if($a_set['group_id'] && $a_set["weekdays"])
+			{						
+				switch($a_set["recurrence"])
+				{
+					case 1:
+						$recur = $this->lng->txt("cal_weekly").": ";
+						break;
+
+					case 2:
+						$recur = $this->lng->txt("r_14").": ";
+						break;
+
+					case 4:
+						$recur = $this->lng->txt("r_4_weeks").": ";
+						break;
+
+					default:
+						$recur = "";
+						break;
+				}				
+				$period .= '<div class="small light">'.$recur.implode(" &middot; ", $a_set["weekdays"])."</div>";
+			}
+			$this->tpl->setVariable("VALUE_DATE", $period);			
 		}
 	
 		if (!$this->has_schedule || $date_to->get(IL_CAL_UNIX) > time())

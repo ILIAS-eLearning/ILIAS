@@ -614,7 +614,8 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 				{	
 					$group_id = null;
 					$nr = ilBookingObject::getNrOfItemsForObjects(array($object_id));
-					if($nr[$object_id] > 1 || sizeof($_POST['date']) > 1)
+					// needed for recurrence
+					if(true) // if($nr[$object_id] > 1 || sizeof($_POST['date']) > 1)
 					{
 						$group_id = ilBookingReservation::getNewGroupId();									
 					}
@@ -626,8 +627,9 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 						$counter = ilBookingReservation::getAvailableObject(array($object_id), $fromto[0], $fromto[1], false, true);
 						$counter = $counter[$object_id];
 						if($counter)
-						{						
-							if($counter > 1)
+						{					
+							// needed for recurrence
+							if(true) // if($counter > 1)
 							{
 								$confirm[$object_id."_".$fromto[0]."_".($fromto[1]+1)] = $counter;
 							}
@@ -763,10 +765,26 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 			$nr_field->setValue(1);
 			$nr_field->setSize(3);
 			$nr_field->setMaxValue($counter);
-			$nr_field->setMinValue(1);
+			$nr_field->setMinValue($counter ? 1 : 0);
 			$nr_field->setRequired(true);
 			$form->addItem($nr_field);				
 		}
+		
+		// recurrence
+		$this->lng->loadLanguageModule("dateplaner");
+		$rec_mode = new ilSelectInputGUI($this->lng->txt("dv_rotation"), "recm");
+		$rec_mode->setRequired(true);
+		$rec_mode->setOptions(array(
+			"" => $this->lng->txt("please_select"),
+			"-1" => $this->lng->txt("cal_no_recurrence"),
+			1 => $this->lng->txt("cal_weekly"),
+			2 => $this->lng->txt("r_14"),
+			4 => $this->lng->txt("r_4_weeks")
+		));
+		$form->addItem($rec_mode);
+
+		$rec_end = new ilDateTimeInputGUI($this->lng->txt("dv_rotation_end"), "rece");
+		$form->addItem($rec_end);		
 		
 		if($a_group_id)
 		{
@@ -796,26 +814,85 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		$tpl->setContent($a_form->getHTML());
 	}
 	
+	protected function addDaysDate($a_date, $a_days)
+	{
+		$date = getDate($a_date);
+		$stamp = mktime(0, 0, 1, $date["mon"], $date["mday"]+$a_days, $date["year"]);
+		return date("Y-m-d", $stamp);
+	}
+	
+	protected function addDaysStamp($a_stamp, $a_days)
+	{
+		$date = getDate($a_stamp);		
+		return mktime($date["hours"], $date["minutes"], $date["seconds"], 
+			$date["mon"], $date["mday"]+$a_days, $date["year"]);
+	}
+	
 	public function confirmedBookingNumbersObject()
 	{
+		include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';								
+		include_once 'Modules/BookingManager/classes/class.ilBookingObject.php';
+		
 		// convert post data to initial form config
 		$counter = array();
+		$current_first = $obj_id = null;
 		foreach(array_keys($_POST) as $id)
 		{
 			if(substr($id, 0, 9) == "conf_nr__")
 			{
 				$id = explode("_", substr($id, 9));
-				$counter[$id[0]."_".$id[1]."_".$id[2]] = $id[3];		
+				$counter[$id[0]."_".$id[1]."_".$id[2]] = (int)$id[3];		
+				if(!$current_first)
+				{
+					$current_first = date("Y-m-d", $id[1]);
+				}
 			}
 		}
+		
+		// recurrence
+		if((int)$_POST["recm"] > 0 && $current_first)
+		{
+			ksort($counter);			
+			$end = $_POST["rece"]["date"];
+			$end = date("Y-m-d", mktime(23, 59, 59, $end["m"], $end["d"], $end["y"]));					
+			$cycle = (int)$_POST["recm"]*7;			
+			$cut = 0;		
+			$org = $counter;
+			while($cut < 1000 && $this->addDaysDate($current_first, $cycle) < $end)
+			{
+				$cut++;
+				$current_first = null;
+				foreach($org as $item_id => $max)
+				{
+					$parts = explode("_", $item_id);
+					$obj_id = $parts[0];
+					
+					$from = $this->addDaysStamp($parts[1], $cycle*$cut);
+					$to = $this->addDaysStamp($parts[2], $cycle*$cut);
+					
+					if(!$current_first)
+					{
+						$current_first = $from;
+					}
+					
+					// get max available for added dates
+					$new_max = ilBookingReservation::getAvailableObject(array($obj_id), $from, $to-1, false, true);
+					$new_max = (int)$new_max[$obj_id];
+					
+					$new_item_id = $obj_id."_".$from."_".$to;
+					$counter[$new_item_id] = $new_max;
+					
+					// clone input 
+					$_POST["conf_nr__".$new_item_id."_".$new_max] = $_POST["conf_nr__".$item_id."_".$max];								
+				}							
+			}											
+		}			
 		
 		$group_id = $_POST["grp_id"];
 
 		$form = $this->initBookingNumbersForm($counter, $group_id);
 		if($form->checkInput())
-		{			
-			include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';					
-			
+		{					
 			$success = false;
 			foreach($counter as $id => $all_nr)
 			{				
