@@ -1,4 +1,4 @@
-/* Copyright (c) 1998-2013 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2014 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
 *
@@ -183,7 +183,7 @@ adve#:#adve_page_editor_settings#:#ILIAS Content Editor
 adve#:#adve_rte_settings#:#TinyMCE Editor
 adve#:#adve_text_content_features#:#Text Content Menu
 assessment#:#autosave#:#Automatic saving
-assessment#:#autosave_info#:#If checked, answers are saved in intervals without user interaction to avoid data loss. (Does only apply for selected questions.)
+assessment#:#autosave_info#:#If checked, answers are saved in intervals without user interaction to avoid data loss.
 assessment#:#autosave_ival#:#Interval
 assessment#:#autosave_ival_info#:#Interval in which answers are saved automatically. (microseconds)
 assessment#:#for#:#for
@@ -321,9 +321,9 @@ assessment#:#delete_image#:#Delete Image
 assessment#:#delete_user_data#:#Delete Test Data of the Selected Users
 assessment#:#deleteSuggestedSolution#:#Remove this suggested solution
 assessment#:#description_maxchars#:#If nothing entered the maximum number of characters for this text answer is unlimited.
-assessment#:#detail_ending_time_reached#:#You have reached the ending time of the test. The test isn't available since %s
+assessment#:#detail_ending_time_reached#:#You have reached the finish time of the test. The test isn't available since %s
 assessment#:#detail_max_processing_time_reached#:#You have reached the maximum allowed processing time of the test!
-assessment#:#detail_starting_time_not_reached#:#You have not reached the starting time of the test. The test will be available on %s
+assessment#:#detail_starting_time_not_reached#:#You have not reached the start time of the test. The test will be available on %s
 assessment#:#detailed_evaluation_for#:#Detailed Evaluation for %s
 assessment#:#detailed_evaluation_missing_active_id#:#You must call the Datailed Evaluation for a selected participant!
 assessment#:#detailed_evaluation_show#:#Show Detailed Evaluation
@@ -370,7 +370,7 @@ assessment#:#empty_term_message#:#There is a least one empty term field.
 assessment#:#empty_terms_exist#:#There are already empty term fields. Please fill out these fields before you add more terms.
 assessment#:#enable_javascript#:#Click to enable JavaScript support
 assessment#:#end_tag#:#End Tag
-assessment#:#ending_time_reached#:#You have reached the ending time
+assessment#:#ending_time_reached#:#You have reached the finish time
 assessment#:#enlarge#:#Enlarge
 assessment#:#enter_anonymous_code#:#Enter Anonymous Access Code
 assessment#:#enter_enough_positive_points#:#The maxium available points must be greater than 0! Please enter sufficient positive points for your answers.
@@ -438,8 +438,8 @@ assessment#:#filter_show_question_types#:#Show Question Types
 assessment#:#filter_show_questionpools#:#Show Question Pools
 assessment#:#filter_users#:#Filter Users
 assessment#:#filter#:#Filter
-assessment#:#final_statement_show_desc#:#If checked, the concluding remarks will be shown directly after the test was finished prior to the presentation of the test results.
-assessment#:#final_statement_show#:#Show Concluding Remarks
+assessment#:#final_statement_show_desc#:#If checked, the concluding remarks will be shown directly after the test has been completed (before the presentation of the test results).
+assessment#:#final_statement_show#:#Show concluding remarks
 assessment#:#final_statement#:#Concluding Remarks
 assessment#:#fixed_participants_hint#:#This test is only accessible for a fixed set of participants shown below. You can change this setting by deactivating the fixed participants checkbox in the test settings.
 assessment#:#flashfile#:#Flash File
@@ -469,7 +469,7 @@ assessment#:#internal_links_update#:#Update
 assessment#:#internal_links#:#Internal Links
 assessment#:#javaapplet#:#Java Applet
 assessment#:#keywords_hint#:#Enter a list of keywords, separated by spaces or newlines to add an automatic scoring option for the essay question. If any of the keywords will be found in the answertext of the learner, the default score will be set to the maximum available points instead of 0 points.
-assessment#:#kiosk_description#:#Run the test in a Kiosk Mode. All content elements which are not part of the test will be hidden to prevent users from leaving the test.
+assessment#:#kiosk_description#:#Run the test in Kiosk Mode. All content elements which are not part of the test will be hidden to prevent users from leaving the test.
 assessment#:#kiosk_options_desc#:#Select whether the test title and/or the name of the active participant should be shown at the top of the test during the kiosk mode.
 assessment#:#kiosk_options#:#Kiosk Mode Options
 assessment#:#kiosk_show_participant#:#Show Name of Participant
@@ -578,7 +578,7 @@ assessment#:#output_mode#:#Output Mode
 assessment#:#output#:#Output
 assessment#:#participants_data#:#Participants Data
 assessment#:#participants_evaluation#:#Evaluation for all Test Participants
-assessment#:#participants_invitation_description#:#You are able to make this test accessible only for a fixed group of ILIAS users. To enable this functionality, please check the above checkbox and press the Save button.
+assessment#:#participants_invitation_description#:#You are able to make this test accessible only to a fixed group of ILIAS users. To enable this functionality, please check the above checkbox and press the save button.
 assessment#:#participants_invitation_search_introduction#:#To add fixed participants to this test, please select the users in the below search form and invite them into the test. All test participants will be shown on the Participants Data subtab.
 assessment#:#participants_invitation#:#Invite Fixed Participants
 assessment#:#participants#:#Participants
@@ -651,7 +651,7 @@ assessment#:#qst_nr_of_tries#:#Number of Tries
 assessment#:#qt_multiple_choice#:#Multiple Choice Question
 assessment#:#question_cumulated_statistics#:#Cumulated Question Statistics
 assessment#:#question_instances_title#:#This question is used in the following tests
-assessment#:#question_marking_description#:#If checked, every participant gets the possibility to mark every question of a test with a marker symbol to indicate that something has to be done with a question (e.g. check again, answered, not answered etc.). The markers are also visible in the list of questions (if available).
+assessment#:#question_marking_description#:#If checked, every participant can mark each test question with a marker symbol to indicate that something has to be done to a question. (e.g. check again, answered, not answered etc.). The markers are also visible in the list of questions (if available).
 assessment#:#question_marking#:#Show Question Marking
 assessment#:#question_not_answered#:#The question was not answered
 assessment#:#question_saved_for_upload#:#The question was saved automatically in order to reserve hard disk space to store the uploaded file. If you cancel this form now, be aware that you must delete the question in the question pool if you do not want to keep it!
@@ -723,8 +723,8 @@ assessment#:#shape#:#Shape
 assessment#:#show_detailed_results#:#Show User's Detailed Results (Marked Pass)
 assessment#:#show_pass_overview#:#Show Marked Pass Overview
 assessment#:#show_user_answers#:#Show User's Marked Answers
-assessment#:#showinfo_desc#:#If checked, the complete Test Information Page will be shown (including the test properties). If unchecked, only the introductory message (if available) and the required properties will be shown on the Test Information Page. 
-assessment#:#showinfo#:#Show the complete Information Page
+assessment#:#showinfo_desc#:#If checked, the complete test information page will be shown (including the test properties). If unchecked, only the introductory message (if available) and the required properties will be shown on the test information page. 
+assessment#:#showinfo#:#Show the complete information page
 assessment#:#showSuggestedSolution#:#Type
 assessment#:#shuffle_answers#:#Shuffle Answers
 assessment#:#solution_hint#:#Assign Suggested Solution
@@ -732,7 +732,7 @@ assessment#:#solution_may_contain_keywords#:#The solution may contain one of the
 assessment#:#solution_order#:#Solution Order
 assessment#:#solutionText#:#Text
 assessment#:#start_tag#:#Start Tag
-assessment#:#starting_time_not_reached#:#You have not reached the starting time
+assessment#:#starting_time_not_reached#:#You have not reached the start time
 assessment#:#statistical_data#:#Statistical Data
 assessment#:#statistics#:#Statistics
 assessment#:#suggested_solution_added_successfully#:#You successfully set a suggested solution!
@@ -795,7 +795,7 @@ assessment#:#tst_delete_all_user_data#:#Delete all User Data
 assessment#:#tst_delete_missing_mark#:#Please select at least one mark step to delete it
 assessment#:#tst_delete_results#:#Reset Test
 assessment#:#tst_dont_use_previous_answers#:#Your previous answers will not be used as default values in future test passes
-assessment#:#tst_ending_time#:#Ending Time
+assessment#:#tst_ending_time#:#Finish Time
 assessment#:#tst_enter_questionpool#:#Please enter a question pool name where the new question will be stored
 assessment#:#tst_eval_no_anonymous_aggregation#:#No one has entered the test yet. There are no anonymous aggregated test results available.
 assessment#:#tst_eval_question_points#:#Question Results for Pass %s
@@ -813,7 +813,7 @@ assessment#:#tst_finish_confirm_cancel_button#:#No, go back to the previous ques
 assessment#:#tst_finish_confirm_list_of_answers_button#:#No, go back to the List of Answers
 assessment#:#tst_finish_confirmation_question#:#You are going to finish this test and reach the maximum number of allowed test passes. You won't be able to enter this test again to change your answers. Do you really want to finish the test?
 assessment#:#tst_finish_notification_advanced#:#Send complete test result to test owner
-assessment#:#tst_finish_notification_no#:#Don't send a mail notification when a user finishes a test
+assessment#:#tst_finish_notification_no#:#Don't send mail notification when a user finishes a test
 assessment#:#tst_finish_notification_simple#:#Send user name and finish date to test owner
 assessment#:#tst_finish_notification#:#Mail on completion
 assessment#:#tst_finished#:#Finished
@@ -862,7 +862,7 @@ assessment#:#tst_mark_short_form#:#Short Form
 assessment#:#tst_mark#:#Mark
 assessment#:#tst_max_allowed_users_heading#:#The maximum number of simultaneous users in this test has been reached
 assessment#:#tst_max_allowed_users_message#:#The maximum number of simultaneous active users in the test has been reached. Please try again later to start or resume the test. If one of the active users is inactive for more than %s seconds, you may be able to enter this test. Thank you for your understanding.
-assessment#:#tst_max_allowed_users#:#Participants Restriction
+assessment#:#tst_max_allowed_users#:#Participant Restriction
 assessment#:#tst_maximum_points#:#Maximum Points
 assessment#:#tst_missing_author#:#You have not entered the authors name in the test properties! Please add an authors name.
 assessment#:#tst_missing_marks#:#You do not have a mark schema in the test! Please add at least a simple mark schema to the test.
@@ -902,7 +902,7 @@ assessment#:#tst_postpone_description#:#The participants may postpone questions 
 assessment#:#tst_postpone#:#Postpone Questions
 assessment#:#tst_print_date#:#Date of Print
 assessment#:#tst_print#:#Test and Assessment - Print View
-assessment#:#tst_processing_time_desc#:#The countdown of the maximum processing time begins at the moment when a user starts a test for the first time and ends after the expiration of the entered period of time. If this option is used, the possibility to suspend a test should be deactivated (see 'Sequence Settings') because suspending the test does not stop the countdown of the maximum processing time.
+assessment#:#tst_processing_time_desc#:#The maximum processing time begins to countdown the moment a user starts a test for the first time and ends when the given time period expires. If this option is used, the option of suspending a test should be deactivated (see 'Sequence Settings') because suspending the test does prevent the maximum processing time from counting down.
 assessment#:#tst_processing_time#:#Max. Processing Time
 assessment#:#tst_properties#:#Test Properties
 assessment#:#tst_qst_order#:#Order
@@ -957,7 +957,7 @@ assessment#:#tst_results_back_introduction#:#Back to Introductory Message
 assessment#:#tst_results_back_overview#:#Back to Results Overview
 assessment#:#tst_results_overview_pass#:#Results Overview for Pass %s
 assessment#:#tst_results_overview#:#Pass Overview of the Test Results
-assessment#:#tst_results_presentation_description#:#If "Show Pass Details for running tests" is selected, the question titles and the reached points for every question in the test pass are available if the test is not finished. If "Show Solutions in Test Results" is selected, the detailed question solution is available for participants in the test results presentation. This includes the exact scoring of every answer, otherwise only an overview with the question titles and the reached points is shown. If the list of answers is selected, an overview of all questions with the answers of the participant is generated. This list will be offered on the Info Page and at the end of a test prior to the final submission. If "Show Answer-Specific Feedback in Test Results" is selected, the answer specific feedback will be shown in the test results next to the questions. If "Results print view (answers only)" is selected, the ILIAS content you place around a question using the "Edit content" tab page will not be visible in a print-out. If you want to save some paper space, select this option. If "Show Signature Placeholder" is selected, a signature placeholder will be shown for printout. If "Show Suggested Solution" is selected, the suggested solutions of questions (if existent) will be shown in the test results overview.
+assessment#:#tst_results_presentation_description#:#If "Show Pass Details for running tests" is selected, the question titles and the reached points for every question in the test pass are available if the test is not finished. If "Show Solutions in Test Results" is selected, the detailed question solution is available to participants in the test results presentation. This includes the exact scoring of every answer, otherwise only an overview with the question titles and the reached points is shown. If the list of answers is selected, an overview of all questions with the answers of the participant is generated. This list will be offered on the Info Page and at the end of a test prior to the final submission. If "Show Answer-Specific Feedback in Test Results" is selected, the answer specific feedback will be shown in the test results next to the questions. If "Results print view (answers only)" is selected, the ILIAS content you place around a question using the "Edit content" tab page will not be visible in a print-out. If you want to save some paper space, select this option. If "Show Signature Placeholder" is selected, a signature placeholder will be shown for printout. If "Show Suggested Solution" is selected, the suggested solutions of questions (if existent) will be shown in the test results overview.
 assessment#:#tst_results_presentation#:#Test Results Presentation
 assessment#:#tst_results#:#Test Results
 assessment#:#tst_resume_test#:#Resume the Test
@@ -985,7 +985,7 @@ assessment#:#tst_sequence_properties#:#Sequence Settings
 assessment#:#tst_sequence#:#Sequence
 assessment#:#tst_session_settings#:#Session Settings
 assessment#:#tst_show_answer_sheet#:#Show Answers
-assessment#:#tst_show_cancel_description#:#If checked, a button to suspend the test is shown during test run. Do not use this option when running a test with maximum processing time. Suspending the test does not stop the maximum processing time's countdown.
+assessment#:#tst_show_cancel_description#:#If checked, a button to suspend the test is shown to participants. Do not use this option when running a test with a maximum processing time. Suspending the test does not stop the maximum processing time's countdown.
 assessment#:#tst_show_cancel#:#Show Suspend Test Option
 assessment#:#tst_show_pass_details#:#Show Pass Details for Running Tests
 assessment#:#tst_show_results#:#Show Test Results
@@ -996,7 +996,7 @@ assessment#:#tst_show_solution_feedback#:#Show Answer-Specific Feedback in Test 
 assessment#:#tst_show_solution_printview#:#Show List of Answers
 assessment#:#tst_show_solution_signature#:#Show Signature Placeholder
 assessment#:#tst_show_solution_suggested#:#Show Suggested Solution
-assessment#:#tst_show_summary_description#:#Offers a list with all test questions available for the test participants during the test.
+assessment#:#tst_show_summary_description#:#Offers a list with all test questions available to test participants during the test.
 assessment#:#tst_show_summary#:#Show List of Questions
 assessment#:#tst_shuffle_questions_description#:#Shuffle the sequence of questions for every test pass.
 assessment#:#tst_shuffle_questions#:#Shuffle Questions
@@ -1005,7 +1005,7 @@ assessment#:#tst_single_results#:#Results by Question
 assessment#:#tst_start_new_test_pass#:#Start New Test Pass
 assessment#:#tst_start_test#:#Start the Test
 assessment#:#tst_started#:#Test Started
-assessment#:#tst_starting_time#:#Starting Time
+assessment#:#tst_starting_time#:#Start Time
 assessment#:#tst_stat_all_users#:#All Participants
 assessment#:#tst_stat_choose_users#:#(select one or more users from the user list)
 assessment#:#tst_stat_result_atimeofwork#:#Average Time of Work
@@ -1045,7 +1045,7 @@ assessment#:#tst_time_already_spent#:#You started the test at %s. Your maximum p
 assessment#:#tst_title_output_description#:#Select one of the above options for the presentation of the question titles and the available points during the test.
 assessment#:#tst_title_output_full#:#Show Question Titles and Available Points
 assessment#:#tst_title_output_hide_points#:#Show only Question Titles
-assessment#:#tst_title_output_no_title#:#Don't show the Question Titles and the Available Points
+assessment#:#tst_title_output_no_title#:#Don't show Question Titles and Available Points
 assessment#:#tst_title_output#:#Question Title Output
 assessment#:#tst_total_questions_description#:#If you set this value, the amount of questions entered with the question pools are ignored. If you don't set this value, you need to enter an amount with every selected question pool!
 assessment#:#tst_total_questions#:#Total Amount of Questions
@@ -1055,7 +1055,7 @@ assessment#:#tst_type_comment#:#Warning: Changing the test type of a running tes
 assessment#:#tst_type#:#Test Type
 assessment#:#tst_types#:#Test Types
 assessment#:#tst_use_javascript#:#Use Javascript for drag and drop actions
-assessment#:#tst_use_previous_answers_description#:#If checked, a participant may choose to use the previous answers as default values in future test passes, otherwise the previous answers are not shown in future test passes. Thefore an option is shown on the info screen, that is deactivated by default.
+assessment#:#tst_use_previous_answers_description#:#If checked, a participant may choose to use previous answers as default values in future test passes, otherwise previous answers are not shown in future test passes. An option is shown on the information screen, which is deactivated by default.
 assessment#:#tst_use_previous_answers_user#:#Use my previous answers as default values in future test passes
 assessment#:#tst_use_previous_answers#:#Option to Use Previous Answers
 assessment#:#tst_user_finished_test#:#User finished test (%s)
@@ -1087,9 +1087,9 @@ assessment#:#you_received_a_of_b_points#:#You received %s of %s possible points
 assessment#:#all_participants#:#All participants
 assessment#:#with_solutions_participants#:#Participants with solutions
 assessment#:#without_solutions_participants#:#Participants without solutions
-assessment#:#tst_show_toplist#:#Show Highscores
-assessment#:#toplist_by_score#:#Highscore by score
-assessment#:#toplist_by_time#:#Highscore by working time
+assessment#:#tst_show_toplist#:#Show High Scores
+assessment#:#toplist_by_score#:#High score by score
+assessment#:#toplist_by_time#:#High score by working time
 assessment#:#toplist_top_n_results#:#Top %s Results
 assessment#:#toplist_col_rank#:#Rank
 assessment#:#toplist_col_participant#:#Participant
@@ -1099,9 +1099,9 @@ assessment#:#toplist_col_percentage#:#Percentage
 assessment#:#toplist_col_hints#:#Hints
 assessment#:#toplist_col_wtime#:#Working Time
 assessment#:#toplist_your_result#:#Your ranking
-assessment#:#tst_highscore_options#:#Highscore
-assessment#:#tst_highscore_enabled#:#Highscore display activated
-assessment#:#tst_highscore_description#:#Should the display of highscores be available?
+assessment#:#tst_highscore_options#:#High Score
+assessment#:#tst_highscore_enabled#:#High Score display activated
+assessment#:#tst_highscore_description#:#Should the display of high scores be available?
 assessment#:#tst_highscore_anon#:#Anonymization of the entries.
 assessment#:#tst_highscore_anon_description#:#Controls, if names are anonymized with the ranks. This option may be overriden by the test anonymization switch.
 assessment#:#tst_highscore_achieved_ts#:#Show date of test
@@ -1953,7 +1953,7 @@ common#:#cron_mail_notification_desc#:#If enabled, all users, who want to be inf
 common#:#cron_mail_notification_never#:#never
 common#:#cron_mail_notification#:#Send Mail Notifications
 common#:#crs_a#:#a Course
-common#:#crs_activation_start_invalid#:#The start and the end time is not valid.
+common#:#crs_activation_start_invalid#:#The start and the finish time is not valid.
 common#:#crs_add#:#Add Course
 common#:#crs_added#:#Course added
 common#:#crs_all_questions_answered_successfully#:#You have successfully answered every question.
@@ -5501,7 +5501,7 @@ crs#:#crs_no_subscribers_selected#:#Please select a user
 crs#:#crs_no_tests_inside_crs#:#No tests inside this course, which can be assigned to this learning objective.
 crs#:#crs_no_title_given#:#Please insert a title for the objective.
 crs#:#crs_no_users_added#:#No members added
-crs#:#crs_no_users_selected#:#You did not select any user
+crs#:#crs_no_users_selected#:#You did not select a user
 crs#:#crs_no_valid_member_id_given#:#No valid member Id
 crs#:#crs_not_available#:#-Not available-
 crs#:#crs_notification_explanation_admin#:#You receive mail from ILIAS because you are course administrator / tutor with notification enabled.
@@ -5694,7 +5694,7 @@ crs#:#crs_timings_disabled_info#:#Choose this option to disable any timings.
 crs#:#crs_timings_disabled#:#Timings Disabled
 crs#:#crs_timings_duration#:#Duration
 crs#:#crs_timings_early_begin#:#Earliest Start
-crs#:#crs_timings_end#:#Ending Time
+crs#:#crs_timings_end#:#Finish Time
 crs#:#crs_timings_from_until#:#(From/Until)
 crs#:#crs_timings_in_days#:#(In Days)
 crs#:#crs_timings_info_active#:#(Active)
@@ -5709,7 +5709,7 @@ crs#:#crs_timings_short_changeable#:#Changeable
 crs#:#crs_timings_short_limit_start_end#:#Latest End Date
 crs#:#crs_timings_short_start_end#:#Suggestion
 crs#:#crs_timings_start_end_info#:#(Start/End)
-crs#:#crs_timings_start#:#Starting Time
+crs#:#crs_timings_start#:#Start Time
 crs#:#crs_timings_sug_begin#:#Suggested Start
 crs#:#crs_timings_sug_end#:#Suggested End
 crs#:#crs_timings_suggested_info#:#Suggested Editing Time
@@ -5774,7 +5774,7 @@ crs#:#event_details_workflow#:#Details/Workflow
 crs#:#event_digit#:#Digit
 crs#:#event_edit_members#:#Edit Participants
 crs#:#event_end_date#:#End
-crs#:#event_etime_smaller_stime#:#The ending time is earlier than the starting time. Please enter a valid time span.
+crs#:#event_etime_smaller_stime#:#The finish time is earlier than the start time. Please enter a valid time span.
 crs#:#event_existing_files#:#Existing Files:
 crs#:#event_file_download#:#Files for Download
 crs#:#event_file_name#:#File Name
@@ -6061,7 +6061,7 @@ dateplaner#:#dv_text#:#Text:
 dateplaner#:#dv_whole_day#:#Whole day:
 dateplaner#:#dv_whole_rotation#:#Would you like to delete the entire recurring series? (click the checkbox)
 dateplaner#:#end_date#:#End Date
-dateplaner#:#endtime_for_view#:#End time for view:
+dateplaner#:#endtime_for_view#:#Finish time for view:
 dateplaner#:#err_end_before_start#:#The appointment must not start before the end.
 dateplaner#:#err_missing_title#:#Please enter an appointment title.
 dateplaner#:#ERROR_DATE_EXISTS#:#This event already exists.
@@ -6070,7 +6070,7 @@ dateplaner#:#ERROR_DB#:#Database write error!
 dateplaner#:#ERROR_DEL_MSG#:#This is a recurring event. Would you like to delete one event or the series
 dateplaner#:#ERROR_END_START#:#Wrong end date input. End date is before start date.
 dateplaner#:#ERROR_ENDDATE#:#Wrong end date input. Format: dd/mm/yyyy
-dateplaner#:#ERROR_ENDTIME#:#Wrong end time. Format: hh:mm
+dateplaner#:#ERROR_ENDTIME#:#Wrong finish time. Format: hh:mm
 dateplaner#:#ERROR_FILE_CSV_MSG#:#Please take a valid CSV file.
 dateplaner#:#ERROR_JAVASCRIPT#:#<B><CENTER>your browser doesn't accept JavaScript.<br />Please close this Window after insert manually.<br />Thank you</CENTER></B>
 dateplaner#:#error_minical_img#:#Cannot create GD-picture-stream
@@ -6091,14 +6091,14 @@ dateplaner#:#grp_cal_reg_end#:#Registration End
 dateplaner#:#grp_cal_reg_start#:#Registration Start
 dateplaner#:#help_day_l#:#In the day view all events of a chosen day are displayed.
 dateplaner#:#help_day#:#Calendar Day View
-dateplaner#:#help_enddate_l#:#Contains the end time of the event.<br />The symbol opens a small calendar for choosing the appropriate date.
+dateplaner#:#help_enddate_l#:#Contains the finish time of the event.<br />The symbol opens a small calendar for choosing the appropriate date.
 dateplaner#:#help_enddate#:#End date - syntax[dd/mm/yyyy]
 dateplaner#:#help_endrotation_l#:#At this day the repetition will end.<br />The symbol opens a small calendar for choosing the appropriate date
-dateplaner#:#help_endrotation#:#End time syntax[dd/mm/yyyy]
-dateplaner#:#help_endtime_l#:#Contains the end time of the appointment using 24-hour format.
-dateplaner#:#help_endtime#:#End time - syntax[hh/mm] 24-hour format
+dateplaner#:#help_endrotation#:#Finish time syntax[dd/mm/yyyy]
+dateplaner#:#help_endtime_l#:#Contains the finish time of the appointment using 24-hour format.
+dateplaner#:#help_endtime#:#Finish time - syntax[hh/mm] 24-hour format
 dateplaner#:#help_filename#:#dp_help_en.html
-dateplaner#:#help_fullday_l#:#If the event stretches over a whole day, please choose this option.<br />This will hide the start time, end time, and end date.
+dateplaner#:#help_fullday_l#:#If the event stretches over a whole day, please choose this option.<br />This will hide the start time, finish time, and end date.
 dateplaner#:#help_fullday#:#Whole day event - syntax[on/off]
 dateplaner#:#help_further#:#<br /><b>click here for further information.</b>
 dateplaner#:#help_group_l#:#Contains the groups for which the logged-in user has administrator rights and for which a date can be created.<br />After choosing this it is possible to view the unscheduled time of the group.
@@ -6127,9 +6127,9 @@ dateplaner#:#help_rotation_l#:#Contains the type of the recurrence / repetition.
 dateplaner#:#help_rotation#:#Recurrence
 dateplaner#:#help_shorttext_l#:#Here one can enter the short text for a given date.
 dateplaner#:#help_shorttext#:#Short text, max. 50 characters
-dateplaner#:#help_startdate_l#:#Contains the starting time of the event.<br />The symbol opens a small calendar for choosing the appropriate date.
+dateplaner#:#help_startdate_l#:#Contains the start time of the event.<br />The symbol opens a small calendar for choosing the appropriate date.
 dateplaner#:#help_startdate#:#Start date - syntax[dd/mm/yyyy]
-dateplaner#:#help_starttime_l#:#Contains the starting time of the event using 24-hour format.
+dateplaner#:#help_starttime_l#:#Contains the start time of the event using 24-hour format.
 dateplaner#:#help_starttime#:#Start time - syntax[hh/mm] 24-hour format
 dateplaner#:#help_text_l#:#Here one can enter the text for a given event.
 dateplaner#:#help_text#:#Text
@@ -6246,7 +6246,7 @@ ecs#:#ecs_approval_rcp_info#:#Enter one or more login names of users (comma sepe
 ecs#:#ecs_approval_rcp#:#Notification About Approved Courses
 ecs#:#ecs_attribute_name#:#Attribute Name
 ecs#:#ecs_ca_cert#:#CA Certificate
-ecs#:#ecs_cat_mapping_duration_info#:#Choose this mode for assigning Course Links based on date ranges (e.g starting time of a course).
+ecs#:#ecs_cat_mapping_duration_info#:#Choose this mode for assigning Course Links based on date ranges (e.g start time of a course).
 ecs#:#ecs_cat_mapping_duration#:#Date Range
 ecs#:#ecs_cat_mapping_fixed_info#:#Choose this mode for assigning Course Links to categories based on fixed values.
 ecs#:#ecs_cat_mapping_fixed#:#Fixed Values
@@ -6265,7 +6265,7 @@ ecs#:#ecs_econ_rcp#:#Notification About New E-Content
 ecs#:#ecs_edit_category_mapping#:#Edit Assignment
 ecs#:#ecs_email#:#E-Mail
 ecs#:#ecs_enable_participant#:#Allow Im/Export
-ecs#:#ecs_err_invalid_dates#:#The starting must be earlier than the ending time.
+ecs#:#ecs_err_invalid_dates#:#The starting must be earlier than the finish time.
 ecs#:#ecs_err_invalid_type#:#Please state a valid category object id.
 ecs#:#ecs_err_missing_value#:#Please check your input: Attribute values.
 ecs#:#ecs_error_extract_serial#:#Cannot read serial number of certificate. Please check the client certificate path.
@@ -6716,7 +6716,7 @@ grp#:#grp_warn_grp_type_changed#:#Do you really want to change the group type? A
 grp#:#grp_warn_no_max_set_on_waiting_list#:#The maximum number of group members is exceeded. You can add your join request to the waiting list. You will receive a message from a group administrator when your request has been approved or rejected.
 grp#:#grp_warn_wl_set_on_waiting_list#:#Some users are already assigned to the waiting list. You can add your join request to the waiting list. You will receive a message from a group administrator when your request has been approved or rejected.
 grp#:#grp_wrong_max_members#:#Please check the maximum number of users.
-grp#:#grp_wrong_reg_time_limit#:#Please check the registration start and end times.
+grp#:#grp_wrong_reg_time_limit#:#Please check the registration start and finish time.
 grp#:#reg_grp_max_members_short#:#Number of Members
 grp#:#reg_grp_max_members#:#Limited Number of Members
 ilinc#:#akclassvalue1#:#Cost center 1
@@ -10181,8 +10181,8 @@ content#:#cont_third_and_more#:#Third or More
 content#:#cont_never#:#Never
 user#:#user_adm_enable_alpha_nav#:#Alphabetical Navigation in User Administration
 form#:#form_alphabet_all#:#All
-content#:#cont_download_no_menu#:#Download will not be available for users, since the learning module menu is not activated.
-content#:#cont_download_no_download#:#Download will not be available for users, since the download feature is not activated.
+content#:#cont_download_no_menu#:#Download will not be available to users, since the learning module menu is not activated.
+content#:#cont_download_no_download#:#Download will not be available to users, since the download feature is not activated.
 content#:#cont_no_download_file_available#:#There is currently no public download file available.
 content#:#htlm_import#:#Import HTML Learning Module
 content#:#cont_selection#:#Selection
@@ -10491,7 +10491,7 @@ webr#:#webr_import#:#Import Weblink
 registration#:#reg_confirmation_hash_life_time#:#Lifetime
 registration#:#reg_allow_codes#:#Allow Codes
 registration#:#reg_allow_codes_info#:#Users are also allowed to register via codes.
-assessment#:#mailnottype#:#Send notification even when a user finishes a test pass
+assessment#:#mailnottype#:#Send notification even if a user finishes a test pass
 rbac#:#rbac_repository_permissions#:#Repository Permissions
 rbac#:#rbac_admin_permissions#:#Administration Permissions
 ps#:#ps_export_excel#:#Start Excel Export
@@ -10821,8 +10821,8 @@ survey#:#no_question_selected_for_copy_to_pool#:#Please select at least one ques
 survey#:#survey_copy_select_questionpool#:#Question pool to put the copies
 survey#:#survey_copy_to_questionpool_success#:#The questions were copied into the pool successfully.
 assessment#:#test_using_template#:#This test uses the template %s. If you do not want to use a template and have access to all settings, please click here: %s.
-assessment#:#tst_anonymity_no_anonymization#:#Particpants Results and Names are Tracked
-assessment#:#tst_anonymity_anonymous_test#:#Particpants Take Test Anonymously
+assessment#:#tst_anonymity_no_anonymization#:#Participants Results and Names are Tracked
+assessment#:#tst_anonymity_anonymous_test#:#Participants Take Test Anonymously
 assessment#:#tst_beginning_ending_information#:#Information at Beginning and End of Test
 assessment#:#tst_presentation_properties#:#Presentation Settings
 assessment#:#tst_settings_template#:#Template
@@ -12298,10 +12298,10 @@ tax#:#tax_target_within_nodes#:#The target must not be a subnode of the selected
 tax#:#tax_please_select_target#:#Please select the target.
 rep#:#rep_activation_availability#:#Availability
 rep#:#rep_activation_online#:#Online
-crs#:#crs_activation_online_info#:#Set the course online to make it visible and available for course members. If not, only course administrators and tutors will have access to it.
+crs#:#crs_activation_online_info#:#Set the course online to make it visible and available to course members. If not, only course administrators and tutors will have access to it.
 rep#:#rep_activation_access#:#Access
-rep#:#rep_activation_limited_start#:#Starting Time
-rep#:#rep_activation_limited_end#:#Ending Time
+rep#:#rep_activation_limited_start#:#Start Time
+rep#:#rep_activation_limited_end#:#Finish Time
 rep#:#rep_activation_limited_visibility#:#Always Visible
 crs#:#crs_activation_limited_visibility_info#:#If chosen, the course is visible even outside of the given availability.
 tax#:#tax_delete_taxonomy#:#Delete Taxononmy
@@ -12341,8 +12341,8 @@ rating#:#rating_overlay_title_overall#:#Overall Rating
 rating#:#rating_overlay_submit#:#Submit Rating
 rep#:#rep_visibility_limitless#:#Unlimited
 rep#:#rep_visibility_until#:#Temporarily Available
-assessment#:#tst_availability_limitless_info#:#Choose this mode for making the test available and accessible to users (depending on participants restriction settings below).
-assessment#:#tst_availability_until_info#:#Choose this mode for making the test available and accessible to users for a fixed period of time (depending on participants restriction settings below).
+assessment#:#tst_availability_limitless_info#:#Choose this mode for making the test available and accessible to users (depending on participant restriction settings below).
+assessment#:#tst_availability_until_info#:#Choose this mode for making the test available and accessible to users for a fixed period of time (depending on participant restriction settings below).
 assessment#:#tst_activation_online_info#:#If offline, only administrators can see and edit the test.
 assessment#:#tst_activation_limited_visibility_info#:#If chosen, the test is visible even outside of the given availability.
 book#:#booking_nr_of_items#:#Nr of Items
@@ -12744,8 +12744,8 @@ poll#:#poll_voting_period_and_results#:#Voting Period and Results
 poll#:#poll_voting_period#:#Voting Period
 poll#:#poll_voting_period_unlimited#:#Unlimited
 poll#:#poll_voting_period_limited#:#Limited
-poll#:#poll_voting_period_start#:#Starting Time
-poll#:#poll_voting_period_end#:#Ending Time
+poll#:#poll_voting_period_start#:#Start Time
+poll#:#poll_voting_period_end#:#Finish Time
 blog#:#blog_keywords#:#Keywords
 blog#:#blog_no_keywords#:#No keywords have been entered yet.
 blog#:#blog_edit_keywords#:#Edit Keywords
