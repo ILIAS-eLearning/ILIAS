@@ -53,6 +53,12 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 	{
 		return "prtf";
 	}
+	
+	protected function getPageContentUserId($a_user_id)
+	{
+		// user id from content-xml
+		return $a_user_id;
+	}
 
 	/**
 	 * execute command
@@ -170,6 +176,11 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		return $this->additional;
 	}
 	
+	function getJsOnloadCode()
+	{
+		return $this->js_onload_code;
+	}
+	
 	function postOutputProcessing($a_output)
 	{		
 		$parts = array(
@@ -221,6 +232,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 							break;
 					}
 				
+					$snippet = $this->renderPageElement($type, $snippet);
 					$a_output = str_replace($block, $snippet, $a_output);
 				}
 			}
@@ -229,12 +241,19 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		return $a_output;
 	}
 	
+	protected function renderPageElement($a_type, $a_html)
+	{
+		return trim($a_html);
+	}
+	
 	protected function renderProfile($a_user_id, $a_type, array $a_fields = null)
 	{
 		global $ilCtrl;
 		
+		$user_id = $this->getPageContentUserId($a_user_id);
+		
 		include_once("./Services/User/classes/class.ilPublicUserProfileGUI.php");
-		$pub_profile = new ilPublicUserProfileGUI($a_user_id);
+		$pub_profile = new ilPublicUserProfileGUI($user_id);
 		$pub_profile->setEmbedded(true, ($this->getOutputMode() == "offline"));
 		
 		// full circle: additional was set in the original public user profile call
@@ -268,6 +287,9 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 	protected function renderVerification($a_user_id, $a_type, $a_id)
 	{
 		global $objDefinition;
+		
+		// not used 
+		// $user_id = $this->getPageContentUserId($a_user_id);
 		
 		$class = "ilObj".$objDefinition->getClassName($a_type)."GUI";
 		include_once $objDefinition->getLocation($a_type)."/class.".$class.".php";
@@ -329,7 +351,8 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 	{
 		global $ilCtrl;
 				
-		// :TODO: what about user?
+		// not used 
+		// $user_id = $this->getPageContentUserId($a_user_id);
 		
 		// full blog (separate tab/page)
 		if(!$a_posting_ids)
@@ -379,6 +402,9 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 	{
 		global $lng;
 		
+		// not used 
+		// $user_id = $this->getPageContentUserId($a_user_id);
+		
 		$postings = "";
 		if($a_posting_ids)
 		{
@@ -404,6 +430,8 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		{	
 			return $this->renderSkillsTeaser($a_user_id, $a_skills_id);
 		}
+		
+		$user_id = $this->getPageContentUserId($a_user_id);		
 	
 		include_once "Services/Skill/classes/class.ilPersonalSkillsGUI.php";
 		$gui = new ilPersonalSkillsGUI();
@@ -411,7 +439,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		{			
 			$gui->setOfflineMode("./files/");
 		}		
-		$html = $gui->getSkillHTML($a_skills_id, $a_user_id);
+		$html = $gui->getSkillHTML($a_skills_id, $user_id);
 		
 		if($this->getOutputMode() == "offline")
 		{
@@ -429,6 +457,9 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 	{
 		global $lng;
 		
+		// not used 
+		// $user_id = $this->getPageContentUserId($a_user_id);
+		
 		include_once "Services/Skill/classes/class.ilSkillTreeNode.php";
 		
 		return "<div style=\"margin:5px\">".$lng->txt("skills").": \"".
@@ -438,6 +469,9 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 	protected function renderConsultationHoursTeaser($a_user_id, $a_mode, $a_group_ids)
 	{
 		global $lng;
+		
+		// not used 
+		// $user_id = $this->getPageContentUserId($a_user_id);
 		
 		if($a_mode == "auto")
 		{
@@ -476,10 +510,12 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 			return;
 		}
 		
+		$user_id = $this->getPageContentUserId($a_user_id);
+		
 		// only if not owner
-		if($ilUser->getId() != $a_user_id)
+		if($ilUser->getId() != $user_id)
 		{
-			$_GET["bkid"] = $a_user_id;
+			$_GET["bkid"] = $user_id;
 		}
 		
 		if($a_mode != "manual")
@@ -488,7 +524,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		}
 		
 		include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
-		ilCalendarCategories::_getInstance()->setCHUserId($a_user_id);
+		ilCalendarCategories::_getInstance()->setCHUserId($user_id);
 		ilCalendarCategories::_getInstance()->initialize(ilCalendarCategories::MODE_PORTFOLIO_CONSULTATION, null, true);
 		
 		if(!$_REQUEST["seed"])
@@ -505,17 +541,13 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		
 		// custom schedule filter: handle booking group ids
 		include_once('./Services/Calendar/classes/class.ilCalendarScheduleFilterBookings.php');
-		$filter = new ilCalendarScheduleFilterBookings($a_user_id, $a_group_ids);
+		$filter = new ilCalendarScheduleFilterBookings($user_id, $a_group_ids);
 		$month_gui->addScheduleFilter($filter);
 		
 		$this->tpl->addCss(ilUtil::getStyleSheetLocation('filesystem','delos.css','Services/Calendar'));
 		
 		return $this->ctrl->getHTML($month_gui);	
-	}	
-	
-	function getJsOnloadCode()
-	{
-		return $this->js_onload_code;
-	}
+	}			
 }
+
 ?>

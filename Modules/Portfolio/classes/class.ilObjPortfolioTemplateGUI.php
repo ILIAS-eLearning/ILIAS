@@ -186,12 +186,15 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
 		{
 			$ilErr->raiseError($this->lng->txt("msg_no_perm_read"));
 		}
-		
-		$this->lng->loadLanguageModule("cntr");
-		$ilToolbar->addButton($this->lng->txt("prtf_create_portfolio_from_template"),
-			$this->ctrl->getLinkTarget($this, "createfromtemplate"),
-			"", "", "", "", "submit emphsubmit");
 				
+		if ($this->checkPermissionBool("read"))
+		{
+			$this->lng->loadLanguageModule("cntr");
+			$ilToolbar->addButton($this->lng->txt("prtf_create_portfolio_from_template"),
+				$this->ctrl->getLinkTarget($this, "createfromtemplate"),
+				"", "", "", "", "submit emphsubmit");
+		}
+		
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
 
@@ -449,6 +452,21 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
 	//
 	// TRANSMOGRIFIER
 	//
+	
+	function preview($a_return = false, $a_content = false, $a_show_notes = true)
+	{			
+		if(!$this->checkPermissionBool("write") &&
+			$this->checkPermissionBool("read"))		
+		{
+			$this->lng->loadLanguageModule("cntr");			
+			$url = $this->ctrl->getLinkTarget($this, "createfromtemplate");
+			$button = '<a href="'.$url.'" class="submit emphsubmit">'.
+				$this->lng->txt("prtf_create_portfolio_from_template").'</a>';			
+			$this->tpl->setHeaderActionMenu($button);			
+		}
+		
+		return parent::preview($a_return , $a_content, $a_show_notes);
+	}
 	
 	public function createFromTemplate()
 	{		
