@@ -597,9 +597,9 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 			$this->lng->loadLanguageModule("crs");
 			
 			include_once("./Services/Container/classes/class.ilContainerObjectiveGUI.php");
-			
+					
 			foreach($data as $course)
-			{				
+			{								
 				if(isset($course["lp_status"]))
 				{					
 					$lp_icon = ilLearningProgressBaseGUI::_getImagePathForStatus($course["lp_status"]);
@@ -621,7 +621,9 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 						$tpl->setCurrentBlock("objective_bl");
 						$tpl->setVariable("OBJECTIVE_TITLE", $objtv["title"]);
 						$tpl->setVariable("LP_OBJTV_ICON_URL", $lp_icon);
-						$tpl->setVariable("LP_OBJTV_ICON_ALT", $lp_alt);
+						$tpl->setVariable("LP_OBJTV_ICON_ALT", $lp_alt);					
+						$tpl->setVariable("OBJTV_ICON_URL", ilUtil::getTypeIconPath("lobj", $objtv["id"]));				
+						$tpl->setVariable("OBJTV_ICON_ALT", $this->lng->txt("crs_objectives"));
 						
 						/* :TODO: merge course objectives from optes branch
 						if($objtv["type"])
@@ -638,6 +640,8 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 				$tpl->setCurrentBlock("course_bl");
 				$tpl->setVariable("COURSE_TITLE", $course["title"]);
 				$tpl->setVariable("COURSE_URL", $course["url"]);
+				$tpl->setVariable("CRS_ICON_URL", ilUtil::getTypeIconPath("crs", $course["obj_id"]));				
+				$tpl->setVariable("CRS_ICON_ALT", $this->lng->txt("obj_crs"));
 				$tpl->parseCurrentBlock();				
 			}
 			
