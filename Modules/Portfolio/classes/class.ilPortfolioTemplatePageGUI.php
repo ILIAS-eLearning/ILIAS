@@ -48,7 +48,7 @@ class ilPortfolioTemplatePageGUI extends ilPortfolioPageGUI
 		switch($this->getPageObject()->getType())
 		{
 			case ilPortfolioTemplatePage::TYPE_BLOG_TEMPLATE:
-				return $this->renderBlogTemplate();
+				return $this->renderPageElement("BlogTemplate", $this->renderBlogTemplate());
 				
 			default:
 				
@@ -61,12 +61,8 @@ class ilPortfolioTemplatePageGUI extends ilPortfolioPageGUI
 	}
 	
 	protected function renderPageElement($a_type, $a_html)
-	{
-		if(!stristr($a_type, "Teaser"))
-		{
-			$a_html = $this->addPlaceholderInfo($a_html);
-		}
-		return parent::renderPageElement($a_type, $a_html);
+	{				
+		return parent::renderPageElement($a_type, $this->addPlaceholderInfo($a_html));
 	}
 	
 	protected function addPlaceholderInfo($a_html)
@@ -81,7 +77,7 @@ class ilPortfolioTemplatePageGUI extends ilPortfolioPageGUI
 	
 	protected function renderBlogTemplate()
 	{		
-		return $this->renderPageElement("BlogTemplate", $this->lng->txt("obj_blog"));	
+		return $this->renderTeaser("blog_template", $this->lng->txt("obj_blog"));	
 	}	
 }
 

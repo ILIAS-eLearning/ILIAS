@@ -14235,5 +14235,10 @@ content#:#cont_ed_insert_my_courses#:#Meine Kurse einfügen
 content#:#cont_insert_my_courses#:#Meine Kurse einfügen
 content#:#cont_update_my_courses#:#Meine Kurse bearbeiten
 content#:#cont_my_courses_no_settings#:#Es gibt momentan keine Einstellungen.
-prtf#:#prtf_page_element_my_courses_teaser#:#Meine Kurse
+prtf#:#prtf_page_element_teaser_my_courses#:#Innerhalb des Portfolios erscheint an dieser Stelle eine Liste Ihrer Kurse.
 prtf#:#prtf_page_element_my_courses_title#:#Aktuelle Kurse
+prtf#:#prtf_page_element_teaser_skills#:#Innerhalb des Portfolios erscheint an dieser Stelle Ihre Kompetenzausprägung.
+prtf#:#prtf_page_element_teaser_blog_template#:#Innerhalb des Portfolios erscheint an dieser Stelle ein Blog Ihres Arbeitsraums.
+prtf#:#prtf_page_element_teaser_consultation_hours#:#Innerhalb des Portfolios erscheint an dieser Stelle ein Kalender Ihrer Sprechstunden.
+prtf#:#prtf_page_element_teaser_blog#:#Innerhalb des Portfolios erscheint an dieser Stelle eine Auswahl von Blog-Einträgen.
+prtf#:#prtf_page_element_teaser_settings#:#Einstellungen
