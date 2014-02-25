@@ -1714,6 +1714,14 @@ abstract class assQuestionGUI
 		$tabs->addTarget('tst_question_hints_tab', $tabLink, $tabCommands, $ilCtrl->getCmdClass(), '');
 	}
 	
+	protected function addTab_QuestionPreview(ilTabsGUI $tabsGUI)
+	{
+		$tabsGUI->addTarget("preview",
+			$this->ctrl->getLinkTargetByClass("ilAssQuestionPageGUI", "preview"),
+			array("preview"),
+			"ilAssQuestionPageGUI", "", false);
+	}
+	
 	abstract public function getSolutionOutput(
 		$active_id,
 		$pass = NULL,
