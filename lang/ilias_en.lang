@@ -14201,3 +14201,8 @@ rbac#:#orgu_cat_administrate_users#:#User can create and administrate local user
 rbac#:#orgu_delete#:#User can move or delete Organisational Unit
 rbac#:#orgu_edit_permission#:#User can change permission settings
 rbac#:#rbac_create_orgu#:#Create Organisational Units
+prtf#:#prtf_page_element_teaser_skills#:#The portfolio will display your competence level here.
+prtf#:#prtf_page_element_teaser_blog_template#:#The portfolio will display a blog of your personal workspace here.
+prtf#:#prtf_page_element_teaser_consultation_hours#:#The portfolio will display a consultation hours calendar here.
+prtf#:#prtf_page_element_teaser_blog#:#The portfolio will display selected blog postings here.
+prtf#:#prtf_page_element_teaser_settings#:#Settings

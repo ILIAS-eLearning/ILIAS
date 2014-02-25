@@ -246,6 +246,20 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		return trim($a_html);
 	}
 	
+	protected function renderTeaser($a_type, $a_title, $a_options = null)
+	{
+		$options = "";
+		if($a_options)
+		{
+			$options = '<div class="il_Footer">'.$this->lng->txt("prtf_page_element_teaser_settings").
+				": ".$a_options.'</div>';
+		}
+		
+		return '<div style="margin:5px" class="ilBox"><h3>'.$a_title.'</h3>'.
+			'<div class="il_Description_no_margin">'.$this->lng->txt("prtf_page_element_teaser_".$a_type).'</div>'.	
+			$options.'</div>';	
+	}
+	
 	protected function renderProfile($a_user_id, $a_type, array $a_fields = null)
 	{
 		global $ilCtrl;
@@ -399,9 +413,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 	}	
 	
 	protected function renderBlogTeaser($a_user_id, $a_blog_id, array $a_posting_ids = null)
-	{
-		global $lng;
-		
+	{		
 		// not used 
 		// $user_id = $this->getPageContentUserId($a_user_id);
 		
@@ -420,8 +432,8 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 			$postings = implode("\n", $postings);	
 		}
 		
-		return "<div style=\"margin:5px\">".$lng->txt("obj_blog").": \"".
-				ilObject::_lookupTitle($a_blog_id)."\"".$postings."</div>";
+		return $this->renderTeaser("blog", $this->lng->txt("obj_blog").": \"".
+			ilObject::_lookupTitle($a_blog_id)."\"", $postings);
 	}	
 	
 	protected function renderSkills($a_user_id, $a_skills_id)
@@ -454,33 +466,29 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 	}
 	
 	protected function renderSkillsTeaser($a_user_id, $a_skills_id)
-	{
-		global $lng;
-		
+	{		
 		// not used 
 		// $user_id = $this->getPageContentUserId($a_user_id);
 		
 		include_once "Services/Skill/classes/class.ilSkillTreeNode.php";
 		
-		return "<div style=\"margin:5px\">".$lng->txt("skills").": \"".
-				ilSkillTreeNode::_lookupTitle($a_skills_id)."\"</div>";
+		return $this->renderTeaser("skills", $this->lng->txt("skills").": \"".
+				ilSkillTreeNode::_lookupTitle($a_skills_id)."\"");
 	}	
 	
 	protected function renderConsultationHoursTeaser($a_user_id, $a_mode, $a_group_ids)
-	{
-		global $lng;
-		
+	{		
 		// not used 
 		// $user_id = $this->getPageContentUserId($a_user_id);
 		
 		if($a_mode == "auto")
 		{
-			$mode = $lng->txt("cont_cach_mode_automatic");
+			$mode = $this->lng->txt("cont_cach_mode_automatic");
 			$groups = null;
 		}
 		else
 		{
-			$mode = $lng->txt("cont_cach_mode_manual");
+			$mode = $this->lng->txt("cont_cach_mode_manual");
 			
 			include_once "Services/Calendar/classes/ConsultationHours/class.ilConsultationHourGroups.php";		
 			$groups = array();
@@ -491,9 +499,9 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 			$groups = " (".implode(", ", $groups).")";
 		}
 		
-		$lng->loadLanguageModule("dateplaner");
-		return "<div style=\"margin:5px\">".$lng->txt("app_consultation_hours").": \"".
-				$mode."\"".$groups."</div>";
+		$this->lng->loadLanguageModule("dateplaner");
+		return $this->renderTeaser("consultation_hours", 
+			$this->lng->txt("app_consultation_hours"), $mode.$groups);
 	}	
 	
 	protected function renderConsultationHours($a_user_id, $a_mode, $a_group_ids)
@@ -546,7 +554,9 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		
 		$this->tpl->addCss(ilUtil::getStyleSheetLocation('filesystem','delos.css','Services/Calendar'));
 		
-		return $this->ctrl->getHTML($month_gui);	
+		$this->lng->loadLanguageModule("dateplaner");
+		return '<h3>'.$this->lng->txt("app_consultation_hours").'</h3>'.
+			$this->ctrl->getHTML($month_gui);	
 	}			
 }
 
