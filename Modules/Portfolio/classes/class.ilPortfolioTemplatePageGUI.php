@@ -22,6 +22,22 @@ class ilPortfolioTemplatePageGUI extends ilPortfolioPageGUI
 		return "prtt";
 	}
 	
+	protected function getPageContentUserId($a_user_id)
+	{
+		global $ilUser;
+		
+		// user 
+		if(!$this->may_write)
+		{
+			return $ilUser->getId();
+		}
+		// author
+		else
+		{
+			return $a_user_id;
+		}
+	}
+	
 	function showPage()
 	{		
 		if(!$this->getPageObject())
@@ -44,30 +60,14 @@ class ilPortfolioTemplatePageGUI extends ilPortfolioPageGUI
 		}		
 	}
 	
-	protected function renderBlogTemplate()
-	{		
-		return $this->addPlaceholderInfo($this->lng->txt("obj_blog"));	
+	protected function renderPageElement($a_type, $a_html)
+	{
+		if(!stristr($a_type, "Teaser"))
+		{
+			$a_html = $this->addPlaceholderInfo($a_html);
+		}
+		return parent::renderPageElement($a_type, $a_html);
 	}
-	
-	protected function renderProfile($a_user_id, $a_type, array $a_fields = null)
-	{	
-		return $this->addPlaceholderInfo(parent::renderProfile($a_user_id, $a_type, $a_fields));	
-	}
-	
-	protected function renderConsultationHoursTeaser($a_user_id, $a_mode, $a_group_ids)
-	{	
-		return $this->addPlaceholderInfo(parent::renderConsultationHoursTeaser($a_user_id, $a_mode, $a_group_ids));			
-	}
-	
-	protected function renderSkillsTeaser($a_user_id, $a_skills_id)
-	{	
-		return $this->addPlaceholderInfo(parent::renderSkillsTeaser($a_user_id, $a_skills_id));			
-	}
-	
-	protected function renderMyCourses($a_user_id)
-	{	
-		return $this->addPlaceholderInfo(parent::renderMyCourses($a_user_id));			
-	}	
 	
 	protected function addPlaceholderInfo($a_html)
 	{
@@ -77,6 +77,11 @@ class ilPortfolioTemplatePageGUI extends ilPortfolioPageGUI
 					'</legend>'.
 					trim($a_html).
 				'</fieldset>';			
+	}	
+	
+	protected function renderBlogTemplate()
+	{		
+		return $this->renderPageElement("BlogTemplate", $this->lng->txt("obj_blog"));	
 	}	
 }
 

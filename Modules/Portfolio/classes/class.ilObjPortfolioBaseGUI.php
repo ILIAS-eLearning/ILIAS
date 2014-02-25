@@ -261,7 +261,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 		
 		if(!$this->checkPermissionBool("write"))
 		{
-			return;
+			$this->ctrl->redirect($this, "infoScreen");
 		}
 		
 		$this->tabs_gui->activateTab("pages");
@@ -544,7 +544,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 			if(!$this->checkPermissionBool("write"))
 			{
 				// shared
-				if($this->id_type != self::REPOSITORY_NODE_ID)
+				if($this->getType() == "prtf")
 				{
 					$this->ctrl->setParameterByClass("ilportfoliorepositorygui", "shr_id", $this->object->getOwner());
 					$back = $this->ctrl->getLinkTargetByClass(array("ilpersonaldesktopgui", "ilportfoliorepositorygui"), "showOther");
