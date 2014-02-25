@@ -5073,18 +5073,21 @@ class ilUtil
 	/**
 	 * printBacktrace
 	 *
-	 * @param
-	 * @return
-	 * @static
-	 * 
+	 * @param int $a_limit limit nr of lines
 	 */
-	public static function printBacktrace()
+	public static function printBacktrace($a_limit = 0)
 	{
 		$bt = debug_backtrace();
+		$cnt = 0;
 		foreach ($bt as $t)
 		{
-			echo "<br>".$t["file"].", ".$t["function"]." [".$t["line"]."]";
+			if ($cnt != 0 && ($a_limit == 0 || $cnt <= $a_limit))
+			{
+				echo "<br>".$t["file"].", ".$t["function"]." [".$t["line"]."]";
+			}
+			$cnt++;
 		}
+		echo "<br>";
 	}
 
 	/**
