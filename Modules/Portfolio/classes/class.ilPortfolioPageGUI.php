@@ -436,8 +436,8 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 			$postings = implode("\n", $postings);	
 		}
 		
-		return $this->renderTeaser("blog", $this->lng->txt("obj_blog")." \"".
-			ilObject::_lookupTitle($a_blog_id)."\"", $postings);
+		return $this->renderTeaser("blog", $this->lng->txt("obj_blog").' "'.
+			ilObject::_lookupTitle($a_blog_id).'"', $postings);
 	}	
 	
 	protected function renderSkills($a_user_id, $a_skills_id)
@@ -476,7 +476,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		
 		include_once "Services/Skill/classes/class.ilSkillTreeNode.php";
 		
-		return $this->renderTeaser("skills", $this->lng->txt("skills").': "'.
+		return $this->renderTeaser("skills", $this->lng->txt("skills").' "'.
 			ilSkillTreeNode::_lookupTitle($a_skills_id).'"');
 	}	
 	
