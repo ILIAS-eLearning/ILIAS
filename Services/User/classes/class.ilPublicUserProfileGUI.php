@@ -449,7 +449,12 @@ class ilPublicUserProfileGUI
 
 		
 		$val_arr = array(
-			"getHobby" => "hobby", "getMatriculation" => "matriculation", "getClientIP" => "client_ip");
+			"getHobby" => "hobby", 
+			"getGeneralInterestsAsText" => "interests_general",
+			"getOfferingHelpAsText" => "interests_help_offered",
+			"getLookingForHelpAsText" => "interests_help_looking",			
+			"getMatriculation" => "matriculation", 
+			"getClientIP" => "client_ip");
 			
 		foreach ($val_arr as $key => $value)
 		{

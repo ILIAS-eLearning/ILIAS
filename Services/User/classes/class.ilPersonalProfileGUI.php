@@ -840,7 +840,10 @@ class ilPersonalProfileGUI
 				"phone_office" => "PhoneOffice",
 				"phone_home" => "PhoneHome",
 				"phone_mobile" => "PhoneMobile",
-				"referral_comment" => "Comment"
+				"referral_comment" => "Comment",
+				"interests_general" => "GeneralInterests",
+				"interests_help_offered" => "OfferingHelp",
+				"interests_help_looking" => "LookingForHelp"
 			);
 			include_once("./Services/User/classes/class.ilUserProfile.php");
 			$up = new ilUserProfile();
@@ -1169,6 +1172,9 @@ class ilPersonalProfileGUI
 			"fax" => $ilUser->getFax(),
 			"email" => $ilUser->getEmail(),
 			"hobby" => $ilUser->getHobby(),
+			"interests_general" => $ilUser->getGeneralInterestsAsText(),
+			"interests_help_offered" => $ilUser->getOfferingHelpAsText(),
+			"interests_help_looking" => $ilUser->getLookingForHelpAsText(),
 			"matriculation" => $ilUser->getMatriculation(),
 			"delicious" => $ilUser->getDelicious()
 			);
@@ -1288,7 +1294,8 @@ class ilPersonalProfileGUI
 			// if check on Institute
 			$val_array = array("title", "birthday", "gender", "institution", "department", "upload", "street",
 				"zipcode", "city", "country", "sel_country", "phone_office", "phone_home", "phone_mobile",
-				"fax", "email", "hobby", "matriculation", "location");
+				"fax", "email", "hobby", "matriculation", "location", 
+				"interests_general", "interests_help_offered", "interests_help_looking");
 	
 			// set public profile preferences
 			foreach($val_array as $key => $value)

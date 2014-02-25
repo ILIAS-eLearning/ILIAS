@@ -146,6 +146,10 @@ class ilObjUser extends ilObject
 	 * @var bool
 	 */
 	private $is_self_registered = false;
+	
+	protected $interests_general; // [array]
+	protected $interests_help_offered; // [array]
+	protected $interests_help_looking; // [array]
 
 	/**
 	* Constructor
@@ -276,6 +280,7 @@ class ilObjUser extends ilObject
 							   "<br />Line: ".__LINE__, $ilErr->FATAL);
 		}
 
+		$this->readMultiTextFields();		
 		$this->readUserDefinedFields();
 
 		parent::read();
@@ -479,6 +484,8 @@ class ilObjUser extends ilObject
 			'is_self_registered' => array('integer', (int)$this->is_self_registered)
 			);
 		$ilDB->insert("usr_data", $insert_array);
+		
+		$this->updateMultiTextFields(true);
 
 		// add new entry in usr_defined_data
 		$this->addUserDefinedFieldEntry();
@@ -599,6 +606,8 @@ class ilObjUser extends ilObject
 
 		$ilDB->update("usr_data", $update_array, array("usr_id" => array("integer", $this->id)));
 
+		$this->updateMultiTextFields();
+		
 		$this->writePrefs();
 
 		// update user defined fields
@@ -1321,6 +1330,8 @@ class ilObjUser extends ilObject
 		// delete user_account
 		$ilDB->manipulateF("DELETE FROM usr_data WHERE usr_id = %s",
 			array("integer"), array($this->getId()));
+		
+		$this->deleteMultiTextFields();
 
 		// delete user_prefs
 		ilObjUser::_deleteAllPref($this->getId());
@@ -5223,7 +5234,7 @@ class ilObjUser extends ilObject
 		$dir = ilExport::_getExportDirectory($this->getId(), "xml", "usr", "personal_data");
 		ilUtil::delDir($dir, true);
 		$title = $this->getLastname().", ".$this->getLastname()." [".$this->getLogin()."]";
-		$exp->exportEntity("personal_data", $this->getId(), "4.3.0",
+		$exp->exportEntity("personal_data", $this->getId(), "4.5.0",
 			"Services/User", $title, $dir);
 	}
 	
@@ -5463,6 +5474,225 @@ class ilObjUser extends ilObject
 	public function isSelfRegistered()
 	{
 		return (bool) $this->is_self_registered;
+	}
+	
+	
+	//
+	// MULTI-TEXT / INTERESTS
+	//
+		
+	/**
+	 * Set general interests
+	 * 
+	 * @param array $value
+	 */
+	public function setGeneralInterests(array $value = null)
+	{		
+		$this->interests_general = $value;
+	}
+	
+	/**
+	 * Get general interests
+	 * 
+	 * @return array $value
+	 */
+	public function getGeneralInterests()
+	{
+		return $this->interests_general;
+	}
+	
+	/**
+	 * Get general interests as plain text
+	 * 
+	 * @return string
+	 */
+	public function getGeneralInterestsAsText()
+	{
+		return $this->buildTextFromArray("interests_general");
+	}
+	
+	/**
+	 * Set help offering
+	 * 
+	 * @param array $value
+	 */
+	public function setOfferingHelp(array $value = null)
+	{		
+		$this->interests_help_offered = $value;
+	}
+	
+	/**
+	 * Get help offering
+	 * 
+	 * @return array $value
+	 */
+	public function getOfferingHelp()
+	{
+		return $this->interests_help_offered;
+	}
+	
+	/**
+	 * Get help offering as plain text
+	 * 
+	 * @return string
+	 */
+	public function getOfferingHelpAsText()
+	{
+		return $this->buildTextFromArray("interests_help_offered");
+	}
+	
+	/**
+	 * Set help looking for
+	 * 
+	 * @param array $value
+	 */
+	public function setLookingForHelp(array $value = null)
+	{		
+		$this->interests_help_looking = $value;
+	}
+	
+	/**
+	 * Get help looking for
+	 * 
+	 * @return array $value
+	 */
+	public function getLookingForHelp()
+	{
+		return $this->interests_help_looking;
+	}
+	
+	/**
+	 * Get help looking for as plain text
+	 * 
+	 * @return string
+	 */
+	public function getLookingForHelpAsText()
+	{
+		return $this->buildTextFromArray("interests_help_looking");
+	}
+	
+	/**
+	 * Convert multi-text values to plain text
+	 * 
+	 * @param string $a_attr
+	 * @return string
+	 */
+	protected function buildTextFromArray($a_attr)
+	{
+		$current = $this->$a_attr;
+		if(is_array($current) && sizeof($current))
+		{
+			return implode(", ", $current);
+		}
+	}
+	
+	/**
+	 * Fetch multi-text values from DB
+	 */
+	protected function readMultiTextFields()
+	{
+		global $ilDB;
+		
+		if(!$this->getId())
+		{
+			return;
+		}
+
+		$set = $ilDB->query("SELECT field_id,value".
+			" FROM usr_data_multi".
+			" WHERE usr_id = ".$ilDB->quote($this->getId(), "integer").
+			" ORDER BY value");
+		while($row = $ilDB->fetchAssoc($set))
+		{
+			$values[$row["field_id"]][] = $row["value"];			
+		}
+		
+		if(isset($values["interests_general"]))
+		{
+			$this->setGeneralInterests($values["interests_general"]);
+		}
+		else
+		{
+			$this->setGeneralInterests();
+		}
+		if(isset($values["interests_help_offered"]))
+		{
+			$this->setOfferingHelp($values["interests_help_offered"]);
+		}
+		else
+		{
+			$this->setOfferingHelp();
+		}
+		if(isset($values["interests_help_looking"]))
+		{
+			$this->setLookingForHelp($values["interests_help_looking"]);
+		}
+		else
+		{
+			$this->setLookingForHelp();
+		}		
+	}
+	
+	/**
+	 * Write multi-text values to DB
+	 * 
+	 * @param bool $a_create
+	 */
+	public function updateMultiTextFields($a_create = false)
+	{
+		global $ilDB;
+		
+		if(!$this->getId())
+		{
+			return;
+		}
+		
+		if(!$a_create)
+		{
+			$this->deleteMultiTextFields();
+		}
+		
+		$map = array(
+			"interests_general" => $this->getGeneralInterests(),
+			"interests_help_offered" => $this->getOfferingHelp(),
+			"interests_help_looking" => $this->getLookingForHelp()
+		);
+		
+		foreach($map as $id => $values)
+		{
+			if(is_array($values) && sizeof($values))
+			{
+				foreach($values as $value)
+				{
+					$value = trim($value);
+					if($value)
+					{
+						$ilDB->manipulate("INSERT usr_data_multi".
+							" (usr_id,field_id,value) VALUES".
+							" (".$ilDB->quote($this->getId(), "integer").
+							",".$ilDB->quote($id, "text").
+							",".$ilDB->quote($value, "text").
+							")");		
+					}
+				}
+			}						
+		}
+	}
+	
+	/**
+	 * Remove multi-text values from DB	 
+	 */
+	protected function deleteMultiTextFields()
+	{
+		global $ilDB;
+		
+		if(!$this->getId())
+		{
+			return;
+		}
+		
+		$ilDB->manipulate("DELETE FROM usr_data_multi".
+			" WHERE usr_id = ".$ilDB->quote($this->getId(), "integer"));
 	}
 	
 } // END class ilObjUser

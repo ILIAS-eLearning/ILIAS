@@ -95,3 +95,29 @@ if(!$ilDB->tableColumnExists('il_blog','abs_img_height'))
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#4187>
+<?php
+
+if( !$ilDB->tableExists('usr_data_multi') )
+{
+	$ilDB->createTable('usr_data_multi', array(
+		'usr_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'field_id' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => true
+		),
+		'value' => array(
+			'type' => 'text',
+			'length' => 1000,
+			'notnull' => false,
+		)
+	));
+}
+
+?>

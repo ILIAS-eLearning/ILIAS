@@ -221,7 +221,12 @@ class ilUserXMLWriter extends ilXmlWriter
 		$this->__addElement ("PhoneHome", $row["phone_home"], null, "phone_home");
 		$this->__addElement ("PhoneMobile", $row["phone_mobile"],  null, "phone_mobile");
 		$this->__addElement ("Fax", $row["fax"]);
-		$this->__addElement ("Hobby", $row["hobby"]);
+		$this->__addElement ("Hobby", $row["hobby"]);	
+		
+		$this->__addElementMulti ("GeneralInterest", $row["interests_general"], null, "interests_general");
+		$this->__addElementMulti ("OfferingHelp", $row["interests_help_offered"], null, "interests_help_offered");
+		$this->__addElementMulti ("LookingForHelp", $row["interests_help_looking"], null, "interests_help_looking");		
+		
 		$this->__addElement ("Department", $row["department"]);
 		$this->__addElement ("Comment", $row["referral_comment"], null, "referral_comment");
 		$this->__addElement ("Matriculation", $row["matriculation"]);
@@ -306,7 +311,17 @@ class ilUserXMLWriter extends ilXmlWriter
 		}
 	}
 	
-
+	function __addElementMulti ($tagname, $value, $attrs = null, $settingsname = null, $requiredTag = false)
+	{
+		if(is_array($value) && sizeof($value))
+		{
+			foreach($value as $idx => $item)
+			{
+				$this->__addElement ($tagname, $item, $attrs, $settingsname, $requiredTag);
+			}
+		}					
+	}
+	
 	function __addElement ($tagname, $value, $attrs = null, $settingsname = null, $requiredTag = false)
 	{
 		if ($this->canExport($tagname, $settingsname))
@@ -415,7 +430,10 @@ class ilUserXMLWriter extends ilXmlWriter
 				'weekstart',
 				'mail_incoming_type',
 				'mail_signature',
-				'mail_linebreak'
+				'mail_linebreak',
+				'public_interests_general',
+				'public_interests_help_offered',
+				'public_interests_help_looking'
 		);
 	}
 	

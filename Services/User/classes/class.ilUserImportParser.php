@@ -533,7 +533,8 @@ class ilUserImportParser extends ilSaxParser
 				$this->action = (is_null($a_attribs["Action"])) ? "Insert" : $a_attribs["Action"];
 				$this->currPassword = null;
 				$this->currPasswordType = null;
-				$this->currActive = null;
+				$this->currActive = null;				
+				$this->multi_values = array();
 				break;
 
 			case "Password":
@@ -588,8 +589,7 @@ class ilUserImportParser extends ilSaxParser
 				break;
 			case 'Pref':
 				$this->currentPrefKey = $a_attribs["key"];
-				break;
-
+				break;			
 		}
 	}
 	/**
@@ -1050,6 +1050,22 @@ class ilUserImportParser extends ilSaxParser
 						}
 						break;
 				}
+				
+				if(sizeof($this->multi_values))
+				{
+					if(isset($this->multi_values["GeneralInterest"]))
+					{
+						$this->userObj->setGeneralInterests($this->multi_values["GeneralInterest"]);
+					}
+					if(isset($this->multi_values["OfferingHelp"]))
+					{
+						$this->userObj->setOfferingHelp($this->multi_values["OfferingHelp"]);
+					}
+					if(isset($this->multi_values["LookingForHelp"]))
+					{
+						$this->userObj->setLookingForHelp($this->multi_values["LookingForHelp"]);
+					}
+				}
 
 				// Perform the action
 				switch ($this->action)
@@ -1248,6 +1264,9 @@ class ilUserImportParser extends ilSaxParser
 							if (! is_null($this->userObj->getPhoneMobile())) $updateUser->setPhoneMobile($this->userObj->getPhoneMobile());
 							if (! is_null($this->userObj->getFax())) $updateUser->setFax($this->userObj->getFax());
 							if (! is_null($this->userObj->getHobby())) $updateUser->setHobby($this->userObj->getHobby());
+							if (! is_null($this->userObj->getGeneralInterests())) $updateUser->setGeneralInterests($this->userObj->getGeneralInterests());
+							if (! is_null($this->userObj->getOfferingHelp())) $updateUser->setOfferingHelp($this->userObj->getOfferingHelp());
+							if (! is_null($this->userObj->getLookingForHelp())) $updateUser->setLookingForHelp($this->userObj->getLookingForHelp());
 							if (! is_null($this->userObj->getComment())) $updateUser->setComment($this->userObj->getComment());
 							if (! is_null($this->userObj->getDepartment())) $updateUser->setDepartment($this->userObj->getDepartment());
 							if (! is_null($this->userObj->getMatriculation())) $updateUser->setMatriculation($this->userObj->getMatriculation());
@@ -1490,6 +1509,12 @@ class ilUserImportParser extends ilSaxParser
 			case "Hobby":
 				$this->userObj->setHobby($this->cdata);
 				break;
+			
+			case "GeneralInterest":
+			case "OfferingHelp":
+			case "LookingForHelp":
+				$this->multi_values[$a_name][] = $this->cdata;				
+				break;			
 
 			case "Comment":
 				$this->userObj->setComment($this->cdata);
@@ -1899,6 +1924,12 @@ class ilUserImportParser extends ilSaxParser
 			case "Hobby":
 				$this->userObj->setHobby($this->cdata);
 				break;
+			
+			case "GeneralInterest":
+			case "OfferingHelp":
+			case "LookingForHelp":
+				$this->multi_values[$a_name][] = $this->cdata;				
+				break;				
 
 			case "Comment":
 				$this->userObj->setComment($this->cdata);
@@ -2356,7 +2387,10 @@ class ilUserImportParser extends ilSaxParser
 			case 'public_phone_office':
 			case 'public_street':
 			case 'public_upload':
-			case 'public_zip':				
+			case 'public_zip':		
+			case 'public_interests_general':
+			case 'public_interests_help_offered':
+			case 'public_interests_help_looking':
 			case 'send_info_mails':
 			case 'hide_own_online_status':
 				if (!in_array($value, array('y', 'n')))

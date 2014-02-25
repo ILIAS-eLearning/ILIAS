@@ -14,6 +14,8 @@ class ilUserDataSet extends ilDataSet
 {	
 	protected $temp_picture_dirs = array();
 	
+	public $multi = array();
+	
 	/**
 	 * Get supported versions
 	 *
@@ -22,7 +24,7 @@ class ilUserDataSet extends ilDataSet
 	 */
 	public function getSupportedVersions()
 	{
-		return array("4.3.0");
+		return array("4.3.0", "4.5.0");
 	}
 	
 	/**
@@ -50,6 +52,7 @@ class ilUserDataSet extends ilDataSet
 			switch ($a_version)
 			{
 				case "4.3.0":
+				case "4.5.0":
 					return array(
 						"Id" => "integer",
 						"Username" => "text",
@@ -86,6 +89,7 @@ class ilUserDataSet extends ilDataSet
 			switch ($a_version)
 			{
 				case "4.3.0":
+				case "4.5.0":
 					return array(
 						"UserId" => "integer",
 						"Keyword" => "text",
@@ -99,12 +103,25 @@ class ilUserDataSet extends ilDataSet
 			switch ($a_version)
 			{
 				case "4.3.0":
+				case "4.5.0":
 					return array(
 						"Id" => "integer"
 					);
 			}
 		}
 
+		if ($a_entity == "usr_multi")
+		{
+			switch ($a_version)
+			{
+				case "4.5.0":
+					return array(
+						"UserId" => "integer",
+						"FieldId" => "text",
+						"Value" => "text"
+					);
+			}
+		}
 	}
 
 	
@@ -172,6 +189,7 @@ class ilUserDataSet extends ilDataSet
 			switch ($a_version)
 			{
 				case "4.3.0":
+				case "4.5.0":
 					$this->data = array();
 					foreach ($a_ids as $id)
 					{
@@ -186,6 +204,7 @@ class ilUserDataSet extends ilDataSet
 			switch ($a_version)
 			{
 				case "4.3.0":
+				case "4.5.0":
 					$this->getDirectDataFromQuery("SELECT usr_id id, login username, firstname, lastname, ".
 						" title, birthday, gender, institution, department, street, city, zipcode, country, sel_country, ".
 						" phone_office, phone_home, phone_mobile, fax, email, hobby, referral_comment, matriculation, ".
@@ -202,6 +221,7 @@ class ilUserDataSet extends ilDataSet
 			switch ($a_version)
 			{
 				case "4.3.0":
+				case "4.5.0":
 					// for all user ids get data from usr_pref and mail options, create records user_id/name/value
 					$prefs = array("date_format", "day_end", "day_start", "hide_own_online_status", "hits_per_page", "language",
 						"public_birthday", "puplic_city", "public_country", "public_delicious", "public_department", "public_email",
@@ -235,6 +255,21 @@ class ilUserDataSet extends ilDataSet
 			}
 		}
 
+		if ($a_entity == "usr_multi")
+		{			
+			switch ($a_version)
+			{
+				case "4.5.0":					
+					$this->data = array();
+					$set = $ilDB->query("SELECT * FROM usr_data_multi".
+						" WHERE ".$ilDB->in("usr_id", $a_ids, false, "integer"));
+					while ($rec  = $ilDB->fetchAssoc($set))
+					{
+						$this->data[] = array("UserId" => $rec["usr_id"], "FieldId" => $rec["field_id"], "Value" => $rec["value"]);
+					}				
+					break;
+			}
+		}
 	}
 
 	/**
@@ -248,7 +283,8 @@ class ilUserDataSet extends ilDataSet
 			case "personal_data":
 				return array (
 					"usr_profile" => array("ids" => $a_rec["Id"]),
-					"usr_setting" => array("ids" => $a_rec["Id"])
+					"usr_setting" => array("ids" => $a_rec["Id"]),
+					"usr_multi" => array("ids" => $a_rec["Id"])
 				);							
 		}
 		return false;
@@ -329,6 +365,14 @@ class ilUserDataSet extends ilDataSet
 					}
 					$user = $this->users[$usr_id];
 					$user->writePref($a_rec["Keyword"], $a_rec["Value"]);
+				}
+				break;
+				
+			case "usr_multi":
+				$usr_id = $a_mapping->getMapping("Services/User", "usr", $a_rec["UserId"]);
+				if ($usr_id > 0 && ilObject::_lookupType($usr_id) == "usr")
+				{					
+					$this->multi[$usr_id][$a_rec["FieldId"]][] = $a_rec["Value"];
 				}
 				break;
 		}

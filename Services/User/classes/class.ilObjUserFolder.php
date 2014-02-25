@@ -491,6 +491,12 @@ class ilObjUserFolder extends ilObject
 			$csvrow = array();
 			foreach ($settings as $header)	// standard fields
 			{
+				// multi-text
+				if(is_array($row[$header]))
+				{
+					$row[$header] = implode(", ", $row[$header]);
+				}
+				
 				array_push($csvrow, $row[$header]);
 			}
 
@@ -581,6 +587,20 @@ class ilObjUserFolder extends ilObject
 							$worksheet->write($row, $col, ilUtil::excelTime($matches[1],$matches[2],$matches[3],$matches[4],$matches[5],$matches[6]), $format_datetime);
 						}
 						break;
+						
+					case "interests_general":
+					case "interests_help_offered":
+					case "interests_help_looking":
+						if(is_array($value) && sizeof($value))
+						{
+							$value = implode(", ", $value);
+						}									
+						else
+						{
+							$value = null;
+						}
+						// fallthrough
+						
 					default:
 						$worksheet->write($row, $col, ilExcelUtils::_convert_text($value, $a_mode));
 						break;
@@ -710,6 +730,17 @@ class ilObjUserFolder extends ilObject
 			$languages[$row['usr_id']] = $row['value'];
 		}
 		
+		// multi-text
+		$multi = array();
+		$set = $ilDB->query("SELECT * FROM usr_data_multi");
+		while($row = $ilDB->fetchAssoc($set))
+		{			
+			if(!is_array($user_data_filter) ||
+				in_array($row["usr_id"], $user_data_filter))
+			{
+				$multi[$row["usr_id"]][$row["field_id"]][] = $row["value"];
+			}					
+		}			
 		
 		$data = array();
 		$query = "SELECT usr_data.* FROM usr_data  ".
@@ -725,6 +756,11 @@ class ilObjUserFolder extends ilObject
 			{
 				$row['language'] = $lng->getDefaultLanguage();
 			}
+			
+			if(isset($multi[$row["usr_id"]]))
+			{
+				$row = array_merge($row, $multi[$row["usr_id"]]);
+			}		
 			
 			if (is_array($user_data_filter))
 			{

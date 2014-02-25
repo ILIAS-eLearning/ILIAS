@@ -723,6 +723,12 @@ class ilObjUserGUI extends ilObjectGUI
 		{
 			$user->setComment($this->form_gui->getInput('referral_comment'));
 		}
+		
+		// interests
+		$user->setGeneralInterests($this->form_gui->getInput('interests_general'));
+		$user->setOfferingHelp($this->form_gui->getInput('interests_help_offered'));
+		$user->setLookingForHelp($this->form_gui->getInput('interests_help_looking'));			
+		
 		// ClientIP
 		$user->setClientIP($this->form_gui->getInput('client_ip'));
 		
@@ -1036,6 +1042,11 @@ class ilObjUserGUI extends ilObjectGUI
 		$data["email"] = $this->object->getEmail();
 		$data["hobby"] = $this->object->getHobby();
 		$data["referral_comment"] = $this->object->getComment();
+		
+		// interests
+		$data["interests_general"] = $this->object->getGeneralInterests();
+		$data["interests_help_offered"] = $this->object->getOfferingHelp();
+		$data["interests_help_looking"] = $this->object->getLookingForHelp();
 
 		// instant messengers
 		$data["im_icq"] = $this->object->getInstantMessengerId('icq');
@@ -1524,7 +1535,31 @@ class ilObjUserGUI extends ilObjectGUI
 				$settings["require_referral_comment"]);
 			$this->form_gui->addItem($rc);
 		}
-
+		
+		
+		// interests 
+		
+		$sh = new ilFormSectionHeaderGUI();
+		$sh->setTitle($lng->txt("interests"));
+		$this->form_gui->addItem($sh);
+		
+		$multi_fields = array("interests_general", "interests_help_offered", "interests_help_looking");
+		foreach($multi_fields as $multi_field)
+		{
+			if($this->isSettingChangeable($multi_field))
+			{
+				// see ilUserProfile
+				$ti = new ilTextInputGUI($lng->txt($multi_field), $multi_field);
+				$ti->setMulti(true);				
+				$ti->setMaxLength(40);
+				$ti->setSize(40);
+				$ti->setRequired(isset($settings["require_".$multi_field]) &&
+					$settings["require_".$multi_field]);												 					
+				$this->form_gui->addItem($ti);
+			}
+		}		
+		
+		
 		// instant messengers
 		if($this->isSettingChangeable('instant_messengers'))
 		{

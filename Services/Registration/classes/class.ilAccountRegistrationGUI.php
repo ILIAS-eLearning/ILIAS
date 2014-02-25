@@ -128,6 +128,10 @@ class ilAccountRegistrationGUI
 	{
 		global $lng, $ilUser;
 		
+		// needed for multi-text-fields (interests)
+		include_once 'Services/jQuery/classes/class.iljQueryUtil.php';
+		iljQueryUtil::initjQuery();
+		
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
 		$this->form->setFormAction($this->ctrl->getFormAction($this));
@@ -197,6 +201,8 @@ class ilAccountRegistrationGUI
 		$up = new ilUserProfile();
 		$up->setMode(ilUserProfile::MODE_REGISTRATION);
 		$up->skipGroup("preferences");
+		
+		$lng->loadLanguageModule("user");
 
 		// add fields to form
 		$up->addStandardFieldsToForm($this->form, NULL, $custom_fields);

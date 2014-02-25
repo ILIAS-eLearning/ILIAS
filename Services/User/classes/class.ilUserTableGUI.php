@@ -117,6 +117,7 @@ class ilUserTableGUI extends ilTable2GUI
 		include_once("./Services/User/classes/class.ilUserProfile.php");
 		$up = new ilUserProfile();
 		$up->skipGroup("preferences");
+		$up->skipGroup("interests");
 		$up->skipGroup("settings");
 		
 		// default fields

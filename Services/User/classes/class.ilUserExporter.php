@@ -57,6 +57,10 @@ class ilUserExporter extends ilXmlExporter
 					"ids" => $a_ids),
 				array(
 					"component" => "Services/User",
+					"entity" => "usr_multi",
+					"ids" => $a_ids),
+				array(
+					"component" => "Services/User",
 					"entity" => "usr_setting",
 					"ids" => $a_ids),
 				array(
@@ -106,6 +110,12 @@ class ilUserExporter extends ilXmlExporter
 				"xsd_file" => "ilias_usr_4_3.xsd",
 				"uses_dataset" => true,
 				"min" => "4.3.0",
+				"max" => "4.4.99"),
+			"4.5.0" => array(
+				"namespace" => "http://www.ilias.de/Services/User/usr/4_5",
+				"xsd_file" => "ilias_usr_4_5.xsd",
+				"uses_dataset" => true,
+				"min" => "4.5.0",
 				"max" => "")
 		);
 	}

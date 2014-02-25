@@ -37,8 +37,44 @@ class ilUserImporter extends ilXmlImporter
 		$parser = new ilDataSetImportParser($a_entity, $this->getSchemaVersion(),
 			$a_xml, $this->ds, $a_mapping);
 	}
-
 	
+	function finalProcessing($a_mapping)
+	{				
+		if(is_array($this->ds->multi))
+		{
+			foreach($this->ds->multi as $usr_id => $values)
+			{
+				$usr_obj = new ilObjUser($usr_id);
+				 
+				if(isset($values["interests_general"]))
+				{
+					$usr_obj->setGeneralInterests($values["interests_general"]);
+				}
+				else
+				{
+					$usr_obj->setGeneralInterests();
+				}
+				if(isset($values["interests_help_offered"]))
+				{
+					$usr_obj->setOfferingHelp($values["interests_help_offered"]);
+				}
+				else
+				{
+					$usr_obj->setOfferingHelp();
+				}
+				if(isset($values["interests_help_looking"]))
+				{
+					$usr_obj->setLookingForHelp($values["interests_help_looking"]);
+				}
+				else
+				{
+					$usr_obj->setLookingForHelp();
+				}		
+
+				$usr_obj->updateMultiTextFields();
+			}
+		}				
+	}
 }
 
 ?>

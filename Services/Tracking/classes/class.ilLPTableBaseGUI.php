@@ -841,6 +841,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
 		$up = new ilUserProfile();
 		$up->skipGroup("preferences");
 		$up->skipGroup("settings");
+		$up->skipGroup("interests");
 		$ufs = $up->getStandardFields();
 
 		// default fields

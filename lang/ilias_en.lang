@@ -14242,3 +14242,7 @@ prtf#:#prtf_page_element_teaser_blog_template#:#The portfolio will display a blo
 prtf#:#prtf_page_element_teaser_consultation_hours#:#The portfolio will display a consultation hours calendar here.
 prtf#:#prtf_page_element_teaser_blog#:#The portfolio will display selected blog postings here.
 prtf#:#prtf_page_element_teaser_settings#:#Settings
+user#:#interests#:#Interests
+user#:#interests_general#:#General Interests
+user#:#interests_help_offered#:#Offering Help
+user#:#interests_help_looking#:#Looking For Help

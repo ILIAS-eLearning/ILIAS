@@ -208,6 +208,36 @@ class ilUserProfile
 						"group_export_hide" => true,
 						"lists_hide" => true,
 						"group" => "contact_data"),
+		"interests_general" => array(
+						"input" => "multitext",
+						"maxlength" => 40,
+						"size" => 40,
+						"method" => "getGeneralInterests",
+						"course_export_hide" => true,
+						"group_export_hide" => true,
+						"lists_hide" => true,
+						"visib_reg_hide" => true,												
+						"group" => "interests"),
+		"interests_help_offered" => array(
+						"input" => "multitext",
+						"maxlength" => 40,
+						"size" => 40,
+						"method" => "getOfferingHelp",
+						"course_export_hide" => true,
+						"group_export_hide" => true,						
+						"lists_hide" => true,
+						"visib_reg_hide" => true,					
+						"group" => "interests"),
+		"interests_help_looking" => array(
+						"input" => "multitext",
+						"maxlength" => 40,
+						"size" => 40,
+						"method" => "getLookingForHelp",
+						"course_export_hide" => true,
+						"group_export_hide" => true,
+						"lists_hide" => true,
+						"visib_reg_hide" => true,					
+						"group" => "interests"),
 		"instant_messengers" => array(
 						"input" => "messenger",
 						"types" => array("icq","yahoo","msn","aim","skype","jabber","voip"), 
@@ -752,6 +782,26 @@ class ilUserProfile
 							$ta->setDisabled($ilSetting->get("usr_settings_disable_".$f));
 						}
 						$a_form->addItem($ta);
+					}
+					break;
+					
+				case "multitext":
+					if (ilUserProfile::userSettingVisible($f))
+					{
+						$ti = new ilTextInputGUI($lng->txt($lv), "usr_".$f);
+						$ti->setMulti(true);
+						if($a_user)
+						{
+							$ti->setValue($a_user->$m());
+						}
+						$ti->setMaxLength($p["maxlength"]);
+						$ti->setSize($p["size"]);
+						$ti->setRequired($ilSetting->get("require_".$f));					
+						if(!$ti->getRequired() || $ti->getValue())
+						{
+							$ti->setDisabled($ilSetting->get("usr_settings_disable_".$f));
+						}					 					
+						$a_form->addItem($ti);
 					}
 					break;
 			}
