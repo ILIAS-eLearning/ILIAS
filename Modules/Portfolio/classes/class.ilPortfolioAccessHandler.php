@@ -553,7 +553,6 @@ class ilPortfolioAccessHandler
 				}		
 				if($ilUser->getPref("public_profile") != $new_pref)
 				{
-					var_dump("adapted");
 					$ilUser->setPref("public_profile", "g");
 					$ilUser->writePrefs();
 				}
