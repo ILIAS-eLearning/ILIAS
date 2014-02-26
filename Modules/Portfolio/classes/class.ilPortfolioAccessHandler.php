@@ -525,7 +525,7 @@ class ilPortfolioAccessHandler
 		return $_SESSION["ilshpw_".$a_node_id];
 	}
 	
-	public function syncProfile($a_node_id)
+	protected function syncProfile($a_node_id)
 	{
 		global $ilUser;
 		
