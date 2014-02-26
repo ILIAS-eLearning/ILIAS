@@ -731,8 +731,9 @@ class ilSurveyExecutionGUI
 		}
 		else
 		{
-			$this->ctrl->setParameterByClass("ilobjsurveygui", "pgov", $_REQUEST["pgov"]);
-			$this->ctrl->redirectByClass("ilobjsurveygui", "questions");
+			// #12841
+			$this->ctrl->setParameterByClass("ilsurveyeditorgui", "pgov", $_REQUEST["pgov"]);
+			$this->ctrl->redirectByClass(array("ilobjsurveygui", "ilsurveyeditorgui"), "questions");
 		}
 	}
 	
