@@ -574,6 +574,8 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 	
 	protected function renderMyCourses($a_user_id)
 	{				
+		global $ilAccess, $ilUser;
+		
 		if($this->getOutputMode() == "preview")
 		{	
 			return $this->renderMyCoursesTeaser($a_user_id);
@@ -597,6 +599,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 			$this->lng->loadLanguageModule("crs");
 			
 			include_once("./Services/Container/classes/class.ilContainerObjectiveGUI.php");
+			include_once("./Services/Link/classes/class.ilLink.php");
 					
 			foreach($data as $course)
 			{								
@@ -637,9 +640,22 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 					}
 				}
 				
+				// always check against current user
+				if($ilAccess->checkAccessOfUser($ilUser->getId(), "read", "", $course["ref_id"], "crs"))	
+				{
+					$tpl->setCurrentBlock("course_link_bl");
+					$tpl->setVariable("COURSE_LINK_TITLE", $course["title"]);
+					$tpl->setVariable("COURSE_LINK_URL", ilLink::_getLink($course["ref_id"]));
+					$tpl->parseCurrentBlock();			
+				}
+				else
+				{
+					$tpl->setCurrentBlock("course_nolink_bl");
+					$tpl->setVariable("COURSE_NOLINK_TITLE", $course["title"]);
+					$tpl->parseCurrentBlock();		
+				}
+				
 				$tpl->setCurrentBlock("course_bl");
-				$tpl->setVariable("COURSE_TITLE", $course["title"]);
-				$tpl->setVariable("COURSE_URL", $course["url"]);
 				$tpl->setVariable("CRS_ICON_URL", ilUtil::getTypeIconPath("crs", $course["obj_id"]));				
 				$tpl->setVariable("CRS_ICON_ALT", $this->lng->txt("obj_crs"));
 				$tpl->parseCurrentBlock();				
@@ -650,15 +666,14 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 	}	
 	
 	protected function getCoursesOfUser($a_user_id)
-	{
-		global $ilObjDataCache, $tree, $ilAccess;
+	{		
+		global $tree;
 		
 		// see ilPDSelectedItemsBlockGUI
 		
 		include_once 'Services/Membership/classes/class.ilParticipants.php';
 		$items = ilParticipants::_getMembershipByType($a_user_id, 'crs');
-		
-		include_once 'Services/Link/classes/class.ilLink.php';
+				
 		$references = $lp_obj_refs = array();
 		foreach($items as $obj_id)
 		{
@@ -666,20 +681,15 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 			if(is_array($item_references) && count($item_references))
 			{
 				foreach($item_references as $ref_id)
-				{
-					if($ilAccess->checkAccessOfUser($a_user_id, "read", "", $ref_id, "crs"))
+				{									
+					if(!$tree->isDeleted($ref_id))
 					{
-						$title = $ilObjDataCache->lookupTitle($obj_id);					
-						$references[$ref_id] =
-							array('ref_id' => $ref_id,
-								  'obj_id' => $obj_id, 							
-								  'title' => $title,
-								  'url' => ilLink::_getLink($ref_id)
-								  // 'description' => $ilObjDataCache->lookupDescription($obj_id),
-								  // 'parent_ref' => $tree->getParentId($ref_id)
-								  );	
-						
-						$lp_obj_refs[$obj_id] = $ref_id;
+						$references[$ref_id] = array(
+							'ref_id' => $ref_id,
+							'obj_id' => $obj_id, 							
+							'title' => ilObject::_lookupTitle($obj_id)
+						);	
+						$lp_obj_refs[$obj_id] = $ref_id;	
 					}
 				}	
 			}		
