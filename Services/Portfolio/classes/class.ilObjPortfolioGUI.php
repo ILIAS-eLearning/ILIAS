@@ -579,10 +579,25 @@ class ilObjPortfolioGUI
 	 */
 	protected function setDefault()
 	{
-		global $ilCtrl, $lng;
+		global $ilCtrl, $lng, $ilUser;
 
 		if($this->portfolio && $this->checkAccess("write"))
 		{
+			// #12845
+			if($this->access_handler->hasGlobalPermission($this->portfolio->getId()))
+			{
+				$ilUser->setPref("public_profile", "g");
+				$ilUser->writePrefs();
+			}
+			else if($this->access_handler->hasRegisteredPermission($this->portfolio->getId()))
+			{
+				$ilUser->setPref("public_profile", "y");
+				$ilUser->writePrefs();
+			}
+			else
+			{
+				return;
+			}			
 			ilObjPortfolio::setUserDefault($this->user_id, $this->portfolio->getId());
 			ilUtil::sendSuccess($lng->txt("settings_saved"), true);
 		}
@@ -594,10 +609,14 @@ class ilObjPortfolioGUI
 	 */
 	protected function unsetDefault()
 	{
-		global $ilCtrl, $lng;
+		global $ilCtrl, $lng, $ilUser;
 
 		if($this->portfolio && $this->checkAccess("write"))
 		{
+			// #12845
+			$ilUser->setPref("public_profile", "n");
+			$ilUser->writePrefs();
+			
 			ilObjPortfolio::setUserDefault($this->user_id);
 			ilUtil::sendSuccess($lng->txt("prtf_unset_default_share_info"), true);
 		}
