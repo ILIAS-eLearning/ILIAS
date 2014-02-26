@@ -189,6 +189,9 @@ class ilPortfolioAccessHandler
 			$ilDB->quote($a_object_id, "integer").",".
 			$ilDB->quote($a_extended_data, "text").",".
 			$ilDB->quote(time(), "integer").")");
+		
+		// portfolio as profile
+		$this->syncProfile($a_node_id);
 	}
 
 	/**
@@ -209,7 +212,10 @@ class ilPortfolioAccessHandler
 			$query .= " AND object_id = ".$ilDB->quote($a_object_id, "integer");
 		}
 
-		return $ilDB->manipulate($query);
+		$ilDB->manipulate($query);
+		
+		// portfolio as profile
+		$this->syncProfile($a_node_id);									
 	}
 
 	/**
@@ -517,6 +523,42 @@ class ilPortfolioAccessHandler
 	public static function getSharedSessionPassword($a_node_id)
 	{
 		return $_SESSION["ilshpw_".$a_node_id];
+	}
+	
+	public function syncProfile($a_node_id)
+	{
+		global $ilUser;
+		
+		// #12845		
+		include_once "Modules/Portfolio/classes/class.ilObjPortfolio.php";
+		if(ilObjPortfolio::getDefaultPortfolio($ilUser->getId()) == $a_node_id)
+		{
+			$has_registered = $this->hasRegisteredPermission($a_node_id);
+			$has_global = $this->hasGlobalPermission($a_node_id);
+			
+			// not published anymore - remove portfolio as profile
+			if(!$has_registered && !$has_global)
+			{
+				$ilUser->setPref("public_profile", "n");	
+				$ilUser->writePrefs();					
+				ilObjPortfolio::setUserDefault($ilUser->getId());
+			}
+			// adapt profile setting
+			else 
+			{				
+				$new_pref = "y";
+				if($has_global)
+				{			
+					$new_pref = "g";					
+				}		
+				if($ilUser->getPref("public_profile") != $new_pref)
+				{
+					var_dump("adapted");
+					$ilUser->setPref("public_profile", "g");
+					$ilUser->writePrefs();
+				}
+			}				
+		}				
 	}
 }
 
