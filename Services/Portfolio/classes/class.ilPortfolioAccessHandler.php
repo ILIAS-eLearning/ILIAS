@@ -373,7 +373,7 @@ class ilPortfolioAccessHandler
 		global $ilUser;
 		
 		// #12845		
-		include_once "Modules/Portfolio/classes/class.ilObjPortfolio.php";
+		include_once "Services/Portfolio/classes/class.ilObjPortfolio.php";
 		if(ilObjPortfolio::getDefaultPortfolio($ilUser->getId()) == $a_node_id)
 		{
 			$has_registered = $this->hasRegisteredPermission($a_node_id);
