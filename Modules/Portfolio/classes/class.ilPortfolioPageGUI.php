@@ -65,7 +65,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 	 */
 	function &executeCommand()
 	{
-		global $ilCtrl;
+		global $ilCtrl, $ilUser;
 		
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -73,11 +73,16 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		switch($next_class)
 		{					
 			case "ilobjbloggui":
+				// we need the wsp-id for the keywords
+				include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
+				$wsp_tree = new ilWorkspaceTree($ilUser->getId());
+				$blog_obj_id = (int)$this->getPageObject()->getTitle();
+				$blog_node_id = $wsp_tree->lookupNodeId($blog_obj_id);
+					
 				include_once "Modules/Blog/classes/class.ilObjBlogGUI.php";
-				$blog_gui = new ilObjBlogGUI((int)$this->getPageObject()->getTitle(),
-					ilObjBlogGUI::WORKSPACE_OBJECT_ID);
+				$blog_gui = new ilObjBlogGUI($blog_node_id,	ilObjBlogGUI::WORKSPACE_NODE_ID);
 				$blog_gui->disableNotes(!$this->enable_comments);
-				return $ilCtrl->forwardCommand($blog_gui);
+				return $ilCtrl->forwardCommand($blog_gui);		
 				
 			case "ilcalendarmonthgui":
 				// booking action
