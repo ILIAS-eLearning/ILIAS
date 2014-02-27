@@ -151,7 +151,7 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 			$affected_users = ilUtil::removeItemFromDesktops($subnode["child"]);
 				
 		}
-		if(!$tree->saveSubTree($course_id))
+		if(!$tree->saveSubTree($course_id,true))
 		{
 			return $this->__raiseError('Node already deleted','Client');
 		}

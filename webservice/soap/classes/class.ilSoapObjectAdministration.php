@@ -887,7 +887,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 			// remove item from all user desktops
 			$affected_users = ilUtil::removeItemFromDesktops($subnode["child"]);
 		}
-		if(!$tree->saveSubTree($reference_id))
+		if(!$tree->saveSubTree($reference_id,true))
 		{
 			return $this->__raiseError('Node already deleted','Client');
 		}
