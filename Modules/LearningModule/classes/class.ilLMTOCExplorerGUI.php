@@ -92,19 +92,12 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
 				$this->lm->isActiveNumbering(), false, $this->lm->getId(), $this->lang);
 		}
 
-//		if ($this->lm->getTOCMode() == "chapters" || $a_node["type"] != "pg")
-//		{
-//			return $a_node["title"];
-//		}
-//		else
-//		{
-			if ($a_node["type"] == "pg")
-			{
-				return ilLMPageObject::_getPresentationTitle($a_node["child"],
-					$this->lm->getPageHeader(), $this->lm->isActiveNumbering(),
-					$this->lm_set->get("time_scheduled_page_activation"), true, $this->lm->getId(), $this->lang);
-			}
-//		}
+		if ($a_node["type"] == "pg")
+		{
+			return ilLMPageObject::_getPresentationTitle($a_node["child"],
+				$this->lm->getPageHeader(), $this->lm->isActiveNumbering(),
+				$this->lm_set->get("time_scheduled_page_activation"), true, $this->lm->getId(), $this->lang);
+		}
 
 		return $a_node["title"];
 	}

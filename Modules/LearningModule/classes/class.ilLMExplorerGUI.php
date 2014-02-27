@@ -32,6 +32,9 @@ class ilLMExplorerGUI extends ilTreeExplorerGUI
 		$tree->setTableNames('lm_tree','lm_data');
 		$tree->setTreeTablePK("lm_id");
 
+		include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
+		ilLMObject::preloadDataByLM($this->lm->getId());
+
 		$id = "lm_exp";
 		if ($this->getOfflineMode())
 		{
