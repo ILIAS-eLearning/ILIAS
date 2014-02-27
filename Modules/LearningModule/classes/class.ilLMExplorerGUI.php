@@ -35,6 +35,9 @@ class ilLMExplorerGUI extends ilTreeExplorerGUI
 		include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
 		ilLMObject::preloadDataByLM($this->lm->getId());
 
+		include_once("./Services/COPage/classes/class.ilPageObject.php");
+		ilPageObject::preloadActivationDataByParentId($this->lm->getId());
+
 		$id = "lm_exp";
 		if ($this->getOfflineMode())
 		{
