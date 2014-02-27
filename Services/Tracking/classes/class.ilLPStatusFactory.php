@@ -196,7 +196,7 @@ class ilLPStatusFactory
 				
 			case ilLPObjSettings::LP_MODE_PLUGIN:
 				include_once self::PATH.'class.ilLPStatusPlugin.php';
-				return new ilLPStatusEvent($a_obj_id);
+				return new ilLPStatusPlugin($a_obj_id);
 				
 			case ilLPObjSettings::LP_MODE_COLLECTION_TLT:
 				include_once self::PATH.'class.ilLPStatusCollectionTLT.php';
