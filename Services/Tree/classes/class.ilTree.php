@@ -843,7 +843,8 @@ class ilTree
 			{
 				$subtree[] = $row['child'];
 			}
-			if($this->__isMainTree())
+			// the lm_data "hack" should be removed in the trunk during an alpha
+			if($this->__isMainTree() || $this->table_tree == "lm_tree")
 			{
 				$this->in_tree_cache[$row['child']] = true;
 			}
@@ -1572,7 +1573,6 @@ class ilTree
 			return false;
 			#$this->ilErr->raiseError(get_class($this)."::getNodeData(): No node_id given! ",$this->ilErr->WARNING);
 		}
-		
 		// is in tree cache
 		if ($this->isCacheUsed() && isset($this->in_tree_cache[$a_node_id]))
 		{
@@ -1580,7 +1580,7 @@ class ilTree
 //echo "<br>in_tree_hit";
 			return $this->in_tree_cache[$a_node_id];
 		}
-		
+
 		$query = 'SELECT * FROM '.$this->table_tree.' '.
 			'WHERE '.$this->table_tree.'.child = %s '.
 			'AND '.$this->table_tree.'.'.$this->tree_pk.' = %s';

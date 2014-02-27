@@ -27,10 +27,15 @@ class ilLMExplorerGUI extends ilTreeExplorerGUI
 	public function __construct($a_parent_obj, $a_parent_cmd, ilObjContentObject $a_lm)
 	{
 		$this->lm = $a_lm;
-		
-		$tree = new ilTree($this->lm->getId());
-		$tree->setTableNames('lm_tree','lm_data');
-		$tree->setTreeTablePK("lm_id");
+
+		include_once("./Modules/LearningModule/classes/class.ilLMTree.php");
+		$tree = ilLMTree::getInstance($this->lm->getId());
+
+//echo "+".$tree->isCacheUsed()."+";
+
+//		$tree = new ilTree($this->lm->getId());
+//		$tree->setTableNames('lm_tree','lm_data');
+//		$tree->setTreeTablePK("lm_id");
 
 		include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
 		ilLMObject::preloadDataByLM($this->lm->getId());
