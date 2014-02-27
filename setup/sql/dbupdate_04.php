@@ -121,3 +121,58 @@ if( !$ilDB->tableExists('usr_data_multi') )
 }
 
 ?>
+<#4188>
+<?php
+
+// #12845
+$set = $ilDB->query("SELECT od.owner, prtf.id prtf_id, pref.value public".
+	", MIN(acl.object_id) acl_type".
+	" FROM usr_portfolio prtf".
+	" JOIN object_data od ON (od.obj_id = prtf.id)".
+	" LEFT JOIN usr_portf_acl acl ON (acl.node_id = prtf.id)".
+	" LEFT JOIN usr_pref pref ON (pref.usr_id = od.owner".
+	" AND pref.keyword = ".$ilDB->quote("public_profile", "text").")".
+	" WHERE prtf.is_default = ".$ilDB->quote(1, "integer").
+	" GROUP BY od.owner, prtf.id, pref.value");
+while($row = $ilDB->fetchAssoc($set))
+{	
+	$acl_type = (int)$row["acl_type"];
+	$pref = trim($row["public"]);
+	
+	// portfolio is not published, remove as profile
+	if($acl_type >= 0)
+	{
+		$ilDB->manipulate("UPDATE usr_portfolio".
+			" SET is_default = ".$ilDB->quote(0, "integer").
+			" WHERE id = ".$ilDB->quote($row["prtf_id"], "integer"));		
+		$new_pref = "n";
+	}
+	// check if portfolio sharing matches user preference
+	else 
+	{		
+		// registered vs. published
+		$new_pref = ($acl_type < -1)
+			? "g"
+			: "y";		
+	}	
+	
+	if($pref)
+	{
+		if($pref != $new_pref)
+		{
+			$ilDB->manipulate("UPDATE usr_pref".
+				" SET value = ".$ilDB->quote($new_pref, "text").
+				" WHERE usr_id = ".$ilDB->quote($row["owner"], "integer").
+				" AND keyword = ".$ilDB->quote("public_profile", "text"));
+		}
+	}	
+	else
+	{
+		$ilDB->manipulate("INSERT INTO usr_pref (usr_id, keyword, value) VALUES".
+			" (".$ilDB->quote($row["owner"], "integer").
+			", ".$ilDB->quote("public_profile", "text").
+			", ".$ilDB->quote($new_pref, "text").")");
+	}	
+}
+
+?>
