@@ -80,3 +80,18 @@ while($row = $ilDB->fetchAssoc($set))
 }
 
 ?>
+
+<#3>
+<?php
+
+$ilDB->modifyTableColumn(
+		'usr_pwassist', 
+		'pwassist_id',
+		array(
+			"type" => "text", 
+			"length" => 180, 
+			"notnull" => true,
+			'fixed' => true
+		)
+	);
+?>
