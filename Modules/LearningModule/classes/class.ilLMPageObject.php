@@ -417,8 +417,11 @@ class ilLMPageObject extends ilLMObject
 		$a_include_numbers = false, $a_time_scheduled_activation = false,
 		$a_force_content = false, $a_lm_id = 0, $a_lang = "-")
 	{
-		global $ilDB, $ilUser;
-		
+		if($a_mode == IL_NO_HEADER && !$a_force_content)
+		{
+			return "";
+		}
+
 		if ($a_lm_id == 0)
 		{
 			$a_lm_id = ilLMObject::_lookupContObjID($a_pg_id);
@@ -429,46 +432,36 @@ class ilLMPageObject extends ilLMObject
 			return "";
 		}
 
+		// this is optimized when ilLMObject::preloadDataByLM is invoked (e.g. done in ilLMExplorerGUI)
+		$title = ilLMObject::_lookupTitle($a_pg_id);
+
 		// @todo: optimize
 		include_once("./Services/Object/classes/class.ilObjectTranslation.php");
 		$ot = new ilObjectTranslation($a_lm_id);
-
-		// select
-		$query = "SELECT * FROM lm_data WHERE obj_id = ".
-			$ilDB->quote($a_pg_id, "integer");
-		$pg_set = $ilDB->query($query);
-		$pg_rec = $ilDB->fetchAssoc($pg_set);
-
 		$languages = $ot->getLanguages();
-		
+
 		if ($a_lang != "-" && $ot->getContentActivated() && isset($languages[$a_lang]))
 		{
 			include_once("./Modules/LearningModule/classes/class.ilLMObjTranslation.php");
 			$lmobjtrans = new ilLMObjTranslation($a_pg_id, $a_lang);
 			if ($lmobjtrans->getTitle() != "")
 			{
-				$pg_rec["title"] = $lmobjtrans->getTitle();
+				$title = $lmobjtrans->getTitle();
 			}
 		}
 
-		if($a_mode == IL_NO_HEADER && !$a_force_content)
+		if($a_mode == IL_PAGE_TITLE)
 		{
-			return "";
+			return $title;
 		}
 
-		$tree = new ilTree($pg_rec["lm_id"]);
+		$tree = new ilTree($a_lm_id);
 		$tree->setTableNames('lm_tree','lm_data');
 		$tree->setTreeTablePK("lm_id");
 
-		if($a_mode == IL_PAGE_TITLE)
+		if ($tree->isInTree($a_pg_id))
 		{
-			$nr = "";
-			return $nr.$pg_rec["title"];
-		}
-
-		if ($tree->isInTree($pg_rec["obj_id"]))
-		{
-			$pred_node = $tree->fetchPredecessorNode($pg_rec["obj_id"], "st");
+			$pred_node = $tree->fetchPredecessorNode($a_pg_id, "st");
 			$childs = $tree->getChildsByType($pred_node["obj_id"], "pg");
 			$cnt_str = "";
 			if(count($childs) > 1)
@@ -478,11 +471,11 @@ class ilLMPageObject extends ilLMObject
 				{
 					include_once("./Modules/LearningModule/classes/class.ilLMPage.php");
 					$active = ilLMPage::_lookupActive($child["obj_id"],
-						ilObject::_lookupType($pg_rec["lm_id"]), $a_time_scheduled_activation);
+						ilObject::_lookupType($a_lm_id), $a_time_scheduled_activation);
 
 					if (!$active)
 					{
-						$act_data = ilLMPage::_lookupActivationData((int) $child["obj_id"], ilObject::_lookupType($pg_rec["lm_id"]));
+						$act_data = ilLMPage::_lookupActivationData((int) $child["obj_id"], ilObject::_lookupType($a_lm_id));
 						if ($act_data["show_activation_info"] &&
 							(ilUtil::now() < $act_data["activation_start"]))
 						{
@@ -494,7 +487,7 @@ class ilLMPageObject extends ilLMObject
 					{
 						$cnt++;
 					}
-					if($child["obj_id"] == $pg_rec["obj_id"])
+					if($child["obj_id"] == $a_pg_id)
 					{
 						$cur_cnt = $cnt;
 					}
@@ -513,7 +506,7 @@ class ilLMPageObject extends ilLMObject
 		}
 		else
 		{
-			return $pg_rec["title"];
+			return $title;
 		}
 	}
 
