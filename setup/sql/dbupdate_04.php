@@ -176,3 +176,18 @@ while($row = $ilDB->fetchAssoc($set))
 }
 
 ?>
+
+<#4189>
+<?php
+$ilDB->modifyTableColumn(
+		'object_data', 
+		'title',
+		array(
+			"type" => "text", 
+			"length" => 255, 
+			"notnull" => false,
+			'fixed' => true
+		)
+	);
+?>
+
