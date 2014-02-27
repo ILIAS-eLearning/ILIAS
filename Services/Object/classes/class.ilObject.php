@@ -15,7 +15,7 @@ class ilObject
 	/**
 	 * max length of object title
 	 */
-	const TITLE_LENGTH = 128;
+	const TITLE_LENGTH = 255;
 
 
 	/**

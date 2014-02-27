@@ -8954,7 +8954,7 @@ $ilDB->addTableColumn("tax_node", "order_nr", array(
 	include_once "Services/Administration/classes/class.ilSetting.php";	
 	$ilSetting = new ilSetting();
 	$ilSetting->set("rep_shorten_description", 1);
-	$ilSetting->set("rep_shorten_description_length", ilObject::TITLE_LENGTH);
+	$ilSetting->set("rep_shorten_description_length", 128);
 ?>
 <#3531>
 <?php
