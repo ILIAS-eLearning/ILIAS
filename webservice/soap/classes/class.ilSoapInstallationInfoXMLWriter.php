@@ -83,13 +83,8 @@ class ilSoapInstallationInfoXMLWriter extends ilXmlWriter
 	 *
 	 * @param ilSetting $setting
 	 */
-	private function __buildClient($setting) {
-		$auth_modes = ilAuthUtils::_getActiveAuthModes();
-		$auth_mode_default =  strtoupper(ilAuthUtils::_getAuthModeName(array_shift($auth_modes)));
-		$auth_mode_names = array();
-		foreach ($auth_modes as $mode) {
-			$auth_mode_names[] = strtoupper(ilAuthUtils::_getAuthModeName($mode));
-		}
+	private function __buildClient($setting) 
+	{
 		// determine skins/styles
 		$skin_styles = array();
 		include_once("./Services/Style/classes/class.ilStyleDefinition.php");
@@ -130,9 +125,20 @@ class ilSoapInstallationInfoXMLWriter extends ilXmlWriter
 			    
 			));
 		$this->xmlEndTag("Client");
+		
 		return;
 		
+		
 		// END here due to security reasons.
+
+		
+		
+		$auth_modes = ilAuthUtils::_getActiveAuthModes();
+		$auth_mode_default =  strtoupper(ilAuthUtils::_getAuthModeName(array_shift($auth_modes)));
+		$auth_mode_names = array();
+		foreach ($auth_modes as $mode) {
+			$auth_mode_names[] = strtoupper(ilAuthUtils::_getAuthModeName($mode));
+		}
 		
 
 		$this->xmlElement ("Name", null, $setting->get("inst_name"));
