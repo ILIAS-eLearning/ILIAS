@@ -87,9 +87,12 @@ class ilLMPresentationGUI
 			}
 		}
 		
-		$this->lm_tree = new ilTree($this->lm->getId());
+		include_once("./Modules/LearningModule/classes/class.ilLMTree.php");
+		$this->lm_tree = ilLMTree::getInstance($this->lm->getId());
+
+		/*$this->lm_tree = new ilTree($this->lm->getId());
 		$this->lm_tree->setTableNames('lm_tree','lm_data');
-		$this->lm_tree->setTreeTablePK("lm_id");
+		$this->lm_tree->setTreeTablePK("lm_id");*/
 	}
 
 

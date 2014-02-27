@@ -455,9 +455,8 @@ class ilLMPageObject extends ilLMObject
 			return $title;
 		}
 
-		$tree = new ilTree($a_lm_id);
-		$tree->setTableNames('lm_tree','lm_data');
-		$tree->setTreeTablePK("lm_id");
+		include_once("./Modules/LearningModule/classes/class.ilLMTree.php");
+		$tree = ilLMTree::getInstance($a_lm_id);
 
 		if ($tree->isInTree($a_pg_id))
 		{

@@ -21,6 +21,7 @@ abstract class ilTreeExplorerGUI extends ilExplorerBaseGUI
 	protected $childs = array();			// preloaded childs
 	protected $preloaded = false;
 	protected $preload_childs = false;
+	protected $root_node_data = null;
 	
 	/**
 	 * Constructor
@@ -231,8 +232,13 @@ abstract class ilTreeExplorerGUI extends ilExplorerBaseGUI
 	 */
 	function getRootNode()
 	{
+		if (isset($this->root_node_data))
+		{
+			return $this->root_node_data;
+		}
 		$root_id = $this->getTree()->readRootId();
-		return $this->getTree()->getNodeData($root_id);
+		$this->root_node_data =  $this->getTree()->getNodeData($root_id);
+		return $this->root_node_data;
 	}
 	
 	/**

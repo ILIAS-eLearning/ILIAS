@@ -210,10 +210,8 @@ class ilStructureObject extends ilLMObject
 			}
 		}
 
-
-		$tree = new ilTree($st_rec["lm_id"]);
-		$tree->setTableNames('lm_tree','lm_data');
-		$tree->setTreeTablePK("lm_id");
+		include_once("./Modules/LearningModule/classes/class.ilLMTree.php");
+		$tree = ilLMTree::getInstance($a_lm_id);
 
 		if ($a_include_numbers)
 		{
