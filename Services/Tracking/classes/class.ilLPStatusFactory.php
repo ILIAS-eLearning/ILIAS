@@ -179,7 +179,7 @@ class ilLPStatusFactory
 				
 			case LP_MODE_PLUGIN:
 				include_once 'Services/Tracking/classes/class.ilLPStatusPlugin.php';
-				return new ilLPStatusEvent($a_obj_id);
+				return new ilLPStatusPlugin($a_obj_id);
 				
 			case LP_MODE_UNDEFINED:
 				$type = ilObject::_lookupType($a_obj_id);
