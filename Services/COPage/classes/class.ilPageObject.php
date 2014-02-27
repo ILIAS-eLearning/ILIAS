@@ -64,7 +64,8 @@ abstract class ilPageObject
 	var $dom_builded;
 	var $history_saved;
 	var $language = "-";
-	
+	static protected $activation_data = array();
+
 	/**
 	* Constructor
 	* @access	public
@@ -533,6 +534,25 @@ abstract class ilPageObject
 	}
 
 	/**
+	 * Preload activation data by Parent Id
+	 *
+	 * @param integer $a_parent_id parent id
+	 */
+	static function preloadActivationDataByParentId($a_parent_id)
+	{
+		global $ilDB;
+
+		$set = $ilDB->query("SELECT page_id, parent_type, lang, active, activation_start, activation_end, show_activation_info FROM page_object ".
+			" WHERE parent_id = ".$ilDB->quote($a_parent_id, "integer")
+			);
+		while ($rec = $ilDB->fetchAssoc($set))
+		{
+			self::$activation_data[$rec["page_id"].":".$rec["parent_type"].":".$rec["lang"]] = $rec;
+		}
+	}
+
+
+	/**
 	 * lookup activation status
 	 */
 	static function _lookupActive($a_id, $a_parent_type, $a_check_scheduled_activation = false, $a_lang = "-")
@@ -545,11 +565,20 @@ abstract class ilPageObject
 			$a_lang = "-";
 		}
 
-		$set = $ilDB->queryF("SELECT active, activation_start, activation_end FROM page_object WHERE page_id = %s".
-			" AND parent_type = %s AND lang = %s",
-				array("integer", "text", "text"),
-				array($a_id, $a_parent_type, $a_lang));
-		$rec = $ilDB->fetchAssoc($set);
+		if (isset(self::$activation_data[$a_id.":".$a_parent_type.":".$a_lang]))
+		{
+			$rec = self::$activation_data[$a_id.":".$a_parent_type.":".$a_lang];
+		}
+		else
+		{
+			$set = $ilDB->queryF("SELECT active, activation_start, activation_end FROM page_object WHERE page_id = %s".
+				" AND parent_type = %s AND lang = %s",
+					array("integer", "text", "text"),
+					array($a_id, $a_parent_type, $a_lang));
+			$rec = $ilDB->fetchAssoc($set);
+		}
+
+
 		$rec["n"] = ilUtil::now();
 
 		if (!$rec["active"] && $a_check_scheduled_activation)
@@ -576,11 +605,20 @@ abstract class ilPageObject
 		{
 			$a_lang = "-";
 		}
-		
-		$set = $ilDB->queryF("SELECT active, activation_start, activation_end FROM page_object WHERE page_id = %s".
+
+//echo "<br>";
+//var_dump(self::$activation_data); exit;
+		if (isset(self::$activation_data[$a_id.":".$a_parent_type.":".$a_lang]))
+		{
+			$rec = self::$activation_data[$a_id.":".$a_parent_type.":".$a_lang];
+		}
+		else
+		{
+			$set = $ilDB->queryF("SELECT active, activation_start, activation_end FROM page_object WHERE page_id = %s".
 			" AND parent_type = %s AND lang = %s", array("integer", "text", "text"),
 			array($a_id, $a_parent_type, $a_lang));
-		$rec = $ilDB->fetchAssoc($set);
+			$rec = $ilDB->fetchAssoc($set);
+		}
 
 		if (!$rec["active"] && $rec["activation_start"] != "")
 		{
@@ -629,13 +667,20 @@ abstract class ilPageObject
 		if ($a_lang == "")
 		{
 			$a_lang = "-";
-		}		
+		}
 
-		$set = $ilDB->queryF("SELECT active, activation_start, activation_end, show_activation_info FROM page_object WHERE page_id = %s".
+		if (isset(self::$activation_data[$a_id.":".$a_parent_type.":".$a_lang]))
+		{
+			$rec = self::$activation_data[$a_id.":".$a_parent_type.":".$a_lang];
+		}
+		else
+		{
+			$set = $ilDB->queryF("SELECT active, activation_start, activation_end, show_activation_info FROM page_object WHERE page_id = %s".
 			" AND parent_type = %s AND lang = %s",
 				array("integer", "text", "text"),
 				array($a_id, $a_parent_type, $a_lang));
-		$rec = $ilDB->fetchAssoc($set);
+			$rec = $ilDB->fetchAssoc($set);
+		}
 		
 		return $rec;
 	}
