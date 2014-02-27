@@ -1462,65 +1462,67 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			}
 		}		
 		
-		
-		// keywords 		
-		$may_edit_keywords = ($_GET["blpg"] && $this->mayContribute($_GET["blpg"]) && 
-			!$a_link_template && $a_list_cmd != "preview" && $a_list_cmd != "gethtml");
-		$keywords = $this->getKeywords($a_show_inactive, $_GET["blpg"]);
-		if($keywords || $may_edit_keywords)
+		if(!$a_link_template) // #12850
 		{
-			$wtpl->setVariable("KEYWORDS_TITLE", $this->lng->txt("blog_keywords"));
+			// keywords 		
+			$may_edit_keywords = ($_GET["blpg"] && $this->mayContribute($_GET["blpg"]) && 
+				!$a_link_template && $a_list_cmd != "preview" && $a_list_cmd != "gethtml");
+			$keywords = $this->getKeywords($a_show_inactive, $_GET["blpg"]);
+			if($keywords || $may_edit_keywords)
+			{
+				$wtpl->setVariable("KEYWORDS_TITLE", $this->lng->txt("blog_keywords"));
 
-			if($keywords)
-			{
-				$max = max($keywords);
-				include_once "Services/Tagging/classes/class.ilTagging.php";
-				
-				$wtpl->setCurrentBlock("keyword");
-				foreach($keywords as $keyword => $counter)
-				{										
-					$ilCtrl->setParameter($this, "kwd", $keyword);
-					$url = $ilCtrl->getLinkTarget($this, $a_list_cmd);
-					$ilCtrl->setParameter($this, "kwd", "");
-			
-					$wtpl->setVariable("TXT_KEYWORD", $keyword);				
-					$wtpl->setVariable("SIZE_KEYWORD", ilTagging::calculateFontSize($counter, $max));				
-					$wtpl->setVariable("URL_KEYWORD", $url);
-					$wtpl->parseCurrentBlock();					
+				if($keywords)
+				{
+					$max = max($keywords);
+					include_once "Services/Tagging/classes/class.ilTagging.php";
+
+					$wtpl->setCurrentBlock("keyword");
+					foreach($keywords as $keyword => $counter)
+					{										
+						$ilCtrl->setParameter($this, "kwd", $keyword);
+						$url = $ilCtrl->getLinkTarget($this, $a_list_cmd);
+						$ilCtrl->setParameter($this, "kwd", "");
+
+						$wtpl->setVariable("TXT_KEYWORD", $keyword);				
+						$wtpl->setVariable("SIZE_KEYWORD", ilTagging::calculateFontSize($counter, $max));				
+						$wtpl->setVariable("URL_KEYWORD", $url);
+						$wtpl->parseCurrentBlock();					
+					}
 				}
+				else
+				{
+					$wtpl->setVariable("TXT_NO_KEYWORDS", $this->lng->txt("blog_no_keywords"));
+				}
+
+				if($may_edit_keywords)
+				{			
+					$ilCtrl->setParameterByClass("ilblogpostinggui", "blpg", $_GET["blpg"]);
+					$wtpl->setVariable("URL_EDIT_KEYWORDS", 
+						$ilCtrl->getLinkTargetByClass("ilblogpostinggui", "editKeywords"));		
+					$ilCtrl->setParameterByClass("ilblogpostinggui", "blpg", "");
+					$wtpl->setVariable("TXT_EDIT_KEYWORDS", $this->lng->txt("blog_edit_keywords"));			
+				}						
 			}
-			else
+
+			// rss
+			if($this->object->hasRSS() && $ilSetting->get('enable_global_profiles') &&
+				!$a_link_template && $a_list_cmd == "preview")
 			{
-				$wtpl->setVariable("TXT_NO_KEYWORDS", $this->lng->txt("blog_no_keywords"));
+				// #10827
+				$blog_id = $this->node_id;		
+				if($this->id_type != self::WORKSPACE_NODE_ID)
+				{	
+					$blog_id .= "_cll";
+				}			
+				$url = ILIAS_HTTP_PATH."/feed.php?blog_id=".$blog_id.
+					"&client_id=".rawurlencode(CLIENT_ID);
+
+				$wtpl->setCurrentBlock("rss");
+				$wtpl->setVariable("URL_RSS", $url);
+				$wtpl->setVariable("IMG_RSS", ilUtil::getImagePath("rss.png"));
+				$wtpl->parseCurrentBlock();
 			}
-			
-			if($may_edit_keywords)
-			{			
-				$ilCtrl->setParameterByClass("ilblogpostinggui", "blpg", $_GET["blpg"]);
-				$wtpl->setVariable("URL_EDIT_KEYWORDS", 
-					$ilCtrl->getLinkTargetByClass("ilblogpostinggui", "editKeywords"));		
-				$ilCtrl->setParameterByClass("ilblogpostinggui", "blpg", "");
-				$wtpl->setVariable("TXT_EDIT_KEYWORDS", $this->lng->txt("blog_edit_keywords"));			
-			}						
-		}
-		
-		// rss
-		if($this->object->hasRSS() && $ilSetting->get('enable_global_profiles') &&
-			!$a_link_template && $a_list_cmd == "preview")
-		{
-			// #10827
-			$blog_id = $this->node_id;		
-			if($this->id_type != self::WORKSPACE_NODE_ID)
-			{	
-				$blog_id .= "_cll";
-			}			
-			$url = ILIAS_HTTP_PATH."/feed.php?blog_id=".$blog_id.
-				"&client_id=".rawurlencode(CLIENT_ID);
-		
-			$wtpl->setCurrentBlock("rss");
-			$wtpl->setVariable("URL_RSS", $url);
-			$wtpl->setVariable("IMG_RSS", ilUtil::getImagePath("rss.png"));
-			$wtpl->parseCurrentBlock();
 		}
 
 		return $wtpl->get();
