@@ -325,7 +325,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 		// get page object
 		include_once("./Services/Object/classes/class.ilObjectTranslation.php");
-		$ot = new ilObjectTranslation($this->object->getId());
+		$ot = ilObjectTranslation::getInstance($this->object->getId());
 		$lang = $ot->getEffectiveContentLang($ilUser->getLanguage(), "cont");
 		$page_gui = new ilContainerPageGUI($this->object->getId(), 0, $lang);
 		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");

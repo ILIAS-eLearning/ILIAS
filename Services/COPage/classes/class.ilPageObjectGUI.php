@@ -2058,7 +2058,7 @@ return;
 			//	$this->getPageObject()->getParentId());
 
 			include_once("./Services/Object/classes/class.ilObjectTranslation.php");
-			$ot = new ilObjectTranslation($this->getPageObject()->getParentId());
+			$ot = ilObjectTranslation::getInstance($this->getPageObject()->getParentId());
 			
 			if (!$ot->getContentActivated())
 			{

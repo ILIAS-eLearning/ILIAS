@@ -411,7 +411,7 @@ class ilContainer extends ilObject
 			$ml->copy("cont", $new_obj->getId());*/
 
 			include_once("./Services/Object/classes/class.ilObjectTranslation.php");
-			$ot = new ilObjectTranslation($this->getId());
+			$ot = ilObjectTranslation::getInstance($this->getId());
 			$ot->copy($new_obj->getId());
 		}
 		

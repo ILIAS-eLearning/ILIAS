@@ -29,7 +29,7 @@ class ilPageMultiLangGUI
 
 		// object translation
 		include_once("./Services/Object/classes/class.ilObjectTranslation.php");
-		$this->ot = new ilObjectTranslation($a_parent_id);
+		$this->ot = ilObjectTranslation::getInstance($a_parent_id);
 		
 //		$this->single_page_mode = $a_single_page_mode;
 	}

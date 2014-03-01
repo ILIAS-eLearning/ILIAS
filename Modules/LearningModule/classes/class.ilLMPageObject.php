@@ -437,7 +437,7 @@ class ilLMPageObject extends ilLMObject
 
 		// @todo: optimize
 		include_once("./Services/Object/classes/class.ilObjectTranslation.php");
-		$ot = new ilObjectTranslation($a_lm_id);
+		$ot = ilObjectTranslation::getInstance($a_lm_id);
 		$languages = $ot->getLanguages();
 
 		if ($a_lang != "-" && $ot->getContentActivated() && isset($languages[$a_lang]))
