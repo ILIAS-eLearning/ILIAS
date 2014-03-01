@@ -54,7 +54,7 @@ class ilLMPresentationGUI
 		
 		// language translation
 		include_once("./Services/Object/classes/class.ilObjectTranslation.php");
-		$this->ot = new ilObjectTranslation($this->lm->getId());
+		$this->ot = ilObjectTranslation::getInstance($this->lm->getId());
 		//include_once("./Services/COPage/classes/class.ilPageMultiLang.php");
 		//$this->ml = new ilPageMultiLang("lm", $this->lm->getId());
 		$this->lang = "-";

@@ -28,7 +28,7 @@ class ilObjectTranslationGUI
 		$this->obj = $a_obj_gui->object;
 
 		include_once("./Services/Object/classes/class.ilObjectTranslation.php");
-		$this->obj_trans = new ilObjectTranslation($this->obj->getId());
+		$this->obj_trans = ilObjectTranslation::getInstance($this->obj->getId());
 	}
 
 	/**

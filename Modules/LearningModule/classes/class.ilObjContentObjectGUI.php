@@ -224,7 +224,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 				$exp_gui = new ilExportGUI($this);
 				$exp_gui->addFormat("xml", "", $this, "export");
 				include_once("./Services/Object/classes/class.ilObjectTranslation.php");
-				$ot = new ilObjectTranslation($this->object->getId());
+				$ot = ilObjectTranslation::getInstance($this->object->getId());
 				if ($ot->getContentActivated())
 				{
 					$lng->loadLanguageModule("meta");
@@ -464,7 +464,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 
 		$title = $this->object->getTitle();
 		$description = $this->object->getDescription();
-		$ot = new ilObjectTranslation($this->object->getId());
+		$ot = ilObjectTranslation::getInstance($this->object->getId());
 		if ($ot->getContentActivated())
 		{
 			$title = $ot->getDefaultTitle();
@@ -513,7 +513,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		$this->initPropertiesForm();
 		if ($this->form->checkInput())
 		{
-			$ot = new ilObjectTranslation($this->object->getId());
+			$ot = ilObjectTranslation::getInstance($this->object->getId());
 			if ($ot->getContentActivated())
 			{
 				$ot->setDefaultTitle($_POST['title']);
@@ -1302,7 +1302,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		
 		// multi language
 		include_once("./Services/Object/classes/class.ilObjectTranslation.php");
-		$ot = new ilObjectTranslation($a_lm_id);
+		$ot = ilObjectTranslation::getInstance($a_lm_id);
 		//include_once("./Services/COPage/classes/class.ilPageMultiLang.php");
 		//$ml = new ilPageMultiLang("lm", $a_lm_id);
 		if ($ot->getContentActivated())
@@ -2363,7 +2363,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 	function exportHTML()
 	{
 		include_once("./Services/Object/classes/class.ilObjectTranslation.php");
-		$ot = new ilObjectTranslation($this->object->getId());
+		$ot = ilObjectTranslation::getInstance($this->object->getId());
 		$lang = "";
 		if ($ot->getContentActivated())
 		{

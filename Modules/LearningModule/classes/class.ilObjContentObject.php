@@ -2033,7 +2033,7 @@ class ilObjContentObject extends ilObject
 		$lm_gui->setOfflineMode(true);
 		$lm_gui->setOfflineDirectory($a_target_dir);
 		$lm_gui->setExportFormat($a_export_format);
-		$ot = new ilObjectTranslation($this->getId());
+		$ot = ilObjectTranslation::getInstance($this->getId());
 		if ($a_lang != "")
 		{
 			if ($a_lang == $ot->getMasterLanguage())
@@ -3163,7 +3163,7 @@ class ilObjContentObject extends ilObject
 
 		// copy (page) multilang settings
 		include_once("./Services/Object/classes/class.ilObjectTranslation.php");
-		$ot = new ilObjectTranslation($this->getId());
+		$ot = ilObjectTranslation::getInstance($this->getId());
 		$ot->copy($new_obj->getId());
 
 		return $new_obj;

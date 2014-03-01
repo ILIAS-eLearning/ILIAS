@@ -189,7 +189,7 @@ class ilStructureObject extends ilLMObject
 		//include_once("./Services/COPage/classes/class.ilPageMultiLang.php");
 		//$ml = new ilPageMultiLang("lm", $a_lm_id);
 		include_once("./Services/Object/classes/class.ilObjectTranslation.php");
-		$ot = new ilObjectTranslation($a_lm_id);
+		$ot = ilObjectTranslation::getInstance($a_lm_id);
 
 
 		// get chapter data

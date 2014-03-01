@@ -33,6 +33,7 @@ class ilObjectTranslation
 	protected $master_lang;
 	protected $languages = array();
 	protected $content_activated = false;
+	static protected $instances = array();
 
 	/**
 	 * Constructor
@@ -40,7 +41,7 @@ class ilObjectTranslation
 	 * @param int $a_obj_id object id
 	 * @throws ilObjectException
 	 */
-	function __construct($a_obj_id)
+	private function __construct($a_obj_id)
 	{
 		global $ilDB;
 
@@ -56,6 +57,23 @@ class ilObjectTranslation
 
 		$this->read();
 	}
+
+	/**
+	 * Get instance
+	 *
+	 * @param integer $a_obj_id (repository) object id
+	 * @return ilObjectTranslation translation object
+	 */
+	static function getInstance($a_obj_id)
+	{
+		if (!isset(self::$instances[$a_obj_id]))
+		{
+			self::$instances[$a_obj_id] = new ilObjectTranslation($a_obj_id);
+		}
+
+		return self::$instances[$a_obj_id];
+	}
+
 
 	/**
 	 * Set object id
