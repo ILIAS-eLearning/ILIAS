@@ -2171,7 +2171,6 @@ class ilTree
 		$res = $ilDB->queryF($query,array('integer','integer'),array(
 			$a_node_id,
 			$this->tree_id));
-
 		$curr_node = $ilDB->fetchAssoc($res);
 		
 		if($a_type)
