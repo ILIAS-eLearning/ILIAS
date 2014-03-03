@@ -53,13 +53,19 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 	{
 		return "prtf";
 	}
+	
+	protected function getPageContentUserId($a_user_id)
+	{
+		// user id from content-xml
+		return $a_user_id;
+	}
 
 	/**
 	 * execute command
 	 */
 	function &executeCommand()
 	{
-		global $ilCtrl;
+		global $ilCtrl, $ilUser;
 		
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -67,11 +73,16 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		switch($next_class)
 		{					
 			case "ilobjbloggui":
+				// we need the wsp-id for the keywords
+				include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
+				$wsp_tree = new ilWorkspaceTree($ilUser->getId());
+				$blog_obj_id = (int)$this->getPageObject()->getTitle();
+				$blog_node_id = $wsp_tree->lookupNodeId($blog_obj_id);
+					
 				include_once "Modules/Blog/classes/class.ilObjBlogGUI.php";
-				$blog_gui = new ilObjBlogGUI((int)$this->getPageObject()->getTitle(),
-					ilObjBlogGUI::WORKSPACE_OBJECT_ID);
+				$blog_gui = new ilObjBlogGUI($blog_node_id,	ilObjBlogGUI::WORKSPACE_NODE_ID);
 				$blog_gui->disableNotes(!$this->enable_comments);
-				return $ilCtrl->forwardCommand($blog_gui);
+				return $ilCtrl->forwardCommand($blog_gui);				
 				
 			case "ilcalendarmonthgui":
 				// booking action
@@ -170,6 +181,11 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		return $this->additional;
 	}
 	
+	function getJsOnloadCode()
+	{
+		return $this->js_onload_code;
+	}
+	
 	function postOutputProcessing($a_output)
 	{		
 		$parts = array(
@@ -221,6 +237,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 							break;
 					}
 				
+					$snippet = $this->renderPageElement($type, $snippet);
 					$a_output = str_replace($block, $snippet, $a_output);
 				}
 			}
@@ -229,12 +246,33 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		return $a_output;
 	}
 	
+	protected function renderPageElement($a_type, $a_html)
+	{
+		return trim($a_html);
+	}
+	
+	protected function renderTeaser($a_type, $a_title, $a_options = null)
+	{
+		$options = "";
+		if($a_options)
+		{
+			$options = '<div class="il_Footer">'.$this->lng->txt("prtf_page_element_teaser_settings").
+				": ".$a_options.'</div>';
+		}
+		
+		return '<div style="margin:5px" class="ilBox"><h3>'.$a_title.'</h3>'.
+			'<div class="il_Description_no_margin">'.$this->lng->txt("prtf_page_element_teaser_".$a_type).'</div>'.	
+			$options.'</div>';	
+	}
+	
 	protected function renderProfile($a_user_id, $a_type, array $a_fields = null)
 	{
 		global $ilCtrl;
 		
+		$user_id = $this->getPageContentUserId($a_user_id);
+		
 		include_once("./Services/User/classes/class.ilPublicUserProfileGUI.php");
-		$pub_profile = new ilPublicUserProfileGUI($a_user_id);
+		$pub_profile = new ilPublicUserProfileGUI($user_id);
 		$pub_profile->setEmbedded(true, ($this->getOutputMode() == "offline"));
 		
 		// full circle: additional was set in the original public user profile call
@@ -268,6 +306,9 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 	protected function renderVerification($a_user_id, $a_type, $a_id)
 	{
 		global $objDefinition;
+		
+		// not used 
+		// $user_id = $this->getPageContentUserId($a_user_id);
 		
 		$class = "ilObj".$objDefinition->getClassName($a_type)."GUI";
 		include_once $objDefinition->getLocation($a_type)."/class.".$class.".php";
@@ -329,7 +370,8 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 	{
 		global $ilCtrl;
 				
-		// :TODO: what about user?
+		// not used 
+		// $user_id = $this->getPageContentUserId($a_user_id);
 		
 		// full blog (separate tab/page)
 		if(!$a_posting_ids)
@@ -376,8 +418,9 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 	}	
 	
 	protected function renderBlogTeaser($a_user_id, $a_blog_id, array $a_posting_ids = null)
-	{
-		global $lng;
+	{		
+		// not used 
+		// $user_id = $this->getPageContentUserId($a_user_id);
 		
 		$postings = "";
 		if($a_posting_ids)
@@ -394,8 +437,8 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 			$postings = implode("\n", $postings);	
 		}
 		
-		return "<div style=\"margin:5px\">".$lng->txt("obj_blog").": \"".
-				ilObject::_lookupTitle($a_blog_id)."\"".$postings."</div>";
+		return $this->renderTeaser("blog", $this->lng->txt("obj_blog").' "'.
+			ilObject::_lookupTitle($a_blog_id).'"', $postings);
 	}	
 	
 	protected function renderSkills($a_user_id, $a_skills_id)
@@ -404,6 +447,8 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		{	
 			return $this->renderSkillsTeaser($a_user_id, $a_skills_id);
 		}
+		
+		$user_id = $this->getPageContentUserId($a_user_id);		
 	
 		include_once "Services/Skill/classes/class.ilPersonalSkillsGUI.php";
 		$gui = new ilPersonalSkillsGUI();
@@ -411,7 +456,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		{			
 			$gui->setOfflineMode("./files/");
 		}		
-		$html = $gui->getSkillHTML($a_skills_id, $a_user_id);
+		$html = $gui->getSkillHTML($a_skills_id, $user_id);
 		
 		if($this->getOutputMode() == "offline")
 		{
@@ -426,27 +471,29 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 	}
 	
 	protected function renderSkillsTeaser($a_user_id, $a_skills_id)
-	{
-		global $lng;
+	{		
+		// not used 
+		// $user_id = $this->getPageContentUserId($a_user_id);
 		
 		include_once "Services/Skill/classes/class.ilSkillTreeNode.php";
 		
-		return "<div style=\"margin:5px\">".$lng->txt("skills").": \"".
-				ilSkillTreeNode::_lookupTitle($a_skills_id)."\"</div>";
+		return $this->renderTeaser("skills", $this->lng->txt("skills").' "'.
+				ilSkillTreeNode::_lookupTitle($a_skills_id).'"');
 	}	
 	
 	protected function renderConsultationHoursTeaser($a_user_id, $a_mode, $a_group_ids)
-	{
-		global $lng;
+	{		
+		// not used 
+		// $user_id = $this->getPageContentUserId($a_user_id);
 		
 		if($a_mode == "auto")
 		{
-			$mode = $lng->txt("cont_cach_mode_automatic");
+			$mode = $this->lng->txt("cont_cach_mode_automatic");
 			$groups = null;
 		}
 		else
 		{
-			$mode = $lng->txt("cont_cach_mode_manual");
+			$mode = $this->lng->txt("cont_cach_mode_manual");
 			
 			include_once "Services/Calendar/classes/ConsultationHours/class.ilConsultationHourGroups.php";		
 			$groups = array();
@@ -457,9 +504,9 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 			$groups = " (".implode(", ", $groups).")";
 		}
 		
-		$lng->loadLanguageModule("dateplaner");
-		return "<div style=\"margin:5px\">".$lng->txt("app_consultation_hours").": \"".
-				$mode."\"".$groups."</div>";
+		$this->lng->loadLanguageModule("dateplaner");
+		return $this->renderTeaser("consultation_hours", 
+			$this->lng->txt("app_consultation_hours"), $mode.$groups);
 	}	
 	
 	protected function renderConsultationHours($a_user_id, $a_mode, $a_group_ids)
@@ -476,10 +523,12 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 			return;
 		}
 		
+		$user_id = $this->getPageContentUserId($a_user_id);
+		
 		// only if not owner
-		if($ilUser->getId() != $a_user_id)
+		if($ilUser->getId() != $user_id)
 		{
-			$_GET["bkid"] = $a_user_id;
+			$_GET["bkid"] = $user_id;
 		}
 		
 		if($a_mode != "manual")
@@ -488,7 +537,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		}
 		
 		include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
-		ilCalendarCategories::_getInstance()->setCHUserId($a_user_id);
+		ilCalendarCategories::_getInstance()->setCHUserId($user_id);
 		ilCalendarCategories::_getInstance()->initialize(ilCalendarCategories::MODE_PORTFOLIO_CONSULTATION, null, true);
 		
 		if(!$_REQUEST["seed"])
@@ -505,17 +554,15 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		
 		// custom schedule filter: handle booking group ids
 		include_once('./Services/Calendar/classes/class.ilCalendarScheduleFilterBookings.php');
-		$filter = new ilCalendarScheduleFilterBookings($a_user_id, $a_group_ids);
+		$filter = new ilCalendarScheduleFilterBookings($user_id, $a_group_ids);
 		$month_gui->addScheduleFilter($filter);
 		
 		$this->tpl->addCss(ilUtil::getStyleSheetLocation('filesystem','delos.css','Services/Calendar'));
 		
-		return $this->ctrl->getHTML($month_gui);	
-	}	
-	
-	function getJsOnloadCode()
-	{
-		return $this->js_onload_code;
-	}
+		$this->lng->loadLanguageModule("dateplaner");
+		return '<h3>'.$this->lng->txt("app_consultation_hours").'</h3>'.
+			$this->ctrl->getHTML($month_gui);	
+	}			
 }
+
 ?>

@@ -325,7 +325,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 		// get page object
 		include_once("./Services/Object/classes/class.ilObjectTranslation.php");
-		$ot = new ilObjectTranslation($this->object->getId());
+		$ot = ilObjectTranslation::getInstance($this->object->getId());
 		$lang = $ot->getEffectiveContentLang($ilUser->getLanguage(), "cont");
 		$page_gui = new ilContainerPageGUI($this->object->getId(), 0, $lang);
 		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
@@ -3709,20 +3709,56 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	{
 		global $tpl;
 		
+		$html = null;
+		
 		$item_data = $this->object->getSubItems(false, false, (int) $_GET["child_ref_id"]);
 		$container_view = $this->getContentGUI();
-		foreach ($this->object->items["_all"] as $id)
-		{
-			if ($id["child"] == (int) $_GET["child_ref_id"])
-			{
-				echo $container_view->renderItem($id);
-				
-				// we need to add onload code manually (rating, comments, etc.)
-				echo $tpl->getOnLoadCodeForAsynch();		
-
-				exit;
+		
+		// list item is session material (not part of "_all"-items - see below)
+		include_once './Modules/Session/classes/class.ilEventItems.php';
+		$event_items = ilEventItems::_getItemsOfContainer($this->object->getRefId());
+		if(in_array((int)$_GET["child_ref_id"], $event_items))
+		{			
+			include_once('./Services/Object/classes/class.ilObjectActivation.php');				
+			foreach ($this->object->items["sess"] as $id)
+			{					
+				$items = ilObjectActivation::getItemsByEvent($id['obj_id']);
+				foreach($items as $event_item)
+				{
+					if ($event_item["child"] == (int)$_GET["child_ref_id"])
+					{
+						// sessions
+						if((int)$_GET["parent_ref_id"])
+						{
+							$event_item["parent"] = (int)$_GET["parent_ref_id"];
+						}
+						$html = $container_view->renderItem($event_item);
+					}
+				}
 			}
 		}
+					
+		// "normal" list item
+		if(!$html)
+		{
+			foreach ($this->object->items["_all"] as $id)
+			{
+				if ($id["child"] == (int) $_GET["child_ref_id"])
+				{
+					$html = $container_view->renderItem($id);				
+				}
+			}
+		}
+		
+		if($html)
+		{
+			echo $html;
+			
+			// we need to add onload code manually (rating, comments, etc.)
+			echo $tpl->getOnLoadCodeForAsynch();	
+		}
+						
+		exit;
 	}
 
 	// begin-patch fm

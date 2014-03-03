@@ -14,6 +14,7 @@ include_once('./Services/Table/classes/class.ilTable2GUI.php');
 class ilExportTableGUI extends ilTable2GUI
 {
 	protected $custom_columns = array();
+	protected $formats = array();
 	
 	/**
 	* Constructor
@@ -100,6 +101,7 @@ class ilExportTableGUI extends ilTable2GUI
 		foreach ($this->parent_obj->getFormats() as $f)
 		{
 			$types[] = $f['key'];
+			$this->formats[$f['key']] = $f['txt'];
 		}
 		include_once('./Services/Export/classes/class.ilExport.php');
 		$files = ilExport::_getExportFiles($this->obj->getId(),
@@ -119,7 +121,11 @@ class ilExportTableGUI extends ilTable2GUI
 			$this->tpl->parseCurrentBlock();
 		}
 		$this->tpl->setVariable('VAL_ID', $this->getRowId($a_set));
-		$this->tpl->setVariable('VAL_TYPE', $a_set['type']);
+
+		$type = ($this->formats[$a_set['type']] != "")
+			? $this->formats[$a_set['type']]
+			: $a_set['type'];
+		$this->tpl->setVariable('VAL_TYPE', $type);
 		$this->tpl->setVariable('VAL_FILE', $a_set['file']);
 		$this->tpl->setVariable('VAL_SIZE', $a_set['size']);
 		$this->tpl->setVariable('VAL_DATE', ilDatePresentation::formatDate(new ilDateTime($a_set['timestamp'], IL_CAL_UNIX)));

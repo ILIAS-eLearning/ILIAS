@@ -1238,7 +1238,6 @@ class ilQTIParser extends ilSaxParser
 				assQuestion::_includeClass($qt);
 				$question = new $qt();
 				$fbt = str_replace('ass', 'ilAss', $qt).'Feedback';
-				require_once "Modules/TestQuestionPool/classes/feedback/class.$fbt.php";
 				$question->feedbackOBJ = new $fbt(
 						$question, $GLOBALS['ilCtrl'], $GLOBALS['ilDB'], $GLOBALS['lng']
 				);

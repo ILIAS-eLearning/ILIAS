@@ -2825,11 +2825,11 @@ abstract class assQuestion
 			$question_type = assQuestion::_getQuestionType($question_id);
 			if (!strlen($question_type)) return null;
 			assQuestion::_includeClass($question_type);
-			$question = new $question_type();
+			$objectClassname = self::getObjectClassNameByQuestionType($question_type);
+			$question = new $objectClassname();
 			$question->loadFromDb($question_id);
 			
-			$feedbackObjectClassname = str_replace('ass', 'ilAss', $question_type).'Feedback';
-			require_once "Modules/TestQuestionPool/classes/feedback/class.$feedbackObjectClassname.php";
+			$feedbackObjectClassname = self::getFeedbackClassNameByQuestionType($question_type);
 			$question->feedbackOBJ = new $feedbackObjectClassname($question, $ilCtrl, $ilDB, $lng);
 			
 			return $question;
@@ -3486,7 +3486,7 @@ abstract class assQuestion
 		}
 		else
 		{
-			$objectClassName = self::getGuiClassNameByQuestionType($questionType);
+			$objectClassName = self::getObjectClassNameByQuestionType($questionType);
 			require_once "Modules/TestQuestionPool/classes/class.{$objectClassName}.php";
 		}
 

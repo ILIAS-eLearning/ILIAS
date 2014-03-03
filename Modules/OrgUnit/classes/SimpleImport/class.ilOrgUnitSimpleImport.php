@@ -27,7 +27,7 @@ class ilOrgUnitSimpleImport extends ilOrgUnitImporter {
 	}
 
 	public function simpleImportElement(SimpleXMLElement $o){
-		global $tree, $tpl;
+		global $tree, $tpl, $ilUser;
 		$title = $o->title;
 		$description = $o->description;
 		$external_id = $o->external_id;
@@ -81,6 +81,10 @@ class ilOrgUnitSimpleImport extends ilOrgUnitImporter {
 			}
 			$object = new ilObjOrgUnit($ref_id);
 			$object->setTitle($title);
+
+			$arrTranslations = $object->getTranslations();
+			$object->updateTranslation($title,$description,$ilUser->getLanguage(),"");
+
 			$object->setDescription($description);
 			$object->update();
 			$object->setImportId($external_id);

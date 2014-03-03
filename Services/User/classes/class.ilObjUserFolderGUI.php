@@ -1107,7 +1107,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 							$matching_role_ids = $rbacreview->searchRolesByMailboxAddressList($searchName);
 							foreach ($matching_role_ids as $mid) {
 								if (! in_array($mid, $loc_roles)) {
-									$loc_roles[] = array('obj_id'=>$mid);
+									$loc_roles[] = $mid;
 								}
 							}
 						}
@@ -1125,7 +1125,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				foreach ($loc_roles as $key => $loc_role)
 				{
 					// fetch context path of role
-					$rolf = $rbacreview->getFoldersAssignedToRole($loc_role["obj_id"],true);
+					$rolf = $rbacreview->getFoldersAssignedToRole($loc_role,true);
 	
 					// only process role folders that are not set to status "deleted" 
 					// and for which the user has write permissions.
@@ -1172,10 +1172,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
 						}
 						else
 						{
-							$path = "<b>Rolefolder ".$rolf[0]." not found in tree! (Role ".$loc_role["obj_id"].")</b>";
+							$path = "<b>Rolefolder ".$rolf[0]." not found in tree! (Role ".$loc_role.")</b>";
 						}
-						$roleMailboxAddress = $rbacreview->getRoleMailboxAddress($loc_role['obj_id']);
-						$l_roles[$loc_role['obj_id']] = $roleMailboxAddress.', '.$path;
+						$roleMailboxAddress = $rbacreview->getRoleMailboxAddress($loc_role);
+						$l_roles[$loc_role] = $roleMailboxAddress.', '.$path;
 					}
 				} //foreach role
 	

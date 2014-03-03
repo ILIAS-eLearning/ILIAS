@@ -29,6 +29,7 @@ class ilLMPresentationGUI
 	var $layout_doc;
 	var $offline;
 	var $offline_directory;
+	protected $current_page_id = false;
 	
 	private $needs_to_be_purchased = false;
 
@@ -53,7 +54,7 @@ class ilLMPresentationGUI
 		
 		// language translation
 		include_once("./Services/Object/classes/class.ilObjectTranslation.php");
-		$this->ot = new ilObjectTranslation($this->lm->getId());
+		$this->ot = ilObjectTranslation::getInstance($this->lm->getId());
 		//include_once("./Services/COPage/classes/class.ilPageMultiLang.php");
 		//$this->ml = new ilPageMultiLang("lm", $this->lm->getId());
 		$this->lang = "-";
@@ -86,9 +87,12 @@ class ilLMPresentationGUI
 			}
 		}
 		
-		$this->lm_tree = new ilTree($this->lm->getId());
+		include_once("./Modules/LearningModule/classes/class.ilLMTree.php");
+		$this->lm_tree = ilLMTree::getInstance($this->lm->getId());
+
+		/*$this->lm_tree = new ilTree($this->lm->getId());
 		$this->lm_tree->setTableNames('lm_tree','lm_data');
-		$this->lm_tree->setTreeTablePK("lm_id");
+		$this->lm_tree->setTreeTablePK("lm_id");*/
 	}
 
 
@@ -381,11 +385,15 @@ class ilLMPresentationGUI
 			if ($this->lm->getLayoutPerPage())
 			{
 				$pg_id = $this->getCurrentPageId();
-				
-				if ((in_array($_GET["cmd"], array("media", "glossary")) ||
-					!in_array($_GET["frame"], array("", "_blank"))) && $_GET["from_page"] > 0)
+				if (!in_array($_GET["frame"], array("", "_blank")) && $_GET["from_page"] > 0)
 				{
 					$pg_id = (int) $_GET["from_page"];
+				}
+
+				// this is needed, e.g. lm is toc2win, page is 3window and media linked to media frame
+				if (in_array($_GET["cmd"], array("media", "glossary")) && $_GET["back_pg"] > 0)
+				{
+					$pg_id = (int) $_GET["back_pg"];
 				}
 
 				if ($pg_id > 0)
@@ -693,6 +701,8 @@ class ilLMPresentationGUI
 		}
 		else
 		{
+			$this->tpl->fillLeftNav();
+			$this->tpl->fillOnLoadCode();
 			$content =  $this->tpl->get();
 		}
 
@@ -817,82 +827,11 @@ class ilLMPresentationGUI
 	*/
 	function ilTOC()
 	{
-		if (true)
+		include_once("./Modules/LearningModule/classes/class.ilLMTOCExplorerGUI.php");
+		$exp = new ilLMTOCExplorerGUI($this, "ilTOC", $this, $this->lang);
+		if (!$exp->handleCommand())
 		{
-			include_once("./Modules/LearningModule/classes/class.ilLMTOCExplorerGUI.php");
-			$exp = new ilLMTOCExplorerGUI($this, "ilTOC", $this, $this->lang);
-			if (!$exp->handleCommand())
-			{
-				// determine highlighted and force open nodes
-				$page_id = $this->getCurrentPageId();
-				if ($this->deactivated_page)
-				{
-					$page_id = $_GET["obj_id"];
-				}
-				if ($page_id > 0)
-				{
-					$exp->setPathOpen((int) $page_id);
-				}
-				if (!$this->offlineMode())
-				{
-					// empty chapter
-					if ($this->chapter_has_no_active_page &&
-						ilLMObject::_lookupType($_GET["obj_id"]) == "st")
-					{
-						$exp->setHighlightNode($_GET["obj_id"]);
-					}
-					else
-					{
-						if ($this->lm->getTOCMode() == "pages")
-						{
-							if ($this->deactivated_page)
-							{
-								$exp->setHighlightNode($_GET["obj_id"]);
-							}
-							else
-							{
-								$exp->setHighlightNode($page_id);
-							}
-						}
-						else
-						{
-							$exp->setHighlightNode($this->lm_tree->getParentId($page_id));
-						}
-					}
-				}
-
-				$this->tpl->setCurrentBlock("il_toc");
-				$this->tpl->setVariable("EXPLORER", $exp->getHTML());
-				$this->tpl->parseCurrentBlock();
-			}
-			return;
-		}
-
-		require_once("./Modules/LearningModule/classes/class.ilLMTOCExplorer.php");
-		$exp = new ilLMTOCExplorer($this->getLink($this->lm->getRefId(), "layout", "", ""), $this->lm, $this->lang);
-		$exp->setExpandTarget($this->getLink($this->lm->getRefId(), $_GET["cmd"], $_GET["obj_id"], $_GET["frame"]));
-		$exp->setTargetGet("obj_id");
-		if ($this->lm->cleanFrames())
-		{
-			if ($this->offlineMode())
-			{
-				$exp->setFrameTarget("_top");
-			}
-			else
-			{
-				$exp->setFrameTarget(ilFrameTargetInfo::_getFrame("MainContent"));
-			}
-		}
-		else
-		{
-			$exp->setFrameTarget($a_target);
-		}
-		$exp->addFilter("du");
-		$exp->addFilter("st");
-		
-		// force expansion
-		if ($this->lm->cleanFrames())
-		{
+			// determine highlighted and force open nodes
 			$page_id = $this->getCurrentPageId();
 			if ($this->deactivated_page)
 			{
@@ -900,88 +839,41 @@ class ilLMPresentationGUI
 			}
 			if ($page_id > 0)
 			{
-				$path = $this->lm_tree->getPathId($page_id);
-				$exp->setForceOpenPath($path);
+				$exp->setPathOpen((int) $page_id);
 			}
-			if (!$this->offlineMode())
+			// empty chapter
+			if ($this->chapter_has_no_active_page &&
+				ilLMObject::_lookupType($_GET["obj_id"]) == "st")
 			{
-				// empty chapter
-				if ($this->chapter_has_no_active_page &&
-					ilLMObject::_lookupType($_GET["obj_id"]) == "st")
+				$exp->setHighlightNode($_GET["obj_id"]);
+			}
+			else
+			{
+				if ($this->lm->getTOCMode() == "pages")
 				{
-					$exp->highlightNode($_GET["obj_id"]);
-				}
-				else
-				{
-					if ($this->lm->getTOCMode() == "pages")
+					if ($this->deactivated_page)
 					{
-						if ($this->deactivated_page)
-						{
-							$exp->highlightNode($_GET["obj_id"]);
-						}
-						else
-						{
-							$exp->highlightNode($page_id);
-						}
+						$exp->setHighlightNode($_GET["obj_id"]);
 					}
 					else
 					{
-						$exp->highlightNode($this->lm_tree->getParentId($page_id));
+						$exp->setHighlightNode($page_id);
 					}
 				}
+				else
+				{
+					$exp->setHighlightNode($this->lm_tree->getParentId($page_id));
+				}
 			}
-		}
-		
-		$exp->setOfflineMode($this->offlineMode());
-		if ($this->lm->getTOCMode() == "pages")
-		{
-			$exp->addFilter("pg");
-		}
-		$exp->setFiltered(true);
-		$exp->setFilterMode(IL_FM_POSITIVE);
-
-		if ($_GET["lmexpand"] == "")
-		{
-			$expand_keys = array();
-			if (is_array($_SESSION["lmexpand"]))
+			if ($this->offlineMode())
 			{
-				$expand_keys = array_keys($_SESSION["lmexpand"]);
+				$exp->setOfflineMode(true);
 			}
-			$_SESSION["lmexpand"] = array($this->lm_tree->readRootId());
-			$expanded = $this->lm_tree->readRootId();
+
+			$this->tpl->setCurrentBlock("il_toc");
+			$this->tpl->setVariable("EXPLORER", $exp->getHTML());
+			$this->tpl->parseCurrentBlock();
 		}
-		else
-		{
-			$expanded = $_GET["lmexpand"];
-		}
-		$exp->setExpand($expanded);
-
-		// build html-output
-		$exp->setOutput(0);
-		$output = $exp->getOutput();
-
-//		$this->renderPageTitle();
-
-		// set explorer
-		$this->tpl->setCurrentBlock("il_toc");
-		$this->tpl->setVariable("TXT_EXPLORER_HEADER", $this->lng->txt("overview"));
-		$this->tpl->setVariable("EXPLORER", $output);
-		$this->tpl->setVariable("ACTION",
-			$this->getLink($this->lm->getRefId(), $_GET["cmd"], "", $_GET["frame"]).
-			"&lmexpand=".$_GET["lmexpand"]);
-		$this->tpl->parseCurrentBlock();
-		
-//		$this->tpl->parseCurrentBlock();
-
-		if ($_GET["lmexpand"] == "")
-		{
-			// collapse all other branches on navigation
-			foreach ($expand_keys as $k)
-			{
-				unset($_SESSION["lmexpand"][$k]);
-			}
-		}
-//var_dump($_SESSION["lmexpand"]);
 	}
 
 	/**
@@ -1326,6 +1218,11 @@ class ilLMPresentationGUI
 	{
 		global $ilUser;
 
+		if (!$this->offlineMode() && $this->current_page_id !== false)
+		{
+			return $this->current_page_id;
+		}
+
 		include_once("./Modules/LearningModule/classes/class.ilLMPage.php");
 		
 		$this->chapter_has_no_active_page = false;
@@ -1409,6 +1306,7 @@ class ilLMPresentationGUI
 			}
 		}
 
+		$this->current_page_id = $page_id;
 		return $page_id;
 	}
 
@@ -1459,6 +1357,8 @@ class ilLMPresentationGUI
 	function ilPage(&$a_page_node, $a_page_id = 0)
 	{
 		global $ilUser;
+
+		$this->fill_on_load_code = true;
 
 		if(($ilUser->getId() == ANONYMOUS_USER_ID || $this->needs_to_be_purchased) && 
 		   $this->lm_gui->object->getPublicAccessMode() == 'selected')
@@ -1573,7 +1473,7 @@ class ilLMPresentationGUI
 			return $cont;
 		}
 		
-		
+
 		$page_object_gui = $this->getLMPageGUI($page_id);
 		$this->basicPageGuiInit($page_object_gui);
 		$page_object = $page_object_gui->getPageObject();
@@ -1581,8 +1481,8 @@ class ilLMPresentationGUI
 		$page_object->registerOfflineHandler($this);
 		
 		$int_links = $page_object->getInternalLinks();
-		
-		
+
+
 
 		$page_object_gui->setTemplateOutput(false);
 		
@@ -1653,7 +1553,7 @@ class ilLMPresentationGUI
 				"syntaxhighlight.css");
 		}
 		$this->tpl->parseCurrentBlock();
-		
+
 
 		$ret = $page_object_gui->presentation($page_object_gui->getOutputMode());
 				
@@ -1763,6 +1663,7 @@ class ilLMPresentationGUI
 		{
 			$a_page_gui->setOutputMode("offline");
 			$a_page_gui->setOfflineDirectory($this->getOfflineDirectory());
+			$this->fill_on_load_code = false;
 		}
 		$a_page_gui->setFileDownloadLink($this->getLink($_GET["ref_id"], "downloadFile"));
 		$a_page_gui->setFullscreenLink($this->getLink($_GET["ref_id"], "fullscreen"));
@@ -2103,6 +2004,8 @@ class ilLMPresentationGUI
 	*/
 	function ilMedia()
 	{
+		global $ilUser;
+
 		$this->tpl->setCurrentBlock("ContentStyle");
 		if (!$this->offlineMode())
 		{

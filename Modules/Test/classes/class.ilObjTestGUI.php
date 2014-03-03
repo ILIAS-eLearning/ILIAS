@@ -1240,12 +1240,15 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function saveScoringObject()
 	{
-		$_POST['reporting_date']['date']['y'] = date('Y', $_POST['reporting_ts'] );
-		$_POST['reporting_date']['date']['m'] = date('m', $_POST['reporting_ts'] );
-		$_POST['reporting_date']['date']['d'] = date('d', $_POST['reporting_ts'] );
-		$_POST['reporting_date']['time']['h'] = date('H', $_POST['reporting_ts'] );
-		$_POST['reporting_date']['time']['m'] = date('i', $_POST['reporting_ts'] );
-		
+		if(isset($_POST['reporting_ts']))
+		{
+			$_POST['reporting_date']['date']['y'] = date('Y', $_POST['reporting_ts'] );
+			$_POST['reporting_date']['date']['m'] = date('m', $_POST['reporting_ts'] );
+			$_POST['reporting_date']['date']['d'] = date('d', $_POST['reporting_ts'] );
+			$_POST['reporting_date']['time']['h'] = date('H', $_POST['reporting_ts'] );
+			$_POST['reporting_date']['time']['m'] = date('i', $_POST['reporting_ts'] );
+		}
+
 		$hasErrors = $this->scoringObject(true);
 		if (!$hasErrors)
 		{
@@ -1292,8 +1295,8 @@ class ilObjTestGUI extends ilObjectGUI
 			if ($this->object->getScoreReporting() == REPORT_AFTER_DATE)
 			{
 				// The reporting date is given in database TIMESTAMP notation (yyyymmddhhmmss).
-				///$this->object->setReportingDate(str_replace(array(':', '-'), '', $_POST["reporting_date"]['date'].$_POST["reporting_date"]['time']));
-				$this->object->setReportingDate( date('YmdHis', $_POST['reporting_ts'] ));
+				$this->object->setReportingDate(str_replace(array(':', '-'), '', $_POST["reporting_date"]['date'].$_POST["reporting_date"]['time']));
+				//$this->object->setReportingDate( date('YmdHis', $_POST['reporting_ts'] ));
 			}
 			else
 			{

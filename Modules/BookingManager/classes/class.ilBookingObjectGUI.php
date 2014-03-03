@@ -359,9 +359,10 @@ class ilBookingObjectGUI
 			return;
 		}
 		
+		// #12310
 		include_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
 		$conf = new ilConfirmationGUI();
-		$conf->setFormAction($ilCtrl->getFormAction($this));
+		$conf->setFormAction($ilCtrl->getFormAction($this, 'rsvCancelUser'));
 		$conf->setHeaderText($lng->txt('book_confirm_cancel'));
 
 		include_once 'Modules/BookingManager/classes/class.ilBookingObject.php';

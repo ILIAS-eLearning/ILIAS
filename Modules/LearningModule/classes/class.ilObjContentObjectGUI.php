@@ -223,7 +223,22 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 				include_once("./Services/Export/classes/class.ilExportGUI.php");
 				$exp_gui = new ilExportGUI($this);
 				$exp_gui->addFormat("xml", "", $this, "export");
-				$exp_gui->addFormat("html", "", $this, "exportHTML");
+				include_once("./Services/Object/classes/class.ilObjectTranslation.php");
+				$ot = ilObjectTranslation::getInstance($this->object->getId());
+				if ($ot->getContentActivated())
+				{
+					$lng->loadLanguageModule("meta");
+					$langs = $ot->getLanguages();
+					foreach ($langs as $l => $ldata)
+					{
+						$exp_gui->addFormat("html_".$l, "HTML (".$lng->txt("meta_l_".$l).")", $this, "exportHTML");
+					}
+				}
+				else
+				{
+					$exp_gui->addFormat("html", "", $this, "exportHTML");
+				}
+
 				$exp_gui->addFormat("scorm", "", $this, "exportSCORM");
 				$exp_gui->addCustomColumn($lng->txt("cont_public_access"),
 						$this, "getPublicAccessColValue");
@@ -330,18 +345,6 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		$lng->loadLanguageModule("style");
 		$this->setTabs("settings");
 		$this->setSubTabs("cont_general_properties");
-
-		//$showViewInFrameset = $this->ilias->ini->readVariable("layout","view_target") == "frame";
-		$showViewInFrameset = true;
-
-		if ($showViewInFrameset)
-		{
-			$buttonTarget = ilFrameTargetInfo::_getFrame("MainContent");
-		}
-		else
-		{
-			$buttonTarget = "ilContObj".$this->object->getID();
-		}
 
 		// lm properties
 		$this->initPropertiesForm();
@@ -458,8 +461,18 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 	function getPropertiesFormValues()
 	{
 		$values = array();
-		$values["title"] = $this->object->getTitle();
-		$values["description"] = $this->object->getDescription();
+
+		$title = $this->object->getTitle();
+		$description = $this->object->getDescription();
+		$ot = ilObjectTranslation::getInstance($this->object->getId());
+		if ($ot->getContentActivated())
+		{
+			$title = $ot->getDefaultTitle();
+			$description = $ot->getDefaultDescription();
+		}
+
+		$values["title"] = $title;
+		$values["description"] = $description;
 		if ($this->object->getOnline())
 		{
 			$values["cobj_online"] = true;
@@ -500,6 +513,14 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		$this->initPropertiesForm();
 		if ($this->form->checkInput())
 		{
+			$ot = ilObjectTranslation::getInstance($this->object->getId());
+			if ($ot->getContentActivated())
+			{
+				$ot->setDefaultTitle($_POST['title']);
+				$ot->setDefaultDescription($_POST['description']);
+				$ot->save();
+			}
+
 			$this->object->setTitle($_POST['title']);
 			$this->object->setDescription($_POST['description']);
 			$this->object->setLayout($_POST["lm_layout"]);
@@ -1281,7 +1302,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		
 		// multi language
 		include_once("./Services/Object/classes/class.ilObjectTranslation.php");
-		$ot = new ilObjectTranslation($a_lm_id);
+		$ot = ilObjectTranslation::getInstance($a_lm_id);
 		//include_once("./Services/COPage/classes/class.ilPageMultiLang.php");
 		//$ml = new ilPageMultiLang("lm", $a_lm_id);
 		if ($ot->getContentActivated())
@@ -1310,7 +1331,8 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 
 			foreach ($ot->getLanguages() as $al => $lang)
 			{
-				if ($_GET["transl"] != $al)
+				if ($_GET["transl"] != $al &&
+					$al != $ot->getMasterLanguage())
 				{
 					$ilCtrl->setParameter($a_gui_class, "totransl", $al);
 					$list->addItem($lng->txt("cont_edit_language_version").": ".
@@ -2340,8 +2362,16 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 	 */
 	function exportHTML()
 	{
+		include_once("./Services/Object/classes/class.ilObjectTranslation.php");
+		$ot = ilObjectTranslation::getInstance($this->object->getId());
+		$lang = "";
+		if ($ot->getContentActivated())
+		{
+			$format = explode("_", $_POST["format"]);
+			$lang = ilUtil::stripSlashes($format[1]);
+		}
 		require_once("./Modules/LearningModule/classes/class.ilContObjectExport.php");
-		$cont_exp = new ilContObjectExport($this->object, "html");
+		$cont_exp = new ilContObjectExport($this->object, "html", $lang);
 		$cont_exp->buildExportFile();
 //echo $this->tpl->get();
 //		$this->ctrl->redirect($this, "exportList");

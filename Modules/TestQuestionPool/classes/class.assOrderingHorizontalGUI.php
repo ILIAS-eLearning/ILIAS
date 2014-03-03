@@ -220,11 +220,23 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
 		$questionoutput = $template->get();
 		$solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html",TRUE, TRUE, "Modules/TestQuestionPool");
 		$solutiontemplate->setVariable("SOLUTION_OUTPUT", $questionoutput);
-		$solutionoutput = $solutiontemplate->get(); 
+
+
+		$feedback = '';
+		if($show_feedback)
+		{
+			$fb = $this->getGenericFeedbackOutput($active_id, $pass);
+			$feedback .=  strlen($fb) ? $fb : '';
+
+			$fb = $this->getSpecificFeedbackOutput($active_id, $pass);
+			$feedback .=  strlen($fb) ? $fb : '';
+		}
+		if (strlen($feedback)) $solutiontemplate->setVariable("FEEDBACK", $this->object->prepareTextareaOutput( $feedback, true ));
+		$solutionoutput = $solutiontemplate->get();
 		if (!$show_question_only)
 		{
 			// get page object output
-			$solutionoutput = '<div class="ilc_question_Standard">'.$solutionoutput."</div>";
+			$solutionoutput = '<div class="ilc_question_Standard">'.$solutionoutput. $feedback."</div>" ;
 		}
 		return $solutionoutput;
 	}
@@ -452,7 +464,26 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
 
 	function getSpecificFeedbackOutput($active_id, $pass)
 	{
-		$output = "";
+		$output = '<table class="ilTstSpecificFeedbackTable"><tbody>';
+
+		if(strpos($this->object->getOrderText(),'::'))
+		{
+			$answers = explode('::', $this->object->getOrderText());
+		} else {
+			$answers = explode(' ', $this->object->getOrderText());
+		}
+
+		foreach($answers as $idx => $answer)
+		{
+			$feedback = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation(
+				$this->object->getId(), $idx
+			);
+
+			$output .= "<tr><td><b><i>{$answer}</i></b></td><td>{$feedback}</td></tr>";
+		}
+
+		$output .= '</tbody></table>';
+
 		return $this->object->prepareTextareaOutput($output, TRUE);
 	}
 

@@ -27,21 +27,33 @@ class ilLMExplorerGUI extends ilTreeExplorerGUI
 	public function __construct($a_parent_obj, $a_parent_cmd, ilObjContentObject $a_lm)
 	{
 		$this->lm = $a_lm;
-		
-		$tree = new ilTree($this->lm->getId());
-		$tree->setTableNames('lm_tree','lm_data');
-		$tree->setTreeTablePK("lm_id");
 
-		parent::__construct("lm_exp", $a_parent_obj, $a_parent_cmd, $tree);
+		include_once("./Modules/LearningModule/classes/class.ilLMTree.php");
+		$tree = ilLMTree::getInstance($this->lm->getId());
+
+//echo "+".$tree->isCacheUsed()."+";
+
+//		$tree = new ilTree($this->lm->getId());
+//		$tree->setTableNames('lm_tree','lm_data');
+//		$tree->setTreeTablePK("lm_id");
+
+		include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
+		ilLMObject::preloadDataByLM($this->lm->getId());
+
+		include_once("./Services/COPage/classes/class.ilPageObject.php");
+		ilPageObject::preloadActivationDataByParentId($this->lm->getId());
+
+		$id = "lm_exp";
+		if ($this->getOfflineMode())
+		{
+			$id = "lm_exp_off";
+		}
+
+		parent::__construct($id, $a_parent_obj, $a_parent_cmd, $tree);
 		
 		$this->setSkipRootNode(false);
 		$this->setAjax(false);
-		
-		//include_once("./Services/COPage/classes/class.ilPageMultiLang.php");
-		//$this->ml = new ilPageMultiLang("lm", $this->lm->getId());
-
-		//include_once("./Services/Objexct/classes/class.ilObjectTranslation.php");
-		//$this->ot = new ilObjectTranslation($this->lm->getId());
+		$this->setPreloadChilds(true);
 
 		if ((int) $_GET["obj_id"] > 0)
 		{
@@ -66,7 +78,7 @@ class ilLMExplorerGUI extends ilTreeExplorerGUI
 			? $_GET["transl"]
 			: "-";
 		return ilLMObject::_getPresentationTitle($a_node, IL_PAGE_TITLE,
-			false, false, false, $this->lm->getId(), $lang);		
+			$this->lm->isActiveNumbering(), false, false, $this->lm->getId(), $lang);
 	}
 	
 	/**

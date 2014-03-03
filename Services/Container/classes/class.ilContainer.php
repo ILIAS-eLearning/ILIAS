@@ -411,7 +411,7 @@ class ilContainer extends ilObject
 			$ml->copy("cont", $new_obj->getId());*/
 
 			include_once("./Services/Object/classes/class.ilObjectTranslation.php");
-			$ot = new ilObjectTranslation($this->getId());
+			$ot = ilObjectTranslation::getInstance($this->getId());
 			$ot->copy($new_obj->getId());
 		}
 		
@@ -603,6 +603,11 @@ class ilContainer extends ilObject
 					$long_desc = ilObject::getLongDescriptions($obj_ids);
 					foreach($objects as $key => $object)
 					{
+						// #12166 - keep translation, ignore long description
+						if($ilObjDataCache->isTranslatedDescription($object["obj_id"]))
+						{
+							$long_desc[$object["obj_id"]] = $object["description"];
+						}		
 						if($short_desc && $short_desc_max_length)
 						{
 							$long_desc[$object["obj_id"]] = ilUtil::shortenText($long_desc[$object["obj_id"]], $short_desc_max_length, true);

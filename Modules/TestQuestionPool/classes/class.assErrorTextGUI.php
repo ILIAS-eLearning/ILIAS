@@ -163,6 +163,7 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 
 		// points for wrong selection
 		$points_wrong = new ilNumberInputGUI($this->lng->txt( "points_wrong" ), "points_wrong");
+		$points_wrong->allowDecimals(true);
 		$points_wrong->setValue( $this->object->getPointsWrong() );
 		$points_wrong->setInfo( $this->lng->txt( "points_wrong_info" ) );
 		$points_wrong->setSize( 6 );

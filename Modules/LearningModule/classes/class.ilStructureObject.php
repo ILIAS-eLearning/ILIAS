@@ -189,7 +189,7 @@ class ilStructureObject extends ilLMObject
 		//include_once("./Services/COPage/classes/class.ilPageMultiLang.php");
 		//$ml = new ilPageMultiLang("lm", $a_lm_id);
 		include_once("./Services/Object/classes/class.ilObjectTranslation.php");
-		$ot = new ilObjectTranslation($a_lm_id);
+		$ot = ilObjectTranslation::getInstance($a_lm_id);
 
 
 		// get chapter data
@@ -210,10 +210,8 @@ class ilStructureObject extends ilLMObject
 			}
 		}
 
-
-		$tree = new ilTree($st_rec["lm_id"]);
-		$tree->setTableNames('lm_tree','lm_data');
-		$tree->setTreeTablePK("lm_id");
+		include_once("./Modules/LearningModule/classes/class.ilLMTree.php");
+		$tree = ilLMTree::getInstance($a_lm_id);
 
 		if ($a_include_numbers)
 		{

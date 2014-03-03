@@ -760,7 +760,7 @@ class ilObjMediaObject extends ilObject
 							{
 								$def = ' Default="true" ';
 							}
-							$xml .= "<Subtitle File=\"".ilObjMediaObject::_getDirectory($this->getId())."/".$srt["full_path"].
+							$xml .= "<Subtitle File=\"".$srt["full_path"].
 								"\" Language=\"".$srt["language"]."\" ".$def."/>";
 						}
 					}

@@ -160,17 +160,8 @@ abstract class ilAssConfigurableMultiOptionQuestionFeedback extends ilAssMultiOp
 	protected function duplicateSpecificFeedback($originalQuestionId, $duplicateQuestionId)
 	{
 		// sync specific feedback setting to duplicated question
-		$res = $this->db->queryF(
-			"SELECT feedback_setting FROM {$this->getSpecificQuestionTableName()} WHERE question_fi = %s",
-			array('integer'), array($originalQuestionId)
-		);
-
-		$row = $this->db->fetchAssoc($res);
-
-		$this->db->manipulateF(
-			"UPDATE {$this->getSpecificQuestionTableName()} SET feedback_setting = %s WHERE question_fi = %s",
-			array('integer', 'integer'), array($row['feedback_setting'], $duplicateQuestionId)
-		);
+		
+		$this->syncSpecificFeedbackSetting($originalQuestionId, $duplicateQuestionId);
 
 		// sync specific answer feedback to duplicated question
 
@@ -210,13 +201,7 @@ abstract class ilAssConfigurableMultiOptionQuestionFeedback extends ilAssMultiOp
 	protected function syncSpecificFeedback($originalQuestionId, $duplicateQuestionId)
 	{
 		// sync specific feedback setting to the original
-		$this->db->manipulateF("
-				UPDATE {$this->getSpecificQuestionTableName()} SET feedback_setting = (
-					SELECT feedback_setting FROM {$this->getSpecificQuestionTableName()} WHERE question_fi = %s
-				) WHERE question_fi = %s
-			",
-			array('integer', 'integer'), array($duplicateQuestionId, $originalQuestionId)
-		);
+		$this->syncSpecificFeedbackSetting($duplicateQuestionId, $originalQuestionId);
 
 		// delete specific feedback of the original
 		$this->db->manipulateF(
@@ -243,5 +228,20 @@ abstract class ilAssConfigurableMultiOptionQuestionFeedback extends ilAssMultiOp
 				'tstamp' => array('integer',time())
 			));
 		}
+	}
+	
+	private function syncSpecificFeedbackSetting($sourceQuestionId, $targetQuestionId)
+	{
+		$res = $this->db->queryF(
+			"SELECT feedback_setting FROM {$this->getSpecificQuestionTableName()} WHERE question_fi = %s",
+			array('integer'), array($sourceQuestionId)
+		);
+
+		$row = $this->db->fetchAssoc($res);
+
+		$this->db->update( $this->getSpecificQuestionTableName(),
+			array( 'feedback_setting' => array('integer', $row['feedback_setting']) ),
+			array( 'question_fi' => array('integer', $targetQuestionId) )
+		);
 	}
 }

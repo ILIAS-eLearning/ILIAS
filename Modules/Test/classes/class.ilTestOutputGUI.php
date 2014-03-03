@@ -377,8 +377,9 @@ class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		{
 			$this->showSideList();
 		}
-		
-		$question_gui = $this->object->createQuestionGUI("", $this->testSequence->getQuestionForSequence($sequence));
+
+		$questionId = $this->testSequence->getQuestionForSequence($sequence);
+		$question_gui = $this->object->createQuestionGUI("", $questionId);
 		$question_gui->setTargetGui($this);
 
 		if ($this->object->getJavaScriptOutput())

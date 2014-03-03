@@ -8954,7 +8954,7 @@ $ilDB->addTableColumn("tax_node", "order_nr", array(
 	include_once "Services/Administration/classes/class.ilSetting.php";	
 	$ilSetting = new ilSetting();
 	$ilSetting->set("rep_shorten_description", 1);
-	$ilSetting->set("rep_shorten_description_length", ilObject::TITLE_LENGTH);
+	$ilSetting->set("rep_shorten_description_length", 128);
 ?>
 <#3531>
 <?php
@@ -15467,8 +15467,6 @@ if(!$ilDB->tableExists('il_disk_quota'))
 <#3903>
 <?php
 
-$quota_done = array();
-
 function quotaHandleFile($a_obj_id, $a_owner_id)
 {	
 	global $ilDB;
@@ -15509,6 +15507,11 @@ function quotaHandleFile($a_obj_id, $a_owner_id)
 	}
 }
 
+$ilDB->manipulate("DELETE FROM il_disk_quota".
+	" WHERE src_type = ".$ilDB->quote("file", "text"));
+
+$quota_done = array();
+
 // get all workspace files
 $set = $ilDB->query("SELECT od.owner, od.obj_id".
 	" FROM object_data od".
@@ -15522,6 +15525,7 @@ while($row = $ilDB->fetchAssoc($set))
 	if(!in_array($id, $quota_done))
 	{
 		quotaHandleFile($row["obj_id"], $row["owner"]);
+		$quota_done[] = $id;
 	}
 }		
 
@@ -15540,6 +15544,7 @@ while($row = $ilDB->fetchAssoc($set))
 	if(!in_array($id, $quota_done))
 	{
 		quotaHandleFile($row["id"], $row["owner"]);
+		$quota_done[] = $id;
 	}
 }
 
@@ -15558,6 +15563,7 @@ while($row = $ilDB->fetchAssoc($set))
 	if(!in_array($id, $quota_done))
 	{
 		quotaHandleFile($row["id"], $row["owner"]);
+		$quota_done[] = $id;
 	}
 }
 
@@ -15581,6 +15587,11 @@ function quotaHandleMob($a_obj_id, $a_owner_id)
 	}
 }
 
+$ilDB->manipulate("DELETE FROM il_disk_quota".
+	" WHERE src_type = ".$ilDB->quote("mob", "text"));
+
+$quota_done = array();
+
 // get all mob usage for workspace blogs
 $set = $ilDB->query("SELECT od.owner, mu.id".
 	" FROM object_data od".
@@ -15596,6 +15607,7 @@ while($row = $ilDB->fetchAssoc($set))
 	if(!in_array($id, $quota_done))
 	{
 		quotaHandleMob($row["id"], $row["owner"]);
+		$quota_done[] = $id;
 	}
 }
 
@@ -15614,14 +15626,15 @@ while($row = $ilDB->fetchAssoc($set))
 	if(!in_array($id, $quota_done))
 	{
 		quotaHandleMob($row["id"], $row["owner"]);
+		$quota_done[] = $id;
 	}
 }
+
+unset($quota_done);
 
 ?>
 <#3904>
 <?php
-
-$quota_done = array();
 
 function quotaHandleFileStorage($a_type, $a_obj_id, $a_owner_id, $a_dir)
 {	
@@ -15662,6 +15675,11 @@ function quotaHandleFileStorage($a_type, $a_obj_id, $a_owner_id, $a_dir)
 		}
 	}
 }
+
+$ilDB->manipulate("DELETE FROM il_disk_quota".
+	" WHERE src_type = ".$ilDB->quote("prtf", "text"));
+$ilDB->manipulate("DELETE FROM il_disk_quota".
+	" WHERE src_type = ".$ilDB->quote("blog", "text"));
 
 // portfolios
 $set = $ilDB->query("SELECT od.owner, od.obj_id".
@@ -15731,6 +15749,11 @@ function quotaHandleVerification($a_type, $a_obj_id, $a_owner_id)
 		}
 	}
 }
+
+$ilDB->manipulate("DELETE FROM il_disk_quota".
+	" WHERE src_type = ".$ilDB->quote("tstv", "text"));
+$ilDB->manipulate("DELETE FROM il_disk_quota".
+	" WHERE src_type = ".$ilDB->quote("excv", "text"));
 
 // (workspace) verifications
 $set = $ilDB->query("SELECT od.owner, od.obj_id, od.type".
@@ -19616,5 +19639,20 @@ if(!$ilDB->tableExists('obj_content_master_lng'))
 ?>
 <#4180>
 <?php
-$ilCtrlStructureReader->getStructure();
+	$ilCtrlStructureReader->getStructure();
+
+
+
+
+//////////////////////////////////////////////////////////////////
+//
+//      PLEASE DO  NOT ADD ANY ADDITIONAL STEPS IN THIS BRANCH
+//
+//      CONTACT THE CORE TEAM, IF A BUGFIX NEEDS ANY DB CHANGES
+//
+//////////////////////////////////////////////////////////////////
+
+
+
+
 ?>

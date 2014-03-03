@@ -5483,7 +5483,7 @@ content#:#cont_edit_src#:#Programmcode bearbeiten
 content#:#cont_edit_style#:#Style Editieren
 content#:#cont_edit_tab_properties#:#Tabellen-Eigenschaften
 content#:#cont_edit_tabs#:#Eigenschaften
-content#:#cont_edit_term#:#Begriff editieren
+content#:#cont_edit_term#:#Begriff bearbeiten
 content#:#cont_edition#:#Ausgabe
 content#:#cont_empty_mep_folder#:#Es sind keine Medien in diesem Ordner.
 content#:#cont_empty_question#:#Die Frage ist noch nicht fertiggestellt. Bitte bearbeiten Sie diese abschließend oder löschen Sie die Frage.
@@ -6242,7 +6242,7 @@ crs#:#crs_availability_limitless_info#:#Bei dieser Einstellung steht ein online 
 crs#:#crs_availability_until_info#:#Bei dieser Einstellung steht ein online geschalteter Kurs nur während eines definierten Zeitraums zur Verfügung.
 crs#:#crs_blocked#:#Zugang gesperrt
 crs#:#crs_blocked_member#:#Status in Kurs "%s"
-crs#:#crs_blocked_member_body#:#ihre Mitgliedschaft in Kurs "%s" wurde gesperrt.
+crs#:#crs_blocked_member_body#:#ihre Mitgliedschaft im Kurs "%s" wurde gesperrt.
 crs#:#crs_cancel_subscr_request#:#Aufnahmeantrag zurückziehen
 crs#:#crs_cancel_subscription#:#Austritt aus Kurs "%s"
 crs#:#crs_cancel_subscription_body#:#die Teilnehmerin/der Teilnehmer %s ist aus dem Kurs "%s" ausgetreten.
@@ -6279,8 +6279,8 @@ crs#:#crs_delete_objectve_sure#:#Sind Sie sicher, dass die ausgewählten Lernzie
 crs#:#crs_delete_subscribers#:#Antrag löschen
 crs#:#crs_delete_subscribers_sure#:#Sind Sie sicher, dass die folgenden Anträge gelöscht werden sollen?
 crs#:#crs_details#:#Kursdetails
-crs#:#crs_dismiss_member#:#Mitgliedschaft in Kurs "%s" beendet
-crs#:#crs_dismiss_member_body#:#ihre Mitgliedschaft in Kurs "%s" ist beendet worden.
+crs#:#crs_dismiss_member#:#Mitgliedschaft im Kurs "%s" beendet
+crs#:#crs_dismiss_member_body#:#ihre Mitgliedschaft im Kurs "%s" ist beendet worden.
 crs#:#crs_edit_archive#:#Archive bearbeiten
 crs#:#crs_edit_content#:#Inhalt bearbeiten
 crs#:#crs_edit_start_objects#:#Startobjekte bearbeiten
@@ -9158,6 +9158,7 @@ payment#:#pay_order_date_til#:#Zeitraum bis
 payment#:#pay_order_paid_body#:#Ihre Rechnung für %products% ist an diese E-Mail angehängt. Vielen Dank für Ihren Auftrag.
 payment#:#pay_order_paid_subject#:#Ihre Rechnung
 payment#:#pay_payed_bill#:#Rechnung bezahlt
+payment#:#pay_unpayed_bill#:#Bitte überweisen Sie den Rechnungsbetrag auf das angegebene Konto.
 payment#:#pay_payed_credit_card#:#Die Bestellung wurde per Kreditkarte bezahlt.
 payment#:#pay_payed_debit_entry#:#Die Bestellung wurde per Lastschriftverfahren bezahlt.
 payment#:#pay_payed_paypal#:#Die Bestellung wurde per PayPal bezahlt.
@@ -11100,7 +11101,7 @@ survey#:#mailaddresses#:#Empfängeradressen
 survey#:#mailaddresses_info#:#Tragen Sie hier eine kommagetrennte Liste der Empfänger ein, an die eine Benachrichtigung über abgeschlossene Umfragen versendet werden soll.
 survey#:#mailnotification#:#E-Mail-Benachrichtigung
 survey#:#mailparticipantdata#:#Zusätzliche Teilnehmerdaten
-survey#:#mailparticipantdata_info#:#Fügen Sie einen einleitenden Text hinzu, der vor den Ergebnisdaten eines Teilnehmers in die E-Mail eingetragen wird. Sie dürfen dabei Platzhalter mit Datenbankfeldern der Benutzerdaten verwenden, z.B. [matriculation], [email], [firstname]. Bei personalisierten Umfragen werden diese Platzhalter durch die entsprechenden Benutzerdaten ersetzt.
+survey#:#mailparticipantdata_info#:#Fügen Sie einen einleitenden Text hinzu, der vor den Ergebnisdaten eines Teilnehmers in die E-Mail eingetragen wird. 
 survey#:#maintenance#:#Teilnehmer
 survey#:#manage_phrases#:#Meine Phrasen
 survey#:#material#:#Material
@@ -12814,7 +12815,7 @@ survey#:#survey_question_pool_usage_active_info#:#Beim Anlegen einer Fragen muss
 survey#:#survey_question_pool_usage_inactive#:#Fragen werden direkt in der Umfrage angelegt.
 survey#:#survey_question_pool_usage_inactive_info#:#Die Frage wird zuerst nur für die Umfrage erstellt und kann später manuell zu einem Fragenpool hinzugefügt werden.
 dateplaner#:#cal_notification_crsgrp#:#Benachrichtigung für Kurs/Gruppenteilnehmer
-dateplaner#:#cal_notification_users#:#Benachtrichtigung für ausgewählte Benutzer
+dateplaner#:#cal_notification_users#:#Benachrichtigung für ausgewählte Benutzer
 dateplaner#:#cal_adm_notification_user_info#:#Wählen Sie diese Einstellung, um eine optionale Mailbenachrichtigung an einzelne, auswählbare Benutzer versenden zu können.
 dateplaner#:#cal_err_invalid_notification_rcps#:#Die Empfänger für die E-Mail-Benachrichtigung sind nicht gültig. Bitte wählen geben sie ausschließlich ILIAS-Benutzerkontennamen oder gültige E-Mail-Adressen an.
 dateplaner#:#cal_user_notification#:#Benutzerbenachrichtigung
@@ -12970,6 +12971,7 @@ tos#:#tos_period#:#Zeitraum
 tos#:#tos_period_from#:#Von
 tos#:#tos_period_until#:#Bis
 tos#:#tos_acceptance_datetime#:#Datum
+tos#:#tos_no_documents_exist#:#Aktuell liegen in keiner installierten Sprache Nutzungsvereinbarungen vor.
 ecs#:#ecs_sync_trees#:#CMS-Verzeichnisbäume aktualisieren
 survey#:#svy_invite_action#:#NutzerInnen zu einer Umfrage einladen
 rbac#:#chtr_delete#:#Chat löschen oder verschieben
@@ -13139,7 +13141,7 @@ survey#:#survey_360_sure_delete_appraises#:#Wollen Sie wirklich die folgenden Fe
 survey#:#survey_360_sure_delete_raters#:##Wollen Sie wirklich die folgenden Feedback-Geber für %s entfernen?
 survey#:#survey_360_add_external_rater#:#Externen Feedback-Geber hinzufügen
 survey#:#survey_360_no_appraisees#:#Sie können momentan kein Feedback geben.
-survey#:#survey_360_add_self_appraisee#:#Fügen Sie sich selbst als zu Feedback-Nehmer hinzu
+survey#:#survey_360_add_self_appraisee#:#Fügen Sie sich selbst als Feedback-Nehmer hinzu
 survey#:#survey_360_list_title#:#360°-Modus
 survey#:#survey_360_select_appraisee#:#Auswählen
 survey#:#survey_360_appraisee#:#Feedback-Nehmer
@@ -13830,7 +13832,7 @@ bibl#:#bib_default_keywords#:#Schlagwörter
 bibl#:#bib_default_isbn#:#ISSN/ISBN
 bibl#:#bib_default_cite#:#Bib Cite
 bibl#:#ris_default_ty#:#Typ
-bibl#:#ris_default_id#:#Reference ID
+bibl#:#ris_default_id#:#Referenz-ID
 bibl#:#ris_default_t1#:#Titel
 bibl#:#ris_default_ti#:#Buchtitel
 bibl#:#ris_default_ct#:#Titel der unveröffentlichten Referenz
@@ -14183,3 +14185,24 @@ obj#:#obj_deactivate_multilang_conf#:#Wollen Sie die Unterstützung für mehrspr
 obj#:#obj_multilang_deactivated#:#Die Unterstützung für mehrsprachige Inhalte wurde deaktiviert.
 cntr#:#cntr_container_only_on_their_own#:#Kategorien, Kurse, Gruppen und Ordner können nur einzeln kopiert werden. Bitte wählen Sie nur ein solches Objekt aus.
 cntr#:#objects_duplicated#:#Die Objekte wurden kopiert.
+content#:#cont_edit_definitions#:#Definitionen bearbeiten
+content#:#cont_edit_definition#:#Definition bearbeiten
+meta#:#meta_c_XK#:#Kosovo
+certificate#:#certificate_var_matriculation#:#12345
+certificate#:#certificate_ph_matriculation#:#Matrikelnummer des Benutzers
+survey#:#mailparticipantdata_placeholder#:# Bei personalisierten Umfragen werden folgende Platzhalter durch die entsprechenden Benutzerdaten ersetzt:
+exc#:#exc_create_portfolio_no_template#:#Keine Vorlage verwenden
+rbac#:#orgu_view_learning_progress#:#Lernfortschritt einsehen
+rbac#:#orgu_visible#:#Organisationseinheit ist sichtbar.
+rbac#:#orgu_read#:#Lesezugriff auf Organisationseinheit
+rbac#:#orgu_write#:#Einstellungen der Organisationseinheit bearbeiten
+rbac#:#orgu_read_users#:#Lokale Benutzerkonten dieser Organisationseinheit können eingesehen werden
+rbac#:#orgu_cat_administrate_users#:#Lokale Benutzerkonten können angelegt und verwaltet werden
+rbac#:#orgu_delete#:#Organisationseinheit löschen oder verschieben
+rbac#:#orgu_edit_permission#:#Rechteeinstellungen ändern
+rbac#:#rbac_create_orgu#:#Benutzer kann Organisationseinheiten anlegen
+prtf#:#prtf_page_element_teaser_skills#:#Innerhalb des Portfolios erscheint an dieser Stelle Ihre Kompetenzausprägung.
+prtf#:#prtf_page_element_teaser_blog_template#:#Innerhalb des Portfolios erscheint an dieser Stelle ein Blog Ihres Arbeitsraums.
+prtf#:#prtf_page_element_teaser_consultation_hours#:#Innerhalb des Portfolios erscheint an dieser Stelle ein Kalender Ihrer Sprechstunden.
+prtf#:#prtf_page_element_teaser_blog#:#Innerhalb des Portfolios erscheint an dieser Stelle eine Auswahl von Blog-Einträgen.
+prtf#:#prtf_page_element_teaser_settings#:#Einstellungen

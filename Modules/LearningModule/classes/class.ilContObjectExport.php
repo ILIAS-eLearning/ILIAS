@@ -26,7 +26,7 @@ class ilContObjectExport
 	* Constructor
 	* @access	public
 	*/
-	function ilContObjectExport(&$a_cont_obj, $a_mode = "xml")
+	function ilContObjectExport(&$a_cont_obj, $a_mode = "xml", $a_lang = "")
 	{
 		global $ilErr, $ilDB, $ilias;
 
@@ -36,6 +36,7 @@ class ilContObjectExport
 		$this->ilias =& $ilias;
 		$this->db =& $ilDB;
 		$this->mode = $a_mode;
+		$this->lang = $a_lang;
 
 		$settings = $this->ilias->getAllSettings();
 		//$this->inst_id = $settings["inst_id"];
@@ -45,7 +46,14 @@ class ilContObjectExport
 		switch($this->mode)
 		{
 			case "html":
-				$this->export_dir = $this->cont_obj->getExportDirectory("html");
+				if ($this->lang == "")
+				{
+					$this->export_dir = $this->cont_obj->getExportDirectory("html");
+				}
+				else
+				{
+					$this->export_dir = $this->cont_obj->getExportDirectory("html_".$this->lang);
+				}
 				$this->subdir = $this->cont_obj->getType()."_".$this->cont_obj->getId();
 				$this->filename = $this->subdir.".zip";
 				break;
@@ -88,15 +96,15 @@ class ilContObjectExport
 		switch ($this->mode)
 		{
 			case "html":
-				return $this->buildExportFileHTML();
+				$this->buildExportFileHTML();
 				break;
 				
 			case "scorm":
-				return $this->buildExportFileSCORM();
+				$this->buildExportFileSCORM();
 				break;
 
 			case "pdf":
-				return $this->buildExportFilePDF();
+				$this->buildExportFilePDF();
 				break;
 
 			default:
@@ -209,18 +217,19 @@ class ilContObjectExport
 	{
 		global $ilBench;
 
-		$ilBench->start("ContentObjectExport", "buildHTMLPackage");
-
 		// create directories
-		$this->cont_obj->createExportDirectory("html");
+		if ($this->lang == "")
+		{
+			$this->cont_obj->createExportDirectory("html");
+		}
+		else
+		{
+			$this->cont_obj->createExportDirectory("html_".$this->lang);
+		}
+
 
 		// get html content
-		$ilBench->start("ContentObjectExport", "buildHTMLPackage_getHTML");
-		$this->cont_obj->exportHTML($this->export_dir."/".$this->subdir, $expLog);
-		$ilBench->stop("ContentObjectExport", "buildHTMLPackage_getHTML");
-
-		//$expLog->write(date("[y-m-d H:i:s] ")."Finished Export");
-		$ilBench->stop("ContentObjectExport", "buildHTMLPackage");
+		$this->cont_obj->exportHTML($this->export_dir."/".$this->subdir, $expLog, true, "html", $this->lang);
 	}
 
 	/**

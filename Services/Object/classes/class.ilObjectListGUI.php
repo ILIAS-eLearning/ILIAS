@@ -107,6 +107,7 @@ class ilObjectListGUI
 	protected $timings_enabled = true;	
 	protected $force_visible_only = false;	
 	protected $prevent_duplicate_commands = array();
+	protected $parent_ref_id;
 
 	static protected $cnt_notes = array();
 	static protected $cnt_tags = array();
@@ -131,6 +132,9 @@ class ilObjectListGUI
 		$this->enableComments(false);
 		$this->enableNotes(false);
 		$this->enableTags(false);
+		
+		// unique js-ids
+		$this->setParentRefId($_REQUEST["ref_id"]);
 		
 //echo "list";
 		$this->init();
@@ -2070,6 +2074,7 @@ class ilObjectListGUI
 			$item_list_gui->enablePath(false);
 			$item_list_gui->enableIcon(true);
 			$item_list_gui->setConditionDepth($this->condition_depth + 1);
+			$item_list_gui->setParentRefId($this->getUniqueItemId()); // yes we can
 			$item_list_gui->addCustomProperty($this->lng->txt("precondition_required_itemlist"), $cond_txt, false, true);
 			$trigger_html = $item_list_gui->getListItemHTML($condition['trigger_ref_id'],
 				$condition['trigger_obj_id'], ilObject::_lookupTitle($condition["trigger_obj_id"]),
@@ -2137,12 +2142,7 @@ class ilObjectListGUI
 			}
 			$conditions = ilUtil::sortArray($conditions,'title','DESC');
 			
-			// revert to reference original id
-			$div_id = $this->reference_ref_id;
-			if(!$div_id)
-			{
-				$div_id = $this->ref_id;
-			}
+			$div_id = $this->getUniqueItemId();
 
 			// Show obligatory and optional preconditions seperated
 			$all_done_obl = $this->parseConditions($div_id,$conditions,true);
@@ -2613,7 +2613,7 @@ class ilObjectListGUI
 		$this->current_selection_list->setAsynch($a_use_asynch && !$a_get_asynch_commands);
 		$this->current_selection_list->setAsynchUrl($a_asynch_url);
 		$this->current_selection_list->setListTitle($lng->txt("actions"));
-		$this->current_selection_list->setId("act_".$this->getUniqueItemId());
+		$this->current_selection_list->setId("act_".$this->getUniqueItemId(false));
 		$this->current_selection_list->setSelectionHeaderClass("small");
 		$this->current_selection_list->setItemLinkClass("xsmall");
 		$this->current_selection_list->setLinksMode("il_ContainerItemCommand2");
@@ -3451,7 +3451,7 @@ class ilObjectListGUI
 				$rating->setObject($this->obj_id, $this->type);
 				$this->addCustomProperty(
 					$this->lng->txt("rating_average_rating"), 
-					$rating->getListGUIProperty($this->ref_id, $may_rate, $this->ajax_hash), 
+					$rating->getListGUIProperty($this->ref_id, $may_rate, $this->ajax_hash, $this->parent_ref_id), 
 					false, 
 					true
 				);
@@ -3592,6 +3592,16 @@ class ilObjectListGUI
 	}
 	
 	/**
+	 * Set current parent ref id to enable unique js-ids (sessions, etc.)
+	 * 
+	 * @param int $a_ref_id
+	 */
+	public function setParentRefId($a_ref_id)
+	{
+		$this->parent_ref_id = $a_ref_id;
+	}
+	
+	/**
 	 * Get unique item identifier (for js-actions)
 	 * 
 	 * @param bool $a_as_div
@@ -3609,6 +3619,9 @@ class ilObjectListGUI
 		{
 			$id_ref .= "_pc".$this->condition_depth;
 		}
+		
+		// unique
+		$id_ref .= "_pref_".$this->parent_ref_id;		
 	
 		if(!$a_as_div)
 		{

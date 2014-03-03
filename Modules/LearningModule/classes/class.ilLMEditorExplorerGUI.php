@@ -38,7 +38,7 @@ class ilLMEditorExplorerGUI extends ilLMExplorerGUI
 				
 				// is page scheduled?
 				$img_sc = ($lm_set->get("time_scheduled_page_activation") &&
-					ilLMPage::_isScheduledActivation($a_id, $this->lm->getType()))
+					ilLMPage::_isScheduledActivation($a_node["child"], $this->lm->getType()))
 					? "_sc"
 					: "";
 					

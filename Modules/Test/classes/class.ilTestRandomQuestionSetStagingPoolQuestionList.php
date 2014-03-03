@@ -200,9 +200,15 @@ class ilTestRandomQuestionSetStagingPoolQuestionList implements Iterator
 		return $this->pluginAdmin->isActive(IL_COMP_MODULE, 'TestQuestionPool', 'qst', $questionData['type_tag']);
 	}
 
-	public function resetQuestions()
+	public function resetQuestionList()
 	{
 		$this->questions = array();
+		$this->taxFilters = array();
+
+		$this->testObjId = -1;
+		$this->testId = -1;
+		$this->poolId = -1;
+
 	}
 	
 	public function getQuestions()

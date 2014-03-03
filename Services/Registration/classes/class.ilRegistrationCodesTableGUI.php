@@ -68,6 +68,12 @@ class ilRegistrationCodesTableGUI extends ilTable2GUI
 		
 		include_once("./Services/Registration/classes/class.ilRegistrationCode.php");
 		
+		// #12737
+		if(!in_array($this->getOrderField(), array_keys($this->getSelectedColumns())))
+		{
+			$this->setOrderField($this->getDefaultOrderField());
+		}		
+		
 		$codes_data = ilRegistrationCode::getCodesData(
 			ilUtil::stripSlashes($this->getOrderField()),
 			ilUtil::stripSlashes($this->getOrderDirection()),

@@ -1005,7 +1005,7 @@ class ilObjUser extends ilObject
 		}
 
 		// Update not necessary
-		if($a_login == self::_lookupLogin($this->getId()))
+		if(0 == strcmp($a_login, self::_lookupLogin($this->getId())))
 		{
 			return false;
 		}		
@@ -2061,6 +2061,16 @@ class ilObjUser extends ilObject
 	function getCurrentLanguage()
 	{
 		return $_SESSION['lang'];
+	}
+
+	/**
+	 * Set current language
+	 *
+	 * @param string $a_val current language
+	 */
+	function setCurrentLanguage($a_val)
+	{
+		$_SESSION['lang'] = $a_val;
 	}
 
 	/**

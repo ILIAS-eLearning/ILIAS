@@ -26,6 +26,7 @@ class ilLMObject
 	var $title;
 	var $description;
 	var $active = true;
+	static protected $data_records = array();
 
 	/**
 	* @param	object		$a_content_obj		content object (digi book or learning module)
@@ -44,16 +45,17 @@ class ilLMObject
 	}
 
 	/**
-	* Meta data update listener
-	*
-	* Important note: Do never call create() or update()
-	* method of ilObject here. It would result in an
-	* endless loop: update object -> update meta -> update
-	* object -> ...
-	* Use static _writeTitle() ... methods instead.
-	*
-	* @param	string		$a_element
-	*/
+	 * Meta data update listener
+	 *
+	 * Important note: Do never call create() or update()
+	 * method of ilObject here. It would result in an
+	 * endless loop: update object -> update meta -> update
+	 * object -> ...
+	 * Use static _writeTitle() ... methods instead.
+	 *
+	 * @param string $a_element md element
+	 * @return boolean success
+	 */
 	function MDUpdateListener($a_element)
 	{
 		include_once 'Services/MetaData/classes/class.ilMD.php';
@@ -184,12 +186,10 @@ class ilLMObject
 
 		if(!isset($this->data_record))
 		{
-			$ilBench->start("ContentPresentation", "ilLMObject_read_getData");
 			$query = "SELECT * FROM lm_data WHERE obj_id = ".
 				$ilDB->quote($this->id, "integer");
 			$obj_set = $ilDB->query($query);
 			$this->data_record = $ilDB->fetchAssoc($obj_set);
-			$ilBench->stop("ContentPresentation", "ilLMObject_read_getData");
 		}
 
 		$this->type = $this->data_record["type"];
@@ -200,6 +200,25 @@ class ilLMObject
 
 		$ilBench->stop("ContentPresentation", "ilLMObject_read");
 	}
+
+	/**
+	 * Preload data records by lm
+	 *
+	 * @param integer $a_lm_id lm id
+	 */
+	static function preloadDataByLM($a_lm_id)
+	{
+		global $ilDB;
+
+		$set = $ilDB->query("SELECT * FROM lm_data ".
+			" WHERE lm_id = ".$ilDB->quote($a_lm_id, "integer")
+			);
+		while ($rec = $ilDB->fetchAssoc($set))
+		{
+			self::$data_records[$rec["obj_id"]] = $rec;
+		}
+	}
+
 
 	/**
 	* set title of lm object
@@ -231,7 +250,12 @@ class ilLMObject
 	{
 		global $ilDB;
 
-		$query = "SELECT * FROM lm_data WHERE obj_id = ".
+		if (isset(self::$data_records[$a_obj_id]))
+		{
+			return self::$data_records[$a_obj_id]["title"];
+		}
+
+		$query = "SELECT title FROM lm_data WHERE obj_id = ".
 			$ilDB->quote($a_obj_id, "integer");
 		$obj_set = $ilDB->query($query);
 		$obj_rec = $ilDB->fetchAssoc($obj_set);
@@ -249,12 +273,20 @@ class ilLMObject
 	{
 		global $ilDB;
 
+		if (isset(self::$data_records[$a_obj_id]))
+		{
+			if ($a_lm_id == 0 || self::$data_records[$a_obj_id]["lm_id"] == $a_lm_id)
+			{
+				return self::$data_records[$a_obj_id]["type"];
+			}
+		}
+
 		if($a_lm_id)
 		{
 			$and = ' AND lm_id = '.$ilDB->quote($a_lm_id,'integer');
 		}
 
-		$query = "SELECT * FROM lm_data WHERE obj_id = ".$ilDB->quote($a_obj_id, "integer").$and;
+		$query = "SELECT type FROM lm_data WHERE obj_id = ".$ilDB->quote($a_obj_id, "integer").$and;
 		$obj_set = $ilDB->query($query);
 		$obj_rec = $ilDB->fetchAssoc($obj_set);
 

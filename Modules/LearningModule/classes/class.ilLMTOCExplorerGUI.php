@@ -13,7 +13,6 @@ include_once("./Modules/LearningModule/classes/class.ilLMExplorerGUI.php");
  */
 class ilLMTOCExplorerGUI extends ilLMExplorerGUI
 {
-	protected $offline_mode;
 	protected $lang;
 	protected $highlight_node;
 
@@ -37,27 +36,6 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
 			$this->setTypeWhiteList(array("st", "du"));
 		}
 
-	}
-
-
-	/**
-	 * Set offline mode
-	 *
-	 * @param bool $a_val offline mode
-	 */
-	function setOfflineMode($a_val)
-	{
-		$this->offline_mode = $a_val;
-	}
-
-	/**
-	 * Get offline mode
-	 *
-	 * @return bool offline mode
-	 */
-	function getOfflineMode()
-	{
-		return $this->offline_mode;
 	}
 
 	/**
@@ -114,19 +92,12 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
 				$this->lm->isActiveNumbering(), false, $this->lm->getId(), $this->lang);
 		}
 
-//		if ($this->lm->getTOCMode() == "chapters" || $a_node["type"] != "pg")
-//		{
-//			return $a_node["title"];
-//		}
-//		else
-//		{
-			if ($a_node["type"] == "pg")
-			{
-				return ilLMPageObject::_getPresentationTitle($a_node["child"],
-					$this->lm->getPageHeader(), $this->lm->isActiveNumbering(),
-					$this->lm_set->get("time_scheduled_page_activation"), true, $this->lm->getId(), $this->lang);
-			}
-//		}
+		if ($a_node["type"] == "pg")
+		{
+			return ilLMPageObject::_getPresentationTitle($a_node["child"],
+				$this->lm->getPageHeader(), $this->lm->isActiveNumbering(),
+				$this->lm_set->get("time_scheduled_page_activation"), true, $this->lm->getId(), $this->lang);
+		}
 
 		return $a_node["title"];
 	}
@@ -166,24 +137,16 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
 
 			// is page scheduled?
 			$img_sc = ($lm_set->get("time_scheduled_page_activation") &&
-				ilLMPage::_isScheduledActivation($a_node["child"], $this->lm->getType()))
+				ilLMPage::_isScheduledActivation($a_node["child"], $this->lm->getType()) && !$active
+				&& !$this->getOfflineMode())
 				? "_sc"
 				: "";
 
 			$a_name = "icon_pg".$img_sc."_s.png";
 
-			if (!$active)
+			if (!$active && !$this->getOfflineMode())
 			{
 				$a_name = "icon_pg_d".$img_sc."_s.png";
-			}
-			else
-			{
-				$contains_dis = ilLMPage::_lookupContainsDeactivatedElements($a_node["child"],
-					$this->lm->getType());
-				if ($contains_dis)
-				{
-					$a_name = "icon_pg_del".$img_sc."_s.png";
-				}
 			}
 		}
 
@@ -311,16 +274,40 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
 					}
 				}
 			}
-//			if (!$this->lm->cleanFrames())
-//			{
-//				return "frame_".$a_node_id."_maincontent.html";
-//			}
-//			else
-//			{
-				return "lm_pg_".$a_node_id.".html";
-//			}
+			return "lm_pg_".$a_node["child"].".html";
 		}
 
+	}
+
+	/**
+	 * Is node visible?
+	 *
+	 * @param mixed $a_node node object/array
+	 * @return boolean node visible true/false
+	 */
+	function isNodeVisible($a_node)
+	{
+		include_once("./Services/COPage/classes/class.ilPageObject.php");
+		$active = ilPageObject::_lookupActive($a_node["child"], "lm",
+			$this->lm_set->get("time_scheduled_page_activation"));
+
+		if(!$active && $a_node["type"] == "pg")
+		{
+			$act_data = ilPageObject::_lookupActivationData((int) $a_node["child"], "lm");
+			if ($act_data["show_activation_info"] &&
+				(ilUtil::now() < $act_data["activation_start"]))
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+		else
+		{
+			return true;
+		}
 	}
 
 }

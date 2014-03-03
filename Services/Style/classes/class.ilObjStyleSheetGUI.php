@@ -1165,9 +1165,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 
 		if ($_GET["admin_mode"] == "settings")	// system settings
 		{		
-			$ilLocator->addItem($this->lng->txt("administration"),
-				$this->ctrl->getLinkTargetByClass("iladministrationgui", "frameset"),
-				ilFrameTargetInfo::_getFrame("MainContent"));
+			parent::addAdminLocatorItems(true);
 				
 			$ilLocator->addItem(ilObject::_lookupTitle(
 				ilObject::_lookupObjId($_GET["ref_id"])),

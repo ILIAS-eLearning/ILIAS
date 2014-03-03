@@ -204,6 +204,10 @@ class ilLinkInputGUI extends ilFormPropertyGUI
 		
 		if($_POST[$this->getPostVar()."_mode"] == "int")
 		{
+			$_POST[$this->getPostVar()."_ajax_type"] = ilUtil::stripSlashes($_POST[$this->getPostVar()."_ajax_type"]);
+			$_POST[$this->getPostVar()."_ajax_id"] = ilUtil::stripSlashes($_POST[$this->getPostVar()."_ajax_id"]);
+			$_POST[$this->getPostVar()."_ajax_target"] = ilUtil::stripSlashes($_POST[$this->getPostVar()."_ajax_target"]);			
+			
 			// overwriting post-data so getInput() will work
 			$val = $_POST[$this->getPostVar()."_ajax_type"]."|".
 				$_POST[$this->getPostVar()."_ajax_id"];
@@ -213,7 +217,11 @@ class ilLinkInputGUI extends ilFormPropertyGUI
 			}
 
 			$_POST[$this->getPostVar()] = $val;
-		};
+		}
+		else
+		{
+			$_POST[$this->getPostVar()] = ilUtil::stripSlashes($_POST[$this->getPostVar()]);			
+		}
 	
 		return true;
 	}

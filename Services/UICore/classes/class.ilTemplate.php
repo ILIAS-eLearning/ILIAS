@@ -1878,7 +1878,7 @@ class ilTemplate extends ilTemplateX
 	/**
 	 * Fill left navigation frame
 	 */
-	private function fillLeftNav()
+	function fillLeftNav()
 	{
 		if (trim($this->left_nav_content) != "")
 		{

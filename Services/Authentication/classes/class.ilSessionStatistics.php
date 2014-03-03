@@ -245,6 +245,9 @@ class ilSessionStatistics
 			self::aggregateRawHelper($slot[0], $slot[1]);			
 			$slot = self::createNewAggregationSlot($a_now);
 		}			
+		
+		// #12728
+		self::deleteAggregatedRaw($a_now);
 	}
 	
 	/**
@@ -382,6 +385,22 @@ class ilSessionStatistics
 		$ilDB->update("usr_session_stats", $fields, 
 			array("slot_begin" => array("integer", $a_begin),
 				"slot_end" => array("integer", $a_end)));			
+	}
+	
+	/**
+	 * Remove already aggregated raw data
+	 * 
+	 * @param integer $a_now
+	 */
+	protected static function deleteAggregatedRaw($a_now)
+	{
+		global $ilDB;
+	
+		// we are rather defensive here - 7 days BEFORE current aggregation
+		$cut = $a_now-(60*60*24*7);
+		
+		$ilDB->manipulate("DELETE FROM usr_session_stats_raw".
+			" WHERE start_time <= ".$ilDB->quote($cut, "integer"));		
 	}
 	
 	/**

@@ -378,6 +378,17 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 	
 	protected function toRepository()
 	{		
+		global $ilAccess;
+		
+		// return to exercise (portfolio assignment)
+		$exc_ref_id = (int)$_REQUEST["exc_id"];
+		if($exc_ref_id &&
+			$ilAccess->checkAccess("read", "", $exc_ref_id))
+		{
+			include_once "Services/Link/classes/class.ilLink.php";
+			ilUtil::redirect(ilLink::_getLink($exc_ref_id, "exc"));
+		}
+		
 		$this->ctrl->redirectByClass("ilportfoliorepositorygui", "show");
 	}	
 	
@@ -783,6 +794,12 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 	protected function initCreatePortfolioFromTemplateForm($a_prtt_id, $a_title)
 	{					
 		global $ilSetting, $ilUser;
+				
+		if((int)$_REQUEST["exc_id"])
+		{
+			$this->ctrl->setParameter($this, "exc_id", (int)$_REQUEST["exc_id"]);		
+			$this->ctrl->setParameter($this, "ass_id", (int)$_REQUEST["ass_id"]);		
+		}		
 	
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
@@ -857,7 +874,11 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 					if($check_quota)
 					{																									
 						$quota_sum += $source_page->getPageDiskSize();
-					}																					
+					}			
+					if(sizeof($skill_ids))
+					{
+						$has_form_content = true;
+					}
 					break;
 				
 				case ilPortfolioTemplatePage::TYPE_BLOG_TEMPLATE:
@@ -935,7 +956,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 	
 	protected function createPortfolioFromTemplateProcess($a_process_form = true)
 	{
-		global $ilSetting;
+		global $ilSetting, $ilAccess, $ilUser;
 		
 		$title = trim($_REQUEST["pt"]);
 		$prtt_id = (int)$_REQUEST["prtt"];
@@ -1007,6 +1028,24 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		$target_id = $target->getId();
 				
 		$source->clonePagesAndSettings($source, $target, $recipe);
+		
+		// link portfolio to exercise assignment
+		$exc_ref_id = (int)$_REQUEST["exc_id"];
+		$ass_id = (int)$_REQUEST["ass_id"];		
+		if($exc_ref_id &&
+			$ass_id && 
+			$ilAccess->checkAccess("read", "", $exc_ref_id))
+		{			
+			include_once "Modules/Exercise/classes/class.ilObjExercise.php";
+			include_once "Modules/Exercise/classes/class.ilExAssignment.php";							
+			$exc = new ilObjExercise($exc_ref_id);						
+			$ass = new ilExAssignment($ass_id);			
+			if($ass->getExerciseId() == $exc->getId() &&
+				$ass->getType() == ilExAssignment::TYPE_PORTFOLIO)
+			{				
+				$exc->addResourceObject($target_id, $ass_id, $ilUser->getId());
+			}
+		}
 			
 		ilUtil::sendSuccess($this->lng->txt("prtf_portfolio_created"), true);
 		$this->ctrl->setParameter($this, "prt_id", $target_id);

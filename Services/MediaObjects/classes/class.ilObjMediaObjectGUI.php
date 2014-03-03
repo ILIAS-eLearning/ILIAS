@@ -1872,7 +1872,8 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			$lng->txt("mob_general"),
 			$ilCtrl->getLinkTarget($this, "edit"));
 		
-		if ($this->object->getMediaItem("Standard")->getFormat() == "video/webm")
+		if ($this->object->getMediaItem("Standard")->getFormat() == "video/webm" ||
+			$this->object->getMediaItem("Standard")->getFormat() == "video/mp4")
 		{
 			$ilTabs->addSubTab("subtitles",
 				$lng->txt("mob_subtitles"),

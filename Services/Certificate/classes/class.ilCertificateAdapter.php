@@ -159,7 +159,8 @@ abstract class ilCertificateAdapter
 			"USER_STREET" => $lng->txt("certificate_ph_street"),
 			"USER_CITY" => $lng->txt("certificate_ph_city"),
 			"USER_ZIPCODE" => $lng->txt("certificate_ph_zipcode"),
-			"USER_COUNTRY" => $lng->txt("certificate_ph_country")
+			"USER_COUNTRY" => $lng->txt("certificate_ph_country"),
+			"USER_MATRICULATION" => $lng->txt("certificate_ph_matriculation")
 		);
 		
 		if($a_enable_last_access)
@@ -206,7 +207,8 @@ abstract class ilCertificateAdapter
 			"USER_STREET" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_street")),
 			"USER_CITY" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_city")),
 			"USER_ZIPCODE" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_zipcode")),
-			"USER_COUNTRY" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_country"))
+			"USER_COUNTRY" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_country")),
+			"USER_MATRICULATION" => ilUtil::prepareFormOutput($lng->txt("certificate_var_user_matriculation"))
 		);
 		
 		if($a_enable_last_access)
@@ -280,7 +282,8 @@ abstract class ilCertificateAdapter
 			"USER_STREET" => ilUtil::prepareFormOutput($a_user_data["street"]),
 			"USER_CITY" => ilUtil::prepareFormOutput($a_user_data["city"]),
 			"USER_ZIPCODE" => ilUtil::prepareFormOutput($a_user_data["zipcode"]),
-			"USER_COUNTRY" => ilUtil::prepareFormOutput($country)
+			"USER_COUNTRY" => ilUtil::prepareFormOutput($country),
+			"USER_MATRICULATION" => ilUtil::prepareFormOutput($a_user_data["matriculation"])
 		);
 		
 		if($a_last_access)

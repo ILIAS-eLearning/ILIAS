@@ -263,7 +263,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 			$this->tpl->setVariable("VALUE_DATE", ilDatePresentation::formatPeriod($date_from, $date_to));
 		}
 	
-		if (!$this->has_schedule || $date_from->get(IL_CAL_UNIX) > time())
+		if (!$this->has_schedule || $date_to->get(IL_CAL_UNIX) > time())
 		{
 			include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 			$alist = new ilAdvancedSelectionListGUI();
@@ -292,7 +292,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 						{
 							$alist->addItem($lng->txt('book_set_in_use'), 'in_use', $ilCtrl->getLinkTarget($this->parent_obj, 'rsvInUse'));
 						}
-						$alist->addItem($lng->txt('book_set_cancel'), 'cancel', $ilCtrl->getLinkTarget($this->parent_obj, ' rsvConfirmCancel'));
+						$alist->addItem($lng->txt('book_set_cancel'), 'cancel', $ilCtrl->getLinkTarget($this->parent_obj, 'rsvConfirmCancel'));
 					}
 					else if($this->has_schedule)
 					{
@@ -301,7 +301,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 				}
 				else if($a_set['user_id'] == $ilUser->getId() && $a_set['status'] != ilBookingReservation::STATUS_CANCELLED)
 				{
-					$alist->addItem($lng->txt('book_set_cancel'), 'cancel', $ilCtrl->getLinkTarget($this->parent_obj, ' rsvConfirmCancel'));
+					$alist->addItem($lng->txt('book_set_cancel'), 'cancel', $ilCtrl->getLinkTarget($this->parent_obj, 'rsvConfirmCancel'));
 				}
 			}
 			else if($ilAccess->checkAccess('write', '', $this->ref_id) || $a_set['user_id'] == $ilUser->getId())

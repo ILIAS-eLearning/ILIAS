@@ -261,7 +261,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 		
 		if(!$this->checkPermissionBool("write"))
 		{
-			return;
+			$this->ctrl->redirect($this, "infoScreen");
 		}
 		
 		$this->tabs_gui->activateTab("pages");
@@ -544,9 +544,22 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 		{
 			if(!$this->checkPermissionBool("write"))
 			{
-				$this->ctrl->setParameterByClass("ilportfoliorepositorygui", "shr_id", $this->object->getOwner());
-				$back = $this->ctrl->getLinkTargetByClass(array("ilpersonaldesktopgui", "ilportfoliorepositorygui"), "showOther");
-				$this->ctrl->setParameterByClass("ilportfoliorepositorygui", "shr_id", "");
+				// shared
+				if($this->getType() == "prtf")
+				{
+					$this->ctrl->setParameterByClass("ilportfoliorepositorygui", "shr_id", $this->object->getOwner());
+					$back = $this->ctrl->getLinkTargetByClass(array("ilpersonaldesktopgui", "ilportfoliorepositorygui"), "showOther");
+					$this->ctrl->setParameterByClass("ilportfoliorepositorygui", "shr_id", "");
+				}
+				// listgui / parent container
+				else
+				{
+					// #12819
+					global $tree;
+					$parent_id = $tree->getParentId($this->node_id);
+					include_once "Services/Link/classes/class.ilLink.php";
+					$back = ilLink::_getStaticLink($parent_id);
+				}
 			}
 			// owner
 			else
