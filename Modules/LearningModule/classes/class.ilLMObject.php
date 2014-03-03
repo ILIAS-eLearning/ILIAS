@@ -201,10 +201,12 @@ class ilLMObject
 		$ilBench->stop("ContentPresentation", "ilLMObject_read");
 	}
 
+
 	/**
 	 * Preload data records by lm
 	 *
 	 * @param integer $a_lm_id lm id
+	 * @return int number of preloaded records
 	 */
 	static function preloadDataByLM($a_lm_id)
 	{
@@ -217,6 +219,7 @@ class ilLMObject
 		{
 			self::$data_records[$rec["obj_id"]] = $rec;
 		}
+		return count(self::$data_records);
 	}
 
 
