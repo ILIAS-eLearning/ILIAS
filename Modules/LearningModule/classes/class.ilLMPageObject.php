@@ -435,7 +435,7 @@ class ilLMPageObject extends ilLMObject
 		// this is optimized when ilLMObject::preloadDataByLM is invoked (e.g. done in ilLMExplorerGUI)
 		$title = ilLMObject::_lookupTitle($a_pg_id);
 
-		// @todo: optimize
+		// this is also optimized since ilObjectTranslation re-uses instances for one lm
 		include_once("./Services/Object/classes/class.ilObjectTranslation.php");
 		$ot = ilObjectTranslation::getInstance($a_lm_id);
 		$languages = $ot->getLanguages();

@@ -16,6 +16,7 @@ include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
 class ilLMExplorerGUI extends ilTreeExplorerGUI
 {
 	protected $lp_cache; // [array]
+	protected $cnt_lmobj; // number of items (chapters and pages) in the explorer
 
 	/**
 	 * Constructor
@@ -38,12 +39,14 @@ class ilLMExplorerGUI extends ilTreeExplorerGUI
 //		$tree->setTreeTablePK("lm_id");
 
 		include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
-		ilLMObject::preloadDataByLM($this->lm->getId());
+		$this->cnt_lmobj = ilLMObject::preloadDataByLM($this->lm->getId());
 
 		include_once("./Services/COPage/classes/class.ilPageObject.php");
 		ilPageObject::preloadActivationDataByParentId($this->lm->getId());
 
 		$id = "lm_exp";
+
+		// this does not work, since it is not set yet
 		if ($this->getOfflineMode())
 		{
 			$id = "lm_exp_off";
@@ -60,6 +63,18 @@ class ilLMExplorerGUI extends ilTreeExplorerGUI
 			$this->setPathOpen((int) $_GET["obj_id"]);
 		}
 	}
+
+	/**
+	 * Before rendering
+	 */
+	function beforeRendering()
+	{
+		if ($this->cnt_lmobj > 200 && !$this->getOfflineMode())
+		{
+			$this->setAjax(true);
+		}
+	}
+
 
 	/**
 	 * Get node content
