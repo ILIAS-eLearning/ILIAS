@@ -656,7 +656,7 @@ class ilLMObject
 		{
 			$a_id = ilInternalLink::_extractObjIdOfTarget($a_id);
 		}
-		
+
 		$q = "SELECT * FROM lm_data WHERE obj_id = ".
 			$ilDB->quote($a_id, "integer");
 		$obj_set = $ilDB->query($q);
@@ -681,6 +681,7 @@ class ilLMObject
 		$type_str = ($type != "")
 			? "AND type = ".$ilDB->quote($type, "text")." "
 			: "";
+
 		$query = "SELECT * FROM lm_data ".
 			"WHERE lm_id= ".$ilDB->quote($lm_id, "integer")." ".
 			$type_str." ".
@@ -732,7 +733,12 @@ class ilLMObject
 	{
 		global $ilDB;
 
-		$query = "SELECT * FROM lm_data WHERE obj_id = ".
+		if (isset(self::$data_records[$a_id]))
+		{
+			return self::$data_records[$a_id]["lm_id"];
+		}
+
+		$query = "SELECT lm_id FROM lm_data WHERE obj_id = ".
 			$ilDB->quote($a_id, "integer");
 		$obj_set = $ilDB->query($query);
 		$obj_rec = $ilDB->fetchAssoc($obj_set);

@@ -290,10 +290,16 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
 	function isNodeVisible($a_node)
 	{
 		include_once("./Services/COPage/classes/class.ilPageObject.php");
+
+		if ($a_node["type"] != "pg")
+		{
+			return true;
+		}
+
 		$active = ilPageObject::_lookupActive($a_node["child"], "lm",
 			$this->lm_set->get("time_scheduled_page_activation"));
 
-		if(!$active && $a_node["type"] == "pg")
+		if(!$active)
 		{
 			$act_data = ilPageObject::_lookupActivationData((int) $a_node["child"], "lm");
 			if ($act_data["show_activation_info"] &&
