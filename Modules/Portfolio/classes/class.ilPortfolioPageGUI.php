@@ -73,7 +73,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		switch($next_class)
 		{					
 			case "ilobjbloggui":
-				// we need the wsp-id for the keywords
+				// #12879 - we need the wsp-id for the keywords
 				include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
 				$wsp_tree = new ilWorkspaceTree($ilUser->getId());
 				$blog_obj_id = (int)$this->getPageObject()->getTitle();
