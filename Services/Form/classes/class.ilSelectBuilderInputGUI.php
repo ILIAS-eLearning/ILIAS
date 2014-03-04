@@ -67,20 +67,13 @@ class ilSelectBuilderInputGUI extends ilTextWizardInputGUI
 		
 		$foundvalues = $_POST[$this->getPostVar()];
 		
+		
+		
 		$this->setOpenAnswerIndexes(array());
 		if (is_array($foundvalues))
 		{
 			foreach ($foundvalues as $idx => $value)
 			{
-				if($idx === 'open')
-				{
-					foreach((array) $value as $oindex => $ovalue)
-					{
-						$this->addOpenAnswerIndex($oindex);
-					}
-					continue;
-				}
-				
 				$_POST[$this->getPostVar()][$idx] = ilUtil::stripSlashes($value);
 				if ($this->getRequired() && trim($value) == "")
 				{
@@ -104,10 +97,14 @@ class ilSelectBuilderInputGUI extends ilTextWizardInputGUI
 			return FALSE;
 		}
 		
+		foreach((array) $_POST[$this->getPostVar().'_open'] as $oindex => $ovalue)
+		{
+			$this->addOpenAnswerIndex($oindex);
+		}
+		
+		
 		return $this->checkSubItemsInput();
 	}
-	
-	
 	
 	/**
 	* Insert property html
@@ -147,7 +144,9 @@ class ilSelectBuilderInputGUI extends ilTextWizardInputGUI
 			if ($i == count($this->values)-1) $class .= " last";
 			$tpl->setVariable("ROW_CLASS", $class);
 			$tpl->setVariable("POST_VAR", $this->getPostVar() . "[$i]");
-			$tpl->setVariable('POST_VAR_OPEN',$this->getPostVar().'[open]'.'['.$i.']');
+			#$tpl->setVariable('POST_VAR_OPEN',$this->getPostVar().'[open]'.'['.$i.']');
+			$tpl->setVariable('POST_VAR_OPEN',$this->getPostVar().'_open'.'['.$i.']');
+			$tpl->setVariable('POST_VAR_OPEN_ID', $this->getPostVar().'_open['.$i.']');
 			
 			if($this->isOpenAnswerIndex($i))
 			{
