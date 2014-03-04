@@ -187,6 +187,7 @@ class ilMemberAgreementGUI
 					$this->tpl->setCurrentBlock('sel_row');
 
 					// Workaround for mantis 9868
+					$options = array();
 					$options[0] = $this->lng->txt('links_select_one');
 					foreach($field_obj->getValues() as $value)
 					{
