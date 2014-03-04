@@ -1332,7 +1332,7 @@ class ilInitialisation
 	 * @return boolean 
 	 */
 	protected static function blockedAuthentication($a_current_script)
-	{
+	{		
 		if($a_current_script == "register.php" || 
 			$a_current_script == "pwassist.php" ||
 			$a_current_script == "confirmReg.php" ||
@@ -1359,6 +1359,13 @@ class ilInitialisation
 			{
 				return true;
 			}
+		}
+		
+		// #12884
+		if(($a_current_script == "goto.php" && $_GET["target"] == "impr_0") ||
+			$_GET["baseClass"] == "ilImprintGUI")
+		{
+			return true;
 		}
 		
 		return false;
