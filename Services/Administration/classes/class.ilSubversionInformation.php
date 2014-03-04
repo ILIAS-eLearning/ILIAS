@@ -131,7 +131,7 @@ class ilSubversionInformation implements ilVersionControlInformation
 		{
 			if(function_exists('shell_exec') && is_callable('shell_exec'))
 			{
-				$revision = trim(shell_exec('svnversion' . realpath(getcwd())));
+				$revision = trim(shell_exec('svnversion ' . realpath(getcwd())));
 				if(self::isSvnRevision($revision))
 				{
 					$info[] = sprintf($lng->txt('svn_revision_current'), $revision);
