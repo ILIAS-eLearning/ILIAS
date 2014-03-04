@@ -2447,9 +2447,9 @@ class ilTemplate extends ilTemplateX
 	function setTopBar($a_back_url = null)
 	{
 		global $lng, $ilUser;
-		
+				
 		// fallback: desktop overview
-		if(!$a_back_url && $ilUser->getId() != ANONYMOUS_USER_ID)
+		if(!$a_back_url && $ilUser->getId() && $ilUser->getId() != ANONYMOUS_USER_ID)
 		{
 			$a_back_url = "./ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToSelectedItems";
 		}
@@ -2463,7 +2463,7 @@ class ilTemplate extends ilTemplateX
 		}		
 		
 		// user name
-		if($ilUser->getId() != ANONYMOUS_USER_ID)
+		if($ilUser->getId() && $ilUser->getId() != ANONYMOUS_USER_ID)
 		{
 			$this->setCurrentBlock("topbar_usr_reg");
 			$this->setVariable("TOPBAR_USER", $ilUser->getFullname());
