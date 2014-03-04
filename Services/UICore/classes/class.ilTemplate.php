@@ -2416,11 +2416,12 @@ class ilTemplate extends ilTemplateX
 		
 		if($a_bg_color)
 		{
-			$this->setVariable("FRAME_BG_COLOR", " style=\"padding:1px; background-color: #".$a_bg_color."\"");
+			//$this->setVariable("FRAME_BG_COLOR", " style=\"padding:1px; background-color: #".$a_bg_color."\"");
+			$this->setVariable("FRAME_BG_COLOR", " style=\"background-color: #".$a_bg_color."\"");
 		}
 		else
 		{
-			$this->setVariable("FRAME_BG_COLOR", " style=\"padding:1px;\"");
+			//$this->setVariable("FRAME_BG_COLOR", " style=\"padding:1px;\"");
 		}
 		
 		if($a_img)
