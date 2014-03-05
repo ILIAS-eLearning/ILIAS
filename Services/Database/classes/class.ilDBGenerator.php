@@ -319,10 +319,13 @@ class ilDBGenerator
 				
 				// primary key
 				$this->buildAddPrimaryKeyStatement($table, $file);
-				
+
 				// indices
 				$this->buildAddIndexStatements($table, $file);
-				
+
+				// constraints (currently unique keys)
+				$this->buildAddUniqueConstraintStatements($table, $file);
+
 				// auto increment sequence
 				$this->buildCreateSequenceStatement($table, $file);
 				
@@ -456,11 +459,11 @@ class ilDBGenerator
 	}
 
 	/**
-	* Build AddIndex statements
-	*
-	* @param	string		table name
-	* @param	file		file resource or empty string
-	*/
+	 * Build AddIndex statements
+	 *
+	 * @param	string		table name
+	 * @param	file		file resource or empty string
+	 */
 	function buildAddIndexStatements($a_table, $a_file = "")
 	{
 		$ind = $this->analyzer->getIndicesInformation($a_table, true);
@@ -486,7 +489,43 @@ class ilDBGenerator
 				}
 				$in_st.= ");\n";
 				$in_st.= '$ilDB->addIndex("'.$a_table.'", $in_fields, "'.$i["name"].'"'.$ft.');'."\n";
-				
+
+				if ($a_file == "")
+				{
+					echo $in_st;
+				}
+				else
+				{
+					fwrite($a_file, $in_st);
+				}
+			}
+		}
+	}
+
+	/**
+	 * Build AddUniqueConstraint statements
+	 *
+	 * @param	string		table name
+	 * @param	file		file resource or empty string
+	 */
+	function buildAddUniqueConstraintStatements($a_table, $a_file = "")
+	{
+		$con = $this->analyzer->getConstraintsInformation($a_table, true);
+
+		if (is_array($con))
+		{
+			foreach ($con as $i)
+			{
+				$in_st = "\n".'$in_fields = array(';
+				$sep = "";
+				foreach ($i["fields"] as $f => $pos)
+				{
+					$in_st.= $sep.'"'.$f.'"';
+					$sep = ",";
+				}
+				$in_st.= ");\n";
+				$in_st.= '$ilDB->addUniqueConstraint("'.$a_table.'", $in_fields, "'.$i["name"].'");'."\n";
+
 				if ($a_file == "")
 				{
 					echo $in_st;
