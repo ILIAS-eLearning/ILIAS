@@ -3601,6 +3601,9 @@ $ilDB->createTable("cmi_gobjective", $fields);
 $in_fields = array("scope_id","objective_id");
 $ilDB->addIndex("cmi_gobjective", $in_fields, "i2", false);
 
+$in_fields = array("user_id","objective_id","scope_id");
+$ilDB->addUniqueConstraint("cmi_gobjective", $in_fields, "c1");
+
 
 //
 // cmi_interaction
@@ -5749,6 +5752,9 @@ $fields = array (
 	)
 );
 $ilDB->createTable("cp_suspend", $fields);
+
+$in_fields = array("user_id","obj_id");
+$ilDB->addUniqueConstraint("cp_suspend", $in_fields, "c1");
 
 
 //
@@ -14295,6 +14301,9 @@ $ilDB->addIndex("dav_lock", $in_fields, "i2", false);
 
 $in_fields = array("expires");
 $ilDB->addIndex("dav_lock", $in_fields, "i3", false);
+
+$in_fields = array("token");
+$ilDB->addUniqueConstraint("dav_lock", $in_fields, "c1");
 
 
 //
@@ -46994,6 +47003,9 @@ $fields = array (
 );
 $ilDB->createTable("tst_pass_result", $fields);
 
+$in_fields = array("active_fi","pass");
+$ilDB->addUniqueConstraint("tst_pass_result", $in_fields, "c1");
+
 
 //
 // tst_qst_solved
@@ -47388,6 +47400,9 @@ $fields = array (
 	)
 );
 $ilDB->createTable("tst_sequence", $fields);
+
+$in_fields = array("active_fi","pass");
+$ilDB->addUniqueConstraint("tst_sequence", $in_fields, "c1");
 
 
 //
@@ -49341,6 +49356,9 @@ $ilDB->createTable("usr_pwassist", $fields);
 
 $pk_fields = array("pwassist_id");
 $ilDB->addPrimaryKey("usr_pwassist", $pk_fields);
+
+$in_fields = array("user_id");
+$ilDB->addUniqueConstraint("usr_pwassist", $in_fields, "c1");
 
 
 //
