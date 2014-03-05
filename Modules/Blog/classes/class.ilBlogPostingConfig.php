@@ -24,7 +24,7 @@ class ilBlogPostingConfig extends ilPageConfig
 		$this->setEnableActivation(true);
 		
 		$blga_set = new ilSetting("blga");
-		$this->setPreventHTMLUnmasking((bool)$blga_set->get("mask", false));
+		$this->setPreventHTMLUnmasking(!(bool)$blga_set->get("mask", false));
 	}
 	
 }
