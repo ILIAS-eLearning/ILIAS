@@ -2074,7 +2074,48 @@ abstract class ilDB extends PEAR
 
 		return $column_visibility;
 	}
-	
+
+	/**
+	 * Checks if a unique constraint exists based on the fields of the unique constraint (not the name)
+	 *
+	 * @param string $a_table table name
+	 * @param array $a_fields array of field names (strings)
+	 * @return bool false if no unique constraint with the given fields exists
+	 */
+	function uniqueConstraintExists($a_table, $a_fields)
+	{
+		if (is_file("./Services/Database/classes/class.ilDBAnalyzer.php"))
+		{
+			include_once("./Services/Database/classes/class.ilDBAnalyzer.php");
+		}
+		else
+		{
+			include_once("../Services/Database/classes/class.ilDBAnalyzer.php");
+		}
+		$analyzer = new ilDBAnalyzer();
+		$cons = $analyzer->getConstraintsInformation($a_table);
+		foreach ($cons as $c)
+		{
+			if ($c["type"] == "unique" && count($a_fields) == count($c["fields"]))
+			{
+				$all_in = true;
+				foreach ($a_fields as $f)
+				{
+					if (!isset($c["fields"][$f]))
+					{
+						$all_in = false;
+					}
+				}
+				if ($all_in)
+				{
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+
 	/**
 	* Get all tables
 	*
