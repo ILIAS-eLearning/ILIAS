@@ -21,7 +21,7 @@ class ilPortfolioPageConfig extends ilPageConfig
 		global $ilSetting, $rbacsystem;
 		
 		$prfa_set = new ilSetting("prfa");
-		$this->setPreventHTMLUnmasking((bool)!$prfa_set->get("mask", false));
+		$this->setPreventHTMLUnmasking(!(bool)$prfa_set->get("mask", false));
 				
 		$this->setEnableInternalLinks(false);
 		$this->setEnablePCType("Profile", true);
