@@ -227,7 +227,7 @@ class ilLog
 		if ($this->enabled and $this->current_log_level >= $this->checkLogLevel($a_log_level))
 		{
 			$this->open();
-			
+
 			if ($this->fp == false)
 			{
 				//die("Logfile: cannot open file. Please give Logfile Writepermissions.");
