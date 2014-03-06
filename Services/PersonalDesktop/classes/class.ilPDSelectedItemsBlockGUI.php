@@ -1574,7 +1574,8 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 			ilObjUser::_dropDesktopItem($ilUser->getId(), $ref_id, $type);			
 		}		
 		
-		ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+		// #12909
+		ilUtil::sendSuccess($this->lng->txt("pd_remove_multi_confirm"), true);
 		$ilCtrl->redirectByClass("ilpersonaldesktopgui", "show");
 	}
 	
