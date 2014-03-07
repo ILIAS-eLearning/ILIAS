@@ -1,5 +1,5 @@
 <?php
-require_once('./Customizing/global/plugins/Libraries/ActiveRecord/Demo/TestRecord/class.arTestRecord.php');
+require_once('./Customizing/global/plugins/Libraries/ActiveRecord/Demo/StorageRecord/class.arStorageRecord.php');
 require_once('./Customizing/global/plugins/Libraries/ActiveRecord/Views/Edit/class.arEditGUI.php');
 require_once('./Services/PersonalDesktop/classes/class.ilPersonalDesktopGUI.php');
 require_once('./Customizing/global/plugins/Libraries/ActiveRecord/Views/Index/class.arIndexTableGUI.php');
@@ -28,7 +28,7 @@ class arTestRecordGUI {
 		global $ilCtrl, $tpl;
 		$this->ctrl = $ilCtrl;
 		$this->tpl = $tpl;
-		$this->object = new arTestRecord(2);
+		$this->object = new arStorageRecord(2);
 	}
 
 
@@ -39,7 +39,7 @@ class arTestRecordGUI {
 
 
 	public function index() {
-		$table = new arIndexTableGUI(new ilPersonalDesktopGUI(), 'index', arTestRecordStorage::getCollection());
+		$table = new arIndexTableGUI(new ilPersonalDesktopGUI(), 'index', arStorageRecordStorage::getCollection());
 		$this->tpl->setContent($table->getHTML());
 	}
 
@@ -50,8 +50,8 @@ class arTestRecordGUI {
 	}
 
 	public function view() {
-		$editGUI = new ActiveRecordViewGUI(new ilPersonalDesktopGUI(), $this->object->getStorage());
-		$this->tpl->setContent($editGUI->getHTML());
+//		$editGUI = new ActiveRecordViewGUI(new ilPersonalDesktopGUI(), $this->object->getStorage());
+//		$this->tpl->setContent($editGUI->getHTML());
 	}
 }
 

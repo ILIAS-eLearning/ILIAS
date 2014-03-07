@@ -1,15 +1,21 @@
 <?php
-require_once('./Customizing/global/plugins/Libraries/ActiveRecord/Demo/TestRecord/class.arTestRecordStorage.php');
+require_once('./Customizing/global/plugins/Libraries/ActiveRecord/class.ActiveRecord.php');
 
 /**
- * Class arTestRecord
+ * Class arRealRecord
  *
- * @description A Cliss which does not extend from ActiveRecord
- *              uses arStorage for dynamic DB usage
- *
- * @author      Fabian Schmid <fs@studer-raimann.ch>
+ * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class arTestRecord {
+class arRealRecord extends ActiveRecord {
+
+	/**
+	 * @return string
+	 * @description Return the Name of your Database Table
+	 */
+	static function returnDbTableName() {
+		return 'ar_demo_real_record';
+	}
+
 
 	/**
 	 * @var int
@@ -43,34 +49,6 @@ class arTestRecord {
 	 * @db_length           200
 	 */
 	protected $usr_ids = array();
-	/**
-	 * @var arTestRecordStorage
-	 */
-	protected $storage;
-
-
-	/**
-	 * @param $id
-	 */
-	public function __construct($id = 0) {
-		$this->id = $id;
-		$this->storage = arTestRecordStorage::getInstance($this);
-	}
-
-
-	public function create() {
-		$this->storage->create();
-	}
-
-
-	public function update() {
-		$this->storage->update();
-	}
-
-
-	public function delete() {
-		$this->storage->delete();
-	}
 
 
 	/**
@@ -134,22 +112,6 @@ class arTestRecord {
 	 */
 	public function getUsrIds() {
 		return $this->usr_ids;
-	}
-
-
-	/**
-	 * @param \arTestRecordStorage $storage
-	 */
-	public function setStorage($storage) {
-		$this->storage = $storage;
-	}
-
-
-	/**
-	 * @return \arTestRecordStorage
-	 */
-	public function getStorage() {
-		return $this->storage;
 	}
 }
 

@@ -7,14 +7,14 @@ require_once('./Customizing/global/plugins/Libraries/ActiveRecord/Storage/class.
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class arTestRecordStorage extends arStorage {
+class arStorageRecordStorage extends arStorage {
 
 	/**
 	 * @return string
 	 * @description Return the Name of your Database Table
 	 */
 	static function returnDbTableName() {
-		return 'test_ar_storage';
+		return 'ar_demo_storage_record';
 	}
 }
 
