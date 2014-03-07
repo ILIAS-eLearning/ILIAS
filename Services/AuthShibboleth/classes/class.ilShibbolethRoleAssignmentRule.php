@@ -21,6 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 require_once('./Services/AuthShibboleth/classes/class.ilShibbolethRoleAssignmentRules.php');
+
 /**
  * Shibboleth role assignment rule
  *
@@ -33,6 +34,7 @@ require_once('./Services/AuthShibboleth/classes/class.ilShibbolethRoleAssignment
  */
 class ilShibbolethRoleAssignmentRule {
 
+	const TABLE_NAME = 'shib_role_assignment';
 	const ERR_MISSING_NAME = 'shib_missing_attr_name';
 	const ERR_MISSING_VALUE = 'shib_missing_attr_value';
 	const ERR_MISSING_ROLE = 'shib_missing_role';
