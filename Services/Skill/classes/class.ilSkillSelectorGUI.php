@@ -71,6 +71,12 @@ class ilSkillSelectorGUI extends ilVirtualSkillTreeExplorerGUI
 		{
 			return true;
 		}
+		// references that refer directly to a (basic) skill template
+		if ($a_node["type"] == "sktr" && ilSkillTreeNode::_lookupType($a_node["skill_id"]) == "sktp")
+		{
+			return true;
+		}
+
 		return false;
 	}
 	
