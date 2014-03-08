@@ -31,14 +31,29 @@ class ilSkillTree extends ilTree
 	{
 		if ($a_tref_id > 0)
 		{
+			include_once("./Services/Skill/classes/class.ilSkillTemplateReference.php");
 			$path = $this->getPathFull($a_tref_id);
 			$sub_path = $this->getPathFull($a_base_skill_id);
+			foreach ($path as $k => $v)
+			{
+				if ($v["child"] != $a_tref_id)
+				{
+					$path[$k]["skill_id"] = $v["child"];
+					$path[$k]["tref_id"] = 0;
+				}
+				else
+				{
+					$path[$k]["skill_id"] = ilSkillTemplateReference::_lookupTemplateId($a_tref_id);
+					$path[$k]["tref_id"] = $a_tref_id;
+				}
+			}
 			$found = false;
 			foreach ($sub_path as $s)
 			{
-				include_once("./Services/Skill/classes/class.ilSkillTemplateReference.php");
 				if ($found)
 				{
+					$s["skill_id"] = $s["child"];
+					$s["tref_id"] = $a_tref_id;
 					$path[] = $s;
 				}
 				if ($s["child"] == ilSkillTemplateReference::_lookupTemplateId($a_tref_id))
@@ -51,6 +66,11 @@ class ilSkillTree extends ilTree
 		else
 		{
 			$path = $this->getPathFull($a_base_skill_id);
+			foreach ($path as $k => $v)
+			{
+				$path[$k]["skill_id"] = $v["child"];
+				$path[$k]["tref_id"] = 0;
+			}
 		}
 		
 		return $path;
