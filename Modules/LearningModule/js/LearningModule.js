@@ -31,7 +31,7 @@ il.LearningModule = {
 	loadContentFrame: function (href) {
 		var faqt = $("#bot_center_area");
 		if (faqt.length == 0) {
-			$('body').append('<div id="bot_center_area" class="ilBotCenterArea"><div id="bot_center_area_drag"></div><img class="ilAreaClose" src="/templates/default/images/empty.png" /><iframe /></div>');
+			$('body').append('<div id="bot_center_area" class="ilBotCenterArea"><div id="bot_center_area_drag"></div><img class="ilAreaClose" src="./templates/default/images/empty.png" /><iframe /></div>');
 		}
 		$("img.ilAreaClose").click(function () {
 			il.LearningModule.closeContentFrame();

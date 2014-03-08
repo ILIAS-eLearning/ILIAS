@@ -2254,8 +2254,6 @@ class ilLMPresentationGUI
 	{
 		global $ilBench, $ilCtrl;
 
-		$ilBench->start("ContentPresentation", "ilGlossary");
-
 		require_once("./Modules/Glossary/classes/class.ilGlossaryTermGUI.php");
 		$term_gui =& new ilGlossaryTermGUI($_GET["obj_id"]);
 
@@ -2301,10 +2299,6 @@ class ilLMPresentationGUI
 		{
 			$ilCtrl->setParameter($this, "pg_type", "");
 		}
-		
-		//$term_gui->listDefinitions($this->offlineMode());
-
-		$ilBench->stop("ContentPresentation", "ilGlossary");
 	}
 
 	/**
