@@ -79,7 +79,7 @@ il.LearningModule = {
 		if (t != "right_top" && t != "right_bottom") { 
 			area = $("#" + el_id);
 			if (area.length == 0) {
-				$('body').append('<div id="' + el_id + '"><div id="' + el_id + '_drag"></div><img class="ilAreaClose" src="/templates/default/images/empty.png" /><iframe /></div>');
+				$('body').append('<div id="' + el_id + '"><div id="' + el_id + '_drag"></div><img class="ilAreaClose" src="./templates/default/images/empty.png" /><iframe /></div>');
 			}
 		} else {
 			//check right area existence
@@ -90,11 +90,11 @@ il.LearningModule = {
 			// append right top and right bottom areas
 			area = $("#right_top_area");
 			if (area.length == 0) {
-				$('#right_cont_area').append('<div id="right_top_area"><div id="right_top_drag"></div><img class="ilAreaClose" src="/templates/default/images/empty.png" /><iframe /></div>');
+				$('#right_cont_area').append('<div id="right_top_area"><div id="right_top_drag"></div><img class="ilAreaClose" src="./templates/default/images/empty.png" /><iframe /></div>');
 			}
 			area = $("#right_bottom_area");
 			if (area.length == 0) {
-				$('#right_cont_area').append('<div id="right_bottom_area"><div id="right_bottom_drag"></div><img class="ilAreaClose" src="/templates/default/images/empty.png" /><iframe /></div>');
+				$('#right_cont_area').append('<div id="right_bottom_area"><div id="right_bottom_drag"></div><img class="ilAreaClose" src="./templates/default/images/empty.png" /><iframe /></div>');
 			}
 		}
 		
