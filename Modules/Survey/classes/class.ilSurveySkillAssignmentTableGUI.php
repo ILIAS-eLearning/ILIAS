@@ -115,16 +115,16 @@ class ilSurveySkillAssignmentTableGUI extends ilTable2GUI
 				
 				include_once("./Services/Skill/classes/class.ilBasicSkill.php");
 				$this->tpl->setVariable("COMPETENCE",
-					ilBasicSkill::_lookupTitle($s["base_skill_id"]));
+					ilBasicSkill::_lookupTitle($s["base_skill_id"], $s["tref_id"]));
 
 				//var_dump($a_set);
 				$path = $this->skill_tree->getSkillTreePath($s["base_skill_id"], $s["tref_id"]);
 				$path_nodes = array();
 				foreach ($path as $p)
 				{
-					if ($p["child"] > 1 && $p["child"] != $s["base_skill_id"])
+					if ($p["child"] > 1 && $p["skill_id"] != $s["base_skill_id"])
 					{
-						$path_nodes[] = $p["title"];
+						$path_nodes[] = ilBasicSkill::_lookupTitle($p["skill_id"], $p["tref_id"]);
 					}
 				}
 				$this->tpl->setVariable("PATH", implode($path_nodes, " > "));
