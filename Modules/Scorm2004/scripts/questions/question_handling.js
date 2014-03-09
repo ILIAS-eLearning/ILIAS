@@ -603,7 +603,9 @@ ilias.questions.showFeedback =function(a_id) {
 			if (ilias.questions.default_feedback) {
 				fbtext = '<b>' + ilias.questions.txt.all_answers_correct + '</b><br />';
 			}
-			fbtext += questions[a_id].feedback['allcorrect'];
+			if (questions[a_id].feedback['allcorrect']) {
+				fbtext += questions[a_id].feedback['allcorrect'];
+			}
             jQuery('#feedback'+a_id).html(fbtext);
 			ilias.questions.showCorrectAnswers(a_id);
 			ilias.questions.scormHandler(a_id,"correct",ilias.questions.toJSONString(answers[a_id]));
@@ -614,7 +616,9 @@ ilias.questions.showFeedback =function(a_id) {
 				fbtext = '<b>' + ilias.questions.txt.nr_of_tries_exceeded + '</b><br />'
 					+ ilias.questions.txt.correct_answers_shown + '<br />';
 			}
-			fbtext += questions[a_id].feedback['onenotcorrect'];
+			if (questions[a_id].feedback['onenotcorrect']) {
+				fbtext += questions[a_id].feedback['onenotcorrect'];
+			}
             jQuery('#feedback'+a_id).html(fbtext);
 			ilias.questions.showCorrectAnswers(a_id);
 			ilias.questions.scormHandler(a_id,"incorrect",ilias.questions.toJSONString(answers[a_id]));
@@ -630,7 +634,9 @@ ilias.questions.showFeedback =function(a_id) {
 					ilias.questions.txt.tries_remaining + ': '+ rem +
 					"<br />";
 			}
-			fbtext += questions[a_id].feedback['onenotcorrect'];
+			if (questions[a_id].feedback['onenotcorrect']) {
+				fbtext += questions[a_id].feedback['onenotcorrect'];
+			}
 			jQuery('#feedback'+a_id).html(fbtext);
 			ilias.questions.scormHandler(a_id,"incorrect",ilias.questions.toJSONString(answers[a_id]));
 		} else {
@@ -640,7 +646,9 @@ ilias.questions.showFeedback =function(a_id) {
 				fbtext = txt_wrong_answers + '<br /> ' +
 					ilias.questions.txt.please_try_again + '<br />';
 			}
-			fbtext += questions[a_id].feedback['onenotcorrect'];
+			if (questions[a_id].feedback['onenotcorrect']) {
+				fbtext += questions[a_id].feedback['onenotcorrect'];
+			}
             jQuery('#feedback'+a_id).html(fbtext);
 			ilias.questions.scormHandler(a_id,"incorrect",ilias.questions.toJSONString(answers[a_id]));
 		}	
