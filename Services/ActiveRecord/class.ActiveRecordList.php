@@ -60,21 +60,21 @@ class ActiveRecordList {
 	 * @var string
 	 */
 	protected static $last_query;
-    /**
-     * @var arConnector
-     */
-    protected $connector;
+	/**
+	 * @var arConnector
+	 */
+	protected $connector;
+
 
 	/**
-	 * @param $class
+	 * @param             $class
+	 * @param arConnector $connector
 	 */
 	public function __construct($class, arConnector $connector = NULL) {
 		$this->class = $class;
-
-        if ($connector == NULL)
-        {
-            $this->connector = new arConnectorDB($this);
-        }
+		if ($connector == NULL) {
+			$this->connector = new arConnectorDB($this);
+		}
 	}
 
 
@@ -147,83 +147,84 @@ class ActiveRecordList {
 		return $this;
 	}
 
-    /**
-     * @return array
-     */
-    public function getWhere()
-    {
-        return $this->where;
-    }
 
-    /**
-     * @return array
-     */
-    public function getStringWheres()
-    {
-        return $this->string_wheres;
-    }
+	/**
+	 * @return array
+	 */
+	public function getWhere() {
+		return $this->where;
+	}
 
-    /**
-     * @return boolean
-     */
-    public function getDebug()
-    {
-        return $this->debug;
-    }
 
-    /**
-     * @return string
-     */
-    public function getOrderBy()
-    {
-        return $this->order_by;
-    }
+	/**
+	 * @return array
+	 */
+	public function getStringWheres() {
+		return $this->string_wheres;
+	}
 
-    /**
-     * @return mixed
-     */
-    public function getStart()
-    {
-        return $this->start;
-    }
 
-    /**
-     * @return mixed
-     */
-    public function getEnd()
-    {
-        return $this->end;
-    }
+	/**
+	 * @return boolean
+	 */
+	public function getDebug() {
+		return $this->debug;
+	}
 
-    /**
-     * @param string $last_query
-     */
-    public static function setLastQuery($last_query)
-    {
-        self::$last_query = $last_query;
-    }
 
-    /**
-     * @return string
-     */
-    public static function getLastQuery()
-    {
-        return self::$last_query;
-    }
+	/**
+	 * @return string
+	 */
+	public function getOrderBy() {
+		return $this->order_by;
+	}
 
-    /**
-     * @return string
-     */
-    public function getOrderDirection()
-    {
-        return $this->order_direction;
-    }
+
+	/**
+	 * @return mixed
+	 */
+	public function getStart() {
+		return $this->start;
+	}
+
+
+	/**
+	 * @return mixed
+	 */
+	public function getEnd() {
+		return $this->end;
+	}
+
+
+	/**
+	 * @param string $last_query
+	 */
+	public static function setLastQuery($last_query) {
+		self::$last_query = $last_query;
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public static function getLastQuery() {
+		return self::$last_query;
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getOrderDirection() {
+		return $this->order_direction;
+	}
+
 
 	/**
 	 * @return int
 	 */
 	public function affectedRows() {
-        $this->connector->affectedRows($this);
+		return $this->connector->affectedRows($this);
 	}
 
 
@@ -242,28 +243,28 @@ class ActiveRecordList {
 		return $this;
 	}
 
-    /**
-     * @param string $class
-     */
-    public function setClass($class)
-    {
-        $this->class = $class;
-    }
 
-    /**
-     * @return string
-     */
-    public function getClass()
-    {
-        return $this->class;
-    }
+	/**
+	 * @param string $class
+	 */
+	public function setClass($class) {
+		$this->class = $class;
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getClass() {
+		return $this->class;
+	}
 
 
 	/**
 	 * @return bool
 	 */
 	public function hasSets() {
-		return $this->affectedRows() > 0 ? true : false;
+		return ($this->affectedRows() > 0) ? true : false;
 	}
 
 
@@ -376,25 +377,21 @@ class ActiveRecordList {
 		if ($this->loaded) {
 			return;
 		} else {
-            $records = $this->connector->readSet($this);
-
-            foreach($records as $res)
-            {
-                /**
-                 * @var $obj ActiveRecord
-                 */
-                $obj = new $this->class();
-                if ($obj::returnPrimaryFieldName() === 'id')
-                {
-                    $this->result[$res['id']]       = $obj->buildFromArray($res);
-                    $this->result_array[$res['id']] = $res;
-                } else
-                {
-                    $this->result[$res[$obj::returnPrimaryFieldName()]]       = $obj->buildFromArray($res);
-                    $this->result_array[$res[$obj::returnPrimaryFieldName()]] = $res;
-                }
-            }
-            $this->loaded = true;
+			$records = $this->connector->readSet($this);
+			foreach ($records as $res) {
+				/**
+				 * @var $obj ActiveRecord
+				 */
+				$obj = new $this->class();
+				if ($obj::returnPrimaryFieldName() === 'id') {
+					$this->result[$res['id']] = $obj->buildFromArray($res);
+					$this->result_array[$res['id']] = $res;
+				} else {
+					$this->result[$res[$obj::returnPrimaryFieldName()]] = $obj->buildFromArray($res);
+					$this->result_array[$res[$obj::returnPrimaryFieldName()]] = $res;
+				}
+			}
+			$this->loaded = true;
 		}
 	}
 

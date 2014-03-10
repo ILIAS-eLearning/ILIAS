@@ -119,10 +119,6 @@ abstract class ActiveRecord {
 		if ($connector == NULL) {
 			$this->connector = new arConnectorDB();
 		}
-		// FSX wird nicht mehr benötigt, wenn connector fertig
-		//		global $ilDB;
-		//		$this->db = $ilDB;
-		// END FSX
 		self::setDBFields($this);
 		//		self::setFormFields($this);
 		if (self::returnPrimaryFieldName() === 'id') {
@@ -273,6 +269,8 @@ abstract class ActiveRecord {
 
 
 	/**
+	 * @param $field
+	 *
 	 * @return array
 	 */
 	public function getDBAttributesOfField($field) {
@@ -322,8 +320,6 @@ abstract class ActiveRecord {
 			$this->update();
 		}
 	}
-
-
 
 
 	public function create() {
@@ -470,7 +466,7 @@ abstract class ActiveRecord {
 		 * @var $obj ActiveRecord
 		 */
 		if (! self::$object_cache[$class][$id]) {
-			$obj = new $class();
+			$obj = new $class($id);
 			$obj->loadObject($id);
 		}
 
@@ -629,32 +625,19 @@ abstract class ActiveRecord {
 	 */
 	public function buildFromArray(array $array) {
 		$class = get_class($this);
-		if (self::returnPrimaryFieldName() === 'id') {
-			if (self::$object_cache[$class][$array['id']]) {
-				return self::$object_cache[$class][$array['id']];
+		$primary = self::returnPrimaryFieldName();
+		if (self::$object_cache[$class][$array[$primary]]) {
+			return self::$object_cache[$class][$array[$primary]];
+		}
+		foreach ($array as $field_name => $value) {
+			if ($this->wakeUp($value) === NULL) {
+				$this->{$field_name} = $value;
+			} else {
+				$this->{$field_name} = $this->wakeUp($value);
 			}
-			foreach ($array as $field_name => $value) {
-				if ($this->wakeUp($value) === NULL) {
-					$this->{$field_name} = $value;
-				} else {
-					$this->{$field_name} = $this->wakeUp($value);
-				}
-			}
-			self::$object_cache[$class][$array['id']] = $this;
-		} else {
-			if (self::$object_cache[$class][$array[self::returnPrimaryFieldName()]]) {
-				return self::$object_cache[$class][$array[self::returnPrimaryFieldName()]];
-			}
-			foreach ($array as $field_name => $value) {
-				if ($this->wakeUp($value) === NULL) {
-					$this->{$field_name} = $value;
-				} else {
-					$this->{$field_name} = $this->wakeUp($value);
-				}
-			}
-			self::$object_cache[$class][$array[self::returnPrimaryFieldName()]] = $this;
 		}
 		$this->afterObjectLoad();
+		self::$object_cache[$class][$array[$primary]] = $this;
 
 		return $this;
 	}

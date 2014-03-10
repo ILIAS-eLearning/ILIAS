@@ -112,6 +112,12 @@ class arConnectorDB extends arConnector {
 	}
 
 
+	/**
+	 * @param ActiveRecord $ar
+	 * @param              $field_name
+	 *
+	 * @return mixed
+	 */
 	public static function checkFieldExists(ActiveRecord $ar, $field_name) {
 		global $ilDB;
 
@@ -119,6 +125,13 @@ class arConnectorDB extends arConnector {
 	}
 
 
+	/**
+	 * @param ActiveRecord $ar
+	 * @param              $field_name
+	 *
+	 * @return bool
+	 * @throws arException
+	 */
 	public static function removeField(ActiveRecord $ar, $field_name) {
 		global $ilDB;
 		if (! $ilDB->tableColumnExists($ar::returnDbTableName(), $field_name)) {
@@ -132,6 +145,14 @@ class arConnectorDB extends arConnector {
 	}
 
 
+	/**
+	 * @param ActiveRecord $ar
+	 * @param              $old_name
+	 * @param              $new_name
+	 *
+	 * @return bool
+	 * @throws arException
+	 */
 	public static function renameField(ActiveRecord $ar, $old_name, $new_name) {
 		global $ilDB;
 		if ($ilDB->tableColumnExists($ar::returnDbTableName(), $new_name)) {
@@ -146,12 +167,20 @@ class arConnectorDB extends arConnector {
 	}
 
 
+	/**
+	 * @param ActiveRecord $ar
+	 */
 	public static function create(ActiveRecord $ar) {
 		global $ilDB;
 		$ilDB->insert($ar::returnDbTableName(), $ar->getArrayForDb());
 	}
 
 
+	/**
+	 * @param ActiveRecord $ar
+	 *
+	 * @return array
+	 */
 	public static function read(ActiveRecord $ar) {
 		global $ilDB;
 		if ($ar::returnPrimaryFieldName() === 'id') {
@@ -171,6 +200,9 @@ class arConnectorDB extends arConnector {
 	}
 
 
+	/**
+	 * @param ActiveRecord $ar
+	 */
 	public static function update(ActiveRecord $ar) {
 		global $ilDB;
 		if ($ar::returnPrimaryFieldName() === 'id') {
@@ -191,6 +223,9 @@ class arConnectorDB extends arConnector {
 	}
 
 
+	/**
+	 * @param ActiveRecord $ar
+	 */
 	public static function delete(ActiveRecord $ar) {
 		global $ilDB;
 		if ($ar::returnPrimaryFieldName() === 'id') {
@@ -204,7 +239,11 @@ class arConnectorDB extends arConnector {
 
 
 	/**
-	 * @param $q
+	 * @param ActiveRecordList $arl
+	 *
+	 * @internal param $q
+	 *
+	 * @return array
 	 */
 	public function readSet(ActiveRecordList $arl) {
 		global $ilDB;
@@ -219,17 +258,25 @@ class arConnectorDB extends arConnector {
 
 
 	/**
+	 * @param ActiveRecordList $arl
+	 *
 	 * @return int
 	 */
 	public function affectedRows(ActiveRecordList $arl) {
 		global $ilDB;
 		$q = self::buildQuery($arl);
+
 		$set = $ilDB->query($q);
 
 		return $ilDB->numRows($set);
 	}
 
 
+	/**
+	 * @param ActiveRecordList $arl
+	 *
+	 * @return mixed|string
+	 */
 	protected static function buildQuery(ActiveRecordList $arl) {
 		global $ilDB;
 		$class_fields = call_user_func($arl->getClass() . '::returnDbFields');
