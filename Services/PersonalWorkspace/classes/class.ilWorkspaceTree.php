@@ -183,6 +183,22 @@ class ilWorkspaceTree extends ilTree
 			$this->getNodeData($this->getRootId()), 
 			false, $a_type);		
 	}
+	
+	/**
+	 * Create personal workspace tree for user
+	 * 
+	 * @param int $a_user_id
+	 */
+	public function createTreeForUser($a_user_id)
+	{
+		$root = ilObjectFactory::getClassByType("wsrt");
+		$root = new $root(null);
+		$root->create();
+
+		$root_id = $this->createReference($root->getId());
+		$this->addTree($a_user_id, $root_id);
+		$this->setRootId($root_id);
+	}
 }
 
 ?>
