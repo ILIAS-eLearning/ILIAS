@@ -374,7 +374,7 @@ $bs["tref"] = $bs["tref_id"];
 			
 		}
 		
-		$tpl->setVariable("SKILL_TITLE", ilSkillTreeNode::_lookupTitle($a_top_skill_id));
+		$tpl->setVariable("SKILL_TITLE", ilSkillTreeNode::_lookupTitle($skill_id, $tref_id));
 		
 		if ($a_edit)
 		{
@@ -999,7 +999,7 @@ $bs["tref"] = $bs["tref_id"];
 			{
 				//$bs = new ilBasicSkill($l["base_skill_id"]);
 				$bs = new ilBasicSkill($l["base_skill_id"]);
-				$leg_labels[] = $bs->getTitle();
+				$leg_labels[] = ilBasicSkill::_lookupTitle($l["base_skill_id"] , $l["tref_id"]);
 				$levels = $bs->getLevelData();
 				$cnt = 0;
 				foreach ($levels as $lv)
@@ -1167,7 +1167,7 @@ $bs["tref"] = $bs["tref_id"];
 		foreach ($a_levels as $k => $v)
 		{
 			$a_tpl->setCurrentBlock("val_level_td");
-			if ($valid_sel_level && !$found)
+			if ($valid_sel_level && $v["id"] == $se_level)
 			{
 				$a_tpl->setVariable("VAL_LEVEL", "x");
 				$a_tpl->setVariable("TD_CLASS", "ilSkillSelf");
@@ -1177,10 +1177,10 @@ $bs["tref"] = $bs["tref_id"];
 				$a_tpl->setVariable("VAL_LEVEL", " ");
 			}
 			$a_tpl->parseCurrentBlock();
-			if ($v["id"] == $se_level)
+			/*if ($v["id"] == $se_level)
 			{
 				$found = true;
-			}
+			}*/
 		}
 		
 		$a_tpl->setCurrentBlock("value_row");
@@ -1438,7 +1438,7 @@ $bs["tref"] = $bs["tref_id"];
 		foreach ($a_levels as $k => $v)
 		{
 			$a_tpl->setCurrentBlock("val_level_td");
-			if ($valid_sel_level && !$found)
+			if ($valid_sel_level && $v["id"] == $se_level)
 			{
 				$a_tpl->setVariable("VAL_LEVEL", "x");
 				$a_tpl->setVariable("TD_CLASS", "ilSkillSelf");
@@ -1448,10 +1448,10 @@ $bs["tref"] = $bs["tref_id"];
 				$a_tpl->setVariable("VAL_LEVEL", " ");
 			}
 			$a_tpl->parseCurrentBlock();
-			if ($v["id"] == $se_level)
+			/*if ($v["id"] == $se_level)
 			{
 				$found = true;
-			}
+			}*/
 		}
 		
 		$a_tpl->setCurrentBlock("value_row");
