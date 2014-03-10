@@ -18,6 +18,8 @@ include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 
 class ilObjQuestionPoolListGUI extends ilObjectListGUI
 {
+	protected $command_link_params = array();
+	
 	/**
 	* constructor
 	*
