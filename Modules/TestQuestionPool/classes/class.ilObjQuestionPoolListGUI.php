@@ -130,7 +130,7 @@ class ilObjQuestionPoolListGUI extends ilObjectListGUI
 		}
 		else
 		{
-			$cmd_link = $ilCtrl->getLinkTargetByClass('ilObjQuestionPoo', $a_cmd[0]);
+			$cmd_link = $ilCtrl->getLinkTargetByClass('ilObjQuestionPool', $a_cmd[0]);
 		}
 
 		$params = array_merge(array('ref_id' => $this->ref_id), $this->command_link_params);
