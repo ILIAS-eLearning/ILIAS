@@ -521,12 +521,9 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		if($root)
 		{
 			$root = $tree->getNodeData($root);
-			foreach ($tree->getSubTree($root) as $node)
-			{
-				if ($node["type"] == "blog")
-				{
-					$options[$node["obj_id"]] = $node["title"];
-				}
+			foreach ($tree->getSubTree($root, true, "blog") as $node)
+			{				
+				$options[$node["obj_id"]] = $node["title"];				
 			}
 			asort($options);	
 		}
@@ -823,12 +820,9 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 			if($root)
 			{
 				$root = $tree->getNodeData($root);
-				foreach ($tree->getSubTree($root) as $node)
-				{
-					if ($node["type"] == "blog")
-					{
-						$blog_options[$node["obj_id"]] = $node["title"];
-					}
+				foreach ($tree->getSubTree($root, true, "blog") as $node)
+				{					
+					$blog_options[$node["obj_id"]] = $node["title"];					
 				}
 				asort($blog_options);		
 			}

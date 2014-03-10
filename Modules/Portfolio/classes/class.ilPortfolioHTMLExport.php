@@ -236,7 +236,8 @@ class ilPortfolioHTMLExport
 		// page
 		include_once "Modules/Portfolio/classes/class.ilPortfolioPageGUI.php";
 		$pgui = new ilPortfolioPageGUI($this->object->getId(), $a_post_id);
-		$pgui->setOutputMode("offline");		
+		$pgui->setOutputMode("offline");
+		$pgui->setFullscreenLink("fullscreen.html"); // #12930 - see page.xsl
 		$page_content = $pgui->showPage();
 		
 		$this->writeExportFile("prtf_".$a_post_id.".html", $page_content, $pgui->getJsOnloadCode());
