@@ -781,7 +781,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 						else
 						{
 							// see ilCOPageHTMLExport::exportHTMLMOB()
-							$mob_dir = "mobs/mm_".$mob_obj->getId();
+							$mob_dir = "./mobs/mm_".$mob_obj->getId();
 						}						
 						$mob_res = self::parseImage($mob_size["width"],
 							$mob_size["height"], $a_width, $a_height);
