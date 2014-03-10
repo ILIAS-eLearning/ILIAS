@@ -141,7 +141,7 @@ class assImagemapQuestionExport extends assQuestionExport
 				if ($fh == false)
 				{
 					global $ilErr;
-					$ilErr->raiseError($this->object->lng->txt("error_open_image_file"), $ilErr->MESSAGE);
+					$ilErr->raiseError($GLOBALS['lng']->txt("error_open_image_file"), $ilErr->MESSAGE);
 					return;
 				}
 				$imagefile = fread($fh, filesize($imagepath));
