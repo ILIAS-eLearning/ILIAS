@@ -720,16 +720,17 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 	 * @param bool $a_include_picture
 	 * @param int $a_picture_width
 	 * @param int $a_picture_height
+	 * @param string $a_export_directory
 	 * @return string 
 	 */
-	static function getSnippet($a_id, $a_truncate = false, $a_truncate_length = 500, $a_truncate_sign = "...", $a_include_picture = false, $a_picture_width = 144, $a_picture_height = 144)
+	static function getSnippet($a_id, $a_truncate = false, $a_truncate_length = 500, $a_truncate_sign = "...", $a_include_picture = false, $a_picture_width = 144, $a_picture_height = 144, $a_export_directory = null)
 	{					
 		$bpgui = new self(0, null, $a_id);
 		
 		// scan the full page for media objects
 		if($a_include_picture)
 		{
-			$img = $bpgui->getFirstMediaObjectAsTag($a_picture_width, $a_picture_height);
+			$img = $bpgui->getFirstMediaObjectAsTag($a_picture_width, $a_picture_height, $a_export_directory);
 		}
 		
 		$bpgui->setRawPageContent(true);
@@ -756,7 +757,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 		return $page;				
 	}
 	
-	protected function getFirstMediaObjectAsTag($a_width = 144, $a_height = 144)
+	protected function getFirstMediaObjectAsTag($a_width = 144, $a_height = 144, $a_export_directory = null)
 	{
 		$this->obj->buildDom();
 		$mob_ids = $this->obj->collectMediaObjects();
@@ -773,8 +774,15 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 					if($mob_size["width"] >= $a_width ||
 						$mob_size["height"] >= $a_height)
 					{
-						$mob_dir = ilObjMediaObject::_getDirectory($mob_obj->getId());
-						
+						if(!$a_export_directory)
+						{
+							$mob_dir = ilObjMediaObject::_getDirectory($mob_obj->getId());
+						}
+						else
+						{
+							// see ilCOPageHTMLExport::exportHTMLMOB()
+							$mob_dir = "mobs/mm_".$mob_obj->getId();
+						}						
 						$mob_res = self::parseImage($mob_size["width"],
 							$mob_size["height"], $a_width, $a_height);
 						

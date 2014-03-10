@@ -1164,9 +1164,10 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 	 * @param string $a_cmd
 	 * @param bool $a_link_template
 	 * @param bool $a_show_inactive
+	 * @param string $a_export_directory
 	 * @return string 
 	 */
-	function renderList(array $items, $a_month, $a_cmd = "preview", $a_link_template = null, $a_show_inactive = false)
+	function renderList(array $items, $a_month, $a_cmd = "preview", $a_link_template = null, $a_show_inactive = false, $a_export_directory = null)
 	{
 		global $lng, $ilCtrl;
 		
@@ -1333,7 +1334,8 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				"&hellip;",
 				$this->object->hasAbstractImage(),
 				$this->object->getAbstractImageWidth(),
-				$this->object->getAbstractImageHeight());	
+				$this->object->getAbstractImageHeight(),
+				$a_export_directory);	
 			
 			if($snippet)
 			{
@@ -1770,7 +1772,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		foreach(array_keys($this->items) as $month)
 		{									
 			$file = $this->buildExportLink($a_link_template, "list", $month);
-			$list = $this->renderList($this->items[$month], $month, "render", $a_link_template);			
+			$list = $this->renderList($this->items[$month], $month, "render", $a_link_template, false, $a_target_directory);			
 			
 			if(!$a_tpl_callback)
 			{
