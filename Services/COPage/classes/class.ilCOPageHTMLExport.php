@@ -429,7 +429,7 @@ class ilCOPageHTMLExport
 			ilUtil::rCopy($source_dir, $this->mobs_dir."/mm_".$a_mob_id);
 		}
 
-		// fullscreen
+		// #12930 - fullscreen
 		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 		$mob_obj = new ilObjMediaObject($a_mob_id);
 		if ($mob_obj->hasFullscreenItem())
@@ -460,11 +460,6 @@ class ilCOPageHTMLExport
 			$tpl->setVariable("MEDIA_CONTENT", $output);
 			$output = $tpl->get();
 			unset($tpl);
-			
-			/* see self::getPreparedMainTemplate()
-			$tpl->setVariable("LOCATION_STYLESHEET", "./style/".$ilUser->prefs["style"].".css");
-			$tpl->setVariable("LOCATION_CONTENT_STYLESHEET", "./content_style/content.css");
-			*/
 			
 			// write file
 			$file = $this->exp_dir."/fullscreen_".$a_mob_id.".html";
