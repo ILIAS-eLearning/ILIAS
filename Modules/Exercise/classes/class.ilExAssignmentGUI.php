@@ -307,6 +307,12 @@ class ilExAssignmentGUI
 						include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";					
 						$wsp_tree = new ilWorkspaceTree($ilUser->getId());
 						
+						// #12939
+						if(!$wsp_tree->getRootId())
+						{
+							$wsp_tree->createTreeForUser($ilUser->getId());
+						}
+						
 						$files_str = "";
 						$valid_blog = false;
 						if(sizeof($delivered_files))

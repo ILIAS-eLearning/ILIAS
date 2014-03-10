@@ -110,16 +110,9 @@ class ilPersonalWorkspaceGUI
 
 		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
 		$this->tree = new ilWorkspaceTree($user_id);
-		if(!$this->tree->readRootId())
+		if(!$this->tree->getRootId())
 		{
-			// create (workspace) root folder
-			$root = ilObjectFactory::getClassByType("wsrt");
-			$root = new $root(null);
-			$root->create();
-
-			$root_id = $this->tree->createReference($root->getId());
-			$this->tree->addTree($user_id, $root_id);
-			$this->tree->setRootId($root_id);
+			$this->tree->createTreeForUser($user_id);
 		}
 	}
 
