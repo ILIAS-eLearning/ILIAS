@@ -397,25 +397,52 @@ class ilCOPageHTMLExport
 			ilUtil::rCopy($source_dir, $this->mobs_dir."/mm_".$a_mob_id);
 		}
 
-		// fullscreen
+		// #12930 - fullscreen
 		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 		$mob_obj = new ilObjMediaObject($a_mob_id);
 		if ($mob_obj->hasFullscreenItem())
-		{
-			$tpl = new ilTemplate("tpl.main.html", true, true);
-			$tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");			
+		{	
+			// render media object html
+			$xh = xslt_create();		
+			$output = xslt_process(
+				$xh, 
+				"arg:/_xml",
+				"arg:/_xsl", 
+				NULL, 
+				array(
+					"/_xml" => 
+						"<dummy>".
+							$mob_obj->getXML(IL_MODE_ALIAS).
+							$mob_obj->getXML(IL_MODE_OUTPUT).
+						"</dummy>", 
+					"/_xsl" => file_get_contents("./Services/COPage/xsl/page.xsl")
+				), 
+				array("mode"=>"fullscreen"));
+			xslt_free($xh);
+			unset($xh);
+						
+			// render fullscreen html
+			$tpl = new ilTemplate("tpl.fullscreen.html", true, true, "Services/COPage");						
+			$tpl = $this->getPreparedMainTemplate($tpl); // adds js/css		
+			$tpl->setCurrentBlock("ilMedia");			
+			$tpl->setVariable("MEDIA_CONTENT", $output);
+			$output = $tpl->get();
+			unset($tpl);
+			
+			// write file
 			$file = $this->exp_dir."/fullscreen_".$a_mob_id.".html";
-
-			// open file
-			if (!($fp = @fopen($file,"w+")))
+			if(!($fp = @fopen($file,"w+")))
 			{
-				die ("<b>Error</b>: Could not open \"".$file."\" for writing".
+				die("<b>Error</b>: Could not open \"".$file."\" for writing".
 					" in <b>".__FILE__."</b> on line <b>".__LINE__."</b><br />");
 			}
-			chmod($file, 0770);
-			fwrite($fp, $content);
-			fclose($fp);
+			chmod($file, 0770);			
+			fwrite($fp, $output);
+			fclose($fp);	
+			unset($fp);
+			unset($output);
 		}
+		
 		$linked_mobs = $mob_obj->getLinkedMediaObjects();
 		$a_linked_mobs = array_merge($a_linked_mobs, $linked_mobs);
 	}
