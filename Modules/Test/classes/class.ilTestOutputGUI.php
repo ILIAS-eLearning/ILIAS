@@ -403,9 +403,6 @@ class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 			unset($_SESSION["previouspost"]);
 		}
 
-		global $ilNavigationHistory;
-		$ilNavigationHistory->addItem($_GET["ref_id"], $this->ctrl->getLinkTarget($this, "resume"), "tst");
-
 		// Determine $answer_feedback: It should hold a boolean stating if answer-specific-feedback is to be given.
 		// It gets the parameter "Scoring and Results" -> "Instant Feedback" -> "Show Answer-Specific Feedback"
 		// $directfeedback holds a boolean stating if the instant feedback was requested using the "Check" button.
