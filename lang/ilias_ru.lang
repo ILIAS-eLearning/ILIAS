@@ -2718,7 +2718,6 @@ common#:#enable_trash_info#:#If enabled, deleted Objects are moved into Trash an
 common#:#enable_webdav#:#Enable WebDAV access
 common#:#enable_webdav_info#:#Allows WebDAV clients to access the repository as a webfolder. Users can open webfolders using the "open as webfolder" action in the repository, or by entering the following address in a WebDAV client: <a href="%1$s" folder="%1$s">%1$s</a>
 common#:#enabled#:#Включено
-common#:#enter_filename_deliver#:#Задать пример для отправки
 common#:#enter_in_mb_desc#:#Enter a value in MB.
 common#:#enumerate#:#Перечислить
 common#:#err_1_param#:#Только 1 параметр!
@@ -14187,3 +14186,37 @@ tos#:#tos_no_documents_exist#:#Currently there are no terms of service for any o
 content#:#cont_edit_definitions#:#Edit Definitions###10 02 2014 new variable
 content#:#cont_edit_definition#:#Edit Definition###10 02 2014 new variable
 payment#:#pay_unpayed_bill#:#Please wire the open balance to the given bank account.###14 02 2014 new variable
+meta#:#meta_c_XK#:#Kosovo###11 03 2014 new variable
+certificate#:#certificate_var_matriculation#:#12345###11 03 2014 new variable
+certificate#:#certificate_ph_matriculation#:#Matriculation number of the user###11 03 2014 new variable
+survey#:#mailparticipantdata_placeholder#:#The following placeholders will be replaced with real user data in personalized surveys:###11 03 2014 new variable
+exc#:#exc_create_portfolio_no_template#:#Do not use template###11 03 2014 new variable
+rbac#:#orgu_view_learning_progress#:#View Learning Progress###11 03 2014 new variable
+rbac#:#orgu_visible#:#Organisational Unit is visible###11 03 2014 new variable
+rbac#:#orgu_read#:#User has read access to Organisational Unit###11 03 2014 new variable
+rbac#:#orgu_write#:#User can edit settings of Organisational Unit###11 03 2014 new variable
+rbac#:#orgu_read_users#:#User can read local user accounts created in this Organisational Unit###11 03 2014 new variable
+rbac#:#orgu_cat_administrate_users#:#User can create and administrate local user accounts in this Organisational Unit###11 03 2014 new variable
+rbac#:#orgu_delete#:#User can move or delete Organisational Unit###11 03 2014 new variable
+rbac#:#orgu_edit_permission#:#User can change permission settings###11 03 2014 new variable
+rbac#:#rbac_create_orgu#:#Create Organisational Units###11 03 2014 new variable
+prtf#:#prtf_page_element_teaser_skills#:#The portfolio will display your competence level here.###11 03 2014 new variable
+prtf#:#prtf_page_element_teaser_blog_template#:#The portfolio will display a blog of your personal workspace here.###11 03 2014 new variable
+prtf#:#prtf_page_element_teaser_consultation_hours#:#The portfolio will display a consultation hours calendar here.###11 03 2014 new variable
+prtf#:#prtf_page_element_teaser_blog#:#The portfolio will display selected blog postings here.###11 03 2014 new variable
+prtf#:#prtf_page_element_teaser_settings#:#Settings###11 03 2014 new variable
+pd#:#pd_remove_multi_confirm#:#The objects were removed.###11 03 2014 new variable
+content#:#glo_online_info#:#Only if the glossary is online, users are able to use the glossary.###11 03 2014 new variable
+content#:#glo_mode_level_info#:#All terms of glossaries on the same level in the repository will be included.###11 03 2014 new variable
+content#:#glo_mode_normal_info#:#Only terms created within this glossar will be included.###11 03 2014 new variable
+content#:#glo_mode_subtree_info#:#All terms of glossaries on the same level and subsequent levels in the repository will be included.###11 03 2014 new variable
+content#:#glo_content_settings#:#Content###11 03 2014 new variable
+content#:#glo_show_taxonomy_info#:#The taxonomy will be visible in the presentation view of the glossary and can be used to select referenced terms.###11 03 2014 new variable
+exc#:#exc_notification#:#Personal Notification###11 03 2014 new variable
+exc#:#exc_passing_exc#:#Passing the Exercise###11 03 2014 new variable
+exc#:#exc_publishing#:#Publishing###11 03 2014 new variable
+exc#:#exc_min_nr_info#:#This value must be equal or higher than the number of obligatory assignments.###11 03 2014 new variable
+exc#:#exc_passed_status_determination#:#Determination of Staus "Passed"###11 03 2014 new variable
+exc#:#exc_completion_by_tutor#:#Only manual by tutor###11 03 2014 new variable
+exc#:#exc_your_text#:#Your Text###11 03 2014 new variable
+exc#:#exc_peer_review_min_number_info#:#This number of other users work must be evaluated by a participant before the evaluation of his/her own work will be visible.###11 03 2014 new variable

@@ -2235,7 +2235,6 @@ common#:#enable_webdav_info#:#Allows WebDAV clients to access the repository as 
 common#:#enable_webdav#:#Enable WebDAV access
 common#:#enable#:#Enable
 common#:#enabled#:#Enabled
-common#:#enter_filename_deliver#:#Enter file to be delivered
 common#:#enter_in_mb_desc#:#Enter a value in MB.
 common#:#enumerate#:#Enumerate
 common#:#err_1_param#:#Only 1 parameter!
@@ -14207,3 +14206,17 @@ prtf#:#prtf_page_element_teaser_consultation_hours#:#The portfolio will display 
 prtf#:#prtf_page_element_teaser_blog#:#The portfolio will display selected blog postings here.
 prtf#:#prtf_page_element_teaser_settings#:#Settings
 pd#:#pd_remove_multi_confirm#:#The objects were removed.
+content#:#glo_online_info#:#Only if the glossary is online, users are able to use the glossary.
+content#:#glo_mode_level_info#:#All terms of glossaries on the same level in the repository will be included.
+content#:#glo_mode_normal_info#:#Only terms created within this glossar will be included.
+content#:#glo_mode_subtree_info#:#All terms of glossaries on the same level and subsequent levels in the repository will be included.
+content#:#glo_content_settings#:#Content
+content#:#glo_show_taxonomy_info#:#The taxonomy will be visible in the presentation view of the glossary and can be used to select referenced terms.
+exc#:#exc_notification#:#Personal Notification
+exc#:#exc_passing_exc#:#Passing the Exercise
+exc#:#exc_publishing#:#Publishing
+exc#:#exc_min_nr_info#:#This value must be equal or higher than the number of obligatory assignments.
+exc#:#exc_passed_status_determination#:#Determination of Staus "Passed"
+exc#:#exc_completion_by_tutor#:#Only manual by tutor
+exc#:#exc_your_text#:#Your Text
+exc#:#exc_peer_review_min_number_info#:#This number of other users work must be evaluated by a participant before the evaluation of his/her own work will be visible.

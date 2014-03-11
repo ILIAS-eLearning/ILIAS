@@ -40,7 +40,6 @@ administration#:#adm_add_settings_template#:#Şablon Ekle
 administration#:#adm_adm_role_protect#:#Yönetici Rolünü Koru
 administration#:#adm_adm_role_protect_info#:#Etkin ise, sadece yönetici kullanıcılara rol atayabilir.
 administration#:#adm_basic#:#Temel
-administration#:#adm_captcha_wiki_forum#:#Misafir (Forum / Wiki) için Captcha etkinleştirin
 administration#:#adm_db_bench_by_first_table#:#SQL deki ilk tabloya göre derlenmiştir
 administration#:#adm_db_bench_chronological#:#Kronolojik
 administration#:#adm_db_bench_slowest_first#:#İlki Yavaş
@@ -215,8 +214,6 @@ administration#:#nothing_to_restore#:#Geri yüklenecek bir şey yok...
 administration#:#obj_blga#:#Blog
 administration#:#obj_blga_desc#:#Genel Blog Ayarları
 administration#:#obj_chta_desc#:#Sohbet Yönetimi
-administration#:#obj_frma#:#Forum
-administration#:#obj_frma_desc#:#Genel Forum Ayarları
 administration#:#obj_mds#:#Metadata
 administration#:#obj_mds_desc#:#Metadata ve Gelişmiş Meta Ayarlarını yapılandır
 administration#:#obj_otpl#:#Nesne Şablonları
@@ -386,8 +383,6 @@ assessment#:#cannot_maintain_test#:#Test yapılandırması için izniniz yok!
 assessment#:#cannot_read_questionpool#:#Soru havuzu verisi okuma izniniz yok!
 assessment#:#cannot_save_metaobject#:#Meta verileri kayıt etmek için izniniz yok!
 assessment#:#cannot_switch_to_online_no_questions_andor_no_mark_steps#:#Durum 'çevrimiçi' yapılamaz çünkü test içinde soru veya işaretler yok
-assessment#:#change_properties_from_random_to_standard#:#Rastgele testten normal teste geçerken ilgili testin bilgileri silinecektir. Test özelliklerini değiştirmek istediğinize emin misiniz ?
-assessment#:#change_properties_from_standard_to_random#:#Test özelliklerini rastgele test olarak değiştirmek üzeresiniz. Teste eklediğiniz sorular silinecektir. Gerçekten testin özelliklerini değiştirmek istiyor musunuz?
 assessment#:#change_solution#:#Önerilen Çözümü Değiştir
 assessment#:#changelog_description#:#Aşağıdaki tablo bu testi yapan tüm yazarların değişikliklerini gösterir
 assessment#:#changelog_heading#:#Değişim Günlüğü
@@ -508,11 +503,6 @@ assessment#:#errors#:#Hatalar
 assessment#:#errors_section#:#Hata Verisi
 assessment#:#errortext#:#Hata Metni
 assessment#:#errortext_info#:#Hata metni giriniz. Bir kelimeyi hatalı olarak işaretlemek için kelimenin önüne bir karma işareti (#) koyun. Eğer "Hata Metin Analiz Et" butonuna basarsanız, tüm işaretli kelimeler işlenmek üzere çıkartılacaktır.
-assessment#:#essay_keyword_relation#:#Puan verilir
-assessment#:#essay_keyword_relation_all#:#Sadece tüm anahtar kelimeler bulunursa.
-assessment#:#essay_keyword_relation_any#:#Kelimelerden birini bulduğunda.
-assessment#:#essay_keyword_relation_desc#:#'Tüm anahtar kelimeler' seçilirse tüm terimler bulunmadan katılımcılara puan verilmez. 'Tek Anahtar Kelime' seçeneğinde tüm cevaplar içinde bir tane anahtar kelime bulunması tam puan için yeterlidir.
-assessment#:#essay_keyword_relation_one#:#bir anahtar kelime bulunursa tam.
 assessment#:#eval_all_users#:#Tüm Kullanıcılar için Değerlendirme
 assessment#:#eval_choice_result#:#%s değeri ile seçim %s. %s puan aldınız.
 assessment#:#eval_cloze_result#:#Boşluk numarası %s Değeri %s %s. %s puan aldız.
@@ -675,7 +665,6 @@ assessment#:#msg_number_of_terms_too_low#:#Terimler sayısı tanımlar sayısın
 assessment#:#msg_poly_added#:#Poligon eklendi
 assessment#:#msg_question_count_too_low#:#Soru sayısını sıfırdan büyük girin
 assessment#:#msg_questions_moved#:#Soru(lar) taşındı
-assessment#:#msg_randompool_duplicate_qpl#:#Lütfen sadece benzersiz soru havuzları kullanın
 assessment#:#msg_rect_added#:#Dikdörtgen eklendi
 assessment#:#msg_selected_for_move#:#Soru(lar) taşıma için seçildi
 assessment#:#msg_total_questions_too_high#:#Soru sayısı, seçilen soru havuzundaki soru sayısından daha fazladır
@@ -705,8 +694,6 @@ assessment#:#online_exam_show_answer_print_sheet#:#Sınavınızı bitirdiniz. Te
 assessment#:#online_exam_show_finish_test#:#Sınavınızı bitirmek için "Testi Bitir" butonuna tıklayın
 assessment#:#optional_keywords#:#Anahtar kelimeler için opsiyonel girdi
 assessment#:#or#:#veya
-assessment#:#order_pictures#:#Resimleri Sırala
-assessment#:#order_terms#:#Terimleri Sırala
 assessment#:#ordering_answer_sequence_info#:#Burada tanımladığınız cevap sırası doğru çözüm sırası olarak alınacak
 assessment#:#ordering_question_javascript_hint#:#Tanımlar veya resimleri, tanımlar ve resimler üzerine nereye isterseniz koyun Alta kalan tanım/resim ve takip eden tanım/resim aşağıya kayar.
 assessment#:#ordertext#:#Metin Sıralama
@@ -773,8 +760,6 @@ assessment#:#qpl_import_non_ilias_files#:#Hata: İçe aktarma dosyası ILIAS tar
 assessment#:#qpl_import_verify_found_questions#:#ILIAS içe aktarılan dosyada aşağıdaki soruları buldu. Aktarmak istediğiniz soruları seçiniz.
 assessment#:#qpl_move_insert_clipboard#:#Seçilen soru(lar) taşıma için işaretlenir
 assessment#:#qpl_move_select_none#:#Taşıma için en az bir soru seçiniz
-assessment#:#qpl_online_property#:#Çevrimiçi
-assessment#:#qpl_online_property_description#:#Sadece çevrimiçi soru havuzları testler tarafından kullanılabilir.
 assessment#:#qpl_paste_no_objects#:#Panoda soru yok. Soruyu panoya kopyalayın veya taşıyın
 assessment#:#qpl_paste_success#:#Soru(lar) soru havuzuna yapıştırıldı
 assessment#:#qpl_question_is_in_use#:#Düzenlemek üzere olduğunuz soru test %s içinde var Eğer bu soruyu değiştirirseniz, test(ler) içindeki soruyu değiştiremezsiniz, çünkü sistem soru teste eklendiğinde bir kopyasını alır.
@@ -881,7 +866,6 @@ assessment#:#term_text#:#Terim Metni
 assessment#:#terms#:#Terimler
 assessment#:#test_cancelled#:#Test iptal edildi
 assessment#:#test_confirm_template_reset#:#Bu şablonu artık kullanmak istemediğinize emin misiniz?
-assessment#:#test_create_question#:#Soru Oluştur
 assessment#:#test_delete_page#:#Soru Sil
 assessment#:#test_edit_settings#:#Ayarları Düzenle
 assessment#:#test_enable_view_both#:#Tablo-ve Sayfa Görünümü
@@ -1184,11 +1168,8 @@ assessment#:#tst_random_nr_of_questions#:#Soru Adedi
 assessment#:#tst_random_qpl_unselected#:#En az bir seçilmemiş söz konusu havuz olduğunu! Yeni bir soru havuzu eklemeniz gerekmez.
 assessment#:#tst_random_questionpools#:#Kaynak Soru Havuzları
 assessment#:#tst_random_select_questionpool#:#Soruların alınacağı soru havuzunu seçin
-assessment#:#tst_random_selection#:#Soruları Rastgele Seç
 assessment#:#tst_random_selection_question_count_too_high#:#Girdiğiniz soru sayısı mevcut soruların sayısını daha yüksek idi. Soru sayısı otomatik olarak düşürülmüştür.
 assessment#:#tst_random_selection_question_total_count_too_high#:#Girdiğiniz soru sayısı seçilen tüm soru havuzları için kullanılabilir soruların sayısını daha yüksek idi. Soru sayısı otomatik olarak düşürülmüştür.
-assessment#:#tst_random_test#:#Rastgele Testi
-assessment#:#tst_random_test_description#:#Eğer işaretli ise test soruları soru havuzlarından rastgele seçilecektir. ILIAS her test için yeni rasgele seçim oluşturur.
 assessment#:#tst_reached_points#:#Alınan Puan
 assessment#:#tst_remove_mark#:#Bu işareti kaldır
 assessment#:#tst_remove_question#:#Aşağıdaki soruları testten silmek istediğinize emin misiniz ?
@@ -1247,7 +1228,6 @@ assessment#:#tst_sequence_fixed#:#Soruların Sırası Sabit
 assessment#:#tst_sequence_postpone#:#Sorular son test tekrarından sonra ertelenebilir
 assessment#:#tst_sequence_properties#:#Sıralama Özellikleri
 assessment#:#tst_session_settings#:#Oturum Ayarları
-assessment#:#tst_set_offline_due_to_switched_random_test_setting#:#Rastgele soru seçimi için ayar değiştirir allready varolan soruların silinmesine sebep olur, çünkü Testi, çevrimdışı olarak ayarlandı.
 assessment#:#tst_setting_enable_obligations_info#:#Eğer işaretli ise test soruları (*) zorunlu olarak işaretlenebilir. Tüm zorunlu soruları bu testi geçmek için doldurmak gereklidir. "liste görünümünde" zorunlu soruları ayarlayabilirsiniz. Zorunlu sorular tanımlı ise "Soru Listesini Göster" özelliğinide aktif yapmanızı öneririz.
 assessment#:#tst_setting_enable_obligations_label#:#Zorunlu Sorular
 assessment#:#tst_setting_offer_hints_info#:#Etkinse, soruya özel ipuçları gösterilmektedir.
@@ -1538,7 +1518,6 @@ blog#:#blog_change_notification_subject#:#Blog "% s" güncellendi
 blog#:#blog_changed_by#:#By Son Değiştirildi
 blog#:#blog_comments#:#Yorumlar
 blog#:#blog_contribute_other_roles#:#%S: Aşağıdaki roller aktif bir "katkı" izni verin.
-blog#:#blog_contributor_container_add#:#Kurs / Grup ila Kullanıcı Ekle
 blog#:#blog_contributors#:#Katkıda
 blog#:#blog_copy#:#Kopya Blog
 blog#:#blog_draft#:#Taslak
@@ -1988,7 +1967,6 @@ cmps#:#cmps_languages#:#Diller
 cmps#:#cmps_main_dir#:#Ana Dizin
 cmps#:#cmps_missing#:#Eksik
 cmps#:#cmps_module#:#Modülü
-cmps#:#cmps_modules#:#Modüller
 cmps#:#cmps_name#:#Adı
 cmps#:#cmps_needs_newer_ilias_version#:#Bu eklenti sürümü sadece yeni ILIAS sürümlerinde çalışır. ILIAS yükseltin.
 cmps#:#cmps_needs_newer_plugin_version#:#Bu ILIAS sürümü daha yeni bir eklenti sürümü gerekiyor. Eklenti yükseltin.
@@ -2632,7 +2610,6 @@ common#:#delete_inactive_user_accounts_desc#:#Etkinse, kullanıcı hesapları so
 common#:#delete_inactive_user_accounts_include_roles#:#Dahil rolleri
 common#:#delete_inactive_user_accounts_include_roles_desc#:#silme katılacak rolleri tanımlar.
 common#:#delete_inactive_user_accounts_interval#:#Frekans
-common#:#delete_inactive_user_accounts_interval_desc#:#Silme koşullarda bu frekans gözden geçirilecektir.
 common#:#delete_inactive_user_accounts_period#:#Son girişinizden itibaren geçen gün
 common#:#delete_inactive_user_accounts_period_desc#:#Bu süre son girişinizden itibaren geçmişte varsa Silme idam edilecek.
 common#:#delete_object#:#Sil Nesne (ler)
@@ -2717,7 +2694,6 @@ common#:#enable_course_group_notifications#:#Gruplar ve Ders Haberleri için Gü
 common#:#enable_course_group_notifications_desc#:#Etkinse, Katılımcılar günlük haber özetlerine abone olabilir.
 common#:#enable_custom_icons#:#özel simgeler etkinleştir
 common#:#enable_custom_icons_info#:#Bu tek kategorileri, dersler ve gruplar için özel simgeler tanımlamanızı sağlar. Kategorileri, ders ve grupların özellikleri bölümünde yükleme iletişim bir görüntü sağlayacaktır.
-common#:#enable_disk_quota#:#Disk Kotasını Etkinleştir
 common#:#enable_disk_quota_info#:#Her kullanıcı hesabı ve her global rol için disk kotası belirlemenizi sağlar. Kullanıcı hesabının disk kullanımı her gün cron job tarafından hesaplanır ve kullanıcı düzenleme formu ile disk kota raporunda listelenir.
 common#:#enable_disk_quota_reminder_mail#:#Gönder disk kotası hatırlatıcı mailler
 common#:#enable_disk_quota_summary_mail#:#Gönder Disk Kota Özeti
@@ -2742,7 +2718,6 @@ common#:#enable_trash_info#:#Etkinse, silinen nesneler çöpe taşınır ve daha
 common#:#enable_webdav#:#WebDAV erişimi etkinleştir
 common#:#enable_webdav_info#:#WebDAV istemcileri bir webfolder olarak depo erişmek için izin verir. Kullanıcılar, veya WebDAV istemci aşağıdaki adrese girerek depo "webfolder gibi açık" eylemini kullanarak webfolders açabilirsiniz: <a href="%1$s" folder="%1$s">% 1 $ s </ a>
 common#:#enabled#:#Etkin
-common#:#enter_filename_deliver#:#teslim edilecek dosyanın girin
 common#:#enter_in_mb_desc#:#MB cinsinden bir değer girin.
 common#:#enumerate#:#Numaralandırma
 common#:#err_1_param#:#Sadece 1 parametresi!
@@ -2849,23 +2824,6 @@ common#:#ext_acccount_required#:#dış hesabın adını giriniz.
 common#:#ext_cat_settings#:#Düzen Gelişmiş Kategori Ayarları
 common#:#ext_link#:#Bağlantı
 common#:#extt_configure#:#configure ...
-common#:#extt_ilinc#:#netucate LearnLinc
-common#:#extt_ilinc_additional_options#:#Ek Seçenekler
-common#:#extt_ilinc_akclassvalues_active#:#Etkinleştir maliyet merkezleri
-common#:#extt_ilinc_akclassvalues_active_info#:#Bu seçenek ile size Learnlinc-Seminerler ve Sınıflarına iLinc maliyet merkezleri kullanabilirsiniz etkin
-common#:#extt_ilinc_akclassvalues_required#:#Gerekli Maliyet merkezi
-common#:#extt_ilinc_akclassvalues_required_info#:#Bir LearnLinc Semineri belirtilmesi, en az bir merkez maliyeti gereklidir
-common#:#extt_ilinc_configure#:#Yapılandırma netucate LearnLinc
-common#:#extt_ilinc_connection_data#:#Bağlantı verileri
-common#:#extt_ilinc_customer_id#:#Müşteri Kimliği
-common#:#extt_ilinc_desc#:#sanal sınıflar sağlar. Ticari hizmet. Bir hesap ve ayrıntılı bilgi için www.netucate.com az netucate temasa geçin
-common#:#extt_ilinc_enable#:#etkinleştir LearnLinc destek
-common#:#extt_ilinc_protocol_port#:#Protokolü ve Port
-common#:#extt_ilinc_registrar_login#:#Oturum kimliği
-common#:#extt_ilinc_registrar_passwd#:#Parola
-common#:#extt_ilinc_server#:#Sunucu
-common#:#extt_ilinc_settings_saved#:#LearnLinc ayarları kaydedildi
-common#:#extt_ilinc_timeout#:#Max zaman sunucu yanıt bekliyor
 common#:#extt_name#:#Yazılım / Hizmet
 common#:#extt_remark#:#Yukarıda listelenen yazılım ve hizmetlerin hiçbiri ILIAS’ın bir parçası olmayıp ILIAS açık kaynak lisans sözleşmesine dahil değildir.
 common#:#extt_title_configure#:#harici yazılım yapılandırma
@@ -2951,7 +2909,6 @@ common#:#forum_direct_notification#:#Doğrudan Bildirim
 common#:#forum_general_notification#:#Genel Tebliğ
 common#:#forum_import#:#Forum içe aktar
 common#:#forum_import_file#:#Dosya İçe aktar
-common#:#forum_notification#:#Bildirim
 common#:#forum_notify_me#:#Bir yanıt gönderdi olduğunda bana bildir
 common#:#forum_notify_me_directly#:#benim katkım doğrudan cevaplar hakkında bana bilgi verin.
 common#:#forum_notify_me_generally#:#benim konu için herhangi bir yeni katkıları hakkında beni bilgilendiriniz.
@@ -2997,13 +2954,10 @@ common#:#gender_m#:#Erkek
 common#:#general_settings#:#Genel Ayarlar
 common#:#generate#:#üret
 common#:#glo#:#Sözlük
-common#:#glo_a#:#Bir Sözlük
 common#:#glo_add#:#Ekleme Sözlük
 common#:#glo_added#:#Sözlük eklendi
 common#:#glo_create#:#Oluştur Sözlük
 common#:#glo_import#:#Sözlük İçe Aktar
-common#:#glo_join#:#Sözlük abone
-common#:#glo_leave#:#Glossary çık
 common#:#glo_mode#:#Mod
 common#:#glo_mode_desc#:#Bir sanal sözlüğü normal bir sözlük gibi çalışır. Ayrıca bu sanal sözlük (alt ağaç) ve pozisyon deposunda aşağı bulunan tüm sözlükler sırasıyla sanal sözlük (seviye) gibi depo aynı seviyede bulunan tüm sözlükler gelen terimleri içerir.
 common#:#glo_mode_level#:#sanal (yalnızca bu düzeyi)
@@ -3183,32 +3137,12 @@ common#:#http_not_possible#:#Bu sunucu http isteklerini destekleyen değildir.
 common#:#http_path#:#HTTP Yolu
 common#:#https_not_possible#:#Bu sunucu HTTPS Connnections destekleyen değildir.
 common#:#i2passwd#:#ILIAS 2 şifre
-common#:#icla#:#LearnLinc Sınıf
-common#:#icla_add#:#Ekleme LearnLinc Sınıf
-common#:#icla_deleted#:#LearnLinc sınıf (lar) silindi
-common#:#icla_edit#:#Edit LearnLinc Sınıf
-common#:#icla_new#:#Yeni LearnLinc Sınıf
 common#:#icon#:#Simge
 common#:#icon_settings#:#Simge Ayarları
 common#:#icons_in_header#:#Üstbilgi satırı
 common#:#icons_in_item_rows#:#Ürün satırları
 common#:#icons_in_typed_lists#:#Öğe listelerinde Simge pozisyonu
 common#:#icons_in_typed_lists_info#:#nerede depo içinde ve kişisel masaüstündeki tipine göre sıralanmıştır öğe listelerinde simgelerini görüntülemek için belirler.
-common#:#icrs#:#LearnLinc Semineri
-common#:#icrs_add#:#Ekleme LearnLinc Semineri
-common#:#icrs_added#:#LearnLinc Semineri eklendi
-common#:#icrs_copy#:#Kopya LearnLinc Semineri
-common#:#icrs_create_icla#:#LearnLinc Derslikler oluşturun
-common#:#icrs_delete#:#Sil LearnLinc Semineri
-common#:#icrs_edit#:#Edit LearnLinc Semineri
-common#:#icrs_edit_permission#:#Düzenleme izin ayarları
-common#:#icrs_join#:#Kullanıcı LearnLinc Seminer katılabilir
-common#:#icrs_leave#:#Kullanıcı LearnLinc Seminer bırakabilir
-common#:#icrs_members_gallery#:#Seminer Üyeler Galeri
-common#:#icrs_new#:#Yeni LearnLinc Semineri
-common#:#icrs_read#:#LearnLinc Seminer okuma erişimi
-common#:#icrs_visible#:#LearnLinc Seminer görülebilir
-common#:#icrs_write#:#Edit LearnLinc Semineri
 common#:#id#:#ID
 common#:#identifier#:#Tanımlayıcı
 common#:#if_no_title_then_filename#:#başlık olarak dosya adını kullanmak için boş bırakın.
@@ -3231,54 +3165,9 @@ common#:#il_grp_admin#:#Grup Yöneticisi
 common#:#il_grp_member#:#Grubu Üyesi
 common#:#il_grp_status_closed#:#Grup kapatıldı
 common#:#il_grp_status_open#:#Grubu açık
-common#:#il_icrs_admin#:#LearnLinc Seminer yöneticisi
-common#:#il_icrs_member#:#LearnLinc Semineri üyesi
 common#:#ilias_and_webfolder_username#:#ILIAS ve webfolder Kullanıcı Adı
 common#:#ilias_username#:#ILIAS Kullanıcı Adı
 common#:#ilias_version#:#ILIAS sürümü
-common#:#ilinc_abandoned_info#:#Entegre netucate LearnLinc arayüzü ILIAS 4.3 ile terk edilecektir. ILIAS yılında LearnLinc arasında sanal sınıf kullanmak yeni iLinc eklentisini yükleyin. Daha fazla bilgi için lütfen <a href="http://http://www.netucate.com/"> netucate anasayfa </ a>.
-common#:#ilinc_add_user#:#Add kullanıcı (lar)
-common#:#ilinc_akclassvalue#:#Maliyet merkezi
-common#:#ilinc_akclassvalues#:#Maliyet merkezleri
-common#:#ilinc_classroom_always_open#:#Sınıf her zaman açık
-common#:#ilinc_classroom_closed#:#Sınıf kapalıdır
-common#:#ilinc_classroom_open#:#Sınıf açıktır
-common#:#ilinc_classrooms#:#LearnLinc Derslikleri
-common#:#ilinc_coursemember_status#:#olarak Katılan
-common#:#ilinc_courses#:#LearnLinc Seminerler
-common#:#ilinc_dismiss_member#:#Eğer LearnLinc Semineri şu kullanıcı (lar) göz ardı etmek istediğinizden emin misiniz?
-common#:#ilinc_dismiss_myself#:#Eğer LearnLinc Seminer kendinizi görevden etmek istediğinizden emin misiniz?
-common#:#ilinc_docent#:#Öğretim Görevlisi
-common#:#ilinc_err_administrator_required#:#Üye LearnLinc Semineri başına en az bir yönetici gereklidir, kaldırılır olamazdı!
-common#:#ilinc_err_at_least_one_groupadministrator_is_needed#:#Her LearnLinc Semineri en az bir yönetici ihtiyacı
-common#:#ilinc_err_last_member#:#Son Üye kaldırılamaz olabilir, bunun yerine LearnLinc Seminer silin lütfen.
-common#:#ilinc_err_member_could_not_be_removed#:#Kullanıcı kaldırılamadı. Kullanıcının tüm bağımlılıkları kontrol edin.
-common#:#ilinc_err_no_permission#:#Bu işlem için izinler sahip değilsiniz.
-common#:#ilinc_err_registration_data#:#Parola, geçerli bir kayıt dönemi için son kullanma tarihi ve saati giriniz!
-common#:#ilinc_header_edit_users#:#Katılan kullanıcıların Listeyi düzenle
-common#:#ilinc_id#:#iLinc Kimliği
-common#:#ilinc_involved_users#:#dahil kullanıcılar
-common#:#ilinc_login#:#iLinc Giriş
-common#:#ilinc_mail_body_new_subscription#:#Bu LearnLinc Semineri abone oldunuz.
-common#:#ilinc_mail_body_subscription_cancelled#:#Üyeliğiniz iptal edildi.
-common#:#ilinc_mail_subj_new_subscription#:#Yeni abonelik
-common#:#ilinc_mail_subj_subscription_cancelled#:#Abonelik iptal
-common#:#ilinc_manage_course_documents#:#Malzemeler
-common#:#ilinc_mem_change_status#:#Değişim kullanıcının durumu
-common#:#ilinc_mem_leave#:#LearnLinc Semineri kullanıcı Dismiss
-common#:#ilinc_mem_send_mail#:#adlı kullanıcı bir mesaj
-common#:#ilinc_msg_joined#:#Sen LearnLinc Seminer katıldı
-common#:#ilinc_msg_member_assigned#:#kullanıcı (lar) atanan
-common#:#ilinc_msg_membership_annulled#:#Abonelik iptal
-common#:#ilinc_no_akclassvalues#:#yok
-common#:#ilinc_no_docent_assigned#:#Atama yok
-common#:#ilinc_notset#:#Ayarlanmamış
-common#:#ilinc_passwd#:#iLinc Şifre
-common#:#ilinc_remark#:#Açıklama
-common#:#ilinc_server_not_active#:#iLinc Sunucu aktif değil
-common#:#ilinc_student#:#Katılımcı
-common#:#ilinc_upload_pic_linktext#:#yükle
-common#:#ilinc_upload_pic_text#:#LearnLinc Seminerleri resmini görüntülemek için bu bağlantıyı kullanınız:
 common#:#im_aim#:#AIM
 common#:#im_aim_icon#:#AIM Logosu
 common#:#im_icq#:#ICQ
@@ -3950,8 +3839,6 @@ common#:#obj_hlps#:#Yardım Sistemi
 common#:#obj_hlps_desc#:#Online yardım için Ayarları
 common#:#obj_htlm#:#Öğrenim Modülü HTML
 common#:#obj_htlm_duplicate#:#Kopya HTML Öğrenme Modülü
-common#:#obj_icla#:#LearnLinc Sınıf
-common#:#obj_icrs#:#LearnLinc Semineri
 common#:#obj_il_chat_moderator#:#Sohbet Odası Moderatör
 common#:#obj_itgr#:#Ürün Grubu
 common#:#obj_itgr_duplicate#:#Öğe Kopyala Grubu
@@ -4104,8 +3991,6 @@ common#:#objs_frm#:#Forumlar
 common#:#objs_glo#:#Sözlükler
 common#:#objs_grp#:#Gruplar
 common#:#objs_htlm#:#HTML Öğrenme Modülleri
-common#:#objs_icla#:#LearnLinc Derslikleri
-common#:#objs_icrs#:#LearnLinc Seminerler
 common#:#objs_itgr#:#Ürün Grupları
 common#:#objs_lm#:#ILIAS Öğrenme Modülleri
 common#:#objs_lng#:#Diller
@@ -4836,7 +4721,6 @@ common#:#tst_anon_eval#:#Sonuçlar
 common#:#tst_edit_questions#:#Soruları Düzenle
 common#:#tst_new#:#Yeni Test
 common#:#tst_no_content#:#Aktif test yok
-common#:#tst_random_test_description_warning#:#<br /> Bu testte soru havuzundan atanmamış soruları vardır. Eğer rastgele test moduna geçerseniz, bu sorular kaybolur. </ B>
 common#:#tst_run#:#Çalıştır
 common#:#tst_statistical_evaluation#:#İstatistikler
 common#:#tst_statistics#:#İstatistikler
@@ -5830,7 +5714,6 @@ content#:#cont_saved_map_data#:#Kayıtlı harita verileri
 content#:#cont_saving#:#Kaydediliyor...
 content#:#cont_sc_auto_continue#:#Otomatik Devam
 content#:#cont_sc_auto_review#:#Tamamlandığında Gözden Geçir
-content#:#cont_sc_auto_review_info#:#Öğrenci bir SCO tamamladığında ders modunu 'gözden geçir' yap
 content#:#cont_sc_less_mode_browse#:#Gözat
 content#:#cont_sc_less_mode_normal#:#Normal
 content#:#cont_sc_max_attempt#:#Maks. Denemeler
@@ -6071,7 +5954,6 @@ content#:#glo_used_in_scorm#:#sözlük SCORM modül tarafından kullanılır. Si
 content#:#help_assign_help_ids#:#Bölüm / Ekran kimlikleri Atama
 content#:#htlm_import#:#HTML Öğrenme Modülü İçe Aktar
 content#:#HTML export#:#HTML İhracat
-content#:#HTML_export#:#HTML İhracat
 content#:#import_sco_object#:#SCO İçe Aktar
 content#:#lm_menu_edit_entry#:#Düzen menüsünden giriş
 content#:#lm_menu_entry_target#:#Hedef
@@ -6128,7 +6010,6 @@ content#:#seq_toc#:#Soldaki İçindekiler Tablosundan , ders başlamak için bir
 content#:#set_public_mode#:#Set kamu erişim modu
 content#:#st#:#Bölüm
 content#:#start export#:#Başlangıç ​​İhracat
-content#:#start_export#:#Dışa Aktarıma Başla
 content#:#text_repr#:#Metin Gösterimi
 content#:#text_repr_info#:#görüntü "alt" özniteliği için kullanılır.
 cptch#:#cptch_freetype_support_needed#:#Eğer PHP, freetype desteği etkinleştirmeniz gerekir Bu özelliği kullanmak için .
@@ -7227,7 +7108,6 @@ dateplaner#:#wk_short#:#WK
 dateplaner#:#year#:#Yılı
 dateplaner#:#yui_cal_choose_month#:#Ay:
 dateplaner#:#yui_cal_choose_year#:#Yıl:
-dcl#:#-dcl_table_info_title-#:#Bilgiler
 dcl#:#dcl_actions#:#Eylemler
 dcl#:#dcl_activate_approval#:#Rekor Onayı Etkinleştir
 dcl#:#dcl_activate_notification#:#Bildirim Etkinleştir
@@ -7419,7 +7299,6 @@ ecs#:#ecs_cert_key#:#Sertifika Anahtarı
 ecs#:#ecs_cert_valid_until#:#Kadar geçerlidir Belgesi
 ecs#:#ecs_check_import_id#:#Import ID geçerli değil. Bu ayarı kontrol edin.
 ecs#:#ecs_client_cert#:#İstemci Sertifikası
-ecs#:#ecs_cmpa_enabled#:#Etkinleştir Ders Dağılımı
 ecs#:#ecs_cms_dir_tree#:#CMS Rehber Ağaçlar
 ecs#:#ecs_cms_directory_trees_tbl#:#CMS Rehber Ağaçlar
 ecs#:#ecs_cms_id#:#Kampüs-Yönetim-Sistemi Kök-Kimliği
@@ -7800,7 +7679,6 @@ forum#:#ascending_order#:#Alt son kayıtlar
 forum#:#close_topics#:#Kapat
 forum#:#cont_captcha_code#:#Kodu
 forum#:#deactivate_current_and_childs#:#Tüm İlanları Deactivate
-forum#:#deactivate_post#:#Devre dışı bırak
 forum#:#deactivate_post_txt#:#gerçekten geçerli gönderme ve tüm alt ilanları devreden çıkarmak ister misiniz?
 forum#:#descending_order#:#En azından son kayıtlar
 forum#:#empty_subject#:#Cevapla üzerinde kullanıcı yeni bir başlık girmek zorundadır.
@@ -7808,14 +7686,10 @@ forum#:#enter_new_subject#:#yeni bir konu girin
 forum#:#error_reading_file#:#dosya okunurken bir hata oluştu
 forum#:#fmr_copy_threads_info#:#Sen tek konuları kopyalamak için imkanınız var. Seçilen parçacığı sadece başlangıç ​​yinelenir.
 forum#:#forum_add_quote#:#Ekle Teklif
-forum#:#forum_anonymize#:#Yaz anonim
-forum#:#forum_anonymize_desc#:#Bu ileti (sizin ILIAS kullanıcı adı hiçbir yerde gösterilmeyecek) anonim yazın.
 forum#:#forums#:#Forumu
 forum#:#forums_all_threads_marked_read#:#Tüm mesajları okunmuş olarak işaretli
 forum#:#forums_attachments#:#Eklentiler
 forum#:#forums_attachments_add#:#Ek ekle
-forum#:#forums_attachments_edit#:#Edit eki
-forum#:#forums_available#:#Mevcut Forumları
 forum#:#forums_censor_comment#:#Censor ve Yorum
 forum#:#forums_count#:#Forumlar sayısı
 forum#:#forums_count_art#:#Makaleler sayısı
@@ -7831,22 +7705,16 @@ forum#:#forums_info_censor_post#:#bu makaleyi gizlemek istediğinizden emin misi
 forum#:#forums_info_censor2_post#:#Sansür Revoke?
 forum#:#forums_info_delete_post#:#Eğer herhangi bir yanıt da dahil olmak üzere bu makaleyi silmek istediğinizden emin misiniz?
 forum#:#forums_mark_read#:#Tüm olarak okuyun İşaretle
-forum#:#forums_new_entries#:#Yeni Forum Yazılar
 forum#:#forums_new_thread#:#Yeni Konu
 forum#:#forums_no_posts_available#:#Bu konu henüz hiç mesaj varsa veya moderatör sonrası ilk devre.
-forum#:#forums_not_available#:#Forum mevcut değildir
 forum#:#forums_notification#:#Bildirim
 forum#:#forums_notification_disabled#:#Bildirim devre dışı
 forum#:#forums_notification_enabled#:#Bildirim etkin
 forum#:#forums_notification_intro#:#Bu mail otomatik ILIAS kurulum% s,% s tarafından size gönderilen
-forum#:#forums_notification_is_disabled#:#Bu konuda yeni ilanları hakkında Sizin bildirim (henüz) etkin değildir.
-forum#:#forums_notification_is_enabled#:#Şu anda bu konu içinde yeni ilanları hakkında bildirimi zaten etkin.
 forum#:#forums_notification_show_post#:#göster gönderme:% s
 forum#:#forums_notification_subject#:#Yeni foruma gönderi
-forum#:#forums_overview#:#Forum Genel Bakış
 forum#:#forums_post_activation_mail#:#Gönderme aşağıdaki aktif değil sürece , diğer forumda kullanıcılar için görünmez. Sen moderatör olarak atanır, çünkü bu e-posta gönderilecektir ve bu nakil etkinleştirmek için izniniz yok.
 forum#:#forums_post_and_children_were_activated#:#nakil ve tüm alt ilanları aktive edildi.
-forum#:#forums_post_and_children_were_deactivated#:#nakil ve tüm alt ilanları deaktive edildi.
 forum#:#forums_post_deleted#:#silinmiş Gönderme
 forum#:#forums_post_modified#:#Yetkileriniz modifiye edilmiştir
 forum#:#forums_post_needs_to_be_activated#:#nakil yeni oluşturulmuş, fakat bir yönetici tarafından aktive edilmesi gerekir edilmiştir.
@@ -7855,19 +7723,13 @@ forum#:#forums_post_was_activated#:#ilanıyla aktive edildi.
 forum#:#forums_posts#:#tüm gönderiler
 forum#:#forums_posts_not_available#:#Mevcut Değil İlanları
 forum#:#forums_print_thread#:#Yazdır Konu
-forum#:#forums_print_view#:#Yazdır
-forum#:#forums_quote#:#Alıntı
-forum#:#forums_respond#:#Cevapla
 forum#:#forums_subject#:#Konu
 forum#:#forums_the_post#:#Gönderme
 forum#:#forums_thread#:#Konu
-forum#:#forums_thread_articles#:#Konunun İlanları
 forum#:#forums_thread_create_date#:#Oluşturuldu
 forum#:#forums_thread_create_from#:#Oluşturuldu
 forum#:#forums_thread_marked#:#konuyu okundu olarak işaretlendi.
 forum#:#forums_thread_new_entry#:#Yeni konu oluşturuldu
-forum#:#forums_threads_not_available#:#Mevcut Değil Konular
-forum#:#forums_topics_overview#:#Konular Genel Bakış
 forum#:#forums_your_reply#:#Sizin Yanıt
 forum#:#frm_anonymous_posting#:#takma ile Gönderme
 forum#:#frm_anonymous_posting_desc#:#Etkinse , sadece kayıtlı kullanıcılar bir takma ad kullanarak ya da isim vermeden bu foruma gönderebilirsiniz.
@@ -7881,11 +7743,7 @@ forum#:#frm_moderator_m#:#Moderatör
 forum#:#frm_moderator_role_added_successfully#:#kullanıcı moderatör olarak başarılı bir şekilde ilave edildi.
 forum#:#frm_moderators#:#Moderatörler
 forum#:#frm_moderators_detached_role_successfully#:#arabulucu rolünü başarıyla seçilen tüm kullanıcılar için kesildi.
-forum#:#frm_moderators_do_search#:#Arama
-forum#:#frm_moderators_matches_in_no_results#:#Aramanız herhangi bir sonuçla eşleşmedi.
 forum#:#frm_moderators_not_exist_yet#:#bir moderatör seçiniz.
-forum#:#frm_moderators_search#:#Kullanıcı Arama
-forum#:#frm_moderators_search_query#:#ara sınav (lar)
 forum#:#frm_moderators_select_at_least_one#:#en az bir moderatör seçiniz.
 forum#:#frm_moderators_select_one#:#bir kullanıcı seçiniz.
 forum#:#frm_notification_activated#:#Bildirim Aktif
@@ -7900,35 +7758,28 @@ forum#:#frm_statistics_enabled_desc#:#tüm katılımcılar için ilanıyla istat
 forum#:#frm_statistics_ranking#:#İlanları ve sayısı
 forum#:#frm_subject_setting#:#Konu ayarı
 forum#:#frm_sure_delete_threads#:#aşağıdaki konuları silmek istediğinizden emin misiniz?
-forum#:#frm_title_required#:#bir başlık giriniz.
 forum#:#frm_wizard_page#:#Kopyala Forum (Adım 2/2)
 forum#:#is_read#:#Okudum İşaretle
-forum#:#make_topic_non_sticky#:#Konu Olmayan Sabit Yap
-forum#:#make_topic_sticky#:#Konu Sabit Yap
 forum#:#make_topics_non_sticky#:#Konu Dışı Yapışkan Yap
 forum#:#make_topics_sticky#:#Başlıklar Yapışkan Yap
 forum#:#mark_moderator_posts#:#Mark moderatör Mesajları
 forum#:#mark_moderator_posts_desc#:#Aktifse moderatör mesaj vurgulanacaktır
 forum#:#move_chosen_topics#:#Move Seçilmiş Konular
 forum#:#new_post#:#Yeni Mesaj
-forum#:#no_forum_available_for_moving_threads#:#için seçilmiş konular taşımak yok forumu.
 forum#:#no_forum_selected#:#Seçilen konularda hareket için seçilen Resim forumu
 forum#:#number_of_threads#:#Sayfa başına Threads Gösterilme Sayısı
 forum#:#post_activation_desc#:#Etkinse , moderatör yeni ilanları etkinleştirmek için vardır.
 forum#:#post_censored_comment_by_moderator#:#Censored Gönderme, Moderatör Yorum tarafından
 forum#:#post_reply#:#Re:
 forum#:#preset_subject#:#Yanıt: Preset konu
-forum#:#preset_subject_info#:#Devre dışı bırakılırsa kullanıcı ilanları için yeni bir başlık girmelisiniz.
 forum#:#reopen_topics#:#Yeniden
 forum#:#select_at_least_one_thread#:#en az bir konu seçin.
 forum#:#select_max_one_thread#:#bir iş parçacığı yalnızca seçiniz!
 forum#:#sort_by_date#:#Tarihe göre sırala
 forum#:#sort_by_posts#:#Mesajlar Sıralama
 forum#:#sticky#:#Yapışkan
-forum#:#sure_move_threads#:#Eğer seçilen konularda taşımak istediğinizden emin misiniz?
 forum#:#thread#:#Konu
 forum#:#threads_moved_successfully#:#seçilen konularda başarılı başka bir foruma taşındı.
-forum#:#to_forum#:#Forum için
 forum#:#topic_close#:#Kapalı
 forum#:#topics_please_select_one_action#:#Lütfen bir eylem seçin.
 forum#:#user_decides_notification#:#Her kullanıcı bildirim hakkında karar
@@ -8112,20 +7963,6 @@ help#:#help_tooltips#:#Yardımı Tooltips
 help#:#help_tooltips_and_help#:#Tooltips ve İş Akışı Yardım
 help#:#help_tooltips_only#:#Tooltips Sadece
 help#:#help_tt_text#:#Yazı
-ilinc#:#akclassvalue1#:#Maliyet merkezi 1
-ilinc#:#akclassvalue2#:#Maliyet merkezi 2
-ilinc#:#akclassvalues#:#Maliyet merkezleri
-ilinc#:#ilinc_akuservalue1#:#Maliyet merkezi 1
-ilinc#:#ilinc_akuservalue2#:#Maliyet merkezi 2
-ilinc#:#ilinc_akuservalues#:#Maliyet merkezleri
-ilinc#:#ilinc_akuservalues_desc#:#burada bu kullanıcı için maliyet merkezi (ler) kodunu girin. Bu değerler, iLinc sunucusunda saklanır.
-ilinc#:#ilinc_akuservalues_refreshed#:#Maliyet merkezleri güncellendi
-ilinc#:#ilinc_connection_error#:#Hata: iLinc Sunucu bağlantı yok!
-ilinc#:#ilinc_member_administration#:#Katılımcıları Düzenle
-ilinc#:#ilinc_no_account_yet#:#Henüz Resim iLinc Hesabı
-ilinc#:#ilinc_user_added#:#Kullanıcı hesabı iLinc sunucuda oluşturulur
-ilinc#:#ilinc_user_id#:#iLinc UserID
-ilinc#:#ilinc_user_settings#:#iLinc Kullanıcı ayarları
 itgr#:#itgr_assigned_materials#:#Atanan Malzemeleri
 itgr#:#itgr_assignment#:#Atama
 itgr#:#itgr_edit#:#Öğe Düzenleme Grupları
@@ -8454,8 +8291,6 @@ mail#:#mail_salutation_m#:#Merhaba
 mail#:#mail_salutation_male#:#Selamlama, erkek
 mail#:#mail_salutation_n#:#Merhaba
 mail#:#mail_saved#:#Mesaj kaydedildi
-mail#:#mail_search_addressbook#:#Rehberde ara
-mail#:#mail_search_system#:#Sistemde ara
 mail#:#mail_select_attachment#:#indirme için bir eki seçiniz.
 mail#:#mail_select_course#:#en az bir ders seçiniz.
 mail#:#mail_select_group#:#en az bir grup seçiniz.
@@ -10186,36 +10021,6 @@ rbac#:#cals_write#:#Kullanıcı Takvim İdaresi ayarlarını düzenleyebilirsini
 rbac#:#cat_administrate_users#:#Yerel Kullanıcı Hesaplarını Yönet
 rbac#:#cat_cat_administrate_users#:#Kullanıcı bu kategoride yerel kullanıcı hesapları oluşturabilir ve yönetebilirsiniz
 rbac#:#cat_copy#:#Kullanıcı kategorisi kopyalayabilirsiniz
-rbac#:#cat_copy_threads_info#:#Lütfen hangi kategoride ürün bağlantılı, kopyalanamaz, hatta göz ardı edilecek karar.
-rbac#:#cat_create_blog#:#blog yaratın
-rbac#:#cat_create_book#:#Rezervasyon Havuz Oluştur
-rbac#:#cat_create_cat#:#Kategori Yarat
-rbac#:#cat_create_catr#:#Kategori Referans Oluştur
-rbac#:#cat_create_chtr#:#Oluştur Chatroom
-rbac#:#cat_create_crs#:#Dersin Oluştur
-rbac#:#cat_create_crsr#:#Oluştur Kurs Başvuru
-rbac#:#cat_create_dcl#:#Veri Toplama oluşturma
-rbac#:#cat_create_exc#:#Oluştur Egzersiz
-rbac#:#cat_create_feed#:#Web Beslemesi oluşturun
-rbac#:#cat_create_file#:#Dosya Yükle
-rbac#:#cat_create_frm#:#Oluştur Forum
-rbac#:#cat_create_glo#:#Oluştur Sözlük
-rbac#:#cat_create_grp#:#Grup Yarat
-rbac#:#cat_create_htlm#:#HTML Öğrenme Modülü Oluştur
-rbac#:#cat_create_icrs#:#Oluştur LearnLinc Semineri
-rbac#:#cat_create_itgr#:#Ürün Grup Oluştur
-rbac#:#cat_create_lm#:#ILIAS Öğrenme Modülü Oluştur
-rbac#:#cat_create_mcst#:#Oluştur Mediacast
-rbac#:#cat_create_mep#:#Oluştur Medya Havuzu
-rbac#:#cat_create_poll#:#Oluştur Anket
-rbac#:#cat_create_qpl#:#Test Soru Havuzu Oluştur
-rbac#:#cat_create_rcrs#:#Oluştur ECS Kursu
-rbac#:#cat_create_sahs#:#Oluştur SCORM / AICC Öğrenme Modülü
-rbac#:#cat_create_spl#:#Oluştur Soru Havuzu Anketi
-rbac#:#cat_create_svy#:#Oluştur Anket
-rbac#:#cat_create_tst#:#Oluştur Testi
-rbac#:#cat_create_webr#:#Oluştur Weblink
-rbac#:#cat_create_wiki#:#Oluştur Wiki
 rbac#:#cat_delete#:#Kullanıcı kategorisi taşıyabilir veya silebilirsiniz
 rbac#:#cat_edit_permission#:#Yetki Ayarlarını Değiştir
 rbac#:#cat_read#:#Kullanıcı kategorisi için okuma erişimi vardır
@@ -10250,35 +10055,6 @@ rbac#:#cmps_visible#:#Eklentiler, Modüller ve Hizmetleri ayarlarını İdaresi 
 rbac#:#cmps_write#:#Kullanıcı Plugins, Modüller ve Hizmetleri ayarlarını düzenleyebilirsiniz
 rbac#:#contribute#:#Contribute
 rbac#:#crs_copy#:#Kullanıcı kursu kopyalayabilirsiniz
-rbac#:#crs_copy_threads_info#:#Lütfen hangi ders materyalleri bağlantılı, kopyalanamaz, hatta göz ardı edilecek karar.
-rbac#:#crs_create_blog#:#blog yaratın
-rbac#:#crs_create_book#:#Rezervasyon Havuz Oluştur
-rbac#:#crs_create_catr#:#Kategori Referans Oluştur
-rbac#:#crs_create_chtr#:#Oluştur Chatroom
-rbac#:#crs_create_crsr#:#Oluştur Kurs Başvuru
-rbac#:#crs_create_dcl#:#Veri Toplama oluşturma
-rbac#:#crs_create_exc#:#Oluştur Egzersiz
-rbac#:#crs_create_feed#:#Web Beslemesi oluşturun
-rbac#:#crs_create_file#:#Dosya Yükle
-rbac#:#crs_create_fold#:#Klasör Oluştur
-rbac#:#crs_create_frm#:#Oluştur Forum
-rbac#:#crs_create_glo#:#Oluştur Sözlük
-rbac#:#crs_create_grp#:#Grup Yarat
-rbac#:#crs_create_htlm#:#HTML Öğrenme Modülü Oluştur
-rbac#:#crs_create_icrs#:#Oluştur LearnLinc Semineri
-rbac#:#crs_create_itgr#:#Ürün Grup Oluştur
-rbac#:#crs_create_lm#:#ILIAS Öğrenme Modülü Oluştur
-rbac#:#crs_create_mcst#:#Oluştur Mediacast
-rbac#:#crs_create_mep#:#Oluştur Medya Havuzu
-rbac#:#crs_create_poll#:#Oluştur Anket
-rbac#:#crs_create_qpl#:#Test Soru Havuzu Oluştur
-rbac#:#crs_create_sahs#:#Oluştur SCORM / AICC Öğrenme Modülü
-rbac#:#crs_create_sess#:#Oluştur Oturum
-rbac#:#crs_create_spl#:#Oluştur Soru Havuzu Anketi
-rbac#:#crs_create_svy#:#Oluştur Anket
-rbac#:#crs_create_tst#:#Oluştur Testi
-rbac#:#crs_create_webr#:#Oluştur Weblink
-rbac#:#crs_create_wiki#:#Oluştur Wiki
 rbac#:#crs_delete#:#Kullanıcı kursu taşıyabilir veya silebilirsiniz
 rbac#:#crs_edit_event#:#Düzenleme Takvim Olayları
 rbac#:#crs_edit_learning_progress#:#Kullanıcı tabii üyelerinin öğrenme ilerleme görmek ve öğrenme ilerleme ayarlarını düzenleyebilirsiniz
@@ -10343,31 +10119,6 @@ rbac#:#filter_local_roles_object#:#Bu pozisyondaki sadece yerel rolleri göster
 rbac#:#filter_roles_local_policy#:#Bu pozisyondaki sadece yerel politikaları kullanan rolleri göster
 rbac#:#fld_create_poll#:#Oluştur Anket
 rbac#:#fold_copy#:#Kullanıcı klasöre kopyalayabilirsiniz
-rbac#:#fold_create_blog#:#blog yaratın
-rbac#:#fold_create_book#:#Rezervasyon Havuz Oluştur
-rbac#:#fold_create_chtr#:#Oluştur Chatroom
-rbac#:#fold_create_dcl#:#Veri Toplama oluşturma
-rbac#:#fold_create_exc#:#Oluştur Egzersiz
-rbac#:#fold_create_file#:#Dosya Yükle
-rbac#:#fold_create_fold#:#Klasör Oluştur
-rbac#:#fold_create_frm#:#Oluştur Forum
-rbac#:#fold_create_glo#:#Oluştur Sözlük
-rbac#:#fold_create_grp#:#Grup Yarat
-rbac#:#fold_create_htlm#:#HTML Öğrenme Modülü Oluştur
-rbac#:#fold_create_icrs#:#Oluştur LearnLinc Semineri
-rbac#:#fold_create_itgr#:#Ürün Grup Oluştur
-rbac#:#fold_create_lm#:#ILIAS Öğrenme Modülü Oluştur
-rbac#:#fold_create_mcst#:#Oluştur Mediacast
-rbac#:#fold_create_mep#:#Oluştur Medya Havuzu
-rbac#:#fold_create_poll#:#Oluştur Anket
-rbac#:#fold_create_qpl#:#Test Soru Havuzu Oluştur
-rbac#:#fold_create_sahs#:#Oluştur SCORM / AICC Öğrenme Modülü
-rbac#:#fold_create_sess#:#Oluştur Oturum
-rbac#:#fold_create_spl#:#Oluştur Soru Havuzu Anketi
-rbac#:#fold_create_svy#:#Oluştur Anket
-rbac#:#fold_create_tst#:#Oluştur Testi
-rbac#:#fold_create_webr#:#Oluştur Weblink
-rbac#:#fold_create_wiki#:#Oluştur Wiki
 rbac#:#fold_delete#:#Kullanıcı klasörü taşıyabilir veya silebilirsiniz
 rbac#:#fold_edit_learning_progress#:#Kullanıcı, diğer kullanıcıların öğrenme ilerleme görmek ve öğrenme ilerleme ayarlarını düzenleyebilirsiniz
 rbac#:#fold_edit_permission#:#Yetki Ayarlarını Değiştir
@@ -10395,34 +10146,6 @@ rbac#:#glo_visible#:#Sözlüğü görünür
 rbac#:#glo_write#:#Kullanıcı içeriği ve sözlük ayarlarını düzenleyebilirsiniz
 rbac#:#grp#:#Kullanıcı grubu kopyalayabilirsiniz
 rbac#:#grp_copy#:#Kullanıcı grubu kopyalayabilirsiniz
-rbac#:#grp_create_blog#:#blog yaratın
-rbac#:#grp_create_book#:#Rezervasyon Havuz Oluştur
-rbac#:#grp_create_catr#:#Kategori Referans Oluştur
-rbac#:#grp_create_chtr#:#Oluştur Chatroom
-rbac#:#grp_create_crsr#:#Oluştur Kurs Başvuru
-rbac#:#grp_create_dcl#:#Veri Toplama oluşturma
-rbac#:#grp_create_exc#:#Oluştur Egzersiz
-rbac#:#grp_create_feed#:#Web Beslemesi oluşturun
-rbac#:#grp_create_file#:#Dosya Yükle
-rbac#:#grp_create_fold#:#Klasör Oluştur
-rbac#:#grp_create_frm#:#Oluştur Forum
-rbac#:#grp_create_glo#:#Oluştur Sözlük
-rbac#:#grp_create_grp#:#Grup Yarat
-rbac#:#grp_create_htlm#:#HTML Öğrenme Modülü Oluştur
-rbac#:#grp_create_icrs#:#Oluştur LearnLinc Semineri
-rbac#:#grp_create_itgr#:#Ürün Grup Oluştur
-rbac#:#grp_create_lm#:#ILIAS Öğrenme Modülü Oluştur
-rbac#:#grp_create_mcst#:#Oluştur Mediacast
-rbac#:#grp_create_mep#:#Oluştur Medya Havuzu
-rbac#:#grp_create_poll#:#Oluştur Anket
-rbac#:#grp_create_qpl#:#Test Soru Havuzu Oluştur
-rbac#:#grp_create_sahs#:#Oluştur SCORM / AICC Öğrenme Modülü
-rbac#:#grp_create_sess#:#Oluştur Oturum
-rbac#:#grp_create_spl#:#Oluştur Soru Havuzu Anketi
-rbac#:#grp_create_svy#:#Oluştur Anket
-rbac#:#grp_create_tst#:#Oluştur Testi
-rbac#:#grp_create_webr#:#​​Oluştur Weblink
-rbac#:#grp_create_wiki#:#Oluştur Wiki
 rbac#:#grp_delete#:#Kullanıcı grubu taşıyabilir veya silebilirsiniz
 rbac#:#grp_edit_event#:#Düzenleme Takvim Olayları
 rbac#:#grp_edit_learning_progress#:#Kullanıcı grubu üyelerinin öğrenme ilerleme görmek ve öğrenme ilerleme ayarlarını düzenleyebilirsiniz
@@ -10674,37 +10397,6 @@ rbac#:#role_block_role#:#Sayılı Blok Rolü
 rbac#:#role_block_role_desc#:#Bu ve tüm tali nesnelere erişim iptal edilecektir edilir.
 rbac#:#role_confirm_block_role_header#:#gerçekten seçilen roller engellemek istiyor musunuz?
 rbac#:#role_confirm_block_role_info#:#aşağıdaki işlemler yapılır: <br /> <br /> - Bu rolü izinleri ve tüm tali nesneler bloke olacaktır <br /> - Yeni izin ayarları korunacaktır..
-rbac#:#root_create_blog#:#blog yaratın
-rbac#:#root_create_book#:#Rezervasyon Havuz Oluştur
-rbac#:#root_create_cat#:#Oluştur Kategoriler
-rbac#:#root_create_catr#:#Kategori Referans Oluştur
-rbac#:#root_create_chat#:#Oluştur Sohbet
-rbac#:#root_create_chtr#:#Oluştur Chatroom
-rbac#:#root_create_crs#:#Dersin Oluştur
-rbac#:#root_create_crsr#:#Oluştur Kurs Başvuru
-rbac#:#root_create_dbk#:#Oluştur Digilib Kitap
-rbac#:#root_create_dcl#:#Veri Toplama oluşturma
-rbac#:#root_create_exc#:#Oluştur Egzersiz
-rbac#:#root_create_feed#:#Web Beslemesi oluşturun
-rbac#:#root_create_file#:#Dosya Yükle
-rbac#:#root_create_frm#:#Oluştur Forum
-rbac#:#root_create_glo#:#Oluştur Sözlük
-rbac#:#root_create_grp#:#Grup Yarat
-rbac#:#root_create_htlm#:#HTML Öğrenme Modülü Oluştur
-rbac#:#root_create_icrs#:#Oluştur LearnLinc Semineri
-rbac#:#root_create_itgr#:#Ürün Grup Oluştur
-rbac#:#root_create_lm#:#ILIAS Öğrenme Modülü Oluştur
-rbac#:#root_create_mcst#:#Oluştur Mediacast
-rbac#:#root_create_mep#:#Oluştur Medya Havuzu
-rbac#:#root_create_poll#:#Oluştur Anket
-rbac#:#root_create_qpl#:#Test Soru Havuzu Oluştur
-rbac#:#root_create_rcrs#:#Oluştur ECS Kursu
-rbac#:#root_create_sahs#:#Oluştur SCORM / AICC Öğrenme Modülü
-rbac#:#root_create_spl#:#Oluştur Soru Havuzu Anketi
-rbac#:#root_create_svy#:#Oluştur Anket
-rbac#:#root_create_tst#:#Oluştur Testi
-rbac#:#root_create_webr#:#Oluştur Weblink
-rbac#:#root_create_wiki#:#Oluştur Wiki
 rbac#:#root_edit_permission#:#Yetki ayarlarını değiştir
 rbac#:#root_read#:#Ana Sayfa </ i> - Kullanıcı <i> Deposu okuma erişimi
 rbac#:#root_visible#:#<i> Deposu - Ana Sayfa </ i> görülebilir
@@ -10782,7 +10474,6 @@ rbac#:#tst_read#:#Test olma
 rbac#:#tst_tst_statistics#:#Test istatistiklerine Erişim
 rbac#:#tst_visible#:#Test görme
 rbac#:#tst_write#:#Kullanıcı içeriği ve test ayarlarını düzenleme
-rbac#:#usrf_create_usr#:#Kullanıcı kullanıcı hesapları oluşturmak için izin verilir
 rbac#:#usrf_delete#:#Kullanıcı kullanıcı hesaplarını silebilirsiniz
 rbac#:#usrf_edit_permission#:#Kullanıcı Kullanıcı yönetiminde izin ayarlarını değiştirebilirsiniz
 rbac#:#usrf_edit_roleassignment#:#Kullanıcı kullanıcı hesabının rolünü atamasını değiştirebilirsiniz
@@ -10923,51 +10614,6 @@ rep#:#rep_object_references_cannot_be_read#:#% S daha fazla referans için Resim
 rep#:#rep_object_to_delete#:#Sil
 rep#:#rep_visibility_limitless#:#Sınırsız
 rep#:#rep_visibility_until#:#Geçici Olarak Erişim
-rep_robj_xbbb#:#rep_robj_xbbb_BigBlueButton_plugin_configuration#:#Big Blue Button Ayarları
-rep_robj_xbbb#:#rep_robj_xbbb_cat_create_xbbb#:#Sanal Sınıf Oluştur
-rep_robj_xbbb#:#rep_robj_xbbb_class_ended#:#Sınıf kapatıldı.
-rep_robj_xbbb#:#rep_robj_xbbb_class_not_started_yet#:#Ders henüz başlamadı. Daha sonra tekrar deneyin.
-rep_robj_xbbb#:#rep_robj_xbbb_class_running#:#Dersinizin oturumu hala açık,
-rep_robj_xbbb#:#rep_robj_xbbb_click_to_open_class#:#Sınıfa gitmek için tıklayın.
-rep_robj_xbbb#:#rep_robj_xbbb_content#:#İçerik
-rep_robj_xbbb#:#rep_robj_xbbb_contents#:#İçerik
-rep_robj_xbbb#:#rep_robj_xbbb_crs_create_xbbb#:#Sanal Sınıf Oluştur
-rep_robj_xbbb#:#rep_robj_xbbb_description#:#Açıklama
-rep_robj_xbbb#:#rep_robj_xbbb_edit#:#Düzenle
-rep_robj_xbbb#:#rep_robj_xbbb_edit_properties#:#Ayarlar
-rep_robj_xbbb#:#rep_robj_xbbb_end_class#:#Dersi sonlandırmak için tıklayın.
-rep_robj_xbbb#:#rep_robj_xbbb_end_class_comment#:#(Dersteki tüm katılımcılar dersten çıkacaktır).
-rep_robj_xbbb#:#rep_robj_xbbb_fold_create_xbbb#:#Sanal Sınıf Oluştur
-rep_robj_xbbb#:#rep_robj_xbbb_grp_create_xbbb#:#Sanal Sınıf Oluştur
-rep_robj_xbbb#:#rep_robj_xbbb_new_class_created#:#Yeni sanal sınıf oluşturuldu.
-rep_robj_xbbb#:#rep_robj_xbbb_new_class_created_join_manual#:#Derse katılmak için tıklayın.
-rep_robj_xbbb#:#rep_robj_xbbb_new_class_created_warning#:#Sınıfa katılımcılardan önce girmelisiniz. Moderatör sınıfa girmeden katılımcılar sınıfa giremez.
-rep_robj_xbbb#:#rep_robj_xbbb_no_class_running#:#Başlamış ders yok.
-rep_robj_xbbb#:#rep_robj_xbbb_obj_xbbb#:#Big Blue Button Sanal Sınıf
-rep_robj_xbbb#:#rep_robj_xbbb_obj_xbbb_duplicate#:#Kopyala
-rep_robj_xbbb#:#rep_robj_xbbb_obj_xbbb_select#:#Sanal Sınıf Sec
-rep_robj_xbbb#:#rep_robj_xbbb_objs_xbbb#:#Big Blue Button Sanal Sınıflar
-rep_robj_xbbb#:#rep_robj_xbbb_objs_xbbb_duplicate#:#Sanal Sınıf Kopyala
-rep_robj_xbbb#:#rep_robj_xbbb_offline#:#Çevrimdışı
-rep_robj_xbbb#:#rep_robj_xbbb_privateport#:#Private Port (e.g. 8080)
-rep_robj_xbbb#:#rep_robj_xbbb_privateurl#:#Private URL (e.g. http://192.168.1.100)
-rep_robj_xbbb#:#rep_robj_xbbb_properties#:#Özellikler
-rep_robj_xbbb#:#rep_robj_xbbb_publicport#:#Public Port (e.g. 80)
-rep_robj_xbbb#:#rep_robj_xbbb_publicurl#:#Public URL (e.g. http://mybbbserver.com)
-rep_robj_xbbb#:#rep_robj_xbbb_root_create_xbbb#:#Sanal Sınıf Oluştur
-rep_robj_xbbb#:#rep_robj_xbbb_salt#:#Security Salt
-rep_robj_xbbb#:#rep_robj_xbbb_save#:#Kaydet
-rep_robj_xbbb#:#rep_robj_xbbb_start_class#:#Dersi başlatmak için tıklayın.
-rep_robj_xbbb#:#rep_robj_xbbb_status#:#Durum
-rep_robj_xbbb#:#rep_robj_xbbb_title#:#Başlık
-rep_robj_xbbb#:#rep_robj_xbbb_welcometext#:#Hoşgeldiniz Mesajı
-rep_robj_xbbb#:#rep_robj_xbbb_xbbb_add#:#Sanal Sınıf Ekle
-rep_robj_xbbb#:#rep_robj_xbbb_xbbb_delete#:#Sanal Sınıf Sil
-rep_robj_xbbb#:#rep_robj_xbbb_xbbb_edit_permission#:#Yetki Ayarla
-rep_robj_xbbb#:#rep_robj_xbbb_xbbb_new#:#Yeni Sanal Sınıf Ekle
-rep_robj_xbbb#:#rep_robj_xbbb_xbbb_read#:#Sanal Sınıf Okuma İzni
-rep_robj_xbbb#:#rep_robj_xbbb_xbbb_visible#:#Sanal Sınıf Görülebilir
-rep_robj_xbbb#:#rep_robj_xbbb_xbbb_write#:#Sanal Sınıf Düzenle
 rfil#:#rfil_call#:#Çağrı ECS Dosya
 rfil#:#rfil_version_tstamp#:#Yüklenme Tarihi
 rglo#:#rglo_call#:#Çağrı ECS Sözlüğü
@@ -11404,8 +11050,6 @@ skmg#:#skmg_create_skill_template#:#Yetkinlik Şablonu Oluştur
 skmg#:#skmg_create_skill_template_category#:#Yetkinlik Şablon Kategori Oluştur
 skmg#:#skmg_create_skill_template_reference#:#Yetkinlik Şablon Referans Oluştur
 skmg#:#skmg_create_skll#:#Yetkinlik Oluştur
-skmg#:#skmg_draft#:#Taslak (Offline)
-skmg#:#skmg_draft_info#:#Öğe, öğrenciler için gizli olacaktır.
 skmg#:#skmg_edit_level#:#Düzeyi Düzenle
 skmg#:#skmg_edit_scat#:#Düzenleme Yetkinlik Kategori
 skmg#:#skmg_edit_sctp#:#Düzenleme Yetkinlik Template Category
@@ -14510,3 +14154,69 @@ tos#:#tos_no_documents_exist#:#Currently there are no terms of service for any o
 content#:#cont_edit_definitions#:#Edit Definitions###10 02 2014 new variable
 content#:#cont_edit_definition#:#Edit Definition###10 02 2014 new variable
 payment#:#pay_unpayed_bill#:#Please wire the open balance to the given bank account.###14 02 2014 new variable
+rbac#:#rbac_create_fold#:#Create Folder###11 03 2014 new variable
+rbac#:#rbac_create_cat#:#Create Categories###11 03 2014 new variable
+content#:#cont_LocalFile#:#Local File###11 03 2014 new variable
+rbac#:#rbac_create_sess#:#Create Session###11 03 2014 new variable
+rbac#:#rbac_create_catr#:#Create Category Reference###11 03 2014 new variable
+rbac#:#rbac_create_chat#:#Create Chat###11 03 2014 new variable
+rbac#:#rbac_create_crs#:#Create Course###11 03 2014 new variable
+rbac#:#rbac_create_crsr#:#Create Course Reference###11 03 2014 new variable
+rbac#:#rbac_create_exc#:#Create Exercise###11 03 2014 new variable
+rbac#:#rbac_create_feed#:#Create Web Feed###11 03 2014 new variable
+rbac#:#rbac_create_file#:#Upload File###11 03 2014 new variable
+rbac#:#rbac_create_frm#:#Create Forum###11 03 2014 new variable
+rbac#:#rbac_create_glo#:#Create Glossary###11 03 2014 new variable
+rbac#:#rbac_create_grp#:#Create Group###11 03 2014 new variable
+rbac#:#rbac_create_htlm#:#Create HTML Learning Module###11 03 2014 new variable
+rbac#:#rbac_create_lm#:#Create ILIAS Learning Module###11 03 2014 new variable
+rbac#:#rbac_create_mcst#:#Create Mediacast###11 03 2014 new variable
+rbac#:#rbac_create_mep#:#Create Media Pool###11 03 2014 new variable
+rbac#:#rbac_create_qpl#:#Create Question Pool Test###11 03 2014 new variable
+rbac#:#rbac_create_rcrs#:#Create ECS Course ###11 03 2014 new variable
+rbac#:#rbac_create_sahs#:#Create SCORM/AICC Learning Module###11 03 2014 new variable
+rbac#:#rbac_create_spl#:#Create Question Pool Survey###11 03 2014 new variable
+rbac#:#rbac_create_svy#:#Create Survey###11 03 2014 new variable
+rbac#:#rbac_create_tst#:#Create Test###11 03 2014 new variable
+rbac#:#rbac_create_webr#:#Create Weblink###11 03 2014 new variable
+rbac#:#rbac_create_wiki#:#Create Wiki###11 03 2014 new variable
+rbac#:#rbac_create_book#:#Create Booking Pool###11 03 2014 new variable
+rbac#:#rbac_create_chtr#:#Create Chatroom###11 03 2014 new variable
+rbac#:#rbac_create_blog#:#Create Blog###11 03 2014 new variable
+rbac#:#rbac_create_dcl#:#Create Data Collection###11 03 2014 new variable
+rbac#:#rbac_create_poll#:#Create Poll###11 03 2014 new variable
+rbac#:#rbac_create_itgr#:#Create Item Group###11 03 2014 new variable
+meta#:#meta_c_XK#:#Kosovo###11 03 2014 new variable
+certificate#:#certificate_var_matriculation#:#12345###11 03 2014 new variable
+certificate#:#certificate_ph_matriculation#:#Matriculation number of the user###11 03 2014 new variable
+survey#:#mailparticipantdata_placeholder#:#The following placeholders will be replaced with real user data in personalized surveys:###11 03 2014 new variable
+exc#:#exc_create_portfolio_no_template#:#Do not use template###11 03 2014 new variable
+rbac#:#orgu_view_learning_progress#:#View Learning Progress###11 03 2014 new variable
+rbac#:#orgu_visible#:#Organisational Unit is visible###11 03 2014 new variable
+rbac#:#orgu_read#:#User has read access to Organisational Unit###11 03 2014 new variable
+rbac#:#orgu_write#:#User can edit settings of Organisational Unit###11 03 2014 new variable
+rbac#:#orgu_read_users#:#User can read local user accounts created in this Organisational Unit###11 03 2014 new variable
+rbac#:#orgu_cat_administrate_users#:#User can create and administrate local user accounts in this Organisational Unit###11 03 2014 new variable
+rbac#:#orgu_delete#:#User can move or delete Organisational Unit###11 03 2014 new variable
+rbac#:#orgu_edit_permission#:#User can change permission settings###11 03 2014 new variable
+rbac#:#rbac_create_orgu#:#Create Organisational Units###11 03 2014 new variable
+prtf#:#prtf_page_element_teaser_skills#:#The portfolio will display your competence level here.###11 03 2014 new variable
+prtf#:#prtf_page_element_teaser_blog_template#:#The portfolio will display a blog of your personal workspace here.###11 03 2014 new variable
+prtf#:#prtf_page_element_teaser_consultation_hours#:#The portfolio will display a consultation hours calendar here.###11 03 2014 new variable
+prtf#:#prtf_page_element_teaser_blog#:#The portfolio will display selected blog postings here.###11 03 2014 new variable
+prtf#:#prtf_page_element_teaser_settings#:#Settings###11 03 2014 new variable
+pd#:#pd_remove_multi_confirm#:#The objects were removed.###11 03 2014 new variable
+content#:#glo_online_info#:#Only if the glossary is online, users are able to use the glossary.###11 03 2014 new variable
+content#:#glo_mode_level_info#:#All terms of glossaries on the same level in the repository will be included.###11 03 2014 new variable
+content#:#glo_mode_normal_info#:#Only terms created within this glossar will be included.###11 03 2014 new variable
+content#:#glo_mode_subtree_info#:#All terms of glossaries on the same level and subsequent levels in the repository will be included.###11 03 2014 new variable
+content#:#glo_content_settings#:#Content###11 03 2014 new variable
+content#:#glo_show_taxonomy_info#:#The taxonomy will be visible in the presentation view of the glossary and can be used to select referenced terms.###11 03 2014 new variable
+exc#:#exc_notification#:#Personal Notification###11 03 2014 new variable
+exc#:#exc_passing_exc#:#Passing the Exercise###11 03 2014 new variable
+exc#:#exc_publishing#:#Publishing###11 03 2014 new variable
+exc#:#exc_min_nr_info#:#This value must be equal or higher than the number of obligatory assignments.###11 03 2014 new variable
+exc#:#exc_passed_status_determination#:#Determination of Staus "Passed"###11 03 2014 new variable
+exc#:#exc_completion_by_tutor#:#Only manual by tutor###11 03 2014 new variable
+exc#:#exc_your_text#:#Your Text###11 03 2014 new variable
+exc#:#exc_peer_review_min_number_info#:#This number of other users work must be evaluated by a participant before the evaluation of his/her own work will be visible.###11 03 2014 new variable
