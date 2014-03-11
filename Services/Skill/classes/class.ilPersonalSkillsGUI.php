@@ -1030,7 +1030,7 @@ $bs["tref"] = $bs["tref_id"];
 //var_dump($this->actual_levels);
 
 			include_once("./Services/Chart/classes/class.ilChart.php");
-			$chart = new ilChart("gap_chart", 600, 300);
+			$chart = new ilChart("gap_chart", 800, 300);
 			$chart->setYAxisMax($max_cnt);
 			$chart->setLegLabels($leg_labels);
 			

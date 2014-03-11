@@ -361,12 +361,38 @@ class ilChart
 		{
 			$chart->setCurrentBlock("spider");
 			$lab_strings = array();
+			$max_str_len = 0;
 			foreach ($this->getLegLabels() as $l)
 			{
+				$l = ilUtil::shortenText ($l, 80, true);
 				$lab_strings[] = "{label: \"".$l."\"}";
+				$max_str_len = max($max_str_len, strlen($l));
 			}
 			$chart->setVariable("LEG_LABELS", implode($lab_strings, ","));
 			$chart->setVariable("LEG_MAX", $this->getYAxisMax());
+			switch (count($this->getLegLabels()))
+			{
+				case 4:
+				case 6:
+					$chart->setVariable("LEG_START_ANGLE", "10");
+					break;
+
+				default:
+					$chart->setVariable("LEG_START_ANGLE", "0");
+					break;
+			}
+			if ($max_str_len > 60)
+			{
+				$chart->setVariable("FONT_SIZE", "10");
+			}
+			else if ($max_str_len > 30)
+			{
+				$chart->setVariable("FONT_SIZE", "12");
+			}
+			else
+			{
+				$chart->setVariable("FONT_SIZE", "15");
+			}
 			$chart->parseCurrentBlock();
 			
 			$chart->setCurrentBlock("spider_grid_options");
