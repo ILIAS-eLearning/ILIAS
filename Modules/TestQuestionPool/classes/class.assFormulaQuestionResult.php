@@ -87,7 +87,7 @@ class assFormulaQuestionResult
 					return false;
 				}
 
-				if(is_object($result[$result]))
+				if(is_object($results[$result]))
 				{
 					$formula = str_replace($result, $results[$result]->substituteFormula($variables, $results), $formula);	
 				}
