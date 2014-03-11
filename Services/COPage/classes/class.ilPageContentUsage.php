@@ -89,7 +89,7 @@ class ilPageContentUsage
 
 		$set = $ilDB->query("SELECT pc_type, pc_id FROM page_pc_usage WHERE ".
 			" usage_id = ".$ilDB->quote($a_usage_id, "integer")." AND ".
-			" usage_lang = ".$ilDB->quote($a_usage_lang, "text")." AND ".
+			" usage_lang = ".$ilDB->quote($a_lang, "text")." AND ".
 			" usage_type = ".$ilDB->quote($a_usage_type, "text").
 			$hist_str
 			);
