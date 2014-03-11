@@ -169,8 +169,15 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
 		{
 			if (!$this->getOfflineMode())
 			{
-				//$a_node = $this->getTree()->fetchSuccessorNode($a_node["child"], "pg");
-				$a_node = $this->getSuccessorNode($a_node["child"], "pg");
+				if ($this->lm->getTOCMode() != "pages")
+				{
+					$a_node = $this->getTree()->fetchSuccessorNode($a_node["child"], "pg");
+				}
+				else
+				{
+					// faster, but needs pages to be in explorer
+					$a_node = $this->getSuccessorNode($a_node["child"], "pg");
+				}
 				if ($a_node["child"] == 0)
 				{
 					return false;
@@ -182,8 +189,14 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
 				$found = false;
 				while (!$found)
 				{
-					//$a_node = $this->getTree()->fetchSuccessorNode($a_node["child"], "pg");
-					$a_node = $this->getSuccessorNode($a_node["child"], "pg");
+					if ($this->lm->getTOCMode() != "pages")
+					{
+						$a_node = $this->getTree()->fetchSuccessorNode($a_node["child"], "pg");
+					}
+					else
+					{
+						$a_node = $this->getSuccessorNode($a_node["child"], "pg");
+					}
 					include_once("./Modules/LearningModule/classes/class.ilLMPage.php");
 					$active = ilLMPage::_lookupActive($a_node["child"], $this->lm->getType(),
 						$this->lm_set->get("time_scheduled_page_activation"));
