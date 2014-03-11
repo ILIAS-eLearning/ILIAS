@@ -1076,7 +1076,7 @@ class ilObjRole extends ilObject
 				#echo "No template id for ".$a_id.' of type'.$a_type.'<br>';
 			}
 			#echo "ROLE ASSIGN: ".$rolf.' AID'.$a_id;
-			if($rolf)
+			if($rolf and !$GLOBALS['rbacreview']->isRoleAssignedToFolder($this->getId(),$rolf))
 			{
 				$rbacadmin->assignRoleToFolder($this->getId(),$rolf,"n");	
 			}
