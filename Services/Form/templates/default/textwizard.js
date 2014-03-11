@@ -25,6 +25,14 @@ function reindexTextWizardElements(rootel)
 		textinputs[i].id = rootel.id + '[' + i + ']';
 		textinputs[i].name = rootel.id + '[' + i + ']';
 	}
+	
+	var oainputs = YAHOO.util.Dom.getElementsBy(function (el) { return (el.type == 'checkbox') ? true : false; }, 'input', rootel);
+	for(i = 0; i < oainputs.length; i++)
+	{
+		oainputs[i].id =  rootel.id + '_open' + '[' + i + ']';
+		oainputs[i].name =  rootel.id + '_open' + '[' + i + ']';
+	}
+	
 	var addbuttons = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'textwizard_add') ? true : false; }, 'input', rootel);
 	for (i = 0; i < addbuttons.length; i++)
 	{
