@@ -2093,7 +2093,7 @@ class SurveyQuestion
 				break;
 		}
 		$column++;
-		$worksheet->writeString($row, $column, ilExcelUtils::_convert_text($this->getQuestiontext()));
+		$worksheet->writeString($row, $column, ilExcelUtils::_convert_text(strip_tags($this->getQuestiontext()))); // #12942
 		$column++;
 		$worksheet->writeString($row, $column, ilExcelUtils::_convert_text($this->lng->txt($eval_data["QUESTION_TYPE"])));
 		$column++;
@@ -2140,7 +2140,7 @@ class SurveyQuestion
 				array_push($csvrow, $this->label);
 				break;
 		}
-		array_push($csvrow, $this->getQuestiontext());
+		array_push($csvrow, strip_tags($this->getQuestiontext())); // #12942
 		array_push($csvrow, $this->lng->txt($eval_data["QUESTION_TYPE"]));
 		array_push($csvrow, $eval_data["USERS_ANSWERED"]);
 		array_push($csvrow, $eval_data["USERS_SKIPPED"]);
