@@ -169,7 +169,11 @@ class ilLPTableBaseGUI extends ilTable2GUI
 		}
 
 		// Check if search max hits is reached
-		$this->limit_reached = $res->isLimitReached();
+		if($res->isLimitReached())
+		{			
+			$this->lng->loadLanguageModule("search");
+			ilUtil::sendFailure(sprintf($this->lng->txt("search_limit_reached"), 1000));
+		}
 
 		return $objects ? $objects : array();
 	}
