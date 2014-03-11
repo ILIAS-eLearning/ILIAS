@@ -588,14 +588,44 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
-		
+
+		// title
+		$title = new ilTextInputGUI($lng->txt("title"), "title");
+		$title->setRequired(true);
+		$this->form->addItem($title);
+
+		// description
+		$desc = new ilTextAreaInputGUI($lng->txt("desc"), "description");
+		$this->form->addItem($desc);
+
+		$lng->loadLanguageModule("rep");
+		$section = new ilFormSectionHeaderGUI();
+		$section->setTitle($this->lng->txt('rep_activation_availability'));
+		$this->form->addItem($section);
+
 		// online
 		$online = new ilCheckboxInputGUI($lng->txt("cont_online"), "cobj_online");
 		$online->setValue("y");
+		$online->setInfo($lng->txt("glo_online_info"));
 		$this->form->addItem($online);
-		
+
+		$section = new ilFormSectionHeaderGUI();
+		$section->setTitle($this->lng->txt('glo_content_settings'));
+		$this->form->addItem($section);
+
 		// glossary mode
-		$options = array(
+		$glo_mode = new ilRadioGroupInputGUI($lng->txt("glo_mode"), "glo_mode");
+		//$glo_mode->setInfo($lng->txt("glo_mode_desc"));
+			$op1 = new ilRadioOption($lng->txt("glo_mode_normal"), "none",$lng->txt("glo_mode_normal_info"));
+			$glo_mode->addOption($op1);
+			$op2 = new ilRadioOption($lng->txt("glo_mode_level"), "level",$lng->txt("glo_mode_level_info"));
+			$glo_mode->addOption($op2);
+			$op3 = new ilRadioOption($lng->txt("glo_mode_subtree"), "subtree",$lng->txt("glo_mode_subtree_info"));
+			$glo_mode->addOption($op3);
+		$this->form->addItem($glo_mode);
+
+		// glossary mode
+		/*$options = array(
 			"none"=>$this->lng->txt("glo_mode_normal"),
 			"level"=>$this->lng->txt("glo_mode_level"),
 			"subtree"=>$this->lng->txt("glo_mode_subtree")
@@ -603,7 +633,12 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$glo_mode = new ilSelectInputGUI($lng->txt("glo_mode"), "glo_mode");
 		$glo_mode->setOptions($options);
 		$glo_mode->setInfo($lng->txt("glo_mode_desc"));
-		$this->form->addItem($glo_mode);
+		$this->form->addItem($glo_mode);*/
+
+
+		$section = new ilFormSectionHeaderGUI();
+		$section->setTitle($this->lng->txt('cont_presentation'));
+		$this->form->addItem($section);
 
 		// presentation mode
 		$pres_mode = new ilRadioGroupInputGUI($lng->txt("glo_presentation_mode"), "pres_mode");
@@ -631,6 +666,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		if (count($tax_ids) > 0)
 		{ 
 			$show_tax = new ilCheckboxInputGUI($this->lng->txt("glo_show_taxonomy"), "show_tax");
+			$show_tax->setInfo($this->lng->txt("glo_show_taxonomy_info"));
 			$this->form->addItem($show_tax);
 		}
 		
@@ -642,6 +678,8 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		
 		if ($a_mode == "edit")
 		{
+			$title->setValue($this->object->getTitle());
+			$desc->setValue($this->object->getDescription());
 			$online->setChecked($this->object->getOnline());
 			$glo_mode->setValue($this->object->getVirtualMode());
 			$pres_mode->setValue($this->object->getPresentationMode());
@@ -690,6 +728,8 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$this->initSettingsForm();
 		if ($this->form->checkInput())
 		{
+			$this->object->setTitle($_POST['title']);
+			$this->object->setDescription($_POST['description']);
 			$this->object->setOnline(ilUtil::yn2tf($_POST["cobj_online"]));
 			$this->object->setVirtualMode($_POST["glo_mode"]);
 //			$this->object->setActiveGlossaryMenu(ilUtil::yn2tf($_POST["glo_act_menu"]));
@@ -1529,7 +1569,7 @@ return;
 		{
 			// general properties
 			$ilTabs->addSubTab("general_settings",
-				$lng->txt("cont_glo_properties"),
+				$lng->txt("settings"),
 				$ilCtrl->getLinkTarget($this, 'properties'));
 				
 			// style properties

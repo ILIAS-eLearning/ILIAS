@@ -710,14 +710,11 @@ class ilObjExerciseGUI extends ilObjectGUI
 	protected function initEditCustomForm(ilPropertyFormGUI $a_form)
 	{
 		$a_form->setTitle($this->lng->txt("exc_edit_exercise"));
-		
 
-		// show submissions
-		$cb = new ilCheckboxInputGUI($this->lng->txt("exc_show_submissions"), "show_submissions");
-		$cb->setInfo($this->lng->txt("exc_show_submissions_info"));
-		$a_form->addItem($cb);
+		$section = new ilFormSectionHeaderGUI();
+		$section->setTitle($this->lng->txt('exc_passing_exc'));
+		$a_form->addItem($section);
 
-		
 		// pass mode
 		$radg = new ilRadioGroupInputGUI($this->lng->txt("exc_pass_mode"), "pass_mode");
 	
@@ -737,18 +734,42 @@ class ilObjExerciseGUI extends ilObjectGUI
 			$mand = ilExAssignment::countMandatory($this->object->getId());
 			$min = max($mand, 1);
 			$ni->setMinValue($min);
+			$ni->setInfo($this->lng->txt("exc_min_nr_info"));
 			$op2->addSubItem($ni);
 
 		$a_form->addItem($radg);
 
+		// completion by submission
+		$subcompl = new ilRadioGroupInputGUI($this->lng->txt("exc_passed_status_determination"), "completion_by_submission");
+			$op1 = new ilRadioOption($this->lng->txt("exc_completion_by_tutor"), 0, "");
+			$subcompl->addOption($op1);
+			$op2 = new ilRadioOption($this->lng->txt("exc_completion_by_submission"), 1,$this->lng->txt("exc_completion_by_submission_info"));
+			$subcompl->addOption($op2);
+		$a_form->addItem($subcompl);
+
+		/*$subcompl = new ilCheckboxInputGUI($this->lng->txt('exc_completion_by_submission'), 'completion_by_submission');
+		$subcompl->setInfo($this->lng->txt('exc_completion_by_submission_info'));
+		$subcompl->setValue(1);
+		$a_form->addItem($subcompl);*/
+
+		$section = new ilFormSectionHeaderGUI();
+		$section->setTitle($this->lng->txt('exc_publishing'));
+		$a_form->addItem($section);
+
+		// show submissions
+		$cb = new ilCheckboxInputGUI($this->lng->txt("exc_show_submissions"), "show_submissions");
+		$cb->setInfo($this->lng->txt("exc_show_submissions_info"));
+		$a_form->addItem($cb);
+
+		$section = new ilFormSectionHeaderGUI();
+		$section->setTitle($this->lng->txt('exc_notification'));
+		$a_form->addItem($section);
+
+		// submission notifications
 		$cbox = new ilCheckboxInputGUI($this->lng->txt("exc_submission_notification"), "notification");
 		$cbox->setInfo($this->lng->txt("exc_submission_notification_info"));
 		$a_form->addItem($cbox);
-		
-		$subcompl = new ilCheckboxInputGUI($this->lng->txt('exc_completion_by_submission'), 'completion_by_submission');
-		$subcompl->setInfo($this->lng->txt('exc_completion_by_submission_info'));
-		$subcompl->setValue(1);
-		$a_form->addItem($subcompl);
+
 	}
 	
 	/**
@@ -771,7 +792,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 				ilNotification::TYPE_EXERCISE_SUBMISSION, $ilUser->getId(),
 				$this->object->getId());
 				
-		$a_values['completion_by_submission'] = $this->object->isCompletionBySubmissionEnabled();
+		$a_values['completion_by_submission'] = (int) $this->object->isCompletionBySubmissionEnabled();
 	}
 
 	protected function updateCustom(ilPropertyFormGUI $a_form)
@@ -2157,6 +2178,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		}
 		
 		$peer_min = new ilNumberInputGUI($lng->txt("exc_peer_review_min_number"), "peer_min");
+		$peer_min->setInfo($lng->txt("exc_peer_review_min_number_info"));
 		$peer_min->setRequired(true);
 		$peer_min->setValue(5);
 		$peer_min->setSize(3);
@@ -3657,11 +3679,11 @@ class ilObjExerciseGUI extends ilObjectGUI
 		
 		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
 		$form = new ilPropertyFormGUI();		
-		$form->setTitle($this->lng->txt("exc_type_text")." \"".$a_ass->getTitle()."\"");
+		$form->setTitle($this->lng->txt("exc_assignment")." \"".$a_ass->getTitle()."\"");
 			
 		if(!$a_read_only)
 		{
-			$text = new ilTextAreaInputGUI($this->lng->txt("exc_files_returned_text"), "atxt");
+			$text = new ilTextAreaInputGUI($this->lng->txt("exc_your_text"), "atxt");
 			$text->setRequired((bool)$a_ass->getMandatory());				
 			$text->setRows(40);
 			$form->addItem($text);
