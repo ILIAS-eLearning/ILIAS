@@ -2749,7 +2749,7 @@ common#:#display_webdav_actions#:#WebDAV-Aktionen anzeigen
 common#:#display_webdav_actions_info#:#Zeigt die Aktion 'Als Webordner öffnen' bei jeder Kategorie, Ordner, Gruppe und Kurs im Magazin an.
 common#:#domain#:#Domäne
 common#:#down#:#Runter
-common#:#download#:#Herunterladen
+common#:#download#:#Download
 common#:#download_all_returned_files#:#Alle abgegebenen Dateien herunterladen
 common#:#download_with_uploaded_filename#:#Hochgeladenen Dateinamen verwenden
 common#:#download_with_uploaded_filename_info#:#Wählen Sie diese Option ausschliesslich für die Rückwärtskompatibilität mit ILIAS 3.9 und älteren Versionen aus: Wenn diese Option aktiviert ist, erhalten heruntergeladene Dateien den Namen, der beim Hochladen in ILIAS verwendet worden ist. Wenn diese Option nicht ausgewählt ist, erhalten heruntergeladene Dateien den Titel des Dateiobjekts als Namen. Diese Option hat keine Auswirkung auf WebDAV. Bei WebDAV erhalten heruntergeladene Dateien IMMER den Titel des Dateiobjekts als Namen.
@@ -3095,9 +3095,9 @@ rbac#:#glo_edit_permission#:#Rechteeinstellungen ändern
 common#:#glo_import#:#Glossar importieren
 common#:#glo_mode#:#Modus
 common#:#glo_mode_desc#:#Ein virtuelles Glossar funktioniert wie ein normales Glossar. Zusätzlich umfasst es aber auch alle Begriffsdefinitionen von allen Glossaren, die sich auf der gleichen Ebene im Magazin befinden (nur diese Ebene) bzw. auch alle Begriffsdefinitionen aus Glossaren, die sich auch in nachfolgenden Ebenen befinden (ganzer Teilbaum).
-common#:#glo_mode_level#:#Virtuelles Glossar - nur aktuelle Ebene
+common#:#glo_mode_level#:#Sammelglossar - nur aktuelle Ebene
 common#:#glo_mode_normal#:#Normales Glossar
-common#:#glo_mode_subtree#:#Virtuelles Glossar - ganzer Teilbaum
+common#:#glo_mode_subtree#:#Sammelglossar - ganzer Teilbaum
 common#:#glo_new#:#Neues Glossar anlegen
 rbac#:#glo_read#:#Glossarinhalt lesen
 common#:#glo_upload_file#:#Datei
@@ -3697,7 +3697,7 @@ rbac#:#mep_visible#:#Medienpool ist sichtbar
 rbac#:#mep_write#:#Inhalt und Einstellungen des Medienpools bearbeiten
 common#:#message#:#Nachricht
 common#:#message_content#:#Inhalt
-common#:#message_no_delivered_files#:#Sie haben keine Lösungsergebnisse abgegeben.
+common#:#message_no_delivered_files#:#Sie haben noch keine Datei abgegeben.
 common#:#message_to#:#Mail an:
 common#:#meta_data#:#Metadaten
 common#:#mgs_objects_linked_to_the_following_folders#:#Objekte wurden in folgende Bereiche verknüpft: %s
@@ -5382,8 +5382,8 @@ content#:#cont_double_click_to_delete#:#Mit einem Doppel-Klick auf ein Content-E
 content#:#cont_download_no_download#:#Die Download-Funktion ist zur Zeit deaktiviert. Daher wird die Datei den Lernenden nicht angeboten.
 content#:#cont_download_no_menu#:#Das Lernmodulmenü ist zur Zeit deaktiviert. Daher wird die Datei den Lernenden nicht angeboten.
 content#:#cont_download_title#:#Titel der Download-Datei
-content#:#cont_downloads#:#Download anbieten
-content#:#cont_downloads_desc#:#Ermöglicht Benutzern, die freigegebenen Exportdateien herunterzuladen (zum Beispiel für Offline-Nutzung oder Import).
+content#:#cont_downloads#:#Download
+content#:#cont_downloads_desc#:#Der Reiter "Download" wird in der Präsentationsansicht angezeigt. Dort können Benutzer freigegebene Exportdateien herunterladen, zum Beispiel für Offline-Nutzung oder Import.
 content#:#cont_downloads_public_desc#:#Erlaubt das Herunterladen auch für nichtangemeldete Benutzer (Öffentlicher Bereich)
 content#:#cont_drag_and_drop_elements#:#Um Content-Elemente zu bewegen, ziehen Sie diese mit der Maus auf die Platzhalter.
 content#:#cont_drag_element_click_save#:#Bewegen Sie das Element an die gewünschte Position und klicken dann auf "Speichern".
@@ -5546,7 +5546,7 @@ content#:#cont_glo_assign#:#Glossar zuweisen
 content#:#cont_glo_create#:#Neues Glossar anlegen
 content#:#cont_glo_detach#:#Glossarzuweisung aufheben
 content#:#cont_glo_menu#:#Menü
-content#:#cont_glo_properties#:#Glossar Eigenschaften
+content#:#cont_glo_properties#:#Einstellungen des Glossars
 content#:#cont_header#:#Kopfzeile
 content#:#cont_Headline1#:#Überschrift 1
 content#:#cont_Headline2#:#Überschrift 2
@@ -6114,18 +6114,18 @@ content#:#dgl_pagebreak#:#Seitenumbruch
 content#:#glo_add_new_term#:#Neuen Begriff hinzufügen
 content#:#glo_definition_abbr#:#Def.
 content#:#glo_editing_view#:#Bearbeitungsansicht
-content#:#glo_full_definitions#:#Komplette Definitionen
-content#:#glo_full_definitions_info#:#Begriffe und Definitionen werden komplett in der Hauptansicht angezeigt.
+content#:#glo_full_definitions#:#Liste
+content#:#glo_full_definitions_info#:#Alle Begriffe und Definitionen werden vollständig untereinander angezeigt.
 content#:#glo_list_usages#:#Nutzung
 content#:#glo_presentation_mode#:#Ansicht
 content#:#glo_presentation_view#:#Präsentationsansicht
 content#:#glo_quick_navigation#:#Schnellzugriff
-content#:#glo_table_form#:#Tabellarisch
-content#:#glo_table_form_info#:#Begriffe und Definitionen werden zunächst in einer zweispaltigen Übersicht angezeigt. Beim Anklicken eines Begriffes wird der Begriff mit den dazugehördenden Definitionen angezeigt.
+content#:#glo_table_form#:#Tabelle
+content#:#glo_table_form_info#:#Begriffe und gekürzte Definitionen werden in einer Übersichtstabelle dargestellt. Beim Anklicken eines Begriffes wird dieser mit der vollständigen Definition angezeigt.
 content#:#glo_term_is_used_n_times#:#Der Begriff wird %s in Lernmodulen verwendet.
 content#:#glo_term_used_in#:#Folgende Ressourcen verweisen auf diesen Begriff
-content#:#glo_text_snippet_length#:#Länge des Definitionsausschnitts
-content#:#glo_text_snippet_length_info#:#Textlänge, nach der Definitionen in der Übersicht abgeschnitten werden.
+content#:#glo_text_snippet_length#:#Länge der gekürzten Definitionen
+content#:#glo_text_snippet_length_info#:#Anzahl der Zeichen, nach der Definitionen in der Übersichtstabelle abgeschnitten werden.
 content#:#glo_usages#:#Glossar wird verwendet in...
 content#:#glo_used_in_scorm#:#Das Glossar wird vom SCORM-Modul verwendet. Wenn das Glossar gelöscht wird, können Verlinkungen zum Glossar nicht mehr aufgelöst werden.
 content#:#htlm_import#:#HTML-Lernmodul importieren
@@ -7424,8 +7424,8 @@ exc#:#exc_assignments_deleted#:#Die Übungseinheiten wurden gelöscht.
 exc#:#exc_blog_created#:#Blog wurde erstellt.
 exc#:#exc_blog_returned#:#Zugeordnetes Blog
 exc#:#exc_blog_selected#:#Das Blog wurde verknüpft.
-exc#:#exc_completion_by_submission#:#Bestehen durch Abgabe
-exc#:#exc_completion_by_submission_info#:#Falls aktiviert, führt die Abgabe einer Lösung zum Bestehen einer Übungseinheit. Die Bewertung kann jederzeit manuell angepasst werden. Das Ändern dieser Einstellung hat keine nachträglichen Auswirkungen auf bereits eingereichte Lösungen.
+exc#:#exc_completion_by_submission#:#Automatisch bei Abgabe
+exc#:#exc_completion_by_submission_info#:#Gibt ein Teilnehmer ein Arbeitsergebnis ab, wird der Status "Bestanden" gesetzt. Der Tutor kann den Status manuell überschreiben. Das Ändern dieser Einstellung hat keine Auswirkung auf bestehende Bewertungen.
 exc#:#exc_conf_del_assignments#:#Möchten Sie die folgenden Übungseinheiten wirklich löschen?
 exc#:#exc_create_blog#:#Blog erstellen
 exc#:#exc_create_blog_select_info#:#Wählen Sie im Arbeitsraum Ihres Persönlichen Schreibtischs die Stelle aus, an der das Blog erstellt werden soll.
@@ -7434,7 +7434,7 @@ exc#:#exc_create_portfolio_select_info#:#Wählen Sie im Arbeitsraum Ihres Persö
 exc#:#exc_deadline#:#Abgabetermin
 exc#:#exc_direct_submit_blog#:#Möchten Sie die aktuelle Version Ihres Blogs jetzt abgeben? Sie können dies auch jederzeit im Blog-Editor tun.
 exc#:#exc_direct_submit_portfolio#:#Möchten Sie die aktuelle Version Ihres Portfolios jetzt abgeben? Sie können dies auch jederzeit im Portfolio-Editor tun.
-exc#:#exc_edit_assignment#:#Übungseinheit bearbeiten
+exc#:#exc_edit_assignment#:#Einstellungen der Übungseinheit
 exc#:#exc_edit_assignments#:#Übungseinheiten bearbeitn
 exc#:#exc_edit_submission#:#Eingereichte Lösungen ändern
 exc#:#exc_ended_on#:#Beendet am
@@ -7442,7 +7442,7 @@ exc#:#exc_export_excel#:#Export (Excel)
 exc#:#exc_fb_files#:#Feedback-Dateien
 exc#:#exc_grades#:#Notenübersicht
 exc#:#exc_grades_overview#:#Notenübersicht
-exc#:#exc_hand_in#:#Lösung einreichen
+exc#:#exc_hand_in#:#Datei abgeben
 exc#:#exc_import#:#Übung importieren
 exc#:#exc_list_submission#:#Alle Lösungsabgaben
 exc#:#exc_mail_permanent_link#:#Der folgende Link leitet weiter zur Übung:
@@ -7467,10 +7467,10 @@ exc#:#exc_order_by_deadline#:#Nach Abgabetermin sortieren
 exc#:#exc_overview#:#Übersicht
 exc#:#exc_participant#:#Teilnehmer
 exc#:#exc_participant_view#:#Je Teilnehmer
-exc#:#exc_pass_all#:#Alle obligatorischen Übungseinheiten
-exc#:#exc_pass_all_info#:#Lerner müssen alle obligatorischen Übungseinheiten bestehen, um die Übung als ganze zu bestehen.
-exc#:#exc_pass_minimum_nr#:#Minimale Anzahl an Übungseinheiten
-exc#:#exc_pass_minimum_nr_info#:#Lerner müssen eine minimale Anzahl an Übungseinheiten bestehen, um die Übung als ganze zu bestehen. Dieser Wert muß mindestens so hoch sein, wie die Anzahl der obligatorischen Übungseinheiten.
+exc#:#exc_pass_all#:#Nur obligatorische Übungseinheiten
+exc#:#exc_pass_all_info#:#Teilnehmer müssen alle obligatorischen Übungseinheiten bestehen, um die gesamte Übung zu bestehen.
+exc#:#exc_pass_minimum_nr#:#Mindestanzahl an Übungseinheiten
+exc#:#exc_pass_minimum_nr_info#:#Teilnehmer müssen eine Mindestanzahl an Übungseinheiten bestehen, um die gesamte Übung zu bestehen.
 exc#:#exc_pass_mode#:#Anforderung
 exc#:#exc_portfolio_created#:#Portfolio wurde erstellt.
 exc#:#exc_portfolio_returned#:#Zugeordnetes Portfolio
@@ -7489,13 +7489,13 @@ exc#:#exc_select_portfolio#:#Vorhandenes Portfolio nutzen
 exc#:#exc_select_portfolio_change#:#Anderes Portfolio benutzen
 exc#:#exc_select_portfolio_info#:#Bitte wählen Sie eines Ihrer Portfolios, um es in dieser Übungseinheit zu benutzen.
 exc#:#exc_send_assignment#:#Übungseinheit per Mail verschicken
-exc#:#exc_show_submissions#:#Alle abgegebenen Lösungen nach Abgabetermin veröffentlichen
-exc#:#exc_show_submissions_info#:#Die abgegebenen Lösungen aller Lerner können nach dem Abgabetermin von allen Lernern eingesehen werden.
+exc#:#exc_show_submissions#:#Arbeitsergebnisse veröffentlichen
+exc#:#exc_show_submissions_info#:#Alle abgegebenen Arbeitsergebnisse einer Übungseinheit können nach dem Abgabetermin von allen Teilnehmern eingesehen werden.
 exc#:#exc_start_time#:#Startzeit
 exc#:#exc_starting_on#:#Startet am
-exc#:#exc_submission_notification#:#Mail-Benachrichtigung bei Abgaben
+exc#:#exc_submission_notification#:#Benachrichtigung bei Abgabe
 exc#:#exc_submission_notification_body#:#Eine neue Abgabe wurde für die Übung "%s" hochgeladen
-exc#:#exc_submission_notification_info#:#Sie werden benachrichtigt, sobald neue Abgaben hochgeladen werden. Dies ist eine persönliche Einstellung die andere Administratoren der Übung nicht betrifft.
+exc#:#exc_submission_notification_info#:#Sie werden per Mail benachrichtigt, sobald neue Arbeitsergebnisse abgegeben wurden. Dies ist eine persönliche Einstellung, die nur für Sie gilt. Andere Tutoren der Übung sind davon nicht betroffen.
 exc#:#exc_submission_notification_link#:#Link zur Übung: %s
 exc#:#exc_submission_notification_subject#:#Eine neue Abgabe wurde für die Übung "%s" hochgeladen
 exc#:#exc_submissions_and_grades#:#Abgaben und Noten
@@ -13432,7 +13432,7 @@ common#:#enable_multi_download_info#:#Wenn aktiviert, können mehrere Ordner/Dat
 book#:#book_confirm_booking_schedule_number_of_objects#:#Buchungsbestätigung
 book#:#book_confirm_booking_schedule_number_of_objects_info#:#Bitte wählen Sie die Anzahl der zu buchenden Objekte.
 exc#:#exc_type_text#:#Text
-exc#:#exc_files_returned_text#:#Übungseinheit Text
+exc#:#exc_files_returned_text#:#Abgegebener Text
 exc#:#exc_text_assignment_edit#:#Text bearbeiten
 exc#:#exc_text_assignment_show#:#Text anzeigen
 survey#:#survey_360_remove_appraisees#:#Feedback-Nehmer entfernen
@@ -13440,7 +13440,7 @@ search#:#search_add_members_from_container_grp#:#Benutzer aus aktueller Gruppe h
 search#:#search_add_members_from_container_crs#:#Benutzer aus aktuellem Kurs hinzufügen
 exc#:#exc_peer_review#:#Peer-Feedback
 exc#:#exc_peer_review_info#:#Nicht möglich für Team-Upload-Übungseinheiten
-exc#:#exc_peer_review_min_number#:#Anzahl an gegebenem Feedback um eigene Bewertungen zu sehen
+exc#:#exc_peer_review_min_number#:#Mindestanzahl Bewertungen
 exc#:#exc_peer_review_give#:#Feedback geben
 exc#:#exc_peer_review_no_peers#:#Es konnten keine Peers gefunden werden.
 exc#:#exc_peer_review_rating#:#Bewertung
@@ -13510,7 +13510,7 @@ rating#:#rating_new_objects_auto_info#:#Die Bewertungsfunktion ist in neu angele
 rating#:#rating_activate_rating#:#Bewertung aktivieren
 rating#:#rating_activate_rating_info#:#Wenn aktiviert, können Benutzer dieses Objekt bewerten.
 exc#:#exc_peer_review_no_peers_reviewed_yet#:#Es wurden bisher noch keine Bewertungen vorgenommen.
-exc#:#exc_peer_review_ass_setting_info#:#Wenn aktiviert, können Benutzer sich nach dem Abgabetermin gegenseitig bewerten.
+exc#:#exc_peer_review_ass_setting_info#:#Nach dem Abgabetermin können Teilnehmer ihre Arbeitsergebnisse gegenseitig bewerten.
 book#:#book_copy#:#Buchungspool kopieren
 book#:#obj_book_duplicate#:#Buchungspool kopieren
 administration#:#adm_user_starting_point_invalid_info#:#Dieses Feature ist aktuell nicht aktiviert.
@@ -13617,8 +13617,8 @@ orgu#:#ext_id_updated#:#Die externe ID wurde erfolgreich bearbeitet.n, da die Da
 orgu#:#no_roles#:#Es gibt keine weiteren lokalen Rollen an dieser Stelle.
 orgu#:#local_other_roles#:#Weitere lokale Rollen %s
 cld#:#cld_object_added#:#Ein neues Cloud Objekt wurde hinzugefügt
-exc#:#exc_peer_review_deadline#:#Endtermin Feedback
-exc#:#exc_peer_review_deadline_info#:#Bis zu diesem Termin kann Feedback gegeben werden und das erhaltene Feedback ist erst ab dann einsehbar.
+exc#:#exc_peer_review_deadline#:#Ende des Bewertungszeitraums
+exc#:#exc_peer_review_deadline_info#:#Bis zu diesem Termin können Bewertungen abgegeben werden. Anschließend ist das erhaltene Feedback einsehbar.
 exc#:#exc_peer_review_deadline_info_button#:#Endtermin: %s
 exc#:#exc_peer_review_deadline_reached#:#Feedback-Zeit ist abgelaufen.
 exc#:#exc_peer_review_comment#:#Mein Feedback
@@ -13632,7 +13632,7 @@ fold#:#fold_settings#:#Ordnereigenschaften
 mcst#:#mcst_download_cnt#:#Heruntergeladen
 mcst#:#mcst_play_cnt#:#Abgespielt
 glo#:#glo_term#:#Glossarbegriff
-content#:#glo_add_term_properties#:#Zusätzliche Eigenschaften von Glossarbegriffen aktivieren
+content#:#glo_add_term_properties#:#Zusätzliche Eigenschaften von Glossarbegriffen
 exc#:#exc_multi_feedback#:#Multi-Feedback
 exc#:#exc_download_zip_structure#:#ZIP-Verzeichnisstruktur herunterladen
 exc#:#exc_multi_feedback_file#:#Multi-Feedback Datei
@@ -14247,3 +14247,17 @@ user#:#interests_general#:#Allgemeine Interessen
 user#:#interests_help_offered#:#Biete Hilfe
 user#:#interests_help_looking#:#Suche Hilfe
 pd#:#pd_remove_multi_confirm#:#Die Objekte wurden entfernt.
+content#:#glo_online_info#:#Nur wenn das Glossar online geschaltet ist, können Benutzer das Glossar sehen und benutzen.
+content#:#glo_mode_level_info#:#Das Glossar beinhaltet zusätzlich alle Begriffe aus Glossaren, die sich im Magazin auf gleicher Ebene befinden.
+content#:#glo_mode_normal_info#:#Das Glossar beinhaltet nur die Begriffe, die in diesem Objekt erstellt werden.
+content#:#glo_mode_subtree_info#:#Das Glossar beinhaltet zusätzlich alle Begriffe aus Glossaren, die sich im Magazin auf gleicher Ebene und in untergeordneten Ebenen befinden.
+content#:#glo_content_settings#:#Zusammenstellung des Inhalts
+content#:#glo_show_taxonomy_info#:#Die Taxonomie wird in der Präsentationsansicht angezeigt und kann zur Auswahl von Begriffen genutzt werden.
+exc#:#exc_notification#:#Persönliche Benachrichtigung
+exc#:#exc_passing_exc#:#Bestehen der Übung
+exc#:#exc_publishing#:#Veröffentlichung
+exc#:#exc_min_nr_info#:#Dieser Wert muss mindestens so hoch sein, wie die Anzahl der obligatorischen Übungseinheiten.
+exc#:#exc_passed_status_determination#:#Bestimmung des Status "Bestanden"
+exc#:#exc_completion_by_tutor#:#Nur manuell durch Tutor
+exc#:#exc_your_text#:#Ihr Text
+exc#:#exc_peer_review_min_number_info#:#Diese Anzahl an Arbeitsergebnissen muss ein Teilnehmer bewerten, um die Bewertungen seines eigenen Arbeitsergebnisses einsehen zu können.
