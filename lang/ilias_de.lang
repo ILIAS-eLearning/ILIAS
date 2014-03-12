@@ -13962,8 +13962,8 @@ adve#:#adve_minutes#:#Minuten
 adve#:#adve_minutes_info#:#Zeitraum in Minuten bis die Seite wegen fehlender Aktivität wieder freigegeben und dann von einem anderen Benutzer bearbeitet werden kann.
 content#:#content_until#:#Bearbeitung für andere Benutzer gesperrt bis
 content#:#content_no_edit_lock#:#Die Seite wird aktuell durch einen anderen Benutzer bearbeitet.
-content#:#cont_disable_def_feedback#:#Standard-Feebdack deaktivieren
-content#:#cont_disable_def_feedback_info#:#Deaktiviert das Standard-Feebdack nach der Beantwortung von Fragen.
+content#:#cont_disable_def_feedback#:#Standard-Feedback deaktivieren
+content#:#cont_disable_def_feedback_info#:#Deaktiviert das Standard-Feedback nach der Beantwortung von Fragen.
 mob#:#mob_general#:#Allgemein
 mob#:#mob_subtitles#:#Untertitel
 mob#:#mob_subtitle_files#:#Dateien für Untertitel
@@ -14261,3 +14261,7 @@ exc#:#exc_passed_status_determination#:#Bestimmung des Status "Bestanden"
 exc#:#exc_completion_by_tutor#:#Nur manuell durch Tutor
 exc#:#exc_your_text#:#Ihr Text
 exc#:#exc_peer_review_min_number_info#:#Diese Anzahl an Arbeitsergebnissen muss ein Teilnehmer bewerten, um die Bewertungen seines eigenen Arbeitsergebnisses einsehen zu können.
+content#:#cont_def_feedb_activated#:#Das Standard-Feedback ist zur Zeit in den Einstellungen des Lernmoduls aktiviert.
+content#:#cont_def_feedb_deactivated#:#Das Standard-Feedback ist zur Zeit in den Einstellungen des Lernmoduls deaktiviert.
+adve#:#advanced_editing_tst_editing#:#Seiteneditor für zusätzliche Frageninhalte
+adve#:#advanced_editing_tst_editing_desc#:#Aktiviert den ILIAS-Seiteneditor für Feedback- und Hinweistexte.
