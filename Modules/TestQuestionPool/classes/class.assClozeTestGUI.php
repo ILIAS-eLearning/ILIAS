@@ -89,60 +89,123 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 	{
 		if (is_array( $_POST['gap'] ))
 		{
-			if (strcmp( $this->ctrl->getCmd(), 'createGaps' ) != 0)
+			if ( $this->ctrl->getCmd() != 'createGaps' )
+			{
 				$this->object->clearGapAnswers();
+			}
+			
 			foreach ($_POST['gap'] as $idx => $hidden)
 			{
 				$clozetype = $_POST['clozetype_' . $idx];
+				
 				$this->object->setGapType( $idx, $clozetype );
-				if (array_key_exists( 'shuffle_' . $idx, $_POST ))
+				
+				switch($clozetype)
 				{
-					$this->object->setGapShuffle( $idx, $_POST['shuffle_' . $idx] );
+					case CLOZE_TEXT:
+
+						$this->object->setGapShuffle( $idx, 0 );
+						
+						if ($this->ctrl->getCmd() != 'createGaps')
+						{
+							if (is_array( $_POST['gap_' . $idx]['answer'] ))
+							{
+								foreach ($_POST['gap_' . $idx]['answer'] as $order => $value)
+								{
+									$this->object->addGapAnswer( $idx, $order, $value );
+								}
+							}
+							else
+							{
+								$this->object->addGapAnswer( $idx, 0, '' );
+							}
+						}
+						
+						if (is_array( $_POST['gap_' . $idx]['points'] ))
+						{
+							foreach ($_POST['gap_' . $idx]['points'] as $order => $value)
+							{
+								$this->object->setGapAnswerPoints( $idx, $order, $value );
+							}
+						}
+						
+						break;
+						
+					case CLOZE_SELECT:
+
+						$this->object->setGapShuffle( $idx, (int)(isset($_POST["shuffle_$idx"]) && $_POST["shuffle_$idx"]) );
+
+						if ($this->ctrl->getCmd() != 'createGaps')
+						{
+							if (is_array( $_POST['gap_' . $idx]['answer'] ))
+							{
+								foreach ($_POST['gap_' . $idx]['answer'] as $order => $value)
+								{
+									$this->object->addGapAnswer( $idx, $order, $value );
+								}
+							}
+							else
+							{
+								$this->object->addGapAnswer( $idx, 0, '' );
+							}
+						}
+						
+						if (is_array( $_POST['gap_' . $idx]['points'] ))
+						{
+							foreach ($_POST['gap_' . $idx]['points'] as $order => $value)
+							{
+								$this->object->setGapAnswerPoints( $idx, $order, $value );
+							}
+						}
+						
+						break;
+
+					case CLOZE_NUMERIC:
+						
+						$this->object->setGapShuffle( $idx, 0 );
+
+						$this->object->getGap($idx)->clearItems();
+
+						if (array_key_exists( 'gap_' . $idx . '_numeric', $_POST ))
+						{
+							if ($this->ctrl->getCmd() != 'createGaps')
+							{
+								$this->object->addGapAnswer(
+									$idx, 0, str_replace(",", ".", $_POST['gap_' . $idx . '_numeric'])
+								);
+							}
+
+							$this->object->setGapAnswerLowerBound(
+								$idx, 0, str_replace(",", ".", $_POST['gap_' . $idx . '_numeric_lower'])
+							);
+
+							$this->object->setGapAnswerUpperBound(
+								$idx, 0, str_replace( ",", ".", $_POST['gap_' . $idx . '_numeric_upper'])
+							);
+
+							$this->object->setGapAnswerPoints( $idx, 0, $_POST['gap_' . $idx . '_numeric_points'] );
+						}
+						else
+						{
+							if ($this->ctrl->getCmd() != 'createGaps')
+							{
+								$this->object->addGapAnswer($idx, 0, '');
+							}
+							
+							$this->object->setGapAnswerLowerBound($idx, 0, '');
+
+							$this->object->setGapAnswerUpperBound($idx, 0, '');
+						}
+						
+						break;
 				}
 
-				if (strcmp( $this->ctrl->getCmd(), 'createGaps' ) != 0)
-				{
-					if (is_array( $_POST['gap_' . $idx]['answer'] ))
-					{
-						foreach ($_POST['gap_' . $idx]['answer'] as $order => $value)
-						{
-							$this->object->addGapAnswer( $idx, $order, $value );
-						}
-					}
-				}
-				if (array_key_exists( 'gap_' . $idx . '_numeric', $_POST ))
-				{
-					if (strcmp( $this->ctrl->getCmd(), 'createGaps' ) != 0)
-						$this->object->addGapAnswer( $idx,
-													 0,
-													 str_replace( ",", ".", $_POST['gap_' . $idx . '_numeric'] )
-						);
-					$this->object->setGapAnswerLowerBound( $idx,
-														   0,
-														   str_replace( ",",
-																		".",
-																		$_POST['gap_' . $idx . '_numeric_lower']
-														   )
-					);
-					$this->object->setGapAnswerUpperBound( $idx,
-														   0,
-														   str_replace( ",",
-																		".",
-																		$_POST['gap_' . $idx . '_numeric_upper']
-														   )
-					);
-					$this->object->setGapAnswerPoints( $idx, 0, $_POST['gap_' . $idx . '_numeric_points'] );
-				}
-				if (is_array( $_POST['gap_' . $idx]['points'] ))
-				{
-					foreach ($_POST['gap_' . $idx]['points'] as $order => $value)
-					{
-						$this->object->setGapAnswerPoints( $idx, $order, $value );
-					}
-				}
+				
 			}
-			if (strcmp( $this->ctrl->getCmd(), 'createGaps' ) != 0)
+			if ($this->ctrl->getCmd() != 'createGaps')
+			{
 				$this->object->updateClozeTextFromGaps();
+			}
 		}
 	}
 
