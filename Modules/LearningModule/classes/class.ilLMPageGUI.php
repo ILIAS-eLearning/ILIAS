@@ -25,6 +25,27 @@ class ilLMPageGUI extends ilPageObjectGUI
 		parent::__construct("lm", $a_id, $a_old_nr, $a_prevent_get_id, $a_lang);
 	}
 
+	/**
+	 * On feedback editing forwarding
+	 */
+	function onFeedbackEditingForwarding()
+	{
+		global $lng;
+
+		if (strtolower($_GET["cmdClass"]) == "ilassquestionfeedbackeditinggui")
+		{
+			include_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
+			if (ilObjContentObject::_lookupDisableDefaultFeedback($this->getPageObject()->getParentId()))
+			{
+				ilUtil::sendInfo($lng->txt("cont_def_feedb_deactivated"));
+			}
+			else
+			{
+				ilUtil::sendInfo($lng->txt("cont_def_feedb_activated"));
+			}
+		}
+	}
+
 }
 
 ?>

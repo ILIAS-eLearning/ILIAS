@@ -60,7 +60,7 @@ class ilPageObjectGUI
 	var $render_page_container = false;
 	private $abstract_only = false;
 	protected $parent_type = "";
-	
+
 	//var $pl_start = "&#123;&#123;&#123;&#123;&#123;";
 	//var $pl_end = "&#125;&#125;&#125;&#125;&#125;";
 	var $pl_start = "{{{{{";
@@ -1028,7 +1028,9 @@ return;
 				break;
 
 			case 'ilassquestionfeedbackeditinggui':
-				
+
+				$this->onFeedbackEditingForwarding();
+
 				// set tabs
 				$this->setQEditTabs("feedback");
 				
@@ -1042,8 +1044,8 @@ return;
 				$questionGUI->object->setObjId(0);
 				$questionGUI->object->setSelfAssessmentEditingMode(true);
 				$questionGUI->object->setDefaultNrOfTries(null);
-				//$questionGUI->setQuestionTabs();
-				
+				$questionGUI->object->setPreventRteUsage($this->getPageConfig()->getPreventRteUsage());
+
 				// forward to ilAssQuestionFeedbackGUI
 				require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionFeedbackEditingGUI.php';
 				$gui = new ilAssQuestionFeedbackEditingGUI($questionGUI, $ilCtrl, $ilAccess, $tpl, $ilTabs, $lng);
@@ -1095,6 +1097,14 @@ return;
 			$ilCtrl->getLinkTargetByClass("ilAssQuestionFeedbackEditingGUI", ilAssQuestionFeedbackEditingGUI::CMD_SHOW));
 		
 		$ilTabs->activateTab($a_active);
+	}
+	
+	/**
+	 * On feedback editing forwarding
+	 */
+	function onFeedbackEditingForwarding()
+	{
+		
 	}
 	
 	
