@@ -387,9 +387,11 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
 					$tpl->setCurrentBlock("prop_text_propval");
 					$tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($value->getAnswertext()));
 					$tpl->parseCurrentBlock();
-					$tpl->setCurrentBlock("prop_points_propval");
-					$tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($value->getPoints()));
-					$tpl->parseCurrentBlock();
+					if( $this->getShowPoints() ) {
+						$tpl->setCurrentBlock("prop_points_propval");
+						$tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($value->getPoints()));
+						$tpl->parseCurrentBlock();
+					}
 				} 
 				$tpl->setCurrentBlock('singleline');
 				$tpl->setVariable("SIZE", $this->getSize());
