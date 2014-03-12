@@ -503,9 +503,9 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	 */
 	protected function startPlayerCmd()
 	{
-		if (strcmp($_SESSION["lock"], $_POST["lock"]) != 0)
+		if ( $_SESSION["lock"] != $this->getLockParameter() )
 		{
-			$_SESSION["lock"] = $_POST["lock"];
+			$_SESSION["lock"] = $this->getLockParameter();
 
 			$this->handleUserSettings();
 
@@ -520,6 +520,20 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		{
 			$this->ctrl->redirectByClass("ilobjtestgui", "redirectToInfoScreen");
 		}
+	}
+
+	protected function getLockParameter()
+	{
+		if( isset($_POST['lock']) && strlen($_POST['lock']) )
+		{
+			return $_POST['lock'];
+		}
+		elseif( isset($_GET['lock']) && strlen($_GET['lock']) )
+		{
+			return $_GET['lock'];
+		}
+
+		return null;
 	}
 
 	/**
