@@ -28,12 +28,12 @@ abstract class ilAssConfigurableMultiOptionQuestionFeedback extends ilAssMultiOp
 	 */
 	public function completeSpecificFormProperties(ilPropertyFormGUI $form)
 	{
-		$header = new ilFormSectionHeaderGUI();
-		$header->setTitle($this->lng->txt('feedback_answers'));
-		$form->addItem($header);
-
 		if( !$this->questionOBJ->getSelfAssessmentEditingMode() )
 		{
+			$header = new ilFormSectionHeaderGUI();
+			$header->setTitle($this->lng->txt('feedback_answers'));
+			$form->addItem($header);
+
 			require_once './Services/Form/classes/class.ilRadioGroupInputGUI.php';
 			require_once './Services/Form/classes/class.ilRadioOption.php';
 
