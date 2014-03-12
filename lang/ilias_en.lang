@@ -1205,7 +1205,7 @@ assessment#:#feedback_checked#:#Show answer specific feedback for all chosen/sel
 assessment#:#feedback_correct#:#Show answer specific feedback for all correct answers (Correct answers are those, that lead to a positive score when chosen/selected).
 assessment#:#tst_add_quest_cont_edit_mode#:#Editing Mode for additional Question Content
 assessment#:#tst_add_quest_cont_edit_mode_default#:#Default Editing Mode for Additional Question Content
-assessment#:#tst_add_quest_cont_edit_mode_page_object#:#Additional Content Editing with Page Object Editor
+assessment#:#tst_add_quest_cont_edit_mode_page_object#:#Additional Content Editing with Page Editor
 assessment#:#tst_question_feedback_edit_page#:#Edit Content
 assessment#:#tst_question_feedback_back_to_feedback_form#:#Back To Calling Question
 assessment#:#enable_examview#:#Enable Exam View
@@ -14220,3 +14220,7 @@ exc#:#exc_passed_status_determination#:#Determination of Staus "Passed"
 exc#:#exc_completion_by_tutor#:#Only manual by tutor
 exc#:#exc_your_text#:#Your Text
 exc#:#exc_peer_review_min_number_info#:#This number of other users work must be evaluated by a participant before the evaluation of his/her own work will be visible.
+content#:#cont_def_feedb_activated#:#Default feedback texts are currently activated in the learning module settings.
+content#:#cont_def_feedb_deactivated#:#Default feedback texts are currently deactivated in the learning module settings.
+adve#:#advanced_editing_tst_editing#:#Page Editor for additional question content
+adve#:#advanced_editing_tst_editing_desc#:#Aktivates ILIAS Page Eidotr for feedback and hint text editing.

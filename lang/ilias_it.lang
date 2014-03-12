@@ -14224,3 +14224,7 @@ exc#:#exc_passed_status_determination#:#Determination of Staus "Passed"###11 03 
 exc#:#exc_completion_by_tutor#:#Only manual by tutor###11 03 2014 new variable
 exc#:#exc_your_text#:#Your Text###11 03 2014 new variable
 exc#:#exc_peer_review_min_number_info#:#This number of other users work must be evaluated by a participant before the evaluation of his/her own work will be visible.###11 03 2014 new variable
+content#:#cont_def_feedb_activated#:#Default feedback texts are currently activated in the learning module settings.###12 03 2014 new variable
+content#:#cont_def_feedb_deactivated#:#Default feedback texts are currently deactivated in the learning module settings.###12 03 2014 new variable
+adve#:#advanced_editing_tst_editing#:#Page Editor for additional question content###12 03 2014 new variable
+adve#:#advanced_editing_tst_editing_desc#:#Aktivates ILIAS Page Eidotr for feedback and hint text editing.###12 03 2014 new variable
