@@ -840,10 +840,22 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			$ilTabs->setBackTarget($this->lng->txt("qpl"), $this->ctrl->getLinkTargetByClass("ilobjquestionpoolgui", "questions"));
 		}
 	}
-	
+
 	function getSpecificFeedbackOutput($active_id, $pass)
 	{
-		$output = "";
+		$output = '<table class="ilTstSpecificFeedbackTable"><tbody>';
+
+		foreach($this->object->getAnswers() as $idx => $answer)
+		{
+			$feedback = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation(
+				$this->object->getId(), $idx
+			);
+
+			$output .= "<tr><td><b><i>{$answer->getAnswerText()}</i></b></td><td>{$feedback}</td></tr>";
+		}
+
+		$output .= '</tbody></table>';
+
 		return $this->object->prepareTextareaOutput($output, TRUE);
 	}
 
