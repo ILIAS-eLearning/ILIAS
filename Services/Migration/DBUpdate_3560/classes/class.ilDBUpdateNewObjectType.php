@@ -340,6 +340,74 @@ class ilDBUpdateNewObjectType
 		);
 		self::addRBACOperations($obj_type_id, $rbac_ops);
 	}
+	
+	/**
+	 * Clone RBAC-settings between operations
+	 * 
+	 * @param string $a_obj_type
+	 * @param int $a_source_op_id
+	 * @param int $a_target_op_id
+	 */
+	public static function cloneOperation($a_obj_type, $a_source_op_id, $a_target_op_id)
+	{
+		global $ilDB;
+		
+		// rbac_pa
+		$sql = "SELECT rpa.*".
+			" FROM rbac_pa rpa".
+			" JOIN object_reference ref ON (ref.ref_id = rpa.ref_id)".
+			" JOIN object_data od ON (od.obj_id = ref.obj_id AND od.type = ".$ilDB->quote($a_obj_type).")".
+			// see ilUtil::_getObjectsByOperations()
+			" WHERE (".$ilDB->like("ops_id", "text","%i:".$a_source_op_id."%"). 
+			" OR ".$ilDB->like("ops_id", "text", "%:\"".$a_source_op_id."\";%").")";
+		$set = $ilDB->query($sql);
+		while($row = $ilDB->fetchAssoc($set))
+		{
+			$ops = unserialize($row["ops_id"]);
+			// the query above could match by array KEY, we need extra checks
+			if(in_array($a_source_op_id, $ops) && !in_array($a_target_op_id, $ops))
+			{				
+				$ops[] = $a_target_op_id;
+				
+				$ilDB->manipulate("UPDATE rbac_pa".
+					" SET ops_id = ".$ilDB->quote(serialize($ops), "text").
+					" WHERE rol_id = ".$ilDB->quote($row["rol_id"], "integer").
+					" AND ref_id = ".$ilDB->quote($row["ref_id"], "integer"));
+			}
+		}
+		
+		// rbac_templates
+		$tmp = array();
+		$sql = "SELECT rol_id, parent, ops_id".
+			" FROM rbac_templates".
+			" WHERE type = ".$ilDB->quote($a_obj_type, "text").
+			" AND (ops_id = ".$ilDB->quote($a_source_op_id, "integer").
+			" OR ops_id = ".$ilDB->quote($a_target_op_id).")";
+		$set = $ilDB->query($sql);
+		while($row = $ilDB->fetchAssoc($set))
+		{
+			$tmp[$row["rol_id"]][$row["parent"]][] = $row["ops_id"];			
+		}
+		
+		foreach($tmp as $role_id => $parents)
+		{
+			foreach($parents as $parent_id => $ops_ids)
+			{
+				// only if the target op is missing
+				if(sizeof($ops_ids) < 2 && in_array($a_source_op_id, $ops_ids))
+				{					
+					$ilDB->manipulate("INSERT INTO rbac_templates".
+						" (rol_id, type, ops_id, parent)".
+						" VALUES ".
+						"(".$ilDB->quote($role_id, "integer").
+						",".$ilDB->quote($a_obj_type, "text").
+						",".$ilDB->quote($a_target_op_id, "integer").
+						",".$ilDB->quote($parent_id, "integer").
+						")");
+				}
+			}
+		}
+	}
 }
 
 ?>
