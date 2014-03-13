@@ -388,11 +388,8 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 		
 		foreach($a_users as $user)
 		{
-			$res = $ilDB->manipulateF(
-				'DELETE FROM cmi_node WHERE user_id = %s'.
-				'AND cp_node_id IN (SELECT cp_node_id FROM cp_node WHERE slm_id = %s)', 
-				array('integer', 'integer'),
-				array($user, $this->getId()));
+			include_once("./Modules/Scorm2004/classes/class.ilSCORM2004DeleteData.php");
+			ilSCORM2004DeleteData::removeCMIDataForUserAndPackage($user,$this->getId());
 			
 			// update learning progress
 			include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");	

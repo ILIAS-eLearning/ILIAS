@@ -1134,77 +1134,8 @@ class ilSCORM13Package
 
 	public function removeCMIData()
 	{
-		global $ilDB;
-
-		//cmi nodes
-		$cmi_nodes = array();
-		
-		$res = $ilDB->queryF('
-			SELECT cmi_node.cmi_node_id 
-			FROM cmi_node, cp_node 
-			WHERE cp_node.slm_id = %s AND cmi_node.cp_node_id = cp_node.cp_node_id',
-			array('integer'),
-			array($this->packageId)
-		);		
-		while($data = $ilDB->fetchAssoc($res)) 
-		{
-			$cmi_node_values[] = $data['cmi_node_id'];
-		}		
-		
-		//cmi interaction nodes
-		$cmi_inodes = array();
-		
-		$res = $ilDB->queryF('
-			SELECT cmi_interaction.cmi_interaction_id 
-			FROM cmi_interaction, cmi_node, cp_node 
-			WHERE (cp_node.slm_id = %s
-			AND cmi_node.cp_node_id = cp_node.cp_node_id
-			AND cmi_node.cmi_node_id = cmi_interaction.cmi_node_id)',
-			array('integer'),
-			array($this->packageId)
-		);		
-		while($data = $ilDB->fetchAssoc($res)) 
-		{
-			$cmi_inode_values[] = $data['cmi_interaction_id'];
-		}
-		
-		//response
-		$query = 'DELETE FROM cmi_correct_response WHERE '
-			   . $ilDB->in('cmi_correct_response.cmi_interaction_id', $cmi_inode_values, false, 'integer');
-		$ilDB->manipulate($query);
-			
-		//objective interaction
-		$query = 'DELETE FROM cmi_objective WHERE '
-			   . $ilDB->in('cmi_objective.cmi_interaction_id', $cmi_inode_values, false, 'integer');
-		$ilDB->manipulate($query);	
-			
-		//objective
-		$query = 'DELETE FROM cmi_objective WHERE '
-			   . $ilDB->in('cmi_objective.cmi_node_id', $cmi_node_values, false, 'integer');
-		$ilDB->manipulate($query);	
-				
-		//interaction
-		$query = 'DELETE FROM cmi_interaction WHERE '
-		 	   . $ilDB->in('cmi_interaction.cmi_node_id', $cmi_node_values, false, 'integer');
-		$ilDB->manipulate($query);	
-			
-		//comment
-		$query = 'DELETE FROM cmi_comment WHERE '
-			   . $ilDB->in('cmi_comment.cmi_node_id', $cmi_node_values, false, 'integer');
-		$ilDB->manipulate($query);	
-					
-		//node
-		$query = 'DELETE FROM cmi_node WHERE '
-			   . $ilDB->in('cmi_node.cmi_node_id', $cmi_node_values, false, 'integer');
-		$ilDB->manipulate($query);
-
-		//custom
-		$query = 'DELETE FROM cmi_custom WHERE obj_id = %s';
-		$ilDB->manipulateF($query, array('integer'), array($this->packageId));
-
-		//g_objective
-		$query = 'DELETE FROM cmi_gobjective WHERE scope_id = %s';
-		$ilDB->manipulateF($query, array('integer'), array($this->packageId));
+		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004DeleteData.php");
+		ilSCORM2004DeleteData::removeCMIDataForPackage($this->packageId);
 
 		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
 		ilLPStatusWrapper::_refreshStatus($this->packageId);
@@ -1317,79 +1248,10 @@ class ilSCORM13Package
 	
 	//to be called from IlObjUser
 	public static function _removeTrackingDataForUser($user_id) {
-		global $ilDB;
-		
-		//get all cmi_nodes to delete
-		$res = $ilDB->queryF('
-			SELECT cmi_node.cmi_node_id 
-			FROM cmi_node, cp_node 
-			WHERE cmi_node.cp_node_id = cp_node.cp_node_id AND cmi_node.user_id = %s',
-			array('integer'),
-			array($user_id)
-		);		
-		
-		$cmi_nodes = array();
-		while($data = $ilDB->fetchAssoc($res)) 
-		{
-			$cmi_node_values[] = $data['cmi_node_id'];
-		}		
-		
-		//get all cmi_interaction_nodes to delete
-		$res = $ilDB->queryF('
-			SELECT cmi_interaction.cmi_interaction_id 
-			FROM cmi_interaction, cmi_node, cp_node 
-			WHERE (cmi_node.user_id = %s
-			AND cmi_node.cp_node_id = cp_node.cp_node_id
-			AND cmi_node.cmi_node_id = cmi_interaction.cmi_node_id)',
-			array('integer'),
-			array($user_id)
-		);	
-		
-		$cmi_inodes = array();
 
-		while($data = $ilDB->fetchAssoc($res)) 
-		{
-			$cmi_inode_values[] = $data['cmi_interaction_id'];
-		}
-		
-		//delete data in dependent tables
-		
-		//response
-		$query = 'DELETE FROM cmi_correct_response WHERE '
-			   . $ilDB->in('cmi_correct_response.cmi_interaction_id', $cmi_inode_values, false, 'integer');
-		$ilDB->manipulate($query);
-			
-		//objective interaction
-		$query = 'DELETE FROM cmi_objective WHERE '
-			   . $ilDB->in('cmi_objective.cmi_interaction_id', $cmi_inode_values, false, 'integer');
-		$ilDB->manipulate($query);	
-			
-		//objective
-		$query = 'DELETE FROM cmi_objective WHERE '
-			   . $ilDB->in('cmi_objective.cmi_node_id', $cmi_node_values, false, 'integer');
-		$ilDB->manipulate($query);	
-				
-		//interaction
-		$query = 'DELETE FROM cmi_interaction WHERE '
-		 	   . $ilDB->in('cmi_interaction.cmi_node_id', $cmi_node_values, false, 'integer');
-		$ilDB->manipulate($query);	
-			
-		//comment
-		$query = 'DELETE FROM cmi_comment WHERE '
-			   . $ilDB->in('cmi_comment.cmi_node_id', $cmi_node_values, false, 'integer');
-		$ilDB->manipulate($query);	
-					
-		//node
-		$query = 'DELETE FROM cmi_node WHERE '
-			   . $ilDB->in('cmi_node.cmi_node_id', $cmi_node_values, false, 'integer');
-		$ilDB->manipulate($query);	
-		
-		//gobjective
-		$ilDB->manipulateF(
-			'DELETE FROM cmi_gobjective WHERE user_id = %s',
-			array('integer'),
-			array($user_id)
-		);
+		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004DeleteData.php");
+		ilSCORM2004DeleteData::removeCMIDataForUser($user_id);
+		//missing updatestatus
 	}
 }
 ?>
