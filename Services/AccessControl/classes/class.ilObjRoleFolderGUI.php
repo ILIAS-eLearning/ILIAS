@@ -173,8 +173,33 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 		$search->setMaxLength(255);
 		$form->addItem($search);
 
-		$form->addCommandButton('roleSearchList', $this->lng->txt('search'));
+		$form->addCommandButton('roleSearchForm', $this->lng->txt('search'));
 		return $form;
+	}
+	
+	
+	/**
+	 * Parse search query
+	 * @global type $ilCtrl
+	 * @return type
+	 */
+	protected function roleSearchFormObject()
+	{
+		global $ilCtrl;
+		
+		$_SESSION['rolf_search_query'] = '';
+		$ilCtrl->setParameter($this,'copy_source',(int) $_REQUEST['copy_source']);
+
+		$form = $this->initRoleSearchForm();
+		if($form->checkInput())
+		{
+			$_SESSION['rolf_search_query'] = $form->getInput('title');
+			return $this->roleSearchListObject();
+		}
+
+		ilUtil::sendFailure($this->lng->txt('msg_no_search_string'), true);
+		$form->setValuesByPost();
+		$ilCtrl->redirect($this,'roleSearch');
 	}
 
 	/**
@@ -191,23 +216,21 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 		);
 
 		$ilCtrl->setParameter($this,'copy_source',(int) $_REQUEST['copy_source']);
-		
-		$form = $this->initRoleSearchForm();
-		if($form->checkInput())
+
+		if(strlen($_SESSION['rolf_search_query']))
 		{
 			ilUtil::sendInfo($this->lng->txt('rbac_select_copy_targets'));
 
 			include_once './Services/AccessControl/classes/class.ilRoleTableGUI.php';
 			$table = new ilRoleTableGUI($this,'roleSearchList');
 			$table->setType(ilRoleTableGUI::TYPE_SEARCH);
-			$table->setRoleTitleFilter($form->getInput('title'));
+			$table->setRoleTitleFilter($_SESSION['rolf_search_query']);
 			$table->init();
 			$table->parse($this->object->getId());
 			return $this->tpl->setContent($table->getHTML());
 		}
 
 		ilUtil::sendFailure($this->lng->txt('msg_no_search_string'), true);
-		$form->setValuesByPost();
 		$ilCtrl->redirect($this,'roleSearch');
 	}
 
@@ -224,6 +247,8 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 			$this->lng->txt('rbac_back_to_overview'),
 			$this->ctrl->getLinkTarget($this,'roleSearchList')
 		);
+		
+		$GLOBALS['ilLog']->write(__METHOD__.': '.$_REQUEST['copy_source']);
 
 		$ilCtrl->setParameter($this,'copy_source',(int) $_REQUEST['copy_source']);
 
