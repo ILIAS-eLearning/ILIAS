@@ -356,6 +356,12 @@ class ilMail
 		{
 			return false;
 		}
+		
+		// Prevent using SOAP in cron context
+		if(ilContext::getType() == ilContext::CONTEXT_CRON)
+		{
+			return false;
+		}
 
 		return (bool) $this->soap_enabled;
 	}
