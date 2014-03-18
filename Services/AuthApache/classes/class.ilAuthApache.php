@@ -57,6 +57,9 @@ class ilAuthApache extends Auth
 		global $lng;
 		
 		parent::__construct($a_container,$a_addition_options,'',false);
+		// kb-patch: begin
+		$_SESSION = array();
+		// kb-patch: end
 		$this->setSessionName("_authhttp".md5(CLIENT_ID));
 
 		$this->apache_settings = new ilSetting('apache_auth');
@@ -128,7 +131,7 @@ class ilAuthApache extends Auth
 			return;
 		}
 		
-		if (!isset($_GET['passed_sso']) && (!defined('IL_CERT_SSO') || IL_CERT_SSO == false)) {
+		if (ilContext::supportsRedirects() && !isset($_GET['passed_sso']) && (!defined('IL_CERT_SSO') || IL_CERT_SSO == false)) {
 
 			// redirect to sso			
 			// this part is executed in default ilias context...
@@ -144,7 +147,6 @@ class ilAuthApache extends Auth
                                 $path = $parts['scheme'] . '://' . $parts['host'] . '/' . $path;
                         }
 			ilUtil::redirect(ilUtil::getHtmlPath('/sso/index.php?force_mode_apache=1&r=' . $path . '&cookie_path='.IL_COOKIE_PATH . '&ilias_path=' . ILIAS_HTTP_PATH));
-			exit;
 		}
 		else {
 			return parent::login();
