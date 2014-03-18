@@ -9,6 +9,9 @@
  */
 abstract class arConnector {
 
+	abstract public static function nextID(ActiveRecord $ar);
+
+
 	abstract public static function checkConnection(ActiveRecord $ar);
 
 
@@ -33,7 +36,7 @@ abstract class arConnector {
 	abstract public static function removeField(ActiveRecord $ar, $field_name);
 
 
-    abstract public static function renameField(ActiveRecord $ar, $old_name, $new_name);
+	abstract public static function renameField(ActiveRecord $ar, $old_name, $new_name);
 
 
 	abstract public static function create(ActiveRecord $ar);

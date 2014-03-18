@@ -326,12 +326,10 @@ abstract class ActiveRecord {
 		$class = get_class($this);
 		// TODO evtl. check field length etc.
 		try {
-			/*if (self::returnPrimaryFieldName() === 'id') {
-				$this->setId($this->db->nextID($this->returnDbTableName()));
+			if (self::returnPrimaryFieldName() === 'id') {
+				$this->setId($this->connector->nextID($this));
 				self::$object_cache[$class][$this->getId()] = $this;
-			} else { // TODO dies zur normalen Methode machen. prüfen
-				$this->db->insert($this->returnDbTableName(), $this->getArrayForDb());
-			}*/
+			}
 			$this->connector->create($this, $this->getArrayForDb());
 		} catch (Exception $e) {
 			echo $e->getMessage();

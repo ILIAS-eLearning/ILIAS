@@ -28,6 +28,22 @@ class arConnectorDB extends arConnector {
 
 	/**
 	 * @param ActiveRecord $ar
+	 *
+	 * @return mixed
+	 */
+	public static function nextID(ActiveRecord $ar) {
+		global $ilDB;
+
+		/**
+		 * @var $ilDB ilDB
+		 */
+
+		return $ilDB->nextId($ar::returnDbTableName());
+	}
+
+
+	/**
+	 * @param ActiveRecord $ar
 	 * @param              $fields
 	 *
 	 * @return bool
@@ -190,7 +206,6 @@ class arConnectorDB extends arConnector {
 			$query = 'SELECT * FROM ' . $ar::returnDbTableName() . ' ' . ' WHERE ' . $ar::returnPrimaryFieldName()
 				. ' = ' . $ilDB->quote($ar->getPrimaryFieldValue(), $ar::returnPrimaryFieldType());
 		}
-		echo $query;
 
 		$set = $ilDB->query($query);
 		$records = array();
