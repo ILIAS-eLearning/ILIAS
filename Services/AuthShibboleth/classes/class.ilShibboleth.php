@@ -377,7 +377,7 @@ class ShibAuth extends Auth {
 		// avoiding meaningless last names like 'von' or 'd' and eliminating
 		// non-ASCII-characters, spaces, dashes etc.
 		$ln_arr = preg_split("/[ ' -;]/", $lastname);
-		$login = substr($this->toAscii($firstname), 0, 1) . ' . ' . $this->toAscii($ln_arr[0]);
+		$login = substr($this->toAscii($firstname), 0, 1) . '.' . $this->toAscii($ln_arr[0]);
 		if (strlen($login) < 6) {
 			$login .= $this->toAscii($ln_arr[1]);
 		}
