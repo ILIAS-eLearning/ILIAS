@@ -428,26 +428,22 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 	{
 		global $tree, $rbacadmin, $rbacreview;
 
-
-
+		$target_rolf = $rbacreview->getRoleFolderOfRole($target);
+		
 		// Copy role template permissions
 		$rbacadmin->copyRoleTemplatePermissions(
 			$source,
 			$this->object->getRefId(),
-			$rbacreview->getRoleFolderOfRole($target),
+			$target_rolf,
 			$target
 		);
 
-		if(!$change_existing)
+		if(!$change_existing || !$target_rolf)
 		{
 			return true;
 		}
-
-		$start = ($this->object->getRefId() == ROLE_FOLDER_ID) ?
-			ROOT_FOLDER_ID :
-			$tree->getParentId($this->object->getRefId());
-
-
+		
+		$start = $tree->getParentId($target_rolf);
 
 		include_once './Services/AccessControl/classes/class.ilObjRole.php';
 		if($rbacreview->isProtected($this->object->getRefId(),$source))
