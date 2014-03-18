@@ -311,8 +311,9 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				break;
 		}
 
-		if (strtolower($_GET["baseClass"]) != "iladministrationgui" &&
-			$this->getCreationMode() != true)
+		if ( !(strtolower($_GET["baseClass"]) == "iladministrationgui" 
+				|| strtolower($_GET['baseClass']) == 'ilrepositorygui') 
+			&& $this->getCreationMode() != true)
 		{
 			$this->tpl->show();
 		}
