@@ -35,7 +35,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 	 */
 	function __construct($a_parent_obj, $a_parent_cmd, $a_ref_id, $a_pool_id, $a_show_all, $a_has_schedule, array $a_filter_pre = null, $a_group_id = null)
 	{
-		global $ilCtrl, $lng;
+		global $ilCtrl, $lng, $ilUser;
 
 		$this->pool_id = $a_pool_id;
 		$this->ref_id = $a_ref_id;
@@ -81,12 +81,15 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 		{
 			$this->setExportFormats(array(self::EXPORT_CSV, self::EXPORT_EXCEL));
 		}
-				
-		$this->addMultiCommand('rsvInUse', $lng->txt('book_set_in_use'));
-		$this->addMultiCommand('rsvNotInUse', $lng->txt('book_set_not_in_use'));
-		$this->addMultiCommand('rsvConfirmCancel', $lng->txt('book_set_cancel'));
-		// $this->addMultiCommand('rsvUncancel', $lng->txt('book_set_not_cancel'));
-		$this->setSelectAllCheckbox('mrsv');
+		
+		if($ilUser->getId() != ANONYMOUS_USER_ID)
+		{
+			$this->addMultiCommand('rsvInUse', $lng->txt('book_set_in_use'));
+			$this->addMultiCommand('rsvNotInUse', $lng->txt('book_set_not_in_use'));
+			$this->addMultiCommand('rsvConfirmCancel', $lng->txt('book_set_cancel'));
+			// $this->addMultiCommand('rsvUncancel', $lng->txt('book_set_not_cancel'));
+			$this->setSelectAllCheckbox('mrsv');
+		}
 		
 		$this->getItems($this->getCurrentFilter());
 		
@@ -325,7 +328,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 					$alist->addItem($lng->txt('book_set_cancel'), 'cancel', $ilCtrl->getLinkTarget($this->parent_obj, 'rsvConfirmCancel'));
 				}
 			}
-			else if($ilAccess->checkAccess('write', '', $this->ref_id) || $a_set['user_id'] == $ilUser->getId())
+			else 
 			{				
 				$alist->addItem($lng->txt('details'), 'details', $ilCtrl->getLinkTarget($this->parent_obj, 'logDetails'));
 			}

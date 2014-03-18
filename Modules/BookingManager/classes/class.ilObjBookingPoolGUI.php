@@ -32,15 +32,22 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 	 */
 	function executeCommand()
 	{
-		global $tpl, $ilTabs, $ilNavigationHistory;
+		global $tpl, $ilTabs, $ilNavigationHistory, $ilUser;
 
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 		
 		if(!$next_class && $cmd == 'render')
 		{
-			$this->ctrl->setCmdClass('ilBookingObjectGUI');
-			$next_class = $this->ctrl->getNextClass($this);
+			if($ilUser->getId() != ANONYMOUS_USER_ID)
+			{
+				$this->ctrl->setCmdClass('ilBookingObjectGUI');
+				$next_class = $this->ctrl->getNextClass($this);
+			}
+			else
+			{
+				$this->ctrl->redirect($this, "infoscreen");
+			}
 		}
 
 		if(substr($cmd, 0, 4) == 'book')
@@ -186,7 +193,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 	*/
 	function setTabs()
 	{
-		global $ilAccess, $ilHelp;
+		global $ilAccess, $ilHelp, $ilUser;
 		
 		if (in_array($this->ctrl->getCmd(), array("create", "save")) && !$this->ctrl->getNextClass())
 		{
@@ -194,18 +201,27 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		}
 		
 		$ilHelp->setScreenIdComponent("book");
+		
+		if ($ilAccess->checkAccess('read', '', $this->object->getRefId()))
+		{
+			if($ilUser->getId() != ANONYMOUS_USER_ID)
+			{
+				$this->tabs_gui->addTab("render",
+						$this->lng->txt("book_booking_types"),
+						$this->ctrl->getLinkTarget($this, "render"));
+			}
+		
+			$this->tabs_gui->addTab("info",
+					$this->lng->txt("info_short"),
+					$this->ctrl->getLinkTarget($this, "infoscreen"));
 
-		$this->tabs_gui->addTab("render",
-				$this->lng->txt("book_booking_types"),
-				$this->ctrl->getLinkTarget($this, "render"));
-
-		$this->tabs_gui->addTab("info",
-				$this->lng->txt("info_short"),
-				$this->ctrl->getLinkTarget($this, "infoscreen"));
-
-		$this->tabs_gui->addTab("log",
-			$this->lng->txt("book_log"),
-			$this->ctrl->getLinkTarget($this, "log"));		
+			if($ilUser->getId() != ANONYMOUS_USER_ID || $this->object->hasPublicLog())
+			{
+				$this->tabs_gui->addTab("log",
+					$this->lng->txt("book_log"),
+					$this->ctrl->getLinkTarget($this, "log"));		
+			}
+		}
 		
 		if ($ilAccess->checkAccess('write', '', $this->object->getRefId()))
 		{
