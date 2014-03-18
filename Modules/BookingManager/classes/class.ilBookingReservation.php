@@ -640,18 +640,26 @@ class ilBookingReservation
 					if(!$res[$idx]["date_to"] || $detail["date_to"] > $res[$idx]["date_to"])
 					{
 						$res[$idx]["date_to"] = $detail["date_to"];
-					}					
+					}		
+					
+					$last = $detail["date_to"];
 				}
 				
 				if(sizeof($item["details"]) > 1)
 				{					
 					$weekdays = array_unique($weekdays);
 					ksort($weekdays);
-					$res[$idx]["weekdays"] = array_values($weekdays);
+					$res[$idx]["weekdays"] = array_values($weekdays);							
 					if($recur)
 					{
-						$recur = $recur/(60*60*24); // days
-						$recur = ($recur >= 7) ? ceil($recur/7) : 0; // weeks == recurrence
+						if(date("YW", $res[$idx]["date_to"]) != date("YW", $res[$idx]["date_from"]))
+						{
+							$recur = ceil(($recur/(60*60*24))/7); 
+						}
+						else
+						{
+							$recur = 0;
+						}
 					}
 					$res[$idx]["recurrence"] = (int)$recur;	
 					

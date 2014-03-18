@@ -89,6 +89,8 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 		$this->setSelectAllCheckbox('mrsv');
 		
 		$this->getItems($this->getCurrentFilter());
+		
+		ilDatePresentation::setUseRelativeDates(false);
 	}
 
 	/**
@@ -282,7 +284,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 			$this->tpl->setVariable("VALUE_DATE", $period);			
 		}
 	
-		if (!$this->has_schedule || $date_to->get(IL_CAL_UNIX) > time())
+		if (!$this->has_schedule || ($date_to->get(IL_CAL_UNIX) > time() || $a_set['group_id']))
 		{
 			include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 			$alist = new ilAdvancedSelectionListGUI();
