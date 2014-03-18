@@ -181,7 +181,8 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 				}
 				if($this->filter["fromto"]["to"])
 				{
-					$filter["to"] = $this->filter["fromto"]["to"]->get(IL_CAL_UNIX);
+					$day_end = new ilDateTime($this->filter["fromto"]["to"]->get(IL_CAL_DATE)." 23:59:59", IL_CAL_DATETIME);
+					$filter["to"] = $day_end->get(IL_CAL_UNIX);
 				}
 			}
 		}

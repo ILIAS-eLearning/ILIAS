@@ -622,6 +622,8 @@ class ilBookingReservation
 				}
 				else
 				{
+					// undo grouping
+					$res[$idx] = array_pop($item["details"]);
 					unset($res[$idx]["group_id"]);
 				}				
 			}			

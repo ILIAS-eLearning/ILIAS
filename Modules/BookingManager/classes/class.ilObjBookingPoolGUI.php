@@ -821,8 +821,8 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 	
 	protected function addDaysDate($a_date, $a_days)
 	{
-		$date = getDate($a_date);
-		$stamp = mktime(0, 0, 1, $date["mon"], $date["mday"]+$a_days, $date["year"]);
+		$date = date_parse($a_date);		
+		$stamp = mktime(0, 0, 1, $date["month"], $date["day"]+$a_days, $date["year"]);
 		return date("Y-m-d", $stamp);
 	}
 	
@@ -863,7 +863,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 			$cycle = (int)$_POST["recm"]*7;			
 			$cut = 0;		
 			$org = $counter;
-			while($cut < 1000 && $this->addDaysDate($current_first, $cycle) < $end)
+			while($cut < 1000 && $this->addDaysDate($current_first, $cycle) <= $end)
 			{
 				$cut++;
 				$current_first = null;
@@ -875,20 +875,25 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 					$from = $this->addDaysStamp($parts[1], $cycle*$cut);
 					$to = $this->addDaysStamp($parts[2], $cycle*$cut);
 					
-					if(!$current_first)
-					{
-						$current_first = $from;
-					}
-					
-					// get max available for added dates
-					$new_max = ilBookingReservation::getAvailableObject(array($obj_id), $from, $to-1, false, true);
-					$new_max = (int)$new_max[$obj_id];
-					
 					$new_item_id = $obj_id."_".$from."_".$to;
-					$counter[$new_item_id] = $new_max;
 					
-					// clone input 
-					$_POST["conf_nr__".$new_item_id."_".$new_max] = $_POST["conf_nr__".$item_id."_".$max];								
+					// form reload because of validation errors
+					if(!isset($counter[$new_item_id]) && date("Y-m-d", $to) <= $end)
+					{							
+						// get max available for added dates
+						$new_max = ilBookingReservation::getAvailableObject(array($obj_id), $from, $to-1, false, true);
+						$new_max = (int)$new_max[$obj_id];
+
+						$counter[$new_item_id] = $new_max;
+
+						if(!$current_first)
+						{
+							$current_first = date("Y-m-d", $from);
+						}
+										
+						// clone input 
+						$_POST["conf_nr__".$new_item_id."_".$new_max] = $_POST["conf_nr__".$item_id."_".$max];		
+					}
 				}							
 			}											
 		}			
