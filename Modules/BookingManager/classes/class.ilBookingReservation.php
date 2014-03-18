@@ -486,11 +486,12 @@ class ilBookingReservation
 	{
 		global $ilDB;
 		
-		$sql = 'SELECT r.*,o.title'.
-			' FROM booking_reservation r'.
-			' JOIN booking_object o ON (o.booking_object_id = r.object_id)';
+		// find matching groups / reservations
+		
+		$sql = 'SELECT booking_reservation_id, group_id'.
+			' FROM booking_reservation';
 
-		$where = array($ilDB->in('r.object_id', $a_object_ids, '', 'integer'));		
+		$where = array($ilDB->in('object_id', $a_object_ids, '', 'integer'));		
 		if($filter['status'])
 		{
 			if($filter['status'] > 0)
@@ -514,7 +515,7 @@ class ilBookingReservation
 		if($filter['user_id'])
 		{
 			$where[] = 'user_id = '.$ilDB->quote($filter['user_id'], 'integer');
-		}	
+		}		
 		if($a_group_id)
 		{
 			$where[] = 'group_id = '.$ilDB->quote(substr($a_group_id, 1), 'integer');
@@ -524,43 +525,80 @@ class ilBookingReservation
 			$sql .= ' WHERE '.implode(' AND ', $where);		
 		}
 		
-		$sql .= ' ORDER BY date_from DESC, booking_reservation_id DESC';
-		
-		$set = $ilDB->query($sql);
-		$res = $grps = array();
-		$counter = 0;		
+		$grp_ids = $rsv_ids = array();
+		$set = $ilDB->query($sql);		
 		while($row = $ilDB->fetchAssoc($set))
-		{
-			if($row["group_id"] && !$a_group_id)
+		{	
+			if($row["group_id"])
 			{
-				if(!isset($grps[$row["group_id"]]))
-				{
-					$grps[$row["group_id"]] = 1;
-					$counter++;
-				}
-				else
-				{
-					$grps[$row["group_id"]]++;		
-				}
+				$grp_ids[] = $row["group_id"];
+			}			
+			else 
+			{
+				$rsv_ids[] = $row["booking_reservation_id"];
 			}
-			else
-			{				
-				$counter++;
-			}								
+		}
+		
+		$res = array();
+		
+		// get complete groups (and/or reservations)
+		
+		if($grp_ids || $rsv_ids)
+		{
+		
+			$sql = 'SELECT r.*,o.title'.
+				' FROM booking_reservation r'.
+				' JOIN booking_object o ON (o.booking_object_id = r.object_id)';
 			
-			if($a_group_id || ($counter > $a_offset && sizeof($res) < $a_limit))
+			$where = array();			
+			if($grp_ids)
 			{
+				$where[] = $ilDB->in('group_id', $grp_ids, '', 'integer');
+			}
+			if($rsv_ids)
+			{
+				$where[] = $ilDB->in('booking_reservation_id', $rsv_ids, '', 'integer');
+			}
+
+			$sql .= ' WHERE ('.implode(' OR ', $where).')'.
+				' ORDER BY date_from DESC, booking_reservation_id DESC';
+
+			$set = $ilDB->query($sql);
+			$grps = array();
+			$counter = 0;		
+			while($row = $ilDB->fetchAssoc($set))
+			{			
 				if($row["group_id"] && !$a_group_id)
 				{
-					$group_id = "g".$row["group_id"];
-					$res[$group_id]["group_id"] = $group_id;
-					$res[$group_id]["details"][] = $row;
+					if(!isset($grps[$row["group_id"]]))
+					{
+						$grps[$row["group_id"]] = 1;
+						$counter++;
+					}
+					else
+					{
+						$grps[$row["group_id"]]++;		
+					}
 				}
 				else
+				{				
+					$counter++;
+				}								
+
+				if($a_group_id || ($counter > $a_offset && sizeof($res) < $a_limit))
 				{
-					unset($row["group_id"]);
-					$res[] = $row;
-				}				
+					if($row["group_id"] && !$a_group_id)
+					{
+						$group_id = "g".$row["group_id"];
+						$res[$group_id]["group_id"] = $group_id;
+						$res[$group_id]["details"][] = $row;
+					}
+					else
+					{
+						unset($row["group_id"]);
+						$res[] = $row;
+					}				
+				}
 			}
 		}
 		
