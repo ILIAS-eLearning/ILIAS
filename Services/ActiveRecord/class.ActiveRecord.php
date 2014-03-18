@@ -127,7 +127,7 @@ abstract class ActiveRecord {
 			$key = self::returnPrimaryFieldName();
 			$this->{$key} = $id;
 		}
-		if ($id != 0) {
+		if ($id !== 0 AND $id !== NULL AND $id !== false) {
 			$this->read();
 		}
 	}
@@ -661,7 +661,7 @@ abstract class ActiveRecord {
 	/**
 	 * @return mixed
 	 */
-	final protected function getPrimaryFieldValue() {
+	final public function getPrimaryFieldValue() {
 		$primary_fieldname = self::returnPrimaryFieldName();
 
 		return $this->{$primary_fieldname};

@@ -190,6 +190,8 @@ class arConnectorDB extends arConnector {
 			$query = 'SELECT * FROM ' . $ar::returnDbTableName() . ' ' . ' WHERE ' . $ar::returnPrimaryFieldName()
 				. ' = ' . $ilDB->quote($ar->getPrimaryFieldValue(), $ar::returnPrimaryFieldType());
 		}
+		echo $query;
+
 		$set = $ilDB->query($query);
 		$records = array();
 		while ($rec = $ilDB->fetchObject($set)) {
