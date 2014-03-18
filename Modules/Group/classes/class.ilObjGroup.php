@@ -773,7 +773,11 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 		$new_obj->setMailToMembersType($this->getMailToMembersType());
 		
 		$new_obj->update();
-
+		
+		// #13008 - Group Defined Fields
+		include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
+		ilCourseDefinedFieldDefinition::_clone($this->getId(),$new_obj->getId());
+		
 		global $ilLog;
 		$ilLog->write(__METHOD__.': Starting add user');
 		
