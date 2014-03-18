@@ -606,11 +606,16 @@ class ilBookingReservation
 				}
 				
 				if(sizeof($item["details"]) > 1)
-				{
+				{					
 					$weekdays = array_unique($weekdays);
 					ksort($weekdays);
 					$res[$idx]["weekdays"] = array_values($weekdays);
-					$res[$idx]["recurrence"] = $recur ? (int)ceil(($recur/(60*60*24))/7) : 0;	
+					if($recur)
+					{
+						$recur = $recur/(60*60*24); // days
+						$recur = ($recur >= 7) ? ceil($recur/7) : 0; // weeks == recurrence
+					}
+					$res[$idx]["recurrence"] = (int)$recur;	
 					
 					$res[$idx]["booking_reservation_id"] = $idx;								
 					$res[$idx]["title"] .= " (".sizeof($item["details"]).")";
