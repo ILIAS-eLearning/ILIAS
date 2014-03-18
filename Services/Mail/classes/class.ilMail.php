@@ -2118,7 +2118,7 @@ class ilMail
 			if(strlen($attachments))  
 				$attachments = "#:#".$attachments;
 
-			$soap_client->call('sendMail',array($_COOKIE['PHPSESSID'].'::'.$_COOKIE['ilClientId'],	// session id
+			$soap_client->call('sendMail',array(session_id().'::'.$_COOKIE['ilClientId'],	// session id
 												$a_rcp_to,
 												$a_rcp_cc,
 												$a_rcp_bcc,
