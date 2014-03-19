@@ -128,6 +128,49 @@ class ilShibbolethPluginWrapper implements ilShibbolethAuthenticationPluginInt {
 
 		return $user;
 	}
+
+
+	/**
+	 * @param ilObjUser $user
+	 *
+	 * @return ilObjUser
+	 */
+	public function afterLogout(ilObjUser $user) {
+		$this->log->write('afterlogout');
+		foreach ($this->getPluginObjects() as $pl) {
+			$user = $pl->afterLogout($user);
+		}
+
+		return $user;
+	}
+
+
+	/**
+	 * @param ilObjUser $user
+	 *
+	 * @return ilObjUser
+	 */
+	public function beforeUpdateUser(ilObjUser $user) {
+		foreach ($this->getPluginObjects() as $pl) {
+			$user = $pl->beforeUpdateUser($user);
+		}
+
+		return $user;
+	}
+
+
+	/**
+	 * @param ilObjUser $user
+	 *
+	 * @return ilObjUser
+	 */
+	public function afterUpdateUser(ilObjUser $user) {
+		foreach ($this->getPluginObjects() as $pl) {
+			$user = $pl->afterUpdateUser($user);
+		}
+
+		return $user;
+	}
 }
 
 ?>

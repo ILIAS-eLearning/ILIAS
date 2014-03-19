@@ -36,6 +36,14 @@ interface ilShibbolethAuthenticationPluginInt {
 	 *
 	 * @return ilObjUser
 	 */
+	public function afterLogout(ilObjUser $user);
+
+
+	/**
+	 * @param ilObjUser $user
+	 *
+	 * @return ilObjUser
+	 */
 	public function beforeCreateUser(ilObjUser $user);
 
 
@@ -45,6 +53,22 @@ interface ilShibbolethAuthenticationPluginInt {
 	 * @return ilObjUser
 	 */
 	public function afterCreateUser(ilObjUser $user);
+
+
+	/**
+	 * @param ilObjUser $user
+	 *
+	 * @return ilObjUser
+	 */
+	public function beforeUpdateUser(ilObjUser $user);
+
+
+	/**
+	 * @param ilObjUser $user
+	 *
+	 * @return ilObjUser
+	 */
+	public function afterUpdateUser(ilObjUser $user);
 }
 
 ?>

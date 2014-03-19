@@ -167,8 +167,8 @@ class ShibAuth extends Auth {
 			// Get loginname of user, new login name is generated if user is new
 			$username = $this->generateLogin();
 			// Authorize this user
-			$this->setAuth($username);
 			$userObj = new ilObjUser();
+			$this->setAuth($username, $userObj);
 			// Check wether this account exists already, if not create it
 			if (! ilObjUser::getUserIdByLogin($username)) {
 
@@ -220,7 +220,7 @@ class ShibAuth extends Auth {
 					include($ilias->getSetting('shib_data_conv'));
 				}
 				// Create use in DB
-				ilShibbolethPluginWrapper::getInstance()->beforeCreateUser($userObj);
+				$userObj = ilShibbolethPluginWrapper::getInstance()->beforeCreateUser($userObj);
 				$userObj->create();
 				$userObj->setActive(1);
 				$userObj->updateOwner();
@@ -233,13 +233,13 @@ class ShibAuth extends Auth {
 				$userObj->setPref('show_users_online', $ilSetting->get('show_users_online', 'y'));
 				// setup user preferences
 				$userObj->writePrefs();
-				ilShibbolethPluginWrapper::getInstance()->afterCreateUser($userObj);
+				$userObj = ilShibbolethPluginWrapper::getInstance()->afterCreateUser($userObj);
 				//set role entries
 				#$rbacadmin->assignUser($ilias->getSetting('shib_user_default_role'), $userObj->getId(),true);
 				// New role assignment
 				ilShibbolethRoleAssignmentRules::doAssignments($userObj->getId(), $_SERVER);
 				// Authorize this user
-				$this->setAuth($userObj->getLogin());
+				$this->setAuth($userObj->getLogin(), $userObj);
 			} else {
 				// Update user account
 				$uid = $userObj->checkUserId();
@@ -305,8 +305,10 @@ class ShibAuth extends Auth {
 				) {
 					include($ilias->getSetting('shib_data_conv'));
 				}
+				$userObj = ilShibbolethPluginWrapper::getInstance()->beforeUpdateUser($userObj);
 				$userObj->update();
-				// Update role assignments				
+				$userObj = ilShibbolethPluginWrapper::getInstance()->afterUpdateUser($userObj);
+				// Update role assignments
 				ilShibbolethRoleAssignmentRules::updateAssignments($userObj->getId(), $_SERVER);
 			}
 			ilObjUser::_updateLastLogin($userObj->getId());
@@ -350,6 +352,7 @@ class ShibAuth extends Auth {
 		global $ilUser;
 		ilShibbolethPluginWrapper::getInstance()->beforeLogout($ilUser);
 		parent::logout();
+		ilShibbolethPluginWrapper::getInstance()->afterLogout($ilUser);
 	}
 
 

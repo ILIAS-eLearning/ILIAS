@@ -165,6 +165,36 @@ abstract class ilShibbolethAuthenticationPlugin extends ilPlugin implements ilSh
 	public function beforeLogout(ilObjUser $user) {
 		return $user;
 	}
+
+
+	/**
+	 * @param ilObjUser $user
+	 *
+	 * @return ilObjUser
+	 */
+	public function afterLogout(ilObjUser $user) {
+		return $user;
+	}
+
+
+	/**
+	 * @param ilObjUser $user
+	 *
+	 * @return ilObjUser
+	 */
+	public function beforeUpdateUser(ilObjUser $user) {
+		return $user;
+	}
+
+
+	/**
+	 * @param ilObjUser $user
+	 *
+	 * @return ilObjUser
+	 */
+	public function afterUpdateUser(ilObjUser $user) {
+		return $user;
+	}
 }
 
 ?>
