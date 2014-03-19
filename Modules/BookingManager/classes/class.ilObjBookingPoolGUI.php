@@ -751,7 +751,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		}
 	}
 	
-	protected function initBookingNumbersForm(array $a_objects_counter, $a_group_id)
+	protected function initBookingNumbersForm(array $a_objects_counter, $a_group_id, $a_reload = false)
 	{
 		include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 		$form = new ilPropertyFormGUI();
@@ -793,10 +793,9 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		
 		// recurrence
 		$this->lng->loadLanguageModule("dateplaner");
-		$rec_mode = new ilSelectInputGUI($this->lng->txt("dv_rotation"), "recm");
+		$rec_mode = new ilSelectInputGUI($this->lng->txt("cal_recurrences"), "recm");
 		$rec_mode->setRequired(true);
-		$rec_mode->setOptions(array(
-			"" => $this->lng->txt("please_select"),
+		$rec_mode->setOptions(array(			
 			"-1" => $this->lng->txt("cal_no_recurrence"),
 			1 => $this->lng->txt("cal_weekly"),
 			2 => $this->lng->txt("r_14"),
@@ -804,8 +803,20 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		));
 		$form->addItem($rec_mode);
 
-		$rec_end = new ilDateTimeInputGUI($this->lng->txt("dv_rotation_end"), "rece");
-		$form->addItem($rec_end);		
+		$rec_end = new ilDateTimeInputGUI($this->lng->txt("cal_repeat_until"), "rece");
+		$rec_mode->addSubItem($rec_end);	
+					
+		if(!$a_reload)
+		{
+			// show date only if active recurrence
+			$rec_mode->setHideSubForm(true, '>= 1');
+		}
+		else
+		{
+			// recurrence may not be changed on reload
+			$rec_mode->setDisabled(true);
+			$rec_end->setDisabled(true);			
+		}
 		
 		if($a_group_id)
 		{
@@ -916,7 +927,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		
 		$group_id = $_POST["grp_id"];
 
-		$form = $this->initBookingNumbersForm($counter, $group_id);
+		$form = $this->initBookingNumbersForm($counter, $group_id, true);		
 		if($form->checkInput())
 		{					
 			$success = false;
@@ -956,6 +967,26 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		else
 		{
 			$form->setValuesByPost();
+			
+			// ilDateTimeInputGUI does NOT add hidden values on disabled!
+			
+			$rece_year = $_POST["rece"]["date"]["y"];
+			$rece_month = str_pad($_POST["rece"]["date"]["m"], 2, "0", STR_PAD_LEFT);
+			$rece_day = str_pad($_POST["rece"]["date"]["d"], 2, "0", STR_PAD_LEFT);
+			
+			$form->getItemByPostVar("rece")->setDate(new ilDate($rece_year."-".$rece_month."-".$rece_day, IL_CAL_DATE));
+			$form->getItemByPostVar("recm")->setHideSubForm($_POST["recm"] < 1);
+			
+			$hidden_date = new ilHiddenInputGUI("rece[date][y]");
+			$hidden_date->setValue($rece_year);			
+			$form->addItem($hidden_date);
+			$hidden_date = new ilHiddenInputGUI("rece[date][m]");
+			$hidden_date->setValue($rece_month);			
+			$form->addItem($hidden_date);
+			$hidden_date = new ilHiddenInputGUI("rece[date][d]");
+			$hidden_date->setValue($rece_day);			
+			$form->addItem($hidden_date);
+			
 			return $this->confirmBookingNumbers($counter, $group_id, $form);				
 		}		
 	}

@@ -253,5 +253,29 @@ class ilSelectInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFil
 		$html = $this->render("toolbar");
 		return $html;
 	}
+	
+	/**
+	 * Set initial sub form visibility, optionally add dynamic value-based condition
+	 * 
+	 * @see ilObjBookingPoolGUI
+	 * @param bool $a_value
+	 * @param string $a_condition
+	 */
+	function setHideSubForm($a_value, $a_condition = null)
+	{
+		$this->hide_sub = (bool)$a_value;
+		
+		if($a_condition)
+		{
+			$this->addCustomAttribute('onchange="if(this.value '.$a_condition.')'.
+				' { il.Form.showSubForm(\'subform_'.$this->getFieldId().'\', \'il_prop_cont_'.$this->getFieldId().'\'); }'.
+				' else { il.Form.hideSubForm(\'subform_'.$this->getFieldId().'\'); };"');
+		}
+	}
+
+	function hideSubForm()
+	{
+		return (bool)$this->hide_sub;
+	}
 
 }
