@@ -13,6 +13,10 @@ class ilShibbolethPluginWrapper implements ilShibbolethAuthenticationPluginInt {
 	 */
 	protected $plugin_admin;
 	/**
+	 * @var ilLog
+	 */
+	protected $log;
+	/**
 	 * @var array
 	 */
 	protected static $active_plugins = array();
@@ -23,7 +27,8 @@ class ilShibbolethPluginWrapper implements ilShibbolethAuthenticationPluginInt {
 
 
 	protected function __construct() {
-		global $ilPluginAdmin;
+		global $ilPluginAdmin, $ilLog;
+		$this->log = $ilLog;
 		$this->plugin_admin = $ilPluginAdmin;
 		if (self::$active_plugins == NULL) {
 			self::$active_plugins = $this->plugin_admin->getActivePluginsForSlot(IL_COMP_SERVICE, 'AuthShibboleth', 'shibhk');
@@ -65,6 +70,7 @@ class ilShibbolethPluginWrapper implements ilShibbolethAuthenticationPluginInt {
 	 * @return ilObjUser
 	 */
 	public function beforeLogin(ilObjUser $user) {
+		$this->log->write('ilShibbolethPluginWrapper::beforeLogin');
 		foreach ($this->getPluginObjects() as $pl) {
 			$user = $pl->beforeLogin($user);
 		}
