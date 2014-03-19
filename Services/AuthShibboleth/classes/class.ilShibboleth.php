@@ -256,6 +256,8 @@ class ShibAuth extends Auth {
 				$userObj->setFirstname(self::getFirstString($_SERVER[$ilias->getSetting('shib_firstname')]));
 				$userObj->setLastname(self::getFirstString($_SERVER[$ilias->getSetting('shib_lastname')]));
 				$userObj->setFullname();
+				$userObj->setTitle($userObj->getFullname());
+				$userObj->setDescription($userObj->getEmail());
 				if ($ilias->getSetting('shib_update_institution')) {
 					$userObj->setInstitution($_SERVER[$ilias->getSetting('shib_institution')]);
 				}
