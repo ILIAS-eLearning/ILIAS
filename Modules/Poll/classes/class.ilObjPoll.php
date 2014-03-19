@@ -29,8 +29,8 @@ class ilObjPoll extends ilObject2
 	
 	// 4.5
 	protected $max_number_answers = 1; // [int]
-	protected $result_sort_by_votes; // [bool]
-	protected $mode_non_anonymous; // [bool]
+	protected $result_sort_by_votes = false; // [bool]
+	protected $mode_non_anonymous = false; // [bool]
 	
 	const VIEW_RESULTS_ALWAYS = 1;
 	const VIEW_RESULTS_NEVER = 2;
