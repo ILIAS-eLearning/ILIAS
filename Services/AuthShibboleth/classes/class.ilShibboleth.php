@@ -24,6 +24,7 @@
 require_once('Auth/Auth.php');
 require_once('./Services/AuthShibboleth/classes/class.ilShibbolethRoleAssignmentRules.php');
 require_once('include/Unicode/UtfNormal.php');
+require_once('./Services/AuthShibboleth/classes/class.ilShibbolethPluginWrapper.php');
 
 
 /**
@@ -31,6 +32,7 @@ require_once('include/Unicode/UtfNormal.php');
  *
  * This class provides basic functionality for Shibboleth authentication
  *
+ * @author   Fabian Schmid <fs@studer-raimann.ch>
  *
  * @defgroup ServicesAuthShibboleth Services/AuthShibboleth
  * @ingroup  ServicesAuthShibboleth
@@ -169,15 +171,15 @@ class ShibAuth extends Auth {
 			$userObj = new ilObjUser();
 			// Check wether this account exists already, if not create it
 			if (! ilObjUser::getUserIdByLogin($username)) {
+
 				$newUser['firstname'] = self::getFirstString($_SERVER[$ilias->getSetting('shib_firstname')]);
 				$newUser['lastname'] = self::getFirstString($_SERVER[$ilias->getSetting('shib_lastname')]);
 				$newUser['login'] = $username;
 				// Password must be random to prevent users from manually log in using the login data from Shibboleth users
 				$newUser['passwd'] = md5(end(ilUtil::generatePasswords(1)));
 				$newUser['passwd_type'] = IL_PASSWD_MD5;
-				if ($ilias->getSetting('shib_update_gender')
-					AND ($_SERVER[$ilias->getSetting('shib_gender')] == 'm'
-						OR $_SERVER[$ilias->getSetting('shib_gender')] == 'f')
+				if ($ilias->getSetting('shib_update_gender') AND ($_SERVER[$ilias->getSetting('shib_gender')] == 'm' OR
+						$_SERVER[$ilias->getSetting('shib_gender')] == 'f')
 				) {
 					$newUser['gender'] = $_SERVER[$ilias->getSetting('shib_gender')];
 				}
@@ -212,13 +214,13 @@ class ShibAuth extends Auth {
 				// Modify user data before creating the user
 				// Include custom code that can be used to further modify
 				// certain Shibboleth user attributes
-				if ($ilias->getSetting('shib_data_conv')
-					AND $ilias->getSetting('shib_data_conv') != ''
-					AND is_readable($ilias->getSetting('shib_data_conv'))
+				if ($ilias->getSetting('shib_data_conv') AND
+					$ilias->getSetting('shib_data_conv') != '' AND is_readable($ilias->getSetting('shib_data_conv'))
 				) {
 					include($ilias->getSetting('shib_data_conv'));
 				}
 				// Create use in DB
+				ilShibbolethPluginWrapper::getInstance()->beforeCreateUser($userObj);
 				$userObj->create();
 				$userObj->setActive(1);
 				$userObj->updateOwner();
@@ -231,6 +233,7 @@ class ShibAuth extends Auth {
 				$userObj->setPref('show_users_online', $ilSetting->get('show_users_online', 'y'));
 				// setup user preferences
 				$userObj->writePrefs();
+				ilShibbolethPluginWrapper::getInstance()->afterCreateUser($userObj);
 				//set role entries
 				#$rbacadmin->assignUser($ilias->getSetting('shib_user_default_role'), $userObj->getId(),true);
 				// New role assignment
@@ -242,9 +245,8 @@ class ShibAuth extends Auth {
 				$uid = $userObj->checkUserId();
 				$userObj->setId($uid);
 				$userObj->read($uid);
-				if ($ilias->getSetting('shib_update_gender')
-					AND ($_SERVER[$ilias->getSetting('shib_gender')] == 'm'
-						OR $_SERVER[$ilias->getSetting('shib_gender')] == 'f')
+				if ($ilias->getSetting('shib_update_gender') AND ($_SERVER[$ilias->getSetting('shib_gender')] == 'm' OR
+						$_SERVER[$ilias->getSetting('shib_gender')] == 'f')
 				) {
 					$userObj->setGender($_SERVER[$ilias->getSetting('shib_gender')]);
 				}
@@ -298,9 +300,8 @@ class ShibAuth extends Auth {
 				}
 				// Include custom code that can be used to further modify
 				// certain Shibboleth user attributes
-				if ($ilias->getSetting('shib_data_conv')
-					AND $ilias->getSetting('shib_data_conv') != ''
-					AND is_readable($ilias->getSetting('shib_data_conv'))
+				if ($ilias->getSetting('shib_data_conv') AND
+					$ilias->getSetting('shib_data_conv') != '' AND is_readable($ilias->getSetting('shib_data_conv'))
 				) {
 					include($ilias->getSetting('shib_data_conv'));
 				}
@@ -321,6 +322,21 @@ class ShibAuth extends Auth {
 
 
 	/**
+	 * @param           $username
+	 * @param ilObjUser $userObj
+	 */
+	public function setAuth($username, ilObjUser $userObj = NULL) {
+		if ($userObj) {
+			ilShibbolethPluginWrapper::getInstance()->beforeLogin($userObj);
+		}
+		parent::setAuth($username);
+		if ($userObj) {
+			ilShibbolethPluginWrapper::getInstance()->afterLogin($userObj);
+		}
+	}
+
+
+	/**
 	 * Logout function
 	 *
 	 * This function clears any auth tokens in the currently
@@ -331,6 +347,8 @@ class ShibAuth extends Auth {
 	 * @return void
 	 */
 	public function logout() {
+		global $ilUser;
+		ilShibbolethPluginWrapper::getInstance()->beforeLogout($ilUser);
 		parent::logout();
 	}
 
@@ -355,8 +373,8 @@ class ShibAuth extends Auth {
 		// We use the passwd field as mapping attribute for Shibboleth users
 		// because they don't need a password
 		$ilias->db->query("UPDATE usr_data SET auth_mode='shibboleth', passwd="
-		. $ilDB->quote(md5(end(ilUtil::generatePasswords(1)))) . ', ext_account=' . $ilDB->quote($shibID)
-		. ' WHERE passwd=' . $ilDB->quote($shibID));
+			. $ilDB->quote(md5(end(ilUtil::generatePasswords(1)))) . ', ext_account=' . $ilDB->quote($shibID)
+			. ' WHERE passwd=' . $ilDB->quote($shibID));
 		//***********************************************//
 		// Let's see if user already is registered
 		$local_user = ilObjUser::_checkExternalAuthAccount('shibboleth', $shibID);

@@ -23,6 +23,7 @@
 
 include_once './Services/Component/classes/class.ilPlugin.php';
 include_once './Services/AuthShibboleth/interfaces/interface.ilShibbolethRoleAssignmentPlugin.php';
+require_once('./Services/AuthShibboleth/interfaces/interface.ilShibbolethAuthenticationPluginInt.php');
 
 /**
  * Plugin definition
@@ -33,7 +34,13 @@ include_once './Services/AuthShibboleth/interfaces/interface.ilShibbolethRoleAss
  *
  * @ingroup ServicesAuthShibboleth
  */
-abstract class ilShibbolethAuthenticationPlugin extends ilPlugin {
+abstract class ilShibbolethAuthenticationPlugin extends ilPlugin implements ilShibbolethAuthenticationPluginInt {
+
+	/**
+	 * @var array
+	 */
+	protected $active_plugins = array();
+
 
 	/**
 	 * Get Component Type
@@ -107,6 +114,56 @@ abstract class ilShibbolethAuthenticationPlugin extends ilPlugin {
 		}
 
 		return false;
+	}
+
+
+	/**
+	 * @param ilObjUser $user
+	 *
+	 * @return ilObjUser
+	 */
+	public function beforeLogin(ilObjUser $user) {
+		return $user;
+	}
+
+
+	/**
+	 * @param ilObjUser $user
+	 *
+	 * @return ilObjUser
+	 */
+	public function afterLogin(ilObjUser $user) {
+		return $user;
+	}
+
+
+	/**
+	 * @param ilObjUser $user
+	 *
+	 * @return ilObjUser
+	 */
+	public function beforeCreateUser(ilObjUser $user) {
+		return $user;
+	}
+
+
+	/**
+	 * @param ilObjUser $user
+	 *
+	 * @return ilObjUser
+	 */
+	public function afterCreateUser(ilObjUser $user) {
+		return $user;
+	}
+
+
+	/**
+	 * @param ilObjUser $user
+	 *
+	 * @return ilObjUser
+	 */
+	public function beforeLogout(ilObjUser $user) {
+		return $user;
 	}
 }
 
