@@ -237,7 +237,9 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 						$ects_mark = $this->object->getECTSGrade($passed_array, $userdata->getReached(), $userdata->getMaxPoints());
 						$evaluationrow['ects_grade'] = $ects_mark;
 					}
-					$evaluationrow['answered'] = $userdata->getQuestionsWorkedThrough() . " " . strtolower($this->lng->txt("of")) . " " . $userdata->getNumberOfQuestions() . " (" . sprintf("%2.2f", $userdata->getQuestionsWorkedThroughInPercent()) . " %" . ")";
+					$evaluationrow['answered'] = $userdata->getQuestionsWorkedThroughInPercent();
+					$evaluationrow['questions_worked_through'] = $userdata->getQuestionsWorkedThrough();
+					$evaluationrow['number_of_questions']      = $userdata->getNumberOfQuestions();
 					$time_seconds = $userdata->getTimeOfWork();
 					$time_hours    = floor($time_seconds/3600);
 					$time_seconds -= $time_hours   * 3600;
@@ -259,7 +261,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 					$evaluationrow['departement'] = $userfields['departement'];
 					$evaluationrow['matriculation'] = $userfields['matriculation'];
 					$counter++;
-					array_push($data, $evaluationrow);
+					$data[] = $evaluationrow;
 				}
 			}
 		}
