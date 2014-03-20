@@ -788,9 +788,9 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$confirmation->setFormAction($this->ctrl->getFormAction($this, 'confirmFinish'));
 		$confirmation->setHeaderText($this->lng->txt("tst_finish_confirmation_question"));
 		$confirmation->setConfirm($this->lng->txt("tst_finish_confirm_button"), 'confirmFinish');
-		if ($this->object->canShowSolutionPrintview($ilUser->getId()))
+		if($this->object->canShowSolutionPrintview($ilUser->getId()))
 		{
-			$confirmation->setCancel($this->lng->txt("tst_finish_confirm_list_of_answers_button"), 'confirmFinish');
+			$confirmation->setCancel($this->lng->txt("tst_finish_confirm_list_of_answers_button"), 'backConfirmFinish');
 		}
 		else
 		{
