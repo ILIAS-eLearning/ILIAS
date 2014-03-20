@@ -778,21 +778,25 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	 */
 	protected function confirmFinishTestCmd()
 	{
+		/**
+		 * @var $ilUser ilObjUser
+		 */
 		global $ilUser;
-		
-		$template = new ilTemplate("tpl.il_as_tst_finish_confirmation.html", TRUE, TRUE, "Modules/Test");
-		$template->setVariable("FINISH_QUESTION", $this->lng->txt("tst_finish_confirmation_question"));
-		$template->setVariable("BUTTON_CONFIRM", $this->lng->txt("tst_finish_confirm_button"));
+
+		require_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
+		$confirmation = new ilConfirmationGUI();
+		$confirmation->setFormAction($this->ctrl->getFormAction($this, 'confirmFinish'));
+		$confirmation->setHeaderText($this->lng->txt("tst_finish_confirmation_question"));
+		$confirmation->setConfirm($this->lng->txt("tst_finish_confirm_button"), 'confirmFinish');
 		if ($this->object->canShowSolutionPrintview($ilUser->getId()))
 		{
-			$template->setVariable("BUTTON_CANCEL", $this->lng->txt("tst_finish_confirm_list_of_answers_button"));
+			$confirmation->setCancel($this->lng->txt("tst_finish_confirm_list_of_answers_button"), 'confirmFinish');
 		}
 		else
 		{
-			$template->setVariable("BUTTON_CANCEL", $this->lng->txt("tst_finish_confirm_cancel_button"));
+			$confirmation->setCancel($this->lng->txt("tst_finish_confirm_cancel_button"), 'backConfirmFinish');
 		}
-		$template->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable($this->getContentBlockName(), $template->get());
+		$this->tpl->setVariable($this->getContentBlockName(), $confirmation->getHtml());
 	}
 
 	function finishTestCmd($requires_confirmation = true)
