@@ -1,0 +1,38 @@
+@@ -225,9 +225,14 @@
+ 				$(map).unbind('.maphilight').find('area[coords]').unbind('.maphilight');
+ 			}
+ 
++			// patch alex: to keep the aspect ratio the a
++			// 'background-size': '100% auto', would be simple
++			// but this is not supported by IE8, instead we remove the
++			// background:'url("'+this.src+'")',
++			// part here.
++			
+ 			wrap = $('<div></div>').css({
+ 				display:'block',
+-				background:'url("'+this.src+'")',
+ 				position:'relative',
+ 				padding:0,
+ 				width:this.width,
+@@ -240,10 +245,20 @@
+ 					wrap.addClass(options.wrapClass);
+ 				}
+ 			}
++			
++			// patch alex:
++			// create a clone of the image, remove its id and usemap
++			var img_clone = img.clone();
++			img_clone.attr("id", "").attr("usemap", "");
++			
+ 			img.before(wrap).css('opacity', 0).css(canvas_style).remove();
+ 			if($.browser.msie) { img.css('filter', 'Alpha(opacity=0)'); }
+ 			wrap.append(img);
+ 			
++			// patch alex:
++			// add the image clone before the image
++			img.before(img_clone);
++			
+ 			canvas = create_canvas_for(this);
+ 			$(canvas).css(canvas_style);
+ 			canvas.height = this.height;
+
