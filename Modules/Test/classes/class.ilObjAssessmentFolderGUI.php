@@ -34,6 +34,8 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read_assf"),$this->ilias->error_obj->WARNING);
 		}
+
+		$this->lng->loadLanguageModule('assessment');
 	}
 	
 	public function &executeCommand()
