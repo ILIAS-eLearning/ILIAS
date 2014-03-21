@@ -4817,7 +4817,7 @@ function getAnswerFeedbackPoints()
 			AND			qpl_questions.question_id = tst_test_result.question_fi
 			AND			tst_active.test_fi = %s
 			
-			ORDER BY	tst_active.active_id, tst_test_result.pass, tst_test_result.tstamp
+			ORDER BY	tst_active.active_id ASC, tst_test_result.pass ASC, tst_test_result.tstamp DESC
 		";
 		
 		$result = $ilDB->queryF(
