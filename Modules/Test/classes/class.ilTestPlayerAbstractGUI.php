@@ -855,7 +855,26 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 				$template = new ilTemplate("tpl.il_as_tst_finish_navigation.html", TRUE, TRUE, "Modules/Test");
 				$template->setVariable("BUTTON_FINISH", $this->lng->txt("btn_next"));
 				$template->setVariable("BUTTON_CANCEL", $this->lng->txt("btn_previous"));
-
+				if ($this->object->getEnableExamview())
+				{
+					$template->setVariable("CANCEL_CMD", 'finishTest');
+				}
+				else if($this->object->getListOfQuestionsEnd())
+				{
+					$template->setVariable("CANCEL_CMD", 'outQuestionSummary');
+				}
+				else
+				{
+					$template->setVariable("CANCEL_CMD", 'redirectQuestion');
+				}
+				if($this->object->getListOfQuestionsEnd())
+				{
+					$template->setVariable("CANCEL_CMD", 'finishTest');
+				}
+				else
+				{
+					$template->setVariable("CANCEL_CMD", 'redirectQuestion');
+				}
 				$template_top = new ilTemplate("tpl.il_as_tst_list_of_answers_topbuttons.html", TRUE, TRUE, "Modules/Test");
 				$template_top->setCurrentBlock("button_print");
 				$template_top->setVariable("BUTTON_PRINT", $this->lng->txt("print"));
@@ -1572,7 +1591,18 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			$template = new ilTemplate("tpl.il_as_tst_finish_navigation.html", TRUE, TRUE, "Modules/Test");
 			$template->setVariable("BUTTON_FINISH", $this->lng->txt("btn_next"));
 			$template->setVariable("BUTTON_CANCEL", $this->lng->txt("btn_previous"));
-			
+			if ($this->object->getEnableExamview())
+			{
+				$template->setVariable("CANCEL_CMD", 'finishTest');
+			}
+			else if($this->object->getListOfQuestionsEnd())
+			{
+				$template->setVariable("CANCEL_CMD", 'outQuestionSummary');
+			}
+			else
+			{
+				$template->setVariable("CANCEL_CMD", 'redirectQuestion');
+			}
 			$template_top = new ilTemplate("tpl.il_as_tst_list_of_answers_topbuttons.html", TRUE, TRUE, "Modules/Test");
 			$template_top->setCurrentBlock("button_print");
 			$template_top->setVariable("BUTTON_PRINT", $this->lng->txt("print"));
