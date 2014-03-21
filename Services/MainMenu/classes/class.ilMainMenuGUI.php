@@ -335,7 +335,7 @@ class ilMainMenuGUI
 	 */
 	function renderStatusBox($a_tpl)
 	{
-		global $ilUser;
+		global $ilUser, $lng;
 		
 		$box = false;
 		
@@ -351,6 +351,7 @@ class ilMainMenuGUI
 			}
 			$a_tpl->setCurrentBlock('status_item');
 			$a_tpl->setVariable('STATUS_IMG', ilUtil::getImagePath('icon_mail_s.png'));
+			$a_tpl->setVariable('STATUS_IMG_ALT', $lng->txt("mail"));
 			$a_tpl->setVariable('STATUS_HREF', 'ilias.php?baseClass=ilMailGUI');
 			$a_tpl->parseCurrentBlock();
 			$box = true;

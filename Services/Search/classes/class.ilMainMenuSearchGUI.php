@@ -92,7 +92,8 @@ class ilMainMenuSearchGUI
 		// $this->tpl->setVariable('ID_AUTOCOMPLETE', "mm_sr_auto");
 		$this->tpl->setVariable('AC_DATASOURCE', "ilias.php?baseClass=ilSearchController&cmd=autoComplete");
 		
-		$this->tpl->setVariable('IMG_MM_SEARCH', ilUtil::img(ilUtil::getImagePath("icon_seas_s.png")));
+		$this->tpl->setVariable('IMG_MM_SEARCH', ilUtil::img(ilUtil::getImagePath("icon_seas_s.png"),
+			$lng->txt("search")));
 		
 		if ($ilUser->getId() != ANONYMOUS_USER_ID)
 		{
