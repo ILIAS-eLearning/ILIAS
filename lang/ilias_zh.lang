@@ -13014,3 +13014,8 @@ common#:#obj_nota#:#Notifications###05 01 2014 new variable
 blog#:#blog_posting_not_found#:#This blog posting is not available.###05 01 2014 new variable
 ldap#:#ldap_choose_role#:#Choose Role###05 01 2014 new variable
 notes#:#note_content_removed#:#The content has been removed.###05 01 2014 new variable
+payment#:#pay_unpayed_bill#:#Please wire the open balance to the given bank account.###21 03 2014 new variable
+book#:#book_copy#:#Copy Booking Pool###21 03 2014 new variable
+common#:#obj_book_duplicate#:#Copy Booking Pool###21 03 2014 new variable
+meta#:#meta_c_XK#:#Kosovo###21 03 2014 new variable
+survey#:#mailparticipantdata_placeholder#:#The following placeholders will be replaced with real user data in personalized surveys:###21 03 2014 new variable

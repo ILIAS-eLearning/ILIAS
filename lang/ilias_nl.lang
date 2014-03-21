@@ -3458,7 +3458,6 @@ common#:#ldap_version#:#LDAP protocol versie
 common#:#ldap_visible#:#LDAP-instellingen zijn zichtbaar
 common#:#ldap_write#:#Wijzigen LDAP-instellingen
 common#:#learning module#:#Lesmodule
-common#:#learning_module#:#Lesmodule
 common#:#learning_objects#:#Lesobjecten
 common#:#learning_progress#:#Voortgang
 common#:#learning_resourc#:#Leerbronn
@@ -7240,7 +7239,6 @@ dateplaner#:#wk_short#:#Wk
 dateplaner#:#year#:#Jaar
 dateplaner#:#yui_cal_choose_month#:#Maand:
 dateplaner#:#yui_cal_choose_year#:#Jaar:
-dcl#:#-dcl_import_records#:#Importeren .xls
 dcl#:#dcl_actions#:#Acties
 dcl#:#dcl_activate_approval#:#Inschakelen record goedkeuring
 dcl#:#dcl_activate_notification#:#Inschakelen berichtgeving
@@ -7307,8 +7305,6 @@ dcl#:#dcl_height#:#Hoogte
 dcl#:#dcl_hello#:#Beste
 dcl#:#dcl_ILIAS_reference#:#Koppeling naar een ILIAS module
 dcl#:#dcl_ILIAS_reference_link#:#Tonen als koppeling in tabel
-dcl#:#dcl_import#:#Importeren .xls
-dcl#:#dcl_import_records#:#Importeren .xls
 dcl#:#dcl_inconsistent_at#:#De gegevensverzameling is niet consistent. Een referentie bestaat niet meer.
 dcl#:#dcl_integer#:#Integer
 dcl#:#dcl_learning_progress#:#Toon de leerweg voortgang van de gelinkte module
@@ -10244,7 +10240,6 @@ rbac#:#catr_write#:#Wijzigen Categorie referentie
 rbac#:#cat_administrate_users#:#Beheer lokale gebruikers account
 rbac#:#cat_cat_administrate_users#:#Lokale gebruikers beheren
 rbac#:#cat_copy#:#Kopieër Categorie
-rbac#:#cat_copy_threads_info#:#Please decide which category items should be copied, linked or even omitted.
 rbac#:#cat_delete#:#Verwijder categorie
 rbac#:#cat_edit_permission#:#Wijzig instellingen van de rechten
 rbac#:#cat_read#:#Leestoegang categorie
@@ -10280,7 +10275,6 @@ rbac#:#crsr_read#:#Lees toegang tot Cursus Referentie
 rbac#:#crsr_visible#:#Cursus referentie is zichtbaar
 rbac#:#crsr_write#:#Wijzigen cursus referentie
 rbac#:#crs_copy#:#Kopieër Cursus
-rbac#:#crs_copy_threads_info#:#Gelieve te beslissen welke cursusmaterialen gekopieerd moeten worden.
 rbac#:#crs_delete#:#Cursus verwijderen
 rbac#:#crs_edit_event#:#Agenda-afspraken wijzigen
 rbac#:#crs_edit_learning_progress#:#Voortgang aanpassen
@@ -10729,7 +10723,6 @@ rbac#:#tst_read#:#Leesrechten op toets
 rbac#:#tst_tst_statistics#:#Toegang tot toetsstatistieken
 rbac#:#tst_visible#:#De toets is zichtbaar
 rbac#:#tst_write#:#Toets wijzigen
-rbac#:#usrf_create_usr#:#Creëer gebruiker
 rbac#:#usrf_delete#:#Verwijderen gebruiker
 rbac#:#usrf_edit_permission#:#Wijzigen toegang tot gebruikers
 rbac#:#usrf_edit_roleassignment#:#Wijzigen rol-toewijzing van gebruikers
@@ -10998,17 +10991,6 @@ scormdebug#:#cmi.suspend_data#:#Provides space to store and retrieve data betwee
 scormdebug#:#cmi.time_limit_action#:#Indicates what the SCO should do when cmi.max_time_allowed is exceeded
 scormdebug#:#cmi.total_time#:#Sum of all of the learner's session times accumulated in the current learner attempt
 scormdebug#:#cmi._version#:#Represents the version of the data model
-scormdebug#:#cmi_comments_from_learner__children#:#Listing of supported data model elements
-scormdebug#:#cmi_comments_from_lms__children#:#Listing of supported data model elements
-scormdebug#:#cmi_interactions_n_id#:#Unique label for the interaction
-scormdebug#:#cmi_interactions_n_objectives_n_id#:#Label for objectives associated with the interaction
-scormdebug#:#cmi_interactions__children#:#Listing of supported data model elements
-scormdebug#:#cmi_learner_preference__children#:#Listing of supported data model elements
-scormdebug#:#cmi_objectives_n_id#:#Unique label for the objective
-scormdebug#:#cmi_objectives_n_score__children#:#Listing of supported data model elements
-scormdebug#:#cmi_objectives__children#:#Listing of supported data model elements
-scormdebug#:#cmi_score__children#:#Listing of supported data model elements
-scormdebug#:#cmi__version#:#Represents the version of the data model
 scormdebug#:#comment#:#Comment
 scormdebug#:#Commit#:#store data
 scormdebug#:#completion_status_by_progress_measure#:#Because there is a value for cmi.completion_threshold, the value for cmi.completion_status is evaluated by the LMS! This is done by comparing the value for cmi.completion_threshold with the value for cmi.progress_measure. The value for cmi.completion_status is currently:
@@ -12987,3 +12969,55 @@ wsp#:#wsp_type_file#:#Bestand
 wsp#:#wsp_type_tstv#:#Certificaat: Toets
 wsp#:#wsp_type_webr#:#Weblink
 wsp#:#wsp_type_wfld#:#Map
+common#:#cat_copy_threads_info#:#Please decide which category items should be copied, linked or even omitted.###21 03 2014 new variable
+common#:#crs_copy_threads_info#:#Please decide which course materials should be copied, linked or even omitted.###21 03 2014 new variable
+content#:#cont_LocalFile#:#Local File###21 03 2014 new variable
+payment#:#pay_unpayed_bill#:#Please wire the open balance to the given bank account.###21 03 2014 new variable
+rbac#:#rbac_create_usr#:#User is allowed to create user accounts###21 03 2014 new variable
+assessment#:#tst_save_manscoring_failed#:#Saving the manual scoring for test pass %s has failed.###21 03 2014 new variable
+assessment#:#tst_manscoring_maxpoints_exceeded_input_alert#:#The maximum of %s point(s) is exceeded!###21 03 2014 new variable
+assessment#:#tst_manscoring_input_max_points_for_question#:#Maximum Points for Question###21 03 2014 new variable
+assessment#:#tst_manscoring_input_question_and_user_solution#:#Question and User Solution###21 03 2014 new variable
+assessment#:#tst_manscoring_input_best_solution#:#Best Solution###21 03 2014 new variable
+dcl#:#dcl_record#:#Record###21 03 2014 new variable
+dcl#:#dcl_field_title_unique#:#There exists already a field with this title. Title must be unique.###21 03 2014 new variable
+dcl#:#dcl_table_title_unique#:#There exists already a table with this title. Title must be unique.###21 03 2014 new variable
+mail#:#mail_add_folder#:#Add New Subfolder###21 03 2014 new variable
+mail#:#mail_rename_folder#:#Rename Folder###21 03 2014 new variable
+common#:#rpc_pdf_generation#:#PDF-Generation###21 03 2014 new variable
+common#:#rpc_pdf_font#:#Fonts###21 03 2014 new variable
+common#:#rpc_pdf_font_info#:#Additional fonts for the generation of PDF files. Other fonts than "Helvetica" and "unifont" must be installed on the ILIAS server.###21 03 2014 new variable
+didactic#:#didactic_default_type#:#Default###21 03 2014 new variable
+blog#:#blog_draft_info_contributors#:#This posting draft is only visible for the contributors.###21 03 2014 new variable
+exp#:#exp_file_created#:#The export file has been created.###21 03 2014 new variable
+ecs#:#ecs_cmap_att_courseType#:#Course Type###21 03 2014 new variable
+ecs#:#ecs_cmap_att_degreeProgramme#:#Degree Programme###21 03 2014 new variable
+ecs#:#ecs_cmap_att_module#:#Module###21 03 2014 new variable
+ecs#:#ecs_cmap_att_venue#:#Venue###21 03 2014 new variable
+mcst#:#mcst_download_videoalternative#:#Download Alternative File###21 03 2014 new variable
+dateplaner#:#remote_pass_info#:#Please enter your account data if the access to the webcalendar ist protected.###21 03 2014 new variable
+prtf#:#prtf_allow_html#:#Allow HTML/Javascript###21 03 2014 new variable
+prtf#:#prtf_allow_html_info#:#Enables users to include HTML and/or Javascript in their portfolio pages. This can lead to security issues.###21 03 2014 new variable
+blog#:#blog_allow_html#:#Allow HTML/Javascript###21 03 2014 new variable
+blog#:#blog_allow_html_info#:#Enables users to include HTML and/or Javascript in their blog postings. This can lead to security issues.###21 03 2014 new variable
+wiki#:#wiki_start_page_info#:#If there does not exist a page with this title yet, a new page will be created.###21 03 2014 new variable
+survey#:#survey_notification_tutor_link#:#Link to Survey###21 03 2014 new variable
+dcl#:#fieldtitle_allow_chars#:#Allowed chars: %s###21 03 2014 new variable
+crs#:#crs_passed_status_system#:#System###21 03 2014 new variable
+crs#:#crs_passed_status_manual_by#:#Manual by###21 03 2014 new variable
+poll#:#poll_voting_period_info#:#Deadline for Voting: %s###21 03 2014 new variable
+book#:#book_reservation_failed_overbooked#:#The booking failed because the object is not available anymore.###21 03 2014 new variable
+exc#:#exc_no_team_yet#:#Not assigned to a team###21 03 2014 new variable
+ecs#:#ecs_cmap_delete_rule#:#Delete Mapping###21 03 2014 new variable
+exc#:#exc_team_member_remove_sure#:#Are you sure you want to remove the following members of your team? Please be aware that all files they have uploaded will also be removed from your team.###21 03 2014 new variable
+exc#:#exc_create_team#:#Create Team###21 03 2014 new variable
+exc#:#exc_create_team_times_up_warning#:#You cannot create a team anymore - please contact your tutor.###21 03 2014 new variable
+book#:#book_confirm_cancel#:#Are you sure you want to cancel the following reservation?###21 03 2014 new variable
+common#:#obj_nota#:#Notifications###21 03 2014 new variable
+blog#:#blog_posting_not_found#:#This blog posting is not available.###21 03 2014 new variable
+ldap#:#ldap_choose_role#:#Choose Role###21 03 2014 new variable
+notes#:#note_content_removed#:#The content has been removed.###21 03 2014 new variable
+book#:#book_copy#:#Copy Booking Pool###21 03 2014 new variable
+common#:#obj_book_duplicate#:#Copy Booking Pool###21 03 2014 new variable
+meta#:#meta_c_XK#:#Kosovo###21 03 2014 new variable
+survey#:#mailparticipantdata_placeholder#:#The following placeholders will be replaced with real user data in personalized surveys:###21 03 2014 new variable

@@ -508,11 +508,6 @@ assessment#:#errors#:#Hatalar
 assessment#:#errors_section#:#Hata Verisi
 assessment#:#errortext#:#Hata Metni
 assessment#:#errortext_info#:#Hata metni giriniz. Bir kelimeyi hatalı olarak işaretlemek için kelimenin önüne bir karma işareti (#) koyun. Eğer "Hata Metin Analiz Et" butonuna basarsanız, tüm işaretli kelimeler işlenmek üzere çıkartılacaktır.
-assessment#:#essay_keyword_relation#:#Puan verilir
-assessment#:#essay_keyword_relation_all#:#Sadece tüm anahtar kelimeler bulunursa.
-assessment#:#essay_keyword_relation_any#:#Kelimelerden birini bulduğunda.
-assessment#:#essay_keyword_relation_desc#:#'Tüm anahtar kelimeler' seçilirse tüm terimler bulunmadan katılımcılara puan verilmez. 'Tek Anahtar Kelime' seçeneğinde tüm cevaplar içinde bir tane anahtar kelime bulunması tam puan için yeterlidir.
-assessment#:#essay_keyword_relation_one#:#bir anahtar kelime bulunursa tam.
 assessment#:#eval_all_users#:#Tüm Kullanıcılar için Değerlendirme
 assessment#:#eval_choice_result#:#%s değeri ile seçim %s. %s puan aldınız.
 assessment#:#eval_cloze_result#:#Boşluk numarası %s Değeri %s %s. %s puan aldız.
@@ -2997,13 +2992,10 @@ common#:#gender_m#:#Erkek
 common#:#general_settings#:#Genel Ayarlar
 common#:#generate#:#üret
 common#:#glo#:#Sözlük
-common#:#glo_a#:#Bir Sözlük
 common#:#glo_add#:#Ekleme Sözlük
 common#:#glo_added#:#Sözlük eklendi
 common#:#glo_create#:#Oluştur Sözlük
 common#:#glo_import#:#Sözlük İçe Aktar
-common#:#glo_join#:#Sözlük abone
-common#:#glo_leave#:#Glossary çık
 common#:#glo_mode#:#Mod
 common#:#glo_mode_desc#:#Bir sanal sözlüğü normal bir sözlük gibi çalışır. Ayrıca bu sanal sözlük (alt ağaç) ve pozisyon deposunda aşağı bulunan tüm sözlükler sırasıyla sanal sözlük (seviye) gibi depo aynı seviyede bulunan tüm sözlükler gelen terimleri içerir.
 common#:#glo_mode_level#:#sanal (yalnızca bu düzeyi)
@@ -6071,7 +6063,6 @@ content#:#glo_used_in_scorm#:#sözlük SCORM modül tarafından kullanılır. Si
 content#:#help_assign_help_ids#:#Bölüm / Ekran kimlikleri Atama
 content#:#htlm_import#:#HTML Öğrenme Modülü İçe Aktar
 content#:#HTML export#:#HTML İhracat
-content#:#HTML_export#:#HTML İhracat
 content#:#import_sco_object#:#SCO İçe Aktar
 content#:#lm_menu_edit_entry#:#Düzen menüsünden giriş
 content#:#lm_menu_entry_target#:#Hedef
@@ -6128,7 +6119,6 @@ content#:#seq_toc#:#Soldaki İçindekiler Tablosundan , ders başlamak için bir
 content#:#set_public_mode#:#Set kamu erişim modu
 content#:#st#:#Bölüm
 content#:#start export#:#Başlangıç ​​İhracat
-content#:#start_export#:#Dışa Aktarıma Başla
 content#:#text_repr#:#Metin Gösterimi
 content#:#text_repr_info#:#görüntü "alt" özniteliği için kullanılır.
 cptch#:#cptch_freetype_support_needed#:#Eğer PHP, freetype desteği etkinleştirmeniz gerekir Bu özelliği kullanmak için .
@@ -7227,7 +7217,6 @@ dateplaner#:#wk_short#:#WK
 dateplaner#:#year#:#Yılı
 dateplaner#:#yui_cal_choose_month#:#Ay:
 dateplaner#:#yui_cal_choose_year#:#Yıl:
-dcl#:#-dcl_table_info_title-#:#Bilgiler
 dcl#:#dcl_actions#:#Eylemler
 dcl#:#dcl_activate_approval#:#Rekor Onayı Etkinleştir
 dcl#:#dcl_activate_notification#:#Bildirim Etkinleştir
@@ -7419,7 +7408,6 @@ ecs#:#ecs_cert_key#:#Sertifika Anahtarı
 ecs#:#ecs_cert_valid_until#:#Kadar geçerlidir Belgesi
 ecs#:#ecs_check_import_id#:#Import ID geçerli değil. Bu ayarı kontrol edin.
 ecs#:#ecs_client_cert#:#İstemci Sertifikası
-ecs#:#ecs_cmpa_enabled#:#Etkinleştir Ders Dağılımı
 ecs#:#ecs_cms_dir_tree#:#CMS Rehber Ağaçlar
 ecs#:#ecs_cms_directory_trees_tbl#:#CMS Rehber Ağaçlar
 ecs#:#ecs_cms_id#:#Kampüs-Yönetim-Sistemi Kök-Kimliği
@@ -10186,36 +10174,6 @@ rbac#:#cals_write#:#Kullanıcı Takvim İdaresi ayarlarını düzenleyebilirsini
 rbac#:#cat_administrate_users#:#Yerel Kullanıcı Hesaplarını Yönet
 rbac#:#cat_cat_administrate_users#:#Kullanıcı bu kategoride yerel kullanıcı hesapları oluşturabilir ve yönetebilirsiniz
 rbac#:#cat_copy#:#Kullanıcı kategorisi kopyalayabilirsiniz
-rbac#:#cat_copy_threads_info#:#Lütfen hangi kategoride ürün bağlantılı, kopyalanamaz, hatta göz ardı edilecek karar.
-rbac#:#cat_create_blog#:#blog yaratın
-rbac#:#cat_create_book#:#Rezervasyon Havuz Oluştur
-rbac#:#cat_create_cat#:#Kategori Yarat
-rbac#:#cat_create_catr#:#Kategori Referans Oluştur
-rbac#:#cat_create_chtr#:#Oluştur Chatroom
-rbac#:#cat_create_crs#:#Dersin Oluştur
-rbac#:#cat_create_crsr#:#Oluştur Kurs Başvuru
-rbac#:#cat_create_dcl#:#Veri Toplama oluşturma
-rbac#:#cat_create_exc#:#Oluştur Egzersiz
-rbac#:#cat_create_feed#:#Web Beslemesi oluşturun
-rbac#:#cat_create_file#:#Dosya Yükle
-rbac#:#cat_create_frm#:#Oluştur Forum
-rbac#:#cat_create_glo#:#Oluştur Sözlük
-rbac#:#cat_create_grp#:#Grup Yarat
-rbac#:#cat_create_htlm#:#HTML Öğrenme Modülü Oluştur
-rbac#:#cat_create_icrs#:#Oluştur LearnLinc Semineri
-rbac#:#cat_create_itgr#:#Ürün Grup Oluştur
-rbac#:#cat_create_lm#:#ILIAS Öğrenme Modülü Oluştur
-rbac#:#cat_create_mcst#:#Oluştur Mediacast
-rbac#:#cat_create_mep#:#Oluştur Medya Havuzu
-rbac#:#cat_create_poll#:#Oluştur Anket
-rbac#:#cat_create_qpl#:#Test Soru Havuzu Oluştur
-rbac#:#cat_create_rcrs#:#Oluştur ECS Kursu
-rbac#:#cat_create_sahs#:#Oluştur SCORM / AICC Öğrenme Modülü
-rbac#:#cat_create_spl#:#Oluştur Soru Havuzu Anketi
-rbac#:#cat_create_svy#:#Oluştur Anket
-rbac#:#cat_create_tst#:#Oluştur Testi
-rbac#:#cat_create_webr#:#Oluştur Weblink
-rbac#:#cat_create_wiki#:#Oluştur Wiki
 rbac#:#cat_delete#:#Kullanıcı kategorisi taşıyabilir veya silebilirsiniz
 rbac#:#cat_edit_permission#:#Yetki Ayarlarını Değiştir
 rbac#:#cat_read#:#Kullanıcı kategorisi için okuma erişimi vardır
@@ -10250,35 +10208,6 @@ rbac#:#cmps_visible#:#Eklentiler, Modüller ve Hizmetleri ayarlarını İdaresi 
 rbac#:#cmps_write#:#Kullanıcı Plugins, Modüller ve Hizmetleri ayarlarını düzenleyebilirsiniz
 rbac#:#contribute#:#Contribute
 rbac#:#crs_copy#:#Kullanıcı kursu kopyalayabilirsiniz
-rbac#:#crs_copy_threads_info#:#Lütfen hangi ders materyalleri bağlantılı, kopyalanamaz, hatta göz ardı edilecek karar.
-rbac#:#crs_create_blog#:#blog yaratın
-rbac#:#crs_create_book#:#Rezervasyon Havuz Oluştur
-rbac#:#crs_create_catr#:#Kategori Referans Oluştur
-rbac#:#crs_create_chtr#:#Oluştur Chatroom
-rbac#:#crs_create_crsr#:#Oluştur Kurs Başvuru
-rbac#:#crs_create_dcl#:#Veri Toplama oluşturma
-rbac#:#crs_create_exc#:#Oluştur Egzersiz
-rbac#:#crs_create_feed#:#Web Beslemesi oluşturun
-rbac#:#crs_create_file#:#Dosya Yükle
-rbac#:#crs_create_fold#:#Klasör Oluştur
-rbac#:#crs_create_frm#:#Oluştur Forum
-rbac#:#crs_create_glo#:#Oluştur Sözlük
-rbac#:#crs_create_grp#:#Grup Yarat
-rbac#:#crs_create_htlm#:#HTML Öğrenme Modülü Oluştur
-rbac#:#crs_create_icrs#:#Oluştur LearnLinc Semineri
-rbac#:#crs_create_itgr#:#Ürün Grup Oluştur
-rbac#:#crs_create_lm#:#ILIAS Öğrenme Modülü Oluştur
-rbac#:#crs_create_mcst#:#Oluştur Mediacast
-rbac#:#crs_create_mep#:#Oluştur Medya Havuzu
-rbac#:#crs_create_poll#:#Oluştur Anket
-rbac#:#crs_create_qpl#:#Test Soru Havuzu Oluştur
-rbac#:#crs_create_sahs#:#Oluştur SCORM / AICC Öğrenme Modülü
-rbac#:#crs_create_sess#:#Oluştur Oturum
-rbac#:#crs_create_spl#:#Oluştur Soru Havuzu Anketi
-rbac#:#crs_create_svy#:#Oluştur Anket
-rbac#:#crs_create_tst#:#Oluştur Testi
-rbac#:#crs_create_webr#:#Oluştur Weblink
-rbac#:#crs_create_wiki#:#Oluştur Wiki
 rbac#:#crs_delete#:#Kullanıcı kursu taşıyabilir veya silebilirsiniz
 rbac#:#crs_edit_event#:#Düzenleme Takvim Olayları
 rbac#:#crs_edit_learning_progress#:#Kullanıcı tabii üyelerinin öğrenme ilerleme görmek ve öğrenme ilerleme ayarlarını düzenleyebilirsiniz
@@ -10343,31 +10272,6 @@ rbac#:#filter_local_roles_object#:#Bu pozisyondaki sadece yerel rolleri göster
 rbac#:#filter_roles_local_policy#:#Bu pozisyondaki sadece yerel politikaları kullanan rolleri göster
 rbac#:#fld_create_poll#:#Oluştur Anket
 rbac#:#fold_copy#:#Kullanıcı klasöre kopyalayabilirsiniz
-rbac#:#fold_create_blog#:#blog yaratın
-rbac#:#fold_create_book#:#Rezervasyon Havuz Oluştur
-rbac#:#fold_create_chtr#:#Oluştur Chatroom
-rbac#:#fold_create_dcl#:#Veri Toplama oluşturma
-rbac#:#fold_create_exc#:#Oluştur Egzersiz
-rbac#:#fold_create_file#:#Dosya Yükle
-rbac#:#fold_create_fold#:#Klasör Oluştur
-rbac#:#fold_create_frm#:#Oluştur Forum
-rbac#:#fold_create_glo#:#Oluştur Sözlük
-rbac#:#fold_create_grp#:#Grup Yarat
-rbac#:#fold_create_htlm#:#HTML Öğrenme Modülü Oluştur
-rbac#:#fold_create_icrs#:#Oluştur LearnLinc Semineri
-rbac#:#fold_create_itgr#:#Ürün Grup Oluştur
-rbac#:#fold_create_lm#:#ILIAS Öğrenme Modülü Oluştur
-rbac#:#fold_create_mcst#:#Oluştur Mediacast
-rbac#:#fold_create_mep#:#Oluştur Medya Havuzu
-rbac#:#fold_create_poll#:#Oluştur Anket
-rbac#:#fold_create_qpl#:#Test Soru Havuzu Oluştur
-rbac#:#fold_create_sahs#:#Oluştur SCORM / AICC Öğrenme Modülü
-rbac#:#fold_create_sess#:#Oluştur Oturum
-rbac#:#fold_create_spl#:#Oluştur Soru Havuzu Anketi
-rbac#:#fold_create_svy#:#Oluştur Anket
-rbac#:#fold_create_tst#:#Oluştur Testi
-rbac#:#fold_create_webr#:#Oluştur Weblink
-rbac#:#fold_create_wiki#:#Oluştur Wiki
 rbac#:#fold_delete#:#Kullanıcı klasörü taşıyabilir veya silebilirsiniz
 rbac#:#fold_edit_learning_progress#:#Kullanıcı, diğer kullanıcıların öğrenme ilerleme görmek ve öğrenme ilerleme ayarlarını düzenleyebilirsiniz
 rbac#:#fold_edit_permission#:#Yetki Ayarlarını Değiştir
@@ -10395,34 +10299,6 @@ rbac#:#glo_visible#:#Sözlüğü görünür
 rbac#:#glo_write#:#Kullanıcı içeriği ve sözlük ayarlarını düzenleyebilirsiniz
 rbac#:#grp#:#Kullanıcı grubu kopyalayabilirsiniz
 rbac#:#grp_copy#:#Kullanıcı grubu kopyalayabilirsiniz
-rbac#:#grp_create_blog#:#blog yaratın
-rbac#:#grp_create_book#:#Rezervasyon Havuz Oluştur
-rbac#:#grp_create_catr#:#Kategori Referans Oluştur
-rbac#:#grp_create_chtr#:#Oluştur Chatroom
-rbac#:#grp_create_crsr#:#Oluştur Kurs Başvuru
-rbac#:#grp_create_dcl#:#Veri Toplama oluşturma
-rbac#:#grp_create_exc#:#Oluştur Egzersiz
-rbac#:#grp_create_feed#:#Web Beslemesi oluşturun
-rbac#:#grp_create_file#:#Dosya Yükle
-rbac#:#grp_create_fold#:#Klasör Oluştur
-rbac#:#grp_create_frm#:#Oluştur Forum
-rbac#:#grp_create_glo#:#Oluştur Sözlük
-rbac#:#grp_create_grp#:#Grup Yarat
-rbac#:#grp_create_htlm#:#HTML Öğrenme Modülü Oluştur
-rbac#:#grp_create_icrs#:#Oluştur LearnLinc Semineri
-rbac#:#grp_create_itgr#:#Ürün Grup Oluştur
-rbac#:#grp_create_lm#:#ILIAS Öğrenme Modülü Oluştur
-rbac#:#grp_create_mcst#:#Oluştur Mediacast
-rbac#:#grp_create_mep#:#Oluştur Medya Havuzu
-rbac#:#grp_create_poll#:#Oluştur Anket
-rbac#:#grp_create_qpl#:#Test Soru Havuzu Oluştur
-rbac#:#grp_create_sahs#:#Oluştur SCORM / AICC Öğrenme Modülü
-rbac#:#grp_create_sess#:#Oluştur Oturum
-rbac#:#grp_create_spl#:#Oluştur Soru Havuzu Anketi
-rbac#:#grp_create_svy#:#Oluştur Anket
-rbac#:#grp_create_tst#:#Oluştur Testi
-rbac#:#grp_create_webr#:#​​Oluştur Weblink
-rbac#:#grp_create_wiki#:#Oluştur Wiki
 rbac#:#grp_delete#:#Kullanıcı grubu taşıyabilir veya silebilirsiniz
 rbac#:#grp_edit_event#:#Düzenleme Takvim Olayları
 rbac#:#grp_edit_learning_progress#:#Kullanıcı grubu üyelerinin öğrenme ilerleme görmek ve öğrenme ilerleme ayarlarını düzenleyebilirsiniz
@@ -10674,37 +10550,6 @@ rbac#:#role_block_role#:#Sayılı Blok Rolü
 rbac#:#role_block_role_desc#:#Bu ve tüm tali nesnelere erişim iptal edilecektir edilir.
 rbac#:#role_confirm_block_role_header#:#gerçekten seçilen roller engellemek istiyor musunuz?
 rbac#:#role_confirm_block_role_info#:#aşağıdaki işlemler yapılır: <br /> <br /> - Bu rolü izinleri ve tüm tali nesneler bloke olacaktır <br /> - Yeni izin ayarları korunacaktır..
-rbac#:#root_create_blog#:#blog yaratın
-rbac#:#root_create_book#:#Rezervasyon Havuz Oluştur
-rbac#:#root_create_cat#:#Oluştur Kategoriler
-rbac#:#root_create_catr#:#Kategori Referans Oluştur
-rbac#:#root_create_chat#:#Oluştur Sohbet
-rbac#:#root_create_chtr#:#Oluştur Chatroom
-rbac#:#root_create_crs#:#Dersin Oluştur
-rbac#:#root_create_crsr#:#Oluştur Kurs Başvuru
-rbac#:#root_create_dbk#:#Oluştur Digilib Kitap
-rbac#:#root_create_dcl#:#Veri Toplama oluşturma
-rbac#:#root_create_exc#:#Oluştur Egzersiz
-rbac#:#root_create_feed#:#Web Beslemesi oluşturun
-rbac#:#root_create_file#:#Dosya Yükle
-rbac#:#root_create_frm#:#Oluştur Forum
-rbac#:#root_create_glo#:#Oluştur Sözlük
-rbac#:#root_create_grp#:#Grup Yarat
-rbac#:#root_create_htlm#:#HTML Öğrenme Modülü Oluştur
-rbac#:#root_create_icrs#:#Oluştur LearnLinc Semineri
-rbac#:#root_create_itgr#:#Ürün Grup Oluştur
-rbac#:#root_create_lm#:#ILIAS Öğrenme Modülü Oluştur
-rbac#:#root_create_mcst#:#Oluştur Mediacast
-rbac#:#root_create_mep#:#Oluştur Medya Havuzu
-rbac#:#root_create_poll#:#Oluştur Anket
-rbac#:#root_create_qpl#:#Test Soru Havuzu Oluştur
-rbac#:#root_create_rcrs#:#Oluştur ECS Kursu
-rbac#:#root_create_sahs#:#Oluştur SCORM / AICC Öğrenme Modülü
-rbac#:#root_create_spl#:#Oluştur Soru Havuzu Anketi
-rbac#:#root_create_svy#:#Oluştur Anket
-rbac#:#root_create_tst#:#Oluştur Testi
-rbac#:#root_create_webr#:#Oluştur Weblink
-rbac#:#root_create_wiki#:#Oluştur Wiki
 rbac#:#root_edit_permission#:#Yetki ayarlarını değiştir
 rbac#:#root_read#:#Ana Sayfa </ i> - Kullanıcı <i> Deposu okuma erişimi
 rbac#:#root_visible#:#<i> Deposu - Ana Sayfa </ i> görülebilir
@@ -10782,7 +10627,6 @@ rbac#:#tst_read#:#Test olma
 rbac#:#tst_tst_statistics#:#Test istatistiklerine Erişim
 rbac#:#tst_visible#:#Test görme
 rbac#:#tst_write#:#Kullanıcı içeriği ve test ayarlarını düzenleme
-rbac#:#usrf_create_usr#:#Kullanıcı kullanıcı hesapları oluşturmak için izin verilir
 rbac#:#usrf_delete#:#Kullanıcı kullanıcı hesaplarını silebilirsiniz
 rbac#:#usrf_edit_permission#:#Kullanıcı Kullanıcı yönetiminde izin ayarlarını değiştirebilirsiniz
 rbac#:#usrf_edit_roleassignment#:#Kullanıcı kullanıcı hesabının rolünü atamasını değiştirebilirsiniz
@@ -10923,51 +10767,6 @@ rep#:#rep_object_references_cannot_be_read#:#% S daha fazla referans için Resim
 rep#:#rep_object_to_delete#:#Sil
 rep#:#rep_visibility_limitless#:#Sınırsız
 rep#:#rep_visibility_until#:#Geçici Olarak Erişim
-rep_robj_xbbb#:#rep_robj_xbbb_BigBlueButton_plugin_configuration#:#Big Blue Button Ayarları
-rep_robj_xbbb#:#rep_robj_xbbb_cat_create_xbbb#:#Sanal Sınıf Oluştur
-rep_robj_xbbb#:#rep_robj_xbbb_class_ended#:#Sınıf kapatıldı.
-rep_robj_xbbb#:#rep_robj_xbbb_class_not_started_yet#:#Ders henüz başlamadı. Daha sonra tekrar deneyin.
-rep_robj_xbbb#:#rep_robj_xbbb_class_running#:#Dersinizin oturumu hala açık,
-rep_robj_xbbb#:#rep_robj_xbbb_click_to_open_class#:#Sınıfa gitmek için tıklayın.
-rep_robj_xbbb#:#rep_robj_xbbb_content#:#İçerik
-rep_robj_xbbb#:#rep_robj_xbbb_contents#:#İçerik
-rep_robj_xbbb#:#rep_robj_xbbb_crs_create_xbbb#:#Sanal Sınıf Oluştur
-rep_robj_xbbb#:#rep_robj_xbbb_description#:#Açıklama
-rep_robj_xbbb#:#rep_robj_xbbb_edit#:#Düzenle
-rep_robj_xbbb#:#rep_robj_xbbb_edit_properties#:#Ayarlar
-rep_robj_xbbb#:#rep_robj_xbbb_end_class#:#Dersi sonlandırmak için tıklayın.
-rep_robj_xbbb#:#rep_robj_xbbb_end_class_comment#:#(Dersteki tüm katılımcılar dersten çıkacaktır).
-rep_robj_xbbb#:#rep_robj_xbbb_fold_create_xbbb#:#Sanal Sınıf Oluştur
-rep_robj_xbbb#:#rep_robj_xbbb_grp_create_xbbb#:#Sanal Sınıf Oluştur
-rep_robj_xbbb#:#rep_robj_xbbb_new_class_created#:#Yeni sanal sınıf oluşturuldu.
-rep_robj_xbbb#:#rep_robj_xbbb_new_class_created_join_manual#:#Derse katılmak için tıklayın.
-rep_robj_xbbb#:#rep_robj_xbbb_new_class_created_warning#:#Sınıfa katılımcılardan önce girmelisiniz. Moderatör sınıfa girmeden katılımcılar sınıfa giremez.
-rep_robj_xbbb#:#rep_robj_xbbb_no_class_running#:#Başlamış ders yok.
-rep_robj_xbbb#:#rep_robj_xbbb_obj_xbbb#:#Big Blue Button Sanal Sınıf
-rep_robj_xbbb#:#rep_robj_xbbb_obj_xbbb_duplicate#:#Kopyala
-rep_robj_xbbb#:#rep_robj_xbbb_obj_xbbb_select#:#Sanal Sınıf Sec
-rep_robj_xbbb#:#rep_robj_xbbb_objs_xbbb#:#Big Blue Button Sanal Sınıflar
-rep_robj_xbbb#:#rep_robj_xbbb_objs_xbbb_duplicate#:#Sanal Sınıf Kopyala
-rep_robj_xbbb#:#rep_robj_xbbb_offline#:#Çevrimdışı
-rep_robj_xbbb#:#rep_robj_xbbb_privateport#:#Private Port (e.g. 8080)
-rep_robj_xbbb#:#rep_robj_xbbb_privateurl#:#Private URL (e.g. http://192.168.1.100)
-rep_robj_xbbb#:#rep_robj_xbbb_properties#:#Özellikler
-rep_robj_xbbb#:#rep_robj_xbbb_publicport#:#Public Port (e.g. 80)
-rep_robj_xbbb#:#rep_robj_xbbb_publicurl#:#Public URL (e.g. http://mybbbserver.com)
-rep_robj_xbbb#:#rep_robj_xbbb_root_create_xbbb#:#Sanal Sınıf Oluştur
-rep_robj_xbbb#:#rep_robj_xbbb_salt#:#Security Salt
-rep_robj_xbbb#:#rep_robj_xbbb_save#:#Kaydet
-rep_robj_xbbb#:#rep_robj_xbbb_start_class#:#Dersi başlatmak için tıklayın.
-rep_robj_xbbb#:#rep_robj_xbbb_status#:#Durum
-rep_robj_xbbb#:#rep_robj_xbbb_title#:#Başlık
-rep_robj_xbbb#:#rep_robj_xbbb_welcometext#:#Hoşgeldiniz Mesajı
-rep_robj_xbbb#:#rep_robj_xbbb_xbbb_add#:#Sanal Sınıf Ekle
-rep_robj_xbbb#:#rep_robj_xbbb_xbbb_delete#:#Sanal Sınıf Sil
-rep_robj_xbbb#:#rep_robj_xbbb_xbbb_edit_permission#:#Yetki Ayarla
-rep_robj_xbbb#:#rep_robj_xbbb_xbbb_new#:#Yeni Sanal Sınıf Ekle
-rep_robj_xbbb#:#rep_robj_xbbb_xbbb_read#:#Sanal Sınıf Okuma İzni
-rep_robj_xbbb#:#rep_robj_xbbb_xbbb_visible#:#Sanal Sınıf Görülebilir
-rep_robj_xbbb#:#rep_robj_xbbb_xbbb_write#:#Sanal Sınıf Düzenle
 rfil#:#rfil_call#:#Çağrı ECS Dosya
 rfil#:#rfil_version_tstamp#:#Yüklenme Tarihi
 rglo#:#rglo_call#:#Çağrı ECS Sözlüğü
@@ -13070,3 +12869,155 @@ wsp#:#wsp_type_file#:#Dosya
 wsp#:#wsp_type_tstv#:#Sertifika: Test
 wsp#:#wsp_type_webr#:#Weblink
 wsp#:#wsp_type_wfld#:#Klasör
+assessment#:#essay_scoring_mode#:#Scoring Mode###21 03 2014 new variable
+assessment#:#essay_scoring_mode_without_keywords#:#No Automatic Scoring###21 03 2014 new variable
+assessment#:#essay_scoring_mode_without_keywords_desc#:#No points are granted unless the tutor's manual scoring.###21 03 2014 new variable
+assessment#:#essay_scoring_mode_keyword_relation_any#:#Automatic Scoring with Keywords on Finding ANY###21 03 2014 new variable
+assessment#:#essay_scoring_mode_keyword_relation_any_desc#:#For any found keyword the corresponding points are granted automatically.###21 03 2014 new variable
+assessment#:#essay_scoring_mode_keyword_relation_all#:#Automatic Scoring with Keywords on Finding ALL###21 03 2014 new variable
+assessment#:#essay_scoring_mode_keyword_relation_all_desc#:#The points are granted automatically, if all keywords are found.###21 03 2014 new variable
+assessment#:#essay_scoring_mode_keyword_relation_one#:#Automatic Scoring with Keywords on Finding ONE###21 03 2014 new variable
+assessment#:#essay_scoring_mode_keyword_relation_one_desc#:#The points are granted automatically, if at least one keyword is found.###21 03 2014 new variable
+assessment#:#tst_pass_deletion#:#Previous Passes###21 03 2014 new variable
+assessment#:#tst_pass_deletion_not_allowed#:#The Deletion of Previous Passes is NOT allowed###21 03 2014 new variable
+assessment#:#tst_pass_deletion_allowed#:#The Deletion of Previous Passes is allowed###21 03 2014 new variable
+common#:#cat_copy_threads_info#:#Please decide which category items should be copied, linked or even omitted.###21 03 2014 new variable
+common#:#crs_copy_threads_info#:#Please decide which course materials should be copied, linked or even omitted.###21 03 2014 new variable
+rbac#:#rbac_create_fold#:#Create Folder###21 03 2014 new variable
+rbac#:#rbac_create_cat#:#Create Categories###21 03 2014 new variable
+common#:#soap_user_administration_desc_extended#:#Enabling this, the ILIAS client is visible via the SOAP API.###21 03 2014 new variable
+content#:#cont_LocalFile#:#Local File###21 03 2014 new variable
+payment#:#pay_unpayed_bill#:#Please wire the open balance to the given bank account.###21 03 2014 new variable
+rbac#:#rbac_create_sess#:#Create Session###21 03 2014 new variable
+rbac#:#rbac_create_catr#:#Create Category Reference###21 03 2014 new variable
+rbac#:#rbac_create_chat#:#Create Chat###21 03 2014 new variable
+rbac#:#rbac_create_crs#:#Create Course###21 03 2014 new variable
+rbac#:#rbac_create_crsr#:#Create Course Reference###21 03 2014 new variable
+rbac#:#rbac_create_dbk#:#Create Digilib Book###21 03 2014 new variable
+rbac#:#rbac_create_exc#:#Create Exercise###21 03 2014 new variable
+rbac#:#rbac_create_feed#:#Create Web Feed###21 03 2014 new variable
+rbac#:#rbac_create_file#:#Upload File###21 03 2014 new variable
+rbac#:#rbac_create_frm#:#Create Forum###21 03 2014 new variable
+rbac#:#rbac_create_glo#:#Create Glossary###21 03 2014 new variable
+rbac#:#rbac_create_grp#:#Create Group###21 03 2014 new variable
+rbac#:#rbac_create_htlm#:#Create HTML Learning Module###21 03 2014 new variable
+rbac#:#rbac_create_icrs#:#Create LearnLinc Seminar###21 03 2014 new variable
+rbac#:#rbac_create_lm#:#Create ILIAS Learning Module###21 03 2014 new variable
+rbac#:#rbac_create_mcst#:#Create Mediacast###21 03 2014 new variable
+rbac#:#rbac_create_mep#:#Create Media Pool###21 03 2014 new variable
+rbac#:#rbac_create_qpl#:#Create Question Pool Test###21 03 2014 new variable
+rbac#:#rbac_create_rcrs#:#Create ECS Course ###21 03 2014 new variable
+rbac#:#rbac_create_sahs#:#Create SCORM/AICC Learning Module###21 03 2014 new variable
+rbac#:#rbac_create_spl#:#Create Question Pool Survey###21 03 2014 new variable
+rbac#:#rbac_create_svy#:#Create Survey###21 03 2014 new variable
+rbac#:#rbac_create_tst#:#Create Test###21 03 2014 new variable
+rbac#:#rbac_create_webr#:#Create Weblink###21 03 2014 new variable
+rbac#:#rbac_create_wiki#:#Create Wiki###21 03 2014 new variable
+rbac#:#rbac_create_book#:#Create Booking Pool###21 03 2014 new variable
+rbac#:#rbac_create_usr#:#User is allowed to create user accounts###21 03 2014 new variable
+chatroom#:#no_username_given#:#Please choose a username###21 03 2014 new variable
+rbac#:#rbac_create_chtr#:#Create Chatroom###21 03 2014 new variable
+assessment#:#tst_save_manscoring_failed#:#Saving the manual scoring for test pass %s has failed.###21 03 2014 new variable
+assessment#:#tst_manscoring_maxpoints_exceeded_input_alert#:#The maximum of %s point(s) is exceeded!###21 03 2014 new variable
+assessment#:#tst_manscoring_input_max_points_for_question#:#Maximum Points for Question###21 03 2014 new variable
+assessment#:#tst_manscoring_input_question_and_user_solution#:#Question and User Solution###21 03 2014 new variable
+assessment#:#tst_manscoring_input_best_solution#:#Best Solution###21 03 2014 new variable
+rbac#:#rbac_create_blog#:#Create Blog###21 03 2014 new variable
+dcl#:#dcl_record#:#Record###21 03 2014 new variable
+dcl#:#dcl_hello#:#Dear###21 03 2014 new variable
+rbac#:#rbac_create_dcl#:#Create Data Collection###21 03 2014 new variable
+dcl#:#dcl_field_title_change_warning#:#You changed the title of the field hence some placeholders in the view definition might be broken. Those have to be fixed manually should the occasion arise.###21 03 2014 new variable
+rbac#:#rbac_create_poll#:#Create Poll###21 03 2014 new variable
+dcl#:#dcl_export_enabled#:#Allow export function for all users###21 03 2014 new variable
+dcl#:#dcl_no_fields_yet#:#There are no fields defined for this table thus you cannot create any entries yet.###21 03 2014 new variable
+dcl#:#dcl_create_fields#:#Please create at least one field in the tab "List Fields".###21 03 2014 new variable
+dcl#:#dcl_inconsistent_at#:#The Data Collection is inconsistant. A reference no longer exists.###21 03 2014 new variable
+dcl#:#dcl_field_title_unique#:#There exists already a field with this title. Title must be unique.###21 03 2014 new variable
+dcl#:#dcl_table_title_unique#:#There exists already a table with this title. Title must be unique.###21 03 2014 new variable
+rbac#:#rbac_create_itgr#:#Create Item Group###21 03 2014 new variable
+dcl#:#dcl_change_why_you_receive_this_email#:#You receive this message because you have activated the notification about this datacollection.###21 03 2014 new variable
+ecs#:#ecs_cmap_enable#:#Course Allocation###21 03 2014 new variable
+ecs#:#ecs_cmap_def_cat#:#Default Category###21 03 2014 new variable
+ecs#:#ecs_cmap_def_cat_info#:#Please enter the id of a category where all courses will be created that cannot be handled by other rules.###21 03 2014 new variable
+ecs#:#ecs_cmap_all_in_one#:#Course in one Category###21 03 2014 new variable
+ecs#:#ecs_cmap_all_in_one_info#:#Create all new courses in one category.###21 03 2014 new variable
+ecs#:#ecs_cmap_all_in_one_cat#:#Course Category###21 03 2014 new variable
+ecs#:#ecs_cmap_multiple_atts#:#Multiple Attributes###21 03 2014 new variable
+ecs#:#ecs_cmap_att_organisation#:#Organisation###21 03 2014 new variable
+ecs#:#ecs_cmap_att_term#:#Term###21 03 2014 new variable
+ecs#:#ecs_cmap_att_title#:#Title###21 03 2014 new variable
+ecs#:#ecs_cmap_att_lecturer#:#Lecturer###21 03 2014 new variable
+ecs#:#ecs_cmap_atts_table#:#Attribute Mapping Configuration###21 03 2014 new variable
+ecs#:#ecs_cmap_attributes#:#Mapping Attributes###21 03 2014 new variable
+ecs#:#ecs_cmap_overview#:#Mapping Overview###21 03 2014 new variable
+ecs#:#ecs_cmap_mapping_form_title#:#Course Assignment for Category:###21 03 2014 new variable
+ecs#:#ecs_cmap_form_filter#:#Filter Settings###21 03 2014 new variable
+ecs#:#ecs_cmap_form_all_values#:#All Values###21 03 2014 new variable
+ecs#:#ecs_cmap_form_filter_info#:#Manual values, comma separated###21 03 2014 new variable
+ecs#:#ecs_cmap_form_create_subdirs#:#Create Subdirectories###21 03 2014 new variable
+ecs#:#ecs_cmap_form_subdir_type#:#Subdirectory Title###21 03 2014 new variable
+ecs#:#ecs_cmap_form_subdir_value#:#Subdirectory Value###21 03 2014 new variable
+ecs#:#ecs_cmap_form_subdir_name#:#Subdirectory Name###21 03 2014 new variable
+ecs#:#ecs_cmap_add_attribute_btn#:#Add Attribute###21 03 2014 new variable
+ecs#:#ecs_cmap_delete_attribute_btn#:#Delete Last Attribute###21 03 2014 new variable
+ecs#:#ecs_cmap_form_filter_by_values#:#Filter by Attribute Values###21 03 2014 new variable
+ecs#:#ecs_cmap_form_current_dir#:#Current Directory###21 03 2014 new variable
+ecs#:#ecs_cmap_form_dir_relation#:#Directory Reference###21 03 2014 new variable
+content#:#cont_custom_menu_entries#:#Custom Menu Entries###21 03 2014 new variable
+content#:#cont_anonymous_user_missing_perm#:#Anonymous users currently have no permission to access this learning module.###21 03 2014 new variable
+rbac#:#itgr_visible#:#Item group is visible###21 03 2014 new variable
+content#:#glo_term_must_belong_to_glo#:#The action can only be performed on terms, which are defined in this glossary.###21 03 2014 new variable
+common#:#edited_on#:#Edited on###21 03 2014 new variable
+ecs#:#ecs_sync_trees#:#Synchronise Directory Trees###21 03 2014 new variable
+survey#:#svy_invite_action#:#Invite users to a survey###21 03 2014 new variable
+rbac#:#chtr_delete#:#User can move or delete course###21 03 2014 new variable
+ecs#:#ecs_role_mappings#:#Course/Group Role Mappings###21 03 2014 new variable
+ecs#:#ecs_role_mapping_value#:#Attribute Value###21 03 2014 new variable
+blog#:#blog_toggle_draft_admin#:#Deactivate Blog Posting###21 03 2014 new variable
+blog#:#blog_keywords_info#:#Use +/- icons to add and remove keywords.###21 03 2014 new variable
+crs#:#crs_notification_list_title#:#Notification About New Members###21 03 2014 new variable
+obj#:#edit_questions#:#Edit Questions###21 03 2014 new variable
+user#:#user_delete_own_account_logout_confirmation#:#Your account has been flagged for deletion. Please authenticate to continue the process.###21 03 2014 new variable
+user#:#user_delete_own_account_logout_button#:#Proceed to Authentication###21 03 2014 new variable
+user#:#user_delete_own_account_aborted#:#Aborted deletion, account was not changed.###21 03 2014 new variable
+rbac#:#edit_userassignment#:#Edit User Assignment###21 03 2014 new variable
+blog#:#blog_posting_edit_approval_info#:#Posting remains to be approved by a tutor before being published.###21 03 2014 new variable
+mail#:#mail_add_folder#:#Add New Subfolder###21 03 2014 new variable
+mail#:#mail_rename_folder#:#Rename Folder###21 03 2014 new variable
+common#:#rpc_pdf_generation#:#PDF-Generation###21 03 2014 new variable
+common#:#rpc_pdf_font#:#Fonts###21 03 2014 new variable
+common#:#rpc_pdf_font_info#:#Additional fonts for the generation of PDF files. Other fonts than "Helvetica" and "unifont" must be installed on the ILIAS server.###21 03 2014 new variable
+didactic#:#didactic_default_type#:#Default###21 03 2014 new variable
+blog#:#blog_draft_info_contributors#:#This posting draft is only visible for the contributors.###21 03 2014 new variable
+exp#:#exp_file_created#:#The export file has been created.###21 03 2014 new variable
+ecs#:#ecs_cmap_att_courseType#:#Course Type###21 03 2014 new variable
+ecs#:#ecs_cmap_att_degreeProgramme#:#Degree Programme###21 03 2014 new variable
+ecs#:#ecs_cmap_att_module#:#Module###21 03 2014 new variable
+ecs#:#ecs_cmap_att_venue#:#Venue###21 03 2014 new variable
+mcst#:#mcst_download_videoalternative#:#Download Alternative File###21 03 2014 new variable
+dateplaner#:#remote_pass_info#:#Please enter your account data if the access to the webcalendar ist protected.###21 03 2014 new variable
+prtf#:#prtf_allow_html#:#Allow HTML/Javascript###21 03 2014 new variable
+prtf#:#prtf_allow_html_info#:#Enables users to include HTML and/or Javascript in their portfolio pages. This can lead to security issues.###21 03 2014 new variable
+blog#:#blog_allow_html#:#Allow HTML/Javascript###21 03 2014 new variable
+blog#:#blog_allow_html_info#:#Enables users to include HTML and/or Javascript in their blog postings. This can lead to security issues.###21 03 2014 new variable
+wiki#:#wiki_start_page_info#:#If there does not exist a page with this title yet, a new page will be created.###21 03 2014 new variable
+survey#:#survey_notification_tutor_link#:#Link to Survey###21 03 2014 new variable
+dcl#:#fieldtitle_allow_chars#:#Allowed chars: %s###21 03 2014 new variable
+crs#:#crs_passed_status_system#:#System###21 03 2014 new variable
+crs#:#crs_passed_status_manual_by#:#Manual by###21 03 2014 new variable
+poll#:#poll_voting_period_info#:#Deadline for Voting: %s###21 03 2014 new variable
+book#:#book_reservation_failed_overbooked#:#The booking failed because the object is not available anymore.###21 03 2014 new variable
+exc#:#exc_no_team_yet#:#Not assigned to a team###21 03 2014 new variable
+ecs#:#ecs_cmap_delete_rule#:#Delete Mapping###21 03 2014 new variable
+exc#:#exc_team_member_remove_sure#:#Are you sure you want to remove the following members of your team? Please be aware that all files they have uploaded will also be removed from your team.###21 03 2014 new variable
+exc#:#exc_create_team#:#Create Team###21 03 2014 new variable
+exc#:#exc_create_team_times_up_warning#:#You cannot create a team anymore - please contact your tutor.###21 03 2014 new variable
+book#:#book_confirm_cancel#:#Are you sure you want to cancel the following reservation?###21 03 2014 new variable
+common#:#obj_nota#:#Notifications###21 03 2014 new variable
+blog#:#blog_posting_not_found#:#This blog posting is not available.###21 03 2014 new variable
+ldap#:#ldap_choose_role#:#Choose Role###21 03 2014 new variable
+notes#:#note_content_removed#:#The content has been removed.###21 03 2014 new variable
+book#:#book_copy#:#Copy Booking Pool###21 03 2014 new variable
+common#:#obj_book_duplicate#:#Copy Booking Pool###21 03 2014 new variable
+meta#:#meta_c_XK#:#Kosovo###21 03 2014 new variable
+survey#:#mailparticipantdata_placeholder#:#The following placeholders will be replaced with real user data in personalized surveys:###21 03 2014 new variable
