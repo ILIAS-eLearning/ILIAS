@@ -226,3 +226,111 @@ if( !$ilDB->tableColumnExists('tst_active', 'last_finished_pass') )
 	));
 }
 ?>
+
+<#4192>
+<?php
+
+if( !$ilDB->uniqueConstraintExists('tst_pass_result', array('active_fi', 'pass')) )
+{
+	$groupRes = $ilDB->query("
+		SELECT COUNT(*), active_fi, pass FROM tst_pass_result GROUP BY active_fi, pass HAVING COUNT(*) > 1
+	");
+
+	$ilSetting = new ilSetting();
+
+	$setting = $ilSetting->get('tst_passres_dupl_del_warning', 0);
+
+	while( $groupRow = $ilDB->fetchAssoc($groupRes) )
+	{
+		if(!$setting)
+		{
+			echo "<pre>
+				Dear Administrator,
+				
+				DO NOT REFRESH THIS PAGE UNLESS YOU HAVE READ THE FOLLOWING INSTRUCTIONS
+				
+				The update process has been stopped due to data security reasons.
+				A Bug has let to duplicate datasets in tst_pass_result table.
+				Duplicates have been detected in your installation.
+				
+				Please have a look at: http://www.ilias.de/mantis/view.php?id=12904
+				
+				You have the opportunity to review the data in question and apply 
+				manual fixes on your own risk.
+				
+				If you try to rerun the update process, this warning will be skipped.
+				The duplicates will be removed automatically by the criteria documented at Mantis #12904
+				
+				Best regards,
+				The Test Maintainers
+			</pre>";
+
+			$ilSetting->set('tst_passres_dupl_del_warning', 1);
+			exit;
+		}
+
+		$dataRes = $ilDB->queryF(
+			"SELECT * FROM tst_pass_result WHERE active_fi = %s AND pass = %s ORDER BY tstamp ASC",
+			array('integer', 'integer'), array($groupRow['active_fi'], $groupRow['pass'])
+		);
+
+		$passResults = array();
+		$latestTimstamp = 0;
+
+		while( $dataRow = $ilDB->fetchAssoc($dataRes) )
+		{
+			if( $latestTimstamp < $dataRow['tstamp'] )
+			{
+				$latestTimstamp = $dataRow['tstamp'];
+				$passResults = array();
+			}
+
+			$passResults[] = $dataRow;
+		}
+
+		$bestPointsRatio = 0;
+		$bestPassResult = null;
+
+		foreach($passResults as $passResult)
+		{
+			if( $passResult['maxpoints'] > 0 )
+			{
+				$pointsRatio = $passResult['points'] / $passResult['maxpoints'];
+			}
+			else
+			{
+				$pointsRatio = 0;
+			}
+
+			if( $bestPointsRatio <= $pointsRatio )
+			{
+				$bestPointsRatio = $pointsRatio;
+				$bestPassResult = $passResult;
+			}
+		}
+
+		$dataRes = $ilDB->manipulateF(
+			"DELETE FROM tst_pass_result WHERE active_fi = %s AND pass = %s",
+			array('integer', 'integer'), array($groupRow['active_fi'], $groupRow['pass'])
+		);
+
+		$ilDB->insert('tst_pass_result', array(
+			'active_fi' => array('integer', $bestPassResult['active_fi']),
+			'pass' => array('integer', $bestPassResult['pass']),
+			'points' => array('float', $bestPassResult['points']),
+			'maxpoints' => array('float', $bestPassResult['maxpoints']),
+			'questioncount' => array('integer', $bestPassResult['questioncount']),
+			'answeredquestions' => array('integer', $bestPassResult['answeredquestions']),
+			'workingtime' => array('integer', $bestPassResult['workingtime']),
+			'tstamp' => array('integer', $bestPassResult['tstamp']),
+			'hint_count' => array('integer', $bestPassResult['hint_count']),
+			'hint_points' => array('float', $bestPassResult['hint_points']),
+			'obligations_answered' => array('integer', $bestPassResult['obligations_answered']),
+			'exam_id' => array('text', $bestPassResult['exam_id'])
+		));
+	}
+
+	$ilDB->addUniqueConstraint('tst_pass_result', array('active_fi', 'pass'));
+}
+
+?>
