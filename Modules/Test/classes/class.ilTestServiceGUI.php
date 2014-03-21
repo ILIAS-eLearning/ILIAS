@@ -309,7 +309,7 @@ class ilTestServiceGUI
 							$compare_template->setVariable("HEADER_PARTICIPANT", $this->lng->txt('tst_header_participant'));
 							$compare_template->setVariable("HEADER_SOLUTION", $this->lng->txt('tst_header_solution'));
 							$result_output = $question_gui->getSolutionOutput($active_id, $pass, $show_solutions, FALSE, $show_question_only, $this->object->getShowSolutionFeedback());
-							$best_output   = $question_gui->getSolutionOutput($active_id, $pass, $show_solutions, FALSE, $show_question_only, FALSE, TRUE);
+							$best_output   = $question_gui->getSolutionOutput($active_id, $pass, FALSE, FALSE, $show_question_only, FALSE, TRUE);
 
 							$compare_template->setVariable('PARTICIPANT', $result_output);
 							$compare_template->setVariable('SOLUTION', $best_output);

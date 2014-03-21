@@ -2316,6 +2316,9 @@ class ilObjTestGUI extends ilObjectGUI
 		global $ilAccess, $ilTabs;
 
 		$ilTabs->activateTab('assQuestions');
+		
+		// #12590
+		$this->ctrl->setParameter($this, 'test_express_mode', '');
 
 		if (!$ilAccess->checkAccess("write", "", $this->ref_id)) 
 		{
