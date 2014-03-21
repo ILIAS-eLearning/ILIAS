@@ -923,36 +923,41 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 						break;
 				}
 			}
-			$this->testSession->increaseTestPass();
-			ilSession::set('passincreased', $actualpass);
 		}
 
-		if ( $this->object->getEnableArchiving() )
+		$this->performTestPassFinishedTasks($actualpass);
+
+		$this->testSession->setLastFinishedPass($this->testSession->getPass());
+		$this->testSession->increaseTestPass();
+
+		$this->ctrl->redirect($this, 'afterTestPassFinished');
+	}
+
+	protected function performTestPassFinishedTasks($finishedPass)
+	{
+		if( $this->object->getEnableArchiving() )
 		{
-			$this->archiveParticipantSubmission( $active_id, $actualpass );
+			$this->archiveParticipantSubmission($this->testSession->getActiveId(), $finishedPass);
+		}
+	}
+
+	protected function afterTestPassFinishedCmd()
+	{
+		$activeId = $this->testSession->getActiveId();
+		$lastFinishedPass = $this->testSession->getLastFinishedPass();
+
+		// handle test signature
+
+		if ( $this->isTestSignRedirectRequired($activeId, $lastFinishedPass) )
+		{
+			$this->ctrl->redirectByClass('ilTestSignatureGUI', 'invokeSignaturePlugin');
 		}
 
-		/** @var $ilPluginAdmin ilPluginAdmin */
-		global $ilPluginAdmin, $ilCtrl;
-		if ($this->object->getSignSubmission() 
-			&& count($ilPluginAdmin->getActivePluginsForSlot(IL_COMP_MODULE, 'Test', 'tsig')) != 0)
-		{
-			$key = 'signed_'. $active_id .'_'. $actualpass;
-			if (ilSession::get('passincreased') != null )
-			{
-				$key = 'signed_'. $active_id .'_'. ilSession::get('passincreased');
-			}
-			$val = ilSession::get($key);
-			if ( is_null($val) )
-			{
-				/** @var $ilCtrl ilCtrl */
-				$ilCtrl->redirectByClass('ilTestSignatureGUI', 'invokeSignaturePlugin');
-			}
-		}
-		
-		// Redirect after test
+		// redirect after test
+
 		$redirection_mode = $this->object->getRedirectionMode();
 		$redirection_url  = $this->object->getRedirectionUrl();
+
 		if($redirection_url && $redirection_mode && !$this->object->canViewResults())
 		{
 			if($redirection_mode == REDIRECT_KIOSK)
@@ -969,6 +974,28 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		}
 
 		$this->redirectBackCmd();
+	}
+
+	protected function isTestSignRedirectRequired($activeId, $lastFinishedPass)
+	{
+		if( !$this->object->getSignSubmission() )
+		{
+			return false;
+		}
+
+		if( !is_null(ilSession::get("signed_{$activeId}_{$lastFinishedPass}")) )
+		{
+			return false;
+		}
+
+		global $ilPluginAdmin;
+
+		$activePlugins = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_MODULE, 'Test', 'tsig');
+
+		if( !count($activePlugins) )
+		{
+			return false;
+		}
 	}
 
 	/**

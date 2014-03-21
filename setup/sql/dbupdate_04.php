@@ -214,4 +214,15 @@ $ilDB->modifyTableColumn(
 	);
 ?>
 
-
+<#4191>
+<?php
+if( !$ilDB->tableColumnExists('tst_active', 'last_finished_pass') )
+{
+	$ilDB->addTableColumn('tst_active', 'last_finished_pass', array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => false,
+		'default' => null
+	));
+}
+?>
