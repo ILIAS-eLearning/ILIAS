@@ -499,7 +499,7 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 				$rolf_id = $rolf_obj->getRefId();
 			}
 			$rolf_obj =& ilObjectFactory::getInstanceByRefId($rolf_id);
-			$role_obj = $rolf_obj->createRole($object_data['title'],$object_data['description']);
+			$role_obj = $rolf_obj->createRole($object_data['title'],$object_data['description'],$object_data['import_id']);
 
 			// Copy permssions
 			$rbacadmin->copyRoleTemplatePermissions($template_id,ROLE_FOLDER_ID,$rolf_obj->getRefId(),$role_obj->getId());
