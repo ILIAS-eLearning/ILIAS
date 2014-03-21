@@ -22,7 +22,13 @@ class ilCronManager
 		
 		$ilLog->write("CRON - batch start");
 		
-		$ilSetting->set('last_cronjob_start_ts', time());
+		$ilSetting->set("last_cronjob_start_ts", time());
+		
+		// ilLink::_getStaticLink() should work in crons
+		if(!defined("ILIAS_HTTP_PATH"))
+		{
+			define("ILIAS_HTTP_PATH", ilUtil::_getHttpPath());
+		}
 		
 		// system
 		foreach(self::getCronJobData(null, false) as $row)
