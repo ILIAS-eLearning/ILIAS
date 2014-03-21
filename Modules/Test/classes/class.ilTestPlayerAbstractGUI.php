@@ -996,6 +996,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		{
 			return false;
 		}
+		
+		return true;
 	}
 
 	/**
