@@ -334,3 +334,73 @@ if( !$ilDB->uniqueConstraintExists('tst_pass_result', array('active_fi', 'pass')
 }
 
 ?>
+
+<#4193>
+<?php
+if( !$ilDB->uniqueConstraintExists('tst_sequence', array('active_fi', 'pass')) )
+{
+	$groupRes = $ilDB->query("
+		SELECT COUNT(*), active_fi, pass FROM tst_sequence GROUP BY active_fi, pass HAVING COUNT(*) > 1
+	");
+
+	$ilSetting = new ilSetting();
+
+	$setting = $ilSetting->get('tst_seq_dupl_del_warning', 0);
+
+	while( $groupRow = $ilDB->fetchAssoc($groupRes) )
+	{
+		if(!$setting)
+		{
+			echo "<pre>
+				Dear Administrator,
+				
+				DO NOT REFRESH THIS PAGE UNLESS YOU HAVE READ THE FOLLOWING INSTRUCTIONS
+				
+				The update process has been stopped due to data security reasons.
+				A Bug has let to duplicate datasets in tst_sequence table.
+				Duplicates have been detected in your installation.
+				
+				Please have a look at: http://www.ilias.de/mantis/view.php?id=12904
+				
+				You have the opportunity to review the data in question and apply 
+				manual fixes on your own risk.
+				
+				If you try to rerun the update process, this warning will be skipped.
+				The duplicates will be removed automatically by the criteria documented at Mantis #12904
+				
+				Best regards,
+				The Test Maintainers
+			</pre>";
+
+			$ilSetting->set('tst_seq_dupl_del_warning', 1);
+			exit;
+		}
+
+		$dataRes = $ilDB->queryF(
+			"SELECT * FROM tst_sequence WHERE active_fi = %s AND pass = %s ORDER BY tstamp DESC",
+			array('integer', 'integer'), array($groupRow['active_fi'], $groupRow['pass'])
+		);
+
+		while( $dataRow = $ilDB->fetchAssoc($dataRes) )
+		{
+			$ilDB->manipulateF(
+				"DELETE FROM tst_sequence WHERE active_fi = %s AND pass = %s",
+				array('integer', 'integer'), array($groupRow['active_fi'], $groupRow['pass'])
+			);
+
+			$ilDB->insert('tst_sequence', array(
+				'active_fi' => array('integer', $dataRow['active_fi']),
+				'pass' => array('integer', $dataRow['pass']),
+				'sequence' => array('text', $dataRow['sequence']),
+				'postponed' => array('text', $dataRow['postponed']),
+				'hidden' => array('text', $dataRow['hidden']),
+				'tstamp' => array('integer', $dataRow['tstamp'])
+			));
+
+			break;
+		}
+	}
+
+	$ilDB->addUniqueConstraint('tst_sequence', array('active_fi', 'pass'));
+}
+?>
