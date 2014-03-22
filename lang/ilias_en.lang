@@ -13800,7 +13800,7 @@ common#:#password_must_contain_ucase_chars#:#The password must contain at least 
 content#:#cont_current_lang#:#Current Language
 obj#:#obj_deactivate_content_lang#:#Deactivate Translation for Page Editing
 content#:#cont_edit_language_version#:#Edit Version
-content#:#cont_page_translation_does_not_exist#:#The translation page does not exist yet and will be created
+content#:#cont_page_translation_does_not_exist#:#The translation page does not exist yet and will be created by copying the content of the current master page. Language of the translation page
 search#:#search_user_search_form#:#User Search
 search#:#search_user_search_info_form#:#If enabled, users data will be indexed and is searchable.
 adve#:#adve_blocking_mode#:#Edit Lock

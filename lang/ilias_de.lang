@@ -13956,7 +13956,7 @@ content#:#cont_auto_suspend#:#Abruf vorhandener Lernstandsdaten sicherstellen
 content#:#cont_auto_suspend_info#:#Diese Option ist für SCORM-Lernmodule, die SCORM 2004 in einer unzureichenden Weise unterstützen, indem sie keine geeigneten Werte für cmi.exit senden.
 content#:#cont_current_lang#:#Aktuelle Sprache
 content#:#cont_edit_language_version#:#Version bearbeiten
-content#:#cont_page_translation_does_not_exist#:#Die Seite existiert noch nicht in dieser Sprache und wird jetzt erstellt.
+content#:#cont_page_translation_does_not_exist#:#Die Seite existiert noch nicht in dieser Sprache. Sie wird nun als Kopie der Standardsprache erstellt. Sprache der neuen Seite
 adve#:#adve_blocking_mode#:#Bearbeitungssperre
 adve#:#adve_minutes#:#Minuten
 adve#:#adve_minutes_info#:#Zeitraum in Minuten bis die Seite wegen fehlender Aktivität wieder freigegeben und dann von einem anderen Benutzer bearbeitet werden kann.
