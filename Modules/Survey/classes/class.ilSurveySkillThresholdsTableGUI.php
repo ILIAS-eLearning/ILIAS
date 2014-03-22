@@ -42,7 +42,7 @@ class ilSurveySkillThresholdsTableGUI extends ilTable2GUI
 		include_once("./Modules/Survey/classes/class.ilSurveySkill.php");
 		$this->skill_survey = new ilSurveySkill($a_survey);
 		$this->setData($this->getLevels());
-		$this->setTitle(ilBasicSkill::_lookupTitle($this->base_skill_id));
+		$this->setTitle(ilBasicSkill::_lookupTitle($this->base_skill_id, $this->tref_id));
 		
 		$this->addColumn($this->lng->txt("survey_skill_level"));
 		$this->addColumn($this->lng->txt("survey_up_to_x_points"));
