@@ -57,7 +57,6 @@ class ilColumnGUI
 		"ilPDNewsBlockGUI" => "Services/News/",
 		"ilExternalFeedBlockGUI" => "Services/Block/",
 		"ilPDExternalFeedBlockGUI" => "Services/Feeds/",
-		"ilHtmlBlockGUI" => "Services/Block/",
 		'ilPDTaggingBlockGUI' => 'Services/Tagging/',
 		'ilChatroomBlockGUI' => 'Modules/Chatroom/',
 		'ilPollBlockGUI' => 'Modules/Poll/'
@@ -76,7 +75,6 @@ class ilColumnGUI
 		"ilPDExternalFeedBlockGUI" => "pdfeed",
 		"ilPDSysMessageBlockGUI" => "pdsysmess",
 		"ilPDSelectedItemsBlockGUI" => "pditems",
-		"ilHtmlBlockGUI" => "html",
 		'ilPDTaggingBlockGUI' => 'pdtag',
 		'ilChatroomBlockGUI' => 'chatviewer',
 		'ilPollBlockGUI' => 'poll'
