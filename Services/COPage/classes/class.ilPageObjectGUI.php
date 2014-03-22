@@ -1861,11 +1861,11 @@ return;
 				$GLOBALS["tpl"]->addCss($css);
 			}
 		}
-		
+
 		$output = $this->obj->insertSourceCodeParagraphs($output, $this->getOutputMode());
 
 		$output = $this->selfAssessmentRendering($output);
-
+//echo "<pre>".htmlentities($output)."</pre>";
 		// output
 		if ($ilCtrl->isAsynch() && !$this->getRawPageContent() &&
 			$this->getOutputMode() == "edit")
