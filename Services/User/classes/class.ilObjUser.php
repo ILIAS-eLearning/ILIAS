@@ -2409,8 +2409,8 @@ class ilObjUser extends ilObject
 		
     	$this->setLastPasswordChangeTS( time() );
 
-    	$query = "UPDATE usr_data SET usr_data.last_password_change = %s " .
-    			"WHERE usr_data.usr_id = %s";
+    	$query = "UPDATE usr_data SET last_password_change = %s " .
+    			"WHERE usr_id = %s";
     	$affected = $ilDB->manipulateF($query,
 		 	array('integer','integer'),
 			array($this->getLastPasswordChangeTS(),$this->id));
@@ -2422,8 +2422,8 @@ class ilObjUser extends ilObject
     {
 		global $ilDB;
 		
-		$query = "UPDATE usr_data SET usr_data.last_password_change = 0 " .
-				"WHERE usr_data.usr_id = %s";
+		$query = "UPDATE usr_data SET last_password_change = 0 " .
+				"WHERE usr_id = %s";
 		$affected = $ilDB->manipulateF( $query, array('integer'),
     		array($this->getId()) );
     	if($affected) return true;
@@ -4706,7 +4706,7 @@ class ilObjUser extends ilObject
 	{
 		global $ilDB;
 
-		$query = "UPDATE usr_data SET usr_data.login_attempts = 0 WHERE usr_data.usr_id = %s";
+		$query = "UPDATE usr_data SET login_attempts = 0 WHERE usr_id = %s";
 		$affected = $ilDB->manipulateF( $query, array('integer'), array($a_usr_id) );
 
 		if($affected) return true;
@@ -4717,7 +4717,7 @@ class ilObjUser extends ilObject
 	{
 		global $ilDB;
 
-		$query = "SELECT usr_data.login_attempts FROM usr_data WHERE usr_data.usr_id = %s";
+		$query = "SELECT login_attempts FROM usr_data WHERE usr_id = %s";
 		$result = $ilDB->queryF( $query, array('integer'), array($a_usr_id) );
 		$record = $ilDB->fetchAssoc( $result );
 		$login_attempts = $record['login_attempts'];
@@ -4729,7 +4729,7 @@ class ilObjUser extends ilObject
 	{
 		global $ilDB;
 
-		$query = "UPDATE usr_data SET usr_data.login_attempts = (usr_data.login_attempts + 1) WHERE usr_data.usr_id = %s";
+		$query = "UPDATE usr_data SET login_attempts = (login_attempts + 1) WHERE usr_id = %s";
 		$affected = $ilDB->manipulateF( $query, array('integer'), array($a_usr_id) );
 
 		if($affected) return true;
@@ -4740,7 +4740,7 @@ class ilObjUser extends ilObject
 	{
 		global $ilDB;
 
-		$query = "UPDATE usr_data SET usr_data.active = 0, usr_data.inactivation_date = %s WHERE usr_data.usr_id = %s";
+		$query = "UPDATE usr_data SET active = 0, inactivation_date = %s WHERE usr_id = %s";
 		$affected = $ilDB->manipulateF( $query, array('timestamp', 'integer'), array(ilUtil::now(), $a_usr_id) );
 		
 		if($affected) return true;
@@ -5132,7 +5132,7 @@ class ilObjUser extends ilObject
 
 		global $ilDB;
 
-		$query = "UPDATE usr_data SET usr_data.last_login = %s WHERE usr_data.usr_id = %s";
+		$query = "UPDATE usr_data SET last_login = %s WHERE usr_id = %s";
 		$affected = $ilDB->manipulateF( $query, array('timestamp', 'integer'), array($last_login, $a_usr_id) );
 
 		if($affected) return $last_login;
