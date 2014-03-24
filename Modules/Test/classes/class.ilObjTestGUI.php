@@ -4516,13 +4516,13 @@ class ilObjTestGUI extends ilObjectGUI
 			case "addMarkStep":
 			case "deleteMarkSteps":
 			case "addSimpleMarkSchema":
-//			case "certificate":
-//			case "certificateservice":
-//			case "certificateImport":
-//			case "certificateUpload":
-//			case "certificateEditor":
-//			case "certificateDelete":
-//			case "certificateSave":
+			case "certificate":
+			case "certificateservice":
+			case "certificateImport":
+			case "certificateUpload":
+			case "certificateEditor":
+			case "certificateDelete":
+			case "certificateSave":
 			case "defaults":
 			case "deleteDefaults":
 			case "addDefaults":
