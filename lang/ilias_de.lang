@@ -281,7 +281,7 @@ adve#:#adve_use_tiny_mce#:#TinyMCE für WYSIWYG-Editieren aktivieren
 assessment#:#autosave#:#Automatisches Speichern
 assessment#:#autosave_info#:#Wenn ausgewählt, werden Antworten im Hintergrund gespeichert um Datenverlusten vorzubeugen. (Bei ausgewählten Fragetypen.)
 assessment#:#autosave_ival#:#Intervall
-assessment#:#autosave_ival_info#:#Intervall, in dem Antworten im Hintergrund gespeichert werden (in Mikrosekunden)
+assessment#:#autosave_ival_info#:#Intervall, in dem Antworten im Hintergrund gespeichert werden (in Sekunden)
 assessment#:#for#:#für
 assessment#:#solution_contain_keywords#:#Punkte werden auf Basis des Vorkommens der folgenden Begriffe vergeben:
 assessment#:#essay_scoring_mode#:#Bewertungs Modus

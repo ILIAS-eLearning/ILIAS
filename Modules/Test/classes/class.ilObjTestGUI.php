@@ -1741,7 +1741,7 @@ class ilObjTestGUI extends ilObjectGUI
 		
 		$autosave_interval = new ilTextInputGUI($this->lng->txt('autosave_ival'), 'autosave_ival');
 		$autosave_interval->setSize(10);
-		$autosave_interval->setValue($this->object->getAutosaveIval());
+		$autosave_interval->setValue($this->object->getAutosaveIval() / 1000);
 		$autosave_interval->setInfo($this->lng->txt('autosave_ival_info'));
 		$autosave_output->addSubItem($autosave_interval);
 		$form->addItem($autosave_output);
@@ -2207,7 +2207,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->object->setAllowedUsersTimeGap($_POST["allowedUsersTimeGap"]);
 
 			$this->object->setAutosave($_POST['autosave']);
-			$this->object->setAutosaveIval($_POST['autosave_ival']);
+			$this->object->setAutosaveIval(((int)$_POST['autosave_ival']) * 1000);
 			
 			if ($this->object->isRandomTest())
 			{
