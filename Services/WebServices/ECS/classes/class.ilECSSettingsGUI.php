@@ -333,6 +333,13 @@ class ilECSSettingsGUI
 		$ena->setChecked($this->settings->isEnabled());
 		$ena->setValue(1);
 		$this->form->addItem($ena);
+		
+		$server_title = new ilTextInputGUI($this->lng->txt('ecs_server_title'),'title');
+		$server_title->setValue($this->settings->getTitle());
+		$server_title->setSize(80);
+		$server_title->setMaxLength(128);
+		$server_title->setRequired(true);
+		$this->form->addItem($server_title);
 
 		$ser = new ilTextInputGUI($this->lng->txt('ecs_server_url'),'server');
 		$ser->setValue((string) $this->settings->getServer());
@@ -511,7 +518,7 @@ class ilECSSettingsGUI
 		{
 			$this->settings->update();
 			$this->initTaskScheduler();
-			$this->updateTitle();
+			#$this->updateTitle();
 			ilUtil::sendInfo($this->lng->txt('settings_saved'),true);
 		}
 		else
@@ -538,7 +545,7 @@ class ilECSSettingsGUI
 			$this->settings->save();
 			$this->initTaskScheduler();
 
-			$this->updateTitle();
+			#$this->updateTitle();
 			ilUtil::sendInfo($this->lng->txt('settings_saved'),true);
 		}
 		else
@@ -564,6 +571,7 @@ class ilECSSettingsGUI
 		 	{
 				foreach($community->getParticipants() as $part)
 				{
+					$GLOBALS['ilLog']->write(__METHOD__.': '.print_r($community,true));
 					if($part->isSelf())
 					{
 						$this->settings->setTitle($part->getParticipantName());
@@ -587,7 +595,7 @@ class ilECSSettingsGUI
 	protected function loadFromPost()
 	{
 		$this->settings->setEnabledStatus((int) $_POST['active']);
-		//$this->settings->setTitle(ilUtil::stripSlashes($_POST['title']));
+		$this->settings->setTitle(ilUtil::stripSlashes($_POST['title']));
 		$this->settings->setServer(ilUtil::stripSlashes($_POST['server']));
 		$this->settings->setPort(ilUtil::stripSlashes($_POST['port']));
 		$this->settings->setProtocol(ilUtil::stripSlashes($_POST['protocol']));
