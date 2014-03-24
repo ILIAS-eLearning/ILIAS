@@ -341,10 +341,19 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 
 		// tests
 		$fortest = new ilSelectInputGUI($this->lng->txt('assessment_log_for_test'), "sel_test");
-		$options = array();
-		foreach ($available_tests as $key => $value)
+		$sorted_options = array();
+		foreach($available_tests as $key => $value)
 		{
-			$options[$key] = ilUtil::prepareFormOutput($value) . " [" . $this->object->getNrOfLogEntries($key) . " " . $this->lng->txt("assessment_log_log_entries") . "]";
+			$sorted_options[] = array(
+				'title' => ilUtil::prepareFormOutput($value) . " [" . $this->object->getNrOfLogEntries($key) . " " . $this->lng->txt("assessment_log_log_entries") . "]",
+				'key'   => $key
+			);
+		}
+		$sorted_options = ilUtil::sortArray($sorted_options, 'title','asc');
+		$options = array();
+		foreach($sorted_options as $option)
+		{
+			$options[$option['key']] = $option['title'];
 		}
 		$fortest->setOptions($options);
 		$p_test = ($p_test) ? $p_test : $_GET['sel_test'];
