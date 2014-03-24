@@ -332,7 +332,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 		
 		if ($size_bytes > $this->getMaxFilesizeInBytes())
 		{
-			ilUtil::sendInfo($this->lng->txt("form_msg_file_size_exceeds"), true);
+			ilUtil::sendFailure($this->lng->txt("form_msg_file_size_exceeds"), true);
 			return false;
 		}
 
@@ -342,37 +342,37 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 			switch ($error)
 			{
 				case UPLOAD_ERR_INI_SIZE:
-					ilUtil::sendInfo($this->lng->txt("form_msg_file_size_exceeds"), true);
+					ilUtil::sendFailure($this->lng->txt("form_msg_file_size_exceeds"), true);
 					return false;
 					break;
 					 
 				case UPLOAD_ERR_FORM_SIZE:
-					ilUtil::sendInfo($this->lng->txt("form_msg_file_size_exceeds"), true);
+					ilUtil::sendFailure($this->lng->txt("form_msg_file_size_exceeds"), true);
 					return false;
 					break;
 	
 				case UPLOAD_ERR_PARTIAL:
-					ilUtil::sendInfo($this->lng->txt("form_msg_file_partially_uploaded"), true);
+					ilUtil::sendFailure($this->lng->txt("form_msg_file_partially_uploaded"), true);
 					return false;
 					break;
 	
 				case UPLOAD_ERR_NO_FILE:
-					ilUtil::sendInfo($this->lng->txt("form_msg_file_no_upload"), true);
+					ilUtil::sendFailure($this->lng->txt("form_msg_file_no_upload"), true);
 					return false;
 					break;
 	 
 				case UPLOAD_ERR_NO_TMP_DIR:
-					ilUtil::sendInfo($this->lng->txt("form_msg_file_missing_tmp_dir"), true);
+					ilUtil::sendFailure($this->lng->txt("form_msg_file_missing_tmp_dir"), true);
 					return false;
 					break;
 					 
 				case UPLOAD_ERR_CANT_WRITE:
-					ilUtil::sendInfo($this->lng->txt("form_msg_file_cannot_write_to_disk"), true);
+					ilUtil::sendFailure($this->lng->txt("form_msg_file_cannot_write_to_disk"), true);
 					return false;
 					break;
 	 
 				case UPLOAD_ERR_EXTENSION:
-					ilUtil::sendInfo($this->lng->txt("form_msg_file_upload_stopped_ext"), true);
+					ilUtil::sendFailure($this->lng->txt("form_msg_file_upload_stopped_ext"), true);
 					return false;
 					break;
 			}
@@ -383,7 +383,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 		{
 			if (!in_array(strtolower($suffix), $this->getAllowedExtensionsArray()))
 			{
-				ilUtil::sendInfo($this->lng->txt("form_msg_file_wrong_file_type"), true);
+				ilUtil::sendFailure($this->lng->txt("form_msg_file_wrong_file_type"), true);
 				return false;
 			}
 		}
@@ -394,7 +394,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 			$vir = ilUtil::virusHandling($temp_name, $filename);
 			if ($vir[0] == false)
 			{
-				ilUtil::sendInfo($this->lng->txt("form_msg_file_virus_found")."<br />".$vir[1], true);
+				ilUtil::sendFailure($this->lng->txt("form_msg_file_virus_found")."<br />".$vir[1], true);
 				return false;
 			}
 		}
@@ -518,7 +518,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 		$size = $this->getMaxFilesizeInBytes();
 		if ($size < 1024)
 		{
-			$max_filesize = sprintf("%.1f Bytes",$size);
+			$max_filesize = sprintf("%d Bytes",$size);
 		}
 		else if ($size < 1024*1024)
 		{

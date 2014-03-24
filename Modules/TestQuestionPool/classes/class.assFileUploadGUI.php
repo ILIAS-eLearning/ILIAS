@@ -326,7 +326,7 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->question, TRUE));
 		$template->setVariable("TEXT_UPLOAD", $this->object->prepareTextareaOutput($this->lng->txt('upload')));
 		$template->setVariable("TXT_UPLOAD_FILE", $this->object->prepareTextareaOutput($this->lng->txt('file_add')));
-		$template->setVariable("TXT_MAX_SIZE", $this->object->prepareTextareaOutput($this->lng->txt('file_notice') . ": " . $this->object->getMaxFilesizeAsString()));
+		$template->setVariable("TXT_MAX_SIZE", $this->object->prepareTextareaOutput($this->lng->txt('file_notice') . " " . $this->object->getMaxFilesizeAsString()));
 
 		$questionoutput = $template->get();
 		if (!$show_question_only)
@@ -375,7 +375,7 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 		$template->setVariable("CMD_UPLOAD", 'handleQuestionAction');
 		$template->setVariable("TEXT_UPLOAD", $this->object->prepareTextareaOutput($this->lng->txt('upload')));
 		$template->setVariable("TXT_UPLOAD_FILE", $this->object->prepareTextareaOutput($this->lng->txt('file_add')));
-		$template->setVariable("TXT_MAX_SIZE", $this->object->prepareTextareaOutput($this->lng->txt('file_notice') . ": " . $this->object->getMaxFilesizeAsString()));
+		$template->setVariable("TXT_MAX_SIZE", $this->object->prepareTextareaOutput($this->lng->txt('file_notice') . " " . $this->object->getMaxFilesizeAsString()));
 
 		$questionoutput = $template->get();
 		if (!$show_question_only)
