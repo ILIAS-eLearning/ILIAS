@@ -41,6 +41,7 @@ class ilQuestionPoolPrintViewTableGUI extends ilTable2GUI
 			if (strcmp($c, 'description') == 0) $this->addColumn($this->lng->txt("description"),'description', '');
 			if (strcmp($c, 'author') == 0) $this->addColumn($this->lng->txt("author"),'author', '');
 			if (strcmp($c, 'ttype') == 0) $this->addColumn($this->lng->txt("question_type"),'ttype', '');
+			if (strcmp($c, 'points') == 0) $this->addColumn($this->lng->txt("points"),'points', '');
 			if (strcmp($c, 'created') == 0) $this->addColumn($this->lng->txt("create_date"),'created', '');
 			if (strcmp($c, 'updated') == 0) $this->addColumn($this->lng->txt("last_update"),'updated', '');
 		}
@@ -73,6 +74,10 @@ class ilQuestionPoolPrintViewTableGUI extends ilTable2GUI
 		);
 		$cols["ttype"] = array(
 			"txt" => $lng->txt("question_type"),
+			"default" => true
+		);
+		$cols["points"] = array(
+			"txt" => $lng->txt("points"),
 			"default" => true
 		);
 		$cols["created"] = array(
@@ -115,6 +120,12 @@ class ilQuestionPoolPrintViewTableGUI extends ilTable2GUI
 			{
 				$this->tpl->setCurrentBlock('ttype');
 				$this->tpl->setVariable("TYPE", ilUtil::prepareFormOutput($data['ttype']));
+				$this->tpl->parseCurrentBlock();
+			}
+			if (strcmp($c, 'points') == 0)
+			{
+				$this->tpl->setCurrentBlock('points');
+				$this->tpl->setVariable("TYPE", ilUtil::prepareFormOutput($data['points']));
 				$this->tpl->parseCurrentBlock();
 			}
 			if(strcmp($c, 'created') == 0)
