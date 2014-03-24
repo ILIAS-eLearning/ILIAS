@@ -6110,6 +6110,47 @@ function getAnswerFeedbackPoints()
 				case "customstyle":
 					$this->setCustomStyle($metadata["entry"]);
 					break;
+
+				case "highscore_enabled":
+					$this->setHighscoreEnabled($metadata["entry"]);
+					break;
+
+				case "highscore_anon":
+					$this->setHighscoreAnon($metadata["entry"]);
+					break;
+
+				case "highscore_achieved_ts":
+					$this->setHighscoreAchievedTS($metadata["entry"]);
+					break;
+
+				case "highscore_score":
+					$this->setHighscoreScore($metadata["entry"]);
+					break;
+				
+				case "highscore_percentage":
+					$this->setHighscorePercentage($metadata["entry"]);
+					break;
+
+				case "highscore_hints":
+					$this->setHighscoreHints($metadata["entry"]);
+					break;
+
+				case "highscore_wtime":
+					$this->setHighscoreWTime($metadata["entry"]);
+					break;
+
+				case "highscore_own_table":
+					$this->setHighscoreOwnTable($metadata["entry"]);
+					break;
+
+				case "highscore_top_table":
+					$this->setHighscoreTopTable($metadata["entry"]);
+					break;
+
+				case "highscore_top_num":
+					$this->setHighscoreTopNum($metadata["entry"]);
+					break;
+				
 				case "hide_previous_results":
 					if ($metadata["entry"] == 0)
 					{
@@ -6449,6 +6490,27 @@ function getAnswerFeedbackPoints()
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "answer_feedback_points");
 		$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", $this->getAnswerFeedbackPoints()));
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
+
+		// highscore
+		$highscore_metadata = array(
+			'highscore_enabled'     => array('value' => $this->getHighscoreEnabled()),
+			'highscore_anon'        => array('value' => $this->getHighscoreAnon()),
+			'highscore_achieved_ts' => array('value' => $this->getHighscoreAchievedTS()),
+			'highscore_score'       => array('value' => $this->getHighscoreScore()),
+			'highscore_percentage'  => array('value' => $this->getHighscorePercentage()),
+			'highscore_hints'       => array('value' => $this->getHighscoreHints()),
+			'highscore_wtime'       => array('value' => $this->getHighscoreWTime()),
+			'highscore_own_table'   => array('value' => $this->getHighscoreOwnTable()),
+			'highscore_top_table'   => array('value' => $this->getHighscoreTopTable()),
+			'highscore_top_num'     => array('value' => $this->getHighscoreTopNum()),
+		);
+		foreach($highscore_metadata as $label => $data)
+		{
+			$a_xml_writer->xmlStartTag("qtimetadatafield");
+			$a_xml_writer->xmlElement("fieldlabel", NULL, $label);
+			$a_xml_writer->xmlElement("fieldentry", NULL, sprintf("%d", $data['value']));
+			$a_xml_writer->xmlEndTag("qtimetadatafield");
+		}
 
 		// show cancel
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
