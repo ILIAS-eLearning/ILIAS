@@ -122,7 +122,10 @@ il.Form = {
 
 		input_id = il.Form.escapeSelector(input_id);
 
-		$("#" + input_id + "_value").html($(ev.target).html());
+		// #10543 - IE[8]
+		var etarget = ev.target || ev.srcElement;
+		
+		$("#" + input_id + "_value").html($(etarget).html());
 
 		link = link.split(' ');
 		part = link[1].split('="');
