@@ -3093,7 +3093,7 @@ rbac#:#glo_delete#:#Glossar löschen oder verschieben
 rbac#:#glo_edit_permission#:#Rechteeinstellungen ändern
 common#:#glo_import#:#Glossar importieren
 common#:#glo_mode#:#Modus
-common#:#glo_mode_desc#:#Ein virtuelles Glossar funktioniert wie ein normales Glossar. Zusätzlich umfasst es aber auch alle Begriffsdefinitionen von allen Glossaren, die sich auf der gleichen Ebene im Magazin befinden (nur diese Ebene) bzw. auch alle Begriffsdefinitionen aus Glossaren, die sich auch in nachfolgenden Ebenen befinden (ganzer Teilbaum).
+common#:#glo_mode_desc#:#Ein Sammelglossar funktioniert wie ein normales Glossar. Zusätzlich umfasst es aber auch alle Begriffsdefinitionen von allen Glossaren, die sich auf der gleichen Ebene im Magazin befinden (nur diese Ebene) bzw. auch alle Begriffsdefinitionen aus Glossaren, die sich auch in nachfolgenden Ebenen befinden (ganzer Teilbaum).
 common#:#glo_mode_level#:#Sammelglossar - nur aktuelle Ebene
 common#:#glo_mode_normal#:#Normales Glossar
 common#:#glo_mode_subtree#:#Sammelglossar - ganzer Teilbaum
