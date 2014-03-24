@@ -913,7 +913,7 @@ class ilInfoScreenGUI
 		$a_tpl->setVariable("TXT_SECTION",
 			$this->lng->txt('learning_progress'));
 		$a_tpl->parseCurrentBlock();
-		$a_tpl->touchBlock("row");
+		// $a_tpl->touchBlock("row");
 
 		// status
 		$i_tpl = new ilTemplate("tpl.lp_edit_manual_info_page.html", true, true, "Services/Tracking");
@@ -932,7 +932,7 @@ class ilInfoScreenGUI
 		$a_tpl->setCurrentBlock("property_row");
 		$a_tpl->setVariable("TXT_PROPERTY", $this->lng->txt('trac_status'));
 		$a_tpl->parseCurrentBlock();
-		$a_tpl->touchBlock("row");
+		// $a_tpl->touchBlock("row");
 
 
 		// More infos for lm's
@@ -958,7 +958,7 @@ class ilInfoScreenGUI
 			$a_tpl->setCurrentBlock("property_row");
 			$a_tpl->setVariable("TXT_PROPERTY", $this->lng->txt('trac_last_access'));
 			$a_tpl->parseCurrentBlock();
-			$a_tpl->touchBlock("row");
+			// $a_tpl->touchBlock("row");
 
 			// tags of all users
 			$a_tpl->setCurrentBlock("pv");
@@ -968,7 +968,7 @@ class ilInfoScreenGUI
 			$a_tpl->setCurrentBlock("property_row");
 			$a_tpl->setVariable("TXT_PROPERTY", $this->lng->txt('trac_visits'));
 			$a_tpl->parseCurrentBlock();
-			$a_tpl->touchBlock("row");
+			// $a_tpl->touchBlock("row");
 
 
 			if($this->gui_object->object->getType() == 'lm')
@@ -981,9 +981,12 @@ class ilInfoScreenGUI
 				$a_tpl->setCurrentBlock("property_row");
 				$a_tpl->setVariable("TXT_PROPERTY", $this->lng->txt('trac_spent_time'));
 				$a_tpl->parseCurrentBlock();
-				$a_tpl->touchBlock("row");
+				// $a_tpl->touchBlock("row");
 			}
 		}
+		
+		// #10493
+		$a_tpl->touchBlock("row");
 	}
 
 	function saveProgress()
