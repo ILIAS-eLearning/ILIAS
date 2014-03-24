@@ -666,10 +666,21 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	*/
 	function showActionConfirmation($action, $a_from_search = false)
 	{
+		global $ilTabs;
+		
 		$user_ids = $this->getActionUserIds();	
 		if(!$user_ids)
 		{
 			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+		}
+		
+		if(!$a_from_search)
+		{
+			$ilTabs->activateTab("obj_usrf");
+		}
+		else
+		{
+			$ilTabs->activateTab("search_user_extended");
 		}
 				
 		if (strcmp($action, "accessRestrict") == 0) 
