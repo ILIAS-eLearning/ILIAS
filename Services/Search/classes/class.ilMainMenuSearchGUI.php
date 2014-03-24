@@ -113,17 +113,18 @@ class ilMainMenuSearchGUI
 		if ($ilUser->getId() != ANONYMOUS_USER_ID)
 		{
 			$this->tpl->setVariable('HREF_SEARCH_LINK', "ilias.php?baseClass=ilSearchController");
-			$this->tpl->setVariable('TXT_SEARCH_LINK', $lng->txt("last_search_result"));
-			
-			$this->tpl->setVariable('TXT_SEARCH', $lng->txt("search"));
-			include_once("./Services/UIComponent/Overlay/classes/class.ilOverlayGUI.php");
-			$ov = new ilOverlayGUI("mm_search_menu");
-			//$ov->setTrigger("main_menu_search", "none",
-			//	"main_menu_search", "tr", "br");
-			//$ov->setAnchor("main_menu_search", "tr", "br");
-			$ov->setAutoHide(false);
-			$ov->add();
+			$this->tpl->setVariable('TXT_SEARCH_LINK', $lng->txt("last_search_result"));						
 		}
+		
+		// #10555 - we need the overlay for the autocomplete which is always active
+		$this->tpl->setVariable('TXT_SEARCH', $lng->txt("search"));
+		include_once("./Services/UIComponent/Overlay/classes/class.ilOverlayGUI.php");
+		$ov = new ilOverlayGUI("mm_search_menu");
+		//$ov->setTrigger("main_menu_search", "none",
+		//	"main_menu_search", "tr", "br");
+		//$ov->setAnchor("main_menu_search", "tr", "br");
+		$ov->setAutoHide(false);
+		$ov->add();
 		
 		return $this->tpl->get();
 	} 

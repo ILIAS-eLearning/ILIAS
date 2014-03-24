@@ -14,6 +14,7 @@
 	<a href="#">{IMG_MM_SEARCH}</a>
 <!-- </td></tr></table> -->
 </div><div class="ilOverlay" style="display:none;" id="mm_search_menu">
+	<!-- BEGIN ov_head -->
 	<div id="mm_search_menu_head">
 		<p>	» <a target="_top" href="{HREF_SEARCH_LINK}">{TXT_SEARCH_LINK}</a></p>
 		<!-- BEGIN position --><p><input type="radio" name="root_id" value="{ROOT_ID}" checked="checked" id="ilmmsg" /><label for="ilmmsg"> {TXT_GLOBALLY}</label><br /><!-- END position -->
@@ -27,6 +28,7 @@
 		<!-- END usr_search -->
 		<!-- BEGIN position_hid --><input type="hidden" name="root_id" value="{ROOT_ID_HID}" /><!-- END position_hid -->
 	</div>
+	<!-- END ov_head -->
 	<div id="mm_search_menu_ac"></div></div>
 	<script type="text/javascript">
 		il.Util.addOnLoad(
@@ -59,7 +61,7 @@
 						},*/
 						minLength: 3
 					});
-									
+								
 					$("#main_menu_search").bind("focusin click", function(e) {
 							il.Overlay.show(e, "mm_search_menu", "main_menu_search",
 								false, 'tl', 'bl');
