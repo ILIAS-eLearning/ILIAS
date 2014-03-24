@@ -350,6 +350,9 @@ class ilStartUpGUI
 		{
 			$tpl->setVariable('LPE',$page_editor_html);
 		}
+		
+		$tpl->fillCssFiles();
+		$tpl->fillJavaScriptFiles();
 
 		$tpl->show("DEFAULT", false);
 	}
@@ -779,7 +782,7 @@ class ilStartUpGUI
 		$page_gui->setEnabledRepositoryObjects(true);
 		$page_gui->setEnabledLoginPage(true);
 		$page_gui->setEnabledFileLists(false);
-		$page_gui->setEnabledPCTabs(false);
+		$page_gui->setEnabledPCTabs(true);
 		$page_gui->setEnabledMaps(true);
 		$ret = $page_gui->showPage();
 
