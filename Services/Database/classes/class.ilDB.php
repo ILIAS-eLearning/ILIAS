@@ -949,6 +949,56 @@ abstract class ilDB extends PEAR
 	}
 	
 	/**
+	 * List indexes
+	 */
+	public function listIndexes($a_table)
+	{
+		$manager = $this->db->loadModule('Manager');
+		$reverse = $this->db->loadModule('Reverse');
+		if($manager)
+		{
+			$idxs = array();
+			foreach($manager->listTableIndexes($a_table) as $idx_name)
+			{
+				$idxs[$idx_name] = $reverse->getTableIndexDefinition($a_table,$idx_name);
+			}
+			return $idxs;
+		}
+		return array();
+	}
+	
+	/**
+	 * Drop index by field(s)
+	 * @param type $a_table
+	 * @param type $a_fields
+	 * @return boolean
+	 */
+	public function dropIndexByFields($a_table, $a_fields)
+	{
+		$manager = $this->db->loadModule('Manager');
+		$reverse = $this->db->loadModule('Reverse');
+		if($manager)
+		{
+			foreach($manager->listTableIndexes($a_table) as $idx_name)
+			{
+				$def = $reverse->getTableIndexDefinition($a_table,$idx_name);
+				$idx_fields = array_keys((array) $def['fields']);
+				
+				
+				$GLOBALS['ilLog']->write(__METHOD__.': Fields '. print_r($a_fields,true));
+				$GLOBALS['ilLog']->write(__METHOD__.': IDX Fields '. print_r($idx_fields,true));
+				
+				if($idx_fields === $a_fields)
+				{
+					return $this->dropIndex($a_table, $idx_name);
+				}
+			}
+		}
+		return false;
+		
+	}
+	
+	/**
 	* Drop an index from a table.
 	* Note: The index must have been created using MDB2
 	*

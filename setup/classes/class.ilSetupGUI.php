@@ -3335,6 +3335,10 @@ else
 			include_once './Services/Tree/classes/class.ilMaterializedPathTree.php';
 			ilMaterializedPathTree::createFromParentReleation();
 			
+			$GLOBALS['ilDB']->dropIndexByFields('tree',array('lft'));
+			$GLOBALS['ilDB']->dropIndexByFields('tree',array('path'));
+			$GLOBALS['ilDB']->addIndex('tree',array('path'),'i4');
+			
 			$set->set('main_tree_impl', 'mp');
 		
 		}
@@ -3345,6 +3349,10 @@ else
 			$tree = new ilTree(1);
 			$tree->renumber(1);
 			
+			$GLOBALS['ilDB']->dropIndexByFields('tree',array('lft'));
+			$GLOBALS['ilDB']->dropIndexByFields('tree',array('path'));
+			$GLOBALS['ilDB']->addIndex('tree',array('lft'),'i4');
+
 			$set->set('main_tree_impl', 'ns');
 		}
 		
