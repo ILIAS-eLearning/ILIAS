@@ -105,8 +105,11 @@ il.Form = {
 	// set internal link in form item
 	addInternalLink: function (link, title, input_id, ev) {
 		var type, id, part, target = "";
+		
+		// #10543 - IE[8]
+		var etarget = ev.target || ev.srcElement;
 
-		$("#" + input_id + "_value").html($(ev.target).html());
+		$("#" + input_id + "_value").html($(etarget).html());
 
 		link = link.split(' ');
 		part = link[1].split('="');
