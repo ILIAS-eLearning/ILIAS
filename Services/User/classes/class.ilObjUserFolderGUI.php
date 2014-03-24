@@ -530,7 +530,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$form->addItem($to);
 		
 		$form->addCommandButton("confirmaccessRestrict", $this->lng->txt("confirm"));
-		$form->addCommandButton("cancelaccessRestrict", $this->lng->txt("cancel"));
+		$form->addCommandButton("view", $this->lng->txt("cancel"));
 		
 		foreach($user_ids as $user_id)
 		{
