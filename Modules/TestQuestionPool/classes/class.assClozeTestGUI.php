@@ -380,7 +380,6 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 		}
 	}
 
-
 	public function populateQuestionSpecificFormPart(ilPropertyFormGUI $form)
 	{
 		// text rating
@@ -449,6 +448,12 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 	protected function populateGapFormPart($form, $gapCounter)
 	{
 		$gap    = $this->object->getGap( $gapCounter );
+
+		if ($gap == null)
+		{
+			return $form;
+		}
+
 		$header = new ilFormSectionHeaderGUI();
 		$header->setTitle( $this->lng->txt( "gap" ) . " " . ($gapCounter + 1) );
 		$form->addItem( $header );
