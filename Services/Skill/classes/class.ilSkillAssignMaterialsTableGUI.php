@@ -40,7 +40,7 @@ class ilSkillAssignMaterialsTableGUI extends ilTable2GUI
 		// build title
 		include_once("./Services/Skill/classes/class.ilSkillTree.php");
 		$stree = new ilSkillTree();
-		$path = $stree->getPathFull($this->basic_skill_id);
+		$path = $stree->getSkillTreePath($this->basic_skill_id, $this->tref_id);
 		$title = $sep = "";
 		foreach ($path as $p)
 		{
