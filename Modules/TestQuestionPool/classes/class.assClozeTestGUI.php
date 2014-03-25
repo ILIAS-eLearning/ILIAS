@@ -309,6 +309,7 @@ class assClozeTestGUI extends assQuestionGUI
 					$form->addItem($upperbound);
 
 					$points = new ilNumberInputGUI($this->lng->txt('points'), "gap_" . $i . "_numeric_points");
+					$points->allowDecimals(true);
 					$points->setSize(3);
 					$points->setRequired(true);
 					$points->setValue(ilUtil::prepareFormOutput($item->getPoints()));
