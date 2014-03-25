@@ -448,3 +448,26 @@ if( !$ilDB->uniqueConstraintExists('tst_sequence', array('active_fi', 'pass')) )
 		$ilDB->addIndex('cal_entries',array('last_update'),'i1');
 	}
 ?>
+<#4200>
+<?php
+
+	$query = 'SELECT value from settings where module = '.$ilDB->quote('common','text').
+			'AND keyword = '.$ilDB->quote('main_tree_impl','text');
+	$res = $ilDB->query($query);
+	
+	$tree_impl = 'ns';
+	while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+	{
+		$tree_impl = $row->value;
+	}
+	
+	if($tree_impl == 'mp')
+	{
+		if(!$ilDB->indexExistsByFields('tree',array('path')))
+		{
+			$ilDB->dropIndexByFields('tree',array('lft'));
+			$ilDB->addIndex('tree',array('path'),'i4');
+		}
+	}
+?>
+
