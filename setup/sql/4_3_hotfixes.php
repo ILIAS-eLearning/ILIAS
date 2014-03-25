@@ -612,3 +612,15 @@ $ilDB->modifyTableColumn(
 	$ilDB->addIndex('cal_shared',array('obj_id','obj_type'),'i1');
 	
 ?>
+<#36>
+<?php
+
+	$ilDB->addIndex('booking_reservation',array('user_id'),'i1');
+	
+?>
+<#37>
+<?php
+
+	$ilDB->addIndex('booking_reservation',array('object_id'),'i2');
+	
+?>
