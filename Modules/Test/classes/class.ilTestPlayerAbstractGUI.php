@@ -486,7 +486,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	 *
 	 * Sets a session variable with the test access code for an anonymous test user
 	 */
-	public function setAnonymousId()
+	public function setAnonymousIdCmd()
 	{
 		if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
 		{
@@ -599,7 +599,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$this->ctrl->redirect($this, 'startTest');
 	}
 	
-	function displayCode()
+	function displayCodeCmd()
 	{
 		$this->tpl->addBlockFile($this->getContentBlockName(), "adm_content", "tpl.il_as_tst_anonymous_code_presentation.html", "Modules/Test");
 		$this->tpl->setCurrentBlock("adm_content");
@@ -610,7 +610,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$this->tpl->parseCurrentBlock();
 	}
 	
-	function codeConfirmed()
+	function codeConfirmedCmd()
 	{
 		$this->ctrl->setParameter($this, "activecommand", "start");
 		$this->ctrl->redirect($this, "redirectQuestion");
