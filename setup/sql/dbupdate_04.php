@@ -440,3 +440,11 @@ if( !$ilDB->uniqueConstraintExists('tst_sequence', array('active_fi', 'pass')) )
 	$ilDB->addPrimaryKey('cal_cat_assignments',array('cal_id','cat_id'));
 	
 ?>
+
+<#4199>
+<?php
+	if(!$ilDB->indexExistsByFields('cal_entries',array('last_update')))
+	{
+		$ilDB->addIndex('cal_entries',array('last_update'),'i1');
+	}
+?>
