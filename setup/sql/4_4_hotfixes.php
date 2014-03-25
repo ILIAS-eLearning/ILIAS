@@ -338,4 +338,25 @@ if( !$ilDB->uniqueConstraintExists('tst_sequence', array('active_fi', 'pass')) )
 		}
 	}
 ?>
+<#11>
+<?php
+	if(!$ilDB->indexExistsByFields('booking_reservation',array('user_id')))
+	{
+		$ilDB->addIndex('booking_reservation',array('user_id'),'i1');
+	}
+?>
+<#12>
+<?php
+	if(!$ilDB->indexExistsByFields('booking_reservation',array('object_id')))
+	{
+		$ilDB->addIndex('booking_reservation',array('object_id'),'i2');
+	}
+?>
+<#13>
+<?php
+	if(!$ilDB->indexExistsByFields('cal_entries',array('context_id')))
+	{
+		$ilDB->addIndex('cal_entries',array('context_id'),'i2');
+	}
+?>
 	
