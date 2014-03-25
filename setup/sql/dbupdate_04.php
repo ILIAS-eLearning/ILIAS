@@ -420,4 +420,23 @@ if( !$ilDB->uniqueConstraintExists('tst_sequence', array('active_fi', 'pass')) )
 		$ilDB->addIndex('cal_shared',array('obj_id','obj_type'),'i1');
 	}
 ?>
+<#4196>
+<?php
 
+	$ilDB->dropIndexByFields('cal_entry_responsible',array('cal_id','user_id'));
+	$ilDB->addPrimaryKey('cal_entry_responsible',array('cal_id','user_id'));
+?>
+<#4197>
+<?php
+
+	$ilDB->dropIndexByFields('cal_entry_responsible',array('cal_id'));
+	$ilDB->dropIndexByFields('cal_entry_responsible',array('user_id'));
+	
+?>
+<#4198>
+<?php
+
+	$ilDB->dropIndexByFields('cal_cat_assignments',array('cal_id','cat_id'));
+	$ilDB->addPrimaryKey('cal_cat_assignments',array('cal_id','cat_id'));
+	
+?>
