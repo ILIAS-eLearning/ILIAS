@@ -14263,6 +14263,7 @@ exc#:#exc_peer_review_min_number_info#:#This number of other users work must be 
 content#:#cont_def_feedb_activated#:#Default feedback texts are currently activated in the learning module settings.
 content#:#cont_def_feedb_deactivated#:#Default feedback texts are currently deactivated in the learning module settings.
 adve#:#advanced_editing_tst_editing#:#Page Editor for additional question content
+ecs#:#ecs_server_title#:#Name of ECS Configuration
 adve#:#advanced_editing_tst_editing_desc#:#Activates ILIAS Page Editor for feedback and hint text editing.
 assessment#:#fq_precision_info#:#Enter the number of desired decimal places.
 assessment#:#result_units_info#:#The selected units are offered to the learner as part of an answer. The learner has to choose one unit.
