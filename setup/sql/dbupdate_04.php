@@ -412,3 +412,12 @@ if( !$ilDB->uniqueConstraintExists('tst_sequence', array('active_fi', 'pass')) )
 
 ?>
 
+<#4195>
+<?php
+
+	if(!$ilDB->indexExistsByFields('cal_shared',array('obj_id','obj_type')))
+	{
+		$ilDB->addIndex('cal_shared',array('obj_id','obj_type'),'i1');
+	}
+?>
+
