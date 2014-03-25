@@ -611,6 +611,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 		$form->addItem( $upperbound );
 
 		$points = new ilNumberInputGUI($this->lng->txt( 'points' ), "gap_" . $gapCounter . "_numeric_points");
+		$points->allowDecimals(true);
 		$points->setSize( 3 );
 		$points->setRequired( true );
 		$points->setValue( ilUtil::prepareFormOutput( $gap->getPoints() ) );
