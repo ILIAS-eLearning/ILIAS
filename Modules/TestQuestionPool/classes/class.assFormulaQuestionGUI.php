@@ -392,10 +392,13 @@ class assFormulaQuestionGUI extends assQuestionGUI
 				$precision->setSize(3);
 				$precision->setMinValue(0);
 				$precision->setValue($variable->getPrecision());
+				$precision->setInfo($this->lng->txt('fq_precision_info'));
 
 				$intprecision = new ilNumberInputGUI($this->lng->txt('intprecision'), 'intprecision_' . $variable->getVariable());
 				$intprecision->setSize(3);
+				$intprecision->setMinValue(1);
 				$intprecision->setValue($variable->getIntprecision());
+				$intprecision->setInfo($this->lng->txt('intprecision_info'));
 
 				$form->addItem($variable_header);
 				$form->addItem($range_min);
@@ -454,12 +457,15 @@ class assFormulaQuestionGUI extends assQuestionGUI
 				$precision->setRequired(true);
 				$precision->setSize(3);
 				$precision->setMinValue(0);
+				$precision->setInfo($this->lng->txt('fq_precision_info'));
 				$precision->setValue($result->getPrecision());
 
 				$tolerance = new ilNumberInputGUI($this->lng->txt('tolerance'), 'tolerance_' . $result->getResult());
 				$tolerance->setSize(3);
 				$tolerance->setMinValue(0);
 				$tolerance->setMaxValue(100);
+				$tolerance->allowDecimals(false);
+				$tolerance->setInfo($this->lng->txt('tolerance_info'));								
 				$tolerance->setValue($result->getTolerance());
 				
 				$suggest_range_button = new ilCustomInputGUI('', '');
@@ -467,6 +473,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
 
 				$sel_result_units = new ilSelectInputGUI($this->lng->txt('unit'), 'unit_' . $result->getResult());
 				$sel_result_units->setOptions(array(0 => $this->lng->txt('no_selection')) + $unit_options);
+				$sel_result_units->setInfo($this->lng->txt('result_unit_info'));
 				if(is_object($result->getUnit()))
 				{
 					$sel_result_units->setValue($result->getUnit()->getId());
@@ -474,6 +481,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
 				
 				$mc_result_units = new ilMultiSelectInputGUI($this->lng->txt('result_units'), 'units_' . $result->getResult());
 				$mc_result_units->setOptions($unit_options);
+				$mc_result_units->setInfo($this->lng->txt('result_units_info'));
 				$selectedvalues = array();
 				foreach($unit_options as $unit_id => $txt)
 				{
@@ -488,6 +496,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
 				$result_type->setRequired(true);
 
 				$no_type = new ilRadioOption($this->lng->txt('no_result_type'), 0);
+				$no_type->setInfo($this->lng->txt('fq_no_restriction_info'));
 
 				$result_dec = new ilRadioOption($this->lng->txt('result_dec'), 1);
 				$result_dec->setInfo($this->lng->txt('result_dec_info'));
@@ -512,6 +521,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
 
 				$rating_type = new ilCheckboxInputGUI($this->lng->txt('advanced_rating'), 'rating_advanced_' . $result->getResult());
 				$rating_type->setValue(1);
+				$rating_type->setInfo($this->lng->txt('advanced_rating_info'));
 				
 				if(!$save)
 				{
@@ -547,6 +557,9 @@ class assFormulaQuestionGUI extends assQuestionGUI
 				$unit->setMinValue(0);
 				$unit->setValue($result->getRatingUnit());
 				$rating_type->addSubItem($unit);
+				
+				$info_text = new ilNonEditableValueGUI($this->lng->txt('additional_rating_info'));
+				$rating_type->addSubItem($info_text);
 
 				$form->addItem($result_header);
 				$form->addItem($formula);

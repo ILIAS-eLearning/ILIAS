@@ -13728,7 +13728,7 @@ assessment#:#result_type_selection#:#Result Type Selection
 assessment#:#result_dec#:#Decimal
 assessment#:#result_frac#:#Fraction
 assessment#:#result_co_frac#:#Coprime Fraction
-assessment#:#no_result_type#:#Select No Result Type
+assessment#:#no_result_type#:#No Restrictions
 assessment#:#result_dec_info#:#Valid results are i.e.: 2,3 and 2.3
 assessment#:#result_frac_info#:#i.e.: 1/3 and 2/6 are valid results
 assessment#:#result_co_frac_info#:#Canceled out fraction i.e.: only 1/3 is a valid result
@@ -13752,7 +13752,7 @@ assessment#:#variable_x#:#Variable %s
 assessment#:#result_x#:#Result %s
 assessment#:#rating#:#Rating
 assessment#:#advanced_rating#:#Advanced Rating
-assessment#:#advanced_rating_info#:#The advanced rating is only available if a unit is assigned to the result.
+assessment#:#advanced_rating_info#:#The advanced rating is only available if a unit is assigned to the result. Further rating settings are displayed after saving the specified units.
 prtt#:#prtt_import#:#Import Portfolio Template
 orgu#:#simple_user_import#:#XML User Assignment
 crs#:#crs_passed_status_system#:#System
@@ -14264,3 +14264,10 @@ content#:#cont_def_feedb_activated#:#Default feedback texts are currently activa
 content#:#cont_def_feedb_deactivated#:#Default feedback texts are currently deactivated in the learning module settings.
 adve#:#advanced_editing_tst_editing#:#Page Editor for additional question content
 adve#:#advanced_editing_tst_editing_desc#:#Activates ILIAS Page Editor for feedback and hint text editing.
+assessment#:#fq_precision_info#:#Enter the number of desired decimal places.
+assessment#:#result_units_info#:#The selected units are offered to the learner as part of an answer. The learner has to choose one unit.
+assessment#:#fq_no_restriction_info#:#Both decimals and fractions are accepted as input.
+assessment#:#additional_rating_info#:#Please note that the values ​​given here are expressed as percentages and these must add up to 100.
+assessment#:#intprecision_info#:#"Divisible by" affects only the creation of variables, if the value for the precision is 0. In this case, you define for "Divisible by" an integer value, which must be divisible by with the created variable. A value of 10 thus generates only integers that are divisible by 10. A value of 5 produces integers that are divisible by 5, etc. For a precision of 0, "Divisible by" is a mandatory field and must contain a positive integer. The default value is 1 for any integers.
+assessment#:#tolerance_info#:#The tolerance specifies an allowable percentage deviation from the result value. With a tolerance of 0, only the exact result value is evaluated to be correct.
+assessment#:#result_unit_info#:#Please note that, the selected result unit must also be activated in the "available units."
