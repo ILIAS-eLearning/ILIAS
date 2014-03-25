@@ -36,7 +36,7 @@ class ilResultsByQuestionTableGUI extends ilTable2GUI
 
 	protected function fillRow($a_set)
 	{
-		if ($a_set[1] > 0)
+		if ($a_set[2] > 0)
 		{
 			$this->tpl->setVariable("PDF_EXPORT", $a_set[3]);
 		}
