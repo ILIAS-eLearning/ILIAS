@@ -404,3 +404,11 @@ if( !$ilDB->uniqueConstraintExists('tst_sequence', array('active_fi', 'pass')) )
 	$ilDB->addUniqueConstraint('tst_sequence', array('active_fi', 'pass'));
 }
 ?>
+
+<#4194>
+<?php
+
+	$ilDB->dropIndexByFields('cal_auth_token',array('user_id'));
+
+?>
+
