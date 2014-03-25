@@ -451,6 +451,7 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
 	{
 		// points
 		$points = new ilNumberInputGUI($this->lng->txt( "points" ), "points");
+		$points->allowDecimals(true);
 		$points->setValue( $this->object->getPoints() > 0 ? $this->object->getPoints() : '' );
 		$points->setRequired( TRUE );
 		$points->setSize( 3 );
