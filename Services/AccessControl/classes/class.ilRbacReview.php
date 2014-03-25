@@ -498,6 +498,25 @@ class ilRbacReview
 				}
 			}
 
+			require_once './Services/PEAR/lib/Mail/RFC822.php';
+			$obj = new Mail_RFC822($mailbox, 'ilias');
+			if(@$obj->parseAddressList() instanceof PEAR_Error)
+			{
+				$q = "SELECT title ".
+					"FROM object_data ".
+					"WHERE obj_id = ".$this->ilDB->quote($a_role_id ,'integer');
+				$r = $this->ilDB->query($q);
+
+				if ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+				{
+					return '#'.$row->title;
+				}
+				else
+				{
+					return null;
+				}
+			}
+
 			return $mailbox;
 		}
 		else 
