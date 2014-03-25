@@ -606,3 +606,9 @@ $ilDB->modifyTableColumn(
 		)
 	);
 ?>
+<#35>
+<?php
+
+	$ilDB->addIndex('cal_shared',array('obj_id','obj_type'),'i1');
+	
+?>
