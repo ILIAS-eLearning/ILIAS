@@ -13649,7 +13649,7 @@ assessment#:#range_max#:#Bereich (Maximum)
 assessment#:#step_dim_min#:#Dimension (Minimum)
 assessment#:#step_dim_max#:#Dimension (Maximum)
 assessment#:#tolerance#:#Toleranz (%)
-assessment#:#result_units#:#Verfügbare Einheiten
+assessment#:#result_units#:#Auswählbare Einheiten
 assessment#:#all_units#:#Alle Einheiten
 assessment#:#precision#:#Präzision
 assessment#:#err_range#:#Die obere Grenze muss größer als die untere Grenze sein.
@@ -13669,7 +13669,7 @@ assessment#:#rating_unit#:#Bewertung (Einheit)
 assessment#:#rated_sign#:#Vorzeichen
 assessment#:#rated_value#:#Wert
 assessment#:#rated_unit#:#Einheit
-assessment#:#suggest_range#:#Grenzen vorschlagen
+assessment#:#suggest_range#:#Bereich vorschlagen
 assessment#:#units#:#Einheiten
 assessment#:#qpl_qst_formulaquestion_00_no_category#:#Keine Kategorie zugewiesen
 assessment#:#category#:#Kategorie
@@ -13720,7 +13720,7 @@ assessment#:#result_type_selection#:#Ergebnistypauswahl
 assessment#:#result_dec#:#Dezimal
 assessment#:#result_frac#:#Bruch
 assessment#:#result_co_frac#:#Teilerfremder Bruch
-assessment#:#no_result_type#:#Keinen Ergebnistyp festlegen
+assessment#:#no_result_type#:#Keine Einschränkung
 assessment#:#result_dec_info#:#Gültige Dezimalzahlen sind beispielsweise 2,3 und 2.3
 assessment#:#result_frac_info#:#Die Eingaben 1/3 und 2/6  sind beides gültige Ergebnisse
 assessment#:#result_co_frac_info#:#Nur ein vollständig gekürzter Bruch (z.B. 1/3) ist ein gültiges Ergebnis
@@ -13744,7 +13744,7 @@ assessment#:#variable_x#:#Variable %s
 assessment#:#result_x#:#Ergebnis %s
 assessment#:#rating#:#Bewertung
 assessment#:#advanced_rating#:#Erweiterte Bewertung
-assessment#:#advanced_rating_info#:#Die erweiterte Bewertung ist nur dann möglich, wenn Sie für das Ergebnis eine Einheit bestimmt haben.
+assessment#:#advanced_rating_info#:#Die erweiterte Bewertung ist nur dann möglich, wenn Sie für das Ergebnis eine Einheit bestimmt haben. Weitere Bewertungseinstellungen werden nach dem Speichern der festgelegten Einheiten angezeigt.
 prtt#:#prtt_import#:#Portfoliovorlage importieren
 orgu#:#simple_user_import#:#XML-Benutzerzuweisung
 crs#:#crs_passed_status_system#:#System
@@ -14224,3 +14224,10 @@ content#:#cont_def_feedb_activated#:#Das Standard-Feedback ist zur Zeit in den E
 content#:#cont_def_feedb_deactivated#:#Das Standard-Feedback ist zur Zeit in den Einstellungen des Lernmoduls deaktiviert.
 adve#:#advanced_editing_tst_editing#:#Seiteneditor für zusätzliche Frageninhalte
 adve#:#advanced_editing_tst_editing_desc#:#Aktiviert den ILIAS-Seiteneditor für Feedback- und Hinweistexte.
+assessment#:#fq_precision_info#:#Geben Sie hier die Anzahl der gewünschten Nachkommastellen an.
+assessment#:#result_units_info#:#Die hier ausgewählten Einheiten werden dem Lernenden zur Antwort angeboten. Der Lernende muss sich hier für eine Einheit entscheiden.
+assessment#:#fq_no_restriction_info#:#Sowohl Dezimalzahlen als auch Brüche werden als Eingabe akzeptiert.
+assessment#:#additional_rating_info#:#Bitte beachten Sie, dass die hier angegebenen Werte in Prozent angegeben werden und sich diese auf 100 summieren müssen.
+assessment#:#intprecision_info#:#"Teilbar durch" hat nur Auswirkungen auf die Variablenerzeugung, wenn der Wert für die Präzision 0 beträgt. In diesem Fall legt "Teilbar durch" fest, durch welche ganze Zahl die erzeugte Variable teilbar sein muss. Ein Wert von 10 erzeugt also nur ganze Zahlen, die durch 10 teilbar sind, ein Wert von 5 erzeugt ganze Zahlen, die durch 5 teilbar sind usw. Bei einer Präzision von 0 ist "Teilbar durch" ein Pflichtfeld und muss eine positive, ganze Zahl enthalten. Voreingestellt ist der Werte 1 für beliebige ganze Zahlen.
+assessment#:#tolerance_info#:#Die Toleranz legt eine erlaubte prozentuale Abweichung vom Ergebniswert fest. Bei einer Toleranz von 0 wird nur der exakte Ergebniswert als korrekt bewertet.
+assessment#:#result_unit_info#:#Bitte beachten Sie, dass die hier festgelegte Einheit auch innerhalb der "Auswählbaren Einheiten" selektiert werden muss. 

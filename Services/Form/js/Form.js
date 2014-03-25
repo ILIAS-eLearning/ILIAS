@@ -150,9 +150,7 @@ il.Form = {
 	initNumericCheck: function (id, decimals_allowed) {
 		var current;
 		
-		id = il.Form.escapeSelector(id);
-		
-		$('#' + id).keydown(function (event) {
+		$('#' + il.Form.escapeSelector(id)).keydown(function (event) {
 
 			// #10562
 			var kcode = event.which;
