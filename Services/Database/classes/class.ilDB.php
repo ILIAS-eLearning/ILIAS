@@ -948,23 +948,30 @@ abstract class ilDB extends PEAR
 		return false;
 	}
 	
+	
 	/**
-	 * List indexes
+	 * Check if index exists
+	 * @param type $a_table
+	 * @param type $a_fields
 	 */
-	public function listIndexes($a_table)
+	public function indexExistsByFields($a_table, $a_fields)
 	{
 		$manager = $this->db->loadModule('Manager');
 		$reverse = $this->db->loadModule('Reverse');
 		if($manager)
 		{
-			$idxs = array();
 			foreach($manager->listTableIndexes($a_table) as $idx_name)
 			{
-				$idxs[$idx_name] = $reverse->getTableIndexDefinition($a_table,$idx_name);
+				$def = $reverse->getTableIndexDefinition($a_table,$idx_name);
+				$idx_fields = array_keys((array) $def['fields']);
+				
+				if($idx_fields === $a_fields)
+				{
+					return true;
+				}
 			}
-			return $idxs;
 		}
-		return array();
+		return false;
 	}
 	
 	/**
@@ -983,10 +990,6 @@ abstract class ilDB extends PEAR
 			{
 				$def = $reverse->getTableIndexDefinition($a_table,$idx_name);
 				$idx_fields = array_keys((array) $def['fields']);
-				
-				
-				$GLOBALS['ilLog']->write(__METHOD__.': Fields '. print_r($a_fields,true));
-				$GLOBALS['ilLog']->write(__METHOD__.': IDX Fields '. print_r($idx_fields,true));
 				
 				if($idx_fields === $a_fields)
 				{

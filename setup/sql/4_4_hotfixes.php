@@ -300,3 +300,11 @@ if( !$ilDB->uniqueConstraintExists('tst_sequence', array('active_fi', 'pass')) )
 	$ilDB->dropIndexByFields('cal_auth_token',array('user_id'));
 
 ?>
+<#8>
+<?php
+
+	if(!$ilDB->indexExistsByFields('cal_shared',array('obj_id','obj_type')))
+	{
+		$ilDB->addIndex('cal_shared',array('obj_id','obj_type'),'i1');
+	}
+?>
