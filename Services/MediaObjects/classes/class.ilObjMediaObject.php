@@ -1280,6 +1280,12 @@ class ilObjMediaObject extends ilObject
 				
 				switch($cont_type)
 				{
+					// question feedback // parent obj id is q id
+					case "qfbg":
+						include_once('./Services/COPage/classes/class.ilPageObject.php');
+						$id = ilPageObject::lookupParentId($id, 'qfbg');
+						// note: no break here, we only altered the $id to the question id
+
 					case "qpl":
 						// Question Pool Question Pages
 						include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
@@ -1292,7 +1298,17 @@ class ilObjMediaObject extends ilObject
 						else
 						{
 							$obj_id = $qinfo["obj_fi"];		// usage in pool
-						}				
+						}
+						if ($obj_id == 0)	// this is the case, if question is in learning module -> get lm id
+						{
+							include_once("./Services/COPage/classes/class.ilPCQuestion.php");
+							$pinfo = ilPCQuestion::_getPageForQuestionId($id, "lm");
+							if ($pinfo && $pinfo["parent_type"] == "lm")
+							{
+								include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
+								$obj_id = ilLMObject::_lookupContObjID($pinfo["page_id"]);
+							}
+						}
 						break;
 						
 					case "lm":
