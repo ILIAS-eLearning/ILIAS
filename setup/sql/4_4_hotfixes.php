@@ -308,3 +308,11 @@ if( !$ilDB->uniqueConstraintExists('tst_sequence', array('active_fi', 'pass')) )
 		$ilDB->addIndex('cal_shared',array('obj_id','obj_type'),'i1');
 	}
 ?>
+
+<#9>
+<?php
+	if(!$ilDB->indexExistsByFields('cal_entries',array('last_update')))
+	{
+		$ilDB->addIndex('cal_entries',array('last_update'),'i1');
+	}
+?>
