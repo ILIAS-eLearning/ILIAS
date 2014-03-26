@@ -3850,6 +3850,11 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function infoScreen($session_lock = "")
 	{
+		/**
+		 * @var $ilAccess  ilAccessHandler
+		 * @var $ilUser    ilObjUser
+		 * @var $ilToolbar ilToolbarGUI
+		 */
 		global $ilAccess, $ilUser, $ilToolbar;
 
 		$testSession = $this->testSessionFactory->getSession();
@@ -3898,6 +3903,8 @@ class ilObjTestGUI extends ilObjectGUI
 				ilUtil::sendInfo($online_access_result);
 			}
 		}
+
+		$enter_anonymous_code = false;
 		if( $this->object->isOnline() && $this->object->isComplete( $this->testQuestionSetConfigFactory->getQuestionSetConfig() ) )
 		{
 			if ((!$this->object->getFixedParticipants() || $online_access) && $ilAccess->checkAccess("read", "", $this->ref_id))
@@ -3959,6 +3966,10 @@ class ilObjTestGUI extends ilObjectGUI
 					$big_button[] = array("outUserListOfAnswerPasses", $this->lng->txt("tst_list_of_answers_show"), false);
 				}
 			}
+			if($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
+			{
+				$enter_anonymous_code = true;
+			}
 		}
 
 		if( !$this->object->isOnline() )
@@ -3983,6 +3994,7 @@ class ilObjTestGUI extends ilObjectGUI
 				ilUtil::sendFailure( $testQuestionSetConfig->getDepenciesBrokenMessage($this->lng) );
 				
 				$big_button = array();
+				$enter_anonymous_code = false;
 			}
 			elseif( $testQuestionSetConfig->areDepenciesInVulnerableState() )
 			{
@@ -3995,13 +4007,29 @@ class ilObjTestGUI extends ilObjectGUI
 			$info->enablePrivateNotes();
 		}
 
-		if($big_button)
+		if($big_button || $enter_anonymous_code)
 		{
 			$ilToolbar->setFormAction($this->ctrl->getFormAction($testPlayerGUI));
+
 			foreach($big_button as $button)
 			{
 				$ilToolbar->addFormButton($button[1], $button[0], "", $button[2]);
 			}
+			
+			if($enter_anonymous_code)
+			{
+				if($big_button)
+				{
+					$ilToolbar->addSeparator();
+				}
+
+				require_once 'Services/Form/classes/class.ilTextInputGUI.php';
+				$anonymous_id = new ilTextInputGUI($this->lng->txt('enter_anonymous_code'), 'anonymous_id');
+				$anonymous_id->setSize(8);
+				$ilToolbar->addInputItem($anonymous_id, true);
+				$ilToolbar->addFormButton($this->lng->txt('submit'), 'setAnonymousId');
+			}
+
 			$ilToolbar->setCloseFormTag(false);
 			$info->setOpenFormTag(false);
 		}
@@ -4067,10 +4095,6 @@ class ilObjTestGUI extends ilObjectGUI
 							$info->addPropertyCheckbox($this->lng->txt("tst_use_previous_answers"), "chb_use_previous_answers", 1, $this->lng->txt("tst_use_previous_answers_user"), $checked_previous_answers);
 						}
 					}
-				}
-				if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
-				{
-					$info->addPropertyTextinput($this->lng->txt("enter_anonymous_code"), "anonymous_id", "", 8, "setAnonymousId", $this->lng->txt("submit"));
 				}
 			}
 		}
