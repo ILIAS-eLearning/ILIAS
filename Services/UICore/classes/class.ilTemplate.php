@@ -2524,6 +2524,11 @@ class ilTemplate extends ilTemplateX
 				$target_str = $type."_".(int)$_GET["wsp_id"]."_wsp";				
 			}
 		}
+		// portfolio
+		else if ($_GET["prt_id"] != "")
+		{									
+			$target_str = "prtf_".(int)$_GET["prt_id"];							
+		}
 		
 		return $target_str;
 	}
