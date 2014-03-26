@@ -375,10 +375,11 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	*/
 	function uploadQplObject($questions_only = false)
 	{
+		$this->ctrl->setParameter($this, 'new_type', $_REQUEST['new_type']);
 		if ($_FILES["xmldoc"]["error"] > UPLOAD_ERR_OK)
 		{
-			ilUtil::sendFailure($this->lng->txt("error_upload"));
-			$this->importObject();
+			ilUtil::sendFailure($this->lng->txt("error_upload"), true);
+			$this->ctrl->redirect($this, 'create');
 			return;
 		}
 		// create import directory
@@ -421,8 +422,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			// delete import directory
 			ilUtil::delDir($basedir);
 
-			ilUtil::sendInfo($this->lng->txt("qpl_import_no_items"));
-			$this->importObject();
+			ilUtil::sendFailure($this->lng->txt("qpl_import_no_items"), true);
+			$this->ctrl->redirect($this, 'create');
 			return;
 		}
 		
@@ -445,8 +446,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			// delete import directory
 			ilUtil::delDir($basedir);
 
-			ilUtil::sendInfo($this->lng->txt("qpl_import_non_ilias_files"));
-			$this->importObject();
+			ilUtil::sendFailure($this->lng->txt("qpl_import_non_ilias_files"), true);
+			$this->ctrl->redirect($this, 'create');
 			return;
 		}
 		
