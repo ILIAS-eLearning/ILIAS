@@ -4922,7 +4922,7 @@ class ilObjUser extends ilObject
 		$tos_condition = '';
 		if(ilTermsOfServiceHelper::isEnabled())
 		{
-			$tos_condition = " AND (agree_date IS NOT NULL OR user_id = " . $ilDB->quote(SYSTEM_USER_ID, 'integer') . ") ";
+			$tos_condition = " AND (agree_date IS NOT NULL OR ud.usr_id = " . $ilDB->quote(SYSTEM_USER_ID, 'integer') . ") ";
 		}
 
 		// If the user is not in a course or a group, he has no associated users.
@@ -4930,7 +4930,7 @@ class ilObjUser extends ilObject
 		{
 			$q = "SELECT count(user_id) as num,ctime,user_id,firstname,lastname,title,login,last_login ".
 				"FROM usr_session ".
-				"JOIN usr_data ON user_id=usr_id ".
+				"JOIN usr_data ud ON user_id = ud.usr_id ".
 				"WHERE user_id = ".$ilDB->quote($a_user_id, "integer")." ".
 				$no_anonym.
 				$tos_condition.
