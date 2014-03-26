@@ -1045,14 +1045,13 @@ abstract class ilPageObject
 // @todo 1: move all functions from above to the new domdoc
 		if ($a_dom instanceof php4DOMDocument)
 		{
-			$a_dom = $dom->myDOMDocument;
+			$a_dom = $a_dom->myDOMDocument;
 		}
 		foreach ($defs as $def)
 		{
 			ilCOPagePCDef::requirePCClassByName($def["name"]);
 			$cl = $def["pc_class"];
-// @todo 1: continue
-//			call_user_func($def["pc_class"].'::handleCopiedContent', $a_dom, $a_self_ass, $a_clone_mobs);
+			$cl::handleCopiedContent($a_dom, $a_self_ass, $a_clone_mobs);
 		}
 		
 	}
