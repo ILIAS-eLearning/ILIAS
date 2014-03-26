@@ -829,8 +829,6 @@ assessment#:#oq_btn_use_order_pictures#:#Use answer pictures
 assessment#:#oq_btn_use_order_terms#:#Use answer terms
 assessment#:#oq_header_ordering_elements#:#Ordering Elements
 assessment#:#or#:#nebo
-assessment#:#order_nested_pictures#:#Přepnout na zobrazení vnoření obrázku
-assessment#:#order_nested_terms#:#Přepnout na zobrazení vnoření výrazu
 assessment#:#ordering_answer_sequence_info#:#Sekvence odpovědi Vámi zde definovaná bude považována za sekvenci správného řešení.
 assessment#:#ordering_question_javascript_hint#:#Uchopte prosím definici/obrázek a přesuň nad místo definice/obrázku, kde jej chcete umístit a pusťte jej. Definice/obrázek pod ním a všechny další se posunou dolů.
 assessment#:#ordertext#:#Řazení textu
@@ -1860,13 +1858,10 @@ bibl#:#bibl_copy#:#Uživatel může kopírovat bibliografii
 bibl#:#bibl_edit#:#Upravit bibliografii
 bibl#:#bibl_new#:#Nová bibliografie
 bibl#:#bibliography file#:#Bibliography File
-bibl#:#bibliography_file#:#Soubor bibliografie
 bibl#:#detail_view#:#Podrobný náhled
 bibl#:#Download Original File#:#Download Original File
-bibl#:#Download_Original_File#:#Stáhnout originální soubor
 bibl#:#obj_bibl_duplicate#:#Duplikovat bibliografii
 bibl#:#Override Entries#:#Override Entries
-bibl#:#Override_Entries#:#Vyřadit položky
 bibl#:#ris_default_a1#:#Původní autor
 bibl#:#ris_default_a2#:#Sekundární autor
 bibl#:#ris_default_a3#:#Autoři
@@ -3882,7 +3877,6 @@ common#:#ldap_version#:#Verze protokolu LDAP
 common#:#ldap_visible#:#Nastavení LDAP je viditelné
 common#:#ldap_write#:#Upravit nastavení LDAP
 common#:#learning module#:#Learning Module
-common#:#learning_module#:#Výukový modul
 common#:#learning_objects#:#Výukové objekty
 common#:#learning_progress#:#Postup výuky
 common#:#learning_resourc#:#Výukový materiál
@@ -5641,7 +5635,6 @@ content#:#cont_added_comment#:#Komentář byl přidán do historie.
 content#:#cont_added_tab#:#Tabulka vytvořena.
 content#:#cont_added_term#:#Pojem přidán
 content#:#cont_Additional#:#Dodatek
-content#:#cont_additional_langs#:#Další jazyky
 content#:#cont_adjust_size#:#Nastavit rozměr
 content#:#cont_AdvancedKnowledge#:#Další znalosti
 content#:#cont_align#:#Zarovnání
@@ -5792,7 +5785,6 @@ content#:#cont_de_activate#:#De-/Aktivovat
 content#:#cont_deactivate_html#:#Deaktivovat rendering HTML
 content#:#cont_deactivate_js#:#Aktivovat formulářový mód
 content#:#cont_deactivate_media#:#Deaktivovat Media
-content#:#cont_deactivate_multi_lang#:#Deaktivovat multijazyčnost
 content#:#cont_deactivate_page#:#Deaktivovat stránku
 content#:#cont_deactivated#:#Deaktivováno
 content#:#cont_debug#:#Zobrazit nabídku pro ladění
@@ -6148,7 +6140,6 @@ content#:#cont_manifest#:#Prohlášení
 content#:#cont_map_areas#:#Připojené plochy
 content#:#cont_map_file_not_generated#:#Lituji. Nelze vytvořit mapový soubor pro editaci.
 content#:#cont_marker#:#Značka
-content#:#cont_master_lang#:#Hlavní jazyk
 content#:#cont_mastery_score#:#adlcp:masteryscore
 content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed
 content#:#cont_Media#:#Média (Standardní)
@@ -6171,7 +6162,6 @@ content#:#cont_more_functions#:#Další
 content#:#cont_move_object#:#přesunout objekt
 content#:#cont_msg_multiple_editions#:#Není možné zobrazit podrobnosti několika vydání najednou
 content#:#cont_multilang_currently_deactivated#:#Multijazyková podpora není aktuálně aktivována.
-content#:#cont_multilinguality#:#Multijazyčnost
 content#:#cont_name#:#Název
 content#:#cont_never#:#Nikdy
 content#:#cont_new_area#:#Nové připojení plochy
@@ -6427,7 +6417,6 @@ content#:#cont_select#:#Vybrat
 content#:#cont_select_file#:#Vybrat soubor
 content#:#cont_select_from_upload_dir#:#-- Vyber z adresáře pro odeslání --
 content#:#cont_select_item#:#Vyberte alespoň jednu položku.
-content#:#cont_select_master_lang#:#Vyberte prosím hlavní jazyk. Aktuální obsah bude přiřazen hlavnímu jazyku.
 content#:#cont_select_max_one_item#:#Vyberte prosím pouze jednu položku
 content#:#cont_select_max_one_term#:#Vyberte prosím právě jeden pojem
 content#:#cont_select_media_pool#:#Vyberte zásobník otázek
@@ -6652,7 +6641,6 @@ content#:#glo_used_in_scorm#:#Daný glosář je používán SCORM modulem. Bude-
 content#:#help_assign_help_ids#:#Přiřazení kapitoly/IDs obrazovky
 content#:#htlm_import#:#Import výukového modulu HTML
 content#:#HTML export#:#HTML Export
-content#:#HTML_export#:#Export HTML
 content#:#import_sco_object#:#Import SCO
 content#:#info_stop_offline_mode_sure#:#Note: The learning progress achieved in offline mode are lost. Are you sure?
 content#:#lm_activate_rating#:#Activate Rating For Pages
@@ -6677,14 +6665,11 @@ content#:#offline_mode_users#:#Users in offline mode
 content#:#page_does_not_exist#:#Je nám líto, ale tato stránka neexistuje.
 content#:#Pages#:#Stránky
 content#:#pages from#:#Pages From
-content#:#pages_from#:#Stránky od
 content#:#par#:#Odstavec
 content#:#PDF export#:#PDF Export
-content#:#PDF_export#:#Export PDF
 content#:#pg#:#Stránka
 content#:#public_section#:#Veřejná plocha
 content#:#read offline#:#Read Offline
-content#:#read_offline#:#Číst Offline
 content#:#sahs_empty_objectives_are_not_allowed#:#Vložte prosím cíl výuky.
 content#:#save_new#:#Uložit s nové
 content#:#saved_media_object#:#Uložené mediální objekty.
@@ -6719,7 +6704,6 @@ content#:#seq_toc#:#Z tabulky obsahu vlevo vyberte aktivitu k započetí kurzu.
 content#:#set_public_mode#:#Nastavit mód veřejného přístupu
 content#:#st#:#Kapitola
 content#:#start export#:#Start Export
-content#:#start_export#:#Spustit Export
 content#:#stop_user_offline_mode#:#Stop offline mode
 content#:#stop_user_offline_mode_for_user#:#Stop offline mode for
 content#:#text_repr#:#Reprezentace textu
@@ -7998,7 +7982,6 @@ dcl#:#dcl_hello#:#Dear
 dcl#:#dcl_ILIAS_reference#:#Odkaz na modul ILIAS
 dcl#:#dcl_ILIAS_reference_link#:#Zobrazit jako odkaz ve zobrazení tabulky
 dcl#:#dcl_import_records .xls#:#Import .xls
-dcl#:#dcl_import_records__xls#:#Importovat .xls
 dcl#:#dcl_import_terminated#:#Import byl ukončen. Položky přidány
 dcl#:#dcl_in_export#:#V exportu
 dcl#:#dcl_inconsistent_at#:#Soubor dat je nekonzistentní. Odkaz déle neexistuje.
@@ -14244,3 +14227,14 @@ wsp#:#wsp_type_scov#:#Certificate: SCORM
 wsp#:#wsp_type_tstv#:#Verifikace: Test
 wsp#:#wsp_type_webr#:#Weblový odkaz
 wsp#:#wsp_type_wfld#:#Složka
+assessment#:#tst_save_and_create_new_rule#:#Save and Add New Rule###26 03 2014 new variable
+assessment#:#tst_msg_random_qsc_modified_add_new_rule#:#The configuration for the random set of questions has been modified successfully. You can add a new rule now.###26 03 2014 new variable
+content#:#cont_LocalFile#:#Local File###26 03 2014 new variable
+ecs#:#ecs_server_title#:#Name of ECS Configuration###26 03 2014 new variable
+assessment#:#fq_precision_info#:#Enter the number of desired decimal places.###26 03 2014 new variable
+assessment#:#result_units_info#:#The selected units are offered to the learner as part of an answer. The learner has to choose one unit.###26 03 2014 new variable
+assessment#:#fq_no_restriction_info#:#Both decimals and fractions are accepted as input.###26 03 2014 new variable
+assessment#:#additional_rating_info#:#Please note that the values ​​given here are expressed as percentages and these must add up to 100.###26 03 2014 new variable
+assessment#:#intprecision_info#:#"Divisible by" affects only the creation of variables, if the value for the precision is 0. In this case, you define for "Divisible by" an integer value, which must be divisible by with the created variable. A value of 10 thus generates only integers that are divisible by 10. A value of 5 produces integers that are divisible by 5, etc. For a precision of 0, "Divisible by" is a mandatory field and must contain a positive integer. The default value is 1 for any integers.###26 03 2014 new variable
+assessment#:#tolerance_info#:#The tolerance specifies an allowable percentage deviation from the result value. With a tolerance of 0, only the exact result value is evaluated to be correct.###26 03 2014 new variable
+assessment#:#result_unit_info#:#Please note that, the selected result unit must also be activated in the "available units."###26 03 2014 new variable

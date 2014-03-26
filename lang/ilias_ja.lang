@@ -44,7 +44,6 @@ administration#:#adm_add_settings_template#:#テンプレート追加
 administration#:#adm_adm_role_protect#:#管理者役割を保護
 administration#:#adm_adm_role_protect_info#:#有効にすると管理者だけしか管理者役割とユーザ間の割り当て・解除ができなくなります。
 administration#:#adm_basic#:#基本
-administration#:#adm_captcha_anonymous#:# (掲示板/Wiki/Login/登録)匿名用Captcha(画像認証)を有効化。有効にするとシステムアクセス性に影響の可能性があることに注意願います。
 administration#:#adm_captcha_anonymous_auth#:#匿名ログインフォーム用のCaptcha(画像認証)を有効化。有効にするとシステムアクセス性に影響の可能性があることに注意願います。
 administration#:#adm_captcha_anonymous_frm#:#掲示板の匿名用Captcha(画像認証)を有効化。有効にするとシステムアクセス性に影響の可能性があることに注意願います。
 administration#:#adm_captcha_anonymous_reg#:#登録フォームの匿名用Captcha(画像認証)を有効化。有効にするとシステムアクセス性に影響の可能性があることに注意願います。
@@ -830,10 +829,6 @@ assessment#:#oq_btn_use_order_pictures#:#解答図を使用する
 assessment#:#oq_btn_use_order_terms#:#解答用語を使用する
 assessment#:#oq_header_ordering_elements#:#要素順
 assessment#:#or#:#または
-assessment#:#order_nested_pictures#:#図形式のネスト表示に切り替える
-assessment#:#order_nested_terms#:#用語形式のネスト表示に切り替える
-assessment#:#order_pictures#:#図の解答を使用
-assessment#:#order_terms#:#用語の解答を使用
 assessment#:#ordering_answer_sequence_info#:#ここで定義する解答順序は正解として使用されます。
 assessment#:#ordering_question_javascript_hint#:#定義/画像をドラッグして、置いてドロップしたい場所へ定義/画像を合わせてください。基になる定義/画像とすべての次の定義/画像は下方向に移動します。
 assessment#:#ordertext#:#整列するテキスト
@@ -1778,7 +1773,6 @@ barometer#:#votes#:#投票
 barometer#:#weeks#:#週間
 barometer#:#worst#:#最低
 barometer#:#year#:#年
-bata2-key#:#beta2-sub#:#batas-des
 bibitem#:#bibitem_add#:#追加
 bibitem#:#bibitem_author#:#作成者
 bibitem#:#bibitem_av#:#AV
@@ -3246,7 +3240,6 @@ common#:#enable_trash_info#:#有効にすると削除されたオブジェクト
 common#:#enable_webdav#:#WebDAVアクセスを有効にする
 common#:#enable_webdav_info#:#WebDAVクライアントへwebフォルダとしてリポジトリへアクセスを許可。ユーザーはリポジトリの"webフォルダとしてオープン”を使うかまたはWevDAVクライアントの次のアドレスを入力によりwebフォルダをオープンできます。<a href="%1$s" folder="%1$s">%1$s</a>
 common#:#enabled#:#有効
-common#:#enter_filename_deliver#:#配布すべきファイルを入力
 common#:#enter_in_mb_desc#:#MBの値を入力します。
 common#:#enumerate#:#列挙する
 common#:#err_1_param#:#パラメーターの1つだけ!
@@ -5642,7 +5635,6 @@ content#:#cont_added_comment#:#コメントが履歴に追加されました。
 content#:#cont_added_tab#:#タブを作成しました。
 content#:#cont_added_term#:#条件追加
 content#:#cont_Additional#:#追加情報
-content#:#cont_additional_langs#:#追加言語
 content#:#cont_adjust_size#:#サイズを調整
 content#:#cont_AdvancedKnowledge#:#詳細知識
 content#:#cont_align#:#整列
@@ -5793,8 +5785,6 @@ content#:#cont_de_activate#:#アクティブ(解除)
 content#:#cont_deactivate_html#:#HTMLレンディングをオフにする
 content#:#cont_deactivate_js#:#フォームモードを起動
 content#:#cont_deactivate_media#:#メディアをオフにする
-content#:#cont_deactivate_multi_lang#:#多言語を無効
-content#:#cont_deactivate_multi_lang_conf#:#本当に多言語対応を無効にしますか?マスタ言語のコンテンツのみとなってしまいます。
 content#:#cont_deactivate_page#:#ページのアクティブ解除
 content#:#cont_deactivated#:#アクティブ解除
 content#:#cont_debug#:#デバグメニューを表示
@@ -6150,7 +6140,6 @@ content#:#cont_manifest#:#マニフェスト
 content#:#cont_map_areas#:#リンクエリヤ
 content#:#cont_map_file_not_generated#:#申し訳ありませんが編集用のマップファイルを生成できません。
 content#:#cont_marker#:#マーカー
-content#:#cont_master_lang#:#マスター言語
 content#:#cont_mastery_score#:#adlcp：masteryscore
 content#:#cont_max_time_allowed#:#adlcp：maxtimeallowed
 content#:#cont_Media#:#メディア (標準)
@@ -6173,8 +6162,6 @@ content#:#cont_more_functions#:#詳細
 content#:#cont_move_object#:#オブジェクトを移動
 content#:#cont_msg_multiple_editions#:#複数の版の詳細を表示する事はできません
 content#:#cont_multilang_currently_deactivated#:#多言語サポートは現在利用できない状態です。
-content#:#cont_multilang_deactivated#:#多言語対応は無効になりました。
-content#:#cont_multilinguality#:#多言語
 content#:#cont_name#:#名前
 content#:#cont_never#:#未トライ
 content#:#cont_new_area#:#新規リンクエリア
@@ -6430,7 +6417,6 @@ content#:#cont_select#:#選択
 content#:#cont_select_file#:#ファイルをセレクト
 content#:#cont_select_from_upload_dir#:#--アップロードディレクイトリーから選択 --
 content#:#cont_select_item#:#アイテムを一つは選択してください.
-content#:#cont_select_master_lang#:#マスター言語を選択してください。現在のコンテンツはマスター言語に割り当てられます。
 content#:#cont_select_max_one_item#:#アイテムを一つのみ選択してください。
 content#:#cont_select_max_one_term#:#用語を一つだけ選択してください。
 content#:#cont_select_media_pool#:#メディア集を選択
@@ -8715,11 +8701,8 @@ forum#:#frm_statistics_ranking#:#投稿数
 forum#:#frm_subject_setting#:#Subject設定
 forum#:#frm_sure_delete_threads#:#本当に次のスレッドを削除しますか?
 forum#:#frm_sure_merge_threads#:#本当にこれらのスレッドをマージしますか?　警告: これは後戻りできません。ソーススレッドの最初の投稿がターゲットスレッドの最初の投稿以前に行われると最終的にILIASはソースとターゲットのスレッドをスワップします。
-forum#:#frm_title_required#:#タイトルを挿入してください。
 forum#:#frm_wizard_page#:#フォーラムをコピー (Step 2/2)
 forum#:#is_read#:#既読としてマーク
-forum#:#make_topic_non_sticky#:#トピックを付箋しない
-forum#:#make_topic_sticky#:#トピックを付箋
 forum#:#make_topics_non_sticky#:#トピックを付箋しない
 forum#:#make_topics_sticky#:#トピックを付箋
 forum#:#mark_moderator_posts#:#モデレータのポストをマーク
@@ -9288,8 +9271,6 @@ mail#:#mail_salutation_m#:#こんにちは
 mail#:#mail_salutation_male#:#男性向けの挨拶文
 mail#:#mail_salutation_n#:#こんにちは
 mail#:#mail_saved#:#メッセージは保存されました
-mail#:#mail_search_addressbook#:#連絡先を検索
-mail#:#mail_search_system#:#システムを検索
 mail#:#mail_select_attachment#:#ダウンロード用の添付ファイルを選択してください。
 mail#:#mail_select_course#:#コースを一つは選択してください。
 mail#:#mail_select_group#:#グループを一つは選んでください。
@@ -14246,3 +14227,14 @@ wsp#:#wsp_type_scov#:#証明書: SCORM
 wsp#:#wsp_type_tstv#:#検証: テスト
 wsp#:#wsp_type_webr#:#Webリンク
 wsp#:#wsp_type_wfld#:#フォルダ
+assessment#:#tst_save_and_create_new_rule#:#Save and Add New Rule###26 03 2014 new variable
+assessment#:#tst_msg_random_qsc_modified_add_new_rule#:#The configuration for the random set of questions has been modified successfully. You can add a new rule now.###26 03 2014 new variable
+content#:#cont_LocalFile#:#Local File###26 03 2014 new variable
+ecs#:#ecs_server_title#:#Name of ECS Configuration###26 03 2014 new variable
+assessment#:#fq_precision_info#:#Enter the number of desired decimal places.###26 03 2014 new variable
+assessment#:#result_units_info#:#The selected units are offered to the learner as part of an answer. The learner has to choose one unit.###26 03 2014 new variable
+assessment#:#fq_no_restriction_info#:#Both decimals and fractions are accepted as input.###26 03 2014 new variable
+assessment#:#additional_rating_info#:#Please note that the values ​​given here are expressed as percentages and these must add up to 100.###26 03 2014 new variable
+assessment#:#intprecision_info#:#"Divisible by" affects only the creation of variables, if the value for the precision is 0. In this case, you define for "Divisible by" an integer value, which must be divisible by with the created variable. A value of 10 thus generates only integers that are divisible by 10. A value of 5 produces integers that are divisible by 5, etc. For a precision of 0, "Divisible by" is a mandatory field and must contain a positive integer. The default value is 1 for any integers.###26 03 2014 new variable
+assessment#:#tolerance_info#:#The tolerance specifies an allowable percentage deviation from the result value. With a tolerance of 0, only the exact result value is evaluated to be correct.###26 03 2014 new variable
+assessment#:#result_unit_info#:#Please note that, the selected result unit must also be activated in the "available units."###26 03 2014 new variable

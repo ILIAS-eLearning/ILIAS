@@ -14226,3 +14226,13 @@ content#:#cont_def_feedb_activated#:#Default feedback texts are currently activa
 content#:#cont_def_feedb_deactivated#:#Default feedback texts are currently deactivated in the learning module settings.###12 03 2014 new variable
 adve#:#advanced_editing_tst_editing#:#Page Editor for additional question content###12 03 2014 new variable
 adve#:#advanced_editing_tst_editing_desc#:#Aktivates ILIAS Page Eidotr for feedback and hint text editing.###12 03 2014 new variable
+assessment#:#tst_save_and_create_new_rule#:#Save and Add New Rule###26 03 2014 new variable
+assessment#:#tst_msg_random_qsc_modified_add_new_rule#:#The configuration for the random set of questions has been modified successfully. You can add a new rule now.###26 03 2014 new variable
+ecs#:#ecs_server_title#:#Name of ECS Configuration###26 03 2014 new variable
+assessment#:#fq_precision_info#:#Enter the number of desired decimal places.###26 03 2014 new variable
+assessment#:#result_units_info#:#The selected units are offered to the learner as part of an answer. The learner has to choose one unit.###26 03 2014 new variable
+assessment#:#fq_no_restriction_info#:#Both decimals and fractions are accepted as input.###26 03 2014 new variable
+assessment#:#additional_rating_info#:#Please note that the values ​​given here are expressed as percentages and these must add up to 100.###26 03 2014 new variable
+assessment#:#intprecision_info#:#"Divisible by" affects only the creation of variables, if the value for the precision is 0. In this case, you define for "Divisible by" an integer value, which must be divisible by with the created variable. A value of 10 thus generates only integers that are divisible by 10. A value of 5 produces integers that are divisible by 5, etc. For a precision of 0, "Divisible by" is a mandatory field and must contain a positive integer. The default value is 1 for any integers.###26 03 2014 new variable
+assessment#:#tolerance_info#:#The tolerance specifies an allowable percentage deviation from the result value. With a tolerance of 0, only the exact result value is evaluated to be correct.###26 03 2014 new variable
+assessment#:#result_unit_info#:#Please note that, the selected result unit must also be activated in the "available units."###26 03 2014 new variable
