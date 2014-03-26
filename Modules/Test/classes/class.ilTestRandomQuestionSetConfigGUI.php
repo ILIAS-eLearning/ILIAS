@@ -23,16 +23,17 @@ require_once 'Services/Taxonomy/classes/class.ilObjTaxonomy.php';
  */
 class ilTestRandomQuestionSetConfigGUI
 {
-	const CMD_SHOW_GENERAL_CONFIG_FORM = 'showGeneralConfigForm';
-	const CMD_SAVE_GENERAL_CONFIG_FORM = 'saveGeneralConfigForm';
-	const CMD_SHOW_SRC_POOL_DEF_LIST = 'showSourcePoolDefinitionList';
-	const CMD_SAVE_SRC_POOL_DEF_LIST = 'saveSourcePoolDefinitionList';
-	const CMD_DELETE_SINGLE_SRC_POOL_DEF = 'deleteSingleSourcePoolDefinition';
-	const CMD_DELETE_MULTI_SRC_POOL_DEFS = 'deleteMultipleSourcePoolDefinitions';
-	const CMD_SHOW_CREATE_SRC_POOL_DEF_FORM = 'showCreateSourcePoolDefinitionForm';
-	const CMD_SAVE_CREATE_SRC_POOL_DEF_FORM = 'saveCreateSourcePoolDefinitionForm';
-	const CMD_SHOW_EDIT_SRC_POOL_DEF_FORM = 'showEditSourcePoolDefinitionForm';
-	const CMD_SAVE_EDIT_SRC_POOL_DEF_FORM = 'saveEditSourcePoolDefinitionForm';
+	const CMD_SHOW_GENERAL_CONFIG_FORM              = 'showGeneralConfigForm';
+	const CMD_SAVE_GENERAL_CONFIG_FORM              = 'saveGeneralConfigForm';
+	const CMD_SHOW_SRC_POOL_DEF_LIST                = 'showSourcePoolDefinitionList';
+	const CMD_SAVE_SRC_POOL_DEF_LIST                = 'saveSourcePoolDefinitionList';
+	const CMD_DELETE_SINGLE_SRC_POOL_DEF            = 'deleteSingleSourcePoolDefinition';
+	const CMD_DELETE_MULTI_SRC_POOL_DEFS            = 'deleteMultipleSourcePoolDefinitions';
+	const CMD_SHOW_CREATE_SRC_POOL_DEF_FORM         = 'showCreateSourcePoolDefinitionForm';
+	const CMD_SAVE_CREATE_SRC_POOL_DEF_FORM         = 'saveCreateSourcePoolDefinitionForm';
+	const CMD_SAVE_AND_NEW_CREATE_SRC_POOL_DEF_FORM = 'saveCreateAndNewSourcePoolDefinitionForm';
+	const CMD_SHOW_EDIT_SRC_POOL_DEF_FORM           = 'showEditSourcePoolDefinitionForm';
+	const CMD_SAVE_EDIT_SRC_POOL_DEF_FORM           = 'saveEditSourcePoolDefinitionForm';
 	
 	/**
 	 * @var ilCtrl
@@ -439,8 +440,16 @@ class ilTestRandomQuestionSetConfigGUI
 
 		$this->tpl->setContent( $this->ctrl->getHTML($form) );
 	}
+	
+	private function saveCreateAndNewSourcePoolDefinitionFormCmd()
+	{
+		$this->saveCreateSourcePoolDefinitionFormCmd(true);
+	}
 
-	private function saveCreateSourcePoolDefinitionFormCmd()
+	/**
+	 * @param bool $redirect_back_to_form
+	 */
+	private function saveCreateSourcePoolDefinitionFormCmd($redirect_back_to_form = false)
 	{
 		$this->questionSetConfig->loadFromDb();
 
@@ -474,8 +483,18 @@ class ilTestRandomQuestionSetConfigGUI
 
 		$this->testOBJ->saveCompleteStatus( $this->questionSetConfig );
 
-		ilUtil::sendSuccess($this->lng->txt("tst_msg_random_question_set_config_modified"), true);
-		$this->ctrl->redirect($this, self::CMD_SHOW_SRC_POOL_DEF_LIST);
+		if($redirect_back_to_form)
+		{
+			ilUtil::sendSuccess($this->lng->txt("tst_msg_random_qsc_modified_add_new_rule"), true);
+			$this->ctrl->setParameter($this, 'src_pool_def_id', $sourcePoolDefinition->getId());
+			$this->ctrl->setParameter($this, 'quest_pool_id', $sourcePoolDefinition->getPoolId());
+			$this->ctrl->redirect($this, self::CMD_SHOW_CREATE_SRC_POOL_DEF_FORM);
+		}
+		else
+		{
+			ilUtil::sendSuccess($this->lng->txt("tst_msg_random_question_set_config_modified"), true);
+			$this->ctrl->redirect($this, self::CMD_SHOW_SRC_POOL_DEF_LIST);
+		}
 	}
 
 	private function buildCreateSourcePoolDefinitionFormGUI()
@@ -487,6 +506,7 @@ class ilTestRandomQuestionSetConfigGUI
 		);
 
 		$form->setSaveCommand(self::CMD_SAVE_CREATE_SRC_POOL_DEF_FORM);
+		$form->setSaveAndNewCommand(self::CMD_SAVE_AND_NEW_CREATE_SRC_POOL_DEF_FORM);
 
 		return $form;
 	}
@@ -563,6 +583,11 @@ class ilTestRandomQuestionSetConfigGUI
 		if( isset($_POST['quest_pool_id']) && (int)$_POST['quest_pool_id'] )
 		{
 			return (int)$_POST['quest_pool_id'];
+		}
+
+		if( isset($_GET['quest_pool_id']) && (int)$_GET['quest_pool_id'] )
+		{
+			return (int)$_GET['quest_pool_id'];
 		}
 
 		require_once 'Modules/Test/exceptions/class.ilTestMissingQuestionPoolIdParameterException.php';
