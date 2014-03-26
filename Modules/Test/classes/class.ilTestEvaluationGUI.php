@@ -1339,11 +1339,11 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				}
 				array_push($rows, 
 					array(
-							$question_id,
-							$question_title, 
-							$answered,
-							"<a href=\"" . $this->ctrl->getLinkTarget($this, "exportQuestionForAllParticipants"). "\">" . $this->lng->txt("pdf_export") . "</a>",
-							$download
+						'qid'               => $question_id,
+						'question_title'    => $question_title,
+						'number_of_answers' => $answered,
+						'output'            => "<a href=\"" . $this->ctrl->getLinkTarget($this, "exportQuestionForAllParticipants") . "\">" . $this->lng->txt("pdf_export") . "</a>",
+						'file_uploads'      => $download
 					)
 				);
 			}
@@ -1351,7 +1351,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			{
 				require_once './Modules/Test/classes/tables/class.ilResultsByQuestionTableGUI.php';
 				$table_gui = new ilResultsByQuestionTableGUI($this, "singleResults");
-
 				$table_gui->setTitle($this->lng->txt("tst_answered_questions_test"));
 				$table_gui->setData($rows);
 

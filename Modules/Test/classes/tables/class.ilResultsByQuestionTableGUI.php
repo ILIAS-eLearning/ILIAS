@@ -36,15 +36,15 @@ class ilResultsByQuestionTableGUI extends ilTable2GUI
 
 	protected function fillRow($a_set)
 	{
-		if ($a_set[2] > 0)
+		if ($a_set['number_of_answers'] > 0)
 		{
-			$this->tpl->setVariable("PDF_EXPORT", $a_set[3]);
+			$this->tpl->setVariable("PDF_EXPORT", $a_set['output']);
 		}
 
-		$this->tpl->setVariable("QUESTION_ID", $a_set[0]);
-		$this->tpl->setVariable("QUESTION_TITLE", $a_set[1]);
-		$this->tpl->setVariable("NUMBER_OF_ANSWERS", $a_set[2]);
-		$this->tpl->setVariable("FILE_UPLOADS", $a_set[4]);
+		$this->tpl->setVariable("QUESTION_ID", $a_set['qid']);
+		$this->tpl->setVariable("QUESTION_TITLE", $a_set['question_title']);
+		$this->tpl->setVariable("NUMBER_OF_ANSWERS", $a_set['number_of_answers']);
+		$this->tpl->setVariable("FILE_UPLOADS", $a_set['file_uploads']);
 	}
 
 	/**
@@ -56,6 +56,7 @@ class ilResultsByQuestionTableGUI extends ilTable2GUI
 		switch($a_field)
 		{
 			case 'qid':
+			case 'number_of_answers':
 				return true;
 
 			default:
