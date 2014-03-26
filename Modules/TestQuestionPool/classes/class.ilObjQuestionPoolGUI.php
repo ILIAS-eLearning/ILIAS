@@ -380,7 +380,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		if ($_FILES["xmldoc"]["error"] > UPLOAD_ERR_OK)
 		{
 			ilUtil::sendFailure($this->lng->txt("error_upload"), true);
-			$this->ctrl->Tredirect($this, 'create');
+			$this->ctrl->redirect($this, 'create');
 			return;
 		}
 		// create import directory
