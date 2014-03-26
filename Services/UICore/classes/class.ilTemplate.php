@@ -2476,14 +2476,61 @@ class ilTemplate extends ilTemplateX
 			include_once "Services/MainMenu/classes/class.ilMainMenuGUI.php";
 			$selection = ilMainMenuGUI::getLanguageSelection(true);
 			
+			// #13058
+			$target_str = ($this->getLoginTargetPar() != "")
+				? $this->getLoginTargetPar()
+				: self::buildLoginTarget();
+			
 			$this->setCurrentBlock("topbar_usr_ano");
 			$this->setVariable("TOPBAR_LANGUAGES", $selection); 
 			$this->setVariable("TOPBAR_LOGIN_CAPTION", $lng->txt("login_to_ilias"));
-			$this->setVariable("TOPBAR_LOGIN_URL", "./login.php?client_id=".CLIENT_ID."&cmd=force_login");
+			$this->setVariable("TOPBAR_LOGIN_URL", "./login.php?target=".$target_str."&client_id=".rawurlencode(CLIENT_ID)."&cmd=force_login");
 			$this->parseCurrentBlock();
 		}
 		
 		// $this->touchBlock("fullscreen_topbar");
+	}
+	
+	/**
+	 * Add current object (repository/workspace) as target for login url
+	 * 
+	 * @return string
+	 */
+	public static function buildLoginTarget()
+	{
+		global $tree, $ilUser;
+				
+		$target_str = "";
+		
+		// repository
+		if ($_GET["ref_id"] != "")
+		{
+			if ($tree->isInTree($_GET["ref_id"]) && $_GET["ref_id"] != $tree->getRootId())
+			{
+				$obj_id = ilObject::_lookupObjId($_GET["ref_id"]);
+				$type = ilObject::_lookupType($obj_id);
+				$target_str = $type."_".$_GET["ref_id"];
+			}
+		}
+		// personal workspace
+		else if ($_GET["wsp_id"] != "")
+		{
+			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";			
+			$tree = new ilWorkspaceTree($ilUser->getId());									
+			$obj_id = $tree->lookupObjectId((int)$_GET["wsp_id"]);
+			if($obj_id)
+			{
+				$type = ilObject::_lookupType($obj_id);							
+				$target_str = $type."_".(int)$_GET["wsp_id"]."_wsp";				
+			}
+		}
+		// portfolio
+		else if ($_GET["prt_id"] != "")
+		{									
+			$target_str = "prtf_".(int)$_GET["prt_id"];							
+		}
+		
+		return $target_str;
 	}
 	
 	/**

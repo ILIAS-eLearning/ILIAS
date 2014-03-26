@@ -224,20 +224,10 @@ class ilMainMenuGUI
 				$this->tpl->setVariable("TXT_NOT_LOGGED_IN",$lng->txt("not_logged_in"));
 				$this->tpl->setVariable("TXT_LOGIN",$lng->txt("log_in"));
 				
-				$target_str = "";
-				if ($this->getLoginTargetPar() != "")
-				{
-					$target_str = $this->getLoginTargetPar();
-				}
-				else if ($_GET["ref_id"] != "")
-				{
-					if ($tree->isInTree($_GET["ref_id"]) && $_GET["ref_id"] != $tree->getRootId())
-					{
-						$obj_id = ilObject::_lookupObjId($_GET["ref_id"]);
-						$type = ilObject::_lookupType($obj_id);
-						$target_str = $type."_".$_GET["ref_id"];
-					}
-				}
+				// #13058
+				$target_str = ($this->getLoginTargetPar() != "")
+					? $this->getLoginTargetPar()
+					: ilTemplate::buildLoginTarget();	
 				$this->tpl->setVariable("LINK_LOGIN",
 					$link_dir."login.php?target=".$target_str."&client_id=".rawurlencode(CLIENT_ID)."&cmd=force_login&lang=".$ilias->account->getCurrentLanguage());
 				$this->tpl->parseCurrentBlock();
