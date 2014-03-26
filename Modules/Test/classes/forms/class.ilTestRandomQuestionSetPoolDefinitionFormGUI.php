@@ -51,6 +51,11 @@ class ilTestRandomQuestionSetPoolDefinitionFormGUI extends ilPropertyFormGUI
 	public $questionSetConfig = null;
 
 	private $saveCommand = null;
+
+	/**
+	 * @var null|string
+	 */
+	private $saveAndNewCommand = null;
 	
 	public function __construct(ilCtrl $ctrl, ilLanguage $lng, ilObjTest $testOBJ, ilTestRandomQuestionSetConfigGUI $questionSetConfigGUI, ilTestRandomQuestionSetConfig $questionSetConfig)
 	{
@@ -71,6 +76,22 @@ class ilTestRandomQuestionSetPoolDefinitionFormGUI extends ilPropertyFormGUI
 		return $this->saveCommand;
 	}
 
+	/**
+	 * @param null|string $saveAndNewCommand
+	 */
+	public function setSaveAndNewCommand($saveAndNewCommand)
+	{
+		$this->saveAndNewCommand = $saveAndNewCommand;
+	}
+
+	/**
+	 * @return null|string
+	 */
+	public function getSaveAndNewCommand()
+	{
+		return $this->saveAndNewCommand;
+	}
+	
 	public function build(ilTestRandomQuestionSetSourcePoolDefinition $sourcePool, $availableTaxonomyIds)
 	{
 		$this->setFormAction( $this->ctrl->getFormAction($this->questionSetConfigGUI) );
@@ -79,10 +100,18 @@ class ilTestRandomQuestionSetPoolDefinitionFormGUI extends ilPropertyFormGUI
 		$this->setId('tstRndQuestSetCfgPoolForm');
 		
 		$this->addCommandButton(
-				$this->getSaveCommand(), $this->lng->txt('save')
+			$this->getSaveCommand(), $this->lng->txt('save_and_back')
 		);
+
+		if(null !== $this->getSaveAndNewCommand())
+		{
+			$this->addCommandButton(
+				$this->getSaveAndNewCommand(), $this->lng->txt('tst_save_and_create_new_rule')
+			);
+		}
+		
 		$this->addCommandButton(
-				ilTestRandomQuestionSetConfigGUI::CMD_SHOW_SRC_POOL_DEF_LIST, $this->lng->txt('cancel')
+			ilTestRandomQuestionSetConfigGUI::CMD_SHOW_SRC_POOL_DEF_LIST, $this->lng->txt('cancel')
 		);
 
 		$hiddenDefId = new ilHiddenInputGUI('src_pool_def_id');
