@@ -280,6 +280,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 
 			require_once './Modules/Test/classes/class.ilTestScoring.php';
 			$scorer = new ilTestScoring($this->object);
+			$scorer->setPreserveManualScores(true);
 			$scorer->recalculateSolutions();
 		}
 		
