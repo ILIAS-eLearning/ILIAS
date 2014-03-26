@@ -419,6 +419,6 @@ abstract class ilPageContent
 	static function afterPageHistoryEntry($a_page, DOMDocument $a_old_domdoc, $a_old_xml, $a_old_nr)
 	{
 	}
-	
+
 }
 ?>
