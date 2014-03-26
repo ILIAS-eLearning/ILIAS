@@ -779,6 +779,18 @@ class ilObjSurvey extends ilObject
 	{
 		global $ilDB;
 		
+		// date handling
+		$rmd_start = $this->getReminderStart();
+		if(is_object($rmd_start))
+		{
+			$rmd_start = $rmd_start->get(IL_CAL_DATE);
+		}
+		$rmd_end = $this->getReminderEnd();
+		if(is_object($rmd_end))
+		{
+			$rmd_end = $rmd_end->get(IL_CAL_DATE);
+		}
+		
 		include_once("./Services/RTE/classes/class.ilRTE.php");
 		if ($this->getSurveyId() < 1)
 		{
