@@ -2,60 +2,28 @@
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- * Chart data series
+ * Abstract chart data series base class
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @version $Id$
  * @ingroup ServicesChart
  */
-class ilChartData
+abstract class ilChartData
 {
 	protected $type; // [string]
 	protected $label; // [string]
-	protected $data; // [array]
-	protected $line_width; // [int]
-	protected $bar_width; // [float] bar
-	protected $bar_align; // [string] bar
-	protected $bar_horizontal; // [bool] bar
-	protected $radius; // [int] points
-	protected $steps; // [bool] lines	
+	protected $data; // [array]		
 	protected $fill; // [float]
 	protected $fill_color; // [color/gradient]
 	protected $hidden; // [bool]
 
 	/**
-	 * Constructor
-	 *
-	 * @param string $a_type
-	 */
-	public function __construct($a_type)
-	{
-		$this->setType($a_type);
-	}
-
-	/**
-	 * Set type
-	 *
-	 * @param string $a_value
-	 */
-	public function setType($a_value)
-	{
-		if($this->isValidType($a_value))
-		{
-			$this->type = (string)$a_value;
-		}
-	}
-
-	/**
-	 * Get type
-	 *
+	 * Get series type
+	 * 
 	 * @return string
 	 */
-	public function getType()
-	{
-		return $this->type;
-	}
-
+	abstract protected function getTypeString();	
+	
 	/**
 	 * Set hidden
 	 *
@@ -74,22 +42,6 @@ class ilChartData
 	public function isHidden()
 	{
 		return $this->hidden;
-	}
-
-	/**
-	 * Is given type valid?
-	 *
-	 * @param string $a_value
-	 * @return bool
-	 */
-	public function isValidType($a_value)
-	{
-		$all = array("lines", "bars", "points", "pie", "spider");
-		if(in_array((string)$a_value, $all))
-		{
-			return true;
-		}
-		return false;
 	}
 
 	/**
@@ -141,95 +93,6 @@ class ilChartData
 	}
 
 	/**
-	 * Set line width
-	 *
-	 * @param int $a_value
-	 */
-	public function setLineWidth($a_value)
-	{
-		$this->line_width = (int)$a_value;
-	}
-
-	/**
-	 * Get line width
-	 *
-	 * @return int
-	 */
-	public function getLineWidth()
-	{
-		return $this->line_width;
-	}
-
-	/**
-	 * Set line steps
-	 *
-	 * @param bool $a_value
-	 */
-	public function setLineSteps($a_value)
-	{
-		$this->steps = (bool)$a_value;
-	}
-
-	/**
-	 * Get line steps
-	 *
-	 * @return bool
-	 */
-	public function getLineSteps()
-	{
-		return $this->steps;
-	}
-
-	/**
-	 * Set bar options
-	 *
-	 * @param float $a_width
-	 * @param string $a_align
-	 * @param bool $a_horizontal
-	 */
-	public function setBarOptions($a_width, $a_align = "center", $a_horizontal = false)
-	{
-		$this->bar_width = (float)$a_width;
-		if(in_array((string)$a_align, array("center", "left")))
-		{
-			$this->bar_align = (string)$a_align;
-		}
-		$this->bar_horizontal = (bool)$a_horizontal;
-	}
-
-	/**
-	 * Get bar options
-	 *
-	 * @return array (width, align, horizontal)
-	 */
-	public function getBarOptions()
-	{
-		return array("width" => $this->bar_width,
-			"align" => $this->bar_align,
-			"horizontal" => $this->bar_horizontal);
-	}
-
-	/**
-	 * Set radius
-	 *
-	 * @param int $a_value
-	 */
-	public function setPointRadius($a_value)
-	{
-		$this->radius = (int)$a_value;
-	}
-
-	/**
-	 * Get radius
-	 *
-	 * @return int
-	 */
-	public function getPointRadius()
-	{
-		return $this->radius;
-	}
-
-	/**
 	 * Set fill
 	 *
 	 * @param float $a_value
@@ -252,6 +115,64 @@ class ilChartData
 	public function getFill()
 	{
 		return array("fill"=>$this->fill, "color"=>$this->fill_color);
+	}
+	
+	/**
+	 * Convert data options to flot config
+	 * 
+	 * @param array $a_options
+	 * @param ilChart $a_chart
+	 */
+	protected function parseDataOptions(array &$a_options)
+	{
+		
+	}
+	
+	/**
+	 * Convert data to flot config
+	 * 
+	 * @param array $a_data
+	 * @return object
+	 */
+	public function parseData(array &$a_data)
+	{
+		$series = new stdClass();
+		$series->label = str_replace("\"", "\\\"", $this->getLabel());
+		
+		$series->data = array();
+		foreach($this->getData() as $point)
+		{			
+			$series->data[] = array($point[0], $point[1]);
+		}
+			
+		$options = array("show"=>($this->isHidden() ? false : true));
+				
+		$fill = $this->getFill();
+		if($fill["fill"])
+		{
+			$options["fill"] = $fill["fill"];
+			if($fill["color"])
+			{
+				$options["fillColor"] = ilChart::renderColor($fill["color"], $fill["fill"]);
+			}
+		}
+		
+		$this->parseDataOptions($options);
+		
+		$series->{$this->getTypeString()} = $options;
+		
+		$a_data[] = $series;
+	}
+	
+	/**
+	 * Convert (global) properties to flot config
+	 * 
+	 * @param object $a_options	 
+	 * @param ilChart $a_chart	 
+	 */
+	public function parseGlobalOptions(stdClass $a_options, ilChart $a_chart)
+	{
+				
 	}
 }
 

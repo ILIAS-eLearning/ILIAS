@@ -166,6 +166,26 @@ class ilChartLegend
 	{
 		return $this->border;
 	}
+	
+	/**
+	 * Convert (global) properties to flot config
+	 * 
+	 * @param object $a_options	 
+	 */
+	public function parseOptions(stdClass $a_options)
+	{
+		$a_options->show = true;
+		
+		$a_options->noColumns = $this->getColumns();
+		$a_options->position = $this->getPosition();
+		
+		$margin = $this->getMargin();
+		$a_options->margin = array($margin["x"], $margin["y"]);
+		
+		$a_options->backgroundColor = ilChart::renderColor($this->getBackground());
+		$a_options->backgroundOpacity = str_replace(",",".",$this->getOpacity());
+		$a_options->labelBoxBorderColor = ilChart::renderColor($this->getLabelBorder());		
+	}			
 }
 
 ?>

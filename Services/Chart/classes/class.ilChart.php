@@ -1,71 +1,93 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "Services/Chart/classes/class.ilChartData.php";
 include_once "Services/Chart/classes/class.ilChartLegend.php";
 
 /**
- * Chart generator
+ * Abstract Chart generator base class
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @version $Id$
  * @ingroup ServicesChart
  */
-class ilChart
+abstract class ilChart
 {
 	protected $id; // [string]
-	protected $renderer; // [string]
 	protected $width; // [string]
 	protected $height; // [string]
 	protected $data; // [array]
 	protected $legend; // [ilChartLegend]
 	protected $shadow; // [int]
 	protected $colors; // [array]
-	protected $ticks; // [array]
-	protected $integer_axis; // [array]
-	protected $leg_labels = array(); // [array]
-	protected $y_max = 0; // [array]
+
+	const TYPE_GRID = 1;
+	const TYPE_PIE = 2;
+	const TYPE_SPIDER = 3;
 
 	/**
 	 * Constructor
 	 *
 	 * @param string $a_id
-	 * @param int $a_width
-	 * @param int $a_height
-     * @param string $a_renderer
 	 */
-	public function __construct($a_id, $a_width = 500, $a_height = 500, $a_renderer = "flot")
+	protected function __construct($a_id)
 	{
 		$this->id = $a_id;
 		$this->data = array();
-		$this->setXAxisToInteger(false);
-		$this->setYAxisToInteger(false);
-		$this->setSize($a_width, $a_height);
-		$this->setRenderer($a_renderer);
+				
 		$this->setShadow(2);
 	}
 
 	/**
-	 * Set renderer
-	 *
-	 * @param string $a_value
+	 * Get type instance
+	 * 
+	 * @param int $a_type
+	 * @param string $a_id
+	 * @return ilChart
 	 */
-	public function setRenderer($a_value)
-	{
-		if(in_array((string)$a_value, $this->getAllRenderers()))
+	public static function getInstanceByType($a_type, $a_id)
+	{		
+		switch($a_type)
 		{
-			$this->renderer = (string)$a_value;
-		}
+			case self::TYPE_GRID:
+				include_once "Services/Chart/classes/class.ilChartGrid.php";
+				return new ilChartGrid($a_id);
+				
+			case self::TYPE_PIE:
+				include_once "Services/Chart/classes/class.ilChartPie.php";
+				return new ilChartPie($a_id);
+				
+			case self::TYPE_SPIDER:
+				include_once "Services/Chart/classes/class.ilChartSpider.php";
+				return new ilChartSpider($a_id);
+		}				
 	}
 	
 	/**
-	 * Get all available renderers
-	 *
-	 * @return array
+	 * Get data series instance
+	 * 
+	 * @return ilChartData
 	 */
-	public function getAllRenderers()
+	abstract public function getDataInstance($a_type = null);
+	
+	/**
+	 * Validate data series
+	 * 
+	 * @return bool
+	 */
+	abstract protected function isValidDataType(ilChartData $a_series);
+	
+	/**
+	 * Basic validation
+	 * 
+	 * @return bool
+	 */
+	protected function isValid()
 	{
-		return array("flot");
+		if(sizeof($this->data))
+		{
+			return true;
+		}
+		return false;
 	}
 
 	/**
@@ -89,12 +111,15 @@ class ilChart
 	 */
 	public function addData(ilChartData $a_series, $a_idx = null)
 	{
-		if($a_idx === null)
+		if($this->isValidDataType($a_series))
 		{
-			$a_idx = sizeof($this->data);
+			if($a_idx === null)
+			{
+				$a_idx = sizeof($this->data);
+			}
+			$this->data[$a_idx] = $a_series;
+			return $a_idx;
 		}
-		$this->data[$a_idx] = $a_series;
-		return $a_idx;
 	}
 
 	/**
@@ -106,71 +131,7 @@ class ilChart
 	{
 		$this->legend = $a_legend;
 	}
-
-	/**
-	 * Validate html color code
-	 *
-	 * @param string $a_value
-	 * @return bool
-	 */
-	public static function isValidColor($a_value)
-	{
-	    if(preg_match("/^#[0-9a-f]{3}$/i", $a_value, $match))
-		{
-			return true;
-		}
-		else if(preg_match("/^#[0-9a-f]{6}$/i", $a_value, $match))
-		{
-			return true;
-		}		
-	}
-
-	/**
-	 * Render html color code
-	 *
-	 * @param string $a_value
-	 * @param float $a_opacity
-	 * @return string
-	 */
-	protected static function renderColor($a_value, $a_opacity = 1)
-	{
-		if(self::isValidColor($a_value))
-		{
-			if(strlen($a_value) == 4)
-			{
-				return "\"rgba(".hexdec($a_value[1].$a_value[1]).", ".
-					hexdec($a_value[2].$a_value[2]).", ".
-					hexdec($a_value[3].$a_value[3]).", ".$a_opacity.")\"";
-			}
-			else
-			{
-				return "\"rgba(".hexdec($a_value[1].$a_value[2]).", ".
-					hexdec($a_value[3].$a_value[4]).", ".
-					hexdec($a_value[5].$a_value[6]).", ".$a_opacity.")\"";
-			}
-		}
-	}
-
-	/**
-	 * Set shadow
-	 *
-	 * @param int $a_value
-	 */
-	public function setShadow($a_value)
-	{
-		$this->shadow = (int)$a_value;
-	}
-
-	/**
-	 * Get shadow
-	 *
-	 * @return int
-	 */
-	public function getShadow()
-	{
-		return $this->shadow;
-	}
-
+	
 	/**
 	 * Set colors
 	 *
@@ -198,51 +159,73 @@ class ilChart
 	}
 
 	/**
-	 * Set ticks
+	 * Validate html color code
 	 *
-	 * @param int|array $a_x
-	 * @param int|array $a_y
-	 * @param bool $a_labeled
+	 * @param string $a_value
+	 * @return bool
 	 */
-	public function setTicks($a_x, $a_y, $a_labeled = false)
+	public static function isValidColor($a_value)
 	{
-		$this->ticks = array("x" => $a_x, "y" => $a_y, "labeled" => (bool)$a_labeled);
+	    if(preg_match("/^#[0-9a-f]{3}$/i", $a_value, $match))
+		{
+			return true;
+		}
+		else if(preg_match("/^#[0-9a-f]{6}$/i", $a_value, $match))
+		{
+			return true;
+		}		
 	}
 
 	/**
-	 * Get ticks
+	 * Render html color code
 	 *
-	 * @return array (x, y)
+	 * @param string $a_value
+	 * @param float $a_opacity
+	 * @return string
 	 */
-	public function getTicks()
+	public static function renderColor($a_value, $a_opacity = 1)
 	{
-		return $this->ticks;
+		if(self::isValidColor($a_value))
+		{
+			if(strlen($a_value) == 4)
+			{
+				return "rgba(".hexdec($a_value[1].$a_value[1]).", ".
+					hexdec($a_value[2].$a_value[2]).", ".
+					hexdec($a_value[3].$a_value[3]).", ".$a_opacity.")";
+			}
+			else
+			{
+				return "rgba(".hexdec($a_value[1].$a_value[2]).", ".
+					hexdec($a_value[3].$a_value[4]).", ".
+					hexdec($a_value[5].$a_value[6]).", ".$a_opacity.")";
+			}
+		}
 	}
 
 	/**
-	 * Set leg labels
+	 * Set shadow
 	 *
-	 * @param array $a_val leg labels (array of strings)	
+	 * @param int $a_value
 	 */
-	function setLegLabels($a_val)
+	public function setShadow($a_value)
 	{
-		$this->leg_labels = $a_val;
+		$this->shadow = (int)$a_value;
+	}
+
+	/**
+	 * Get shadow
+	 *
+	 * @return int
+	 */
+	public function getShadow()
+	{
+		return $this->shadow;
 	}
 	
 	/**
-	 * Get leg labels
-	 *
-	 * @return array leg labels (array of strings)
+	 * Init JS script files
 	 */
-	function getLegLabels()
-	{
-		return $this->leg_labels;
-	}
-	
-	/**
-	 * Render (flot only currently)
-	 */
-	public function getHTML()
+	protected function initJS()
 	{
 		global $tpl;
 		
@@ -251,272 +234,117 @@ class ilChart
 		
 		$tpl->addJavascript("Services/Chart/js/flot/excanvas.min.js");
 		$tpl->addJavascript("Services/Chart/js/flot/jquery.flot.min.js");
-		$tpl->addJavascript("Services/Chart/js/flot/jquery.flot.pie.js");
-		$tpl->addJavascript("Services/Chart/js/flot/jquery.flot.highlighter.js");
-		$tpl->addJavascript("Services/Chart/js/flot/jquery.flot.spider.js");
-
-		$chart = new ilTemplate("tpl.grid.html", true, true, "Services/Chart");
-		$chart->setVariable("ID", $this->id);
-		$chart->setVariable("WIDTH", $this->width);
-		$chart->setVariable("HEIGHT", $this->height);
+		
+		$this->addCustomJS();
+	}
 	
-		$last = array_keys($this->data);
-		$last = array_pop($last);
-		$has_pie = false;
-		$has_spider = false;
-		foreach($this->data as $idx => $series)
-		{
-			$fill = $series->getFill();
-			
-			if ($series->getType() == "spider")
-			{
-				$has_spider = true;
+	/**
+	 * Add type-specific JS script
+	 */
+	protected function addCustomJS()
+	{
+		
+	}
+	
+	/**
+	 * Convert (global) properties to flot config
+	 * 
+	 * @param object $a_options	  
+	 */
+	public function parseGlobalOptions(stdClass $a_options)
+	{
 				
-				if ($fill["color"] != "")
-				{
-					$chart->setCurrentBlock("series_property");
-					$chart->setVariable("SPROP", "color");
-					$chart->setVariable("SPROP_VAL", self::renderColor($fill["color"] , "0.5"));
-					$chart->parseCurrentBlock();
-				}
-			}
-			
-			$chart->setCurrentBlock("series");
-			$chart->setVariable("SERIES_LABEL", str_replace("\"", "\\\"", $series->getLabel()));
-			$chart->setVariable("SERIES_TYPE", $series->getType());
-
-			$type = $series->getType();
-
-			$points = array();
-			if($type != "pie")
-			{
-				foreach($series->getData() as $point)
-				{
-					$points[] = "[".$point[0].",".$point[1]."]";
-				}
-				$chart->setVariable("SERIES_DATA", "[ ".implode(",", $points)." ]");
-			}
-			else
-			{
-				$has_pie = true;
-				$chart->setVariable("SERIES_DATA", array_pop($series->getData()));
-			}
-			if($idx != $last)
-			{
-				$chart->setVariable("SERIES_END", ",");
-			}
-
-			$options = array("show: ".($series->isHidden() ? "false" : "true"));
-			if($type != "points")
-			{
-				$width = $series->getLineWidth();
-				if($width !== null)
-				{
-					$options[] = "lineWidth:".$width;
-				}
-				if($type == "bars")
-				{
-					$bar_options = $series->getBarOptions();
-					if($bar_options["width"] !== null)
-					{
-						$options[] = "barWidth:".str_replace(",", ".", $bar_options["width"]);
-						$options[] = "align: \"".$bar_options["align"]."\"";
-						if($bar_options["horizontal"])
-						{
-							$options[] = "horizontal: true";
-						}
-					}
-				}
-				else if($type == "lines")
-				{
-					if($series->getLineSteps())
-					{
-						$options[] = "steps: true";
-					}
-				}
-			}
-			else
-			{
-				$radius = $series->getPointRadius();
-				if($radius !== null)
-				{
-					$options[] = "radius:".$radius;
-				}
-			}
-			
-			if($fill["fill"])
-			{
-				$options[] = "fill: ".$fill["fill"];
-				if($fill["color"])
-				{
-					$options[] = "fillColor: ".self::renderColor($fill["color"], $fill["fill"]);
-				}
-			}
-			$chart->setVariable("SERIES_OPTIONS", implode(", ", $options));
-
-			$chart->parseCurrentBlock();
-		}
-
-		if ($has_spider)
+	}
+	
+	/**
+	 * Render 
+	 */
+	public function getHTML()
+	{		
+		if(!$this->isValid())
 		{
-			$chart->setCurrentBlock("spider");
-			$lab_strings = array();
-			$max_str_len = 0;
-			foreach ($this->getLegLabels() as $l)
-			{
-				$l = ilUtil::shortenText ($l, 80, true);
-				$lab_strings[] = "{label: \"".$l."\"}";
-				$max_str_len = max($max_str_len, strlen($l));
-			}
-			$chart->setVariable("LEG_LABELS", implode($lab_strings, ","));
-			$chart->setVariable("LEG_MAX", $this->getYAxisMax());
-			switch (count($this->getLegLabels()))
-			{
-				case 4:
-				case 6:
-					$chart->setVariable("LEG_START_ANGLE", "10");
-					break;
-
-				default:
-					$chart->setVariable("LEG_START_ANGLE", "0");
-					break;
-			}
-			if ($max_str_len > 60)
-			{
-				$chart->setVariable("FONT_SIZE", "10");
-			}
-			else if ($max_str_len > 30)
-			{
-				$chart->setVariable("FONT_SIZE", "12");
-			}
-			else
-			{
-				$chart->setVariable("FONT_SIZE", "15");
-			}
-			$chart->parseCurrentBlock();
-			
-			$chart->setCurrentBlock("spider_grid_options");
-			$chart->setVariable("NR_TICKS", $this->getYAxisMax());
-			$chart->parseCurrentBlock();
+			return;
 		}
 		
+		$this->initJS();			
+	
+		$chart = new ilTemplate("tpl.grid.html", true, true, "Services/Chart");
+		$chart->setVariable("ID", $this->id);
+		
+		if($this->width)
+		{
+			if(is_numeric($this->width))
+			{
+				$chart->setVariable("WIDTH", "width:".$this->width."px;");
+			}
+			else
+			{
+				$chart->setVariable("WIDTH", "width:".$this->width.";");
+			}
+		}
+		if($this->height)
+		{
+			if(is_numeric($this->height))
+			{
+				$chart->setVariable("HEIGHT", "height:".$this->height."px;");
+			}
+			else
+			{
+				$chart->setVariable("HEIGHT", "height:".$this->height.";");
+			}
+		}
+		
+		
+		// (series) data
+		
+		$json_series = array();		
+		foreach($this->data as $series)
+		{
+			$series->parseData($json_series);					
+		}
+		$chart->setVariable("SERIES", json_encode($json_series));
+		
+		
 		// global options
-
-		$chart->setVariable("SHADOW", (int)$this->getShadow());
-		$chart->setVariable("IS_PIE", ($has_pie ? "true" : "false"));
+		
+		$json_options = new stdClass();		
+		$json_options->series = new stdClass();
+		$json_options->series->shadowSize = (int)$this->getShadow();
+		$json_options->series->lines = new stdClass();
+		$json_options->series->lines->show = false;
+		
+		foreach($this->data as $series)
+		{
+			$series->parseGlobalOptions($json_options, $this);		
+		}		
+		
+		$this->parseGlobalOptions($json_options);
 		
 		$colors = $this->getColors();
 		if($colors)
 		{
-			$tmp = array();
+			$json_options->colors = array();			
 			foreach($colors as $color)
 			{
-				$tmp[] = self::renderColor($color);
+				$json_options->colors[] = self::renderColor($color);
 			}
-		}
-		if(sizeof($tmp))
-		{
-			$chart->setVariable("COLORS", implode(",", $tmp));
-		}
+		}		
 
 		// legend
+		$json_options->legend = new stdClass();
 		if(!$this->legend)
 		{
-			$chart->setVariable("LEGEND", "show: false");
+			$json_options->legend->show = false;
 		}
 		else
 		{
-			$margin = $this->legend->getMargin();
-			$legend = array();
-			$legend[] = "show: true";
-			$legend[] = "noColumns: ".$this->legend->getColumns();
-			$legend[] = "position: \"".$this->legend->getPosition()."\"";
-			$legend[] = "margin: [".$margin["x"].", ".$margin["y"]."]";
-			$legend[] = "backgroundColor: ".self::renderColor($this->legend->getBackground());
-			$legend[] = "backgroundOpacity: ".str_replace(",",".",$this->legend->getOpacity());
-			$legend[] = "labelBoxBorderColor: ".self::renderColor($this->legend->getLabelBorder());
-
-			$chart->setVariable("LEGEND", implode(", ", $legend));
+			$this->legend->parseOptions($json_options->legend);			
 		}
-
-		// axis/ticks
-		$tmp = array();
-		$ticks = $this->getTicks();
-		if($ticks)
-		{			
-			foreach($ticks as $axis => $def)
-			{
-				if(is_numeric($def))
-				{
-					$tmp[$axis] = $axis."axis: { ticks: ".$def." }";
-				}
-				else if(is_array($def))
-				{
-					$ttmp = array();
-					foreach($def as $idx => $value)
-					{
-						if($ticks["labeled"])
-						{
-							$ttmp[] = "[".$idx.", \"".$value."\"]";
-						}
-						else
-						{
-							$ttmp[] = $value;
-						}
-					}
-					$tmp[$axis] = $axis."axis: { ticks: [".implode(", ", $ttmp)."] }";
-				}
-			}
-		}
-		
-		// optional: remove decimals
-	    if(!isset($tmp["x"]) && $this->integer_axis["x"])
-		{
-			$tmp["x"] = "xaxis: { tickDecimals: 0 }";
-		}
-		if(!isset($tmp["y"]) && $this->integer_axis["y"])
-		{
-			$tmp["y"] = "yaxis: { tickDecimals: 0 }";
-		}		
-		
-		if(sizeof($tmp))
-		{
-			$chart->setVariable("AXIS", ",".implode(", ", $tmp));
-		}
+	
+		$chart->setVariable("OPTIONS", json_encode($json_options));
 		
 		$ret = $chart->get();
-//echo htmlentities($ret);
 		return $ret;
-	}
-	
-	function setYAxisToInteger($a_status)
-	{
-		$this->integer_axis["y"] = (bool)$a_status;
-	}
-	
-	function setXAxisToInteger($a_status)
-	{
-		$this->integer_axis["x"] = (bool)$a_status;
-	}
-	
-	/**
-	 * Set y axis max value
-	 *
-	 * @param float $a_val y axis max value	
-	 */
-	function setYAxisMax($a_val)
-	{
-		$this->y_max = $a_val;
-	}
-	
-	/**
-	 * Get y axis max value
-	 *
-	 * @return float y axis max value
-	 */
-	function getYAxisMax()
-	{
-		return $this->y_max;
 	}
 	
 	/*

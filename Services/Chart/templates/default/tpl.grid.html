@@ -1,49 +1,7 @@
-<div id="ilChart{ID}" style="width:{WIDTH}px; height:{HEIGHT}px;">
+<div id="ilChart{ID}" style="{WIDTH}{HEIGHT}">
 </div>
 <script id="source" language="javascript" type="text/javascript">
 $(function () {
-    $.plot($("#ilChart{ID}"), [
-		<!-- BEGIN series -->
-        {
-			label: "{SERIES_LABEL}",
-            data: {SERIES_DATA},
-            {SERIES_TYPE}: { {SERIES_OPTIONS} }
-            <!-- BEGIN series_property -->,{SPROP}:{SPROP_VAL}<!-- END series_property -->
-        }{SERIES_END}
-		<!-- END series -->
-    ], {
-		/* global options */
-        series: {
-			shadowSize: {SHADOW},
-			lines: { show: false },
-			pie: { show: {IS_PIE} }
-			<!-- BEGIN spider -->
-			,spider:{
-				active: true
-				,highlight: {mode: "line"}
-				,legs: { 
-					data: [{LEG_LABELS}]
-					,font: "{FONT_SIZE}px Arial"
-					,fillStyle: "rgba(0,0,0,0.7)"
-					,legStartAngle: {LEG_START_ANGLE}
-				}
-				,spiderSize: 0.7
-				,lineWidth: 1
-				,pointSize: 0
-				,connection: { width: 2 }
-				,legMin: 0.0000001
-				,legMax: {LEG_MAX}
-			}
-			<!-- END spider -->
-		},
-		<!-- BEGIN spider_grid_options -->
-		grid:{ hoverable: false,clickable: false, ticks: {NR_TICKS}, tickColor: "rgba(0,0,0,0.1)",mode: "spider"},
-		<!-- END spider_grid_options -->
-		<!-- BEGIN colors_bl -->
-        colors: [ {COLORS} ],
-		<!-- END colors_bl -->
-		legend: { {LEGEND} }
-		{AXIS}
-    });
+    $.plot($("#ilChart{ID}"), {SERIES}, {OPTIONS});
 });
 </script>
