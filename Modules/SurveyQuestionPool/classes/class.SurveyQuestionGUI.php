@@ -606,13 +606,14 @@ abstract class SurveyQuestionGUI
 	protected function renderChart($a_id, $a_variables)
 	{
 		include_once "Services/Chart/classes/class.ilChart.php";
-		$chart = new ilChart($a_id, 700, 400);
+		$chart = ilChart::getInstanceByType(ilChart::TYPE_GRID, $a_id);
+		$chart->setsize(700, 400);
 
 		$legend = new ilChartLegend();
 		$chart->setLegend($legend);	
 		$chart->setYAxisToInteger(true);
 		
-		$data = new ilChartData("bars");
+		$data = $chart->getDataInstance(ilChartGrid::DATA_BARS);
 		$data->setLabel($this->lng->txt("users_answered"));
 		$data->setBarOptions(0.5, "center");
 		

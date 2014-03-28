@@ -611,7 +611,8 @@ class ilSessionStatisticsGUI
 		global $lng;
 		
 		include_once "Services/Chart/classes/class.ilChart.php";
-		$chart = new ilChart("objstacc", 700, 500);
+		$chart = ilChart::getInstanceByType(ilChart::TYPE_GRID, "objstacc");
+		$chart->setsize(700, 500);		
 		$chart->setYAxisToInteger(true);
 		
 		$legend = new ilChartLegend();
@@ -633,7 +634,7 @@ class ilSessionStatisticsGUI
 		$colors = $act_line = array();		
 		foreach($a_measure as $measure)
 		{
-			$act_line[$measure] = new ilChartData("lines");
+			$act_line[$measure] = $chart->getDataInstance(ilChartGrid::DATA_LINES);
 			$act_line[$measure]->setLineSteps(true);
 			$act_line[$measure]->setLabel($lng->txt("trac_session_active_".$measure));
 			$colors[] = $colors_map[$measure];
@@ -641,7 +642,7 @@ class ilSessionStatisticsGUI
 		
 		if($a_scale != self::SCALE_PERIODIC_WEEK)
 		{
-			$max_line = new ilChartData("lines");
+			$max_line = $chart->getDataInstance(ilChartGrid::DATA_LINES);
 			$max_line->setLabel($lng->txt("session_max_count"));
 			$colors[] = "#cc0000";
 		}

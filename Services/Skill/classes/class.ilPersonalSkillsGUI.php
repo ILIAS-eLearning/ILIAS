@@ -1030,17 +1030,18 @@ $bs["tref"] = $bs["tref_id"];
 //var_dump($this->actual_levels);
 
 			include_once("./Services/Chart/classes/class.ilChart.php");
-			$chart = new ilChart("gap_chart", 800, 300);
+			$chart = ilChart::getInstanceByType(ilChart::TYPE_SPIDER, "gap_chart");
+			$chart->setsize(800, 300);			
 			$chart->setYAxisMax($max_cnt);
 			$chart->setLegLabels($leg_labels);
 			
 			// target level
-			$cd = new ilChartData("spider");
+			$cd = $chart->getDataInstance();
 			$cd->setLabel($lng->txt("skmg_target_level"));
 			$cd->setFill("true", "#A0A0A0");
 
 			// other users
-			$cd2 = new ilChartData("spider");
+			$cd2 = $chart->getDataInstance();
 			if ($this->gap_cat_title != "")
 			{
 				$cd2->setLabel($this->gap_cat_title);
@@ -1058,7 +1059,7 @@ $bs["tref"] = $bs["tref_id"];
 			// self evaluation
 			if ($incl_self_eval)
 			{
-				$cd3 = new ilChartData("spider");
+				$cd3 = $chart->getDataInstance();
 				$cd3->setLabel($lng->txt("skmg_self_evaluation"));
 				$cd3->setFill("true", "#FF8080");
 			}

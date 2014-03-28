@@ -240,8 +240,9 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
 		global $lng;
 		
 		include_once "Services/Chart/classes/class.ilChart.php";
-		$chart = new ilChart("objsttp", 700, 500);
-
+		$chart = ilChart::getInstanceByType(ilChart::TYPE_GRID, "objsttp");
+		$chart->setsize(700, 500);
+	
 		$legend = new ilChartLegend();
 		$chart->setLegend($legend);
 		
@@ -261,7 +262,7 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
 		{			
 			if(in_array($type, $a_graph_items))
 			{			
-				$series = new ilChartData("lines");
+				$series = $chart->getDataInstance(ilChartGrid::DATA_LINES);
 				$series->setLabel($types[$type]);
 				
 				foreach(array_keys($this->getMonthsYear($this->filter["year"])) as $idx => $month)

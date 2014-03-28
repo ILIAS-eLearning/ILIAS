@@ -227,8 +227,9 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
 		global $lng;
 		
 		include_once "Services/Chart/classes/class.ilChart.php";
-		$chart = new ilChart("objstdly", 700, 500);
-
+		$chart = ilChart::getInstanceByType(ilChart::TYPE_GRID, "objstdly");
+		$chart->setsize(700, 500);
+		
 		$legend = new ilChartLegend();
 		$chart->setLegend($legend);
 
@@ -237,7 +238,7 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
 		{
 			if(in_array($object["obj_id"], $a_graph_items))
 			{
-				$series = new ilChartData("lines");
+				$series = $chart->getDataInstance(ilChartGrid::DATA_LINES);
 				$series->setLabel(ilObject::_lookupTitle($object["obj_id"]));
 
 				for($loop = 0; $loop<24; $loop++)

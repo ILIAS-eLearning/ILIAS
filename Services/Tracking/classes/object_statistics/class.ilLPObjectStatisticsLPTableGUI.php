@@ -478,8 +478,9 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
 		$a_graph_items = array(array_pop($a_graph_items));
 		
 		include_once "Services/Chart/classes/class.ilChart.php";
-		$chart = new ilChart("objstlp", 700, 500);
-
+		$chart = ilChart::getInstanceByType(ilChart::TYPE_GRID, "objstlp");
+		$chart->setsize(700, 500);
+		
 		$legend = new ilChartLegend();
 		$chart->setLegend($legend);
 		
@@ -515,7 +516,7 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
 					}										
 					$series[$status]->setStackingId($object_id);					
 					*/
-					$series[$status] = new ilChartData("lines");					
+					$series[$status] = $chart->getDataInstance(ilChartGrid::DATA_LINES);			
 										
 					$series[$status]->setLabel(ilLearningProgressBaseGUI::_getStatusText($status));
 					$chart_colors[] = $colors[0];				
