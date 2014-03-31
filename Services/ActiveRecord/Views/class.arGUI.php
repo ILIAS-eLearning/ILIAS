@@ -107,6 +107,7 @@ class arTestRecordGUI
 /**
  * Configure screen
  */
+/*
 function edit()
 {
     $form = new MessageRecordEditGUI($this);
@@ -141,6 +142,7 @@ function save(MessageRecordEditGUI $form)
         $this->tpl->setContent($form->getHTML());
     }
 }
+*/
 }
 ?>
 
