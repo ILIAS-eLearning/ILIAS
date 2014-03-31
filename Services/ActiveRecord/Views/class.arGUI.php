@@ -108,7 +108,7 @@ class arTestRecordGUI
  */
 function edit()
 {
-    $form = new MessageRecordEditGUI($this,);
+    $form = new MessageRecordEditGUI($this);
     $this->tpl->setContent($form->getHTML());
 }
 
