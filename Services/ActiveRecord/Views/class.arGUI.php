@@ -101,7 +101,8 @@ class arTestRecordGUI
     {
         $this->tpl->setContent("delete");
     }
-}
+### Fixed syntax errors for jenkins support: smeyer
+//}
 
 /**
  * Configure screen
@@ -140,6 +141,6 @@ function save(MessageRecordEditGUI $form)
         $this->tpl->setContent($form->getHTML());
     }
 }
-
+}
 ?>
 
