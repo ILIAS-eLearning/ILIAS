@@ -30,12 +30,12 @@ class ilSearchResultTableGUI extends ilTable2GUI
 		//$this->addColumn("", "", "1", true);
 		#$this->addColumn($this->lng->txt("type"), "type", "1");
 		#$this->addColumn($this->lng->txt("search_title_description"), "title_sort");
-		$this->addColumn($this->lng->txt("type"), "", "1");
-		$this->addColumn($this->lng->txt("search_title_description"), "");
+		$this->addColumn($this->lng->txt("type"), "type", "1");
+		$this->addColumn($this->lng->txt("search_title_description"), "title");
 		if($this->enabledRelevance())
 		{
 			#$this->addColumn($this->lng->txt('lucene_relevance_short'),'s_relevance','50px');
-			$this->addColumn($this->lng->txt('lucene_relevance_short'),'','50px');
+			$this->addColumn($this->lng->txt('lucene_relevance_short'),'relevance','50px');
 			$this->setDefaultOrderField("s_relevance");
 			$this->setDefaultOrderDirection("desc");
 		}
@@ -49,6 +49,18 @@ class ilSearchResultTableGUI extends ilTable2GUI
 		$this->setEnableNumInfo(false);
 		
 		include_once "Services/Object/classes/class.ilObjectActivation.php";
+	}
+	
+	public function numericOrdering($a_field)
+	{
+		switch($a_field)
+		{
+			case 'relevance':
+				return true;
+		}
+		
+		
+		return parent::numericOrdering($a_field);
 	}
 	
 	/**
