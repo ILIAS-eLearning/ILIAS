@@ -64,7 +64,10 @@ class ilPollDataSet extends ilDataSet
 						"ViewResults" => "integer",
 						"Dir" => "directory",
 						"ShowResultsAs" => "integer",
-						"ShowComments" => "integer"
+						"ShowComments" => "integer",
+						"MaxAnswers" => "integer",
+						"ResultSort" => "integer",
+						"NonAnon" => "integer"
 					);
 				break;
 			}
@@ -75,19 +78,12 @@ class ilPollDataSet extends ilDataSet
 			switch ($a_version)
 			{				
 				case "4.3.0":
+				case "4.5.0":
 					return array(
 						"Id" => "integer",
 						"PollId" => "integer",
 						"Answer" => "text",
 						"Pos" => "integer",						
-					);
-					break;
-				case "4.3.0":
-					return array(
-						"Id" => "integer",
-						"PollId" => "integer",
-						"Answer" => "text",
-						"Pos" => "integer",
 					);
 					break;
 			}
@@ -122,11 +118,12 @@ class ilPollDataSet extends ilDataSet
 						" AND od.type = ".$ilDB->quote("poll", "text"));
 					break;
 				case "4.5.0":
-					$this->getDirectDataFromQuery("SELECT pl.id,od.title,od.description," .
-						"pl.question,pl.image,pl.view_results,pl.show_comments,pl.show_results_as" .
-						" FROM il_poll pl" .
-						" JOIN object_data od ON (od.obj_id = pl.id)" .
-						" WHERE " . $ilDB->in("pl.id", $a_ids, false, "integer") .
+					$this->getDirectDataFromQuery("SELECT pl.id,od.title,od.description".
+						",pl.question,pl.image,pl.view_results,pl.show_comments,pl.show_results_as".
+						",pl.max_answers,pl.result_sort,pl.non_anon".
+						" FROM il_poll pl".
+						" JOIN object_data od ON (od.obj_id = pl.id)".
+						" WHERE " . $ilDB->in("pl.id", $a_ids, false, "integer").
 						" AND od.type = " . $ilDB->quote("poll", "text"));
 					break;
 
@@ -138,10 +135,6 @@ class ilPollDataSet extends ilDataSet
 			switch ($a_version)
 			{				
 				case "4.3.0":
-					$this->getDirectDataFromQuery("SELECT id,poll_id,answer,pos".
-						" FROM il_poll_answer WHERE ".
-						$ilDB->in("poll_id", $a_ids, false, "integer"));
-					break;
 				case "4.5.0":
 					$this->getDirectDataFromQuery("SELECT id,poll_id,answer,pos".
 						" FROM il_poll_answer WHERE ".
@@ -199,7 +192,16 @@ class ilPollDataSet extends ilDataSet
 				$newObj = new ilObjPoll();
 				$newObj->setTitle($a_rec["Title"]);
 				$newObj->setDescription($a_rec["Description"]);
-				$newObj->setShowResultsAs($a_rec["ShowResultsAs"]);
+				if((int)$a_rec["MaxAnswers"])
+				{
+					$newObj->setMaxNumberOfAnswers($a_rec["MaxAnswers"]);
+				}
+				$newObj->setSortResultByVotes((bool)$a_rec["ResultSort"]);
+				$newObj->setNonAnonymous((bool)$a_rec["NonAnon"]);
+				if((int)$a_rec["ShowResultsAs"])
+				{
+					$newObj->setShowResultsAs($a_rec["ShowResultsAs"]);
+				}
 				$newObj->setShowComments($a_rec["ShowComments"]);
 				$newObj->create();
 								

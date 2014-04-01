@@ -210,7 +210,7 @@ class ilObjPoll extends ilObject2
 
 	function setShowResultsAs($a_value)
 	{
-		$this->show_results_as = $a_value;
+		$this->show_results_as = (int)$a_value;
 	}
 
 	function getShowResultsAs()

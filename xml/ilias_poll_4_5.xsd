@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <schema xmlns = 'http://www.w3.org/2001/XMLSchema'
-	targetNamespace = "http://www.ilias.de/Modules/Poll/poll/4_3"
-	xmlns:t = 'http://www.ilias.de/Modules/Poll/poll/4_3'>
+	targetNamespace = "http://www.ilias.de/Modules/Poll/poll/4_5"
+	xmlns:t = 'http://www.ilias.de/Modules/Poll/poll/4_5'>
 
 	<!-- t:Data type -->
 	<complexType name='Data' mixed='true'>
@@ -22,6 +22,9 @@
 			<element ref='t:Dir' minOccurs='1' maxOccurs='1'/>
             <element ref='t:ShowResultsAs' minOccurs='1' maxOccurs='1'/>
             <element ref='t:ShowComments' minOccurs='1' maxOccurs='1'/>
+            <element ref='t:MaxAnswers' minOccurs='1' maxOccurs='1'/>
+            <element ref='t:ResultSort' minOccurs='1' maxOccurs='1'/>
+            <element ref='t:NonAnon' minOccurs='1' maxOccurs='1'/>
 		</sequence>
 		</complexType>
 	</element>
@@ -35,6 +38,9 @@
 	<element name='Dir' type='t:Data' />
     <element name='ShowResultsAs' type='t:Data' />
     <element name='ShowComments' type='t:Data' />
+    <element name='MaxAnswers' type='t:Data' />
+    <element name='ResultSort' type='t:Data' />
+    <element name='NonAnon' type='t:Data' />
 
 	<!-- BlogAnswer -->
 	<element name='PollAnswer'>
