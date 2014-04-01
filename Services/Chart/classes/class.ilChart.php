@@ -98,8 +98,8 @@ abstract class ilChart
 	 */
 	public function setSize($a_x, $a_y)
 	{
-		$this->width = (int)$a_x;
-		$this->height = (int)$a_y;
+		$this->width = $a_x;
+		$this->height = $a_y;
 	}
 
 	/**
