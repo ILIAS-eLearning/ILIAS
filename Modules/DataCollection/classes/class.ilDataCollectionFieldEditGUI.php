@@ -284,6 +284,9 @@ class ilDataCollectionFieldEditGUI
 					else if ($property['inputformat'] == ilDataCollectionDatatype::INPUTFORMAT_NUMBER) {
                         $subitem = new ilNumberInputGUI($lng->txt('dcl_'.$property['title']), 'prop_'.$property['id']);
                         $subitem->setSize(5);
+                        if ($property['title'] == 'length') {
+                            $subitem->setMaxValue(4000);
+                        }
                         $opt->addSubItem($subitem);
                     } else {
                         $subitem = new ilTextInputGUI($lng->txt('dcl_'.$property['title']), 'prop_'.$property['id']);
