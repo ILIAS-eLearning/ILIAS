@@ -916,7 +916,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 			
 			$this->tpl->setCurrentBlock("material_row");
 			
-			$this->tpl->setVariable('TYPE_IMG',ilUtil::getImagePath('icon_'.$node['type'].'_s.png'));
+			$this->tpl->setVariable('TYPE_IMG', ilObject::_getIcon('', 'tiny', $node['type']));
 			$this->tpl->setVariable('IMG_ALT',$this->lng->txt('obj_'.$node['type']));
 			$this->tpl->setVariable("ROW_CLASS",ilUtil::switchColor($counter,'tblrow1','tblrow2'));
 			$this->tpl->setVariable("CHECK_COLL",ilUtil::formCheckbox(in_array($node['ref_id'],$items) ? 1 : 0,
