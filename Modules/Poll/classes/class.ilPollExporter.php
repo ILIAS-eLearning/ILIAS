@@ -36,7 +36,13 @@ class ilPollExporter extends ilXmlExporter
                         "xsd_file" => "ilias_poll_4_3.xsd",
                         "uses_dataset" => true,
                         "min" => "4.3.0",
-                        "max" => "")
+                        "max" => "4.4.99"),
+				"4.5.0" => array(
+					"namespace" => "http://www.ilias.de/Services/Modules/Poll/4_5",
+					"xsd_file" => "ilias_poll_4_5.xsd",
+					"uses_dataset" => true,
+					"min" => "4.5.0",
+					"max" => "")
         );
 	}
 	

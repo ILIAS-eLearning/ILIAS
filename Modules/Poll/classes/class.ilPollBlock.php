@@ -153,7 +153,26 @@ class ilPollBlock extends ilCustomBlock
 				$date = ilDatePresentation::formatDate(new ilDateTime($this->poll->getAccessBegin(), IL_CAL_UNIX));
 				return sprintf($lng->txt("poll_block_message_inactive"), $date);
 			}
-		}			
+		}
+	}
+
+	/**
+	 * Show Results as (Barchart or Piechart)
+	 * @return int
+	 *
+	 */
+	public function showResultsAs()
+	{
+		return $this->poll->getShowResultsAs();
+	}
+
+	/**
+	 * Are Comments enabled or disabled
+	 * @return bool
+	 */
+	public function showComments()
+	{
+		return $this->poll->getShowComments();
 	}
 }
 

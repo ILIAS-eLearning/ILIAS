@@ -183,46 +183,78 @@ class ilPollBlockGUI extends ilBlockGUI
 
 
 			// result		
-			if($this->poll_block->maySeeResults($ilUser->getId()))
-			{	
-				if(!$this->poll_block->mayNotResultsYet($ilUser->getId()))
-				{	
+			if ($this->poll_block->maySeeResults($ilUser->getId()))
+			{
+				if (!$this->poll_block->mayNotResultsYet($ilUser->getId()))
+				{
 					$answers = array();
-					foreach($a_poll->getAnswers() as $item)
+					foreach ($a_poll->getAnswers() as $item)
 					{
-						$answers[$item["id"]] = $item["answer"];						
+						$answers[$item["id"]] = $item["answer"];
 					}
-					
+
 					$perc = $this->poll_block->getPoll()->getVotePercentages();
 					$total = $perc["total"];
 					$perc = $perc["perc"];
 
 					$this->tpl->setVariable("TOTAL_ANSWERS", sprintf($lng->txt("poll_population"), $total));
-															
-					if($this->poll_block->getPoll()->getSortResultByVotes())
+
+					if ($this->poll_block->showResultsAs() == ilObjPoll::SHOW_RESULTS_AS_PIECHART)
 					{
-						$order = array_keys(ilUtil::sortArray($perc, "abs", "desc", true, true));						
-						
-						foreach(array_keys($answers) as $answer_id)
+
+						include_once("./Services/Chart/classes/class.ilChart.php");
+
+						$chart = ilChart::getInstanceByType(ilCHart::TYPE_PIE, "poll_results_pie_". $this->getRefId());
+						$chart->setSize(300, 300); // TODO: search a good size
+
+						$chart_data = $chart->getDataInstance();
+
+						foreach ($answers as $id => $label)
 						{
-							if(!in_array($answer_id, $order))
+
+							$percentage = 0.1;
+
+							if (isset($perc[$id]))
 							{
-								$order[] = $answer_id;
+								$percentage = $perc[$id]["perc"];
 							}
+
+							$chart_data->addPoint($percentage, nl2br($label));
 						}
+
+						$chart_data->setLabelRadius(0.8);
+						$chart->addData($chart_data);
+
+
+						$this->tpl->setVariable("PIE_CHART", $chart->getHTML());
 					}
 					else
 					{
-						$order = array_keys($answers);						
+						if ($this->poll_block->getPoll()->getSortResultByVotes())
+						{
+							$order = array_keys(ilUtil::sortArray($perc, "abs", "desc", true, true));
+
+							foreach (array_keys($answers) as $answer_id)
+							{
+								if (!in_array($answer_id, $order))
+								{
+									$order[] = $answer_id;
+								}
+							}
+						} else
+						{
+							$order = array_keys($answers);
+						}
+
+						$this->tpl->setCurrentBlock("answer_result");
+						foreach ($order as $answer_id)
+						{
+							$this->tpl->setVariable("TXT_ANSWER_RESULT", nl2br($answers[$answer_id]));
+							$this->tpl->setVariable("PERC_ANSWER_RESULT", round($perc[$answer_id]["perc"]));
+							$this->tpl->parseCurrentBlock();
+						}
 					}
 
-					$this->tpl->setCurrentBlock("answer_result");
-					foreach($order as $answer_id)
-					{			
-						$this->tpl->setVariable("TXT_ANSWER_RESULT", nl2br($answers[$answer_id]));
-						$this->tpl->setVariable("PERC_ANSWER_RESULT", round($perc[$answer_id]["perc"]));
-						$this->tpl->parseCurrentBlock();
-					}		
 				}
 				else 
 				{							
@@ -257,6 +289,13 @@ class ilPollBlockGUI extends ilBlockGUI
 		{
 			$this->tpl->setVariable("URL_IMAGE", $img);
 		}
+
+		if ($this->poll_block->showComments()) {
+			$this->tpl->setCurrentBlock("comment_link");
+			$this->tpl->setVariable("LANG_COMMENTS", $lng->txt('poll_comments'));
+			$this->tpl->setVariable("COMMENT_JSCALL", $this->commentJSCall());
+		}
+
 	}
 
 	/**
@@ -280,7 +319,7 @@ class ilPollBlockGUI extends ilBlockGUI
 		$this->setData(array($poll_obj));	
 		
 		$ilCtrl->setParameterByClass("ilobjpollgui",
-			"ref_id", $this->getRefId());	
+			"ref_id", $this->getRefId());
 				
 		if(!$this->poll_block->getMessage($ilUser->getId()))
 		{
@@ -334,6 +373,30 @@ class ilPollBlockGUI extends ilBlockGUI
 		
 		return parent::getHTML();
 	}
+
+	/**
+	 * Builds JavaScript Call to open CommentLayer via html link
+	 *
+	 * @return string jsCall
+	 */
+	private function commentJSCall()
+	{
+		include_once("./Services/Notes/classes/class.ilNoteGUI.php");
+		include_once("./Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
+
+		$refId = $this->getRefId();
+		$objectId = ilObject2::_lookupObjectId($refId);
+
+		$ajaxHash = ilCommonActionDispatcherGUI::buildAjaxHash(
+			ilCommonActionDispatcherGUI::TYPE_REPOSITORY, $refId, "poll", $objectId);
+
+
+		$comment = new ilNoteGUI();
+		$jsCall = $comment->getListCommentsJSCall($ajaxHash);
+
+		return $jsCall;
+	}
+
 }
 
 ?>

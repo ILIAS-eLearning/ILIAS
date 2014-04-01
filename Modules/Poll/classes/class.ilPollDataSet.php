@@ -23,7 +23,7 @@ class ilPollDataSet extends ilDataSet
 	 */
 	public function getSupportedVersions()
 	{
-		return array("4.3.0");
+		return array("4.3.0", "4.5.0");
 	}
 	
 	/**
@@ -53,6 +53,20 @@ class ilPollDataSet extends ilDataSet
 						"ViewResults" => "integer",
 						"Dir" => "directory"
 						);
+					break;
+				case "4.5.0":
+					return array(
+						"Id" => "integer",
+						"Title" => "text",
+						"Description" => "text",
+						"Question" => "text",
+						"Image" => "text",
+						"ViewResults" => "integer",
+						"Dir" => "directory",
+						"ShowResultsAs" => "integer",
+						"ShowComments" => "integer"
+					);
+				break;
 			}
 		}
 		
@@ -67,6 +81,15 @@ class ilPollDataSet extends ilDataSet
 						"Answer" => "text",
 						"Pos" => "integer",						
 					);
+					break;
+				case "4.3.0":
+					return array(
+						"Id" => "integer",
+						"PollId" => "integer",
+						"Answer" => "text",
+						"Pos" => "integer",
+					);
+					break;
 			}
 		}
 	}
@@ -84,7 +107,7 @@ class ilPollDataSet extends ilDataSet
 		if (!is_array($a_ids))
 		{
 			$a_ids = array($a_ids);
-		}
+        }
 		
 		if ($a_entity == "poll")
 		{
@@ -97,15 +120,29 @@ class ilPollDataSet extends ilDataSet
 						" JOIN object_data od ON (od.obj_id = pl.id)".
 						" WHERE ".$ilDB->in("pl.id", $a_ids, false, "integer").
 						" AND od.type = ".$ilDB->quote("poll", "text"));
-					break;				
+					break;
+				case "4.5.0":
+					$this->getDirectDataFromQuery("SELECT pl.id,od.title,od.description," .
+						"pl.question,pl.image,pl.view_results,pl.show_comments,pl.show_results_as" .
+						" FROM il_poll pl" .
+						" JOIN object_data od ON (od.obj_id = pl.id)" .
+						" WHERE " . $ilDB->in("pl.id", $a_ids, false, "integer") .
+						" AND od.type = " . $ilDB->quote("poll", "text"));
+					break;
+
 			}
 		}
-		
+
 		if ($a_entity == "poll_answer")
 		{
 			switch ($a_version)
 			{				
 				case "4.3.0":
+					$this->getDirectDataFromQuery("SELECT id,poll_id,answer,pos".
+						" FROM il_poll_answer WHERE ".
+						$ilDB->in("poll_id", $a_ids, false, "integer"));
+					break;
+				case "4.5.0":
 					$this->getDirectDataFromQuery("SELECT id,poll_id,answer,pos".
 						" FROM il_poll_answer WHERE ".
 						$ilDB->in("poll_id", $a_ids, false, "integer"));
@@ -162,6 +199,8 @@ class ilPollDataSet extends ilDataSet
 				$newObj = new ilObjPoll();
 				$newObj->setTitle($a_rec["Title"]);
 				$newObj->setDescription($a_rec["Description"]);
+				$newObj->setShowResultsAs($a_rec["ShowResultsAs"]);
+				$newObj->setShowComments($a_rec["ShowComments"]);
 				$newObj->create();
 								
 				$newObj->setQuestion($a_rec["Question"]);				

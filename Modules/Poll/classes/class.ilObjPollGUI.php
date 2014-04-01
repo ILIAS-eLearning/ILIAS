@@ -100,8 +100,8 @@ class ilObjPollGUI extends ilObject2GUI
 			$vdur->setEndText($this->lng->txt('poll_voting_period_end'));				
 			$prd->addSubItem($vdur);
 			
-		$a_form->addItem($prd);	
-						
+		$a_form->addItem($prd);
+
 		$results = new ilRadioGroupInputGUI($lng->txt("poll_view_results"), "results");
 		$results->setRequired(true);
 		$results->addOption(new ilRadioOption($lng->txt("poll_view_results_always"), 
@@ -118,7 +118,22 @@ class ilObjPollGUI extends ilObject2GUI
 		$sort->setRequired(true);
 		$sort->addOption(new ilRadioOption($lng->txt("poll_result_sorting_answers"), 0));
 		$sort->addOption(new ilRadioOption($lng->txt("poll_result_sorting_votes"), 1));
-		$a_form->addItem($sort);				
+		$a_form->addItem($sort);
+
+		$show_result_as = new ilRadioGroupInputGUI($lng->txt("poll_show_results_as"), "show_results_as");
+		$show_result_as->addOption(new ilRadioOption($lng->txt("poll_barchart"),
+			ilObjPoll::SHOW_RESULTS_AS_BARCHART));
+		$show_result_as->addOption(new ilRadioOption($lng->txt("poll_piechart"),
+			ilObjPoll::SHOW_RESULTS_AS_PIECHART));
+		$a_form->addItem($show_result_as);
+
+		$section = new ilFormSectionHeaderGUI();
+		$section->setTitle($this->lng->txt('poll_comments'));
+		$a_form->addItem($section);
+
+		$comment = new ilCheckboxInputGUI($this->lng->txt('poll_comments'), 'comment');
+		$comment->setInfo($this->lng->txt('poll_comments_info'));
+		$a_form->addItem($comment);
 	}
 
 	protected function getEditFormCustomValues(array &$a_values)
@@ -129,7 +144,9 @@ class ilObjPollGUI extends ilObject2GUI
 		$a_values["results"] = $this->object->getViewResults();
 		$a_values["access_type"] = ($this->object->getAccessType() == ilObjectActivation::TIMINGS_ACTIVATION);	
 		$a_values["period"] = $this->object->getVotingPeriod();		
-		$a_values["sort"] = $this->object->getSortResultByVotes();		
+		$a_values["sort"] = $this->object->getSortResultByVotes();
+		$a_values["comment"] = $this->object->getShowComments();
+		$a_values["show_results_as"] = $this->object->getShowResultsAs();
 	}
 
 	protected function updateCustom(ilPropertyFormGUI $a_form)
@@ -137,8 +154,10 @@ class ilObjPollGUI extends ilObject2GUI
 		$this->object->setViewResults($a_form->getInput("results"));
 		$this->object->setOnline($a_form->getInput("online"));
 		$this->object->setSortResultByVotes($a_form->getInput("sort"));
-						
-		include_once "Services/Object/classes/class.ilObjectActivation.php";	
+		$this->object->setShowComments($a_form->getInput("comment"));
+		$this->object->setShowResultsAs($a_form->getInput("show_results_as"));
+
+		include_once "Services/Object/classes/class.ilObjectActivation.php";
 		if($a_form->getInput("access_type"))
 		{
 			$this->object->setAccessType(ilObjectActivation::TIMINGS_ACTIVATION);

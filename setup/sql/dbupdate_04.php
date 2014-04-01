@@ -491,3 +491,24 @@ if( !$ilDB->uniqueConstraintExists('tst_sequence', array('active_fi', 'pass')) )
 		$ilDB->addIndex('cal_entries',array('context_id'),'i2');
 	}
 ?>
+<#4204>
+<?php
+if( !$ilDB->tableColumnExists('il_poll', 'show_results_as') )
+{
+    $ilDB->addTableColumn('il_poll', 'show_results_as', array(
+        'type' => 'integer',
+        'length' => 1,
+        'notnull' => true,
+        'default' => 0
+    ));
+}
+if( !$ilDB->tableColumnExists('il_poll', 'show_comments') )
+{
+    $ilDB->addTableColumn('il_poll', 'show_comments', array(
+        'type' => 'integer',
+        'length' => 1,
+        'notnull' => true,
+        'default' => 0
+    ));
+}
+?>

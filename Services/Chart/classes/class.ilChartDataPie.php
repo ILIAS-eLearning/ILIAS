@@ -12,7 +12,8 @@ include_once "Services/Chart/classes/class.ilChartData.php";
  */
 class ilChartDataPie extends ilChartData
 {
-	protected $line_width; // [int]	
+	protected $line_width; // [int]
+    protected $label_radius; //mixed
 	
 	protected function getTypeString()
 	{
@@ -38,6 +39,27 @@ class ilChartDataPie extends ilChartData
 	{
 		return $this->line_width;
 	}
+
+    /**
+     *
+     * Sets the radius at which to place the labels. If value is between 0 and 1 (inclusive) then
+     * it will use that as a percentage of the available space (size of the container), otherwise
+     * it will use the value as a direct pixel length.
+     *
+     * @param mixed $a_value
+     */
+    public function setLabelRadius($a_value)
+    {
+        $this->label_radius = $a_value;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLabelRadius()
+    {
+        return $this->label_radius;
+    }
 	
 	public function addPoint($a_value, $a_caption = null)
 	{		
@@ -47,7 +69,7 @@ class ilChartDataPie extends ilChartData
 	public function parseData(array &$a_data)
 	{
 		foreach($this->data as $slice)
-		{		
+		{
 			$series = new stdClass();
 			$series->label = str_replace("\"", "\\\"", $slice[1]);
 			$series->data = $slice[0];		
@@ -55,7 +77,7 @@ class ilChartDataPie extends ilChartData
 			$options = array("show"=>($this->isHidden() ? false : true));
 			
 			$series->{$this->getTypeString()} = $options;
-			
+
 			$a_data[] = $series;
 		}
 	}
@@ -81,6 +103,18 @@ class ilChartDataPie extends ilChartData
 				$a_options->series->pie->stroke->color = ilChart::renderColor($fill["color"], $fill["fill"]);
 			}
 		}
+
+		$radius = $this->getLabelRadius();
+		if ($radius) {
+			$a_options->series->pie->label = new stdClass;
+			$a_options->series->pie->label->background = new stdClass;
+			$a_options->series->pie->radius = 1;
+			$a_options->series->pie->label->radius = $radius;
+			$a_options->series->pie->label->show = true;
+			$a_options->series->pie->label->background->color = "#F4F4F4";
+			$a_options->series->pie->label->background->opacity = 0.8;
+		}
+
 
 	}
 }

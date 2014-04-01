@@ -31,11 +31,16 @@ class ilObjPoll extends ilObject2
 	protected $max_number_answers = 1; // [int]
 	protected $result_sort_by_votes = false; // [bool]
 	protected $mode_non_anonymous = false; // [bool]
+    protected $show_comments = false; //[bool]
+    protected $show_results_as = 1; //[int]
 	
 	const VIEW_RESULTS_ALWAYS = 1;
 	const VIEW_RESULTS_NEVER = 2;
 	const VIEW_RESULTS_AFTER_VOTE = 3;
-	const VIEW_RESULTS_AFTER_PERIOD = 4; 
+	const VIEW_RESULTS_AFTER_PERIOD = 4;
+
+	const SHOW_RESULTS_AS_BARCHART = 1;
+	const SHOW_RESULTS_AS_PIECHART = 2;
 	
 	function __construct($a_id = 0, $a_reference = true) 
 	{
@@ -193,6 +198,26 @@ class ilObjPoll extends ilObject2
 		return $this->mode_non_anonymous;
 	}
 
+	function setShowComments($a_value)
+	{
+	$this->show_comments = (bool)$a_value;
+	}
+
+	function getShowComments()
+	{
+		return $this->show_comments;
+	}
+
+	function setShowResultsAs($a_value)
+	{
+		$this->show_results_as = $a_value;
+	}
+
+	function getShowResultsAs()
+	{
+		return $this->show_results_as;
+	}
+
 	protected function doRead()
 	{
 		global $ilDB;
@@ -210,6 +235,8 @@ class ilObjPoll extends ilObject2
 		$this->setMaxNumberOfAnswers($row["max_answers"]);
 		$this->setSortResultByVotes($row["result_sort"]);
 		$this->setNonAnonymous($row["non_anon"]);
+		$this->setShowComments((bool)$row["show_comments"]);
+		$this->setShowResultsAs($row["show_results_as"]);
 		
 		if($this->ref_id)
 		{
@@ -234,6 +261,8 @@ class ilObjPoll extends ilObject2
 			"max_answers" => array("integer", $this->getMaxNumberOfAnswers()),
 			"result_sort" => array("integer", $this->getSortResultByVotes()),
 			"non_anon" => array("integer", $this->getNonAnonymous()),
+			"show_comments" => array("integer", (bool)$this->getShowComments()),
+			"show_results_as" => array("integer", $this->getShowResultsAs()),
 		);
 						
 		return $fields;
@@ -328,6 +357,8 @@ class ilObjPoll extends ilObject2
 			$new_obj->uploadImage($image, true);
 		}		
 		$new_obj->setViewResults($this->getViewResults());
+		$new_obj->setShowComments($this->getShowComments());
+		$new_obj->setShowResultsAs($this->getShowResultsAs());
 		$new_obj->update();
 		
 		// answers

@@ -116,8 +116,10 @@ class ilCommonActionDispatcherGUI
 			{
 				$dispatcher->setSubObject($sub_type, $sub_id);
 			}
-			
-			if($node_type == self::TYPE_REPOSITORY)
+
+            // poll comments have specific settings
+
+			if($node_type == self::TYPE_REPOSITORY && $obj_type != "poll")
 			{								
 				$dispatcher->enableCommentsSettings(true);	
 			}
