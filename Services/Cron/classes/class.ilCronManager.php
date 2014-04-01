@@ -112,7 +112,7 @@ class ilCronManager
 						" , alive_ts = ".$ilDB->quote(0, "integer").							
 						" WHERE job_id = ".$ilDB->quote($a_job_data["job_id"], "text"));
 
-					self::deactivateJob($job);
+					self::deactivateJob($a_job); // #13082
 
 					$result = new ilCronJobResult();
 					$result->setStatus(ilCronJobResult::STATUS_CRASHED);
