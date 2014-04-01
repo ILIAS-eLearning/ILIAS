@@ -114,18 +114,19 @@ class ilObjPollGUI extends ilObject2GUI
 			ilObjPoll::VIEW_RESULTS_AFTER_PERIOD));
 		$a_form->addItem($results);		
 		
+		$show_result_as = new ilRadioGroupInputGUI($lng->txt("poll_show_results_as"), "show_results_as");
+		$result_bar = new ilRadioOption($lng->txt("poll_barchart"),
+			ilObjPoll::SHOW_RESULTS_AS_BARCHART);
+		$show_result_as->addOption($result_bar);
+		$show_result_as->addOption(new ilRadioOption($lng->txt("poll_piechart"),
+			ilObjPoll::SHOW_RESULTS_AS_PIECHART));
+		$a_form->addItem($show_result_as);
+
 		$sort = new ilRadioGroupInputGUI($lng->txt("poll_result_sorting"), "sort");
 		$sort->setRequired(true);
 		$sort->addOption(new ilRadioOption($lng->txt("poll_result_sorting_answers"), 0));
 		$sort->addOption(new ilRadioOption($lng->txt("poll_result_sorting_votes"), 1));
-		$a_form->addItem($sort);
-
-		$show_result_as = new ilRadioGroupInputGUI($lng->txt("poll_show_results_as"), "show_results_as");
-		$show_result_as->addOption(new ilRadioOption($lng->txt("poll_barchart"),
-			ilObjPoll::SHOW_RESULTS_AS_BARCHART));
-		$show_result_as->addOption(new ilRadioOption($lng->txt("poll_piechart"),
-			ilObjPoll::SHOW_RESULTS_AS_PIECHART));
-		$a_form->addItem($show_result_as);
+		$result_bar->addSubItem($sort);
 
 		$section = new ilFormSectionHeaderGUI();
 		$section->setTitle($this->lng->txt('poll_comments'));
@@ -156,7 +157,7 @@ class ilObjPollGUI extends ilObject2GUI
 		$this->object->setSortResultByVotes($a_form->getInput("sort"));
 		$this->object->setShowComments($a_form->getInput("comment"));
 		$this->object->setShowResultsAs($a_form->getInput("show_results_as"));
-
+		
 		include_once "Services/Object/classes/class.ilObjectActivation.php";
 		if($a_form->getInput("access_type"))
 		{

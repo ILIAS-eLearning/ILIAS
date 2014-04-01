@@ -499,7 +499,7 @@ if( !$ilDB->tableColumnExists('il_poll', 'show_results_as') )
         'type' => 'integer',
         'length' => 1,
         'notnull' => true,
-        'default' => 0
+        'default' => 1
     ));
 }
 if( !$ilDB->tableColumnExists('il_poll', 'show_comments') )
