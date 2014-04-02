@@ -115,6 +115,7 @@ class ilObjPollGUI extends ilObject2GUI
 		$a_form->addItem($results);		
 		
 		$show_result_as = new ilRadioGroupInputGUI($lng->txt("poll_show_results_as"), "show_results_as");
+		$show_result_as->setRequired(true);
 		$result_bar = new ilRadioOption($lng->txt("poll_barchart"),
 			ilObjPoll::SHOW_RESULTS_AS_BARCHART);
 		$show_result_as->addOption($result_bar);
@@ -126,7 +127,7 @@ class ilObjPollGUI extends ilObject2GUI
 		$sort->setRequired(true);
 		$sort->addOption(new ilRadioOption($lng->txt("poll_result_sorting_answers"), 0));
 		$sort->addOption(new ilRadioOption($lng->txt("poll_result_sorting_votes"), 1));
-		$result_bar->addSubItem($sort);
+		$a_form->addItem($sort);
 
 		$section = new ilFormSectionHeaderGUI();
 		$section->setTitle($this->lng->txt('poll_comments'));

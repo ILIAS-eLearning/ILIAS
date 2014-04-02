@@ -36,6 +36,7 @@ class ilChartPie extends ilChart
 		if(!isset($a_options->series->pie->label))
 		{
 			$this->legend = new ilChartLegend();
+			$this->legend->setPosition("nw");
 		}
 	}
 }

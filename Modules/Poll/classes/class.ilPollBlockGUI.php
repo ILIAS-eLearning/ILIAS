@@ -198,7 +198,26 @@ class ilPollBlockGUI extends ilBlockGUI
 					$perc = $perc["perc"];
 
 					$this->tpl->setVariable("TOTAL_ANSWERS", sprintf($lng->txt("poll_population"), $total));
+					
+					// sort results by votes / original position
+					if ($this->poll_block->getPoll()->getSortResultByVotes())
+					{
+						$order = array_keys(ilUtil::sortArray($perc, "abs", "desc", true, true));
 
+						foreach (array_keys($answers) as $answer_id)
+						{
+							if (!in_array($answer_id, $order))
+							{
+								$order[] = $answer_id;
+							}
+						}
+					} 
+					else
+					{
+						$order = array_keys($answers);
+					}
+
+					// pie chart
 					if ($this->poll_block->showResultsAs() == ilObjPoll::SHOW_RESULTS_AS_PIECHART)
 					{
 
@@ -209,40 +228,24 @@ class ilPollBlockGUI extends ilBlockGUI
 
 						$chart_data = $chart->getDataInstance();
 
-						foreach ($answers as $id => $label)
-						{
-							$percentage = 0;
-							if (isset($perc[$id]))
-							{
-								$percentage = $perc[$id]["perc"];
-							}
-
-							$chart_data->addPoint($percentage, nl2br($label));
+						foreach ($order as $answer_id)
+						{							
+							$chart_data->addPoint(
+								round($perc[$answer_id]["perc"]), 
+								nl2br($answers[$answer_id])
+							);
 						}
 
+						// disable legend, use inner labels - currently not preferred
 						// $chart_data->setLabelRadius(0.8);
+						
 						$chart->addData($chart_data);
 
 						$this->tpl->setVariable("PIE_CHART", $chart->getHTML());
 					}
+					// bar chart
 					else
-					{
-						if ($this->poll_block->getPoll()->getSortResultByVotes())
-						{
-							$order = array_keys(ilUtil::sortArray($perc, "abs", "desc", true, true));
-
-							foreach (array_keys($answers) as $answer_id)
-							{
-								if (!in_array($answer_id, $order))
-								{
-									$order[] = $answer_id;
-								}
-							}
-						} else
-						{
-							$order = array_keys($answers);
-						}
-
+					{						
 						$this->tpl->setCurrentBlock("answer_result");
 						foreach ($order as $answer_id)
 						{
@@ -251,7 +254,6 @@ class ilPollBlockGUI extends ilBlockGUI
 							$this->tpl->parseCurrentBlock();
 						}
 					}
-
 				}
 				else 
 				{							
