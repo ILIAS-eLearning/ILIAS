@@ -19,6 +19,7 @@ abstract class ilChart
 	protected $legend; // [ilChartLegend]
 	protected $shadow; // [int]
 	protected $colors; // [array]
+	protected $auto_resize; // [bool]
 
 	const TYPE_GRID = 1;
 	const TYPE_PIE = 2;
@@ -223,6 +224,16 @@ abstract class ilChart
 	}
 	
 	/**
+	 * Toggle auto-resizing on window resize/redraw
+	 * 
+	 * @param bool $a_value
+	 */
+	public function setAutoResize($a_value)
+	{
+		$this->auto_resize = (bool)$a_value;
+	}
+	
+	/**
 	 * Init JS script files
 	 */
 	protected function initJS()
@@ -234,6 +245,12 @@ abstract class ilChart
 		
 		$tpl->addJavascript("Services/Chart/js/flot/excanvas.min.js");
 		$tpl->addJavascript("Services/Chart/js/flot/jquery.flot.min.js");
+		
+		if((bool)$this->auto_resize)
+		{
+			// #13108
+			$tpl->addJavascript("Services/Chart/js/flot/jquery.flot.resize.min.js");
+		}
 		
 		$this->addCustomJS();
 	}

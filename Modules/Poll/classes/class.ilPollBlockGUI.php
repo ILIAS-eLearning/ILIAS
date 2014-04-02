@@ -224,7 +224,8 @@ class ilPollBlockGUI extends ilBlockGUI
 						include_once("./Services/Chart/classes/class.ilChart.php");
 
 						$chart = ilChart::getInstanceByType(ilCHart::TYPE_PIE, "poll_results_pie_". $this->getRefId());
-						$chart->setSize("100%", 200); // TODO: make chart being redrawn, if window is resized
+						$chart->setSize("100%", 200); 
+						$chart->setAutoResize(true);
 
 						$chart_data = $chart->getDataInstance();
 
