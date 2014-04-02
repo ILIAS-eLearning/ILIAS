@@ -284,6 +284,7 @@ public class CommandController {
 			LuceneSettings.writeLastIndexTime();
 			
 			// Refresh index reader
+			SearchHolder.getInstance().getSearcher().getIndexReader().close();
 			SearchHolder.getInstance().init();
 			
 			// Set object ids finished
@@ -315,9 +316,16 @@ public class CommandController {
 			logger.info("Closing writer");
 			holder.getWriter().close();
 			logger.info("Writer closed");
-
+			
+			// reopen index reader
+			logger.info("Reopening index reader...");
+			SearchHolder.getInstance().getSearcher().getIndexReader().close();
+			SearchHolder.getInstance().init();
 			LuceneSettings.getInstance().refresh();
 		} 
+		catch (ConfigurationException e) {
+			logger.error("Cannot close index reader/writer: " + e);
+		}
 		catch (CorruptIndexException e) {
 			logger.fatal("Index Corrupted. Aborting!" + e);
 		} 

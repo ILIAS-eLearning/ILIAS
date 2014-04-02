@@ -80,10 +80,9 @@ public class ExtensionFileHandler {
 				
 				// Do not index xslx
 				if(extension.equalsIgnoreCase("xlsx")) {
-	                logger.info("Ignoring xslx: " + file.getName());
+					logger.info("Ignoring xslx: " + file.getName());
 					return "";
 				}
-	            
 	            // Handled extensions are: html,pdf,txt
 	            if(extension.equalsIgnoreCase("pdf")) {
 	                logger.info("Using getPDFDocument() for " + file.getName());
@@ -186,7 +185,7 @@ public class ExtensionFileHandler {
     		else {
     			logger.warn("No content found for" + file.getName());
     		}
-    		logger.debug("Parsed content is: " + content.toString());
+    		//logger.debug("Parsed content is: " + content.toString());
     		return content.toString();
     	}
     	catch (InvalidFormatException e) {
