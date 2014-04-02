@@ -807,7 +807,7 @@ echo "<br>+".$client_id;
 
 		// latex
 		$ne = new ilNonEditableValueGUI($lng->txt("url_to_latex"), "latex_url");
-		$p = $this->setup->ini->readVariable("tools", "latex_url");
+		$p = $this->setup->ini->readVariable("tools", "latex"); // #13109
 		$ne->setValue($p ? $p : $this->lng->txt("not_configured"));
 		$this->form->addItem($ne);
 		
