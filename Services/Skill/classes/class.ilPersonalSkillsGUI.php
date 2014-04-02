@@ -1243,7 +1243,22 @@ $bs["tref"] = $bs["tref_id"];
 		{
 			$a_user_id = $ilUser->getId();
 		}
-		
+
+		$got_mat = false;
+		foreach ($a_levels as $v)
+		{
+			$mat_cnt = ilPersonalSkill::countAssignedMaterial($a_user_id,
+				$a_tref_id, $v["id"]);
+			if ($mat_cnt > 0)
+			{
+				$got_mat = true;
+			}
+		}
+		if (!$got_mat)
+		{
+			return;
+		}
+
 		foreach ($a_levels as $k => $v)
 		{
 			$mat_cnt = ilPersonalSkill::countAssignedMaterial($a_user_id,
