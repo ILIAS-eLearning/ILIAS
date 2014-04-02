@@ -362,7 +362,8 @@ class assFormulaQuestionGUI extends assQuestionGUI
 
 		if(count($variables))
 		{
-			foreach($variables as $variable)
+			ksort($variables, SORT_NUMERIC);
+			foreach($variables as $key => $variable)
 			{
 				/**
 				 * @var $variable assFormulaQuestionVariable
@@ -413,7 +414,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
 		if(count($results))
 		{
 			require_once 'Services/Form/classes/class.ilMultiSelectInputGUI.php';
-
+			ksort($results, SORT_NUMERIC);
 			foreach($results as $result)
 			{
 				/**
