@@ -3769,6 +3769,14 @@ div.ilSkillSuggRes {
     margin-left: 50px;
 }
 
+th.ilSkillEntryHead {
+	width:250px;
+}
+
+td.ilSkill {
+	vertical-align: middle;
+}
+
 /* Top-Bar */
 div.ilTopBar {
   background-color: #444;
