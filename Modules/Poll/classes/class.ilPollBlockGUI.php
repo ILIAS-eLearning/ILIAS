@@ -211,9 +211,7 @@ class ilPollBlockGUI extends ilBlockGUI
 
 						foreach ($answers as $id => $label)
 						{
-
-							$percentage = 0.1;
-
+							$percentage = 0;
 							if (isset($perc[$id]))
 							{
 								$percentage = $perc[$id]["perc"];
@@ -222,9 +220,8 @@ class ilPollBlockGUI extends ilBlockGUI
 							$chart_data->addPoint($percentage, nl2br($label));
 						}
 
-						$chart_data->setLabelRadius(0.8);
+						// $chart_data->setLabelRadius(0.8);
 						$chart->addData($chart_data);
-
 
 						$this->tpl->setVariable("PIE_CHART", $chart->getHTML());
 					}

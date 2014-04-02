@@ -29,5 +29,14 @@ class ilChartPie extends ilChart
 		
 		$tpl->addJavascript("Services/Chart/js/flot/jquery.flot.pie.js");
 	}		
+	
+	public function parseGlobalOptions(stdClass $a_options)
+	{
+		// if no inner labels set, use legend
+		if(!isset($a_options->series->pie->label))
+		{
+			$this->legend = new ilChartLegend();
+		}
+	}
 }
 

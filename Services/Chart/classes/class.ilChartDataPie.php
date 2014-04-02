@@ -72,6 +72,13 @@ class ilChartDataPie extends ilChartData
 		{
 			$series = new stdClass();
 			$series->label = str_replace("\"", "\\\"", $slice[1]);
+			
+			// add percentage to legend
+			if(!$this->getLabelRadius())
+			{
+				$series->label .= " (".$slice[0]."%)";
+			}
+			
 			$series->data = $slice[0];		
 
 			$options = array("show"=>($this->isHidden() ? false : true));
@@ -105,17 +112,16 @@ class ilChartDataPie extends ilChartData
 		}
 
 		$radius = $this->getLabelRadius();
-		if ($radius) {
+		if ($radius) 
+		{
 			$a_options->series->pie->label = new stdClass;
 			$a_options->series->pie->label->background = new stdClass;
 			$a_options->series->pie->radius = 1;
 			$a_options->series->pie->label->radius = $radius;
 			$a_options->series->pie->label->show = true;
-			$a_options->series->pie->label->background->color = "#F4F4F4";
+			$a_options->series->pie->label->background->color = "#444";
 			$a_options->series->pie->label->background->opacity = 0.8;
-		}
-
-
+		}		
 	}
 }
 
