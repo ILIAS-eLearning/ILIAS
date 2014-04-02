@@ -1081,34 +1081,8 @@ class ilObjTestGUI extends ilObjectGUI
 
 	function confirmScoringObject($confirmCmd = 'saveScoring', $cancelCmd = 'scoring')
 	{
-		// display confirmation message
-		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
-		$cgui = new ilConfirmationGUI();
-		$cgui->setFormAction($this->ctrl->getFormAction($this));
-		$cgui->setHeaderText($this->lng->txt('tst_trigger_result_refreshing'));
-		$cgui->setCancel($this->lng->txt("cancel"), "scoring");
-		$cgui->setConfirm($this->lng->txt("confirm"), "saveScoring");
+		$this->lng->txt('tst_trigger_result_refreshing');
 
-		foreach ($_POST as $key => $value)
-		{
-			if (strcmp($key, "cmd") == 0)
-			{
-				continue;
-			}
-			if (strcmp($key, 'reporting_date') == 0)
-			{
-				$timestamp = strtotime($value['date']['d'] . '.' . $value['date']['m'] . '.' . $value['date']['y'] . ' ' .
-				$value['time']['h'] . ':' . $value['time']['m']); 
-				$cgui->addHiddenItem('reporting_ts', $timestamp );
-				continue;
-			}
-			$cgui->addHiddenItem($key, $value);
-		}
-
-		/*
-		 * 
-		 * this->lng->txt('tst_trigger_result_refreshing')
-		
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_properties_save_confirmation.html", "Modules/Test");
 		$information = $this->lng->txt('tst_trigger_result_refreshing');
 
@@ -1133,8 +1107,6 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("BTN_CONFIRM", $this->lng->txt("confirm"));
 		$this->tpl->setVariable("CMD_CANCEL", $cancelCmd);
 		$this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
-		*/
-		$this->tpl->setContent($cgui->getHTML());
 	}
 
 	/**
