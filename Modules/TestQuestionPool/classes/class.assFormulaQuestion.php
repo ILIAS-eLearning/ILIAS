@@ -372,15 +372,24 @@ class assFormulaQuestion extends assQuestion
 				$checkSign = "";
 				if($graphicalOutput)
 				{
-					$resunit = null;
-					if($userdata[$result]["unit"] > 0)
+					$resunit    = null;
+					$user_value = '';
+					if(is_array($userdata) && is_array($userdata[$result]))
 					{
-						$resunit = $this->getUnitrepository()->getUnit($userdata[$result]["unit"]);
+						if($userdata[$result]["unit"] > 0)
+						{
+							$resunit = $this->getUnitrepository()->getUnit($userdata[$result]["unit"]);
+						}
+
+						if($userdata[$result]["value"])
+						{
+							$user_value = $userdata[$result]["value"];
+						}
 					}
 
 					$template = new ilTemplate("tpl.il_as_qpl_formulaquestion_output_solution_image.html", true, true, 'Modules/TestQuestionPool');
 
-					if($resObj->isCorrect($this->getVariables(), $this->getResults(), $userdata[$result]["value"], $resunit))
+					if($resObj->isCorrect($this->getVariables(), $this->getResults(), $user_value, $resunit))
 					{
 						$template->setCurrentBlock("icon_ok");
 						$template->setVariable("ICON_OK", ilUtil::getImagePath("icon_ok.png"));
