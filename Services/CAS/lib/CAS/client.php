@@ -548,7 +548,8 @@ class CASClient
 		//if ( isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) ) {
 		//0.4.24 by Hinnack
 		if ( isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') {
-			return false;
+			# mantis: 0013115: CAS not work on HTTPS
+			return true;
 		} else {
 			return false;
 		}
