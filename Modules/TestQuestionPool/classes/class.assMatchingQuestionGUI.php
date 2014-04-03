@@ -763,9 +763,8 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 				break;
 		}
 
-		for ($i = 0; $i < count($definitions); $i++)
+		foreach ($definitions as $key => $definition)
 		{
-			$definition = $definitions[$i];
 			if (is_object($definition))
 			{
 				if (strlen($definition->picture))
@@ -777,7 +776,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 					$template->setVariable('URL_PREVIEW', $this->object->getImagePathWeb() . $definition->picture);
 					$template->setVariable("TEXT_PREVIEW", $this->lng->txt('preview'));
 					$template->setVariable("IMG_PREVIEW", ilUtil::getImagePath('enlarge.png'));
-					$template->setVariable("TEXT_DEFINITION", (strlen($definition->text)) ? $this->lng->txt('definition') . ' ' . ($i+1) . ': ' . $this->object->prepareTextareaOutput($definition->text, TRUE) : $this->lng->txt('definition') . ' ' . ($i+1));
+					$template->setVariable("TEXT_DEFINITION", (strlen($definition->text)) ? $this->lng->txt('definition') . ' ' . ($key+1) . ': ' . $this->object->prepareTextareaOutput($definition->text, TRUE) : $this->lng->txt('definition') . ' ' . ($key+1));
 					$template->parseCurrentBlock();
 				}
 				else
@@ -792,14 +791,12 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			$template->setVariable("VALUE_OPTION", 0);
 			$template->setVariable("TEXT_OPTION", ilUtil::prepareFormOutput($this->lng->txt('please_select')));
 			$template->parseCurrentBlock();
-			$j = 1;
-			foreach ($terms as $term)
+			foreach ($terms as $key => $term)
 			{
 				$template->setCurrentBlock('option');
 				$template->setVariable("VALUE_OPTION", $term->identifier);
-				$template->setVariable("TEXT_OPTION", (strlen($term->text)) ? $this->lng->txt('term') . ' ' . ($j) . ': ' . ilUtil::prepareFormOutput($term->text) : $this->lng->txt('term') . ' ' . ($j));
+				$template->setVariable("TEXT_OPTION", (strlen($term->text)) ? $this->lng->txt('term') . ' ' . ($key +1) . ': ' . ilUtil::prepareFormOutput($term->text) : $this->lng->txt('term') . ' ' . ($key+1));
 				$template->parseCurrentBlock();
-				$j++;
 			}
 			
 			$template->setCurrentBlock('row');
@@ -813,8 +810,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			$template->parseCurrentBlock();
 		}
 
-		$i = 0;
-		foreach ($terms as $term)
+		foreach ($terms as $key => $term)
 		{
 			if (strlen($term->picture))
 			{
@@ -824,7 +820,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 				$template->setVariable('ANSWER_IMAGE_TITLE', (strlen($term->text)) ? ilUtil::prepareFormOutput($term->text) : ilUtil::prepareFormOutput($term->picture));
 				$template->setVariable('URL_PREVIEW', $this->object->getImagePathWeb() . $term->picture);
 				$template->setVariable("TEXT_PREVIEW", $this->lng->txt('preview'));
-				$template->setVariable("TEXT_TERM", (strlen($term->text)) ? $this->lng->txt('term') . ' ' . ($i+1) . ': ' . $this->object->prepareTextareaOutput($term->text, TRUE) : $this->lng->txt('term') . ' ' . ($i+1));
+				$template->setVariable("TEXT_TERM", (strlen($term->text)) ? $this->lng->txt('term') . ' ' . ($key+1) . ': ' . $this->object->prepareTextareaOutput($term->text, TRUE) : $this->lng->txt('term') . ' ' . ($key+1));
 				$template->setVariable("IMG_PREVIEW", ilUtil::getImagePath('enlarge.png'));
 				$template->parseCurrentBlock();
 			}
@@ -835,7 +831,6 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 				$template->parseCurrentBlock();
 			}
 			$template->touchBlock('terms');
-			$i++;
 		}
 
 		$questiontext = $this->object->getQuestion();
@@ -1096,9 +1091,8 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 				break;
 		}
 		$maxcount = max(count($terms), count($definitions));
-		for ($i = 0; $i < count($definitions); $i++)
+		foreach ($definitions as $key => $definition)
 		{
-			$definition = $definitions[$i];
 			if (is_object($definition))
 			{
 				if (strlen($definition->picture))
@@ -1110,7 +1104,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 					$template->setVariable('URL_PREVIEW', $this->object->getImagePathWeb() . $definition->picture);
 					$template->setVariable("TEXT_PREVIEW", $this->lng->txt('preview'));
 					$template->setVariable("IMG_PREVIEW", ilUtil::getImagePath('enlarge.png'));
-					$template->setVariable("TEXT_DEFINITION", (strlen($definition->text)) ? $this->lng->txt('definition') . ' ' . ($i+1) . ': ' . ilUtil::prepareFormOutput($definition->text) : $this->lng->txt('definition') . ' ' . ($i+1));
+					$template->setVariable("TEXT_DEFINITION", (strlen($definition->text)) ? $this->lng->txt('definition') . ' ' . ($key+1) . ': ' . ilUtil::prepareFormOutput($definition->text) : $this->lng->txt('definition') . ' ' . ($key+1));
 					$template->parseCurrentBlock();
 				}
 				else
@@ -1125,12 +1119,11 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			$template->setVariable("VALUE_OPTION", 0);
 			$template->setVariable("TEXT_OPTION", ilUtil::prepareFormOutput($this->lng->txt('please_select')));
 			$template->parseCurrentBlock();
-			$j = 1;
-			foreach ($terms as $term)
+			foreach ($terms as $key => $term)
 			{
 				$template->setCurrentBlock('option');
 				$template->setVariable("VALUE_OPTION", $term->identifier);
-				$template->setVariable("TEXT_OPTION", (strlen($term->text)) ? $this->lng->txt('term') . ' ' . ($j) . ': ' . ilUtil::prepareFormOutput($term->text) : $this->lng->txt('term') . ' ' . ($j));
+				$template->setVariable("TEXT_OPTION", (strlen($term->text)) ? $this->lng->txt('term') . ' ' . ($key+1) . ': ' . ilUtil::prepareFormOutput($term->text) : $this->lng->txt('term') . ' ' . ($key +1));
 				foreach ($solutions as $solution)
 				{
 					if ($solution["value1"] == $term->identifier && $solution["value2"] == $definition->identifier)
@@ -1139,7 +1132,6 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 					}
 				}
 				$template->parseCurrentBlock();
-				$j++;
 			}
 			
 			$template->setCurrentBlock('row');
@@ -1152,9 +1144,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			$template->setVariable("DEFINITION_ID", $definition->identifier);
 			$template->parseCurrentBlock();
 		}
-
-		$i = 0;
-		foreach ($terms as $term)
+		foreach ($terms as $key=>$term)
 		{
 			if (strlen($term->picture))
 			{
@@ -1164,7 +1154,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 				$template->setVariable('ANSWER_IMAGE_TITLE', (strlen($term->text)) ? ilUtil::prepareFormOutput($term->text) : ilUtil::prepareFormOutput($term->picture));
 				$template->setVariable('URL_PREVIEW', $this->object->getImagePathWeb() . $term->picture);
 				$template->setVariable("TEXT_PREVIEW", $this->lng->txt('preview'));
-				$template->setVariable("TEXT_TERM", (strlen($term->text)) ? $this->lng->txt('term') . ' ' . ($i+1) . ': ' . ilUtil::prepareFormOutput($term->text) : $this->lng->txt('term') . ' ' . ($i+1));
+				$template->setVariable("TEXT_TERM", (strlen($term->text)) ? $this->lng->txt('term') . ' ' . ($key+1) . ': ' . ilUtil::prepareFormOutput($term->text) : $this->lng->txt('term') . ' ' . ($key+1));
 				$template->setVariable("IMG_PREVIEW", ilUtil::getImagePath('enlarge.png'));
 				$template->parseCurrentBlock();
 			}
@@ -1175,7 +1165,6 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 				$template->parseCurrentBlock();
 			}
 			$template->touchBlock('terms');
-			$i++;
 		}
 
 		$questiontext = $this->object->getQuestion();
