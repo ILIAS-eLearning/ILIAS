@@ -380,8 +380,11 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		if ($_FILES["xmldoc"]["error"] > UPLOAD_ERR_OK)
 		{
 			ilUtil::sendFailure($this->lng->txt("error_upload"), true);
-			$this->ctrl->redirect($this, 'create');
-			return;
+			if(!$questions_only)
+			{
+				$this->ctrl->redirect($this, 'create');
+			}
+			return false;
 		}
 		// create import directory
 		include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
@@ -424,8 +427,11 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			ilUtil::delDir($basedir);
 
 			ilUtil::sendFailure($this->lng->txt("qpl_import_no_items"), true);
-			$this->ctrl->redirect($this, 'create');
-			return;
+			if(!$questions_only)
+			{
+				$this->ctrl->redirect($this, 'create');
+			}
+			return false;
 		}
 		
 		$complete = 0;
@@ -448,8 +454,11 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			ilUtil::delDir($basedir);
 
 			ilUtil::sendFailure($this->lng->txt("qpl_import_non_ilias_files"), true);
-			$this->ctrl->redirect($this, 'create');
-			return;
+			if(!$questions_only)
+			{
+				$this->ctrl->redirect($this, 'create');
+			}
+			return false;
 		}
 		
 		$_SESSION["qpl_import_xml_file"] = $xml_file;
@@ -562,6 +571,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$this->tpl->setVariable("VALUE_QUESTIONS_ONLY", $value_questions_only);
 
 		$this->tpl->parseCurrentBlock();
+		
+		return true;
 	}
 	
 	/**
@@ -651,21 +662,54 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	*/
 	function uploadObject()
 	{
-		$this->uploadQplObject(true);
+		$upload_valid = true;
+		$form = $this->getImportQuestionsForm();
+		if($form->checkInput())
+		{
+			if(!$this->uploadQplObject(true))
+			{
+				$form->setValuesByPost();
+				$this->importQuestionsObject($form);
+			}
+		}
+		else
+		{
+			$form->setValuesByPost();
+			$this->importQuestionsObject($form);
+		}
 	}
 	
 	/**
 	* display the import form to import questions into the questionpool
 	*/
-		function importQuestionsObject()
+	public function importQuestionsObject(ilPropertyFormGUI $form = null)
 	{
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_import_question.html", "Modules/TestQuestionPool");
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("TEXT_IMPORT_QUESTION", $this->lng->txt("import_question"));
-		$this->tpl->setVariable("TEXT_SELECT_FILE", $this->lng->txt("select_file"));
-		$this->tpl->setVariable("TEXT_UPLOAD", $this->lng->txt("upload"));
-		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->parseCurrentBlock();
+		if(!$form instanceof ilPropertyFormGUI)
+		{
+			$form = $this->getImportQuestionsForm();
+		}
+		
+		$this->tpl->setContent($form->getHtml());
+	}
+
+	/**
+	 * @return ilPropertyFormGUI
+	 */
+	protected function getImportQuestionsForm()
+	{
+		require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
+		$form = new ilPropertyFormGUI();
+		$form->setTitle($this->lng->txt('import_question'));
+		$form->setFormAction($this->ctrl->getFormAction($this, 'upload'));
+		
+		$file = new ilFileInputGUI($this->lng->txt('select_file'), 'xmldoc');
+		$file->setRequired(true);
+		$form->addItem($file);
+
+		$form->addCommandButton('upload', $this->lng->txt('upload'));
+		$form->addCommandButton('questions', $this->lng->txt('cancel'));
+		
+		return $form;
 	}
 
 	/**
