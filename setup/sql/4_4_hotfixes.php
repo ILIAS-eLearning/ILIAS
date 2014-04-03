@@ -359,4 +359,19 @@ if( !$ilDB->uniqueConstraintExists('tst_sequence', array('active_fi', 'pass')) )
 		$ilDB->addIndex('cal_entries',array('context_id'),'i2');
 	}
 ?>
+<#14>
+<?php
+
+	$ilDB->modifyTableColumn(
+			'usr_data', 
+			'ext_account',
+			array(
+				"type" => "text", 
+				"length" => 250, 
+				"notnull" => false,
+				'fixed' => false
+			)
+		);
+?>
+
 	
