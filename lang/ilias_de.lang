@@ -11947,7 +11947,7 @@ wiki#:#wiki_change_notification_page_body_delete#:#die folgende Wiki-Seite wurde
 wiki#:#wiki_change_notification_page_body_update#:#die folgende Wiki-Seite wurde editiert
 wiki#:#wiki_change_notification_page_link#:#URL
 wiki#:#wiki_change_notification_salutation#:#Hallo %s,
-wiki#:#wiki_change_notification_subject#:#Wiki "%s" wurde editiert
+wiki#:#wiki_change_notification_subject#:#Wiki "%1$s" wurde editiert: %2$s
 wiki#:#wiki_changed_by#:#Geändert von
 wiki#:#wiki_contributor#:#Mitwirkende/r
 wiki#:#wiki_contributors#:#Mitwirkende
