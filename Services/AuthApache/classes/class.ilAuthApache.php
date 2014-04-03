@@ -57,9 +57,6 @@ class ilAuthApache extends Auth
 		global $lng;
 		
 		parent::__construct($a_container,$a_addition_options,'',false);
-		// kb-patch: begin
-		$_SESSION = array();
-		// kb-patch: end
 		$this->setSessionName("_authhttp".md5(CLIENT_ID));
 
 		$this->apache_settings = new ilSetting('apache_auth');
