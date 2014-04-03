@@ -374,4 +374,19 @@ if( !$ilDB->uniqueConstraintExists('tst_sequence', array('active_fi', 'pass')) )
 		);
 ?>
 
+<#15>
+<?php
+
+	$ilDB->modifyTableColumn(
+			'usr_session', 
+			'session_id',
+			array(
+				"type" => "text", 
+				"length" => 250, 
+				"notnull" => true,
+				'fixed' => false
+			)
+		);
+?>
+
 	
