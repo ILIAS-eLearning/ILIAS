@@ -512,3 +512,18 @@ if( !$ilDB->tableColumnExists('il_poll', 'show_comments') )
     ));
 }
 ?>
+<#4205>
+<?php
+
+	$ilDB->modifyTableColumn(
+			'usr_data', 
+			'ext_account',
+			array(
+				"type" => "text", 
+				"length" => 250, 
+				"notnull" => false,
+				'fixed' => false
+			)
+		);
+?>
+
