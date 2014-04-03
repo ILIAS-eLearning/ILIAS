@@ -1123,7 +1123,7 @@ class ilObjQuestionPool extends ilObject
 				else
 				{
 					$new_question_id = $this->copyQuestion($question_object["question_id"], $this->getId());
-					if($new_question_id)
+					if(!$new_question_id)
 					{
 						$success = false;
 					}
