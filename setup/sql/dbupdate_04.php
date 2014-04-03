@@ -526,4 +526,19 @@ if( !$ilDB->tableColumnExists('il_poll', 'show_comments') )
 			)
 		);
 ?>
+<#4206>
+
+<?php
+
+	$ilDB->modifyTableColumn(
+			'usr_session', 
+			'session_id',
+			array(
+				"type" => "text", 
+				"length" => 250, 
+				"notnull" => true,
+				'fixed' => false
+			)
+		);
+?>
 
