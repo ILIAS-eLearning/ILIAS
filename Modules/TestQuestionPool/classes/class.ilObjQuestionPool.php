@@ -1078,8 +1078,10 @@ class ilObjQuestionPool extends ilObject
 	{
 		global $ilDB;
 
+		$success = false;
 		if (array_key_exists("qpl_clipboard", $_SESSION))
 		{
+			$success = true;
 			foreach ($_SESSION["qpl_clipboard"] as $question_object)
 			{
 				if (strcmp($question_object["action"], "move") == 0)
@@ -1097,6 +1099,10 @@ class ilObjQuestionPool extends ilObject
 							array('integer','integer'),
 							array($this->getId(), $question_object["question_id"])
 						);
+						if(!$affectedRows)
+						{
+							$success = false;
+						}
 						
 						// move question data to the new target directory
 						$source_path = CLIENT_WEB_DIR . "/assessment/" . $source_questionpool . "/" . $question_object["question_id"] . "/";
@@ -1116,13 +1122,19 @@ class ilObjQuestionPool extends ilObject
 				}
 				else
 				{
-					$this->copyQuestion($question_object["question_id"], $this->getId());
+					$new_question_id = $this->copyQuestion($question_object["question_id"], $this->getId());
+					if($new_question_id)
+					{
+						$success = false;
+					}
 				}
 			}
 		}
 		// update question count of question pool
 		ilObjQuestionPool::_updateQuestionCount($this->getId());
 		unset($_SESSION["qpl_clipboard"]);
+		
+		return (bool)$success;
 	}
 	
 	/**

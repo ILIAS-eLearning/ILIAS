@@ -1094,8 +1094,14 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	{
 		if (array_key_exists("qpl_clipboard", $_SESSION))
 		{
-			$this->object->pasteFromClipboard();
-			ilUtil::sendSuccess($this->lng->txt("qpl_paste_success"), true);
+			if($this->object->pasteFromClipboard())
+			{
+				ilUtil::sendSuccess($this->lng->txt("qpl_paste_success"), true);
+			}
+			else
+			{
+				ilUtil::sendFailure($this->lng->txt("qpl_paste_error"), true);
+			}
 		}
 		else
 		{
