@@ -164,6 +164,9 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 						
 						$this->object->setGapShuffle( $idx, 0 );
 
+						$gap = $this->object->getGap($idx);
+						if (!$gap) break;
+						
 						$this->object->getGap($idx)->clearItems();
 
 						if (array_key_exists( 'gap_' . $idx . '_numeric', $_POST ))
