@@ -351,9 +351,10 @@ class ilObjBibliographic extends ilObject2 {
 			}
 
 			// formating the author to the following type of string
-			// Smith, John / Comte, Gabriel / von Gunten Jr,Thomas
+			// Smith, John / Comte, Gabriel / von Gunten Jr, Thomas
 			foreach ($entry as $attr_key => $attribute) {
 				if ($attr_key == 'author' && is_array($attribute)) {
+					$attribute_string = array();
 					foreach ($attribute as $key => $author) {
 						$lastname = array($author['von'], $author['last'], $author['jr']);
 						$attribute_string[$key] = implode(' ', array_filter($lastname)) . ', ' . $author['first'];
