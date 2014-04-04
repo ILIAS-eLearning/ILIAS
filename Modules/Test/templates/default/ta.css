@@ -452,3 +452,8 @@ div.ilTestOutputBlock_DynTestFinished
 	background-color: #FAFAFA;
 	padding: 100px;
 }
+
+
+.ilCenterForced {
+	text-align: center !important;
+}
