@@ -1230,25 +1230,26 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->object->setScoreCutting($_POST["score_cutting"]);
 			$this->object->setPassScoring($_POST["pass_scoring"]);
 			
-			if( isset($_POST['obligations_enabled']) && $_POST['obligations_enabled'] )
+			if(!isset($_POST['disabled_field']))
 			{
-				$this->object->setObligationsEnabled(true);
-			}
-			else
-			{
-				$this->object->setObligationsEnabled(false);
-			}
-			
-			if( isset($_POST['offer_hints']) && $_POST['offer_hints'] )
-			{
-				$this->object->setOfferingQuestionHintsEnabled(true);
-			}
-			else
-			{
-				$this->object->setOfferingQuestionHintsEnabled(false);
-			}
+				if( isset($_POST['obligations_enabled']) && $_POST['obligations_enabled'] )
+				{
+					$this->object->setObligationsEnabled(true);
+				}
+				else
+				{
+					$this->object->setObligationsEnabled(false);
+				}
 
-
+				if( isset($_POST['offer_hints']) && $_POST['offer_hints'] )
+				{
+					$this->object->setOfferingQuestionHintsEnabled(true);
+				}
+				else
+				{
+					$this->object->setOfferingQuestionHintsEnabled(false);
+				}
+			}
                         /*
 			$this->object->setAnswerFeedback((is_array($_POST['instant_feedback']) && in_array('instant_feedback_answer', $_POST['instant_feedback'])) ? 1 : 0);
 			$this->object->setAnswerFeedbackPoints((is_array($_POST['instant_feedback']) && in_array('instant_feedback_points', $_POST['instant_feedback'])) ? 1 : 0);
@@ -1409,6 +1410,7 @@ class ilObjTestGUI extends ilObjectGUI
 		if( $total )
 		{
 			$checkBoxEnableObligations->setDisabled(true);
+			$checkBoxEnableObligations->setPostVar("disabled_field");
 		}
 		$form->addItem($checkBoxEnableObligations);
 		
@@ -1420,6 +1422,7 @@ class ilObjTestGUI extends ilObjectGUI
 		if( $total )
 		{
 			$checkBoxOfferHints->setDisabled(true);
+			$checkBoxOfferHints->setPostVar("disabled_field");
 		}
 		$form->addItem($checkBoxOfferHints);
 
