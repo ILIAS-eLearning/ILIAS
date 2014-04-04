@@ -376,11 +376,13 @@ class assFormulaQuestionGUI extends assQuestionGUI
 				$variable_header->setTitle(sprintf($this->lng->txt('variable_x'), $variable->getVariable()));
 				
 				$range_min = new ilNumberInputGUI($this->lng->txt('range_min'), 'range_min_' . $variable->getVariable());
+				$range_min->allowDecimals(true);
 				$range_min->setSize(3);
 				$range_min->setRequired(true);
 				$range_min->setValue($variable->getRangeMin());
 
 				$range_max = new ilNumberInputGUI($this->lng->txt('range_max'), 'range_max_' . $variable->getVariable());
+				$range_max->allowDecimals(true);
 				$range_max->setSize(3);
 				$range_max->setRequired(true);
 				$range_max->setValue($variable->getRangeMax());
@@ -447,11 +449,13 @@ class assFormulaQuestionGUI extends assQuestionGUI
 				}
 
 				$range_min = new ilNumberInputGUI($this->lng->txt('range_min'), 'range_min_' . $result->getResult());
+				$range_min->allowDecimals(true);
 				$range_min->setSize(3);
 				$range_min->setRequired(true);
 				$range_min->setValue($result->getRangeMin());
 
 				$range_max = new ilNumberInputGUI($this->lng->txt('range_max'), 'range_max_' . $result->getResult());
+				$range_max->allowDecimals(true);
 				$range_max->setSize(3);
 				$range_max->setRequired(true);
 				$range_max->setValue($result->getRangeMax());
