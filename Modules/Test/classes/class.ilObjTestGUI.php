@@ -3124,7 +3124,6 @@ class ilObjTestGUI extends ilObjectGUI
 			
 			if ($addons[$participant['active_id']] > 0) 
 			{
-//				$started .= ", " . $this->lng->txt('extratime') . ': ' . $addons[$participant['active_id']] . ' ' . $this->lng->txt('minutes');
 				$tbl_data[$i]['extratime'] = $addons[$participant['active_id']];
 			}	
 			
@@ -3140,8 +3139,6 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 			
 			$tbl_data[$i]['name'] = $name;
-			
-//			$options[$participant['active_id']] = $participant['login'] . ' (' . $participant['lastname'] . ', ' . $participant['firstname'] . ')'.$started;
 		}
 		$table_gui->setData($tbl_data);
 		
@@ -4404,11 +4401,14 @@ class ilObjTestGUI extends ilObjectGUI
 		
 		if( !$this->testQuestionSetConfigFactory->getQuestionSetConfig()->areDepenciesBroken() )
 		{
-			// extratime subtab
-			$ilTabs->addSubTabTarget( "timing",
-				$this->ctrl->getLinkTarget($this,'timingOverview'),
-				array("timing", "timingOverview"), "", ""
-			);
+			if($this->object->getProcessingTimeInSeconds() > 0 && $this->object->getNrOfTries() == 1)
+			{
+				// extratime subtab
+				$ilTabs->addSubTabTarget( "timing",
+					$this->ctrl->getLinkTarget($this,'timingOverview'),
+					array("timing", "timingOverview"), "", ""
+				);
+			}
 		}
 	}
 	
