@@ -366,8 +366,22 @@ class assFormulaQuestionGUI extends assQuestionGUI
 
 		if(count($variables))
 		{
-			ksort($variables, SORT_NUMERIC);
-			foreach($variables as $key => $variable)
+			uasort($variables, function(assFormulaQuestionVariable $v1, assFormulaQuestionVariable $v2) {
+				$num_v1 = (int)substr($v1->getVariable(), 2);
+				$num_v2 = (int)substr($v2->getVariable(), 2);
+				if($num_v1 > $num_v2)
+				{
+					return 1;
+				}
+				else if($num_v1 < $num_v2)
+				{
+					return -1;
+				}
+
+				return 0;
+			});
+
+			foreach($variables as $variable)
 			{
 				/**
 				 * @var $variable assFormulaQuestionVariable
@@ -420,7 +434,22 @@ class assFormulaQuestionGUI extends assQuestionGUI
 		if(count($results))
 		{
 			require_once 'Services/Form/classes/class.ilMultiSelectInputGUI.php';
-			ksort($results, SORT_NUMERIC);
+
+			uasort($results, function(assFormulaQuestionResult $r1, assFormulaQuestionResult $r2) {
+				$num_r1 = (int)substr($r1->getResult(), 2);
+				$num_r2 = (int)substr($r2->getResult(), 2);
+				if($num_r1 > $num_r2)
+				{
+					return 1;
+				}
+				else if($num_r1 < $num_r2)
+				{
+					return -1;
+				}
+
+				return 0;
+			});
+
 			foreach($results as $result)
 			{
 				/**
