@@ -430,3 +430,8 @@ div.ilAssQuestionRelatedNavigationContainer
 	margin: 20px 0;
 	text-align: center;
 }
+
+
+.ilCenterForced {
+	text-align: center !important;
+}
