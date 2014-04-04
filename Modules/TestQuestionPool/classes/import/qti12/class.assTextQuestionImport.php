@@ -145,13 +145,18 @@ class assTextQuestionImport extends assQuestionImport
 		$this->object->matchcondition = (strlen($item->getMetadataEntry('matchcondition'))) ? $item->getMetadataEntry('matchcondition') : 0;
 		
 		require_once './Modules/TestQuestionPool/classes/class.assAnswerMultipleResponseImage.php';
+		$no_keywords_found=true;
 		$termscoring = unserialize( base64_decode($item->getMetadataEntry('termscoring')) );
 		$termscoring = ( is_array($termscoring) ? $termscoring : array() );
 		for ($i = 0; $i < count($termscoring); $i++ )
 		{
 			$this->object->addAnswer($termscoring[$i]->getAnswertext(), $termscoring[$i]->getPoints() );
+			$no_keywords_found=false;
 		}
-		$this->object->setKeywordRelation($item->getMetadataEntry('termrelation'));
+		if(count($termscoring))
+			{
+				$this->object->setKeywordRelation($item->getMetadataEntry('termrelation'));
+			}
 		$keywords = $item->getMetadataEntry("keywords");
 		if (strlen($keywords))
 		{
@@ -162,7 +167,14 @@ class assTextQuestionImport extends assQuestionImport
 				$this->object->addAnswer($answer, $maxpoints/count($answers));	
 			}
 			$this->object->setKeywordRelation('one');
+			$no_keywords_found=false;
 		}
+		if($no_keywords_found)
+		{
+			$this->object->setKeywordRelation('none');
+			$this->object->addAnswer('', $maxpoints);
+		}
+			
 		// additional content editing mode information
 		$this->object->setAdditionalContentEditingMode(
 				$this->fetchAdditionalContentEditingModeInformation($item)
