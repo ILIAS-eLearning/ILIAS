@@ -1403,7 +1403,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			global $ilDB;
 
 			$active_fi = $_GET['active_id'];
-			$pass = $_GET['pass'];
+			$pass = (int) $_GET['pass'];
 			
 			// Get information
 			$result = $ilDB->query(
@@ -1462,7 +1462,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				$ilDB->manipulate(
 				'UPDATE tst_manual_fb
 				SET pass = pass - 1
-				WHERE active_fi = ' . $ilDB->quote($active_fi, 'integer')
+				WHERE active_fi = ' . $ilDB->quote($active_fi, 'integer'). '
+				AND pass > ' . $ilDB->quote($pass, 'integer')
 				); 
 			}
 			
@@ -1481,7 +1482,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				$ilDB->manipulate(
 				'UPDATE tst_pass_result
 				SET pass = pass - 1
-				WHERE active_fi = ' . $ilDB->quote($active_fi, 'integer')
+				WHERE active_fi = ' . $ilDB->quote($active_fi, 'integer'). '
+				AND pass > ' . $ilDB->quote($pass, 'integer')
 				); 
 			}			
 			
@@ -1503,7 +1505,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				$ilDB->manipulate(
 				'UPDATE tst_sequence
 				SET pass = pass - 1
-				WHERE active_fi = ' . $ilDB->quote($active_fi, 'integer')
+				WHERE active_fi = ' . $ilDB->quote($active_fi, 'integer'). '
+				AND pass > ' . $ilDB->quote($pass, 'integer')
 				); 
 			}		
 						
@@ -1520,7 +1523,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				$ilDB->manipulate(
 				'UPDATE tst_solutions
 				SET pass = pass - 1
-				WHERE active_fi = ' . $ilDB->quote($active_fi, 'integer')
+				WHERE active_fi = ' . $ilDB->quote($active_fi, 'integer'). '
+				AND pass > ' . $ilDB->quote($pass, 'integer')
 				); 
 			}		
 
@@ -1565,7 +1569,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				$ilDB->manipulate(
 				'UPDATE tst_times
 				SET pass = pass - 1
-				WHERE active_fi = ' . $ilDB->quote($active_fi, 'integer')
+				WHERE active_fi = ' . $ilDB->quote($active_fi, 'integer'). '
+				AND pass > ' . $ilDB->quote($pass, 'integer')
 				); 
 			}
 			
@@ -1582,4 +1587,3 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$this->ctrl->redirectByClass('iltestoutputgui', 'outuserresultsoverview');
 	}
 }
-?>
