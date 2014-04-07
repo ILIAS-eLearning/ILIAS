@@ -547,6 +547,8 @@ assessment#:#tst_src_quest_pool_def_list_table#:#Rules for Random Selection of Q
 assessment#:#tst_source_question_pool#:#Question Pool
 assessment#:#tst_filter_taxonomy#:#Taxonomy
 assessment#:#tst_filter_tax_node#:#Taxonomy Node
+assessment#:#tst_save_and_create_new_rule#:#Save and Add New Rule
+assessment#:#tst_msg_random_qsc_modified_add_new_rule#:#The configuration for the random set of questions has been modified successfully. You can add a new rule now.
 assessment#:#tst_msg_random_question_set_config_modified#:#The configuration for the random set of questions has been modified successfully.
 assessment#:#tst_msg_rand_quest_set_stage_pool_last_sync#:#A test with a random set of questions is possible with the current configuration.<br />Date of last synchronisation of selected question pools: <b>%s</b>
 assessment#:#tst_msg_rand_quest_set_pass_not_buildable#:#A test with a random set of questions is not possible with the current selection of question pools and the amount of questions.
@@ -674,6 +676,7 @@ assessment#:#qpl_settings_general_form_prop_show_tax_desc#:#When enabled, possib
 assessment#:#qpl_settings_general_form_property_show_taxonomies#:#Show Taxonomies
 assessment#:#qpl_paste_no_objects#:#There are no questions in the clipboard. Please copy or move a question into the clipboard.
 assessment#:#qpl_paste_success#:#The question(s) have been pasted into the question pool
+assessment#:#qpl_paste_error#:#At least one question could not pe pasted into the question pool. Possible reason: You tried to move the question into the same question pool.
 assessment#:#qpl_question_is_in_use#:#The question you are about to edit exists in %s test(s). If you change this question, you will NOT change the question(s) in the test(s), because the system creates a copy of a question when it is inserted in a test!
 assessment#:#qpl_questions_deleted#:#Question(s) deleted.
 assessment#:#qpl_select_file_for_import#:#You must select a file for import!
@@ -1205,7 +1208,7 @@ assessment#:#feedback_checked#:#Show answer specific feedback for all chosen/sel
 assessment#:#feedback_correct#:#Show answer specific feedback for all correct answers (Correct answers are those, that lead to a positive score when chosen/selected).
 assessment#:#tst_add_quest_cont_edit_mode#:#Editing Mode for additional Question Content
 assessment#:#tst_add_quest_cont_edit_mode_default#:#Default Editing Mode for Additional Question Content
-assessment#:#tst_add_quest_cont_edit_mode_page_object#:#Additional Content Editing with Page Object Editor
+assessment#:#tst_add_quest_cont_edit_mode_page_object#:#Additional Content Editing with Page Editor
 assessment#:#tst_question_feedback_edit_page#:#Edit Content
 assessment#:#tst_question_feedback_back_to_feedback_form#:#Back To Calling Question
 assessment#:#enable_examview#:#Enable Exam View
@@ -2235,7 +2238,6 @@ common#:#enable_webdav_info#:#Allows WebDAV clients to access the repository as 
 common#:#enable_webdav#:#Enable WebDAV access
 common#:#enable#:#Enable
 common#:#enabled#:#Enabled
-common#:#enter_filename_deliver#:#Enter file to be delivered
 common#:#enter_in_mb_desc#:#Enter a value in MB.
 common#:#enumerate#:#Enumerate
 common#:#err_1_param#:#Only 1 parameter!
@@ -10082,7 +10084,7 @@ exc#:#exc_submission_notification_link#:#Link to Exercise: %s
 exc#:#exc_submission_notification_subject#:#A new submission was uploaded for exercise "%s"
 wiki#:#wiki_edit_notification#:#Email Notification on Change
 wiki#:#wiki_edit_notification_info#:#You will be notified when any page is edited.
-wiki#:#wiki_change_notification_subject#:#Wiki "%s" has been changed
+wiki#:#wiki_change_notification_subject#:#Wiki "%1$s" has been changed: %2$s
 wiki#:#wiki_change_notification_page_body_update#:#the following wiki page has been updated
 wiki#:#wiki_change_notification_page_body_delete#:#the following wiki page has been deleted
 wiki#:#wiki_change_notification_page_link#:#URL
@@ -10814,7 +10816,7 @@ assessment#:#obligatory#:#Obligatory
 assessment#:#not_all_obligations_answered#:#You must answer all obligatory questions before you can finish the test.
 assessment#:#tst_setting_enable_obligations_label#:#Obligatory Questions
 assessment#:#tst_setting_enable_obligations_info#:#If checked, questions of the test can be marked as obligatory (*). All obligatory questions need to be filled out to pass this test. You can set obligatory questions in the "list view". We recommend to also activate "Show List of Questions" when obligatory questions are defined.
-assessment#:#tst_test_contains_obligatory_questions#:#To pass this test you have to answer at least all obligatory questions (*) correctly.
+assessment#:#tst_test_contains_obligatory_questions#:#To end this test you have to answer all obligatory questions (*).
 assessment#:#copy_and_link_to_questionpool#:#Add to question pool
 assessment#:#tst_result#:#Test Result
 common#:#first#:#First
@@ -13301,6 +13303,7 @@ blog#:#blog_draft_info_contributors#:#This posting draft is only visible for the
 assessment#:#tst_extratime_added#:#The working time of the participant has been increased by %s minutes.
 assessment#:#tst_extratime_nodata#:#There are no entries for the selected participant.
 assessment#:#tst_extratime_notavailable#:#Extra time can be added only for tests with one pass and a maximum processing time.
+assessment#:#tst_extratime_info#:#If you want to add the working time multiple times for the same participant, please insert the total amount of time you want to add.
 assessment#:#extratime#:#Extra Time
 assessment#:#log_added_extratime#:#Added extra %d minutes for participant id %d
 assessment#:#timing#:#Extra Time
@@ -13729,7 +13732,7 @@ assessment#:#result_type_selection#:#Result Type Selection
 assessment#:#result_dec#:#Decimal
 assessment#:#result_frac#:#Fraction
 assessment#:#result_co_frac#:#Coprime Fraction
-assessment#:#no_result_type#:#Select No Result Type
+assessment#:#no_result_type#:#No Restrictions
 assessment#:#result_dec_info#:#Valid results are i.e.: 2,3 and 2.3
 assessment#:#result_frac_info#:#i.e.: 1/3 and 2/6 are valid results
 assessment#:#result_co_frac_info#:#Canceled out fraction i.e.: only 1/3 is a valid result
@@ -13753,7 +13756,7 @@ assessment#:#variable_x#:#Variable %s
 assessment#:#result_x#:#Result %s
 assessment#:#rating#:#Rating
 assessment#:#advanced_rating#:#Advanced Rating
-assessment#:#advanced_rating_info#:#The advanced rating is only available if a unit is assigned to the result.
+assessment#:#advanced_rating_info#:#The advanced rating is only available if a unit is assigned to the result. Further rating settings are displayed after saving the specified units.
 prtt#:#prtt_import#:#Import Portfolio Template
 orgu#:#simple_user_import#:#XML User Assignment
 crs#:#crs_passed_status_system#:#System
@@ -13801,7 +13804,7 @@ common#:#password_must_contain_ucase_chars#:#The password must contain at least 
 content#:#cont_current_lang#:#Current Language
 obj#:#obj_deactivate_content_lang#:#Deactivate Translation for Page Editing
 content#:#cont_edit_language_version#:#Edit Version
-content#:#cont_page_translation_does_not_exist#:#The translation page does not exist yet and will be created
+content#:#cont_page_translation_does_not_exist#:#The translation page does not exist yet and will be created by copying the content of the current master page. Language of the translation page
 search#:#search_user_search_form#:#User Search
 search#:#search_user_search_info_form#:#If enabled, users data will be indexed and is searchable.
 adve#:#adve_blocking_mode#:#Edit Lock
@@ -14206,3 +14209,30 @@ prtf#:#prtf_page_element_teaser_blog_template#:#The portfolio will display a blo
 prtf#:#prtf_page_element_teaser_consultation_hours#:#The portfolio will display a consultation hours calendar here.
 prtf#:#prtf_page_element_teaser_blog#:#The portfolio will display selected blog postings here.
 prtf#:#prtf_page_element_teaser_settings#:#Settings
+pd#:#pd_remove_multi_confirm#:#The objects were removed.
+content#:#glo_online_info#:#Only if the glossary is online, users are able to use the glossary.
+content#:#glo_mode_level_info#:#All terms of glossaries on the same level in the repository will be included.
+content#:#glo_mode_normal_info#:#Only terms created within this glossar will be included.
+content#:#glo_mode_subtree_info#:#All terms of glossaries on the same level and subsequent levels in the repository will be included.
+content#:#glo_content_settings#:#Content
+content#:#glo_show_taxonomy_info#:#The taxonomy will be visible in the presentation view of the glossary and can be used to select referenced terms.
+exc#:#exc_notification#:#Personal Notification
+exc#:#exc_passing_exc#:#Passing the Exercise
+exc#:#exc_publishing#:#Publishing
+exc#:#exc_min_nr_info#:#This value must be equal or higher than the number of obligatory assignments.
+exc#:#exc_passed_status_determination#:#Determination of Staus "Passed"
+exc#:#exc_completion_by_tutor#:#Only manual by tutor
+exc#:#exc_your_text#:#Your Text
+exc#:#exc_peer_review_min_number_info#:#This number of other users work must be evaluated by a participant before the evaluation of his/her own work will be visible.
+content#:#cont_def_feedb_activated#:#Default feedback texts are currently activated in the learning module settings.
+content#:#cont_def_feedb_deactivated#:#Default feedback texts are currently deactivated in the learning module settings.
+adve#:#advanced_editing_tst_editing#:#Page Editor for additional question content
+ecs#:#ecs_server_title#:#Name of ECS Configuration
+adve#:#advanced_editing_tst_editing_desc#:#Activates ILIAS Page Editor for feedback and hint text editing.
+assessment#:#fq_precision_info#:#Enter the number of desired decimal places.
+assessment#:#result_units_info#:#The selected units are offered to the learner as part of an answer. The learner has to choose one unit.
+assessment#:#fq_no_restriction_info#:#Both decimals and fractions are accepted as input.
+assessment#:#additional_rating_info#:#Please note that the values ​​given here are expressed as percentages and these must add up to 100.
+assessment#:#intprecision_info#:#"Divisible by" affects only the creation of variables, if the value for the precision is 0. In this case, you define for "Divisible by" an integer value, which must be divisible by with the created variable. A value of 10 thus generates only integers that are divisible by 10. A value of 5 produces integers that are divisible by 5, etc. For a precision of 0, "Divisible by" is a mandatory field and must contain a positive integer. The default value is 1 for any integers.
+assessment#:#tolerance_info#:#The tolerance specifies an allowable percentage deviation from the result value. With a tolerance of 0, only the exact result value is evaluated to be correct.
+assessment#:#result_unit_info#:#Please note that, the selected result unit must also be activated in the "available units."

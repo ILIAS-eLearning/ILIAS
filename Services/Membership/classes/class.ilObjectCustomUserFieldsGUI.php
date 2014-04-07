@@ -294,7 +294,8 @@ class ilObjectCustomUserFieldsGUI
 			$udf = new ilCourseDefinedFieldDefinition($this->getObjId(),(int) $_REQUEST['field_id']);
 			$udf->setName($this->form->getInput('na'));
 			$udf->setType($this->form->getInput('ty'));
-			$udf->setValues($udf->prepareValues($this->form->getInput('va')));
+			$prepared = $udf->prepareValues($this->form->getInput('va'));
+			$udf->setValues($prepared);
 			$udf->setValueOptions($this->form->getItemByPostVar('va')->getOpenAnswerIndexes());
 			$udf->enableRequired($this->form->getInput('re'));
 			$udf->update();

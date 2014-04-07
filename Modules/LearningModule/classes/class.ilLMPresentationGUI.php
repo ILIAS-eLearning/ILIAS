@@ -65,9 +65,9 @@ class ilLMPresentationGUI
 			{
 				$this->lang = $_GET["transl"];
 			}
-			else if (isset($langs[$ilUser->getLanguage()]))
+			else if (isset($langs[$ilUser->getCurrentLanguage()]))
 			{
-				$this->lang = $ilUser->getLanguage();
+				$this->lang = $ilUser->getCurrentLanguage();
 			}
 		}
 

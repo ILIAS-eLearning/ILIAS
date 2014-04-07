@@ -311,8 +311,9 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				break;
 		}
 
-		if (strtolower($_GET["baseClass"]) != "iladministrationgui" &&
-			$this->getCreationMode() != true)
+		if ( !(strtolower($_GET["baseClass"]) == "iladministrationgui" 
+				|| strtolower($_GET['baseClass']) == 'ilrepositorygui') 
+			&& $this->getCreationMode() != true)
 		{
 			$this->tpl->show();
 		}
@@ -375,11 +376,15 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	*/
 	function uploadQplObject($questions_only = false)
 	{
+		$this->ctrl->setParameter($this, 'new_type', $_REQUEST['new_type']);
 		if ($_FILES["xmldoc"]["error"] > UPLOAD_ERR_OK)
 		{
-			ilUtil::sendFailure($this->lng->txt("error_upload"));
-			$this->importObject();
-			return;
+			ilUtil::sendFailure($this->lng->txt("error_upload"), true);
+			if(!$questions_only)
+			{
+				$this->ctrl->redirect($this, 'create');
+			}
+			return false;
 		}
 		// create import directory
 		include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
@@ -421,9 +426,12 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			// delete import directory
 			ilUtil::delDir($basedir);
 
-			ilUtil::sendInfo($this->lng->txt("qpl_import_no_items"));
-			$this->importObject();
-			return;
+			ilUtil::sendFailure($this->lng->txt("qpl_import_no_items"), true);
+			if(!$questions_only)
+			{
+				$this->ctrl->redirect($this, 'create');
+			}
+			return false;
 		}
 		
 		$complete = 0;
@@ -445,9 +453,12 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 			// delete import directory
 			ilUtil::delDir($basedir);
 
-			ilUtil::sendInfo($this->lng->txt("qpl_import_non_ilias_files"));
-			$this->importObject();
-			return;
+			ilUtil::sendFailure($this->lng->txt("qpl_import_non_ilias_files"), true);
+			if(!$questions_only)
+			{
+				$this->ctrl->redirect($this, 'create');
+			}
+			return false;
 		}
 		
 		$_SESSION["qpl_import_xml_file"] = $xml_file;
@@ -560,6 +571,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$this->tpl->setVariable("VALUE_QUESTIONS_ONLY", $value_questions_only);
 
 		$this->tpl->parseCurrentBlock();
+		
+		return true;
 	}
 	
 	/**
@@ -649,21 +662,54 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	*/
 	function uploadObject()
 	{
-		$this->uploadQplObject(true);
+		$upload_valid = true;
+		$form = $this->getImportQuestionsForm();
+		if($form->checkInput())
+		{
+			if(!$this->uploadQplObject(true))
+			{
+				$form->setValuesByPost();
+				$this->importQuestionsObject($form);
+			}
+		}
+		else
+		{
+			$form->setValuesByPost();
+			$this->importQuestionsObject($form);
+		}
 	}
 	
 	/**
 	* display the import form to import questions into the questionpool
 	*/
-		function importQuestionsObject()
+	public function importQuestionsObject(ilPropertyFormGUI $form = null)
 	{
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_import_question.html", "Modules/TestQuestionPool");
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("TEXT_IMPORT_QUESTION", $this->lng->txt("import_question"));
-		$this->tpl->setVariable("TEXT_SELECT_FILE", $this->lng->txt("select_file"));
-		$this->tpl->setVariable("TEXT_UPLOAD", $this->lng->txt("upload"));
-		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->parseCurrentBlock();
+		if(!$form instanceof ilPropertyFormGUI)
+		{
+			$form = $this->getImportQuestionsForm();
+		}
+		
+		$this->tpl->setContent($form->getHtml());
+	}
+
+	/**
+	 * @return ilPropertyFormGUI
+	 */
+	protected function getImportQuestionsForm()
+	{
+		require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
+		$form = new ilPropertyFormGUI();
+		$form->setTitle($this->lng->txt('import_question'));
+		$form->setFormAction($this->ctrl->getFormAction($this, 'upload'));
+		
+		$file = new ilFileInputGUI($this->lng->txt('select_file'), 'xmldoc');
+		$file->setRequired(true);
+		$form->addItem($file);
+
+		$form->addCommandButton('upload', $this->lng->txt('upload'));
+		$form->addCommandButton('questions', $this->lng->txt('cancel'));
+		
+		return $form;
 	}
 
 	/**
@@ -1092,8 +1138,14 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	{
 		if (array_key_exists("qpl_clipboard", $_SESSION))
 		{
-			$this->object->pasteFromClipboard();
-			ilUtil::sendSuccess($this->lng->txt("qpl_paste_success"), true);
+			if($this->object->pasteFromClipboard())
+			{
+				ilUtil::sendSuccess($this->lng->txt("qpl_paste_success"), true);
+			}
+			else
+			{
+				ilUtil::sendFailure($this->lng->txt("qpl_paste_error"), true);
+			}
 		}
 		else
 		{

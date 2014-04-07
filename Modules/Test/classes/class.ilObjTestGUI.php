@@ -1081,34 +1081,8 @@ class ilObjTestGUI extends ilObjectGUI
 
 	function confirmScoringObject($confirmCmd = 'saveScoring', $cancelCmd = 'scoring')
 	{
-		// display confirmation message
-		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
-		$cgui = new ilConfirmationGUI();
-		$cgui->setFormAction($this->ctrl->getFormAction($this));
-		$cgui->setHeaderText($this->lng->txt('tst_trigger_result_refreshing'));
-		$cgui->setCancel($this->lng->txt("cancel"), "scoring");
-		$cgui->setConfirm($this->lng->txt("confirm"), "saveScoring");
+		$this->lng->txt('tst_trigger_result_refreshing');
 
-		foreach ($_POST as $key => $value)
-		{
-			if (strcmp($key, "cmd") == 0)
-			{
-				continue;
-			}
-			if (strcmp($key, 'reporting_date') == 0)
-			{
-				$timestamp = strtotime($value['date']['d'] . '.' . $value['date']['m'] . '.' . $value['date']['y'] . ' ' .
-				$value['time']['h'] . ':' . $value['time']['m']); 
-				$cgui->addHiddenItem('reporting_ts', $timestamp );
-				continue;
-			}
-			$cgui->addHiddenItem($key, $value);
-		}
-
-		/*
-		 * 
-		 * this->lng->txt('tst_trigger_result_refreshing')
-		
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_properties_save_confirmation.html", "Modules/Test");
 		$information = $this->lng->txt('tst_trigger_result_refreshing');
 
@@ -1133,8 +1107,6 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->setVariable("BTN_CONFIRM", $this->lng->txt("confirm"));
 		$this->tpl->setVariable("CMD_CANCEL", $cancelCmd);
 		$this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
-		*/
-		$this->tpl->setContent($cgui->getHTML());
 	}
 
 	/**
@@ -1259,25 +1231,26 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->object->setScoreCutting($_POST["score_cutting"]);
 			$this->object->setPassScoring($_POST["pass_scoring"]);
 			
-			if( isset($_POST['obligations_enabled']) && $_POST['obligations_enabled'] )
+			if(!isset($_POST['disabled_field']))
 			{
-				$this->object->setObligationsEnabled(true);
-			}
-			else
-			{
-				$this->object->setObligationsEnabled(false);
-			}
-			
-			if( isset($_POST['offer_hints']) && $_POST['offer_hints'] )
-			{
-				$this->object->setOfferingQuestionHintsEnabled(true);
-			}
-			else
-			{
-				$this->object->setOfferingQuestionHintsEnabled(false);
-			}
+				if( isset($_POST['obligations_enabled']) && $_POST['obligations_enabled'] )
+				{
+					$this->object->setObligationsEnabled(true);
+				}
+				else
+				{
+					$this->object->setObligationsEnabled(false);
+				}
 
-
+				if( isset($_POST['offer_hints']) && $_POST['offer_hints'] )
+				{
+					$this->object->setOfferingQuestionHintsEnabled(true);
+				}
+				else
+				{
+					$this->object->setOfferingQuestionHintsEnabled(false);
+				}
+			}
                         /*
 			$this->object->setAnswerFeedback((is_array($_POST['instant_feedback']) && in_array('instant_feedback_answer', $_POST['instant_feedback'])) ? 1 : 0);
 			$this->object->setAnswerFeedbackPoints((is_array($_POST['instant_feedback']) && in_array('instant_feedback_points', $_POST['instant_feedback'])) ? 1 : 0);
@@ -1438,6 +1411,7 @@ class ilObjTestGUI extends ilObjectGUI
 		if( $total )
 		{
 			$checkBoxEnableObligations->setDisabled(true);
+			$checkBoxEnableObligations->setPostVar("disabled_field");
 		}
 		$form->addItem($checkBoxEnableObligations);
 		
@@ -1449,6 +1423,7 @@ class ilObjTestGUI extends ilObjectGUI
 		if( $total )
 		{
 			$checkBoxOfferHints->setDisabled(true);
+			$checkBoxOfferHints->setPostVar("disabled_field");
 		}
 		$form->addItem($checkBoxOfferHints);
 
@@ -2317,6 +2292,9 @@ class ilObjTestGUI extends ilObjectGUI
 		global $ilAccess, $ilTabs;
 
 		$ilTabs->activateTab('assQuestions');
+		
+		// #12590
+		$this->ctrl->setParameter($this, 'test_express_mode', '');
 
 		if (!$ilAccess->checkAccess("write", "", $this->ref_id)) 
 		{
@@ -3150,7 +3128,6 @@ class ilObjTestGUI extends ilObjectGUI
 			
 			if ($addons[$participant['active_id']] > 0) 
 			{
-//				$started .= ", " . $this->lng->txt('extratime') . ': ' . $addons[$participant['active_id']] . ' ' . $this->lng->txt('minutes');
 				$tbl_data[$i]['extratime'] = $addons[$participant['active_id']];
 			}	
 			
@@ -3166,8 +3143,6 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 			
 			$tbl_data[$i]['name'] = $name;
-			
-//			$options[$participant['active_id']] = $participant['login'] . ' (' . $participant['lastname'] . ', ' . $participant['firstname'] . ')'.$started;
 		}
 		$table_gui->setData($tbl_data);
 		
@@ -3254,6 +3229,7 @@ class ilObjTestGUI extends ilObjectGUI
 
 		// extra time
 		$extratime = new ilNumberInputGUI($this->lng->txt("extratime"), "extratime");
+		$extratime->setInfo($this->lng->txt('tst_extratime_info'));
 		$extratime->setRequired(true);
 		$extratime->setMinValue(0);
 		$extratime->setMinvalueShouldBeGreater(true);
@@ -3847,6 +3823,11 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function infoScreen($session_lock = "")
 	{
+		/**
+		 * @var $ilAccess  ilAccessHandler
+		 * @var $ilUser    ilObjUser
+		 * @var $ilToolbar ilToolbarGUI
+		 */
 		global $ilAccess, $ilUser, $ilToolbar;
 
 		$testSession = $this->testSessionFactory->getSession();
@@ -3895,6 +3876,8 @@ class ilObjTestGUI extends ilObjectGUI
 				ilUtil::sendInfo($online_access_result);
 			}
 		}
+
+		$enter_anonymous_code = false;
 		if( $this->object->isOnline() && $this->object->isComplete( $this->testQuestionSetConfigFactory->getQuestionSetConfig() ) )
 		{
 			if ((!$this->object->getFixedParticipants() || $online_access) && $ilAccess->checkAccess("read", "", $this->ref_id))
@@ -3956,6 +3939,10 @@ class ilObjTestGUI extends ilObjectGUI
 					$big_button[] = array("outUserListOfAnswerPasses", $this->lng->txt("tst_list_of_answers_show"), false);
 				}
 			}
+			if($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
+			{
+				$enter_anonymous_code = true;
+			}
 		}
 
 		if( !$this->object->isOnline() )
@@ -3980,6 +3967,7 @@ class ilObjTestGUI extends ilObjectGUI
 				ilUtil::sendFailure( $testQuestionSetConfig->getDepenciesBrokenMessage($this->lng) );
 				
 				$big_button = array();
+				$enter_anonymous_code = false;
 			}
 			elseif( $testQuestionSetConfig->areDepenciesInVulnerableState() )
 			{
@@ -3992,13 +3980,29 @@ class ilObjTestGUI extends ilObjectGUI
 			$info->enablePrivateNotes();
 		}
 
-		if($big_button)
+		if($big_button || $enter_anonymous_code)
 		{
 			$ilToolbar->setFormAction($this->ctrl->getFormAction($testPlayerGUI));
+
 			foreach($big_button as $button)
 			{
 				$ilToolbar->addFormButton($button[1], $button[0], "", $button[2]);
 			}
+			
+			if($enter_anonymous_code)
+			{
+				if($big_button)
+				{
+					$ilToolbar->addSeparator();
+				}
+
+				require_once 'Services/Form/classes/class.ilTextInputGUI.php';
+				$anonymous_id = new ilTextInputGUI($this->lng->txt('enter_anonymous_code'), 'anonymous_id');
+				$anonymous_id->setSize(8);
+				$ilToolbar->addInputItem($anonymous_id, true);
+				$ilToolbar->addFormButton($this->lng->txt('submit'), 'setAnonymousId');
+			}
+
 			$ilToolbar->setCloseFormTag(false);
 			$info->setOpenFormTag(false);
 		}
@@ -4064,10 +4068,6 @@ class ilObjTestGUI extends ilObjectGUI
 							$info->addPropertyCheckbox($this->lng->txt("tst_use_previous_answers"), "chb_use_previous_answers", 1, $this->lng->txt("tst_use_previous_answers_user"), $checked_previous_answers);
 						}
 					}
-				}
-				if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
-				{
-					$info->addPropertyTextinput($this->lng->txt("enter_anonymous_code"), "anonymous_id", "", 8, "setAnonymousId", $this->lng->txt("submit"));
 				}
 			}
 		}
@@ -4406,11 +4406,14 @@ class ilObjTestGUI extends ilObjectGUI
 		
 		if( !$this->testQuestionSetConfigFactory->getQuestionSetConfig()->areDepenciesBroken() )
 		{
-			// extratime subtab
-			$ilTabs->addSubTabTarget( "timing",
-				$this->ctrl->getLinkTarget($this,'timingOverview'),
-				array("timing", "timingOverview"), "", ""
-			);
+			if($this->object->getProcessingTimeInSeconds() > 0 && $this->object->getNrOfTries() == 1)
+			{
+				// extratime subtab
+				$ilTabs->addSubTabTarget( "timing",
+					$this->ctrl->getLinkTarget($this,'timingOverview'),
+					array("timing", "timingOverview"), "", ""
+				);
+			}
 		}
 	}
 	
@@ -4513,13 +4516,13 @@ class ilObjTestGUI extends ilObjectGUI
 			case "addMarkStep":
 			case "deleteMarkSteps":
 			case "addSimpleMarkSchema":
-//			case "certificate":
-//			case "certificateservice":
-//			case "certificateImport":
-//			case "certificateUpload":
-//			case "certificateEditor":
-//			case "certificateDelete":
-//			case "certificateSave":
+			case "certificate":
+			case "certificateservice":
+			case "certificateImport":
+			case "certificateUpload":
+			case "certificateEditor":
+			case "certificateDelete":
+			case "certificateSave":
 			case "defaults":
 			case "deleteDefaults":
 			case "addDefaults":

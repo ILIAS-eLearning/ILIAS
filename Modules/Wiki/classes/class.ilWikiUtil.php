@@ -693,7 +693,7 @@ class ilWikiUtil
 				$ulng = ilLanguageFactory::_getLanguageOfUser($user_id);
 				$ulng->loadLanguageModule('wiki');
 
-				$subject = sprintf($ulng->txt('wiki_change_notification_subject'), $wiki->getTitle());
+				$subject = sprintf($ulng->txt('wiki_change_notification_subject'), $wiki->getTitle(), $page->getTitle());
 				$message = sprintf($ulng->txt('wiki_change_notification_salutation'), ilObjUser::_lookupFullname($user_id))."\n\n";
 
 				if($a_type == ilNotification::TYPE_WIKI_PAGE)

@@ -121,6 +121,15 @@ class ilTestSubmissionReviewGUI
 		$template->setVariable("BUTTON_CONTINUE", $this->lng->txt("btn_next"));
 		$template->setVariable("BUTTON_BACK", $this->lng->txt("btn_previous"));
 
+		if($this->test->getListOfQuestionsEnd())
+		{
+			$template->setVariable("CANCEL_CMD", 'outQuestionSummary');
+		}
+		else
+		{
+			$template->setVariable("CANCEL_CMD", 'backFromSummary');
+		}
+
 		$this->ilCtrl->setParameter($this, "pass", "");
 		$this->ilCtrl->setParameter($this, "pdf", "");
 

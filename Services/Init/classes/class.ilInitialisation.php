@@ -1361,6 +1361,13 @@ class ilInitialisation
 			}
 		}
 		
+		// #12884
+		if(($a_current_script == "goto.php" && $_GET["target"] == "impr_0") ||
+			$_GET["baseClass"] == "ilImprintGUI")
+		{
+			return true;
+		}
+		
 		return false;
 	}
 	

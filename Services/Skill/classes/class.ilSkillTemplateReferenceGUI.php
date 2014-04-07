@@ -248,6 +248,21 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
 		$sktr->setStatus($_POST["status"]);
 		$sktr->create();
 		ilSkillTreeNode::putInTree($sktr, (int) $_GET["obj_id"], IL_LAST_NODE);
+		$this->node_object = $sktr;
+	}
+
+	/**
+	 * After saving
+	 */
+	function afterSave()
+	{
+		global $ilCtrl;
+
+		$ilCtrl->setParameterByClass("ilskilltemplatereferencegui", "tref_id",
+			$this->node_object->getId());
+		$ilCtrl->setParameterByClass("ilskilltemplatereferencegui", "obj_id",
+			$this->node_object->getSkillTemplateId());
+		$ilCtrl->redirectByClass("ilskilltemplatereferencegui", "listItems");
 	}
 
 	/**

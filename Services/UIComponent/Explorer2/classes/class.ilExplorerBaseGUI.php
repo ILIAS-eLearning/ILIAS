@@ -462,6 +462,8 @@ abstract class ilExplorerBaseGUI
 	 */
 	function getNodeAsync()
 	{
+		$this->beforeRendering();
+
 		if ($_GET["node_id"] != "")
 		{
 			$id = $this->getNodeIdForDomNodeId($_GET["node_id"]);
@@ -476,7 +478,15 @@ abstract class ilExplorerBaseGUI
 		echo $etpl->get("tag");
 		exit;
 	}
-	
+
+	/**
+	 * Before rendering
+	 */
+	function beforeRendering()
+	{
+
+	}
+
 	
 	/**
 	 * Get HTML
@@ -484,6 +494,8 @@ abstract class ilExplorerBaseGUI
 	function getHTML()
 	{
 		global $tpl, $ilCtrl;
+
+		$this->beforeRendering();
 
 		$tpl->addJavascript(self::getLocalExplorerJsPath());
 		$tpl->addJavascript(self::getLocalJsTreeJsPath());

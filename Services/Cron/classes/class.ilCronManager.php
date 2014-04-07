@@ -22,7 +22,13 @@ class ilCronManager
 		
 		$ilLog->write("CRON - batch start");
 		
-		$ilSetting->set('last_cronjob_start_ts', time());
+		$ilSetting->set("last_cronjob_start_ts", time());
+		
+		// ilLink::_getStaticLink() should work in crons
+		if(!defined("ILIAS_HTTP_PATH"))
+		{
+			define("ILIAS_HTTP_PATH", ilUtil::_getHttpPath());
+		}
 		
 		// system
 		foreach(self::getCronJobData(null, false) as $row)
@@ -106,7 +112,7 @@ class ilCronManager
 						" , alive_ts = ".$ilDB->quote(0, "integer").							
 						" WHERE job_id = ".$ilDB->quote($a_job_data["job_id"], "text"));
 
-					self::deactivateJob($job);
+					self::deactivateJob($a_job); // #13082
 
 					$result = new ilCronJobResult();
 					$result->setStatus(ilCronJobResult::STATUS_CRASHED);

@@ -27,6 +27,8 @@
  * This class handles the Home Organization selection (also called Where Are You
  * From service) process for Shibboleth users.
  *
+ * @author  Fabian Schmid <fs@studer-raimann.ch>
+ *
  * @ingroup ServicesAuthShibboleth
  */
 class ShibWAYF {
@@ -58,9 +60,8 @@ class ShibWAYF {
 		}
 		// Was selected IdP a valid
 		$this->idp_list = $this->getIdplist();
-		if (isset($_POST['idp_selection'])
-			AND $_POST['idp_selection'] != '-'
-			AND isset($this->idp_list[$_POST['idp_selection']])
+		if (isset($_POST['idp_selection']) AND
+			$_POST['idp_selection'] != '-' AND isset($this->idp_list[$_POST['idp_selection']])
 		) {
 			$this->is_valid_selection = true;
 			$this->selected_idp = $_POST['idp_selection'];
@@ -74,6 +75,14 @@ class ShibWAYF {
 	 * @return bool
 	 */
 	public function is_selection() {
+		return $this->isSelection();
+	}
+
+
+	/**
+	 * @return bool
+	 */
+	public function isSelection() {
 		return $this->is_selection;
 	}
 
@@ -82,6 +91,14 @@ class ShibWAYF {
 	 * @return bool
 	 */
 	public function is_valid_selection() {
+		return $this->isValidSelection();
+	}
+
+
+	/**
+	 * @return bool
+	 */
+	public function isValidSelection() {
 		return $this->is_valid_selection;
 	}
 
@@ -191,8 +208,6 @@ class ShibWAYF {
 		}
 
 		return $idp_list;
-		print_r($idp_list);
-		exit;
 	}
 
 

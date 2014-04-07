@@ -237,7 +237,9 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 						$ects_mark = $this->object->getECTSGrade($passed_array, $userdata->getReached(), $userdata->getMaxPoints());
 						$evaluationrow['ects_grade'] = $ects_mark;
 					}
-					$evaluationrow['answered'] = $userdata->getQuestionsWorkedThrough() . " " . strtolower($this->lng->txt("of")) . " " . $userdata->getNumberOfQuestions() . " (" . sprintf("%2.2f", $userdata->getQuestionsWorkedThroughInPercent()) . " %" . ")";
+					$evaluationrow['answered'] = $userdata->getQuestionsWorkedThroughInPercent();
+					$evaluationrow['questions_worked_through'] = $userdata->getQuestionsWorkedThrough();
+					$evaluationrow['number_of_questions']      = $userdata->getNumberOfQuestions();
 					$time_seconds = $userdata->getTimeOfWork();
 					$time_hours    = floor($time_seconds/3600);
 					$time_seconds -= $time_hours   * 3600;
@@ -259,7 +261,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 					$evaluationrow['departement'] = $userfields['departement'];
 					$evaluationrow['matriculation'] = $userfields['matriculation'];
 					$counter++;
-					array_push($data, $evaluationrow);
+					$data[] = $evaluationrow;
 				}
 			}
 		}
@@ -1337,11 +1339,11 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				}
 				array_push($rows, 
 					array(
-							$question_id,
-							$question_title, 
-							$answered,
-							"<a href=\"" . $this->ctrl->getLinkTarget($this, "exportQuestionForAllParticipants"). "\">" . $this->lng->txt("pdf_export") . "</a>",
-							$download
+						'qid'               => $question_id,
+						'question_title'    => $question_title,
+						'number_of_answers' => $answered,
+						'output'            => "<a href=\"" . $this->ctrl->getLinkTarget($this, "exportQuestionForAllParticipants") . "\">" . $this->lng->txt("pdf_export") . "</a>",
+						'file_uploads'      => $download
 					)
 				);
 			}
@@ -1349,7 +1351,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			{
 				require_once './Modules/Test/classes/tables/class.ilResultsByQuestionTableGUI.php';
 				$table_gui = new ilResultsByQuestionTableGUI($this, "singleResults");
-
 				$table_gui->setTitle($this->lng->txt("tst_answered_questions_test"));
 				$table_gui->setData($rows);
 
@@ -1411,7 +1412,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			global $ilDB;
 
 			$active_fi = $_GET['active_id'];
-			$pass = $_GET['pass'];
+			$pass = (int) $_GET['pass'];
 			
 			// Get information
 			$result = $ilDB->query(
@@ -1470,7 +1471,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				$ilDB->manipulate(
 				'UPDATE tst_manual_fb
 				SET pass = pass - 1
-				WHERE active_fi = ' . $ilDB->quote($active_fi, 'integer')
+				WHERE active_fi = ' . $ilDB->quote($active_fi, 'integer'). '
+				AND pass > ' . $ilDB->quote($pass, 'integer')
 				); 
 			}
 			
@@ -1489,7 +1491,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				$ilDB->manipulate(
 				'UPDATE tst_pass_result
 				SET pass = pass - 1
-				WHERE active_fi = ' . $ilDB->quote($active_fi, 'integer')
+				WHERE active_fi = ' . $ilDB->quote($active_fi, 'integer'). '
+				AND pass > ' . $ilDB->quote($pass, 'integer')
 				); 
 			}			
 			
@@ -1511,7 +1514,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				$ilDB->manipulate(
 				'UPDATE tst_sequence
 				SET pass = pass - 1
-				WHERE active_fi = ' . $ilDB->quote($active_fi, 'integer')
+				WHERE active_fi = ' . $ilDB->quote($active_fi, 'integer'). '
+				AND pass > ' . $ilDB->quote($pass, 'integer')
 				); 
 			}		
 						
@@ -1528,7 +1532,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				$ilDB->manipulate(
 				'UPDATE tst_solutions
 				SET pass = pass - 1
-				WHERE active_fi = ' . $ilDB->quote($active_fi, 'integer')
+				WHERE active_fi = ' . $ilDB->quote($active_fi, 'integer'). '
+				AND pass > ' . $ilDB->quote($pass, 'integer')
 				); 
 			}		
 
@@ -1565,7 +1570,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				$ilDB->manipulate(
 				'UPDATE tst_times
 				SET pass = pass - 1
-				WHERE active_fi = ' . $ilDB->quote($active_fi, 'integer')
+				WHERE active_fi = ' . $ilDB->quote($active_fi, 'integer'). '
+				AND pass > ' . $ilDB->quote($pass, 'integer')
 				); 
 			}
 			
@@ -1582,3 +1588,4 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$this->ctrl->redirectByClass('iltestoutputgui', 'outuserresultsoverview');
 	}
 }
+

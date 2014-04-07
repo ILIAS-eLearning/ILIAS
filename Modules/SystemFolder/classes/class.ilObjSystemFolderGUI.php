@@ -1416,10 +1416,8 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	
 	function jumpToCronJobsObject()
 	{
-		// this is used for external settings 
-		$this->ctrl->setCmdClass("ilCronManagerGUI");
-		$this->ctrl->setCmd("render");
-		$this->executeCommand();
+		// #13010 - this is used for external settings 
+		$this->ctrl->redirectByClass("ilCronManagerGUI", "render");
 	}
 	
 	

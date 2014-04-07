@@ -1761,6 +1761,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				include_once("./Modules/Blog/classes/class.ilBlogPostingGUI.php");
 				$blp_gui = new ilBlogPostingGUI(0, null, $page["id"]);
 				$blp_gui->setOutputMode("offline");
+				$blp_gui->setFullscreenLink("fullscreen.html"); // #12930 - see page.xsl
 				$blp_gui->add_date = true;
 				$page_content = $blp_gui->showPage();
 							

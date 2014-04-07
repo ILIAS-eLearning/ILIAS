@@ -227,19 +227,13 @@ class ilRbacAdmin
 			$res = $ilDB->manipulate($query);
 		
 			include_once 'Services/AccessControl/classes/class.ilRoleDesktopItem.php';
-	
-			$role_desk_item_obj =& new ilRoleDesktopItem($a_rol_id);
-			
-			if(is_object($tmp_user = ilObjectFactory::getInstanceByObjId($a_usr_id,false)))
+			$role_desk_item_obj = new ilRoleDesktopItem($a_rol_id);
+			foreach($role_desk_item_obj->getAll() as $item_data)
 			{
-				foreach($role_desk_item_obj->getAll() as $item_data)
-				{
-					if(!$tmp_user->isDesktopItem($item_data['item_id'],$item_data['item_type']))
-					{
-						$tmp_user->addDesktopItem($item_data['item_id'],$item_data['item_type']);
-					}
-				}
+				include_once './Services/User/classes/class.ilObjUser.php';
+				ilObjUser::_addDesktopItem($a_usr_id, $item_data['item_id'], $item_data['item_type']);
 			}
+			
 		}
 		
 		include_once('Services/LDAP/classes/class.ilLDAPRoleGroupMapping.php');

@@ -443,14 +443,14 @@ class ilObjTestSettingsGeneralGUI
 		}
 		$this->testOBJ->setResetProcessingTime($form->getItemByPostVar('chb_reset_processing_time')->getChecked());			
 
-		if( $form->getItemByPostVar('chb_starting_time')->getChecked() )
+		if(!$this->testOBJ->participantDataExist() && $form->getItemByPostVar('chb_starting_time')->getChecked() )
 		{
 			$startingTimeSetting = $form->getItemByPostVar('starting_time');
 			$this->testOBJ->setStartingTime(ilFormat::dateDB2timestamp(
 					$startingTimeSetting->getDate()->get(IL_CAL_DATETIME)
 			));
 		}
-		else
+		else if(!$this->testOBJ->participantDataExist())
 		{
 			$this->testOBJ->setStartingTime('');
 		}

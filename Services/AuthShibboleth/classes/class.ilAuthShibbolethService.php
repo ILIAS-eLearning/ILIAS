@@ -21,17 +21,19 @@
 	+-----------------------------------------------------------------------------+
 */
 require_once('./Services/Component/classes/class.ilService.php');
+
 /**
  * AuthShibboleth Service
  *
  * @author  Stefan Meyer <meyer@leifos.com>
+ * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @version $Id$
  *
  * @ingroup ServicesAuthShibboleth
  */
 class ilAuthShibbolethService extends ilService {
 
-	function __construct() {
+	public function __construct() {
 		parent::__construct();
 	}
 
@@ -39,7 +41,7 @@ class ilAuthShibbolethService extends ilService {
 	/**
 	 * @return bool
 	 */
-	function isCore() {
+	public function isCore() {
 		return true;
 	}
 
@@ -47,7 +49,7 @@ class ilAuthShibbolethService extends ilService {
 	/**
 	 * @return string
 	 */
-	function getVersion() {
+	public function getVersion() {
 		return '-';
 	}
 }

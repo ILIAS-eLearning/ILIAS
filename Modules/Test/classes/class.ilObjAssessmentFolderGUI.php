@@ -34,6 +34,8 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_read_assf"),$this->ilias->error_obj->WARNING);
 		}
+
+		$this->lng->loadLanguageModule('assessment');
 	}
 	
 	public function &executeCommand()
@@ -131,31 +133,6 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		$form->setTableWidth("100%");
 		$form->setId("settings");
 
-		// general properties
-		$header = new ilFormSectionHeaderGUI();
-		$header->setTitle($this->lng->txt("assessment_log_logging"));
-		$form->addItem($header);
-		
-		// assessment logging
-		$logging = new ilCheckboxInputGUI('', "chb_assessment_logging");
-		$logging->setValue(1);
-		$logging->setChecked($this->object->_enabledAssessmentLogging());
-		$logging->setOptionTitle($this->lng->txt("activate_assessment_logging"));
-		$form->addItem($logging);
-
-		// reporting language
-		$reporting = new ilSelectInputGUI($this->lng->txt('assessment_settings_reporting_language'), "reporting_language");
-		$languages = $this->lng->getInstalledLanguages();
-		$this->lng->loadLanguageModule("meta");
-		$options = array();
-		foreach ($languages as $lang)
-		{
-			$options[$lang] = $this->lng->txt("meta_l_" . $lang);
-		}
-		$reporting->setOptions($options);
-		$reporting->setValue($this->object->_getLogLanguage());
-		$form->addItem($reporting);
-
 		// question settings
 		$header = new ilFormSectionHeaderGUI();
 		$header->setTitle($this->lng->txt("assf_questiontypes"));
@@ -221,15 +198,6 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		global $ilAccess;
 		if (!$ilAccess->checkAccess("write", "", $this->object->getRefId())) $this->ctrl->redirect($this,'settings');
 		
-		if ($_POST["chb_assessment_logging"] == 1)
-		{
-			$this->object->_enableAssessmentLogging(1);
-		}
-		else
-		{
-			$this->object->_enableAssessmentLogging(0);
-		}
-		$this->object->_setLogLanguage($_POST["reporting_language"]);
 		$this->object->_setManualScoring($_POST["chb_manual_scoring"]);
 		include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
 		$questiontypes =& ilObjQuestionPool::_getQuestionTypes(TRUE);
@@ -373,10 +341,19 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 
 		// tests
 		$fortest = new ilSelectInputGUI($this->lng->txt('assessment_log_for_test'), "sel_test");
-		$options = array();
-		foreach ($available_tests as $key => $value)
+		$sorted_options = array();
+		foreach($available_tests as $key => $value)
 		{
-			$options[$key] = ilUtil::prepareFormOutput($value) . " [" . $this->object->getNrOfLogEntries($key) . " " . $this->lng->txt("assessment_log_log_entries") . "]";
+			$sorted_options[] = array(
+				'title' => ilUtil::prepareFormOutput($value) . " [" . $this->object->getNrOfLogEntries($key) . " " . $this->lng->txt("assessment_log_log_entries") . "]",
+				'key'   => $key
+			);
+		}
+		$sorted_options = ilUtil::sortArray($sorted_options, 'title','asc');
+		$options = array();
+		foreach($sorted_options as $option)
+		{
+			$options[$option['key']] = $option['title'];
 		}
 		$fortest->setOptions($options);
 		$p_test = ($p_test) ? $p_test : $_GET['sel_test'];
@@ -450,6 +427,12 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 	public function getLogdataSubtabs()
 	{
 		global $ilTabs;
+
+		// log settings
+		$ilTabs->addSubTabTarget("settings",
+			$this->ctrl->getLinkTarget($this, "showLogSettings"),
+			array("saveLogSettings", "showLogSettings")
+			, "");
 
 		// log output
 		$ilTabs->addSubTabTarget("ass_log_output",
@@ -568,6 +551,8 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 
 		switch ($this->ctrl->getCmd())
 		{
+			case "saveLogSettings":
+			case "showLogSettings":
 			case "logs":
 			case "showLog":
 			case "exportLog":
@@ -583,8 +568,8 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 				$this->ctrl->getLinkTarget($this, "settings"), array("settings","","view"), "", "");
 
 			$tabs_gui->addTarget("logs",
-				$this->ctrl->getLinkTarget($this, "logs"), 
-					array("logs","showLog", "exportLog", "logAdmin", "deleteLog"), 
+				$this->ctrl->getLinkTarget($this, "showLogSettings"), 
+					array('saveLogSettings', 'showLogSettings', "logs","showLog", "exportLog", "logAdmin", "deleteLog"), 
 					"", "");
 
 				$tabs_gui->addTarget("defaults",
@@ -970,4 +955,89 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		return $config;
 	}
 
+	/**
+	 * @param ilPropertyFormGUI $form
+	 */
+	protected function showLogSettingsObject(ilPropertyFormGUI $form = null)
+	{
+		$this->tabs_gui->activateTab('logs');
+
+		if(!($form instanceof ilPropertyFormGUI))
+		{
+			$form = $this->getLogSettingsForm();
+			$form->setValuesByArray(array(
+				'chb_assessment_logging' => $this->object->_enabledAssessmentLogging(),
+				'reporting_language'     => $this->object->_getLogLanguage()
+			));
+		}
+
+		$this->tpl->setContent($form->getHTML());
+	}
+
+	/**
+	 *
+	 */
+	protected function saveLogSettingsObject()
+	{
+		/**
+		 * @var $ilAccess ilAccessHandler
+		 */
+		global $ilAccess;
+
+		if(!$ilAccess->checkAccess('write', '', $this->object->getRefId()))
+		{
+			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->WARNING);
+		}
+
+		$form = $this->getLogSettingsForm();
+		if($form->checkInput())
+		{
+			$this->object->_enableAssessmentLogging((int)$form->getInput('chb_assessment_logging'));
+			$this->object->_setLogLanguage($form->getInput('reporting_language'));
+			$this->object->update();
+			ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
+		}
+
+		$form->setValuesByPost();
+		$this->showLogSettingsObject($form);
+	}
+
+	/**
+	 * @return ilPropertyFormGUI
+	 */
+	protected function getLogSettingsForm()
+	{
+		/**
+		 * @var $ilAccess ilAccessHandler
+		 */
+		global $ilAccess;
+
+		require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this, 'saveLogSettings'));
+		$form->setTitle($this->lng->txt('assessment_log_logging'));
+
+		$logging = new ilCheckboxInputGUI('', 'chb_assessment_logging');
+		$logging->setValue(1);
+		$logging->setOptionTitle($this->lng->txt('activate_assessment_logging'));
+		$form->addItem($logging);
+
+		$reporting = new ilSelectInputGUI($this->lng->txt('assessment_settings_reporting_language'), 'reporting_language');
+		$languages = $this->lng->getInstalledLanguages();
+		$this->lng->loadLanguageModule('meta');
+		$options = array();
+		foreach($languages as $lang)
+		{
+			$options[$lang] = $this->lng->txt('meta_l_' . $lang);
+		}
+		$reporting->setOptions($options);
+		$form->addItem($reporting);
+
+		if($ilAccess->checkAccess('write', '', $this->object->getRefId()))
+		{
+			$form->addCommandButton('saveLogSettings', $this->lng->txt('save'));
+		}
+
+		return $form;
+	}
 }

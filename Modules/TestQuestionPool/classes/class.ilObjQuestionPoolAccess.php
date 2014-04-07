@@ -32,7 +32,7 @@ class ilObjQuestionPoolAccess extends ilObjectAccess
 		$commands = array
 		(
 			array("permission" => "write", "cmd" => "questions", "lang_var" => "tst_edit_questions"),
-			array("permission" => "write", "cmd" => "properties", "lang_var" => "settings"),
+			array("permission" => "write", "cmd" => "ilObjQuestionPoolSettingsGeneralGUI::showForm", "lang_var" => "settings"),
 			#array("permission" => "write", "cmd" => "questions", "lang_var" => "edit",
 			#	"default" => false),
 			array("permission" => "read", "cmd" => "questions", "lang_var" => "edit",

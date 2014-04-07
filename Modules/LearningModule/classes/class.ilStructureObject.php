@@ -184,20 +184,13 @@ class ilStructureObject extends ilLMObject
 		{
 			return "";
 		}
-		
-		// @todo: optimize
-		//include_once("./Services/COPage/classes/class.ilPageMultiLang.php");
-		//$ml = new ilPageMultiLang("lm", $a_lm_id);
+
+		// this is optimized when ilLMObject::preloadDataByLM is invoked (e.g. done in ilLMExplorerGUI)
+		$title = ilLMObject::_lookupTitle($a_st_id);
+
+		// this is also optimized since ilObjectTranslation re-uses instances for one lm
 		include_once("./Services/Object/classes/class.ilObjectTranslation.php");
 		$ot = ilObjectTranslation::getInstance($a_lm_id);
-
-
-		// get chapter data
-		$query = "SELECT * FROM lm_data WHERE obj_id = ".
-			$ilDB->quote($a_st_id, "integer");
-		$st_set = $ilDB->query($query);
-		$st_rec = $ilDB->fetchAssoc($st_set);
-
 		$languages = $ot->getLanguages();
 
 		if ($a_lang != "-" && $ot->getContentActivated() && isset($languages[$a_lang]))
@@ -206,7 +199,7 @@ class ilStructureObject extends ilLMObject
 			$lmobjtrans = new ilLMObjTranslation($a_st_id, $a_lang);
 			if ($lmobjtrans->getTitle() != "")
 			{
-				$st_rec["title"] = $lmobjtrans->getTitle();
+				$title = $lmobjtrans->getTitle();
 			}
 		}
 
@@ -215,12 +208,15 @@ class ilStructureObject extends ilLMObject
 
 		if ($a_include_numbers)
 		{
-			if ($tree->isInTree($st_rec["obj_id"]))
+			// this is optimized, since isInTree is cached
+			if ($tree->isInTree($a_st_id))
 			{
+				// optimization needed from here
+
 				// get chapter tree node
 				$query = "SELECT * FROM lm_tree WHERE child = ".
 					$ilDB->quote($a_st_id, "integer")." AND lm_id = ".
-					$ilDB->quote($st_rec["lm_id"], "integer");
+					$ilDB->quote($a_lm_id, "integer");
 				$tree_set = $ilDB->query($query);
 				$tree_node = $tree_set->fetchRow(DB_FETCHMODE_ASSOC);
 				$depth = $tree_node["depth"];
@@ -231,7 +227,7 @@ class ilStructureObject extends ilLMObject
 					// get next parent tree node
 					$query = "SELECT * FROM lm_tree WHERE child = ".
 						$ilDB->quote($tree_node["parent"], "integer")." AND lm_id = ".
-						$ilDB->quote($st_rec["lm_id"], "integer");
+						$ilDB->quote($a_lm_id, "integer");
 					$tree_set = $ilDB->query($query);
 					$tree_node = $tree_set->fetchRow(DB_FETCHMODE_ASSOC);
 					$seq = $tree->getChildSequenceNumber($tree_node, "st");
@@ -241,7 +237,7 @@ class ilStructureObject extends ilLMObject
 			}
 		}
 
-		return $nr.$st_rec["title"];
+		return $nr.$title;
 	}
 
 

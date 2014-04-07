@@ -139,7 +139,10 @@ abstract class ilTestSignaturePlugin extends ilPlugin
 	{
 		/** @var $tpl ilTemplate */
 		global $tpl;
-		$tpl->show();
+		if ( !in_array(strtolower($_GET["baseClass"]), array('iladministrationgui', 'ilrepositorygui','ilobjtestgui')))
+		{
+			$tpl->show();
+		}
 		return;
 	}
 

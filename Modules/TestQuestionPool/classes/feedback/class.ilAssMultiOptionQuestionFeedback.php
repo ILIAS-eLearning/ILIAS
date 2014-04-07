@@ -58,12 +58,12 @@ abstract class ilAssMultiOptionQuestionFeedback extends ilAssQuestionFeedback
 	 */
 	public function completeSpecificFormProperties(ilPropertyFormGUI $form)
 	{
-		$header = new ilFormSectionHeaderGUI();
-		$header->setTitle($this->lng->txt('feedback_answers'));
-		$form->addItem($header);
-		
 		if( !$this->questionOBJ->getSelfAssessmentEditingMode() )
 		{
+			$header = new ilFormSectionHeaderGUI();
+			$header->setTitle($this->lng->txt('feedback_answers'));
+			$form->addItem($header);
+		
 			foreach( $this->getAnswerOptionsByAnswerIndex() as $index => $answer )
 			{
 				$propertyLabel = $this->questionOBJ->prepareTextareaOutput(

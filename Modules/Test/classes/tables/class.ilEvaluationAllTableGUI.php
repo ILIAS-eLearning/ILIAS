@@ -110,6 +110,7 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
 				break;
 			case 'reached':
 			case 'hint_count':
+			case 'answered':
 				return true;
 				break;
 			default:
@@ -297,7 +298,9 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
 		{
 			$this->tpl->setVariable("HINT_COUNT", $data['hint_count']);
 		}
-		
+
+		$data['answered'] = $data['questions_worked_through'] . " " . strtolower($this->lng->txt("of")) . " " . $data['number_of_questions'] . " (" . sprintf("%2.2f", $data['answered']) . " %" . ")";
+
 		$this->tpl->setVariable("MARK", $data['mark']);
 		$this->tpl->setVariable("ANSWERED", $data['answered']);
 		$this->tpl->setVariable("WORKING_TIME", $data['working_time']);

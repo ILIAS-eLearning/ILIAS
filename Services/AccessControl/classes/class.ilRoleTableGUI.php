@@ -116,7 +116,7 @@ class ilRoleTableGUI extends ilTable2GUI
 				break;
 			
 			case self::TYPE_SEARCH:
-				$this->setShowRowsSelector(false);
+				$this->setShowRowsSelector(true);
 				$this->disable('sort');
 				//$this->setId('rolf_role_search_tbl');
 				$this->addColumn($this->lng->txt('search_title_description'),'title','30%');

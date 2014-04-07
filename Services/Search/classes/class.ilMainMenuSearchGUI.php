@@ -107,22 +107,24 @@ class ilMainMenuSearchGUI
 		// $this->tpl->setVariable('ID_AUTOCOMPLETE', "mm_sr_auto");
 		$this->tpl->setVariable('AC_DATASOURCE', "ilias.php?baseClass=ilSearchController&cmd=autoComplete");
 		
-		$this->tpl->setVariable('IMG_MM_SEARCH', ilUtil::img(ilUtil::getImagePath("icon_seas_s.png")));
+		$this->tpl->setVariable('IMG_MM_SEARCH', ilUtil::img(ilUtil::getImagePath("icon_seas_s.png"),
+			$lng->txt("search")));
 		
 		if ($ilUser->getId() != ANONYMOUS_USER_ID)
 		{
 			$this->tpl->setVariable('HREF_SEARCH_LINK', "ilias.php?baseClass=ilSearchController");
-			$this->tpl->setVariable('TXT_SEARCH_LINK', $lng->txt("last_search_result"));
-			
-			$this->tpl->setVariable('TXT_SEARCH', $lng->txt("search"));
-			include_once("./Services/UIComponent/Overlay/classes/class.ilOverlayGUI.php");
-			$ov = new ilOverlayGUI("mm_search_menu");
-			//$ov->setTrigger("main_menu_search", "none",
-			//	"main_menu_search", "tr", "br");
-			//$ov->setAnchor("main_menu_search", "tr", "br");
-			$ov->setAutoHide(false);
-			$ov->add();
+			$this->tpl->setVariable('TXT_SEARCH_LINK', $lng->txt("last_search_result"));						
 		}
+		
+		// #10555 - we need the overlay for the autocomplete which is always active
+		$this->tpl->setVariable('TXT_SEARCH', $lng->txt("search"));
+		include_once("./Services/UIComponent/Overlay/classes/class.ilOverlayGUI.php");
+		$ov = new ilOverlayGUI("mm_search_menu");
+		//$ov->setTrigger("main_menu_search", "none",
+		//	"main_menu_search", "tr", "br");
+		//$ov->setAnchor("main_menu_search", "tr", "br");
+		$ov->setAutoHide(false);
+		$ov->add();
 		
 		return $this->tpl->get();
 	} 

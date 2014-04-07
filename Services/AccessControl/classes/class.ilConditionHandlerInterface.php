@@ -486,10 +486,9 @@ class ilConditionHandlerInterface
 				$collection->delete();
 			}
 
-			$items = is_array($_POST['item_ids']) ? $_POST['item_ids'] : array();
-			foreach($items as $item_id)
-			{
-				$collection->addEntry($item_id);
+			if(is_array($_POST['item_ids'])) // #12901
+			{			
+				$collection->activateEntries($_POST['item_ids']);
 			}
 			
 			include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
@@ -667,10 +666,9 @@ class ilConditionHandlerInterface
 				$collection->delete();
 			}
 			
-			$items = is_array($_POST['item_ids']) ? $_POST['item_ids'] : array();
-			foreach($items as $item_id)
-			{
-				$collection->addEntry($item_id);
+			if(is_array($_POST['item_ids'])) // #12901
+			{			
+				$collection->activateEntries($_POST['item_ids']);
 			}
 		}
 

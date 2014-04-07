@@ -22,6 +22,7 @@ abstract class ilTreeExplorerGUI extends ilExplorerBaseGUI
 	protected $preloaded = false;
 	protected $preload_childs = false;
 	protected $root_node_data = null;
+	protected $all_childs = array();
 	
 	/**
 	 * Constructor
@@ -142,18 +143,68 @@ abstract class ilTreeExplorerGUI extends ilExplorerBaseGUI
 				continue;
 			}
 			$this->childs[$s["parent"]][] = $s;
+			$this->all_childs[$s["child"]] = $s;
 		}
 
 		if ($this->order_field != "")
 		{
 			foreach ($this->childs as $k => $childs)
 			{
-				$this->childs[$k] = ilUtil::sortArray($childs, $this->order_field, "acc", $this->order_field_numeric);
+				$this->childs[$k] = ilUtil::sortArray($childs, $this->order_field, "asc", $this->order_field_numeric);
+			}
+		}
+
+		// sort childs and store prev/next reference
+		if ($this->order_field == "")
+		{
+			$this->all_childs =
+				ilUtil::sortArray($this->all_childs, "lft", "asc", true, true);
+			$prev = false;
+			foreach ($this->all_childs as $k => $c)
+			{
+				if ($prev)
+				{
+					$this->all_childs[$prev]["next_node_id"] = $k;
+				}
+				$this->all_childs[$k]["prev_node_id"] = $prev;
+				$this->all_childs[$k]["next_node_id"] = false;
+				$prev = $k;
 			}
 		}
 
 		$this->preloaded = true;
 	}
+
+
+
+	/**
+	 * Get successor node (currently only(!) based on lft/rgt tree values)
+	 *
+	 * @param integer $a_node_id node id
+	 * @param string $a_type node type
+	 * @return mixed node id or false
+	 */
+	function getSuccessorNode($a_node_id, $a_type = "")
+	{
+		if ($this->order_field != "")
+		{
+			die("ilTreeExplorerGUI::getSuccessorNode not implemented for order field ".$this->order_field);
+		}
+
+		if ($this->preloaded)
+		{
+			$next_id = $a_node_id;
+			while (($next_id = $this->all_childs[$next_id]["next_node_id"]) && $a_type != "" &&
+				$this->all_childs[$next_id]["type"] != $a_type);
+			if ($next_id)
+			{
+				return $this->all_childs[$next_id];
+			}
+			return false;
+		}
+		return $this->getTree()->fetchSuccessorNode($a_node_id, $a_type);
+	}
+
 
 
 	/**

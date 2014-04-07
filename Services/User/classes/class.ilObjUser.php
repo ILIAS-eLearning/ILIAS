@@ -2403,8 +2403,8 @@ class ilObjUser extends ilObject
 		
     	$this->setLastPasswordChangeTS( time() );
 
-    	$query = "UPDATE usr_data SET usr_data.last_password_change = %s " .
-    			"WHERE usr_data.usr_id = %s";
+    	$query = "UPDATE usr_data SET last_password_change = %s " .
+    			"WHERE usr_id = %s";
     	$affected = $ilDB->manipulateF($query,
 		 	array('integer','integer'),
 			array($this->getLastPasswordChangeTS(),$this->id));
@@ -2416,8 +2416,8 @@ class ilObjUser extends ilObject
     {
 		global $ilDB;
 		
-		$query = "UPDATE usr_data SET usr_data.last_password_change = 0 " .
-				"WHERE usr_data.usr_id = %s";
+		$query = "UPDATE usr_data SET last_password_change = 0 " .
+				"WHERE usr_id = %s";
 		$affected = $ilDB->manipulateF( $query, array('integer'),
     		array($this->getId()) );
     	if($affected) return true;
@@ -4700,7 +4700,7 @@ class ilObjUser extends ilObject
 	{
 		global $ilDB;
 
-		$query = "UPDATE usr_data SET usr_data.login_attempts = 0 WHERE usr_data.usr_id = %s";
+		$query = "UPDATE usr_data SET login_attempts = 0 WHERE usr_id = %s";
 		$affected = $ilDB->manipulateF( $query, array('integer'), array($a_usr_id) );
 
 		if($affected) return true;
@@ -4711,7 +4711,7 @@ class ilObjUser extends ilObject
 	{
 		global $ilDB;
 
-		$query = "SELECT usr_data.login_attempts FROM usr_data WHERE usr_data.usr_id = %s";
+		$query = "SELECT login_attempts FROM usr_data WHERE usr_id = %s";
 		$result = $ilDB->queryF( $query, array('integer'), array($a_usr_id) );
 		$record = $ilDB->fetchAssoc( $result );
 		$login_attempts = $record['login_attempts'];
@@ -4723,7 +4723,7 @@ class ilObjUser extends ilObject
 	{
 		global $ilDB;
 
-		$query = "UPDATE usr_data SET usr_data.login_attempts = (usr_data.login_attempts + 1) WHERE usr_data.usr_id = %s";
+		$query = "UPDATE usr_data SET login_attempts = (login_attempts + 1) WHERE usr_id = %s";
 		$affected = $ilDB->manipulateF( $query, array('integer'), array($a_usr_id) );
 
 		if($affected) return true;
@@ -4734,7 +4734,7 @@ class ilObjUser extends ilObject
 	{
 		global $ilDB;
 
-		$query = "UPDATE usr_data SET usr_data.active = 0, usr_data.inactivation_date = %s WHERE usr_data.usr_id = %s";
+		$query = "UPDATE usr_data SET active = 0, inactivation_date = %s WHERE usr_id = %s";
 		$affected = $ilDB->manipulateF( $query, array('timestamp', 'integer'), array(ilUtil::now(), $a_usr_id) );
 		
 		if($affected) return true;
@@ -4810,7 +4810,12 @@ class ilObjUser extends ilObject
 		if($a_user_id == 0)
 		{
 			$where[] = 'user_id > 0';
-			$where[] = '(agree_date IS NOT NULL OR user_id = ' . $ilDB->quote(SYSTEM_USER_ID, 'integer') . ')';
+
+			require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceHelper.php';
+			if(ilTermsOfServiceHelper::isEnabled())
+			{
+				$where[] = '(agree_date IS NOT NULL OR user_id = ' . $ilDB->quote(SYSTEM_USER_ID, 'integer') . ')';
+			}
 		}
 		else
 		{
@@ -4901,15 +4906,23 @@ class ilObjUser extends ilObject
 		{
 			$groups_and_courses_of_user[] = $row["obj_id"];
 		}
+
+		require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceHelper.php';
+		$tos_condition = '';
+		if(ilTermsOfServiceHelper::isEnabled())
+		{
+			$tos_condition = " AND (agree_date IS NOT NULL OR ud.usr_id = " . $ilDB->quote(SYSTEM_USER_ID, 'integer') . ") ";
+		}
+
 		// If the user is not in a course or a group, he has no associated users.
 		if (count($groups_and_courses_of_user) == 0)
 		{
 			$q = "SELECT count(user_id) as num,ctime,user_id,firstname,lastname,title,login,last_login ".
 				"FROM usr_session ".
-				"JOIN usr_data ON user_id=usr_id ".
+				"JOIN usr_data ud ON user_id = ud.usr_id ".
 				"WHERE user_id = ".$ilDB->quote($a_user_id, "integer")." ".
 				$no_anonym.
-				" AND (agree_date IS NOT NULL OR user_id = " . $ilDB->quote(SYSTEM_USER_ID, 'integer') . ") ".
+				$tos_condition.
 				"AND expires > ".$ilDB->quote(time(), "integer")." ".
 				"GROUP BY user_id,ctime,firstname,lastname,title,login,last_login";
 			$r = $ilDB->query($q);
@@ -4931,7 +4944,7 @@ class ilObjUser extends ilObject
 				"AND (p.value IS NULL OR NOT p.value = ".$ilDB->quote("y", "text").") ".
 				"AND s.expires > ".$ilDB->quote(time(),"integer")." ".
 				"AND fa.assign = ".$ilDB->quote("y", "text")." ".
-				" AND (ud.agree_date IS NOT NULL OR " . $ilDB->quote(SYSTEM_USER_ID, 'integer') . ") ".
+				$tos_condition.
 				"AND ".$ilDB->in("od.obj_id", $groups_and_courses_of_user, false, "integer")." ".
 				"GROUP BY s.user_id,s.ctime,ud.firstname,ud.lastname,ud.title,ud.login,ud.last_login ".
 				"ORDER BY ud.lastname, ud.firstname";
@@ -5134,7 +5147,7 @@ class ilObjUser extends ilObject
 
 		global $ilDB;
 
-		$query = "UPDATE usr_data SET usr_data.last_login = %s WHERE usr_data.usr_id = %s";
+		$query = "UPDATE usr_data SET last_login = %s WHERE usr_id = %s";
 		$affected = $ilDB->manipulateF( $query, array('timestamp', 'integer'), array($last_login, $a_usr_id) );
 
 		if($affected) return $last_login;

@@ -68,6 +68,8 @@ class ilTestSession
 	*/
 	var $submittedTimestamp;
 
+	private $lastFinishedPass;
+
 	/**
 	* ilTestSession constructor
 	*
@@ -88,6 +90,8 @@ class ilTestSession
 		$this->pass = 0;
 		$this->ref_id = 0;
 		$this->tstamp = 0;
+
+		$this->lastFinishedPass = null;
 	}
 
 	/**
@@ -132,6 +136,9 @@ class ilTestSession
 				$this->submitted = ($row["submitted"]) ? TRUE : FALSE;
 				$this->submittedTimestamp = $row["submittimestamp"];
 				$this->tstamp = $row["tstamp"];
+
+				$this->setLastFinishedPass($row['last_finished_pass']);
+				
 				return true;
 			}
 		}
@@ -152,15 +159,17 @@ class ilTestSession
 			$this->tstamp = time();
 			if ($this->active_id > 0)
 			{
-				$affectedRows = $ilDB->manipulateF("UPDATE tst_active SET lastindex = %s, tries = %s, submitted = %s, submittimestamp = %s, tstamp = %s WHERE active_id = %s",
-					array('integer', 'integer', 'integer', 'timestamp', 'integer', 'integer'),
+				$ilDB->update('tst_active',
 					array(
-						$this->getLastSequence(),
-						$this->getPass(),
-						$submitted,
-						(strlen($this->getSubmittedTimestamp())) ? $this->getSubmittedTimestamp() : NULL,
-						time(),
-						$this->getActiveId()
+						'lastindex' => array('integer', $this->getLastSequence()),
+						'tries' => array('integer', $this->getPass()),
+						'submitted' => array('integer', $submitted),
+						'submittimestamp' => array('timestamp', strlen($this->getSubmittedTimestamp()) ? $this->getSubmittedTimestamp() : NULL),
+						'tstamp' => array('integer', time()),
+						'last_finished_pass' => array('integer', $this->getLastFinishedPass())
+					),
+					array(
+						'active_id' => array('integer', $this->getActiveId())
 					)
 				);
 				
@@ -215,7 +224,8 @@ class ilTestSession
 					'tries' => array('integer', $this->getPass()),
 					'submitted' => array('integer', $submitted),
 					'submittimestamp' => array('timestamp', (strlen($this->getSubmittedTimestamp())) ? $this->getSubmittedTimestamp() : NULL),
-					'tstamp' => array('integer', time()-10)
+					'tstamp' => array('integer', time()-10),
+					'last_finished_pass' => array('integer', $this->getLastFinishedPass())
 				),
 				array(
 					'active_id' => array('integer', $this->getActiveId())
@@ -245,7 +255,8 @@ class ilTestSession
 						'tries' => array('integer', $this->getPass()),
 						'submitted' => array('integer', $submitted),
 						'submittimestamp' => array('timestamp', (strlen($this->getSubmittedTimestamp())) ? $this->getSubmittedTimestamp() : NULL),
-						'tstamp' => array('integer', time()-10)
+						'tstamp' => array('integer', time()-10),
+						'last_finished_pass' => array('integer', $this->getLastFinishedPass())
 					)
 				);
 				$this->active_id = $next_id;
@@ -311,6 +322,8 @@ class ilTestSession
 			$this->submitted = ($row["submitted"]) ? TRUE : FALSE;
 			$this->submittedTimestamp = $row["submittimestamp"];
 			$this->tstamp = $row["tstamp"];
+
+			$this->setLastFinishedPass($row['last_finished_pass']);
 		}
 	}
 	
@@ -338,6 +351,8 @@ class ilTestSession
 			$this->submitted = ($row["submitted"]) ? TRUE : FALSE;
 			$this->submittedTimestamp = $row["submittimestamp"];
 			$this->tstamp = $row["tstamp"];
+
+			$this->setLastFinishedPass($row['last_finished_pass']);
 		}
 	}
 	
@@ -419,6 +434,16 @@ class ilTestSession
 	function setSubmittedTimestamp()
 	{
 		$this->submittedTimestamp = strftime("%Y-%m-%d %H:%M:%S");
+	}
+
+	public function setLastFinishedPass($lastFinishedPass)
+	{
+		$this->lastFinishedPass = $lastFinishedPass;
+	}
+
+	public function getLastFinishedPass()
+	{
+		return $this->lastFinishedPass;
 	}
 }
 

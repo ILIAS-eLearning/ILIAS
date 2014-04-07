@@ -1992,7 +1992,7 @@ class ilObjGroupGUI extends ilContainerGUI
 					htmlspecialchars($role_addr)
 			));
 
-			if (ilMail::_usePearMail())
+			if (ilMail::_usePearMail() && substr($role_addr, 0, 4) != '#il_')
 			{
 				// if pear mail is enabled, mailbox addresses are already localized in the language of the user
 				$this->tpl->setVariable("MAILBOX",$role_addr);

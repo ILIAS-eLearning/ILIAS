@@ -88,7 +88,6 @@ class ilBookmarkBlockGUI extends ilBlockGUI
 	{
 		// workaround to show details row
 		$this->setData(array("dummy"));
-
 		if ($this->getCurrentDetailLevel() == 0)
 		{
 			return "";
@@ -181,36 +180,21 @@ class ilBookmarkBlockGUI extends ilBlockGUI
 		}
 		
 		// flat
-//		if ($ilUser->getPref("il_pd_bkm_mode") == 'tree')
-//		{
-			$this->addFooterLink( $lng->txt("list"),
-				$ilCtrl->getLinkTarget($this, "setPdFlatMode"),
-				$ilCtrl->getLinkTarget($this, "setPdFlatMode",
-				"", true),
-				"block_".$this->getBlockType()."_".$this->block_id,
-				false, false, ($ilUser->getPref("il_pd_bkm_mode") != 'tree'));
-//		}
-//		else
-//		{
-//			$this->addFooterLink($lng->txt("list"));
-//		}
+		$this->addFooterLink( $lng->txt("list"),
+			$ilCtrl->getLinkTarget($this, "setPdFlatMode"),
+			$ilCtrl->getLinkTarget($this, "setPdFlatMode",
+			"", true),
+			"block_".$this->getBlockType()."_".$this->block_id,
+			false, false, ($ilUser->getPref("il_pd_bkm_mode") != 'tree'));
 
 		// as tree
-//		if ($ilUser->getPref("il_pd_bkm_mode") == 'tree')
-//		{
-//			$this->addFooterLink($lng->txt("tree"));
-//		}
-//		else
-//		{
-			$this->addFooterLink($lng->txt("tree"),
-				$ilCtrl->getLinkTarget($this,
-					"setPdTreeMode"),
-				$ilCtrl->getLinkTarget($this,
-					"setPdTreeMode", "", true),
-				"block_".$this->getBlockType()."_".$this->block_id,
-				false, false, ($ilUser->getPref("il_pd_bkm_mode") == 'tree')
-				);
-//		}
+		$this->addFooterLink($lng->txt("tree"),
+			$ilCtrl->getLinkTarget($this,
+				"setPdTreeMode"),
+			"",
+			"block_".$this->getBlockType()."_".$this->block_id,
+			false, false, ($ilUser->getPref("il_pd_bkm_mode") == 'tree')
+			);
 	}
 
 	/**
@@ -239,7 +223,7 @@ class ilBookmarkBlockGUI extends ilBlockGUI
 				ilBookmarkFolder::_getParentId($sess_cur_bm_folder));
 
 			$data[] = array(
-				"img" => ilUtil::getImagePath("icon_cat_s.png"),
+				"img" => ilUtil::getImagePath("icon_bmf_s.png"),
 				"alt" => $lng->txt("bmf"),
 				"title" => "..",
 				"link" => $ilCtrl->getLinkTarget($this, "setCurrentBookmarkFolder"));
@@ -254,7 +238,7 @@ class ilBookmarkBlockGUI extends ilBlockGUI
 				case "bmf":
 					$ilCtrl->setParameter($this, "curBMFolder", $bm_item["obj_id"]);
 					$data[] = array(
-						"img" => ilUtil::getImagePath("icon_cat_s.png"),
+						"img" => ilUtil::getImagePath("icon_bmf_s.png"),
 						"alt" => $lng->txt("bmf"),
 						"title" => ilUtil::prepareFormOutput($bm_item["title"]),
 						"desc" => ilUtil::prepareFormOutput($bm_item["desc"]),

@@ -98,9 +98,12 @@ class ilSkillCatTableGUI extends ilTable2GUI
 				
 			// skill template reference
 			case "sktr":
-				$ilCtrl->setParameterByClass("ilskilltemplatereferencegui", "obj_id", $a_set["child"]);
+				$tid = ilSkillTemplateReference::_lookupTemplateId($a_set["child"]);
+				$ilCtrl->setParameterByClass("ilskilltemplatereferencegui", "tref_id", $a_set["child"]);
+				$ilCtrl->setParameterByClass("ilskilltemplatereferencegui", "obj_id", $tid);
 				$ret = $ilCtrl->getLinkTargetByClass("ilskilltemplatereferencegui", "listItems");
 				$ilCtrl->setParameterByClass("ilskilltemplatereferencegui", "obj_id", $_GET["obj_id"]);
+				$ilCtrl->setParameterByClass("ilskilltemplatereferencegui", "tref_id", $_GET["tref_id"]);
 				break;
 				
 			// skill

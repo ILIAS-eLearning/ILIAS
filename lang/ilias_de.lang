@@ -666,6 +666,8 @@ assessment#:#tst_src_quest_pool_def_list_table#:#Regeln für zufällige Auswahl 
 assessment#:#tst_source_question_pool#:#Fragenpool
 assessment#:#tst_filter_taxonomy#:#Taxonomie
 assessment#:#tst_filter_tax_node#:#Taxonomieknoten
+assessment#:#tst_save_and_create_new_rule#:#Speichern und neue Regel hinzufügen
+assessment#:#tst_msg_random_qsc_modified_add_new_rule#:#Die Konfiguration für den Test mit zufälliger Fragenauswahl wurde erfolgreich geändert. Sie können nun eine neue Regel hinzufügen.
 assessment#:#tst_msg_random_question_set_config_modified#:#Die Konfiguration für den Test mit zufälliger Fragenauswahl wurde erfolgreich geändert.
 assessment#:#tst_msg_rand_quest_set_stage_pool_last_sync#:#Ein Test mit zufälliger Fragenauswahl ist mit der aktuellen Konfiguration möglich.<br />Zeitpunkt der letzten Synchronisierung der Fragen aus den ausgewählten Fragenpools: <b>%s</b>
 assessment#:#tst_msg_rand_quest_set_pass_not_buildable#:#Mit der aktuellen Auswahl an Fragenpools und der Fragenanzahl kann kein Test mit zufälliger Fragenauswahl erzeugt werden.
@@ -789,6 +791,7 @@ assessment#:#qpl_settings_general_form_prop_show_tax_desc#:#Vorhandene Taxonomie
 assessment#:#qpl_settings_general_form_property_show_taxonomies#:#Taxonomien
 assessment#:#qpl_paste_no_objects#:#Es befinden sich keine Fragen in der Zwischenablage. Bitte kopieren oder verschieben Sie wenigstens eine Frage in die Zwischenablage.
 assessment#:#qpl_paste_success#:#Die Frage(n) wurde(n) in den Fragenpool eingefügt
+assessment#:#qpl_paste_error#:#Mindestens eine Frage konnto nicht in den Fragenpool eingefügt werden. Möglicher Grund: Sie haben versucht die Frage in den selben Frangepool zu verschieben.
 assessment#:#qpl_question_is_in_use#:#Die Frage, die Sie jetzt bearbeiten möchten, existiert bereits in %s Test(s). Wenn Sie diese Frage jetzt verändern, so hat das KEINE Auswirkungen auf bereits in Tests eingebundene Fragen, da das System automatisch eine Kopie der Frage anlegt, wenn diese in einen Test eingebunden wird!
 assessment#:#qpl_questions_deleted#:#Frage(n) gelöscht
 assessment#:#qpl_select_file_for_import#:#Sie müssen eine Datei zum Importieren auswählen!
@@ -849,7 +852,7 @@ assessment#:#obligatory#:#Obligatorisch
 assessment#:#not_all_obligations_answered#:#Sie müssen alle obligatorischen Fragen beantworten bevor Sie den Test abschließen können.
 assessment#:#tst_setting_enable_obligations_label#:#Obligatorische Fragen
 assessment#:#tst_setting_enable_obligations_info#:#Wählen Sie diese Option aus, um obligatorische Fragen (*) einzusetzen. Um den Test zu bestehen, ist das Beantworten aller verpflichtenden Fragen notwendig. Obligatorische Fragen werden in der "Listenansicht" definiert. Wir empfehlen beim Einsatz von obligatorischen Fragen die "Fragenübersicht" ebenfalls zu aktivieren.
-assessment#:#tst_test_contains_obligatory_questions#:#Um diesen Test zu bestehen müssen Sie wenigstens alle obligatorischen Fragen (*) korrekt beantworten.
+assessment#:#tst_test_contains_obligatory_questions#:#Um diesen Test beenden zu können, müssen Sie alle obligatorischen Fragen (*) beantworten.
 assessment#:#scored_pass#:#Bewerteter Durchlauf
 assessment#:#scoring#:#Auswertung
 assessment#:#search_found_groups#:#Gefundene Gruppen
@@ -1085,7 +1088,7 @@ assessment#:#tst_pass_details#:#Details anzeigen
 assessment#:#tst_pass_last_pass#:#Den letzten Testdurchlauf bewerten
 assessment#:#tst_pass_overview_for_participant#:#Testdurchläufe für Teilnehmer: %s
 assessment#:#tst_pass_scoring#:#Bewertung bei mehreren Testdurchläufen
-assessment#:#tst_pass_scoring_description#:#Normalerweise wird immer der letzte Testdurchlauf eines Teilnehmers bewertet. Falls der beste Testdurchlauf bewertet wird, wird der Testdurchlauf verwendet, bei dem der Teilnehme die höchste Punktezahl erreicht hat. Diese Einstellungen machen natürlich nur dann Sinn, wenn bei einem Test mehr als ein Testdurchlauf zugelassen wird.
+assessment#:#tst_pass_scoring_description#:#Normalerweise wird immer der letzte Testdurchlauf eines Teilnehmers bewertet. Falls der beste Testdurchlauf bewertet wird, wird der Testdurchlauf verwendet, bei dem der Teilnehmer die höchste Punktezahl erreicht hat. Diese Einstellungen machen natürlich nur dann Sinn, wenn bei einem Test mehr als ein Testdurchlauf zugelassen wird.
 assessment#:#tst_passes#:#Testdurchläufe
 assessment#:#tst_password#:#Testpasswort
 assessment#:#tst_password_details#:#Wenn Sie ein Testpasswort definieren, müssen alle berechtigten Teilnehmer dieses Kennwort eingeben, um den Test zu starten.
@@ -2749,7 +2752,7 @@ common#:#display_webdav_actions#:#WebDAV-Aktionen anzeigen
 common#:#display_webdav_actions_info#:#Zeigt die Aktion 'Als Webordner öffnen' bei jeder Kategorie, Ordner, Gruppe und Kurs im Magazin an.
 common#:#domain#:#Domäne
 common#:#down#:#Runter
-common#:#download#:#Herunterladen
+common#:#download#:#Download
 common#:#download_all_returned_files#:#Alle abgegebenen Dateien herunterladen
 common#:#download_with_uploaded_filename#:#Hochgeladenen Dateinamen verwenden
 common#:#download_with_uploaded_filename_info#:#Wählen Sie diese Option ausschliesslich für die Rückwärtskompatibilität mit ILIAS 3.9 und älteren Versionen aus: Wenn diese Option aktiviert ist, erhalten heruntergeladene Dateien den Namen, der beim Hochladen in ILIAS verwendet worden ist. Wenn diese Option nicht ausgewählt ist, erhalten heruntergeladene Dateien den Titel des Dateiobjekts als Namen. Diese Option hat keine Auswirkung auf WebDAV. Bei WebDAV erhalten heruntergeladene Dateien IMMER den Titel des Dateiobjekts als Namen.
@@ -2808,7 +2811,6 @@ common#:#enable_trash_info#:#Wenn aktiviert, werden gelöschte Objekte in den Pa
 common#:#enable_webdav#:#WebDAV Zugriff aktivieren
 common#:#enable_webdav_info#:#Erlaubt WebDAV Clients den Zugriff auf das Magazin über einen Webordner. Benutzer können Webordner öffnen, indem Sie im Magazin die Aktion "Als Webordner öffnen" ausführen, oder in einem WebDAV Client folgende Adresse eingeben: <a href="%1$s" folder="%1$s">%1$s</a>
 common#:#enabled#:#Eingeschaltet
-common#:#enter_filename_deliver#:#Bitte geben Sie hier Ihre Lösungsergebnisse ab
 common#:#enter_in_mb_desc#:#Geben Sie eine Größe in MB ein.
 common#:#enumerate#:#Nummerieren
 common#:#err_1_param#:#Nur 1 Parameter!
@@ -2860,7 +2862,7 @@ common#:#exc_download_all#:#Alle herunterladen
 common#:#exc_download_files#:#Download-Dateien
 common#:#exc_download_new#:#Neue herunterladen
 common#:#exc_edit#:#Eine neue Übung wurde angelegt
-common#:#exc_edit_exercise#:#Übung bearbeiten
+common#:#exc_edit_exercise#:#Einstellungen der Übung
 rbac#:#exc_edit_learning_progress#:#Lernfortschritt anderer Benutzer einsehen und Einstellungen bearbeiten
 rbac#:#exc_edit_permission#:#Rechteeinstellungen ändern
 common#:#exc_edit_until#:#Zu bearbeiten bis
@@ -3094,10 +3096,10 @@ rbac#:#glo_delete#:#Glossar löschen oder verschieben
 rbac#:#glo_edit_permission#:#Rechteeinstellungen ändern
 common#:#glo_import#:#Glossar importieren
 common#:#glo_mode#:#Modus
-common#:#glo_mode_desc#:#Ein virtuelles Glossar funktioniert wie ein normales Glossar. Zusätzlich umfasst es aber auch alle Begriffsdefinitionen von allen Glossaren, die sich auf der gleichen Ebene im Magazin befinden (nur diese Ebene) bzw. auch alle Begriffsdefinitionen aus Glossaren, die sich auch in nachfolgenden Ebenen befinden (ganzer Teilbaum).
-common#:#glo_mode_level#:#Virtuelles Glossar - nur aktuelle Ebene
+common#:#glo_mode_desc#:#Ein Sammelglossar funktioniert wie ein normales Glossar. Zusätzlich umfasst es aber auch alle Begriffsdefinitionen von allen Glossaren, die sich auf der gleichen Ebene im Magazin befinden (nur diese Ebene) bzw. auch alle Begriffsdefinitionen aus Glossaren, die sich auch in nachfolgenden Ebenen befinden (ganzer Teilbaum).
+common#:#glo_mode_level#:#Sammelglossar - nur aktuelle Ebene
 common#:#glo_mode_normal#:#Normales Glossar
-common#:#glo_mode_subtree#:#Virtuelles Glossar - ganzer Teilbaum
+common#:#glo_mode_subtree#:#Sammelglossar - ganzer Teilbaum
 common#:#glo_new#:#Neues Glossar anlegen
 rbac#:#glo_read#:#Glossarinhalt lesen
 common#:#glo_upload_file#:#Datei
@@ -3697,7 +3699,7 @@ rbac#:#mep_visible#:#Medienpool ist sichtbar
 rbac#:#mep_write#:#Inhalt und Einstellungen des Medienpools bearbeiten
 common#:#message#:#Nachricht
 common#:#message_content#:#Inhalt
-common#:#message_no_delivered_files#:#Sie haben keine Lösungsergebnisse abgegeben.
+common#:#message_no_delivered_files#:#Sie haben noch keine Datei abgegeben.
 common#:#message_to#:#Mail an:
 common#:#meta_data#:#Metadaten
 common#:#mgs_objects_linked_to_the_following_folders#:#Objekte wurden in folgende Bereiche verknüpft: %s
@@ -5382,8 +5384,8 @@ content#:#cont_double_click_to_delete#:#Mit einem Doppel-Klick auf ein Content-E
 content#:#cont_download_no_download#:#Die Download-Funktion ist zur Zeit deaktiviert. Daher wird die Datei den Lernenden nicht angeboten.
 content#:#cont_download_no_menu#:#Das Lernmodulmenü ist zur Zeit deaktiviert. Daher wird die Datei den Lernenden nicht angeboten.
 content#:#cont_download_title#:#Titel der Download-Datei
-content#:#cont_downloads#:#Download anbieten
-content#:#cont_downloads_desc#:#Ermöglicht Benutzern, die freigegebenen Exportdateien herunterzuladen (zum Beispiel für Offline-Nutzung oder Import).
+content#:#cont_downloads#:#Download
+content#:#cont_downloads_desc#:#Der Reiter "Download" wird in der Präsentationsansicht angezeigt. Dort können Benutzer freigegebene Exportdateien herunterladen, zum Beispiel für Offline-Nutzung oder Import.
 content#:#cont_downloads_public_desc#:#Erlaubt das Herunterladen auch für nichtangemeldete Benutzer (Öffentlicher Bereich)
 content#:#cont_drag_and_drop_elements#:#Um Content-Elemente zu bewegen, ziehen Sie diese mit der Maus auf die Platzhalter.
 content#:#cont_drag_element_click_save#:#Bewegen Sie das Element an die gewünschte Position und klicken dann auf "Speichern".
@@ -5546,7 +5548,7 @@ content#:#cont_glo_assign#:#Glossar zuweisen
 content#:#cont_glo_create#:#Neues Glossar anlegen
 content#:#cont_glo_detach#:#Glossarzuweisung aufheben
 content#:#cont_glo_menu#:#Menü
-content#:#cont_glo_properties#:#Glossar Eigenschaften
+content#:#cont_glo_properties#:#Einstellungen des Glossars
 content#:#cont_header#:#Kopfzeile
 content#:#cont_Headline1#:#Überschrift 1
 content#:#cont_Headline2#:#Überschrift 2
@@ -6114,18 +6116,18 @@ content#:#dgl_pagebreak#:#Seitenumbruch
 content#:#glo_add_new_term#:#Neuen Begriff hinzufügen
 content#:#glo_definition_abbr#:#Def.
 content#:#glo_editing_view#:#Bearbeitungsansicht
-content#:#glo_full_definitions#:#Komplette Definitionen
-content#:#glo_full_definitions_info#:#Begriffe und Definitionen werden komplett in der Hauptansicht angezeigt.
+content#:#glo_full_definitions#:#Liste
+content#:#glo_full_definitions_info#:#Alle Begriffe und Definitionen werden vollständig untereinander angezeigt.
 content#:#glo_list_usages#:#Nutzung
 content#:#glo_presentation_mode#:#Ansicht
 content#:#glo_presentation_view#:#Präsentationsansicht
 content#:#glo_quick_navigation#:#Schnellzugriff
-content#:#glo_table_form#:#Tabellarisch
-content#:#glo_table_form_info#:#Begriffe und Definitionen werden zunächst in einer zweispaltigen Übersicht angezeigt. Beim Anklicken eines Begriffes wird der Begriff mit den dazugehördenden Definitionen angezeigt.
+content#:#glo_table_form#:#Tabelle
+content#:#glo_table_form_info#:#Begriffe und gekürzte Definitionen werden in einer Übersichtstabelle dargestellt. Beim Anklicken eines Begriffes wird dieser mit der vollständigen Definition angezeigt.
 content#:#glo_term_is_used_n_times#:#Der Begriff wird %s in Lernmodulen verwendet.
 content#:#glo_term_used_in#:#Folgende Ressourcen verweisen auf diesen Begriff
-content#:#glo_text_snippet_length#:#Länge des Definitionsausschnitts
-content#:#glo_text_snippet_length_info#:#Textlänge, nach der Definitionen in der Übersicht abgeschnitten werden.
+content#:#glo_text_snippet_length#:#Länge der gekürzten Definitionen
+content#:#glo_text_snippet_length_info#:#Anzahl der Zeichen, nach der Definitionen in der Übersichtstabelle abgeschnitten werden.
 content#:#glo_usages#:#Glossar wird verwendet in...
 content#:#glo_used_in_scorm#:#Das Glossar wird vom SCORM-Modul verwendet. Wenn das Glossar gelöscht wird, können Verlinkungen zum Glossar nicht mehr aufgelöst werden.
 content#:#htlm_import#:#HTML-Lernmodul importieren
@@ -7424,8 +7426,8 @@ exc#:#exc_assignments_deleted#:#Die Übungseinheiten wurden gelöscht.
 exc#:#exc_blog_created#:#Blog wurde erstellt.
 exc#:#exc_blog_returned#:#Zugeordnetes Blog
 exc#:#exc_blog_selected#:#Das Blog wurde verknüpft.
-exc#:#exc_completion_by_submission#:#Bestehen durch Abgabe
-exc#:#exc_completion_by_submission_info#:#Falls aktiviert, führt die Abgabe einer Lösung zum Bestehen einer Übungseinheit. Die Bewertung kann jederzeit manuell angepasst werden. Das Ändern dieser Einstellung hat keine nachträglichen Auswirkungen auf bereits eingereichte Lösungen.
+exc#:#exc_completion_by_submission#:#Automatisch bei Abgabe
+exc#:#exc_completion_by_submission_info#:#Gibt ein Teilnehmer ein Arbeitsergebnis ab, wird der Status "Bestanden" gesetzt. Der Tutor kann den Status manuell überschreiben. Das Ändern dieser Einstellung hat keine Auswirkung auf bestehende Bewertungen.
 exc#:#exc_conf_del_assignments#:#Möchten Sie die folgenden Übungseinheiten wirklich löschen?
 exc#:#exc_create_blog#:#Blog erstellen
 exc#:#exc_create_blog_select_info#:#Wählen Sie im Arbeitsraum Ihres Persönlichen Schreibtischs die Stelle aus, an der das Blog erstellt werden soll.
@@ -7434,7 +7436,7 @@ exc#:#exc_create_portfolio_select_info#:#Wählen Sie im Arbeitsraum Ihres Persö
 exc#:#exc_deadline#:#Abgabetermin
 exc#:#exc_direct_submit_blog#:#Möchten Sie die aktuelle Version Ihres Blogs jetzt abgeben? Sie können dies auch jederzeit im Blog-Editor tun.
 exc#:#exc_direct_submit_portfolio#:#Möchten Sie die aktuelle Version Ihres Portfolios jetzt abgeben? Sie können dies auch jederzeit im Portfolio-Editor tun.
-exc#:#exc_edit_assignment#:#Übungseinheit bearbeiten
+exc#:#exc_edit_assignment#:#Einstellungen der Übungseinheit
 exc#:#exc_edit_assignments#:#Übungseinheiten bearbeitn
 exc#:#exc_edit_submission#:#Eingereichte Lösungen ändern
 exc#:#exc_ended_on#:#Beendet am
@@ -7442,7 +7444,7 @@ exc#:#exc_export_excel#:#Export (Excel)
 exc#:#exc_fb_files#:#Feedback-Dateien
 exc#:#exc_grades#:#Notenübersicht
 exc#:#exc_grades_overview#:#Notenübersicht
-exc#:#exc_hand_in#:#Lösung einreichen
+exc#:#exc_hand_in#:#Datei abgeben
 exc#:#exc_import#:#Übung importieren
 exc#:#exc_list_submission#:#Alle Lösungsabgaben
 exc#:#exc_mail_permanent_link#:#Der folgende Link leitet weiter zur Übung:
@@ -7467,10 +7469,10 @@ exc#:#exc_order_by_deadline#:#Nach Abgabetermin sortieren
 exc#:#exc_overview#:#Übersicht
 exc#:#exc_participant#:#Teilnehmer
 exc#:#exc_participant_view#:#Je Teilnehmer
-exc#:#exc_pass_all#:#Alle obligatorischen Übungseinheiten
-exc#:#exc_pass_all_info#:#Lerner müssen alle obligatorischen Übungseinheiten bestehen, um die Übung als ganze zu bestehen.
-exc#:#exc_pass_minimum_nr#:#Minimale Anzahl an Übungseinheiten
-exc#:#exc_pass_minimum_nr_info#:#Lerner müssen eine minimale Anzahl an Übungseinheiten bestehen, um die Übung als ganze zu bestehen. Dieser Wert muß mindestens so hoch sein, wie die Anzahl der obligatorischen Übungseinheiten.
+exc#:#exc_pass_all#:#Nur obligatorische Übungseinheiten
+exc#:#exc_pass_all_info#:#Teilnehmer müssen alle obligatorischen Übungseinheiten bestehen, um die gesamte Übung zu bestehen.
+exc#:#exc_pass_minimum_nr#:#Mindestanzahl an Übungseinheiten
+exc#:#exc_pass_minimum_nr_info#:#Teilnehmer müssen eine Mindestanzahl an Übungseinheiten bestehen, um die gesamte Übung zu bestehen.
 exc#:#exc_pass_mode#:#Anforderung
 exc#:#exc_portfolio_created#:#Portfolio wurde erstellt.
 exc#:#exc_portfolio_returned#:#Zugeordnetes Portfolio
@@ -7489,13 +7491,13 @@ exc#:#exc_select_portfolio#:#Vorhandenes Portfolio nutzen
 exc#:#exc_select_portfolio_change#:#Anderes Portfolio benutzen
 exc#:#exc_select_portfolio_info#:#Bitte wählen Sie eines Ihrer Portfolios, um es in dieser Übungseinheit zu benutzen.
 exc#:#exc_send_assignment#:#Übungseinheit per Mail verschicken
-exc#:#exc_show_submissions#:#Alle abgegebenen Lösungen nach Abgabetermin veröffentlichen
-exc#:#exc_show_submissions_info#:#Die abgegebenen Lösungen aller Lerner können nach dem Abgabetermin von allen Lernern eingesehen werden.
+exc#:#exc_show_submissions#:#Arbeitsergebnisse veröffentlichen
+exc#:#exc_show_submissions_info#:#Alle abgegebenen Arbeitsergebnisse einer Übungseinheit können nach dem Abgabetermin von allen Teilnehmern eingesehen werden.
 exc#:#exc_start_time#:#Startzeit
 exc#:#exc_starting_on#:#Startet am
-exc#:#exc_submission_notification#:#Mail-Benachrichtigung bei Abgaben
+exc#:#exc_submission_notification#:#Benachrichtigung bei Abgabe
 exc#:#exc_submission_notification_body#:#Eine neue Abgabe wurde für die Übung "%s" hochgeladen
-exc#:#exc_submission_notification_info#:#Sie werden benachrichtigt, sobald neue Abgaben hochgeladen werden. Dies ist eine persönliche Einstellung die andere Administratoren der Übung nicht betrifft.
+exc#:#exc_submission_notification_info#:#Sie werden per Mail benachrichtigt, sobald neue Arbeitsergebnisse abgegeben wurden. Dies ist eine persönliche Einstellung, die nur für Sie gilt. Andere Tutoren der Übung sind davon nicht betroffen.
 exc#:#exc_submission_notification_link#:#Link zur Übung: %s
 exc#:#exc_submission_notification_subject#:#Eine neue Abgabe wurde für die Übung "%s" hochgeladen
 exc#:#exc_submissions_and_grades#:#Abgaben und Noten
@@ -11945,7 +11947,7 @@ wiki#:#wiki_change_notification_page_body_delete#:#die folgende Wiki-Seite wurde
 wiki#:#wiki_change_notification_page_body_update#:#die folgende Wiki-Seite wurde editiert
 wiki#:#wiki_change_notification_page_link#:#URL
 wiki#:#wiki_change_notification_salutation#:#Hallo %s,
-wiki#:#wiki_change_notification_subject#:#Wiki "%s" wurde editiert
+wiki#:#wiki_change_notification_subject#:#Wiki "%1$s" wurde editiert: %2$s
 wiki#:#wiki_changed_by#:#Geändert von
 wiki#:#wiki_contributor#:#Mitwirkende/r
 wiki#:#wiki_contributors#:#Mitwirkende
@@ -13204,7 +13206,7 @@ survey#:#survey_360_appraisee_close_action_success#:#Sie haben Ihre 360°-Umfrag
 survey#:#survey_360_appraisee_close_action_status#:#Umfrage wurde am %s geschlossen.
 survey#:#survey_360_sure_appraisee_close#:#Wollen Sie wirklich die Umfrage für alle Feedback-Geber schliessen?
 survey#:#survey_360_appraisee_close_table#:#Geschlossen am
-survey#:#svy_eval_competences#:#Kompetenz-Ergenisse
+survey#:#svy_eval_competences#:#Kompetenz-Ergebnisse
 survey#:#svy_gap_analysis#:#Gap-Analyse
 survey#:#svy_all_survey_competences#:#Alle Umfrage-Kompetenzen
 survey#:#survey_360_raters#:#Feedback-Geber
@@ -13305,6 +13307,7 @@ blog#:#blog_draft_info_contributors#:#Dieser Eintrag ist als Entwurf nur für di
 assessment#:#tst_extratime_added#:#Die Bearbeitungszeit des Teilnehmers wurde um %s Minuten verlängert.
 assessment#:#tst_extratime_nodata#:#Es gibt noch keine Einträge für den ausgewählten Teilnehmer.
 assessment#:#tst_extratime_notavailable#:#Zeitverlängerungen können nur für Tests mit einem Durchlauf und einer vorgegebenen Bearbeitungszeit durchgeführt werden.
+assessment#:#tst_extratime_info#:#Falls die Bearbeitungszeit eines Testteilnehmers mehrmals verlängert wird, geben Sie hier bitte die Summe aller seiner Zeitverlängerungen an.
 assessment#:#extratime#:#Zeitverlängerung
 assessment#:#log_added_extratime#:#Es wurden zusätzliche %d Minuten Bearbeitungsdauer für die Teilnehmer-ID %d hinzugefügt
 assessment#:#timing#:#Zeitverlängerung
@@ -13432,7 +13435,7 @@ common#:#enable_multi_download_info#:#Wenn aktiviert, können mehrere Ordner/Dat
 book#:#book_confirm_booking_schedule_number_of_objects#:#Buchungsbestätigung
 book#:#book_confirm_booking_schedule_number_of_objects_info#:#Bitte wählen Sie die Anzahl der zu buchenden Objekte.
 exc#:#exc_type_text#:#Text
-exc#:#exc_files_returned_text#:#Übungseinheit Text
+exc#:#exc_files_returned_text#:#Abgegebener Text
 exc#:#exc_text_assignment_edit#:#Text bearbeiten
 exc#:#exc_text_assignment_show#:#Text anzeigen
 survey#:#survey_360_remove_appraisees#:#Feedback-Nehmer entfernen
@@ -13440,7 +13443,7 @@ search#:#search_add_members_from_container_grp#:#Benutzer aus aktueller Gruppe h
 search#:#search_add_members_from_container_crs#:#Benutzer aus aktuellem Kurs hinzufügen
 exc#:#exc_peer_review#:#Peer-Feedback
 exc#:#exc_peer_review_info#:#Nicht möglich für Team-Upload-Übungseinheiten
-exc#:#exc_peer_review_min_number#:#Anzahl an gegebenem Feedback um eigene Bewertungen zu sehen
+exc#:#exc_peer_review_min_number#:#Mindestanzahl Bewertungen
 exc#:#exc_peer_review_give#:#Feedback geben
 exc#:#exc_peer_review_no_peers#:#Es konnten keine Peers gefunden werden.
 exc#:#exc_peer_review_rating#:#Bewertung
@@ -13510,7 +13513,7 @@ rating#:#rating_new_objects_auto_info#:#Die Bewertungsfunktion ist in neu angele
 rating#:#rating_activate_rating#:#Bewertung aktivieren
 rating#:#rating_activate_rating_info#:#Wenn aktiviert, können Benutzer dieses Objekt bewerten.
 exc#:#exc_peer_review_no_peers_reviewed_yet#:#Es wurden bisher noch keine Bewertungen vorgenommen.
-exc#:#exc_peer_review_ass_setting_info#:#Wenn aktiviert, können Benutzer sich nach dem Abgabetermin gegenseitig bewerten.
+exc#:#exc_peer_review_ass_setting_info#:#Nach dem Abgabetermin können Teilnehmer ihre Arbeitsergebnisse gegenseitig bewerten.
 book#:#book_copy#:#Buchungspool kopieren
 book#:#obj_book_duplicate#:#Buchungspool kopieren
 administration#:#adm_user_starting_point_invalid_info#:#Dieses Feature ist aktuell nicht aktiviert.
@@ -13617,8 +13620,8 @@ orgu#:#ext_id_updated#:#Die externe ID wurde erfolgreich bearbeitet.n, da die Da
 orgu#:#no_roles#:#Es gibt keine weiteren lokalen Rollen an dieser Stelle.
 orgu#:#local_other_roles#:#Weitere lokale Rollen %s
 cld#:#cld_object_added#:#Ein neues Cloud Objekt wurde hinzugefügt
-exc#:#exc_peer_review_deadline#:#Endtermin Feedback
-exc#:#exc_peer_review_deadline_info#:#Bis zu diesem Termin kann Feedback gegeben werden und das erhaltene Feedback ist erst ab dann einsehbar.
+exc#:#exc_peer_review_deadline#:#Ende des Bewertungszeitraums
+exc#:#exc_peer_review_deadline_info#:#Bis zu diesem Termin können Bewertungen abgegeben werden. Anschließend ist das erhaltene Feedback einsehbar.
 exc#:#exc_peer_review_deadline_info_button#:#Endtermin: %s
 exc#:#exc_peer_review_deadline_reached#:#Feedback-Zeit ist abgelaufen.
 exc#:#exc_peer_review_comment#:#Mein Feedback
@@ -13632,7 +13635,7 @@ fold#:#fold_settings#:#Ordnereigenschaften
 mcst#:#mcst_download_cnt#:#Heruntergeladen
 mcst#:#mcst_play_cnt#:#Abgespielt
 glo#:#glo_term#:#Glossarbegriff
-content#:#glo_add_term_properties#:#Zusätzliche Eigenschaften von Glossarbegriffen aktivieren
+content#:#glo_add_term_properties#:#Zusätzliche Eigenschaften von Glossarbegriffen
 exc#:#exc_multi_feedback#:#Multi-Feedback
 exc#:#exc_download_zip_structure#:#ZIP-Verzeichnisstruktur herunterladen
 exc#:#exc_multi_feedback_file#:#Multi-Feedback Datei
@@ -13650,7 +13653,7 @@ assessment#:#range_max#:#Bereich (Maximum)
 assessment#:#step_dim_min#:#Dimension (Minimum)
 assessment#:#step_dim_max#:#Dimension (Maximum)
 assessment#:#tolerance#:#Toleranz (%)
-assessment#:#result_units#:#Verfügbare Einheiten
+assessment#:#result_units#:#Auswählbare Einheiten
 assessment#:#all_units#:#Alle Einheiten
 assessment#:#precision#:#Präzision
 assessment#:#err_range#:#Die obere Grenze muss größer als die untere Grenze sein.
@@ -13670,7 +13673,7 @@ assessment#:#rating_unit#:#Bewertung (Einheit)
 assessment#:#rated_sign#:#Vorzeichen
 assessment#:#rated_value#:#Wert
 assessment#:#rated_unit#:#Einheit
-assessment#:#suggest_range#:#Grenzen vorschlagen
+assessment#:#suggest_range#:#Bereich vorschlagen
 assessment#:#units#:#Einheiten
 assessment#:#qpl_qst_formulaquestion_00_no_category#:#Keine Kategorie zugewiesen
 assessment#:#category#:#Kategorie
@@ -13721,7 +13724,7 @@ assessment#:#result_type_selection#:#Ergebnistypauswahl
 assessment#:#result_dec#:#Dezimal
 assessment#:#result_frac#:#Bruch
 assessment#:#result_co_frac#:#Teilerfremder Bruch
-assessment#:#no_result_type#:#Keinen Ergebnistyp festlegen
+assessment#:#no_result_type#:#Keine Einschränkung
 assessment#:#result_dec_info#:#Gültige Dezimalzahlen sind beispielsweise 2,3 und 2.3
 assessment#:#result_frac_info#:#Die Eingaben 1/3 und 2/6  sind beides gültige Ergebnisse
 assessment#:#result_co_frac_info#:#Nur ein vollständig gekürzter Bruch (z.B. 1/3) ist ein gültiges Ergebnis
@@ -13745,7 +13748,7 @@ assessment#:#variable_x#:#Variable %s
 assessment#:#result_x#:#Ergebnis %s
 assessment#:#rating#:#Bewertung
 assessment#:#advanced_rating#:#Erweiterte Bewertung
-assessment#:#advanced_rating_info#:#Die erweiterte Bewertung ist nur dann möglich, wenn Sie für das Ergebnis eine Einheit bestimmt haben.
+assessment#:#advanced_rating_info#:#Die erweiterte Bewertung ist nur dann möglich, wenn Sie für das Ergebnis eine Einheit bestimmt haben. Weitere Bewertungseinstellungen werden nach dem Speichern der festgelegten Einheiten angezeigt.
 prtt#:#prtt_import#:#Portfoliovorlage importieren
 orgu#:#simple_user_import#:#XML-Benutzerzuweisung
 crs#:#crs_passed_status_system#:#System
@@ -13956,14 +13959,14 @@ content#:#cont_auto_suspend#:#Abruf vorhandener Lernstandsdaten sicherstellen
 content#:#cont_auto_suspend_info#:#Diese Option ist für SCORM-Lernmodule, die SCORM 2004 in einer unzureichenden Weise unterstützen, indem sie keine geeigneten Werte für cmi.exit senden.
 content#:#cont_current_lang#:#Aktuelle Sprache
 content#:#cont_edit_language_version#:#Version bearbeiten
-content#:#cont_page_translation_does_not_exist#:#Die Seite existiert noch nicht in dieser Sprache und wird jetzt erstellt.
+content#:#cont_page_translation_does_not_exist#:#Die Seite existiert noch nicht in dieser Sprache. Sie wird nun als Kopie der Standardsprache erstellt. Sprache der neuen Seite
 adve#:#adve_blocking_mode#:#Bearbeitungssperre
 adve#:#adve_minutes#:#Minuten
 adve#:#adve_minutes_info#:#Zeitraum in Minuten bis die Seite wegen fehlender Aktivität wieder freigegeben und dann von einem anderen Benutzer bearbeitet werden kann.
 content#:#content_until#:#Bearbeitung für andere Benutzer gesperrt bis
 content#:#content_no_edit_lock#:#Die Seite wird aktuell durch einen anderen Benutzer bearbeitet.
-content#:#cont_disable_def_feedback#:#Standard-Feebdack deaktivieren
-content#:#cont_disable_def_feedback_info#:#Deaktiviert das Standard-Feebdack nach der Beantwortung von Fragen.
+content#:#cont_disable_def_feedback#:#Standard-Feedback deaktivieren
+content#:#cont_disable_def_feedback_info#:#Deaktiviert das Standard-Feedback nach der Beantwortung von Fragen.
 mob#:#mob_general#:#Allgemein
 mob#:#mob_subtitles#:#Untertitel
 mob#:#mob_subtitle_files#:#Dateien für Untertitel
@@ -14118,35 +14121,35 @@ orgu#:#backto_staff#:#Back to staff###30 12 2013 new variable
 exc#:#exc_multi_feedb_info#:#On this screen you can upload multiple feedbacks in one file. First click on "Download ZIP Structure", save the ZIP file and extract it on your local computer. Put the feedback files into the corresponding user directories. Now compress the whole directory as one ZIP file agin. Browse your local filesystem for the file and select it as the "Multi-Feedback File" in the form below. After that click "Upload". A confirmation screen will list the files. Please avoid using any special characters in your filenames.###30 12 2013 new variable
 scov#:#crsv_create#:#Create SCORM Certificate###30 12 2013 new variable
 scov#:#crsv_create_info#:#Select a completed learning module to generate a certificate for it###30 12 2013 new variable
-skmg#:#skmg_usage#:#Usage###30 12 2013 new variable
-skmg#:#skmg_type#:#Type###30 12 2013 new variable
-skmg#:#skmg_number#:#Number###30 12 2013 new variable
-skmg#:#skmg_usage_type_info_gen#:#General Use in Repository Objects###30 12 2013 new variable
-skmg#:#skmg_usage_type_info_mat#:#Users assigned material from their personal workspace###30 12 2013 new variable
-skmg#:#skmg_usage_type_info_user#:#Assigned to Users###30 12 2013 new variable
+skmg#:#skmg_usage#:#Gebrauch
+skmg#:#skmg_type#:#Typ
+skmg#:#skmg_number#:#Nummmer
+skmg#:#skmg_usage_type_info_gen#:#Allgemeiner Gebrauch in Magazinobjekten
+skmg#:#skmg_usage_type_info_mat#:#Benutzer haben Material zugeordnet
+skmg#:#skmg_usage_type_info_user#:#Zuordnung zu Benutzern
 skmg#:#skmg_usage_type_info_pers#:#Selected by Users as Personal Skill###30 12 2013 new variable
-skmg#:#skmg_usage_type_info_seval#:#Self Evaluations###30 12 2013 new variable
-skmg#:#skmg_usage_type_info_prof#:#Used in Skill Profiles###30 12 2013 new variable
-skmg#:#skmg_usage_type_info_res#:#Repository Objects Assigned as Suggested Resource###30 12 2013 new variable
-skmg#:#skmg_usage_obj_objects#:#Object(s)###30 12 2013 new variable
-skmg#:#skmg_usage_obj_users#:#User(s)###30 12 2013 new variable
-skmg#:#skmg_usage_obj_profiles#:#Profile(s)###30 12 2013 new variable
-skmg#:#skmg_cannot_delete_nodes_in_use#:#Some items cannot be deleted, because they are still in use.###30 12 2013 new variable
-skmg#:#skmg_status_draft#:#Draft (Offline)###30 12 2013 new variable
-skmg#:#skmg_status_draft_info#:#Item will be hidden.###30 12 2013 new variable
-skmg#:#skmg_status_publish#:#Published###30 12 2013 new variable
-skmg#:#skmg_status_publish_info#:#Item can be used if all parents are published, too. Once items are used, the status cannot be set to draft anymore, neither can they be deleted.###30 12 2013 new variable
-skmg#:#skmg_status_outdated#:#Outdated###30 12 2013 new variable
-skmg#:#skmg_status_outdated_info#:#Item cannot be newly selected by users as personal skill, or newly assigned to repository objects or skill profiles. However existing assignments and data are still presented.###30 12 2013 new variable
-skmg#:#skmg_status#:#Status###30 12 2013 new variable
-skmg#:#skmg_no_nodes_selectable#:#Currently there are no competences selectable.###30 12 2013 new variable
-skmg#:#skmg_suggested_resources#:#Suggested Resources###30 12 2013 new variable
-content#:#cont_manage_multilang#:#Manage Multilinguality###30 12 2013 new variable
-content#:#cont_languages#:#Languages###30 12 2013 new variable
-content#:#cont_language#:#Language###30 12 2013 new variable
-content#:#cont_add_lang#:#Add Language###30 12 2013 new variable
-content#:#cont_conf_delete_lang#:#Do you really want to drop support for the following languages?###30 12 2013 new variable
-content#:#cont_back_to_page#:#Back to Page###30 12 2013 new variable
+skmg#:#skmg_usage_type_info_seval#:#Selbsteinschätzungen
+skmg#:#skmg_usage_type_info_prof#:#Nutzung in Kompetenzprofilen
+skmg#:#skmg_usage_type_info_res#:#Zuordnung zu Magazinobjekten
+skmg#:#skmg_usage_obj_objects#:#Objekt(e)
+skmg#:#skmg_usage_obj_users#:#Benutzer
+skmg#:#skmg_usage_obj_profiles#:#Profil(e)
+skmg#:#skmg_cannot_delete_nodes_in_use#:#Einige Objekte können nicht gelöscht werden, da sie noch in Gebrauch sind.
+skmg#:#skmg_status_draft#:#In Vorbereitung (Offline)
+skmg#:#skmg_status_draft_info#:#Eintrag wird Benutzern nicht angezeigt.
+skmg#:#skmg_status_publish#:#Veröffentlicht
+skmg#:#skmg_status_publish_info#:#Die Kompetenz kann von Benutzern genutzt werden falls alle übergeordneten Einträge ebenfalls freigegeben sind. Sobal die Kompetenz genutzt wird, kann sie nicht mehr gelöscht oder der Status "In Vorbereitung" gesetzt werden.
+skmg#:#skmg_status_outdated#:#Veraltet
+skmg#:#skmg_status_outdated_info#:#Der Eintrag kann von Benutzer nicht mehr als persönliche Kompetenz neu ausgewählt werden. Wurde die Kompetenz bereits früher ausgewählt, so bleibt diese Auswahl weiterhin bestehen.
+skmg#:#skmg_status#:#Status
+skmg#:#skmg_no_nodes_selectable#:#Zur Zeit sind keine Kompetenzen auswählbar.
+skmg#:#skmg_suggested_resources#:#Zugewiesene Magazinobjekte
+content#:#cont_manage_multilang#:#Mehrsprachigkeit verwalten
+content#:#cont_languages#:#Sprachen
+content#:#cont_language#:#Sprache
+content#:#cont_add_lang#:#Sprache hinzufügen
+content#:#cont_conf_delete_lang#:#Wollen Sie die Unterstützung der folgenden Sprachen wirklich beenden?
+content#:#cont_back_to_page#:#Zurück zur Seite
 notes#:#note_content_removed#:#Der Inhalt wurde entfernt.
 exc#:#exc_list_text_assignment#:#Liste aller Abgaben
 exc#:#exc_show_peer_review#:#Peer-Feedback anzeigen
@@ -14206,3 +14209,30 @@ prtf#:#prtf_page_element_teaser_blog_template#:#Innerhalb des Portfolios erschei
 prtf#:#prtf_page_element_teaser_consultation_hours#:#Innerhalb des Portfolios erscheint an dieser Stelle ein Kalender Ihrer Sprechstunden.
 prtf#:#prtf_page_element_teaser_blog#:#Innerhalb des Portfolios erscheint an dieser Stelle eine Auswahl von Blog-Einträgen.
 prtf#:#prtf_page_element_teaser_settings#:#Einstellungen
+pd#:#pd_remove_multi_confirm#:#Die Objekte wurden entfernt.
+content#:#glo_online_info#:#Nur wenn das Glossar online geschaltet ist, können Benutzer das Glossar sehen und benutzen.
+content#:#glo_mode_level_info#:#Das Glossar beinhaltet zusätzlich alle Begriffe aus Glossaren, die sich im Magazin auf gleicher Ebene befinden.
+content#:#glo_mode_normal_info#:#Das Glossar beinhaltet nur die Begriffe, die in diesem Objekt erstellt werden.
+content#:#glo_mode_subtree_info#:#Das Glossar beinhaltet zusätzlich alle Begriffe aus Glossaren, die sich im Magazin auf gleicher Ebene und in untergeordneten Ebenen befinden.
+content#:#glo_content_settings#:#Zusammenstellung des Inhalts
+content#:#glo_show_taxonomy_info#:#Die Taxonomie wird in der Präsentationsansicht angezeigt und kann zur Auswahl von Begriffen genutzt werden.
+exc#:#exc_notification#:#Persönliche Benachrichtigung
+exc#:#exc_passing_exc#:#Bestehen der Übung
+exc#:#exc_publishing#:#Veröffentlichung
+exc#:#exc_min_nr_info#:#Dieser Wert muss mindestens so hoch sein, wie die Anzahl der obligatorischen Übungseinheiten.
+exc#:#exc_passed_status_determination#:#Bestimmung des Status "Bestanden"
+exc#:#exc_completion_by_tutor#:#Nur manuell durch Tutor
+exc#:#exc_your_text#:#Ihr Text
+exc#:#exc_peer_review_min_number_info#:#Diese Anzahl an Arbeitsergebnissen muss ein Teilnehmer bewerten, um die Bewertungen seines eigenen Arbeitsergebnisses einsehen zu können.
+content#:#cont_def_feedb_activated#:#Das Standard-Feedback ist zur Zeit in den Einstellungen des Lernmoduls aktiviert.
+content#:#cont_def_feedb_deactivated#:#Das Standard-Feedback ist zur Zeit in den Einstellungen des Lernmoduls deaktiviert.
+adve#:#advanced_editing_tst_editing#:#Seiteneditor für zusätzliche Frageninhalte
+adve#:#advanced_editing_tst_editing_desc#:#Aktiviert den ILIAS-Seiteneditor für Feedback- und Hinweistexte.
+ecs#:#ecs_server_title#:#Name der ECS-Konfiguration
+assessment#:#fq_precision_info#:#Geben Sie hier die Anzahl der gewünschten Nachkommastellen an.
+assessment#:#result_units_info#:#Die hier ausgewählten Einheiten werden dem Lernenden zur Antwort angeboten. Der Lernende muss sich hier für eine Einheit entscheiden.
+assessment#:#fq_no_restriction_info#:#Sowohl Dezimalzahlen als auch Brüche werden als Eingabe akzeptiert.
+assessment#:#additional_rating_info#:#Bitte beachten Sie, dass die hier angegebenen Werte in Prozent angegeben werden und sich diese auf 100 summieren müssen.
+assessment#:#intprecision_info#:#"Teilbar durch" hat nur Auswirkungen auf die Variablenerzeugung, wenn der Wert für die Präzision 0 beträgt. In diesem Fall legt "Teilbar durch" fest, durch welche ganze Zahl die erzeugte Variable teilbar sein muss. Ein Wert von 10 erzeugt also nur ganze Zahlen, die durch 10 teilbar sind, ein Wert von 5 erzeugt ganze Zahlen, die durch 5 teilbar sind usw. Bei einer Präzision von 0 ist "Teilbar durch" ein Pflichtfeld und muss eine positive, ganze Zahl enthalten. Voreingestellt ist der Werte 1 für beliebige ganze Zahlen.
+assessment#:#tolerance_info#:#Die Toleranz legt eine erlaubte prozentuale Abweichung vom Ergebniswert fest. Bei einer Toleranz von 0 wird nur der exakte Ergebniswert als korrekt bewertet.
+assessment#:#result_unit_info#:#Bitte beachten Sie, dass die hier festgelegte Einheit auch innerhalb der "Auswählbaren Einheiten" selektiert werden muss.

@@ -90,6 +90,12 @@ class ilECSTaskScheduler
 	 */
 	public static function start()
 	{
+		include_once './Services/Context/classes/class.ilContext.php';
+		if(ilContext::getType() != ilContext::CONTEXT_WEB)
+		{
+			return;
+		}
+		
 		include_once './Services/WebServices/ECS/classes/class.ilECSServerSettings.php';
 		$servers = ilECSServerSettings::getInstance();
 		foreach($servers->getServers() as $server)

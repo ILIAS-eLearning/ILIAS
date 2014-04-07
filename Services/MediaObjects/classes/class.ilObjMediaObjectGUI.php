@@ -685,7 +685,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 		{
 			$format = ilObjMediaObject::getMimeType(ilUtil::stripSlashes($_POST["standard_reference"]));
 			$media_item->setFormat($format);
-			$media_item->setLocation(ilUtil::stripSlashes($_POST["standard_reference"]));
+			$media_item->setLocation(ilUtil::secureLink(ilUtil::stripSlashes($_POST["standard_reference"])));
 			$media_item->setLocationType("Reference");
 		}
 		$a_mob->setDescription($format);
@@ -916,7 +916,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 			{
 				$format = ilObjMediaObject::getMimeType(ilUtil::stripSlashes($_POST["standard_reference"]));
 				$std_item->setFormat($format);
-				$std_item->setLocation(ilUtil::stripSlashes($_POST["standard_reference"]));
+				$std_item->setLocation(ilUtil::secureLink(ilUtil::stripSlashes($_POST["standard_reference"])));
 				$std_item->setLocationType("Reference");
 			}
 			$mob_dir = ilObjMediaObject::_getDirectory($this->object->getId());

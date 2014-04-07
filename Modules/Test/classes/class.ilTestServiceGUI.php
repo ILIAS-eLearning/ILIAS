@@ -309,7 +309,7 @@ class ilTestServiceGUI
 							$compare_template->setVariable("HEADER_PARTICIPANT", $this->lng->txt('tst_header_participant'));
 							$compare_template->setVariable("HEADER_SOLUTION", $this->lng->txt('tst_header_solution'));
 							$result_output = $question_gui->getSolutionOutput($active_id, $pass, $show_solutions, FALSE, $show_question_only, $this->object->getShowSolutionFeedback());
-							$best_output   = $question_gui->getSolutionOutput($active_id, $pass, $show_solutions, FALSE, $show_question_only, FALSE, TRUE);
+							$best_output   = $question_gui->getSolutionOutput($active_id, $pass, FALSE, FALSE, $show_question_only, FALSE, TRUE);
 
 							$compare_template->setVariable('PARTICIPANT', $result_output);
 							$compare_template->setVariable('SOLUTION', $best_output);
@@ -788,6 +788,9 @@ class ilTestServiceGUI
 		$template->setVariable("TXT_USR_NAME", $this->lng->txt("name"));
 		$uname = $this->object->userLookupFullName($user_id, $overwrite_anonymity);
 		$template->setVariable("VALUE_USR_NAME", $uname);
+		$pass = $this->object->_getPass($active_id);
+		$template->setVariable("EXAM_ID_TXT", $this->lng->txt("exam_id"));
+		$template->setVariable("EXAM_ID", $this->object->getExamId($active_id , $pass));
 		$template->setVariable("TXT_TEST_DATE", $this->lng->txt("tst_tst_date"));
 		$template->setVariable("TXT_PRINT_DATE", $this->lng->txt("tst_print_date"));
 		$old_value = ilDatePresentation::useRelativeDates();

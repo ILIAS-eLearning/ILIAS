@@ -356,7 +356,7 @@ $bs["tref"] = $bs["tref_id"];
 			if ($a_edit)
 			{
 				$act_list->flush();
-				$act_list->setId("act_".$a_top_skill_id."_".$bs["id"]);
+				$act_list->setId("act_".$a_top_skill_id."_".$bs["id"]."_".$bs["tref"]);
 				$ilCtrl->setParameterByClass("ilpersonalskillsgui", "skill_id", $a_top_skill_id);
 				$ilCtrl->setParameterByClass("ilpersonalskillsgui", "tref_id", $bs["tref"]);
 				$ilCtrl->setParameterByClass("ilpersonalskillsgui", "basic_skill_id", $bs["id"]);
@@ -374,7 +374,7 @@ $bs["tref"] = $bs["tref_id"];
 			
 		}
 		
-		$tpl->setVariable("SKILL_TITLE", ilSkillTreeNode::_lookupTitle($a_top_skill_id));
+		$tpl->setVariable("SKILL_TITLE", ilSkillTreeNode::_lookupTitle($skill_id, $tref_id));
 		
 		if ($a_edit)
 		{
@@ -535,7 +535,24 @@ $bs["tref"] = $bs["tref_id"];
 	//
 	// Materials assignments
 	//
-	
+
+	/**
+	 * Switch self evaluation
+	 *
+	 * @param
+	 * @return
+	 */
+	function switchAssignMaterials()
+	{
+		global $ilCtrl;
+
+		$cskill = explode(":", $_POST["cskill_id"]);
+		$ilCtrl->setParameter($this, "skill_id", $_GET["skill_id"]);
+		$ilCtrl->setParameter($this, "basic_skill_id", (int) $cskill[0]);
+		$ilCtrl->setParameter($this, "tref_id", (int) $cskill[1]);
+		$ilCtrl->redirect($this, "assignMaterials");
+	}
+
 	/**
 	 * Assign materials to skill levels
 	 *
@@ -573,34 +590,34 @@ $bs["tref"] = $bs["tref_id"];
 		$bs = $vtree->getSubTreeForCSkillId($skill_id.":".$tref_id, true);
 		
 		$options = array();
+		include_once("./Services/Skill/classes/class.ilBasicSkill.php");
 		foreach ($bs as $b)
 		{
-			//$options[$b["id"]] = ilSkillTreeNode::_lookupTitle($b["id"]);
-			$options[$b["skill_id"]] = ilSkillTreeNode::_lookupTitle($b["skill_id"]);
+			$options[$b["skill_id"].":".$b["tref_id"]] = ilBasicSkill::_lookupTitle($b["skill_id"], $b["tref_id"]);
 		}
 		
-		$cur_basic_skill_id = ((int) $_POST["basic_skill_id"] > 0)
+/*		$cur_basic_skill_id = ((int) $_POST["basic_skill_id"] > 0)
 			? (int) $_POST["basic_skill_id"]
 			: (((int) $_GET["basic_skill_id"] > 0)
 				? (int) $_GET["basic_skill_id"]
-				: key($options));
+				: key($options));*/
 
-		$ilCtrl->setParameter($this, "basic_skill_id", $cur_basic_skill_id);
+//		$ilCtrl->setParameter($this, "basic_skill_id", $cur_basic_skill_id);
 			
 		include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
-		$si = new ilSelectInputGUI($lng->txt("skmg_skill"), "basic_skill_id");
+		$si = new ilSelectInputGUI($lng->txt("skmg_skill"), "cskill_id");
 		$si->setOptions($options);
-		$si->setValue($cur_basic_skill_id);
+		$si->setValue($_GET["basic_skill_id"].":".((int) $_GET["tref_id"]));
 		$ilToolbar->addInputItem($si, true);
 		$ilToolbar->addFormButton($lng->txt("select"),
-			"assignMaterials");
+			"switchAssignMaterials");
 		
 		$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
 		
 		// table
 		include_once("./Services/Skill/classes/class.ilSkillAssignMaterialsTableGUI.php");
 		$tab = new ilSkillAssignMaterialsTableGUI($this, "assignMaterials",
-			(int) $_GET["skill_id"], (int) $_GET["tref_id"], $cur_basic_skill_id);
+			(int) $_GET["skill_id"], (int) $_GET["tref_id"], (int) $_GET["basic_skill_id"]);
 		
 		$tpl->setContent($tab->getHTML());
 		
@@ -722,6 +739,7 @@ $bs["tref"] = $bs["tref_id"];
 			(int) $_GET["level_id"],
 			(int) $_GET["wsp_id"]);
 		ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+		$ilCtrl->saveParameter($this, array("skill_id", "basic_skill_id", "tref_id"));
 		$ilCtrl->redirect($this, "assignMaterials");
 	}
 	
@@ -729,7 +747,25 @@ $bs["tref"] = $bs["tref_id"];
 	//
 	// Self evaluation
 	//
-	
+
+	/**
+	 * Switch self evaluation
+	 *
+	 * @param
+	 * @return
+	 */
+	function switchSelfEvaluation()
+	{
+		global $ilCtrl;
+
+		$cskill = explode(":", $_POST["cskill_id"]);
+		$ilCtrl->setParameter($this, "skill_id", $_GET["skill_id"]);
+		$ilCtrl->setParameter($this, "basic_skill_id", (int) $cskill[0]);
+		$ilCtrl->setParameter($this, "tref_id", (int) $cskill[1]);
+		$ilCtrl->redirect($this, "selfEvaluation");
+	}
+
+
 	/**
 	 * Assign materials to skill levels
 	 *
@@ -768,33 +804,35 @@ $bs["tref"] = $bs["tref_id"];
 		
 
 		$options = array();
+		include_once("./Services/Skill/classes/class.ilBasicSkill.php");
+
 		foreach ($bs as $b)
 		{
-			$options[$b["skill_id"]] = ilSkillTreeNode::_lookupTitle($b["skill_id"]);
+			$options[$b["skill_id"].":".$b["tref_id"]] = ilBasicSkill::_lookupTitle($b["skill_id"], $b["tref_id"]);
 		}
 
-		$cur_basic_skill_id = ((int) $_POST["basic_skill_id"] > 0)
+/*		$cur_basic_skill_id = ((int) $_POST["basic_skill_id"] > 0)
 			? (int) $_POST["basic_skill_id"]
 			: (((int) $_GET["basic_skill_id"] > 0)
 				? (int) $_GET["basic_skill_id"]
 				: key($options));
 
-		$ilCtrl->setParameter($this, "basic_skill_id", $cur_basic_skill_id);
+		$ilCtrl->setParameter($this, "basic_skill_id", $cur_basic_skill_id);*/
 			
 		include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
-		$si = new ilSelectInputGUI($lng->txt("skmg_skill"), "basic_skill_id");
+		$si = new ilSelectInputGUI($lng->txt("skmg_skill"), "cskill_id");
 		$si->setOptions($options);
-		$si->setValue($cur_basic_skill_id);
+		$si->setValue(((int) $_GET["basic_skill_id"]).":".((int) $_GET["tref_id"]));
 		$ilToolbar->addInputItem($si, true);
 		$ilToolbar->addFormButton($lng->txt("select"),
-			"selfEvaluation");
+			"switchSelfEvaluation");
 		
 		$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
 		
 		// table
 		include_once("./Services/Skill/classes/class.ilSelfEvaluationSimpleTableGUI.php");
 		$tab = new ilSelfEvaluationSimpleTableGUI($this, "selfEvaluation",
-			(int) $_GET["skill_id"], (int) $_GET["tref_id"], $cur_basic_skill_id);
+			(int) $_GET["skill_id"], (int) $_GET["tref_id"], (int) $_GET["basic_skill_id"]);
 		
 		$tpl->setContent($tab->getHTML());
 		
@@ -999,7 +1037,7 @@ $bs["tref"] = $bs["tref_id"];
 			{
 				//$bs = new ilBasicSkill($l["base_skill_id"]);
 				$bs = new ilBasicSkill($l["base_skill_id"]);
-				$leg_labels[] = $bs->getTitle();
+				$leg_labels[] = ilBasicSkill::_lookupTitle($l["base_skill_id"] , $l["tref_id"]);
 				$levels = $bs->getLevelData();
 				$cnt = 0;
 				foreach ($levels as $lv)
@@ -1030,7 +1068,7 @@ $bs["tref"] = $bs["tref_id"];
 //var_dump($this->actual_levels);
 
 			include_once("./Services/Chart/classes/class.ilChart.php");
-			$chart = new ilChart("gap_chart", 600, 300);
+			$chart = new ilChart("gap_chart", 800, 300);
 			$chart->setYAxisMax($max_cnt);
 			$chart->setLegLabels($leg_labels);
 			
@@ -1167,7 +1205,7 @@ $bs["tref"] = $bs["tref_id"];
 		foreach ($a_levels as $k => $v)
 		{
 			$a_tpl->setCurrentBlock("val_level_td");
-			if ($valid_sel_level && !$found)
+			if ($valid_sel_level && $v["id"] == $se_level)
 			{
 				$a_tpl->setVariable("VAL_LEVEL", "x");
 				$a_tpl->setVariable("TD_CLASS", "ilSkillSelf");
@@ -1177,10 +1215,10 @@ $bs["tref"] = $bs["tref_id"];
 				$a_tpl->setVariable("VAL_LEVEL", " ");
 			}
 			$a_tpl->parseCurrentBlock();
-			if ($v["id"] == $se_level)
+			/*if ($v["id"] == $se_level)
 			{
 				$found = true;
-			}
+			}*/
 		}
 		
 		$a_tpl->setCurrentBlock("value_row");
@@ -1205,7 +1243,22 @@ $bs["tref"] = $bs["tref_id"];
 		{
 			$a_user_id = $ilUser->getId();
 		}
-		
+
+		$got_mat = false;
+		foreach ($a_levels as $v)
+		{
+			$mat_cnt = ilPersonalSkill::countAssignedMaterial($a_user_id,
+				$a_tref_id, $v["id"]);
+			if ($mat_cnt > 0)
+			{
+				$got_mat = true;
+			}
+		}
+		if (!$got_mat)
+		{
+			return;
+		}
+
 		foreach ($a_levels as $k => $v)
 		{
 			$mat_cnt = ilPersonalSkill::countAssignedMaterial($a_user_id,
@@ -1438,7 +1491,7 @@ $bs["tref"] = $bs["tref_id"];
 		foreach ($a_levels as $k => $v)
 		{
 			$a_tpl->setCurrentBlock("val_level_td");
-			if ($valid_sel_level && !$found)
+			if ($valid_sel_level && $v["id"] == $se_level)
 			{
 				$a_tpl->setVariable("VAL_LEVEL", "x");
 				$a_tpl->setVariable("TD_CLASS", "ilSkillSelf");
@@ -1448,10 +1501,10 @@ $bs["tref"] = $bs["tref_id"];
 				$a_tpl->setVariable("VAL_LEVEL", " ");
 			}
 			$a_tpl->parseCurrentBlock();
-			if ($v["id"] == $se_level)
+			/*if ($v["id"] == $se_level)
 			{
 				$found = true;
-			}
+			}*/
 		}
 		
 		$a_tpl->setCurrentBlock("value_row");

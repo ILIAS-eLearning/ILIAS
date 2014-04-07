@@ -50,6 +50,8 @@ Common Skill ID: <skill_id>:<tref_id>
 - <skill_id> of type
   - "skll" (then <tref_id> is 0)
   - "sktp" (then <tref_id> is not 0)
+  - "scat" (then <tref_id> is 0)
+  - "sctp" (then <tref_id> is not 0)
 - <tref_id> either of type "sktr" or "sctr" or 0
 
 

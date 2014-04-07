@@ -948,6 +948,59 @@ abstract class ilDB extends PEAR
 		return false;
 	}
 	
+	
+	/**
+	 * Check if index exists
+	 * @param type $a_table
+	 * @param type $a_fields
+	 */
+	public function indexExistsByFields($a_table, $a_fields)
+	{
+		$manager = $this->db->loadModule('Manager');
+		$reverse = $this->db->loadModule('Reverse');
+		if($manager)
+		{
+			foreach($manager->listTableIndexes($a_table) as $idx_name)
+			{
+				$def = $reverse->getTableIndexDefinition($a_table,$idx_name);
+				$idx_fields = array_keys((array) $def['fields']);
+				
+				if($idx_fields === $a_fields)
+				{
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * Drop index by field(s)
+	 * @param type $a_table
+	 * @param type $a_fields
+	 * @return boolean
+	 */
+	public function dropIndexByFields($a_table, $a_fields)
+	{
+		$manager = $this->db->loadModule('Manager');
+		$reverse = $this->db->loadModule('Reverse');
+		if($manager)
+		{
+			foreach($manager->listTableIndexes($a_table) as $idx_name)
+			{
+				$def = $reverse->getTableIndexDefinition($a_table,$idx_name);
+				$idx_fields = array_keys((array) $def['fields']);
+				
+				if($idx_fields === $a_fields)
+				{
+					return $this->dropIndex($a_table, $idx_name);
+				}
+			}
+		}
+		return false;
+		
+	}
+	
 	/**
 	* Drop an index from a table.
 	* Note: The index must have been created using MDB2
@@ -2074,7 +2127,48 @@ abstract class ilDB extends PEAR
 
 		return $column_visibility;
 	}
-	
+
+	/**
+	 * Checks if a unique constraint exists based on the fields of the unique constraint (not the name)
+	 *
+	 * @param string $a_table table name
+	 * @param array $a_fields array of field names (strings)
+	 * @return bool false if no unique constraint with the given fields exists
+	 */
+	function uniqueConstraintExists($a_table, $a_fields)
+	{
+		if (is_file("./Services/Database/classes/class.ilDBAnalyzer.php"))
+		{
+			include_once("./Services/Database/classes/class.ilDBAnalyzer.php");
+		}
+		else
+		{
+			include_once("../Services/Database/classes/class.ilDBAnalyzer.php");
+		}
+		$analyzer = new ilDBAnalyzer();
+		$cons = $analyzer->getConstraintsInformation($a_table);
+		foreach ($cons as $c)
+		{
+			if ($c["type"] == "unique" && count($a_fields) == count($c["fields"]))
+			{
+				$all_in = true;
+				foreach ($a_fields as $f)
+				{
+					if (!isset($c["fields"][$f]))
+					{
+						$all_in = false;
+					}
+				}
+				if ($all_in)
+				{
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+
 	/**
 	* Get all tables
 	*

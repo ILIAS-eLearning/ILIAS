@@ -338,17 +338,11 @@ class ilCourseDefinedFieldDefinition
 		}
 		foreach($a_values as $idx => $value)
 		{
-			if($idx === 'open')
-			{
-				continue;
-			}
-			$value = trim(ilUtil::stripSlashes($value));
 			if(strlen($value))
 			{
-				$tmp_values[] = $value;
+				$tmp_values[$idx] = $value;
 			}
 		}
-		#sort($tmp_values);
 		return $tmp_values ? $tmp_values : array();
 	}
 	

@@ -486,7 +486,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	 *
 	 * Sets a session variable with the test access code for an anonymous test user
 	 */
-	public function setAnonymousId()
+	public function setAnonymousIdCmd()
 	{
 		if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
 		{
@@ -503,9 +503,9 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	 */
 	protected function startPlayerCmd()
 	{
-		if (strcmp($_SESSION["lock"], $_POST["lock"]) != 0)
+		if ( $_SESSION["lock"] != $this->getLockParameter() )
 		{
-			$_SESSION["lock"] = $_POST["lock"];
+			$_SESSION["lock"] = $this->getLockParameter();
 
 			$this->handleUserSettings();
 
@@ -520,6 +520,20 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		{
 			$this->ctrl->redirectByClass("ilobjtestgui", "redirectToInfoScreen");
 		}
+	}
+
+	protected function getLockParameter()
+	{
+		if( isset($_POST['lock']) && strlen($_POST['lock']) )
+		{
+			return $_POST['lock'];
+		}
+		elseif( isset($_GET['lock']) && strlen($_GET['lock']) )
+		{
+			return $_GET['lock'];
+		}
+
+		return null;
 	}
 
 	/**
@@ -585,7 +599,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$this->ctrl->redirect($this, 'startTest');
 	}
 	
-	function displayCode()
+	function displayCodeCmd()
 	{
 		$this->tpl->addBlockFile($this->getContentBlockName(), "adm_content", "tpl.il_as_tst_anonymous_code_presentation.html", "Modules/Test");
 		$this->tpl->setCurrentBlock("adm_content");
@@ -596,7 +610,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$this->tpl->parseCurrentBlock();
 	}
 	
-	function codeConfirmed()
+	function codeConfirmedCmd()
 	{
 		$this->ctrl->setParameter($this, "activecommand", "start");
 		$this->ctrl->redirect($this, "redirectQuestion");
@@ -764,21 +778,25 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	 */
 	protected function confirmFinishTestCmd()
 	{
+		/**
+		 * @var $ilUser ilObjUser
+		 */
 		global $ilUser;
-		
-		$template = new ilTemplate("tpl.il_as_tst_finish_confirmation.html", TRUE, TRUE, "Modules/Test");
-		$template->setVariable("FINISH_QUESTION", $this->lng->txt("tst_finish_confirmation_question"));
-		$template->setVariable("BUTTON_CONFIRM", $this->lng->txt("tst_finish_confirm_button"));
-		if ($this->object->canShowSolutionPrintview($ilUser->getId()))
+
+		require_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
+		$confirmation = new ilConfirmationGUI();
+		$confirmation->setFormAction($this->ctrl->getFormAction($this, 'confirmFinish'));
+		$confirmation->setHeaderText($this->lng->txt("tst_finish_confirmation_question"));
+		$confirmation->setConfirm($this->lng->txt("tst_finish_confirm_button"), 'confirmFinish');
+		if($this->object->canShowSolutionPrintview($ilUser->getId()))
 		{
-			$template->setVariable("BUTTON_CANCEL", $this->lng->txt("tst_finish_confirm_list_of_answers_button"));
+			$confirmation->setCancel($this->lng->txt("tst_finish_confirm_list_of_answers_button"), 'backConfirmFinish');
 		}
 		else
 		{
-			$template->setVariable("BUTTON_CANCEL", $this->lng->txt("tst_finish_confirm_cancel_button"));
+			$confirmation->setCancel($this->lng->txt("tst_finish_confirm_cancel_button"), 'backConfirmFinish');
 		}
-		$template->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable($this->getContentBlockName(), $template->get());
+		$this->tpl->setVariable($this->getContentBlockName(), $confirmation->getHtml());
 	}
 
 	function finishTestCmd($requires_confirmation = true)
@@ -837,7 +855,18 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 				$template = new ilTemplate("tpl.il_as_tst_finish_navigation.html", TRUE, TRUE, "Modules/Test");
 				$template->setVariable("BUTTON_FINISH", $this->lng->txt("btn_next"));
 				$template->setVariable("BUTTON_CANCEL", $this->lng->txt("btn_previous"));
-
+				if ($this->object->getEnableExamview())
+				{
+					$template->setVariable("CANCEL_CMD", 'finishTest');
+				}
+				else if($this->object->getListOfQuestionsEnd())
+				{
+					$template->setVariable("CANCEL_CMD", 'outQuestionSummary');
+				}
+				else
+				{
+					$template->setVariable("CANCEL_CMD", 'redirectQuestion');
+				}
 				$template_top = new ilTemplate("tpl.il_as_tst_list_of_answers_topbuttons.html", TRUE, TRUE, "Modules/Test");
 				$template_top->setCurrentBlock("button_print");
 				$template_top->setVariable("BUTTON_PRINT", $this->lng->txt("print"));
@@ -886,36 +915,41 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 						break;
 				}
 			}
-			$this->testSession->increaseTestPass();
-			ilSession::set('passincreased', $actualpass);
 		}
 
-		if ( $this->object->getEnableArchiving() )
+		$this->performTestPassFinishedTasks($actualpass);
+
+		$this->testSession->setLastFinishedPass($this->testSession->getPass());
+		$this->testSession->increaseTestPass();
+
+		$this->ctrl->redirect($this, 'afterTestPassFinished');
+	}
+
+	protected function performTestPassFinishedTasks($finishedPass)
+	{
+		if( $this->object->getEnableArchiving() )
 		{
-			$this->archiveParticipantSubmission( $active_id, $actualpass );
+			$this->archiveParticipantSubmission($this->testSession->getActiveId(), $finishedPass);
+		}
+	}
+
+	protected function afterTestPassFinishedCmd()
+	{
+		$activeId = $this->testSession->getActiveId();
+		$lastFinishedPass = $this->testSession->getLastFinishedPass();
+
+		// handle test signature
+
+		if ( $this->isTestSignRedirectRequired($activeId, $lastFinishedPass) )
+		{
+			$this->ctrl->redirectByClass('ilTestSignatureGUI', 'invokeSignaturePlugin');
 		}
 
-		/** @var $ilPluginAdmin ilPluginAdmin */
-		global $ilPluginAdmin, $ilCtrl;
-		if ($this->object->getSignSubmission() 
-			&& count($ilPluginAdmin->getActivePluginsForSlot(IL_COMP_MODULE, 'Test', 'tsig')) != 0)
-		{
-			$key = 'signed_'. $active_id .'_'. $actualpass;
-			if (ilSession::get('passincreased') != null )
-			{
-				$key = 'signed_'. $active_id .'_'. ilSession::get('passincreased');
-			}
-			$val = ilSession::get($key);
-			if ( is_null($val) )
-			{
-				/** @var $ilCtrl ilCtrl */
-				$ilCtrl->redirectByClass('ilTestSignatureGUI', 'invokeSignaturePlugin');
-			}
-		}
-		
-		// Redirect after test
+		// redirect after test
+
 		$redirection_mode = $this->object->getRedirectionMode();
 		$redirection_url  = $this->object->getRedirectionUrl();
+
 		if($redirection_url && $redirection_mode && !$this->object->canViewResults())
 		{
 			if($redirection_mode == REDIRECT_KIOSK)
@@ -932,6 +966,30 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		}
 
 		$this->redirectBackCmd();
+	}
+
+	protected function isTestSignRedirectRequired($activeId, $lastFinishedPass)
+	{
+		if( !$this->object->getSignSubmission() )
+		{
+			return false;
+		}
+
+		if( !is_null(ilSession::get("signed_{$activeId}_{$lastFinishedPass}")) )
+		{
+			return false;
+		}
+
+		global $ilPluginAdmin;
+
+		$activePlugins = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_MODULE, 'Test', 'tsig');
+
+		if( !count($activePlugins) )
+		{
+			return false;
+		}
+		
+		return true;
 	}
 
 	/**
@@ -1554,7 +1612,18 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			$template = new ilTemplate("tpl.il_as_tst_finish_navigation.html", TRUE, TRUE, "Modules/Test");
 			$template->setVariable("BUTTON_FINISH", $this->lng->txt("btn_next"));
 			$template->setVariable("BUTTON_CANCEL", $this->lng->txt("btn_previous"));
-			
+			if ($this->object->getEnableExamview())
+			{
+				$template->setVariable("CANCEL_CMD", 'finishTest');
+			}
+			else if($this->object->getListOfQuestionsEnd())
+			{
+				$template->setVariable("CANCEL_CMD", 'outQuestionSummary');
+			}
+			else
+			{
+				$template->setVariable("CANCEL_CMD", 'redirectQuestion');
+			}
 			$template_top = new ilTemplate("tpl.il_as_tst_list_of_answers_topbuttons.html", TRUE, TRUE, "Modules/Test");
 			$template_top->setCurrentBlock("button_print");
 			$template_top->setVariable("BUTTON_PRINT", $this->lng->txt("print"));
