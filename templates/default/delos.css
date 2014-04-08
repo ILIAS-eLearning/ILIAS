@@ -3747,6 +3747,7 @@ td.ilSkill, th.ilSkill {
 
 td.ilSkill {
 	text-align: center;
+	vertical-align: middle;
 }
 
 td.ilSkillLevel {
@@ -3771,10 +3772,6 @@ div.ilSkillSuggRes {
 
 th.ilSkillEntryHead {
 	width:250px;
-}
-
-td.ilSkill {
-	vertical-align: middle;
 }
 
 /* Top-Bar */
