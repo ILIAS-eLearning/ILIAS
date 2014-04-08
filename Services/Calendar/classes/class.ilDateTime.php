@@ -12,6 +12,7 @@ define('IL_CAL_UNIX',3);
 define('IL_CAL_FKT_DATE',4);
 define('IL_CAL_FKT_GETDATE',5);
 define('IL_CAL_TIMESTAMP',6);
+define('IL_CAL_ISO_8601',7);
 
 define('IL_CAL_YEAR','year');
 define('IL_CAL_MONTH','month');
@@ -493,6 +494,10 @@ class ilDateTime
 
 				// add iso 8601 week day number (Sunday = 7)
 				$date['isoday'] = $date['wday'] == 0 ? 7 : $date['wday'];
+				break;
+			
+			case IL_CAL_ISO_8601:
+				$date = date('c',$this->getUnixTime());
 				break;
 				
 			case IL_CAL_TIMESTAMP:

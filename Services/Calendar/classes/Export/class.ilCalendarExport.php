@@ -86,7 +86,8 @@ class ilCalendarExport
 		$this->writer->addLine('BEGIN:VCALENDAR');
 		$this->writer->addLine('VERSION:2.0');
 		$this->writer->addLine('METHOD:PUBLISH');
-		$this->writer->addLine('PRODID:-//ilias.de/NONSGML ILIAS Calendar V4.1//EN');
+		$this->writer->addLine('PRODID:-//ilias.de/NONSGML ILIAS Calendar V4.4//EN');
+		
 		$this->addTimezone();
 
 		switch($this->getExportType())
@@ -104,7 +105,20 @@ class ilCalendarExport
 	
 	protected function addTimezone()
 	{
-		// TODO
+		$this->writer->addLine('X-WR-TIMEZONE:'.$GLOBALS['ilUser']->getTimeZone());
+		
+		include_once './Services/Calendar/classes/class.ilCalendarUtil.php';
+		$tzid_file = ilCalendarUtil::getZoneInfoFile($GLOBALS['ilUser']->getTimeZone());
+		if(!is_file($tzid_file))
+		{
+			$tzid_file = ilCalendarUtil::getZoneInfoFile('Europe/Berlin');
+		}
+		$reader = fopen($tzid_file,'r');
+		while($line = fgets($reader))
+		{
+			$line = str_replace("\n", '', $line);
+			$this->writer->addLine($line);
+		}
 	}
 	
 	protected function addCategories()

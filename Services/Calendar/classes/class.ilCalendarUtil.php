@@ -277,6 +277,18 @@ class ilCalendarUtil
 		self::$init_done = "done";
 	}
 	
+	public static function getZoneInfoFile($a_tz)
+	{
+		if(!array_key_exists($a_tz, self::_getShortTimeZoneList()))
+		{
+			return '';
+		}
+		$timezone_filename = str_replace('/', '_', $a_tz);
+		$timezone_filename .= '.ics';
+		return './Services/Calendar/zoneinfo/'.$timezone_filename;
+	}
+
+
 	/**
 	 * get short timezone list
 	 *
