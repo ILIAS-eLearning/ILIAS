@@ -919,8 +919,11 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		if (array_key_exists("pdf", $_GET) && ($_GET["pdf"] == 1))
 		{
 			//$this->object->deliverPDFfromHTML($template->get(), $this->object->getTitle());
+
+			$name = ilObjUser::_lookupName($user_id);
+			$filename = $name['lastname'] . '_' . $name['firstname'] . '_' . $name['login'] . '__'. $this->object->getTitle();
 			require_once 'class.ilTestPDFGenerator.php';
-			ilTestPDFGenerator::generatePDF($template->get(), ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $this->object->getTitle());
+			ilTestPDFGenerator::generatePDF($template->get(), ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $filename);
 			//ilUtil::deliverData($file, ilUtil::getASCIIFilename($this->object->getTitle()) . ".pdf", "application/pdf", false, true);
 			//$template->setVariable("PDF_FILE_LOCATION", $filename);
 		}
