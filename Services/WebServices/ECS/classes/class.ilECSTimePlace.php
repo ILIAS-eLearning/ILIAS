@@ -66,6 +66,8 @@ class ilECSTimePlace
 			$ilLog->write(__METHOD__ . ': Cannot load from JSON. No object given.');
 			throw new ilException('Cannot parse ECSContent.');
 		}
+		
+		$GLOBALS['ilLog']->write(__METHOD__.': '.print_r($a_json,true));
 
 		$this->room = $a_json->room;
 		$this->begin = $a_json->begin;
@@ -111,7 +113,10 @@ class ilECSTimePlace
 	 */
 	public function getUTBegin()
 	{
-		include_once('Date.php');
+		if(!include_once('Date.php'))
+		{
+			return time();
+		}
 
 		$date = new Date();
 		$date->setDate($this->begin);
@@ -156,7 +161,11 @@ class ilECSTimePlace
 	 */
 	public function getUTEnd()
 	{
-		include_once('Date.php');
+		
+		if(!include_once('Date.php'))
+		{
+			return time();
+		}
 
 		$date = new Date();
 		$date->setDate($this->end);
