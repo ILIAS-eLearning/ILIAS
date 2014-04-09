@@ -242,13 +242,18 @@ class ilObjectAddNewItemGUI
 								$current_grp = $obj_grp_id;
 							}
 						}
-
-						$title = $lng->txt("obj_".$type);
+						
 						if ($subitem["plugin"])
 						{
 							include_once("./Services/Component/classes/class.ilPlugin.php");
 							$title = ilPlugin::lookupTxt("rep_robj", $type, "obj_".$type);
-						}							
+						}	
+						else
+						{
+							// #13088
+							$title = $lng->txt("obj_".$type);
+						}
+						
 						$this->sub_objects[] = array("type" => "object",
 							"value" => $type,
 							"title" => $title);							
