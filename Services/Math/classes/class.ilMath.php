@@ -99,7 +99,7 @@ class ilMath
 		}
 		else
 		{
-			return $left_operand % $right_operand;
+			return $left_operand % $modulus;
 		}
 	}
 
