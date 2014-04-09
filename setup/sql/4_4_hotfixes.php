@@ -388,5 +388,67 @@ if( !$ilDB->uniqueConstraintExists('tst_sequence', array('active_fi', 'pass')) )
 			)
 		);
 ?>
+<#16>
+<?php
+	// Get defective active-id sequences by finding active ids lower than zero. The abs of the low-pass is the count of the holes
+	// in the sequence.
+	$result = $ilDB->query('SELECT active_fi, min(pass) pass FROM tst_pass_result WHERE pass < 0 GROUP BY active_fi');
+	$broken_sequences = array();
 
-	
+	while ( $row = $ilDB->fetchAssoc($result) )
+	{
+		$broken_sequences[] = array('active' => $row['active'], 'holes' => abs($row['pass']));
+	}
+
+	$stmt_inc_pass_res 	= $ilDB->prepareManip('UPDATE tst_pass_result 	SET pass = pass + 1 WHERE active_fi = ?', array('integer'));
+	$stmt_inc_man_fb 	= $ilDB->prepareManip('UPDATE tst_manual_fb 	SET pass = pass + 1 WHERE active_fi = ?', array('integer'));
+	$stmt_inc_seq 		= $ilDB->prepareManip('UPDATE tst_sequence 		SET pass = pass + 1 WHERE active_fi = ?', array('integer'));
+	$stmt_inc_sol 		= $ilDB->prepareManip('UPDATE tst_solutions 	SET pass = pass + 1 WHERE active_fi = ?', array('integer'));
+	$stmt_inc_times 	= $ilDB->prepareManip('UPDATE tst_times 		SET pass = pass + 1 WHERE active_fi = ?', array('integer'));
+
+	$stmt_sel_passes 	= $ilDB->prepare('SELECT pass FROM tst_pass_result WHERE active_fi = ? ORDER BY pass', array('integer'));
+
+	$stmt_dec_pass_res 	= $ilDB->prepareManip('UPDATE tst_pass_result 	SET pass = pass - 1 WHERE active_fi = ? AND pass > ?', array('integer', 'integer'));
+	$stmt_dec_man_fb 	= $ilDB->prepareManip('UPDATE tst_manual_fb 	SET pass = pass - 1 WHERE active_fi = ? AND pass > ?', array('integer', 'integer'));
+	$stmt_dec_seq 		= $ilDB->prepareManip('UPDATE tst_sequence 		SET pass = pass - 1 WHERE active_fi = ? AND pass > ?', array('integer', 'integer'));
+	$stmt_dec_sol 		= $ilDB->prepareManip('UPDATE tst_solutions 	SET pass = pass - 1 WHERE active_fi = ? AND pass > ?', array('integer', 'integer'));
+	$stmt_dec_times 	= $ilDB->prepareManip('UPDATE tst_times 		SET pass = pass - 1 WHERE active_fi = ? AND pass > ?', array('integer', 'integer'));
+
+	// Iterate over affected passes
+	foreach ( $broken_sequences as $broken_sequence )
+	{
+		// Recreate the unbroken, pre-renumbering state by incrementing all passes on all affected tables for the detected broken active_fi.
+		for($i = 1; $i <= $broken_sequence['holes']; $i++)
+		{
+			$ilDB->execute($stmt_inc_pass_res,	array($broken_sequence['active']));
+			$ilDB->execute($stmt_inc_man_fb, 	array($broken_sequence['active']));
+			$ilDB->execute($stmt_inc_seq, 		array($broken_sequence['active']));
+			$ilDB->execute($stmt_inc_sol, 		array($broken_sequence['active']));
+			$ilDB->execute($stmt_inc_times, 	array($broken_sequence['active']));
+		}
+
+		// Detect the holes and renumber correctly on all affected tables.
+		for($i = 1; $i <= $broken_sequence['holes']; $i++)
+		{
+			$result = $ilDB->execute($stmt_sel_passes, array($broken_sequence['active']));
+			$index = 0;
+			while($row = $ilDB->fetchAssoc($result))
+			{
+				if ($row['pass'] == $index)
+				{
+					$index++;
+					continue;
+				}
+
+				// Reaching here, there is a missing index, now decrement all higher passes, preserving additional holes.
+				$ilDB->execute($stmt_dec_pass_res, 	array($broken_sequence['active'], $index));
+				$ilDB->execute($stmt_dec_man_fb, 	array($broken_sequence['active'], $index));
+				$ilDB->execute($stmt_dec_seq, 		array($broken_sequence['active'], $index));
+				$ilDB->execute($stmt_dec_sol, 		array($broken_sequence['active'], $index));
+				$ilDB->execute($stmt_dec_times, 	array($broken_sequence['active'], $index));
+				break;
+				// Hole detection will start over.
+			}
+		}
+	}
+?>
