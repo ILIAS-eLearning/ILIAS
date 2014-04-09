@@ -141,8 +141,8 @@ class ilObjRemoteTest extends ilRemoteObjectBase
 	protected function doUpdateCustomFields(array &$a_fields)
 	{		
 		$a_fields["availability_type"] = array("integer", $this->getAvailabilityType());
-		$a_fields["availability_start"] = array("integer", $this->getStartingTime());
-		$a_fields["availability_end"] = array("integer", $this->getEndingTime());			
+		$a_fields["availability_start"] = array("integer",(int) $this->getStartingTime());
+		$a_fields["availability_end"] = array("integer", (int) $this->getEndingTime());			
 	}
 
 	protected function doReadCustomFields($a_row)
