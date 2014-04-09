@@ -292,14 +292,14 @@ class assFormulaQuestionResult
 		$result                = $math->evaluate($formula); // baseunit-result!!
 
 		$result = round($result, $this->getPrecision());
-		//	check for valid chars ("0-9", ",",  ".", "/")
-
-		$has_valid_chars = preg_match("/^-?([0-9]*)(,|\\.|\\/){0,1}([0-9]*)$/", $value, $matches);
+		
+		//	check for valid chars ("0-9",",|.|/","0-9","e|E","+|-","0-9")
+		$has_valid_chars = preg_match("/^-?([0-9]*)(,|\\.|\\/){0,1}([0-9]*)([eE][\\+|-]([0-9])+)?$/", $value, $matches);
 		if(!$has_valid_chars)
 		{
 			$check_valid_chars = false;
 		}
-		else if($matches[2] == '/' && (!strlen($matches[1]) || !strlen($matches[3]) || $matches[3] == 0))
+		else if($matches[2] == '/' && strtolower($matches[4]) == "e" && (!strlen($matches[1]) || !strlen($matches[3]) || $matches[3] == 0))
 		{
 			$check_valid_chars = false;
 		}
@@ -941,10 +941,15 @@ class assFormulaQuestionResult
 
 	public static function convertDecimalToCoprimeFraction($decimal_value)
 	{
-		$to_string = (string)$decimal_value;
-		$splitted = explode('.', $to_string);
-
-		$ganzzahl = $splitted[0];
+		$to_string   = (string)$decimal_value;
+		$is_negative = strpos($to_string, '-') === 0;
+		$splitted    = explode('.', $to_string);
+		
+		$ganzzahl      = $splitted[0];
+		if($is_negative)
+		{
+			$ganzzahl = substr($ganzzahl, 1);
+		}
 		$nachkommazahl = $splitted[1];
 
 		$period = '';
@@ -1009,7 +1014,7 @@ class assFormulaQuestionResult
 		$d = $nenner/$gcd;
 
 		$result = '';
-		if($ganzzahl > 0)
+		if($ganzzahl != 0)
 		{
 			// rechne "unechte Brüche" um
 			$n = $n + ($ganzzahl * $d);  
@@ -1025,6 +1030,11 @@ class assFormulaQuestionResult
 			$result .= $n.'/'.$d ;	
 		}	
 		
+		if($is_negative)
+		{
+			$result = '-' . $result;
+		}
+	
 		return $result;
 	}
 	
