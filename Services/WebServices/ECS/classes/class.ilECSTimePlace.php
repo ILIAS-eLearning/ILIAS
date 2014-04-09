@@ -113,7 +113,7 @@ class ilECSTimePlace
 	 */
 	public function getUTBegin()
 	{
-		if(!include_once('Date.php'))
+		if(!@include_once('Date.php'))
 		{
 			return time();
 		}
@@ -162,7 +162,7 @@ class ilECSTimePlace
 	public function getUTEnd()
 	{
 		
-		if(!include_once('Date.php'))
+		if(!@include_once('Date.php'))
 		{
 			return time();
 		}
