@@ -432,6 +432,12 @@ class ilDateTime
 				}
 				$this->timezone->restoreTZ();
 				break;
+				
+			case IL_CAL_ISO_8601:
+				$dt = DateTime::createFromFormat(DateTime::ISO8601, $a_date);
+				$this->unix = $dt->getTimeStamp();
+				break;
+				
 	 	}
 	 	return true;
 	}
