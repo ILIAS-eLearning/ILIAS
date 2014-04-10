@@ -780,7 +780,7 @@ class ilObjectGUI
 	{
 		global $tpl;
 		
-		// sanity check
+		// #13168 - sanity check
 		foreach($a_forms as $id => $form)
 		{
 			if(!$form instanceof ilPropertyFormGUI)
@@ -792,11 +792,8 @@ class ilObjectGUI
 		// no accordion if there is just one form
 		if(sizeof($a_forms) == 1)
 		{
-			$a_forms = array_shift($a_forms);
-			if (is_object($a_forms) && get_class($a_forms) == "ilPropertyFormGUI")
-			{
-				return $a_forms->getHTML();
-			}
+			$a_forms = array_shift($a_forms);			
+			return $a_forms->getHTML();			
 		}
 		else
 		{
