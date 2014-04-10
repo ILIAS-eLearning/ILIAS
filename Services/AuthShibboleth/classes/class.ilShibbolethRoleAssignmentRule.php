@@ -37,6 +37,7 @@ class ilShibbolethRoleAssignmentRule {
 	const ERR_MISSING_VALUE = 'shib_missing_attr_value';
 	const ERR_MISSING_ROLE = 'shib_missing_role';
 	const ERR_MISSING_PLUGIN_ID = 'shib_missing_plugin_id';
+	const TABLE_NAME = 'shib_role_assignment';
 	/**
 	 * @var ilDB
 	 */
