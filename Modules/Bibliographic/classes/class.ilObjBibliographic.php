@@ -355,9 +355,9 @@ class ilObjBibliographic extends ilObject2 {
 			foreach ($entry as $attr_key => $attribute) {
 				if ($attr_key == 'author' && is_array($attribute)) {
 					$attribute_string = array();
-					foreach ($attribute as $key => $author) {
+					foreach ($attribute as $author_key => $author) {
 						$lastname = array($author['von'], $author['last'], $author['jr']);
-						$attribute_string[$key] = implode(' ', array_filter($lastname)) . ', ' . $author['first'];
+						$attribute_string[$author_key] = implode(' ', array_filter($lastname)) . ', ' . $author['first'];
 					}
 					$bibtex_reader->data[$key][$attr_key] = implode(' / ', $attribute_string);
 				}
