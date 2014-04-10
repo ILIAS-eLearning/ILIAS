@@ -24,6 +24,7 @@
 */
 
 include_once './Services/Tracking/classes/class.ilLearningProgressBaseGUI.php';
+include_once './Services/Tracking/classes/class.ilLPObjSettings.php';
 include_once './Services/Tracking/classes/class.ilLMStatistics.php';
 
 class ilLMStatisticsGUI extends ilLearningProgressBaseGUI {
