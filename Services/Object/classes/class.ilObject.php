@@ -15,7 +15,8 @@ class ilObject
 	/**
 	 * max length of object title
 	 */
-	const TITLE_LENGTH = 255;
+	const TITLE_LENGTH = 255; // title column max length in db
+	const DESC_LENGTH = 128; // (short) description column max length in db
 
 
 	/**
@@ -109,8 +110,8 @@ class ilObject
 		$this->ilias =& $ilias;
 		$this->lng =& $lng;
 
-		$this->max_title = MAXLENGTH_OBJ_TITLE;
-		$this->max_desc = MAXLENGTH_OBJ_DESC;
+		$this->max_title = self::TITLE_LENGTH;
+		$this->max_desc = self::DESC_LENGTH;
 		$this->add_dots = true;
 
 		$this->referenced = $a_reference;
@@ -1121,7 +1122,7 @@ class ilObject
 		global $ilDB,$objDefinition;
 
 
-		$desc = ilUtil::shortenText($a_desc,MAXLENGTH_OBJ_DESC,true);
+		$desc = ilUtil::shortenText($a_desc,self::DESC_LENGTH,true);
 
 		$q = "UPDATE object_data ".
 			"SET ".
