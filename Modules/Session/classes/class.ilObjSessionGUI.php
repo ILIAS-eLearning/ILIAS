@@ -771,19 +771,20 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		
 		$is_course = $is_group = false;
 		
-		$this->container_ref_id = $tree->checkForParentType($this->object->getRefId(),'crs');
+		// #13178
+		$this->container_ref_id = $tree->checkForParentType($this->object->getRefId(),'grp');
 		if($this->container_ref_id)
 		{
-			$is_course = true;
+			$is_group = true;
 		}
 		if(!$this->container_ref_id)
 		{
-			$this->container_ref_id = $tree->checkForParentType($this->object->getRefId(),'grp');
+			$this->container_ref_id = $tree->checkForParentType($this->object->getRefId(),'crs');
 			if($this->container_ref_id)
 			{
-				$is_group = true;
+				$is_course = true;
 			}
-		}
+		}		
 		if(!$this->container_ref_id)
 		{
 			ilUtil::sendFailure('No container object found. Aborting');
