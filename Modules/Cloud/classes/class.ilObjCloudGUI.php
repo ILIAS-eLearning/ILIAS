@@ -301,8 +301,8 @@ class ilObjCloudGUI extends ilObject2GUI
 
         // title
         $ti = new ilTextInputGUI($this->lng->txt("title"), "title");
-        $ti->setMaxLength(128);
-        $ti->setSize(40);
+        $ti->setSize(min(40, ilObject::TITLE_LENGTH));
+		$ti->setMaxLength(ilObject::TITLE_LENGTH);
         $ti->setRequired(true);
         $form->addItem($ti);
 

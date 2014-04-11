@@ -1508,7 +1508,7 @@ class ilTree
 				if ($row)
 				{
 					$data["title"] = $row->title;
-					$data["description"] = ilUtil::shortenText($row->description,MAXLENGTH_OBJ_DESC,true);
+					$data["description"] = ilUtil::shortenText($row->description,ilObject::DESC_LENGTH,true);
 					$data["desc"] = $row->description;
 				}
 				//$ilBench->stop("Tree", "fetchNodeData_getTranslation");

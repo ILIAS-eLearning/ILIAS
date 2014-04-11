@@ -545,8 +545,8 @@ class ilObjCategoryGUI extends ilContainerGUI
 	
 		$title = new ilTextInputGUI($this->lng->txt("title"), "title");
 		$title->setRequired(true);
-		$title->setSize(40);
-		$title->setMaxLength(128);		
+		$title->setSize(min(40, ilObject::TITLE_LENGTH));
+		$title->setMaxLength(ilObject::TITLE_LENGTH);
 		$title->setValue($def["title"]);
 		$form->addItem($title);
 				
