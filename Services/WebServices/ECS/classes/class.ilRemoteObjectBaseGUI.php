@@ -241,8 +241,8 @@ abstract class ilRemoteObjectBaseGUI extends ilObject2GUI
 		
 		$text = new ilTextInputGUI($this->lng->txt('title'),'title');
 		$text->setValue($this->object->getTitle());
-		$text->setSize(40);
-		$text->setMaxLength(128);
+		$text->setSize(min(40, ilObject::TITLE_LENGTH));
+		$text->setMaxLength(ilObject::TITLE_LENGTH);
 		$text->setDisabled(true);
 		$form->addItem($text);
 

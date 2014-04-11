@@ -1141,8 +1141,8 @@ class ilObjCourseGUI extends ilContainerGUI
 		$title = new ilTextInputGUI($this->lng->txt('title'),'title');
 		$title->setSubmitFormOnEnter(true);
 		$title->setValue($this->object->getTitle());
-		$title->setSize(40);
-		$title->setMaxLength(128);
+		$title->setSize(min(40, ilObject::TITLE_LENGTH));
+		$title->setMaxLength(ilObject::TITLE_LENGTH);
 		$title->setRequired(true);
 		$form->addItem($title);
 		

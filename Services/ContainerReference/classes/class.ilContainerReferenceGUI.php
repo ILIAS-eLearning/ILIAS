@@ -227,8 +227,8 @@ class ilContainerReferenceGUI extends ilObjectGUI
 		
 		// title 
 		$title = new ilTextInputGUI($this->lng->txt('title'),'title');
-		$title->setMaxLength(128);
-		$title->setSize(40);
+		$title->setSize(min(40, ilObject::TITLE_LENGTH));
+		$title->setMaxLength(ilObject::TITLE_LENGTH);
 		$title->setRequired(true);
 		$title->setValue($this->object->getTitle());
 		$custom->addSubItem($title);

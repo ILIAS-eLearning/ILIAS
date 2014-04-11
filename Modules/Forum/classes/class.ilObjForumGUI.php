@@ -578,7 +578,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		
 		// title
 		$title_gui = new ilTextInputGUI($this->lng->txt('title'), 'title');
-		$title_gui->setMaxLength(128);
+		$title_gui->setSize(min(40, ilObject::TITLE_LENGTH));
+		$title_gui->setMaxLength(ilObject::TITLE_LENGTH);
 		$this->create_form_gui->addItem($title_gui);
 		
 		// description

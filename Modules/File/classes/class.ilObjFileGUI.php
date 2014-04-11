@@ -222,8 +222,8 @@ class ilObjFileGUI extends ilObject2GUI
 		// File Title
 		$in_title = new ilTextInputGUI($lng->txt("title"), "title");
 		$in_title->setInfo($this->lng->txt("if_no_title_then_filename"));
-		$in_title->setMaxLength(128);
-		$in_title->setSize(40);
+		$in_title->setSize(min(40, ilObject::TITLE_LENGTH));
+		$in_title->setMaxLength(ilObject::TITLE_LENGTH);
 		$single_form_gui->addItem($in_title);
 		
 		// File Description
