@@ -1,5 +1,5 @@
 <?php
-require_once('./Services/AuthShibboleth/interfaces/interface.ilShibbolethAuthenticationPluginInt.php');
+require_once('./Services/AuthShibboleth/interfaces/interface.ilShibbolethAuthenticationPlugin.php');
 
 /**
  * Class ilShibbolethPluginWrapper
@@ -70,7 +70,7 @@ class ilShibbolethPluginWrapper implements ilShibbolethAuthenticationPluginInt {
 	 * @return ilObjUser
 	 */
 	public function beforeLogin(ilObjUser $user) {
-//		$this->log->write('ilShibbolethPluginWrapper::beforeLogin');
+		//		$this->log->write('ilShibbolethPluginWrapper::beforeLogin');
 		foreach ($this->getPluginObjects() as $pl) {
 			$user = $pl->beforeLogin($user);
 		}
