@@ -162,13 +162,13 @@ class ilForumTopicTableGUI extends ilTable2GUI
 				$this->addMultiCommand('editThread', $this->lng->txt('frm_edit_title'));
 				$this->addMultiCommand('close', $this->lng->txt('close_topics'));
 				$this->addMultiCommand('reopen', $this->lng->txt('reopen_topics'));
-				$this->addMultiCommand('move', $this->lng->txt('move'));
+				$this->addMultiCommand('move', $this->lng->txt('move_thread_to_forum'));
 			}
 			$this->addMultiCommand('html', $this->lng->txt('export_html'));
 			if($this->getIsModerator())
 			{
 				$this->addMultiCommand('confirmDeleteThreads', $this->lng->txt('delete'));
-				$this->addMultiCommand('merge', $this->lng->txt('merge'));
+				$this->addMultiCommand('merge', $this->lng->txt('merge_posts_into_thread'));
 			}
 		}
 		$this->setShowRowsSelector(true);

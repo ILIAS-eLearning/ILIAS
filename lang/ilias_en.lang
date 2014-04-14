@@ -14281,3 +14281,5 @@ poll#:#poll_show_results_as#:#Show Results as
 poll#:#poll_barchart#:#Barchart
 poll#:#poll_piechart#:#Piechart
 poll#:#poll_comments_info#:#Deactivating Comments don't delete any Comments.
+forum#:#merge_posts_into_thread#:#Merge Postings into other Thread
+forum#:#move_thread_to_forum#:#Move Thread to other Forum

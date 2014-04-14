@@ -14282,3 +14282,5 @@ poll#:#poll_show_results_as#:#Ergebnisse anzeigen als
 poll#:#poll_barchart#:#Balkendiagramm
 poll#:#poll_piechart#:#Kuchendiagramm
 poll#:#poll_comments_info#:#Durch deaktivieren der Kommentare werden keine Kommentare gelöscht.
+forum#:#merge_posts_into_thread#:#Verschmelze Posts mit anderem Thema
+forum#:#move_thread_to_forum#:#Verschiebe Thema in anderes Forum
