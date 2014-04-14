@@ -143,6 +143,8 @@ class ilAuthApache extends Auth
                                 $parts = parse_url(ILIAS_HTTP_PATH);
                                 $path = $parts['scheme'] . '://' . $parts['host'] . '/' . $path;
                         }
+
+			$path = urlencode($path);
 			ilUtil::redirect(ilUtil::getHtmlPath('/sso/index.php?force_mode_apache=1&r=' . $path . '&cookie_path='.IL_COOKIE_PATH . '&ilias_path=' . ILIAS_HTTP_PATH));
 		}
 		else {
