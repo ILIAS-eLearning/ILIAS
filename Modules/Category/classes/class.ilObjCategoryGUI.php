@@ -455,7 +455,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 		$this->checkPermission("write");
 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
 		$record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_EDITOR,
-			'crs',$this->object->getId());
+			'cat',$this->object->getId());
 		$record_gui->loadFromPost();
 		$record_gui->saveValues();
 
