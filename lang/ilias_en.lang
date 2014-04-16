@@ -10047,7 +10047,7 @@ trac#:#trac_learners_back#:#Back To Learners
 trac#:#trac_user_objects#:#Learning Objects for User
 content#:#cont_link_whole_picture#:#Link Whole Picture
 content#:#cont_edit_shape_whole_picture#:#Edit Shape (Whole Picture)
-common#:#settings_for_all_members#:#Notification preselected for all course/group members
+common#:#settings_for_all_members#:#Notification activated for all course/group members
 common#:#settings_per_users#:#Settings per Course/Group Member
 user#:#enable_local_user_administration#:#Enable Local User Administration
 user#:#enable_local_user_administration_info#:#If enabled, local user accounts can be administrated in categories.

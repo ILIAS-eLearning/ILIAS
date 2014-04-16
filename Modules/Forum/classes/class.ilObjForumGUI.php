@@ -381,8 +381,14 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$view = ilForumProperties::VIEW_DATE_DESC;
 			}
 		}
-		$this->objProperties->setDefaultView($view);		
-	
+		$this->objProperties->setDefaultView($view);
+
+		// BUGFIX FOR 11271
+		if(isset($_SESSION['viewmode']))
+		{
+			$_SESSION['viewmode'] = $view;
+		}
+
 		if($ilSetting->get('enable_anonymous_fora') || $this->objProperties->isAnonymized())
 		{
 			$this->objProperties->setAnonymisation((int) $a_form->getInput('anonymized'));
@@ -3572,17 +3578,23 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$this->objProperties->setAdminForceNoti(1);
 				$this->objProperties->setUserToggleNoti((int) $this->notificationSettingsForm->getInput('usr_toggle'));
 				$this->objProperties->setNotificationType('all_users');
+				$this->updateUserNotifications(true);
 			}
 			else if($_POST['notification_type']== 'per_user')
 			{
 				$this->objProperties->setNotificationType('per_user');
 				$this->objProperties->setAdminForceNoti(1);
+				$this->objProperties->setUserToggleNoti(0);
+				$this->updateUserNotifications();
 			}
 			else //  if($_POST['notification_type'] == 'default')
 			{
 				$this->objProperties->setNotificationType('default');
 				$this->objProperties->setAdminForceNoti(0);
 				$this->objProperties->setUserToggleNoti(0);
+				include_once 'Modules/Forum/classes/class.ilForumNotification.php';
+				$frm_noti = new ilForumNotification($this->object->getRefId());
+				$frm_noti->deleteNotificationAllUsers();					
 			}
 
 			$this->objProperties->update();
@@ -3595,6 +3607,42 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		return $this->showMembersObject();
 	}
 
+	private function updateUserNotifications($update_all_users = false)
+	{
+		include_once 'Modules/Forum/classes/class.ilForumNotification.php';
+
+		$oParticipants = $this->getParticipantsObject();
+
+		$frm_noti = new ilForumNotification($this->object->getRefId());
+		$moderator_ids = $frm_noti->_getModerators($this->object->getRefId());
+
+		$admin_ids = $oParticipants->getAdmins();
+		$member_ids = $oParticipants->getMembers();
+		$tutor_ids = $oParticipants->getTutors();
+
+		$all_forum_users = array_merge($moderator_ids, $admin_ids, $member_ids, $tutor_ids);
+		$all_forum_users= array_unique($all_forum_users);
+
+		$all_notis = $frm_noti->read();
+
+		foreach($all_forum_users as $user_id)
+		{
+			$frm_noti->setUserId($user_id);
+
+			$frm_noti->setAdminForce(1);
+			$frm_noti->setUserToggle($this->objProperties->isUserToggleNoti());
+
+			if(array_key_exists($user_id, $all_notis) && $update_all_users)
+			{
+				$frm_noti->update();
+			}
+			else if($frm_noti->existsNotification() == false && !in_array($user_id, $moderator_ids))
+			{
+				$frm_noti->insertAdminForce();
+			}
+		}
+	}
+	
 	private function initNotificationSettingsForm()
 	{
 		if(null === $this->notificationSettingsForm)
@@ -3677,47 +3725,13 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		include_once 'Modules/Forum/classes/class.ilObjForum.php';
 
 		$frm_noti = new ilForumNotification($this->object->getRefId());
-
-		// check if there a parent-node is a grp or crs
-		$grp_ref_id = $tree->checkForParentType($this->object->getRefId(), 'grp');
-		$crs_ref_id = $tree->checkForParentType($this->object->getRefId(), 'crs');
-		
-		if($grp_ref_id == 0 && $crs_ref_id == 0)
-		{
-			$ilErr->raiseError($this->lng->txt('msg_no_perm_read'),$ilErr->MESSAGE);
-		}
-		
-		/**
-		 * @var $oParticipants ilParticipants
-		 */
-		$oParticipants = null;
-		if($grp_ref_id > 0)
-		{
-			$parent_obj = ilObjectFactory::getInstanceByRefId($grp_ref_id);
-			include_once 'Modules/Group/classes/class.ilGroupParticipants.php';
-			$oParticipants = ilGroupParticipants::_getInstanceByObjId($parent_obj->getId());
-		}
-		else if($crs_ref_id > 0)
-		{
-			$parent_obj = ilObjectFactory::getInstanceByRefId($crs_ref_id);
-
-			include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
-			$oParticipants = ilCourseParticipants::_getInstanceByObjId($parent_obj->getId());
-		}
+		$oParticipants = $this->getParticipantsObject();
 
 		$moderator_ids = $frm_noti->_getModerators($this->object->getRefId());
 
 		$admin_ids = $oParticipants->getAdmins();
 		$member_ids = $oParticipants->getMembers();
 		$tutor_ids = $oParticipants->getTutors();
-
-		$moderators = array();
-		$admins = array();
-		$members = array();
-		$tutors = array();
-
-		$all_forum_users = array_merge($moderator_ids, $admin_ids, $member_ids, $tutor_ids);
-		$all_forum_users= array_unique($all_forum_users);
 
 		if($this->objProperties->getNotificationType() == 'default')
 		{
@@ -3727,110 +3741,39 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$forum_noti->setAdminForce($this->objProperties->isAdminForceNoti());
 			$forum_noti->setUserToggle($this->objProperties->isUserToggleNoti());
 			$forum_noti->setForumId($this->objProperties->getObjId());
-
-			if(isset($_POST['notification_type']) && $_POST['notification_type'] == 'default')
-			{
-				// delete all notifications set by admin
-				$forum_noti->deleteNotificationAllUsers();
-			}
 		}
 		else if($this->objProperties->getNotificationType() == 'per_user')
 		{
-			$counter = 0;
-			foreach($moderator_ids as $user_id)
-			{
-				$frm_noti->setUserId($user_id);
-				#$admin_force_noti = $frm_noti->isAdminForceNotification();
-				$user_toggle_noti = $frm_noti->isUserToggleNotification();
-				$icon_ok = $this->getIcon(!$user_toggle_noti);
-
-				$moderators[$counter]['user_id'] = ilUtil::formCheckbox(0, 'user_id[]', $user_id);
-				$moderators[$counter]['login'] = ilObjUser::_lookupLogin($user_id);
-				$name = ilObjUser::_lookupName($user_id);
-				$moderators[$counter]['firstname'] = $name['firstname'];
-				$moderators[$counter]['lastname'] = $name['lastname'];
-				$moderators[$counter]['user_toggle_noti'] = $icon_ok;
-				$counter++;
-			}
-
-			$counter = 0;
-			foreach($admin_ids as $user_id)
-			{
-				$frm_noti->setUserId($user_id);
-				#$admin_force_noti = $frm_noti->isAdminForceNotification();
-				$user_toggle_noti = $frm_noti->isUserToggleNotification();
-				$icon_ok = $this->getIcon(!$user_toggle_noti);
-
-				$admins[$counter]['user_id'] = ilUtil::formCheckbox(0, 'user_id[]', $user_id);
-				$admins[$counter]['login'] = ilObjUser::_lookupLogin($user_id);
-				$name = ilObjUser::_lookupName($user_id);
-				$admins[$counter]['firstname'] = $name['firstname'];
-				$admins[$counter]['lastname'] = $name['lastname'];
-				$admins[$counter]['user_toggle_noti'] =  $icon_ok;
-				$counter++;
-			}
-
-			$counter = 0;
-			foreach($member_ids as $user_id)
-			{
-				$frm_noti->setUserId($user_id);
-				#$admin_force_noti = $frm_noti->isAdminForceNotification();
-				$user_toggle_noti = $frm_noti->isUserToggleNotification();
-				$icon_ok = $this->getIcon(!$user_toggle_noti);
-
-				$members[$counter]['user_id'] = ilUtil::formCheckbox(0, 'user_id[]', $user_id);
-				$members[$counter]['login'] = ilObjUser::_lookupLogin($user_id);
-				$name = ilObjUser::_lookupName($user_id);
-				$members[$counter]['firstname'] = $name['firstname'];
-				$members[$counter]['lastname'] = $name['lastname'];
-				$members[$counter]['user_toggle_noti'] = $icon_ok;
-				$counter++;
-			}
-
-			$counter = 0;
-			foreach($tutor_ids as $user_id)
-			{
-
-				$frm_noti->setUserId($user_id);
-				#$admin_force_noti = $frm_noti->isAdminForceNotification();
-				$user_toggle_noti = $frm_noti->isUserToggleNotification();
-				$icon_ok = $this->getIcon(!$user_toggle_noti);
-
-				$tutors[$counter]['user_id'] = ilUtil::formCheckbox(0, 'user_id[]', $user_id);
-				$tutors[$counter]['login'] = ilObjUser::_lookupLogin($user_id);
-				$name = ilObjUser::_lookupName($user_id);
-				$tutors[$counter]['firstname'] = $name['firstname'];
-				$tutors[$counter]['lastname'] = $name['lastname'];
-				$tutors[$counter]['user_toggle_noti'] = $icon_ok;
-				$counter++;
-			}
+			$moderators = $this->getUserNotificationTableData($moderator_ids, $frm_noti);
+			$admins = $this->getUserNotificationTableData($admin_ids, $frm_noti);
+			$members = $this->getUserNotificationTableData($member_ids, $frm_noti);
+			$tutors = $this->getUserNotificationTableData($tutor_ids, $frm_noti);
 
 			$this->__showMembersTable($moderators, $admins, $members, $tutors);
 		}
-		else
-		{
-			$frm_noti = new ilForumNotification($this->object->getRefId());
-			$all_notis = $frm_noti->read();
-
-			foreach($all_forum_users as $user_id)
-			{
-				$frm_noti->setUserId($user_id);
-
-				$frm_noti->setAdminForce(1);
-				$frm_noti->setUserToggle($this->objProperties->isUserToggleNoti());
-
-				if(array_key_exists($user_id, $all_notis))
-				{
-					$frm_noti->update();
-				}
-				else if($frm_noti->existsNotification() == false && !in_array($user_id, $moderator_ids))
-				{
-					$frm_noti->insertAdminForce();
-				}
-			}
-		}
 	}
 
+	private function getUserNotificationTableData($user_ids, ilForumNotification $frm_noti)
+	{
+		$counter = 0;
+		$users = array();
+		foreach($user_ids as $user_id)
+		{
+			$frm_noti->setUserId($user_id);
+			$user_toggle_noti = $frm_noti->isUserToggleNotification();
+			$icon_ok = $this->getIcon(!$user_toggle_noti);
+
+			$users[$counter]['user_id'] = ilUtil::formCheckbox(0, 'user_id[]', $user_id);
+			$users[$counter]['login'] = ilObjUser::_lookupLogin($user_id);
+			$name = ilObjUser::_lookupName($user_id);
+			$users[$counter]['firstname'] = $name['firstname'];
+			$users[$counter]['lastname'] = $name['lastname'];
+			$users[$counter]['user_toggle_noti'] = $icon_ok;
+			$counter++;
+		}
+		return $users;
+	}
+	
 	private function __showMembersTable($moderators, $admins, $members, $tutors)
 	{
 		/**
@@ -4145,41 +4088,52 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 			include_once 'Modules/Forum/classes/class.ilForumNotification.php';
 			$frm_noti = new ilForumNotification((int) $_GET['ref_id']);
 			$frm_noti->setUserId($ilUser->getId());
-			$user_toggle = $frm_noti->isUserToggleNotification();
-
+			$user_toggle = (int)$frm_noti->isUserToggleNotification();
+			$admin_forced_noti = (int)$frm_noti->isAdminForceNotification();
+			
+			$is_user_allowed_to_deactivate_notification = ($admin_forced_noti == 1 && $user_toggle == 0);
+			
 			// Notification button
-			$notificiation_enabled = false;
-			if($ilUser->getId() != ANONYMOUS_USER_ID &&
-				$this->ilias->getSetting('forum_notification') != 0 &&
-				$user_toggle != 1)
+			$frm_notificiation_enabled = false;
+			
+			if($ilUser->getId() != ANONYMOUS_USER_ID && $this->ilias->getSetting('forum_notification') != 0 )
 			{
 				$frm = $this->object->Forum;
 				$frm->setForumId($this->object->getId());
 				$frm->setForumRefId($this->object->getRefId());
 				$frm->setMDB2Wherecondition('top_frm_fk = %s ', array('integer'), array($frm->getForumId()));
-
+				$frm_notificiation_enabled = $frm->isForumNotificationEnabled($ilUser->getId());
+				
 				if($this->objCurrentTopic->getId())
 				{
 					$this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentTopic->getId());
 				}
 
-				if($frm->isForumNotificationEnabled($ilUser->getId()))
+				if($frm_notificiation_enabled && $this->isParentObjectCrsOrGrp() == false)
 				{
+					//expected default behaviour for forum notification 
 					$lg->addCustomCommand($this->ctrl->getLinkTarget($this, 'disableForumNotification'), "forums_disable_forum_notification");
-					$notificiation_enabled = true;
 				}
 				else
 				{
-					$lg->addCustomCommand($this->ctrl->getLinkTarget($this, 'enableForumNotification'), "forums_enable_forum_notification");
+					if($frm_notificiation_enabled && ($is_user_allowed_to_deactivate_notification && $this->isParentObjectCrsOrGrp() == true))
+					{
+						// special behaviour for CRS/GRP-Forum notification!!
+						$lg->addCustomCommand($this->ctrl->getLinkTarget($this, 'disableForumNotification'), "forums_disable_forum_notification");
+					}
+					else if($frm_notificiation_enabled == false)
+					{
+						//expected default behaviour for forum notification 
+						$lg->addCustomCommand($this->ctrl->getLinkTarget($this, 'enableForumNotification'), "forums_enable_forum_notification");	
+					}
 				}
 
+				$topic_notification_enabled = $this->objCurrentTopic->isNotificationEnabled($ilUser->getId());
 				if($this->objCurrentTopic->getId())
 				{
-					
-					if($this->objCurrentTopic->isNotificationEnabled($ilUser->getId()))
+					if($topic_notification_enabled)
 					{
 						$lg->addCustomCommand($this->ctrl->getLinkTarget($this, 'toggleThreadNotification'), "forums_disable_notification");
-						$notificiation_enabled = true;
 					}
 					else
 					{
@@ -4187,8 +4141,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 					}
 				}
 				$this->ctrl->setParameter($this, 'thr_pk', '');
-
-				if($notificiation_enabled)
+	
+				if($frm_notificiation_enabled || $is_user_allowed_to_deactivate_notification)
 				{
 					$lg->addHeaderIcon(
 						"not_icon",
@@ -4208,6 +4162,60 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		}
 
 		return $lg;
+	}
+	
+	private function isParentObjectCrsOrGrp()
+	{
+		global $tree;
+		
+		// check if there a parent-node is a grp or crs
+		$grp_ref_id = $tree->checkForParentType($this->object->getRefId(), 'grp');
+		$crs_ref_id = $tree->checkForParentType($this->object->getRefId(), 'crs');
+		
+		if($grp_ref_id == 0 && $crs_ref_id == 0)
+		{
+			return false;
+		}
+		return true;
+	}
+	
+	/**
+	 * @return ilParticipants for course or group
+	 */
+	public function getParticipantsObject()
+	{
+		global $tree, $ilErr;
+
+		$grp_ref_id = $tree->checkForParentType($this->object->getRefId(), 'grp');
+		$crs_ref_id = $tree->checkForParentType($this->object->getRefId(), 'crs');
+		
+		if($this->isParentObjectCrsOrGrp() == false)
+		{
+			$ilErr->raiseError($this->lng->txt('msg_no_perm_read'), $ilErr->MESSAGE);
+		}
+
+		/**
+		 * @var $oParticipants ilParticipants
+		 */
+		$oParticipants = null;
+
+		if($grp_ref_id > 0)
+		{
+			$parent_obj = ilObjectFactory::getInstanceByRefId($grp_ref_id);
+			include_once 'Modules/Group/classes/class.ilGroupParticipants.php';
+			$oParticipants = ilGroupParticipants::_getInstanceByObjId($parent_obj->getId());
+			return $oParticipants;
+		}
+		else if($crs_ref_id > 0)
+		{
+			$parent_obj = ilObjectFactory::getInstanceByRefId($crs_ref_id);
+
+			include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
+			$oParticipants = ilCourseParticipants::_getInstanceByObjId($parent_obj->getId());
+			return $oParticipants;
+		}
+
+		return $oParticipants;
 	}
 
 	/**
