@@ -217,7 +217,9 @@ class ilAdvancedMDRecordParser extends ilSAXParser
 				break;
 				
 			case 'ObjectType':
-				$this->getCurrentRecord()->appendAssignedObjectType(trim($this->cdata));
+				// #12980
+				$parts = explode(":", trim($this->cdata));
+				$this->getCurrentRecord()->appendAssignedObjectType($parts[0], $parts[1]);				
 				break;
 				
 			case 'Field':
