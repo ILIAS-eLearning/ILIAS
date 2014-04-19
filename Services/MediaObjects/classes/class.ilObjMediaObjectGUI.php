@@ -1647,7 +1647,12 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 				continue;
 			}
 
-			$med =& $a_mob->getMediaItem($type);
+			$med = $a_mob->getMediaItem($type);
+			if (!$med)
+			{
+				return "";
+			}
+
 			$tpl->setCurrentBlock("media_info");
 			if ($type == "Standard")
 			{
