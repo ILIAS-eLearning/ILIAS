@@ -319,11 +319,11 @@ class ilInitialisation
 			$default_client = $ilIliasIniFile->readVariable("clients","default");						
 			ilUtil::setCookie("ilClientId", $default_client);
 			if (CLIENT_ID != "" && CLIENT_ID != $default_client)
-			{							
-				$mess = array("en" => "Client ".$c." does not exist.",
-						"de" => "Mandant ".$c." ist ungültig.");				
+			{
+				$mess = array("en" => "Client does not exist.",
+						"de" => "Mandant ist ungültig.");
 				self::redirect("index.php?client_id=".$default_client, null, $mess);							
-			}			
+			}
 			else
 			{
 				self::abortAndDie("Invalid client");
