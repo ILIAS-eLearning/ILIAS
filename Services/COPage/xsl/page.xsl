@@ -145,6 +145,8 @@
 	</xsl:if>
 	<xsl:apply-templates/>
 
+	<div style="clear:both;"><xsl:comment>Break</xsl:comment></div>
+
     <!-- Footnote List -->
 	<xsl:if test="count(//Footnote) > 0">
 		<hr />
