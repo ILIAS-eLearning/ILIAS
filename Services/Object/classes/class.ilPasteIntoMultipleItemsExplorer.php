@@ -300,6 +300,19 @@ class ilPasteIntoMultipleItemsExplorer extends ilRepositoryExplorer
 			return false;
 		}
 	}
+
+	// overwrite this due to bug 12896
+	function isVisible($a_ref_id,$a_type)
+	{
+		global $ilAccess;
+
+		if(!$ilAccess->checkAccess('visible', '', $a_ref_id))
+		{
+			return false;
+		}
+		return true;
+	}
+
 }
 
 ?>

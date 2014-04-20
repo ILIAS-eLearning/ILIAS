@@ -320,7 +320,7 @@ class ilInitialisation
 			if (CLIENT_ID != "" && CLIENT_ID != $default_client)
 			{								
 				self::redirect("index.php?client_id=".$default_client, 
-					"Client ".$c." does not exist.");							
+					"Client does not exist.");
 			}			
 			else
 			{
