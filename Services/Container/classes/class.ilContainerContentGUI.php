@@ -74,11 +74,23 @@ abstract class ilContainerContentGUI
 	*/
 	public function setOutput()
 	{
-		global $tpl;
+		global $tpl, $ilCtrl;
+
+		// note: we do not want to get the center html in case of
+		// asynchronous calls to blocks in the right column (e.g. news)
+		// see #13012
+		if ($ilCtrl->getNextClass() == "ilcolumngui" &&
+			$ilCtrl->isAsynch())
+		{
+			$tpl->setRightContent($this->getRightColumnHTML());
+		}
 		
 		// BEGIN ChangeEvent: record read event.
 		require_once('Services/Tracking/classes/class.ilChangeEvent.php');
 		global $ilUser;
+//global $log;
+//$log->write("setOutput");
+
 		$obj_id = ilObject::_lookupObjId($this->getContainerObject()->getRefId());
 		ilChangeEvent::_recordReadEvent(
 			$this->getContainerObject()->getType(),
@@ -86,8 +98,17 @@ abstract class ilContainerContentGUI
 			$obj_id, $ilUser->getId());
 		// END ChangeEvent: record read event.
 		
+
 		$tpl->setContent($this->getCenterColumnHTML());
-		$tpl->setRightContent($this->getRightColumnHTML());
+
+		// see above, all other cases (this was the old position of setRightContent,
+		// maybe the position above is ok and all ifs can be removed)
+		if ($ilCtrl->getNextClass() != "ilcolumngui" ||
+			!$ilCtrl->isAsynch())
+		{
+			$tpl->setRightContent($this->getRightColumnHTML());
+		}
+
 	}
 
 	/**
