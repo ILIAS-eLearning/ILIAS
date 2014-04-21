@@ -152,7 +152,7 @@ class ilPCParagraph extends ilPageContent
 			DOMXML_LOAD_PARSING, $error);*/
 		$temp_dom = domxml_open_mem('<?xml version="1.0" encoding="UTF-8"?><Paragraph>'.$check.'</Paragraph>',
 			DOMXML_LOAD_PARSING, $error);
-			
+
 		//$this->text = $a_text;
 		// remove all childs
 		if(empty($error))
