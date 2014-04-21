@@ -222,9 +222,12 @@ class ilObjCourseGUI extends ilContainerGUI
 		ilMDUtils::_fillHTMLMetaTags($this->object->getId(),$this->object->getId(),'crs');
 		
 		// Trac access
-		include_once 'Services/Tracking/classes/class.ilLearningProgress.php';
-		ilLearningProgress::_tracProgress($ilUser->getId(),$this->object->getId(),
-			$this->object->getRefId(),'crs');
+		if ($ilCtrl->getNextClass() != "ilcolumngui")
+		{
+			include_once 'Services/Tracking/classes/class.ilLearningProgress.php';
+			ilLearningProgress::_tracProgress($ilUser->getId(),$this->object->getId(),
+				$this->object->getRefId(),'crs');
+		}
 		
 		if(!$this->checkAgreement())
 		{
