@@ -643,7 +643,24 @@ tinymce.activeEditor.formatter.register('mycode', {
 		c = c.split("\n").join("");
 		ed.setContent(c);
 	},
-	
+
+	// split all span classes that are direct "children of themselves"
+	// fixes bug #13019
+	splitSpans: function() {
+
+		var k, ed = tinyMCE.activeEditor, s,
+			classes = ['ilc_text_inline_Strong','ilc_text_inline_Emph', 'ilc_text_inline_Important',
+				'ilc_text_inline_Comment', 'ilc_text_inline_Quotation', 'ilc_text_inline_Accent'];
+
+		for (var i = 0; i < classes.length; i++) {
+
+			s = ed.dom.select('span[class="' + classes[i] + '"] > span[class="' + classes[i] + '"]');
+			for (k in s) {
+				ed.dom.split(s[k].parentNode, s[k]);
+			}
+		}
+	},
+
 	/**
 	 * This one ensures that the standard ILIAS list style classes
 	 * are assigned to list elements
@@ -2243,11 +2260,12 @@ ilCOPage.copyInputToGhost(false);
 //console.log("----");
 //console.trace();
 					// clean content after paste (has this really an effect?)
-					if (ilCOPage.pasting)
-					{
+					// (yes, it does, at least splitSpans is important here #13019)
+					if (ilCOPage.pasting) {
 						ilCOPage.pasting = false;
 						ilCOPage.splitDivs();
 						ilCOPage.fixListClasses(false);
+						ilCOPage.splitSpans();
 					}
 
 					// update state of indent/outdent buttons
