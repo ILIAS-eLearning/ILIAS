@@ -104,10 +104,16 @@ if (isset($_SERVER["REDIRECT_STATUS"]) && !isset($_SERVER["FCGI_ROLE"]))
 		define ("ILIAS_ABSOLUTE_PATH",substr(dirname($_SERVER["SCRIPT_FILENAME"]),0,-6));
 	}
 }
-else
+else if ($_SERVER["SCRIPT_FILENAME"] != "")
 {
 	define ("ILIAS_ABSOLUTE_PATH",substr(dirname($_SERVER["SCRIPT_FILENAME"]),0,-6));
 }
+else
+{
+	// included this due to http://education2news.blogspot.com.es/2012/06/installing-ilias-424.html
+	define ('ILIAS_ABSOLUTE_PATH',str_replace("/setup/include", "", dirname(__FILE__)));
+}
+
 
 define ("TPLPATH","./templates/blueshadow");
 
