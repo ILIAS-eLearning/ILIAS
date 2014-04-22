@@ -92,7 +92,6 @@ class ilTestSignatureGUI
 			default:
 				$ret = $this->plugin->invoke($cmd);
 		}
-
 		return $ret;
 	}
 
