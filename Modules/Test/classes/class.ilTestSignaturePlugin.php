@@ -86,7 +86,7 @@ abstract class ilTestSignaturePlugin extends ilPlugin
 		/** @var $ilCtrl ilCtrl */
 		global $ilCtrl;
 		return 
-			'http://'. $_SERVER['HTTP_HOST'] 
+			'//'. $_SERVER['HTTP_HOST'] 
 			. substr($_SERVER['PHP_SELF'],0, strlen($_SERVER['PHP_SELF']) - 10) 
 			. '/' . $ilCtrl->getLinkTarget($this->getGUIObject(), $cmd, '', false, false);
 	}
