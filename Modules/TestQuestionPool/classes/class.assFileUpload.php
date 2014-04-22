@@ -586,6 +586,8 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 			$pass = ilObjTest::_getPass($active_id);
 		}
 
+		$this->getProcessLocker()->requestUserSolutionUpdateLock();
+
 		$result = $ilDB->queryF("SELECT test_fi FROM tst_active WHERE active_id = %s",
 			array('integer'),
 			array($active_id)
@@ -635,6 +637,9 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 				}
 			}
 		}
+		
+		$this->getProcessLocker()->releaseUserSolutionUpdateLock();
+
 		if ($entered_values)
 		{
 			include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");

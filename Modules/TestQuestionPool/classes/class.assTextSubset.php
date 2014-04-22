@@ -610,7 +610,9 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
 			$pass = ilObjTest::_getPass($active_id);
 		}
 		$entered_values = 0;
-		
+
+		$this->getProcessLocker()->requestUserSolutionUpdateLock();
+
 		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
 			array('integer','integer','integer'),
 			array($active_id, $this->getId(), $pass)
@@ -635,6 +637,9 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
 				}
 			}
 		}
+
+		$this->getProcessLocker()->releaseUserSolutionUpdateLock();
+
 		if ($entered_values)
 		{
 			include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");

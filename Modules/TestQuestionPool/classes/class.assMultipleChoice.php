@@ -633,6 +633,9 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 		}
 
 		$entered_values = 0;
+		
+		$this->getProcessLocker()->requestUserSolutionUpdateLock();
+		
 		$ilDB->manipulateF("DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
 			array('integer','integer','integer'),
 			array($active_id, $this->getId(), $pass)
@@ -657,6 +660,9 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 				}
 			}
 		}
+
+		$this->getProcessLocker()->releaseUserSolutionUpdateLock();
+		
 		if ($entered_values)
 		{
 			include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");

@@ -715,7 +715,9 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 			include_once "./Modules/Test/classes/class.ilObjTest.php";
 			$pass = ilObjTest::_getPass($active_id);
 		}
-		
+
+		$this->getProcessLocker()->requestUserSolutionUpdateLock();
+
 		if($this->is_multiple_choice && strlen($_GET['remImage']))
 		{
 			$affectedRows = $ilDB->manipulateF("DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s AND value1 = %s",
@@ -758,6 +760,8 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 				$this->logAction($this->lng->txtlng("assessment", "log_user_not_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
 			}
 		}
+
+		$this->getProcessLocker()->releaseUserSolutionUpdateLock();
 
 		return true;
 	}

@@ -428,6 +428,8 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
 			include_once "./Modules/Test/classes/class.ilObjTest.php";
 			$pass = ilObjTest::_getPass($active_id);
 		}
+		
+		$this->getProcessLocker()->requestUserSolutionUpdateLock();
 
 		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
 			array('integer','integer','integer'),
@@ -453,6 +455,9 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
 			}
 			$entered_values = true;
 		}
+		
+		$this->getProcessLocker()->releaseUserSolutionUpdateLock();
+		
 		if ($entered_values)
 		{
 			include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
