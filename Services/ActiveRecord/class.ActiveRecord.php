@@ -365,8 +365,8 @@ abstract class ActiveRecord {
 					$this->{$k} = $this->wakeUp($k, $rec->{$k});
 				}
 			}
-			$this->afterObjectLoad();
 			self::$object_cache[$class][$this->getPrimaryFieldValue()] = $this;
+			self::$object_cache[$class][$this->getPrimaryFieldValue()]->afterObjectLoad();
 		}
 	}
 
@@ -606,8 +606,9 @@ abstract class ActiveRecord {
 	public function buildFromArray(array $array) {
 		$class = get_class($this);
 		$primary = self::returnPrimaryFieldName();
-		if (self::$object_cache[$class][$array[$primary]]) {
-			return self::$object_cache[$class][$array[$primary]];
+		$primary_value = $array[$primary];
+		if ($primary_value AND self::$object_cache[$class][$primary_value]) {
+			return self::$object_cache[$class][$primary_value];
 		}
 		foreach ($array as $field_name => $value) {
 			if ($this->wakeUp($field_name, $value) === NULL) {
@@ -616,8 +617,9 @@ abstract class ActiveRecord {
 				$this->{$field_name} = $this->wakeUp($field_name, $value);
 			}
 		}
-		$this->afterObjectLoad();
-		self::$object_cache[$class][$array[$primary]] = $this;
+//		$this->afterObjectLoad();
+		self::$object_cache[$class][$primary_value] = $this;
+		self::$object_cache[$class][$primary_value]->afterObjectLoad();
 
 		return $this;
 	}
@@ -694,8 +696,8 @@ abstract class ActiveRecord {
 						'clob'
 					))
 					) {
-						throw new Exception('Your field \'' . $fieldname . '\' in Class \'' . __CLASS__
-							. '\' has wrong db_type: ' . $rf->db_fieldtype);
+						throw new Exception('Your field \'' . $fieldname . '\' in Class \'' . __CLASS__ . '\' has wrong db_type: '
+							. $rf->db_fieldtype);
 
 						return;
 					}
@@ -706,8 +708,7 @@ abstract class ActiveRecord {
 							break;
 						case 'text':
 							$field_info->notnull = $rf->db_is_notnull == 'true' ? true : false;
-							$field_info->length = ($rf->db_length > 0 AND
-								$rf->db_length <= 4000) ? $rf->db_length : 1024;
+							$field_info->length = ($rf->db_length > 0 AND $rf->db_length <= 4000) ? $rf->db_length : 1024;
 							break;
 						//	case 'date':
 						//	case 'float':
@@ -836,8 +837,7 @@ abstract class ActiveRecord {
 				break;
 		}
 		if (! $is_attribute) {
-			throw new arException('Your field \'' . $fieldname . '\' in Class \'' . __CLASS__
-				. '\' has wrong attribute: ' . $attribute);
+			throw new arException('Your field \'' . $fieldname . '\' in Class \'' . __CLASS__ . '\' has wrong attribute: ' . $attribute);
 		}
 	}
 
