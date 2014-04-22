@@ -17,6 +17,10 @@ class ActiveRecordList {
 	 */
 	protected $where = array();
 	/**
+	 * @var array
+	 */
+	protected $joins = array();
+	/**
 	 * @var bool
 	 */
 	protected $loaded = false;
@@ -159,6 +163,14 @@ class ActiveRecordList {
 	/**
 	 * @return array
 	 */
+	public function getJoins() {
+		return $this->joins;
+	}
+
+
+	/**
+	 * @return array
+	 */
 	public function getStringWheres() {
 		return $this->string_wheres;
 	}
@@ -177,6 +189,14 @@ class ActiveRecordList {
 	 */
 	public function getOrderBy() {
 		return $this->order_by;
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getOrderDirection() {
+		return $this->order_direction;
 	}
 
 
@@ -209,14 +229,6 @@ class ActiveRecordList {
 	 */
 	public static function getLastQuery() {
 		return self::$last_query;
-	}
-
-
-	/**
-	 * @return string
-	 */
-	public function getOrderDirection() {
-		return $this->order_direction;
 	}
 
 
@@ -305,6 +317,19 @@ class ActiveRecordList {
 		$this->load();
 
 		return array_pop(array_values($this->result));
+	}
+
+
+	/**
+	 * @param ActiveRecord $ar
+	 * @param array        $on
+	 *
+	 * @return $this
+	 */
+	public function join(ActiveRecord $ar, $on = array()) {
+		$this->joins[$ar::returnDbTableName()] = $on;
+
+		return $this;
 	}
 
 

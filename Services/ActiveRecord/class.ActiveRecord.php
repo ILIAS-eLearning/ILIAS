@@ -1,7 +1,7 @@
 <?php
 require_once('class.ActiveRecordList.php');
-require_once('./Customizing/global/plugins/Libraries/ActiveRecord/Connector/class.arConnector.php');
-require_once('./Customizing/global/plugins/Libraries/ActiveRecord/Connector/class.arConnectorDB.php');
+require_once('Connector/class.arConnector.php');
+require_once('Connector/class.arConnectorDB.php');
 
 /**
  * Class ActiveRecord
@@ -11,7 +11,7 @@ require_once('./Customizing/global/plugins/Libraries/ActiveRecord/Connector/clas
  * @experimental
  * @description
  *
- * @version 1.1.02
+ * @version 1.1.04
  */
 abstract class ActiveRecord {
 
@@ -133,6 +133,19 @@ abstract class ActiveRecord {
 	}
 
 
+	/**
+	 * @return array
+	 */
+	public function __asArray() {
+		$return = array();
+		foreach (array_keys(self::returnDbFields()) as $fieldname) {
+			$return[$fieldname] = $this->{$fieldname};
+		}
+
+		return $return;
+	}
+
+
 	//
 	// Database
 	//
@@ -148,10 +161,11 @@ abstract class ActiveRecord {
 
 	/**
 	 * @param $field_name
+	 * @param $field_value
 	 *
 	 * @return mixed
 	 */
-	public function wakeUp($field_name) {
+	public function wakeUp($field_name, $field_value) {
 		return NULL;
 	}
 
@@ -160,16 +174,16 @@ abstract class ActiveRecord {
 	 * @return array
 	 */
 	final public function getArrayForDb() {
-		$e = array();
+		$data = array();
 		foreach (self::returnDbFields() as $field_name => $field_info) {
 			if ($this->sleep($field_name) === NULL) {
-				$e[$field_name] = array( $field_info->db_type, $this->$field_name );
+				$data[$field_name] = array( $field_info->db_type, $this->$field_name );
 			} else {
-				$e[$field_name] = array( $field_info->db_type, $this->sleep($field_name) );
+				$data[$field_name] = array( $field_info->db_type, $this->sleep($field_name) );
 			}
 		}
 
-		return $e;
+		return $data;
 	}
 
 
@@ -345,18 +359,14 @@ abstract class ActiveRecord {
 		$class = get_class($this);
 		foreach ($this->connector->read($this) as $rec) {
 			foreach ($this->getArrayForDb() as $k => $v) {
-				if ($this->wakeUp($v) === NULL) {
+				if ($this->wakeUp($k, $rec->{$k}) === NULL) {
 					$this->{$k} = $rec->{$k};
 				} else {
-					$this->{$k} = $this->wakeUp($v);
+					$this->{$k} = $this->wakeUp($k, $rec->{$k});
 				}
 			}
 			$this->afterObjectLoad();
-			if (self::returnPrimaryFieldName() === 'id') {
-				self::$object_cache[$class][$this->getId()] = $this;
-			} else {
-				self::$object_cache[$class][$this->getPrimaryFieldValue()] = $this;
-			}
+			self::$object_cache[$class][$this->getPrimaryFieldValue()] = $this;
 		}
 	}
 
@@ -364,55 +374,14 @@ abstract class ActiveRecord {
 	public function update() {
 		$class = get_class($this);
 		$this->connector->update($this);
-		if (self::returnPrimaryFieldName() === 'id') {
-			self::$object_cache[$class][$this->getId()] = $this;
-		} else {
-			self::$object_cache[$class][$this->getPrimaryFieldValue()] = $this;
-		}
+		self::$object_cache[$class][$this->getPrimaryFieldValue()] = $this;
 	}
 
 
 	public function delete() {
 		$class = get_class($this);
 		$this->connector->delete($this);
-		if (self::returnPrimaryFieldName() === 'id') {
-			unset(self::$object_cache[$class][$this->getId()]);
-		} else { // TODO dies zur normalen Methode machen. prüfen
-			unset(self::$object_cache[$class][$this->getPrimaryFieldValue()]);
-		}
-	}
-
-
-	//
-	// Helper
-	//
-	/**
-	 * @param $parent_id
-	 *
-	 * @return int
-	 * @deprecated
-	 */
-	private function getNextPosition($parent_id) {
-		$set = $this->db->query('SELECT MAX(position) next_pos FROM ' . $this->returnDbTableName() . ' '
-			. ' WHERE parent_id = ' . $this->db->quote($parent_id, 'integer'));
-		while ($rec = $this->db->fetchObject($set)) {
-			return $rec->next_pos + 1;
-		}
-
-		return 1;
-	}
-
-
-	/**
-	 * @param string $str
-	 *
-	 * @return string
-	 */
-	protected static function _fromCamelCase($str) {
-		$str[0] = strtolower($str[0]);
-		$func = create_function('$c', 'return "_" . strtolower($c[1]);');
-
-		return preg_replace_callback('/([A-Z])/', $func, $str);
+		unset(self::$object_cache[$class][$this->getPrimaryFieldValue()]);
 	}
 
 
@@ -441,14 +410,14 @@ abstract class ActiveRecord {
 	public function __call($name, $arguments) {
 		// Getter
 		if (preg_match("/get([a-zA-Z]*)/u", $name, $matches) AND count($arguments) == 0) {
-			return $this->{self::_fromCamelCase($matches[1])};
+			return $this->{self::fromCamelCase($matches[1])};
 		}
 		// Setter
 		if (preg_match("/set([a-zA-Z]*)/u", $name, $matches) AND count($arguments) == 1) {
-			$this->{self::_fromCamelCase($matches[1])} = $arguments[0];
+			$this->{self::fromCamelCase($matches[1])} = $arguments[0];
 		}
 		if (preg_match("/findBy([a-zA-Z]*)/u", $name, $matches) AND count($arguments) == 1) {
-			return self::where(array( self::_fromCamelCase($matches[1]) => $arguments[0] ))->get();
+			return self::where(array( self::fromCamelCase($matches[1]) => $arguments[0] ))->get();
 		}
 	}
 
@@ -483,6 +452,19 @@ abstract class ActiveRecord {
 		$srModelObjectList->where($where, $operator);
 
 		return $srModelObjectList;
+	}
+
+
+	/**
+	 * @param ActiveRecord $ar
+	 * @param array        $on
+	 *
+	 * @return $this
+	 */
+	public static function join(ActiveRecord $ar, $on = array()) {
+		$srModelObjectList = new ActiveRecordList(get_called_class());
+
+		return $srModelObjectList->join($ar, $on);
 	}
 
 
@@ -628,10 +610,10 @@ abstract class ActiveRecord {
 			return self::$object_cache[$class][$array[$primary]];
 		}
 		foreach ($array as $field_name => $value) {
-			if ($this->wakeUp($value) === NULL) {
+			if ($this->wakeUp($field_name, $value) === NULL) {
 				$this->{$field_name} = $value;
 			} else {
-				$this->{$field_name} = $this->wakeUp($value);
+				$this->{$field_name} = $this->wakeUp($field_name, $value);
 			}
 		}
 		$this->afterObjectLoad();
@@ -857,6 +839,19 @@ abstract class ActiveRecord {
 			throw new arException('Your field \'' . $fieldname . '\' in Class \'' . __CLASS__
 				. '\' has wrong attribute: ' . $attribute);
 		}
+	}
+
+
+	/**
+	 * @param string $str
+	 *
+	 * @return string
+	 */
+	protected static function fromCamelCase($str) {
+		$str[0] = strtolower($str[0]);
+		$func = create_function('$c', 'return "_" . strtolower($c[1]);');
+
+		return preg_replace_callback('/([A-Z])/', $func, $str);
 	}
 }
 

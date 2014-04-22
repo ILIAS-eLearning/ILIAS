@@ -1,6 +1,6 @@
 <?php
-require_once('./Customizing/global/plugins/Libraries/ActiveRecord/Connector/class.arConnector.php');
-require_once('./Customizing/global/plugins/Libraries/ActiveRecord/Exception/class.arException.php');
+require_once('class.arConnector.php');
+require_once(dirname(__FILE__) . '/../Exception/class.arException.php');
 
 /**
  * Class arConnectorDB
@@ -56,6 +56,11 @@ class arConnectorDB extends arConnector {
 		}
 		if ($ar::returnPrimaryFieldType() === 'integer') {
 			$ilDB->createSequence($ar::returnDbTableName());
+		} else {
+			/**
+			 * @var ilDB $ilDB
+			 */
+			// $ilDB->addFulltextIndex() FSX TODO
 		}
 
 		return true;
@@ -150,8 +155,8 @@ class arConnectorDB extends arConnector {
 	 */
 	public static function removeField(ActiveRecord $ar, $field_name) {
 		global $ilDB;
-		if (! $ilDB->tableColumnExists($ar::returnDbTableName(), $field_name)) {
-			throw new arException($field_name, arException::COLUMN_DOES_NOT_EXIST);
+		if ($ilDB->tableColumnExists($ar::returnDbTableName(), $field_name)) {
+			//throw new arException($field_name, arException::COLUMN_DOES_NOT_EXIST);
 		}
 		if ($ilDB->tableColumnExists($ar::returnDbTableName(), $field_name)) {
 			$ilDB->dropTableColumn($ar::returnDbTableName(), $field_name);
@@ -171,13 +176,14 @@ class arConnectorDB extends arConnector {
 	 */
 	public static function renameField(ActiveRecord $ar, $old_name, $new_name) {
 		global $ilDB;
-		if ($ilDB->tableColumnExists($ar::returnDbTableName(), $new_name)) {
-			throw new arException($new_name, arException::COLUMN_DOES_ALREADY_EXIST);
+		if ($ilDB->tableColumnExists($ar::returnDbTableName(), $old_name)) {
+			//throw new arException($old_name, arException::COLUMN_DOES_NOT_EXIST);
+
+			if (! $ilDB->tableColumnExists($ar::returnDbTableName(), $new_name)) {
+				//throw new arException($new_name, arException::COLUMN_DOES_ALREADY_EXIST);
+				$ilDB->renameTableColumn($ar::returnDbTableName(), $old_name, $new_name);
+			}
 		}
-		if (! $ilDB->tableColumnExists($ar::returnDbTableName(), $old_name)) {
-			throw new arException($old_name, arException::COLUMN_DOES_NOT_EXIST);
-		}
-		$ilDB->renameTableColumn($ar::returnDbTableName(), $old_name, $new_name);
 
 		return true;
 	}
@@ -200,8 +206,7 @@ class arConnectorDB extends arConnector {
 	public static function read(ActiveRecord $ar) {
 		global $ilDB;
 		if ($ar::returnPrimaryFieldName() === 'id') {
-			$query = 'SELECT * FROM ' . $ar::returnDbTableName() . ' '
-				. ' WHERE id = ' . $ilDB->quote($ar->getId(), 'integer');
+			$query = 'SELECT * FROM ' . $ar::returnDbTableName() . ' ' . ' WHERE id = ' . $ilDB->quote($ar->getId(), 'integer');
 		} else {
 			$query = 'SELECT * FROM ' . $ar::returnDbTableName() . ' ' . ' WHERE ' . $ar::returnPrimaryFieldName()
 				. ' = ' . $ilDB->quote($ar->getPrimaryFieldValue(), $ar::returnPrimaryFieldType());
@@ -246,11 +251,10 @@ class arConnectorDB extends arConnector {
 	public static function delete(ActiveRecord $ar) {
 		global $ilDB;
 		if ($ar::returnPrimaryFieldName() === 'id') {
-			$ilDB->manipulate('DELETE FROM ' . $ar::returnDbTableName() . ' WHERE id = '
-				. $ilDB->quote($ar->getId(), 'integer'));
+			$ilDB->manipulate('DELETE FROM ' . $ar::returnDbTableName() . ' WHERE id = ' . $ilDB->quote($ar->getId(), 'integer'));
 		} else { // TODO dies zur normalen Methode machen. prüfen
-			$ilDB->manipulate('DELETE FROM ' . $ar::returnDbTableName() . ' WHERE ' . $ar::returnPrimaryFieldName()
-				. ' = ' . $ilDB->quote($ar->getPrimaryFieldValue(), $ar::returnPrimaryFieldType()));
+			$ilDB->manipulate('DELETE FROM ' . $ar::returnDbTableName() . ' WHERE ' . $ar::returnPrimaryFieldName() . ' = '
+				. $ilDB->quote($ar->getPrimaryFieldValue(), $ar::returnPrimaryFieldType()));
 		}
 	}
 
@@ -299,6 +303,10 @@ class arConnectorDB extends arConnector {
 		$class_fields = call_user_func($arl->getClass() . '::returnDbFields');
 		$table_name = call_user_func($arl->getClass() . '::returnDbTableName');
 		$q = 'SELECT * FROM ' . $table_name;
+		// JOINS
+		foreach ($arl->getJoins() as $join_table_name => $on) {
+			$q .= ' JOIN ' . $join_table_name . ' on ' . $table_name . '.' . key($on) . ' = ' . $join_table_name . '.' . current($on);
+		}
 		if (count($arl->getWhere()) OR count($arl->getStringWheres())) {
 			$q .= ' WHERE ';
 		}
@@ -332,7 +340,7 @@ class arConnectorDB extends arConnector {
 		if (count($arl->getWhere()) OR count($arl->getStringWheres())) {
 			$q = substr($q, 0, - 4);
 		}
-		if ($arl->get) {
+		if ($arl->getOrderBy() AND in_array($arl->getOrderBy(), $class_fields)) {
 			$q .= ' ORDER BY ' . $arl->getOrderBy() . ' ' . $arl->getOrderDirection();
 		}
 		if ($arl->getStart() !== NULL AND $arl->getEnd() !== NULL) {
