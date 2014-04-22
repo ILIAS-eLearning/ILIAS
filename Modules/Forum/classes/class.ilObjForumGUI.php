@@ -3636,7 +3636,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 			{
 				$frm_noti->update();
 			}
-			else if($frm_noti->existsNotification() == false && !in_array($user_id, $moderator_ids))
+			else if($frm_noti->existsNotification() == false)
 			{
 				$frm_noti->insertAdminForce();
 			}
