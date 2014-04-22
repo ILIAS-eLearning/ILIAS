@@ -4,6 +4,7 @@
 require_once "./Services/Object/classes/class.ilObjectGUI.php";
 
 require_once 'Modules/Test/classes/class.ilObjTest.php';
+require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionProcessLocker.php';
 
 /**
 * Class ilObjAssessmentFolderGUI
@@ -119,13 +120,24 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 	/**
 	* display assessment folder settings form
 	*/
-	public function settingsObject()
+	public function settingsObject(ilPropertyFormGUI $form = null)
 	{
-		
-		global $ilAccess, $ilTabs;
+		global $ilTabs;
                 
 		$ilTabs->setTabActive('settings');
 
+		if($form === null)
+		{
+			$form = $this->buildSettingsForm();
+		}
+		
+		$this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
+	}
+	
+	private function buildSettingsForm()
+	{
+		global $ilAccess;
+		
 		include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
@@ -183,11 +195,32 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		$scoring->setInfo($this->lng->txt('assessment_log_scoring_adjustment_desc'));
 		$form->addItem($scoring);
 
+		// question process locking behaviour (e.g. on saving users working data)
+
+		$chb = new ilCheckboxInputGUI($this->lng->txt('ass_quest_process_lock'), 'quest_process_lock');
+		$chb->setChecked($this->object->getQuestionProcessLockMode() != ilAssQuestionProcessLocker::LOCK_MODE_NONE);
+		$chb->setInfo($this->lng->txt('ass_quest_process_lock_desc'));
+		$form->addItem($chb);
+		$rg = new ilRadioGroupInputGUI($this->lng->txt('ass_quest_process_lock_mode'), 'quest_process_lock_mode');
+		$rg->setRequired(true);
+		$opt = new ilRadioOption($this->lng->txt('ass_quest_process_lock_mode_file'), ilAssQuestionProcessLocker::LOCK_MODE_FILE);
+		$opt->setInfo($this->lng->txt('ass_quest_process_lock_mode_file_desc'));
+		$rg->addOption($opt);
+		$opt = new ilRadioOption($this->lng->txt('ass_quest_process_lock_mode_db'), ilAssQuestionProcessLocker::LOCK_MODE_DB);
+		$opt->setInfo($this->lng->txt('ass_quest_process_lock_mode_db_desc'));
+		$rg->addOption($opt);
+		if($this->object->getQuestionProcessLockMode() != ilAssQuestionProcessLocker::LOCK_MODE_NONE)
+		{
+			$rg->setValue($this->object->getQuestionProcessLockMode());
+		}
+		$chb->addSubItem($rg);
+
 		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
 		{
 			$form->addCommandButton("saveSettings", $this->lng->txt("save"));
 		}
-		$this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
+
+		return $form;
 	}
 	
 	/**
@@ -197,6 +230,13 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 	{
 		global $ilAccess;
 		if (!$ilAccess->checkAccess("write", "", $this->object->getRefId())) $this->ctrl->redirect($this,'settings');
+	
+		$form = $this->buildSettingsForm();
+		if(!$form->checkInput())
+		{
+			$form->setValuesByPost();
+			return $this->settingsObject($form);
+		}
 		
 		$this->object->_setManualScoring($_POST["chb_manual_scoring"]);
 		include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
@@ -221,6 +261,15 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 			}
 		}
 		$this->object->setScoringAdjustableQuestions($scoring_types);
+		
+		if( !isset($_POST['quest_process_lock']) )
+		{
+			$this->object->setQuestionProcessLockMode(ilAssQuestionProcessLocker::LOCK_MODE_NONE);
+		}		
+		elseif( in_array($_POST['quest_process_lock_mode'], ilAssQuestionProcessLocker::getValidLockModes()) )
+		{
+			$this->object->setQuestionProcessLockMode($_POST['quest_process_lock_mode']);
+		}
 		
 		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
 

@@ -5365,10 +5365,17 @@ function getAnswerFeedbackPoints()
 		{
 			$question->object->loadFromDb($question_id);
 			
-			global $ilCtrl, $ilDB, $lng;
+			global $ilCtrl, $ilDB, $ilUser, $lng;
 			
 			$feedbackObjectClassname = assQuestion::getFeedbackClassNameByQuestionType($question_type);
 			$question->object->feedbackOBJ = new $feedbackObjectClassname($question->object, $ilCtrl, $ilDB, $lng);
+
+			$assSettings = new ilSetting('assessment');
+			require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionProcessLockerFactory.php';
+			$processLockerFactory = new ilAssQuestionProcessLockerFactory($assSettings, $ilDB);
+			$processLockerFactory->setQuestionId($question->object->getId());
+			$processLockerFactory->setUserId($ilUser->getId());
+			$question->object->setProcessLocker($processLockerFactory->getLocker());
 		}
 		
 		return $question;

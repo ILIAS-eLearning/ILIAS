@@ -849,6 +849,8 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 				$pass = ilObjTest::_getPass($active_id);
 			}
 
+			$this->getProcessLocker()->requestUserSolutionUpdateLock();
+
 			$affectedRows = $ilDB->manipulateF("DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
 				array('integer','integer','integer'),
 				array($active_id, $this->getId(), $pass)
@@ -946,6 +948,8 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 					}
 				}
 			}
+
+			$this->getProcessLocker()->releaseUserSolutionUpdateLock();
 		}
 		if ($entered_values)
 		{

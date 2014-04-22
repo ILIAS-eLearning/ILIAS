@@ -223,6 +223,11 @@ abstract class assQuestion
 	 * @var array[ilQuestionChangeListener]
 	 */
 	protected $questionChangeListeners = array();
+
+	/**
+	 * @var ilAssQuestionProcessLocker
+	 */
+	protected $processLocker;
 	
 	/**
 	* assQuestion constructor
@@ -274,6 +279,22 @@ abstract class assQuestion
 		$this->outputType = OUTPUT_HTML;
 		$this->arrData = array();
 		$this->setExternalId('');
+	}
+
+	/**
+	 * @param \ilAssQuestionProcessLocker $processLocker
+	 */
+	public function setProcessLocker($processLocker)
+	{
+		$this->processLocker = $processLocker;
+	}
+
+	/**
+	 * @return \ilAssQuestionProcessLocker
+	 */
+	public function getProcessLocker()
+	{
+		return $this->processLocker;
 	}
 
 	/**
@@ -924,6 +945,8 @@ abstract class assQuestion
 		
 		if( is_null($reached_points) ) $reached_points = 0;
 
+		$this->getProcessLocker()->requestUserQuestionResultUpdateLock();
+		
 		$query = "
 			DELETE FROM		tst_test_result
 			
@@ -949,6 +972,8 @@ abstract class assQuestion
 			'hint_points'		=> array('float', $requestsStatisticData->getRequestsPoints()),
 			'answered'			=> array('integer', $isAnswered)
 		));
+
+		$this->getProcessLocker()->releaseUserQuestionResultUpdateLock();
 		
 		include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
 		
@@ -967,7 +992,7 @@ abstract class assQuestion
 		}
 
 		// update test pass results
-		$this->_updateTestPassResults($active_id, $pass, $obligationsEnabled);
+		$this->_updateTestPassResults($active_id, $pass, $obligationsEnabled, $this->getProcessLocker());
 
 		// Update objective status
 		include_once 'Modules/Course/classes/class.ilCourseObjectiveResult.php';
@@ -990,11 +1015,15 @@ abstract class assQuestion
 			$pass = ilObjTest::_getPass($active_id);
 		}
 		
+		$this->getProcessLocker()->requestPersistWorkingStateLock();
+		
 		$saveStatus = $this->saveWorkingData($active_id, $pass);
 		
 		$this->calculateResultsFromSolution($active_id, $pass, $obligationsEnabled);
 		
 		$this->reworkWorkingData($active_id, $pass, $obligationsEnabled);
+
+		$this->getProcessLocker()->releasePersistWorkingStateLock();
 		
 		return $saveStatus;
 	}
@@ -1022,7 +1051,7 @@ abstract class assQuestion
 	abstract protected function reworkWorkingData($active_id, $pass, $obligationsAnswered);
 
 	/** @TODO Move this to a proper place. */
-	function _updateTestResultCache($active_id)
+	function _updateTestResultCache($active_id, ilAssQuestionProcessLocker $processLocker = null)
 	{
 		global $ilDB;
 
@@ -1058,6 +1087,11 @@ abstract class assQuestion
 		$isPassed = (  $mark["passed"] ? 1 : 0 );
 		$isFailed = ( !$mark["passed"] ? 1 : 0 );
 		
+		if( is_object($processLocker) )
+		{
+			$processLocker->requestUserTestResultUpdateLock();
+		}
+		
 		$query = "
 			DELETE FROM		tst_result_cache
 			WHERE			active_fi = %s
@@ -1081,10 +1115,15 @@ abstract class assQuestion
 			'hint_points'=> array('float', $row['hint_points']),
 			'obligations_answered' => array('integer', $obligationsAnswered)
 		));
+
+		if( is_object($processLocker) )
+		{
+			$processLocker->releaseUserTestResultUpdateLock();
+		}
 	}
 
 	/** @TODO Move this to a proper place. */
-	function _updateTestPassResults($active_id, $pass, $obligationsEnabled = false)
+	function _updateTestPassResults($active_id, $pass, $obligationsEnabled = false, ilAssQuestionProcessLocker $processLocker = null)
 	{
 		global $ilDB;
 		
@@ -1099,7 +1138,7 @@ abstract class assQuestion
 			SELECT		SUM(points) reachedpoints,
 						SUM(hint_count) hint_count,
 						SUM(hint_points) hint_points,
-						COUNT(question_fi) answeredquestions
+						COUNT(DISTINCT(question_fi)) answeredquestions
 			FROM		tst_test_result
 			WHERE		active_fi = %s
 			AND			pass = %s
@@ -1152,6 +1191,11 @@ abstract class assQuestion
 
 			$exam_identifier = self::getExamId( $active_id, $pass );
 			
+			if( is_object($processLocker) )
+			{
+				$processLocker->requestUserPassResultUpdateLock();
+			}
+			
 			/*
 			$query = "
 				DELETE FROM		tst_pass_result
@@ -1199,9 +1243,14 @@ abstract class assQuestion
 			    'exam_id'				=> array('text', $exam_identifier)
 			));
 			*/
+
+			if( is_object($processLocker) )
+			{
+				$this->getProcessLocker()->releaseUserPassResultUpdateLock();
+			}
 		}
 		
-		assQuestion::_updateTestResultCache($active_id);
+		assQuestion::_updateTestResultCache($active_id, $processLocker);
 		
 		return array(
 			'active_fi' => $active_id,

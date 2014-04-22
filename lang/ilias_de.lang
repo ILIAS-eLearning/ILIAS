@@ -503,6 +503,13 @@ assessment#:#errors#:#Fehler
 assessment#:#errors_section#:#Fehlerdaten
 assessment#:#errortext#:#Fehler/Worte markieren
 assessment#:#errortext_info#:#Bitte geben Sie einen Text ein. Um ein Wort als fehlerhaft zu markieren, setzen Sie bitte eine Raute (#) direkt vor das gewünschte Wort. Um eine Gruppe von Fehlerwörtern zu definieren, umklammern Sie die Wörter mit doppelten Klammern (z.B.: Dies ist ((ein Beispiel)) für mehrere Wörter). Wenn Sie auf die Schaltfläche &quot;Text analysieren&quot; klicken, werden die markierten Wörter für die weitere Bearbeitung extrahiert.
+assessment#:#ass_quest_process_lock#:#Verwende Lock Mechanismus während der Einreichung von Teilnehmer-Lösungen
+assessment#:#ass_quest_process_lock_desc#:#Ohne die Verwendung eines Locking Mechanismus sind Race Conditions während der Einreichung von Lösungsdaten möglich. Diese können zu inkosistenten Test Ergebnissen führen.
+assessment#:#ass_quest_process_lock_mode#:#Lock Modus während der Einreichung von Teilnehmer-Lösungen
+assessment#:#ass_quest_process_lock_mode_file#:#Verwende Dateisystem Locks
+assessment#:#ass_quest_process_lock_mode_file_desc#:#Dieser Locking Mechanismus erstellt Locks auf leeren Dateien im Dateisystem. Konkurrierende Prozesse für den selben Benutzer und die selbe Frage müssen warten, bis der andere Prozess den Lock wieder freigibt.
+assessment#:#ass_quest_process_lock_mode_db#:#Verwende Datenbank Tabellen Locks
+assessment#:#ass_quest_process_lock_mode_db_desc#:#Dieser Locking Mechanismus erstellt Locks auf den entsprechenden Tabellen der Datenbank. Konkurrierende Prozesse für des selben oder anderer Benutzer im selben oder einem anderen Test müssen warten, bis der andere Prozess den Lock wieder freigibt.
 assessment#:#eval_all_users#:#Auswertung für alle Benutzer
 assessment#:#eval_choice_result#:#Die Auswahl mit dem Wert %s ist %s. Sie erreichten %s Punkte.
 assessment#:#eval_cloze_result#:#Die Lücke Nummer %s mit dem Wert %s ist %s. Sie erreichten %s Punkte.

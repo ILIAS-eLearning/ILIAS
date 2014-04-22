@@ -530,7 +530,17 @@ class ilDBMySQL extends ilDB
 			{
 				$lock .= ', ';
 			}
-			$lock .= ($table['name'].' ');
+			
+			if( isset($table['sequence']) && $table['sequence'] )
+			{
+				$tableName = $this->db->getSequenceName($table['name']);
+			}
+			else
+			{
+				$tableName = $table['name'];
+			}
+			
+			$lock .= ($tableName.' ');
 			
 			if($table['alias'])
 			{

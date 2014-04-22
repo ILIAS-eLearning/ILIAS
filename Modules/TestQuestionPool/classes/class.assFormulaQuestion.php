@@ -914,6 +914,9 @@ class assFormulaQuestion extends assQuestion
 			include_once "./Modules/Test/classes/class.ilObjTest.php";
 			$pass = ilObjTest::_getPass($active_id);
 		}
+
+		$this->getProcessLocker()->requestUserSolutionUpdateLock();
+		
 		$entered_values = FALSE;
 		foreach($_POST as $key => $value)
 		{
@@ -975,6 +978,9 @@ class assFormulaQuestion extends assQuestion
 				));
 			}
 		}
+
+		$this->getProcessLocker()->releaseUserSolutionUpdateLock();
+
 		if($entered_values)
 		{
 			include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
