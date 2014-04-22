@@ -906,13 +906,14 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		$result['image'] = (string) $this->getImagePathWeb() . $this->getImageFilename();
 		
 		$answers = array();
+		$order = 0;
 		foreach ($this->getAnswers() as $key => $answer_obj)
 		{
 			array_push($answers, array(
 				"answertext"       => (string)$answer_obj->getAnswertext(),
 				"points"           => (float)$answer_obj->getPoints(),
 				"points_unchecked" => (float)$answer_obj->getPointsUnchecked(),
-				"order"            => (int)$answer_obj->getOrder(),
+				"order"            => (int)$order,
 				"coords"           => $answer_obj->getCoords(),
 				"state"            => $answer_obj->getState(),
 				"area"             => $answer_obj->getArea(),
@@ -920,6 +921,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 					$this->feedbackOBJ->getSpecificAnswerFeedbackExportPresentation($this->getId(), $key), 0
 				)
 			));
+			$order++;
 		}
 		$result['answers'] = $answers;
 
