@@ -185,6 +185,23 @@ abstract class ilPageConfig
 	}
 	
 	/**
+	 * Remove int link filter
+	 *
+	 * @param string $a_val internal link filter
+	 */
+	function removeIntLinkFilter($a_val)
+	{
+		foreach ($this->int_link_filter as $k => $v)
+		{
+			if ($v == $a_val)
+			{
+				unset($this->int_link_filter[$k]);
+			}
+		}
+	}
+	
+	
+	/**
 	 * Get internal links filter
 	 *
 	 * @return	string	internal links filter
