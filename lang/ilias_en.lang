@@ -14278,8 +14278,8 @@ assessment#:#tolerance_info#:#The tolerance specifies an allowable percentage de
 assessment#:#result_unit_info#:#Please note that, the selected result unit must also be activated in the "available units."
 poll#:#poll_comments#:#Comments
 poll#:#poll_show_results_as#:#Show Results as
-poll#:#poll_barchart#:#Barchart
-poll#:#poll_piechart#:#Piechart
-poll#:#poll_comments_info#:#Deactivating Comments don't delete any Comments.
+poll#:#poll_barchart#:#Bar Chart
+poll#:#poll_piechart#:#Pie Chart
+poll#:#poll_comments_info#:#Deactivating Comments doesn't delete any Comments.
 forum#:#merge_posts_into_thread#:#Merge Postings into other Thread
 forum#:#move_thread_to_forum#:#Move Thread to other Forum
