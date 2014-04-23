@@ -215,8 +215,7 @@ class ilUserProfile
 						"method" => "getGeneralInterests",
 						"course_export_hide" => true,
 						"group_export_hide" => true,
-						"lists_hide" => true,
-						"visib_reg_hide" => true,												
+						"lists_hide" => true,														
 						"group" => "interests"),
 		"interests_help_offered" => array(
 						"input" => "multitext",
@@ -225,8 +224,7 @@ class ilUserProfile
 						"method" => "getOfferingHelp",
 						"course_export_hide" => true,
 						"group_export_hide" => true,						
-						"lists_hide" => true,
-						"visib_reg_hide" => true,					
+						"lists_hide" => true,									
 						"group" => "interests"),
 		"interests_help_looking" => array(
 						"input" => "multitext",
@@ -235,8 +233,7 @@ class ilUserProfile
 						"method" => "getLookingForHelp",
 						"course_export_hide" => true,
 						"group_export_hide" => true,
-						"lists_hide" => true,
-						"visib_reg_hide" => true,					
+						"lists_hide" => true,								
 						"group" => "interests"),
 		"instant_messengers" => array(
 						"input" => "messenger",
