@@ -562,3 +562,4 @@ step_proxy#:#Proxy
 db_innodb#:#MySQL (InnoDB)
 show_update_steps#:#Show Update Steps
 lang_fa#:#Persian (farsi)
+feedback_recipient_info#:#This address is used in the footer link "Contact Administration".
