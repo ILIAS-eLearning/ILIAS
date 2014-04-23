@@ -342,7 +342,7 @@ class ilTable2GUI extends ilTableGUI
 			$_POST[$this->getNavParameter()."1"] =
 			$this->nav_value;
 //echo $this->nav_value;
-		$this->setOffset(0);
+		$this->setOffset(0);		
 	}
 	
 	/**
@@ -1945,7 +1945,12 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 				$item->setValueByArray($_POST);
 				$item->writeToSession();
 			}
-		}
+		}		
+		
+		// #13209
+		unset($_REQUEST["tbltplcrt"]);
+		unset($_REQUEST["tbltpldel"]);
+		
 	}
 
 	/**
@@ -1974,6 +1979,10 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 				$item->clearFromSession();
 			}
 		}
+		
+		// #13209
+		unset($_REQUEST["tbltplcrt"]);
+		unset($_REQUEST["tbltpldel"]);						
 	}
 
 	/**
@@ -2092,7 +2101,7 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 		}
 
 		if($this->getShowTemplates() && is_object($ilUser))
-		{
+		{			
 			// template handling
 			if(isset($_REQUEST["tbltplcrt"]) && $_REQUEST["tbltplcrt"])
 			{
