@@ -1950,6 +1950,10 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 				$item->writeToSession();
 			}
 		}
+		
+		// #13209
+		unset($_REQUEST["tbltplcrt"]);
+		unset($_REQUEST["tbltpldel"]);	
 	}
 
 	/**
@@ -1978,6 +1982,10 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 				$item->clearFromSession();
 			}
 		}
+		
+		// #13209
+		unset($_REQUEST["tbltplcrt"]);
+		unset($_REQUEST["tbltpldel"]);	
 	}
 
 	/**
