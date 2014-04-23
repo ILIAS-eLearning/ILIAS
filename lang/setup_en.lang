@@ -575,3 +575,4 @@ tree_implementation_ns#:#Nested-Set Model
 tree_implementation_mp#:#Materialized-Path Model
 tree_implementation_switch_btn#:#Switch Tree Implementation
 tree_implementation_switched#:#The tree implementation type has been switched.
+feedback_recipient_info#:#This address is used in the footer link "Contact Administration".
