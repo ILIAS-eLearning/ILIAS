@@ -234,7 +234,7 @@ il.Overlay = {
 	// hide all overlays
 	hideAllOverlays: function (e, force, omit) {
 		var k, isIn, tgt, el, el_reg;
-
+		
 		for (k in il.Overlay.overlays) {
 			isIn = false;
 
@@ -245,11 +245,16 @@ il.Overlay = {
 			// problems with form select: pageXY can be outside layer
 			if (!force) {
 				try {
-					tgt = e.target;
+					tgt = e.target;			
+					// #13209 - IE11 select options do not have offsetParent
+					if (tgt.offsetParent === null) {						
+						tgt = tgt.parentNode;
+					}
 					if (tgt.offsetParent.id == k) {
 						isIn = true;
 					}
 				} catch (err) {
+				
 				}
 			}
 
