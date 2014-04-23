@@ -67,6 +67,13 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 		$this->show_timings = $a_show_timings;
 		$this->show_edit_link = $a_show_edit_link;
 		$this->show_lp_status_sync = $a_show_lp_status_sync;
+		
+		// #13208
+		include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
+		if(!ilObjUserTracking::_enabledLearningProgress())
+		{
+			$this->show_lp_status_sync = false;
+		}
 
 		$this->lng = $lng;
 		$this->lng->loadLanguageModule('crs');
@@ -437,25 +444,28 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 			
 			if($this->show_lp_status_sync)
 			{								
-				// #9912
+				// #9912 / #13208
 				$passed_info = "";
-				if($a_user_data[$ud['usr_id']]["passed_info"]["user_id"])
+				if($a_user_data[$ud['usr_id']]["passed_info"])
 				{
-					$pinfo = $a_user_data[$ud['usr_id']]["passed_info"];								
-					if($pinfo["user_id"] < 0)
+					$pinfo = $a_user_data[$ud['usr_id']]["passed_info"];	
+					if($pinfo["user_id"])
 					{
-						$passed_info = $this->lng->txt("crs_passed_status_system");
+						if($pinfo["user_id"] < 0)
+						{
+							$passed_info =  $this->lng->txt("crs_passed_status_system");
+						}
+						else if($pinfo["user_id"] > 0)
+						{
+							$name = ilObjUser::_lookupName($pinfo["user_id"]);
+							$passed_info = $this->lng->txt("crs_passed_status_manual_by").": ".$name["login"];						
+						}
 					}
-					else if($pinfo["user_id"] > 0)
-					{
-						$name = ilObjUser::_lookupName($pinfo["user_id"]);
-						$passed_info = $this->lng->txt("crs_passed_status_manual_by").": ".$name["login"];									
+					if($pinfo["timestamp"])
+					{	
+						$passed_info .= "<br />".ilDatePresentation::formatDate($pinfo["timestamp"]);	
 					}
-				}
-				if($pinfo["timestamp"])
-				{
-					$passed_info .= "<br />".ilDatePresentation::formatDate($pinfo["timestamp"]);	
-				}
+				}				
 				$a_user_data[$ud['usr_id']]["passed_info"] = $passed_info;
 			}
 		}
