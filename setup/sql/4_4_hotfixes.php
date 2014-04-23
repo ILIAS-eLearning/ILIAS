@@ -452,3 +452,166 @@ if( !$ilDB->uniqueConstraintExists('tst_sequence', array('active_fi', 'pass')) )
 		}
 	}
 ?>
+<#17>
+<?php
+
+if( !$ilDB->tableExists('tmp_tst_to_recalc') )
+{
+	$ilDB->createTable('tmp_tst_to_recalc', array(
+		'active_fi' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'pass' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => -1
+		)
+	));
+
+	$ilDB->addUniqueConstraint('tmp_tst_to_recalc', array('active_fi', 'pass'));
+}
+
+$groupQuery = "
+			SELECT      tst_test_result.active_fi,
+						tst_test_result.question_fi,
+						tst_test_result.pass,
+						MAX(test_result_id) keep_id
+			
+			FROM        tst_test_result
+
+            INNER JOIN  tst_active
+            ON          tst_active.active_id = tst_test_result.active_fi
+			
+            INNER JOIN  tst_tests
+            ON          tst_tests.test_id = tst_active.test_fi
+			
+            INNER JOIN  object_data
+            ON          object_data.obj_id = tst_tests.obj_fi
+
+            WHERE       object_data.type = %s
+			
+			GROUP BY    tst_test_result.active_fi,
+						tst_test_result.question_fi,
+						tst_test_result.pass
+			
+			HAVING      COUNT(*) > 1
+		";
+
+$numQuery = "SELECT COUNT(*) num FROM ($groupQuery) tbl";
+$numRes = $ilDB->queryF($numQuery, array('text'), array('tst'));
+$numRow = $ilDB->fetchAssoc($numRes);
+
+$ilSetting = new ilSetting();
+$setting = $ilSetting->get('tst_test_results_dupl_del_warn', 0);
+
+if( (int)$numRow['num'] && !(int)$setting )
+{
+	echo "<pre>
+
+		Dear Administrator,
+		
+		DO NOT REFRESH THIS PAGE UNLESS YOU HAVE READ THE FOLLOWING INSTRUCTIONS
+		
+		The update process has been stopped due to data security reasons.
+		A Bug has let to duplicate datasets in \"tst_test_result\" table.
+		Duplicates have been detected in your installation.
+		
+		Please have a look at: http://www.ilias.de/mantis/view.php?id=8992#c27369
+		
+		You have the opportunity to review the data in question and apply 
+		manual fixes on your own risk.
+		If you change any data manually, make sure to also add an entry in the table \"tmp_tst_to_recalc\"
+		for each active_fi/pass combination that is involved.
+		The required re-calculation of related result aggregations won't be triggered otherwise.
+		
+		If you try to rerun the update process, this warning will be skipped.
+		The remaining duplicates will be removed automatically by the criteria documented at Mantis #8992
+		
+		Best regards,
+		The Test Maintainers
+		
+	</pre>";
+
+	$ilSetting->set('tst_test_results_dupl_del_warn', 1);
+	exit;
+}
+
+if( (int)$numRow['num'] )
+{
+	$groupRes = $ilDB->queryF($groupQuery, array('text'), array('tst'));
+
+	$deleteStmt = $ilDB->prepareManip(
+		"DELETE FROM tst_test_result WHERE active_fi = ? AND pass = ? AND question_fi = ? AND test_result_id != ?",
+		array('integer', 'integer', 'integer', 'integer')
+	);
+
+	while( $groupRow = $ilDB->fetchAssoc($groupRes) )
+	{
+		$pkCols = array(
+			'active_fi' => array('integer', $groupRow['active_fi']),
+			'pass' => array('integer', $groupRow['pass'])
+		);
+
+		$ilDB->replace('tmp_tst_to_recalc', $pkCols, array());
+
+		$ilDB->execute($deleteStmt, array(
+			$groupRow['active_fi'], $groupRow['pass'], $groupRow['question_fi'], $groupRow['keep_id']
+		));
+	}
+}
+
+?>
+<#18>
+<?php
+
+if( $ilDB->tableExists('tmp_tst_to_recalc') )
+{
+	$deleteStmt = $ilDB->prepareManip(
+		"DELETE FROM tmp_tst_to_recalc WHERE active_fi = ? AND pass = ?", array('integer', 'integer')
+	);
+
+	$res = $ilDB->query("
+			SELECT		tmp_tst_to_recalc.*,
+						tst_tests.obligations_enabled,
+						tst_tests.question_set_type,
+						tst_tests.obj_fi,
+						tst_tests.pass_scoring
+	
+			FROM		tmp_tst_to_recalc
+	
+			INNER JOIN  tst_active
+			ON          tst_active.active_id = tmp_tst_to_recalc.active_fi
+			
+			INNER JOIN  tst_tests
+			ON          tst_tests.test_id = tst_active.test_fi
+	");
+
+	require_once 'Services/Migration/Hotfix_18/classes/class.DBUpdateTestResultCalculator.php';
+
+	while( $row = $ilDB->fetchAssoc($res) )
+	{
+		DBUpdateTestResultCalculator::_updateTestPassResults(
+			$row['active_fi'], $row['pass'], $row['obligations_enabled'],
+			$row['question_set_type'], $row['obj_fi']
+		);
+
+		DBUpdateTestResultCalculator::_updateTestResultCache(
+			$row['active_fi'], $row['pass_scoring']
+		);
+
+		$ilDB->execute($deleteStmt, array($row['active_fi'], $row['pass']));
+	}
+
+	$ilDB->dropTable('tmp_tst_to_recalc');
+}
+
+// reset setting for shown clean up warning (see last hotfix),
+// so trunk dbupdate won't clean up automatically without another warning
+$ilSetting = new ilSetting();
+$ilSetting->set('tst_test_results_dupl_del_warn', 0);
+
+?>
