@@ -3,13 +3,10 @@
 
 chdir('../../..');
 
-include_once 'Services/Authentication/classes/class.ilAuthFactory.php';
-ilAuthFactory::setContext(ilAuthFactory::CONTEXT_SOAP);
+include_once 'Services/Context/classes/class.ilContext.php';
+ilContext::init(ilContext::CONTEXT_REST);
 
-include_once 'Services/Init/classes/class.ilInitialisation.php';
-$ilInit = new ilInitialisation();
-$GLOBALS['ilInit'] = $ilInit;
-$ilInit->initILIAS('webdav');
+include_once './include/inc.header.php';
 
 
 include_once './Services/WebServices/Rest/classes/class.ilRestServer.php';
