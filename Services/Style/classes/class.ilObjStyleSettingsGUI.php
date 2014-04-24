@@ -372,7 +372,7 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
 		}
 		
 		include_once("./Services/Style/classes/class.ilSystemStylesTableGUI.php");
-		$tab = new ilSystemStylesTableGUI($this, "editSystemStylesObject");
+		$tab = new ilSystemStylesTableGUI($this, "editSystemStyles");
 		$tpl->setContent($tab->getHTML());
 
 	}
