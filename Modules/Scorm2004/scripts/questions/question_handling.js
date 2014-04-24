@@ -1405,7 +1405,6 @@ jQuery(document).ready(function() {
 				else {
 					object = this;
 				}
-
 				if (!jQuery('#canvas_' + jQuery(object).attr('id')).attr('id'))
 				{
 					if (area_options.linked)
@@ -1426,6 +1425,17 @@ jQuery(document).ready(function() {
 					}
 					else
 					{
+						if (!questions[question_id].is_multiple) {
+							// remove all areas
+							for (var i=0;i<questions[question_id].answers.length;i++) {
+								jQuery('#canvas_' + question_id + '_' + i).remove();
+								if (jQuery(object).attr('id') != question_id + '_' + i) {
+									answers[question_id].areas[i] = false;
+								}
+							}
+							//clear_canvas(canvas);
+						}
+
 						draw(object, canvas);
 					}
 				}
