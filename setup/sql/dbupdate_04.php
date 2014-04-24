@@ -763,3 +763,35 @@ if( $ilDB->tableExists('tmp_tst_to_recalc') )
 }
 
 ?>
+<#4210>
+<?php
+$ilSetting = new ilSetting();
+if ((int) $ilSetting->get('lm_qst_imap_migr_run') == 0)
+{
+	// get all imagemap questions in ILIAS learning modules or scorm learning modules
+	$set = $ilDB->query("SELECT pq.question_id FROM page_question pq JOIN qpl_qst_imagemap im ON (pq.question_id = im.question_fi) ".
+		" WHERE pq.page_parent_type = ".$ilDB->quote("lm", "text").
+		" OR pq.page_parent_type = ".$ilDB->quote("sahs", "text")
+	);
+	while ($rec = $ilDB->fetchAssoc($set))
+	{
+		// now cross-check against qpl_questions to ensure that this is neither a test nor a question pool question
+		$set2 = $ilDB->query("SELECT obj_fi FROM qpl_questions ".
+			" WHERE question_id = ".$ilDB->quote($rec["question_id"], "integer")
+		);
+		if ($rec2 = $ilDB->fetchAssoc($set2))
+		{
+			// this should not be the case for question pool or test questions
+			if ($rec2["obj_fi"] == 0)
+			{
+				$q = "UPDATE qpl_qst_imagemap SET ".
+					" is_multiple_choice = ".$ilDB->quote(1, "integer").
+					" WHERE question_fi = ".$ilDB->quote($rec["question_id"], "integer");
+				$ilDB->manipulate($q);
+			}
+		}
+	}
+	$ilSetting = new ilSetting();
+	$setting = $ilSetting->set('lm_qst_imap_migr_run', 1);
+}
+?>
