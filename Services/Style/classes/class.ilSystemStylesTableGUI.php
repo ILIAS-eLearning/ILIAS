@@ -24,6 +24,8 @@ class ilSystemStylesTableGUI extends ilTable2GUI
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		$this->getStyles();
 //		$this->setTitle($lng->txt(""));
+
+		$this->setLimit(9999);
 		
 		$this->addColumn($this->lng->txt("title"));
 		$this->addColumn($this->lng->txt("default"));
