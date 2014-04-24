@@ -464,6 +464,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 
 		$title = $this->object->getTitle();
 		$description = $this->object->getDescription();
+		include_once("./Services/Object/classes/class.ilObjectTranslation.php");
 		$ot = ilObjectTranslation::getInstance($this->object->getId());
 		if ($ot->getContentActivated())
 		{
