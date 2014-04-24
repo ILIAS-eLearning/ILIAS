@@ -3625,7 +3625,7 @@ abstract class assQuestion
 	 */
 	public static function instantiateQuestionGUI($a_question_id)
 	{
-		global $ilCtrl, $ilDB, $lng;
+		global $ilCtrl, $ilDB, $lng, $ilUser;
 
 		if (strcmp($a_question_id, "") != 0)
 		{
@@ -3639,6 +3639,13 @@ abstract class assQuestion
 
 			$feedbackObjectClassname = self::getFeedbackClassNameByQuestionType($question_type);
 			$question_gui->object->feedbackOBJ = new $feedbackObjectClassname($question_gui->object, $ilCtrl, $ilDB, $lng);
+
+			$assSettings = new ilSetting('assessment');
+			require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionProcessLockerFactory.php';
+			$processLockerFactory = new ilAssQuestionProcessLockerFactory($assSettings, $ilDB);
+			$processLockerFactory->setQuestionId($question_gui->object->getId());
+			$processLockerFactory->setUserId($ilUser->getId());
+			$question_gui->object->setProcessLocker($processLockerFactory->getLocker());
 		}
 		else 
 		{
