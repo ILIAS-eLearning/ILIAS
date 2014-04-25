@@ -198,7 +198,8 @@ class ilLPStatusTestPassed extends ilLPStatus
 			}
 			else
 			{
-				$per = 100;
+				// According to mantis #12305
+				$per = 0;
 			}
 		}
 		return (int) $per;
