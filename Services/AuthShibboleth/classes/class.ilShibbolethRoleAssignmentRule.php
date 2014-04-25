@@ -21,6 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 require_once('./Services/AuthShibboleth/classes/class.ilShibbolethRoleAssignmentRules.php');
+
 /**
  * Shibboleth role assignment rule
  *
@@ -37,6 +38,7 @@ class ilShibbolethRoleAssignmentRule {
 	const ERR_MISSING_VALUE = 'shib_missing_attr_value';
 	const ERR_MISSING_ROLE = 'shib_missing_role';
 	const ERR_MISSING_PLUGIN_ID = 'shib_missing_plugin_id';
+	const TABLE_NAME = 'shib_role_assignment';
 	/**
 	 * @var ilDB
 	 */
@@ -256,8 +258,7 @@ class ilShibbolethRoleAssignmentRule {
 	 * @return bool
 	 */
 	public function delete() {
-		$query = 'DELETE FROM ' . self::TABLE_NAME . ' '
-			. 'WHERE rule_id = ' . $this->db->quote($this->getRuleId(), 'integer');
+		$query = 'DELETE FROM ' . self::TABLE_NAME . ' ' . 'WHERE rule_id = ' . $this->db->quote($this->getRuleId(), 'integer');
 		$this->db->manipulate($query);
 
 		return true;
@@ -269,12 +270,10 @@ class ilShibbolethRoleAssignmentRule {
 	 */
 	public function add() {
 		$next_id = $this->db->nextId(self::TABLE_NAME);
-		$query = 'INSERT INTO ' . self::TABLE_NAME
-			. ' (rule_id,role_id,name,value,plugin,plugin_id,add_on_update,remove_on_update ) ' . 'VALUES( '
+		$query = 'INSERT INTO ' . self::TABLE_NAME . ' (rule_id,role_id,name,value,plugin,plugin_id,add_on_update,remove_on_update ) ' . 'VALUES( '
 			. $this->db->quote($next_id, 'integer') . ', ' . $this->db->quote($this->getRoleId(), 'integer') . ', '
 			. $this->db->quote($this->getName(), 'text') . ', ' . $this->db->quote($this->getValue(), 'text') . ', '
-			. $this->db->quote((int)$this->isPluginActive(), 'integer') . ', '
-			. $this->db->quote((int)$this->getPluginId(), 'integer') . ', '
+			. $this->db->quote((int)$this->isPluginActive(), 'integer') . ', ' . $this->db->quote((int)$this->getPluginId(), 'integer') . ', '
 			. $this->db->quote((int)$this->isAddOnUpdateEnabled(), 'integer') . ', '
 			. $this->db->quote((int)$this->isRemoveOnUpdateEnabled(), 'integer') . ') ';
 		$this->db->manipulate($query);
@@ -288,9 +287,8 @@ class ilShibbolethRoleAssignmentRule {
 	 * @return bool
 	 */
 	public function update() {
-		$query = 'UPDATE ' . self::TABLE_NAME . ' ' . 'SET role_id = ' . $this->db->quote($this->getRoleId(), 'integer')
-			. ', ' . 'name = ' . $this->db->quote($this->getName(), 'text') . ', ' . 'value = '
-			. $this->db->quote($this->getValue(), 'text') . ', ' . 'plugin = '
+		$query = 'UPDATE ' . self::TABLE_NAME . ' ' . 'SET role_id = ' . $this->db->quote($this->getRoleId(), 'integer') . ', ' . 'name = '
+			. $this->db->quote($this->getName(), 'text') . ', ' . 'value = ' . $this->db->quote($this->getValue(), 'text') . ', ' . 'plugin = '
 			. $this->db->quote((int)$this->isPluginActive(), 'integer') . ', ' . 'plugin_id = '
 			. $this->db->quote((int)$this->getPluginId(), 'integer') . ', ' . 'add_on_update = '
 			. $this->db->quote((int)$this->isAddOnUpdateEnabled(), 'integer') . ', ' . 'remove_on_update = '
@@ -305,6 +303,7 @@ class ilShibbolethRoleAssignmentRule {
 	/**
 	 * @param $a_data
 	 *
+	 * @deprecated
 	 * @return bool
 	 */
 	public function matches($a_data) {
@@ -320,7 +319,6 @@ class ilShibbolethRoleAssignmentRule {
 			return in_array($this->getValue(), $values);
 		} else {
 			return $this->wildcardCompare($this->getValue(), $values);
-			#return $this->getValue() == $values;
 		}
 	}
 
@@ -329,13 +327,36 @@ class ilShibbolethRoleAssignmentRule {
 	 * @param $a_str1
 	 * @param $a_str2
 	 *
+	 * @deprecated
 	 * @return bool
 	 */
 	protected function wildcardCompare($a_str1, $a_str2) {
 		$pattern = str_replace('*', '.*?', $a_str1);
-		$GLOBALS['ilLog']->write(__METHOD__ . ': Replace pattern:' . $pattern . ' => ' . $a_str2);
 
-		return (bool)preg_match('/^' . $pattern . '$/i', $a_str2);
+		return (bool)preg_match("/" . $pattern . "/us", $a_str2);
+	}
+
+
+	/**
+	 * @param array $a_data
+	 *
+	 * @return bool
+	 */
+	public  function doesMatch(array $a_data) {
+		if ($this->isPluginActive()) {
+			return ilShibbolethRoleAssignmentRules::callPlugin($this->getPluginId(), $a_data);
+		}
+		if (! isset($a_data[$this->getName()])) {
+			return false;
+		}
+		$values = $a_data[$this->getName()];
+		if (is_array($values)) {
+			return in_array($this->getValue(), $values);
+		} else {
+			$pattern = str_replace('*', '.*?', $this->getValue());
+
+			return (bool)preg_match("/" . $pattern . "/us", $values);
+		}
 	}
 
 
@@ -346,8 +367,7 @@ class ilShibbolethRoleAssignmentRule {
 		if (! $this->getRuleId()) {
 			return true;
 		}
-		$query = 'SELECT * FROM ' . self::TABLE_NAME . ' '
-			. 'WHERE rule_id = ' . $this->db->quote($this->getRuleId(), 'integer');
+		$query = 'SELECT * FROM ' . self::TABLE_NAME . ' ' . 'WHERE rule_id = ' . $this->db->quote($this->getRuleId(), 'integer');
 		$res = $this->db->query($query);
 		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT)) {
 			$this->setRoleId($row->role_id);

@@ -228,7 +228,7 @@ class ilAuthShibbolethSettingsGUI {
 			$checkinput->setOptionTitle($this->lng->txt("shib_update"));
 			$checkinput->setPostVar("shib[update_" . $field . "]");
 			$checkinput->setChecked($settings["shib_update_" . $field]);
-			if ($setting == 'shib_login' || $setting == 'shib_title' || $setting == 'shib_firstname'
+			if ($setting == 'shib_login' || $setting == 'shib_firstname'
 				|| $setting == 'shib_lastname'
 				|| $setting == 'shib_email'
 			) {

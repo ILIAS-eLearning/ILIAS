@@ -76,26 +76,28 @@ class ilShibbolethRoleAssignmentRules {
 	 * @return bool
 	 */
 	public static function updateAssignments($a_usr_id, $a_data) {
-		global $ilDB, $rbacadmin, $rbacreview, $ilSetting, $ilLog;
+		require_once('./Services/AuthShibboleth/classes/Config/class.shibConfig.php');
+
+		global $ilDB, $rbacadmin, $rbacreview, $ilLog;
 		$query = "SELECT rule_id,add_on_update,remove_on_update FROM shib_role_assignment " . "WHERE add_on_update = 1 OR remove_on_update = 1";
 		$res = $ilDB->query($query);
 		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT)) {
 			$rule = new ilShibbolethRoleAssignmentRule($row->rule_id);
-			$matches = $rule->matches($a_data);
-			if ($matches and $row->add_on_update) {
+			//			$matches = $rule->matches($a_data);
+			if ($rule->doesMatch($a_data) and $row->add_on_update) {
 				$ilLog->write(__METHOD__ . ': Assigned to role ' . ilObject::_lookupTitle($rule->getRoleId()));
 				$rbacadmin->assignUser($rule->getRoleId(), $a_usr_id);
 			}
-			if (! $matches and $row->remove_on_update) {
+			if (! $rule->doesMatch($a_data) and $row->remove_on_update) {
 				$ilLog->write(__METHOD__ . ': Deassigned from role ' . ilObject::_lookupTitle($rule->getRoleId()));
 				$rbacadmin->deassignUser($rule->getRoleId(), $a_usr_id);
 			}
 		}
 		// check if is assigned to minimum one global role
 		if (! array_intersect($rbacreview->assignedRoles($a_usr_id), $rbacreview->getGlobalRoles())) {
-			$ilLog->write(__METHOD__ . ': Assigned to default role '
-				. ilObject::_lookupTitle($ilSetting->get('shib_user_default_role')));
-			$rbacadmin->assignUser($ilSetting->get('shib_user_default_role'), $a_usr_id);
+			$default_role = shibConfig::getInstance()->getUserDefaultRole();
+			$ilLog->write(__METHOD__ . ': Assigned to default role ' . ilObject::_lookupTitle($default_role));
+			$rbacadmin->assignUser($default_role, $a_usr_id);
 		}
 
 		return true;
@@ -109,13 +111,13 @@ class ilShibbolethRoleAssignmentRules {
 	 * @return bool
 	 */
 	public static function doAssignments($a_usr_id, $a_data) {
-		global $ilDB, $ilSetting, $rbacadmin, $ilLog;
+		global $ilDB, $rbacadmin, $ilLog;
 		$query = "SELECT rule_id FROM shib_role_assignment ";
 		$num_matches = 0;
 		$res = $ilDB->query($query);
 		while ($row = $res->fetchRow(DB_FETCHMODE_OBJECT)) {
 			$rule = new ilShibbolethRoleAssignmentRule($row->rule_id);
-			if ($rule->matches($a_data)) {
+			if ($rule->doesMatch($a_data)) {
 				$num_matches ++;
 				$ilLog->write(__METHOD__ . ': Assigned to role ' . ilObject::_lookupTitle($rule->getRoleId()));
 				$rbacadmin->assignUser($rule->getRoleId(), $a_usr_id);
@@ -123,9 +125,9 @@ class ilShibbolethRoleAssignmentRules {
 		}
 		// Assign to default if no matching found
 		if (! $num_matches) {
-			$ilLog->write(__METHOD__ . ': Assigned to default role '
-				. ilObject::_lookupTitle($ilSetting->get('shib_user_default_role')));
-			$rbacadmin->assignUser($ilSetting->get('shib_user_default_role'), $a_usr_id);
+			$default_role = shibConfig::getInstance()->getUserDefaultRole();
+			$ilLog->write(__METHOD__ . ': Assigned to default role ' . ilObject::_lookupTitle($default_role));
+			$rbacadmin->assignUser($default_role, $a_usr_id);
 		}
 
 		return true;
