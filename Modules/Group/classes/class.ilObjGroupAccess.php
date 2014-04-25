@@ -221,8 +221,8 @@ class ilObjGroupAccess extends ilObjectAccess
 		
 		if(!$unlimited)
 		{
-			$start = new ilDateTime($start,IL_CAL_DATETIME,'UTC');
-			$end = new ilDateTime($end,IL_CAL_DATETIME,'UTC');
+			$start = new ilDateTime($start,IL_CAL_DATETIME);
+			$end = new ilDateTime($end,IL_CAL_DATETIME);
 			$time = new ilDateTime(time(),IL_CAL_UNIX);
 			
 			return ilDateTime::_after($time, $start) and ilDateTime::_before($time,$end); 
