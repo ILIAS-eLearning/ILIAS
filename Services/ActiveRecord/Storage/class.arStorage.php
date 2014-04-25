@@ -23,18 +23,20 @@ abstract class arStorage extends ActiveRecord {
 	 */
 	public static function getInstance(&$model) {
 		/**
-		 * @var $obj arStorage
+		 * @var $storage arStorage
 		 */
-		$class = get_called_class();
-		self::setDBFields($model, $class);
-		$method = self::_toCamelCase('get_' . self::returnPrimaryFieldName());
-		$obj = new $class();
-		$obj->setExternalModelForStorage($model);
-		$obj->{self::returnPrimaryFieldName()} = $model->{$method}();
-		$obj->read();
-		$obj->mapFromActiveRecord();
 
-		return $obj;
+		arFieldCache::storeFromStorage(get_called_class(), $model);
+		$storage = self::getCalledClass();
+		$method = self::_toCamelCase('get_' . $storage->getArFieldList()->getPrimaryFieldName());
+		$storage->setExternalModelForStorage($model);
+		$storage->{$storage->getArFieldList()->getPrimaryFieldName()} = $model->{$method}();
+		if($storage->{$storage->getArFieldList()->getPrimaryFieldName()}) {
+			$storage->read();
+		}
+		$storage->mapFromActiveRecord();
+
+		return $storage;
 	}
 
 
@@ -57,14 +59,14 @@ abstract class arStorage extends ActiveRecord {
 
 
 	protected function mapToActiveRecord() {
-		foreach (array_keys(self::returnDbFields()) as $key) {
+		foreach (array_keys($this->getArFieldList()->getArrayForConnector()) as $key) {
 			$this->{$key} = $this->getValueForStorage($key);
 		}
 	}
 
 
 	protected function mapFromActiveRecord() {
-		foreach (array_keys(self::returnDbFields()) as $key) {
+		foreach (array_keys($this->getArFieldList()->getArrayForConnector()) as $key) {
 			$this->setValueToModel($key, $this->{$key});
 		}
 	}

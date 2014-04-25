@@ -13,9 +13,9 @@ global $ilCtrl, $tpl;
 $tpl->getStandardTemplate();
 $tpl->setVariable('BASE', '/');
 
-require_once('./Customizing/global/plugins/Libraries/ActiveRecord/Demo/TestRecord/class.arTestRecordGUI.php');
+require_once('./Customizing/global/plugins/Libraries/ActiveRecord/Demo/StorageRecord/class.arStorageRecordGUI.php');
 
-$arTestRecordGUI = new arTestRecordGUI();
+$arTestRecordGUI = new arStorageRecordGUI();
 $arTestRecordGUI->executeCommand();
 $tpl->show();
 

@@ -68,17 +68,39 @@ class ActiveRecordList {
 	 * @var arConnector
 	 */
 	protected $connector;
+	/**
+	 * @var ActiveRecord
+	 */
+	protected $ar;
 
 
 	/**
-	 * @param             $class
-	 * @param arConnector $connector
+	 * @param ActiveRecord $ar
 	 */
-	public function __construct($class, arConnector $connector = NULL) {
-		$this->class = $class;
-		if ($connector == NULL) {
+	public function __construct(ActiveRecord $ar) {
+		$this->class = get_class($ar);
+		$this->ar = $ar;
+		if ($ar->getArConnector() == NULL) {
 			$this->connector = new arConnectorDB($this);
+		} else {
+			$this->connector = $ar->getArConnector();
 		}
+	}
+
+
+	/**
+	 * @param \ActiveRecord $ar
+	 */
+	public function setAR($ar) {
+		$this->ar = $ar;
+	}
+
+
+	/**
+	 * @return \ActiveRecord
+	 */
+	public function getAR() {
+		return $this->ar;
 	}
 
 
@@ -132,6 +154,18 @@ class ActiveRecordList {
 	public function debug() {
 		$this->loaded = false;
 		$this->debug = true;
+
+		return $this;
+	}
+
+
+	/**
+	 * @param arConnector $connector
+	 *
+	 * @return $this
+	 */
+	public function connector(arConnector $connector) {
+		$this->connector = $connector;
 
 		return $this;
 	}
@@ -408,13 +442,20 @@ class ActiveRecordList {
 				 * @var $obj ActiveRecord
 				 */
 				$obj = new $this->class();
-				if ($obj::returnPrimaryFieldName() === 'id') {
-					$this->result[$res['id']] = $obj->buildFromArray($res);
-					$this->result_array[$res['id']] = $res;
-				} else {
-					$this->result[$res[$obj::returnPrimaryFieldName()]] = $obj->buildFromArray($res);
-					$this->result_array[$res[$obj::returnPrimaryFieldName()]] = $res;
+
+				$primaryFieldName = $obj->getArFieldList()->getPrimaryFieldName();
+				$primary_field_value = $res[$primaryFieldName];
+				$this->result[$primary_field_value] = $obj->buildFromArray($res);
+				$res_awake = array();
+				foreach ($res as $key => $value) {
+					if ($this->getAR()->wakeUp($key, $value)) {
+						$res_awake[$key] = $this->getAR()->wakeUp($key, $value);
+					} else {
+						$res_awake[$key] = $value;
+					}
 				}
+				$this->result_array[$res_awake[$primaryFieldName]] = $res_awake;
+				// $this->result_array[$res[$primaryFieldName]] = $res;
 			}
 			$this->loaded = true;
 		}

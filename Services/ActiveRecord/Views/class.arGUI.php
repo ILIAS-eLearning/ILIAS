@@ -1,18 +1,14 @@
 <?php
-require_once('./Customizing/global/plugins/Libraries/ActiveRecord/Demo/TestRecord/class.arTestRecord.php');
-require_once('./Customizing/global/plugins/Libraries/ActiveRecord/Views/Edit/class.arEditGUI.php');
-require_once('./Services/PersonalDesktop/classes/class.ilPersonalDesktopGUI.php');
-require_once('./Customizing/global/plugins/Libraries/ActiveRecord/Views/Index/class.arIndexTableGUI.php');
-require_once('./Customizing/global/plugins/Libraries/ActiveRecord/Views/View/class.ActiveRecordViewGUI.php');
+include_once("./Services/Component/classes/class.ilPluginConfigGUI.php");
+require_once('./Customizing/global/plugins/Libraries/ActiveRecord/class.ActiveRecordList.php');
 
 /**
- * Class arTestRecordGUI
+ * @author  Timon Amstutz <timon.amstutz@ilub.unibe.ch>
+ * @version $Id$
  *
- * @author Timon Amstutz <timon.amstutz@bluewin.ch>
  */
-class arTestRecordGUI
+class arGUI
 {
-
     /**
      * @var ilCtrl
      */
@@ -21,69 +17,104 @@ class arTestRecordGUI
      * @var ilTemplate
      */
     protected $tpl;
-
     /**
      * @var ilAccessHandler
      */
-    public $access;
+    protected $access;
+    /**
+     * @ar ilLanguage
+     */
+    protected $lng;
+    /**
+     * @var ilPlugin
+     */
+    protected $plugin_object = null;
 
     /**
-     * @var ActiveRecord
+     * @param  $string
      */
-    protected $ar;
+    protected $record_type;
 
-
-    public function __construct(ActiveRecord $ar, arIndexTableGUI $indexTableGUI = null, arEditGUI $editGUI = null, ActiveRecordViewGUI $viewGUI =  null)
+    public function __construct($record_type, ilPlugin $plugin_object = null)
     {
-        global $tpl, $ilCtrl, $ilAccess;
+        global $tpl, $ilCtrl, $ilAccess, $lng;
 
-        $this->tpl      = $tpl;
-        $this->ctrl     = $ilCtrl;
-        $this->access   = $ilAccess;
-        $this->ar       = $ar;
 
-        if($indexTableGUI == null)
+        $this->lng = $lng;
+
+        if ($plugin_object)
         {
-            $this->indexTableGUI = new arIndexTableGUI($this, "index", new ActiveRecordList($this->ar));
+            $this->setLngPrefix($plugin_object->getPrefix());
+            $plugin_object->loadLanguageModule();
         }
-        else
-        {
-            $this->indexTableGUI = $indexTableGUI;
-        }
-        if($editGUI == null)
-        {
-            $this->editGUI = new arEditGUI($this, ActiveRecord::find($_GET[get_class($this->ar).'_id']));
-        }
-        else
-        {
-            $this->editGUI = $editGUI;
-        }
+
+        $this->tpl           = $tpl;
+        $this->ctrl          = $ilCtrl;
+        $this->access        = $ilAccess;
+        $this->plugin_object = $plugin_object;
+        $this->record_type   = $record_type;
+        $this->ar            = new $record_type();
     }
 
-
-    public function executeCommand()
+    function executeCommand()
     {
-        $cmd = $_GET['cmd'] ? $_GET['cmd'] : 'index';
-
-        if ($cmd == 'configure')
-        {
-            $cmd = "index";
-        }
+        $cmd = $this->ctrl->getCmd();
         $this->$cmd();
     }
 
-
-    public function index()
+    /**
+     * Configure screen
+     */
+    function index()
     {
-
-        $this->tpl->setContent($table->getHTML());
+        $index_table_gui_class = $this->record_type . "IndexTableGUI";
+        $table_gui = new $index_table_gui_class($this, "index", new ActiveRecordList($this->ar));
+        $this->tpl->setContent($table_gui->getHTML());
     }
 
-
-    public function edit()
+    /**
+     * Configure screen
+     */
+    function edit()
     {
+        $edit_gui_class = $this->record_type . "EditGUI";
+        $form = new $edit_gui_class($this, $this->ar->find($_GET['ar_id']));
+        $this->tpl->setContent($form->getHTML());
+    }
 
-        $this->tpl->setContent($editGUI->getHTML());
+    function add()
+    {
+        $edit_gui_class = $this->record_type . "EditGUI";
+        $form = new $edit_gui_class($this, $this->ar);
+        $this->tpl->setContent($form->getHTML());
+    }
+
+    public function create()
+    {
+        $edit_gui_class = $this->record_type . "EditGUI";
+        $form = new $edit_gui_class($this, $this->ar);
+        $this->save($form);
+
+    }
+
+    public function update()
+    {
+        $edit_gui_class = $this->record_type . "EditGUI";
+        $form = new $edit_gui_class($this, $this->ar->find($_GET['ar_id']));
+        $this->save($form);
+
+    }
+
+    public function save(arEditGUI $form)
+    {
+        if ($form->saveObject())
+        {
+            ilUtil::sendSuccess($this->plugin_object->txt('record_created'), true);
+            $this->ctrl->redirect($this, "index");
+        } else
+        {
+            $this->tpl->setContent($form->getHTML());
+        }
     }
 
     /**
@@ -91,7 +122,9 @@ class arTestRecordGUI
      */
     function view()
     {
-        $this->tpl->setContent("view");
+        $display_gui_class = $this->record_type . "DisplayGUI";
+        $display_gui = new $display_gui_class($this, $this->ar->find($_GET['ar_id']));
+        $this->tpl->setContent($display_gui->getHtml());
     }
 
     /**
@@ -99,50 +132,46 @@ class arTestRecordGUI
      */
     function delete()
     {
-        $this->tpl->setContent("delete");
-    }
-### Fixed syntax errors for jenkins support: smeyer
-//}
-
-/**
- * Configure screen
- */
-/*
-function edit()
-{
-    $form = new MessageRecordEditGUI($this);
-    $this->tpl->setContent($form->getHTML());
-}
-
-public
-function create()
-{
-    $form = new MessageRecordEditGUI($this, new MessageRecord());
-    $this->save($form);
-
-}
-
-public
-function update()
-{
-    $form = new MessageRecordEditGUI($this, MessageRecord::find($_GET['message_id']));
-    $this->save($form);
-
-}
-
-public
-function save(MessageRecordEditGUI $form)
-{
-    if ($form->saveObject())
-    {
-        ilUtil::sendSuccess($this->plugin_object->txt('success_edit'), true);
-        $this->ctrl->redirect($this, "index");
-    } else
-    {
+        $delete_gui_class = $this->record_type . "DeleteGUI";
+        $form = new $delete_gui_class($this, $this->ar->find($_GET['ar_id']));
         $this->tpl->setContent($form->getHTML());
     }
-}
-*/
-}
-?>
 
+    function deleteItem()
+    {
+        $record = $this->ar->find($_GET['ar_id']);
+        $record->delete();
+        ilUtil::sendSuccess("object_deleted");
+        $this->ctrl->redirect($this, "index");
+    }
+
+
+    /**
+     * @param string $lng_prefix
+     */
+    public function setLngPrefix($lng_prefix)
+    {
+        $this->lng_prefix = $lng_prefix;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLngPrefix()
+    {
+        return $this->lng_prefix;
+    }
+
+    public function txt($txt, $plugin_txt = true)
+    {
+        if ($this->getLngPrefix() != "" && $plugin_txt)
+        {
+            return $this->lng->txt($this->getLngPrefix() . "_" . $txt, $this->getLngPrefix());
+        } else
+        {
+            return $this->lng->txt($txt);
+        }
+    }
+}
+
+?>

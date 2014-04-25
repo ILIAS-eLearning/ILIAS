@@ -3,7 +3,7 @@ require_once('./Customizing/global/plugins/Libraries/ActiveRecord/class.srModelO
 require_once('./Customizing/global/plugins/Libraries/ActiveRecord/class.ActiveRecordList.php');
 
 /**
- * TableGUI ActiveRecordTableGUI
+ * GUI-Class arIndexTableGUI
  *
  * @author  Timon Amstutz <timon.amstutz@ilub.unibe.ch>
  * @version $Id:
@@ -23,50 +23,64 @@ class arIndexTableGUI extends srModelObjectTableGUI
     protected $active_record_list = null;
 
     /**
-     * @var string
-     */
-    protected $lng_prefix = "";
-
-    /**
      * @var array
      */
     protected $actions = array();
 
     /**
+     * @var ilToolbarGUI
+     */
+    protected $toolbar = null;
+
+    /**
+     * @var arGUI|null
+     */
+    protected $parent_gui = null;
+    /**
+     * @var string
+     */
+    protected $table_title = '';
+
+    /**
      * @var array $data = null;
      */
-
-    public function __construct($a_parent_obj, $a_parent_cmd, ActiveRecordList $active_record_list, ilPlugin $plugin_object=null)
+    public function __construct(arGUI $a_parent_obj, $a_parent_cmd, ActiveRecordList $active_record_list)
     {
-        if($plugin_object)
-        {
-            $this->setLngPrefix($plugin_object->getPrefix());
-            $plugin_object->loadLanguageModule();
-        }
-        $this->table_title = $this->txt($this->table_title);
         $this->active_record_list = $active_record_list;
+        $this->parent_gui = $a_parent_obj;
+        $title = strtolower(str_replace("Record", "", get_class($this->active_record_list->getAR()))) . "_index";
+        $this->setTableTitle($this->txt($title));
         $this->initFieldsToHide();
         parent::__construct($a_parent_obj, $a_parent_cmd);
+        $this->initToolbar();
         $this->addActions();
     }
 
-    /**
-     * @param string $lng_prefix
-     */
-    public function setLngPrefix($lng_prefix)
+    protected function addActions()
     {
-        $this->lng_prefix = $lng_prefix;
+        global $lng;
+
+        $this->addAction('view', $lng->txt('view'), get_class($this->parent_obj), 'view', 'view');
+        $this->addAction('edit', $lng->txt('edit'), get_class($this->parent_obj), 'edit', 'write');
+        $this->addAction('delete', $lng->txt('delete'), get_class($this->parent_obj), 'delete', 'write');
+    }
+
+
+    /**
+     * @param string $table_title
+     */
+    public function setTableTitle($table_title)
+    {
+        $this->table_title = $table_title;
     }
 
     /**
      * @return string
      */
-    public function getLngPrefix()
+    public function getTableTitle()
     {
-        return $this->lng_prefix;
+        return $this->table_title;
     }
-
-
     /**
      * @param array $fields_to_hide
      */
@@ -74,6 +88,23 @@ class arIndexTableGUI extends srModelObjectTableGUI
     {
         $this->fields_to_hide = $fields_to_hide;
     }
+
+    /**
+     * @param \ilToolbarGUI $toolbar
+     */
+    public function setToolbar($toolbar)
+    {
+        $this->toolbar = $toolbar;
+    }
+
+    /**
+     * @return \ilToolbarGUI
+     */
+    public function getToolbar()
+    {
+        return $this->toolbar;
+    }
+
 
     /**
      * @return array
@@ -85,6 +116,13 @@ class arIndexTableGUI extends srModelObjectTableGUI
 
     protected function initFieldsToHide()
     {
+    }
+
+    protected function initToolbar()
+    {
+        $toolbar = new ilToolbarGUI();
+        $toolbar->addButton($this->txt("add_message"), $this->ctrl->getLinkTarget($this->parent_obj, "add"));
+        $this->setToolbar($toolbar);
     }
 
     protected function initTableData()
@@ -135,46 +173,90 @@ class arIndexTableGUI extends srModelObjectTableGUI
     protected function fillTableRow($a_set)
     {
         $this->setCtrlParametersForRow($a_set);
-        $this->addFieldsToRow($a_set);
+        $this->addRow($a_set);
         $this->addActionsToRow($a_set);
     }
 
     protected function setCtrlParametersForRow($a_set)
     {
+        $this->ctrl->setParameterByClass(get_class($this->parent_obj), 'ar_id', ($a_set['id']));
     }
 
-    protected function addFieldsToRow($a_set)
+    protected function addRow($a_set)
     {
-        $class = $this->active_record_list->getClass();
-        $record_fields = $class::returnDbFields();
-
         $this->tpl->setVariable('ID', $a_set['id']);
 
-        foreach ($a_set as $key => $item)
+        foreach ($a_set as $key => $value)
         {
             if (!in_array($key, $this->fields_to_hide))
             {
-                $field = $record_fields[$key];
-                $this->tpl->setCurrentBlock('entry');
-                switch ($field->db_type)
-                {
-                    case 'integer':
-                    case 'float':
-                    case 'text':
-                    case 'clob':
-                        $this->tpl->setVariable('ENTRY_CONTENT', $item);
-                        break;
-                    case 'date':
-                    case 'time':
-                    case 'timestamp':
-                        $this->tpl->setVariable('ENTRY_CONTENT', date("Y-m-d H:i:s",$item));
-                        break;
-
-                }
-
-                $this->tpl->parseCurrentBlock();
+                $field = $this->active_record_list->getAR()->getArFieldList()->getFieldByName($key);
+                $this->addFieldToRow($field, $value);
             }
         }
+    }
+
+    protected function addFieldToRow($field, $value)
+    {
+        $this->tpl->setCurrentBlock('entry');
+        if ($value == null)
+        {
+            $this->setEmptyFields($field, $value);
+        } else
+        {
+            switch ($field->getFieldType())
+            {
+                case 'integer':
+                case 'float':
+                    $this->setNumericData($field, $value);
+                    break;
+                case 'text':
+                    $this->setTextData($field, $value);
+                    break;
+                case 'clob':
+                    $this->setClobData($field, $value);
+                    break;
+                case 'date':
+                case 'time':
+                case 'timestamp':
+                    $this->setDateTimeData($field, $value);
+                    break;
+
+            }
+        }
+        $this->beforeParseCurrentRowBlock($field, $value);
+        $this->tpl->parseCurrentBlock();
+    }
+
+    protected function beforeParseCurrentRowBlock(arField $field, $value)
+    {
+
+    }
+
+    protected function setNumericData(arField $field, $value)
+    {
+        $this->tpl->setVariable('ENTRY_CONTENT', $value);
+    }
+
+    protected function setTextData(arField $field, $value)
+    {
+        $this->tpl->setVariable('ENTRY_CONTENT', $value);
+    }
+
+    protected function setDateTimeData(arField $field, $value)
+    {
+        $datetime = new ilDateTime($value, IL_CAL_DATETIME);
+        $this->tpl->setVariable('ENTRY_CONTENT', ilDatePresentation::formatDate($datetime, IL_CAL_UNIX));
+    }
+
+    protected function setClobData(arField $field, $value)
+    {
+        $this->tpl->setVariable('ENTRY_CONTENT', $value);
+    }
+
+    public function setEmptyFields($field)
+    {
+        $this->tpl->setVariable('ENTRY_CONTENT', " ");
     }
 
     public function addAction($id, $title, $target_class, $target_cmd, $access)
@@ -187,18 +269,13 @@ class arIndexTableGUI extends srModelObjectTableGUI
         $this->actions[$id]->access = $access;
     }
 
-    protected function addActions()
-    {
-
-    }
-
     protected function addActionsToRow($a_set)
     {
         if(!empty($this->actions))
         {
             $alist = new ilAdvancedSelectionListGUI();
             $alist->setId($a_set['id']);
-            $alist->setListTitle('actions');
+            $alist->setListTitle($this->txt('actions',false));
 
             foreach($this->actions as $action)
             {
@@ -222,14 +299,18 @@ class arIndexTableGUI extends srModelObjectTableGUI
     {
         $this->addColumn('', '', '1', true);
 
-        foreach (array_pop($this->getData()) as $key => $item)
+        if($this->getData())
         {
-            if (!in_array($key, $this->fields_to_hide))
+            foreach (array_pop($this->getData()) as $key => $item)
             {
-                $this->addColumn($this->txt($key));
+                if (!in_array($key, $this->fields_to_hide))
+                {
+                    $this->addColumn($this->txt($key));
+                }
             }
+            $this->addColumn('actions');
         }
-        $this->addColumn('actions');
+
     }
 
 
@@ -262,19 +343,25 @@ class arIndexTableGUI extends srModelObjectTableGUI
         return false;
     }
 
-    protected function txt($txt)
+
+    public function render()
     {
-        global $lng;
 
-        if($this->getLngPrefix()!="")
+        $index_table_tpl = new ilTemplate("tpl.index_table.html", true, true, "./Customizing/global/plugins/Libraries/ActiveRecord/");
+        if($this->getToolbar())
         {
-            return $lng->txt($this->getLngPrefix() . "_" . $txt, $this->getLngPrefix());
-        }
-        else
-        {
-            return $lng->txt($txt);
+            $index_table_tpl->setVariable("TOOLBAR", $this->getToolbar()->getHTML());
         }
 
+        $index_table_tpl->setVariable("TABLE", parent::render());
+
+        return $index_table_tpl->get();
+
+    }
+
+    protected function txt($txt, $plugin_txt = true)
+    {
+        return $this->parent_gui->txt($txt, $plugin_txt);
     }
 }
 ?>

@@ -1,15 +1,16 @@
 <?php
-require_once('.Customizing/global/plugins/Libraries/ActiveRecord/Demo/StorageRecord/class.arStorageRecordStorage.php');
+require_once('./Customizing/global/plugins/Libraries/ActiveRecord/Demo/StorageRecord/class.arStorageRecordStorage.php');
+require_once('./Customizing/global/plugins/Libraries/ActiveRecord/Storage/int.arStorageInterface.php');
 
 /**
  * Class arTestRecord
  *
- * @description A Cliss which does not extend from ActiveRecord
+ * @description A Class which does not extend from ActiveRecord
  *              uses arStorage for dynamic DB usage
  *
  * @author      Fabian Schmid <fs@studer-raimann.ch>
  */
-class arStorageRecord {
+class arStorageRecord implements arStorageInterface {
 
 	/**
 	 * @var int
@@ -55,6 +56,7 @@ class arStorageRecord {
 	public function __construct($id = 0) {
 		$this->id = $id;
 		$this->storage = arStorageRecordStorage::getInstance($this);
+		$this->storage->installDB();
 	}
 
 

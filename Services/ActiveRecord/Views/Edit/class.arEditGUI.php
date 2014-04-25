@@ -1,7 +1,7 @@
 <?php
 require_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
 /**
- * GUI-Class ActiveRecordEditGUI
+ * GUI-Class arEditGUI
  *
  * @author            Timon Amstutz <timon.amstutz@ilub.unibe.ch>
  * @version           $Id:
@@ -9,24 +9,18 @@ require_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
  */
 class arEditGUI extends ilPropertyFormGUI
 {
-
     /**
      * @var  ActiveRecord
      */
-    protected $record;
+    protected $ar;
     /**
-     * @var ilPropertyFormGUI
+     * @var arGUI
      */
     protected $parent_gui;
     /**
      * @var  ilCtrl
      */
     protected $ctrl;
-
-    /**
-     * @var string
-     */
-    protected $lng_prefix = "";
 
     /**
      * @var string
@@ -41,25 +35,20 @@ class arEditGUI extends ilPropertyFormGUI
 
     /**
      * @param $parent_gui
-     * @param ActiveRecord $record
+     * @param ActiveRecord $ar
      * @param ilPlugin $plugin_object
      */
-    public function __construct($parent_gui, ActiveRecord $record, ilPlugin $plugin_object = null)
+    public function __construct(arGUI $parent_gui, ActiveRecord $ar)
     {
-        if ($plugin_object)
-        {
-            $this->setLngPrefix($plugin_object->getPrefix());
-            $plugin_object->loadLanguageModule();
-        }
-
         global $ilCtrl;
-        $this->record     = $record;
+
+        $this->ar     = $ar;
         $this->parent_gui = $parent_gui;
         $this->ctrl       = $ilCtrl;
-        $this->ctrl->saveParameter($parent_gui, 'message_id');
+        $this->ctrl->saveParameter($parent_gui, 'ar_id');
         $this->initFieldsToHide();
         $this->initForm();
-        if ($this->record->getId() != 0)
+        if ($this->ar->getId() != 0)
         {
             $this->fillForm();
         }
@@ -95,84 +84,84 @@ class arEditGUI extends ilPropertyFormGUI
 
     protected function setInitFormAction()
     {
-        $this->setFormAction($this->ctrl->getFormAction($this->parent_gui));
+        $this->setFormAction($this->ctrl->getFormAction($this->parent_gui,"index"));
     }
 
 
     protected function generateFields()
     {
-        foreach($this->record->returnDbFields() as $field_id => $field)
+        foreach($this->ar->getArFieldList()->getFields() as $field)
         {
-            if(!in_array($field_id,$this->getFieldsToHide()))
+            if(!in_array($field->getName() ,$this->getFieldsToHide()))
             {
-                $this->addField($field_id,$field);
+                $this->addField($field);
             }
         }
     }
 
-    protected function addField($field_id, $field)
+    protected function addField(arField $field)
     {
         $field_element = null;
-        switch ($field->db_type)
+        switch ($field->getFieldType())
         {
             case 'integer':
             case 'float':
-                $field_element = $this->addNumberInputField($field_id);
+                $field_element = $this->addNumbericInputField($field);
                 break;
             case 'text':
-                $field_element = $this->addTextInputField($field_id);
+                $field_element = $this->addTextInputField($field);
                 break;
             case 'date':
             case 'time':
             case 'timestamp':
-                $field_element = $this->addDateTimeInputField($field_id);
+                $field_element = $this->addDateTimeInputField($field);
                 break;
             case 'clob':
-                $field_element = $this->addClobInputField($field_id);
+                $field_element = $this->addClobInputField($field);
                 break;
         }
         if ($field->notnull)
         {
             $field_element->setRequired(true);
         }
-        $this->adaptAnyInput($field_element, $field_id);
+        $this->adaptAnyInput($field_element, $field);
         if($field_element)
         {
             $this->addItem($field_element);
         }
     }
 
-    protected function addTextInputField($field_id)
+    protected function addTextInputField(arField $field)
     {
-        return new ilTextInputGUI($this->txt($field_id), $field_id);;
+        return new ilTextInputGUI($this->txt($field->getName()), $field->getName());;
     }
 
-    protected function addNumberInputField($field_id)
+    protected function addNumbericInputField(arField $field)
     {
-        return new ilNumberInputGUI($this->txt($field_id), $field_id);
+        return new ilNumberInputGUI($this->txt($field->getName()), $field->getName());
     }
 
 
-    protected function addDateTimeInputField($field_id)
+    protected function addDateTimeInputField(arField $field)
     {
-        $date_input = new ilDateTimeInputGUI($this->txt($field_id), $field_id);
+        $date_input = new ilDateTimeInputGUI($this->txt($field->getName()), $field->getName());
         $date_input->setDate(new ilDate(date('Y-m-d H:i:s'), IL_CAL_DATE));
         $date_input->setShowTime(true);
         return $date_input;
     }
 
-    protected function addClobInputField($field_id)
+    protected function addClobInputField(arField $field)
     {
-        return new ilTextAreaInputGUI($this->txt($field_id), $field_id);
+        return new ilTextAreaInputGUI($this->txt($field->getName()), $field->getName());
     }
 
-    protected function adaptAnyInput(&$any_input, $field_id)
+    protected function adaptAnyInput(&$any_input, arField $field)
     {
     }
 
     protected function setFormName()
     {
-        if ($this->record->getId() == 0)
+        if ($this->ar->getId() == 0)
         {
             $this->setTitle($this->txt('create_'.$this->form_name));
         } else
@@ -184,35 +173,33 @@ class arEditGUI extends ilPropertyFormGUI
 
     public function fillForm()
     {
-        $fields = array();
-
-        foreach ($this->record->returnDbFields() as $field_id => $field)
+        foreach ($this->ar->getArFieldList()->getFields() as $field)
         {
-            if (!in_array($field_id, $this->getFieldsToHide()))
+            $form_item =$this->getItemByPostVar($field->getName());
+            if (!in_array($field->getName(), $this->getFieldsToHide()))
             {
-                $get_function = "get" . $this->record->_toCamelCase($field_id, true);
-                switch ($field->db_type)
+                $get_function = "get" . $this->ar->_toCamelCase($field->getName(), true);
+                switch ($field->getFieldType())
                 {
                     case 'integer':
                     case 'float':
                     case 'text':
                     case 'clob':
-                        $fields[$field_id] = $this->record->$get_function();
+                        $form_item->setValue($this->ar->$get_function());
                         break;
                     case 'date':
                     case 'time':
                     case 'timestamp':
-                        $date = date('Y-m-d', $this->record->$get_function());
-                        $time = date('H:i:s', $this->record->$get_function());
-                        $fields[$field_id] = array("date" =>$date,"time"=>$time);
+                        $datetime = new ilDateTime($this->ar->$get_function(), IL_CAL_DATETIME);
+                        $form_item->setDate($datetime);
+                        //$values[$field->getName()] =
                         break;
 
                 }
             }
         }
-
-        $this->setValuesByArray($fields);
     }
+
 
 
     /**
@@ -227,49 +214,51 @@ class arEditGUI extends ilPropertyFormGUI
             return false;
         }
 
-        foreach ($this->record->returnDbFields() as $field_id => $field)
+        foreach ($this->ar->getArFieldList()->getFields() as $field)
         {
             $valid = false;
 
-            if($field_id == 'id')
+            if($field->getName() == 'id')
             {
                 $valid = true;
-            } elseif($field_id == 'created' && $this->record->getId()==0)
+            } elseif($field->getName() == 'created' && $this->ar->getId()==0)
             {
-                $this->record->setCreated(time());
+                $datetime  = new ilDateTime(time(), IL_CAL_UNIX);
+                $this->ar->setCreated($datetime->get(IL_CAL_DATETIME));
                 $valid = true;
-            } elseif ($field_id == 'modified')
+            } elseif ($field->getName() == 'modified')
             {
-                $this->record->setModified(time());
+                $datetime = new ilDateTime(time(), IL_CAL_UNIX);
+                $this->ar->setModified($datetime->get(IL_CAL_DATETIME));
                 $valid = true;
-            } elseif(array_key_exists($field_id, $_POST))
+            } elseif(array_key_exists($field->getName(), $_POST))
             {
-                $value = $_POST[$field_id];
+                $value = $_POST[$field->getName()];
 
-                $set_function = "set" . $this->record->_toCamelCase($field_id, true);
+                $set_function = "set" . $this->ar->_toCamelCase($field->getName(), true);
 
-                switch ($field->db_type)
+                switch ($field->getFieldType())
                 {
                     case 'integer':
                     case 'float':
-                        $valid = $this->setNumberRecordField($field_id, $set_function, $value);
+                        $valid = $this->setNumbericRecordField($field, $set_function, $value);
                         break;
                     case 'text':
-                        $valid = $this->setTextRecordField($field_id, $set_function, $value);
+                        $valid = $this->setTextRecordField($field, $set_function, $value);
                         break;
                     case 'date':
                     case 'time':
                     case 'timestamp':
-                        $valid = $this->setDateTimeRecordField($field_id, $set_function, $value);
+                        $valid = $this->setDateTimeRecordField($field, $set_function, $value);
                         break;
                     case 'clob':
-                        $valid = $this->setClobRecordField($field_id, $set_function, $value);
+                        $valid = $this->setClobRecordField($field, $set_function, $value);
                         break;
                 }
             }
             else
             {
-                $valid = $this->handleEmptyPostValue($field_id);;
+                $valid = $this->handleEmptyPostValue($field);;
             }
 
 
@@ -281,42 +270,44 @@ class arEditGUI extends ilPropertyFormGUI
         return true;
     }
 
-    protected function setNumberRecordField($field_id, $set_function, $value)
+
+
+    protected function setNumbericRecordField(arField $field, $set_function, $value)
     {
-        $this->record->$set_function($value);
+        $this->ar->$set_function($value);
         return true;
     }
 
-    protected function setTextRecordField($field_id, $set_function, $value)
+    protected function setTextRecordField(arField $field, $set_function, $value)
     {
-        $this->record->$set_function($value);
+        $this->ar->$set_function($value);
         return true;
     }
 
-    protected function setDateTimeRecordField($field_id, $set_function, $value)
+    protected function setDateTimeRecordField(arField $field, $set_function, $value)
     {
-
         if($value['time'])
         {
-            $timestamp = DateTime::createFromFormat("Y-m-d H:i:s", $value['date']." ". $value['time'])->getTimestamp();
+            $datetime = new ilDateTime($value['date'] . " " . $value['time'], IL_CAL_DATETIME);
+            $timestamp = $datetime->get(IL_CAL_DATETIME);
         }
         else
         {
-            $timestamp = DateTime::createFromFormat("Y-m-d", $value['date'])->getTimestamp();
+            $datetime  = new ilDateTime($value['date'], IL_CAL_DATETIME);
+            $timestamp = $datetime->get(IL_CAL_DATETIME);
         }
-
-        $this->record->$set_function($timestamp);
+        $this->ar->$set_function($timestamp);
         return true;
     }
 
-    protected function setClobRecordField($field_id, $set_function, $value)
+    protected function setClobRecordField(arField $field, $set_function, $value)
     {
-        $this->record->$set_function($value);
+        $this->ar->$set_function($value);
         return true;
     }
 
 
-    protected function handleEmptyPostValue($field_id)
+    protected function handleEmptyPostValue(arField $field)
     {
         return true;
     }
@@ -331,12 +322,12 @@ class arEditGUI extends ilPropertyFormGUI
         {
             return false;
         }
-        if ($this->record->getId())
+        if ($this->ar->getId())
         {
-            $this->record->update();
+            $this->ar->update();
         } else
         {
-            $this->record->create();
+            $this->ar->create();
         }
 
         return true;
@@ -345,44 +336,18 @@ class arEditGUI extends ilPropertyFormGUI
 
     protected function addCommandButtons()
     {
-        if ($this->record->getId() == 0)
+        if ($this->ar->getId() == 0)
         {
-            $this->addCommandButton('create', $this->txt('create_message'));
+            $this->addCommandButton('create', $this->txt('create',false));
         } else
         {
-            $this->addCommandButton('update', $this->txt('save'));
+            $this->addCommandButton('update', $this->txt('save',false));
         }
-        $this->addCommandButton('index', $this->txt('cancel'));
+        $this->addCommandButton('index', $this->txt('cancel',false));
     }
 
-    /**
-     * @param string $lng_prefix
-     */
-    public function setLngPrefix($lng_prefix)
+    protected function txt($txt, $plugin_txt = true)
     {
-        $this->lng_prefix = $lng_prefix;
-    }
-
-    /**
-     * @return string
-     */
-    public function getLngPrefix()
-    {
-        return $this->lng_prefix;
-    }
-
-
-    protected function txt($txt)
-    {
-        global $lng;
-
-        if ($this->getLngPrefix() != "")
-        {
-            return $lng->txt($this->getLngPrefix() . "_" . $txt, $this->getLngPrefix());
-        } else
-        {
-            return $lng->txt($txt);
-        }
-
+        return $this->parent_gui->txt($txt, $plugin_txt);
     }
 }

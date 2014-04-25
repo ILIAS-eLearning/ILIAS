@@ -9,46 +9,107 @@
  */
 abstract class arConnector {
 
-	abstract public static function nextID(ActiveRecord $ar);
+	/**
+	 * @param ActiveRecord $ar
+	 */
+	abstract public function nextID(ActiveRecord $ar);
 
 
-	abstract public static function checkConnection(ActiveRecord $ar);
+	/**
+	 * @param ActiveRecord $ar
+	 */
+	abstract public function checkConnection(ActiveRecord $ar);
 
 
-	abstract public static function installDatabase(ActiveRecord $ar, $fields);
+	/**
+	 * @param ActiveRecord $ar
+	 * @param              $fields
+	 */
+	abstract public function installDatabase(ActiveRecord $ar, $fields);
 
 
-	abstract public static function updateDatabase(ActiveRecord $ar);
+	/**
+	 * @param ActiveRecord $ar
+	 */
+	abstract public function updateDatabase(ActiveRecord $ar);
 
 
-	abstract public static function resetDatabase(ActiveRecord $ar);
+	/**
+	 * @param ActiveRecord $ar
+	 */
+	abstract public function resetDatabase(ActiveRecord $ar);
 
 
-	abstract public static function truncateDatabase(ActiveRecord $ar);
+	/**
+	 * @param ActiveRecord $ar
+	 */
+	abstract public function truncateDatabase(ActiveRecord $ar);
 
 
-	abstract public static function checkTableExists(ActiveRecord $ar);
+	/**
+	 * @param ActiveRecord $ar
+	 */
+	abstract public function checkTableExists(ActiveRecord $ar);
 
 
-	abstract public static function checkFieldExists(ActiveRecord $ar, $field_name);
+	/**
+	 * @param ActiveRecord $ar
+	 * @param              $field_name
+	 */
+	abstract public function checkFieldExists(ActiveRecord $ar, $field_name);
 
 
-	abstract public static function removeField(ActiveRecord $ar, $field_name);
+	/**
+	 * @param ActiveRecord $ar
+	 * @param              $field_name
+	 */
+	abstract public function removeField(ActiveRecord $ar, $field_name);
 
 
-	abstract public static function renameField(ActiveRecord $ar, $old_name, $new_name);
+	/**
+	 * @param ActiveRecord $ar
+	 * @param              $old_name
+	 * @param              $new_name
+	 */
+	abstract public function renameField(ActiveRecord $ar, $old_name, $new_name);
 
 
-	abstract public static function create(ActiveRecord $ar);
+	/**
+	 * @param ActiveRecord $ar
+	 */
+	abstract public function create(ActiveRecord $ar);
 
 
-	abstract public static function read(ActiveRecord $ar);
+	/**
+	 * @param ActiveRecord $ar
+	 */
+	abstract public function read(ActiveRecord $ar);
 
 
-	abstract public static function update(ActiveRecord $ar);
+	/**
+	 * @param ActiveRecord $ar
+	 */
+	abstract public function update(ActiveRecord $ar);
 
 
-	abstract public static function delete(ActiveRecord $ar);
+	/**
+	 * @param ActiveRecord $ar
+	 */
+	abstract public function delete(ActiveRecord $ar);
+
+
+	/**
+	 * @param ActiveRecordList $arl
+	 */
+	abstract public function readSet(ActiveRecordList $arl);
+
+
+	/**
+	 * @param ActiveRecordList $arl
+	 *
+	 * @return int
+	 */
+	abstract public function affectedRows(ActiveRecordList $arl);
 }
 
 ?>

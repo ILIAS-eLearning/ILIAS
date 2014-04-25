@@ -3,16 +3,16 @@ require_once('./Customizing/global/plugins/Libraries/ActiveRecord/Demo/StorageRe
 require_once('./Customizing/global/plugins/Libraries/ActiveRecord/Views/Edit/class.arEditGUI.php');
 require_once('./Services/PersonalDesktop/classes/class.ilPersonalDesktopGUI.php');
 require_once('./Customizing/global/plugins/Libraries/ActiveRecord/Views/Index/class.arIndexTableGUI.php');
-require_once('./Customizing/global/plugins/Libraries/ActiveRecord/Views/View/class.ActiveRecordViewGUI.php');
+//require_once('./Customizing/global/plugins/Libraries/ActiveRecord/Views/View/class.ActiveRecordViewGUI.php');
 
 /**
- * Class arTestRecordGUI
+ * Class arStorageRecordGUI
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  *
  *
  */
-class arTestRecordGUI {
+class arStorageRecordGUI {
 
 	/**
 	 * @var ilCtrl
@@ -28,7 +28,7 @@ class arTestRecordGUI {
 		global $ilCtrl, $tpl;
 		$this->ctrl = $ilCtrl;
 		$this->tpl = $tpl;
-		$this->object = new arStorageRecord(2);
+		$this->object = new arStorageRecord();
 	}
 
 
