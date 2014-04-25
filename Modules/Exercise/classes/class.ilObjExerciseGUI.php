@@ -3707,7 +3707,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 				'copy',
 				'paste',
 				'pastetext',
-				'formatselect'
+				// 'formatselect' #13234
 			));
 			
 			$form->setFormAction($ilCtrl->getFormAction($this, "updateAssignmentText"));
