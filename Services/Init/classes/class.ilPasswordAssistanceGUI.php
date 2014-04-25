@@ -451,6 +451,7 @@ class ilPasswordAssistanceGUI
 		if(!$form->checkInput())
 		{
 			$form->setValuesByPost();
+			$this->showAssistanceForm($form);
 			return;
 		}
 
