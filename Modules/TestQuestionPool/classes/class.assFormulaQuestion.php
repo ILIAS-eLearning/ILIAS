@@ -306,7 +306,7 @@ class assFormulaQuestion extends assQuestion
 				}
 				else
 				{
-					$input = '<input type="text" name="result_' . $result . '"' . $value . ' />';
+					$input = '<input type="text" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off" name="result_' . $result . '"' . $value . ' />';
 				}
 				
 				$units = "";
