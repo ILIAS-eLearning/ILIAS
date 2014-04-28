@@ -205,6 +205,8 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 								$data["points"],
 								$data["aorder"]
 							);
+							$this->gaps[$data["gap_id"]]->setGapSize($data['gap_size']);
+							
 							$this->gaps[$data["gap_id"]]->addItem($answer);
 							break;
 						case CLOZE_SELECT:
@@ -230,6 +232,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 								$data["points"],
 								$data["aorder"]
 							);
+							$this->gaps[$data["gap_id"]]->setGapSize($data['gap_size']);
 							$answer->setLowerBound($data["lowerlimit"]);
 							$answer->setUpperBound($data["upperlimit"]);
 							$this->gaps[$data["gap_id"]]->addItem($answer);
@@ -349,7 +352,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 	protected function saveClozeTextGapRecordToDb($next_id, $key, $item, $gap)
 	{
 		global $ilDB;
-		$ilDB->manipulateF( "INSERT INTO qpl_a_cloze (answer_id, question_fi, gap_id, answertext, points, aorder, cloze_type) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+		$ilDB->manipulateF( "INSERT INTO qpl_a_cloze (answer_id, question_fi, gap_id, answertext, points, aorder, cloze_type, gap_size) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
 							array(
 								"integer",
 								"integer",
@@ -357,7 +360,8 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 								"text",
 								"float",
 								"integer",
-								"text"
+								"text",
+								"integer"
 							),
 							array(
 								$next_id,
@@ -366,7 +370,8 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 								strlen( $item->getAnswertext() ) ? $item->getAnswertext() : "",
 								$item->getPoints(),
 								$item->getOrder(),
-								$gap->getType()
+								$gap->getType(),
+								$gap->getGapSize()
 							)
 		);
 	}
@@ -421,7 +426,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 		include_once "./Services/Math/classes/class.EvalMath.php";
 		$eval = new EvalMath();
 		$eval->suppress_errors = TRUE;
-		$ilDB->manipulateF( "INSERT INTO qpl_a_cloze (answer_id, question_fi, gap_id, answertext, points, aorder, cloze_type, lowerlimit, upperlimit) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)",
+		$ilDB->manipulateF( "INSERT INTO qpl_a_cloze (answer_id, question_fi, gap_id, answertext, points, aorder, cloze_type, lowerlimit, upperlimit, gap_size) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
 							array(
 								"integer",
 								"integer",
@@ -431,7 +436,8 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 								"integer",
 								"text",
 								"text",
-								"text"
+								"text",
+								"integer"
 							),
 							array(
 								$next_id,
@@ -444,7 +450,8 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 								($eval->e( $item->getLowerBound() !== FALSE ) && strlen( $item->getLowerBound()
 								) > 0) ? $item->getLowerBound() : $item->getAnswertext(),
 								($eval->e( $item->getUpperBound() !== FALSE ) && strlen( $item->getUpperBound()
-								) > 0) ? $item->getUpperBound() : $item->getAnswertext()
+								) > 0) ? $item->getUpperBound() : $item->getAnswertext(),
+								$gap->getGapSize()
 							)
 		);
 	}
@@ -689,6 +696,14 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 		}
 	}
 
+	public function setGapSize($gap_index, $order, $size)
+	{
+		if (array_key_exists($gap_index, $this->gaps))
+		{
+			$this->gaps[$gap_index]->setGapSize( $size);
+		}
+	}
+	
 	/**
 	* Sets the points of a gap with a given index and an answer with a given order. The index of the first
 	* gap is 0, the index of the second gap is 1 and so on.

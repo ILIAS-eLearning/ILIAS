@@ -128,6 +128,11 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 								$this->object->setGapAnswerPoints( $idx, $order, $value );
 							}
 						}
+
+						if (array_key_exists( 'gap_' . $idx . '_gapsize', $_POST ))
+						{
+							$this->object->setGapSize($idx, $order, $_POST['gap_' . $idx . '_gapsize'] );
+						}
 						
 						break;
 						
@@ -476,7 +481,9 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 		$form->addItem( $gaptype );
 
 		if ($gap->getType() == CLOZE_TEXT)
-		{
+		{	
+			$this->populateGapSizeFormPart($form, $gap, $gapCounter);
+			
 			if (count( $gap->getItemsRaw() ) == 0)
 				$gap->addItem( new assAnswerCloze("", 0, 0) );
 			$this->populateTextGapFormPart( $form, $gap, $gapCounter );
@@ -489,6 +496,8 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 		}
 		else if ($gap->getType() == CLOZE_NUMERIC)
 		{
+			$this->populateGapSizeFormPart($form, $gap, $gapCounter);
+			
 			if (count( $gap->getItemsRaw() ) == 0)
 				$gap->addItem( new assAnswerCloze("", 0, 0) );
 			foreach ($gap->getItemsRaw() as $item)
@@ -499,6 +508,26 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 		return $form;
 	}
 
+	/**
+	 * @param $form			ilPropertyFormGUI	Reference to the form, that receives the point.
+	 * @param $gap			mixed				Raw text gap item.
+	 * @param $gapCounter	integer				Ordinal number of the gap in the sequence of gaps
+	 */
+	protected function populateGapSizeFormPart($form, $gap, $gapCounter)
+	{
+		$gapSizeFormItem = new ilNumberInputGUI($this->lng->txt('cloze_fixed_textlength'), "gap_".$gapCounter.'_gapsize');
+		
+		$gapSizeFormItem->allowDecimals(false);
+		$gapSizeFormItem->setMinValue(0);
+		$gapSizeFormItem->setSize( 3 );
+		$gapSizeFormItem->setMaxLength( 6 );
+		$gapSizeFormItem->setInfo($this->lng->txt('cloze_gap_size_info'));
+		$gapSizeFormItem->setValue($gap->getGapSize());
+		$form->addItem($gapSizeFormItem);
+		
+		return $form;	
+	}
+	
 	/**
 	 * Populates the form-part for a select gap.
 	 * 
@@ -696,7 +725,10 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 			{
 				case CLOZE_TEXT:
 					$gaptemplate = new ilTemplate("tpl.il_as_qpl_cloze_question_gap_text.html", TRUE, TRUE, "Modules/TestQuestionPool");
-					$gaptemplate->setVariable("TEXT_GAP_SIZE", $this->object->getFixedTextLength() ? $this->object->getFixedTextLength() : $gap->getMaxWidth());
+
+					$gap_size = $gap->getGapSize() > 0 ? $gap->getGapSize() : $this->object->getFixedTextLength();
+					
+					$gaptemplate->setVariable("TEXT_GAP_SIZE", $gap_size ? $gap_size : $gap->getMaxWidth());
 					$gaptemplate->setVariable("GAP_COUNTER", $gap_index);
 					$output = preg_replace("/\[gap\].*?\[\/gap\]/", $gaptemplate->get(), $output, 1);
 					break;
@@ -715,7 +747,8 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 					break;
 				case CLOZE_NUMERIC:
 					$gaptemplate = new ilTemplate("tpl.il_as_qpl_cloze_question_gap_numeric.html", TRUE, TRUE, "Modules/TestQuestionPool");
-					$gaptemplate->setVariable("TEXT_GAP_SIZE", $this->object->getFixedTextLength() ? $this->object->getFixedTextLength() : $gap->getMaxWidth());
+					$gap_size = $gap->getGapSize() > 0 ? $gap->getGapSize() : $this->object->getFixedTextLength();
+					$gaptemplate->setVariable("TEXT_GAP_SIZE", $gap_size ? $gap_size : $gap->getMaxWidth());
 					$gaptemplate->setVariable("GAP_COUNTER", $gap_index);
 					$output = preg_replace("/\[gap\].*?\[\/gap\]/", $gaptemplate->get(), $output, 1);
 					break;
@@ -1002,7 +1035,9 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 			{
 				case CLOZE_TEXT:
 					$gaptemplate = new ilTemplate("tpl.il_as_qpl_cloze_question_gap_text.html", TRUE, TRUE, "Modules/TestQuestionPool");
-					$gaptemplate->setVariable("TEXT_GAP_SIZE", $this->object->getFixedTextLength() ? $this->object->getFixedTextLength() : $gap->getMaxWidth());
+					$gap_size = $gap->getGapSize() > 0 ? $gap->getGapSize() : $this->object->getFixedTextLength();
+					
+					$gaptemplate->setVariable("TEXT_GAP_SIZE",$gap_size ? $gap_size : $gap->getMaxWidth());
 					$gaptemplate->setVariable("GAP_COUNTER", $gap_index);
 					foreach ($user_solution as $solution)
 					{
@@ -1038,7 +1073,8 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 					break;
 				case CLOZE_NUMERIC:
 					$gaptemplate = new ilTemplate("tpl.il_as_qpl_cloze_question_gap_numeric.html", TRUE, TRUE, "Modules/TestQuestionPool");
-					$gaptemplate->setVariable("TEXT_GAP_SIZE", $this->object->getFixedTextLength() ? $this->object->getFixedTextLength() : $gap->getMaxWidth());
+					$gap_size = $gap->getGapSize() > 0 ? $gap->getGapSize() : $this->object->getFixedTextLength();
+					$gaptemplate->setVariable("TEXT_GAP_SIZE",$gap_size ? $gap_size : $gap->getMaxWidth());
 					$gaptemplate->setVariable("GAP_COUNTER", $gap_index);
 					foreach ($user_solution as $solution)
 					{

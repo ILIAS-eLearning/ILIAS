@@ -396,7 +396,7 @@ assessment#:#clientip#:#Client IP
 assessment#:#close_text_hint#:#Sie definieren eine Lücke durch die Angabe von [gap][/gap] an der gewünschten Position im Text bzw. durch Betätigen des Buttons. Klicken Sie dann auf die Schaltfläche 'Lücken erzeugen', um Bearbeitungsformulare für jede Lücke zu erzeugen.
 assessment#:#insert_gap#:#Lücke einfügen
 assessment#:#cloze_fixed_textlength#:#Länge des Textfeldes
-assessment#:#cloze_fixed_textlength_description#:#Wenn Sie einen Wert größer als 0 eintragen, werden alle Textlücken und numerischen Lücken mit der angegebenen Länge erzeugt
+assessment#:#cloze_fixed_textlength_description#:#Wenn Sie einen Wert größer als 0 eintragen, werden alle Textlücken und numerischen Lücken mit der angegebenen Länge erzeugt, wenn für die einzelnen Lücken keine optionale Länge angegeben wurde. 
 assessment#:#cloze_text#:#Lückentextfrage
 assessment#:#cloze_textgap_case_insensitive#:#Zwischen Groß- und Kleinschreibung wird nicht unterschieden
 assessment#:#cloze_textgap_case_sensitive#:#Groß- und Kleinschreibung beachten
@@ -14292,3 +14292,4 @@ poll#:#poll_piechart#:#Kuchendiagramm
 poll#:#poll_comments_info#:#Durch deaktivieren der Kommentare werden keine Kommentare gelöscht.
 forum#:#merge_posts_into_thread#:#Verschmelze Posts mit anderem Thema
 forum#:#move_thread_to_forum#:#Verschiebe Thema in anderes Forum
+assessment#:#cloze_gap_size_info#:#Wenn Sie einen Wert größer als 0 eintragen, wird diese Lücke mit der hier angegebenen Länge erzeugt. Wird hier kein Wert angegeben wird diese Lücke mit der global angegebenen Textfeld-Länge erzeugt.

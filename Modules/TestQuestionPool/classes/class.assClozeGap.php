@@ -43,6 +43,8 @@ class assClozeGap
 	 * @var boolean
 	 */
 	var $shuffle;
+	
+	private $gap_size;
 
 	/**
 	 * assClozeGap constructor
@@ -438,5 +440,21 @@ class assClozeGap
 			default:
 				return "";
 		}
+	}
+
+	/**
+	 * @param integer $gap_size
+	 */
+	public function setGapSize( $gap_size)
+	{
+		$this->gap_size = $gap_size;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getGapSize()
+	{
+		return $this->gap_size;
 	}
 }

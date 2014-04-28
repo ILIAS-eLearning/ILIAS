@@ -795,3 +795,15 @@ if ((int) $ilSetting->get('lm_qst_imap_migr_run') == 0)
 	$setting = $ilSetting->set('lm_qst_imap_migr_run', 1);
 }
 ?>
+<#4211>
+<?php
+if( !$ilDB->tableColumnExists('qpl_a_cloze', 'gap_size') )
+{
+	$ilDB->addTableColumn('qpl_a_cloze', 'gap_size', array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => true,
+		'default' => 0
+	));
+}
+?>

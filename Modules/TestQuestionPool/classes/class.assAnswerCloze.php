@@ -43,6 +43,13 @@ class assAnswerCloze extends ASS_AnswerSimple
 	protected $upperBound;
 
 	/**
+	 * Individual text length of text/numeric-gap 
+	 * @var integer
+	 */
+	protected $gap_size;
+	
+
+	/**
 	 * assAnswerCloze constructor
 	 *
 	 * The constructor takes possible arguments an creates an instance of the assAnswerCloze object.
@@ -59,6 +66,7 @@ class assAnswerCloze extends ASS_AnswerSimple
 		parent::__construct($answertext, $points, $order, -1);
 		$this->lowerBound = NULL;
 		$this->upperBound = NULL;
+		$this->gap_size = 0;
 	}
 
 	/**
@@ -128,5 +136,21 @@ class assAnswerCloze extends ASS_AnswerSimple
 	public function getUpperBound()
 	{
 		return $this->upperBound;
+	}
+
+	/**
+	 * @param int $gap_size
+	 */
+	public function setGapSize($gap_size)
+	{
+		$this->gap_size = $gap_size;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getGapSize()
+	{
+		return $this->gap_size;
 	}
 }
