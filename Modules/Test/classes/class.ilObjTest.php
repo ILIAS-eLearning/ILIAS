@@ -11445,4 +11445,28 @@ function getAnswerFeedbackPoints()
 		
 		return $questionChangeListeners;
 	}
+	
+	public static function getTestObjIdsWithActiveForUserId($userId)
+	{
+		global $ilDB;
+		
+		$query = "
+			SELECT obj_fi
+			FROM tst_active
+			INNER JOIN tst_tests
+			ON test_id = test_fi
+			WHERE user_fi = %s
+		";
+		
+		$res = $ilDB->queryF($query, array('integer'), array($userId));
+		
+		$objIds = array();
+		
+		while( $row = $ilDB->fetchAssoc($res) )
+		{
+			$objIds[] = (int)$row['obj_fi'];
+		}
+		
+		return $objIds;
+	}
 }
