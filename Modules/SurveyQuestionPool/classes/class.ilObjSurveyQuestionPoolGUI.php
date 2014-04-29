@@ -923,6 +923,25 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), array("perm","info","owner"), 'ilpermissiongui');
 		}
 	}
+		
+	/**
+	* Save obligatory states
+	*/
+	public function saveObligatoryObject()
+	{				
+		$obligatory = array();
+		foreach ($_POST as $key => $value)
+		{
+			if (preg_match("/obligatory_(\d+)/", $key, $matches))
+			{
+				$obligatory[]= $matches[1];
+			}
+		}
+		$this->object->setObligatoryStates($obligatory);
+		
+		ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);
+		$this->ctrl->redirect($this, "questions");
+	}
 
 	/**
 	* Redirect script to call a survey question pool reference id

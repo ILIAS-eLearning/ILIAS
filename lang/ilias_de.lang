@@ -13022,3 +13022,4 @@ common#:#obj_book_duplicate#:#Buchungspool kopieren
 meta#:#meta_c_XK#:#Kosovo
 survey#:#mailparticipantdata_placeholder#:# Bei personalisierten Umfragen werden folgende Platzhalter durch die entsprechenden Benutzerdaten ersetzt:
 common#:#frm_import#:#Forum importieren
+survey#:#spl_save_obligatory_state#:#verpflichtend-Status speichern
