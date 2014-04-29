@@ -1135,7 +1135,7 @@ class ilInitialisation
 	 * 
 	 * This will basically validate the current session
 	 */
-	protected static function authenticate()
+	public static function authenticate()
 	{
 		global $ilAuth, $ilias, $ilErr;
 		
@@ -1240,9 +1240,12 @@ class ilInitialisation
 	{
 		global $ilUser;
 		
-		// load style definitions
-		// use the init function with plugin hook here, too
-	    self::initStyle();
+		if(ilContext::hasUser())
+		{
+			// load style definitions
+			// use the init function with plugin hook here, too
+			self::initStyle();
+		}
 
 		// $tpl
 		$tpl = new ilTemplate("tpl.main.html", true, true);
@@ -1284,28 +1287,36 @@ class ilInitialisation
 		self::initGlobal("ilTabs", "ilTabsGUI", 
 			"./Services/UIComponent/Tabs/classes/class.ilTabsGUI.php");
 
-		// $ilMainMenu
-		include_once './Services/MainMenu/classes/class.ilMainMenuGUI.php';
-		$ilMainMenu = new ilMainMenuGUI("_top");
-		self::initGlobal("ilMainMenu", $ilMainMenu);
-		unset($ilMainMenu);
-						
-		
-		// :TODO: tableGUI related
-		
-		// set hits per page for all lists using table module
-		$_GET['limit'] = (int) $ilUser->getPref('hits_per_page');
-		ilSession::set('tbl_limit', $_GET['limit']);
-
-		// the next line makes it impossible to save the offset somehow in a session for
-		// a specific table (I tried it for the user administration).
-		// its not posssible to distinguish whether it has been set to page 1 (=offset = 0)
-		// or not set at all (then we want the last offset, e.g. being used from a session var).
-		// So I added the wrapping if statement. Seems to work (hopefully).
-		// Alex April 14th 2006
-		if (isset($_GET['offset']) && $_GET['offset'] != "")							// added April 14th 2006
+		if(ilContext::hasUser())
 		{
-			$_GET['offset'] = (int) $_GET['offset'];		// old code
+			// $ilMainMenu
+			include_once './Services/MainMenu/classes/class.ilMainMenuGUI.php';
+			$ilMainMenu = new ilMainMenuGUI("_top");
+			self::initGlobal("ilMainMenu", $ilMainMenu);
+			unset($ilMainMenu);
+	
+
+			// :TODO: tableGUI related
+
+			// set hits per page for all lists using table module
+			$_GET['limit'] = (int) $ilUser->getPref('hits_per_page');
+			ilSession::set('tbl_limit', $_GET['limit']);
+
+			// the next line makes it impossible to save the offset somehow in a session for
+			// a specific table (I tried it for the user administration).
+			// its not posssible to distinguish whether it has been set to page 1 (=offset = 0)
+			// or not set at all (then we want the last offset, e.g. being used from a session var).
+			// So I added the wrapping if statement. Seems to work (hopefully).
+			// Alex April 14th 2006
+			if (isset($_GET['offset']) && $_GET['offset'] != "")							// added April 14th 2006
+			{
+				$_GET['offset'] = (int) $_GET['offset'];		// old code
+			}
+		}
+		else
+		{
+			// several code parts rely on ilObjUser being always included
+			include_once "Services/User/classes/class.ilObjUser.php";
 		}
 	}
 	

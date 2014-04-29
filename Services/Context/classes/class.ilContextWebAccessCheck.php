@@ -81,7 +81,8 @@ class ilContextWebAccessCheck extends ilContextBase
 	 */
 	public static function doAuthentication()
 	{
-		return true;
+		// see ilWebAccessChecker::checkAccess();
+		return false;
 	}
 }
 

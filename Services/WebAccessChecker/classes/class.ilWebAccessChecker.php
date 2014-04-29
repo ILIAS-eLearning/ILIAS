@@ -280,10 +280,7 @@ class ilWebAccessChecker
 		{
 	        return false;
 	    }
-
-	    // do this here because ip based checking may be set after construction
-	    $this->determineUser();
-	    	    
+	    
 		// check for type by subdirectory
 		$pos1 = strpos($this->subpath, "lm_data/lm_") + 11;
 		$pos2 = strpos($this->subpath, "mobs/mm_") + 8;
@@ -322,7 +319,29 @@ class ilWebAccessChecker
 			$this->errortext = $this->lng->txt("obj_not_found");
 			return false;
 		}
+		
 			
+		// #13237 - if imporint is display on login page we have user id 0
+		if($type == "mob")
+		{
+			$usages = ilObjMediaObject::lookupUsages($obj_id);
+			foreach($usages as $usage)
+			{
+				if($usage['type'] == 'impr:pg')
+				{
+					return $this->checkAccessMobUsage($usage, 1);
+				}
+			}
+		}
+		
+		// get proper user id (could be anonymous)
+		ilInitialisation::authenticate();			
+		
+						
+	    // do this here because ip based checking may be set after construction
+	    $this->determineUser();
+		
+		
 		switch($type)
 		{
 			// SCORM or HTML learning module
@@ -505,6 +524,10 @@ class ilWebAccessChecker
 					return true;
 				}		
 				break;
+				
+			case 'impr:pg':
+				include_once 'Services/Imprint/classes/class.ilImprint.php';
+				return (ilImprint::isActive() || $this->checkAccessObject(SYSTEM_FOLDER_ID, 'adm'));
 
 			default:				
 				// standard object check
