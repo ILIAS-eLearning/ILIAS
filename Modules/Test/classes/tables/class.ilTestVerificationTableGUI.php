@@ -56,7 +56,7 @@ class ilTestVerificationTableGUI extends ilTable2GUI
 			if($test->canShowCertificate($session, $session->getUserId(), $session->getActiveId()))
 			{						
 				$data[] = array("id" => $test_id,
-					"title" => ilObject::_lookupTitle($test_id),
+					"title" => $test->getTitle(),
 					"passed" => $test->getPassed($session->getActiveId()));
 			}
 		}
