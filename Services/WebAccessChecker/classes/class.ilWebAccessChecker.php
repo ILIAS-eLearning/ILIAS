@@ -495,6 +495,10 @@ class ilWebAccessChecker
 					return true;
 				}		
 				break;
+				
+			case 'impr:pg':
+				include_once 'Services/Imprint/classes/class.ilImprint.php';
+				return (ilImprint::isActive() || $this->checkAccessObject(SYSTEM_FOLDER_ID, 'adm'));
 
 			default:				
 				// standard object check
