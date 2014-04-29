@@ -1,7 +1,9 @@
 <tr class="{CSS_ROW}">
-	<td class="std" style="vertical-align: top">
-		<input type="checkbox" name="q_id[]" value="{QUESTION_ID}" id="cb_{QUESTION_ID}" {VAL_CHECKED} />
+	<!-- BEGIN cbox_bl -->
+	<td class="std" style="vertical-align: top">		
+		<input type="checkbox" name="q_id[]" value="{QUESTION_ID}" id="cb_{CBOX_ID}" {VAL_CHECKED} />		
 	</td>
+	<!-- END cbox_bl -->
 	<td class="std" style="vertical-align: top">
 <!-- BEGIN qpl_warning -->	
 	<img src="{IMAGE_WARNING}" border="0" alt="{ALT_WARNING}" title="{TITLE_WARNING}" />
@@ -15,8 +17,9 @@
 		<!-- END title_nolink_bl -->
 	</label>
 	</td>
+	<td class="std">{OBLIGATORY}</td>
 <!-- BEGIN description -->
-	<td class="std small" style="vertical-align: top">{QUESTION_COMMENT}</td>
+	<td class="std" style="vertical-align: top">{QUESTION_COMMENT}</td>
 <!-- END description -->
 <!-- BEGIN type -->
 	<td class="std" style="vertical-align: top">{QUESTION_TYPE}</td>
@@ -31,12 +34,6 @@
 	<td class="std" style="vertical-align: top">{QUESTION_UPDATED}</td>
 <!-- END updated -->
 <!-- BEGIN actions -->
-	<td class="std">{ACTION}
-	
-	<!-- BEGIN edit_link -->
-	<a class="il_ContainerItemCommand" href="{LINK_EDIT}">{TXT_EDIT}</a>
-<!-- END edit_link -->
-	<a class="il_ContainerItemCommand" href="{LINK_PREVIEW}">{TXT_PREVIEW}</a>
-	</td>
+	<td class="std">{ACTION}</td>
 <!-- END actions -->
 </tr>

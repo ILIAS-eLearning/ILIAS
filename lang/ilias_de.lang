@@ -14294,3 +14294,4 @@ forum#:#merge_posts_into_thread#:#Verschmelze Posts mit anderem Thema
 forum#:#move_thread_to_forum#:#Verschiebe Thema in anderes Forum
 assessment#:#cloze_gap_size_info#:#Wenn Sie einen Wert größer als 0 eintragen, wird diese Lücke mit der hier angegebenen Länge erzeugt. Wird hier kein Wert angegeben wird diese Lücke mit der global angegebenen Textfeld-Länge erzeugt.
 forum#:#post_reply_count#:#Re(%s):
+survey#:#spl_save_obligatory_state#:#verpflichtend-Status speichern
