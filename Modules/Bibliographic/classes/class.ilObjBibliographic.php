@@ -67,7 +67,7 @@ class ilObjBibliographic extends ilObject2 {
 			$this->doRead();
 		}
 
-		parent::__construct();
+		parent::__construct($existant_bibl_id, false);
 	}
 
 
@@ -493,8 +493,6 @@ class ilObjBibliographic extends ilObject2 {
 		$this->setType($original->getType());
 
 		$this->doUpdate();
-
-		$this->writeSourcefileEntriesToDb();
 	}
 
 
