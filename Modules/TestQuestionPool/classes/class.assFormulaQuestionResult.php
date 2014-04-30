@@ -144,7 +144,10 @@ class assFormulaQuestionResult
 			$res = $result * 1;
 			if (is_numeric($this->getPrecision()))
 			{
-				$result = round($res, $this->getPrecision());
+				if( $this->getResultType()==RESULT_CO_DEC || $this->getResultType()==RESULT_NO_SELECTION )
+				{
+					$result = round($res, $this->getPrecision());
+				}			
 			}
 		}
 		return $result;
@@ -249,6 +252,7 @@ class assFormulaQuestionResult
 		{
 			return false;
 		}
+		$value=str_replace(' ', '',$value);
 		
 		include_once "./Services/Math/classes/class.EvalMath.php";
 		include_once "./Services/Math/classes/class.ilMath.php";
@@ -682,13 +686,13 @@ class assFormulaQuestionResult
 			$details = array();
 			if($this->checkSign($result, $value))
 			{
-				$points = ilMath::_mul($this->getPoints(), ilMath::_div($this->getRatingSign(), 100));
+				$points = ilMath::_mul($this->getPoints(), $this->getRatingSign()/100);
 				$totalpoints += $points;
 				$details['sign'] = $points;
 			}
 			if($this->isInTolerance(abs($value), abs($result), $this->getTolerance()))
 			{
-				$points     = ilMath::_mul($this->getPoints(), ilMath::_div($this->getRatingValue(), 100));
+				$points     = ilMath::_mul($this->getPoints(), $this->getRatingValue()/100);
 				$totalpoints += $points;
 				$details['value'] = $points;
 			}
@@ -699,7 +703,7 @@ class assFormulaQuestionResult
 				$base2 = $units[$this->getUnit()->getBaseUnit()];
 				if(is_object($base1) && is_object($base2) && $base1->getId() == $base2->getId())
 				{
-					$points = ilMath::_mul($this->getPoints(), ilMath::_div($this->getRatingUnit(), 100));
+					$points = ilMath::_mul($this->getPoints(), $this->getRatingUnit()/100);
 					$totalpoints += $points;
 					$details['unit'] = $points;
 				}
@@ -939,103 +943,53 @@ class assFormulaQuestionResult
 		return $gcd == 1 ? true : false;
 	}
 
-	public static function convertDecimalToCoprimeFraction($decimal_value)
+	public static function convertDecimalToCoprimeFraction($decimal_value, $tolerance = 1.e-9) 
 	{
-		$to_string   = (string)$decimal_value;
+		$to_string   = (string) $decimal_value;
 		$is_negative = strpos($to_string, '-') === 0;
-		$splitted    = explode('.', $to_string);
-		
-		$ganzzahl      = $splitted[0];
 		if($is_negative)
 		{
-			$ganzzahl = substr($ganzzahl, 1);
+			$decimal_value = substr($decimal_value, 1);
 		}
-		$nachkommazahl = $splitted[1];
-
-		$period = '';
-		$period_length = 0;
-		$pre_period = '';
-		$pre_period_length = 0;
-
-		while(strlen($nachkommazahl) > 0)
+		$h1=1;
+		$h2=0;
+		$k1=0;
+		$k2=1;
+		$b = 1 / $decimal_value;
+		do {
+				$b = 1 / $b;
+				$a = floor($b);
+				$aux = $h1;
+				$h1 = $a * $h1 + $h2;
+				$h2 = $aux;
+				$aux = $k1;
+				$k1 = $a * $k1 + $k2;
+				$k2 = $aux;
+				$b = $b - $a;
+			}while ((abs($decimal_value - $h1 / $k1) > $decimal_value * $tolerance) || ( $k1 < 0 || $b < 0 ));
+		if($k1 == 1)
 		{
-			for($i = 1; $i <= strlen($nachkommazahl); $i++)
-			{
-				$check_value  = substr($nachkommazahl, 0, $i);
-				$substr_count = substr_count($nachkommazahl, $check_value);
-
-				if($i * $substr_count == strlen($nachkommazahl) && $i != strlen($nachkommazahl))
-				{
-					//PERIODE GEFUNDEN
-					$period        = $check_value;
-					$period_length = strlen($period);
-					break;
-				}
-			}
-
-			if($period == "")
-			{
-				// Vorderstes Zeichen ist Vorperiode
-				$pre_period .= $nachkommazahl[0];
-				// Vorderstes Zeichen Abschneiden
-				$nachkommazahl = substr($nachkommazahl, 1);
-			}
-			else
-			{
-				break;
-			}
-		}
-
-		if($pre_period != "")
-		{
-			$pre_period_length = strlen($pre_period);
-		}
-
-		if($period > 0)
-		{
-			$zaehler = $pre_period * (pow(10, $period_length) - 1) + $period;
-			$nenner  =  pow(10, $pre_period_length) * (pow(10, $period_length) -1);
+			$result = $h1;
+			$checkResult = $h1;
 		}
 		else
 		{
-			$zaehler = $pre_period;
-			$nenner = pow(10, $pre_period_length);
+			$result = "$h1/$k1";
+			$checkResult = ($h1/$k1);
 		}
-
-		// Long Periodic number fix by tjoussen
-		// If there are long periodic numbers the cast of $nenner and $zaehler to int create 0.
-		// So you get for $gcd 0 too. A devision by zero is not possible and creates an unexpected result.
-		// Long Periodic numbers are displayed as decimal numbers
-		//$zaehler = (int)$zaehler;
-		//$nenner = (int)$nenner;
-		$gcd = self::getGreatestCommonDivisor($zaehler, $nenner);
-
-		$n = $zaehler/$gcd;
-		$d = $nenner/$gcd;
-
-		$result = '';
-		if($ganzzahl != 0)
+		if($is_negative)
 		{
-			// rechne "unechte Brüche" um
-			$n = $n + ($ganzzahl * $d);  
+			$result =  '-'.$result;
+			$checkResult = ($h1/$k1)*-1;
 		}
-		
-		if($d == 1)
+		if($to_string == $checkResult.'' || $checkResult.'' == $result)
 		{
-			// wenn das ergebnis z.B. 3/1 ist soll einfach 3 zurückgegeben werden.
-			$result = $n;
+			return $result;
 		}
 		else
 		{
-			$result .= $n.'/'.$d ;	
-		}	
-		
-		if($is_negative)
-		{
-			$result = '-' . $result;
+			return array($to_string,$result);
 		}
-	
-		return $result;
 	}
 	
 	public static function getGreatestCommonDivisor($a, $b)
