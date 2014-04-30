@@ -182,7 +182,11 @@ class ilObjBibliographic extends ilObject2 {
 		//If there is no file_to_copy (which is used for clones), copy the file from the temporary upload directory (new creation of object).
 		//Therefore, a warning predicates nothing and can be suppressed.
 		if (@! copy($file_to_copy, $target_full_filename)) {
-			ilUtil::moveUploadedFile($_FILES['bibliographic_file']['tmp_name'], $_FILES['bibliographic_file']['name'], $target_full_filename);
+            if(!empty($_FILES['bibliographic_file']['tmp_name'])){
+			    ilUtil::moveUploadedFile($_FILES['bibliographic_file']['tmp_name'], $_FILES['bibliographic_file']['name'], $target_full_filename);
+            }else{
+                throw new Exception("The file delivered via the method argument file_to_copy could not be copied. The file '{$file_to_copy}' does probably not exist.");
+            }
 		}
 
 		$this->setFilename($filename);
