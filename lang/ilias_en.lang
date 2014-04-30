@@ -13854,6 +13854,9 @@ bibl#:#bib_default_url#:#URL
 bibl#:#bib_default_crossref#:#Cross Reference
 bibl#:#bib_default_keywords#:#Keywords
 bibl#:#bib_default_isbn#:#ISSN/ISBN
+bibl#:#bib_default_urldate#:#Date of URL visit
+bibl#:#bib_default_language#:#Language
+bibl#:#bib_default_series#:#Series
 bibl#:#bib_default_cite#:#Bib Cite
 bibl#:#ris_default_ty#:#Type
 bibl#:#ris_default_id#:#Reference ID
@@ -13907,6 +13910,8 @@ bibl#:#ris_default_do#:#DOI
 bibl#:#ris_default_ed#:#Further Persons
 bibl#:#ris_default_in#:#In
 bibl#:#ris_default_et#:#Edition
+bibl#:#ris_default_dp#:#Database Provider
+bibl#:#ris_default_st#:#Short Title
 content#:#cont_multilang_currently_deactivated#:#Multilinguality support is currently not activated.
 mail#:#mail_filter#:#Filter
 mail#:#mail_filter_sender#:#Sender

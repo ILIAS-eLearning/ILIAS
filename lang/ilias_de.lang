@@ -13841,6 +13841,9 @@ bibl#:#bib_default_url#:#URL
 bibl#:#bib_default_crossref#:#Querverweis
 bibl#:#bib_default_keywords#:#Schlagwörter
 bibl#:#bib_default_isbn#:#ISSN/ISBN
+bibl#:#bib_default_urldate#:#Datum des URL Besuches
+bibl#:#bib_default_language#:#Sprache
+bibl#:#bib_default_series#:#Staffel
 bibl#:#bib_default_cite#:#Bib Cite
 bibl#:#ris_default_ty#:#Typ
 bibl#:#ris_default_id#:#Reference ID
@@ -13894,6 +13897,8 @@ bibl#:#ris_default_do#:#DOI
 bibl#:#ris_default_ed#:#Sonst. Personen
 bibl#:#ris_default_in#:#In
 bibl#:#ris_default_et#:#Ausgabe
+bibl#:#ris_default_dp#:#Datenbank Anbieter
+bibl#:#ris_default_st#:#Kurztitel
 bibl#:#bibl_copy#:#Literaturliste kopieren
 mail#:#mail_filter#:#Filter
 mail#:#mail_filter_sender#:#Sender
