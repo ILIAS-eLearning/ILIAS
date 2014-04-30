@@ -2271,7 +2271,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 								switch($this->objProperties->getSubjectSetting())
 								{
 									case 'add_re_to_subject':
-										$subject = $this->lng->txt('post_reply').' '. $this->objCurrentPost->getSubject();
+										$subject = $this->getModifiedReOnSubject(true);
 										break;
 
 									case 'preset_subject':
@@ -2797,6 +2797,58 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		return true;
 	}
 
+	private function getModifiedReOnSubject($on_reply = false)
+	{
+		$subject = $this->objCurrentPost->getSubject();
+		$re_txt = $this->lng->txt('post_reply');
+
+		$re_txt_with_num = str_replace(':', '(',$re_txt);
+		$search_length = strlen($re_txt_with_num);
+		$comp = substr_compare($re_txt_with_num, substr($subject, 0 , $search_length), 0, $search_length);
+		
+		if($comp == 0)
+		{
+			$modified_subject = $subject;
+			if($on_reply == true)
+			{
+				// i.e. $subject = "Re(12):"
+				$str_pos_start = strpos($subject,'(');
+				$str_pos_end   = strpos($subject,')');
+				$length = ((int)$str_pos_end - (int)$str_pos_start);
+				$str_pos_start++;
+				$txt_number = substr($subject,$str_pos_start, $length-1);
+	
+				$re_count = (int)$txt_number + 1;
+
+				$modified_subject = str_replace($txt_number, $re_count, $subject);
+			}
+		}
+		else
+		{
+			$re_count = substr_count($subject, $re_txt);
+			if($re_count >= 1 && $on_reply == true)
+			{
+				$subject = str_replace($re_txt, '', $subject);
+				
+				// i.e. $subject = "Re: Re: Re: ... " -> "Re(4):"
+				$re_count++;
+				$modified_subject = sprintf($this->lng->txt('post_reply_count'), $re_count).' '.trim($subject);
+			}
+			else if($re_count >= 1 && $on_reply == false)
+			{
+				// possibility to modify the subject only for output 
+				// i.e. $subject = "Re: Re: Re: ... " -> "Re(3):"
+				$modified_subject = sprintf($this->lng->txt('post_reply_count'), $re_count).' '.trim($subject);
+			}
+			else if($re_count == 0)
+			{
+				// the first reply to a thread
+				$modified_subject = $this->lng->txt('post_reply').' '. $this->objCurrentPost->getSubject();
+			}
+		}
+		return $modified_subject;
+	}
+	
 	public function showUserObject()
 	{
 		/**
