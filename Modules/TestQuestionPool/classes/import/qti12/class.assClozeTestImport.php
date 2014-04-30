@@ -66,13 +66,19 @@ class assClozeTestImport extends assQuestionImport
 											"type" => CLOZE_NUMERIC, 
 											"answers" => array(), 
 											"minnumber" => $response->getRenderType()->getMinnumber(), 
-											"maxnumber" => $response->getRenderType()->getMaxnumber()
+											"maxnumber" => $response->getRenderType()->getMaxnumber(),
+											'gap_size' => $response->getRenderType()->getColumns()
 										)
 									);
 									break;
 								default:
 								case FIBTYPE_STRING:
-									array_push($gaps, array("ident" => $response->getIdent(), "type" => CLOZE_TEXT, "answers" => array()));
+									array_push($gaps, 
+										array("ident" => $response->getIdent(), 
+											  "type" => CLOZE_TEXT, 
+											  "answers" => array(),
+											  'gap_size' => $response->getRenderType()->getColumns()
+										));
 									break;
 							}
 							break;
@@ -148,6 +154,7 @@ class assClozeTestImport extends assQuestionImport
 										"points" => $setvar->getContent(),
 										"answerorder" => count($gaps[$gi]["answers"]),
 										"action" => $setvar->getAction()
+										
 									));
 								}
 								else if ($g["type"] == CLOZE_NUMERIC)
@@ -251,6 +258,7 @@ class assClozeTestImport extends assQuestionImport
 			{
 				include_once "./Modules/TestQuestionPool/classes/class.assAnswerCloze.php";
 				$gapanswer = new assAnswerCloze($answer["answertext"], $answer["points"], $answer["answerorder"]);
+				$gapanswer->setGapSize($gap["gap_size"]);
 				switch ($clozegap->getType())
 				{
 					case CLOZE_SELECT:
@@ -261,6 +269,7 @@ class assClozeTestImport extends assQuestionImport
 						$gapanswer->setUpperBound($gap["maxnumber"]);
 						break;
 				}
+				$clozegap->setGapSize($gap["gap_size"]);
 				$clozegap->addItem($gapanswer);
 				array_push($gapcontent, $answer["answertext"]);
 			}

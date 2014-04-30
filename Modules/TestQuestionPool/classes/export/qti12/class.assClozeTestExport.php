@@ -181,7 +181,7 @@ class assClozeTestExport extends assQuestionExport
 						$attrs = array(
 							"fibtype" => "String",
 							"prompt" => "Box",
-							"columns" => $gap->getMaxWidth()
+							"columns" => $gap->getGapSize()
 						);
 						$a_xml_writer->xmlStartTag("render_fib", $attrs);
 						$a_xml_writer->xmlEndTag("render_fib");
@@ -217,7 +217,7 @@ class assClozeTestExport extends assQuestionExport
 						$attrs = array(
 							"fibtype" => "Decimal",
 							"prompt" => "Box",
-							"columns" => $gap->getMaxWidth()
+							"columns" => $gap->getGapSize()
 						);
 						if (is_object($answeritem))
 						{

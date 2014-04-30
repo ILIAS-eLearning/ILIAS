@@ -44,7 +44,7 @@ class assClozeGap
 	 */
 	var $shuffle;
 	
-	private $gap_size;
+	private $gap_size = 0;
 
 	/**
 	 * assClozeGap constructor
