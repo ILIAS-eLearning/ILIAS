@@ -3832,6 +3832,8 @@ class ilObjTestGUI extends ilObjectGUI
 
 		$testSession = $this->testSessionFactory->getSession();
 		$testSequence = $this->testSequenceFactory->getSequence($testSession);
+		$testSequence->loadFromDb();
+		$testSequence->loadQuestions();
 		
 		$testPlayerGUI = $this->testPlayerFactory->getPlayerGUI();
 		
