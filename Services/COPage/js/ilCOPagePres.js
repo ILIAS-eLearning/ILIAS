@@ -149,7 +149,7 @@ il.COPagePres =
 				}
 				
 				// no usamap (e.g. edit mode) -> skip)
-				if (base.attr('usemap') === undefined) {
+				if (typeof(base.attr('usemap')) === "undefined") {
 					continue;
 				}
 				
@@ -673,7 +673,7 @@ il.COPagePres =
 
 	// jump to a question
 	jumpToQuestion: function(qid) {
-		if (pager !== undefined) {
+		if (typeof pager !== "undefined") {
 			pager.jumpToElement("container" + qid);
 		}
 		return false;
