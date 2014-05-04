@@ -596,7 +596,7 @@ il.COPagePres =
 			incorrect_cnt = 0,
 			answered_correctly, index, k, i, ov_el,ul, j, qtext;
 		
-		if (questions === undefined) {
+		if (typeof questions === 'undefined') {
 			return;
 		}
 		
