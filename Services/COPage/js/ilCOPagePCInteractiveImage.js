@@ -18,7 +18,7 @@ ilCOPagePCInteractiveImage =
 	 */
 	markerCommand: function (e)
 	{
-		ilCOPagePres.startDraggingMarker(e.target.id.substr(5));
+		il.COPagePres.startDraggingMarker(e.target.id.substr(5));
 	},
 	
 	/**
@@ -26,7 +26,7 @@ ilCOPagePCInteractiveImage =
 	 */
 	overlayCommand: function (e)
 	{
-		ilCOPagePres.startDraggingOverlay(e.target.id.substr(3));
+		il.COPagePres.startDraggingOverlay(e.target.id.substr(3));
 	},
 	
 	/**
@@ -34,7 +34,7 @@ ilCOPagePCInteractiveImage =
 	 */
 	popupCommand: function (e)
 	{
-		ilCOPagePres.startDraggingPopup(e.target.id.substr(4));
+		il.COPagePres.startDraggingPopup(e.target.id.substr(4));
 	}
 
 }

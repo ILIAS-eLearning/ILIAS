@@ -72,7 +72,7 @@ var pager =
 		
 			//fix for IE Bug...imagemap-highlights have to be restored when hidden
 			jQuery(pager.currentPage).show(0, function(){ jQuery('.imagemap').maphilight_mod({fade:true});});
-			ilCOPagePres.fixMarkerPositions();
+			il.COPagePres.fixMarkerPositions();
 		
 			//jQuery('a.ilc_page_lnavlink_LeftNavigationLink').show();
 			jQuery('a.ilc_page_lnavlink_LeftNavigationLink').css("visibility", "");
@@ -88,7 +88,7 @@ var pager =
 			jQuery(pager.currentPage).hide();
 			pager.currentPage = newPage[0];
 			jQuery(pager.currentPage).show(0, function(){ jQuery('.imagemap').maphilight_mod({fade:true});});
-			ilCOPagePres.fixMarkerPositions();
+			il.COPagePres.fixMarkerPositions();
 		
 			jQuery('a.ilc_page_rnavlink_RightNavigationLink').show();
 			if(newPage.length==1)
@@ -105,7 +105,7 @@ var pager =
 			jQuery(pager.currentPage).hide();
 			pager.currentPage = newPage[0];
 			jQuery(pager.currentPage).show(0, function(){ jQuery('.imagemap').maphilight_mod({fade:true});});
-			ilCOPagePres.fixMarkerPositions();
+			il.COPagePres.fixMarkerPositions();
 		
 			var prevPages = jQuery(pager.currentPage).prevAll('div.ilc_page_cont_PageContainer');
 			if (prevPages.length == 0)

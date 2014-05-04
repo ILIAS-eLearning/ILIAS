@@ -656,9 +656,9 @@ ilias.questions.showFeedback =function(a_id) {
 	jQuery('#feedback'+a_id).slideToggle();
 	
 	// update question overviews
-	if (typeof ilCOPagePres != "undefined")
+	if (typeof il.COPagePres != "undefined")
 	{
-		ilCOPagePres.updateQuestionOverviews();
+		il.COPagePres.updateQuestionOverviews();
 	}
 
 };

@@ -3607,7 +3607,7 @@ return;
 		global $lng;
 		
 		$a_tpl->addOnloadCode(self::getJSTextInitCode($a_lang).
-			'ilCOPagePres.updateQuestionOverviews();
+			'il.COPagePres.updateQuestionOverviews();
 			');
 	}
 	

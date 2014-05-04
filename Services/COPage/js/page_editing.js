@@ -1403,7 +1403,7 @@ if (add_final_spacer)
 				$('#il_EditPage').replaceWith(c);
 				ilCOPage.initDragElements();
 				il.Tooltip.init();
-				ilCOPagePres.updateQuestionOverviews();
+				il.COPagePres.updateQuestionOverviews();
 				il.IntLink.refresh();
 				if (il.AdvancedSelectionList != null)
 				{
@@ -1438,7 +1438,7 @@ if (add_final_spacer)
 			ilCOPage.initDragElements();
 			il.Tooltip.init();
 //			ilCOPage.renderQuestions();
-			ilCOPagePres.updateQuestionOverviews();
+			il.COPagePres.updateQuestionOverviews();
 			il.IntLink.refresh();
 			if (il.AdvancedSelectionList != null)
 			{
