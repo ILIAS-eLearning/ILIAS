@@ -180,7 +180,8 @@ ilCOPagePres =
 				$(ov).position({
 					my: "left top",
 					at: "left+" + ovx + " top+" + ovy,
-					of: "img#base_img_" + tr.iim_id
+					of: "img#base_img_" + tr.iim_id,
+					collision: "none"
 					});
 
 				// on first time we need to initialize the
