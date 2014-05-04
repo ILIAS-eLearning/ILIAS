@@ -20,6 +20,7 @@ class ilFormGUI
 	protected $opentag = true;
 	protected $id;
 	protected $name;
+	protected $prevent_double_submission = false;
 	
 	/**
 	* Constructor
@@ -191,6 +192,26 @@ class ilFormGUI
 	}
 	
 	/**
+	 * Set prevent double submission
+	 *
+	 * @param bool $a_val prevent double submission	
+	 */
+	function setPreventDoubleSubmission($a_val)
+	{
+		$this->prevent_double_submission = $a_val;
+	}
+	
+	/**
+	 * Get prevent double submission
+	 *
+	 * @return bool prevent double submission
+	 */
+	function getPreventDoubleSubmission()
+	{
+		return $this->prevent_double_submission;
+	}
+	
+	/**
 	* Get HTML.
 	*/
 	function getHTML()
@@ -214,6 +235,13 @@ class ilFormGUI
 				$opentpl->setVariable("FORM_NAME", $this->getName());
 				$opentpl->parseCurrentBlock();
 			}
+			if ($this->getPreventDoubleSubmission())
+			{
+				$opentpl->setCurrentBlock("form_class");
+				$opentpl->setVariable("FORM_CLASS", "preventDoubleSubmission");
+				$opentpl->parseCurrentBlock();
+			}
+
 			if ($this->getMultipart())
 			{
 				$opentpl->touchBlock("multipart");

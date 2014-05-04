@@ -358,6 +358,11 @@ il.MainMenu = {
 
 /* UICore */
 il.UICore = {
+
+	//
+	// Layout related
+	//
+
 	right_panel_wrapper: "",
 	
 	refreshLayout: function () {
@@ -469,12 +474,45 @@ il.UICore = {
 		il.UICore.unloadWrapperFromRightPanel();
 		il.Overlay.hide(null, "ilRightPanel");
 	}
+
 };
+
 
 il.Util.addOnLoad(function () {
 	$(window).resize(il.UICore.refreshLayout);
 	$(window).scroll(il.UICore.refreshLayout);
 	il.UICore.refreshLayout();
+
+	// jQuery plugin to prevent double submission of forms
+	// see http://stackoverflow.com/questions/2830542/prevent-double-submission-of-forms-in-jquery
+	jQuery.fn.preventDoubleSubmission = function() {
+		var t, ev;
+
+		if ($(this).get(0)) {
+			t = $(this).get(0).tagName;
+			ev = (t == 'FORM') ? 'submit' : 'click';
+			$(this).on(ev,function(e) {
+				var $el = $(this);
+
+				if ($el.data('submitted') === true) {
+					// Previously submitted - don't submit again
+					e.preventDefault();
+				} else {
+					// Mark it so that the next submit can be ignored
+					$('form.preventDoubleSubmission, .preventDoubleSubmission a.submit, a.preventDoubleSubmission').data('submitted', true);
+					$('form.preventDoubleSubmission input:submit, .preventDoubleSubmission a.submit, a.preventDoubleSubmission').addClass("ilSubmitInactive");
+				}
+			});
+		}
+
+		// Keep chainability
+		return this;
+	};
+	// note: we need to call this two times, since the first time all forms will be handled,
+	// the second time all links, and the get(0) line above handles only sets of elements
+	// of the same type correctly
+	$('form.preventDoubleSubmission').preventDoubleSubmission();
+	$('.preventDoubleSubmission a.submit, a.preventDoubleSubmission').preventDoubleSubmission();
 });
 
 /* Rating */

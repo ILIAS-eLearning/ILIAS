@@ -70,7 +70,10 @@ class ilPropertyFormGUI extends ilFormGUI
 		
 		$lng->loadLanguageModule("form");
 		parent::ilFormGUI();
-		
+
+		// avoid double submission
+		$this->setPreventDoubleSubmission(true);
+
 		// do it as early as possible
 		$this->rebuildUploadedFiles();
 	}

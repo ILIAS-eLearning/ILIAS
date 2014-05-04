@@ -1633,6 +1633,15 @@ input.emphsubmit:hover, a.emphsubmit:hover {
 	box-shadow: 0px 0px 1px #909090;
 }
 
+input.ilSubmitInactive, input.ilSubmitInactive:hover,
+a.ilSubmitInactive, a.ilSubmitInactive:hover {
+	color: #909090;
+	cursor: default;
+	border-color: #D0D0D0;
+	box-shadow: none;
+	background: url(images/ButtonsBack.png) repeat-x top;
+	background-size: auto 100%;
+}
 
 div.il_ButtonGroup.bigButton > input.submit {
 	 padding: 10px;
