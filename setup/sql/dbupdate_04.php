@@ -807,3 +807,29 @@ if( !$ilDB->tableColumnExists('qpl_a_cloze', 'gap_size') )
 	));
 }
 ?>
+<#4212>
+<?php
+if( !$ilDB->tableColumnExists('qpl_qst_cloze', 'qpl_qst_cloze') )
+{
+	$ilDB->addTableColumn( 'qpl_qst_cloze', 'cloze_text', array('type' => 'clob') );
+
+	$clean_qst_txt = $ilDB->prepareManip('UPDATE qpl_questions SET question_text = "&nbsp;" WHERE question_id = ?', array('integer'));
+
+	$result = $ilDB->query('SELECT question_id, question_text FROM qpl_questions WHERE question_type_fi = 3');
+
+	/** @noinspection PhpAssignmentInConditionInspection */
+	while( $row = $ilDB->fetchAssoc($result) )
+	{
+		$ilDB->update(
+			'qpl_qst_cloze',
+			array(
+				'cloze_text'	=> array('clob', $row['question_text'] )
+			),
+			array(
+				'question_fi'	=> array('integer', $row['question_id'] )
+			)
+		);
+		$ilDB->execute($clean_qst_txt, $row['question_id'] );
+	}
+}
+?>

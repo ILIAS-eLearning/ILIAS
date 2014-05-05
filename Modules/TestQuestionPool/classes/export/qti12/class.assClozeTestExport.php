@@ -89,6 +89,8 @@ class assClozeTestExport extends assQuestionExport
 		$a_xml_writer->xmlStartTag("presentation", $attrs);
 		// add flow to presentation
 		$a_xml_writer->xmlStartTag("flow");
+		$this->object->addQTIMaterial($a_xml_writer, $this->object->getQuestion());
+//		$text_parts = preg_split("/\[gap.*?\[\/gap\]/", $this->object->getClozeText(), true, true);
 		$text_parts = preg_split("/\[gap.*?\[\/gap\]/", $this->object->getClozeText());
 		// add material with question text to presentation
 		for ($i = 0; $i <= $this->object->getGapCount(); $i++)

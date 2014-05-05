@@ -65,13 +65,13 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 		$hasErrors = (!$always) ? $this->editQuestion(true) : false;
 		if (!$hasErrors)
 		{
-			$question_text = $_POST['question'];
-			$question_text = $this->removeIndizesFromGapText( $question_text );
-			$_POST['question'] = $question_text;
-			$this->object->setQuestion($question_text);
+			$cloze_text = $_POST['cloze_text'];
+			$cloze_text = $this->removeIndizesFromGapText( $cloze_text );
+			$_POST['cloze_text'] = $cloze_text;
+			$this->object->setQuestion($_POST['question']);
 
 			$this->writeQuestionGenericPostData();
-			$this->object->setClozeText($_POST["question"]);
+			$this->object->setClozeText($_POST["cloze_text"]);
 			$this->writeQuestionSpecificPostData();
 			//$this->object->flushGaps();
 			$this->writeAnswerSpecificPostData();
@@ -79,9 +79,9 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 			return 0;
 		}
 
-		$question_text = $_POST['question'];
-		$question_text = $this->applyIndizesToGapText($question_text);
-		$_POST['question'] = $question_text;
+		$cloze_text = $_POST['cloze_text'];
+		$cloze_text = $this->applyIndizesToGapText($cloze_text);
+		$_POST['cloze_text'] = $cloze_text;
 		return 1;
 	}
 
@@ -219,6 +219,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 
 	public function writeQuestionSpecificPostData($always = false)
 	{
+		$this->object->setClozeText( $_POST['cloze_text'] );
 		$this->object->setTextgapRating( $_POST["textgap_rating"] );
 		$this->object->setIdenticalScoring( $_POST["identical_scoring"] );
 		$this->object->setFixedTextLength( $_POST["fixedTextLength"] );
@@ -244,13 +245,6 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 
 		// title, author, description, question, working time (assessment mode)
 		$this->addBasicQuestionFormProperties($form);
-
-		// Modify "instructive" question textbox... get rid of this crap asap.
-		$q_item = $form->getItemByPostVar("question");
-		$q_item->setValue($this->applyIndizesToGapText($q_item->getValue()));
-		$q_item->setInfo($this->lng->txt("close_text_hint"));
-		$q_item->setTitle($this->lng->txt("cloze_text"));
-
 		$this->populateQuestionSpecificFormPart( $form );
 		$this->populateAnswerSpecificFormPart( $form );
 		$this->populateTaxonomyFormSection($form);
@@ -334,13 +328,13 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 		}
 		$form->addItem($question);
 
-		$tpl = new ilTemplate("tpl.il_as_qpl_cloze_gap_button_code.html", TRUE, TRUE, "Modules/TestQuestionPool");
-		$tpl->setVariable('INSERT_GAP', $this->lng->txt('insert_gap'));
-		$tpl->setVariable('CREATE_GAPS', $this->lng->txt('create_gaps'));
-		$tpl->parseCurrentBlock();
-		$button = new ilCustomInputGUI('&nbsp;','');
-		$button->setHtml($tpl->get());
-		$form->addItem($button);
+//		$tpl = new ilTemplate("tpl.il_as_qpl_cloze_gap_button_code.html", TRUE, TRUE, "Modules/TestQuestionPool");
+//		$tpl->setVariable('INSERT_GAP', $this->lng->txt('insert_gap'));
+//		$tpl->setVariable('CREATE_GAPS', $this->lng->txt('create_gaps'));
+//		$tpl->parseCurrentBlock();
+//		$button = new ilCustomInputGUI('&nbsp;','');
+//		$button->setHtml($tpl->get());
+//		$form->addItem($button);
 		
 		if (!$this->object->getSelfAssessmentEditingMode())
 		{
@@ -390,6 +384,23 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 
 	public function populateQuestionSpecificFormPart(ilPropertyFormGUI $form)
 	{
+		// cloze text
+		$cloze_text = new ilTextAreaInputGUI($this->lng->txt("cloze_text"), 'cloze_text');
+		$cloze_text->setRequired(true);
+		$cloze_text->setValue($this->applyIndizesToGapText($this->object->getClozeText()));
+		$cloze_text->setInfo($this->lng->txt("close_text_hint"));
+		$cloze_text->setRows( 10 );
+		$cloze_text->setCols( 80 );
+		$form->addItem($cloze_text);
+
+		$tpl = new ilTemplate("tpl.il_as_qpl_cloze_gap_button_code.html", TRUE, TRUE, "Modules/TestQuestionPool");
+		$tpl->setVariable('INSERT_GAP', $this->lng->txt('insert_gap'));
+		$tpl->setVariable('CREATE_GAPS', $this->lng->txt('create_gaps'));
+		$tpl->parseCurrentBlock();
+		$button = new ilCustomInputGUI('&nbsp;','');
+		$button->setHtml($tpl->get());
+		$form->addItem($button);
+
 		// text rating
 		if (!$this->object->getSelfAssessmentEditingMode())
 		{
@@ -717,7 +728,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 	{
 		// generate the question output
 		include_once "./Services/UICore/classes/class.ilTemplate.php";
-		$template = new ilTemplate("tpl.il_as_qpl_cloze_question_output.html", TRUE, TRUE, "Modules/TestQuestionPool");
+		$template = new ilTemplate("tpl.il_as_qpl_cloze_question_output.html", TRUE, TRUE, "Modules/TestQuestionPool"); 
 		$output = $this->object->getClozeText();
 		foreach ($this->object->getGaps() as $gap_index => $gap)
 		{
@@ -754,7 +765,8 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 					break;
 			}
 		}
-		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($output, TRUE));
+		$template->setVariable("QUESTIONTEXT", $this->object->getQuestion());
+		$template->setVariable("CLOZETEXT", $this->object->prepareTextareaOutput($output, TRUE));
 		$questionoutput = $template->get();
 		if (!$show_question_only)
 		{
@@ -945,7 +957,12 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 			}
 		}
 		
-		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($output, TRUE));
+		if ($show_question_text)
+		{
+			$template->setVariable("QUESTIONTEXT", $this->object->getQuestion());
+		}
+
+		$template->setVariable("CLOZETEXT", $this->object->prepareTextareaOutput($output, TRUE));
 		// generate the question output
 		$solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html",TRUE, TRUE, "Modules/TestQuestionPool");
 		$questionoutput = $template->get();
@@ -1088,7 +1105,8 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 			}
 		}
 		
-		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($output, TRUE));
+		$template->setVariable("QUESTIONTEXT", $this->object->getQuestion());
+		$template->setVariable("CLOZETEXT", $this->object->prepareTextareaOutput($output, TRUE));
 		$questionoutput = $template->get();
 		$pageoutput = $this->outQuestionPage("", $is_postponed, $active_id, $questionoutput);
 		return $pageoutput;

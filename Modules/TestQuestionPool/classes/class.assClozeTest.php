@@ -76,6 +76,8 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 	*/
 	var $fixedTextLength;
 
+	public $cloze_text;
+
 	/**
 	 * assClozeTest constructor
 	 *
@@ -101,7 +103,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 		$this->start_tag = "[gap]";
 		$this->end_tag = "[/gap]";
 		$this->gaps = array();
-		$this->setClozeText($question); // @TODO: Should this be $question?? See setter for why this is not trivial.
+		$this->setQuestion($question); // @TODO: Should this be $question?? See setter for why this is not trivial.
 		$this->fixedTextLength = "";
 		$this->identical_scoring = 1;
 	}
@@ -165,6 +167,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 			$this->setPoints($data["points"]);
 			$this->setOwner($data["owner"]);
 			$this->setQuestion($this->cleanQuestiontext($data["question_text"]));
+			$this->setClozeText($data['cloze_text']);
 			$this->setFixedTextLength($data["fixed_textlen"]);
 			$this->setIdenticalScoring(($data['tstamp'] == 0) ? true : $data["identical_scoring"]);
 			// replacement of old syntax with new syntax
@@ -297,18 +300,20 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 		);
 
 		$ilDB->manipulateF( "INSERT INTO " . $this->getAdditionalTableName()
-								. " (question_fi, textgap_rating, identical_scoring, fixed_textlen) VALUES (%s, %s, %s, %s)",
+								. " (question_fi, textgap_rating, identical_scoring, fixed_textlen, cloze_text) VALUES (%s, %s, %s, %s, %s)",
 							array(
 								"integer",
 								"text",
 								"text",
-								"integer"
+								"integer",
+								"text"
 							),
 							array(
 								$this->getId(),
 								$this->getTextgapRating(),
 								$this->getIdenticalScoring(),
-								$this->getFixedTextLength() ? $this->getFixedTextLength() : NULL
+								$this->getFixedTextLength() ? $this->getFixedTextLength() : NULL,
+								$this->getClozeText()
 							)
 		);
 	}
@@ -496,8 +501,13 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 	{
 		$this->gaps = array();
 		$cloze_text = $this->cleanQuestiontext($cloze_text);
-		$this->question = $cloze_text;
+		$this->cloze_text = $cloze_text;
 		$this->createGapsFromQuestiontext();
+	}
+
+	function setClozeTextValue($cloze_text = "")
+	{
+		$this->cloze_text = $cloze_text;
 	}
 	
 	/**
@@ -509,7 +519,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 	*/
 	function getClozeText() 
 	{
-		return $this->question;
+		return $this->cloze_text;
 	}
 
 	/**
@@ -995,7 +1005,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 			$output = preg_replace("/\[gap\].*?\[\/gap\]/", "[_gap]" . $this->prepareTextareaOutput(join(",", $answers), true) . "[/_gap]", $output, 1);
 		}
 		$output = str_replace("_gap]", "gap]", $output);
-		$this->question = $output;
+		$this->cloze_text = $output;
 	}
 	
 	/**
@@ -1055,7 +1065,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 				}
 			}
 			$output = str_replace("_gap]", "gap]", $output);
-			$this->question = $output;
+			$this->cloze_text = $output;
 			unset($this->gaps[$gap_index]);
 			$this->gaps = array_values($this->gaps);
 		}

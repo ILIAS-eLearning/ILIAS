@@ -36,6 +36,8 @@ class assClozeTestImport extends assQuestionImport
 		$presentation = $item->getPresentation(); 
 		$duration = $item->getDuration();
 		$questiontext = array();
+		$clozetext = array();
+		
 		$shuffle = 0;
 		$now = getdate();
 		$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
@@ -47,12 +49,21 @@ class assClozeTestImport extends assQuestionImport
 				case "material":
 
 					$material = $presentation->material[$entry["index"]];
-					array_push($questiontext, $this->object->QTIMaterialToString($material));
+					if($entry["index"] == 0)
+					{
+						array_push($questiontext, $this->object->QTIMaterialToString($material));	
+					}
+					else
+					{
+						array_push($clozetext, $this->object->QTIMaterialToString($material));
+					}
+					
 					break;
 				case "response":
 					$response = $presentation->response[$entry["index"]];
 					$rendertype = $response->getRenderType(); 
-					array_push($questiontext, "<<" . $response->getIdent() . ">>");
+					array_push($clozetext, "<<" . $response->getIdent() . ">>");
+
 					switch (strtolower(get_class($response->getRenderType())))
 					{
 						case "ilqtirenderfib":
@@ -276,12 +287,16 @@ class assClozeTestImport extends assQuestionImport
 			$this->object->addGapAtIndex($clozegap, $gapidx);
 			$gaptext[$gap["ident"]] = "[gap]" . join(",", $gapcontent). "[/gap]";
 		}
-		$clozetext = join("", $questiontext);
+	
+		$this->object->setQuestion(join('',$questiontext));
+		$clozetext = join("", $clozetext);
+		
 		foreach ($gaptext as $idx => $val)
 		{
 			$clozetext = str_replace("<<" . $idx . ">>", $val, $clozetext);
 		}
-		$this->object->setQuestion($clozetext);
+		$this->object->setClozeTextValue($clozetext);
+
 		// additional content editing mode information
 		$this->object->setAdditionalContentEditingMode(
 				$this->fetchAdditionalContentEditingModeInformation($item)
@@ -300,6 +315,7 @@ class assClozeTestImport extends assQuestionImport
 			$feedbacksgeneric[$correctness] = $m;
 		}
 		$questiontext = $this->object->getQuestion();
+		$clozetext = $this->object->getClozeText();
 		if (is_array($_SESSION["import_mob_xhtml"]))
 		{
 			include_once "./Services/MediaObjects/classes/class.ilObjMediaObject.php";
@@ -319,6 +335,7 @@ class assClozeTestImport extends assQuestionImport
 				
 				$media_object =& ilObjMediaObject::_saveTempFileAsMediaObject(basename($importfile), $importfile, FALSE);
 				$questiontext = str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $questiontext);
+				$clozetext = str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $clozetext);
 				foreach ($feedbacks as $ident => $material)
 				{
 					$feedbacks[$ident] = str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $material);
@@ -330,6 +347,7 @@ class assClozeTestImport extends assQuestionImport
 			}
 		}
 		$this->object->setQuestion(ilRTE::_replaceMediaObjectImageSrc($questiontext, 1));
+		$this->object->setClozeTextValue(ilRTE::_replaceMediaObjectImageSrc($clozetext, 1));
 		foreach ($feedbacks as $ident => $material)
 		{
 			$this->object->feedbackOBJ->importSpecificAnswerFeedback(
