@@ -71,14 +71,22 @@ class assClozeTestExport extends assQuestionExport
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "textgaprating");
 		$a_xml_writer->xmlElement("fieldentry", NULL, $this->object->getTextgapRating());
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
+		
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "fixedTextLength");
 		$a_xml_writer->xmlElement("fieldentry", NULL, $this->object->getFixedTextLength());
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
+		
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "identicalScoring");
 		$a_xml_writer->xmlElement("fieldentry", NULL, $this->object->getIdenticalScoring());
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
+
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "question");
+		$a_xml_writer->xmlElement("fieldentry", NULL, $this->object->getQuestion());
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+		
 		$a_xml_writer->xmlEndTag("qtimetadata");
 		$a_xml_writer->xmlEndTag("itemmetadata");
 		
@@ -89,9 +97,16 @@ class assClozeTestExport extends assQuestionExport
 		$a_xml_writer->xmlStartTag("presentation", $attrs);
 		// add flow to presentation
 		$a_xml_writer->xmlStartTag("flow");
-		$this->object->addQTIMaterial($a_xml_writer, $this->object->getQuestion());
-//		$text_parts = preg_split("/\[gap.*?\[\/gap\]/", $this->object->getClozeText(), true, true);
-		$text_parts = preg_split("/\[gap.*?\[\/gap\]/", $this->object->getClozeText());
+		
+		if($this->object->getClozeText() == NULL)
+		{
+			$text_parts = preg_split("/\[gap.*?\[\/gap\]/", $this->object->getQuestion());
+		}	
+		else
+		{
+			$text_parts = preg_split("/\[gap.*?\[\/gap\]/", $this->object->getClozeText());	
+		}
+		
 		// add material with question text to presentation
 		for ($i = 0; $i <= $this->object->getGapCount(); $i++)
 		{

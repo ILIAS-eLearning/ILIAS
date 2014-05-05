@@ -36,6 +36,8 @@ class assClozeTestImport extends assQuestionImport
 		$presentation = $item->getPresentation(); 
 		$duration = $item->getDuration();
 		$questiontext = array();
+		
+		$questiontext[] = method_exists($item, 'getQuestion')  ? $item->getQuestion() : '&nbsp';
 		$clozetext = array();
 		
 		$shuffle = 0;
@@ -49,14 +51,7 @@ class assClozeTestImport extends assQuestionImport
 				case "material":
 
 					$material = $presentation->material[$entry["index"]];
-					if($entry["index"] == 0)
-					{
-						array_push($questiontext, $this->object->QTIMaterialToString($material));	
-					}
-					else
-					{
-						array_push($clozetext, $this->object->QTIMaterialToString($material));
-					}
+					array_push($clozetext, $this->object->QTIMaterialToString($material));
 					
 					break;
 				case "response":
