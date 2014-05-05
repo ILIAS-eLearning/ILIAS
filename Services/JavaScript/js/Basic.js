@@ -501,6 +501,7 @@ il.Util.addOnLoad(function () {
 					// Mark it so that the next submit can be ignored
 					$('form.preventDoubleSubmission, .preventDoubleSubmission a.submit, a.preventDoubleSubmission').data('submitted', true);
 					$('form.preventDoubleSubmission input:submit, .preventDoubleSubmission a.submit, a.preventDoubleSubmission').addClass("ilSubmitInactive");
+					$('area.preventDoubleSubmission').data('submitted', true);
 				}
 			});
 		}
@@ -513,6 +514,8 @@ il.Util.addOnLoad(function () {
 	// of the same type correctly
 	$('form.preventDoubleSubmission').preventDoubleSubmission();
 	$('.preventDoubleSubmission a.submit, a.preventDoubleSubmission').preventDoubleSubmission();
+	// Used for image maps in "hot spot" questions:Modules/TestQuestionPool/templates/default/tpl.il_as_qpl_imagemap_question_output.html
+	$('area.preventDoubleSubmission').preventDoubleSubmission();
 });
 
 /* Rating */
