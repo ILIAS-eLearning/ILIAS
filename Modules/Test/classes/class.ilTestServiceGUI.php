@@ -1000,6 +1000,9 @@ class ilTestServiceGUI
 	 */
 	function getQuestionResultForTestUsers($question_id, $test_id)
 	{
+		// REQUIRED, since we call this object regardless of the loop
+		$question_gui =& $this->object->createQuestionGUI("", $question_id);
+
 		$foundusers = $this->object->getParticipantsForTestAndQuestion($test_id, $question_id);
 		$output = "";
 		foreach ($foundusers as $active_id => $passes)
@@ -1009,7 +1012,9 @@ class ilTestServiceGUI
 			{
 				if (($resultpass !== null) && ($resultpass == $passes[$i]["pass"]))
 				{
+					// check if re-instantiation is really neccessary
 					$question_gui =& $this->object->createQuestionGUI("", $passes[$i]["qid"]);
+					
 					$output .= $this->getResultsHeadUserAndPass($active_id, $resultpass+1);
 					$output .= $question_gui->getSolutionOutput($active_id, $resultpass, $graphicalOutput = FALSE, $result_output = FALSE, $show_question_only = FALSE, $show_feedback = FALSE);
 					$output .= "<br /><br /><br />";
