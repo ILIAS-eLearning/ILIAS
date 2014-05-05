@@ -3,7 +3,7 @@
 {KIOSK_HEAD}
 <!-- END kiosk_options -->
 <div id="tst_output">
-<form id="taForm" name="test_output" method="post" style="clear: both;" {ENCTYPE} action="{FORMACTION}"<!-- BEGIN onsubmit --> onsubmit="{ON_SUBMIT}"<!-- END onsubmit -->>
+<form id="taForm" class="preventDoubleSubmission" name="test_output" method="post" style="clear: both;" {ENCTYPE} action="{FORMACTION}"<!-- BEGIN onsubmit --> onsubmit="{ON_SUBMIT}"<!-- END onsubmit -->>
 <div id="tst_left">{LIST_OF_QUESTIONS}</div>
 <div id="tst_right">
 <!-- BEGIN enableprocessingtime -->
