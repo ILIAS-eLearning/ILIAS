@@ -57,7 +57,6 @@ class ilTestSignatureGUI
 
 		switch($next_class)
 		{
-svn st
 			default:
 				$ret = $this->dispatchCommand();
 				break;
