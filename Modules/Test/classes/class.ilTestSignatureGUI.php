@@ -10,9 +10,6 @@ require_once 'Services/Export/classes/class.ilExportGUI.php';
  * @version      $Id$
  *               
  * @ingroup      ModulesTest
- *               
- * @ilCtrl_isCalledBy 	ilTestSignatureGUI: ilTestOutputGUI
- * @ilCtrl_calls 		ilTestSignatureGUI: ilTestOutputGUI, ilTestEvaluationGUI
  */
 class ilTestSignatureGUI 
 {
@@ -60,16 +57,7 @@ class ilTestSignatureGUI
 
 		switch($next_class)
 		{
-			case 'iltestoutputgui':
-				$ret = $this->ilCtrl->forwardCommand($this->ilTestOutputGUI);
-				break;
-			
-			case 'iltestevaluationgui':
-				require_once './Modules/Test/classes/class.ilTestEvaluationGUI.php';
-				$evaluation_gui = new ilTestEvaluationGUI($this->getTest());
-				$this->ilCtrl->forwardCommand($evaluation_gui);
-				break;
-			
+svn st
 			default:
 				$ret = $this->dispatchCommand();
 				break;
