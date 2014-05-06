@@ -833,3 +833,7 @@ if( !$ilDB->tableColumnExists('qpl_qst_cloze', 'qpl_qst_cloze') )
 	}
 }
 ?>
+<#4213>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
