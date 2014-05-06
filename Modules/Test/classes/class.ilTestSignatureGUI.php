@@ -115,6 +115,22 @@ class ilTestSignatureGUI
 	}
 
 	/**
+	 * @param \ilTestOutputGUI $testOutputGUI
+	 */
+	public function setTestOutputGUI($testOutputGUI)
+	{
+		$this->ilTestOutputGUI = $testOutputGUI;
+	}
+
+	/**
+	 * @return \ilTestOutputGUI
+	 */
+	public function getTestOutputGUI()
+	{
+		return $this->ilTestOutputGUI;
+	}
+
+	/**
 	 * This is to be called by the plugin at the end of the signature process to redirect the user back to the test.
 	 */
 	public function redirectToTest($success)

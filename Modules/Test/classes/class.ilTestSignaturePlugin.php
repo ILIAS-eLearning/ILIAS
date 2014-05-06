@@ -127,7 +127,7 @@ abstract class ilTestSignaturePlugin extends ilPlugin
 	{
 		/** @var $tpl ilTemplate */
 		global $tpl;
-		$tpl->setVariable('ADM_CONTENT', $content );
+		$tpl->setVariable($this->getGUIObject()->getTestOutputGUI()->getContentBlockName(), $content );
 		$tpl->show();
 		return;
 	}
