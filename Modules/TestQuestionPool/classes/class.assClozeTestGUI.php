@@ -739,7 +739,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 
 					$gap_size = $gap->getGapSize() > 0 ? $gap->getGapSize() : $this->object->getFixedTextLength();
 					
-					$gaptemplate->setVariable("TEXT_GAP_SIZE", $gap_size ? $gap_size : $gap->getMaxWidth());
+					$gaptemplate->setVariable("TEXT_GAP_SIZE", 'size="'.$gap_size.'" maxlength="'.$gap_size.'"');
 					$gaptemplate->setVariable("GAP_COUNTER", $gap_index);
 					$output = preg_replace("/\[gap\].*?\[\/gap\]/", $gaptemplate->get(), $output, 1);
 					break;
