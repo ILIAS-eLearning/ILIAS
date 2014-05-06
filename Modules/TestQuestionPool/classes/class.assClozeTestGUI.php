@@ -738,8 +738,12 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 					$gaptemplate = new ilTemplate("tpl.il_as_qpl_cloze_question_gap_text.html", TRUE, TRUE, "Modules/TestQuestionPool");
 
 					$gap_size = $gap->getGapSize() > 0 ? $gap->getGapSize() : $this->object->getFixedTextLength();
-					
-					$gaptemplate->setVariable("TEXT_GAP_SIZE", 'size="'.$gap_size.'" maxlength="'.$gap_size.'"');
+					if($gap_size > 0)
+					{
+						$gaptemplate->setCurrentBlock('size_and_maxlength');
+						$gaptemplate->setVariable("TEXT_GAP_SIZE", $gap_size);
+						$gaptemplate->parseCurrentBlock();
+					}
 					$gaptemplate->setVariable("GAP_COUNTER", $gap_index);
 					$output = preg_replace("/\[gap\].*?\[\/gap\]/", $gaptemplate->get(), $output, 1);
 					break;
@@ -759,7 +763,12 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 				case CLOZE_NUMERIC:
 					$gaptemplate = new ilTemplate("tpl.il_as_qpl_cloze_question_gap_numeric.html", TRUE, TRUE, "Modules/TestQuestionPool");
 					$gap_size = $gap->getGapSize() > 0 ? $gap->getGapSize() : $this->object->getFixedTextLength();
-					$gaptemplate->setVariable("TEXT_GAP_SIZE", $gap_size ? $gap_size : $gap->getMaxWidth());
+					if($gap_size > 0)
+					{
+						$gaptemplate->setCurrentBlock('size_and_maxlength');
+						$gaptemplate->setVariable("TEXT_GAP_SIZE", $gap_size);
+						$gaptemplate->parseCurrentBlock();
+					}
 					$gaptemplate->setVariable("GAP_COUNTER", $gap_index);
 					$output = preg_replace("/\[gap\].*?\[\/gap\]/", $gaptemplate->get(), $output, 1);
 					break;
@@ -1053,8 +1062,14 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 				case CLOZE_TEXT:
 					$gaptemplate = new ilTemplate("tpl.il_as_qpl_cloze_question_gap_text.html", TRUE, TRUE, "Modules/TestQuestionPool");
 					$gap_size = $gap->getGapSize() > 0 ? $gap->getGapSize() : $this->object->getFixedTextLength();
+
+					if($gap_size > 0)
+					{
+						$gaptemplate->setCurrentBlock('size_and_maxlength');
+						$gaptemplate->setVariable("TEXT_GAP_SIZE", $gap_size);
+						$gaptemplate->parseCurrentBlock();
+					}
 					
-					$gaptemplate->setVariable("TEXT_GAP_SIZE",$gap_size ? $gap_size : $gap->getMaxWidth());
 					$gaptemplate->setVariable("GAP_COUNTER", $gap_index);
 					foreach ($user_solution as $solution)
 					{
@@ -1091,7 +1106,13 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 				case CLOZE_NUMERIC:
 					$gaptemplate = new ilTemplate("tpl.il_as_qpl_cloze_question_gap_numeric.html", TRUE, TRUE, "Modules/TestQuestionPool");
 					$gap_size = $gap->getGapSize() > 0 ? $gap->getGapSize() : $this->object->getFixedTextLength();
-					$gaptemplate->setVariable("TEXT_GAP_SIZE",$gap_size ? $gap_size : $gap->getMaxWidth());
+					if($gap_size > 0)
+					{
+						$gaptemplate->setCurrentBlock('size_and_maxlength');
+						$gaptemplate->setVariable("TEXT_GAP_SIZE", $gap_size);
+						$gaptemplate->parseCurrentBlock();
+					}
+					
 					$gaptemplate->setVariable("GAP_COUNTER", $gap_index);
 					foreach ($user_solution as $solution)
 					{
