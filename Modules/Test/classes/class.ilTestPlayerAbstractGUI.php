@@ -1757,7 +1757,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	 *
 	 * @return string The name of the content block
 	 */
-	protected function getContentBlockName()
+	public function getContentBlockName()
 	{
 		if ($this->object->getKioskMode())
 		{
