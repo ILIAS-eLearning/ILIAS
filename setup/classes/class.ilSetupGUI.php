@@ -1370,6 +1370,7 @@ echo "<br>+".$client_id;
 	
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
+		$this->form->setId("client_login");
 		
 		// client id
 		$ti = new ilTextInputGUI($lng->txt("client_id"), "client_id");

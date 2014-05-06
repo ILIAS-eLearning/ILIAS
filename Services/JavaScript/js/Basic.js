@@ -491,13 +491,18 @@ il.Util.addOnLoad(function () {
 		if ($(this).get(0)) {
 			t = $(this).get(0).tagName;
 			ev = (t == 'FORM') ? 'submit' : 'click';
+//console.log(this);
 			$(this).on(ev,function(e) {
 				var $el = $(this);
 
 				if ($el.data('submitted') === true) {
 					// Previously submitted - don't submit again
-					e.preventDefault();
+//console.log("3");
+//console.log(e);
+//					e.preventDefault();
 				} else {
+//console.log("4");
+//console.log(e);
 					// Mark it so that the next submit can be ignored
 					$('form.preventDoubleSubmission, .preventDoubleSubmission a.submit, a.preventDoubleSubmission').data('submitted', true);
 					$('form.preventDoubleSubmission input:submit, .preventDoubleSubmission a.submit, a.preventDoubleSubmission').addClass("ilSubmitInactive");
@@ -513,9 +518,9 @@ il.Util.addOnLoad(function () {
 	// the second time all links, and the get(0) line above handles only sets of elements
 	// of the same type correctly
 	$('form.preventDoubleSubmission').preventDoubleSubmission();
-	$('.preventDoubleSubmission a.submit, a.preventDoubleSubmission').preventDoubleSubmission();
+//	$('.preventDoubleSubmission a.submit, a.preventDoubleSubmission').preventDoubleSubmission();
 	// Used for image maps in "hot spot" questions:Modules/TestQuestionPool/templates/default/tpl.il_as_qpl_imagemap_question_output.html
-	$('area.preventDoubleSubmission').preventDoubleSubmission();
+//	$('area.preventDoubleSubmission').preventDoubleSubmission();
 });
 
 /* Rating */
