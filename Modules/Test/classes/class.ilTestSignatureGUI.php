@@ -128,7 +128,7 @@ svn st
 		$pass = $this->test->_getMaxPass($active);
 		$key = 'signed_'. $active .'_'. $pass;
 		ilSession::set($key, $success);
-		$ilCtrl->redirectByClass('ilTestOutputGUI','afterTestPassFinished');
+		$ilCtrl->redirect($this->ilTestOutputGUI,'afterTestPassFinished');
 		return;
 	}
 }
