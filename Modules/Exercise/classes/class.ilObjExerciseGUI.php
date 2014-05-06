@@ -2780,13 +2780,28 @@ class ilObjExerciseGUI extends ilObjectGUI
 		
 		$this->checkPermission("read");
 		
+		if(!$this->object->getShowSubmissions())
+		{
+			$this->ctrl->redirect($this, "view");
+		}
+		
 		$ilTabs->activateTab("content");
 		$this->addContentSubTabs("content");
 		
-		include_once("./Modules/Exercise/classes/class.ilPublicSubmissionsTableGUI.php");
-		$tab = new ilPublicSubmissionsTableGUI($this, "listPublicSubmissions",
-			$this->object, (int) $_GET["ass_id"]);
-		$tpl->setContent($tab->getHTML());
+		if($this->ass->getType() != ilExAssignment::TYPE_TEXT)
+		{		
+			include_once("./Modules/Exercise/classes/class.ilPublicSubmissionsTableGUI.php");
+			$tab = new ilPublicSubmissionsTableGUI($this, "listPublicSubmissions",
+				$this->object, (int) $_GET["ass_id"]);
+			$tpl->setContent($tab->getHTML());
+		}
+		else
+		{				
+			// #13271
+			include_once "Modules/Exercise/classes/class.ilExAssignmentListTextTableGUI.php";
+			$tbl = new ilExAssignmentListTextTableGUI($this, "listPublicSubmissions", $this->ass, false, true);		
+			$tpl->setContent($tbl->getHTML());		
+		}
 	}
 	
 	/**
