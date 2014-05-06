@@ -643,3 +643,7 @@ $ilSetting->set('tst_test_results_dupl_del_warn', 0);
 	$ilSetting = new ilSetting();
 	$setting = $ilSetting->set('lm_qst_imap_migr_run', 1);
 ?>
+<#20>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
