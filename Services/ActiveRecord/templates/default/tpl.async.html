@@ -1,6 +1,10 @@
 <script type="text/javascript">
 	(function ($) {
-		$.fn.{FUNCTION_NAME} = function (link) {
+		$.fn.
+		{
+			FUNCTION_NAME
+		}
+		= function (link) {
 			var replacer = new RegExp('amp;', 'g');
 			link = link.replace(replacer, '');
 
@@ -24,7 +28,11 @@
 <script type="text/javascript">
 	$(window).keydown(function (e) {
 		if (e.metaKey && e.keyCode == 78) {
-			$.fn.{FUNCTION_NAME}('{ADD_NEW}');
+			$.fn.
+			{
+				FUNCTION_NAME
+			}
+			('{ADD_NEW}');
 			event.preventDefault();
 			return false;
 		}
@@ -43,10 +51,10 @@
 	}
 
 	#result {
-		width:            500px;
-		margin-left:      auto;
-		margin-right:     auto;
-		margin-top:       300px;
+		width:        500px;
+		margin-left:  auto;
+		margin-right: auto;
+		margin-top:   300px;
 		/*background-color: green;*/
 	}
 

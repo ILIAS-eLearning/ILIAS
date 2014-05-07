@@ -3,7 +3,9 @@
 /**
  * Class arField
  *
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author  Fabian Schmid <fs@studer-raimann.ch>
+ *
+ * @version 2.0.2
  */
 class arField {
 
@@ -46,6 +48,14 @@ class arField {
 			arFieldList::IS_NOTNULL,
 		),
 	);
+	/**
+	 * @var array
+	 */
+	protected static $date_fields = array(
+		self::FIELD_TYPE_DATE,
+		self::FIELD_TYPE_TIME,
+		self::FIELD_TYPE_TIMESTAMP
+	);
 
 
 	/**
@@ -82,6 +92,14 @@ class arField {
 		}
 
 		return $return;
+	}
+
+
+	/**
+	 * @return bool
+	 */
+	public function isDateField() {
+		return self::isDateFieldType($this->getFieldType());
 	}
 
 
@@ -239,6 +257,16 @@ class arField {
 		}
 
 		return in_array($field_name, self::$allowed_attributes[$type]);
+	}
+
+
+	/**
+	 * @param $field_type
+	 *
+	 * @return bool
+	 */
+	public static function isDateFieldType($field_type) {
+		return in_array($field_type, self::$date_fields);
 	}
 }
 

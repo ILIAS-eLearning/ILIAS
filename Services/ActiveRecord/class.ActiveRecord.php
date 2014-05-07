@@ -15,12 +15,12 @@ require_once('Storage/int.arStorageInterface.php');
  * @experimental
  * @description
  *
- * @version 2.0.1
+ * @version 2.0.2
  *
  */
 abstract class ActiveRecord implements arStorageInterface {
 
-	const ACTIVE_RECORD_VERSION = '2.0.1';
+	const ACTIVE_RECORD_VERSION = '2.0.2';
 	/**
 	 * @var arConnector
 	 */
@@ -90,10 +90,20 @@ abstract class ActiveRecord implements arStorageInterface {
 	/**
 	 * @return mixed
 	 */
-	final public function getPrimaryFieldValue() {
+	public function getPrimaryFieldValue() {
 		$primary_fieldname = arFieldCache::getPrimaryFieldName($this);
 
 		return $this->{$primary_fieldname};
+	}
+
+
+	/**
+	 * @param $value
+	 */
+	public function setPrimaryFieldValue($value) {
+		$primary_fieldname = arFieldCache::getPrimaryFieldName($this);
+
+		$this->{$primary_fieldname} = $value;
 	}
 
 
@@ -110,21 +120,14 @@ abstract class ActiveRecord implements arStorageInterface {
 		$this->arFieldList = arFieldCache::get($this);
 		$key = $this->arFieldList->getPrimaryFieldName();
 		$this->{$key} = $primary_key;
-
 		if ($primary_key !== 0 AND $primary_key !== NULL AND $primary_key !== false) {
 			$this->read();
 		}
 	}
 
 
-	/**
-	 * @param $id
-	 */
-	public function loadObject($id) {
-		$class = get_class($this);
-		if (! arObjectCache::isCached($class, $id)) {
-			arObjectCache::store(new $class($id));
-		}
+	public function storeObject() {
+		arObjectCache::store($this);
 	}
 
 
@@ -151,7 +154,6 @@ abstract class ActiveRecord implements arStorageInterface {
 		$class = get_class($this);
 		$primary = $this->arFieldList->getPrimaryFieldName();
 		$primary_value = $array[$primary];
-
 		if ($primary_value AND arObjectCache::isCached($class, $primary_value)) {
 			return arObjectCache::get($class, $primary_value);
 		}
@@ -222,7 +224,6 @@ abstract class ActiveRecord implements arStorageInterface {
 	//
 	// Collector Modifications
 	//
-
 	/**
 	 * @return ActiveRecord
 	 *
@@ -344,11 +345,8 @@ abstract class ActiveRecord implements arStorageInterface {
 	//
 	// CRUD
 	//
-	/**
-	 * @deprecated
-	 */
-	public function saveDeprecated() {
-		if ($this->getId() === 0) {
+	public function store() {
+		if (! $this->getId()) {
 			$this->create();
 		} else {
 			$this->update();
@@ -362,6 +360,19 @@ abstract class ActiveRecord implements arStorageInterface {
 		}
 		$this->arConnector->create($this, $this->getArrayForConnector());
 		arObjectCache::store($this);
+	}
+
+
+	/**
+	 * @param $new_id
+	 *
+	 * @return ActiveRecord
+	 */
+	public function copy($new_id) {
+		$new_obj = clone($this);
+		$new_obj->setPrimaryFieldValue($new_id);
+
+		return $new_obj;
 	}
 
 
@@ -400,7 +411,6 @@ abstract class ActiveRecord implements arStorageInterface {
 	//
 	// Collection
 	//
-
 	/**
 	 * @param $id
 	 *
@@ -413,7 +423,7 @@ abstract class ActiveRecord implements arStorageInterface {
 		$class = get_called_class();
 		if (! arObjectCache::isCached($class, $id)) {
 			$obj = new $class($id);
-			$obj->loadObject($id);
+			$obj->storeObject();
 		}
 
 		return arObjectCache::get($class, $id);
@@ -456,6 +466,19 @@ abstract class ActiveRecord implements arStorageInterface {
 	public static function orderBy($orderBy, $orderDirection = 'ASC') {
 		$srModelObjectList = new ActiveRecordList(self::getCalledClass());
 		$srModelObjectList->orderBy($orderBy, $orderDirection);
+
+		return $srModelObjectList;
+	}
+
+
+	/**
+	 * @param string $date_format
+	 *
+	 * @return ActiveRecordList
+	 */
+	public static function dateFormat($date_format = 'd.m.Y - H:i:s') {
+		$srModelObjectList = new ActiveRecordList(self::getCalledClass());
+		$srModelObjectList->dateFormat($date_format);
 
 		return $srModelObjectList;
 	}
@@ -580,7 +603,6 @@ abstract class ActiveRecord implements arStorageInterface {
 	//
 	// Magic Methods & Helpers
 	//
-
 	/**
 	 * @param $name
 	 * @param $arguments

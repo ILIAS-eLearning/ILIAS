@@ -3,8 +3,10 @@ require_once('./Services/Table/classes/class.ilTable2GUI.php');
 require_once('./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php');
 
 /**
+ * Class srModelObjectTableGUI
+ *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
- * @version 1.0.5
+ * @version 2.0.2
  */
 abstract class srModelObjectTableGUI extends ilTable2GUI {
 

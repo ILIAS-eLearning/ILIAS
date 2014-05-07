@@ -5,7 +5,7 @@
  *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  *
- * @version
+ * @version 2.0.2
  */
 class srWebAccessChecker {
 

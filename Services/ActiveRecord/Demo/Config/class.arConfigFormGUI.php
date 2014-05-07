@@ -3,10 +3,10 @@ require_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
 require_once('class.arConfig.php');
 
 /**
- * GUI-Class arConfig
+ * GUI-Class arConfigFormGUI
  *
  * @author            Fabian Schmid <fs@studer-raimann.ch>
- * @version           $Id:
+ * @version           2.0.2
  *
  */
 class arConfigFormGUI extends ilPropertyFormGUI {
@@ -35,40 +35,42 @@ class arConfigFormGUI extends ilPropertyFormGUI {
 	}
 
 
-	private function initForm() {
-		$this->setTitle($this->lng->txt('configuration'));
-		$this->setDescription($this->lng->txt('settings_description'));
+	protected function initForm() {
+		$this->setTitle($this->lng->txt('admin_form_title'));
 
-		$te = new ilTextInputGUI($this->lng->txt('admin_system_user'), 'system_user');
+		$te = new ilTextInputGUI($this->lng->txt('admin_origins_path'), 'path');
+		$te->setInfo($this->lng->txt('admin_origins_path_info'));
 		$this->addItem($te);
 
 		$this->addCommandButtons();
 	}
 
 
-	/**
-	 * @param      $a_item
-	 *
-	 * @param bool $add_info
-	 *
-	 * @return mixed
-	 */
-	public function addItem($a_item, $add_info = true) {
-		if (get_class($a_item) != 'ilFormSectionHeaderGUI' AND $add_info) {
-			$a_item->setInfo($this->lng->txt('admin_config_' . $a_item->getPostVar() . '_info'));
-		}
-
-		return parent::addItem($a_item);
-	}
-
-
 	public function fillForm() {
 		$array = array();
 		foreach ($this->getItems() as $item) {
-			$array = $this->fillValue($item, $array);
+			$this->getValuesForItem($item, $array);
 		}
-
 		$this->setValuesByArray($array);
+	}
+
+
+	/**
+	 * @param $item
+	 * @param $array
+	 *
+	 * @internal param $key
+	 */
+	private function getValuesForItem($item, &$array) {
+		if (self::checkItem($item)) {
+			$key = $item->getPostVar();
+			$array[$key] = json_decode(arConfig::get($key));
+			if (self::checkForSubItem($item)) {
+				foreach ($item->getSubItems() as $subitem) {
+					$this->getValuesForItem($subitem, $array);
+				}
+			}
+		}
 	}
 
 
@@ -94,51 +96,51 @@ class arConfigFormGUI extends ilPropertyFormGUI {
 			return false;
 		}
 		foreach ($this->getItems() as $item) {
-			$this->writeValue($item);
+			$this->saveValueForItem($item);
 		}
 
 		return true;
 	}
 
 
+	/**
+	 * @param $item
+	 */
+	private function saveValueForItem($item) {
+		if (self::checkItem($item)) {
+			$key = $item->getPostVar();
+			arConfig::set($key, json_encode($this->getInput($key)));
+			if (self::checkForSubItem($item)) {
+				foreach ($item->getSubItems() as $subitem) {
+					$this->saveValueForItem($subitem);
+				}
+			}
+		}
+	}
+
+
+	/**
+	 * @param ilPropertyFormGUI $item
+	 *
+	 * @return bool
+	 */
+	public static function checkItem(ilPropertyFormGUI $item) {
+		return ! $item instanceof ilFormSectionHeaderGUI AND ! $item instanceof ilMultiSelectInputGUI;
+	}
+
+
+	/**
+	 * @param ilPropertyFormGUI $item
+	 *
+	 * @return bool
+	 */
+	public static function checkForSubItem(ilPropertyFormGUI $item) {
+		return ! $item instanceof ilMultiSelectInputGUI;
+	}
+
+
 	protected function addCommandButtons() {
 		$this->addCommandButton('save', $this->lng->txt('admin_form_button_save'));
 		$this->addCommandButton('cancel', $this->lng->txt('admin_form_button_cancel'));
-	}
-
-
-	/**
-	 * @param $item
-	 * @param $array
-	 *
-	 * @return mixed
-	 */
-	protected function fillValue($item, $array) {
-		if (get_class($item) != 'ilFormSectionHeaderGUI') {
-			$key = $item->getPostVar();
-			$array[$key] = msConfig::get($key);
-			foreach ($item->getSubItems() as $sub_item) {
-				$array = $this->fillValue($sub_item, $array);
-			}
-		}
-
-		return $array;
-	}
-
-
-	/**
-	 * @param $item
-	 */
-	protected function writeValue($item) {
-		if (get_class($item) != 'ilFormSectionHeaderGUI') {
-			/**
-			 * @var $item ilCheckboxInputGUI
-			 */
-			$key = $item->getPostVar();
-			msConfig::set($key, $this->getInput($key));
-			foreach ($item->getSubItems() as $subitem) {
-				$this->writeValue($subitem);
-			}
-		}
 	}
 }

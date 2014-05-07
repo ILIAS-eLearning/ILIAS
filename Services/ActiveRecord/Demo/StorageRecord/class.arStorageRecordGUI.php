@@ -8,9 +8,9 @@ require_once('./Customizing/global/plugins/Libraries/ActiveRecord/Views/Index/cl
 /**
  * Class arStorageRecordGUI
  *
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author  Fabian Schmid <fs@studer-raimann.ch>
  *
- *
+ * @version 2.0.2
  */
 class arStorageRecordGUI {
 
@@ -49,9 +49,10 @@ class arStorageRecordGUI {
 		$this->tpl->setContent($editGUI->getHTML());
 	}
 
+
 	public function view() {
-//		$editGUI = new ActiveRecordViewGUI(new ilPersonalDesktopGUI(), $this->object->getStorage());
-//		$this->tpl->setContent($editGUI->getHTML());
+		//		$editGUI = new ActiveRecordViewGUI(new ilPersonalDesktopGUI(), $this->object->getStorage());
+		//		$this->tpl->setContent($editGUI->getHTML());
 	}
 }
 

@@ -4,7 +4,7 @@ require_once(dirname(__FILE__) . '/../Fields/class.arFieldList.php');
 /**
  * Class arFieldCache
  *
- * @version 1.0.0
+ * @version 2.0.2
  *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  */

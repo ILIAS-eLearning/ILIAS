@@ -6,7 +6,9 @@ require_once('./Customizing/global/plugins/Libraries/ActiveRecord/class.ActiveRe
 /**
  * Class arStorage
  *
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author  Fabian Schmid <fs@studer-raimann.ch>
+ *
+ * @version 2.0.2
  */
 abstract class arStorage extends ActiveRecord {
 
@@ -31,7 +33,7 @@ abstract class arStorage extends ActiveRecord {
 		$method = self::_toCamelCase('get_' . $storage->getArFieldList()->getPrimaryFieldName());
 		$storage->setExternalModelForStorage($model);
 		$storage->{$storage->getArFieldList()->getPrimaryFieldName()} = $model->{$method}();
-		if($storage->{$storage->getArFieldList()->getPrimaryFieldName()}) {
+		if ($storage->{$storage->getArFieldList()->getPrimaryFieldName()}) {
 			$storage->read();
 		}
 		$storage->mapFromActiveRecord();

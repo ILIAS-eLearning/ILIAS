@@ -5,8 +5,9 @@ require_once(dirname(__FILE__) . '/../Exception/class.arException.php');
 /**
  * Class arConnectorDB
  *
- * @author Fabian Schmid <fs@studer-raimann.ch>
- * @author Timon Amstutz <timon.amstutz@ilub.unibe.ch>
+ * @author  Fabian Schmid <fs@studer-raimann.ch>
+ * @author  Timon Amstutz <timon.amstutz@ilub.unibe.ch>
+ * @version 2.0.2
  */
 class arConnectorDB extends arConnector {
 
@@ -73,7 +74,6 @@ class arConnectorDB extends arConnector {
 	 */
 	public function updateDatabase(ActiveRecord $ar) {
 		$ilDB = $this->returnDB();
-
 		foreach ($ar->getArFieldList()->getFields() as $field) {
 			if (! $ilDB->tableColumnExists($ar::returnDbTableName(), $field->getName())) {
 				$ilDB->addTableColumn($ar::returnDbTableName(), $field->getName(), $field->getAttributesForConnector());

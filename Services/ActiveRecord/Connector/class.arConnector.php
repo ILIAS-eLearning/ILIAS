@@ -3,9 +3,11 @@
 /**
  * Class arConnector
  *
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author  Fabian Schmid <fs@studer-raimann.ch>
  *
  * @description
+ *
+ * @version 2.0.2
  */
 abstract class arConnector {
 

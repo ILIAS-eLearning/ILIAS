@@ -8,7 +8,7 @@
  *
  * @description
  *
- * @version 1.0.14
+ * @version 2.0.2
  */
 class ActiveRecordList {
 
@@ -60,6 +60,10 @@ class ActiveRecordList {
 	 * @var bool
 	 */
 	protected $debug = false;
+	/**
+	 * @var null
+	 */
+	protected $date_format = NULL;
 	/**
 	 * @var string
 	 */
@@ -137,15 +141,32 @@ class ActiveRecordList {
 
 
 	/**
-	 * @param        $orderBy
-	 * @param string $orderDirection
+	 * @param        $order_by
+	 * @param string $order_direction
+	 *
+	 * @throws arException
+	 * @return $this
+	 */
+	public function orderBy($order_by, $order_direction = 'ASC') {
+		$this->loaded = false;
+		if (! $this->getAR()->fieldExists($order_by)) {
+			throw new arException('Field for order does not exist');
+		}
+		$this->order_direction = strtoupper($order_direction);
+		$this->order_by = $order_by;
+
+		return $this;
+	}
+
+
+	/**
+	 * @param string $date_format
 	 *
 	 * @return $this
 	 */
-	public function orderBy($orderBy, $orderDirection = 'ASC') {
+	public function dateFormat($date_format = 'd.m.Y - H:i:s') {
 		$this->loaded = false;
-		$this->order_by = $orderBy;
-		$this->order_direction = $orderDirection;
+		$this->setDateFormat($date_format);
 
 		return $this;
 	}
@@ -247,6 +268,22 @@ class ActiveRecordList {
 	 */
 	public function getEnd() {
 		return $this->end;
+	}
+
+
+	/**
+	 * @param null $date_format
+	 */
+	public function setDateFormat($date_format) {
+		$this->date_format = $date_format;
+	}
+
+
+	/**
+	 * @return null
+	 */
+	public function getDateFormat() {
+		return $this->date_format;
 	}
 
 
@@ -438,16 +475,18 @@ class ActiveRecordList {
 		} else {
 			$records = $this->connector->readSet($this);
 			foreach ($records as $res) {
-				/**
-				 * @var $obj ActiveRecord
-				 */
-				$obj = new $this->class();
-
+				$class = get_class($this->getAR());
+				$obj = new $class();
 				$primaryFieldName = $obj->getArFieldList()->getPrimaryFieldName();
 				$primary_field_value = $res[$primaryFieldName];
 				$this->result[$primary_field_value] = $obj->buildFromArray($res);
 				$res_awake = array();
 				foreach ($res as $key => $value) {
+					if ($obj->getArFieldList()->getFieldByName($key)->isDateField() AND $this->getDateFormat()) {
+						$res_awake[$key . '_unformatted'] = $value;
+						$res_awake[$key . '_unix'] = strtotime($value);
+						$value = date($this->getDateFormat(), strtotime($value));
+					}
 					if ($this->getAR()->wakeUp($key, $value)) {
 						$res_awake[$key] = $this->getAR()->wakeUp($key, $value);
 					} else {
@@ -455,7 +494,6 @@ class ActiveRecordList {
 					}
 				}
 				$this->result_array[$res_awake[$primaryFieldName]] = $res_awake;
-				// $this->result_array[$res[$primaryFieldName]] = $res;
 			}
 			$this->loaded = true;
 		}

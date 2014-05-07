@@ -5,7 +5,8 @@ require_once(dirname(__FILE__) . '/../Exception/class.arException.php');
 /**
  * Class arConnectorSession
  *
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author  Fabian Schmid <fs@studer-raimann.ch>
+ * @version 2.0.2
  */
 class arConnectorSession extends arConnector {
 

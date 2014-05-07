@@ -9,6 +9,7 @@ require_once('./Customizing/global/plugins/Libraries/ActiveRecord/Storage/int.ar
  *              uses arStorage for dynamic DB usage
  *
  * @author      Fabian Schmid <fs@studer-raimann.ch>
+ * @version     2.0.2
  */
 class arStorageRecord implements arStorageInterface {
 

@@ -3,7 +3,7 @@
 /**
  * Class arObjectCache
  *
- * @version 1.0.0
+ * @version 2.0.2
  *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  */
@@ -23,6 +23,9 @@ class arObjectCache {
 	 */
 	public static function isCached($class, $id) {
 		if (! isset(self::$cache[$class])) {
+			return false;
+		}
+		if (! self::$cache[$class][$id] instanceof ActiveRecord) {
 			return false;
 		}
 
