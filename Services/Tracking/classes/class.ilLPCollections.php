@@ -143,18 +143,33 @@ class ilLPCollections
 		global $ilDB;
 
 		// Add missing entries
-		$sql = "SELECT item_id FROM ut_lp_collections ".
+		$sql = "SELECT item_id,active FROM ut_lp_collections ".
 			"WHERE obj_id = ".$ilDB->quote($a_obj_id,'integer')." ".
 			"AND ".$ilDB->in('item_id', $a_item_ids, false, 'integer');
 		$res = $ilDB->query($sql);
 
-		$items_existing = array();
+		$items_existing = $remove_existing = array();
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$items_existing[] = $row->item_id;
+			if($row->active)
+			{
+				$items_existing[] = $row->item_id;
+			}
+			else
+			{
+				$remove_existing[] = $row->item_id;
+			}
 		}
-
-		$items_not_existing = array_diff($a_item_ids, $items_existing);
+		
+		// #13278 - because of grouping inactive items may exist
+		if(sizeof($remove_existing))
+		{
+			$ilDB->manipulate("DELETE FROM ut_lp_collections".
+				" WHERE obj_id = ".$ilDB->quote($a_obj_id,'integer').
+				" AND ".$ilDB->in("item_id", $remove_existing, "", "integer"));
+		}
+		
+		$items_not_existing = array_diff($a_item_ids, $items_existing);				
 		foreach($items_not_existing as $item)
 		{
 			$query = "INSERT INTO ut_lp_collections (obj_id,item_id,grouping_id,num_obligatory,active ) ".
