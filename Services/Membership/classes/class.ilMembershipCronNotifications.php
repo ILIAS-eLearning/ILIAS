@@ -153,6 +153,8 @@ class ilMembershipCronNotifications extends ilCronJob
 		$obj_title = $lng->txt($obj_type)." \"".ilObject::_lookupTitle($obj_id)."\"";		
 		$ntf->setIntroductionDirect(sprintf($lng->txt("crs_intro_course_group_notification_for"), $obj_title));
 		
+		$subject = sprintf($lng->txt("crs_subject_course_group_notification"), $obj_title);
+		
 		// news summary
 		$counter = 1;
 		$txt = "";
@@ -210,7 +212,7 @@ class ilMembershipCronNotifications extends ilCronJob
 		$mail->sendMail(ilObjUser::_lookupLogin($a_user_id), 
 			null, 
 			null,
-			sprintf($lng->txt("crs_subject_course_group_notification"), $obj_title), 
+			$subject, 
 			$ntf->composeAndGetMessage($a_user_id, null, "read", true), 
 			null, 
 			array("system"));
