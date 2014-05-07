@@ -143,7 +143,8 @@ class ilMembershipCronNotifications extends ilCronJob
 		include_once "./Services/Notification/classes/class.ilSystemNotification.php";
 		$ntf = new ilSystemNotification();		
 		$ntf->setLangModules(array("crs", "news"));
-		$ntf->setRefId($a_ref_id);				
+		$ntf->setRefId($a_ref_id);	
+		$ntf->setGotoLangId('url');
 		$ntf->setSubjectLangId('crs_subject_course_group_notification');
 		
 		// user specific language
@@ -154,6 +155,7 @@ class ilMembershipCronNotifications extends ilCronJob
 		
 		// news summary
 		$counter = 1;
+		$txt = "";
 		foreach($news as $item)
 		{
 			$title = ilNewsItem::determineNewsTitle($item["context_obj_type"],
@@ -185,8 +187,7 @@ class ilMembershipCronNotifications extends ilCronJob
 			}
 			require_once "./Services/UICore/classes/class.ilTemplate.php";			
 			$loc = "[".$cont_loc->getHTML()."]";
-			
-			$txt = "";
+						
 			if($counter > 1)
 			{
 				$txt .= $ntf->getBlockBorder();
