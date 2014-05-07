@@ -2540,7 +2540,7 @@ class ilMail
 		$lang->loadLanguageModule('mail');
 		return sprintf($lang->txt('mail_auto_generated_info'),
 			$ilSetting->get('inst_name','ILIAS 4'),
-			$http_path."\n\n");
+			$http_path)."\n\n";
 	}
 
 	/**
