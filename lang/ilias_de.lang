@@ -802,6 +802,9 @@ assessment#:#qpl_paste_error#:#Mindestens eine Frage konnto nicht in den Fragenp
 assessment#:#qpl_question_is_in_use#:#Die Frage, die Sie jetzt bearbeiten möchten, existiert bereits in %s Test(s). Wenn Sie diese Frage jetzt verändern, so hat das KEINE Auswirkungen auf bereits in Tests eingebundene Fragen, da das System automatisch eine Kopie der Frage anlegt, wenn diese in einen Test eingebunden wird!
 assessment#:#qpl_questions_deleted#:#Frage(n) gelöscht
 assessment#:#qpl_select_file_for_import#:#Sie müssen eine Datei zum Importieren auswählen!
+assessment#:#qpl_qst_inp_matching_mode#:#Zuordnungs Modus
+assessment#:#qpl_qst_inp_matching_mode_one_on_one#:#Ein Term kann einer Definition zugeordnet werden
+assessment#:#qpl_qst_inp_matching_mode_all_on_all#:#Ein oder mehrere Terme können einer oder mehreren Definitionen zugeordnet werden
 assessment#:#qst_hint_self#:#Selbstlernkontrolle aktiv! Geben Sie 0 Punkte für falsche und mindestens einen Punkt für richtige Antworten.
 assessment#:#qst_nr_of_tries#:#Anzahl der Versuche
 assessment#:#qt_multiple_choice#:#Multiple Choice
@@ -1409,6 +1412,13 @@ assessment#:#test_scoring#:#Bewertungsoptionen
 assessment#:#test_presentation#:#Ausgabeoptionen
 assessment#:#test_results#:#Ergebnisausgabeoptionen
 assessment#:#misc#:#Verschiedene Optionen
+assessment#:#tst_back_to_top#:#Zurück nach oben
+assessment#:#tst_answer_details#:#Antwort Details
+assessment#:#tst_list_answer_details#:#Zeige in Liste unterhalb
+assessment#:#tst_single_answer_details#:#Zeige einzelne Antwort
+assessment#:#tst_pass_details_overview_table_title#:#Detaillierte Testergebnisse für Testdurchlauf %s
+assessment#:#tst_btn_show_best_solutions#:#Zeige bestmögliche Lösungen
+assessment#:#tst_btn_hide_best_solutions#:#Verstecke bestmögliche Lösungen
 assessment#:#saved_adjustment#:#Veränderung gespeichert.
 assessment#:#sign_submission#:#Digitale Signatur von Testabgaben
 assessment#:#sign_submission_info#:#Wenn diese Option aktiviert wurde und ein Signatur-Plugin installiert und aktiviert ist, werden Teilnehmer aufgefordert ihre Testabgabe zu signieren.

@@ -453,6 +453,13 @@ div.ilTestOutputBlock_DynTestFinished
 	padding: 100px;
 }
 
+a.il_question_answer_list_back_anchor
+{
+    float:right;
+    font-size:0.7em;
+    margin-right:3px;
+}
+
 
 .ilCenterForced {
 	text-align: center !important;

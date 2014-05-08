@@ -1,56 +1,96 @@
 <div>{QUESTIONTEXT}</div>
-<h2>{TEXT_TERMS}</h2>
-<!-- BEGIN terms -->
-<!-- BEGIN term_text -->
-<div class="term">{TERM}</div>
-<!-- END term_text -->		
-<!-- BEGIN term_image -->
-<div class="term">
-	<table class="ilc_media_cont_MediaContainer">
-		<tr>
-			<td class="ilc_Mob"><img border="0" src="{ANSWER_IMAGE_URL}" alt="{ANSWER_IMAGE_ALT}" title="{ANSWER_IMAGE_TITLE}" /></td>
-		</tr>
-		<tr>
-			<td>
-				<div class="ilc_media_caption_MediaCaption"><a target="_blank" href="{URL_PREVIEW}" title="{TEXT_PREVIEW}">{TEXT_TERM} <img border="0" align="right" src="{IMG_PREVIEW}"/></a></div>
-			</td>
-		</tr>
-	</table>
+
+<div style="text-align: right; margin: 0 0 1em 0;">
+	<input id="ilMatchingResetButton" type="button" class="submit" name="reset" value="{RESET_BUTTON}">
 </div>
-<!-- END term_image -->		
-<!-- END terms -->
-<div style="clear: both;"></div>
-<h2>{TEXT_SELECTION}</h2>
-<table class="nobackground" style="width: 100%;">
-<!-- BEGIN row -->
+
+<table style="width: 100%; overflow: auto;" id="ilMatchingQuestionContainer_{QUESTION_ID}">
 	<tr>
-		<td class="matching"{ELEMENT_HEIGHT}>
-<!-- BEGIN definition_text -->
-			<div class="definition">{DEFINITION}</div>
-<!-- END definition_text -->		
-<!-- BEGIN definition_image -->
-			<div class="definition">
-				<table class="ilc_media_cont_MediaContainer">
-					<tr>
-						<td class="ilc_Mob"><img border="0" src="{ANSWER_IMAGE_URL}" alt="{ANSWER_IMAGE_ALT}" title="{ANSWER_IMAGE_TITLE}" /></td>
-					</tr>
-					<tr>
-						<td>
-							<div class="ilc_media_caption_MediaCaption"><a target="_blank" href="{URL_PREVIEW}" title="{TEXT_PREVIEW}">{TEXT_DEFINITION} <img border="0" align="right" src="{IMG_PREVIEW}"/></a></div>
-						</td>
-					</tr>
-				</table>
+		<td id="targetArea" style="width: 66%; vertical-align: top;">
+			<!-- BEGIN droparea -->
+			<div class="droparea" id="definition_{ID_DROPAREA}" data-id="{ID_DROPAREA}" data-type="definition">
+			<table style="width: 100%;">
+				<tr>
+					<td class="ilMatchingQuestionDefinition">
+						<!-- BEGIN definition_text -->
+						{DEFINITION}
+						<!-- END definition_text -->
+						<!-- BEGIN definition_picture -->
+						<table class="ilc_media_cont_MediaContainer">
+							<tr>
+								<td class="ilc_Mob"><img border="0" src="{THUMBNAIL_HREF}" alt="{THUMB_ALT}" title="{THUMB_TITLE}" /></td>
+							</tr>
+							<tr>
+								<td>
+									<div class="ilc_media_caption_MediaCaption"><a target="_blank" href="{IMAGE_HREF}" title="{TEXT_PREVIEW}">{TEXT_DEFINITION} <img border="0" align="right" src="{IMG_PREVIEW}"/></a></div>
+								</td>
+							</tr>
+						</table>
+						<!-- END definition_picture -->
+					</td>
+					<td class="ilMatchingQuestionTerm">
+					</td>
+				</tr>
+			</table>
 			</div>
-<!-- END definition_image -->		
+			<!-- END droparea -->
 		</td>
-		<td class="matching">{TEXT_MATCHES}</td>
-		<td class="matching">
-			<select name="matching[{QUESTION_ID}][{DEFINITION_ID}]">
-<!-- BEGIN option -->
-				<option value="{VALUE_OPTION}"{SELECTED_OPTION}>{TEXT_OPTION}</option>
-<!-- END option -->
-			</select>
+		<td id="sourceArea" style="width: 33%; vertical-align: top;">
+			<!-- BEGIN draggable -->
+			<div class="draggable" id="term_{ID_DRAGGABLE}" data-id="{ID_DRAGGABLE}" data-type="term">
+			<!-- BEGIN term_text -->
+			{TERM_TEXT}
+			<!-- END term_text -->
+			<!-- BEGIN term_picture -->
+			<table class="ilc_media_cont_MediaContainer">
+				<tr>
+					<td class="ilc_Mob"><img border="0" src="{THUMBNAIL_HREF}" alt="{THUMB_ALT}" title="{THUMB_TITLE}" /></td>
+				</tr>
+				<tr>
+					<td>
+						<div class="ilc_media_caption_MediaCaption"><a target="_blank" href="{IMAGE_HREF}" title="{TEXT_PREVIEW}">{TEXT_TERM} <img border="0" align="right" src="{IMG_PREVIEW}"/></a></div>
+					</td>
+				</tr>
+			</table>
+			<!-- END term_picture -->
+			</div>
+			<!-- END draggable -->
 		</td>
 	</tr>
-<!-- END row -->
 </table>
+
+<script type="text/javascript">
+	(function($){
+
+		$(document).ready(
+			function()
+			{
+				var question = $.fn.ilMatchingQuestionEngine({
+					/* matchingContainer: '#ilMatchingQuestionContainer_{QUESTION_ID}', */
+					matchingContainer: 'body',
+					matchingMode: '{MATCHING_MODE}',
+					resetButtonId: '#ilMatchingResetButton'
+				});
+
+				question.setQuestionId({QUESTION_ID});
+
+				<!-- BEGIN definition_data -->
+				question.addDefinition('{DEFINITION_ID}');
+				<!-- END definition_data -->
+
+				<!-- BEGIN term_data -->
+				question.addTerm('{TERM_ID}');
+				<!-- END term_data -->
+
+				<!-- BEGIN matching_data -->
+				question.addMatching('{DEFINITION_ID}', '{TERM_ID}');
+				<!-- END matching_data -->
+
+				question.init();
+			}
+		);
+
+		$(document).find('body').css('overflow', 'auto');
+
+	}(jQuery));
+</script>

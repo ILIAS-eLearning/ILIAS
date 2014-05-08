@@ -73,8 +73,8 @@ class assMatchingQuestionExport extends assQuestionExport
 		$a_xml_writer->xmlElement("fieldentry", NULL, $this->object->getThumbGeometry());
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
-		$a_xml_writer->xmlElement("fieldlabel", NULL, "element_height");
-		$a_xml_writer->xmlElement("fieldentry", NULL, $this->object->getElementHeight());
+		$a_xml_writer->xmlElement("fieldlabel", NULL, 'matching_mode');
+		$a_xml_writer->xmlElement("fieldentry", NULL, $this->object->getMatchingMode());
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
 		$a_xml_writer->xmlEndTag("qtimetadata");
 		$a_xml_writer->xmlEndTag("itemmetadata");

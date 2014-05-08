@@ -227,8 +227,16 @@ class assMatchingQuestionImport extends assQuestionImport
 		$this->object->setEstimatedWorkingTime($duration["h"], $duration["m"], $duration["s"]);
 		$extended_shuffle = $item->getMetadataEntry("shuffle");
 		$this->object->setThumbGeometry($item->getMetadataEntry("thumb_geometry"));
-		$this->object->setElementHeight($item->getMetadataEntry("element_height"));
-		
+
+		if( strlen($item->getMetadataEntry('matching_mode')) )
+		{
+			$this->object->setMatchingMode($item->getMetadataEntry('matching_mode'));
+		}
+		else
+		{
+			$this->object->setMatchingMode(assMatchingQuestion::MATCHING_MODE_1_ON_1);
+		}
+
 		// save images
 		foreach ($terms as $term)
 		{

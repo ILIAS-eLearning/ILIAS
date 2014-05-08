@@ -148,7 +148,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			$this->object->setShuffle( 1 );
 		}
 		$this->object->setThumbGeometry( $_POST["thumb_geometry"] );
-		$this->object->setElementHeight( $_POST["element_height"] );
+		$this->object->setMatchingMode($_POST['matching_mode']);
 	}
 
 	public function uploadterms()
@@ -321,6 +321,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		}
 		$pairs->setPairs( $this->object->getMatchingPairs() );
 		$form->addItem( $pairs );
+
 		return $form;
 	}
 
@@ -346,15 +347,6 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			$shuffle->setRequired( FALSE );
 			$form->addItem( $shuffle );
 
-			$element_height = new ilNumberInputGUI($this->lng->txt( "element_height" ), "element_height");
-			$element_height->setValue( $this->object->getElementHeight() );
-			$element_height->setRequired( false );
-			$element_height->setMaxLength( 6 );
-			$element_height->setMinValue( 20 );
-			$element_height->setSize( 6 );
-			$element_height->setInfo( $this->lng->txt( "element_height_info" ) );
-			$form->addItem( $element_height );
-
 			$geometry = new ilNumberInputGUI($this->lng->txt( "thumb_geometry" ), "thumb_geometry");
 			$geometry->setValue( $this->object->getThumbGeometry() );
 			$geometry->setRequired( true );
@@ -364,6 +356,24 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			$geometry->setInfo( $this->lng->txt( "thumb_geometry_info" ) );
 			$form->addItem( $geometry );
 		}
+
+		// Matching Mode
+		$mode = new ilRadioGroupInputGUI($this->lng->txt('qpl_qst_inp_matching_mode'), 'matching_mode');
+		$mode->setRequired(true);
+		
+		$modeONEonONE = new ilRadioOption(
+			$this->lng->txt('qpl_qst_inp_matching_mode_one_on_one'), assMatchingQuestion::MATCHING_MODE_1_ON_1
+		);
+		$mode->addOption($modeONEonONE);
+
+		$modeALLonALL = new ilRadioOption(
+			$this->lng->txt('qpl_qst_inp_matching_mode_all_on_all'), assMatchingQuestion::MATCHING_MODE_N_ON_N
+		);
+		$mode->addOption($modeALLonALL);
+
+		$mode->setValue($this->object->getMatchingMode());
+
+		$form->addItem($mode);
 	}
 
 	function outQuestionForTest($formaction, $active_id, $pass = NULL, $is_postponed = FALSE, $user_post_solution = FALSE)
@@ -412,13 +422,8 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		}
 		else
 		{
-			foreach ($this->object->getMatchingPairs() as $pair)
+			foreach ($this->object->getMaximumScoringMatchingPairs() as $pair)
 			{
-				if( $pair->points <= 0 )
-				{
-					continue;
-				}
-				
 				$solutions[] = array(
 					"value1" => $pair->term->identifier,
 					"value2" => $pair->definition->identifier,
@@ -513,10 +518,6 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			}
 
 			$template->setCurrentBlock("row");
-			if ($this->object->getEstimatedElementHeight() > 0)
-			{
-				$template->setVariable("ELEMENT_HEIGHT", " style=\"height: " . $this->object->getEstimatedElementHeight() . "px;\"");
-			}
 			$template->setVariable("TEXT_MATCHES", $this->lng->txt("matches"));
 			$template->parseCurrentBlock();
 		}
@@ -551,42 +552,14 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		return $solutionoutput;
 	}
 
-	public function getPreviewJS($show_question_only = FALSE)
+	public function getPreview($show_question_only = FALSE)
 	{
-		global $ilUser;
-		
-		// generate the question output
-		include_once "./Services/UICore/classes/class.ilTemplate.php";
-		$template = new ilTemplate("tpl.il_as_qpl_matching_output_js.html", TRUE, TRUE, "Modules/TestQuestionPool");
+		$this->tpl->addJavaScript('Modules/TestQuestionPool/js/jquery-ui-1-10-3-fixed.js');
+		$this->tpl->addJavaScript('Modules/TestQuestionPool/js/ilMatchingQuestion.js');
+		$this->tpl->addCss(ilUtil::getStyleSheetLocation('output', 'test_javascript.css', 'Modules/TestQuestionPool'));
 
-		$jsswitch = "";
-		if (strcmp($this->ctrl->getCmd(), 'preview') == 0)
-		{
-			if (array_key_exists('js', $_GET))
-			{
-				$ilUser->writePref('tst_javascript', $_GET['js']);
-			}
-			$jstemplate = new ilTemplate("tpl.il_as_qpl_javascript_switch.html", TRUE, TRUE, "Modules/TestQuestionPool");
-			if ($ilUser->getPref("tst_javascript") == 1)
-			{
-				$jstemplate->setVariable("JAVASCRIPT_IMAGE", ilUtil::getImagePath("javascript_disable.png"));
-				$jstemplate->setVariable("JAVASCRIPT_IMAGE_ALT", $this->lng->txt("disable_javascript"));
-				$jstemplate->setVariable("JAVASCRIPT_IMAGE_TITLE", $this->lng->txt("disable_javascript"));
-				$this->ctrl->setParameterByClass($this->ctrl->getCmdClass(), "js", "0");
-				$jstemplate->setVariable("JAVASCRIPT_URL", $this->ctrl->getLinkTargetByClass($this->ctrl->getCmdClass(), $this->ctrl->getCmd()));
-			}
-			else
-			{
-				$jstemplate->setVariable("JAVASCRIPT_IMAGE", ilUtil::getImagePath("javascript.png"));
-				$jstemplate->setVariable("JAVASCRIPT_IMAGE_ALT", $this->lng->txt("enable_javascript"));
-				$jstemplate->setVariable("JAVASCRIPT_IMAGE_TITLE", $this->lng->txt("enable_javascript"));
-				$this->ctrl->setParameterByClass($this->ctrl->getCmdClass(), "js", "1");
-				$jstemplate->setVariable("JAVASCRIPT_URL", $this->ctrl->getLinkTargetByClass($this->ctrl->getCmdClass(), $this->ctrl->getCmd()));
-			}
-			$jsswitch = $jstemplate->get();
-			if ($ilUser->getPref('tst_javascript')) $this->object->setOutputType(OUTPUT_JAVASCRIPT);
-		}
-		
+		$template = new ilTemplate("tpl.il_as_qpl_matching_output.html", TRUE, TRUE, "Modules/TestQuestionPool");
+
 		// shuffle output
 		$terms = $this->object->getTerms();
 		$definitions = $this->object->getDefinitions();
@@ -603,9 +576,6 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 				$definitions = $this->object->pcArrayShuffle($definitions);
 				break;
 		}
-
-		include_once "./Services/YUI/classes/class.ilYuiUtil.php";
-		ilYuiUtil::initDragDrop();
 
 		// create definitions
 		$counter = 0;
@@ -637,18 +607,12 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			$template->setCurrentBlock("droparea");
 			$template->setVariable("ID_DROPAREA", $definition->identifier);
 			$template->setVariable("QUESTION_ID", $this->object->getId());
-			if ($this->object->getEstimatedElementHeight() > 0)
-			{
-				$template->setVariable("ELEMENT_HEIGHT", " style=\"height: " . $this->object->getEstimatedElementHeight() . "px;\"");
-			}
 			$template->parseCurrentBlock();
 
-			$template->setCurrentBlock("init_dropareas");
-			$template->setVariable("COUNTER", $counter++);
-			$template->setVariable("ID_DROPAREA", $definition->identifier);
+			$template->setCurrentBlock("definition_data");
+			$template->setVariable("DEFINITION_ID", $definition->identifier);
 			$template->parseCurrentBlock();
 		}
-
 
 		// create terms
 		$counter = 0;
@@ -678,171 +642,27 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			}
 			$template->setCurrentBlock("draggable");
 			$template->setVariable("ID_DRAGGABLE", $term->identifier);
-			if ($this->object->getEstimatedElementHeight() > 0)
-			{
-				$template->setVariable("ELEMENT_HEIGHT", " style=\"height: " . $this->object->getEstimatedElementHeight() . "px;\"");
-			}
 			$template->parseCurrentBlock();
 
-			$template->setCurrentBlock("init_draggables");
-			$template->setVariable("COUNTER", $counter++);
-			$template->setVariable("ID_DRAGGABLE", $term->identifier);
+			$template->setCurrentBlock("term_data");
+			$template->setVariable("TERM_ID", $term->identifier);
 			$template->parseCurrentBlock();
 		}
+
+		$template->setVariable('MATCHING_MODE', $this->object->getMatchingMode());
 
 		$template->setVariable("RESET_BUTTON", $this->lng->txt("reset_terms"));
 
-		$this->tpl->setVariable("LOCATION_ADDITIONAL_STYLESHEET", ilUtil::getStyleSheetLocation("output", "test_javascript.css", "Modules/TestQuestionPool"));
+		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->getQuestion(), TRUE));
 
-		$questiontext = $this->object->getQuestion();
-		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
-		$questionoutput = $jsswitch . $template->get();
+		$questionoutput = $template->get();
+
 		if (!$show_question_only)
 		{
 			// get page object output
 			$questionoutput = $this->getILIASPage($questionoutput);
 		}
-		return $questionoutput;
-	}
-	
-	public function getPreview($show_question_only = FALSE)
-	{
-		global $ilUser;
-		
-		// generate the question output
-		include_once "./Services/UICore/classes/class.ilTemplate.php";
-		$template = new ilTemplate("tpl.il_as_qpl_matching_output.html", TRUE, TRUE, "Modules/TestQuestionPool");
 
-		$jsswitch = "";
-		if (strcmp($this->ctrl->getCmd(), 'preview') == 0)
-		{
-			if (array_key_exists('js', $_GET))
-			{
-				$ilUser->writePref('tst_javascript', $_GET['js']);
-			}
-			$jstemplate = new ilTemplate("tpl.il_as_qpl_javascript_switch.html", TRUE, TRUE, "Modules/TestQuestionPool");
-			if ($ilUser->getPref("tst_javascript") == 1)
-			{
-				$jstemplate->setVariable("JAVASCRIPT_IMAGE", ilUtil::getImagePath("javascript_disable.png"));
-				$jstemplate->setVariable("JAVASCRIPT_IMAGE_ALT", $this->lng->txt("disable_javascript"));
-				$jstemplate->setVariable("JAVASCRIPT_IMAGE_TITLE", $this->lng->txt("disable_javascript"));
-				$this->ctrl->setParameterByClass($this->ctrl->getCmdClass(), "js", "0");
-				$jstemplate->setVariable("JAVASCRIPT_URL", $this->ctrl->getLinkTargetByClass($this->ctrl->getCmdClass(), $this->ctrl->getCmd()));
-			}
-			else
-			{
-				$jstemplate->setVariable("JAVASCRIPT_IMAGE", ilUtil::getImagePath("javascript.png"));
-				$jstemplate->setVariable("JAVASCRIPT_IMAGE_ALT", $this->lng->txt("enable_javascript"));
-				$jstemplate->setVariable("JAVASCRIPT_IMAGE_TITLE", $this->lng->txt("enable_javascript"));
-				$this->ctrl->setParameterByClass($this->ctrl->getCmdClass(), "js", "1");
-				$jstemplate->setVariable("JAVASCRIPT_URL", $this->ctrl->getLinkTargetByClass($this->ctrl->getCmdClass(), $this->ctrl->getCmd()));
-			}
-			$jsswitch = $jstemplate->get();
-			if ($ilUser->getPref('tst_javascript')) $this->object->setOutputType(OUTPUT_JAVASCRIPT);
-		}
-		
-		if ($this->object->getOutputType() == OUTPUT_JAVASCRIPT)
-		{
-			return $this->getPreviewJS($show_question_only);
-		}
-		
-		// shuffle output
-		$terms = $this->object->getTerms();
-		$definitions = $this->object->getDefinitions();
-		switch ($this->object->getShuffle())
-		{
-			case 1:
-				$terms = $this->object->pcArrayShuffle($terms);
-				$definitions = $this->object->pcArrayShuffle($definitions);
-				break;
-			case 2:
-				$terms = $this->object->pcArrayShuffle($terms);
-				break;
-			case 3:
-				$definitions = $this->object->pcArrayShuffle($definitions);
-				break;
-		}
-
-		foreach ($definitions as $key => $definition)
-		{
-			if (is_object($definition))
-			{
-				if (strlen($definition->picture))
-				{
-					$template->setCurrentBlock('definition_image');
-					$template->setVariable('ANSWER_IMAGE_URL', $this->object->getImagePathWeb() . $this->object->getThumbPrefix() . $definition->picture);
-					$template->setVariable('ANSWER_IMAGE_ALT', (strlen($definition->text)) ? ilUtil::prepareFormOutput($definition->text) : ilUtil::prepareFormOutput($definition->picture));
-					$template->setVariable('ANSWER_IMAGE_TITLE', (strlen($definition->text)) ? ilUtil::prepareFormOutput($definition->text) : ilUtil::prepareFormOutput($definition->picture));
-					$template->setVariable('URL_PREVIEW', $this->object->getImagePathWeb() . $definition->picture);
-					$template->setVariable("TEXT_PREVIEW", $this->lng->txt('preview'));
-					$template->setVariable("IMG_PREVIEW", ilUtil::getImagePath('enlarge.png'));
-					$template->setVariable("TEXT_DEFINITION", (strlen($definition->text)) ? $this->lng->txt('definition') . ' ' . ($key+1) . ': ' . $this->object->prepareTextareaOutput($definition->text, TRUE) : $this->lng->txt('definition') . ' ' . ($key+1));
-					$template->parseCurrentBlock();
-				}
-				else
-				{
-					$template->setCurrentBlock('definition_text');
-					$template->setVariable("DEFINITION", $this->object->prepareTextareaOutput($definition->text, TRUE));
-					$template->parseCurrentBlock();
-				}
-			}
-
-			$template->setCurrentBlock('option');
-			$template->setVariable("VALUE_OPTION", 0);
-			$template->setVariable("TEXT_OPTION", ilUtil::prepareFormOutput($this->lng->txt('please_select')));
-			$template->parseCurrentBlock();
-			foreach ($terms as $key => $term)
-			{
-				$template->setCurrentBlock('option');
-				$template->setVariable("VALUE_OPTION", $term->identifier);
-				$template->setVariable("TEXT_OPTION", (strlen($term->text)) ? $this->lng->txt('term') . ' ' . ($key +1) . ': ' . ilUtil::prepareFormOutput($term->text) : $this->lng->txt('term') . ' ' . ($key+1));
-				$template->parseCurrentBlock();
-			}
-			
-			$template->setCurrentBlock('row');
-			$template->setVariable("TEXT_MATCHES", $this->lng->txt("matches"));
-			if ($this->object->getEstimatedElementHeight() > 0)
-			{
-				$template->setVariable("ELEMENT_HEIGHT", " style=\"height: " . $this->object->getEstimatedElementHeight() . "px;\"");
-			}
-			$template->setVariable("QUESTION_ID", $this->object->getId());
-			$template->setVariable("DEFINITION_ID", $definition->identifier);
-			$template->parseCurrentBlock();
-		}
-
-		foreach ($terms as $key => $term)
-		{
-			if (strlen($term->picture))
-			{
-				$template->setCurrentBlock('term_image');
-				$template->setVariable('ANSWER_IMAGE_URL', $this->object->getImagePathWeb() . $this->object->getThumbPrefix() . $term->picture);
-				$template->setVariable('ANSWER_IMAGE_ALT', (strlen($term->text)) ? ilUtil::prepareFormOutput($term->text) : ilUtil::prepareFormOutput($term->picture));
-				$template->setVariable('ANSWER_IMAGE_TITLE', (strlen($term->text)) ? ilUtil::prepareFormOutput($term->text) : ilUtil::prepareFormOutput($term->picture));
-				$template->setVariable('URL_PREVIEW', $this->object->getImagePathWeb() . $term->picture);
-				$template->setVariable("TEXT_PREVIEW", $this->lng->txt('preview'));
-				$template->setVariable("TEXT_TERM", (strlen($term->text)) ? $this->lng->txt('term') . ' ' . ($key+1) . ': ' . $this->object->prepareTextareaOutput($term->text, TRUE) : $this->lng->txt('term') . ' ' . ($key+1));
-				$template->setVariable("IMG_PREVIEW", ilUtil::getImagePath('enlarge.png'));
-				$template->parseCurrentBlock();
-			}
-			else
-			{
-				$template->setCurrentBlock('term_text');
-				$template->setVariable("TERM", $this->object->prepareTextareaOutput($term->text, TRUE));
-				$template->parseCurrentBlock();
-			}
-			$template->touchBlock('terms');
-		}
-
-		$questiontext = $this->object->getQuestion();
-		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
-		$template->setVariable("TEXT_TERMS", ilUtil::prepareFormOutput($this->lng->txt('available_terms')));
-		$template->setVariable('TEXT_SELECTION', ilUtil::prepareFormOutput($this->lng->txt('selection')));
-		$questionoutput = $jsswitch . $template->get();
-		if (!$show_question_only)
-		{
-			// get page object output
-			$questionoutput = $this->getILIASPage($questionoutput);
-		}
 		return $questionoutput;
 	}
 
@@ -857,11 +677,13 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		return $neworder;
 	}
 
-	function getTestOutputJS($active_id, $pass = NULL, $is_postponed = FALSE, $user_post_solution = FALSE)
+	function getTestOutput($active_id, $pass = NULL, $is_postponed = FALSE, $user_post_solution = FALSE)
 	{
-		// generate the question output
-		include_once "./Services/UICore/classes/class.ilTemplate.php";
-		$template = new ilTemplate("tpl.il_as_qpl_matching_output_js.html", TRUE, TRUE, "Modules/TestQuestionPool");
+		$this->tpl->addJavaScript('Modules/TestQuestionPool/js/jquery-ui-1-10-3-fixed.js');
+		$this->tpl->addJavaScript('Modules/TestQuestionPool/js/ilMatchingQuestion.js');
+		$this->tpl->addCss(ilUtil::getStyleSheetLocation('output', 'test_javascript.css', 'Modules/TestQuestionPool'));
+
+		$template = new ilTemplate("tpl.il_as_qpl_matching_output.html", true, true, "Modules/TestQuestionPool");
 
 		if ($active_id)
 		{
@@ -871,8 +693,8 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			{
 				if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
 			}
-			if (is_array($user_post_solution)) 
-			{ 
+			if (is_array($user_post_solution))
+			{
 				$solutions = array();
 				foreach ($user_post_solution['matching'][$this->object->getId()] as $definition => $term)
 				{
@@ -880,26 +702,25 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 				}
 			}
 			else
-			{ 
+			{
 				$solutions =& $this->object->getSolutionValues($active_id, $pass);
 			}
 
+			$counter = 0;
 			foreach ($solutions as $idx => $solution_value)
 			{
-				if ($this->object->getOutputType() == OUTPUT_JAVASCRIPT)
+				if (($solution_value["value2"] > -1) && ($solution_value["value1"] > -1))
 				{
-					if (($solution_value["value2"] > -1) && ($solution_value["value1"] > -1))
-					{
-						$template->setCurrentBlock("restoreposition");
-						$template->setVariable("TERM_ID", $solution_value["value1"]);
-						$template->setVariable("PICTURE_DEFINITION_ID", $solution_value["value2"]);
-						$template->parseCurrentBlock();
-					}
+					$template->setCurrentBlock("matching_data");
+					$template->setVariable("TERM_ID", $solution_value["value1"]);
+					$template->setVariable("DEFINITION_ID", $solution_value["value2"]);
+					$template->parseCurrentBlock();
 				}
+
+				$counter++;
 			}
 		}
 
-		// shuffle output
 		$terms = $this->object->getTerms();
 		$definitions = $this->object->getDefinitions();
 		switch ($this->object->getShuffle())
@@ -929,9 +750,6 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 				}
 				break;
 		}
-
-		include_once "./Services/YUI/classes/class.ilYuiUtil.php";
-		ilYuiUtil::initDragDrop();
 
 		// create definitions
 		$counter = 0;
@@ -963,18 +781,12 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			$template->setCurrentBlock("droparea");
 			$template->setVariable("ID_DROPAREA", $definition->identifier);
 			$template->setVariable("QUESTION_ID", $this->object->getId());
-			if ($this->object->getEstimatedElementHeight() > 0)
-			{
-				$template->setVariable("ELEMENT_HEIGHT", " style=\"height: " . $this->object->getEstimatedElementHeight() . "px;\"");
-			}
 			$template->parseCurrentBlock();
 
-			$template->setCurrentBlock("init_dropareas");
-			$template->setVariable("COUNTER", $counter++);
-			$template->setVariable("ID_DROPAREA", $definition->identifier);
+			$template->setCurrentBlock("definition_data");
+			$template->setVariable("DEFINITION_ID", $definition->identifier);
 			$template->parseCurrentBlock();
 		}
-
 
 		// create terms
 		$counter = 0;
@@ -1004,180 +816,20 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			}
 			$template->setCurrentBlock("draggable");
 			$template->setVariable("ID_DRAGGABLE", $term->identifier);
-			if ($this->object->getEstimatedElementHeight() > 0)
-			{
-				$template->setVariable("ELEMENT_HEIGHT", " style=\"height: " . $this->object->getEstimatedElementHeight() . "px;\"");
-			}
 			$template->parseCurrentBlock();
 
-			$template->setCurrentBlock("init_draggables");
-			$template->setVariable("COUNTER", $counter++);
-			$template->setVariable("ID_DRAGGABLE", $term->identifier);
+			$template->setCurrentBlock('term_data');
+			$template->setVariable('TERM_ID', $term->identifier);
 			$template->parseCurrentBlock();
 		}
+
+		$template->setVariable('MATCHING_MODE', $this->object->getMatchingMode());
 
 		$template->setVariable("RESET_BUTTON", $this->lng->txt("reset_terms"));
 
-		$this->tpl->setVariable("LOCATION_ADDITIONAL_STYLESHEET", ilUtil::getStyleSheetLocation("output", "test_javascript.css", "Modules/TestQuestionPool"));
+		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->getQuestion(), TRUE));
 
-		$questiontext = $this->object->getQuestion();
-		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
-		$questionoutput = $template->get();
-		$pageoutput = $this->outQuestionPage("", $is_postponed, $active_id, $questionoutput);
-		return $pageoutput;
-	}
-
-	function getTestOutput($active_id, $pass = NULL, $is_postponed = FALSE, $user_post_solution = FALSE)
-	{
-		if ($this->object->getOutputType() == OUTPUT_JAVASCRIPT)
-		{
-			return $this->getTestOutputJS($active_id, $pass, $is_postponed, $user_post_solution);
-		}
-		// generate the question output
-		include_once "./Services/UICore/classes/class.ilTemplate.php";
-		$template = new ilTemplate("tpl.il_as_qpl_matching_output.html", TRUE, TRUE, "Modules/TestQuestionPool");
-		
-		if ($active_id)
-		{
-			$solutions = NULL;
-			include_once "./Modules/Test/classes/class.ilObjTest.php";
-			if (!ilObjTest::_getUsePreviousAnswers($active_id, true))
-			{
-				if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
-			}
-			if (is_array($user_post_solution)) 
-			{ 
-				$solutions = array();
-				foreach ($user_post_solution['matching'][$this->object->getId()] as $definition => $term)
-				{
-					array_push($solutions, array("value1" => $term, "value2" => $definition));
-				}
-			}
-			else
-			{ 
-				$solutions =& $this->object->getSolutionValues($active_id, $pass);
-			}
-		}
-
-		
-		// shuffle output
-		$terms = $this->object->getTerms();
-		$definitions = $this->object->getDefinitions();
-		switch ($this->object->getShuffle())
-		{
-			case 1:
-				$terms = $this->object->pcArrayShuffle($terms);
-				if (count($solutions))
-				{
-					$definitions = $this->sortDefinitionsBySolution($solutions);
-				}
-				else
-				{
-					$definitions = $this->object->pcArrayShuffle($definitions);
-				}
-				break;
-			case 2:
-				$terms = $this->object->pcArrayShuffle($terms);
-				break;
-			case 3:
-				if (count($solutions))
-				{
-					$definitions = $this->sortDefinitionsBySolution($solutions);
-				}
-				else
-				{
-					$definitions = $this->object->pcArrayShuffle($definitions);
-				}
-				break;
-		}
-		$maxcount = max(count($terms), count($definitions));
-		foreach ($definitions as $key => $definition)
-		{
-			if (is_object($definition))
-			{
-				if (strlen($definition->picture))
-				{
-					$template->setCurrentBlock('definition_image');
-					$template->setVariable('ANSWER_IMAGE_URL', $this->object->getImagePathWeb() . $this->object->getThumbPrefix() . $definition->picture);
-					$template->setVariable('ANSWER_IMAGE_ALT', (strlen($definition->text)) ? ilUtil::prepareFormOutput($definition->text) : ilUtil::prepareFormOutput($definition->picture));
-					$template->setVariable('ANSWER_IMAGE_TITLE', (strlen($definition->text)) ? ilUtil::prepareFormOutput($definition->text) : ilUtil::prepareFormOutput($definition->picture));
-					$template->setVariable('URL_PREVIEW', $this->object->getImagePathWeb() . $definition->picture);
-					$template->setVariable("TEXT_PREVIEW", $this->lng->txt('preview'));
-					$template->setVariable("IMG_PREVIEW", ilUtil::getImagePath('enlarge.png'));
-					$template->setVariable("TEXT_DEFINITION", (strlen($definition->text)) ? $this->lng->txt('definition') . ' ' . ($key+1) . ': ' . ilUtil::prepareFormOutput($definition->text) : $this->lng->txt('definition') . ' ' . ($key+1));
-					$template->parseCurrentBlock();
-				}
-				else
-				{
-					$template->setCurrentBlock('definition_text');
-					$template->setVariable("DEFINITION", $this->object->prepareTextareaOutput($definition->text, true));
-					$template->parseCurrentBlock();
-				}
-			}
-
-			$template->setCurrentBlock('option');
-			$template->setVariable("VALUE_OPTION", 0);
-			$template->setVariable("TEXT_OPTION", ilUtil::prepareFormOutput($this->lng->txt('please_select')));
-			$template->parseCurrentBlock();
-			foreach ($terms as $key => $term)
-			{
-				$template->setCurrentBlock('option');
-				$template->setVariable("VALUE_OPTION", $term->identifier);
-				$template->setVariable("TEXT_OPTION", (strlen($term->text)) ? $this->lng->txt('term') . ' ' . ($key+1) . ': ' . ilUtil::prepareFormOutput($term->text) : $this->lng->txt('term') . ' ' . ($key +1));
-				foreach ($solutions as $solution)
-				{
-					if ($solution["value1"] == $term->identifier && $solution["value2"] == $definition->identifier)
-					{
-						$template->setVariable("SELECTED_OPTION", " selected=\"selected\"");
-					}
-				}
-				$template->parseCurrentBlock();
-			}
-			
-			$template->setCurrentBlock('row');
-			$template->setVariable("TEXT_MATCHES", $this->lng->txt("matches"));
-			if ($this->object->getEstimatedElementHeight() > 0)
-			{
-				$template->setVariable("ELEMENT_HEIGHT", " style=\"height: " . $this->object->getEstimatedElementHeight() . "px;\"");
-			}
-			$template->setVariable("QUESTION_ID", $this->object->getId());
-			$template->setVariable("DEFINITION_ID", $definition->identifier);
-			$template->parseCurrentBlock();
-		}
-		foreach ($terms as $key=>$term)
-		{
-			if (strlen($term->picture))
-			{
-				$template->setCurrentBlock('term_image');
-				$template->setVariable('ANSWER_IMAGE_URL', $this->object->getImagePathWeb() . $this->object->getThumbPrefix() . $term->picture);
-				$template->setVariable('ANSWER_IMAGE_ALT', (strlen($term->text)) ? ilUtil::prepareFormOutput($term->text) : ilUtil::prepareFormOutput($term->picture));
-				$template->setVariable('ANSWER_IMAGE_TITLE', (strlen($term->text)) ? ilUtil::prepareFormOutput($term->text) : ilUtil::prepareFormOutput($term->picture));
-				$template->setVariable('URL_PREVIEW', $this->object->getImagePathWeb() . $term->picture);
-				$template->setVariable("TEXT_PREVIEW", $this->lng->txt('preview'));
-				$template->setVariable("TEXT_TERM", (strlen($term->text)) ? $this->lng->txt('term') . ' ' . ($key+1) . ': ' . ilUtil::prepareFormOutput($term->text) : $this->lng->txt('term') . ' ' . ($key+1));
-				$template->setVariable("IMG_PREVIEW", ilUtil::getImagePath('enlarge.png'));
-				$template->parseCurrentBlock();
-			}
-			else
-			{
-				$template->setCurrentBlock('term_text');
-				$template->setVariable("TERM", $this->object->prepareTextareaOutput($term->text, true));
-				$template->parseCurrentBlock();
-			}
-			$template->touchBlock('terms');
-		}
-
-		$questiontext = $this->object->getQuestion();
-		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
-		$template->setVariable("TEXT_TERMS", ilUtil::prepareFormOutput($this->lng->txt('available_terms')));
-		$template->setVariable('TEXT_SELECTION', ilUtil::prepareFormOutput($this->lng->txt('selection')));
-
-		$questiontext = $this->object->getQuestion();
-		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
-		$questionoutput = $template->get();
-		$pageoutput = $this->outQuestionPage("", $is_postponed, $active_id, $questionoutput);
-		return $pageoutput;
-
+		return $this->outQuestionPage("", $is_postponed, $active_id, $template->get());
 	}
 
 	/**
@@ -1293,7 +945,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 	{
 		$feedback = '<table><tbody>';
 
-		foreach ($this->object->getMatchingPairs() as $idx => $ans)
+		foreach ($this->object->getMaximumScoringMatchingPairs() as $idx => $ans)
 		{
 			$fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation(
 					$this->object->getId(), $idx

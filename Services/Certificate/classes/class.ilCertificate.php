@@ -929,12 +929,12 @@ class ilCertificate
 			// basic admin setting active?
 			$certificate_active = new ilSetting("certificate");
 			$certificate_active = (bool)$certificate_active->get("active");
-			
+
 			// java/rtpc-server active?
 			if($certificate_active)
 			{
 				include_once './Services/WebServices/RPC/classes/class.ilRPCServerSettings.php';
-				$certificate_active = ilRPCServerSettings::getInstance()->isEnabled();			
+				$certificate_active = ilRPCServerSettings::getInstance()->isEnabled();
 			}
 			
 			self::$is_active = (bool)$certificate_active;

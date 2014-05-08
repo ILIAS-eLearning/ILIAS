@@ -19,6 +19,9 @@ require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintTracking.p
  * @version		$Id$
  * 
  * @ingroup ModulesTest
+ *
+ * @ilCtrl_Calls ilTestEvaluationGUI: ilTestPassDetailsOverviewTableGUI
+ * @ilCtrl_Calls ilTestEvaluationGUI: ilTestResultsToolbarGUI
  */
 class ilTestEvaluationGUI extends ilTestServiceGUI
 {
@@ -772,55 +775,79 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	*/
 	function outParticipantsPassDetails()
 	{
+		global $ilTabs;
+
 		$this->ctrl->saveParameter($this, "pass");
 		$this->ctrl->saveParameter($this, "active_id");
 		$active_id = $_GET["active_id"];
 		$pass = $_GET["pass"];
-		
+
+		if ( isset($_GET['statistics']) && $_GET['statistics'] == 1)
+		{
+			$this->ctrl->setParameterByClass("ilTestEvaluationGUI", "active_id", $active_id);
+
+			$ilTabs->setBackTarget(
+				$this->lng->txt('back'), $this->ctrl->getLinkTargetByClass('ilTestEvaluationGUI', 'detailedEvaluation')
+			);
+		}
+		elseif ($this->object->getNrOfTries() == 1)
+		{
+			$ilTabs->setBackTarget(
+				$this->lng->txt('back'), $this->ctrl->getLinkTargetByClass('ilobjtestgui', 'participants')
+			);
+		}
+		else
+		{
+			$ilTabs->setBackTarget(
+				$this->lng->txt('tst_results_back_overview'), $this->ctrl->getLinkTarget($this, 'outParticipantsResultsOverview')
+			);
+		}
+
 		$testSession = $this->testSessionFactory->getSession($active_id);
 		
 		$result_array =& $this->object->getTestResult($active_id, $pass);
 		
-		$overview = $this->getPassDetailsOverview($result_array, $active_id, $pass, "iltestevaluationgui", "outParticipantsPassDetails");		
+		$overview = $this->getPassDetailsOverview($result_array, $active_id, $pass, $this, "outParticipantsPassDetails", '', true);
 		$user_data = $this->getResultsUserdata($testSession, $active_id, FALSE);
 		$user_id = $this->object->_getUserIdFromActiveId($active_id);
 
 		$template = new ilTemplate("tpl.il_as_tst_pass_details_overview_participants.html", TRUE, TRUE, "Modules/Test");
 
-		include_once './Services/WebServices/RPC/classes/class.ilRPCServerSettings.php';
-		if(ilRPCServerSettings::getInstance()->isEnabled())
+		require_once 'Modules/Test/classes/toolbars/class.ilTestResultsToolbarGUI.php';
+		$toolbar = new ilTestResultsToolbarGUI($this->ctrl, $this->lng);
+
+		$this->ctrl->setParameter($this, 'pdf', '1');
+		$toolbar->setPdfExportLinkTarget( $this->ctrl->getLinkTarget($this, 'outParticipantsPassDetails') );
+		$this->ctrl->setParameter($this, 'pdf', '');
+
+		if( isset($_GET['show_best_solutions']) )
 		{
-			$this->ctrl->setParameter($this, "pdf", "1");
-			$template->setCurrentBlock("pdf_export");
-			$template->setVariable("PDF_URL", $this->ctrl->getLinkTarget($this, "outParticipantsPassDetails"));
-			$this->ctrl->setParameter($this, "pdf", "");
-			$template->setVariable("PDF_TEXT", $this->lng->txt("pdf_export"));
-			$template->setVariable("PDF_IMG_ALT", $this->lng->txt("pdf_export"));
-			$template->setVariable("PDF_IMG_URL", ilUtil::getHtmlPath(ilUtil::getImagePath("application-pdf.png")));
-			$template->parseCurrentBlock();
+			$_SESSION['tst_results_show_best_solutions'] = true;
+		}
+		elseif( isset($_GET['hide_best_solutions']) )
+		{
+			$_SESSION['tst_results_show_best_solutions'] = false;
+		}
+		elseif( !isset($_SESSION['tst_results_show_best_solutions']) )
+		{
+			$_SESSION['tst_results_show_best_solutions'] = false;
 		}
 
-		if (array_key_exists("statistics", $_GET) && ($_GET["statistics"] == 1))
+		if( $_SESSION['tst_results_show_best_solutions'] )
 		{
-			$template->setVariable("BACK_TEXT", $this->lng->txt("back"));
-			$this->ctrl->setParameterByClass("ilTestEvaluationGUI", "active_id", $active_id);
-			$template->setVariable("BACK_URL", $this->ctrl->getLinkTargetByClass("ilTestEvaluationGUI", "detailedEvaluation"));
+			$this->ctrl->setParameter($this, 'hide_best_solutions', '1');
+			$toolbar->setHideBestSolutionsLinkTarget($this->ctrl->getLinkTarget($this, 'outParticipantsPassDetails'));
+			$this->ctrl->setParameter($this, 'hide_best_solutions', '');
 		}
 		else
 		{
-			if ($this->object->getNrOfTries() == 1)
-			{
-				$template->setVariable("BACK_TEXT", $this->lng->txt("back"));
-				$template->setVariable("BACK_URL", $this->ctrl->getLinkTargetByClass("ilobjtestgui", "participants"));
-			}
-			else
-			{
-				$template->setVariable("BACK_URL", $this->ctrl->getLinkTargetByClass(get_class($this), "outParticipantsResultsOverview"));
-				$template->setVariable("BACK_TEXT", $this->lng->txt("tst_results_back_overview"));
-			}
+			$this->ctrl->setParameter($this, 'show_best_solutions', '1');
+			$toolbar->setShowBestSolutionsLinkTarget($this->ctrl->getLinkTarget($this, 'outParticipantsPassDetails'));
+			$this->ctrl->setParameter($this, 'show_best_solutions', '');
 		}
-		$template->setVariable("PRINT_TEXT", $this->lng->txt("print"));
-		$template->setVariable("PRINT_URL", "javascript:window.print();");
+
+		$toolbar->build();
+		$template->setVariable('RESULTS_TOOLBAR', $this->ctrl->getHTML($toolbar));
 
 		if ($this->object->getNrOfTries() == 1)
 		{
@@ -832,7 +859,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			}
 		}
 
-		$list_of_answers = $this->getPassListOfAnswers($result_array, $active_id, $pass, TRUE);
+		$list_of_answers = $this->getPassListOfAnswers($result_array, $active_id, $pass, $_SESSION['tst_results_show_best_solutions'], false, false, false, true);
 		$template->setVariable("LIST_OF_ANSWERS", $list_of_answers);
 		$template->setVariable("TEXT_RESULTS", $this->lng->txt("tst_results"));
 		$template->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
@@ -866,12 +893,14 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	*/
 	function outParticipantsResultsOverview()
 	{
+		global $ilTabs;
+
 		$template = new ilTemplate("tpl.il_as_tst_pass_overview_participants.html", TRUE, TRUE, "Modules/Test");
 
 		$active_id = $_GET["active_id"];
 		
 		$testSession = $this->testSessionFactory->getSession($active_id);
-		
+
 		if ($this->object->getNrOfTries() == 1)
 		{
 			$this->ctrl->setParameter($this, "active_id", $active_id);
@@ -879,23 +908,22 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$this->ctrl->redirect($this, "outParticipantsPassDetails");
 		}
 
+		$ilTabs->setBackTarget(
+			$this->lng->txt('back'), $this->ctrl->getLinkTargetByClass('ilobjtestgui', 'participants')
+		);
 
-		$this->ctrl->setParameter($this, "pdf", "1");
-		$template->setCurrentBlock("pdf_export");
-		$template->setVariable("PDF_URL", $this->ctrl->getLinkTarget($this, "outParticipantsResultsOverview"));
-		$this->ctrl->setParameter($this, "pdf", "");
-		$template->setVariable("PDF_TEXT", $this->lng->txt("pdf_export"));
-		$template->setVariable("PDF_IMG_ALT", $this->lng->txt("pdf_export"));
-		$template->setVariable("PDF_IMG_URL", ilUtil::getHtmlPath(ilUtil::getImagePath("application-pdf.png")));
-		$template->parseCurrentBlock();
+		require_once 'Modules/Test/classes/toolbars/class.ilTestResultsToolbarGUI.php';
+		$toolbar = new ilTestResultsToolbarGUI($this->ctrl, $this->lng);
+
+		$this->ctrl->setParameter($this, 'pdf', '1');
+		$toolbar->setPdfExportLinkTarget( $this->ctrl->getLinkTarget($this, 'outUserResultsOverview') );
+		$this->ctrl->setParameter($this, 'pdf', '');
+
+		$toolbar->build();
+		$template->setVariable('RESULTS_TOOLBAR', $this->ctrl->getHTML($toolbar));
 
 		$overview = $this->getPassOverview($active_id, "iltestevaluationgui", "outParticipantsPassDetails");
 		$template->setVariable("PASS_OVERVIEW", $overview);
-		$template->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-		$template->setVariable("BACK_TEXT", $this->lng->txt("back"));
-		$template->setVariable("BACK_URL", $this->ctrl->getLinkTargetByClass("ilobjtestgui", "participants"));
-		$template->setVariable("PRINT_TEXT", $this->lng->txt("print"));
-		$template->setVariable("PRINT_URL", "javascript:window.print();");
 
 		$statement = $this->getFinalStatement($active_id);
 		$user_id = $this->object->_getUserIdFromActiveId($active_id);
@@ -953,7 +981,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		{
 			$command_solution_details = "outCorrectSolution";
 		}
-		$overview = $this->getPassDetailsOverview($result_array, $active_id, $pass, "iltestevaluationgui", "outUserPassDetails", $command_solution_details);
+		$overview = $this->getPassDetailsOverview($result_array, $active_id, $pass, $this, "outUserPassDetails", $command_solution_details);
 
 		$user_id = $this->object->_getUserIdFromActiveId($active_id);
 
@@ -1001,34 +1029,66 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	}
 
 	/**
-	* Output of the pass overview for a test called by a test participant
-	*
-	* Output of the pass overview for a test called by a test participant
-	*
-	* @access public
-	*/
+	 * Output of the pass overview for a test called by a test participant
+	 *
+	 * @global ilTabsGUI $ilTabs
+	 */
 	function outUserResultsOverview()
 	{
-		global $ilUser, $ilias, $ilLog;
-		
-		$testSession = $this->testSessionFactory->getSession();
+		global $ilUser, $ilTabs;
 
-		if (!$this->object->canShowTestResults($testSession, $ilUser->getId())) $this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
-		include_once("./Services/UICore/classes/class.ilTemplate.php");
+		$ilTabs->setBackTarget(
+			$this->lng->txt("tst_results_back_introduction"),
+			$this->ctrl->getLinkTargetByClass("ilobjtestgui", "infoScreen")
+		);
+
+		if( isset($_GET['pass']) )
+		{
+			$pass = $_GET['pass'];
+		}
+		else
+		{
+			$pass = null;
+		}
+
+		$this->ctrl->setParameter($this, 'pass', $pass);
+
+		$testSession = $this->testSessionFactory->getSession();
+		$active_id = $testSession->getActiveId();
+		$user_id = $ilUser->getId();
+		$uname = $this->object->userLookupFullName($user_id, TRUE);
+
+		if( !$this->object->canShowTestResults($testSession, $ilUser->getId()) )
+		{
+			$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
+		}
+
 		$templatehead = new ilTemplate("tpl.il_as_tst_results_participants.html", TRUE, TRUE, "Modules/Test");
 		$template = new ilTemplate("tpl.il_as_tst_results_participant.html", TRUE, TRUE, "Modules/Test");
 
-		$pass = null;
-		$user_id = $ilUser->getId();
-		$uname = $this->object->userLookupFullName($user_id, TRUE);
-		$active_id = $testSession->getActiveId();
+		require_once 'Modules/Test/classes/toolbars/class.ilTestResultsToolbarGUI.php';
+		$toolbar = new ilTestResultsToolbarGUI($this->ctrl, $this->lng);
+
+		$this->ctrl->setParameter($this, 'pdf', '1');
+		$toolbar->setPdfExportLinkTarget( $this->ctrl->getLinkTarget($this, 'outUserResultsOverview') );
+		$this->ctrl->setParameter($this, 'pdf', '');
+
+		include_once './Services/WebServices/RPC/classes/class.ilRPCServerSettings.php';
+		if( ilRPCServerSettings::getInstance()->isEnabled() && $this->object->canShowCertificate($testSession, $user_id, $active_id) )
+		{
+			$toolbar->setCertificateLinkTarget($this->ctrl->getLinkTarget($this, 'outCertificate'));
+		}
+
+		$toolbar->build();
+		$templatehead->setVariable('RESULTS_TOOLBAR', $this->ctrl->getHTML($toolbar));
+
 		$hide_details = !$this->object->getShowPassDetails();
 		if ($hide_details)
 		{
 			$executable = $this->object->isExecutable($testSession, $ilUser->getId());
 			if (!$executable["executable"]) $hide_details = FALSE;
 		}
-		$begin = microtime(true);
+
 		if (($this->object->getNrOfTries() == 1) && (!$hide_details))
 		{
 			$pass = 0;
@@ -1041,37 +1101,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$template->setVariable("TEXT_RESULTS", $this->lng->txt("tst_results_overview"));
 			$template->parseCurrentBlock();
 		}
-
-		if (((array_key_exists("pass", $_GET)) && (strlen($_GET["pass"]) > 0)) || (!is_null($pass)))
-		{
-			if (is_null($pass))	$pass = $_GET["pass"];
-		}
-
-
-			$this->ctrl->setParameter($this, "pass", $pass);
-			$this->ctrl->setParameter($this, "pdf", "1");
-			$templatehead->setCurrentBlock("pdf_export");
-			$templatehead->setVariable("PDF_URL", $this->ctrl->getLinkTarget($this, "outUserResultsOverview"));
-			$this->ctrl->setParameter($this, "pass", "");
-			$this->ctrl->setParameter($this, "pdf", "");
-			$templatehead->setVariable("PDF_TEXT", $this->lng->txt("pdf_export"));
-			$templatehead->setVariable("PDF_IMG_ALT", $this->lng->txt("pdf_export"));
-			$templatehead->setVariable("PDF_IMG_URL", ilUtil::getHtmlPath(ilUtil::getImagePath("application-pdf.png")));
-			$templatehead->parseCurrentBlock();
-
-		include_once './Services/WebServices/RPC/classes/class.ilRPCServerSettings.php';
-		if(ilRPCServerSettings::getInstance()->isEnabled())
-		{		
-			if ($this->object->canShowCertificate($testSession, $user_id, $active_id))
-			{
-				$templatehead->setVariable("CERTIFICATE_URL", $this->ctrl->getLinkTarget($this, "outCertificate"));
-				$templatehead->setVariable("CERTIFICATE_TEXT", $this->lng->txt("certificate"));
-			}
-		}
-		$templatehead->setVariable("BACK_TEXT", $this->lng->txt("tst_results_back_introduction"));
-		$templatehead->setVariable("BACK_URL", $this->ctrl->getLinkTargetByClass("ilobjtestgui", "infoScreen"));
-		$templatehead->setVariable("PRINT_TEXT", $this->lng->txt("print"));
-		$templatehead->setVariable("PRINT_URL", "javascript:window.print();");
 
 		$statement = $this->getFinalStatement($active_id);
 		$user_data = $this->getResultsUserdata($testSession, $active_id, TRUE);
@@ -1087,18 +1116,31 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			{
 				$command_solution_details = "outCorrectSolution";
 			}
-			$detailsoverview = (!$hide_details) ? $this->getPassDetailsOverview($result_array, $active_id, $pass, "iltestevaluationgui", "outUserResultsOverview", $command_solution_details) : '';
 
-			$user_id = $this->object->_getUserIdFromActiveId($active_id);
+			$questionAnchorNav = $this->object->canShowSolutionPrintview();
+
+			if( !$hide_details )
+			{
+				$detailsoverview = $this->getPassDetailsOverview(
+					$result_array, $active_id, $pass, $this, "outUserResultsOverview", $command_solution_details, $questionAnchorNav
+				);
+			}
+			else
+			{
+				$detailsoverview = '';
+			}
 
 			if (!$hide_details && $this->object->canShowSolutionPrintview())
 			{
-				$list_of_answers = $this->getPassListOfAnswers($result_array, $active_id, $pass, $this->object->getShowSolutionListComparison());
+				$list_of_answers = $this->getPassListOfAnswers(
+					$result_array, $active_id, $pass, $this->object->getShowSolutionListComparison(),
+					false, false, false, true
+				);
 			}
 			else if ($this->object->getShowSolutionDetails())
 			{
 				// if this is not commented out, all questions with checkmarks/crosses will be shown
-				// $list_of_answers = $this->getPassListOfAnswers($result_array, $active_id, $pass, true);
+				// $list_of_answers = $this->getPassListOfAnswers($result_array, $active_id, $pass, $this, true);
 			}
 
 			$template->setVariable("LIST_OF_ANSWERS", $list_of_answers);
@@ -1137,11 +1179,10 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		}
 		$templatehead->setVariable("RESULTS_PARTICIPANT", $template->get());
 
-		if (array_key_exists("pdf", $_GET) && ($_GET["pdf"] == 1))
+		if( isset($_GET['pdf']) && (int)$_GET['pdf'] )
 		{
 			//$this->object->deliverPDFfromHTML($template->get(), $this->object->getTitle());
 			require_once 'class.ilTestPDFGenerator.php';
-			$content = $template->get();
 			ilTestPDFGenerator::generatePDF($template->get(), ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $this->object->getTitle());
 			//$this->object->deliverPDFfromHTML($template->get(), sprintf($this->lng->txt("tst_result_user_name"), $uname));
 		}

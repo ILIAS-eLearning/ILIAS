@@ -31,6 +31,8 @@ require_once './Modules/Test/classes/class.ilTestExpressPage.php';
  * @ilCtrl_Calls ilObjTestGUI: ilCommonActionDispatcherGUI, ilObjTestDynamicQuestionSetConfigGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestRandomQuestionSetConfigGUI
  * @ilCtrl_Calls ilObjTestGUI: ilAssQuestionHintsGUI, ilAssQuestionFeedbackEditingGUI, ilLocalUnitConfigurationGUI, assFormulaQuestionGUI
+ * @ilCtrl_Calls ilObjTestGUI: ilTestPassDetailsOverviewTableGUI
+ * @ilCtrl_Calls ilObjTestGUI: ilTestResultsToolbarGUI
  *
  * @ingroup ModulesTest
  */
@@ -663,9 +665,52 @@ class ilObjTestGUI extends ilObjectGUI
 	 */
 	public function createUserResults($show_pass_details, $show_answers, $show_reached_points, $show_user_results)
 	{
+		global $ilTabs;
+
+		$ilTabs->setBackTarget(
+			$this->lng->txt('back'), $this->ctrl->getLinkTarget($this, 'participants')
+		);
+
 		$template = new ilTemplate("tpl.il_as_tst_participants_result_output.html", TRUE, TRUE, "Modules/Test");
+
+		require_once 'Modules/Test/classes/toolbars/class.ilTestResultsToolbarGUI.php';
+		$toolbar = new ilTestResultsToolbarGUI($this->ctrl, $this->lng);
+
+		if( $show_answers )
+		{
+			if( isset($_GET['show_best_solutions']) )
+			{
+				$_SESSION['tst_results_show_best_solutions'] = true;
+			}
+			elseif( isset($_GET['hide_best_solutions']) )
+			{
+				$_SESSION['tst_results_show_best_solutions'] = false;
+			}
+			elseif( !isset($_SESSION['tst_results_show_best_solutions']) )
+			{
+				$_SESSION['tst_results_show_best_solutions'] = false;
+			}
+
+			if( $_SESSION['tst_results_show_best_solutions'] )
+			{
+				$this->ctrl->setParameter($this, 'hide_best_solutions', '1');
+				$toolbar->setHideBestSolutionsLinkTarget($this->ctrl->getLinkTarget($this, 'showUserAnswers'));
+				$this->ctrl->setParameter($this, 'hide_best_solutions', '');
+			}
+			else
+			{
+				$this->ctrl->setParameter($this, 'show_best_solutions', '1');
+				$toolbar->setShowBestSolutionsLinkTarget($this->ctrl->getLinkTarget($this, 'showUserAnswers'));
+				$this->ctrl->setParameterByClass('', 'show_best_solutions', '');
+			}
+		}
+
+		$toolbar->build();
+		$template->setVariable('RESULTS_TOOLBAR', $this->ctrl->getHTML($toolbar));
+
 		include_once "./Modules/Test/classes/class.ilTestServiceGUI.php";
 		$serviceGUI = new ilTestServiceGUI($this->object);
+
 		$count      = 0;
 		foreach ($show_user_results as $key => $active_id)
 		{
@@ -681,6 +726,7 @@ class ilObjTestGUI extends ilObjectGUI
 					$this->testSessionFactory->getSession( $active_id ),
 					$active_id,
 					$this->object->_getResultPass( $active_id ),
+					$this,
 					$show_pass_details,
 					$show_answers,
 					FALSE,
@@ -695,10 +741,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$template->setVariable( "USER_RESULT", $results );
 			$template->parseCurrentBlock();
 		}
-		$template->setVariable( "BACK_TEXT", $this->lng->txt( "back" ) );
-		$template->setVariable( "BACK_URL", $this->ctrl->getLinkTargetByClass( "ilobjtestgui", "participants" ) );
-		$template->setVariable( "PRINT_TEXT", $this->lng->txt( "print" ) );
-		$template->setVariable( "PRINT_URL", "javascript:window.print();" );
+
 		return $template;
 	}
 

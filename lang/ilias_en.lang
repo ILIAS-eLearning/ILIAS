@@ -687,6 +687,9 @@ assessment#:#qpl_paste_error#:#At least one question could not pe pasted into th
 assessment#:#qpl_question_is_in_use#:#The question you are about to edit exists in %s test(s). If you change this question, you will NOT change the question(s) in the test(s), because the system creates a copy of a question when it is inserted in a test!
 assessment#:#qpl_questions_deleted#:#Question(s) deleted.
 assessment#:#qpl_select_file_for_import#:#You must select a file for import!
+assessment#:#qpl_qst_inp_matching_mode#:#Matching Mode
+assessment#:#qpl_qst_inp_matching_mode_one_on_one#:#One Term Matches One Definition
+assessment#:#qpl_qst_inp_matching_mode_all_on_all#:#One or More Terms match One or More Definitions
 assessment#:#qst_hint_self#:#Self-Assessment-Mode active! Enter 0 points for incorrect answers, 1 point for correct answers.
 assessment#:#qst_nr_of_tries#:#Number of Tries
 assessment#:#qt_multiple_choice#:#Multiple Choice Question
@@ -1230,6 +1233,13 @@ assessment#:#test_scoring#:#Scoring Options
 assessment#:#test_presentation#:#Presentation Options
 assessment#:#test_results#:#Results Options
 assessment#:#misc#:#Misc Options
+assessment#:#tst_back_to_top#:#Back to Top
+assessment#:#tst_answer_details#:#Answer Details
+assessment#:#tst_list_answer_details#:#Show in List Below
+assessment#:#tst_single_answer_details#:#Show Single Answer
+assessment#:#tst_pass_details_overview_table_title#:#Detailed Overview for Pass %s
+assessment#:#tst_btn_show_best_solutions#:#Show Best Solutions
+assessment#:#tst_btn_hide_best_solutions#:#Hide Best Solutions
 assessment#:#saved_adjustment#:#Changes saved.
 assessment#:#sign_submission#:#Digitally sign test submissions
 assessment#:#sign_submission_info#:#If this is activated and a signature plugin is installed and active, participants will be send to digitally sign their submissions.

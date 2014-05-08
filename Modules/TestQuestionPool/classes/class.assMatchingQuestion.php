@@ -29,7 +29,6 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	* @var array
 	*/
 	var $matchingpairs;
-
 	/**
 	* Type of matching question
 	*
@@ -39,15 +38,15 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	* @var integer
 	*/
 	var $matching_type;
-	
+
 	/**
 	* The terms of the matching question
 	*
 	* @var array
 	*/
 	protected $terms;
+
 	protected $definitions;
-	
 	/**
 	* Maximum thumbnail geometry
 	*
@@ -61,6 +60,11 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	* @var integer
 	*/
 	var $element_height;
+
+	const MATCHING_MODE_1_ON_1 = '1:1';
+	const MATCHING_MODE_N_ON_N = 'n:n';
+
+	protected $matchingMode = self::MATCHING_MODE_1_ON_1;
 
 	/**
 	 * assMatchingQuestion constructor
@@ -195,22 +199,21 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	public function saveAdditionalQuestionDataToDb()
 	{
 		global $ilDB;
+
 		// save additional data
-		$ilDB->manipulateF( "DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s",
-							array( "integer" ),
-							array( $this->getId() )
+
+		$ilDB->manipulateF(
+			"DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s",
+			array( "integer" ), array( $this->getId() )
 		);
-		$ilDB->manipulateF( "INSERT INTO " . $this->getAdditionalTableName(
-																										) . " (question_fi, shuffle, matching_type, thumb_geometry, element_height) VALUES (%s, %s, %s, %s, %s)",
-							array( "integer", "text", "text", "integer", "integer" ),
-							array(
-								$this->getId(),
-								$this->shuffle,
-								$this->matching_type,
-								$this->getThumbGeometry(),
-								($this->getElementHeight() >= 20) ? $this->getElementHeight() : NULL
-							)
-		);
+
+		$ilDB->insert($this->getAdditionalTableName(), array(
+			'question_fi' => array('integer', $this->getId()),
+			'shuffle' => array('text', $this->shuffle),
+			'matching_type' => array('text', $this->matching_type),
+			'thumb_geometry' => array('integer', $this->getThumbGeometry()),
+			'matching_mode' => array('text', $this->getMatchingMode())
+		));
 	}
 
 	/**
@@ -223,10 +226,19 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	{
 		global $ilDB;
 
-		$result = $ilDB->queryF("SELECT qpl_questions.*, " . $this->getAdditionalTableName() . ".* FROM qpl_questions LEFT JOIN " . $this->getAdditionalTableName() . " ON " . $this->getAdditionalTableName() . ".question_fi = qpl_questions.question_id WHERE qpl_questions.question_id = %s",
-			array("integer"),
-			array($question_id)
+		$query = "
+			SELECT		qpl_questions.*,
+						{$this->getAdditionalTableName()}.*
+			FROM		qpl_questions
+			LEFT JOIN	{$this->getAdditionalTableName()}
+			ON			{$this->getAdditionalTableName()}.question_fi = qpl_questions.question_id
+			WHERE		qpl_questions.question_id = %s
+		";
+
+		$result = $ilDB->queryF(
+			$query, array('integer'), array($question_id)
 		);
+
 		if ($result->numRows() == 1)
 		{
 			$data = $ilDB->fetchAssoc($result);
@@ -242,8 +254,8 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 			include_once("./Services/RTE/classes/class.ilRTE.php");
 			$this->setQuestion(ilRTE::_replaceMediaObjectImageSrc($data["question_text"], 1));
 			$this->setThumbGeometry($data["thumb_geometry"]);
-			$this->setElementHeight($data["element_height"]);
 			$this->setShuffle($data["shuffle"]);
+			$this->setMatchingMode($data['matching_mode'] === null ? self::MATCHING_MODE_1_ON_1 : $data['matching_mode']);
 			$this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
 			
 			try
@@ -917,21 +929,77 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	}
 
 	/**
-	* Returns the maximum points, a learner can reach answering the question
-	*/
+	 * Calculates and Returns the maximum points, a learner can reach answering the question
+	 */
 	function getMaximumPoints()
 	{
 		$points = 0;
-		foreach ($this->matchingpairs as $key => $pair)
+
+		foreach( $this->getMaximumScoringMatchingPairs() as $pair )
 		{
-			if ($pair->points > 0)
-			{
-				$points += $pair->points;
-			}
+			$points += $pair->points;
 		}
+
 		return $points;
 	}
-	
+
+	public function getMaximumScoringMatchingPairs()
+	{
+		if( $this->getMatchingMode() == self::MATCHING_MODE_N_ON_N )
+		{
+			return $this->getPositiveScoredMatchingPairs();
+		}
+		elseif( $this->getMatchingMode() == self::MATCHING_MODE_1_ON_1 )
+		{
+			return $this->getMostPositiveScoredUniqueTermMatchingPairs();
+		}
+
+		return array();
+	}
+
+	private function getPositiveScoredMatchingPairs()
+	{
+		$matchingPairs = array();
+
+		foreach( $this->matchingpairs as $pair )
+		{
+			if( $pair->points <= 0 )
+			{
+				continue;
+			}
+
+			$matchingPairs[] = $pair;
+		}
+
+		return $matchingPairs;
+	}
+
+	private function getMostPositiveScoredUniqueTermMatchingPairs()
+	{
+		$matchingPairsByTerm = array();
+
+		foreach( $this->matchingpairs as $pair )
+		{
+			if( $pair->points <= 0 )
+			{
+				continue;
+			}
+
+			$termId = $pair->term->identifier;
+
+			if( !isset($matchingPairsByTerm[$termId]) )
+			{
+				$matchingPairsByTerm[$termId] = $pair;
+			}
+			elseif( $pair->points > $matchingPairsByTerm[$termId]->points )
+			{
+				$matchingPairsByTerm[$termId] = $pair;
+			}
+		}
+
+		return $matchingPairsByTerm;
+	}
+
 	/**
 	* Returns the encrypted save filename of a matching picture
 	* Images are saved with an encrypted filename to prevent users from
@@ -1023,31 +1091,64 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		return $result;
 	}
 
-	/**
-	* Checks the data to be saved for consistency
-	*
-  * @return boolean True, if the check was ok, False otherwise
-	* @see $answers
-	*/
-	function checkSaveData()
+	private function fetchSubmittedMatchingsFromPost()
 	{
-		$result = true;
-		$matching_values = array();
-		foreach ($_POST['matching'][$this->getId()] as $definition => $term)
+		$postData = $_POST['matching'][$this->getId()];
+
+		$matchings = array();
+
+		foreach( $this->getDefinitions() as $definition )
 		{
-			if ($term > 0)
+			if( isset($postData[$definition->identifier]) )
 			{
-				array_push($matching_values, $term);
+				foreach( $this->getTerms() as $term )
+				{
+					if( isset($postData[$definition->identifier][$term->identifier]) )
+					{
+						if( !is_array($postData[$definition->identifier]) )
+						{
+							$postData[$definition->identifier] = array();
+						}
+
+						$matchings[$definition->identifier][] = $term->identifier;
+					}
+				}
 			}
 		}
 
-		$check_matching = array_flip($matching_values);
-		if (count($check_matching) != count($matching_values))
+		return $matchings;
+	}
+
+	private function checkSubmittedMatchings($submittedMatchings)
+	{
+		if( $this->getMatchingMode() == self::MATCHING_MODE_N_ON_N )
 		{
-			$result = false;
-			ilUtil::sendFailure($this->lng->txt("duplicate_matching_values_selected"), true);
+			return true;
 		}
-		return $result;
+
+		$handledTerms = array();
+
+		foreach( $submittedMatchings as $definition => $terms )
+		{
+			if( count($terms) > 1 )
+			{
+				ilUtil::sendFailure($this->lng->txt("multiple_matching_values_selected"), true);
+				return false;
+			}
+
+			foreach( $terms as $i => $term )
+			{
+				if( isset($handledTerms[$term]) )
+				{
+					ilUtil::sendFailure($this->lng->txt("duplicate_matching_values_selected"), true);
+					return false;
+				}
+
+				$handledTerms[$term] = $term;
+			}
+		}
+
+		return true;
 	}
 
 	/**
@@ -1061,10 +1162,13 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	public function saveWorkingData($active_id, $pass = NULL)
 	{
 		global $ilDB;
-		global $ilUser;
-		$saveWorkingDataResult = $this->checkSaveData();
-		$entered_values = 0;
-		if ($saveWorkingDataResult)
+
+		$submittedMatchings = $this->fetchSubmittedMatchingsFromPost();
+		$submittedMatchingsValid = $this->checkSubmittedMatchings($submittedMatchings);
+
+		$matchingsExist = false;
+
+		if ($submittedMatchingsValid)
 		{
 			if (is_null($pass))
 			{
@@ -1074,42 +1178,49 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 			
 			$this->getProcessLocker()->requestUserSolutionUpdateLock();
 
-			$affectedRows = $ilDB->manipulateF("DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-				array('integer','integer','integer'),
-				array($active_id, $this->getId(), $pass)
+			$ilDB->manipulateF(
+				"DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+				array('integer','integer','integer'), array($active_id, $this->getId(), $pass)
 			);
 
-			foreach ($_POST['matching'][$this->getId()] as $definition => $term)
+			foreach( $submittedMatchings as $definition => $terms )
 			{
-				$entered_values++;
-				$next_id = $ilDB->nextId('tst_solutions');
-				$affectedRows = $ilDB->insert("tst_solutions", array(
-					"solution_id" => array("integer", $next_id),
-					"active_fi" => array("integer", $active_id),
-					"question_fi" => array("integer", $this->getId()),
-					"value1" => array("clob", $term),
-					"value2" => array("clob", $definition),
-					"pass" => array("integer", $pass),
-					"tstamp" => array("integer", time())
-				));
+				foreach( $terms as $i => $term )
+				{
+					$next_id = $ilDB->nextId('tst_solutions');
+
+					$ilDB->insert("tst_solutions", array(
+						"solution_id" => array("integer", $next_id),
+						"active_fi" => array("integer", $active_id),
+						"question_fi" => array("integer", $this->getId()),
+						"value1" => array("clob", $term),
+						"value2" => array("clob", $definition),
+						"pass" => array("integer", $pass),
+						"tstamp" => array("integer", time())
+					));
+
+					$matchingsExist = true;
+				}
 			}
+
 
 			$this->getProcessLocker()->releaseUserSolutionUpdateLock();
 			
 			$saveWorkingDataResult = true;
 		}
-		if ($entered_values)
+		else
 		{
-			include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
-			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
+			$saveWorkingDataResult = false;
+		}
+
+		include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
+		if( ilObjAssessmentFolder::_enabledAssessmentLogging() )
+		{
+			if( $matchingsExist )
 			{
 				$this->logAction($this->lng->txtlng("assessment", "log_user_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
 			}
-		}
-		else
-		{
-			include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
-			if (ilObjAssessmentFolder::_enabledAssessmentLogging())
+			else
 			{
 				$this->logAction($this->lng->txtlng("assessment", "log_user_not_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
 			}
@@ -1221,16 +1332,6 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	}
 
 	/**
-	* Returns true if the question type supports JavaScript output
-	*
-	* @return boolean TRUE if the question type supports JavaScript output, FALSE otherwise
-	*/
-	public function supportsJavascriptOutput()
-	{
-		return TRUE;
-	}
-
-	/**
 	* Creates an Excel worksheet for the detailed cumulated results of this question
 	*
 	* @param object $worksheet Reference to the parent excel worksheet
@@ -1316,26 +1417,6 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	}
 
 	/**
-	* Get the minimum element height
-	*
-	* @return integer Height
-	*/
-	public function getElementHeight()
-	{
-		return $this->element_height;
-	}
-	
-	/**
-	* Set the minimum element height
-	*
-	* @param integer $a_height Height
-	*/
-	public function setElementHeight($a_height)
-	{
-		$this->element_height = ($a_height < 20) ? "" : $a_height;
-	}
-
-	/**
 	* Rebuild the thumbnail images with a new thumbnail size
 	*/
 	public function rebuildThumbnails()
@@ -1378,34 +1459,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 			ilUtil::convertImage($filename, $thumbpath, $ext, $this->getThumbGeometry());
 		}
 	}
-	
-	public function getEstimatedElementHeight()
-	{
-		$hasImages = false;
-		foreach ($this->terms as $term)
-		{
-			if (strlen($term->picture))
-			{
-				$hasImages = true;
-			}
-		}
-		foreach ($this->definitions as $definition)
-		{
-			if (strlen($definition->picture))
-			{
-				$hasImages = true;
-			}
-		}
-		if ($hasImages)
-		{ // 40 is approx. the height of the preview image
-			return max($this->getElementHeight(), $this->getThumbSize() + 40);
-		}
-		else
-		{
-			return ($this->getElementHeight()) ? $this->getElementHeight() : 0;
-		}
-	}
-	
+
 	/**
 	* Returns a JSON representation of the question
 	* TODO
@@ -1476,5 +1530,15 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		$result['mobs'] = $mobs;
 
 		return json_encode($result);
+	}
+
+	public function setMatchingMode($matchingMode)
+	{
+		$this->matchingMode = $matchingMode;
+	}
+
+	public function getMatchingMode()
+	{
+		return $this->matchingMode;
 	}
 }

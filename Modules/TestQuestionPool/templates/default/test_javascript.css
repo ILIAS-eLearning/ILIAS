@@ -21,7 +21,61 @@ ul.boxy li {
 
 /* drag and drop support */
 
-.droparea { border:1px solid #666; background-color:#ccc; color:black; text-align:center; width:250px; margin: 5px; padding: 0.5em;}
-.draggable { border:1px solid #666; background-color: #eee; color:black; text-align:center; width: 250px; margin: 5px 5px 5px auto; padding: 0.5em; cursor:pointer; }
-.target { border:1px dotted #666; color: black; background-color:#f0ffff;}
-.dragover { border:2px solid #666; background-color:#eee; }
+.droparea
+{
+    border:2px solid #666;
+    background-color:#ccc;
+    color:black;
+    text-align:center;
+    width:550px;
+    margin: 5px;
+    padding: 0.5em;
+}
+
+.ilMatchingQuestionDefinition
+{
+    width: 50%;
+}
+
+.ilMatchingQuestionTerm
+{
+    width: 50%;
+}
+
+#sourceArea .draggable
+{
+    float:right;
+}
+
+.draggable,
+.draggableHelper
+{
+    border:2px solid #666;
+    background-color: #eee;
+    color:black;
+    text-align:center;
+    width: 250px;
+    margin: 5px;
+    padding: 0.5em;
+    cursor:pointer;
+}
+
+.droppedDraggable
+{
+    float: right;
+}
+
+.draggableDisabled
+{
+    opacity: 0.5;
+}
+
+.droppableTarget
+{
+    border:2px dashed #666;
+}
+
+.droppableHover
+{
+    background-color: #cff;
+}
