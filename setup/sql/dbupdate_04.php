@@ -837,3 +837,29 @@ if( !$ilDB->tableColumnExists('qpl_qst_cloze', 'qpl_qst_cloze') )
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#4214>
+<?php
+if( !$ilDB->tableColumnExists('qpl_qst_matching', 'matching_mode') )
+{
+	$ilDB->addTableColumn('qpl_qst_matching', 'matching_mode', array(
+		'type' => 'text',
+		'length' => 3,
+		'notnull' => false,
+		'default' => null
+	));
+
+	$ilDB->manipulateF(
+		'UPDATE qpl_qst_matching SET matching_mode = %s',
+		array('text'), array('1:1')
+	);
+}
+
+if( $ilDB->tableColumnExists('qpl_qst_matching', 'element_height') )
+{
+	$ilDB->dropTableColumn('qpl_qst_matching', 'element_height');
+}
+?>
+<#4215>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
