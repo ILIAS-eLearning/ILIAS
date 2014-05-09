@@ -88,8 +88,8 @@ class ilUserCronCheckAccounts extends ilCronJob
 			
 			$mail->From('noreply');
 			$mail->To($data['email']);
-			$mail->Subject($lng->txt($data['language'],'account_expires_subject'), true);
-			$mail->Body($lng->txt($data['language'],'account_expires_body')." ".strftime('%Y-%m-%d %R',$data['expires']));
+			$mail->Subject($this->txt($data['language'],'account_expires_subject'), true);
+			$mail->Body($this->txt($data['language'],'account_expires_body')." ".strftime('%Y-%m-%d %R',$data['expires']));
 			$mail->send();
 
 			// set status 'mail sent'
@@ -111,6 +111,13 @@ class ilUserCronCheckAccounts extends ilCronJob
 		$result = new ilCronJobResult();
 		$result->setStatus($status);		
 		return $result;
+	}
+	
+	// #13288 / #12345
+	protected function txt($language,$key,$module = 'common')
+	{
+		include_once 'Services/Language/classes/class.ilLanguage.php';
+		return ilLanguage::_lookupEntry($language, $module, $key);
 	}
 	
 	protected function checkNotConfirmedUserAccounts()
