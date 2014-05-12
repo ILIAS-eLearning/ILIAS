@@ -146,6 +146,20 @@ abstract class ActiveRecord implements arStorageInterface {
 
 
 	/**
+	 * @return stdClass
+	 */
+	public function __asStdClass() {
+		$return = new stdClass();
+		foreach ($this->arFieldList->getFields() as $field) {
+			$fieldname = $field->getName();
+			$return->{$fieldname} = $this->{$fieldname};
+		}
+
+		return $return;
+	}
+
+
+	/**
 	 * @param array $array
 	 *
 	 * @return $this

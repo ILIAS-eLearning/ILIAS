@@ -161,7 +161,7 @@ class arConnectorSession extends arConnector {
 	 * @param ActiveRecord $ar
 	 */
 	public function create(ActiveRecord $ar) {
-		$_SESSION[self::AR_CONNECTOR_SESSION][$ar::returnDbTableName()][$ar->getPrimaryFieldValue()] = $ar->__asArray();
+		$_SESSION[self::AR_CONNECTOR_SESSION][$ar::returnDbTableName()][$ar->getPrimaryFieldValue()] = $ar->__asStdClass();
 	}
 
 
@@ -173,7 +173,7 @@ class arConnectorSession extends arConnector {
 	public function read(ActiveRecord $ar) {
 		$session = self::getSessionForActiveRecord($ar);
 
-		return $session[$ar->getPrimaryFieldValue()];
+		return array( $session[$ar->getPrimaryFieldValue()] );
 	}
 
 
@@ -189,7 +189,7 @@ class arConnectorSession extends arConnector {
 	 * @param ActiveRecord $ar
 	 */
 	public function delete(ActiveRecord $ar) {
-		unset($_SESSION[self::AR_CONNECTOR_SESSION][$ar->getPrimaryFieldValue()]);
+		unset($_SESSION[self::AR_CONNECTOR_SESSION][$ar::returnDbTableName()][$ar->getPrimaryFieldValue()]);
 	}
 
 
@@ -202,7 +202,9 @@ class arConnectorSession extends arConnector {
 	 */
 	public function readSet(ActiveRecordList $arl) {
 		$session = self::getSessionForActiveRecord($arl->getAR());
-
+		foreach ($session as $i => $s) {
+			$session[$i] = (array)$s;
+		}
 		foreach ($arl->getWhere() as $w) {
 
 			$fieldname = $w['fieldname'];
@@ -210,11 +212,13 @@ class arConnectorSession extends arConnector {
 			$operator = $w['operator'];
 
 			foreach ($session as $i => $s) {
+				$session[$i] = (array)$s;
 				switch ($operator) {
 					case '=':
 						if ($s[$fieldname] != $v) {
 							unset($session[$i]);
 						}
+						break;
 				}
 			}
 		}

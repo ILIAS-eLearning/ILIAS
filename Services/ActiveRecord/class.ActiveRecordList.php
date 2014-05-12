@@ -475,6 +475,9 @@ class ActiveRecordList {
 		} else {
 			$records = $this->connector->readSet($this);
 			foreach ($records as $res) {
+				/**
+				 * @var $obj ActiveRecord
+				 */
 				$class = get_class($this->getAR());
 				$obj = new $class();
 				$primaryFieldName = $obj->getArFieldList()->getPrimaryFieldName();
@@ -482,10 +485,13 @@ class ActiveRecordList {
 				$this->result[$primary_field_value] = $obj->buildFromArray($res);
 				$res_awake = array();
 				foreach ($res as $key => $value) {
-					if ($obj->getArFieldList()->getFieldByName($key)->isDateField() AND $this->getDateFormat()) {
-						$res_awake[$key . '_unformatted'] = $value;
-						$res_awake[$key . '_unix'] = strtotime($value);
-						$value = date($this->getDateFormat(), strtotime($value));
+					$arField = $obj->getArFieldList()->getFieldByName($key);
+					if ($arField !== NULL) {
+						if ($arField->isDateField() AND $this->getDateFormat()) {
+							$res_awake[$key . '_unformatted'] = $value;
+							$res_awake[$key . '_unix'] = strtotime($value);
+							$value = date($this->getDateFormat(), strtotime($value));
+						}
 					}
 					if ($this->getAR()->wakeUp($key, $value)) {
 						$res_awake[$key] = $this->getAR()->wakeUp($key, $value);
