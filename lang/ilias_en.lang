@@ -14310,3 +14310,4 @@ forum#:#move_thread_to_forum#:#Move Thread to other Forum
 assessment#:#cloze_gap_size_info#:#If you enter a value greater than 0, this gap text field will be created with the fixed length of this value. If you do not enter a value the gap text fiel will be created with the value of the global fixed length.
 forum#:#post_reply_count#:#Re(%s):
 survey#:#spl_save_obligatory_state#:#Save Obligatory States
+dateplaner#:#cal_ical_url#:#iCal-URL
