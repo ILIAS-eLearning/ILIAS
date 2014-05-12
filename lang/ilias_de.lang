@@ -295,6 +295,7 @@ assessment#:#essay_scoring_mode_keyword_relation_one#:#Automatische Bewertung be
 assessment#:#essay_scoring_mode_keyword_relation_one_desc#:#Die Punkte werden automatisch vergeben, wenn mindestens ein Begriff gefunden wird.
 assessment#:#mark_schema_invalid#:#Das Notenschema konnte nicht erfolgreich validiert werden. Bitte erstellen Sie ein valides Schema.
 assessment#:#0_unlimited#:#(0 = unbegrenzt)
+assessment#:#tst_question_not_from_pool_info#:#Kein Pool
 assessment#:#action#:#Aktion
 assessment#:#add_answer#:#Antwort hinzufügen
 assessment#:#add_answer_tf#:#Wahr-/Falsch-Antworten

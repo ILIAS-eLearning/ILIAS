@@ -212,7 +212,7 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
 		    $this->tpl->setVariable("QUESTION_POOL", ilObject::_lookupTitle($data["orig_obj_fi"]));
 		}
 		else {
-		    $this->tpl->setVariable("QUESTION_POOL", '&nbsp;');
+		    $this->tpl->setVariable("QUESTION_POOL", $this->lng->txt('tst_question_not_from_pool_info'));
 		}
 
 
