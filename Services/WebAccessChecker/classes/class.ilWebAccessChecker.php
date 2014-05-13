@@ -912,8 +912,7 @@ class ilWebAccessChecker
 	public function sendFile()
 	{
 		//$system_use_xsendfile = true;
-		$xsendfile_available = false;
-		
+		$xsendfile_available = (boolean) $_GET["xsendfile"];
 		//if (function_exists('apache_get_modules'))
 		//{
 		//	$modules = apache_get_modules();
@@ -1005,7 +1004,6 @@ class ilWebAccessChecker
 		{
 			header("Content-Type: " . $this->getMimeType());
 		}
-
 		if(!apache_setenv('ILIAS_CHECKED','1'))
 		{
 			$ilLog->write(__METHOD__.' '.__LINE__.': Could not set the environment variable ILIAS_CHECKED.');
