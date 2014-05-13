@@ -1,7 +1,7 @@
 /* Copyright (c) 1998-2014 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file …
-* @author 49930	2014-05-11 14:20 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
+* @author 49967	2014-05-13 08:20 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
 * @author 4.2.2	Berecz Antónia <berecz@gdf.hu>
 * @module		language file Hungary
 * @modulegroup	language
@@ -203,6 +203,7 @@ assessment#:#assessment_scoring_adjust_desc#:#A javítások engedélyezése a te
 assessment#:#assessment_log_scoring_adjustment_activate#:#A kiegészítésben elérhető kérdéstípusok 
 assessment#:#assessment_log_scoring_adjustment_desc#:#Az itt kiválasztott kérdéstípusok lesznek elérhetőek a kiegészítésben. Ez a beállítás független a kérdéstípusok jelenlegi beállításától, például a kiegészítést nem támogató kérdéstípusok is megjelennek itt.
 assessment#:#0_unlimited#:#(0 = korlátlan)
+assessment#:#tst_question_not_from_pool_info#:#Nincs gyűjtemény
 assessment#:#action#:#Művelet
 assessment#:#add_answer_tf#:#igaz/hamis válaszok
 assessment#:#add_answer_yn#:#igen/nem válaszok
@@ -1082,7 +1083,7 @@ assessment#:#tst_stat_selected_users#:#Kiválasztott résztvevők
 assessment#:#tst_stat_users_intro#:#Statisztikai kiértékelés megjelenítése
 assessment#:#tst_status_completed_more_tries_possible#:#Befejezett
 assessment#:#tst_status_completed#:#befejezett
-assessment#:#tst_status_missing_elements#:#A következő elemek hiányoznak:
+assessment#:#tst_status_missing_elements#:#Az alábbi elemek hiányoznak:
 assessment#:#tst_status_missing#:#Szükséges elemek hiányoznak ebből a tesztből.
 assessment#:#tst_status_not_entered#:#Nincs elkezdve
 assessment#:#tst_status_ok#:#A teszt állapota rendben van. Nincsenek hiányzó elemek.
@@ -1556,7 +1557,7 @@ cntr#:#cntr_ordering#:#Rendezés
 cntr#:#cntr_page_actions#:#Laptevékenységek.
 cntr#:#cntr_saved_sorting#:#Rendezés mentve
 cntr#:#cntr_switch_to_new_editor_cmd#:#Új tartalom kapcsolása ehhez a laphoz. A régi tartalom eltávolításra kerül.
-cntr#:#cntr_switch_to_new_editor_message#:#Ez a támogatott szabványos szerkesztő. A régi szerkesztő tartalma nem hozható át. Alább vegyen fel új laptartalmat. Ha a következő linkre kattint, az új tartalom kerül használatra.
+cntr#:#cntr_switch_to_new_editor_message#:#Ez a támogatott szabványos szerkesztő. A régi szerkesztő tartalma nem hozható át. Lentebb vegyen fel új laptartalmat. Ha az alábbi linkre kattint, az új tartalom kerül használatra.
 cntr#:#cntr_switched_editor#:#Új tartalomhoz kapcsolva.
 cntr#:#cntr_text_media_editor#:#Szöveg-/médiaszerkesztő
 cntr#:#cntr_view_by_type#:#Típus szerint csoportosított nézet
@@ -2066,7 +2067,7 @@ common#:#cron_forum_notification_never#:#soha
 common#:#cron_forum_notification#:#Fórumértesítések küldése
 common#:#cron_jobs_desc#:#Az ütemezett feladat (cron job) automatizált folyamat, amely előre definiált időintervallumokban működik. A telepítési dokumentációban talál információt a üzemeléséről.
 common#:#cron_jobs#:#Ütemezett feladatok
-common#:#cron_lucene_index_info#:#Ha engedélyezett, a lucene keresési index frissítésre kerül. Konfigurálja a lucene szervert a következő helyen: 'Adminisztráció → Keresés'!
+common#:#cron_lucene_index_info#:#Ha engedélyezett, a Lucene keresési index frissítésre kerül. Konfigurálja a Lucene szervert az alábbi helyen: 'Adminisztráció → Keresés'!
 common#:#cron_lucene_index#:#Lucene keresési index aktualizálása
 common#:#cron_mail_notification_cron#:#szabályosan ütemezett feladatonként
 common#:#cron_mail_notification_desc#:#Ha engedélyezett, minden felhasználó, aki e-mailen keresztül akar informálódni, belső e-mail értesítést fog kapni. A funkció használatához először kapcsolja ki a 'Külső levelek küldésének globális megakadályozása' beállítást.
@@ -2192,7 +2193,7 @@ common#:#disk_quota_is_unlimited_by_1#:#Az érvényes lemezkvóta nincs korláto
 common#:#disk_quota_last_reminder_sent_desc#:#Az utolsó dátum, amelyen a felhasználó a tárterület betelése miatt emlékeztetőlevelet kapott.
 common#:#disk_quota_last_reminder_sent#:#Az utolsó tárterület-emlékeztető kiküldve
 common#:#disk_quota_on_role_desc#:#Egy szerephez megadott lemeztárhely hatással van a szereppel rendelkező minden felhasználói fiókra.
-common#:#disk_quota_reminder_mail_desc#:#A tárterület-emlékeztető e-mail azoknak a felhasználóknak kerül elküldésre, akik elérték tárterülethatárukat. A levelet kapott felhasználók új e-mailt kapnak a következő 7 napon, míg a tárterülethatáruk alá nem mennek. Az e-mail naponta egyszer, az ILIAS ütemezett feladat futásakor kerül elküldésre.
+common#:#disk_quota_reminder_mail_desc#:#A tárterület-emlékeztető e-mail azoknak a felhasználóknak kerül elküldésre, akik elérték tárterülethatárukat. A levelet kapott felhasználók új e-mailt kapnak az elkövetkezendő 7 napon, míg a tárterülethatáruk alá nem mennek. Az e-mail naponta egyszer, az ILIAS ütemezett feladat futásakor kerül elküldésre.
 common#:#disk_quota_reminder_mail#:#Emlékeztetőlevél
 common#:#disk_quota_report_not_run_yet#:#Nem érhető el jelentés a lemezhasználatról. Előbb futtatni kell az azt megadó napi ütemezett feladatot.
 common#:#disk_quota_report#:#Lemeztárhely részletek
@@ -4472,7 +4473,7 @@ common#:#webdav#:#WebDAV
 common#:#webfolder_dir_info#:#Böngészője nem tud megnyitni webmappákat. Olvassa el a <a href="%1$s">utasításokat a webmappák megnyitásához</a>.
 common#:#webfolder_index_of#:#%1$s indexe
 common#:#webfolder_instructions_info#:#Azokban a böngészőkben, amelyek nem tudnak webmappákat közvetlenül megnyitni, a webmappa-utasítások láthatók. HTML-kódot és az alábbi dzsókerlemeket használhatja: <b>[WEBFOLDER_TITLE]</b>, <b>[WEBFOLDER_URI]</b>, <b>[WEBFOLDER_URI_IE]</b>, <b>[WEBFOLDER_URI_KONQUEROR]</b>, <b>[WEBFOLDER_URI_NAUTILUS]</b>, <b>[ADMIN_MAIL]</b>, <b>[IF_WINDOWS]</b>...<b>[/IF_WINDOWS]</b>, <b>[IF_MAC]</b>...<b>[/IF_MAC]</b>, <b>[IF_LINUX]</b>...<b>[/IF_LINUX]</b>. Törölje ki a mezőt, hogy megkapja az alapértelmezett utasításokat!
-common#:#webfolder_instructions_text#:#<p> Kövesse az alábbi utasításokat a(z) <b>[WEBFOLDER_TITLE]</b> webmappaként való megnyitásához:</p>[IF_WINDOWS]<h3>Utasítások Windows Vista esethez</h3><ol><li>Nyomja meg a Windows+E billentyűkombinációt a Windows Explorer megnyitásához.</li><li>A 'Hálózati hely' varázsló fog megnyílni.</li><li>Kattintson a ’Hálózati hely hozzáadása’-n az eszköztáron.<br/>A ’Hálózati hely hozzáadása’ varázsló fog megnyílni.</li><li>Kattintson a ’Kapcsolódás webhelyhez’ linkre.</li><li>Válassza a ’Másik hálózati hely választása’ opciót, majd a ’Következő’-t.<li>Az ’Internet vagy hálózati cím’ mezőben adja meg<br/><b>[WEBFOLDER_URI]</b><br/>aztán válassza a ’Következő’-t.</li><li>Adja meg bejelentkezési nevét és jelszavát, majd válassza az ’OK’-t.<br/>Ismételje ezt a lépést, amíg eljut a következő dialógusablakig.</li><li>Válassza a ’Befejezés’-t.</li><li>Most már elérheti a webmappát a ’Számítógép’ start menüjéből.</li></ol><h3> Utasítások Windows XPhez</h3><ol><li>Nyomja meg a Windows+E-t az Windows Explorer megnyitásához</li><li>válassza az ’Extrák &gt; Új hálózati hely hozzáadása…’ menüt<br/>A ’Hálózati hely’ varázsló fog megnyílni.</li><li>Kattintson a ’Website-hoz kapcsolódás…’-ra</br> Ekkor megnyílik a segédablak.</li><li>Válassza a ’Következő’-t. </li><li>Válassza a ’Másik hálózati hely választása’ lehetőséget, és kattintson a ’Következő’-re.<li>Az ’Internet és hálózatti cím’ mezőben adja meg<br/><b>[WEBFOLDER_URI]</b><br/>aztán válassza a ’Következő’ gombot.</li><li>Adja meg bejelentkezési jelszavát, majd válassza az 'OK'-t.<li>Adjon meg a webmappához egy nevet, majd válassza a ’Következő’-t.<li>Adja meg felhasználói nevét és jelszavát, majd válassza az ’OK’-t.</li><li>Válassza a ’Befejezés’-t.</li><li>Ekkor megnyílik a webmappa. A későbbiekben a webmappát a start menü ’Hálózati helyek’-ből is elérheti. </li></ol>[/IF_WINDOWS][IF_MAC]<h3> Utasítások Mac OS X-hez </h3><ol><li>Nyissa meg a Keresőt (Finder) </li><li>Válassza a ’Menj &gt; Kapcsolódás Szerverhez…’ menüt</br>Erre a ’Kapcsolódás szerverhez’ dialógusablak nyílik meg. </li><li>A cím mezőben adja meg a következő címet:<br/><b>[WEBFOLDER_URI]</b><br/>és válassza a ’Kapcsolódás’-t.</li><li>Adja meg bejelentkezési nevét és jelszavát, majd válassza az ’OK’-t. </li></ol>[/IF_MAC][IF_LINUX]<h3>Utasítások Linuxhoz és Konquerorhoz</h3><ol><li>Indítsa el a Konqueror böngészőt. </li><li>A cím mezőben adja meg a következő címet:<br/><b>[WEBFOLDER_URI_KONQUEROR]</b></li><li>Nyomja meg az Enter billentyűt. </li><li>Adja meg bejelentkezési nevét és jelszavát, majd válassza az ’OK’-t. </li></ol><h3>Utasítások Linuxhoz Nautilisszal</h3><ol><li>Indítsa el a Nautilis böngészőt</li><li>A cím mezőben adja meg az alábbi címet: <br/><b>[WEBFOLDER_URI_NAUTILUS]</b></li><li>Nyomja meg az Enter billentyűt. </li><li>Adja meg bejelentkezési nevét és jelszavát, majd válassza az ’OK’-t. </li></ol>[/IF_LINUX]<p> Ha nem sikerül megnyitni a webmappát, vegye fel a kapcsolatot az adminisztrátorral <a href=\"mailto:[ADMIN_MAIL]\">[ADMIN_MAIL]</a>.</p>
+common#:#webfolder_instructions_text#:#<p> Kövesse az alábbi utasításokat a(z) <b>[WEBFOLDER_TITLE]</b> webmappaként való megnyitásához:</p>[IF_WINDOWS]<h3>Utasítások Windows Vista esethez</h3><ol><li>Nyomja meg a Windows+E billentyűkombinációt a Windows Explorer megnyitásához.</li><li>A 'Hálózati hely' varázsló fog megnyílni.</li><li>Kattintson a ’Hálózati hely hozzáadása’-n az eszköztáron.<br/>A ’Hálózati hely hozzáadása’ varázsló fog megnyílni.</li><li>Kattintson a ’Kapcsolódás webhelyhez’ linkre.</li><li>Válassza a ’Másik hálózati hely választása’ opciót, majd a ’Következő’-t.<li>Az ’Internet vagy hálózati cím’ mezőben adja meg<br/><b>[WEBFOLDER_URI]</b><br/>aztán válassza a ’Következő’-t.</li><li>Adja meg bejelentkezési nevét és jelszavát, majd válassza az ’OK’-t.<br/>Ismételje ezt a lépést, amíg eljut a következő dialógusablakig.</li><li>Válassza a ’Befejezés’-t.</li><li>Most már elérheti a webmappát a ’Számítógép’ start menüjéből.</li></ol><h3> Utasítások Windows XP-hez</h3><ol><li>Nyomja meg a Windows+E-t az Windows Explorer megnyitásához</li><li>válassza az ’Extrák &gt; Új hálózati hely hozzáadása…’ menüt<br/>A ’Hálózati hely’ varázsló fog megnyílni.</li><li>Kattintson a ’Website-hoz kapcsolódás…’-ra</br> Ekkor megnyílik a segédablak.</li><li>Válassza a ’Következő’-t. </li><li>Válassza a ’Másik hálózati hely választása’ lehetőséget, és kattintson a ’Következő’-re.<li>Az ’Internet és hálózatti cím’ mezőben adja meg<br/><b>[WEBFOLDER_URI]</b><br/>aztán válassza a ’Következő’ gombot.</li><li>Adja meg bejelentkezési jelszavát, majd válassza az 'OK'-t.<li>Adjon meg a webmappához egy nevet, majd válassza a ’Következő’-t.<li>Adja meg felhasználói nevét és jelszavát, majd válassza az ’OK’-t.</li><li>Válassza a ’Befejezés’-t.</li><li>Ekkor megnyílik a webmappa. A későbbiekben a webmappát a start menü ’Hálózati helyek’-ből is elérheti. </li></ol>[/IF_WINDOWS][IF_MAC]<h3> Utasítások Mac OS X-hez </h3><ol><li>Nyissa meg a Keresőt (Finder) </li><li>Válassza a ’Menj &gt; Kapcsolódás Szerverhez…’ menüt</br>Erre a ’Kapcsolódás szerverhez’ dialógusablak nyílik meg. </li><li>A cím mezőben adja meg a következő címet:<br/><b>[WEBFOLDER_URI]</b><br/>és válassza a ’Kapcsolódás’-t.</li><li>Adja meg bejelentkezési nevét és jelszavát, majd válassza az ’OK’-t. </li></ol>[/IF_MAC][IF_LINUX]<h3>Utasítások Linuxhoz és Konquerorhoz</h3><ol><li>Indítsa el a Konqueror böngészőt. </li><li>A cím mezőben adja meg a következő címet:<br/><b>[WEBFOLDER_URI_KONQUEROR]</b></li><li>Nyomja meg az Enter billentyűt. </li><li>Adja meg bejelentkezési nevét és jelszavát, majd válassza az ’OK’-t. </li></ol><h3>Utasítások Linuxhoz Nautilisszal</h3><ol><li>Indítsa el a Nautilis böngészőt</li><li>A cím mezőben adja meg az alábbi címet: <br/><b>[WEBFOLDER_URI_NAUTILUS]</b></li><li>Nyomja meg az Enter billentyűt. </li><li>Adja meg bejelentkezési nevét és jelszavát, majd válassza az ’OK’-t. </li></ol>[/IF_LINUX]<p> Ha nem sikerül megnyitni a webmappát, vegye fel a kapcsolatot az adminisztrátorral <a href=\"mailto:[ADMIN_MAIL]\">[ADMIN_MAIL]</a>.</p>
 common#:#webfolder_instructions_titletext#:#%1$s webmappaként megnyitása
 common#:#webfolder_instructions#:#Webmappa utasítások
 common#:#webfolder_mount_dir_with#:#Nyissa meg webmappaként ezt a lapot <a href="%1$s">Internet Explorerrel</a>, <a href="%2$s">Konquerorral</a>, <a href="%3$s">Nautilusszal</a>,  <a href="%4$s">más böngészővel</a>.
@@ -5299,7 +5300,7 @@ content#:#seq_abandonall#:#A jelenlegi kurzusszakasz el lett hagyva.
 content#:#seq_blocked#:#A következő szakasz blokkolva lett.
 content#:#seq_close#:#Zárja be a lejátszóablakot!
 content#:#seq_coursecomplete#:#A jelenlegi kurzus befejezett.
-content#:#seq_deadlock#:#A sorrendező patthelyzetbe került (deadlockban van).
+content#:#seq_deadlock#:#A sorrendező patthelyzetbe került (deadlock-ban van).
 content#:#seq_endsession#:#A tananyagot becsukta.
 content#:#seq_error#:#Belső hiba fordult elő a sorrendezőben.
 content#:#seq_invalidnavreq#:#A sorrendező érvénytelen kérést kapott.
@@ -5430,7 +5431,7 @@ crs#:#crs_grp_courses_already_assigned#:#A kiválasztott kurzusok már hozzá va
 crs#:#crs_grp_crs_assignment#:#Kurzus-hozzárendelés
 crs#:#crs_grp_deassigned_courses#:#Hozzárendelés törlése
 crs#:#crs_grp_enter_title#:#Adjon meg egy címet.
-crs#:#crs_grp_info_reg#:#A következő kurzusokra tagsági korlátozás van érvényben. Ezekből csak egy kurzusra jelentkezhet:
+crs#:#crs_grp_info_reg#:#Az alábbi kurzusokra tagsági korlátozás van érvényben. Ezekből csak egy kurzusra jelentkezhet:
 crs#:#crs_grp_matriculation_required#:#Ez a kurzuscsoportosítás egyedi beiratkozási számot kíván. <br />Adja meg ezt az értéket a munkaasztalon személyes beállításaiban.
 crs#:#crs_grp_modified_grouping#:#Mentett módosítások.
 crs#:#crs_grp_no_course_selected#:#Válasszon ki egy kurzust!
@@ -7946,7 +7947,7 @@ payment#:#pay_hint_epay#:#Tipp az ePayhez
 payment#:#pay_hint_paypal#:#Elrejtés PayPal-hoz
 payment#:#pay_info_epay#:#Ha megnyomja a 'fizetés'-t, az ePay fizetési ablak megnyílik. Miután befejezte a fizetést, visszatér az ILIAS-hoz.
 payment#:#pay_info_paypal#:#A bevásárlókocsijában levő objektumok kifizetéséhez ideiglenesen el fogja hagyni az ILIAS-t, és a PayPal weboldalára kerül. Kövesse az ott megjelenő lépéseket. A fizetés után automatikusan visszakerül az ILIAS-ba. Ne zárja be böngészője ablakát az eladási eljárás alatt. Ellenkező esetben az Ön által megvásárolt áruk nem kerülnek automatikusan aktiválásra az Ön számára.
-payment#:#pay_info#:#A következő anyagok nem érhetők el ingyenesen. Ha használni akar egy tananyagot, válasszon árat. Munkaasztalán megvásárolhat egy vagy több tananyagot a "bevásárlókosár" gomb segítségével. Azonnal hozzáférése lesz a kiválasztott objektumhoz és időszakhoz.
+payment#:#pay_info#:#Az alábbi anyagok nem érhetők el ingyenesen. Ha használni akar egy tananyagot, válasszon árat. Munkaasztalán megvásárolhat egy vagy több tananyagot a "bevásárlókosár" gomb segítségével. Azonnal hozzáférése lesz a kiválasztott objektumhoz és időszakhoz.
 payment#:#pay_item_already_in_sc_choose_another#:#Ezt az objektumot már betette a bevásárlókosarába. Ha szükséges, válasszon egy új ár/időtartam kombinációt.
 payment#:#pay_item_already_in_sc#:#Ebből az objektumból van már a bevásárlókocsijában.
 payment#:#pay_locator#:#Áruház
@@ -8200,7 +8201,7 @@ payment#:#pays_cost_center#:#Árközpont
 payment#:#pays_currency_subunit#:#Valuta (1/100) (pl. cent)
 payment#:#pays_currency_unit#:#Valuta (pl. EUR)
 payment#:#pays_delete_vendor#:#Felhasználó hozzárendelésének megszüntetése
-payment#:#pays_deleted_number_vendors#:#A következő számú eladó lett törölve:
+payment#:#pays_deleted_number_vendors#:#Az alábbi számú eladó lett törölve:
 payment#:#pays_eco_agreement#:#Megállapodásszám
 payment#:#pays_eco_cur_handle_code#:#Valutakód
 payment#:#pays_eco_layout#:#Számlakinézet
@@ -8647,7 +8648,7 @@ rep#:#rep_intro#:#Üdvözlet a taneszköztárolóban!
 rep#:#rep_intro1#:#Ezen a területen tanulási és munkaforrásokat hozhat létre felhasználói számára. Minden forrás kategóriákba van szervezve. A kategóriák utalhatnak az Ön szervezetének struktúrájára (pl. osztályok), tudományágak hierarchiájára vagy iskolai osztályokra.
 rep#:#rep_intro2#:#Három lépés szükséges a kezdeti struktúra elkészítéséhez:
 rep#:#rep_intro3#:#Kattintson a <i>%s</i> gombra a kiválasztási lista mellett jobb felül.
-rep#:#rep_intro4#:#A következő űrlapon adjon meg címet és leírást, majd kattintson ide: <i>%s</i>.
+rep#:#rep_intro4#:#Az alábbi űrlapon adjon meg címet és leírást, majd kattintson ide: <i>%s</i>.
 rep#:#rep_intro5#:#Az Ön által megadott kategória címére kattintva belép a kategóriába.
 rep#:#rep_intro6#:#Ezután az eljárás után felvehet bármilyen tanulási vagy munkaforrást kategóriájába.
 sahs#:#sahs_chapter#:#Fejezet
@@ -10101,7 +10102,7 @@ exc#:#exc_submission_notification_link#:#Link erre a gyakorlatra: %s
 exc#:#exc_submission_notification_subject#:#Új megoldás került feltöltésre ehhez a gyakorlathoz: "%s".
 wiki#:#wiki_edit_notification#:#E-mail értesítés változásról
 wiki#:#wiki_edit_notification_info#:#Értesítve lesz, ha szerkesztik valamelyik lapot.
-wiki#:#wiki_change_notification_subject#:#Ez a wiki: "%1$s" wiki megváltozott a következőre: %2$s
+wiki#:#wiki_change_notification_subject#:#"%1$s" wiki megváltozott: %2$s
 wiki#:#wiki_change_notification_page_body_update#:#az alábbi wikilapok kerültek frissítésre
 wiki#:#wiki_change_notification_page_body_delete#:#az alábbi wikilapok kerültek törlésre
 wiki#:#wiki_change_notification_page_link#:#URL
@@ -10213,10 +10214,10 @@ forum#:#enter_new_subject#:#Adjon meg új tárgyat!
 dateplaner#:#cal_booking_confirmation_subject#:#Ez a találkozó lefoglalásra került: "%s" .
 dateplaner#:#cal_booking_confirmation_body#:#a találkozója vele lefoglalásra került: %s .
 dateplaner#:#cal_booking_confirmation_link#:#Link a találkozóhoz:
-dateplaner#:#cal_booking_confirmation_user#:#Ez a következő felhasználónak küldött eredeti levél másolata:
-dateplaner#:#cal_booking_cancellation_subject#:#Ez a találkozó törlésre került: "%s".
-dateplaner#:#cal_booking_cancellation_body#:#a találkozója vele törlésre került: %s.
-dateplaner#:#cal_booking_cancellation_user#:#Ez a következő felhasználónak küldött eredeti levél másolata:
+dateplaner#:#cal_booking_confirmation_user#:#Ez a felhasználónak küldött eredeti levél másolata:
+dateplaner#:#cal_booking_cancellation_subject#:#"%s" találkozót lemondta.
+dateplaner#:#cal_booking_cancellation_body#:#a találkozója %s személlyel lemondva.
+dateplaner#:#cal_booking_cancellation_user#:#Ez a felhasználónak küldött eredeti levél másolata:
 webr#:#webr_imort#:#Webhivatkozás importálása
 news#:#finish_publishing_date#:#Publikálás befejezése:
 news#:#news_hide_news_until_date#:#Hírek megjelenítése eddig:
@@ -10858,7 +10859,7 @@ content#:#cont_deactivate_html#:#HTML renderelés letiltása
 content#:#cont_deactivate_js#:#Űrlapmód aktiválása
 content#:#cont_deactivate_media#:#Média letiltása
 content#:#cont_activate_html#:#HTML renderelés aktiválása
-content#:#cont_activate_js#:#Javascript mód aktiválása
+content#:#cont_activate_js#:#JavaScript mód aktiválása
 content#:#cont_activate_media#:#Média aktiválása
 assessment#:#tst_remove_question#:#Biztos, hogy el akarja távolítani az alábbi kérdéseket a tesztből?
 survey#:#survey_cancel_preview#:#Előnézet kikapcsolása
@@ -11090,7 +11091,7 @@ payment#:#position#:#Pos.
 payment#:#amount#:#Összeg
 payment#:#external_bill_no#:#Számlaszám: %s
 payment#:#day_of_service_provision#:#Szolgáltatásnyújtás napjai
-payment#:#total_netprice#:#Teljes netár (USt nélkül)
+payment#:#total_netprice#:#Nettó összeg (ÁFA nélkül)
 payment#:#unit_price#:#Egységár
 payment#:#plus_vat#:#Plusz VAT
 payment#:#credit#:#Hitel
@@ -11925,7 +11926,7 @@ crs#:#crs_link_hide_prev_sessions#:#Előző munkamenete elrejtése
 crs#:#crs_link_show_all_next_sessions#:#Minden közelgő munkamenet
 crs#:#crs_link_hide_next_sessions#:#Közelgő munkamenetek elrejtése
 scormdebug#:#scormdebug_disable_cache#:#SCORM 2004 böngésző cache letiltása
-scormdebug#:#scormdebug_disable_cache_info#:#Ez megakadályozza  a SCORM 2004 javascript fájlok tárolását a böngésző cache-ében. Ezt a funkciót új közzététel előtt használja.
+scormdebug#:#scormdebug_disable_cache_info#:#Ez megakadályozza  a SCORM 2004 JavaScript fájlok tárolását a böngésző cache-ében. Ezt a funkciót új közzététel előtt használja.
 content#:#cont_sequencing#:#Sorrend és navigáció
 content#:#cont_interactions#:#interakció-eredmények tárolása
 content#:#cont_objectives#:#Tanulási célokra vonatkozó adatok tárolása
@@ -12252,26 +12253,26 @@ rbac#:#blog_edit_permission#:#A felhasználó változtathatja a jogosultsági be
 rbac#:#rbac_create_blog#:#Blog létrehozása
 user#:#user_delete_own_account#:#Felhasználói fiók törlése
 rbac#:#trac_write#:#Statisztikai és tanulási előrehaladás adminisztrációjában beállítások szerkesztése
-common#:#obj_dcl#:#Rekordgyűjtemény
-common#:#objs_dcl#:#Rekordgyűjtemények
-common#:#obj_dcl_dupliate#:#Rekordgyűjtemény másolása
+common#:#obj_dcl#:#Adatgyűjtés
+common#:#objs_dcl#:#Adatgyűjtések
+common#:#obj_dcl_dupliate#:#Adatgyűjtés másolása
 dcl#:#dcl_record#:#Rekord
 dcl#:#dcl_hello#:#Kedves
-dcl#:#dcl_new#:#Új rekordgyűjtemény létrehozása
-dcl#:#dcl_add#:#Rekordgyűjtemény létrehozása
-dcl#:#dcl_copy#:#Rekordgyűjtemény másolása
-dcl#:#dcl_edit#:#Rekordgyűjtemény szerkesztése
-dcl#:#dcl_in_export#:#In Export
-rbac#:#dcl_visible#:#Rekordgyűjtemény látható
-rbac#:#dcl_read#:#Olvasási elérés rekordgyűjteményhez
-rbac#:#dcl_copy#:#A felhasználó másolhat rekordgyűjteményt
-rbac#:#dcl_write#:#A felhasználó szerkesztheti az rekordgyűjtemény beállításait és tartalmát
-rbac#:#dcl_delete#:#A felhasználó áthelyezhet vagy törölhet rekordgyűjteményt
+dcl#:#dcl_new#:#Új adatgyűjtés létrehozása
+dcl#:#dcl_add#:#Adatgyűjtés létrehozása
+dcl#:#dcl_copy#:#Adatgyűjtés másolása
+dcl#:#dcl_edit#:#Adatgyűjtés szerkesztése
+dcl#:#dcl_in_export#:#Exportálható 
+rbac#:#dcl_visible#:#Adatgyűjtés látható
+rbac#:#dcl_read#:#Olvasási elérés adatgyűjtéshez
+rbac#:#dcl_copy#:#A felhasználó másolhat adatgyűjtést
+rbac#:#dcl_write#:#A felhasználó szerkesztheti az adatgyűjtés beállításait és tartalmát
+rbac#:#dcl_delete#:#A felhasználó áthelyezhet vagy törölhet adatgyűjtést
 rbac#:#dcl_edit_permission#:#A felhasználó változtathat jogosultsági beállításokat
 rbac#:#dcl_add_entry#:#A felhasználó felvehet/törölhet bejegyzéseket
-rbac#:#rbac_create_dcl#:#Rekordgyűjtemény létrehozása
+rbac#:#rbac_create_dcl#:#Adatgyűjtés létrehozása
 dcl#:#dcl_field_title_change_warning#:#Megváltoztatta a mező címét, ezért bizonyos körülmények között néhány helyőrző a meghatározási nézetben megtörhetett. Ezeket kézzel kell beállítani, ha szükséges.
-common#:#obj_dcl_duplicate#:#Rekordgyűjtemény másolása
+common#:#obj_dcl_duplicate#:#Adatgyűjtés másolása
 survey#:#freetext_answers#:#Válasz megnyitása
 forum#:#frm_at_least_one_moderator#:#Legalább egy moderátor kell legyen.
 payment#:#duration_month#:#Hozzáférés időtartalma hónapban
@@ -12397,18 +12398,18 @@ dcl#:#dcl_edit_type#:#Típus szerkesztése
 dcl#:#dcl_activate_rating#:#Értékelési rekord aktiválása
 dcl#:#dcl_activate_approval#:#Rekord jóváhagyásának aktiválása
 dcl#:#dcl_activate_notification#:#Értesítés aktiválása
-dcl#:#dcl_table_id#:#Táblázat ID
+dcl#:#dcl_table_id#:#Tábla ID
 dcl#:#dcl_add_new_record#:#Új rekord felvétele
 dcl#:#dcl_list_fields#:#Mezők
 dcl#:#dcl_record_view_viewdefinition#:#Nézetdefiníció megtekintése
 dcl#:#dcl_record_edit_viewdefinition#:#Nézetdefiníció szerkesztése
 dcl#:#dcl_record_list_viewdefinition#:#Nézetdefiníció listázása
-dcl#:#dcl_add_new_field#:#Új mező felvétele
-dcl#:#dcl_add_new_table#:#Új táblázat felvétele
-dcl#:#dcl_field_datatype#:#Adattípus mező
-dcl#:#dcl_required#:#Kötelező mező
+dcl#:#dcl_add_new_field#:#Új mező létrehozása
+dcl#:#dcl_add_new_table#:#Új tábla létrehozása
+dcl#:#dcl_field_datatype#:#Adattípus
+dcl#:#dcl_required#:#Kötelező (NOT NULL)
 dcl#:#dcl_edit_type_non#:#Nem szerkeszthető
-dcl#:#dcl_edit_type_non_info#:#Új rekordok létrehozásához szerkesztési  jog szükséges
+dcl#:#dcl_edit_type_non_info#:#Új rekordok létrehozásához szerkesztési jog szükséges
 dcl#:#dcl_edit_type_unlim#:#Nem korlátozott
 dcl#:#dcl_edit_type_unlim_info#:#Az olvasási/szerkesztési joggal rendelkező felhasználók vehetnek fel/szerkeszthetnek új bejegyzéseket
 dcl#:#dcl_edit_type_lim#:#Korlátozott
@@ -12416,11 +12417,11 @@ dcl#:#dcl_edit_type_lim_info#:#A hozzáadási/szerkesztési joggal rendelkező f
 dcl#:#dcl_edit_start#:#Kezdési idő
 dcl#:#dcl_edit_end#:#Befejezési idő
 dcl#:#dcl_export#:#Exportálás
-dcl#:#dcl_table_list_fields#:#Kiválasztott táblázat mezői
+dcl#:#dcl_table_list_fields#:#Kiválasztott tábla mezői
 dcl#:#dcl_view_viewdefinition#:#Nézetdefiníció
-dcl#:#dcl_new_table#:#Új táblázat
-dcl#:#dcl_table_create#:#Táblázat létrehozása
-dcl#:#dcl_table_edit#:#Táblázat frissítése
+dcl#:#dcl_new_table#:#Új tábla
+dcl#:#dcl_table_create#:#Tábla létrehozása
+dcl#:#dcl_table_edit#:#Tábla frissítése
 dcl#:#dcl_new_field#:#Új mező
 dcl#:#dcl_datatype#:#Adattípus
 dcl#:#dcl_integer#:#Egész szám
@@ -12430,10 +12431,10 @@ dcl#:#dcl_boolean#:#Logikai
 dcl#:#dcl_datetime#:#Dátum, idő
 dcl#:#dcl_file#:#Fájlfeltöltés
 dcl#:#dcl_field_description#:#Leírás
-dcl#:#dcl_field_required#:#Megkívánt
+dcl#:#dcl_field_required#:#Kötelező (NOT NULL)
 dcl#:#dcl_length#:#Hossz
 dcl#:#dcl_regex#:#Reguláris kifejezés (határolójel nélkül)
-dcl#:#dcl_filter#:#Szűrő
+dcl#:#dcl_filter#:#Szűrőként használható
 dcl#:#dcl_max_text_length#:#Maximális hossz
 dcl#:#dcl_wrong_length#:#Az Ön által megadott szöveg túl hosszú.
 dcl#:#dcl_wrong_regex#:#Az Ön által megadott szöveg nem illeszkedik ennek a mezőnek a specifikációjához (reguláris kifejezéshez).
@@ -12445,11 +12446,11 @@ dcl#:#dcl_checked#:#Ellenőrzött.
 dcl#:#dcl_not_checked#:#Nem ellenőrzött.
 dcl#:#dcl_any#:#Bármi
 dcl#:#dcl_noturl_exception#:#Meg kell adnia egy linket (http://-vel kezdődjön)
-dcl#:#dcl_no_search_results_found_for#:#Semmilyen modult nem sikerült találni a következőhöz: 
+dcl#:#dcl_no_search_results_found_for#:#Semmilyen modult nem sikerült találni az alábbiakhoz: 
 dcl#:#dcl_export_enabled#:#Export használatának engedélyezése az összes felhasználó számára.
-dcl#:#dcl_no_fields_yet#:#Nincsenek mezők definiálva ehhez a táblázatot, így nem hozhat létre még egy bejegyzést sem.
-dcl#:#dcl_create_fields#:#Kérem hozzon létre legalább egy mezőt a "Mezők listája" fülön.
-dcl#:#dcl_inconsistent_at#:#A rekordgyűjtemény inkonzisztens. A hivatkozás már nem létezik.
+dcl#:#dcl_no_fields_yet#:#Nincsenek mezők definiálva ehhez a táblához, így nem hozhat létre még egy rekordot sem.
+dcl#:#dcl_create_fields#:#Kérem hozzon létre legalább egy mezőt a "Mezők" fül alatti "Új mező létrehozása" gombbal.
+dcl#:#dcl_inconsistent_at#:#Az adatgyűjtés inkonzisztens. A hivatkozás már nem létezik.
 common#:#mail_member#:#E-mail a tagoknak
 exc#:#exc_type_upload_team#:#Csapatfeltöltés
 exc#:#exc_team#:#Csapat
@@ -12596,13 +12597,13 @@ content#:#cont_check_values#:#Értékellenőrzés
 administration#:#adm_social_bm_create#:#Szociális könyvjelző létrehozása
 administration#:#adm_social_bm_edit#:#Szociális könyvjelző szerkesztése
 dcl#:#dcl_actions#:#Cselekmény
-dcl#:#dcl_export_table_excel#:#.xls exportálása
+dcl#:#dcl_export_table_excel#:#Exportálás Excel (.xls) fájlba
 dcl#:#dcl_owner_editable#:#Csak saját rekordok szerkesztése
 dcl#:#dcl_order#:#Sorrend
 dcl#:#dcl_title#:#Mező címe
 dcl#:#dcl_description#:#Mező leírása
-dcl#:#dcl_msg_table_created#:#Táblázat létrehozva
-dcl#:#dcl_save#:#Táblázat mentése
+dcl#:#dcl_msg_table_created#:#Tábla létrehozva
+dcl#:#dcl_save#:#Tábla mentése
 dcl#:#dcl_record_deleted#:#Rekord törölve
 dcl#:#dcl_confirm_delete_record#:#Törli ezt a rekordot?
 content#:#cont_resources_of_type#:#Típus forrásai
@@ -12672,22 +12673,22 @@ ecs#:#ecs_tst_export_disabled#:#Ne legyen kiadva ez a teszt
 ecs#:#ecs_tst_export_enabled#:#Ezen teszt kiadása
 rtst#:#rtst_call#:#ECS teszt hívása
 rbac#:#contribute#:#Közreműködés
-dcl#:#dcl_change_notification_subject#:#"%s" rekordgyűjtemény megváltozott
+dcl#:#dcl_change_notification_subject#:#"%s" adatgyűjtés megváltozott
 dcl#:#dcl_edit_notification#:#E-mail értesítés beállítása
-dcl#:#dcl_edit_notification_info#:#Értesítést fog kapni, ha bármelyik táblázatot szerkesztik
+dcl#:#dcl_edit_notification_info#:#Értesítést fog kapni, ha bármelyik táblát szerkesztik
 dcl#:#dcl_change_notification_link#:#URL
 dcl#:#dcl_change_notification_dcl_new_record#:#az alábbi rekordok lettek létrehozva
 dcl#:#dcl_change_notification_dcl_update_record#:#az alábbi rekordok frissítésre kerültek
 dcl#:#dcl_change_notification_dcl_delete_record#:#az alábbi rekordlapok kerültek törlésre
-dcl#:#dcl_change_why_you_receive_this_email#:#Ezt az üzenetet azért kapta, mert aktiválta a figyelmeztetést erre az rekordgyűjteményre.
-dcl#:#dcl_table#:#Táblázat
+dcl#:#dcl_change_why_you_receive_this_email#:#Ezt az üzenetet azért kapta, mert aktiválta a figyelmeztetést erre az adatgyűjtésre.
+dcl#:#dcl_table#:#Tábla
 dcl#:#dcl_changed_by#:#Változtatta
-dcl#:#dcl_notification_activate_dcl#:#Értesítés aktiválása rekordgyűjteményhez
-dcl#:#dcl_notification_deactivate_dcl#:#Értesítés deaktiválása rekordgyűjteményhez
+dcl#:#dcl_notification_activate_dcl#:#Értesítés aktiválása adatgyűjtéshez
+dcl#:#dcl_notification_deactivate_dcl#:#Értesítés deaktiválása adatgyűjtéshez
 dcl#:#dcl_notification_activated#:#Értesítés aktiválva
 dcl#:#dcl_notification_deactivated#:#Értesítés deaktiválva
-dcl#:#dcl_locked#:#Zárolt
-dcl#:#dcl_table_settings#:#Táblázatbeállítások
+dcl#:#dcl_locked#:#Zárolható
+dcl#:#dcl_table_settings#:#Táblabeállítások
 dcl#:#dcl_add_perm#:#A felhasználó felvehet bejegyzéseket
 dcl#:#dcl_edit_perm#:#A felhasználó szerkeszthet bejegyzéseket
 dcl#:#dcl_delete_perm#:#A felhasználó törölhet bejegyzéseket
@@ -12702,12 +12703,12 @@ dateplaner#:#cal_setting_global_crs_vis#:#Kurzusok megjelenítése
 dateplaner#:#cal_setting_global_grp_vis#:#Csoportokban megjelenítés
 dateplaner#:#cal_setting_global_crs_vis_info#:#Ha engedélyezett, a határidőnapló alapértelmezetten megjelenik a kurzusokban. A megjelenése bármikor engedélyezhető/letilthetó a kurzusbeállításokban.
 dateplaner#:#cal_setting_global_grp_vis_info#:#Ha engedélyezett, a határidőnapló alapértelmezetten megjelenik a kurzusokban. A megjelenése bármikor engedélyezhető/letilthetó a csoportbeállításokban.
-dcl#:#dcl_edit_table#:#Táblázatbeállítások szerkesztése
-dcl#:#dcl_msg_table_edited#:#Táblázatbeállítások mentve
+dcl#:#dcl_edit_table#:#Táblabeállítások szerkesztése
+dcl#:#dcl_msg_table_edited#:#Táblabeállítások mentve
 dcl#:#dcl_legend_placeholders#:#Dzsókerelem
 dcl#:#dcl_rating#:#Értékelés
-dcl#:#dcl_editable_in_table_gui#:#Táblázatnézetben szavazzon!
-dcl#:#dcl_table_settings_saved#:#A táblázatbeállítások mentésre kerültek.
+dcl#:#dcl_editable_in_table_gui#:#Táblanézetben szavazzon!
+dcl#:#dcl_table_settings_saved#:#A táblabeállítások mentésre kerültek.
 dcl#:#dcl_ILIAS_reference#:#Link egy ILIAS-modulhoz
 dcl#:#dcl_learning_progress#:#Linkelt modul tanulási előrehaladásának megjelenítése
 dcl#:#dcl_status#:#Az Ön állapota
@@ -12772,13 +12773,13 @@ exc#:#exc_team_notification_body_rmv#:#Ön kikerült egy csoportos feltöltési 
 exc#:#exc_team_notification_changed_by#:#Az állapotot cserélte
 exc#:#exc_team_notification_link#:#Link a gyakorlathoz
 poll#:#poll_absolute#:#Jelenlegi szavazatok
-dcl#:#dcl_reference_link#:#Táblázatnézetben linkként megjelenítés
-dcl#:#dcl_ILIAS_reference_link#:#Táblázatnézetben linkként megjelenítés
+dcl#:#dcl_reference_link#:#Táblanézetben linkként megjelenítés
+dcl#:#dcl_ILIAS_reference_link#:#Táblanézetben linkként megjelenítés
 dcl#:#dcl_text_area#:#Szövegterület
-dcl#:#dcl_delete_table#:#Táblázat törlése
+dcl#:#dcl_delete_table#:#Tábla törlése
 dcl#:#dcl_table_info#:#A "szerkesztési beállítások" jogosultsággal rendelkező felhasználók (lásd a "Jogosultság" tabfület) mindig rendelkeznek a felvétel/szerkesztés/törlés jogosultsággal a bejegyzésekhez. A "bejegyzés szerkesztése" jogosultságú felhasználók (lásd a "Jogosultságok" tabfület) csak az alábbi űrlapon meghatározott beállítások szerinti jogosultságokkal rendelkeznek.
-dcl#:#dcl_confirm_delete_table#:#Biztos, hogy törölni akarja a táblázatot annak tartalmával és szerkezetével?
-dcl#:#dcl_cant_delete_main_table#:#Nem távolíthatja el teljes egészében ezt a táblázatot, mert az rekordgyűjtemény alapértelmezett táblázata. Ezzel szemben tartalma és szerkezete eltávolítható.
+dcl#:#dcl_confirm_delete_table#:#Biztos, hogy törölni akarja a táblát annak tartalmával és szerkezetével?
+dcl#:#dcl_cant_delete_main_table#:#Nem távolíthatja el teljes egészében ezt a táblát, mert ez az adatgyűjtéshez alapértelmezett táblája. Ezzel szemben tartalma és szerkezete eltávolítható.
 forum#:#frm_notification_activated#:#Értesítés aktiválva
 forum#:#frm_notification_deactivated#:#Értesítés deaktiválva
 administration#:#feedback_recipient_info#:#Ez a cím a lábléc "%s" linkben van használva.
@@ -12797,13 +12798,13 @@ blog#:#blog_search_users#:#Felhasználók keresése
 common#:#il_blog_contributor#:#Blogközreműködő
 rbac#:#blog_contribute#:#A felhasználó közreműködhet
 blog#:#blog_contribute_other_roles#:#Az alábbi szerepek adnak aktív "közreműködő" jogosultságot: %s.
-dcl#:#dcl_no_content_warning#:#Figyelem, az rekordgyűjtemény online, de még nincs tartalma!
+dcl#:#dcl_no_content_warning#:#Figyelem, az adatgyűjtés online, de még nincs tartalma!
 dcl#:#dcl_visible#:#Minden felhasználó számára látható 
 dcl#:#dcl_empty_view#:#Ezen nézet törlése
 dcl#:#dcl_confirm_delete_field#:#Biztos, hogy törölni akarja ezt a mezőt?
 dcl#:#dcl_table_info_title#:#Információ
 dcl#:#dcl_confirm_delete_view_title#:#Biztos, hogy törölni akarja ezt a nézetet?
-dcl#:#dcl_confirm_delete_view_text#:#Ezen táblázat rekordjainak nézetdefiníciója véglegesen el lesz távolítva. A rekordok és a mezők nem változtathatók meg.
+dcl#:#dcl_confirm_delete_view_text#:#A tábla rekordjainak nézetdefiníciója véglegesen eltávolításra kerül. A tábla rekordjai és a mezői nem módosulnak.
 dcl#:#dcl_empty_view_success#:#A nézetdefiníció sikeresen törlésre került.
 dcl#:#dcl_permissions_form#:#Felhasználói jogok
 rating#:#rating_number_votes#:#%s értékelés
@@ -12983,7 +12984,7 @@ tos#:#tos_period_until#:#Ig
 tos#:#tos_acceptance_datetime#:#Dátum
 tos#:#tos_no_documents_exist#:#Jelenleg egy telepített nyelvhez sincs szolgáltatási feltétel.
 ecs#:#ecs_sync_trees#:#Könyvtár faszerkezet szinkronizálása
-survey#:#svy_invite_action#:#FElhasználók meghívása a felmérésbe
+survey#:#svy_invite_action#:#Felhasználók meghívása a felmérésbe
 rbac#:#chtr_delete#:#Felhasználó mozgathat illetve törölhet csoportot
 ecs#:#ecs_role_mappings#:#Kurzus/Csoport szerep összerendelések
 ecs#:#ecs_role_mapping_value#:#Attribútum értéke
@@ -13055,15 +13056,15 @@ cron#:#cron_action_reset_success#:#Ütemezett feladat reset.
 cron#:#cron_action_edit_success#:#Ütemezés frissítve.
 dcl#:#dcl_no_warnings#:#Az import figyelmeztetés nélkül véget ért.
 dcl#:#dcl_not_supported_in_import#:#Ez a mezőtípus nem támogatott az importban.
-dcl#:#dcl_no_such_reference#:#A következő érték nem érhető el a referenciatáblában:
-dcl#:#dcl_file_not_readable#:#A fájl nem olvasható. Győződjön meg róla, hogy XLS fájlt tölt fel.
-dcl#:#dcl_import_terminated#:#Az import véget ért. Bejegyzések hozzáadva
-dcl#:#dcl_max_import#:#Elértük a maximálisan importálható bejegyzések számát.
+dcl#:#dcl_no_such_reference#:#Az alábbi érték nem érhető el a referenciatáblában:
+dcl#:#dcl_file_not_readable#:#A fájl nem olvasható. Győződjön meg róla, hogy Excel (.xls) fájlt tölt fel.
+dcl#:#dcl_import_terminated#:#Az import véget ért. Rekordok hozzáadva
+dcl#:#dcl_max_import#:#Elértük a maximálisan importálható rekordok számát.
 dcl#:#dcl_row_not_found#:# - Ez a mező nem található a táblában.
-dcl#:#dcl_import_records .xls#:#.xls fájlként importálás
-dcl#:#dcl_file_format_description#:#A fájl excel .XLS fájl legyen, első munkalapján az importálandó adatokkal. Az első sorban legyenek pontosan írva a mezőnevek (kis- és nagybetű megkülönböztetve), az alatta lévő sorokban az értékeik. Először ajánlott az importot szimulálni.
+dcl#:#dcl_import_records .xls#:#Importálás Excel (.xls) fájlból
+dcl#:#dcl_file_format_description#:#A fájl Excel (.xls) fájl legyen, első munkalapján az importálandó adatokkal. Az első sorban legyenek pontosan írva a mezőnevek (kis- és nagybetű megkülönböztetve), az alatta lévő sorokban az értékeik. Először ajánlott az importot szimulálni.
 dcl#:#dcl_simulate_import#:#Import szimulálása
-dcl#:#dcl_simulate_info#:#Az importálás szimulálása egy új mezőt sem ad a rekordgyűjteményhez, de az esetleges importálási fájl hibáit jelzi, így megelőzheti a hibás bejegyzéseket.
+dcl#:#dcl_simulate_info#:#Az importálás szimulálása egy új mezőt sem ad az adatgyűjtéshez, de az esetleges importálási fájl hibáit jelzi, így megelőzheti a hibás rekordokat.
 dcl#:#dcl_multiple_selection#:#Többszörös kiválasztás
 dcl#:#dcl_field_title_unique#:#Ilyen mezőnév már létezik. A mezőnévnek egyedinek kell lennie.
 dcl#:#dcl_table_title_unique#:#Ilyen táblanév már létezik. A táblanévnek egyedinek kell lennie.
@@ -13121,7 +13122,7 @@ common#:#enable_repository_dnd_upload_info#:#Engedélyezi, hogy fájlok fogd-és
 common#:#concurrent_uploads#:#Egyidejű feltöltések száma
 common#:#concurrent_uploads_info#:#Megszabja, hogy feltöltési folyamatonként egyidejűleg hány fájl tölthető fel.
 common#:#download_link#:#Letöltési link
-common#:#file_confirm_delete_versions#:#Biztos törölni akarod a következő fájl verziókat?
+common#:#file_confirm_delete_versions#:#Biztos törölni akarod az alábbi fájl verziókat?
 common#:#file_confirm_delete_all_versions#:#Az összes fájl verziót kiválasztottad. Így az egész fájl törlődik. Biztos ezt szeretnéd?
 common#:#file_versions_deleted#:#A kiválasztott fájl verziók sikeresen törlődtek.
 common#:#file_rollback_select_exact_one#:#Csak egy verzió választható, hogy az aktuális verzió legyen.
@@ -13138,7 +13139,7 @@ user#:#user_delete_own_account_logout_button#:#Hitelesítés menete
 user#:#user_delete_own_account_aborted#:#Törlés megszakítva, a fiókon nem történt változás.
 rbac#:#edit_userassignment#:#Felhasználó hozzárendelés szerkesztése
 blog#:#blog_posting_edit_approval_info#:#A hozzászólást a közzététel előtt egy tutornak jóvá kell hagynia.
-survey#:#survey_code_delete_sure#:#Biztos törölöd a következő hozzáférési kódokat?
+survey#:#survey_code_delete_sure#:#Biztos törölöd az alábbi hozzáférési kódokat?
 survey#:#survey_360_title#:#360°
 survey#:#survey_360_mode#:#360°-os visszajelzés
 survey#:#survey_360_self_evaluation#:#Visszajelzést fogadó személy is lehetnek saját maga visszajelzést adó személye
@@ -13150,7 +13151,7 @@ survey#:#survey_360_results_own#:#Saját visszajelzést adóim részére
 survey#:#survey_360_results_all#:#Összes visszajelzést fogadó személy részére
 survey#:#survey_360_appraisees#:#Visszajelzést fogadó személyek
 survey#:#survey_360_edit_raters#:#Visszajelzést adók szerkesztése
-survey#:#survey_360_sure_delete_appraises#:#Biztos eltávolítod a következő visszajelzést fogadó személyeket?
+survey#:#survey_360_sure_delete_appraises#:#Biztos eltávolítod az alábbi visszajelzést fogadó személyeket?
 survey#:#survey_360_sure_delete_raters#:#Biztos el akarod távolítani %s visszajelzést adóit?
 survey#:#survey_360_add_external_rater#:#Külső visszajelzést adó hozzáadása
 survey#:#survey_360_no_appraisees#:#Jelenleg nincs olyan személy, akinek visszajelezhetne.
@@ -13167,13 +13168,13 @@ skmg#:#skmg_assign_level#:#Szint hozzárendelése
 skmg#:#skmg_profile#:#Profil
 skmg#:#skmg_remove_levels#:#Szintek eltávolítása
 skmg#:#skmg_select_skill_level_assign#:#Válassz egy szakismeret.
-skmg#:#skmg_confirm_remove_level_ass#:#Biztos le kívánja törölni a következő kompetenciaszinteket a profilból?
+skmg#:#skmg_confirm_remove_level_ass#:#Biztos törli az alábbi kompetenciaszinteket a profilból?
 skmg#:#skmg_assigned_users#:#Hozzárendelt felhasználók
 skmg#:#skmg_assign_user#:#Felhasználó hozzárendelése
-skmg#:#skmg_confirm_user_removal#:#Biztos le kívánod törölni a következő felhasználókat ebből a profilból?
+skmg#:#skmg_confirm_user_removal#:#Biztos le kívánod törölni az alábbi felhasználókat ebből a profilból?
 skmg#:#skmg_resources#:#Erőforrások
 skmg#:#skmg_add_resource#:#Erőforrás hozzáadása
-skmg#:#skmg_confirm_level_resources_removal#:#Biztos le kívánod törölni a következő erőforrásokat a kompetenciaszintből?
+skmg#:#skmg_confirm_level_resources_removal#:#Biztos le kívánod törölni az alábbi erőforrásokat a kompetenciaszintből?
 survey#:#survey_activate_skill_service#:#Kompetenciaszolgáltatás aktiválása
 survey#:#survey_skill_assign#:#Kérdés/Kompetencia összerendelés
 survey#:#survey_skill#:#Kompetencia
@@ -13190,7 +13191,7 @@ survey#:#survey_calc_skills#:#Kompetenciaszintek meghatározása
 survey#:#survey_write_skills#:#Kompetenciák írása
 skmg#:#skmg_target_level#:#Profil célszint
 skmg#:#skmg_360_survey#:#360°-os kérdőív
-skmg#:#skmg_skill_needs_impr_res#:#Szükséges fejlesztenie azt a kompetenciát. A következő erőforrások biztosítanak tanulási anyagot a kívánt kompetenciaszint eléréséhez. 
+skmg#:#skmg_skill_needs_impr_res#:#Szükséges fejlesztenie azt a kompetenciát. Az alábbi erőforrások biztosítanak tanulási anyagot a kívánt kompetenciaszint eléréséhez. 
 skmg#:#skmg_skill_needs_impr_no_res#:#Szükséges fejlesztenie azt a kompetenciát. Sajnos jelenleg nincs olyan erőforrás, melyet tanulási anyagként segítene a kívánt kompetenciaszint eléréséhez.
 skmg#:#skmg_skill_no_needs_impr#:#A kompetencia szintje elegendő a kiválasztott profilhoz.
 survey#:#survey_360_rater_mail_sent#:#Levél elküldve
@@ -13240,7 +13241,7 @@ survey#:#survey_notification_tutor_recipients#:#Tutorok (Bejelentkezés[ek])
 survey#:#survey_notification_tutor_recipients_invalid#:#Kérem adjon írási jogosultságot a felhasználók számára.
 survey#:#survey_notification_tutor_subject#:#Az összes résztvevő befejezte a(z) "%s" kérdőívet.
 survey#:#survey_notification_tutor_salutation#:#Helló %s,
-survey#:#survey_notification_tutor_body#:#A következő kérdőívet az összes résztvevő befejezte.
+survey#:#survey_notification_tutor_body#:#Az alábbi kérdőívet az összes résztvevő befejezte.
 survey#:#survey_notification_tutor_link#:#Link a kérdőívhez
 survey#:#survey_reminder_subject#:#"%s" kérdőív még nem ért véget
 survey#:#survey_reminder_salutation#:#Helló %s,
@@ -13291,16 +13292,16 @@ dateplaner#:#cal_ch_cron_reminder_info#:#Amennyiben engedélyezett, a soron köv
 dateplaner#:#cal_ch_cron_reminder_days#:#Napok száma
 dateplaner#:#cal_ch_delete_booking_info#:#A "Foglalás törlése" nem értesíti email-ben a felhasználókat. Amennyiben szeretné hogy a felhasználók értesítést kapjanak, használja a  "Foglalás lemondása" lehetőséget.
 dateplaner#:#cal_ch_cancel_booking_info#:#A "Foglalás lemondása" email-ben értesíti a felhasználókat. Amennyiben szeretné hogy a felhasználók ne kapjanak értesítést, használja a  "Foglalás törlése" lehetőséget.
-dateplaner#:#cal_ch_delete_app_booking_info#:#A következő találkozókhoz van létező foglalás. A felhasználók nem kapnak értesítést, ha törli ezeket a találkozókat.
+dateplaner#:#cal_ch_delete_app_booking_info#:#Az alábbi találkozókhoz van létező foglalás. A felhasználók nem kapnak értesítést, ha törli ezeket a találkozókat.
 dateplaner#:#cal_ch_user_assignment_success#:#A kiválasztott találkozókhoz hozzárendeltük a felhasználókat.
-dateplaner#:#cal_ch_user_assignment_failed_info#:#A kiválasztott találkozókhoz a következő felhasználók hozzárendelése nem sikerült, mert elérték a foglalások maximális számát.
+dateplaner#:#cal_ch_user_assignment_failed_info#:#A kiválasztott találkozókhoz az alábbi felhasználók hozzárendelése nem sikerült, mert elérték a foglalások maximális számát.
 dateplaner#:#cal_booking_failed_info#:#A találkozó betelt. Kérem válasszon másikat.
 registration#:#registration_codes_override_info#:#Ez a beállítás felülírja a "Regisztráció beállítások" alatt lévő bármely értékét.
 registration#:#registration_codes_override_global_info#:#Ezek a beállítások regisztrációk kódokkal felülírhatóak.
 crs#:#event_list_registered_only#:#Csak regisztrált tagoknak
 didactic#:#didactic_default_type#:#Alapértelmezett
-pd#:#pd_info_delete_sure_remove#:#Biztos letávolítod a következő objektumokat a Személyes asztalodról?
-pd#:#pd_info_delete_sure_unsubscribe#:#Biztos leiratkozol a következő objektumokról?
+pd#:#pd_info_delete_sure_remove#:#Biztos letávolítod az alábbi objektumokat a Személyes asztalodról?
+pd#:#pd_info_delete_sure_unsubscribe#:#Biztos leiratkozol az alábbi objektumokról?
 pd#:#pd_min_one_admin#:#Legalább egy adminisztrátor hozzá kell hogy legyen rendelve ezen objektumhoz.
 file#:#enable_personal_workspace_disk_quota#:#Kemény kvóta aktiválása a személyes munkaterületre
 file#:#enable_personal_workspace_disk_quota_info#:#Kemény lemezterület-méret megadását teszi lehetővé az összes felhasználóra és az összes globális szerepre. Ez a kvóta csak a személyes munkaterületen és a portfóliókban lévő fájlokra jelent korlátot. Amint egy felhasználó eléri a megadott kvótát, az ILIAS nem engedi több fájl feltöltését mindaddig, míg a felhasználó a kvóta alá nem csökkenti a felhasznált lemezterületét.
@@ -13348,7 +13349,7 @@ assessment#:#tst_no_scorable_qst_available#:#Nincs elérhető pontozandó kérd�
 assessment#:#part_received_a_of_b_points#:#A résztvevő elért %s pontot a lehetséges %s pontból
 assessment#:#answers_of#:#Válasz:
 survey#:#survey_360_appraisee_close_action_success_admin#:#A visszajelzést fogadó személyek 360°-os kérdőívei lezárultak a visszajelzést adók számára.
-survey#:#survey_360_sure_appraisee_close_admin#:#Biztos le szeretnéd zárni a kérdőíveket a következő visszajelzést fogadó személyek számára?
+survey#:#survey_360_sure_appraisee_close_admin#:#Biztos le szeretnéd zárni a kérdőíveket az alábbi visszajelzést fogadó személyek számára?
 assessment#:#question_id#:#Kérdésazonosító
 assessment#:#question_id_short#:#Azonosító
 mcst#:#mcst_download_videoalternative#:#Alternatív fájl leöltése
@@ -13375,8 +13376,8 @@ cld#:#cld_config_entry_does_not_exist#:#Konfigurációs bejegyzés nem létezik
 cld#:#cld_config_no_valid_get_or_set_function#:#Nincs érvényes get illetve set függvény a konfigurációs értékhez.
 cld#:#cld_config_table_does_not_exist#:#Konfigurációs tábla nem létezik
 cld#:#cld_config_unknown_exception#:#Ismeretlen kivétel
-cld#:#cld_confirm_delete_file#:#Biztos, hogy a következő fájl törlődjön:
-cld#:#cld_confirm_delete_folder#:#Biztos, hogy a következő könyvtár törlődjön:
+cld#:#cld_confirm_delete_file#:#Biztos, hogy az alábbi fájl törlődjön:
+cld#:#cld_confirm_delete_folder#:#Biztos, hogy az alábbi könyvtár törlődjön:
 cld#:#cld_create_folder#:#Könyvtár létrehozása
 cld#:#cld_delete_failed#:#Törlés sikertelen
 cld#:#cld_file_deleted#:#Objektum törölve
@@ -13437,7 +13438,7 @@ rbac#:#cld_upload#:#Felhasználó feltölthet fájlt a felhőobjektumba
 rbac#:#cld_download#:#Felhasználó letölthet fájlt a felhőobjektumból
 rbac#:#cld_edit_permission#:#Felhasználó szerkesztheti a jogosultsági beállításokat
 wsp#:#wsp_shared_date#:#Megosztás dátuma
-wsp#:#wsp_shared_type#:#Megosztva a következővel
+wsp#:#wsp_shared_type#:#Megosztva az alábbival
 wsp#:#wsp_shared_object_type#:#Erőforrás típusa
 wsp#:#wsp_shared_user_filter#:#Bejelentkezés/Név
 wsp#:#wsp_shared_date_filter#:#Megosztva ez után
@@ -13499,7 +13500,7 @@ exc#:#exc_global_feedback_file_cron#:#Megjegyzés
 exc#:#exc_global_feedback_file_cron_info#:#Az összes hallgató ütemezett feladat által értesítést kapjon amikor a visszajelző fájl elérhetővé válik.
 exc#:#exc_feedback_notification_subject#:#"%s" gyakorlat feltöltéséhez visszajelzés elérhető.
 exc#:#exc_feedback_notification_salutation#:#Helló %s,
-exc#:#exc_feedback_notification_body#:#A következő feltöltéshez új visszajelzés érhető el.
+exc#:#exc_feedback_notification_body#:#Az alábbi feltöltéshez új visszajelzés érhető el.
 exc#:#exc_feedback_notification_link#:#Link a gyakorlathoz
 mail#:#system_notification_installation_signature#:#Ez az email automatikusan került kiküldésre az ILIAS-ból
 mail#:#system_notification_installation_changed_by#:#Megváltoztatva ekkor
@@ -13544,7 +13545,7 @@ rep#:#rep_new_item_group_add#:#Csoport hozzáadása
 rep#:#rep_new_item_group_nr_subitems#:#Hozzárendelt objektumok száma
 rep#:#rep_new_item_group_unassigned_subitems#:#Hozzá nem rendelt objektumok száma: %s
 rep#:#rep_new_item_group_edit#:#Csoport szerkesztése
-rep#:#rep_new_item_group_delete_sure#:#Biztos törlöd a következő csoportokat?
+rep#:#rep_new_item_group_delete_sure#:#Biztos törlöd az alábbi csoportokat?
 registration#:#reg_email_domains_code#:#Regisztrációs kóddal bármely emailcím érvényes.
 payment#:#placeholders#:#Helyőrzők
 payment#:#current_timestamp#:#Pillanatnyi Unix időbélyegző
@@ -13791,7 +13792,7 @@ content#:#cont_cach_mode#:#Mód
 content#:#cont_cach_mode_automatic#:#Automatikus
 content#:#cont_cach_mode_automatic_info#:#Az összes konzultációs időpontja közzétételre kerül.
 content#:#cont_cach_mode_manual#:#Kézi
-content#:#cont_cach_mode_manual_info#:#Csak a következő csoportok konzultációs időpontjai kerülnek közzétételre.
+content#:#cont_cach_mode_manual_info#:#Csak az alábbi csoportok konzultációs időpontjai kerülnek közzétételre.
 search#:#search_mime_pdf#:#PDF Fájlok
 search#:#search_mime_word#:#Word Fájlok
 search#:#search_mime_excel#:#Excel Fájlok
@@ -13827,7 +13828,7 @@ search#:#search_user_search_info_form#:#Amennyiben engedélyezett, felhasználó
 adve#:#adve_blocking_mode#:#Zárolás szerkesztése
 adve#:#adve_minutes#:#Percek
 adve#:#adve_minutes_info#:#Inaktivitás percben, mielőtt egy szerkesztési zárolás lejár és az oldalt másik felhasználó szerkesztheti.
-content#:#content_until#:#Zárolva legalább a következő időpontig: 
+content#:#content_until#:#Zárolva legalább az alábbi időpontig: 
 content#:#content_no_edit_lock#:#Másik felhasználó jelenleg zárolja az oldalt.
 exc#:#exc_fb_tutor_info#:#Amikor a visszajelzési fájl tölt fel valaki, figyelmeztetés küldünk a felhasználónak, és a fájl a felhasználóhoz rendelt nézetben megjelenik.
 obj#:#svy_results#:#Eredmények
@@ -13840,7 +13841,7 @@ mob#:#mob_subtitle_files#:#Felirat fájlok
 mob#:#mob_subtitle_file#:#Felirat fájl
 mob#:#mob_language#:#Nyelv
 mob#:#mob_file#:#Fájl
-mob#:#mob_really_delete_srt#:#Biztos törölni szeretnéd a következő srt fájlokat?
+mob#:#mob_really_delete_srt#:#Biztos törölni szeretnéd az alábbi srt fájlokat?
 mob#:#mob_srt_files_deleted#:#A felirat fájlt töröltük.
 bibl#:#bibl_copy#:#Felhasználó másolhatja a bibliográfiát
 bibl#:#bib_default_address#:#Lakcím
@@ -14009,7 +14010,7 @@ blog#:#blog_edit_posting#:#Hozzászólás szerkesztése
 sop#:#sop_check_system_requirements#:#Rendszerkövetelmények ellenőrzése
 sop#:#sop_already_exported#:#Ezt a tanulási modult már exportálták. Nyissa meg egy olyan számítógépen, melyre Firefox-ot telepítettek SCORM Offline Player kiegészítővel.
 sop#:#sop_firefox_required#:#A SCORM offline modul naprakész Mozilla Firefox böngészőt igényel (> v. 20)<br /><a href='http://www.mozilla.org/en/firefox/new' target='_new'>Firefox letöltése</a>
-sop#:#sop_xpi_install#:#Kérem telepítse a következő Firefox-kiegészítőt: %s<br />A sikeres xpi telepítés után az 'Oldal újratöltése' gombbal szükséges az oldal frissítése. Ezután a SCORM tanulási modul használható offline módban.
+sop#:#sop_xpi_install#:#Kérem telepítse az alábbi Firefox-kiegészítőt: %s<br />A sikeres xpi telepítés után az 'Oldal újratöltése' gombbal szükséges az oldal frissítése. Ezután a SCORM tanulási modul használható offline módban.
 sop#:#sop_reload_page#:#Oldal újratöltése
 sop#:#sop_text_export#:#SCORM tanulási modul exportálása offline használathoz  
 sop#:#sop_export#:#SCORM tanulási modul exportálása
@@ -14110,7 +14111,7 @@ skmg#:#skmg_usage_obj_profiles#:#Profil(ok)
 rbac#:#rbac_create_bibl#:#Bibliográfia létrehozása
 rbac#:#rbac_create_cld#:#Felhő objektum létrehozása
 prtf#:#prtf_template_import_new_skills#:#Amennyiben aktív, a személyes kompetenciáidhoz hozzáadódnak ezek az elemek.
-book#:#book_confirm_cancel#:#Biztos le szeretnéd mondani a következő foglalás?
+book#:#book_confirm_cancel#:#Biztos le szeretnéd mondani az alábbi foglalás?
 rbac#:#crss_visible#:#Kurzus adminisztráció látható
 rbac#:#crss_read#:#Felhasználónak olvasási joga van a Kurzus adminisztrációhoz
 rbac#:#crss_write#:#Beállítások szerkesztése a Kurzus adminisztrációban
@@ -14154,8 +14155,8 @@ trac#:#trac_object_statistics_info#:#Amennyiben aktív, a felhasználó statiszt
 ldap#:#ldap_user_sync_cron_info#:#Amennyiben aktív, az LDAP könyvtárból importálásra és folyamatos szinkronizálásra kerülnek a felhasználói fiókok.
 exc#:#exc_peer_review_cron_info#:#Amennyiben aktív, a gyakorlat résztvevői emlékeztetve lesznek, hogy küldjenek folyamatban lévő visszajelzést.
 survey#:#survey_reminder_cron_info#:#Amennyiben aktív, a felhasználók emlékeztetve lesznek, hogy vegyek részt a kérdőív kitöltésében.
-cron#:#cron_action_activate_sure_multi#:#Biztos aktiválod a következő ütemezett feladatot?
-cron#:#cron_action_deactivate_sure_multi#:#Biztos deaktiválod a következő ütemezett feladatot?
+cron#:#cron_action_activate_sure_multi#:#Biztos aktiválod az alábbi ütemezett feladatot?
+cron#:#cron_action_deactivate_sure_multi#:#Biztos deaktiválod az alábbi ütemezett feladatot?
 crs#:#crs_status_determination_lp_info#:#Amikor a tanulási folyamat "Befejezett"-re változik, a kurzus státusz automatikusan "Megfelelt" lesz. A tutorok a státuszt még mindig meg tudják változtatni.
 grp#:#grp_reg_no_selfreg#:#Nincs önálló regisztráció
 crs#:#crs_mail_tutors_only_info#:#Csak adminisztrátorok és tutorok használhatják a "Tagok" fülön a "Levél a tagoknak" lehetőséget.
@@ -14284,7 +14285,7 @@ exc#:#exc_publishing#:#Közzététel
 exc#:#exc_min_nr_info#:#Ez az érték a kötelező feladatok számánál nem lehet kisebb.
 exc#:#exc_passed_status_determination#:#A "Megfelelt" státusz meghatározása
 exc#:#exc_completion_by_tutor#:#Csak manuálisan a tutor
-exc#:#exc_your_text#:#Szöveged
+exc#:#exc_your_text#:#Szövege
 exc#:#exc_peer_review_min_number_info#:#Ennyi felhasználó munkáját kell értékelnie a résztvevőnek, mielőtt a saját munkájának az értékelése láthatóvá válik.
 content#:#cont_def_feedb_activated#:#Az alapértelmezett visszajelzés-szövegek aktívak a tanulási modul beállításiban.
 content#:#cont_def_feedb_deactivated#:#Az alapértelmezett visszajelzés-szövegek deaktiváltak a tanulási modul beállításiban.
@@ -14309,3 +14310,4 @@ forum#:#move_thread_to_forum#:#Téma áthelyezése másik fórumba
 assessment#:#cloze_gap_size_info#:#Ha 0-nál nagyobb értéked ad meg, ilyen hosszúságú lesz a szövegmező. Amennyiben nem ad meg értéket, a globális hossz lesz ez az érték.
 forum#:#post_reply_count#:#Válasz(%s):
 survey#:#spl_save_obligatory_state#:#Kötelező állapot mentése
+dateplaner#:#cal_ical_url#:#iCal-URL
