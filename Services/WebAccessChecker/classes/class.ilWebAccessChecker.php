@@ -894,7 +894,8 @@ class ilWebAccessChecker
 	public function sendFile()
 	{
 		//$system_use_xsendfile = true;
-		$xsendfile_available = (boolean) $_GET["xsendfile"];
+		//$xsendfile_available = (boolean) $_GET["xsendfile"];
+		$xsendfile_available = false;
 		//if (function_exists('apache_get_modules'))
 		//{
 		//	$modules = apache_get_modules();
@@ -902,7 +903,6 @@ class ilWebAccessChecker
 		//}
 		
 		//$xsendfile_available = $system_use_xsendfile & $xsendfile_available;
-		
 		
 		// delivery via apache virtual function
 		if ($this->getDisposition() == "virtual")
@@ -935,6 +935,13 @@ class ilWebAccessChecker
 			{
 				header("Content-Type: " . $this->getMimeType());
 			}
+
+			// see bug 12622 and 12124
+			if (isset($_SERVER['HTTP_RANGE']))  { // do it for any device that supports byte-ranges not only iPhone
+				ilUtil::rangeDownload($this->file);
+				exit;
+			}
+
 			header("Content-Length: ".(string)(filesize($this->file)));
 			
 			if (isset($_SERVER["HTTPS"]))
@@ -995,6 +1002,7 @@ class ilWebAccessChecker
 		{
 			$ilLog->write(__METHOD__.' '.__LINE__.': Could not perform the required sub-request to deliver the file: '.$this->virtual_path);
 		}
+
 		exit;
 	}
 	
