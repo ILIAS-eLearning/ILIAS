@@ -2872,7 +2872,7 @@ return;
 	 */
 	function edit()
 	{
-		global $tree, $lng, $ilCtrl, $ilSetting, $ilUser;
+		global $tree, $lng, $ilCtrl, $ilSetting, $ilUser, $ilHelp;
 
 		// editing allowed?
 		if (!$this->getEnableEditing())
@@ -2880,7 +2880,9 @@ return;
 			ilUtil::sendFailure($lng->txt("permission_denied"), true);
 			$ilCtrl->redirect($this, "preview");
 		}
-		
+
+		$ilHelp->setScreenId("edit_".$this->getParentType());
+
 		require_once 'Services/Captcha/classes/class.ilCaptchaUtil.php';
 		if(
 			$ilUser->isAnonymous() &&
