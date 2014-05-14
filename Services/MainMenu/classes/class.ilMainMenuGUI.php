@@ -999,7 +999,7 @@ class ilMainMenuGUI
 	function renderHelpButtons()
 	{
 		global $ilHelp, $lng, $ilCtrl, $tpl, $ilSetting, $ilUser;
-		
+
 		// screen id
 		if (defined("OH_REF_ID") && OH_REF_ID > 0)
 		{

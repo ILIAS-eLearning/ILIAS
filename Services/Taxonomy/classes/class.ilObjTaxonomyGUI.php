@@ -367,7 +367,10 @@ die("ilObjTaxonomyGUI::getTreeHTML is deprecated.");
 	 */
 	function createTaxNode()
 	{
-		global $tpl;
+		global $tpl, $ilHelp;
+
+		$this->setTabs("list_items");
+		$ilHelp->setSubScreenId("create_node");
 		
 		$this->initTaxNodeForm("create");
 		$tpl->setContent($this->form->getHTML());
@@ -509,12 +512,15 @@ die("ilObjTaxonomyGUI::getTreeHTML is deprecated.");
 	 */
 	function deleteItems()
 	{
-		global $lng, $tpl, $ilCtrl, $ilTabs;
+		global $lng, $tpl, $ilCtrl, $ilTabs, $ilHelp;
 
 		if(!isset($_POST["id"]))
 		{
 			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
 		}
+
+		$this->setTabs("list_items");
+		$ilHelp->setSubScreenId("del_items");
 
 //		$ilTabs->clearTargets();
 		
@@ -614,8 +620,11 @@ die("ilObjTaxonomyGUI::getTreeHTML is deprecated.");
 	 */
 	function moveItems()
 	{
-		global $tpl, $ilCtrl, $lng, $ilToolbar;
-		
+		global $tpl, $ilCtrl, $lng, $ilToolbar, $ilHelp;
+
+		$this->setTabs("list_items");
+		$ilHelp->setSubScreenId("move_items");
+
 		$ilToolbar->addButton($lng->txt("cancel"),
 			$ilCtrl->getLinkTarget($this, "listNodes"));
 		
@@ -758,10 +767,12 @@ die("ilObjTaxonomyGUI::getTreeHTML is deprecated.");
 	 */
 	function setTabs($a_id)
 	{
-		global $ilTabs, $ilCtrl, $tpl, $lng;
+		global $ilTabs, $ilCtrl, $tpl, $lng, $ilHelp;
 		
 		$ilTabs->clearTargets();
-		
+
+		$ilHelp->setScreenIdComponent("tax");
+
 		$tpl->setTitle(ilObject::_lookupTitle($this->getCurrentTaxonomyId()));
 		$tpl->setTitleIcon(ilUtil::getImagePath("icon_tax_b.png"));
 		

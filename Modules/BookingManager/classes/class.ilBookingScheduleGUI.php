@@ -77,10 +77,13 @@ class ilBookingScheduleGUI
 	 */
 	function create()
     {
-		global $tpl, $ilCtrl, $ilTabs, $lng;
+		global $tpl, $ilCtrl, $ilTabs, $lng, $ilHelp;
 
 		$ilTabs->clearTargets();
 		$ilTabs->setBackTarget($lng->txt('book_back_to_list'), $ilCtrl->getLinkTarget($this, 'render'));
+		$ilHelp->setScreenIdComponent("book");
+		$ilHelp->setScreenId("schedules");
+		$ilHelp->setSubScreenId("create");
 
 		$form = $this->initForm();
 		$tpl->setContent($form->getHTML());
@@ -91,10 +94,13 @@ class ilBookingScheduleGUI
 	 */
 	function edit()
     {
-		global $tpl, $ilCtrl, $ilTabs, $lng;
+		global $tpl, $ilCtrl, $ilTabs, $lng, $ilHelp;
 
 		$ilTabs->clearTargets();
 		$ilTabs->setBackTarget($lng->txt('book_back_to_list'), $ilCtrl->getLinkTarget($this, 'render'));
+		$ilHelp->setScreenIdComponent("book");
+		$ilHelp->setScreenId("schedules");
+		$ilHelp->setSubScreenId("edit");
 
 		$form = $this->initForm('edit', (int)$_GET['schedule_id']);
 		$tpl->setContent($form->getHTML());
@@ -343,7 +349,10 @@ class ilBookingScheduleGUI
 	 */
 	function confirmDelete()
 	{
-		global $ilCtrl, $lng, $tpl, $ilTabs;
+		global $ilCtrl, $lng, $tpl, $ilTabs, $ilHelp;
+
+		$ilHelp->setSubScreenId("delete");
+
 
 		include_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
 		$conf = new ilConfirmationGUI();

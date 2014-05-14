@@ -2140,8 +2140,9 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		$a_active = "content", $a_use_global_tabs = false, $a_as_subtabs = false,
 		$a_cur_page = 0)
 	{
-		global $ilCtrl,$ilUser, $ilAccess, $ilTabs, $rbacsystem, $ilPluginAdmin;
+		global $ilCtrl,$ilUser, $ilAccess, $ilTabs, $rbacsystem, $ilPluginAdmin, $ilHelp;
 
+		$ilHelp->setScreenIdComponent("lm");
 		
 		if ($a_as_subtabs)
 		{
@@ -2199,6 +2200,11 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 			$tabs_gui->$addcmd("content",
 				$ilCtrl->getLinkTargetByClass("illmpresentationgui", "layout"),
 				"", "", $buttonTarget,  $active["content"]);
+			if ($active["content"])
+			{
+				$ilHelp->setScreenId("content");
+				$ilHelp->setSubScreenId("content");
+			}
 		}
 
 		// table of contents
