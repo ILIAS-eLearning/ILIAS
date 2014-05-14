@@ -517,7 +517,7 @@ class ilObjUser extends ilObject
 
         $this->syncActive();
 
-		if( !$this->active )
+		if( $this->getStoredActive($this->id) && !$this->active )
 		{
 			$this->setInactivationDate( ilUtil::now() );
 		}
