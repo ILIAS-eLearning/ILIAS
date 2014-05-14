@@ -323,10 +323,16 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 	 * Show portfolio page creation form
 	 */
 	protected function addPage()
-	{		
+	{
+		global $ilHelp;
+
 		$this->tabs_gui->clearTargets();
 		$this->tabs_gui->setBackTarget($this->lng->txt("back"),
 			$this->ctrl->getLinkTarget($this, "view"));
+
+		$ilHelp->setScreenIdComponent("prtf");
+		$ilHelp->setScreenId("add_page");
+
 
 		$form = $this->initPageForm("create");
 		$this->tpl->setContent($form->getHTML());
@@ -430,10 +436,15 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 	 * Show portfolio blog page creation form
 	 */
 	protected function addBlog()
-	{		
+	{
+		global $ilHelp;
+
 		$this->tabs_gui->clearTargets();
 		$this->tabs_gui->setBackTarget($this->lng->txt("back"),
 			$this->ctrl->getLinkTarget($this, "view"));
+
+		$ilHelp->setScreenIdComponent("prtf");
+		$ilHelp->setScreenId("add_blog");
 
 		$form = $this->initBlogForm();
 		$this->tpl->setContent($form->getHTML());

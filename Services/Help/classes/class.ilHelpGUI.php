@@ -187,7 +187,7 @@ class ilHelpGUI
 	function showHelp()
 	{
 		global $ilHelp, $lng, $ilSetting;
-		
+
 		if ($_GET["help_screen_id"] != "")
 		{
 			ilSession::set("help_screen_id", $_GET["help_screen_id"]);
