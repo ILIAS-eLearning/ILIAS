@@ -3676,13 +3676,20 @@ $tabs_gui = $ilTabs;
 		$tt_id = ilUtil::stripSlashes($_POST["tooltip_id"]);
 		if (trim($tt_id) != "")
 		{
-			include_once("./Services/Help/classes/class.ilHelp.php");
-			ilHelp::addTooltip(trim($tt_id), "");
-			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
-			
-			$fu = strpos($tt_id, "_");
-			$comp = substr($tt_id, 0, $fu);
-			ilSession::set("help_tt_comp", ilUtil::stripSlashes($comp));
+			if (is_int(strpos($tt_id, "_")))
+			{
+				include_once("./Services/Help/classes/class.ilHelp.php");
+				ilHelp::addTooltip(trim($tt_id), "");
+				ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+
+				$fu = strpos($tt_id, "_");
+				$comp = substr($tt_id, 0, $fu);
+				ilSession::set("help_tt_comp", ilUtil::stripSlashes($comp));
+			}
+			else
+			{
+				ilUtil::sendFailure($lng->txt("cont_help_no_valid_tooltip_id"), true);
+			}
 		}
 		$ilCtrl->redirect($this, "showTooltipList");
 	}
