@@ -2268,9 +2268,10 @@ class ilObjPaymentSettingsGUI extends ilObjectGUI
 	*/
 	public function getTabs($tabs_gui)
 	{
-		global $rbacsystem;
+		global $rbacsystem, $ilHelp;
 
 		$tabs_gui->clearTargets();
+		$ilHelp->setScreenIdComponent("pays");
 		if ($rbacsystem->checkAccess('visible,read',$this->object->getRefId()))
 		{
 			// Settings
