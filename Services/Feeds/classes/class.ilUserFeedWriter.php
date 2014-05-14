@@ -154,6 +154,7 @@ class ilUserFeedWriter extends ilFeedWriter
 						"&amp;target=".$item["context_obj_type"]."_".$item["ref_id"]);
 				}
 				$feed_item->setAbout($feed_item->getLink()."&amp;il_about_feed=".$item["id"]);
+				$feed_item->setDate($item["creation_date"]);
 				$this->addItem($feed_item);
 			}
 		}
