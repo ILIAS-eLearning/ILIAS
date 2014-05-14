@@ -1,0 +1,8 @@
+More Types for Advanced Metadata
+
+Concept: AMDTypes.docx
+Documentation: AdvancedMetadataDoc.pdf
+
+Dependencies:
+svn.ilias.de/svn/ilias/branches/Release_4_4_x_branch merged: 50035 
+

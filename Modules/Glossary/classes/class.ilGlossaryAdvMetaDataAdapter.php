@@ -32,12 +32,12 @@ class ilGlossaryAdvMetaDataAdapter
 		foreach($recs as $record_obj)
 		{
 			include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
-			foreach (ilAdvancedMDFieldDefinition::_getDefinitionsByRecordId($record_obj->getRecordId()) as $def)
+			foreach (ilAdvancedMDFieldDefinition::getInstancesByRecordId($record_obj->getRecordId()) as $def)
 			{
 				$fields[$def->getFieldId()] = array(
 					"id" => $def->getFieldId(),
 					"title" => $def->getTitle(),
-					"type" => $def->getFieldType()
+					"type" => $def->getType()
 					);
 			}
 		}

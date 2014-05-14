@@ -86,35 +86,16 @@ class ilAdvancedMDFieldTableGUI extends ilTable2GUI
 			$this->tpl->setVariable('VAL_DESCRIPTION',$a_set['description']);
 		}
 		
-		foreach($a_set['values'] as $value)
+		$this->tpl->setVariable('FIELD_TYPE',$a_set['type']);
+		
+		foreach((array)$a_set['properties'] as $key => $value)
 		{
 			$this->tpl->setCurrentBlock('field_value');
+			$this->tpl->setVariable('FIELD_KEY',$key);
 			$this->tpl->setVariable('FIELD_VAL',$value);
 			$this->tpl->parseCurrentBlock();
 		}
-		if(count($a_set['values']))
-		{
-#			$this->tpl->setCurrentBlock('field_select');
-#			$this->tpl->parseCurrentBlock();
-		}
-		switch($a_set['type'])
-		{
-			case ilAdvancedMDFieldDefinition::TYPE_TEXT:
-				$this->tpl->setVariable('FIELD_TYPE',$this->lng->txt('udf_type_text'));
-				break;
-				
-			case ilAdvancedMDFieldDefinition::TYPE_SELECT:
-				$this->tpl->setVariable('FIELD_TYPE',$this->lng->txt('udf_type_select'));
-				break;
-				
-			case ilAdvancedMDFieldDefinition::TYPE_DATE:
-				$this->tpl->setVariable('FIELD_TYPE',$this->lng->txt('udf_type_date'));
-				break;	
-				
-			case ilAdvancedMDFieldDefinition::TYPE_DATETIME:
-				$this->tpl->setVariable('FIELD_TYPE',$this->lng->txt('udf_type_datetime'));
-				break;			
-		}
+		
 		$this->ctrl->setParameter($this->parent_obj,'field_id',$a_set['id']);
 		$this->tpl->setVariable('EDIT_LINK',$this->ctrl->getLinkTarget($this->parent_obj,'editField'));
 		$this->tpl->setVariable('TXT_EDIT_RECORD',$this->lng->txt('edit'));
@@ -139,8 +120,8 @@ class ilAdvancedMDFieldTableGUI extends ilTable2GUI
 			$tmp_arr['description'] = $definition->getDescription();
 			$tmp_arr['fields'] = array();
 			$tmp_arr['searchable'] = $definition->isSearchable();
-			$tmp_arr['type'] = $definition->getFieldType();
-			$tmp_arr['values'] = $definition->getFieldValues();
+			$tmp_arr['type'] = $this->lng->txt($definition->getTypeTitle());
+			$tmp_arr['properties'] = $definition->getFieldDefinitionForTableGUI();
 			
 			$defs_arr[] = $tmp_arr;
 	 	}

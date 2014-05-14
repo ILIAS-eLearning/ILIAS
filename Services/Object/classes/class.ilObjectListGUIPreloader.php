@@ -109,7 +109,11 @@ class ilObjectListGUIPreloader
 		{
 			include_once("./Services/Rating/classes/class.ilRating.php");		
 			include_once("./Services/Rating/classes/class.ilRatingGUI.php");		
-			ilRating::preloadListGUIData($this->obj_ids);				
+			ilRating::preloadListGUIData($this->obj_ids);		
+			
+			include_once("./Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php");		
+			ilAdvancedMDValues::preloadByObjIds($this->obj_ids);
+			ilAdvancedMDValues::preloadRecordIdsForObjectTypes();
 		}
 		
 		if($this->context == ilObjectListGUI::CONTEXT_REPOSITORY ||

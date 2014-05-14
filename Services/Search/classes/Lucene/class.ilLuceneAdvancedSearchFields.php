@@ -119,12 +119,9 @@ class ilLuceneAdvancedSearchFields
 		include_once './Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php';
 		foreach(ilAdvancedMDRecord::_getRecords() as $record)
 		{
-			foreach(ilAdvancedMDFieldDefinition::_getDefinitionsByRecordId($record->getRecordId()) as $def)
-			{
-				if($def->isSearchable())
-				{
-					$fields['adv_'.$def->getFieldId()] = $def->getTitle();
-				}
+			foreach(ilAdvancedMDFieldDefinition::getInstancesByRecordId($record->getRecordId(), true) as $def)
+			{				
+				$fields['adv_'.$def->getFieldId()] = $def->getTitle();				
 			}	
 		}
 		return $fields;
@@ -143,7 +140,7 @@ class ilLuceneAdvancedSearchFields
 		return $this->active_sections ? $this->active_sections : array();
 	}
 	
-	public function getFormElement($a_query,$a_field_name)
+	public function getFormElement($a_query,$a_field_name, ilPropertyFormGUI $a_form)
 	{
 		include_once './Services/MetaData/classes/class.ilMDUtilSelect.php';
 
@@ -416,42 +413,24 @@ class ilLuceneAdvancedSearchFields
 				// Advanced meta data
 				$field_id = substr($a_field_name,4);
 				include_once './Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php';
-				$field = ilAdvancedMDFieldDefinition::_getInstanceByFieldId($field_id);
+				$field = ilAdvancedMDFieldDefinition::getInstance($field_id);
+								
+				// :TODO: single/range/multi ?!
+				$field_form = ilADTFactory::getInstance()->getSearchBridgeForDefinitionInstance($field->getADTDefinition());				
+				$field_form->setForm($a_form);
+				$field_form->setElementId($a_post_name);
+				$field_form->setTitle($this->active_fields[$a_field_name]);			
+				$field_form->addToForm();
 				
-				switch($field->getFieldType())
+				// reload search values
+				if(isset($a_query[$a_field_name]))
 				{
-					case ilAdvancedMDFieldDefinition::TYPE_TEXT:
-						$text = new ilTextInputGUI($this->active_fields[$a_field_name],$a_post_name);
-						$text->setSubmitFormOnEnter(true);
-						$text->setValue($a_query[$a_field_name]);
-						$text->setSize(30);
-						$text->setMaxLength(255);
-						return $text;
-						
-					case ilAdvancedMDFieldDefinition::TYPE_SELECT:
-						$select = new ilSelectInputGUI($this->active_fields[$a_field_name],$a_post_name);
-						$select->setValue($a_query[$a_field_name]);
-						$select->setOptions($field->getFieldValuesForSearch());
-						return $select;
-						
-					case ilAdvancedMDFieldDefinition::TYPE_DATE:
-					case ilAdvancedMDFieldDefinition::TYPE_DATETIME:
-						
-	 					$check = new ilCheckboxInputGUI($this->active_fields[$a_field_name],$a_post_name);
-	 					$check->setValue(1);
-	 					$check->setChecked($a_query[$a_field_name]);
-	 				
-	 					$time = new ilDateTimeInputGUI($this->lng->txt('from'),$a_field_name.'_start');
-						$time->setShowTime($field->getFieldType() != ilAdvancedMDFieldDefinition::TYPE_DATE);
-						$time->setDate(new ilDateTime(mktime(8,0,0,date('m'),date('d'),date('Y')),IL_CAL_UNIX));
-	 					$check->addSubItem($time);
-
-	 					$time = new ilDateTimeInputGUI($this->lng->txt('until'),$a_field_name.'_end');
-						$time->setShowTime($field->getFieldType() != ilAdvancedMDFieldDefinition::TYPE_DATE);
-						$time->setDate(new ilDateTime(mktime(16,0,0,date('m'),date('d'),date('Y')),IL_CAL_UNIX));
-	 					$check->addSubItem($time);
-						return $check;
-				}
+					$field_form->importFromPost($a_query);
+					$field_form->validate();
+					// var_dump($field_form->getSQLCondition($a_field_name));
+				}								
+				
+				return;				
 		}
 		return null;
 	}
@@ -843,7 +822,7 @@ class ilLuceneAdvancedSearchFields
 					$field_id = substr($field_name,4);
 					include_once './Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php';
 					include_once './Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php';
-					$field = ilAdvancedMDFieldDefinition::_getInstanceByFieldId($field_id);
+					$field = ilAdvancedMDFieldDefinition::getInstance($field_id);
 					$record_id = $field->getRecordId();
 					
 					$this->active_sections['adv_record_'.$record_id]['fields'][] = $field_name;

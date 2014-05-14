@@ -1431,6 +1431,9 @@ class ilObject
 
 			include_once './Services/WebServices/ECS/classes/class.ilECSImport.php';
 			ilECSImport::_deleteByObjId($this->getId());
+			
+			include_once("Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php");
+			ilAdvancedMDValues::_deleteByObjId($this->getId());
 
 			$remove = true;
 		}

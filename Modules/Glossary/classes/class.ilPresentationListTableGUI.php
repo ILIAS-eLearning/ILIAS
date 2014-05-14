@@ -89,7 +89,7 @@ class ilPresentationListTableGUI extends ilTable2GUI
 		//$this->setDefaultOrderField("login");
 		//$this->setDefaultOrderDirection("asc");
 		$this->setData($this->glossary->getTermList($this->filter["term"], $_GET["letter"],
-				$this->filter["definition"], $this->tax_node, false, true, $this->filter));
+				$this->filter["definition"], $this->tax_node, false, true, $this->record_gui->getFilterElements()));
 //		$this->setData(array());	
 	}
 	
@@ -125,11 +125,16 @@ class ilPresentationListTableGUI extends ilTable2GUI
 		
 		// advanced metadata
 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
-		$record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_FILTER,'glo',$this->glossary->getId(),'term');
-		$record_gui->setSelectedOnly(true);
-		$record_gui->setTableGUI($this);
-		$record_gui->parse();
-
+		$this->record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_FILTER,'glo',$this->glossary->getId(),'term');
+		$this->record_gui->setSelectedOnly(true);
+		$this->record_gui->setTableGUI($this);
+		$this->record_gui->parse();
+	}
+	
+	public function writeFilterToSession()
+	{
+		// we cannot use the tablegui filter handling
+		$this->record_gui->importFilter();		
 	}
 	
 	/**
@@ -253,30 +258,19 @@ class ilPresentationListTableGUI extends ilTable2GUI
 			}
 			else
 			{
-				$id = $c["id"];
-				$f = $this->adv_fields[$c["id"]];
-				$this->tpl->setCurrentBlock("td");
-				switch ($f["type"])
+				$id = $c["id"];				
+								
+				$val = " ";
+				if(isset($term["md_".$id."_presentation"]))
 				{
-					case ilAdvancedMDFieldDefinition::TYPE_DATETIME:
-						$val = ($term["md_".$id] > 0)
-							? ilDatePresentation::formatDate(new ilDateTime($term["md_".$id], IL_CAL_UNIX))
-							: " ";
-						break;
-
-					case ilAdvancedMDFieldDefinition::TYPE_DATE:
-//var_dump($term["md_".$id]); echo "<br>";
-						$val = ($term["md_".$id] != 0)
-							? ilDatePresentation::formatDate(new ilDate($term["md_".$id], IL_CAL_UNIX))
-							: " ";
-						break;
-
-					default:
-						$val = ($term["md_".$id] != "")
-							? $term["md_".$id]
-							: " ";
-						break;
-				}
+					$pb = $term["md_".$id."_presentation"]->getList();
+					if($pb)
+					{
+						$val = $pb;
+					}
+				}			
+				
+				$this->tpl->setCurrentBlock("td");
 				$this->tpl->setVariable("TEXT", $val);
 				$this->tpl->parseCurrentBlock();
 			}

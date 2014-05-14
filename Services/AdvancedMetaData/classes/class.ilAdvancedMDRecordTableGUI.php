@@ -77,7 +77,7 @@ class ilAdvancedMDRecordTableGUI extends ilTable2GUI
 		{
 			$this->tpl->setVariable('VAL_DESCRIPTION',$a_set['description']);
 		}
-		$defs = ilAdvancedMDFieldDefinition::_getDefinitionsByRecordId($a_set['id']);
+		$defs = ilAdvancedMDFieldDefinition::getInstancesByRecordId($a_set['id']);
 		if(!count($defs))
 		{
 			$this->tpl->setVariable('TXT_FIELDS',$this->lng->txt('md_adv_no_fields'));
@@ -85,7 +85,8 @@ class ilAdvancedMDRecordTableGUI extends ilTable2GUI
 		foreach($defs as $definition_obj)
 		{
 			$this->tpl->setCurrentBlock('field_entry');
-			$this->tpl->setVariable('FIELD_NAME',$definition_obj->getTitle());
+			$this->tpl->setVariable('FIELD_NAME',$definition_obj->getTitle().
+				": ".$this->lng->txt($definition_obj->getTypeTitle()));
 			$this->tpl->parseCurrentBlock();
 		}
 		
@@ -95,6 +96,8 @@ class ilAdvancedMDRecordTableGUI extends ilTable2GUI
 		$this->ctrl->setParameter($this->parent_obj,'record_id',$a_set['id']);
 		$this->tpl->setVariable('EDIT_LINK',$this->ctrl->getLinkTarget($this->parent_obj,'editRecord'));
 		$this->tpl->setVariable('TXT_EDIT_RECORD',$this->lng->txt('edit'));
+		$this->tpl->setVariable('EDIT_FIELDS_LINK',$this->ctrl->getLinkTarget($this->parent_obj,'editFields'));
+		$this->tpl->setVariable('TXT_EDIT_FIELDS',$this->lng->txt('md_adv_field_table'));
 	}
 	
 	/**

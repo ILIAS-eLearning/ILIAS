@@ -7162,7 +7162,7 @@ meta#:#md_adv_import_record#:#Import Metadata Set
 meta#:#md_adv_no_fields#:#No Fields Defined
 meta#:#md_adv_placeholder_for#:#Placeholder for:
 meta#:#md_adv_placeholders#:#Placeholders
-meta#:#md_adv_record_list#:#Datasets and Presentation
+meta#:#md_adv_record_list#:#Datasets 
 meta#:#md_adv_records_exported#:#A new export file has been created.
 meta#:#md_adv_records#:#Included Datasets
 meta#:#md_adv_searchable#:#Searchable
@@ -14240,8 +14240,15 @@ exc#:#exc_peer_review_min_number_info#:#This number of other users work must be 
 content#:#cont_def_feedb_activated#:#Default feedback texts are currently activated in the learning module settings.
 content#:#cont_def_feedb_deactivated#:#Default feedback texts are currently deactivated in the learning module settings.
 adve#:#advanced_editing_tst_editing#:#Page Editor for additional question content
-ecs#:#ecs_server_title#:#Name of ECS Configuration
 adve#:#advanced_editing_tst_editing_desc#:#Activates ILIAS Page Editor for feedback and hint text editing.
+meta#:#md_adv_presentation#:#Presentation
+meta#:#udf_type_integer#:#Integer
+meta#:#md_adv_number_max#:#Maximum Value
+meta#:#md_adv_number_min#:#Minimum Value
+meta#:#udf_type_float#:#Float
+meta#:#udf_type_location#:#Location
+meta#:#md_adv_number_decimals#:#Decimals
+ecs#:#ecs_server_title#:#Name of ECS Configuration
 assessment#:#fq_precision_info#:#Enter the number of desired decimal places.
 assessment#:#result_units_info#:#The selected units are offered to the learner as part of an answer. The learner has to choose one unit.
 assessment#:#fq_no_restriction_info#:#Both decimals and fractions are accepted as input.
@@ -14250,6 +14257,12 @@ assessment#:#intprecision_info#:#"Divisible by" affects only the creation of var
 assessment#:#tolerance_info#:#The tolerance specifies an allowable percentage deviation from the result value. With a tolerance of 0, only the exact result value is evaluated to be correct.
 assessment#:#result_unit_info#:#Please note that, the selected result unit must also be activated in the "available units."
 forum#:#merge_posts_into_thread#:#Merge Postings into other Thread
+forum#:#move_thread_to_forum#:#Move Thread to other Forum
+meta#:#md_adv_confirm_definition#:#Please confirm the new definition settings.
+meta#:#md_adv_confirm_definition_select_option#:#Deleted Option
+meta#:#md_adv_confirm_definition_select_option_remove#:#Remove value
+meta#:#md_adv_confirm_definition_select_option_overwrite#:#Set value to
+meta#:#md_adv_confirm_definition_select_section#:#Migration of the deleted options=======
 forum#:#move_thread_to_forum#:#Move Thread to other Forum
 survey#:#spl_save_obligatory_state#:#Save Obligatory States
 forum#:#post_reply_count#:#Re(%s):

@@ -96,7 +96,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		
 		$this->tabs_gui->activateSubTab($a_active);
 	}
-
+	
 	protected function initEditCustomForm(ilPropertyFormGUI $a_form)
 	{
 		global $lng, $ilSetting;

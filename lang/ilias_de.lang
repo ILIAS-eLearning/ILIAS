@@ -8323,7 +8323,7 @@ meta#:#md_adv_import_record#:#Datensatz importieren
 meta#:#md_adv_no_fields#:#Keine Felder definiert
 meta#:#md_adv_placeholder_for#:#Platzhalter für:
 meta#:#md_adv_placeholders#:#Platzhalter
-meta#:#md_adv_record_list#:#Datensätze und Darstellung
+meta#:#md_adv_record_list#:#Datensätze
 meta#:#md_adv_records#:#Enthaltene Datensätze
 meta#:#md_adv_records_exported#:#Eine neue Exportdatei wurde angelegt.
 meta#:#md_adv_searchable#:#Durchsuchbar
@@ -14241,6 +14241,13 @@ content#:#cont_def_feedb_activated#:#Das Standard-Feedback ist zur Zeit in den E
 content#:#cont_def_feedb_deactivated#:#Das Standard-Feedback ist zur Zeit in den Einstellungen des Lernmoduls deaktiviert.
 adve#:#advanced_editing_tst_editing#:#Seiteneditor für zusätzliche Frageninhalte
 adve#:#advanced_editing_tst_editing_desc#:#Aktiviert den ILIAS-Seiteneditor für Feedback- und Hinweistexte.
+meta#:#md_adv_presentation#:#Darstellung
+meta#:#udf_type_integer#:#Ganzzahl
+meta#:#md_adv_number_max#:#Maximaler Wert
+meta#:#md_adv_number_min#:#Minimaler Wert
+meta#:#udf_type_float#:#Gleitkommazahl
+meta#:#udf_type_location#:#Standort
+meta#:#md_adv_number_decimals#:#Nachkommastellen
 ecs#:#ecs_server_title#:#Name der ECS-Konfiguration
 assessment#:#fq_precision_info#:#Geben Sie hier die Anzahl der gewünschten Nachkommastellen an.
 assessment#:#result_units_info#:#Die hier ausgewählten Einheiten werden dem Lernenden zur Antwort angeboten. Der Lernende muss sich hier für eine Einheit entscheiden.
@@ -14250,6 +14257,12 @@ assessment#:#intprecision_info#:#"Teilbar durch" hat nur Auswirkungen auf die Va
 assessment#:#tolerance_info#:#Die Toleranz legt eine erlaubte prozentuale Abweichung vom Ergebniswert fest. Bei einer Toleranz von 0 wird nur der exakte Ergebniswert als korrekt bewertet.
 assessment#:#result_unit_info#:#Bitte beachten Sie, dass die hier festgelegte Einheit auch innerhalb der "Auswählbaren Einheiten" selektiert werden muss.
 forum#:#merge_posts_into_thread#:#Verschmelze Posts mit anderem Thema
+forum#:#move_thread_to_forum#:#Verschiebe Thema in anderes Forum
+meta#:#md_adv_confirm_definition#:#Bitte bestätigen Sie die neuen Einstellungen.
+meta#:#md_adv_confirm_definition_select_option#:#Gelöschte Option
+meta#:#md_adv_confirm_definition_select_option_remove#:#Wert entfernen
+meta#:#md_adv_confirm_definition_select_option_overwrite#:#Wert überschreiben
+meta#:#md_adv_confirm_definition_select_section#:#Migration der gelöschten Optionen=======
 forum#:#move_thread_to_forum#:#Verschiebe Thema in anderes Forum
 survey#:#spl_save_obligatory_state#:#verpflichtend-Status speichern
 forum#:#post_reply_count#:#Re(%s):
