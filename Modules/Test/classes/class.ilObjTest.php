@@ -505,7 +505,7 @@ class ilObjTest extends ilObject
 		$this->testSession = FALSE;
 		$this->testSequence = FALSE;
 		$this->mailnotification = 0;
-		$this->poolUsage = 0;
+		$this->poolUsage = 1;
 		global $lng;
 		$lng->loadLanguageModule("assessment");
 		$this->mark_schema->createSimpleSchema($lng->txt("failed_short"), $lng->txt("failed_official"), 0, 0, $lng->txt("passed_short"), $lng->txt("passed_official"), 50, 1);
