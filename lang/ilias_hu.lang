@@ -688,9 +688,6 @@ assessment#:#qpl_paste_error#:#Legalább egy kérdést nem sikerült beilleszten
 assessment#:#qpl_question_is_in_use#:#A szerkesztendő kérdés %s tesztben szerepel. Ha megváltoztatja a kérdést, az a teszt(ek)ben nem fog megváltozni, mivel a rendszer másolatot hoz létre a kérdésekről, mielőtt beteszi azokat a tesztekbe.
 assessment#:#qpl_questions_deleted#:#Kérdés(ek) törölve.
 assessment#:#qpl_select_file_for_import#:#Ki kell választania egy fájlt az importáláshoz.
-assessment#:#qpl_qst_inp_matching_mode#:#Egyezés módja
-assessment#:#qpl_qst_inp_matching_mode_one_on_one#:#Egy kifejezés egy definícióval egyezik meg
-assessment#:#qpl_qst_inp_matching_mode_all_on_all#:#Egy vagy több kifejezés egy vagy több definícióval egyezik meg
 assessment#:#qst_hint_self#:#Az önértékelő mód aktív. Vigyen be 0 pontot a helytelen válaszokhoz, 1 pontot a helyes válaszokhoz.
 assessment#:#qst_nr_of_tries#:#Próbálkozások száma
 assessment#:#qt_multiple_choice#:#Többszörös választási lehetőségű kérdés
@@ -1234,13 +1231,6 @@ assessment#:#test_scoring#:#Pontozás beállítások
 assessment#:#test_presentation#:#Bemutatási beállítások
 assessment#:#test_results#:#Végeredmények beállításai
 assessment#:#misc#:#Egyéb beállítások
-assessment#:#tst_back_to_top#:#Vissza a tetejére
-assessment#:#tst_answer_details#:#Válasz részletei
-assessment#:#tst_list_answer_details#:#Mutassa az alábbi listában
-assessment#:#tst_single_answer_details#:#Egyszerű válasz megjelenítése
-assessment#:#tst_pass_details_overview_table_title#:#%s haladásának részletes áttekintése
-assessment#:#tst_btn_show_best_solutions#:#Legjobb megoldás megjelenítése
-assessment#:#tst_btn_hide_best_solutions#:#Legjobb megoldás elrejtése
 assessment#:#saved_adjustment#:#Változások mentve.
 assessment#:#sign_submission#:#Tesztbeadványok digitális aláírása
 assessment#:#sign_submission_info#:#Amennyiben ez aktiválva van és az aláíró plug-in telepítésre került és aktív, a résztvevő digitális aláírják beadványukat.
@@ -14211,33 +14201,12 @@ obj#:#obj_deactivate_multilang_conf#:#Biztos deaktiválod a többnyelvűséget? 
 obj#:#obj_multilang_deactivated#:#Többnyelvűség inaktiválva.
 cntr#:#cntr_container_only_on_their_own#:#Egyszerű objektumokként csak kategóriák, kurzusok, csoportok vagy könyvtárak másolhatóak. Csak egy elemet válassz.
 cntr#:#objects_duplicated#:#Objektumok átmásolva 
-poll#:#poll_max_number_of_answers#:#Felhasználónkénti válaszok száma
-poll#:#poll_vote_error_single#:#Egyet válassz.
-poll#:#poll_vote_error_multi#:#Ne válassz többet, mint %s.
-poll#:#poll_result_sorting#:#Rendezés
-poll#:#poll_result_sorting_answers#:#Válaszok sorrendjében
-poll#:#poll_result_sorting_votes#:#Szavazatok száma szerint (csökkenő)
 content#:#cont_edit_definitions#:#Definíciók szerkesztése
 content#:#cont_edit_definition#:#Definíció szerkesztése
-poll#:#poll_mode#:#Mód
-poll#:#poll_mode_anonymous#:#Névtelen
-poll#:#poll_mode_anonymous_info#:#A szavazatok nem vezethetőek vissza a felhasználókhoz.
-poll#:#poll_mode_personal#:#Személyes
-poll#:#poll_mode_personal_info#:#A felhasználók szavazataikat tartalmazó listája megfelelő jogosultsággal érhető el.
-poll#:#poll_non_anonymous_warning#:#Ez a szavazás NEM névtelen.
-poll#:#poll_result_answers#:#Szavazatok
-poll#:#poll_result_users#:#Résztvevők
-user#:#usr_id#:#System ID
 meta#:#meta_c_XK#:#Koszovó
 certificate#:#certificate_var_matriculation#:#12345
 certificate#:#certificate_ph_matriculation#:#Felhasználó törzskönyvi száma
 survey#:#mailparticipantdata_placeholder#:#Az alábbi helykitöltők a felhasználó valós adataira cserélődnek a személyes kérdőívekben:
-poll#:#poll_notification_subscribe#:#Figyelmeztetés aktiválása
-poll#:#poll_notification_unsubscribe#:#Figyelmeztetés deaktiválása
-poll#:#poll_vote_notification_subject#:#"%s" szavazás: új szavazat
-poll#:#poll_vote_notification_body#:#új szavazat érkezett.
-poll#:#poll_vote_notification_link#:#Link a Szavazásra
-poll#:#poll_vote_notification_reason#:#Ezt az email-t azért kapta, mert fent említett szavazásra aktiválta a figyelmeztetést.
 exc#:#exc_create_portfolio_no_template#:#Minta használata nélkül
 rbac#:#orgu_view_learning_progress#:#Tanulási folyamat megjelenítése
 rbac#:#orgu_visible#:#Szervezeti egység látható
@@ -14248,30 +14217,11 @@ rbac#:#orgu_cat_administrate_users#:#Felhasználó létrehozhat és helyi felhas
 rbac#:#orgu_delete#:#Felhasználó mozgathatja illetve törölheti a Szervezeti egységet
 rbac#:#orgu_edit_permission#:#Felhasználó megváltoztathatja a jogosultsági beállításokat
 rbac#:#rbac_create_orgu#:#Szervezeti egységek létrehozása
-book#:#book_post_booking_text_info#:#Használd a [PERIOD] és az [OBJECT] foglalási adatokat a szövegben.
-blog#:#blog_abstract_shorten#:#Absztrakt rövidítése
-blog#:#blog_abstract_shorten_length#:#Maximális hossz
-blog#:#blog_abstract_shorten_characters#:#Karakterek
-blog#:#blog_abstract_image#:#Kép absztrakthoz rendelése
-blog#:#blog_abstract_image_info#:#Kisebb képek nem kerülnek felhasználásra.
-blog#:#blog_abstract_image_width#:#Szélesség
-blog#:#blog_abstract_image_height#:#Magasság
-blog#:#blog_abstract_image_pixels#:#Px
-content#:#cont_ed_insert_my_courses#:#Kurzusaim beszúrása
-content#:#cont_insert_my_courses#:#Kurzusaim beszúrása
-content#:#cont_update_my_courses#:#Kurzusaim szerkesztés
-content#:#cont_my_courses_no_settings#:#Még nincsenek beállítások.
-prtf#:#prtf_page_element_teaser_my_courses#:#A portfólió a jelenlegi kurzusaid listáját itt fogja felsorolni.
-prtf#:#prtf_page_element_my_courses_title#:#Aktuális kurzusaink
 prtf#:#prtf_page_element_teaser_skills#:#A portfólió a kompetenciaszintedet itt fogja megjeleníteni.
 prtf#:#prtf_page_element_teaser_blog_template#:#A portfólió a személyes munkaterületed blogját itt fogja megjeleníteni.
 prtf#:#prtf_page_element_teaser_consultation_hours#:#A portfólió a konzultációs időpontok naptárát itt fogja megjeleníteni.
 prtf#:#prtf_page_element_teaser_blog#:#A portfólió a kiválasztott blogbejegyzéseket itt fogja megjeleníteni.
 prtf#:#prtf_page_element_teaser_settings#:#Beállítások
-user#:#interests#:#Érdeklődések
-user#:#interests_general#:#Általános érdeklődések
-user#:#interests_help_offered#:#Segítség felajánlása
-user#:#interests_help_looking#:#Segítség keresése
 pd#:#pd_remove_multi_confirm#:#Az objektumokat eltávolítottuk.
 content#:#glo_online_info#:#A felhasználók csak akkor használhatják a szógyűjteményt, ha az online.
 content#:#glo_mode_level_info#:#A Taneszköztároló azonos szintjén lévő szójegyzékekben szereplő összes kifejezést tartalmazni fogja.
@@ -14299,15 +14249,8 @@ assessment#:#additional_rating_info#:#Figyeljen arra, hogy az itt megadott ért�
 assessment#:#intprecision_info#:# Az "Osztható a következővel" csak akkor van hatással a változók létrehozására, ha a Pontosság értéke 0. Ebben az esetben az "Osztható a következővel"-nek olyan egész számot adj meg, amivel oszthatónak kell lennie az létrehozott változónak. 10 esetén olyan egészeket generálódnak, melyek 10-el oszthatóak. 5 esetén olyan egészek jönnek létre, melyek 5-el oszthatóak, stb.. Amennyiben a Pontosság értéke 0, az "Osztható a következővel"-t kötelezőt megadni, értéke pozitív egész kell hogy legyen. Egészek esetén az alapértelmezett érték 1.
 assessment#:#tolerance_info#:#A Hibahatár megadja az eredménytől való megengedett százalékos eltérést. Amennyiben értéke 0, csak a pontos eredmény elfogadható.
 assessment#:#result_unit_info#:#Figyeljen arra, hogy a kiválasztott mértékegységnek aktívak kell lenni a "Rendelkezésre álló mértékegységek"-ben.
-ecs#:#ecs_no_adv_md#:#Nincsenek továbbfejlesztett metaadatok.
-poll#:#poll_comments#:#Megjegyzések
-poll#:#poll_show_results_as#:#Eredmények megjelenítése, mint
-poll#:#poll_barchart#:#Oszlopdiagram
-poll#:#poll_piechart#:#Kördiagram
-poll#:#poll_comments_info#:#A Megjegyzések deaktiválása nem töröl egy megjegyzést sem.
 forum#:#merge_posts_into_thread#:#Hozzászólások áthelyezése másik témába
 forum#:#move_thread_to_forum#:#Téma áthelyezése másik fórumba
-assessment#:#cloze_gap_size_info#:#Ha 0-nál nagyobb értéked ad meg, ilyen hosszúságú lesz a szövegmező. Amennyiben nem ad meg értéket, a globális hossz lesz ez az érték.
 forum#:#post_reply_count#:#Válasz(%s):
 survey#:#spl_save_obligatory_state#:#Kötelező állapot mentése
 dateplaner#:#cal_ical_url#:#iCal-URL
