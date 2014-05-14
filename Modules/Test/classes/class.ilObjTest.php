@@ -578,7 +578,7 @@ ilObjTest extends ilObject
 		$this->testSession = FALSE;
 		$this->testSequence = FALSE;
 		$this->mailnotification = 0;
-		$this->poolUsage = 0;
+		$this->poolUsage = 1;
 		
 		$this->ects_grades = array(
 			"A" => 90,
