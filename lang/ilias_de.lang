@@ -299,6 +299,7 @@ assessment#:#assessment_scoring_adjust_desc#:#Aktiviert den Nachkorrekturmodus, 
 assessment#:#assessment_log_scoring_adjustment_activate#:#Verfügbare Fragetypen für den Nachkorrekturmodus
 assessment#:#assessment_log_scoring_adjustment_desc#:#Gewählte Fragetypen stehen im Nachkorrekturmodus zur Verfügung. Diese Einstellung berücksichtigt nicht, ob die Frage im Nachkorrekturmodus bearbeitet werden kann.
 assessment#:#0_unlimited#:#(0 = unbegrenzt)
+assessment#:#tst_question_not_from_pool_info#:#Kein Pool
 assessment#:#action#:#Aktion
 assessment#:#add_answer#:#Antwort hinzufügen
 assessment#:#add_answer_tf#:#Richtig-/Falsch-Antworten
@@ -503,6 +504,13 @@ assessment#:#errors#:#Fehler
 assessment#:#errors_section#:#Fehlerdaten
 assessment#:#errortext#:#Fehler/Worte markieren
 assessment#:#errortext_info#:#Bitte geben Sie einen Text ein. Um ein Wort als fehlerhaft zu markieren, setzen Sie bitte eine Raute (#) direkt vor das gewünschte Wort. Um eine Gruppe von Fehlerwörtern zu definieren, umklammern Sie die Wörter mit doppelten Klammern (z.B.: Dies ist ((ein Beispiel)) für mehrere Wörter). Wenn Sie auf die Schaltfläche &quot;Text analysieren&quot; klicken, werden die markierten Wörter für die weitere Bearbeitung extrahiert.
+assessment#:#ass_quest_process_lock#:#Verwende Lock Mechanismus während der Einreichung von Teilnehmer-Lösungen
+assessment#:#ass_quest_process_lock_desc#:#Ohne die Verwendung eines Locking Mechanismus sind Race Conditions während der Einreichung von Lösungsdaten möglich. Diese können zu inkosistenten Test Ergebnissen führen.
+assessment#:#ass_quest_process_lock_mode#:#Lock Modus während der Einreichung von Teilnehmer-Lösungen
+assessment#:#ass_quest_process_lock_mode_file#:#Verwende Dateisystem Locks
+assessment#:#ass_quest_process_lock_mode_file_desc#:#Dieser Locking Mechanismus erstellt Locks auf leeren Dateien im Dateisystem. Konkurrierende Prozesse für den selben Benutzer und die selbe Frage müssen warten, bis der andere Prozess den Lock wieder freigibt.
+assessment#:#ass_quest_process_lock_mode_db#:#Verwende Datenbank Tabellen Locks
+assessment#:#ass_quest_process_lock_mode_db_desc#:#Dieser Locking Mechanismus erstellt Locks auf den entsprechenden Tabellen der Datenbank. Konkurrierende Prozesse für des selben oder anderer Benutzer im selben oder einem anderen Test müssen warten, bis der andere Prozess den Lock wieder freigibt.
 assessment#:#eval_all_users#:#Auswertung für alle Benutzer
 assessment#:#eval_choice_result#:#Die Auswahl mit dem Wert %s ist %s. Sie erreichten %s Punkte.
 assessment#:#eval_cloze_result#:#Die Lücke Nummer %s mit dem Wert %s ist %s. Sie erreichten %s Punkte.
@@ -4639,7 +4647,7 @@ common#:#set_offline#:#Offline setzen
 common#:#set_online#:#Online stellen
 common#:#setSystemLanguage#:#Systemsprache ändern
 common#:#settings#:#Einstellungen
-common#:#settings_for_all_members#:#Benachrichtigung für alle Kurs-/Gruppenmitglieder voreingestellt
+common#:#settings_for_all_members#:#Benachrichtigung für alle Kurs-/Gruppenmitglieder aktiviert
 common#:#settings_for_new_members#:#Einstellungen für neue Mitglieder
 common#:#settings_per_users#:#Individuelle Einstellung für jedes Kurs-/Gruppenmitglied
 common#:#settings_saved#:#Die Einstellungen wurden gespeichert.
@@ -13833,6 +13841,9 @@ bibl#:#bib_default_url#:#URL
 bibl#:#bib_default_crossref#:#Querverweis
 bibl#:#bib_default_keywords#:#Schlagwörter
 bibl#:#bib_default_isbn#:#ISSN/ISBN
+bibl#:#bib_default_urldate#:#Datum des URL Besuches
+bibl#:#bib_default_language#:#Sprache
+bibl#:#bib_default_series#:#Staffel
 bibl#:#bib_default_cite#:#Bib Cite
 bibl#:#ris_default_ty#:#Typ
 bibl#:#ris_default_id#:#Referenz-ID
@@ -13886,6 +13897,8 @@ bibl#:#ris_default_do#:#DOI
 bibl#:#ris_default_ed#:#Sonst. Personen
 bibl#:#ris_default_in#:#In
 bibl#:#ris_default_et#:#Ausgabe
+bibl#:#ris_default_dp#:#Datenbank Anbieter
+bibl#:#ris_default_st#:#Kurztitel
 bibl#:#bibl_copy#:#Literaturliste kopieren
 mail#:#mail_filter#:#Filter
 mail#:#mail_filter_sender#:#Sender
@@ -14236,3 +14249,8 @@ assessment#:#additional_rating_info#:#Bitte beachten Sie, dass die hier angegebe
 assessment#:#intprecision_info#:#"Teilbar durch" hat nur Auswirkungen auf die Variablenerzeugung, wenn der Wert für die Präzision 0 beträgt. In diesem Fall legt "Teilbar durch" fest, durch welche ganze Zahl die erzeugte Variable teilbar sein muss. Ein Wert von 10 erzeugt also nur ganze Zahlen, die durch 10 teilbar sind, ein Wert von 5 erzeugt ganze Zahlen, die durch 5 teilbar sind usw. Bei einer Präzision von 0 ist "Teilbar durch" ein Pflichtfeld und muss eine positive, ganze Zahl enthalten. Voreingestellt ist der Werte 1 für beliebige ganze Zahlen.
 assessment#:#tolerance_info#:#Die Toleranz legt eine erlaubte prozentuale Abweichung vom Ergebniswert fest. Bei einer Toleranz von 0 wird nur der exakte Ergebniswert als korrekt bewertet.
 assessment#:#result_unit_info#:#Bitte beachten Sie, dass die hier festgelegte Einheit auch innerhalb der "Auswählbaren Einheiten" selektiert werden muss.
+forum#:#merge_posts_into_thread#:#Verschmelze Posts mit anderem Thema
+forum#:#move_thread_to_forum#:#Verschiebe Thema in anderes Forum
+survey#:#spl_save_obligatory_state#:#verpflichtend-Status speichern
+forum#:#post_reply_count#:#Re(%s):
+dateplaner#:#cal_ical_url#:#iCal-URL

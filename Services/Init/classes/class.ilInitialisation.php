@@ -319,11 +319,11 @@ class ilInitialisation
 			$default_client = $ilIliasIniFile->readVariable("clients","default");						
 			ilUtil::setCookie("ilClientId", $default_client);
 			if (CLIENT_ID != "" && CLIENT_ID != $default_client)
-			{							
-				$mess = array("en" => "Client ".$c." does not exist.",
-						"de" => "Mandant ".$c." ist ungültig.");				
+			{
+				$mess = array("en" => "Client does not exist.",
+						"de" => "Mandant ist ungültig.");
 				self::redirect("index.php?client_id=".$default_client, null, $mess);							
-			}			
+			}
 			else
 			{
 				self::abortAndDie("Invalid client");
@@ -349,8 +349,9 @@ class ilInitialisation
 		define ("SYSTEM_MAIL_ADDRESS",$ilClientIniFile->readVariable('system','MAIL_SENT_ADDRESS')); // Change SS
 		define ("MAIL_REPLY_WARNING",$ilClientIniFile->readVariable('system','MAIL_REPLY_WARNING')); // Change SS
 
-		define ("MAXLENGTH_OBJ_TITLE",125);#$ilClientIniFile->readVariable('system','MAXLENGTH_OBJ_TITLE'));
-		define ("MAXLENGTH_OBJ_DESC",$ilClientIniFile->readVariable('system','MAXLENGTH_OBJ_DESC'));
+		// see ilObject::TITLE_LENGTH, ilObject::DESC_LENGTH
+		// define ("MAXLENGTH_OBJ_TITLE",125);#$ilClientIniFile->readVariable('system','MAXLENGTH_OBJ_TITLE'));
+		// define ("MAXLENGTH_OBJ_DESC",$ilClientIniFile->readVariable('system','MAXLENGTH_OBJ_DESC'));
 
 		define ("CLIENT_DATA_DIR",ILIAS_DATA_DIR."/".CLIENT_ID);
 		define ("CLIENT_WEB_DIR",ILIAS_ABSOLUTE_PATH."/".ILIAS_WEB_DIR."/".CLIENT_ID);

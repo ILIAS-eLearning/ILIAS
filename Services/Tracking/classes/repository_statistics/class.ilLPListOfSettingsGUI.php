@@ -145,11 +145,12 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 			
 			$refresh_lp = ($mode_changed || $visits_changed);
 			
+			// has to be done before LP refresh!
+			$this->obj_lp->resetCaches();
+			
 			$this->obj_settings->setMode($new_mode);									
 			$this->obj_settings->setVisits($new_visits);			
 			$this->obj_settings->update($refresh_lp);
-			
-			$this->obj_lp->resetCaches();
 			
 			if($mode_changed && $this->obj_lp->getCollectionInstance())
 			{

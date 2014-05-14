@@ -127,22 +127,7 @@ abstract class ilTestSignaturePlugin extends ilPlugin
 	{
 		/** @var $tpl ilTemplate */
 		global $tpl;
-		$tpl->setVariable('ADM_CONTENT', $content );
-		$tpl->show();
-		return;
-	}
-
-	/**
-	 * Shows the template with its current contents.
-	 */
-	protected function showPluginCanvas()
-	{
-		/** @var $tpl ilTemplate */
-		global $tpl;
-		if ( !in_array(strtolower($_GET["baseClass"]), array('iladministrationgui', 'ilrepositorygui','ilobjtestgui')))
-		{
-			$tpl->show();
-		}
+		$tpl->setVariable($this->getGUIObject()->getTestOutputGUI()->getContentBlockName(), $content );
 		return;
 	}
 

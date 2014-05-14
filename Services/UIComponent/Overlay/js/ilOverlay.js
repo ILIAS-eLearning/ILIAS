@@ -251,6 +251,10 @@ il.Overlay = {
 			if (!force) {
 				try {
 					tgt = e.target;
+					// #13209 - IE11 select options do not have offsetParent
+					if (tgt.offsetParent === null) {						
+						tgt = tgt.parentNode;
+					}
 					if (tgt.offsetParent.id == k) {
 						isIn = true;
 					}

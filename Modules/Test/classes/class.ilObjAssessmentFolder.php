@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once "./Services/Object/classes/class.ilObject.php";
+require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionProcessLocker.php';
 
 /**
  * Class ilObjAssessmentFolder
@@ -588,5 +589,15 @@ class ilObjAssessmentFolder extends ilObject
 		);
 		
 		return $isPageEditorEnabled;
+	}
+	
+	public function getQuestionProcessLockMode()
+	{
+		return $this->setting->get('quest_process_lock_mode', ilAssQuestionProcessLocker::LOCK_MODE_NONE);
+	}
+
+	public function setQuestionProcessLockMode($lockMode)
+	{
+		$this->setting->set('quest_process_lock_mode', $lockMode);
 	}
 }

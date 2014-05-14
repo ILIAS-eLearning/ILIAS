@@ -17,7 +17,7 @@ class ilExAssignmentListTextTableGUI extends ilTable2GUI
 	protected $ass; // [ilExAssignment]
 	protected $show_peer_review; // [bool]
 	
-	function __construct($a_parent_obj, $a_parent_cmd, ilExAssignment $a_ass, $a_show_peer_review = false)
+	function __construct($a_parent_obj, $a_parent_cmd, ilExAssignment $a_ass, $a_show_peer_review = false, $a_disable_peer_review = false)
 	{
 		global $ilCtrl, $lng;
 		
@@ -56,7 +56,8 @@ class ilExAssignmentListTextTableGUI extends ilTable2GUI
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
 		$this->setRowTemplate("tpl.exc_list_text_assignment_row.html", "Modules/Exercise");
 	
-		if($this->ass->getPeerReview() && 
+		if(!$a_disable_peer_review &&
+			$this->ass->getPeerReview() && 
 			!$a_show_peer_review &&
 			ilExAssignment::countGivenFeedback($this->ass->getId()))
 		{

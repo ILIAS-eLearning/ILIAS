@@ -1381,6 +1381,11 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 					break;							
 			}
 		}
+		else
+		{
+			// #13176 - there should always be default
+			$this->setActivationType(IL_CRS_ACTIVATION_UNLIMITED);
+		}
 		
 		return true;
 	}

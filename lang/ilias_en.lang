@@ -203,6 +203,7 @@ assessment#:#assessment_scoring_adjust_desc#:#Enables the corrections feature to
 assessment#:#assessment_log_scoring_adjustment_activate#:#Question types available in adjustment
 assessment#:#assessment_log_scoring_adjustment_desc#:#Question types checked here are available in adjustment. This setting is regardless of the current ability of the question types, e.g. a question that does not support adjustment is still shown here.
 assessment#:#0_unlimited#:#(0=unlimited)
+assessment#:#tst_question_not_from_pool_info#:#No Pool
 assessment#:#action#:#Action
 assessment#:#add_answer_tf#:#True/False Answers
 assessment#:#add_answer_yn#:#Yes/No Answers
@@ -394,6 +395,13 @@ assessment#:#errors_section#:#Error Data
 assessment#:#errors#:#Errors
 assessment#:#errortext_info#:#Please enter the error text. To mark a word as an error please insert a hash sign (#) in front of the word. To mark a group of words as an error please encapsulate the words group between double brackets (i.e.: here is ((an example)) of it). If you press the &quot;Analyze Error Text&quot; button, all marked words will be extracted for further processing.
 assessment#:#errortext#:#Error Text
+assessment#:#ass_quest_process_lock#:#Use Locking on Participant Solution Submits
+assessment#:#ass_quest_process_lock_desc#:#Without the use of any locking mechanism, race conditions during the submit of solution data are possible. This can lead to inconsistent test results.
+assessment#:#ass_quest_process_lock_mode#:#Lock Mode during Submit of Participant Solutions
+assessment#:#ass_quest_process_lock_mode_file#:#Use Filesystem Locks
+assessment#:#ass_quest_process_lock_mode_file_desc#:#This locking mechanism requests locks on empty files in the filesystem. Concurrent processes for the same user and the same question are waiting until the other process releases his lock.
+assessment#:#ass_quest_process_lock_mode_db#:#Use Database Table Locks
+assessment#:#ass_quest_process_lock_mode_db_desc#:#This locking mechanism locks tables within the database. Concurrent Processes for the same or other users in the same or in another test are waiting until the other process releases his locks.
 assessment#:#eval_all_users#:#Evaluation for All Users
 assessment#:#eval_choice_result#:#The choice with the value %s is %s. You received %s points.
 assessment#:#eval_cloze_result#:#Gap number %s with the value %s is %s. You received %s points.
@@ -10020,7 +10028,7 @@ trac#:#trac_learners_back#:#Back To Learners
 trac#:#trac_user_objects#:#Learning Objects for User
 content#:#cont_link_whole_picture#:#Link Whole Picture
 content#:#cont_edit_shape_whole_picture#:#Edit Shape (Whole Picture)
-common#:#settings_for_all_members#:#Notification preselected for all course/group members
+common#:#settings_for_all_members#:#Notification activated for all course/group members
 common#:#settings_per_users#:#Settings per Course/Group Member
 user#:#enable_local_user_administration#:#Enable Local User Administration
 user#:#enable_local_user_administration_info#:#If enabled, local user accounts can be administrated in categories.
@@ -13847,6 +13855,9 @@ bibl#:#bib_default_url#:#URL
 bibl#:#bib_default_crossref#:#Cross Reference
 bibl#:#bib_default_keywords#:#Keywords
 bibl#:#bib_default_isbn#:#ISSN/ISBN
+bibl#:#bib_default_urldate#:#Date of URL visit
+bibl#:#bib_default_language#:#Language
+bibl#:#bib_default_series#:#Series
 bibl#:#bib_default_cite#:#Bib Cite
 bibl#:#ris_default_ty#:#Type
 bibl#:#ris_default_id#:#Reference ID
@@ -13900,6 +13911,8 @@ bibl#:#ris_default_do#:#DOI
 bibl#:#ris_default_ed#:#Further Persons
 bibl#:#ris_default_in#:#In
 bibl#:#ris_default_et#:#Edition
+bibl#:#ris_default_dp#:#Database Provider
+bibl#:#ris_default_st#:#Short Title
 content#:#cont_multilang_currently_deactivated#:#Multilinguality support is currently not activated.
 mail#:#mail_filter#:#Filter
 mail#:#mail_filter_sender#:#Sender
@@ -14236,3 +14249,8 @@ assessment#:#additional_rating_info#:#Please note that the values ​​given he
 assessment#:#intprecision_info#:#"Divisible by" affects only the creation of variables, if the value for the precision is 0. In this case, you define for "Divisible by" an integer value, which must be divisible by with the created variable. A value of 10 thus generates only integers that are divisible by 10. A value of 5 produces integers that are divisible by 5, etc. For a precision of 0, "Divisible by" is a mandatory field and must contain a positive integer. The default value is 1 for any integers.
 assessment#:#tolerance_info#:#The tolerance specifies an allowable percentage deviation from the result value. With a tolerance of 0, only the exact result value is evaluated to be correct.
 assessment#:#result_unit_info#:#Please note that, the selected result unit must also be activated in the "available units."
+forum#:#merge_posts_into_thread#:#Merge Postings into other Thread
+forum#:#move_thread_to_forum#:#Move Thread to other Forum
+survey#:#spl_save_obligatory_state#:#Save Obligatory States
+forum#:#post_reply_count#:#Re(%s):
+dateplaner#:#cal_ical_url#:#iCal-URL

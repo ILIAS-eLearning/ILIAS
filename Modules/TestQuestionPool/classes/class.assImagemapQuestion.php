@@ -715,7 +715,9 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 			include_once "./Modules/Test/classes/class.ilObjTest.php";
 			$pass = ilObjTest::_getPass($active_id);
 		}
-		
+
+		$this->getProcessLocker()->requestUserSolutionUpdateLock();
+
 		if($this->is_multiple_choice && strlen($_GET['remImage']))
 		{
 			$affectedRows = $ilDB->manipulateF("DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s AND value1 = %s",
@@ -758,6 +760,8 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 				$this->logAction($this->lng->txtlng("assessment", "log_user_not_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
 			}
 		}
+
+		$this->getProcessLocker()->releaseUserSolutionUpdateLock();
 
 		return true;
 	}
@@ -895,6 +899,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		$result['question'] =  $this->formatSAQuestion($this->getQuestion());
 		$result['nr_of_tries'] = (int) $this->getNrOfTries();
 		$result['shuffle'] = (bool) $this->getShuffle();
+		$result['is_multiple'] = (bool) $this->getIsMultipleChoice();
 		$result['feedback'] = array(
 			"onenotcorrect" => $this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false),
 			"allcorrect" => $this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true)
@@ -902,13 +907,14 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		$result['image'] = (string) $this->getImagePathWeb() . $this->getImageFilename();
 		
 		$answers = array();
+		$order = 0;
 		foreach ($this->getAnswers() as $key => $answer_obj)
 		{
 			array_push($answers, array(
 				"answertext"       => (string)$answer_obj->getAnswertext(),
 				"points"           => (float)$answer_obj->getPoints(),
 				"points_unchecked" => (float)$answer_obj->getPointsUnchecked(),
-				"order"            => (int)$answer_obj->getOrder(),
+				"order"            => (int)$order,
 				"coords"           => $answer_obj->getCoords(),
 				"state"            => $answer_obj->getState(),
 				"area"             => $answer_obj->getArea(),
@@ -916,6 +922,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 					$this->feedbackOBJ->getSpecificAnswerFeedbackExportPresentation($this->getId(), $key), 0
 				)
 			));
+			$order++;
 		}
 		$result['answers'] = $answers;
 

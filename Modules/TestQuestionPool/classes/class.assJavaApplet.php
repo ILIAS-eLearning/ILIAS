@@ -842,6 +842,10 @@ class assJavaApplet extends assQuestion implements ilObjQuestionScoringAdjustabl
 	public function saveWorkingData($active_id, $pass = NULL)
 	{
 		// nothing to save!
+
+		//$this->getProcessLocker()->requestUserSolutionUpdateLock();
+		// store in tst_solutions
+		//$this->getProcessLocker()->releaseUserSolutionUpdateLock();
 		
  		return true;
 	}

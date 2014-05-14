@@ -180,7 +180,8 @@ ilCOPagePres =
 				$(ov).position({
 					my: "left top",
 					at: "left+" + ovx + " top+" + ovy,
-					of: "img#base_img_" + tr.iim_id
+					of: "img#base_img_" + tr.iim_id,
+					collision: "none"
 					});
 
 				// on first time we need to initialize the
@@ -580,8 +581,8 @@ ilCOPagePres =
 				ov.draggable({
 					stop: function(event, ui) {
 						var ovpos = ov.position();
-						var position = (Math.round(ovpos.left) - Math.round(bpos.left)) + "," +
-							(Math.round(ovpos.top) - Math.round(bpos.top));
+						var position = (Math.round(ov.offset().left) - Math.round(base.offset().left)) + "," +
+							(Math.round(ov.offset().top) - Math.round(base.offset().top));
 
 						$("input#ovpos_" + dtr.nr).attr("value", position);
 					}
@@ -644,8 +645,8 @@ ilCOPagePres =
 						pdummy.draggable({
 							stop: function(event, ui) {
 								var pdpos = pdummy.position();
-								var position = (Math.round(pdpos.left) - Math.round(bpos.left)) + "," +
-									(Math.round(pdpos.top) - Math.round(bpos.top));
+								var position = (Math.round(pdummy.offset().left) - Math.round(base.offset().left)) + "," +
+									(Math.round(pdummy.offset().top) - Math.round(base.offset().top));
 								$("input#poppos_" + dtr.nr).attr("value", position);
 							}
 						});

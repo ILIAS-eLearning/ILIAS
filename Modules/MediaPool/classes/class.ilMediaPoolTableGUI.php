@@ -374,7 +374,11 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 				{
 					$mob = new ilObjMediaObject($a_set["foreign_id"]);
 					$med = $mob->getMediaItem("Standard");
-					$target = $med->getThumbnailTarget();
+					$target = "";
+					if ($med)
+					{
+						$target = $med->getThumbnailTarget();
+					}
 					if ($target != "")
 					{
 						$this->tpl->setVariable("IMG", ilUtil::img($target));
@@ -384,7 +388,7 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 						$this->tpl->setVariable("IMG",
 							ilUtil::img(ilUtil::getImagePath("icon_".$a_set["type"].".png")));
 					}
-					if (ilUtil::deducibleSize($med->getFormat()) && 
+					if ($med && ilUtil::deducibleSize($med->getFormat()) &&
 						$med->getLocationType() == "Reference")
 					{
 						$size = @getimagesize($med->getLocation());
@@ -415,7 +419,7 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 						$this->tpl->parseCurrentBlock();
 					}
 					// output caption
-					if(strlen($med->getCaption()))
+					if($med && strlen($med->getCaption()))
 					{
 						$this->tpl->setCurrentBlock('additional_info');
 						$this->tpl->setVariable('ADD_INFO',$lng->txt('cont_caption').': '.$med->getCaption());

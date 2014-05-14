@@ -275,13 +275,10 @@ class ilConditionHandlerInterface
 							$this->getTargetId(),
 							$this->getTargetType()
 						);
-						if(sizeof($optional_conditions) > 1)
+						// Set all optional conditions to obligatory
+						foreach((array) $optional_conditions as $item)
 						{
-							// Set all optional conditions to obligatory
-							foreach($optional_conditions as $item)
-							{
-								ilConditionHandler::updateObligatory($item["condition_id"], true);
-							}
+							ilConditionHandler::updateObligatory($item["condition_id"], true);
 						}
 					}
 					break;

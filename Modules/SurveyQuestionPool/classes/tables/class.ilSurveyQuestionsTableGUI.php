@@ -59,8 +59,15 @@ class ilSurveyQuestionsTableGUI extends ilTable2GUI
 			
 		$this->setFormName('questionbrowser');
 		$this->setStyle('table', 'fullwidth');
-		$this->addColumn('','f','1%');
+		
+		if ($this->getWriteAccess())
+		{
+			$this->addColumn('','','1%');
+		}
+		
 		$this->addColumn($this->lng->txt("title"),'title', '');
+		$this->addColumn($this->lng->txt("obligatory"), "");
+		
 		foreach ($this->getSelectedColumns() as $c)
 		{
 			if (strcmp($c, 'description') == 0) $this->addColumn($this->lng->txt("description"),'description', '');
@@ -73,10 +80,11 @@ class ilSurveyQuestionsTableGUI extends ilTable2GUI
 		$this->addColumn("", "");		
 		
 		$this->setPrefix('q_id');
-		$this->setSelectAllCheckbox('q_id');
 		
 		if ($this->getWriteAccess())
 		{
+			$this->setSelectAllCheckbox('q_id');
+		
 			$this->addMultiCommand('copy', $this->lng->txt('copy'));
 			$this->addMultiCommand('move', $this->lng->txt('move'));
 			$this->addMultiCommand('exportQuestion', $this->lng->txt('export'));
@@ -86,6 +94,8 @@ class ilSurveyQuestionsTableGUI extends ilTable2GUI
 			{
 				$this->addCommandButton('paste', $this->lng->txt('paste'));
 			}
+			
+			$this->addCommandButton("saveObligatory", $this->lng->txt("spl_save_obligatory_state"));
 		}
 
 
@@ -196,11 +206,13 @@ class ilSurveyQuestionsTableGUI extends ilTable2GUI
 	public function fillRow($data)
 	{
 		global $ilUser,$ilAccess;
+		
 		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestionGUI.php";
 		$class = strtolower(SurveyQuestionGUI::_getGUIClassNameForId($data["question_id"]));
 		$guiclass = $class . "GUI";
 		$this->ctrl->setParameterByClass(strtolower($guiclass), "q_id", $data["question_id"]);
+		
 		if ($this->getEditable())
 		{
 			$url_edit = $this->ctrl->getLinkTargetByClass(strtolower($guiclass), "editQuestion");
@@ -216,6 +228,7 @@ class ilSurveyQuestionsTableGUI extends ilTable2GUI
 			$this->tpl->setVariable("QUESTION_TITLE", $data["title"]);
 			$this->tpl->parseCurrentBlock();
 		}
+		
 		if ($data["complete"] == 0)
 		{
 			$this->tpl->setCurrentBlock("qpl_warning");
@@ -224,6 +237,7 @@ class ilSurveyQuestionsTableGUI extends ilTable2GUI
 			$this->tpl->setVariable("TITLE_WARNING", $this->lng->txt("warning_question_not_complete"));
 			$this->tpl->parseCurrentBlock();
 		}
+		
 		foreach ($this->getSelectedColumns() as $c)
 		{
 			if (strcmp($c, 'description') == 0)
@@ -257,23 +271,40 @@ class ilSurveyQuestionsTableGUI extends ilTable2GUI
 				$this->tpl->parseCurrentBlock();
 			}
 		}						
-		$this->tpl->setVariable('QUESTION_ID', $data["question_id"]);
-					
-		// actions
+		
+		// actions 
 		include_once "Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php";
 		$list = new ilAdvancedSelectionListGUI();
 		$list->setId($data["question_id"]);
-		$list->setListTitle($this->lng->txt("actions"));
-		if($url_edit)
-		{
+		$list->setListTitle($this->lng->txt("actions"));					
+		if ($url_edit)
+		{		
 			$list->addItem($this->lng->txt("edit"), "", $url_edit);
+		}				
+		$list->addItem($this->lng->txt("preview"), "", $this->ctrl->getLinkTargetByClass(strtolower($guiclass), "preview"));	
+		$this->tpl->setVariable("ACTION", $list->getHTML());
+		$this->tpl->parseCurrentBlock();
+			
+		// obligatory				
+		if ($this->getEditable())
+		{		
+			$checked = $data["obligatory"] ? " checked=\"checked\"" : "";
+			$obligatory = "<input type=\"checkbox\" name=\"obligatory_".
+				$data["question_id"] . "\" value=\"1\"".$checked." />";
 		}
-		$list->addItem($this->lng->txt("preview"), "", 
-			$this->ctrl->getLinkTargetByClass(strtolower($guiclass), "preview"));
-		
-		$this->tpl->setCurrentBlock("actions");	
-		$this->tpl->setVariable("ACTION", $list->getHTML());		
-		$this->tpl->parseCurrentBlock();		
+		else if($data["obligatory"])
+		{
+			$obligatory = "<img src=\"".ilUtil::getImagePath("obligatory.png", "Modules/Survey").
+				"\" alt=\"".$this->lng->txt("question_obligatory").
+				"\" title=\"".$this->lng->txt("question_obligatory")."\" />";
+		}
+		$this->tpl->setVariable("OBLIGATORY", $obligatory);
+					
+		if ($this->getWriteAccess())
+		{		
+			$this->tpl->setVariable('CBOX_ID', $data["question_id"]);
+		}
+		$this->tpl->setVariable('QUESTION_ID', $data["question_id"]);				
 	}
 	
 	public function setEditable($value)

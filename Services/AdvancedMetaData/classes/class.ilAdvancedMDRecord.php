@@ -569,9 +569,9 @@ class ilAdvancedMDRecord
 	 * @param string ilias object type
 	 * 
 	 */
-	public function appendAssignedObjectType($a_obj_type)
+	public function appendAssignedObjectType($a_obj_type, $a_sub_type)
 	{
-	 	$this->obj_types[] = $a_obj_type;
+	 	$this->obj_types[] = array("obj_type"=>$a_obj_type, "sub_type"=>$a_sub_type);
 	}
 	
 	/**

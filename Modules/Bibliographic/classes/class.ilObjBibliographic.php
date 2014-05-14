@@ -67,7 +67,7 @@ class ilObjBibliographic extends ilObject2 {
 			$this->doRead();
 		}
 
-		parent::__construct();
+		parent::__construct($existant_bibl_id, false);
 	}
 
 
@@ -351,13 +351,16 @@ class ilObjBibliographic extends ilObject2 {
 			}
 
 			// formating the author to the following type of string
-			// Smith, John / Comte, Gabriel / von Gunten Jr,Thomas
+			// Smith, John / Comte, Gabriel / von Gunten Jr, Thomas
 			foreach ($entry as $attr_key => $attribute) {
 				if ($attr_key == 'author' && is_array($attribute)) {
 					$attribute_string = array();
-					foreach ($attribute as $key => $author) {
+					foreach ($attribute as $author_key => $author) {
 						$lastname = array($author['von'], $author['last'], $author['jr']);
-						$attribute_string[$key] = implode(' ', array_filter($lastname)) . ', ' . $author['first'];
+						$attribute_string[$author_key] = implode(' ', array_filter($lastname));
+                        			if(!empty($author['first'])){
+			                        	$attribute_string[$author_key] .= ', ' . $author['first'];
+                        			}
 					}
 					$bibtex_reader->data[$key][$attr_key] = implode(' / ', $attribute_string);
 				}
@@ -493,8 +496,6 @@ class ilObjBibliographic extends ilObject2 {
 		$this->setType($original->getType());
 
 		$this->doUpdate();
-
-		$this->writeSourcefileEntriesToDb();
 	}
 
 

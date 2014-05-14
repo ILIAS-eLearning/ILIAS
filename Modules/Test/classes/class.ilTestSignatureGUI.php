@@ -10,9 +10,6 @@ require_once 'Services/Export/classes/class.ilExportGUI.php';
  * @version      $Id$
  *               
  * @ingroup      ModulesTest
- *               
- * @ilCtrl_isCalledBy 	ilTestSignatureGUI: ilTestOutputGUI
- * @ilCtrl_calls 		ilTestSignatureGUI: ilTestOutputGUI, ilTestEvaluationGUI
  */
 class ilTestSignatureGUI 
 {
@@ -60,16 +57,6 @@ class ilTestSignatureGUI
 
 		switch($next_class)
 		{
-			case 'iltestoutputgui':
-				$ret = $this->ilCtrl->forwardCommand($this->ilTestOutputGUI);
-				break;
-			
-			case 'iltestevaluationgui':
-				require_once './Modules/Test/classes/class.ilTestEvaluationGUI.php';
-				$evaluation_gui = new ilTestEvaluationGUI($this->getTest());
-				$this->ilCtrl->forwardCommand($evaluation_gui);
-				break;
-			
 			default:
 				$ret = $this->dispatchCommand();
 				break;
@@ -129,6 +116,22 @@ class ilTestSignatureGUI
 	}
 
 	/**
+	 * @param \ilTestOutputGUI $testOutputGUI
+	 */
+	public function setTestOutputGUI($testOutputGUI)
+	{
+		$this->ilTestOutputGUI = $testOutputGUI;
+	}
+
+	/**
+	 * @return \ilTestOutputGUI
+	 */
+	public function getTestOutputGUI()
+	{
+		return $this->ilTestOutputGUI;
+	}
+
+	/**
 	 * This is to be called by the plugin at the end of the signature process to redirect the user back to the test.
 	 */
 	public function redirectToTest($success)
@@ -140,7 +143,7 @@ class ilTestSignatureGUI
 		$pass = $this->test->_getMaxPass($active);
 		$key = 'signed_'. $active .'_'. $pass;
 		ilSession::set($key, $success);
-		$ilCtrl->redirectByClass('ilTestOutputGUI','afterTestPassFinished');
+		$ilCtrl->redirect($this->ilTestOutputGUI,'afterTestPassFinished');
 		return;
 	}
 }

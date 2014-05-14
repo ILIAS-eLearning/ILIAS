@@ -182,8 +182,12 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
 	{
 		global $ilDB;
 		
+		// only active entries are assigned!
 		if(!$this->isAssignedEntry($a_item_id))
 		{
+			// #13278 - because of grouping inactive items may exist
+			$this->deleteEntry($a_item_id);
+			
 			$query = "INSERT INTO ut_lp_collections".
 				" (obj_id, lpmode, item_id, grouping_id, num_obligatory, active)".
 				" VALUES (".$ilDB->quote($this->obj_id , "integer").

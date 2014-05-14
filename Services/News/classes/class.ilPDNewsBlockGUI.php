@@ -147,17 +147,22 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 	{
 		global $ilCtrl;
 		
-		switch($_GET["cmd"])
+		$cmd = $_GET["cmd"];
+		if($cmd == "post" && is_array($_POST["cmd"]))
+		{
+			$cmd = array_pop(array_keys($_POST["cmd"]));			
+		}
+		
+		switch($cmd)
 		{
 			case "showNews":
 			case "showFeedUrl":
 			case "editSettings":
+			case "changeFeedSettings":
 				return IL_SCREEN_CENTER;
-				break;
 			
 			default:
 				return IL_SCREEN_SIDE;
-				break;
 		}
 	}
 
@@ -356,7 +361,7 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 	/**
 	* Show settings screen.
 	*/
-	function editSettings()
+	function editSettings(ilPropertyFormGUI $a_private_form = null)
 	{
 		global $ilUser, $lng, $ilCtrl, $ilSetting;
 		
@@ -365,18 +370,18 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 		$allow_shorter_periods = $news_set->get("allow_shorter_periods");
 		$allow_longer_periods = $news_set->get("allow_longer_periods");
 		$enable_private_feed = $news_set->get("enable_private_feed");
-
-		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
-
-		if ($allow_shorter_periods || $allow_longer_periods )
+	
+		if (!$a_private_form && ($allow_shorter_periods || $allow_longer_periods))
 		{
+			include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 			$form = new ilPropertyFormGUI();	
+			$form->setFormAction($ilCtrl->getFormaction($this));			
+			$form->setTitle($lng->txt("news_settings"));
+			$form->setTitleIcon(ilUtil::getImagePath("icon_news.png"));
+
 			include_once("./Services/News/classes/class.ilNewsItem.php");
 			$default_per = ilNewsItem::_lookupDefaultPDPeriod();
 			$per = ilNewsItem::_lookupUserPDPeriod($ilUser->getId());
-
-			$form->setTitle($lng->txt("news_settings"));
-			$form->setTitleIcon(ilUtil::getImagePath("icon_news.png"));
 
 			$form->setTableWidth("100%");
 
@@ -418,48 +423,50 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 			//		"1", $public, $lng->txt("news_notifications_public_info"));
 			//}
 			$form->addCommandButton("saveSettings", $lng->txt("save"));
-			$form->addCommandButton("cancelSettings", $lng->txt("cancel"));
-			$form->setFormAction($ilCtrl->getFormaction($this));
+			$form->addCommandButton("cancelSettings", $lng->txt("cancel"));			
 			
 			$returnForm = $form->getHTML();
 		}
 
 		if ($enable_private_feed) 
 		{
-			$feed_form = new ilPropertyFormGUI();
-			$feed_form->setTitle($lng->txt("priv_feed_settings"));
-			$feed_form->setTitleIcon(ilUtil::getImagePath("privrss.png"));
-	
-			$feed_form->setTableWidth("100%");
-	
-			$enable_private_feed = new ilCheckboxInputGUI($lng->txt("news_enable_private_feed"), "enable_private_feed");
-			
-
-			$retype_pass = new ilTextInputGUI($lng->txt("retype_password"), "retype_password");
-			$desired_pass = new ilTextInputGUI($lng->txt("desired_password"), "desired_password");
-			
-			// user has already valid password
-			if (ilObjUser::_getFeedPass($_SESSION[AccountId]) != false)
+			if(!$a_private_form)
 			{
-				$enable_private_feed->setChecked(true);
-				$desired_pass->setValue("******");
+				$a_private_form = $this->initPrivateSettingsForm();
 			}
-			$desired_pass->setInputType("password");
-
-			$retype_pass->setInputType("password");
-			
-			$feed_form->addItem($enable_private_feed);
-			$feed_form->addItem($desired_pass);
-			$feed_form->addItem($retype_pass);
-			
-			$feed_form->addCommandButton("changeFeedSettings", $lng->txt("save"));
-			$feed_form->addCommandButton("cancelSettings", $lng->txt("cancel"));
-			$feed_form->setFormAction($ilCtrl->getFormaction($this));
-			
-			$returnForm .= ($returnForm=="")?$feed_form->getHTML():"<br>".$feed_form->getHTML();
+			$returnForm .= ($returnForm=="") 
+				? $a_private_form->getHTML()
+				: "<br>".$a_private_form->getHTML();
 		}
 		
 		return $returnForm;
+	}
+	
+	protected function initPrivateSettingsForm()
+	{
+		global $ilCtrl, $lng, $ilUser;
+		
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$feed_form = new ilPropertyFormGUI();
+		$feed_form->setFormAction($ilCtrl->getFormaction($this));
+		$feed_form->setTitle($lng->txt("priv_feed_settings"));
+		$feed_form->setTitleIcon(ilUtil::getImagePath("privrss.png"));
+
+		$feed_form->setTableWidth("100%");
+
+		$enable_private_feed = new ilCheckboxInputGUI($lng->txt("news_enable_private_feed"), "enable_private_feed");
+		$enable_private_feed->setChecked($ilUser->_getFeedPass($ilUser->getId()));
+		$feed_form->addItem($enable_private_feed);		
+
+		$passwd = new ilPasswordInputGUI($lng->txt("password"), "desired_password");
+		$passwd->setRequired(true);
+		$passwd->setInfo(ilUtil::getPasswordRequirementsInfo());
+		$enable_private_feed->addSubItem($passwd);
+
+		$feed_form->addCommandButton("changeFeedSettings", $lng->txt("save"));
+		$feed_form->addCommandButton("cancelSettings", $lng->txt("cancel"));
+		
+		return $feed_form;
 	}
 
 	/**
@@ -499,41 +506,36 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 	function changeFeedSettings()
 	{
 		global $ilCtrl, $lng, $ilUser;
-
-		// Deactivate private Feed - just delete the password
-		if (empty($_POST["enable_private_feed"])) 
-		{
-			ilUtil::sendSuccess($lng->txt("priv_feed_disabled"),true);
-			$ilUser->_setFeedPass($_SESSION["AccountId"],"");
-			$ilCtrl->returnToParent($this);			
-		}
-		else
-		{
-			// check old password
-			if ($_POST["desired_password"] != $_POST["retype_password"])
-			{
-				ilUtil::sendFailure($lng->txt("passwd_not_match"),true);
-				$ilCtrl->redirectByClass("ilPDNewsBlockGUI", "editSettings");
-			}
-			// validate password
-			else if (!ilUtil::isPassword($_POST["desired_password"]))
-			{
-				ilUtil::sendFailure($lng->txt("passwd_invalid"),true);
-				$ilCtrl->redirectByClass("ilPDNewsBlockGUI", "editSettings");
-			}
-			// only works for ILIAS3 passwords
-			else if (md5($_POST["desired_password"]) == $ilUser->getPasswd())
-			{
-				ilUtil::sendFailure($lng->txt("passwd_equals_ilpasswd"),true);
-				$ilCtrl->redirectByClass("ilPDNewsBlockGUI", "editSettings");
-			}
-			else if ($_POST["desired_password"] != "")
-			{
-				ilUtil::sendSuccess($lng->txt("saved_successfully"),true);
-				$ilUser->_setFeedPass($_SESSION["AccountId"],$_POST["desired_password"]);
+		
+		$form = $this->initPrivateSettingsForm();
+		if($form->checkInput())
+		{			
+			// Deactivate private Feed - just delete the password
+			if (!$form->getInput("enable_private_feed")) 
+			{				
+				$ilUser->_setFeedPass($ilUser->getId(), "");		
+				ilUtil::sendSuccess($lng->txt("priv_feed_disabled"),true);
 				$ilCtrl->returnToParent($this);
 			}
+			else
+			{					
+				$passwd = $form->getInput("desired_password");				
+				if (md5($passwd) == $ilUser->getPasswd())
+				{
+					$form->getItemByPostVar("desired_password")->setAlert($lng->txt("passwd_equals_ilpasswd"));
+					ilUtil::sendFailure($lng->txt("form_input_not_valid"));
+				}
+				else
+				{
+					$ilUser->_setFeedPass($ilUser->getId(), $passwd);		
+					ilUtil::sendSuccess($lng->txt("saved_successfully"),true);
+					$ilCtrl->returnToParent($this);
+				}
+			}			
 		}
+		
+		$form->setValuesByPost();
+		return $this->editSettings($form);
 	}
 
 }

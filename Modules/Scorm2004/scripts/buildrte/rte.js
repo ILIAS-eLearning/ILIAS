@@ -1,4 +1,4 @@
-// Build: 2014113161648 
+// Build: 2014512195717 
 /*
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
@@ -12599,8 +12599,11 @@ function updateControls(controlState)
 }
 
 
-function setResource(id, url, base) 
+function setResource() 
 {
+	var id  = openedResource[0];
+	var url = openedResource[1];
+	var base= openedResource[2];
 	if (url.substring(0,4) != "http") url= base + url;
 //IE11 problem
 	// if (!top.frames[RESOURCE_NAME])
@@ -14030,7 +14033,8 @@ function onItemDeliver(item, wasSuspendAll) // onDeliver called from sequencing 
 	    && envEditor==false) {
 		item.parameters = "?"+ item.parameters;
 	} 
-	setResource(item.id, item.href+randNumber+item.parameters, this.config.package_url);
+	openedResource=[item.id, item.href+randNumber+item.parameters, this.config.package_url];
+	setResource();
 }
 
 
@@ -14502,9 +14506,9 @@ function onTerminate(data)
 	msequencer.mSeqTree.setValidRequests(valid);
 	mlaunch.mNavState = msequencer.mSeqTree.getValidRequests();
 //check if better without updateNav and updateControls
-//	updateNav(false);
+	updateNav(false);
 	updateControls();
-	
+	setResource();
 	return true;
 }
 
@@ -14840,6 +14844,8 @@ var saved={
 // SCO related Variables
 var currentAPI; // reference to API during runtime of a SCO
 var scoStartTime = null;
+
+var openedResource = new Array();
 
 var treeView=true;
 

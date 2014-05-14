@@ -1356,6 +1356,10 @@ class ilObjMediaObject extends ilObject
 						include_once('./Services/COPage/classes/class.ilPageObject.php');
 						$obj_id = ilPageObject::lookupParentId($id, 'blp');
 						break;
+					
+					case "impr":
+						// imprint page - always id 1
+						// fallthrough
 						
 					case "crs":
 					case "grp":

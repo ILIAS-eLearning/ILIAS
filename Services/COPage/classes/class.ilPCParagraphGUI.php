@@ -383,12 +383,17 @@ class ilPCParagraphGUI extends ilPageContentGUI
 			ilUtil::stripSlashes($_POST["pc_id_str"]));
 		if ($_POST["quick_save"])
 		{
-			if ($this->updated)
+			if ($this->updated === true)
 			{
 				$a_pc_id_str = $this->content_obj->getLastSavedPcId($this->pg_obj, true);
 				echo $a_pc_id_str;
 				exit;
 			}
+		}
+
+		if ($this->updated !== true && is_array($this->updated))
+		{
+			$this->outputError($this->updated);
 		}
 
 		$a_pc_id_str = $this->content_obj->getLastSavedPcId($this->pg_obj, true);
@@ -397,6 +402,21 @@ class ilPCParagraphGUI extends ilPageContentGUI
 			urlencode($a_pc_id_str));
 		$ilCtrl->redirectByClass($ilCtrl->getReturnClass($this), "edit", "", true);
 	}
+
+	/**
+	 * Output error
+	 *
+	 * @param array $a_err error array
+	 */
+	function outputError($a_err)
+	{
+		foreach ($a_err as $err)
+		{
+			echo $err[1]."<br />";
+		}
+		exit;
+	}
+
 	
 	/**
 	 * Cancel
@@ -717,6 +737,11 @@ class ilPCParagraphGUI extends ilPageContentGUI
 				echo $a_pc_id_str;
 				exit;
 			}
+		}
+
+		if ($this->updated !== true && is_array($this->updated))
+		{
+			$this->outputError($this->updated);
 		}
 
 		// e.g. e.g. ###3:110dad8bad6df8620071a0a693a2d328###

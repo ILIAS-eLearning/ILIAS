@@ -388,5 +388,262 @@ if( !$ilDB->uniqueConstraintExists('tst_sequence', array('active_fi', 'pass')) )
 			)
 		);
 ?>
+<#16>
+<?php
+	// Get defective active-id sequences by finding active ids lower than zero. The abs of the low-pass is the count of the holes
+	// in the sequence.
+	$result = $ilDB->query('SELECT active_fi, min(pass) pass FROM tst_pass_result WHERE pass < 0 GROUP BY active_fi');
+	$broken_sequences = array();
 
+	while ( $row = $ilDB->fetchAssoc($result) )
+	{
+		$broken_sequences[] = array('active' => $row['active'], 'holes' => abs($row['pass']));
+	}
+
+	$stmt_inc_pass_res 	= $ilDB->prepareManip('UPDATE tst_pass_result 	SET pass = pass + 1 WHERE active_fi = ?', array('integer'));
+	$stmt_inc_man_fb 	= $ilDB->prepareManip('UPDATE tst_manual_fb 	SET pass = pass + 1 WHERE active_fi = ?', array('integer'));
+	$stmt_inc_seq 		= $ilDB->prepareManip('UPDATE tst_sequence 		SET pass = pass + 1 WHERE active_fi = ?', array('integer'));
+	$stmt_inc_sol 		= $ilDB->prepareManip('UPDATE tst_solutions 	SET pass = pass + 1 WHERE active_fi = ?', array('integer'));
+	$stmt_inc_times 	= $ilDB->prepareManip('UPDATE tst_times 		SET pass = pass + 1 WHERE active_fi = ?', array('integer'));
+
+	$stmt_sel_passes 	= $ilDB->prepare('SELECT pass FROM tst_pass_result WHERE active_fi = ? ORDER BY pass', array('integer'));
+
+	$stmt_dec_pass_res 	= $ilDB->prepareManip('UPDATE tst_pass_result 	SET pass = pass - 1 WHERE active_fi = ? AND pass > ?', array('integer', 'integer'));
+	$stmt_dec_man_fb 	= $ilDB->prepareManip('UPDATE tst_manual_fb 	SET pass = pass - 1 WHERE active_fi = ? AND pass > ?', array('integer', 'integer'));
+	$stmt_dec_seq 		= $ilDB->prepareManip('UPDATE tst_sequence 		SET pass = pass - 1 WHERE active_fi = ? AND pass > ?', array('integer', 'integer'));
+	$stmt_dec_sol 		= $ilDB->prepareManip('UPDATE tst_solutions 	SET pass = pass - 1 WHERE active_fi = ? AND pass > ?', array('integer', 'integer'));
+	$stmt_dec_times 	= $ilDB->prepareManip('UPDATE tst_times 		SET pass = pass - 1 WHERE active_fi = ? AND pass > ?', array('integer', 'integer'));
+
+	// Iterate over affected passes
+	foreach ( $broken_sequences as $broken_sequence )
+	{
+		// Recreate the unbroken, pre-renumbering state by incrementing all passes on all affected tables for the detected broken active_fi.
+		for($i = 1; $i <= $broken_sequence['holes']; $i++)
+		{
+			$ilDB->execute($stmt_inc_pass_res,	array($broken_sequence['active']));
+			$ilDB->execute($stmt_inc_man_fb, 	array($broken_sequence['active']));
+			$ilDB->execute($stmt_inc_seq, 		array($broken_sequence['active']));
+			$ilDB->execute($stmt_inc_sol, 		array($broken_sequence['active']));
+			$ilDB->execute($stmt_inc_times, 	array($broken_sequence['active']));
+		}
+
+		// Detect the holes and renumber correctly on all affected tables.
+		for($i = 1; $i <= $broken_sequence['holes']; $i++)
+		{
+			$result = $ilDB->execute($stmt_sel_passes, array($broken_sequence['active']));
+			$index = 0;
+			while($row = $ilDB->fetchAssoc($result))
+			{
+				if ($row['pass'] == $index)
+				{
+					$index++;
+					continue;
+				}
+
+				// Reaching here, there is a missing index, now decrement all higher passes, preserving additional holes.
+				$ilDB->execute($stmt_dec_pass_res, 	array($broken_sequence['active'], $index));
+				$ilDB->execute($stmt_dec_man_fb, 	array($broken_sequence['active'], $index));
+				$ilDB->execute($stmt_dec_seq, 		array($broken_sequence['active'], $index));
+				$ilDB->execute($stmt_dec_sol, 		array($broken_sequence['active'], $index));
+				$ilDB->execute($stmt_dec_times, 	array($broken_sequence['active'], $index));
+				break;
+				// Hole detection will start over.
+			}
+		}
+	}
+?>
+<#17>
+<?php
+
+if( !$ilDB->tableExists('tmp_tst_to_recalc') )
+{
+	$ilDB->createTable('tmp_tst_to_recalc', array(
+		'active_fi' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'pass' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => -1
+		)
+	));
+
+	$ilDB->addUniqueConstraint('tmp_tst_to_recalc', array('active_fi', 'pass'));
+}
+
+$groupQuery = "
+			SELECT      tst_test_result.active_fi,
+						tst_test_result.question_fi,
+						tst_test_result.pass,
+						MAX(test_result_id) keep_id
+			
+			FROM        tst_test_result
+
+            INNER JOIN  tst_active
+            ON          tst_active.active_id = tst_test_result.active_fi
+			
+            INNER JOIN  tst_tests
+            ON          tst_tests.test_id = tst_active.test_fi
+			
+            INNER JOIN  object_data
+            ON          object_data.obj_id = tst_tests.obj_fi
+
+            WHERE       object_data.type = %s
+			
+			GROUP BY    tst_test_result.active_fi,
+						tst_test_result.question_fi,
+						tst_test_result.pass
+			
+			HAVING      COUNT(*) > 1
+		";
+
+$numQuery = "SELECT COUNT(*) num FROM ($groupQuery) tbl";
+$numRes = $ilDB->queryF($numQuery, array('text'), array('tst'));
+$numRow = $ilDB->fetchAssoc($numRes);
+
+$ilSetting = new ilSetting();
+$setting = $ilSetting->get('tst_test_results_dupl_del_warn', 0);
+
+if( (int)$numRow['num'] && !(int)$setting )
+{
+	echo "<pre>
+
+		Dear Administrator,
+		
+		DO NOT REFRESH THIS PAGE UNLESS YOU HAVE READ THE FOLLOWING INSTRUCTIONS
+		
+		The update process has been stopped due to data security reasons.
+		A Bug has let to duplicate datasets in \"tst_test_result\" table.
+		Duplicates have been detected in your installation.
+		
+		Please have a look at: http://www.ilias.de/mantis/view.php?id=8992#c27369
+		
+		You have the opportunity to review the data in question and apply 
+		manual fixes on your own risk.
+		If you change any data manually, make sure to also add an entry in the table \"tmp_tst_to_recalc\"
+		for each active_fi/pass combination that is involved.
+		The required re-calculation of related result aggregations won't be triggered otherwise.
+		
+		If you try to rerun the update process, this warning will be skipped.
+		The remaining duplicates will be removed automatically by the criteria documented at Mantis #8992
+		
+		Best regards,
+		The Test Maintainers
+		
+	</pre>";
+
+	$ilSetting->set('tst_test_results_dupl_del_warn', 1);
+	exit;
+}
+
+if( (int)$numRow['num'] )
+{
+	$groupRes = $ilDB->queryF($groupQuery, array('text'), array('tst'));
+
+	$deleteStmt = $ilDB->prepareManip(
+		"DELETE FROM tst_test_result WHERE active_fi = ? AND pass = ? AND question_fi = ? AND test_result_id != ?",
+		array('integer', 'integer', 'integer', 'integer')
+	);
+
+	while( $groupRow = $ilDB->fetchAssoc($groupRes) )
+	{
+		$pkCols = array(
+			'active_fi' => array('integer', $groupRow['active_fi']),
+			'pass' => array('integer', $groupRow['pass'])
+		);
+
+		$ilDB->replace('tmp_tst_to_recalc', $pkCols, array());
+
+		$ilDB->execute($deleteStmt, array(
+			$groupRow['active_fi'], $groupRow['pass'], $groupRow['question_fi'], $groupRow['keep_id']
+		));
+	}
+}
+
+?>
+<#18>
+<?php
+
+if( $ilDB->tableExists('tmp_tst_to_recalc') )
+{
+	$deleteStmt = $ilDB->prepareManip(
+		"DELETE FROM tmp_tst_to_recalc WHERE active_fi = ? AND pass = ?", array('integer', 'integer')
+	);
+
+	$res = $ilDB->query("
+			SELECT		tmp_tst_to_recalc.*,
+						tst_tests.obligations_enabled,
+						tst_tests.question_set_type,
+						tst_tests.obj_fi,
+						tst_tests.pass_scoring
 	
+			FROM		tmp_tst_to_recalc
+	
+			INNER JOIN  tst_active
+			ON          tst_active.active_id = tmp_tst_to_recalc.active_fi
+			
+			INNER JOIN  tst_tests
+			ON          tst_tests.test_id = tst_active.test_fi
+	");
+
+	require_once 'Services/Migration/Hotfix_18/classes/class.DBUpdateTestResultCalculator.php';
+
+	while( $row = $ilDB->fetchAssoc($res) )
+	{
+		DBUpdateTestResultCalculator::_updateTestPassResults(
+			$row['active_fi'], $row['pass'], $row['obligations_enabled'],
+			$row['question_set_type'], $row['obj_fi']
+		);
+
+		DBUpdateTestResultCalculator::_updateTestResultCache(
+			$row['active_fi'], $row['pass_scoring']
+		);
+
+		$ilDB->execute($deleteStmt, array($row['active_fi'], $row['pass']));
+	}
+
+	$ilDB->dropTable('tmp_tst_to_recalc');
+}
+
+// reset setting for shown clean up warning (see last hotfix),
+// so trunk dbupdate won't clean up automatically without another warning
+$ilSetting = new ilSetting();
+$ilSetting->set('tst_test_results_dupl_del_warn', 0);
+
+?>
+<#19>
+<?php
+	// get all imagemap questions in ILIAS learning modules or scorm learning modules
+	$set = $ilDB->query("SELECT pq.question_id FROM page_question pq JOIN qpl_qst_imagemap im ON (pq.question_id = im.question_fi) ".
+		" WHERE pq.page_parent_type = ".$ilDB->quote("lm", "text").
+		" OR pq.page_parent_type = ".$ilDB->quote("sahs", "text")
+	);
+	while ($rec = $ilDB->fetchAssoc($set))
+	{
+		// now cross-check against qpl_questions to ensure that this is neither a test nor a question pool question
+		$set2 = $ilDB->query("SELECT obj_fi FROM qpl_questions ".
+			" WHERE question_id = ".$ilDB->quote($rec["question_id"], "integer")
+		);
+		if ($rec2 = $ilDB->fetchAssoc($set2))
+		{
+			// this should not be the case for question pool or test questions
+			if ($rec2["obj_fi"] == 0)
+			{
+				$q = "UPDATE qpl_qst_imagemap SET ".
+					" is_multiple_choice = ".$ilDB->quote(1, "integer").
+					" WHERE question_fi = ".$ilDB->quote($rec["question_id"], "integer");
+				$ilDB->manipulate($q);
+			}
+		}
+	}
+	$ilSetting = new ilSetting();
+	$setting = $ilSetting->set('lm_qst_imap_migr_run', 1);
+?>
+<#20>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

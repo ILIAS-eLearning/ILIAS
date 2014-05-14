@@ -26,6 +26,7 @@ class ilContext
 	const CONTEXT_SESSION_REMINDER = 9;
 	const CONTEXT_SOAP_WITHOUT_CLIENT = 10;
 	const CONTEXT_UNITTEST = 11;
+	const CONTEXT_REST = 12;
 	
 	/**
 	 * Init context by type
@@ -88,6 +89,9 @@ class ilContext
 				
 			case self::CONTEXT_UNITTEST:
 				return "ilContextUnitTest";
+				
+			case self::CONTEXT_REST:
+				return 'ilContextRest';
 		}
 	}
 	

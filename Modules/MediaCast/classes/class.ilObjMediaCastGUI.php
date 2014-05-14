@@ -913,7 +913,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
 	/**
 	 * Download news media item
 	 */
-	function downloadItemObject($a_increase_download_cnt)
+	function downloadItemObject()
 	{
 		global $ilCtrl;
 		$this->checkPermission("read");		

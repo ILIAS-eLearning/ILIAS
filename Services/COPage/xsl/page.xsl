@@ -144,6 +144,8 @@
 	</xsl:if>
 	<xsl:apply-templates/>
 
+	<div style="clear:both;"><xsl:comment>Break</xsl:comment></div>
+
     <!-- Footnote List -->
 	<xsl:if test="count(//Footnote) > 0">
 		<hr />
@@ -2810,6 +2812,8 @@
 
 		<!-- flv, mp4 (mediaelement.js) -->
 		<xsl:when test = "substring-before($data,'.flv') != '' or $type = 'video/mp4' or $type = 'video/webm'">
+			<!-- info on video preload attribute: http://www.stevesouders.com/blog/2013/04/12/html5-video-preload/ -->
+			<!-- see #bug12622 -->
 			<video class="ilPageVideo" controls="controls" preload="none">
 				<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
 				<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>

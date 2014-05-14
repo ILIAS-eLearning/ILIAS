@@ -423,6 +423,8 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
 			$returnvalue = false;
 		}
 
+		$this->getProcessLocker()->requestUserSolutionUpdateLock();
+		
 		$result = $ilDB->queryF("SELECT solution_id FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
 			array('integer','integer','integer'),
 			array($active_id, $this->getId(), $pass)
@@ -472,6 +474,9 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
 				$entered_values++;
 			}
 		}
+
+		$this->getProcessLocker()->releaseUserSolutionUpdateLock();
+		
 		if ($entered_values)
 		{
 			require_once './Modules/Test/classes/class.ilObjAssessmentFolder.php';

@@ -442,7 +442,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
         $ilCtrl->redirectByClass(array( "ilAdministrationGUI", "ilObjOrgUnitGUI" ), "view");
 	}
 
-	public function showMoveIntoObjectTreeObject() {
+	public function showPasteTreeObject() {
 
 		$this->ctrl->setCmd('performPaste');
 

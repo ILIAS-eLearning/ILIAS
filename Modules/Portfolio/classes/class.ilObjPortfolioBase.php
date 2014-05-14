@@ -614,7 +614,14 @@ abstract class ilObjPortfolioBase extends ilObject2
 		{
 			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";	
 			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
-			$tree = new ilWorkspaceTree($ilUser->getId());														
+			$tree = new ilWorkspaceTree($ilUser->getId());				
+			
+			// #13235
+			if(!$tree->getRootId())
+			{
+				$tree->createTreeForUser($ilUser->getId());
+			}
+			
 			$ws_access = new ilWorkspaceAccessHandler($tree);																																						
 		}
 		

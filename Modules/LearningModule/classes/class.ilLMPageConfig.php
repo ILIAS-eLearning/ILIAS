@@ -25,6 +25,7 @@ class ilLMPageConfig extends ilPageConfig
 		$this->setUseAttachedContent(true);
 		$this->setIntLinkHelpDefaultType("StructureObject");
 		$this->setIntLinkHelpDefaultId($_GET["ref_id"]);
+		$this->removeIntLinkFilter("File");
 		$this->setEnableActivation(true);
 		$this->setEnableSelfAssessment(true, false);
 		$this->setEnableInternalLinks(true);

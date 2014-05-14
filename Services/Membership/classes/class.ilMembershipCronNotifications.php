@@ -143,7 +143,8 @@ class ilMembershipCronNotifications extends ilCronJob
 		include_once "./Services/Notification/classes/class.ilSystemNotification.php";
 		$ntf = new ilSystemNotification();		
 		$ntf->setLangModules(array("crs", "news"));
-		$ntf->setRefId($a_ref_id);				
+		$ntf->setRefId($a_ref_id);	
+		$ntf->setGotoLangId('url');
 		$ntf->setSubjectLangId('crs_subject_course_group_notification');
 		
 		// user specific language
@@ -152,8 +153,11 @@ class ilMembershipCronNotifications extends ilCronJob
 		$obj_title = $lng->txt($obj_type)." \"".ilObject::_lookupTitle($obj_id)."\"";		
 		$ntf->setIntroductionDirect(sprintf($lng->txt("crs_intro_course_group_notification_for"), $obj_title));
 		
+		$subject = sprintf($lng->txt("crs_subject_course_group_notification"), $obj_title);
+		
 		// news summary
 		$counter = 1;
+		$txt = "";
 		foreach($news as $item)
 		{
 			$title = ilNewsItem::determineNewsTitle($item["context_obj_type"],
@@ -185,8 +189,7 @@ class ilMembershipCronNotifications extends ilCronJob
 			}
 			require_once "./Services/UICore/classes/class.ilTemplate.php";			
 			$loc = "[".$cont_loc->getHTML()."]";
-			
-			$txt = "";
+					
 			if($counter > 1)
 			{
 				$txt .= $ntf->getBlockBorder();
@@ -209,7 +212,7 @@ class ilMembershipCronNotifications extends ilCronJob
 		$mail->sendMail(ilObjUser::_lookupLogin($a_user_id), 
 			null, 
 			null,
-			sprintf($lng->txt("crs_subject_course_group_notification"), $obj_title), 
+			$subject, 
 			$ntf->composeAndGetMessage($a_user_id, null, "read", true), 
 			null, 
 			array("system"));

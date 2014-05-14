@@ -120,7 +120,11 @@ class ilMemberAgreementGUI
 		
 		$form = self::addExportFieldInfo($form, $this->obj_id, $this->type);
 		$form = self::addCustomFields($form, $this->obj_id, $this->type);
-		$form = self::addAgreement($form, $this->obj_id, $this->type);
+		
+		if($this->getPrivacy()->confirmationRequired($this->type))
+		{
+			$form = self::addAgreement($form, $this->obj_id, $this->type);
+		}
 		
 		return $form;
 	}

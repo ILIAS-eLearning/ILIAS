@@ -222,9 +222,12 @@ class ilObjCourseGUI extends ilContainerGUI
 		ilMDUtils::_fillHTMLMetaTags($this->object->getId(),$this->object->getId(),'crs');
 		
 		// Trac access
-		include_once 'Services/Tracking/classes/class.ilLearningProgress.php';
-		ilLearningProgress::_tracProgress($ilUser->getId(),$this->object->getId(),
-			$this->object->getRefId(),'crs');
+		if ($ilCtrl->getNextClass() != "ilcolumngui")
+		{
+			include_once 'Services/Tracking/classes/class.ilLearningProgress.php';
+			ilLearningProgress::_tracProgress($ilUser->getId(),$this->object->getId(),
+				$this->object->getRefId(),'crs');
+		}
 		
 		if(!$this->checkAgreement())
 		{
@@ -1141,8 +1144,8 @@ class ilObjCourseGUI extends ilContainerGUI
 		$title = new ilTextInputGUI($this->lng->txt('title'),'title');
 		$title->setSubmitFormOnEnter(true);
 		$title->setValue($this->object->getTitle());
-		$title->setSize(40);
-		$title->setMaxLength(128);
+		$title->setSize(min(40, ilObject::TITLE_LENGTH));
+		$title->setMaxLength(ilObject::TITLE_LENGTH);
 		$title->setRequired(true);
 		$form->addItem($title);
 		
@@ -1690,8 +1693,10 @@ class ilObjCourseGUI extends ilContainerGUI
 				include_once 'Services/Mail/classes/class.ilMail.php';
 				$mail = new ilMail($ilUser->getId());
 				if(
-					$this->object->getMailToMembersType() == ilCourseConstants::MAIL_ALLOWED_ALL and
-					$rbacsystem->checkAccess('internal_mail',$mail->getMailObjectReferenceId()))
+					($this->object->getMailToMembersType() == ilCourseConstants::MAIL_ALLOWED_ALL ||
+					$ilAccess->checkAccess('write','',$this->object->getRefId())) &&
+					$rbacsystem->checkAccess('internal_mail',$mail->getMailObjectReferenceId())
+				)
 				{
 					$this->tabs_gui->addSubTabTarget("mail_members",
 													 $this->ctrl->getLinkTarget($this,'mailMembers'),

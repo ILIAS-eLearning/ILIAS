@@ -796,7 +796,7 @@ class ilObjectGUI
 	{
 		global $tpl;
 		
-		// sanity check
+		// #13168 - sanity check
 		foreach($a_forms as $id => $form)
 		{
 			if(!$form instanceof ilPropertyFormGUI)
@@ -808,11 +808,8 @@ class ilObjectGUI
 		// no accordion if there is just one form
 		if(sizeof($a_forms) == 1)
 		{
-			$a_forms = array_shift($a_forms);
-			if (is_object($a_forms) && get_class($a_forms) == "ilPropertyFormGUI")
-			{
-				return $a_forms->getHTML();
-			}
+			$a_forms = array_shift($a_forms);			
+			return $a_forms->getHTML();			
 		}
 		else
 		{
@@ -869,8 +866,8 @@ class ilObjectGUI
 
 		// title
 		$ti = new ilTextInputGUI($this->lng->txt("title"), "title");
-		$ti->setMaxLength(128);
-		$ti->setSize(40);
+		$ti->setSize(min(40, ilObject::TITLE_LENGTH));
+		$ti->setMaxLength(ilObject::TITLE_LENGTH);
 		$ti->setRequired(true);
 		$form->addItem($ti);
 
@@ -1163,8 +1160,8 @@ class ilObjectGUI
 
 		// title
 		$ti = new ilTextInputGUI($this->lng->txt("title"), "title");
-		$ti->setMaxLength(128);
-		$ti->setSize(40);
+		$ti->setSize(min(40, ilObject::TITLE_LENGTH));
+		$ti->setMaxLength(ilObject::TITLE_LENGTH);
 		$ti->setRequired(true);
 		$form->addItem($ti);
 
