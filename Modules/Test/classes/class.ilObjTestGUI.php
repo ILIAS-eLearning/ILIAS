@@ -843,10 +843,6 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function afterSave(ilObject $a_new_object)
 	{
-		// added by JP and moved here by BH
-		// BH: why is the property not initialised with true within the object class per default .. ?
-		$a_new_object->setPoolUsage(true);
-		
 		$tstdef = $this->getDidacticTemplateVar("tstdef");
 		if ($tstdef) 
 		{
@@ -5251,6 +5247,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$simpleSetters = array(
 			'anonymity' => 'setAnonymity',
 			'question_set_type' => 'setQuestionSetType',
+			'use_pool' => 'setPoolUsage',
 			'test_enabled_views' => 'setEnabledViewMode',
 			//'express_allow_question_pool' => 'setExpressModeQuestionPoolAllowed',
 			'introduction' => 'setIntroduction',
