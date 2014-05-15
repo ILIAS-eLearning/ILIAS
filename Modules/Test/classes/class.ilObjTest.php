@@ -10505,20 +10505,31 @@ function getAnswerFeedbackPoints()
 
 	}
 
-	public function hasQuestionsWithoutQuestionpool() {
+	public function hasQuestionsWithoutQuestionpool()
+	{
 	    global $ilDB;
+
 	    $questions = $this->getQuestionTitlesAndIndexes();
-	    $query = 'SELECT count(question_id) cnt FROM qpl_questions'.
-			' INNER JOIN object_data on obj_fi = obj_id'.
-			' WHERE type <> '.$ilDB->quote('qpl', 'text').
-			' AND '.$ilDB->in('question_id', array_keys($questions), false, 'integer');
+		
+		$IN_questions = $ilDB->in('q1.question_id', array_keys($questions), false, 'integer');
+		
+	    $query = "
+			SELECT		count(q1.question_id) cnt
+			
+			FROM		qpl_questions q1
+
+			INNER JOIN	qpl_questions q2
+			ON			q2.question_id = q1.original_id
+			
+			WHERE		$IN_questions
+			AND		 	q1.obj_fi = q2.obj_fi
+		";
 
 	    $rset = $ilDB->query($query);
 	    
-	    if ($row = $ilDB->fetchAssoc($rset)) {
+	    $row = $ilDB->fetchAssoc($rset);
+
 		return $row['cnt'] > 0;
-	    }
-	    return false;
 	}
 
 	/**
@@ -11415,6 +11426,23 @@ function getAnswerFeedbackPoints()
 	public static function _lookupRandomTest($a_obj_id)
 	{
 		return self::lookupQuestionSetType($a_obj_id) == self::QUESTION_SET_TYPE_RANDOM;
+	}
+
+	public function getQuestionSetTypeTranslation(ilLanguage $lng, $questionSetType)
+	{
+		switch( $questionSetType )
+		{
+			case ilObjTest::QUESTION_SET_TYPE_FIXED:
+				return $lng->txt('tst_question_set_type_fixed');
+
+			case ilObjTest::QUESTION_SET_TYPE_RANDOM:
+				return $lng->txt('tst_question_set_type_random');
+
+			case ilObjTest::QUESTION_SET_TYPE_DYNAMIC:
+				return $lng->txt('tst_question_set_type_dynamic');
+		}
+
+		throw new ilTestException('invalid question set type value given: '.$questionSetType);
 	}
 	
 	public function participantDataExist()
