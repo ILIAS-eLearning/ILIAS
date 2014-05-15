@@ -3826,10 +3826,11 @@ class ilObjTestGUI extends ilObjectGUI
 		 */
 		global $ilAccess, $ilUser, $ilToolbar;
 
+		$testQuestionSetConfig = $this->testQuestionSetConfigFactory->getQuestionSetConfig();
 		$testSession = $this->testSessionFactory->getSession();
 		$testSequence = $this->testSequenceFactory->getSequence($testSession);
 		$testSequence->loadFromDb();
-		$testSequence->loadQuestions();
+		$testSequence->loadQuestions($testQuestionSetConfig, array());
 		
 		$testPlayerGUI = $this->testPlayerFactory->getPlayerGUI();
 		
@@ -4144,8 +4145,12 @@ class ilObjTestGUI extends ilObjectGUI
 			$info->addMetaDataSections($this->object->getId(),0, $this->object->getType());
 			// forward the command
 
-			if($_GET['crs_show_result'] and !$testSequence->getFirstSequence())
+			if($_GET['crs_show_result'] and !$testSequence->openQuestionExists())
 			{
+				// changed indication on sequence (see if expr) to a more generic interface that also fits dynamic tests
+				// the following message could also be interesting for dyn tests
+				// is the param crs_show_result a legacy thing only or is ist required by new LoK ?
+				
 				#ilUtil::sendInfo($this->lng->txt('crs_all_questions_answered_successfully'));
 			}			
 		}
