@@ -31,6 +31,7 @@ require_once './Modules/Test/classes/class.ilTestExpressPage.php';
  * @ilCtrl_Calls ilObjTestGUI: ilCommonActionDispatcherGUI, ilObjTestDynamicQuestionSetConfigGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestRandomQuestionSetConfigGUI
  * @ilCtrl_Calls ilObjTestGUI: ilAssQuestionHintsGUI, ilAssQuestionFeedbackEditingGUI, ilLocalUnitConfigurationGUI, assFormulaQuestionGUI
+ * @ilCtrl_Calls ilObjTestGUI: ilTestSettingsChangeConfirmationGUI
  *
  * @ingroup ModulesTest
  */
@@ -1136,69 +1137,6 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->setVariable( "HIDDEN_VALUE", $value );
 			$this->tpl->parseCurrentBlock();
 		}
-	}
-
-	/**
-	* Displays a save confirmation dialog for test properties
-	*
-	* Displays a save confirmation dialog for test properties when
-	* already defined questions or question pools get lost after saving
-	*
-	* @param int $direction Direction of the change (0 = from random test to standard, anything else = from standard to random test)
-	* @param string $confirmCmd
-	* @param string $cancelCmd
-	* @access	private
-	*/
-	function confirmChangeProperties($direction = self::SWITCH_RANDOM_TEST_SETTING_TO_DISABLED, $confirmCmd = 'saveProperties', $cancelCmd = 'properties')
-	{
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_properties_save_confirmation.html", "Modules/Test");
-		$information = "";
-		switch ($direction)
-		{
-			case self::SWITCH_RANDOM_TEST_SETTING_TO_DISABLED:
-				$information = $this->lng->txt("change_properties_from_random_to_standard");
-				break;
-			case self::SWITCH_RANDOM_TEST_SETTING_TO_ENABLED:
-			default:
-				$information = $this->lng->txt("change_properties_from_standard_to_random");
-				break;
-		}
-		foreach ($_POST as $key => $value)
-		{
-			if (strcmp($key, "cmd") != 0)
-			{
-				if (is_array($value))
-				{
-					foreach ($value as $k => $v)
-					{
-						$this->tpl->setCurrentBlock("hidden_variable");
-						$this->tpl->setVariable("HIDDEN_KEY", $key . "[" . $k . "]");
-						$this->tpl->setVariable("HIDDEN_VALUE", $v);
-						$this->tpl->parseCurrentBlock();
-					}
-				}
-				else
-				{
-					$this->tpl->setCurrentBlock("hidden_variable");
-					$this->tpl->setVariable("HIDDEN_KEY", $key);
-					$this->tpl->setVariable("HIDDEN_VALUE", $value);
-					$this->tpl->parseCurrentBlock();
-				}
-			}
-		}
-		$this->tpl->setCurrentBlock("hidden_variable");
-		$this->tpl->setVariable("HIDDEN_KEY", "tst_properties_confirmation");
-		$this->tpl->setVariable("HIDDEN_VALUE", "1");
-		$this->tpl->parseCurrentBlock();
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("TXT_CONFIRMATION", $this->lng->txt("confirmation"));
-		$this->tpl->setVariable("TXT_INFORMATION", $information);
-		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("CMD_CONFIRM", $confirmCmd);
-		$this->tpl->setVariable("BTN_CONFIRM", $this->lng->txt("confirm"));
-		$this->tpl->setVariable("CMD_CANCEL", $cancelCmd);
-		$this->tpl->setVariable("BTN_CANCEL", $this->lng->txt("cancel"));
-		$this->tpl->parseCurrentBlock();
 	}
 	
 	/**
@@ -3721,41 +3659,62 @@ class ilObjTestGUI extends ilObjectGUI
 		$defaults =& $this->object->getTestDefaults($_POST["chb_defaults"][0]);
 		$defaultSettings = unserialize($defaults["defaults"]);
 
-		$randomTestSettingSwitched = $this->isRandomTestSettingSwitched(
-			$defaultSettings["isRandomTest"]
-		);
+		if( isset($defaultSettings['isRandomTest']) )
+		{
+			if( $defaultSettings['isRandomTest'] )
+			{
+				$newQuestionSetType = self::QUESTION_SET_TYPE_RANDOM;
+				$this->setQuestionSetType(self::QUESTION_SET_TYPE_RANDOM);
+			}
+			else
+			{
+				$newQuestionSetType = self::QUESTION_SET_TYPE_FIXED;
+				$this->setQuestionSetType(self::QUESTION_SET_TYPE_FIXED);
+			}
+		}
+		elseif( isset($defaultSettings['questionSetType']) )
+		{
+			$newQuestionSetType = $defaultSettings['questionSetType'];
+		}
+		$oldQuestionSetType = $this->object->getQuestionSetType();
+		$questionSetTypeSettingSwitched = ( $oldQuestionSetType != $newQuestionSetType );
+
+		$oldQuestionSetConfig = $this->testQuestionSetConfigFactory->getQuestionSetConfigByType($oldQuestionSetType);
 
 		switch( true )
 		{
-			case !$randomTestSettingSwitched:
-			case $this->object->getQuestionCount() == 0:
+			case !$questionSetTypeSettingSwitched:
+			case !$oldQuestionSetConfig->doesQuestionSetRelatedDataExist():
 			case $confirmed:
 
 				break;
 			
 			default:
 
-				if( !$defaultSettings["isRandomTest"] ) //&& $this->object->areRandomTestQuestionpoolsConfigured() )
-				{
-					// user tries to change from a random test with existing random question pools to a non random test
-					$this->confirmChangeProperties(self::SWITCH_RANDOM_TEST_SETTING_TO_DISABLED, 'confirmedApplyDefaults', 'defaults');
-					return;
-				}
-				elseif( $defaultSettings["isRandomTest"] ) //&& $this->object->doesNonRandomTestQuestionsExist() )
-				{
-					// user tries to change from a non random test with existing questions to a random test
-					$this->confirmChangeProperties(self::SWITCH_RANDOM_TEST_SETTING_TO_ENABLED, 'confirmedApplyDefaults', 'defaults');
-					return;
-				}
+				require_once 'Modules/Test/classes/confirmations/class.ilTestSettingsChangeConfirmationGUI.php';
+				$confirmation = new ilTestSettingsChangeConfirmationGUI($this->lng, $this->object);
+
+				$confirmation->setFormAction( $this->ctrl->getFormAction($this) );
+				$confirmation->setCancel($this->lng->txt('cancel'), 'defaults');
+				$confirmation->setConfirm($this->lng->txt('confirm'), 'confirmedApplyDefaults');
+
+				$confirmation->setOldQuestionSetType($this->object->getQuestionSetType());
+				$confirmation->setNewQuestionSetType($newQuestionSetType);
+				$confirmation->setQuestionLossInfoEnabled(false);
+				$confirmation->build();
+
+				$confirmation->populateParametersFromPost();
+
+				$this->tpl->setContent( $this->ctrl->getHTML($confirmation) );
+				
+				return;
 		}
 
-		if( $randomTestSettingSwitched && $this->object->isOnline() )
+		if( $questionSetTypeSettingSwitched && $this->object->isOnline() )
 		{
 			$this->object->setOnline(false);
 
-			$info = $this->lng->txt(
-				"tst_set_offline_due_to_switched_random_test_setting"
-			);
+			$info = $this->lng->txt("tst_set_offline_due_to_switched_question_set_type_setting");
 
 			ilUtil::sendInfo($info, true);
 		}
@@ -3763,17 +3722,10 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->object->applyDefaults($defaults);
 
 		ilUtil::sendSuccess($this->lng->txt("tst_defaults_applied"), true);
-
-		if($randomTestSettingSwitched)
+		
+		if( $questionSetTypeSettingSwitched && $oldQuestionSetConfig->doesQuestionSetRelatedDataExist() )
 		{
-			if($this->object->isRandomTest())
-			{
-				$this->object->removeNonRandomTestData();
-			}
-			else
-			{
-				$this->object->removeRandomTestData();
-			}
+			$oldQuestionSetConfig->removeQuestionSetRelatedData();
 		}
 
 		$this->ctrl->redirect($this, 'defaults');
