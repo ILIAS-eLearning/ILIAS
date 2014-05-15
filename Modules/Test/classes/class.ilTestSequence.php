@@ -90,7 +90,7 @@ class ilTestSequence
 	/**
 	* Loads the question mapping
 	*/
-	public function loadQuestions()
+	public function loadQuestions(ilTestQuestionSetConfig $testQuestionSetConfig = null, $taxonomyFilterSelection = array())
 	{
 		global $ilDB;
 
@@ -593,6 +593,11 @@ class ilTestSequence
 		}
 				
 		return true;
+	}
+	
+	public function openQuestionExists()
+	{
+		return $this->getFirstSequence() !== false;
 	}
 }
 
