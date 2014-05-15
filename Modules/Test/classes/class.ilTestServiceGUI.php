@@ -496,7 +496,7 @@ class ilTestServiceGUI
 			$template->setVariable("VALUE_DATE", ilDatePresentation::formatDate(new ilDate(time(), IL_CAL_UNIX)));
 			ilDatePresentation::setUseRelativeDates($old_value);
 			$template->setVariable("TXT_SIGNATURE", $this->lng->txt("tst_signature"));
-			$template->setVriable("IMG_SPACER", ilUtil::getImagePath("spacer.png"));
+			$template->setVariable("IMG_SPACER", ilUtil::getImagePath("spacer.png"));
 			return $template->get();
 		}
 		else
