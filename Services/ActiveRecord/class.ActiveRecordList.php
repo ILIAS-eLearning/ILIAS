@@ -172,8 +172,33 @@ class ActiveRecordList {
 	 *
 	 * @return $this
 	 */
-	public function joinAR(ActiveRecord $ar, $on_this, $on_external, $fields = array( '*' ), $operator = '=') {
-		return $this->join($ar::returnDbTableName(), $on_this, $on_external, $fields, $operator);
+	public function innerjoinAR(ActiveRecord $ar, $on_this, $on_external, $fields = array( '*' ), $operator = '=') {
+		return $this->innerjoin($ar::returnDbTableName(), $on_this, $on_external, $fields, $operator);
+	}
+
+
+	/**
+	 * @param string $type
+	 * @param        $tablename
+	 * @param        $on_this
+	 * @param        $on_external
+	 * @param array  $fields
+	 * @param string $operator
+	 *
+	 * @return $this
+	 */
+	protected function join($type = arJoin::TYPE_INNER, $tablename, $on_this, $on_external, $fields = array( '*' ), $operator = '=') {
+		$arJoin = new arJoin();
+		$arJoin->setType($type);
+		$arJoin->setTableName($tablename);
+		$arJoin->setOnFirstField($on_this);
+		$arJoin->setOnSecondField($on_external);
+		$arJoin->setOperator($operator);
+		$arJoin->setFields($fields);
+
+		$this->getArJoinCollection()->add($arJoin);
+
+		return $this;
 	}
 
 
@@ -186,17 +211,22 @@ class ActiveRecordList {
 	 *
 	 * @return $this
 	 */
-	public function join($tablename, $on_this, $on_external, $fields = array( '*' ), $operator = '=') {
-		$arJoin = new arJoin();
-		$arJoin->setTableName($tablename);
-		$arJoin->setOnFirstField($on_this);
-		$arJoin->setOnSecondField($on_external);
-		$arJoin->setOperator($operator);
-		$arJoin->setFields($fields);
+	public function leftjoin($tablename, $on_this, $on_external, $fields = array( '*' ), $operator = '=') {
+		return $this->join(arJoin::TYPE_LEFT, $tablename, $on_this, $on_external, $fields, $operator);
+	}
 
-		$this->getArJoinCollection()->add($arJoin);
 
-		return $this;
+	/**
+	 * @param        $tablename
+	 * @param        $on_this
+	 * @param        $on_external
+	 * @param array  $fields
+	 * @param string $operator
+	 *
+	 * @return $this
+	 */
+	public function innerjoin($tablename, $on_this, $on_external, $fields = array( '*' ), $operator = '=') {
+		return $this->join(arJoin::TYPE_INNER, $tablename, $on_this, $on_external, $fields, $operator);
 	}
 
 	//

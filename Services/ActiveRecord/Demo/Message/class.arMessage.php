@@ -145,6 +145,7 @@ class arMessage extends ActiveRecord {
 	 * @con_has_field  true
 	 * @con_fieldtype  integer
 	 * @con_length     1
+	 * @con_is_notnull true
 	 */
 	protected $priority = self::PRIO_NORMAL;
 	/**
@@ -153,6 +154,7 @@ class arMessage extends ActiveRecord {
 	 * @con_has_field  true
 	 * @con_fieldtype  integer
 	 * @con_length     1
+	 * @con_is_notnull true
 	 */
 	protected $type = self::TYPE_NEW;
 

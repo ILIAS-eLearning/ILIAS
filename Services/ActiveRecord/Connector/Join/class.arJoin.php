@@ -10,7 +10,7 @@ require_once(dirname(__FILE__) . '/../Statement/class.arStatement.php');
  */
 class arJoin extends arStatement {
 
-	const TYPE_NORMAL = '';
+	const TYPE_NORMAL = self::TYPE_INNER;
 	const TYPE_LEFT = 'LEFT';
 	const TYPE_RIGHT = 'RIGHT';
 	const TYPE_INNER = 'INNER';
@@ -47,7 +47,8 @@ class arJoin extends arStatement {
 	 */
 	public function asSQLStatement(ActiveRecord $ar) {
 		$join_table_name = $this->getTableName();
-		$return = ' JOIN ' . $join_table_name;
+		$return = ' ' . $this->getType() . ' ';
+		$return .= ' JOIN ' . $join_table_name;
 		$return .= ' ON ' . $ar::returnDbTableName() . '.' . $this->getOnFirstField() . ' ' . $this->getOperator() . ' ';
 		$return .= $join_table_name . '.' . $this->getOnSecondField();
 

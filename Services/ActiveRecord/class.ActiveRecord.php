@@ -517,8 +517,8 @@ abstract class ActiveRecord implements arStorageInterface {
 	 *
 	 * @return $this
 	 */
-	public static function joinAR(ActiveRecord $ar, $on_this, $on_external, $fields = array( '*' ), $operator = '=') {
-		return self::join($ar::returnDbTableName(), $on_this, $on_external, $fields, $operator);
+	public static function innerjoinAR(ActiveRecord $ar, $on_this, $on_external, $fields = array( '*' ), $operator = '=') {
+		return self::innerjoin($ar::returnDbTableName(), $on_this, $on_external, $fields, $operator);
 	}
 
 
@@ -531,10 +531,26 @@ abstract class ActiveRecord implements arStorageInterface {
 	 *
 	 * @return $this
 	 */
-	public static function join($tablename, $on_this, $on_external, $fields = array( '*' ), $operator = '=') {
+	public static function innerjoin($tablename, $on_this, $on_external, $fields = array( '*' ), $operator = '=') {
 		$srModelObjectList = new ActiveRecordList(self::getCalledClass());
 
-		return $srModelObjectList->join($tablename, $on_this, $on_external, $fields, $operator);
+		return $srModelObjectList->innerjoin($tablename, $on_this, $on_external, $fields, $operator);
+	}
+
+
+	/**
+	 * @param        $tablename
+	 * @param        $on_this
+	 * @param        $on_external
+	 * @param array  $fields
+	 * @param string $operator
+	 *
+	 * @return $this
+	 */
+	public static function leftjoin($tablename, $on_this, $on_external, $fields = array( '*' ), $operator = '=') {
+		$srModelObjectList = new ActiveRecordList(self::getCalledClass());
+
+		return $srModelObjectList->leftjoin($tablename, $on_this, $on_external, $fields, $operator);
 	}
 
 
