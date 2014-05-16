@@ -21,6 +21,7 @@ class ilPasteIntoMultipleItemsExplorer extends ilRepositoryExplorer
 	private $checked_items = array();
 	private $post_var = '';
 	private $form_items = array();
+	private $form_item_permission = 'read';
 	private $type = 0;
 	
 	/**
@@ -93,9 +94,41 @@ class ilPasteIntoMultipleItemsExplorer extends ilRepositoryExplorer
 		return $this->post_var;
 	}
 	
+	/**
+	 * Set required perission for form item visibility
+	 * @param type $a_node_id
+	 * @param type $a_type
+	 * @return string
+	 */
+	public function setRequiredFormItemPermission($a_form_item_permission)
+	{
+		$this->form_item_permission = $a_form_item_permission;
+	}
+	
+	/**
+	 * Get required permission
+	 * @return string
+	 */
+	public function getRequiredFormItemPermission()
+	{
+		return $this->form_item_permission;
+	}
+	
 	public function buildFormItem($a_node_id, $a_type)
 	{
-		if(!array_key_exists($a_type, $this->form_items) || !$this->form_items[$a_type]) return '';
+		// permission check 
+		if(!$GLOBALS['ilAccess']->checkAccess($this->getRequiredFormItemPermission(),'',$a_node_id))
+		{
+			return '';
+		}
+		
+		if(
+				!array_key_exists($a_type, $this->form_items) || 
+				!$this->form_items[$a_type]
+		)
+		{
+			return '';
+		}
 		$disabled = false;
 		if(is_array($_SESSION["clipboard"]["ref_ids"]))
 		{
