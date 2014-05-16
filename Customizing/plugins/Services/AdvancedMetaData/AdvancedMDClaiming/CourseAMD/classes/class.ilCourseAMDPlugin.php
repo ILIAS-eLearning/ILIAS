@@ -1,0 +1,273 @@
+<?php
+
+require_once("Services/AdvancedMetaData/classes/class.ilAdvancedMDClaimingPlugin.php");
+require_once("Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php");
+require_once("Services/AdvancedMetaData/classes/class.ilAdvancedMDPermissionHelper.php");
+require_once("Services/GEV/classes/class.gevSettings.php");
+ 
+/**
+* Advanced MD claiming test plugin
+*
+* @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+* @version $Id$
+*/
+class ilCourseAMDPlugin extends ilAdvancedMDClaimingPlugin
+{
+	public function getPluginName()
+	{
+		return "CourseAMD";
+	}
+	
+	protected function afterActivation() {
+		$tselect = ilAdvancedMDFieldDefinition::TYPE_SELECT;
+		$ttext = ilAdvancedMDFieldDefinition::TYPE_TEXT;
+		$tdate = ilAdvancedMDFieldDefinition::TYPE_DATE;
+		$tdatetime = ilAdvancedMDFieldDefinition::TYPE_DATETIME;
+		$tinteger = ilAdvancedMDFieldDefinition::TYPE_INTEGER;
+		$tfloat = ilAdvancedMDFieldDefinition::TYPE_FLOAT;
+		$tlocation = ilAdvancedMDFieldDefinition::TYPE_LOCATION;
+		
+		$gev_set = gevSettings::getInstance();
+		
+		$records = 
+		array( "Verwaltung"
+				=> 	array( "Einstellungen zur Verwaltung der Trainings", 
+					array( "Trainingsnummer" => 
+								array( gevSettings::CRS_AMD_CUSTOM_ID		# 0 to save in settings
+									 , "Trainingsnummer oder Nummernkreis"  # 1 description
+									 , true 								# 2 searchable
+									 , null 								# 3 definition
+									 , $ttext 								# 4 type
+									 )
+						 , "Vorlagentitel" =>
+						 		array( gevSettings::CRS_AMD_TEMPLATE_TITLE
+						 			 , "Name der verwendeten Vorlage"
+						 			 , true
+						 			 , null
+						 			 , $ttext
+						 			 )
+						 , "Lernart" =>
+						 		array( gevSettings::CRS_AMD_TYPE
+						 			 , "Art des Trainings"
+						 			 , true
+						 			 , array( "Präsenztraining"
+						 			 		, "Webinar"
+						 			 		, "Selbstlernkurs"
+						 			 		, "Spezialistenschulung Präsenztraining"
+						 			 		, "Spezialistenschulung Webinar"
+											, "POT-Termin"
+											)
+						 			 , $tselect
+						 			 )
+						 ))
+			 , "Inhalte" 
+				=> array( "Inhalte und Medien des Trainings",
+				   array( "Trainingsthemen" =>
+						 		array( gevSettings::CRS_AMD_TOPIC
+						 			 , null
+						 			 , true
+						 			 , array( "Fachwissen"
+						 			 		, "SUHK - Privatkunden"
+						 			 		, "SUHK - Firmenkunden"
+						 			 		, "Leben und Rente"
+						 			 		, "Betriebliche Altersvorsorge"
+						 			 		, "Kooperationspartner"
+						 			 		, "Vertrieb"
+						 			 		, "Akquise / Verkauf"
+						 			 		, "Beratungs- und Tarifierungstools"
+						 			 		, "Büromanagment"
+						 			 		, "Neue Medien"
+						 			 		, "Unternehmensführung"
+						 			 		, "Agenturmanagment"
+						 			 		, "Führung"
+						 			 		, "Persönlichkeit"
+						 			 		, "Erstausbildung"
+						 			 		, "Ausbilder"
+						 			 		, "Azubi")
+						 			 , $tselect 	# TODO: change to multiselect
+						 			 )
+						, "Trainingsinhalte" =>
+								array( gevSettings::CRS_AMD_CONTENTS
+									 , "Beschreibung der Trainingsinhalte"
+									 , false
+									 , null
+									 , $ttext 		# TODO: change to multiline text
+									 )
+						, "Ziele und Nutzen" =>
+								array( gevSettings::CRS_AMD_GOALS
+									 , "Beschreibung des Nutzens der Teilnehmer"
+									 , false
+									 , null
+									 , $ttext 		# TODO: change to multiline text
+									 )
+						, "Methoden" =>
+								array( gevSettings::CRS_AMD_METHODS
+									 , "Beim Training eingesetzte Methoden"
+									 , true
+									 , array( "Vortrag"
+									 		, "Gruppenarbeit"
+									 		, "Partnerarbeit"
+									 		, "Einzelarbeit"
+									 		, "Diskussion"
+									 		, "Brainstorming"
+									 		, "Rollenspiele"
+									 		)
+									 , $tselect 	# TODO: change to multiselect
+									 )
+						, "Medien" =>
+								array( gevSettings::CRS_AMD_MEDIA
+									 , "Beim Training eingesetzte Medien"
+									 , true
+									 , array( "PowerPoint"
+									 		, "Flipchart"
+									 		, "Metakarten"
+									 		, "myGenerali"
+									 		, "Spezialsoftware"
+									 		, "Arbeitsblatt / Handout"
+									 		, "Film"
+									 		, "Internet / Intranet"
+									 		)
+									 , $tselect 	# TODO: change to multiselect
+									 )
+						))
+			 , "Bewertung"
+			 	=> array("Bewertung des Trainings für die WBD und den ASTD-Report",
+			 	   array( "Weiterbildungspunkte" =>
+			 	   				array( gevSettings::CRS_AMD_CREDIT_POINTS
+			 	   					 , "An die WBD zu meldende Zahl von Bildungspunkten"
+			 	   					 , false
+			 	   					 , array("min" => 0)
+			 	   					 , $tinteger
+			 	   					 )
+			 	   		, "Fachschulung" =>
+			 	   				array( gevSettings::CRS_AMD_EXPERT_TRAINING
+			 	   					 , "Ist das Training eine Fachschulung?"
+			 	   					 , false
+			 	   					 , array( "Ja"
+			 	   					 		, "Nein"
+			 	   					 		)
+			 	   					 , $tselect
+			 	   					 )
+			 	   		))
+			 , "Zielgruppen"
+				=> array( "Zielgruppen des Trainings",
+				   array( "Zielgruppen" => 
+				   				array( gevSettings::CRS_AMD_TARGET_GROUP
+				   					 , "Zielgruppe des Trainings"
+				   					 , true
+				   					 , array( "AD-Auszubildende (EVG)"
+				   					 		, "Ausbildungsverantwortliche in Agenturen (EVG), die über einen Ausbildereignungsschein verfügen"
+				   					 		, "Agenturleiter und Ausbilder in Agenturen (EVG)"
+				   					 		, "Angestellter Außendienst (freie Vertriebe, EVG)"
+				   					 		, "selbstständiger Außendienst (EVG)"
+				   					 		, "Innenvertrieb (EVG)"
+				   					 		, "Innenvertrieb gemeinsam mit Agenturleiter (EVG)"
+				   					 		, "selbstständiger Außendienst (EVG) ab Karrierestufe GA"
+				   					 		, "selbstständiger Außendienst (EVG) ab Karrierestufe HA"
+				   					 		, "selbstständiger Außendienst (EVG) ab Karrierestufe BGA"
+				   					 		, "Verkaufsleiter (EVG)"
+				   					 		, "Agenturverkaufsleiter (EVG)"
+				   					 		)
+				   					 , $tselect 	# TODO: change to multiselect
+				   					 )
+				   		, "Zielgruppenbeschreibung" =>
+				   				array( gevSettings::CRS_AMD_TARGET_GROUP_DESC
+				   					 , "Beschreibung der Zielgruppe des Trainings"
+				   					 , false
+				   					 , null
+				   					 , $ttext 		# TODO: Change to multiline text
+				   					 )
+				   ))
+			 , "Abrechnung"
+			 	=> array( null,
+			 	   array( "Gebühren" =>
+			 	   				array( gevSettings::CRS_AMD_FEE
+			 	   					 , "Gebühren des Trainings"
+			 	   					 , false
+			 	   					 , array("min" => 0
+			 	   					 		,"decimals" => 2)
+			 	   					 , $tfloat
+			 	   					 )
+			 	   		))
+			 , "Buchungsmodalitäten"
+			 	=> array( "Fristen und Teilnehmerzahlen", 
+			 	   array( "Mindestteilnehmerzahl" =>
+			 	   				array( gevSettings::CRS_AMD_MIN_PARTICIPANTS
+			 	   					 , null
+			 	   					 , false
+			 	   					 , array("min" => 0)
+			 	   					 , $tinteger
+			 	   					 )
+			 	   		, "Stornofrist" =>
+			 	   				array( gevSettings::CRS_AMD_CANCEL_DEADLINE
+			 	   					 , "Tage vor dem Seminar, bis zu denen noch kostenfrei storniert werden kann."
+			 	   					 , false
+			 	   					 , array("min" => 0)
+			 	   					 , $tinteger
+			 	   					 )
+			 	   		, "Buchungsfrist" =>
+			 	   				array( gevSettings::CRS_AMD_BOOKING_DEADLINE
+			 	   					 , "Tage vor dem Seminar, bis zu denen das Seminar gebucht werden kann."
+			 	   					 , false
+			 	   					 , array("min" => 0)
+			 	   					 , $tinteger
+			 	   					 )
+			 	   		, "Absage Wartelist" =>
+			 	   				array( gevSettings::CRS_AMD_CANCEL_WAITING
+			 	   					 , "Tag vor dem Seminar, an dem die Warteliste abgesagt wird."
+			 	   					 , false
+			 	   					 , array("min" => 0)
+			 	   					 , $tinteger
+			 	   					 )
+			 	   		))
+			 , "Orte und Anbieter"
+			 	=> array( null, 
+			 	   array( "Anbieter" =>
+			 	   				array( gevSettings::CRS_AMD_PROVIDER
+			 	   					 , null
+			 	   					 , true
+			 	   					 , null
+			 	   					 , $ttext 		# TODO: change to custom org-unit type
+			 	   					 )
+			 	   		, "Veranstaltungsort" =>
+			 	   				array( gevSettings::CRS_AMD_VENUE
+			 	   					 , null
+			 	   					 , true
+			 	   					 , null
+			 	   					 , $ttext 		# TODO: change to custom org-unit type
+			 	   					 )
+			 	   		, "Übernachtungsort" =>
+			 	   				array( gevSettings::CRS_AMD_ACCOMODATION
+			 	   					 , null
+			 	   					 , true
+			 	   					 , null
+			 	   					 , $ttext 		# TODO: change to custom org-unit type
+			 	   					 )
+			 	   		))
+			);
+		
+		foreach($records as $rt => $rdef) {
+			$rec_id = self::createDBRecord($rt, $rdef[0], true, array("crs"));
+			foreach($rdef[1] as $ft => $fdef) {
+				$f_id = self::createDBField($rec_id, $fdef[4], $ft, $fdef[1], $fdef[2], $fdef[3]);
+				$gev_set->set($fdef[0], $rec_id." ".$f_id);
+			}
+		}
+	}
+	
+	public function checkPermission($a_user_id, $a_context_type, $a_context_id, $a_action_id, $a_action_sub_id)
+	{
+		/* plugin testing
+		if($a_context_type == ilAdvancedMDPermissionHelper::CONTEXT_SUBSTITUTION_CATEGORY
+			&& $a_context_id == 12
+			)
+		{
+			return false;
+		}		
+		*/
+	
+		return true;
+	}
+}
+
+?>
