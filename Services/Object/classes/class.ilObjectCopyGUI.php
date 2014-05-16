@@ -234,6 +234,15 @@ class ilObjectCopyGUI
 		$exp = new ilPasteIntoMultipleItemsExplorer(
 			ilPasteIntoMultipleItemsExplorer::SEL_TYPE_RADIO,
 			'ilias.php?baseClass=ilRepositoryGUI&amp;cmd=goto', 'paste_copy_repexpand');
+		
+		// Target selection should check for create permission
+		$required_perm = 'visible';
+		$create_perm = 'create_'.ilObject::_lookupType($this->getSource(), true);
+		if($create_perm)
+		{
+			$required_perm .= (','.$create_perm);
+		}
+		$exp->setRequiredFormItemPermission($required_perm);
 		$exp->setExpandTarget($ilCtrl->getLinkTarget($this, 'showTargetSelectionTree'));
 		$exp->setTargetGet('ref_id');
 		$exp->setPostVar('target');
@@ -317,6 +326,7 @@ class ilObjectCopyGUI
 		$exp = new ilPasteIntoMultipleItemsExplorer(
 			ilPasteIntoMultipleItemsExplorer::SEL_TYPE_RADIO,
 			'ilias.php?baseClass=ilRepositoryGUI&amp;cmd=goto', 'paste_copy_repexpand');
+		$exp->setRequiredFormItemPermission('visible,read,copy');
 
 		$ilCtrl->setParameter($this, 'selectMode', self::SOURCE_SELECTION);
 		$exp->setExpandTarget($ilCtrl->getLinkTarget($this, 'showSourceSelectionTree'));
