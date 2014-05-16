@@ -1,6 +1,6 @@
 <?php
 require_once('./Customizing/global/plugins/Libraries/ActiveRecord/class.ActiveRecord.php');
-require_once('./Customizing/global/plugins/Libraries/ActiveRecord/Connector/class.arConnectorSession.php');
+require_once(dirname(__FILE__) . '/../../Connector/class.arConnectorSession.php');
 
 /**
  * Class arMessage
@@ -22,6 +22,29 @@ class arMessage extends ActiveRecord {
 	 */
 	static function returnDbTableName() {
 		return 'ar_message';
+	}
+
+
+	public function dummy() {
+		$arMessage = new arMessage();
+		$arMessage->setTitle('Hello World');
+		$arMessage->setBody('Development using ActiveRecord saves a lot of time');
+		$arMessage->create();
+		// OR
+		$arMessage = new arMessage(3);
+		echo $arMessage->getBody();
+		// OR
+		$arMessage = new arMessage(6);
+		$arMessage->setType(arMessage::TYPE_READ);
+		$arMessage->update();
+		// OR
+		$arMessage = arMessage::find(58); // find() Uses the ObjectCache
+		$arMessage->delete();
+	}
+
+
+	public function queryBuilder() {
+		arMessage::where(array( 'type' => arMessage::TYPE_READ ));
 	}
 
 
@@ -180,14 +203,14 @@ class arMessage extends ActiveRecord {
 		return $this->type;
 	}
 
-
-	/**
-	 * @param int $primary_key
-	 */
-	public function __construct($primary_key = 0) {
-		$connector = new arConnectorSession();
-		parent::__construct($primary_key, $connector);
-	}
+//
+//	/**
+//	 * @param int $primary_key
+//	 */
+//	public function __construct($primary_key = 0) {
+//		$connector = new arConnectorSession();
+//		parent::__construct($primary_key, $connector);
+//	}
 }
 
 ?>

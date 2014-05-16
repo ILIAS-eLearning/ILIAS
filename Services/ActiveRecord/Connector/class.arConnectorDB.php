@@ -276,72 +276,40 @@ class arConnectorDB extends arConnector {
 	}
 
 
-	protected function buildNewQuery() {
-	}
-
-
 	/**
 	 * @param ActiveRecordList $arl
 	 *
 	 * @return mixed|string
 	 */
 	protected function buildQuery(ActiveRecordList $arl) {
-		$ilDB = $this->returnDB();
-		$ar = $arl->getAR();
-		$table_name = $ar::returnDbTableName();
-		$arFieldList = $ar->getArFieldList();
+		// SELECT AND JOIN
+		$q = $arl->getArJoinCollection()->asSQLStatement();
+		// WHERE
+		$q .= $arl->getArWhereCollection()->asSQLStatement();
+		// ORDER
+		$q .= $arl->getArOrderCollection()->asSQLStatement();
+		// LIMIT
+		$q .= $arl->getArLimitCollection()->asSQLStatement();
 
-		$q = 'SELECT * FROM ' . $table_name;
-		// JOINS
-		foreach ($arl->getJoins() as $join_table_name => $on) {
-			$q .= ' JOIN ' . $join_table_name . ' on ' . $table_name . '.' . key($on) . ' = ' . $join_table_name . '.' . current($on);
-		}
-		if (count($arl->getWhere()) OR count($arl->getStringWheres())) {
-			$q .= ' WHERE ';
-		}
-		foreach ($arl->getStringWheres() as $str) {
-			$q .= $str . ' AND ';
-		}
-		foreach ($arl->getWhere() as $w) {
-			$field = $w['fieldname'];
-			$value = $w['value'];
-			$operator = ' ' . $w['operator'] . ' ';
-			$fieldType = $arFieldList->getFieldByName($field)->getFieldType();
-			if (is_array($value)) {
-				$q .= $ilDB->in($field, $value, false, $fieldType) . ' AND ';
-			} else {
-				switch ($fieldType) {
-					case 'integer':
-					case 'float':
-					case 'timestamp':
-					case 'time':
-					case 'date':
-						$q .= $field . $operator . $ilDB->quote($value, $fieldType) . ' AND ';
-						break;
-					case 'text':
-					case 'clob':
-					default:
-						$q .= $field . $operator . $ilDB->quote($value, $fieldType) . ' AND ';
-						break;
-				}
-			}
-		}
-		$q = str_ireplace('  ', ' ', $q);
-		if (count($arl->getWhere()) OR count($arl->getStringWheres())) {
-			$q = substr($q, 0, - 4);
-		}
-		if ($arl->getOrderBy() AND $arFieldList->isField($arl->getOrderBy())) {
-			$q .= ' ORDER BY ' . $arl->getOrderBy() . ' ' . $arl->getOrderDirection();
-		}
-		if ($arl->getStart() !== NULL AND $arl->getEnd() !== NULL) {
-			$q .= ' LIMIT ' . $arl->getStart() . ', ' . $arl->getEnd();
-		}
 		if ($arl->getDebug()) {
 			var_dump($q); // FSX
 		}
 		$arl->setLastQuery($q);
 
 		return $q;
+	}
+
+
+	/**
+	 * @param $value
+	 * @param $type
+	 *
+	 * @return string
+	 */
+	public function quote($value, $type) {
+		$ilDB = self::returnDB();
+
+		return $ilDB->quote($value, $type);
 	}
 }
 

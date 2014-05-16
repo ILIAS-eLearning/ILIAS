@@ -1,10 +1,14 @@
 <?php
+require_once(dirname(__FILE__) . '/Connector/Join/class.arJoinCollection.php');
+require_once(dirname(__FILE__) . '/Connector/Where/class.arWhereCollection.php');
+require_once(dirname(__FILE__) . '/Connector/Limit/class.arLimitCollection.php');
+require_once(dirname(__FILE__) . '/Connector/Order/class.arOrderCollection.php');
 
 /**
  * Class ActiveRecordList
  *
- * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @author  Oskar Truffer <ot@studer-raimann.ch>
+ * @author  Fabian Schmid <fs@studer-raimann.ch>
  *
  * @description
  *
@@ -13,25 +17,25 @@
 class ActiveRecordList {
 
 	/**
-	 * @var array
+	 * @var arWhereCollection
 	 */
-	protected $where = array();
+	protected $arWhereCollection;
 	/**
-	 * @var array
+	 * @var arJoinCollection
 	 */
-	protected $joins = array();
+	protected $arJoinCollection;
+	/**
+	 * @var arOrderCollection
+	 */
+	protected $arOrderCollection;
+	/**
+	 * @var arLimitCollection
+	 */
+	protected $arLimitCollection;
 	/**
 	 * @var bool
 	 */
 	protected $loaded = false;
-	/**
-	 * @var string
-	 */
-	protected $order_by = '';
-	/**
-	 * @var string
-	 */
-	protected $order_direction = 'ASC';
 	/**
 	 * @var string
 	 */
@@ -44,18 +48,6 @@ class ActiveRecordList {
 	 * @var array
 	 */
 	protected $result_array = array();
-	/**
-	 * @var array
-	 */
-	protected $string_wheres = array();
-	/**
-	 * @var
-	 */
-	protected $start;
-	/**
-	 * @var
-	 */
-	protected $end;
 	/**
 	 * @var bool
 	 */
@@ -83,7 +75,11 @@ class ActiveRecordList {
 	 */
 	public function __construct(ActiveRecord $ar) {
 		$this->class = get_class($ar);
-		$this->ar = $ar;
+		$this->setAR($ar);
+		$this->arWhereCollection = arWhereCollection::getInstance($this->getAR());
+		$this->arJoinCollection = arJoinCollection::getInstance($this->getAR());
+		$this->arLimitCollection = arLimitCollection::getInstance($this->getAR());
+		$this->arOrderCollection = arOrderCollection::getInstance($this->getAR());
 		if ($ar->getArConnector() == NULL) {
 			$this->connector = new arConnectorDB($this);
 		} else {
@@ -92,21 +88,9 @@ class ActiveRecordList {
 	}
 
 
-	/**
-	 * @param \ActiveRecord $ar
-	 */
-	public function setAR($ar) {
-		$this->ar = $ar;
-	}
-
-
-	/**
-	 * @return \ActiveRecord
-	 */
-	public function getAR() {
-		return $this->ar;
-	}
-
+	//
+	// Statements
+	//
 
 	/**
 	 * @param      $where
@@ -118,19 +102,25 @@ class ActiveRecordList {
 	public function where($where, $operator = NULL) {
 		$this->loaded = false;
 		if (is_string($where)) {
-			$this->string_wheres[] = $where; // FSX SQL-Injection abfangen
+			$arWhere = new arWhere();
+			$arWhere->setType(arWhere::TYPE_STRING);
+			$arWhere->setStatement($where);
+			$this->getArWhereCollection()->add($arWhere);
+
 			return $this;
 		} elseif (is_array($where)) {
 			foreach ($where as $field_name => $value) {
-				$op = '=';
-				if ($operator !== NULL) {
+				$arWhere = new arWhere();
+				$arWhere->setFieldname($field_name);
+				$arWhere->setValue($value);
+				if ($operator) {
 					if (is_array($operator)) {
-						$op = $operator[$field_name];
+						$arWhere->setOperator($operator[$field_name]);
 					} else {
-						$op = $operator;
+						$arWhere->setOperator($operator);
 					}
 				}
-				$this->where[] = array( 'fieldname' => $field_name, 'value' => $value, 'operator' => $op );
+				$this->getArWhereCollection()->add($arWhere);
 			}
 
 			return $this;
@@ -144,20 +134,109 @@ class ActiveRecordList {
 	 * @param        $order_by
 	 * @param string $order_direction
 	 *
-	 * @throws arException
 	 * @return $this
 	 */
 	public function orderBy($order_by, $order_direction = 'ASC') {
-		$this->loaded = false;
-		if (! $this->getAR()->fieldExists($order_by)) {
-			throw new arException('Field for order does not exist');
-		}
-		$this->order_direction = strtoupper($order_direction);
-		$this->order_by = $order_by;
+		$arOrder = new arOrder();
+		$arOrder->setFieldname($order_by);
+		$arOrder->setDirection($order_direction);
+		$this->getArOrderCollection()->add($arOrder);
 
 		return $this;
 	}
 
+
+	/**
+	 * @param $start
+	 * @param $end
+	 *
+	 * @return $this
+	 */
+	public function limit($start, $end) {
+		$arLimit = new arLimit();
+		$arLimit->setStart($start);
+		$arLimit->setEnd($end);
+
+		$this->getArLimitCollection()->add($arLimit);
+
+		return $this;
+	}
+
+
+	/**
+	 * @param ActiveRecord $ar
+	 * @param              $on_this
+	 * @param              $on_external
+	 * @param array        $fields
+	 * @param string       $operator
+	 *
+	 * @return $this
+	 */
+	public function joinAR(ActiveRecord $ar, $on_this, $on_external, $fields = array( '*' ), $operator = '=') {
+		return $this->join($ar::returnDbTableName(), $on_this, $on_external, $fields, $operator);
+	}
+
+
+	/**
+	 * @param        $tablename
+	 * @param        $on_this
+	 * @param        $on_external
+	 * @param array  $fields
+	 * @param string $operator
+	 *
+	 * @return $this
+	 */
+	public function join($tablename, $on_this, $on_external, $fields = array( '*' ), $operator = '=') {
+		$arJoin = new arJoin();
+		$arJoin->setTableName($tablename);
+		$arJoin->setOnFirstField($on_this);
+		$arJoin->setOnSecondField($on_external);
+		$arJoin->setOperator($operator);
+		$arJoin->setFields($fields);
+
+		$this->getArJoinCollection()->add($arJoin);
+
+		return $this;
+	}
+
+	//
+	// Statement Collections
+	//
+
+	/**
+	 * @return arWhereCollection
+	 */
+	public function getArWhereCollection() {
+		return $this->arWhereCollection;
+	}
+
+
+	/**
+	 * @return arJoinCollection
+	 */
+	public function getArJoinCollection() {
+		return $this->arJoinCollection;
+	}
+
+
+	/**
+	 * @return arOrderCollection
+	 */
+	public function getArOrderCollection() {
+		return $this->arOrderCollection;
+	}
+
+
+	/**
+	 * @return arLimitCollection
+	 */
+	public function getArLimitCollection() {
+		return $this->arLimitCollection;
+	}
+
+	//
+	// Collection Functions
+	//
 
 	/**
 	 * @param string $date_format
@@ -193,113 +272,10 @@ class ActiveRecordList {
 
 
 	/**
-	 * @param $start
-	 * @param $end
-	 *
-	 * @return $this
+	 * @return bool
 	 */
-	public function limit($start, $end) {
-		$this->loaded = false;
-		$this->start = $start;
-		$this->end = $end;
-
-		return $this;
-	}
-
-
-	/**
-	 * @return array
-	 */
-	public function getWhere() {
-		return $this->where;
-	}
-
-
-	/**
-	 * @return array
-	 */
-	public function getJoins() {
-		return $this->joins;
-	}
-
-
-	/**
-	 * @return array
-	 */
-	public function getStringWheres() {
-		return $this->string_wheres;
-	}
-
-
-	/**
-	 * @return boolean
-	 */
-	public function getDebug() {
-		return $this->debug;
-	}
-
-
-	/**
-	 * @return string
-	 */
-	public function getOrderBy() {
-		return $this->order_by;
-	}
-
-
-	/**
-	 * @return string
-	 */
-	public function getOrderDirection() {
-		return $this->order_direction;
-	}
-
-
-	/**
-	 * @return mixed
-	 */
-	public function getStart() {
-		return $this->start;
-	}
-
-
-	/**
-	 * @return mixed
-	 */
-	public function getEnd() {
-		return $this->end;
-	}
-
-
-	/**
-	 * @param null $date_format
-	 */
-	public function setDateFormat($date_format) {
-		$this->date_format = $date_format;
-	}
-
-
-	/**
-	 * @return null
-	 */
-	public function getDateFormat() {
-		return $this->date_format;
-	}
-
-
-	/**
-	 * @param string $last_query
-	 */
-	public static function setLastQuery($last_query) {
-		self::$last_query = $last_query;
-	}
-
-
-	/**
-	 * @return string
-	 */
-	public static function getLastQuery() {
-		return self::$last_query;
+	public function hasSets() {
+		return ($this->affectedRows() > 0) ? true : false;
 	}
 
 
@@ -344,14 +320,6 @@ class ActiveRecordList {
 
 
 	/**
-	 * @return bool
-	 */
-	public function hasSets() {
-		return ($this->affectedRows() > 0) ? true : false;
-	}
-
-
-	/**
 	 * @return array
 	 */
 	public function get() {
@@ -388,19 +356,6 @@ class ActiveRecordList {
 		$this->load();
 
 		return array_pop(array_values($this->result));
-	}
-
-
-	/**
-	 * @param ActiveRecord $ar
-	 * @param array        $on
-	 *
-	 * @return $this
-	 */
-	public function join(ActiveRecord $ar, $on = array()) {
-		$this->joins[$ar::returnDbTableName()] = $on;
-
-		return $this;
 	}
 
 
@@ -508,6 +463,65 @@ class ActiveRecordList {
 
 	private function loadLastQuery() {
 		$this->readFromDb(self::$last_query);
+	}
+
+	//
+	// Setters & Getters
+	//
+
+	/**
+	 * @param ActiveRecord $ar
+	 */
+	public function setAR($ar) {
+		$this->ar = $ar;
+	}
+
+
+	/**
+	 * @return ActiveRecord
+	 */
+	public function getAR() {
+		return $this->ar;
+	}
+
+
+	/**
+	 * @return boolean
+	 */
+	public function getDebug() {
+		return $this->debug;
+	}
+
+
+	/**
+	 * @param null $date_format
+	 */
+	public function setDateFormat($date_format) {
+		$this->date_format = $date_format;
+	}
+
+
+	/**
+	 * @return null
+	 */
+	public function getDateFormat() {
+		return $this->date_format;
+	}
+
+
+	/**
+	 * @param string $last_query
+	 */
+	public static function setLastQuery($last_query) {
+		self::$last_query = $last_query;
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public static function getLastQuery() {
+		return self::$last_query;
 	}
 }
 

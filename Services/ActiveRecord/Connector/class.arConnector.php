@@ -112,6 +112,15 @@ abstract class arConnector {
 	 * @return int
 	 */
 	abstract public function affectedRows(ActiveRecordList $arl);
+
+
+	/**
+	 * @param $value
+	 * @param $type
+	 *
+	 * @return string
+	 */
+	abstract public function quote($value, $type);
 }
 
 ?>

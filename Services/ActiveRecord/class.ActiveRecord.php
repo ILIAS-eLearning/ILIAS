@@ -126,8 +126,50 @@ abstract class ActiveRecord implements arStorageInterface {
 	}
 
 
-	public function storeObject() {
+	public function storeObjectToCache() {
 		arObjectCache::store($this);
+	}
+
+
+	/**
+	 * @param string $format
+	 *
+	 * @return array
+	 */
+	public function __getConvertedDateFieldsAsArray($format = NULL) {
+		$converted_dates = array();
+		foreach ($this->arFieldList->getFields() as $field) {
+			if ($field->isDateField()) {
+				$name = $field->getName();
+				$value = $this->{$name};
+				$converted_dates[$name] = array(
+					'unformatted' => $value,
+					'unix' => strtotime($value),
+				);
+				if ($format) {
+					$converted_dates[$name]['formatted'] = date($format, strtotime($value));
+				}
+			}
+		}
+
+		return $converted_dates;
+	}
+
+
+	/**
+	 * @param string $separator
+	 * @param bool   $header
+	 *
+	 * @return string
+	 */
+	public function __asCsv($separator = ';', $header = false) {
+		$line = '';
+		if ($header) {
+			$line .= implode($separator, array_keys($this->__asArray()));
+		}
+		$line .= implode($separator, array_values($this->__asArray()));
+
+		return $line;
 	}
 
 
@@ -156,6 +198,14 @@ abstract class ActiveRecord implements arStorageInterface {
 		}
 
 		return $return;
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function __asSerializedObject() {
+		return serialize($this);
 	}
 
 
@@ -437,7 +487,7 @@ abstract class ActiveRecord implements arStorageInterface {
 		$class = get_called_class();
 		if (! arObjectCache::isCached($class, $id)) {
 			$obj = new $class($id);
-			$obj->storeObject();
+			$obj->storeObjectToCache();
 		}
 
 		return arObjectCache::get($class, $id);
@@ -460,14 +510,31 @@ abstract class ActiveRecord implements arStorageInterface {
 
 	/**
 	 * @param ActiveRecord $ar
-	 * @param array        $on
+	 * @param              $on_this
+	 * @param              $on_external
+	 * @param array        $fields
+	 * @param string       $operator
 	 *
 	 * @return $this
 	 */
-	public static function join(ActiveRecord $ar, $on = array()) {
+	public static function joinAR(ActiveRecord $ar, $on_this, $on_external, $fields = array( '*' ), $operator = '=') {
+		return self::join($ar::returnDbTableName(), $on_this, $on_external, $fields, $operator);
+	}
+
+
+	/**
+	 * @param        $tablename
+	 * @param        $on_this
+	 * @param        $on_external
+	 * @param array  $fields
+	 * @param string $operator
+	 *
+	 * @return $this
+	 */
+	public static function join($tablename, $on_this, $on_external, $fields = array( '*' ), $operator = '=') {
 		$srModelObjectList = new ActiveRecordList(self::getCalledClass());
 
-		return $srModelObjectList->join($ar, $on);
+		return $srModelObjectList->join($tablename, $on_this, $on_external, $fields, $operator);
 	}
 
 

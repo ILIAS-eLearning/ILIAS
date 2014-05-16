@@ -23,7 +23,7 @@ class arFieldList {
 	/**
 	 * @var array
 	 */
-	protected static $protected_names = array( 'connector' );
+	protected static $protected_names = array( 'arConnector', 'arFieldList' );
 	/**
 	 * @var array
 	 */

@@ -205,11 +205,10 @@ class arConnectorSession extends arConnector {
 		foreach ($session as $i => $s) {
 			$session[$i] = (array)$s;
 		}
-		foreach ($arl->getWhere() as $w) {
-
-			$fieldname = $w['fieldname'];
-			$v = $w['value'];
-			$operator = $w['operator'];
+		foreach ($arl->getArWhereCollection()->getWheres() as $w) {
+			$fieldname = $w->getFieldname();
+			$v = $w->getValue();
+			$operator = $w->getOperator();
 
 			foreach ($session as $i => $s) {
 				$session[$i] = (array)$s;
@@ -234,6 +233,17 @@ class arConnectorSession extends arConnector {
 	 */
 	public function affectedRows(ActiveRecordList $arl) {
 		return count($this->readSet($arl));
+	}
+
+
+	/**
+	 * @param $value
+	 * @param $type
+	 *
+	 * @return string
+	 */
+	public function quote($value, $type) {
+		return $value;
 	}
 }
 
