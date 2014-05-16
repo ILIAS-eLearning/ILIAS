@@ -94,6 +94,20 @@ class arField {
 		return $return;
 	}
 
+	/**
+	 * @return array
+	 */
+	public function getAttributesForDescription() {
+		$return = array();
+		foreach (arFieldList::getAllowedDescriptionFields() as $field_name) {
+			if ($this->{$field_name} AND self::isAllowedAttribute($this->getFieldType(), $field_name)) {
+				$return[arFieldList::mapKey($field_name)] = $this->{$field_name};
+			}
+		}
+
+		return $return;
+	}
+
 
 	/**
 	 * @return bool

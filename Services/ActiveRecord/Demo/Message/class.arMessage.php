@@ -25,7 +25,10 @@ class arMessage extends ActiveRecord {
 	}
 
 
-	public function dummy() {
+	/**
+	 * @description how to use Acriverecord to read, write, update and delete objects
+	 */
+	public function modifyObjects() {
 		$arMessage = new arMessage();
 		$arMessage->setTitle('Hello World');
 		$arMessage->setBody('Development using ActiveRecord saves a lot of time');
@@ -43,8 +46,53 @@ class arMessage extends ActiveRecord {
 	}
 
 
-	public function queryBuilder() {
-		arMessage::where(array( 'type' => arMessage::TYPE_READ ));
+	/**
+	 * @return arMessage[]
+	 * @description a way to get all objects is to call get() directly on your class
+	 */
+	public static function getAllObjects() {
+		$array_of_arMessages = arMessage::get();
+
+		// OR
+
+		$arMessageList = new arMessageList();
+		$array_of_arMessages = $arMessageList->get();
+
+		return $array_of_arMessages;
+	}
+
+
+	/**
+	 * @param bool $by_list
+	 *
+	 * @return arMessage[]
+	 *
+	 * @description Both ways result in this query:
+	 *              SELECT ar_message.*, usr_data.email
+	 *                  FROM ar_message
+	 *              JOIN usr_data
+	 *                  ON ar_message.receiver_id = usr_data.usr_id
+	 *              WHERE ar_message.type = 1
+	 *              ORDER BY  title ASC
+	 *              LIMIT 0, 5
+	 */
+	public function getSomeObjects($by_list = true) {
+		if ($by_list) {
+			// One possibility is to use an List-object (extends from ActiverecordList)
+
+			$arMessageList = new arMessageList();
+			$arMessageList->join('usr_data', 'receiver_id', 'usr_id', array( 'email' ));
+			$arMessageList->where(array( 'type' => arMessage::TYPE_NEW ));
+			$arMessageList->orderBy('title');
+			$arMessageList->limit(0, 5);
+
+			return $arMessageList->get();
+		} else {
+
+			// Or you can access the list through your AR-Class
+			return self::join('usr_data', 'receiver_id', 'usr_id', array( 'email' ))->where(array( 'type' => arMessage::TYPE_NEW ))->orderBy('title')
+				->limit(0, 5)->get();
+		}
 	}
 
 
@@ -87,6 +135,7 @@ class arMessage extends ActiveRecord {
 	 *
 	 * @con_has_field  true
 	 * @con_fieldtype  integer
+	 * @con_is_notnull true
 	 * @con_length     1
 	 */
 	protected $receiver_id = 0;
@@ -203,14 +252,19 @@ class arMessage extends ActiveRecord {
 		return $this->type;
 	}
 
-//
-//	/**
-//	 * @param int $primary_key
-//	 */
-//	public function __construct($primary_key = 0) {
-//		$connector = new arConnectorSession();
-//		parent::__construct($primary_key, $connector);
-//	}
+
+	/**
+	 * @param int  $primary_key
+	 * @param bool $dev
+	 */
+	public function __construct($primary_key = 0, $dev = false) {
+		if ($dev) {
+			$connector = new arConnectorSession();
+		} else {
+			$connector = NULL;
+		}
+		parent::__construct($primary_key, $connector);
+	}
 }
 
 ?>

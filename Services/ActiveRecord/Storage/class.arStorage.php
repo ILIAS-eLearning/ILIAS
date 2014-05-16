@@ -1,7 +1,5 @@
 <?php
-
-
-require_once('./Customizing/global/plugins/Libraries/ActiveRecord/class.ActiveRecord.php');
+require_once(dirname(__FILE__) . '/../class.ActiveRecord.php');
 
 /**
  * Class arStorage

@@ -379,7 +379,7 @@ class ActiveRecordList {
 	 * @return array
 	 * @throws Exception
 	 */
-	private function buildArray($key, $values) {
+	protected function buildArray($key, $values) {
 		if ($key === NULL AND $values === NULL) {
 			return $this->result_array;
 		}
@@ -405,7 +405,7 @@ class ActiveRecordList {
 	 *
 	 * @return array
 	 */
-	private function buildRow($row, $values) {
+	protected function buildRow($row, $values) {
 		if ($values === NULL) {
 			return $row;
 		} else {
@@ -424,7 +424,7 @@ class ActiveRecordList {
 	}
 
 
-	private function load() {
+	protected function load() {
 		if ($this->loaded) {
 			return;
 		} else {
@@ -461,8 +461,8 @@ class ActiveRecordList {
 	}
 
 
-	private function loadLastQuery() {
-		$this->readFromDb(self::$last_query);
+	protected function loadLastQuery() {
+		// $this->readFromDb(self::$last_query);
 	}
 
 	//
