@@ -568,14 +568,40 @@ abstract class ilAdvancedMDFieldDefinition
 	}
 	
 	/**
+	 * Add custom input elements to definition form
+	 * 
+	 * @param ilPropertyFormGUI $a_form
+	 * @param bool $a_disabled
+	 */
+	protected function addCustomFieldToDefinitionForm(ilPropertyFormGUI $a_form, $a_disabled = false)
+	{
+		// type-specific
+	}
+	
+	/**
 	 * Add input elements to definition form
 	 *
 	 * @param ilPropertyFormGUI $a_form
+	 * @param ilAdvancedMDPermissionHelper $a_form
 	 */
-	public function addToFieldDefinitionForm(ilPropertyFormGUI $a_form)
+	public function addToFieldDefinitionForm(ilPropertyFormGUI $a_form, ilAdvancedMDPermissionHelper $a_permissions)
 	{
 		global $lng;
 		
+		$perm = $a_permissions->hasPermissions(
+			ilAdvancedMDPermissionHelper::CONTEXT_FIELD,
+			$this->getFieldId(),
+			array(
+				array(ilAdvancedMDPermissionHelper::ACTION_FIELD_EDIT_PROPERTY,  
+					ilAdvancedMDPermissionHelper::SUBACTION_FIELD_TITLE)
+				,array(ilAdvancedMDPermissionHelper::ACTION_FIELD_EDIT_PROPERTY,  
+					ilAdvancedMDPermissionHelper::SUBACTION_FIELD_DESCRIPTION)
+				,array(ilAdvancedMDPermissionHelper::ACTION_FIELD_EDIT_PROPERTY,  
+					ilAdvancedMDPermissionHelper::SUBACTION_FIELD_SEARCHABLE)
+				,array(ilAdvancedMDPermissionHelper::ACTION_FIELD_EDIT_PROPERTY,  
+					ilAdvancedMDPermissionHelper::SUBACTION_FIELD_PROPERTIES)
+		));
+				
 		// title
 		$title = new ilTextInputGUI($lng->txt('title'), 'title');
 		$title->setValue($this->getTitle());
@@ -584,6 +610,11 @@ abstract class ilAdvancedMDFieldDefinition
 		$title->setRequired(true);
 		$a_form->addItem($title);
 		
+		if(!$perm[ilAdvancedMDPermissionHelper::ACTION_FIELD_EDIT_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_FIELD_TITLE])
+		{
+			$title->setDisabled(true);
+		}
+		
 		// desc
 		$desc = new ilTextAreaInputGUI($lng->txt('description'), 'description');
 		$desc->setValue($this->getDescription());
@@ -591,11 +622,21 @@ abstract class ilAdvancedMDFieldDefinition
 		$desc->setCols(50);
 		$a_form->addItem($desc);
 		
+		if(!$perm[ilAdvancedMDPermissionHelper::ACTION_FIELD_EDIT_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_FIELD_DESCRIPTION])
+		{
+			$desc->setDisabled(true);
+		}
+		
 		// searchable
 		$check = new ilCheckboxInputGUI($lng->txt('md_adv_searchable'), 'searchable');
 		$check->setChecked($this->isSearchable());
 		$check->setValue(1);
 		$a_form->addItem($check);
+		
+		if(!$perm[ilAdvancedMDPermissionHelper::ACTION_FIELD_EDIT_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_FIELD_SEARCHABLE])
+		{
+			$check->setDisabled(true);
+		}
 		
 		/* required
 		$check = new ilCheckboxInputGUI($lng->txt('md_adv_required'), 'required');
@@ -603,45 +644,50 @@ abstract class ilAdvancedMDFieldDefinition
 		$check->setValue(1);
 		$a_form->addItem($check);		 
 		*/
+		
+		$this->addCustomFieldToDefinitionForm($a_form,
+			!$perm[ilAdvancedMDPermissionHelper::ACTION_FIELD_EDIT_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_FIELD_PROPERTIES]);		
+	}
+	
+	/**
+	 * Import custom post values from definition form
+	 * 
+	 * @param ilPropertyFormGUI $a_form
+	 */
+	public function importCustomDefinitionFormPostValues(ilPropertyFormGUI $a_form)
+	{
+		// type-specific
 	}
 	
 	/**
 	 * Import post values from definition form
 	 * 
 	 * @param ilPropertyFormGUI $a_form
+	 * @param ilAdvancedMDPermissionHelper $a_permissions
 	 */
-	public function importDefinitionFormPostValues(ilPropertyFormGUI $a_form)
+	public function importDefinitionFormPostValues(ilPropertyFormGUI $a_form, ilAdvancedMDPermissionHelper $a_permissions)
 	{
-		$this->setTitle($a_form->getInput("title"));
-		$this->setDescription($a_form->getInput("description"));
-		$this->setSearchable($a_form->getInput("searchable"));
-	}
-	
-	public function importDefinitionFormPostValuesNeedsConfirmation()
-	{
-		return false;
-	}
-	
-	public function prepareCustomDefinitionFormConfirmation(ilPropertyFormGUI $a_form)
-	{
-		// type-specific
-	}
-	
-	public function prepareDefinitionFormConfirmation(ilPropertyFormGUI $a_form)
-	{
-		$a_form->getItemByPostVar("title")->setDisabled(true);
-		$a_form->getItemByPostVar("description")->setDisabled(true);
-		$a_form->getItemByPostVar("searchable")->setDisabled(true);
-		
-		// checkboxes have no hidden on disabled
-		if($a_form->getInput("searchable"))
-		{
-			$hidden = new ilHiddenInputGUI("searchable");
-			$hidden->setValue(1);
-			$a_form->addItem($hidden);
+		if(!$a_form->getItemByPostVar("title")->getDisabled())
+		{		
+			$this->setTitle($a_form->getInput("title"));
+		}
+		if(!$a_form->getItemByPostVar("description")->getDisabled())
+		{	
+			$this->setDescription($a_form->getInput("description"));
+		}
+		if(!$a_form->getItemByPostVar("searchable")->getDisabled())
+		{	
+			$this->setSearchable($a_form->getInput("searchable"));
 		}
 		
-		$this->prepareCustomDefinitionFormConfirmation($a_form);
+		if($a_permissions->hasPermission(
+			ilAdvancedMDPermissionHelper::CONTEXT_FIELD,
+			$this->getFieldId(),			
+			ilAdvancedMDPermissionHelper::ACTION_FIELD_EDIT_PROPERTY,  
+			ilAdvancedMDPermissionHelper::SUBACTION_FIELD_PROPERTIES))
+		{
+			$this->importCustomDefinitionFormPostValues($a_form);
+		}
 	}
 	
 	
@@ -659,7 +705,7 @@ abstract class ilAdvancedMDFieldDefinition
 		global $ilDB;
 		
 		$sql = "SELECT max(position) pos".
-			" FROM adv_mdf_definition ".
+			" FROM adv_mdf_definition".
 			" WHERE record_id = ".$ilDB->quote($this->getRecordId(), "integer");
 		$set = $ilDB->query($sql);
 		if($ilDB->numRows($set))

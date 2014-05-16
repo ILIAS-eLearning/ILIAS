@@ -239,15 +239,9 @@ class ilAdvancedMDValues
 		ilADTActiveRecordByType::preloadByPrimary(
 			"adv_md_values",
 			array("obj_id"=>array("integer", $a_obj_ids)));	 	
-	}
-	
-	/**
-	 * Preload record ids for object types
-	 **/
-	public static function preloadRecordIdsForObjectTypes() 
-	{
-		global $ilDB;
 		
+		
+		// preload record ids for object types
 		
 		self::$preload_obj_records = array();
 		
@@ -260,7 +254,7 @@ class ilAdvancedMDValues
 		while($row = $ilDB->fetchAssoc($set))
 		{
 			self::$preload_obj_records[$row["obj_type"]][] = $row["record_id"];
-		}	
+		}						
 	}
 	
 	public static function preloadedRead($a_type, $a_obj_id)
@@ -329,7 +323,6 @@ class ilAdvancedMDValues
 		$a_xml_writer->xmlStartTag('AdvancedMetaData');	
 			
 		self::preloadByObjIds(array($a_obj_id));
-		self::preloadRecordIdsForObjectTypes();
 		$values_records = self::preloadedRead(ilObject::_lookupType($a_obj_id), $a_obj_id);
 		
 		foreach($values_records as $values_record)
