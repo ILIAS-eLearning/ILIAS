@@ -1285,8 +1285,11 @@ class ilInitialisation
 			"./Services/UIComponent/Tabs/classes/class.ilTabsGUI.php");
 
 		// $ilMainMenu
-		include_once './Services/MainMenu/classes/class.ilMainMenuGUI.php';
-		$ilMainMenu = new ilMainMenuGUI("_top");
+		// gev-patch start
+		include_once './Services/GEV/Desktop/classes/class.gevMainMenuGUI.php';
+		//$ilMainMenu = new ilMainMenuGUI("_top");
+		$ilMainMenu = new gevMainMenuGUI("_top");
+		// gev-patch end
 		self::initGlobal("ilMainMenu", $ilMainMenu);
 		unset($ilMainMenu);
 						
