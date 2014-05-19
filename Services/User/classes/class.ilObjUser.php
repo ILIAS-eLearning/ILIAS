@@ -1508,7 +1508,17 @@ class ilObjUser extends ilObject
 	*/
 	function hasAcceptedUserAgreement()
 	{
-		if ($this->agree_date != null || $this->login == "root")
+		/**
+		 * @var ilRbacReview
+		 */
+		global $rbacreview;
+
+		if(
+			null != $this->agree_date ||
+			'root' == $this->login ||
+			in_array($this->getId(), array(ANONYMOUS_USER_ID, SYSTEM_USER_ID)) ||
+			$rbacreview->isAssigned($this->getId(), SYSTEM_ROLE_ID)
+		)
 		{
 			return true;
 		}
@@ -5396,11 +5406,20 @@ class ilObjUser extends ilObject
 	 */
 	public function hasToAcceptTermsOfService()
 	{
+		/**
+		 * @var ilRbacReview
+		 */
+		global $rbacreview;
+
 		require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceHelper.php';
 
-		if(ilTermsOfServiceHelper::isEnabled() && 
-		   null == $this->agree_date &&
-		   !in_array($this->getId(), array(ANONYMOUS_USER_ID, SYSTEM_USER_ID)))
+		if(
+			ilTermsOfServiceHelper::isEnabled() && 
+			null == $this->agree_date &&
+			'root' != $this->agree_date &&
+			!in_array($this->getId(), array(ANONYMOUS_USER_ID, SYSTEM_USER_ID)) &&
+			!$rbacreview->isAssigned($this->getId(), SYSTEM_ROLE_ID)
+		)
 		{
 			return true;
 		}
