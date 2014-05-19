@@ -7,6 +7,9 @@
 *
 * @author	Richard Klees <richard.klees@concepts-and-training.de>
 * @version	$Id$
+*
+* @ilCtrl_Calls gevDesktopGUI: gevMyCoursesGUI
+* @ilCtrl_Calls gevDesktopGUI: gevCourseSearchGUI
 */
 
 class gevDesktopGUI {
@@ -21,7 +24,30 @@ class gevDesktopGUI {
 	}
 	
 	public function executeCommand() {
-		$this->tpl->setContent("Hello World!");
+		$next_class = $this->ctrl->getNextClass();
+		
+		//echo $next_class;
+		//die("---");
+		
+		switch($next_class) {
+			case "gevmycoursesgui":
+				require_once("Services/GEV/Desktop/classes/class.gevMyCoursesGUI.php");
+				$gui = new gevMyCoursesGUI();
+				$ret = $this->ctrl->forwardCommand($gui);
+				break;
+			case "gevcoursesearchgui":
+				require_once("Services/GEV/Desktop/classes/class.gevCourseSearchGUI.php");
+				$gui = new gevCourseSearchGUI();
+				$ret = $this->ctrl->forwardCommand($gui);
+				break;
+			default:	
+				$ret = "Not yet implemented.";
+				break;
+		}
+		
+		if (isset($ret)) {
+			$this->tpl->setContent($ret);
+		}
 		
 		$this->tpl->show();
 	}
