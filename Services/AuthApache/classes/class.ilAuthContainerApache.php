@@ -100,8 +100,8 @@ class ilAuthContainerApache extends Auth_Container
 				}
 				return false;
 		}
-		
-		if (!$_SESSION['login_invalid'] && $_SERVER[$settings->get('apache_auth_indicator_name')] == $settings->get('apache_auth_indicator_value'))
+
+		if (!$_SESSION['login_invalid'] && in_array($_SERVER[$settings->get('apache_auth_indicator_name')], array_filter(array_map('trim', str_getcsv($settings->get('apache_auth_indicator_value'))))))
 		{
 			// we have a valid apache auth
 			global $ilDB;
