@@ -25,9 +25,32 @@ class gevDesktopGUI {
 	
 	public function executeCommand() {
 		$next_class = $this->ctrl->getNextClass();
-		
-		//echo $next_class;
-		//die("---");
+
+/*		Stuff from Databay, to be reviewed
+		if ($cmd_class != "ilreportingfoundationgui" && $cmd_class != "")
+		{
+			$class_path = $this->ilCtrl->lookupClassPath($next_class);
+			$class_name = $this->ilCtrl->getClassForClasspath($class_path);
+			if (!$class_path)
+			{
+				$class_path = './Services/Reports/classes/class.'.ilUtil::stripSlashes($_GET['cmdClass']).'.php';
+				$class_name = ilUtil::stripSlashes($_GET['cmdClass']);
+			}
+			if (file_exists($class_path))
+			{
+				require_once $class_path;
+				$gui_obj = new $class_name($_GET["ref_id"]);
+				$this->ilCtrl->forwardCommand($gui_obj);
+			}
+			else
+			{
+				throw new ilException('No such class: ' . $class_name . ', file ' . $class_path . ' not available.');
+			}
+		}
+		else
+		{
+			$this->processCommand($this->ilCtrl->getCmd());
+		}*/
 		
 		switch($next_class) {
 			case "gevmycoursesgui":

@@ -36,6 +36,10 @@ class gevUserUtils {
 	public function getEduBioLink() {
 		return "http://www.google.de"; //TODO: implement this properly
 	}
+	
+	public function getBookedAndWaitingCourseInformation() {
+		return array();
+	}
 }
 
 ?>

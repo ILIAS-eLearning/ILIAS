@@ -25,8 +25,12 @@ class gevCourseUtils {
 		return self::$instances[$a_crs_id];
 	}
 	
-	public function getLink() {
+	static function getLinkTo($a_crs_id) {
 		return "http://www.google.de"; //TODO: implement this properly
+	}
+	
+	public function getLink() {
+		return self::getLinkTo($this->crs_id);
 	}
 }
 

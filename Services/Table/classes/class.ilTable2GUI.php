@@ -496,7 +496,9 @@ class ilTable2GUI extends ilTableGUI
 	/**
 	* Set title and title icon
 	*/
-	final public function setTitle($a_title, $a_icon = 0, $a_icon_alt = 0)
+	// gev-patch start
+	/*final*/ public function setTitle($a_title, $a_icon = 0, $a_icon_alt = 0)
+	// gev-path end
 	{
 		parent::setTitle($a_title, $a_icon, $a_icon_alt);
 	}
