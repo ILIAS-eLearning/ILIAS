@@ -36,11 +36,13 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 			//							single entry?
 			//						  		   render entry?
 			//										  content
-			  "gev_search_menu" => array(true, true, $this->ctrl->getLinkTargetByClass("gevCourseSearchGUI"))
+			  "gev_search_menu" => array(true, true, $this->ctrl->getLinkTargetByClass("gevCourseSearchGUI")) 
+			  										 //"ilias.php?baseClass=gevDesktopGUI&cmdClass=gevcoursesearchgui")
 			, "gev_me_menu" => array(false, true, array(
 											  //render entry?
   													// url
 				  "gev_my_courses" => array(true, $this->ctrl->getLinkTargetByClass("gevMyCoursesGUI"))
+				  								// "ilias.php?baseClass=gevDesktopGUI&cmdClass=gevmycoursesgui")
 				, "gev_edu_bio" => array(true, "NYI!")
 				, "gev_my_profile" => array(true, "NYI!")
 				, "gev_my_groups" => array(true, "NYI!")

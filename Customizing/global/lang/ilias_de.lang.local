@@ -1,0 +1,44 @@
+/* Copyright (c) 1998-2013 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
+/**
+* ILIAS language file (All entries)
+*
+* @module			language file German
+* @modulegroup		language
+* @author			Matthias Kunkel <mkunkel@me.com>
+* @version			$Id: ilias_de.lang 50042 2014-05-14 11:58:32Z rklees $
+*/
+// The language file starts beyond the HTML-comment below. DO NOT modify this line!
+// To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
+// from the first line to the HTML-comment. After editing paste the lines in place again.
+// NOTICE: Character coding of all ILIAS lang files is UTF-8! Please set your editor
+// to the corresponding mode!
+// Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
+<!-- language file start -->
+gev#:#gev_search_menu#:#Seminarsuche
+gev#:#gev_me_menu#:#Übersicht
+gev#:#gev_my_courses#:#Meine Kurse
+gev#:#gev_edu_bio#:#Bildungsbiographie
+gev#:#gev_my_profile#:#Mein Profil
+gev#:#gev_my_groups#:#Meine Gruppen
+gev#:#gev_my_roadmap#:#Meine Azubiroadmap
+gev#:#gev_my_trainer_ap#:#Mein Trainingseinsätze
+gev#:#gev_others_menu#:#Organisation
+gev#:#gev_employee_booking#:#Mitarbeiterbuchungen
+gev#:#gev_my_org_unit#:#Meine Organisationseinheit
+gev#:#gev_tep#:#TEP
+gev#:#gev_pot_participants#:#POT Teilnehmer
+gev#:#gev_my_apprentices#:#Auszubildende
+gev#:#gev_process_menu#:#Workflows
+gev#:#gev_apprentice_grant#:#Azubizuschuss
+gev#:#gev_pot_applicants#:#POT Bewerber
+gev#:#gev_spec_course_create#:#Spezialistentraining anlegen
+gev#:#gev_spec_course_approval#:#Spezialistentraining genehmigen
+gev#:#gev_spec_course_check#:#Spezialistentraining überprüfen
+gev#:#gev_reporting_menu#:#Reports
+gev#:#gev_admin_menu#:#Verwaltung
+gev#:#gev_course_mgmt#:#Kursverwaltung
+gev#:#gev_user_mgmt#:#Benutzerverwaltung
+gev#:#gev_org_mgmt#:#Organisationseinheitenverwaltung
+gev#:#gev_mail_mgmt#:#Mailverwaltung
+gev#:#gev_competence_mgmt#:#Kompetenzmanagment
+gev#:#gev_ilias_admin_menu#:#Administration
