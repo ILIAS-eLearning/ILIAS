@@ -183,3 +183,16 @@ table.freefield_bottom {
 	clear: both;
 	visibility: hidden;
 }
+
+div.ilMainHeader {
+	display: none;
+}
+
+#fixed_content {
+	top: 0;
+	position: static;
+}
+
+.ilAdminRow {
+	display: none;
+}
