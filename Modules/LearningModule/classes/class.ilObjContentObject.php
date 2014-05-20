@@ -2048,7 +2048,7 @@ class ilObjContentObject extends ilObject
 
 		// export pages
 		$ilBench->start("ExportHTML", "exportHTMLPages");
-		$this->exportHTMLPages($lm_gui, $a_target_dir);
+		$this->exportHTMLPages($lm_gui, $a_target_dir, $lm_gui->lang);
 		$ilBench->stop("ExportHTML", "exportHTMLPages");
 
 		// export glossary terms
@@ -2430,7 +2430,7 @@ class ilObjContentObject extends ilObject
 	/**
 	* export all pages of learning module to html file
 	*/
-	function exportHTMLPages(&$a_lm_gui, $a_target_dir)
+	function exportHTMLPages(&$a_lm_gui, $a_target_dir, $a_lang = "")
 	{
 		global $tpl, $ilBench, $ilLocator;
 				
@@ -2464,6 +2464,11 @@ class ilObjContentObject extends ilObject
 			}
 		}
 //exit;
+		if ($a_lang == "")
+		{
+			$a_lang = "-";
+		}
+
 		reset($pages);
 		foreach ($pages as $page)
 		{
@@ -2477,7 +2482,7 @@ class ilObjContentObject extends ilObject
 				$ilBench->stop("ExportHTML", "exportPageHTML");
 
 				// get all snippets of page
-				$pcs = ilPageContentUsage::getUsagesOfPage($page["obj_id"], $this->getType().":pg");
+				$pcs = ilPageContentUsage::getUsagesOfPage($page["obj_id"], $this->getType().":pg", 0, false, $a_lang);
 				foreach ($pcs as $pc)
 				{
 					if ($pc["type"] == "incl")
@@ -2491,19 +2496,19 @@ class ilObjContentObject extends ilObject
 				}
 
 				// get all media objects of page
-				$pg_mobs = ilObjMediaObject::_getMobsOfObject($this->getType().":pg", $page["obj_id"]);
+				$pg_mobs = ilObjMediaObject::_getMobsOfObject($this->getType().":pg", $page["obj_id"], 0, $a_lang);
 				foreach($pg_mobs as $pg_mob)
 				{
 					$mobs[$pg_mob] = $pg_mob;
 				}
 				
 				// get all internal links of page
-				$pg_links = ilInternalLink::_getTargetsOfSource($this->getType().":pg", $page["obj_id"]);
+				$pg_links = ilInternalLink::_getTargetsOfSource($this->getType().":pg", $page["obj_id"], $a_lang);
 				$int_links = array_merge($int_links, $pg_links);
 				
 				// get all files of page
 				include_once("./Modules/File/classes/class.ilObjFile.php");
-				$pg_files = ilObjFile::_getFilesOfObject($this->getType().":pg", $page["obj_id"]);
+				$pg_files = ilObjFile::_getFilesOfObject($this->getType().":pg", $page["obj_id"], 0, $a_lang);
 				$this->offline_files = array_merge($this->offline_files, $pg_files);
 				
 				$ilBench->stop("ExportHTML", "exportHTMLPage");
