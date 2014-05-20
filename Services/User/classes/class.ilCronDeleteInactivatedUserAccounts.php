@@ -50,13 +50,12 @@ class ilCronDeleteInactivatedUserAccounts
 
 		if( $ilSetting->get('cron_inactivated_user_delete', false) )
 		{
-			$this->enabled = false;
-		}
-		if( !$last_run || (time() - $last_run) > $this->getCurrentIntervalPeriod() )
-		{
-			$this->enabled = true;
+			if( !$last_run || (time() - $last_run) > $this->getCurrentIntervalPeriod() )
+			{
+				$this->enabled = true;
 
-			$ilSetting->set('cron_inactivated_user_delete_last_run', time());
+				$ilSetting->set('cron_inactivated_user_delete_last_run', time());
+			}
 		}
 	}
 
