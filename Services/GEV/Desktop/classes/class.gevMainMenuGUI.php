@@ -32,18 +32,15 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 		$a_tpl = new ilTemplate("tpl.gev_main_menu_entries.html", true, true, "Services/GEV/Desktop");
 		
 		
-		// TODO: fix link creation to route correctly and work in ILIAS administration, gevDesktopGUI is also involved.
 		$menu = array( 
 			//							single entry?
 			//						  		   render entry?
 			//										  content
-			  "gev_search_menu" => array(true, true, $this->ctrl->getLinkTargetByClass("gevCourseSearchGUI")) // this version routes correctly
-			  										 //"ilias.php?baseClass=gevDesktopGUI&cmdClass=gevcoursesearchgui") // this version works in administration
+			  "gev_search_menu" => array(true, true, "ilias.php?baseClass=gevDesktopGUI&cmd=toCourseSearch") 
 			, "gev_me_menu" => array(false, true, array(
 											  //render entry?
   													// url
-				  "gev_my_courses" => array(true, $this->ctrl->getLinkTargetByClass("gevMyCoursesGUI")) 
-				  								// "ilias.php?baseClass=gevDesktopGUI&cmdClass=gevmycoursesgui")
+				  "gev_my_courses" => array(true, "ilias.php?baseClass=gevDesktopGUI&cmdClass=toMyCourses")
 				, "gev_edu_bio" => array(true, "NYI!")
 				, "gev_my_profile" => array(true, "NYI!")
 				, "gev_my_groups" => array(true, "NYI!")

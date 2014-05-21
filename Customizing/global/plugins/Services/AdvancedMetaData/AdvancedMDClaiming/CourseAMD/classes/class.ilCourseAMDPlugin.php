@@ -3,7 +3,7 @@
 require_once("Services/AdvancedMetaData/classes/class.ilAdvancedMDClaimingPlugin.php");
 require_once("Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php");
 require_once("Services/AdvancedMetaData/classes/class.ilAdvancedMDPermissionHelper.php");
-require_once("Services/GEV/classes/class.gevSettings.php");
+require_once("Services/GEV/Utilsclasses/class.gevSettings.php");
  
 /**
 * Advanced MD claiming test plugin

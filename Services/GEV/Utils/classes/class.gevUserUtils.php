@@ -9,6 +9,8 @@
 * @version	$Id$
 */
 
+require_once("Services/Calendar/classes/class.ilDateTime.php");
+
 class gevUserUtils {
 	static protected $instances = array();
 
@@ -38,7 +40,21 @@ class gevUserUtils {
 	}
 	
 	public function getBookedAndWaitingCourseInformation() {
-		return array();
+		return 
+		array(array( "start_date" => new ilDateTime("2014-05-04 13:37:00", IL_CAL_DATETIME)
+				   , "end_date" => new ilDateTime("2014-15-05 13:38:00", IL_CAL_DATETIME)
+				   , "cancel_date" => new ilDateTime("2014-15-03 13:36:00", IL_CAL_DATETIME)
+				   , "obj_id" => 10
+				   , "title" => "Mockkurs"
+				   , "status" => "TBD"
+				   , "type" => "Webinar"
+				   , "location" => "Kölle"
+				   , "credit_points" => 666
+				   , "fee" => 19.95
+				   , "target_group" => "Jeder, seine Oma und ihr Hund."
+				   , "goals" => "Einen Kurs mocken"
+				   , "contents" => "Inhalt, Inhalt, Inhalt."
+				   ));
 	}
 }
 

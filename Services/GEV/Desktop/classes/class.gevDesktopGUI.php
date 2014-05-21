@@ -25,33 +25,12 @@ class gevDesktopGUI {
 	
 	public function executeCommand() {
 		$next_class = $this->ctrl->getNextClass();
-
-/*		Stuff from Databay, to be reviewed
-		if ($cmd_class != "ilreportingfoundationgui" && $cmd_class != "")
-		{
-			$class_path = $this->ilCtrl->lookupClassPath($next_class);
-			$class_name = $this->ilCtrl->getClassForClasspath($class_path);
-			if (!$class_path)
-			{
-				$class_path = './Services/Reports/classes/class.'.ilUtil::stripSlashes($_GET['cmdClass']).'.php';
-				$class_name = ilUtil::stripSlashes($_GET['cmdClass']);
-			}
-			if (file_exists($class_path))
-			{
-				require_once $class_path;
-				$gui_obj = new $class_name($_GET["ref_id"]);
-				$this->ilCtrl->forwardCommand($gui_obj);
-			}
-			else
-			{
-				throw new ilException('No such class: ' . $class_name . ', file ' . $class_path . ' not available.');
-			}
-		}
-		else
-		{
-			$this->processCommand($this->ilCtrl->getCmd());
-		}*/
+		$cmd = $this->ctrl->getCmd();
 		
+		if($cmd == "") {
+			$cmd = "toMyCourses";
+		}
+
 		switch($next_class) {
 			case "gevmycoursesgui":
 				require_once("Services/GEV/Desktop/classes/class.gevMyCoursesGUI.php");
@@ -64,7 +43,7 @@ class gevDesktopGUI {
 				$ret = $this->ctrl->forwardCommand($gui);
 				break;
 			default:	
-				$ret = "Not yet implemented.";
+				$this->dispatchCmd($cmd);
 				break;
 		}
 		
@@ -73,6 +52,24 @@ class gevDesktopGUI {
 		}
 		
 		$this->tpl->show();
+	}
+	
+	public function dispatchCmd($a_cmd) {
+		switch($a_cmd) {
+			case "toCourseSearch":
+			case "toMyCourses":
+				$this->$a_cmd();
+			default:
+				throw new Exception("Unknown command: ".$a_cmd);
+		}
+	}
+	
+	protected function toCourseSearch() {
+		$this->ctrl->redirectByClass("gevCourseSearchGUI");
+	}
+	
+	protected function toMyCourses() {
+		$this->ctrl->redirectByClass("gevMyCoursesGUI");
 	}
 }
 

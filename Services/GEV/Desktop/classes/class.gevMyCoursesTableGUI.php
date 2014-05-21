@@ -43,7 +43,7 @@ class gevCoursesTableGUI extends catAccordionTableGUI {
 		$this->addColumn($this->lng->txt("gev_learning_type"), "type");
 		$this->addColumn($this->lng->txt("gev_location"), "location");
 		$this->addColumn($this->lng->txt("date"), "date");
-		$this->addColumn($this->lng->txt("points"), "points");
+		$this->addColumn($this->lng->txt("gev_points"), "points");
 		$this->addColumn("&euro;", "fee");
 		$this->addColumn('<img src="'.ilUtil::getImagePath("gev_action.png").'" />', "actions", "20px");
 
@@ -93,15 +93,6 @@ class gevCoursesTableGUI extends catAccordionTableGUI {
 		$this->tpl->setVariable("CRS_LINK", gevCourseUtils::getLinkTo($a_set["obj_id"]));
 		$this->tpl->setVariable("CANCEL_DATE", $cancel_date);
 	}
-	
-	/*protected function compileCourseData() {
-		// TODO: implement this correctly
-		
-		return 
-		array( array("Gewerbliche Sachversicherung", )
-			 , 
-			);
-	}*/
 }
 
 ?>
