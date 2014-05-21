@@ -292,7 +292,7 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
 	{
 		if( $this->isQuestionAmountConfigurationModePerPool() )
 		{
-			$sourcePoolDefinitionList = $this->buildSourcePoolDefinitionList();
+			$sourcePoolDefinitionList = $this->buildSourcePoolDefinitionList($this->testOBJ);
 
 			$sourcePoolDefinitionList->loadDefinitions();
 
@@ -316,14 +316,14 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
 
 	public function hasSourcePoolDefinitions()
 	{
-		$sourcePoolDefinitionList = $this->buildSourcePoolDefinitionList();
+		$sourcePoolDefinitionList = $this->buildSourcePoolDefinitionList($this->testOBJ);
 
 		return $sourcePoolDefinitionList->savedDefinitionsExist();
 	}
 
 	public function isQuestionSetBuildable()
 	{
-		$sourcePoolDefinitionList = $this->buildSourcePoolDefinitionList();
+		$sourcePoolDefinitionList = $this->buildSourcePoolDefinitionList($this->testOBJ);
 		$sourcePoolDefinitionList->loadDefinitions();
 
 		require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetStagingPoolQuestionList.php';
@@ -342,7 +342,7 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
 			return true;
 		}
 
-		$sourcePoolDefinitionList = $this->buildSourcePoolDefinitionList();
+		$sourcePoolDefinitionList = $this->buildSourcePoolDefinitionList($this->testOBJ);
 
 		if( $sourcePoolDefinitionList->savedDefinitionsExist() )
 		{
@@ -354,7 +354,7 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
 	
 	public function removeQuestionSetRelatedData()
 	{
-		$sourcePoolDefinitionList = $this->buildSourcePoolDefinitionList();
+		$sourcePoolDefinitionList = $this->buildSourcePoolDefinitionList($this->testOBJ);
 		$sourcePoolDefinitionList->deleteDefinitions();
 
 		require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetStagingPoolBuilder.php';
@@ -374,30 +374,48 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
 	 */
 	public function cloneQuestionSetRelatedData($cloneTestOBJ)
 	{
+		// clone general config
+		
 		$this->loadFromDb();
 		$this->saveToDbByTestId($cloneTestOBJ->getTestId());
 
-		$sourcePoolDefinitionList = $this->buildSourcePoolDefinitionList();
-		$sourcePoolDefinitionList->loadDefinitions();
-		$sourcePoolDefinitionList->saveDefinitionsByTestId($cloneTestOBJ->getTestId());
+		// clone source pool definitions (selection rules)
 
-		// TODO: implement cloning of staging pool and taxonomies (wasn't implemented all the time ^^)
+		$sourcePoolDefinitionList = $this->buildSourcePoolDefinitionList($this->testOBJ);
+		$sourcePoolDefinitionList->loadDefinitions();
+		$sourcePoolDefinitionList->cloneDefinitionsForTestId($cloneTestOBJ->getTestId());
+
+		// build new question stage for cloned test
+
+		$sourcePoolDefinitionList = $this->buildSourcePoolDefinitionList($cloneTestOBJ);
+		$stagingPool = $this->buildStagingPoolBuilder($cloneTestOBJ);
+
+		$sourcePoolDefinitionList->loadDefinitions();
+		$stagingPool->rebuild($sourcePoolDefinitionList);
+		$sourcePoolDefinitionList->saveDefinitions();
 	}
 
-
-	private function buildSourcePoolDefinitionList()
+	private function buildSourcePoolDefinitionList(ilObjTest $testOBJ)
 	{
 		require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetSourcePoolDefinitionFactory.php';
 		$sourcePoolDefinitionFactory = new ilTestRandomQuestionSetSourcePoolDefinitionFactory(
-			$this->db, $this->testOBJ
+			$this->db, $testOBJ
 		);
 
 		require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetSourcePoolDefinitionList.php';
 		$sourcePoolDefinitionList = new ilTestRandomQuestionSetSourcePoolDefinitionList(
-			$this->db, $this->testOBJ, $sourcePoolDefinitionFactory
+			$this->db, $testOBJ, $sourcePoolDefinitionFactory
 		);
 
 		return $sourcePoolDefinitionList;
+	}
+	
+	private function buildStagingPoolBuilder(ilObjTest $testOBJ)
+	{
+		require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetStagingPoolBuilder.php';
+		$stagingPool = new ilTestRandomQuestionSetStagingPoolBuilder($this->db, $testOBJ);
+		
+		return $stagingPool;
 	}
 	
 	// -----------------------------------------------------------------------------------------------------------------
