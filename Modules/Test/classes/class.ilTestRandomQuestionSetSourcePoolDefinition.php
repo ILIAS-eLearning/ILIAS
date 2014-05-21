@@ -219,16 +219,9 @@ class ilTestRandomQuestionSetSourcePoolDefinition
 		}
 	}
 
-	public function saveToDbByTestId($testId)
+	public function cloneToDbForTestId($testId)
 	{
-		if( $this->getId() )
-		{
-			$this->updateDbRecord($testId);
-		}
-		else
-		{
-			$this->insertDbRecord($testId);
-		}
+		$this->insertDbRecord($testId);
 	}
 
 	public function deleteFromDb()

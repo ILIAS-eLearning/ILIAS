@@ -75,12 +75,12 @@ class ilTestRandomQuestionSetSourcePoolDefinitionList implements Iterator
 		}
 	}
 
-	public function saveDefinitionsByTestId($testId)
+	public function cloneDefinitionsForTestId($testId)
 	{
 		foreach($this as $definition)
 		{
 			/** @var ilTestRandomQuestionSetSourcePoolDefinition $definition */
-			$definition->saveToDbByTestId($testId);
+			$definition->cloneToDbForTestId($testId);
 		}
 
 	}
