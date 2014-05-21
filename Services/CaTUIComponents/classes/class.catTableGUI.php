@@ -11,6 +11,7 @@
 
 require_once("Services/Table/classes/class.ilTable2GUI.php");
 require_once("Services/CaTUIComponents/classes/class.catTitleGUI.php");
+require_once("Services/CaTUIComponents/classes/class.catLegendGUI.php");
 
 class catTableGUI extends ilTable2GUI {
 	protected $_title_enabled = false;
@@ -47,7 +48,7 @@ class catTableGUI extends ilTable2GUI {
 		return $this->_title->getSubtitle();
 	}
 	
-	public function setLegend($a_legend) {
+	public function setLegend(catLegendGUI $a_legend) {
 		$this->_title->setLegend($a_legend);
 	}
 	

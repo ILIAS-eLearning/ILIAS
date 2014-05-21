@@ -10,6 +10,7 @@
 */
 
 require_once("Services/Calendar/classes/class.ilDateTime.php");
+require_once("Services/CourseBooking/classes/class.ilCourseBooking.php");
 
 class gevUserUtils {
 	static protected $instances = array();
@@ -46,7 +47,7 @@ class gevUserUtils {
 				   , "cancel_date" => new ilDateTime("2014-15-03 13:36:00", IL_CAL_DATETIME)
 				   , "obj_id" => 10
 				   , "title" => "Mockkurs"
-				   , "status" => "TBD"
+				   , "status" => ilCourseBooking::STATUS_BOOKED
 				   , "type" => "Webinar"
 				   , "location" => "Kölle"
 				   , "credit_points" => 666

@@ -14,6 +14,8 @@ require_once("Services/Utilities/classes/class.ilUtil.php");
 require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 require_once("Services/Calendar/classes/class.ilDatePresentation.php");
+require_once("Services/CourseBooking/classes/class.ilCourseBooking.php");
+require_once("Services/CaTUIComponents/classes/class.catLegendGUI.php");
 
 class gevCoursesTableGUI extends catAccordionTableGUI {
 	private $title_enabled = false;
@@ -47,7 +49,15 @@ class gevCoursesTableGUI extends catAccordionTableGUI {
 		$this->addColumn("&euro;", "fee");
 		$this->addColumn('<img src="'.ilUtil::getImagePath("gev_action.png").'" />', "actions", "20px");
 
-		$this->cancel_img = '<img src="'.ilUtil::getImagePath("gev_cancel.png").'" />';
+		$this->cancel_img = '<img src="'.ilUtil::getImagePath("gev_cancel_action.png").'" />';
+		$this->booked_img = '<img src="'.ilUtil::getImagePath("gev_booked_icon.png").'" />';
+		$this->waiting_img = '<img src="'.ilUtil::getImagePath("gev_waiting_icon.png").'" />';
+		
+		$legend = new catLegendGUI();
+		$legend->addItem($this->cancel_img, "gev_cancel_training")
+			   ->addItem($this->booked_img, "gev_booked")
+			   ->addItem($this->waiting_img, "gev_waiting");
+		$this->setLegend($legend);
 
 		$this->setData($user_util->getBookedAndWaitingCourseInformation());
 	}
@@ -73,6 +83,16 @@ class gevCoursesTableGUI extends catAccordionTableGUI {
 			$cancel_date = ilDatePresentation::formatDate($a_set["cancel_date"]);
 		}
 		
+		if ($a_set["status"] == ilCourseBooking::STATUS_BOOKED) {
+			$status = $this->booked_img;
+		}
+		else if($a_set["status"] == ilCourseBooking::STATUS_WAITING) {
+			$status = $this->waiting_img;
+		}
+		else {
+			$status = "";
+		}
+		
 		$this->ctrl->setParameterByClass("gevMyCoursesGUI", "crs_id", $a_set["obj_id"]);
 		$this->ctrl->setParameterByClass("gevMyCoursesGUI", "usr_id", $this->user_id);
 		$action = '<a href="'.$this->ctrl->getLinkTargetByClass("gevMyCoursesGUI", "cancelBooking").'">'.
@@ -80,7 +100,7 @@ class gevCoursesTableGUI extends catAccordionTableGUI {
 		$this->ctrl->clearParametersByClass("gevMyCoursesGUI");
 		
 		$this->tpl->setVariable("TITLE", $a_set["title"]);
-		$this->tpl->setVariable("STATUS", "TBD");
+		$this->tpl->setVariable("STATUS", $status);
 		$this->tpl->setVariable("TYPE", $a_set["type"]);
 		$this->tpl->setVariable("LOCATION", $a_set["location"]);
 		$this->tpl->setVariable("DATE", $date);

@@ -11,6 +11,7 @@
 
 require_once("Services/UICore/classes/class.ilTemplate.php");
 require_once("Services/Utilities/classes/class.ilUtil.php");
+require_once("Services/CaTUIComponents/classes/class.catLegendGUI.php");
 
 class catTitleGUI {
 	protected $title;
@@ -54,8 +55,8 @@ class catTitleGUI {
 		return $this->img;
 	}
 	
-	public function setLegend($a_legend) {
-		die ("catTitleGUI::setLegend: NYI!"); // TODO: implement this!
+	public function setLegend(catLegendGUI $a_legend) {
+		$this->legend = $a_legend;
 	}
 	
 	public function getLegend() {
@@ -85,7 +86,7 @@ class catTitleGUI {
 
 		if ($this->legend !== null) {
 			$tpl->setCurrentBlock("legend");
-			$this->setVariable("LEGEND", $this->legend->render());
+			$tpl->setVariable("LEGEND", $this->legend->render());
 			$tpl->parseCurrentBlock();
 		}
 
