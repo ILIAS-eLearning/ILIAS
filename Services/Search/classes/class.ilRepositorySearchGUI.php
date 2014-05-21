@@ -110,8 +110,7 @@ class ilRepositorySearchGUI
 	{
 		return $this->searchable_check;
 	}
-
-
+	
 	/**
 	 * fill toolbar with
 	 * @param ilToolbarGUI $toolbar
@@ -373,6 +372,22 @@ class ilRepositorySearchGUI
 		$this->add_options = $a_add_options ? $a_add_options : array();
 	}
 	
+	
+	// patch generali start
+	
+	public function setResultsCallback(&$class,$method)
+	{
+		$this->results_callback = array('class' => $class,'method' => $method);	
+	}
+	
+	public function disableRoleSearch($a_status)
+	{
+		$this->disable_role_search = (bool)$a_status;
+	}
+	
+	// patch generali end
+	
+	
 	public function showSearch()
 	{
 		$this->initFormSearch();
@@ -438,7 +453,16 @@ class ilRepositorySearchGUI
 		}
 		$kind->addOption($users);
 
-
+		
+		// patch generali start
+		
+		if((bool)$this->disable_role_search)
+		{
+			return;
+		}
+		
+		// patch generali end
+		
 
 		// Role
 		$roles = new ilRadioOption($this->lng->txt('search_for_role_members'),'role');
@@ -839,6 +863,21 @@ class ilRepositorySearchGUI
 	 */
 	protected function showSearchUserTable($a_usr_ids,$a_parent_cmd)
 	{
+		// patch generali start
+		
+		if(is_array($this->results_callback))
+		{
+			$class = $this->results_callback["class"];
+			$method = $this->results_callback["method"];
+			if(is_callable(array($class, $method)))
+			{	
+				return $class->$method($this, "showSearchResults", $a_usr_ids);
+			}
+		}
+		
+		// patch generali end		
+
+		
 		$is_in_admin = ($_REQUEST['baseClass'] == 'ilAdministrationGUI');
 		if($is_in_admin)
 		{

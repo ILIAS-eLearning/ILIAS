@@ -19,7 +19,6 @@ require_once "./Services/Container/classes/class.ilContainerGUI.php";
 * @ilCtrl_Calls ilObjCourseGUI: ilLicenseOverviewGUI, ilObjectCopyGUI, ilObjStyleSheetGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilCourseParticipantsGroupsGUI, ilExportGUI, ilCommonActionDispatcherGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilDidacticTemplateGUI, ilCertificateGUI, ilObjectServiceSettingsGUI
-*
 * 
 * @extends ilContainerGUI
 */
@@ -1737,6 +1736,19 @@ class ilObjCourseGUI extends ilContainerGUI
 													$this->ctrl->getLinkTargetByClass('ilmemberexportgui','show'),
 													"", 'ilmemberexportgui');
 				}
+				
+				// patch generali start 
+				
+				if(DEVMODE && true)
+				{				
+					$this->ctrl->setParameterByClass('ilcoursebookingadmingui', 'ref_id', $this->object->getRefId());
+					$this->tabs_gui->addSubTabTarget("generali_test",
+						$this->ctrl->getLinkTargetByClass(array('ilcoursebookinggui', 'ilcoursebookingadmingui'),''),
+						"", 'ilcoursebookingadmingui');		
+					$this->ctrl->setParameterByClass('ilcoursebookingadmingui', 'ref_id', '');
+				}
+				
+				// patch generali end
 				
 				break;
 
@@ -4647,7 +4659,7 @@ class ilObjCourseGUI extends ilContainerGUI
 						));
 				$this->ctrl->forwardCommand($service);
 				break;
-
+						
             default:
 /*                if(!$this->creation_mode)
                 {

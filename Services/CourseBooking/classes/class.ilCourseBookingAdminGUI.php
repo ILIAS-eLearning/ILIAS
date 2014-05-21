@@ -1,0 +1,959 @@
+<?php
+/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+require_once "./Services/CourseBooking/classes/class.ilCourseBookings.php";
+require_once "./Services/CourseBooking/classes/class.ilCourseBookingPermissions.php";
+
+/**
+ * Course booking administration GUI
+ *
+ * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @ingroup ServicesCourseBooking
+ * @ilCtrl_Calls ilCourseBookingAdminGUI: ilRepositorySearchGUI
+ */
+class ilCourseBookingAdminGUI
+{
+	protected $course; // [ilObjCourse]
+	protected $permissions; // [ilCourseBookingPermissions]
+	
+	/**
+	 * Constructor
+	 * 
+	 * @param ilObjCourse $a_course
+	 * @return self
+	 */
+	public function __construct(ilObjCourse $a_course)
+	{
+		global $lng;
+		
+		$this->setCourse($a_course);	
+		
+		$perm = ilCourseBookingPermissions::getInstance($this->getCourse());
+		$this->setPermissions($perm);
+		
+		if(!$this->getPermissions()->viewOtherBookings())
+		{
+			ilUtil::sendFailure($lng->txt("msg_no_perm_read"), true);
+			$this->returnToParent();
+		}
+		
+		$lng->loadLanguageModule("crsbook");
+	}
+	
+	/**
+	 * Factory
+	 * 
+	 * @throws ilException
+	 * @param int $a_ref_id
+	 * @return self
+	 */
+	public static function getInstanceByRefId($a_ref_id)
+	{
+		global $tree;
+		
+		if(ilObject::_lookupType($a_ref_id, true) != "crs" ||
+			$tree->isDeleted($a_ref_id))
+		{
+			throw new ilException("CourseBookingAdminGUI - needs course ref id");
+		}
+		
+		require_once "Modules/Course/classes/class.ilObjCourse.php";
+		$course = new ilObjCourse($a_ref_id);
+		return new self($course);
+	}
+	
+	
+	//
+	// properties
+	//
+	
+	/**
+	 * Set course
+	 * 
+	 * @param ilObjCourse $a_course
+	 */
+	protected function setCourse(ilObjCourse $a_course)
+	{
+		$this->course = $a_course;
+	}
+	
+	/**
+	 * Get course
+	 * 
+	 * @return ilObjCourse 
+	 */	
+	protected function getCourse()
+	{
+		return $this->course;
+	}
+	
+	/**
+	 * Set permissions
+	 * 
+	 * @param ilCourseBookingPermissions $a_perms
+	 */
+	protected function setPermissions(ilCourseBookingPermissions $a_perms)
+	{
+		$this->permissions = $a_perms;
+	}
+	
+	/**
+	 * Get permissions
+	 * 
+	 * @return ilCourseBookingPermissions 
+	 */	
+	protected function getPermissions()
+	{
+		return $this->permissions;
+	}
+	
+			
+	//
+	// GUI basics
+	//
+	
+	/**
+	 * Execute request command
+	 * 
+	 * @return boolean
+	 */
+	public function executeCommand()
+	{
+		global $ilCtrl, $lng;
+
+		$next_class = $ilCtrl->getNextClass($this);
+		$cmd = $ilCtrl->getCmd("listBookings");
+		
+		switch($next_class)
+		{			
+			case "ilrepositorysearchgui":		
+				if(!$ilCtrl->isAsynch())
+				{
+					$this->setTabs("listBookings");			
+				}
+				
+				$bookings = ilCourseBookings::getInstance($this->getCourse());
+				if($bookings->isWaitingListActivated())
+				{
+					$status = array(
+						ilCourseBooking::STATUS_BOOKED => $lng->txt("crsbook_admin_status_booked")
+						,ilCourseBooking::STATUS_WAITING => $lng->txt("crsbook_admin_status_waiting")
+					);					
+				}
+				
+				include_once "./Services/Search/classes/class.ilRepositorySearchGUI.php";
+				$rep_search = new ilRepositorySearchGUI();				
+				$rep_search->setCallback($this,
+					"assignMembersConfirm",
+					$status
+				);				
+				$rep_search->disableRoleSearch(true);
+				$rep_search->setResultsCallback($this, "assignMembersFromSearch");
+			
+				$ilCtrl->setReturn($this, "listBookings");
+				$ilCtrl->forwardCommand($rep_search);											
+				break;
+			
+			default:				
+				$this->$cmd();
+				break;
+		}
+		
+		return true;
+	}
+	
+	/**
+	 * Set tabs
+	 * 
+	 * @param string $a_active
+	 */
+	protected function setTabs($a_active)
+	{
+		global $ilTabs, $ilCtrl, $lng;
+		
+		$ilTabs->clearTargets();
+		
+		/*
+		$ilTabs->setBackTarget($lng->txt("back"),
+			$ilCtrl->getLinkTargetByClass("ilobjcoursegui", "members"));
+		*/
+		$ilTabs->setBackTarget($lng->txt("back"),
+			$ilCtrl->getLinkTarget($this, "returnToParent"));
+		
+		$ilTabs->addTab("listBookings",
+			$lng->txt("crsbook_admin_tab_list_bookings"),
+			$ilCtrl->getLinkTarget($this, "listBookings"));
+		
+		$ilTabs->addTab("listCancellations",
+			$lng->txt("crsbook_admin_tab_list_cancellations"),
+			$ilCtrl->getLinkTarget($this, "listCancellations"));
+		
+		$ilTabs->activateTab($a_active);
+	}
+	
+	/**
+	 * Return to parent GUI
+	 */
+	protected function returnToParent()
+	{
+		global $ilCtrl;
+		
+		$ilCtrl->redirectByClass(array("ilRepositoryGUI", "ilObjCourseGUI"), "members");		
+		// $ilCtrl->returnToParent($this);
+	}
+	
+	
+	//
+	// BOOKINGS
+	//
+	
+	/**
+	 * List course bookings
+	 */
+	protected function listBookings()
+	{
+		global $ilToolbar, $ilCtrl, $lng, $tpl;
+		
+		$this->setTabs("listBookings");
+				
+		if($this->getPermissions()->bookCourseForOthers() &&
+			!ilCourseBookingHelper::getInstance($this->getCourse())->isUltimateBookingDeadlineReached())
+		{
+			$bookings = ilCourseBookings::getInstance($this->getCourse());
+			if($bookings->isWaitingListActivated())
+			{
+				$types = array(
+					ilCourseBooking::STATUS_BOOKED => $lng->txt("crsbook_admin_status_booked")
+					,ilCourseBooking::STATUS_WAITING => $lng->txt("crsbook_admin_status_waiting")
+				);
+			}
+
+			include_once "./Services/Search/classes/class.ilRepositorySearchGUI.php";
+			ilRepositorySearchGUI::fillAutoCompleteToolbar(
+				$this,
+				$ilToolbar,
+				array(
+					"auto_complete_name"	=> $lng->txt("user"),
+					"user_type"				=> $types,
+					"submit_name"			=> $lng->txt("add"),
+					"add_search"			=> true
+				)
+			);
+
+			$ilToolbar->addSeparator();
+
+			$ilToolbar->addButton($lng->txt("crsbook_admin_add_group"),
+				$ilCtrl->getLinkTarget($this, "addGroup"));
+
+			$ilToolbar->addSeparator();
+
+			$ilToolbar->addButton($lng->txt("crsbook_admin_add_org_unit"),
+				$ilCtrl->getLinkTarget($this, "addOrgUnit"));
+		}		
+		
+		require_once "Services/CourseBooking/classes/class.ilCourseBookingMembersTableGUI.php";
+		$tbl = new ilCourseBookingMembersTableGUI($this, "listBookings", $this->getCourse(), $this->getPermissions());
+		return $tpl->setContent($tbl->getHTML());
+	}
+	
+	/**
+	 * Display search result as table GUI (to set status) 
+	 *
+	 * @param string $a_parent_gui
+	 * @param string $a_parent_cmd
+	 * @param array $a_user_ids
+	 */
+	public function assignMembersFromSearch($a_parent_gui, $a_parent_cmd, array $a_user_ids = null)
+	{
+		global $tpl, $lng, $ilCtrl;
+		
+		if(!$a_user_ids)
+		{
+			$a_user_ids = $_REQUEST["user_ids"];
+		}
+		if(!count($a_user_ids))
+		{
+			ilUtil::sendFailure($lng->txt("crs_no_users_selected"), true);
+			$ilCtrl->redirect($this, "listBookings");
+		}
+		
+		require_once "Services/CourseBooking/classes/class.ilCourseBookingSearchResultsTableGUI.php";
+		$tbl = new ilCourseBookingSearchResultsTableGUI($a_parent_gui, $a_parent_cmd, $a_user_ids);
+		
+		$tbl->setFormAction($ilCtrl->getFormAction($this, "assignMembersConfirm"));
+		$tbl->addCommandButton("assignMembersConfirm", $lng->txt("add"));
+		$tbl->addCommandButton("listBookings", $lng->txt("cancel"));
+		
+		// see ilRepositorySearchGUI::showSearchUserTable()
+		$tpl->setVariable("RES_TABLE", $tbl->getHTML());
+	}
+	
+	
+	//
+	// GROUP
+	// 
+	
+	/**
+	 * Add group members
+	 * 
+	 * @param ilPropertyFormGUI $a_form
+	 */	
+	protected function addGroup(ilPropertyFormGUI $a_form = null)
+	{
+		global $tpl;
+		
+		$this->setTabs("listBookings");
+		
+		if(!$a_form)
+		{
+			$a_form = $this->initAddGroupForm();
+		}
+		$tpl->setContent($a_form->getHTML());
+	}
+	
+	/**
+	 * Init form to add members from group
+	 * 
+	 * @return ilPropertyFormGUI
+	 */
+	protected function initAddGroupForm()
+	{
+		global $ilCtrl, $lng, $tree, $ilAccess;
+		
+		require_once "Services/Form/classes/class.ilPropertyFormGUI.php";
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($ilCtrl->getFormAction($this, "assignMembersFromGroup"));
+		$form->setTitle($lng->txt("crsbook_admin_add_group"));
+
+		$options = array("" => $lng->txt("please_select"));
+		foreach($tree->getChildsByType(ROOT_FOLDER_ID, "grp") as $node)
+		{
+			$ref_id = $node["child"];
+			if($ilAccess->checkAccess("view", "", $ref_id))
+			{
+				$options[$node["obj_id"]] = $node["title"];
+			}					
+		}
+		if(!sizeof($options))
+		{
+			ilUtil::sendFailure($lng->txt("msg_no_perm_read"), true);
+			$ilCtrl->redirect($this, "listBookings");
+		}
+		
+		$grp = new ilSelectInputGUI($lng->txt("obj_grp"), "grp");
+		$grp->setRequired(true);
+		$grp->setOptions($options);
+		$form->addItem($grp);
+		
+		$form->addCommandButton("assignMembersFromGroup", $lng->txt("continue"));
+		$form->addCommandButton("listBookings", $lng->txt("cancel"));
+		
+		return $form;
+	}
+	
+	/**
+	 * Assign members from group (status form)
+	 */
+	public function assignMembersFromGroup()
+	{
+		global $tpl, $lng, $ilCtrl;
+		
+		$grp_obj_id = $_REQUEST["grp"];		
+		if($grp_obj_id)
+		{
+			$ilCtrl->setParameter($this, "grp", $grp_obj_id);
+			$ilCtrl->setParameter($this, "fsrch", true);
+			
+			require_once "./Modules/Group/classes/class.ilGroupParticipants.php";
+			$members = ilGroupParticipants::_getInstanceByObjId($grp_obj_id);
+			$user_ids = $members->getMembers();
+			if(sizeof($user_ids))
+			{								
+				$this->setTabs("listBookings");
+				
+				require_once "Services/CourseBooking/classes/class.ilCourseBookingSearchResultsTableGUI.php";
+				$tbl = new ilCourseBookingSearchResultsTableGUI($this, "assignMembersFromGroup", $user_ids, ilCourseBooking::STATUS_BOOKED);
+														
+				$tbl->setFormAction($ilCtrl->getFormAction($this, "assignMembersConfirm"));
+				$tbl->addCommandButton("assignMembersConfirm", $lng->txt("add"));
+				$tbl->addCommandButton("listBookings", $lng->txt("cancel"));
+						
+				return $tpl->setContent($tbl->getHTML());
+			}
+			else
+			{
+				ilUtil::sendFailure($lng->txt("crsbook_admin_group_has_no_members"));
+			}
+		}
+		
+		$form = $this->initAddGroupForm();		
+		if(!$grp_obj_id)
+		{
+			$form->checkInput();
+		}		
+		$form->setValuesByPost();
+		$this->addGroup($form);
+	}
+	
+	
+	//
+	// ORG UNIT
+	// 
+	
+	/**
+	 * Add org unit members
+	 * 
+	 * @param ilPropertyFormGUI $a_form
+	 */	
+	protected function addOrgUnit(ilPropertyFormGUI $a_form = null)
+	{
+		global $tpl;
+		
+		$this->setTabs("listBookings");
+		
+		if(!$a_form)
+		{
+			$a_form = $this->initAddOrgUnitForm();
+		}
+		$tpl->setContent($a_form->getHTML());
+	}
+	
+	/**
+	 * Init form to add members from org unit
+	 * 
+	 * @return ilPropertyFormGUI
+	 */
+	protected function initAddOrgUnitForm()
+	{
+		global $ilCtrl, $lng;
+		
+		require_once "Services/Form/classes/class.ilPropertyFormGUI.php";
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($ilCtrl->getFormAction($this, "assignMembersFromOrgUnit"));
+		$form->setTitle($lng->txt("crsbook_admin_add_org_unit"));
+		
+		
+		require_once "Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php";
+		$ou_tree = ilObjOrgUnitTree::_getInstance();		
+				
+		$book_rcrsv = $ou_tree->getOrgusWhereUserHasPermissionForOperation("book_employees_rcrsv");
+		$book = $ou_tree->getOrgusWhereUserHasPermissionForOperation("book_employees");		
+		
+		$ou_ids = array();
+		foreach($ou_tree->getAllChildren(ilObjOrgUnit::getRootOrgRefId()) as $ou_ref_id)
+		{				
+			if(in_array($ou_ref_id, $book) || in_array($ou_ref_id, $book_rcrsv))
+			{
+				$ou_ids[] = $ou_ref_id;
+			}
+			else
+			{
+				$parent = $ou_tree->getParent($ou_ref_id);
+				while($parent)
+				{					
+					if(in_array($parent, $book_rcrsv))
+					{
+						$ou_ids[] = $ou_ref_id;
+						break;
+					}					
+					$parent = $ou_tree->getParent($parent);
+				}				
+			}			
+		}
+		
+		if(!sizeof($ou_ids))
+		{
+			ilUtil::sendFailure($lng->txt("msg_no_perm_read"), true);
+			$ilCtrl->redirect($this, "listBookings");
+		}
+		
+		$titles = ilCourseBookingHelper::getOrgUnitTitles($ou_ids);
+		
+		$options = array("" => $lng->txt("please_select"));
+		foreach($ou_ids as $ou_id)
+		{
+			$options[$ou_id] = $titles[$ou_id];
+		}
+		asort($options);
+		
+		$ou = new ilSelectInputGUI($lng->txt("obj_orgu"), "org");
+		$ou->setRequired(true);
+		$ou->setOptions($options);
+		$form->addItem($ou);
+		
+		$recur = new ilCheckboxInputGUI($lng->txt("crsbook_admin_org_add_recursive"), "subs");
+		$form->addItem($recur);
+
+		$form->addCommandButton("assignMembersFromOrgUnit", $lng->txt("continue"));
+		$form->addCommandButton("listBookings", $lng->txt("cancel"));
+		
+		return $form;
+	}
+	
+	/**
+	 * Assign members from group (status form)
+	 */
+	public function assignMembersFromOrgUnit()
+	{
+		global $tpl, $lng, $ilCtrl;
+		
+		$org_ref_id = $_REQUEST["org"];		
+		if($org_ref_id)
+		{
+			$org_subs = $_REQUEST["subs"];
+			
+			$ilCtrl->setParameter($this, "org", $org_ref_id);
+			$ilCtrl->setParameter($this, "subs", $org_subs);
+			$ilCtrl->setParameter($this, "fsrch", true);
+			
+			require_once "Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php";
+			$ou_tree = ilObjOrgUnitTree::_getInstance();	
+			$user_ids = $ou_tree->getEmployees($org_ref_id, $org_subs);			
+			if(sizeof($user_ids))
+			{								
+				$this->setTabs("listBookings");
+				
+				require_once "Services/CourseBooking/classes/class.ilCourseBookingSearchResultsTableGUI.php";
+				$tbl = new ilCourseBookingSearchResultsTableGUI($this, "assignMembersFromOrgUnit", $user_ids, ilCourseBooking::STATUS_BOOKED);
+														
+				$tbl->setFormAction($ilCtrl->getFormAction($this, "assignMembersConfirm"));
+				$tbl->addCommandButton("assignMembersConfirm", $lng->txt("add"));
+				$tbl->addCommandButton("listBookings", $lng->txt("cancel"));
+						
+				return $tpl->setContent($tbl->getHTML());
+			}
+			else
+			{
+				ilUtil::sendFailure($lng->txt("crsbook_admin_org_unit_has_no_members"));
+			}
+		}
+		
+		$form = $this->initAddOrgUnitForm();		
+		if(!$org_ref_id)
+		{
+			$form->checkInput();
+		}			
+		$form->setValuesByPost();
+		$this->addOrgUnit($form);
+	}
+	
+	
+	//
+	// BOOKING
+	//
+	
+	/**
+	 * Redirect to search result
+	 * 
+	 */
+	protected function cancelToSearch()
+	{
+		global $ilCtrl;
+		$ilCtrl->redirectByClass("ilRepositorySearchGUI", "showSearchResults");
+	}
+	
+	/**
+	 * Confirm members assignment	 	
+	 * 
+	 * @param array $a_user_ids 
+	 * @param int $a_status 
+	 * @return bool
+	 */
+	public function assignMembersConfirm(array $a_user_ids = null, $a_status = null)
+	{
+		global $ilCtrl, $lng, $tpl;
+		
+		// coming from user search book which has a status row for each user
+		$from_search = false;
+		if($_POST["usr_srch"])
+		{
+			if(!$_REQUEST["fsrch"])
+			{
+				$from_search = true;
+			}
+			
+			$a_user_ids = $a_status = array();		
+			foreach($_POST["usr_srch"] as $user_id => $status)
+			{
+				if($status) 
+				{
+					$a_user_ids[] = $user_id;
+					$a_status[$user_id] = $status;
+				}
+			}
+			if(!sizeof($a_user_ids))
+			{
+				ilUtil::sendFailure($lng->txt("crs_no_users_selected"), true);
+				$ilCtrl->redirect($this, "listBookings");
+			}
+		}
+		if(!count($a_user_ids))
+		{
+			ilUtil::sendFailure($lng->txt("crs_no_users_selected"), true);
+			return false;
+		}
+		
+		// see ilObjCourseGUI::assignMembers()
+				
+		include_once "./Services/CourseBooking/classes/class.ilCourseBookingHelper.php";		
+		$bookings = ilCourseBookings::getInstance($this->getCourse());
+		$helper = ilCourseBookingHelper::getInstance($this->getCourse());
+	
+		$status = array();
+		$valid = 0;
+		foreach($a_user_ids as $user_id)
+		{
+			// should never happen as we only get valid user ids from ilRepositorySearchGUI
+			if(!ilObjectFactory::getInstanceByObjId($user_id, false))
+			{				
+				// message is given by ilUserUtil
+				$status[$user_id] = "";
+				continue;				
+			}
+			
+			if($bookings->isMemberOrWaiting($user_id))
+			{
+				if(sizeof($a_user_ids) > 1)
+				{
+					$status[$user_id] = $lng->txt("crsbook_admin_assign_already_assigned");
+				}
+				else
+				{
+					ilUtil::sendFailure($lng->txt("crsbook_admin_assign_already_assigned"), true);
+					$ilCtrl->redirect($this, "listBookings");
+				}				
+				continue;
+			}
+			
+			if($bookings->isCancelled($user_id))
+			{
+				$status[$user_id] = $lng->txt("crsbook_admin_assign_cancelled_user");
+				continue;
+			}			
+			
+			// :TODO: check overlapping bookings
+			
+			if(!$helper->isBookable($user_id))
+			{
+				$status[$user_id] = $lng->txt("crsbook_admin_assign_not_bookable_user");
+				continue;
+			}
+			
+			$status[$user_id] = $lng->txt("ok");
+			$valid++;
+		}
+		
+		// all users are valid - no need for confirmation
+		if($valid == sizeof($status))
+		{
+			return $this->assignMembers($a_user_ids, $a_status);
+		}
+		
+		
+		// confirmation 
+		
+		include_once "./Services/User/classes/class.ilUserUtil.php";
+		include_once "./Services/Utilities/classes/class.ilConfirmationGUI.php";
+		$confirm = new ilConfirmationGUI();
+		$confirm->setFormAction($ilCtrl->getFormAction($this, "assignMembers"));
+		$confirm->setHeaderText($lng->txt("crsbook_admin_assign_confirm"));
+		$confirm->setConfirm($lng->txt("confirm"), "assignMembers");
+		$confirm->setCancel($lng->txt("cancel"), $from_search ? "cancelToSearch" : "listBookings");		
+				
+		if(is_array($a_status))
+		{
+			foreach($a_status as $user_id => $user_status)
+			{
+				$confirm->addHiddenItem("bkst[".$user_id."]", $user_status);
+			}
+		}
+		else
+		{
+			$confirm->addHiddenItem("bkst", $a_status);
+		}
+		
+		foreach($status as $user_id => $message)
+		{			
+			$confirm->addItem("user_ids[]",
+				$user_id,
+				ilUserUtil::getNamePresentation($user_id, false, false, "", true).
+				": ".$message
+			);
+		}
+		
+		$tpl->setContent($confirm->getHTML());	
+		return true;
+	}
+	
+	/**
+	 * Assign members
+	 */
+	protected function assignMembers($a_user_ids = null, $a_status = null)
+	{			
+		global $ilCtrl, $lng;
+		
+		if(!$this->getPermissions()->bookCourseForOthers())
+		{
+			$ilCtrl->redirect($this, "listBookings");
+		}
+		
+		if(!$a_user_ids)
+		{
+			$a_user_ids = $_REQUEST["user_ids"];
+		}
+		if(!$a_status)
+		{
+			$a_status = $_REQUEST["bkst"];
+		}
+		if(!$a_status)
+		{
+			$a_status = ilCourseBooking::STATUS_BOOKED;
+		}
+		if(!count($a_user_ids))
+		{
+			ilUtil::sendFailure($lng->txt("crs_no_users_selected"), true);
+			$ilCtrl->redirect($this, "listBookings");
+		}
+		
+		
+		// see ilObjCourseGUI::assignMembers()
+		
+		include_once "./Modules/Forum/classes/class.ilForumNotification.php";				
+		$bookings = ilCourseBookings::getInstance($this->getCourse());		
+		$members_obj = $this->getCourse()->getMembersObject();
+	
+		$added_users = 0;
+		foreach($a_user_ids as $user_id)
+		{
+			if(!ilObjectFactory::getInstanceByObjId($user_id, false))
+			{								
+				continue;				
+			}
+			
+			/* #29
+			if($bookings->isMemberOrWaiting($user_id))
+			{					
+				continue;
+			}
+			*/
+			
+			if(is_array($a_status))
+			{
+				$user_status = (isset($a_status[$user_id]))
+					? $a_status[$user_id]
+					: ilCourseBooking::STATUS_BOOKED;
+			}
+			else
+			{
+				$user_status = $a_status;
+			}
+
+			if($user_status == ilCourseBooking::STATUS_BOOKED)
+			{		
+				// nothing to do
+				if($bookings->isMember($user_id))
+				{
+					continue;
+				}				
+				if($bookings->bookCourse($user_id))
+				{				
+					// :TODO: needed?
+					$members_obj->sendNotification($members_obj->NOTIFY_ACCEPT_USER, $user_id);			
+					ilForumNotification::checkForumsExistsInsert($this->getCourse()->getRefId(), $user_id);
+					$this->getCourse()->checkLPStatusSync($user_id);
+				}		
+			}
+			else
+			{
+				// nothing to do
+				if($bookings->isWaiting($user_id))
+				{
+					continue;
+				}				
+				$bookings->putOnWaitingList($user_id);
+			}
+			
+			$added_users++;
+		}
+		
+		if($added_users)
+		{
+			ilUtil::sendSuccess($lng->txt("crs_users_added"), true);
+			unset($_SESSION["crs_search_str"]);
+			unset($_SESSION["crs_search_for"]);
+			unset($_SESSION['crs_usr_search_result']);
+
+			// $this->checkLicenses(true);			
+		}
+		
+		$ilCtrl->redirect($this, "listBookings");
+	}
+	
+	
+	//
+	// USER ACTIONS
+	// 
+	
+	/**
+	 * Check if any user action is currently possible
+	 * 
+	 * @param int $a_status
+	 * @return int
+	 */
+	protected function isUserActionPossible($a_status)
+	{
+		$user_id = (int)$_REQUEST["user_id"];
+		if ($user_id &&			
+			!ilCourseBookingHelper::getInstance($this->getCourse())->isUltimateBookingDeadlineReached())
+		{
+			if(
+				(in_array($a_status, array(ilCourseBooking::STATUS_BOOKED, ilCourseBooking::STATUS_WAITING)) &&
+					$this->getPermissions()->bookCourseForOthers()) ||
+				(in_array($a_status, array(ilCourseBooking::STATUS_CANCELLED_WITHOUT_COSTS, ilCourseBooking::STATUS_CANCELLED_WITH_COSTS)) &&
+					$this->getPermissions()->cancelCourseForOthers()))
+			{			
+				return $user_id;
+			}
+		}
+	}
+	
+	/**
+	 * Confirm (any) user action
+	 */
+	protected function confirmUserAction()
+	{
+		global $ilCtrl, $lng, $tpl;
+		
+		$user_status = (int)$_GET["user_status"];
+		$user_id = $this->isUserActionPossible($user_status);		
+		
+		if(!$user_id || !$user_status)
+		{
+			$ilCtrl->redirect($this, "listBookings");
+		}
+								
+		$map = array(
+			ilCourseBooking::STATUS_BOOKED => "Book"
+			,ilCourseBooking::STATUS_WAITING => "ToWaitingList"
+			,ilCourseBooking::STATUS_CANCELLED_WITHOUT_COSTS => "CancelWithoutCosts"
+			,ilCourseBooking::STATUS_CANCELLED_WITH_COSTS => "CancelWithCosts"
+		);		
+		$cmd = "userAction".$map[$user_status];
+		
+		include_once "./Services/User/classes/class.ilUserUtil.php";
+		include_once "./Services/Utilities/classes/class.ilConfirmationGUI.php";
+		$confirm = new ilConfirmationGUI();
+		$confirm->setFormAction($ilCtrl->getFormAction($this, $cmd));
+		$confirm->setHeaderText($lng->txt("crsbook_admin_user_action_confirm_".$map[$user_status]));
+		$confirm->setConfirm($lng->txt("confirm"), $cmd);
+		$confirm->setCancel($lng->txt("cancel"), "listBookings");		
+		
+		$confirm->addItem("user_id",
+				$user_id,
+				ilUserUtil::getNamePresentation($user_id, false, false, "", true)
+			);
+		
+		$tpl->setContent($confirm->getHTML());
+	}
+	
+	/**
+	 * Add user as participant
+	 */
+	protected function userActionBook()
+	{
+		global $ilCtrl, $lng;
+		
+		$user_id = $this->isUserActionPossible(ilCourseBooking::STATUS_BOOKED);
+		if($user_id)
+		{		
+			$bookings = ilCourseBookings::getInstance($this->getCourse());
+			if($bookings->isWaiting($user_id) &&
+				$bookings->bookCourse($user_id))
+			{
+				ilUtil::sendSuccess($lng->txt("crsbook_admin_user_action_done"), true);				
+			}			
+		}
+		
+		$ilCtrl->redirect($this, "listBookings");
+	}
+	
+	/**
+	 * Put user on waiting list
+	 */
+	protected function userActionToWaitingList()
+	{
+		global $ilCtrl, $lng;
+		
+		$user_id = $this->isUserActionPossible(ilCourseBooking::STATUS_WAITING);
+		if($user_id)
+		{		
+			$bookings = ilCourseBookings::getInstance($this->getCourse());
+			if($bookings->isMember($user_id) && 			
+				$bookings->putOnWaitingList($user_id))
+			{
+				ilUtil::sendSuccess($lng->txt("crsbook_admin_user_action_done"), true);
+			}
+		}
+		
+		$ilCtrl->redirect($this, "listBookings");
+	}
+	
+	/**
+	 * Cancel user without costs
+	 */
+	protected function userActionCancelWithoutCosts()
+	{		
+		global $ilCtrl, $lng;
+		
+		$user_id = $this->isUserActionPossible(ilCourseBooking::STATUS_CANCELLED_WITHOUT_COSTS);
+		if($user_id)
+		{								
+			$bookings = ilCourseBookings::getInstance($this->getCourse());
+			if($bookings->cancelWithoutCosts($user_id))
+			{
+				ilUtil::sendSuccess($lng->txt("crsbook_admin_user_action_done"), true);
+			}
+		}
+		
+		$ilCtrl->redirect($this, "listBookings");
+	}
+	
+	/**
+	 * Cancel user with costs
+	 */
+	protected function userActionCancelWithCosts()
+	{
+		global $ilCtrl, $lng;
+		
+		$user_id = $this->isUserActionPossible(ilCourseBooking::STATUS_CANCELLED_WITH_COSTS);
+		if($user_id)
+		{								
+			$bookings = ilCourseBookings::getInstance($this->getCourse());		
+			if($bookings->cancelWithCosts($user_id))
+			{
+				ilUtil::sendSuccess($lng->txt("crsbook_admin_user_action_done"), true);
+			}
+		}
+		
+		$ilCtrl->redirect($this, "listBookings");
+	}
+	
+	
+	//
+	// CANCELLATION
+	//
+	
+	/**
+	 * List course cancellation
+	 */
+	protected function listCancellations()
+	{		
+		global $tpl;
+		
+		$this->setTabs("listCancellations");
+		
+		require_once "Services/CourseBooking/classes/class.ilCourseBookingMembersTableGUI.php";
+		$tbl = new ilCourseBookingMembersTableGUI($this, "listCancellations", $this->getCourse());
+		return $tpl->setContent($tbl->getHTML());		
+	}
+}

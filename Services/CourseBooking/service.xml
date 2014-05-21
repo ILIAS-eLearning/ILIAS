@@ -1,0 +1,11 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<service xmlns="http://www.w3.org" version="$Id$"
+	id="crsb">	
+	<baseclasses>
+		<baseclass name="ilCourseBookingGUI" dir="classes" />	
+	</baseclasses>	
+	<events>		
+		<event type="raise" id="setStatus" />
+		<event type="raise" id="deleteStatus" />
+	</events>	
+</service>

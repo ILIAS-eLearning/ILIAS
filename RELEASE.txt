@@ -4,4 +4,4 @@ Dependencies:
 svn.ilias.de/svn/ilias/branches/Release_4_4_x_branch						merged: 50035
 svn.ilias.de/svn/ilias/branches/CaT/patches/4_4_AMDTypes					merged: 50041
 svn.ilias.de/svn/ilias/branches/CaT/patches/4_4_ClaimingAMDByPlugins		merged: 50122
-svn.ilias.de/svn/ilias/branches/CaT/extensions/4_4_Booking					merged: 
+svn.ilias.de/svn/ilias/branches/CaT/extensions/4_4_Booking					merged: 50176
