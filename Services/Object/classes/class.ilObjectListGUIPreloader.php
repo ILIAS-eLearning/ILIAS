@@ -113,7 +113,6 @@ class ilObjectListGUIPreloader
 			
 			include_once("./Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php");		
 			ilAdvancedMDValues::preloadByObjIds($this->obj_ids);
-			ilAdvancedMDValues::preloadRecordIdsForObjectTypes();
 		}
 		
 		if($this->context == ilObjectListGUI::CONTEXT_REPOSITORY ||

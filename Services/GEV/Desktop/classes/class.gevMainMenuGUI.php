@@ -63,7 +63,7 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 				))
 			, "gev_reporting_menu" => array(false, true, array())
 			, "gev_admin_menu" => array(false, true, array(
-				  "gev_course_mgmt" => array(true, "NYI!")
+				  "gev_course_mgmt" => array(true, "goto.php?target=root_1")
 				, "gev_user_mgmt" => array(true, "NYI!")
 				, "gev_org_mgmt" => array(true, "NYI!")
 				, "gev_mail_mgmt" => array(true, "NYI!")

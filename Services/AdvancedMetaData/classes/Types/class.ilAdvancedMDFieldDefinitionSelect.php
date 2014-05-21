@@ -249,8 +249,7 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
 			}			
 		}		
 	}
-	
-	
+
 	//
 	// export/import
 	// 
