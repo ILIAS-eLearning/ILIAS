@@ -107,7 +107,8 @@ class ilAdvancedMDFieldDefinitionFloat extends ilAdvancedMDFieldDefinitionIntege
 	{
 		global $lng;
 		
-		parent::addToFieldDefinitionForm($a_form);	
+		// #32
+		parent::addCustomFieldToDefinitionForm($a_form, $a_disabled);
 		
 		$decimals = new ilNumberInputGUI($lng->txt("md_adv_number_decimals"), "dec");	
 		$decimals->setRequired(true);
@@ -125,6 +126,8 @@ class ilAdvancedMDFieldDefinitionFloat extends ilAdvancedMDFieldDefinitionIntege
 	{
 		parent::importDefinitionFormPostValues($a_form);
 					
+		parent::importCustomDefinitionFormPostValues($a_form);
+		
 		$this->setDecimals($a_form->getInput("dec"));		
 	}	
 	

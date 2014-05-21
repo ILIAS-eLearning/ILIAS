@@ -691,6 +691,29 @@ abstract class ilAdvancedMDFieldDefinition
 	}
 	
 	
+	public function prepareCustomDefinitionFormConfirmation(ilPropertyFormGUI $a_form)
+	{
+		// type-specific
+	}
+	
+	public function prepareDefinitionFormConfirmation(ilPropertyFormGUI $a_form)
+	{
+		$a_form->getItemByPostVar("title")->setDisabled(true);
+		$a_form->getItemByPostVar("description")->setDisabled(true);
+		$a_form->getItemByPostVar("searchable")->setDisabled(true);
+		
+		// checkboxes have no hidden on disabled
+		if($a_form->getInput("searchable"))
+		{
+			$hidden = new ilHiddenInputGUI("searchable");
+			$hidden->setValue(1);
+			$a_form->addItem($hidden);
+		}
+		
+		$this->prepareCustomDefinitionFormConfirmation($a_form);
+	}
+	
+	
 	//
 	// definition CRUD 
 	//

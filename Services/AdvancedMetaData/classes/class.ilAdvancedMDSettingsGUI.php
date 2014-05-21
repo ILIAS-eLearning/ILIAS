@@ -476,7 +476,7 @@ class ilAdvancedMDSettingsGUI
 		foreach($_POST['record_id'] as $record_id)
 		{
 			$record = ilAdvancedMDRecord::_getInstanceByRecordId($record_id);											
-			// $record->delete();						
+			$record->delete();						
 		}
 		ilUtil::sendSuccess($this->lng->txt('md_adv_deleted_records'), true);
 		$this->ctrl->redirect($this, "showRecords");	
