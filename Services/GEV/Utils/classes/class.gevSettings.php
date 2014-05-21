@@ -32,6 +32,9 @@ class gevSettings {
 	// Trainingsbetreuer -> ILIAS Standard
 	//const CRS_AMD_MAINTAINER		= "crs_amd_maintainer";
 
+	// Start- und Enddatum
+	const CRS_AMD_START_DATE		= "crs_amd_start_date";
+	const CRS_AMD_END_DATE			= "crs_and_end_date";
 	
 	// Block Trainingsinhalte
 	// Trainingsthema
