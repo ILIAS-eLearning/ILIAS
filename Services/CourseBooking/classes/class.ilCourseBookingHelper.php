@@ -7,6 +7,9 @@
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @ingroup ServicesCourseBooking
  */
+
+require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+
 class ilCourseBookingHelper
 {
 	protected $course; // [ilObjCourse]
@@ -106,9 +109,7 @@ class ilCourseBookingHelper
 	 */
 	public function getBookingDeadline()
 	{
-		$date = new ilDate(time(), IL_CAL_UNIX);
-		$date->increment(IL_CAL_WEEK, 1);
-		return $date;
+		return gevCourseUtils::getInstance($this->course->getId())->getBookingDeadline();
 	}
 	
 	/**
@@ -130,9 +131,7 @@ class ilCourseBookingHelper
 	 */
 	public function getCancellationDeadline()
 	{
-		$date = new ilDate(time(), IL_CAL_UNIX);
-		$date->increment(IL_CAL_WEEK, 2);
-		return $date;
+		return gevCourseUtils::getInstance($this->course->getId())->getCancelDeadline();
 	}
 	
 	/**
@@ -154,9 +153,7 @@ class ilCourseBookingHelper
 	 */
 	public function getUltimateBookingDeadline()
 	{
-		$date = new ilDate(time(), IL_CAL_UNIX);
-		$date->increment(IL_CAL_WEEK, 3);
-		return $date;
+		return gevCourseUtils::getInstance($this->course->getId())->getEndDate();
 	}
 	
 	/**
@@ -178,9 +175,7 @@ class ilCourseBookingHelper
 	 */
 	public function getCourseStart()
 	{
-		$date = new ilDate(time(), IL_CAL_UNIX);
-		$date->increment(IL_CAL_WEEK, 4);
-		return $date;
+		return gevCourseUtils::getInstance($this->course->getId())->getStartDate();
 	}
 	
 	/**
@@ -190,9 +185,7 @@ class ilCourseBookingHelper
 	 */
 	public function getCourseEnd()
 	{
-		$date = new ilDate(time(), IL_CAL_UNIX);
-		$date->increment(IL_CAL_WEEK, 5);
-		return $date;
+		return gevCourseUtils::getInstance($this->course->getId())->getEndDate();
 	}
 	
 	/**

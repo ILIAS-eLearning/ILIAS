@@ -1,8 +1,7 @@
 <?php
 
 require_once("Services/AdvancedMetaData/classes/class.ilAdvancedMDClaimingPlugin.php");
-require_once("Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php");
-require_once("Services/AdvancedMetaData/classes/class.ilAdvancedMDPermissionHelper.php");
+
  
 /**
 * Advanced MD claiming test plugin

@@ -154,14 +154,27 @@ class ilUserCourseBookings
 	 */
 	public function getCoursesDuring(ilDate $a_start, ilDate $a_end)
 	{
+		require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+		require_once("Services/Calendar/classes/class.ilDateTime.php");
+		
 		$all = $this->getBookedAndWaitingCourses();
+		
+		$amd = array( gevSettings::CRS_AMD_START_DATE => "start_date"
+					, gevSettings::CRS_AMD_END_DATE => "end_date"
+					);
+		
+		$dates = gevAMDUtils::getInstance()->getTable($all, $amd);
 		
 		$res = array();
 		
-		foreach($all as $course_obj_id)
+		foreach($dates as $date)
 		{
-			// :TODO: where and how to get those course dates?		
-			// creating instances is way too slow
+			if (ilDateTime::_before($date["end_date"], $a_start)
+			||  ilDateTime::_after($date["start_date"], $a_end)) {
+				continue;
+			}
+			$res[] = $date["obj_id"];
 		}
 		
 		return $res;		
