@@ -119,7 +119,7 @@ class ilTestFixedQuestionSetConfig extends ilTestQuestionSetConfig
 	 *
 	 * @param $testId
 	 */
-	public function saveToDbByTestId($testId)
+	public function cloneToDbForTestId($testId)
 	{
 		// TODO: Implement saveToDbByTestId() method.
 	}
