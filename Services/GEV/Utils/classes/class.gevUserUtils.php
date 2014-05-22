@@ -3,7 +3,7 @@
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */#
 
 /**
-* Course seraching GUI for Generali
+* Utilities for generali users.
 *
 * @author	Richard Klees <richard.klees@concepts-and-training.de>
 * @version	$Id$
@@ -81,23 +81,6 @@ class gevUserUtils {
 		}
 		
 		return array_merge($booked_amd, $waiting_amd);
-		
-/*		return 
-		array(array( "start_date" => new ilDateTime("2014-05-04 13:37:00", IL_CAL_DATETIME)
-				   , "end_date" => new ilDateTime("2014-15-05 13:38:00", IL_CAL_DATETIME)
-				   , "cancel_date" => new ilDateTime("2014-15-03 13:36:00", IL_CAL_DATETIME)
-				   , "obj_id" => 10
-				   , "title" => "Mockkurs"
-				   , "status" => ilCourseBooking::STATUS_BOOKED
-				   , "type" => "Webinar"
-				   , "location" => "Kölle"
-				   , "credit_points" => 666
-				   , "fee" => 19.95
-				   , "target_group" => "Jeder, seine Oma und ihr Hund."
-				   , "goals" => "Einen Kurs mocken"
-				   , "contents" => "Inhalt, Inhalt, Inhalt."
-				   ));
-*/
 	}
 }
 

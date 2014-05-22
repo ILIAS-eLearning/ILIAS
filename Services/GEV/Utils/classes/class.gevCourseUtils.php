@@ -14,6 +14,7 @@ require_once("Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinitio
 require_once("Services/Calendar/classes/class.ilDate.php");
 require_once("Services/Calendar/classes/class.ilDateTime.php");
 require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
+require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
 
 class gevCourseUtils {
 	static $instances = array();
@@ -38,7 +39,7 @@ class gevCourseUtils {
 	}
 
 	static public  function getLinkTo($a_crs_id) {
-		return "http://www.google.de"; //TODO: implement this properly
+		return "goto.php?target=crs_".gevObjectUtils::getRefId($a_crs_id);
 	}
 
 	static public function mkCancelDate($a_start_date, $a_cancel_deadline) {
