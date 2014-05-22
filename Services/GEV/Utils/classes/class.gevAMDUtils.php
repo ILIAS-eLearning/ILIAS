@@ -171,19 +171,19 @@ class gevAMDUtils {
 	protected function getValue($a_obj, $a_field_id, $a_type) {
 		switch($a_type) {
 			case ilAdvancedMDFieldDefinition::TYPE_SELECT:
-				return $this->getSelectValue($a_field_id);
+				return $this->getSelectValue($a_obj, $a_field_id);
 			case ilAdvancedMDFieldDefinition::TYPE_TEXT:
-				return $this->getTextValue($a_field_id);
+				return $this->getTextValue($a_obj, $a_field_id);
 			case ilAdvancedMDFieldDefinition::TYPE_DATE:
-				return $this->getDateValue($a_field_id);
+				return $this->getDateValue($a_obj, $a_field_id);
 			case ilAdvancedMDFieldDefinition::TYPE_DATETIME:
-				return $this->getDateTimeValue($a_field_id);
+				return $this->getDateTimeValue($a_obj, $a_field_id);
 			case ilAdvancedMDFieldDefinition::TYPE_INTEGER:
-				return $this->getIntegerValue($a_field_id);
+				return $this->getIntegerValue($a_obj, $a_field_id);
 			case ilAdvancedMDFieldDefinition::TYPE_FLOAT:
-				return $this->getFloatValue($a_field_id);
+				return $this->getFloatValue($a_obj, $a_field_id);
 			case ilAdvancedMDFieldDefinition::TYPE_LOCATION:
-				return $this->getLocationValue($a_field_id);
+				return $this->getLocationValue($a_obj, $a_field_id);
 			default:
 				throw new Exception("gevAMDUtils::getValue: Can't get AMD Value of field ".$a_field_id." for type ".$a_type.".");
 		}
@@ -232,7 +232,7 @@ class gevAMDUtils {
 	}
 	
 	protected function getIntegerValue($a_obj, $a_field_id) {
-		$res = $this->db->query("SELECT value FROM adv_md_values_integer ".
+		$res = $this->db->query("SELECT value FROM adv_md_values_int ".
 								"WHERE obj_id = ".$this->db->quote($a_obj, "integer").
 								"  AND field_id = ".$this->db->quote($a_field_id, "integer")
 								);

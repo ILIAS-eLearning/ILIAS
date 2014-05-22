@@ -39,7 +39,7 @@ class gevCourseUtils {
 	}
 
 	static public  function getLinkTo($a_crs_id) {
-		return "goto.php?target=crs_".gevObjectUtils::getRefId($a_crs_id);
+		return "goto.php?target=crs_".gevObjectUtils::getRefId($a_crs_id)	;
 	}
 
 	static public function mkCancelDate($a_start_date, $a_cancel_deadline) {

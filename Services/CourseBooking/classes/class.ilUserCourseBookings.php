@@ -168,6 +168,9 @@ class ilUserCourseBookings
 		
 		$res = array();
 		
+		print_r($dates);
+		die();
+		
 		foreach($dates as $date)
 		{
 			if (ilDateTime::_before($date["end_date"], $a_start)
