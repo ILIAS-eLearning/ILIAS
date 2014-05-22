@@ -202,7 +202,7 @@ class gevAMDUtils {
 								);
 		
 		if ($ret = $this->db->fetchAssoc($res)) {
-			return $ret;
+			return $ret["value"];
 		}
 		return null;
 	}
@@ -214,7 +214,7 @@ class gevAMDUtils {
 								);
 		
 		if ($ret = $this->db->fetchAssoc($res)) {
-			return new ilDate($ret, IL_CAL_DATE);
+			return new ilDate($ret["value"], IL_CAL_DATE);
 		}
 		return null;
 	}
@@ -226,7 +226,7 @@ class gevAMDUtils {
 								);
 		
 		if ($ret = $this->db->fetchAssoc($res)) {
-			return new ilDateTime($ret, IL_CAL_DATETIME);
+			return new ilDateTime($ret["value"], IL_CAL_DATETIME);
 		}
 		return null;
 	}
@@ -238,7 +238,7 @@ class gevAMDUtils {
 								);
 		
 		if ($ret = $this->db->fetchAssoc($res)) {
-			return intval($ret);
+			return intval($ret["value"]);
 		}
 		return null;
 	}
@@ -250,7 +250,7 @@ class gevAMDUtils {
 								);
 		
 		if ($ret = $this->db->fetchAssoc($res)) {
-			return floatval($ret);
+			return floatval($ret["value"]);
 		}
 		return null;
 	}
@@ -262,9 +262,9 @@ class gevAMDUtils {
 								);
 		
 		if ($ret = $this->db->fetchAssoc($res)) {
-			return array( "longitude" => floatval($ret["loc_long"])
-						, "latitude" => floatval($ret["loc_lat"])
-						, "zoom" => intval($ret["loc_zoom"])
+			return array( "longitude" => floatval($ret["value"]["loc_long"])
+						, "latitude" => floatval($ret["value"]["loc_lat"])
+						, "zoom" => intval($ret["value"]["loc_zoom"])
 						);
 		}
 		return null;
