@@ -185,16 +185,9 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
 	 *
 	 * @param $testId
 	 */
-	public function saveToDbByTestId($testId)
+	public function cloneToDbForTestId($testId)
 	{
-		if( $this->dbRecordExists($testId) )
-		{
-			$this->updateDbRecord($testId);
-		}
-		else
-		{
-			$this->insertDbRecord($testId);
-		}
+		$this->insertDbRecord($testId);
 	}
 
 	/**
@@ -377,7 +370,7 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
 		// clone general config
 		
 		$this->loadFromDb();
-		$this->saveToDbByTestId($cloneTestOBJ->getTestId());
+		$this->cloneToDbForTestId($cloneTestOBJ->getTestId());
 
 		// clone source pool definitions (selection rules)
 
@@ -393,6 +386,8 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
 		$sourcePoolDefinitionList->loadDefinitions();
 		$stagingPool->rebuild($sourcePoolDefinitionList);
 		$sourcePoolDefinitionList->saveDefinitions();
+		
+		$this->updateLastQuestionSyncTimestampForTestId($cloneTestOBJ->getTestId(), time());
 	}
 
 	private function buildSourcePoolDefinitionList(ilObjTest $testOBJ)
@@ -419,4 +414,16 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
 	}
 	
 	// -----------------------------------------------------------------------------------------------------------------
+	
+	public function updateLastQuestionSyncTimestampForTestId($testId, $timestamp)
+	{
+		$this->db->update('tst_rnd_quest_set_cfg',
+			array(
+				'quest_sync_timestamp' => array('integer', (int)$timestamp)
+			),
+			array(
+				'test_fi' => array('integer', $testId)
+			)
+		);
+	}
 }

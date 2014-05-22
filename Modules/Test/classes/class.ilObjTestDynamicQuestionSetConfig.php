@@ -177,16 +177,9 @@ class ilObjTestDynamicQuestionSetConfig extends ilTestQuestionSetConfig
 	 *
 	 * @param $testId
 	 */
-	public function saveToDbByTestId($testId)
+	public function cloneToDbForTestId($testId)
 	{
-		if( $this->dbRecordExists($testId) )
-		{
-			$this->updateDbRecord($testId);
-		}
-		else
-		{
-			$this->insertDbRecord($testId);
-		}
+		$this->insertDbRecord($testId);
 	}
 
 	/**
@@ -297,7 +290,7 @@ class ilObjTestDynamicQuestionSetConfig extends ilTestQuestionSetConfig
 	public function cloneQuestionSetRelatedData($cloneTestOBJ)
 	{
 		$this->loadFromDb();
-		$this->saveToDbByTestId($cloneTestOBJ->getTestId());
+		$this->cloneToDbForTestId($cloneTestOBJ->getTestId());
 	}
 
 	/**

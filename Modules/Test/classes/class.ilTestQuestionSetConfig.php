@@ -68,7 +68,7 @@ abstract class ilTestQuestionSetConfig
 	 *
 	 * @param $testId
 	 */
-	abstract public function saveToDbByTestId($testId);
+	abstract public function cloneToDbForTestId($testId);
 
 	/**
 	 * deletes the question set config for current test from the database
