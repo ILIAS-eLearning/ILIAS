@@ -71,7 +71,9 @@ class ilPersonalDesktopGUI
 	function &executeCommand()
 	{
 		// gev-patch start
-		ilUtil::redirect('ilias.php?baseClass=gevDesktopGUI');
+		if ($this->cmdClass == "") {
+			ilUtil::redirect('ilias.php?baseClass=gevDesktopGUI');
+		}
 		// gev-patch end
 		
 		global $ilSetting, $rbacsystem;

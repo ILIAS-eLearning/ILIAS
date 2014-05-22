@@ -43,6 +43,10 @@ class gevCourseUtils {
 	}
 
 	static public function mkCancelDate($a_start_date, $a_cancel_deadline) {
+		if (!$a_start_date || !$a_cancel_deadline) {
+			return null;
+		}
+		
 		$cancel_date = new ilDate($a_start_date->get(IL_CAL_DATE), IL_CAL_DATE);
 		// ILIAS idiosyncracy. Why does it destroy the date, when i increment by 0?
 		if ($a_cancel_deadline == 0) {
