@@ -655,6 +655,21 @@ class ilObjTestGUI extends ilObjectGUI
 		
 		return false;
 	}
+
+	private function questionsTabGatewayObject()
+	{
+		switch( $this->object->getQuestionSetType() )
+		{
+			case ilObjTest::QUESTION_SET_TYPE_FIXED:
+				$this->ctrl->redirectByClass('ilTestExpressPageObjectGUI', 'showPage');
+
+			case ilObjTest::QUESTION_SET_TYPE_RANDOM:
+				$this->ctrl->redirectByClass('ilTestRandomQuestionSetConfigGUI');
+				
+			case ilObjTest::QUESTION_SET_TYPE_DYNAMIC:
+				$this->ctrl->redirectByClass('ilObjTestDynamicQuestionSetConfigGUI');
+		}
+	}
 	
 	/**
 	 * @param $show_pass_details
