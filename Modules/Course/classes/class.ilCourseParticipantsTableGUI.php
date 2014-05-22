@@ -94,7 +94,11 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 
 		$this->setFormName('participants');
 
-		$this->addColumn('', 'f', "1");
+		// gev-patch start
+		if ($this->type != 'member') {
+			$this->addColumn('', 'f', "1");
+		}
+		// gev-patch end
 		$this->addColumn($this->lng->txt('name'), 'lastname', '20%');
 
 		$all_cols = $this->getSelectableColumns();
@@ -113,7 +117,9 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 			$this->addColumn($this->lng->txt('last_access'), 'access_ut', '16em');
 		}
 		
-		$this->addColumn($this->lng->txt('crs_member_passed'), 'passed');
+		// gev-patch start
+		//$this->addColumn($this->lng->txt('crs_member_passed'), 'passed');
+		// gev-patch end
 		if($this->show_lp_status_sync)
 		{
 			$this->addColumn($this->lng->txt('crs_member_passed_status_changed'), 'passed_info');
@@ -133,20 +139,30 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 		}
 		elseif($this->type == 'member')
 		{
-			$this->setSelectAllCheckbox('members');
-			$this->addColumn($this->lng->txt('crs_blocked'), 'blocked');
-			$this->addCommandButton('updateMemberStatus', $this->lng->txt('save'));
+			// gev-patch start
+			//$this->setSelectAllCheckbox('members');
+			//$this->addColumn($this->lng->txt('crs_blocked'), 'blocked');
+			//$this->addCommandButton('updateMemberStatus', $this->lng->txt('save'));
+			// gev-patch end
 		}
 		else
 		{
-			$this->setSelectAllCheckbox('roles');
-			$this->addColumn($this->lng->txt('crs_blocked'), 'blocked');
-			$this->addCommandButton('updateRoleStatus', $this->lng->txt('save'));
-
+			// gev-patch start
+			//$this->setSelectAllCheckbox('roles');
+			//$this->addColumn($this->lng->txt('crs_blocked'), 'blocked');
+			//$this->addCommandButton('updateRoleStatus', $this->lng->txt('save'));
+			// gev-patch end
 		}
 		$this->addColumn($this->lng->txt(''), 'optional');
 
-		$this->setRowTemplate("tpl.show_participants_row.html", "Modules/Course");
+		// gev-patch start
+		if ($this->type != 'member') {
+			$this->setRowTemplate("tpl.show_participants_row.html", "Modules/Course");
+		}
+		else {
+			$this->setRowTemplate("tpl.show_members_row.html", "Modules/Course");
+		}
+		// gev-patch end
 
 		if($show_content)
 		{
@@ -372,25 +388,31 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 		}
 		elseif($this->type == 'member')
 		{
-			$this->tpl->setCurrentBlock('blocked');
-			$this->tpl->setVariable('VAL_POSTNAME','members');
-			$this->tpl->setVariable('VAL_BLOCKED_ID',$a_set['usr_id']);
-			$this->tpl->setVariable('VAL_BLOCKED_CHECKED',($a_set['blocked'] ? 'checked="checked"' : ''));
-			$this->tpl->parseCurrentBlock();
+			// gev-patch start
+			//$this->tpl->setCurrentBlock('blocked');
+			//$this->tpl->setVariable('VAL_POSTNAME','members');
+			//$this->tpl->setVariable('VAL_BLOCKED_ID',$a_set['usr_id']);
+			//$this->tpl->setVariable('VAL_BLOCKED_CHECKED',($a_set['blocked'] ? 'checked="checked"' : ''));
+			//$this->tpl->parseCurrentBlock();
+			// gev-patch end
 		}
 		else
 		{
-			$this->tpl->setCurrentBlock('blocked');
-			$this->tpl->setVariable('VAL_BLOCKED_ID', $a_set['usr_id']);
-			$this->tpl->setVariable('VAL_BLOCKED_CHECKED', ($a_set['blocked'] ? 'checked="checked"' : ''));
-			$this->tpl->parseCurrentBlock();
+			// gev-patch start
+			//$this->tpl->setCurrentBlock('blocked');
+			//$this->tpl->setVariable('VAL_BLOCKED_ID', $a_set['usr_id']);
+			//$this->tpl->setVariable('VAL_BLOCKED_CHECKED', ($a_set['blocked'] ? 'checked="checked"' : ''));
+			//$this->tpl->parseCurrentBlock();
+			// gev-patch start
 
 			$this->tpl->setVariable('VAL_POSTNAME','roles');
 		}
 		
-		$this->tpl->setVariable('VAL_PASSED_ID',$a_set['usr_id']);
-		$this->tpl->setVariable('VAL_PASSED_CHECKED',($a_set['passed'] ? 'checked="checked"' : ''));
-				
+		// gev-patch start
+		//$this->tpl->setVariable('VAL_PASSED_ID',$a_set['usr_id']);
+		//$this->tpl->setVariable('VAL_PASSED_CHECKED',($a_set['passed'] ? 'checked="checked"' : ''));
+		// gev-patch end
+		
 		if($this->show_lp_status_sync)
 		{			
 			$this->tpl->setVariable('PASSED_INFO', $a_set["passed_info"]);

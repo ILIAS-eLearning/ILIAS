@@ -2031,7 +2031,9 @@ class ilObjCourseGUI extends ilContainerGUI
 		if(ilCourseParticipant::_getInstanceByObjId($this->object->getId(), $GLOBALS['ilUser']->getId())->isAdmin() or $this->checkPermissionBool('edit_permission'))
 		{
 			$types = array(
-				ilCourseConstants::CRS_MEMBER => $lng->txt("crs_member"),
+				// gev-patch start
+				//ilCourseConstants::CRS_MEMBER => $lng->txt("crs_member"),
+				// gev-patch end
 				ilCourseConstants::CRS_TUTOR => $lng->txt("crs_tutor"),
 				ilCourseConstants::CRS_ADMIN => $lng->txt("crs_admin")
 			);
@@ -2239,12 +2241,14 @@ class ilObjCourseGUI extends ilContainerGUI
 				$table_gui = new ilCourseParticipantsTableGUI(
 					$this,
 					'member',
+					// gev-patch start
 					false,
 					$this->show_tracking,
 					$this->timings_enabled,
-					true,
+					false, //true,
 					$this->object->getDefaultMemberRole(),
 					$this->object->getStatusDetermination() == ilObjCourse::STATUS_DETERMINATION_LP
+					// gev-patch end
 				);
 
 				$this->ctrl->setParameter($this,'member_hide',0);
@@ -2259,12 +2263,14 @@ class ilObjCourseGUI extends ilContainerGUI
 				$table_gui = new ilCourseParticipantsTableGUI(
 					$this,
 					'member',
+					// gev-patch start
 					true,
 					$this->show_tracking,
 					$this->timings_enabled,
-					true,
+					false, //true,
 					$this->object->getDefaultMemberRole(),
 					$this->object->getStatusDetermination() == ilObjCourse::STATUS_DETERMINATION_LP
+					// gev-patch end
 				);
 				$this->ctrl->setParameter($this,'member_hide',1);
 				$table_gui->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
@@ -4494,7 +4500,9 @@ class ilObjCourseGUI extends ilContainerGUI
 					$rep_search->setCallback($this,
 						'assignMembersObject',
 						array(
-							ilCourseConstants::CRS_MEMBER => $this->lng->txt('crs_member'),
+							// gev-patch start
+							//ilCourseConstants::CRS_MEMBER => $this->lng->txt('crs_member'),
+							// gev-patch end
 							ilCourseConstants::CRS_TUTOR	=> $this->lng->txt('crs_tutor'),
 							ilCourseConstants::CRS_ADMIN => $this->lng->txt('crs_admin')
 							)

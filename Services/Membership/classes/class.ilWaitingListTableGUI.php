@@ -74,8 +74,14 @@ class ilWaitingListTableGUI extends ilTable2GUI
 	 	$this->addColumn($this->lng->txt('application_date'),'sub_time',"10%");
 	 	$this->addColumn('','mail','10%');
 		
-		$this->addMultiCommand('assignFromWaitingList',$this->lng->txt('assign'));
-		$this->addMultiCommand('refuseFromList',$this->lng->txt('refuse'));
+		// gev-patch start
+		// this is not needed in course due to the booking tool, but groups still need it.
+		if ($this->ctrl->getCmdClass == "ilobjcoursegui") {
+			$this->addMultiCommand('assignFromWaitingList',$this->lng->txt('assign'));
+			$this->addMultiCommand('refuseFromList',$this->lng->txt('refuse'));
+		}
+		// gev-patch end
+
 		$this->addMultiCommand('sendMailToSelectedUsers',$this->lng->txt('crs_mem_send_mail'));
 		
 		$this->setPrefix('waiting');
