@@ -292,6 +292,13 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
 					$ilCtrl->setParameterByClass('ilobjtestgui', 'test_express_mode', 1);
 				}
 				
+				if( isset($_REQUEST['add_quest_cont_edit_mode']) )
+				{
+					$ilCtrl->setParameterByClass(
+						'ilobjtestgui', 'add_quest_cont_edit_mode', $_REQUEST['add_quest_cont_edit_mode']
+					);
+				}
+				
 				$ilCtrl->setParameterByClass('ilobjtestgui', 'usage', 3);
 				$ilCtrl->setParameterByClass('ilobjtestgui', 'calling_test', $this->test_object->getId());
 
@@ -311,6 +318,13 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
 				if ($_REQUEST['test_express_mode'])
 				{
 					$ilCtrl->setParameterByClass('ilobjtestgui', 'test_express_mode', 1);
+				}
+				
+				if( isset($_REQUEST['add_quest_cont_edit_mode']) )
+				{
+					$ilCtrl->setParameterByClass(
+						'ilobjtestgui', 'add_quest_cont_edit_mode', $_REQUEST['add_quest_cont_edit_mode']
+					);
 				}
 				
 				$ilCtrl->setParameterByClass('ilobjtestgui', 'usage', 2);
