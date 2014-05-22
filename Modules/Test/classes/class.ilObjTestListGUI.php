@@ -107,11 +107,6 @@ class ilObjTestListGUI extends ilObjectListGUI
 		$props = array();
 		include_once "./Modules/Test/classes/class.ilObjTestAccess.php";
 
-//		if (!ilObjTestAccess::_lookupCreationComplete($this->obj_id))
-//		{
-//			$props[] = array("alert" => true, "property" => $lng->txt("status"),
-//				"value" => $lng->txt("tst_warning_test_not_complete"));
-//		}
 		if (!ilObjTestAccess::_isOnline($this->obj_id))
 		{
 			$props[] = array("alert" => true, "property" => $lng->txt("status"),
