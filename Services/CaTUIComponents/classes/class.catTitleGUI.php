@@ -18,6 +18,8 @@ class catTitleGUI {
 	protected $subtitle;
 	protected $img;
 	protected $legend;
+	protected $command;
+	protected $command_lng_var;
 	
 	public function __construct($a_title = null, $a_subtitle = null, $a_img = null) {
 		global $lng, $ilCtrl;
@@ -29,6 +31,8 @@ class catTitleGUI {
 		$this->subtitle = $a_subtitle;
 		$this->img = $a_img;
 		$this->legend = null;
+		$this->command = null;
+		$this->command_lng_var = null;
 	}
 	
 	public function setTitle($a_title) {
@@ -63,6 +67,16 @@ class catTitleGUI {
 		return $this->legend;
 	}
 	
+	public function setCommand($a_lng_var, $a_target) {
+		$this->command = $a_target;
+		$this->command_lng_var = $a_lng_var;
+	}
+	
+	public function removeCommand() {
+		$this->command = null;
+		$this->command_lng_var = null;
+	}
+ 	
 	public function render() {
 		$tpl = new ilTemplate("tpl.cat_title.html", true, true, "Services/CaTUIComponents");
 		
@@ -87,6 +101,13 @@ class catTitleGUI {
 		if ($this->legend !== null) {
 			$tpl->setCurrentBlock("legend");
 			$tpl->setVariable("LEGEND", $this->legend->render());
+			$tpl->parseCurrentBlock();
+		}
+		
+		if ($this->command !== null) {
+			$tpl->setCurrentBlock("command");
+			$tpl->setVariable("CMD_TARGET", $this->command);
+			$tpl->setVariable("CMD_TXT", $this->lng->txt($this->command_lng_var));
 			$tpl->parseCurrentBlock();
 		}
 

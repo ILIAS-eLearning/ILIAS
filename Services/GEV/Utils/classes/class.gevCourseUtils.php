@@ -13,6 +13,7 @@ require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 require_once("Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php");
 require_once("Services/Calendar/classes/class.ilDate.php");
 require_once("Services/Calendar/classes/class.ilDateTime.php");
+require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
 
 class gevCourseUtils {
 	static $instances = array();
@@ -24,6 +25,7 @@ class gevCourseUtils {
 		
 		$this->crs_id = $a_crs_id;
 		$this->gev_settings = gevSettings::getInstance();
+		$this->amd = gevAMDUtils::getInstance();
 	}
 	
 	static public function getInstance($a_crs_id) {
@@ -34,102 +36,112 @@ class gevCourseUtils {
 		self::$instances[$a_crs_id] = new gevCourseUtils($a_crs_id);
 		return self::$instances[$a_crs_id];
 	}
-	
-	static function getLinkTo($a_crs_id) {
+
+	static public  function getLinkTo($a_crs_id) {
 		return "http://www.google.de"; //TODO: implement this properly
 	}
-	
+
+	static public function mkCancelDate($a_start_date, $a_cancel_deadline) {
+		$cancel_date = new ilDate($a_start_date->get(IL_CAL_DATE), IL_CAL_DATE);
+		// ILIAS idiosyncracy. Why does it destroy the date, when i increment by 0?
+		if ($a_cancel_deadline == 0) {
+			return $cancel_date;
+		}
+		$cancel_date->increment($a_cancel_deadline * -1, IL_CAL_DAY);
+		return $cancel_date;
+	}
+
 	public function getLink() {
 		return self::getLinkTo($this->crs_id);
 	}
-	
-	protected function getAMDField($a_amd_setting) {
-		$amd_ids = explode(" ", $this->gev_settings->get($a_amd_setting));
-		
-		$ret = $this->db->query("SELECT field_type FROM adv_mdf_definition WHERE field_id = ".$this->db->quote($amd_ids[1], "integer"));
-		if ($res = $this->db->fetchAssoc($ret)) {
-			return $this->getAMDValue($amd_ids[1], $res["field_type"]);
-		}
-		else {
-			throw new Exception("AMD Field ".$amd_ids[1]." for GEV setting ".$a_amd_setting." does not exist.");
-		}
-	}
-	
-	protected function getAMDValue($a_field_id, $a_type) {
-		switch($a_type) {
-			case ilAdvancedMDFieldDefinition::TYPE_SELECT:
-				return $this->getAMDSelectValue($a_field_id);
-			case ilAdvancedMDFieldDefinition::TYPE_TEXT:
-				return $this->getAMDTextValue($a_field_id);
-			case ilAdvancedMDFieldDefinition::TYPE_DATE:
-				return $this->getAMDDateValue($a_field_id);
-			case ilAdvancedMDFieldDefinition::TYPE_DATETIME:
-				return $this->getAMDDateTimeValue($a_field_id);
-			case ilAdvancedMDFieldDefinition::TYPE_INTEGER:
-				return $this->getAMDIntegerValue($a_field_id);
-			case ilAdvancedMDFieldDefinition::TYPE_FLOAT:
-				return $this->getAMDFloatValue($a_field_id);
-			case ilAdvancedMDFieldDefinition::TYPE_LOCATION:
-				return $this->getAMDLocationValue($a_field_id);
-			default:
-				throw new Exception("Can't get AMD Value of field ".$a_field_id." for type ".$a_type.".");
-		}
-	}
-	
-	protected function getAMDSelectValue($a_field_id) {
-		return $this->getAMDTextValue($a_field_id);
-	}
 
-	protected function getAMDTextValue($a_field_id) {
-		$res = $this->db->query("SELECT value FROM adv_md_values_text ".
-								"WHERE obj_id = ".$this->db->quote($this->crs_id, "integer").
-								"  AND field_id = ".$this->db->quote($a_field_id, "integer")
-								);
-		
-		if ($ret = $this->db->fetchAssoc($res)) {
-			return $ret;
-		}
-		return null;
-	}
-	
-	protected function getAMDDateValue($a_field_id) {
-		$res = $this->db->query("SELECT value FROM adv_md_values_date ".
-								"WHERE obj_id = ".$this->db->quote($this->crs_id, "integer").
-								"  AND field_id = ".$this->db->quote($a_field_id, "integer")
-								);
-		
-		if ($ret = $this->db->fetchAssoc($res)) {
-			return new ilDate($ret, IL_CAL_DATE);
-		}
-		return null;
-	}
-	
-	protected function getAMDDateTimeValue($a_field_id) {
-		$res = $this->db->query("SELECT value FROM adv_md_values_datetime ".
-								"WHERE obj_id = ".$this->db->quote($this->crs_id, "integer").
-								"  AND field_id = ".$this->db->quote($a_field_id, "integer")
-								);
-		
-		if ($ret = $this->db->fetchAssoc($res)) {
-			return new ilDateTime($ret, IL_CAL_DATETIME);
-		}
-		return null;
-	}
-	
-	protected function getAMDIntegerValue($a_field_id) {
-		
-	}
-	
-	protected function getAMDFloatValue($a_field_id) {
-		
-	}
-	
-	protected function getAMDLocationValue($a_field_id) {
-		
-	}
-	
 	public function getCustomId() {
-		return $this->getAMDField(gevSettings::CRS_AMD_CUSTOM_ID);
+		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_CUSTOM_ID);
+	}
+	
+	public function getTemplateTitle() {
+		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_TEMPLATE_TITLE);
+	}
+	
+	public function getType() {
+		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_TYPE);
+	}
+	
+	public function getStartDate() {
+		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_START_DATE);
+	}
+	
+	public function getEndDate() {
+		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_END_DATE);
+	}
+	
+	public function getTopic() {
+		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_TOPIC);
+	}
+	
+	public function getContents() {
+		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_CONTENTS);
+	}
+	
+	public function getGoals() {
+		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_GOALS);
+	}
+	
+	public function getMethods() {
+		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_METHODS);
+	}
+	
+	public function getMedia() {
+		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_MEDIA);
+	}
+	
+	public function getTargetGroup() {
+		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_TARGET_GROUP);
+	}
+	
+	public function getTargetGroupDesc() {
+		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_TARGET_GROUP_DESC);
+	}
+	
+	public function getIsExpertTraining() {
+		$val = $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_EXPERT_TRAINING);
+		return $val == "Ja";
+	}
+	
+	public function getCreditPoints() {
+		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_CREDIT_POINTS);
+	}
+	
+	public function getFee() {
+		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_FEE);
+	}
+	
+	public function getMinParticipants() {
+		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_MIN_PARTICIPANTS);
+	}
+	
+	public function getCancelDeadline() {
+		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_CANCEL_DEADLINE);
+	}
+	
+	public function getBookingDeadline() {
+		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_BOOKING_DEADLINE);
+	}
+	
+	public function getCancelWaitingList() {
+		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_CANCEL_WAITING);
+	}
+	
+	public function getProvider() {
+		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_PROVIDER);
+	}
+	
+	public function getVenue() {
+		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_VENUE);
+	}
+	
+	public function getAccomodation() {
+		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_ACCOMODATION);
 	}
 }
 
