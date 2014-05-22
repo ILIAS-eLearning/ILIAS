@@ -48,7 +48,8 @@ public class RPCTransformationHandler {
         
     	try {
 			
-    		fo2pdf.setFoString(foString);
+    		fo2pdf.clearCache();
+			fo2pdf.setFoString(foString);
 			fo2pdf.transform();
 			return fo2pdf.getPdf();
 		} 
