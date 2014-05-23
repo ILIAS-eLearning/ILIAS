@@ -12,6 +12,8 @@
 require_once("Services/GEV/Desktop/classes/class.gevCourseHighlightsGUI.php");
 require_once("Services/GEV/Desktop/classes/class.gevUserSelectorGUI.php");
 require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+require_once("Services/CaTUIComponents/classes/class.catLegendGUI.php");
+require_once("Services/GEV/Desktop/classes/class.gevCourseSearchTableGUI.php");
 
 class gevCourseSearchGUI {	
 	public function __construct() {
@@ -20,6 +22,7 @@ class gevCourseSearchGUI {
 		$this->lng = &$ilLng;
 		$this->ctrl = &$ilCtrl;
 		$this->tpl = &$tpl;
+		$this->user_id = $ilUser->getId();
 		$this->user_utils = gevUserUtils::getInstance($ilUser->getId());
 		
 		if ($this->user_utils->hasUSerSelectorOnSearchGUI()) {
@@ -52,8 +55,18 @@ class gevCourseSearchGUI {
 		
 		$hls = new gevCourseHighlightsGUI($this->target_user_id);
 		
+		$crs_tbl = new gevCourseSearchTableGUI($this->target_user_id, $this);
+		$crs_tbl->setTitle("gev_crs_srch_title")
+				->setSubtitle( $this->target_user_id == $this->user_id
+							 ? "gev_crs_srch_my_table_desc"
+							 : "gev_crs_srch_theirs_table_desc"
+							 )
+				->setCommand("gev_crs_srch_limit", "www.google.de"); // TODO: set this properly
+		
 		return $usrsel
-			 . $hls->render();
+			 . $hls->render()
+			 . $crs_tbl->getHTML()
+			 ;
 	}
 }
 

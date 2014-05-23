@@ -41,19 +41,31 @@ class gevCourseUtils {
 	static public  function getLinkTo($a_crs_id) {
 		return "goto.php?target=crs_".gevObjectUtils::getRefId($a_crs_id)	;
 	}
+	
+	static public function getCancelLinkTo($a_crs_id, $a_usr_id) {
+		$this->ctrl->setParameterByClass("gevMyCoursesGUI", "crs_id", $a_crs_id);
+		$this->ctrl->setParameterByClass("gevMyCoursesGUI", "usr_id", $a_user_id);
+		$action = '<a href="'.$this->ctrl->getLinkTargetByClass("gevMyCoursesGUI", "cancelBooking").'">'.
+				  $this->cancel_img."</a>";
+		$this->ctrl->clearParametersByClass("gevMyCoursesGUI");
+	}
+	
+	static public function getBookingLinkTo($a_crs_id, $a_usr_id) {
+		return "NYI!"; // TODO: Implement this!
+	}
 
-	static public function mkCancelDate($a_start_date, $a_cancel_deadline) {
-		if (!$a_start_date || !$a_cancel_deadline) {
+	static public function mkDeadlineDate($a_start_date, $a_deadline) {
+		if (!$a_start_date || !$a_deadline) {
 			return null;
 		}
 		
-		$cancel_date = new ilDate($a_start_date->get(IL_CAL_DATE), IL_CAL_DATE);
+		$date = new ilDate($a_start_date->get(IL_CAL_DATE), IL_CAL_DATE);
 		// ILIAS idiosyncracy. Why does it destroy the date, when i increment by 0?
-		if ($a_cancel_deadline == 0) {
-			return $cancel_date;
+		if ($a_deadline == 0) {
+			return $date;
 		}
-		$cancel_date->increment($a_cancel_deadline * -1, IL_CAL_DAY);
-		return $cancel_date;
+		$date->increment($a_deadline * -1, IL_CAL_DAY);
+		return $date;
 	}
 
 	static public function getCourseHighlights($a_user_id) {

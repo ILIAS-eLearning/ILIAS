@@ -26,6 +26,7 @@ class catTableGUI extends ilTable2GUI {
 	
 	public function setEnableTitle($a_enable) {
 		$this->_title_enabled = $a_enable;
+		return $this;
 	}
 	
 	public function getEnableTitle() {
@@ -34,6 +35,7 @@ class catTableGUI extends ilTable2GUI {
 	
 	public function setTitle($a_title) {
 		$this->_title->setTitle($a_title);
+		return $this;
 	}
 	
 	public function getTitle() {
@@ -42,6 +44,7 @@ class catTableGUI extends ilTable2GUI {
 
 	public function setSubtitle($a_subtitle) {
 		$this->_title->setSubtitle($a_subtitle);
+		return $this;
 	}
 	
 	public function getSubtitle() {
@@ -50,10 +53,21 @@ class catTableGUI extends ilTable2GUI {
 	
 	public function setLegend(catLegendGUI $a_legend) {
 		$this->_title->setLegend($a_legend);
+		return $this;
 	}
 	
 	public function getLegend() {
 		return $this->_title->getLegend();
+	}
+	
+	public function setCommand($a_lng_var, $a_target) {
+		$this->_title->setCommand($a_lng_var, $a_target);
+		return $this;
+	}
+	
+	public function removeCommand() {
+		$this->_title->removeCommand();
+		return $this;
 	}
 	
 	public function render() {

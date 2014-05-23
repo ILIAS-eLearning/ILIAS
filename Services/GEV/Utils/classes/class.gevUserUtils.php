@@ -14,6 +14,7 @@ require_once("Services/Calendar/classes/class.ilDate.php");
 require_once("Services/CourseBooking/classes/class.ilCourseBooking.php");
 require_once("Services/CourseBooking/classes/class.ilUserCourseBookings.php");
 require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
+require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 
 class gevUserUtils {
@@ -49,7 +50,7 @@ class gevUserUtils {
 		$crs_amd = 
 			array( gevSettings::CRS_AMD_START_DATE			=> "start_date"
 				 , gevSettings::CRS_AMD_END_DATE 			=> "end_date"
-				 , gevSettings::CRS_AMD_CANCEL_DEADLINE			=> "cancel_date"
+				 , gevSettings::CRS_AMD_CANCEL_DEADLINE		=> "cancel_date"
 				 //, gevSettings::CRS_AMD_ => "title"
 				 //, gevSettings::CRS_AMD_START_DATE => "status"
 				 , gevSettings::CRS_AMD_TYPE 				=> "type"
@@ -66,20 +67,65 @@ class gevUserUtils {
 		$booked_amd = gevAMDUtils::getInstance()->getTable($booked, $crs_amd);
 		foreach ($booked_amd as $key => $value) {
 			$booked_amd[$key]["status"] = ilCourseBooking::STATUS_BOOKED;
-			$booked_amd[$key]["cancel_date"] = gevCourseUtils::mkCancelDate( $booked_amd[$key]["start_date"]
-																		   , $booked_amd[$key]["cancel_date"]
-																		   );
+			$booked_amd[$key]["cancel_date"] = gevCourseUtils::mkDeadlineDate( $booked_amd[$key]["start_date"]
+																			 , $booked_amd[$key]["cancel_date"]
+																			 );
 		}
 		$waiting = $this->courseBookings->getWaitingCourses();
 		$waiting_amd = gevAMDUtils::getInstance()->getTable($waiting, $crs_amd);
 		foreach ($waiting_amd as $key => $value) {
 			$waiting_amd[$key]["status"] = ilCourseBooking::STATUS_WAITING;
-			$waiting_amd[$key]["cancel_date"] = gevCourseUtils::mkCancelDate( $waiting_amd[$key]["start_date"]
-																			, $waiting_amd[$key]["cancel_date"]
-																			);
+			$waiting_amd[$key]["cancel_date"] = gevCourseUtils::mkDeadlineDate( $waiting_amd[$key]["start_date"]
+																			  , $waiting_amd[$key]["cancel_date"]
+																			  );
 		}
 		
 		return array_merge($booked_amd, $waiting_amd);
+	}
+	
+	public function getPotentiallyBookableCourseInformation() {
+		require_once("Modules/Course/classes/class.ilObjCourse.php");
+		require_once("Services/CourseBooking/classes/class.ilCourseBookings.php");
+		
+		// TODO: Implement that properly
+		global $ilDB;
+		$res = $ilDB->query("SELECT obj_id FROM object_data WHERE type='crs'");
+		$crss = array();
+		while($val = $ilDB->fetchAssoc($res)) {
+			$crss[] = $val["obj_id"];
+		}
+		
+		$crs_amd = 
+			array( gevSettings::CRS_AMD_START_DATE			=> "start_date"
+				 , gevSettings::CRS_AMD_END_DATE 			=> "end_date"
+				 , gevSettings::CRS_AMD_BOOKING_DEADLINE	=> "booking_date"
+				 //, gevSettings::CRS_AMD_ => "title"
+				 //, gevSettings::CRS_AMD_START_DATE => "status"
+				 , gevSettings::CRS_AMD_TYPE 				=> "type"
+				 , gevSettings::CRS_AMD_VENUE 				=> "location"
+				 , gevSettings::CRS_AMD_CREDIT_POINTS 		=> "credit_points"
+				 , gevSettings::CRS_AMD_FEE					=> "fee"
+				 , gevSettings::CRS_AMD_TARGET_GROUP_DESC	=> "target_group"
+				 , gevSettings::CRS_AMD_GOALS 				=> "goals"
+				 , gevSettings::CRS_AMD_CONTENTS 			=> "content"
+			);
+		
+		$info = gevAMDUtils::getInstance()->getTable($crss, $crs_amd);
+		foreach ($info as $key => $value) {
+			// TODO: This surely could be tweaked to be faster if there was no need
+			// to instantiate the course to get booking information about it.
+			$crs = new ilObjCourse($info["obj_id"], false);
+			$crs_booking = ilCourseBookings::getInstance($crs);
+			$crs_booking_helper = ilCourseBookingHelper::getInstance($crs);
+			
+			$info[$key]["booking_date"] = gevCourseUtils::mkDeadlineDate( $info[$key]["start_date"]
+																   , $info[$key]["booking_date"]
+																   );
+			$info[$key]["bookable"] = $crs_booking_helper->isBookable($this->user_id);
+			$info[$key]["free_places"] = $crs_booking->getFreePlaces();
+		}
+
+		return $info;
 	}
 	
 	public function hasUserSelectorOnSearchGUI() {

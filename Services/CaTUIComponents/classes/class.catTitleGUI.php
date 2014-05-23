@@ -37,6 +37,7 @@ class catTitleGUI {
 	
 	public function setTitle($a_title) {
 		$this->title = $a_title;
+		return $this;
 	}
 	
 	public function getTitle() {
@@ -45,6 +46,7 @@ class catTitleGUI {
 	
 	public function setSubtitle($a_subtitle) {
 		$this->subtitle = $a_subtitle;
+		return $this;
 	}
 	
 	public function getSubtitle() {
@@ -53,6 +55,7 @@ class catTitleGUI {
 	
 	public function setImage($a_img) {
 		$this->img = $a_img;
+		return $this;
 	}
 	
 	public function getImage() {
@@ -61,6 +64,7 @@ class catTitleGUI {
 	
 	public function setLegend(catLegendGUI $a_legend) {
 		$this->legend = $a_legend;
+		return $this;
 	}
 	
 	public function getLegend() {
@@ -70,6 +74,7 @@ class catTitleGUI {
 	public function setCommand($a_lng_var, $a_target) {
 		$this->command = $a_target;
 		$this->command_lng_var = $a_lng_var;
+		return $this;
 	}
 	
 	public function removeCommand() {
