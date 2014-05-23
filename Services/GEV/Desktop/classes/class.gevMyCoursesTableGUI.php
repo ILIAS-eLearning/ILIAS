@@ -89,7 +89,7 @@ class gevCoursesTableGUI extends catAccordionTableGUI {
 			$status = "";
 		}
 		
-		$action = '<a href="'.gevCourseUtil::getCancelLinkTo($a_set["obj_id"], $this->user_id).'">'.
+		$action = '<a href="'.gevCourseUtils::getCancelLinkTo($a_set["obj_id"], $this->user_id).'">'.
 				  $this->cancel_img."</a>";
 		
 		$this->tpl->setVariable("TITLE", $a_set["title"]);

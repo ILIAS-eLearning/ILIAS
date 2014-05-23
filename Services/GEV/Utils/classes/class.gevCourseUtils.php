@@ -43,11 +43,12 @@ class gevCourseUtils {
 	}
 	
 	static public function getCancelLinkTo($a_crs_id, $a_usr_id) {
-		$this->ctrl->setParameterByClass("gevMyCoursesGUI", "crs_id", $a_crs_id);
-		$this->ctrl->setParameterByClass("gevMyCoursesGUI", "usr_id", $a_user_id);
-		$action = '<a href="'.$this->ctrl->getLinkTargetByClass("gevMyCoursesGUI", "cancelBooking").'">'.
-				  $this->cancel_img."</a>";
-		$this->ctrl->clearParametersByClass("gevMyCoursesGUI");
+		global $ilCtrl;
+		$ilCtrl->setParameterByClass("gevMyCoursesGUI", "crs_id", $a_crs_id);
+		$ilCtrl->setParameterByClass("gevMyCoursesGUI", "usr_id", $a_user_id);
+		$link = $ilCtrl->getLinkTargetByClass("gevMyCoursesGUI", "cancelBooking");
+		$ilCtrl->clearParametersByClass("gevMyCoursesGUI");
+		return $link;
 	}
 	
 	static public function getBookingLinkTo($a_crs_id, $a_usr_id) {
