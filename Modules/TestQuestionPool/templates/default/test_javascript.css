@@ -73,6 +73,7 @@ ul.boxy li {
 .droppableTarget
 {
     border:2px dashed #666;
+    background-color: #ffa;
 }
 
 .droppableHover
