@@ -85,6 +85,17 @@ class gevUserUtils {
 	public function hasUserSelectorOnSearchGUI() {
 		return true; // TODO: Implement that properly.
 	}
+	
+	public function getEmployeesForCourseSearch() {
+		// TODO: Implement that properly
+		global $ilDB;
+		$res = $ilDB->query("SELECT usr_id, firstname, lastname FROM usr_data");
+		$ret = array();
+		while($val = $ilDB->fetchAssoc($res)) {
+			$ret[] = $val;
+		}
+		return $ret;
+	}
 }
 
 ?>

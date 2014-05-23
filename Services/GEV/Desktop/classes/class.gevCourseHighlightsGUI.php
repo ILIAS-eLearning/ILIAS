@@ -22,7 +22,7 @@ class gevCourseHighlightsGUI {
 		$this->ctrl = &$ilCtrl;
 		$this->user_id = $ilUser->getId();
 
-		if ($a_user_id === null) {
+		if ($a_target_user_id === null) {
 			$this->target_user_id = $this->user_id;
 		}
 		else {

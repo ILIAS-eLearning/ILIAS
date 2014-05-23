@@ -1,0 +1,15 @@
+<!-- BEGIN form -->
+<form action="{ACTION}" method="post">
+	{SELECT_FORM}
+</form>
+<!-- END form -->
+<!-- BEGIN bare -->
+{SELECT_BARE}
+<!-- END bare -->
+<script type="text/javascript">
+$(document).ready(function () {
+    $('#{VAR_NAME}').on("change", function(ev){
+    	$(ev.target).parents("form").submit();
+    })
+});
+</script>

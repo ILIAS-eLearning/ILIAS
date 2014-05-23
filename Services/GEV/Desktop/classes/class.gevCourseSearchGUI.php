@@ -10,7 +10,7 @@
 */
 
 require_once("Services/GEV/Desktop/classes/class.gevCourseHighlightsGUI.php");
-require_once("Services/GEV/Desktop/classes/class.gevCourseSearchUserSelectorGUI.php");
+require_once("Services/GEV/Desktop/classes/class.gevUserSelectorGUI.php");
 require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 
 class gevCourseSearchGUI {	
@@ -40,7 +40,10 @@ class gevCourseSearchGUI {
 	
 	public function render() {
 		if ($this->user_utils->hasUserSelectorOnSearchGUI()) {
-			$user_selector = new gevCourseSearchUserSelectorGUI();
+			$user_selector = new gevUserSelectorGUI($this->target_user_id);
+			$user_selector->setUsers($this->user_utils->getEmployeesForCourseSearch())
+						  ->setCaption("gev_crs_srch_usr_slctr_caption")
+						  ->setAction($this->ctrl->getLinkTargetByClass("gevCourseSearchGUI"));
 			$usrsel = $user_selector->render();
 		}
 		else {
@@ -49,7 +52,7 @@ class gevCourseSearchGUI {
 		
 		$hls = new gevCourseHighlightsGUI($this->target_user_id);
 		
-		return $usrsel 
+		return $usrsel
 			 . $hls->render();
 	}
 }
