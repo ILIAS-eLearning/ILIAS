@@ -52,6 +52,7 @@ class ilMailFolderGUI
 		{
 			$_GET['mobj_id'] = $this->mbox->getInboxFolder();
 		}
+		$_GET['mobj_id'] = (int)$_GET['mobj_id'];
 		$ilCtrl->saveParameter($this, 'mobj_id');
 		$ilCtrl->setParameter($this, 'mobj_id', $_GET['mobj_id']);
 		
