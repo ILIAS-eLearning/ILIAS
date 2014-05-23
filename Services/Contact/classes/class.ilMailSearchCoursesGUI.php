@@ -457,6 +457,11 @@ class ilMailSearchCoursesGUI
 			$_SESSION["search_crs"] = "";
 		}
 
+		if(is_array($_POST['search_crs']))
+		{
+			$_POST['search_crs'] = array_filter(array_map('intval', $_POST['search_crs']));
+		}
+
 		if (!is_array($_POST["search_crs"]) ||
 			count($_POST["search_crs"]) == 0)
 		{
