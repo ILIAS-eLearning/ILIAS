@@ -64,10 +64,10 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 			, "gev_reporting_menu" => array(false, true, array())
 			, "gev_admin_menu" => array(false, true, array(
 				  "gev_course_mgmt" => array(true, "goto.php?target=root_1")
-				, "gev_user_mgmt" => array(true, "NYI!")
-				, "gev_org_mgmt" => array(true, "NYI!")
-				, "gev_mail_mgmt" => array(true, "NYI!")
-				, "gev_competence_mgmt" => array(true, "NYI!")
+				, "gev_user_mgmt" => array(true, "ilias.php?baseClass=ilAdministrationGUI&ref_id=7&cmd=jump")
+				, "gev_org_mgmt" => array(true, "ilias.php?baseClass=ilAdministrationGUI&ref_id=56&cmd=jump")
+				, "gev_mail_mgmt" => array(true, "ilias.php?baseClass=ilAdministrationGUI&ref_id=12&cmd=jump")
+				, "gev_competence_mgmt" => array(true, "ilias.php?baseClass=ilAdministrationGUI&ref_id=41&cmd=jump")
 				))
 			, self::IL_STANDARD_ADMIN => array(false, true, null)
 			);
