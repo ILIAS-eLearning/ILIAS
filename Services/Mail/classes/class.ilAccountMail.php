@@ -295,6 +295,11 @@ return true;*/
 			$timelimit = ilDatePresentation::formatPeriod($timelimit_from, $timelimit_until);
 			$a_string  = str_replace("[TIMELIMIT]", $timelimit, $a_string);
 		}
+		else
+		{
+			// #13346
+			$a_string = preg_replace("/\[IF_TIMELIMIT\](.*)\[\/IF_TIMELIMIT\]/imsU", "", $a_string);
+		}
 		
 		// target
 		$tar = false;
