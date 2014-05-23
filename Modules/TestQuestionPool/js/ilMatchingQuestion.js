@@ -1,14 +1,14 @@
 (function($){
 
-    var instance;
+    var instances = new Array();
 
-    $.fn.ilMatchingQuestionEngine = function(options)
+    $.fn.ilMatchingQuestionEngine = function(questionId, options)
     {
         options = jQuery.extend({}, jQuery.fn.ilMatchingQuestionEngine.defaults, options);
 
-        instance = new _ilMatchingQuestionEngine(options);
+        instances[questionId] = new _ilMatchingQuestionEngine(options);
 
-        return instance;
+        return instances[questionId];
     };
 
     $.fn.ilMatchingQuestionEngine.defaults = {
@@ -30,24 +30,19 @@
 
     _ilMatchingQuestionEngine.prototype = {
 
-        setQuestionId: function(questionId)
-        {
-            instance.questionId = questionId;
-        },
-
         addDefinition: function(definitionId)
         {
-            instance.definitions.push(definitionId);
+            this.definitions.push(definitionId);
         },
 
         addTerm: function(termId)
         {
-            instance.terms.push(termId);
+            this.terms.push(termId);
         },
 
         addMatching: function(definitionId, termId)
         {
-            instance.matchings.push({
+            this.matchings.push({
                 term: termId,
                 definition: definitionId
             });
@@ -55,18 +50,18 @@
 
         init: function()
         {
-            initDroppables();
-            initDraggables();
-            restoreMatches();
+            initDroppables(this);
+            initDraggables(this);
+            restoreMatches(this);
 
-            if( $(instance.options.resetButtonId) )
+            if( $(this.options.resetButtonId) )
             {
-                $(instance.options.resetButtonId).click(resetMatchings);
+                $(this.options.resetButtonId).click(resetMatchings);
             }
         }
     };
 
-    var initDroppables = function()
+    var initDroppables = function(instance)
     {
         $(instance.definitions).each(
             function(key, definitionId)
@@ -78,13 +73,13 @@
         );
     };
 
-    var initDraggables = function()
+    var initDraggables = function(instance)
     {
         $(instance.terms).each(
             function(key, termId)
             {
                 var domSelector = '#term_'+termId;
-                makeDraggable(domSelector);
+                makeDraggable(instance, domSelector);
                 makeDroppable(domSelector);
             }
         );
@@ -118,7 +113,7 @@
         });
     };
 
-    var makeDraggable = function(domSelector)
+    var makeDraggable = function(instance, domSelector)
     {
         $(domSelector).draggable({
             helper: buildDragHelper,
@@ -131,7 +126,7 @@
         });
     };
 
-    var isValidDroppable = function(droppable, draggable)
+    var isValidDroppable = function(instance, droppable, draggable)
     {
         if( droppable.attr('id') == draggable.parents('.droparea').attr('id') )
         {
@@ -156,13 +151,15 @@
     var startDrag = function(event, ui)
     {
         var that = $(this);
+        
+        var instance = fetchInstance(this);
 
         $(instance.definitions).each(
             function(key, definitionId)
             {
                 var domSelector = '#definition_'+definitionId;
 
-                if( isValidDroppable($(domSelector), that) )
+                if( isValidDroppable(instance, $(domSelector), that) )
                 {
                     $(domSelector).addClass('droppableTarget');
                     $(domSelector).droppable('enable');
@@ -182,7 +179,7 @@
         }
     };
 
-    var isDraggableToBeReactivated = function(draggable)
+    var isDraggableToBeReactivated = function(instance, draggable)
     {
         if( $(draggable).parents('.droparea').length > 0 )
         {
@@ -218,7 +215,9 @@
 
     var stopDrag = function(event, ui)
     {
-        if( isDraggableToBeReactivated(this) )
+        var instance = fetchInstance(this);
+
+        if( isDraggableToBeReactivated(instance, this) )
         {
             $(this).removeClass('draggableDisabled');
         }
@@ -252,6 +251,8 @@
     var dropElementHandler = function(event, ui)
     {
         ui.helper.remove();
+
+        var instance = fetchInstance(this);
 
         if( ui.draggable.parents('.droparea').length > 0 )
         {
@@ -289,7 +290,7 @@
 
             $(this).find('.ilMatchingQuestionTerm').append(droppedDraggableClone);
 
-            makeDraggable('#'+droppedDraggableClone.attr('id'));
+            makeDraggable(instance, '#'+droppedDraggableClone.attr('id'));
         }
         else if( $(this).attr('data-type') == 'term' && instance.options.matchingMode == '1:1' )
         {
@@ -298,7 +299,7 @@
 
         if( $(this).hasClass('droparea') )
         {
-            appendTermInputToDefinition(droppedDraggableClone, $(this));
+            appendTermInputToDefinition(instance, droppedDraggableClone, $(this));
         }
 
         $(instance.definitions).each(
@@ -336,7 +337,7 @@
         return cloneId;
     };
 
-    var appendTermInputToDefinition = function(draggable, droppable)
+    var appendTermInputToDefinition = function(instance, draggable, droppable)
     {
         var input = $('<input type="hidden" />');
 
@@ -355,7 +356,7 @@
         $('#'+inputId).remove();
     };
 
-    var restoreMatches = function()
+    var restoreMatches = function(instance)
     {
         $(instance.matchings).each(
             function(key, matching)
@@ -372,7 +373,7 @@
                 definitionDroppable.find('.ilMatchingQuestionTerm').append(droppedDraggableClone);
                 appendTermInputToDefinition(droppedDraggableClone, definitionDroppable);
 
-                makeDraggable('#'+droppedDraggableClone.attr('id'));
+                makeDraggable(instance, '#'+droppedDraggableClone.attr('id'));
 
 
                 if( instance.options.matchingMode == '1:1' )
@@ -386,6 +387,8 @@
 
     var resetMatchings = function()
     {
+        var instance = fetchInstance(this);
+        
         $(instance.definitions).each(
             function(key, definitionId)
             {
@@ -403,6 +406,12 @@
                 term.draggable('enable');
             }
         );
-    }
+    };
+    
+    var fetchInstance = function(element)
+    {
+        var questionId = $(element).parents('[data-type=ilMatchingQuestion]').attr('data-id');
+        return instances[questionId];
+    };
 
 }(jQuery));

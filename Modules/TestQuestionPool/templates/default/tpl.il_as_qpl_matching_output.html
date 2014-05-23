@@ -1,78 +1,80 @@
 <div>{QUESTIONTEXT}</div>
 
-<div style="text-align: right; margin: 0 0 1em 0;">
-	<input id="ilMatchingResetButton" type="button" class="submit" name="reset" value="{RESET_BUTTON}">
+<div id="ilMatchingQuestionContainer_{QUESTION_ID}" data-type="ilMatchingQuestion" data-id="{QUESTION_ID}">
+
+	<div style="text-align: right; margin: 0 0 1em 0;">
+		<input id="ilMatchingResetButton_{QUESTION_ID}" type="button" class="submit" name="reset" value="{RESET_BUTTON}">
+	</div>
+	
+	<table style="width: 100%; overflow: auto;">
+		<tr>
+			<td id="targetArea" style="width: 66%; vertical-align: top;">
+				<!-- BEGIN droparea -->
+				<div class="droparea" id="definition_{ID_DROPAREA}" data-id="{ID_DROPAREA}" data-type="definition">
+				<table style="width: 100%;">
+					<tr>
+						<td class="ilMatchingQuestionDefinition">
+							<!-- BEGIN definition_text -->
+							{DEFINITION}
+							<!-- END definition_text -->
+							<!-- BEGIN definition_picture -->
+							<table class="ilc_media_cont_MediaContainer">
+								<tr>
+									<td class="ilc_Mob"><img border="0" src="{THUMBNAIL_HREF}" alt="{THUMB_ALT}" title="{THUMB_TITLE}" /></td>
+								</tr>
+								<tr>
+									<td>
+										<div class="ilc_media_caption_MediaCaption"><a target="_blank" href="{IMAGE_HREF}" title="{TEXT_PREVIEW}">{TEXT_DEFINITION} <img border="0" align="right" src="{IMG_PREVIEW}"/></a></div>
+									</td>
+								</tr>
+							</table>
+							<!-- END definition_picture -->
+						</td>
+						<td class="ilMatchingQuestionTerm">
+						</td>
+					</tr>
+				</table>
+				</div>
+				<!-- END droparea -->
+			</td>
+			<td id="sourceArea" style="width: 33%; vertical-align: top;">
+				<!-- BEGIN draggable -->
+				<div class="draggable" id="term_{ID_DRAGGABLE}" data-id="{ID_DRAGGABLE}" data-type="term">
+				<!-- BEGIN term_text -->
+				{TERM_TEXT}
+				<!-- END term_text -->
+				<!-- BEGIN term_picture -->
+				<table class="ilc_media_cont_MediaContainer">
+					<tr>
+						<td class="ilc_Mob"><img border="0" src="{THUMBNAIL_HREF}" alt="{THUMB_ALT}" title="{THUMB_TITLE}" /></td>
+					</tr>
+					<tr>
+						<td>
+							<div class="ilc_media_caption_MediaCaption"><a target="_blank" href="{IMAGE_HREF}" title="{TEXT_PREVIEW}">{TEXT_TERM} <img border="0" align="right" src="{IMG_PREVIEW}"/></a></div>
+						</td>
+					</tr>
+				</table>
+				<!-- END term_picture -->
+				</div>
+				<!-- END draggable -->
+			</td>
+		</tr>
+	</table>
+
 </div>
-
-<table style="width: 100%; overflow: auto;" id="ilMatchingQuestionContainer_{QUESTION_ID}">
-	<tr>
-		<td id="targetArea" style="width: 66%; vertical-align: top;">
-			<!-- BEGIN droparea -->
-			<div class="droparea" id="definition_{ID_DROPAREA}" data-id="{ID_DROPAREA}" data-type="definition">
-			<table style="width: 100%;">
-				<tr>
-					<td class="ilMatchingQuestionDefinition">
-						<!-- BEGIN definition_text -->
-						{DEFINITION}
-						<!-- END definition_text -->
-						<!-- BEGIN definition_picture -->
-						<table class="ilc_media_cont_MediaContainer">
-							<tr>
-								<td class="ilc_Mob"><img border="0" src="{THUMBNAIL_HREF}" alt="{THUMB_ALT}" title="{THUMB_TITLE}" /></td>
-							</tr>
-							<tr>
-								<td>
-									<div class="ilc_media_caption_MediaCaption"><a target="_blank" href="{IMAGE_HREF}" title="{TEXT_PREVIEW}">{TEXT_DEFINITION} <img border="0" align="right" src="{IMG_PREVIEW}"/></a></div>
-								</td>
-							</tr>
-						</table>
-						<!-- END definition_picture -->
-					</td>
-					<td class="ilMatchingQuestionTerm">
-					</td>
-				</tr>
-			</table>
-			</div>
-			<!-- END droparea -->
-		</td>
-		<td id="sourceArea" style="width: 33%; vertical-align: top;">
-			<!-- BEGIN draggable -->
-			<div class="draggable" id="term_{ID_DRAGGABLE}" data-id="{ID_DRAGGABLE}" data-type="term">
-			<!-- BEGIN term_text -->
-			{TERM_TEXT}
-			<!-- END term_text -->
-			<!-- BEGIN term_picture -->
-			<table class="ilc_media_cont_MediaContainer">
-				<tr>
-					<td class="ilc_Mob"><img border="0" src="{THUMBNAIL_HREF}" alt="{THUMB_ALT}" title="{THUMB_TITLE}" /></td>
-				</tr>
-				<tr>
-					<td>
-						<div class="ilc_media_caption_MediaCaption"><a target="_blank" href="{IMAGE_HREF}" title="{TEXT_PREVIEW}">{TEXT_TERM} <img border="0" align="right" src="{IMG_PREVIEW}"/></a></div>
-					</td>
-				</tr>
-			</table>
-			<!-- END term_picture -->
-			</div>
-			<!-- END draggable -->
-		</td>
-	</tr>
-</table>
-
+	
 <script type="text/javascript">
 	(function($){
 
 		$(document).ready(
 			function()
 			{
-				var question = $.fn.ilMatchingQuestionEngine({
+				var question = $.fn.ilMatchingQuestionEngine({QUESTION_ID}, {
 					/* matchingContainer: '#ilMatchingQuestionContainer_{QUESTION_ID}', */
 					matchingContainer: 'body',
 					matchingMode: '{MATCHING_MODE}',
-					resetButtonId: '#ilMatchingResetButton'
+					resetButtonId: '#ilMatchingResetButton_{QUESTION_ID}'
 				});
-
-				question.setQuestionId({QUESTION_ID});
 
 				<!-- BEGIN definition_data -->
 				question.addDefinition('{DEFINITION_ID}');
