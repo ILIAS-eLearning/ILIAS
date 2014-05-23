@@ -691,8 +691,8 @@ assessment#:#qpl_question_is_in_use#:#The question you are about to edit exists 
 assessment#:#qpl_questions_deleted#:#Question(s) deleted.
 assessment#:#qpl_select_file_for_import#:#You must select a file for import!
 assessment#:#qpl_qst_inp_matching_mode#:#Matching Mode
-assessment#:#qpl_qst_inp_matching_mode_one_on_one#:#One Term Matches One Definition
-assessment#:#qpl_qst_inp_matching_mode_all_on_all#:#One or More Terms match One or More Definitions
+assessment#:#qpl_qst_inp_matching_mode_one_on_one#:#One Term Matches One Definition (1:1)
+assessment#:#qpl_qst_inp_matching_mode_all_on_all#:#One or More Terms match One or More Definitions (n:n)
 assessment#:#qst_hint_self#:#Self-Assessment-Mode active! Enter 0 points for incorrect answers, 1 point for correct answers.
 assessment#:#qst_nr_of_tries#:#Number of Tries
 assessment#:#qt_multiple_choice#:#Multiple Choice Question
