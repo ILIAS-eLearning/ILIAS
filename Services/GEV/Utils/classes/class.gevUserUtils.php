@@ -22,7 +22,6 @@ class gevUserUtils {
 	protected function __construct($a_user_id) {
 		$this->user_id = $a_user_id;
 		$this->courseBookings = ilUserCourseBookings::getInstance($a_user_id);
-		$this->amd = gevAMDUtils::getInstance();
 	}
 	
 	static public function getInstance($a_user_id) {
@@ -64,7 +63,7 @@ class gevUserUtils {
 		
 		
 		$booked = $this->courseBookings->getBookedCourses();
-		$booked_amd = $this->amd->getTable($booked, $crs_amd);
+		$booked_amd = gevAMDUtils::getInstance()->getTable($booked, $crs_amd);
 		foreach ($booked_amd as $key => $value) {
 			$booked_amd[$key]["status"] = ilCourseBooking::STATUS_BOOKED;
 			$booked_amd[$key]["cancel_date"] = gevCourseUtils::mkCancelDate( $booked_amd[$key]["start_date"]
@@ -72,7 +71,7 @@ class gevUserUtils {
 																		   );
 		}
 		$waiting = $this->courseBookings->getWaitingCourses();
-		$waiting_amd = $this->amd->getTable($waiting, $crs_amd);
+		$waiting_amd = gevAMDUtils::getInstance()->getTable($waiting, $crs_amd);
 		foreach ($waiting_amd as $key => $value) {
 			$waiting_amd[$key]["status"] = ilCourseBooking::STATUS_WAITING;
 			$waiting_amd[$key]["cancel_date"] = gevCourseUtils::mkCancelDate( $waiting_amd[$key]["start_date"]
@@ -81,6 +80,10 @@ class gevUserUtils {
 		}
 		
 		return array_merge($booked_amd, $waiting_amd);
+	}
+	
+	public function hasUserSelectorOnSearchGUI() {
+		return true; // TODO: Implement that properly.
 	}
 }
 

@@ -25,6 +25,11 @@ class gevMyCoursesGUI {
 	}
 	
 	public function executeCommand() {
+		// TODO: Implement commands!
+		return $this->render();
+	}
+	
+	public function render() {
 		$qls = new gevMyCoursesQuicklinksGUI();
 		$qls_out = $qls->render();
 		

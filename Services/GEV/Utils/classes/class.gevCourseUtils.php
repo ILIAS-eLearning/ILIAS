@@ -56,6 +56,17 @@ class gevCourseUtils {
 		return $cancel_date;
 	}
 
+	static public function getCourseHighlights($a_user_id) {
+		// TODO: Implement that properly
+		global $ilDB;
+		$res = $ilDB->query("SELECT obj_id FROM object_data WHERE type='crs'");
+		$ret = array();
+		while($val = $ilDB->fetchAssoc($res)) {
+			$ret[] = $val["obj_id"];
+		}
+		return $ret;
+	}
+
 	public function getLink() {
 		return self::getLinkTo($this->crs_id);
 	}
