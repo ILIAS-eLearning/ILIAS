@@ -66,7 +66,7 @@ class gevCourseHighlightsSliderGUI extends catSliderGUI {
 				$tpl->parseCurrentBlock();
 			}
 			$tpl->setVariable("FEE", $crs["fee"]);
-			$tpl->setVariable("BOOK_ACTION", gevCourseUtils::getBookingLinkTo($crs["obj_id"])); // TODO: Implement that properly
+			$tpl->setVariable("BOOK_ACTION", gevCourseUtils::getBookingLinkTo($crs["obj_id"],$this->user_id)); // TODO: Implement that properly
 			$ret .= $tpl->get();
 		}
 		
