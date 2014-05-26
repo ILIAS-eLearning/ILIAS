@@ -135,8 +135,12 @@ class ActiveRecordList {
 	 * @param string $order_direction
 	 *
 	 * @return $this
+	 * @throws arException
 	 */
 	public function orderBy($order_by, $order_direction = 'ASC') {
+		if (! $this->getAR()->getArFieldList()->isField($order_by)) {
+			throw new arException(arException::LIST_ORDER_BY_WRONG_FIELD, $order_by);
+		}
 		$arOrder = new arOrder();
 		$arOrder->setFieldname($order_by);
 		$arOrder->setDirection($order_direction);
@@ -151,8 +155,12 @@ class ActiveRecordList {
 	 * @param $end
 	 *
 	 * @return $this
+	 * @throws arException
 	 */
 	public function limit($start, $end) {
+		if ($start > $end) {
+			throw new arException(arException::LIST_WRONG_LIMIT);
+		}
 		$arLimit = new arLimit();
 		$arLimit->setStart($start);
 		$arLimit->setEnd($end);
@@ -186,8 +194,12 @@ class ActiveRecordList {
 	 * @param string $operator
 	 *
 	 * @return $this
+	 * @throws arException
 	 */
 	protected function join($type = arJoin::TYPE_INNER, $tablename, $on_this, $on_external, $fields = array( '*' ), $operator = '=') {
+		if (! $this->getAR()->getArFieldList()->isField($on_this)) {
+			throw new arException(arException::LIST_JOIN_ON_WRONG_FIELD, $on_this);
+		}
 		$arJoin = new arJoin();
 		$arJoin->setType($type);
 		$arJoin->setTableName($tablename);

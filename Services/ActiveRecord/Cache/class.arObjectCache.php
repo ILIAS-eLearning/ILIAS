@@ -1,4 +1,5 @@
 <?php
+require_once('./Customizing/global/plugins/Libraries/Versions/ActiveRecord_V2/Exception/class.arException.php');
 
 /**
  * Class arObjectCache
@@ -45,9 +46,13 @@ class arObjectCache {
 	 * @param $class
 	 * @param $id
 	 *
-	 * @return mixed
+	 * @return ActiveRecord
 	 */
 	public static function get($class, $id) {
+		if (! self::isCached($class, $id)) {
+			throw new arException(arException::GET_UNCACHED_OBJECT, $class . ': ' . $id);
+		}
+
 		return self::$cache[$class][$id];
 	}
 

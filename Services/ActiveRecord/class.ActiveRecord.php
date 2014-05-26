@@ -428,11 +428,15 @@ abstract class ActiveRecord implements arStorageInterface {
 
 
 	/**
-	 * @param $new_id
+	 * @param int $new_id
 	 *
 	 * @return ActiveRecord
+	 * @throws arException
 	 */
-	public function copy($new_id) {
+	public function copy($new_id = 0) {
+		if (self::where(array( $this->getArFieldList()->getPrimaryFieldName() => $new_id ))->hasSets()) {
+			throw new arException(arException::COPY_DESTINATION_ID_EXISTS);
+		}
 		$new_obj = clone($this);
 		$new_obj->setPrimaryFieldValue($new_id);
 
@@ -445,7 +449,11 @@ abstract class ActiveRecord implements arStorageInterface {
 
 
 	public function read() {
-		foreach ($this->arConnector->read($this) as $rec) {
+		$records = $this->arConnector->read($this);
+		if (count($records) == 0) {
+			throw new arException(arException::RECORD_NOT_FOUND, $this->getPrimaryFieldValue());
+		}
+		foreach ($records as $rec) {
 			foreach ($this->getArrayForConnector() as $k => $v) {
 				if ($this->wakeUp($k, $rec->{$k}) === NULL) {
 					$this->{$k} = $rec->{$k};
@@ -478,16 +486,20 @@ abstract class ActiveRecord implements arStorageInterface {
 	/**
 	 * @param $id
 	 *
-	 * @return ActiveRecord
+	 * @return ActiveRecord|null
 	 */
 	public static function find($id) {
 		/**
 		 * @var $obj ActiveRecord
 		 */
-		$class = get_called_class();
-		if (! arObjectCache::isCached($class, $id)) {
-			$obj = new $class($id);
-			$obj->storeObjectToCache();
+		try {
+			$class = get_called_class();
+			if (! arObjectCache::isCached($class, $id)) {
+				$obj = new $class($id);
+				$obj->storeObjectToCache();
+			}
+		} catch (arException $e) {
+			return NULL;
 		}
 
 		return arObjectCache::get($class, $id);

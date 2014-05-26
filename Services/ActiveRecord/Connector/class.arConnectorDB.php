@@ -292,7 +292,12 @@ class arConnectorDB extends arConnector {
 		$q .= $arl->getArLimitCollection()->asSQLStatement();
 
 		if ($arl->getDebug()) {
-			var_dump($q); // FSX
+			global $tpl;
+			if ($tpl instanceof ilTemplate) {
+				ilUtil::sendInfo($q);
+			} else {
+				var_dump($q); // FSX
+			}
 		}
 		$arl->setLastQuery($q);
 

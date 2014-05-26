@@ -81,7 +81,7 @@ class arMessage extends ActiveRecord {
 			// One possibility is to use an List-object (extends from ActiverecordList)
 
 			$arMessageList = new arMessageList();
-			$arMessageList->join('usr_data', 'receiver_id', 'usr_id', array( 'email' ));
+			$arMessageList->innerjoin('usr_data', 'receiver_id', 'usr_id', array( 'email' ));
 			$arMessageList->where(array( 'type' => arMessage::TYPE_NEW ));
 			$arMessageList->orderBy('title');
 			$arMessageList->limit(0, 5);
@@ -90,7 +90,7 @@ class arMessage extends ActiveRecord {
 		} else {
 
 			// Or you can access the list through your AR-Class
-			return self::join('usr_data', 'receiver_id', 'usr_id', array( 'email' ))->where(array( 'type' => arMessage::TYPE_NEW ))->orderBy('title')
+			return self::innerjoin('usr_data', 'receiver_id', 'usr_id', array( 'email' ))->where(array( 'type' => arMessage::TYPE_NEW ))->orderBy('title')
 				->limit(0, 5)->get();
 		}
 	}
