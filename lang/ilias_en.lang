@@ -1106,9 +1106,9 @@ assessment#:#tst_type_changed#:#You have changed the test type. All previous pro
 assessment#:#tst_type_comment#:#Warning: Changing the test type of a running test will delete all previous processed tests!
 assessment#:#tst_type#:#Test Type
 assessment#:#tst_types#:#Test Types
-assessment#:#exam_id#:#Exam Id: 
-assessment#:#examid_in_kiosk#:#Display Exam Id in Kiosk mode 
-assessment#:#show_exam_id#:#Display Exam Id 
+assessment#:#exam_id#:#Exam Id:
+assessment#:#examid_in_kiosk#:#Display Exam Id in Kiosk mode
+assessment#:#show_exam_id#:#Display Exam Id
 assessment#:#tst_use_javascript#:#Use Javascript for drag and drop actions
 assessment#:#tst_use_previous_answers_description#:#If checked, a participant may choose to use previous answers as default values in future test passes, otherwise previous answers are not shown in future test passes. An option is shown on the information screen, which is deactivated by default.
 assessment#:#tst_use_previous_answers_user#:#Use my previous answers as default values in future test passes
@@ -7164,7 +7164,7 @@ meta#:#md_adv_import_record#:#Import Metadata Set
 meta#:#md_adv_no_fields#:#No Fields Defined
 meta#:#md_adv_placeholder_for#:#Placeholder for:
 meta#:#md_adv_placeholders#:#Placeholders
-meta#:#md_adv_record_list#:#Datasets 
+meta#:#md_adv_record_list#:#Datasets
 meta#:#md_adv_records_exported#:#A new export file has been created.
 meta#:#md_adv_records#:#Included Datasets
 meta#:#md_adv_searchable#:#Searchable
@@ -8538,7 +8538,7 @@ rbac#:#rbac_create_lm#:#Create ILIAS Learning Module
 rbac#:#rbac_create_mcst#:#Create Mediacast
 rbac#:#rbac_create_mep#:#Create Media Pool
 rbac#:#rbac_create_qpl#:#Create Question Pool Test
-rbac#:#rbac_create_rcrs#:#Create ECS Course 
+rbac#:#rbac_create_rcrs#:#Create ECS Course
 rbac#:#rbac_create_sahs#:#Create SCORM/AICC Learning Module
 rbac#:#rbac_create_spl#:#Create Question Pool Survey
 rbac#:#rbac_create_svy#:#Create Survey
@@ -8628,7 +8628,7 @@ registration#:#registration_codes_add#:#Add Codes
 registration#:#registration_codes_export#:#Export Codes
 registration#:#registration_codes_edit_header#:#Add Codes
 registration#:#registration_codes_number#:#Number Of Codes
-registration#:#registration_codes_roles#:#Global Role 
+registration#:#registration_codes_roles#:#Global Role
 registration#:#registration_code#:#Code
 registration#:#registration_generated#:#Date Of Generation
 registration#:#registration_used#:#Date Of Usage
@@ -9103,7 +9103,7 @@ survey#:#anonymize_key_introduction#:#This survey anonymizes all user data. To g
 survey#:#anonymize_personalized#:#No Anonymization
 survey#:#anonymize_registered_user#:#Anonymized Survey Access
 survey#:#anonymize_resume_introduction#:#Please enter your survey access code to resume the survey. It was sent to your ILIAS mail inbox when you started the survey.
-survey#:#anonymize_survey_description#:#Anonymization removes any personal data from the survey statistics. A survey code is a five digit code which is needed to take part in an anonymized survey. 
+survey#:#anonymize_survey_description#:#Anonymization removes any personal data from the survey statistics. A survey code is a five digit code which is needed to take part in an anonymized survey.
 survey#:#anonymize_with_code#:#Anonymous Survey with Access Codes
 survey#:#anonymize_with_code_all#:#Access with survey codes for all users
 survey#:#anonymize_without_code#:#Anonymous Survey
@@ -10239,7 +10239,7 @@ survey#:#mailnotification#:#Email notification
 survey#:#mailaddresses#:#Recipient addresses
 survey#:#mailaddresses_info#:#Enter a comma separated list of recipients who will receive a notification on finished surveys.
 survey#:#mailparticipantdata#:#Additional participant data
-survey#:#mailparticipantdata_info#:#Add an introductory message to the notification mail. 
+survey#:#mailparticipantdata_info#:#Add an introductory message to the notification mail.
 survey#:#table_fields#:#Definition of field names for external mails
 survey#:#tablefields#:#Field names
 survey#:#mail_import_example1#:#email;firstname;lastname
@@ -12825,7 +12825,7 @@ content#:#cont_sc_usession_info#:#This setting activates periodical requests to 
 content#:#cont_sequencing_info#:#Enable the sequencing and navigation behaviour as defined by the learning module.
 content#:#cont_time_from_lms_info#:#Strict (according to the SCORM standard) check of values sent by the learning module to ILIAS.
 survey#:#survey_question_pool_usage_active#:#Questions can be added optionally to a question pool.
-survey#:#survey_question_pool_usage_active_info#:#Each time a question is created it has to be decided if a question pool is to be used. 
+survey#:#survey_question_pool_usage_active_info#:#Each time a question is created it has to be decided if a question pool is to be used.
 survey#:#survey_question_pool_usage_inactive#:#Questions are created directly in the survey.
 survey#:#survey_question_pool_usage_inactive_info#:#The questions can be added to a question pool manually later but are created only for the survey first.
 mcst#:#mcst_viewmode#:#Presentation Mode
@@ -12871,7 +12871,7 @@ common#:#obj_ecss#:#ECS
 common#:#obj_ecss_desc#:#General ECS Settings
 rbac#:#ecss_edit_permission#:#User can edit permission settings of ECS administration
 rbac#:#ecss_read#:#User can read general ECS settings
-rbac#:#ecss_visible#:#ECS settings are visible 
+rbac#:#ecss_visible#:#ECS settings are visible
 rbac#:#ecss_write#:#User can edit ECS settings
 skmg#:#skmg_ass_materials_from_workspace#:#Here you can assign materials, e.g. files, from your personal workspace to competence levels. If you would like to add materials to your personal workspace now, please click the following link.
 help#:#help_imported_on#:#Imported on
@@ -12881,24 +12881,24 @@ help#:#help_tooltips_only#:#Tooltips Only
 help#:#help_set_mode#:#Set Mode
 poll#:#poll_result#:#Voting Result
 fold#:#fold_copy#:#Copy Folder
-rbac#:#rfil_delete#:#User can move or delete ECS File 
+rbac#:#rfil_delete#:#User can move or delete ECS File
 rbac#:#rfil_edit_permission#:#User can change permission settings
-rbac#:#rfil_read#:#User can use ECS File 
+rbac#:#rfil_read#:#User can use ECS File
 rbac#:#rfil_visible#:#ECS File is visible
 rbac#:#rfil_write#:#User can edit settings of ECS File
-rbac#:#rgrp_delete#:#User can move or delete ECS Group 
+rbac#:#rgrp_delete#:#User can move or delete ECS Group
 rbac#:#rgrp_edit_permission#:#User can change permission settings
-rbac#:#rgrp_read#:#User can use ECS Group 
+rbac#:#rgrp_read#:#User can use ECS Group
 rbac#:#rgrp_visible#:#ECS Group is visible
 rbac#:#rgrp_write#:#User can edit settings of ECS Group
-rbac#:#rglo_delete#:#User can move or delete ECS Glossary 
+rbac#:#rglo_delete#:#User can move or delete ECS Glossary
 rbac#:#rglo_edit_permission#:#User can change permission settings
-rbac#:#rglo_read#:#User can use ECS Glossary 
+rbac#:#rglo_read#:#User can use ECS Glossary
 rbac#:#rglo_visible#:#ECS Glossary is visible
 rbac#:#rglo_write#:#User can edit settings of ECS Glossary
-rbac#:#rlm_delete#:#User can move or delete ECS Learning Module 
+rbac#:#rlm_delete#:#User can move or delete ECS Learning Module
 rbac#:#rlm_edit_permission#:#User can change permission settings
-rbac#:#rlm_read#:#User can use ECS Learning Module 
+rbac#:#rlm_read#:#User can use ECS Learning Module
 rbac#:#rlm_visible#:#ECS Learning Module is visible
 rbac#:#rlm_write#:#User can edit settings of ECS Learning Module
 rbac#:#rtst_delete#:#User can move or delete ECS Test
@@ -12981,7 +12981,7 @@ survey#:#svy_invite_action#:#Invite users to a survey
 rbac#:#chtr_delete#:#User can move or delete course
 ecs#:#ecs_role_mappings#:#Course/Group Role Mappings
 ecs#:#ecs_role_mapping_value#:#Attribute Value
-forum#:#sorting_manual_sticky#:#Manual sorting of sticky threads 
+forum#:#sorting_manual_sticky#:#Manual sorting of sticky threads
 forum#:#frm_sorting_threads#:#Thread Sorting
 forum#:#frm_sorting_posts#:#Posts Sorting
 forum#:#sticky_threads_always_on_top#:#"Sticky Threads" are always listed at the top of the list of threads. Within the "Sticky Threads" you are able to sort the threads manually, if you have chosen this option.
@@ -13034,7 +13034,7 @@ cron#:#cron_schedule_in_hours#:#Every %s hours
 cron#:#cron_schedule_in_days#:#Every %s days
 cron#:#cron_schedule_type#:#Schedule
 cron#:#cron_schedule_value#:#Interval
-cron#:#cron_changed_by_crontab#:#SYSTEM 
+cron#:#cron_changed_by_crontab#:#SYSTEM
 cron#:#cron_running_since#:#Running since
 cron#:#cron_action_run#:#Execute
 cron#:#cron_action_run_sure#:#Are you sure you want to run the cron-job "%s"?
@@ -13245,7 +13245,7 @@ common#:#rpc_pdf_generation#:#PDF-Generation
 common#:#rpc_pdf_font#:#Fonts
 common#:#rpc_pdf_font_info#:#Additional fonts for the generation of PDF files. Other fonts than "Helvetica" and "unifont" must be installed on the ILIAS server.
 registration#:#registration_codes_no_assigned_role#:#No Predefined Assigned Role
-registration#:#registration_codes_roles_local#:#Local Role(s) 
+registration#:#registration_codes_roles_local#:#Local Role(s)
 registration#:#registration_codes_roles_title#:#Role for New Accounts
 registration#:#registration_codes_roles_limitation_none#:#No Predefined Access Limitation
 registration#:#reg_access_limitation_mode_absolute_target#:#Valid until
@@ -13300,7 +13300,7 @@ file#:#enable_personal_workspace_disk_quota#:#Activate Hard Quota for Personal W
 file#:#enable_personal_workspace_disk_quota_info#:#Allows definition of a hard disk quota for each user account and each global role. This quota only affects files in the personal workspace and in portfolios. As soon as a user exceeds the defined quota, ILIAS will prohibit the user to upload more files until the used disk space is again under quota.
 file#:#personal_workspace_disk_quota#:#Hard Disk Quota for Personal Workspace
 file#:#repository_disk_quota#:#Soft Disk Quota for Repository
-file#:#personal_workspace_quota_exceeded_warning#:#You have exceeded the disk quota for your personal workspace. 
+file#:#personal_workspace_quota_exceeded_warning#:#You have exceeded the disk quota for your personal workspace.
 file#:#personal_workspace_quota_status_legend#:#You are using %1$s of your available disk quota of %2$s (%3$d%%).
 pd#:#pd_remove_multiple#:#Remove Multiple Objects
 pd#:#pd_unsubscribe_multiple_memberships#:#Unsubscribe Multiple
@@ -13521,7 +13521,7 @@ common#:#obj_grps#:#Group
 common#:#obj_grps_desc#:#General settings for Groups
 administration#:#adm_external_setting_prefix#:#External Settings
 administration#:#adm_external_setting_edit#:#Edit Settings
-ldap#:#ldap_user_sync_cron#:#LDAP User Synchronization 
+ldap#:#ldap_user_sync_cron#:#LDAP User Synchronization
 rating#:#rating_new_objects_auto#:#Default Object Rating
 rating#:#rating_new_objects_auto_info#:#Rating is activated by default for new files, learning modules and wikis.
 rating#:#rating_activate_rating#:#Enable Rating
@@ -13639,7 +13639,7 @@ orgu#:#no_roles#:#There are no additional roles at this point.
 orgu#:#local_other_roles#:#Additional Local Roles %s
 orgu#:#backto_staff#:#Back to staff
 cld#:#cld_object_added#:#A new Cloud Objekt has been added
-exc#:#exc_peer_review_deadline#:#Feedback Deadline 
+exc#:#exc_peer_review_deadline#:#Feedback Deadline
 exc#:#exc_peer_review_deadline_info#:#Feedback can be given up to this date and received feedback is only accessible from then on.
 exc#:#exc_peer_review_deadline_info_button#:#Deadline: %s
 exc#:#exc_peer_review_deadline_reached#:#Feedback time is up.
@@ -13685,7 +13685,7 @@ assessment#:#err_no_max_range_number#:#The maximum range must be number
 assessment#:#err_tolerance_wrong_value#:#The tolerance must be a percentage value between 0 and 100´
 assessment#:#err_wrong_points#:#You must enter points for a result
 assessment#:#err_no_formula#:#You must enter a formula
-assessment#:#err_wrong_rating_advanced#:#Please make sure that the addition of the advanced rating settings equals to 100 percent 
+assessment#:#err_wrong_rating_advanced#:#Please make sure that the addition of the advanced rating settings equals to 100 percent
 assessment#:#rating_sign#:#Rate Sign
 assessment#:#rating_value#:#Rate Value
 assessment#:#rating_unit#:#Rate Unit
@@ -13821,7 +13821,7 @@ search#:#search_user_search_info_form#:#If enabled, users data will be indexed a
 adve#:#adve_blocking_mode#:#Edit Lock
 adve#:#adve_minutes#:#Minutes
 adve#:#adve_minutes_info#:#Minutes of inactivity before an edit lock expires and a page can be edited by another user.
-content#:#content_until#:#At least locked until: 
+content#:#content_until#:#At least locked until:
 content#:#content_no_edit_lock#:#The page is currently locked by another user.
 exc#:#exc_fb_tutor_info#:#When a feedback file is uploaded, a notification is sent to the user and the feedback file will be listed in the user's assignment view.
 obj#:#svy_results#:#Results
@@ -13957,7 +13957,7 @@ adve#:#char_selector_inactive_info_admin#:#Deactivates the selector. Users and t
 adve#:#char_selector_inherit_info_user#:#Take the platform setting.
 adve#:#char_selector_inherit_info_test#:#Take the platform or user specific setting.
 adve#:#char_selector_enabled_info_admin#:#Enables the selector for tests and question pools. Users and tests can have individual settings.
-adve#:#char_selector_enabled_info_user#:#Enables the selector for tests and question pools. 
+adve#:#char_selector_enabled_info_user#:#Enables the selector for tests and question pools.
 adve#:#char_selector_enabled_info_test#:#Enables the selector during the a test run.
 adve#:#char_selector_disabled_info_admin#:#Disables the selector. Users and tests can have individual settings.
 adve#:#char_selector_disabled_info_user#:#Disables the selector. Tests can have an individual setting.
@@ -14005,7 +14005,7 @@ sop#:#sop_already_exported#:#This Learning Module has already been exported. Ple
 sop#:#sop_firefox_required#:#Using a SCORM module offline requires an up-to-date Mozilla Firefox Browser (> v. 20)<br /><a href='http://www.mozilla.org/en/firefox/new' target='_new'>Download Firefox</a>
 sop#:#sop_xpi_install#:#Please install the following Firefox addon: %s<br />After having successfully installed the xpi you have to refresh the page using the 'Reload page' button. Afterwards the SCORM Learning Module can be used in offline mode.
 sop#:#sop_reload_page#:#Reload page
-sop#:#sop_text_export#:#Export SCORM Learning Module for offline use  
+sop#:#sop_text_export#:#Export SCORM Learning Module for offline use
 sop#:#sop_export#:#SCORM Learning Module Export
 sop#:#sop_desc_export#:#A learning module in offline mode can only be used offline. Once the tracking data has been imported back to ILIAS, the learning module will be online again.
 sop#:#sop_text_start_offline#:#Start learning module in offline mode
@@ -14016,7 +14016,7 @@ sop#:#sop_text_push_tracking#:#Import offline tracking data to ILIAS and switch 
 sop#:#sop_push_tracking#:#Import tracking data
 common#:#offline_mode#:#Use Offline
 sop#:#sop_msg_lm_not_exists#:#The learning module does either not exist or is inactive in the SCORM Offline Manager.
-sop#:#sop_msg_close_lm#:#The learning module is still open. Please close the SCORM Offline Player. 
+sop#:#sop_msg_close_lm#:#The learning module is still open. Please close the SCORM Offline Player.
 sop#:#sop_msg_export_failure#:#Transfering content or data to SCORM Offline Manager was not successfull.
 sop#:#sop_msg_export_ok#:#Transfering content and tracking data was successfull
 sop#:#sop_msg_export_content#:#Transfering content to SCORM Offline Manager. This might need a moment. Please be patient.
@@ -14053,7 +14053,7 @@ registration#:#reg_mail_new_user_confirmation#:#Request for account confirmation
 user#:#inform_user_mail_info#:#If activated, an email will be sent to the user. Its content can be defined in Administration > User Management > Settings > New Account Mail.
 registration#:#reg_mail_body_timelimit#:#Your account has a limited period of validity: %s.
 mail#:#mail_nacc_if_timelimit#:#This text is only included, if the user has a limited access period.
-mail#:#mail_nacc_timelimit#:#User access period 
+mail#:#mail_nacc_timelimit#:#User access period
 common#:#msg_obj_already_deleted#:#The object has already been deleted.
 notes#:#notes_no_comments#:#No comment has been posted yet.
 rbac#:#rbac_create_prtt#:#Create Portfolio Template
@@ -14265,18 +14265,7 @@ meta#:#md_adv_confirm_definition#:#Please confirm the new definition settings.
 meta#:#md_adv_confirm_definition_select_option#:#Deleted Option
 meta#:#md_adv_confirm_definition_select_option_remove#:#Remove value
 meta#:#md_adv_confirm_definition_select_option_overwrite#:#Set value to
-meta#:#md_adv_confirm_definition_select_section#:#Migration of the deleted options=======
-ecs#:#ecs_server_title#:#Name of ECS Configuration
-adve#:#advanced_editing_tst_editing_desc#:#Activates ILIAS Page Editor for feedback and hint text editing.
-assessment#:#fq_precision_info#:#Enter the number of desired decimal places.
-assessment#:#result_units_info#:#The selected units are offered to the learner as part of an answer. The learner has to choose one unit.
-assessment#:#fq_no_restriction_info#:#Both decimals and fractions are accepted as input.
-assessment#:#additional_rating_info#:#Please note that the values ​​given here are expressed as percentages and these must add up to 100.
-assessment#:#intprecision_info#:#"Divisible by" affects only the creation of variables, if the value for the precision is 0. In this case, you define for "Divisible by" an integer value, which must be divisible by with the created variable. A value of 10 thus generates only integers that are divisible by 10. A value of 5 produces integers that are divisible by 5, etc. For a precision of 0, "Divisible by" is a mandatory field and must contain a positive integer. The default value is 1 for any integers.
-assessment#:#tolerance_info#:#The tolerance specifies an allowable percentage deviation from the result value. With a tolerance of 0, only the exact result value is evaluated to be correct.
-assessment#:#result_unit_info#:#Please note that, the selected result unit must also be activated in the "available units."
-forum#:#merge_posts_into_thread#:#Merge Postings into other Thread
-forum#:#move_thread_to_forum#:#Move Thread to other Forum
+meta#:#md_adv_confirm_definition_select_section#:#Migration of the deleted options
 survey#:#spl_save_obligatory_state#:#Save Obligatory States
 forum#:#post_reply_count#:#Re(%s):
 dateplaner#:#cal_ical_url#:#iCal-URL
