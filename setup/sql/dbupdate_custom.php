@@ -284,3 +284,47 @@ $ilDB->dropPrimaryKey('adv_md_values_location');
 $ilDB->addPrimaryKey('adv_md_values_location', array('obj_id', 'sub_type', 'sub_id', 'field_id'));
 
 ?>
+<#9>
+<?php
+if(!$ilDB->tableExists('orgu_types')) {
+    $fields = array (
+        'id'    => array ('type' => 'integer', 'length'  => 4,'notnull' => true, 'default' => 0),
+        'default_lang'   => array ('type' => 'text', 'notnull' => true, 'length' => 4, 'fixed' => false),
+        'icon'    => array ('type' => 'text', 'length'  => 256, 'notnull' => false),
+        'owner' => array('type' => 'integer', 'notnull' => true, 'length' => 4),
+        'create_date'  => array ('type' => 'timestamp'),
+        'last_update' => array('type' => 'timestamp'),
+    );
+    $ilDB->createTable('orgu_types', $fields);
+    $ilDB->addPrimaryKey('orgu_types', array('id'));
+    $ilDB->createSequence('orgu_types');
+}
+?>
+<#10>
+<?php
+if(!$ilDB->tableExists('orgu_data')) {
+    $fields = array (
+        'orgu_id'    => array ('type' => 'integer', 'length'  => 4,'notnull' => true, 'default' => 0),
+        'orgu_type_id'   => array ('type' => 'integer', 'notnull' => false, 'length' => 4),
+    );
+    $ilDB->createTable('orgu_data', $fields);
+    $ilDB->addPrimaryKey('orgu_data', array('orgu_id'));
+}
+?>
+<#11>
+<?php
+if(!$ilDB->tableExists('orgu_types_trans')) {
+    $fields = array (
+        'orgu_type_id'    => array ('type' => 'integer', 'length'  => 4,'notnull' => true),
+        'lang'   => array ('type' => 'text', 'notnull' => true, 'length' => 4),
+        'member'    => array ('type' => 'text', 'length'  => 32, 'notnull' => true),
+        'value' => array('type' => 'text', 'length' => 4000, 'notnull' => false),
+    );
+    $ilDB->createTable('orgu_types_trans', $fields);
+    $ilDB->addPrimaryKey('orgu_types_trans', array('orgu_type_id', 'lang', 'member'));
+}
+?>
+<#12>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
