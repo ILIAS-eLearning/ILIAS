@@ -9,18 +9,24 @@ class ilADTMultiEnumDBBridge extends ilADTMultiDBBridge
 		return ($a_adt instanceof ilADTMultiEnum);
 	}
 	
+	public function readRecord(array $a_row)
+	{
+		$this->getADT()->setSelections(unserialize($a_row[$this->getElementId()]));
+	}
+	
 	protected function readMultiRecord($a_set)
 	{
-		global $ilDB;
-		
-		$elements = array();
-		
-		while($row = $ilDB->fetchAssoc($a_set))
-		{
-			$elements[] = $row[$this->getElementId()];
-		}		
-		
-		$this->getADT()->setSelections($elements);
+		throw new Exception("Why is this called?");
+	}
+	
+	public function prepareInsert(array &$a_fields) {
+		$vals = $this->prepareMultiInsert();
+		$tmp = array();
+		foreach ($vals as $val) {
+			$tmp[] = $val[$this->getElementId()][1];
+		}
+
+		$a_fields[$this->getElementId()] = array("text", serialize($tmp));
 	}
 	
 	protected function prepareMultiInsert()

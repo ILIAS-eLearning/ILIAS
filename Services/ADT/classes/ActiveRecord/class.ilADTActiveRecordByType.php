@@ -89,7 +89,7 @@ class ilADTActiveRecordByType
 	protected static function getTablesMap()
 	{
 		return array(
-			"text" => array("Text", "Enum"),
+			"text" => array("Text", "Enum", "MultiEnum"),
 			"int" => array("Integer"),
 			"float" => array("Float"),
 			"date" => array("Date"),
@@ -297,7 +297,7 @@ class ilADTActiveRecordByType
 				if($table)
 				{						
 					$fields = array();												
-					$element->prepareUpdate($fields);										
+					$element->prepareUpdate($fields);	
 
 					if(sizeof($fields) == 1)
 					{
@@ -320,7 +320,7 @@ class ilADTActiveRecordByType
 					if(isset($a_additional_data[$element_id]))
 					{			
 						$tmp[$table][$element_id] = array_merge($tmp[$table][$element_id], $a_additional_data[$element_id]);
-					}		
+					}
 				}
 			}
 		}

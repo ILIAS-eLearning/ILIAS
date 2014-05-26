@@ -22,7 +22,7 @@ abstract class ilADTMultiDBBridge extends ilADTDBBridge
 				
 		$sql = "SELECT ".$this->getElementId().
 			" FROM ".$this->getSubTableName().
-			" WHERE ".$this->buildPrimaryWhere(); 
+			" WHERE ".$this->buildPrimaryWhere();
 		$set = $ilDB->query($sql);	
 		
 		$this->readMultiRecord($set);
