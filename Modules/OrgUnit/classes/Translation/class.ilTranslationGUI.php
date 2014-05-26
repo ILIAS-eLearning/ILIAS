@@ -32,7 +32,7 @@ class ilTranslationGUI {
 	 */
 	protected $ilObjOrgUnitGui;
 	/**
-	 * @var ilObjectOrgUnit
+	 * @var ilObjOrgUnit
 	 */
 	protected $ilObjectOrgUnit;
 

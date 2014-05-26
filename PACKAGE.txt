@@ -1,5 +1,0 @@
-Claiming Advanced Metadata by Plugins
-
-Dependencies:
-svn.ilias.de/svn/ilias/branches/Release_4_4_x_branch merged: 50300 
-

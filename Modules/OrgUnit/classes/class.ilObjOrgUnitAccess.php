@@ -23,7 +23,7 @@ class ilObjOrgUnitAccess extends ilObjectAccess {
 	 *        array('permission' => 'write', 'cmd' => 'edit', 'lang_var' => 'edit'),
 	 *    );
 	 */
-	function _getCommands()
+	public function _getCommands()
 	{
 		$commands = array();
 		$commands[] = array( 'permission' => 'read', 'cmd' => 'view', 'lang_var' => 'show', 'default' => true );
@@ -40,7 +40,7 @@ class ilObjOrgUnitAccess extends ilObjectAccess {
 	 *
 	 * @return bool
 	 */
-	static function _checkAccessStaff($ref_id) {
+	public static function _checkAccessStaff($ref_id) {
 		global $ilAccess;
 
 		if (($ilAccess->checkAccess("write", "", $ref_id)
@@ -57,7 +57,7 @@ class ilObjOrgUnitAccess extends ilObjectAccess {
 	 *
 	 * @return bool
 	 */
-	static function _checkAccessStaffRec($ref_id) {
+	public static function _checkAccessStaffRec($ref_id) {
 		global $ilAccess;
 
 		if (($ilAccess->checkAccess("write", "", $ref_id)
@@ -74,7 +74,7 @@ class ilObjOrgUnitAccess extends ilObjectAccess {
 	 *
 	 * @return bool
 	 */
-	static function _checkAccessAdministrateUsers($ref_id) {
+	public static function _checkAccessAdministrateUsers($ref_id) {
 		global $ilAccess;
 
 		if (ilUserAccountSettings::getInstance()->isLocalUserAdministrationEnabled() AND
@@ -91,7 +91,7 @@ class ilObjOrgUnitAccess extends ilObjectAccess {
 	 *
 	 * @return bool
 	 */
-	static function _checkAccessToUserLearningProgress($ref_id,$usr_id) {
+	public static function _checkAccessToUserLearningProgress($ref_id,$usr_id) {
 		global $ilAccess;
 
 		//Permission to view the Learning Progress of an OrgUnit: Employees

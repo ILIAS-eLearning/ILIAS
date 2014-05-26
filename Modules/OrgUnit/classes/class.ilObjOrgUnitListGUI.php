@@ -11,8 +11,15 @@ require_once("./Services/Object/classes/class.ilObjectListGUI.php");
  */
 class ilObjOrgUnitListGUI extends ilObjectListGUI {
 
+    /**
+     * @var ilTemplate
+     */
+    protected $tpl;
+
 	function __construct(){
-		$this->ilObjectListGUI();
+		global $tpl;
+        $this->ilObjectListGUI();
+        $this->tpl = $tpl;
 		//$this->enableComments(false, false);
 	}
 
@@ -76,6 +83,49 @@ class ilObjOrgUnitListGUI extends ilObjectListGUI {
         $this->ctrl->setParameterByClass("ilobjorgunitgui", "ref_id",  $this->ref_id);
         return $this->ctrl->getLinkTargetByClass("ilobjorgunitgui", $a_cmd);
     }
+
+    /**
+     * Use Icon from type
+     */
+    function insertIconsAndCheckboxes() {
+        global $lng, $ilias;
+        if (!$ilias->getSetting('custom_icons') || $this->getCheckboxStatus()) {
+            parent::insertIconsAndCheckboxes();
+            return;
+        }
+        $icons_cache = ilObjOrgUnit::getIconsCache();
+        if (isset($icons_cache[$this->obj_id])) {
+            $icon_file = $icons_cache[$this->obj_id];
+            // icon link
+            if (!$this->default_command || (!$this->getCommandsStatus() && !$this->restrict_to_goto))
+            {
+            }
+            else
+            {
+                $this->tpl->setCurrentBlock("icon_link_s");
+
+                if ($this->default_command["frame"] != "")
+                {
+                    $this->tpl->setVariable("ICON_TAR", "target='".$this->default_command["frame"]."'");
+                }
+
+                $this->tpl->setVariable("ICON_HREF",
+                    $this->default_command["link"]);
+                $this->tpl->parseCurrentBlock();
+                $this->tpl->touchBlock("icon_link_e");
+            }
+            $this->enableIcon(false);
+            parent::insertIconsAndCheckboxes();
+            $this->tpl->setCurrentBlock("icon");
+            $this->tpl->setVariable("ALT_ICON", $lng->txt("icon")." ".$lng->txt("obj_".$this->getIconImageType()));
+            $this->tpl->setVariable("SRC_ICON", $icon_file);
+            $this->tpl->parseCurrentBlock();
+            $this->enableIcon(true);
+            $this->tpl->touchBlock("d_1");	// indent main div
+        } else {
+            parent::insertIconsAndCheckboxes();
+        }
+  }
 
 }
 ?>

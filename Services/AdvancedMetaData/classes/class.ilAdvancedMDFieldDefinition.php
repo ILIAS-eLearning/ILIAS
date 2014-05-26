@@ -304,7 +304,6 @@ abstract class ilAdvancedMDFieldDefinition
 		return "udf_type_".strtolower(self::getTypeString($this->getType()));
 	}		
 	
-		
 	
 	//
 	// ADT

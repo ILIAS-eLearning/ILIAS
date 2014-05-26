@@ -735,6 +735,12 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
 		if (strlen($_GET["selImage"]))
 		{
+			$types = array('integer', 'integer', 'integer', 'integer');
+			$values = array($active_id, $this->getId(), $pass,  (int)$_GET['selImage']);
+			$query = 'DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s AND value1 = %s';
+			
+			$ilDB->manipulateF($query, $types, $values);
+			
 			$next_id = $ilDB->nextId('tst_solutions');
 			$affectedRows = $ilDB->insert("tst_solutions", array(
 				"solution_id" => array("integer", $next_id),

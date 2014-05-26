@@ -29,14 +29,22 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI
 
 		/**
 		 * Get node icon
+         * Return custom icon of OrgUnit type if existing
 		 *
-		 * @param array
-		 * @return
+		 * @param array $a_node
+		 * @return string
 		 */
 		function getNodeIcon($a_node)
 		{
-			$obj_id = ilObject::_lookupObjId($a_node["child"]);
-			return ilObject::_getIcon($obj_id, "tiny", $a_node["type"]);
+			global $ilias;
+            if ($ilias->getSetting('custom_icons')) {
+                $icons_cache = ilObjOrgUnit::getIconsCache();
+                $obj_id = ilObject::_lookupObjId($a_node["child"]);
+                if (isset($icons_cache[$obj_id])) {
+                    return $icons_cache[$obj_id];
+                }
+            }
+            return ilObject::_getIcon($obj_id, "tiny", $a_node["type"]);
 		}
 
 		function getNodeHref($node){

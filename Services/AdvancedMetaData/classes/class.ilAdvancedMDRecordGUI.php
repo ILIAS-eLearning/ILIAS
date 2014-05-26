@@ -223,10 +223,10 @@ class ilAdvancedMDRecordGUI
 		$valid = true;
 		
 		foreach($this->editor_form as $item)
-		{
+		{		
 			$item["form"]->importFromPost();
 			if(!$item["form"]->validate())
-			{
+			{									
 				$valid = false;
 			}
 		}
