@@ -13072,6 +13072,16 @@ dcl#:#dcl_multiple_selection#:#Multiple Selection
 dcl#:#dcl_field_title_unique#:#There exists already a field with this title. Title must be unique.
 dcl#:#dcl_table_title_unique#:#There exists already a table with this title. Title must be unique.
 dcl#:#dcl_please_select#:#--- Please select ---
+dcl#:#dcl_id#:#ID
+dcl#:#dcl_id_description#:#The internal ID.
+dcl#:#dcl_creation_date#:#Creation Date
+dcl#:#dcl_creation_date_description#:#The date on which the entry was created.
+dcl#:#dcl_last_update#:#Last Edited
+dcl#:#dcl_last_update_description#:#The date the entry was last edited.
+dcl#:#dcl_owner#:#Owner
+dcl#:#dcl_owner_description#:#The owner of the entry.
+dcl#:#dcl_last_edited_by#:#Last edited by
+dcl#:#dcl_last_edited_by_description#:#The user that edited this entry last.
 common#:#obj_bibl#:#Bibliography
 common#:#objs_bibl#:#Bibliographies
 bibl#:#bibl_new#:#New Bibliography

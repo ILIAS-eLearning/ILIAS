@@ -1046,8 +1046,8 @@ class ilDataCollectionTable
      */
     public function getPartialRecords($sort, $direction, $limit, $offset, array $filter = array()) {
         global $ilDB;
+        $sortField = ($sort) ? $sortField = $this->getFieldByTitle($sort) : $sortField = $this->getField('id');
 
-        $sortField = ($sort) ? $sortField = $this->getFieldByTitle($sort) : $sortField = $this->getFieldByTitle('id');
         $direction = strtolower($direction);
         $direction = (in_array($direction, array('desc', 'asc'))) ? $direction : 'asc';
 
@@ -1058,7 +1058,7 @@ class ilDataCollectionTable
             $sortField = $this->getFieldByTitle(substr($sort, 8));
         }
 
-        if (is_null($sortField)) $sortField = $this->getFieldByTitle('id');
+        if (is_null($sortField)) $sortField = $this->getField('id');
 
         $id = $sortField->getId();
         $stl = $sortField->getStorageLocation();

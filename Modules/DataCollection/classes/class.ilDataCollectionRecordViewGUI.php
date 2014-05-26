@@ -84,7 +84,7 @@ class ilDataCollectionRecordViewGUI
 	{
 		global $ilTabs, $tpl, $ilCtrl, $lng;
 
-        $rctpl = new ilTemplate("tpl.record_view.html", true, true, "Modules/DataCollection");
+        $rctpl = new ilTemplate("tpl.record_view.html", false, true, "Modules/DataCollection");
 
 		$ilTabs->setTabActive("id_content");
 
