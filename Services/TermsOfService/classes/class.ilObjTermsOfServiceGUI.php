@@ -172,11 +172,37 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
 			$ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->MESSAGE);
 		}
 
+		$provider = $this->factory->getByContext(ilTermsOfServiceTableDataProviderFactory::CONTEXT_AGRREMENT_BY_LANGUAGE);
+		$list     = $provider->getList(array(), array());
+
+		$has_documents = false;
+		foreach($list['items'] as $item)
+		{
+			if($item['agreement_document'])
+			{
+				$has_documents = true;
+				break;
+			}
+		}
+
 		$this->initSettingsForm();
 		if($this->form->checkInput())
 		{
-			$this->object->saveStatus((int)$this->form->getInput('tos_status'));
-			ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
+			if($has_documents || !(int)$this->form->getInput('tos_status'))
+			{
+				$this->object->saveStatus((int)$this->form->getInput('tos_status'));
+				ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
+			}
+		}
+		
+		if(
+			!$has_documents &&
+			(int)$this->form->getInput('tos_status') &&
+			!$this->object->getStatus()
+		)
+		{
+			$_POST['tos_status'] = 0;
+			ilUtil::sendFailure($this->lng->txt('tos_no_documents_exist_cant_save'));
 		}
 
 		$this->settings(false);

@@ -277,6 +277,7 @@ class ilLPStatus
 		// refresh status, if records are dirty or missing
 		if ($dirty || $missing)
 		{
+			require_once "Services/Tracking/classes/class.ilLPStatusFactory.php"; // #13330
 			$trac_obj = ilLPStatusFactory::_getInstance($a_obj_id);
 			$trac_obj->refreshStatus($a_obj_id, $a_users);
 		}

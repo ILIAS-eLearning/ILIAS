@@ -379,7 +379,11 @@ class ilCalendarAppointmentGUI
 	 */
 	protected function add()
 	{
-		global $tpl;
+		global $tpl, $ilHelp;
+
+		$ilHelp->setScreenIdComponent("cal");
+		$ilHelp->setScreenId("app");
+		$ilHelp->setSubScreenId("create");
 		
 		$this->initForm('create');
 		$tpl->setContent($this->form->getHTML());
@@ -393,8 +397,12 @@ class ilCalendarAppointmentGUI
 	 */
 	protected function addMilestone()
 	{
-		global $tpl;
-		
+		global $tpl, $ilHelp;
+
+		$ilHelp->setScreenIdComponent("cal");
+		$ilHelp->setScreenId("app");
+		$ilHelp->setSubScreenId("create_milestone");
+
 		$this->initForm('create', true);
 		$tpl->setContent($this->form->getHTML());
 	}
@@ -650,8 +658,19 @@ class ilCalendarAppointmentGUI
 	 */
 	protected function edit($a_edit_single_app = false)
 	{
-		global $tpl,$ilUser,$ilErr;
-		
+		global $tpl,$ilUser,$ilErr, $ilHelp;
+
+		$ilHelp->setScreenIdComponent("cal");
+		$ilHelp->setScreenId("app");
+		if ($this->app->isMilestone())
+		{
+			$ilHelp->setSubScreenId("edit_milestone");
+		}
+		else
+		{
+			$ilHelp->setSubScreenId("edit");
+		}
+
 		include_once('./Services/Calendar/classes/class.ilCalendarCategory.php');
 		include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
 		include_once('./Services/Calendar/classes/class.ilCalendarCategoryAssignments.php');		

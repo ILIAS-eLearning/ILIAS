@@ -14232,3 +14232,23 @@ assessment#:#additional_rating_info#:#Please note that the values ​​given he
 assessment#:#intprecision_info#:#"Divisible by" affects only the creation of variables, if the value for the precision is 0. In this case, you define for "Divisible by" an integer value, which must be divisible by with the created variable. A value of 10 thus generates only integers that are divisible by 10. A value of 5 produces integers that are divisible by 5, etc. For a precision of 0, "Divisible by" is a mandatory field and must contain a positive integer. The default value is 1 for any integers.###26 03 2014 new variable
 assessment#:#tolerance_info#:#The tolerance specifies an allowable percentage deviation from the result value. With a tolerance of 0, only the exact result value is evaluated to be correct.###26 03 2014 new variable
 assessment#:#result_unit_info#:#Please note that, the selected result unit must also be activated in the "available units."###26 03 2014 new variable
+assessment#:#tst_question_not_from_pool_info#:#No Pool###14 05 2014 new variable
+assessment#:#ass_quest_process_lock#:#Use Locking on Participant Solution Submits###14 05 2014 new variable
+assessment#:#ass_quest_process_lock_desc#:#Without the use of any locking mechanism, race conditions during the submit of solution data are possible. This can lead to inconsistent test results.###14 05 2014 new variable
+assessment#:#ass_quest_process_lock_mode#:#Lock Mode during Submit of Participant Solutions###14 05 2014 new variable
+assessment#:#ass_quest_process_lock_mode_file#:#Use Filesystem Locks###14 05 2014 new variable
+assessment#:#ass_quest_process_lock_mode_file_desc#:#This locking mechanism requests locks on empty files in the filesystem. Concurrent processes for the same user and the same question are waiting until the other process releases his lock.###14 05 2014 new variable
+assessment#:#ass_quest_process_lock_mode_db#:#Use Database Table Locks###14 05 2014 new variable
+assessment#:#ass_quest_process_lock_mode_db_desc#:#This locking mechanism locks tables within the database. Concurrent Processes for the same or other users in the same or in another test are waiting until the other process releases his locks.###14 05 2014 new variable
+assessment#:#qpl_paste_error#:#At least one question could not pe pasted into the question pool. Possible reason: You tried to move the question into the same question pool.###14 05 2014 new variable
+assessment#:#tst_extratime_info#:#If you want to add the working time multiple times for the same participant, please insert the total amount of time you want to add.###14 05 2014 new variable
+bibl#:#bib_default_urldate#:#Date of URL visit###14 05 2014 new variable
+bibl#:#bib_default_language#:#Language###14 05 2014 new variable
+bibl#:#bib_default_series#:#Series###14 05 2014 new variable
+bibl#:#ris_default_dp#:#Database Provider###14 05 2014 new variable
+bibl#:#ris_default_st#:#Short Title###14 05 2014 new variable
+forum#:#merge_posts_into_thread#:#Merge Postings into other Thread###14 05 2014 new variable
+forum#:#move_thread_to_forum#:#Move Thread to other Forum###14 05 2014 new variable
+survey#:#spl_save_obligatory_state#:#Save Obligatory States###14 05 2014 new variable
+forum#:#post_reply_count#:#Re(%s):###14 05 2014 new variable
+dateplaner#:#cal_ical_url#:#iCal-URL###14 05 2014 new variable

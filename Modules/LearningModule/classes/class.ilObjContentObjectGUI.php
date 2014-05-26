@@ -2140,8 +2140,9 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		$a_active = "content", $a_use_global_tabs = false, $a_as_subtabs = false,
 		$a_cur_page = 0)
 	{
-		global $ilCtrl,$ilUser, $ilAccess, $ilTabs, $rbacsystem, $ilPluginAdmin;
+		global $ilCtrl,$ilUser, $ilAccess, $ilTabs, $rbacsystem, $ilPluginAdmin, $ilHelp;
 
+		$ilHelp->setScreenIdComponent("lm");
 		
 		if ($a_as_subtabs)
 		{
@@ -2199,6 +2200,11 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 			$tabs_gui->$addcmd("content",
 				$ilCtrl->getLinkTargetByClass("illmpresentationgui", "layout"),
 				"", "", $buttonTarget,  $active["content"]);
+			if ($active["content"])
+			{
+				$ilHelp->setScreenId("content");
+				$ilHelp->setSubScreenId("content");
+			}
 		}
 
 		// table of contents
@@ -3670,13 +3676,20 @@ $tabs_gui = $ilTabs;
 		$tt_id = ilUtil::stripSlashes($_POST["tooltip_id"]);
 		if (trim($tt_id) != "")
 		{
-			include_once("./Services/Help/classes/class.ilHelp.php");
-			ilHelp::addTooltip(trim($tt_id), "");
-			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
-			
-			$fu = strpos($tt_id, "_");
-			$comp = substr($tt_id, 0, $fu);
-			ilSession::set("help_tt_comp", ilUtil::stripSlashes($comp));
+			if (is_int(strpos($tt_id, "_")))
+			{
+				include_once("./Services/Help/classes/class.ilHelp.php");
+				ilHelp::addTooltip(trim($tt_id), "");
+				ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+
+				$fu = strpos($tt_id, "_");
+				$comp = substr($tt_id, 0, $fu);
+				ilSession::set("help_tt_comp", ilUtil::stripSlashes($comp));
+			}
+			else
+			{
+				ilUtil::sendFailure($lng->txt("cont_help_no_valid_tooltip_id"), true);
+			}
 		}
 		$ilCtrl->redirect($this, "showTooltipList");
 	}

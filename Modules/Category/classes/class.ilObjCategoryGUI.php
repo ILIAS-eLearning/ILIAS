@@ -453,6 +453,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 	protected function updateInfoObject()
 	{
 		$this->checkPermission("write");
+<<<<<<< .working
 		
 		// init form
 		$this->initExtendedSettings();	
@@ -468,6 +469,15 @@ class ilObjCategoryGUI extends ilContainerGUI
 			$this->ctrl->redirect($this, "editInfo");			
 		}
 		
+=======
+		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
+		$record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_EDITOR,
+			'cat',$this->object->getId());
+		$record_gui->loadFromPost();
+		$record_gui->saveValues();
+
+		ilUtil::sendSuccess($this->lng->txt("settings_saved"));
+>>>>>>> .merge-right.r50324
 		$this->editInfoObject();
 	}
 	

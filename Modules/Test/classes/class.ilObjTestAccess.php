@@ -265,7 +265,7 @@ class ilObjTestAccess extends ilObjectAccess
 	{
 		$commands = array
 		(
-            array("permission" => "write", "cmd" => "showPage", "lang_var" => "tst_edit_questions"),
+            array("permission" => "write", "cmd" => "questionsTabGateway", "lang_var" => "tst_edit_questions"),
 			array("permission" => "write", "cmd" => "ilObjTestSettingsGeneralGUI::showForm", "lang_var" => "settings"),
 			array("permission" => "read", "cmd" => "infoScreen", "lang_var" => "tst_run",
 				"default" => true),

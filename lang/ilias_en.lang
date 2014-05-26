@@ -558,6 +558,8 @@ assessment#:#tst_filter_tax_node#:#Taxonomy Node
 assessment#:#tst_save_and_create_new_rule#:#Save and Add New Rule
 assessment#:#tst_msg_random_qsc_modified_add_new_rule#:#The configuration for the random set of questions has been modified successfully. You can add a new rule now.
 assessment#:#tst_msg_random_question_set_config_modified#:#The configuration for the random set of questions has been modified successfully.
+assessment#:#tst_msg_random_question_set_synced#:#The questions for the current configuration has been synchronized successfully.
+assessment#:#tst_btn_rebuild_random_question_stage#:#Synchronize Quesitons from Pool
 assessment#:#tst_msg_rand_quest_set_stage_pool_last_sync#:#A test with a random set of questions is possible with the current configuration.<br />Date of last synchronisation of selected question pools: <b>%s</b>
 assessment#:#tst_msg_rand_quest_set_pass_not_buildable#:#A test with a random set of questions is not possible with the current selection of question pools and the amount of questions.
 assessment#:#tst_msg_rand_quest_set_no_src_pool_defs#:#A test with a random set of questions is not possible without selecting at least one question pool.
@@ -12973,6 +12975,7 @@ tos#:#tos_period_from#:#From
 tos#:#tos_period_until#:#Until
 tos#:#tos_acceptance_datetime#:#Date
 tos#:#tos_no_documents_exist#:#Currently there are no terms of service for any of the installed languages.
+tos#:#tos_no_documents_exist_cant_save#:#Currently there are no terms of service for any of the installed languages. Please add at least one document for any of the installed languages.
 ecs#:#ecs_sync_trees#:#Synchronise Directory Trees
 survey#:#svy_invite_action#:#Invite users to a survey
 rbac#:#chtr_delete#:#User can move or delete course
@@ -14263,6 +14266,16 @@ meta#:#md_adv_confirm_definition_select_option#:#Deleted Option
 meta#:#md_adv_confirm_definition_select_option_remove#:#Remove value
 meta#:#md_adv_confirm_definition_select_option_overwrite#:#Set value to
 meta#:#md_adv_confirm_definition_select_section#:#Migration of the deleted options=======
+ecs#:#ecs_server_title#:#Name of ECS Configuration
+adve#:#advanced_editing_tst_editing_desc#:#Activates ILIAS Page Editor for feedback and hint text editing.
+assessment#:#fq_precision_info#:#Enter the number of desired decimal places.
+assessment#:#result_units_info#:#The selected units are offered to the learner as part of an answer. The learner has to choose one unit.
+assessment#:#fq_no_restriction_info#:#Both decimals and fractions are accepted as input.
+assessment#:#additional_rating_info#:#Please note that the values ​​given here are expressed as percentages and these must add up to 100.
+assessment#:#intprecision_info#:#"Divisible by" affects only the creation of variables, if the value for the precision is 0. In this case, you define for "Divisible by" an integer value, which must be divisible by with the created variable. A value of 10 thus generates only integers that are divisible by 10. A value of 5 produces integers that are divisible by 5, etc. For a precision of 0, "Divisible by" is a mandatory field and must contain a positive integer. The default value is 1 for any integers.
+assessment#:#tolerance_info#:#The tolerance specifies an allowable percentage deviation from the result value. With a tolerance of 0, only the exact result value is evaluated to be correct.
+assessment#:#result_unit_info#:#Please note that, the selected result unit must also be activated in the "available units."
+forum#:#merge_posts_into_thread#:#Merge Postings into other Thread
 forum#:#move_thread_to_forum#:#Move Thread to other Forum
 survey#:#spl_save_obligatory_state#:#Save Obligatory States
 forum#:#post_reply_count#:#Re(%s):

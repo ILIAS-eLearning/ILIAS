@@ -25,7 +25,6 @@ package de.ilias.services.transformation;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
@@ -44,16 +43,12 @@ import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 
-import org.apache.fop.apps.FOPException;
 import org.apache.fop.apps.FOUserAgent;
 import org.apache.fop.apps.Fop;
 import org.apache.fop.apps.FopFactory;
-import org.apache.fop.apps.FopFactoryConfigurator;
 import org.apache.fop.apps.FormattingResults;
 import org.apache.fop.apps.MimeConstants;
 import org.apache.fop.apps.PageSequenceResults;
-import org.apache.fop.fonts.apps.TTFReader;
-import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.xml.sax.SAXException;
 
@@ -101,6 +96,14 @@ public class FO2PDF {
 		}
         
     }
+	
+	/**
+	 * clear fop uri cache
+	 */
+	public void clearCache() {
+		
+		fopFactory.getImageManager().getCache().clearCache();
+	}
 	
 	/**
 	 * Get FO2PDF instance

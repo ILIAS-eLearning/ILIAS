@@ -941,9 +941,20 @@ class ilCalendarCategoryGUI
 	 */
 	protected function initFormCategory($a_mode)
 	{
-		global $rbacsystem,$ilUser;
-		
-		include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
+		global $rbacsystem,$ilUser, $ilHelp;
+
+		$ilHelp->setScreenIdComponent("cal");
+		$ilHelp->setScreenId("cal");
+		if ($a_mode == "edit")
+		{
+			$ilHelp->setSubScreenId("edit");
+		}
+		else
+		{
+			$ilHelp->setSubScreenId("create");
+		}
+
+			include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
 		include_once('./Services/Calendar/classes/class.ilCalendarCategory.php');
 		
 		include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');

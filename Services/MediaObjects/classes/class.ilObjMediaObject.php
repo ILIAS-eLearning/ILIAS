@@ -1535,6 +1535,10 @@ class ilObjMediaObject extends ilObject
 		{
 			return true;
 		}
+		if (in_array($a_format, array("video/mp4", "video/webm")))
+		{
+			return true;
+		}
 		return false;
 	}
 
