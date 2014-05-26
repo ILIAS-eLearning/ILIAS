@@ -510,6 +510,19 @@ class ilDataCollectionTable
 	}
 
 	/**
+	 * Returns the fields all datacollections have by default.
+	 * @return ilDataCollectionStandardField[]
+	 */
+	public function getStandardFields(){
+		if($this->stdFields == NULL)
+		{
+			$this->stdFields = ilDataCollectionStandardField::_getStandardFields($this->id);
+		}
+
+		return $this->stdFields;
+	}
+
+	/**
 	 * Returns all fields of this table which are NOT standard fields.
 	 * @return ilDataCollectionField[]
 	 */
