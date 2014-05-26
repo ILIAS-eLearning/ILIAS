@@ -510,6 +510,19 @@ class ilDataCollectionTable
 	}
 
 	/**
+	 * Returns the fields all datacollections have by default.
+	 * @return ilDataCollectionStandardField[]
+	 */
+	public function getStandardFields(){
+		if($this->stdFields == NULL)
+		{
+			$this->stdFields = ilDataCollectionStandardField::_getStandardFields($this->id);
+		}
+
+		return $this->stdFields;
+	}
+
+	/**
 	 * Returns all fields of this table which are NOT standard fields.
 	 * @return ilDataCollectionField[]
 	 */
@@ -1046,8 +1059,8 @@ class ilDataCollectionTable
      */
     public function getPartialRecords($sort, $direction, $limit, $offset, array $filter = array()) {
         global $ilDB;
+        $sortField = ($sort) ? $sortField = $this->getFieldByTitle($sort) : $sortField = $this->getField('id');
 
-        $sortField = ($sort) ? $sortField = $this->getFieldByTitle($sort) : $sortField = $this->getFieldByTitle('id');
         $direction = strtolower($direction);
         $direction = (in_array($direction, array('desc', 'asc'))) ? $direction : 'asc';
 
@@ -1058,7 +1071,7 @@ class ilDataCollectionTable
             $sortField = $this->getFieldByTitle(substr($sort, 8));
         }
 
-        if (is_null($sortField)) $sortField = $this->getFieldByTitle('id');
+        if (is_null($sortField)) $sortField = $this->getField('id');
 
         $id = $sortField->getId();
         $stl = $sortField->getStorageLocation();
