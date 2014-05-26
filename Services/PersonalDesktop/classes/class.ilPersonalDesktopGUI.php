@@ -71,7 +71,12 @@ class ilPersonalDesktopGUI
 	function &executeCommand()
 	{
 		// gev-patch start
-		if ($this->cmdClass == "") {
+		$cmd = $_GET["cmd"];
+		$cmd_class = $_GET["cmdClass"];
+		if (! ( $cmd == "jumpToProfile" 
+			||  $cmd == "showPassword"
+			|| $cmd_class == "ilpersonalprofilegui"
+			)) {
 			ilUtil::redirect('ilias.php?baseClass=gevDesktopGUI');
 		}
 		// gev-patch end

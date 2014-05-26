@@ -63,7 +63,7 @@ class ilPersonalProfileGUI
 				break;
 
 			default:
-				$this->setTabs();
+				//$this->setTabs();
 				$cmd = $this->ctrl->getCmd("showPersonalData");							
 				$this->$cmd();
 				break;
