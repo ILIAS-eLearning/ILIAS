@@ -690,6 +690,10 @@ abstract class ilAdvancedMDFieldDefinition
 		}
 	}
 	
+	public function importDefinitionFormPostValuesNeedsConfirmation()
+	{
+		return false;
+	}
 	
 	public function prepareCustomDefinitionFormConfirmation(ilPropertyFormGUI $a_form)
 	{

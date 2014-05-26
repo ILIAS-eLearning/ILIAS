@@ -102,8 +102,9 @@ class ilAdvancedMDFieldDefinitionFloat extends ilAdvancedMDFieldDefinitionIntege
 	 * Add input elements to definition form
 	 *
 	 * @param ilPropertyFormGUI $a_form
+	 * @param bool $a_disabled
 	 */
-	public function addToFieldDefinitionForm(ilPropertyFormGUI $a_form)
+	public function addCustomFieldToDefinitionForm(ilPropertyFormGUI $a_form, $a_disabled = false)
 	{
 		global $lng;
 		
@@ -115,17 +116,20 @@ class ilAdvancedMDFieldDefinitionFloat extends ilAdvancedMDFieldDefinitionIntege
 		$decimals->setValue($this->getDecimals());
 		$decimals->setSize(5);
 		$a_form->addItem($decimals);
+		
+		if($a_disabled)
+		{
+			$decimals->setDisabled(true);
+		}
 	}
 	
 	/**
-	 * Import post values from definition form
+	 * Import custom  post values from definition form
 	 * 
 	 * @param ilPropertyFormGUI $a_form
 	 */
-	public function importDefinitionFormPostValues(ilPropertyFormGUI $a_form)
-	{
-		parent::importDefinitionFormPostValues($a_form);
-					
+	public function importCustomDefinitionFormPostValues(ilPropertyFormGUI $a_form)
+	{					
 		parent::importCustomDefinitionFormPostValues($a_form);
 		
 		$this->setDecimals($a_form->getInput("dec"));		

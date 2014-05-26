@@ -162,12 +162,11 @@ class ilAdvancedMDFieldDefinitionInteger extends ilAdvancedMDFieldDefinition
 	 * Add input elements to definition form
 	 *
 	 * @param ilPropertyFormGUI $a_form
+	 * @param bool $a_disabled
 	 */
-	public function addToFieldDefinitionForm(ilPropertyFormGUI $a_form)
+	public function addCustomFieldToDefinitionForm(ilPropertyFormGUI $a_form, $a_disabled = false)
 	{
 		global $lng;
-		
-		parent::addToFieldDefinitionForm($a_form);	
 		
 		$min = new ilNumberInputGUI($lng->txt("md_adv_number_min"), "min");		
 		$min->setValue($this->getMin());
@@ -180,17 +179,21 @@ class ilAdvancedMDFieldDefinitionInteger extends ilAdvancedMDFieldDefinition
 		$a_form->addItem($max);
 		
 		// :TODO: suffix?
+				
+		if($a_disabled)
+		{
+			$min->setDisabled(true);
+			$max->setDisabled(true);
+		}						
 	}
 	
 	/**
-	 * Import post values from definition form
+	 * Import custom post values from definition form
 	 * 
 	 * @param ilPropertyFormGUI $a_form
 	 */
-	public function importDefinitionFormPostValues(ilPropertyFormGUI $a_form)
-	{
-		parent::importDefinitionFormPostValues($a_form);
-		
+	public function importCustomDefinitionFormPostValues(ilPropertyFormGUI $a_form)
+	{		
 		// :TODO: min > max ?!
 		
 		$min = $a_form->getInput("min");		

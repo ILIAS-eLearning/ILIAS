@@ -118,8 +118,6 @@ class ilAdvancedMDRecordTableGUI extends ilTable2GUI
 			$this->tpl->setVariable('EDIT_FIELDS_LINK',$this->ctrl->getLinkTarget($this->parent_obj,'editFields'));
 			$this->tpl->setVariable('TXT_EDIT_FIELDS',$this->lng->txt('md_adv_field_table'));
 		}
-		$this->tpl->setVariable('EDIT_FIELDS_LINK',$this->ctrl->getLinkTarget($this->parent_obj,'editFields'));
-		$this->tpl->setVariable('TXT_EDIT_FIELDS',$this->lng->txt('md_adv_field_table'));
 	}
 	
 	/**

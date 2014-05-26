@@ -938,16 +938,31 @@ class ilAdvancedMDSettingsGUI
 		$this->ctrl->saveParameter($this,'record_id');
 		$this->ctrl->saveParameter($this,'field_id');		 		 
 		 
+		$confirm = false;
 		$field_definition = ilAdvancedMDFieldDefinition::getInstance((int)$_REQUEST['field_id']);
 		$form = $this->initFieldForm($field_definition);		
 		if($form->checkInput())
 		{
-			$field_definition->importDefinitionFormPostValues($form, $this->getPermissions());
-			$field_definition->update();
-			
-			ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
-			$this->ctrl->redirect($this, "editFields");
+			$field_definition->importDefinitionFormPostValues($form, $this->getPermissions());			
+			if(!$field_definition->importDefinitionFormPostValuesNeedsConfirmation())
+			{
+				$field_definition->update();
+
+				ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+				$this->ctrl->redirect($this, "editFields");
+			}
+			else
+			{
+				$confirm = true;
+			}
 		}
+		
+		// fields needs confirmation of updated settings
+		if($confirm)
+		{
+			ilUtil::sendInfo($this->lng->txt("md_adv_confirm_definition"));
+			$field_definition->prepareDefinitionFormConfirmation($form);
+		}		
 		
 		$form->setValuesByPost();
 		$this->editField($form);		

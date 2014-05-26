@@ -107,12 +107,11 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
 	 * Add input elements to definition form
 	 *
 	 * @param ilPropertyFormGUI $a_form
+	 * @param bool $a_disabled
 	 */
-	public function addToFieldDefinitionForm(ilPropertyFormGUI $a_form)
+	public function addCustomFieldToDefinitionForm(ilPropertyFormGUI $a_form, $a_disabled = false)
 	{
 		global $lng;
-		
-		parent::addToFieldDefinitionForm($a_form);	
 		
 		$field = new ilTextInputGUI($lng->txt("options"), "opts");			
 		$field->setRequired(true);
@@ -126,17 +125,20 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
 			$field->setMultiValues($options);
 			$field->setValue(array_shift($options));
 		}
+		
+		if($a_disabled)
+		{
+			$field->setDisabled(true);
+		}
 	}
 	
 	/**
-	 * Import post values from definition form
+	 * Import custom post values from definition form
 	 * 
 	 * @param ilPropertyFormGUI $a_form
 	 */
-	public function importDefinitionFormPostValues(ilPropertyFormGUI $a_form)
-	{
-		parent::importDefinitionFormPostValues($a_form);
-		
+	public function importCustomDefinitionFormPostValues(ilPropertyFormGUI $a_form)
+	{		
 		$old = $this->getOptions();
 		$new = $a_form->getInput("opts");
 		
@@ -249,7 +251,8 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
 			}			
 		}		
 	}
-
+	
+	
 	//
 	// export/import
 	// 
