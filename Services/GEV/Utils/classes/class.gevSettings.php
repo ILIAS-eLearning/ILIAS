@@ -77,7 +77,49 @@ class gevSettings {
 	const CRS_AMD_VENUE				= "crs_amd_venue";
 	// Übernachtungsort
 	const CRS_AMD_ACCOMODATION		= "crs_amd_accomodation";
+
+
+	// Typen von Organisationseinheiten
+	const ORG_TYPE_VENUE			= "org_unit_type_venue";
+	const ORG_TYPE_PROVIDER			= "org_unit_type_provider";
 	
+	// AMD für alle Org-Units (vgl. Konzept, Abschnitte Veranstaltungsorte, Anbieter)
+	// Straße
+	const ORG_AMD_STREET			= "org_amd_street";
+	// Hausnummer
+	const ORG_AMD_HOUSE_NUMBER		= "org_amd_house_number";
+	// Postleitzahl
+	const ORG_AMD_ZIPCODE			= "org_amd_zipcode";
+	// Ort
+	const ORG_AMD_CITY				= "org_amd_city";
+	// Ansprechpartner
+	const ORG_AMD_CONTACT_NAME		= "org_amd_contact_name";
+	// Telefon
+	const ORG_AMD_CONTACT_PHONE		= "org_amd_contact_phone";
+	// Fax
+	const ORG_AMD_CONTACT_FAX		= "org_amd_contact_fax";
+	// eMail
+	const ORG_AMD_CONTACT_EMAIL		= "org_amd_contact_email";
+	// Homepage
+	const ORG_AMD_HOMEPAGE			= "org_amd_homepage";
+
+	// AMD für Veranstaltungsorte
+	// Anfahrt
+	const VENUE_AMD_LOCATION		= "venue_amd_location";
+	// Kosten je Übernachtung
+	const VENUE_AMD_COSTS_PER_ACCOM	= "venue_amd_costs_per_accom";
+	// Pauschale Frühstück
+	const VENUE_AMD_COSTS_BREAKFAST	= "venue_amd_costs_breakfast";
+	// Pauschale Mittagessen
+	const VENUE_AMD_COSTS_LUNCH		= "venue_amd_costs_lunch";
+	// Nachmittagspauschale
+	const VENUE_AMD_COSTS_COFFEE	= "venue_amd_costs_coffee";
+	// Pauschale Abendessen
+	const VENUE_AMD_COSTS_DINNER	= "venue_amd_costs_dinner";
+	// Pauschale Tagesverpflegung
+	const VENUE_AMD_COSTS_FOOD		= "venue_amd_costs_food";
+	
+
 	private function __construct() {
 		$this->settings = new ilSetting(self::MODULE_NAME);
 	}
@@ -86,28 +128,6 @@ class gevSettings {
 		if (self::$instance === null) {
 			self::$instance = new gevSettings();
 		}
-		
-/*		self::$amd_fields = 
-			array( CRS_AMD_CUSTOM_ID
-				 , CRS_AMD_TEMPLATE_TITLE
-				 , CRS_AMD_TYPE
-				 , CRS_AMD_TOPIC
-				 , CRS_AMD_CONTENTS
-				 , CRS_AMD_GOALS
-				 , CRS_AMD_METHODS
-				 , CRS_AMD_MEDIA
-				 , CRS_AMD_TARGET_GROUP
-				 , CRS_AMD_TARGET_GROUP_DESC
-				 , CRS_AMD_EXPERT_TRAINING
-				 , CRS_AMD_CREDIT_POINTS
-				 , CRS_AMD_FEE
-				 , CRS_AMD_MIN_PARTICIPANTS
-				 , CRS_AMD_CANCEL_DEADLINE
-				 , CRS_AMD_PROVIDER
-				 , CRS_AMD_CANCEL_WAITING
-				 , CRS_AMD_VENUE
-				 , CRS_AMD_ACCOMODATION
-				 );*/
 		
 		return self::$instance;
 	}

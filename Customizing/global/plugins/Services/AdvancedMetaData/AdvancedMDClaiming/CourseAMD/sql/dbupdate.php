@@ -1,9 +1,8 @@
 <#1>
 <?php
 
-require_once("Services/AdvancedMetaData/classes/class.ilAdvancedMDClaimingPlugin.php");
 require_once("Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php");
-require_once("Services/AdvancedMetaData/classes/class.ilAdvancedMDPermissionHelper.php");
+require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
 require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 
 $tselect = ilAdvancedMDFieldDefinition::TYPE_SELECT;
@@ -13,6 +12,7 @@ $tdatetime = ilAdvancedMDFieldDefinition::TYPE_DATETIME;
 $tinteger = ilAdvancedMDFieldDefinition::TYPE_INTEGER;
 $tfloat = ilAdvancedMDFieldDefinition::TYPE_FLOAT;
 $tlocation = ilAdvancedMDFieldDefinition::TYPE_LOCATION;
+$tmultiselect = ilAdvancedMDFieldDefinition::TYPE_MULTISELECT;
 
 $gev_set = gevSettings::getInstance();
 
@@ -71,7 +71,7 @@ array( "Verwaltung"
 				 			 		, "Erstausbildung"
 				 			 		, "Ausbilder"
 				 			 		, "Azubi")
-				 			 , $tselect 	# TODO: change to multiselect
+				 			 , $tmultiselect
 				 			 )
 				, "Trainingsinhalte" =>
 						array( gevSettings::CRS_AMD_CONTENTS
@@ -99,7 +99,7 @@ array( "Verwaltung"
 							 		, "Brainstorming"
 							 		, "Rollenspiele"
 							 		)
-							 , $tselect 	# TODO: change to multiselect
+							 , $tmultiselect
 							 )
 				, "Medien" =>
 						array( gevSettings::CRS_AMD_MEDIA
@@ -114,7 +114,7 @@ array( "Verwaltung"
 							 		, "Film"
 							 		, "Internet / Intranet"
 							 		)
-							 , $tselect 	# TODO: change to multiselect
+							 , $tmultiselect
 							 )
 				))
 	 , "Bewertung"
@@ -155,7 +155,7 @@ array( "Verwaltung"
 		   					 		, "Verkaufsleiter (EVG)"
 		   					 		, "Agenturverkaufsleiter (EVG)"
 		   					 		)
-		   					 , $tselect 	# TODO: change to multiselect
+		   					 , $tmultiselect
 		   					 )
 		   		, "Zielgruppenbeschreibung" =>
 		   				array( gevSettings::CRS_AMD_TARGET_GROUP_DESC
@@ -249,11 +249,5 @@ array( "Verwaltung"
 	 	   		))
 	);
 
-foreach($records as $rt => $rdef) {
-	$rec_id = ilAdvancedMDClaimingPlugin::createDBRecord($rt, $rdef[0], true, array("crs"));
-	foreach($rdef[1] as $ft => $fdef) {
-		$f_id = ilAdvancedMDClaimingPlugin::createDBField($rec_id, $fdef[4], $ft, $fdef[1], $fdef[2], $fdef[3]);
-		$gev_set->set($fdef[0], $rec_id." ".$f_id);
-	}
-}
+gevAMDPlugins::createAMDRecords($records, array("crs"));
 ?>
