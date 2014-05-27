@@ -328,3 +328,14 @@ if(!$ilDB->tableExists('orgu_types_trans')) {
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#13>
+<?php
+if(!$ilDB->tableExists('orgu_types_adv_md_rec')) {
+    $fields = array (
+        'type_id'    => array ('type' => 'integer', 'length'  => 4,'notnull' => true),
+        'rec_id'   => array ('type' => 'integer', 'notnull' => true, 'length' => 4),
+    );
+    $ilDB->createTable('orgu_types_adv_md_rec', $fields);
+    $ilDB->addPrimaryKey('orgu_types_adv_md_rec', array('type_id', 'rec_id'));
+}
+?>
