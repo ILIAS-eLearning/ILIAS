@@ -169,29 +169,32 @@ class ilSurveyEvaluationGUI
 		// write access? allow selection
 		if ($req_appr_id > 0)
 		{
+			$all_appr = ($this->object->get360Results() == ilObjSurvey::RESULTS_360_ALL);
+			
+			$valid = array();				
 			foreach($this->object->getAppraiseesData() as $item)
-			{
-				if($item["closed"] && ($item["user_id"] == $req_appr_id))
+			{				
+				if ($item["closed"] &&
+					($item["user_id"] == $ilUser->getId() ||
+					$rbacsystem->checkAccess("write", $this->object->getRefId()) ||
+					$all_appr))
 				{
-					if ($req_appr_id == $ilUser->getId() ||
-						$rbacsystem->checkAccess("write", $this->object->getRefId()))
-					{
-						$appr_id = $req_appr_id;
-					}
-				}
+					$valid[] = $item["user_id"];
+				}				
 			}
+			if(in_array($req_appr_id, $valid))
+			{
+				$appr_id = $req_appr_id;
+			}
+			else 
+			{
+				// current selection / user is not valid, use 1st valid instead
+				$appr_id = array_shift($valid);
+			}				
 		}
 		
-		if ($appr_id != $ilUser->getId())
-		{
-			$this->ctrl->setParameter($this, "appr_id", $appr_id);
-		}
-		else
-		{
-			$this->ctrl->setParameter($this, "appr_id", "");
-		}
-		
-		$this->setAppraiseeId($appr_id);
+		$this->ctrl->setParameter($this, "appr_id", $appr_id);		
+		$this->setAppraiseeId($appr_id);	
 	}
 	
 	
@@ -690,8 +693,9 @@ class ilSurveyEvaluationGUI
 			}
 
 			if(!$no_appr)
-			{
-				if ($rbacsystem->checkAccess("write", $this->object->getRefId()))
+			{								
+				if ($rbacsystem->checkAccess("write", $this->object->getRefId()) ||
+					$this->object->get360Results() == ilObjSurvey::RESULTS_360_ALL)
 				{			
 					include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
 					$appr = new ilSelectInputGUI($this->lng->txt("survey_360_appraisee"), "appr_id");
