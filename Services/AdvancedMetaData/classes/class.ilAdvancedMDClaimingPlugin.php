@@ -119,7 +119,7 @@ abstract class ilAdvancedMDClaimingPlugin extends ilPlugin
 	protected static function isValidObjType($a_obj_type, $a_is_substitution = false)
 	{
 		// ecs, glossary not supported yet
-		$valid = array("crs", "cat");
+		$valid = array("crs", "cat", "orgu");
 
 		/* :TODO:
 		if(!$a_is_substitution)
@@ -143,16 +143,26 @@ abstract class ilAdvancedMDClaimingPlugin extends ilPlugin
 				
 		foreach($a_obj_types as $type)
 		{
-			$type = strtolower(trim($type));
+			if (! is_array($type)) {
+				$type = strtolower(trim($type));
+				$subtype  = "-";
+			}
+			else {
+				$type = strtolower(trim($type[0]));
+				$subtype = strtolower(trim($type[1]));
+			}
 						
 			if(self::isValidObjType($type))
 			{
 				$fields = array(
 					"record_id" => array("integer", $a_record_id),
 					"obj_type" => array("text", $type),
-					"sub_type" => array("text", "-")
+					"sub_type" => array("text", $subtype)
 				);		
 				$ilDB->insert("adv_md_record_objs", $fields);
+			}
+			else {
+				throw new Exception("ilAdvancedMDClaimingPlugin::saveRecordObjTypes: invalid type '".$type."'");
 			}
 		}
 	}
