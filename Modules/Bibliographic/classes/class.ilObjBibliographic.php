@@ -18,6 +18,8 @@ use \LibRIS\RISReader;
  */
 class ilObjBibliographic extends ilObject2 {
 
+    const ATTRIBUTE_VALUE_MAXIMAL_TEXT_LENGTH = 4000;
+
 	/**
 	 * Id of literary articles
 	 *
@@ -540,6 +542,10 @@ class ilObjBibliographic extends ilObject2 {
 				if (is_array($attribute)) {
 					$attribute = implode(", ", $attribute);
 				}
+
+                if(strlen($attribute) > self::ATTRIBUTE_VALUE_MAXIMAL_TEXT_LENGTH){
+                    $attribute = substr($attribute, 0, self::ATTRIBUTE_VALUE_MAXIMAL_TEXT_LENGTH - 3) . '...';
+                }
 
 				// ty (RIS) or entryType (BIB) is the type and is treated seperately
 				if (strtolower($key) == 'ty' || strtolower($key) == 'entrytype') {
