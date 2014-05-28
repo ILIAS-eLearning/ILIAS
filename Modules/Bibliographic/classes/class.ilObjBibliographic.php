@@ -549,8 +549,8 @@ class ilObjBibliographic extends ilObject2 {
 				}
 
                 // reduce the attribute strings to a maximum of 4000 (ATTRIBUTE_VALUE_MAXIMAL_TEXT_LENGTH) characters, in order to fit in the database
-                if(strlen($attribute) > self::ATTRIBUTE_VALUE_MAXIMAL_TEXT_LENGTH){
-                    $attribute = substr($attribute, 0, self::ATTRIBUTE_VALUE_MAXIMAL_TEXT_LENGTH - 3) . '...';
+                if(mb_strlen($attribute, 'UTF-8') > self::ATTRIBUTE_VALUE_MAXIMAL_TEXT_LENGTH){
+                    $attribute = mb_substr($attribute, 0, self::ATTRIBUTE_VALUE_MAXIMAL_TEXT_LENGTH - 3, 'UTF-8') . '...';
                 }
 
 				// ty (RIS) or entryType (BIB) is the type and is treated seperately
@@ -574,7 +574,7 @@ class ilObjBibliographic extends ilObject2 {
 	}
 
 
-	/**
+    /**
 	 * Set Online.
 	 *
 	 * @param    boolean $a_online Online
