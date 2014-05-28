@@ -18,6 +18,11 @@ use \LibRIS\RISReader;
  */
 class ilObjBibliographic extends ilObject2 {
 
+    /**
+     * Number of maximum allowed characters for attributes in order to fit in the database
+     *
+     * @var int
+     */
     const ATTRIBUTE_VALUE_MAXIMAL_TEXT_LENGTH = 4000;
 
 	/**
@@ -543,6 +548,7 @@ class ilObjBibliographic extends ilObject2 {
 					$attribute = implode(", ", $attribute);
 				}
 
+                // reduce the attribute strings to a maximum of 4000 (ATTRIBUTE_VALUE_MAXIMAL_TEXT_LENGTH) characters, in order to fit in the database
                 if(strlen($attribute) > self::ATTRIBUTE_VALUE_MAXIMAL_TEXT_LENGTH){
                     $attribute = substr($attribute, 0, self::ATTRIBUTE_VALUE_MAXIMAL_TEXT_LENGTH - 3) . '...';
                 }
