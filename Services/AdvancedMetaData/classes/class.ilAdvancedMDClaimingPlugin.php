@@ -141,15 +141,15 @@ abstract class ilAdvancedMDClaimingPlugin extends ilPlugin
 	{
 		global $ilDB;
 				
-		foreach($a_obj_types as $type)
+		foreach($a_obj_types as $_type)
 		{
-			if (! is_array($type)) {
-				$type = strtolower(trim($type));
+			if (! is_array($_type)) {
+				$type = strtolower(trim($_type));
 				$subtype  = "-";
 			}
 			else {
-				$type = strtolower(trim($type[0]));
-				$subtype = strtolower(trim($type[1]));
+				$type = strtolower(trim($_type[0]));
+				$subtype = strtolower(trim($_type[1]));
 			}
 						
 			if(self::isValidObjType($type))

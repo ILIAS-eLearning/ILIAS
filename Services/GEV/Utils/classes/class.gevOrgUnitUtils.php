@@ -10,6 +10,8 @@
 * @version	$Id$
 */
 
+require_once("Modules/OrgUnit/classes/Types/class.ilOrgUnitType.php");
+
 class gevOrgUnitUtils {
 	protected function __construct() {
 	}
@@ -27,10 +29,10 @@ class gevOrgUnitUtils {
 		gevSettings::getInstance()->set($a_gev_setting, $id);
 	}
 	
-	static public function assignAMDRecordsToOrgUnit($a_gev_setting, $a_amd_records) {
+	static public function assignAMDRecordsToOrgUnitType($a_gev_setting, $a_amd_records) {
 		$id = gevSettings::getInstance()->get($a_gev_setting);
 		$type = new ilOrgUnitType($id);
-		$type->read();
+
 		foreach ($a_amd_records as $amd_id) {
 			$type->assignAdvancedMDRecord($amd_id);
 		}

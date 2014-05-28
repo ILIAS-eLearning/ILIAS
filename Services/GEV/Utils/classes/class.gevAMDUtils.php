@@ -294,13 +294,18 @@ class gevAMDUtils {
 	 */
 	public static function createAMDRecords($a_records, $a_types, $a_subtypes = null) {
 		require_once("Services/AdvancedMetaData/classes/class.ilAdvancedMDClaimingPlugin.php");
+		
+		$gev_set = gevSettings::getInstance();
+		$record_ids = array();
 		foreach($a_records as $rt => $rdef) {
 			$rec_id = ilAdvancedMDClaimingPlugin::createDBRecord($rt, $rdef[0], true, $a_types);
 			foreach($rdef[1] as $ft => $fdef) {
 				$f_id = ilAdvancedMDClaimingPlugin::createDBField($rec_id, $fdef[4], $ft, $fdef[1], $fdef[2], $fdef[3]);
 				$gev_set->set($fdef[0], $rec_id." ".$f_id);
 			}
+			$record_ids[] = $rec_id; 
 		}
+		return $record_ids;
 	}
 }
 

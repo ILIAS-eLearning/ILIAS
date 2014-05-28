@@ -12,7 +12,7 @@ $tdatetime = ilAdvancedMDFieldDefinition::TYPE_DATETIME;
 $tinteger = ilAdvancedMDFieldDefinition::TYPE_INTEGER;
 $tfloat = ilAdvancedMDFieldDefinition::TYPE_FLOAT;
 $tlocation = ilAdvancedMDFieldDefinition::TYPE_LOCATION;
-$tmultiselect = ilAdvancedMDFieldDefinition::TYPE_MULTISELECT;
+$tmultiselect = ilAdvancedMDFieldDefinition::TYPE_MULTI_SELECT;
 
 $gev_set = gevSettings::getInstance();
 
@@ -249,5 +249,5 @@ array( "Verwaltung"
 	 	   		))
 	);
 
-gevAMDPlugins::createAMDRecords($records, array("crs"));
+gevAMDUtils::createAMDRecords($records, array("crs"));
 ?>
