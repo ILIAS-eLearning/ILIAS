@@ -539,8 +539,8 @@ class ilObjBibliographic extends ilObject2 {
 					$attribute = implode(", ", $attribute);
 				}
 
-				if(strlen($attribute) > self::ATTRIBUTE_VALUE_MAXIMAL_TEXT_LENGTH){
-					$attribute = substr($attribute, 0, self::ATTRIBUTE_VALUE_MAXIMAL_TEXT_LENGTH - 3) . '...';
+				if(mb_strlen($attribute, 'UTF-8') > self::ATTRIBUTE_VALUE_MAXIMAL_TEXT_LENGTH){
+					$attribute = mb_substr($attribute, 0, self::ATTRIBUTE_VALUE_MAXIMAL_TEXT_LENGTH - 3, 'UTF-8') . '...';
 		                }
 
 				// ty (RIS) or entryType (BIB) is the type and is treated seperately
