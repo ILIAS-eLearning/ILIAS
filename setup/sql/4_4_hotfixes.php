@@ -647,3 +647,8 @@ $ilSetting->set('tst_test_results_dupl_del_warn', 0);
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#21>
+<?php
+// Bibliographic Module: Increase the allowed text-size for attributes from 512 to 4000
+$ilDB->query('ALTER TABLE il_bibl_attribute MODIFY value VARCHAR(4000)');
+?>
