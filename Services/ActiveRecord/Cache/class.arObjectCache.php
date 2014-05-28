@@ -1,5 +1,5 @@
 <?php
-require_once('./Customizing/global/plugins/Libraries/Versions/ActiveRecord_V2/Exception/class.arException.php');
+require_once(dirname(__FILE__) . '/../Exception/class.arException.php');
 
 /**
  * Class arObjectCache

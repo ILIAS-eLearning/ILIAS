@@ -67,7 +67,7 @@ class arException extends Exception {
 	 * @return string
 	 */
 	public function __toString() {
-		return implode('<br>', array( get_class($this), $this->message, $this->file, $this->line, $this->getTraceAsString() ));
+		return implode('<br>', array( get_class($this), $this->message ));
 	}
 }
 
