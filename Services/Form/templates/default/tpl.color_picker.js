@@ -1,6 +1,19 @@
 <script type="text/javascript">
 YAHOO.util.Event.onContentReady("{POST_VAR}-bc", function () {
 
+	// added color initialisation
+	// Init color label
+	YAHOO.util.Event.onContentReady("{POST_VAR}-current-color", function () {
+		YAHOO.util.Dom.setStyle("{POST_VAR}-current-color", "backgroundColor", "{INIT_COLOR}");
+	});
+
+	// Update color label on key up
+	YAHOO.util.Event.on('{POST_VAR}', 'keyup', function (e) {
+		var field = document.getElementById("{POST_VAR}");
+		YAHOO.util.Dom.setStyle("{POST_VAR}-current-color", "backgroundColor", '#' + field.value);
+	});
+
+
         // Create a Menu instance to house the ColorPicker instance
         var oColorPickerMenu = new YAHOO.widget.Menu("{POST_VAR}-color-picker-menu");
 
