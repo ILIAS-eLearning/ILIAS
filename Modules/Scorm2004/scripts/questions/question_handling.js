@@ -297,44 +297,68 @@ ilias.questions.assImagemapQuestion = function(a_id) {
 	ilias.questions.showFeedback(a_id);
 };
 
-ilias.questions.assMatchingQuestion = function(a_id) {
+ilias.questions.assMatchingQuestion = function(a_id) { (function($){
+
 	answers[a_id].wrong = 0;
 	answers[a_id].passed = true;
 	answers[a_id].choice = [];
-	
-	var found = 0;
-	var selected = 0;
-	
-	// iterate all pairs
-	for (var i=0;i<questions[a_id].pairs.length;i++)
-	{
-		var a_node = jQuery('select#'+questions[a_id].pairs[i].def_id).get(0);
 
-		// check if a drop down has been selected
-		if(a_node.options[a_node.selectedIndex].id > 0)	{
-			selected++;
-		}
+    var questionData = questions[a_id];
 
-		for (var j=0;j<questions[a_id].match.length;j++)
-		{
-			if(questions[a_id].match[j].term_id == a_node.options[a_node.selectedIndex].id &&
-				questions[a_id].match[j].def_id == questions[a_id].pairs[i].def_id)	{
-				found++;
-			}
-		}
-		
-		answers[a_id].choice.push(questions[a_id].pairs[i].def_id + '-'
-			+ a_node.options[a_node.selectedIndex].id);
-	}
-	
-	if (found < questions[a_id].match.length || selected > found) {
+    var selected = 0, foundCorrect = 0, foundWrong = 0;
+    
+    for( var i = 0; i < questionData.definitions.length; i++ )
+    {
+        var definition = questionData.definitions[i];
+        var dropArea = $('#definition_'+definition.id);
+        
+        var selectedTerms = dropArea.find('input[type=hidden]');
+        
+        selected += selectedTerms.length;
+
+        selectedTerms.each( function(key, term)
+        {
+            answers[a_id].choice.push(definition.id+'-'+$(term).attr('value'));
+            
+            var found = false;
+            
+            for( var j = 0; j < questionData.matchingPairs.length; j++ )
+            {
+                var matching = questionData.matchingPairs[j];
+                
+                if( definition.id != matching.def_id )
+                {
+                    continue;
+                }
+
+                if( $(term).attr('value') == matching.term_id )
+                {
+                    found = true;
+                    break;
+                }
+            }
+            
+            if(found)
+            {
+                foundCorrect++;
+            }
+            else
+            {
+                foundWrong++;
+            }
+        });
+        
+    }
+    
+	if( foundCorrect < questionData.matchingPairs.length || foundWrong )
+    {
 			answers[a_id].passed = false;
-			// # wrong answers is # matches - correctly found pairs
-			answers[a_id].wrong = questions[a_id].match.length - found;
+			answers[a_id].wrong = (questionData.matchingPairs.length - foundCorrect) + foundWrong;
 	}		
 	
 	ilias.questions.showFeedback(a_id);
-};
+    
+})(jQuery);};
 
 ilias.questions.assTextSubset = function(a_id) {
 	
@@ -607,7 +631,7 @@ ilias.questions.showFeedback =function(a_id) {
 				fbtext += questions[a_id].feedback['allcorrect'];
 			}
             jQuery('#feedback'+a_id).html(fbtext);
-			ilias.questions.showCorrectAnswers(a_id);
+			//ilias.questions.showCorrectAnswers(a_id);
 			ilias.questions.scormHandler(a_id,"correct",ilias.questions.toJSONString(answers[a_id]));
 		} else {
 			jQuery('#feedback'+a_id).removeClass("ilc_qfeedr_FeedbackRight");	
@@ -816,20 +840,22 @@ ilias.questions.showCorrectAnswers =function(a_id) {
 		//end assOrderingQuestion
 
 		case 'assMatchingQuestion':
-			for (var i=0;i<questions[a_id].pairs.length;i++) {
-				
-				// #10353 - find correct term for definition
-				var term_id = "-1";
-				for (var j=0;j<questions[a_id].match.length;j++) {
-					if(questions[a_id].match[j].def_id == questions[a_id].pairs[i].def_id)	{
-						term_id = questions[a_id].match[j].term_id;
-					}
-				}
-				
-				jQuery('select#'+questions[a_id].pairs[i].def_id).removeAttr("selected");
-				jQuery('select#'+questions[a_id].pairs[i].def_id+" option[id="+term_id+"]").attr("selected","selected");
-				jQuery('select#'+questions[a_id].pairs[i].def_id).prop("disabled",true);
-			}
+            (function($){
+                
+                // have a look to #10353 anytime (fixen halt auch ohne netz am start)
+                
+                var matchings = questions[a_id].matchingPairs;
+                var engineInstance = questions[a_id].engineInstance
+                
+                engineInstance.reset();
+                
+                $(matchings).each(function(pos, matching){
+                    engineInstance.addMatching(matching.def_id, matching.term_id);
+                });
+
+                engineInstance.reinit();
+                                
+            })(jQuery);
 		break;
 		//end assMatchingQuestion
 		

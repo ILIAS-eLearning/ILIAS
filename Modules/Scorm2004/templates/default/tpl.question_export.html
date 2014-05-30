@@ -121,46 +121,105 @@
 </script>
 <!-- END imagemapquestion -->
 <!-- BEGIN matchingquestion -->
+<!-- todo: move to global tpl->addStyle... -->
+<link rel="stylesheet" href="Modules/TestQuestionPool/templates/default/test_javascript.css" />
+<script type="text/javascript" src="Modules/TestQuestionPool/js/ilMatchingQuestion.js"></script>
 <div class="ilc_question_MatchingQuestion">
-<div class="ilc_qtitle_Title" id="qtitle{VAL_ID}">qtitle</div>
-	<table id="container{VAL_ID}" cellspacing="0" class="ilc_question_MatchingQuestion_ajax_dummy">
-	  <tbody>
-		<tr>
-			<th valign="middle" style="font-weight:normal;" class="definition ilc_qanswer_Answer">Definition</th>
-			<th valign="middle" style="font-weight:normal;" class="ilc_qanswer_Answer">&nbsp;&harr;&nbsp;</th>
-			<th valign="middle" style="font-weight:normal;" class="termcolumn ilc_qanswer_Answer">
-				<select class="terms" id="terms{VAL_ID}">
-					<option class="term">Term</option>
-				</select>
-			</th>
-		</tr>
-	  </tbody>
-	</table>
-	<div id="feedback{VAL_ID}" style="display:none"></div>
-	<input type="button" class="ilc_qsubmit_Submit" id="button{VAL_ID}"  {VAL_NO_DISPLAY} onclick="ilias.questions.checkAnswers({VAL_ID})" value="{TXT_SUBMIT_ANSWERS}" />
+	<div class="ilc_qtitle_Title" id="qtitle{VAL_ID}">qtitle</div>
+	<div id="ilMatchingQuestionContainer_{VAL_ID}" data-type="ilMatchingQuestion" data-id="{VAL_ID}">
+
+		<div style="text-align: right; margin: 0 0 1em 0;">
+			<input id="ilMatchingResetButton_{VAL_ID}" type="button" class="submit" name="reset" value="-Reset-">
+		</div>
+
+		<table style="width: 100%; overflow: auto;">
+			<tbody>
+				<tr>
+					<td id="targetArea" style="width: 66%; vertical-align: top;">
+						<!-- pure tpl for definitions begin -->
+						<div class="droparea" id="definition_{ID_DROPAREA}" data-id="{ID_DROPAREA}" data-type="definition">
+							<table style="width: 100%;">
+								<tbody>
+									<tr>
+										<td class="ilMatchingQuestionDefinition">Definition</td>
+										<td class="ilMatchingQuestionTerm"></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<!-- pure tpl for definitions end -->
+					</td>
+					<td id="sourceArea" style="width: 33%; vertical-align: top;">
+						<!-- pure tpl for terms begin -->
+						<div class="draggable" id="term_{ID_DRAGGABLE}" data-id="{ID_DRAGGABLE}" data-type="term">Term</div>
+						<!-- pure tpl for terms end -->
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		
+		<div id="feedback{VAL_ID}" style="display:none"></div>
+		
+		<input type="button" class="ilc_qsubmit_Submit" id="button{VAL_ID}"  {VAL_NO_DISPLAY} onclick="ilias.questions.checkAnswers({VAL_ID})" value="{TXT_SUBMIT_ANSWERS}" />
+		
+	</div>
 </div>
 <script>
-	function renderILQuestion{VAL_ID}()
-	{
-		jQuery('div#qtitle{VAL_ID}').html(questions[{VAL_ID}].question);
+(function(questionData){
+	
+	$('div#qtitle'+questionData.id).html(questionData.question);
 
-		var terms_dir = {
-			'option': {
-				'term <- terms': {
-					'.': 'term.term',
-					'@id':'term.id'}
-			}};
-		jQuery('#terms{VAL_ID}').render(questions[{VAL_ID}].pairs[0], terms_dir);
+	$('#ilMatchingQuestionContainer_{VAL_ID} #sourceArea').render(questionData, {
+		'div.draggable':
+		{
+			'term <- terms':
+			{
+				'.': 'term.text',
+				'@id': function(arg) { return "term_"+arg.context.terms[arg.pos].id; },
+				'@data-type': '"term"',
+				'@data-id': 'term.id'
+			}
+		}
+	});
 
-		var pairs_dir = {
-			'tbody tr': {
-				'pair <- pairs': {
-					'th.definition': 'pair.definition',
-					'select@id':'pair.def_id'}
-			}};
-		jQuery('#container{VAL_ID}').render(questions[{VAL_ID}], pairs_dir);
-	}
-	renderILQuestion{VAL_ID}();
+	$('#ilMatchingQuestionContainer_{VAL_ID} #targetArea').render(questionData, {
+		'div.droparea':
+		{
+			'definition <- definitions':
+			{
+				'td.ilMatchingQuestionDefinition': 'definition.text',
+				'@id': function(arg) { return "definition_"+arg.context.definitions[arg.pos].id; },
+				'@data-type': '"definition"',
+				'@data-id': 'definition.id'
+			}
+		}
+	});
+	
+	$(document).ready(
+		function()
+		{
+			var question = $.fn.ilMatchingQuestionEngine(questionData.id, {
+				/* matchingContainer: '#ilMatchingQuestionContainer_{QUESTION_ID}', */
+				matchingContainer: 'body',
+				matchingMode: questionData.matching_mode,
+				resetButtonId: '#ilMatchingResetButton_'+questionData.id
+			});
+
+			$(questionData.definitions).each(function(pos, definition){
+				question.addDefinition(definition.id);
+			});
+
+			$(questionData.terms).each(function(pos, term){
+				question.addTerm(term.id);
+			});
+			
+			question.init();
+			
+			questionData.engineInstance = question;
+		}
+	);
+	
+})(questions[{VAL_ID}]);
 </script>
 <!-- END matchingquestion -->
 <!-- BEGIN textsubset -->

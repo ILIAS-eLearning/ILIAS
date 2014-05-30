@@ -1466,29 +1466,29 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	*/
 	public function toJSON()
 	{
-		include_once("./Services/RTE/classes/class.ilRTE.php");
 		$result = array();
+		
 		$result['id'] = (int) $this->getId();
 		$result['type'] = (string) $this->getQuestionType();
 		$result['title'] = (string) $this->getTitle();
 		$result['question'] =  $this->formatSAQuestion($this->getQuestion());
 		$result['nr_of_tries'] = (int) $this->getNrOfTries();
+		$result['matching_mode'] = $this->getMatchingMode();
 		$result['shuffle'] = true;
 		$result['feedback'] = array(
 			"onenotcorrect" => $this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false),
 			"allcorrect" => $this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true)
 		);
 				
-		$terms = array("" => array("id"=>"-1", 
-			"term"=>$this->lng->txt("please_select")));
+		$terms = array();
 		foreach ($this->getTerms() as $term)
 		{
-			$terms[(int)$term->identifier] = array(
-				"term" => $term->text,
+			$terms[] = array(
+				"text" => $term->text,
 				"id" =>(int)$term->identifier
 			);
 		}
-		// $terms = $this->pcArrayShuffle($terms);				
+		$result['terms'] = $terms;
 
 		// alex 9.9.2010 as a fix for bug 6513 I added the question id
 		// to the "def_id" in the array. The $pair->definition->identifier is not
@@ -1497,34 +1497,37 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		// thus copying the same question on a page results in problems
 		// when the second one (the copy) is answered.
 
-		$pairs = array();
+		$definitions = array();
 		foreach ($this->getDefinitions() as $def)
 		{
-			array_push($pairs, array(
-				"definition" => (string) $def->text,
-				"def_id" => (int) $this->getId().$def->identifier,
-				"terms" => $terms
-			));
+			$definitions[] = array(
+				"text" => (string) $def->text,
+				"id" => (int) $this->getId().$def->identifier
+			);
 		}
-		$result['pairs'] = $pairs;
+		$result['definitions'] = $definitions;
 		
 		// #10353
-		$match = $points = array();
+		$matchings = array();
 		foreach ($this->getMatchingPairs() as $pair)
 		{			
 			$pid = $pair->definition->identifier;
+			if( $this->getMatchingMode() == self::MATCHING_MODE_N_ON_N )
+			{
+				$pid .= '::'.$pair->term->identifier;
+			}
 			
-			// we only need pairs with max. points for def-id
-			if(!isset($match[$pid]) || $match[$pid]["points"] < $pair->points)
-			{				
-				$match[$pid] = array(
+			if( !isset($matchings[$pid]) || $matchings[$pid]["points"] < $pair->points )
+			{
+				$matchings[$pid] = array(
 					"term_id" => (int) $pair->term->identifier,
 					"def_id" => (int) $this->getId().$pair->definition->identifier,
 					"points" => (int) $pair->points
-				);									
+				);
 			}
-		}		
-		$result['match'] = array_values($match);
+		}
+		
+		$result['matchingPairs'] = array_values($matchings);
 			
 		$mobs = ilObjMediaObject::_getMobsOfObject("qpl:html", $this->getId());
 		$result['mobs'] = $mobs;

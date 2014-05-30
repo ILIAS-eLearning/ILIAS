@@ -56,8 +56,18 @@
 
             if( $(this.options.resetButtonId) )
             {
-                $(this.options.resetButtonId).click(resetMatchings);
+                $(this.options.resetButtonId).click(resetMatchingsCallback);
             }
+        },
+        
+        reinit: function()
+        {
+            restoreMatches(this);
+        },
+        
+        reset: function()
+        {
+            resetMatchings(this);
         }
     };
 
@@ -371,7 +381,7 @@
                 droppedDraggableClone.removeClass('draggableDisabled');
 
                 definitionDroppable.find('.ilMatchingQuestionTerm').append(droppedDraggableClone);
-                appendTermInputToDefinition(droppedDraggableClone, definitionDroppable);
+                appendTermInputToDefinition(instance, droppedDraggableClone, definitionDroppable);
 
                 makeDraggable(instance, '#'+droppedDraggableClone.attr('id'));
 
@@ -384,11 +394,14 @@
             }
         );
     };
-
-    var resetMatchings = function()
+    
+    var resetMatchingsCallback = function()
     {
-        var instance = fetchInstance(this);
-        
+        resetMatchings(fetchInstance(this));
+    };
+
+    var resetMatchings = function(instance)
+    {
         $(instance.definitions).each(
             function(key, definitionId)
             {
