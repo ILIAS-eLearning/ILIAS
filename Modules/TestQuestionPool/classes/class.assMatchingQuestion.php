@@ -1531,6 +1531,10 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 			
 		$mobs = ilObjMediaObject::_getMobsOfObject("qpl:html", $this->getId());
 		$result['mobs'] = $mobs;
+		
+		global $lng;
+		$lng->loadLanguageModule('assessment');
+		$result['reset_button_label'] = $lng->txt("reset_terms");
 
 		return json_encode($result);
 	}

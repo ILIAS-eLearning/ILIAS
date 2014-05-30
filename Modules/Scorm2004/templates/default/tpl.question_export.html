@@ -166,8 +166,10 @@
 </div>
 <script>
 (function(questionData){
-	
+
 	$('div#qtitle'+questionData.id).html(questionData.question);
+	
+	$('input#ilMatchingResetButton_'+questionData.id).attr('value', questionData.reset_button_label);
 
 	$('#ilMatchingQuestionContainer_{VAL_ID} #sourceArea').render(questionData, {
 		'div.draggable':
