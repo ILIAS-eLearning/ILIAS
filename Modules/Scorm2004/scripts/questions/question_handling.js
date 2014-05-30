@@ -299,9 +299,11 @@ ilias.questions.assImagemapQuestion = function(a_id) {
 
 ilias.questions.assMatchingQuestion = function(a_id) { (function($){
 
-	answers[a_id].wrong = 0;
-	answers[a_id].passed = true;
-	answers[a_id].choice = [];
+    var answerData = answers[a_id];
+
+    answerData.wrong = 0;
+    answerData.passed = true;
+    answerData.choice = [];
 
     var questionData = questions[a_id];
 
@@ -318,7 +320,7 @@ ilias.questions.assMatchingQuestion = function(a_id) { (function($){
 
         selectedTerms.each( function(key, term)
         {
-            answers[a_id].choice.push(definition.id+'-'+$(term).attr('value'));
+            answerData.choice.push(definition.id+'-'+$(term).attr('value'));
             
             var found = false;
             
@@ -352,9 +354,14 @@ ilias.questions.assMatchingQuestion = function(a_id) { (function($){
     
 	if( foundCorrect < questionData.matchingPairs.length || foundWrong )
     {
-			answers[a_id].passed = false;
-			answers[a_id].wrong = (questionData.matchingPairs.length - foundCorrect) + foundWrong;
-	}		
+        answerData.passed = false;
+        answerData.wrong = (questionData.matchingPairs.length - foundCorrect) + foundWrong;
+	}
+
+    if( answerData.passed || questionData.nr_of_tries && answerData.tries >= questionData.nr_of_tries )
+    {
+        questionData.engineInstance.disable();
+    }
 	
 	ilias.questions.showFeedback(a_id);
     

@@ -26,6 +26,8 @@
         this.definitions = [];
         this.terms = [];
         this.matchings = [];
+        
+        this.disabled = false;
     };
 
     _ilMatchingQuestionEngine.prototype = {
@@ -68,6 +70,16 @@
         reset: function()
         {
             resetMatchings(this);
+        },
+
+        enable: function()
+        {
+            this.disabled = false;
+        },
+
+        disable: function()
+        {
+            this.disabled = true;
         }
     };
 
@@ -103,8 +115,6 @@
         {
             draggable = $(draggable.parents('div.draggable'));
         }
-
-        draggable.addClass('draggableDisabled');
 
         var helper = $('<div class="draggableHelper" />');
         helper.html(draggable.html());
@@ -162,9 +172,16 @@
 
     var startDrag = function(event, ui)
     {
-        var that = $(this);
-        
         var instance = fetchInstance(this);
+        
+        if( instance.disabled )
+        {
+            return false;
+        }
+        
+        var that = $(this);
+
+        that.addClass('draggableDisabled');
 
         $(instance.definitions).each(
             function(key, definitionId)
