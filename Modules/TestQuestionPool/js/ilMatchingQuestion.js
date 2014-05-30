@@ -6,7 +6,7 @@
     {
         options = jQuery.extend({}, jQuery.fn.ilMatchingQuestionEngine.defaults, options);
 
-        instances[questionId] = new _ilMatchingQuestionEngine(options);
+        instances[questionId] = new _ilMatchingQuestionEngine(questionId, options);
 
         return instances[questionId];
     };
@@ -17,11 +17,11 @@
         resetButtonId: null
     };
 
-    var _ilMatchingQuestionEngine = function(options)
+    var _ilMatchingQuestionEngine = function(questionId, options)
     {
         this.options = options;
 
-        this.questionId = null;
+        this.questionId = questionId;
 
         this.definitions = [];
         this.terms = [];
