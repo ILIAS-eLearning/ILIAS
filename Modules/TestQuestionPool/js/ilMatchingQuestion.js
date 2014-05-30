@@ -134,6 +134,8 @@
             scroll: true,
             containment: instance.options.matchingContainer
         });
+
+        $(domSelector).attr('data-qid', instance.questionId);
     };
 
     var isValidDroppable = function(instance, droppable, draggable)
@@ -423,8 +425,22 @@
     
     var fetchInstance = function(element)
     {
-        var questionId = $(element).parents('[data-type=ilMatchingQuestion]').attr('data-id');
-        return instances[questionId];
+        var questionId;
+        
+        if( questionId = $(element).attr('data-qid') )
+        {
+            return instances[questionId];
+        }
+        
+        if( questionId = $(element).parents('[data-type=ilMatchingQuestion]').attr('data-id') )
+        {
+            return instances[questionId];
+        }
+        
+        if( console )
+        {
+            console.log('COULD NOT DETERMINE QUESTION ID ON FETCH INSTANCE CALL !!');
+        }
     };
 
 }(jQuery));
