@@ -23,6 +23,11 @@ ilias.questions.txt = {
 	please_select: "Please Select"
 };
 
+// these question types disable themself in checkAnswers instead of showCorrectAnswers
+ilias.questions.enhancedQuestionTypes = [
+    "assMatchingQuestion"
+];
+
 ilias.questions.init = function() {
 	ilias.questions.shuffle();
 };
@@ -638,7 +643,10 @@ ilias.questions.showFeedback =function(a_id) {
 				fbtext += questions[a_id].feedback['allcorrect'];
 			}
             jQuery('#feedback'+a_id).html(fbtext);
-			//ilias.questions.showCorrectAnswers(a_id);
+			if( jQuery.inArray(questions[a_id].type, ilias.questions.enhancedQuestionTypes) == -1 )
+            {
+                ilias.questions.showCorrectAnswers(a_id);
+            }
 			ilias.questions.scormHandler(a_id,"correct",ilias.questions.toJSONString(answers[a_id]));
 		} else {
 			jQuery('#feedback'+a_id).removeClass("ilc_qfeedr_FeedbackRight");	
