@@ -8,6 +8,7 @@ require_once 'class.ilDataCollectionField.php';
 require_once './Services/Tracking/classes/class.ilLPStatus.php';
 require_once './Services/Tracking/classes/class.ilLearningProgressBaseGUI.php';
 require_once 'class.ilDataCollectionDatatype.php';
+require_once ('./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php');
 
 /**
  * Class ilDataCollectionField
@@ -23,7 +24,7 @@ require_once 'class.ilDataCollectionDatatype.php';
 class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 {
 
-	private $table;
+    private $table;
 
     /**
      * @var ilDataCollectionRecord[]
@@ -33,48 +34,64 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 
     protected $filter = array();
 
-	/*
-	 * __construct
-	 */
-	public function  __construct(ilDataCollectionRecordListGUI $a_parent_obj, $a_parent_cmd, ilDataCollectionTable $table)
-	{
-		global $lng, $ilCtrl;
+    /*
+     * __construct
+     */
+    public function  __construct(ilDataCollectionRecordListGUI $a_parent_obj, $a_parent_cmd, ilDataCollectionTable $table)
+    {
+        global $lng, $ilCtrl;
 
-		$this->setPrefix("dcl_record_list");
+        $this->setPrefix("dcl_record_list");
         $this->setFormName('record_list');
         $this->setId("dcl_record_list" . $table->getId());
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->table = $table;
         $this->parent_obj = $a_parent_obj;
-		$this->setRowTemplate("tpl.record_list_row.html", "Modules/DataCollection");
+        $this->setRowTemplate("tpl.record_list_row.html", "Modules/DataCollection");
 
         // Setup columns and sorting columns
-		$this->addColumn("", "_front", "15px");
+        $width = ($this->table->getPublicCommentsEnabled()) ? '40px' : '15px';
+        $this->addColumn("", "_front", $width);
         $this->numeric_fields = array();
         foreach($this->table->getVisibleFields() as $field)
-		{
-			$title = $field->getTitle();
+        {
+            $title = $field->getTitle();
             $sort_field = $title;
             $this->addColumn($title, $sort_field);
             if($field->getLearningProgress()){
-				$this->addColumn($lng->txt("dcl_status"), "_status_".$field->getTitle());
-			}
+                $this->addColumn($lng->txt("dcl_status"), "_status_".$field->getTitle());
+            }
             if($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_NUMBER) {
                 $this->numeric_fields[] = $title;
             }
         }
-		$this->addColumn($lng->txt("actions"), "", 	 "30px");
+        $this->addColumn($lng->txt("actions"), "", 	 "30px");
 
-		$this->setTopCommands(true);
-		$this->setEnableHeader(true);
-		$this->setShowRowsSelector(true);
-		$this->setShowTemplates(true);
-		$this->setEnableHeader(true);
-		$this->setEnableTitle(true);
-		$this->setDefaultOrderDirection("asc");
-        $this->setDefaultOrderField('id');
-		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, "applyFilter"));
-		$this->initFilter();
+        $this->setTopCommands(true);
+        $this->setEnableHeader(true);
+        $this->setShowRowsSelector(true);
+        $this->setShowTemplates(true);
+        $this->setEnableHeader(true);
+        $this->setEnableTitle(true);
+        $this->setDefaultOrderDirection($this->table->getDefaultSortFieldOrder());
+        // Set a default sorting?
+        $title = 'id';
+        if ($fieldId = $this->table->getDefaultSortField()) {
+            if (ilDataCollectionStandardField::_isStandardField($fieldId)) {
+                /** @var $stdField ilDataCollectionStandardField */
+                foreach (ilDataCollectionStandardField::_getStandardFields($this->table->getId()) as $stdField) {
+                    if ($stdField->getId() == $fieldId) {
+                        $title = $stdField->getTitle();
+                        break;
+                    }
+                }
+            } else {
+                $title = ilDataCollectionCache::getFieldCache($fieldId)->getTitle();
+            }
+            $this->setDefaultOrderField($title);
+        }
+        $this->setFormAction($ilCtrl->getFormAction($a_parent_obj, "applyFilter"));
+        $this->initFilter();
         $this->setStyle('table', $this->getStyle('table') . ' ' . 'dcl_record_list');
     }
 
@@ -89,26 +106,32 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
     public function setRecordData($data) {
         $this->object_data = $data;
         $this->buildData($data);
+        // Save record-ids in session to enable prev/next links in detail view
+        $_SESSION['dcl_record_ids'] = array();
+        /** @var $record ilDataCollectionRecord */
+        foreach ($data as $record) {
+            $_SESSION['dcl_record_ids'][] = $record->getId();
+        }
     }
 
-	/*
-	 * fillHeaderExcel
-	 */
-	public function fillHeaderExcel($worksheet, &$row)
-	{
-		$this->writeFilterToSession();
-		$this->initFilter();
-		$col = 0;
-		
-		foreach($this->table->getFields() as $field)
-		{
-			if($field->getExportable())
-			{
-				$worksheet->writeString($row, $col, $field->getTitle());
-				$col++;
-			}
-		}
-	}
+    /*
+     * fillHeaderExcel
+     */
+    public function fillHeaderExcel($worksheet, &$row)
+    {
+        $this->writeFilterToSession();
+        $this->initFilter();
+        $col = 0;
+
+        foreach($this->table->getFields() as $field)
+        {
+            if($field->getExportable())
+            {
+                $worksheet->writeString($row, $col, $field->getTitle());
+                $col++;
+            }
+        }
+    }
 
     public function numericOrdering($field){
         return in_array($field, $this->numeric_fields);
@@ -124,8 +147,7 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
         foreach($this->object_data as $record){
             $record_data = array();
             $record_data["_front"] = null;
-            // The record object is only needed if we are exporting the data, see fillRowExcel() method
-            $record_data['_record'] = ($ilCtrl->getCmd() == 'exportExcel') ? $record : null;
+            $record_data['_record'] = $record;
 
             foreach($this->table->getVisibleFields() as $field)
             {
@@ -151,8 +173,6 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
             $ilCtrl->setParameterByClass("ildatacollectionrecordviewgui", "record_id", $record->getId());
             $ilCtrl->setParameterByClass("ildatacollectionrecordeditgui","record_id", $record->getId());
 
-            include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
-
             if(ilDataCollectionRecordViewGUI::_getViewDefinitionId($record))
             {
                 $record_data["_front"] = $ilCtrl->getLinkTargetByClass("ildatacollectionrecordviewgui", 'renderRecord');
@@ -177,85 +197,97 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
                 $alist->addItem($lng->txt('delete'), 'delete', $ilCtrl->getLinkTargetByClass("ildatacollectionrecordeditgui", 'confirmDelete'));
             }
 
+            if ($this->table->getPublicCommentsEnabled()) {
+                $alist->addItem($lng->txt('dcl_comments'), '', '', '', '', '', '', '', $this->getCommentsAjaxLink($record->getId()));
+            }
+
             $record_data["_actions"] = $alist->getHTML();
             $data[] = $record_data;
         }
         $this->setData($data);
     }
-	
-	
-	/*
-	 * fillRowExcel
-	 */
-	public function fillRowExcel($worksheet, &$row, $record)
-	{
-		$col = 0;
-		foreach($this->table->getFields() as $field)
-		{
-			if($field->getExportable())
-			{
-				$worksheet->writeString($row, $col, $record["_record"]->getRecordFieldExportValue($field->getId()));
-				$col++;
-			}
-		}
-	}
-	
-	/**
-	 * fill row 
-	 *
-	 * @access public
-	 * @param $a_set
-	 */
-	public function fillRow($record_data)
-	{
-		foreach($this->table->getVisibleFields() as $field)
-		{
+
+
+    /*
+     * fillRowExcel
+     */
+    public function fillRowExcel($worksheet, &$row, $record)
+    {
+        $col = 0;
+        foreach($this->table->getFields() as $field)
+        {
+            if($field->getExportable())
+            {
+                $worksheet->writeString($row, $col, $record["_record"]->getRecordFieldExportValue($field->getId()));
+                $col++;
+            }
+        }
+    }
+
+    /**
+     * fill row
+     *
+     * @access public
+     * @param $a_set
+     */
+    public function fillRow($record_data)
+    {
+        foreach($this->table->getVisibleFields() as $field)
+        {
             $title = $field->getTitle();
-			$this->tpl->setCurrentBlock("field");
+            $this->tpl->setCurrentBlock("field");
             $content = $record_data[$title];
             if ($content === false || $content === null) $content = ''; // SW - This ensures to display also zeros in the table...
             $this->tpl->setVariable("CONTENT", $content);
-			$this->tpl->parseCurrentBlock();
-			if($field->getLearningProgress()){
+            $this->tpl->parseCurrentBlock();
+            if($field->getLearningProgress()){
                 $this->tpl->setCurrentBlock("field");
-			    $this->tpl->setVariable("CONTENT", $record_data["_status_".$title]);
+                $this->tpl->setVariable("CONTENT", $record_data["_status_".$title]);
                 $this->tpl->parseCurrentBlock();
             }
-		}
+        }
 
-		if ($record_data["_front"])
-		{
-			$this->tpl->setVariable("VIEW_IMAGE_LINK", $record_data["_front"]);
-			$this->tpl->setVariable("VIEW_IMAGE_SRC", ilUtil::img(ilUtil::getImagePath("cmd_view_s.png")));
-		}
-		$this->tpl->setVariable("ACTIONS", $record_data["_actions"]);
+        if ($record_data["_front"])
+        {
+            $this->tpl->setVariable("VIEW_IMAGE_LINK", $record_data["_front"]);
+            $this->tpl->setVariable("VIEW_IMAGE_SRC", ilUtil::img(ilUtil::getImagePath("cmd_view_s.png")));
+        }
+        if ($this->table->getPublicCommentsEnabled()) {
+            /** @var $record ilDataCollectionRecord*/
+            $record = $record_data['_record'];
+            $nComments = count($record->getComments());
+            $commentStr = "<a href='#' onclick=\"return ".$this->getCommentsAjaxLink($record->getId())."\">
+                           <img src='".ilUtil::getImagePath("comment_unlabeled.png") . "' alt='{$nComments} Comments'><span class='ilHActProp'>{$nComments}</span></a>";
+            $this->tpl->setVariable('N_COMMENTS', $commentStr);
+        }
+        $this->tpl->setVariable("ACTIONS", $record_data["_actions"]);
 
         return true;
-	}
+    }
 
-	/**
-	 * This adds the collumn for status.
-	 * @param ilDataCollectionRecord $record
-	 * @param ilDataCollectionField $field
-	 */
-	private function getStatus(ilDataCollectionRecord $record, ilDataCollectionField $field){
-		$record_field = ilDataCollectionCache::getRecordFieldCache($record, $field);
+    /**
+     * This adds the collumn for status.
+     * @param ilDataCollectionRecord $record
+     * @param ilDataCollectionField $field
+     */
+    private function getStatus(ilDataCollectionRecord $record, ilDataCollectionField $field){
+        $record_field = ilDataCollectionCache::getRecordFieldCache($record, $field);
         $return = "";
         if($status = $record_field->getStatus()){
             $return = "<img src='".ilLearningProgressBaseGUI::_getImagePathForStatus($status->status)."'>";
         }
         return $return;
     }
-	
-	/*
-	 * initFilter
-	 */
-	public function initFilter()
-	{
-		foreach($this->table->getFilterableFields() as $field) {
-			$input = ilDataCollectionDatatype::addFilterInputFieldToTable($field, $this);
-			$input->readFromSession();
-			$value = $input->getValue();
+
+    /*
+     * initFilter
+     */
+    public function initFilter()
+    {
+        foreach($this->table->getFilterableFields() as $field) {
+            $input = ilDataCollectionDatatype::addFilterInputFieldToTable($field, $this);
+            $input->readFromSession();
+            $value = $input->getValue();
             if (is_array($value)) {
                 if ($value['from'] || $value['to']) {
                     $this->filter["filter_".$field->getId()] = $value;
@@ -265,8 +297,18 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
                     $this->filter["filter_".$field->getId()] = $value;
                 }
             }
-		}
-	}
+        }
+    }
+
+    /**
+     * Get the ajax link for displaying the comments in the right panel (to be wrapped in an onclick attr)
+     * @param int $recordId Record-ID
+     * @return string
+     */
+    private function getCommentsAjaxLink($recordId) {
+        $ajax_hash = ilCommonActionDispatcherGUI::buildAjaxHash(1, $_GET['ref_id'], 'dcl', $this->parent_obj->obj_id, 'dcl', $recordId);
+        return ilNoteGUI::getListCommentsJSCall($ajax_hash, '');
+    }
 
 }
 

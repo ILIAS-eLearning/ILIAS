@@ -68,14 +68,29 @@ class ilDataCollectionTable
     protected $export_enabled;
 
     /**
+     * @var string ID of the default sorting field. Can be a DB field (int) or a standard field (string)
+     */
+    protected $default_sort_field = 0;
+
+    /**
+     * @var string Default sort-order (asc|desc)
+     */
+    protected $default_sort_field_order = 'asc';
+
+    /**
      * @var string Description for this table displayed above records
      */
     protected $description;
 
     /**
+     * @var bool True if users can add comments on each record of this table
+     */
+    protected $public_comments = 0;
+
+    /**
 	 * Constructor
 	 * @access public
-	 * @param  integer fiel_id
+	 * @param  integer 
 	 *
 	 */
 	public function __construct($a_id = 0)
@@ -111,6 +126,9 @@ class ilDataCollectionTable
 		$this->setLimitEnd($rec["limit_end"]);
 		$this->setIsVisible($rec["is_visible"]);
         $this->setDescription($rec['description']);
+        $this->setDefaultSortField($rec['default_sort_field_id']);
+        $this->setDefaultSortFieldOrder($rec['default_sort_field_order']);
+        $this->setPublicCommentsEnabled($rec['public_comments']);
 	}
 	
 	/**
@@ -171,7 +189,10 @@ class ilDataCollectionTable
 			", limit_end".
 			", is_visible".
 			", export_enabled".
+            ", default_sort_field_id".
+            ", default_sort_field_order".
             ", description".
+            ", public_comments".
 			" ) VALUES (".
 			$ilDB->quote($this->getId(), "integer")
 			.",".$ilDB->quote($this->getObjId(), "integer")
@@ -186,6 +207,9 @@ class ilDataCollectionTable
 			.",".$ilDB->quote($this->getIsVisible()?1:0, "integer")
 			.",".$ilDB->quote($this->getExportEnabled()?1:0, "integer")
             .",".$ilDB->quote($this->getDescription(), "text")
+            .",".$ilDB->quote($this->getDefaultSortField(), "text")
+            .",".$ilDB->quote($this->getDefaultSortFieldOrder(), "text")
+            .",".$ilDB->quote($this->getPublicCommentsEnabled(), "integer")
 			.")";
 		$ilDB->manipulate($query);
 
@@ -232,6 +256,10 @@ class ilDataCollectionTable
 			"is_visible" => array("integer",$this->getIsVisible()?1:0),
 			"export_enabled" => array("integer",$this->getExportEnabled()?1:0),
             "description" => array("text",$this->getDescription()),
+			"export_enabled" => array("integer",$this->getExportEnabled()?1:0),
+            "default_sort_field_id" => array("text",$this->getDefaultSortField()),
+            "default_sort_field_order" => array("text",$this->getDefaultSortFieldOrder()),
+            "public_comments" => array("integer",$this->getPublicCommentsEnabled()?1:0),
 		), array(
 			"id" => array("integer", $this->getId())
 		));
@@ -906,6 +934,59 @@ class ilDataCollectionTable
     }
 
     /**
+
+    /**
+     * @param string $default_sort_field
+     */
+    public function setDefaultSortField($default_sort_field)
+    {
+        $default_sort_field = ($default_sort_field) ? $default_sort_field : 0; // Change null or empty strings to zero
+        $this->default_sort_field = $default_sort_field;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDefaultSortField()
+    {
+        return $this->default_sort_field;
+    }
+
+    /**
+     * @param string $default_sort_field_order
+     */
+    public function setDefaultSortFieldOrder($default_sort_field_order)
+    {
+        if (!in_array($default_sort_field_order, array('asc', 'desc'))) $default_sort_field_order = 'asc';
+        $this->default_sort_field_order = $default_sort_field_order;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDefaultSortFieldOrder()
+    {
+        return $this->default_sort_field_order;
+    }
+
+    /**
+     * @param boolean $public_comments
+     */
+    public function setPublicCommentsEnabled($public_comments)
+    {
+        $this->public_comments = $public_comments;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getPublicCommentsEnabled()
+    {
+        return $this->public_comments;
+    }
+
+
+	/**
 	 * hasCustomFields
 	 * @return boolean
 	 */

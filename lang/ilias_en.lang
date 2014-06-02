@@ -13070,6 +13070,9 @@ dcl#:#dcl_multiple_selection#:#Multiple Selection
 dcl#:#dcl_field_title_unique#:#There exists already a field with this title. Title must be unique.
 dcl#:#dcl_table_title_unique#:#There exists already a table with this title. Title must be unique.
 dcl#:#dcl_please_select#:#--- Please select ---
+dcl#:#dcl_asc#:#Ascending Order (ASC)
+dcl#:#dcl_desc#:#Descending Order (DESC)
+dcl#:#dcl_comments#:#Comments
 dcl#:#dcl_id#:#ID
 dcl#:#dcl_id_description#:#The internal ID.
 dcl#:#dcl_creation_date#:#Creation Date

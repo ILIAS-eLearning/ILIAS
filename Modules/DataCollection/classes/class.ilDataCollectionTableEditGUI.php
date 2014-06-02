@@ -112,7 +112,10 @@ class ilDataCollectionTableEditGUI
 			'limit_start'		=>	array("date" => substr($this->table->getLimitStart(),0,10), "time" => substr($this->table->getLimitStart(),-8)),
 			'limit_end'		=>	array("date" => substr($this->table->getLimitEnd(),0,10), "time" => substr($this->table->getLimitEnd(),-8)),
 			'is_visible'		=>	$this->table->getIsVisible(),
+            'default_sort_field' => $this->table->getDefaultSortField(),
+            'default_sort_field_order' => $this->table->getDefaultSortFieldOrder(),
             'description' => $this->table->getDescription(),
+            'public_comments' => $this->table->getPublicCommentsEnabled(),
 		);
 		if(!$this->table->getLimitStart())
 			$values['limit_start'] = NULL;
@@ -169,6 +172,23 @@ class ilDataCollectionTableEditGUI
 		$item = new ilCheckboxInputGUI($lng->txt('dcl_visible'),'is_visible');
 		$this->form->addItem($item);
 
+        // Show default order field and direction only in edit mode, because table id is not yet given and there are no fields to select
+        if ($a_mode != 'create') {
+            $item = new ilSelectInputGUI($lng->txt('dcl_default_sort_field'), 'default_sort_field');
+            $fields = $this->table->getVisibleFields();
+            $options = array(0 => $lng->txt('dcl_please_select'));
+            foreach ($fields as $field) {
+                $options[$field->getId()] = $field->getTitle();
+            }
+            $item->setOptions($options);
+            $this->form->addItem($item);
+
+            $item = new ilSelectInputGUI($lng->txt('dcl_default_sort_field_order'), 'default_sort_field_order');
+            $options = array('asc' => $lng->txt('dcl_asc'), 'desc' => $lng->txt('dcl_desc'));
+            $item->setOptions($options);
+            $this->form->addItem($item);
+        }
+
         $item = new ilTextAreaInputGUI($lng->txt('additional_info'), 'description');
         $item->setUseRte(true);
 //        $item->setRTESupport($this->table->getId(), 'dcl', 'table_settings');
@@ -209,6 +229,10 @@ class ilDataCollectionTableEditGUI
 		$item->addSubItem($sitem1);
 		$item->addSubItem($sitem2);
 		$this->form->addItem($item);
+
+        $item = new ilCheckboxInputGUI($lng->txt('dcl_public_comments'),'public_comments');
+        $this->form->addItem($item);
+
 		if($a_mode == "edit")
 		{
 			$this->form->addCommandButton('update', 	$lng->txt('dcl_table_'.$a_mode));
@@ -274,8 +298,11 @@ class ilDataCollectionTableEditGUI
 			$this->table->setDeletePerm($this->form->getInput("delete_perm"));
 			$this->table->setEditByOwner($this->form->getInput("edit_by_owner"));
             $this->table->setExportEnabled($this->form->getInput("export_enabled"));
+            $this->table->setDefaultSortField($this->form->getInput("default_sort_field"));
+            $this->table->setDefaultSortFieldOrder($this->form->getInput("default_sort_field_order"));
+            $this->table->setPublicCommentsEnabled($this->form->getInput('public_comments'));
+			$this->table->setLimited($this->form->getInput("limited"));
             $this->table->setDescription($this->form->getInput('description'));
-            $this->table->setLimited($this->form->getInput("limited"));
 			$limit_start = $this->form->getInput("limit_start");
 			$limit_end = $this->form->getInput("limit_end");
 			$this->table->setLimitStart($limit_start["date"]." ".$limit_start["time"]);

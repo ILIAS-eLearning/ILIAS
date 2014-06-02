@@ -4062,6 +4062,29 @@ td.dcl_actions {
     font-size: 90%;
 }
 
+.ilDclRecordViewNav {
+    font-weight: normal;
+    padding: 3px;
+    font-size: 80%;
+    margin-bottom: 15px;
+}
+
+.ilDclRecordViewRecordOfTotal {
+    margin-right: 10px;
+}
+
+.ilDclSelectRecord {
+    margin-left: 10px;
+}
+
+.ilDclChangeRecord {
+    display: inline;
+}
+
+.ilDclPermanentLinkWrapper {
+    margin: 20px 0;
+}
+
 /* Modules/Bibliographic */
 span.bibl_text_inline_Emph {
 	font-style: italic; 

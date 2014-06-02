@@ -113,7 +113,8 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 			case "ilcommonactiondispatchergui":
 				include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
 				$gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
-				$this->ctrl->forwardCommand($gui);
+				$gui->enableCommentsSettings(false);
+                $this->ctrl->forwardCommand($gui);
 				break;
 
 			case "ilpermissiongui":
@@ -237,6 +238,15 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 				$ilCtrl->redirectByClass("ilDataCollectionRecordListGUI", "listRecords");
 				break;
 
+            case 'ilnotegui':
+                $this->prepareOutput();
+                include_once("./Modules/DataCollection/classes/class.ilDataCollectionRecordViewGUI.php");
+                // Forward the command to recordViewGUI
+                $recordviewGui = new ilDataCollectionRecordViewGUI($this);
+                $this->ctrl->forwardCommand($recordviewGui);
+                $ilTabs->clearTargets();
+                $ilTabs->setBackTarget($this->lng->txt("back"), $ilCtrl->getLinkTargetByClass("ilObjDataCollectionGUI", ""));
+                break;
 			default:
 				return parent::executeCommand();
 		}

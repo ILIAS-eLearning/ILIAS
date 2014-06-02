@@ -49,8 +49,13 @@ class ilDataCollectionTreePickInputGUI extends ilCustomInputGUI{
 		$tpl->setVariable("FIELD_ID", $this->getPostVar());
 		$tpl->setVariable("AJAX_LINK", $ilCtrl->getLinkTargetByClass("ildatacollectionrecordeditgui", "searchObjects"));
 		$tpl->setVariable("LOADER_PATH", ilUtil::getImagePath("loader.gif"));
-
-		return $this->title_input->getToolbarHTML()."<br /><br />".$this->search_input->getTableFilterHTML().$this->hidden_input->getToolbarHTML()." <a href='#' id='search_button_".$this->getPostVar()."'>Search</a>".$tpl->get();
+        $out  = $this->title_input->getToolbarHTML();
+        $out .= "<a href='#' style='display:inline-block;' id='remove_{$this->getPostVar()}'><img src='".ilUtil::getImagePath('edit_remove.png')."' alt='remove module'></a>";
+        $out .= $this->search_input->getTableFilterHTML();
+        $out .= $this->hidden_input->getToolbarHTML();
+        $out .= "<a href='#' id='search_button_".$this->getPostVar()."'>Search</a>";
+        $out .= $tpl->get();
+        return $out;
 	}
 
 	public function setValueByArray($value){

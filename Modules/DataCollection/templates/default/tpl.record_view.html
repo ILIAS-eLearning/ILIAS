@@ -1,5 +1,18 @@
+<!-- BEGIN paging -->
+<div class="ilDclRecordViewNav">
+    <span class="ilDclRecordViewRecordOfTotal light">({RECORD_FROM_TOTAL})</span>
+    {PREV_NEXT_RECORD_LINKS}
+    <label for="dcl_select_record" class="ilDclSelectRecord">{RECORD}</label>
+    <form action="{FORM_ACTION}" method="POST" name="dcl_change_record" class="ilDclChangeRecord">
+        <input type="hidden" name="cmd[renderRecord]" value="1">
+        <select name="record_id" id="dcl_select_record" onchange="document.dcl_change_record.submit()">
+            {SELECT_OPTIONS}
+        </select>
+    </form>
+</div>
+<!-- END paging -->
 <div class="ilc_page_cont_PageContainer">
     <div class="ilc_page_Page">{CONTENT}</div>
 </div>
-<br/>
-{PERMA_LINK}
+<div class="ilDclPermanentLinkWrapper">{PERMA_LINK}</div>
+{COMMENTS}

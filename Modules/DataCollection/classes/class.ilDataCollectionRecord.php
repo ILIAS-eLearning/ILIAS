@@ -623,5 +623,9 @@ class ilDataCollectionRecord
 		
 		return $this->table;
 	}
+
+    public function getComments() {
+        return ilNote::_getNotesOfObject($this->table->getCollectionObject()->getId(), $this->getId(), 'dcl', IL_NOTE_PUBLIC);
+    }
 }
 ?>
