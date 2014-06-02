@@ -29,6 +29,9 @@ class gevSettings {
 	const CRS_AMD_TEMPLATE_TITLE	= "crs_amd_template_title";
 	//Lernart
 	const CRS_AMD_TYPE 				= "crs_amd_type";
+	// Vorlage
+	const CRS_AMD_IS_TEMPLATE		= "crs_amd_is_template";
+	
 	// Trainingsbetreuer -> ILIAS Standard
 	//const CRS_AMD_MAINTAINER		= "crs_amd_maintainer";
 
@@ -58,6 +61,8 @@ class gevSettings {
 	const CRS_AMD_EXPERT_TRAINING	= "crs_amd_expert_training";
 	// Bildungspunkte
 	const CRS_AMD_CREDIT_POINTS		= "crs_amd_credit_points";
+	// GEV Lerninhalt
+	const CRS_AMD_GDV_TOPIC			= "crs_amd_gdv_topic";
 	
 	// Teilnahmegebühr
 	const CRS_AMD_FEE				= "crs_amd_fee";

@@ -92,6 +92,10 @@ class gevCourseUtils {
 		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_TEMPLATE_TITLE);
 	}
 	
+	public function isTemplate() {
+		return "Ja" == $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_IS_TEMPLATE);
+	}
+	
 	public function getType() {
 		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_TYPE);
 	}
@@ -133,8 +137,7 @@ class gevCourseUtils {
 	}
 	
 	public function getIsExpertTraining() {
-		$val = $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_EXPERT_TRAINING);
-		return $val == "Ja";
+		return "Ja" == $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_EXPERT_TRAINING);
 	}
 	
 	public function getCreditPoints() {

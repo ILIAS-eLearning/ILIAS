@@ -249,6 +249,15 @@ array( "Inhalte"
 				 			 , null
 				 			 , $ttext
 				 			 )
+				 , "Vorlage" =>
+				 		array( gevSettings::CRS_AMD_IS_TEMPLATE
+				 			 , "Ist dieses Objekt ein Vorlagenobjekt?"
+				 			 , false
+				 			 , array ( "Ja"
+				 			 		 , "Nein"
+				 			 		 )
+				 			 , $tselect
+				 			 )
 				 , "Lernart" =>
 				 		array( gevSettings::CRS_AMD_TYPE
 				 			 , "Art des Trainings"
