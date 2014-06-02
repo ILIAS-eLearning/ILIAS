@@ -70,6 +70,29 @@ class ilCourseCertificateAdapter extends ilCertificateAdapter
 		$vars = $this->getBaseVariablesForPreview(false);
 		$vars["COURSE_TITLE"] = ilUtil::prepareFormOutput($this->object->getTitle());
 		
+		// gev-patch start
+		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+		$crs = gevCourseUtils::getInstance($this->object->getId());
+		
+		$vars["COURSE_TYPE"] = ilUtil::prepareFormOutput($crs->getType());
+		$start_date = $crs->getStartDate();
+		$vars["COURSE_START_DATE"] = ilUtil::prepareFormOutput(
+											  $start_date !== null
+											? ilDatePresentation::formatDate(
+												  $start_date
+												, IL_CAL_DATETIME)
+											: "");
+		$end_date = $crs->getEndDate();
+		$vars["COURSE_END_DATE"] = ilUtil::prepareFormOutput(
+											  $end_date !== null
+											? ilDatePresentation::formatDate(
+												  $end_date
+												, IL_CAL_DATETIME)
+											: "");
+		$vars["COURSE_TOPICS"] = ilUtil::prepareFormOutput(implode(", ", $crs->getTopics()));
+		$vars["COURSE_CREDIT_POINTS"] = ilUtil::prepareFormOutput($crs->getCreditPoints());
+		// gev-patch end
+		
 		$insert_tags = array();
 		foreach($vars as $id => $caption)
 		{
@@ -101,6 +124,29 @@ class ilCourseCertificateAdapter extends ilCertificateAdapter
 		$vars = $this->getBaseVariablesForPresentation($user_data, null, $completion_date);		
 		$vars["COURSE_TITLE"] = ilUtil::prepareFormOutput($this->object->getTitle());
 		
+		// gev-patch start
+		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+		$crs = gevCourseUtils::getInstance($this->object->getId());
+		
+		$vars["COURSE_TYPE"] = ilUtil::prepareFormOutput($crs->getType());
+		$start_date = $crs->getStartDate();
+		$vars["COURSE_START_DATE"] = ilUtil::prepareFormOutput(
+											  $start_date !== null
+											? ilDatePresentation::formatDate(
+												  $start_date
+												, IL_CAL_DATETIME)
+											: "");
+		$end_date = $crs->getEndDate();
+		$vars["COURSE_END_DATE"] = ilUtil::prepareFormOutput(
+											  $end_date !== null
+											? ilDatePresentation::formatDate(
+												  $end_date
+												, IL_CAL_DATETIME)
+											: "");
+		$vars["COURSE_TOPICS"] = ilUtil::prepareFormOutput(implode(", ", $crs->getTopics()));
+		$vars["COURSE_CREDIT_POINTS"] = ilUtil::prepareFormOutput($crs->getCreditPoints());
+		// gev-patch end
+		
 		$insert_tags = array();
 		foreach($vars as $id => $caption)
 		{
@@ -121,6 +167,14 @@ class ilCourseCertificateAdapter extends ilCertificateAdapter
 		
 		$vars = $this->getBaseVariablesDescription(false);
 		$vars["COURSE_TITLE"] = $lng->txt("crs_title");
+		
+		// gev-patch start
+		$vars["COURSE_TYPE"] = $lng->txt("gev_cert_course_type");
+		$vars["COURSE_START_DATE"] = $lng->txt("gev_cert_course_start_date");
+		$vars["COURSE_END_DATE"] = $lng->txt("gev_cert_course_end_date");
+		$vars["COURSE_TOPICS"] = $lng->txt("gev_cert_course_topics");
+		$vars["COURSE_CREDIT_POINTS"] = $lng->txt("gev_cert_points");
+		// gev-patch end
 				
 		$template = new ilTemplate("tpl.il_as_tst_certificate_edit.html", TRUE, TRUE, "Modules/Test");	
 		$template->setCurrentBlock("items");
