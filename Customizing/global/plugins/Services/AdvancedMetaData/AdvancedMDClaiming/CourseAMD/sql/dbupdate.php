@@ -19,39 +19,9 @@ $tprovider = ilAdvancedMDFieldDefinition::TYPE_PROVIDER_SELECT;
 $gev_set = gevSettings::getInstance();
 
 $records = 
-array( "Verwaltung"
-		=> 	array( "Einstellungen zur Verwaltung der Trainings", 
-			array( "Trainingsnummer" => 
-						array( gevSettings::CRS_AMD_CUSTOM_ID		# 0 to save in settings
-							 , "Trainingsnummer oder Nummernkreis"  # 1 description
-							 , true 								# 2 searchable
-							 , null 								# 3 definition
-							 , $ttext 								# 4 type
-							 )
-				 , "Vorlagentitel" =>
-				 		array( gevSettings::CRS_AMD_TEMPLATE_TITLE
-				 			 , "Name der verwendeten Vorlage"
-				 			 , true
-				 			 , null
-				 			 , $ttext
-				 			 )
-				 , "Lernart" =>
-				 		array( gevSettings::CRS_AMD_TYPE
-				 			 , "Art des Trainings"
-				 			 , true
-				 			 , array( "Präsenztraining"
-				 			 		, "Webinar"
-				 			 		, "Selbstlernkurs"
-				 			 		, "Spezialistenschulung Präsenztraining"
-				 			 		, "Spezialistenschulung Webinar"
-									, "POT-Termin"
-									)
-				 			 , $tselect
-				 			 )
-				 ))
-	 , "Inhalte" 
+array( "Inhalte" 
 		=> array( "Inhalte und Medien des Trainings",
-		   array( "Trainingsthemen" =>
+		   array( "Trainingskategorie" =>
 				 		array( gevSettings::CRS_AMD_TOPIC
 				 			 , null
 				 			 , true
@@ -72,7 +42,8 @@ array( "Verwaltung"
 				 			 		, "Persönlichkeit"
 				 			 		, "Erstausbildung"
 				 			 		, "Ausbilder"
-				 			 		, "Azubi")
+				 			 		, "Azubi"
+				 			 		, "Qualifizierungsprogramme")
 				 			 , $tmultiselect
 				 			 )
 				, "Trainingsinhalte" =>
@@ -119,25 +90,6 @@ array( "Verwaltung"
 							 , $tmultiselect
 							 )
 				))
-	 , "Bewertung"
-	 	=> array("Bewertung des Trainings für die WBD und den ASTD-Report",
-	 	   array( "Weiterbildungspunkte" =>
-	 	   				array( gevSettings::CRS_AMD_CREDIT_POINTS
-	 	   					 , "An die WBD zu meldende Zahl von Bildungspunkten"
-	 	   					 , false
-	 	   					 , array("min" => 0)
-	 	   					 , $tinteger
-	 	   					 )
-	 	   		, "Fachschulung" =>
-	 	   				array( gevSettings::CRS_AMD_EXPERT_TRAINING
-	 	   					 , "Ist das Training eine Fachschulung?"
-	 	   					 , false
-	 	   					 , array( "Ja"
-	 	   					 		, "Nein"
-	 	   					 		)
-	 	   					 , $tselect
-	 	   					 )
-	 	   		))
 	 , "Zielgruppen"
 		=> array( "Zielgruppen des Trainings",
 		   array( "Zielgruppen" => 
@@ -167,48 +119,6 @@ array( "Verwaltung"
 		   					 , $ttext 		# TODO: Change to multiline text
 		   					 )
 		   ))
-	 , "Abrechnung"
-	 	=> array( null,
-	 	   array( "Gebühren" =>
-	 	   				array( gevSettings::CRS_AMD_FEE
-	 	   					 , "Gebühren des Trainings"
-	 	   					 , false
-	 	   					 , array("min" => 0
-	 	   					 		,"decimals" => 2)
-	 	   					 , $tfloat
-	 	   					 )
-	 	   		))
-	 , "Buchungsmodalitäten"
-	 	=> array( "Fristen und Teilnehmerzahlen", 
-	 	   array( "Mindestteilnehmerzahl" =>
-	 	   				array( gevSettings::CRS_AMD_MIN_PARTICIPANTS
-	 	   					 , null
-	 	   					 , false
-	 	   					 , array("min" => 0)
-	 	   					 , $tinteger
-	 	   					 )
-	 	   		, "Stornofrist" =>
-	 	   				array( gevSettings::CRS_AMD_CANCEL_DEADLINE
-	 	   					 , "Tage vor dem Seminar, bis zu denen noch kostenfrei storniert werden kann."
-	 	   					 , false
-	 	   					 , array("min" => 0)
-	 	   					 , $tinteger
-	 	   					 )
-	 	   		, "Buchungsfrist" =>
-	 	   				array( gevSettings::CRS_AMD_BOOKING_DEADLINE
-	 	   					 , "Tage vor dem Seminar, bis zu denen das Seminar gebucht werden kann."
-	 	   					 , false
-	 	   					 , array("min" => 0)
-	 	   					 , $tinteger
-	 	   					 )
-	 	   		, "Absage Wartelist" =>
-	 	   				array( gevSettings::CRS_AMD_CANCEL_WAITING
-	 	   					 , "Tag vor dem Seminar, an dem die Warteliste abgesagt wird."
-	 	   					 , false
-	 	   					 , array("min" => 0)
-	 	   					 , $tinteger
-	 	   					 )
-	 	   		))
 	 , "Orte und Anbieter"
 	 	=> array( null, 
 	 	   array( "Anbieter" =>
@@ -249,6 +159,111 @@ array( "Verwaltung"
 	 	   					 , $tdate)
 
 	 	   		))
+	 , "Bewertung"
+	 	=> array("Bewertung des Trainings für die WBD und den ASTD-Report",
+	 	   array( "Weiterbildungspunkte" =>
+	 	   				array( gevSettings::CRS_AMD_CREDIT_POINTS
+	 	   					 , "An die WBD zu meldende Zahl von Bildungspunkten"
+	 	   					 , false
+	 	   					 , array("min" => 0)
+	 	   					 , $tinteger
+	 	   					 )
+	 	   		, "GDV-Lerninhalt" =>
+	 	   				array( gevSettings::CRS_AMD_GDV_TOPIC
+	 	   					 , "An die WBD zu meldendes Thema des Seminars"
+	 	   					 , false
+	 	   					 , array( "Privat-Vorsorge-Lebens-/Rentenversicherung"
+	 	   					 		, "Privat-Vorsorge-Kranken-/Pflegeversicherung"
+	 	   					 		, "Firmenkunden-Sach-/Schadensversicherung"
+	 	   					 		, "Spartenübergreifend"
+	 	   					 		, "Firmenkunden-Vorsorge (bAV/Personenversicherung)"
+	 	   					 		, "Beratungskompetenz"
+	 	   					 		)
+	 	   					 , $tselect
+	 	   					 )
+	 	   		, "Fachschulung" =>
+	 	   				array( gevSettings::CRS_AMD_EXPERT_TRAINING
+	 	   					 , "Ist das Training eine Fachschulung?"
+	 	   					 , false
+	 	   					 , array( "Ja"
+	 	   					 		, "Nein"
+	 	   					 		)
+	 	   					 , $tselect
+	 	   					 )
+	 	   		))
+	 , "Abrechnung"
+	 	=> array( null,
+	 	   array( "Teilnahmegebühr" =>
+	 	   				array( gevSettings::CRS_AMD_FEE
+	 	   					 , ""
+	 	   					 , false
+	 	   					 , array("min" => 0
+	 	   					 		,"decimals" => 2)
+	 	   					 , $tfloat
+	 	   					 )
+	 	   		))
+	 , "Buchungsmodalitäten"
+	 	=> array( "Fristen und Teilnehmerzahlen", 
+	 	   array( "Mindestteilnehmerzahl" =>
+	 	   				array( gevSettings::CRS_AMD_MIN_PARTICIPANTS
+	 	   					 , null
+	 	   					 , false
+	 	   					 , array("min" => 0)
+	 	   					 , $tinteger
+	 	   					 )
+	 	   		, "Stornofrist" =>
+	 	   				array( gevSettings::CRS_AMD_CANCEL_DEADLINE
+	 	   					 , "Tage vor dem Seminar, bis zu denen noch kostenfrei storniert werden kann."
+	 	   					 , false
+	 	   					 , array("min" => 0)
+	 	   					 , $tinteger
+	 	   					 )
+	 	   		, "Buchungsfrist" =>
+	 	   				array( gevSettings::CRS_AMD_BOOKING_DEADLINE
+	 	   					 , "Tage vor dem Seminar, bis zu denen das Seminar gebucht werden kann."
+	 	   					 , false
+	 	   					 , array("min" => 0)
+	 	   					 , $tinteger
+	 	   					 )
+	 	   		, "Absage Wartelist" =>
+	 	   				array( gevSettings::CRS_AMD_CANCEL_WAITING
+	 	   					 , "Tag vor dem Seminar, an dem die Warteliste abgesagt wird."
+	 	   					 , false
+	 	   					 , array("min" => 0)
+	 	   					 , $tinteger
+	 	   					 )
+	 	   		))
+	, "Verwaltung"
+		=> 	array( "Einstellungen zur Verwaltung der Trainings", 
+			array( "Trainingsnummer" => 
+						array( gevSettings::CRS_AMD_CUSTOM_ID		# 0 to save in settings
+							 , "Trainingsnummer oder Nummernkreis"  # 1 description
+							 , true 								# 2 searchable
+							 , null 								# 3 definition
+							 , $ttext 								# 4 type
+							 )
+				 , "Vorlagentitel" =>
+				 		array( gevSettings::CRS_AMD_TEMPLATE_TITLE
+				 			 , "Name der verwendeten Vorlage"
+				 			 , true
+				 			 , null
+				 			 , $ttext
+				 			 )
+				 , "Lernart" =>
+				 		array( gevSettings::CRS_AMD_TYPE
+				 			 , "Art des Trainings"
+				 			 , true
+				 			 , array( "Präsenztraining"
+				 			 		, "Webinar"
+				 			 		, "Selbstlernkurs"
+				 			 		, "Spezialistenschulung Präsenztraining"
+				 			 		, "Spezialistenschulung Webinar"
+									, "POT-Termin"
+									)
+				 			 , $tselect
+				 			 )
+				 ))
+
 	);
 
 gevAMDUtils::createAMDRecords($records, array("crs"));
