@@ -228,8 +228,12 @@ class ilQuestionExporter
 	}
 	
 	private function assMatchingQuestion() {
+		global $tpl;
+		$tpl->addJavaScript('Modules/TestQuestionPool/js/ilMatchingQuestion.js');
+		$tpl->addCss('Modules/TestQuestionPool/templates/default/test_javascript.css');
 		$this->tpl->setCurrentBlock("matchingquestion");
 		$this->tpl->setVariable("VAL_ID", $this->json_decoded->id);
+		$this->tpl->setVariable("BTN_LABEL_RESET", $this->lng->txt("reset_terms"));
 		$this->tpl->setVariable("TXT_SUBMIT_ANSWERS", $this->lng->txt("cont_submit_answers"));
 		if ($this->preview_mode) {
 			$this->tpl->setVariable("VAL_NO_DISPLAY", "style=\"display:none\"");
