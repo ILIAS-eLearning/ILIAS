@@ -416,7 +416,14 @@
     
     var resetMatchingsCallback = function()
     {
-        resetMatchings(fetchInstance(this));
+        var instance = fetchInstance(this);
+        
+        if(instance.disabled)
+        {
+            return;
+        }
+
+        resetMatchings();
     };
 
     var resetMatchings = function(instance)
