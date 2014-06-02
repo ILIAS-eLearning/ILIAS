@@ -103,6 +103,7 @@ class gevAMDUtils {
 	protected static function makeJoinPart($a_name, $a_field_id, $a_type) {
 		switch($a_type) {
 			case ilAdvancedMDFieldDefinition::TYPE_SELECT:
+			case ilAdvancedMDFieldDefinition::TYPE_MULTI_SELECT:
 			case ilAdvancedMDFieldDefinition::TYPE_TEXT:
 				$postfix = "text";
 				break;

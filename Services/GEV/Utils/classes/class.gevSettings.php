@@ -84,10 +84,10 @@ class gevSettings {
 	const ORG_TYPE_PROVIDER			= "org_unit_type_provider";
 	const ORG_TYPE_DEFAULT			= "org_unit_type_default";
 	
-	const ALL_ORG_TYPES = array( gevSettings::ORG_TYPE_VENUE
-							   , gevSettings::ORG_TYPE_PROVIDER
-							   , gevSettings::ORG_TYPE_DEFAULT
-							   );
+	static $all_org_types = array( gevSettings::ORG_TYPE_VENUE
+								 , gevSettings::ORG_TYPE_PROVIDER
+								 , gevSettings::ORG_TYPE_DEFAULT
+								 );
 	
 	// AMD für alle Org-Units (vgl. Konzept, Abschnitte Veranstaltungsorte, Anbieter)
 	// Straße
