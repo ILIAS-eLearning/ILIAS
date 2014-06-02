@@ -13081,6 +13081,12 @@ dcl#:#dcl_owner#:#Owner
 dcl#:#dcl_owner_description#:#The owner of the entry.
 dcl#:#dcl_last_edited_by#:#Last edited by
 dcl#:#dcl_last_edited_by_description#:#The user that edited this entry last.
+dcl#:#dcl_public_comments#:#Enable public comments for records
+dcl#:#dcl_default_sort_field#:#Default sort field
+dcl#:#dcl_default_sort_field_order#:#Default sort field order
+dcl#:#dcl_prev_record#:#Previous record
+dcl#:#dcl_next_record#:#Next record
+dcl#:#dcl_record_from_total#:#%d of %d
 common#:#obj_bibl#:#Bibliography
 common#:#objs_bibl#:#Bibliographies
 bibl#:#bibl_new#:#New Bibliography

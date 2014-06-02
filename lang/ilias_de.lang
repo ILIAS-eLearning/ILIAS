@@ -13090,6 +13090,12 @@ dcl#:#dcl_owner#:#Besitzer
 dcl#:#dcl_owner_description#:#Der Besitzer dieses Eintrages.
 dcl#:#dcl_last_edited_by#:#Zuletzt geändert von
 dcl#:#dcl_last_edited_by_description#:#Der Benutzer der diesen Eintrag zuletzt geändert hat.
+dcl#:#dcl_public_comments#:#Öffentliche Kommentare für Datensätze aktivieren
+dcl#:#dcl_default_sort_field#:#Standardmässige Sortierung
+dcl#:#dcl_default_sort_field_order#:#Standardmässige Sortierungs-Richtung
+dcl#:#dcl_prev_record#:#Vorheriger Datensatz
+dcl#:#dcl_next_record#:#Nächster Datensatz
+dcl#:#dcl_record_from_total#:#%d von %d
 crs#:#crs_notification_list_title#:#Benachrichtigung über neue Mitglieder
 common#:#objs_bibl#:#Literaturlisten
 common#:#obj_bibl#:#Literaturliste

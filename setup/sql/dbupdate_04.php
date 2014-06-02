@@ -868,3 +868,43 @@ $ilCtrlStructureReader->getStructure();
 // Bibliographic Module: Increase the allowed text-size for attributes from 512 to 4000
 $ilDB->query('ALTER TABLE il_bibl_attribute MODIFY value VARCHAR(4000)');
 ?>
+<#4217>
+<?php
+    /* Introduce new DataCollection features
+        - Comments on records
+        - Default sort-field & sort-order
+    */
+    if(!$ilDB->tableColumnExists('il_dcl_table','default_sort_field_id')) {
+        $ilDB->addTableColumn(
+            'il_dcl_table',
+            'default_sort_field_id',
+            array(
+                'type' => 'text',
+                'length' => 16,
+                'notnull' => true,
+                'default' => '0',
+            ));
+    }
+    if(!$ilDB->tableColumnExists('il_dcl_table','default_sort_field_order')) {
+        $ilDB->addTableColumn(
+            'il_dcl_table',
+            'default_sort_field_order',
+            array(
+                'type' => 'text',
+                'length' => 4,
+                'notnull' => true,
+                'default' => 'asc',
+            ));
+    }
+    if(!$ilDB->tableColumnExists('il_dcl_table','public_comments')) {
+        $ilDB->addTableColumn(
+            'il_dcl_table',
+            'public_comments',
+            array(
+                'type' => 'integer',
+                'length' => 4,
+                'notnull' => true,
+                'default' => 0,
+            ));
+    }
+?>
