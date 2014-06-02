@@ -114,6 +114,8 @@ class gevAMDUtils {
 			case ilAdvancedMDFieldDefinition::TYPE_SELECT:
 			case ilAdvancedMDFieldDefinition::TYPE_MULTI_SELECT:
 			case ilAdvancedMDFieldDefinition::TYPE_VENUE_SELECT:
+			case ilAdvancedMDFieldDefinition::TYPE_PROVIDER_SELECT:
+			case ilAdvancedMDFieldDefinition::TYPE_LONG_TEXT:
 			case ilAdvancedMDFieldDefinition::TYPE_TEXT:
 				return "text";
 			case ilAdvancedMDFieldDefinition::TYPE_DATE:
@@ -127,7 +129,7 @@ class gevAMDUtils {
 			case ilAdvancedMDFieldDefinition::TYPE_LOCATION:
 				return "location";
 			default:
-				throw new Exception("gevAMDUtils::makeJoinPart: unknown type ".$a_type." for field ".$a_name.".");
+				throw new Exception("gevAMDUtils::getTablePostfixForType: unknown type ".$a_type." for field ".$a_name.".");
 		}
 	}
 	
@@ -152,9 +154,12 @@ class gevAMDUtils {
 	
 	protected static function canonicalTransformTypedValue($a_type, $a_value) {
 		switch($a_type) {
-			case ilAdvancedMDFieldDefinition::TYPE_SELECT:
 			case ilAdvancedMDFieldDefinition::TYPE_VENUE_SELECT:
 			case ilAdvancedMDFieldDefinition::TYPE_PROVIDER_SELECT:
+				return $a_value;
+			case ilAdvancedMDFieldDefinition::TYPE_SELECT:
+			case ilAdvancedMDFieldDefinition::TYPE_LONG_TEXT:
+			case ilAdvancedMDFieldDefinition::TYPE_TEXT:
 				return $a_value;
 			case ilAdvancedMDFieldDefinition::TYPE_TEXT:
 				return $a_value;
