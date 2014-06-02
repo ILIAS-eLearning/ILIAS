@@ -2336,6 +2336,9 @@ class ilObjExerciseGUI extends ilObjectGUI
 				}		
 			}
 
+			// #13380
+			$ass->setFeedbackCron($_POST["fb"]);
+			
 			$ass->save();
 			
 			// save files
@@ -2564,6 +2567,9 @@ class ilObjExerciseGUI extends ilObjectGUI
 			{
 				$ass->handleFeedbackFileUpload($_FILES["fb_file"]);
 			}
+			
+			// #13380
+			$ass->setFeedbackCron($_POST["fb"]);
 			
 			$ass->update();
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
