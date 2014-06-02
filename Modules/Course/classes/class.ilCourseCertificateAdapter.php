@@ -89,7 +89,7 @@ class ilCourseCertificateAdapter extends ilCertificateAdapter
 												  $end_date
 												, IL_CAL_DATETIME)
 											: "");
-		$vars["COURSE_TOPICS"] = ilUtil::prepareFormOutput(implode(", ", $crs->getTopics()));
+		//$vars["COURSE_TOPICS"] = ilUtil::prepareFormOutput(implode(", ", $crs->getTopics()));
 		$vars["COURSE_CREDIT_POINTS"] = ilUtil::prepareFormOutput($crs->getCreditPoints());
 		// gev-patch end
 		
@@ -143,7 +143,7 @@ class ilCourseCertificateAdapter extends ilCertificateAdapter
 												  $end_date
 												, IL_CAL_DATETIME)
 											: "");
-		$vars["COURSE_TOPICS"] = ilUtil::prepareFormOutput(implode(", ", $crs->getTopics()));
+		//$vars["COURSE_TOPICS"] = ilUtil::prepareFormOutput(implode(", ", $crs->getTopics()));
 		$vars["COURSE_CREDIT_POINTS"] = ilUtil::prepareFormOutput($crs->getCreditPoints());
 		// gev-patch end
 		
@@ -169,10 +169,11 @@ class ilCourseCertificateAdapter extends ilCertificateAdapter
 		$vars["COURSE_TITLE"] = $lng->txt("crs_title");
 		
 		// gev-patch start
+		$lng->loadLanguageModule("gev");
 		$vars["COURSE_TYPE"] = $lng->txt("gev_cert_course_type");
 		$vars["COURSE_START_DATE"] = $lng->txt("gev_cert_course_start_date");
 		$vars["COURSE_END_DATE"] = $lng->txt("gev_cert_course_end_date");
-		$vars["COURSE_TOPICS"] = $lng->txt("gev_cert_course_topics");
+		//$vars["COURSE_TOPICS"] = $lng->txt("gev_cert_course_topics");
 		$vars["COURSE_CREDIT_POINTS"] = $lng->txt("gev_cert_points");
 		// gev-patch end
 				
