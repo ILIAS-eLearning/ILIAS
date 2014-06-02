@@ -11119,7 +11119,7 @@ survey#:#mail_import_example1#:#email;Vorname;Nachname
 survey#:#mail_import_example2#:#ralfkoenig@domain.tld;Ralf;König
 survey#:#mail_import_example3#:#ugoldschmidt@domain.tld;Ute;Goldschmidt
 survey#:#mail_sent_short#:#Versendet
-survey#:#mail_survey_codes#:#Zugangsschlüssel versenden
+survey#:#mail_survey_codes#:#Zugangsschlüssel und Nachrichten versenden
 survey#:#mailaddresses#:#Empfängeradressen
 survey#:#mailaddresses_info#:#Tragen Sie hier eine kommagetrennte Liste der Empfänger ein, an die eine Benachrichtigung über abgeschlossene Umfragen versendet werden soll.
 survey#:#mailnotification#:#E-Mail-Benachrichtigung
