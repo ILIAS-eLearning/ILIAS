@@ -1,4 +1,4 @@
-/* Copyright (c) 1998-2013 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2014 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file (All entries)
 *
@@ -3429,7 +3429,7 @@ common#:#install#:#Installieren
 common#:#install_local#:#Mit lokaler Version installieren
 common#:#installed#:#Installiert
 common#:#installed_local#:#Mit lokaler Version installiert
-common#:#instant_messengers#:#Instant Messengers
+common#:#instant_messengers#:#Instant Messenger
 common#:#institution#:#Institution
 common#:#internal_local_roles_only#:#Lokale Rollen (nur automatisch erstellte)
 common#:#internal_system#:#Internes System
@@ -14153,11 +14153,10 @@ cat#:#cat_more_translations#:#Weitere Übersetzungen
 content#:#cont_got_lock#:#Diese Seite wurde für Ihre Bearbeitung gesperrt. Bitte geben Sie die Seite nach Ihren Änderungen wieder frei.
 content#:#cont_finish_editing#:#Bearbeitung beenden
 content#:#cont_page_lock_released#:#Die Bearbeitung wurde beendet. Die Seite wurde wieder freigegeben.
-rbac#:#rbac_create_chat#:#Create Chat###30 12 2013 new variable
-orgu#:#backto_staff#:#Back to staff###30 12 2013 new variable
-exc#:#exc_multi_feedb_info#:#On this screen you can upload multiple feedbacks in one file. First click on "Download ZIP Structure", save the ZIP file and extract it on your local computer. Put the feedback files into the corresponding user directories. Now compress the whole directory as one ZIP file agin. Browse your local filesystem for the file and select it as the "Multi-Feedback File" in the form below. After that click "Upload". A confirmation screen will list the files. Please avoid using any special characters in your filenames.###30 12 2013 new variable
-scov#:#crsv_create#:#Create SCORM Certificate###30 12 2013 new variable
-scov#:#crsv_create_info#:#Select a completed learning module to generate a certificate for it###30 12 2013 new variable
+orgu#:#backto_staff#:#Zurück zu Personen
+exc#:#exc_multi_feedb_info#:#Auf dieser Seite können Sie die Feedback-Dateien für mehrere Übungsteilnehmer auf einmal hochladen.<br /> <br />Klicken Sie zunächst unten auf den Button "ZIP-Verzeichnisstruktur herunterladen" und speichern Sie die ZIP-Datei auf Ihrem Computer. Dort öffnen Sie im nächsten Schritt die ZIP-Datei, um die Verzeichnisstruktur zu entpacken. Legen Sie nun die Feedback-Dateien in die entsprechenden Ordner der Übungsteilnehmer und komprimieren abschließend das Verzeichnis wieder als ZIP-Datei. Wählen Sie nun auf dieser Seite unten diese ZIP-Datei als Multi-Feedback-Datei aus und laden diese hoch. Die Bestätigungsseite führt alle hochgeladenen Dateien auf. <br /> <br /><b>Wichtig</b>: Vermeiden Sie auf jeden Fall Umlaute und Sonderzeichen in den Dateinamen, da hierdurch Probleme bei der Zuordnung der Dateien entstehen.
+scov#:#crsv_create#:#SCORM-Zertifikat anlegen
+scov#:#crsv_create_info#:#Wählen Sie ein absolviertes Lernmodul aus, um dafür ein Zertifikat zu generieren.
 skmg#:#skmg_usage#:#Gebrauch
 skmg#:#skmg_type#:#Typ
 skmg#:#skmg_number#:#Nummmer
