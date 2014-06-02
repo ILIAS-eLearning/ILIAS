@@ -16,7 +16,9 @@ require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 
 class gevOrgUnitUtils {
 	static $instances = array();
-	
+	static $venue_names = null;
+	static $provider_names = null;
+
 	protected function __construct($a_orgu_id) {
 		$this->orgu_id = $a_orgu_id;
 		$this->gev_set = gevSettings::getInstance();
@@ -56,7 +58,47 @@ class gevOrgUnitUtils {
 		}
 		$type->update();
 	}
+	
+	static public function getVenueNames() {
+		if (gevOrgUnitUtils::$venue_names !== null) {
+			return gevOrgUnitUtils::$venue_names;
+		}
+		
+		require_once("Modules/OrgUnit/classes/Types/class.ilOrgUnitType.php");
+		$id = gevSettings::getInstance()->get(gevSettings::ORG_TYPE_VENUE);
 
+		$type = ilOrgUnitType::getInstance($id);
+		$ou_ids = $type->getOrgUnitIDs();
+		$ou_info = gevAMDUtils::getInstance()->getTable($ou_ids, array(gevSettings::ORG_AMD_CITY => "city"));
+
+		gevOrgUnitUtils::$venue_names = array();
+		foreach ($ou_info as $values) {
+			gevOrgUnitUtils::$venue_names[$values["obj_id"]] = $values["title"].", ".$values["city"];
+		}
+		
+		return gevOrgUnitUtils::$venue_names;
+	}
+	
+	static public function getProviderNames() {
+		if (gevOrgUnitUtils::$provider_names !== null) {
+			return gevOrgUnitUtils::$provider_names;
+		}
+		
+		require_once("Modules/OrgUnit/classes/Types/class.ilOrgUnitType.php");
+		$id = gevSettings::getInstance()->get(gevSettings::ORG_TYPE_PROVIDER);
+
+		$type = ilOrgUnitType::getInstance($id);
+		$ou_ids = $type->getOrgUnitIDs();
+		$ou_info = gevAMDUtils::getInstance()->getTable($ou_ids, array(gevSettings::ORG_AMD_CITY => "city"));
+
+		gevOrgUnitUtils::$provider_names = array();
+		foreach ($ou_info as $values) {
+			gevOrgUnitUtils::$provider_names[$values["obj_id"]] = $values["title"].", ".$values["city"];
+		}
+		
+		return gevOrgUnitUtils::$provider_names;
+	}
+	
 	public function getOrgUnitInstance() {
 		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnit.php");
 		

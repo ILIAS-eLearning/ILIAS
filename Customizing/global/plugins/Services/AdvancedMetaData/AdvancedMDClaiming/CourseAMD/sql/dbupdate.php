@@ -13,6 +13,8 @@ $tinteger = ilAdvancedMDFieldDefinition::TYPE_INTEGER;
 $tfloat = ilAdvancedMDFieldDefinition::TYPE_FLOAT;
 $tlocation = ilAdvancedMDFieldDefinition::TYPE_LOCATION;
 $tmultiselect = ilAdvancedMDFieldDefinition::TYPE_MULTI_SELECT;
+$tvenue = ilAdvancedMDFieldDefinition::TYPE_VENUE_SELECT;
+$tprovider = ilAdvancedMDFieldDefinition::TYPE_PROVIDER_SELECT;
 
 $gev_set = gevSettings::getInstance();
 
@@ -214,21 +216,21 @@ array( "Verwaltung"
 	 	   					 , null
 	 	   					 , true
 	 	   					 , null
-	 	   					 , $ttext 		# TODO: change to custom org-unit type
+	 	   					 , $tprovider
 	 	   					 )
 	 	   		, "Veranstaltungsort" =>
 	 	   				array( gevSettings::CRS_AMD_VENUE
 	 	   					 , null
 	 	   					 , true
 	 	   					 , null
-	 	   					 , $ttext 		# TODO: change to custom org-unit type
+	 	   					 , $tvenue
 	 	   					 )
 	 	   		, "Übernachtungsort" =>
 	 	   				array( gevSettings::CRS_AMD_ACCOMODATION
 	 	   					 , null
 	 	   					 , true
 	 	   					 , null
-	 	   					 , $ttext 		# TODO: change to custom org-unit type
+	 	   					 , $tvenue
 	 	   					 )
 	 	   		))
 	 , "Zeitraum"

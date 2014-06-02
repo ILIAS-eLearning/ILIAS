@@ -32,7 +32,12 @@ abstract class ilAdvancedMDFieldDefinition
 	const TYPE_FLOAT = 6;
 	const TYPE_LOCATION = 7;
 	const TYPE_MULTI_SELECT = 8;
+	//gev-patch start
+	const TYPE_VENUE_SELECT = 9;
+	const TYPE_PROVIDER_SELECT = 10;
+	//gev-patch end
 	
+		
 	/**
 	 * Constructor
 	 * 
@@ -66,7 +71,7 @@ abstract class ilAdvancedMDFieldDefinition
 		}
 		
 		if(self::isValidType($a_type))
-		{						
+		{
 			$class = "ilAdvancedMDFieldDefinition".self::getTypeString($a_type);
 			require_once "Services/AdvancedMetaData/classes/Types/class.".$class.".php";
 			return new $class($a_field_id);						
@@ -92,7 +97,9 @@ abstract class ilAdvancedMDFieldDefinition
 			self::TYPE_FLOAT => "Float",
 			self::TYPE_LOCATION => "Location",
 			self::TYPE_INTEGER => "Integer",
-			self::TYPE_MULTI_SELECT => "Multiselect"		
+			self::TYPE_MULTI_SELECT => "MultiSelect",
+			self::TYPE_VENUE_SELECT => "VenueSelect",
+			self::TYPE_PROVIDER_SELECT => "ProviderSelect"
 		);	
 		$map = array_flip($map);
 		if(array_key_exists($a_type, $map))
@@ -239,7 +246,7 @@ abstract class ilAdvancedMDFieldDefinition
 	// generic types
 	// 
 	
-	/**
+	/**	
 	 * Get all valid types
 	 * 
 	 * @return array
@@ -248,7 +255,8 @@ abstract class ilAdvancedMDFieldDefinition
 	{
 		return array(self::TYPE_TEXT, self::TYPE_DATE, self::TYPE_DATETIME,
 			self::TYPE_SELECT, self::TYPE_INTEGER, self::TYPE_FLOAT,
-			self::TYPE_LOCATION, self::TYPE_MULTI_SELECT);
+			self::TYPE_LOCATION, self::TYPE_MULTI_SELECT, self::TYPE_VENUE_SELECT,
+			self::TYPE_PROVIDER_SELECT);
 	}
 	
 	/**
@@ -287,7 +295,9 @@ abstract class ilAdvancedMDFieldDefinition
 				self::TYPE_FLOAT => "Float",
 				self::TYPE_LOCATION => "Location",
 				self::TYPE_INTEGER => "Integer",
-				self::TYPE_MULTI_SELECT => "Multiselect"
+				self::TYPE_MULTI_SELECT => "MultiSelect",
+				self::TYPE_VENUE_SELECT => "VenueSelect",
+				self::TYPE_PROVIDER_SELECT => "ProviderSelect"
 			);		
 			return $map[$a_type];
 		}		

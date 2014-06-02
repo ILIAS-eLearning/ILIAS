@@ -42,7 +42,7 @@ array( "Adresse"
 				 			 , $ttext
 				 			 )
 				 , "Stadt" =>
-				 		array( gevSettings::ORG_AMD_ZIPCODE
+				 		array( gevSettings::ORG_AMD_CITY
 				 			 , null
 				 			 , true
 				 			 , null

@@ -46,6 +46,10 @@ class gevAMDUtils {
 	}
 	
 	public function getTable($a_objs, $a_amd_settings) {
+		if (count($a_objs) == 0) {
+			return array();
+		}
+
 		$field_ids = array_map( array("gevAMDUtils", "getFieldId"), array_keys($a_amd_settings));
 		$types = $this->getFieldTypes($field_ids);
 		$query_parts = gevAMDUtils::makeQueryParts($field_ids, $types, array_values($a_amd_settings));
@@ -104,6 +108,7 @@ class gevAMDUtils {
 		switch($a_type) {
 			case ilAdvancedMDFieldDefinition::TYPE_SELECT:
 			case ilAdvancedMDFieldDefinition::TYPE_MULTI_SELECT:
+			case ilAdvancedMDFieldDefinition::TYPE_VENUE_SELECT:
 			case ilAdvancedMDFieldDefinition::TYPE_TEXT:
 				$postfix = "text";
 				break;
@@ -123,7 +128,7 @@ class gevAMDUtils {
 				$postfix = "location";
 				break;
 			default:
-				throw new Exception("gevAMDUtils::makeJoinPart: unknown type ".$a_type.".");
+				throw new Exception("gevAMDUtils::makeJoinPart: unknown type ".$a_type." for field ".$a_name.".");
 		}
 		
 		return "LEFT JOIN adv_md_values_".$postfix." ".$a_name	." ON ".$a_name.".field_id = ".$a_field_id." AND ".$a_name.".obj_id = od.obj_id";
@@ -151,6 +156,8 @@ class gevAMDUtils {
 	protected static function canonicalTransformTypedValue($a_type, $a_value) {
 		switch($a_type) {
 			case ilAdvancedMDFieldDefinition::TYPE_SELECT:
+			case ilAdvancedMDFieldDefinition::TYPE_VENUE_SELECT:
+			case ilAdvancedMDFieldDefinition::TYPE_PROVIDER_SELECT:
 				return $a_value;
 			case ilAdvancedMDFieldDefinition::TYPE_TEXT:
 				return $a_value;
@@ -174,6 +181,8 @@ class gevAMDUtils {
 	protected function getValue($a_obj, $a_field_id, $a_type) {
 		switch($a_type) {
 			case ilAdvancedMDFieldDefinition::TYPE_SELECT:
+			case ilAdvancedMDFieldDefinition::TYPE_PROVIDER:
+			case ilAdvancedMDFieldDefinition::TYPE_VENUE:
 				return $this->getSelectValue($a_obj, $a_field_id);
 			case ilAdvancedMDFieldDefinition::TYPE_TEXT:
 				return $this->getTextValue($a_obj, $a_field_id);
