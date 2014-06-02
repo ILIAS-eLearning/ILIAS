@@ -4518,7 +4518,7 @@ common#:#rolt_add#:#Rollenvorlage anlegen
 common#:#rolt_added#:#Rollenvorlage angelegt
 common#:#rolt_edit#:#Rollenvorlage bearbeiten
 common#:#rolt_new#:#Neue Rollenvorlage
-rbac#:#rbac_create_cat#:#Benutzer kann Kategorien anlegen
+rbac#:#rbac_create_cat#:#Kategorien anlegen
 common#:#root_edit#:#Systemknoten bearbeiten
 rbac#:#root_edit_permission#:#Rechteeinstellungen ändern
 rbac#:#root_read#:#Lesezugriff auf ILIAS-System
@@ -9955,7 +9955,7 @@ rbac#:#rbac_create_tst#:#Test anlegen
 rbac#:#rbac_create_webr#:#Weblink anlegen
 rbac#:#rbac_create_wiki#:#Wiki anlegen
 rbac#:#rbac_create_bibl#:#Literaturliste anlegen
-rbac#:#rbac_create_cld#:#Cloud-Objekt erstellen
+rbac#:#rbac_create_cld#:#Cloud-Objekt anlegen
 rbac#:#sess_delete#:#Sitzung löschen
 rbac#:#sess_edit_event#:#Kalendertermine bearbeiten
 rbac#:#sess_edit_permission#:#Rechteeinstellungen ändern
@@ -13659,8 +13659,8 @@ glo#:#glo_term#:#Glossarbegriff
 content#:#glo_add_term_properties#:#Zusätzliche Eigenschaften von Glossarbegriffen
 exc#:#exc_multi_feedback#:#Multi-Feedback
 exc#:#exc_download_zip_structure#:#ZIP-Verzeichnisstruktur herunterladen
-exc#:#exc_multi_feedback_file#:#Multi-Feedback Datei
-exc#:#exc_multi_feedback_files#:#Multi-Feedback Dateien
+exc#:#exc_multi_feedback_file#:#Multi-Feedback-Datei
+exc#:#exc_multi_feedback_files#:#Multi-Feedback-Dateien
 assessment#:#assFormulaQuestion#:#Formelfrage
 assessment#:#parseQuestion#:#Frage analysieren
 assessment#:#variables#:#Variablen
@@ -14071,8 +14071,8 @@ mail#:#mail_nacc_timelimit#:#Zugangszeitraum des Benutzers
 common#:#msg_obj_already_deleted#:#Das Objekt wurde bereits gelöscht.
 rbac#:#rbac_create_prtt#:#Portfoliovorlage anlegen
 rbac#:#glo_edit_content#:#Benutzer kann Inhalt bearbeiten
-rbac#:#rbac_create_rolt#:#Neue Rollenvorlage anlegen
-rbac#:#rbac_create_role#:#Neue Rolle anlegen
+rbac#:#rbac_create_rolt#:#Rollenvorlage anlegen
+rbac#:#rbac_create_role#:#Rolle anlegen
 obj#:#obj_activation_list_gui#:#Verfügbarkeit
 content#:#lm_activate_rating#:#Bewertung der Seiten erlauben
 wiki#:#wiki_rate_overall#:#Wiki bewerten
@@ -14142,11 +14142,10 @@ cat#:#cat_more_translations#:#Weitere Übersetzungen
 content#:#cont_got_lock#:#Diese Seite wurde für Ihre Bearbeitung gesperrt. Bitte geben Sie die Seite nach Ihren Änderungen wieder frei.
 content#:#cont_finish_editing#:#Bearbeitung beenden
 content#:#cont_page_lock_released#:#Die Bearbeitung wurde beendet. Die Seite wurde wieder freigegeben.
-rbac#:#rbac_create_chat#:#Create Chat###30 12 2013 new variable
 orgu#:#backto_staff#:#Back to staff###30 12 2013 new variable
-exc#:#exc_multi_feedb_info#:#On this screen you can upload multiple feedbacks in one file. First click on "Download ZIP Structure", save the ZIP file and extract it on your local computer. Put the feedback files into the corresponding user directories. Now compress the whole directory as one ZIP file agin. Browse your local filesystem for the file and select it as the "Multi-Feedback File" in the form below. After that click "Upload". A confirmation screen will list the files. Please avoid using any special characters in your filenames.###30 12 2013 new variable
-scov#:#crsv_create#:#Create SCORM Certificate###30 12 2013 new variable
-scov#:#crsv_create_info#:#Select a completed learning module to generate a certificate for it###30 12 2013 new variable
+exc#:#exc_multi_feedb_info#:#Auf dieser Seite können Sie die Feedback-Dateien für mehrere Übungsteilnehmer auf einmal hochladen.<br /> <br />Klicken Sie zunächst unten auf den Button "ZIP-Verzeichnisstruktur herunterladen" und speichern Sie die ZIP-Datei auf Ihrem Computer. Dort öffnen Sie im nächsten Schritt die ZIP-Datei, um die Verzeichnisstruktur zu entpacken. Legen Sie nun die Feedback-Dateien in die entsprechenden Ordner der Übungsteilnehmer und komprimieren abschließend das Verzeichnis wieder als ZIP-Datei. Wählen Sie nun auf dieser Seite unten diese ZIP-Datei als Multi-Feedback-Datei aus und laden diese hoch. Die Bestätigungsseite führt alle hochgeladenen Dateien auf. <br /> <br /><b>Wichtig</b>: Vermeiden Sie auf jeden Fall Umlaute und Sonderzeichen in den Dateinamen, da hierdurch Probleme bei der Zuordnung der Dateien entstehen.
+scov#:#crsv_create#:#SCORM-Zertifikat anlegen
+scov#:#crsv_create_info#:#Wählen Sie ein absolviertes Lernmodul aus, um dafür ein Zertifikat zu generieren.
 skmg#:#skmg_usage#:#Gebrauch
 skmg#:#skmg_type#:#Typ
 skmg#:#skmg_number#:#Nummmer
@@ -14229,7 +14228,7 @@ rbac#:#orgu_read_users#:#Lokale Benutzerkonten dieser Organisationseinheit könn
 rbac#:#orgu_cat_administrate_users#:#Lokale Benutzerkonten können angelegt und verwaltet werden
 rbac#:#orgu_delete#:#Organisationseinheit löschen oder verschieben
 rbac#:#orgu_edit_permission#:#Rechteeinstellungen ändern
-rbac#:#rbac_create_orgu#:#Benutzer kann Organisationseinheiten anlegen
+rbac#:#rbac_create_orgu#:#Organisationseinheiten anlegen
 prtf#:#prtf_page_element_teaser_skills#:#Innerhalb des Portfolios erscheint an dieser Stelle Ihre Kompetenzausprägung.
 prtf#:#prtf_page_element_teaser_blog_template#:#Innerhalb des Portfolios erscheint an dieser Stelle ein Blog Ihres Arbeitsraums.
 prtf#:#prtf_page_element_teaser_consultation_hours#:#Innerhalb des Portfolios erscheint an dieser Stelle ein Kalender Ihrer Sprechstunden.
