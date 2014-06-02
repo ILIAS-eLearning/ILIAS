@@ -13647,7 +13647,7 @@ orgu#:#ext_id#:#External ID
 orgu#:#ext_id_updated#:#The external ID has been updated successfully.
 orgu#:#no_roles#:#There are no additional roles at this point.
 orgu#:#local_other_roles#:#Additional Local Roles %s
-orgu#:#backto_staff#:#Back to staff
+orgu#:#backto_staff#:#Back to Staff
 cld#:#cld_object_added#:#A new Cloud Objekt has been added
 exc#:#exc_peer_review_deadline#:#Feedback Deadline 
 exc#:#exc_peer_review_deadline_info#:#Feedback can be given up to this date and received feedback is only accessible from then on.
