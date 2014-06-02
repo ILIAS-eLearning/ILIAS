@@ -105,33 +105,30 @@ class gevAMDUtils {
 	}
 	
 	protected static function makeJoinPart($a_name, $a_field_id, $a_type) {
-		switch($a_type) {
+		$postfix = self::getTablePostfixForType($a_type);
+		return "LEFT JOIN adv_md_values_".$postfix." ".$a_name	." ON ".$a_name.".field_id = ".$a_field_id." AND ".$a_name.".obj_id = od.obj_id";
+	}
+	
+	protected static function getTablePostfixForType($a_type) {
+				switch($a_type) {
 			case ilAdvancedMDFieldDefinition::TYPE_SELECT:
 			case ilAdvancedMDFieldDefinition::TYPE_MULTI_SELECT:
 			case ilAdvancedMDFieldDefinition::TYPE_VENUE_SELECT:
 			case ilAdvancedMDFieldDefinition::TYPE_TEXT:
-				$postfix = "text";
-				break;
+				return "text";
 			case ilAdvancedMDFieldDefinition::TYPE_DATE:
-				$postfix = "date";
-				break;
+				return "date";
 			case ilAdvancedMDFieldDefinition::TYPE_DATETIME:
-				$postfix = "datetime";
-				break;
+				return "datetime";
 			case ilAdvancedMDFieldDefinition::TYPE_INTEGER:
-				$postfix = "int";
-				break;
+				return "int";
 			case ilAdvancedMDFieldDefinition::TYPE_FLOAT:
-				$postfix = "float";
-				break;
+				return "float";
 			case ilAdvancedMDFieldDefinition::TYPE_LOCATION:
-				$postfix = "location";
-				break;
+				return "location";
 			default:
 				throw new Exception("gevAMDUtils::makeJoinPart: unknown type ".$a_type." for field ".$a_name.".");
 		}
-		
-		return "LEFT JOIN adv_md_values_".$postfix." ".$a_name	." ON ".$a_name.".field_id = ".$a_field_id." AND ".$a_name.".obj_id = od.obj_id";
 	}
 	
 	protected function makeTableResult($a_res, $a_field_ids, $a_types, $a_amd_settings) {
@@ -179,105 +176,19 @@ class gevAMDUtils {
 	}
 	
 	protected function getValue($a_obj, $a_field_id, $a_type) {
-		switch($a_type) {
-			case ilAdvancedMDFieldDefinition::TYPE_SELECT:
-			case ilAdvancedMDFieldDefinition::TYPE_PROVIDER:
-			case ilAdvancedMDFieldDefinition::TYPE_VENUE:
-				return $this->getSelectValue($a_obj, $a_field_id);
-			case ilAdvancedMDFieldDefinition::TYPE_TEXT:
-				return $this->getTextValue($a_obj, $a_field_id);
-			case ilAdvancedMDFieldDefinition::TYPE_DATE:
-				return $this->getDateValue($a_obj, $a_field_id);
-			case ilAdvancedMDFieldDefinition::TYPE_DATETIME:
-				return $this->getDateTimeValue($a_obj, $a_field_id);
-			case ilAdvancedMDFieldDefinition::TYPE_INTEGER:
-				return $this->getIntegerValue($a_obj, $a_field_id);
-			case ilAdvancedMDFieldDefinition::TYPE_FLOAT:
-				return $this->getFloatValue($a_obj, $a_field_id);
-			case ilAdvancedMDFieldDefinition::TYPE_LOCATION:
-				return $this->getLocationValue($a_obj, $a_field_id);
-			default:
-				throw new Exception("gevAMDUtils::getValue: Can't get AMD Value of field ".$a_field_id." for type ".$a_type.".");
+		if ($type == TYPE_LOCATION) {
+			die("gevAMDUtils::getValue not implemented for locations.");
 		}
-	}
-	
-	protected function getSelectValue($a_obj, $a_field_id) {
-		return $this->getTextValue($a_obj, $a_field_id);
-	}
-	
-	// TODO: Make those methods use canonicalTransformTypedValue
-
-	protected function getTextValue($a_obj, $a_field_id) {
-		$res = $this->db->query("SELECT value FROM adv_md_values_text ".
+		
+		$postfix = self::getTablePostfixForType($a_type);
+		
+		$res = $this->db->query("SELECT value FROM adv_md_values_".$postfix." ".
 								"WHERE obj_id = ".$this->db->quote($a_obj, "integer").
 								"  AND field_id = ".$this->db->quote($a_field_id, "integer")
 								);
 		
 		if ($ret = $this->db->fetchAssoc($res)) {
-			return $ret["value"];
-		}
-		return null;
-	}
-	
-	protected function getDateValue($a_obj, $a_field_id) {
-		$res = $this->db->query("SELECT value FROM adv_md_values_date ".
-								"WHERE obj_id = ".$this->db->quote($a_obj, "integer").
-								"  AND field_id = ".$this->db->quote($a_field_id, "integer")
-								);
-		
-		if ($ret = $this->db->fetchAssoc($res)) {
-			return new ilDate($ret["value"], IL_CAL_DATE);
-		}
-		return null;
-	}
-	
-	protected function getDateTimeValue($a_obj, $a_field_id) {
-		$res = $this->db->query("SELECT value FROM adv_md_values_datetime ".
-								"WHERE obj_id = ".$this->db->quote($a_obj, "integer").
-								"  AND field_id = ".$this->db->quote($a_field_id, "integer")
-								);
-		
-		if ($ret = $this->db->fetchAssoc($res)) {
-			return new ilDateTime($ret["value"], IL_CAL_DATETIME);
-		}
-		return null;
-	}
-	
-	protected function getIntegerValue($a_obj, $a_field_id) {
-		$res = $this->db->query("SELECT value FROM adv_md_values_int ".
-								"WHERE obj_id = ".$this->db->quote($a_obj, "integer").
-								"  AND field_id = ".$this->db->quote($a_field_id, "integer")
-								);
-		
-		if ($ret = $this->db->fetchAssoc($res)) {
-			return intval($ret["value"]);
-		}
-		return null;
-	}
-	
-	protected function getFloatValue($a_obj, $a_field_id) {
-		$res = $this->db->query("SELECT value FROM adv_md_values_float ".
-								"WHERE obj_id = ".$this->db->quote($a_obj, "integer").
-								"  AND field_id = ".$this->db->quote($a_field_id, "integer")
-								);
-		
-		if ($ret = $this->db->fetchAssoc($res)) {
-			return floatval($ret["value"]);
-		}
-		return null;
-	}
-	
-	protected function getLocationValue($a_obj, $a_field_id) {
-		$res = $this->db->query("SELECT loc_lat, loc_long, loc_zoom FROM adv_md_values_location ".
-								"WHERE obj_id = ".$this->db->quote($a_obj, "integer").
-								"  AND field_id = ".$this->db->quote($a_field_id, "integer")
-								);
-		
-		if ($ret = $this->db->fetchAssoc($res)) {
-			return array( "longitude" => floatval($ret["value"]["loc_long"])
-						, "latitude" => floatval($ret["value"]["loc_lat"])
-						, "zoom" => intval($ret["value"]["loc_zoom"])
-						);
+			return self::canonicalTransformTypedValue($a_type, $ret["value"]);
 		}
 		return null;
 	}

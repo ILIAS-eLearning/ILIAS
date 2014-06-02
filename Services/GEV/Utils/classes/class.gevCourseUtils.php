@@ -108,7 +108,7 @@ class gevCourseUtils {
 		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_END_DATE);
 	}
 	
-	public function getTopic() {
+	public function getTopics() {
 		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_TOPIC);
 	}
 	
