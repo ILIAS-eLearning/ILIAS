@@ -39,7 +39,8 @@ class ilADTFactory
 	public function getValidTypes()
 	{
 		return array("Float", "Integer", "Location", "Text", "Boolean", 
-			"MultiText", "Date", "DateTime", "Enum", "MultiEnum", "Group");	
+			"MultiText", "Date", "DateTime", "Enum", "MultiEnum", "Group",
+			"LongText");	
 	}
 	
 	/**

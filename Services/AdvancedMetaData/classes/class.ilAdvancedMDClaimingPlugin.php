@@ -286,7 +286,7 @@ abstract class ilAdvancedMDClaimingPlugin extends ilPlugin
 		
 		// validating type
 		$a_type = (int)$a_type;
-		if($a_type < 1 || $a_type > 10)
+		if($a_type < 1 || $a_type > 11)
 		{
 			// gev-patch start
 			throw new Exception("ilAdvancedMDClaimingPlugin::createDBField: Unknown type '".$a_type."'");

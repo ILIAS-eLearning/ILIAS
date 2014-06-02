@@ -15,6 +15,7 @@ $tlocation = ilAdvancedMDFieldDefinition::TYPE_LOCATION;
 $tmultiselect = ilAdvancedMDFieldDefinition::TYPE_MULTI_SELECT;
 $tvenue = ilAdvancedMDFieldDefinition::TYPE_VENUE_SELECT;
 $tprovider = ilAdvancedMDFieldDefinition::TYPE_PROVIDER_SELECT;
+$tlongtext = ilAdvancedMDFieldDefinition::TYPE_LONG_TEXT;
 
 $gev_set = gevSettings::getInstance();
 
@@ -51,14 +52,14 @@ array( "Inhalte"
 							 , "Beschreibung der Trainingsinhalte"
 							 , false
 							 , null
-							 , $ttext 		# TODO: change to multiline text
+							 , $tlongtext
 							 )
 				, "Ziele und Nutzen" =>
 						array( gevSettings::CRS_AMD_GOALS
 							 , "Beschreibung des Nutzens der Teilnehmer"
 							 , false
 							 , null
-							 , $ttext 		# TODO: change to multiline text
+							 , $tlongtext 
 							 )
 				, "Methoden" =>
 						array( gevSettings::CRS_AMD_METHODS
@@ -116,7 +117,7 @@ array( "Inhalte"
 		   					 , "Beschreibung der Zielgruppe des Trainings"
 		   					 , false
 		   					 , null
-		   					 , $ttext 		# TODO: Change to multiline text
+		   					 , $tlongtext
 		   					 )
 		   ))
 	 , "Orte und Anbieter"

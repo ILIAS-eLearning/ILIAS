@@ -89,7 +89,7 @@ class ilADTActiveRecordByType
 	protected static function getTablesMap()
 	{
 		return array(
-			"text" => array("Text", "Enum", "MultiEnum"),
+			"text" => array("Text", "Enum", "MultiEnum", "LongText"),
 			"int" => array("Integer"),
 			"float" => array("Float"),
 			"date" => array("Date"),
