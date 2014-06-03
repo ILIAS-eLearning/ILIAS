@@ -30,6 +30,11 @@ class ilHtmlPurifierFactory
 				require_once 'Services/Html/classes/class.ilHtmlForumPostPurifier.php';
 				return new ilHtmlForumPostPurifier();
 				break;
+
+			case 'qpl_usersolution':
+				require_once 'Modules/TestQuestionPool/classes/class.ilAssHtmlUserSolutionPurifier.php';
+				return new ilAssHtmlUserSolutionPurifier();
+				break;
 		}
 		
 		require_once 'Services/Html/exceptions/class.ilHtmlPurifierNotFoundException.php';

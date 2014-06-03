@@ -182,7 +182,8 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 		include_once "./Services/UICore/classes/class.ilTemplate.php";
 		$template = new ilTemplate("tpl.il_as_qpl_text_question_output_solution.html", TRUE, TRUE, "Modules/TestQuestionPool");
 		$solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html",TRUE, TRUE, "Modules/TestQuestionPool");
-		$solution = htmlentities($solution, ENT_COMPAT | ENT_HTML401, 'UTF-8');
+
+		$solution = $this->object->getHtmlUserSolutionPurifier()->purify($solution);
 		$template->setVariable("ESSAY", $this->object->prepareTextareaOutput($solution, TRUE));
 		
 		$questiontext = $this->object->getQuestion();
