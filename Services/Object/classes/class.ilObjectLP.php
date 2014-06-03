@@ -286,10 +286,10 @@ class ilObjectLP
 		ilChangeEvent::_deleteReadEventsForUsers($this->obj_id, $a_user_ids);		
 				
 		// update LP status to get collections up-to-date
-		include_once "Services/Tracking/classes/class.ilLPStatus.php";
+		include_once "Services/Tracking/classes/class.ilLPStatusWrapper.php";	
 		foreach($a_user_ids as $user_id)
 		{
-			ilLPStatus::_updateStatus($this->obj_id, $user_id);
+			ilLPStatusWrapper::_updateStatus($this->obj_id, $user_id);
 		}
 	}
 		
