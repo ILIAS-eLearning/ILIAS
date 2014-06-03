@@ -4187,4 +4187,13 @@ abstract class assQuestion
 			$listener->notifyQuestionDeleted($this);
 		}
 	}
+
+	/**
+	 * @return ilAssHtmlUserSolutionPurifier
+	 */
+	public function getHtmlUserSolutionPurifier()
+	{
+		require_once 'Services/Html/classes/class.ilHtmlPurifierFactory.php';
+		return ilHtmlPurifierFactory::_getInstanceByType('qpl_usersolution');
+	}
 }
