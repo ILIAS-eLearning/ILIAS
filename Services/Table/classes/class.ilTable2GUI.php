@@ -2907,7 +2907,7 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 	{
 		global $ilUser;
 		
-		$a_name = ilUtil::stripSlashes($a_name);
+		$a_name = ilUtil::prepareFormOutput($a_name, true);
 		
 		if(trim($a_name) && $this->getContext() != "" && is_object($ilUser) && $ilUser->getId() != ANONYMOUS_USER_ID)
 		{
@@ -2935,7 +2935,7 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 	{
 		global $ilUser;
 		
-		$a_name = ilUtil::stripSlashes($a_name);
+		$a_name = ilUtil::prepareFormOutput($a_name, true);
 
 		if(trim($a_name) && $this->getContext() != "" && is_object($ilUser) && $ilUser->getId() != ANONYMOUS_USER_ID)
 		{

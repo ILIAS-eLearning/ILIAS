@@ -1890,6 +1890,11 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		foreach((array) $ids as $usr_id)
 		{
+			if(!$this->object->getMembersObject()->isAssigned($usr_id))
+			{
+				continue;
+			}
+			
 			$name = ilObjUser::_lookupName($usr_id);
 			$tmp_data['firstname'] = $name['firstname'];
 			$tmp_data['lastname'] = $name['lastname'];

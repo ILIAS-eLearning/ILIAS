@@ -534,7 +534,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 			$links->setLinkId($link_id);
 			$links->setTitle(ilUtil::stripSlashes($data['tit']));
 			$links->setDescription(ilUtil::stripSlashes($data['des']));
-			$links->setTarget(ilUtil::stripSlashes($data['tar']));
+			$links->setTarget(str_replace('"', '', ilUtil::stripSlashes($data['tar'])));
 			$links->setActiveStatus((int) $data['act']);
 			$links->setDisableCheckStatus((int) $data['che']);
 			$links->setLastCheckDate($orig['last_check']);
@@ -605,7 +605,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 		
 		include_once './Modules/WebResource/classes/class.ilLinkResourceItems.php';
 		$this->link = new ilLinkResourceItems($a_webr_id);
-		$this->link->setTarget($this->form->getInput('tar'));
+		$this->link->setTarget(str_replace('"', '', ilUtil::stripSlashes($this->form->getInput('tar'))));
 		$this->link->setTitle($this->form->getInput('tit'));
 		$this->link->setDescription($this->form->getInput('des'));
 		$this->link->setDisableCheckStatus($this->form->getInput('che'));

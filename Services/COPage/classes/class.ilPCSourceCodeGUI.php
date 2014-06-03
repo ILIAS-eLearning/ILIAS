@@ -75,7 +75,7 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
 			$s_lang = $_POST["par_language"];
 			$s_char = $_POST["par_characteristic"];
 			$s_subchar = $_POST["par_subcharacteristic"];
-			$s_downloadtitle = $_POST["par_downloadtitle"];
+			$s_downloadtitle = str_replace('"', '', ilUtil::stripSlashes($_POST["par_downloadtitle"]));
 			$s_showlinenumbers = ($_POST["par_showlinenumbers"]=="on")?'y':'n';
 			$s_autoindent = ($_POST["par_autoindent"]=="on")?'y':'n';
 		}
@@ -101,7 +101,7 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
 		}
 
 		$this->tpl->setVariable("PAR_TA_NAME", "par_content");
-		$this->tpl->setVariable("PAR_TA_CONTENT", $s_text);
+		$this->tpl->setVariable("PAR_TA_CONTENT", ilUtil::prepareFormOutput($s_text));
 //var_dump($this->tpl);
 //		$this->tpl->parseCurrentBlock();
 			
@@ -183,7 +183,7 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
 		{
 			$s_lang = $_POST["par_language"];			
 			$s_subchar = $_POST["par_subcharacteristic"];
-			$s_downloadtitle = $_POST["par_downloadtitle"];
+			$s_downloadtitle = str_replace('"', '', ilUtil::stripSlashes($_POST["par_downloadtitle"]));
 			$s_showlinenumbers = strcmp($_POST["par_showlinenumbers"],'on')==0?'checked=\"true\"':'';	
 			$s_autoindent = strcmp($_POST["par_autoindent"],'on')==0?'checked=\"true\"':'';	
 			$s_isexample = strcmp($_POST["par_isexample"],"on")==0?'checked=\"true\"':'';			
@@ -221,7 +221,7 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
 		
 		if (key($_POST["cmd"]) == "create_src")
 		{
-			$this->tpl->setVariable("PAR_TA_CONTENT", stripslashes($_POST["par_content"]));
+			$this->tpl->setVariable("PAR_TA_CONTENT", ilUtil::prepareFormOutput(stripslashes($_POST["par_content"])));
 		}
 		else
 		{
@@ -260,7 +260,7 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
 		// set language and characteristic
 		$this->content_obj->setLanguage($_POST["par_language"]);
 		$this->content_obj->setSubCharacteristic($_POST["par_subcharacteristic"]);
-		$this->content_obj->setDownloadTitle($_POST["par_downloadtitle"]);
+		$this->content_obj->setDownloadTitle(str_replace('"', '', ilUtil::stripSlashes($_POST["par_downloadtitle"])));
 		$this->content_obj->setShowLineNumbers(($_POST["par_showlinenumbers"]=="on")?"y":"n");
 		$this->content_obj->setAutoIndent(($_POST["par_autoindent"]=="on")?"y":"n");
 		$this->content_obj->setSubCharacteristic($_POST["par_subcharacteristic"]);
@@ -314,7 +314,7 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
 				
 		$this->content_obj->setCharacteristic   ($_POST["par_characteristic"]);
 		$this->content_obj->setSubCharacteristic($_POST["par_subcharacteristic"]);
-		$this->content_obj->setDownloadTitle    ($_POST["par_downloadtitle"]);
+		$this->content_obj->setDownloadTitle    (str_replace('"', '', ilUtil::stripSlashes($_POST["par_downloadtitle"])));
 		$this->content_obj->setShowLineNumbers  (($_POST["par_showlinenumbers"]=='on')?'y':'n');
 		$this->content_obj->setCharacteristic   ('Code');
 		$this->content_obj->setAutoIndent   	(($_POST["par_indent"]=='on')?'y':'n');
