@@ -174,6 +174,13 @@ class ilCOPageHTMLExport
 		include_once("./Services/MediaObjects/classes/class.ilPlayerUtil.php");
 		ilPlayerUtil::copyPlayerFilesToTargetDirectory($this->flv_dir);
 
+		// matching question
+		copy('./Modules/TestQuestionPool/js/ilMatchingQuestion.js',
+			$this->js_dir.'/ilMatchingQuestion.js');
+		copy('./Modules/TestQuestionPool/templates/default/test_javascript.css',
+			$this->css_dir.'/test_javascript.css');
+
+
 //		copy(ilPlayerUtil::getLocalMediaElementCssPath(),
 //			$this->css_dir.'/mediaelementplayer.css');
 //		copy(ilPlayerUtil::getLocalMediaElementJsPath(),
@@ -207,7 +214,7 @@ class ilCOPageHTMLExport
 			"./js/yahoo/animation-min.js", "./js/yahoo/container-min.js",
 			"./js/Basic.js", "./js/jquery.js", "./js/jquery-ui-min.js",
 			"./js/ilOverlay.js", "./js/accordion.js", "./js/ilCOPagePres.js",
-			"./js/ilTooltip.js", "./js/maphilight.js");
+			"./js/ilTooltip.js", "./js/maphilight.js", "./js/ilMatchingQuestion.js");
 		$scripts = array_merge($scripts, ilPlayerUtil::getJsFilePaths());
 
 		$mathJaxSetting = new ilSetting("MathJax");
@@ -227,7 +234,7 @@ class ilCOPageHTMLExport
 		// css files needed
 		$style_name = $ilUser->prefs["style"].".css";
 		$css_files = array("./css/accordion.css", "./css/container.css",
-			"./content_style/content.css", "./style/".$style_name);
+			"./content_style/content.css", "./style/".$style_name, "./css/test_javascript.css");
 		$css_files = array_merge($css_files, ilPlayerUtil::getCssFilePaths());
 
 		foreach ($css_files as $css)
