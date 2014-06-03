@@ -433,7 +433,7 @@ class assFormulaQuestion extends assQuestion
 							$resunit = $this->getUnitrepository()->getUnit($userdata[$result]["unit"]);
 						}
 
-						if($userdata[$result]["value"])
+						if(isset($userdata[$result]["value"]))
 						{
 							$user_value = $userdata[$result]["value"];
 						}
