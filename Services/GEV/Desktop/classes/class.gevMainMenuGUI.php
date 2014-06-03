@@ -19,10 +19,11 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 	public function __construct() {
 		parent::__construct($a_target, $a_use_start_template);
 		
-		global $lng, $ilCtrl;
+		global $lng, $ilCtrl, $ilAccess;;
 		
 		$this->lng = &$lng;
 		$this->ctrl = &$ilCtrl;
+		$this->access = &$ilAccess;
 
 		$this->lng->loadLanguageModule("gev");
 	}
@@ -30,6 +31,24 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 	public function renderMainMenuListEntries($a_tpl, $a_call_get = true) {
 		// switch to patch template
 		$a_tpl = new ilTemplate("tpl.gev_main_menu_entries.html", true, true, "Services/GEV/Desktop");
+		
+		// known ref_ids
+		$repository = 1;
+		$user_mgmt = 7;
+		$org_mgmt = 56;
+		$mail_mgmt = 12;
+		$competence_mgmt = 41;
+		$general_settings = 9;
+		
+		//permissions
+		$manage_courses = $this->access->checkAccess("write", "", $repository);
+		$manage_users = $this->access->checkAccess("visible", "", $user_mgmt);
+		$manage_org_units = $this->access->checkAccess("visible", "", $org_mgmt);
+		$manage_mails = $this->access->checkAccess("visible", "", $mail_mgmt);
+		$manage_competences = $this->access->checkAccess("visible", "", $competence_mgmt);
+		$has_managment_menu = $manage_courses || $manage_users || $manage_org_units || $manage_mails || $manage_competences;
+		
+		$has_super_admin_menu = $this->access->checkAccess("write", "", $general_settings);
 		
 		
 		$menu = array( 
@@ -41,35 +60,35 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 											  //render entry?
   													// url
 				  "gev_my_courses" => array(true, "ilias.php?baseClass=gevDesktopGUI&cmdClass=toMyCourses")
-				, "gev_edu_bio" => array(true, "NYI!")
+				, "gev_edu_bio" => array(false, "NYI!")
 				, "gev_my_profile" => array(true, "ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToProfile")
-				, "gev_my_groups" => array(true, "NYI!")
-				, "gev_my_roadmap" => array(true, "NYI!")
-				, "gev_my_trainer_ap" => array(true, "NYI!")
+				, "gev_my_groups" => array(false, "NYI!")
+				, "gev_my_roadmap" => array(false, "NYI!")
+				, "gev_my_trainer_ap" => array(false, "NYI!")
 				))
-			, "gev_others_menu" => array(false, true, array(
+			, "gev_others_menu" => array(false, false, array(
 				  "gev_employee_booking" => array(true, "NYI!")
 				, "gev_my_org_unit" => array(true, "NYI!")
 				, "gev_tep" => array(true, "NYI!")
 				, "gev_pot_participants" => array(true, "NYI!")
 				, "gev_my_apprentices" => array(true, "NYI!")
 				))
-			, "gev_process_menu" => array(false, true, array(
+			, "gev_process_menu" => array(false, false, array(
 				  "gev_apprentice_grant" => array(true, "NYI!")
 				, "gev_pot_applicants" => array(true, "NYI!")
 				, "gev_spec_course_create" => array(true, "NYI!")
 				, "gev_spec_course_approval" => array(true, "NYI!")
 				, "gev_spec_course_check" => array(true, "NYI!")
 				))
-			, "gev_reporting_menu" => array(false, true, array())
-			, "gev_admin_menu" => array(false, true, array(
-				  "gev_course_mgmt" => array(true, "goto.php?target=root_1")
-				, "gev_user_mgmt" => array(true, "ilias.php?baseClass=ilAdministrationGUI&ref_id=7&cmd=jump")
-				, "gev_org_mgmt" => array(true, "ilias.php?baseClass=ilAdministrationGUI&ref_id=56&cmd=jump")
-				, "gev_mail_mgmt" => array(true, "ilias.php?baseClass=ilAdministrationGUI&ref_id=12&cmd=jump")
-				, "gev_competence_mgmt" => array(true, "ilias.php?baseClass=ilAdministrationGUI&ref_id=41&cmd=jump")
+			, "gev_reporting_menu" => array(false, false, array())
+			, "gev_admin_menu" => array(false, $has_managment_menu, array(
+				  "gev_course_mgmt" => array($manage_courses, "goto.php?target=root_1")
+				, "gev_user_mgmt" => array($manage_users, "ilias.php?baseClass=ilAdministrationGUI&ref_id=7&cmd=jump")
+				, "gev_org_mgmt" => array($manage_org_units, "ilias.php?baseClass=ilAdministrationGUI&ref_id=56&cmd=jump")
+				, "gev_mail_mgmt" => array($manage_mails, "ilias.php?baseClass=ilAdministrationGUI&ref_id=12&cmd=jump")
+				, "gev_competence_mgmt" => array($manage_competences, "ilias.php?baseClass=ilAdministrationGUI&ref_id=41&cmd=jump")
 				))
-			, self::IL_STANDARD_ADMIN => array(false, true, null)
+			, self::IL_STANDARD_ADMIN => array(false, $has_super_admin_menu, null)
 			);
 		
 		foreach ($menu as $title => $entry) {
@@ -138,7 +157,7 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 			if ($entry === null) {
 				$gl->addSeperator();
 			}
-			else {
+			else if ($entry[0]) {
 				$gl->addEntry($this->lng->txt($title), $entry[1], "_top");
 			}
 		}
