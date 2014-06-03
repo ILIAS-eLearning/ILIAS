@@ -26,33 +26,41 @@ require_once "./Services/Form/classes/class.ilImageFileInputGUI.php";
 */
 class ilDataCollectionDatatype
 {
-	protected $id; // [int]
-	protected $title; // [string]
-	protected $storageLocation; // [int]
-	protected $dbType;
 
-	// TEXT
-	const INPUTFORMAT_TEXT 			= 2;
-	// NUMBER
-	const INPUTFORMAT_NUMBER 		= 1;
-	// REFERENCE
-	const INPUTFORMAT_REFERENCE 	= 3;
-	// DATETIME
-	const INPUTFORMAT_BOOLEAN 		= 4;
-	// REFERENCE
-	const INPUTFORMAT_DATETIME 		= 5;
-	// FILE
-	const INPUTFORMAT_FILE 			= 6;
-	// Rating
-	const INPUTFORMAT_RATING 		= 7;
-	// ILIAS REFERENCE
-	const INPUTFORMAT_ILIAS_REF 	= 8;
-    // Meida Object
+    const INPUTFORMAT_NONE          = 0;
+    const INPUTFORMAT_NUMBER 		= 1;
+    const INPUTFORMAT_TEXT 			= 2;
+    const INPUTFORMAT_REFERENCE 	= 3;
+    const INPUTFORMAT_BOOLEAN 		= 4;
+    const INPUTFORMAT_DATETIME 		= 5;
+    const INPUTFORMAT_FILE 			= 6;
+    const INPUTFORMAT_RATING 		= 7;
+    const INPUTFORMAT_ILIAS_REF 	= 8;
     const INPUTFORMAT_MOB 		    = 9;
-    // REFERENCELIST
     const INPUTFORMAT_REFERENCELIST = 10;
 
     const LINK_MAX_LENGTH = 40;
+
+
+    /**
+     * @var int
+     */
+    protected $id;
+
+    /**
+     * @var string
+     */
+    protected $title;
+
+    /**
+     * @var int
+     */
+    protected $storageLocation;
+
+    /**
+     * @var string
+     */
+    protected $dbType;
 
 
 	/**

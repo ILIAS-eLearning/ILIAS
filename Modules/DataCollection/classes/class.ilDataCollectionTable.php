@@ -527,13 +527,9 @@ class ilDataCollectionTable
 	public function getFields()
 	{
 		$this->loadFields();
-		if($this->stdFields == NULL)
-		{
-			$this->stdFields = ilDataCollectionStandardField::_getStandardFields($this->id);
-		}
+		$this->stdFields = $this->getStandardFields();
 		$fields = array_merge($this->fields, $this->stdFields);
-		$this->sortByOrder($fields);
-
+        $this->sortByOrder($fields);
 		return $fields;
 	}
 
@@ -545,9 +541,18 @@ class ilDataCollectionTable
 		if($this->stdFields == NULL)
 		{
 			$this->stdFields = ilDataCollectionStandardField::_getStandardFields($this->id);
+            // Don't return comments as field if this feature is not activated in the settings
+            if (!$this->getPublicCommentsEnabled()) {
+                /** @var $field ilDataCollectionStandardField */
+                foreach ($this->stdFields as $k => $field) {
+                    if ($field->getId() == 'comments') {
+                        unset($this->stdFields[$k]);
+                        break;
+                    }
+                }
+            }
 		}
-
-		return $this->stdFields;
+        return $this->stdFields;
 	}
 
 	/**
@@ -1306,8 +1311,11 @@ class ilDataCollectionTable
         $sql .= " ORDER BY field_{$id} {$direction}";
         $set = $ilDB->query($sql);
         $totalRecordIds = array();
+        // Save record-ids in session to enable prev/next links in detail view
+        $_SESSION['dcl_record_ids'] = array();
         while ($rec = $ilDB->fetchAssoc($set)) {
             $totalRecordIds[] = $rec['id'];
+            $_SESSION['dcl_record_ids'][] = $rec['id'];
         }
         // Now slice the array to load only the needed records in memory
         $recordIds = array_slice($totalRecordIds, $offset, $limit);

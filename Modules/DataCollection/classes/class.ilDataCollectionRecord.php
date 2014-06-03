@@ -5,6 +5,7 @@ require_once './Modules/DataCollection/classes/class.ilDataCollectionRecordField
 require_once './Modules/DataCollection/classes/class.ilDataCollectionDatatype.php';
 require_once './Services/Exceptions/classes/class.ilException.php';
 require_once './Services/User/classes/class.ilUserUtil.php';
+require_once('./Services/Object/classes/class.ilCommonActionDispatcherGUI.php');
 
 /**
 * Class ilDataCollectionRecord
@@ -31,6 +32,11 @@ class ilDataCollectionRecord
      */
     private $table;
 	private $last_edit_by;
+
+    /**
+     * @var array ilNote[]
+     */
+    protected $comments;
 
 	/**
 	 * Constructor
@@ -352,7 +358,7 @@ class ilDataCollectionRecord
 
 		if(ilDataCollectionStandardField::_isStandardField($field_id))
 		{
-			$html =  $this->getStandardFieldHTML($field_id);
+			$html =  $this->getStandardFieldHTML($field_id, $options);
 
 		}
 		else
@@ -450,14 +456,13 @@ class ilDataCollectionRecord
 		
 		return $this->$field_id;
 	}
-	
-	/*
-	 * getStandardFieldHTML
-	 *
-	 * @param int $field_id
-	 * @return mixed
-	 */
-	private function getStandardFieldHTML($field_id)
+
+    /**
+     * @param string $field_id
+     * @param array $options
+     * @return array|string
+     */
+    private function getStandardFieldHTML($field_id, array $options=array())
 	{
 		switch($field_id)
 		{
@@ -469,9 +474,13 @@ class ilDataCollectionRecord
                 return ilDatePresentation::formatDate(new ilDateTime($this->getLastUpdate(),IL_CAL_DATETIME));
             case 'create_date':
                 return ilDatePresentation::formatDate(new ilDateTime($this->getCreateDate(),IL_CAL_DATETIME));
+            case 'comments':
+                $nComments = count($this->getComments());
+                $ajax_hash = ilCommonActionDispatcherGUI::buildAjaxHash(1, $_GET['ref_id'], 'dcl', $this->table->getCollectionObject()->getId(), 'dcl', $this->getId());
+                $ajax_link = ilNoteGUI::getListCommentsJSCall($ajax_hash, '');
+                return "<a class='dcl_comment' href='#' onclick=\"return ".$ajax_link."\">
+                        <img src='".ilUtil::getImagePath("comment_unlabeled.png") . "' alt='{$nComments} Comments'><span class='ilHActProp'>{$nComments}</span></a>";
         }
-		
-		return $this->$field_id;
 	}
 	
 	
@@ -624,8 +633,16 @@ class ilDataCollectionRecord
 		return $this->table;
 	}
 
+    /**
+     * Get all comments of this record
+     *
+     * @return array ilNote[]
+     */
     public function getComments() {
-        return ilNote::_getNotesOfObject($this->table->getCollectionObject()->getId(), $this->getId(), 'dcl', IL_NOTE_PUBLIC);
+        if ($this->comments === null) {
+            $this->comments = ilNote::_getNotesOfObject($this->table->getCollectionObject()->getId(), $this->getId(), 'dcl', IL_NOTE_PUBLIC);
+        }
+        return $this->comments;
     }
 }
 ?>

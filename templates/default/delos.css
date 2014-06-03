@@ -4085,6 +4085,10 @@ td.dcl_actions {
     margin: 20px 0;
 }
 
+tr.dcl_comments_active > td {
+    background-color: #FFFFD9;
+}
+
 /* Modules/Bibliographic */
 span.bibl_text_inline_Emph {
 	font-style: italic; 

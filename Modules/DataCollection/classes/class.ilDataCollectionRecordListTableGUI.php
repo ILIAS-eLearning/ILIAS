@@ -50,18 +50,21 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
         $this->setRowTemplate("tpl.record_list_row.html", "Modules/DataCollection");
 
         // Setup columns and sorting columns
-        $width = ($this->table->getPublicCommentsEnabled()) ? '40px' : '15px';
-        $this->addColumn("", "_front", $width);
+        $this->addColumn("", "_front", '15px');
         $this->numeric_fields = array();
         foreach($this->table->getVisibleFields() as $field)
         {
             $title = $field->getTitle();
             $sort_field = $title;
+            if ($field->getId() == 'comments') {
+                $sort_field = 'n_comments';
+                $this->numeric_fields[] = $title;
+            }
             $this->addColumn($title, $sort_field);
-            if($field->getLearningProgress()){
+            if ($field->getLearningProgress()) {
                 $this->addColumn($lng->txt("dcl_status"), "_status_".$field->getTitle());
             }
-            if($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_NUMBER) {
+            if ($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_NUMBER) {
                 $this->numeric_fields[] = $title;
             }
         }
@@ -75,20 +78,20 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
         $this->setEnableTitle(true);
         $this->setDefaultOrderDirection($this->table->getDefaultSortFieldOrder());
         // Set a default sorting?
-        $title = 'id';
+        $default_sort_title = 'id';
         if ($fieldId = $this->table->getDefaultSortField()) {
             if (ilDataCollectionStandardField::_isStandardField($fieldId)) {
                 /** @var $stdField ilDataCollectionStandardField */
                 foreach (ilDataCollectionStandardField::_getStandardFields($this->table->getId()) as $stdField) {
                     if ($stdField->getId() == $fieldId) {
-                        $title = $stdField->getTitle();
+                        $default_sort_title = $stdField->getTitle();
                         break;
                     }
                 }
             } else {
-                $title = ilDataCollectionCache::getFieldCache($fieldId)->getTitle();
+                $default_sort_title = ilDataCollectionCache::getFieldCache($fieldId)->getTitle();
             }
-            $this->setDefaultOrderField($title);
+            $this->setDefaultOrderField($default_sort_title);
         }
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj, "applyFilter"));
         $this->initFilter();
@@ -106,12 +109,6 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
     public function setRecordData($data) {
         $this->object_data = $data;
         $this->buildData($data);
-        // Save record-ids in session to enable prev/next links in detail view
-        $_SESSION['dcl_record_ids'] = array();
-        /** @var $record ilDataCollectionRecord */
-        foreach ($data as $record) {
-            $_SESSION['dcl_record_ids'][] = $record->getId();
-        }
     }
 
     /*
@@ -167,6 +164,9 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
                 if ($field->getLearningProgress()) {
                     $record_data["_status_".$title] = $this->getStatus($record, $field);
                 }
+                if ($field->getId() == 'comments') {
+                    $record_data['n_comments'] = count($record->getComments());
+                }
             }
 
             $ilCtrl->setParameterByClass("ildatacollectionfieldeditgui", "record_id", $record->getId());
@@ -198,7 +198,7 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
             }
 
             if ($this->table->getPublicCommentsEnabled()) {
-                $alist->addItem($lng->txt('dcl_comments'), '', '', '', '', '', '', '', $this->getCommentsAjaxLink($record->getId()));
+                $alist->addItem($lng->txt('dcl_comments'), 'comment', '', '', '', '', '', '', $this->getCommentsAjaxLink($record->getId()));
             }
 
             $record_data["_actions"] = $alist->getHTML();
@@ -251,14 +251,6 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
         {
             $this->tpl->setVariable("VIEW_IMAGE_LINK", $record_data["_front"]);
             $this->tpl->setVariable("VIEW_IMAGE_SRC", ilUtil::img(ilUtil::getImagePath("cmd_view_s.png")));
-        }
-        if ($this->table->getPublicCommentsEnabled()) {
-            /** @var $record ilDataCollectionRecord*/
-            $record = $record_data['_record'];
-            $nComments = count($record->getComments());
-            $commentStr = "<a href='#' onclick=\"return ".$this->getCommentsAjaxLink($record->getId())."\">
-                           <img src='".ilUtil::getImagePath("comment_unlabeled.png") . "' alt='{$nComments} Comments'><span class='ilHActProp'>{$nComments}</span></a>";
-            $this->tpl->setVariable('N_COMMENTS', $commentStr);
         }
         $this->tpl->setVariable("ACTIONS", $record_data["_actions"]);
 

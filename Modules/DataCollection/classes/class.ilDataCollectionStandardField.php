@@ -70,8 +70,9 @@ class ilDataCollectionStandardField extends ilDataCollectionField
 			array("id"=>"create_date", "title" => $lng->txt("dcl_creation_date"), "description" => $lng->txt("dcl_creation_date_description"), "datatype_id" => ilDataCollectionDatatype::INPUTFORMAT_DATETIME, "required" => true),
 			array("id"=>"last_update", "title" => $lng->txt("dcl_last_update"), "description" => $lng->txt("dcl_last_update_description"), "datatype_id" => ilDataCollectionDatatype::INPUTFORMAT_DATETIME, "required" => true),
 			array("id"=>"owner", "title" => $lng->txt("dcl_owner"), "description" => $lng->txt("dcl_owner_description"), "datatype_id" => ilDataCollectionDatatype::INPUTFORMAT_TEXT, "required" => true),
-			array("id"=>"last_edit_by", "title" => $lng->txt("dcl_last_edited_by"), "description" => $lng->txt("dcl_last_edited_by_description"), "datatype_id" => ilDataCollectionDatatype::INPUTFORMAT_TEXT, "required" => true)
-		);
+			array("id"=>"last_edit_by", "title" => $lng->txt("dcl_last_edited_by"), "description" => $lng->txt("dcl_last_edited_by_description"), "datatype_id" => ilDataCollectionDatatype::INPUTFORMAT_TEXT, "required" => true),
+		    array('id' => 'comments', 'title' => $lng->txt('dcl_comments'), 'description' => $lng->txt('dcl_comments_description'), 'datatype_id' => ilDataCollectionDatatype::INPUTFORMAT_NONE, 'required' => false),
+        );
 		return $stdfields;
 	}
 	
@@ -84,10 +85,10 @@ class ilDataCollectionStandardField extends ilDataCollectionField
 		foreach(self::_getStandardFieldsAsArray() as $array)
 		{
 			$array["table_id"] = $table_id;
-			$array["datatype_id"] = self::_getDatatypeForId($array["id"]);
+			//$array["datatype_id"] = self::_getDatatypeForId($array["id"]);
 			$field = new ilDataCollectionStandardField();
 			$field->buildFromDBRecord($array);
-			array_push($stdFields, $field);
+			$stdFields[] = $field;
 		}
 		return $stdFields;
 	}
@@ -115,22 +116,14 @@ class ilDataCollectionStandardField extends ilDataCollectionField
 	 */
 	public static function _getDatatypeForId($id)
 	{
-		switch($id)
-		{
-			case 'id':
-				return ilDataCollectionDatatype::INPUTFORMAT_NUMBER;
-			case 'owner';
-				return ilDataCollectionDatatype::INPUTFORMAT_TEXT;
-			case 'create_date':
-				return ilDataCollectionDatatype::INPUTFORMAT_DATETIME;
-			case 'last_edit_by':
-				return ilDataCollectionDatatype::INPUTFORMAT_TEXT;
-			case 'table_id':
-				return ilDataCollectionDatatype::INPUTFORMAT_NUMBER;
-			case 'last_update':
-				return ilDataCollectionDatatype::INPUTFORMAT_DATETIME;
-		}
-		return NULL;
+        $datatype = null;
+        foreach (self::_getStandardFieldsAsArray() as $fields_data) {
+            if ($id == $fields_data['id']) {
+                $datatype = $fields_data['datatype_id'];
+                break;
+            }
+        }
+        return $datatype;
 	}
 	
 	/*

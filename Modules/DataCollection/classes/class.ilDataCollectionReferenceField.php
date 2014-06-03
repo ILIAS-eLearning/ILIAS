@@ -101,8 +101,7 @@ class ilDataCollectionReferenceField extends ilDataCollectionRecordField{
         }
 
         $ilCtrl->setParameterByClass("ildatacollectionrecordviewgui", "record_id", $ref_record->getId());
-
-        $html = "<a href='". $ilCtrl->getLinkTargetByClass("ilDataCollectionRecordViewGUI","renderRecord")."'>".$link_name."</a>";
+        $html = "<a href='". $ilCtrl->getLinkTargetByClass("ilDataCollectionRecordViewGUI","renderRecord")."&disable_paging=1'>".$link_name."</a>";
 
 
         return $html;
