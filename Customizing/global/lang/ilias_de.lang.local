@@ -42,3 +42,31 @@ gev#:#gev_org_mgmt#:#Organisationseinheitenverwaltung
 gev#:#gev_mail_mgmt#:#Mailverwaltung
 gev#:#gev_competence_mgmt#:#Kompetenzmanagment
 gev#:#gev_ilias_admin_menu#:#Administration
+gev#:#gev_cert_course_type#:#Lernart des Kurses
+gev#:#gev_cert_course_start_date#:#Startdatum des Kurses
+gev#:#gev_cert_course_end_date#:#Enddatum des Kurses
+gev#:#gev_cert_course_topics#:#Trainingskategorien des Kurses
+gev#:#gev_cert_points#:#Weiterbildungspunkte bei erfolgreicher Teilnahme
+gev#:#gev_quicklinks#:#Quicklinks
+gev#:#gev_quicklinks_desc#:#Greifen Sie hier schnell und unkompliziert auf weitere Informationen zu Ihren Trainings und auf Ihre persönliche Bildungsbiografie zu.
+gev#:#gev_next_course#:#Mein nächstes Training
+gev#:#gev_last_course#:#Mein letztes Training
+gev#:#gev_my_edu_bio#:#Meine Bildungsbiografie
+gev#:#gev_my_courses_desc#:#Hier sehen Sie auf einen Blick alle von Ihnen gebuchten Trainings.
+gev#:#gev_learning_type#:#Lernart
+gev#:#gev_location#:#Ort
+gev#:#gev_points#:#Punkte
+gev#:#gev_cancel_training#:#Training stornieren
+gev#:#gev_booked#:#gebucht
+gev#:#gev_waiting#:#gebucht auf Warteliste
+gev#:#gev_crs_srch_usr_slctr_caption#:#Suche für:
+gev#:#gev_highlights#:#Highlights
+gev#:#gev_my_highlights_desc#:#Hier finden Sie neue und interessante Angebote zugeschnitten auf Ihre individuellen Anforderungen.
+gev#:#gev_theirs_highlights_desc#:#Hier finden Sie neue und interessante Angebote zugeschnitten auf die individuellen Anforderungen ihres Mitarbeiters.
+gev#:#gev_crs_srch_title#:#Übersicht
+gev#:#gev_crs_srch_my_table_desc#:#Hier sehen Sie auf einen Blick alle für Sie verfügbaren Angebote.
+gev#:#gev_crs_srch_theirs_table_desc#:#Hier sehen Sie auf einen Blick alle für ihren Mitarbeiter verfügbaren Angebote.
+gev#:#gev_book_course#:#Training buchen
+gev#:#gev_bookable#:#buchbar
+gev#:#gev_bookable_waiting#:#buchbar auf Warteliste
+gev#:#gev_not_bookable#:#ausgebucht
