@@ -360,7 +360,13 @@ ilias.questions.assMatchingQuestion = function(a_id) { (function($){
 	if( foundCorrect < questionData.matchingPairs.length || foundWrong )
     {
         answerData.passed = false;
-        answerData.wrong = (questionData.matchingPairs.length - foundCorrect) + foundWrong;
+        
+        answerData.wrong = questionData.matchingPairs.length - foundCorrect;
+        
+        if(questionData.matching_mode.toLowerCase() == 'n:n')
+        {
+            answerData.wrong += foundWrong;
+        }
 	}
 
     if( answerData.passed || questionData.nr_of_tries && answerData.tries >= questionData.nr_of_tries )
