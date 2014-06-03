@@ -3718,7 +3718,7 @@ rbac#:#ps_export_member_data#:#User can export member data in courses and groups
 rbac#:#ps_read#:#User has read access to Privacy/Security administration
 rbac#:#ps_visible#:#Privacy/Security administration is visible
 rbac#:#ps_write#:#User can edit settings in Privacy/Security administration
-common#:#pub_section_info#:#If enabled, parts of the system (e.g. repository, workspace, user profiles) can be made available to the internet without authentification. The permissions of the "Anonymous" role will control the access to repository resources.
+common#:#pub_section_info#:#If enabled, parts of the system (e.g. repository, workspace, user profiles) can be made available to the internet without authentication. The permissions of the "Anonymous" role will control the access to repository resources.
 common#:#pub_section#:#Anonymous Access
 common#:#public_notes#:#Public Notes
 common#:#public_profile_not_visible#:#The profile is not public
@@ -7790,7 +7790,7 @@ news#:#news_news_item_visibility#:#Access
 news#:#news_news_items#:#News Item(s)
 news#:#news_no_js_click_here#:#If news are not displayed, click here.
 news#:#news_no_news_items#:#No news available.
-news#:#news_notifications_public_info#:#If this option is enabled, notifications can be obtained by personal RSS feeds outside of ILIAS. Please note that this makes notifications accessible without authentification.
+news#:#news_notifications_public_info#:#If this option is enabled, notifications can be obtained by personal RSS feeds outside of ILIAS. Please note that this makes notifications accessible without authentication.
 news#:#news_notifications_public#:#Public Notifications
 news#:#news_notifications#:#Notifications
 news#:#news_nr_of_items_info#:#Number of news items that are kept for an object (e.g. a file or a learning module) in the database. Please note, that container objects (e.g. categories, courses) may list more items, because they aggregate news of subobjects.
