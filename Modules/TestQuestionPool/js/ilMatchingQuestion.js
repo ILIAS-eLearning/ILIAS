@@ -423,7 +423,7 @@
             return;
         }
 
-        resetMatchings();
+        resetMatchings(instance);
     };
 
     var resetMatchings = function(instance)
