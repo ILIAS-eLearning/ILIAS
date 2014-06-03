@@ -139,7 +139,7 @@ class ilDataCollectionRecordViewGUI
     {
         global $ilTabs, $tpl, $ilCtrl, $lng;
 
-        $rctpl = new ilTemplate("tpl.record_view.html", true, true, "Modules/DataCollection");
+        $rctpl = new ilTemplate("tpl.record_view.html", false, true, "Modules/DataCollection");
 
         $ilTabs->setTabActive("id_content");
 
@@ -160,7 +160,7 @@ class ilDataCollectionRecordViewGUI
         $rctpl->addCss("./Services/COPage/css/content.css");
         $rctpl->fillCssFiles();
         $table = ilDataCollectionCache::getTableCache($this->record_obj->getTableId());
-        foreach($table->getFields() as $field)
+        foreach($table->getRecordFields() as $field)
         {
             //ILIAS_Ref_Links
             $pattern = '/\[dcliln field="'.preg_quote($field->getTitle(), "/").'"\](.*?)\[\/dcliln\]/';
@@ -183,6 +183,9 @@ class ilDataCollectionRecordViewGUI
 
             $html = str_ireplace("[".$field->getTitle()."]", $this->record_obj->getRecordFieldHTML($field->getId()), $html);
 
+        }
+        foreach($table->getStandardFields() as $field) {
+            $html = str_ireplace("[".$field->getId()."]", $this->record_obj->getRecordFieldHTML($field->getId()), $html);
         }
         $rctpl->setVariable("CONTENT",$html);
 
