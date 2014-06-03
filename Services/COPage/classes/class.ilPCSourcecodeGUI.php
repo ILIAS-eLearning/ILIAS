@@ -240,7 +240,7 @@ class ilPCSourcecodeGUI extends ilPageContentGUI
 		
 		if (key($_POST["cmd"]) == "create_src")
 		{
-			$this->tpl->setVariable("PAR_TA_CONTENT", stripslashes($_POST["par_content"]));
+			$this->tpl->setVariable("PAR_TA_CONTENT", ilUtil::prepareFormOutput(stripslashes($_POST["par_content"])));
 		}
 		else
 		{
