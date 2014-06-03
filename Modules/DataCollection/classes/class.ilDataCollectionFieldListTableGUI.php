@@ -94,34 +94,40 @@ class ilDataCollectionFieldListTableGUI extends ilTable2GUI
 		}
 
         /* Don't enable setting filter for MOB fields or reference fields that reference a MOB field */
-        $showFilter = true;
+        $show_filter = true;
+        $show_exportable = true;
         if ($a_set->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_MOB || $a_set->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_FILE) {
-            $showFilter = false;
+            $show_filter = false;
         }
         if ($a_set->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_REFERENCE) {
-            $refField = ilDataCollectionCache::getFieldCache((int) $a_set->getFieldRef());
-            if ($refField && ($refField->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_MOB || $refField->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_FILE)) {
-                $showFilter = false;
+            $ref_field = ilDataCollectionCache::getFieldCache((int) $a_set->getFieldRef());
+            if ($ref_field && ($ref_field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_MOB || $ref_field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_FILE)) {
+                $show_filter = false;
             }
         }
-        if($showFilter)
-        {
+        if ($a_set->getId() == 'comments') {
+            $show_filter = false;
+            $show_exportable = false;
+        }
+        if ($show_filter) {
             $this->tpl->setVariable("CHECKBOX_FILTERABLE", "filterable[".$a_set->getId()."]");
-            if($a_set->isFilterable())
-            {
+            if ($a_set->isFilterable()) {
                 $this->tpl->setVariable("CHECKBOX_FILTERABLE_CHECKED", "checked");
             }
-        }
-        else
-        {
+        } else {
             $this->tpl->setVariable("NO_FILTER", "");
         }
 
-		$this->tpl->setVariable("CHECKBOX_EXPORTABLE", "exportable[".$a_set->getId()."]");
-		if($a_set->getExportable())
-		{
-			$this->tpl->setVariable("CHECKBOX_EXPORTABLE_CHECKED", "checked");
-		}
+        if ($show_exportable) {
+            $this->tpl->setVariable("CHECKBOX_EXPORTABLE", "exportable[".$a_set->getId()."]");
+            if($a_set->getExportable())
+            {
+                $this->tpl->setVariable("CHECKBOX_EXPORTABLE_CHECKED", "checked");
+            }
+        } else {
+            $this->tpl->setVariable('NO_FILTER_EXPORTABLE', '');
+        }
+
 
 		if(!$a_set->isStandardField())
 		{
