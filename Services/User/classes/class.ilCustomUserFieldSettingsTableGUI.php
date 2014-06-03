@@ -14,14 +14,19 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
 class ilCustomUserFieldSettingsTableGUI extends ilTable2GUI
 {
 	private $confirm_change = false;
+	private $permissions; // [ilUDFPermissionHelper]
+	private $perm_map; // [array]
 	
 	/**
 	* Constructor
 	*/
-	function __construct($a_parent_obj, $a_parent_cmd)
+	function __construct($a_parent_obj, $a_parent_cmd, ilUDFPermissionHelper $a_permissions)
 	{
 		global $ilCtrl, $lng, $ilAccess, $lng;
 		
+		$this->permissions = $a_permissions;
+		$this->perm_map = ilCustomUserFieldsGUI::getAccessPermissions();
+				
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		$this->setTitle($lng->txt("user_defined_list"));
 		$this->setLimit(9999);
@@ -72,7 +77,34 @@ class ilCustomUserFieldSettingsTableGUI extends ilTable2GUI
 			'changeable_lua' => 'usr_settings_changeable_lua',
 			'certificate' => 'certificate'
 		);
-
+		
+		$perms = $this->permissions->hasPermissions(ilUDFPermissionHelper::CONTEXT_FIELD,
+			$field, array(
+				ilUDFPermissionHelper::ACTION_FIELD_EDIT
+				,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+					ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_PERSONAL)
+				,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+					ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_REGISTRATION)
+				,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+					ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_LOCAL)
+				,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+					ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_COURSES)
+				,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+					ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_GROUPS)
+				,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+					ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_CHANGEABLE_PERSONAL)
+				,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+					ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_CHANGEABLE_LOCAL)
+				,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+					ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_REQUIRED)
+				,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+					ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_EXPORT)
+				,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+					ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_SEARCHABLE)
+				,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+					ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_CERTIFICATE)
+		));
+	
 		foreach ($props as $prop => $lv)
 		{
 			$up_prop = strtoupper($prop);
@@ -99,18 +131,27 @@ class ilCustomUserFieldSettingsTableGUI extends ilTable2GUI
 				if ($checked)
 				{
 					$this->tpl->setVariable("CHECKED_".$up_prop, " checked=\"checked\"");
-				}
+				}							
+				
+				if (!$perms[ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS][$this->perm_map[$prop]])
+				{				
+					$this->tpl->setVariable("DISABLE_".$up_prop, " disabled=\"disabled\"");
+				}						
+				
 				$this->tpl->parseCurrentBlock();
 			}
 		}
 		
 		// actions
-		$ilCtrl->setParameter($this->parent_obj, 'field_id', $a_set["field_id"]);
-		$this->tpl->setCurrentBlock("action");
-		$this->tpl->setVariable("HREF_CMD",
-			$ilCtrl->getLinkTarget($this->parent_obj, 'edit'));
-		$this->tpl->setVariable("TXT_CMD", $lng->txt("edit"));
-		$this->tpl->parseCurrentBlock();
+		if($perms[ilUDFPermissionHelper::ACTION_FIELD_EDIT])
+		{
+			$ilCtrl->setParameter($this->parent_obj, 'field_id', $a_set["field_id"]);
+			$this->tpl->setCurrentBlock("action");
+			$this->tpl->setVariable("HREF_CMD",
+				$ilCtrl->getLinkTarget($this->parent_obj, 'edit'));
+			$this->tpl->setVariable("TXT_CMD", $lng->txt("edit"));
+			$this->tpl->parseCurrentBlock();
+		}
 		
 		// field name
 		$this->tpl->setVariable("FIELD_ID", $a_set["field_id"]);

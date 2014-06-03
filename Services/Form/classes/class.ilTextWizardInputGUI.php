@@ -126,11 +126,13 @@ class ilTextWizardInputGUI extends ilTextInputGUI
 				}
 			}
 		}
-		else
+		// patch generali start
+		else if($this->getRequired())
 		{
 			$this->setAlert($lng->txt("msg_input_is_required"));
 			return FALSE;
 		}
+		// patch generali end
 		
 		return $this->checkSubItemsInput();
 	}
@@ -168,18 +170,25 @@ class ilTextWizardInputGUI extends ilTextInputGUI
 			if ($i == count($this->values)-1) $class .= " last";
 			$tpl->setVariable("ROW_CLASS", $class);
 			$tpl->setVariable("POST_VAR", $this->getPostVar() . "[$i]");
-			$tpl->setVariable("ID", $this->getFieldId() . "[$i]");
-			$tpl->setVariable("CMD_ADD", "cmd[add" . $this->getFieldId() . "][$i]");
-			$tpl->setVariable("CMD_REMOVE", "cmd[remove" . $this->getFieldId() . "][$i]");
+			$tpl->setVariable("ID", $this->getFieldId() . "[$i]");			
 			$tpl->setVariable("SIZE", $this->getSize());
 			$tpl->setVariable("MAXLENGTH", $this->getMaxLength());
+			
+			// patch generali start
 			if ($this->getDisabled())
 			{
 				$tpl->setVariable("DISABLED",
 					" disabled=\"disabled\"");
 			}
-			$tpl->setVariable("ADD_BUTTON", ilUtil::getImagePath('edit_add.png'));
-			$tpl->setVariable("REMOVE_BUTTON", ilUtil::getImagePath('edit_remove.png'));
+			else
+			{
+				$tpl->setVariable("CMD_ADD", "cmd[add" . $this->getFieldId() . "][$i]");
+				$tpl->setVariable("CMD_REMOVE", "cmd[remove" . $this->getFieldId() . "][$i]");
+				$tpl->setVariable("ADD_BUTTON", ilUtil::getImagePath('edit_add.png'));
+				$tpl->setVariable("REMOVE_BUTTON", ilUtil::getImagePath('edit_remove.png'));
+			}
+			// patch generali end
+			
 			$tpl->parseCurrentBlock();
 			$i++;
 		}
@@ -189,9 +198,14 @@ class ilTextWizardInputGUI extends ilTextInputGUI
 		$a_tpl->setVariable("PROP_GENERIC", $tpl->get());
 		$a_tpl->parseCurrentBlock();
 		
-		global $tpl;
-		include_once "./Services/YUI/classes/class.ilYuiUtil.php";
-		ilYuiUtil::initDomEvent();
-		$tpl->addJavascript("./Services/Form/templates/default/textwizard.js");
+		// patch generali start
+		if (!$this->getDisabled())
+		{
+			global $tpl;
+			include_once "./Services/YUI/classes/class.ilYuiUtil.php";
+			ilYuiUtil::initDomEvent();
+			$tpl->addJavascript("./Services/Form/templates/default/textwizard.js");
+		}
+		// patch generali end
 	}
 }

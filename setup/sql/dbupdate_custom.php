@@ -339,3 +339,7 @@ if(!$ilDB->tableExists('orgu_types_adv_md_rec')) {
     $ilDB->addPrimaryKey('orgu_types_adv_md_rec', array('type_id', 'rec_id'));
 }
 ?>
+<#14>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

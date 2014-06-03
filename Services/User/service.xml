@@ -24,4 +24,7 @@
 		<cron id="user_inactivated" class="ilCronDeleteInactivatedUserAccounts" />
 		<cron id="user_check_accounts" class="ilUserCronCheckAccounts" />
 	</crons>
+	<pluginslots>
+		<pluginslot id="udfc" name="UDFClaiming" />
+	</pluginslots>
 </service>
