@@ -314,7 +314,7 @@ abstract class ilObject2GUI extends ilObjectGUI
 	{
 		global $lng, $tpl, $objDefinition;
 
-		$node_id = $_REQUEST["item_ref_id"];
+		$node_id = (int)$_REQUEST["item_ref_id"];
 		if (!$node_id)
 		{
 			ilUtil::sendFailure($lng->txt("no_checkbox"), true);
