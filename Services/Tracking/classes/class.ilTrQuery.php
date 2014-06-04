@@ -192,7 +192,9 @@ class ilTrQuery
 				$collection = $olp->getCollectionInstance();
 				if($collection)
 				{					
-					$item_data = $collection->getPossibleItems();
+					$ref_ids = ilObject::_getAllReferences($a_parent_obj_id);
+					$ref_id = end($ref_ids);		
+					$item_data = $collection->getPossibleItems($ref_id);
 				}
 				break;
 			
