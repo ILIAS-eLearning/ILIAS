@@ -11,6 +11,9 @@ require_once "./Services/Form/classes/class.ilDateTimeInputGUI.php";
 require_once "./Services/Form/classes/class.ilTextInputGUI.php";
 require_once "./Services/Form/classes/class.ilFileInputGUI.php";
 require_once "./Services/Form/classes/class.ilImageFileInputGUI.php";
+require_once("./Services/Preview/classes/class.ilPreview.php");
+require_once('./Services/Preview/classes/class.ilPreviewGUI.php');
+
 
 
 /**
@@ -644,6 +647,8 @@ class ilDataCollectionDatatype
 	 */
 	public function parseHTML($value, ilDataCollectionRecordField $record_field)
 	{
+        global $ilAccess, $ilCtrl, $lng;;
+
         switch($this->id)
 		{
 			case self::INPUTFORMAT_DATETIME:
@@ -651,7 +656,6 @@ class ilDataCollectionDatatype
                 break;
 				
 			case self::INPUTFORMAT_FILE:
-				global $ilCtrl;
 
                  if(!ilObject2::_exists($value) || ilObject2::_lookupType($value, false) != "file") {
                     $html = "";
@@ -659,11 +663,26 @@ class ilDataCollectionDatatype
                 }
 
 				$file_obj = new ilObjFile($value,false);
-
 				$ilCtrl->setParameterByClass("ildatacollectionrecordlistgui", "record_id", $record_field->getRecord()->getId());
 				$ilCtrl->setParameterByClass("ildatacollectionrecordlistgui", "field_id", $record_field->getField()->getId());
 
-				$html = "<a href=".$ilCtrl->getLinkTargetByClass("ildatacollectionrecordlistgui", "sendFile")." >".$file_obj->getFileName()."</a>";
+                $html = '<a href="'.$ilCtrl->getLinkTargetByClass("ildatacollectionrecordlistgui", "sendFile").'">'.$file_obj->getFileName().'</a>';
+                if (ilPreview::hasPreview($file_obj->getId())) {
+                    $preview = new ilPreviewGUI((int) $_GET['ref_id'], ilPreviewGUI::CONTEXT_REPOSITORY, $file_obj->getId(), $ilAccess);
+                    $preview_status = ilPreview::lookupRenderStatus($file_obj->getId());
+                    $preview_status_class = "";
+                    $preview_text_topic = "preview_show";
+                    if ($preview_status == ilPreview::RENDER_STATUS_NONE) {
+                        $preview_status_class = "ilPreviewStatusNone";
+                        $preview_text_topic = "preview_none";
+                    }
+                    $wrapper_html_id = 'record_field_' . $record_field->getId();
+                    $script_preview_click = $preview->getJSCall($wrapper_html_id);
+                    $preview_title = $lng->txt($preview_text_topic);
+                    $preview_icon = ilUtil::getImagePath("preview.png", "Services/Preview");
+                    $html = '<div id="'.$wrapper_html_id.'">' . $html;
+                    $html .= '<span class="il_ContainerItemPreview '.$preview_status_class.'"><a href="javascript:void(0);" onclick="'.$script_preview_click.'" title="'.$preview_title.'"><img src="'.$preview_icon.'" height="16" width="16"></a></span></div>';
+                }
 				break;
 
             case self::INPUTFORMAT_MOB:

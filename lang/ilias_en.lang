@@ -13095,6 +13095,7 @@ dcl#:#dcl_record_from_total#:#%d of %d
 dcl#:#dcl_view_own_records_perm#:#View only own entries
 dcl#:#dcl_msg_no_perm_view#:#No permission given to view this record
 dcl#:#dcl_msg_no_perm_edit#:#No permission given to edit this record
+dcl#:#dcl_delete_fields#:#Delete fields
 common#:#obj_bibl#:#Bibliography
 common#:#objs_bibl#:#Bibliographies
 bibl#:#bibl_new#:#New Bibliography
