@@ -12297,6 +12297,9 @@ dcl#:#dcl_please_select#:#--- Bitte wählen ---
 dcl#:#dcl_asc#:#Aufsteigende Reihenfolge (ASC)
 dcl#:#dcl_desc#:#Absteigende Reihenfolge (DESC)
 dcl#:#dcl_comments#:#Kommentare
+dcl#:#dcl_comments_description#:#Anzahl Kommentare pro Datensatz.
+dcl#:#dcl_confirm_delete_fields#:#Wollen Sie diese Felder wirklich löschen?
+dcl#:#dcl_msg_fields_deleted#:#Die Felder wurden gelöscht
 common#:#obj_dcl_duplicate#:#Datensammlung kopieren
 survey#:#freetext_answers#:#Freitext-Antworten
 forum#:#frm_at_least_one_moderator#:#Es muss mindestens ein Moderator zugewiesen sein.

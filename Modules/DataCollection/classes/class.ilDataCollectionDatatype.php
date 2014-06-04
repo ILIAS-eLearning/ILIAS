@@ -181,7 +181,7 @@ class ilDataCollectionDatatype
 	 * @param int $a_id datatype_id
 	 * @return array
 	 */
-	public function getProperties($a_id)
+	public static function getProperties($a_id)
 	{  
 		global $ilDB;
 

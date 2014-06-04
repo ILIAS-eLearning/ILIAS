@@ -32,8 +32,8 @@ class ilDataCollectionFieldListTableGUI extends ilTable2GUI
 	 	$this->parent_obj = $a_parent_obj;
 	 	
 	 	$this->setId("dcl_field_list");
-	 	
-	 	$this->addColumn($lng->txt("dcl_order"),  null,  "30px");
+        $this->addColumn("", "", "1", true);
+        $this->addColumn($lng->txt("dcl_order"),  null,  "30px");
 		$this->addColumn($lng->txt("dcl_title"),  null,  "auto");
 		$this->addColumn($lng->txt("dcl_visible"),  null,  "30px");
 		$this->addColumn($lng->txt("dcl_filter"),  null,  "30px");
@@ -44,6 +44,8 @@ class ilDataCollectionFieldListTableGUI extends ilTable2GUI
 		$this->addColumn($lng->txt("dcl_required"),  null,  "auto");
 		$this->addColumn($lng->txt("dcl_unique"),  null,  "auto");
 		$this->addColumn($lng->txt("actions"), 	 null, 	 "30px");
+        $this->setSelectAllCheckbox("dcl_field_ids[]");
+        $this->addMultiCommand("confirmDeleteFields", $lng->txt('dcl_delete_fields'));
 
 		$ilCtrl->setParameterByClass("ildatacollectionfieldeditgui","table_id", $this->parent_obj->table_id);
 		$ilCtrl->setParameterByClass("ildatacollectionfieldlistgui","table_id", $this->parent_obj->table_id);
@@ -83,7 +85,11 @@ class ilDataCollectionFieldListTableGUI extends ilTable2GUI
 	public function fillRow(ilDataCollectionField $a_set)
 	{
 		global $lng, $ilCtrl;
-		
+
+        if (!$a_set->isStandardField()) {
+            $this->tpl->setVariable('FIELD_ID', $a_set->getId());
+        }
+
 		$this->tpl->setVariable('NAME', "order[".$a_set->getId()."]");
 		$this->tpl->setVariable('VALUE', $this->order);
 		

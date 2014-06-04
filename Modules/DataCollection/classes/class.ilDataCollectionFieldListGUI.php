@@ -5,6 +5,7 @@ require_once ("./Modules/DataCollection/classes/class.ilDataCollectionField.php"
 require_once ("./Modules/DataCollection/classes/class.ilDataCollectionTable.php");
 include_once("class.ilDataCollectionDatatype.php");
 require_once "class.ilDataCollectionCache.php";
+require_once('./Services/Utilities/classes/class.ilConfirmationGUI.php');
 
 
 /**
@@ -52,17 +53,53 @@ class ilDataCollectionFieldListGUI
 				break;
 		}
 	}
-	
-	/*
-	 * save
-	 */
+
+    /**
+     * Delete multiple fields
+     */
+    public function deleteFields() {
+        global $ilCtrl, $lng;
+
+        $field_ids = isset($_POST['dcl_field_ids']) ? $_POST['dcl_field_ids'] : array();
+        $table = ilDataCollectionCache::getTableCache($this->table_id);
+        foreach ($field_ids as $field_id) {
+            $table->deleteField($field_id);
+        }
+        ilUtil::sendSuccess($lng->txt('dcl_msg_fields_deleted'), true);
+        $ilCtrl->redirect($this, 'listFields');
+    }
+
+    /**
+     * Confirm deletion of multiple fields
+     */
+    public function confirmDeleteFields() {
+        global $ilCtrl, $lng, $tpl, $ilTabs;
+        /** @var ilTabsGUI $ilTabs */
+        $ilTabs->clearSubTabs();
+        $conf = new ilConfirmationGUI();
+        $conf->setFormAction($ilCtrl->getFormAction($this));
+        $conf->setHeaderText($lng->txt('dcl_confirm_delete_fields'));
+        $field_ids = isset($_POST['dcl_field_ids']) ? $_POST['dcl_field_ids'] : array();
+        foreach ($field_ids as $field_id) {
+            /** @var ilDataCollectionField $field */
+            $field = ilDataCollectionCache::getFieldCache($field_id);
+            $conf->addItem('dcl_field_ids[]', $field_id, $field->getTitle());
+        }
+        $conf->setConfirm($lng->txt('delete'), 'deleteFields');
+        $conf->setCancel($lng->txt('cancel'), 'listFields');
+        $tpl->setContent($conf->getHTML());
+    }
+
+    /*
+     * save
+     */
 	public function save()
 	{
 		global $lng;
 		$table = ilDataCollectionCache::getTableCache($_GET['table_id']);
-		$fields = &$table->getFields();
+		$fields = $table->getFields();
 
-		foreach($fields as &$field)
+		foreach($fields as $field)
 		{
 			$field->setVisible($_POST['visible'][$field->getId()] == "on");
 			$field->setEditable($_POST['editable'][$field->getId()] == "on");

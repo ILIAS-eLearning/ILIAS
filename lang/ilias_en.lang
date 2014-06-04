@@ -13073,6 +13073,9 @@ dcl#:#dcl_please_select#:#--- Please select ---
 dcl#:#dcl_asc#:#Ascending Order (ASC)
 dcl#:#dcl_desc#:#Descending Order (DESC)
 dcl#:#dcl_comments#:#Comments
+dcl#:#dcl_comments_description#:#Displays the number of comments for a record.
+dcl#:#dcl_confirm_delete_fields#:#Do you really want to delete these fields?
+dcl#:#dcl_msg_fields_deleted#:#Deleted fields
 dcl#:#dcl_id#:#ID
 dcl#:#dcl_id_description#:#The internal ID.
 dcl#:#dcl_creation_date#:#Creation Date
