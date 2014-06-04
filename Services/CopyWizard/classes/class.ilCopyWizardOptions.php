@@ -401,6 +401,22 @@ class ilCopyWizardOptions
 		return array();
 	}
 	
+	//gev-patch start
+	/**
+	 * Get the ref_id of the target object.
+	 */
+	public function getTargetRefId() {
+		return $this->options[-2][$this->options[self::ROOT_NODE][0]];
+	}
+	
+	/**
+	 * Get the ref_id of the source object.
+	 */
+	public function getSourceRefId() {
+		return $this->options[self::ROOT_NODE][0];
+	}
+	//gev-patch end
+	
 	/**
 	 * Add new entry
 	 *

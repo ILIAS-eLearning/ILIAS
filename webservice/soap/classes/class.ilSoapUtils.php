@@ -265,7 +265,17 @@ class ilSoapUtils extends ilSoapAdministration
 		{
 			$cp_options->deleteAll();
 			$ilLog->write(__METHOD__.': Finished copy step 2. Copy completed');
-			
+
+			// gev-patch start
+			global $ilAppEventHandler;
+			$ilAppEventHandler->raise("Services/Object"
+									 , "afterClone"
+									 , array( "source_ref_id" => $cp_options->getSourceRefId()
+									 		, "target_ref_id" => $cp_options->getTargetRefId()
+									 		)
+									 );
+			// gev-patch end
+
 			return true;
 		}
 
