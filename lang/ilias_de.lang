@@ -12300,6 +12300,9 @@ dcl#:#dcl_comments#:#Kommentare
 dcl#:#dcl_comments_description#:#Anzahl Kommentare pro Datensatz.
 dcl#:#dcl_confirm_delete_fields#:#Wollen Sie diese Felder wirklich löschen?
 dcl#:#dcl_msg_fields_deleted#:#Die Felder wurden gelöscht
+dcl#:#dcl_msg_no_perm_view#:#Sie können nicht auf diesen Datensatz zugreifen
+dcl#:#dcl_view_own_records_perm#:#Nur eigene Datensätze anzeigen
+dcl#:#dcl_msg_no_perm_edit#:#Sie können diesen Datensatz nicht bearbeiten
 common#:#obj_dcl_duplicate#:#Datensammlung kopieren
 survey#:#freetext_answers#:#Freitext-Antworten
 forum#:#frm_at_least_one_moderator#:#Es muss mindestens ein Moderator zugewiesen sein.

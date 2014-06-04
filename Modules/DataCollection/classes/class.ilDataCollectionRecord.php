@@ -6,6 +6,9 @@ require_once './Modules/DataCollection/classes/class.ilDataCollectionDatatype.ph
 require_once './Services/Exceptions/classes/class.ilException.php';
 require_once './Services/User/classes/class.ilUserUtil.php';
 require_once('./Services/Object/classes/class.ilCommonActionDispatcherGUI.php');
+require_once('./Modules/DataCollection/classes/class.ilObjDataCollection.php');
+require_once('class.ilDataCollectionTable.php');
+
 
 /**
 * Class ilDataCollectionRecord
@@ -14,6 +17,7 @@ require_once('./Services/Object/classes/class.ilCommonActionDispatcherGUI.php');
 * @author Marcel Raimann <mr@studer-raimann.ch>
 * @author Fabian Schmid <fs@studer-raimann.ch>
 * @author Oskar Truffer <ot@studer-raimann.ch>
+* @author Stefan Wanzenried <sw@studer-raimann.ch>
 * @version $Id:
 *
 * @ingroup ModulesDataCollection
@@ -21,30 +25,55 @@ require_once('./Services/Object/classes/class.ilCommonActionDispatcherGUI.php');
 class ilDataCollectionRecord
 {
 	/**
-	 * @var ilDataCollectionRecordField[]
+	 * @var array ilDataCollectionRecordField[]
 	 */
-	private $recordfields;
-	private $id;
-	private $table_id;
+	protected $recordfields;
+
+    /**
+     * @var int
+     */
+    protected $id;
+
+    /**
+     * @var int
+     */
+    protected $table_id;
 
     /**
      * @var ilDataCollectionTable
      */
-    private $table;
-	private $last_edit_by;
+    protected $table;
+
+    /**
+     * User ID
+     * @var int
+     */
+    protected $last_edit_by;
+
+    /**
+     * @var int
+     */
+    protected $owner;
+
+    /**
+     * @var ilDateTime
+     */
+    protected $last_update;
+
+    /**
+     * @var ilDateTime
+     */
+    protected $create_date;
 
     /**
      * @var array ilNote[]
      */
     protected $comments;
 
-	/**
-	 * Constructor
-	 * @access public
-	 * @param  integer fiel_id
-	 *
-	 */
-	public function __construct($a_id = 0)
+    /**
+     * @param int $a_id
+     */
+    public function __construct($a_id = 0)
 	{
 		if($a_id != 0) 
 		{
@@ -60,7 +89,7 @@ class ilDataCollectionRecord
 	public function doUpdate()
 	{
 		global $ilDB;
-		
+
 		$ilDB->update("il_dcl_record", array(
 			"table_id" => array("integer", $this->getTableId()),
 			"last_update" => array("date", $this->getLastUpdate()),
@@ -75,7 +104,6 @@ class ilDataCollectionRecord
 			$recordfield->doUpdate();
 		}
 
-		include_once "./Modules/DataCollection/classes/class.ilObjDataCollection.php";
 		ilObjDataCollection::sendNotification("update_record", $this->getTableId(), $this->id);
 	}
 	
@@ -98,20 +126,16 @@ class ilDataCollectionRecord
 		$this->setLastEditBy($rec["last_edit_by"]);
 	}
 
-	/**
-	 * Create new record
-	 *
-	 * @param array $all_fields
-	 *
-	 */
-	public function doCreate()
+    /**
+     * @throws ilException
+     */
+    public function doCreate()
 	{
 		global $ilDB;
 
 		if(!ilDataCollectionTable::_tableExists($this->getTableId()))
 			throw new ilException("The field does not have a related table!");
 
-		// Record erzeugen
 		$id = $ilDB->nextId("il_dcl_record");
 		$this->setId($id);
 		$query = "INSERT INTO il_dcl_record (
@@ -130,14 +154,12 @@ class ilDataCollectionRecord
 			$ilDB->quote($this->getLastEditBy(), "integer")."
 			)";
 		$ilDB->manipulate($query);
-
-		include_once "./Modules/DataCollection/classes/class.ilObjDataCollection.php";
 	}
-	
-	/*
-	 * deleteField
-	 */
-	public function deleteField($field_id)
+
+    /**
+     * @param $field_id
+     */
+    public function deleteField($field_id)
 	{
 		$this->loadRecordFields();
 		$this->recordfields[$field_id]->delete();
@@ -262,16 +284,15 @@ class ilDataCollectionRecord
 	}
 
 
-	/**
-	 * Set Field Value
-	 *
-	 * @param string $a_value
-	 * @param int $a_id
-	 */
-	public function setRecordFieldValue($field_id, $value)
+    /**
+     * Set a field value
+     *
+     * @param int $field_id
+     * @param string $value
+     */
+    public function setRecordFieldValue($field_id, $value)
 	{
 	   	$this->loadRecordFields();
-	   	
 		if(ilDataCollectionStandardField::_isStandardField($field_id))
 		{
 			$this->setStandardField($field_id, $value);
@@ -282,22 +303,20 @@ class ilDataCollectionRecord
 			$this->recordfields[$field_id]->setValue($value);
 		}
 	}
-	
-	/**
-	 * @depricated
-	 * getRecordFieldValues
-	 * @return array
-	 */
-	public function getRecordFieldValues()
+
+    /**
+     * @deprecated
+     * @return array
+     */
+    public function getRecordFieldValues()
 	{
 		$this->loadRecordFields();
-		
-		foreach($this->recordfields as $id => $record_field)
+		$return = array();
+        foreach($this->recordfields as $id => $record_field)
 		{
 			$return[$id] = $record_field->getValue();
 		}
-		
-		return (array) $return;
+		return $return;
 	}
 	
 	/**
@@ -308,15 +327,17 @@ class ilDataCollectionRecord
 	 */
 	public function getRecordFieldValue($field_id)
 	{
-		$this->loadRecordFields();
-		
+		if ($field_id === null) {
+            return null;
+        }
+        $this->loadRecordFields();
 		if(ilDataCollectionStandardField::_isStandardField($field_id))
 		{
 			return $this->getStandardField($field_id);
 		}
 		else
 		{
-			return $this->recordfields[$field_id]->getValue();
+            return $this->recordfields[$field_id]->getValue();
 		}
 	}
 	
@@ -330,7 +351,6 @@ class ilDataCollectionRecord
 	public function getRecordFieldExportValue($field_id)
 	{
 		$this->loadRecordFields();
-		
 		if(ilDataCollectionStandardField::_isStandardField($field_id))
 		{
 			return $this->getStandardFieldHTML($field_id);
@@ -341,25 +361,18 @@ class ilDataCollectionRecord
 		}
 	}
 
-	
-		
-	/*
-	 * getRecordFieldHTML
-	 *
-	 * @param int $field_id
-	 * @param array $options
-	 * @return array
-	 */
-	public function getRecordFieldHTML($field_id,array $options = array())
+
+    /**
+     * @param $field_id
+     * @param array $options
+     * @return array|mixed|string
+     */
+    public function getRecordFieldHTML($field_id,array $options = array())
 	{
-
 		$this->loadRecordFields();
-		$html = "";
-
 		if(ilDataCollectionStandardField::_isStandardField($field_id))
 		{
 			$html =  $this->getStandardFieldHTML($field_id, $options);
-
 		}
 		else
 		{
@@ -373,13 +386,11 @@ class ilDataCollectionRecord
 		return $html;
 	}
 
-    /*
- * getRecordFieldSingleHTML
- *
- * @param int $field_id
- * @param array $options
- * @return array
- */
+    /**
+     * @param $field_id
+     * @param array $options
+     * @return array|string
+     */
     public function getRecordFieldSingleHTML($field_id,array $options = array())
     {
         $this->loadRecordFields();
@@ -395,14 +406,11 @@ class ilDataCollectionRecord
     }
 
 
-
-	/*
-	 * getRecordFieldFormInput
-	 *
-	 * @param int $field_id
-	 * @return array
-	 */
-	public function getRecordFieldFormInput($field_id)
+    /**
+     * @param $field_id
+     * @return int
+     */
+    public function getRecordFieldFormInput($field_id)
 	{
 		$this->loadRecordFields();
 		if(ilDataCollectionStandardField::_isStandardField($field_id))
@@ -416,14 +424,11 @@ class ilDataCollectionRecord
 	}
 
 
-	/*
-	 * setStandardField
-	 *
-	 * @param int $field_id
-	 * @param mixed $value
-	 */
-	 
-	private function setStandardField($field_id, $value)
+    /**
+     * @param $field_id
+     * @param $value
+     */
+    protected function setStandardField($field_id, $value)
 	{
 		switch($field_id)
 		{
@@ -433,15 +438,13 @@ class ilDataCollectionRecord
 		}
 		$this->$field_id = $value;
 	}
-	
-	
-	/*
-	 * getStandardField
-	 *
-	 * @param int $field_id
-	 * @return mixed
-	 */
-	private function getStandardField($field_id)
+
+
+    /**
+     * @param $field_id
+     * @return int
+     */
+    protected function getStandardField($field_id)
 	{
 		switch($field_id)
 		{
@@ -482,12 +485,12 @@ class ilDataCollectionRecord
                         <img src='".ilUtil::getImagePath("comment_unlabeled.png") . "' alt='{$nComments} Comments'><span class='ilHActProp'>{$nComments}</span></a>";
         }
 	}
-	
-	
-	/*
-	 * loadRecordFields
-	 */
-	private function loadRecordFields()
+
+
+    /**
+     * Load record fields
+     */
+    private function loadRecordFields()
 	{
 		if($this->recordfields == NULL)
 		{
@@ -504,39 +507,37 @@ class ilDataCollectionRecord
 			$this->recordfields = $recordfields;
 		}
 	}
-	
-	/*
-	 * loadTable
-	 */
-	private function loadTable()
+
+    /**
+     * Load table
+     */
+    private function loadTable()
 	{
-		include_once("class.ilDataCollectionTable.php");
-		
 		if($this->table == NULL)
 		{
 			$this->table = ilDataCollectionCache::getTableCache($this->getTableId());
 		}
 	}
 
-	/*
-	 * getRecordField
-	 */
-	public function getRecordField($field_id)
+    /**
+     * @param $field_id
+     * @return ilDataCollectionRecordField
+     */
+    public function getRecordField($field_id)
 	{
 		$this->loadRecordFields();
 		
 		return $this->recordfields[$field_id];
 	}
 
-	/*
-	 * doDelete
-	 */
-	public function doDelete()
+    /**
+     * Delete
+     */
+    public function doDelete()
 	{
 		global $ilDB;
 		
 		$this->loadRecordFields();
-		
 		foreach($this->recordfields as $recordfield)
 		{
 			if($recordfield->getField()->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_FILE)
@@ -545,22 +546,21 @@ class ilDataCollectionRecord
             if($recordfield->getField()->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_MOB)
                 $this->deleteMob($recordfield->getValue());
 
-
             $recordfield->delete();
 		}
-
 
 		$query = "DELETE FROM il_dcl_record WHERE id = ".$ilDB->quote($this->getId(), "integer");
 		$ilDB->manipulate($query);
 
-		include_once "./Modules/DataCollection/classes/class.ilObjDataCollection.php";
 		ilObjDataCollection::sendNotification("delete_record", $this->getTableId(), $this->getId());
 	}
-	
-	/*
-	 * deleteFile
-	 */
-	public function deleteFile($obj_id)
+
+    /**
+     * Delete a file
+     *
+     * @param $obj_id
+     */
+    public function deleteFile($obj_id)
 	{
         if(ilObject2::_lookupObjId($obj_id)){
 		    $file = new ilObjFile($obj_id, false);
@@ -569,9 +569,11 @@ class ilDataCollectionRecord
 	}
 
 
-    /*
-      * deleteMob
-      */
+    /**
+     * Delete MOB
+     *
+     * @param $obj_id
+     */
     public function deleteMob($obj_id)
     {
         if(ilObject2::_lookupObjId($obj_id)){
@@ -579,11 +581,12 @@ class ilDataCollectionRecord
             $mob->delete();
         }
     }
-	
-	/*
-	 * passThroughFilter
-	 */
-	public function passThroughFilter(array $filter)
+
+    /**
+     * @param array $filter
+     * @return bool
+     */
+    public function passThroughFilter(array $filter)
 	{
 		$this->loadTable();
 		// If one field returns false, the whole record does not pass the filter #performance-improvements
@@ -596,30 +599,39 @@ class ilDataCollectionRecord
 		}
 		return true;
 	}
-	
-	/*
-	 * hasPermissionToEdit
-	 */
-	public function hasPermissionToEdit($ref)
+
+    /**
+     * @param int $ref_id
+     * @return bool
+     */
+    public function hasPermissionToEdit($ref_id)
 	{
-		return $this->getTable()->hasPermissionToEditRecord($ref, $this);
+		return $this->getTable()->hasPermissionToEditRecord($ref_id, $this);
 	}
-	
-	/*
-	 * hasPermissionToDelete
-	 */
-	public function hasPermissionToDelete($ref)
+
+    /**
+     * @param int $ref_id
+     * @return bool
+     */
+    public function hasPermissionToDelete($ref_id)
 	{
-		return $this->getTable()->hasPermissionToDeleteRecord($ref, $this);
+		return $this->getTable()->hasPermissionToDeleteRecord($ref_id, $this);
 	}
-	
-	/*
-	 * getRecordFields
-	 */
-	public function getRecordFields()
+
+    /**
+     * @param $ref_id
+     * @return bool
+     */
+    public function hasPermissionToView($ref_id) {
+        return $this->getTable()->hasPermissionToViewRecord($ref_id, $this);
+    }
+
+    /**
+     * @return array
+     */
+    public function getRecordFields()
 	{
 		$this->loadRecordFields();
-		
 		return $this->recordfields;
 	}
 
@@ -629,7 +641,6 @@ class ilDataCollectionRecord
 	public function getTable()
 	{
 		$this->loadTable();
-		
 		return $this->table;
 	}
 

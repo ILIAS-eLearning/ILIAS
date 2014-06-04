@@ -50,6 +50,11 @@ class ilDataCollectionRecordViewGUI
         $this->record_id = (int) $_REQUEST['record_id'];
         $this->record_obj = ilDataCollectionCache::getRecordCache($this->record_id);
 
+        if (!$this->record_obj->hasPermissionToView((int) $_GET['ref_id'])) {
+            ilUtil::sendFailure('dcl_msg_no_perm_view', true);
+            $ilCtrl->redirectByClass('ildatacollectionrecordlistgui', 'listRecords');
+        }
+
         // content style (using system defaults)
         include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 

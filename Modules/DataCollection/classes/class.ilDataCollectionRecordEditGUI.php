@@ -5,6 +5,7 @@ require_once("./Modules/DataCollection/classes/class.ilDataCollectionRecord.php"
 require_once("./Modules/DataCollection/classes/class.ilDataCollectionField.php");
 require_once("./Modules/DataCollection/classes/class.ilDataCollectionTable.php");
 require_once("./Modules/DataCollection/classes/class.ilDataCollectionDatatype.php");
+require_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 
 /**
 * Class ilDataCollectionRecordEditGUI
@@ -18,11 +19,30 @@ require_once("./Modules/DataCollection/classes/class.ilDataCollectionDatatype.ph
 */
 class ilDataCollectionRecordEditGUI
 {
+    /**
+     * @var int
+     */
+    protected $record_id;
 
-	private $record_id;
-	private $table_id;
-	private $table;
-	private $parent_obj;
+    /**
+     * @var int
+     */
+    protected $table_id;
+
+    /**
+     * @var ilDataCollectionTable
+     */
+    protected $table;
+
+    /**
+     * @var ilObjDataCollectionGUI
+     */
+    protected $parent_obj;
+
+    /**
+     * @var ilDataCollectionRecord
+     */
+    protected $record;
 
 	/**
 	 * Constructor
@@ -30,20 +50,28 @@ class ilDataCollectionRecordEditGUI
 	 */
 	public function __construct(ilObjDataCollectionGUI $parent_obj)
 	{
-		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		global $ilCtrl;
+
+        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
 		$this->parent_obj = $parent_obj;
-		$this->record_id = $_REQUEST['record_id'];
+		$this->record_id = $_GET['record_id'];
 		$this->table_id = $_GET['table_id'];
-		
-		include_once("class.ilDataCollectionDatatype.php");
-		if($_REQUEST['table_id']) 
+
+		if($_REQUEST['table_id'])
 		{
 			$this->table_id = $_REQUEST['table_id'];
 		}
 
 		$this->table = ilDataCollectionCache::getTableCache($this->table_id);
-	}
+        if ($this->record_id) {
+            $this->record = ilDataCollectionCache::getRecordCache($this->record_id);
+            if (!$this->record->hasPermissionToEdit((int) $_GET['ref_id']) || !$this->record->hasPermissionToView((int)$_GET['ref_id'])) {
+                ilUtil::sendFailure('dcl_msg_no_perm_edit', true);
+                $ilCtrl->redirectByClass('ildatacollectionrecordlistgui', 'listRecords');
+            }
+        }
+    }
 	
 	
 	/**
@@ -236,7 +264,6 @@ class ilDataCollectionRecordEditGUI
 
 		$ilCtrl->setParameter($this, "table_id", $this->table_id);
 		$ilCtrl->setParameter($this, "record_id", $this->record_id);
-		
 	}
 
 	/**
@@ -285,21 +312,18 @@ class ilDataCollectionRecordEditGUI
 		$this->cancelUpdate();
 	}
 
-	/**
-	 * save Record
-	 *
-	 * @param string $a_mode values: create | edit
-	 */
-	public function save()
+    /**
+     * Save record
+     */
+    public function save()
 	{	
 		global $tpl, $ilUser, $lng, $ilCtrl;
 
 		$this->initForm();
-		if($this->form->checkInput())
+        if($this->form->checkInput())
 		{
-			$record_obj = ilDataCollectionCache::getRecordCache($this->record_id);
+            $record_obj = ilDataCollectionCache::getRecordCache($this->record_id);
 			$date_obj = new ilDateTime(time(), IL_CAL_UNIX);
-
 			$record_obj->setTableId($this->table_id);
 			$record_obj->setLastUpdate($date_obj->get(IL_CAL_DATETIME));
 			$record_obj->setLastEditBy($ilUser->getId());
@@ -383,7 +407,6 @@ class ilDataCollectionRecordEditGUI
             if($create_mode){
                 ilObjDataCollection::sendNotification("new_record", $this->table_id, $record_obj->getId());
             }
-
 			$record_obj->doUpdate();
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"),true);
 

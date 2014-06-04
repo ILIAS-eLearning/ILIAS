@@ -116,6 +116,7 @@ class ilDataCollectionTableEditGUI
             'default_sort_field_order' => $this->table->getDefaultSortFieldOrder(),
             'description' => $this->table->getDescription(),
             'public_comments' => $this->table->getPublicCommentsEnabled(),
+            'view_own_records_perm' => $this->table->getViewOwnRecordsPerm(),
 		);
 		if(!$this->table->getLimitStart())
 			$values['limit_start'] = NULL;
@@ -195,6 +196,9 @@ class ilDataCollectionTableEditGUI
         $item->setRteTagSet('mini');
         $this->form->addItem($item);
 
+        $item = new ilCheckboxInputGUI($lng->txt('dcl_public_comments'),'public_comments');
+        $this->form->addItem($item);
+
         $section = new ilFormSectionHeaderGUI();
         $section->setTitle($lng->txt('dcl_permissions_form'));
         $this->form->addItem($section);
@@ -217,6 +221,10 @@ class ilDataCollectionTableEditGUI
 //		$item->setInfo($lng->txt("dcl_edit_by_owner_info"));
 		$this->form->addItem($item);
 
+        $item = new ilCheckboxInputGUI($lng->txt('dcl_view_own_records_perm'),'view_own_records_perm');
+//		$item->setInfo($lng->txt("dcl_edit_by_owner_info"));
+        $this->form->addItem($item);
+
         $item = new ilCheckboxInputGUI($lng->txt('dcl_export_enabled'), 'export_enabled');
         $this->form->addItem($item);
 
@@ -229,9 +237,6 @@ class ilDataCollectionTableEditGUI
 		$item->addSubItem($sitem1);
 		$item->addSubItem($sitem2);
 		$this->form->addItem($item);
-
-        $item = new ilCheckboxInputGUI($lng->txt('dcl_public_comments'),'public_comments');
-        $this->form->addItem($item);
 
 		if($a_mode == "edit")
 		{
@@ -297,6 +302,7 @@ class ilDataCollectionTableEditGUI
 			$this->table->setEditPerm($this->form->getInput("edit_perm"));
 			$this->table->setDeletePerm($this->form->getInput("delete_perm"));
 			$this->table->setEditByOwner($this->form->getInput("edit_by_owner"));
+            $this->table->setViewOwnRecordsPerm($this->form->getInput('view_own_records_perm'));
             $this->table->setExportEnabled($this->form->getInput("export_enabled"));
             $this->table->setDefaultSortField($this->form->getInput("default_sort_field"));
             $this->table->setDefaultSortFieldOrder($this->form->getInput("default_sort_field_order"));
@@ -321,9 +327,6 @@ class ilDataCollectionTableEditGUI
 			}
 			else
 			{
-
-
-
 				$this->table->doCreate();
 				ilUtil::sendSuccess($lng->txt("dcl_msg_table_created"), true);
 				$ilCtrl->setParameterByClass("ildatacollectionfieldlistgui","table_id", $this->table->getId());

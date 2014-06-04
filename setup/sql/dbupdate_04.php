@@ -908,3 +908,17 @@ $ilDB->query('ALTER TABLE il_bibl_attribute MODIFY value VARCHAR(4000)');
             ));
     }
 ?>
+<#4218>
+<?php
+if(!$ilDB->tableColumnExists('il_dcl_table','view_own_records_perm')) {
+    $ilDB->addTableColumn(
+        'il_dcl_table',
+        'view_own_records_perm',
+        array(
+            'type' => 'integer',
+            'length' => 4,
+            'notnull' => true,
+            'default' => 0,
+        ));
+}
+?>

@@ -12,88 +12,127 @@ include_once './Modules/DataCollection/classes/class.ilDataCollectionRecord.php'
  * @author Marcel Raimann <mr@studer-raimann.ch>
  * @author Fabian Schmid <fs@studer-raimann.ch>
  * @author Oskar Truffer <ot@studer-raimann.ch>
+ * @author Stefan Wanzenried <sw@studer-raimann.ch>
  * @version $Id:
  *
  * @ingroup ModulesDataCollection
  */
 class ilDataCollectionTable
 {
-	protected 	$id; 		// [int]
-	protected 	$objId; 	// [int]
-	protected 	$obj;
-	protected 	$title; 	// [string]
-	private 	$fields; 	// [array][ilDataCollectionField]
-	private 	$stdFields;
-	private 	$records;
-
-	/**
-	 * @var bool
-	 */
-	private $is_visible;
-
-	/**
-	 * @var bool
-	 */
-	private $add_perm;
-
-	/**
-	 * @var bool
-	 */
-	private $edit_perm;
-	/**
-	 * @var bool
-	 */
-	private $delete_perm;
-	/**
-	 * @var bool
-	 */
-	private $edit_by_owner;
-
-	/**
-	 * @var bool
-	 */
-	private $limited;
-	/**
-	 * @var string
-	 */
-	private $limit_start;
-	/**
-	 * @var string
-	 */
-	private $limit_end;
+    /**
+     * @var int
+     */
+    protected $id = 0;
 
     /**
-     * @var bool export_enabled
+     * @var int
+     */
+    protected $objId;
+
+    /**
+     * @var ilObjDataCollection
+     */
+    protected $obj;
+
+    /**
+     * @var string
+     */
+    protected $title;
+
+    /**
+     * @var array ilDataCollectionField[]
+     */
+    protected $fields;
+
+    /**
+     * @var array ilDataCollectionStandardField[]
+     */
+    protected $stdFields;
+
+    /**
+     * @var array ilDataCollectionRecord[]
+     */
+    protected $records;
+
+	/**
+	 * @var bool
+	 */
+	protected $is_visible;
+
+	/**
+	 * @var bool
+	 */
+	protected $add_perm;
+
+	/**
+	 * @var bool
+	 */
+	protected $edit_perm;
+
+    /**
+	 * @var bool
+	 */
+	protected $delete_perm;
+
+    /**
+	 * @var bool
+	 */
+	protected $edit_by_owner;
+
+	/**
+	 * @var bool
+	 */
+	protected $limited;
+
+    /**
+	 * @var string
+	 */
+	protected $limit_start;
+
+    /**
+	 * @var string
+	 */
+	protected $limit_end;
+
+    /**
+     * @var bool
      */
     protected $export_enabled;
 
     /**
-     * @var string ID of the default sorting field. Can be a DB field (int) or a standard field (string)
+     * ID of the default sorting field. Can be a DB field (int) or a standard field (string)
+     * @var string
      */
     protected $default_sort_field = 0;
 
     /**
-     * @var string Default sort-order (asc|desc)
+     * Default sort-order (asc|desc)
+     * @var string
      */
     protected $default_sort_field_order = 'asc';
 
     /**
-     * @var string Description for this table displayed above records
+     * Description for this table displayed above records
+     * @var string
      */
-    protected $description;
+    protected $description = '';
 
     /**
-     * @var bool True if users can add comments on each record of this table
+     * True if users can add comments on each record of this table
+     * @var bool
      */
     protected $public_comments = 0;
 
     /**
-	 * Constructor
-	 * @access public
-	 * @param  integer 
-	 *
-	 */
-	public function __construct($a_id = 0)
+     * True if user can only view his/her own entries in the table
+     * @var bool
+     */
+    protected $view_own_records_perm = 0;
+
+    /**
+     * @param int $a_id
+     */
+    public function __construct($a_id = 0)
 	{
 		if($a_id != 0) 
 		{
@@ -129,12 +168,14 @@ class ilDataCollectionTable
         $this->setDefaultSortField($rec['default_sort_field_id']);
         $this->setDefaultSortFieldOrder($rec['default_sort_field_order']);
         $this->setPublicCommentsEnabled($rec['public_comments']);
+        $this->setViewOwnRecordsPerm($rec['view_own_records_perm']);
 	}
 	
 	/**
-	 * doDelete
-	 * Attention this does not delete the maintable of it's the maintabla of the collection. 
+	 * Delete table
+	 * Attention this does not delete the maintable of it's the maintable of the collection.
 	 * unlink the the maintable in the collections object to make this work.
+     *
 	 * @param boolean $delete_main_table true to delete table anyway
 	 */
 	public function doDelete($delete_main_table = false)
@@ -193,6 +234,7 @@ class ilDataCollectionTable
             ", default_sort_field_order".
             ", description".
             ", public_comments".
+            ", view_own_records_perm".
 			" ) VALUES (".
 			$ilDB->quote($this->getId(), "integer")
 			.",".$ilDB->quote($this->getObjId(), "integer")
@@ -210,6 +252,7 @@ class ilDataCollectionTable
             .",".$ilDB->quote($this->getDefaultSortField(), "text")
             .",".$ilDB->quote($this->getDefaultSortFieldOrder(), "text")
             .",".$ilDB->quote($this->getPublicCommentsEnabled(), "integer")
+            .",".$ilDB->quote($this->getViewOwnRecordsPerm(), "integer")
 			.")";
 		$ilDB->manipulate($query);
 
@@ -256,10 +299,10 @@ class ilDataCollectionTable
 			"is_visible" => array("integer",$this->getIsVisible()?1:0),
 			"export_enabled" => array("integer",$this->getExportEnabled()?1:0),
             "description" => array("text",$this->getDescription()),
-			"export_enabled" => array("integer",$this->getExportEnabled()?1:0),
             "default_sort_field_id" => array("text",$this->getDefaultSortField()),
             "default_sort_field_order" => array("text",$this->getDefaultSortFieldOrder()),
             "public_comments" => array("integer",$this->getPublicCommentsEnabled()?1:0),
+            "view_own_records_perm" => array("integer",$this->getViewOwnRecordsPerm()),
 		), array(
 			"id" => array("integer", $this->getId())
 		));
@@ -642,52 +685,75 @@ class ilDataCollectionTable
         return $exportableFields;
     }
 
-	/*
-	 * hasPermissionToFields
-	 */
-	public function hasPermissionToFields($ref_id)
-	{
-		return ilObjDataCollection::_hasWriteAccess($ref_id);
-	}
-	
-	/*
-	 * hasPermissionToAddTable
-	 */
-	public function hasPermissionToAddTable($ref_id)
+    /**
+     * @param int $ref_id
+     * @return bool
+     */
+    public function hasPermissionToFields($ref_id)
 	{
 		return ilObjDataCollection::_hasWriteAccess($ref_id);
 	}
 
-
-	public function hasPermissionToAddRecord($ref)
+    /**
+     * @param int $ref_id
+     * @return bool
+     */
+    public function hasPermissionToAddTable($ref_id)
 	{
-		return ($this->getAddPerm() && ilObjDataCollection::_hasReadAccess($ref) && $this->checkLimit()) || ilObjDataCollection::_hasWriteAccess($ref);
+		return ilObjDataCollection::_hasWriteAccess($ref_id);
+	}
+
+    /**
+     * @param int $ref_id
+     * @return bool
+     */
+    public function hasPermissionToAddRecord($ref_id)
+	{
+		return ($this->getAddPerm() && ilObjDataCollection::_hasReadAccess($ref_id) && $this->checkLimit()) || ilObjDataCollection::_hasWriteAccess($ref_id);
 	}
 
 	/**
-	 * @param $ref int the reference id of the current datacollection object
+	 * @param $ref_id int the reference id of the current datacollection object
 	 * @param $record ilDataCollectionRecord the record which will be edited
 	 * @return bool
 	 */
-	public function hasPermissionToEditRecord($ref, $record)
+	public function hasPermissionToEditRecord($ref_id, $record)
 	{
-		return ($this->getEditPerm() && ilObjDataCollection::_hasReadAccess($ref) && $this->checkEditByOwner($record) && $this->checkLimit())  || ilObjDataCollection::_hasWriteAccess($ref);
+		return ($this->getEditPerm() && ilObjDataCollection::_hasReadAccess($ref_id) && $this->checkEditByOwner($record) && $this->checkLimit())  || ilObjDataCollection::_hasWriteAccess($ref_id);
 	}
 
 	/**
-	 * @param $ref int the reference id of the current datacollection object
+	 * @param $ref_id int the reference id of the current datacollection object
 	 * @param $record ilDataCollectionRecord the record which will be deleted
 	 * @return bool
 	 */
-	public function hasPermissionToDeleteRecord($ref, $record)
+	public function hasPermissionToDeleteRecord($ref_id, $record)
 	{
-		return ($this->getDeletePerm() && ilObjDataCollection::_hasReadAccess($ref) && $this->checkEditByOwner($record) && $this->checkLimit())  || ilObjDataCollection::_hasWriteAccess($ref);
+		return ($this->getDeletePerm() && ilObjDataCollection::_hasReadAccess($ref_id) && $this->checkEditByOwner($record) && $this->checkLimit())  || ilObjDataCollection::_hasWriteAccess($ref_id);
 	}
-	
-	/*
-	 * checkEditByOwner
-	 */
-	private function checkEditByOwner($record)
+
+    /**
+     * @param int $ref_id
+     * @param $record ilDataCollectionRecord
+     * @return bool
+     */
+    public function hasPermissionToViewRecord($ref_id, $record) {
+        global $ilUser;
+        if (ilObjDataCollection::_hasReadAccess($ref_id)) {
+            // Check for view only own entries setting
+            if ($this->getViewOwnRecordsPerm() && $ilUser->getId() != $record->getOwner()) {
+                return false;
+            }
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * @param $record ilDataCollectionRecord
+     * @return bool
+     */
+    private function checkEditByOwner($record)
 	{
 		global $ilUser;
 		
@@ -698,11 +764,11 @@ class ilDataCollectionTable
 			
 		return true;
 	}
-	
-	/*
-	 * checkLimit
-	 */
-	private function checkLimit()
+
+    /**
+     * @return bool
+     */
+    private function checkLimit()
 	{
 		if($this->getLimited())
 		{
@@ -717,11 +783,11 @@ class ilDataCollectionTable
 		}
 		return true;
 	}
-	
-	/*
-	 * updateFields
-	 */
-	public function updateFields()
+
+    /**
+     * Update fields
+     */
+    public function updateFields()
 	{
 		foreach($this->getFields() as $field)
 		{
@@ -736,7 +802,6 @@ class ilDataCollectionTable
 	public function sortFields(&$fields)
 	{
 		$this->sortByOrder($fields);
-
 		//After sorting the array loses it's keys respectivly their keys are set form $field->id to 1,2,3... so we reset the keys.
 		$named = array();
 		foreach($fields as $field)
@@ -763,12 +828,9 @@ class ilDataCollectionTable
 	public function buildOrderFields()
 	{
 		$fields = $this->getFields();
-
 		$this->sortByOrder($fields);
-
 		$count = 10;
 		$offset = 10;
-
 		foreach($fields as $field)
 		{
 			if(!is_null($field->getOrder()))
@@ -781,13 +843,15 @@ class ilDataCollectionTable
 	}
 
     /**
-     * @param $name
+     * Get a field by title
+     *
+     * @param $title
      * @return ilDataCollectionField
      */
-    public function getFieldByTitle($name){
+    public function getFieldByTitle($title){
         $return = null;
         foreach($this->getFields() as $field)
-            if($field->getTitle() == $name){
+            if($field->getTitle() == $title){
                 $return = $field;
                 break;
             }
@@ -990,6 +1054,22 @@ class ilDataCollectionTable
         return $this->public_comments;
     }
 
+    /**
+     * @param boolean $view_own_perm
+     */
+    public function setViewOwnRecordsPerm($view_own_perm)
+    {
+        $this->view_own_records_perm = (int) $view_own_perm;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getViewOwnRecordsPerm()
+    {
+        return (bool) $this->view_own_records_perm;
+    }
+
 
 	/**
 	 * hasCustomFields
@@ -1019,11 +1099,13 @@ class ilDataCollectionTable
 
         return $a->getOrder() < $b->getOrder() ? -1 : 1;
     }
-	
-	/*
-	 * cloneStructure
-	 */
-	public function cloneStructure($original_id)
+
+    /**
+     * Clone structure
+     *
+     * @param $original_id ID of the ilDataColellection table object
+     */
+    public function cloneStructure($original_id)
 	{
 		$original = ilDataCollectionCache::getTableCache($original_id);
 		$this->setEditByOwner($original->getEditByOwner());
@@ -1036,7 +1118,7 @@ class ilDataCollectionTable
 		$this->setTitle($original->getTitle());
 		$this->doCreate();
 
-		//clone fields.
+		// Clone fields
 		foreach($original->getRecordFields() as $field)
 		{
 			$new_field = new ilDataCollectionField();
@@ -1096,14 +1178,6 @@ class ilDataCollectionTable
         return $id;
     }
 
-    public function buildTableAsArray(){
-        global $ilDB;
-        $fields = $this->getVisibleFields();
-        $table = array();
-        $query = "  SELECT  stloc.value AS val rec_field AS  FROM il_dcl_stloc1_value stloc
-                    INNER JOIN il_dcl_record_field rec_field ON rec_field.field_id = 2
-                    WHERE stloc.record_field_id = rec_field.id";
-    }
 
     /**
      * @param boolean $export_enabled
@@ -1123,6 +1197,7 @@ class ilDataCollectionTable
 
     /**
      * Checks if a table has a field with the given title
+     *
      * @param $title Title of field
      * @param $obj_id Obj-ID of the table
      * @return bool
@@ -1144,77 +1219,77 @@ class ilDataCollectionTable
      * @return array Array with two keys: 'record' => Contains the record objects, 'total' => Number of total records (without slicing)
      */
     public function getPartialRecords($sort, $direction, $limit, $offset, array $filter = array()) {
-        global $ilDB;
-        $sortField = ($sort) ? $this->getFieldByTitle($sort) : $this->getField('id');
+        global $ilDB, $ilUser;
 
+        $sort_field = ($sort) ? $this->getFieldByTitle($sort) : $this->getField('id');
         $direction = strtolower($direction);
         $direction = (in_array($direction, array('desc', 'asc'))) ? $direction : 'asc';
 
         // Sorting by a status from an ILIAS Ref field. This column is added dynamically to the table, there is no field model
-        $sortByStatus = false;
+        $sort_by_status = false;
         if (substr($sort, 0, 8) == '_status_') {
-            $sortByStatus = true;
-            $sortField = $this->getFieldByTitle(substr($sort, 8));
+            $sort_by_status = true;
+            $sort_field = $this->getFieldByTitle(substr($sort, 8));
         }
 
-        if (is_null($sortField)) $sortField = $this->getField('id');
+        if (is_null($sort_field)) $sort_field = $this->getField('id');
 
-        $id = $sortField->getId();
-        $stl = $sortField->getStorageLocation();
-        $selectStr = '';
-        $joinStr = '';
+        $id = $sort_field->getId();
+        $stl = $sort_field->getStorageLocation();
+        $select_str = '';
+        $join_str = '';
         $where_additions = '';
-        $hasNref = false;
+        $has_nref = false;
 
-        if ($sortField->isStandardField()) {
+        if ($sort_field->isStandardField()) {
             if ($id == 'owner' || $id == 'last_edit_by') {
-                $joinStr .= "LEFT JOIN usr_data AS sort_usr_data_{$id} ON (sort_usr_data_{$id}.usr_id = record.{$id})";
-                $selectStr .= " sort_usr_data_{$id}.login AS field_{$id},";
+                $join_str .= "LEFT JOIN usr_data AS sort_usr_data_{$id} ON (sort_usr_data_{$id}.usr_id = record.{$id})";
+                $select_str .= " sort_usr_data_{$id}.login AS field_{$id},";
             } else {
-                $selectStr .= " record.{$id} AS field_{$id},";
+                $select_str .= " record.{$id} AS field_{$id},";
             }
         } else {
-            switch ($sortField->getDatatypeId()) {
+            switch ($sort_field->getDatatypeId()) {
                 case ilDataCollectionDatatype::INPUTFORMAT_RATING:
-                    $joinStr .= "LEFT JOIN (SELECT AVG(sort_avg_rating.rating) AS avg_rating, sort_avg_rating.obj_id AS obj_id FROM il_rating as sort_avg_rating WHERE sort_avg_rating.sub_obj_id = {$sortField->getId()} GROUP BY sort_avg_rating.obj_id) AS sort_avg_rating on sort_avg_rating.obj_id = record.id ";
-                    $selectStr .= " sort_avg_rating.avg_rating AS field_{$id},";
+                    $join_str .= "LEFT JOIN (SELECT AVG(sort_avg_rating.rating) AS avg_rating, sort_avg_rating.obj_id AS obj_id FROM il_rating as sort_avg_rating WHERE sort_avg_rating.sub_obj_id = {$sort_field->getId()} GROUP BY sort_avg_rating.obj_id) AS sort_avg_rating on sort_avg_rating.obj_id = record.id ";
+                    $select_str .= " sort_avg_rating.avg_rating AS field_{$id},";
                     break;
                 case ilDataCollectionDatatype::INPUTFORMAT_ILIAS_REF:
-                    $joinStr .= "LEFT JOIN il_dcl_record_field AS sort_record_field_{$id} ON (sort_record_field_{$id}.record_id = record.id AND sort_record_field_{$id}.field_id = " . $ilDB->quote($sortField->getId(), 'integer') .") ";
-                    $joinStr .= "LEFT JOIN il_dcl_stloc{$stl}_value AS sort_stloc_{$id} ON (sort_stloc_{$id}.record_field_id = sort_record_field_{$id}.id) ";
-                    $joinStr .= "LEFT JOIN object_reference AS sort_object_reference_{$id} ON (sort_object_reference_{$id}.ref_id = sort_stloc_{$id}.value AND sort_object_reference_{$id}.deleted IS NULL)";
-                    $joinStr .= "LEFT JOIN object_data AS sort_object_data_{$id} ON (sort_object_data_{$id}.obj_id = sort_object_reference_{$id}.obj_id)";
-                    if ($sortByStatus) {
+                    $join_str .= "LEFT JOIN il_dcl_record_field AS sort_record_field_{$id} ON (sort_record_field_{$id}.record_id = record.id AND sort_record_field_{$id}.field_id = " . $ilDB->quote($sort_field->getId(), 'integer') .") ";
+                    $join_str .= "LEFT JOIN il_dcl_stloc{$stl}_value AS sort_stloc_{$id} ON (sort_stloc_{$id}.record_field_id = sort_record_field_{$id}.id) ";
+                    $join_str .= "LEFT JOIN object_reference AS sort_object_reference_{$id} ON (sort_object_reference_{$id}.ref_id = sort_stloc_{$id}.value AND sort_object_reference_{$id}.deleted IS NULL)";
+                    $join_str .= "LEFT JOIN object_data AS sort_object_data_{$id} ON (sort_object_data_{$id}.obj_id = sort_object_reference_{$id}.obj_id)";
+                    if ($sort_by_status) {
                         global $ilUser;
-                        $joinStr .= "LEFT JOIN ut_lp_marks AS ut ON (ut.obj_id = sort_object_data_{$id}.obj_id AND ut.usr_id = " . $ilDB->quote($ilUser->getId(), 'integer') . ") ";
+                        $join_str .= "LEFT JOIN ut_lp_marks AS ut ON (ut.obj_id = sort_object_data_{$id}.obj_id AND ut.usr_id = " . $ilDB->quote($ilUser->getId(), 'integer') . ") ";
                     }
-                    $selectStr .= (!$sortByStatus) ? " sort_object_data_{$id}.title AS field_{$id}," : " ut.status AS field_{$id}";
+                    $select_str .= (!$sort_by_status) ? " sort_object_data_{$id}.title AS field_{$id}," : " ut.status AS field_{$id}";
                     break;
                 case ilDataCollectionDatatype::INPUTFORMAT_FILE:
                 case ilDataCollectionDatatype::INPUTFORMAT_MOB:
-                    $joinStr .= "LEFT JOIN il_dcl_record_field AS sort_record_field_{$id} ON (sort_record_field_{$id}.record_id = record.id AND sort_record_field_{$id}.field_id = " . $ilDB->quote($sortField->getId(), 'integer') .") ";
-                    $joinStr .= "LEFT JOIN il_dcl_stloc{$stl}_value AS sort_stloc_{$id} ON (sort_stloc_{$id}.record_field_id = sort_record_field_{$id}.id) ";
-                    $joinStr .= "LEFT JOIN object_data AS sort_object_data_{$id} ON (sort_object_data_{$id}.obj_id = sort_stloc_{$id}.value) ";
-                    $selectStr .= " sort_object_data_{$id}.title AS field_{$id},";
+                    $join_str .= "LEFT JOIN il_dcl_record_field AS sort_record_field_{$id} ON (sort_record_field_{$id}.record_id = record.id AND sort_record_field_{$id}.field_id = " . $ilDB->quote($sort_field->getId(), 'integer') .") ";
+                    $join_str .= "LEFT JOIN il_dcl_stloc{$stl}_value AS sort_stloc_{$id} ON (sort_stloc_{$id}.record_field_id = sort_record_field_{$id}.id) ";
+                    $join_str .= "LEFT JOIN object_data AS sort_object_data_{$id} ON (sort_object_data_{$id}.obj_id = sort_stloc_{$id}.value) ";
+                    $select_str .= " sort_object_data_{$id}.title AS field_{$id},";
                     break;
                 case ilDataCollectionDatatype::INPUTFORMAT_REFERENCE:
-                    $prop = $sortField->getPropertyvalues();
-                    $refField = ilDataCollectionCache::getFieldCache($sortField->getFieldRef());
-                    $nRef = $prop[ilDataCollectionField::PROPERTYID_N_REFERENCE];
-                    if ($nRef) $hasNref = true;
-                    $selectStr .= ($nRef) ? " GROUP_CONCAT(stloc_{$id}_joined.value) AS field_{$id}" : "stloc_{$id}_joined.value AS field_{$id},";
-                    $joinStr .= "LEFT JOIN il_dcl_record_field AS record_field_{$id} ON (record_field_{$id}.record_id = record.id AND record_field_{$id}.field_id = " . $ilDB->quote($sortField->getId(), 'integer') .") ";
-                    $joinStr .= "LEFT JOIN il_dcl_stloc{$stl}_value AS stloc_{$id} ON (stloc_{$id}.record_field_id = record_field_{$id}.id) ";
-                    $joinStr .= "LEFT JOIN il_dcl_record_field AS record_field_{$id}_joined ON (record_field_{$id}_joined.record_id = stloc_{$id}.value AND record_field_{$id}_joined.field_id = " . $ilDB->quote($refField->getId(), 'integer') .") ";
-                    $joinStr .= "LEFT JOIN il_dcl_stloc{$refField->getStorageLocation()}_value AS stloc_{$id}_joined ON (stloc_{$id}_joined.record_field_id = record_field_{$id}_joined.id) ";
+                    $prop = $sort_field->getPropertyvalues();
+                    $ref_field = ilDataCollectionCache::getFieldCache($sort_field->getFieldRef());
+                    $n_ref = $prop[ilDataCollectionField::PROPERTYID_N_REFERENCE];
+                    if ($n_ref) $has_nref = true;
+                    $select_str .= ($n_ref) ? " GROUP_CONCAT(stloc_{$id}_joined.value) AS field_{$id}" : "stloc_{$id}_joined.value AS field_{$id},";
+                    $join_str .= "LEFT JOIN il_dcl_record_field AS record_field_{$id} ON (record_field_{$id}.record_id = record.id AND record_field_{$id}.field_id = " . $ilDB->quote($sort_field->getId(), 'integer') .") ";
+                    $join_str .= "LEFT JOIN il_dcl_stloc{$stl}_value AS stloc_{$id} ON (stloc_{$id}.record_field_id = record_field_{$id}.id) ";
+                    $join_str .= "LEFT JOIN il_dcl_record_field AS record_field_{$id}_joined ON (record_field_{$id}_joined.record_id = stloc_{$id}.value AND record_field_{$id}_joined.field_id = " . $ilDB->quote($ref_field->getId(), 'integer') .") ";
+                    $join_str .= "LEFT JOIN il_dcl_stloc{$ref_field->getStorageLocation()}_value AS stloc_{$id}_joined ON (stloc_{$id}_joined.record_field_id = record_field_{$id}_joined.id) ";
                     break;
                 case ilDataCollectionDatatype::INPUTFORMAT_DATETIME:
                 case ilDataCollectionDatatype::INPUTFORMAT_TEXT:
                 case ilDataCollectionDatatype::INPUTFORMAT_BOOLEAN:
                 case ilDataCollectionDatatype::INPUTFORMAT_NUMBER:
-                    $selectStr .= " sort_stloc_{$id}.value AS field_{$id},";
-                    $joinStr .= "LEFT JOIN il_dcl_record_field AS sort_record_field_{$id} ON (sort_record_field_{$id}.record_id = record.id AND sort_record_field_{$id}.field_id = " . $ilDB->quote($sortField->getId(), 'integer') .") ";
-                    $joinStr .= "LEFT JOIN il_dcl_stloc{$stl}_value AS sort_stloc_{$id} ON (sort_stloc_{$id}.record_field_id = sort_record_field_{$id}.id) ";
+                    $select_str .= " sort_stloc_{$id}.value AS field_{$id},";
+                    $join_str .= "LEFT JOIN il_dcl_record_field AS sort_record_field_{$id} ON (sort_record_field_{$id}.record_id = record.id AND sort_record_field_{$id}.field_id = " . $ilDB->quote($sort_field->getId(), 'integer') .") ";
+                    $join_str .= "LEFT JOIN il_dcl_stloc{$stl}_value AS sort_stloc_{$id} ON (sort_stloc_{$id}.record_field_id = sort_record_field_{$id}.id) ";
                     break;
             }
         }
@@ -1223,79 +1298,79 @@ class ilDataCollectionTable
             foreach($filter as $key => $filter_value)
             {
                 $filter_field_id = substr($key, 7);
-                $filterField = $this->getField($filter_field_id);
-                switch ($filterField->getDatatypeId()) {
+                $filter_field = $this->getField($filter_field_id);
+                switch ($filter_field->getDatatypeId()) {
                     case ilDataCollectionDatatype::INPUTFORMAT_RATING:
-                        $joinStr .= "INNER JOIN (SELECT AVG(avg_rating.rating) AS avg_rating, avg_rating.obj_id AS obj_id FROM il_rating as avg_rating WHERE avg_rating.sub_obj_id = {$filter_field_id} GROUP BY avg_rating.obj_id) AS avg_rating on avg_rating.avg_rating >= ".$ilDB->quote($filter_value, 'integer') ." AND avg_rating.obj_id = record.id ";
+                        $join_str .= "INNER JOIN (SELECT AVG(avg_rating.rating) AS avg_rating, avg_rating.obj_id AS obj_id FROM il_rating as avg_rating WHERE avg_rating.sub_obj_id = {$filter_field_id} GROUP BY avg_rating.obj_id) AS avg_rating on avg_rating.avg_rating >= ".$ilDB->quote($filter_value, 'integer') ." AND avg_rating.obj_id = record.id ";
                         break;
                     case ilDataCollectionDatatype::INPUTFORMAT_ILIAS_REF:
-                        $joinStr .= "INNER JOIN il_dcl_record_field AS filter_record_field_{$filter_field_id} ON (filter_record_field_{$filter_field_id}.record_id = record.id AND filter_record_field_{$filter_field_id}.field_id = " . $ilDB->quote($filter_field_id, 'integer') .") ";
-                        $joinStr .= "INNER JOIN il_dcl_stloc{$filterField->getStorageLocation()}_value AS filter_stloc_{$filter_field_id} ON (filter_stloc_{$filter_field_id}.record_field_id = filter_record_field_{$filter_field_id}.id) ";
-                        $joinStr .= "INNER JOIN object_reference AS filter_object_reference_{$filter_field_id} ON (filter_object_reference_{$filter_field_id}.ref_id = filter_stloc_{$filter_field_id}.value ) ";
-                        $joinStr .= "INNER JOIN object_data AS filter_object_data_{$filter_field_id} ON (filter_object_data_{$filter_field_id}.obj_id = filter_object_reference_{$filter_field_id}.obj_id AND filter_object_data_{$filter_field_id}.title LIKE " . $ilDB->quote("%$filter_value%", 'text') .") ";
+                        $join_str .= "INNER JOIN il_dcl_record_field AS filter_record_field_{$filter_field_id} ON (filter_record_field_{$filter_field_id}.record_id = record.id AND filter_record_field_{$filter_field_id}.field_id = " . $ilDB->quote($filter_field_id, 'integer') .") ";
+                        $join_str .= "INNER JOIN il_dcl_stloc{$filter_field->getStorageLocation()}_value AS filter_stloc_{$filter_field_id} ON (filter_stloc_{$filter_field_id}.record_field_id = filter_record_field_{$filter_field_id}.id) ";
+                        $join_str .= "INNER JOIN object_reference AS filter_object_reference_{$filter_field_id} ON (filter_object_reference_{$filter_field_id}.ref_id = filter_stloc_{$filter_field_id}.value ) ";
+                        $join_str .= "INNER JOIN object_data AS filter_object_data_{$filter_field_id} ON (filter_object_data_{$filter_field_id}.obj_id = filter_object_reference_{$filter_field_id}.obj_id AND filter_object_data_{$filter_field_id}.title LIKE " . $ilDB->quote("%$filter_value%", 'text') .") ";
                         break;
                     case ilDataCollectionDatatype::INPUTFORMAT_MOB:
                     case ilDataCollectionDatatype::INPUTFORMAT_FILE:
-                        $joinStr .= "INNER JOIN il_dcl_record_field AS filter_record_field_{$filter_field_id} ON (filter_record_field_{$filter_field_id}.record_id = record.id AND filter_record_field_{$filter_field_id}.field_id = " . $ilDB->quote($filter_field_id, 'integer') .") ";
-                        $joinStr .= "INNER JOIN il_dcl_stloc{$filterField->getStorageLocation()}_value AS filter_stloc_{$filter_field_id} ON (filter_stloc_{$filter_field_id}.record_field_id = filter_record_field_{$filter_field_id}.id) ";
-                        $joinStr .= "INNER JOIN object_data AS filter_object_data_{$filter_field_id} ON (filter_object_data_{$filter_field_id}.obj_id = filter_stloc_{$filter_field_id}.value AND filter_object_data_{$filter_field_id}.title LIKE " . $ilDB->quote("%$filter_value%", 'text') .") ";
+                        $join_str .= "INNER JOIN il_dcl_record_field AS filter_record_field_{$filter_field_id} ON (filter_record_field_{$filter_field_id}.record_id = record.id AND filter_record_field_{$filter_field_id}.field_id = " . $ilDB->quote($filter_field_id, 'integer') .") ";
+                        $join_str .= "INNER JOIN il_dcl_stloc{$filter_field->getStorageLocation()}_value AS filter_stloc_{$filter_field_id} ON (filter_stloc_{$filter_field_id}.record_field_id = filter_record_field_{$filter_field_id}.id) ";
+                        $join_str .= "INNER JOIN object_data AS filter_object_data_{$filter_field_id} ON (filter_object_data_{$filter_field_id}.obj_id = filter_stloc_{$filter_field_id}.value AND filter_object_data_{$filter_field_id}.title LIKE " . $ilDB->quote("%$filter_value%", 'text') .") ";
                         break;
                     case ilDataCollectionDatatype::INPUTFORMAT_DATETIME:
-                        $dateFrom = (isset($filter_value['from']) && is_object($filter_value['from'])) ? $filter_value['from'] : null;
-                        $dateTo = (isset($filter_value['to']) && is_object($filter_value['to'])) ? $filter_value['to'] : null;
-                        if ($filterField->isStandardField()) {
-                            if ($dateFrom) $where_additions .= " AND (record.{$filter_field_id} >= " . $ilDB->quote($dateFrom, 'date') . ")";
-                            if ($dateTo) $where_additions .= " AND (record.{$filter_field_id} <= " . $ilDB->quote($dateTo, 'date') . ")";
+                        $date_from = (isset($filter_value['from']) && is_object($filter_value['from'])) ? $filter_value['from'] : null;
+                        $date_to = (isset($filter_value['to']) && is_object($filter_value['to'])) ? $filter_value['to'] : null;
+                        if ($filter_field->isStandardField()) {
+                            if ($date_from) $where_additions .= " AND (record.{$filter_field_id} >= " . $ilDB->quote($date_from, 'date') . ")";
+                            if ($date_to) $where_additions .= " AND (record.{$filter_field_id} <= " . $ilDB->quote($date_to, 'date') . ")";
                         } else {
-                            $joinStr .= "INNER JOIN il_dcl_record_field AS filter_record_field_{$filter_field_id} ON (filter_record_field_{$filter_field_id}.record_id = record.id AND filter_record_field_{$filter_field_id}.field_id = " . $ilDB->quote($filter_field_id, 'integer') .") ";
-                            $joinStr .= "INNER JOIN il_dcl_stloc{$filterField->getStorageLocation()}_value AS filter_stloc_{$filter_field_id} ON (filter_stloc_{$filter_field_id}.record_field_id = filter_record_field_{$filter_field_id}.id ";
-                            if ($dateFrom) $joinStr .= "AND filter_stloc_{$filter_field_id}.value >= " . $ilDB->quote($dateFrom, 'date') . " ";
-                            if ($dateTo) $joinStr .= "AND filter_stloc_{$filter_field_id}.value <= " . $ilDB->quote($dateTo, 'date') . " ";
-                            $joinStr .= ") ";
+                            $join_str .= "INNER JOIN il_dcl_record_field AS filter_record_field_{$filter_field_id} ON (filter_record_field_{$filter_field_id}.record_id = record.id AND filter_record_field_{$filter_field_id}.field_id = " . $ilDB->quote($filter_field_id, 'integer') .") ";
+                            $join_str .= "INNER JOIN il_dcl_stloc{$filter_field->getStorageLocation()}_value AS filter_stloc_{$filter_field_id} ON (filter_stloc_{$filter_field_id}.record_field_id = filter_record_field_{$filter_field_id}.id ";
+                            if ($date_from) $join_str .= "AND filter_stloc_{$filter_field_id}.value >= " . $ilDB->quote($date_from, 'date') . " ";
+                            if ($date_to) $join_str .= "AND filter_stloc_{$filter_field_id}.value <= " . $ilDB->quote($date_to, 'date') . " ";
+                            $join_str .= ") ";
                         }
                         break;
                     case ilDataCollectionDatatype::INPUTFORMAT_NUMBER:
                         $from = (isset($filter_value['from'])) ? (int) $filter_value['from'] : null;
                         $to = (isset($filter_value['to'])) ? (int) $filter_value['to'] : null;
-                        if ($filterField->isStandardField()) {
+                        if ($filter_field->isStandardField()) {
                             if (!is_null($from)) $where_additions .= " AND record.{$filter_field_id} >= " . $ilDB->quote($from, 'integer');
                             if (!is_null($to)) $where_additions .= " AND record.{$filter_field_id} <= " . $ilDB->quote($to, 'integer');
                         } else {
-                            $joinStr .= "INNER JOIN il_dcl_record_field AS filter_record_field_{$filter_field_id} ON (filter_record_field_{$filter_field_id}.record_id = record.id AND filter_record_field_{$filter_field_id}.field_id = " . $ilDB->quote($filter_field_id, 'integer') .") ";
-                            $joinStr .= "INNER JOIN il_dcl_stloc{$filterField->getStorageLocation()}_value AS filter_stloc_{$filter_field_id} ON (filter_stloc_{$filter_field_id}.record_field_id = filter_record_field_{$filter_field_id}.id";
-                            if (!is_null($from)) $joinStr .= " AND filter_stloc_{$filter_field_id}.value >= " . $ilDB->quote($from, 'integer');
-                            if (!is_null($to)) $joinStr .= " AND filter_stloc_{$filter_field_id}.value <= " . $ilDB->quote($to, 'integer');
-                            $joinStr .= ") ";
+                            $join_str .= "INNER JOIN il_dcl_record_field AS filter_record_field_{$filter_field_id} ON (filter_record_field_{$filter_field_id}.record_id = record.id AND filter_record_field_{$filter_field_id}.field_id = " . $ilDB->quote($filter_field_id, 'integer') .") ";
+                            $join_str .= "INNER JOIN il_dcl_stloc{$filter_field->getStorageLocation()}_value AS filter_stloc_{$filter_field_id} ON (filter_stloc_{$filter_field_id}.record_field_id = filter_record_field_{$filter_field_id}.id";
+                            if (!is_null($from)) $join_str .= " AND filter_stloc_{$filter_field_id}.value >= " . $ilDB->quote($from, 'integer');
+                            if (!is_null($to)) $join_str .= " AND filter_stloc_{$filter_field_id}.value <= " . $ilDB->quote($to, 'integer');
+                            $join_str .= ") ";
                         }
                         break;
                     case ilDataCollectionDatatype::INPUTFORMAT_BOOLEAN:
                         if($filter_value == "checked") {
-                            $joinStr .= "INNER JOIN il_dcl_record_field AS filter_record_field_{$filter_field_id} ON (filter_record_field_{$filter_field_id}.record_id = record.id AND filter_record_field_{$filter_field_id}.field_id = " . $ilDB->quote($filter_field_id, 'integer') .") ";
-                            $joinStr .= "INNER JOIN il_dcl_stloc{$filterField->getStorageLocation()}_value AS filter_stloc_{$filter_field_id} ON (filter_stloc_{$filter_field_id}.record_field_id = filter_record_field_{$filter_field_id}.id";
-                            $joinStr .= " AND filter_stloc_{$filter_field_id}.value = " . $ilDB->quote(1, 'integer');
+                            $join_str .= "INNER JOIN il_dcl_record_field AS filter_record_field_{$filter_field_id} ON (filter_record_field_{$filter_field_id}.record_id = record.id AND filter_record_field_{$filter_field_id}.field_id = " . $ilDB->quote($filter_field_id, 'integer') .") ";
+                            $join_str .= "INNER JOIN il_dcl_stloc{$filter_field->getStorageLocation()}_value AS filter_stloc_{$filter_field_id} ON (filter_stloc_{$filter_field_id}.record_field_id = filter_record_field_{$filter_field_id}.id";
+                            $join_str .= " AND filter_stloc_{$filter_field_id}.value = " . $ilDB->quote(1, 'integer');
                         } else {
-                            $joinStr .= "INNER JOIN il_dcl_record_field AS filter_record_field_{$filter_field_id} ON (filter_record_field_{$filter_field_id}.record_id = record.id AND filter_record_field_{$filter_field_id}.field_id = " . $ilDB->quote($filter_field_id, 'integer') .") ";
-                            $joinStr .= "LEFT JOIN il_dcl_stloc{$filterField->getStorageLocation()}_value AS filter_stloc_{$filter_field_id} ON (filter_stloc_{$filter_field_id}.record_field_id = filter_record_field_{$filter_field_id}.id";
+                            $join_str .= "INNER JOIN il_dcl_record_field AS filter_record_field_{$filter_field_id} ON (filter_record_field_{$filter_field_id}.record_id = record.id AND filter_record_field_{$filter_field_id}.field_id = " . $ilDB->quote($filter_field_id, 'integer') .") ";
+                            $join_str .= "LEFT JOIN il_dcl_stloc{$filter_field->getStorageLocation()}_value AS filter_stloc_{$filter_field_id} ON (filter_stloc_{$filter_field_id}.record_field_id = filter_record_field_{$filter_field_id}.id";
                             $where_additions .= " AND (filter_stloc_{$filter_field_id}.value <> " . $ilDB->quote(1, 'integer')." OR filter_stloc_{$filter_field_id}.value is NULL)";
                         }
-                        $joinStr .= " ) ";
+                        $join_str .= " ) ";
                         break;
                     case ilDataCollectionDatatype::INPUTFORMAT_TEXT:
-                        if ($filterField->isStandardField()) {
-                            $joinStr .= "INNER JOIN usr_data AS filter_usr_data_{$filter_field_id} ON (filter_usr_data_{$filter_field_id}.usr_id = record.{$filter_field_id} AND filter_usr_data_{$filter_field_id}.login LIKE " . $ilDB->quote("%$filter_value%", 'text') .") ";
+                        if ($filter_field->isStandardField()) {
+                            $join_str .= "INNER JOIN usr_data AS filter_usr_data_{$filter_field_id} ON (filter_usr_data_{$filter_field_id}.usr_id = record.{$filter_field_id} AND filter_usr_data_{$filter_field_id}.login LIKE " . $ilDB->quote("%$filter_value%", 'text') .") ";
                         } else {
-                            $joinStr .= " INNER JOIN il_dcl_record_field AS filter_record_field_{$filter_field_id} ON (filter_record_field_{$filter_field_id}.record_id = record.id AND filter_record_field_{$filter_field_id}.field_id = " . $ilDB->quote($filter_field_id, 'integer') .") ";
-                            $joinStr .= " INNER JOIN il_dcl_stloc{$filterField->getStorageLocation()}_value AS filter_stloc_{$filter_field_id} ON (filter_stloc_{$filter_field_id}.record_field_id = filter_record_field_{$filter_field_id}.id AND filter_stloc_{$filter_field_id}.value LIKE " . $ilDB->quote("%$filter_value%", 'text') .") ";
+                            $join_str .= " INNER JOIN il_dcl_record_field AS filter_record_field_{$filter_field_id} ON (filter_record_field_{$filter_field_id}.record_id = record.id AND filter_record_field_{$filter_field_id}.field_id = " . $ilDB->quote($filter_field_id, 'integer') .") ";
+                            $join_str .= " INNER JOIN il_dcl_stloc{$filter_field->getStorageLocation()}_value AS filter_stloc_{$filter_field_id} ON (filter_stloc_{$filter_field_id}.record_field_id = filter_record_field_{$filter_field_id}.id AND filter_stloc_{$filter_field_id}.value LIKE " . $ilDB->quote("%$filter_value%", 'text') .") ";
                         }
                         break;
                     case ilDataCollectionDatatype::INPUTFORMAT_REFERENCE:
-                        $joinStr .= " INNER JOIN il_dcl_record_field AS filter_record_field_{$filter_field_id} ON (filter_record_field_{$filter_field_id}.record_id = record.id AND filter_record_field_{$filter_field_id}.field_id = " . $ilDB->quote($filter_field_id, 'integer') .") ";
-                        $prop = $filterField->getPropertyvalues();
-                        $nRef = $prop[ilDataCollectionField::PROPERTYID_N_REFERENCE];
-                        if ($nRef) {
-                            $joinStr .= " INNER JOIN il_dcl_stloc{$filterField->getStorageLocation()}_value AS filter_stloc_{$filter_field_id} ON (filter_stloc_{$filter_field_id}.record_field_id = filter_record_field_{$filter_field_id}.id AND filter_stloc_{$filter_field_id}.value LIKE " . $ilDB->quote("%$filter_value%", 'text') .") ";
+                        $join_str .= " INNER JOIN il_dcl_record_field AS filter_record_field_{$filter_field_id} ON (filter_record_field_{$filter_field_id}.record_id = record.id AND filter_record_field_{$filter_field_id}.field_id = " . $ilDB->quote($filter_field_id, 'integer') .") ";
+                        $prop = $filter_field->getPropertyvalues();
+                        $n_ref = $prop[ilDataCollectionField::PROPERTYID_N_REFERENCE];
+                        if ($n_ref) {
+                            $join_str .= " INNER JOIN il_dcl_stloc{$filter_field->getStorageLocation()}_value AS filter_stloc_{$filter_field_id} ON (filter_stloc_{$filter_field_id}.record_field_id = filter_record_field_{$filter_field_id}.id AND filter_stloc_{$filter_field_id}.value LIKE " . $ilDB->quote("%$filter_value%", 'text') .") ";
                         } else {
-                            $joinStr .= " INNER JOIN il_dcl_stloc{$filterField->getStorageLocation()}_value AS filter_stloc_{$filter_field_id} ON (filter_stloc_{$filter_field_id}.record_field_id = filter_record_field_{$filter_field_id}.id AND filter_stloc_{$filter_field_id}.value = " . $ilDB->quote($filter_value, 'integer') .") ";
+                            $join_str .= " INNER JOIN il_dcl_stloc{$filter_field->getStorageLocation()}_value AS filter_stloc_{$filter_field_id} ON (filter_stloc_{$filter_field_id}.record_field_id = filter_record_field_{$filter_field_id}.id AND filter_stloc_{$filter_field_id}.value = " . $ilDB->quote($filter_value, 'integer') .") ";
                         }
                         break;
                 }
@@ -1304,27 +1379,37 @@ class ilDataCollectionTable
 
         // Build the query string
         $sql = "SELECT DISTINCT record.id, ";
-        $sql  .= rtrim($selectStr, ',') . " FROM il_dcl_record AS record ";
-        $sql .= $joinStr;
+        $sql  .= rtrim($select_str, ',') . " FROM il_dcl_record AS record ";
+        $sql .= $join_str;
         $sql .= " WHERE record.table_id = " . $ilDB->quote($this->getId(), 'integer') . $where_additions;
-        if ($hasNref) $sql .= " GROUP BY record.id";
+        if ($has_nref) $sql .= " GROUP BY record.id";
         $sql .= " ORDER BY field_{$id} {$direction}";
         $set = $ilDB->query($sql);
-        $totalRecordIds = array();
+        $total_record_ids = array();
         // Save record-ids in session to enable prev/next links in detail view
         $_SESSION['dcl_record_ids'] = array();
         while ($rec = $ilDB->fetchAssoc($set)) {
-            $totalRecordIds[] = $rec['id'];
+            $total_record_ids[] = $rec['id'];
             $_SESSION['dcl_record_ids'][] = $rec['id'];
         }
         // Now slice the array to load only the needed records in memory
-        $recordIds = array_slice($totalRecordIds, $offset, $limit);
+        $record_ids = array_slice($total_record_ids, $offset, $limit);
         $records = array();
-        foreach ($recordIds as $id) {
-            $records[] = ilDataCollectionCache::getRecordCache($id);
+        foreach ($record_ids as $id) {
+            $record = ilDataCollectionCache::getRecordCache($id);
+            // Check if user can only see his own entries. If so, don't return the record and correct total count!
+            if ($this->getViewOwnRecordsPerm() && $record->getOwner() != $ilUser->getId()) {
+                unset($total_record_ids[array_search($id, $total_record_ids)]);
+                unset($_SESSION['dcl_record_ids'][array_search($id, $_SESSION['dcl_record_ids'])]);
+                continue;
+            }
+            // Re-index arrays
+            $total_record_ids = array_values($total_record_ids);
+            $_SESSION['dcl_record_ids'] = array_values($_SESSION['dcl_record_ids']);
+            $records[] = $record;
         }
 
-        return array('records' => $records, 'total' => count($totalRecordIds));
+        return array('records' => $records, 'total' => count($total_record_ids));
     }
 
 }

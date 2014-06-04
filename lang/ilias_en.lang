@@ -13092,6 +13092,9 @@ dcl#:#dcl_default_sort_field_order#:#Default sort field order
 dcl#:#dcl_prev_record#:#Previous record
 dcl#:#dcl_next_record#:#Next record
 dcl#:#dcl_record_from_total#:#%d of %d
+dcl#:#dcl_view_own_records_perm#:#View only own entries
+dcl#:#dcl_msg_no_perm_view#:#No permission given to view this record
+dcl#:#dcl_msg_no_perm_edit#:#No permission given to edit this record
 common#:#obj_bibl#:#Bibliography
 common#:#objs_bibl#:#Bibliographies
 bibl#:#bibl_new#:#New Bibliography
