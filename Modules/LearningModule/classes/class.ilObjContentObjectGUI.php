@@ -79,8 +79,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 				include_once './Services/Tracking/classes/class.ilLearningProgressGUI.php';
 				$this->setTabs("learning_progress");
 
-				$new_gui =& new ilLearningProgressGUI(ilLearningProgressGUI::LP_CONTEXT_REPOSITORY,$this->object->getRefId());
-				$new_gui->activateStatistics();
+				$new_gui =& new ilLearningProgressGUI(ilLearningProgressGUI::LP_CONTEXT_REPOSITORY,$this->object->getRefId());			
 				$this->ctrl->forwardCommand($new_gui);
 
 				break;

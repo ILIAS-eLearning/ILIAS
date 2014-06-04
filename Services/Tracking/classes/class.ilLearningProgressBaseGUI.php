@@ -25,7 +25,6 @@ class ilLearningProgressBaseGUI
 	var $lng = null;	
 	var $ref_id = 0;
 	var $mode = 0;	
-	var $statistics_activated = false;	// show sub tab for access statistics
 	
 	protected $anonymized;
 	
@@ -38,7 +37,7 @@ class ilLearningProgressBaseGUI
 	const LP_ACTIVE_SETTINGS = 1;
 	const LP_ACTIVE_OBJECTS = 2;
 	const LP_ACTIVE_PROGRESS = 3;
-	const LP_ACTIVE_LM_STATISTICS = 4;
+	// const LP_ACTIVE_LM_STATISTICS = 4; obsolete
 	const LP_ACTIVE_USERS = 5;
 	const LP_ACTIVE_SUMMARY = 6;
 	const LP_ACTIVE_OBJSTATACCESS = 7;
@@ -105,11 +104,6 @@ class ilLearningProgressBaseGUI
 		return 0;
 	}
 	
-	function activateStatistics($a_act = true)
-	{
-		$this->statistics_activated = $a_act;
-	}
-
 	// Protected
 	function __getDefaultCommand()
 	{
@@ -176,15 +170,6 @@ class ilLearningProgressBaseGUI
 															 "","","",$a_active == self::LP_ACTIVE_OBJECTS);
 
 						}
-
-						/*
-						if ($this->statistics_activated)
-						{
-							$this->tabs_gui->addSubTabTarget('trac_lm_statistics',
-															 $this->ctrl->getLinkTargetByClass('illmstatisticsgui',''),
-															 "","","",$a_active == self::LP_ACTIVE_LM_STATISTICS);
-						}
-						*/ 
 
 						if(!$this->isAnonymized() && !in_array($this->obj_type, array('tst', 'htlm', 'exc')))
 						{
