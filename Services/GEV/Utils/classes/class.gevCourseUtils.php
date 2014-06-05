@@ -80,9 +80,48 @@ class gevCourseUtils {
 		return $ret;
 	}
 	
-	/*// CUSTOM ID LOGIC
-	static public function 
-	*/
+	// CUSTOM ID LOGIC
+	
+	/**
+	 * Every course template should have a custom id. This id is used to create
+	 * an id for a concrete course. The new custom ids have the form $year-$tmplt-$num
+	 * where $year is the current year, $tmplt is the custom id from the course template
+	 * and $num is a consecutive number of the courses with the same $year-$tmpl part of
+	 * the custom id.
+	 **/
+	static public function createNewCustomId($a_tmplt) {
+		global $ilDB;
+		$gev_settings = gevSettings::getInstance();
+		
+		$year = date("Y");
+		$head = $year."-".$a_tmplt."-";
+		
+		$_field_id = explode(" ", $gev_settings->get($a_amd_setting));
+		$field_id = $_field_id[1];
+		
+		// This query requires knowledge from CourseAMD-Plugin!!
+		$res = $ilDB->query("SELECT MAX(value) as m".
+							" FROM adv_md_values_text".
+							" WHERE value LIKE ".$ilDB->quote($head."%", "text")
+							);
+
+		if ($val = $ilDB->fetchAssoc($res)) {
+			echo $val["m"]."\n";
+			$temp = explode("-", $val["m"]);
+			$num = intval($temp[2]) + 1;
+		}
+		else {
+			$num = 1;
+		}
+		$num = sprintf("%03d", $num);
+		return $head.$num;
+	}
+	
+	static public function extractCustomId($a_custom_id) {
+		$temp = extract("-", $a_custom_id);
+		return $temp[1];
+	}
+	
 
 	public function getLink() {
 		return self::getLinkTo($this->crs_id);
@@ -116,8 +155,16 @@ class gevCourseUtils {
 		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_START_DATE);
 	}
 	
+	public function setStartDate($a_date) {
+		$this->amd->setField($this->crs_id, gevSettings::CRS_AMD_START_DATE, $a_date);
+	}
+	
 	public function getEndDate() {
 		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_END_DATE);
+	}
+	
+	public function setEndDate($a_date) {
+		$this->amd->setField($this->crs_id, gevSettings::CRS_AMD_END_DATE, $a_date);
 	}
 	
 	public function getTopics() {

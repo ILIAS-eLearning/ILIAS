@@ -242,6 +242,8 @@ array( "Inhalte"
 							 , true 								# 2 searchable
 							 , null 								# 3 definition
 							 , $ttext 								# 4 type
+							 // if this is changed, the custom id logic in gevCourseUtils
+							 // needs to be changed as well!!
 							 )
 				 , "Vorlagentitel" =>
 				 		array( gevSettings::CRS_AMD_TEMPLATE_TITLE

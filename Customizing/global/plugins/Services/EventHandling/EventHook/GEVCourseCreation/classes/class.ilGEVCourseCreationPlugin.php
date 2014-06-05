@@ -40,11 +40,15 @@ class ilGEVCourseCreationPlugin extends ilEventHookPlugin
 			
 			// Do this anyway to prevent havoc!
 			$target->setOfflineStatus(true);
+			$target_utils->setStartDate(null);
+			$target_utils->setEndDate(null);
 		
 			if ($source_utils->isTemplate()) {
 				$target->setTitle($source->getTitle());
 				$target_utils->setTemplateTitle($source->getTitle());
 			}
+
+			$this->setCustomId($target_utils, $source_utils);
 
 			$target->update();
 		}
@@ -52,6 +56,18 @@ class ilGEVCourseCreationPlugin extends ilEventHookPlugin
 			global $ilLog;
 			$ilLog->write("Error in GEVCourseCreation::clonedCourses: ".print_r($e, true));
 		}
+	}
+	
+	public function setCustomId($a_target_utils, $a_source_utils) {
+		if ($a_source_utils->isTemplate()) {
+					$custom_id_tmplt = $a_source_utils->getCustomId();
+		}
+		else {
+			$custom_id_tmplt = gevCourseUtils::extractCustomIdTemplate($a_target_utils->getCustomId());
+		}
+
+		$custom_id = gevCourseUtils::createNewCustomId($custom_id_tmplt);
+		$a_target_utils->setCustomId($custom_id);
 	}
 }
 
