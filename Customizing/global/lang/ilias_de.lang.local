@@ -81,3 +81,8 @@ orgu#:#orgu_type_add#:#Typ hinzufügen
 orgu#:#orgu_type_edit#:#Typ bearbeiten
 orgu#:#orgu_type_assign_amd_sets#:#Sets von erweiterten Metadaten zuweisen
 orgu#:#orgu_type_available_amd_sets#:#verfügbare Sets
+orgu#:#orgu_settings#:#Einstellungen
+orgu#:#orgu_type#:#Typ
+orgu#:#orgu_type_msg_deletion_prevented#:#Das Löschen des Typs wurde durch ein Plugin verhindert.
+orgu#:#orgu_type_msg_deleted#:#Typ gelöscht.
+orgu#:#orgu_adv_settings#:#erweiterte Einstellungen
