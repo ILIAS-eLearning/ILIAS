@@ -15,7 +15,7 @@ class arJoinCollection extends arStatementCollection {
 	 */
 	public function asSQLStatement() {
 		$ar = $this->getAr();
-		$table_name = $ar->returnConnectorContainerName();
+		$table_name = $ar->getConnectorContainerName();
 		$selected_fields = array();
 		if ($this->hasStatements()) {
 			$selected_fields[] = $table_name . '.*';

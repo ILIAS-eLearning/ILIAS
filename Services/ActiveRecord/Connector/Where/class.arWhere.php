@@ -47,7 +47,7 @@ class arWhere extends arStatement {
 	public function asSQLStatement(ActiveRecord $ar) {
 		if ($this->getType() == self::TYPE_REGULAR) {
 			$type = $ar->getArFieldList()->getFieldByName($this->getFieldname())->getFieldType();
-			$statement = $ar->returnConnectorContainerName() . '.' . $this->getFieldname();
+			$statement = $ar->getConnectorContainerName() . '.' . $this->getFieldname();
 			if (is_array($this->getValue())) {
 				$statement .= ' IN(';
 				$values = array();

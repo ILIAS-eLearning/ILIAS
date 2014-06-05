@@ -33,9 +33,9 @@ class arBuilder {
 		$tpl = new ilTemplate(dirname(__FILE__) . '/templates/dbupdate.txt', true, true);
 		$ar = $this->getAr();
 
-		$tpl->setVariable('TABLE_NAME', $ar->returnConnectorContainerName());
-		$tpl->setVariable('TABLE_NAME2', $ar->returnConnectorContainerName());
-		$tpl->setVariable('TABLE_NAME3', $ar->returnConnectorContainerName());
+		$tpl->setVariable('TABLE_NAME', $ar->getConnectorContainerName());
+		$tpl->setVariable('TABLE_NAME2', $ar->getConnectorContainerName());
+		$tpl->setVariable('TABLE_NAME3', $ar->getConnectorContainerName());
 		$tpl->setVariable('STEP', $this->getStep());
 		$tpl->setVariable('PRIMARY', $this->getAr()->getArFieldList()->getPrimaryFieldName());
 
@@ -52,7 +52,7 @@ class arBuilder {
 
 		if ($this->getAr()->getArFieldList()->getPrimaryField()->getFieldType() == arField::FIELD_TYPE_INTEGER) {
 			$tpl->setCurrentBlock('attribute');
-			$tpl->setVariable('TABLE_NAME4', $ar->returnConnectorContainerName());
+			$tpl->setVariable('TABLE_NAME4', $ar->getConnectorContainerName());
 			$tpl->parseCurrentBlock();
 		}
 

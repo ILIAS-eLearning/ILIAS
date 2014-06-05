@@ -37,7 +37,7 @@ class arConnectorDB extends arConnector {
 	 * @return mixed
 	 */
 	public function nextID(ActiveRecord $ar) {
-		return $this->returnDB()->nextId($ar->returnConnectorContainerName());
+		return $this->returnDB()->nextId($ar->getConnectorContainerName());
 	}
 
 
@@ -49,13 +49,13 @@ class arConnectorDB extends arConnector {
 	 */
 	public function installDatabase(ActiveRecord $ar, $fields) {
 		$ilDB = $this->returnDB();
-		$ilDB->createTable($ar->returnConnectorContainerName(), $fields);
+		$ilDB->createTable($ar->getConnectorContainerName(), $fields);
 		$arFieldList = $ar->getArFieldList();
 		if ($arFieldList->getPrimaryField()->getName()) {
-			$ilDB->addPrimaryKey($ar->returnConnectorContainerName(), array( $arFieldList->getPrimaryField()->getName() ));
+			$ilDB->addPrimaryKey($ar->getConnectorContainerName(), array( $arFieldList->getPrimaryField()->getName() ));
 		}
 		if ($arFieldList->getPrimaryField()->getFieldType() === 'integer') {
-			$ilDB->createSequence($ar->returnConnectorContainerName());
+			$ilDB->createSequence($ar->getConnectorContainerName());
 		} else {
 			/**
 			 * @var ilDB $ilDB
@@ -75,8 +75,8 @@ class arConnectorDB extends arConnector {
 	public function updateDatabase(ActiveRecord $ar) {
 		$ilDB = $this->returnDB();
 		foreach ($ar->getArFieldList()->getFields() as $field) {
-			if (! $ilDB->tableColumnExists($ar->returnConnectorContainerName(), $field->getName())) {
-				$ilDB->addTableColumn($ar->returnConnectorContainerName(), $field->getName(), $field->getAttributesForConnector());
+			if (! $ilDB->tableColumnExists($ar->getConnectorContainerName(), $field->getName())) {
+				$ilDB->addTableColumn($ar->getConnectorContainerName(), $field->getName(), $field->getAttributesForConnector());
 			}
 		}
 
@@ -91,8 +91,8 @@ class arConnectorDB extends arConnector {
 	 */
 	public function resetDatabase(ActiveRecord $ar) {
 		$ilDB = $this->returnDB();
-		if ($ilDB->tableExists($ar->returnConnectorContainerName())) {
-			$ilDB->dropTable($ar->returnConnectorContainerName());
+		if ($ilDB->tableExists($ar->getConnectorContainerName())) {
+			$ilDB->dropTable($ar->getConnectorContainerName());
 		}
 		$ar->installDB();
 
@@ -105,11 +105,11 @@ class arConnectorDB extends arConnector {
 	 */
 	public function truncateDatabase(ActiveRecord $ar) {
 		$ilDB = $this->returnDB();
-		$query = 'TRUNCATE TABLE ' . $ar->returnConnectorContainerName();
+		$query = 'TRUNCATE TABLE ' . $ar->getConnectorContainerName();
 		$ilDB->query($query);
-		if ($ilDB->tableExists($ar->returnConnectorContainerName() . '_seq')) {
-			$ilDB->dropSequence($ar->returnConnectorContainerName());
-			$ilDB->createSequence($ar->returnConnectorContainerName());
+		if ($ilDB->tableExists($ar->getConnectorContainerName() . '_seq')) {
+			$ilDB->dropSequence($ar->getConnectorContainerName());
+			$ilDB->createSequence($ar->getConnectorContainerName());
 		}
 	}
 
@@ -126,7 +126,7 @@ class arConnectorDB extends arConnector {
 		 * @TODO: This is the proper ILIAS approach on how to do this BUT: This is exteremely slow (listTables is used)! However, this is not the place to fix this issue. Report.
 		 */
 
-		return $ilDB->tableExists($ar->returnConnectorContainerName());
+		return $ilDB->tableExists($ar->getConnectorContainerName());
 	}
 
 
@@ -139,7 +139,7 @@ class arConnectorDB extends arConnector {
 	public function checkFieldExists(ActiveRecord $ar, $field_name) {
 		$ilDB = $this->returnDB();
 
-		return $ilDB->tableColumnExists($ar->returnConnectorContainerName(), $field_name);
+		return $ilDB->tableColumnExists($ar->getConnectorContainerName(), $field_name);
 	}
 
 
@@ -152,11 +152,11 @@ class arConnectorDB extends arConnector {
 	 */
 	public function removeField(ActiveRecord $ar, $field_name) {
 		$ilDB = $this->returnDB();
-		if ($ilDB->tableColumnExists($ar->returnConnectorContainerName(), $field_name)) {
+		if ($ilDB->tableColumnExists($ar->getConnectorContainerName(), $field_name)) {
 			//throw new arException($field_name, arException::COLUMN_DOES_NOT_EXIST);
 		}
-		if ($ilDB->tableColumnExists($ar->returnConnectorContainerName(), $field_name)) {
-			$ilDB->dropTableColumn($ar->returnConnectorContainerName(), $field_name);
+		if ($ilDB->tableColumnExists($ar->getConnectorContainerName(), $field_name)) {
+			$ilDB->dropTableColumn($ar->getConnectorContainerName(), $field_name);
 
 			return true;
 		}
@@ -173,12 +173,12 @@ class arConnectorDB extends arConnector {
 	 */
 	public function renameField(ActiveRecord $ar, $old_name, $new_name) {
 		$ilDB = $this->returnDB();
-		if ($ilDB->tableColumnExists($ar->returnConnectorContainerName(), $old_name)) {
+		if ($ilDB->tableColumnExists($ar->getConnectorContainerName(), $old_name)) {
 			//throw new arException($old_name, arException::COLUMN_DOES_NOT_EXIST);
 
-			if (! $ilDB->tableColumnExists($ar->returnConnectorContainerName(), $new_name)) {
+			if (! $ilDB->tableColumnExists($ar->getConnectorContainerName(), $new_name)) {
 				//throw new arException($new_name, arException::COLUMN_DOES_ALREADY_EXIST);
-				$ilDB->renameTableColumn($ar->returnConnectorContainerName(), $old_name, $new_name);
+				$ilDB->renameTableColumn($ar->getConnectorContainerName(), $old_name, $new_name);
 			}
 		}
 
@@ -191,7 +191,7 @@ class arConnectorDB extends arConnector {
 	 */
 	public function create(ActiveRecord $ar) {
 		$ilDB = $this->returnDB();
-		$ilDB->insert($ar->returnConnectorContainerName(), $ar->getArrayForConnector());
+		$ilDB->insert($ar->getConnectorContainerName(), $ar->getArrayForConnector());
 	}
 
 
@@ -203,7 +203,7 @@ class arConnectorDB extends arConnector {
 	public function read(ActiveRecord $ar) {
 		$ilDB = $this->returnDB();
 
-		$query = 'SELECT * FROM ' . $ar->returnConnectorContainerName() . ' ' . ' WHERE ' . arFieldCache::getPrimaryFieldName($ar)
+		$query = 'SELECT * FROM ' . $ar->getConnectorContainerName() . ' ' . ' WHERE ' . arFieldCache::getPrimaryFieldName($ar)
 			. ' = ' . $ilDB->quote($ar->getPrimaryFieldValue(), arFieldCache::getPrimaryFieldType($ar));
 
 		$set = $ilDB->query($query);
@@ -222,7 +222,7 @@ class arConnectorDB extends arConnector {
 	public function update(ActiveRecord $ar) {
 		$ilDB = $this->returnDB();
 
-		$ilDB->update($ar->returnConnectorContainerName(), $ar->getArrayForConnector(), array(
+		$ilDB->update($ar->getConnectorContainerName(), $ar->getArrayForConnector(), array(
 			arFieldCache::getPrimaryFieldName($ar) => array(
 				arFieldCache::getPrimaryFieldType($ar),
 				$ar->getPrimaryFieldValue()
@@ -237,7 +237,7 @@ class arConnectorDB extends arConnector {
 	public function delete(ActiveRecord $ar) {
 		$ilDB = $this->returnDB();
 
-		$ilDB->manipulate('DELETE FROM ' . $ar->returnConnectorContainerName() . ' WHERE ' . arFieldCache::getPrimaryFieldName($ar) . ' = '
+		$ilDB->manipulate('DELETE FROM ' . $ar->getConnectorContainerName() . ' WHERE ' . arFieldCache::getPrimaryFieldName($ar) . ' = '
 			. $ilDB->quote($ar->getPrimaryFieldValue(), arFieldCache::getPrimaryFieldType($ar)));
 	}
 

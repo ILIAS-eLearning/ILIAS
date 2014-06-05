@@ -71,8 +71,13 @@ abstract class ActiveRecord implements arStorageInterface {
 	 */
 	public function getConnectorContainerName() {
 		// WILL BE ABSTRACT TO REPLACE returnDbTableName() IN NEXT VERSION
+		if ($this->connector_container_name) {
+			return $this->connector_container_name;
+		} else {
+			$ar = self::getCalledClass();
 
-		return $this->connector_container_name;
+			return $ar::returnDbTableName();
+		}
 	}
 
 
@@ -81,16 +86,6 @@ abstract class ActiveRecord implements arStorageInterface {
 	 */
 	public function setConnectorContainerName($connector_container_name) {
 		$this->connector_container_name = $connector_container_name;
-	}
-
-
-	/**
-	 * @return string
-	 */
-	public function returnConnectorContainerName() {
-		$ar = self::getCalledClass();
-
-		return $ar::returnDbTableName();
 	}
 
 
@@ -581,7 +576,7 @@ abstract class ActiveRecord implements arStorageInterface {
 	 * @return $this
 	 */
 	public static function innerjoinAR(ActiveRecord $ar, $on_this, $on_external, $fields = array( '*' ), $operator = '=') {
-		return self::innerjoin($ar->returnConnectorContainerName(), $on_this, $on_external, $fields, $operator);
+		return self::innerjoin($ar->getConnectorContainerName(), $on_this, $on_external, $fields, $operator);
 	}
 
 

@@ -49,7 +49,7 @@ class arJoin extends arStatement {
 		$join_table_name = $this->getTableName();
 		$return = ' ' . $this->getType() . ' ';
 		$return .= ' JOIN ' . $join_table_name;
-		$return .= ' ON ' . $ar->returnConnectorContainerName() . '.' . $this->getOnFirstField() . ' ' . $this->getOperator() . ' ';
+		$return .= ' ON ' . $ar->getConnectorContainerName() . '.' . $this->getOnFirstField() . ' ' . $this->getOperator() . ' ';
 		$return .= $join_table_name . '.' . $this->getOnSecondField();
 
 		return $return;

@@ -20,7 +20,7 @@ class {CLASS_NAME} extends ActiveRecord {
 	/**
 	 * @return string
 	 */
-	public function returnConnectorContainerName() {
+	public function getConnectorContainerName() {
 		return '{TABLE_NAME}';
 	}
 
