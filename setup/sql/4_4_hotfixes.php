@@ -652,3 +652,7 @@ $ilCtrlStructureReader->getStructure();
 // Bibliographic Module: Increase the allowed text-size for attributes from 512 to 4000
 $ilDB->query('ALTER TABLE il_bibl_attribute MODIFY value VARCHAR(4000)');
 ?>
+<#22>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
