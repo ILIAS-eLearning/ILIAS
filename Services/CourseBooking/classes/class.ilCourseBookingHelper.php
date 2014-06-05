@@ -131,7 +131,7 @@ class ilCourseBookingHelper
 	 */
 	public function getCancellationDeadline()
 	{
-		return gevCourseUtils::mkCancelDate( 
+		return gevCourseUtils::mkDeadlineDate( 
 			  gevCourseUtils::getInstance($this->course->getId())->getStartDate()
 			, gevCourseUtils::getInstance($this->course->getId())->getCancelDeadline()
 			);
