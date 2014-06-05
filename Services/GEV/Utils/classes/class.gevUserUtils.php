@@ -21,8 +21,12 @@ class gevUserUtils {
 	static protected $instances = array();
 
 	protected function __construct($a_user_id) {
+		global $ilDB;
+		
 		$this->user_id = $a_user_id;
 		$this->courseBookings = ilUserCourseBookings::getInstance($a_user_id);
+		$this->gev_set = gevSettings::getInstance();
+		$this->db = &$ilDB;
 	}
 	
 	static public function getInstance($a_user_id) {
@@ -44,6 +48,20 @@ class gevUserUtils {
 	
 	public function getEduBioLink() {
 		return "http://www.google.de"; //TODO: implement this properly
+	}
+	
+	public function getCourseHighlights() {
+		// TODO: Implement that properly
+		$res = $this->db->query("SELECT obj_id ".
+								" FROM crs_settings ".
+								" WHERE activation_type = 1".
+								"   AND activation_start < ".time().
+								"   AND activation_end > ".time());
+		$ret = array();
+		while($val = $this->db->fetchAssoc($res)) {
+			$ret[] = $val["obj_id"];
+		}
+		return $ret;
 	}
 	
 	public function getBookedAndWaitingCourseInformation() {
@@ -87,11 +105,30 @@ class gevUserUtils {
 		require_once("Modules/Course/classes/class.ilObjCourse.php");
 		require_once("Services/CourseBooking/classes/class.ilCourseBookings.php");
 		
+		//echo $a_offset." ".$a_order."<br />";
+		
+		$is_tmplt_field_id = $this->gev_set->getAMDFieldId(gevSettings::CRS_AMD_IS_TEMPLATE);
+		
 		// TODO: Implement that properly
-		global $ilDB;
-		$res = $ilDB->query("SELECT obj_id FROM object_data WHERE type='crs'");
+		$query = "SELECT DISTINCT cs.obj_id ".
+				 " FROM crs_settings cs".
+				 " LEFT JOIN object_reference oref".
+				 "   ON cs.obj_id = oref.obj_id".
+				 // this is knowledge from the course amd plugin!
+				 " LEFT JOIN adv_md_values_text amd".
+				 "   ON cs.obj_id = amd.obj_id ".
+				 "   AND amd.field_id = ".$this->db->quote($is_tmplt_field_id, "integer").
+				 " WHERE cs.activation_type = 1".
+				 "   AND cs.activation_start < ".time().
+				 "   AND cs.activation_end > ".time().
+				 "   AND oref.deleted IS NULL".
+				 "   AND amd.value = ".$this->db->quote("Nein", "text").
+				 "";
+		
+		$res = $this->db->query($query);
+		
 		$crss = array();
-		while($val = $ilDB->fetchAssoc($res)) {
+		while($val = $this->db->fetchAssoc($res)) {
 			$crss[] = $val["obj_id"];
 		}
 		

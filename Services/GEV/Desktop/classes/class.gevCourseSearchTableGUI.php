@@ -33,6 +33,8 @@ class gevCourseSearchTableGUI extends catAccordionTableGUI {
 		$this->setEnableTitle(true);
 		$this->setTopCommands(false);
 		$this->setEnableHeader(true);
+		//$this->setExternalSorting(true);
+		//$this->determineOffsetAndOrder();
 		
 		$this->setRowTemplate("tpl.gev_course_search_row.html", "Services/GEV/Desktop");
 		
@@ -86,7 +88,7 @@ class gevCourseSearchTableGUI extends catAccordionTableGUI {
 		}
 		
 		$action = '<a href="'.gevCourseUtils::getBookingLinkTo($a_set["obj_id"], $this->user_id).'">'.
-				  $this->cancel_img."</a>";
+				  $this->book_img."</a>";
 		
 		$this->tpl->setVariable("TITLE", $a_set["title"]);
 		$this->tpl->setVariable("STATUS", $status);

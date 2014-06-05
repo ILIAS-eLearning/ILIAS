@@ -31,12 +31,14 @@ class gevCourseHighlightsSliderGUI extends catSliderGUI {
 			$this->user_id = $a_user_id;
 		}
 		
+		$this->user_utils = gevUserUtils::getInstance($this->user_id);
+		
 		$this->setTemplate("tpl.gev_course_highlights_slider.html", "Services/GEV/Desktop");
 		$this->setSliderId("CourseHighlightsSlider");
 	}
 	
 	public function renderSlides() {
-		$crs_ids = gevCourseUtils::getCourseHighlights($this->user_id);
+		$crs_ids = $this->user_utils->getCourseHighlights();
 		$crs_amd =
 			array( gevSettings::CRS_AMD_START_DATE => "start_date"
 				 , gevSettings::CRS_AMD_END_DATE => "end_date"

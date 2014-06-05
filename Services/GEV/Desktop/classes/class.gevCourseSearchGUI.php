@@ -10,6 +10,7 @@
 */
 
 require_once("Services/GEV/Desktop/classes/class.gevCourseHighlightsGUI.php");
+require_once("Services/CaTUIComponents/classes/class.catHSpacerGUI.php");
 require_once("Services/GEV/Desktop/classes/class.gevUserSelectorGUI.php");
 require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 require_once("Services/CaTUIComponents/classes/class.catLegendGUI.php");
@@ -55,6 +56,9 @@ class gevCourseSearchGUI {
 		
 		$hls = new gevCourseHighlightsGUI($this->target_user_id);
 		
+		$spacer = new catHSpacerGUI();
+		$spacer_out = $spacer->render();
+		
 		$crs_tbl = new gevCourseSearchTableGUI($this->target_user_id, $this);
 		$crs_tbl->setTitle("gev_crs_srch_title")
 				->setSubtitle( $this->target_user_id == $this->user_id
@@ -65,6 +69,7 @@ class gevCourseSearchGUI {
 		
 		return $usrsel
 			 . $hls->render()
+			 . $spacer->render()
 			 . $crs_tbl->getHTML()
 			 ;
 	}

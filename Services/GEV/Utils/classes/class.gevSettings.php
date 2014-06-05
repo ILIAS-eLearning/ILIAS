@@ -151,6 +151,11 @@ class gevSettings {
 		$this->settings->set($a_field, $a_value);
 	}
 	
+	public function getAMDFieldId($a_field) {
+		$field_id = explode(" ", $this->get($a_field));
+		return $field_id[1];
+	}
+	
 	/*public function isAMDRecordUsed($a_record_id) {
 			global $ilDB;
 			$res = $ilDB->query("SELECT COUNT(*) AS cnt FROM settings ".

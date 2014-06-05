@@ -260,6 +260,8 @@ array( "Inhalte"
 				 			 		 , "Nein"
 				 			 		 )
 				 			 , $tselect
+				 			 // if this is changed, gevUserUtils::getPotentiallyBookableCourses
+				 			 // needs to be changed as well!!
 				 			 )
 				 , "Lernart" =>
 				 		array( gevSettings::CRS_AMD_TYPE

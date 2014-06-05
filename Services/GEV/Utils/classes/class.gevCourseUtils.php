@@ -68,17 +68,6 @@ class gevCourseUtils {
 		$date->increment($a_deadline * -1, IL_CAL_DAY);
 		return $date;
 	}
-
-	static public function getCourseHighlights($a_user_id) {
-		// TODO: Implement that properly
-		global $ilDB;
-		$res = $ilDB->query("SELECT obj_id FROM object_data WHERE type='crs'");
-		$ret = array();
-		while($val = $ilDB->fetchAssoc($res)) {
-			$ret[] = $val["obj_id"];
-		}
-		return $ret;
-	}
 	
 	// CUSTOM ID LOGIC
 	
@@ -96,13 +85,13 @@ class gevCourseUtils {
 		$year = date("Y");
 		$head = $year."-".$a_tmplt."-";
 		
-		$_field_id = explode(" ", $gev_settings->get($a_amd_setting));
-		$field_id = $_field_id[1];
+		$field_id = $gev_settings->getAMDFieldId(gevSettings::CRS_AMD_CUSTOM_ID);
 		
 		// This query requires knowledge from CourseAMD-Plugin!!
 		$res = $ilDB->query("SELECT MAX(value) as m".
 							" FROM adv_md_values_text".
-							" WHERE value LIKE ".$ilDB->quote($head."%", "text")
+							" WHERE value LIKE ".$ilDB->quote($head."%", "text").
+							"   AND field_id = ".$ilDB->quote($field_id, "integer")
 							);
 
 		if ($val = $ilDB->fetchAssoc($res)) {
@@ -145,6 +134,10 @@ class gevCourseUtils {
 	
 	public function isTemplate() {
 		return "Ja" == $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_IS_TEMPLATE);
+	}
+	
+	public function setIsTemplate($a_val) {
+		$this->amd->setField($this->crs_id, gevSettings::CRS_AMD_IS_TEMPLATE, ($a_val === true)? "Ja" : "Nein" );
 	}
 	
 	public function getType() {
