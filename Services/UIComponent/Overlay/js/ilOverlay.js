@@ -138,7 +138,7 @@ il.Overlay = {
 			toggle_obj = document.getElementById(toggle_el);
 			if (toggle_obj) {
 				this.toggle_cl[toggle_el] = toggle_obj.className;
-				toggle_obj.className = toggle_class_on;
+				//toggle_obj.className = toggle_class_on;
 			}
 		}
 
