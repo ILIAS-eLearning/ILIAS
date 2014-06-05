@@ -1,7 +1,7 @@
 <?php
  
 // alphanumerical ID of the plugin; never change this
-$id = "bookingButton";
+$id = "coursemembershipbuttons";
  
 // code version; must be changed for all code changes
 $version = "0.0.1";
