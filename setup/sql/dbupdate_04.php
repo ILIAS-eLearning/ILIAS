@@ -865,8 +865,9 @@ $ilCtrlStructureReader->getStructure();
 ?>
 <#4216>
 <?php
+// REMOVED: is done at #4220 in an abstracted way
 // Bibliographic Module: Increase the allowed text-size for attributes from 512 to 4000
-$ilDB->query('ALTER TABLE il_bibl_attribute MODIFY value VARCHAR(4000)');
+// $ilDB->query('ALTER TABLE il_bibl_attribute MODIFY value VARCHAR(4000)');
 ?>
 <#4217>
 <?php
@@ -925,4 +926,9 @@ if(!$ilDB->tableColumnExists('il_dcl_table','view_own_records_perm')) {
 <#4219>
 <?php
 $ilCtrlStructureReader->getStructure();
+?>
+<#4220>
+<?php
+// Bibliographic Module: Increase the allowed text-size for attributes from 512 to 4000
+$ilDB->modifyTableColumn("il_bibl_attribute", "value", array("type" => "text", "length" => 4000));
 ?>
