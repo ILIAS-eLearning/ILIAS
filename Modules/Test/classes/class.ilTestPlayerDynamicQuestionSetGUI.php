@@ -19,6 +19,7 @@ require_once 'Modules/Test/classes/class.ilTestPlayerAbstractGUI.php';
  * @package		Modules/Test
  * 
  * @ilCtrl_Calls ilTestPlayerDynamicQuestionSetGUI: ilAssQuestionHintRequestGUI
+ * @ilCtrl_Calls ilTestPlayerDynamicQuestionSetGUI: ilAssQuestionPageGUI
  * @ilCtrl_Calls ilTestPlayerDynamicQuestionSetGUI: ilFilteredQuestionsTableGUI
  * @ilCtrl_Calls ilTestPlayerDynamicQuestionSetGUI: ilToolbarGUI
  */
@@ -70,6 +71,15 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		
 		switch($nextClass)
 		{
+			case 'ilassquestionpagegui':
+
+				$questionId = $this->testSequence->getQuestionForSequence( $this->calculateSequence() );
+
+				require_once "./Modules/TestQuestionPool/classes/class.ilAssQuestionPageGUI.php";
+				$page_gui = new ilAssQuestionPageGUI($questionId);
+				$ret = $this->ctrl->forwardCommand($page_gui);
+				break;
+
 			case 'ilassquestionhintrequestgui':
 				
 				$questionGUI = $this->object->createQuestionGUI(

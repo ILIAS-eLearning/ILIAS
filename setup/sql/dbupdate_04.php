@@ -922,3 +922,7 @@ if(!$ilDB->tableColumnExists('il_dcl_table','view_own_records_perm')) {
         ));
 }
 ?>
+<#4219>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
