@@ -2,7 +2,7 @@
 
 require_once ("./Services/UIComponent/classes/class.ilUIHookPluginGUI.php");
 
-class ilBookingButtonUIHookGUI extends ilUIHookPluginGUI {
+class ilCourseMembershipButtonsUIHookGUI extends ilUIHookPluginGUI {
 	protected function initGlobals() {
 		if (!isset($this->ctrl)) {
 			global $ilCtrl;
@@ -29,6 +29,7 @@ class ilBookingButtonUIHookGUI extends ilUIHookPluginGUI {
 		and $a_part == "template_load"
 		and $a_parameters["tpl_id"] == "Services/UIComponent/Toolbar/tpl.toolbar.html") {
 			$this->lng->loadLanguageModule("crsbook");
+			$this->toolbar->addSeparator();
 			$this->toolbar->addButton( $this->lng->txt("gev_bookings")
 									 , "ilias.php?ref_id=".$_GET["ref_id"]."&cmdClass=ilcoursebookingadmingui&baseClass=ilCourseBookingGUI"
 									 );
