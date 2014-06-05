@@ -35,14 +35,27 @@ class gevAMDUtils {
 	
 	public function getField($a_obj, $a_amd_setting) {
 		$field_id = self::getFieldId($a_amd_setting);
-		
-		$ret = $this->db->query("SELECT field_type FROM adv_mdf_definition WHERE field_id = ".$this->db->quote($field_id, "integer"));
-		if ($res = $this->db->fetchAssoc($ret)) {
-			return $this->getValue($a_obj, $field_id, $res["field_type"]);
+		try {
+			$field_type = $this->getFieldType($field_id);
 		}
-		else {
+		catch (Exception $e) {
 			throw new Exception("AMD Field ".$field_id." for GEV setting ".$a_amd_setting." does not exist.");
 		}
+		
+		return $this->getValue($a_obj, $field_id, $field_type);
+	}
+	
+	public function setField($a_obj, $a_amd_setting, $a_value) {
+		$field_id = self::getFieldId($a_amd_setting);
+		
+		try {
+			$field_type = $this->getFieldType($field_id);
+		}
+		catch (Exception $e) {
+			throw new Exception("AMD Field ".$field_id." for GEV setting ".$a_amd_setting." does not exist.");
+		}
+		
+		$this->setValue($a_obj, $field_id, $field_type, $a_value);
 	}
 	
 	public function getTable($a_objs, $a_amd_settings) {
@@ -68,6 +81,18 @@ class gevAMDUtils {
 	protected function getFieldId($a_amd_setting) {
 		$amd_id = explode(" ", $this->gev_settings->get($a_amd_setting));
 		return $amd_id[1];
+	}
+	
+	protected function getFieldType($a_field_id) {
+		$ret = $this->db->query("SELECT field_type FROM adv_mdf_definition WHERE field_id = ".
+								$this->db->quote($a_field_id, "integer"));
+		
+		if ($res = $this->db->fetchAssoc($ret)) {
+			return $res["field_type"];
+		}
+		else {
+			throw new Exception("Could not find type for field ".$a_field_id);
+		}
 	}
 	
 	protected function getFieldTypes($field_ids) {
@@ -196,6 +221,51 @@ class gevAMDUtils {
 			return self::canonicalTransformTypedValue($a_type, $ret["value"]);
 		}
 		return null;
+	}
+	
+	protected function setValue($a_obj, $a_field_id, $a_type, $a_value) {
+		if ($type == TYPE_LOCATION) {
+			die("gevAMDUtils::setValue not implemented for locations.");
+		}
+		
+		$postfix = self::getTablePostfixForType($a_type);
+		$value = $this->getSQLInsertValue($a_type, $a_value);
+		$this->db->manipulate("INSERT INTO adv_md_values_".$postfix.
+							  " (obj_id, field_id, value, disabled, sub_type, sub_id)".
+							  " VALUES (".$this->db->quote($a_obj, "integer").
+							  "        ,".$this->db->quote($a_field_id, "integer").
+							  "        ,".$value.
+							  "        ,".$this->db->quote(0, "integer").
+							  "        ,".$this->db->quote("-", "text").
+							  "        ,".$this->db->quote(0, "integer").
+							  "        ) ".
+							  " ON DUPLICATE KEY UPDATE value = ".$value
+							 );
+	}
+	
+	protected function getSQLInsertValue($a_type, $a_value) {
+		switch($a_type) {
+			case ilAdvancedMDFieldDefinition::TYPE_VENUE_SELECT:
+			case ilAdvancedMDFieldDefinition::TYPE_PROVIDER_SELECT:
+			case ilAdvancedMDFieldDefinition::TYPE_SELECT:
+			case ilAdvancedMDFieldDefinition::TYPE_LONG_TEXT:
+			case ilAdvancedMDFieldDefinition::TYPE_TEXT:
+				return $this->db->quote($a_value, "text");
+			case ilAdvancedMDFieldDefinition::TYPE_DATE:
+				return $this->db->quote($a_value->get(IL_CAL_DATE), "date");
+			case ilAdvancedMDFieldDefinition::TYPE_DATETIME:
+				return $this->db->quote($a_value->get(IL_CAL_DATETIME), "text");
+			case ilAdvancedMDFieldDefinition::TYPE_INTEGER:
+				return $this->db->quote($a_value, "integer");
+			case ilAdvancedMDFieldDefinition::TYPE_FLOAT:
+				return $this->db->quote($a_value, "float");
+			case ilAdvancedMDFieldDefinition::TYPE_MULTI_SELECT:
+				return $this->db->quote(serialize($a_value), "text");
+			case ilAdvancedMDFieldDefinition::TYPE_LOCATION:
+				die("gevAMDUtils::canonicalTransformTypedValue: Location not implemented.");
+			default:
+				throw new Exception("gevAMDUtils::getSQLInsertValue: Can't get AMD Value of field ".$a_field_id." for type ".$a_type.".");
+		}
 	}
 	
 	/**
