@@ -20,6 +20,15 @@ class gevObjectUtils {
 		}
 		return null;
 	}
+	
+	static public function getObjId($a_ref_id) {
+		global $ilDB;
+		$res = $ilDB->query("SELECT obj_id FROM object_reference WHERE ref_id = ".$ilDB->quote($a_ref_id));
+		if ($ret = $ilDB->fetchAssoc($res)) {
+			return $ret["obj_id"];
+		}
+		return null;
+	}
 }
 
 ?>

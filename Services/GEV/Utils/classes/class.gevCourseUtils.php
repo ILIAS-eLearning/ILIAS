@@ -1,4 +1,4 @@
-<?php
+	<?php
 
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */#
 
@@ -79,6 +79,10 @@ class gevCourseUtils {
 		}
 		return $ret;
 	}
+	
+	/*// CUSTOM ID LOGIC
+	static public function 
+	*/
 
 	public function getLink() {
 		return self::getLinkTo($this->crs_id);
@@ -88,8 +92,16 @@ class gevCourseUtils {
 		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_CUSTOM_ID);
 	}
 	
+	public function setCustomId($a_id) {
+		$this->amd->setField($this->crs_id, gevSettings::CRS_AMD_CUSTOM_ID, $a_id);
+	}
+	
 	public function getTemplateTitle() {
 		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_TEMPLATE_TITLE);
+	}
+	
+	public function setTemplateTitle($a_title) {
+		$this->amd->setField($this->crs_id, gevSettings::CRS_AMD_TEMPLATE_TITLE, $a_title);
 	}
 	
 	public function isTemplate() {
