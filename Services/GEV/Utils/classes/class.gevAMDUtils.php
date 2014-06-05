@@ -34,7 +34,7 @@ class gevAMDUtils {
 	}
 	
 	public function getField($a_obj, $a_amd_setting) {
-		$field_id = self::getFieldId($a_amd_setting);
+		$field_id = $this->getFieldId($a_amd_setting);
 		try {
 			$field_type = $this->getFieldType($field_id);
 		}
@@ -46,7 +46,7 @@ class gevAMDUtils {
 	}
 	
 	public function setField($a_obj, $a_amd_setting, $a_value) {
-		$field_id = self::getFieldId($a_amd_setting);
+		$field_id = $this->getFieldId($a_amd_setting);
 		
 		try {
 			$field_type = $this->getFieldType($field_id);
@@ -55,7 +55,12 @@ class gevAMDUtils {
 			throw new Exception("AMD Field ".$field_id." for GEV setting ".$a_amd_setting." does not exist.");
 		}
 		
-		$this->setValue($a_obj, $field_id, $field_type, $a_value);
+		if ($a_value !== null) {
+			$this->setValue($a_obj, $field_id, $field_type, $a_value);
+		}
+		else {
+			$this->deleteValue($a_obj_id, $field_id, $field_type);
+		}
 	}
 	
 	public function getTable($a_objs, $a_amd_settings) {
@@ -77,7 +82,7 @@ class gevAMDUtils {
 
 		return $this->makeTableResult($res, $field_ids, $types, $a_amd_settings);
 	}
-	
+
 	protected function getFieldId($a_amd_setting) {
 		$amd_id = explode(" ", $this->gev_settings->get($a_amd_setting));
 		return $amd_id[1];
@@ -240,6 +245,14 @@ class gevAMDUtils {
 							  "        ,".$this->db->quote(0, "integer").
 							  "        ) ".
 							  " ON DUPLICATE KEY UPDATE value = ".$value
+							 );
+	}
+	
+	protected function deleteValue($a_obj, $a_field_id, $a_type) {
+		$postfix = self::getTablePostfixForType($a_type);
+		$this->db->manipulate("DELETE FROM adv_md_values_".$postfix.
+							  " WHERE obj_id = ".$this->db->quote($a_obj_id, "integer").
+							  "   AND field_id = ".$this->db->quote($a_field_id, "integer")
 							 );
 	}
 	
