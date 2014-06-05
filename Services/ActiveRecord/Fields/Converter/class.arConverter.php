@@ -5,7 +5,7 @@ require_once(dirname(__FILE__) . '/../class.arFieldList.php');
  * Class arConverter
  *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
- * @version 1.0.0
+ * @version 2.0.4
  *
  *
  * @description         $arConverter = new arConverter('my_msql_table_name', 'arMyRecordClass');
@@ -78,7 +78,7 @@ class arConverter {
 
 
 	public function downloadClassFile() {
-		$tpl = new ilTemplate(dirname(__FILE__) . '/templates/class.arTemplate.php', true, true);
+		$tpl = new ilTemplate(dirname(__FILE__) . '/templates/class.arTemplate.txt', true, true);
 		$tpl->setVariable('TABLE_NAME', $this->getTableName());
 		$tpl->setVariable('CLASS_NAME', $this->getClassName());
 

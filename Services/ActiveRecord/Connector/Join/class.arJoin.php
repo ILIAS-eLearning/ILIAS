@@ -6,7 +6,7 @@ require_once(dirname(__FILE__) . '/../Statement/class.arStatement.php');
  *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  *
- * @version 2.0.02
+ * @version 2.0.4
  */
 class arJoin extends arStatement {
 
@@ -49,7 +49,7 @@ class arJoin extends arStatement {
 		$join_table_name = $this->getTableName();
 		$return = ' ' . $this->getType() . ' ';
 		$return .= ' JOIN ' . $join_table_name;
-		$return .= ' ON ' . $ar::returnDbTableName() . '.' . $this->getOnFirstField() . ' ' . $this->getOperator() . ' ';
+		$return .= ' ON ' . $ar->returnConnectorContainerName() . '.' . $this->getOnFirstField() . ' ' . $this->getOperator() . ' ';
 		$return .= $join_table_name . '.' . $this->getOnSecondField();
 
 		return $return;

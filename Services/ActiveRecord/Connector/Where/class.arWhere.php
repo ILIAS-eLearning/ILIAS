@@ -5,7 +5,7 @@ require_once(dirname(__FILE__) . '/../Statement/class.arStatement.php');
  * Class arWhere
  *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
- * @version 1.0.0
+ * @version 2.0.4
  */
 class arWhere extends arStatement {
 
@@ -47,7 +47,7 @@ class arWhere extends arStatement {
 	public function asSQLStatement(ActiveRecord $ar) {
 		if ($this->getType() == self::TYPE_REGULAR) {
 			$type = $ar->getArFieldList()->getFieldByName($this->getFieldname())->getFieldType();
-			$statement = $ar::returnDbTableName() . '.' . $this->getFieldname();
+			$statement = $ar->returnConnectorContainerName() . '.' . $this->getFieldname();
 			if (is_array($this->getValue())) {
 				$statement .= ' IN(';
 				$values = array();

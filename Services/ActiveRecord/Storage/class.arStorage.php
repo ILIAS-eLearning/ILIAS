@@ -6,7 +6,7 @@ require_once(dirname(__FILE__) . '/../class.ActiveRecord.php');
  *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  *
- * @version 2.0.2
+ * @version 2.0.4
  */
 abstract class arStorage extends ActiveRecord {
 

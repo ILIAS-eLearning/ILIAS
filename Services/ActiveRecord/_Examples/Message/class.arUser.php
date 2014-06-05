@@ -5,7 +5,7 @@ require_once('./Customizing/global/plugins/Libraries/ActiveRecord/class.ActiveRe
  * Class arUser
  *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
- * @version 1.0.0
+ * @version 2.0.4
  */
 class arUser extends ActiveRecord {
 

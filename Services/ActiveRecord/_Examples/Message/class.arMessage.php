@@ -6,7 +6,7 @@ require_once(dirname(__FILE__) . '/../../Connector/class.arConnectorSession.php'
  * Class arMessage
  *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
- * @version 1.0.0
+ * @version 2.0.4
  */
 class arMessage extends ActiveRecord {
 
@@ -17,14 +17,12 @@ class arMessage extends ActiveRecord {
 	const PRIO_HIGH = 9;
 
 
-
 	/**
 	 * @return string
 	 */
 	static function returnDbTableName() {
 		return 'ar_message';
 	}
-
 
 
 	/**
@@ -191,12 +189,7 @@ class arMessage extends ActiveRecord {
 	 * @param bool $dev
 	 */
 	public function __construct($primary_key = 0, $dev = false) {
-		if ($dev) {
-			$connector = new arConnectorSession();
-		} else {
-			$connector = NULL;
-		}
-		parent::__construct($primary_key, $connector);
+		parent::__construct($primary_key, new arConnectorSession());
 	}
 }
 

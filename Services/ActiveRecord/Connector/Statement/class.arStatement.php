@@ -5,7 +5,7 @@
  *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  *
- * @version 2.0.02
+ * @version 2.0.4
  */
 abstract class arStatement {
 

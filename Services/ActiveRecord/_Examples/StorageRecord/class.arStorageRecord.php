@@ -1,22 +1,17 @@
 <?php
-require_once('./Customizing/global/plugins/Libraries/ActiveRecord/class.ActiveRecord.php');
+require_once('./Customizing/global/plugins/Libraries/ActiveRecord/Demo/StorageRecord/class.arStorageRecordStorage.php');
+require_once('./Customizing/global/plugins/Libraries/ActiveRecord/Storage/int.arStorageInterface.php');
 
 /**
- * Class arRealRecord
+ * Class arTestRecord
  *
- * @author  Fabian Schmid <fs@studer-raimann.ch>
- * @version 2.0.2
+ * @description A Class which does not extend from ActiveRecord
+ *              uses arStorage for dynamic DB usage
+ *
+ * @author      Fabian Schmid <fs@studer-raimann.ch>
+ * @version     2.0.4
  */
-class arRealRecord extends ActiveRecord {
-
-	/**
-	 * @return string
-	 * @description Return the Name of your Database Table
-	 */
-	static function returnDbTableName() {
-		return 'ar_demo_real_record';
-	}
-
+class arStorageRecord implements arStorageInterface {
 
 	/**
 	 * @var int
@@ -50,6 +45,35 @@ class arRealRecord extends ActiveRecord {
 	 * @db_length           200
 	 */
 	protected $usr_ids = array();
+	/**
+	 * @var arStorageRecordStorage
+	 */
+	protected $storage;
+
+
+	/**
+	 * @param $id
+	 */
+	public function __construct($id = 0) {
+		$this->id = $id;
+		$this->storage = arStorageRecordStorage::getInstance($this);
+		$this->storage->installDB();
+	}
+
+
+	public function create() {
+		$this->storage->create();
+	}
+
+
+	public function update() {
+		$this->storage->update();
+	}
+
+
+	public function delete() {
+		$this->storage->delete();
+	}
 
 
 	/**
@@ -113,6 +137,22 @@ class arRealRecord extends ActiveRecord {
 	 */
 	public function getUsrIds() {
 		return $this->usr_ids;
+	}
+
+
+	/**
+	 * @param arStorageRecordStorage $storage
+	 */
+	public function setStorage($storage) {
+		$this->storage = $storage;
+	}
+
+
+	/**
+	 * @return arStorageRecordStorage
+	 */
+	public function getStorage() {
+		return $this->storage;
 	}
 }
 

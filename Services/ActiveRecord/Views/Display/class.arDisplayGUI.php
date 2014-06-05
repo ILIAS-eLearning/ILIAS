@@ -5,7 +5,7 @@ require_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
  * GUI-Class arDisplayGUI
  *
  * @author            Timon Amstutz <timon.amstutz@ilub.unibe.ch>
- * @version           2.0.2
+ * @version           2.0.4
  *
  */
 class arDisplayGUI {

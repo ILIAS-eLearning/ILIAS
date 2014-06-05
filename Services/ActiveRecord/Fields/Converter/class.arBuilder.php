@@ -5,7 +5,7 @@ require_once(dirname(__FILE__) . '/../../Connector/class.arConnectorDB.php');
  * Class arBuilder
  *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
- * @version 1.0.0
+ * @version 2.0.4
  */
 class arBuilder {
 
@@ -30,12 +30,12 @@ class arBuilder {
 
 
 	public function generateDBUpdateForInstallation() {
-		$tpl = new ilTemplate(dirname(__FILE__) . '/templates/dbupdate.php', true, true);
+		$tpl = new ilTemplate(dirname(__FILE__) . '/templates/dbupdate.txt', true, true);
 		$ar = $this->getAr();
 
-		$tpl->setVariable('TABLE_NAME', $ar::returnDbTableName());
-		$tpl->setVariable('TABLE_NAME2', $ar::returnDbTableName());
-		$tpl->setVariable('TABLE_NAME3', $ar::returnDbTableName());
+		$tpl->setVariable('TABLE_NAME', $ar->returnConnectorContainerName());
+		$tpl->setVariable('TABLE_NAME2', $ar->returnConnectorContainerName());
+		$tpl->setVariable('TABLE_NAME3', $ar->returnConnectorContainerName());
 		$tpl->setVariable('STEP', $this->getStep());
 		$tpl->setVariable('PRIMARY', $this->getAr()->getArFieldList()->getPrimaryFieldName());
 
@@ -52,7 +52,7 @@ class arBuilder {
 
 		if ($this->getAr()->getArFieldList()->getPrimaryField()->getFieldType() == arField::FIELD_TYPE_INTEGER) {
 			$tpl->setCurrentBlock('attribute');
-			$tpl->setVariable('TABLE_NAME4', $ar::returnDbTableName());
+			$tpl->setVariable('TABLE_NAME4', $ar->returnConnectorContainerName());
 			$tpl->parseCurrentBlock();
 		}
 

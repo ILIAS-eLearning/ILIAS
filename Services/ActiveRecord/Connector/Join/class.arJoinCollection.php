@@ -6,7 +6,7 @@ require_once('class.arJoin.php');
  * Class arJoinCollection
  *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
- * @version 1.0.0
+ * @version 2.0.4
  */
 class arJoinCollection extends arStatementCollection {
 
@@ -15,7 +15,7 @@ class arJoinCollection extends arStatementCollection {
 	 */
 	public function asSQLStatement() {
 		$ar = $this->getAr();
-		$table_name = $ar::returnDbTableName();
+		$table_name = $ar->returnConnectorContainerName();
 		$selected_fields = array();
 		if ($this->hasStatements()) {
 			$selected_fields[] = $table_name . '.*';

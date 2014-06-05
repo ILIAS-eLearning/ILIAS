@@ -6,7 +6,7 @@ require_once('class.arMessage.php');
  * Class arMessageList
  *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
- * @version 1.0.0
+ * @version 2.0.4
  */
 class arMessageList extends ActiveRecordList {
 

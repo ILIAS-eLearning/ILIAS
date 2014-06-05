@@ -6,7 +6,7 @@
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @author  Timon Amstutz <timon.amstutz@ilub.unibe.ch>
  *
- * @version 2.0.2
+ * @version 2.0.4
  */
 class arException extends Exception {
 
@@ -19,6 +19,7 @@ class arException extends Exception {
 	const LIST_ORDER_BY_WRONG_FIELD = 1006;
 	const LIST_JOIN_ON_WRONG_FIELD = 1007;
 	const COPY_DESTINATION_ID_EXISTS = 1008;
+	const PRIVATE_CONTRUCTOR = 1009;
 	/**
 	 * @var array
 	 */
@@ -31,6 +32,7 @@ class arException extends Exception {
 		self::LIST_WRONG_LIMIT => 'Limit, to value smaller than from value:',
 		self::LIST_JOIN_ON_WRONG_FIELD => 'Join on non existing field: ',
 		self::COPY_DESTINATION_ID_EXISTS => 'Copy Record: A record with the Destination-ID already exists.',
+		self::PRIVATE_CONTRUCTOR => 'Constructor cannot be accessed.',
 	);
 	/**
 	 * @var string

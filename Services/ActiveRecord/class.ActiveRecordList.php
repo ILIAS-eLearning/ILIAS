@@ -12,7 +12,7 @@ require_once(dirname(__FILE__) . '/Connector/Order/class.arOrderCollection.php')
  *
  * @description
  *
- * @version 2.0.2
+ * @version 2.0.4
  */
 class ActiveRecordList {
 
@@ -57,6 +57,10 @@ class ActiveRecordList {
 	 */
 	protected $date_format = NULL;
 	/**
+	 * @var array
+	 */
+	protected $addidtional_parameters = array();
+	/**
 	 * @var string
 	 */
 	protected static $last_query;
@@ -85,6 +89,20 @@ class ActiveRecordList {
 		} else {
 			$this->connector = $ar->getArConnector();
 		}
+	}
+
+	//
+	// Parameters for Instance
+	//
+	/**
+	 * @param array $additional_params
+	 *
+	 * @return $this
+	 */
+	public function additionalParams(array $additional_params) {
+		$this->setAddidtionalParameters($additional_params);
+
+		return $this;
 	}
 
 
@@ -476,7 +494,7 @@ class ActiveRecordList {
 				 * @var $obj ActiveRecord
 				 */
 				$class = get_class($this->getAR());
-				$obj = new $class();
+				$obj = arFactory::getInstance($class, NULL, $this->getAddidtionalParameters());
 				$primaryFieldName = $obj->getArFieldList()->getPrimaryFieldName();
 				$primary_field_value = $res[$primaryFieldName];
 				$this->result[$primary_field_value] = $obj->buildFromArray($res);
@@ -564,6 +582,22 @@ class ActiveRecordList {
 	 */
 	public static function getLastQuery() {
 		return self::$last_query;
+	}
+
+
+	/**
+	 * @param array $addidtional_parameters
+	 */
+	public function setAddidtionalParameters($addidtional_parameters) {
+		$this->addidtional_parameters = $addidtional_parameters;
+	}
+
+
+	/**
+	 * @return array
+	 */
+	public function getAddidtionalParameters() {
+		return $this->addidtional_parameters;
 	}
 }
 
