@@ -156,6 +156,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		$abs_shorten_len->setSize(5);
 		$abs_shorten_len->setRequired(true);
 		$abs_shorten_len->setSuffix($lng->txt("blog_abstract_shorten_characters"));
+		$abs_shorten_len->setMinValue(50);
 		$abs_shorten->addSubItem($abs_shorten_len);
 		
 		$abs_img = new ilCheckboxInputGUI($lng->txt("blog_abstract_image"), "absi");
@@ -166,12 +167,14 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		$abs_img_width->setSize(5);
 		$abs_img_width->setRequired(true);
 		$abs_img_width->setSuffix($lng->txt("blog_abstract_image_pixels"));
+		$abs_img_width->setMinValue(32);
 		$abs_img->addSubItem($abs_img_width);
 		
 		$abs_img_height = new ilNumberInputGUI($lng->txt("blog_abstract_image_height"), "absih");
 		$abs_img_height->setSize(5);
 		$abs_img_height->setRequired(true);
 		$abs_img_height->setSuffix($lng->txt("blog_abstract_image_pixels"));
+		$abs_img_height->setMinValue(32);
 		$abs_img->addSubItem($abs_img_height);
 	}
 
@@ -187,11 +190,13 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		$a_values["font_color"] = $this->object->getFontColor();
 		$a_values["banner"] = $this->object->getImage();
 		$a_values["rss"] = $this->object->hasRSS();
-		$a_values["abss"] = $this->object->hasAbstractShorten();
-		$a_values["abssl"] = $this->object->getAbstractShortenLength();
+		$a_values["abss"] = $this->object->hasAbstractShorten();		
 		$a_values["absi"] = $this->object->hasAbstractImage();
-		$a_values["absiw"] = $this->object->getAbstractImageWidth();
-		$a_values["absih"] = $this->object->getAbstractImageHeight();
+		
+		// #13420
+		$a_values["abssl"] = $this->object->getAbstractShortenLength() ? $this->object->getAbstractShortenLength() : ilObjBlog::ABSTRACT_DEFAULT_SHORTEN_LENGTH;
+		$a_values["absiw"] = $this->object->getAbstractImageWidth() ? $this->object->getAbstractImageWidth() : ilObjBlog::ABSTRACT_DEFAULT_IMAGE_WIDTH;
+		$a_values["absih"] = $this->object->getAbstractImageHeight() ? $this->object->getAbstractImageHeight() : ilObjBlog::ABSTRACT_DEFAULT_IMAGE_HEIGHT;
 	}
 
 	protected function updateCustom(ilPropertyFormGUI $a_form)

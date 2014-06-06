@@ -23,10 +23,14 @@ class ilObjBlog extends ilObject2
 	protected $approval; // [bool]
 	protected $style; // [bool]
 	protected $abstract_shorten = false; // [bool]
-	protected $abstract_shorten_length = 500; // [int]
+	protected $abstract_shorten_length = self::ABSTRACT_DEFAULT_SHORTEN_LENGTH; // [int]
 	protected $abstract_image = false; // [bool]
-	protected $abstract_image_width = 144; // [int]
-	protected $abstract_image_height= 144; // [int]
+	protected $abstract_image_width = self::ABSTRACT_DEFAULT_IMAGE_WIDTH; // [int]
+	protected $abstract_image_height= self::ABSTRACT_DEFAULT_IMAGE_HEIGHT; // [int]
+	
+	const ABSTRACT_DEFAULT_SHORTEN_LENGTH = 500;
+	const ABSTRACT_DEFAULT_IMAGE_WIDTH = 144;
+	const ABSTRACT_DEFAULT_IMAGE_HEIGHT = 144;
 	
 	function initType()
 	{
