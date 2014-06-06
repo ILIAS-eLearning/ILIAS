@@ -25,6 +25,7 @@ class gevOrgUnitUtils {
 		$this->amd = gevAMDUtils::getInstance();
 		
 		$this->orgu_instance = null;
+		$this->orgu_type = false;
 	}
 	
 	public static function getInstance($a_orgu_id) {
@@ -110,80 +111,190 @@ class gevOrgUnitUtils {
 	}
 
 	public function getType() {
+		// this might be used a lot during setting of properties
+		if ($this->orgu_type !== false) {
+			return $this->orgu_type;
+		}
+		
 		$obj = $this->getOrgUnitInstance();
 		$type_id = $obj->getOrgUnitTypeId();
+		$this->orgu_type = null;
 		
-		foreach (gevSettings::ALL_ORG_TYPES as $org_type) {
+		foreach (gevSettings::$all_org_types as $org_type) {
 			if ($this->gev_set->get($org_type) == $type_id) {
-				return $org_type;
+				$this->orgu_type = $org_type;
 			}
 		}
 		
-		return null;
+		return $this->orgu_type;
+	}
+	
+	public function setType($a_type) {
+		$this->checkTypeValid("setType", $a_type);
+		
+		$type_id = $this->gev_set->get($a_type);
+		$this->getOrgUnitInstance()->setOrgUnitTypeId($type_id);
+		$this->orgu_type = $a_type;
+	}
+	
+	public function checkTypeValid($a_caller, $a_type = null) {
+		if ($a_type === null) {
+			$a_type = $this->getType();
+		}
+		
+		if ( ! in_array($a_type, gevSettings::$all_org_types) ) {
+			throw new Exception("gevOrgUnitUtils::".$a_caller.": unknown type '".$a_type."'");
+		}
+	}
+	
+	public function checkIsVenue($a_caller) {
+		if ($this->getType() !== $this->gev_set->get(gevSettings::ORG_TYPE_VENUE)) {
+			throw new Exception("gevOrgUnitUtils::".$a_caller.": orgunit '".$this->orgu_id."' is no venue.");
+		}
 	}
 	
 	public function getStreet() {
 		return $this->amd->getField($this->orgu_id, gevSettings::ORG_AMD_STREET);
 	}
 	
+	public function setStreet($a_street) {
+		$this->checkTypeValid("setStreet");
+		$this->amd->setField($this->orgu_id, gevSettings::ORG_AMD_STREET, $a_street);
+	}
+	
 	public function getHouseNumber() {
 		return $this->amd->getField($this->orgu_id, gevSettings::ORG_AMD_HOUSE_NUMBER);
+	}
+	
+	public function setHouseNumber($a_house_number) {
+		$this->checkTypeValid("setHouseNumber");
+		$this->amd->setField($this->orgu_id, gevSettings::ORG_AMD_HOUSE_NUMBER, $a_house_number);
 	}
 	
 	public function getZipcode() {
 		return $this->amd->getField($this->orgu_id, gevSettings::ORG_AMD_ZIPCODE);
 	}
 	
+	public function setZipcode($a_zipcode) {
+		$this->checkTypeValid("setZipcode");
+		$this->amd->setField($this->orgu_id, gevSettings::ORG_AMD_ZIPCODE, $a_zipcode);
+	}
+	
 	public function getCity() {
 		return $this->amd->getField($this->orgu_id, gevSettings::ORG_AMD_CITY);
+	}
+	
+	public function setCity($a_city) {
+		$this->checkTypeValid("setCity");
+		$this->amd->setField($this->orgu_id, gevSettings::ORG_AMD_CITY, $a_city);
 	}
 	
 	public function getContactName() {
 		return $this->amd->getField($this->orgu_id, gevSettings::ORG_AMD_CONTACT_NAME);
 	}
 	
+	public function setContactName($a_name) {
+		$this->checkTypeValid("setContactName");
+		$this->amd->setField($this->orgu_id, gevSettings::ORG_AMD_CONTACT_NAME, $a_name);
+	}
+	
 	public function getContactPhone() {
 		return $this->amd->getField($this->orgu_id, gevSettings::ORG_AMD_CONTACT_PHONE);
+	}
+	
+	public function setContactPhone($a_phone) {
+		$this->checkTypeValid("setContactPhone");
+		$this->amd->setField($this->orgu_id, gevSettings::ORG_AMD_CONTACT_PHONE);
 	}
 	
 	public function getContactFax() {
 		return $this->amd->getField($this->orgu_id, gevSettings::ORG_AMD_CONTACT_FAX);
 	}
 	
+	public function setContactFax($a_fax) {
+		$this->checkTypeValid("setContactFax");
+		$this->amd->setField($this->orgu_id, gevSettings::ORG_AMD_CONTACT_FAX, $a_fax);
+	}
+	
 	public function getContactEmail() {
 		return $this->amd->getField($this->orgu_id, gevSettings::ORG_AMD_CONTACT_EMAIL);
+	}
+	
+	public function setContactEmail($a_email) {
+		$this->checkTypeValid("setContactEmail");
+		$this->amd->setField($this->orgu_id, gevSettings::ORG_AMD_CONTACT_EMAIL, $a_email);
 	}
 	
 	public function getHomepage() {
 		return $this->amd->getField($this->orgu_id, gevSettings::ORG_AMD_HOMEPAGE);
 	}
 	
+	public function setHomepage($a_homepage) {
+		$this->checkTypeValid("setHomepage");
+		$this->amd->setField($this->orgu_id, gevSettings::ORG_AMD_HOMEPAGE, $a_homepage);
+	}
+	
 	public function getLocation() {
 		return $this->amd->getField($this->orgu_id, gevSettings::ORG_AMD_LOCATION);
+	}
+	
+	public function setLocation($a_loc) {
+		$this->checkIsVenue("setLocation");
+		$this->amd->setField($this->orgu_id, gevSettings::ORG_AMD_LOCATION, $a_loc);
 	}
 	
 	public function getCostsPerAccomodation() {
 		return $this->amd->getField($this->orgu_id, gevSettings::ORG_AMD_COSTS_PER_ACCOM);
 	}
 	
+	public function setCostsPerAccomodation($a_costs) {
+		$this->checkIsVenue("setCostsPerAccomodation");
+		$this->amd->setField($this->orgu_id, gevSettings::ORG_AMD_COSTS_PER_ACCOM, $a_costs);
+	}
+	
 	public function getCostsPerBreakfast() {
 		return $this->amd->getField($this->orgu_id, gevSettings::ORG_AMD_COSTS_BREAKFAST);
+	}
+	
+	public function setCostsPerBreakfast($a_costs) {
+		$this->checkIsVenue("setCostsPerBreakfast");
+		$this->amd->setField($this->orgu_id, gevSettings::ORG_AMD_COSTS_BREAKFAST, $a_costs);
 	}
 	
 	public function getCostsPerLunch() {
 		return $this->amd->getField($this->orgu_id, gevSettings::ORG_AMD_COSTS_LUNCH);
 	}
 	
+	public function setCostsPerLunch($a_costs) {
+		$this->checkIsVenue("setCostsPerLunch");
+		$this->amd->setField($this->orgu_id, gevSettings::ORG_AMD_COSTS_LUNCH, $a_costs);
+	}
+	
 	public function getCostsPerCoffee() {
 		return $this->amd->getField($this->orgu_id, gevSettings::ORG_AMD_COSTS_COFFEE);
+	}
+	
+	public function setCostsPerCoffee($a_costs) {
+		$this->checkIsVenue("setCostsPerCoffee");
+		$this->amd->setField($this->orgu_id, gevSettings::ORG_AMD_COSTS_PER_COFFEE);
 	}
 	
 	public function getCostsPerDinner() {
 		return $this->amd->getField($this->orgu_id, gevSettings::ORG_AMD_COSTS_PER_DINNER);
 	}
 	
+	public function setCostsPerDinner($a_costs) {
+		$this->checkIsVenue("setCostsPerDinner");
+		$this->amd->setField($this->orgu_id, gevSettings::ORG_AMD_COSTS_PER_DINNER, $a_costs);
+	}
+	
 	public function getCostsPerDailyCatering() {
 		return $this->amd->getField($this->orgu_id, gevSettings::ORG_AMD_COSTS_FOOD);
+	}
+	
+	public function setCostsPerDailyCatering($a_costs) {
+		$this->checkIsVenue("setCostsPerDailyCatering");
+		$this->amd->setField($this->orgu_id, gevSettings::ORG_AMD_COSTS_FOOD, $a_costs);
 	}
 }
 
