@@ -59,6 +59,7 @@ input[type="submit"], input[type="button"] {
 	border-collapse: collapse;
 	border-spacing: 0px;
 	border: 1px solid gray;
+	font-weight: bold;
 	vertical-align: top;
 }
 
