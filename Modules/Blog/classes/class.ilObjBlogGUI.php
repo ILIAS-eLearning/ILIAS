@@ -459,6 +459,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				include_once("./Services/Export/classes/class.ilExportGUI.php");
 				$exp_gui = new ilExportGUI($this); 
 				$exp_gui->addFormat("xml");
+				$exp_gui->addFormat("html", null, $this, "buildExportFile"); // #13419
 				$ret = $ilCtrl->forwardCommand($exp_gui);
 				break;
 			
