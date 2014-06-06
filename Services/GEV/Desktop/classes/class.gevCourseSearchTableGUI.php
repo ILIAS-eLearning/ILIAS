@@ -33,20 +33,22 @@ class gevCourseSearchTableGUI extends catAccordionTableGUI {
 		$this->setEnableTitle(true);
 		$this->setTopCommands(false);
 		$this->setEnableHeader(true);
-		//$this->setExternalSorting(true);
-		//$this->determineOffsetAndOrder();
+		$this->setExternalSorting(true);
+		$this->setExternalSegmentation(true);
+		$this->setMaxCount(count($user_util->getPotentiallyBookableCourseIds()));
+		$this->determineOffsetAndOrder();
 		
 		$this->setRowTemplate("tpl.gev_course_search_row.html", "Services/GEV/Desktop");
 		
 		$this->addColumn("", "expand", "20px");
 		$this->addColumn($this->lng->txt("title"), "title");
-		$this->addColumn($this->lng->txt("status"), "status");
+		$this->addColumn($this->lng->txt("status"));
 		$this->addColumn($this->lng->txt("gev_learning_type"), "type");
 		$this->addColumn($this->lng->txt("gev_location"), "location");
 		$this->addColumn($this->lng->txt("date"), "date");
 		$this->addColumn($this->lng->txt("gev_points"), "points");
 		$this->addColumn("&euro;", "fee");
-		$this->addColumn('<img src="'.ilUtil::getImagePath("gev_action.png").'" />', "actions", "20px");
+		$this->addColumn('<img src="'.ilUtil::getImagePath("gev_action.png").'" />', "", "20px");
 
 		$this->book_img = '<img src="'.ilUtil::getImagePath("gev_booked_action.png").'" />';
 		$this->bookable_img = '<img src="'.ilUtil::getImagePath("gev_bookable_icon.png").'" />';
@@ -59,8 +61,23 @@ class gevCourseSearchTableGUI extends catAccordionTableGUI {
 			   ->addItem($this->bookable_waiting_img, "gev_bookable_waiting")
 			   ->addItem($this->not_bookable_img, "gev_not_bookable");
 		$this->setLegend($legend);
+		
+		$order = $this->getOrderField();
+		if ($order == "status") {
+			// TODO: This will not make the user happy.
+			$order = "title";
+		}
+		if ($order == "date") {
+			$order = $start_date;
+		}
+		
 
-		$this->setData($user_util->getPotentiallyBookableCourseInformation());
+		$this->setData($user_util->getPotentiallyBookableCourseInformation(
+										$this->getOffset(),
+										$this->getLimit(),
+										$order,
+										$this->getOrderDirection()
+					   ));
 	}
 	
 	protected function fillRow($a_set) {
@@ -95,7 +112,7 @@ class gevCourseSearchTableGUI extends catAccordionTableGUI {
 		$this->tpl->setVariable("TYPE", $a_set["type"]);
 		$this->tpl->setVariable("LOCATION", $a_set["location"]);
 		$this->tpl->setVariable("DATE", $date);
-		$this->tpl->setVariable("POINTS", $a_set["credit_points"]);
+		$this->tpl->setVariable("POINTS", $a_set["points"]);
 		$this->tpl->setVariable("FEE", $a_set["fee"]);
 		$this->tpl->setVariable("ACTIONS", $action);
 		$this->tpl->setVariable("TARGET_GROUP", $a_set["target_group"]);

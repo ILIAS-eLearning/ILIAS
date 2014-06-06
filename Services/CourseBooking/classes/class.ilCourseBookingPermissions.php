@@ -251,6 +251,7 @@ class ilCourseBookingPermissions
 	{
 		global $ilAccess;
 		
+		
 		return $ilAccess->checkAccessOfUser($this->getUserId(), "book_users", "", $this->getCourseId());
 	}
 	
@@ -271,7 +272,18 @@ class ilCourseBookingPermissions
 				return $this->bookCourseForSelf();
 			}
 			
-			if($this->bookCourseForOthers())
+			include_once "Services/CourseBooking/classes/class.ilCourseBookingHelper.php";		
+			$crs = $this->getCourse();		
+			if(!$crs instanceof ilObjCourse)
+			{		
+				$helper = ilCourseBookingHelper::getInstanceByRefId($this->getCourseId());
+			}
+			else
+			{
+				$helper = ilCourseBookingHelper::getInstance($crs);
+			}
+				
+			if($this->bookCourseForOthers() && $helper->isBookable($a_user_id))
 			{
 				return true;
 			}

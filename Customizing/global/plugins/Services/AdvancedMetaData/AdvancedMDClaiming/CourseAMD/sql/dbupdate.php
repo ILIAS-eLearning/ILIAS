@@ -151,13 +151,17 @@ array( "Inhalte"
 	 	   					 , null
 	 	   					 , true
 	 	   					 , null
-	 	   					 , $tdate)
+	 	   					 , $tdate
+	 	   					 // if this is changed, gevUserUtils::getPotentiallyBookableCourses
+				 			 // needs to be changed as well!!
+	 	   					 )
 	 	   		, "Enddatum" =>
 	 	   				array( gevSettings::CRS_AMD_END_DATE
 	 	   					 , null
 	 	   					 , true
 	 	   					 , null
-	 	   					 , $tdate)
+	 	   					 , $tdate
+	 	   					 )
 
 	 	   		))
 	 , "Bewertung"

@@ -63,7 +63,7 @@ class gevAMDUtils {
 		}
 	}
 	
-	public function getTable($a_objs, $a_amd_settings) {
+	public function getTable($a_objs, $a_amd_settings, $a_additional_fields = array(), $a_additional_joins = array(), $a_additional_where = "") {
 		if (count($a_objs) == 0) {
 			return array();
 		}
@@ -72,10 +72,10 @@ class gevAMDUtils {
 		$types = $this->getFieldTypes($field_ids);
 		$query_parts = gevAMDUtils::makeQueryParts($field_ids, $types, array_values($a_amd_settings));
 		
-		$query = "SELECT od.obj_id, od.title, ".implode(", ", $query_parts[0])."\n".
+		$query = "SELECT od.obj_id, od.title, ".implode(", ", array_merge($query_parts[0], $a_additional_fields))."\n".
 				 "  FROM object_data od\n".
-				 implode("\n", $query_parts[1])."\n".
-				 "WHERE ".$this->db->in("od.obj_id", $a_objs, false, "integer");
+				 implode("\n", array_merge($query_parts[1], $a_additional_joins))."\n".
+				 "WHERE ".$this->db->in("od.obj_id", $a_objs, false, "integer")." ".$a_additional_where;
 
 		//die($query);	
 		$res = $this->db->query($query);

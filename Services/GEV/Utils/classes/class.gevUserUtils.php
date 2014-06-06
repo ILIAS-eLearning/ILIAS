@@ -22,11 +22,15 @@ class gevUserUtils {
 
 	protected function __construct($a_user_id) {
 		global $ilDB;
+		global $ilAccess;
 		
 		$this->user_id = $a_user_id;
 		$this->courseBookings = ilUserCourseBookings::getInstance($a_user_id);
 		$this->gev_set = gevSettings::getInstance();
 		$this->db = &$ilDB;
+		$this->access = &$ilAccess;
+		
+		$this->potentiallyBookableCourses = null;
 	}
 	
 	static public function getInstance($a_user_id) {
@@ -101,36 +105,71 @@ class gevUserUtils {
 		return array_merge($booked_amd, $waiting_amd);
 	}
 	
-	public function getPotentiallyBookableCourseInformation() {
-		require_once("Modules/Course/classes/class.ilObjCourse.php");
-		require_once("Services/CourseBooking/classes/class.ilCourseBookings.php");
-		
-		//echo $a_offset." ".$a_order."<br />";
+	public function getPotentiallyBookableCourseIds() {
+		if ($this->potentiallyBookableCourses !== null) {
+			return $this->potentiallyBookableCourses;
+		}
 		
 		$is_tmplt_field_id = $this->gev_set->getAMDFieldId(gevSettings::CRS_AMD_IS_TEMPLATE);
+		$start_date_field_id = $this->gev_set->getAMDFieldId(gevSettings::CRS_AMD_START_DATE);
 		
-		// TODO: Implement that properly
+		// try to narrow down the set as much as possible to avoid permission checks
 		$query = "SELECT DISTINCT cs.obj_id ".
 				 " FROM crs_settings cs".
 				 " LEFT JOIN object_reference oref".
 				 "   ON cs.obj_id = oref.obj_id".
 				 // this is knowledge from the course amd plugin!
-				 " LEFT JOIN adv_md_values_text amd".
-				 "   ON cs.obj_id = amd.obj_id ".
-				 "   AND amd.field_id = ".$this->db->quote($is_tmplt_field_id, "integer").
+				 " LEFT JOIN adv_md_values_text amd1".
+				 "   ON cs.obj_id = amd1.obj_id ".
+				 "   AND amd1.field_id = ".$this->db->quote($is_tmplt_field_id, "integer").
+				 // this is knowledge from the course amd plugin
+				 " LEFT JOIN adv_md_values_date amd2".
+				 "   ON cs.obj_id = amd2.obj_id ".
+				 "   AND amd2.field_id = ".$this->db->quote($start_date_field_id, "integer").
 				 " WHERE cs.activation_type = 1".
 				 "   AND cs.activation_start < ".time().
 				 "   AND cs.activation_end > ".time().
 				 "   AND oref.deleted IS NULL".
-				 "   AND amd.value = ".$this->db->quote("Nein", "text").
+				 "   AND amd1.value = ".$this->db->quote("Nein", "text").
+				 "   AND ( amd2.value > ".$this->db->quote(date("Y-m-d"), "date").
+				 "       OR amd2.value IS NULL ".
+				 "       )".
 				 "";
 		
 		$res = $this->db->query($query);
 		
 		$crss = array();
 		while($val = $this->db->fetchAssoc($res)) {
-			$crss[] = $val["obj_id"];
+			if (gevObjectUtils::checkAccessOfUser($this->user_id, "view",  "", $val["obj_id"], "crs")) {
+				$crss[] = $val["obj_id"];
+			}
 		}
+		
+		$this->potentiallyBookableCourses = $crss;
+		return $crss;
+	}
+	
+	public function getPotentiallyBookableCourseInformation($a_offset, $a_limit, $a_order = "title", $a_direction = "desc") {
+		require_once("Modules/Course/classes/class.ilObjCourse.php");
+		require_once("Services/CourseBooking/classes/class.ilCourseBookings.php");
+		require_once("Services/CourseBooking/classes/class.ilCourseBookingPermissions.php");
+		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+
+		if ($a_order == "") {
+			$a_order = "title";
+		}
+		
+		if (!in_array($a_order, array("title", "start_date", "end_date", "booking_date", "location"
+									 , "points", "fee", "target_group", "goals", "content", "type"))) 
+		{
+			throw new Exception("gevUserUtils::getPotentiallyBookableCourseInformation: unknown order '".$a_order."'");
+		}
+		
+		if ($a_direction !== "asc" && $a_direction !== "desc") {
+			throw new Exception("gevUserUtils::getPotentiallyBookableCourseInformation: unknown direction '".$a_direction."'");
+		}
+		
+		$crss = $this->getPotentiallyBookableCourseIds();
 		
 		$crs_amd = 
 			array( gevSettings::CRS_AMD_START_DATE			=> "start_date"
@@ -140,25 +179,30 @@ class gevUserUtils {
 				 //, gevSettings::CRS_AMD_START_DATE => "status"
 				 , gevSettings::CRS_AMD_TYPE 				=> "type"
 				 , gevSettings::CRS_AMD_VENUE 				=> "location"
-				 , gevSettings::CRS_AMD_CREDIT_POINTS 		=> "credit_points"
+				 , gevSettings::CRS_AMD_CREDIT_POINTS 		=> "points"
 				 , gevSettings::CRS_AMD_FEE					=> "fee"
 				 , gevSettings::CRS_AMD_TARGET_GROUP_DESC	=> "target_group"
 				 , gevSettings::CRS_AMD_GOALS 				=> "goals"
 				 , gevSettings::CRS_AMD_CONTENTS 			=> "content"
 			);
 		
-		$info = gevAMDUtils::getInstance()->getTable($crss, $crs_amd);
+		$info = gevAMDUtils::getInstance()->getTable($crss, $crs_amd, array(), array(),
+													 "ORDER BY ".$a_order." ".$a_direction." ".
+													 " LIMIT ".$a_limit." OFFSET ".$a_offset);
+
+		global $ilUser;
+
 		foreach ($info as $key => $value) {
 			// TODO: This surely could be tweaked to be faster if there was no need
 			// to instantiate the course to get booking information about it.
 			$crs = new ilObjCourse($info["obj_id"], false);
 			$crs_booking = ilCourseBookings::getInstance($crs);
-			$crs_booking_helper = ilCourseBookingHelper::getInstance($crs);
+			$crs_booking_perms = ilCourseBookingPermissions::getInstance($crs);
 			
 			$info[$key]["booking_date"] = gevCourseUtils::mkDeadlineDate( $info[$key]["start_date"]
-																   , $info[$key]["booking_date"]
-																   );
-			$info[$key]["bookable"] = $crs_booking_helper->isBookable($this->user_id);
+																		, $info[$key]["booking_date"]
+																		);
+			$info[$key]["bookable"] = $crs_booking_perms->bookCourseForUser($this->user_id);
 			$info[$key]["free_places"] = $crs_booking->getFreePlaces();
 		}
 
