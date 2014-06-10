@@ -768,7 +768,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		if((int)$grp_ref_id > 0 || (int)$crs_ref_id > 0 )
 		{
 			#show member-tab for notification if forum-notification is enabled in administration
-			if($ilAccess->checkAccess('edit_permission', '', $this->ref_id) && $this->ilias->getSetting('forum_notification') == 1 )
+			if($ilAccess->checkAccess('edit_permission', '', $this->ref_id) && $this->ilias->getSetting('forum_notification') > 0)
 			{
 				$mem_active = array('showMembers', 'forums_notification_settings');
 				(in_array($_GET['cmd'],$mem_active)) ? $force_mem_active = true : $force_mem_active = false;
