@@ -248,9 +248,9 @@ class ilDataCollectionTable
 			.",".$ilDB->quote($this->getLimitEnd(), "timestamp")
 			.",".$ilDB->quote($this->getIsVisible()?1:0, "integer")
 			.",".$ilDB->quote($this->getExportEnabled()?1:0, "integer")
-            .",".$ilDB->quote($this->getDescription(), "text")
             .",".$ilDB->quote($this->getDefaultSortField(), "text")
             .",".$ilDB->quote($this->getDefaultSortFieldOrder(), "text")
+            .",".$ilDB->quote($this->getDescription(), "text")
             .",".$ilDB->quote($this->getPublicCommentsEnabled(), "integer")
             .",".$ilDB->quote($this->getViewOwnRecordsPerm(), "integer")
 			.")";
