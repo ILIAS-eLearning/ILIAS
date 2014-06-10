@@ -20,23 +20,26 @@ require_once("Services/CaTUIComponents/classes/class.catLegendGUI.php");
 class gevCoursesTableGUI extends catAccordionTableGUI {
 	public function __construct($a_user_id, $a_parent_obj, $a_parent_cmd="", $a_template_context="") {
 		parent::__construct($a_parent_obj, $a_parent_cmd, $a_template_context);
-		
+
 		global $ilCtrl, $lng;
-		
+
 		$this->lng = &$lng;
 		$this->ctrl = &$ilCtrl;
-		
+
 		$user_util = gevUserUtils::getInstance($a_user_id);
 		$this->user_id = $a_user_id;
-		
+
 		$this->setEnableTitle(true);
 		$this->setTitle("gev_my_courses");
 		$this->setSubtitle("gev_my_courses_desc");
+		$this->setImage("GEV_img/ico-head-my-training-deployments.png");
+
+
 		$this->setTopCommands(false);
 		$this->setEnableHeader(true);
-		
+
 		$this->setRowTemplate("tpl.gev_my_courses_row.html", "Services/GEV/Desktop");
-		
+
 		$this->addColumn("", "expand", "20px");
 		$this->addColumn($this->lng->txt("title"), "title");
 		$this->addColumn($this->lng->txt("status"), "status");
@@ -50,7 +53,7 @@ class gevCoursesTableGUI extends catAccordionTableGUI {
 		$this->cancel_img = '<img src="'.ilUtil::getImagePath("gev_cancel_action.png").'" />';
 		$this->booked_img = '<img src="'.ilUtil::getImagePath("gev_booked_icon.png").'" />';
 		$this->waiting_img = '<img src="'.ilUtil::getImagePath("gev_waiting_icon.png").'" />';
-		
+
 		$legend = new catLegendGUI();
 		$legend->addItem($this->cancel_img, "gev_cancel_training")
 			   ->addItem($this->booked_img, "gev_booked")
@@ -59,26 +62,26 @@ class gevCoursesTableGUI extends catAccordionTableGUI {
 
 		$this->setData($user_util->getBookedAndWaitingCourseInformation());
 	}
-	
+
 	protected function fillRow($a_set) {
 		$this->tpl->setVariable("ACCORDION_BUTTON_CLASS", $this->getAccordionButtonExpanderClass());
 		$this->tpl->setVariable("ACCORDION_ROW", $this->getAccordionRowClass());
 		$this->tpl->setVariable("COLSPAN", $this->getColspan());
-		
+
 		if ($a_set["start_date"] == null ) {
 			$date = $this->lng->txt("gev_table_no_entry");
 		}
 		else {
 			$date = ilDatePresentation::formatPeriod($a_set["start_date"], $a_set["end_date"]);
 		}
-		
+
 		if ($a_set["cancel_date"] == null) {
 			$cancel_date = $this->lng->txt("gev_unlimited");
 		}
 		else {
 			$cancel_date = ilDatePresentation::formatDate($a_set["cancel_date"]);
 		}
-		
+
 		if ($a_set["status"] == ilCourseBooking::STATUS_BOOKED) {
 			$status = $this->booked_img;
 		}
@@ -88,10 +91,10 @@ class gevCoursesTableGUI extends catAccordionTableGUI {
 		else {
 			$status = "";
 		}
-		
+
 		$action = '<a href="'.gevCourseUtils::getCancelLinkTo($a_set["obj_id"], $this->user_id).'">'.
 				  $this->cancel_img."</a>";
-		
+
 		$this->tpl->setVariable("TITLE", $a_set["title"]);
 		$this->tpl->setVariable("STATUS", $status);
 		$this->tpl->setVariable("TYPE", $a_set["type"]);
@@ -105,6 +108,8 @@ class gevCoursesTableGUI extends catAccordionTableGUI {
 		$this->tpl->setVariable("CONTENTS", $a_set["contents"]);
 		$this->tpl->setVariable("CRS_LINK", gevCourseUtils::getLinkTo($a_set["obj_id"]));
 		$this->tpl->setVariable("CANCEL_DATE", $cancel_date);
+
+
 	}
 }
 

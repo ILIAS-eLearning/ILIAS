@@ -17,7 +17,7 @@ require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 class gevCourseHighlightsGUI {
 	public function __construct($a_target_user_id = null) {
 		global $lng, $ilCtrl, $ilUser;
-		
+
 		$this->lng = &$lng;
 		$this->ctrl = &$ilCtrl;
 		$this->user_id = $ilUser->getId();
@@ -28,20 +28,20 @@ class gevCourseHighlightsGUI {
 		else {
 			$this->target_user_id = $a_target_user_id;
 		}
-		
+
 		$this->hl_slider = new gevCourseHighlightsSliderGUI($this->target_user_id);
 	}
-	
+
 	public function countHighlights() {
 		return $this->hl_slider->countHighlights();
 	}
-	
+
 	public function render() {
 		if ($this->target_user_id == $this->user_id) {
-			$hl_title = new catTitleGUI("gev_highlights", "gev_my_highlights_desc", "gev_highlights_header.png");
+			$hl_title = new catTitleGUI("gev_highlights", "gev_my_highlights_desc", "GEV_img/ico-head-hightlights.png");
 		}
 		else {
-			$hl_title = new catTitleGUI("gev_highlights", "gev_theirs_highlights_desc", "gev_highlights_header.png");
+			$hl_title = new catTitleGUI("gev_highlights", "gev_theirs_highlights_desc", "GEV_img/ico-head-hightlights.png");
 		}
 
 		return 	  $hl_title->render()
