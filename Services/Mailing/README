@@ -1,0 +1,45 @@
+The Mailing service aims at adding additional mailing capabilities to ILIAS-objects.
+
+It brings the following features:
+
+* Have attachments for mails available for the ilias object. Add, remove and view
+  and view those attachments.
+* Have an overview over all mails that are send automatically for that object. See
+  when they will be send, when they were sent the last time. Preview that mails and
+  send them to some of the designated recipients manually.
+* View a log of the mails that were sent regarding the ilias-object.
+
+
+Architecture
+
+The central object is the ilMailingGUI-object. It builds the "Mailing"-tab, which
+could be attached to an ObjectGUI. The class is abstract to customize its behaviour
+for different ILIAS-objects.
+
+It owns objects for managing the automails, the maillog and the attachments, where
+subclass can init those objects.
+
+Objects of the ilAutoMails class manage the auto mails, where an auto mail is
+represented by an ilAutoMail-object. The automails available for an object can
+be determined in a subclass of ilMailingGUI by initializing an appropriate
+ilAutoMails-object. ilAutoMails is also responsible for creating instances of
+the ilAutoMail-classes it manages.
+
+Objects of the ilMailAttachments class manage the attachments at an object. They
+support adding and removing of attachments. You can as well retreive a list of the
+available attachments and check, weather a filename is an attachment managed by
+the object. To prevent deleting of attachments that are used in some automail
+you can lock and unlock an attachment and check, weather a file is locked as well.
+
+Objects of the ilMailLog class are used to log mails occured at a specific object.
+They log the complete content and the attachments. To store the logged attachments
+an ilMailStorage object is used. That objects store files with a name according
+to the md5 hash of the file to not store multiple copies of the same file.
+
+
+Caveats
+
+This first approach to a generic mailing functionality only supports sending emails
+via ilMimeMail. It is not aware of the ILIAS-internal mailing system. It also does not
+implement the mail to members tab by itself, since atm it is used for courses, where
+a mail to members tab already exists.
