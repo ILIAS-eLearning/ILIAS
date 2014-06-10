@@ -31,6 +31,7 @@ class arField {
 			arFieldList::IS_NOTNULL,
 			arFieldList::IS_PRIMARY,
 			arFieldList::IS_UNIQUE,
+			arFieldList::SEQUENCE,
 		),
 		self::FIELD_TYPE_FLOAT => array(
 			arFieldList::IS_NOTNULL,
@@ -146,6 +147,14 @@ class arField {
 	 * @var bool
 	 */
 	protected $has_field = false;
+	/**
+	 * @var bool
+	 */
+	protected $sequence = false;
+	/**
+	 * @var bool
+	 */
+	protected $index = false;
 
 
 	/**
@@ -257,6 +266,38 @@ class arField {
 	 */
 	public function getUnique() {
 		return $this->unique;
+	}
+
+
+	/**
+	 * @param boolean $sequence
+	 */
+	public function setSequence($sequence) {
+		$this->sequence = $sequence;
+	}
+
+
+	/**
+	 * @return boolean
+	 */
+	public function getSequence() {
+		return $this->sequence;
+	}
+
+
+	/**
+	 * @param boolean $index
+	 */
+	public function setIndex($index) {
+		$this->index = $index;
+	}
+
+
+	/**
+	 * @return boolean
+	 */
+	public function getIndex() {
+		return $this->index;
 	}
 
 

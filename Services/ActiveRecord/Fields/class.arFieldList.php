@@ -16,6 +16,8 @@ class arFieldList {
 	const IS_NOTNULL = 'is_notnull';
 	const FIELDTYPE = 'fieldtype';
 	const LENGTH = 'length';
+	const SEQUENCE = 'sequence';
+	const INDEX = 'index';
 	/**
 	 * @var array
 	 */
@@ -33,6 +35,8 @@ class arFieldList {
 		self::IS_NOTNULL,
 		self::FIELDTYPE,
 		self::LENGTH,
+		self::SEQUENCE,
+		self::INDEX,
 	);
 	/**
 	 * @var array
@@ -46,6 +50,10 @@ class arFieldList {
 	 * @var arField
 	 */
 	protected $primary_field;
+	/**
+	 * @var array
+	 */
+	protected $primary_fields = array();
 	/**
 	 * @var array
 	 */
@@ -110,6 +118,7 @@ class arFieldList {
 	/**
 	 * @param ActiveRecord $ar
 	 *
+	 * @deprecated
 	 * @return \arFieldList
 	 */
 	public static function getInstanceFromStorage($ar) {
@@ -302,6 +311,22 @@ class arFieldList {
 	 */
 	public function getRawFields() {
 		return $this->raw_fields;
+	}
+
+
+	/**
+	 * @param array $primary_fields
+	 */
+	public function setPrimaryFields($primary_fields) {
+		$this->primary_fields = $primary_fields;
+	}
+
+
+	/**
+	 * @return array
+	 */
+	public function getPrimaryFields() {
+		return $this->primary_fields;
 	}
 }
 

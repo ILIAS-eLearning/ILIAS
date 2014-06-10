@@ -492,6 +492,12 @@ abstract class ActiveRecord implements arStorageInterface {
 	//
 	// Collection
 	//
+	/**
+	 * @return ActiveRecord[]
+	 */
+	public static function preloadObjects() {
+		return self::get();
+	}
 
 	/**
 	 * @param array $additional_params
@@ -723,6 +729,7 @@ abstract class ActiveRecord implements arStorageInterface {
 
 	/**
 	 * @return ActiveRecordList
+	 * @deprecated
 	 */
 	public static function getFirstFromLastQuery() {
 		$srModelObjectList = new ActiveRecordList(self::getCalledClass());

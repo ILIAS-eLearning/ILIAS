@@ -54,14 +54,15 @@ class arConnectorDB extends arConnector {
 		if ($arFieldList->getPrimaryField()->getName()) {
 			$ilDB->addPrimaryKey($ar->getConnectorContainerName(), array( $arFieldList->getPrimaryField()->getName() ));
 		}
-		if ($arFieldList->getPrimaryField()->getFieldType() === 'integer') {
+		if ($arFieldList->getPrimaryField()->getFieldType() === 'integer' AND $arFieldList->getPrimaryField()->getSequence() === 'true') {
 			$ilDB->createSequence($ar->getConnectorContainerName());
-		} else {
-			/**
-			 * @var ilDB $ilDB
-			 */
-			// $ilDB->addFulltextIndex() FSX TODO
 		}
+
+//		foreach ($arFieldList->getFields() as $arField) {
+//			if($arField->getInde() === 'true') {
+//
+//			}
+//		}
 
 		return true;
 	}

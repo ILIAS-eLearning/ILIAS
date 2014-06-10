@@ -391,6 +391,7 @@ class ActiveRecordList {
 
 	/**
 	 * @return ActiveRecord
+	 * @deprecated
 	 */
 	public function getFirstFromLastQuery() {
 		$this->loadLastQuery();
@@ -521,6 +522,9 @@ class ActiveRecordList {
 	}
 
 
+	/**
+	 * @deprecated
+	 */
 	protected function loadLastQuery() {
 		// $this->readFromDb(self::$last_query);
 	}
