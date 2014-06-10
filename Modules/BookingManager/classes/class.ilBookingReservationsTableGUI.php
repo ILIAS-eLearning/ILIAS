@@ -61,14 +61,14 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 			$this->addColumn($this->lng->txt("book_no_of_objects"), "counter");
 			
 			$this->setDefaultOrderField("date");
-			$this->setDefaultOrderDirection("DESC");
+			$this->setDefaultOrderDirection("desc");
 		}
 		else
 		{						
 			$this->addColumn($this->lng->txt("status"), "status");
 			
 			$this->setDefaultOrderField("title");
-			$this->setDefaultOrderDirection("ASC");
+			$this->setDefaultOrderDirection("asc");
 		}
 								
 		$this->addColumn($this->lng->txt("user"), "user_name");
