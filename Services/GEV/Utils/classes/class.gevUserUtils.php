@@ -55,16 +55,70 @@ class gevUserUtils {
 	}
 	
 	public function getCourseHighlights() {
-		// TODO: Implement that properly
-		$res = $this->db->query("SELECT obj_id ".
-								" FROM crs_settings ".
-								" WHERE activation_type = 1".
-								"   AND activation_start < ".time().
-								"   AND activation_end > ".time());
+		require_once("Modules/Course/classes/class.ilObjCourse.php");
+		require_once("Services/CourseBooking/classes/class.ilCourseBookings.php");
+		
+		$is_tmplt_field_id = $this->gev_set->getAMDFieldId(gevSettings::CRS_AMD_IS_TEMPLATE);
+		$start_date_field_id = $this->gev_set->getAMDFieldId(gevSettings::CRS_AMD_START_DATE);
+		$type_field_id = $this->gev_set->getAMDFieldId(gevSettings::CRS_AMD_TYPE);
+		$bk_deadl_field_id = $this->gev_set->getAMDFieldId(gevSettings::CRS_AMD_BOOKING_DEADLINE);
+		
+		$query = "SELECT DISTINCT cs.obj_id ".
+				 " FROM crs_settings cs".
+				 " LEFT JOIN object_reference oref".
+				 "   ON cs.obj_id = oref.obj_id".
+				 // this is knowledge from the course amd plugin!
+				 " LEFT JOIN adv_md_values_text tmplt".
+				 "   ON cs.obj_id = tmplt.obj_id ".
+				 "   AND tmplt.field_id = ".$this->db->quote($is_tmplt_field_id, "integer").
+				 // this is knowledge from the course amd plugin
+				 " LEFT JOIN adv_md_values_date start_date".
+				 "   ON cs.obj_id = start_date.obj_id ".
+				 "   AND start_date.field_id = ".$this->db->quote($start_date_field_id, "integer").
+				 // this is knowledge from the course amd plugin
+				 " LEFT JOIN adv_md_values_text ltype".
+				 "   ON cs.obj_id = ltype.obj_id ".
+				 "   AND ltype.field_id = ".$this->db->quote($type_field_id, "integer").
+				 " LEFT JOIN adv_md_values_int bk_deadl ".
+				 "   ON cs.obj_id = bk_deadl.obj_id ".
+				 "   AND bk_deadl.field_id = ".$this->db->quote($bk_deadl_field_id, "integer").
+				 " WHERE cs.activation_type = 1".
+				 "   AND cs.activation_start < ".time().
+				 "   AND cs.activation_end > ".time().
+				 "   AND oref.deleted IS NULL".
+				 "   AND tmplt.value = ".$this->db->quote("Nein", "text").
+				 "   AND start_date.value > ".$this->db->quote(date("Y-m-d"), "date").
+				 "   AND NOT start_date.value IS NULL ".
+				 // generali konzept "Trainingsbewerbung"
+				 "   AND (".
+				 "            (   ltype.value = ".$this->db->quote("Präsenztraining", "text").
+				 "            AND ADDDATE(start_date.value, -1 * bk_deadl.value) < ".
+				 			     $this->db->quote(date("Y-m-d", time() + 14 * 24 * 60 * 60), "date").
+				 "            )".
+				 "       OR   (   ltype.value = ".$this->db->quote("Webinar", "text").
+				 "            AND ADDDATE(start_date.value, -1 * bk_deadl.value) < ".
+				 				 $this->db->quote(date("Y-m-d", time() + 7 * 24 * 60 * 60), "date").
+				 "            )".
+				 "       )".
+				 "";
+
+		$res = $this->db->query($query);
+
 		$ret = array();
 		while($val = $this->db->fetchAssoc($res)) {
-			$ret[] = $val["obj_id"];
+			$crs = new ilObjCourse($val["obj_id"], false);
+			$crs_booking = ilCourseBookings::getInstance($crs);
+			
+			$crs_booking->getFreePlaces();
+			
+			// TODO: there need to be a check weather the user has met the preconditions here
+			// to.
+			if (gevObjectUtils::checkAccessOfUser($this->user_id, "view",  "", $val["obj_id"], "crs")
+			&& $crs_booking->getFreePlaces() > 4) {
+				$ret[] = $val["obj_id"];
+			}
 		}
+
 		return $ret;
 	}
 	
@@ -140,6 +194,8 @@ class gevUserUtils {
 		
 		$crss = array();
 		while($val = $this->db->fetchAssoc($res)) {
+			// TODO: there need to be a check whether the user has met the preconditions here
+			// too.
 			if (gevObjectUtils::checkAccessOfUser($this->user_id, "view",  "", $val["obj_id"], "crs")) {
 				$crss[] = $val["obj_id"];
 			}

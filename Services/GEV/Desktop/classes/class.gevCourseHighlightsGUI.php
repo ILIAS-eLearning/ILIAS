@@ -28,6 +28,12 @@ class gevCourseHighlightsGUI {
 		else {
 			$this->target_user_id = $a_target_user_id;
 		}
+		
+		$this->hl_slider = new gevCourseHighlightsSliderGUI($this->target_user_id);
+	}
+	
+	public function countHighlights() {
+		return $this->hl_slider->countHighlights();
 	}
 	
 	public function render() {
@@ -37,10 +43,9 @@ class gevCourseHighlightsGUI {
 		else {
 			$hl_title = new catTitleGUI("gev_highlights", "gev_theirs_highlights_desc", "gev_highlights_header.png");
 		}
-		$hl_slider = new gevCourseHighlightsSliderGUI($this->target_user_id);
 
 		return 	  $hl_title->render()
-				. $hl_slider->render();
+				. $this->hl_slider->render();
 	}
 }
 

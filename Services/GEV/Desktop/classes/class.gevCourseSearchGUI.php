@@ -68,8 +68,11 @@ class gevCourseSearchGUI {
 				->setCommand("gev_crs_srch_limit", "www.google.de"); // TODO: set this properly
 		
 		return $usrsel
-			 . $hls->render()
-			 . $spacer->render()
+			 . ( ($hls->countHighlights() > 0)
+			   ?   $hls->render()
+			 	 . $spacer->render()
+			   : ""
+			   )
 			 . $crs_tbl->getHTML()
 			 ;
 	}
