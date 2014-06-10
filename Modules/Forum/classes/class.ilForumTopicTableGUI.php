@@ -150,7 +150,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
 		{
 			// Multi commands
 			$this->addMultiCommand('', $this->lng->txt('please_choose'));
-			if($this->ilias->getSetting('forum_notification') == 1  && !$ilUser->isAnonymous())
+			if($this->ilias->getSetting('forum_notification') > 0  && !$ilUser->isAnonymous())
 			{
 				$this->addMultiCommand('enable_notifications', $this->lng->txt('forums_enable_notification'));
 				$this->addMultiCommand('disable_notifications', $this->lng->txt('forums_disable_notification'));
