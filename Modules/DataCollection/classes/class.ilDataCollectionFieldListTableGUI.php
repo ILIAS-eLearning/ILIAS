@@ -30,8 +30,9 @@ class ilDataCollectionFieldListTableGUI extends ilTable2GUI
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
 	 	$this->parent_obj = $a_parent_obj;
-	 	
-	 	$this->setId("dcl_field_list");
+        $this->table = ilDataCollectionCache::getTableCache($table_id);
+
+        $this->setId("dcl_field_list");
         $this->addColumn("", "", "1", true);
         $this->addColumn($lng->txt("dcl_order"),  null,  "30px");
 		$this->addColumn($lng->txt("dcl_title"),  null,  "auto");
@@ -44,8 +45,11 @@ class ilDataCollectionFieldListTableGUI extends ilTable2GUI
 		$this->addColumn($lng->txt("dcl_required"),  null,  "auto");
 		$this->addColumn($lng->txt("dcl_unique"),  null,  "auto");
 		$this->addColumn($lng->txt("actions"), 	 null, 	 "30px");
-        $this->setSelectAllCheckbox("dcl_field_ids[]");
-        $this->addMultiCommand("confirmDeleteFields", $lng->txt('dcl_delete_fields'));
+        // Only add mutli command for custom fields
+        if (count($this->table->getRecordFields())) {
+            $this->setSelectAllCheckbox("dcl_field_ids[]");
+            $this->addMultiCommand("confirmDeleteFields", $lng->txt('dcl_delete_fields'));
+        }
 
 		$ilCtrl->setParameterByClass("ildatacollectionfieldeditgui","table_id", $this->parent_obj->table_id);
 		$ilCtrl->setParameterByClass("ildatacollectionfieldlistgui","table_id", $this->parent_obj->table_id);
@@ -67,8 +71,6 @@ class ilDataCollectionFieldListTableGUI extends ilTable2GUI
         $this->setEnableHeader(true);
         $this->setEnableTitle(true);
         $this->setDefaultOrderDirection("asc");
-
-		$this->table = ilDataCollectionCache::getTableCache($table_id);
 
 		$this->setData($this->table->getFields());
 		require_once('./Modules/DataCollection/classes/class.ilDataCollectionDatatype.php'); //wird dies benötigt?

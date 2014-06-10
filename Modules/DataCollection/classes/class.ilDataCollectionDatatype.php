@@ -478,7 +478,6 @@ class ilDataCollectionDatatype
 				$file_obj->setMode("object");
 				$file_obj->create();
 				$file_obj->getUploadFile($file["tmp_name"], $file["name"]);
-
 				$file_id = $file_obj->getId();
 				$return = $file_id;
 			}else
@@ -668,7 +667,8 @@ class ilDataCollectionDatatype
 
                 $html = '<a href="'.$ilCtrl->getLinkTargetByClass("ildatacollectionrecordlistgui", "sendFile").'">'.$file_obj->getFileName().'</a>';
                 if (ilPreview::hasPreview($file_obj->getId())) {
-                    $preview = new ilPreviewGUI((int) $_GET['ref_id'], ilPreviewGUI::CONTEXT_REPOSITORY, $file_obj->getId(), $ilAccess);
+                    ilPreview::createPreview($file_obj); // Create preview if not already existing
+                    $preview = new ilPreviewGUI((int)$_GET['ref_id'], ilPreviewGUI::CONTEXT_REPOSITORY, $file_obj->getId(), $ilAccess);
                     $preview_status = ilPreview::lookupRenderStatus($file_obj->getId());
                     $preview_status_class = "";
                     $preview_text_topic = "preview_show";
