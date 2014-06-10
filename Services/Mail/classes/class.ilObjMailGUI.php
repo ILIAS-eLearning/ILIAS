@@ -302,7 +302,13 @@ class ilObjMailGUI extends ilObjectGUI
 				$perm_gui =& new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
-
+			// mailtemplates-patch: begin
+			case 'ilmailtemplatesgui':
+				require_once 'Services/MailTemplates/classes/class.ilMailTemplatesGUI.php';
+				$mtg = new  ilMailTemplatesGUI('', $_GET['ref_id'], true, false);
+				$this->ctrl->forwardCommand($mtg);
+				break;
+			// mailtemplates-patch: end
 			default:
 				if(!$cmd)
 				{
@@ -335,7 +341,12 @@ class ilObjMailGUI extends ilObjectGUI
 			$tabs_gui->addTarget("settings",
 				$this->ctrl->getLinkTarget($this, "view"), array("view", 'save', ""), "", "");
 		}
-
+		// mailtemplates-patch: begin
+		if($rbacsystem->checkAccess("write",$this->object->getRefId()))
+		{
+			$tabs_gui->addTarget("templates", $this->ctrl->getLinkTargetByClass('ilMailTemplatesGUI', "view_template_types"), array("view_template_types", 'save_template_types', ""), "", "");
+		}
+		// mailtemplates-patch: end
 		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
 		{
 			$tabs_gui->addTarget("perm_settings",

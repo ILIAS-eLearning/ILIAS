@@ -89,3 +89,50 @@ orgu#:#orgu_adv_settings#:#erweiterte Einstellungen
 gev#:#gev_bookings#:#Buchungen
 gev#:#gev_unlimited#:#unbegrenzt
 orgu#:#orgu_type_msg_unable_delete#:#Konnte Typ nicht löschen, da er von folgenden Organisationseinheiten verwendet wird: %s
+mail#:#templates#:#Vorlagen
+mail#:#mail_templates#:#Vorlagentypen
+mail#:#mail_template_category#:#Kategorie
+mail#:#mail_template_type#:#Vorlagentyp
+mail#:#mail_template_settings#:#Einstellungen
+mail#:#mail_template_variants#:#Bearbeiten
+mail#:#new_template_type#:#Neuen Vorlagentyp anlegen
+mail#:#mail_template_type_id#:#Vorlagentyp-ID
+mail#:#mail_template_category_name#:#Kategoriename
+mail#:#mail_template_consumer_location#:#Pfad und Name der konsumierenden Adapterklasse
+mail#:#save_template_type_settings#:#Speichern
+mail#:#cancel_template_type_settings#:#Abbrechen
+mail#:#mail_template_variant_id#:#Varianten-ID
+mail#:#mail_types_fi#:#Vorlagentyp-ID
+mail#:#mail_types_language#:#Sprache
+mail#:#mail_message_subject#:#Betreff
+mail#:#mail_message_plain#:#Nachricht (Nur-Text)
+mail#:#mail_message_html#:#Nachricht (HTML)
+mail#:#mail_message_created#:#Erstellungsdatum
+mail#:#mail_message_updated#:#Letzte Änderung
+mail#:#mail_message_updated_usr#:#Verändert durch
+mail#:#mail_message_active#:#Variante aktiv?
+mail#:#save_template_variant#:#Speichern
+mail#:#cancel_template_variant#:#Abbrechen
+mail#:#cancel_delete_template_type#:#Abbrechen
+mail#:#confirm_delete_template_type_s#:#Vorlagentyp wirklich löschen?
+mail#:#confirm_delete_template_type_p#:#Vorlagentypen wirklich löschen?
+mail#:#template_type_deleted_s#:#Vorlagentyp gelöscht.
+mail#:#template_type_deleted_p#:#Vorlagentypen gelöscht.
+mail#:#mail_template_type_create#:#Neuen Vorlagentyp anlegen
+mail#:#mail_template_type_edit#:#Vorlagentyp bearbeiten
+mail#:#mail_template_consumer_not_exists#:#Die angegebene Datei existiert nicht oder ist nicht lesbar.
+mail#:#mail_template_consumer_invalid_file_or_classname#:#Die angegebene Datei oder die darin enthaltene Klasse erfüllt nicht das geforderte Namensschema.
+mail#:#mail_template_consumer_location_info#:#Bitte geben Sie einen relativen Pfad (ausgehend vom ILIAS-Hauptverzeichnis) zur PHP-Datei an. Der Dateiname muss dem folgenden Schema entsprechen: <i>class.&lt;Klassename&gt;.php</i>.
+mail#:#salutation_n#:#Sehr geehrte/r 
+mail#:#login_none#:#(kein Login) 
+mail#:#save_and_sample_variant#:#Speichern und Beispielmail senden
+mail#:#mail_template_frame#:#Rahmen
+mail#:#mail_template_frame_settings#:#Rahmen Einstellungen
+mail#:#mail_template_frame_plain#:#Rahmen (Nur-Text)
+mail#:#mail_template_frame_html#:#Rahmen (HTML)
+mail#:#mail_template_placeholder_content#:#Platzhalter für den Vorlagentext
+mail#:#mail_template_placeholder_image#:#Platzhalter ein Footer-Bild
+mail#:#mail_templates_use_placeholder#:#Folgende Platzhalter können verwendet werden:
+mail#:#mail_template_footer_image#:#Footer-Bild
+mail#:#mail_template_footer_image_attributes#:#Bild-Attribute
+mail#:#mail_template_footer_image_attributes_info#:#Bitte geben Sie hier entsprechende CSS-Attribute ein, die für das Bild als Inline-Style beim Ausliefern der E-Mail gesetzt werden sollen.

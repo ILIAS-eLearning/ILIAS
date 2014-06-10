@@ -1,0 +1,44 @@
+<div class="option_value">
+	<div class="il_Description">
+		<b>{TXT_USE_PLACEHOLDERS}</b>
+		<ul class="placeholders-{ID}">
+		<!-- BEGIN loop -->
+		<li><b><a>[{LOOP_PLACEHOLDER}]</a></b>: {LOOP_DESCRIPTION}<br /></li>
+		<!-- END loop -->
+		</ul>
+	</div>
+</div>
+<script>
+	(function($) {
+		$('.placeholders-{ID} a').on('click', function(e) {
+
+			var $this = $(this), id = $this.closest('ul').attr('class').replace(/placeholders-/g, ''), $target = $('#' + id);
+
+			if (typeof tinyMCE != 'undefined' && typeof tinyMCE.get(id) != 'undefined') {
+				var ed =  tinyMCE.get(id);
+				ed.focus();
+				ed.selection.setContent(ed.selection.getContent() + $this.text());
+				return;
+			}
+
+			if (document.selection) {
+				$target.focus();
+				sel = document.selection.createRange();
+				sel.text = $this.text();
+			} else if ($target.get(0).selectionStart || $target.get(0).selectionStart == '0') {
+				//For browsers like Firefox and Webkit based
+				var start_pos   = $target.get(0).selectionStart;
+				var end_pos     = $target.get(0).selectionEnd;
+				var scroll_top  = $target.get(0).scrollTop;
+				$target.val($target.val().substring(0, start_pos) +  $this.text() + $target.val().substring(end_pos, $target.val().length));
+				$target.prop('scrollTop', scroll_top);
+			} else {
+				$target.val($target.val() + $this.text());
+			}
+
+			$target.focus();
+
+			e.preventDefault();
+		});
+	})(jQuery);
+</script>

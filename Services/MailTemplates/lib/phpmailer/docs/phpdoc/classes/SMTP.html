@@ -1,0 +1,616 @@
+<!DOCTYPE html><html xmlns:date="http://exslt.org/dates-and-times" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+<meta charset="utf-8">
+<title>PHPMailer » \SMTP</title>
+<meta name="author" content="Mike van Riel">
+<meta name="description" content="">
+<link href="../css/template.css" rel="stylesheet" media="all">
+<script src="../js/jquery-1.7.1.min.js" type="text/javascript"></script><script src="../js/jquery-ui-1.8.2.custom.min.js" type="text/javascript"></script><script src="../js/jquery.mousewheel.min.js" type="text/javascript"></script><script src="../js/bootstrap.js" type="text/javascript"></script><script src="../js/template.js" type="text/javascript"></script><script src="../js/prettify/prettify.min.js" type="text/javascript"></script><link rel="shortcut icon" href="../img/favicon.ico">
+<link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="72x72" href="../img/apple-touch-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="114x114" href="../img/apple-touch-icon-114x114.png">
+</head>
+<body>
+<div class="navbar navbar-fixed-top">
+<div class="navbar-inner"><div class="container">
+<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></a><a class="brand" href="../index.html">PHPMailer</a><div class="nav-collapse"><ul class="nav">
+<li class="dropdown">
+<a href="#api" class="dropdown-toggle" data-toggle="dropdown">
+                                    API Documentation <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a>Packages</a></li>
+<li><a href="../packages/PHPMailer.html"><i class="icon-folder-open"></i> PHPMailer</a></li>
+</ul>
+</li>
+<li class="dropdown" id="charts-menu">
+<a href="#charts" class="dropdown-toggle" data-toggle="dropdown">
+                                    Charts <b class="caret"></b></a><ul class="dropdown-menu"><li><a href="../graph_class.html"><i class="icon-list-alt"></i> Class hierarchy diagram</a></li></ul>
+</li>
+<li class="dropdown" id="reports-menu">
+<a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
+                                    Reports <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
+                <span class="label label-info">22</span></a></li>
+<li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
+                <ul><li>todo 
+                <span class="label label-info">2</span>
+</li></ul></a></li>
+<li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
+                <span class="label label-info">4</span></a></li>
+</ul>
+</li>
+</ul></div>
+</div></div>
+<div class="go_to_top"><a href="#___" style="color: inherit">Back to top  <i class="icon-upload icon-white"></i></a></div>
+</div>
+<div id="___" class="container">
+<noscript><div class="alert alert-warning">
+                            Javascript is disabled; several features are only available
+                            if Javascript is enabled.
+                        </div></noscript>
+<div class="row">
+<div class="span4">
+<span class="btn-group visibility" data-toggle="buttons-checkbox"><button class="btn public active" title="Show public elements">Public</button><button class="btn protected" title="Show protected elements">Protected</button><button class="btn private" title="Show private elements">Private</button><button class="btn inherited active" title="Show inherited elements">Inherited</button></span><div class="btn-group view pull-right" data-toggle="buttons-radio">
+<button class="btn details" title="Show descriptions and method names"><i class="icon-list"></i></button><button class="btn simple" title="Show only method names"><i class="icon-align-justify"></i></button>
+</div>
+<ul class="side-nav nav nav-list">
+<li class="nav-header">
+<i class="icon-custom icon-method"></i> Methods</li>
+<li class="method public "><a href="#Authenticate" title="Authenticate :: Performs SMTP authentication."><span class="description">Performs SMTP authentication.</span><pre>Authenticate()</pre></a></li>
+<li class="method public "><a href="#Close" title="Close :: Closes the socket and cleans up the state of the class."><span class="description">Closes the socket and cleans up the state of the class.</span><pre>Close()</pre></a></li>
+<li class="method public "><a href="#Connect" title="Connect :: Connect to the server specified on the port specified."><span class="description">Connect to the server specified on the port specified.</span><pre>Connect()</pre></a></li>
+<li class="method public "><a href="#Connected" title="Connected :: Returns true if connected to a server otherwise false"><span class="description">Returns true if connected to a server otherwise false</span><pre>Connected()</pre></a></li>
+<li class="method public "><a href="#Data" title="Data :: Issues a data command and sends the msg_data to the server
+finializing the mail transaction."><span class="description">Issues a data command and sends the msg_data to the server
+finializing the mail transaction.</span><pre>Data()</pre></a></li>
+<li class="method public "><a href="#Hello" title="Hello :: Sends the HELO command to the smtp server."><span class="description">Sends the HELO command to the smtp server.</span><pre>Hello()</pre></a></li>
+<li class="method public "><a href="#Mail" title="Mail :: Starts a mail transaction from the email address specified in
+$from."><span class="description">Starts a mail transaction from the email address specified in
+$from.</span><pre>Mail()</pre></a></li>
+<li class="method public "><a href="#Quit" title="Quit :: Sends the quit command to the server and then closes the socket
+if there is no error or the $close_on_error argument is true."><span class="description">Sends the quit command to the server and then closes the socket
+if there is no error or the $close_on_error argument is true.</span><pre>Quit()</pre></a></li>
+<li class="method public "><a href="#Recipient" title="Recipient :: Sends the command RCPT to the SMTP server with the TO: argument of $to."><span class="description">Sends the command RCPT to the SMTP server with the TO: argument of $to.</span><pre>Recipient()</pre></a></li>
+<li class="method public "><a href="#Reset" title="Reset :: Sends the RSET command to abort and transaction that is
+currently in progress."><span class="description">Sends the RSET command to abort and transaction that is
+currently in progress.</span><pre>Reset()</pre></a></li>
+<li class="method public "><a href="#SendAndMail" title="SendAndMail :: Starts a mail transaction from the email address specified in
+$from."><span class="description">Starts a mail transaction from the email address specified in
+$from.</span><pre>SendAndMail()</pre></a></li>
+<li class="method public "><a href="#StartTLS" title="StartTLS :: Initiate a TLS communication with the server."><span class="description">Initiate a TLS communication with the server.</span><pre>StartTLS()</pre></a></li>
+<li class="method public "><a href="#Turn" title="Turn :: This is an optional command for SMTP that this class does not
+support."><span class="description">This is an optional command for SMTP that this class does not
+support.</span><pre>Turn()</pre></a></li>
+<li class="method public "><a href="#__construct" title="__construct :: Initialize the class so that the data is in a known state."><span class="description">Initialize the class so that the data is in a known state.</span><pre>__construct()</pre></a></li>
+<li class="method public "><a href="#getError" title="getError :: Get the current error"><span class="description">Get the current error</span><pre>getError()</pre></a></li>
+<li class="nav-header private">» Private</li>
+<li class="method private "><a href="#SendHello" title="SendHello :: Sends a HELO/EHLO command."><span class="description">Sends a HELO/EHLO command.</span><pre>SendHello()</pre></a></li>
+<li class="method private "><a href="#edebug" title="edebug :: Outputs debugging info via user-defined method"><span class="description">Outputs debugging info via user-defined method</span><pre>edebug()</pre></a></li>
+<li class="method private "><a href="#get_lines" title="get_lines :: Read in as many lines as possible
+either before eof or socket timeout occurs on the operation."><span class="description">Read in as many lines as possible
+either before eof or socket timeout occurs on the operation.</span><pre>get_lines()</pre></a></li>
+<li class="nav-header">
+<i class="icon-custom icon-property"></i> Properties</li>
+<li class="property public "><a href="#%24CRLF" title="$CRLF :: SMTP reply line ending (don't change)"><span class="description">SMTP reply line ending (don't change)</span><pre>$CRLF</pre></a></li>
+<li class="property public "><a href="#%24Debugoutput" title="$Debugoutput :: Sets the function/method to use for debugging output."><span class="description">Sets the function/method to use for debugging output.</span><pre>$Debugoutput</pre></a></li>
+<li class="property public "><a href="#%24SMTP_PORT" title="$SMTP_PORT :: SMTP server port"><span class="description">SMTP server port</span><pre>$SMTP_PORT</pre></a></li>
+<li class="property public "><a href="#%24Timelimit" title="$Timelimit :: Sets the SMTP timelimit value for reads, in seconds"><span class="description">Sets the SMTP timelimit value for reads, in seconds</span><pre>$Timelimit</pre></a></li>
+<li class="property public "><a href="#%24Timeout" title="$Timeout :: Sets the SMTP timeout value for reads, in seconds"><span class="description">Sets the SMTP timeout value for reads, in seconds</span><pre>$Timeout</pre></a></li>
+<li class="property public "><a href="#%24Version" title="$Version :: Sets the SMTP PHPMailer Version number"><span class="description">Sets the SMTP PHPMailer Version number</span><pre>$Version</pre></a></li>
+<li class="property public "><a href="#%24do_debug" title="$do_debug :: Sets whether debugging is turned on"><span class="description">Sets whether debugging is turned on</span><pre>$do_debug</pre></a></li>
+<li class="property public "><a href="#%24do_verp" title="$do_verp :: Sets VERP use on/off (default is off)"><span class="description">Sets VERP use on/off (default is off)</span><pre>$do_verp</pre></a></li>
+<li class="nav-header private">» Private</li>
+<li class="property private "><a href="#%24error" title="$error :: "><span class="description">&lt;p&gt;Error message, if any, for the last call&lt;/p&gt;</span><pre>$error</pre></a></li>
+<li class="property private "><a href="#%24helo_rply" title="$helo_rply :: "><span class="description">&lt;p&gt;The reply the server sent to us for HELO&lt;/p&gt;</span><pre>$helo_rply</pre></a></li>
+<li class="property private "><a href="#%24smtp_conn" title="$smtp_conn :: "><span class="description">&lt;p&gt;The socket to the server&lt;/p&gt;</span><pre>$smtp_conn</pre></a></li>
+</ul>
+</div>
+<div class="span8">
+<a name="%5CSMTP" id="\SMTP"></a><ul class="breadcrumb">
+<li>
+<a href="../index.html"><i class="icon-custom icon-class"></i></a><span class="divider">\</span>
+</li>
+<li><a href="../namespaces/global.html">global</a></li>
+<li class="active">
+<span class="divider">\</span><a href="../classes/SMTP.html">SMTP</a>
+</li>
+</ul>
+<div href="../classes/SMTP.html" class="element class">
+<p class="short_description">PHP RFC821 SMTP client</p>
+<div class="details">
+<p class="long_description"><p>Implements all the RFC 821 SMTP commands except TURN which will always return a not implemented error.
+SMTP also provides some utility methods for sending mail to an SMTP server.</p></p>
+<table class="table table-bordered">
+<tr>
+<th>author</th>
+<td><a href="">Chris Ryan</a></td>
+</tr>
+<tr>
+<th>package</th>
+<td><a href="../packages/PHPMailer.html">PHPMailer</a></td>
+</tr>
+</table>
+<h3>
+<i class="icon-custom icon-method"></i> Methods</h3>
+<a name="Authenticate" id="Authenticate"></a><div class="element clickable method public Authenticate" data-toggle="collapse" data-target=".Authenticate .collapse">
+<h2>Performs SMTP authentication.</h2>
+<pre>Authenticate(string $username, string $password, string $authtype, string $realm, string $workstation) : bool</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"><p>Must be run after running the
+Hello() method.  Returns true if successfully authenticated.</p></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>public</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$username</h4>
+<code>string</code>
+</div>
+<div class="subelement argument">
+<h4>$password</h4>
+<code>string</code>
+</div>
+<div class="subelement argument">
+<h4>$authtype</h4>
+<code>string</code>
+</div>
+<div class="subelement argument">
+<h4>$realm</h4>
+<code>string</code>
+</div>
+<div class="subelement argument">
+<h4>$workstation</h4>
+<code>string</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code>bool</code></div>
+</div></div>
+</div>
+<a name="Close" id="Close"></a><div class="element clickable method public Close" data-toggle="collapse" data-target=".Close .collapse">
+<h2>Closes the socket and cleans up the state of the class.</h2>
+<pre>Close() : void</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"><p>It is not considered good to use this function without
+first trying to use QUIT.</p></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>public</td>
+</tr></table>
+</div></div>
+</div>
+<a name="Connect" id="Connect"></a><div class="element clickable method public Connect" data-toggle="collapse" data-target=".Connect .collapse">
+<h2>Connect to the server specified on the port specified.</h2>
+<pre>Connect(string $host, int $port, int $tval) : bool</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"><p>If the port is not specified use the default SMTP_PORT.
+If tval is specified then a connection will try and be
+established with the server for that number of seconds.
+If tval is not specified the default is 30 seconds to
+try on the connection.</p>
+
+<p>SMTP CODE SUCCESS: 220
+SMTP CODE FAILURE: 421</p></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>public</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$host</h4>
+<code>string</code>
+</div>
+<div class="subelement argument">
+<h4>$port</h4>
+<code>int</code>
+</div>
+<div class="subelement argument">
+<h4>$tval</h4>
+<code>int</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code>bool</code></div>
+</div></div>
+</div>
+<a name="Connected" id="Connected"></a><div class="element clickable method public Connected" data-toggle="collapse" data-target=".Connected .collapse">
+<h2>Returns true if connected to a server otherwise false</h2>
+<pre>Connected() : bool</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>public</td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response"><code>bool</code></div>
+</div></div>
+</div>
+<a name="Data" id="Data"></a><div class="element clickable method public Data" data-toggle="collapse" data-target=".Data .collapse">
+<h2>Issues a data command and sends the msg_data to the server
+finializing the mail transaction.</h2>
+<pre>Data(string $msg_data) : bool</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"><p>$msg_data is the message
+that is to be send with the headers. Each header needs to be
+on a single line followed by a <CRLF> with the message headers
+and the message body being seperated by and additional <CRLF>.</p>
+
+<p>Implements rfc 821: DATA <CRLF></p>
+
+<p>SMTP CODE INTERMEDIATE: 354
+    [data]
+    <CRLF>.<CRLF>
+    SMTP CODE SUCCESS: 250
+    SMTP CODE FAILURE: 552,554,451,452
+SMTP CODE FAILURE: 451,554
+SMTP CODE ERROR  : 500,501,503,421</p></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>public</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$msg_data</h4>
+<code>string</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code>bool</code></div>
+</div></div>
+</div>
+<a name="Hello" id="Hello"></a><div class="element clickable method public Hello" data-toggle="collapse" data-target=".Hello .collapse">
+<h2>Sends the HELO command to the smtp server.</h2>
+<pre>Hello(string $host) : bool</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"><p>This makes sure that we and the server are in
+the same known state.</p>
+
+<p>Implements from rfc 821: HELO <SP> <domain> <CRLF></p>
+
+<p>SMTP CODE SUCCESS: 250
+SMTP CODE ERROR  : 500, 501, 504, 421</p></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>public</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$host</h4>
+<code>string</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code>bool</code></div>
+</div></div>
+</div>
+<a name="Mail" id="Mail"></a><div class="element clickable method public Mail" data-toggle="collapse" data-target=".Mail .collapse">
+<h2>Starts a mail transaction from the email address specified in
+$from.</h2>
+<pre>Mail(string $from) : bool</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"><p>Returns true if successful or false otherwise. If True
+the mail transaction is started and then one or more Recipient
+commands may be called followed by a Data command.</p>
+
+<p>Implements rfc 821: MAIL <SP> FROM:<reverse-path> <CRLF></p>
+
+<p>SMTP CODE SUCCESS: 250
+SMTP CODE SUCCESS: 552,451,452
+SMTP CODE SUCCESS: 500,501,421</p></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>public</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$from</h4>
+<code>string</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code>bool</code></div>
+</div></div>
+</div>
+<a name="Quit" id="Quit"></a><div class="element clickable method public Quit" data-toggle="collapse" data-target=".Quit .collapse">
+<h2>Sends the quit command to the server and then closes the socket
+if there is no error or the $close_on_error argument is true.</h2>
+<pre>Quit(bool $close_on_error) : bool</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"><p>Implements from rfc 821: QUIT <CRLF></p>
+
+<p>SMTP CODE SUCCESS: 221
+SMTP CODE ERROR  : 500</p></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>public</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$close_on_error</h4>
+<code>bool</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code>bool</code></div>
+</div></div>
+</div>
+<a name="Recipient" id="Recipient"></a><div class="element clickable method public Recipient" data-toggle="collapse" data-target=".Recipient .collapse">
+<h2>Sends the command RCPT to the SMTP server with the TO: argument of $to.</h2>
+<pre>Recipient(string $to) : bool</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"><p>Returns true if the recipient was accepted false if it was rejected.</p>
+
+<p>Implements from rfc 821: RCPT <SP> TO:<forward-path> <CRLF></p>
+
+<p>SMTP CODE SUCCESS: 250,251
+SMTP CODE FAILURE: 550,551,552,553,450,451,452
+SMTP CODE ERROR  : 500,501,503,421</p></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>public</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$to</h4>
+<code>string</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code>bool</code></div>
+</div></div>
+</div>
+<a name="Reset" id="Reset"></a><div class="element clickable method public Reset" data-toggle="collapse" data-target=".Reset .collapse">
+<h2>Sends the RSET command to abort and transaction that is
+currently in progress.</h2>
+<pre>Reset() : bool</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"><p>Returns true if successful false
+otherwise.</p>
+
+<p>Implements rfc 821: RSET <CRLF></p>
+
+<p>SMTP CODE SUCCESS: 250
+SMTP CODE ERROR  : 500,501,504,421</p></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>public</td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response"><code>bool</code></div>
+</div></div>
+</div>
+<a name="SendAndMail" id="SendAndMail"></a><div class="element clickable method public SendAndMail" data-toggle="collapse" data-target=".SendAndMail .collapse">
+<h2>Starts a mail transaction from the email address specified in
+$from.</h2>
+<pre>SendAndMail(string $from) : bool</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"><p>Returns true if successful or false otherwise. If True
+the mail transaction is started and then one or more Recipient
+commands may be called followed by a Data command. This command
+will send the message to the users terminal if they are logged
+in and send them an email.</p>
+
+<p>Implements rfc 821: SAML <SP> FROM:<reverse-path> <CRLF></p>
+
+<p>SMTP CODE SUCCESS: 250
+SMTP CODE SUCCESS: 552,451,452
+SMTP CODE SUCCESS: 500,501,502,421</p></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>public</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$from</h4>
+<code>string</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code>bool</code></div>
+</div></div>
+</div>
+<a name="StartTLS" id="StartTLS"></a><div class="element clickable method public StartTLS" data-toggle="collapse" data-target=".StartTLS .collapse">
+<h2>Initiate a TLS communication with the server.</h2>
+<pre>StartTLS() : bool</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"><p>SMTP CODE 220 Ready to start TLS
+SMTP CODE 501 Syntax error (no parameters allowed)
+SMTP CODE 454 TLS not available due to temporary reason</p></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>public</td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>bool</code>success</div>
+</div></div>
+</div>
+<a name="Turn" id="Turn"></a><div class="element clickable method public Turn" data-toggle="collapse" data-target=".Turn .collapse">
+<h2>This is an optional command for SMTP that this class does not
+support.</h2>
+<pre>Turn() : bool</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"><p>This method is here to make the RFC821 Definition
+complete for this class and <strong>may</strong> be implimented in the future</p>
+
+<p>Implements from rfc 821: TURN <CRLF></p>
+
+<p>SMTP CODE SUCCESS: 250
+SMTP CODE FAILURE: 502
+SMTP CODE ERROR  : 500, 503</p></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>public</td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response"><code>bool</code></div>
+</div></div>
+</div>
+<a name="__construct" id="__construct"></a><div class="element clickable method public __construct" data-toggle="collapse" data-target=".__construct .collapse">
+<h2>Initialize the class so that the data is in a known state.</h2>
+<pre>__construct() : <a href="../classes/SMTP.html">\SMTP</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>public</td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response"><code><a href="../classes/SMTP.html">\SMTP</a></code></div>
+</div></div>
+</div>
+<a name="getError" id="getError"></a><div class="element clickable method public getError" data-toggle="collapse" data-target=".getError .collapse">
+<h2>Get the current error</h2>
+<pre>getError() : array</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>public</td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response"><code>array</code></div>
+</div></div>
+</div>
+<a name="SendHello" id="SendHello"></a><div class="element clickable method private SendHello" data-toggle="collapse" data-target=".SendHello .collapse">
+<h2>Sends a HELO/EHLO command.</h2>
+<pre>SendHello(string $hello, string $host) : bool</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>private</td>
+</tr></table>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$hello</h4>
+<code>string</code>
+</div>
+<div class="subelement argument">
+<h4>$host</h4>
+<code>string</code>
+</div>
+<h3>Returns</h3>
+<div class="subelement response"><code>bool</code></div>
+</div></div>
+</div>
+<a name="edebug" id="edebug"></a><div class="element clickable method private edebug" data-toggle="collapse" data-target=".edebug .collapse">
+<h2>Outputs debugging info via user-defined method</h2>
+<pre>edebug(string $str) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"></p>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$str</h4>
+<code>string</code>
+</div>
+</div></div>
+</div>
+<a name="get_lines" id="get_lines"></a><div class="element clickable method private get_lines" data-toggle="collapse" data-target=".get_lines .collapse">
+<h2>Read in as many lines as possible
+either before eof or socket timeout occurs on the operation.</h2>
+<pre>get_lines() : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<p class="long_description"><p>With SMTP we can tell if we have more lines to read if the
+4th character is '-' symbol. If it is a space then we don't
+need to read anything else.</p></p>
+<table class="table table-bordered"><tr>
+<th>access</th>
+<td>private</td>
+</tr></table>
+<h3>Returns</h3>
+<div class="subelement response"><code>string</code></div>
+</div></div>
+</div>
+<h3>
+<i class="icon-custom icon-property"></i> Properties</h3>
+<a name="%24CRLF" id="$CRLF"> </a><div class="element clickable property public $CRLF" data-toggle="collapse" data-target=".$CRLF .collapse">
+<h2>SMTP reply line ending (don't change)</h2>
+<pre>$CRLF </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"><p>@var string</p></p></div></div>
+</div>
+<a name="%24Debugoutput" id="$Debugoutput"> </a><div class="element clickable property public $Debugoutput" data-toggle="collapse" data-target=".$Debugoutput .collapse">
+<h2>Sets the function/method to use for debugging output.</h2>
+<pre>$Debugoutput : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"><p>Right now we only honor "echo" or "error_log"</p></p></div></div>
+</div>
+<a name="%24SMTP_PORT" id="$SMTP_PORT"> </a><div class="element clickable property public $SMTP_PORT" data-toggle="collapse" data-target=".$SMTP_PORT .collapse">
+<h2>SMTP server port</h2>
+<pre>$SMTP_PORT </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"><p>@var int</p></p></div></div>
+</div>
+<a name="%24Timelimit" id="$Timelimit"> </a><div class="element clickable property public $Timelimit" data-toggle="collapse" data-target=".$Timelimit .collapse">
+<h2>Sets the SMTP timelimit value for reads, in seconds</h2>
+<pre>$Timelimit : int</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
+</div>
+<a name="%24Timeout" id="$Timeout"> </a><div class="element clickable property public $Timeout" data-toggle="collapse" data-target=".$Timeout .collapse">
+<h2>Sets the SMTP timeout value for reads, in seconds</h2>
+<pre>$Timeout : int</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
+</div>
+<a name="%24Version" id="$Version"> </a><div class="element clickable property public $Version" data-toggle="collapse" data-target=".$Version .collapse">
+<h2>Sets the SMTP PHPMailer Version number</h2>
+<pre>$Version : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
+</div>
+<a name="%24do_debug" id="$do_debug"> </a><div class="element clickable property public $do_debug" data-toggle="collapse" data-target=".$do_debug .collapse">
+<h2>Sets whether debugging is turned on</h2>
+<pre>$do_debug </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"><p>@var bool</p></p></div></div>
+</div>
+<a name="%24do_verp" id="$do_verp"> </a><div class="element clickable property public $do_verp" data-toggle="collapse" data-target=".$do_verp .collapse">
+<h2>Sets VERP use on/off (default is off)</h2>
+<pre>$do_verp </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"><p>@var bool</p></p></div></div>
+</div>
+<a name="%24error" id="$error"> </a><div class="element clickable property private $error" data-toggle="collapse" data-target=".$error .collapse">
+<h2>&lt;p&gt;Error message, if any, for the last call&lt;/p&gt;</h2>
+<pre>$error : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
+</div>
+<a name="%24helo_rply" id="$helo_rply"> </a><div class="element clickable property private $helo_rply" data-toggle="collapse" data-target=".$helo_rply .collapse">
+<h2>&lt;p&gt;The reply the server sent to us for HELO&lt;/p&gt;</h2>
+<pre>$helo_rply : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
+</div>
+<a name="%24smtp_conn" id="$smtp_conn"> </a><div class="element clickable property private $smtp_conn" data-toggle="collapse" data-target=".$smtp_conn .collapse">
+<h2>&lt;p&gt;The socket to the server&lt;/p&gt;</h2>
+<pre>$smtp_conn : resource</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><p class="long_description"></p></div></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="row"><footer class="span12">
+            Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
+            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a8</a> and<br>
+            generated on 2012-12-03T13:15:45-05:00.<br></footer></div>
+</div>
+</body>
+</html>
