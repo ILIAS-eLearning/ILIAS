@@ -2033,6 +2033,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			$types = array(
 				// gev-patch start
 				//ilCourseConstants::CRS_MEMBER => $lng->txt("crs_member"),
+				
 				// gev-patch end
 				ilCourseConstants::CRS_TUTOR => $lng->txt("crs_tutor"),
 				ilCourseConstants::CRS_ADMIN => $lng->txt("crs_admin")
@@ -2045,6 +2046,14 @@ class ilObjCourseGUI extends ilContainerGUI
 				ilCourseConstants::CRS_TUTOR => $lng->txt("crs_tutor")
 			);
 		}
+		
+		// gev-patch start
+		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+		$custom_roles = gevCourseUtils::getCustomRoles($this->object->getId());
+		foreach ($custom_roles as $role) {
+			$types["c_".$role["rol_id"]] = $role["title"];
+		}
+		// gev-patch end
 		
 		ilRepositorySearchGUI::fillAutoCompleteToolbar(
 			$this,
@@ -2804,7 +2813,10 @@ class ilObjCourseGUI extends ilContainerGUI
 				case ilCourseConstants::CRS_ADMIN:
 					$this->object->getMembersObject()->add($user_id,IL_CRS_ADMIN);
 					break;
-				
+				// gev-patch start
+				default:
+					$this->object->getMembersObject()->add($user_id, $a_type);
+				//gev-patch end
 			}
 			$this->object->getMembersObject()->sendNotification($this->object->getMembersObject()->NOTIFY_ACCEPT_USER,$user_id);
 

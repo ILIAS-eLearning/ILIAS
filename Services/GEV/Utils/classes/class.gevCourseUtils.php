@@ -109,7 +109,28 @@ class gevCourseUtils {
 		$temp = extract("-", $a_custom_id);
 		return $temp[1];
 	}
-	
+
+	/**
+	 * Get custom roles assigned to a course.
+	 */
+	static public function getCustomRoles($crs_id) {
+		global $rbacreview;
+		
+		$all_roles = $rbacreview->getParentRoleIds(gevObjectUtils::getRefId($crs_id));
+		$custom_roles = array();
+		
+		foreach($all_roles as $role) {
+			if ($role["role_type"] == "global"
+			||  $role["role_type"] == "linked"
+			|| substr($role["title"], 0, 6) == "il_crs") {
+				continue;
+			}
+			
+			$custom_roles[] = $role;
+		}
+		
+		return $custom_roles;
+	}
 
 	public function getLink() {
 		return self::getLinkTo($this->crs_id);

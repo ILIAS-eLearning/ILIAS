@@ -822,6 +822,19 @@ class ilParticipants
 	 			$this->members[] = $a_usr_id;
 	 			break;
 	 	}
+
+		// gev-patch start
+		if (!in_array($a_role, array(IL_CRS_ADMIN, IL_CRS_TUTOR, IL_CRS_MEMBER, IL_GRP_ADMIN, IL_GRP_MEMBER))) {
+			$role = explode("_", $a_role);
+			if ($role[0] != "c") {
+				throw new Exception("ilParticipants::add (gev-patch): Unexpected role id '".$a_type."'");
+			}
+			// hacky, but reuses code below.
+			$a_role = $role[1];
+			$this->role_data[$a_role] = $a_role;
+		}
+		// gev patch end
+
 		
 		$this->participants[] = $a_usr_id;
 		$rbacadmin->assignUser($this->role_data[$a_role],$a_usr_id);
