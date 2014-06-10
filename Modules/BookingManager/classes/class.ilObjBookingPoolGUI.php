@@ -1241,20 +1241,69 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		{
 			return $_POST["mrsv"];			
 		}
-		else if((int)$_GET["reservation_id"])
+		else if($_GET["reservation_id"])
 		{
-			return array((int)$_GET["reservation_id"]);
+			return array($_GET["reservation_id"]);
 		}				
 	}
 	
 	function rsvConfirmCancelObject()
 	{
-		global $ilCtrl, $lng, $tpl;
+		global $ilCtrl, $lng, $tpl, $ilAccess;
 	
 		$ids = $this->getLogReservationIds();
 		if(!$ids)
 		{
 			$this->ctrl->redirect($this, 'log');
+		}
+		
+		include_once 'Modules/BookingManager/classes/class.ilBookingObject.php';
+		include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';
+		
+		$max = array();
+		foreach($ids as $idx => $id)
+		{
+			if(!is_numeric($id))
+			{
+				list($obj_id, $user_id, $from, $to) = explode("_", $id);
+				
+				$valid_ids = array();				
+				foreach(ilBookingObject::getList($this->object->getId()) as $item)
+				{
+					$valid_ids[$item["booking_object_id"]] = $item["title"];
+				}		
+						
+				if(($ilAccess->checkAccess("write", "", $this->ref_id) || $user_id == $ilUser->getId()) &&
+					$from > time() &&
+					in_array($obj_id, array_keys($valid_ids)))
+				{				
+					$rsv_ids = ilBookingReservation::getCancelDetails($obj_id, $user_id, $from, $to);					
+					if(!sizeof($rsv_ids))
+					{
+						unset($ids[$idx]);
+					}
+					if(sizeof($rsv_ids) > 1)
+					{
+						$max[$id] = sizeof($rsv_ids);
+						$ids[$idx] = $rsv_ids;
+					}
+					else
+					{
+						// only 1 in group?  treat as normal reservation
+						$ids[$idx] = array_shift($rsv_ids);
+					}
+				}
+				else
+				{
+					unset($ids[$idx]);
+				}				
+			}
+		}
+		
+		// show form instead
+		if(sizeof($max) && max($max) > 1)
+		{
+			return $this->rsvConfirmCancelAggregationObject($ids);			
 		}
 		
 		$this->tabs_gui->clearTargets();
@@ -1268,8 +1317,6 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		$conf->setConfirm($lng->txt('book_set_cancel'), 'rsvCancel');
 		$conf->setCancel($lng->txt('cancel'), 'log');
 
-		include_once 'Modules/BookingManager/classes/class.ilBookingObject.php';
-		include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';
 		foreach($ids as $id)
 		{		
 			$rsv = new ilBookingReservation($id);
@@ -1280,7 +1327,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 			{
 				$details .= ", ".ilDatePresentation::formatPeriod(
 					new ilDateTime($rsv->getFrom(), IL_CAL_UNIX),
-					new ilDateTime($rsv->getTo(), IL_CAL_UNIX));
+					new ilDateTime($rsv->getTo()+1, IL_CAL_UNIX));
 			}
 			
 			$conf->addItem('rsv_id[]', $id, $details);		
@@ -1288,12 +1335,130 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 	
 		$tpl->setContent($conf->getHTML());		
 	}
+	
+	function rsvConfirmCancelAggregationForm($a_ids)
+	{
+		include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this, "rsvCancel"));
+		$form->setTitle($this->lng->txt("book_confirm_cancel"));
+		$form->setDescription($this->lng->txt("book_confirm_cancel_aggregation"));
+		
+		include_once 'Modules/BookingManager/classes/class.ilBookingObject.php';
+		include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';	
+		
+		ilDatePresentation::setUseRelativeDates(false);
+		
+		foreach($a_ids as $idx => $ids)
+		{			
+			if(is_array($ids))
+			{
+				$first = $ids;
+				$first = array_shift($first);
+			}
+			else
+			{
+				$first = $ids;				
+			}
+			
+			$rsv = new ilBookingReservation($first);
+			$obj = new ilBookingObject($rsv->getObjectId());
+		
+			$caption = $obj->getTitle().", ".ilDatePresentation::formatPeriod(
+					new ilDateTime($rsv->getFrom(), IL_CAL_UNIX),
+					new ilDateTime($rsv->getTo()+1, IL_CAL_UNIX));
+			
+			$item = new ilNumberInputGUI($caption, "rsv_id_".$idx);
+			$item->setRequired(true);
+			$item->setMinValue(0);
+			$item->setSize(4);			
+			$form->addItem($item);
+			
+			if(is_array($ids))
+			{
+				$item->setMaxValue(sizeof($ids));
+				$item->setValue(sizeof($ids)); // :TODO: ?!
+				
+				foreach($ids as $id)
+				{
+					$hidden = new ilHiddenInputGUI("rsv_aggr[".$idx."][]");
+					$hidden->setValue($id);
+					$form->addItem($hidden);
+				}
+			}
+			else 
+			{
+				$item->setMaxValue(1);
+				$item->setValue(1);
+				
+				$hidden = new ilHiddenInputGUI("rsv_aggr[".$idx."]");
+				$hidden->setValue($ids);
+				$form->addItem($hidden);
+			}	
+						
+			if($_POST["rsv_id_".$idx])
+			{
+				$item->setValue((int)$_POST["rsv_id_".$idx]);
+			}				
+		}
+				
+		$form->addCommandButton("rsvCancel", $this->lng->txt("confirm"));
+		$form->addCommandButton("log", $this->lng->txt("cancel"));	
+		
+		return $form;
+	}
+	
+	function rsvConfirmCancelAggregationObject(array $a_ids = null)
+	{
+		global $tpl, $ilCtrl, $lng;
+		
+		$this->tabs_gui->clearTargets();
+		$this->tabs_gui->setBackTarget($lng->txt("back"),
+			$ilCtrl->getLinkTarget($this, "log"));
+		
+		$form = $this->rsvConfirmCancelAggregationForm($a_ids);
+		
+		$tpl->setContent($form->getHTML());		
+	}
 
 	function rsvCancelObject()
 	{
-		global $ilAccess, $ilUser;
+		global $ilAccess, $ilUser, $tpl, $lng, $ilCtrl;
 				
 		$ids = $_POST["rsv_id"];
+		
+		// parse aggregation form
+		if($_POST["rsv_aggr"])
+		{			
+			$form = $this->rsvConfirmCancelAggregationForm($_POST["rsv_aggr"]);
+			if(!$form->checkInput())
+			{
+				$this->tabs_gui->clearTargets();
+				$this->tabs_gui->setBackTarget($lng->txt("back"),
+					$ilCtrl->getLinkTarget($this, "log"));
+				
+				return $tpl->setContent($form->getHTML());		
+			}
+			
+			$ids = array();
+			foreach($_POST["rsv_aggr"] as $idx => $aggr_ids)
+			{
+				$max = (int)$_POST["rsv_id_".$idx];
+				if($max)
+				{
+					if(!is_array($aggr_ids))
+					{
+						$ids[] = $aggr_ids;
+					}
+					else
+					{
+						$aggr_ids = array_slice($aggr_ids, 0, $max);
+						$ids = array_merge($ids, $aggr_ids);
+					}						
+				}
+			}			
+		}
+		
 		if($ids)
 		{
 			include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';

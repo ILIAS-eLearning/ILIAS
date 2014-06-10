@@ -14339,3 +14339,5 @@ forum#:#post_reply_count#:#Re(%s):
 survey#:#spl_save_obligatory_state#:#Save Obligatory States
 dateplaner#:#cal_ical_url#:#iCal-URL
 content#:#cont_help_no_valid_tooltip_id#:#The tooltip ID you have entered was not valid.
+book#:#book_schedule_weekday#:#Weekday
+book#:#book_confirm_cancel_aggregation#:#Please state the number of reservations to cancel.

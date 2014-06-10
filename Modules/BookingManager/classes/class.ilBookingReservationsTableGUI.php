@@ -3,6 +3,7 @@
 
 include_once("./Services/Table/classes/class.ilTable2GUI.php");
 include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';
+require_once "Services/Calendar/classes/class.ilCalendarUtil.php";
 
 /**
  * List booking objects 
@@ -50,18 +51,32 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 		$this->setTitle($lng->txt("book_reservations_list"));
 
 		$this->addColumn("", "", 1);
-		$this->addColumn($this->lng->txt("title"));
+		$this->addColumn($this->lng->txt("title"), "title");
 		
 		if($this->has_schedule)
 		{
-			$this->addColumn($this->lng->txt("book_period"));
+			$this->addColumn($this->lng->txt("date"), "date");
+			$this->addColumn($this->lng->txt("book_schedule_weekday"), "weekday");
+			$this->addColumn($this->lng->txt("book_schedule_slot"), "slot");			
+			$this->addColumn($this->lng->txt("book_no_of_objects"), "counter");
+			
+			$this->setDefaultOrderField("date");
+			$this->setDefaultOrderDirection("DESC");
 		}
-				
-		$this->addColumn($this->lng->txt("user"));
-		$this->addColumn($this->lng->txt("status"));
+		else
+		{						
+			$this->addColumn($this->lng->txt("status"), "status");
+			
+			$this->setDefaultOrderField("title");
+			$this->setDefaultOrderDirection("ASC");
+		}
+								
+		$this->addColumn($this->lng->txt("user"), "user_name");
 		$this->addColumn($this->lng->txt("actions"));
 		
 		$this->setExternalSegmentation(true);
+		$this->setExternalSorting(true);
+		
 		$this->setEnableHeader(true);
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));
 		$this->setRowTemplate("tpl.booking_reservation_row.html", "Modules/BookingManager");
@@ -84,11 +99,13 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 		
 		if($ilUser->getId() != ANONYMOUS_USER_ID)
 		{			
+			/*
 			if($ilAccess->checkAccess('write', '', $this->ref_id))
 			{
 				$this->addMultiCommand('rsvInUse', $lng->txt('book_set_in_use'));			
 				$this->addMultiCommand('rsvNotInUse', $lng->txt('book_set_not_in_use'));							
 			}
+			*/
 			
 			$this->addMultiCommand('rsvConfirmCancel', $lng->txt('book_set_cancel'));
 			// $this->addMultiCommand('rsvUncancel', $lng->txt('book_set_not_cancel'));			
@@ -105,6 +122,8 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 	*/
 	function initFilter(array $a_filter_pre = null)
 	{							
+		global $ilAccess;
+		
 		if(is_array($a_filter_pre) && 
 			isset($a_filter_pre["object"]))
 		{			
@@ -128,20 +147,54 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 		$item->setOptions(array(""=>$this->lng->txt('book_all'))+$this->objects);		
 		$this->filter["object"] = $item->getValue();
 		
-		if($this->hasSchedule)
+		if($this->has_schedule)
 		{
-			$valid_status = array(ilBookingReservation::STATUS_IN_USE, 
-				ilBookingReservation::STATUS_CANCELLED, 
-				-ilBookingReservation::STATUS_IN_USE, 
-				-ilBookingReservation::STATUS_CANCELLED);
+			$item = $this->addFilterItemByMetaType("fromto", ilTable2GUI::FILTER_DATE_RANGE, false, $this->lng->txt('book_fromto'));
+			$this->filter["fromto"] = $item->getDate();
+			
+			if($ilAccess->checkAccess('write', '', $this->ref_id))
+			{
+				// see ilObjBookingPoolGUI::buildDatesBySchedule()
+				$map = array_flip(array('su', 'mo', 'tu', 'we', 'th', 'fr', 'sa'));
+				
+				$options = array(""=>$this->lng->txt('book_all'));
+				
+				// schedule to slot
+				require_once "Modules/BookingManager/classes/class.ilBookingSchedule.php";
+				foreach(ilBookingSchedule::getList($this->pool_id) as $def)
+				{
+					$schedule = new ilBookingSchedule($def["booking_schedule_id"]);
+					foreach($schedule->getDefinition() as $day => $slots)
+					{
+						$day_caption = ilCalendarUtil::_numericDayToString($map[$day], false);
+					
+						foreach($slots as $slot)
+						{
+							$idx = $map[$day]."_".$slot;
+							$options[$idx] = $day_caption.", ".$slot;
+						}
+					}
+				}
+				
+				ksort($options);
+				
+				$item = $this->addFilterItemByMetaType("book_schedule_slot", ilTable2GUI::FILTER_SELECT);
+				$item->setOptions($options);
+				$this->filter["slot"] = $item->getValue();		
+			}			
+		}
+		
+		// status
+		$valid_status = array(-ilBookingReservation::STATUS_CANCELLED,
+			ilBookingReservation::STATUS_CANCELLED);		
+		if(!$this->has_schedule)
+		{
+			$options = array(""=>$this->lng->txt('book_all'));
 		}
 		else
 		{
-			$valid_status = array(ilBookingReservation::STATUS_CANCELLED, 				
-				-ilBookingReservation::STATUS_CANCELLED);
-		};
-		
-		$options = array(""=>$this->lng->txt('book_all'));
+			$options = array();
+		}
 		foreach($valid_status as $loop)
 	    {
 			if($loop > 0)
@@ -155,13 +208,16 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 		}
 		$item = $this->addFilterItemByMetaType("status", ilTable2GUI::FILTER_SELECT);
 		$item->setOptions($options);
-		$this->filter["status"] = $item->getValue();
-
-		if($this->has_schedule)
-		{
-			$item = $this->addFilterItemByMetaType("fromto", ilTable2GUI::FILTER_DATE_RANGE, false, $this->lng->txt('book_fromto'));
-			$this->filter["fromto"] = $item->getDate();
-		}
+		$this->filter["status"] = $item->getValue();		
+							
+		if($ilAccess->checkAccess('write', '', $this->ref_id))
+		{												
+			$options = array(""=>$this->lng->txt('book_all'))+
+				ilBookingReservation::getUserFilter(array_keys($this->objects));
+			$item = $this->addFilterItemByMetaType("user", ilTable2GUI::FILTER_SELECT);
+			$item->setOptions($options);
+			$this->filter["user_id"] = $item->getValue();		
+		}	
 	}
 
 	/**
@@ -179,9 +235,23 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 		{
 			$filter["status"] = $this->filter["status"];
 		}
+		if($this->filter["user_id"])
+		{
+			$filter["user_id"] = $this->filter["user_id"];
+		}
 		
 		if($this->has_schedule)
 		{
+			if(!$filter["status"])
+			{
+				// needs distinct status because of aggregation
+				$filter["status"] = -ilBookingReservation::STATUS_CANCELLED;
+			}
+			if($this->filter["slot"])
+			{
+				$filter["slot"] = $this->filter["slot"];
+			}
+			
 			if($this->filter["fromto"]["from"] || $this->filter["fromto"]["to"])
 			{
 				if($this->filter["fromto"]["from"])
@@ -224,7 +294,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 		}
 	
 		include_once "Modules/BookingManager/classes/class.ilBookingReservation.php";
-		$data = ilBookingReservation::getGroupedList($ids, $this->getLimit(), $this->getOffset(), $filter, $this->group_id);
+		$data = ilBookingReservation::getListByDate($this->has_schedule, $ids, $this->getOrderField(), $this->getOrderDirection(), $this->getOffset(), $this->getLimit(),  $filter);		
 		
 		$this->setData($data['data']);
 		$this->setMaxCount($data['counter']);
@@ -239,15 +309,12 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 		global $lng, $ilAccess, $ilCtrl, $ilUser;
 
 	    $this->tpl->setVariable("TXT_TITLE", $a_set["title"]);
-	    $this->tpl->setVariable("RESERVATION_ID", $a_set["booking_reservation_id"]);
+	    $this->tpl->setVariable("MULTI_ID", $a_set["booking_reservation_id"]);
 
-		if(in_array($a_set['status'], array(ilBookingReservation::STATUS_CANCELLED, ilBookingReservation::STATUS_IN_USE)))
-		{
-			$this->tpl->setVariable("TXT_STATUS", $lng->txt('book_reservation_status_'.$a_set['status']));
-		}
+		// patch kivinan start
 		
 		// #11995
-		$uname = ilObjUser::_lookupFullName($a_set['user_id']);
+		$uname = $a_set["user_name"];
 		if(!trim($uname))
 		{
 			$uname = "[".$lng->txt("user_deleted")."]";
@@ -261,37 +328,35 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("TXT_CURRENT_USER", $uname);
 
 		if($this->has_schedule)
-		{
-			$date_from = new ilDateTime($a_set['date_from'], IL_CAL_UNIX);
-			$date_to = new ilDateTime($a_set['date_to'], IL_CAL_UNIX);
-			
-			$period = ilDatePresentation::formatPeriod($date_from, $date_to);
-			if($a_set['group_id'] && $a_set["weekdays"])
-			{						
-				switch($a_set["recurrence"])
-				{
-					case 1:
-						$recur = $this->lng->txt("cal_weekly").": ";
-						break;
-
-					case 2:
-						$recur = $this->lng->txt("r_14").": ";
-						break;
-
-					case 4:
-						$recur = $this->lng->txt("r_4_weeks").": ";
-						break;
-
-					default:
-						$recur = "";
-						break;
-				}				
-				$period .= '<div class="small light">'.$recur.implode(" &middot; ", $a_set["weekdays"])."</div>";
-			}
-			$this->tpl->setVariable("VALUE_DATE", $period);			
+		{			
+			$this->tpl->setVariable("VALUE_DATE", ilDatePresentation::formatDate(new ilDate($a_set["date"], IL_CAL_DATE)));
+			$this->tpl->setVariable("VALUE_WEEKDAY", ilCalendarUtil::_numericDayToString($a_set["weekday"], false));
+			$this->tpl->setVariable("VALUE_SLOT", $a_set["slot"]);
+			$this->tpl->setVariable("VALUE_COUNTER", $a_set["counter"]);			
 		}
-	
-		if (!$this->has_schedule || ($date_to->get(IL_CAL_UNIX) > time() || $a_set['group_id']))
+		else
+		{			
+			if(in_array($a_set['status'], array(ilBookingReservation::STATUS_CANCELLED, ilBookingReservation::STATUS_IN_USE)))
+			{
+				$this->tpl->setVariable("TXT_STATUS", $lng->txt('book_reservation_status_'.$a_set['status']));
+			}	
+			else
+			{
+				$this->tpl->setVariable("TXT_STATUS", "&nbsp;");
+			}
+		}
+					
+		if(($ilAccess->checkAccess('write', '', $this->ref_id) || $a_set['user_id'] == $ilUser->getId()) &&
+			$a_set["can_be_cancelled"])
+		{			 
+			$ilCtrl->setParameter($this->parent_obj, 'reservation_id', $a_set['booking_reservation_id']);
+			$this->tpl->setVariable("URL_ACTION", $ilCtrl->getLinkTarget($this->parent_obj, 'rsvConfirmCancel'));
+			$ilCtrl->setParameter($this->parent_obj, 'reservation_id', "");
+			$this->tpl->setVariable("TXT_ACTION", $lng->txt('book_set_cancel'));
+		}	
+		
+		/* advsellist version
+		if (!$this->has_schedule || $date_to->get(IL_CAL_UNIX) > time())
 		{
 			include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 			$alist = new ilAdvancedSelectionListGUI();
@@ -305,14 +370,12 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 				if($ilAccess->checkAccess('write', '', $this->ref_id))
 				{
 					if($a_set['status'] == ilBookingReservation::STATUS_CANCELLED)
-					{
-						/*
+					{					
 						// can be uncancelled?
-						if(ilBookingReservation::getAvailableObject(array($a_set['object_id']), $date_from->get(IL_CAL_UNIX), $date_to->get(IL_CAL_UNIX)))
-						{
-							$alist->addItem($lng->txt('book_set_not_cancel'), 'not_cancel', $ilCtrl->getLinkTarget($this->parent_obj, 'rsvUncancel'));
-						}
-						*/
+						// if(ilBookingReservation::getAvailableObject(array($a_set['object_id']), $date_from->get(IL_CAL_UNIX), $date_to->get(IL_CAL_UNIX)))
+						// {
+						//	  $alist->addItem($lng->txt('book_set_not_cancel'), 'not_cancel', $ilCtrl->getLinkTarget($this->parent_obj, 'rsvUncancel'));
+						// }						
 					}
 					else if($a_set['status'] != ilBookingReservation::STATUS_IN_USE)
 					{
@@ -332,7 +395,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 					$alist->addItem($lng->txt('book_set_cancel'), 'cancel', $ilCtrl->getLinkTarget($this->parent_obj, 'rsvConfirmCancel'));
 				}
 			}
-			else 
+			else if($ilAccess->checkAccess('write', '', $this->ref_id) || $a_set['user_id'] == $ilUser->getId())
 			{				
 				$alist->addItem($lng->txt('details'), 'details', $ilCtrl->getLinkTarget($this->parent_obj, 'logDetails'));
 			}
@@ -346,6 +409,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 				$this->tpl->setVariable('LAYER', $alist->getHTML());
 			}
 		}		
+		*/
 	}
 	
 	protected function fillHeaderExcel($a_worksheet, &$a_row)
@@ -354,12 +418,16 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 		$col = 0;
 		if($this->has_schedule)
 		{
-			$a_worksheet->write($a_row, ++$col, $this->lng->txt("from"));
-			$a_worksheet->write($a_row, ++$col, $this->lng->txt("to"));
-		}				
-		$a_worksheet->write($a_row, ++$col, $this->lng->txt("user"));		
-		$a_worksheet->write($a_row, ++$col, $this->lng->txt("status"));		
-		$a_row++;
+			$a_worksheet->write($a_row, ++$col, $this->lng->txt("date"));
+			$a_worksheet->write($a_row, ++$col, $this->lng->txt("book_schedule_weekday"));
+			$a_worksheet->write($a_row, ++$col, $this->lng->txt("book_schedule_slot"));
+			$a_worksheet->write($a_row, ++$col, $this->lng->txt("book_no_of_objects"));
+		}
+		else 
+		{
+			$a_worksheet->write($a_row, ++$col, $this->lng->txt("status"));		
+		}		
+		$a_worksheet->write($a_row, ++$col, $this->lng->txt("user"));			
 	}
 
 	protected function fillRowExcel($a_worksheet, &$a_row, $a_set)
@@ -367,22 +435,22 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 		$a_worksheet->write($a_row, 0, $a_set["title"]);		
 		$col = 0;
 		if($this->has_schedule)
-		{
-			$date_from = new ilDateTime($a_set['date_from'], IL_CAL_UNIX);
-			$date_to = new ilDateTime($a_set['date_to'], IL_CAL_UNIX);
-			$a_worksheet->write($a_row, ++$col, ilDatePresentation::formatDate($date_from));
-			$a_worksheet->write($a_row, ++$col, ilDatePresentation::formatDate($date_to));
+		{			
+			$a_worksheet->write($a_row, ++$col, ilDatePresentation::formatDate(new ilDate($a_set["date"], IL_CAL_DATE)));
+			$a_worksheet->write($a_row, ++$col, ilCalendarUtil::_numericDayToString($a_set["weekday"], false));
+			$a_worksheet->write($a_row, ++$col, $a_set["slot"]);
+			$a_worksheet->write($a_row, ++$col, $a_set["counter"]);
 		}						
-		$a_worksheet->write($a_row, ++$col, ilObjUser::_lookupFullName($a_set['user_id']));		
-		
-		$status = "";
-		if(in_array($a_set['status'], array(ilBookingReservation::STATUS_CANCELLED, ilBookingReservation::STATUS_IN_USE)))
-		{
-			$status = $this->lng->txt('book_reservation_status_'.$a_set['status']);			
+		else
+		{		
+			$status = "";
+			if(in_array($a_set['status'], array(ilBookingReservation::STATUS_CANCELLED, ilBookingReservation::STATUS_IN_USE)))
+			{
+				$status = $this->lng->txt('book_reservation_status_'.$a_set['status']);			
+			}
+			$a_worksheet->write($a_row, ++$col, $status);
 		}
-		$a_worksheet->write($a_row, ++$col, $status);
-		
-		$a_row++;
+		$a_worksheet->write($a_row, ++$col, $a_set['user_name']);		
 	}
 
 	protected function fillHeaderCSV($a_csv)
@@ -390,11 +458,16 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 		$a_csv->addColumn($this->lng->txt("title"));					
 		if($this->has_schedule)
 		{
-			$a_csv->addColumn($this->lng->txt("from"));
-			$a_csv->addColumn($this->lng->txt("to"));
+			$a_csv->addColumn($this->lng->txt("date"));
+			$a_csv->addColumn($this->lng->txt("book_schedule_weekday"));
+			$a_csv->addColumn($this->lng->txt("book_schedule_slot"));
+			$a_csv->addColumn($this->lng->txt("book_no_of_objects"));			
 		}				
+		else
+		{
+			$a_csv->addColumn($this->lng->txt("status"));			
+		}
 		$a_csv->addColumn($this->lng->txt("user"));				
-		$a_csv->addColumn($this->lng->txt("status"));				
 		$a_csv->addRow();		
 	}
 
@@ -403,20 +476,21 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 		$a_csv->addColumn($a_set["title"]);		
 		if($this->has_schedule)
 		{
-			$date_from = new ilDateTime($a_set['date_from'], IL_CAL_UNIX);
-			$date_to = new ilDateTime($a_set['date_to'], IL_CAL_UNIX);
-			$a_csv->addColumn(ilDatePresentation::formatDate($date_from));
-			$a_csv->addColumn(ilDatePresentation::formatDate($date_to));
+			$a_csv->addColumn(ilDatePresentation::formatDate(new ilDate($a_set["date"], IL_CAL_DATE)));
+			$a_csv->addColumn(ilCalendarUtil::_numericDayToString($a_set["weekday"], false));
+			$a_csv->addColumn($a_set["slot"]);
+			$a_csv->addColumn($a_set["counter"]);			
 		}						
-		$a_csv->addColumn(ilObjUser::_lookupFullName($a_set['user_id']));	
-		
-		$status = "";
-		if(in_array($a_set['status'], array(ilBookingReservation::STATUS_CANCELLED, ilBookingReservation::STATUS_IN_USE)))
+		else
 		{
-			$status = $this->lng->txt('book_reservation_status_'.$a_set['status']);			
+			$status = "";
+			if(in_array($a_set['status'], array(ilBookingReservation::STATUS_CANCELLED, ilBookingReservation::STATUS_IN_USE)))
+			{
+				$status = $this->lng->txt('book_reservation_status_'.$a_set['status']);			
+			}
+			$a_csv->addColumn($status);
 		}
-		$a_csv->addColumn($status);
-		
+		$a_csv->addColumn($a_set['user_name']);		
 		$a_csv->addRow();
 	}
 }

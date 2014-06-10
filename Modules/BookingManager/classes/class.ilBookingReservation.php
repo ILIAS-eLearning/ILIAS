@@ -399,7 +399,6 @@ class ilBookingReservation
 		}
 		else
 		{
-			// patch ub tuebingen
 			$res = array();
 			while($row = $ilDB->fetchAssoc($set))
 			{
@@ -474,6 +473,165 @@ class ilBookingReservation
 	}
 	
 	/**
+	 * List all reservations by date
+	 * @param	bool	$a_has_schedule
+	 * @param	array	$a_object_ids
+	 * @param	string	$a_order_field
+	 * @param	string	$a_order_direction
+	 * @param	int		$a_offset
+	 * @param	int		$a_limit
+	 * @param	array	$filter
+	 * @return	array
+	 */
+	static function getListByDate($a_has_schedule, array $a_object_ids, $a_order_field, $a_order_direction, $a_offset, $a_limit, array $filter = null)
+	{		
+		global $ilDB;
+		
+		$res = array();
+		
+		$sql = 'SELECT r.*, o.title'.
+			' FROM booking_reservation r'.
+			' JOIN booking_object o ON (o.booking_object_id = r.object_id)';
+
+		$where = array($ilDB->in('object_id', $a_object_ids, '', 'integer'));		
+		if($filter['status'])
+		{
+			if($filter['status'] > 0)
+			{
+				$where[] = 'status = '.$ilDB->quote($filter['status'], 'integer');
+			}
+			else
+			{
+				$where[] = '(status != '.$ilDB->quote(-$filter['status'], 'integer').
+					' OR status IS NULL)';
+			}
+		}
+		if($a_has_schedule)
+		{
+			if($filter['from'])
+			{
+				$where[] = 'date_from >= '.$ilDB->quote($filter['from'], 'integer');
+			}
+			if($filter['to'])
+			{
+				$where[] = 'date_to <= '.$ilDB->quote($filter['to'], 'integer');
+			}
+			if($filter['user_id'])
+			{
+				$where[] = 'user_id = '.$ilDB->quote($filter['user_id'], 'integer');
+			}					
+		}
+		/*
+		if($a_group_id)
+		{
+			$where[] = 'group_id = '.$ilDB->quote(substr($a_group_id, 1), 'integer');
+		}		 
+		*/		
+		if(sizeof($where))
+		{
+			$sql .= ' WHERE '.implode(' AND ', $where);		
+		}
+				
+		$set = $ilDB->query($sql);			
+		while($row = $ilDB->fetchAssoc($set))
+		{								
+			$obj_id = $row["object_id"];
+			$user_id = $row["user_id"];
+						
+			if($a_has_schedule)
+			{
+				$slot = $row["date_from"]."_".$row["date_to"];		
+				$idx = $obj_id."_".$user_id."_".$slot;										
+			}
+			else
+			{
+				$idx = $obj_id."_".$user_id;
+			}
+			
+			if($a_has_schedule && $filter["slot"])
+			{
+				$slot_idx = date("w",  $row["date_from"])."_".date("H:i", $row["date_from"]).
+					"-".date("H:i", $row["date_to"]+1);
+				if($filter["slot"] != $slot_idx)
+				{
+					continue;
+				}
+			}
+			
+			if(!isset($res[$idx]))
+			{								
+				$res[$idx] = array(					
+					"object_id" => $obj_id
+					,"title" => $row["title"]
+					,"user_id" => $user_id
+					,"counter" => 1						
+					,"user_name" => ilObjUser::_lookupFullName($user_id)					
+				);
+				
+				if($a_has_schedule)
+				{
+					$res[$idx]["booking_reservation_id"] = $idx;
+					$res[$idx]["date"] = date("Y-m-d", $row["date_from"]);
+					$res[$idx]["slot"] = date("H:i", $row["date_from"])." - ".
+						date("H:i", $row["date_to"]+1);
+					$res[$idx]["weekday"] = date("w",  $row["date_from"]);				
+					$res[$idx]["can_be_cancelled"] = ($row["status"] != self::STATUS_CANCELLED &&
+						$row["date_from"] > time());					
+				}
+				else
+				{
+					$res[$idx]["booking_reservation_id"] = $row["booking_reservation_id"];
+					$res[$idx]["status"] = $row["status"];
+					$res[$idx]["can_be_cancelled"] = ($row["status"] != self::STATUS_CANCELLED);					
+				}
+			}
+			else
+			{
+				$res[$idx]["counter"]++;
+			}
+		}				
+		
+		$size = sizeof($res);
+		
+		// order		
+		$numeric = in_array($a_order_field, array("counter", "date", "weekday"));		
+		$res = ilUtil::sortArray($res, $a_order_field, $a_order_direction, $numeric);
+				
+		// offset/limit		
+		$res = array_splice($res, $a_offset, $a_limit);
+		
+		return array("data"=>$res, "counter"=>$size);
+	}
+	
+	/**
+	 * Get all users who have reservations for object(s)
+	 * 
+	 * @param array $a_object_ids
+	 * @return array
+	 */
+	public static function getUserFilter(array $a_object_ids)
+	{
+		global $ilDB;
+		
+		$res = array();
+		
+		$sql = "SELECT ud.usr_id,ud.lastname,ud.firstname,ud.login".
+			" FROM usr_data ud ".
+			" LEFT JOIN booking_reservation r ON (r.user_id = ud.usr_id)".
+			" WHERE ud.usr_id <> ".$ilDB->quote(ANONYMOUS_USER_ID, "integer").
+			" AND ".$ilDB->in("r.object_id", $a_object_ids, "", "integer").
+			" ORDER BY ud.lastname,ud.firstname";
+		$set = $ilDB->query($sql);
+		while($row = $ilDB->fetchAssoc($set))
+		{			
+			$res[$row["usr_id"]] = $row["lastname"].", ".$row["firstname"].
+				" (".$row["login"].")";
+		}
+				
+		return $res;		
+	}
+	
+	/**
 	 * List all reservations
 	 * @param	array	$a_object_ids
 	 * @param	int		$a_limit
@@ -482,9 +640,13 @@ class ilBookingReservation
 	 * @param	array	$a_group_id
 	 * @return	array
 	 */
+	/*
 	static function getGroupedList($a_object_ids, $a_limit = 10, $a_offset = 0, array $filter = null, $a_group_id = null)
 	{
 		global $ilDB;
+		
+		// CURRENTLY UNUSED!!!
+		return;
 		
 		// find matching groups / reservations
 		
@@ -526,7 +688,7 @@ class ilBookingReservation
 		}
 		
 		$grp_ids = $rsv_ids = array();
-		$set = $ilDB->query($sql);		
+		$set = $ilDB->query($sql);			
 		while($row = $ilDB->fetchAssoc($set))
 		{	
 			if($row["group_id"])
@@ -536,16 +698,21 @@ class ilBookingReservation
 			else 
 			{
 				$rsv_ids[] = $row["booking_reservation_id"];
-			}
-		}
+			}			
+		}				
 		
 		$res = array();
 		
 		// get complete groups (and/or reservations)
 		
 		if($grp_ids || $rsv_ids)
-		{
-		
+		{		
+			$grp_ids = array_unique($grp_ids);
+			
+			// if result is on last page, reduce limit to entries on last page
+			$max_page = sizeof($grp_ids)+sizeof($rsv_ids);
+			$max_page = min($a_limit, $max_page-$a_offset);
+			
 			$sql = 'SELECT r.*,o.title'.
 				' FROM booking_reservation r'.
 				' JOIN booking_object o ON (o.booking_object_id = r.object_id)';
@@ -562,14 +729,14 @@ class ilBookingReservation
 
 			$sql .= ' WHERE ('.implode(' OR ', $where).')'.
 				' ORDER BY date_from DESC, booking_reservation_id DESC';
-
+			
 			$set = $ilDB->query($sql);
 			$grps = array();
 			$counter = 0;		
 			while($row = $ilDB->fetchAssoc($set))
-			{			
+			{							
 				if($row["group_id"] && !$a_group_id)
-				{
+				{										
 					if(!isset($grps[$row["group_id"]]))
 					{
 						$grps[$row["group_id"]] = 1;
@@ -584,11 +751,15 @@ class ilBookingReservation
 				{				
 					$counter++;
 				}								
-
-				if($a_group_id || ($counter > $a_offset && sizeof($res) < $a_limit))
+	
+				if($a_group_id || 					
+					($counter > $a_offset && 
+						(sizeof($res) < $max_page ||
+							// if group is current page we have to get all group entries, regardless of booking period
+							($row["group_id"] && isset($res["g".$row["group_id"]])))))
 				{
 					if($row["group_id"] && !$a_group_id)
-					{
+					{						
 						$group_id = "g".$row["group_id"];
 						$res[$group_id]["group_id"] = $group_id;
 						$res[$group_id]["details"][] = $row;
@@ -598,21 +769,21 @@ class ilBookingReservation
 						unset($row["group_id"]);
 						$res[] = $row;
 					}				
-				}
+				}					
 			}
 		}
 		
 		include_once('./Services/Calendar/classes/class.ilCalendarUtil.php');
-		
+	 
 		foreach($res as $idx => $item)
 		{
 			if(isset($item["details"]))
 			{
 				$res[$idx]["date_from"] = null;
-				$res[$idx]["date_to"] = null;		
-				
-				$weekdays = array();
-				$recur = $last = 0;
+				$res[$idx]["date_to"] = null;	
+	 
+				$weekdays = $week_counter = array();
+				$recur = $last = 0;			
 				
 				foreach($item["details"] as $detail)
 				{
@@ -622,15 +793,25 @@ class ilBookingReservation
 					$res[$idx]["title"] = $detail["title"];
 					$res[$idx]["booking_reservation_id"] = $detail["booking_reservation_id"];
 					
+					// recurrence/weekdays 
 					$sortkey = date("wHi", $detail["date_from"])."_".date("wHi", $detail["date_to"]);				
 					$weekdays[$sortkey] = ilCalendarUtil::_numericDayToString(date("w", $detail["date_from"]), false).
 						", ".date("H:i", $detail["date_from"]).
 						" - ".date("H:i", $detail["date_to"]);		
 					
+					if($detail["status"] != self::STATUS_CANCELLED)
+					{
+						$week_counter[$sortkey][date("WHi", $detail["date_from"])."_".date("WHi", $detail["date_to"])]++;
+					}
+					else if(!isset($week_counter[$sortkey][date("WHi", $detail["date_from"])."_".date("WHi", $detail["date_to"])]))
+					{
+						$week_counter[$sortkey][date("WHi", $detail["date_from"])."_".date("WHi", $detail["date_to"])] = 0;
+					}
+					
 					if($last && $last-$detail["date_to"] > $recur)
 					{
 						$recur = $last-$detail["date_to"];
-					}				
+					}					
 					
 					// min/max period
 					if(!$res[$idx]["date_from"] || $detail["date_from"] < $res[$idx]["date_from"])
@@ -640,16 +821,32 @@ class ilBookingReservation
 					if(!$res[$idx]["date_to"] || $detail["date_to"] > $res[$idx]["date_to"])
 					{
 						$res[$idx]["date_to"] = $detail["date_to"];
-					}		
+					}			
 					
 					$last = $detail["date_to"];
 				}
 				
 				if(sizeof($item["details"]) > 1)
-				{					
-					$weekdays = array_unique($weekdays);
+				{			
+					$weekdays = array_unique($weekdays);					
 					ksort($weekdays);
-					$res[$idx]["weekdays"] = array_values($weekdays);							
+					
+					foreach($weekdays as $week_id => $weekday)
+					{
+						$min = min($week_counter[$week_id]);
+						$max = max($week_counter[$week_id]);
+						if($min == $max)
+						{
+							$weekdays[$week_id] .= " (".$min.")";
+						}
+						else
+						{
+							$weekdays[$week_id] .= " (".$min."-".$max.")";
+						}
+					}					
+					
+					
+					$res[$idx]["weekdays"] = array_values($weekdays);
 					if($recur)
 					{
 						if(date("YW", $res[$idx]["date_to"]) != date("YW", $res[$idx]["date_from"]))
@@ -662,9 +859,10 @@ class ilBookingReservation
 						}
 					}
 					$res[$idx]["recurrence"] = (int)$recur;	
-					
+	 					
 					$res[$idx]["booking_reservation_id"] = $idx;								
 					$res[$idx]["title"] .= " (".sizeof($item["details"]).")";
+					
 				}
 				else
 				{
@@ -679,6 +877,7 @@ class ilBookingReservation
 		
 		return array('data'=>$res, 'counter'=>$counter);
 	}
+	*/
 
 	/**
 	 * Batch update reservation status
@@ -715,6 +914,38 @@ class ilBookingReservation
 			" AND ce.context_id = ".$ilDB->quote($this->getId(), 'integer'));
 		$row = $ilDB->fetchAssoc($set);
 		return $row["cal_id"];		
+	}
+	
+	/**
+	 * Get reservation ids from aggregated id for cancellation
+	 * 
+	 * @param int $a_obj_id
+	 * @param int $a_user_id
+	 * @param int $a_from
+	 * @param int $a_to
+	 * @return array
+	 */
+	public static function getCancelDetails($a_obj_id, $a_user_id, $a_from, $a_to)
+	{
+		global $ilDB;
+		
+		$res = array();
+		
+		$sql = "SELECT booking_reservation_id".
+			" FROM booking_reservation".
+			" WHERE object_id = ".$ilDB->quote($a_obj_id, "integer").
+			" AND user_id = ".$ilDB->quote($a_user_id, "integer").
+			" AND date_from = ".$ilDB->quote($a_from, "integer").
+			" AND date_to = ".$ilDB->quote($a_to, "integer").
+			" AND (status IS NULL".
+			" OR status <> ".$ilDB->quote(self::STATUS_CANCELLED, "integer").")";
+		$set = $ilDB->query($sql);
+		while($row = $ilDB->fetchAssoc($set))
+		{
+			$res[] = $row["booking_reservation_id"];
+		}
+		
+		return $res;
 	}
 }
 
