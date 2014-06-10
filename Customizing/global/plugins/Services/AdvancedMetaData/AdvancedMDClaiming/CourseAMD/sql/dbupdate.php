@@ -20,7 +20,84 @@ $tlongtext = ilAdvancedMDFieldDefinition::TYPE_LONG_TEXT;
 $gev_set = gevSettings::getInstance();
 
 $records = 
-array( "Inhalte" 
+array( "Zeitraum"
+	 	=> array(null,
+	 	   array( "Startdatum" =>
+	 	   				array( gevSettings::CRS_AMD_START_DATE
+	 	   					 , null
+	 	   					 , true
+	 	   					 , null
+	 	   					 , $tdate
+	 	   					 // if this is changed, gevUserUtils::getPotentiallyBookableCourses
+				 			 // needs to be changed as well!!
+	 	   					 )
+	 	   		, "Enddatum" =>
+	 	   				array( gevSettings::CRS_AMD_END_DATE
+	 	   					 , null
+	 	   					 , true
+	 	   					 , null
+	 	   					 , $tdate
+	 	   					 )
+
+	 	   		))
+	 , "Orte und Anbieter"
+	 	=> array( null, 
+	 	   array( "Anbieter" =>
+	 	   				array( gevSettings::CRS_AMD_PROVIDER
+	 	   					 , null
+	 	   					 , true
+	 	   					 , null
+	 	   					 , $tprovider
+	 	   					 )
+	 	   		, "Veranstaltungsort" =>
+	 	   				array( gevSettings::CRS_AMD_VENUE
+	 	   					 , null
+	 	   					 , true
+	 	   					 , null
+	 	   					 , $tvenue
+	 	   					 )
+	 	   		, "Übernachtungsort" =>
+	 	   				array( gevSettings::CRS_AMD_ACCOMODATION
+	 	   					 , null
+	 	   					 , true
+	 	   					 , null
+	 	   					 , $tvenue
+	 	   					 )
+	 	   		))
+	 , "Buchungsmodalitäten"
+	 	=> array( "Fristen und Teilnehmerzahlen", 
+	 	   array( "Mindestteilnehmerzahl" =>
+	 	   				array( gevSettings::CRS_AMD_MIN_PARTICIPANTS
+	 	   					 , null
+	 	   					 , false
+	 	   					 , array("min" => 0)
+	 	   					 , $tinteger
+	 	   					 )
+	 	   		, "Stornofrist" =>
+	 	   				array( gevSettings::CRS_AMD_CANCEL_DEADLINE
+	 	   					 , "Tage vor dem Seminar, bis zu denen noch kostenfrei storniert werden kann."
+	 	   					 , false
+	 	   					 , array("min" => 0)
+	 	   					 , $tinteger
+	 	   					 )
+	 	   		, "Buchungsfrist" =>
+	 	   				array( gevSettings::CRS_AMD_BOOKING_DEADLINE
+	 	   					 , "Tage vor dem Seminar, bis zu denen das Seminar gebucht werden kann."
+	 	   					 , false
+	 	   					 , array("min" => 0)
+	 	   					 , $tinteger
+				 			 // if this is changed, gevUserUtils::getCourseHighlights
+				 			 // needs to be changed as well!!
+	 	   					 )
+	 	   		, "Absage Wartelist" =>
+	 	   				array( gevSettings::CRS_AMD_CANCEL_WAITING
+	 	   					 , "Tag vor dem Seminar, an dem die Warteliste abgesagt wird."
+	 	   					 , false
+	 	   					 , array("min" => 0)
+	 	   					 , $tinteger
+	 	   					 )
+	 	   		))
+	 , "Inhalte" 
 		=> array( "Inhalte und Medien des Trainings",
 		   array( "Trainingskategorie" =>
 				 		array( gevSettings::CRS_AMD_TOPIC
@@ -120,50 +197,6 @@ array( "Inhalte"
 		   					 , $tlongtext
 		   					 )
 		   ))
-	 , "Orte und Anbieter"
-	 	=> array( null, 
-	 	   array( "Anbieter" =>
-	 	   				array( gevSettings::CRS_AMD_PROVIDER
-	 	   					 , null
-	 	   					 , true
-	 	   					 , null
-	 	   					 , $tprovider
-	 	   					 )
-	 	   		, "Veranstaltungsort" =>
-	 	   				array( gevSettings::CRS_AMD_VENUE
-	 	   					 , null
-	 	   					 , true
-	 	   					 , null
-	 	   					 , $tvenue
-	 	   					 )
-	 	   		, "Übernachtungsort" =>
-	 	   				array( gevSettings::CRS_AMD_ACCOMODATION
-	 	   					 , null
-	 	   					 , true
-	 	   					 , null
-	 	   					 , $tvenue
-	 	   					 )
-	 	   		))
-	 , "Zeitraum"
-	 	=> array(null,
-	 	   array( "Startdatum" =>
-	 	   				array( gevSettings::CRS_AMD_START_DATE
-	 	   					 , null
-	 	   					 , true
-	 	   					 , null
-	 	   					 , $tdate
-	 	   					 // if this is changed, gevUserUtils::getPotentiallyBookableCourses
-				 			 // needs to be changed as well!!
-	 	   					 )
-	 	   		, "Enddatum" =>
-	 	   				array( gevSettings::CRS_AMD_END_DATE
-	 	   					 , null
-	 	   					 , true
-	 	   					 , null
-	 	   					 , $tdate
-	 	   					 )
-
-	 	   		))
 	 , "Bewertung"
 	 	=> array("Bewertung des Trainings für die WBD und den ASTD-Report",
 	 	   array( "Weiterbildungspunkte" =>
@@ -207,37 +240,6 @@ array( "Inhalte"
 	 	   					 , $tfloat
 	 	   					 )
 	 	   		))
-	 , "Buchungsmodalitäten"
-	 	=> array( "Fristen und Teilnehmerzahlen", 
-	 	   array( "Mindestteilnehmerzahl" =>
-	 	   				array( gevSettings::CRS_AMD_MIN_PARTICIPANTS
-	 	   					 , null
-	 	   					 , false
-	 	   					 , array("min" => 0)
-	 	   					 , $tinteger
-	 	   					 )
-	 	   		, "Stornofrist" =>
-	 	   				array( gevSettings::CRS_AMD_CANCEL_DEADLINE
-	 	   					 , "Tage vor dem Seminar, bis zu denen noch kostenfrei storniert werden kann."
-	 	   					 , false
-	 	   					 , array("min" => 0)
-	 	   					 , $tinteger
-	 	   					 )
-	 	   		, "Buchungsfrist" =>
-	 	   				array( gevSettings::CRS_AMD_BOOKING_DEADLINE
-	 	   					 , "Tage vor dem Seminar, bis zu denen das Seminar gebucht werden kann."
-	 	   					 , false
-	 	   					 , array("min" => 0)
-	 	   					 , $tinteger
-	 	   					 )
-	 	   		, "Absage Wartelist" =>
-	 	   				array( gevSettings::CRS_AMD_CANCEL_WAITING
-	 	   					 , "Tag vor dem Seminar, an dem die Warteliste abgesagt wird."
-	 	   					 , false
-	 	   					 , array("min" => 0)
-	 	   					 , $tinteger
-	 	   					 )
-	 	   		))
 	, "Verwaltung"
 		=> 	array( "Einstellungen zur Verwaltung der Trainings", 
 			array( "Trainingsnummer" => 
@@ -271,6 +273,8 @@ array( "Inhalte"
 				 		array( gevSettings::CRS_AMD_TYPE
 				 			 , "Art des Trainings"
 				 			 , true
+				 			 // if this is changed, gevUserUtils::getPotentiallyBookableCourses
+				 			 // needs to be changed as well!!
 				 			 , array( "Präsenztraining"
 				 			 		, "Webinar"
 				 			 		, "Selbstlernkurs"
@@ -278,6 +282,8 @@ array( "Inhalte"
 				 			 		, "Spezialistenschulung Webinar"
 									, "POT-Termin"
 									)
+				 			 // if this is changed, gevUserUtils::getCourseHighlights
+				 			 // needs to be changed as well!!
 				 			 , $tselect
 				 			 )
 				 ))
