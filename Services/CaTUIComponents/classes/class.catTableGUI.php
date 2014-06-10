@@ -51,6 +51,15 @@ class catTableGUI extends ilTable2GUI {
 		return $this->_title->getSubtitle();
 	}
 	
+	public function setImage($a_img) {
+		$this->_title->setImage($a_img);
+		return $this;
+	}
+	
+	public function getImage() {
+		return $this->_title->getImage();
+	}
+	
 	public function setLegend(catLegendGUI $a_legend) {
 		$this->_title->setLegend($a_legend);
 		return $this;
