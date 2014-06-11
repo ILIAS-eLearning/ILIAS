@@ -47,7 +47,7 @@ if(!$ilDB->tableExists('cat_mail_templates'))
 	$ilDB->createSequence('cat_mail_templates');
 }
 /****************************************************************************/
-if(!$ilDB->tableExists('cat_mail_variants#'))
+if(!$ilDB->tableExists('cat_mail_variants'))
 {
 	$fields = array (
 		'id' => array(

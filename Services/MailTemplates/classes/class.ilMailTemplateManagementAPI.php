@@ -60,7 +60,7 @@ class ilMailTemplateManagementAPI
 	{
 		global $ilDB;
 		$query = "
-		SELECT cat_mail_variants.id, cat_mail_variants.language, cat_mail_variants.template_type
+		SELECT cat_mail_variants.id, cat_mail_variants.language, cat_mail_templates.template_type
 		FROM cat_mail_templates
 		JOIN cat_mail_variants ON cat_mail_variants.mail_types_fi = cat_mail_templates.id
 		WHERE cat_mail_templates.category_name = %s";

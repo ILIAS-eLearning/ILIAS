@@ -19,7 +19,11 @@ require_once "./Services/Container/classes/class.ilContainerGUI.php";
 * @ilCtrl_Calls ilObjCourseGUI: ilLicenseOverviewGUI, ilObjectCopyGUI, ilObjStyleSheetGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilCourseParticipantsGroupsGUI, ilExportGUI, ilCommonActionDispatcherGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilDidacticTemplateGUI, ilCertificateGUI, ilObjectServiceSettingsGUI
-* 
+*
+* // gev-patch start
+* @ilCtrl_Calls ilObjCourseGUI: gevCrsMailingGUI
+* // gev-patch end 
+*
 * @extends ilContainerGUI
 */
 class ilObjCourseGUI extends ilContainerGUI
@@ -201,6 +205,8 @@ class ilObjCourseGUI extends ilContainerGUI
 	function viewObject()
 	{
 		global $rbacsystem, $ilUser, $ilCtrl;
+
+		$this->tabs_gui->activateTab("view_content");
 
 		// CHECK ACCESS
 		$this->checkPermission('read','view');
@@ -1708,6 +1714,9 @@ class ilObjCourseGUI extends ilContainerGUI
 				}
 
 				
+				// gev-patch start
+				// no standard mail to members functionality
+				/*
 				include_once 'Services/Mail/classes/class.ilMail.php';
 				$mail = new ilMail($ilUser->getId());
 				if(
@@ -1720,6 +1729,8 @@ class ilObjCourseGUI extends ilContainerGUI
 													 $this->ctrl->getLinkTarget($this,'mailMembers'),
 													 "mailMembers", get_class($this));
 				}
+				*/
+				// gev-patch end
 				
 				$childs = (array) $tree->getChildsByType($this->object->getRefId(),'sess');
 				if(count($childs) && $ilAccess->checkAccess('write','',$this->object->getRefId()))
@@ -3432,6 +3443,16 @@ class ilObjCourseGUI extends ilContainerGUI
 		include_once './Services/Mail/classes/class.ilMail.php';
 		$mail = new ilMail($GLOBALS['ilUser']->getId());
 		
+		// gev-patch start
+		if ($ilAccess->checkAccess("write", "", $this->ref_id)) {
+			$this->lng->loadLanguageModule("mailing");
+			$tabs_gui->addTab( "mailing"
+							 , $this->lng->txt("mailing")
+							 , $this->ctrl->getLinkTargetByClass(array("ilobjcoursegui", "gevcrsmailinggui"), "")
+							 );
+		}
+		// gev-patch end
+		
 		// member list
 		if($ilAccess->checkAccess('write','',$this->ref_id))
 		{
@@ -4679,6 +4700,15 @@ class ilObjCourseGUI extends ilContainerGUI
 						));
 				$this->ctrl->forwardCommand($service);
 				break;
+				
+			// gev-patch start
+			case "gevcrsmailinggui":
+				require_once("Services/GEV/Mailing/classes/class.gevCrsMailingGUI.php");
+				$mailing_gui = new gevCrsMailingGUI($this->object->getId(), $this->object->getRefId(), $this);
+				$this->tabs_gui->activateTab("mailing");
+				$this->ctrl->forwardCommand($mailing_gui);
+				break;
+			// gev-patch end
 						
             default:
 /*                if(!$this->creation_mode)

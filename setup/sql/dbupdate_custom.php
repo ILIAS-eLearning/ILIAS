@@ -343,3 +343,178 @@ if(!$ilDB->tableExists('orgu_types_adv_md_rec')) {
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#15>
+<?php
+
+// Automail-Info for the Generali
+
+$fields = array (
+     'crs_id' => array(
+         'type' => 'integer',
+         'length' => 4,
+         'notnull' => true
+         ),
+     'mail_id' => array(
+         "type" => "text",
+         "length" => "50",
+         "notnull" => true
+         ),
+     'last_send' => array(
+         'type' => 'integer',
+         'length' => 4,
+         'notnull' => true,
+         )
+);
+
+$ilDB->createTable('gev_automail_info', $fields);
+$ilDB->addPrimaryKey('gev_automail_info', array('crs_id', 'mail_id'));
+
+?>
+
+<#16>
+<?php
+
+$fields = array (
+     'id' => array(
+         'type' => 'integer',
+         'length' => 4,
+         'notnull' => true
+         ),
+     'obj_id' => array(
+         'type' => 'integer',
+         'length' => 4,
+         'notnull' => true
+         ),
+     'moment' => array(
+         'type' => 'integer',
+         'length' => 4,
+         'notnull' => true
+         ),
+     'occasion' => array(
+         "type" => "text",
+         "length" => "100",
+         "notnull" => true
+         ),
+     'mail_to' => array(
+         "type" => "text",
+         "length" => "200",
+         "notnull" => true
+         ),
+     'mail_from' => array(
+         "type" => "text",
+         "length" => "200",
+         "notnull" => true
+         ),
+     'cc' => array(
+         "type" => "clob"
+         ),
+     'bcc' => array(
+         "type" => "clob"
+         ),
+     'subject' => array(
+         "type" => "text",
+         "length" => "200",
+         "notnull" => true
+         ),
+     'message' => array(
+         "type" => "clob"
+         ),
+     'attachments' => array(
+         "type" => "clob"
+         )
+);
+
+$ilDB->createTable('mail_log', $fields);
+$ilDB->addPrimaryKey('mail_log', array('id'));
+$ilDB->createSequence("mail_log");
+
+?>
+
+<#17>
+<?php
+
+$fields = array (
+     'obj_id' => array(
+         'type' => 'integer',
+         'length' => 4,
+         'notnull' => true
+         ),
+     'filename' => array(
+         "type" => "text",
+         "length" => "255",
+         "notnull" => true
+         ),
+     'lock_count' => array(
+         'type' => 'integer',
+         'length' => 4,
+         'notnull' => true
+     )
+);
+
+
+$ilDB->createTable('mail_attachment_locks', $fields);
+
+# set collation since mysql complains about the length of primary 
+# key for some collations.
+$ilDB->manipulate("ALTER TABLE `mail_attachment_locks` CHANGE `filename` `filename` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL ");
+
+$ilDB->addPrimaryKey('mail_attachment_locks', array('obj_id', 'filename'));
+
+?>
+
+<#18>
+<?php
+
+$fields = array (
+     'crs_id' => array(
+         'type' => 'integer',
+         'length' => 4,
+         'notnull' => true
+         ),
+     'send_list_to_accom' => array(
+         'type' => 'integer',
+         'length' => 1,
+         'notnull' => true
+         ),
+     'send_list_to_venue' => array(
+         'type' => 'integer',
+         'length' => 1,
+         'notnull' => true
+         )
+);
+
+$ilDB->createTable('gev_crs_addset', $fields);
+$ilDB->addPrimaryKey('gev_crs_addset', array('crs_id'));
+
+?>
+
+<#19>
+<?php
+
+// INVITATION_MAIL_SETTINGS for the VoFue
+
+$fields = array (
+     'crs_id' => array(
+         'type' => 'integer',
+         'length' => 4,
+         'notnull' => true
+         ),
+     'function_name' => array(
+         "type" => "text",
+         "length" => "50",
+         "notnull" => true
+         ),
+     'template_id' => array(
+         'type' => 'integer',
+         'length' => 4,
+         'notnull' => true,
+         ),
+     'attachments' => array(
+         "type" => "clob"
+         )
+);
+
+$ilDB->createTable('gev_crs_invset', $fields);
+$ilDB->addPrimaryKey('gev_crs_invset', array('crs_id', 'function_name'));
+
+?>
