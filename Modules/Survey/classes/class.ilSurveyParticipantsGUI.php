@@ -1188,10 +1188,14 @@ class ilSurveyParticipantsGUI
 		$ilToolbar->addSeparator();
 		
 		$ilToolbar->addButton($this->lng->txt("survey_360_add_external_rater"), 
-			$this->ctrl->getLinkTarget($this, "addExternalRaterForm"));				
+			$this->ctrl->getLinkTarget($this, "addExternalRaterForm"));		
+		
+		// #13320
+		require_once "Services/Link/classes/class.ilLink.php";
+		$url = ilLink::_getStaticLink($this->object->getRefId());
 		
 		include_once "Modules/Survey/classes/tables/class.ilSurveyAppraiseesTableGUI.php";
-		$tbl = new ilSurveyAppraiseesTableGUI($this, "editRaters", true, !$this->object->isAppraiseeClosed($appr_id)); // #11285
+		$tbl = new ilSurveyAppraiseesTableGUI($this, "editRaters", true, !$this->object->isAppraiseeClosed($appr_id), $url); // #11285
 		$tbl->setData($this->object->getRatersData($appr_id));
 		$this->tpl->setContent($tbl->getHTML());				
 	}

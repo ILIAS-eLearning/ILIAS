@@ -34,6 +34,7 @@ include_once('./Services/Table/classes/class.ilTable2GUI.php');
 class ilSurveyAppraiseesTableGUI extends ilTable2GUI
 {	
 	protected $raters_mode; // [bool]
+	protected $fallback_url; // [string]
 	
 	/**
 	 * Constructor
@@ -42,13 +43,14 @@ class ilSurveyAppraiseesTableGUI extends ilTable2GUI
 	 * @param
 	 * @return
 	 */
-	public function __construct($a_parent_obj, $a_parent_cmd, $a_raters_mode = false, $a_may_delete_rater = false)
+	public function __construct($a_parent_obj, $a_parent_cmd, $a_raters_mode = false, $a_may_delete_rater = false, $a_fallback_url = null)
 	{
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
 		global $lng, $ilCtrl;
 		
 		$this->raters_mode = (bool)$a_raters_mode;
+		$this->fallback_url = trim($a_fallback_url);
 
 		$this->lng = $lng;
 		$this->ctrl = $ilCtrl;
@@ -148,9 +150,16 @@ class ilSurveyAppraiseesTableGUI extends ilTable2GUI
 			}
 			$this->tpl->setVariable("MAIL_SENT", $sent);			
 			
-			if($data["href"])
+			if($data["href"] || $this->fallback_url)
 			{
-				$this->tpl->setVariable("DIRECT_HREF", $data["href"]."");		
+				if($data["href"])
+				{
+					$this->tpl->setVariable("DIRECT_HREF", $data["href"]);		
+				}
+				else
+				{
+					$this->tpl->setVariable("DIRECT_HREF", $this->fallback_url);
+				}
 			}
 			else
 			{
