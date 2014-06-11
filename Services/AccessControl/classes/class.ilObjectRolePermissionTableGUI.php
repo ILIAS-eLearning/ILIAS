@@ -654,7 +654,14 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
 		$ilCtrl->setParameterByClass('ilobjrolegui', 'rolf_ref_id', $this->getRoleFolderId());
 		$ilCtrl->setParameterByClass('ilobjrolegui', 'obj_id', $role['obj_id']);
 		
-		return '<a class="tblheader" href="'.$ilCtrl->getLinkTargetByClass('ilobjrolegui','').'" >'.$role['title'].'</a>';
+		// gev-patch start
+		if (ilObject::_lookupType($this->ref_id, true) == "crs") {
+			return $role['title'];
+		}
+		else {
+			return '<a class="tblheader" href="'.$ilCtrl->getLinkTargetByClass('ilobjrolegui','').'" >'.$role['title'].'</a>';
+		}
+		// gev-patch end
 	}
 }
 ?>
