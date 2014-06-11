@@ -166,7 +166,9 @@ class ilObjCourseAccess extends ilObjectAccess
 				'enable_anonymous' => false
 			);
 		}
-
+		
+		// gev-patch start
+		/*
 		$commands[] = array("permission" => "join", "cmd" => "join", "lang_var" => "join");
 
 		// on waiting list
@@ -174,6 +176,8 @@ class ilObjCourseAccess extends ilObjectAccess
 		
 		// regualar users
 		$commands[]	= array('permission' => "leave", "cmd" => "leave", "lang_var" => "crs_unsubscribe");
+		*/
+		// gev-patch end
 
 		include_once ('Services/WebDAV/classes/class.ilDAVActivationChecker.php');
 		if (ilDAVActivationChecker::_isActive())

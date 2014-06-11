@@ -3379,7 +3379,8 @@ class ilObjCourseGUI extends ilContainerGUI
 	 */
 	protected function getAgreementTabs()
 	{
-		
+		// gev-patch start
+		/*
 		if ($ilAccess->checkAccess('visible','',$this->ref_id))
 		{
 			$GLOBALS['ilTabs']->addTarget("info_short",
@@ -3388,6 +3389,7 @@ class ilObjCourseGUI extends ilContainerGUI
 								 "infoScreen"
 			);
 		}
+
 		if($ilAccess->checkAccess('leave','',$this->object->getRefId()) and $this->object->getMemberObject()->isMember())
 		{
 			$GLOBALS['ilTabs']->addTarget("crs_unsubscribe",
@@ -3395,7 +3397,8 @@ class ilObjCourseGUI extends ilContainerGUI
 					'leave',
 					 "");
 		}
-		
+		*/
+		// gev-patch end
 	}
 
 	/**
@@ -3565,6 +3568,8 @@ class ilObjCourseGUI extends ilContainerGUI
 			}
 		}
 		// Join/Leave
+		// gev-patch start
+		/*
 		if($ilAccess->checkAccess('join','',$this->ref_id)
 			and !$this->object->getMemberObject()->isAssigned())
 		{
@@ -3596,6 +3601,8 @@ class ilObjCourseGUI extends ilContainerGUI
 								 "");
 			
 		}
+		*/
+		// gev-patch end
 	}
 	
 	function fetchPrintSubscriberData($a_members)
