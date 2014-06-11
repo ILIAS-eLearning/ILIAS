@@ -51,7 +51,7 @@ class ilChartDataBars extends ilChartData
 	 */
 	public function setBarOptions($a_width, $a_align = "center", $a_horizontal = false)
 	{
-		$this->bar_width = (float)$a_width;
+		$this->bar_width = (float)str_replace(",", ".", $a_width);
 		if(in_array((string)$a_align, array("center", "left")))
 		{
 			$this->bar_align = (string)$a_align;
@@ -69,7 +69,7 @@ class ilChartDataBars extends ilChartData
 		
 		if($this->bar_width)
 		{
-			$a_options["barWidth"] = str_replace(",", ".", $this->bar_width);
+			$a_options["barWidth"] = $this->bar_width;
 			$a_options["align"] = $this->bar_align;
 			if($this->bar_horizontal)
 			{

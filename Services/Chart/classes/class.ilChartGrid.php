@@ -106,10 +106,14 @@ class ilChartGrid extends ilChart
 		$ticks = $this->getTicks();
 		if($ticks)
 		{			
+			$labeled = (bool)$ticks["labeled"];
+			unset($ticks["labeled"]);		
 			foreach($ticks as $axis => $def)
-			{
-				$a_options->{$axis."axis"} = new stdClass();
-				
+			{				
+				if(is_numeric($def) || is_array($def))
+				{
+					$a_options->{$axis."axis"} = new stdClass();
+				}
 				if(is_numeric($def))
 				{					
 					$a_options->{$axis."axis"}->ticks = $def;
@@ -119,7 +123,7 @@ class ilChartGrid extends ilChart
 					$a_options->{$axis."axis"}->ticks = array();
 					foreach($def as $idx => $value)
 					{
-						if($ticks["labeled"])
+						if($labeled)
 						{
 							$a_options->{$axis."axis"}->ticks[] = array($idx, $value);
 						}
@@ -130,7 +134,7 @@ class ilChartGrid extends ilChart
 					}
 				}
 			}
-		}
+		}			
 		
 		// optional: remove decimals
 	    if($this->integer_axis["x"] && !isset($a_options->xaxis))
@@ -138,11 +142,11 @@ class ilChartGrid extends ilChart
 			$a_options->{"xaxis"} = new stdClass();
 			$a_options->{"xaxis"}->tickDecimals = 0;
 		}
-		if(!isset($tmp["y"]) && !isset($a_options->yaxis))
+		if($this->integer_axis["y"] && !isset($a_options->yaxis))
 		{
 			$a_options->{"yaxis"} = new stdClass();
 			$a_options->{"yaxis"}->tickDecimals = 0;
-		}			
+		}	
 	}			
 }
 	
