@@ -46,6 +46,7 @@ class arObjectCache {
 	 * @param $class
 	 * @param $id
 	 *
+	 * @throws arException
 	 * @return ActiveRecord
 	 */
 	public static function get($class, $id) {
