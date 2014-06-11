@@ -39,8 +39,7 @@ class gevCoursesTableGUI extends catAccordionTableGUI {
 		$this->setEnableHeader(true);
 
 		$this->setRowTemplate("tpl.gev_my_courses_row.html", "Services/GEV/Desktop");
-
-		$this->addColumn("", "expand", "20px");
+		$this->addColumn("", "expand", "0px", false, "catTableExpandButton");
 		$this->addColumn($this->lng->txt("title"), "title");
 		$this->addColumn($this->lng->txt("status"), "status");
 		$this->addColumn($this->lng->txt("gev_learning_type"), "type");
