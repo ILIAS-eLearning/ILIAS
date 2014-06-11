@@ -280,7 +280,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 					$evaluationrow['city'] = $userfields['city'];
 					$evaluationrow['zipcode'] = $userfields['zipcode'];
 					$evaluationrow['country'] = $userfields['country'];
-					$evaluationrow['departement'] = $userfields['departement'];
+					$evaluationrow['department'] = $userfields['department'];
 					$evaluationrow['matriculation'] = $userfields['matriculation'];
 					$counter++;
 					$data[] = $evaluationrow;
