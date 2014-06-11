@@ -22,6 +22,7 @@ require_once 'Modules/Test/classes/class.ilTestPlayerAbstractGUI.php';
  * @ilCtrl_Calls ilTestPlayerDynamicQuestionSetGUI: ilAssQuestionPageGUI
  * @ilCtrl_Calls ilTestPlayerDynamicQuestionSetGUI: ilFilteredQuestionsTableGUI
  * @ilCtrl_Calls ilTestPlayerDynamicQuestionSetGUI: ilToolbarGUI
+ * @ilCtrl_Calls ilTestPlayerDynamicQuestionSetGUI: ilTestSubmissionReviewGUI
  */
 class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 {

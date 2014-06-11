@@ -7,8 +7,7 @@
  * @author Maximilian Becker <mbecker@databay.de>
  * @version $Id$
  * 
- * @ilCtrl_calls 	  ilTestSubmissionReviewGUI: ilTestOutputGUI, ilTestEvaluationGUI, ilAssQuestionPageGUI
- * @ilCtrl_isCalledBy ilTestSubmissionReviewGUI: ilTestOutputGUI
+ * @ilCtrl_calls 	  ilTestSubmissionReviewGUI: ilAssQuestionPageGUI
  */
 class ilTestSubmissionReviewGUI 
 {
@@ -44,12 +43,6 @@ class ilTestSubmissionReviewGUI
 
 		switch($next_class)
 		{
-			case 'iltestoutputgui':
-				$this->ilCtrl->forwardCommand($this->testOutputGUI);
-				break;
-			case 'iltestevaluationgui':
-				$this->ilCtrl->forwardCommand($this->getTestEvaluationGUI());
-				break;
 			default:
 				$ret = $this->dispatchCommand();
 				break;
