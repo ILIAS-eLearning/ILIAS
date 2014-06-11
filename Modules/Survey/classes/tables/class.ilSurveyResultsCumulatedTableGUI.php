@@ -172,13 +172,13 @@ class ilSurveyResultsCumulatedTableGUI extends ilTable2GUI
 			if (strcmp($c, 'median') == 0)
 			{
 				$this->tpl->setCurrentBlock('median');
-				$this->tpl->setVariable("MEDIAN", $data['median']);
+				$this->tpl->setVariable("MEDIAN", ($data['median'] != "") ? $data['median'] : $this->lng->txt("survey_not_available"));
 				$this->tpl->parseCurrentBlock();
 			}
 			if (strcmp($c, 'arithmetic_mean') == 0)
 			{
 				$this->tpl->setCurrentBlock('arithmetic_mean');
-				$this->tpl->setVariable("ARITHMETIC_MEAN", $data['arithmetic_mean']);
+				$this->tpl->setVariable("ARITHMETIC_MEAN", ($data['arithmetic_mean'] != "") ? $data['arithmetic_mean'] : $this->lng->txt("survey_not_available"));
 				$this->tpl->parseCurrentBlock();
 			}
 		}

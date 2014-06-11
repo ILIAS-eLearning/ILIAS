@@ -14341,3 +14341,4 @@ forum#:#post_reply_count#:#Re(%s):
 survey#:#spl_save_obligatory_state#:#verpflichtend-Status speichern
 dateplaner#:#cal_ical_url#:#iCal-URL
 book#:#book_confirm_cancel_aggregation#:#Anzahl Stornierungen
+survey#:#survey_not_available#:#n.a.
