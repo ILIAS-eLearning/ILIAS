@@ -107,7 +107,6 @@ class ilTestSubmissionReviewGUI
 		
 		$template = new ilTemplate("tpl.il_as_tst_submission_review.html", TRUE, TRUE, "Modules/Test");
 
-		$this->ilCtrl->setParameter($this, "crs_show_result", $_GET['crs_show_result']);
 		$this->ilCtrl->setParameter($this, "skipfinalstatement", 1);
 		$template->setVariable("FORMACTION", $this->ilCtrl->getFormAction($this->testOutputGUI, 'redirectBack').'&reviewed=1');
 		
