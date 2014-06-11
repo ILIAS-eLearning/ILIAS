@@ -78,7 +78,9 @@ class ilCourseEditParticipantsTableGUI extends ilTable2GUI
 	 	{
 		 	$this->addColumn($this->lng->txt('last_access'),'access_time');
 	 	}
-	 	$this->addColumn($this->lng->txt('crs_passed'),'passed');
+	 	// gev-patch start
+	 	//$this->addColumn($this->lng->txt('crs_passed'),'passed');
+	 	// gev-patch end
 	 	$this->addColumn($this->lng->txt('crs_blocked'),'blocked');
 	 	$this->addColumn($this->lng->txt('crs_notification'),'notification');
 	 	$this->addColumn($this->lng->txt('objs_role'),'roles');
@@ -130,11 +132,19 @@ class ilCourseEditParticipantsTableGUI extends ilTable2GUI
 		$this->tpl->setVariable('VAL_PASSED_CHECKED',$a_set['passed'] ? 'checked="checked"' : '');
 		$this->tpl->setVariable('VAL_BLOCKED_CHECKED',$a_set['blocked'] ? 'checked="checked"' : '');
 		
-		$this->tpl->setVariable('NUM_ROLES',count($this->participants->getRoles()));
+		// gev-patch start
+		$this->tpl->setVariable('NUM_ROLES',count($this->participants->getRoles())-1);
+		//gev-patch end
 		
 		$assigned = $this->participants->getAssignedRoles($a_set['usr_id']);
 		foreach($this->localCourseRoles as $localizedTitle => $roleData)
 		{
+			// gev-patch start
+			if (substr($roleData["title"], 0, 13) == "il_crs_member") {
+				continue;
+			}
+			// gev-patch end
+			
 			if ($hasEditPermissionAccess || substr($roleData['title'], 0, 12) != 'il_crs_admin') 
 			{
 				$this->tpl->setCurrentBlock('roles');
