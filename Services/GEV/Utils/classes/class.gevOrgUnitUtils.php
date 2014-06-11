@@ -34,7 +34,7 @@ class gevOrgUnitUtils {
 		}
 		
 		self::$instances[$a_orgu_id] = new gevOrgUnitUtils($a_orgu_id);
-		return self::$instance[$a_orgu_id];
+		return self::$instances[$a_orgu_id];
 	}
 	
 	static public function createOrgType($a_gev_setting, $a_title, $a_desc) {
@@ -104,10 +104,18 @@ class gevOrgUnitUtils {
 		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnit.php");
 		
 		if ($this->orgu_instance === null) {
-			$this->orgu_instance = new ilObjOrgUnit($this->orgu_id);
+			$this->orgu_instance = new ilObjOrgUnit($this->orgu_id, false);
 		}
 		
 		return $this->orgu_instance;
+	}
+	
+	public function getTitle() {
+		return $this->getOrgUnitInstance()->getTitle();
+	}
+	
+	public function getLongTitle() {
+		return $this->getOrgUnitInstance()->getTitle().", ".$this->getCity();
 	}
 
 	public function getType() {

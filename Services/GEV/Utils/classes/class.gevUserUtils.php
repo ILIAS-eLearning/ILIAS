@@ -123,6 +123,8 @@ class gevUserUtils {
 	}
 	
 	public function getBookedAndWaitingCourseInformation() {
+		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
+		
 		$crs_amd = 
 			array( gevSettings::CRS_AMD_START_DATE			=> "start_date"
 				 , gevSettings::CRS_AMD_END_DATE 			=> "end_date"
@@ -143,17 +145,23 @@ class gevUserUtils {
 		$booked_amd = gevAMDUtils::getInstance()->getTable($booked, $crs_amd);
 		foreach ($booked_amd as $key => $value) {
 			$booked_amd[$key]["status"] = ilCourseBooking::STATUS_BOOKED;
-			$booked_amd[$key]["cancel_date"] = gevCourseUtils::mkDeadlineDate( $booked_amd[$key]["start_date"]
-																			 , $booked_amd[$key]["cancel_date"]
+			$booked_amd[$key]["cancel_date"] = gevCourseUtils::mkDeadlineDate( $value["start_date"]
+																			 , $value["cancel_date"]
 																			 );
+			
+			$orgu_utils = gevOrgUnitUtils::getInstance($value["location"]);
+			$booked_amd[$key]["location"] = $orgu_utils->getLongTitle();
 		}
 		$waiting = $this->courseBookings->getWaitingCourses();
 		$waiting_amd = gevAMDUtils::getInstance()->getTable($waiting, $crs_amd);
 		foreach ($waiting_amd as $key => $value) {
 			$waiting_amd[$key]["status"] = ilCourseBooking::STATUS_WAITING;
-			$waiting_amd[$key]["cancel_date"] = gevCourseUtils::mkDeadlineDate( $waiting_amd[$key]["start_date"]
-																			  , $waiting_amd[$key]["cancel_date"]
+			$waiting_amd[$key]["cancel_date"] = gevCourseUtils::mkDeadlineDate( $value["start_date"]
+																			  , $value["cancel_date"]
 																			  );
+			
+			$orgu_utils = gevOrgUnitUtils::getInstance($value["location"]);
+			$waiting_amd[$key]["location"] = $orgu_utils->getLongTitle();
 		}
 		
 		return array_merge($booked_amd, $waiting_amd);
@@ -210,6 +218,7 @@ class gevUserUtils {
 		require_once("Services/CourseBooking/classes/class.ilCourseBookings.php");
 		require_once("Services/CourseBooking/classes/class.ilCourseBookingPermissions.php");
 		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
 
 		if ($a_order == "") {
 			$a_order = "title";
@@ -254,9 +263,12 @@ class gevUserUtils {
 			$crs = new ilObjCourse($info["obj_id"], false);
 			$crs_booking = ilCourseBookings::getInstance($crs);
 			$crs_booking_perms = ilCourseBookingPermissions::getInstance($crs);
+			$orgu_utils = gevOrgUnitUtils::getInstance($value["location"]);
 			
-			$info[$key]["booking_date"] = gevCourseUtils::mkDeadlineDate( $info[$key]["start_date"]
-																		, $info[$key]["booking_date"]
+			
+			$info[$key]["location"] = $orgu_utils->getLongTitle();
+			$info[$key]["booking_date"] = gevCourseUtils::mkDeadlineDate( $value["start_date"]
+																		, $value["booking_date"]
 																		);
 			$info[$key]["bookable"] = $crs_booking_perms->bookCourseForUser($this->user_id);
 			$info[$key]["free_places"] = $crs_booking->getFreePlaces();
