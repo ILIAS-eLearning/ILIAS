@@ -567,19 +567,6 @@ class ilTestSequence
 		}
 	}
 	
-	public function handleQuestionVisibility(ilObjTest $testOBJ, $crsShowResultParam)
-	{
-		if( $crsShowResultParam )
-		{
-			$this->hideCorrectAnsweredQuestions($testOBJ, $this->active_id, $this->pass);
-		}
-		elseif( $this->hasHiddenQuestions() )
-		{
-			$this->clearHiddenQuestions();
-			$this->saveToDb();
-		}
-	}
-	
 	public function hasStarted(ilTestSession $testSession)
 	{
 		if( $testSession->getLastSequence() < 1 )

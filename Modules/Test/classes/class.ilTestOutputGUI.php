@@ -366,6 +366,19 @@ class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 				break;
 		}
 	}
+	
+	private function isValidSequenceElement($sequenceElement)
+	{
+		if( $sequenceElement < 1 )
+		{
+			return false;
+		}
+		
+		if( !$this->testSequence->getPositionOfSequence($sequence) )
+		{
+			return false;
+		}
+	}
 
 	/**
 	 * Creates the learners output of a question
@@ -374,7 +387,10 @@ class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 	{
 		global $ilUser;
 		
-		if ($sequence < 1) $sequence = $this->testSequence->getFirstSequence();
+		if( !$this->isValidSequenceElement($sequence) )
+		{
+			$sequence = $this->testSequence->getFirstSequence();
+		}
 		
 		$_SESSION["active_time_id"]= $this->object->startWorkingTime($this->testSession->getActiveId(), 
 																	 $this->testSession->getPass()

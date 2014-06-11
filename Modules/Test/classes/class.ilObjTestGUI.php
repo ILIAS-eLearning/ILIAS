@@ -64,11 +64,6 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->ctrl =& $ilCtrl;
 		$this->ctrl->saveParameter($this, array("ref_id", "test_ref_id", "calling_test", "test_express_mode", "q_id"));
 		$this->ilObjectGUI("",$_GET["ref_id"], true, false);
-		// Added parameter if called from crs_objectives
-		if((int) $_GET['crs_show_result'])
-		{
-			$this->ctrl->saveParameter($this,'crs_show_result',(int) $_GET['crs_show_result']);
-		}
 
 		if( $this->object instanceof ilObjTest )
 		{
@@ -852,12 +847,6 @@ class ilObjTestGUI extends ilObjectGUI
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$path = $this->tree->getPathFull($this->object->getRefID());
 		ilUtil::redirect($this->getReturnLocation("cancel","./ilias.php?baseClass=ilRepositoryGUI&cmd=frameset&ref_id=" . $path[count($path) - 2]["child"]));
-	}
-	
-	function backToCourseObject()
-	{
-		include_once "./Services/Utilities/classes/class.ilUtil.php";
-		ilUtil::redirect($this->getReturnLocation("cancel","./ilias.php?baseClass=ilRepositoryGUI&ref_id=".(int) $_GET['crs_show_result']));
 	}
 
 	/**
@@ -3801,8 +3790,6 @@ class ilObjTestGUI extends ilObjectGUI
 		
 		$testPlayerGUI = $this->testPlayerFactory->getPlayerGUI();
 		
-		$testSequence->handleQuestionVisibility($this->object, $_GET['crs_show_result']);
-		
 		if ($_GET['createRandomSolutions'])
 		{
 			$this->object->createRandomSolutions($_GET['createRandomSolutions']);
@@ -4111,15 +4098,6 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 			$info->addMetaDataSections($this->object->getId(),0, $this->object->getType());
 			// forward the command
-
-			if($_GET['crs_show_result'] and !$testSequence->openQuestionExists())
-			{
-				// changed indication on sequence (see if expr) to a more generic interface that also fits dynamic tests
-				// the following message could also be interesting for dyn tests
-				// is the param crs_show_result a legacy thing only or is ist required by new LoK ?
-				
-				#ilUtil::sendInfo($this->lng->txt('crs_all_questions_answered_successfully'));
-			}			
 		}
 		
 		$this->ctrl->forwardCommand($info);
