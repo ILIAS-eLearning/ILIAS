@@ -14341,3 +14341,4 @@ dateplaner#:#cal_ical_url#:#iCal-URL
 content#:#cont_help_no_valid_tooltip_id#:#The tooltip ID you have entered was not valid.
 book#:#book_confirm_cancel_aggregation#:#Number of Cancellations
 survey#:#survey_not_available#:#n/a
+blog#:#blog_change_notification_body_approve#:#the following blog posting needs approval.

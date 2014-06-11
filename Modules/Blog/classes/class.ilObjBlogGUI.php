@@ -2215,9 +2215,10 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		if($this->checkPermissionBool("write") && (int)$_GET["apid"])
 		{			
 			include_once "Modules/Blog/classes/class.ilBlogPosting.php";
-			$post = new ilBlogPosting((int)$_GET["apid"]);
+			$post = new ilBlogPosting((int)$_GET["apid"]);			
 			$post->setApproved(true);
-			$post->update();
+			$post->setBlogNodeId($this->node_id, ($this->id_type == self::WORKSPACE_NODE_ID));
+			$post->update(true, false, true, "new"); // #13434
 			
 			ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
 		}

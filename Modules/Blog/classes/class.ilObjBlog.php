@@ -527,13 +527,14 @@ class ilObjBlog extends ilObject2
 		}	
 				
 		include_once "./Modules/Blog/classes/class.ilBlogPosting.php";
-		$posting = new ilBlogPosting($a_posting_id);
+		$posting = new ilBlogPosting($a_posting_id);	
 								
 		// #11138
-		$ignore_threshold = ($a_action == "comment");		
+		$ignore_threshold = ($a_action == "comment");	
 		
-		// approval handling	
 		$admin_only = false;	
+		
+		// approval handling					
 		if(!$posting->isApproved())
 		{			
 			$blog = new self($blog_obj_id, false);
@@ -549,19 +550,20 @@ class ilObjBlog extends ilObject2
 						// un-approved posting was activated - admin-only notification					
 						$admin_only = true;	
 						$ignore_threshold = true;
+						$a_action = "approve";
 						break;				
 				}
 			}
 		}
-		
+	
 		// recipients
 		include_once "./Services/Notification/classes/class.ilNotification.php";		
 		$users = ilNotification::getNotificationsForObject(ilNotification::TYPE_BLOG, 
-			$blog_obj_id, $a_posting_id, $ignore_threshold);		
+			$blog_obj_id, $a_posting_id, $ignore_threshold);			
 		if(!sizeof($users))
 		{
 			return;
-		}				
+		}						
 								
 		include_once "./Services/Notification/classes/class.ilSystemNotification.php";
 		$ntf = new ilSystemNotification($a_in_wsp);		
@@ -585,8 +587,8 @@ class ilObjBlog extends ilObject2
 		}	
 				
 		$notified = $ntf->sendMail($users, "_".$a_posting_id, 
-			($admin_only ? "write" : "read"));								
-
+			($admin_only ? "write" : "read"));			
+		
 		ilNotification::updateNotificationTime(ilNotification::TYPE_BLOG, $blog_obj_id, $notified);				
 	}
 			

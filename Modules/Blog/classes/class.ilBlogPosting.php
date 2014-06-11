@@ -173,9 +173,10 @@ class ilBlogPosting extends ilPageObject
 	 * @param bool $a_validate
 	 * @param bool $a_no_history
 	 * @param bool $a_notify
+	 * @param string $a_notify_action
 	 * @return boolean
 	 */
-	function update($a_validate = true, $a_no_history = false, $a_notify = true)
+	function update($a_validate = true, $a_no_history = false, $a_notify = true, $a_notify_action = "update")
 	{
 		global $ilDB;
 
@@ -188,12 +189,12 @@ class ilBlogPosting extends ilPageObject
 			" WHERE id = ".$ilDB->quote($this->getId(), "integer");
 		$ilDB->manipulate($query);
 		
-		parent::update($a_validate, $a_no_history);
+		parent::update($a_validate, $a_no_history);		
 		
 		if($a_notify && $this->getActive())
-		{				
+		{					
 			include_once "Modules/Blog/classes/class.ilObjBlog.php";
-			ilObjBlog::sendNotification("update", $this->blog_node_is_wsp, $this->blog_node_id, $this->getId());
+			ilObjBlog::sendNotification($a_notify_action, $this->blog_node_is_wsp, $this->blog_node_id, $this->getId());
 		}
 
 		return true;
