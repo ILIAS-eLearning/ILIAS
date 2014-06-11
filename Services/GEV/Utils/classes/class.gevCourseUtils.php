@@ -228,24 +228,62 @@ class gevCourseUtils {
 		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_CANCEL_DEADLINE);
 	}
 	
+	public function getCancelDeadlineDate() {
+		return self::mkDeadlineDate($this->getStartDate(), $this->getCancelDeadline());
+	}
+	
 	public function getBookingDeadline() {
 		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_BOOKING_DEADLINE);
+	}
+	
+	public function getBookingDeadlineDate() {
+		return self::mkDeadlineDate($this->getStartDate(), $this->getBookingDeadline());
 	}
 	
 	public function getCancelWaitingList() {
 		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_CANCEL_WAITING);
 	}
 	
-	public function getProvider() {
+	public function getCancelWaitingListDate() {
+		return self::mkDeadlineDate($this->getStartDate(), $this->getCancelWaitingList());
+	}
+	
+	public function getProviderId() {
 		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_PROVIDER);
 	}
 	
-	public function getVenue() {
+	public function getVenueId() {
 		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_VENUE);
 	}
 	
-	public function getAccomodation() {
+	public function getVenue() {
+		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
+		$id = $this->getVenueId();
+		if ($id === null) {
+			return null;
+		}
+		return gevOrgUnitUtils::getInstance($id);
+	}
+	
+	public function getAccomodationId() {
 		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_ACCOMODATION);
+	}
+	
+	public function getAccomodation() {
+		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
+		$id = $this->getAccomodationId();
+		if ($id === null) {
+			return null;
+		}
+		return gevOrgUnitUtils::getInstance($id);	
+	}
+	
+	public function getDerivedCourseIds() {
+		if (!$this->isTemplate()) {
+			throw new Exception("gevCourseUtils::getDerivedCourseIds: this course is no template and thus has no derived courses.");
+		}
+		
+	
 	}
 }
 
