@@ -43,6 +43,7 @@ class ilPreviewGUI
 		{
 			$this->node_id = (int)$_GET["node_id"];
 			$this->context = (int)$_GET["context"];
+            $a_obj_id = (int)$_GET['obj_id'];
 		}
 		else
 		{
@@ -312,7 +313,7 @@ class ilPreviewGUI
 	 */
 	private function buildUrl($a_cmd = "", $a_async = true)
 	{
-		$link = "ilias.php?baseClass=ilPreviewGUI&node_id={$this->node_id}&context={$this->context}";
+		$link = "ilias.php?baseClass=ilPreviewGUI&node_id={$this->node_id}&context={$this->context}&obj_id={$this->obj_id}";
 		
 		if ($a_async)
 			$link .= "&cmdMode=asynch";
