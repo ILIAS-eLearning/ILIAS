@@ -1343,11 +1343,12 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 	
 	function rsvConfirmCancelAggregationForm($a_ids)
 	{
+		ilUtil::sendQuestion($this->lng->txt("book_confirm_cancel"));
+		
 		include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this, "rsvCancel"));
-		$form->setTitle($this->lng->txt("book_confirm_cancel"));
-		$form->setDescription($this->lng->txt("book_confirm_cancel_aggregation"));
+		$form->setTitle($this->lng->txt("book_confirm_cancel_aggregation"));
 		
 		include_once 'Modules/BookingManager/classes/class.ilBookingObject.php';
 		include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';	
@@ -1382,7 +1383,6 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 			if(is_array($ids))
 			{
 				$item->setMaxValue(sizeof($ids));
-				$item->setValue(sizeof($ids)); // :TODO: ?!
 				
 				foreach($ids as $id)
 				{
@@ -1394,7 +1394,6 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 			else 
 			{
 				$item->setMaxValue(1);
-				$item->setValue(1);
 				
 				$hidden = new ilHiddenInputGUI("rsv_aggr[".$idx."]");
 				$hidden->setValue($ids);

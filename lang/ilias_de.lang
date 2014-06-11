@@ -14124,7 +14124,7 @@ wsp#:#wsp_list_scov#:#SCORM-Zertifikat
 content#:#cont_wiki_page#:#Wiki-Seite
 content#:#cont_choose_wiki#:#Wiki auswählen
 prtf#:#prtf_template_import_new_skills#:#Wenn aktiviert, werden diese Kompetenzen zu Ihren persönlichen Kompetenzen hinzugefügt.
-book#:#book_confirm_cancel#:#Sind Sie sicher, dass Sie die folgende Reservierung stornieren möchten?
+book#:#book_confirm_cancel#:#Sind Sie sicher, dass Sie die folgenden Reservierungen stornieren möchten?
 rbac#:#crss_visible#:#Kurs-Administration ist sichtbar
 rbac#:#crss_read#:#Lesezugriff auf Kurs-Administration
 rbac#:#crss_write#:#Einstellungen in Kurs-Administration bearbeiten
@@ -14340,5 +14340,4 @@ assessment#:#cloze_gap_size_info#:#Wenn Sie einen Wert größer als 0 eintragen,
 forum#:#post_reply_count#:#Re(%s):
 survey#:#spl_save_obligatory_state#:#verpflichtend-Status speichern
 dateplaner#:#cal_ical_url#:#iCal-URL
-book#:#book_schedule_weekday#:#Wochentag
-book#:#book_confirm_cancel_aggregation#:#Bitte geben Sie die Anzahl der zu stornierenden Buchungen an.
+book#:#book_confirm_cancel_aggregation#:#Anzahl Stornierungen

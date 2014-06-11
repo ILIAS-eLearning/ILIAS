@@ -574,6 +574,7 @@ class ilBookingReservation
 					$res[$idx]["date"] = date("Y-m-d", $row["date_from"]);
 					$res[$idx]["slot"] = date("H:i", $row["date_from"])." - ".
 						date("H:i", $row["date_to"]+1);
+					$res[$idx]["week"] = date("W",  $row["date_from"]);				
 					$res[$idx]["weekday"] = date("w",  $row["date_from"]);				
 					$res[$idx]["can_be_cancelled"] = ($row["status"] != self::STATUS_CANCELLED &&
 						$row["date_from"] > time());					
@@ -594,7 +595,7 @@ class ilBookingReservation
 		$size = sizeof($res);
 		
 		// order		
-		$numeric = in_array($a_order_field, array("counter", "date", "weekday"));		
+		$numeric = in_array($a_order_field, array("counter", "date", "week", "weekday"));		
 		$res = ilUtil::sortArray($res, $a_order_field, $a_order_direction, $numeric);
 				
 		// offset/limit		

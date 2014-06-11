@@ -55,13 +55,16 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 		
 		if($this->has_schedule)
 		{
+			$this->lng->loadLanguageModule("dateplaner");
+			
 			$this->addColumn($this->lng->txt("date"), "date");
-			$this->addColumn($this->lng->txt("book_schedule_weekday"), "weekday");
+			$this->addColumn($this->lng->txt("wk_short"), "week");
+			$this->addColumn($this->lng->txt("cal_weekday"), "weekday");
 			$this->addColumn($this->lng->txt("book_schedule_slot"), "slot");			
 			$this->addColumn($this->lng->txt("book_no_of_objects"), "counter");
 			
 			$this->setDefaultOrderField("date");
-			$this->setDefaultOrderDirection("desc");
+			$this->setDefaultOrderDirection("asc");
 		}
 		else
 		{						
@@ -147,6 +150,15 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 		
 		if($this->has_schedule)
 		{
+			if(!$_SESSION["form_".$this->getId()]["fromto"])
+			{
+				// default: from today
+				$_SESSION["form_".$this->getId()]["fromto"] = serialize(array(
+					"from" => serialize(new ilDateTime(date("Y-m-d"), IL_CAL_DATE)),
+					"to" => null
+				));			
+			}
+			
 			$item = $this->addFilterItemByMetaType("fromto", ilTable2GUI::FILTER_DATE_RANGE, false, $this->lng->txt('book_fromto'));
 			$this->filter["fromto"] = $item->getDate();
 			
@@ -336,6 +348,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 		if($this->has_schedule)
 		{			
 			$this->tpl->setVariable("VALUE_DATE", ilDatePresentation::formatDate(new ilDate($a_set["date"], IL_CAL_DATE)));
+			$this->tpl->setVariable("VALUE_WEEK", $a_set["week"]);
 			$this->tpl->setVariable("VALUE_WEEKDAY", ilCalendarUtil::_numericDayToString($a_set["weekday"], false));
 			$this->tpl->setVariable("VALUE_SLOT", $a_set["slot"]);
 			$this->tpl->setVariable("VALUE_COUNTER", $a_set["counter"]);			
