@@ -12297,12 +12297,6 @@ dcl#:#dcl_please_select#:#--- Bitte wählen ---
 dcl#:#dcl_asc#:#Aufsteigende Reihenfolge (ASC)
 dcl#:#dcl_desc#:#Absteigende Reihenfolge (DESC)
 dcl#:#dcl_comments#:#Kommentare
-dcl#:#dcl_comments_description#:#Anzahl Kommentare pro Datensatz.
-dcl#:#dcl_confirm_delete_fields#:#Wollen Sie diese Felder wirklich löschen?
-dcl#:#dcl_msg_fields_deleted#:#Die Felder wurden gelöscht
-dcl#:#dcl_msg_no_perm_view#:#Sie können nicht auf diesen Datensatz zugreifen
-dcl#:#dcl_view_own_records_perm#:#Nur eigene Datensätze anzeigen
-dcl#:#dcl_msg_no_perm_edit#:#Sie können diesen Datensatz nicht bearbeiten
 common#:#obj_dcl_duplicate#:#Datensammlung kopieren
 survey#:#freetext_answers#:#Freitext-Antworten
 forum#:#frm_at_least_one_moderator#:#Es muss mindestens ein Moderator zugewiesen sein.
@@ -12603,8 +12597,7 @@ dcl#:#dcl_editable_in_table_gui#:#Bewertung: Nutzen Sie die Tabellensicht.
 dcl#:#dcl_table_settings_saved#:#Tabellen Einstellungen wurden gespeichert.
 dcl#:#dcl_no_search_results_found_for#:#Es wurden keine Module gefunden mit:
 dcl#:#dcl_export_enabled#:#Tabellen export für alle Benutzer erlauben
-dcl#:#dcl_inconsistent_at#:#Die Datenbank ist inkonsistent. Eine Referenz existiert nicht mehr.
-dcl#:#dcl_delete_fields#:#Felder löschen
+dcl#:#dcl_inconsistent_at#:#Die Datenbank ist inkonsisten. Eine Referenz existiert nicht mehr.
 common#:#obj_tool_settings#:#Tools
 common#:#obj_tool_settings_title#:#Tool-Einstellungen
 common#:#obj_tool_setting_calendar#:#Kalender
@@ -13534,9 +13527,9 @@ mail#:#system_notification_installation_signature#:#Diese E-Mail wurde automatis
 mail#:#system_notification_installation_changed_by#:#Geändert durch
 exc#:#exc_feedback_notification_reason#:#Sie erhalten diese Nachricht, da sie ein Teilnehmer der oben genannten Übung sind.
 exc#:#exc_team_notification_reason#:#Sie erhalten diese Nachricht, da sie ein Teilnehmer der oben genannten Übung sind.
-blog#:#blog_change_notification_reason#:#Sie erhalten diese Nachricht, da sie die Benachrichtigsfunktion für den oben genannten Blog aktiviert haben.
+blog#:#blog_change_notification_reason#:#Sie erhalten diese Nachricht, da sie die Benachrichtigungsfunktion für das oben genannte Blog aktiviert haben.
 survey#:#survey_notification_finished_introduction#:#der folgende Teilnehmer hat die Umfrage beendet.
-survey#:#survey_notification_finished_reason#:#Sie erhalten diese Nachricht, da sie die Benachrichtigsfunktion für die oben genannte Umfrage aktiviert haben.
+survey#:#survey_notification_finished_reason#:#Sie erhalten diese Nachricht, da sie die Benachrichtigungsfunktion für die oben genannte Umfrage aktiviert haben.
 content#:#cont_offline_mode_allow#:#Offline-Modus erlauben
 content#:#cont_offline_mode_allow_info#:#Wenn der Offline-Modus erlaubt ist, erscheint unter 'Aktionen' beim Lernmodul zusätzlich die Option 'Offline-Modus' und für Nutzer mit dem Recht zur Bearbeitung des Lernfortschritts unter 'Einstellungen' zusätzlich der Reiter 'Offline-Nutzung'. Im Offline-Modus können Lernmodule nur im SCORM-Offline-Player von ILIAS (Firefox Add-on) dargestelllt werden. Zum Beenden des Offline-Modus können Nutzer über die Option 'Offline-Modus' Lernstandsdaten importieren. Daten im SCORM-Offline-Player werden somit für dieses Lernmodul gelöscht. Bevor Sie den Offline-Modus erlauben, sollten Sie die erforderlichen Einstellungen zum Lernfortschritt abgeschlossen haben.
 wiki#:#wiki_start_page_info#:#Gibt es noch keine Wikiseite mit diesem Titel, wird eine neue, leere Seite erstellt.
@@ -14124,7 +14117,7 @@ wsp#:#wsp_list_scov#:#SCORM-Zertifikat
 content#:#cont_wiki_page#:#Wiki-Seite
 content#:#cont_choose_wiki#:#Wiki auswählen
 prtf#:#prtf_template_import_new_skills#:#Wenn aktiviert, werden diese Kompetenzen zu Ihren persönlichen Kompetenzen hinzugefügt.
-book#:#book_confirm_cancel#:#Sind Sie sicher, dass Sie die folgenden Reservierungen stornieren möchten?
+book#:#book_confirm_cancel#:#Sind Sie sicher, dass Sie die folgende Reservierung stornieren möchten?
 rbac#:#crss_visible#:#Kurs-Administration ist sichtbar
 rbac#:#crss_read#:#Lesezugriff auf Kurs-Administration
 rbac#:#crss_write#:#Einstellungen in Kurs-Administration bearbeiten
@@ -14266,7 +14259,7 @@ poll#:#poll_notification_unsubscribe#:#Benachrichtigung deaktivieren
 poll#:#poll_vote_notification_subject#:#Abstimmung "%s": neue Stimme
 poll#:#poll_vote_notification_body#:#die folgende Abstimmung hat eine Stimme erhalten
 poll#:#poll_vote_notification_link#:#Link zur Abstimmung
-poll#:#poll_vote_notification_reason#:#Sie erhalten diese Nachricht, da sie die Benachrichtigsfunktion für die oben genannte Abstimmung aktiviert haben.
+poll#:#poll_vote_notification_reason#:#Sie erhalten diese Nachricht, da sie die Benachrichtigungsfunktion für die oben genannte Abstimmung aktiviert haben.
 exc#:#exc_create_portfolio_no_template#:#Keine Vorlage verwenden
 rbac#:#orgu_view_learning_progress#:#Lernfortschritt einsehen
 rbac#:#orgu_visible#:#Organisationseinheit ist sichtbar.
@@ -14340,5 +14333,3 @@ assessment#:#cloze_gap_size_info#:#Wenn Sie einen Wert größer als 0 eintragen,
 forum#:#post_reply_count#:#Re(%s):
 survey#:#spl_save_obligatory_state#:#verpflichtend-Status speichern
 dateplaner#:#cal_ical_url#:#iCal-URL
-book#:#book_confirm_cancel_aggregation#:#Anzahl Stornierungen
-survey#:#survey_not_available#:#n.a.
