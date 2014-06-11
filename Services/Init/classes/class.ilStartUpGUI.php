@@ -1952,17 +1952,18 @@ class ilStartUpGUI
 
 		if($a_show_back)
 		{
+			// #13400
+			$param = 'client_id=' . $_COOKIE['ilClientId'] . '&lang=' . $lng->getLangKey();
+						
 			$tpl->setCurrentBlock('link_item_bl');
 			$tpl->setVariable('LINK_TXT', $lng->txt('login_to_ilias'));
-			$tpl->setVariable('LINK_URL', $ilCtrl->getLinkTargetByClass('ilStartUpGUI', 'showLogin'));
+			$tpl->setVariable('LINK_URL', 'login.php?cmd=force_login&'.$param);
 			$tpl->parseCurrentBlock();
 
-			if(
-				$ilSetting->get('pub_section') &&
-				$ilAccess->checkAccessOfUser(ANONYMOUS_USER_ID, 'read', '', ROOT_FOLDER_ID)
-			)
+			if($ilSetting->get('pub_section') &&
+				$ilAccess->checkAccessOfUser(ANONYMOUS_USER_ID, 'read', '', ROOT_FOLDER_ID))
 			{
-				$tpl->setVariable('LINK_URL', '?client_id=' . $_COOKIE['ilClientId'] . '&lang=' . $lng->getLangKey());
+				$tpl->setVariable('LINK_URL', 'index.php?'.$param);
 				$tpl->setVariable('LINK_TXT', $lng->txt('home'));
 				$tpl->parseCurrentBlock();
 			}
