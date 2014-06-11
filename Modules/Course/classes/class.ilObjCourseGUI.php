@@ -2084,11 +2084,16 @@ class ilObjCourseGUI extends ilContainerGUI
 			$this->ctrl->getLinkTargetByClass('ilRepositorySearchGUI','start'));
 			
 		// separator
+		// gev-patch start
+		/*
 		$ilToolbar->addSeparator();
 			
 		// print button
-		$ilToolbar->addButton($this->lng->txt("crs_print_list"),
+
+		//$ilToolbar->addButton($this->lng->txt("crs_print_list"),
 			$this->ctrl->getLinkTarget($this, 'printMembers'));
+		*/
+		// gev-patch end
 		
 		/* attendance list button
 		$ilToolbar->addButton($this->lng->txt("sess_gen_attendance_list"),
