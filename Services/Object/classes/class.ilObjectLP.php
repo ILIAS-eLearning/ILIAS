@@ -341,6 +341,12 @@ class ilObjectLP
 				$coll_ref_id = ilObject::_getAllReferences($rec["obj_id"]);
 				$coll_ref_id = array_pop($coll_ref_id);
 				
+				// #13402
+				if($coll_ref_id == $a_source_ref_id)
+				{
+					continue;
+				}
+				
 				// get path to collection (including collection "parent")
 				$coll_path = $tree->getPathId($coll_ref_id);
 				$coll_path = implode("/", $coll_path);
