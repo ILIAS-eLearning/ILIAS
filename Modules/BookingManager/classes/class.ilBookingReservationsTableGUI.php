@@ -121,9 +121,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 	* Init filter
 	*/
 	function initFilter(array $a_filter_pre = null)
-	{							
-		global $ilAccess;
-		
+	{									
 		if(is_array($a_filter_pre) && 
 			isset($a_filter_pre["object"]))
 		{			
@@ -152,7 +150,8 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 			$item = $this->addFilterItemByMetaType("fromto", ilTable2GUI::FILTER_DATE_RANGE, false, $this->lng->txt('book_fromto'));
 			$this->filter["fromto"] = $item->getDate();
 			
-			if($ilAccess->checkAccess('write', '', $this->ref_id))
+			// only needed for full log
+			if($this->show_all)
 			{
 				// see ilObjBookingPoolGUI::buildDatesBySchedule()
 				$map = array_flip(array('su', 'mo', 'tu', 'we', 'th', 'fr', 'sa'));
@@ -210,8 +209,9 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 		$item->setOptions($options);
 		$this->filter["status"] = $item->getValue();		
 							
-		if($ilAccess->checkAccess('write', '', $this->ref_id))
-		{												
+		// only needed for full log
+		if($this->show_all)
+		{											
 			$options = array(""=>$this->lng->txt('book_all'))+
 				ilBookingReservation::getUserFilter(array_keys($this->objects));
 			$item = $this->addFilterItemByMetaType("user", ilTable2GUI::FILTER_SELECT);
