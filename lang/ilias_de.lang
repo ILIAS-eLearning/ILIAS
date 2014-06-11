@@ -13507,9 +13507,9 @@ mail#:#system_notification_installation_signature#:#Diese E-Mail wurde automatis
 mail#:#system_notification_installation_changed_by#:#Geändert durch
 exc#:#exc_feedback_notification_reason#:#Sie erhalten diese Nachricht, da sie ein Teilnehmer der oben genannten Übung sind.
 exc#:#exc_team_notification_reason#:#Sie erhalten diese Nachricht, da sie ein Teilnehmer der oben genannten Übung sind.
-blog#:#blog_change_notification_reason#:#Sie erhalten diese Nachricht, da sie die Benachrichtigsfunktion für den oben genannten Blog aktiviert haben.
+blog#:#blog_change_notification_reason#:#Sie erhalten diese Nachricht, da sie die Benachrichtigungsfunktion für das oben genannte Blog aktiviert haben.
 survey#:#survey_notification_finished_introduction#:#der folgende Teilnehmer hat die Umfrage beendet.
-survey#:#survey_notification_finished_reason#:#Sie erhalten diese Nachricht, da sie die Benachrichtigsfunktion für die oben genannte Umfrage aktiviert haben.
+survey#:#survey_notification_finished_reason#:#Sie erhalten diese Nachricht, da sie die Benachrichtigungsfunktion für die oben genannte Umfrage aktiviert haben.
 content#:#cont_offline_mode_allow#:#Offline-Modus erlauben
 content#:#cont_offline_mode_allow_info#:#Wenn der Offline-Modus erlaubt ist, erscheint unter 'Aktionen' beim Lernmodul zusätzlich die Option 'Offline-Modus' und für Nutzer mit dem Recht zur Bearbeitung des Lernfortschritts unter 'Einstellungen' zusätzlich der Reiter 'Offline-Nutzung'. Im Offline-Modus können Lernmodule nur im SCORM-Offline-Player von ILIAS (Firefox Add-on) dargestelllt werden. Zum Beenden des Offline-Modus können Nutzer über die Option 'Offline-Modus' Lernstandsdaten importieren. Daten im SCORM-Offline-Player werden somit für dieses Lernmodul gelöscht. Bevor Sie den Offline-Modus erlauben, sollten Sie die erforderlichen Einstellungen zum Lernfortschritt abgeschlossen haben.
 wiki#:#wiki_start_page_info#:#Gibt es noch keine Wikiseite mit diesem Titel, wird eine neue, leere Seite erstellt.
