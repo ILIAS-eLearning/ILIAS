@@ -307,12 +307,18 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 	protected function fillRow($a_set)
 	{
 		global $lng, $ilAccess, $ilCtrl, $ilUser;
-
-	    $this->tpl->setVariable("TXT_TITLE", $a_set["title"]);
-	    $this->tpl->setVariable("MULTI_ID", $a_set["booking_reservation_id"]);
-
-		// patch kivinan start
 		
+	    $this->tpl->setVariable("TXT_TITLE", $a_set["title"]);
+		
+		$can_be_cancelled = (($ilAccess->checkAccess('write', '', $this->ref_id) || 
+			$a_set['user_id'] == $ilUser->getId()) &&
+			$a_set["can_be_cancelled"]);
+
+		if($can_be_cancelled)
+		{
+			$this->tpl->setVariable("MULTI_ID", $a_set["booking_reservation_id"]);
+		}
+
 		// #11995
 		$uname = $a_set["user_name"];
 		if(!trim($uname))
@@ -346,8 +352,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 			}
 		}
 					
-		if(($ilAccess->checkAccess('write', '', $this->ref_id) || $a_set['user_id'] == $ilUser->getId()) &&
-			$a_set["can_be_cancelled"])
+		if($can_be_cancelled)
 		{			 
 			$ilCtrl->setParameter($this->parent_obj, 'reservation_id', $a_set['booking_reservation_id']);
 			$this->tpl->setVariable("URL_ACTION", $ilCtrl->getLinkTarget($this->parent_obj, 'rsvConfirmCancel'));

@@ -1252,7 +1252,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		global $ilCtrl, $lng, $tpl, $ilAccess;
 	
 		$ids = $this->getLogReservationIds();
-		if(!$ids)
+		if(!sizeof($ids))
 		{
 			$this->ctrl->redirect($this, 'log');
 		}
@@ -1298,6 +1298,11 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 					unset($ids[$idx]);
 				}				
 			}
+		}
+		
+		if(!sizeof($ids))
+		{
+			$this->ctrl->redirect($this, 'log');
 		}
 		
 		// show form instead
