@@ -1,0 +1,69 @@
+<div class="ilTableHeaderTitle">
+	<h3 class="ilTableHeaderTitle">Einstellungen für Einladungsmails</h3>
+</div>
+<div class="subtitle">Bitte speichern sie die Einstellungen, bevor sie auf Vorschau klicken. Bitte beachten sie bei der Auswahl der Anhänge, dass nicht beliebig große Emails verschickt werden können, da einige Mailanbieter nur Mails bis 3 Mb Größe annehmen. </div>
+<div class="ilTableOuter" style="margin-top: 15px;">
+	<form enctype="multipart/form-data" action="{FORM_ACTION}" method="post">
+		<table class="ilForm fullwidth" datatable="0">
+			<tr class="ilFormHeader">
+				<td class="ilFormHeader">
+					<div style="float:right; margin-left: 20px">
+						<input class="submit" type="SUBMIT" name = "cmd[updateInvitationMails]" value="{TXT_SAVE}"/>
+					</div>
+				</td>
+			</tr>
+
+			<tr>
+				<td style="padding:15px">
+					<!-- BEGIN standard_mail -->
+					<table class="fullwidth" datatable="0" style="margin-top: 20px; margin-bottom: 20px;">
+						<tr>
+							<td class="std" style="width: 400px;">{TXT_STANDARD_MAIL}</td>
+							<td class="std" style="width: 200px;">{MAIL_SELECTION}</td>
+							<td class="std" style="width: 200px;">{ATTACHMENT_SELECTION}</td>
+							<td class="std" style="width: 200px;">
+								<a class="submit" href="{URL_PREVIEW}">{TXT_PREVIEW}</a>
+							</td>
+						</tr>
+					</table>
+					<!-- END standard_mail -->
+				</td>
+			</tr>
+			<tr>
+				<td style="padding:15px">
+					<!-- BEGIN mails_for_functions -->
+					<div class="ilTableOuter">
+						<table class="fullwidth" datatable="0">
+							<tr class="tblheader">
+								<th class="std" style="width: 400px;">{TXT_FUNCTION}</th>
+								<th class="std" style="width: 200px;">{TXT_TEMPLATE}</th>
+								<th class="std" style="width: 200px;">{TXT_ATTACHMENT}</th>
+								<th class="std" style="width: 200px;">&nbsp;</th>
+							</tr>
+
+							<!-- BEGIN row_bl -->
+							<tr class="{ROW_CLASS}" datatable="0">
+								<td class="std">{FUNCTION_NAME}</td>
+								<td class="std">{MAIL_SELECTION}</td>
+								<td class="std">{ATTACHMENT_SELECTION}</td>
+								<td class="std">
+									<a class="submit" href="{URL_PREVIEW}">{TXT_PREVIEW}</a>
+								</td>
+							</tr>
+							<!-- END row_bl -->
+						</table>
+					</div>
+					<!-- END mails_for_functions -->
+				</td>
+			</tr>
+
+			<tr class="ilFormFooter">
+				<td class="ilFormFooter">
+					<div style="float:right; margin-left: 20px">
+						<input class="submit" type="SUBMIT" name = "cmd[updateInvitationMails]" value="{TXT_SAVE}"/>
+					</div>
+				</td>
+			</tr>
+		</table>
+	</form>
+</div>
