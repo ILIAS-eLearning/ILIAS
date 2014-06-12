@@ -21,6 +21,8 @@ abstract class gevCrsAutoMail extends ilAutoMail {
 	protected $global_bcc;
 
 	protected $gev_crs_mail_template_type;
+	
+	private static $template_type = "CrsMail";
 
 	public function __construct($a_crs_id, $a_id) {
 		global $ilDB, $lng, $ilCtrl, $ilias, $ilSetting;
@@ -43,7 +45,7 @@ abstract class gevCrsAutoMail extends ilAutoMail {
 		$this->template_settings = null;
 		$this->template_variant = null;
 		$this->mail_log = null;
-		$this->gev_crs_mail_template_type = "CrsMail";
+		$this->gev_crs_mail_template_type = self::$template_type;
 		$this->global_bcc = null;
 
 		parent::__construct($a_id);

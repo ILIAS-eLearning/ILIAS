@@ -15,6 +15,8 @@ class gevCrsInvitationMailSettings {
 	protected $attachments;
 	protected $template_api;
 
+	private static $template_type = "CrsInv";
+
 	public function __construct($a_crs_id) {
 		global $ilDB, $ilCtrl;
 		$this->db = &$ilDB;
@@ -98,15 +100,15 @@ class gevCrsInvitationMailSettings {
 		}
 
 		// TODO: "Einladungsmail" is magic. Better use some setting...
-		$templates = $this->template_api->getTemplateTypesByCategory("Einladungsmail");
+		$templates = $this->template_api->getTemplateCategoriesByType(self::$template_type);
 
 		$arr = array( -1 => $a_default_option);
 
 		foreach ($templates as $template) {
 			$settings = new ilMailTemplateSettingsEntity();
 			$settings->setIlDB($this->db);
-			$settings->loadByCategoryAndTemplate("Einladungsmail", $template["type"]);
-			$arr[$settings->getTemplateTypeId()] = $template["type"];
+			$settings->loadByCategoryAndTemplate($template["category"], self::$template_type);
+			$arr[$settings->getTemplateTypeId()] = $template["category"];
 		}
 
 		return $arr;

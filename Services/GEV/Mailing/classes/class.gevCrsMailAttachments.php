@@ -15,7 +15,6 @@ class gevCrsMailAttachments extends ilMailAttachments {
 	
 	const LIST_FOR_TRAINER_NAME = "Teilnehmerliste_Trainer.xls";
 	const LIST_FOR_HOTEL_NAME = "Teilnehmerliste_Hotel.xls";
-	const MATERIAL_LIST_NAME = "Materialliste.xls";
 	
 	public function __construct($a_obj_id) {
 		parent::__construct($a_obj_id);
@@ -23,7 +22,6 @@ class gevCrsMailAttachments extends ilMailAttachments {
 		
 		$this->generated_files = array( self::LIST_FOR_TRAINER_NAME
 									  , self::LIST_FOR_HOTEL_NAME
-									  , self::MATERIAL_LIST_NAME
 									  );
 	}
 	
@@ -122,9 +120,6 @@ class gevCrsMailAttachments extends ilMailAttachments {
 				return;
 			case "Teilnehmerliste_Hotel.xls":
 				$this->getCourse()->buildMemberList(true, false, false, $path);
-				return;
-			case "Materialliste.xls":
-				$this->getCourse()->buildMaterialList(false, $path);
 				return;
 		}
 		

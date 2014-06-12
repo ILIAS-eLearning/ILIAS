@@ -80,6 +80,31 @@ class ilMailTemplateManagementAPI
 		return $retval;
 	}
 	
+	// gev-patch start
+	public function getTemplateCategoriesByType($a_type_name) {
+		global $ilDB;
+		$query = "
+		SELECT cat_mail_variants.id, cat_mail_variants.language, cat_mail_templates.category_name
+		FROM cat_mail_templates
+		JOIN cat_mail_variants ON cat_mail_variants.mail_types_fi = cat_mail_templates.id
+		WHERE cat_mail_templates.template_type = %s";
+		
+		$result = $ilDB->queryF($query, array('text'), array($a_type_name));
+		
+		$retval = array();
+		while ($row = $ilDB->fetchAssoc($result))
+		{
+			$type = array();
+			$type['id'] = $row['id'];
+			$type['language'] = $row['language'];
+			$type['category'] = $row['category_name'];
+			$retval[] = $type;
+		}
+		
+		return $retval;
+	}
+	// gev-patch end
+	
 	public function createCategory($a_category_name)
 	{
 		throw new Exception('Not implemented.');
