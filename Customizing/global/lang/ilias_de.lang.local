@@ -196,3 +196,6 @@ gev#:#gev_excel_member_row_title#:#Generelle Angaben zum Seminar
 gev#:#gev_hotel#:#Hotel
 common#:#obj_crs#:#Training
 gev#:#gev_member_list#:#Mitgliederliste
+crsbook#:#view_bookings#:#Buchungen einsehen
+crsbook#:#book_users#:#Buchungen vornehmen
+crsbook#:#cancel_bookings#:#Stornierungen vornehmen
