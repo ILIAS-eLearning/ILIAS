@@ -21,6 +21,11 @@ class ilADTFloatDefinition extends ilADTIntegerDefinition
 	
 	public function handleNumber($a_value)
 	{
+		// gev-patch start
+		if (!is_numeric($a_value)) {
+			$a_value = str_replace(",", ".", $a_value);
+		}
+		// gev-patch end
 		if(!is_numeric($a_value))
 		{
 			$a_value = null;

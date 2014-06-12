@@ -368,7 +368,9 @@ class ilNumberInputGUI extends ilSubEnabledFormPropertyGUI
 		if (strlen($this->getValue()))
 		{
 			$tpl->setCurrentBlock("prop_number_propval");
-			$tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($this->getValue()));
+			// gev-patch start
+			$tpl->setVariable("PROPERTY_VALUE", str_replace(".", ",", ilUtil::prepareFormOutput($this->getValue())));
+			// gev-patch end
 			$tpl->parseCurrentBlock();
 		}
 		$tpl->setCurrentBlock("prop_number");
@@ -391,7 +393,9 @@ class ilNumberInputGUI extends ilSubEnabledFormPropertyGUI
 		// constraints
 		if ($this->areDecimalsAllowed() && $this->getDecimals() > 0)
 		{
-			$constraints = $lng->txt("form_format").": ###.".str_repeat("#", $this->getDecimals());
+			// gev-patch start
+			$constraints = $lng->txt("form_format").": ###,".str_repeat("#", $this->getDecimals());
+			// gev-patch end
 			$delim = ", ";
 		}
 		if ($this->getMinValue() !== false)
