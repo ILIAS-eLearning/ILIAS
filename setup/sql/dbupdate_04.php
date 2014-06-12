@@ -932,3 +932,330 @@ $ilCtrlStructureReader->getStructure();
 // Bibliographic Module: Increase the allowed text-size for attributes from 512 to 4000
 $ilDB->modifyTableColumn("il_bibl_attribute", "value", array("type" => "text", "length" => 4000));
 ?>
+<#4221>
+<?php
+
+if( !$ilDB->tableExists('adv_md_values_text') )
+{
+	$ilDB->renameTable('adv_md_values', 'adv_md_values_text');
+}
+
+?>
+<#4222>
+<?php
+
+if( !$ilDB->tableExists('adv_md_values_int') )
+{
+	$ilDB->createTable('adv_md_values_int', array(
+		'obj_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'sub_type' => array(
+			'type' => 'text',
+			'length' => 10,
+			'notnull' => true,
+			'default' => "-"
+		),
+		'sub_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'field_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'value' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => false
+		)	
+	));
+		
+	$ilDB->addPrimaryKey('adv_md_values_int', array('obj_id', 'sub_type', 'sub_id', 'field_id'));
+}
+
+?>
+<#4223>
+<?php
+
+if( !$ilDB->tableExists('adv_md_values_float') )
+{
+	$ilDB->createTable('adv_md_values_float', array(
+		'obj_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'sub_type' => array(
+			'type' => 'text',
+			'length' => 10,
+			'notnull' => true,
+			'default' => "-"
+		),
+		'sub_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'field_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'value' => array(
+			'type' => 'float',			
+			'notnull' => false
+		)	
+	));
+		
+	$ilDB->addPrimaryKey('adv_md_values_float', array('obj_id', 'sub_type', 'sub_id', 'field_id'));
+}
+
+?>
+<#4224>
+<?php
+
+if( !$ilDB->tableExists('adv_md_values_date') )
+{
+	$ilDB->createTable('adv_md_values_date', array(
+		'obj_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'sub_type' => array(
+			'type' => 'text',
+			'length' => 10,
+			'notnull' => true,
+			'default' => "-"
+		),
+		'sub_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'field_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'value' => array(
+			'type' => 'date',			
+			'notnull' => false
+		)	
+	));
+		
+	$ilDB->addPrimaryKey('adv_md_values_date', array('obj_id', 'sub_type', 'sub_id', 'field_id'));
+}
+
+?>
+<#4225>
+<?php
+
+if( !$ilDB->tableExists('adv_md_values_datetime') )
+{
+	$ilDB->createTable('adv_md_values_datetime', array(
+		'obj_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'sub_type' => array(
+			'type' => 'text',
+			'length' => 10,
+			'notnull' => true,
+			'default' => "-"
+		),
+		'sub_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'field_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'value' => array(
+			'type' => 'timestamp',			
+			'notnull' => false
+		)	
+	));
+		
+	$ilDB->addPrimaryKey('adv_md_values_datetime', array('obj_id', 'sub_type', 'sub_id', 'field_id'));
+}
+
+?>
+<#4226>
+<?php
+
+if( !$ilDB->tableExists('adv_md_values_location') )
+{
+	$ilDB->createTable('adv_md_values_location', array(
+		'obj_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'sub_type' => array(
+			'type' => 'text',
+			'length' => 10,
+			'notnull' => true,
+			'default' => "-"
+		),
+		'sub_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'field_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'loc_lat' => array(
+			'type' => 'float',			
+			'notnull' => false
+		),
+		'loc_long' => array(
+			'type' => 'float',			
+			'notnull' => false
+		),
+		'loc_zoom' => array(
+			'type' => 'integer',			
+			'length' => 1,
+			'notnull' => false
+		)	
+	));
+		
+	$ilDB->addPrimaryKey('adv_md_values_location', array('obj_id', 'sub_type', 'sub_id', 'field_id'));
+}
+
+?>
+<#4227>
+<?php
+
+	if (!$ilDB->tableColumnExists('adv_md_values_location', 'disabled'))
+	{		
+		$ilDB->addTableColumn('adv_md_values_location', 'disabled', array(
+			"type" => "integer",
+			"length" => 1,
+			"notnull" => true,
+			"default" => 0
+		));
+	}
+	if (!$ilDB->tableColumnExists('adv_md_values_datetime', 'disabled'))
+	{		
+		$ilDB->addTableColumn('adv_md_values_datetime', 'disabled', array(
+			"type" => "integer",
+			"length" => 1,
+			"notnull" => true,
+			"default" => 0
+		));
+	}
+	if (!$ilDB->tableColumnExists('adv_md_values_date', 'disabled'))
+	{		
+		$ilDB->addTableColumn('adv_md_values_date', 'disabled', array(
+			"type" => "integer",
+			"length" => 1,
+			"notnull" => true,
+			"default" => 0
+		));
+	}
+	if (!$ilDB->tableColumnExists('adv_md_values_float', 'disabled'))
+	{		
+		$ilDB->addTableColumn('adv_md_values_float', 'disabled', array(
+			"type" => "integer",
+			"length" => 1,
+			"notnull" => true,
+			"default" => 0
+		));
+	}
+	if (!$ilDB->tableColumnExists('adv_md_values_int', 'disabled'))
+	{		
+		$ilDB->addTableColumn('adv_md_values_int', 'disabled', array(
+			"type" => "integer",
+			"length" => 1,
+			"notnull" => true,
+			"default" => 0
+		));
+	}
+	
+?>
+<#4228>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#4229>
+<?php
+
+// moving date/datetime to proper adv_md-tables
+$field_map = array();
+
+$set = $ilDB->query("SELECT field_id,field_type FROM adv_mdf_definition".
+	" WHERE ".$ilDB->in("field_type", array(3,4), "", "integer"));
+while($row = $ilDB->fetchAssoc($set))
+{
+	$field_map[$row["field_id"]] = $row["field_type"];
+}
+
+if(sizeof($field_map))
+{
+	$set = $ilDB->query("SELECT * FROM adv_md_values_text".
+		" WHERE ".$ilDB->in("field_id", array_keys($field_map), "", "integer"));
+	while($row = $ilDB->fetchAssoc($set))
+	{
+		if($row["value"])
+		{
+			// date
+			if($field_map[$row["field_id"]] == 3)
+			{
+				$table = "adv_md_values_date";
+				$value = date("Y-m-d", $row["value"]);
+				$type = "date";
+			}
+			// datetime
+			else
+			{
+				$table = "adv_md_values_datetime";
+				$value = date("Y-m-d H:i:s", $row["value"]);
+				$type = "timestamp";
+			}
+			
+			$fields = array(
+				"obj_id" => array("integer", $row["obj_id"])
+				,"sub_type" => array("text", $row["sub_type"])
+				,"sub_id" => array("integer", $row["sub_id"])
+				,"field_id" => array("integer", $row["field_id"])				
+				,"disabled" => array("integer", $row["disabled"])
+				,"value" => array($type, $value)
+			);
+			
+			$ilDB->insert($table, $fields);
+		}		
+	}	
+	
+	$ilDB->manipulate("DELETE FROM adv_md_values_text".
+		" WHERE ".$ilDB->in("field_id", array_keys($field_map), "", "integer"));
+}
+
+?>

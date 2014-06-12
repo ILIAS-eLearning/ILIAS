@@ -199,8 +199,11 @@ class ilADTActiveRecordByType
 					$element_id = $row[$this->getElementIdColumn()];
 					if($this->properties->getADT()->hasElement($element_id))
 					{
-						$element_row =  $this->processTableRowForElement($sub_table, $element_id, $row);									
-						$this->properties->getElement($element_id)->readRecord($element_row);					
+						$element_row =  $this->processTableRowForElement($sub_table, $element_id, $row);		
+						if(is_array($element_row))
+						{
+							$this->properties->getElement($element_id)->readRecord($element_row);					
+						}
 					}
 				}
 			}

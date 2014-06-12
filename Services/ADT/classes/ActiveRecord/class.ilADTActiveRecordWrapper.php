@@ -6,6 +6,8 @@ require_once "Services/ActiveRecord/classes/class.ActiveRecord.php";
 /**
  * ADT Active Record service wrapper class
  * 
+ * :TODO: EXPERIMENTAL!
+ * 
  * This class expects a valid primary for all actions!
  * 
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
