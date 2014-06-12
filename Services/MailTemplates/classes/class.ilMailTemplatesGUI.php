@@ -260,8 +260,12 @@ class ilMailTemplatesGUI extends ilObjectGUI
 		$settings_entity->setIlDB($this->ilDB);
 		$settings_entity->loadById((int)$_GET['template_id']);
 
-		require_once 'Services/MailTemplates/classes/class.ilMailTemplateTypeForm.php';
-		$typeformclass = new ilMailTemplateTypeForm($this->lng, $this->ilCtrl);
+		// gev-patch start
+		//require_once 'Services/MailTemplates/classes/class.ilMailTemplateTypeForm.php';
+		//$typeformclass = new ilMailTemplateTypeForm($this->lng, $this->ilCtrl);
+		require_once 'Services/MailTemplates/classes/class.gevMailTemplateTypeForm.php';
+		$typeformclass = new gevMailTemplateTypeForm($this->lng, $this->ilCtrl);
+		// gev-patch end
 		$typeformclass->getPopulatedForm($settings_entity);
 		$this->tpl->setContent($typeformclass->getHTML());
 	}
@@ -406,8 +410,12 @@ class ilMailTemplatesGUI extends ilObjectGUI
 	 */
 	protected function handleEditTemplateTypeSettings()
 	{
-		require_once 'Services/MailTemplates/classes/class.ilMailTemplateTypeForm.php';
-		$typeformclass = new ilMailTemplateTypeForm($this->lng, $this->ilCtrl);
+		// gev-patch start
+		//require_once 'Services/MailTemplates/classes/class.ilMailTemplateTypeForm.php';
+		//$typeformclass = new ilMailTemplateTypeForm($this->lng, $this->ilCtrl);
+		require_once 'Services/MailTemplates/classes/class.gevMailTemplateTypeForm.php';
+		$typeformclass = new gevMailTemplateTypeForm($this->lng, $this->ilCtrl);
+		// gev-patch end
 		if(!$typeformclass->getForm()->checkInput())
 		{
 			$typeformclass->getForm()->setValuesByPost();
@@ -415,13 +423,21 @@ class ilMailTemplatesGUI extends ilObjectGUI
 			return;
 		}
 		
+		// gev-patch start
+		$cat_name = $typeformclass->getCategoryName();
+		$consumer_location = $typeformclass->getConsumerLocation();
+		$template_type = $typeformclass->getTemplateType();
+		// gev-patch end
+		
 		// save settings
 		require_once 'Services/MailTemplates/classes/class.ilMailTemplateSettingsEntity.php';
 		$entity = new ilMailTemplateSettingsEntity();
 		$entity->setIlDB($this->ilDB);
-		$entity->setTemplateCategoryName($typeformclass->getForm()->getInput('mail_template_category_name'));
-		$entity->setTemplateConsumerLocation($typeformclass->getForm()->getInput('mail_template_consumer_location'));
-		$entity->setTemplateTemplateType($typeformclass->getForm()->getInput('mail_template_type'));
+		// gev-patch start
+		$entity->setTemplateCategoryName($cat_name);
+		$entity->setTemplateConsumerLocation($consumer_location);
+		$entity->setTemplateTemplateType($template_type);
+		// gev-patch end
 		$entity->setTemplateTypeId((int)$_GET['template_id']);
 		$entity->save();
 		ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
@@ -433,8 +449,12 @@ class ilMailTemplatesGUI extends ilObjectGUI
 	 */
 	protected function handleNewTemplateTypeSettings()
 	{
-		require_once 'Services/MailTemplates/classes/class.ilMailTemplateTypeForm.php';
-		$typeformclass = new ilMailTemplateTypeForm($this->lng, $this->ilCtrl);
+		// gev-patch start
+		//require_once 'Services/MailTemplates/classes/class.ilMailTemplateTypeForm.php';
+		//$typeformclass = new ilMailTemplateTypeForm($this->lng, $this->ilCtrl);
+		require_once 'Services/MailTemplates/classes/class.gevMailTemplateTypeForm.php';
+		$typeformclass = new gevMailTemplateTypeForm($this->lng, $this->ilCtrl);
+		// gev-patch end
 		$typeformclass->getForm();
 		$this->tpl->setContent($typeformclass->getHTML());
 	}

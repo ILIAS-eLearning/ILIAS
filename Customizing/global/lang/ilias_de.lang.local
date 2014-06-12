@@ -199,3 +199,6 @@ gev#:#gev_member_list#:#Mitgliederliste
 crsbook#:#view_bookings#:#Buchungen einsehen
 crsbook#:#book_users#:#Buchungen vornehmen
 crsbook#:#cancel_bookings#:#Stornierungen vornehmen
+mail#:#mail_template_category_name#:#Vorlagenname
+mail#:#mail_template_category#:#Vorlagenname
+mail#:#mail_template_type#:#Vorlagentyp

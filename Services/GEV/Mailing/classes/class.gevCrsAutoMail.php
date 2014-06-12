@@ -43,7 +43,7 @@ abstract class gevCrsAutoMail extends ilAutoMail {
 		$this->template_settings = null;
 		$this->template_variant = null;
 		$this->mail_log = null;
-		$this->gev_crs_mail_template_type = "GEVCrs";
+		$this->gev_crs_mail_template_type = "CrsMail";
 		$this->global_bcc = null;
 
 		parent::__construct($a_id);
