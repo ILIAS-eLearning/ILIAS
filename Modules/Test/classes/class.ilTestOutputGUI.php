@@ -374,10 +374,12 @@ class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 			return false;
 		}
 		
-		if( !$this->testSequence->getPositionOfSequence($sequence) )
+		if( !$this->testSequence->getPositionOfSequence($sequenceElement) )
 		{
 			return false;
 		}
+		
+		return true;
 	}
 
 	/**
