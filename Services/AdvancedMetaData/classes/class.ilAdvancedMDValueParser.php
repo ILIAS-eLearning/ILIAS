@@ -32,13 +32,14 @@
 
 include_once('Services/Utilities/interfaces/interface.ilSaxSubsetParser.php');
 include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
-include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDValue.php');
+include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');
 
 class ilAdvancedMDValueParser implements ilSaxSubsetParser
 {
 	protected $cdata = '';
 	protected $obj_id;
-	protected $values = array();
+	protected $values_records = array(); // [ilAdvancedMDValues]
+	protected $values = array(); // [ilAdvancedMDFieldDefinition]
 	protected $current_value = null;
 	
 	/**
@@ -72,11 +73,10 @@ class ilAdvancedMDValueParser implements ilSaxSubsetParser
 	 */
 	public function save()
 	{
-	 	foreach($this->values as $value)
-	 	{
-	 		$value->setObjId($this->obj_id);
-	 		$value->save();
-	 	}
+	 	foreach($this->values_records as $values_record)
+		{
+			$values_record->write();
+		}		
 	 	return true;
 	}
 	
@@ -93,8 +93,18 @@ class ilAdvancedMDValueParser implements ilSaxSubsetParser
 	{
 		switch($a_name)
 		{
-			case 'AdvancedMetaData':
-				$this->values = array();
+			case 'AdvancedMetaData':				
+				$this->values_records = ilAdvancedMDValues::getInstancesForObjectId($this->obj_id);			
+				foreach($this->values_records as $values_record)
+				{				
+					// init ADTGroup before definitions to bind definitions to group
+					$values_record->getADTGroup();
+			
+					foreach($values_record->getDefinitions() as $def)
+					{						
+						$this->values[$def->getImportId()] = $def;
+					}
+				}		
 				break;
 				
 			case 'Value':
@@ -116,13 +126,14 @@ class ilAdvancedMDValueParser implements ilSaxSubsetParser
 	{
 		switch($a_name)
 		{
-			case 'AdvancedMetaData':
+			case 'AdvancedMetaData':						
 				break;
 				
 			case 'Value':
-				if(is_object($this->current_value))
+				$value = trim($this->cdata);
+				if(is_object($this->current_value) && $value)
 				{
-					$this->current_value->setValue(trim($this->cdata));
+					$this->current_value->importValueFromXML($value);
 				}
 				break;
 		}
@@ -155,11 +166,10 @@ class ilAdvancedMDValueParser implements ilSaxSubsetParser
 	 * 
 	 */
 	private function initValue($a_import_id)
-	{
-	 	if($field_id = ilAdvancedMDFieldDefinition::_lookupFieldId($a_import_id))
+	{		
+	 	if(isset($this->values[$a_import_id]))
 	 	{
-		 	$this->current_value = new ilAdvancedMDValue($field_id,$this->obj_id);
-		 	$this->values[] = $this->current_value;
+		 	$this->current_value = $this->values[$a_import_id];		 	
 	 	}
 	 	else
 	 	{

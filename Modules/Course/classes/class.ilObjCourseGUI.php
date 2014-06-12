@@ -676,7 +676,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	 * @access public
 	 * 
 	 */
-	public function editInfoObject()
+	public function editInfoObject(ilPropertyFormGUI $a_form = null)
 	{
 		include_once 'Modules/Course/classes/class.ilCourseFile.php';
 
@@ -693,9 +693,12 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->tabs_gui->setTabActive('settings');
 		$this->tabs_gui->setSubTabActive('crs_info_settings');
 	 	
-	 	$form = $this->initInfoEditor();
+		if(!$a_form)
+		{
+			$a_form = $this->initInfoEditor();
+		}
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.edit_info.html','Modules/Course');
-		$this->tpl->setVariable('INFO_TABLE',$form->getHTML());
+		$this->tpl->setVariable('INFO_TABLE',$a_form->getHTML());
 		
 		if(!count($files = ilCourseFile::_readFilesByCourse($this->object->getId())))
 		{
@@ -867,9 +870,9 @@ class ilObjCourseGUI extends ilContainerGUI
 		$form->addItem($area);
 		
 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
-		$record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_EDITOR,'crs',$this->object->getId());
-		$record_gui->setPropertyForm($form);
-		$record_gui->parse();
+		$this->record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_EDITOR,'crs',$this->object->getId());
+		$this->record_gui->setPropertyForm($form);
+		$this->record_gui->parse();
 
 		return $form;
 	}
@@ -879,7 +882,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		global $ilErr,$ilAccess;
 
 		$this->checkPermission('write');
-
+		
 		include_once 'Modules/Course/classes/class.ilCourseFile.php';
 		$file_obj = new ilCourseFile();
 		$file_obj->setCourseId($this->object->getId());
@@ -899,26 +902,42 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->object->setContactEmail(ilUtil::stripSlashes($_POST['contact_email']));
 		$this->object->setContactConsultation(ilUtil::stripSlashes($_POST['contact_consultation']));
 		
-		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
-		$record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_EDITOR,
-			'crs',$this->object->getId());
-		$record_gui->loadFromPost();
-
-		// Validate
+		
+		// validate
+		
+		$error = false;		
 		$ilErr->setMessage('');
+		
 		$file_obj->validate();
 		$this->object->validateInfoSettings();
-
 		if(strlen($ilErr->getMessage()))
 		{
-			ilUtil::sendFailure($ilErr->getMessage());
-			$this->editInfoObject();
+			$error = $ilErr->getMessage();
+		}
+			
+		// needed for proper advanced MD validation	 		
+		$form = $this->initInfoEditor();
+		$form->checkInput();			
+		if(!$this->record_gui->importEditFormPostValues())
+		{	
+			$error = true;
+		}	
+		
+		if($error)
+		{								
+			if($error !== true)
+			{
+				ilUtil::sendFailure($ilErr->getMessage());
+			}
+			$this->editInfoObject($form);
 			return false;
 		}
+		
 		$this->object->update();
 		$file_obj->create();
-		$record_gui->saveValues();
-
+		$this->record_gui->writeEditForm();
+		
+		
 		// Update ecs content
 		include_once 'Modules/Course/classes/class.ilECSCourseSettings.php';
 		$ecs = new ilECSCourseSettings($this->object);

@@ -34,6 +34,9 @@ include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinitio
 
 class ilAdvancedMDFieldTableGUI extends ilTable2GUI
 {
+	protected $permissions; // [ilAdvancedMDPermissionHelper]
+	protected $may_edit_pos; // [bool]
+	
 	/**
 	 * Constructor
 	 *
@@ -42,13 +45,15 @@ class ilAdvancedMDFieldTableGUI extends ilTable2GUI
 	 * @param string parent command
 	 * 
 	 */
-	public function __construct($a_parent_obj,$a_parent_cmd = '')
+	public function __construct($a_parent_obj,$a_parent_cmd = '', ilAdvancedMDPermissionHelper $a_permissions, $a_may_edit_pos)
 	{
 	 	global $lng,$ilCtrl;
 	 	
 	 	$this->lng = $lng;
 	 	$this->ctrl = $ilCtrl;
-	 	
+		$this->permissions = $a_permissions;
+		$this->may_edit_pos = (bool)$a_may_edit_pos;
+		
 	 	parent::__construct($a_parent_obj,$a_parent_cmd);
 	 	$this->addColumn('','f',1);
 	 	$this->addColumn($this->lng->txt('position'),'position',"5%");
@@ -77,7 +82,16 @@ class ilAdvancedMDFieldTableGUI extends ilTable2GUI
 		{
 			$this->tpl->setVariable('ASS_CHECKED','checked="checked"');
 		}
+		if(!$a_set["perm"][ilAdvancedMDPermissionHelper::ACTION_FIELD_EDIT_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_FIELD_SEARCHABLE])
+		{
+			$this->tpl->setVariable('ASS_DISABLED',' disabled="disabled"');
+		}
+		
 		$this->tpl->setVariable('VAL_POS',$a_set['position']);
+		if(!$this->may_edit_pos)
+		{
+			$this->tpl->setVariable('POS_DISABLED',' disabled="disabled"');
+		}
 		
 		$this->tpl->setVariable('VAL_ID',$a_set['id']);
 		$this->tpl->setVariable('VAL_TITLE',$a_set['title']);
@@ -86,38 +100,22 @@ class ilAdvancedMDFieldTableGUI extends ilTable2GUI
 			$this->tpl->setVariable('VAL_DESCRIPTION',$a_set['description']);
 		}
 		
-		foreach($a_set['values'] as $value)
+		$this->tpl->setVariable('FIELD_TYPE',$a_set['type']);
+		
+		foreach((array)$a_set['properties'] as $key => $value)
 		{
 			$this->tpl->setCurrentBlock('field_value');
+			$this->tpl->setVariable('FIELD_KEY',$key);
 			$this->tpl->setVariable('FIELD_VAL',$value);
 			$this->tpl->parseCurrentBlock();
 		}
-		if(count($a_set['values']))
+		
+		if($a_set["perm"][ilAdvancedMDPermissionHelper::ACTION_FIELD_EDIT])
 		{
-#			$this->tpl->setCurrentBlock('field_select');
-#			$this->tpl->parseCurrentBlock();
+			$this->ctrl->setParameter($this->parent_obj,'field_id',$a_set['id']);
+			$this->tpl->setVariable('EDIT_LINK',$this->ctrl->getLinkTarget($this->parent_obj,'editField'));
+			$this->tpl->setVariable('TXT_EDIT_RECORD',$this->lng->txt('edit'));
 		}
-		switch($a_set['type'])
-		{
-			case ilAdvancedMDFieldDefinition::TYPE_TEXT:
-				$this->tpl->setVariable('FIELD_TYPE',$this->lng->txt('udf_type_text'));
-				break;
-				
-			case ilAdvancedMDFieldDefinition::TYPE_SELECT:
-				$this->tpl->setVariable('FIELD_TYPE',$this->lng->txt('udf_type_select'));
-				break;
-				
-			case ilAdvancedMDFieldDefinition::TYPE_DATE:
-				$this->tpl->setVariable('FIELD_TYPE',$this->lng->txt('udf_type_date'));
-				break;	
-				
-			case ilAdvancedMDFieldDefinition::TYPE_DATETIME:
-				$this->tpl->setVariable('FIELD_TYPE',$this->lng->txt('udf_type_datetime'));
-				break;			
-		}
-		$this->ctrl->setParameter($this->parent_obj,'field_id',$a_set['id']);
-		$this->tpl->setVariable('EDIT_LINK',$this->ctrl->getLinkTarget($this->parent_obj,'editField'));
-		$this->tpl->setVariable('TXT_EDIT_RECORD',$this->lng->txt('edit'));
 	}
 	
 	
@@ -139,8 +137,17 @@ class ilAdvancedMDFieldTableGUI extends ilTable2GUI
 			$tmp_arr['description'] = $definition->getDescription();
 			$tmp_arr['fields'] = array();
 			$tmp_arr['searchable'] = $definition->isSearchable();
-			$tmp_arr['type'] = $definition->getFieldType();
-			$tmp_arr['values'] = $definition->getFieldValues();
+			$tmp_arr['type'] = $this->lng->txt($definition->getTypeTitle());
+			$tmp_arr['properties'] = $definition->getFieldDefinitionForTableGUI();
+			
+			$tmp_arr['perm'] = $this->permissions->hasPermissions(
+				ilAdvancedMDPermissionHelper::CONTEXT_FIELD, 
+				$definition->getFieldId(),
+				array(
+					ilAdvancedMDPermissionHelper::ACTION_FIELD_EDIT
+					,array(ilAdvancedMDPermissionHelper::ACTION_FIELD_EDIT_PROPERTY,  
+						ilAdvancedMDPermissionHelper::SUBACTION_FIELD_SEARCHABLE)
+				));
 			
 			$defs_arr[] = $tmp_arr;
 	 	}

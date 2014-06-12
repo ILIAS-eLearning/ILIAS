@@ -95,9 +95,11 @@ class ilAdvancedMDSubstitution
 	 	$sorted = array();
 	 	foreach($this->substitutions as $field_id)
 	 	{
-	 		$sorted[] = $field_id;
-	 		$key = array_search($field_id,$a_definitions);
- 			unset($a_definitions[$key]);
+			if(isset($a_definitions[$field_id]))
+			{
+				$sorted[$field_id] = $a_definitions[$field_id];	 		
+				unset($a_definitions[$field_id]);
+			}
 	 	}
 	 	return array_merge($sorted,$a_definitions);
 	}
@@ -168,16 +170,16 @@ class ilAdvancedMDSubstitution
 	 * @param string description
 	 * 
 	 */
-	public function getParsedSubstitutions($a_ref_id,$a_obj_id)
-	{
+	public function getParsedSubstitutions($a_ref_id, $a_obj_id)
+	{		
   		if(!count($this->getSubstitutions()))
   		{
   			return array();
   		}
   		
   		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');
-  		$values = ilAdvancedMDValues::_getValuesByObjId($a_obj_id);
-		  		
+  		$values_records = ilAdvancedMDValues::preloadedRead($this->type, $a_obj_id);
+		 		
   		$counter = 0;
   		foreach($this->getSubstitutions() as $field_id)
   		{
@@ -185,7 +187,10 @@ class ilAdvancedMDSubstitution
 			{
 				continue;
 			}
-			if(!isset($values[$field_id]) or !$values[$field_id])
+			
+			$value = $this->parseValue($field_id, $values_records);		
+			
+			if($value === null)
 			{
 				if($this->hasNewline($field_id) and $counter)
 				{
@@ -193,9 +198,7 @@ class ilAdvancedMDSubstitution
 				}
 				continue;
 			}
-			
-			$value = $this->parseValue($field_id,$values);
-	
+							
 			$substituted[$counter]['name'] = $this->active_fields[$field_id];
 			$substituted[$counter]['value'] = $value;
 			$substituted[$counter]['bold'] = $this->isBold($field_id);
@@ -219,12 +222,12 @@ class ilAdvancedMDSubstitution
 	 * and ECS dates
 	 * 
 	 * @param int $a_field_id field ID
-	 * @param array $a_values values
+	 * @param array $a_values_records values
 	 * @access public
 	 * @return string parsed value
 	 * 
 	 */
-	private function parseValue($a_field_id,$a_values)
+	private function parseValue($a_field_id,$a_values_records)
 	{
 		global $ilUser;
 		
@@ -254,18 +257,18 @@ class ilAdvancedMDSubstitution
 			}
 			*/
 		}
-		if(in_array($a_field_id,$this->date_fields))
+		
+		foreach($a_values_records as $a_values)
 		{
-			return $value = ilDatePresentation::formatDate(new ilDate((int) $a_values[$a_field_id],IL_CAL_UNIX));
-		}
-		elseif(in_array($a_field_id,$this->datetime_fields))
-		{
-			return $value = ilDatePresentation::formatDate(new ilDateTime((int) $a_values[$a_field_id],IL_CAL_UNIX));
-		}
-		else
-		{
-			return $value = $a_values[$a_field_id];
-		}
+			if($a_values->getADTGroup()->hasElement($a_field_id))				
+			{				
+				$element = $a_values->getADTGroup()->getElement($a_field_id);
+				if(!$element->isNull())
+				{				
+					return ilADTFactory::getInstance()->getPresentationBridgeForInstance($element)->getList();
+				}
+			}
+		}		
 	}
 	
 	
@@ -395,11 +398,7 @@ class ilAdvancedMDSubstitution
 	private function read()
 	{
 	 	global $ilDB;
-	 	
-	 	include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
-	 	$this->date_fields = ilAdvancedMDFieldDefinition::_lookupDateFields();
-	 	$this->datetime_fields = ilAdvancedMDFieldDefinition::_lookupDatetimeFields();
-	 	
+	 		 
 	 	// Check active status
 	 	$query = "SELECT active,field_id,amfd.title FROM adv_md_record amr ".
 	 		"JOIN adv_md_record_objs amro ON amr.record_id = amro.record_id ".

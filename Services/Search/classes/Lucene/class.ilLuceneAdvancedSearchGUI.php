@@ -170,7 +170,7 @@ class ilLuceneAdvancedSearchGUI extends ilSearchBaseGUI
 			
 			foreach($definition['fields'] as $field_name)
 			{
-				if(is_object($element = $this->fields->getFormElement($this->search_cache->getQuery(),$field_name)))
+				if(is_object($element = $this->fields->getFormElement($this->search_cache->getQuery(),$field_name,$this->form)))
 				{
 					$this->form->addItem($element);
 				}

@@ -8336,7 +8336,7 @@ meta#:#md_adv_import_record#:#Datensatz importieren
 meta#:#md_adv_no_fields#:#Keine Felder definiert
 meta#:#md_adv_placeholder_for#:#Platzhalter für:
 meta#:#md_adv_placeholders#:#Platzhalter
-meta#:#md_adv_record_list#:#Datensätze und Darstellung
+meta#:#md_adv_record_list#:#Datensätze
 meta#:#md_adv_records#:#Enthaltene Datensätze
 meta#:#md_adv_records_exported#:#Eine neue Exportdatei wurde angelegt.
 meta#:#md_adv_searchable#:#Durchsuchbar
@@ -14336,3 +14336,15 @@ dateplaner#:#cal_ical_url#:#iCal-URL
 book#:#book_confirm_cancel_aggregation#:#Anzahl Stornierungen
 survey#:#survey_not_available#:#n.a.
 blog#:#blog_change_notification_body_approve#:#der folgende Blog-Eintrag erwartet die Freischaltung.
+meta#:#md_adv_presentation#:#Darstellung
+meta#:#udf_type_integer#:#Ganzzahl
+meta#:#md_adv_number_max#:#Maximaler Wert
+meta#:#md_adv_number_min#:#Minimaler Wert
+meta#:#udf_type_float#:#Gleitkommazahl
+meta#:#udf_type_location#:#Standort
+meta#:#md_adv_number_decimals#:#Nachkommastellen
+meta#:#md_adv_confirm_definition#:#Bitte bestätigen Sie die neuen Einstellungen.
+meta#:#md_adv_confirm_definition_select_option#:#Gelöschte Option
+meta#:#md_adv_confirm_definition_select_option_remove#:#Wert entfernen
+meta#:#md_adv_confirm_definition_select_option_overwrite#:#Wert überschreiben
+meta#:#md_adv_confirm_definition_select_section#:#Migration der gelöschten Optionen

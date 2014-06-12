@@ -453,15 +453,22 @@ class ilObjCategoryGUI extends ilContainerGUI
 	protected function updateInfoObject()
 	{
 		$this->checkPermission("write");
-		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
-		$record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_EDITOR,
-			'cat',$this->object->getId());
-		$record_gui->loadFromPost();
-		$record_gui->saveValues();
+	
+		// init form
+		$this->initExtendedSettings();	
+		
+		// still needed for date conversion and so on
+		$this->form->checkInput();		
+		
+		if($this->record_gui->importEditFormPostValues())
+		{						
+			$this->record_gui->writeEditForm();
+						
+			ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+			$this->ctrl->redirect($this, "editInfo");			
+		}
 
-		ilUtil::sendSuccess($this->lng->txt("settings_saved"));
 		$this->editInfoObject();
-		return true;
 	}
 	
 	
@@ -485,9 +492,9 @@ class ilObjCategoryGUI extends ilContainerGUI
 		$this->form->addCommandButton('editInfo',$this->lng->txt('cancel'));
 
 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
-		$record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_EDITOR,'cat',$this->object->getId());
-		$record_gui->setPropertyForm($this->form);
-		$record_gui->parse();
+		$this->record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_EDITOR,'cat',$this->object->getId());
+		$this->record_gui->setPropertyForm($this->form);
+		$this->record_gui->parse();
 		
 		return true;
 	}

@@ -16,6 +16,8 @@ class ilAdvancedMDRecordGUI
 	const MODE_EDITOR = 1;
 	const MODE_SEARCH = 2;
 	const MODE_INFO = 3;
+	
+	// glossary
 	const MODE_REC_SELECTION = 4;		// record selection (per object)
 	const MODE_FILTER = 5;				// filter (as used e.g. in tables)
 	const MODE_TABLE_HEAD = 6;				// table header (columns)
@@ -29,8 +31,9 @@ class ilAdvancedMDRecordGUI
 	private $obj_id;
 	
 	private $form;
-	private $values = array();
 	private $search_values = array();
+	
+	protected $editor_form; // [array]
 
 	/**
 	 * Constructor
@@ -144,143 +147,17 @@ class ilAdvancedMDRecordGUI
 	 			die('Not implemented yet');
 	 	}
 	}
-	
-	/**
-	 * Load values from post
-	 *
-	 * @access public
-	 * 
-	 */
-	public function loadFromPost()
-	{
-		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDValue.php');
-		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
 		
-		if(!isset($_POST['md']))
-		{
-			return false;
-		}
-		foreach($_POST['md'] as $field_id => $value)
-		{
-			$def = ilAdvancedMDFieldDefinition::_getInstanceByFieldId($field_id);
-			switch($def->getFieldType())
-			{
-				case ilAdvancedMDFieldDefinition::TYPE_DATE:
-
-					if(is_array($value) and $_POST['md_activated'][$field_id])
-					{
-						$dt['year'] = (int) $value['date']['y'];
-						$dt['mon'] = (int) $value['date']['m'];
-						$dt['mday'] = (int) $value['date']['d'];
-						$dt['hours'] = (int) 0;
-						$dt['minutes'] = (int) 0;
-						$dt['seconds'] = (int) 0;
-						$date = new ilDate($dt,IL_CAL_FKT_GETDATE);
-						$value = $date->get(IL_CAL_UNIX);
-					}
-					else
-					{
-						$value = 0;
-					}
-					break;
-
-				case ilAdvancedMDFieldDefinition::TYPE_DATETIME:
-					
-					if(is_array($value) and $_POST['md_activated'][$field_id])
-					{
-						$dt['year'] = (int) $value['date']['y'];
-						$dt['mon'] = (int) $value['date']['m'];
-						$dt['mday'] = (int) $value['date']['d'];
-						$dt['hours'] = (int) $value['time']['h'];
-						$dt['minutes'] = (int) $value['time']['m'];
-						$dt['seconds'] = (int) 0;
-						$date = new ilDateTime($dt,IL_CAL_FKT_GETDATE);
-						$value = $date->get(IL_CAL_UNIX);
-					}
-					else
-					{
-						$value = 0;
-					}
-					break;
-				
-				default:
-					$value = ilUtil::stripSlashes($value);
-					break;
-			}
-			$val = ilAdvancedMDValue::_getInstance($this->obj_id,$field_id,$this->sub_type,$this->sub_id);
-			$val->setValue($value);
-			$this->values[] = $val;
-			unset($value);
-		}
-		$this->loadECSDurationPost();
-	}
 	
-	/**
-	 * load ecs duration post
-	 *
-	 * @access protected
-	 * @param
-	 * @return
-	 */
-	protected function loadECSDurationPost()
-	{
-		include_once('./Services/WebServices/ECS/classes/class.ilECSDataMappingSettings.php');
-		include_once('./Services/WebServices/ECS/classes/class.ilECSServerSettings.php');
-		
-		if(!ilECSServerSettings::getInstance()->activeServerExists())
-		{
-			return false;
-		}
-		$mapping = ilECSDataMappingSettings::_getInstance();
-		
-		if(!$start_id = $mapping->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS, 'begin'))
-		{
-			return false;
-		}
-		if(!$end_id = $mapping->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS, 'end'))
-		{
-			return false;
-		}
-		if(!$_POST['md_activated'][$start_id])
-		{
-			$end = 0;
-		}
-		else
-		{
-			$end = $this->toUnixTime($_POST['md'][$start_id]['date'],$_POST['md'][$start_id]['time']);
-			$end = $end + (60 * 60 * $_POST['ecs_duration']['hh']) + (60 * $_POST['ecs_duration']['mm']);
-		}
-		$val = ilAdvancedMDValue::_getInstance($this->obj_id,$end_id);
-		$val->setValue($end);
-		$this->values[] = $val;
-		return true;
-	}
-	
-	/**
-	 * Save values
-	 *
-	 * @access public
-	 * 
-	 */
-	public function saveValues()
-	{
-	 	foreach($this->values as $value)
-	 	{
-	 		$value->save();
-	 	}
-	 	return true;
-	}
+	//
+	// editor
+	//
 	
 	/**
 	 * Parse property form in editor mode
-	 *
-	 * @access private
-	 * 
 	 */
-	private function parseEditor()
-	{
-	 	global $ilUser;
-	 	
+	protected function parseEditor()
+	{	 	
 	 	include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
 		if ($this->getSelectedOnly())
 		{
@@ -291,102 +168,116 @@ class ilAdvancedMDRecordGUI
 			$recs = ilAdvancedMDRecord::_getActivatedRecordsByObjectType($this->obj_type, $this->sub_type);
 		}
 
+		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');		
+		$this->editor_form = array();
+		
 	 	foreach($recs as $record_obj)
 	 	{
-	 		$section = new ilFormSectionHeaderGUI();
-	 		$section->setTitle($record_obj->getTitle());
-	 		$section->setInfo($record_obj->getDescription());
-	 		$this->form->addItem($section);
-	 		
-	 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
-	 		foreach(ilAdvancedMDFieldDefinition::_getDefinitionsByRecordId($record_obj->getRecordId()) as $def)
+			/* :TODO:
+			if($this->handleECSDefinitions($def))
 	 		{
-	 			if($this->handleECSDefinitions($def))
-	 			{
-	 				continue;
-	 			}
-	 			
-	 			include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDValue.php');
-				$value = ilAdvancedMDValue::_getInstance($this->obj_id,$def->getFieldId(),$this->sub_type,$this->sub_id);
-	 			
-	 			switch($def->getFieldType())
-	 			{
-	 				case ilAdvancedMDFieldDefinition::TYPE_TEXT:
-	 					$text = new ilTextInputGUI($def->getTitle(),'md['.$def->getFieldId().']');
-	 					$text->setValue($value->getValue());
-	 					$text->setSize(40);
-	 					$text->setMaxLength(512);
-	 					$text->setDisabled($value->isDisabled());
-	 					$text->setInfo($def->getDescription());
-	 					$this->form->addItem($text);
-	 					break;
-	 					
-	 				case ilAdvancedMDFieldDefinition::TYPE_SELECT:
-	 					$select = new ilSelectInputGUI($def->getTitle(),'md['.$def->getFieldId().']');
-	 					$select->setOptions($def->getFieldValuesForSelect());
-	 					$select->setValue($value->getValue());
-	 					$select->setDisabled($value->isDisabled());
-	 					$select->setInfo($def->getDescription());
-
-	 					$this->form->addItem($select);
-	 					break;
-	 					
-	 				case ilAdvancedMDFieldDefinition::TYPE_DATE:
-	 					
-	 					$unixtime = $value->getValue() ? $value->getValue() : mktime(8,0,0,date('m'),date('d'),date('Y'));
-
-	 					$time = new ilDateTimeInputGUI($def->getTitle(),'md['.$def->getFieldId().']');
-	 					$time->setShowTime(false);
-						$time->setStartYear(1901);
-	 					$time->setDate(new ilDate($unixtime,IL_CAL_UNIX));
-	 					$time->enableDateActivation($this->lng->txt('enabled'),
-							'md_activated['.$def->getFieldId().']',
-							$value->getValue() ? true : false);
-						$time->setDisabled($value->isDisabled());
-						$time->setInfo($def->getDescription());
-	 					$this->form->addItem($time);
-	 					break;
-	 					
-	 				case ilAdvancedMDFieldDefinition::TYPE_DATETIME:
-
-	 					$unixtime = $value->getValue() ? $value->getValue() : mktime(8,0,0,date('m'),date('d'),date('Y'));
-
-	 					$time = new ilDateTimeInputGUI($def->getTitle(),'md['.$def->getFieldId().']');
-	 					$time->setShowTime(true);
-	 					$time->setDate(new ilDateTime($unixtime,IL_CAL_UNIX,$ilUser->getTimeZone()));
-	 					$time->enableDateActivation($this->lng->txt('enabled'),
-							'md_activated['.$def->getFieldId().']',
-							$value->getValue() ? true : false);
-						$time->setDisabled($value->isDisabled());
-	 					$this->form->addItem($time);
-	 					break;
-	 			}
-	 		}
+	 			continue;
+	 		}			 
+			*/
+			
+			$record_id = $record_obj->getRecordId();
+			
+			$values = new ilAdvancedMDValues($record_id, $this->obj_id, $this->sub_type, $this->sub_id);
+			$values->read();
+			
+			$adt_group_form = ilADTFactory::getInstance()->getFormBridgeForInstance($values->getADTGroup());
+			$adt_group_form->setForm($this->form);
+			$adt_group_form->setTitle($record_obj->getTitle());
+			$adt_group_form->setInfo($record_obj->getDescription());
+			
+			foreach($values->getDefinitions() as $def)
+			{
+				$element = $adt_group_form->getElement($def->getFieldId());
+				$element->setTitle($def->getTitle());
+				$element->setInfo($def->getDescription());
+				
+				if($values->isDisabled($def->getFieldId()))
+				{
+					$element->setDisabled(true);
+				}
+			}
+			
+			$adt_group_form->addToForm();			
+			
+			$this->editor_form[$record_id] = array("values"=>$values, "form"=>$adt_group_form);
 	 	}
+	}	
+	
+	/**
+	 * Load edit form values from post
+	 * 
+	 * @return bool
+	 */
+	public function importEditFormPostValues()
+	{			
+		if(!sizeof($this->editor_form))
+		{
+			return false;
+		}
+		
+		$valid = true;
+		
+		foreach($this->editor_form as $item)
+		{		
+			$item["form"]->importFromPost();
+			if(!$item["form"]->validate())
+			{									
+				$valid = false;
+			}
+		}
+		
+		return $valid;
 	}
 	
 	/**
-	 * Parse search 
-	 *
-	 * @access private
-	 * @param
+	 * Write edit form values to db
 	 * 
+	 * @return bool
+	 */
+	public function writeEditForm()
+	{
+		if(!sizeof($this->editor_form))
+		{
+			return false;
+		}
+		
+		foreach($this->editor_form as $item)
+		{					
+			$item["values"]->write();
+		}
+		
+		return true;
+	}
+	
+	
+	// 
+	// :TODO: search
+	//		
+	
+	/**
+	 * Parse search 
 	 */
 	private function parseSearch()
-	{
-	 	include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
+	{	
+		// probably obsolete - see ilLuceneAdvancedSearchFields::getFormElement()
+		var_dump("ilAdvancedMDRecordGUI::parseSearch()");
+		exit();
+		
+		/*
+	 	include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');		
 		foreach(ilAdvancedMDRecord::_getActiveSearchableRecords() as $record)
 		{ 
 			$section = new ilFormSectionHeaderGUI();
 			$section->setTitle($record->getTitle());
 			$this->form->addItem($section);
 			
-			foreach(ilAdvancedMDFieldDefinition::_getDefinitionsByRecordId($record->getRecordId()) as $field)
-			{
-				if(!$field->isSearchable())
-				{
-					continue;
-				}
+			foreach(ilAdvancedMDFieldDefinition::getInstancesByRecordId($record->getRecordId(), true) as $field)
+			{								
 	 			switch($field->getFieldType())
 	 			{
 	 				case ilAdvancedMDFieldDefinition::TYPE_TEXT:
@@ -477,67 +368,44 @@ class ilAdvancedMDRecordGUI
 	 					break;
 	 			}
 			}
-		}
+		}		 
+		 */
 	}
+	
+	
+	//
+	// infoscreen
+	//
 	
 	private function parseInfoPage()
-	{
-	 	include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
-	 	foreach(ilAdvancedMDRecord::_getActivatedRecordsByObjectType($this->obj_type, $this->sub_type) as $record_obj)
-	 	{
-	 		$this->info->addSection($record_obj->getTitle());
-	 		
-	 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
-	 		foreach(ilAdvancedMDFieldDefinition::_getDefinitionsByRecordId($record_obj->getRecordId()) as $def)
-	 		{
-	 			include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDValue.php');
-				$value = ilAdvancedMDValue::_getInstance($this->obj_id,$def->getFieldId());
-	 			
-	 			switch($def->getFieldType())
-	 			{
-	 				case ilAdvancedMDFieldDefinition::TYPE_TEXT:
-	 					if($value->getValue())
-	 					{
-		 					$this->info->addProperty($def->getTitle(),$value->getValue());
-	 					}
-	 					break;
-	 					
-	 				case ilAdvancedMDFieldDefinition::TYPE_SELECT:
-	 					if($value->getValue())
-	 					{
-	 						$this->info->addProperty($def->getTitle(),$value->getValue());
-	 					}
-	 					break;
-	 					
-	 				case ilAdvancedMDFieldDefinition::TYPE_DATE:
-	 					if($value->getValue())
-						{
-							$this->info->addProperty($def->getTitle(),ilDatePresentation::formatDate(new ilDate($value->getValue(),IL_CAL_UNIX)));
-						}
-	 					break;
-	 				case ilAdvancedMDFieldDefinition::TYPE_DATETIME:
-	 					if($value->getValue())
-						{
-							$this->info->addProperty($def->getTitle(),ilDatePresentation::formatDate(new ilDateTime($value->getValue(),IL_CAL_UNIX)));
-						}
-	 					break;
-	 			}
-	 		}
-	 	}
+	{				
+		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');
+		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
+		include_once('Services/ADT/classes/class.ilADTFactory.php');
+								
+		foreach(ilAdvancedMDValues::getInstancesForObjectId($this->obj_id, $this->obj_type) as $record_id => $a_values)
+		{					
+			// this correctly binds group and definitions
+			$a_values->read();
+			
+			$this->info->addSection(ilAdvancedMDRecord::_lookupTitle($record_id)); 
 		
+			$defs = $a_values->getDefinitions();									
+			foreach($a_values->getADTGroup()->getElements() as $element_id => $element)				
+			{								
+				if(!$element->isNull())
+				{									
+					$this->info->addProperty($defs[$element_id]->getTitle(),
+						ilADTFactory::getInstance()->getPresentationBridgeForInstance($element)->getHTML());					
+				}
+			}
+		}						
 	} 
 	
-	/**
-	 * convert input array to unix time
-	 *
-	 * @access private
-	 * @param
-	 * 
-	 */
-	private function toUnixTime($date,$time = array())
-	{
-		return mktime($time['h'],$time['m'],0,$date['m'],$date['d'],$date['y']);
-	}
+					
+	//
+	// :TODO: ECS
+	// 
 	
 	/**
 	 * handle ecs definitions
@@ -692,6 +560,11 @@ class ilAdvancedMDRecordGUI
 		return array($hours,$min); 
 	}
 
+		
+	//
+	// glossary
+	// 
+	
 	/**
 	 * Parse property form in editor mode
 	 *
@@ -790,9 +663,7 @@ class ilAdvancedMDRecordGUI
 	 * 
 	 */
 	private function parseFilter()
-	{
-	 	global $ilUser;
-	 	
+	{	 
 	 	include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
 		if ($this->getSelectedOnly())
 		{
@@ -802,64 +673,90 @@ class ilAdvancedMDRecordGUI
 		{
 			$recs = ilAdvancedMDRecord::_getActivatedRecordsByObjectType($this->obj_type, $this->sub_type);
 		}
+		
+		$this->adt_search = array();
+		
+		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
 	 	foreach($recs as $record_obj)
-	 	{
-	 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
-	 		foreach(ilAdvancedMDFieldDefinition::_getDefinitionsByRecordId($record_obj->getRecordId()) as $def)
-	 		{
-	 			if($this->handleECSDefinitions($def))
+	 	{			
+			$record_id = $record_obj->getRecordId();
+			
+			$defs = ilAdvancedMDFieldDefinition::getInstancesByRecordId($record_id);
+			foreach($defs as $def)
+			{
+				// :TODO: not all types supported yet
+				if(!in_array($def->getType(), array(
+					ilAdvancedMDFieldDefinition::TYPE_TEXT,
+					ilAdvancedMDFieldDefinition::TYPE_SELECT,
+					ilAdvancedMDFieldDefinition::TYPE_DATE,
+					ilAdvancedMDFieldDefinition::TYPE_DATETIME)))
+				{
+					continue;
+				}
+				
+				/* :TODO:
+				if($this->handleECSDefinitions($def))
 	 			{
 	 				continue;
 	 			}
-	 			
-	 			include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDValue.php');
-	 			
-	 			switch($def->getFieldType())
-	 			{
-	 				case ilAdvancedMDFieldDefinition::TYPE_TEXT:
-	 					$text = new ilTextInputGUI($def->getTitle(),'md_'.$def->getFieldId());
-	 					$text->setSize(20);
-	 					$text->setMaxLength(512);
-	 					$text->setSubmitFormOnEnter(true);
-	 					$this->table_gui->addFilterItem($text);
-	 					$text->readFromSession();
-	 					$this->table_gui->filter['md_'.$def->getFieldId()] = $text->getValue();
-	 					break;
-	 					
-	 				case ilAdvancedMDFieldDefinition::TYPE_SELECT:
-	 					include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
-	 					$select = new ilSelectInputGUI($def->getTitle(),'md_'.$def->getFieldId());
-	 					$select->setOptions($def->getFieldValuesForSelect());
-	 					$this->table_gui->addFilterItem($select);
-	 					$select->readFromSession();
-	 					$this->table_gui->filter['md_'.$def->getFieldId()] = $select->getValue();
-	 					break;
-	 					
-	 				case ilAdvancedMDFieldDefinition::TYPE_DATE:
-	 					include_once("./Services/Form/classes/class.ilDateTimeInputGUI.php");
-	 					$time = new ilDateTimeInputGUI($def->getTitle(),'md_'.$def->getFieldId());
-	 					$time->setShowTime(false);
-	 					$time->enableDateActivation($this->lng->txt('enabled'),
-							'md_activated['.$def->getFieldId().']', false);
-	 					$this->table_gui->addFilterItem($time);
-	 					$time->readFromSession();
-	 					$this->table_gui->filter['md_'.$def->getFieldId()] = $time->getDate();
-	 					break;
-	 					
-	 				case ilAdvancedMDFieldDefinition::TYPE_DATETIME:
-
-	 					$time = new ilDateTimeInputGUI($def->getTitle(),'md_'.$def->getFieldId());
-	 					$time->setShowTime(true);
-	 					$time->enableDateActivation($this->lng->txt('enabled'),
-							'md_activated['.$def->getFieldId().']', false);
-	 					$this->table_gui->addFilterItem($time);
-	 					$time->readFromSession();
-	 					$this->table_gui->filter['md_'.$def->getFieldId()] = $time->getValue();
-	 					break;
-	 			}
-	 		}
+				*/
+				
+				$this->adt_search[$def->getFieldId()] = ilADTFactory::getInstance()->getSearchBridgeForDefinitionInstance($def->getADTDefinition(), true, false);
+				$this->adt_search[$def->getFieldId()]->setTableGUI($this->table_gui);
+				$this->adt_search[$def->getFieldId()]->setTitle($def->getTitle());
+				$this->adt_search[$def->getFieldId()]->setElementId('md_'.$def->getFieldId());
+				
+				$this->adt_search[$def->getFieldId()]->loadFilter();
+				$this->adt_search[$def->getFieldId()]->addToForm();					
+			}		
 	 	}
 	}
+	
+	/**
+	 * Import filter (post) values
+	 */
+	public function importFilter()
+	{
+		if(!is_array($this->adt_search))
+		{
+			return;
+		}
+		
+		foreach($this->adt_search as $element)
+		{
+			$element->importFromPost();
+		}	
+	}
+	
+	/**
+	 * Get SQL conditions for current filter value(s)
+	 * 
+	 * @return array
+	 */
+	public function getFilterElements()
+	{
+		if(!is_array($this->adt_search))
+		{
+			return;
+		}
+		
+		$res = array();
+		
+		foreach($this->adt_search as $def_id => $element)
+		{			
+			if(!$element->isNull())
+			{
+				$res[$def_id] = $element;			
+			}
+		}	
+		
+		return $res;
+	}
+	
+	
+	//
+	// :TODO: OBSOLETE?  not used in glossary
+	// 
 	
 	/**
 	 * Parse property for table head

@@ -194,11 +194,11 @@ class ilGlossaryTermGUI
 
 		// advanced metadata
 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
-		$record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_EDITOR,'glo',$this->glossary->getId(),'term',
+		$this->record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_EDITOR,'glo',$this->glossary->getId(),'term',
 			$this->term->getId());
-		$record_gui->setPropertyForm($form);
-		$record_gui->setSelectedOnly(true);
-		$record_gui->parse();
+		$this->record_gui->setPropertyForm($form);
+		$this->record_gui->setSelectedOnly(true);
+		$this->record_gui->parse();
 		
 		$form->addCommandButton("updateTerm", $this->lng->txt("save"));
 
@@ -237,9 +237,16 @@ class ilGlossaryTermGUI
 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
 		$record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_EDITOR,
 			'glo',$this->glossary->getId(),'term', $this->term->getId());
-		$record_gui->loadFromPost();
-		$record_gui->saveValues();
-
+		
+		// :TODO: proper validation
+		$form = $this->getEditTermForm();
+		$form->checkInput();
+		
+		if($this->record_gui->importEditFormPostValues())
+		{		
+			$this->record_gui->writeEditForm();
+		}
+	
 		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
 		$this->ctrl->redirect($this, "editTerm");
 	}

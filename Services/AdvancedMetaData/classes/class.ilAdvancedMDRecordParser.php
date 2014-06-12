@@ -153,41 +153,19 @@ class ilAdvancedMDRecordParser extends ilSAXParser
 				{
 					$this->appendErrorMessage('Missing XML attribute for element "Field".');
 				}
-				if(!$this->initFieldObject($a_attribs['id']))
+				if(!$this->initFieldObject($a_attribs['id'], $a_attribs['fieldType']))
 				{
 					$this->appendErrorMessage('Invalid attribute Id given for element "Record".');
-				}
-				switch($a_attribs['fieldType'])
-				{
-					case 'Select':
-						$this->getCurrentField()->setFieldType(ilAdvancedMDFieldDefinition::TYPE_SELECT);
-						break;				
-						
-					case 'Date':
-						$this->getCurrentField()->setFieldType(ilAdvancedMDFieldDefinition::TYPE_DATE);
-						break;
-						
-					case 'DateTime':
-						$this->getCurrentField()->setFieldType(ilAdvancedMDFieldDefinition::TYPE_DATETIME);
-						break;			
-
-					case 'Text':
-						$this->getCurrentField()->setFieldType(ilAdvancedMDFieldDefinition::TYPE_TEXT);
-						break;
-					
-					default:
-						$this->appendErrorMessage('Invalid attribute value  given for element "Record::FieldType".');
-						break;
-									
-				}
+				}				
 				$this->getCurrentField()->setImportId($a_attribs['id']);				
-				$this->getCurrentField()->enableSearchable($a_attribs['searchable'] == 'Yes' ? true : false);
+				$this->getCurrentField()->setSearchable($a_attribs['searchable'] == 'Yes' ? true : false);
 				break;
 				
 			case 'FieldTitle':
 			case 'FieldDescription':
 			case 'FieldPosition':
 			case 'FieldValue':
+				$this->field_value_id = $a_attribs['id'];
 				break;
 		}
 	}
@@ -239,7 +217,7 @@ class ilAdvancedMDRecordParser extends ilSAXParser
 				break;
 				
 			case 'FieldValue':
-				$this->getCurrentField()->appendFieldValue(trim($this->cdata));
+				$this->getCurrentField()->importXMLProperty($this->field_value_id, trim($this->cdata));
 				break;
 		}
 		$this->cdata = '';
@@ -292,17 +270,18 @@ class ilAdvancedMDRecordParser extends ilSAXParser
 	 * @param string import id
 	 * 
 	 */
-	private function initFieldObject($a_id)
+	private function initFieldObject($a_id, $a_type)
 	{
 	 	switch($this->getMode())
 	 	{
 	 		case self::MODE_INSERT:
 	 		case self::MODE_INSERT_VALIDATION:
-	 			$this->current_field = new ilAdvancedMDFieldDefinition(0);
+	 			$this->current_field = ilAdvancedMDFieldDefinition::getInstanceByTypeString($a_type);
 	 			$this->fields[] = $this->current_field;
 	 			return true;
 	 		
 	 		default:
+				// ??? nonsense
 	 			$this->current_field = ilAdvancedMDRecord::_getInstanceByFieldId($this->extractFieldId($a_id));
 				return true;
 				break;
@@ -390,7 +369,7 @@ class ilAdvancedMDRecordParser extends ilSAXParser
 			switch($this->getMode())
 			{
 				case self::MODE_INSERT:
-					$field->add();
+					$field->save();
 					break;
 			}
 			

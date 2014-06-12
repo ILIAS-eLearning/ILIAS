@@ -323,7 +323,10 @@ class ilAdvancedMDRecord
 		global $ilDB;
 		
 		// Delete fields
-		ilAdvancedMDFieldDefinition::_deleteByRecordId($a_record_id);
+		foreach(ilAdvancedMDFieldDefinition::getInstancesByRecordId($a_record_id) as $field)
+		{
+			$field->delete();
+		}
 		
 		$query = "DELETE FROM adv_md_record ".
 			"WHERE record_id = ".$ilDB->quote($a_record_id ,'integer')." ";
@@ -634,7 +637,7 @@ class ilAdvancedMDRecord
 	 	}
 	 	
 	 	include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
-	 	foreach(ilAdvancedMDFieldDefinition::_getDefinitionsByRecordId($this->getRecordId()) as $definition)
+	 	foreach(ilAdvancedMDFieldDefinition::getInstancesByRecordId($this->getRecordId()) as $definition)
 	 	{
 	 		$definition->toXML($writer);
 	 	}

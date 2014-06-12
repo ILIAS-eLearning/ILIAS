@@ -449,7 +449,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 			
 			foreach($definition['fields'] as $field_name)
 			{
-				if(is_object($element = $this->fields->getFormElement($this->search_cache->getQuery(),$field_name)))
+				if(is_object($element = $this->fields->getFormElement($this->search_cache->getQuery(),$field_name,$this->form)))
 				{
 					$this->form->addItem($element);
 				}
@@ -1133,7 +1133,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 	 	global $ilTabs;
 	 	
 	 	include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
-	 	if(!count(ilAdvancedMDFieldDefinition::_getSearchableDefinitionIds()))
+	 	if(!count(ilAdvancedMDFieldDefinition::getSearchableDefinitionIds()))
 	 	{
 	 		return true;
 	 	}

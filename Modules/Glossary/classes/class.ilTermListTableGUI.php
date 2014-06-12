@@ -325,31 +325,22 @@ class ilTermListTableGUI extends ilTable2GUI
 				$this->tpl->parseCurrentBlock();
 			}
 			else
-			{
+			{				
 				if (in_array("md_".$c["id"], $this->selected_cols))
 				{
 					$id = (int) $c["id"];
-					$this->tpl->setCurrentBlock("td");
-					switch ($this->adv_fields[$id]["type"])
+					
+					$val = " ";
+					if(isset($term["md_".$id."_presentation"]))
 					{
-						case ilAdvancedMDFieldDefinition::TYPE_DATETIME:
-							$val = ($term["md_".$id] > 0)
-								? ilDatePresentation::formatDate(new ilDateTime($term["md_".$id], IL_CAL_UNIX))
-								: " ";
-							break;
-
-						case ilAdvancedMDFieldDefinition::TYPE_DATE:
-							$val = ($term["md_".$id] > 0)
-								? ilDatePresentation::formatDate(new ilDate($term["md_".$id], IL_CAL_UNIX))
-								: " ";
-							break;
-
-						default:
-							$val = ($term["md_".$id] != "")
-								? $term["md_".$id]
-								: " ";
-							break;
-					}
+						$pb = $term["md_".$id."_presentation"]->getHTML();
+						if($pb)
+						{
+							$val = $pb;
+						}
+					}		
+										
+					$this->tpl->setCurrentBlock("td");										
 					$this->tpl->setVariable("TD_VAL", $val);
 					$this->tpl->parseCurrentBlock();
 				}

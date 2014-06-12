@@ -494,7 +494,16 @@ abstract class ilRemoteObjectBase extends ilObject2
 		include_once('./Services/WebServices/ECS/classes/class.ilECSDataMappingSettings.php');
 		include_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');
 		include_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
-		$mappings = ilECSDataMappingSettings::getInstanceByServerId($a_server->getServerId());
+		
+		$mappings = ilECSDataMappingSettings::getInstanceByServerId($a_server->getServerId());						
+		$values_records = ilAdvancedMDValues::getInstancesForObjectId($this->getId(), $this->getType());
+		foreach($values_records as $values_record)
+		{
+			// this correctly binds group and definitions
+			$values_record->read();			
+		}
+		
+		$do_save = false;
 		
 		foreach($a_definition as $id => $type)
 		{
@@ -510,59 +519,63 @@ abstract class ilRemoteObjectBase extends ilObject2
 		
 			$timePlace = null;
 			if($field = $mappings->getMappingByECSName($a_mapping_mode, $id))
-			{										
-				switch($type)
+			{	
+				// find element in records
+				$adv_md_def = null;
+				foreach($values_records as $values_record)
 				{
-					case ilECSUtils::TYPE_ARRAY:
-						$value = implode(',', (array) $a_json->$target);
+					$adv_md_defs = $values_record->getDefinitions();
+					if(isset($adv_md_defs[$field]))
+					{
+						$adv_md_def = $defs[$field];
 						break;
-					
-					case ilECSUtils::TYPE_INT:
-						$value = (int) $a_json->$target;
-						break;
-					
-					case ilECSUtils::TYPE_STRING:
-						$value = (string) $a_json->$target;
-						break;
-					
-					case ilECSUtils::TYPE_TIMEPLACE:						
-						if(!is_object($timePlace))
-						{
-							include_once('./Services/WebServices/ECS/classes/class.ilECSTimePlace.php');
-							if(is_object($a_json->$target))
-							{
-								$timePlace = new ilECSTimePlace();
-								$timePlace->loadFromJSON($a_json->$target);
-							}
-							else
-							{
-								$timePlace = new ilECSTimePlace();
-							}												
-						}			
-						switch($id)
-						{
-							case 'begin':
-							case 'end':
-								$field_type = ilAdvancedMDFieldDefinition::_lookupFieldType($field);
-								if($field_type == ilAdvancedMDFieldDefinition::TYPE_DATE ||
-									$field_type == ilAdvancedMDFieldDefinition::TYPE_DATETIME)
-								{
-									$value = $timePlace->{'getUT'.ucfirst($id)}();
-									break;
-								}
-								// fallthrough			
-							case 'room':
-							case 'cycle':
-								$value = $timePlace->{'get'.ucfirst($id)}();
-								break;
-						}
-						break;
+					}
 				}
-				include_once './Services/AdvancedMetaData/classes/class.ilAdvancedMDValue.php';
-				$mdv = ilAdvancedMDValue::_getInstance($this->getId(),$field);
-				$mdv->toggleDisabledStatus(true); 
-				$mdv->setValue($value);
-				$mdv->save();				
+				if(!$adv_md_def)
+				{
+					continue;
+				}
+				
+				$raw_value = $a_json->$target;
+						
+				if($type == ilECSUtils::TYPE_TIMEPLACE)
+				{
+					if(!is_object($timePlace))
+					{
+						include_once('./Services/WebServices/ECS/classes/class.ilECSTimePlace.php');
+						if(is_object($raw_value))
+						{
+							$timePlace = new ilECSTimePlace();
+							$timePlace->loadFromJSON($raw_value);
+						}
+						else
+						{
+							$timePlace = new ilECSTimePlace();
+						}												
+					}		
+					$raw_value = $timePlace;
+				}
+				
+				if($adv_md_def->importFromECS($type, $raw_value, $id))
+				{
+					$do_save = true;
+				}				
+			}
+		}
+		
+		if($do_save)
+		{
+			foreach($values_records as $values_record)
+			{
+				$additional = array();
+				foreach($values_record->getADTGroup()->getElements() as $element_id => $element)
+				{
+					if(!$element->isNull())
+					{
+						$additional[$element_id] = array("disabled"=>array("integer", 1));
+					}
+				}
+				$values_record->write($additional);			
 			}
 		}
 	}		

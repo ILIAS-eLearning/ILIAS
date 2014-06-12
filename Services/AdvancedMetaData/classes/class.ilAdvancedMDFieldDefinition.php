@@ -1,337 +1,379 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+require_once "Services/ADT/classes/class.ilADTFactory.php";
 
 /** 
-* 
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-* 
-* @ingroup ServicesAdvancedMetaData 
-*/
-class ilAdvancedMDFieldDefinition
+ * AMD field abstract base class
+ * 
+ * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @version $Id$
+ * 
+ * @ingroup ServicesAdvancedMetaData
+ */
+abstract class ilAdvancedMDFieldDefinition
 {
+	protected $field_id; // [int]
+	protected $record_id; // [int]	
+	protected $import_id; // [string]
+	protected $position; // [int]
+	protected $title; // [string]
+	protected $description; // [string]
+	protected $searchable; // [bool]
+	protected $required; // [bool]
+	protected $adt_def; // [ilADTDefinition]
+	protected $adt; // [ilADT]
+	
 	const TYPE_SELECT = 1;
 	const TYPE_TEXT = 2;
 	const TYPE_DATE = 3;
 	const TYPE_DATETIME = 4;
-
-	private static $instances = array();
-	
-	protected $db = null;
-	
-	protected $record_id;
-	protected $field_id;
-	protected $import_id;
-	protected $position;
-	protected $field_type;
-	protected $field_values = array();
-	protected $title;
-	protected $description;
-	protected $searchable;
-	protected $required = false;
-	
+	const TYPE_INTEGER = 5;
+	const TYPE_FLOAT = 6;
+	const TYPE_LOCATION = 7;
 	
 	/**
-	 * @access public
-	 * @param
+	 * Constructor
 	 * 
+	 * @param init $a_field_id
+	 * @return self
 	 */
-	public function __construct($a_field_id = 0)
+	public function __construct($a_field_id = null)
 	{
-		global $ilDB;
-		
-		$this->db = $ilDB;
-		
-		$this->field_id = $a_field_id;
-		$this->read();
+		$this->init();		
+		$this->read($a_field_id);		
 	}
-	
+		
 	/**
-	 * Lookup import id
-	 *
-	 * @access public
-	 * @static
-	 *
-	 * @param int field_id
+	 * Get definition instance by type 
+	 * 
+	 * @param int $a_field_id
+	 * @param int $a_type
+	 * @return self
 	 */
-	public static function _lookupImportId($a_field_id)
+	public static function getInstance($a_field_id, $a_type = null)
 	{
 		global $ilDB;
 		
-		$query = "SELECT import_id FROM adv_mdf_definition ".
-			"WHERE field_id = ".$ilDB->quote($a_field_id,'integer')." ";
-		$res = $ilDB->query($query);
-		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
-		return $row['import_id'] ? $row['import_id'] : '';
-	}
-	
-	/**
-	 * Lookup field id
-	 *
-	 * @access public
-	 * @static
-	 *
-	 * @param string import_id
-	 */
-	public static function _lookupFieldId($a_import_id)
-	{
-		global $ilDB;
-		
-		$query = "SELECT field_id FROM adv_mdf_definition ".
-			"WHERE import_id = ".$ilDB->quote($a_import_id,'text')." ";
-		$res = $ilDB->query($query);
-		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
-		return $row['field_id'] ? $row['field_id'] : 0;
-	}
-	
-	/**
-	 * Lookup field type
-	 *
-	 * @access public
-	 * @static
-	 *
-	 * @param int field_id
-	 */
-	public static function _lookupFieldType($a_field_id)
-	{
-		global $ilDB;
-		
-		$query = "SELECT field_type FROM adv_mdf_definition ".
-			"WHERE field_id = ".$ilDB->quote($a_field_id ,'integer')." ";
-		$res = $ilDB->query($query);
-		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
-		return $row['field_type'] ? $row['field_type'] : 0;
-	}
-	
-	
-	/**
-	 * Lookup datetime fields
-	 *
-	 * @access public
-	 * @static
-	 *
-	 * @param
-	 */
-	public static function _lookupDateTimeFields()
-	{
-		global $ilDB;
-		
-		$query = "SELECT field_id FROM adv_mdf_definition ".
-			"WHERE field_type = ".$ilDB->quote(self::TYPE_DATETIME ,'integer')." ";
-		$res = $ilDB->query($query);
-		
-		$date_fields = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		if(!$a_type)
 		{
-			$date_fields[] = $row->field_id; 
+			$set = $ilDB->query("SELECT field_type".
+				" FROM adv_mdf_definition".
+				" WHERE field_id = ".$ilDB->quote($a_field_id, "integer"));
+			$a_type = $ilDB->fetchAssoc($set);
+			$a_type = $a_type["field_type"];			
 		}
-		return $date_fields;
+		
+		if(self::isValidType($a_type))
+		{						
+			$class = "ilAdvancedMDFieldDefinition".self::getTypeString($a_type);
+			require_once "Services/AdvancedMetaData/classes/Types/class.".$class.".php";
+			return new $class($a_field_id);						
+		}
+		
+		throw new ilException("unknown type ".$a_type);
+	}	
+	
+	/**
+	 * Get instance by type string (used by import)
+	 * 
+	 * @param string $a_type
+	 * @return self
+	 */
+	public static function getInstanceByTypeString($a_type)
+	{
+		// see self::getTypeString()
+		$map = array(
+			self::TYPE_TEXT => "Text",
+			self::TYPE_SELECT => "Select",
+			self::TYPE_DATE => "Date",
+			self::TYPE_DATETIME => "DateTime",
+			self::TYPE_FLOAT => "Float",
+			self::TYPE_LOCATION => "Location",
+			self::TYPE_INTEGER => "Integer"				
+		);	
+		$map = array_flip($map);
+		if(array_key_exists($a_type, $map))
+		{
+			return self::getInstance(null, $map[$a_type]);
+		}
 	}
 	
 	/**
-	 * Lookup date fields
-	 *
-	 * @access public
-	 * @static
-	 *
+	 * Get definitions by record id
+	 * 	
+	 * @param int $a_record_id
+	 * @param bool $a_only_searchable
+	 * @return array self
 	 */
-	public static function _lookupDateFields()
+	public static function getInstancesByRecordId($a_record_id, $a_only_searchable = false)
 	{
 		global $ilDB;
 		
-		$query = "SELECT field_id FROM adv_mdf_definition ".
-			"WHERE field_type = ".$ilDB->quote(self::TYPE_DATE ,'integer')." ";
-		$res = $ilDB->query($query);
-		
-		$date_fields = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			$date_fields[] = $row->field_id; 
-		}
-		return $date_fields;
-	}
-	
-	/**
-	 * Get instance by field_id
-	 *
-	 * @access public
-	 * @static
-	 *
-	 * @param
-	 */
-	public static function _getInstanceByFieldId($a_field_id)
-	{
-		if(isset(self::$instances[$a_field_id]))
-		{
-			return self::$instances[$a_field_id];
-		}
-		return self::$instances[$a_field_id] = new ilAdvancedMDFieldDefinition($a_field_id);
-	}
-	
-
-	/**
-	 * get definitions
-	 *
-	 * @access public
-	 * @static
-	 *
-	 * @param int record_id
-	 * @return array array(object) field definition objects
-	 */
-	public static function _getDefinitionsByRecordId($a_record_id)
-	{
-		global $ilDB;
-		
-		$query = "SELECT field_id FROM adv_mdf_definition ".
-			"WHERE record_id = ".$ilDB->quote($a_record_id ,'integer')." ".
-			"ORDER BY position ";
-		$res = $ilDB->query($query);
 		$defs = array();
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		
+		$query = "SELECT * FROM adv_mdf_definition".
+			" WHERE record_id = ".$ilDB->quote($a_record_id, "integer");
+		if($a_only_searchable)
 		{
-			$defs[] = self::_getInstanceByFieldId($row->field_id);
+			$query .= " AND searchable = ".$ilDB->quote(1, "integer");
 		}
-		return $defs ? $defs : array();	
-	}
+		$query .= " ORDER BY position";
+		$set = $ilDB->query($query);		
+		while($row = $ilDB->fetchAssoc($set))
+		{		
+			$field = self::getInstance(null, $row["field_type"]);
+			$field->import($row);
+			$defs[$row["field_id"]] = $field;
+		}
+		
+		return $defs;	
+	}		
 	
-	/**
-	 * get active definitions by obj type
-	 *
-	 * @access public
-	 * @static
-	 *
-	 * @param string obj_type
-	 */
-	public static function _getActiveDefinitionsByObjType($a_type)
-	{
+	public static function getInstancesByObjType($a_obj_type, $a_active_only = true)
+	{		
 		global $ilDB;
 		
-		$query = "SELECT field_id FROM adv_md_record_objs aro ".
-			"JOIN adv_md_record amr ON aro.record_id = amr.record_id ".
-			"JOIN adv_mdf_definition amf ON aro.record_id = amf.record_id ".
-			"WHERE active = 1 ".
-			"AND obj_type = ".$ilDB->quote($a_type,'text')." ".
-			"ORDER BY aro.record_id,position ";
+		$defs = array();
+		
+		$query = "SELECT amf.* FROM adv_md_record_objs aro".
+			" JOIN adv_md_record amr ON aro.record_id = amr.record_id".
+			" JOIN adv_mdf_definition amf ON aro.record_id = amf.record_id".
+			" WHERE obj_type = ".$ilDB->quote($a_obj_type,'text');
+		if((bool)$a_active_only)
+		{
+			$query .= " AND active = ".$ilDB->quote(1, "integer");
+		}
+		$query .= " ORDER BY aro.record_id,position";
 		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		while($row = $ilDB->fetchAssoc($res))
 		{
-			$field_ids[] = $row->field_id;
+			$field = self::getInstance(null, $row["field_type"]);
+			$field->import($row);
+			$defs[$row["field_id"]] = $field;
 		}
-		return $field_ids ? $field_ids : array();
+		return $defs;
 	}
 	
 	/**
-	 * Get searchable definition ids
-	 *
-	 * @access public
-	 * @static
+	 * Get definition instance by import id
+	 * 
+	 * @param string $a_import_id
+	 * @return self
 	 */
-	public static function _getSearchableDefinitionIds()
+	public static function getInstanceByImportId($a_import_id)
 	{
 		global $ilDB;
 		
-		$query = "SELECT field_id FROM adv_md_record amr ".
-			"JOIN adv_mdf_definition amfd ON amr.record_id = amfd.record_id ".
-			"WHERE active = 1 ".
-			"AND searchable = 1";
-		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		$query = "SELECT field_id, field_type FROM adv_mdf_definition".
+			" WHERE import_id = ".$ilDB->quote($a_import_id,'text');
+		$set = $ilDB->query($query);
+		if($ilDB->numRows($set))
 		{
-			$field_ids[] = $row->field_id;
+			$row = $ilDB->fetchAssoc($set);		
+			return self::getInstance($row["field_id"], $row["field_type"]);
 		}
-		return $field_ids ? $field_ids : array();
+	}
+	
+	/**
+	 * Get searchable definition ids (performance is key)
+	 * 
+	 * @return array
+	 */
+	public static function getSearchableDefinitionIds()
+	{
+		global $ilDB;
+		
+		$field_ids = array();		
+		
+		$query = "SELECT field_id FROM adv_md_record amr".
+			" JOIN adv_mdf_definition amfd ON (amr.record_id = amfd.record_id)".
+			" WHERE active = ".$ilDB->quote(1, "integer").
+			" AND searchable = ".$ilDB->quote(1, "integer");
+		$set = $ilDB->query($query);
+		while($row = $ilDB->fetchAssoc($set))
+		{
+			$field_ids[] = $row["field_id"];
+		}
+		return $field_id; 
+	}
+	
+	/**
+	 * Init ADTGroup for definitions
+	 * 
+	 * @param array $a_defs
+	 * @return ilADTGroup
+	 */
+	public static function getADTGroupForDefinitions(array $a_defs)
+	{		
+		$factory = ilADTFactory::getInstance();
+		$group_def = $factory->getDefinitionInstanceByType("Group");
+		foreach($a_defs as $def)
+	 	{
+			$group_def->addElement($def->getFieldId(), $def->getADTDefinition());
+		}
+		$group = $factory->getInstanceByDefinition($group_def);				
+		
+		// bind adt instances to definition
+		foreach($group->getElements() as $element_id => $element)
+		{
+			$a_defs[$element_id]->setADT($element);
+		}
+		
+		return $group;
+	}
+	
+	/**
+	 * Init properties
+	 */
+	protected function init()
+	{
+		$this->setRequired(false);
+		$this->setSearchable(false);
 	}
 	
 	
+	//
+	// generic types
+	// 
+	
 	/**
-	 * Delete all fields by record_id
-	 *
-	 * @access public
-	 * @static
-	 *
-	 * @param int record_id
+	 * Get all valid types
+	 * 
+	 * @return array
 	 */
-	public static function _deleteByRecordId($a_record_id)
+	public static function getValidTypes()
 	{
-		global $ilDB;
-		
-		$query = "SELECT field_id FROM adv_mdf_definition ".
-			"WHERE record_id = ".$ilDB->quote($a_record_id ,'integer');
-		$res = $ilDB->query($query);	
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-		 	// Delete values
-		 	include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');
-		 	ilAdvancedMDValues::_deleteByFieldId($row->field_id);
+		return array(self::TYPE_TEXT, self::TYPE_DATE, self::TYPE_DATETIME,
+			self::TYPE_SELECT, self::TYPE_INTEGER, self::TYPE_FLOAT,
+			self::TYPE_LOCATION);
+	}
+	
+	/**
+	 * Is given type valid
+	 * 
+	 * @param int $a_type
+	 * @return bool
+	 */
+	public static function isValidType($a_type)
+	{
+		return in_array((int)$a_type, self::getValidTypes());
+	}
+	
+	/**
+	 * Get type 
+	 * 
+	 * @return int
+	 */
+	abstract public function getType();	
+	
+	/**
+	 * Get type string
+	 * 
+	 * @param string $a_type
+	 * @return string
+	 */
+	protected static function getTypeString($a_type)
+	{
+		if(self::isValidType($a_type))
+		{		
+			$map = array(
+				self::TYPE_TEXT => "Text",
+				self::TYPE_SELECT => "Select",
+				self::TYPE_DATE => "Date",
+				self::TYPE_DATETIME => "DateTime",
+				self::TYPE_FLOAT => "Float",
+				self::TYPE_LOCATION => "Location",
+				self::TYPE_INTEGER => "Integer"				
+			);		
+			return $map[$a_type];
 		}		
-
-		// Delete definitions
-		$query = "DELETE FROM adv_mdf_definition ".
-			"WHERE record_id  = ".$ilDB->quote($a_record_id,'integer')." ";
-		$res = $ilDB->manipulate($query);
 	}
 	
 	/**
-	 * is deleted
-	 *
-	 * @access public
-	 * @param
+	 * Get type title (lang id)
 	 * 
+	 * @return string
 	 */
-	public function isDeleted()
+	public function getTypeTitle()
 	{
-	 	return $this->record_id ? false : true;
-	}
-
-	// Setter, Getter...
+		// :TODO: reuse udf stuff here ?!
+		return "udf_type_".strtolower(self::getTypeString($this->getType()));
+	}		
+	
+		
+	
+	//
+	// ADT
+	//
+	
 	/**
-	 * set record id
-	 *
-	 * @access public
-	 * @param int record id
+	 * Init adt instance
 	 * 
+	 * @return ilADTDefinition
 	 */
-	public function setRecordId($a_id)
+	abstract protected function initADTDefinition();
+	
+	/**
+	 * Get ADT definition instance
+	 * 
+	 * @return ilADTDefinition
+	 */
+	public function getADTDefinition()
 	{
-	 	$this->record_id = $a_id;
+		if(!$this->adt_def instanceof ilADTDefinition)
+		{
+			$this->adt_def = $this->initADTDefinition();
+		}
+		return $this->adt_def;
+	}	
+	
+	/**
+	 * Get ADT instance
+	 * 
+	 * @return ilADT
+	 */
+	public function getADT()
+	{	
+		if(!$this->adt instanceof ilADT)	
+		{
+			$this->adt = ilADTFactory::getInstance()->getInstanceByDefinition($this->getADTDefinition());
+		}
+		return $this->adt;
+	}	
+	
+	/**
+	 * Set ADT instance 
+	 * 
+	 * @see self::getADTGroupForDefinitions()
+	 * @param ilADT $a_adt
+	 */
+	protected function setADT(ilADT $a_adt)
+	{	
+		if(!$this->adt instanceof ilADT)	
+		{
+			$this->adt = $a_adt;
+		}
+	}	
+	
+	// 
+	// properties
+	// 
+	
+	/**
+	 * Set field_id
+	 *
+	 * @param int $a_id 
+	 */
+	protected function setFieldId($a_id)
+	{
+	 	$this->field_id = (int)$a_id;
 	}
 	
 	/**
-	 * get record id
+	 * Get field_id
 	 *
-	 * @access public
-	 */
-	public function getRecordId()
-	{
-	 	return $this->record_id;
-	}
-	
-	/**
-	 * get field_id
-	 *
-	 * @access public
-	 * @param
-	 * 
+	 * @return int	 
 	 */
 	public function getFieldId()
 	{
@@ -339,22 +381,43 @@ class ilAdvancedMDFieldDefinition
 	}
 	
 	/**
-	 * set import id
-	 *
-	 * @access public
-	 * @param string import id
+	 * Set record id
 	 * 
+	 * @param int $a_id
+	 */
+	public function setRecordId($a_id)
+	{
+	 	$this->record_id = (int)$a_id;
+	}
+	
+	/**
+	 * Get record id
+	 *
+	 * @return int
+	 */
+	public function getRecordId()
+	{
+	 	return $this->record_id;
+	}
+	
+	/**
+	 * Set import id
+	 *
+	 * @param string $a_id_string	  
 	 */
 	public function setImportId($a_id_string)
 	{
+		if($a_id_string !== null)
+		{
+			$a_id_string = trim($a_id_string);
+		}
 	 	$this->import_id = $a_id_string;
 	}
 	
 	/**
-	 * get import_id
+	 * Get import id
 	 *
-	 * @access public
-	 * 
+	 * @return string	 
 	 */
 	public function getImportId()
 	{
@@ -362,23 +425,19 @@ class ilAdvancedMDFieldDefinition
 	}
 	
 	/**
-	 * set position
+	 * Set position
 	 *
-	 * @access public
-	 * @param int position
-	 * 
+	 * @param int $a_pos
 	 */
 	public function setPosition($a_pos)
 	{
-	 	$this->position = $a_pos;
+	 	$this->position = (int)$a_pos;
 	}
 	
 	/**
-	 * get position
+	 * Get position
 	 *
-	 * @access public
-	 * @param
-	 * 
+	 * @return int
 	 */
 	public function getPosition()
 	{
@@ -386,118 +445,23 @@ class ilAdvancedMDFieldDefinition
 	}
 	
 	/**
-	 * set field type
+	 * Get title
 	 *
-	 * @access public
-	 * @param int field type 
-	 * 
-	 */
-	public function setFieldType($a_type_id)
-	{
-	 	$this->field_type = $a_type_id;
-	}
-	
-	/**
-	 * get field type
-	 *
-	 * @access public
-	 * 
-	 */
-	public function getFieldType()
-	{
-	 	return $this->field_type;
-	}
-	
-	/**
-	 * set field values
-	 *
-	 * @access public
-	 * @param array array(string) valid field values
-	 * 
-	 */
-	public function setFieldValues($a_values)
-	{
-	 	$this->field_values = $a_values;
-	}
-	
-	/**
-	 * Append field value
-	 *
-	 * @access public
-	 * @param string value
-	 * 
-	 */
-	public function appendFieldValue($a_value)
-	{
-	 	if(strlen(trim($a_value)))
-	 	{
-	 		$this->field_values[] = trim($a_value);
-	 	}
-	}
-	
-	/**
-	 * get field values
-	 *
-	 * @access public
-	 * 
-	 */
-	public function getFieldValues()
-	{
-	 	return $this->field_values;
-	}
-	
-	/**
-	 * get field values for select
-	 *
-	 * @access public
-	 * 
-	 */
-	public function getFieldValuesForSelect()
-	{
-	 	global $lng;
-	 	
-	 	$values = array(0 => $lng->txt('select_one'));
-	 	foreach($this->field_values as $value)
-	 	{
-	 		$values[$value] = $value;
-	 	}
-	 	return $values;
-	}
-	
-	/**
-	 * get field values for select
-	 *
-	 * @access public
-	 * 
-	 */
-	public function getFieldValuesForSearch()
-	{
-	 	global $lng;
-	 	
-	 	$values = array(0 => $lng->txt('search_any'));
-	 	foreach($this->field_values as $value)
-	 	{
-	 		$values[$value] = $value;
-	 	}
-	 	return $values;
-	}
-
-	/**
-	 * set title
-	 *
-	 * @access public
-	 * @param string title
-	 * 
+	 * @param string $a_title
 	 */
 	public function setTitle($a_title)
 	{
+		if($a_title !== null)
+		{
+			$a_title = trim($a_title);
+		}
 	 	$this->title = $a_title;
 	}
 	
 	/**
-	 * get title
-	 *
-	 * @access public
+	 * Get title
+	 * 
+	 * @return string
 	 */
 	public function getTitle()
 	{
@@ -505,21 +469,23 @@ class ilAdvancedMDFieldDefinition
 	}
 	
 	/**
-	 * set description
+	 * Set description
 	 *
-	 * @access public
-	 * @param string description
-	 * 
+	 * @param string $a_desc
 	 */
 	public function setDescription($a_desc)
 	{
+		if($a_desc !== null)
+		{
+			$a_desc = trim($a_desc);
+		}
 	 	$this->description = $a_desc;
 	}
 	
 	/**
-	 * get description
+	 * Get description
 	 *
-	 * @access public
+	 * @return string
 	 */
 	public function getDescription()
 	{
@@ -527,253 +493,483 @@ class ilAdvancedMDFieldDefinition
 	}
 	
 	/**
-	 * enable searchable
+	 * Toggle searchable
 	 *
-	 * @access public
-	 * @param bool searchable
-	 * 
+	 * @param bool searchable	 
 	 */
-	public function enableSearchable($a_status)
+	public function setSearchable($a_status)
 	{
-	 	$this->searchable = (bool) $a_status;
+	 	$this->searchable = (bool)$a_status;
 	}
 	
 	/**
-	 * is searchable
-	 *
-	 * @access public
+	 * Is searchable
 	 * 
+	 * @return bool
 	 */
 	public function isSearchable()
 	{
-	 	return (bool) $this->searchable;
+	 	return $this->searchable;
 	}
 	
 	/**
-	 * is required field
+	 * Toggle required
 	 *
-	 * @access public
-	 * 
+	 * @param bool $a_status	 
+	 */
+	public function setRequired($a_status)
+	{
+	 	$this->required = (bool)$a_status;
+	}
+	
+	/**
+	 * Is required field
+	 *
+	 * @return bool	 
 	 */
 	public function isRequired()
 	{
 	 	return $this->required;
 	}
 	
+	
+	//
+	// definition (NOT ADT-based)
+	// 		
+	
 	/**
-	 * delete field
+	 * Import (type-specific) field definition from DB
+	 * 
+	 * @param array $a_def
+	 */
+	protected function importFieldDefinition(array $a_def)
+	{
+
+	}
+	
+	/**
+	 * Get (type-specific) field definition 
+	 * 
+	 * @return array 
+	 */
+	protected function getFieldDefinition()
+	{
+		// type-specific properties
+	}
+	
+	/**
+	 * Parse properties for table gui
+	 * 
+	 * @return array 
+	 */
+	public function getFieldDefinitionForTableGUI()
+	{
+		// type-specific properties
+	}
+	
+	/**
+	 * Add custom input elements to definition form
+	 * 
+	 * @param ilPropertyFormGUI $a_form
+	 * @param bool $a_disabled
+	 */
+	protected function addCustomFieldToDefinitionForm(ilPropertyFormGUI $a_form, $a_disabled = false)
+	{
+		// type-specific
+	}
+	
+	/**
+	 * Add input elements to definition form
 	 *
-	 * @access public
+	 * @param ilPropertyFormGUI $a_form
+	 * @param ilAdvancedMDPermissionHelper $a_form
+	 */
+	public function addToFieldDefinitionForm(ilPropertyFormGUI $a_form, ilAdvancedMDPermissionHelper $a_permissions)
+	{
+		global $lng;
+		
+		$perm = $a_permissions->hasPermissions(
+			ilAdvancedMDPermissionHelper::CONTEXT_FIELD,
+			$this->getFieldId(),
+			array(
+				array(ilAdvancedMDPermissionHelper::ACTION_FIELD_EDIT_PROPERTY,  
+					ilAdvancedMDPermissionHelper::SUBACTION_FIELD_TITLE)
+				,array(ilAdvancedMDPermissionHelper::ACTION_FIELD_EDIT_PROPERTY,  
+					ilAdvancedMDPermissionHelper::SUBACTION_FIELD_DESCRIPTION)
+				,array(ilAdvancedMDPermissionHelper::ACTION_FIELD_EDIT_PROPERTY,  
+					ilAdvancedMDPermissionHelper::SUBACTION_FIELD_SEARCHABLE)
+				,array(ilAdvancedMDPermissionHelper::ACTION_FIELD_EDIT_PROPERTY,  
+					ilAdvancedMDPermissionHelper::SUBACTION_FIELD_PROPERTIES)
+		));
+				
+		// title
+		$title = new ilTextInputGUI($lng->txt('title'), 'title');
+		$title->setValue($this->getTitle());
+		$title->setSize(20);
+		$title->setMaxLength(70);
+		$title->setRequired(true);
+		$a_form->addItem($title);
+		
+		if(!$perm[ilAdvancedMDPermissionHelper::ACTION_FIELD_EDIT_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_FIELD_TITLE])
+		{
+			$title->setDisabled(true);
+		}
+		
+		// desc
+		$desc = new ilTextAreaInputGUI($lng->txt('description'), 'description');
+		$desc->setValue($this->getDescription());
+		$desc->setRows(3);
+		$desc->setCols(50);
+		$a_form->addItem($desc);
+		
+		if(!$perm[ilAdvancedMDPermissionHelper::ACTION_FIELD_EDIT_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_FIELD_DESCRIPTION])
+		{
+			$desc->setDisabled(true);
+		}
+		
+		// searchable
+		$check = new ilCheckboxInputGUI($lng->txt('md_adv_searchable'), 'searchable');
+		$check->setChecked($this->isSearchable());
+		$check->setValue(1);
+		$a_form->addItem($check);
+		
+		if(!$perm[ilAdvancedMDPermissionHelper::ACTION_FIELD_EDIT_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_FIELD_SEARCHABLE])
+		{
+			$check->setDisabled(true);
+		}
+		
+		/* required
+		$check = new ilCheckboxInputGUI($lng->txt('md_adv_required'), 'required');
+		$check->setChecked($this->isRequired());
+		$check->setValue(1);
+		$a_form->addItem($check);		 
+		*/
+		
+		$this->addCustomFieldToDefinitionForm($a_form,
+			!$perm[ilAdvancedMDPermissionHelper::ACTION_FIELD_EDIT_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_FIELD_PROPERTIES]);		
+	}
+	
+	/**
+	 * Import custom post values from definition form
+	 * 
+	 * @param ilPropertyFormGUI $a_form
+	 */
+	public function importCustomDefinitionFormPostValues(ilPropertyFormGUI $a_form)
+	{
+		// type-specific
+	}
+	
+	/**
+	 * Import post values from definition form
+	 * 
+	 * @param ilPropertyFormGUI $a_form
+	 * @param ilAdvancedMDPermissionHelper $a_permissions
+	 */
+	public function importDefinitionFormPostValues(ilPropertyFormGUI $a_form, ilAdvancedMDPermissionHelper $a_permissions)
+	{
+		if(!$a_form->getItemByPostVar("title")->getDisabled())
+		{		
+			$this->setTitle($a_form->getInput("title"));
+		}
+		if(!$a_form->getItemByPostVar("description")->getDisabled())
+		{	
+			$this->setDescription($a_form->getInput("description"));
+		}
+		if(!$a_form->getItemByPostVar("searchable")->getDisabled())
+		{	
+			$this->setSearchable($a_form->getInput("searchable"));
+		}
+		
+		if($a_permissions->hasPermission(
+			ilAdvancedMDPermissionHelper::CONTEXT_FIELD,
+			$this->getFieldId(),			
+			ilAdvancedMDPermissionHelper::ACTION_FIELD_EDIT_PROPERTY,  
+			ilAdvancedMDPermissionHelper::SUBACTION_FIELD_PROPERTIES))
+		{
+			$this->importCustomDefinitionFormPostValues($a_form);
+		}
+	}
+	
+	public function importDefinitionFormPostValuesNeedsConfirmation()
+	{
+		return false;
+	}
+	
+	public function prepareCustomDefinitionFormConfirmation(ilPropertyFormGUI $a_form)
+	{
+		// type-specific
+	}
+	
+	public function prepareDefinitionFormConfirmation(ilPropertyFormGUI $a_form)
+	{
+		$a_form->getItemByPostVar("title")->setDisabled(true);
+		$a_form->getItemByPostVar("description")->setDisabled(true);
+		$a_form->getItemByPostVar("searchable")->setDisabled(true);
+		
+		// checkboxes have no hidden on disabled
+		if($a_form->getInput("searchable"))
+		{
+			$hidden = new ilHiddenInputGUI("searchable");
+			$hidden->setValue(1);
+			$a_form->addItem($hidden);
+		}
+		
+		$this->prepareCustomDefinitionFormConfirmation($a_form);
+	}
+	
+	
+	//
+	// definition CRUD 
+	//
+	
+	/**
+	 * Get last position of record
+	 *
+	 * @return int	 
+	 */
+	protected function getLastPosition()
+	{
+		global $ilDB;
+		
+		$sql = "SELECT max(position) pos".
+			" FROM adv_mdf_definition".
+			" WHERE record_id = ".$ilDB->quote($this->getRecordId(), "integer");
+		$set = $ilDB->query($sql);
+		if($ilDB->numRows($set))
+		{		
+			$pos = $ilDB->fetchAssoc($set);
+			return (int)$pos["pos"];
+		}
+		
+		return 0;
+	}
+	
+	/**
+	 * Generate unique record id
+	 *
+	 * @param int $a_field_id
+	 * @return string
+	 */
+	protected function generateImportId($a_field_id)
+	{
+		return 'il_'.IL_INST_ID.'_adv_md_field_'.$a_field_id;
+	}
+	
+	/**
+	 * Get all definition properties for DB
+	 * 
+	 * @return array
+	 */
+	protected function getDBProperties()
+	{	
+		$fields = array(
+			"field_type" => array("integer", $this->getType()),
+			"record_id" => array("integer", $this->getRecordId()),
+			"import_id" => array("text", $this->getImportId()),
+			"title" => array("text", $this->getTitle()),
+			"description" => array("text", $this->getDescription()),
+			"position" => array("integer", $this->getPosition()),
+			"searchable" => array("integer", $this->isSearchable()),
+			"required" => array("integer", $this->isRequired())
+		);
+		
+		$def = $this->getFieldDefinition();
+		if(is_array($def))
+		{
+			$fields["field_values"] = array("text", serialize($def));
+		}
+		
+		return $fields;
+	}
+	
+	/**
+	 * Import from DB
+	 * 
+	 * @param array $a_data
+	 */
+	protected function import(array $a_data)
+	{
+		$this->setFieldId($a_data["field_id"]);
+		
+		$this->setRecordId($a_data["record_id"]);
+		$this->setImportId($a_data["import_id"]);		
+		$this->setTitle($a_data["title"]);
+		$this->setDescription($a_data["description"]);
+		$this->setPosition($a_data["position"]);		
+		$this->setSearchable($a_data["searchable"]);
+		$this->setRequired($a_data["required"]);
+		
+		if($a_data["field_values"])
+		{
+			$this->importFieldDefinition(unserialize($a_data["field_values"]));	
+		}
+	}
+	
+	/**
+	 * Read field definition	 
+	 */
+	protected function read($a_field_id)
+	{
+		global $ilDB;
+		
+		if(!(int)$a_field_id)
+		{
+			return;
+		}
+				
+		$sql = "SELECT * FROM adv_mdf_definition".
+			" WHERE field_id = ".$ilDB->quote($a_field_id, "integer");
+		$set = $ilDB->query($sql);
+		if($ilDB->numRows($set))
+		{
+			$row = $ilDB->fetchAssoc($set);
+			$this->import($row);					
+		}
+	}
+	
+	/**
+	 * Create new field entry
+	 */
+	public function save()
+	{
+		global $ilDB;
+		
+		if($this->getFieldId())
+		{
+			return $this->update();
+		}
+		
+		$next_id = $ilDB->nextId("adv_mdf_definition");
+		
+		// append		
+		$this->setPosition($this->getLastPosition()+1);
+		
+		// needs unique import id
+		if(!$this->getImportId())
+		{
+			$this->setImportId($this->generateImportId($next_id));
+		}
+		
+		$fields = $this->getDBProperties();		
+		$fields["field_id"] = array("integer", $next_id);
+		
+		$ilDB->insert("adv_mdf_definition", $fields);
+	}
+	
+	/**
+	 * Update field entry
+	 */
+	public function update()
+	{
+		global $ilDB;
+		
+		if(!$this->getFieldId())
+		{
+			return $this->save();
+		}
+		
+		$ilDB->update("adv_mdf_definition", 
+			$this->getDBProperties(),
+			array("field_id"=>array("integer", $this->getFieldId())));
+	}
+	
+	/**
+	 * Delete field entry 
 	 */
 	public function delete()
 	{
 	 	global $ilDB;
+		
+		if(!$this->getFieldId())
+		{
+			return;
+		}
+	
+		// delete all values
+	 	include_once("Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php");
+	 	ilAdvancedMDValues::_deleteByFieldId($this->getFieldId(), $this->getADT());
 	 	
-	 	$query = "DELETE FROM adv_mdf_definition ".
-	 		"WHERE field_id = ".$this->db->quote($this->getFieldId() ,'integer')." ";
-		$res = $ilDB->manipulate($query);
-	 	
-	 	// Also delete all values
-	 	include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');
-	 	ilAdvancedMDValues::_deleteByFieldId($this->getFieldId());
-		return true;	
+	 	$query = "DELETE FROM adv_mdf_definition".
+	 		" WHERE field_id = ".$ilDB->quote($this->getFieldId(), "integer");
+		$ilDB->manipulate($query);	 	
 	}
 	
-	/**
-	 * add new field
-	 *
-	 * @access public
-	 */
-	public function add()
-	{
-	 	global $ilDB;
-	 	
-	 	sort($values = $this->getFieldValues(),SORT_STRING);
-	 	
-	 	$position = $this->getLastPosition();
-	 	$next_id = $ilDB->nextId('adv_mdf_definition');
-	 	
-	 	$query = "INSERT INTO adv_mdf_definition (field_id,record_id,import_id,position,field_type, ".
-			"field_values,title,description,searchable,required) ".
-			"VALUES( ".
-			$ilDB->quote($next_id,'integer').",".
-	 		$this->db->quote($this->getRecordId(),'integer').", ".
-	 		$this->db->quote($this->getImportId(),'text').", ".
-	 		$this->db->quote($position + 1 ,'integer').", ".
-	 		$this->db->quote($this->getFieldType() ,'integer').", ".
-			$ilDB->quote(serialize($values),'text').", ".
-	 		$this->db->quote($this->getTitle() ,'text').", ".
-	 		$this->db->quote($this->getDescription() ,'text').", ".
-	 		$ilDB->quote($this->isSearchable(),'integer').", ".
-	 		$ilDB->quote($this->isRequired(),'integer')." ".
-	 		")";
-		$res = $ilDB->manipulate($query);
-		$this->field_id = $next_id;
-	 	
-	 	if(!strlen($this->getImportId()))
-	 	{
-	 		$query = "UPDATE adv_mdf_definition ".
-	 			"SET import_id = ".$this->db->quote($this->generateImportId(),'text')." ".
-	 			"WHERE field_id = ".$this->db->quote($this->field_id,'integer')." ";
-			$res = $ilDB->manipulate($query);			
-	 	}
-		return true;
-	}
 	
-	/**
-	 * validate
-	 *
-	 * @access public
-	 * 
-	 */
-	public function validate()
-	{
-	 	global $ilErr,$lng;
-	 	
-	 	if(!strlen($this->getTitle()) or !$this->getFieldType())
-	 	{
-	 		$ilErr->setMessage('fill_out_all_required_fields');
-	 		return false;
-	 	}
-	 	return true;
-	}
-	
-	/**
-	 * update
-	 *
-	 * @access public
-	 * 
-	 */
-	public function update()
-	{
-	 	global $ilDB;
-	 	
-	 	$query = "UPDATE adv_mdf_definition ".
-	 		"SET record_id = ".$this->db->quote($this->getRecordId() ,'integer').", ".
-	 		"import_id = ".$this->db->quote($this->getImportId() ,'text').", ".
-	 		"position = ".$this->db->quote($this->getPosition() ,'integer').", ".
-	 		"field_type = ".$this->db->quote($this->getFieldType() ,'integer').", ".
-			"field_values = ".$ilDB->quote(serialize($this->getFieldValues()),'text').", ".
-	 		"title = ".$this->db->quote($this->getTitle() ,'text').", ".
-	 		"description = ".$this->db->quote($this->getDescription() ,'text').", ".
-	 		"searchable = ".$ilDB->quote($this->isSearchable() ,'integer').", ".
-	 		"required = ".$ilDB->quote($this->isRequired(),'integer')." ".
-	 		"WHERE field_id = ".$this->db->quote($this->getFieldId() ,'integer')." ";
-		$res = $ilDB->manipulate($query);				 		
-		return true;
-	}
+	//
+	// export/import
+	// 
 	
 	/**
 	 * To Xml.
 	 * This method writes only the subset Field
 	 * Use class.ilAdvancedMDRecordXMLWriter to generate a complete xml presentation.
 	 *
-	 * @access public
-	 * @param object ilXmlWriter
-	 * 
+	 * @param ilXmlWriter $a_writer
 	 */
-	 public function toXML(ilXmlWriter $writer)
-	 {
-	 	switch($this->getFieldType())
-	 	{
-	 		case self::TYPE_TEXT:
-	 			$type = 'Text';
-	 			break;
-	 			
-	 		case self::TYPE_SELECT:
-	 			$type = 'Select';
-	 			break;
-	 			
-	 		case self::TYPE_DATE:
-	 			$type = 'Date';
-	 			break;
-	 			
-	 		case self::TYPE_DATETIME:
-	 			$type = 'DateTime';
-	 			break;
-	 	}
-	 	
-	 	
-	 	$writer->xmlStartTag('Field',array(
-	 		'id' => $this->generateImportId(),
+	public function toXML(ilXmlWriter $a_writer)
+	{	 	
+	 	$a_writer->xmlStartTag('Field',array(
+	 		'id' => $this->generateImportId($this->getFieldId()),
 			'searchable' => ($this->isSearchable() ? 'Yes' : 'No'),
-			'fieldType'	 => $type));
+			'fieldType'	 => self::getTypeString($this->getType())));
 		
-		$writer->xmlElement('FieldTitle',null,$this->getTitle());
-		$writer->xmlElement('FieldDescription',null,$this->getDescription());
-		$writer->xmlElement('FieldPosition',null,$this->getPosition());
+		$a_writer->xmlElement('FieldTitle',null,$this->getTitle());
+		$a_writer->xmlElement('FieldDescription',null,$this->getDescription());
+		$a_writer->xmlElement('FieldPosition',null,$this->getPosition());
 		
-		foreach($this->getFieldValues() as $value)
-		{
-			if(strlen($value))
-			{
-				$writer->xmlElement('FieldValue',null,$value);
-			}
-		}
+		$this->addPropertiesToXML($a_writer);
 		
-		$writer->xmlEndTag('Field');
-	 }
-	
+		$a_writer->xmlEndTag('Field');
+	}
 	
 	/**
-	 * read field definition
-	 *
-	 * @access private
+	 * Add (type-specific) properties to xml export
 	 * 
+	 * @param ilXmlWriter $a_writer
 	 */
-	private function read()
+	protected function addPropertiesToXML(ilXmlWriter $a_writer)
 	{
-		global $ilDB;
-		
-		if(!$this->field_id)
-		{
-			return false;
-		}
-		$query = "SELECT * FROM adv_mdf_definition ".
-			"WHERE field_id = ".$this->db->quote($this->getFieldId() ,'integer')." ";
-		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			$this->record_id = $row->record_id;
-			$this->import_id = $row->import_id;
-			$this->position = $row->position;
-			$this->field_type = $row->field_type;
-			$this->field_values = unserialize(stripslashes($row->field_values));
-			$this->title = $row->title;
-			$this->description = $row->description;
-			$this->searchable = $row->searchable;
-			$this->required = $row->required;
-		}
+		// type-specific properties
 	}
-	
+
 	/**
-	 * get last position of record
-	 *
-	 * @access private
+	 * Import property from XML
 	 * 
+	 * @param string $a_key
+	 * @param string $a_value
 	 */
-	private function getLastPosition()
+	public function importXMLProperty($a_key, $a_value)
 	{
-		$query = "SELECT max(position) pos FROM adv_mdf_definition ".
-			"WHERE record_id = ".$this->db->quote($this->getRecordId() ,'integer')." ";
-		$res = $this->db->query($query);
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			return $row->pos;
-		}
-		return 0;
-	}
+		
+	}	
+		
+	/**
+	 * Parse ADT value for xml (export)
+	 * 
+	 * @param ilADT $element
+	 * @return string
+	 */
+	abstract public function getValueForXML(ilADT $element);	
 	
 	/**
-	 * generate unique record id
-	 *
-	 * @access protected
-	 * @return
+	 * Import value from xml 
+	 * 
+	 * @param string $a_cdata	
 	 */
-	protected function generateImportId()
+	abstract public function importValueFromXML($a_cdata);
+		
+	/**
+	 * Import meta data from ECS
+	 * 
+	 * @param int $a_ecs_type
+	 * @param mixed $a_value
+	 * @param string $a_sub_id
+	 * @return  bool
+	 */
+	public function importFromECS($a_ecs_type, $a_value, $a_sub_id)
 	{
-		return 'il_'.IL_INST_ID.'_adv_md_field_'.$this->getFieldId();
-	}
-	
+		return false;
+	}			
 }
+
 ?>

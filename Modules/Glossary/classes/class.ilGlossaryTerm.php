@@ -351,7 +351,7 @@ class ilGlossaryTerm
 	 * @return	array			array of terms 
 	 */
 	static function getTermList($a_glo_id, $searchterm = "", $a_first_letter = "", $a_def = "",
-		$a_tax_node = 0, $a_add_amet_fields = false, $a_amet_filter = "")
+		$a_tax_node = 0, $a_add_amet_fields = false, array $a_amet_filter = null)
 	{
 		global $ilDB;
 
@@ -417,7 +417,7 @@ class ilGlossaryTerm
 		
 		// add advanced metadata
 		if ($a_add_amet_fields || is_array($a_amet_filter))
-		{
+		{			
 			include_once("./Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php");
 			$terms = ilAdvancedMDValues::queryForRecords($a_glo_id, "term", $terms, "glo_id", "id", $a_amet_filter);
 		}

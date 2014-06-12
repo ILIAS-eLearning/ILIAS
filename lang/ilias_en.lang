@@ -7173,7 +7173,7 @@ meta#:#md_adv_import_record#:#Import Metadata Set
 meta#:#md_adv_no_fields#:#No Fields Defined
 meta#:#md_adv_placeholder_for#:#Placeholder for:
 meta#:#md_adv_placeholders#:#Placeholders
-meta#:#md_adv_record_list#:#Datasets and Presentation
+meta#:#md_adv_record_list#:#Datasets 
 meta#:#md_adv_records_exported#:#A new export file has been created.
 meta#:#md_adv_records#:#Included Datasets
 meta#:#md_adv_searchable#:#Searchable
@@ -14342,3 +14342,15 @@ content#:#cont_help_no_valid_tooltip_id#:#The tooltip ID you have entered was no
 book#:#book_confirm_cancel_aggregation#:#Number of Cancellations
 survey#:#survey_not_available#:#n/a
 blog#:#blog_change_notification_body_approve#:#the following blog posting needs approval.
+meta#:#md_adv_presentation#:#Presentation
+meta#:#udf_type_integer#:#Integer
+meta#:#md_adv_number_max#:#Maximum Value
+meta#:#md_adv_number_min#:#Minimum Value
+meta#:#udf_type_float#:#Float
+meta#:#udf_type_location#:#Location
+meta#:#md_adv_number_decimals#:#Decimals
+meta#:#md_adv_confirm_definition#:#Please confirm the new definition settings.
+meta#:#md_adv_confirm_definition_select_option#:#Deleted Option
+meta#:#md_adv_confirm_definition_select_option_remove#:#Remove value
+meta#:#md_adv_confirm_definition_select_option_overwrite#:#Set value to
+meta#:#md_adv_confirm_definition_select_section#:#Migration of the deleted options
