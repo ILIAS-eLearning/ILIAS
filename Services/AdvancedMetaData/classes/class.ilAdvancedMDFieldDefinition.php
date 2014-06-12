@@ -970,6 +970,21 @@ abstract class ilAdvancedMDFieldDefinition
 	{
 		return false;
 	}			
+	
+	
+	//
+	// presentation
+	//
+	
+	/**
+	 * Prepare editor form elements
+	 * 
+	 * @param ilADTFormBridge $a_text
+	 */
+	public function prepareElementForEditor(ilADTFormBridge $a_text)
+	{
+		// type-specific		
+	}
 }
 
 ?>

@@ -14348,3 +14348,6 @@ meta#:#md_adv_confirm_definition_select_option#:#Gelöschte Option
 meta#:#md_adv_confirm_definition_select_option_remove#:#Wert entfernen
 meta#:#md_adv_confirm_definition_select_option_overwrite#:#Wert überschreiben
 meta#:#md_adv_confirm_definition_select_section#:#Migration der gelöschten Optionen
+meta#:#md_adv_text_max_length#:#Maximale Länge
+meta#:#md_adv_text_multi#:#Mehrzeilig
+meta#:#md_adv_number_suffix#:#Suffix
