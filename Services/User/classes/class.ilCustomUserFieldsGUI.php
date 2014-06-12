@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once './Services/User/classes/class.ilUserDefinedFields.php';	
+include_once './Services/User/classes/class.ilUDFPermissionHelper.php';	
 
 /**
 * Class ilCustomUserFieldsGUI
@@ -18,6 +19,7 @@ class ilCustomUserFieldsGUI
 	protected $confirm_change; // [bool]
 	protected $field_id; // [int]
 	protected $field_definition; // [array]
+	protected $permissions; // [ilUDFPermissionHelper]
 	
 	function __construct()
 	{
@@ -34,6 +36,13 @@ class ilCustomUserFieldsGUI
 			$user_field_definitions = ilUserDefinedFields::_getInstance();
 			$this->field_definition = $user_field_definitions->getDefinition($this->field_id);
 		}
+		
+		$this->permissions = ilUDFPermissionHelper::getInstance();
+	}
+	
+	protected function getPermissions()
+	{
+		return $this->permissions;
 	}
 	
 	function &executeCommand()
@@ -63,11 +72,15 @@ class ilCustomUserFieldsGUI
 	{
 		global $lng, $tpl, $ilToolbar, $ilCtrl;
 				
-		$ilToolbar->addButton($lng->txt("add_user_defined_field"),
-			$ilCtrl->getLinkTarget($this, "addField")); 
+		if($this->getPermissions()->hasPermission(ilUDFPermissionHelper::CONTEXT_UDF, 
+			(int)$_GET["ref_id"], ilUDFPermissionHelper::ACTION_UDF_CREATE_FIELD))
+		{
+			$ilToolbar->addButton($lng->txt("add_user_defined_field"),
+				$ilCtrl->getLinkTarget($this, "addField")); 
+		}
 		
 		include_once("./Services/User/classes/class.ilCustomUserFieldSettingsTableGUI.php");
-		$tab = new ilCustomUserFieldSettingsTableGUI($this, "listUserDefinedFields");
+		$tab = new ilCustomUserFieldSettingsTableGUI($this, "listUserDefinedFields", $this->getPermissions());
 		if($this->confirm_change) 
 		{
 			$tab->setConfirmChange();
@@ -116,6 +129,22 @@ class ilCustomUserFieldsGUI
 		return $opts;		
 	}
 	
+	public static function getAccessPermissions()
+	{
+		return array("visible" => ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_PERSONAL,
+			"changeable" => ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_CHANGEABLE_PERSONAL,
+			"searchable" => ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_SEARCHABLE,
+			"required"  => ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_REQUIRED,
+			"export" => ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_EXPORT,
+			"course_export" => ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_COURSES,
+			'group_export' => ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_GROUPS,
+			"visib_reg" => ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_REGISTRATION,
+			'visib_lua' => ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_LOCAL,
+			'changeable_lua' => ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_CHANGEABLE_LOCAL,
+			'certificate' => ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_CERTIFICATE
+		);
+	}
+	
 	/**
 	 * Init field form
 	 * 
@@ -133,6 +162,41 @@ class ilCustomUserFieldsGUI
 			ilUtil::sendInfo($lng->txt("ps_warning_modify"));
 	 	}
 		
+		if($this->field_definition)
+		{
+			$perms = $this->permissions->hasPermissions(ilUDFPermissionHelper::CONTEXT_FIELD,
+				$this->field_definition["field_id"], array(
+					array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_PROPERTY,
+						ilUDFPermissionHelper::SUBACTION_FIELD_TITLE)
+					,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_PROPERTY,
+						ilUDFPermissionHelper::SUBACTION_FIELD_PROPERTIES)
+					,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+						ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_PERSONAL)
+					,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+						ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_REGISTRATION)
+					,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+						ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_LOCAL)
+					,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+						ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_COURSES)
+					,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+						ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_GROUPS)
+					,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+						ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_CHANGEABLE_PERSONAL)
+					,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+						ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_CHANGEABLE_LOCAL)
+					,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+						ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_REQUIRED)
+					,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+						ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_EXPORT)
+					,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+						ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_SEARCHABLE)
+					,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+						ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_CERTIFICATE)
+			));
+			
+			$perm_map = self::getAccessPermissions();
+		}
+		
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($ilCtrl->getFormAction($this));
@@ -140,6 +204,11 @@ class ilCustomUserFieldsGUI
 		$name = new ilTextInputGUI($lng->txt("field_name"), "name");
 		$name->setRequired(true);
 		$form->addItem($name);
+		
+		if($perms && !$perms[ilUDFPermissionHelper::ACTION_FIELD_EDIT_PROPERTY][ilUDFPermissionHelper::SUBACTION_FIELD_TITLE])
+		{
+			$name->setDisabled(true);
+		}
 		
 		// type
 		$radg = new ilRadioGroupInputGUI($lng->txt("field_type"), "field_type");
@@ -159,6 +228,12 @@ class ilCustomUserFieldsGUI
 		$se_mu->setMaxLength(128);
 		$se_mu->setValues(array(''));		
 		$op2->addSubItem($se_mu);
+		
+		if($perms && !$perms[ilUDFPermissionHelper::ACTION_FIELD_EDIT_PROPERTY][ilUDFPermissionHelper::SUBACTION_FIELD_PROPERTIES])
+		{
+			$se_mu->setDisabled(true);
+			$se_mu->setRequired(false);
+		}
 						
 		// access
 		$acc = new ilCheckboxGroupInputGUI($lng->txt("access"), "access");
@@ -173,14 +248,18 @@ class ilCustomUserFieldsGUI
 				{
 					$acc_values[] = $id;
 				}
+				
+				if($perms && !$perms[ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS][$perm_map[$id]])
+				{
+					$opt->setDisabled(true);
+				}
 			}
 		
 		$form->addItem($acc);
 				
 		if($a_mode == "create")
 		{
-			$radg->setValue(UDF_TYPE_TEXT);
-			
+			$radg->setValue(UDF_TYPE_TEXT);			
 			
 			$form->setTitle($lng->txt('add_new_user_defined_field'));
 									
@@ -223,9 +302,10 @@ class ilCustomUserFieldsGUI
 	 * @param ilPropertyFormGUI $form 
 	 * @param ilUserDefinedFields $user_field_definitions 
 	 * @param array $access 
+	 * @param array $a_field_permissions 
 	 * @return bool
 	 */
-	protected function validateForm($form, $user_field_definitions, array &$access)
+	protected function validateForm($form, $user_field_definitions, array &$access, array $a_field_permissions = null)
 	{
 		global $lng;
 		
@@ -234,12 +314,24 @@ class ilCustomUserFieldsGUI
 			$valid = true;	
 							
 			$incoming = (array)$form->getInput("access");
+						
+			if($a_field_permissions)
+			{
+				$perm_map = self::getAccessPermissions();			
+			}
+																		
 			$access = array();
 			foreach(array_keys($this->getAccessOptions()) as $id)
 			{
 				$access[$id] = in_array($id, $incoming);
+				
+				// disabled fields
+				if($a_field_permissions && !$a_field_permissions[ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS][$perm_map[$id]])
+				{
+					$access[$id] = $this->field_definition[$id];
+				}
 			}
-
+			
 			if($access['required'] && !$access['visib_reg'])
 			{
 				$this->confirm_change = true;				
@@ -253,7 +345,8 @@ class ilCustomUserFieldsGUI
 				$valid = false;
 			}
 	
-			if($form->getInput("field_type") == UDF_TYPE_SELECT)
+			if($form->getInput("field_type") == UDF_TYPE_SELECT &&
+				(!$a_field_permissions || $a_field_permissions[ilUDFPermissionHelper::ACTION_FIELD_EDIT_PROPERTY][ilUDFPermissionHelper::SUBACTION_FIELD_PROPERTIES]))
 			{
 				$user_field_definitions->setFieldValues($form->getInput("selvalue"));
 				if($error = $user_field_definitions->validateValues())
@@ -350,27 +443,73 @@ class ilCustomUserFieldsGUI
 			{
 				$old_options = $old_values["field_values"];
 			}
+			
+			$perms = $this->permissions->hasPermissions(ilUDFPermissionHelper::CONTEXT_FIELD,
+				$this->field_id, array(
+					array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_PROPERTY,
+						ilUDFPermissionHelper::SUBACTION_FIELD_TITLE)
+					,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_PROPERTY,
+						ilUDFPermissionHelper::SUBACTION_FIELD_PROPERTIES)
+					,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+						ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_PERSONAL)
+					,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+						ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_REGISTRATION)
+					,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+						ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_LOCAL)
+					,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+						ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_COURSES)
+					,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+						ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_GROUPS)
+					,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+						ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_CHANGEABLE_PERSONAL)
+					,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+						ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_CHANGEABLE_LOCAL)
+					,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+						ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_REQUIRED)
+					,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+						ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_EXPORT)
+					,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+						ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_SEARCHABLE)
+					,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+						ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_CERTIFICATE)
+			));						
 		}
 		
 		$access = array();
 		$form = $this->initForm("edit");				
-		if($this->validateForm($form, $user_field_definitions, $access) && $this->field_id)
+		if($this->validateForm($form, $user_field_definitions, $access, $perms) && $this->field_id)
 		{
 			// field values are set in validateForm()...
 			
-			// diff old select options against new to handle deleted values properly
-			if(is_array($old_options))
+			if(!$perms || $perms[ilUDFPermissionHelper::ACTION_FIELD_EDIT_PROPERTY][ilUDFPermissionHelper::SUBACTION_FIELD_PROPERTIES])
 			{
-				foreach($old_options as $old_option)
+				// diff old select options against new to handle deleted values properly
+				if(is_array($old_options))
 				{
-					if(!in_array($old_option, $user_field_definitions->getFieldValues()))
+					foreach($old_options as $old_option)
 					{
-						 ilUserDefinedData::deleteFieldValue($this->field_id, $old_option);						
+						if(!in_array($old_option, $user_field_definitions->getFieldValues()))
+						{
+							 ilUserDefinedData::deleteFieldValue($this->field_id, $old_option);						
+						}
 					}
-				}
-			}				
+				}			
+			}
+			// disabled fields
+			else if(is_array($old_options))
+			{
+				$user_field_definitions->setFieldValues($old_options);
+			}
 						
-			$user_field_definitions->setFieldName($form->getInput("name"));								
+			if(!$perms || $perms[ilUDFPermissionHelper::ACTION_FIELD_EDIT_PROPERTY][ilUDFPermissionHelper::SUBACTION_FIELD_TITLE])
+			{
+				$user_field_definitions->setFieldName($form->getInput("name"));								
+			}
+			else
+			{
+				$user_field_definitions->setFieldName($this->field_definition["field_name"]);			
+			}
+		
 			$user_field_definitions->enableVisible($access['visible']);
 			$user_field_definitions->enableVisibleRegistration((int)$access['visib_reg']);
 			$user_field_definitions->enableVisibleLocalUserAdministration($access['visib_lua']);
@@ -432,6 +571,26 @@ class ilCustomUserFieldsGUI
 		global $lng, $ilCtrl;
 		
 		$user_field_definitions = ilUserDefinedFields::_getInstance();
+		
+		// all fields have to be deletable
+		$fail = array();
+		foreach($_POST["fields"] as $id)
+		{
+			if(!$this->getPermissions()->hasPermission(
+				ilUDFPermissionHelper::CONTEXT_FIELD,
+				$id,
+				ilUDFPermissionHelper::ACTION_FIELD_DELETE))
+			{		
+				$field = $user_field_definitions->getDefinition($id);								
+				$fail[] = $field["field_name"]; 
+			}
+		}
+		if($fail)
+		{
+			ilUtil::sendFailure($lng->txt('msg_no_perm_delete')." ".implode(", ", $fail), true);
+			$ilCtrl->redirect($this, "listUserDefinedFields");	
+		}
+		
 		foreach($_POST["fields"] as $id)
 		{
 			$user_field_definitions->delete($id);
@@ -450,6 +609,46 @@ class ilCustomUserFieldsGUI
 		
 		$user_field_definitions = ilUserDefinedFields::_getInstance();
 		$a_fields = $user_field_definitions->getDefinitions();
+		
+		$perm_map =	self::getAccessPermissions();
+		
+		foreach($a_fields as $field_id => $definition)
+		{
+			$perms = $this->permissions->hasPermissions(ilUDFPermissionHelper::CONTEXT_FIELD,
+				$field_id, array(
+					array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+						ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_PERSONAL)
+					,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+						ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_REGISTRATION)
+					,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+						ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_LOCAL)
+					,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+						ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_COURSES)
+					,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+						ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_VISIBLE_GROUPS)
+					,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+						ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_CHANGEABLE_PERSONAL)
+					,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+						ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_CHANGEABLE_LOCAL)
+					,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+						ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_REQUIRED)
+					,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+						ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_EXPORT)
+					,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+						ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_SEARCHABLE)
+					,array(ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS,
+						ilUDFPermissionHelper::SUBACTION_FIELD_ACCESS_CERTIFICATE)
+			));
+			
+			// disabled field
+			foreach($perm_map as $prop => $perm)
+			{
+				if (!$perms[ilUDFPermissionHelper::ACTION_FIELD_EDIT_ACCESS][$perm])
+				{
+					$_POST['chb'][$prop.'_'.$field_id] = $definition[$prop];
+				}
+			}				
+		}
 		
 		foreach($a_fields as $field_id => $definition)
 		{

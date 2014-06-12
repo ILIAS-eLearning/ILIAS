@@ -413,22 +413,68 @@ abstract class ilDB extends PEAR
 				$a_level = $this->error_class->FATAL;
 			}
 
-			// Show stack
-			try
+			// :TODO: ADT (jluetzen)
+			
+			// if(!$this->exception)
+			if(true)
 			{
-				throw new Exception();
+				// Show stack
+				try
+				{
+					throw new Exception();
+				}
+				catch(Exception $e)
+				{
+					$stack = $e->getTraceAsString();
+				}
+
+				if(is_object($ilLog))
+					$ilLog->logStack();
+				$this->raisePearError("ilDB Error: ".$a_info."<br />".
+					$a_res->getMessage()."<br />".$a_res->getUserInfo()."<br />".$stack, $a_level);							
 			}
-			catch(Exception $e)
+			/*
+			else
 			{
-				$stack = $e->getTraceAsString();
-			}
-
-			if(is_object($ilLog))
-				$ilLog->logStack();
-			$this->raisePearError("ilDB Error: ".$a_info."<br />".
-				$a_res->getMessage()."<br />".$a_res->getUserInfo()."<br />".$stack, $a_level);
-
+				$error = $this->db->errorInfo($a_res->getCode());	
+				
+				$mess = $a_info.
+					" ### ".$a_res->getMessage().
+					" ### ".$a_res->getUserInfo();
+				
+				$exception = new $this->exception($a_res->getUserInfo(), $error[0]);
+				
+				if($exception instanceof ilADTDBException)
+				{
+					// try to find offending column (primary is set AS "PRIMARY")
+					if($error[0] == MDB2_ERROR_CONSTRAINT && $error[1] == 1062)
+					{				
+						$col = explode("'", $error[2]);
+						array_pop($col);
+						$col = array_pop($col);
+						$exception->setColumn($col);
+					}
+				}
+				
+				throw $exception;
+			}				 
+			*/					
 		}
+		/* :TODO: mysql(i) warnings (experimental, jluetzen)
+		else if(DEVMODE && $this instanceof ilDBMySQL)
+		{							
+			$j = mysqli_warning_count($this->db->connection);			
+			if($j > 0) 
+			{								
+				$e = mysqli_get_warnings($this->db->connection);
+				for($i = 0; $i < $j; $i++) 
+				{
+					trigger_error("MYSQLi warning: "."(".$e->errno.") ".$e->message, E_USER_NOTICE);					
+					$e->next();
+				}								
+			} 						
+		} 
+		*/
 
 		return $a_res;
 	}
