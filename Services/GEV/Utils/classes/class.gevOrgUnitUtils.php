@@ -104,18 +104,31 @@ class gevOrgUnitUtils {
 		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnit.php");
 		
 		if ($this->orgu_instance === null) {
-			$this->orgu_instance = new ilObjOrgUnit($this->orgu_id, false);
+			try {
+				$this->orgu_instance = new ilObjOrgUnit($this->orgu_id, false);
+			}
+			catch (Exception $e) {
+				$this->orgu_instance = null;
+			}
 		}
 		
 		return $this->orgu_instance;
 	}
 	
 	public function getTitle() {
-		return $this->getOrgUnitInstance()->getTitle();
+		$inst = $this->getOrgUnitInstance();
+		if ($inst === null) {
+			return "";
+		}
+		return $inst->getTitle();
 	}
 	
 	public function getLongTitle() {
-		return $this->getOrgUnitInstance()->getTitle().", ".$this->getCity();
+		$title = $this->getTitle();
+		if ($title) {
+			return $title.", ".$this->getCity();
+		}
+		return "";
 	}
 
 	public function getType() {

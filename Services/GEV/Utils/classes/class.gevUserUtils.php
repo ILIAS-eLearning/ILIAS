@@ -29,8 +29,19 @@ class gevUserUtils {
 		$this->gev_set = gevSettings::getInstance();
 		$this->db = &$ilDB;
 		$this->access = &$ilAccess;
+		$this->user_obj = null;
 		
 		$this->potentiallyBookableCourses = null;
+	}
+	
+	public function getUser() {
+		require_once("Services/User/classes/class.ilObjUser.php");
+		
+		if ($this->user_obj === null) {
+			$this->user_obj = new ilObjUser($this->user_id);
+		}
+		
+		return $this->user_obj;
 	}
 	
 	static public function getInstance($a_user_id) {
@@ -290,6 +301,59 @@ class gevUserUtils {
 			$ret[] = $val;
 		}
 		return $ret;
+	}
+	
+	public function getGender() {
+		return $this->getUser()->getGender();
+	}
+	
+	public function getFirstname() {
+		return $this->getUser()->getFirstname();
+	}
+	
+	public function getLastname() {
+		return $this->getUser()->getLastname();
+	}
+	
+	public function getFullName() {
+		return $this->getLastname().", ".$this->getFirstname();
+	}
+	
+	public function getOrgUnit() {
+		//TODO: implement
+		return 56;
+	}
+	
+	public function getOrgUnitTitle() {
+		// TODO: implement
+		return "CaT";
+	}
+	
+	public function getBirthday() {
+		require_once("Services/Calendar/classes/class.ilDate.php");
+		$bd = $this->getUser()->getBirthday();
+		if (!is_a($bd, "ilDate")) {
+			$bd = new ilDate($bd, IL_CAL_DATE);
+		}
+		return $bd;
+	}
+	
+	public function getFormattedBirthday() {
+		require_once("Services/Calendar/classes/class.ilDatePresentation.php");
+		ilDatePresentation::setUseRelativeDates(false);
+		$date = ilDatePresentation::formatDate($this->getBirthday());
+		ilDatePresentation::setUseRelativeDates(true);
+		return $date;
+	}
+	
+	public function getFunctionAtCourse($a_crs_id) {
+		// TODO: implement
+		return "TBD";
+	}
+	
+	public function getOvernightDetailsForCourse($a_crs_id) {
+		// TODO: implement
+		return "TBD";
 	}
 }
 

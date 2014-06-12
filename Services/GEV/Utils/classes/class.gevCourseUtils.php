@@ -1,4 +1,4 @@
-	<?php
+<?php
 
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */#
 
@@ -25,6 +25,7 @@ class gevCourseUtils {
 		$this->db = &$ilDB;
 		
 		$this->crs_id = $a_crs_id;
+		$this->crs_obj = null;
 		$this->gev_settings = gevSettings::getInstance();
 		$this->amd = gevAMDUtils::getInstance();
 	}
@@ -130,6 +131,24 @@ class gevCourseUtils {
 		}
 		
 		return $custom_roles;
+	}
+	
+	public function getCourse() {
+		require_once("Modules/Course/classes/class.ilObjCourse.php");
+		
+		if ($this->crs_obj === null) {
+			$this->crs_obj = new ilObjCourse($this->crs_id, false);
+		}
+		
+		return $this->crs_obj;
+	}
+	
+	public function getTitle() {
+		return $this->getCourse()->getTitle();
+	}
+	
+	public function getSubtitle() {
+		return $this->getCourse()->getDescription();
 	}
 
 	public function getLink() {
@@ -265,6 +284,15 @@ class gevCourseUtils {
 		return gevOrgUnitUtils::getInstance($id);
 	}
 	
+	public function getVenueTitle() {
+		$ven = $this->getVenue();
+		if ($ven === null) {
+			return "";
+		}
+		
+		return $ven->getLongTitle();
+	}
+	
 	public function getAccomodationId() {
 		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_ACCOMODATION);
 	}
@@ -278,6 +306,16 @@ class gevCourseUtils {
 		return gevOrgUnitUtils::getInstance($id);	
 	}
 	
+	public function getTrainer() {
+		// TODO: implement
+		return "TBD";
+	}
+	
+	public function getTrainingAdviser() {
+		// TODO: implement
+		return "TBD";
+	}
+	
 	public function getDerivedCourseIds() {
 		if (!$this->isTemplate()) {
 			throw new Exception("gevCourseUtils::getDerivedCourseIds: this course is no template and thus has no derived courses.");
@@ -285,6 +323,236 @@ class gevCourseUtils {
 		
 	
 	}
+	
+	
+	// Memberlist creation
+	
+	public function deliverMemberList($a_hotel_list) {
+		$this->buildMemberList(true, null, $a_hotel_list);
+	}
+	
+	public function buildMemberList($a_send, $a_filename, $a_hotel_list) {
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		
+		global $lng;
+
+		if ($a_filename === null) {
+			if(!$a_send)
+			{
+				$a_filename = ilUtil::ilTempnam();
+			}
+			else
+			{
+				$a_filename = "list.xls";
+			}
+		}
+
+		include_once "./Services/Excel/classes/class.ilExcelUtils.php";
+		include_once "./Services/Excel/classes/class.ilExcelWriterAdapter.php";
+		$adapter = new ilExcelWriterAdapter($a_filename, $a_send);
+		$workbook = $adapter->getWorkbook();
+		$worksheet = $workbook->addWorksheet();
+		$worksheet->setLandscape();
+
+		// what is this good for
+		//$txt = array();
+
+		$columns = array( $lng->txt("gender")
+						, $lng->txt("firstname")
+						, $lng->txt("lastname")
+						, $lng->txt("gev_org_unit_short")
+						);
+
+		$worksheet->setColumn(0, 0, 16);		// gender
+		$worksheet->setColumn(1, 1, 20); 	// firstname
+		$worksheet->setColumn(2, 2, 20);	// lastname
+		$worksheet->setColumn(3, 3, 20);	// org-unit
+		
+		if($a_hotel_list)
+		{
+			$columns[] = $lng->txt("gev_crs_book_overnight_details"); // #3764
+
+			$worksheet->setColumn(4, 4, 50); // #4481
+		}
+		else
+		{
+			$columns[] = $lng->txt("status");
+			$columns[] = $lng->txt("birthday");
+			$columns[] = $lng->txt("gev_signature");
+			
+			$worksheet->setColumn(4, 4, 20);
+			$worksheet->setColumn(5, 5, 25);
+			$worksheet->setColumn(6, 6, 20);
+		}
+		
+		$row = $this->buildListMeta( $workbook
+							   , $worksheet
+							   , $lng->txt("gev_excel_member_title")." ".
+										( !$a_hotel_list 
+										? $lng->txt("obj_crs") 
+										: $lng->txt("gev_hotel")
+										)
+							   , $lng->txt("gev_excel_member_row_title")
+							   , $columns
+							   );
+
+		$user_ids = $this->getCourse()->getMembersObject()->getMembers();
+		$tutor_ids = $this->getCourse()->getMembersObject()->getTutors();
+
+		$user_ids = array_merge($user_ids, $tutor_ids);
+
+		if($user_ids)
+		{
+			$format_wrap = $workbook->addFormat();
+			$format_wrap->setTextWrap();
+
+			foreach($user_ids as $user_id)
+			{
+				$row++;
+				//$txt[] = "";
+				$user_utils = gevUserUtils::getInstance($user_id);
+
+
+				//$txt[] = $lng->txt("name").": ".$user_data["name"];
+				//$txt[] = $lng->txt("phone_office").": ".$user_data["fon"];
+				//$txt[] = $lng->txt("vofue_org_unit_short").": ". $user_data["ounit"];
+
+				$worksheet->write($row, 0, $user_utils->getGender(), $format_wrap);
+				$worksheet->writeString($row, 1, $user_utils->getFirstname(), $format_wrap);
+				$worksheet->write($row, 2, $user_utils->getLastname(), $format_wrap);
+				$worksheet->write($row, 3, $user_utils->getFirstname(), $format_wrap);
+				
+				if($a_hotel_list)
+				{
+					// vfstep3.1
+					$worksheet->write($row, 4, $user_utils->getOvernightDetailsForCourse($this->crs_id), $format_wrap);
+
+					//$txt[] = $lng->txt("vofue_crs_book_overnight_details").": ".$user_data["ov"];
+				}
+				else
+				{
+					$worksheet->write($row, 4, $user_utils->getFunctionAtCourse($this->crs_id), $format_wrap);
+					$worksheet->write($row, 5, $user_utils->getFormattedBirthday(), $format_wrap);
+					$worksheet->write($row, 6, "", $format_wrap);
+					
+					//$txt[] = $lng->txt("vofue_udf_join_date").": ".$user_data["jdate"];
+					//$txt[] = $lng->txt("birthday").": ".$user_data["bdate"];
+					//$txt[] = $lng->txt("vofue_crs_function").": ".$user_data["func"];
+					//$txt[] = $lng->txt("vofue_udf_adp_number").": ". $user_data["adp"];
+					//$txt[] = $lng->txt("vofue_crs_book_goals").": ".$user_data["goals"];
+				}
+			}
+		}
+
+		$workbook->close();
+
+		if($a_send)
+		{
+			exit();
+		}
+
+		return array($filename, "Teilnehmer.xls");//, implode("\n", $txt));
+	}
+	
+	protected function buildListMeta($workbook, $worksheet, $title, $row_title, array $column_titles)
+	{
+		global $lng;
+
+		$num_cols = sizeof($column_titles);
+
+		$format_bold = $workbook->addFormat(array("bold" => 1));
+		$format_title = $workbook->addFormat(array("bold" => 1, "size" => 14));
+		$format_subtitle = $workbook->addFormat(array("bold" => 1, "bottom" => 6));
+
+		$worksheet->writeString(0, 0, $title, $format_title);
+		$worksheet->mergeCells(0, 0, 0, $num_cols-1);
+		$worksheet->mergeCells(1, 0, 1, $num_cols-1);
+
+		$worksheet->writeString(2, 0, $lng->txt("gev_excel_course_title"), $format_subtitle);
+		for($loop = 1; $loop < $num_cols; $loop++)
+		{
+			$worksheet->writeString(2, $loop, "", $format_subtitle);
+		}
+		$worksheet->mergeCells(2, 0, 2, $num_cols-1);
+		$worksheet->mergeCells(3, 0, 3, $num_cols-1);
+
+		// course info
+		$row = 4;
+		foreach($this->getListMetaData() as $caption => $value)
+		{
+			$worksheet->writeString($row, 0, $caption, $format_bold);
+
+			if(!is_array($value))
+			{
+				$worksheet->writeString($row, 1, $value);
+				$worksheet->mergeCells($row, 1, $row, $num_cols-1);
+			}
+			else
+			{
+				$first = array_shift($value);
+				$worksheet->writeString($row, 1, $first);
+				$worksheet->mergeCells($row, 1, $row, $num_cols-1);
+
+				foreach($value as $line)
+				{
+					if(trim($line))
+					{
+						$row++;
+						$worksheet->write($row, 0, "");
+						$worksheet->writeString($row, 1, $line);
+						$worksheet->mergeCells($row, 1, $row, $num_cols-1);
+					}
+				}
+			}
+
+			$row++;
+		}
+
+		// empty row
+		$worksheet->mergeCells($row, 0, $row, $num_cols-1);
+		$row++;
+		$worksheet->mergeCells($row, 0, $row, $num_cols-1);
+		$row++;
+
+		// row_title
+		$worksheet->writeString($row, 0, $row_title, $format_subtitle);
+		for($loop = 1; $loop < $num_cols; $loop++)
+		{
+			$worksheet->writeString($row, $loop, "", $format_subtitle);
+		}
+		$worksheet->mergeCells($row, 0, $row, $num_cols-1);
+		$row++;
+		$worksheet->mergeCells($row, 0, $row, $num_cols-1);
+		$row++;
+
+		// title row
+		for($loop = 0; $loop < $num_cols; $loop++)
+		{
+			$worksheet->writeString($row, $loop, $column_titles[$loop], $format_bold);
+		}
+
+		return $row;
+	}
+	
+	protected function getListMetaData() {
+		require_once("Services/Calendar/classes/class.ilDatePresentation.php");
+		
+		ilDatePresentation::setUseRelativeDates(false);
+		
+		$arr = array("Titel" => $this->getTitle()
+					, "Untertitel" => $this->getSubtitle()
+					, "Nummer der Maßnahme" => $this->getCustomId()
+					, "Datum" => ilDatePresentation::formatPeriod($this->getStartDate(), $this->getEndDate())
+					, "Veranstaltungsort" => $this->getVenueTitle()
+					, "Trainer" => $this->getTrainer()
+					, "Trainingsbetreuer" => $this->getTrainingAdviser()
+					, "Bildungspunkte" => $this->getCreditPoints()
+					);
+		
+		ilDatePresentation::setUseRelativeDates(true);
+		return $arr;
+	}
+
 }
 
 ?>

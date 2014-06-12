@@ -10,6 +10,7 @@
 *
 * @ilCtrl_Calls gevDesktopGUI: gevMyCoursesGUI
 * @ilCtrl_Calls gevDesktopGUI: gevCourseSearchGUI
+*
 */
 
 class gevDesktopGUI {
@@ -42,6 +43,11 @@ class gevDesktopGUI {
 				$gui = new gevCourseSearchGUI();
 				$ret = $this->ctrl->forwardCommand($gui);
 				break;
+			case "gevmemberlistdeliverygui":
+				require_once("Services/GEV/Desktop/classes/class.gevMemberListDeliveryGUI.php");
+				$gui = new gevMemberListDeliveryGUI();
+				$this->ctrl->forward($gui);
+				return;
 			default:	
 				$this->dispatchCmd($cmd);
 				break;

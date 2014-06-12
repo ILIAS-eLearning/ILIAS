@@ -19,7 +19,7 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 	public function __construct() {
 		parent::__construct($a_target, $a_use_start_template);
 		
-		global $lng, $ilCtrl, $ilAccess;;
+		global $lng, $ilCtrl, $ilAccess;
 		
 		$this->lng = &$lng;
 		$this->ctrl = &$ilCtrl;

@@ -32,6 +32,9 @@ class ilCourseMembershipButtonsUIHookGUI extends ilUIHookPluginGUI {
 		and $a_parameters["tpl_id"] == "Services/UIComponent/Toolbar/tpl.toolbar.html") {
 			$this->lng->loadLanguageModule("crsbook");
 			$this->toolbar->addSeparator();
+			$this->toolbar->addButton( $this->lng->txt("gev_member_list")
+									 , "ilias.php?ref_id=".$_GET["ref_id"]."&cmd=trainer&baseClass=gevMemberListDeliveryGUI"
+									 );
 			$this->toolbar->addButton( $this->lng->txt("gev_bookings")
 									 , "ilias.php?ref_id=".$_GET["ref_id"]."&cmdClass=ilcoursebookingadmingui&baseClass=ilCourseBookingGUI"
 									 );
