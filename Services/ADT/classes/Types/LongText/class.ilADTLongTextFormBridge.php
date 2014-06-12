@@ -13,6 +13,7 @@ class ilADTLongTextFormBridge extends ilADTFormBridge
 	{		
 		$def = $this->getADT()->getCopyOfDefinition();
 		$text = new ilTextAreaInputGUI($this->getTitle(), $this->getElementId());
+		$text->setUseRte(true);
 				
 		$this->addBasicFieldProperties($text, $def);
 	
