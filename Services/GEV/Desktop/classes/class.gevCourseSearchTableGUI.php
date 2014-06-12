@@ -21,15 +21,15 @@ require_once("Services/CaTUIComponents/classes/class.catLegendGUI.php");
 class gevCourseSearchTableGUI extends catAccordionTableGUI {
 	public function __construct($a_user_id, $a_parent_obj, $a_parent_cmd="", $a_template_context="") {
 		parent::__construct($a_parent_obj, $a_parent_cmd, $a_template_context);
-		
+
 		global $ilCtrl, $lng;
-		
+
 		$this->lng = &$lng;
 		$this->ctrl = &$ilCtrl;
-		
+
 		$user_util = gevUserUtils::getInstance($a_user_id);
 		$this->user_id = $a_user_id;
-		
+
 		$this->setEnableTitle(true);
 		$this->setTopCommands(false);
 		$this->setEnableHeader(true);
@@ -37,10 +37,11 @@ class gevCourseSearchTableGUI extends catAccordionTableGUI {
 		$this->setExternalSegmentation(true);
 		$this->setMaxCount(count($user_util->getPotentiallyBookableCourseIds()));
 		$this->determineOffsetAndOrder();
-		
+
 		$this->setRowTemplate("tpl.gev_course_search_row.html", "Services/GEV/Desktop");
-		
-		$this->addColumn("", "expand", "20px");
+
+		//$this->addColumn("", "expand", "20px");
+		$this->addColumn("", "expand", "0px", false, "catTableExpandButton");
 		$this->addColumn($this->lng->txt("title"), "title");
 		$this->addColumn($this->lng->txt("status"));
 		$this->addColumn($this->lng->txt("gev_learning_type"), "type");
@@ -54,14 +55,14 @@ class gevCourseSearchTableGUI extends catAccordionTableGUI {
 		$this->bookable_img = '<img src="'.ilUtil::getImagePath("gev_bookable_icon.png").'" />';
 		$this->bookable_waiting_img = '<img src="'.ilUtil::getImagePath("gev_bookable_waiting_icon.png").'" />';
 		$this->not_bookable_img = '<img src="'.ilUtil::getImagePath("gev_not_bookable_icon.png").'" />';
-		
+
 		$legend = new catLegendGUI();
 		$legend->addItem($this->book_img, "gev_book_course")
 			   ->addItem($this->bookable_img, "gev_bookable")
 			   ->addItem($this->bookable_waiting_img, "gev_bookable_waiting")
 			   ->addItem($this->not_bookable_img, "gev_not_bookable");
 		$this->setLegend($legend);
-		
+
 		$order = $this->getOrderField();
 		if ($order == "status") {
 			// TODO: This will not make the user happy.
@@ -70,7 +71,7 @@ class gevCourseSearchTableGUI extends catAccordionTableGUI {
 		if ($order == "date") {
 			$order = $start_date;
 		}
-		
+
 
 		$this->setData($user_util->getPotentiallyBookableCourseInformation(
 										$this->getOffset(),
@@ -79,7 +80,7 @@ class gevCourseSearchTableGUI extends catAccordionTableGUI {
 										$this->getOrderDirection()
 					   ));
 	}
-	
+
 	protected function fillRow($a_set) {
 		$this->tpl->setVariable("ACCORDION_BUTTON_CLASS", $this->getAccordionButtonExpanderClass());
 		$this->tpl->setVariable("ACCORDION_ROW", $this->getAccordionRowClass());
@@ -91,7 +92,7 @@ class gevCourseSearchTableGUI extends catAccordionTableGUI {
 		else {
 			$date = ilDatePresentation::formatPeriod($a_set["start_date"], $a_set["end_date"]);
 		}
-		
+
 		if ($a_set["bookable"]) {
 			if ($a_set["free_places"] > 0 || $a_set["free_places"] === null) {
 				$status = $this->bookable_img;
@@ -103,10 +104,10 @@ class gevCourseSearchTableGUI extends catAccordionTableGUI {
 		else {
 			$status = $this->not_bookable_img;
 		}
-		
+
 		$action = '<a href="'.gevCourseUtils::getBookingLinkTo($a_set["obj_id"], $this->user_id).'">'.
 				  $this->book_img."</a>";
-		
+
 		$this->tpl->setVariable("TITLE", $a_set["title"]);
 		$this->tpl->setVariable("STATUS", $status);
 		$this->tpl->setVariable("TYPE", $a_set["type"]);

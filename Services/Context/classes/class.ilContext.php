@@ -2,19 +2,19 @@
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/** 
+/**
  * Service context (factory) class
- * 
+ *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @version $Id$
- * 
+ *
  * @ingroup ServicesContext
  */
 class ilContext
-{		
+{
 	protected static $class_name; // [string]
-	protected static $type; // [int]	
-	
+	protected static $type; // [int]
+
 	const CONTEXT_WEB = 1;
 	const CONTEXT_CRON = 2;
 	const CONTEXT_RSS = 3;
@@ -27,11 +27,15 @@ class ilContext
 	const CONTEXT_SOAP_WITHOUT_CLIENT = 10;
 	const CONTEXT_UNITTEST = 11;
 	const CONTEXT_REST = 12;
-	
+
+	// gev-patch start
+	const CONTEXT_WEB_NOAUTH = 13;
+	// gev-patch end
+
 	/**
 	 * Init context by type
-	 * 
-	 * @param int $a_type 
+	 *
+	 * @param int $a_type
 	 * @return bool
 	 */
 	public static function init($a_type)
@@ -46,12 +50,12 @@ class ilContext
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Get class name for type id
-	 * 	 
+	 *
 	 * @param int $a_type
-	 * @return string 
+	 * @return string
 	 */
 	protected function getClassForType($a_type)
 	{
@@ -59,45 +63,51 @@ class ilContext
 		{
 			case self::CONTEXT_WEB:
 				return "ilContextWeb";
-				
+
 			case self::CONTEXT_CRON:
 				return "ilContextCron";
-				
+
 			case self::CONTEXT_RSS:
 				return "ilContextRss";
-				
+
 			case self::CONTEXT_ICAL:
 				return "ilContextIcal";
-				
+
 			case self::CONTEXT_SOAP:
 				return "ilContextSoap";
-			
+
 			case self::CONTEXT_WEBDAV:
-				return "ilContextWebdav";	
-				
+				return "ilContextWebdav";
+
 			case self::CONTEXT_RSS_AUTH:
-				return "ilContextRssAuth";	
-				
+				return "ilContextRssAuth";
+
 			case self::CONTEXT_WEB_ACCESS_CHECK:
-				return "ilContextWebAccessCheck";	
-			
+				return "ilContextWebAccessCheck";
+
 			case self::CONTEXT_SESSION_REMINDER:
-				return "ilContextSessionReminder";	
-				
+				return "ilContextSessionReminder";
+
 			case self::CONTEXT_SOAP_WITHOUT_CLIENT:
 				return "ilContextSoapWithoutClient";
-				
+
 			case self::CONTEXT_UNITTEST:
 				return "ilContextUnitTest";
-				
+
 			case self::CONTEXT_REST:
 				return 'ilContextRest';
+
+			// gev-patch start
+			case self::CONTEXT_WEB_NOAUTH:
+				return 'gevContextWebNoAuth';
+			// gev-patch end
+
 		}
 	}
-	
+
 	/**
 	 * Call current content
-	 * 
+	 *
 	 * @param string $a_method
 	 * @return bool
 	 */
@@ -106,91 +116,91 @@ class ilContext
 		if(!self::$class_name)
 		{
 			self::init(self::CONTEXT_WEB);
-		}		
+		}
 		return call_user_func(array(self::$class_name, $a_method));
 	}
-	
+
 	/**
 	 * Are redirects supported?
-	 * 
-	 * @return bool 
+	 *
+	 * @return bool
 	 */
 	public static function supportsRedirects()
 	{
 		global $ilCtrl;
-		
+
 		// asynchronous calls must never be redirected
 		if($ilCtrl && $ilCtrl->isAsynch())
 		{
 			return false;
 		}
-		
+
 		return (bool)self::callContext("supportsRedirects");
 	}
-	
+
 	/**
 	 * Based on user authentication?
-	 *  
+	 *
 	 * @return bool
 	 */
 	public static function hasUser()
 	{
-		return (bool)self::callContext("hasUser");		
+		return (bool)self::callContext("hasUser");
 	}
-	
+
 	/**
-	 * Uses HTTP aka browser 
-	 * 
-	 * @return bool 
+	 * Uses HTTP aka browser
+	 *
+	 * @return bool
 	 */
 	public static function usesHTTP()
 	{
-		return (bool)self::callContext("usesHTTP");	
+		return (bool)self::callContext("usesHTTP");
 	}
-	
+
 	/**
 	 * Has HTML output
-	 *  
+	 *
 	 * @return bool
 	 */
 	public static function hasHTML()
 	{
-		return (bool)self::callContext("hasHTML");	
+		return (bool)self::callContext("hasHTML");
 	}
-	
+
 	/**
 	 * Uses template engine
-	 *  
+	 *
 	 * @return bool
 	 */
 	public static function usesTemplate()
 	{
-		return (bool)self::callContext("usesTemplate");	
+		return (bool)self::callContext("usesTemplate");
 	}
-	
+
 	/**
 	 * Init client
-	 *  
+	 *
 	 * @return bool
 	 */
 	public static function initClient()
 	{
-		return (bool)self::callContext("initClient");	
+		return (bool)self::callContext("initClient");
 	}
-	
+
 	/**
 	 * Try authentication
-	 *  
+	 *
 	 * @return bool
 	 */
 	public static function doAuthentication()
 	{
-		return (bool)self::callContext("doAuthentication");	
+		return (bool)self::callContext("doAuthentication");
 	}
-	
+
 	/**
 	 * Get context type
-	 * 
+	 *
 	 * @return int
 	 */
 	public static function getType()
