@@ -51,6 +51,11 @@ if($ilAuth->getAuth()){
 }
 
 
+// content by request
+$ctpl = new ilTemplate($ctpl_file, 0, 0, "Customizing/global/skin/genv");
+array_push($content_buffer, $ctpl);
+
+
 
 /*
     --------------------------------------------------------------------
