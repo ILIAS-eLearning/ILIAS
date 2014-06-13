@@ -531,6 +531,11 @@ class ilBookingReservation
 		{
 			$sql .= ' WHERE '.implode(' AND ', $where);		
 		}
+		
+		if($a_has_schedule)
+		{			
+			$sql .= ' ORDER BY date_from DESC';			
+		}
 				
 		$set = $ilDB->query($sql);			
 		while($row = $ilDB->fetchAssoc($set))
