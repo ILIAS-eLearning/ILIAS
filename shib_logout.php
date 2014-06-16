@@ -163,7 +163,7 @@ function LogoutNotification($SessionID){
 				&& $user_session_entry['shibboleth_session_id'] == $SessionID){
 				
 				// Delete this session entry
-				if (db_session_destroy($session_entry['session_id']) !== true){
+				if (ilSession::_destroy($session_entry['session_id']) !== true){
 					return new SoapFault('LogoutError', 'Could not delete session entry in database.');
 				}
 			}
