@@ -64,6 +64,8 @@ class ilSurveyMaintenanceTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt("name"),'name', '');
 		$this->addColumn($this->lng->txt("login"),'login', '');
 		$this->addColumn($this->lng->txt("last_access"),'last_access', '');
+		$this->addColumn($this->lng->txt("workingtime"),'workingtime', '');
+		$this->addColumn($this->lng->txt("survey_results_finished"),'finished', '');
 	
 		$this->setRowTemplate("tpl.il_svy_svy_maintenance_row.html", "Modules/Survey");
 
@@ -125,6 +127,40 @@ class ilSurveyMaintenanceTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("VALUE_USER_NAME", $data['name']);
 		$this->tpl->setVariable("VALUE_USER_LOGIN", $data['login']);
 		$this->tpl->setVariable("LAST_ACCESS", ilDatePresentation::formatDate(new ilDateTime($data['last_access'],IL_CAL_UNIX)));
+		$this->tpl->setVariable("WORKINGTIME", $this->formatTime($data['workingtime']));		
+		
+		if($data["finished"] !== null)
+		{			
+			if($data["finished"] !== false)
+			{
+				$finished .= ilDatePresentation::formatDate(new ilDateTime($data["finished"], IL_CAL_UNIX));
+			}
+			else
+			{
+				$finished = "-";
+			}
+			$this->tpl->setVariable("FINISHED", $finished);
+		}
+		else
+		{
+			$this->tpl->setVariable("FINISHED", "&nbsp;");
+		}
+	}
+	
+	protected function formatTime($timeinseconds)
+	{
+		if (is_null($timeinseconds))
+		{
+			return " ";
+		}
+		else if ($timeinseconds == 0)
+		{
+			return $this->lng->txt('not_available');
+		}
+		else
+		{
+			return sprintf("%02d:%02d:%02d", ($timeinseconds / 3600), ($timeinseconds / 60) % 60, $timeinseconds % 60);
+		}
 	}
 }
 ?>

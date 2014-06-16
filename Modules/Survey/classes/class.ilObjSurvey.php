@@ -451,6 +451,8 @@ class ilObjSurvey extends ilObject
 			while ($row = $ilDB->fetchAssoc($result))
 			{
 				$userdata = $this->getUserDataFromActiveId($row["finished_id"]);
+				$userdata["finished"] = (bool)$row["state"];
+				$userdata["finished_tstamp"] = $row["tstamp"];
 				$participants[$userdata["sortname"] . $userdata["active_id"]] = $userdata;
 			}
 		}

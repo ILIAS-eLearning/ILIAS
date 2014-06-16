@@ -67,6 +67,7 @@ class ilSurveyResultsUserTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt("question"),'', '');
 		$this->addColumn($this->lng->txt("results"),'', '');
 		$this->addColumn($this->lng->txt("workingtime"),'workingtime', '');
+		$this->addColumn($this->lng->txt("survey_results_finished"),'state', '');
 	
 		$this->setRowTemplate("tpl.il_svy_svy_results_user_row.html", "Modules/Survey");
 
@@ -117,6 +118,23 @@ class ilSurveyResultsUserTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("QUESTION", $data['question']);
 		$this->tpl->setVariable("RESULTS", $data['results']);
 		$this->tpl->setVariable("WORKINGTIME", $this->formatTime($data['workingtime']));
+		
+		if($data["finished"] !== null)
+		{			
+			if($data["finished"] !== false)
+			{
+				$finished .= ilDatePresentation::formatDate(new ilDateTime($data["finished"], IL_CAL_UNIX));
+			}
+			else
+			{
+				$finished = "-";
+			}
+			$this->tpl->setVariable("FINISHED", $finished);
+		}
+		else
+		{
+			$this->tpl->setVariable("FINISHED", "&nbsp;");
+		}
 		
 		if($data["subitems"])
 		{

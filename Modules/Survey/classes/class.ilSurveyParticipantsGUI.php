@@ -122,12 +122,20 @@ class ilSurveyParticipantsGUI
 		$data = array();
 		foreach ($total as $user_data)
 		{
+			$finished = false;
+			if((bool)$user_data["finished"])
+			{
+				$finished = $user_data["finished_tstamp"];
+			}			
+			$wt = $this->object->getWorkingtimeForParticipant($user_data["active_id"]);
 			$last_access = $this->object->_getLastAccess($user_data["active_id"]);
 			array_push($data, array(
 				'id' => $user_data["active_id"],
 				'name' => $user_data["sortname"],
 				'login' => $user_data["login"],
-				'last_access' => $last_access
+				'last_access' => $last_access,
+				'workingtime' => $wt,
+				'finished' => $finished
 			));
 		}
 		$table_gui->setData($data);

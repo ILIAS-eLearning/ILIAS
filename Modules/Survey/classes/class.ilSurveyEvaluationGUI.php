@@ -791,8 +791,13 @@ class ilSurveyEvaluationGUI
 		{
 			$participants = $finished_ids;
 		}
-		foreach ($participants as $user_id)
+		$finished_data = array();
+		foreach($this->object->getSurveyParticipants($participants) as $item)
 		{
+			$finished_data[$item["active_id"]] = $item;
+		}
+		foreach ($participants as $user_id)
+		{		
 			if($user_id < 1)
 			{
 				continue;
@@ -824,6 +829,17 @@ class ilSurveyEvaluationGUI
 			}
 			$wt = $this->object->getWorkingtimeForParticipant($user_id);
 			array_push($csvrow, $wt);
+			
+			$finished = $finished_data[$user_id];
+			if((bool)$finished["finished"])
+			{
+				array_push($csvrow, ilDatePresentation::formatDate(new ilDateTime($finished["finished_tstamp"], IL_CAL_UNIX)));
+			}
+			else
+			{
+				array_push($csvrow, "-");
+			}
+			
 			array_push($csvfile, $csvrow);
 		}
 		
@@ -899,6 +915,7 @@ class ilSurveyEvaluationGUI
 							}
 						}
 						$mainworksheet->writeString($row, $col++, ilExcelUtils::_convert_text($this->lng->txt('workingtime'), $_POST['export_format']), $format_title);
+						$mainworksheet->writeString($row, $col++, ilExcelUtils::_convert_text($this->lng->txt('survey_results_finished'), $_POST['export_format']), $format_title);
 						$row = $contentstartrow;
 					}
 					else
@@ -933,10 +950,15 @@ class ilSurveyEvaluationGUI
 				
 			case self::TYPE_SPSS:
 				$csv = "";
-				$separator = ";";
-				foreach ($csvfile as $csvrow)
-				{
-					$csvrow =& str_replace("\n", " ", $this->object->processCSVRow($csvrow, TRUE, $separator));
+				$separator = ";";				
+				foreach ($csvfile as $idx => $csvrow)
+				{					
+					if(!$idx)
+					{
+						$csvrow[] = $this->lng->txt('workingtime');
+						$csvrow[] = $this->lng->txt('survey_results_finished');
+					}										
+					$csvrow =& str_replace("\n", " ", $this->object->processCSVRow($csvrow, TRUE, $separator));					
 					$csv .= join($csvrow, $separator) . "\n";
 				}
 				include_once "./Services/Utilities/classes/class.ilUtil.php";
@@ -1053,12 +1075,21 @@ class ilSurveyEvaluationGUI
 					$wt = $this->object->getWorkingtimeForParticipant($data['active_id']);
 					if ($first)
 					{
+						if($data["finished"])
+						{
+							$finished =  $data["finished_tstamp"];
+						}	
+						else
+						{
+							$finished = false;
+						}
 						$tabledata[++$counter] = array(
 								'username' => $data["sortname"],
 								// 'gender' => $data["gender"],
 								'question' => $questioncounter++ . ". " . $question_data["title"],
 								'results' => $text,
-								'workingtime' => $wt
+								'workingtime' => $wt,
+								'finished' => $finished
 							);
 						$first = false;						
 					}
@@ -1069,7 +1100,8 @@ class ilSurveyEvaluationGUI
 								// 'gender' => " ",
 								'question' => $questioncounter++ . ". " . $question_data["title"],
 								'results' => $text,
-								'workingtime' => null
+								'workingtime' => null,
+								'finished' => null
 							);
 					}
 				}
