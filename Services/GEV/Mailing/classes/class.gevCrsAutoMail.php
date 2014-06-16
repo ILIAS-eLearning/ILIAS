@@ -9,6 +9,7 @@
 
 require_once ("./Services/Mailing/classes/class.ilAutoMail.php");
 require_once ("./Services/GEV/Utils/classes/class.gevCourseUtils.php");
+require_once ("./Services/GEV/Utils/classes/class.gevUserUtils.php");
 
 abstract class gevCrsAutoMail extends ilAutoMail {
 	protected $crs_id;
@@ -398,9 +399,9 @@ abstract class gevCrsAutoMail extends ilAutoMail {
 
 
 	private function initTemplateObjects($a_templ_id, $a_language) {
-		require_once "./Services/Mail/classes/class.ilMailTemplateSettingsEntity.php";
-		require_once "./Services/Mail/classes/class.ilMailTemplateVariantEntity.php";
-		require_once "./Services/Mail/classes/class.ilMailTemplateManagementAPI.php";
+		require_once "./Services/MailTemplates/classes/class.ilMailTemplateSettingsEntity.php";
+		require_once "./Services/MailTemplates/classes/class.ilMailTemplateVariantEntity.php";
+		require_once "./Services/MailTemplates/classes/class.ilMailTemplateManagementAPI.php";
 
 		if ($this->template_api === null) {
 			$this->template_api = new ilMailTemplateManagementAPI();
@@ -438,7 +439,7 @@ abstract class gevCrsAutoMail extends ilAutoMail {
 	}
 
 	protected function getFrom() {
-		$fn = $this->settings->getSetting("mail_system_sender_name");
+		$fn = $this->settings->get("mail_system_sender_name");
 		$fm = $this->ilias->getSetting("mail_external_sender_noreply");
 
 		return $fn." <".$fm.">";
@@ -511,15 +512,14 @@ abstract class gevCrsAutoMail extends ilAutoMail {
 		//TODO: this needs to be adjusted
 		$this->initTemplateObjects($a_templ_id, "de");
 
-		require_once "./Services/VoFue/Patch/classes/class.vfMailData.php";
+		require_once "./Services/GEV/Mailing/classes/class.gevCrsMailData.php";
 
-		$mail_data = new vfMailData();
-		$mail_data->initCourseData($this->getCourse());
+		$mail_data = new gevCrsMailData();
+		$mail_data->initCourseData($this->getCourseUtils());
 
 		if ($a_user_id !== null) {
 			$mail_data->setRecipient($a_user_id, $a_email, $a_name);
-			$mail_data->initUserData($a_user_id, true);
-			$mail_data->initParticipantData($this->getCourse(), $a_user_id);
+			$mail_data->initUserData(gevUserUtils::getInstance($a_user_id));
 		}
 
 		$adapter = $this->template_settings->getAdapterClassInstance();

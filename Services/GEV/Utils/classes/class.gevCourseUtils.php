@@ -15,6 +15,7 @@ require_once("Services/Calendar/classes/class.ilDate.php");
 require_once("Services/Calendar/classes/class.ilDateTime.php");
 require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
 require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+require_once("Services/Calendar/classes/class.ilDatePresentation.php");
 
 class gevCourseUtils {
 	static $instances = array();
@@ -185,6 +186,13 @@ class gevCourseUtils {
 	
 	public function getStartDate() {
 		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_START_DATE);
+	}
+	
+	public function getFormattedStartDate() {
+		ilDatePresentation::setUseRelativeDates(false);
+		$val = ilDatePresentation::formatDate($this->crs_utils->getStartDate());
+		ilDatePresentation::setUseRelativeDates(true);
+		return $val;
 	}
 	
 	public function setStartDate($a_date) {
@@ -535,8 +543,6 @@ class gevCourseUtils {
 	}
 	
 	protected function getListMetaData() {
-		require_once("Services/Calendar/classes/class.ilDatePresentation.php");
-		
 		ilDatePresentation::setUseRelativeDates(false);
 		
 		$arr = array("Titel" => $this->getTitle()

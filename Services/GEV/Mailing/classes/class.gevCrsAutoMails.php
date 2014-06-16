@@ -79,7 +79,7 @@ class gevCrsAutoMails extends ilAutoMails {
 	}
 
 	public function getInvitationMailFor($a_function, $a_recipient) {
-		$mail = $this->getAutoMail("participant_invitation");
+		$mail = $this->getAutoMail("invitation");
 		return $mail->getMailFor($a_function, $a_recipient);
 	}
 	

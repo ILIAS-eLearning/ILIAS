@@ -32,10 +32,12 @@ class ilGEVCourseCreationPlugin extends ilEventHookPlugin
 				
 		try {
 			$target = new ilObjCourse($a_target_ref_id);
-			$target_utils = gevCourseUtils::getInstance(gevObjectUtils::getObjId($a_target_ref_id));
+			$target_obj_id = gevObjectUtils::getObjId($a_target_ref_id);
+			$target_utils = gevCourseUtils::getInstance($target_obj_id);
 			
 			$source = new ilObjCourse($a_source_ref_id);
-			$source_utils = gevCourseUtils::getInstance(gevObjectUtils::getObjId($a_source_ref_id));
+			$source_obj_id = gevObjectUtils::getObjId($a_source_ref_id);
+			$source_utils = gevCourseUtils::getInstance($source_obj_id);
 			
 			
 			// Do this anyway to prevent havoc!
@@ -50,6 +52,7 @@ class ilGEVCourseCreationPlugin extends ilEventHookPlugin
 			}
 
 			$this->setCustomId($target_utils, $source_utils);
+			$this->setMailingSettings($source_obj_id, $target_obj_id);
 
 			$target->update();
 		}
@@ -69,6 +72,20 @@ class ilGEVCourseCreationPlugin extends ilEventHookPlugin
 
 		$custom_id = gevCourseUtils::createNewCustomId($custom_id_tmplt);
 		$a_target_utils->setCustomId($custom_id);
+	}
+	
+	public function setMailSettings($a_source_obj_id, $a_target_obj_id) {
+		require_once("Services/GEV/Mailing/classes/class.gevCrsMailAttachments.php");
+		$att = new gevCrsMailAttachments($a_source_obj_id);
+		$att->copyTo($a_target_obj_id);
+		
+		require_once("Services/GEV/Mailing/classes/class.gevCrsInvitationMailSettings.php");
+		$inv = new gevCrsInvitationMailSettings($a_source_obj_id);
+		$inv->copyTo($a_target_obj_id);
+		
+		require_once("Services/GEV/Mailing/classes/class.gevCrsAdditionalMailSettings.php");
+		$add = new gevCrsAdditionalMailSettings($a_source_obj_id);
+		$add->copyTo($a_target_obj_id);
 	}
 }
 

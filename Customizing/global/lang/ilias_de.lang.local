@@ -70,12 +70,14 @@ gev#:#gev_book_course#:#Training buchen
 gev#:#gev_bookable#:#buchbar
 gev#:#gev_bookable_waiting#:#buchbar auf Warteliste
 gev#:#gev_not_bookable#:#ausgebucht
-rbac#:#view_employee_bookings#:#Buchungen von Mitarbeitern einsehen
-rbac#:#view_employee_bookings_rcrsv#:#Buchungen von Mitarbeitern einsehen (rekursiv)
-rbac#:#book_employees#:#Mitarbeiter auf Seminare buchen
-rbac#:#book_employees_rcrsv#:#Mitarbeiter auf Seminare buchen (rekursiv)
-rbac#:#cancel_employee_bookings#:#Buchungen von Mitarbeitern stornieren
-rbac#:#cancel_employee_bookings_rcrsv#:#Buchungen von Mitarbeitern stornieren (rekursiv)
+rbac#:#orgu_view_employee_bookings#:#Buchungen von Mitarbeitern einsehen
+rbac#:#orgu_view_employee_bookings_rcrsv#:#Buchungen von Mitarbeitern einsehen (rekursiv)
+rbac#:#orgu_book_employees#:#Mitarbeiter auf Seminare buchen
+rbac#:#orgu_book_employees_rcrsv#:#Mitarbeiter auf Seminare buchen (rekursiv)
+rbac#:#orgu_cancel_employee_bookings#:#Buchungen von Mitarbeitern stornieren
+rbac#:#orgu_cancel_employee_bookings_rcrsv#:#Buchungen von Mitarbeitern stornieren (rekursiv)
+rbac#:#orgu_view_learning_progress_rec#:#Lernfortschritt einsehen (rekursiv)
+rbac#:#orgu_copy#:#Organisationseinheiten kopieren
 orgu#:#orgu_types#:#Typen
 orgu#:#orgu_type_add#:#Typ hinzufügen
 orgu#:#orgu_type_edit#:#Typ bearbeiten
@@ -202,3 +204,4 @@ crsbook#:#cancel_bookings#:#Stornierungen vornehmen
 mail#:#mail_template_category_name#:#Vorlagenname
 mail#:#mail_template_category#:#Vorlagenname
 mail#:#mail_template_type#:#Vorlagentyp
+gev#:#no_invitation_mail_available#:#Keine Einladungsmail ausgewählt.
