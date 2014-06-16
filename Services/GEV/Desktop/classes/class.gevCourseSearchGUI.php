@@ -68,24 +68,6 @@ class gevCourseSearchGUI {
 				->setImage("GEV_img/ico-head-search.png")
 				->setCommand("gev_crs_srch_limit", "www.google.de"); // TODO: set this properly
 
-
-
-		$gev_book_course = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-booking.png").'" />';
-		$gev_bookable = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-green.png").'" />';
-		$gev_bookable_waiting = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-orange.png").'" />';
-		$gev_not_bookable = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-red.png").'" />';
-
-
-		$legend = new catLegendGUI();
-		$legend->addItem($gev_book_course, "gev_book_course");
-		$legend->addItem($gev_bookable, "gev_bookable")
-			   ->addItem($gev_bookable_waiting, "gev_bookable_waiting")
-			   ->addItem($gev_not_bookable, "gev_not_bookable");
-
-
-		$crs_tbl->setLegend($legend);
-
-
 		return $usrsel
 			 . ( ($hls->countHighlights() > 0)
 			   ?   $hls->render()

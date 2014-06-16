@@ -51,10 +51,10 @@ class gevCourseSearchTableGUI extends catAccordionTableGUI {
 		$this->addColumn("&euro;", "fee");
 		$this->addColumn('<img src="'.ilUtil::getImagePath("gev_action.png").'" />', "", "20px");
 
-		$this->book_img = '<img src="'.ilUtil::getImagePath("gev_booked_action.png").'" />';
-		$this->bookable_img = '<img src="'.ilUtil::getImagePath("gev_bookable_icon.png").'" />';
-		$this->bookable_waiting_img = '<img src="'.ilUtil::getImagePath("gev_bookable_waiting_icon.png").'" />';
-		$this->not_bookable_img = '<img src="'.ilUtil::getImagePath("gev_not_bookable_icon.png").'" />';
+		$this->book_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-booking.png").'" />';
+		$this->bookable_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-green.png").'" />';
+		$this->bookable_waiting_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-orange.png").'" />';
+		$this->not_bookable_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-red.png").'" />';
 
 		$legend = new catLegendGUI();
 		$legend->addItem($this->book_img, "gev_book_course")
