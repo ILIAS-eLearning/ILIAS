@@ -1426,33 +1426,30 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		return $html;
 	}	 
 	 */
-
+	
 	/**
-	 * Build navigation block
+	 * Build navigation by date block
 	 *
-	 * @param array $items
+	 * @param array $a_items
 	 * @param string $a_list_cmd
 	 * @param string $a_posting_cmd
 	 * @param bool $a_link_template
 	 * @param bool $a_show_inactive
 	 * @return string
 	 */
-	function renderNavigation(array $items, $a_list_cmd = "render", $a_posting_cmd = "preview", $a_link_template = null, $a_show_inactive = false)
+	protected function renderNavigationByDate(array $a_items, $a_list_cmd = "render", $a_posting_cmd = "preview", $a_link_template = null, $a_show_inactive = false)
 	{
-		global $ilCtrl, $ilSetting;
-
+		global $ilCtrl;
+				
 		$max_detail_postings = 10;
-		
-		$wtpl = new ilTemplate("tpl.blog_list_navigation.html",	true, true,
-			"Modules/Blog");
-		
-		$wtpl->setVariable("NAVIGATION_TITLE", $this->lng->txt("blog_navigation"));
+				
+		$wtpl = new ilTemplate("tpl.blog_list_navigation_by_date.html", true, true, "Modules/Blog");
 		
 		$ilCtrl->setParameter($this, "blpg", "");
 
 		include_once "Services/Calendar/classes/class.ilCalendarUtil.php";
 		$counter = 0;
-		foreach($items as $month => $postings)
+		foreach($a_items as $month => $postings)
 		{			
 			$month_name = ilCalendarUtil::_numericMonthToString((int)substr($month, 5)).
 				" ".substr($month, 0, 4);
@@ -1528,96 +1525,170 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		$ilCtrl->setParameter($this, "bmn", $this->month);
 		$ilCtrl->setParameterByClass("ilblogpostinggui", "bmn", "");
 		
+		return $wtpl->get();
+	}
+	
+	/**
+	 * Build navigation by authors block (repository only)
+	 *
+	 * @param array $a_items
+	 * @param string $a_list_cmd
+	 * @param bool $a_show_inactive
+	 * @return string
+	 */
+	protected function renderNavigationByAuthors(array $a_items, $a_list_cmd = "render", $a_show_inactive = false)
+	{
+		global $ilCtrl;
 		
+		$authors = array();
+		foreach($a_items as $month => $items)
+		{
+			foreach($items as $item)
+			{
+				if(($a_show_inactive || ilBlogPosting::_lookupActive($item["id"], "blp")) && $item["author"])
+				{
+					$authors[] = $item["author"];					
+				}	
+			}
+		}							
+
+		$authors = array_unique($authors);			
+		if(sizeof($authors) > 1)
+		{			
+			$wtpl = new ilTemplate("tpl.blog_list_navigation_authors.html", true, true, "Modules/Blog");
+			
+			include_once "Services/User/classes/class.ilUserUtil.php";
+
+			$list = array();
+			foreach($authors as $user_id)
+			{								
+				if($user_id)
+				{
+					$ilCtrl->setParameter($this, "ath", $user_id);
+					$url = $ilCtrl->getLinkTarget($this, $a_list_cmd);
+					$ilCtrl->setParameter($this, "ath", "");
+
+					$name = ilUserUtil::getNamePresentation($user_id, true);
+					$idx = trim(strip_tags($name))."///".$user_id;  // #10934
+					$list[$idx] = array($name, $url);	
+				}
+			}
+			ksort($list);
+
+			$wtpl->setCurrentBlock("author");				
+			foreach($list as $author)
+			{
+				$wtpl->setVariable("TXT_AUTHOR", $author[0]);							
+				$wtpl->setVariable("URL_AUTHOR", $author[1]);							
+				$wtpl->parseCurrentBlock();		
+			}
+			
+			return $wtpl->get();
+		}
+	}
+	
+	/**
+	 * Build navigation by keywords block 
+	 *
+	 * @param string $a_list_cmd
+	 * @param bool $a_show_inactive
+	 * @return string
+	 */
+	protected function renderNavigationByKeywords($a_list_cmd = "render", $a_show_inactive = false)
+	{
+		global $ilCtrl;
+		
+		$keywords = $this->getKeywords($a_show_inactive, $_GET["blpg"]);
+		if($keywords)
+		{		
+			$wtpl = new ilTemplate("tpl.blog_list_navigation_keywords.html", true, true, "Modules/Blog");
+							
+			$max = max($keywords);
+			include_once "Services/Tagging/classes/class.ilTagging.php";
+
+			$wtpl->setCurrentBlock("keyword");
+			foreach($keywords as $keyword => $counter)
+			{										
+				$ilCtrl->setParameter($this, "kwd", $keyword);
+				$url = $ilCtrl->getLinkTarget($this, $a_list_cmd);
+				$ilCtrl->setParameter($this, "kwd", "");
+
+				$wtpl->setVariable("TXT_KEYWORD", $keyword);				
+				$wtpl->setVariable("SIZE_KEYWORD", ilTagging::calculateFontSize($counter, $max));				
+				$wtpl->setVariable("URL_KEYWORD", $url);
+				$wtpl->parseCurrentBlock();					
+			}			
+		
+			return $wtpl->get();
+		}		
+	}
+	
+	/**
+	 * Build navigation blocks
+	 *
+	 * @param array $a_items
+	 * @param string $a_list_cmd
+	 * @param string $a_posting_cmd
+	 * @param bool $a_link_template
+	 * @param bool $a_show_inactive
+	 * @return string
+	 */
+	function renderNavigation(array $a_items, $a_list_cmd = "render", $a_posting_cmd = "preview", $a_link_template = null, $a_show_inactive = false)
+	{
+		global $ilCtrl, $ilSetting;
+				
+		$wtpl = new ilTemplate("tpl.blog_list_navigation.html", true, true, "Modules/Blog");
+			
+		$blocks = array();
+		
+		// by date
+		if(sizeof($a_items))
+		{			
+			$blocks[] = array(
+				$this->lng->txt("blog_navigation"),
+				$this->renderNavigationByDate($a_items, $a_list_cmd, $a_posting_cmd, $a_link_template, $a_show_inactive)
+			);
+		}
+				
 		// authors
 		if($this->id_type == self::REPOSITORY_NODE_ID)
 		{
-			$authors = array();
-			foreach($this->items as $month => $items)
+			$authors = $this->renderNavigationByAuthors($a_items);
+			if($authors)
 			{
-				foreach($items as $item)
-				{
-					if(($a_show_inactive || ilBlogPosting::_lookupActive($item["id"], "blp")) && $item["author"])
-					{
-						$authors[] = $item["author"];					
-					}	
-				}
-			}			
-
-			$authors = array_unique($authors);			
-			if(sizeof($authors) > 1)
-			{					
-				include_once "Services/User/classes/class.ilUserUtil.php";
-				
-				$list = array();
-				foreach($authors as $user_id)
-				{								
-					if($user_id)
-					{
-						$ilCtrl->setParameter($this, "ath", $user_id);
-						$url = $ilCtrl->getLinkTarget($this, $a_list_cmd);
-						$ilCtrl->setParameter($this, "ath", "");
-
-						$name = ilUserUtil::getNamePresentation($user_id, true);
-						$idx = trim(strip_tags($name))."///".$user_id;  // #10934
-						$list[$idx] = array($name, $url);	
-					}
-				}
-				ksort($list);
-				
-				$wtpl->setVariable("AUTHORS_TITLE", $this->lng->txt("blog_authors"));
-												
-				$wtpl->setCurrentBlock("author");				
-				foreach($list as $author)
-				{
-					$wtpl->setVariable("TXT_AUTHOR", $author[0]);							
-					$wtpl->setVariable("URL_AUTHOR", $author[1]);							
-					$wtpl->parseCurrentBlock();		
-				}
+				$blocks[] = array($this->lng->txt("blog_authors"), $authors);
 			}
 		}		
 		
+		// is not part of (html) export
 		if(!$a_link_template)
 		{
 			// keywords 		
-			$may_edit_keywords = ($_GET["blpg"] && $this->mayContribute($_GET["blpg"]) && 
-				!$a_link_template && $a_list_cmd != "preview" && $a_list_cmd != "gethtml");
-			$keywords = $this->getKeywords($a_show_inactive, $_GET["blpg"]);
+			$may_edit_keywords = ($_GET["blpg"] && 
+				$this->mayContribute($_GET["blpg"]) && 
+				$a_list_cmd != "preview" && 
+				$a_list_cmd != "gethtml");
+			$keywords = $this->renderNavigationByKeywords($a_list_cmd, $a_show_inactive);	
 			if($keywords || $may_edit_keywords)
 			{
-				$wtpl->setVariable("KEYWORDS_TITLE", $this->lng->txt("blog_keywords"));
-
-				if($keywords)
+				if(!$keywords)
 				{
-					$max = max($keywords);
-					include_once "Services/Tagging/classes/class.ilTagging.php";
-
-					$wtpl->setCurrentBlock("keyword");
-					foreach($keywords as $keyword => $counter)
-					{										
-						$ilCtrl->setParameter($this, "kwd", $keyword);
-						$url = $ilCtrl->getLinkTarget($this, $a_list_cmd);
-						$ilCtrl->setParameter($this, "kwd", "");
-
-						$wtpl->setVariable("TXT_KEYWORD", $keyword);				
-						$wtpl->setVariable("SIZE_KEYWORD", ilTagging::calculateFontSize($counter, $max));				
-						$wtpl->setVariable("URL_KEYWORD", $url);
-						$wtpl->parseCurrentBlock();					
-					}
+					$keywords = $this->lng->txt("blog_no_keywords");
 				}
-				else
-				{
-					$wtpl->setVariable("TXT_NO_KEYWORDS", $this->lng->txt("blog_no_keywords"));
-				}
-
+				$cmd = null;
 				if($may_edit_keywords)
-				{			
-					$ilCtrl->setParameterByClass("ilblogpostinggui", "blpg", $_GET["blpg"]);
-					$wtpl->setVariable("URL_EDIT_KEYWORDS", 
-						$ilCtrl->getLinkTargetByClass("ilblogpostinggui", "editKeywords"));		
+				{
+					$ilCtrl->setParameterByClass("ilblogpostinggui", "blpg", $_GET["blpg"]);				
+					$cmd = 	$ilCtrl->getLinkTargetByClass("ilblogpostinggui", "editKeywords");	
 					$ilCtrl->setParameterByClass("ilblogpostinggui", "blpg", "");
-					$wtpl->setVariable("TXT_EDIT_KEYWORDS", $this->lng->txt("blog_edit_keywords"));			
-				}						
+				}
+				$blocks[] = array(
+					$this->lng->txt("blog_keywords"),
+					$keywords,
+					$cmd 
+						? array($cmd, $this->lng->txt("blog_edit_keywords")) 
+						: null
+				);
 			}
 
 			// rss
@@ -1640,7 +1711,27 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				$wtpl->parseCurrentBlock();
 			}
 		}
-
+		
+		if(sizeof($blocks))
+		{
+			
+			foreach($blocks as $block)
+			{
+				if(isset($block[2]) && is_array($block[2]))
+				{					
+					$wtpl->setCurrentBlock("block_cmd_bl");
+					$wtpl->setVariable("TXT_BLOCK_CMD", $block[2][1]);
+					$wtpl->setVariable("URL_BLOCK_CMD", $block[2][0]);				
+					$wtpl->parseCurrentBlock();
+				}
+				
+				$wtpl->setCurrentBlock("block_bl");
+				$wtpl->setVariable("BLOCK_TITLE", $block[0]);
+				$wtpl->setVariable("BLOCK_CONTENT", $block[1]);				
+				$wtpl->parseCurrentBlock();
+			}
+		}
+		
 		return $wtpl->get();
 	}
 	
