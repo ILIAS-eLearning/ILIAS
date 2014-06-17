@@ -251,8 +251,16 @@ class gevCourseUtils {
 		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_MIN_PARTICIPANTS);
 	}
 	
+	public function setMinParticipants($a_min) {
+		$this->amd->setField($this->crs_id, gevSettings::CRS_AMD_MIN_PARTICIPANTS, $a_min);
+	}
+
 	public function getCancelDeadline() {
 		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_CANCEL_DEADLINE);
+	}
+	
+	public function setCancelDeadline($a_dl) {
+		$this->amd->setField($this->crs_id, gevSettings::CRS_AMD_CANCEL_DEADLINE, $a_dl);
 	}
 	
 	public function getCancelDeadlineDate() {
@@ -261,6 +269,10 @@ class gevCourseUtils {
 	
 	public function getBookingDeadline() {
 		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_BOOKING_DEADLINE);
+	}
+	
+	public function setBookingDeadline($a_dl) {
+		$this->amd->setField($this->crs_id, gevSettings::CRS_AMD_BOOKING_DEADLINE, $a_dl);
 	}
 	
 	public function getBookingDeadlineDate() {
@@ -279,8 +291,16 @@ class gevCourseUtils {
 		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_PROVIDER);
 	}
 	
+	public function setProviderId($a_provider) {
+		$this->amd->setField($this->crs_id, gevSettings::CRS_AMD_PROVIDER, $a_provider);
+	}
+	
 	public function getVenueId() {
 		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_VENUE);
+	}
+	
+	public function setVenueId($a_venue) {
+		$this->amd->setField($this->crs_id, gevSettings::CRS_AMD_VENUE, $a_venue);
 	}
 	
 	public function getVenue() {
@@ -303,6 +323,10 @@ class gevCourseUtils {
 	
 	public function getAccomodationId() {
 		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_ACCOMODATION);
+	}
+	
+	public function setAccomodationId($a_accom) {
+		$this->amd->setField($this->crs_id, gevSettings::CRS_AMD_ACCOMODATION, $a_accom);
 	}
 	
 	public function getAccomodation() {

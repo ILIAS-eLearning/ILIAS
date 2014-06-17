@@ -130,6 +130,10 @@ class gevSettings {
 	// Pauschale Tagesverpflegung
 	const VENUE_AMD_COSTS_FOOD		= "venue_amd_costs_food";
 	
+	
+	// Standardorte und -veranstalter
+	const VENUE_BERNRIED			= "venue_bernried";
+	const PROVIDER_GENERALI			= "provider_generali";
 
 	private function __construct() {
 		$this->settings = new ilSetting(self::MODULE_NAME);
