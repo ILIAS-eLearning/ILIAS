@@ -2657,8 +2657,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 					}
 		
 					$tpl->setVariable('POST_DATE', $frm->convertDate($node->getCreateDate()));
-					$tpl->setVariable('SPACER', "<hr noshade width=100% size=1 align='center' />");
-						
+
 					if (!$node->isCensored() ||
 						($this->objCurrentPost->getId() == $node->getId() && $_GET['action'] == 'censor'))
 					{
@@ -2680,7 +2679,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 							}
 						}
 						
-						/** @todo mjansen: possible bugfix for mantis #8223 */
+						// possible bugfix for mantis #8223
 						if($node->getMessage() == strip_tags($node->getMessage()))
 						{
 							// We can be sure, that there are not html tags
