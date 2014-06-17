@@ -20,16 +20,31 @@ class ilForumExportGUI
 	const MODE_EXPORT_CLIENT = 2;
 
 	/**
+	 * @var bool
+	 */
+	protected $is_moderator = false;
+
+	/**
+	 * @var ilForum
+	 */
+	protected $frm;
+
+	/**
 	 * 
 	 */
 	public function __construct()
 	{
-		global $lng, $ilCtrl;
+		global $lng, $ilCtrl, $ilAccess;
 
-		$this->frm = new ilForum();
+		$forum = new ilObjForum((int)$_GET['ref_id']);
+		$this->frm = $forum->Forum;
+		$this->frm->setForumId($forum->getId());
+		$this->frm->setForumRefId($forum->getRefId());
 		
 		$this->ctrl = $ilCtrl;
 		$lng->loadLanguageModule('forum');
+
+		$this->is_moderator = $ilAccess->checkAccess('moderate_frm', '', $_GET['ref_id']);
 	}
 
 	/**
@@ -78,7 +93,7 @@ class ilForumExportGUI
 		$this->frm->setMDB2WhereCondition('top_pk = %s ', array('integer'), array((int)$_GET['thr_top_fk']));
 		if(is_array($frmData = $this->frm->getOneTopic()))
 		{
-			$topic = new ilForumTopic(addslashes($_GET['print_thread']), $ilAccess->checkAccess('moderate_frm', '', $_GET['ref_id']));
+			$topic = new ilForumTopic(addslashes($_GET['print_thread']), $this->is_moderator);
 
 			$topic->setOrderField('frm_posts_tree.rgt');
 			$first_post      = $topic->getFirstPostNode();
@@ -131,7 +146,7 @@ class ilForumExportGUI
 		$this->frm->setMDB2WhereCondition('top_pk = %s ', array('integer'), array((int)$_GET['top_pk']));
 		if(is_array($frmData = $this->frm->getOneTopic()))
 		{
-			$post = new ilForumPost((int)$_GET['print_post']);
+			$post = new ilForumPost((int)$_GET['print_post'], $this->is_moderator);
 
 			$tpl->setVariable('TITLE', $post->getThread()->getSubject());
 			$tpl->setVariable('HEADLINE', $lng->txt('forum').': '.$frmData['top_name'].' > '. $lng->txt('forums_thread').': '.$post->getThread()->getSubject());
@@ -166,11 +181,10 @@ class ilForumExportGUI
 		$tpl->setVariable('LOCATION_STYLESHEET', $location_stylesheet);
 		$tpl->setVariable('BASE', (substr(ILIAS_HTTP_PATH, -1) == '/' ? ILIAS_HTTP_PATH : ILIAS_HTTP_PATH . '/'));
 
-		$is_moderator = $ilAccess->checkAccess('moderate_frm', '', $_GET['ref_id']);
 		$num_threads  = count((array)$_POST['thread_ids']);
 		for($j = 0; $j < $num_threads; $j++)
 		{
-			$topic = new ilForumTopic((int)$_POST['thread_ids'][$j], $is_moderator);
+			$topic = new ilForumTopic((int)$_POST['thread_ids'][$j], $this->is_moderator);
 
 			$this->frm->setMDB2WhereCondition('top_pk = %s ', array('integer'), array($topic->getForumId()));
 			if(is_array($thread_data = $this->frm->getOneTopic()))
@@ -192,7 +206,7 @@ class ilForumExportGUI
 
 				$tpl->setCurrentBlock('thread_headline');
 				$tpl->setVariable('T_TITLE', $topic->getSubject());
-				if($is_moderator)
+				if($this->is_moderator)
 				{
 					$tpl->setVariable('T_NUM_POSTS', $topic->countPosts());
 				}
@@ -289,10 +303,27 @@ class ilForumExportGUI
 			$tpl->setVariable('USR_NAME', $authorinfo->getAuthorName(true));
 		}
 
-		if(self::MODE_EXPORT_CLIENT == $mode && $authorinfo->getAuthor()->getPref('public_profile') != 'n')
+		if(self::MODE_EXPORT_CLIENT == $mode )
 		{
-			$tpl->setVariable('TXT_REGISTERED', $lng->txt('registered_since'));
-			$tpl->setVariable('REGISTERED_SINCE', $this->frm->convertDate($authorinfo->getAuthor()->getCreateDate()));
+			if($authorinfo->getAuthor()->getPref('public_profile') != 'n')
+			{
+				$tpl->setVariable('TXT_REGISTERED', $lng->txt('registered_since'));
+				$tpl->setVariable('REGISTERED_SINCE', $this->frm->convertDate($authorinfo->getAuthor()->getCreateDate()));
+			}
+			
+			if($post->getUserId())
+			{
+				if($this->is_moderator)
+				{
+					$num_posts = $this->frm->countUserArticles($post->getUserId());
+				}
+				else
+				{
+					$num_posts = $this->frm->countActiveUserArticles($post->getUserId());
+				}
+				$tpl->setVariable('TXT_NUM_POSTS', $lng->txt('forums_posts'));
+				$tpl->setVariable('NUM_POSTS', $num_posts);
+			}
 		}
 
 		$tpl->setVariable('USR_IMAGE', $authorinfo->getProfilePicture());
