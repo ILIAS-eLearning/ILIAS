@@ -356,7 +356,7 @@ class ilObjWiki extends ilObject
 			"short" => array("text", $this->getShortTitle()),
 			"rating_overall" => array("integer", $this->getRatingOverall()),
 			"rating" => array("integer", $this->getRating()),
-			"rating_side" => array("integer", $this->getRatingAsBlock()),
+			"rating_side" => array("integer", (bool)$this->getRatingAsBlock()), // #13455
 			"rating_new" => array("integer", $this->getRatingForNewPages()),
 			"rating_ext" => array("integer", $this->getRatingCategories()),
 			"public_notes" => array("integer", $this->getPublicNotes()),
