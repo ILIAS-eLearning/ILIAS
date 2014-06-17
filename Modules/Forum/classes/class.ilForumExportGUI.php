@@ -16,6 +16,12 @@ require_once 'Modules/Forum/classes/class.ilForum.php';
 */
 class ilForumExportGUI
 {
+	const MODE_EXPORT_WEB    = 1;
+	const MODE_EXPORT_CLIENT = 2;
+
+	/**
+	 * 
+	 */
 	public function __construct()
 	{
 		global $lng, $ilCtrl;
@@ -27,9 +33,9 @@ class ilForumExportGUI
 	}
 
 	/**
-	* Execute Command.
-	*/
-	function executeCommand()
+	 * 
+	 */
+	public function executeCommand()
 	{
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -89,7 +95,7 @@ class ilForumExportGUI
 			$z = 0;
 			foreach($post_collection as $post)
 			{
-				$this->renderPostHtml($tpl, $post, $z++);
+				$this->renderPostHtml($tpl, $post, $z++, self::MODE_EXPORT_WEB);
 			}
 		}
 		$tpl->show();
@@ -130,7 +136,7 @@ class ilForumExportGUI
 			$tpl->setVariable('TITLE', $post->getThread()->getSubject());
 			$tpl->setVariable('HEADLINE', $lng->txt('forum').': '.$frmData['top_name'].' > '. $lng->txt('forums_thread').': '.$post->getThread()->getSubject());
 
-			$this->renderPostHtml($tpl, $post, 0);
+			$this->renderPostHtml($tpl, $post, 0, self::MODE_EXPORT_WEB);
 		}
 		$tpl->show();
 	}
@@ -181,7 +187,7 @@ class ilForumExportGUI
 				$z = 0;
 				foreach($post_collection as $post)
 				{
-					$this->renderPostHtml($tpl, $post, $z++);
+					$this->renderPostHtml($tpl, $post, $z++, self::MODE_EXPORT_CLIENT);
 				}
 
 				$tpl->setCurrentBlock('thread_headline');
@@ -221,8 +227,9 @@ class ilForumExportGUI
 	 * @param ilTemplate $tpl
 	 * @param ilForumPost $post
 	 * @param int $counter
+	 * @param int $mode
 	 */
-	protected function renderPostHtml(ilTemplate $tpl, ilForumPost $post, $counter)
+	protected function renderPostHtml(ilTemplate $tpl, ilForumPost $post, $counter, $mode)
 	{
 		/**
 		 * @var $lng            ilLanguage
@@ -282,7 +289,7 @@ class ilForumExportGUI
 			$tpl->setVariable('USR_NAME', $authorinfo->getAuthorName(true));
 		}
 
-		if($authorinfo->getAuthor()->getPref('public_profile') != 'n')
+		if(self::MODE_EXPORT_CLIENT == $mode && $authorinfo->getAuthor()->getPref('public_profile') != 'n')
 		{
 			$tpl->setVariable('TXT_REGISTERED', $lng->txt('registered_since'));
 			$tpl->setVariable('REGISTERED_SINCE', $this->frm->convertDate($authorinfo->getAuthor()->getCreateDate()));
