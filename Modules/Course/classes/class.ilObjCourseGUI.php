@@ -2372,7 +2372,9 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->tpl->setVariable('TXT_SELECTED_USER',$this->lng->txt('crs_selected_users'));
 		$this->tpl->setVariable('BTN_FOOTER_EDIT',$this->lng->txt('edit'));
 		$this->tpl->setVariable('BTN_FOOTER_VAL',$this->lng->txt('remove'));
-		$this->tpl->setVariable('BTN_FOOTER_MAIL',$this->lng->txt('crs_mem_send_mail'));
+		// gev-patch start
+		//$this->tpl->setVariable('BTN_FOOTER_MAIL',$this->lng->txt('crs_mem_send_mail'));
+		// gev-patch end
 		$this->tpl->setVariable('ARROW_DOWN',ilUtil::getImagePath('arrow_downright.png'));
 		
 	}
