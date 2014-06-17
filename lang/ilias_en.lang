@@ -14362,8 +14362,8 @@ blog#:#blog_settings_navigation#:#Navigation
 blog#:#blog_presentation_frame#:#Presentation
 blog#:#blog_presentation_overview#:#Overview
 blog#:#blog_nav_mode#:#Mode
-blog#:#blog_nav_mode_month_list#:#List of month
-blog#:#blog_nav_mode_month_list_info#:#List of all month, posting will be included optionally
+blog#:#blog_nav_mode_month_list#:#List of months
+blog#:#blog_nav_mode_month_list_info#:#List of all months, posting will be included optionally
 blog#:#blog_nav_mode_month_list_num_detail#:#Number of postings
 blog#:#blog_nav_mode_month_list_num_detail_info#:#Postings above the limit are not listed but are available via their month.
 blog#:#blog_nav_mode_month_list_num_month#:#Number of months
