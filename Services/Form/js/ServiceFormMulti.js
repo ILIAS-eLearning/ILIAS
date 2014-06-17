@@ -217,7 +217,7 @@ var ilMultiFormValues = {
 		//$(element).find('select[id*="' + group_id + '"]').attr('id', group_id + '~' + element_id);
 		//$(element).find('input:text[id*="' + group_id + '"]').attr('id', group_id + '~' + element_id);
 		// new version, alex 10.5.2013, works also if multiple input fields are within one div
-		$(element).find('select[id*="' + group_id + '"], input:text[id*="' + group_id + '"]').each(function() {
+		$(element).find('select[id*="' + group_id + '"], input:text[id*="' + group_id + '"], span[id*="' + group_id + '"], input:hidden[id*="hidden' + group_id + '"]').each(function() {
 				var cid = $(this).attr('id').split('~');
 				$(this).attr('id', cid[0] + '~' + element_id);
 			});
@@ -231,6 +231,10 @@ var ilMultiFormValues = {
 			$(element).find('select[id*="' + group_id + '"] option:selected').removeAttr('selected');
 		}
 		$(element).find('input:text[id*="' + group_id + '"]').attr('value', preset);
+		
+		// non-editable value
+		$(element).find('span[id*="' + group_id + '"]').html(preset);
+		$(element).find('input:hidden[id*="hidden' + group_id + '"]').attr('value', preset);
 
 		// return triggers add					
 		$(element).find('input:text[id*="' + group_id + '"]').bind('keydown', function(e) {

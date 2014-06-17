@@ -33,6 +33,7 @@ class ilObjBlog extends ilObject2
 	protected $nav_mode_list_months; // [int]
 	protected $overview_postings; // [int]
 	protected $authors = true; // [bool]
+	protected $order;
 	
 	const NAV_MODE_LIST = 1;
 	const NAV_MODE_MONTH = 2;
@@ -72,6 +73,10 @@ class ilObjBlog extends ilObject2
 		$this->setNavModeListPostings($row["nav_list_post"]);
 		$this->setNavModeListMonths($row["nav_list_mon"]);
 		$this->setOverviewPostings($row["ov_post"]);
+		if(trim($row["nav_order"]))
+		{
+			$this->setOrder(explode(";", $row["nav_order"]));
+		}
 		
 		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 		$this->setStyleSheetId(ilObjStyleSheet::lookupObjectStyle($this->id));
@@ -151,6 +156,7 @@ class ilObjBlog extends ilObject2
 					",nav_list_post = ".$ilDB->quote($this->getNavModeListPostings(), "integer").
 					",nav_list_mon = ".$ilDB->quote($this->getNavModeListMonths(), "integer").
 					",ov_post = ".$ilDB->quote($this->getOverviewPostings(), "integer").
+					",nav_order = ".$ilDB->quote(implode(";", $this->getOrder()), "text").
 					" WHERE id = ".$ilDB->quote($this->id, "integer"));			
 			
 			include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
@@ -607,6 +613,16 @@ class ilObjBlog extends ilObject2
 	function getOverviewPostings()
 	{
 		return $this->overview_postings;
+	}
+	
+	function setOrder(array $a_values)
+	{
+		$this->order = $a_values;
+	}
+	
+	function getOrder()
+	{
+		return (array)$this->order;
 	}
 		
 	static function sendNotification($a_action, $a_in_wsp, $a_blog_node_id, $a_posting_id, $a_comment = null)

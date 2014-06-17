@@ -157,13 +157,43 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		$opt = new ilRadioOption($lng->txt("blog_nav_mode_month_single"), ilObjBlog::NAV_MODE_MONTH);
 		$opt->setInfo($lng->txt("blog_nav_mode_month_single_info"));
 		$nav_mode->addOption($opt);
+					
+		$order_options = array();
+		if($this->object->getOrder())
+		{				
+			foreach($this->object->getOrder() as $item)
+			{
+				$order_options[] = $lng->txt("blog_".$item);
+			}			
+		}		
+		
+		if(!in_array($lng->txt("blog_navigation"), $order_options))
+		{
+			$order_options[] = $lng->txt("blog_navigation");
+		}
 		
 		if($this->id_type == self::REPOSITORY_NODE_ID)
 		{	
+			if(!in_array($lng->txt("blog_authors"), $order_options))
+			{
+				$order_options[] = $lng->txt("blog_authors");
+			}
+			
 			$auth = new ilCheckboxInputGUI($lng->txt("blog_enable_nav_authors"), "nav_authors");
 			$auth->setInfo($lng->txt("blog_enable_nav_authors_info"));
 			$a_form->addItem($auth);
 		}		
+		
+		if(!in_array($lng->txt("blog_keywords"), $order_options))
+		{
+			$order_options[] = $lng->txt("blog_keywords");
+		}
+		
+		$order = new ilNonEditableValueGUI($lng->txt("blog_nav_sortorder"), "order");		
+		$order->setMultiValues($order_options);
+		$order->setValue(array_shift($order_options));
+		$order->setMulti(true, true, false);
+		$a_form->addItem($order);
 		
 		
 		// presentation (frame)
@@ -271,7 +301,9 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 	}
 
 	protected function updateCustom(ilPropertyFormGUI $a_form)
-	{
+	{		
+		global $lng;
+		
 		if($this->id_type == self::REPOSITORY_NODE_ID)
 		{
 			$this->object->setApproval($a_form->getInput("approval"));
@@ -292,6 +324,24 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		$this->object->setNavModeListPostings($a_form->getInput("nav_list_detail"));
 		$this->object->setNavModeListMonths($a_form->getInput("nav_list_mon"));
 		$this->object->setOverviewPostings($a_form->getInput("ov_list_post_num"));
+		
+		$order = $a_form->getInput("order");
+		foreach($order as $idx => $value)
+		{
+			if($value == $lng->txt("blog_navigation"))
+			{
+				$order[$idx] = "navigation";
+			}
+			else if($value == $lng->txt("blog_keywords"))
+			{
+				$order[$idx] = "keywords";
+			}
+			else
+			{
+				$order[$idx]= "authors";
+			}
+		}
+		$this->object->setOrder($order);
 		
 		// banner field is optional
 		$banner = $a_form->getItemByPostVar("banner");
@@ -1584,7 +1634,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		}	
 		
 		// list month (incl. postings)
-		if($this->object->getNavMode() == ilObjBlog::NAV_MODE_LIST)
+		if($this->object->getNavMode() == ilObjBlog::NAV_MODE_LIST || $a_link_template)
 		{				
 			$max_detail_postings = $this->object->getNavModeListPostings();
 			$max_months = $this->object->getNavModeListMonths();
@@ -1597,7 +1647,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			$counter = $mon_counter = $last_year = 0;
 			foreach($a_items as $month => $postings)
 			{			
-				if($max_months && $mon_counter >= $max_months)
+				if(!$a_link_template && $max_months && $mon_counter >= $max_months)
 				{
 					break;
 				}
@@ -1875,6 +1925,19 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 	function renderNavigation(array $a_items, $a_list_cmd = "render", $a_posting_cmd = "preview", $a_link_template = null, $a_show_inactive = false)
 	{
 		global $ilCtrl, $ilSetting;
+		
+		if($this->object->getOrder())
+		{
+			$order = array_flip($this->object->getOrder());
+		}
+		else
+		{
+			$order = array(
+				"navigation" => 0
+				,"keywords" => 2
+				,"authors" => 1
+			);
+		}
 				
 		$wtpl = new ilTemplate("tpl.blog_list_navigation.html", true, true, "Modules/Blog");
 			
@@ -1883,7 +1946,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		// by date
 		if(sizeof($a_items))
 		{			
-			$blocks[] = array(
+			$blocks[$order["navigation"]] = array(
 				$this->lng->txt("blog_navigation"),
 				$this->renderNavigationByDate($a_items, $a_list_cmd, $a_posting_cmd, $a_link_template, $a_show_inactive)
 			);
@@ -1896,7 +1959,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			$authors = $this->renderNavigationByAuthors($a_items, $a_list_cmd, $a_show_inactive);
 			if($authors)
 			{
-				$blocks[] = array($this->lng->txt("blog_authors"), $authors);
+				$blocks[$order["authors"]] = array($this->lng->txt("blog_authors"), $authors);
 			}
 		}		
 		
@@ -1924,7 +1987,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 						$cmd = 	$ilCtrl->getLinkTargetByClass("ilblogpostinggui", "editKeywords");	
 						$ilCtrl->setParameterByClass("ilblogpostinggui", "blpg", "");
 					}
-					$blocks[] = array(
+					$blocks[$order["keywords"]] = array(
 						$this->lng->txt("blog_keywords"),
 						$keywords,
 						$cmd 
@@ -1957,7 +2020,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		
 		if(sizeof($blocks))
 		{
-			
+			ksort($blocks);
 			foreach($blocks as $block)
 			{
 				if(isset($block[2]) && is_array($block[2]))

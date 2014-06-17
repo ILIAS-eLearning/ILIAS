@@ -34,7 +34,10 @@ class ilNonEditableValueGUI extends ilSubEnabledFormPropertyGUI implements ilTab
 	
 	function checkInput()
 	{
-		$_POST[$this->getPostVar()] = ilUtil::stripSlashes($_POST[$this->getPostVar()]);
+		if(!is_array($_POST[$this->getPostVar()]))
+		{
+			$_POST[$this->getPostVar()] = ilUtil::stripSlashes($_POST[$this->getPostVar()]);
+		}
 		return $this->checkSubItemsInput();
 	}
 
@@ -139,6 +142,7 @@ class ilNonEditableValueGUI extends ilSubEnabledFormPropertyGUI implements ilTab
 			
 			$tpl->setCurrentBlock("hidden");
 			$tpl->setVariable('NON_EDITABLE_ID', $postvar);
+			$tpl->setVariable('MULTI_HIDDEN_ID', $this->getFieldId());
 			$tpl->setVariable("HVALUE", ilUtil::prepareFormOutput($this->getValue()));
 			$tpl->parseCurrentBlock();
 		}

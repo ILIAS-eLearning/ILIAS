@@ -1303,3 +1303,16 @@ if (!$ilDB->tableColumnExists('il_blog', 'keywords'))
 }
 
 ?>
+<#4231>
+<?php
+
+if (!$ilDB->tableColumnExists('il_blog', 'nav_order'))
+{	
+	$ilDB->addTableColumn('il_blog', 'nav_order', array(
+		"type" => "text",
+		"length" => 255,
+		"notnull" => false
+	));	
+}
+
+?>
