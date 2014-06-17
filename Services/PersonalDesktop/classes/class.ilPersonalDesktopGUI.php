@@ -75,8 +75,8 @@ class ilPersonalDesktopGUI
 		$cmd_class = $_GET["cmdClass"];
 		if (! ( $cmd == "jumpToProfile" 
 			||  $cmd == "showPassword"
-			||  $cmd == "savePassword"
 			||  $cmd_class == "ilpersonalprofilegui"
+			||  $cmd_class = "ilpersonalsettingsgui"
 			)) {
 			ilUtil::redirect('ilias.php?baseClass=gevDesktopGUI');
 		}
