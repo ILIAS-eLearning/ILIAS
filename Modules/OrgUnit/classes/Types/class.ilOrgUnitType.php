@@ -368,11 +368,23 @@ class ilOrgUnitType {
      *
      * @return array
      */
-    public function getOrgUnitIds() {
+    // gev-patch start (added param)
+    public function getOrgUnitIds($a_include_deleted = true) {
+    // gev-patch end
         if (is_array($this->orgus_ids)) {
             return $this->orgus_ids;
         }
-        $sql = 'SELECT * FROM orgu_data WHERE orgu_type_id = ' . $this->db->quote($this->getId(), 'integer');
+        // gev-patch start
+        if ($a_include_deleted) {
+            $sql = 'SELECT * FROM orgu_data WHERE orgu_type_id = ' . $this->db->quote($this->getId(), 'integer');
+        }
+        else {
+            $sql = 'SELECT DISTINCT orgu_id FROM orgu_data od '.
+                   'JOIN object_reference oref ON oref.obj_id = od.orgu_id '.
+                   'WHERE od.orgu_type_id = ' . $this->db->quote($this->getId(), 'integer').
+                   '  AND oref.deleted IS NULL';
+        }
+        // gev-patch end
         $set = $this->db->query($sql);
         $this->orgus_ids = array();
         while ($rec = $this->db->fetchObject($set)) {

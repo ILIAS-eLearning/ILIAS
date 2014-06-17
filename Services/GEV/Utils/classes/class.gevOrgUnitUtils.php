@@ -69,7 +69,7 @@ class gevOrgUnitUtils {
 		$id = gevSettings::getInstance()->get(gevSettings::ORG_TYPE_VENUE);
 
 		$type = ilOrgUnitType::getInstance($id);
-		$ou_ids = $type->getOrgUnitIDs();
+		$ou_ids = $type->getOrgUnitIDs(false);
 		$ou_info = gevAMDUtils::getInstance()->getTable($ou_ids, array(gevSettings::ORG_AMD_CITY => "city"));
 
 		gevOrgUnitUtils::$venue_names = array();
@@ -89,7 +89,7 @@ class gevOrgUnitUtils {
 		$id = gevSettings::getInstance()->get(gevSettings::ORG_TYPE_PROVIDER);
 
 		$type = ilOrgUnitType::getInstance($id);
-		$ou_ids = $type->getOrgUnitIDs();
+		$ou_ids = $type->getOrgUnitIDs(false);
 		$ou_info = gevAMDUtils::getInstance()->getTable($ou_ids, array(gevSettings::ORG_AMD_CITY => "city"));
 
 		gevOrgUnitUtils::$provider_names = array();
