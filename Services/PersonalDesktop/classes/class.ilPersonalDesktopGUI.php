@@ -598,6 +598,10 @@ class ilPersonalDesktopGUI
 	 */
 	function jumpToMemberships()
 	{
+		// gev-patch start
+		ilUtil::redirect('ilias.php?baseClass=gevDesktopGUI');
+		// gev-patch end
+		
 		global $ilSetting, $ilUser;
 		
 		if ($ilSetting->get('disable_my_memberships') == 0)
@@ -612,6 +616,10 @@ class ilPersonalDesktopGUI
 	 */
 	function jumpToSelectedItems()
 	{
+		// gev-patch start
+		ilUtil::redirect('ilias.php?baseClass=gevDesktopGUI');
+		// gev-patch end
+		
 		global $ilSetting, $ilUser;
 		
 		if ($ilSetting->get('disable_my_offers') == 0)
@@ -632,6 +640,10 @@ class ilPersonalDesktopGUI
 
 	function jumpToPortfolio()
 	{
+		// gev-patch start
+		ilUtil::redirect('ilias.php?baseClass=gevDesktopGUI');
+		// gev-patch end
+		
 		// incoming back link from shared resource
 		$cmd = "";
 		if($_REQUEST["dsh"])
@@ -666,6 +678,10 @@ class ilPersonalDesktopGUI
 	*/
 	function jumpToBookmarks()
 	{
+		// gev-patch start
+		ilUtil::redirect('ilias.php?baseClass=gevDesktopGUI');
+		// gev-patch end
+		
 		if ($this->ilias->getSetting("disable_bookmarks"))
 		{
 			ilUtil::sendFailure($this->lng->txt('permission_denied'), true);					
@@ -681,6 +697,10 @@ class ilPersonalDesktopGUI
 	*/
 	function jumpToNotes()
 	{
+		// gev-patch start
+		ilUtil::redirect('ilias.php?baseClass=gevDesktopGUI');
+		// gev-patch end
+		
 		if ($this->ilias->getSetting('disable_notes'))
 		{
 			ilUtil::sendFailure($this->lng->txt('permission_denied'), true);					
@@ -696,6 +716,10 @@ class ilPersonalDesktopGUI
 	*/
 	function jumpToNews()
 	{
+		// gev-patch start
+		ilUtil::redirect('ilias.php?baseClass=gevDesktopGUI');
+		// gev-patch end
+		
 		$this->ctrl->redirectByClass("ilpdnewsgui");
 	}
 	
@@ -704,6 +728,10 @@ class ilPersonalDesktopGUI
 	*/
 	function jumpToLP()
 	{
+		// gev-patch start
+		ilUtil::redirect('ilias.php?baseClass=gevDesktopGUI');
+		// gev-patch end
+		
 		$this->ctrl->redirectByClass("illearningprogressgui");
 	}
 
@@ -712,6 +740,10 @@ class ilPersonalDesktopGUI
 	 */
 	function jumpToCalendar()
 	{
+		// gev-patch start
+		ilUtil::redirect('ilias.php?baseClass=gevDesktopGUI');
+		// gev-patch end
+		
 		$this->ctrl->redirectByClass("ilcalendarpresentationgui");
 	}
 
@@ -720,6 +752,10 @@ class ilPersonalDesktopGUI
 	 */
 	function jumpToContacts()
 	{
+		// gev-patch start
+		ilUtil::redirect('ilias.php?baseClass=gevDesktopGUI');
+		// gev-patch end
+		
 		$this->ctrl->redirectByClass("ilmailaddressbookgui");
 	}
 
@@ -728,6 +764,10 @@ class ilPersonalDesktopGUI
 	 */
 	function jumpToWorkspace()
 	{
+		// gev-patch start
+		ilUtil::redirect('ilias.php?baseClass=gevDesktopGUI');
+		// gev-patch end
+		
 		// incoming back link from shared resource
 		$cmd = "";
 		if($_REQUEST["dsh"])
@@ -754,6 +794,10 @@ class ilPersonalDesktopGUI
 	 */
 	function jumpToSkills()
 	{
+		// gev-patch start
+		ilUtil::redirect('ilias.php?baseClass=gevDesktopGUI');
+		// gev-patch end
+		
 		$this->ctrl->redirectByClass("ilpersonalskillsgui");
 	}
 	
