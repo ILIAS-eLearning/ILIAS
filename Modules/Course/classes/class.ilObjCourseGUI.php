@@ -1174,7 +1174,9 @@ class ilObjCourseGUI extends ilContainerGUI
 		$form->addItem($title);
 		
 		// desc
-		$desc = new ilTextAreaInputGUI($this->lng->txt('description'),'desc');
+		// gev-patch start
+		$desc = new ilTextAreaInputGUI($this->lng->txt('crs_description'),'desc');
+		// gev-patch end
 		$desc->setValue($this->object->getLongDescription());
 		$desc->setRows(2);
 		$desc->setCols(40);
