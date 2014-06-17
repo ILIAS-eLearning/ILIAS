@@ -1945,7 +1945,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->tabs_gui->setTabActive('members');
 
         require_once 'Services/Mail/classes/class.ilMailFormCall.php';
-		$this->tpl->setVariable("MAILACTION", ilMailFormCall::getLinkTarget($this, 'mailMembers', array(), array('type' => 'role','sig' => $this->createMailSignature())));
+		$this->tpl->setVariable("MAILACTION", ilMailFormCall::getLinkTarget($this, 'membersGallery', array(), array('type' => 'role','sig' => $this->createMailSignature())));
 		$this->tpl->setVariable("IMG_ARROW",ilUtil::getImagePath('arrow_downright.png'));
 		$this->tpl->setVariable("TXT_MARKED_ENTRIES",$this->lng->txt('marked_entries'));
 		$this->tpl->setVariable("OK",$this->lng->txt('next'));
