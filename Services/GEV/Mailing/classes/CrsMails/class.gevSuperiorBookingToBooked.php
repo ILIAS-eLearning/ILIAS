@@ -16,7 +16,7 @@ class gevSuperiorBookingToBooked extends gevCrsAutoMail {
 	}
 	
 	public function getTemplateCategory() {
-		return "B3";
+		return "B03";
 	}
 	
 	public function getRecipientUserIDs() {

@@ -22,7 +22,7 @@ class gevListForAccomodation extends gevCrsAutoMail {
 	}
 	
 	public function getTemplateCategory() {
-		return "R4";
+		return "R04";
 	}
 	
 	public function getUsersOnly() {

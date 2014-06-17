@@ -16,7 +16,7 @@ class gevTrainingCancelled extends gevCrsAutoMail {
 	}
 	
 	public function getTemplateCategory() {
-		return "C8";
+		return "C08";
 	}
 	
 	public function getUsersOnly() {

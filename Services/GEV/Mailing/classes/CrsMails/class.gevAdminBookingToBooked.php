@@ -16,7 +16,7 @@ class gevAdminBookingToBooked extends gevCrsAutoMail {
 	}
 	
 	public function getTemplateCategory() {
-		return "B5";
+		return "B05";
 	}
 	
 	public function getRecipientUserIDs() {

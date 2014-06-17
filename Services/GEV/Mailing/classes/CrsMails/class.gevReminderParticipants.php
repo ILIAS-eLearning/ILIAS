@@ -22,7 +22,7 @@ class gevReminderParticipants extends gevCrsAutoMail {
 	}
 	
 	public function getTemplateCategory() {
-		return "R2";
+		return "R02";
 	}
 	
 	public function getRecipientUserIDs() {

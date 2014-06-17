@@ -16,7 +16,7 @@ class gevTrainerAdded extends gevCrsAutoMail {
 	}
 	
 	public function getTemplateCategory() {
-		return "B7";
+		return "B07";
 	}
 	
 	public function getRecipientUserIDs() {

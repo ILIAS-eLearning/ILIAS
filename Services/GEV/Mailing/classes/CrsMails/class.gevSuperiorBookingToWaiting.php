@@ -16,7 +16,7 @@ class gevSuperiorBookingToWaiting extends gevCrsAutoMail {
 	}
 	
 	public function getTemplateCategory() {
-		return "B4";
+		return "B04";
 	}
 	
 	public function getRecipientUserIDs() {

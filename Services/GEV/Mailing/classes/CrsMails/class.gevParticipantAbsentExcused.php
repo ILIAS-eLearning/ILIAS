@@ -16,7 +16,7 @@ class gevParticipantAbsentExcused extends gevCrsAutoMail {
 	}
 	
 	public function getTemplateCategory() {
-		return "F2";
+		return "F02";
 	}
 	
 	public function getRecipientUserIDs() {

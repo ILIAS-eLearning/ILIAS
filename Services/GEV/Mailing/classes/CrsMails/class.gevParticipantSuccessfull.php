@@ -16,7 +16,7 @@ class gevParticipantSuccessfull extends gevCrsAutoMail {
 	}
 	
 	public function getTemplateCategory() {
-		return "F1";
+		return "F01";
 	}
 	
 	public function getRecipientUserIDs() {
