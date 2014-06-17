@@ -27,10 +27,20 @@ class ilObjBlog extends ilObject2
 	protected $abstract_image = false; // [bool]
 	protected $abstract_image_width = self::ABSTRACT_DEFAULT_IMAGE_WIDTH; // [int]
 	protected $abstract_image_height= self::ABSTRACT_DEFAULT_IMAGE_HEIGHT; // [int]
+	protected $keywords = true; // [bool]
+	protected $nav_mode = self::NAV_MODE_LIST; // [int]
+	protected $nav_mode_list_postings = self::NAV_MODE_LIST_DEFAULT_POSTINGS; // [int]
+	protected $nav_mode_list_months; // [int]
+	protected $overview_postings; // [int]
+	protected $authors = true; // [bool]
+	
+	const NAV_MODE_LIST = 1;
+	const NAV_MODE_MONTH = 2;
 	
 	const ABSTRACT_DEFAULT_SHORTEN_LENGTH = 500;
 	const ABSTRACT_DEFAULT_IMAGE_WIDTH = 144;
 	const ABSTRACT_DEFAULT_IMAGE_HEIGHT = 144;
+	const NAV_MODE_LIST_DEFAULT_POSTINGS = 10;
 	
 	function initType()
 	{
@@ -55,7 +65,13 @@ class ilObjBlog extends ilObject2
 		$this->setAbstractShortenLength($row["abs_shorten_len"]);
 		$this->setAbstractImage($row["abs_image"]);
 		$this->setAbstractImageWidth($row["abs_img_width"]);
-		$this->setAbstractImageHeight($row["abs_img_height"]);
+		$this->setAbstractImageHeight($row["abs_img_height"]);		
+		$this->setKeywords($row["keywords"]);
+		$this->setAuthors($row["authors"]);
+		$this->setNavMode($row["nav_mode"]);
+		$this->setNavModeListPostings($row["nav_list_post"]);
+		$this->setNavModeListMonths($row["nav_list_mon"]);
+		$this->setOverviewPostings($row["ov_post"]);
 		
 		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 		$this->setStyleSheetId(ilObjStyleSheet::lookupObjectStyle($this->id));
@@ -67,7 +83,7 @@ class ilObjBlog extends ilObject2
 		
 		$ilDB->manipulate("INSERT INTO il_blog (id,notes,ppic,rss_active,approval".
 			",abs_shorten,abs_shorten_len,abs_image,abs_img_width,abs_img_height".
-			") VALUES (".
+			",keywords,authors,nav_mode,nav_list_post) VALUES (".
 			$ilDB->quote($this->id, "integer").",".
 			$ilDB->quote(true, "integer").",".
 			$ilDB->quote(true, "integer").",".
@@ -77,7 +93,11 @@ class ilObjBlog extends ilObject2
 			$ilDB->quote($this->getAbstractShortenLength(), "integer").",".
 			$ilDB->quote($this->hasAbstractImage(), "integer").",".
 			$ilDB->quote($this->getAbstractImageWidth(), "integer").",".
-			$ilDB->quote($this->getAbstractImageHeight(), "integer").	
+			$ilDB->quote($this->getAbstractImageHeight(), "integer").",".	
+			$ilDB->quote($this->hasKeywords(), "integer").",".	
+			$ilDB->quote($this->hasAuthors(), "integer").",".	
+			$ilDB->quote($this->getNavMode(), "integer").",".	
+			$ilDB->quote($this->getNavModeListPostings(), "integer").
 			")");
 		
 		/*
@@ -125,6 +145,12 @@ class ilObjBlog extends ilObject2
 					",abs_image = ".$ilDB->quote($this->hasAbstractImage(), "integer").
 					",abs_img_width = ".$ilDB->quote($this->getAbstractImageWidth(), "integer").
 					",abs_img_height = ".$ilDB->quote($this->getAbstractImageHeight(), "integer").
+					",keywords = ".$ilDB->quote($this->hasKeywords(), "integer").
+					",authors = ".$ilDB->quote($this->hasAuthors(), "integer").
+					",nav_mode = ".$ilDB->quote($this->getNavMode(), "integer").
+					",nav_list_post = ".$ilDB->quote($this->getNavModeListPostings(), "integer").
+					",nav_list_mon = ".$ilDB->quote($this->getNavModeListMonths(), "integer").
+					",ov_post = ".$ilDB->quote($this->getOverviewPostings(), "integer").
 					" WHERE id = ".$ilDB->quote($this->id, "integer"));			
 			
 			include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
@@ -503,6 +529,86 @@ class ilObjBlog extends ilObject2
 		$this->abstract_image_height = (int)$a_value;
 	}
 	
+	function setKeywords($a_value)
+	{
+		$this->keywords = (bool)$a_value;
+	}
+	
+	function hasKeywords()
+	{		
+		return $this->keywords;
+	}
+	
+	function setAuthors($a_value)
+	{
+		$this->authors = (bool)$a_value;
+	}
+	
+	function hasAuthors()
+	{		
+		return $this->authors;
+	}
+	
+	function setNavMode($a_value)
+	{
+		$a_value = (int)$a_value;
+		if(in_array($a_value, array(self::NAV_MODE_LIST, self::NAV_MODE_MONTH)))
+		{
+			$this->nav_mode = $a_value;
+		}
+	}
+	
+	function getNavMode()
+	{
+		return $this->nav_mode;
+	}
+	
+	function setNavModeListPostings($a_value)
+	{
+		$this->nav_mode_list_postings = (int)$a_value;
+	}
+	
+	function getNavModeListPostings()
+	{
+		return $this->nav_mode_list_postings;
+	}
+	
+	function setNavModeListMonths($a_value)
+	{
+		if(!$a_value)
+		{
+			$a_value = null;
+		}
+		else
+		{
+			$a_value = (int)$a_value;
+		}
+		$this->nav_mode_list_months = $a_value;
+	}
+	
+	function getNavModeListMonths()
+	{
+		return $this->nav_mode_list_months;
+	}
+	
+	function setOverviewPostings($a_value)
+	{
+		if(!$a_value)
+		{
+			$a_value = null;
+		}
+		else
+		{
+			$a_value = (int)$a_value;
+		}
+		$this->overview_postings = $a_value;
+	}
+	
+	function getOverviewPostings()
+	{
+		return $this->overview_postings;
+	}
+		
 	static function sendNotification($a_action, $a_in_wsp, $a_blog_node_id, $a_posting_id, $a_comment = null)
 	{
 		global $ilUser;

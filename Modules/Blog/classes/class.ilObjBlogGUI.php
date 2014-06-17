@@ -25,6 +25,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 	protected $items; // [array]
 	protected $keyword; // [string]
 	protected $author; // [int]
+	protected $month_default; // [bool
 	
 	function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
 	{
@@ -47,6 +48,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				{
 					$this->month = array_keys($this->items);
 					$this->month = array_shift($this->month);
+					$this->month_default = true;
 				}
 			}
 
@@ -110,6 +112,10 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			$a_form->addItem($appr);
 		}
 		
+		$keyw = new ilCheckboxInputGUI($lng->txt("blog_enable_keywords"), "keywords");
+		$keyw->setInfo($lng->txt("blog_enable_keywords_info"));		
+		$a_form->addItem($keyw);
+		
 		$notes = new ilCheckboxInputGUI($lng->txt("blog_enable_notes"), "notes");
 		$a_form->addItem($notes);
 				
@@ -119,6 +125,52 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			$rss->setInfo($lng->txt("blog_enable_rss_info"));
 			$a_form->addItem($rss);
 		}
+		
+		
+		// navigation
+		
+		$nav = new ilFormSectionHeaderGUI();
+		$nav->setTitle($lng->txt("blog_settings_navigation"));
+		$a_form->addItem($nav);
+		
+		$nav_mode = new ilRadioGroupInputGUI($lng->txt("blog_nav_mode"), "nav");
+		$nav_mode->setRequired(true);
+		$a_form->addItem($nav_mode);	
+		
+		$opt = new ilRadioOption($lng->txt("blog_nav_mode_month_list"), ilObjBlog::NAV_MODE_LIST);
+		$opt->setInfo($lng->txt("blog_nav_mode_month_list_info"));
+		$nav_mode->addOption($opt);
+		
+		$detail_num = new ilNumberInputGUI($lng->txt("blog_nav_mode_month_list_num_detail"), "nav_list_detail");
+		$detail_num->setInfo($lng->txt("blog_nav_mode_month_list_num_detail_info"));
+		$detail_num->setRequired(true);
+		$detail_num->setSize(3);
+		$detail_num->setMinValue(0);
+		$opt->addSubItem($detail_num);
+		
+		$mon_num = new ilNumberInputGUI($lng->txt("blog_nav_mode_month_list_num_month"), "nav_list_mon");
+		$mon_num->setInfo($lng->txt("blog_nav_mode_month_list_num_month_info"));
+		$mon_num->setSize(3);
+		$mon_num->setMinValue(1);
+		$opt->addSubItem($mon_num);
+		
+		$opt = new ilRadioOption($lng->txt("blog_nav_mode_month_single"), ilObjBlog::NAV_MODE_MONTH);
+		$opt->setInfo($lng->txt("blog_nav_mode_month_single_info"));
+		$nav_mode->addOption($opt);
+		
+		if($this->id_type == self::REPOSITORY_NODE_ID)
+		{	
+			$auth = new ilCheckboxInputGUI($lng->txt("blog_enable_nav_authors"), "nav_authors");
+			$auth->setInfo($lng->txt("blog_enable_nav_authors_info"));
+			$a_form->addItem($auth);
+		}		
+		
+		
+		// presentation (frame)
+		
+		$pres = new ilFormSectionHeaderGUI();
+		$pres->setTitle($lng->txt("blog_presentation_frame"));
+		$a_form->addItem($pres);
 	
 		$ppic = new ilCheckboxInputGUI($lng->txt("blog_profile_picture"), "ppic");
 		$a_form->addItem($ppic);
@@ -148,6 +200,19 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 
 		$font_color = new ilColorPickerInputGUI($lng->txt("blog_font_color"), "font_color");
 		$a_form->addItem($font_color);	
+		
+		
+		// presentation (overview)
+		
+		$list = new ilFormSectionHeaderGUI();
+		$list->setTitle($lng->txt("blog_presentation_overview"));
+		$a_form->addItem($list);
+		
+		$post_num = new ilNumberInputGUI($lng->txt("blog_list_num_postings"), "ov_list_post_num");
+		$post_num->setInfo($lng->txt("blog_list_num_postings_info"));
+		$post_num->setSize(3);
+		$post_num->setMinValue(1);
+		$a_form->addItem($post_num);
 		
 		$abs_shorten = new ilCheckboxInputGUI($lng->txt("blog_abstract_shorten"), "abss");
 		$a_form->addItem($abs_shorten);
@@ -183,7 +248,9 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		if($this->id_type == self::REPOSITORY_NODE_ID)
 		{
 			$a_values["approval"] = $this->object->hasApproval();
+			$a_values["nav_authors"] = $this->object->hasAuthors();
 		}
+		$a_values["keywords"] = $this->object->hasKeywords();
 		$a_values["notes"] = $this->object->getNotesStatus();
 		$a_values["ppic"] = $this->object->hasProfilePicture();
 		$a_values["bg_color"] = $this->object->getBackgroundColor();
@@ -191,7 +258,11 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		$a_values["banner"] = $this->object->getImage();
 		$a_values["rss"] = $this->object->hasRSS();
 		$a_values["abss"] = $this->object->hasAbstractShorten();		
-		$a_values["absi"] = $this->object->hasAbstractImage();
+		$a_values["absi"] = $this->object->hasAbstractImage();		
+		$a_values["nav"] = $this->object->getNavMode();
+		$a_values["nav_list_detail"] = $this->object->getNavModeListPostings();
+		$a_values["nav_list_mon"] = $this->object->getNavModeListMonths();		
+		$a_values["ov_list_post_num"] = $this->object->getOverviewPostings();
 		
 		// #13420
 		$a_values["abssl"] = $this->object->getAbstractShortenLength() ? $this->object->getAbstractShortenLength() : ilObjBlog::ABSTRACT_DEFAULT_SHORTEN_LENGTH;
@@ -204,7 +275,9 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		if($this->id_type == self::REPOSITORY_NODE_ID)
 		{
 			$this->object->setApproval($a_form->getInput("approval"));
+			$this->object->setAuthors($a_form->getInput("nav_authors"));
 		}
+		$this->object->setKeywords($a_form->getInput("keywords"));
 		$this->object->setNotesStatus($a_form->getInput("notes"));
 		$this->object->setProfilePicture($a_form->getInput("ppic"));
 		$this->object->setBackgroundColor($a_form->getInput("bg_color"));
@@ -215,6 +288,10 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		$this->object->setAbstractImage($a_form->getInput("absi"));
 		$this->object->setAbstractImageWidth($a_form->getInput("absiw"));
 		$this->object->setAbstractImageHeight($a_form->getInput("absih"));
+		$this->object->setNavMode($a_form->getInput("nav"));
+		$this->object->setNavModeListPostings($a_form->getInput("nav_list_detail"));
+		$this->object->setNavModeListMonths($a_form->getInput("nav_list_mon"));
+		$this->object->setOverviewPostings($a_form->getInput("ov_list_post_num"));
 		
 		// banner field is optional
 		$banner = $a_form->getItemByPostVar("banner");
@@ -709,15 +786,16 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				}
 			}
 		}
+								
+		// $is_owner = ($this->object->getOwner() == $ilUser->getId());
+		$is_owner = $this->mayContribute();
 		
-		$list_items = $this->getListItems();
+		$list_items = $this->getListItems($is_owner);
 		
 		$list = $nav = "";		
 		if($list_items)
-		{							
-			// $is_owner = ($this->object->getOwner() == $ilUser->getId());
-			$is_owner = $this->mayContribute();
-			$list = $this->renderList($list_items, $this->month, "preview", null, $is_owner);
+		{	
+			$list = $this->renderList($list_items, "preview", null, $is_owner);
 			$nav = $this->renderNavigation($this->items, "render", "preview", null, $is_owner);		
 		}
 		
@@ -904,7 +982,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		$list = $nav = "";
 		if($list_items)
 		{				
-			$list = $this->renderList($list_items, $this->month, "previewEmbedded");
+			$list = $this->renderList($list_items, "previewEmbedded");
 			$nav = $this->renderNavigation($this->items, "gethtml", "previewEmbedded");
 		}		
 		
@@ -914,9 +992,10 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 	/**
 	 * Filter blog postings by month, keyword or author
 	 * 
+	 * @param bool $a_show_inactive
 	 * @return array
 	 */
-	protected function getListItems()
+	protected function getListItems($a_show_inactive = false)
 	{
 		if($this->author)
 		{
@@ -938,7 +1017,32 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		}
 		else
 		{
-			$list_items = $this->items[$this->month];
+			$max = $this->object->getOverviewPostings();		
+			if($this->month_default && $max)
+			{
+				$list_items = array();
+				foreach($this->items as $month => $postings)
+				{
+					foreach($postings as $id => $item)
+					{
+						if(!$a_show_inactive && 
+							!ilBlogPosting::_lookupActive($id, "blp"))
+						{
+							continue;
+						}
+						$list_items[$id] = $item;
+						
+						if(sizeof($list_items) >= $max)
+						{
+							break(2);
+						}
+					}
+				}
+			}
+			else
+			{
+				$list_items = $this->items[$this->month];
+			}
 		}
 		return $list_items;
 	}
@@ -963,7 +1067,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		$list = $nav = "";		
 		if($list_items)
 		{									
-			$list = $this->renderList($list_items, $this->month, "previewFullscreen");
+			$list = $this->renderList($list_items, "previewFullscreen");
 			$nav = $this->renderNavigation($this->items, "preview", "previewFullscreen");		
 		}
 						
@@ -1166,42 +1270,24 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 	 * Build posting month list
 	 * 
 	 * @param array $items
-	 * @param string $a_month
 	 * @param string $a_cmd
 	 * @param bool $a_link_template
 	 * @param bool $a_show_inactive
 	 * @param string $a_export_directory
 	 * @return string 
 	 */
-	function renderList(array $items, $a_month, $a_cmd = "preview", $a_link_template = null, $a_show_inactive = false, $a_export_directory = null)
+	function renderList(array $items, $a_cmd = "preview", $a_link_template = null, $a_show_inactive = false, $a_export_directory = null)
 	{
 		global $lng, $ilCtrl;
 		
 		include_once "Services/Calendar/classes/class.ilCalendarUtil.php";
 		$wtpl = new ilTemplate("tpl.blog_list.html", true, true, "Modules/Blog");
-		
-		// title according to current "filter"/navigation
-		if($this->keyword)
-		{
-			$title = $lng->txt("blog_keyword").": ".$this->keyword;
-		}
-		else if($this->author)
-		{
-			include_once "Services/User/classes/class.ilUserUtil.php";
-			$title = $lng->txt("blog_author").": ".ilUserUtil::getNamePresentation($this->author);
-		}
-		else
-		{
-			include_once "Services/Calendar/classes/class.ilCalendarUtil.php";
-			$title = ilCalendarUtil::_numericMonthToString((int)substr($a_month, 5)).
-					" ".substr($a_month, 0, 4);
-		}		
-		$wtpl->setVariable("TXT_CURRENT_MONTH", $title);						
-		
+										
 		$can_approve = ($this->object->hasApproval() && $this->checkPermissionBool("write"));
 		$can_deactivate = $this->checkPermissionBool("write");
 		
 		include_once("./Modules/Blog/classes/class.ilBlogPostingGUI.php");	
+		$last_month = null;
 		foreach($items as $item)
 		{			
 			// only published items
@@ -1209,6 +1295,41 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			if(!$is_active && !$a_show_inactive)
 			{
 				continue;
+			}
+			
+			if(!$this->keyword && !$this->author)
+			{
+				$month = substr($item["created"]->get(IL_CAL_DATE), 0, 7);				
+			}
+			
+			if(!$last_month || $last_month != $month)
+			{
+				if($last_month)
+				{
+					$wtpl->setCurrentBlock("month_bl");
+					$wtpl->parseCurrentBlock();
+				}
+								
+				// title according to current "filter"/navigation
+				if($this->keyword)
+				{
+					$title = $lng->txt("blog_keyword").": ".$this->keyword;
+				}
+				else if($this->author)
+				{
+					include_once "Services/User/classes/class.ilUserUtil.php";
+					$title = $lng->txt("blog_author").": ".ilUserUtil::getNamePresentation($this->author);
+				}
+				else
+				{
+					include_once "Services/Calendar/classes/class.ilCalendarUtil.php";
+					$title = ilCalendarUtil::_numericMonthToString((int)substr($month, 5)).
+							" ".substr($month, 0, 4);
+					
+					$last_month = $month;
+				}	
+								
+				$wtpl->setVariable("TXT_CURRENT_MONTH", $title);					
 			}
 			
 			if(!$a_link_template)
@@ -1440,148 +1561,215 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 	protected function renderNavigationByDate(array $a_items, $a_list_cmd = "render", $a_posting_cmd = "preview", $a_link_template = null, $a_show_inactive = false)
 	{
 		global $ilCtrl;
-				
-		$max_detail_postings = 10;
-				
-		$wtpl = new ilTemplate("tpl.blog_list_navigation_by_date.html", true, true, "Modules/Blog");
-		
-		$ilCtrl->setParameter($this, "blpg", "");
-
-		include_once "Services/Calendar/classes/class.ilCalendarUtil.php";
-		$counter = 0;
+			
+		// gather page active status
 		foreach($a_items as $month => $postings)
-		{			
-			$month_name = ilCalendarUtil::_numericMonthToString((int)substr($month, 5)).
-				" ".substr($month, 0, 4);
-
-			if(!$a_link_template)
+		{
+			foreach(array_keys($postings) as $id)
 			{				
-				$ilCtrl->setParameter($this, "bmn", $month);
-				$month_url = $ilCtrl->getLinkTarget($this, $a_list_cmd);
-			}
-			else
-			{
-				$month_url = $this->buildExportLink($a_link_template, "list", $month);
-			}
-
-			// list postings for month
-			if($counter < $max_detail_postings)
-			{				
-				foreach($postings as $id => $posting)
+				$active = ilBlogPosting::_lookupActive($id, "blp");			
+				if(!$a_show_inactive && !$active)
+				{			
+					unset($a_items[$month][$id]);
+				}
+				else
 				{
-					$is_active = ilBlogPosting::_lookupActive($id, "blp");
-					if(!$is_active && !$a_show_inactive)
-					{
-						continue;
+					$a_items[$month][$id]["active"] = $active;
+				}
+			}
+			if(!sizeof($a_items[$month]))
+			{
+				unset($a_items[$month]);
+			}
+		}	
+		
+		// list month (incl. postings)
+		if($this->object->getNavMode() == ilObjBlog::NAV_MODE_LIST)
+		{				
+			$max_detail_postings = $this->object->getNavModeListPostings();
+			$max_months = $this->object->getNavModeListMonths();
+
+			$wtpl = new ilTemplate("tpl.blog_list_navigation_by_date.html", true, true, "Modules/Blog");
+
+			$ilCtrl->setParameter($this, "blpg", "");
+
+			include_once "Services/Calendar/classes/class.ilCalendarUtil.php";
+			$counter = $mon_counter = $last_year = 0;
+			foreach($a_items as $month => $postings)
+			{			
+				if($max_months && $mon_counter >= $max_months)
+				{
+					break;
+				}
+				
+				$year = substr($month, 0, 4);
+				if(!$last_year || $year != $last_year)
+				{
+					$wtpl->setVariable("YEAR", $year);
+					$last_year = $year;
+				}				
+
+				$mon_counter++;
+
+				$month_name = ilCalendarUtil::_numericMonthToString((int)substr($month, 5));
+
+				if(!$a_link_template)
+				{				
+					$ilCtrl->setParameter($this, "bmn", $month);
+					$month_url = $ilCtrl->getLinkTarget($this, $a_list_cmd);
+				}
+				else
+				{
+					$month_url = $this->buildExportLink($a_link_template, "list", $month);
+				}
+
+				// list postings for month
+				if($counter < $max_detail_postings)
+				{				
+					foreach($postings as $id => $posting)
+					{						
+						if($max_detail_postings && $counter >= $max_detail_postings)
+						{
+							break;
+						}
+
+						$counter++;
+
+						$caption = /* ilDatePresentation::formatDate($posting["created"], IL_CAL_DATETIME).
+							", ".*/ $posting["title"];
+
+						if(!$a_link_template)
+						{
+							$ilCtrl->setParameterByClass("ilblogpostinggui", "bmn", $month);
+							$ilCtrl->setParameterByClass("ilblogpostinggui", "blpg", $id);
+							$url = $ilCtrl->getLinkTargetByClass("ilblogpostinggui", $a_posting_cmd);					
+						}
+						else
+						{
+							$url = $this->buildExportLink($a_link_template, "posting", $id);
+						}					
+
+						if(!$posting["active"])
+						{
+							$wtpl->setVariable("NAV_ITEM_DRAFT", $this->lng->txt("blog_draft"));
+						}			
+						else if($this->object->hasApproval() && !$posting["approved"])
+						{
+							$wtpl->setVariable("NAV_ITEM_APPROVAL", $this->lng->txt("blog_needs_approval"));
+						}
+
+						$wtpl->setCurrentBlock("navigation_item");
+						$wtpl->setVariable("NAV_ITEM_URL", $url);
+						$wtpl->setVariable("NAV_ITEM_CAPTION", $caption);
+						$wtpl->parseCurrentBlock();							
 					}
-					
-					$counter++;
 
-					$caption = /* ilDatePresentation::formatDate($posting["created"], IL_CAL_DATETIME).
-						", ".*/ $posting["title"];
+					$wtpl->setCurrentBlock("navigation_month_details");
+					$wtpl->setVariable("NAV_MONTH", $month_name);
+					$wtpl->setVariable("URL_MONTH", $month_url);
+					$wtpl->parseCurrentBlock();
+				}
+				// summarized month
+				else
+				{
+					$wtpl->setCurrentBlock("navigation_month");
+					$wtpl->setVariable("MONTH_NAME", $month_name);				
+					$wtpl->setVariable("URL_MONTH", $month_url);
+					$wtpl->setVariable("MONTH_COUNT", sizeof($postings));
+					$wtpl->parseCurrentBlock();
+				}
+			}
 
+			$ilCtrl->setParameter($this, "bmn", $this->month);
+			$ilCtrl->setParameterByClass("ilblogpostinggui", "bmn", "");
+
+			return $wtpl->get();
+		}
+		// single month
+		else
+		{
+			$wtpl = new ilTemplate("tpl.blog_list_navigation_month.html", true, true, "Modules/Blog");
+
+			$ilCtrl->setParameter($this, "blpg", "");
+
+			include_once "Services/Calendar/classes/class.ilCalendarUtil.php";
+			$month_options = array();
+			foreach($a_items as $month => $postings)
+			{			
+				$month_name = ilCalendarUtil::_numericMonthToString((int)substr($month, 5)).
+					" ".substr($month, 0, 4);
+
+				$month_options[$month] = $month_name;
+				
+				if($month == $this->month)
+				{
 					if(!$a_link_template)
-					{
-						$ilCtrl->setParameterByClass("ilblogpostinggui", "bmn", $month);
-						$ilCtrl->setParameterByClass("ilblogpostinggui", "blpg", $id);
-						$url = $ilCtrl->getLinkTargetByClass("ilblogpostinggui", $a_posting_cmd);					
+					{				
+						$ilCtrl->setParameter($this, "bmn", $month);
+						$month_url = $ilCtrl->getLinkTarget($this, $a_list_cmd);
 					}
 					else
 					{
-						$url = $this->buildExportLink($a_link_template, "posting", $id);
-					}					
-																				
-					if(!$is_active)
-					{
-						$wtpl->setVariable("NAV_ITEM_DRAFT", $this->lng->txt("blog_draft"));
-					}			
-					else if($this->object->hasApproval() && !$posting["approved"])
-					{
-						$wtpl->setVariable("NAV_ITEM_APPROVAL", $this->lng->txt("blog_needs_approval"));
+						$month_url = $this->buildExportLink($a_link_template, "list", $month);
 					}
 					
-					$wtpl->setCurrentBlock("navigation_item");
-					$wtpl->setVariable("NAV_ITEM_URL", $url);
-					$wtpl->setVariable("NAV_ITEM_CAPTION", $caption);
-					$wtpl->parseCurrentBlock();							
-				}
+					foreach($postings as $id => $posting)
+					{												
+						$caption = /* ilDatePresentation::formatDate($posting["created"], IL_CAL_DATETIME).
+							", ".*/ $posting["title"];
 
-				$wtpl->setCurrentBlock("navigation_month_details");
-				$wtpl->setVariable("NAV_MONTH", $month_name);
-				$wtpl->setVariable("URL_MONTH", $month_url);
-				$wtpl->parseCurrentBlock();
-			}
-			// summarized month
-			else
-			{
-				$wtpl->setCurrentBlock("navigation_month");
-				$wtpl->setVariable("MONTH_NAME", $month_name);				
-				$wtpl->setVariable("URL_MONTH", $month_url);
-				$wtpl->setVariable("MONTH_COUNT", sizeof($postings));
-				$wtpl->parseCurrentBlock();
-			}
-		}
-		
-		$ilCtrl->setParameter($this, "bmn", $this->month);
-		$ilCtrl->setParameterByClass("ilblogpostinggui", "bmn", "");
-		
-		return $wtpl->get();
-	}
-	
-	/**
-	 * Build navigation by authors block (repository only)
-	 *
-	 * @param array $a_items
-	 * @param string $a_list_cmd
-	 * @param bool $a_show_inactive
-	 * @return string
-	 */
-	protected function renderNavigationByAuthors(array $a_items, $a_list_cmd = "render", $a_show_inactive = false)
-	{
-		global $ilCtrl;
-		
-		$authors = array();
-		foreach($a_items as $month => $items)
-		{
-			foreach($items as $item)
-			{
-				if(($a_show_inactive || ilBlogPosting::_lookupActive($item["id"], "blp")) && $item["author"])
-				{
-					$authors[] = $item["author"];					
+						if(!$a_link_template)
+						{
+							$ilCtrl->setParameterByClass("ilblogpostinggui", "bmn", $month);
+							$ilCtrl->setParameterByClass("ilblogpostinggui", "blpg", $id);
+							$url = $ilCtrl->getLinkTargetByClass("ilblogpostinggui", $a_posting_cmd);					
+						}
+						else
+						{
+							$url = $this->buildExportLink($a_link_template, "posting", $id);
+						}					
+
+						if(!$posting["active"])
+						{
+							$wtpl->setVariable("NAV_ITEM_DRAFT", $this->lng->txt("blog_draft"));
+						}			
+						else if($this->object->hasApproval() && !$posting["approved"])
+						{
+							$wtpl->setVariable("NAV_ITEM_APPROVAL", $this->lng->txt("blog_needs_approval"));
+						}
+
+						$wtpl->setCurrentBlock("navigation_item");
+						$wtpl->setVariable("NAV_ITEM_URL", $url);
+						$wtpl->setVariable("NAV_ITEM_CAPTION", $caption);
+						$wtpl->parseCurrentBlock();							
+					}
+
+					$wtpl->setCurrentBlock("navigation_month_details");
+					$wtpl->setVariable("NAV_MONTH", $month_name);
+					$wtpl->setVariable("URL_MONTH", $month_url);
+					$wtpl->parseCurrentBlock();					
 				}	
 			}
-		}							
-
-		$authors = array_unique($authors);			
-		if(sizeof($authors) > 1)
-		{			
-			$wtpl = new ilTemplate("tpl.blog_list_navigation_authors.html", true, true, "Modules/Blog");
 			
-			include_once "Services/User/classes/class.ilUserUtil.php";
-
-			$list = array();
-			foreach($authors as $user_id)
-			{								
-				if($user_id)
-				{
-					$ilCtrl->setParameter($this, "ath", $user_id);
-					$url = $ilCtrl->getLinkTarget($this, $a_list_cmd);
-					$ilCtrl->setParameter($this, "ath", "");
-
-					$name = ilUserUtil::getNamePresentation($user_id, true);
-					$idx = trim(strip_tags($name))."///".$user_id;  // #10934
-					$list[$idx] = array($name, $url);	
-				}
-			}
-			ksort($list);
-
-			$wtpl->setCurrentBlock("author");				
-			foreach($list as $author)
+			if(sizeof($month_options) > 1)
 			{
-				$wtpl->setVariable("TXT_AUTHOR", $author[0]);							
-				$wtpl->setVariable("URL_AUTHOR", $author[1]);							
-				$wtpl->parseCurrentBlock();		
+				$wtpl->setCurrentBlock("option_bl");
+				foreach($month_options as $value => $caption)
+				{
+					$wtpl->setVariable("OPTION_VALUE", $value);
+					$wtpl->setVariable("OPTION_CAPTION", $caption);
+					if($value == $this->month)
+					{
+						$wtpl->setVariable("OPTION_SEL", ' selected="selected"');
+					}
+					$wtpl->parseCurrentBlock();			
+				}
+				
+				$wtpl->setVariable("FORM_ACTION", $ilCtrl->getFormAction($this, $a_list_cmd));
 			}
+			
+			$ilCtrl->setParameter($this, "bmn", $this->month);
+			$ilCtrl->setParameterByClass("ilblogpostinggui", "bmn", "");
 			
 			return $wtpl->get();
 		}
@@ -1622,6 +1810,57 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			return $wtpl->get();
 		}		
 	}
+		
+	protected function renderNavigationByAuthors(array $a_items, $a_list_cmd = "render", $a_show_inactive = false)
+	{
+		global $ilCtrl;
+		
+		$authors = array();
+		foreach($a_items as $month => $items)
+		{
+			foreach($items as $item)
+			{
+				if(($a_show_inactive || ilBlogPosting::_lookupActive($item["id"], "blp")) && $item["author"])
+				{
+					$authors[] = $item["author"];					
+				}	
+			}
+		}			
+
+		$authors = array_unique($authors);			
+		if(sizeof($authors) > 1)
+		{					
+			include_once "Services/User/classes/class.ilUserUtil.php";
+
+			$list = array();
+			foreach($authors as $user_id)
+			{								
+				if($user_id)
+				{
+					$ilCtrl->setParameter($this, "ath", $user_id);
+					$url = $ilCtrl->getLinkTarget($this, $a_list_cmd);
+					$ilCtrl->setParameter($this, "ath", "");
+
+					$name = ilUserUtil::getNamePresentation($user_id, true);
+					$idx = trim(strip_tags($name))."///".$user_id;  // #10934
+					$list[$idx] = array($name, $url);	
+				}
+			}
+			ksort($list);
+			
+			$wtpl = new ilTemplate("tpl.blog_list_navigation_authors.html", true, true, "Modules/Blog");
+			
+			$wtpl->setCurrentBlock("author");				
+			foreach($list as $author)
+			{
+				$wtpl->setVariable("TXT_AUTHOR", $author[0]);							
+				$wtpl->setVariable("URL_AUTHOR", $author[1]);							
+				$wtpl->parseCurrentBlock();		
+			}
+			
+			return $wtpl->get();
+		}
+	}
 	
 	/**
 	 * Build navigation blocks
@@ -1651,9 +1890,10 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		}
 				
 		// authors
-		if($this->id_type == self::REPOSITORY_NODE_ID)
+		if($this->id_type == self::REPOSITORY_NODE_ID && 
+			$this->object->hasAuthors())
 		{
-			$authors = $this->renderNavigationByAuthors($a_items);
+			$authors = $this->renderNavigationByAuthors($a_items, $a_list_cmd, $a_show_inactive);
 			if($authors)
 			{
 				$blocks[] = array($this->lng->txt("blog_authors"), $authors);
@@ -1663,32 +1903,35 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		// is not part of (html) export
 		if(!$a_link_template)
 		{
-			// keywords 		
-			$may_edit_keywords = ($_GET["blpg"] && 
-				$this->mayContribute($_GET["blpg"]) && 
-				$a_list_cmd != "preview" && 
-				$a_list_cmd != "gethtml");
-			$keywords = $this->renderNavigationByKeywords($a_list_cmd, $a_show_inactive);	
-			if($keywords || $may_edit_keywords)
+			if($this->object->hasKeywords())
 			{
-				if(!$keywords)
+				// keywords 		
+				$may_edit_keywords = ($_GET["blpg"] && 
+					$this->mayContribute($_GET["blpg"]) && 
+					$a_list_cmd != "preview" && 
+					$a_list_cmd != "gethtml");
+				$keywords = $this->renderNavigationByKeywords($a_list_cmd, $a_show_inactive);	
+				if($keywords || $may_edit_keywords)
 				{
-					$keywords = $this->lng->txt("blog_no_keywords");
+					if(!$keywords)
+					{
+						$keywords = $this->lng->txt("blog_no_keywords");
+					}
+					$cmd = null;
+					if($may_edit_keywords)
+					{
+						$ilCtrl->setParameterByClass("ilblogpostinggui", "blpg", $_GET["blpg"]);				
+						$cmd = 	$ilCtrl->getLinkTargetByClass("ilblogpostinggui", "editKeywords");	
+						$ilCtrl->setParameterByClass("ilblogpostinggui", "blpg", "");
+					}
+					$blocks[] = array(
+						$this->lng->txt("blog_keywords"),
+						$keywords,
+						$cmd 
+							? array($cmd, $this->lng->txt("blog_edit_keywords")) 
+							: null
+					);
 				}
-				$cmd = null;
-				if($may_edit_keywords)
-				{
-					$ilCtrl->setParameterByClass("ilblogpostinggui", "blpg", $_GET["blpg"]);				
-					$cmd = 	$ilCtrl->getLinkTargetByClass("ilblogpostinggui", "editKeywords");	
-					$ilCtrl->setParameterByClass("ilblogpostinggui", "blpg", "");
-				}
-				$blocks[] = array(
-					$this->lng->txt("blog_keywords"),
-					$keywords,
-					$cmd 
-						? array($cmd, $this->lng->txt("blog_edit_keywords")) 
-						: null
-				);
 			}
 
 			// rss
@@ -1869,7 +2112,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		foreach(array_keys($this->items) as $month)
 		{									
 			$file = $this->buildExportLink($a_link_template, "list", $month);
-			$list = $this->renderList($this->items[$month], $month, "render", $a_link_template, false, $a_target_directory);			
+			$list = $this->renderList($this->items[$month], "render", $a_link_template, false, $a_target_directory);			
 			
 			if(!$a_tpl_callback)
 			{

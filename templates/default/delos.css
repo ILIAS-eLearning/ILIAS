@@ -3628,6 +3628,7 @@ h3.ilBlogMonthHeader {
 div.ilBlogList {
 	border: 1px solid #E0E0E0;
 	padding: 10px;
+	margin-bottom: 10px;
 }
 
 div.ilBlogListItem {
@@ -3694,6 +3695,10 @@ div.ilBlogSideBlockAuthor {
 ul.ilBlogSideBlockNavigation {
 	margin-top: 3px; 
 	padding-left: 15px;
+}
+
+div.ilBlogSideBlockNavigationSelection {
+	margin-bottom: 5px; 
 }
 
 div.ilBox {

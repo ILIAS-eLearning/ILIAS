@@ -1259,3 +1259,47 @@ if(sizeof($field_map))
 }
 
 ?>
+<#4230>
+<?php
+
+if (!$ilDB->tableColumnExists('il_blog', 'keywords'))
+{		
+	$ilDB->addTableColumn('il_blog', 'keywords', array(
+		"type" => "integer",
+		"length" => 1,
+		"notnull" => true,
+		"default" => 1
+	));
+	$ilDB->addTableColumn('il_blog', 'authors', array(
+		"type" => "integer",
+		"length" => 1,
+		"notnull" => true,
+		"default" => 1
+	));
+	$ilDB->addTableColumn('il_blog', 'nav_mode', array(
+		"type" => "integer",
+		"length" => 1,
+		"notnull" => true,
+		"default" => 1
+	));
+	$ilDB->addTableColumn('il_blog', 'nav_list_post', array(
+		"type" => "integer",
+		"length" => 2,
+		"notnull" => true,
+		"default" => 10
+	));
+	$ilDB->addTableColumn('il_blog', 'nav_list_mon', array(
+		"type" => "integer",
+		"length" => 2,
+		"notnull" => false,
+		"default" => 0
+	));
+	$ilDB->addTableColumn('il_blog', 'ov_post', array(
+		"type" => "integer",
+		"length" => 2,
+		"notnull" => false,
+		"default" => 0
+	));
+}
+
+?>

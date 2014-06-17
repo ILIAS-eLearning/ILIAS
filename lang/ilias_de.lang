@@ -14352,3 +14352,21 @@ meta#:#md_adv_text_max_length#:#Maximale Länge
 meta#:#md_adv_text_multi#:#Mehrzeilig
 meta#:#md_adv_number_suffix#:#Suffix
 survey#:#survey_results_finished#:#Umfrage beendet
+blog#:#blog_settings_navigation#:#Navigation
+blog#:#blog_presentation_frame#:#Präsentation
+blog#:#blog_presentation_overview#:#Übersicht
+blog#:#blog_nav_mode#:#Modus
+blog#:#blog_nav_mode_month_list#:#Monatsliste
+blog#:#blog_nav_mode_month_list_info#:#Liste aller Monate, optional mit Einträgen
+blog#:#blog_nav_mode_month_list_num_detail#:#Anzahl Einträge
+blog#:#blog_nav_mode_month_list_num_detail_info#:#Weitere Einträge werden nicht einzeln gelistet, sind aber über den Monat erreichbar.
+blog#:#blog_nav_mode_month_list_num_month#:#Anzahl Monate
+blog#:#blog_nav_mode_month_list_num_month_info#:#Weitere Monate werden nicht gelistet und sind nicht erreichbar. 
+blog#:#blog_nav_mode_month_single#:#Kompletter Monat
+blog#:#blog_nav_mode_month_single_info#:#Listet alle Beiträge eines Monats
+blog#:#blog_list_num_postings#:#Anzahl Einträge in der initialen Übersicht
+blog#:#blog_list_num_postings_info#:#Diese Einstellung wird nur verwendet, wenn kein konkreter Monat ausgewählt ist.
+blog#:#blog_enable_keywords#:#Schlagwörter aktivieren
+blog#:#blog_enable_keywords_info#:#Einträge können mit Schlagwörtern versehen werden, die zur Navigation benutzt werden können.
+blog#:#blog_enable_nav_authors#:#Autoren
+blog#:#blog_enable_nav_authors_info#:#Autoren können zur Navigation verwendet werden.

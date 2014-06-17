@@ -1,8 +1,16 @@
+<!-- BEGIN navigation_select -->
+<div class="ilBlogSideBlockNavigationSelection">
+	<form method="post" action="{FORM_ACTION}" name="bmsel">
+		<select name="bmn" onchange="this.form.submit();">
+			<!-- BEGIN option_bl -->
+			<option value="{OPTION_VALUE}"{OPTION_SEL}>{OPTION_CAPTION}</option>
+			<!-- END option_bl -->
+		</select>	
+	</form>
+</div>
+<!-- END navigation_select -->	
 <!-- BEGIN navigation_month_details -->
-<div>
-	<!-- BEGIN navigation_year -->		
-	<h4 class="ilBlogSideBlockNavigationYear">{YEAR}</h4>
-	<!-- END navigation_year -->
+<div>	
 	<a href="{URL_MONTH}">{NAV_MONTH}</a>
 	<ul class="ilBlogSideBlockNavigation">		
 		<!-- BEGIN navigation_item -->				
@@ -18,8 +26,3 @@
 	</ul>
 </div>
 <!-- END navigation_month_details -->
-<!-- BEGIN navigation_month -->
-<div>
-	<a href="{URL_MONTH}">{MONTH_NAME}</a> ({MONTH_COUNT})
-</div>
-<!-- END navigation_month -->	
