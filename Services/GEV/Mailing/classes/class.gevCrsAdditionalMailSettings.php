@@ -24,7 +24,7 @@ class gevCrsAdditionalMailSettings {
 
 	public function setSendListToAccomodation($a_send) {
 		if (gettype($a_send) != "boolean") {
-			throw new Exception("setSendListToAccomodation expected boolean as first argument, ".gettype($a_send)." given.");
+			throw new Exception("gevCrsAdditionalMailSettings::setSendListToAccomodation expected boolean as first argument, ".gettype($a_send)." given.");
 		}
 		
 		$this->settings["send_list_to_accom"] = $a_send;
@@ -35,8 +35,8 @@ class gevCrsAdditionalMailSettings {
 	}
 
 	public function setSendListToVenue($a_send) {
-				if (gettype($a_send) != "boolean") {
-			throw new Exception("setSendListToVenue expected boolean as first argument, ".gettype($a_send)." given.");
+		if (gettype($a_send) != "boolean") {
+			throw new Exception("gevCrsAdditionalMailSettings::setSendListToVenue expected boolean as first argument, ".gettype($a_send)." given.");
 		}
 		
 		$this->settings["send_list_to_venue"] = $a_send;
@@ -46,10 +46,22 @@ class gevCrsAdditionalMailSettings {
 		return $this->settings["send_list_to_venue"];
 	}
 
+	public function getInvitationMailingDate() {
+		return $this->settings["invitation_mailing_date"];
+	}
+	
+	public function setInvitationMailingDate($a_date) {
+		if (gettype($a_date) != "integer") {
+			throw new Exception("gevCrsAdditionalMailSettings::setInvitationMailingDate expected integer as first argument, ".gettype($a_date)." given.");
+		}
+		
+		$this->settings["invitation_mailing_date"] = $a_date;
+	}
+
 	protected function read() {
 		$this->settings = array();
 
-		$result = $this->db->query("SELECT send_list_to_accom, send_list_to_venue
+		$result = $this->db->query("SELECT send_list_to_accom, send_list_to_venue, inv_mailing_date
 									FROM gev_crs_addset
 									WHERE crs_id = ".$this->db->quote($this->crs_id));
 
@@ -66,15 +78,17 @@ class gevCrsAdditionalMailSettings {
 	}
 
 	public function save() {
-		$query = "INSERT INTO gev_crs_addset (crs_id, send_list_to_accom, send_list_to_venue)
+		$query = "INSERT INTO gev_crs_addset (crs_id, send_list_to_accom, send_list_to_venue, inv_mailing_date)
 				  VALUES ".
 				"(".$this->db->quote($this->crs_id, "integer").", "
 				   .$this->db->quote($this->settings["send_list_to_accom"]?1:0, "integer").", "
-				   .$this->db->quote($this->settings["send_list_to_venue"]?1:0, "integer").
+				   .$this->db->quote($this->settings["send_list_to_venue"]?1:0, "integer").", "
+				   .$this->db->quote($this->settings["invitation_mailing_date"], "integer").
 				") 
 				ON DUPLICATE KEY UPDATE
 				 	send_list_to_accom = ".$this->db->quote($this->settings["send_list_to_accom"]?1:0, "integer").",
-					send_list_to_venue = ".$this->db->quote($this->settings["send_list_to_venue"]?1:0, "integer");
+					send_list_to_venue = ".$this->db->quote($this->settings["send_list_to_venue"]?1:0, "integer").",
+					inv_mailing_date = ".$this->db->quote($this->settings["invitation_mailing_date"], "integer");
 
 		$this->db->manipulate($query);
 	}
@@ -84,6 +98,7 @@ class gevCrsAdditionalMailSettings {
 
 		$other->setSendListToAccomodation($this->getSendListToAccomodation());
 		$other->setSendListToVenue($this->getSendListToVenue());
+		$other->setInvitationMailingDate($this->getInvitationMailingDate());
 
 		$other->save();
 	}

@@ -518,3 +518,16 @@ $ilDB->createTable('gev_crs_invset', $fields);
 $ilDB->addPrimaryKey('gev_crs_invset', array('crs_id', 'function_name'));
 
 ?>
+
+<#20>
+<?php
+
+$ilDB->addTableColumn( "gev_crs_addset"
+					 , "inv_mailing_date"
+					 , array( "type" 	=> "integer"
+					 		, "length"	=> 4
+					 		, "notnull"	=> true
+					 		)
+					 );
+
+?>

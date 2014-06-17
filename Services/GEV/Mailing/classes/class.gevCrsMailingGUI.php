@@ -457,6 +457,7 @@ class gevCrsMailingGUI extends ilMailingGUI {
 		if ($form->checkInput()) {
 			$this->getAdditionalMailSettings()->setSendListToAccomodation((bool) ($form->getInput("send_list_to_accom") == 1));
 			$this->getAdditionalMailSettings()->setSendListToVenue((bool) ($form->getInput("send_list_to_venue") == 1));
+			$this->getAdditionalMailSettings()->setInvitationMailingDate((int) ($form->getInput("inv_mailing_date")));
 			$this->getAdditionalMailSettings()->save();
 			
 			ilUtil::sendSuccess($this->lng->txt("gev_additional_settings_updated"));
@@ -470,6 +471,8 @@ class gevCrsMailingGUI extends ilMailingGUI {
 
 	protected function getAdditionalSettingsForm() {
 		require_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		require_once("Services/Form/classes/class.ilNumberInputGUI.php");
+		
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		$form->addCommandButton("updateAdditionalSettings", $this->lng->txt("save"));
@@ -491,6 +494,19 @@ class gevCrsMailingGUI extends ilMailingGUI {
 		$send_list_to_venue->setOptionTitle("Mails mit Teilnehmerlisten an Veranstaltungsort automatisch versenden");
 		$send_list_to_venue->setChecked($this->getAdditionalMailSettings()->getSendListToVenue());
 		$form->addItem($send_list_to_venue);
+		
+		$mailing_dates = new ilFormSectionHeaderGUI();
+		$mailing_dates->setTitle("Versanddaten");
+		$form->addItem($mailing_dates);
+		
+		$inv_mailing_date = new ilNumberInputGUI();
+		$inv_mailing_date->setTitle("Einladungsmail");
+		$inv_mailing_date->setPostvar("inv_mailing_date");
+		$inv_mailing_date->setMinValue(0);
+		$inv_mailing_date->setDecimals(0);
+		$inv_mailing_date->setInfo("Anzahl der Tage vor dem Seminarstart, an dem die Einladungsmails verschickt werden.");
+		$inv_mailing_date->setValue($this->getAdditionalMailSettings()->getInvitationMailingDate());
+		$form->addItem($inv_mailing_date);
 		
 		return $form;
 	}
