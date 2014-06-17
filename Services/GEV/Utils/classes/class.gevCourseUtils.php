@@ -108,7 +108,7 @@ class gevCourseUtils {
 	}
 	
 	static public function extractCustomId($a_custom_id) {
-		$temp = extract("-", $a_custom_id);
+		$temp = explode("-", $a_custom_id);
 		return $temp[1];
 	}
 

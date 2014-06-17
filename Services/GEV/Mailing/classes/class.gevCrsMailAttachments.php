@@ -128,7 +128,7 @@ class gevCrsMailAttachments extends ilMailAttachments {
 	
 	// reimplemented from ilMailAttachments. Does not try to copy auto generated files.
 	public function copyTo($a_obj_id) {
-		$other = new vfMailAttachments($a_obj_id);
+		$other = new gevCrsMailAttachments($a_obj_id);
 
 		foreach (parent::getList() as $att) {
 			$other->addAttachment($att, $this->getAbsolutePath() . "/" . $att);

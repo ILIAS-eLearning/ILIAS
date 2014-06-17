@@ -29,6 +29,7 @@ class ilGEVCourseCreationPlugin extends ilEventHookPlugin
 		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
 		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 		require_once("Modules/Course/classes/class.ilObjCourse.php");
+		global $ilLog;
 				
 		try {
 			$target = new ilObjCourse($a_target_ref_id);
@@ -52,22 +53,21 @@ class ilGEVCourseCreationPlugin extends ilEventHookPlugin
 			}
 
 			$this->setCustomId($target_utils, $source_utils);
-			$this->setMailingSettings($source_obj_id, $target_obj_id);
+			$this->setMailSettings($source_obj_id, $target_obj_id);
 
 			$target->update();
 		}
 		catch (Exception $e) {
-			global $ilLog;
 			$ilLog->write("Error in GEVCourseCreation::clonedCourses: ".print_r($e, true));
 		}
 	}
 	
 	public function setCustomId($a_target_utils, $a_source_utils) {
 		if ($a_source_utils->isTemplate()) {
-					$custom_id_tmplt = $a_source_utils->getCustomId();
+			$custom_id_tmplt = $a_source_utils->getCustomId();
 		}
 		else {
-			$custom_id_tmplt = gevCourseUtils::extractCustomIdTemplate($a_target_utils->getCustomId());
+			$custom_id_tmplt = gevCourseUtils::extractCustomId($a_target_utils->getCustomId());
 		}
 
 		$custom_id = gevCourseUtils::createNewCustomId($custom_id_tmplt);

@@ -96,9 +96,11 @@ class gevCrsAdditionalMailSettings {
 	public function copyTo($a_crs_id) {
 		$other = new gevCrsAdditionalMailSettings($a_crs_id);
 
+		$inv_mail_date = $this->getInvitationMailingDate();
+
 		$other->setSendListToAccomodation($this->getSendListToAccomodation());
 		$other->setSendListToVenue($this->getSendListToVenue());
-		$other->setInvitationMailingDate($this->getInvitationMailingDate());
+		$other->setInvitationMailingDate($inv_mail_date ? $inv_mail_date : 29);
 
 		$other->save();
 	}
