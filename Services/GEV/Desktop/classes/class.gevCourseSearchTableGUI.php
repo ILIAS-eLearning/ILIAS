@@ -49,7 +49,9 @@ class gevCourseSearchTableGUI extends catAccordionTableGUI {
 		$this->addColumn($this->lng->txt("date"), "date");
 		$this->addColumn($this->lng->txt("gev_points"), "points");
 		$this->addColumn("&euro;", "fee");
-		$this->addColumn('<img src="'.ilUtil::getImagePath("gev_action.png").'" />', "", "20px");
+		//$this->addColumn('<img src="'.ilUtil::getImagePath("gev_action.png").'" />', "", "20px");
+		$this->addColumn('<img src="'.ilUtil::getImagePath("gev_action.png").'" />', "actions", "20px", false);
+
 
 		$this->book_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-booking.png").'" />';
 		$this->bookable_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-green.png").'" />';
