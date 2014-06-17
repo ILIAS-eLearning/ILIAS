@@ -1,10 +1,14 @@
 <?php
-// switch context to something without authentication
-include_once "Services/Context/classes/class.ilContext.php";
-ilContext::init(ilContext::CONTEXT_WEB_NOAUTH);
 
-require_once("Services/Init/classes/class.ilInitialisation.php");
-ilInitialisation::initILIAS();
+
+if( !isset($ilAuth) ) {
+    // switch context to something without authentication
+    include_once "Services/Context/classes/class.ilContext.php";
+    ilContext::init(ilContext::CONTEXT_WEB_NOAUTH);
+
+    require_once("Services/Init/classes/class.ilInitialisation.php");
+    ilInitialisation::initILIAS();
+}
 
 
 
@@ -29,6 +33,8 @@ if (isset($_REQUEST['tpl'])){
     --------------------------------------------------------------------
     generate contents
 */
+$content = '';
+
 $content_buffer = array(
     new ilTemplate($tpl_file_general, 0, 0, "Customizing/global/skin/genv")
 );
@@ -39,6 +45,11 @@ $css_buffer = array(
 
 
 if($ilAuth->getAuth()){
+/*
+    require_once("Services/GEV/Desktop/classes/class.gevMainMenuGUI.php");
+    $mainMenu = new gevMainMenuGUI("_top");
+    $content .= $mainMenu->renderMainMenuListEntries('', false);
+*/    
 
     $ctpl = new ilTemplate($tpl_file_loggedin, 0, 0, "Customizing/global/skin/genv");
     array_push($content_buffer, $ctpl);
@@ -74,7 +85,7 @@ foreach ($content_buffer as $content_template) {
     array_push($cbuffer, $content_template->get());
 }
 
-$content = implode('', $cbuffer);
+$content .= implode('', $cbuffer);
 $tpl->setContent($content);
 $tpl->show();
 
