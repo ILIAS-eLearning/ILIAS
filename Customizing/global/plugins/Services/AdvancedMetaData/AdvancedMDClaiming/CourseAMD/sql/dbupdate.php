@@ -216,6 +216,7 @@ array( "Zeitraum"
 	 	   					 		, "Spartenübergreifend"
 	 	   					 		, "Firmenkunden-Vorsorge (bAV/Personenversicherung)"
 	 	   					 		, "Beratungskompetenz"
+	 	   					 		, "Privat-Sach-/Schadenversicherung"
 	 	   					 		)
 	 	   					 , $tselect
 	 	   					 )
