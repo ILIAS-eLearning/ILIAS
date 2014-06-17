@@ -536,7 +536,12 @@ class ilADTActiveRecordByType
 	 */
 	public static function cloneByPrimary($a_table, array $a_primary_def, array $a_source_primary, array $a_target_primary, array $a_additional = null)
 	{
-		global $ilDB;
+		global $ilDB, $ilLog;
+		
+		// there could be the case where there are already adt fields defined (e.g. by plugins) and the
+		// insert statement complains on duplicate primary keys. To circumvent this, the fields should
+		// be deleted first. 
+		ilADTActiveRecordByType::deleteByPrimary($a_table, $a_target_primary);
 		
 		// using DB only, no object instances required
 		
@@ -598,6 +603,10 @@ class ilADTActiveRecordByType
 							$fields[$afield] = array($atype, $row[$afield]);
 						}
 					}
+					
+					$ilLog->write("---------------------");
+					$ilLog->write(print_r($sub_table, true));
+					$ilLog->write(print_r($fields, true));
 					
 					$ilDB->insert($sub_table, $fields);
 				}
