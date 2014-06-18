@@ -40,7 +40,7 @@ class ilADTFactory
 	{
 		return array("Float", "Integer", "Location", "Text", "Boolean", 
 			"MultiText", "Date", "DateTime", "Enum", "MultiEnum", "Group",
-			"LongText");	
+			"LongText", "Schedule");	
 	}
 	
 	/**

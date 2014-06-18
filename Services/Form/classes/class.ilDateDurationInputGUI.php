@@ -11,7 +11,9 @@ include_once 'Services/Table/interfaces/interface.ilTableFilterItem.php';
 *
 * @ingroup ServicesForm
 */
-class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilterItem
+// gev-patch start
+class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilterItem, ilMultiValuesItem
+// gev-patch end
 {
 	protected $start = null;
 	protected $startyear = null;
@@ -463,6 +465,13 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 		return $ok;
 	}
 	
+	// gev-patch start
+	public function setMulti($a_multi) {
+		$this->multi = (bool)$a_multi;
+		$this->multi_sortable = false;
+	}
+	// gev-patch end
+	
 	/**
 	* Insert property html
 	*
@@ -471,7 +480,14 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 	{
 		global $lng,$ilUser;
 		
-		$tpl = new ilTemplate("tpl.prop_datetime_duration.html", true, true, "Services/Form");
+		// gev-patch start
+		if ($this->getShowDate()) {
+			$tpl = new ilTemplate("tpl.prop_datetime_duration.html", true, true, "Services/Form");
+		}
+		else {
+			$tpl = new ilTemplate("tpl.prop_datetime_duration_time_only.html", true, true, "Services/Form");
+		}
+		// gev-patch end
 		
 		// Init start		
 		if(is_a($this->getStart(),'ilDate'))
@@ -552,8 +568,9 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 			$tpl->parseCurrentBlock();
 		}
 		
-		
-		if ($this->getShowDate() or 1)
+		// gev-patch start
+		if ($this->getShowDate())// or 1)
+		// gev-patch end
 		{
 			$tpl->setVariable('POST_VAR',$this->getPostVar());
 			$tpl->setVariable("IMG_START_CALENDAR", ilUtil::getImagePath("calendar.png"));
@@ -631,6 +648,12 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 			$tpl->setVariable("DELIM", "<br />");
 		}
 
+		if($this->getMulti() && !$this->getDisabled())
+		{
+			$tpl->setVariable("MULTI_ICONS", $this->getMultiIconsHTML($this->multi_sortable));         
+		}
+		
+
 		return $tpl->get();
 	}
 	
@@ -683,4 +706,11 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 			$this->setEnd(new ilDateTime($value['end'], IL_CAL_UNIX));
 		}
 	}
+	
+	// gev-patch start
+	public function getMultiCounterElement()
+	{
+		return '<span id="'.$this->getFieldId().'~counter~0">1</span>';
+	}
+	// gev-patch end
 }

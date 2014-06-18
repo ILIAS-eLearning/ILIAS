@@ -87,7 +87,7 @@ abstract class ilADT
 		}
 		else
 		{
-			throw new ilException("ilADT invalid definition");
+			throw new ilException("ilADT invalid definition ".get_class($a_def)." for ".get_class($this));
 		}
 	}
 	

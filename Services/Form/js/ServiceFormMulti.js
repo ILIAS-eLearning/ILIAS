@@ -109,7 +109,7 @@ var ilMultiFormValues = {
 		// find maximum id in group
 		var new_id = 0;
 		var sub_id = 0;
-		$('div[id*="ilFormField~' + group_id + '"]').each(function() {		
+		$('div[id*="ilFormField~' + group_id + '"]').each(function() {
 			sub_id = $(this).attr('id').split('~')[2];
 			sub_id = parseInt(sub_id);
 			if(sub_id > new_id)	{
@@ -163,6 +163,15 @@ var ilMultiFormValues = {
 
 		// insert clone into html	
 		$(original_element).after(new_element);
+		
+		// gev-patch start
+		// copied from vofue branch and slightly modified
+		// fix counter id
+		$(new_element).find('[id*="' + group_id + '~counter~' + index + '"]').each(function() {
+			$(this).attr('id', group_id + '~counter~' + new_id)
+					.text(new_id + 1);
+		});
+		// gev-patch end
 		
 		// add autocomplete
 		if (typeof ilMultiFormValues.auto_complete_urls[group_id] != 'undefined' &&
@@ -221,7 +230,32 @@ var ilMultiFormValues = {
 				var cid = $(this).attr('id').split('~');
 				$(this).attr('id', cid[0] + '~' + element_id);
 			});
-
+		
+		// gev-patch start
+		// pretty hacky, pulled from vofue branch
+		// date duration special case
+		if(preset.length == 11 && preset.substr(2, 1) == ":" && preset.substr(5, 1) == "-" && preset.substr(8, 1) == ":")
+		{
+			$(element).find('select').each(function(idx) {
+				var value = 0;
+				switch(idx) {
+					case 0:
+					value = parseInt(preset.substr(0, 2), 10);
+					break;
+				case 1:
+					value = parseInt(preset.substr(3, 2), 10);
+					break;
+				case 2:
+					value = parseInt(preset.substr(6, 2), 10);
+					break;
+				case 3:
+					value = parseInt(preset.substr(9, 2), 10);
+					break;
+				}
+				$(this).find('option[value="' + value + '"]').attr('selected', true);
+			});
+		}
+		// gev-patch end
 
 		// try to set value 
 		if(preset != '') {
