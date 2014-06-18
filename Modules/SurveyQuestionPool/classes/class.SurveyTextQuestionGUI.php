@@ -95,8 +95,13 @@ class SurveyTextQuestionGUI extends SurveyQuestionGUI
 		$this->object->setTextHeight($a_form->getInput("textheight"));
 	}	
 	
-	public function getPrintView($question_title = 1, $show_questiontext = 1, $survey_id = null)
+	public function getPrintView($question_title = 1, $show_questiontext = 1, $survey_id = null, array $a_working_data = null)
 	{
+		if(is_array($a_working_data))
+		{			
+			$user_answer = trim($a_working_data[0]["textanswer"]);							
+		}			
+		
 		$template = new ilTemplate("tpl.il_svy_qpl_text_printview.html", TRUE, TRUE, "Modules/SurveyQuestionPool");
 		if ($show_questiontext)
 		{
@@ -105,13 +110,20 @@ class SurveyTextQuestionGUI extends SurveyQuestionGUI
 		if ($question_title)
 		{
 			$template->setVariable("QUESTION_TITLE", $this->object->getTitle());
-		}
+		}		
+		$template->setVariable("QUESTION_ID", $this->object->getId());		
 		$template->setVariable("TEXT_ANSWER", $this->lng->txt("answer"));
-		$template->setVariable("TEXTBOX_IMAGE", ilUtil::getHtmlPath(ilUtil::getImagePath("textbox.png")));
-		$template->setVariable("TEXTBOX", $this->lng->txt("textbox"));
-		$template->setVariable("TEXTBOX_WIDTH", $this->object->getTextWidth()*16);
-		$template->setVariable("TEXTBOX_HEIGHT", $this->object->getTextHeight()*16);
-		$template->setVariable("QUESTION_ID", $this->object->getId());
+		if(is_array($a_working_data) && trim($user_answer))
+		{	
+			$template->setVariable("TEXT", nl2br($user_answer));
+		}
+		else
+		{
+			$template->setVariable("TEXTBOX_IMAGE", ilUtil::getHtmlPath(ilUtil::getImagePath("textbox.png")));
+			$template->setVariable("TEXTBOX", $this->lng->txt("textbox"));
+			$template->setVariable("TEXTBOX_WIDTH", $this->object->getTextWidth()*16);
+			$template->setVariable("TEXTBOX_HEIGHT", $this->object->getTextHeight()*16);
+		}		
 		if ($this->object->getMaxChars())
 		{
 			$template->setVariable("TEXT_MAXCHARS", sprintf($this->lng->txt("text_maximum_chars_allowed"), $this->object->getMaxChars()));

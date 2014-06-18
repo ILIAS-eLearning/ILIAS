@@ -1589,7 +1589,13 @@ class ilObjSurveyGUI extends ilObjectGUI
 					
 					$survey_started = $this->object->isSurveyStarted($ilUser->getId(), $anonymous_code);
 					if ($survey_started === 1)
-					{
+					{	
+						// :TODO: setting
+						if(true)
+						{
+							$ilToolbar->addButton($this->lng->txt("svy_view_own_results"),
+								$this->ctrl->getLinkTarget($this, "viewUserResults"));
+						}
 						ilUtil::sendInfo($this->lng->txt("already_completed_survey"));
 					}
 					elseif ($survey_started === 0)
@@ -1853,6 +1859,74 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 
 		$ilErr->raiseError($lng->txt("msg_no_perm_read_lm"), $ilErr->FATAL);
+	}
+	
+	protected function viewUserResultsObject()
+	{
+		global $ilUser, $tpl, $ilTabs;
+		
+		$anonymous_code = $_SESSION["anonymous_id"][$this->object->getId()];
+		$active_id = $this->object->getActiveID($ilUser->getId(), $anonymous_code, 0);
+		if($this->object->isSurveyStarted($ilUser->getId(), $anonymous_code) !== 1 ||
+			!$active_id)
+		{
+			$this->ctrl->redirect($this, "infoScreen");
+		}			
+		
+		$ilTabs->clearTargets();
+		$ilTabs->setBackTarget($this->lng->txt("btn_back"), 
+			$this->ctrl->getLinkTarget($this, "infoScreen"));
+		
+		$rtpl = new ilTemplate("tpl.svy_view_user_results.html", true, true, "Modules/Survey");
+		
+		$show_titles = (bool)$this->object->getShowQuestionTitles();
+		
+		foreach($this->object->getSurveyPages() as $page)
+		{
+			if(count($page) > 0)
+			{
+				// question block
+				if(count($page) > 1)
+				{
+					if((bool)$page[0]["questionblock_show_blocktitle"])
+					{
+						$rtpl->setVariable("BLOCK_TITLE", trim($page[0]["questionblock_title"]));
+					}
+				}
+				
+				// questions
+				foreach($page as $question)
+				{				
+					$question_gui = $this->object->getQuestionGUI($question["type_tag"], $question["question_id"]);
+					if(is_object($question_gui))
+					{
+						$rtpl->setCurrentBlock("question_bl");
+						
+						// heading
+						if(strlen($question["heading"]))
+						{
+							$rtpl->setVariable("HEADING", trim($question["heading"]));
+						}
+						
+						$rtpl->setVariable("QUESTION_DATA", 
+							$question_gui->getPrintView(
+								$show_titles, 
+								(bool)$question["questionblock_show_questiontext"], 
+								$this->object->getId(),
+								$this->object->loadWorkingData($question["question_id"], $active_id)
+							)
+						);
+						
+						$rtpl->parseCurrentBlock();						
+					}
+				}
+				
+				$rtpl->setCurrentBlock("block_bl");
+				$rtpl->parseCurrentBlock();
+			}			
+		}
+			
+		$tpl->setContent($rtpl->get());									
 	}
 } 
 

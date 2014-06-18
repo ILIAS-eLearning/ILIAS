@@ -212,8 +212,64 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 	*
 	* @access private
 	*/
-	function getPrintView($question_title = 1, $show_questiontext = 1)
+	function getPrintView($question_title = 1, $show_questiontext = 1, $survey_id = null, array $a_working_data = null)
 	{
+		if(is_array($a_working_data))
+		{			
+			$user_answers = $a_working_data;
+		}			
+		
+		// parse options
+		
+		$options = array();		
+		for ($i = 0; $i < $this->object->getRowCount(); $i++)
+		{
+			$rowobj = $this->object->getRow($i);
+			
+			$text = null;
+			
+			$cols = array();
+			for ($j = 0; $j < $this->object->getColumnCount(); $j++)
+			{				
+				$cat = $this->object->getColumn($j);
+				$value = ($cat->scale) ? ($cat->scale - 1) : $j;				
+			
+				$checked = "unchecked";
+				if(is_array($a_working_data))
+				{
+					foreach($user_answers as $user_answer)
+					{
+						if($user_answer["rowvalue"] == $i &&
+							$user_answer["value"] == $value)
+						{
+							$checked = "checked";
+							if($user_answer["textanswer"])
+							{
+								$text = $user_answer["textanswer"];
+							}
+						}
+					}
+				}
+
+				$cols[$value] = array(
+					"title" => trim($cat->title)
+					,"neutral" => (bool)$cat->neutral
+					,"checked" => $checked
+				);
+			
+			}
+						
+			$row_idx = $i;	
+			$options[$row_idx] = array(
+				"row_title" => trim($rowobj->title)
+				,"other" => (bool)$rowobj->other
+				,"textanswer" => $text
+				,"cols" => $cols
+			); 			
+		}
+		
+		// rendering
+						
 		$layout = $this->object->getLayout();
 		$neutralstyle = "3px solid #808080";
 		$bordercolor = "#808080";
@@ -334,23 +390,27 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 						$tplrow->parseCurrentBlock();
 					}
 				}
+				
+				$value = ($cat->scale) ? ($cat->scale - 1) : $j;	
+				$col = $options[$i]["cols"][$value];
+				
 				switch ($this->object->getSubtype())
 				{
 					case 0:
 						if ($cat->neutral)
 						{
 							$tplrow->setCurrentBlock("neutral_radiobutton");
-							$tplrow->setVariable("IMAGE_RADIO", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_unchecked.png")));
-							$tplrow->setVariable("ALT_RADIO", $this->lng->txt("unchecked"));
-							$tplrow->setVariable("TITLE_RADIO", $this->lng->txt("unchecked"));
+							$tplrow->setVariable("IMAGE_RADIO", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_".$col["checked"].".png")));
+							$tplrow->setVariable("ALT_RADIO", $this->lng->txt($col["checked"]));
+							$tplrow->setVariable("TITLE_RADIO", $this->lng->txt($col["checked"]));
 							$tplrow->parseCurrentBlock();
 						}
 						else
 						{
 							$tplrow->setCurrentBlock("radiobutton");
-							$tplrow->setVariable("IMAGE_RADIO", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_unchecked.png")));
-							$tplrow->setVariable("ALT_RADIO", $this->lng->txt("unchecked"));
-							$tplrow->setVariable("TITLE_RADIO", $this->lng->txt("unchecked"));
+							$tplrow->setVariable("IMAGE_RADIO", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_".$col["checked"].".png")));
+							$tplrow->setVariable("ALT_RADIO", $this->lng->txt($col["checked"]));
+							$tplrow->setVariable("TITLE_RADIO", $this->lng->txt($col["checked"]));
 							$tplrow->parseCurrentBlock();
 						}
 						break;
@@ -358,17 +418,17 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 						if ($cat->neutral)
 						{
 							$tplrow->setCurrentBlock("neutral_checkbox");
-							$tplrow->setVariable("IMAGE_CHECKBOX", ilUtil::getHtmlPath(ilUtil::getImagePath("checkbox_unchecked.png")));
-							$tplrow->setVariable("ALT_CHECKBOX", $this->lng->txt("unchecked"));
-							$tplrow->setVariable("TITLE_CHECKBOX", $this->lng->txt("unchecked"));
+							$tplrow->setVariable("IMAGE_CHECKBOX", ilUtil::getHtmlPath(ilUtil::getImagePath("checkbox_".$col["checked"].".png")));
+							$tplrow->setVariable("ALT_CHECKBOX", $this->lng->txt($col["checked"]));
+							$tplrow->setVariable("TITLE_CHECKBOX", $this->lng->txt($col["checked"]));
 							$tplrow->parseCurrentBlock();
 						}
 						else
 						{
 							$tplrow->setCurrentBlock("checkbox");
-							$tplrow->setVariable("IMAGE_CHECKBOX", ilUtil::getHtmlPath(ilUtil::getImagePath("checkbox_unchecked.png")));
-							$tplrow->setVariable("ALT_CHECKBOX", $this->lng->txt("unchecked"));
-							$tplrow->setVariable("TITLE_CHECKBOX", $this->lng->txt("unchecked"));
+							$tplrow->setVariable("IMAGE_CHECKBOX", ilUtil::getHtmlPath(ilUtil::getImagePath("checkbox_".$col["checked"].".png")));
+							$tplrow->setVariable("ALT_CHECKBOX", $this->lng->txt($col["checked"]));
+							$tplrow->setVariable("TITLE_CHECKBOX", $this->lng->txt($col["checked"]));
 							$tplrow->parseCurrentBlock();
 						}
 						break;
@@ -432,8 +492,11 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 
 			if ($rowobj->other)
 			{
+				$text = $options[$i]["textanswer"];				
 				$tplrow->setCurrentBlock("text_other");
-				$tplrow->setVariable("TEXT_OTHER", "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+				$tplrow->setVariable("TEXT_OTHER", $text 
+					? $text
+					: "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
 				$tplrow->parseCurrentBlock();
 			}
 

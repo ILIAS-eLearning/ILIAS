@@ -105,85 +105,124 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 	*
 	* @access private
 	*/
-	function getPrintView($question_title = 1, $show_questiontext = 1, $survey_id = null)
-	{
+	function getPrintView($question_title = 1, $show_questiontext = 1, $survey_id = null, array $a_working_data = null)
+	{		
+		if(is_array($a_working_data))
+		{			
+			$user_answer = $a_working_data[0];				
+		}	
+		
+		// parse options
+		
+		$options = array();		
+		for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
+		{
+			$cat = $this->object->categories->getCategory($i);
+			$value = ($cat->scale) ? ($cat->scale - 1) : $i;
+		
+			$checked = "unchecked";
+			$text = null;
+			if(is_array($a_working_data) && 
+				is_array($user_answer))
+			{				
+				if($value == $user_answer["value"])
+				{					
+					$checked = "checked";				
+					if($user_answer["textanswer"])
+					{
+						$text = $user_answer["textanswer"];
+					}
+				}
+			}		
+			
+			// "other" options have to be last or horizontal will be screwed
+			$idx = $cat->other."_".$value;
+			
+			$options[$idx] = array(
+				"value" => $value
+				,"title" => trim($cat->title)
+				,"other" => (bool)$cat->other
+				,"checked" => $checked
+				,"text" => $text
+			);			
+			
+			ksort($options);
+		}		
+		
+		// rendering
+		
 		$template = new ilTemplate("tpl.il_svy_qpl_sc_printview.html", TRUE, TRUE, "Modules/SurveyQuestionPool");
 		switch ($this->object->orientation)
 		{
 			case 0:
 				// vertical orientation
-				for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
-				{
-					$cat = $this->object->categories->getCategory($i);
-					if ($cat->other)
+				foreach($options as $option)
+				{					
+					if ($option["other"])
 					{
 						$template->setCurrentBlock("other_row");
-						$template->setVariable("IMAGE_RADIO", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_unchecked.png")));
-						$template->setVariable("ALT_RADIO", $this->lng->txt("unchecked"));
-						$template->setVariable("TITLE_RADIO", $this->lng->txt("unchecked"));
-						$template->setVariable("OTHER_LABEL", ilUtil::prepareFormOutput($cat->title));
-						$template->setVariable("OTHER_ANSWER", "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+						$template->setVariable("IMAGE_RADIO", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_".$option["checked"].".png")));
+						$template->setVariable("ALT_RADIO", $this->lng->txt($option["checked"]));
+						$template->setVariable("TITLE_RADIO", $this->lng->txt($option["checked"]));
+						$template->setVariable("OTHER_LABEL", ilUtil::prepareFormOutput($option["title"]));
+						$template->setVariable("OTHER_ANSWER", $option["text"] 
+							? ilUtil::prepareFormOutput($option["text"])
+							: "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
 						$template->parseCurrentBlock();
 					}
 					else
 					{
+									
 						$template->setCurrentBlock("row");
-						$template->setVariable("IMAGE_RADIO", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_unchecked.png")));
-						$template->setVariable("ALT_RADIO", $this->lng->txt("unchecked"));
-						$template->setVariable("TITLE_RADIO", $this->lng->txt("unchecked"));
-						$template->setVariable("TEXT_SC", ilUtil::prepareFormOutput($cat->title));
+						$template->setVariable("IMAGE_RADIO", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_".$option["checked"].".png")));
+						$template->setVariable("ALT_RADIO", $this->lng->txt($option["checked"]));
+						$template->setVariable("TITLE_RADIO", $this->lng->txt($option["checked"]));
+						$template->setVariable("TEXT_SC", ilUtil::prepareFormOutput($option["title"]));
 						$template->parseCurrentBlock();
 					}
 				}
 				break;
 			case 1:
 				// horizontal orientation
-				for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
-				{
+				foreach($options as $option)
+				{									
 					$template->setCurrentBlock("radio_col");
-					$template->setVariable("IMAGE_RADIO", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_unchecked.png")));
-					$template->setVariable("ALT_RADIO", $this->lng->txt("unchecked"));
-					$template->setVariable("TITLE_RADIO", $this->lng->txt("unchecked"));
+					$template->setVariable("IMAGE_RADIO", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_".$option["checked"].".png")));
+					$template->setVariable("ALT_RADIO", $this->lng->txt($option["checked"]));
+					$template->setVariable("TITLE_RADIO", $this->lng->txt($option["checked"]));
 					$template->parseCurrentBlock();
 				}
-				for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
-				{
-					$cat = $this->object->categories->getCategory($i);
-					if ($cat->other)
+				foreach($options as $option)
+				{	
+					if ($option["other"])
 					{
 						$template->setCurrentBlock("other_text_col");
-						$template->setVariable("OTHER_LABEL", ilUtil::prepareFormOutput($cat->title));
-						$template->setVariable("OTHER_ANSWER", "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+						$template->setVariable("OTHER_LABEL", ilUtil::prepareFormOutput($option["title"]));
+						$template->setVariable("OTHER_ANSWER", $option["text"] 
+							? ilUtil::prepareFormOutput($option["text"])
+							: "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
 						$template->parseCurrentBlock();
 					}
 					else
 					{
 						$template->setCurrentBlock("text_col");
-						$template->setVariable("TEXT_SC", ilUtil::prepareFormOutput($cat->title));
+						$template->setVariable("TEXT_SC", ilUtil::prepareFormOutput($option["title"]));
 						$template->parseCurrentBlock();
 					}
 				}
 				break;
 			case 2:
-				// combobox output
-				for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
+				foreach($options as $option)
 				{
-					$cat = $this->object->categories->getCategory($i);
 					$template->setCurrentBlock("comborow");
-					$template->setVariable("TEXT_SC", ilUtil::prepareFormOutput($cat->title));
-					$template->setVariable("VALUE_SC", ($cat->scale) ? ($cat->scale - 1) : $i);
-					if (is_array($working_data))
+					$template->setVariable("TEXT_SC", ilUtil::prepareFormOutput($option["title"]));
+					$template->setVariable("VALUE_SC", $option["value"]);
+					if($option["checked"] == "checked")
 					{
-						if (strcmp($working_data[0]["value"], "") != 0)
-						{
-							if ($working_data[0]["value"] == $i)
-							{
-								$template->setVariable("SELECTED_SC", " selected=\"selected\"");
-							}
-						}
-					}
+						$template->setVariable("SELECTED_SC", ' selected="selected"');
+					}		
 					$template->parseCurrentBlock();
-				}
+				}			
 				$template->setCurrentBlock("combooutput");
 				$template->setVariable("QUESTION_ID", $this->object->getId());
 				$template->setVariable("SELECT_OPTION", $this->lng->txt("select_option"));

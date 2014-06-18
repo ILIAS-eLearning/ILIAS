@@ -536,7 +536,7 @@ abstract class SurveyQuestionGUI
 	abstract protected function importEditFormValues(ilPropertyFormGUI $a_form);
 				
 	abstract public function getPrintView($question_title = 1, $show_questiontext = 1);
-		
+	
 	/**
 	* Creates a preview of the question
 	*

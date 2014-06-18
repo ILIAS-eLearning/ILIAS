@@ -148,12 +148,16 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
 	*
 	* @access private
 	*/
-	function getPrintView($question_title = 1, $show_questiontext = 1, $survey_id = null)
+	function getPrintView($question_title = 1, $show_questiontext = 1, $survey_id = null, array $a_working_data = null)
 	{
+		if(is_array($a_working_data))
+		{			
+			$user_answer = $a_working_data[0]["value"];			
+		}			
+				
 		$template = new ilTemplate("tpl.il_svy_qpl_metric_printview.html", TRUE, TRUE, "Modules/SurveyQuestionPool");
 		$template->setVariable("MIN_MAX", $this->object->getMinMaxText());
 
-		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
 		if ($show_questiontext)
 		{
 			$this->outQuestionText($template);
@@ -165,9 +169,16 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
 		$template->setVariable("TEXT_ANSWER", $this->lng->txt("answer"));
 		$template->setVariable("QUESTION_ID", $this->object->getId());
 
-		$solution_text = "";
-		$len = 10;
-		for ($i = 0; $i < 10; $i++) $solution_text .= "&#160;";
+		if(!is_array($a_working_data) || !trim($user_answer))
+		{			
+			$solution_text = "";
+			$len = 10;
+			for ($i = 0; $i < 10; $i++) $solution_text .= "&#160;";
+		}	
+		else
+		{
+			$solution_text = $user_answer;
+		}		
 		$template->setVariable("TEXT_SOLUTION", $solution_text);
 
 		$template->parseCurrentBlock();
