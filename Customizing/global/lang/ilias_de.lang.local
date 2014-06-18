@@ -212,3 +212,11 @@ crs#:#crs_admin_no_notify#:#Trainingsbetreuer (keine Benachrichtigung)
 common#:#il_crs_admin#:#Trainingsbetreuer
 common#:#il_crs_tutor#:#Trainer
 common#:#il_crs_member#:#Teilnehmer
+crs#:#crs_contact#:#Themenverantwortlicher
+crsbook#:#crs_user_added#:#Benutzer zum Training hinzugefügt.
+crs#:#crs_description#:#Untertitel
+common#:#udf_type_multiselect#:#Mehrfachauswahl
+common#:#udf_type_longtext#:#Langtext
+common#:#udf_type_providerselect#:#Anbieter
+common#:#udf_type_venueselect#:#Ort
+common#:#orgu_orgu_type#:#Typen
