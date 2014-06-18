@@ -6,7 +6,7 @@ class ilADTLongTextPresentationBridge extends ilADTPresentationBridge
 {
 	protected function isValidADT(ilADT $a_adt)
 	{
-		return ($a_adt instanceof ilADTText);
+		return ($a_adt instanceof ilADTLongText);
 	}
 	
 	public function getHTML()

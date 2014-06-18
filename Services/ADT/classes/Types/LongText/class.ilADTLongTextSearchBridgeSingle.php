@@ -11,7 +11,7 @@ class ilADTLongTextSearchBridgeSingle extends ilADTSearchBridgeSingle
 	
 	protected function isValidADTDefinition(ilADTDefinition $a_adt_def)
 	{
-		return ($a_adt_def instanceof ilADTTextDefinition);
+		return ($a_adt_def instanceof ilADTLongTextDefinition);
 	}
 	
 	// table2gui / filter
