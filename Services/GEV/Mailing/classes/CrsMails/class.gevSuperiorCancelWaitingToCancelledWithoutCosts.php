@@ -2,7 +2,7 @@
 
 require_once("Services/GEV/Mailing/classes/class.gevCrsAutoMail.php");
 
-class gevSuperiorCancelBookedToCancelledWithoutCosts extends gevCrsAutoMail {
+class gevSuperiorCancelWaitingToCancelledWithoutCosts extends gevCrsAutoMail {
 	public function getTitle() {
 		return "Info Teilnehmer";
 	}

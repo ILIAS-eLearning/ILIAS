@@ -8,7 +8,7 @@ class gevAdminCancelBookedToCancelledWithoutCosts extends gevCrsAutoMail {
 	}
 	
 	public function _getDescription() {
-		return "Teilnehmer (gebucht) erhält Buchungsstatus 'kostenfrei storniert' durch Stornierung durch Führungskraft";
+		return "Teilnehmer (gebucht) erhält Buchungsstatus 'kostenfrei storniert' durch Stornierung durch Admin";
 	}
 	
 	public function getScheduledFor() {

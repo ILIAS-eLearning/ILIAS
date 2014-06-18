@@ -6,7 +6,7 @@ class gevAdminBookingToWaiting extends gevCrsAutoMail {
 		const DAYS_BEFORE_COURSE_START = 14;
 	
 	public function getTitle() {
-		return "Info an Teilnehmer";
+		return "Info Teilnehmer";
 	}
 	
 	public function _getDescription() {

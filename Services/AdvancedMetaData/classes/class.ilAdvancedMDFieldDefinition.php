@@ -36,6 +36,7 @@ abstract class ilAdvancedMDFieldDefinition
 	const TYPE_VENUE_SELECT = 9;
 	const TYPE_PROVIDER_SELECT = 10;
 	const TYPE_LONG_TEXT = 11;
+	const TYPE_SCHEDULE = 12;
 	//gev-patch end
 	
 		
@@ -101,7 +102,8 @@ abstract class ilAdvancedMDFieldDefinition
 			self::TYPE_MULTI_SELECT => "MultiSelect",
 			self::TYPE_VENUE_SELECT => "VenueSelect",
 			self::TYPE_PROVIDER_SELECT => "ProviderSelect",
-			self::TYPE_LONG_TEXT => "LongText"
+			self::TYPE_LONG_TEXT => "LongText",
+			self::TYPE_SCHEDULE => "Schedule"
 		);	
 		$map = array_flip($map);
 		if(array_key_exists($a_type, $map))
@@ -258,7 +260,7 @@ abstract class ilAdvancedMDFieldDefinition
 		return array(self::TYPE_TEXT, self::TYPE_DATE, self::TYPE_DATETIME,
 			self::TYPE_SELECT, self::TYPE_INTEGER, self::TYPE_FLOAT,
 			self::TYPE_LOCATION, self::TYPE_MULTI_SELECT, self::TYPE_VENUE_SELECT,
-			self::TYPE_PROVIDER_SELECT, self::TYPE_LONG_TEXT);
+			self::TYPE_PROVIDER_SELECT, self::TYPE_LONG_TEXT, self::TYPE_SCHEDULE);
 	}
 	
 	/**
@@ -300,7 +302,8 @@ abstract class ilAdvancedMDFieldDefinition
 				self::TYPE_MULTI_SELECT => "MultiSelect",
 				self::TYPE_VENUE_SELECT => "VenueSelect",
 				self::TYPE_PROVIDER_SELECT => "ProviderSelect",
-				self::TYPE_LONG_TEXT => "LongText"
+				self::TYPE_LONG_TEXT => "LongText",
+				self::TYPE_SCHEDULE => "Schedule"
 			);		
 			return $map[$a_type];
 		}		
