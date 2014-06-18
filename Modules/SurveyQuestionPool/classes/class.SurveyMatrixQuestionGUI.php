@@ -207,19 +207,12 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		}
 	}
 	
-	/**
-	* Creates a HTML representation of the question
-	*
-	* @access private
-	*/
-	function getPrintView($question_title = 1, $show_questiontext = 1, $survey_id = null, array $a_working_data = null)
+	public function getParsedAnswers(array $a_working_data = null, $a_only_user_anwers = false)
 	{
 		if(is_array($a_working_data))
 		{			
 			$user_answers = $a_working_data;
 		}			
-		
-		// parse options
 		
 		$options = array();		
 		for ($i = 0; $i < $this->object->getRowCount(); $i++)
@@ -250,25 +243,40 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 						}
 					}
 				}
-
-				$cols[$value] = array(
-					"title" => trim($cat->title)
-					,"neutral" => (bool)$cat->neutral
-					,"checked" => $checked
-				);
-			
+				
+				if(!$a_only_user_anwers || $checked == "checked")
+				{
+					$cols[$value] = array(
+						"title" => trim($cat->title)
+						,"neutral" => (bool)$cat->neutral
+						,"checked" => $checked
+					);
+				}			
 			}
-						
-			$row_idx = $i;	
-			$options[$row_idx] = array(
-				"row_title" => trim($rowobj->title)
-				,"other" => (bool)$rowobj->other
-				,"textanswer" => $text
-				,"cols" => $cols
-			); 			
-		}
+			
+			if($a_only_user_anwers || sizeof($cols) || $text)
+			{
+				$row_idx = $i;	
+				$options[$row_idx] = array(
+					"title" => trim($rowobj->title)
+					,"other" => (bool)$rowobj->other
+					,"textanswer" => $text
+					,"cols" => $cols
+				); 		
+			}
+		}		
 		
-		// rendering
+		return $options;
+	}
+	
+	/**
+	* Creates a HTML representation of the question
+	*
+	* @access private
+	*/
+	function getPrintView($question_title = 1, $show_questiontext = 1, $survey_id = null, array $a_working_data = null)
+	{
+		$options = $this->getParsedAnswers($a_working_data);
 						
 		$layout = $this->object->getLayout();
 		$neutralstyle = "3px solid #808080";

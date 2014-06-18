@@ -1587,14 +1587,29 @@ class ilObjSurveyGUI extends ilObjectGUI
 						$info->addHiddenElement("anonymous_id", $anonymous_code);
 					}				
 					
-					$survey_started = $this->object->isSurveyStarted($ilUser->getId(), $anonymous_code);
+					$survey_started = $this->object->isSurveyStarted($ilUser->getId(), $anonymous_code);				
 					if ($survey_started === 1)
 					{	
-						// :TODO: setting
+						// :TODO: setting(s)
 						if(true)
 						{
 							$ilToolbar->addButton($this->lng->txt("svy_view_own_results"),
-								$this->ctrl->getLinkTarget($this, "viewUserResults"));
+								$this->ctrl->getLinkTarget($this, "viewUserResults"));														
+							
+							$ilToolbar->addSeparator();
+													
+							require_once "Services/Form/classes/class.ilTextInputGUI.php";								
+							$mail = new ilTextInputGUI($this->lng->txt("email"), "mail");
+							$mail->setSize(25);
+							if($ilUser->getId() != ANONYMOUS_USER_ID)
+							{
+								$mail->setValue($ilUser->getEmail());
+							}
+							$ilToolbar->addInputItem($mail, true);							
+							
+							$ilToolbar->setFormAction($this->ctrl->getFormAction($this, "mailUserResults"));
+							$ilToolbar->addFormButton($this->lng->txt("svy_mail_own_results"),
+								"mailUserResults");														
 						}
 						ilUtil::sendInfo($this->lng->txt("already_completed_survey"));
 					}
@@ -1861,22 +1876,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$ilErr->raiseError($lng->txt("msg_no_perm_read_lm"), $ilErr->FATAL);
 	}
 	
-	protected function viewUserResultsObject()
+	public function getUserResultsTable($a_active_id)
 	{
-		global $ilUser, $tpl, $ilTabs;
-		
-		$anonymous_code = $_SESSION["anonymous_id"][$this->object->getId()];
-		$active_id = $this->object->getActiveID($ilUser->getId(), $anonymous_code, 0);
-		if($this->object->isSurveyStarted($ilUser->getId(), $anonymous_code) !== 1 ||
-			!$active_id)
-		{
-			$this->ctrl->redirect($this, "infoScreen");
-		}			
-		
-		$ilTabs->clearTargets();
-		$ilTabs->setBackTarget($this->lng->txt("btn_back"), 
-			$this->ctrl->getLinkTarget($this, "infoScreen"));
-		
 		$rtpl = new ilTemplate("tpl.svy_view_user_results.html", true, true, "Modules/Survey");
 		
 		$show_titles = (bool)$this->object->getShowQuestionTitles();
@@ -1913,7 +1914,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 								$show_titles, 
 								(bool)$question["questionblock_show_questiontext"], 
 								$this->object->getId(),
-								$this->object->loadWorkingData($question["question_id"], $active_id)
+								$this->object->loadWorkingData($question["question_id"], $a_active_id)
 							)
 						);
 						
@@ -1925,8 +1926,197 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$rtpl->parseCurrentBlock();
 			}			
 		}
-			
-		$tpl->setContent($rtpl->get());									
+		
+		return $rtpl->get();		
+	}
+	
+	protected function viewUserResultsObject()
+	{
+		global $ilUser, $tpl, $ilTabs;
+		
+		$anonymous_code = $_SESSION["anonymous_id"][$this->object->getId()];
+		$active_id = $this->object->getActiveID($ilUser->getId(), $anonymous_code, 0);
+		if($this->object->isSurveyStarted($ilUser->getId(), $anonymous_code) !== 1 ||
+			!$active_id)
+		{
+			$this->ctrl->redirect($this, "infoScreen");
+		}			
+		
+		$ilTabs->clearTargets();
+		$ilTabs->setBackTarget($this->lng->txt("btn_back"), 
+			$this->ctrl->getLinkTarget($this, "infoScreen"));
+		
+		$html = $this->getUserResultsTable($active_id);
+		$tpl->setContent($html);									
+	}
+	
+	protected function getUserResultsPlain($a_active_id)
+	{		
+		$res = array();
+		
+		$show_titles = (bool)$this->object->getShowQuestionTitles();
+		
+		foreach($this->object->getSurveyPages() as $page)
+		{
+			if(count($page) > 0)
+			{
+				// question block
+				if(count($page) > 1)
+				{
+					if((bool)$page[0]["questionblock_show_blocktitle"])
+					{
+						$res[$this->lng->txt("questionblock")] = trim($page[0]["questionblock_title"]);
+					}
+				}
+				
+				// questions
+				foreach($page as $question)
+				{				
+					$question_parts = array();
+					
+					$question_gui = $this->object->getQuestionGUI($question["type_tag"], $question["question_id"]);
+					if(is_object($question_gui))
+					{						
+						// heading
+						if(strlen($question["heading"]))
+						{
+							$question_parts[$this->lng->txt("heading")] = trim($question["heading"]);
+						}
+						
+						if($show_titles)
+						{
+							$question_parts[$this->lng->txt("title")] = trim($question["title"]);
+						}
+						
+						if((bool)$question["questionblock_show_questiontext"])
+						{
+							$question_parts[$this->lng->txt("question")] = trim(strip_tags($question_gui->object->getQuestionText()));
+						}
+						
+						$answers = $question_gui->getParsedAnswers(
+							$this->object->loadWorkingData($question["question_id"], $a_active_id),
+							true
+						);
+						
+						if(sizeof($answers))
+						{				
+							$multiline = false;
+							if(sizeof($answers) > 1 || 
+								get_class($question_gui) == "SurveyTextQuestionGUI")
+							{
+								$multiline = true;
+							}
+							
+							$parts = array();
+							foreach($answers as $answer)
+							{	
+								$text = null;
+								if($answer["textanswer"])
+								{
+									$text = ' ("'.$answer["textanswer"].'")';
+								}								
+								if(!isset($answer["cols"]))
+								{									
+									if(isset($answer["title"]))
+									{
+										$parts[] = $answer["title"].$text;
+									}
+									else if(isset($answer["value"]))
+									{
+										$parts[] = $answer["value"];
+									}
+									else if($text)
+									{
+										$parts[] = substr($text, 2, -1);
+									}											
+								}
+								// matrix
+								else
+								{									
+									$tmp = array();
+									foreach($answer["cols"] as $col)
+									{
+										$tmp[] = $col["title"];
+									}								
+									$parts[] = $answer["title"].": ".implode(", ", $tmp).$text;
+								}
+														
+							}							
+							$question_parts[$this->lng->txt("answer")] = 
+								($multiline ? "\n" : "").implode("\n", $parts);
+						}
+					}
+				}
+				
+				foreach($question_parts as $type => $value)
+				{
+					$res[] = $type.": ".$value;
+				}
+				
+				$res[] = "\n-------------------------------\n";
+			}			
+		}
+		
+		return implode("\n", $res);
+	}
+	
+	public function sendUserResultsMail($a_active_id, $a_recipient)
+	{		
+		global $ilUser;
+		
+		$finished = $this->object->getSurveyParticipants(array($a_active_id));
+		$finished = array_pop($finished);
+		$finished = ilDatePresentation::formatDate(new ilDateTime($finished["finished_tstamp"], IL_CAL_UNIX));
+				
+		require_once "Services/Mail/classes/class.ilMail.php";	
+		require_once "Services/Link/classes/class.ilLink.php";
+				
+		$body = ilMail::getSalutation($ilUser->getId())."\n\n";		
+		$body .= $this->lng->txt("svy_mail_own_results_body")."\n";		
+		$body .= "\n".$this->lng->txt("obj_svy").": ".$this->object->getTitle()."\n";					
+		$body .= ilLink::_getLink($this->object->getRefId(), "svy")."\n";
+		$body .= "\n".$this->lng->txt("survey_results_finished").": ".$finished."\n\n";
+		
+		$body .= $this->getUserResultsPlain($a_active_id);
+		
+		// $body .= ilMail::_getAutoGeneratedMessageString($this->lng);
+		$body .= ilMail::_getInstallationSignature();
+				
+		require_once "Services/Mail/classes/class.ilMail.php";
+		$mail = new ilMail(ANONYMOUS_USER_ID);
+		$mail->sendMimeMail(
+			$a_recipient,
+			null,
+			null,
+			sprintf($this->lng->txt("svy_mail_own_results_subject"), $this->object->getTitle()),
+			$body,
+			null,
+			true
+		);
+	}
+		
+	function mailUserResultsObject()
+	{
+		global $ilUser;
+		
+		$anonymous_code = $_SESSION["anonymous_id"][$this->object->getId()];
+		$active_id = $this->object->getActiveID($ilUser->getId(), $anonymous_code, 0);
+		if($this->object->isSurveyStarted($ilUser->getId(), $anonymous_code) !== 1 ||
+			!$active_id)
+		{
+			$this->ctrl->redirect($this, "infoScreen");
+		}			
+		
+		$recipient = $_POST["mail"];	
+		if(!ilUtil::is_email($recipient))
+		{
+			$this->ctrl->redirect($this, "infoScreen");
+		}
+		
+		$this->sendUserResultsMail($active_id, $recipient);
+		
+		ilUtil::sendSuccess($this->lng->txt("mail_sent"), true);
+		$this->ctrl->redirect($this, "infoScreen");
 	}
 } 
 

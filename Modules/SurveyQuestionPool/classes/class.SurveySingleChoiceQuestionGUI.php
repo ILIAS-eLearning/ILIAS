@@ -100,19 +100,12 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 		}
 	}
 	
-	/**
-	* Creates a HTML representation of the question
-	*
-	* @access private
-	*/
-	function getPrintView($question_title = 1, $show_questiontext = 1, $survey_id = null, array $a_working_data = null)
-	{		
+	public function getParsedAnswers(array $a_working_data = null, $a_only_user_anwers = false)
+	{
 		if(is_array($a_working_data))
 		{			
 			$user_answer = $a_working_data[0];				
 		}	
-		
-		// parse options
 		
 		$options = array();		
 		for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) 
@@ -138,16 +131,31 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 			// "other" options have to be last or horizontal will be screwed
 			$idx = $cat->other."_".$value;
 			
-			$options[$idx] = array(
-				"value" => $value
-				,"title" => trim($cat->title)
-				,"other" => (bool)$cat->other
-				,"checked" => $checked
-				,"text" => $text
-			);			
+			if(!$a_only_user_anwers || $checked == "checked")
+			{
+				$options[$idx] = array(
+					"value" => $value
+					,"title" => trim($cat->title)
+					,"other" => (bool)$cat->other
+					,"checked" => $checked
+					,"textanswer" => $text
+				);	
+			}
 			
 			ksort($options);
-		}		
+		}	
+		
+		return array_values($options);
+	}	
+	
+	/**
+	* Creates a HTML representation of the question
+	*
+	* @access private
+	*/
+	function getPrintView($question_title = 1, $show_questiontext = 1, $survey_id = null, array $a_working_data = null)
+	{				
+		$options = $this->getParsedAnswers($a_working_data);
 		
 		// rendering
 		
@@ -165,8 +173,8 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 						$template->setVariable("ALT_RADIO", $this->lng->txt($option["checked"]));
 						$template->setVariable("TITLE_RADIO", $this->lng->txt($option["checked"]));
 						$template->setVariable("OTHER_LABEL", ilUtil::prepareFormOutput($option["title"]));
-						$template->setVariable("OTHER_ANSWER", $option["text"] 
-							? ilUtil::prepareFormOutput($option["text"])
+						$template->setVariable("OTHER_ANSWER", $option["textanswer"] 
+							? ilUtil::prepareFormOutput($option["textanswer"])
 							: "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
 						$template->parseCurrentBlock();
 					}
@@ -198,8 +206,8 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
 					{
 						$template->setCurrentBlock("other_text_col");
 						$template->setVariable("OTHER_LABEL", ilUtil::prepareFormOutput($option["title"]));
-						$template->setVariable("OTHER_ANSWER", $option["text"] 
-							? ilUtil::prepareFormOutput($option["text"])
+						$template->setVariable("OTHER_ANSWER", $option["textanswer"] 
+							? ilUtil::prepareFormOutput($option["textanswer"])
 							: "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
 						$template->parseCurrentBlock();
 					}

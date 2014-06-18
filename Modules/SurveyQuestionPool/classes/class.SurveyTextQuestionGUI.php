@@ -95,12 +95,26 @@ class SurveyTextQuestionGUI extends SurveyQuestionGUI
 		$this->object->setTextHeight($a_form->getInput("textheight"));
 	}	
 	
-	public function getPrintView($question_title = 1, $show_questiontext = 1, $survey_id = null, array $a_working_data = null)
-	{
+	public function getParsedAnswers(array $a_working_data = null, $a_only_user_anwers = false)
+	{		
+		$res = array();
+		
 		if(is_array($a_working_data))
 		{			
-			$user_answer = trim($a_working_data[0]["textanswer"]);							
-		}			
+			$res[] = array("textanswer"=>trim($a_working_data[0]["textanswer"]));							
+		}	
+		
+		return $res;
+	}
+	
+	public function getPrintView($question_title = 1, $show_questiontext = 1, $survey_id = null, array $a_working_data = null)
+	{		
+		$user_answer = null;
+		if($a_working_data)
+		{
+			$user_answer = $this->getParsedAnswers($a_working_data);		
+			$user_answer = $user_answer[0]["textanswer"];
+		}
 		
 		$template = new ilTemplate("tpl.il_svy_qpl_text_printview.html", TRUE, TRUE, "Modules/SurveyQuestionPool");
 		if ($show_questiontext)

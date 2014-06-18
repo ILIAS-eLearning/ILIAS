@@ -141,6 +141,18 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
 		$this->object->setMaximum($a_form->getInput("maximum".$type));
 	}	
 	
+	public function getParsedAnswers(array $a_working_data = null, $a_only_user_anwers = false)
+	{
+		$res = array();
+		
+		if(is_array($a_working_data))
+		{			
+			$res[] = array("value" => $a_working_data[0]["value"]);			
+		}	
+		
+		return $res;
+	}
+	
 	/**
 	* Creates a HTML representation of the question
 	*
@@ -149,11 +161,13 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
 	* @access private
 	*/
 	function getPrintView($question_title = 1, $show_questiontext = 1, $survey_id = null, array $a_working_data = null)
-	{
-		if(is_array($a_working_data))
-		{			
-			$user_answer = $a_working_data[0]["value"];			
-		}			
+	{		
+		$user_answer = null;
+		if($a_working_data)
+		{
+			$user_answer = $this->getParsedAnswers($a_working_data);
+			$user_answer = $user_answer[0]["value"];
+		}
 				
 		$template = new ilTemplate("tpl.il_svy_qpl_metric_printview.html", TRUE, TRUE, "Modules/SurveyQuestionPool");
 		$template->setVariable("MIN_MAX", $this->object->getMinMaxText());

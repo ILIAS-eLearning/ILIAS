@@ -14372,3 +14372,6 @@ blog#:#blog_enable_nav_authors#:#Autoren
 blog#:#blog_enable_nav_authors_info#:#Autoren können zur Navigation verwendet werden.
 blog#:#blog_nav_sortorder#:#Sortierung
 survey#:#svy_view_own_results#:#Eigene Antworten einsehen
+survey#:#svy_mail_own_results#:#Eigene Antworten per eMail versenden
+survey#:#svy_mail_own_results_subject#:#Umfrage "%s" - Ihre Antworten
+survey#:#svy_mail_own_results_body#:#nachfolgend ist Ihre Teilnahme gelistet.

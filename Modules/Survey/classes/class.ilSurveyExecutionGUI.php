@@ -406,7 +406,7 @@ class ilSurveyExecutionGUI
 				}
 			}
 		}
-
+		
 		$first_question = -1;
 		if ($page === 0)
 		{
@@ -692,16 +692,58 @@ class ilSurveyExecutionGUI
 */
 	function runShowFinishedPage()
 	{		
-		if (strlen($this->object->getOutro()) == 0)
+		global $ilToolbar, $ilUser;
+		
+		$has_button = false;
+		
+		if(!$this->preview)
 		{
-			$this->backToRepository();
+			// :TODO: setting
+			if(true)
+			{
+				$ilToolbar->addButton($this->lng->txt("svy_view_own_results"),
+					$this->ctrl->getLinkTarget($this, "viewUserResults"));
+				
+				if(true)
+				{
+					$ilToolbar->addSeparator();
+													
+					require_once "Services/Form/classes/class.ilTextInputGUI.php";								
+					$mail = new ilTextInputGUI($this->lng->txt("email"), "mail");
+					$mail->setSize(25);
+					if($ilUser->getId() != ANONYMOUS_USER_ID)
+					{
+						$mail->setValue($ilUser->getEmail());
+					}
+					$ilToolbar->addInputItem($mail, true);	
+					
+					$ilToolbar->setFormAction($this->ctrl->getFormAction($this, "mailUserResults"));
+					$ilToolbar->addFormButton($this->lng->txt("svy_mail_own_results"),
+							"mailUserResults");		
+				}
+				
+				$has_button = true;
+			}
+		}
+		
+		if (!$has_button &&
+			strlen($this->object->getOutro()) == 0)
+		{
+			$this->exitSurvey();
 		}
 		else
-		{
-			$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_finished.html", "Modules/Survey");
-			$this->tpl->setVariable("TEXT_FINISHED", $this->object->prepareTextareaOutput($this->object->getOutro()));
-			$this->tpl->setVariable("BTN_EXIT", $this->lng->txt("exit"));
-			$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "runShowFinishedPage"));
+		{			
+			$ilToolbar->addButton($this->lng->txt("exit"),
+				$this->ctrl->getLinkTarget($this, "exitSurvey"));		
+			
+			$ftpl = new ilTemplate("tpl.il_svy_svy_finished.html", true, true, "Modules/Survey");		
+			
+			if(strlen($this->object->getOutro()))
+			{						
+				$ftpl->setVariable("TEXT_FINISHED", $this->object->prepareTextareaOutput($this->object->getOutro()));
+			}
+			
+			$this->tpl->setContent($ftpl->get());				
 		}
 	}
 	
@@ -775,6 +817,42 @@ class ilSurveyExecutionGUI
 	function preview()
 	{
 		$this->outSurveyPage();
+	}
+	
+	function viewUserResults()
+	{
+		global $ilToolbar;
+		
+		$this->checkAuth();		
+		
+		$ilToolbar->addButton($this->lng->txt("exit"),
+				$this->ctrl->getLinkTarget($this, "exitSurvey"));	
+		
+		$survey_gui = new ilObjSurveyGUI();
+		$html = $survey_gui->getUserResultsTable($_SESSION["finished_id"][$this->object->getId()]);
+		$this->tpl->setContent($html);	
+	}
+	
+	function mailUserResults()
+	{
+		global $ilUser;
+		
+		$this->checkAuth();		
+		
+		$recipient = $_POST["mail"];	
+		if(!ilUtil::is_email($recipient))
+		{
+			$this->ctrl->redirect($this, "runShowFinishedPage");
+		}
+		
+		$survey_gui = new ilObjSurveyGUI();									
+		$survey_gui->sendUserResultsMail(
+			$_SESSION["finished_id"][$this->object->getId()], 
+			$recipient
+		);		
+		
+		ilUtil::sendSuccess($this->lng->txt("mail_sent"), true);
+		$this->ctrl->redirect($this, "runShowFinishedPage");
 	}
 }
 ?>
