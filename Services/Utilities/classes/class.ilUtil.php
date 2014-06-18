@@ -2171,19 +2171,24 @@ class ilUtil
 		include_once './Services/Http/classes/class.ilHTTPS.php';
 		
 		//if($_SERVER['HTTPS'])
-		if( ilHTTPS::getInstance()->isDetected() )
+		// gev-patch start
+		//if( ilHTTPS::getInstance()->isDetected() )
+		if ( true )
+		// gev-patch end
 		{
 
 			// Added different handling for IE and HTTPS => send pragma after content informations
 			/**
 			* We need to set the following headers to make downloads work using IE in HTTPS mode.
 			*/
-			#header("Pragma: ");
-			#header("Cache-Control: ");
-			#header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-			#header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
-			#header("Cache-Control: no-store, no-cache, must-revalidate"); // HTTP/1.1
-			#header("Cache-Control: post-check=0, pre-check=0", false);
+			// gev-patch start
+			header("Pragma: ");
+			header("Cache-Control: ");
+			header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+			header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+			header("Cache-Control: no-store, no-cache, must-revalidate"); // HTTP/1.1
+			header("Cache-Control: post-check=0, pre-check=0", false);
+			// gev-patch end
 		}
 		else if ($disposition == "attachment")
 		{
