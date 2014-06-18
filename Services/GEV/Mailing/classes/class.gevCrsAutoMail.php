@@ -420,7 +420,7 @@ abstract class gevCrsAutoMail extends ilAutoMail {
 	}
 
 	protected function getTemplateIdByTypeAndCategory($a_type, $a_category) {
-		require_once "./Services/Mail/classes/class.ilMailTemplateSettingsEntity.php";
+		require_once "./Services/MailTemplates/classes/class.ilMailTemplateSettingsEntity.php";
 
 		if ($this->template_settings === null) {
 			$this->template_settings = new ilMailTemplateSettingsEntity();
