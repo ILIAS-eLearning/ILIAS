@@ -1,0 +1,22 @@
+<!-- BEGIN prop_date_activation -->
+		<input type="checkbox" name="{CHECK_ENABLED_DATE}" value="1" {CHECKED_ENABLED} {CHECKED_DISABLED}/> {TXT_DATE_ENABLED}<br />
+<!-- END prop_date_activation -->
+<!-- BEGIN toggle_fullday -->
+		<input type="checkbox" id="{FULLDAY_POSTVAR}_fulltime" onchange="ilToggleFullTime(this,'{FULLDAY_POSTVAR}');" name="{FULLDAY_TOGGLE_NAME}" value="1" {FULLDAY_TOGGLE_CHECKED} {FULLDAY_TOGGLE_DISABLED} />
+				<label for="{FULLDAY_POSTVAR}_fulltime">{TXT_TOGGLE_FULLDAY}</label>
+		<br /><br />
+<!-- END toggle_fullday -->
+
+		<div class="gev_schedule">
+			<p style="padding-bottom: 0.5em; padding-top: 1em; margin-top: 0px; margin-bottom: 0px;"> {TXT_START}&nbsp;
+			<!-- BEGIN show_start_time -->
+			</p>{START_TIME_SELECT} {TXT_START_TIME}
+			<!-- END show_start_time -->
+			{TXT_END}&nbsp;
+			<!-- BEGIN show_end_time -->
+			{END_TIME_SELECT} {TXT_END_TIME}
+			<!-- END show_end_time -->
+			<!-- BEGIN multi -->
+			{MULTI_ICONS}
+			<!-- END multi -->
+		</div class="gev_schedule">
