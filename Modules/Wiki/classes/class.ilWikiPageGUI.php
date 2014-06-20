@@ -761,5 +761,71 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		include_once "./Services/Notification/classes/class.ilNotification.php";
 		ilWikiUtil::sendNotification("comment", ilNotification::TYPE_WIKI_PAGE, $this->getWikiRefId(), $a_page_id, $note);
 	}
+	
+	
+	//
+	// advanced meta data
+	// 
+	
+	protected function initAdvancedMetaDataForm()
+	{
+		global $ilCtrl, $lng;
+			
+		$page = $this->getWikiPage();
+		
+		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($ilCtrl->getFormAction($this, "updateAdvancedMetaData"));
+		
+		// :TODO:
+		$form->setTitle($lng->txt("wiki_advmd_block_title").": ".$page->getTitle());
+		
+		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
+		$this->record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_EDITOR,'wiki',$page->getWikiId(),'wpg',$page->getId());
+		$this->record_gui->setPropertyForm($form);
+		$this->record_gui->parse();
+		
+		$form->addCommandButton("updateAdvancedMetaData", $lng->txt("save"));
+		$form->addCommandButton("preview", $lng->txt("cancel"));
+		
+		return $form;
+	}
+		
+	function editAdvancedMetaData(ilPropertyFormGUI $a_form = null)
+	{
+		global $ilTabs, $lng, $ilCtrl, $tpl;
+		
+		$ilTabs->clearTargets();
+		$ilTabs->setBackTarget($lng->txt("back"),
+			$ilCtrl->getLinkTarget($this, "preview"));
+		
+		if(!$a_form)
+		{
+			$a_form = $this->initAdvancedMetaDataForm();
+		}
+		
+		$tpl->setContent($a_form->getHTML());
+	}
+	
+	function updateAdvancedMetaData()
+	{		
+		global $ilCtrl, $lng;
+		
+		$form = $this->initAdvancedMetaDataForm();
+	
+		// needed for proper advanced MD validation	 		
+		$form->checkInput();			
+		if(!$this->record_gui->importEditFormPostValues())
+		{	
+			$this->editInfoObject($form);
+			return false;
+		}	
+				
+		if($this->record_gui->writeEditForm())
+		{
+			ilUtil::sendSuccess($lng->txt("settings_saved"), true);
+		}		
+		$ilCtrl->redirect($this, "preview");
+	}
 } 
 ?>

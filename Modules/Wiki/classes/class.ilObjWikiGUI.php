@@ -1182,8 +1182,17 @@ class ilObjWikiGUI extends ilObjectGUI
 				$rgui->enableCategories(ilObjWiki::_lookupRatingCategories($wiki_id));
 				$rcontent .= $rgui->getBlockHTML($lng->txt("wiki_rate_page"));
 			}
+		
+			// advanced metadata
+			include_once("./Modules/Wiki/classes/class.ilWikiAdvMetaDataBlockGUI.php");			
+			if(ilWikiAdvMetaDataBlockGUI::isActive($wiki_id))
+			{				
+				$advmd_pages_block = new ilWikiAdvMetaDataBlockGUI();
+				$advmd_pages_block->setObject($a_wiki_ref_id, $wiki_id, $a_wpg_id);
+				$rcontent.= $advmd_pages_block->getHTML();
+			}
 		}
-
+			
 		// important pages
 //		if (ilObjWiki::_lookupImportantPages(ilObject::_lookupObjId($a_wiki_ref_id)))
 //		{

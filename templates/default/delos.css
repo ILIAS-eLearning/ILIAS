@@ -3058,6 +3058,10 @@ h3.ilPDBlockSubHeader {
 	border-bottom: 1px solid #F0F0F0;
 }
 
+div.ilBlockPropertyCaption {
+	font-weight: bold;
+}
+
 /* Services/Bookmarks */
 #block_pdbookm_0 #tree_div {
 	overflow: auto;
