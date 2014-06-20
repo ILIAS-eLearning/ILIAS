@@ -16,6 +16,7 @@ $tmultiselect = ilAdvancedMDFieldDefinition::TYPE_MULTI_SELECT;
 $tvenue = ilAdvancedMDFieldDefinition::TYPE_VENUE_SELECT;
 $tprovider = ilAdvancedMDFieldDefinition::TYPE_PROVIDER_SELECT;
 $tlongtext = ilAdvancedMDFieldDefinition::TYPE_LONG_TEXT;
+$tschedule = ilAdvancedMDFieldDefinition::TYPE_SCHEDULE;
 
 $gev_set = gevSettings::getInstance();
 
@@ -37,6 +38,13 @@ array( "Zeitraum"
 	 	   					 , true
 	 	   					 , null
 	 	   					 , $tdate
+	 	   					 )
+	 	   		, "Zeitplan" =>
+	 	   				array( gevSettings::CRS_AMD_SCHEDULE
+	 	   					 , null
+	 	   					 , false
+	 	   					 , null
+	 	   					 , $tschedule
 	 	   					 )
 
 	 	   		))
