@@ -57,7 +57,17 @@ var ilMultiFormValues = {
 	 * @param event e
 	 */
 	removeEvent: function(e) {
-		var id = $(e.target).attr('id').split('~');			
+		var id = $(e.target).attr('id').split('~');
+
+		// gev-patch start
+		// pretty hacky
+		if($('div[id*="ilFormField~' + id[1] + '~' + id[2] + '"]').children(".gev_schedule").length > 0) {
+			$('input[id="ilMultiAdd~'+id[1]+'~'+(id[2]-1)+'"]').css("display", "inline");
+			$('input[id="ilMultiRmv~'+id[1]+'~'+(id[2]-1)+'"]').css("display", "inline");
+		}
+		// gev-patch end
+
+		
 		if($('div[id*="ilFormField~' +  id[1] + '"]').length > 1) {
 			$('div[id*="ilFormField~' + id[1] + '~' + id[2] + '"]').remove();
 		}
@@ -122,6 +132,14 @@ var ilMultiFormValues = {
 
 		// clone original element
 		var new_element = $(original_element).clone();
+
+		// gev-patch start
+		// pretty hacky
+		if(original_element.children(".gev_schedule").length > 0) {
+			$('input[id="ilMultiAdd~'+group_id+'~'+index+'"]').css("display", "none");
+			$('input[id="ilMultiRmv~'+group_id+'~'+index+'"]').css("display", "none");
+		}
+		// gev-patch end
 
 		// fix id of cloned element
 		$(new_element).attr('id', 'ilFormField~' + group_id + '~' + new_id);
