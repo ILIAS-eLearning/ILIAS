@@ -63,7 +63,11 @@ class ilObjCourseListGUI extends ilObjectListGUI
 	{
 		global $ilBench;
 
-		parent::initItem($a_ref_id, $a_obj_id, $a_title, $a_description);
+		// gev-patch start
+		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+		$utils = gevCourseUtils::getInstance($a_obj_id);
+		parent::initItem($a_ref_id, $a_obj_id, ($utils->isTemplate() ? "Vorlage: " : "").$a_title, $a_description);
+		// gev-patch end
 
 		$this->conditions_ok = ilConditionHandler::_checkAllConditionsOfTarget($a_ref_id,$this->obj_id);
 	}

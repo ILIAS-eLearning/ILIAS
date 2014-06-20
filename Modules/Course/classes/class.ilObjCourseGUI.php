@@ -5608,5 +5608,43 @@ class ilObjCourseGUI extends ilContainerGUI
 		$certificate->outCertificate(array("user_id" => $user_id), true);				
 	}
 	
+	
+	// gev-patch start
+	// copied from ContainerGUI
+	/**
+	* called by prepare output 
+	*/
+	function setTitleAndDescription()
+	{
+		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+		global $ilias;
+		$utils = gevCourseUtils::getInstance($this->object->getId());
+
+		if (!ilContainer::_lookupContainerSetting($this->object->getId(), "hide_header_icon_and_title"))
+		{
+			$this->tpl->setTitle( ($utils->isTemplate() ? "Vorlage: " : "")
+								. $this->object->getTitle());
+			$this->tpl->setDescription($this->object->getLongDescription());
+	
+			// set tile icon
+			$icon = ilObject::_getIcon($this->object->getId(), "big", $this->object->getType());
+			if ($ilias->getSetting("custom_icons") &&
+				in_array($this->object->getType(), array("cat","grp","crs", "root")))
+			{
+				require_once("./Services/Container/classes/class.ilContainer.php");
+				if (($path = ilContainer::_lookupIconPath($this->object->getId(), "big")) != "")
+				{
+					$icon = $path;
+				}
+			}
+			$this->tpl->setTitleIcon($icon, $this->lng->txt("obj_".$this->object->getType()));
+						
+			include_once './Services/Object/classes/class.ilObjectListGUIFactory.php';
+			$lgui = ilObjectListGUIFactory::_getListGUIByType($this->object->getType());
+			$lgui->initItem($this->object->getRefId(), $this->object->getId());
+			$this->tpl->setAlertProperties($lgui->getAlertProperties());			
+		}
+	}
+	
 } // END class.ilObjCourseGUI
 ?>
