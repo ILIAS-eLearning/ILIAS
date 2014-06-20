@@ -815,10 +815,16 @@ class ilObjCourseGUI extends ilContainerGUI
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this,'updateInfo'));
 		$form->setMultipart(true);
-		$form->setTitle($this->lng->txt('crs_general_info'));
+		
+		// gev-patch start
+		$form->setTitle("&nbsp;");//$this->lng->txt('crs_general_info'));
+		// gev-patch end
+		
 		$form->addCommandButton('updateInfo',$this->lng->txt('save'));
 		$form->addCommandButton('cancel',$this->lng->txt('cancel'));
 		
+		// gev-patch start
+		/*
 		$area = new ilTextAreaInputGUI($this->lng->txt('crs_important_info'),'important');
 		$area->setValue($this->object->getImportantInformation());
 		$area->setRows(6);
@@ -830,6 +836,9 @@ class ilObjCourseGUI extends ilContainerGUI
 		$area->setRows(6);
 		$area->setCols(80);
 		$form->addItem($area);
+		*/
+		// gev-patch end
+		
 		
 		$section = new ilFormSectionHeaderGUI();
 		$section->setTitle($this->lng->txt('crs_info_download'));
@@ -868,11 +877,15 @@ class ilObjCourseGUI extends ilContainerGUI
 		$text->setMaxLength(255);
 		$form->addItem($text);
 
+		// gev-patch start
+		/*
 		$area = new ilTextAreaInputGUI($this->lng->txt('crs_contact_consultation'),'contact_consultation');
 		$area->setValue($this->object->getContactConsultation());
 		$area->setRows(6);
 		$area->setCols(80);
 		$form->addItem($area);
+		*/
+		// gev-patch end
 		
 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
 		$this->record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_EDITOR,'crs',$this->object->getId());
