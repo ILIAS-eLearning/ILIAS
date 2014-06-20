@@ -148,7 +148,10 @@ class ilDatePresentation
 		{
 			include_once('./Services/Calendar/classes/class.ilCalendarUtil.php');
 			$date_str = $date->get(IL_CAL_FKT_DATE,'d').'. '.
-				ilCalendarUtil::_numericMonthToString($date_info['mon'],false).' '.
+				// gev-patch start
+				//ilCalendarUtil::_numericMonthToString($date_info['mon'],false).' '.
+				ilCalendarUtil::_numericMonthToString($date_info['mon'],true).' '.
+				// gev-patch end
 				$date_info['year'];
 		}
 		
