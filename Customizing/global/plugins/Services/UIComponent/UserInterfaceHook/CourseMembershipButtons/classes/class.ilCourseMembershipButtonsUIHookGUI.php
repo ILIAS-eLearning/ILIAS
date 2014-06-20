@@ -25,7 +25,7 @@ class ilCourseMembershipButtonsUIHookGUI extends ilUIHookPluginGUI {
 
 
 		if ($this->ctrl->getCmdClass() == "ilobjcoursegui" 
-		and (  in_array($this->ctrl->getCmd(), array("members"))
+		and (  in_array($this->ctrl->getCmd(), array("members", "post"))
 			or in_array($_GET["fallbackCmd"], array("deleteMembers"))
 			)
 		and $a_part == "template_load"
