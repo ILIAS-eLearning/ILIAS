@@ -1103,7 +1103,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	/**
 	* update complete object
 	*/
-	function update()
+	function update($a_announce_event = true)
 	{
 		global $ilAppEventHandler,$ilLog;
 
@@ -1116,12 +1116,13 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		$this->updateSettings();
 		parent::update();
 		
-		$ilAppEventHandler->raise('Modules/Course',
-			'update',
-			array('object' => $this,
-				'obj_id' => $this->getId(),
-				'appointments' => $this->prepareAppointments('update')));
-		
+		if ($a_announce_event) {
+			$ilAppEventHandler->raise('Modules/Course',
+				'update',
+				array('object' => $this,
+					'obj_id' => $this->getId(),
+					'appointments' => $this->prepareAppointments('update')));
+		}
 	}
 
 	function updateSettings()

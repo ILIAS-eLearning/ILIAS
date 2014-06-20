@@ -951,9 +951,11 @@ class ilObjCourseGUI extends ilContainerGUI
 			return false;
 		}
 		
-		$this->object->update();
+		// gev-patch start
 		$file_obj->create();
 		$this->record_gui->writeEditForm();
+		$this->object->update();
+		// gev-patch end
 		
 		
 		// Update ecs content
@@ -1234,6 +1236,8 @@ class ilObjCourseGUI extends ilContainerGUI
 		$form->addItem($act_type);
 		
 		
+		// gev-patch start
+		/*
 		$section = new ilFormSectionHeaderGUI();
 		$section->setTitle($this->lng->txt('crs_reg'));
 		$form->addItem($section);
@@ -1270,20 +1274,19 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		$form->addItem($reg_proc);
 		
-		
 		// Registration codes
 		$reg_code = new ilCheckboxInputGUI($this->lng->txt('crs_reg_code'),'reg_code_enabled');
 		$reg_code->setChecked($this->object->isRegistrationAccessCodeEnabled());
 		$reg_code->setValue(1);
 		$reg_code->setInfo($this->lng->txt('crs_reg_code_enabled_info'));
 		
-		/*
-		$code = new ilNonEditableValueGUI($this->lng->txt('crs_reg_code_value'));
-		$code->setValue($this->object->getRegistrationAccessCode());
-		$reg_code->addSubItem($code);
-		*/
 		
-		#$link = new ilNonEditableValueGUI($this->lng->txt('crs_reg_code_link'));
+		//$code = new ilNonEditableValueGUI($this->lng->txt('crs_reg_code_value'));
+		//$code->setValue($this->object->getRegistrationAccessCode());
+		//$reg_code->addSubItem($code);
+		
+		
+		//$link = new ilNonEditableValueGUI($this->lng->txt('crs_reg_code_link'));
 		// Create default access code
 		if(!$this->object->getRegistrationAccessCode())
 		{
@@ -1340,7 +1343,8 @@ class ilObjCourseGUI extends ilContainerGUI
 			$lim->addSubItem($wait);
 		
 		$form->addItem($lim);
-	
+		*/
+		// gev-patch end
 
 		$pres = new ilFormSectionHeaderGUI();
 		$pres->setTitle($this->lng->txt('crs_view_mode'));

@@ -262,6 +262,22 @@ class gevCourseUtils {
 	public function setMinParticipants($a_min) {
 		$this->amd->setField($this->crs_id, gevSettings::CRS_AMD_MIN_PARTICIPANTS, $a_min);
 	}
+	
+	public function getMaxParticipants() {
+		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_MAX_PARTICIPANTS);
+	}
+	
+	public function setMaxParticipants($a_min) {
+		$this->amd->setField($this->crs_id, gevSettings::CRS_AMD_MAX_PARTICIPANTS, $a_min);
+	}
+
+	public function getWaitingListActive() {
+		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_WAITING_LIST_ACTIVE) == "Ja";
+	}
+
+	public function setWaitingListActive($a_active) {
+		$this->amd->setField($this->crs_id, gevSettings::CRS_AMD_WAITING_LIST_ACTIVE, $active ? "Ja" : "Nein");
+	}
 
 	public function getCancelDeadline() {
 		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_CANCEL_DEADLINE);
