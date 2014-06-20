@@ -125,9 +125,9 @@ class ilTestSequenceDynamicQuestionSet
 		}
 	}
 	
-	public function loadQuestions(ilObjTestDynamicQuestionSetConfig $dynamicQuestionSetConfig, $taxonomyFilterSelection)
+	public function loadQuestions(ilObjTestDynamicQuestionSetConfig $dynamicQuestionSetConfig, ilTestDynamicQuestionSetFilterSelection $filterSelection)
 	{
-		$this->questionSet->load($dynamicQuestionSetConfig, $taxonomyFilterSelection);
+		$this->questionSet->load($dynamicQuestionSetConfig, $filterSelection);
 
 //		echo "<table><tr>";
 //		echo "<td width='200'><pre>".print_r($this->questionSet->getActualQuestionSequence(), 1)."</pre></td>";
@@ -293,6 +293,11 @@ class ilTestSequenceDynamicQuestionSet
 		return $questionList;
 	}
 	
+	public function resetTrackedQuestionList()
+	{
+		$this->questionTracking = array();
+	}
+	
 	public function openQuestionExists()
 	{
 		return count($this->getOpenQuestions()) > 0;
@@ -400,9 +405,9 @@ class ilTestSequenceDynamicQuestionSet
 
 	// -----------------------------------------------------------------------------------------------------------------
 	
-	public function getFilteredQuestionList()
+	public function getFilteredQuestionsData()
 	{
-		return $this->questionSet->getFilteredQuestionsData();
+		return $this->questionSet->getFilteredQuestionList()->getQuestionDataArray();
 	}
 
 	// -----------------------------------------------------------------------------------------------------------------

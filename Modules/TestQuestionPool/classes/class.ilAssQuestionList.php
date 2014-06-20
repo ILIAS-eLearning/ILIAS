@@ -62,6 +62,34 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 	 * @var array
 	 */
 	private $taxFilters = array();
+
+	/**
+	 * active id for determining answer status
+	 * 
+	 * @var integer
+	 */
+	private $answerStatusActiveId = null;
+
+	/**
+	 * answer status domain for single questions
+	 */
+	const QUESTION_ANSWER_STATUS_NON_ANSWERED = 'nonAnswered';
+	const QUESTION_ANSWER_STATUS_WRONG_ANSWERED = 'wrongAnswered';
+	const QUESTION_ANSWER_STATUS_CORRECT_ANSWERED = 'correctAnswered';
+
+	/**
+	 * answer status filter value domain
+	 */
+	const ANSWER_STATUS_FILTER_ALL_NON_CORRECT = 'allNonCorrect';
+	const ANSWER_STATUS_FILTER_NON_ANSWERED_ONLY = 'nonAnswered';
+	const ANSWER_STATUS_FILTER_WRONG_ANSWERED_ONLY = 'wrongAnswered';
+	
+	/**
+	 * answer status filter
+	 * 
+	 * @var string
+	 */
+	private $answerStatusFilter = null;
 	
 	/**
 	 * the questions loaded by set criteria
@@ -102,6 +130,26 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 	public function getAvailableTaxonomyIds()
 	{
 		return $this->availableTaxonomyIds;
+	}
+
+	public function setAnswerStatusActiveId($answerStatusActiveId)
+	{
+		$this->answerStatusActiveId = $answerStatusActiveId;
+	}
+
+	public function getAnswerStatusActiveId()
+	{
+		return $this->answerStatusActiveId;
+	}
+
+	public function setAnswerStatusFilter($answerStatusFilter)
+	{
+		$this->answerStatusFilter = $answerStatusFilter;
+	}
+
+	public function getAnswerStatusFilter()
+	{
+		return $this->answerStatusFilter;
 	}
 	
 	private function getFieldFilterExpressions()
@@ -170,11 +218,59 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 		return $expressions;
 	}
 	
+	private function getAnswerStatusFilterExpressions()
+	{
+		$expressions = array();
+		
+		switch( $this->getAnswerStatusFilter() )
+		{
+			case self::ANSWER_STATUS_FILTER_ALL_NON_CORRECT:
+				
+				$expressions[] = '
+					(tst_test_result.question_fi IS NULL OR tst_test_result.points < qpl_questions.points)
+				';
+				break;
+				
+			case self::ANSWER_STATUS_FILTER_NON_ANSWERED_ONLY:
+
+				$expressions[] = 'tst_test_result.question_fi IS NULL';
+				break;
+
+			case self::ANSWER_STATUS_FILTER_WRONG_ANSWERED_ONLY:
+				
+				$expressions[] = 'tst_test_result.question_fi IS NOT NULL';
+				$expressions[] = 'tst_test_result.points < qpl_questions.points';
+				break;
+		}
+		
+		return $expressions;
+	}
+	
+	private function getTableJoinExpression()
+	{
+		$tableJoin = "
+			INNER JOIN	qpl_qst_type
+			ON			qpl_qst_type.question_type_id = qpl_questions.question_type_fi
+		";
+		
+		if( $this->getAnswerStatusActiveId() )
+		{
+			$tableJoin .= "
+				LEFT JOIN	tst_test_result
+				ON			tst_test_result.question_fi = qpl_questions.question_id
+				AND			tst_test_result.active_fi = {$this->db->quote($this->getAnswerStatusActiveId(), 'integer')}
+			";
+		}
+		
+		return $tableJoin;
+	}
+	
 	private function getConditionalExpression()
 	{
 		$CONDITIONS = array_merge(
 				$this->getFieldFilterExpressions(),
-				$this->getTaxonomyFilterExpressions()
+				$this->getTaxonomyFilterExpressions(),
+				$this->getAnswerStatusFilterExpressions()
 		);
 		
 		$CONDITIONS = implode(' AND ', $CONDITIONS);
@@ -182,23 +278,56 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 		return strlen($CONDITIONS) ? 'AND '.$CONDITIONS : '';
 	}
 	
+	private function getSelectFieldsExpression()
+	{
+		$selectFields = array(
+				'qpl_questions.*',
+				'qpl_qst_type.type_tag',
+				'qpl_qst_type.plugin',
+				'qpl_questions.points max_points'
+		);
+
+		if( $this->getAnswerStatusActiveId() )
+		{
+			$selectFields[] = 'tst_test_result.points reached_points';
+			$selectFields[] = "CASE
+					WHEN tst_test_result.points IS NULL THEN '".self::QUESTION_ANSWER_STATUS_NON_ANSWERED."'
+					WHEN tst_test_result.points < qpl_questions.points THEN '".self::QUESTION_ANSWER_STATUS_WRONG_ANSWERED."'
+					ELSE '".self::QUESTION_ANSWER_STATUS_CORRECT_ANSWERED."'
+				END question_answer_status
+			";
+		}
+
+		$selectFields = implode(",\n\t\t\t\t", $selectFields);
+		
+		return "
+			SELECT		{$selectFields}
+		";
+	}
+	
 	public function load()
-	{		
+	{
+		$this->checkFilters();
+			
 		$query = "
-			SELECT		qpl_questions.*,
-						qpl_qst_type.type_tag,
-						qpl_qst_type.plugin
-			FROM		qpl_questions,
-						qpl_qst_type
+			{$this->getSelectFieldsExpression()}
+			
+			FROM		qpl_questions
+			
+			{$this->getTableJoinExpression()}
+			
 			WHERE		qpl_questions.original_id IS NULL
 			AND			qpl_questions.tstamp > 0
-			AND			qpl_questions.question_type_fi = qpl_qst_type.question_type_id
 			AND			qpl_questions.obj_fi = %s
 			
 			{$this->getConditionalExpression()}
 		";
 		
+		#vd($query);
+
 		$res = $this->db->queryF($query, array('integer'), array($this->parentObjId));
+		
+		#vd($this->db->db->last_query);
 		
 		while( $row = $this->db->fetchAssoc($res) )
 		{
@@ -290,5 +419,18 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 		}
 		
 		return $this->questions[$a_item_id]['title'];
+	}
+	
+	private function checkFilters()
+	{
+		if( strlen($this->getAnswerStatusFilter()) && !$this->getAnswerStatusActiveId() )
+		{
+			require_once 'Modules/TestQuestionPool/exceptions/class.ilTestQuestionPoolException.php';
+			
+			throw new ilTestQuestionPoolException(
+				'No active id given! You cannot use the answer status filter without giving an active id.'
+			);
+		}
+		
 	}
 }

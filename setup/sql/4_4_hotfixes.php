@@ -662,3 +662,28 @@ $ilCtrlStructureReader->getStructure();
 // Bibliographic Module: Increase the allowed text-size for attributes from 512 to 4000
 $ilDB->modifyTableColumn("il_bibl_attribute", "value", array("type" => "text", "length" => 4000));
 ?>
+<#24>
+<?php
+if( !$ilDB->tableColumnExists('tst_dyn_quest_set_cfg', 'answer_filter_enabled') )
+{
+	$ilDB->addTableColumn('tst_dyn_quest_set_cfg', 'answer_filter_enabled', array(
+		'type' => 'integer',
+		'length' => 1,
+		'notnull' => false,
+		'default' => null
+	));
+}
+if( !$ilDB->tableColumnExists('tst_active', 'answerstatusfilter') )
+{
+	$ilDB->addTableColumn('tst_active', 'answerstatusfilter', array(
+		'type' => 'text',
+		'length' => 16,
+		'notnull' => false,
+		'default' => null
+	));
+}
+?>
+<#25>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

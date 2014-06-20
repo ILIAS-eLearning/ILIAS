@@ -754,6 +754,7 @@ assessment#:#polygon_click_next_point#:#Bitte klicken Sie auf den nächsten Punk
 assessment#:#polygon_click_starting_point#:#Bitte klicken Sie auf den Startpunkt des Polygonzugs.
 assessment#:#postpone#:#Frage zurückstellen
 assessment#:#postponed#:#zurückgestellt
+assessment#:#postpone_status#:#Postponed
 assessment#:#preview#:#Vorschau
 assessment#:#previous_question_rows#:#« Fragen %d - %d von %d
 assessment#:#print_answers#:#Antworten drucken
@@ -1373,6 +1374,11 @@ assessment#:#tst_dynamic_question_set_source_questionpool_summary_string#:#%s (P
 assessment#:#tst_dyn_quest_set_src_qpl_summary_string_trashed#:#%s (Aktuell im Papierkorb) [%s Fragen]
 assessment#:#tst_dyn_quest_set_src_qpl_summary_string_deleted#:#%s (Endgültig gelöscht)
 assessment#:#tst_input_dynamic_question_set_taxonomie_filter_enabled#:#Zeige Taxonomiefilter
+assessment#:#tst_input_dyn_quest_set_answer_status_filter_enabled#:#Zeige Filter für Beantwortungsstatus
+assessment#:#tst_question_answer_status#:#Beantwortungsstatus
+assessment#:#tst_question_answer_status_all_non_correct#:#Alle, außer richtig beantwortete Fragen
+assessment#:#tst_question_answer_status_non_answered#:#Noch nicht beantwortete Fragen
+assessment#:#tst_question_answer_status_wrong_answered#:#Nur falsch beantwortete Fragen
 assessment#:#tst_input_dynamic_question_set_question_ordering#:#Fragen-Ordnung
 assessment#:#tst_input_dynamic_question_set_question_ordering_by_date#:#Ordne Fragen nach Datum
 assessment#:#tst_inp_dyn_quest_set_quest_ordering_by_date_desc#:#Die Reihenfolge der Fragen orientiert sich am Datum der letzten Änderung.
@@ -1384,7 +1390,12 @@ assessment#:#tst_start_dyn_test_with_cur_quest_sel#:#Test mit aktueller Fragenau
 assessment#:#tst_resume_dyn_test_with_cur_quest_sel#:#Test mit aktueller Fragenauswahl fortsetzen
 assessment#:#tst_back_dyn_test_with_cur_quest_sel#:#Zurück zum Test mit aktueller Fragenauswahl
 assessment#:#tst_tracked_question_list#:#Vorherige beantwortete Fragen
-assessment#:#tst_filtered_question_list#:#Auswahl der Testfragen
+assessment#:#tst_dynamic_question_set_selection#:#Auswahl der Testfragen
+assessment#:#tst_num_open_questions#:#Offene Fragen
+assessment#:#tst_num_non_answered_questions#:#Nicht beantwortete Fragen
+assessment#:#tst_num_wrong_answered_questions#:#Falsch beantwortete Fragen
+assessment#:#tst_num_postponed_questions#:#Zurückgestellte Fragen
+assessment#:#tst_num_marked_questions#:#Markierte Fragen
 assessment#:#tst_change_dyn_test_question_selection#:#Aktuelle Fragenauswahl ändern
 assessment#:#tst_dyn_test_msg_currently_finished_completely#:#Aktuell haben Sie alle Fragen des Quellfragenpool erfolgreich beantwortet. Sowie neue oder veränderte Fragen im Quellfragenpool vorliegen können Sie den Test fortführen.
 assessment#:#tst_dyn_test_msg_currently_finished_selection#:#In der aktuellen Fragenauswahl haben Sie alle Fragen erfolgreich beantwortet. Ändern Sie die Fragenauswahl um den Test fort zu führen.

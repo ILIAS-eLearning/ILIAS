@@ -639,6 +639,7 @@ assessment#:#polygon_click_starting_point#:#Please click on the starting point o
 assessment#:#polygon#:#Polygon
 assessment#:#postpone#:#Postpone Question
 assessment#:#postponed#:#postponed
+assessment#:#postpone_status#:#Postponed
 assessment#:#preview#:#Preview
 assessment#:#previous_question_rows#:#<< Questions %d - %d of %d
 assessment#:#print_answers#:#Print Answers
@@ -1197,6 +1198,11 @@ assessment#:#tst_dynamic_question_set_source_questionpool_summary_string#:#%s (P
 assessment#:#tst_dyn_quest_set_src_qpl_summary_string_trashed#:#%s (Deleted) [%s Questions]
 assessment#:#tst_dyn_quest_set_src_qpl_summary_string_deleted#:#%s (Deleted Permanently)
 assessment#:#tst_input_dynamic_question_set_taxonomie_filter_enabled#:#Provide Taxonomy Filter
+assessment#:#tst_input_dyn_quest_set_answer_status_filter_enabled#:#Provide Answer Status Filter
+assessment#:#tst_question_answer_status#:#Answer Status
+assessment#:#tst_question_answer_status_all_non_correct#:#All Questions (Except Correct Answered Ones)
+assessment#:#tst_question_answer_status_non_answered#:#Non Answered Questions
+assessment#:#tst_question_answer_status_wrong_answered#:#Wrong Answered Questions
 assessment#:#tst_input_dynamic_question_set_question_ordering#:#Question Ordering
 assessment#:#tst_input_dynamic_question_set_question_ordering_by_date#:#Order Questions by Date
 assessment#:#tst_inp_dyn_quest_set_quest_ordering_by_date_desc#:#The presentation order for the questions bases upon the question's last editing date.
@@ -1208,7 +1214,12 @@ assessment#:#tst_start_dyn_test_with_cur_quest_sel#:#Start Test with Current Que
 assessment#:#tst_resume_dyn_test_with_cur_quest_sel#:#Resume Test with Current Question Selection
 assessment#:#tst_back_dyn_test_with_cur_quest_sel#:#Back to Test with Current Question Selection
 assessment#:#tst_tracked_question_list#:#Previously Answered Questions
-assessment#:#tst_filtered_question_list#:#Test Question Selection
+assessment#:#tst_dynamic_question_set_selection#:#Test Question Selection
+assessment#:#tst_num_open_questions#:#Open Questions
+assessment#:#tst_num_non_answered_questions#:#Non Answered Questions
+assessment#:#tst_num_wrong_answered_questions#:#Wrong Answered Questions
+assessment#:#tst_num_postponed_questions#:#Postponed Questions
+assessment#:#tst_num_marked_questions#:#Marked Questions
 assessment#:#tst_change_dyn_test_question_selection#:#Change Current Question Selection
 assessment#:#tst_dyn_test_msg_currently_finished_completely#:#Currently you have answered all questions from the selected question pool successfully. You can proceed the test when there are new or edited questions in the question pool.
 assessment#:#tst_dyn_test_msg_currently_finished_selection#:#With the current question selection you have answered all questions successfully. Change the question selection to proceed the test.

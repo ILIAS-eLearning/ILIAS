@@ -19,6 +19,11 @@ class ilObjTestDynamicQuestionSetConfig extends ilTestQuestionSetConfig
 	 * @var integer
 	 */
 	private $sourceQuestionPoolId = null;
+
+	/**
+	 * @var boolean
+	 */
+	private $answerStatusFilterEnabled = null;
 	
 	/**
 	 * the fact wether a taxonomie filter
@@ -76,6 +81,22 @@ class ilObjTestDynamicQuestionSetConfig extends ilTestQuestionSetConfig
 	}
 
 	/**
+	 * @return boolean
+	 */
+	public function isAnswerStatusFilterEnabled()
+	{
+		return $this->answerStatusFilterEnabled;
+	}
+
+	/**
+	 * @param boolean $answerStatusFilterEnabled
+	 */
+	public function setAnswerStatusFilterEnabled($answerStatusFilterEnabled)
+	{
+		$this->answerStatusFilterEnabled = $answerStatusFilterEnabled;
+	}
+
+	/**
 	 * isser for taxonomie filter enabled
 	 * 
 	 * @return boolean
@@ -127,10 +148,11 @@ class ilObjTestDynamicQuestionSetConfig extends ilTestQuestionSetConfig
 		{
 			switch($field)
 			{
-				case 'source_qpl_fi':			$this->setSourceQuestionPoolId($value);		break;
-				case 'source_qpl_title':		$this->setSourceQuestionPoolTitle($value);	break;
-				case 'tax_filter_enabled':		$this->setTaxonomyFilterEnabled($value);	break;
-				case 'order_tax':				$this->setOrderingTaxonomyId($value);		break;
+				case 'source_qpl_fi':				$this->setSourceQuestionPoolId($value);			break;
+				case 'source_qpl_title':			$this->setSourceQuestionPoolTitle($value);		break;
+				case 'answer_filter_enabled':		$this->setAnswerStatusFilterEnabled($value);	break;
+				case 'tax_filter_enabled':			$this->setTaxonomyFilterEnabled($value);		break;
+				case 'order_tax':					$this->setOrderingTaxonomyId($value);			break;
 			}
 		}
 	}
@@ -159,17 +181,15 @@ class ilObjTestDynamicQuestionSetConfig extends ilTestQuestionSetConfig
 	
 	/**
 	 * saves the question set config for current test to the database
-	 * 
-	 * @return boolean
 	 */
 	public function saveToDb()
 	{
 		if( $this->dbRecordExists($this->testOBJ->getTestId()) )
 		{
-			return $this->updateDbRecord($this->testOBJ->getTestId());
+			$this->updateDbRecord($this->testOBJ->getTestId());
 		}
 		
-		return $this->insertDbRecord($this->testOBJ->getTestId());
+		$this->insertDbRecord($this->testOBJ->getTestId());
 	}
 
 	/**
@@ -227,6 +247,7 @@ class ilObjTestDynamicQuestionSetConfig extends ilTestQuestionSetConfig
 			array(
 				'source_qpl_fi' => array('integer', $this->getSourceQuestionPoolId()),
 				'source_qpl_title' => array('text', $this->getSourceQuestionPoolTitle()),
+				'answer_filter_enabled' => array('integer', $this->isAnswerStatusFilterEnabled()),
 				'tax_filter_enabled' => array('integer', $this->isTaxonomyFilterEnabled()),
 				'order_tax' => array('integer', $this->getOrderingTaxonomyId())
 			),
@@ -248,6 +269,7 @@ class ilObjTestDynamicQuestionSetConfig extends ilTestQuestionSetConfig
 				'test_fi' => array('integer', $testId),
 				'source_qpl_fi' => array('integer', $this->getSourceQuestionPoolId()),
 				'source_qpl_title' => array('text', $this->getSourceQuestionPoolTitle()),
+				'answer_filter_enabled' => array('integer', $this->isAnswerStatusFilterEnabled()),
 				'tax_filter_enabled' => array('integer', $this->isTaxonomyFilterEnabled()),
 				'order_tax' => array('integer', $this->getOrderingTaxonomyId())
 		));
