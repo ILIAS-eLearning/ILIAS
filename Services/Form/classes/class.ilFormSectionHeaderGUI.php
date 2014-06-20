@@ -199,5 +199,10 @@ class ilFormSectionHeaderGUI
 	{
 		// nothing to do since is a header
 	}
+	
+	function getPostVar()
+	{
+		// nothing to do since is a header
+	}
 
 }

@@ -385,11 +385,15 @@ class ilPropertyFormGUI extends ilFormGUI
 	*
 	* @param	array	$a_values	Value array (key is post variable name, value is value)
 	*/
-	function setValuesByArray($a_values)
+	function setValuesByArray($a_values, $a_restrict_to_value_keys = false)
 	{
 		foreach($this->items as $item)
-		{
-			$item->setValueByArray($a_values);
+		{			
+			if(!($a_restrict_to_value_keys) || 
+				in_array($item->getPostVar(), array_keys($a_values)))
+			{			
+				$item->setValueByArray($a_values);
+			}			
 		}
 	}
 

@@ -14384,3 +14384,5 @@ survey#:#svy_mail_own_results_body#:#the following is a complete summary of your
 survey#:#svy_results_view_own#:#Participant can view own answers
 survey#:#svy_results_mail_own#:#Participant can mail own answers
 exercise#:#exc_to_desktop_info#:#Add exercise to desktop of participant after hand-in
+wiki#:#wiki_wpg#:#Wiki Page
+wiki#:#wiki_add_page_properties#:#Activate Additional Wiki Page Properties

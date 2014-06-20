@@ -658,6 +658,14 @@ class ilObjWikiGUI extends ilObjectGUI
 		$page_toc = new ilCheckboxInputGUI($lng->txt("wiki_page_toc"), "page_toc");
 		$page_toc->setInfo($lng->txt("wiki_page_toc_info"));
 		$this->form_gui->addItem($page_toc);
+		
+		// advanced metadata
+		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
+		$record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_REC_SELECTION,'wiki',$this->object->getId(), "wpg");
+		$record_gui->setPropertyForm($this->form_gui);
+		$record_gui->parseRecordSelection($this->lng->txt("wiki_add_page_properties"));
+		
+		// :TODO: sorting
 
 		// Form action and save button
 		$this->form_gui->setTitleIcon(ilUtil::getImagePath("icon_wiki.png"));
@@ -713,7 +721,8 @@ class ilObjWikiGUI extends ilObjectGUI
 //			$values["imp_pages"] = $this->object->getImportantPages();
 			$values["page_toc"] = $this->object->getPageToc();
 						
-			$this->form_gui->setValuesByArray($values);
+			// only set given values (because of adv. metadata)
+			$this->form_gui->setValuesByArray($values, true);
 		}
 	}
 	
@@ -758,6 +767,11 @@ class ilObjWikiGUI extends ilObjectGUI
 //				$this->object->setImportantPages($this->form_gui->getInput("imp_pages"));
 				$this->object->setPageToc($this->form_gui->getInput("page_toc"));
 				$this->object->update();
+				
+				// update metadata record selection
+				include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
+				$record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_REC_SELECTION,'wiki',$this->object->getId(), "wpg");
+				$record_gui->saveSelection();
 				
 				// Update ecs export settings
 				include_once 'Modules/Wiki/classes/class.ilECSWikiSettings.php';	
