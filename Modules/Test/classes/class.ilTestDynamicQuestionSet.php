@@ -64,14 +64,14 @@ class ilTestDynamicQuestionSet
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	public function load(ilObjTestDynamicQuestionSetConfig $dynamicQuestionSetConfig, $taxonomyFilterSelection)
+	public function load(ilObjTestDynamicQuestionSetConfig $dynamicQuestionSetConfig, ilTestDynamicQuestionSetFilterSelection $filterSelection)
 	{
 		$this->completeQuestionList = $this->initCompleteQuestionList(
-					$dynamicQuestionSetConfig
+					$dynamicQuestionSetConfig, $filterSelection
 		);
 		
 		$this->filteredQuestionList = $this->initFilteredQuestionList(
-					$dynamicQuestionSetConfig, $taxonomyFilterSelection
+					$dynamicQuestionSetConfig, $filterSelection
 		);
 		
 		$this->actualQuestionSequence = $this->initActualQuestionSequence(
@@ -92,11 +92,18 @@ class ilTestDynamicQuestionSet
 		return $questionList;
 	}
 	
-	private function initFilteredQuestionList(ilObjTestDynamicQuestionSetConfig $dynamicQuestionSetConfig, $taxonomyFilterSelection)
+	private function initFilteredQuestionList(ilObjTestDynamicQuestionSetConfig $dynamicQuestionSetConfig, ilTestDynamicQuestionSetFilterSelection $filterSelection)
 	{
 		$questionList = new ilAssQuestionList(
 				$this->db, $this->lng, $this->pluginAdmin, $dynamicQuestionSetConfig->getSourceQuestionPoolId()
 		);
+
+		$questionList->setAnswerStatusActiveId($filterSelection->getAnswerStatusActiveId());
+
+		if( $dynamicQuestionSetConfig->isAnswerStatusFilterEnabled() )
+		{
+			$questionList->setAnswerStatusFilter($filterSelection->getAnswerStatusSelection());
+		}
 
 		if( $dynamicQuestionSetConfig->isTaxonomyFilterEnabled() )
 		{
@@ -106,7 +113,7 @@ class ilTestDynamicQuestionSet
 					$dynamicQuestionSetConfig->getSourceQuestionPoolId()
 			));
 			
-			foreach($taxonomyFilterSelection as $taxId => $taxNodes)
+			foreach($filterSelection->getTaxonomySelection() as $taxId => $taxNodes)
 			{
 				$questionList->addTaxonomyFilter($taxId, $taxNodes);
 			}
@@ -214,9 +221,9 @@ class ilTestDynamicQuestionSet
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	public function getFilteredQuestionsData()
+	public function getFilteredQuestionList()
 	{
-		return $this->filteredQuestionList->getQuestionDataArray();
+		return $this->filteredQuestionList;
 	}
 }
 

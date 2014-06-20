@@ -3823,12 +3823,14 @@ class ilObjTestGUI extends ilObjectGUI
 		 * @var $ilToolbar ilToolbarGUI
 		 */
 		global $ilAccess, $ilUser, $ilToolbar;
+		
+		require_once 'Modules/Test/classes/class.ilTestDynamicQuestionSetFilterSelection.php';
 
 		$testQuestionSetConfig = $this->testQuestionSetConfigFactory->getQuestionSetConfig();
 		$testSession = $this->testSessionFactory->getSession();
 		$testSequence = $this->testSequenceFactory->getSequence($testSession);
 		$testSequence->loadFromDb();
-		$testSequence->loadQuestions($testQuestionSetConfig, array());
+		$testSequence->loadQuestions($testQuestionSetConfig, new ilTestDynamicQuestionSetFilterSelection());
 		
 		$testPlayerGUI = $this->testPlayerFactory->getPlayerGUI();
 		

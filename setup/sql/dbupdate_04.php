@@ -1353,3 +1353,24 @@ if (!$ilDB->tableColumnExists('exc_data', 'add_desktop'))
 }
 
 ?>
+<#4234>
+<?php
+if( !$ilDB->tableColumnExists('tst_dyn_quest_set_cfg', 'answer_filter_enabled') )
+{
+	$ilDB->addTableColumn('tst_dyn_quest_set_cfg', 'answer_filter_enabled', array(
+		'type' => 'integer',
+		'length' => 1,
+		'notnull' => false,
+		'default' => null
+	));
+}
+if( !$ilDB->tableColumnExists('tst_active', 'answerstatusfilter') )
+{
+	$ilDB->addTableColumn('tst_active', 'answerstatusfilter', array(
+		'type' => 'text',
+		'length' => 16,
+		'notnull' => false,
+		'default' => null
+	));
+}
+?>

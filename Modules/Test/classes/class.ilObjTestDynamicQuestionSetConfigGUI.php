@@ -186,12 +186,7 @@ class ilObjTestDynamicQuestionSetConfigGUI
 			return $this->showFormCmd($form);
 		}
 		
-		$saved = $this->performSaveForm($form);
-		
-		if( !$saved )
-		{
-			return $this->showFormCmd($form);
-		}
+		$this->performSaveForm($form);
 		
 		$this->testOBJ->saveCompleteStatus( $this->questionSetConfig );
 
@@ -203,7 +198,6 @@ class ilObjTestDynamicQuestionSetConfigGUI
 	 * saves the form fields to the database
 	 * 
 	 * @param ilPropertyFormGUI $form
-	 * @return boolean
 	 */
 	private function performSaveForm(ilPropertyFormGUI $form)
 	{
@@ -227,12 +221,16 @@ class ilObjTestDynamicQuestionSetConfigGUI
 				);
 				break;
 		}
-		
+
 		$this->questionSetConfig->setTaxonomyFilterEnabled(
-				$form->getItemByPostVar('tax_filter_enabled')->getChecked()
+			$form->getItemByPostVar('tax_filter_enabled')->getChecked()
+		);
+
+		$this->questionSetConfig->setAnswerStatusFilterEnabled(
+			$form->getItemByPostVar('answer_status_filter_enabled')->getChecked()
 		);
 		
-		return $this->questionSetConfig->saveToDb( $this->testOBJ->getTestId() );
+		$this->questionSetConfig->saveToDb( $this->testOBJ->getTestId() );
 	}
 	
 	/**
@@ -306,11 +304,20 @@ class ilObjTestDynamicQuestionSetConfigGUI
 		$taxFilterInput->setChecked( $this->questionSetConfig->isTaxonomyFilterEnabled() );
 		$taxFilterInput->setRequired(true);
 		$form->addItem($taxFilterInput);
+		
+		$answStatusFilterInput = new ilCheckboxInputGUI(
+			$this->lng->txt('tst_input_dyn_quest_set_answer_status_filter_enabled'), 'answer_status_filter_enabled'
+		);
+		$answStatusFilterInput->setValue(1);
+		$answStatusFilterInput->setChecked( $this->questionSetConfig->isAnswerStatusFilterEnabled() );
+		$answStatusFilterInput->setRequired(true);
+		$form->addItem($answStatusFilterInput);
 
 		if( $this->testOBJ->participantDataExist() )
 		{
 			$questionOderingInput->setDisabled(true);
 			$taxFilterInput->setDisabled(true);
+			$answStatusFilterInput->setDisabled(true);
 		}
 		
 		return $form;

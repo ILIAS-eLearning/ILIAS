@@ -2387,6 +2387,7 @@ function setGenericAnswerFeedback($generic_answer_feedback = 0)
 
 /**
 * Gets the sequence settings of the ilObjTest object
+ * SEQUENCE SETTING = POSTPONING ENABLED !!
 *
 * @return integer The sequence settings of the test
 * @access public

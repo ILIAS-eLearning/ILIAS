@@ -68,7 +68,6 @@ class ilTestSessionFactory
 			
 			self::$testSession->setRefId($this->testOBJ->getRefId());
 			self::$testSession->setTestId($this->testOBJ->getTestId());
-			
 			if($activeId)
 			{
 				self::$testSession->loadFromDb($activeId);

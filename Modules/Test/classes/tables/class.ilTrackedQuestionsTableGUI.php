@@ -12,6 +12,7 @@ require_once 'Services/Table/classes/class.ilTable2GUI.php';
  */
 class ilTrackedQuestionsTableGUI extends ilTable2GUI
 {
+	protected $show_postponed;
 	protected $show_marker;
 	
 	/**
@@ -21,7 +22,7 @@ class ilTrackedQuestionsTableGUI extends ilTable2GUI
 	 * @param
 	 * @return
 	 */
-	public function __construct($a_parent_obj, $a_parent_cmd, $show_marker)
+	public function __construct($a_parent_obj, $a_parent_cmd, $show_postponed, $show_marker)
 	{
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
@@ -29,13 +30,18 @@ class ilTrackedQuestionsTableGUI extends ilTable2GUI
 
 		$this->lng = $lng;
 		$this->ctrl = $ilCtrl;
+		$this->show_postponed = $show_postponed;
 		$this->show_marker = $show_marker;
 		
 		$this->setFormName('trackedquestions');
 		$this->setStyle('table', 'fullwidth');
 
 		$this->addColumn($this->lng->txt("tst_question_title"),'title', '');
-		$this->addColumn('' ,'postponed', '');
+
+		if ($this->show_postponed)
+		{
+			$this->addColumn($this->lng->txt("postpone_status") ,'postponed', '');
+		}
 
 		if ($this->show_marker)
 		{
@@ -72,6 +78,23 @@ class ilTrackedQuestionsTableGUI extends ilTable2GUI
 			$this->tpl->setVariable("DESCRIPTION", ilUtil::prepareFormOutput($data['description']));
 			$this->tpl->parseCurrentBlock();
 		}
+		
+		if( $this->show_postponed )
+		{
+			if($data['postponed'])
+			{
+				$this->tpl->setCurrentBlock('postponed');
+				$this->tpl->setVariable('POSTPONED', $this->lng->txt('postponed'));
+				$this->tpl->parseCurrentBlock();
+			}
+			else
+			{
+				$this->tpl->setCurrentBlock('postponed');
+				$this->tpl->touchBlock('postponed');
+				$this->tpl->parseCurrentBlock();
+			}
+		}
+		
 		if ($this->show_marker)
 		{
 			if ($data['marked'])
@@ -80,10 +103,15 @@ class ilTrackedQuestionsTableGUI extends ilTable2GUI
 				$this->tpl->setVariable("ALT_MARKED", $this->lng->txt("tst_question_marked"));
 				$this->tpl->setVariable("HREF_MARKED", ilUtil::getImagePath("marked.png"));
 				$this->tpl->parseCurrentBlock();
+				
+				$this->tpl->setCurrentBlock('marker');
+				$this->tpl->parseCurrentBlock();
 			}
 			else
 			{
+				$this->tpl->setCurrentBlock('marker');
 				$this->tpl->touchBlock('marker');
+				$this->tpl->parseCurrentBlock();
 			}
 		}
 
@@ -102,7 +130,16 @@ class ilTrackedQuestionsTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("ORDER", $data['order']);
 		$this->tpl->setVariable("TITLE", ilUtil::prepareFormOutput($data['title']));
 		$this->tpl->setVariable("HREF", $data['href']);
-		$this->tpl->setVariable("POSTPONED", $data['postponed']);
+	}
+	
+	private function getPostponedLabel($isPostponed)
+	{
+		if(!$isPostponed)
+		{
+			return '';
+		}
+		
+		return ;
 	}
 }
 ?>
