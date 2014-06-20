@@ -17,7 +17,7 @@ class ilADTSchedulePresentationBridge extends ilADTPresentationBridge
 		$res = "";
 		
 		foreach ($schedules as $key => $value) {
-			$res = $lng->txt("time_d")." ".$key.": ".$value;
+			$res .= $lng->txt("time_d")." ".$key.": ".$value;
 		}
 		
 		return $res;
