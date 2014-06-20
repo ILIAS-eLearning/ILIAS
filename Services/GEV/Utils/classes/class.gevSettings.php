@@ -27,6 +27,8 @@ class gevSettings {
 	const CRS_AMD_CUSTOM_ID 		= "crs_amd_custom_id";
 	// Trainingsvorlage (nicht im Konzept)
 	const CRS_AMD_TEMPLATE_TITLE	= "crs_amd_template_title";
+	// Trainingsvorlage Ref-ID (nicht im Konzept)
+	const CRS_AMD_TEMPLATE_REF_ID	= "crs_amd_template_ref_id";
 	//Lernart
 	const CRS_AMD_TYPE 				= "crs_amd_type";
 	// Vorlage
@@ -71,6 +73,10 @@ class gevSettings {
 	
 	// Mindestteilnehmerzahl
 	const CRS_AMD_MIN_PARTICIPANTS	= "crs_amd_min_participants";
+	// Warteliste
+	const CRS_AMD_WAITING_LIST_ACTIVE = "crs_amd_waiting_list_active";
+	// Maximalteilnehmerzahl
+	const CRS_AMD_MAX_PARTICIPANTS	= "crs_amd_max_participants";
 	// Stornofrist
 	const CRS_AMD_CANCEL_DEADLINE	= "crs_amd_cancel_deadline";
 	// Buchungsfrist

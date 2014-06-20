@@ -46,7 +46,6 @@ array( "Zeitraum"
 	 	   					 , null
 	 	   					 , $tschedule
 	 	   					 )
-
 	 	   		))
 	 , "Orte und Anbieter"
 	 	=> array( null, 
@@ -81,6 +80,22 @@ array( "Zeitraum"
 	 	   					 , array("min" => 0)
 	 	   					 , $tinteger
 	 	   					 )
+	 	   		, "Warteliste"	=>
+	 	   				array( gevSettings::CRS_AMD_WAITING_LIST_ACTIVE
+	 	   					 , null
+	 	   					 , false
+	 	   					 , array( "Ja"
+	 	   					 		, "Nein"
+	 	   					 		)
+	 	   					 , $tselect
+	 	   					 )
+	 	   		, "Maximalteilnehmerzahl" =>
+	 	   					array( gevSettings::CRS_AMD_MAX_PARTICIPANTS
+	 	   						 , null
+	 	   						 , false
+	 	   						 , array("min" => 0)
+	 	   						 , $tinteger
+	 	   						 )
 	 	   		, "Stornofrist" =>
 	 	   				array( gevSettings::CRS_AMD_CANCEL_DEADLINE
 	 	   					 , "Tage vor dem Seminar, bis zu denen noch kostenfrei storniert werden kann."
@@ -260,24 +275,6 @@ array( "Zeitraum"
 							 // if this is changed, the custom id logic in gevCourseUtils
 							 // needs to be changed as well!!
 							 )
-				 , "Vorlagentitel" =>
-				 		array( gevSettings::CRS_AMD_TEMPLATE_TITLE
-				 			 , "Name der verwendeten Vorlage"
-				 			 , true
-				 			 , null
-				 			 , $ttext
-				 			 )
-				 , "Vorlage" =>
-				 		array( gevSettings::CRS_AMD_IS_TEMPLATE
-				 			 , "Ist dieses Objekt ein Vorlagenobjekt?"
-				 			 , false
-				 			 , array ( "Ja"
-				 			 		 , "Nein"
-				 			 		 )
-				 			 , $tselect
-				 			 // if this is changed, gevUserUtils::getPotentiallyBookableCourses
-				 			 // needs to be changed as well!!
-				 			 )
 				 , "Lernart" =>
 				 		array( gevSettings::CRS_AMD_TYPE
 				 			 , "Art des Trainings"
@@ -294,6 +291,31 @@ array( "Zeitraum"
 				 			 // if this is changed, gevUserUtils::getCourseHighlights
 				 			 // needs to be changed as well!!
 				 			 , $tselect
+				 			 )
+				 , "Vorlage" =>
+				 		array( gevSettings::CRS_AMD_IS_TEMPLATE
+				 			 , "Ist dieses Objekt ein Vorlagenobjekt?"
+				 			 , false
+				 			 , array ( "Ja"
+				 			 		 , "Nein"
+				 			 		 )
+				 			 , $tselect
+				 			 // if this is changed, gevUserUtils::getPotentiallyBookableCourses
+				 			 // needs to be changed as well!!
+				 			 )
+				 , "Vorlagentitel" =>
+				 		array( gevSettings::CRS_AMD_TEMPLATE_TITLE
+				 			 , "Name der verwendeten Vorlage (nicht ändern)"
+				 			 , true
+				 			 , null
+				 			 , $ttext
+				 			 )
+				 , "Referenz-Id der Vorlage" =>
+				 		array( gevSettings::CRS_AMD_TEMPLATE_REF_ID
+				 			 , "ILIAS-Referenz-Id der verwendeten Vorlage (nicht ändern)"
+				 			 , false
+				 			 , array("min" => 0)
+				 			 , $tinteger
 				 			 )
 				 ))
 

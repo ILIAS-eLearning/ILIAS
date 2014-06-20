@@ -49,6 +49,7 @@ class ilGEVCourseCreationPlugin extends ilEventHookPlugin
 			if ($source_utils->isTemplate()) {
 				$target->setTitle($source->getTitle());
 				$target_utils->setTemplateTitle($source->getTitle());
+				$target_utils->setTemplateRefId(intval($a_source_ref_id));
 				$target_utils->setIsTemplate(false);
 			}
 

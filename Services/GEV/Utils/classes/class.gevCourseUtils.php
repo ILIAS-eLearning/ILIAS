@@ -172,6 +172,14 @@ class gevCourseUtils {
 		$this->amd->setField($this->crs_id, gevSettings::CRS_AMD_TEMPLATE_TITLE, $a_title);
 	}
 	
+	public function getTemplateRefId() {
+		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_TEMPLATE_REF_ID);
+	}
+	
+	public function setTemplateRefId($a_ref_id) {
+		$this->amd->setField($this->crs_id, gevSettings::CRS_AMD_TEMPLATE_REF_ID, $a_ref_id);
+	}
+	
 	public function isTemplate() {
 		return "Ja" == $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_IS_TEMPLATE);
 	}
