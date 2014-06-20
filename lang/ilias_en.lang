@@ -14381,3 +14381,5 @@ survey#:#svy_view_own_results#:#View given answers
 survey#:#svy_mail_own_results#:#Mail given answers
 survey#:#svy_mail_own_results_subject#:#Survey "%s" - Your Answers
 survey#:#svy_mail_own_results_body#:#the following is a complete summary of your survey participation.
+survey#:#svy_results_view_own#:#Participate can view own answers
+survey#:#svy_results_mail_own#:#Participate can mail own answers

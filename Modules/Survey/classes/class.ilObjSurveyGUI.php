@@ -537,6 +537,9 @@ class ilObjSurveyGUI extends ilObjectGUI
 					$md_desc->setDescription(ilUtil::stripSlashes($_POST['description']));
 					$md_desc->update();
 				}
+				
+				$this->object->setViewOwnResults($_POST["view_own"]);
+				$this->object->setMailOwnResults($_POST["mail_own"]);
 
 				// both are saved in object, too
 				$this->object->setTitle(ilUtil::stripSlashes($_POST['title']));
@@ -948,6 +951,14 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$mailnotification->addSubItem($participantdata);
 		$mailnotification->addSubItem($participantdatainfo);
 		$form->addItem($mailnotification);
+				
+		$view_own = new ilCheckboxInputGUI($this->lng->txt("svy_results_view_own"), "view_own");
+		$view_own->setChecked($this->object->hasViewOwnResults());
+		$form->addItem($view_own);
+		
+		$mail_own = new ilCheckboxInputGUI($this->lng->txt("svy_results_mail_own"), "mail_own");
+		$mail_own->setChecked($this->object->hasMailOwnResults());
+		$form->addItem($mail_own);		
 		
 		// reminder/notification - currently not available for 360° 
 		if(!$this->object->get360Mode())
@@ -1589,14 +1600,19 @@ class ilObjSurveyGUI extends ilObjectGUI
 					
 					$survey_started = $this->object->isSurveyStarted($ilUser->getId(), $anonymous_code);				
 					if ($survey_started === 1)
-					{	
-						// :TODO: setting(s)
-						if(true)
+					{							
+						if($this->object->hasViewOwnResults())
 						{
 							$ilToolbar->addButton($this->lng->txt("svy_view_own_results"),
-								$this->ctrl->getLinkTarget($this, "viewUserResults"));														
-							
-							$ilToolbar->addSeparator();
+								$this->ctrl->getLinkTarget($this, "viewUserResults"));		
+						}
+						
+						if($this->object->hasMailOwnResults())
+						{
+							if($this->object->hasViewOwnResults())
+							{
+								$ilToolbar->addSeparator();
+							}
 													
 							require_once "Services/Form/classes/class.ilTextInputGUI.php";								
 							$mail = new ilTextInputGUI($this->lng->txt("email"), "mail");
@@ -1611,6 +1627,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 							$ilToolbar->addFormButton($this->lng->txt("svy_mail_own_results"),
 								"mailUserResults");														
 						}
+						
 						ilUtil::sendInfo($this->lng->txt("already_completed_survey"));
 					}
 					elseif ($survey_started === 0)

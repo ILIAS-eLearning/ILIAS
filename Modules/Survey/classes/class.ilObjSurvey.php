@@ -166,6 +166,9 @@ class ilObjSurvey extends ilObject
 	protected $tutor_ntf_recipients; // [array]
 	protected $tutor_ntf_target; // [int]
 	
+	protected $view_own_results; // [bool]
+	protected $mail_own_results; // [bool]
+	
 	const NOTIFICATION_PARENT_COURSE = 1;
 	const NOTIFICATION_INVITED_USERS = 2;
 	
@@ -835,7 +838,9 @@ class ilObjSurvey extends ilObject
 				"reminder_last_sent" => array("datetime", $this->getReminderLastSent()),
 				"tutor_ntf_status" => array("integer", (int)$this->getTutorNotificationStatus()),
 				"tutor_ntf_reci" => array("text", implode(";", (array)$this->getTutorNotificationRecipients())),
-				"tutor_ntf_target" => array("integer", (int)$this->getTutorNotificationTarget())
+				"tutor_ntf_target" => array("integer", (int)$this->getTutorNotificationTarget()),
+				"own_results_view" => array("integer", $this->hasViewOwnResults()),
+				"own_results_mail" => array("integer", $this->hasMailOwnResults())
  			));
 			$this->setSurveyId($next_id);
 		}
@@ -876,7 +881,9 @@ class ilObjSurvey extends ilObject
 				"reminder_last_sent" => array("datetime", $this->getReminderLastSent()),
 				"tutor_ntf_status" => array("integer", $this->getTutorNotificationStatus()),
 				"tutor_ntf_reci" => array("text", implode(";", (array)$this->getTutorNotificationRecipients())),
-				"tutor_ntf_target" => array("integer", $this->getTutorNotificationTarget())
+				"tutor_ntf_target" => array("integer", $this->getTutorNotificationTarget()),
+				"own_results_view" => array("integer", $this->hasViewOwnResults()),
+				"own_results_mail" => array("integer", $this->hasMailOwnResults())
 			), array(
 			"survey_id" => array("integer", $this->getSurveyId())
 			));
@@ -1140,6 +1147,9 @@ class ilObjSurvey extends ilObject
 			$this->setTutorNotificationStatus($data["tutor_ntf_status"]);
 			$this->setTutorNotificationRecipients(explode(";", $data["tutor_ntf_reci"]));
 			$this->setTutorNotificationTarget($data["tutor_ntf_target"]);
+			
+			$this->setViewOwnResults($data["own_results_view"]);
+			$this->setMailOwnResults($data["own_results_mail"]);
 		}
 		
 		// moved activation to ilObjectActivation
@@ -6485,6 +6495,26 @@ class ilObjSurvey extends ilObject
 	function getActivationEndDate()
 	{
 		return (strlen($this->activation_ending_time)) ? $this->activation_ending_time : NULL;
+	}
+	
+	function setViewOwnResults($a_value)
+	{
+		$this->view_own_results = (bool)$a_value;
+	}
+	
+	function hasViewOwnResults()
+	{
+		return $this->view_own_results;
+	}
+	
+	function setMailOwnResults($a_value)
+	{
+		$this->mail_own_results = (bool)$a_value;
+	}
+	
+	function hasMailOwnResults()
+	{
+		return $this->mail_own_results;
 	}
 	
 } // END class.ilObjSurvey

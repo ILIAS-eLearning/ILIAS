@@ -1316,3 +1316,26 @@ if (!$ilDB->tableColumnExists('il_blog', 'nav_order'))
 }
 
 ?>
+<#4232>
+<?php
+
+if (!$ilDB->tableColumnExists('svy_svy', 'own_results_view'))
+{	
+	$ilDB->addTableColumn('svy_svy', 'own_results_view', array(
+		"type" => "integer",
+		"length" => 1,
+		"notnull" => false,
+		"default" => 0
+	));	
+}
+if (!$ilDB->tableColumnExists('svy_svy', 'own_results_mail'))
+{	
+	$ilDB->addTableColumn('svy_svy', 'own_results_mail', array(
+		"type" => "integer",
+		"length" => 1,
+		"notnull" => false,
+		"default" => 0
+	));	
+}
+
+?>

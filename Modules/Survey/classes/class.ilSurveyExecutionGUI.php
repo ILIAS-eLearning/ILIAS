@@ -698,32 +698,36 @@ class ilSurveyExecutionGUI
 		
 		if(!$this->preview)
 		{
-			// :TODO: setting
-			if(true)
+			if($this->object->hasViewOwnResults())
 			{
 				$ilToolbar->addButton($this->lng->txt("svy_view_own_results"),
 					$this->ctrl->getLinkTarget($this, "viewUserResults"));
 				
-				if(true)
-				{
-					$ilToolbar->addSeparator();
-													
-					require_once "Services/Form/classes/class.ilTextInputGUI.php";								
-					$mail = new ilTextInputGUI($this->lng->txt("email"), "mail");
-					$mail->setSize(25);
-					if($ilUser->getId() != ANONYMOUS_USER_ID)
-					{
-						$mail->setValue($ilUser->getEmail());
-					}
-					$ilToolbar->addInputItem($mail, true);	
-					
-					$ilToolbar->setFormAction($this->ctrl->getFormAction($this, "mailUserResults"));
-					$ilToolbar->addFormButton($this->lng->txt("svy_mail_own_results"),
-							"mailUserResults");		
-				}
-				
 				$has_button = true;
 			}
+				
+			if($this->object->hasMailOwnResults())
+			{
+				if($has_button)
+				{
+					$ilToolbar->addSeparator();
+				}
+
+				require_once "Services/Form/classes/class.ilTextInputGUI.php";								
+				$mail = new ilTextInputGUI($this->lng->txt("email"), "mail");
+				$mail->setSize(25);
+				if($ilUser->getId() != ANONYMOUS_USER_ID)
+				{
+					$mail->setValue($ilUser->getEmail());
+				}
+				$ilToolbar->addInputItem($mail, true);	
+
+				$ilToolbar->setFormAction($this->ctrl->getFormAction($this, "mailUserResults"));
+				$ilToolbar->addFormButton($this->lng->txt("svy_mail_own_results"),
+						"mailUserResults");		
+				
+				$has_button = true;
+			}										
 		}
 		
 		if (!$has_button &&
@@ -823,6 +827,11 @@ class ilSurveyExecutionGUI
 	{
 		global $ilToolbar;
 		
+		if(!$this->object->hasViewOwnResults())
+		{
+			$this->backToRepository();
+		}
+		
 		$this->checkAuth();		
 		
 		$ilToolbar->addButton($this->lng->txt("exit"),
@@ -834,8 +843,11 @@ class ilSurveyExecutionGUI
 	}
 	
 	function mailUserResults()
-	{
-		global $ilUser;
+	{		
+		if(!$this->object->hasMailOwnResults())
+		{
+			$this->backToRepository();
+		}
 		
 		$this->checkAuth();		
 		
