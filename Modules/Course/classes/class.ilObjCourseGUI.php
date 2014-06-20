@@ -1680,6 +1680,13 @@ class ilObjCourseGUI extends ilContainerGUI
 						$this->ctrl->getLinkTargetByClass("ilcertificategui", "certificateeditor"),
 						"", "ilcertificategui");					
 				}
+				
+				// gev-patch start
+				$this->tabs_gui->addSubTabTarget( "webshop"
+												, "http://generali-idportal.am-gruppe.de/online/portal/genid/forward/mycontent/11474/194474"
+												);
+				// gev-patch end
+				
 				break;
 			
 			case 'members':
