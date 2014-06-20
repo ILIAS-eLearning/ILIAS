@@ -55,7 +55,7 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 			//							single entry?
 			//						  		   render entry?
 			//										  content
-			  "gev_search_menu" => array(true, true, "ilias.php?baseClass=gevDesktopGUI&cmd=toCourseSearch") 
+			  "gev_search_menu" => array(true, false, "ilias.php?baseClass=gevDesktopGUI&cmd=toCourseSearch") 
 			, "gev_me_menu" => array(false, true, array(
 											  //render entry?
   													// url
