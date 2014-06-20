@@ -77,8 +77,11 @@ class ilExerciseMembers
 	{
 		global $ilDB;
 
-		$tmp_user = ilObjectFactory::getInstanceByObjId($a_usr_id);
-		$tmp_user->addDesktopItem($this->getRefId(),"exc");
+		if($this->exc->hasAddToDesktop())
+		{
+			$tmp_user = ilObjectFactory::getInstanceByObjId($a_usr_id);
+			$tmp_user->addDesktopItem($this->getRefId(),"exc");
+		}
 
 		$ilDB->manipulate("DELETE FROM exc_members ".
 			"WHERE obj_id = ".$ilDB->quote($this->getObjId(), "integer")." ".

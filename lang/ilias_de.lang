@@ -14377,3 +14377,4 @@ survey#:#svy_mail_own_results_subject#:#Umfrage "%s" - Ihre Antworten
 survey#:#svy_mail_own_results_body#:#nachfolgend ist Ihre Teilnahme gelistet.
 survey#:#svy_results_view_own#:#Teilnehmer kann eigene Antworten einsehen
 survey#:#svy_results_mail_own#:#Teilnehmer kann eigene Antworten per Email versenden
+exercise#:#exc_to_desktop_info#:#Nach Abgabe die Übung auf den Schreibtisch legen

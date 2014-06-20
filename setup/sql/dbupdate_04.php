@@ -1339,3 +1339,17 @@ if (!$ilDB->tableColumnExists('svy_svy', 'own_results_mail'))
 }
 
 ?>
+<#4233>
+<?php
+
+if (!$ilDB->tableColumnExists('exc_data', 'add_desktop'))
+{	
+	$ilDB->addTableColumn('exc_data', 'add_desktop', array(
+		"type" => "integer",
+		"length" => 1,
+		"notnull" => true,
+		"default" => 1
+	));	
+}
+
+?>
