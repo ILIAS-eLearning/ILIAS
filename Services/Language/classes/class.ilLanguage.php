@@ -235,8 +235,18 @@ class ilLanguage
 
 		if ($translation == "" && $a_default_lang_fallback_mod != "")
 		{
-			$translation = ilLanguage::_lookupEntry($this->lang_default,
-				$a_default_lang_fallback_mod, $a_topic);
+			// #13467 - try current language first (could be missing module)
+			if($this->lang_key != $this->lang_default)
+			{
+				$translation = ilLanguage::_lookupEntry($this->lang_key,
+					$a_default_lang_fallback_mod, $a_topic);
+			}			
+			// try default language last
+			if($translation == "" || $translation == "-".$a_topic."-")
+			{
+				$translation = ilLanguage::_lookupEntry($this->lang_default,
+					$a_default_lang_fallback_mod, $a_topic);
+			}		
 		}
 
 
