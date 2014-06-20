@@ -16,7 +16,7 @@
 <!-- language file start -->
 gev#:#gev_search_menu#:#Seminarsuche
 gev#:#gev_me_menu#:#Übersicht
-gev#:#gev_my_courses#:#Meine Kurse
+gev#:#gev_my_courses#:#Meine Trainings
 gev#:#gev_edu_bio#:#Bildungsbiographie
 gev#:#gev_my_profile#:#Mein Profil
 gev#:#gev_my_groups#:#Meine Gruppen
@@ -42,10 +42,10 @@ gev#:#gev_org_mgmt#:#Organisationseinheiten
 gev#:#gev_mail_mgmt#:#Mails
 gev#:#gev_competence_mgmt#:#Kompetenzen
 gev#:#gev_ilias_admin_menu#:#Administration
-gev#:#gev_cert_course_type#:#Lernart des Kurses
-gev#:#gev_cert_course_start_date#:#Startdatum des Kurses
-gev#:#gev_cert_course_end_date#:#Enddatum des Kurses
-gev#:#gev_cert_course_topics#:#Trainingskategorien des Kurses
+gev#:#gev_cert_course_type#:#Lernart des Trainings
+gev#:#gev_cert_course_start_date#:#Startdatum des Trainings
+gev#:#gev_cert_course_end_date#:#Enddatum des Trainings
+gev#:#gev_cert_course_topics#:#Trainingskategorien des Trainings
 gev#:#gev_cert_points#:#Weiterbildungspunkte bei erfolgreicher Teilnahme
 gev#:#gev_quicklinks#:#Quicklinks
 gev#:#gev_quicklinks_desc#:#Greifen Sie hier schnell und unkompliziert auf weitere Informationen zu Ihren Trainings und auf Ihre persönliche Bildungsbiografie zu.
@@ -256,7 +256,7 @@ news#:#news_enable_internal_news_info#:#Aktiviert Nachrichtenblöcke für Katego
 gev#:#gev_cert_course_type#:#Lernart des Trainings
 gev#:#gev_cert_course_start_date#:#Startdatum des Trainings
 gev#:#gev_cert_course_end_date#:#Enddatum des Trainings
-gev#:#gev_cert_course_topics#:#Trainingskategorien des Kurses
+gev#:#gev_cert_course_topics#:#Trainingskategorien
 mail#:#mail_select_course#:#Bitte mindestens ein Training auswählen.
 mail#:#mail_nacc_target_type#:#Typ des Zielobjekts, z. B. "Training" für ein Trainingsobjekt
 mail#:#mail_nacc_target_title#:#Titel des Zielobjekts, z. B. der Trainingstitel
@@ -307,7 +307,7 @@ dateplaner#:#cal_cg_registration_info#:#Wenn aktiviert, können sich Benutzer f�
 dateplaner#:#cal_adm_notification_info#:#Wählen Sie diese Einstellung, um eine optionale Mailbenachrichtigung für Trainings- und Gruppentermine zu ermöglichen.
 crs#:#import_crs#:#Trainings importieren
 crs#:#crs_warn_wl_set_on_waiting_list#:#Es sind bereits Teilnehmer auf der Warteliste eingetragen. Sie können sich jedoch auf die Warteliste für dieses Training setzen lassen. Sie werden per Mail benachrichtigt, sobald Ihr Aufnahmeantrag angenommen oder abgelehnt wurde.
-crs#:#crs_warn_no_max_set_on_waiting_list#:#Die maximale Teilnehmeranzahl ist erreicht. Sie können sich jedoch auf die Warteliste für dieses Training setzen lassen und würden benachrichtigt, wenn Sie in den Kurs nachrücken könnten.
+crs#:#crs_warn_no_max_set_on_waiting_list#:#Die maximale Teilnehmeranzahl ist erreicht. Sie können sich jedoch auf die Warteliste für dieses Training setzen lassen und würden benachrichtigt, wenn Sie in das Training nachrücken könnten.
 crs#:#crs_users_already_assigned#:#Ein Benutzer ist bereits Teilnehmer dieses Trainings
 crs#:#crs_users_added#:#Benutzer wurde(n) in das Training aufgenommen
 crs#:#crs_user_already_assigned#:#Die Person ist bereits Teilnehmer dieses Trainings.
@@ -329,7 +329,7 @@ crs#:#crs_subscription_successful#:#Sie sind in das Training aufgenommen worden.
 crs#:#crs_syllabus#:#Trainingsprogramm
 crs#:#crs_structure#:#Trainingsstruktur
 crs#:#crs_status_changed_body#:#ihr Status im Training "%s" wurde geÃ¤ndert.
-crs#:#crs_status_changed#:#Status im Training Kurs "%s"
+crs#:#crs_status_changed#:#Status im Training "%s"
 crs#:#crs_settings#:#Trainingseinstellungen
 crs#:#crs_set_on_waiting_list#:#Wenn Sie einen Aufnahmeantrag stellen, werden Sie auf die Warteliste gesetzt. Sie erhalten dann eine Mail der Trainingsleitung, ob Ihr Aufnahmeantrag angenommen oder abgelehnt wird.
 crs#:#crs_reject_subscriber_body#:#Ihr Aufnahmeantrag für das Training "%s" ist abgelehnt worden.
@@ -381,7 +381,7 @@ crs#:#crs_members_deleted#:#Der/die Trainingsteilnehmer wurde(n) aus dem Trainin
 crs#:#crs_member_of#:#Mitglied des Trainings:
 crs#:#crs_map_location#:#Ort auf Karte zum Training
 crs#:#crs_mail_permanent_link#:#Wählen Sie den folgenden Link, um auf den Trainingsinhalt zuzugreifen:
-crs#:#crs_lim_assigned#:#Bereits Teilnehmer in Kurs "%s".
+crs#:#crs_lim_assigned#:#Bereits Teilnehmer in Training "%s".
 crs#:#crs_item_availability_info#:#Wählen Sie diese Einstellung, um das Trainingsmaterial nur während eines bestimmten Zeitraumes verfügbar zu machen.
 crs#:#crs_info_start#:#Bitte bearbeiten Sie zunächst alle unten aufgeführten Materialien.<br/>Wenn Sie alle Objekte bearbeitet haben, werden weitere Trainingsinhalte für Sie freigeschaltet.
 crs#:#crs_info_settings#:#Trainingsinfo
