@@ -53,6 +53,7 @@ class gevCrsMailTypeAdapter extends ilMailTypeAdapter {
 				, array("VO-Hausnummer"				, "Hausnummer des Veranstaltungsorts")
 				, array("VO-PLZ"					, "Postleitzahl des Veranstaltungsorts")
 				, array("VO-Ort"					, "Ort des Veranstaltungsorts")
+				, array("VO-Telefon"				, "Telefonnummer des Veranstaltungsorts")
 				, array("Hotel-Name"				, "Name des Übernachtungsorts des Trainings")
 				, array("Hotel-Straße"				, "Straße des Übernachtungsorts")
 				, array("Hotel-Hausnummer"			, "Hausnummer des Übernachtungsorts")
