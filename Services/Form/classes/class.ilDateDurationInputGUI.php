@@ -42,6 +42,11 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 	protected $show_empty = false;
 	protected $show_time = true;
 	
+	// gev-patch start
+	// evil hack
+	protected $more_values = array();
+	// gev-patch end
+	
 	/**
 	* Constructor
 	*
@@ -369,6 +374,13 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 			return true;
 		}
 		
+		// gev-patch start
+		// hail marry!!
+		if ($this->getMulti()) {
+			return true;
+		}
+		// gev-patch end
+		
 		
 		$ok = true;
 
@@ -648,11 +660,25 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 			$tpl->setVariable("DELIM", "<br />");
 		}
 
+		// gev-patch start
 		if($this->getMulti() && !$this->getDisabled())
 		{
 			$tpl->setVariable("MULTI_ICONS", $this->getMultiIconsHTML($this->multi_sortable));         
 		}
 		
+		// this is really hacky stuff. do not try this at home or at all.
+		if ($this->getMulti()) {
+			$index = 0;
+			foreach ($this->more_values as $value) {
+				$tpl->setCurrentBlock("more_values");
+				$tpl->setVariable("GROUP_ID", str_replace("[", "", str_replace("]", "", $this->getPostVar())));
+				$tpl->setVariable("MINDEX", $index);
+				$tpl->setVariable("MVALUE", $value);
+				$tpl->parseCurrentBlock();
+				$index++;
+			}
+		}
+		// gev-patch end
 
 		return $tpl->get();
 	}
@@ -711,6 +737,10 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 	public function getMultiCounterElement()
 	{
 		return '<span id="'.$this->getFieldId().'~counter~0">1</span>';
+	}
+	
+	public function setMoreValues($a_values) {
+		$this->more_values = $a_values;
 	}
 	// gev-patch end
 }
