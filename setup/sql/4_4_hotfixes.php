@@ -687,3 +687,7 @@ if( !$ilDB->tableColumnExists('tst_active', 'answerstatusfilter') )
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#26>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

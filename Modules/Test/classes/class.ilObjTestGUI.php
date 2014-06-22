@@ -3884,6 +3884,7 @@ class ilObjTestGUI extends ilObjectGUI
 							$big_button[] = array("outResultsToplist", $this->lng->txt("tst_show_toplist"), false);
 						}
 					}
+					
 				}
 			}
 			if ($testSession->getActiveId() > 0)
@@ -3894,6 +3895,12 @@ class ilObjTestGUI extends ilObjectGUI
 					$big_button[] = array("outUserListOfAnswerPasses", $this->lng->txt("tst_list_of_answers_show"), false);
 				}
 			}
+			
+			if( $this->isDeleteDynamicTestResultsButtonRequired($testSession, $testSequence) )
+			{
+				$this->populateDeleteDynamicTestResultsButton($testSession, $big_button);
+			}
+			
 			if($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
 			{
 				$enter_anonymous_code = true;
@@ -3941,7 +3948,14 @@ class ilObjTestGUI extends ilObjectGUI
 
 			foreach($big_button as $button)
 			{
-				$ilToolbar->addFormButton($button[1], $button[0], "", $button[2]);
+				if( isset($button[3]) && strlen($button[3]) )
+				{
+					$ilToolbar->addButton($button[1], $button[3], '', '', '', '', $button[2] ? 'submit emphSubmit' : 'submit');
+				}
+				else
+				{
+					$ilToolbar->addFormButton($button[1], $button[0], "", $button[2]);
+				}
 			}
 			
 			if($enter_anonymous_code)
@@ -5367,5 +5381,59 @@ class ilObjTestGUI extends ilObjectGUI
 	    ilUtil::sendSuccess($this->lng->txt('copy_questions_success'), true);
 
 	    $this->ctrl->redirect($this, 'questions');
+	}
+
+	/**
+	 * @param $testSession
+	 * @param $testSequence
+	 * @return bool
+	 */
+	private function isDeleteDynamicTestResultsButtonRequired($testSession, $testSequence)
+	{
+		if( !$testSession->getActiveId() )
+		{
+			return false;
+		}
+		
+		if( !$this->object->isDynamicTest() )
+		{
+			return false;
+		}
+		
+		if( !$this->object->isPassDeletionAllowed() )
+		{
+			return false;
+		}
+		
+		if( !$testSequence->hasStarted($testSession) )
+		{
+			return false;
+		}
+		
+		return true;
+	}
+
+	/**
+	 * @param $testSession
+	 * @param $big_button
+	 */
+	private function populateDeleteDynamicTestResultsButton($testSession, &$big_button)
+	{
+		require_once 'Modules/Test/classes/confirmations/class.ilTestPassDeletionConfirmationGUI.php';
+
+		$this->ctrl->setParameterByClass(
+			'iltestevaluationgui', 'context',
+			ilTestPassDeletionConfirmationGUI::CONTEXT_INFO_SCREEN
+		);
+		
+		$this->ctrl->setParameterByClass('iltestevaluationgui', 'active_id', $testSession->getActiveId());
+		$this->ctrl->setParameterByClass('iltestevaluationgui', 'pass', $testSession->getPass());
+		
+		$big_button[] = array(
+			'',
+			$this->lng->txt("tst_delete_dyn_test_results_btn"),
+			false,
+			$this->ctrl->getLinkTargetByClass('iltestevaluationgui', 'confirmDeletePass')
+		);
 	}
 }

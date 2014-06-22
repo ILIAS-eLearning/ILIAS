@@ -306,7 +306,7 @@ class ilTestSequenceDynamicQuestionSet
 	public function getOpenQuestions()
 	{
 		$completeQuestionIds = array_keys( $this->questionSet->getAllQuestionsData() );
-		
+
 		$openQuestions = array_diff($completeQuestionIds, $this->correctAnsweredQuestions);
 		
 		return $openQuestions;
