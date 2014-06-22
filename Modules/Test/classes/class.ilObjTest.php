@@ -4048,7 +4048,7 @@ function getAnswerFeedbackPoints()
 			$dynamicQuestionSetConfig->loadFromDb();
 			
 			$testSequence->loadFromDb($dynamicQuestionSetConfig);
-			$testSequence->loadQuestions($dynamicQuestionSetConfig, array());
+			$testSequence->loadQuestions($dynamicQuestionSetConfig, new ilTestDynamicQuestionSetFilterSelection());
 			
 			$sequence = $testSequence->getUserSequenceQuestions();
 		}
@@ -7840,7 +7840,7 @@ function getAnswerFeedbackPoints()
 			$dynamicQuestionSetConfig->loadFromDb();
 			
 			$testSequence->loadFromDb($dynamicQuestionSetConfig);
-			$testSequence->loadQuestions($dynamicQuestionSetConfig, array());
+			$testSequence->loadQuestions($dynamicQuestionSetConfig, new ilTestDynamicQuestionSetFilterSelection());
 			
 			return $testSequence->getTrackedQuestionCount();
 		}

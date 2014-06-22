@@ -1195,6 +1195,8 @@ assessment#:#tst_question_set_type_dynamic_desc#:#With this mode exactly one que
 assessment#:#tst_change_quest_set_type_from_old_to_new_with_conflict#:#You are about to change the test mode from <b>%s</b> to <b>%s</b>, although a questions/questionpool configuration dependent on the current test mode already exists.<br />This already existing configuration will be lost.
 assessment#:#tst_msg_dynamic_question_set_config_modified#:#Continues question selection configuration has been modified.
 assessment#:#tst_msg_cannot_modify_dynamic_question_set_conf_due_to_part#:#Continues question selection configuration cannot be modified due to existing participant data.
+assessment#:#tst_delete_dyn_test_results_btn#:#Delete Test Results
+assessment#:#tst_dyn_test_msg_pass_deletion_link#:#Delete Previous Answers
 assessment#:#tst_form_dynamic_question_set_config#:#Continues Question Selection
 assessment#:#tst_input_dynamic_question_set_source_questionpool#:#Source Question Pool
 assessment#:#tst_dynamic_question_set_source_questionpool_summary_string#:#%s (Path: %s) [%s Questions]

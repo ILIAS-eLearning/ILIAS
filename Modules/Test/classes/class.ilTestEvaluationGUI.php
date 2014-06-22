@@ -22,10 +22,10 @@ require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintTracking.p
  *
  * @ilCtrl_Calls ilTestEvaluationGUI: ilTestPassDetailsOverviewTableGUI
  * @ilCtrl_Calls ilTestEvaluationGUI: ilTestResultsToolbarGUI
+ * @ilCtrl_Calls ilTestEvaluationGUI: ilTestPassDeletionConfirmationGUI
  */
 class ilTestEvaluationGUI extends ilTestServiceGUI
 {
-
 	/**
 	 * ilTestEvaluationGUI constructor
 	 *
@@ -1431,19 +1431,49 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		{
 			$this->ctrl->redirect($this, 'outUserResultsOverview');
 		}
-		
-		global $tpl;
-		require_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
-		$confirm = new ilConfirmationGUI();
-		$confirm->addHiddenItem('active_id', $_GET['active_id']);
-		$confirm->addHiddenItem('pass', $_GET['pass']);
-		$confirm->setHeaderText($this->lng->txt('conf_delete_pass'));
-		$confirm->setFormAction($this->ctrl->getFormAction($this, 'post'));
-		$confirm->setHeaderText($this->lng->txt('conf_delete_pass'));
-		$confirm->setCancel($this->lng->txt('cancel'), 'outUserResultsOverview');
-		$confirm->setConfirm($this->lng->txt('delete'), 'performDeletePass');
 
-		$tpl->setContent($confirm->getHTML());
+		require_once 'Modules/Test/classes/confirmations/class.ilTestPassDeletionConfirmationGUI.php';
+
+		if( isset($_GET['context']) && strlen($_GET['context']) )
+		{
+			$context = $_GET['context'];
+		}
+		else
+		{
+			$context = ilTestPassDeletionConfirmationGUI::CONTEXT_PASS_OVERVIEW;
+		}
+
+		$confirm = new ilTestPassDeletionConfirmationGUI($this->ctrl, $this->lng, $this);
+		$confirm->build((int)$_GET['active_id'], (int)$_GET['pass'], $context);
+
+		global $tpl;
+		$tpl->setContent($this->ctrl->getHTML($confirm));
+	}
+
+	public function cancelDeletePass()
+	{
+		$this->redirectToPassDeletionContext($_POST['context']);
+	}
+	
+	private function redirectToPassDeletionContext($context)
+	{
+		require_once 'Modules/Test/classes/confirmations/class.ilTestPassDeletionConfirmationGUI.php';
+
+		switch($context)
+		{
+			case ilTestPassDeletionConfirmationGUI::CONTEXT_PASS_OVERVIEW:
+
+				$this->ctrl->redirect($this, 'outUserResultsOverview');
+
+			case ilTestPassDeletionConfirmationGUI::CONTEXT_INFO_SCREEN:
+
+				$this->ctrl->redirectByClass('ilObjTestGUI', 'infoScreen');
+
+			case ilTestPassDeletionConfirmationGUI::CONTEXT_DYN_TEST_PLAYER:
+
+				require_once 'Modules/Test/classes/class.ilTestPlayerDynamicQuestionSetGUI.php';
+				$this->ctrl->redirectByClass('ilTestPlayerDynamicQuestionSetGUI', ilTestPlayerDynamicQuestionSetGUI::CMD_FROM_PASS_DELETION);
+		}
 	}
 	
 	public function performDeletePass()
@@ -1629,7 +1659,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			require_once './Modules/TestQuestionPool/classes/class.assQuestion.php';
 			assQuestion::_updateTestResultCache($active_fi);
 
-			$this->ctrl->redirectByClass('iltestoutputgui', 'outuserresultsoverview');
+		$this->redirectToPassDeletionContext($_POST['context']);
 	}
 }
 

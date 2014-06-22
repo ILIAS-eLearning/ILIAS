@@ -28,6 +28,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 {
 	const CMD_SHOW_QUESTION_SELECTION = 'showQuestionSelection';
 	const CMD_SHOW_QUESTION = 'showQuestion';
+	const CMD_FROM_PASS_DELETION = 'fromPassDeletion';
 		
 	/**
 	 * @var ilObjTestDynamicQuestionSetConfig
@@ -299,21 +300,20 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 	{
 		
 	}
+
+	protected function fromPassDeletionCmd()
+	{
+		$this->resetCurrentQuestion();
+		$this->ctrl->redirect($this, 'showQuestion');
+	}
 	
 	protected function nextQuestionCmd()
 	{
 		$this->updateWorkingTime();
 		$this->saveQuestionSolution();
 		$this->persistQuestionAnswerStatus();
-		
-		$this->testSession->setCurrentQuestionId(null);
-		
-		$this->testSequence->saveToDb();
-		$this->testSession->saveToDb();
-		
-		$this->ctrl->setParameter(
-				$this, 'sequence', $this->testSession->getCurrentQuestionId()
-		);
+
+		$this->resetCurrentQuestion();
 		
 		$this->ctrl->redirect($this, 'showQuestion');
 	}
@@ -717,14 +717,15 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		
 		if( $this->testSequence->openQuestionExists() )
 		{
-			$msgLangVar = 'tst_dyn_test_msg_currently_finished_selection';
+			$message = $this->lng->txt('tst_dyn_test_msg_currently_finished_selection');
 		}
 		else
 		{
-			$msgLangVar = 'tst_dyn_test_msg_currently_finished_completely';
+			$message = $this->lng->txt('tst_dyn_test_msg_currently_finished_completely');
+			$message .= "<br /><br />{$this->buildPassDeletionLink()}";
 		}
 		
-		$msgHtml = $this->tpl->getMessageHTML($this->lng->txt($msgLangVar));
+		$msgHtml = $this->tpl->getMessageHTML($message);
 		
 		$this->tpl->addBlockFile(
 				'QUESTION_OUTPUT', 'test_currently_finished_msg_block',
@@ -827,11 +828,11 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		return $this->saveResult;
 	}
 	
-	private function isQuestionAnsweredCorrect($questionId, $activeId)
+	private function isQuestionAnsweredCorrect($questionId, $activeId, $pass)
 	{
 		$questionGUI = $this->object->createQuestionGUI("", $questionId);
 
-		$reachedPoints = assQuestion::_getReachedPoints($activeId, $questionId, 0);
+		$reachedPoints = assQuestion::_getReachedPoints($activeId, $questionId, $pass);
 		$maxPoints = $questionGUI->object->getMaximumPoints();
 		
 		if($reachedPoints < $maxPoints)
@@ -900,7 +901,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 	protected function buildQuestionSetAnswerStatisticRowArray($questions, $marked_questions)
 	{
 		$questionAnswerStats = array(
-			'total_open' => count($questions),
+			'total_open' => 0,
 			'non_answered' => 0,
 			'wrong_answered' => 0,
 			'postponed' => 0,
@@ -913,9 +914,11 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 			{
 				case ilAssQuestionList::QUESTION_ANSWER_STATUS_NON_ANSWERED:
 					$questionAnswerStats['non_answered']++;
+					$questionAnswerStats['total_open']++;
 					break;
 				case ilAssQuestionList::QUESTION_ANSWER_STATUS_WRONG_ANSWERED:
 					$questionAnswerStats['wrong_answered']++;
+					$questionAnswerStats['total_open']++;
 					break;
 			}
 
@@ -974,8 +977,9 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 	{
 		$questionId = $this->testSession->getCurrentQuestionId();
 		$activeId = $this->testSession->getActiveId();
+		$pass = $this->testSession->getPass();
 
-		if($this->isQuestionAnsweredCorrect($questionId, $activeId))
+		if($this->isQuestionAnsweredCorrect($questionId, $activeId, $pass))
 		{
 			$this->testSequence->setQuestionAnsweredCorrect($questionId);
 		}
@@ -983,5 +987,32 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		{
 			$this->testSequence->setQuestionAnsweredWrong($questionId);
 		}
+	}
+
+	private function resetCurrentQuestion()
+	{
+		$this->testSession->setCurrentQuestionId(null);
+
+		$this->testSequence->saveToDb();
+		$this->testSession->saveToDb();
+
+		$this->ctrl->setParameter($this, 'sequence', $this->testSession->getCurrentQuestionId());
+	}
+
+	/**
+	 * @return string
+	 */
+	private function buildPassDeletionLink()
+	{
+		require_once 'Modules/Test/classes/confirmations/class.ilTestPassDeletionConfirmationGUI.php';
+		
+		$this->ctrl->setParameterByClass('ilTestEvaluationGUI', 'context', ilTestPassDeletionConfirmationGUI::CONTEXT_DYN_TEST_PLAYER);
+		$this->ctrl->setParameterByClass('ilTestEvaluationGUI', 'active_id', $this->testSession->getActiveId());
+		$this->ctrl->setParameterByClass('ilTestEvaluationGUI', 'pass', $this->testSession->getPass());
+		
+		$href = $this->ctrl->getLinkTargetByClass('ilTestEvaluationGUI', 'confirmDeletePass');
+		$label = $this->lng->txt('tst_dyn_test_msg_pass_deletion_link');
+
+		return "<a href=\"{$href}\">{$label}</a>";
 	}
 }
