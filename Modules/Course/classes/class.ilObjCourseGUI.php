@@ -1909,11 +1909,6 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		foreach((array) $ids as $usr_id)
 		{
-			if(!$this->object->getMembersObject()->isAssigned($usr_id))
-			{
-				continue;
-			}
-			
 			$name = ilObjUser::_lookupName($usr_id);
 			$tmp_data['firstname'] = $name['firstname'];
 			$tmp_data['lastname'] = $name['lastname'];
@@ -2558,7 +2553,11 @@ class ilObjCourseGUI extends ilContainerGUI
 	{
 		$this->checkPermission('write');
 		
-		$participants = array_unique(array_merge((array) $_POST['admins'],(array) $_POST['tutors'],(array) $_POST['members'], (array) $_POST['roles']));
+		$post_participants = array_unique(array_merge((array) $_POST['admins'],(array) $_POST['tutors'],(array) $_POST['members'], (array) $_POST['roles']));
+		$real_participants = ilCourseParticipants::_getInstanceByObjId($this->object->getId())->getParticipants();
+		$participants = array_intersect((array) $post_participants, (array) $real_participants);
+		
+		
 		
 		if(!count($participants))
 		{

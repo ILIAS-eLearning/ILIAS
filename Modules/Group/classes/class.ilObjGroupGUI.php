@@ -1635,7 +1635,9 @@ class ilObjGroupGUI extends ilContainerGUI
 	{
 		$this->checkPermission('write');
 		
-		$participants = array_unique(array_merge((array) $_POST['admins'],(array) $_POST['members'], (array) $_POST['roles']));
+		$post_participants = array_unique(array_merge((array) $_POST['admins'],(array) $_POST['members'], (array) $_POST['roles']));
+		$real_participants = ilGroupParticipants::_getInstanceByObjId($this->object->getId())->getParticipants();
+		$participants = array_intersect((array) $post_participants, (array) $real_participants);
 		
 		if(!count($participants))
 		{
