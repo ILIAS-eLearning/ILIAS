@@ -151,6 +151,10 @@ abstract class ilADTSearchBridge
 	 */
 	protected function writeFilter($a_value = null)
 	{
+		if(!$this->table_gui instanceof ilTable2GUI)
+		{
+			return;
+		}
 		if($a_value !== null)
 		{
 			$_SESSION["form_".$this->table_gui->getId()][$this->getElementId()] = serialize($a_value);
@@ -168,6 +172,10 @@ abstract class ilADTSearchBridge
 	 */
 	protected function readFilter()
 	{
+		if(!$this->table_gui instanceof ilTable2GUI)
+		{
+			return;
+		}
 		$value = $_SESSION["form_".$this->table_gui->getId()][$this->getElementId()];
 		if($value)
 		{
@@ -192,7 +200,7 @@ abstract class ilADTSearchBridge
 	 */
 	protected function addToParentElement(ilFormPropertyGUI $a_field)
 	{		
-		if($this->getForm() instanceof ilFormPropertyGUI)
+		if($this->getForm() instanceof ilPropertyFormGUI)
 		{
 			$this->getForm()->addItem($a_field);		
 		}

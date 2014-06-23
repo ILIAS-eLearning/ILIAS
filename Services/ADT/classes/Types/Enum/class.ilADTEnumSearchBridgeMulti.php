@@ -17,6 +17,16 @@ class ilADTEnumSearchBridgeMulti extends ilADTSearchBridgeMulti
 		return $def;
 	}
 	
+	public function loadFilter()
+	{
+		$value = $this->readFilter();
+		if($value !== null)
+		{
+			$this->getADT()->setSelections($value);
+		}
+	}
+	
+	
 	// form
 	
 	public function addToForm()
