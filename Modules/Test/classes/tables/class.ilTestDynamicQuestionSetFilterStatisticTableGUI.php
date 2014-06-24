@@ -63,10 +63,16 @@ class ilTestDynamicQuestionSetFilterStatisticTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt("tst_num_open_questions"),'num_open_questions', '');
 		$this->addColumn($this->lng->txt("tst_num_non_answered_questions"),'num_non_answered_questions', '');
 		$this->addColumn($this->lng->txt("tst_num_wrong_answered_questions"),'num_wrong_answered_questions', '');
-		
-		$this->addColumn($this->lng->txt("tst_num_postponed_questions"),'num_postponed_questions', '');
-		
-		$this->addColumn($this->lng->txt("tst_num_marked_questions"),'num_marked_questions', '');
+
+		if( $this->isShowNumPostponedQuestionsEnabled() )
+		{
+			$this->addColumn($this->lng->txt("tst_num_postponed_questions"),'num_postponed_questions', '');
+		}
+
+		if( $this->isShowNumMarkedQuestionsEnabled() )
+		{
+			$this->addColumn($this->lng->txt("tst_num_marked_questions"),'num_marked_questions', '');
+		}
 	}
 
 	/**
