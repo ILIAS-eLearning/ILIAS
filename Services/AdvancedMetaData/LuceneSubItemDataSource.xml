@@ -5,7 +5,7 @@
 			SELECT concat('advancedMetaData_',amv.field_id) field_name, amv.field_id field_id, value FROM adv_md_values_text amv 
 			JOIN adv_mdf_definition adf ON amv.field_id = adf.field_id 
 			JOIN adv_md_record_objs amr ON adf.record_id = amr.record_id 
-			WHERE searchable = 1 AND obj_id IN (?) AND sub_type IN (?) AND sub_id IN (?)
+			WHERE searchable = 1 AND obj_id IN (?) AND amv.sub_type IN (?) AND amv.sub_id IN (?)
 		</Query>
 		<Param format="list" type="int" value="objId" />
 		<Param format="list" type="string" value="metaSubType" />
@@ -18,7 +18,7 @@
 			SELECT concat('advancedMetaData_',amv.field_id) field_name, amv.field_id field_id, value FROM adv_md_values_date amv 
 			JOIN adv_mdf_definition adf ON amv.field_id = adf.field_id 
 			JOIN adv_md_record_objs amr ON adf.record_id = amr.record_id 
-			WHERE searchable = 1 AND obj_id IN (?) AND sub_type IN (?) AND sub_id IN (?)
+			WHERE searchable = 1 AND obj_id IN (?) AND amv.sub_type IN (?) AND amv.sub_id IN (?)
 		</Query>
 		<Param format="list" type="int" value="objId" />
 		<Param format="list" type="string" value="metaSubType" />
@@ -31,7 +31,7 @@
 			SELECT concat('advancedMetaData_',amv.field_id) field_name, amv.field_id field_id, value FROM adv_md_values_datetime amv 
 			JOIN adv_mdf_definition adf ON amv.field_id = adf.field_id 
 			JOIN adv_md_record_objs amr ON adf.record_id = amr.record_id 
-			WHERE searchable = 1 AND obj_id IN (?) AND sub_type IN (?) AND sub_id IN (?)
+			WHERE searchable = 1 AND obj_id IN (?) AND amv.sub_type IN (?) AND amv.sub_id IN (?)
 		</Query>
 		<Param format="list" type="int" value="objId" />
 		<Param format="list" type="string" value="metaSubType" />
@@ -44,7 +44,7 @@
 			SELECT concat('advancedMetaData_',amv.field_id) field_name, amv.field_id field_id, value FROM adv_md_values_float amv 
 			JOIN adv_mdf_definition adf ON amv.field_id = adf.field_id 
 			JOIN adv_md_record_objs amr ON adf.record_id = amr.record_id 
-			WHERE searchable = 1 AND obj_id IN (?) AND sub_type IN (?) AND sub_id IN (?)
+			WHERE searchable = 1 AND obj_id IN (?) AND amv.sub_type IN (?) AND amv.sub_id IN (?)
 		</Query>
 		<Param format="list" type="int" value="objId" />
 		<Param format="list" type="string" value="metaSubType" />
@@ -57,7 +57,7 @@
 			SELECT concat('advancedMetaData_',amv.field_id) field_name, amv.field_id field_id, value FROM adv_md_values_int amv 
 			JOIN adv_mdf_definition adf ON amv.field_id = adf.field_id 
 			JOIN adv_md_record_objs amr ON adf.record_id = amr.record_id 
-			WHERE searchable = 1 AND obj_id IN (?) AND sub_type IN (?) AND sub_id IN (?)
+			WHERE searchable = 1 AND obj_id IN (?) AND amv.sub_type IN (?) AND amv.sub_id IN (?)
 		</Query>
 		<Param format="list" type="int" value="objId" />
 		<Param format="list" type="string" value="metaSubType" />
