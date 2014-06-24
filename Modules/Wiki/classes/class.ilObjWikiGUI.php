@@ -659,11 +659,14 @@ class ilObjWikiGUI extends ilObjectGUI
 		$page_toc->setInfo($lng->txt("wiki_page_toc_info"));
 		$this->form_gui->addItem($page_toc);
 		
-		// advanced metadata
-		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
-		$record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_REC_SELECTION,'wiki',$this->object->getId(), "wpg");
-		$record_gui->setPropertyForm($this->form_gui);
-		$record_gui->parseRecordSelection($this->lng->txt("wiki_add_page_properties"));
+		if($a_mode == "edit")
+		{
+			// advanced metadata
+			include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
+			$record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_REC_SELECTION,'wiki',$this->object->getId(), "wpg");
+			$record_gui->setPropertyForm($this->form_gui);
+			$record_gui->parseRecordSelection($this->lng->txt("wiki_add_page_properties"));
+		}
 		
 		// :TODO: sorting
 
