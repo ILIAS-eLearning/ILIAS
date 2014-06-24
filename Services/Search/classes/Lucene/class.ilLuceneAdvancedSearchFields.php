@@ -616,68 +616,7 @@ class ilLuceneAdvancedSearchFields
 				include_once './Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php';
 				$field = ilAdvancedMDFieldDefinition::getInstance($field_id);
 				
-				return 'advancedMetaData_'.$field_id.': '.$field->getLuceneSearchString($a_query);
-				
-				/*
-				switch($field->getFieldType())
-				{
-					case ilAdvancedMDFieldDefinition::TYPE_TEXT:
-					case ilAdvancedMDFieldDefinition::TYPE_SELECT:
-						return 'advancedMetaData_'.$field_id.':'.$a_query;
-						
-					case ilAdvancedMDFieldDefinition::TYPE_DATE:
-						
-						$value = $_POST['adv_'.$field_id.'_start'];
-						$dt['year'] = (int) $value['date']['y'];
-						$dt['mon'] = (int) $value['date']['m'];
-						$dt['mday'] = (int) $value['date']['d'];
-						$dt['hours'] = (int) 0;
-						$dt['minutes'] = (int) 0;
-						$dt['seconds'] = (int) 0;
-						$date = new ilDate($dt,IL_CAL_FKT_GETDATE);
-						$ustart = $date->get(IL_CAL_UNIX);
-						
-						$value = $_POST['adv_'.$field_id.'_end'];
-						$dt['year'] = (int) $value['date']['y'];
-						$dt['mon'] = (int) $value['date']['m'];
-						$dt['mday'] = (int) $value['date']['d'];
-						$dt['hours'] = (int) 0;
-						$dt['minutes'] = (int) 0;
-						$dt['seconds'] = (int) 0;
-						$date = new ilDate($dt,IL_CAL_FKT_GETDATE);
-						$uend = $date->get(IL_CAL_UNIX);
-						
-						return 'advancedMetaData_'.$field_id.':{'.$ustart.' TO '.$uend.'}';
-						
-					case ilAdvancedMDFieldDefinition::TYPE_DATETIME:
-						
-						$value = $_POST['adv_'.$field_id.'_start'];
-						$dt['year'] = (int) $value['date']['y'];
-						$dt['mon'] = (int) $value['date']['m'];
-						$dt['mday'] = (int) $value['date']['d'];
-						$dt['hours'] = (int) $value['time']['h'];
-						$dt['minutes'] = (int) $value['time']['m'];
-						$dt['seconds'] = (int) 0;
-						$date = new ilDateTime($dt,IL_CAL_FKT_GETDATE);
-						$ustart = $date->get(IL_CAL_UNIX);
-						
-						$value = $_POST['adv_'.$field_id.'_end'];
-						$dt['year'] = (int) $value['date']['y'];
-						$dt['mon'] = (int) $value['date']['m'];
-						$dt['mday'] = (int) $value['date']['d'];
-						$dt['hours'] = (int) $value['time']['h'];
-						$dt['minutes'] = (int) $value['time']['m'];
-						$dt['seconds'] = (int) 0;
-						$date = new ilDateTime($dt,IL_CAL_FKT_GETDATE);
-						$uend = $date->get(IL_CAL_UNIX);
-						
-						return 'advancedMetaData_'.$field_id.':{'.$ustart.' TO '.$uend.'}';
-						
-	
-				}
-				 
-				 */
-				break;
+				return 'advancedMetaData_'.$field_id.': '.$field->getLuceneSearchString($a_query);				
 		}
 	}
 	

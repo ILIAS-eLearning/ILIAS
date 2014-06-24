@@ -17,7 +17,7 @@
 	<Document type="subItem">
 		<DataSource type="JDBC" action="create">
 			<Query>
-				SELECT 'glo' type,term,glo_id,id
+				SELECT 'glo' type,term,glo_id,id,'term' metaSubType,id metaSubId
 				FROM glossary_term gt
 				WHERE glo_id IN (?)
 			</Query>
@@ -26,6 +26,7 @@
 			<Field store="YES" index="NOT_ANALYZED" column="id" type="integer" name="subItem" />
 			<Field global="NO" store="YES" index="NOT_ANALYZED" column="glo_id" type="integer" name="objId"  />
 			<Field global="NO" store="YES" index="NOT_ANALYZED" column="type" type="text" name="type"  />
+			<xi:include href="../../Services/AdvancedMetaData/LuceneSubItemDataSource.xml" />
 			<DataSource type="JDBC" action="append">
 				<Query>
 					SELECT content FROM glossary_definition
@@ -38,6 +39,6 @@
 					<Transformer name="ContentObjectTransformer" />
 				</Field>
 			</DataSource>
-		</DataSource>
+		</DataSource>		
 	</Document>
 </ObjectDefinition>
