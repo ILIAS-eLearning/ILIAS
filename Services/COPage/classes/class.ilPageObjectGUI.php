@@ -1728,6 +1728,7 @@ return;
 						 'enable_qover' =>  $cfg->getEnablePCType("QuestionOverview") ? "y" : "n",
 						 'enable_consultation_hours' =>  $cfg->getEnablePCType("ConsultationHours") ? "y" : "n",
 						 'enable_my_courses' =>  $cfg->getEnablePCType("MyCourses") ? "y" : "n",
+						 'enable_amd_page_list' =>  $cfg->getEnablePCType("AMDPageList") ? "y" : "n",
 						 'flv_video_player' => $flv_video_player
 						);
 		if($this->link_frame != "")		// todo other link types

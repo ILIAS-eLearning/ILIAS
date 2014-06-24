@@ -14400,3 +14400,6 @@ exercise#:#exc_to_desktop_info#:#Add exercise to desktop of participant after ha
 wiki#:#wiki_wpg#:#Wiki Page
 wiki#:#wiki_add_page_properties#:#Activate Additional Wiki Page Properties
 wiki#:#wiki_advmd_block_title#:#Advanced Metadata of Page
+content#:#cont_ed_insert_amd_page_list#:#Insert Page List
+content#:#cont_insert_amd_page_list#:#Insert Page List
+content#:#cont_update_amd_page_list#:#Edit Page List

@@ -87,6 +87,7 @@
 <xsl:param name="enable_placeholder"/>
 <xsl:param name="enable_consultation_hours"/>
 <xsl:param name="enable_my_courses"/>
+<xsl:param name="enable_amd_page_list"/>
 
 <xsl:template match="PageObject">
 	<xsl:if test="$mode != 'edit'">
@@ -875,6 +876,14 @@
 		<xsl:call-template name="EditMenuItem">
 			<xsl:with-param name="command">insert_mcrs</xsl:with-param>
 			<xsl:with-param name="langvar">ed_insert_my_courses</xsl:with-param>
+		</xsl:call-template>
+	</xsl:if>
+	
+	<!-- insert amd_page_list -->
+	<xsl:if test = "$enable_amd_page_list = 'y'">
+		<xsl:call-template name="EditMenuItem">
+			<xsl:with-param name="command">insert_amdpl</xsl:with-param>
+			<xsl:with-param name="langvar">ed_insert_amd_page_list</xsl:with-param>
 		</xsl:call-template>
 	</xsl:if>
 	
@@ -3928,6 +3937,26 @@
 			<xsl:with-param name="hier_id" select="../@HierId" />
 			<xsl:with-param name="pc_id" select="../@PCID" />
 			<xsl:with-param name="edit">d</xsl:with-param>
+		</xsl:call-template>
+	</xsl:if>
+</xsl:template>
+
+<!-- Advanced MD Page List -->
+<xsl:template match="AMDPageList">
+	{{{{{AMDPageList<xsl:if test="$mode = 'edit'">Teaser</xsl:if>#<xsl:value-of select="@User"/>}}}}}
+	<xsl:if test="$mode = 'edit'">
+		<!-- <xsl:value-of select="../@HierId"/> -->
+		<xsl:if test="$javascript='disable'">
+			<br />
+			<input type="checkbox" name="target[]">
+				<xsl:attribute name="value"><xsl:value-of select="../@HierId"/>:<xsl:value-of select="../@PCID"/>
+				</xsl:attribute>
+			</input>
+		</xsl:if>
+		<xsl:call-template name="EditMenu">
+			<xsl:with-param name="hier_id" select="../@HierId" />
+			<xsl:with-param name="pc_id" select="../@PCID" />
+			<xsl:with-param name="edit">y</xsl:with-param>
 		</xsl:call-template>
 	</xsl:if>
 </xsl:template>
