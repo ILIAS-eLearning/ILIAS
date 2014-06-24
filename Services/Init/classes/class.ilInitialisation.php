@@ -466,11 +466,16 @@ class ilInitialisation
 		$cookie_path .= (!preg_match("/[\/|\\\\]$/", $cookie_path)) ? "/" : "";
 		
 		if($cookie_path == "\\") $cookie_path = '/';
+
+		//include_once './Services/Http/classes/class.ilHTTPS.php';
+		//$cookie_secure = ilHTTPS::getInstance()->isDetected();
+		// use of ilHTTPS not possible at this point (ilSetting not available but used in constructor)
+		$cookie_secure = isset($_SERVER["HTTPS"]) && strtolower($_SERVER["HTTPS"]) == 'on';
 		
 		define('IL_COOKIE_EXPIRE',0);
 		define('IL_COOKIE_PATH',$cookie_path);
 		define('IL_COOKIE_DOMAIN','');
-		define('IL_COOKIE_SECURE',false); // Default Value
+		define('IL_COOKIE_SECURE', $cookie_secure); // Default Value
 
 		// session_set_cookie_params() supports 5th parameter
 		// only for php version 5.2.0 and above

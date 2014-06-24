@@ -857,7 +857,9 @@ class Auth extends ilAuthBase {
         }
 
         $this->session['challengecookie'] = md5($this->session['challengekey'].microtime());
-        setcookie('authchallenge', $this->session['challengecookie'], 0, '/');
+        //setcookie('authchallenge', $this->session['challengecookie'], 0, '/');
+		require_once 'Services/Utilities/classes/class.ilUtil.php';
+		ilUtil::setCookie('authchallenge', $this->session['challengecookie']);
 
         $this->session['registered'] = true;
         $this->session['username']   = $username;
@@ -936,7 +938,9 @@ class Auth extends ilAuthBase {
                         $this->log('Generating new Challenge Cookie.', AUTH_LOG_DEBUG);
                         $this->session['challengecookieold'] = $this->session['challengecookie'];
                         $this->session['challengecookie'] = md5($this->session['challengekey'].microtime());
-                        setcookie('authchallenge', $this->session['challengecookie'], 0, '/');
+                        //setcookie('authchallenge', $this->session['challengecookie'], 0, '/');
+						require_once 'Services/Utilities/classes/class.ilUtil.php';
+						ilUtil::setCookie('authchallenge', $this->session['challengecookie']);
                     }
 
                     // Check for ip change
