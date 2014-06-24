@@ -69,28 +69,68 @@ class ilADTTextSearchBridgeSingle extends ilADTSearchBridgeSingle
 	
 	// db
 	
-	public function getSQLCondition($a_element_id, $a_mode = self::SQL_LIKE)
+	public function getSQLCondition($a_element_id, $a_mode = self::SQL_LIKE, $a_value = null)
 	{
 		global $ilDB;
 		
-		if(!$this->isNull() && $this->isValid())		
+		if(!$a_value)
 		{
-			switch($a_mode)
+			if($this->isNull() || !$this->isValid())		
 			{
-				case self::SQL_STRICT:
-					return $a_element_id." = ".$ilDB->quote($this->getADT()->getText(), "text");	
-					
-				case self::SQL_LIKE:
-					return $ilDB->like($a_element_id, "text", "%".$this->getADT()->getText()."%");
-					
-				case self::SQL_LIKE_END:
-					return $ilDB->like($a_element_id, "text", $this->getADT()->getText()."%");
-					
-				case self::SQL_LIKE_START:
-					return $ilDB->like($a_element_id, "text", "%".$this->getADT()->getText());
+				return;
 			}
-						
+			$a_value = $this->getADT()->getText();				
 		}
+						
+		switch($a_mode)
+		{
+			case self::SQL_STRICT:
+				if(!is_array($a_value))
+				{
+					return $a_element_id." = ".$ilDB->quote($a_value, "text");	
+				}
+				else
+				{
+					return $ilDB->in($a_element_id, $a_value, "", "text");
+				}
+				break;
+
+			case self::SQL_LIKE:
+				if(!is_array($a_value))
+				{
+					return $ilDB->like($a_element_id, "text", "%".$a_value."%");
+				}
+				else
+				{
+					$tmp = array();
+					foreach($a_value as $word)
+					{
+						if($word)
+						{
+							$tmp[] = $ilDB->like($a_element_id, "text", "%".$word."%");
+						}
+					}
+					if(sizeof($tmp))
+					{
+						return "(".implode(" OR ", $tmp).")";
+					}
+				}
+				break;
+
+			case self::SQL_LIKE_END:
+				if(!is_array($a_value))
+				{
+					return $ilDB->like($a_element_id, "text", $a_value."%");
+				}
+				break;
+
+			case self::SQL_LIKE_START:
+				if(!is_array($a_value))
+				{
+					return $ilDB->like($a_element_id, "text", "%".$a_value);
+				}
+				break;
+		}						
 	}
 	
 	public function isInCondition(ilADTText $a_adt)

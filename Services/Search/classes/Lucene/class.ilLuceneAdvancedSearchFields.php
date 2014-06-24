@@ -415,8 +415,7 @@ class ilLuceneAdvancedSearchFields
 				include_once './Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php';
 				$field = ilAdvancedMDFieldDefinition::getInstance($field_id);
 								
-				// :TODO: single/range/multi ?!
-				$field_form = ilADTFactory::getInstance()->getSearchBridgeForDefinitionInstance($field->getADTDefinition());				
+				$field_form = ilADTFactory::getInstance()->getSearchBridgeForDefinitionInstance($field->getADTDefinition(), false, false);				
 				$field_form->setForm($a_form);
 				$field_form->setElementId($a_post_name);
 				$field_form->setTitle($this->active_fields[$a_field_name]);			
@@ -427,7 +426,6 @@ class ilLuceneAdvancedSearchFields
 				{
 					$field_form->importFromPost($a_query);
 					$field_form->validate();
-					// var_dump($field_form->getSQLCondition($a_field_name));
 				}								
 				
 				return;				

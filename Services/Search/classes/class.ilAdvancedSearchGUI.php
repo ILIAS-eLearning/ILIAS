@@ -242,6 +242,9 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 		{
 			$this->__storeEntries($res,$res_key);
 		}
+				
+		$this->searchAdvancedMD($res);
+					
 		if($this->search_mode == 'in_results')
 		{
 			include_once 'Services/Search/classes/class.ilSearchResult.php';
@@ -252,8 +255,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 			$res->diffEntriesFromResult($old_result_obj);
 		}
 
-		
-		$res->filter($this->getRootNode(),true);
+		$res->filter($this->getRootNode(), (ilSearchSettings::getInstance()->getDefaultOperator() == ilSearchSettings::OPERATOR_AND));
 		$res->save();
 		$this->showSearch();
 		
@@ -893,65 +895,48 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 	 * 
 	 */
 	private function searchAdvancedMD($res)
-	{
+	{				
+		$this->initFormSearch();
+		
 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
-		foreach($_POST as $key => $value)
+		foreach(array_keys($this->options) as $key)
 		{
-			if(!is_numeric($key))
+			if(substr($key,0,3) != 'adv')
+			{
+				continue;
+			}			
+			
+			// :TODO: ?
+			if(!$key)
 			{
 				continue;
 			}
-			if(!$value)
-			{
-				continue;
-			}
-			
-			$def = ilAdvancedMDFieldDefinition::_getInstanceByFieldId($key);
-			include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
-			include_once 'Services/Search/classes/class.ilQueryParser.php';
-			
-			if($def->getFieldType() == ilAdvancedMDFieldDefinition::TYPE_SELECT)
-			{
-				$value = (int) $value;
-				$options = $def->getFieldValues();
-				if(!isset($options[$value - 1]))
-				{
-					continue;
-				}
-				$value = $options[$value - 1];
-			}
-			if($def->getFieldType() == ilAdvancedMDFieldDefinition::TYPE_DATE)
-			{
-				$start = $this->toUnixTime($_POST['date_start'][$key]['date']);
-				$end = $this->toUnixTime($_POST['date_end'][$key]['date']);
-											
-			}
-			if($def->getFieldType() == ilAdvancedMDFieldDefinition::TYPE_DATETIME)
-			{
-				$start = $this->toUnixTime($_POST['date_start'][$key]['date'],$_POST['date_start'][$key]['time']);
-				$end = $this->toUnixTime($_POST['date_end'][$key]['date'],$_POST['date_end'][$key]['time']);
-			}
-			
-			$query_parser = new ilQueryParser(ilUtil::stripSlashes($value));
-			if($_POST['boolean'][$key] == 1)
-			{
-				$query_parser->setCombination('and');
-			}
-			else
-			{
-				$query_parser->setCombination('or');
-			}
-			$query_parser->parse();
-			
-			$adv_md_search  = ilObjectSearchFactory::_getAdvancedMDSearchInstance($query_parser);
-			$adv_md_search->setDefinition($def);
-			$adv_md_search->setTimeRange($start,$end);
+					
+			$field_id = substr($key,4);			
+			$field = ilAdvancedMDFieldDefinition::getInstance($field_id);
+		
+			$field_form = ilADTFactory::getInstance()->getSearchBridgeForDefinitionInstance($field->getADTDefinition(), false, false);							
+			$field_form->setElementId("query[".$key."]");			
+			$field_form->setForm($this->form);
+		
+			// reload search values			
+			$field_form->importFromPost($this->options);
+			$field_form->validate();
+												
+			$parser_value = $field->getSearchQueryParserValue($field_form);
+		
+			include_once 'Services/Search/classes/class.ilQueryParser.php';	
+			include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';		
+			$adv_md_search = ilObjectSearchFactory::_getAdvancedMDSearchInstance(new ilQueryParser($parser_value));
 			$adv_md_search->setFilter($this->filter);
-			$res_field = $adv_md_search->performSearch();
-			$this->__storeEntries($res,$res_field);
-			
+			$adv_md_search->setDefinition($field);
+			$adv_md_search->setSearchElement($field_form);
+			$res_field = $adv_md_search->performSearch();	
+			if($res_field instanceof ilSearchResult)
+			{
+				$this->__storeEntries($res,$res_field);					
+			}
 		}
-		return $res;
 	}
 
 	function &__performKeywordSearch()

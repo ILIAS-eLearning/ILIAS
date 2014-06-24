@@ -247,6 +247,83 @@ class ilAdvancedMDFieldDefinitionText extends ilAdvancedMDFieldDefinition
 		// seems to be default in course info editor
 		$a_text->setMulti($this->isMulti(), 80, 6);		
 	}
+	
+	
+	//
+	// search
+	// 
+	
+	public function getSearchQueryParserValue(ilADTSearchBridge $a_adt_search)
+	{
+		return $a_adt_search->getADT()->getText();
+	}
+	
+	protected function parseSearchObjects(array $a_records, array $a_object_types)
+	{
+		global $ilDB;
+		
+		$res = array();
+		
+		$obj_ids = array();
+		foreach($a_records as $record)
+		{			
+			if($record["sub_type"] == "-")
+			{
+				// keep found information
+				$obj_ids[$record["obj_id"]] = $record;
+			}
+		}
+		
+		$sql = "SELECT obj_id,type".
+			" FROM object_data".
+			" WHERE ".$ilDB->in("obj_id", array_keys($obj_ids), "", "integer").
+			" AND ".$ilDB->in("type", $a_object_types, "", "text");		
+		$set = $ilDB->query($sql);
+		while($row = $ilDB->fetchAssoc($set))
+		{			
+			$row["found"] = array();
+			foreach($obj_ids[$row["obj_id"]] as $field => $value)
+			{
+				if(substr($field, 0, 5) == "found")
+				{
+					$row["found"][$field] = $value;
+				}
+			}
+			$res[] = $row;
+		}
+		
+		return $res;
+	}
+	
+	/**
+	 * Search
+	 *
+	 * @param ilADTSearchBridge $a_adt_search
+	 * @param ilQueryParser $a_parser
+	 * @param array $a_object_types
+	 * @param string $a_locate
+	 * @param string $a_search_type
+	 * @return array
+	 */
+	public function searchObjects(ilADTSearchBridge $a_adt_search, ilQueryParser $a_parser, array $a_object_types, $a_locate, $a_search_type)
+	{																
+		// :TODO: search type (like, fulltext)
+		
+		include_once('Services/ADT/classes/ActiveRecord/class.ilADTActiveRecordByType.php');			 			
+		$condition = $a_adt_search->getSQLCondition(
+			ilADTActiveRecordByType::SINGLE_COLUMN_NAME, 			
+			ilADTTextSearchBridgeSingle::SQL_LIKE, 
+			$a_parser->getQuotedWords());		
+		if($condition)
+		{					
+			$objects = ilADTActiveRecordByType::find("adv_md_values", $this->getADT()->getType(), $this->getFieldId(), $condition, $a_locate);
+			if(sizeof($objects))
+			{
+				return $this->parseSearchObjects($objects, $a_object_types);								
+			}
+			return array();
+		}	 	
+	}
 }
 
 ?>

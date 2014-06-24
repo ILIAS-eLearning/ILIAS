@@ -985,6 +985,77 @@ abstract class ilAdvancedMDFieldDefinition
 	{
 		// type-specific		
 	}
+	
+	
+	//
+	// search
+	// 
+	
+	/**
+	 * Get value for search query parser
+	 * 
+	 * @param ilADTSearchBridge $a_adt_search
+	 * @return mixed
+	 */	
+	public function  getSearchQueryParserValue(ilADTSearchBridge $a_adt_search)
+	{
+		return '';
+	}
+	
+	protected function parseSearchObjects(array $a_records, array $a_object_types)
+	{
+		global $ilDB;
+		
+		$res = array();
+		
+		$obj_ids = array();
+		foreach($a_records as $record)
+		{			
+			if($record["sub_type"] == "-")
+			{
+				$obj_ids[] = $record["obj_id"];
+			}
+		}
+		
+		$sql = "SELECT obj_id,type".
+			" FROM object_data".
+			" WHERE ".$ilDB->in("obj_id", $obj_ids, "", "integer").
+			" AND ".$ilDB->in("type", $a_object_types, "", "text");		
+		$set = $ilDB->query($sql);
+		while($row = $ilDB->fetchAssoc($set))
+		{			
+			$res[] = $row;
+		}
+		
+		return $res;
+	}
+		
+	/**
+	 * Search
+	 *
+	 * @param ilADTSearchBridge $a_adt_search
+	 * @param ilQueryParser $a_parser
+	 * @param array $a_object_types
+	 * @param string $a_locate
+	 * @param string $a_search_type
+	 * @return array
+	 */
+	public function searchObjects(ilADTSearchBridge $a_adt_search, ilQueryParser $a_parser, array $a_object_types, $a_locate, $a_search_type)
+	{				
+		// search type only supported/needed for text
+		
+		include_once('Services/ADT/classes/ActiveRecord/class.ilADTActiveRecordByType.php');			 			
+		$condition = $a_adt_search->getSQLCondition(ilADTActiveRecordByType::SINGLE_COLUMN_NAME);		
+		if($condition)
+		{			
+			$objects = ilADTActiveRecordByType::find("adv_md_values", $this->getADT()->getType(), $this->getFieldId(), $condition, $a_locate);
+			if(sizeof($objects))
+			{			
+				return $this->parseSearchObjects($objects, $a_object_types);											
+			}
+			return array();
+		}					
+	}
 }
 
 ?>

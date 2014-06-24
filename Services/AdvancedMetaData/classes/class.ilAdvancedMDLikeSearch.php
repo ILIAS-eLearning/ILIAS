@@ -34,41 +34,7 @@ include_once 'Services/AdvancedMetaData/classes/class.ilAdvancedMDSearch.php';
 
 class ilAdvancedMDLikeSearch extends ilAdvancedMDSearch
 {
-
-	
-	/**
-	 * Constructor
-	 *
-	 * @access public
-	 * @param obj query parser
-	 * 
-	 */
-	public function __construct($query_parser)
-	{
-	 	parent::__construct($query_parser);
-	}
-	
-	/**
-	 * Create where condition
-	 *
-	 * @access private
-	 * @param
-	 * 
-	 */
-	protected function __createWhereCondition()
-	{
-		$and = "  WHERE ( ";
-		$counter = 0;
-		foreach($this->query_parser->getQuotedWords() as $word)
-		{
-			if($counter++)
-			{
-				$and .= " OR ";
-			}
-			$and .= ("value LIKE ('%".$word."%')");
-		}
-		return $and.") ";
-	}
+	// nothing to see here => ilAdvancedMDFieldDefinition::searchObjects()
 }
 
 

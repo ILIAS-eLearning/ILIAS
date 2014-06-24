@@ -35,6 +35,7 @@ include_once 'Services/Search/classes/class.ilAbstractSearch.php';
 class ilAdvancedMDSearch extends ilAbstractSearch
 {
 	protected $definition;
+	protected $adt;
 	
 	/**
 	 * Constructor
@@ -72,6 +73,29 @@ class ilAdvancedMDSearch extends ilAbstractSearch
 	}
 	
 	/**
+	 * set search element
+	 *
+	 * @access public
+	 * @param ilADTSearchBridge 
+	 * 
+	 */
+	public function setSearchElement($a_adt)
+	{
+	 	$this->adt = $a_adt;
+	}
+	
+	/**
+	 * get search element
+	 *
+	 * @access public
+	 * @return ilADTSearchBridge
+	 */
+	public function getSearchElement()
+	{
+	 	return $this->adt;
+	}
+	
+	/**
 	 * perform search
 	 *
 	 * @access public
@@ -79,72 +103,30 @@ class ilAdvancedMDSearch extends ilAbstractSearch
 	 * 
 	 */
 	public function performSearch()
-	{
-	 	global $ilDB;
-	 	
-	 	$this->setFields(array('value'));
-	 	
-		$and = '';
-	 	if(count($this->getFilter()))
-	 	{
-	 		$and = "AND ".$ilDB->in('type',$this->getFilter(),false,'text');
-	 	}
-	 	
-	 	
-	 	switch($this->getDefinition()->getFieldType())
-	 	{
-			case ilAdvancedMDFieldDefinition::TYPE_DATE:
-			case ilAdvancedMDFieldDefinition::TYPE_DATETIME:
-				$query = "SELECT amv.obj_id,type ".
-					"FROM adv_md_values amv ".
-					"JOIN object_data od ON amv.obj_id = od.obj_id ".
-					"WHERE value >= ".$ilDB->quote($this->range_start ,'text')." ".
-					"AND value <= ".$ilDB->quote($this->range_end ,'text')." ".
-					"AND field_id = ".$this->db->quote($this->getDefinition()->getFieldId() ,'integer')." ".
-					$and;
-				break;
-			
-			case ilAdvancedMDFieldDefinition::TYPE_SELECT:
-	 		case ilAdvancedMDFieldDefinition::TYPE_TEXT:
-	 			$where = $this->__createWhereCondition();
-				$locate = $this->__createLocateString();
-				
-				$query = "SELECT amv.obj_id,type ".
-					$locate.
-					"FROM adv_md_values amv ".
-					"JOIN object_data od ON amv.obj_id = od.obj_id ".
-					$where.
-					"AND field_id = ".$this->db->quote($this->getDefinition()->getFieldId() ,'integer')." ".
-					$and;
-				break;
-			
-	 	}
+	{	 		
+		$this->query_parser->parse();
 		
-		if($query)
-		{
-			$res = $this->db->query($query);
-			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
-			{
-				$this->search_result->addEntry($row->obj_id,$row->type,$this->__prepareFound($row));
-			}
+		$locate = null;
+		$parser_value = $this->getDefinition()->getSearchQueryParserValue($this->getSearchElement());
+		if($parser_value)
+		{		
+			$this->setFields(array("value"));		
+			$locate = $this->__createLocateString();			
 		}
-		return $this->search_result;
-	}
-	
-	/**
-	 * set time range
-	 *
-	 * @access public
-	 * @param int unix start time
-	 * @param int unix end time
-	 * 
-	 */
-	public function setTimeRange($start,$end)
-	{
-	 	$this->range_start = $start;
-	 	$this->range_end = $end;
-	}
-	
+		
+		$search_type = strtolower(substr(get_class($this), 12, -6));
+		
+		$res_field = $this->getDefinition()->searchObjects($this->getSearchElement(), $this->query_parser, $this->getFilter(), $locate, $search_type);							 	
+		if(is_array($res_field))
+		{			
+			foreach($res_field as $row)
+			{				
+				$found = is_array($row["found"]) ? $row["found"] : array();				
+				$this->search_result->addEntry($row["obj_id"],$row["type"],$found);
+			}
+			return $this->search_result;
+		}		
+	}	
 }
 
 ?>

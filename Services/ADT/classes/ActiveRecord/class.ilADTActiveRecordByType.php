@@ -707,6 +707,48 @@ class ilADTActiveRecordByType
 			$ilDB->manipulate($sql);			
 		}		
 	}
+	
+	/**
+	 * Find entries
+	 * 
+	 * @param string $a_table
+	 * @param string $a_type
+	 * @param int $a_field_id
+	 * @param string $a_condition
+	 * @param string $a_additional_fields
+	 * @return array
+	 */
+	public static function find($a_table, $a_type, $a_field_id, $a_condition, $a_additional_fields = null)	
+	{
+		global $ilDB;
+		
+		// type-specific table	
+		$found = null;
+		foreach(self::getTablesMap() as $table => $types)
+		{
+			if(in_array($a_type, $types))
+			{
+				$found = $table;
+				break;
+			}
+		}			
+		if($found)
+		{				
+			$res = array();
+			
+			$sql = "SELECT *".$a_additional_fields.
+				" FROM ".$a_table."_".$found.
+				" WHERE field_id = ".$ilDB->quote($a_field_id, "integer").
+				" AND ".$a_condition;
+			$set = $ilDB->query($sql);
+			while($row = $ilDB->fetchAssoc($set))
+			{
+				$res[] = $row;
+			}
+			
+			return $res;
+		}				
+	}
 }
 
 ?>
