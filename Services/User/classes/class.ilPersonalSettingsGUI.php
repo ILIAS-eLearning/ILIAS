@@ -52,7 +52,13 @@ class ilPersonalSettingsGUI
 		{
 			
 			default:
-				$cmd = $this->ctrl->getCmd("showGeneralSettings");
+				// gev-patch start
+				//$cmd = $this->ctrl->getCmd("showGeneralSettings");
+				$cmd = $this->ctrl->getCmd("showPassword");
+				if ($cmd == "showGeneralSettings") {
+					$cmd = "showPassword";
+				}
+				// gev-patch end
 				$this->$cmd();
 				break;
 		}
@@ -400,9 +406,11 @@ class ilPersonalSettingsGUI
 		// old profile
 
 		// general settings
-		$ilTabs->addTarget("general_settings", $this->ctrl->getLinkTarget($this, "showGeneralSettings"),
-			"", "", "", $showGeneralSettings);
-
+		// gev-patch start
+		//$ilTabs->addTarget("general_settings", $this->ctrl->getLinkTarget($this, "showGeneralSettings"),
+		//	"", "", "", $showGeneralSettings);
+		// gev-patch end
+		
 		// password
 		if ($this->allowPasswordChange())
 		{
