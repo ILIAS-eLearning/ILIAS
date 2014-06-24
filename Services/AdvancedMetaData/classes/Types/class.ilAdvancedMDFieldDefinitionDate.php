@@ -66,6 +66,47 @@ class ilAdvancedMDFieldDefinitionDate extends ilAdvancedMDFieldDefinition
 		}		
 		return false;
 	}	
+	
+	//
+	// search
+	// 
+	
+	public function getLuceneSearchString($a_value)
+	{
+		// see ilADTDateSearchBridgeRange::importFromPost();
+		
+		if($a_value["tgl"])
+		{
+			$start = $end = null;
+			
+			if($a_value["lower"]["date"])
+			{
+				$start = mktime(12, 0, 0,
+					$a_value["lower"]["date"]["m"], 
+					$a_value["lower"]["date"]["d"], 
+					$a_value["lower"]["date"]["y"]);
+			}
+			if($a_value["upper"]["date"])
+			{
+				$end = mktime(12, 0, 0,			
+					$a_value["upper"]["date"]["m"], 
+					$a_value["upper"]["date"]["d"], 
+					$a_value["upper"]["date"]["y"]);
+			}
+			
+			if($start && $end && $start > $end)
+			{
+				$tmp = $start;
+				$start = $end;
+				$end = $tmp;
+			}
+			
+			$start = new ilDate($start, IL_CAL_UNIX);
+			$end = new ilDate($end, IL_CAL_UNIX);
+			
+			return "{".$start->get(IL_CAL_DATE)." TO ".$end->get(IL_CAL_DATE)."}";
+		}
+	}
 }
 
 ?>

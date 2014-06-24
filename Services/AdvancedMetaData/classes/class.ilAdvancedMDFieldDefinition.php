@@ -1056,6 +1056,11 @@ abstract class ilAdvancedMDFieldDefinition
 			return array();
 		}					
 	}
+	
+	public function getLuceneSearchString($a_value)
+	{
+		return $a_value;
+	}
 }
 
 ?>

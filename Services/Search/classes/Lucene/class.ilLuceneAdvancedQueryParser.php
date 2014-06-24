@@ -66,7 +66,7 @@ class ilLuceneAdvancedQueryParser extends ilLuceneQueryParser
 	{
 		foreach((array) $this->getQueryData() as $field => $query)
 		{
-			if(!trim($query))
+			if(!is_array($query) && !trim($query))
 			{
 				continue;
 			}
@@ -77,7 +77,7 @@ class ilLuceneAdvancedQueryParser extends ilLuceneQueryParser
 				$this->parsed_query .= $parsed;
 				$this->parsed_query .= ") ";
 			}
-		}
+		}		
 		return true;
 	}	
 }

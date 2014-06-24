@@ -415,7 +415,7 @@ class ilLuceneAdvancedSearchFields
 				include_once './Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php';
 				$field = ilAdvancedMDFieldDefinition::getInstance($field_id);
 								
-				$field_form = ilADTFactory::getInstance()->getSearchBridgeForDefinitionInstance($field->getADTDefinition(), false, false);				
+				$field_form = ilADTFactory::getInstance()->getSearchBridgeForDefinitionInstance($field->getADTDefinition(), true, false);				
 				$field_form->setForm($a_form);
 				$field_form->setElementId($a_post_name);
 				$field_form->setTitle($this->active_fields[$a_field_name]);			
@@ -614,8 +614,11 @@ class ilLuceneAdvancedSearchFields
 				// Advanced meta data
 				$field_id = substr($a_field,4);
 				include_once './Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php';
-				$field = ilAdvancedMDFieldDefinition::_getInstanceByFieldId($field_id);
+				$field = ilAdvancedMDFieldDefinition::getInstance($field_id);
 				
+				return 'advancedMetaData_'.$field_id.': '.$field->getLuceneSearchString($a_query);
+				
+				/*
 				switch($field->getFieldType())
 				{
 					case ilAdvancedMDFieldDefinition::TYPE_TEXT:
@@ -672,6 +675,8 @@ class ilLuceneAdvancedSearchFields
 						
 	
 				}
+				 
+				 */
 				break;
 		}
 	}

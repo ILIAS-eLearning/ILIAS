@@ -915,7 +915,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 			$field_id = substr($key,4);			
 			$field = ilAdvancedMDFieldDefinition::getInstance($field_id);
 		
-			$field_form = ilADTFactory::getInstance()->getSearchBridgeForDefinitionInstance($field->getADTDefinition(), false, false);							
+			$field_form = ilADTFactory::getInstance()->getSearchBridgeForDefinitionInstance($field->getADTDefinition(), true, false);							
 			$field_form->setElementId("query[".$key."]");			
 			$field_form->setForm($this->form);
 		
