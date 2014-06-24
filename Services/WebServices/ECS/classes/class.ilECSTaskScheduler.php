@@ -235,6 +235,11 @@ class ilECSTaskScheduler
 					$this->log->write(__METHOD__.': Ignoring event type in queue '.$event['type']);
 					$event_ignored = true;
 					break;
+				
+				case ilECSEventQueueReader::TYPE_ENROLMENT_STATUS:
+					include_once './Services/WebServices/ECS/classes/Connectors/class.ilECSEnrolmentStatusCommandQueueHandler.php';
+					$handler = new ilECSEnrolmentStatusCommandQueueHandler($this->getServer());
+					break;
 
 				default:
 					$this->log->write(__METHOD__.': Unknown event type in queue '.$event['type']);

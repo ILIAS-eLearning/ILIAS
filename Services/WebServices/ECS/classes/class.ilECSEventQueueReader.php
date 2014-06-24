@@ -48,6 +48,7 @@ class ilECSEventQueueReader
 	const TYPE_REMOTE_WIKI = 'rwik';
 	const TYPE_REMOTE_TEST = 'rtst';
 	const TYPE_COURSE_URLS = 'course_urls';
+	const TYPE_ENROLMENT_STATUS = 'enrolment_status';
 	
 	protected $log;
 	protected $db;
@@ -452,6 +453,10 @@ class ilECSEventQueueReader
 			
 			case 'course_urls':
 				$type = self::TYPE_COURSE_URLS;
+				break;
+			
+			case 'enrolment_status':
+				$type = self::TYPE_ENROLMENT_STATUS;
 				break;
 		}
 
