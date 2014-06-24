@@ -267,16 +267,27 @@ class gevCourseUtils {
 		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_MAX_PARTICIPANTS);
 	}
 	
-	public function setMaxParticipants($a_min) {
+	public function setMaxParticipants($a_min, $a_update_course = true) {
 		$this->amd->setField($this->crs_id, gevSettings::CRS_AMD_MAX_PARTICIPANTS, $a_min);
+		
+		if ($a_update_course) {
+			$this->getCourse()->setSubscriptionMaxMembers($a_min);
+			$this->getCourse()->update();
+		}
 	}
 
 	public function getWaitingListActive() {
 		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_WAITING_LIST_ACTIVE) == "Ja";
 	}
 
-	public function setWaitingListActive($a_active) {
-		$this->amd->setField($this->crs_id, gevSettings::CRS_AMD_WAITING_LIST_ACTIVE, $active ? "Ja" : "Nein");
+	public function setWaitingListActive($a_active, $a_update_course = true) {
+		$this->amd->setField($this->crs_id, gevSettings::CRS_AMD_WAITING_LIST_ACTIVE, $a_active ? "Ja" : "Nein");
+		
+		if ($a_update_course) {
+			$this->getCourse()->enableSubscriptionMembershipLimitation(true);
+			$this->getCourse()->enableWaitingList(true);
+			$this->getCourse()->update();
+		}
 	}
 
 	public function getCancelDeadline() {

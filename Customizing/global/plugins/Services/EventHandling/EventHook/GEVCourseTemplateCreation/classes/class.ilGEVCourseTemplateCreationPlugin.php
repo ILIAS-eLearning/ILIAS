@@ -42,11 +42,10 @@ class ilGEVCourseTemplateCreationPlugin extends ilEventHookPlugin
 			$a_crs->setAutoNotification(false);
 			// Auf Schreibtisch legen aus
 			$a_crs->setAboStatus(false);
-			// Wartliste an
-			$a_crs->enableSubscriptionMembershipLimitation(true);
-			$a_crs->enableWaitingList(true);
+			// Warteliste an
+			$utils->setWaitingListActive(true);
 			// maximale Teilnehmerzahl 12
-			$a_crs->setSubscriptionMaxMembers(12);
+			$utils->setMaxParticipants(12);
 			// Mindesteilnehmerzahl 6
 			$utils->setMinParticipants(6);
 			// Stornofrist 31 Tage
