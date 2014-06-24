@@ -1708,6 +1708,9 @@ class ilObjCourseGUI extends ilContainerGUI
 				// gev-patch start
 				$this->tabs_gui->addSubTabTarget( "webshop"
 												, "http://generali-idportal.am-gruppe.de/online/portal/genid/forward/mycontent/11474/194474"
+												, ""
+												, ""
+												, "_blank"
 												);
 				// gev-patch end
 				
