@@ -5,12 +5,12 @@ include_once './Services/WebServices/ECS/classes/class.ilECSConnector.php';
 include_once './Services/WebServices/ECS/classes/class.ilECSConnectorException.php';
 
 /**
- * Connector for enrolment status
+ * Connector for course member ressource
  * 
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  * $Id$
  */
-class ilECSEnrolmentStatusConnector extends ilECSConnector
+class ilECSCourseMemberConnector extends ilECSConnector
 {
 
 	/**
@@ -27,11 +27,11 @@ class ilECSEnrolmentStatusConnector extends ilECSConnector
 	 * Get single directory tree
 	 * @return array an array of ecs cms directory tree entries
 	 */
-	public function getEnromentStatus($a_enrolment_id,$a_details = false)
+	public function getCourseMember($course_member_id,$a_details = false)
 	{
-		$this->path_postfix = '/campusconnect/enrolment_status/'. (int) $a_enrolment_id;
+		$this->path_postfix = '/campusconnect/course_members/'. (int) $course_member_id;
 		
-		if($a_details and $a_enrolment_id)
+		if($a_details and $course_member_id)
 		{
 			$this->path_postfix .= '/details';
 		}
