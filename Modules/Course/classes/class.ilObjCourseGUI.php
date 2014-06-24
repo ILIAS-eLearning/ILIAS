@@ -980,8 +980,10 @@ class ilObjCourseGUI extends ilContainerGUI
 		$archive_start = $this->loadDate('archive_start');
 		$archive_end = $this->loadDate('archive_end');				 
 		*/
-		$period = $form->getItemByPostVar("access_period");										
-		$sub_period = $form->getItemByPostVar("subscription_period");		
+		$period = $form->getItemByPostVar("access_period");	
+		// gev-patch start									
+		//$sub_period = $form->getItemByPostVar("subscription_period");		
+		// gev-patch end
 		
 		if((int)$_POST['activation_type'])
 		{
@@ -996,6 +998,8 @@ class ilObjCourseGUI extends ilContainerGUI
 		$this->object->setActivationEnd($period->getEnd()->get(IL_CAL_UNIX));
 		$this->object->setActivationVisibility((int)$_POST['activation_visibility']);
 		
+		// gev-patch start
+		/*
 		$sub_type = (int)$_POST['subscription_type'];
 		if($sub_type != IL_CRS_SUBSCRIPTION_DEACTIVATED)
 		{		
@@ -1029,6 +1033,9 @@ class ilObjCourseGUI extends ilContainerGUI
 		
 		$this->object->enableWaitingList((int) $_POST['waiting_list']);
 		#$this->object->setSubscriptionNotify((int) $_POST['subscription_notification']);
+		*/
+		// gev-patch end
+		
 		$this->object->setViewMode((int) $_POST['view_mode']);
 
 		if($this->object->getViewMode() == IL_CRS_VIEW_TIMING)
