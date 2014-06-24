@@ -1390,6 +1390,12 @@ class ilLMPresentationGUI
 				$cache =  ilUserSearchCache::_getInstance($ilUser->getId());
 				$cache->switchSearchType(ilUserSearchCache::LAST_QUERY);
 				$search_string = $cache->getQuery();
+				
+				// advanced search?
+				if(is_array($search_string))
+				{
+					$search_string = $search_string["lom_content"];
+				}
 	
 				include_once("./Services/UIComponent/TextHighlighter/classes/class.ilTextHighlighterGUI.php");
 				include_once("./Services/Search/classes/class.ilQueryParser.php");
