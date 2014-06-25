@@ -132,10 +132,11 @@ class ilPCAMDPageList extends ilPageContent
 		$list_values = $this->getFieldValues($a_list_id);			
 		$wiki_id = $this->getPage()->getWikiId();
 
-		$found_result = $found_ids = array();
+		$found_result = array();
 
 		// only search in active fields
-		$recs = ilAdvancedMDRecord::_getSelectedRecordsByObject("wiki", $wiki_id, "wpg");
+		$found_ids = null;
+		$recs = ilAdvancedMDRecord::_getSelectedRecordsByObject("wiki", $wiki_id, "wpg");		
 		foreach($recs as $record)
 		{ 				
 			foreach(ilAdvancedMDFieldDefinition::getInstancesByRecordId($record->getRecordId(), true) as $field)
@@ -145,8 +146,7 @@ class ilPCAMDPageList extends ilPageContent
 					$field_form = ilADTFactory::getInstance()->getSearchBridgeForDefinitionInstance($field->getADTDefinition(), true, false);						
 					$field->setSearchValueSerialized($field_form, $list_values[$field->getFieldId()]);																
 					$found_pages = $field->searchSubObjects($field_form, $wiki_id, "wpg");						
-
-					if(sizeof($found_result))
+					if(is_array($found_ids))
 					{
 						$found_ids = array_intersect($found_ids, $found_pages);
 					}
