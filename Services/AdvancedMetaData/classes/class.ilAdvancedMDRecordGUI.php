@@ -268,14 +268,24 @@ class ilAdvancedMDRecordGUI
 	private function parseSearch()
 	{		
 		// this is NOT used for the global search, see ilLuceneAdvancedSearchFields::getFormElement()
+		// (so searchable flag is NOT relevant)
+		// 
 		// current usage: wiki page element "[amd] page list"
 		
 	 	include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');		
-	 	include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');		
+	 	include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');			
+		if ($this->getSelectedOnly())
+		{
+			$recs = ilAdvancedMDRecord::_getSelectedRecordsByObject($this->obj_type, $this->obj_id, $this->sub_type);
+		}
+		else
+		{
+			$recs = ilAdvancedMDRecord::_getActivatedRecordsByObjectType($this->obj_type, $this->sub_type);
+		}
 		
 		$this->search_form = array();
-		foreach(ilAdvancedMDRecord::_getActiveSearchableRecords() as $record)
-		{ 
+		foreach($recs as $record)
+		{ 			
 			$section = new ilFormSectionHeaderGUI();
 			$section->setTitle($record->getTitle());
 			$section->setInfo($record->getDescription());

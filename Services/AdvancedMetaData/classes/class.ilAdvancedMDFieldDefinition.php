@@ -1058,6 +1058,30 @@ abstract class ilAdvancedMDFieldDefinition
 		
 		return $res;
 	}
+	
+	public function searchSubObjects(ilADTSearchBridge $a_adt_search, $a_obj_id, $sub_obj_type)
+	{
+		include_once('Services/ADT/classes/ActiveRecord/class.ilADTActiveRecordByType.php');			 			
+		$condition = $a_adt_search->getSQLCondition(ilADTActiveRecordByType::SINGLE_COLUMN_NAME);		
+		if($condition)
+		{			
+			$objects = ilADTActiveRecordByType::find("adv_md_values", $this->getADT()->getType(), $this->getFieldId(), $condition);
+			if(sizeof($objects))
+			{			
+				$res = array();
+				foreach($objects as $item)
+				{			
+					if($item["obj_id"] == $a_obj_id &&
+						$item["sub_type"] == $sub_obj_type)
+					{
+						$res[] = $item["sub_id"];
+					}
+				}	
+				return $res;
+			}
+			return array();
+		}		
+	}
 		
 	/**
 	 * Search objects
