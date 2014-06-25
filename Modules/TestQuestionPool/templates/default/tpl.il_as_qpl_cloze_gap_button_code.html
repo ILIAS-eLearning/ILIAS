@@ -1,6 +1,6 @@
 <!-- BEGIN CODE -->
 <input type="submit" class="submit" name="gapbutton" id="gaptrigger" value="{INSERT_GAP}" />&nbsp;
-<input type="submit" class="submit" name="cmd[createGaps]" id="createGaps" value="{CREATE_GAPS}" />&nbsp;
+<!-- <input type="submit" class="submit" name="cmd[createGaps]" id="createGaps" value="{CREATE_GAPS}" />&nbsp; -->
 <script type="text/javascript">
     jQuery.fn.extend({
         insertGapCodeAtCaret: function() {
@@ -40,11 +40,11 @@
             });
         }
     });
-    $('#gaptrigger').on('click',function(evt) {
+   /* $('#gaptrigger').on('click',function(evt) {
         //evt.preventDefault();
         var textfeld_id = 'cloze_text';
         $('#'+textfeld_id).insertGapCodeAtCaret();
         return false;
-    });
+    });*/
 </script>
 <!-- END CODE -->

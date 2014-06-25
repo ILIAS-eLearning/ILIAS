@@ -21,6 +21,8 @@ require_once './Modules/TestQuestionPool/interfaces/interface.ilGuiAnswerScoring
  */
 class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable, ilGuiAnswerScoringAdjustable
 {
+	const OLD_CLOZE_TEST_UI = false;
+	
 	/**
 	* A temporary variable to store gap indexes of ilCtrl commands in the getCommand method
 	*/
@@ -162,7 +164,6 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 								$this->object->setGapAnswerPoints( $idx, $order, $value );
 							}
 						}
-						
 						break;
 
 					case CLOZE_NUMERIC:
@@ -204,7 +205,11 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 
 							$this->object->setGapAnswerUpperBound($idx, 0, '');
 						}
-						
+
+						if (array_key_exists( 'gap_' . $idx . '_gapsize', $_POST ))
+						{
+							$this->object->setGapSize($idx, $order, $_POST['gap_' . $idx . '_gapsize'] );
+						}
 						break;
 				}
 
@@ -391,6 +396,25 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 		$cloze_text->setInfo($this->lng->txt("close_text_hint"));
 		$cloze_text->setRows( 10 );
 		$cloze_text->setCols( 80 );
+		if (!$this->object->getSelfAssessmentEditingMode())
+		{
+			if( $this->object->getAdditionalContentEditingMode() == assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_DEFAULT )
+			{
+				$cloze_text->setUseRte(TRUE);
+				include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
+				$cloze_text->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("assessment"));
+				$cloze_text->addPlugin("latex");
+				$cloze_text->addButton("latex");
+				$cloze_text->addButton("pastelatex");
+			}
+		}
+		else
+		{
+			$cloze_text->setUseRte(TRUE);
+			$cloze_text->setRteTags(self::getSelfAssessmentTags());
+			$cloze_text->setUseTagsForRteOnly(false);
+		}
+		$cloze_text->setRTESupport($this->object->getId(), "qpl", "assessment");
 		$form->addItem($cloze_text);
 
 		$tpl = new ilTemplate("tpl.il_as_qpl_cloze_gap_button_code.html", TRUE, TRUE, "Modules/TestQuestionPool");
@@ -446,13 +470,65 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 
 	public function populateAnswerSpecificFormPart(ilPropertyFormGUI $form)
 	{
-		for ($gapCounter = 0; $gapCounter < $this->object->getGapCount(); $gapCounter++)
+		if(self::OLD_CLOZE_TEST_UI)
 		{
-			$this->populateGapFormPart( $form, $gapCounter );
+			for ($gapCounter = 0; $gapCounter < $this->object->getGapCount(); $gapCounter++)
+			{
+				$this->populateGapFormPart( $form, $gapCounter );
+			}
+			return $form;
 		}
-		return $form;
+		else
+		{
+			require_once 'Modules/TestQuestionPool/classes/Form/class.ilClozeGapInputBuilderGUI.php';
+			$test=$this->populateJSON();
+			$new_builder = new ilClozeGapInputBuilderGUI();
+			$header = new ilFormSectionHeaderGUI();
+			$form->addItem($header);
+			$new_builder->setValueByArray($test);
+			$form->addItem($new_builder);
+			return $form;
+		}
 	}
 
+	protected function populateJSON()
+	{
+		$gap    = $this->object->getGaps();
+		$array = array();
+		if ($gap == null)
+		{
+			return $array;
+		}
+		$translate_type=array('text','select','numeric');
+		$i = 0;
+		foreach ($gap as $content)
+		{
+			$shuffle=false;
+			$value=$content->getItemsRaw();
+			$items=array();
+			for($j=0;$j<count($value);$j++)
+			{
+				if($content->getType()==2)
+				{
+					$items[$j]=['answer' => $value[$j]->getAnswerText(),'lower' => $value[$j]->getLowerBound(),
+								'upper' => $value[$j]->getUpperBound(),'points' => $value[$j]->getPoints(),
+								'error' => false
+								];
+				}
+				else
+				{
+					$items[$j]=['answer' => $value[$j]->getAnswerText(),'points' => $value[$j]->getPoints(), 'error' => false];
+					if($content->getType()==1)
+					{
+						$shuffle=$content->getShuffle();
+					}
+				}
+			}
+			$answers[$i]=array('type' => $translate_type[$content->getType()] , 'values' => $items ,'shuffle' => $shuffle, 'text_field_length' => $content->getGapSize());
+			$i++;
+		}
+		return $answers;
+	}
 	/**
 	 * Populates a gap form-part.
 	 * 

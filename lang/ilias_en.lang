@@ -638,6 +638,7 @@ assessment#:#polygon_click_next_point#:#Please click on the next point of the po
 assessment#:#polygon_click_starting_point#:#Please click on the starting point of the polygon.
 assessment#:#polygon#:#Polygon
 assessment#:#postpone#:#Postpone Question
+assessment#:#remove_gap#:#Remove Gap
 assessment#:#postponed#:#postponed
 assessment#:#postpone_status#:#Postponed
 assessment#:#preview#:#Preview

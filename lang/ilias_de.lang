@@ -753,6 +753,7 @@ assessment#:#polygon_click_next_or_save#:#Bitte klicken Sie auf den nächsten Pu
 assessment#:#polygon_click_next_point#:#Bitte klicken Sie auf den nächsten Punkt im Polygonzug.
 assessment#:#polygon_click_starting_point#:#Bitte klicken Sie auf den Startpunkt des Polygonzugs.
 assessment#:#postpone#:#Frage zurückstellen
+assessment#:#remove_gap#:#Lücke entfernen
 assessment#:#postponed#:#zurückgestellt
 assessment#:#postpone_status#:#Postponed
 assessment#:#preview#:#Vorschau
