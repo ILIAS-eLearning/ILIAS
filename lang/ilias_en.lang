@@ -10796,7 +10796,7 @@ assessment#:#adm_settings_templates#:#Settings Templates
 survey#:#survey_confirm_template_reset#:#Are you sure that you do not want to use the template anymore?
 survey#:#survey_template_reset#:#The template has been removed.
 survey#:#survey_introduction_info#:#This message appears at the beginning of the survey.
-survey#:#survey_auth_mode#:#Authentication Mode
+survey#:#survey_auth_mode#:#Mode
 survey#:#survey_question_pool#:#Question Pool
 survey#:#survey_question_pool_usage#:#Question Pool
 survey#:#survey_pool_selection#:#Pool Selection
