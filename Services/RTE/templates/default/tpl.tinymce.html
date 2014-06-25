@@ -38,7 +38,31 @@
 		});
 		<!-- END remove_img_context_menu_item -->
 	}
-	
+
+
+	var _ilTinyMceInitCallbackRegistry = function()
+	{
+		this.callbacks = [];
+	};
+
+	_ilTinyMceInitCallbackRegistry.prototype = {
+		
+		addCallback: function(callback)
+		{
+			this.callbacks.push(callback);
+		},
+		
+		callCallbacks: function()
+		{
+			for(var i = 0; i < this.callbacks.length; i++)
+			{
+				this.callbacks[i]();
+			}
+		}
+	};
+
+	var ilTinyMceInitCallbackRegistry = new _ilTinyMceInitCallbackRegistry();
+
 	tinyMCE.init({
 		mode : "textareas",
 		editor_deselector : "noRTEditor",
@@ -68,8 +92,21 @@
 	  	font_size_style_values : "8pt,10pt,12pt,14pt,18pt,24pt,36pt",
 		setup: function (ed) {
 			ed.onInit.add(ilTinyMceInitCallback);
+		},
+		oninit: function(){
+
+			/**
+			 * do not change anything here, if you need to get some code invoked
+			 * right after all tiny instances has been initialised,
+			 * feel free to add your own callback by using the following:
+			 * 
+			 * ilTinyMceInitCallbackRegistry.addCallback(callback)
+ 			 */
+			
+			ilTinyMceInitCallbackRegistry.callCallbacks();
 		}
 	});
+	
 </script>
 <!-- END tinymce -->
 
