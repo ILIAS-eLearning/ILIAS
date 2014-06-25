@@ -997,11 +997,40 @@ abstract class ilAdvancedMDFieldDefinition
 	 * @param ilADTSearchBridge $a_adt_search
 	 * @return mixed
 	 */	
-	public function  getSearchQueryParserValue(ilADTSearchBridge $a_adt_search)
+	public function getSearchQueryParserValue(ilADTSearchBridge $a_adt_search)
 	{
 		return '';
 	}
 	
+	/**
+	 * Get value for search persistence
+	 * 
+	 * @param ilADTSearchBridge $a_adt_search
+	 * @return string
+	 */
+	public function getSearchValueSerialized(ilADTSearchBridge $a_adt_search)
+	{
+		return $a_adt_search->getSerializedValue();
+	}
+	
+	/**
+	 * Set value from search persistence
+	 * 
+	 * @param ilADTSearchBridge $a_adt_search
+	 * @param string $a_value
+	 */
+	public function setSearchValueSerialized(ilADTSearchBridge $a_adt_search, $a_value)
+	{		
+		return $a_adt_search->setSerializedValue($a_value);
+	}
+	
+	/**
+	 * Add object-data needed for global search to AMD search results
+	 * 
+	 * @param array $a_records
+	 * @param array $a_object_types
+	 * @return array
+	 */
 	protected function parseSearchObjects(array $a_records, array $a_object_types)
 	{
 		global $ilDB;
@@ -1031,7 +1060,7 @@ abstract class ilAdvancedMDFieldDefinition
 	}
 		
 	/**
-	 * Search
+	 * Search objects
 	 *
 	 * @param ilADTSearchBridge $a_adt_search
 	 * @param ilQueryParser $a_parser
@@ -1057,6 +1086,12 @@ abstract class ilAdvancedMDFieldDefinition
 		}					
 	}
 	
+	/**
+	 * Get search string in lucene syntax
+	 * 
+	 * @param mixed $a_value
+	 * @return string
+	 */
 	public function getLuceneSearchString($a_value)
 	{
 		return $a_value;

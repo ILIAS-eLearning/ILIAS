@@ -89,7 +89,27 @@ class ilADTEnumSearchBridgeMulti extends ilADTSearchBridgeMulti
 	public function isInCondition(ilADTMultiEnum $a_adt)
 	{
 		return $this->getADT()->equals($a_adt);
-	}		
+	}	
+	
+	
+	//  import/export	
+		
+	public function getSerializedValue()
+	{		
+		if(!$this->isNull() && $this->isValid())		
+		{			
+			return serialize($this->getADT()->getSelections());
+		}		
+	}
+	
+	public function setSerializedValue($a_value)
+	{		
+		$a_value = unserialize($a_value);
+		if(is_array($a_value))
+		{
+			$this->getADT()->setSelections($a_value);						
+		}		
+	}
 }
 
 ?>

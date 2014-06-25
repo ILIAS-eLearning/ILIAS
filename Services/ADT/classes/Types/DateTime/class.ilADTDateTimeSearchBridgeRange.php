@@ -41,14 +41,29 @@ class ilADTDateTimeSearchBridgeRange extends ilADTSearchBridgeRange
 
 			$check = new ilCheckboxInputGUI($this->getTitle(), $this->addToElementId("tgl"));
 			$check->setValue(1);
+			$checked = false;
 
 			$date_from = new ilDateTimeInputGUI($lng->txt('from'), $this->addToElementId("lower"));
 			$date_from->setShowTime(true);
 			$check->addSubItem($date_from);
+			
+			if($this->getLowerADT()->getDate() && !$this->getLowerADT()->isNull())
+			{
+				$date_from->setDate($this->getLowerADT()->getDate());
+				$checked = true;
+			}
 
 			$date_until = new ilDateTimeInputGUI($lng->txt('until'), $this->addToElementId("upper"));
 			$date_until->setShowTime(true);
 			$check->addSubItem($date_until);
+			
+			if($this->getUpperADT()->getDate() && !$this->getUpperADT()->isNull())
+			{
+				$date_until->setDate($this->getUpperADT()->getDate());
+				$checked = true;
+			}
+			
+			$check->setChecked($checked);
 
 			$this->addToParentElement($check);
 		}
@@ -289,6 +304,42 @@ class ilADTDateTimeSearchBridgeRange extends ilADTSearchBridgeRange
 			return $a_adt->isSmallerOrEqual($this->getUpperADT());
 		}
 	}	
+	
+	
+	//  import/export	
+		
+	public function getSerializedValue()
+	{		
+		if(!$this->isNull() && $this->isValid())		
+		{
+			$res = array();		
+			if(!$this->getLowerADT()->isNull())
+			{
+				$res["lower"] = $this->getLowerADT()->getDate()->get(IL_CAL_DATETIME);
+			}
+			if(!$this->getLowerADT()->isNull())
+			{
+				$res["upper"] = $this->getUpperADT()->getDate()->get(IL_CAL_DATETIME);
+			}
+			return serialize($res);
+		}		
+	}
+	
+	public function setSerializedValue($a_value)
+	{		
+		$a_value = unserialize($a_value);
+		if(is_array($a_value))
+		{
+			if(isset($a_value["lower"]))
+			{
+				$this->getLowerADT()->setDate(new ilDateTime($a_value["lower"], IL_CAL_DATETIME));
+			}
+			if(isset($a_value["upper"]))
+			{
+				$this->getUpperADT()->setDate(new ilDateTime($a_value["upper"], IL_CAL_DATETIME));
+			}
+		}		
+	}
 }
 
 ?>

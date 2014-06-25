@@ -72,6 +72,26 @@ class ilADTIntegerSearchBridgeSingle extends ilADTSearchBridgeSingle
 	{
 		return $this->getADT()->equals($a_adt);
 	}		
+	
+	
+	//  import/export	
+		
+	public function getSerializedValue()
+	{		
+		if(!$this->isNull() && $this->isValid())		
+		{			
+			return serialize(array($this->getADT()->getNumber()));
+		}		
+	}
+	
+	public function setSerializedValue($a_value)
+	{		
+		$a_value = unserialize($a_value);
+		if(is_array($a_value))
+		{
+			$this->getLowerADT()->setNumber($a_value[0]);			
+		}		
+	}
 }
 
 ?>

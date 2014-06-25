@@ -310,7 +310,7 @@ abstract class ilADTSearchBridge
 	 * @param string $a_element_id
 	 * @return string
 	 */
-	abstract public function getSQLCondition($a_element_id);
+	abstract public function getSQLCondition($a_element_id);		
 	
 	/**
 	 * Compare directly against ADT
@@ -322,6 +322,25 @@ abstract class ilADTSearchBridge
 	{
 		return false;
 	}	
+	
+	
+	//
+	//  import/export
+	// 
+	
+	/**
+	 * Get current value(s) in serialized form (for easy persisting)
+	 * 
+	 * @return string
+	 */
+	abstract public function getSerializedValue();
+	
+	/**
+	 * Set current value(s) in serialized form (for easy persisting)
+	 * 
+	 * @param string
+	 */
+	abstract public function setSerializedValue($a_value);
 }
 
 ?>

@@ -104,6 +104,17 @@ class ilPCAMDPageListGUI extends ilPageContentGUI
 		{
 			$form->setTitle($this->lng->txt("cont_update_amd_page_list"));
 		}
+				
+		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
+		$this->record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_SEARCH,'wiki',$this->getPage()->getWikiId(),'wpg',$this->getPage()->getId());
+		$this->record_gui->setPropertyForm($form);
+		
+		if (!$a_insert)
+		{
+			$this->record_gui->setSearchFormValues($this->content_obj->getFieldValues());
+		}
+		
+		$this->record_gui->parse();
 		
 		if ($a_insert)
 		{		
@@ -111,8 +122,8 @@ class ilPCAMDPageListGUI extends ilPageContentGUI
 			$form->addCommandButton("cancelCreate", $this->lng->txt("cancel"));
 		}
 		else
-		{		
-			// $form->addCommandButton("update", $this->lng->txt("select"));
+		{					
+			$form->addCommandButton("update", $this->lng->txt("select"));
 			$form->addCommandButton("cancelUpdate", $this->lng->txt("cancel"));
 		}
 
@@ -126,14 +137,18 @@ class ilPCAMDPageListGUI extends ilPageContentGUI
 	{		
 		$form = $this->initForm(true);
 		if($form->checkInput())
-		{											
-			$this->content_obj = new ilPCAMDPageList($this->getPage());
-			$this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
-			$this->content_obj->setData();
-			$this->updated = $this->pg_obj->update();
-			if ($this->updated === true)
-			{
-				$this->ctrl->returnToParent($this, "jump".$this->hier_id);
+		{		
+			$elements = $this->record_gui->importSearchForm();
+			if(is_array($elements))
+			{				
+				$this->content_obj = new ilPCAMDPageList($this->getPage());
+				$this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
+				$this->content_obj->setData($elements);
+				$this->updated = $this->pg_obj->update();
+				if ($this->updated === true)
+				{
+					$this->ctrl->returnToParent($this, "jump".$this->hier_id);
+				}
 			}
 		}
 
@@ -149,11 +164,15 @@ class ilPCAMDPageListGUI extends ilPageContentGUI
 		$form = $this->initForm();
 		if($form->checkInput())
 		{			
-			$this->content_obj->setData();
-			$this->updated = $this->pg_obj->update();
-			if ($this->updated === true)
-			{
-				$this->ctrl->returnToParent($this, "jump".$this->hier_id);
+			$elements = $this->record_gui->importSearchForm();			
+			if(is_array($elements))
+			{	
+				$this->content_obj->setData($elements);
+				$this->updated = $this->pg_obj->update();
+				if ($this->updated === true)
+				{
+					$this->ctrl->returnToParent($this, "jump".$this->hier_id);
+				}
 			}
 		}
 

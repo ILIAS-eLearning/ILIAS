@@ -76,6 +76,30 @@ class ilADTLocationSearchBridgeSingle extends ilADTSearchBridgeSingle
 		}
 	}
 	
+	
+	//  import/export	
+		
+	public function getSerializedValue()
+	{		
+		if(!$this->isNull() && $this->isValid())		
+		{			
+			return serialize(array(
+				"lat"=>$this->getADT()->getLatitude()
+				,"long"=>$this->getADT()->getLongitude()
+			));
+		}		
+	}
+	
+	public function setSerializedValue($a_value)
+	{		
+		$a_value = unserialize($a_value);
+		if(is_array($a_value))
+		{
+			$this->getADT()->setLatitude($a_value["lat"]);			
+			$this->getADT()->setLongitude($a_value["long"]);			
+		}		
+	}
+	
 }
 
 ?>

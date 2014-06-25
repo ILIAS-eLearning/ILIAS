@@ -40,11 +40,11 @@ class ilPCAMDPageList extends ilPageContent
 	function setNode(&$a_node)
 	{
 		parent::setNode($a_node);		// this is the PageContent node
-		$this->cach_node =& $a_node->first_child();		// this is the courses node
+		$this->amdpl_node =& $a_node->first_child();		// this is the courses node
 	}
 
 	/**
-	* Create courses node in xml.
+	* Create list node in xml.
 	*
 	* @param	object	$a_pg_obj		Page Object
 	* @param	string	$a_hier_id		Hierarchical ID
@@ -58,24 +58,49 @@ class ilPCAMDPageList extends ilPageContent
 	}
 
 	/**
-	 * Set courses settings
+	 * Set list settings
 	 */
-	function setData()
-	{
-		global $ilUser;
-		
-		$this->amdpl_node->set_attribute("User", $ilUser->getId());
-		
-		/* remove all children first
-		$children = $this->cach_node->child_nodes();
+	function setData(array $a_field_data)
+	{			
+		// remove all children first
+		$children = $this->amdpl_node->child_nodes();
 		if($children)
 		{
 			foreach($children as $child)
 			{
-				$this->cach_node->remove_child($child);
+				$this->amdpl_node->remove_child($child);
 			}
 		}
-		*/
+
+		foreach($a_field_data as $field_id => $value)
+		{
+			$field_node = $this->dom->create_element("AdvMDField");
+			$field_node = $this->amdpl_node->append_child($field_node);
+			$field_node->set_attribute("Id", $field_id);			
+			$field_node->set_content($value);			
+		}		
+	}
+	
+	/**
+	 * Get consultation hours group ids
+	 *
+	 * @return string
+	 */
+	function getFieldValues()
+	{
+		$res = array();
+		if (is_object($this->amdpl_node))
+		{
+			$children = $this->amdpl_node->child_nodes();
+			if($children)
+			{
+				foreach($children as $child)
+				{
+					$res[$child->get_attribute("Id")] = $child->get_content();
+				}
+			}
+		}
+		return $res;
 	}
 }
 

@@ -259,120 +259,86 @@ class ilAdvancedMDRecordGUI
 	
 	
 	// 
-	// :TODO: search
+	// search
 	//		
 	
 	/**
 	 * Parse search 
 	 */
 	private function parseSearch()
-	{	
-		// probably obsolete - see ilLuceneAdvancedSearchFields::getFormElement()
-		var_dump("ilAdvancedMDRecordGUI::parseSearch()");
-		exit();
+	{		
+		// this is NOT used for the global search, see ilLuceneAdvancedSearchFields::getFormElement()
+		// current usage: wiki page element "[amd] page list"
 		
-		/*
 	 	include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');		
+	 	include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');		
+		
+		$this->search_form = array();
 		foreach(ilAdvancedMDRecord::_getActiveSearchableRecords() as $record)
 		{ 
 			$section = new ilFormSectionHeaderGUI();
 			$section->setTitle($record->getTitle());
+			$section->setInfo($record->getDescription());
 			$this->form->addItem($section);
 			
 			foreach(ilAdvancedMDFieldDefinition::getInstancesByRecordId($record->getRecordId(), true) as $field)
-			{								
-	 			switch($field->getFieldType())
-	 			{
-	 				case ilAdvancedMDFieldDefinition::TYPE_TEXT:
-
-						$group = new ilRadioGroupInputGUI('','boolean['.$field->getFieldId().']');
-						$group->setValue(isset($this->search_values['boolean'][$field->getFieldId()]) ? 
-							$this->search_values['boolean'][$field->getFieldId()] : 0);
-						$radio_option = new ilRadioOption($this->lng->txt("search_any_word"),0);
-						$radio_option->setValue(0);
-						$group->addOption($radio_option);
-						$radio_option = new ilRadioOption($this->lng->txt("search_all_words"),1);
-						$radio_option->setValue(1);
-						$group->addOption($radio_option);
-						
-						$text = new ilTextInputGUI($field->getTitle(),$field->getFieldId());
-						$text->setValue(isset($this->search_values[$field->getFieldId()]) ?
-							$this->search_values[$field->getFieldId()] :
-							'');
-						$text->setSize(30);
-						$text->setMaxLength(255);
-						
-						
-						$text->addSubItem($group);
-						$this->form->addItem($text);
-	 					break;
-	 					
-	 				case ilAdvancedMDFieldDefinition::TYPE_SELECT:
-	 					$select = new ilSelectInputGUI($field->getTitle(),$field->getFieldId());
-	 					$select->setValue(isset($this->search_values[$field->getFieldId()]) ?
-	 						$this->search_values[$field->getFieldId()] :
-	 						0);
-						$options = array(0 => $this->lng->txt('search_any'));
-						$counter = 1;
-						foreach($field->getFieldValues() as $key => $value)
-						{
-							$options[$counter++] = $value;	
-						}
-						$select->setOptions($options);
-						$this->form->addItem($select);	 					
-	 					break;
-	 					
-	 				case ilAdvancedMDFieldDefinition::TYPE_DATETIME:
-	 				case ilAdvancedMDFieldDefinition::TYPE_DATE:
-	 					$check = new ilCheckboxInputGUI($field->getTitle(),$field->getFieldId());
-	 					$check->setValue(1);
-	 					$check->setChecked(isset($this->search_values[$field->getFieldId()]) ?
-	 						$this->search_values[$field->getFieldId()] : 0);
-	 				
-	 					$time = new ilDateTimeInputGUI($this->lng->txt('from'),'date_start['.$field->getFieldId().']');
-	 					if($field->getFieldType() == ilAdvancedMDFieldDefinition::TYPE_DATE)
-	 					{
-	 						$time->setShowTime(false);
-	 					}
-	 					else
-	 					{
-	 						$time->setShowTime(true);
-	 					}
-						if(isset($this->search_values['date_start'][$field->getFieldId()]) and 0)
-						{
-							#$time->setUnixTime($this->toUnixTime($this->search_values['date_start'][$field->getFieldId()]['date'],$this->search_values['date_start'][$field->getFieldId()]['time']));							
-						}
-						else
-						{
-							$time->setDate(new ilDateTime(mktime(8,0,0,date('m'),date('d'),date('Y')),IL_CAL_UNIX));
-						}
-	 					$check->addSubItem($time);
-
-	 					$time = new ilDateTimeInputGUI($this->lng->txt('until'),'date_end['.$field->getFieldId().']');
-	 					if($field->getFieldType() == ilAdvancedMDFieldDefinition::TYPE_DATE)
-	 					{
-	 						$time->setShowTime(false);
-	 					}
-	 					else
-	 					{
-	 						$time->setShowTime(true);
-	 					}
-						if(isset($this->search_values['date_end'][$field->getFieldId()]) and 0)
-						{
-							#$time->setUnixTime($this->toUnixTime($this->search_values['date_end'][$field->getFieldId()]['date'],$this->search_values['date_end'][$field->getFieldId()]['time']));							
-						}
-						else
-						{
-							$time->setDate(new ilDateTime(mktime(16,0,0,date('m'),date('d'),date('Y')),IL_CAL_UNIX));
-						}
-	 					$check->addSubItem($time);
-
-	 					$this->form->addItem($check);
-	 					break;
-	 			}
+			{									 			
+	 			$field_form = ilADTFactory::getInstance()->getSearchBridgeForDefinitionInstance($field->getADTDefinition(), true, false);				
+				$field_form->setForm($this->form);
+				$field_form->setElementId("advmd[".$field->getFieldId()."]");
+				$field_form->setTitle($field->getTitle());			
+				
+				if(is_array($this->search_form_values) && 
+					isset($this->search_form_values[$field->getFieldId()]))
+				{
+					$field->setSearchValueSerialized($field_form, $this->search_form_values[$field->getFieldId()]);
+				}
+				
+				$field_form->addToForm();
+				
+				$this->search_form[$field->getFieldId()] = array("def"=>$field, "value"=>$field_form);			
 			}
 		}		 
-		 */
+	}
+	
+	/**
+	 * Load edit form values from post
+	 * 
+	 * @return array
+	 */
+	public function importSearchForm()
+	{
+		if(!sizeof($this->search_form))
+		{
+			return false;
+		}
+		
+		$valid = true;
+		$res = array();
+		
+		foreach($this->search_form as $field_id => $item)
+		{		
+			$item["value"]->importFromPost();
+			if(!$item["value"]->validate())
+			{									
+				$valid = false;			
+			}
+			$value = $item["def"]->getSearchValueSerialized($item["value"]);
+			if($value !== null)
+			{
+				$res[$field_id] = $value;
+			}
+		}
+		
+		if($valid)
+		{
+			return $res;
+		}
+	}
+	
+	public function setSearchFormValues(array $a_values)
+	{
+		$this->search_form_values = $a_values;
 	}
 	
 	
