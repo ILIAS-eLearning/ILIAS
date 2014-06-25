@@ -1382,3 +1382,33 @@ $ilCtrlStructureReader->getStructure();
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#4237>
+<?php
+
+if( !$ilDB->tableExists('pg_amd_page_list') )
+{
+	$ilDB->createTable('pg_amd_page_list', array(
+		'id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'field_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'data' => array(
+			'type' => 'text',
+			'length' => 4000,
+			'notnull' => false
+		),		
+	));
+		
+	$ilDB->addPrimaryKey('pg_amd_page_list', array('id', 'field_id'));
+	$ilDB->createSequence('pg_amd_page_list');
+}
+
+?>

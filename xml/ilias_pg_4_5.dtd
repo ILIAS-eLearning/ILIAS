@@ -21,7 +21,7 @@
 <!-- PageObjects are comparable to LOM LearningObjects of aggregation level 2 -->
 <!ELEMENT PageObject (PageContent*, Layout?, InitOpenedContent?)>
 
-<!ELEMENT PageContent ((Paragraph | MediaObject | Table | List | FileList | Question | PlaceHolder | Section | Resources | LoginPageElement | Map | Plugged | Tabs | ContentInclude | InteractiveImage | Profile | Verification | Blog | QuestionOverview | Skills | ConsultationHours | MyCourses | AMDPageList | AdvMDField), BibItemIdentifier*)>
+<!ELEMENT PageContent ((Paragraph | MediaObject | Table | List | FileList | Question | PlaceHolder | Section | Resources | LoginPageElement | Map | Plugged | Tabs | ContentInclude | InteractiveImage | Profile | Verification | Blog | QuestionOverview | Skills | ConsultationHours | MyCourses | AMDPageList), BibItemIdentifier*)>
 
 <!-- enable/disable paragraph elements -->
 <!ATTLIST PageContent
@@ -485,10 +485,8 @@ col or row span. -->
 	User CDATA #REQUIRED
 >
 
-<!ELEMENT AMDPageList (AdvMDField*)>
-
-<!ELEMENT AdvMDField (#PCDATA)>
-<!ATTLIST AdvMDField
+<!ELEMENT AMDPageList EMPTY>
+<!ATTLIST AMDPageList
 	Id CDATA #REQUIRED
 >
 

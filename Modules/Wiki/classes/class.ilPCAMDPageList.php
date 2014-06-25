@@ -60,25 +60,31 @@ class ilPCAMDPageList extends ilPageContent
 	/**
 	 * Set list settings
 	 */
-	function setData(array $a_field_data)
-	{			
-		// remove all children first
-		$children = $this->amdpl_node->child_nodes();
-		if($children)
+	function setData(array $a_fields_data)
+	{		
+		global $ilDB;
+		
+		$data_id = $this->amdpl_node->get_attribute("Id");		
+		if($data_id)
 		{
-			foreach($children as $child)
-			{
-				$this->amdpl_node->remove_child($child);
-			}
+			$ilDB->manipulate("DELETE FROM pg_amd_page_list".
+				" WHERE id = ".$ilDB->quote($data_id, "integer"));
 		}
-
-		foreach($a_field_data as $field_id => $value)
+		else
 		{
-			$field_node = $this->dom->create_element("AdvMDField");
-			$field_node = $this->amdpl_node->append_child($field_node);
-			$field_node->set_attribute("Id", $field_id);			
-			$field_node->set_content($value);			
-		}		
+			$data_id = $ilDB->nextId("pg_amd_page_list");
+			$this->amdpl_node->set_attribute("Id", $data_id);
+		};
+		
+		foreach($a_fields_data as $field_id => $field_data)
+		{
+			$fields = array(
+				"id" => array("integer", $data_id)
+				,"field_id" => array("integer", $field_id)
+				,"data" => array("text", serialize($field_data))
+			);		
+			$ilDB->insert("pg_amd_page_list", $fields);	
+		}
 	}
 	
 	/**
@@ -88,19 +94,50 @@ class ilPCAMDPageList extends ilPageContent
 	 */
 	function getFieldValues()
 	{
+		global $ilDB;
+		
 		$res = array();
 		if (is_object($this->amdpl_node))
 		{
-			$children = $this->amdpl_node->child_nodes();
-			if($children)
+			$data_id = $this->amdpl_node->get_attribute("Id");		
+			if($data_id)
 			{
-				foreach($children as $child)
+				$set = $ilDB->query("SELECT * FROM pg_amd_page_list".
+					" WHERE id = ".$ilDB->quote($data_id, "integer"));
+				while($row = $ilDB->fetchAssoc($set))
 				{
-					$res[$child->get_attribute("Id")] = $child->get_content();
+					$res[$row["field_id"]] = unserialize($row["data"]);
 				}
-			}
+			}			
 		}
 		return $res;
+	}
+	
+	function modifyPageContentPostXsl($a_html, $a_mode)
+	{
+		$c_pos = 0;
+		$start = strpos($a_html, "[[[[[AMDPageList;");
+		if (is_int($start))
+		{
+			$end = strpos($a_html, "]]]]]", $start);
+		}
+		$i = 1;
+		while ($end > 0)
+		{
+			$param = substr($a_html, $start + 9, $end - $start - 9);
+			
+			
+			
+			
+			$start = strpos($a_html, "[[[[[AMDPageList;", $start + 5);
+			$end = 0;
+			if (is_int($start))
+			{
+				$end = strpos($a_html, "]]]]]", $start);
+			}
+		}
+				
+		return $a_html;
 	}
 }
 

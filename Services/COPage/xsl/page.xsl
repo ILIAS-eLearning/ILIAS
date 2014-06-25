@@ -3943,7 +3943,7 @@
 
 <!-- Advanced MD Page List -->
 <xsl:template match="AMDPageList">
-	{{{{{AMDPageList<xsl:if test="$mode = 'edit'">Teaser</xsl:if>#<xsl:value-of select="@User"/>}}}}}
+	[[[[[AMDPageList;<xsl:value-of select="@Id"/>]]]]]
 	<xsl:if test="$mode = 'edit'">
 		<!-- <xsl:value-of select="../@HierId"/> -->
 		<xsl:if test="$javascript='disable'">
