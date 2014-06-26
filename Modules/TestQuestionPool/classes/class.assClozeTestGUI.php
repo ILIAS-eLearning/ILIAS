@@ -510,14 +510,22 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 			{
 				if($content->getType()==2)
 				{
-					$items[$j]=['answer' => $value[$j]->getAnswerText(),'lower' => $value[$j]->getLowerBound(),
-								'upper' => $value[$j]->getUpperBound(),'points' => $value[$j]->getPoints(),
-								'error' => false
-								];
+					$items[$j] = array(
+						'answer' => $value[$j]->getAnswerText(),
+						'lower' => $value[$j]->getLowerBound(),
+						'upper' => $value[$j]->getUpperBound(),
+						'points' => $value[$j]->getPoints(),
+						'error' => false
+					);
 				}
 				else
 				{
-					$items[$j]=['answer' => $value[$j]->getAnswerText(),'points' => $value[$j]->getPoints(), 'error' => false];
+					$items[$j] = array(
+						'answer' => $value[$j]->getAnswerText(),
+						'points' => $value[$j]->getPoints(),
+						'error' => false
+					);
+					
 					if($content->getType()==1)
 					{
 						$shuffle=$content->getShuffle();
