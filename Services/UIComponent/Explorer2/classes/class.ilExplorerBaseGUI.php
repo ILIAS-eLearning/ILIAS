@@ -551,7 +551,7 @@ abstract class ilExplorerBaseGUI
 			"themes" => array("dots" => false, "icons" => false, "theme" => ""),
 			"html_data" => array()
 			);
-		
+
 		$tpl->addOnLoadCode('il.Explorer2.init('.json_encode($config).', '.json_encode($js_tree_config).');');
 		$etpl = new ilTemplate("tpl.explorer2.html", true, true, "Services/UIComponent/Explorer2");
 

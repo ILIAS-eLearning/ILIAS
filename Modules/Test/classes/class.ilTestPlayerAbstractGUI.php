@@ -778,7 +778,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			return;
 		}
 
-
 		// Last try in limited tries & !confirmed
 		if (($requires_confirmation) && ($actualpass == $this->object->getNrOfTries() - 1))
 		{
@@ -823,12 +822,12 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		}
 
 		// Last try in limited tries & confirmed?
-		if (($actualpass == $this->object->getNrOfTries() - 1) && (!$requires_confirmation))
+		if(($actualpass == $this->object->getNrOfTries() - 1) && (!$requires_confirmation))
 		{
 			$this->object->setActiveTestSubmitted($ilUser->getId());
 			$ilAuth->setIdle(ilSession::getIdleValue(), false);
 			$ilAuth->setExpire(0);
-			switch ($this->object->getMailNotification())
+			switch($this->object->getMailNotification())
 			{
 				case 1:
 					$this->object->sendSimpleNotification($active_id);
@@ -840,12 +839,12 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		}
 
 		// Non-last try finish
-		if (!$_SESSION['tst_pass_finish'])
+		if(!$_SESSION['tst_pass_finish'])
 		{
-			if (!$_SESSION['tst_pass_finish']) $_SESSION['tst_pass_finish'] = 1;
-			if ($this->object->getMailNotificationType() == 1)
+			if(!$_SESSION['tst_pass_finish']) $_SESSION['tst_pass_finish'] = 1;
+			if($this->object->getMailNotificationType() == 1)
 			{
-				switch ($this->object->getMailNotification())
+				switch($this->object->getMailNotification())
 				{
 					case 1:
 						$this->object->sendSimpleNotification($active_id);

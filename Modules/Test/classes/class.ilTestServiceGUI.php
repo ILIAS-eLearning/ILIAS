@@ -30,6 +30,11 @@ class ilTestServiceGUI
 	 */
 	public $service = null;
 
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
+
 	var $lng;
 	var $tpl;
 	
@@ -57,8 +62,9 @@ class ilTestServiceGUI
 	 */
 	function ilTestServiceGUI(ilObjTest $a_object)
 	{
-		global $lng, $tpl, $ilCtrl, $ilias, $tree;
+		global $lng, $tpl, $ilCtrl, $ilias, $tree, $ilDB;
 
+		$this->db = $ilDB;
 		$this->lng =& $lng;
 		$this->tpl =& $tpl;
 		$this->ctrl =& $ilCtrl;

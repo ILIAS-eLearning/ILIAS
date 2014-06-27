@@ -460,7 +460,16 @@ a.il_question_answer_list_back_anchor
     margin-right:3px;
 }
 
-
 .ilCenterForced {
 	text-align: center !important;
+}
+
+tr.ilBorderlessRow
+{
+    border: none;
+}
+
+td.ilBottomAlignedCell
+{
+    vertical-align: bottom;
 }

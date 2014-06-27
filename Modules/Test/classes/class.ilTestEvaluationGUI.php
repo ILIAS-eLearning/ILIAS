@@ -1042,17 +1042,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$this->ctrl->getLinkTargetByClass("ilobjtestgui", "infoScreen")
 		);
 
-		if( isset($_GET['pass']) )
-		{
-			$pass = $_GET['pass'];
-		}
-		else
-		{
-			$pass = null;
-		}
-
-		$this->ctrl->setParameter($this, 'pass', $pass);
-
 		$testSession = $this->testSessionFactory->getSession();
 		$active_id = $testSession->getActiveId();
 		$user_id = $ilUser->getId();

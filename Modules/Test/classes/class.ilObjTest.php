@@ -40,6 +40,11 @@ ilObjTest extends ilObject
 	 * @var string
 	 */
 	private $questionSetType = self::QUESTION_SET_TYPE_FIXED;
+
+	/**
+	 * @var bool
+	 */
+	private $skillServiceEnabled = false;
 	
 	/**
 	* Kiosk mode
@@ -1303,7 +1308,8 @@ ilObjTest extends ilObject
 				'sign_submission' => array('integer', (int)$this->getSignSubmission()),
 				'question_set_type' => array('text', $this->getQuestionSetType()),
 				'char_selector_availability' => array('integer', (int)$this->getCharSelectorAvailability()),
-				'char_selector_definition' => array('text', (string)$this->getCharSelectorDefinition())
+				'char_selector_definition' => array('text', (string)$this->getCharSelectorDefinition()),
+				'skill_service' => array('integer', (int)$this->isSkillServiceEnabled())
 			));
 				    
 			$this->test_id = $next_id;
@@ -1412,7 +1418,8 @@ ilObjTest extends ilObject
 						'sign_submission' => array('integer', (int)$this->getSignSubmission()),
 						'question_set_type' => array('text', $this->getQuestionSetType()),
 						'char_selector_availability' => array('integer', (int)$this->getCharSelectorAvailability()),
-						'char_selector_definition' => array('text', (string)$this->getCharSelectorDefinition())
+						'char_selector_definition' => array('text', (string)$this->getCharSelectorDefinition()),
+						'skill_service' => array('integer', (int)$this->isSkillServiceEnabled())
 					),
 					array(
 						'test_id' => array('integer', (int)$this->getTestId())
@@ -1896,6 +1903,7 @@ ilObjTest extends ilObject
 			$this->setQuestionSetType($data->question_set_type);
 			$this->setCharSelectorAvailability((int)$data->char_selector_availability);
 			$this->setCharSelectorDefinition($data->char_selector_definition);
+			$this->setSkillServiceEnabled((bool)$data->skill_service);
 			$this->loadQuestions();
 		}
 
@@ -4032,7 +4040,7 @@ function getAnswerFeedbackPoints()
 		{
 			$pass = $results['pass'];
 		}
-		
+
 		require_once 'Modules/Test/classes/class.ilTestSessionFactory.php';
 		$testSessionFactory = new ilTestSessionFactory($this);
 		$testSession = $testSessionFactory->getSession($active_id);
@@ -4221,7 +4229,7 @@ function getAnswerFeedbackPoints()
 		}
 		
 		$found["test"]["passed"] = $results['passed'];
-		
+
 		return $found;
 	}
 
@@ -5901,6 +5909,9 @@ function getAnswerFeedbackPoints()
 				case 'char_selector_definition':
 					$this->setCharSelectorDefinition($metadata['entry']);
 					break;	
+				case 'skill_service':
+					$this->setSkillServiceEnabled((bool)$metadata['entry']);
+					break;
 			}
 			if (preg_match("/mark_step_\d+/", $metadata["label"]))
 			{
@@ -6277,6 +6288,12 @@ function getAnswerFeedbackPoints()
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "char_selector_definition");
 		$a_xml_writer->xmlElement("fieldentry", NULL, $this->getCharSelectorDefinition());
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+
+		// skill_service
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "skill_service");
+		$a_xml_writer->xmlElement("fieldentry", NULL, (int)$this->isSkillServiceEnabled());
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
 
 
@@ -6883,6 +6900,7 @@ function getAnswerFeedbackPoints()
 		$newObj->setSignSubmission($this->getSignSubmission());
 		$newObj->setCharSelectorAvailability((int)$this->getCharSelectorAvailability());
 		$newObj->setCharSelectorDefinition($this->getCharSelectorDefinition());
+		$newObj->setSkillServiceEnabled($this->isSkillServiceEnabled());
 		$newObj->saveToDb();
 		
 		// clone certificate
@@ -9433,7 +9451,8 @@ function getAnswerFeedbackPoints()
 			'show_examview_html' => $this->getShowExamviewHtml(),
 			'show_examview_pdf' => $this->getShowExamviewPdf(),
 			'char_selector_availability' => $this->getCharSelectorAvailability(),
-			'char_selector_definition' => $this->getCharSelectorDefinition()
+			'char_selector_definition' => $this->getCharSelectorDefinition(),
+			'skill_service' => (int)$this->isSkillServiceEnabled()
 		);
 		$next_id = $ilDB->nextId('tst_test_defaults');
 		$affectedRows = $ilDB->manipulateF("INSERT INTO tst_test_defaults (test_defaults_id, name, user_fi, defaults, marks, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
@@ -9530,6 +9549,7 @@ function getAnswerFeedbackPoints()
 		$this->setSignSubmission($testsettings['sign_submission']);
 		$this->setCharSelectorAvailability($testsettings['char_selector_availability']);
 		$this->setCharSelectorDefinition($testsettings['char_selector_definition']);
+		$this->setSkillServiceEnabled((bool)$testsettings['skill_service']);
 		$this->saveToDb();
 
 		return true;
@@ -11398,6 +11418,16 @@ function getAnswerFeedbackPoints()
 	}
 	
 	/**
+	 * Returns the fact wether this test is a fixed question set test or not
+	 *
+	 * @return boolean $isFixedTest
+	 */
+	public function isFixedTest()
+	{
+		return $this->getQuestionSetType() == self::QUESTION_SET_TYPE_FIXED;
+	}
+
+	/**
 	 * Returns the fact wether this test is a random questions test or not
 	 *
 	 * @return boolean $isRandomTest
@@ -11406,7 +11436,7 @@ function getAnswerFeedbackPoints()
 	{
 		return $this->getQuestionSetType() == self::QUESTION_SET_TYPE_RANDOM;
 	}
-	
+
 	/**
 	 * Returns the fact wether this test is a dynamic question set test or not
 	 *
@@ -11497,5 +11527,45 @@ function getAnswerFeedbackPoints()
 		}
 		
 		return $objIds;
+	}
+
+	public function setSkillServiceEnabled($skillServiceEnabled)
+	{
+		$this->skillServiceEnabled = $skillServiceEnabled;
+	}
+
+	public function isSkillServiceEnabled()
+	{
+		return $this->skillServiceEnabled;
+	}
+
+	public function isSkillServiceToBeConsidered()
+	{
+		if( !$this->isSkillServiceEnabled() )
+		{
+			return false;
+		}
+
+		if( !self::isSkillManagementGloballyActivated() )
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	private static $isSkillManagementGloballyActivated = null;
+
+	public static function isSkillManagementGloballyActivated()
+	{
+		if( self::$isSkillManagementGloballyActivated === null )
+		{
+			include_once 'Services/Skill/classes/class.ilSkillManagementSettings.php';
+			$skmgSet = new ilSkillManagementSettings();
+
+			self::$isSkillManagementGloballyActivated = $skmgSet->isActivated();
+		}
+
+		return self::$isSkillManagementGloballyActivated;
 	}
 }

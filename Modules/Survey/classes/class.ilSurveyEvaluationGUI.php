@@ -1221,7 +1221,7 @@ class ilSurveyEvaluationGUI
 		$ilToolbar->addInputItem($mode_sel, true);
 		
 		$ilToolbar->addFormButton($lng->txt("select"), "competenceEval");
-		
+
 		if (substr($comp_eval_mode, 0, 4) == "gap_")
 		{
 			// gap analysis

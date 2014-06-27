@@ -17,7 +17,9 @@ require_once 'Modules/Test/classes/class.ilTestPlayerAbstractGUI.php';
  * @version		$Id$
  * 
  * @package		Modules/Test
- * 
+ *
+ * @ilCtrl_Calls ilTestPlayerDynamicQuestionSetGUI: ilAssGenFeedbackPageGUI
+ * @ilCtrl_Calls ilTestPlayerDynamicQuestionSetGUI: ilAssSpecFeedbackPageGUI
  * @ilCtrl_Calls ilTestPlayerDynamicQuestionSetGUI: ilAssQuestionHintRequestGUI
  * @ilCtrl_Calls ilTestPlayerDynamicQuestionSetGUI: ilAssQuestionPageGUI
  * @ilCtrl_Calls ilTestPlayerDynamicQuestionSetGUI: ilTestDynamicQuestionSetFilterStatisticTableGUI

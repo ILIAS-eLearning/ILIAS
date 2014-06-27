@@ -1406,6 +1406,27 @@ assessment#:#tst_num_marked_questions#:#Markierte Fragen
 assessment#:#tst_change_dyn_test_question_selection#:#Aktuelle Fragenauswahl ändern
 assessment#:#tst_dyn_test_msg_currently_finished_completely#:#Aktuell haben Sie alle Fragen des Quellfragenpool erfolgreich beantwortet. Sowie neue oder veränderte Fragen im Quellfragenpool vorliegen können Sie den Test fortführen.
 assessment#:#tst_dyn_test_msg_currently_finished_selection#:#In der aktuellen Fragenauswahl haben Sie alle Fragen erfolgreich beantwortet. Ändern Sie die Fragenauswahl um den Test fort zu führen.
+assessment#:#tst_activate_skill_service#:#Kompetenz-Service aktivieren
+assessment#:#tst_disabled_skl_due_to_non_fixed_quest_set_type#:#Der Kompetenz Service aufgrund des Test Modus ohne feste Fragenauswahl.
+assessment#:#tst_cannot_enable_skl_due_to_non_fixed_quest_set_type#:#Die Aktivierung des Kompetenz Service ist aufgrund des Test Modus ohne feste Fragenauswahl nicht möglich.
+assessment#:#tst_tab_competences#:#Kompetenzen
+assessment#:#tst_skl_sub_tab_quest_assign#:#Fragen-Kompetenz-Zuordnung
+assessment#:#tst_skl_sub_tab_thresholds#:#Kompetenz-Schwellenwert
+assessment#:#tst_competence#:#Kompetenz
+assessment#:#tst_assign_competence#:#Kompetenz zuordnen
+assessment#:#tst_remove_competence#:#Kompetenz entfernen
+assessment#:#tst_comp_points#:#Kompetenz-Punkte
+assessment#:#tst_save_comp_points#:#Speichere Kompetenz-Punkte
+assessment#:#tst_num_questions#:#Anzahl Fragen
+assessment#:#tst_max_comp_points#:#Max. Kompetenz-Punkte
+assessment#:#tst_level#:#Kompetenz Level
+assessment#:#tst_threshold#:#Schwellenwert
+assessment#:#tst_save_thresholds#:#Speichere Schwellenwerte
+assessment#:#tst_show_comp_results#:#Kompetenz-Ergebnisse anzeigen
+assessment#:#tst_analysis#:#Analyse
+assessment#:#tst_all_test_competences#:#Alle Test-Kompetenzen
+assessment#:#tst_gap_analysis#:#Gap-Analyse
+assessment#:#tst_test_result#:#Test Ergebnis
 assessment#:#feedback_setting#:#Modus des antwortspezifischen Feedback.
 assessment#:#feedback_all#:#Zeige Feedback bei allen Antwortmöglichkeiten.
 assessment#:#feedback_checked#:#Zeige Feedback bei ausgewählten Antworten des Prüflings.

@@ -138,7 +138,7 @@ class ilTestSession
 				$this->tstamp = $row["tstamp"];
 
 				$this->setLastFinishedPass($row['last_finished_pass']);
-				
+
 				return true;
 			}
 		}
@@ -148,7 +148,7 @@ class ilTestSession
 	function increaseTestPass()
 	{
 		global $ilDB, $ilLog;
-		
+
 		$this->increasePass();
 		$this->setLastSequence(0);
 		$submitted = ($this->isSubmitted()) ? 1 : 0;
@@ -172,7 +172,7 @@ class ilTestSession
 						'active_id' => array('integer', $this->getActiveId())
 					)
 				);
-				
+
 				// update learning progress
 				include_once("./Modules/Test/classes/class.ilObjTestAccess.php");
 				include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
@@ -218,7 +218,7 @@ class ilTestSession
 		$submitted = ($this->isSubmitted()) ? 1 : 0;
 		if ($this->active_id > 0)
 		{
-			$affectedRows = $ilDB->update('tst_active', 
+			$ilDB->update('tst_active',
 				array(
 					'lastindex' => array('integer', $this->getLastSequence()),
 					'tries' => array('integer', $this->getPass()),
@@ -245,7 +245,7 @@ class ilTestSession
 				$anonymous_id = ($this->getAnonymousId()) ? $this->getAnonymousId() : NULL;
 
 				$next_id = $ilDB->nextId('tst_active');
-				$affectedRows = $ilDB->insert('tst_active',
+				$ilDB->insert('tst_active',
 					array(
 						'active_id' => array('integer', $next_id),
 						'user_fi' => array('integer', $this->getUserId()),
@@ -410,12 +410,12 @@ class ilTestSession
 	{
 		return $this->pass;
 	}
-	
+
 	function increasePass()
 	{
 		$this->pass += 1;
 	}
-	
+
 	function isSubmitted()
 	{
 		return $this->submitted;

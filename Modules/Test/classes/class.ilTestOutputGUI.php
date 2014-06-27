@@ -17,13 +17,15 @@ require_once './Modules/Test/classes/class.ilTestPlayerAbstractGUI.php';
  * 
  * @inGroup		ModulesTest
  * 
- * @ilCtrl_Calls ilTestOutputGUI: ilAssQuestionHintRequestGUI, ilAssSpecFeedbackPageGUI, ilAssGenFeedbackPageGUI
+ * @ilCtrl_Calls ilTestOutputGUI: ilAssGenFeedbackPageGUI
+ * @ilCtrl_Calls ilTestOutputGUI: ilAssSpecFeedbackPageGUI
+ * @ilCtrl_Calls ilTestOutputGUI: ilAssQuestionHintRequestGUI
  * @ilCtrl_Calls ilTestOutputGUI: ilTestSignatureGUI
  * @ilCtrl_Calls ilTestOutputGUI: ilAssQuestionPageGUI
  * @ilCtrl_Calls ilTestOutputGUI: ilTestSubmissionReviewGUI
  * @ilCtrl_Calls ilTestOutputGUI: ilTestPasswordProtectionGUI
  */
-class ilTestOutputGUI extends ilTestPlayerAbstractGUI
+abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 {
 	/**
 	 * Execute Command

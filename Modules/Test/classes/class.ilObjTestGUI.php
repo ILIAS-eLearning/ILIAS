@@ -17,7 +17,8 @@ require_once './Modules/Test/classes/class.ilTestExpressPage.php';
  * @version		$Id$
  *
  * @ilCtrl_Calls ilObjTestGUI: ilObjCourseGUI, ilMDEditorGUI, ilCertificateGUI, ilPermissionGUI
- * @ilCtrl_Calls ilObjTestGUI: ilTestOutputGUI, ilTestPlayerDynamicQuestionSetGUI, ilLearningProgressGUI
+ * @ilCtrl_Calls ilObjTestGUI: ilTestPlayerFixedQuestionSetGUI, ilTestPlayerRandomQuestionSetGUI, ilTestPlayerDynamicQuestionSetGUI
+ * @ilCtrl_Calls ilObjTestGUI: ilLearningProgressGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestEvaluationGUI, ilAssGenFeedbackPageGUI, ilAssSpecFeedbackPageGUI
  * @ilCtrl_Calls ilObjTestGUI: ilInfoScreenGUI, ilShopPurchaseGUI, ilObjectCopyGUI, ilTestScoringGUI
  * @ilCtrl_Calls ilObjTestGUI: ilRepositorySearchGUI, ilScoringAdjustmentGUI, ilTestExportGUI
@@ -34,6 +35,7 @@ require_once './Modules/Test/classes/class.ilTestExpressPage.php';
  * @ilCtrl_Calls ilObjTestGUI: ilTestPassDetailsOverviewTableGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestResultsToolbarGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestSettingsChangeConfirmationGUI
+ * @ilCtrl_Calls ilObjTestGUI: ilTestSkillAdministrationGUI, ilTestSkillEvaluationGUI
  *
  * @ingroup ModulesTest
  */
@@ -88,11 +90,10 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function executeCommand()
 	{
-		global $ilAccess, $ilNavigationHistory, $ilCtrl, $ilErr, $tpl, $lng, $ilTabs, $ilPluginAdmin, $ilDB, $tree, $ilUser;
+		global $ilAccess, $ilNavigationHistory, $ilCtrl, $ilErr, $tpl, $lng, $ilTabs, $ilPluginAdmin, $ilDB, $tree, $ilias, $ilUser;
 
 		if((!$ilAccess->checkAccess("read", "", $_GET["ref_id"])) && (!$ilAccess->checkAccess("visible", "", $_GET["ref_id"])))
 		{
-			global $ilias;
 			$ilias->raiseError($this->lng->txt("permission_denied"), $ilias->error_obj->MESSAGE);
 		}
 
@@ -189,12 +190,18 @@ class ilObjTestGUI extends ilObjectGUI
 
 				$this->ctrl->forwardCommand($md_gui);
 				break;
-				
-			case "iltestoutputgui":
-				require_once "./Modules/Test/classes/class.ilTestOutputGUI.php";
-				if(!$this->object->getKioskMode()) $this->prepareOutput();
 
-				$output_gui =& new ilTestOutputGUI($this->object);
+			case "iltestplayerfixedquestionsetgui":
+				require_once "./Modules/Test/classes/class.ilTestPlayerFixedQuestionSetGUI.php";
+				if(!$this->object->getKioskMode()) $this->prepareOutput();
+				$output_gui =& new ilTestPlayerFixedQuestionSetGUI($this->object);
+				$this->ctrl->forwardCommand($output_gui);
+				break;
+
+			case "iltestplayerrandomquestionsetgui":
+				require_once "./Modules/Test/classes/class.ilTestPlayerRandomQuestionSetGUI.php";
+				if(!$this->object->getKioskMode()) $this->prepareOutput();
+				$output_gui =& new ilTestPlayerRandomQuestionSetGUI($this->object);
 				$this->ctrl->forwardCommand($output_gui);
 				break;
 
@@ -288,7 +295,23 @@ class ilObjTestGUI extends ilObjectGUI
 				$gui = new ilTestRandomQuestionSetConfigGUI($this->ctrl, $ilAccess, $ilTabs, $this->lng, $this->tpl, $ilDB, $tree, $ilPluginAdmin, $this->object);
 				$this->ctrl->forwardCommand($gui);
 				break;
-				
+
+			case 'iltestskilladministrationgui':
+				$this->prepareOutput();
+				$this->addHeaderAction();
+				require_once 'Modules/Test/classes/class.ilTestSkillAdministrationGUI.php';
+				$gui = new ilTestSkillAdministrationGUI($ilias, $this->ctrl, $ilAccess, $ilTabs, $this->tpl, $this->lng, $ilDB, $this->object, $this->ref_id);
+				$this->ctrl->forwardCommand($gui);
+				break;
+
+			case 'iltestskillevaluationgui':
+				$this->prepareOutput();
+				$this->addHeaderAction();
+				require_once 'Modules/Test/classes/class.ilTestSkillEvaluationGUI.php';
+				$gui = new ilTestSkillEvaluationGUI($this->ctrl, $ilTabs, $this->tpl, $this->lng, $ilDB, $this->object);
+				$this->ctrl->forwardCommand($gui);
+				break;
+
 			case 'ilobjectcopygui':
 				$this->prepareOutput();
 				$this->addHeaderAction();
@@ -3800,6 +3823,8 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function infoScreenObject()
 	{
+		#if( !include 'competenzenRocker.php' ) exit;
+
 		$this->ctrl->setCmd("showSummary");
 		$this->ctrl->setCmdClass("ilinfoscreengui");
 		$this->infoScreen();
@@ -3919,11 +3944,26 @@ class ilObjTestGUI extends ilObjectGUI
 					if ($this->object->canShowTestResults($testSession, $ilUser->getId())) 
 					{
 						//$info->addFormButton("outUserResultsOverview", $this->lng->txt("tst_show_results"));
-						$big_button[] = array("outUserResultsOverview", $this->lng->txt("tst_show_results"), false);
+
+						$big_button[] = array(
+							array('ilTestEvaluationGUI', 'outUserResultsOverview'),
+							$this->lng->txt("tst_show_results"), false
+						);
+
 						if ($this->object->getHighscoreEnabled())
 						{
 							// Can also compare results then
 							$big_button[] = array("outResultsToplist", $this->lng->txt("tst_show_toplist"), false);
+						}
+
+						if( $this->object->isSkillServiceToBeConsidered() )
+						{
+							require_once 'Modules/Test/classes/class.ilTestSkillEvaluationGUI.php';
+
+							$big_button[] = array(
+								array('ilTestSkillEvaluationGUI', ilTestSkillEvaluationGUI::CMD_SHOW),
+								$this->lng->txt("tst_show_comp_results"), false
+							);
 						}
 					}
 					
@@ -3990,9 +4030,10 @@ class ilObjTestGUI extends ilObjectGUI
 
 			foreach($big_button as $button)
 			{
-				if( isset($button[3]) && strlen($button[3]) )
+				if( is_array($button[0]) )
 				{
-					$ilToolbar->addButton($button[1], $button[3], '', '', '', '', $button[2] ? 'submit emphSubmit' : 'submit');
+					$link = $this->ctrl->getLinkTargetByClass($button[0][0], $button[0][1]);
+					$ilToolbar->addButton($button[1], $link, '', '', '', '', $button[2] ? 'submit emphSubmit' : 'submit');
 				}
 				else
 				{
@@ -4632,6 +4673,19 @@ class ilObjTestGUI extends ilObjectGUI
 						$this->ctrl->getLinkTargetByClass('ilObjTestSettingsGeneralGUI'),
 						$settingsCommands, array("ilobjtestsettingsgeneralgui", "ilobjtestgui", "ilcertificategui")
 					);
+				}
+
+				// skill service
+				if( $this->object->isSkillServiceEnabled() && ilObjTest::isSkillManagementGloballyActivated() )
+				{
+					require_once 'Modules/Test/classes/class.ilTestSkillQuestionAssignmentsGUI.php';
+
+					$link = $this->ctrl->getLinkTargetByClass(
+						array('ilTestSkillAdministrationGUI', 'ilTestSkillQuestionAssignmentsGUI'),
+						ilTestSkillQuestionAssignmentsGUI::CMD_SHOW_SKILL_QUEST_ASSIGNS
+					);
+
+					$tabs_gui->addTarget('tst_tab_competences', $link, array(), array());
 				}
 
 				if (!in_array('participants', $hidden_tabs))
@@ -5472,10 +5526,9 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->ctrl->setParameterByClass('iltestevaluationgui', 'pass', $testSession->getPass());
 		
 		$big_button[] = array(
-			'',
+			array('iltestevaluationgui', 'confirmDeletePass'),
 			$this->lng->txt("tst_delete_dyn_test_results_btn"),
-			false,
-			$this->ctrl->getLinkTargetByClass('iltestevaluationgui', 'confirmDeletePass')
+			false
 		);
 	}
 }

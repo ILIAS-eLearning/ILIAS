@@ -198,6 +198,8 @@ class ilObjTestSettingsGeneralGUI
 			return $this->showFormCmd($form);
 		}
 
+		$infoMsg = array();
+
 		// solve conflicts with question set type setting with confirmation screen if required
 		// determine wether question set type relating data is to be removed (questions/pools)
 		
@@ -240,23 +242,35 @@ class ilObjTestSettingsGeneralGUI
 
 					if( $this->testOBJ->isOnline() )
 					{
-						$infoMsg = $this->lng->txt("tst_set_offline_due_to_switched_question_set_type_setting");
+						$infoMsg[] = $this->lng->txt("tst_set_offline_due_to_switched_question_set_type_setting");
 					}
 					else
 					{
-						$infoMsg = $this->lng->txt("tst_cannot_online_due_to_switched_quest_set_type_setting");
+						$infoMsg[] = $this->lng->txt("tst_cannot_online_due_to_switched_quest_set_type_setting");
 					}
-
-					ilUtil::sendInfo($infoMsg, true);
 				}
 			}
 		}
 		
-		// adjust use previous answers setting due to desired question set type
+		// adjust settiue to desired question set type
 		
 		if( $newQuestionSetType != ilObjTest::QUESTION_SET_TYPE_FIXED )
 		{
-			$form->getItemByPostVar('chb_use_previous_answers')->setValue(0);
+			$form->getItemByPostVar('chb_use_previous_answers')->setChecked(false);
+
+			if( $this->isSkillServiceSettingToBeAdjusted($form) )
+			{
+				$form->getItemByPostVar('skill_service')->setChecked(false);
+
+				if( $this->testOBJ->isSkillServiceEnabled() )
+				{
+					$infoMsg[] = $this->lng->txt("tst_disabled_skl_due_to_non_fixed_quest_set_type");
+				}
+				else
+				{
+					$infoMsg[] = $this->lng->txt("tst_cannot_enable_skl_due_to_non_fixed_quest_set_type");
+				}
+			}
 		}
 				
 		// perform saving the form data
@@ -281,6 +295,11 @@ class ilObjTestSettingsGeneralGUI
 		}		
 		
 		// redirect to form output
+
+		if( count($infoMsg) )
+		{
+			ilUtil::sendInfo(implode('<br />', $infoMsg), true);
+		}
 		
 		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
 		$this->ctrl->redirect($this, self::CMD_SHOW_FORM);
@@ -536,6 +555,12 @@ class ilObjTestSettingsGeneralGUI
 			if( $form->getItemByPostVar('fixedparticipants') instanceof ilFormPropertyGUI )
 			{
 				$this->testOBJ->setFixedParticipants($form->getItemByPostVar('fixedparticipants')->getChecked());
+			}
+
+			// skill service
+			if( ilObjTest::isSkillManagementGloballyActivated() && $form->getItemByPostVar('skill_service') instanceof ilFormPropertyGUI )
+			{
+				$this->testOBJ->setSkillServiceEnabled($form->getItemByPostVar('skill_service')->getChecked());
 			}
 		}		
 
@@ -1173,6 +1198,18 @@ class ilObjTestSettingsGeneralGUI
 		$ecs = new ilECSTestSettings($this->testOBJ);		
 		$ecs->addSettingsToForm($form, 'tst');
 
+		// skill service activation for FIXED tests only
+		if( $this->testOBJ->isFixedTest() && ilObjTest::isSkillManagementGloballyActivated() )
+		{
+			$otherHead = new ilFormSectionHeaderGUI();
+			$otherHead->setTitle($this->lng->txt('other'));
+			$form->addItem($otherHead);
+
+			$skillService = new ilCheckboxInputGUI($this->lng->txt('tst_activate_skill_service'), 'skill_service');
+			$skillService->setChecked($this->testOBJ->isSkillServiceEnabled());
+			$form->addItem($skillService);
+		}
+
 		// remove items when using template
 		if($this->settingsTemplate)
 		{
@@ -1327,5 +1364,25 @@ class ilObjTestSettingsGeneralGUI
 		}
 		
 		return false;
+	}
+
+	private function isSkillServiceSettingToBeAdjusted(ilPropertyFormGUI $form)
+	{
+		if( !($form->getItemByPostVar('skill_service') instanceof ilFormPropertyGUI) )
+		{
+			return false;
+		}
+
+		if( !ilObjTest::isSkillManagementGloballyActivated() )
+		{
+			return false;
+		}
+
+		if( !$form->getItemByPostVar('skill_service')->getChecked() )
+		{
+			return false;
+		}
+
+		return true;
 	}
 }
