@@ -59,7 +59,8 @@ class ilColumnGUI
 		"ilPDExternalFeedBlockGUI" => "Services/Feeds/",
 		'ilPDTaggingBlockGUI' => 'Services/Tagging/',
 		'ilChatroomBlockGUI' => 'Modules/Chatroom/',
-		'ilPollBlockGUI' => 'Modules/Poll/'
+		'ilPollBlockGUI' => 'Modules/Poll/',
+		'ilTaxonomyBlockGUI' => 'Services/Taxonomy/'
 	);
 	
 	static protected $block_types = array(
@@ -77,12 +78,16 @@ class ilColumnGUI
 		"ilPDSelectedItemsBlockGUI" => "pditems",
 		'ilPDTaggingBlockGUI' => 'pdtag',
 		'ilChatroomBlockGUI' => 'chatviewer',
-		'ilPollBlockGUI' => 'poll'
+		'ilPollBlockGUI' => 'poll',
+		'ilTaxonomyBlockGUI' => 'tax'
 	);
 	
 		
 	protected $default_blocks = array(
-		"cat" => array("ilNewsForContextBlockGUI" => IL_COL_RIGHT),
+		"cat" => array(
+			"ilNewsForContextBlockGUI" => IL_COL_RIGHT,
+			"ilTaxonomyBlockGUI" => IL_COL_RIGHT
+			),
 		"crs" => array(
 			"ilNewsForContextBlockGUI" => IL_COL_RIGHT,
 			"ilCalendarBlockGUI" => IL_COL_RIGHT

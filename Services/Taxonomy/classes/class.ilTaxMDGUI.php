@@ -41,22 +41,37 @@ class ilTaxMDGUI
 		
 		if($objDefinition->isRBACObject($this->md_obj_type))
 		{
-			$parent_cat_ref_id = $tree->checkForParentType($_REQUEST["ref_id"], "cat");
-			if($parent_cat_ref_id)
-			{
-				$parent_cat_obj_id = ilObject::_lookupObjId($parent_cat_ref_id);
-				
-				include_once "Services/Object/classes/class.ilObjectServiceSettingsGUI.php";
-				if(ilContainer::_lookupContainerSetting(
-					$parent_cat_obj_id,
-					ilObjectServiceSettingsGUI::TAXONOMIES,
-					false
-					))
+			$res = array();
+			
+			// see ilTaxonomyBlockGUI::getActiveTaxonomies()
+						
+			// get all active taxonomies of parent objects
+			foreach($tree->getPathFull((int)$_REQUEST["ref_id"]) as $node)
+			{				
+				// currently only active for categories
+				if($node["type"] == "cat")
 				{
-					include_once "Services/Taxonomy/classes/class.ilObjTaxonomy.php";
-					return ilObjTaxonomy::getUsageOfObject($parent_cat_obj_id);					
+					include_once "Services/Object/classes/class.ilObjectServiceSettingsGUI.php";
+					if(ilContainer::_lookupContainerSetting(
+						$node["obj_id"],
+						ilObjectServiceSettingsGUI::TAXONOMIES,
+						false
+						))
+					{
+						include_once "Services/Taxonomy/classes/class.ilObjTaxonomy.php";
+						$tax_ids = ilObjTaxonomy::getUsageOfObject($node["obj_id"]);					
+						if(sizeof($tax_ids))
+						{
+							$res = array_merge($res, $tax_ids);
+						}
+					}
 				}
-			}						
+			}		
+			
+			if(sizeof($res))
+			{
+				return $res;
+			}
 		}
 	}
 	

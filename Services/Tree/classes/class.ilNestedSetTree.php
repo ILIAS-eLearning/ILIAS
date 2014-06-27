@@ -106,7 +106,7 @@ class ilNestedSetTree implements ilTreeImplementation
 			'BETWEEN '.$ilDB->quote($a_node['lft'],'integer').' '.
 			'AND '.$ilDB->quote($a_node['rgt'],'integer').' '.
 			"AND ".$this->getTree()->getTreeTable().".".$this->getTree()->getTreePk()." = ".$ilDB->quote($this->getTree()->getTreeId(),'integer').' '.
-			$type_str.
+			$type_str.' '.
 			"ORDER BY ".$this->getTree()->getTreeTable().".lft";
 		
 		#$GLOBALS['ilLog']->write(__METHOD__.'-----------------: '. $query);

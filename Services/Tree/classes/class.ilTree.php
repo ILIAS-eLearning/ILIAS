@@ -2655,5 +2655,50 @@ class ilTree
 				$a_force_join_reference, 
 				$a_fields);
 	}
+	
+	
+	/**
+	 * get all node ids in the subtree under specified node id, filter by object ids
+	 *
+	 * @param int $a_node_id
+	 * @param array $a_obj_ids
+	 * @param array $a_fields
+	 * @return	array	
+	 */
+	public function getSubTreeFilteredByObjIds($a_node_id, array $a_obj_ids, array $a_fields = array())
+	{
+		global $ilDB;
+		
+		$node = $this->getNodeData($a_node_id);
+		if(!sizeof($node))
+		{
+			return;
+		}
+		
+		$res = array();
+		
+		$query = $this->getTreeImplementation()->getSubTreeQuery($node, '', true, array($this->ref_pk));
+		
+		$fields = '*';
+		if(count($a_fields))
+		{
+			$fields = implode(',',$a_fields);
+		}
+		
+		$query = "SELECT ".$fields.
+			" FROM ".$this->getTreeTable().
+			" ".$this->buildJoin().
+			" WHERE ".$this->getTableReference().".".$this->ref_pk." IN (".$query.")".
+			" AND ".$ilDB->in($this->getObjectDataTable().".".$this->obj_pk, $a_obj_ids, "", "integer");
+		$set = $ilDB->query($query);
+		while($row = $ilDB->fetchAssoc($set))
+		{
+			$res[] = $row;
+		}
+		
+		return $res;
+	}
+	
+	
 } // END class.tree
 ?>

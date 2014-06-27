@@ -333,6 +333,33 @@ class ilTaxNodeAssignment
 		);
 	}
 	
+	/**
+	 * Find object which have assigned nodes
+	 * 
+	 * @param int $a_item_type
+	 * @param int $a_tax_id
+	 * @param array $a_node_ids
+	 * @return array
+	 */
+	static function findObjectsByNode($a_tax_id, array $a_node_ids, $a_item_type)
+	{
+		global $ilDB;
+		
+		$res = array();
+	
+		$set = $ilDB->query("SELECT * FROM tax_node_assignment".
+			" WHERE ".$ilDB->in("node_id", $a_node_ids, "", "integer").
+			" AND tax_id = ".$ilDB->quote($a_tax_id, "integer").
+			" AND item_type = ".$ilDB->quote($a_item_type, "text").
+			" ORDER BY order_nr ASC"
+			);
+		while($row = $ilDB->fetchAssoc($set))
+		{
+			$res[] = $row["obj_id"];
+		}
+		
+		return $res;
+	}
 }
 
 ?>
