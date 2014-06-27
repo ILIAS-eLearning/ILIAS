@@ -21,6 +21,7 @@ require_once './Modules/Test/classes/class.ilTestPlayerAbstractGUI.php';
  * @ilCtrl_Calls ilTestOutputGUI: ilTestSignatureGUI
  * @ilCtrl_Calls ilTestOutputGUI: ilAssQuestionPageGUI
  * @ilCtrl_Calls ilTestOutputGUI: ilTestSubmissionReviewGUI
+ * @ilCtrl_Calls ilTestOutputGUI: ilTestPasswordProtectionGUI
  */
 class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 {
@@ -68,6 +69,8 @@ class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		include_once "./Services/YUI/classes/class.ilYuiUtil.php";
 		ilYuiUtil::initConnectionWithAnimation();
 		
+		$this->handlePasswordProtectionRedirect();
+		
 		$cmd = $this->getCommand($cmd);
 		
 		switch($next_class)
@@ -103,6 +106,12 @@ class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 			case 'iltestsignaturegui':
 				require_once './Modules/Test/classes/class.ilTestSignatureGUI.php';
 				$gui = new ilTestSignatureGUI($this);
+				$ret = $this->ctrl->forwardCommand($gui);
+				break;
+			
+			case 'iltestpasswordprotectiongui':
+				require_once 'Modules/Test/classes/class.ilTestPasswordProtectionGUI.php';
+				$gui = new ilTestPasswordProtectionGUI($this->ctrl, $this->tpl, $this->lng, $this, $this->passwordChecker);
 				$ret = $this->ctrl->forwardCommand($gui);
 				break;
 

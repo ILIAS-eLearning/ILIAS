@@ -1416,3 +1416,7 @@ if( !$ilDB->tableExists('pg_amd_page_list') )
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#4239>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

@@ -945,7 +945,8 @@ assessment#:#tst_pass_scoring#:#Multiple Pass Scoring
 assessment#:#tst_passes#:#Test Passes
 assessment#:#tst_password_details#:#If you define a test password, all users with test access must enter this password to start the test.
 assessment#:#tst_password_entered_wrong_password#:#You cannot start the test because you entered the wrong test password!
-assessment#:#tst_password_introduction#:#This test can only be accessed with a test password. Please enter the test password to start the test
+assessment#:#tst_password_introduction#:#This test can only be accessed with a test password. Please enter the test password to start the test.
+assessment#:#tst_password_form#:#Enter Test Password
 assessment#:#tst_password#:#Test Password
 assessment#:#tst_percent_solved#:#Percent Solved
 assessment#:#tst_position#:#Question %s of %s

@@ -31,6 +31,11 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	var $endingTimeReached;
 
 	/**
+	 * @var ilTestPasswordChecker
+	 */
+	protected $passwordChecker;
+
+	/**
 	* ilTestOutputGUI constructor
 	*
 	* @param ilObjTest $a_object
@@ -39,6 +44,10 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	{
 		parent::ilTestServiceGUI($a_object);
 		$this->ref_id = $_GET["ref_id"];
+		
+		global $rbacsystem, $ilUser;
+		require_once 'Modules/Test/classes/class.ilTestPasswordChecker.php';
+		$this->passwordChecker = new ilTestPasswordChecker($rbacsystem, $ilUser, $this->object);
 	}
 
 	/**
@@ -442,46 +451,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	}
 
 	/**
-	 * Displays a password protection page when a test password is set
-	 *
-	 */
-	public function showPasswordProtectionPageCmd()
-	{
-		$template = new ilTemplate("tpl.il_as_tst_password_protection.html", TRUE, TRUE, "Modules/Test");
-		$template->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "checkPassword"));
-		$template->setVariable("PASSWORD_INTRODUCTION", $this->lng->txt("tst_password_introduction"));
-		$template->setVariable("TEXT_PASSWORD", $this->lng->txt("tst_password"));
-		$template->setVariable("SUBMIT", $this->lng->txt("submit"));
-		$this->tpl->setVariable($this->getContentBlockName(), $template->get());
-	}
-
-	/**
-	 * Check the password, a user entered for test access
-	 */
-	public function checkPasswordCmd()
-	{
-		if (strcmp($this->object->getPassword(), $_POST["password"]) == 0)
-		{
-			global $ilUser;
-			if ($_SESSION["AccountId"] != ANONYMOUS_USER_ID)
-			{
-				$ilUser->setPref("tst_password_".$this->object->getTestId(), $this->object->getPassword());
-				$ilUser->writePref("tst_password_".$this->object->getTestId(), $this->object->getPassword());
-			}
-			else
-			{
-				$_SESSION['tst_password_'.$this->object->getTestId()] = $this->object->getPassword();
-			}
-			$this->ctrl->redirect($this, 'startPlayer');
-		}
-		else
-		{
-			ilUtil::sendFailure($this->lng->txt("tst_password_entered_wrong_password"), true);
-			$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen"); 
-		}
-	}
-
-	/**
 	 * Sets a session variable with the test access code for an anonymous test user
 	 *
 	 * Sets a session variable with the test access code for an anonymous test user
@@ -509,11 +478,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
 			$this->handleUserSettings();
 
-			if( !$this->checkTestPassword() )
-			{
-				$this->ctrl->redirect($this, 'showPasswordProtectionPage');
-			}
-
 			$this->ctrl->redirect($this, "initTest");
 		}
 		else
@@ -522,7 +486,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		}
 	}
 
-	protected function getLockParameter()
+	public function getLockParameter()
 	{
 		if( isset($_POST['lock']) && strlen($_POST['lock']) )
 		{
@@ -545,38 +509,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
 		$this->ctrl->setParameter($this, "activecommand", "resume");
 		$this->ctrl->redirect($this, "redirectQuestion");
-	}
-
-	protected function checkTestPassword()
-	{
-		global $rbacsystem, $ilUser, $ilCtrl;
-
-		if( !strlen($this->object->getPassword()) )
-		{
-			return true;
-		}
-
-		if( $rbacsystem->checkAccess("write", $this->object->getRefId()) )
-		{
-			return true;
-		}
-
-		$pwd = '';
-		if( $_SESSION["AccountId"] != ANONYMOUS_USER_ID )
-		{
-			$pwd = $ilUser->getPref("tst_password_".$this->object->getTestId());
-		}
-		elseif( isset($_SESSION['tst_password_'.$this->object->getTestId()]) )
-		{
-			$pwd = $_SESSION['tst_password_'.$this->object->getTestId()];
-		}
-
-		if( $pwd == $this->object->getPassword() )
-		{
-			return true;
-		}
-
-		return false;
 	}
 
 	/**
@@ -1954,5 +1886,24 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			$this->tpl->setVariable("KIOSK_HEAD", $head);
 			$this->tpl->parseCurrentBlock();
 		}
+	}
+
+	protected function handlePasswordProtectionRedirect()
+	{
+		if( $this->ctrl->getNextClass() == 'iltestpasswordprotectiongui' )
+		{
+			return;
+		}
+		
+		if( !$this->passwordChecker->isPasswordProtectionPageRedirectRequired() )
+		{
+			return;
+		}
+		
+		$this->ctrl->setParameter($this, 'lock', $this->getLockParameter());
+		
+		$nextCommand = $this->ctrl->getCmdClass().'::'.$this->ctrl->getCmd();
+		$this->ctrl->setParameterByClass('ilTestPasswordProtectionGUI', 'nextCommand', $nextCommand);
+		$this->ctrl->redirectByClass('ilTestPasswordProtectionGUI', 'showPasswordForm');
 	}
 }

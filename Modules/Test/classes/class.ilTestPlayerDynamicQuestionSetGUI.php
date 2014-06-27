@@ -23,6 +23,7 @@ require_once 'Modules/Test/classes/class.ilTestPlayerAbstractGUI.php';
  * @ilCtrl_Calls ilTestPlayerDynamicQuestionSetGUI: ilTestDynamicQuestionSetFilterStatisticTableGUI
  * @ilCtrl_Calls ilTestPlayerDynamicQuestionSetGUI: ilToolbarGUI
  * @ilCtrl_Calls ilTestPlayerDynamicQuestionSetGUI: ilTestSubmissionReviewGUI
+ * @ilCtrl_Calls ilTestPlayerDynamicQuestionSetGUI: ilTestPasswordProtectionGUI
  */
 class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 {
@@ -78,6 +79,8 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 			ilOverlayGUI::initJavascript();
 		}
 		
+		$this->handlePasswordProtectionRedirect();
+		
 		$cmd = $this->ctrl->getCmd();
 		$nextClass = $this->ctrl->getNextClass($this);
 		
@@ -109,6 +112,12 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 				
 				$this->ctrl->forwardCommand( $this->buildQuestionSetFilterStatisticTableGUI() );
 				
+				break;
+
+			case 'iltestpasswordprotectiongui':
+				require_once 'Modules/Test/classes/class.ilTestPasswordProtectionGUI.php';
+				$gui = new ilTestPasswordProtectionGUI($this->ctrl, $this->tpl, $this->lng, $this, $this->passwordChecker);
+				$ret = $this->ctrl->forwardCommand($gui);
 				break;
 			
 			default:

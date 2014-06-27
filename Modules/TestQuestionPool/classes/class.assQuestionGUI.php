@@ -1287,7 +1287,12 @@ abstract class assQuestionGUI
 					switch ($solution_array["type"])
 					{
 						case "file":
-							$this->object->saveSuggestedSolution("file", "", 0, array("name" => $solution_array["value"]["name"], "type" => $solution_array["value"]["type"], "size" => $solution_array["value"]["size"], "filename" => $_POST["filename"]));
+							$this->object->saveSuggestedSolution("file", "", 0, array(
+								"name" => $solution_array["value"]["name"],
+								"type" => $solution_array["value"]["type"],
+								"size" => $solution_array["value"]["size"],
+								"filename" => $_POST["filename"]
+							));
 							break;
 						case "text":
 							$this->object->saveSuggestedSolution("text", "", 0, $solution_array["value"]);
