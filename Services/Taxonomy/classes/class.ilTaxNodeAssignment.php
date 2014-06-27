@@ -21,7 +21,7 @@ class ilTaxNodeAssignment
 	 *
 	 * @param string $a_component_id component id (e.g. "glo" for Modules/Glossary)
 	 * @param int $a_obj_id repository object id of the object that is responsible for the assignment
-	 * @param string $a_item_type item type (e.g. "term", must be unique component wide)
+	 * @param string $a_item_type item type (e.g. "term", must be unique component wide) [use "obj" if repository object wide taxonomies!]
 	 * @param int $a_tax_id taxonomy id
 	 * @throws ilTaxonomyException
 	 */

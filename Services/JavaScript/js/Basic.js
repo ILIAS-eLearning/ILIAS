@@ -492,19 +492,13 @@ il.Util.addOnLoad(function () {
 			t = $(this).get(0).tagName;
 			ev = (t == 'FORM') ? 'submit' : 'click';
 			$(this).on(ev,function(e) {
-				var $el = $(this);
+				var $el = $(this);	
 				
-				// If submit button has been tagged do not prevent anything
-				var found = false;
-				$.each($el.attr('class').split(/\s+/), function(index, item) {
-					if (item === 'omitPreventDoubleSubmission') {
-					   found = true;
-					}
-				});				
-				if (found === true) {
+				// If submit button has been tagged do not prevent anything						
+				if ($el.hasClass('omitPreventDoubleSubmission')) {
 					return this;
 				}
-
+															
 				if ($el.data('submitted') === true) {
 					// Previously submitted - don't submit again
 					e.preventDefault();
