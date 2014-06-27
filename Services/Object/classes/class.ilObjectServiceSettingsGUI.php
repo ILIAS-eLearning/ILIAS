@@ -17,6 +17,7 @@ class ilObjectServiceSettingsGUI
 	const NEWS_VISIBILITY = 'cont_show_news';
 	const AUTO_RATING_NEW_OBJECTS = 'cont_auto_rate_new_obj';
 	const INFO_TAB_VISIBILITY = 'cont_show_info_tab';
+	const TAXONOMIES = 'cont_taxonomies';
 	
 	private $gui = null;
 	private $modes = array();
@@ -132,6 +133,19 @@ class ilObjectServiceSettingsGUI
 			$form->addItem($rate);			
 		}
 		
+		// taxonomies
+		if(in_array(self::TAXONOMIES, $services))
+		{	
+			$tax = new ilCheckboxInputGUI($GLOBALS['lng']->txt('obj_tool_setting_taxonomies'), self::TAXONOMIES);
+			$tax->setValue(1);		
+			$tax->setChecked(ilContainer::_lookupContainerSetting(
+						$a_obj_id,
+						self::TAXONOMIES,
+						false
+				));
+			$form->addItem($tax);			
+		}
+		
 		return $form;
 	}
 	
@@ -173,6 +187,13 @@ class ilObjectServiceSettingsGUI
 		{
 			include_once './Services/Container/classes/class.ilContainer.php';
 			ilContainer::_writeContainerSetting($a_obj_id,self::AUTO_RATING_NEW_OBJECTS,(int) $form->getInput(self::AUTO_RATING_NEW_OBJECTS));
+		}
+		
+		// taxonomies
+		if(in_array(self::TAXONOMIES, $services))
+		{
+			include_once './Services/Container/classes/class.ilContainer.php';
+			ilContainer::_writeContainerSetting($a_obj_id,self::TAXONOMIES,(int) $form->getInput(self::TAXONOMIES));
 		}
 		
 		return true;

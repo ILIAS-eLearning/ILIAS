@@ -25,12 +25,14 @@ class ilObjTaxonomyGUI extends ilObject2GUI
 	 */
 	function __construct($a_id = 0)
 	{
-		global $ilCtrl;
+		global $ilCtrl, $lng;
 		
 		parent::__construct($a_id, ilObject2GUI::OBJECT_ID);
 		
 		$ilCtrl->saveParameter($this, "tax_node");
 		$ilCtrl->saveParameter($this, "tax_id");
+		
+		$lng->loadLanguageModule("tax");
 	}
 	
 	/**

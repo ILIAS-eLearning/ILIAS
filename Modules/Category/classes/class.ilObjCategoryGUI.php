@@ -14,6 +14,7 @@ require_once "./Services/Container/classes/class.ilContainerGUI.php";
 * @ilCtrl_Calls ilObjCategoryGUI: ilPermissionGUI, ilContainerPageGUI, ilContainerLinkListGUI, ilObjUserGUI, ilObjUserFolderGUI
 * @ilCtrl_Calls ilObjCategoryGUI: ilInfoScreenGUI, ilObjStyleSheetGUI, ilCommonActionDispatcherGUI, ilObjectTranslationGUI
 * @ilCtrl_Calls ilObjCategoryGUI: ilColumnGUI, ilObjectCopyGUI, ilUserTableGUI, ilDidacticTemplateGUI, ilExportGUI
+* @ilCtrl_Calls ilObjCategoryGUI: ilObjTaxonomyGUI
 * 
 * @ingroup ModulesCategory
 */
@@ -185,6 +186,17 @@ class ilObjCategoryGUI extends ilContainerGUI
 				$transgui = new ilObjectTranslationGUI($this);
 				$this->ctrl->forwardCommand($transgui);
 				break;
+			
+			case 'ilobjtaxonomygui':
+				$this->checkPermissionBool("write");
+				$this->prepareOutput();				
+				$this->tabs_gui->setTabActive("obj_tool_setting_taxonomies");
+				include_once("./Services/Taxonomy/classes/class.ilObjTaxonomyGUI.php");
+				$tax = new ilObjTaxonomyGUI();
+				$tax->setAssignedObject($this->object->getId());
+				$tax->setMultiple(true);
+				$this->ctrl->forwardCommand($tax);				
+				break;
 
 			default:
 				if ($cmd == "infoScreen")
@@ -274,7 +286,19 @@ class ilObjCategoryGUI extends ilContainerGUI
 			$tabs_gui->addTarget("settings",
 				$this->ctrl->getLinkTarget($this, "edit"), "edit", get_class($this)
 				, "", $force_active);
-		}
+			
+			include_once "Services/Object/classes/class.ilObjectServiceSettingsGUI.php";
+			if(ilContainer::_lookupContainerSetting(
+						$this->object->getId(),
+						ilObjectServiceSettingsGUI::TAXONOMIES,
+						false
+				))
+			{
+				$tabs_gui->addTarget("obj_tool_setting_taxonomies",
+					$this->ctrl->getLinkTargetByClass("ilObjTaxonomyGUI", ""), "", "ilObjTaxonomyGUI"
+					, "", $force_active);
+			}
+		}				
 
 		include_once './Services/User/classes/class.ilUserAccountSettings.php';
 		if(
@@ -620,7 +644,8 @@ class ilObjCategoryGUI extends ilContainerGUI
 				$form,
 				array(
 					ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY,
-					ilObjectServiceSettingsGUI::NEWS_VISIBILITY
+					ilObjectServiceSettingsGUI::NEWS_VISIBILITY,
+					ilObjectServiceSettingsGUI::TAXONOMIES
 				)
 			);
 
@@ -701,7 +726,8 @@ class ilObjCategoryGUI extends ilContainerGUI
 					$form,
 					array(
 						ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY,
-						ilObjectServiceSettingsGUI::NEWS_VISIBILITY
+						ilObjectServiceSettingsGUI::NEWS_VISIBILITY,
+						ilObjectServiceSettingsGUI::TAXONOMIES
 					)
 				);
 				
