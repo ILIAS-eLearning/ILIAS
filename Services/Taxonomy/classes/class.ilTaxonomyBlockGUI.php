@@ -184,13 +184,21 @@ class ilTaxonomyBlockGUI extends ilBlockGUI
 			$matching = $tree->getSubTreeFilteredByObjIds($this->parent_ref_id, $obj_ids, $fields);
 			if(sizeof($matching))
 			{				
+				// :TODO: not sure if this makes sense...
+				include_once "Services/Object/classes/class.ilObjectListGUIPreloader.php";
+				$preloader = new ilObjectListGUIPreloader(ilObjectListGUI::CONTEXT_REPOSITORY);
+				
 				foreach($matching as $item)
-				{					
+				{								
 					if($ilAccess->checkAccess("read", "", $item["ref_id"]))
 					{
 						$res[] = $item;
+						
+						$preloader->addItem($item["obj_id"], $item["type"], $item["ref_id"]);					
 					}
-				}								
+				}	
+				
+				$preloader->preload();
 			}			
 		}
 		
