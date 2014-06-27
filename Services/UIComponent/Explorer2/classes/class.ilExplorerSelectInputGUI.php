@@ -196,8 +196,8 @@ abstract class ilExplorerSelectInputGUI extends ilFormPropertyGUI implements ilT
 		$tpl->setVariable("EXPL", $this->explorer_gui->getHTML());
 		
 		$top_tb = new ilToolbarGUI();
-		$top_tb->addButton($lng->txt("select"), "#", "", "", "", "", "submit ilExplSelectInputButS");
-		$top_tb->addButton($lng->txt("cancel"), "#", "", "", "", "", "submit ilExplSelectInputButC");
+		$top_tb->addButton($lng->txt("select"), "#", "", "", "", "", "submit omitPreventDoubleSubmission ilExplSelectInputButS");
+		$top_tb->addButton($lng->txt("cancel"), "#", "", "", "", "", "submit omitPreventDoubleSubmission ilExplSelectInputButC");
 		$tpl->setVariable("TOP_TB", $top_tb->getHTML());
 		$tpl->setVariable("BOT_TB", $top_tb->getHTML());
 

@@ -8,6 +8,8 @@
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
 * @package ilias-core
 * @version $Id$
+* 
+* @ilCtrl_Calls ilMDEditorGUI: ilFormPropertyDispatchGUI
 */
 include_once 'Services/MetaData/classes/class.ilMD.php';
 include_once 'Services/MetaData/classes/class.ilMDUtilSelect.php';
@@ -56,6 +58,15 @@ class ilMDEditorGUI
 		$cmd = $this->ctrl->getCmd();
 		switch($next_class)
 		{
+			case 'ilformpropertydispatchgui':
+				// see ilTaxMDGUI / ilTaxSelectInputGUI
+				include_once './Services/Form/classes/class.ilFormPropertyDispatchGUI.php';
+				$form_prop_dispatch = new ilFormPropertyDispatchGUI();
+				$this->initFilter();
+				$item = $this->getFilterItemByPostVar($_GET["postvar"]);
+				$form_prop_dispatch->setItem($item);
+				return $this->ctrl->forwardCommand($form_prop_dispatch);
+			
 			default:
 				if(!$cmd)
 				{
@@ -400,7 +411,7 @@ class ilMDEditorGUI
 	 */
 	public function initQuickEditForm()
 	{
-		global $lng, $ilCtrl;
+		global $lng, $ilCtrl, $tree;
 	
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
@@ -536,7 +547,12 @@ class ilMDEditorGUI
 			$tlt->setValueByLOMDuration($edu->getTypicalLearningTime());
 		}
 		$this->form->addItem($tlt);
-
+		
+		// (parent) container taxonomies?
+		include_once "Services/Taxonomy/classes/class.ilTaxMDGUI.php";		
+		$tax_gui = new ilTaxMDGUI($this->md_obj->getRBACId(),$this->md_obj->getObjId(),$this->md_obj->getObjType());
+		$tax_gui->addToMDForm($this->form);
+		
 		$this->form->addCommandButton("updateQuickEdit", $lng->txt("save"));
 		$this->form->setTitle($this->lng->txt("meta_quickedit"));
 		$this->form->setFormAction($ilCtrl->getFormAction($this));
@@ -766,6 +782,11 @@ class ilMDEditorGUI
 			}
 		}
 		$this->callListeners('Lifecycle');
+		
+		// (parent) container taxonomies?
+		include_once "Services/Taxonomy/classes/class.ilTaxMDGUI.php";		
+		$tax_gui = new ilTaxMDGUI($this->md_obj->getRBACId(),$this->md_obj->getObjId(),$this->md_obj->getObjType());
+		$tax_gui->updateFromMDForm();
 		
 		// Redirect here to read new title and description
 		// Otherwise ('Lifecycle' 'technical' ...) simply call listSection()
