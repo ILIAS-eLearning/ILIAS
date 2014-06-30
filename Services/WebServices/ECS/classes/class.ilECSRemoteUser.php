@@ -31,7 +31,7 @@ class ilECSRemoteUser
 		global $ilDB;
 		
 		$query = 'SELECT eru_id FROM ecs_remote_user '.
-				'WHERE server_id = '.$ilDB->quote($this->getServerId(),'integer').' '.
+				'WHERE sid = '.$ilDB->quote($this->getServerId(),'integer').' '.
 				'AND mid = '.$ilDB->quote($this->getMid(),'integer').' '.
 				'AND usr_id = '.$ilDB->quote($this->getUserId(),'integer');
 		$res = $ilDB->query($query);
@@ -100,7 +100,7 @@ class ilECSRemoteUser
 				'mid = '.$GLOBALS['ilDB']->quote($this->getMid(),'integer').', '.
 				'usr_id = '.$GLOBALS['ilDB']->quote($this->getUserId(),'text').', '.
 				'remote_usr_id = '.$GLOBALS['ilDB']->quote($this->getRemoteUserId(),'text').' '.
-				'WHERE eur_id = '.$GLOBALS['ilDB']->quote($this->getId());
+				'WHERE eru_id = '.$GLOBALS['ilDB']->quote($this->getId());
 		$GLOBALS['ilDB']->manipulate($query);
 		return true;
 	}
@@ -112,7 +112,7 @@ class ilECSRemoteUser
 	{
 		
 		$next_id = $GLOBALS['ilDB']->nextId('ecs_remote_user');
-		$query = 'INSERT INTO ecs_remote_user (eur_id, sid, mid, usr_id, remote_usr_id) '.
+		$query = 'INSERT INTO ecs_remote_user (eru_id, sid, mid, usr_id, remote_usr_id) '.
 				'VALUES( '.
 				$GLOBALS['ilDB']->quote($next_id).', '.
 				$GLOBALS['ilDB']->quote($this->getServerId(),'integer').', '.

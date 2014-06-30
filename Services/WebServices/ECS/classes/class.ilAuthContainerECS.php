@@ -192,6 +192,10 @@ class ilAuthContainerECS extends Auth_Container
 		 	include_once('./Services/WebServices/ECS/classes/class.ilECSConnector.php');
 	 		$connector = new ilECSConnector($this->getCurrentServer());
 	 		$details = $connector->getAuth($hash,TRUE);
+			
+			$GLOBALS['ilLog']->write(__METHOD__.': '.print_r($details,TRUE));
+			$GLOBALS['ilLog']->write(__METHOD__.': Token created for mid '. $details->getFirstReceiver());
+			
 			$this->setMID($details->getFirstReceiver());
 		}
 	 	catch(ilECSConnectorException $e)
@@ -199,8 +203,7 @@ class ilAuthContainerECS extends Auth_Container
 	 		$ilLog->write(__METHOD__.': Receiving mid failed with message: '.$e->getMessage());
 	 		return false;
 	 	}
-		
-		
+		return TRUE;
 	}
 	
 	/** 
@@ -234,7 +237,10 @@ class ilAuthContainerECS extends Auth_Container
 		$remote->setServerId($this->getCurrentServer()->getServerId());
 		$remote->setMid($this->getMID());
 		$remote->setRemoteUserId($user->getImportId());
-		$remote->setUserId($usr_id);
+		$remote->setUserId(ilObjUser::_lookupId($username));
+		
+		$GLOBALS['ilLog']->write(__METHOD__.': Current username '.$username);
+		
 		if(!$remote->exists())
 		{
 			$remote->create();

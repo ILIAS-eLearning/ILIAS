@@ -1598,5 +1598,54 @@ if(!$ilDB->tableExists('ecs_remote_user') )
 	$ilDB->createSequence('ecs_remote_user');
 }
 ?>
+<#4246>
+<?php
 
+if($ilDB->tableExists('ecs_remote_user'))
+{
+	$ilDB->dropTable('ecs_remote_user');
+}
+
+?>
+
+<#4247>
+<?php
+if(!$ilDB->tableExists('ecs_remote_user') )
+{
+	$ilDB->createTable('ecs_remote_user', array(
+		'eru_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'sid' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'mid' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'usr_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'remote_usr_id' => array(
+			'type' => 'text',
+			'length' => 50,
+			'notnull' => false,
+			'fixed' => TRUE
+		)
+	));
+	$ilDB->addPrimaryKey('ecs_remote_user', array('eru_id'));
+	$ilDB->createSequence('ecs_remote_user');
+}
+?>
 

@@ -169,7 +169,7 @@ class ilECSConnector
 	 * @param auth hash (transfered via GET)
 	 * @throws ilECSConnectorException 
 	 */
-	public function getAuth($a_hash)
+	public function getAuth($a_hash, $a_details_only = FALSE)
 	{
 		global $ilLog;
 		
@@ -180,13 +180,19 @@ class ilECSConnector
 		}
 		
 		$this->path_postfix = '/sys/auths/'.$a_hash;
+		
+		if($a_details_only)
+		{
+			$this->path_postfix .= ('/details');
+		}
+		
 
 	 	try 
 	 	{
 	 		$this->prepareConnection();
 			$res = $this->call();
 			$info = $this->curl->getInfo(CURLINFO_HTTP_CODE);
-	
+			
 			$ilLog->write(__METHOD__.': Checking HTTP status...');
 			if($info != self::HTTP_CODE_OK)
 			{
@@ -194,7 +200,17 @@ class ilECSConnector
 				throw new ilECSConnectorException('Received HTTP status code: '.$info);
 			}
 			$ilLog->write(__METHOD__.': ... got HTTP 200 (ok)');
-			return new ilECSResult($res);
+			
+			$ecs_result = new ilECSResult($res);
+			// Return ECSEContentDetails for details switch
+			if($a_details_only)
+			{
+				include_once './Services/WebServices/ECS/classes/class.ilECSEContentDetails.php';
+				$details = new ilECSEContentDetails();
+				$details->loadFromJson($ecs_result->getResult());
+				return $details;
+			}
+			return $ecs_result;
 	 	}
 	 	catch(ilCurlConnectionException $exc)
 	 	{
