@@ -1169,18 +1169,11 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			if (!$executable["executable"]) $hide_details = FALSE;
 		}
 
-		if (($this->object->getNrOfTries() == 1) && (!$hide_details))
-		{
-			$pass = 0;
-		}
-		else
-		{
-			$template->setCurrentBlock("pass_overview");
-			$overview = $this->getPassOverview($active_id, "iltestevaluationgui", "outUserPassDetails", FALSE, $hide_details);
-			$template->setVariable("PASS_OVERVIEW", $overview);
-			$template->setVariable("TEXT_RESULTS", $this->lng->txt("tst_results_overview"));
-			$template->parseCurrentBlock();
-		}
+		$template->setCurrentBlock("pass_overview");
+		$overview = $this->getPassOverview($active_id, "iltestevaluationgui", "outUserPassDetails", FALSE, $hide_details);
+		$template->setVariable("PASS_OVERVIEW", $overview);
+		$template->setVariable("TEXT_RESULTS", $this->lng->txt("tst_results_overview"));
+		$template->parseCurrentBlock();
 
 		$statement = $this->getFinalStatement($active_id);
 		$user_data = $this->getResultsUserdata($testSession, $active_id, TRUE);
