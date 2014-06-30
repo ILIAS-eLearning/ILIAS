@@ -834,7 +834,6 @@ class ilParticipants
 		ilWaitingList::deleteUserEntry($a_usr_id,$this->obj_id);
 
 		if($this->type == 'crs') {
-		 	// Add event: used for ecs accounts
 			$ilLog->write(__METHOD__.': Raise new event: Modules/Course addParticipant');
 			$ilAppEventHandler->raise(
 					"Modules/Course", 

@@ -671,7 +671,8 @@ abstract class ilECSObjectSettings
 		include_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');
 		include_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
 		$mappings = ilECSDataMappingSettings::getInstanceByServerId($a_server->getServerId());
-		$values = ilAdvancedMDValues::_getValuesByObjId($this->content_obj->getId());
+		#$values = ilAdvancedMDValues::_getValuesByObjId($this->content_obj->getId());
+		$values = array();
 
 		foreach($a_definition as $id => $type)
 		{

@@ -48,7 +48,7 @@ class ilECSEventQueueReader
 	const TYPE_REMOTE_WIKI = 'rwik';
 	const TYPE_REMOTE_TEST = 'rtst';
 	const TYPE_COURSE_URLS = 'course_urls';
-	const TYPE_ENROLMENT_STATUS = 'enrolment_status';
+	const TYPE_ENROLMENT_STATUS = 'member_status';
 	
 	protected $log;
 	protected $db;
@@ -402,8 +402,6 @@ class ilECSEventQueueReader
 	{
 		global $ilDB;
 
-		$GLOBALS['ilLog']->write('--------------------------- Writing new event for '. $ev->getRessourceType());
-
 		// this should probably be moved elsewhere
 		switch($ev->getRessourceType()) 
 		{
@@ -455,7 +453,7 @@ class ilECSEventQueueReader
 				$type = self::TYPE_COURSE_URLS;
 				break;
 			
-			case 'enrolment_status':
+			case 'member_status':
 				$type = self::TYPE_ENROLMENT_STATUS;
 				break;
 		}

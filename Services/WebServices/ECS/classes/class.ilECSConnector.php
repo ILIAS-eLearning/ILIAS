@@ -560,6 +560,8 @@ class ilECSConnector
 	 		$this->prepareConnection();
 			$res = $this->call();
 
+ 			$this->curl->setOpt(CURLOPT_HTTPHEADER,array(0 => 'X-EcsQueryStrings: sender=true'));
+			
 			// Checking status code
 			$info = $this->curl->getInfo(CURLINFO_HTTP_CODE);
 			if($info != self::HTTP_CODE_OK)

@@ -3,6 +3,7 @@
 
 include_once './Services/WebServices/ECS/classes/class.ilECSConnector.php';
 include_once './Services/WebServices/ECS/classes/class.ilECSConnectorException.php';
+include_once './Services/WebServices/ECS/classes/Connectors/class.ilECSEnrolmentStatus.php';
 
 /**
  * Connector for course member ressource
@@ -10,7 +11,7 @@ include_once './Services/WebServices/ECS/classes/class.ilECSConnectorException.p
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  * $Id$
  */
-class ilECSCourseMemberConnector extends ilECSConnector
+class ilECSEnrolmentStatusConnector extends ilECSConnector
 {
 
 	/**
@@ -25,13 +26,15 @@ class ilECSCourseMemberConnector extends ilECSConnector
 
 	/**
 	 * Get single directory tree
-	 * @return array an array of ecs cms directory tree entries
+	 * @return mixed object of EContentDetails or object of ECSEnrolmentStatus
 	 */
-	public function getCourseMember($course_member_id,$a_details = false)
+	public function getEnrolmentStatus($a_enrole_id = 0,$a_details = false)
 	{
-		$this->path_postfix = '/campusconnect/course_members/'. (int) $course_member_id;
-		
-		if($a_details and $course_member_id)
+		if($a_enrole_id)
+		{
+			$this->path_postfix = '/campusconnect/member_status/'. (int) $a_enrole_id;
+		}
+		if($a_details and $a_enrole_id)
 		{
 			$this->path_postfix .= '/details';
 		}
@@ -59,7 +62,6 @@ class ilECSCourseMemberConnector extends ilECSConnector
 			else
 			{
 				$ecs_result = new ilECSResult($res);
-				
 			}
 			
 			// Return ECSEContentDetails for details switch
@@ -71,13 +73,70 @@ class ilECSCourseMemberConnector extends ilECSConnector
 				$details->loadFromJson($ecs_result->getResult());
 				return $details;
 			}
-			
-			return $ecs_result->getResult();
+			else
+			{
+				include_once './Services/WebServices/ECS/classes/Connectors/class.ilECSEnrolmentStatus.php';
+				$enrolment = new ilECSEnrolmentStatus();
+				$enrolment->loadFromJson($ecs_result->getResult());
+				return $enrolment;
+			}
 		}
 		catch(ilCurlConnectionException $e)	
 		{
 	 		throw new ilECSConnectorException('Error calling ECS service: '.$e->getMessage());
 		}
+	}
+	
+	
+	/**
+	 * Add new enrolment status
+	 */
+	public function addEnrolmentStatus(ilECSEnrolmentStatus $enrolment, $a_target_mid)
+	{
+		global $ilLog;
+		
+		$ilLog->write(__METHOD__.': Add new enrolment status');
+
+	 	$this->path_postfix = '/campusconnect/member_status';
+	 	
+	 	try 
+	 	{
+	 		$this->prepareConnection();
+
+			$this->addHeader('Content-Type', 'application/json');
+			$this->addHeader('Accept', 'application/json');
+			$this->addHeader(ilECSConnector::HEADER_MEMBERSHIPS, $a_target_mid);
+			#$this->addHeader(ilECSConnector::HEADER_MEMBERSHIPS, 1);
+
+			$this->curl->setOpt(CURLOPT_HTTPHEADER, $this->getHeader());
+	 		$this->curl->setOpt(CURLOPT_POST,true);
+	 		$this->curl->setOpt(CURLOPT_POSTFIELDS,json_encode($enrolment));
+			$ret = $this->call();
+
+			$info = $this->curl->getInfo(CURLINFO_HTTP_CODE);
+	
+			$ilLog->write(__METHOD__.': Checking HTTP status...');
+			if($info != self::HTTP_CODE_CREATED)
+			{
+				$ilLog->write(__METHOD__.': Cannot create auth resource, did not receive HTTP 201. ');
+				$ilLog->write(__METHOD__.': POST was: '.print_r($enrolment,TRUE));
+				$ilLog->write(__METHOD__.': HTTP code: '.$info);
+				throw new ilECSConnectorException('Received HTTP status code: '.$info);
+			}
+			$ilLog->write(__METHOD__.': ... got HTTP 201 (created)');
+
+			$result = new ilECSResult($ret);
+			$auth = $result->getResult();
+
+			$ilLog->write(__METHOD__.': ... got hash: '.$auth->hash);
+
+			return $auth->hash;
+	 	}
+	 	catch(ilCurlConnectionException $exc)
+	 	{
+	 		throw new ilECSConnectorException('Error calling ECS service: '.$exc->getMessage());
+	 	}
+
 	}
 }
 ?>

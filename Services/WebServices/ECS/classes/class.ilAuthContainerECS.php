@@ -78,6 +78,11 @@ class ilAuthContainerECS extends Auth_Container
 	{
 		return $this->mid;	 	
 	}
+	
+	public function setMID($a_mid)
+	{
+		$this->mid = $a_mid;
+	}
 
 	/**
 	 * Set current server
@@ -174,13 +179,28 @@ class ilAuthContainerECS extends Auth_Container
 			$auths = $res->getResult();
 			$this->abreviation = $auths->abbr;
 			$ilLog->write(__METHOD__.': Got abr: '.$this->abreviation);
-		 	return true;
 	 	}
 	 	catch(ilECSConnectorException $e)
 	 	{
 	 		$ilLog->write(__METHOD__.': Authentication failed with message: '.$e->getMessage());
 	 		return false;
 	 	}
+		
+		// read current mid
+		try
+		{
+		 	include_once('./Services/WebServices/ECS/classes/class.ilECSConnector.php');
+	 		$connector = new ilECSConnector($this->getCurrentServer());
+	 		$details = $connector->getAuth($hash,TRUE);
+			$this->setMID($details->getFirstReceiver());
+		}
+	 	catch(ilECSConnectorException $e)
+	 	{
+	 		$ilLog->write(__METHOD__.': Receiving mid failed with message: '.$e->getMessage());
+	 		return false;
+	 	}
+		
+		
 	}
 	
 	/** 
@@ -207,6 +227,18 @@ class ilAuthContainerECS extends Auth_Container
 		include_once './Services/WebServices/ECS/classes/class.ilECSImport.php';
 		$import = new ilECSImport($this->getCurrentServer()->getServerId(), $usr_id);
 		$import->save();
+		
+		// Store remote user data
+		include_once './Services/WebServices/ECS/classes/class.ilECSRemoteUser.php';
+		$remote = new ilECSRemoteUser();
+		$remote->setServerId($this->getCurrentServer()->getServerId());
+		$remote->setMid($this->getMID());
+		$remote->setRemoteUserId($user->getImportId());
+		$remote->setUserId($usr_id);
+		if(!$remote->exists())
+		{
+			$remote->create();
+		}
 		
 		$a_auth->setAuth($username);
 		$this->log->write(__METHOD__.': Login succesesful');

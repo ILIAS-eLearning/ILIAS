@@ -589,7 +589,7 @@ class ilECSSetting
 	 */
 	public function getUserRecipients()
 	{
-	 	return explode(',',$this->user_recipients);
+	 	return explode(',',(string) $this->user_recipients);
 	}
 	
 	/** 

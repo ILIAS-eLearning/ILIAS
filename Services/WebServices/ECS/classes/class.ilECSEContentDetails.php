@@ -120,6 +120,19 @@ class ilECSEContentDetails
 	{
 		return (array) $this->receivers;
 	}
+	
+	/**
+	 * Get first receiver
+	 * @return int
+	 */
+	public function getFirstReceiver()
+	{
+		foreach ($this->getReceivers() as $mid)
+		{
+			return $mid;
+		}
+		return 0;
+	}
 
 	/**
 	 * Get receiver info

@@ -66,7 +66,7 @@ class ilECSAppEventListener implements ilAppEventListener
 					case 'addSubscriber':
 					case 'addParticipant':
 						
-						if(ilObjUser::_lookupAuthMode($a_parameter['usr_id']) == 'ecs')
+						if((ilObjUser::_lookupAuthMode($a_parameter['usr_id']) == 'ecs') or 1)
 						{
 							if(!$user = ilObjectFactory::getInstanceByObjId($a_parameter['usr_id']))
 							{
@@ -90,6 +90,8 @@ class ilECSAppEventListener implements ilAppEventListener
 								$user->update();
 							}
 							self::_sendNotification($settings,$user);
+							
+							self::updateEnrolmentStatus($a_parameter['obj_id'],$user);
 							unset($user);
 						}
 						break;
@@ -152,6 +154,28 @@ class ilECSAppEventListener implements ilAppEventListener
 			return true;
 		}
 		
+	}
+	
+	
+	protected static function updateEnrolmentStatus($a_obj_id, ilObjUser $user)
+	{
+		include_once './Services/WebServices/ECS/classes/Connectors/class.ilECSEnrolmentStatus.php';
+		$enrol = new ilECSEnrolmentStatus();
+		$enrol->setId('il_'.$GLOBALS['ilSetting']->get('inst_id',0).'_'.ilObject::_lookupType($a_obj_id).'_'.$a_obj_id);
+		$enrol->setPersonId($user->getLogin());
+		$enrol->setPersonIdType('ecs_login');
+		$enrol->setStatus(ilECSEnrolmentStatus::STATUS_ACTIVE);
+		
+		try {
+			include_once './Services/WebServices/ECS/classes/Connectors/class.ilECSEnrolmentStatusConnector.php';
+			$con = new ilECSEnrolmentStatusConnector(ilECSSetting::getInstanceByServerId(1));
+			$con->addEnrolmentStatus($enrol,12);
+		}
+		catch(ilECSConnectorException $e)
+		{
+			$GLOBALS['ilLog']->write(__METHOD__.': update enrolment status faild with message: '. $e->getMessage());
+			return false;
+		}
 	}
 }
 ?>

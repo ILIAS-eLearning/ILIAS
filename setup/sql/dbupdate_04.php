@@ -1539,6 +1539,7 @@ if( !$ilDB->tableColumnExists('tst_tests', 'result_tax_filters') )
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+
 <#4243>
 <?php
 if( !$ilDB->tableColumnExists('tst_test_rnd_qst', 'src_pool_def_fi') )
@@ -1555,3 +1556,47 @@ if( !$ilDB->tableColumnExists('tst_test_rnd_qst', 'src_pool_def_fi') )
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+
+<#4245>
+<?php
+
+if(!$ilDB->tableExists('ecs_remote_user') )
+{
+	$ilDB->createTable('ecs_remote_user', array(
+		'eru_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'sid' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'mid' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'usr_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'remote_usr_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		)
+	));
+	$ilDB->addPrimaryKey('ecs_remote_user', array('eru_id'));
+	$ilDB->createSequence('ecs_remote_user');
+}
+?>
+
+
