@@ -548,6 +548,11 @@ $fields = array (
          "length" => 6,
          "notnull" => true
          ),
+     'username' => array(
+         'type' => 'text',
+         'length' => 100,
+         'notnull' => true
+         ),
      'email' => array(
          'type' => 'text',
          'length' => 100,
