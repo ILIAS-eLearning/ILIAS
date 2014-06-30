@@ -52,6 +52,7 @@ class ilTaxMDGUI
 				if($node["type"] == "cat")
 				{
 					include_once "Services/Object/classes/class.ilObjectServiceSettingsGUI.php";
+					include_once "Services/Container/classes/class.ilContainer.php";
 					if(ilContainer::_lookupContainerSetting(
 						$node["obj_id"],
 						ilObjectServiceSettingsGUI::TAXONOMIES,
