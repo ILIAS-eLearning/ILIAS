@@ -155,6 +155,7 @@ class gevOrgUnitUtils {
 		
 		$type_id = $this->gev_set->get($a_type);
 		$this->getOrgUnitInstance()->setOrgUnitTypeId($type_id);
+		$this->getOrgUnitInstance()->update();
 		$this->orgu_type = $a_type;
 	}
 	
@@ -225,7 +226,7 @@ class gevOrgUnitUtils {
 	
 	public function setContactPhone($a_phone) {
 		$this->checkTypeValid("setContactPhone");
-		$this->amd->setField($this->orgu_id, gevSettings::ORG_AMD_CONTACT_PHONE);
+		$this->amd->setField($this->orgu_id, gevSettings::ORG_AMD_CONTACT_PHONE, $a_phone);
 	}
 	
 	public function getContactFax() {
@@ -297,7 +298,7 @@ class gevOrgUnitUtils {
 	
 	public function setCostsPerCoffee($a_costs) {
 		$this->checkIsVenue("setCostsPerCoffee");
-		$this->amd->setField($this->orgu_id, gevSettings::ORG_AMD_COSTS_PER_COFFEE);
+		$this->amd->setField($this->orgu_id, gevSettings::ORG_AMD_COSTS_PER_COFFEE, $a_costs);
 	}
 	
 	public function getCostsPerDinner() {
