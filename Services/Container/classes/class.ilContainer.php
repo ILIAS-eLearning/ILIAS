@@ -226,6 +226,54 @@ class ilContainer extends ilObject
 		$res = $ilDB->manipulate($query);
 	}
 	
+	public static function _getContainerSettings($a_id)
+	{
+		global $ilDB;
+		
+		$res = array();
+		
+		$sql = "SELECT * FROM container_settings WHERE ".
+				" id = ".$ilDB->quote($a_id ,'integer');
+		$set = $ilDB->query($sql);
+		while($row = $ilDB->fetchAssoc($set))
+		{
+			$res[$row["keyword"]] = $row["value"];			
+		}		
+		
+		return $res;
+	}	
+	
+	public static function _exportContainerSettings(ilXmlWriter $a_xml, $a_obj_id)
+	{
+		// container settings
+		$settings = self::_getContainerSettings($a_obj_id);
+		if(sizeof($settings))
+		{
+			$a_xml->xmlStartTag("ContainerSettings");
+			
+			foreach($settings as $keyword => $value)
+			{
+				// :TODO: proper custom icon export/import
+				if(stristr($keyword, "icon"))
+				{
+					continue;
+				}
+				
+				$a_xml->xmlStartTag(
+					'ContainerSetting',
+					array(
+						'id' => $keyword,						
+					)
+				);
+				
+				$a_xml->xmlData($value);
+				$a_xml->xmlEndTag("ContainerSetting");
+			}
+			
+			$a_xml->xmlEndTag("ContainerSettings");
+		}		
+	}
+	
 	/**
 	* lookup icon path
 	*

@@ -44,6 +44,8 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 {
 	var $lng;
 	var $md_obj = null;			// current meta data object
+	
+	private $current_container_setting;
 
 	/**
 	* Constructor
@@ -322,7 +324,10 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 				$this->in_meta_data = true;
 				parent::handlerBeginTag($a_xml_parser,$a_name,$a_attribs);
 				break;
-
+			
+			case 'ContainerSetting':
+				$this->current_container_setting = $a_attribs['id'];				
+				break;
 		}
 	}
 
@@ -634,6 +639,16 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 			case 'MetaData':
 				$this->in_meta_data = false;
 				parent::handlerEndTag($a_xml_parser,$a_name);
+				break;
+			
+			case 'ContainerSetting':
+				if($this->current_container_setting)
+				{
+					ilContainer::_writeContainerSetting(
+						$this->course_obj->getId(), 
+						$this->current_container_setting, 
+						$this->cdata);
+				}
 				break;
 		}
 		$this->cdata = '';

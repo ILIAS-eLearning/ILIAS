@@ -44,6 +44,7 @@ class ilCategoryXmlParser extends ilSaxParser
 	private $parent_id = 0;
 	
 	private $current_translation = array();
+	private $current_container_setting;
 	
 
 	/**
@@ -150,6 +151,10 @@ class ilCategoryXmlParser extends ilSaxParser
 				}
 				$sort->update();
 				break;
+			
+			case 'ContainerSetting':
+				$this->current_container_setting = $a_attribs['id'];				
+				break;
 		}
 	}
 
@@ -195,6 +200,16 @@ class ilCategoryXmlParser extends ilSaxParser
 						(string) $this->current_translation['lang'],
 						(int) $this->current_translation['default']
 				);
+				break;
+			
+			case 'ContainerSetting':
+				if($this->current_container_setting)
+				{
+					ilContainer::_writeContainerSetting(
+						$this->getCategory()->getId(), 
+						$this->current_container_setting, 
+						$this->cdata);
+				}
 				break;
 		}
 		$this->cdata = '';

@@ -99,7 +99,7 @@ class ilCourseXMLWriter extends ilXmlWriter
 			$this->__buildWaitingList();
 			
 			$this->__buildSetting();
-	
+			ilContainer::_exportContainerSettings($this, $this->course_obj->getId());
 			$this->__buildFooter();
 		}
 		elseif($this->getMode() == self::MODE_EXPORT)
@@ -108,6 +108,7 @@ class ilCourseXMLWriter extends ilXmlWriter
 			$this->__buildMetaData();
 			$this->__buildAdvancedMetaData();
 			$this->__buildSetting();
+			ilContainer::_exportContainerSettings($this, $this->course_obj->getId());
 			$this->__buildFooter();
 		}
 	}
