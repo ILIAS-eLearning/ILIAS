@@ -194,10 +194,10 @@ class ilObjTestSettingsGeneralGUI
 		// determine wether question set type relating data is to be removed (questions/pools)
 		
 		$questionSetTypeRelatingDataCleanupRequired = false;
-		
+
+		$oldQuestionSetType = $this->testOBJ->getQuestionSetType();
 		if( $form->getItemByPostVar('question_set_type') instanceof ilFormPropertyGUI )
 		{
-			$oldQuestionSetType = $this->testOBJ->getQuestionSetType();
 			$newQuestionSetType = $form->getItemByPostVar('question_set_type')->getValue();
 
 			if( !$this->testOBJ->participantDataExist() && $newQuestionSetType != $oldQuestionSetType )
@@ -240,6 +240,10 @@ class ilObjTestSettingsGeneralGUI
 					}
 				}
 			}
+		}
+		else
+		{
+			$newQuestionSetType = $oldQuestionSetType;
 		}
 		
 		// adjust settiue to desired question set type

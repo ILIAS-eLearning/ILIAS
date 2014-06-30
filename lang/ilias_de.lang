@@ -1407,7 +1407,7 @@ assessment#:#tst_change_dyn_test_question_selection#:#Aktuelle Fragenauswahl än
 assessment#:#tst_dyn_test_msg_currently_finished_completely#:#Aktuell haben Sie alle Fragen des Quellfragenpool erfolgreich beantwortet. Sowie neue oder veränderte Fragen im Quellfragenpool vorliegen können Sie den Test fortführen.
 assessment#:#tst_dyn_test_msg_currently_finished_selection#:#In der aktuellen Fragenauswahl haben Sie alle Fragen erfolgreich beantwortet. Ändern Sie die Fragenauswahl um den Test fort zu führen.
 assessment#:#tst_activate_skill_service#:#Kompetenz-Service aktivieren
-assessment#:#tst_disabled_skl_due_to_non_fixed_quest_set_type#:#Der Kompetenz Service aufgrund des Test Modus ohne feste Fragenauswahl.
+assessment#:#tst_disabled_skl_due_to_non_fixed_quest_set_type#:#Der Kompetenz Service wurde aufgrund des Test Modus ohne feste Fragenauswahl deaktiviert.
 assessment#:#tst_cannot_enable_skl_due_to_non_fixed_quest_set_type#:#Die Aktivierung des Kompetenz Service ist aufgrund des Test Modus ohne feste Fragenauswahl nicht möglich.
 assessment#:#tst_tab_competences#:#Kompetenzen
 assessment#:#tst_skl_sub_tab_quest_assign#:#Fragen-Kompetenz-Zuordnung
