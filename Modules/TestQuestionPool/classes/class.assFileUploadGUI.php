@@ -242,7 +242,7 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 			if (count($files))
 			{
 				include_once "./Modules/TestQuestionPool/classes/tables/class.assFileUploadFileTableGUI.php";
-				$table_gui = new assFileUploadFileTableGUI("iltestoutputgui", 'gotoquestion');
+				$table_gui = new assFileUploadFileTableGUI($this->getTargetGuiClass(), 'gotoquestion');
 				$table_gui->setTitle($this->lng->txt('already_delivered_files'), 'icon_file.png', $this->lng->txt('already_delivered_files'));
 				$table_gui->setData($files);
 				$table_gui->setRowTemplate("tpl.il_as_qpl_fileupload_file_view_row.html", "Modules/TestQuestionPool");

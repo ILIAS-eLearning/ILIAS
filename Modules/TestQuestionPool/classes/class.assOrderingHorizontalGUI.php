@@ -311,9 +311,9 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
 			$template->setCurrentBlock("element");
 			$template->setVariable("ELEMENT_ID", "e_" . $this->object->getId() . "_$id");
 			$template->setVariable("ELEMENT_VALUE", ilUtil::prepareFormOutput($element));
-			$this->ctrl->setParameterByClass('iltestoutputgui', 'qst_selection', $idx);
+			$this->ctrl->setParameterByClass($this->getTargetGuiClass(), 'qst_selection', $idx);
 			$idx++;
-			$url = $this->ctrl->getLinkTargetByClass('iltestoutputgui', 'gotoQuestion');
+			$url = $this->ctrl->getLinkTargetByClass($this->getTargetGuiClass(), 'gotoQuestion');
 			$template->setVariable("MOVE_RIGHT", $url);
 			$template->setVariable("TEXT_MOVE_RIGHT", $this->lng->txt('move_right'));
 			$template->setVariable("RIGHT_IMAGE", ilUtil::getImagePath('nav_arr_R.png'));

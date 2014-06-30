@@ -2399,21 +2399,39 @@ class ilObjTestGUI extends ilObjectGUI
 					if ((!$this->object->getFixedParticipants() || $online_access) && $ilAccess->checkAccess("read", "", $this->ref_id))
 					{
 						$testSession = $this->testSessionFactory->getSession();
-						
+						$testSequence = $this->testSequenceFactory->getSequence($testSession);
+
+						$testPlayerGUI = $this->testPlayerFactory->getPlayerGUI();
+
 						$executable = $this->object->isExecutable($testSession, $ilUser->getId(), $allowPassIncrease = TRUE);
 						
 						if ($executable["executable"])
 						{
 							if ($testSession->getActiveId() > 0)
 							{
-								$ilToolbar->addSeparator();
-								$ilToolbar->addButton($lng->txt('tst_resume_test'), $ilCtrl->getLinkTargetByClass('iltestoutputgui', 'resume'));
+								// resume test
+
+								if ($testSequence->hasStarted($testSession))
+								{
+									$execTestLabel = $this->lng->txt("tst_resume_test");
+									$execTestLink = $this->ctrl->getLinkTarget($testPlayerGUI, 'resumePlayer');
+								}
+								else
+								{
+									$execTestLabel = $this->object->getStartTestLabel($testSession->getActiveId());
+									$execTestLink = $this->ctrl->getLinkTarget($testPlayerGUI, 'startPlayer');
+								}
 							}
 							else
 							{
-								$ilToolbar->addSeparator();
-								$ilToolbar->addButton($lng->txt('tst_start_test'), $ilCtrl->getLinkTargetByClass('iltestoutputgui', 'startTest'));
+								// start new test
+
+								$execTestLabel = $this->object->getStartTestLabel($testSession->getActiveId());
+								$execTestLink = $this->ctrl->getLinkTarget($testPlayerGUI, 'startPlayer');
 							}
+
+							$ilToolbar->addSeparator();
+							$ilToolbar->addButton($execTestLabel, $execTestLink);
 						}
 					}
 				}

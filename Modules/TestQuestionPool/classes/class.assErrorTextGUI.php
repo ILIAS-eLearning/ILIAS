@@ -376,7 +376,7 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->getQuestion(), TRUE));
 		$errortext = $this->object->createErrorTextOutput($selections);
 		$errortext = preg_replace_callback("/#HREF(\d+)/is", array(&$this, 'exchangeURL'), $errortext);
-		$this->ctrl->setParameterByClass('iltestoutputgui', 'errorvalue', '');
+		$this->ctrl->setParameterByClass($this->getTargetGuiClass(), 'errorvalue', '');
 		$template->setVariable("ERRORTEXT", $errortext);
 		$template->setVariable("ERRORTEXT_ID", "qst_" . $this->object->getId());
 		$template->setVariable("ERRORTEXT_VALUE", $errortext_value);
@@ -397,8 +397,8 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 
 	public function exchangeURL($matches)
 	{
-		$this->ctrl->setParameterByClass('iltestoutputgui', 'qst_selection', $matches[1]);
-		return $this->ctrl->getLinkTargetByClass('iltestoutputgui', 'gotoQuestion');
+		$this->ctrl->setParameterByClass($this->getTargetGuiClass(), 'qst_selection', $matches[1]);
+		return $this->ctrl->getLinkTargetByClass($this->getTargetGuiClass(), 'gotoQuestion');
 	}
 
 	/**
