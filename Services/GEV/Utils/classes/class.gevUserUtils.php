@@ -514,6 +514,18 @@ class gevUserUtils {
 		$this->udf_utils->setField($this->user_id, gevSettings::USR_UDF_STATUS, $a_status);
 	}
 	
+	
+	// role assignment
+	
+	public function assignGlobalRole($a_role_name) {
+		
+	}
+	
+	public function assignOrgRole($a_org_id, $a_role_name) {
+		
+	}
+	
+	
 	// course specific stuff
 	
 	public function getFunctionAtCourse($a_crs_id) {
