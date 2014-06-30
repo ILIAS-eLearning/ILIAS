@@ -144,7 +144,43 @@ class gevSettings {
 	// Standardorte und -veranstalter
 	const VENUE_BERNRIED			= "venue_bernried";
 	const PROVIDER_GENERALI			= "provider_generali";
-
+	
+	// zusätzliche Benutzerdaten
+	// adp-nummer
+	const USR_UDF_ADP_NUMBER		= "usr_udf_adp_number";
+	// stellennummer
+	const USR_UDF_JOB_NUMMER		= "usr_udf_job_number";
+	// geburtsort
+	const USR_UDF_BIRTHPLACE		= "usr_udf_birthplace";
+	// geburtsname
+	const USR_UDF_BIRTHNAME			= "usr_udf_birthname";
+	// IHK-Registernummer
+	const USR_UDF_IHK_NUMBER		= "usr_udf_ihk_number";
+	// AD-Titel
+	const USR_UDF_AD_TITLE			= "usr_udf_ad_title";
+	// Vermittlerschlüssel
+	const USR_UDF_AGENT_KEY			= "usr_udf_agent_key";
+	// Gesellschaftstitel
+	const USR_UDF_COMPANY_TITLE		= "usr_udf_company_title";
+	
+	// private Kontaktdaten, für geschäftliche Kontaktdaten werden
+	// die Standard-ILIAS-Felder verwendet
+	const USR_UDF_PRIV_EMAIL		= "usr_udf_priv_email";
+	const USR_UDF_PRIV_STREET		= "usr_udf_priv_street";
+	const USR_UDF_PRIV_CITY			= "usr_udf_priv_city";
+	const USR_UDF_PRIV_ZIPCODE		= "usr_udf_priv_zipcode";
+	const USR_UDF_PRIV_STATE		= "usr_udf_priv_state";
+	const USR_UDF_PRIV_PHONE		= "usr_udf_priv_phone";
+	const USR_UDF_PRIV_FAX			= "usr_udf_priv_fax";
+	
+	// Eintritts- und Austrittsdatum
+	const USR_UDF_ENTRY_DATE		= "usr_udf_entry_date";
+	const USR_UDF_EXIT_DATE			= "usr_udf_exit_date";
+	
+	// Status (????)
+	const USR_UDF_STATUS			= "usr_udf_status";
+	
+	
 	private function __construct() {
 		$this->settings = new ilSetting(self::MODULE_NAME);
 	}
@@ -168,6 +204,10 @@ class gevSettings {
 	public function getAMDFieldId($a_field) {
 		$field_id = explode(" ", $this->get($a_field));
 		return $field_id[1];
+	}
+	
+	public function getUDFFieldId($a_field) {
+		return $this->get($a_field);
 	}
 	
 	/*public function isAMDRecordUsed($a_record_id) {

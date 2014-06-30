@@ -84,8 +84,9 @@ class gevAMDUtils {
 	}
 
 	protected function getFieldId($a_amd_setting) {
-		$amd_id = explode(" ", $this->gev_settings->get($a_amd_setting));
-		return $amd_id[1];
+		return $this->gev_setting->getAMDFieldId($a_amd_setting);
+		//$amd_id = explode(" ", $this->gev_settings->get($a_amd_setting));
+		//return $amd_id[1];
 	}
 	
 	protected function getFieldType($a_field_id) {
