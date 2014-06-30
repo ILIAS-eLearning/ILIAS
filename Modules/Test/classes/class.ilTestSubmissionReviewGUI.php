@@ -61,14 +61,6 @@ class ilTestSubmissionReviewGUI
 		
 		return $ret;
 	}
-
-	protected function getTestEvaluationGUI()
-	{
-		require_once 'class.ilTestEvaluationGUI.php';
-		$eval_gui = new ilTestEvaluationGUI($this->test);
-		
-		return $eval_gui;
-	}
 	
 	/**
 	 * Returns the name of the current content block (depends on the kiosk mode setting)
