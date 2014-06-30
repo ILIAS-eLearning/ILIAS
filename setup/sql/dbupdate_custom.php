@@ -531,3 +531,39 @@ $ilDB->addTableColumn( "gev_crs_addset"
 					 );
 
 ?>
+
+<#21>
+<?php
+
+// GEV_USER_REGISTRATION_TOKENS for GEV
+
+$fields = array (
+     'token' => array(
+         'type' => 'text',
+         'length' => 32,
+         'notnull' => false
+         ),
+     'stelle' => array(
+         "type" => "text",
+         "length" => 6,
+         "notnull" => false
+         ),
+     'email' => array(
+         'type' => 'text',
+         'length' => 100,
+         'notnull' => false
+         ),
+     'email_sent' => array(
+         'type' => 'timestamp',
+         'notnull' => true
+         ),
+     'token_used' => array(
+         'type' => 'timestamp',
+         'notnull' => true
+         )
+);
+
+$ilDB->createTable('gev_user_reg_tokens', $fields);
+$ilDB->addPrimaryKey('gev_user_reg_tokens', array('token'));
+
+?>
