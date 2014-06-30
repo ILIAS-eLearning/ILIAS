@@ -4016,11 +4016,9 @@ class ilObjTestGUI extends ilObjectGUI
                 }
 
 		// scoring subtab
-		$ilTabs->addSubTabTarget(
-			"scoring",
-			$this->ctrl->getLinkTarget($this,'scoring'),
-			array("scoring"),
-			array("", "ilobjtestgui", "ilcertificategui")
+		$ilTabs->addSubTabTarget('scoring', $this->ctrl->getLinkTargetByClass('ilObjTestSettingsScoringResultsGUI'),
+			'',                                             // auto activation regardless from cmd
+			array('ilobjtestsettingsscoringresultsgui')     // auto activation for ilObjTestSettingsScoringResultsGUI
 		);
 	
 		// certificate subtab
@@ -4120,6 +4118,7 @@ class ilObjTestGUI extends ilObjectGUI
 				return; // no tabs .. no subtabs .. during test pass
 				
 			case 'ilobjtestsettingsgeneralgui':
+			case 'ilobjtestsettingsscoringresultsgui':
 				
 				if( $curUserHasWriteAccess )
 				{
@@ -4283,12 +4282,17 @@ class ilObjTestGUI extends ilObjectGUI
 					$reflection = new ReflectionClass('ilObjTestSettingsGeneralGUI');
 					foreach($reflection->getConstants() as $name => $value)
 						if(substr($name, 0, 4) == 'CMD_') $settingsCommands[] = $value;
+
+					require_once 'Modules/Test/classes/class.ilObjTestSettingsScoringResultsGUI.php';
+					$reflection = new ReflectionClass('ilObjTestSettingsScoringResultsGUI');
+					foreach($reflection->getConstants() as $name => $value)
+						if(substr($name, 0, 4) == 'CMD_') $settingsCommands[] = $value;
 					
 					$settingsCommands[] = ""; // DO NOT KNOW WHAT THIS IS DOING, BUT IT'S REQUIRED
 					
 					$tabs_gui->addTarget("settings",
 						$this->ctrl->getLinkTargetByClass('ilObjTestSettingsGeneralGUI'),
-						$settingsCommands, array("ilobjtestsettingsgeneralgui", "ilobjtestgui", "ilcertificategui")
+						$settingsCommands, array("ilobjtestsettingsgeneralgui", "ilobjtestsettingsscoringresultsgui", "ilobjtestgui", "ilcertificategui")
 					);
 				}
 
