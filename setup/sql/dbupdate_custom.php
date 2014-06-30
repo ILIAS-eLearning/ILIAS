@@ -541,26 +541,30 @@ $fields = array (
      'token' => array(
          'type' => 'text',
          'length' => 32,
-         'notnull' => false
+         'notnull' => true
          ),
      'stelle' => array(
          "type" => "text",
          "length" => 6,
-         "notnull" => false
+         "notnull" => true
          ),
      'email' => array(
          'type' => 'text',
          'length' => 100,
-         'notnull' => false
+         'notnull' => true
          ),
      'email_sent' => array(
          'type' => 'timestamp',
-         'notnull' => true
+         'notnull' => false
          ),
      'token_used' => array(
          'type' => 'timestamp',
-         'notnull' => true
-         )
+         'notnull' => false
+         ),
+     'password_changed' => array(
+         'type' => 'timestamp',
+         'notnull' => false
+         ),
 );
 
 $ilDB->createTable('gev_user_reg_tokens', $fields);
