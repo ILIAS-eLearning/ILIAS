@@ -1249,7 +1249,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 	
 	function rsvConfirmCancelObject()
 	{
-		global $ilCtrl, $lng, $tpl, $ilAccess;
+		global $ilCtrl, $lng, $tpl, $ilAccess, $ilUser;
 	
 		$ids = $this->getLogReservationIds();
 		if(!sizeof($ids))
@@ -1342,9 +1342,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 	}
 	
 	function rsvConfirmCancelAggregationForm($a_ids)
-	{
-		ilUtil::sendQuestion($this->lng->txt("book_confirm_cancel"));
-		
+	{		
 		include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this, "rsvCancel"));
@@ -1419,6 +1417,9 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		$this->tabs_gui->clearTargets();
 		$this->tabs_gui->setBackTarget($lng->txt("back"),
 			$ilCtrl->getLinkTarget($this, "log"));
+		
+		// #13511
+		ilUtil::sendQuestion($lng->txt("book_confirm_cancel"));		
 		
 		$form = $this->rsvConfirmCancelAggregationForm($a_ids);
 		
