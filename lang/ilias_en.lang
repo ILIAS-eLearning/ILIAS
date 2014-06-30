@@ -267,7 +267,7 @@ assessment#:#autosave_failed#:#Autosave failed!
 assessment#:#autosave_success#:#Autosave successful...
 assessment#:#available_points#:#Available Points
 assessment#:#available_terms#:#Available Terms
-assessment#:#average_reached_points#:#Average Reached Points
+assessment#:#average_reached_points#:#Average Points
 assessment#:#backtocallingtest#:#Back to the calling test
 assessment#:#by#:#by
 assessment#:#cancel_test#:#Suspend the Test
@@ -985,7 +985,7 @@ assessment#:#tst_random_select_questionpool#:#Select the question pool to choose
 assessment#:#tst_random_selection_question_count_too_high#:#The question count you entered was higher than the maximum number of available questions. The question count has been reduced automatically.
 assessment#:#tst_random_selection_question_total_count_too_high#:#The question count you entered was higher than the maximum number of available questions for all selected question pools. The question count has been reduced automatically.
 assessment#:#tst_nonpool_questions_get_lost_warning#:#<b>The current test mode includes questions in its configuration that are not assigned to any question pool. If you change the test mode, these questions will be lost permanently.</b>
-assessment#:#tst_reached_points#:#Reached Points
+assessment#:#tst_reached_points#:#Points
 assessment#:#tst_remove_mark#:#Remove this mark
 assessment#:#tst_remove_questions_and_results#:#This test was already executed by %s user(s). Removing questions from this test will remove all test results of these users. Are you sure you want to remove the following question(s) from the test?
 assessment#:#tst_remove_questions#:#Are you sure you want to remove the following questions from the test?
@@ -1000,7 +1000,7 @@ assessment#:#tst_result_user_name_pass#:#Results of Test Pass %s for %s
 assessment#:#tst_result_user_name#:#Test Results for %s
 assessment#:#tst_results_access_always#:#Always
 assessment#:#tst_results_access_date#:#Date
-assessment#:#tst_results_access_description#:#This setting handles the access of the participants to their test results. If results can be accessed after the test is finished, the participants can access their test results after they finished a test pass for the first time. Even if a test has more than one allowed test pass, the participants can access their test results after finishing the first pass. If you choose a date access restriction, the participants will not be able to access their test results until the specified date and time is reached. You must choose this option if you want to use the ECTS scoring system of if you have to score questions manually. If "Always" is selected, the participants can access their test results at any time even if the did not finish the test yet. If "Never" is selected, the access to test results is not available.
+assessment#:#tst_results_access_description#:#This setting handles the participants' access to their test results. If results can be accessed after the test is finished, the participants can access their test results after they completed a test pass for the first time. Even if a test has more than one allowed test pass, participants can access their test results after finishing the first pass. If you choose a date access restriction, the participants will not be able to access their test results until the specified date and time is reached. You must choose this option if you want to use the ECTS scoring system or if you have to score questions manually. If "Always" is selected, the participants can access their test results at any time even if the did not finish the test yet. If "Never" is selected, the access to test results is not available at any time.
 assessment#:#tst_results_access_finished#:#After Test is Finished
 assessment#:#tst_results_access_never#:#Never
 assessment#:#tst_results_access#:#Access to Test Results
@@ -6700,7 +6700,7 @@ grp#:#grp_reg_end#:#Registration End:
 grp#:#grp_reg_limit_num_info#:#Limited Registration Period
 grp#:#grp_reg_limit_num#:#Maximum Number of Users
 grp#:#grp_reg_limit_time#:#Enabled
-grp#:#grp_reg_limited#:#Self-Registration
+grp#:#grp_reg_limited#:#Limited Registration Period
 grp#:#grp_reg_max_members_info#:#Define the maximum number of users that can be assigned to this group.
 grp#:#grp_reg_passwd_info_screen#:#If a group administrator has given you the group password, you can join this group.
 grp#:#grp_reg_password_info#:#Users need to type in this password when joining the group.
@@ -14173,7 +14173,7 @@ survey#:#survey_reminder_cron_info#:#If activated, users will be reminded to par
 cron#:#cron_action_activate_sure_multi#:#Are you sure you want to activate the following cron-jobs?
 cron#:#cron_action_deactivate_sure_multi#:#Are you sure you want to deactivate the following cron-jobs?
 crs#:#crs_status_determination_lp_info#:#When the learning progress changes to "Completed", the course status "Passed" will be set automatically. Tutors still can overwrite the status manually.
-grp#:#grp_reg_no_selfreg#:#No self-enrolment
+grp#:#grp_reg_no_selfreg#:#No Self-enrolment
 crs#:#crs_mail_tutors_only_info#:#Only administrators and tutors can use the feature "Mail to Members" in the "Members" tab.
 crs#:#crs_mail_all_info#:#Members, administrators and tutors can use the feature "Mail to Members" in the "Members" tab.
 grp#:#grp_mail_tutors_only_info#:#Only administrators can use the feature "Mail to Members" in the "Members" tab.
@@ -14181,7 +14181,7 @@ grp#:#grp_mail_all_info#:#Members and administrators can use the feature "Mail t
 rep#:#rep_time_period#:#Period
 crs#:#crs_registration_period#:#Period
 crs#:#crs_registration_confirmation_info#:#Interested users can send a request/message to course administrator.
-crs#:#crs_reg_no_selfreg#:#No self-enrolment
+crs#:#crs_reg_no_selfreg#:#No Self-enrolment
 crs#:#crs_reg_password_info#:#Users need to type in this password when joining the course.
 cat#:#cat_more_translations#:#More Translations
 obj#:#obj_deactivate_content_transl_conf#:#Do you really want to deactivate translation for page editing? Only contents of the master language will be kept.

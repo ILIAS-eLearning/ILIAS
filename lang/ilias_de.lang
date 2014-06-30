@@ -13799,7 +13799,7 @@ grp#:#grp_mail_tutors_only#:#Nur für Administratoren
 grp#:#grp_mail_all#:#Für alle Mitglieder
 grp#:#grp_mail_tutors_only_info#:#Nur Administratoren können die Funktion "Mail an Mitglieder" im Reiter Mitglieder nutzen.
 grp#:#grp_mail_all_info#:#Mitglieder und  Administratoren können die Funktion "Mail an Mitglieder" im Reiter Mitglieder nutzen.
-content#:#cont_ed_insert_consultation_hours#:#Sprechstunden hinzufügen
+content#:#cont_ed_insert_consultation_hours#:#Sprechstunden einfügen
 content#:#cont_insert_consultation_hours#:#Sprechstunden hinzufügen
 content#:#cont_update_consultation_hours#:#Sprechstunden bearbeiten
 content#:#cont_cach_mode#:#Modus
