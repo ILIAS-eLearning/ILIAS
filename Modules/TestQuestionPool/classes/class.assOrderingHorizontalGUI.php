@@ -243,9 +243,9 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
 	
 	function getPreview($show_question_only = FALSE, $showInlineFeedback = false, ilAssQuestionPreviewSession $previewSession = null)
 	{
-		if( is_object($previewSession) && strlen($previewSession->getParticipantsSolution()) )
+		if( is_object($previewSession) && strlen((string)$previewSession->getParticipantsSolution()) )
 		{
-			$elements = $previewSession->getParticipantsSolution();
+			$elements = (string)$previewSession->getParticipantsSolution();
 			$elements = $this->object->splitAndTrimOrderElementText($elements, $this->object->getAnswerSeparator());
 		}
 		else

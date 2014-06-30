@@ -191,11 +191,6 @@ class ilAssQuestionPreviewGUI
 		$this->tpl->setContent($tpl->get());
 	}
 	
-	private function confirmHintRequestCmd()
-	{
-		
-	}
-
 	private function resetCmd()
 	{
 		$this->previewSession->resetRequestedHints();
@@ -331,8 +326,8 @@ class ilAssQuestionPreviewGUI
 
 	private function populateSpecificQuestionFeedback(ilTemplate $tpl)
 	{
-		$tpl->setCurrentBlock('instant_feedback_generic');
-		$tpl->setVariable('GENERIC_FEEDBACK', $this->questionGUI->getSpecificFeedbackOutput(0, -1));
+		$tpl->setCurrentBlock('instant_feedback_specific');
+		$tpl->setVariable('ANSWER_FEEDBACK', $this->questionGUI->getSpecificFeedbackOutput(0, -1));
 		$tpl->parseCurrentBlock();
 	}
 

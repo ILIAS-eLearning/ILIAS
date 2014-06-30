@@ -554,7 +554,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
 	public function getPreview($show_question_only = FALSE, $showInlineFeedback = false, ilAssQuestionPreviewSession $previewSession = null)
 	{
-		$solutions = is_object($previewSession) ? $previewSession->getParticipantsSolution() : array();
+		$solutions = is_object($previewSession) ? (array)$previewSession->getParticipantsSolution() : array();
 
 		$this->tpl->addJavaScript('Modules/TestQuestionPool/js/jquery-ui-1-10-3-fixed.js');
 		$this->tpl->addJavaScript('Modules/TestQuestionPool/js/ilMatchingQuestion.js');

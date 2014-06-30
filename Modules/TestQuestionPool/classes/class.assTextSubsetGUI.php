@@ -252,7 +252,7 @@ class assTextSubsetGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 	
 	function getPreview($show_question_only = FALSE, $showInlineFeedback = false, ilAssQuestionPreviewSession $previewSession = null)
 	{
-		$solutions = is_object($previewSession) ? $previewSession->getParticipantsSolution() : array();
+		$solutions = is_object($previewSession) ? (array)$previewSession->getParticipantsSolution() : array();
 		// generate the question output
 		include_once "./Services/UICore/classes/class.ilTemplate.php";
 		$template = new ilTemplate("tpl.il_as_qpl_textsubset_output.html", TRUE, TRUE, "Modules/TestQuestionPool");

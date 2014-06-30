@@ -1587,7 +1587,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 	 * @param $detailed
 	 * @return array
 	 */
-	private function calculateReachedPointsForSolution($user_result, &$detailed = null)
+	protected function calculateReachedPointsForSolution($user_result, &$detailed = null)
 	{
 		if($detailed === null)
 		{

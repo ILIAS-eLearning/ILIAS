@@ -1259,7 +1259,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 	/**
 	 * @return array
 	 */
-	private function getSolutionSubmit()
+	protected function getSolutionSubmit()
 	{
 		$solutionSubmit = array();
 		foreach($_POST as $key => $value)
@@ -1280,7 +1280,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 	 * @param $active_id
 	 * @return int
 	 */
-	private function calculateReachedPointsForSolution($found_values, $active_id = 0)
+	protected function calculateReachedPointsForSolution($found_values, $active_id = 0)
 	{
 		$points = 0;
 		foreach($this->answers as $key => $answer)

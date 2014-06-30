@@ -428,7 +428,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 	
 	function getPreview($show_question_only = FALSE, $showInlineFeedback = false, ilAssQuestionPreviewSession $previewSession = null)
 	{
-		$user_solution = is_object($previewSession) ? $previewSession->getParticipantsSolution() : array();
+		$user_solution = is_object($previewSession) ? (array)$previewSession->getParticipantsSolution() : array();
 		// shuffle output
 		$keys = $this->getChoiceKeys();
 
