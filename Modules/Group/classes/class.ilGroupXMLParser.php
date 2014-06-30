@@ -42,6 +42,7 @@ class ilGroupXMLParser extends ilSaxParser
 	public static $UPDATE = 2;
 	
 	private $participants = null;
+	private $current_container_setting;
 
 	var $group_data;
 	var $group_obj;
@@ -208,6 +209,10 @@ class ilGroupXMLParser extends ilSaxParser
 				// SAVE IT
 				$this->__saveFile();
 				break;
+			
+			case 'ContainerSetting':
+				$this->current_container_setting = $a_attribs['id'];				
+				break;
 		}
 	}
 
@@ -260,6 +265,16 @@ class ilGroupXMLParser extends ilSaxParser
 			case "group":
 				// NOW SAVE THE NEW OBJECT (if it hasn't been imported)
 				$this->__save();
+				break;
+			
+			case 'ContainerSetting':
+				if($this->current_container_setting)
+				{
+					ilContainer::_writeContainerSetting(
+						$this->group_obj->getId(), 
+						$this->current_container_setting, 
+						$this->cdata);
+				}
 				break;
 		}
 		$this->cdata = '';

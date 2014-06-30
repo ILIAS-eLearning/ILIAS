@@ -91,6 +91,7 @@ class ilGroupXMLWriter extends ilXmlWriter
 				$this->__buildAdmin();
 				$this->__buildMember();
 			}
+			ilContainer::_exportContainerSettings($this, $this->group_obj->getId());
 			$this->__buildFooter();
 		}
 		elseif($this->getMode() == self::MODE_EXPORT)
@@ -98,6 +99,7 @@ class ilGroupXMLWriter extends ilXmlWriter
 			$this->__buildGroup();
 			$this->__buildTitleDescription();
 			$this->__buildRegistration();
+			ilContainer::_exportContainerSettings($this, $this->group_obj->getId());
 			$this->__buildFooter();
 		}
 		
