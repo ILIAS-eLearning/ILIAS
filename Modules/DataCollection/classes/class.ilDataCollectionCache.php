@@ -1,4 +1,8 @@
 <?php
+require_once('class.ilDataCollectionReferenceField.php');
+require_once('class.ilDataCollectionRatingField.php');
+require_once('class.ilDataCollectionILIASRefField.php');
+
 /**
  * Created by JetBrains PhpStorm.
  * @author: Oskar Truffer <ot@studer-raimann.ch>
