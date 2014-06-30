@@ -27,26 +27,28 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
 	const CMD_BACK_TO_QUESTION	= 'backToQuestion';
 	
 	/**
-	 * @var ilTestOutputGUI
+	 * @var mixed
 	 */
-	protected $testOutputGUI = null;
+	protected $parentGUI = null;
+
+	/**
+	 * @var string
+	 */
+	protected $parentCMD = null;
 	
 	/**
-	 * @var ilTestSession
+	 * @var mixed
 	 */
-	protected $testSession = null;
+	protected $questionHintTracking = null;
 	
 	/**
 	 * Constructor
-	 *
-	 * @param	ilTestOutputGUI $testOutputGUI
-	 * @param	ilTestSession $testSession
-	 * @param	assQuestionGUI $questionGUI 
 	 */
-	public function __construct(ilTestOutputGUI $testOutputGUI, ilTestSession $testSession, assQuestionGUI $questionGUI)
+	public function __construct($parentGUI, $parentCMD, assQuestionGUI $questionGUI, $questionHintTracking)
 	{
-		$this->testOutputGUI = $testOutputGUI;
-		$this->testSession = $testSession;
+		$this->parentGUI = $parentGUI;
+		$this->parentCMD = $parentCMD;
+		$this->questionHintTracking = $questionHintTracking;
 		
 		parent::__construct($questionGUI);
 	}
@@ -94,9 +96,7 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
 		
 		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintsTableGUI.php';
 
-		$questionHintList = ilAssQuestionHintTracking::getRequestedHintsList(
-				$this->questionOBJ->getId(), $this->testSession->getActiveId(), $this->testSession->getPass()
-		);
+		$questionHintList = $this->questionHintTracking->getRequestedHintsList();
 
 		$table = new ilAssQuestionHintsTableGUI(
 				$this->questionOBJ, $questionHintList, $this, self::CMD_SHOW_LIST
@@ -122,9 +122,7 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
 			throw new ilTestException('no hint id given');
 		}
 		
-		$isRequested = ilAssQuestionHintTracking::isRequested(
-				(int)$_GET['hintId'], $this->testSession->getActiveId(), $this->testSession->getPass()
-		);
+		$isRequested = $this->questionHintTracking->isRequested((int)$_GET['hintId']);
 		
 		if( !$isRequested )
 		{
@@ -153,9 +151,7 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
 		
 		$form->addCommandButton(self::CMD_BACK_TO_QUESTION, $lng->txt('tst_question_hints_back_to_question'));
 		
-		$numExistingRequests = ilAssQuestionHintTracking::getNumExistingRequests(
-				$this->questionOBJ->getId(), $this->testSession->getActiveId(), $this->testSession->getPass()
-		);
+		$numExistingRequests = $this->questionHintTracking->getNumExistingRequests();
 				
 		if($numExistingRequests > 1)
 		{
@@ -189,9 +185,7 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
 	{
 		global $ilCtrl, $tpl, $lng;
 		
-		$nextRequestableHint = ilAssQuestionHintTracking::getNextRequestableHint(
-				$this->questionOBJ->getId(), $this->testSession->getActiveId(), $this->testSession->getPass()
-		);
+		$nextRequestableHint = $this->questionHintTracking->getNextRequestableHint();
 		
 		require_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
 		
@@ -231,21 +225,16 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
 			throw new ilTestException('no hint id given');
 		}
 		
-		$nextRequestableHint = ilAssQuestionHintTracking::getNextRequestableHint(
-				$this->questionOBJ->getId(), $this->testSession->getActiveId(), $this->testSession->getPass()
-		);
+		$nextRequestableHint = $this->questionHintTracking->getNextRequestableHint();
 		
 		if( $nextRequestableHint->getId() != (int)$_GET['hintId'] )
 		{
 			throw new ilTestException('given hint id does not relate to the next requestable hint');
 		}
+
+		$this->questionHintTracking->storeRequest($nextRequestableHint);
 		
-		ilAssQuestionHintTracking::storeRequest(
-				$nextRequestableHint, $this->questionOBJ->getId(),
-				$this->testSession->getActiveId(), $this->testSession->getPass()
-		);
-		
-		$this->testOutputGUI->saveQuestionSolution();
+		$this->parentGUI->saveQuestionSolution();
 		
 		$redirectTarget = $this->getHintPresentationLinkTarget($nextRequestableHint->getId(), false);
 		
@@ -262,7 +251,7 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
 	{
 		global $ilCtrl;
 		
-		$ilCtrl->redirectByClass('ilTestOutputGUI', 'redirectQuestion');
+		$ilCtrl->redirect($this->parentGUI, $this->parentCMD);
 	}
 	
 	/**
@@ -276,7 +265,7 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
 	{
 		global $tpl;
 		
-		if( $this->testOutputGUI->object->getKioskMode() )
+		if( !$this->isQuestionPreview() && $this->parentGUI->object->getKioskMode() )
 		{
 			$tpl->setBodyClass('kiosk');
 			$tpl->setAddFooter(false);
@@ -285,7 +274,7 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
 					'CONTENT', 'content', 'tpl.il_tst_question_hints_kiosk_page.html', 'Modules/TestQuestionPool'
 			);
 			
-			$tpl->setVariable('KIOSK_HEAD', $this->testOutputGUI->getKioskHead());
+			$tpl->setVariable('KIOSK_HEAD', $this->parentGUI->getKioskHead());
 			
 			$tpl->setVariable('KIOSK_CONTENT', $content);
 		}
@@ -293,6 +282,16 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
 		{
 			$tpl->setContent($content);
 		}
+	}
+	
+	private function isQuestionPreview()
+	{
+		if( $this->questionHintTracking instanceof ilAssQuestionPreviewHintTracking )
+		{
+			return true;
+		}
+		
+		return false;
 	}
 	
 	/**

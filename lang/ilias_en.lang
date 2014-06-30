@@ -203,6 +203,7 @@ assessment#:#assessment_scoring_adjust_desc#:#Enables the corrections feature to
 assessment#:#assessment_log_scoring_adjustment_activate#:#Question types available in adjustment
 assessment#:#assessment_log_scoring_adjustment_desc#:#Question types checked here are available in adjustment. This setting is regardless of the current ability of the question types, e.g. a question that does not support adjustment is still shown here.
 assessment#:#qpl_reset_preview#:#Reset Preview
+assessment#:#qst_preview_reset_msg#:#The preview has been reset.
 assessment#:#0_unlimited#:#(0=unlimited)
 assessment#:#tst_question_not_from_pool_info#:#No Pool
 assessment#:#action#:#Action

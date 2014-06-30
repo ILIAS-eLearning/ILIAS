@@ -35,8 +35,6 @@ class ilAssQuestionPreviewHintTracking
 	
 	public function requestsPossible()
 	{
-		return false;
-		
 		$query = "
 			SELECT		COUNT(qht_hint_id) cnt_available
 			FROM		qpl_hints
@@ -55,5 +53,58 @@ class ilAssQuestionPreviewHintTracking
 		}
 
 		return false;
+	}
+	
+	public function getNextRequestableHint()
+	{
+		$query = "
+			SELECT		qht_hint_id
+			
+			FROM		qpl_hints
+			
+			WHERE		qht_question_fi = %s
+			
+			ORDER BY	qht_hint_index ASC
+		";
+
+		$res = $this->db->queryF(
+			$query, array('integer'), array($this->previewSession->getQuestionId())
+		);
+
+		while( $row = $this->db->fetchAssoc($res) )
+		{
+			if( !$this->isRequested($row['qht_hint_id']) )
+			{
+				return ilAssQuestionHint::getInstanceById($row['qht_hint_id']);
+			}
+		}
+
+		throw new ilTestException(
+			"no next hint found for questionId={$this->previewSession->getQuestionId()}, userId={$this->previewSession->getUserId()}"
+		);
+	}
+
+	public function storeRequest(ilAssQuestionHint $questionHint)
+	{
+		$this->previewSession->addRequestedHint($questionHint->getId());
+	}
+	
+	public function isRequested($hintId)
+	{
+		return $this->previewSession->isHintRequested($hintId);
+	}
+
+	public function getNumExistingRequests()
+	{
+		return $this->previewSession->getNumRequestedHints();
+	}
+
+	public function getRequestedHintsList()
+	{
+		$hintIds = $this->previewSession->getRequestedHints();
+
+		$requestedHintsList = ilAssQuestionHintList::getListByHintIds($hintIds);
+
+		return $requestedHintsList;
 	}
 } 

@@ -13,21 +13,60 @@ require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintList.php';
  */
 class ilAssQuestionHintTracking
 {
+	private $questionId;
+	
+	private $activeId;
+	
+	private $pass;
+	
+	public function __construct($questionId, $activeId, $pass)
+	{
+		$this->questionId = $questionId;
+		$this->activeId = $activeId;
+		$this->pass = $pass;
+	}
+
+	public function setActiveId($activeId)
+	{
+		$this->activeId = $activeId;
+	}
+
+	public function getActiveId()
+	{
+		return $this->activeId;
+	}
+
+	public function setPass($pass)
+	{
+		$this->pass = $pass;
+	}
+
+	public function getPass()
+	{
+		return $this->pass;
+	}
+
+	public function setQuestionId($questionId)
+	{
+		$this->questionId = $questionId;
+	}
+
+	public function getQuestionId()
+	{
+		return $this->questionId;
+	}
+	
 	/**
 	 * Returns the fact wether there exists hint requests for the given
 	 * question relating to the given testactive and testpass or not
 	 *
-	 * @static
 	 * @access	public
 	 * @global	ilDB					$ilDB
-	 * @param	integer					$questionId
-	 * @param	integer					$activeId
-	 * @param	integer					$pass
 	 * @return	boolean					$requestsExist
 	 */
-	public static function requestsExist($questionId, $activeId, $pass)
+	public function requestsExist()
 	{
-		if( self::getNumExistingRequests($questionId, $activeId, $pass) > 0 )
+		if( self::getNumExistingRequests($this->getQuestionId(), $this->getActiveId(), $this->getPass()) > 0 )
 		{
 			return true;
 		}
@@ -39,15 +78,11 @@ class ilAssQuestionHintTracking
 	 * Returns the number existing hint requests for the given
 	 * question relating to the given testactive and testpass or not
 	 *
-	 * @static
 	 * @access	public
 	 * @global	ilDB					$ilDB
-	 * @param	integer					$questionId
-	 * @param	integer					$activeId
-	 * @param	integer					$pass
 	 * @return	integer					$numExisingRequests
 	 */
-	public static function getNumExistingRequests($questionId, $activeId, $pass)
+	public function getNumExistingRequests()
 	{
 		global $ilDB;
 		
@@ -62,7 +97,8 @@ class ilAssQuestionHintTracking
 		";
 		
 		$res = $ilDB->queryF(
-				$query, array('integer', 'integer', 'integer'), array($questionId, $activeId, $pass)
+				$query, array('integer', 'integer', 'integer'),
+				array($this->getQuestionId(), $this->getActiveId(), $this->getPass())
 		);
 		
 		$row = $ilDB->fetchAssoc($res);
@@ -74,15 +110,11 @@ class ilAssQuestionHintTracking
 	 * Returns the fact wether (further) hint requests are possible for the given
 	 * question relating to the given testactive and testpass or not
 	 *
-	 * @static
 	 * @access	public
 	 * @global	ilDB		$ilDB
-	 * @param	integer		$questionId
-	 * @param	integer		$activeId
-	 * @param	integer		$pass
 	 * @return	boolean		$requestsPossible
 	 */
-	public static function requestsPossible($questionId, $activeId, $pass)
+	public function requestsPossible()
 	{
 		global $ilDB;
 		
@@ -101,7 +133,8 @@ class ilAssQuestionHintTracking
 		";
 		
 		$res = $ilDB->queryF(
-				$query, array('integer', 'integer', 'integer'), array($activeId, $pass, $questionId)
+				$query, array('integer', 'integer', 'integer'),
+				array($this->getActiveId(), $this->getPass(), $this->getQuestionId())
 		);
 		
 		$row = $ilDB->fetchAssoc($res);
@@ -118,15 +151,12 @@ class ilAssQuestionHintTracking
 	 * Returns the fact wether the hint for given id is requested
 	 * for the given testactive and testpass
 	 *
-	 * @static
 	 * @access	public
 	 * @global	ilDB	$ilDB
 	 * @param	integer	$hintId
-	 * @param	integer	$activeId
-	 * @param	integer	$pass
 	 * @return	boolean	$isRequested
 	 */
-	public static function isRequested($hintId, $activeId, $pass)
+	public function isRequested($hintId)
 	{
 		global $ilDB;
 		
@@ -141,7 +171,7 @@ class ilAssQuestionHintTracking
 		";
 		
 		$res = $ilDB->queryF(
-				$query, array('integer', 'integer', 'integer'), array($hintId, $activeId, $pass)
+				$query, array('integer', 'integer', 'integer'), array($hintId, $this->getActiveId(), $this->getPass())
 		);
 		
 		$row = $ilDB->fetchAssoc($res);
@@ -158,16 +188,12 @@ class ilAssQuestionHintTracking
 	 * Returns the next requestable hint for given question
 	 * relating to given testactive and testpass
 	 *
-	 * @static
 	 * @access	public
 	 * @global	ilDB				$ilDB
-	 * @param	integer				$questionId
-	 * @param	integer				$activeId
-	 * @param	integer				$pass
 	 * @return	ilAssQuestionHint	$nextRequestableHint
 	 * @throws	ilTestException
 	 */
-	public static function getNextRequestableHint($questionId, $activeId, $pass)
+	public function getNextRequestableHint()
 	{
 		global $ilDB;
 		
@@ -190,7 +216,8 @@ class ilAssQuestionHintTracking
 		$ilDB->setLimit(1);
 		
 		$res = $ilDB->queryF(
-				$query, array('integer', 'integer', 'integer'), array($activeId, $pass, $questionId)
+				$query, array('integer', 'integer', 'integer'),
+				array($this->getActiveId(), $this->getPass(), $this->getQuestionId())
 		);
 		
 		while( $row = $ilDB->fetchAssoc($res) )
@@ -200,7 +227,9 @@ class ilAssQuestionHintTracking
 			return $nextHint;
 		}
 		
-		throw new ilTestException("no next hint found for questionId=$questionId, activeId=$activeId, pass=$pass");
+		throw new ilTestException(
+			"no next hint found for questionId={$this->getQuestionId()}, activeId={$this->getActiveId()}, pass={$this->getPass()}"
+		);
 	}
 	
 	/**
@@ -208,15 +237,11 @@ class ilAssQuestionHintTracking
 	 * of class ilAssQuestionHint for all allready requested hints
 	 * relating to the given question, testactive and testpass
 	 * 
-	 * @static
 	 * @access	public
 	 * @global	ilDB					$ilDB
-	 * @param	integer					$questionId
-	 * @param	integer					$activeId
-	 * @param	integer					$pass
 	 * @return	ilAssQuestionHintList	$requestedHintsList
 	 */
-	public static function getRequestedHintsList($questionId, $activeId, $pass)
+	public function getRequestedHintsList()
 	{
 		global $ilDB;
 		
@@ -231,7 +256,8 @@ class ilAssQuestionHintTracking
 		";
 		
 		$res = $ilDB->queryF(
-				$query, array('integer', 'integer', 'integer'), array($questionId, $activeId, $pass)
+				$query, array('integer', 'integer', 'integer'),
+				array($this->getQuestionId(), $this->getActiveId(), $this->getPass())
 		);
 		
 		$hintIds = array();
@@ -250,15 +276,11 @@ class ilAssQuestionHintTracking
 	 * Tracks the given hint as requested for the given
 	 * question, testactive and testpass
 	 *
-	 * @static
 	 * @access	public
 	 * @global	ilDB				$ilDB
 	 * @param	ilAssQuestionHint	$questionHint
-	 * @param	integer				$questionId
-	 * @param	integer				$activeId
-	 * @param	integer				$pass
 	 */
-	public static function storeRequest(ilAssQuestionHint $questionHint, $questionId, $activeId, $pass)
+	public function storeRequest(ilAssQuestionHint $questionHint)
 	{
 		global $ilDB;
 		
@@ -266,9 +288,9 @@ class ilAssQuestionHintTracking
 		
 		$ilDB->insert('qpl_hint_tracking', array(
 			'qhtr_track_id'		=> array('integer', $trackId),
-			'qhtr_active_fi'	=> array('integer', $activeId),
-			'qhtr_pass'			=> array('integer', $pass),
-			'qhtr_question_fi'	=> array('integer', $questionId),
+			'qhtr_active_fi'	=> array('integer', $this->getActiveId()),
+			'qhtr_pass'			=> array('integer', $this->getPass()),
+			'qhtr_question_fi'	=> array('integer', $this->getQuestionId()),
 			'qhtr_hint_fi'		=> array('integer', $questionHint->getId()),
 		));
 	}
@@ -280,15 +302,11 @@ class ilAssQuestionHintTracking
 	 * - testactive
 	 * - testpass
 	 *
-	 * @static
 	 * @access public
 	 * @global ilDB $ilDB
-	 * @param integer $questionId
-	 * @param integer $activeId
-	 * @param integer $pass
 	 * @return ilAssQuestionHintRequestStatisticData $requestsStatisticData
 	 */
-	public static function getRequestStatisticDataByQuestionAndTestpass($questionId, $activeId, $pass)
+	public function getRequestStatisticDataByQuestionAndTestpass()
 	{
 		global $ilDB;
 		
@@ -307,7 +325,8 @@ class ilAssQuestionHintTracking
 		";
 		
 		$res = $ilDB->queryF(
-				$query, array('integer', 'integer', 'integer'), array($questionId, $activeId, $pass)
+				$query, array('integer', 'integer', 'integer'),
+				array($this->getQuestionId(), $this->getActiveId(), $this->getPass())
 		);
 		
 		$row = $ilDB->fetchAssoc($res);
@@ -329,12 +348,11 @@ class ilAssQuestionHintTracking
 	/**
 	 * Deletes all hint requests relating to a question included in given question ids
 	 *
-	 * @static
 	 * @access public
 	 * @global ilDB $ilDB
 	 * @param array[integer] $questionIds 
 	 */
-	public static function deleteRequestsByQuestionIds($questionIds)
+	public function deleteRequestsByQuestionIds($questionIds)
 	{
 		global $ilDB;
 		
@@ -351,12 +369,11 @@ class ilAssQuestionHintTracking
 	/**
 	 * Deletes all hint requests relating to a testactive included in given active ids
 	 *
-	 * @static
 	 * @access public
 	 * @global ilDB $ilDB
 	 * @param array[integer] $activeIds 
 	 */
-	public static function deleteRequestsByActiveIds($activeIds)
+	public function deleteRequestsByActiveIds($activeIds)
 	{
 		global $ilDB;
 		

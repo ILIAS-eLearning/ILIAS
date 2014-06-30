@@ -1772,14 +1772,15 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		
 		if( $this->object->isOfferingQuestionHintsEnabled() )
 		{
-			require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintTracking.php';
-			
 			$questionId = $questionGUI->object->getId();
 			$activeId = $this->testSession->getActiveId();
 			$pass = $this->testSession->getPass();
+
+			require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintTracking.php';
+			$questionHintTracking = new ilAssQuestionHintTracking($questionId, $activeId, $pass);
 			
-			$requestsExist = ilAssQuestionHintTracking::requestsExist($questionId, $activeId, $pass);
-			$requestsPossible = ilAssQuestionHintTracking::requestsPossible($questionId, $activeId, $pass);
+			$requestsExist = $questionHintTracking->requestsExist();
+			$requestsPossible = $questionHintTracking->requestsPossible();
 			
 			if( $requestsPossible )
 			{

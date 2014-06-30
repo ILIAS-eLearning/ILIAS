@@ -1754,11 +1754,6 @@ abstract class assQuestionGUI
 	
 	protected function addTab_QuestionPreview(ilTabsGUI $tabsGUI)
 	{
-		$tabsGUI->addTarget("preview",
-			$this->ctrl->getLinkTargetByClass("ilAssQuestionPageGUI", "preview"),
-			array("preview"),
-			"ilAssQuestionPageGUI", "", false);
-
 		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionPreviewGUI.php';
 
 		$tabsGUI->addTarget(

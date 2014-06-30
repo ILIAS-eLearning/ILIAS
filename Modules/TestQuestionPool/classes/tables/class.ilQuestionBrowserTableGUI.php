@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once('./Services/Table/classes/class.ilTable2GUI.php');
+require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionPreviewGUI.php';
 
 /**
 *
@@ -265,6 +266,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 		include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
 		$class = strtolower(assQuestionGUI::_getGUIClassNameForId($data["question_id"]));
 		$this->ctrl->setParameterByClass("ilAssQuestionPageGUI", "q_id", $data["question_id"]);
+		$this->ctrl->setParameterByClass("ilAssQuestionPreviewGUI", "q_id", $data["question_id"]);
 		$this->ctrl->setParameterByClass($class, "q_id", $data["question_id"]);
 		$points = 0;
 
@@ -331,9 +333,10 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 					$this->tpl->parseCurrentBlock();
 				}
 			}
+
 			$this->tpl->setCurrentBlock('preview');
 			$this->tpl->setVariable("TXT_PREVIEW", $this->lng->txt("preview"));
-			$this->tpl->setVariable("LINK_PREVIEW", $this->ctrl->getLinkTargetByClass("ilAssQuestionPageGUI", "preview"));
+			$this->tpl->setVariable("LINK_PREVIEW", $this->ctrl->getLinkTargetByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW));
 			$this->tpl->parseCurrentBlock();
 		}
 		else

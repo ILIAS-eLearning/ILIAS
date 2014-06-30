@@ -14,6 +14,7 @@ class ilAssQuestionPreviewSession
 	
 	const SESSION_SUBINDEX_INSTANT_RESPONSE_ACTIVE = 'instantResponseActive';
 	const SESSION_SUBINDEX_PARTICIPANT_SOLUTION = 'participantSolution';
+	const SESSION_SUBINDEX_REQUESTED_HINTS = 'requestedHints';
 
 	private $userId;
 	private $questionId;
@@ -98,6 +99,29 @@ class ilAssQuestionPreviewSession
 	
 	public function getNumRequestedHints()
 	{
-		return 0;
+		return count($this->readSessionValue(self::SESSION_SUBINDEX_REQUESTED_HINTS));
+	}
+	
+	public function isHintRequested($hintId)
+	{
+		$requestedHints = $this->readSessionValue(self::SESSION_SUBINDEX_REQUESTED_HINTS);
+		return isset($requestedHints[$hintId]);
+	}
+	
+	public function addRequestedHint($hintId)
+	{
+		$requestedHints = $this->readSessionValue(self::SESSION_SUBINDEX_REQUESTED_HINTS);
+		$requestedHints[$hintId] = $hintId;
+		$this->saveSessionValue(self::SESSION_SUBINDEX_REQUESTED_HINTS, $requestedHints);
+	}
+	
+	public function getRequestedHints()
+	{
+		return $this->readSessionValue(self::SESSION_SUBINDEX_REQUESTED_HINTS);
+	}
+	
+	public function resetRequestedHints()
+	{
+		$this->saveSessionValue(self::SESSION_SUBINDEX_REQUESTED_HINTS, array());
 	}
 }

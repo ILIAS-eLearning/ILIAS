@@ -10,6 +10,8 @@
  *
  * @ilCtrl_Calls ilAssQuestionPreviewGUI: ilAssQuestionPreviewToolbarGUI
  * @ilCtrl_Calls ilAssQuestionPreviewGUI: ilAssQuestionRelatedNavigationBarGUI
+ * @ilCtrl_Calls ilAssQuestionPreviewGUI: ilAssQuestionHintRequestGUI
+
  */
 class ilAssQuestionPreviewGUI
 {
@@ -18,7 +20,7 @@ class ilAssQuestionPreviewGUI
 	const CMD_INSTANT_RESPONSE = 'instantResponse';
 	const CMD_HANDLE_QUESTION_ACTION = 'handleQuestionAction';
 
-	const TAB_ID_QUESTION_PREVIEW = 'preview2';
+	const TAB_ID_QUESTION_PREVIEW = 'preview';
 	
 	/**
 	 * @var ilCtrl
@@ -142,6 +144,15 @@ class ilAssQuestionPreviewGUI
 		
 		switch($nextClass)
 		{
+			case 'ilassquestionhintrequestgui':
+
+				require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintRequestGUI.php';
+				$gui = new ilAssQuestionHintRequestGUI($this, self::CMD_SHOW, $this->questionGUI, $this->hintTracking);
+
+				$this->ctrl->forwardCommand($gui);
+
+				break;
+			
 			default:
 
 				$cmd = $this->ctrl->getCmd(self::CMD_SHOW).'Cmd';
@@ -187,6 +198,7 @@ class ilAssQuestionPreviewGUI
 
 	private function resetCmd()
 	{
+		$this->previewSession->resetRequestedHints();
 		$this->previewSession->setParticipantsSolution(null);
 		$this->previewSession->setInstantResponseActive(false);
 		
@@ -288,7 +300,7 @@ class ilAssQuestionPreviewGUI
 	private function populateQuestionNavigation(ilTemplate $tpl)
 	{
 		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionRelatedNavigationBarGUI.php';
-		$navGUI = new ilAssQuestionRelatedNavigationBarGUI($this->lng);
+		$navGUI = new ilAssQuestionRelatedNavigationBarGUI($this->ctrl, $this->lng);
 
 		$navGUI->setInstantResponseCmd(self::CMD_INSTANT_RESPONSE);
 		
@@ -352,5 +364,10 @@ class ilAssQuestionPreviewGUI
 		}
 
 		return $this->previewSession->isInstantResponseActive();
+	}
+	
+	public function saveQuestionSolution()
+	{
+		$this->questionOBJ->persistPreviewState($this->previewSession);
 	}
 }
