@@ -37,6 +37,7 @@ require_once './Modules/Test/classes/class.ilTestExpressPage.php';
  * @ilCtrl_Calls ilObjTestGUI: ilTestResultsToolbarGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestSettingsChangeConfirmationGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestSkillAdministrationGUI, ilTestSkillEvaluationGUI
+ * @ilCtrl_Calls ilObjTestGUI: ilAssQuestionPreviewGUI
  *
  * @ingroup ModulesTest
  */
@@ -441,6 +442,23 @@ class ilObjTestGUI extends ilObjectGUI
 				$ilTabs->activateTab('assQuestions');
 
 				$this->tpl->setContent($ret);
+				break;
+
+			case 'ilassquestionpreviewgui':
+				
+				$this->ctrl->saveParameter($this, "q_id");
+
+				require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionPreviewGUI.php';
+				$gui = new ilAssQuestionPreviewGUI($this->ctrl, $this->tabs_gui, $this->tpl, $this->lng, $ilDB);
+
+				$gui->initQuestion((int)$_GET['q_id'], $this->object->getId());
+				$gui->initPreviewSettings($this->object->getRefId());
+				$gui->initPreviewSession($ilUser->getId(), (int)$_GET['q_id']);
+				$gui->initHintTracking();
+				$gui->initStyleSheets();
+
+				$this->ctrl->forwardCommand($gui);
+
 				break;
 
 			case 'ilassquestionpagegui':

@@ -371,6 +371,11 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
 		return $points;
 	}
 
+	public function calculateReachedPointsFromPreviewSession(ilAssQuestionPreviewSession $previewSession)
+	{
+		return $this->getPointsForSelectedPositions($previewSession->getParticipantsSolution());
+	}
+
 	/**
 	 * Change the selection during a test when a user selects/deselects a word without using javascript
 	 */
@@ -476,6 +481,20 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
 		}
 
 		return true;
+	}
+
+	public function savePreviewData(ilAssQuestionPreviewSession $previewSession)
+	{
+		if( strlen($_POST["qst_" . $this->getId()]) )
+		{
+			$selection = explode(',', $_POST["qst_{$this->getId()}"]);
+		}
+		else
+		{
+			$selection = array();
+		}
+		
+		$previewSession->setParticipantsSolution($selection);
 	}
 
 	/**

@@ -307,7 +307,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 		return $user_solution;
 	}
 
-	function getPreview($show_question_only = FALSE)
+	function getPreview($show_question_only = FALSE, $showInlineFeedback = false, ilAssQuestionPreviewSession $previewSession = null)
 	{
 		// generate the question output
 		include_once "./Services/UICore/classes/class.ilTemplate.php";
@@ -326,6 +326,14 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 			$template->setVariable("CHARACTERS", $this->lng->txt("characters"));
 			$template->parseCurrentBlock();
 		}
+
+		if( is_object($previewSession) )
+		{
+			$template->setVariable("ESSAY", ilUtil::prepareFormOutput(
+				$previewSession->getParticipantsSolution()
+			));
+		}
+		
 		$questiontext = $this->object->getQuestion();
 		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
 		$questionoutput = $template->get();

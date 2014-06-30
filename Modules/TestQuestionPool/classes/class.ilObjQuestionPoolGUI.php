@@ -25,6 +25,7 @@ require_once './Modules/Test/classes/class.ilObjTest.php';
  * @ilCtrl_Calls ilObjQuestionPoolGUI: ilExportGUI, ilInfoScreenGUI, ilObjTaxonomyGUI, ilCommonActionDispatcherGUI
  * @ilCtrl_Calls ilObjQuestionPoolGUI: ilAssQuestionHintsGUI, ilAssQuestionFeedbackEditingGUI, ilLocalUnitConfigurationGUI
  * @ilCtrl_Calls ilObjQuestionPoolGUI: ilObjQuestionPoolSettingsGeneralGUI, assFormulaQuestionGUI
+ * @ilCtrl_Calls ilObjQuestionPoolGUI: ilAssQuestionPreviewGUI
  *
  * @ingroup ModulesTestQuestionPool
  * 
@@ -68,7 +69,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 	 */
 	function executeCommand()
 	{
-		global $ilLocator, $ilAccess, $ilNavigationHistory, $tpl, $ilCtrl, $ilErr, $ilTabs, $lng, $ilDB, $ilPluginAdmin;
+		global $ilUser, $ilLocator, $ilAccess, $ilNavigationHistory, $tpl, $ilCtrl, $ilErr, $ilTabs, $lng, $ilDB, $ilPluginAdmin;
 		
 		if ((!$ilAccess->checkAccess("read", "", $_GET["ref_id"])) && (!$ilAccess->checkAccess("visible", "", $_GET["ref_id"])))
 		{
@@ -140,6 +141,23 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				$md_gui->addObserver($this->object,'MDUpdateListener','General');
 				$this->ctrl->forwardCommand($md_gui);
 				break;
+			
+			case 'ilassquestionpreviewgui':
+
+				$this->ctrl->saveParameter($this, "q_id");
+
+				require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionPreviewGUI.php';
+				$gui = new ilAssQuestionPreviewGUI($this->ctrl, $this->tabs_gui, $this->tpl, $this->lng, $ilDB);
+				
+				$gui->initQuestion((int)$_GET['q_id'], $this->object->getId());
+				$gui->initPreviewSettings($this->object->getRefId());
+				$gui->initPreviewSession($ilUser->getId(), (int)$_GET['q_id']);
+				$gui->initHintTracking();
+				$gui->initStyleSheets();
+				
+				$this->ctrl->forwardCommand($gui);
+				break;
+				
 			case "ilassquestionpagegui":
 				include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 				$this->tpl->setCurrentBlock("ContentStyle");

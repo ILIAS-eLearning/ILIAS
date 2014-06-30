@@ -47,12 +47,22 @@
 <!-- END ordering_row_javascript_pictures -->
 </ul>
 
-<input type="hidden" name="orderresult"{VALUE_ORDERRESULT}>
+<input id="orderresult" type="hidden" name="orderresult" {VALUE_ORDERRESULT}>
 <!-- END ordering_with_javascript -->
+<!-- BEGIN form_submit_register -->
+<script type="text/javascript">
+	jQuery(function(){
+		jQuery('#orderlist').parents('form').submit(function(){
+			return saveOrder('orderlist');
+		})
+	});
+</script>
+<!-- END form_submit_register -->
 <!-- BEGIN javascript_restore_order -->
 <script type="text/javascript">
 	{RESTORE_ORDER}
 </script>
-<!-- END javascript_restore_order --><!-- BEGIN nested_ordering_output -->
+<!-- END javascript_restore_order -->
+<!-- BEGIN nested_ordering_output -->
 {NESTED_ORDERING}
 <!-- END nested_ordering_output -->

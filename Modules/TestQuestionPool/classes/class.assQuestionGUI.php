@@ -21,6 +21,8 @@ abstract class assQuestionGUI
 	const FORM_MODE_EDIT 	= 'edit';
 	const FORM_MODE_ADJUST	= 'adjust';
 	
+	const SESSION_PREVIEW_DATA_BASE_INDEX = 'ilAssQuestionPreviewAnswers';
+	
 	/**
 	* Question object
 	*
@@ -47,6 +49,8 @@ abstract class assQuestionGUI
 	private $taxonomyIds = array();
 	
 	private $targetGuiClass = null;
+
+	private $questionActionCmd = 'handleQuestionAction';
 	
 	/**
 	* assQuestionGUI constructor
@@ -115,7 +119,7 @@ abstract class assQuestionGUI
 		return $this->taxonomyIds;
 	}
 	
-	public function setTargetGui(ilTestPlayerAbstractGUI $linkTargetGui)
+	public function setTargetGui($linkTargetGui)
 	{
 		$this->setTargetGuiClass( get_class($linkTargetGui) );
 	}
@@ -128,6 +132,21 @@ abstract class assQuestionGUI
 	public function getTargetGuiClass()
 	{
 		return $this->targetGuiClass;
+	}
+
+	public function setQuestionActionCmd($questionActionCmd)
+	{
+		$this->questionActionCmd = $questionActionCmd;
+
+		if( is_object($this->object) )
+		{
+			$this->object->questionActionCmd = $questionActionCmd;
+		}
+	}
+
+	public function getQuestionActionCmd()
+	{
+		return $this->questionActionCmd;
 	}
 
 	/**
@@ -1094,6 +1113,20 @@ abstract class assQuestionGUI
 		return $this->object->prepareTextareaOutput($output, TRUE);
 	}
 
+	public function getGenericFeedbackOutputForCorrectSolution()
+	{
+		return $this->object->prepareTextareaOutput(
+			$this->object->feedbackOBJ->getGenericFeedbackTestPresentation($this->object->getId(), true), true
+		);
+	}
+
+	public function getGenericFeedbackOutputForIncorrectSolution()
+	{
+		return $this->object->prepareTextareaOutput(
+			$this->object->feedbackOBJ->getGenericFeedbackTestPresentation($this->object->getId(), false), true
+		);
+	}
+
 	/**
 	 * Returns the answer specific feedback for the question
 	 * 
@@ -1725,6 +1758,15 @@ abstract class assQuestionGUI
 			$this->ctrl->getLinkTargetByClass("ilAssQuestionPageGUI", "preview"),
 			array("preview"),
 			"ilAssQuestionPageGUI", "", false);
+
+		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionPreviewGUI.php';
+
+		$tabsGUI->addTarget(
+			ilAssQuestionPreviewGUI::TAB_ID_QUESTION_PREVIEW,
+			$this->ctrl->getLinkTargetByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW),
+			array(),
+			array('ilAssQuestionPreviewGUI')
+		);
 	}
 	
 	abstract public function getSolutionOutput(
@@ -1761,5 +1803,8 @@ abstract class assQuestionGUI
 		);
 	}
 
+	abstract public function getPreview(
+		$show_question_only = FALSE, $showInlineFeedback = false, ilAssQuestionPreviewSession $previewSession = null
+	);
 
 }

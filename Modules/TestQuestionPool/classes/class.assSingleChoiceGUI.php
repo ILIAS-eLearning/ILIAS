@@ -300,41 +300,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 			}
 			if ($show_feedback)
 			{
-				$feedbackOutputRequired = false;
-
-				switch( $this->object->getSpecificFeedbackSetting() )
-				{
-					case 1:
-						$feedbackOutputRequired = true;
-						break;
-
-					case 2:
-						if (strcmp($user_solution, $answer_id) == 0)
-						{
-							$feedbackOutputRequired = true;
-						}
-						break;
-
-					case 3:
-						if ($this->object->getAnswer($answer_id)->getPoints() > 0)
-						{
-							$feedbackOutputRequired = true;
-						}
-						break;
-				}
-
-				if($feedbackOutputRequired)
-				{
-					$fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation(
-						$this->object->getId(), $answer_id
-					);
-					if (strlen($fb))
-					{
-						$template->setCurrentBlock("feedback");
-						$template->setVariable("FEEDBACK", $this->object->prepareTextareaOutput( $fb, true ));
-						$template->parseCurrentBlock();
-					}
-				}
+				$this->populateInlineFeedback($template, $answer_id, $user_solution);
 			}
 			$template->setCurrentBlock("answer_row");
 			$template->setVariable("ANSWER_TEXT", $this->object->prepareTextareaOutput($answer->getAnswertext(), TRUE));
@@ -375,7 +341,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 		return $solutionoutput;
 	}
 	
-	function getPreview($show_question_only = FALSE)
+	public function getPreview($show_question_only = FALSE, $showInlineFeedback = false, ilAssQuestionPreviewSession $previewSession = null)
 	{
 		$keys = $this->getChoiceKeys();
 		
@@ -422,9 +388,23 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 					$template->parseCurrentBlock();
 				}
 			}
+			if( $showInlineFeedback && is_object($previewSession) )
+			{
+				$this->populateInlineFeedback($template, $answer_id, $previewSession->getParticipantsSolution());
+			}
 			$template->setCurrentBlock("answer_row");
 			$template->setVariable("ANSWER_ID", $answer_id);
 			$template->setVariable("ANSWER_TEXT", $this->object->prepareTextareaOutput($answer->getAnswertext(), TRUE));
+			
+			if( is_object($previewSession) )
+			{
+				$user_solution = $previewSession->getParticipantsSolution();
+				if (strcmp($user_solution, $answer_id) == 0)
+				{
+					$template->setVariable("CHECKED_ANSWER", " checked=\"checked\"");
+				}
+			}
+			
 			$template->parseCurrentBlock();
 		}
 		$questiontext = $this->object->getQuestion();
@@ -890,5 +870,42 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 			$tpl->parseCurrentBlock();
 		}
 		return $tpl;
+	}
+
+	private function populateInlineFeedback($template, $answer_id, $user_solution)
+	{
+		$feedbackOutputRequired = false;
+
+		switch($this->object->getSpecificFeedbackSetting())
+		{
+			case 1:
+				$feedbackOutputRequired = true;
+				break;
+
+			case 2:
+				if(strcmp($user_solution, $answer_id) == 0)
+				{
+					$feedbackOutputRequired = true;
+				}
+				break;
+
+			case 3:
+				if($this->object->getAnswer($answer_id)->getPoints() > 0)
+				{
+					$feedbackOutputRequired = true;
+				}
+				break;
+		}
+
+		if($feedbackOutputRequired)
+		{
+			$fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation($this->object->getId(), $answer_id);
+			if(strlen($fb))
+			{
+				$template->setCurrentBlock("feedback");
+				$template->setVariable("FEEDBACK", $this->object->prepareTextareaOutput($fb, true));
+				$template->parseCurrentBlock();
+			}
+		}
 	}
 }

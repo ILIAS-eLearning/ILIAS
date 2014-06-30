@@ -1072,10 +1072,48 @@ class assFormulaQuestionGUI extends assQuestionGUI
 		return $solutionoutput;
 	}
 
-	function getPreview($show_question_only = FALSE)
+	function getPreview($show_question_only = FALSE, $showInlineFeedback = false, ilAssQuestionPreviewSession $previewSession = null)
 	{
+		$user_solution = array();
+		
+		if( is_object($previewSession) )
+		{
+			$solutions = $previewSession->getParticipantsSolution();
+	
+			foreach($solutions as $val1 => $val2)
+			{
+				if(preg_match("/^(\\\$v\\d+)$/", $val1, $matches))
+				{
+					$user_solution[$matches[1]] = $val2;
+				}
+				else if(preg_match("/^(\\\$r\\d+)$/", $val1, $matches))
+				{
+	
+					if(!array_key_exists($matches[1], $user_solution)) $user_solution[$matches[1]] = array();
+					$user_solution[$matches[1]]["value"] = $val2;
+				}
+				else if(preg_match("/^(\\\$r\\d+)_unit$/", $val1, $matches))
+				{
+					if(!array_key_exists($matches[1], $user_solution)) $user_solution[$matches[1]] = array();
+					$user_solution[$matches[1]]["unit"] = $val2;
+				}
+	
+				if(preg_match("/^(\\\$r\\d+)/", $val1, $matches) && $user_solution[$matches[1]]["result_type"] == 0)
+				{
+					$user_solution[$matches[1]]["result_type"] = assFormulaQuestionResult::getResultTypeByQstId($this->object->getId(), $val1);
+				}
+			}
+		}
+		
 		$template = new ilTemplate("tpl.il_as_qpl_formulaquestion_output.html", true, true, 'Modules/TestQuestionPool');
-		$questiontext = $this->object->substituteVariables();
+		if( is_object($previewSession) )
+		{
+			$questiontext = $this->object->substituteVariables($user_solution, false, false, false, $previewSession);
+		}
+		else
+		{
+			$questiontext = $this->object->substituteVariables();
+		}
 		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
 		$questionoutput = $template->get();
 		if(!$show_question_only)

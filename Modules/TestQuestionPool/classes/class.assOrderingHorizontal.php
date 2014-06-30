@@ -297,14 +297,8 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
 		$points = 0;
 		$data = $ilDB->fetchAssoc($result);
 
-		$data["value1"] = $this->splitAndTrimOrderElementText($data["value1"], $this->answer_separator);
+		$points = $this->calculateReachedPointsForSolution($data['value1']);
 		
-		$data['value1'] = join($data['value1'], $this->answer_separator);
-		
-		if (strcmp($data["value1"], join($this->getOrderingElements(), $this->answer_separator)) == 0)
-		{
-			$points = $this->getPoints();
-		}
 		return $points;
 	}
 	
@@ -317,7 +311,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
 	 * 
 	 * @return array 
 	 */
-	private function splitAndTrimOrderElementText($in_string, $separator)
+	public function splitAndTrimOrderElementText($in_string, $separator)
 	{
 		$result = array();
 		include_once "./Services/Utilities/classes/class.ilStr.php";
@@ -337,6 +331,11 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
 		}
 		
 		return $result;
+	}
+	
+	public function getSolutionSubmit()
+	{
+		return $_POST["orderresult"];
 	}
 	
 	/**
@@ -365,8 +364,10 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
 			array($active_id, $this->getId(), $pass)
 		);
 		
+		$solutionSubmit = $this->getSolutionSubmit();
+		
 		$entered_values = false;
-		if (strlen($_POST["orderresult"]))
+		if (strlen($solutionSubmit))
 		{
 			$next_id = $ilDB->nextId('tst_solutions');
 			$affectedRows = $ilDB->insert("tst_solutions", array(
@@ -789,6 +790,20 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
 	
 		return json_encode($result);
 	}
-}
 
-?>
+	/**
+	 * @param $value
+	 * @return int
+	 */
+	protected function calculateReachedPointsForSolution($value)
+	{
+		$value = $this->splitAndTrimOrderElementText($value, $this->answer_separator);
+		$value = join($value, $this->answer_separator);
+		if(strcmp($value, join($this->getOrderingElements(), $this->answer_separator)) == 0)
+		{
+			$points = $this->getPoints();
+			return $points;
+		}
+		return $points;
+	}
+}

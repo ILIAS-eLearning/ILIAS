@@ -314,9 +314,25 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 		return $solutionoutput;
 	}
 	
-	function getPreview($show_question_only = FALSE)
+	function getPreview($show_question_only = FALSE, $showInlineFeedback = false, ilAssQuestionPreviewSession $previewSession = null)
 	{
 		$template = new ilTemplate("tpl.il_as_qpl_fileupload_output.html",TRUE, TRUE, "Modules/TestQuestionPool");
+
+		if( is_object($previewSession) )
+		{
+			$files = $this->object->getPreviewFileUploads($previewSession);
+			if (count($files))
+			{
+				include_once "./Modules/TestQuestionPool/classes/tables/class.assFileUploadFileTableGUI.php";
+				$table_gui = new assFileUploadFileTableGUI(null , $this->getQuestionActionCmd(), 'ilAssQuestionPreview');
+				$table_gui->setTitle($this->lng->txt('already_delivered_files'), 'icon_file.png', $this->lng->txt('already_delivered_files'));
+				$table_gui->setData($files);
+				$template->setCurrentBlock("files");
+				$template->setVariable('FILES', $table_gui->getHTML());
+				$template->parseCurrentBlock();
+			}
+		}
+		
 		if (strlen($this->object->getAllowedExtensions()))
 		{
 			$template->setCurrentBlock("allowed_extensions");
@@ -324,6 +340,7 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 			$template->parseCurrentBlock();
 		}
 		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->question, TRUE));
+		$template->setVariable("CMD_UPLOAD", $this->getQuestionActionCmd());
 		$template->setVariable("TEXT_UPLOAD", $this->object->prepareTextareaOutput($this->lng->txt('upload')));
 		$template->setVariable("TXT_UPLOAD_FILE", $this->object->prepareTextareaOutput($this->lng->txt('file_add')));
 		$template->setVariable("TXT_MAX_SIZE", $this->object->prepareTextareaOutput($this->lng->txt('file_notice') . " " . $this->object->getMaxFilesizeAsString()));
@@ -356,7 +373,7 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 			if (count($files))
 			{
 				include_once "./Modules/TestQuestionPool/classes/tables/class.assFileUploadFileTableGUI.php";
-				$table_gui = new assFileUploadFileTableGUI(null , 'handleQuestionAction');
+				$table_gui = new assFileUploadFileTableGUI(null , $this->getQuestionActionCmd());
 				$table_gui->setTitle($this->lng->txt('already_delivered_files'), 'icon_file.png', $this->lng->txt('already_delivered_files'));
 				$table_gui->setData($files);
 				$template->setCurrentBlock("files");
@@ -372,7 +389,7 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 			$template->parseCurrentBlock();
 		}
 		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->question, TRUE));
-		$template->setVariable("CMD_UPLOAD", 'handleQuestionAction');
+		$template->setVariable("CMD_UPLOAD", $this->getQuestionActionCmd());
 		$template->setVariable("TEXT_UPLOAD", $this->object->prepareTextareaOutput($this->lng->txt('upload')));
 		$template->setVariable("TXT_UPLOAD_FILE", $this->object->prepareTextareaOutput($this->lng->txt('file_add')));
 		$template->setVariable("TXT_MAX_SIZE", $this->object->prepareTextareaOutput($this->lng->txt('file_notice') . " " . $this->object->getMaxFilesizeAsString()));

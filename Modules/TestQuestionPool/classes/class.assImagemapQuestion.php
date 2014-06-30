@@ -678,23 +678,15 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 				array_push($found_values, $data["value1"]);
 			}
 		}
-		$points = 0;
-		if (count($found_values) > 0)
-		{
-			foreach ($this->answers as $key => $answer)
-			{
-				if (in_array($key, $found_values))
-				{
-					$points += $answer->getPoints();
-				}
-				elseif( $this->getIsMultipleChoice() )
-				{
-					$points += $answer->getPointsUnchecked();
-				}
-			}
-		}
+		
+		$points = $this->calculateReachedPointsForSolution($found_values);
 
 		return $points;
+	}
+
+	public function calculateReachedPointsFromPreviewSession(ilAssQuestionPreviewSession $previewSession)
+	{
+		return $this->calculateReachedPointsForSolution(array_values($previewSession->getParticipantsSolution()));
 	}
 
 	/**
@@ -772,6 +764,28 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		return true;
 	}
 
+	protected function savePreviewData(ilAssQuestionPreviewSession $previewSession)
+	{
+		$solution = $previewSession->getParticipantsSolution();
+
+		if( $this->is_multiple_choice && strlen($_GET['remImage']) )
+		{
+			unset($solution[(int)$_GET['remImage']]);
+		}
+		
+		if( strlen($_GET['selImage']) )
+		{
+			if( !$this->is_multiple_choice )
+			{
+				$solution = array();
+			}
+			
+			$solution[(int)$_GET['selImage']] = (int)$_GET['selImage'];
+		}
+
+		$previewSession->setParticipantsSolution($solution);
+	}
+	
 	/**
 	 * Reworks the allready saved working data if neccessary
 	 *
@@ -936,5 +950,29 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		$result['mobs'] = $mobs;
 		
 		return json_encode($result);
+	}
+
+	/**
+	 * @param $found_values
+	 * @return int
+	 */
+	private function calculateReachedPointsForSolution($found_values)
+	{
+		$points = 0;
+		if(count($found_values) > 0)
+		{
+			foreach($this->answers as $key => $answer)
+			{
+				if(in_array($key, $found_values))
+				{
+					$points += $answer->getPoints();
+				} elseif($this->getIsMultipleChoice())
+				{
+					$points += $answer->getPointsUnchecked();
+				}
+			}
+			return $points;
+		}
+		return $points;
 	}
 }

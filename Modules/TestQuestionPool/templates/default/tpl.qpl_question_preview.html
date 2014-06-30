@@ -1,0 +1,17 @@
+{PREVIEW_TOOLBAR}
+<div id="ilAssQuestionPreview" class="il_ass_question_preview_container ilc_page_cont_PageContainer">
+	<form name="ilAssQuestionPreview" action="{PREVIEW_FORMACTION}" method="post" enctype="multipart/form-data">
+		{QUESTION_OUTPUT}
+		{QUESTION_NAVIGATION}
+		<!-- BEGIN instant_feedback_generic -->
+			<p>{GENERIC_FEEDBACK}</p>
+		<!-- END instant_feedback_generic -->
+		<!-- BEGIN instant_feedback_specific -->
+			{ANSWER_FEEDBACK}
+		<!-- END instant_feedback_specific -->
+		<!-- BEGIN solution_output -->
+			<p><strong>The best solution is:</strong></p>
+			{SOLUTION_OUTPUT}
+		<!-- END solution_output -->
+	</form>
+</div>

@@ -592,24 +592,9 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 				array_push($found_values, $data["value1"]);
 			}
 		}
-		$points = 0;
-		foreach ($this->answers as $key => $answer)
-		{
-			if (in_array($key, $found_values))
-			{
-				$points += $answer->getPoints();
-			}
-			else
-			{
-				$points += $answer->getPointsUnchecked();
-			}
-		}
-		include_once "./Modules/Test/classes/class.ilObjTest.php";
-		$mc_scoring = ilObjTest::_getMCScoring($active_id);
-		if (($mc_scoring == 0) && (count($found_values) == 0))
-		{
-			$points = 0;
-		}
+		
+		$points = $this->calculateReachedPointsForSolution($found_values, $active_id);
+		
 		return $points;
 	}
 	
@@ -640,7 +625,9 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 			array('integer','integer','integer'),
 			array($active_id, $this->getId(), $pass)
 		);
-		foreach ($_POST as $key => $value)
+		$solutionSubmit = $this->getSolutionSubmit();
+		
+		foreach($solutionSubmit as $value)
 		{
 			if (preg_match("/^multiple_choice_result_(\d+)/", $key, $matches))
 			{
@@ -682,7 +669,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 
 		return true;
 	}
-
+	
 	public function saveAdditionalQuestionDataToDb()
 	{
 		/** @var $ilDB ilDB */
@@ -1267,5 +1254,54 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 			
 			$ilDB->manipulate($query);
 		}
+	}
+
+	/**
+	 * @return array
+	 */
+	private function getSolutionSubmit()
+	{
+		$solutionSubmit = array();
+		foreach($_POST as $key => $value)
+		{
+			if(preg_match("/^multiple_choice_result_(\d+)/", $key, $matches))
+			{
+				if(strlen($value))
+				{
+					$solutionSubmit[] = $value;
+				}
+			}
+		}
+		return $solutionSubmit;
+	}
+
+	/**
+	 * @param $found_values
+	 * @param $active_id
+	 * @return int
+	 */
+	private function calculateReachedPointsForSolution($found_values, $active_id = 0)
+	{
+		$points = 0;
+		foreach($this->answers as $key => $answer)
+		{
+			if(in_array($key, $found_values))
+			{
+				$points += $answer->getPoints();
+			} else
+			{
+				$points += $answer->getPointsUnchecked();
+			}
+		}
+		if($active_id)
+		{
+			include_once "./Modules/Test/classes/class.ilObjTest.php";
+			$mc_scoring = ilObjTest::_getMCScoring($active_id);
+			if(($mc_scoring == 0) && (count($found_values) == 0))
+			{
+				$points = 0;
+			}
+		}
+		return $points;
 	}
 }

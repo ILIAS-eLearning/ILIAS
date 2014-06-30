@@ -544,8 +544,6 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
 		
 		global $ilDB;
 		
-		$available_answers =& $this->getAvailableAnswers();
-		$found_counter = 0;
 		
 		if (is_null($pass))
 		{
@@ -555,16 +553,14 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
 			array('integer','integer','integer'),
 			array($active_id, $this->getId(), $pass)
 		);
+		
+		$enteredTexts = array();
 		while ($data = $ilDB->fetchAssoc($result))
 		{
-			$enteredtext = $data["value1"];
-			$index = $this->isAnswerCorrect($available_answers, $enteredtext);
-			if ($index !== FALSE)
-			{
-				unset($available_answers[$index]);
-				$points += $this->answers[$index]->getPoints();
-			}
+			$enteredTexts[] = $data["value1"];
 		}
+
+		$points = $this->calculateReachedPointsForSolution($enteredTexts);
 
 		return $points;
 	}
@@ -617,24 +613,24 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
 			array('integer','integer','integer'),
 			array($active_id, $this->getId(), $pass)
 		);
-		foreach ($_POST as $key => $value)
+
+		$solutionSubmit = $this->getSolutionSubmit();
+		
+		foreach($solutionSubmit as $value)
 		{
-			if (preg_match("/^TEXTSUBSET_(\d+)/", $key, $matches))
+			if (strlen($value))
 			{
-				if (strlen($value))
-				{
-					$next_id = $ilDB->nextId('tst_solutions');
-					$affectedRows = $ilDB->insert("tst_solutions", array(
-						"solution_id" => array("integer", $next_id),
-						"active_fi" => array("integer", $active_id),
-						"question_fi" => array("integer", $this->getId()),
-						"value1" => array("clob", trim($value)),
-						"value2" => array("clob", null),
-						"pass" => array("integer", $pass),
-						"tstamp" => array("integer", time())
-					));
-					$entered_values++;
-				}
+				$next_id = $ilDB->nextId('tst_solutions');
+				$affectedRows = $ilDB->insert("tst_solutions", array(
+					"solution_id" => array("integer", $next_id),
+					"active_fi" => array("integer", $active_id),
+					"question_fi" => array("integer", $this->getId()),
+					"value1" => array("clob", trim($value)),
+					"value2" => array("clob", null),
+					"pass" => array("integer", $pass),
+					"tstamp" => array("integer", time())
+				));
+				$entered_values++;
 			}
 		}
 
@@ -659,7 +655,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
 		
 		return true;
 	}
-
+	
 	public function saveAdditionalQuestionDataToDb()
 	{
 		/** @var ilDB $ilDB */
@@ -876,6 +872,44 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
 		
 		return json_encode($result);
 	}
-}
+	
+	/**
+	 * @return array
+	 */
+	private function getSolutionSubmit()
+	{
+		$solutionSubmit = array();
+		foreach($_POST as $key => $val)
+		{
+			if(preg_match("/^TEXTSUBSET_(\d+)/", $key, $matches))
+			{
+				$val = trim($val);
+				if(strlen($val))
+				{
+					$solutionSubmit[] = $val;
+				}
+			}
+		}
+		return $solutionSubmit;
+	}
 
-?>
+	/**
+	 * @param $enteredTexts
+	 * @return int
+	 */
+	private function calculateReachedPointsForSolution($enteredTexts)
+	{
+		$available_answers = $this->getAvailableAnswers();
+		$points = 0;
+		foreach($enteredTexts as $enteredtext)
+		{
+			$index = $this->isAnswerCorrect($available_answers, $enteredtext);
+			if($index !== FALSE)
+			{
+				unset($available_answers[$index]);
+				$points += $this->answers[$index]->getPoints();
+			}
+		}
+		return $points;
+	}
+}

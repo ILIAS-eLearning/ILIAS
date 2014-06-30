@@ -895,8 +895,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		
 		global $ilDB;
 		
-		$found_value1 = array();
-		$found_value2 = array();
+		$found_values = array();
 		if (is_null($pass))
 		{
 			$pass = $this->getSolutionMaxPass($active_id);
@@ -909,21 +908,11 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		{
 			if (strcmp($data["value1"], "") != 0)
 			{
-				array_push($found_value1, $data["value1"]);
-				array_push($found_value2, $data["value2"]);
+				$found_values[$data['value1']] = $data['value2'];
 			}
 		}
-		$points = 0;
-		foreach ($found_value2 as $key => $value)
-		{
-			foreach ($this->matchingpairs as $pair)
-			{
-				if (($pair->definition->identifier == $value) && ($pair->term->identifier == $found_value1[$key]))
-				{
-					$points += $pair->points;
-				}
-			}
-		}
+		
+		$points = $this->calculateReachedPointsForSolution($found_values);
 
 		return $points;
 	}
@@ -1203,7 +1192,6 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 				}
 			}
 
-
 			$this->getProcessLocker()->releaseUserSolutionUpdateLock();
 			
 			$saveWorkingDataResult = true;
@@ -1227,6 +1215,16 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		}
 
 		return $saveWorkingDataResult;
+	}
+
+	protected function savePreviewData(ilAssQuestionPreviewSession $previewSession)
+	{
+		$submittedMatchings = $this->fetchSubmittedMatchingsFromPost();
+
+		if( $this->checkSubmittedMatchings($submittedMatchings) )
+		{
+			$previewSession->setParticipantsSolution(array_flip($submittedMatchings));
+		}
 	}
 
 	/**
@@ -1547,5 +1545,25 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	public function getMatchingMode()
 	{
 		return $this->matchingMode;
+	}
+
+	/**
+	 * @param $found_values
+	 * @return int
+	 */
+	protected function calculateReachedPointsForSolution($found_values)
+	{
+		$points = 0;
+		foreach($found_values as $val1 => $val2)
+		{
+			foreach($this->matchingpairs as $pair)
+			{
+				if(($pair->definition->identifier == $val2) && ($pair->term->identifier == $val1))
+				{
+					$points += $pair->points;
+				}
+			}
+		}
+		return $points;
 	}
 }

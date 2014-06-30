@@ -30,6 +30,10 @@ class ilAssQuestionPageGUI extends ilPageObjectGUI
 		parent::__construct('qpl', $a_id, $a_old_nr);
 		$this->setEnabledPageFocus(false);
 	}
-	
+
+	protected function isPageContainerToBeRendered()
+	{
+		return $this->getRenderPageContainer();
+	}
 } 
 

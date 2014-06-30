@@ -607,6 +607,19 @@ class assSingleChoice extends assQuestion implements  ilObjQuestionScoringAdjust
 		return $points;
 	}
 	
+	public function calculateReachedPointsFromPreviewSession(ilAssQuestionPreviewSession $previewSession)
+	{
+		foreach ($this->answers as $key => $answer)
+		{
+			if( $key == $previewSession->getParticipantsSolution() )
+			{
+				return $answer->getPoints();
+			}
+		}
+		
+		return 0;
+	}
+	
 	/**
 	 * Saves the learners input of the question to the database.
 	 * 
@@ -696,6 +709,18 @@ class assSingleChoice extends assQuestion implements  ilObjQuestionScoringAdjust
 		return true;
 	}
 
+	protected function savePreviewData(ilAssQuestionPreviewSession $previewSession)
+	{
+		if( strlen($_POST['multiple_choice_result']) )
+		{
+			$previewSession->setParticipantsSolution($_POST['multiple_choice_result']);
+		}
+		else
+		{
+			$previewSession->setParticipantsSolution(null);
+		}
+	}
+	
 	public function saveAdditionalQuestionDataToDb()
 	{
 		/** @var ilDB $ilDB */

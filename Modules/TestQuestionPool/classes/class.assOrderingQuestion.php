@@ -622,45 +622,39 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 				}
 			}
 		}
-		
-		if($this->getOrderingType() != OQ_NESTED_PICTURES
-		&& $this->getOrderingType() != OQ_NESTED_TERMS)
-		{
-			ksort($user_order);
-			$user_order = array_values($user_order);
-		}
 
-		$points = 0;
-		$correctcount = 0;
-		
-		foreach ($this->answers as $index => $answer)
-		{
-			if($nested_solution == true)
-			{
-				$random_id = $answer->getRandomID();
-
-				if($random_id == $user_order[$random_id]['random_id']
-				&& $answer->getOrderingDepth() == $user_order[$random_id]['depth']
-				&& $index == $user_order[$random_id]['index'])
-				{
-					$correctcount++;
-				}
-			}
-			else
-			{	
-				if ($index == $user_order[$index])
-				{
-					$correctcount++;
-				}
-			}
-		}
-
-		if ($correctcount == count($this->answers))
-		{
-			$points = $this->getPoints();
-		}
+		$points = $this->calculateReachedPointsForSolution($user_order, $nested_solution);
 
 		return $points;
+	}
+	
+	public function calculateReachedPointsFromPreviewSession(ilAssQuestionPreviewSession $previewSession)
+	{
+		$user_order = array();
+		$nested_solution = false;
+		foreach($previewSession->getParticipantsSolution() as $val1 => $val2)
+		{
+			if ((strcmp($val1, "") != 0) && (strcmp($val2, "") != 0))
+			{
+				if(strchr( $val2,':') == true)
+				{
+					$current_solution = explode(':', $val2);
+
+					$user_order[$current_solution[0]]['index'] =  $val1;
+					$user_order[$current_solution[0]]['depth'] = $current_solution[1];
+					$user_order[$current_solution[0]]['random_id'] = $current_solution[0];
+
+					$nested_solution = true;
+				}
+				else
+				{
+					$user_order[$val2] = $val1;
+					$nested_solution = false;
+				}
+			}
+		}
+		
+		return $this->calculateReachedPointsForSolution($user_order, $nested_solution);
 	}
 
 	/**
@@ -840,7 +834,6 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		global $ilUser;
 
 		$saveWorkingDataResult = $this->checkSaveData();
-		$entered_values = 0;
 		if ($saveWorkingDataResult)
 		{
 			if (is_null($pass))
@@ -855,98 +848,22 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 				array('integer','integer','integer'),
 				array($active_id, $this->getId(), $pass)
 			);
-			if (array_key_exists("orderresult", $_POST))
+
+			$entered_values = 0;
+			foreach($this->getSolutionSubmit() as $val1 => $val2)
 			{
-				$orderresult = $_POST["orderresult"];
-				if (strlen($orderresult))
-				{
-					$orderarray = explode(":", $orderresult);
-					$ordervalue = 1;
-					foreach ($orderarray as $index)
-					{
-						if (preg_match("/id_(\\d+)/", $index, $idmatch))
-						{
-							$randomid = $idmatch[1];
-							foreach ($this->getAnswers() as $answeridx => $answer)
-							{
-								if ($answer->getRandomID() == $randomid)
-								{
-									$next_id = $ilDB->nextId('tst_solutions');
-									$affectedRows = $ilDB->insert("tst_solutions", array(
-										"solution_id" => array("integer", $next_id),
-										"active_fi" => array("integer", $active_id),
-										"question_fi" => array("integer", $this->getId()),
-										"value1" => array("clob", $answeridx),
-										"value2" => array("clob", trim($ordervalue)),
-										"pass" => array("integer", $pass),
-										"tstamp" => array("integer", time())
-									));
-									$ordervalue++;
-									$entered_values++;
-								}
-							}
-						}
-					}
-				}
-			}
-			else if($this->getOrderingType() == OQ_NESTED_TERMS 
-				||$this->getOrderingType() == OQ_NESTED_PICTURES) 
-			{
-				$answers_ordering = $_POST['answers_ordering__participant'];
-				$user_solution_hierarchy = json_decode($answers_ordering);
-				$with_random_id = true;
-				$this->setLeveledOrdering($user_solution_hierarchy, $with_random_id);
-				
-				$index = 0;
-				foreach($this->leveled_ordering as $random_id=>$depth)
-				{
-					$value_2 = implode(':',array($random_id,$depth));
-					$next_id = $ilDB->nextId('tst_solutions');
-					
-					$affectedRows = $ilDB->insert("tst_solutions", array(
-						"solution_id" => array("integer", $next_id),
-						"active_fi" => array("integer", $active_id),
-						"question_fi" => array("integer", $this->getId()),
-						"value1" => array("clob", $index),
-						"value2" => array("clob", $value_2),
-						"pass" => array("integer", $pass),
-						"tstamp" => array("integer", time())
-					));
-					$index++;
-					$entered_values++;
-				}
-			}
-			else
-			{
-				foreach ($_POST as $key => $value)
-				{
-					if (preg_match("/^order_(\d+)/", $key, $matches))
-					{
-						if (!(preg_match("/initial_value_\d+/", $value)))
-						{
-							if (strlen($value))
-							{
-								foreach ($this->getAnswers() as $answeridx => $answer)
-								{
-									if ($answer->getRandomID() == $matches[1])
-									{
-										$next_id = $ilDB->nextId('tst_solutions');
-										$affectedRows = $ilDB->insert("tst_solutions", array(
-											"solution_id" => array("integer", $next_id),
-											"active_fi" => array("integer", $active_id),
-											"question_fi" => array("integer", $this->getId()),
-											"value1" => array("clob", $answeridx),
-											"value2" => array("clob", $value),
-											"pass" => array("integer", $pass),
-											"tstamp" => array("integer", time())
-										));
-										$entered_values++;
-									}
-								}
-							}
-						}
-					}
-				}
+				$next_id = $ilDB->nextId('tst_solutions');
+				$affectedRows = $ilDB->insert("tst_solutions", array(
+					"solution_id" => array("integer", $next_id),
+					"active_fi" => array("integer", $active_id),
+					"question_fi" => array("integer", $this->getId()),
+					"value1" => array("clob", $val1),
+					"value2" => array("clob", trim($val2)),
+					"pass" => array("integer", $pass),
+					"tstamp" => array("integer", time())
+				));
+				$ordervalue++;
+				$entered_values++;
 			}
 
 			$this->getProcessLocker()->releaseUserSolutionUpdateLock();
@@ -969,6 +886,14 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		}
 
 		return $saveWorkingDataResult;
+	}
+	
+	protected function savePreviewData(ilAssQuestionPreviewSession $previewSession)
+	{
+		if( $this->checkSaveData() )
+		{
+			$previewSession->setParticipantsSolution($this->getSolutionSubmit());
+		}
 	}
 
 	public function saveAdditionalQuestionDataToDb()
@@ -1290,6 +1215,122 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 			$this->deleteImagefile($answer->getAnswertext());
 			$answer->setAnswertext('');
 		}
+	}
+	/**
+	* @return array
+	*/
+	protected function getSolutionSubmit()
+	{
+		$solutionSubmit = array();
+		
+		if(array_key_exists("orderresult", $_POST))
+		{
+			$orderresult = $_POST["orderresult"];
+			if(strlen($orderresult))
+			{
+				$orderarray = explode(":", $orderresult);
+				$ordervalue = 1;
+				foreach($orderarray as $index)
+				{
+					$idmatch = null;
+					if(preg_match("/id_(\\d+)/", $index, $idmatch))
+					{
+						$randomid = $idmatch[1];
+						foreach($this->getAnswers() as $answeridx => $answer)
+						{
+							if($answer->getRandomID() == $randomid)
+							{
+								$solutionSubmit[$answeridx] = $ordervalue;
+								$ordervalue++;
+							}
+						}
+					}
+				}
+			}
+		}
+		else if($this->getOrderingType() == OQ_NESTED_TERMS || $this->getOrderingType() == OQ_NESTED_PICTURES)
+		{
+			$answers_ordering = $_POST['answers_ordering__participant'];
+			$user_solution_hierarchy = json_decode($answers_ordering);
+			$with_random_id = true;
+			$this->setLeveledOrdering($user_solution_hierarchy, $with_random_id);
+	
+			$index = 0;
+			foreach($this->leveled_ordering as $random_id => $depth)
+			{
+				$value_2 = implode(':', array($random_id, $depth));
+				$solutionSubmit[$index] = $value_2;
+				$index++;
+			}
+		}
+		else
+		{
+			foreach($_POST as $key => $value)
+			{
+				$matches = null;
+				if(preg_match("/^order_(\d+)/", $key, $matches))
+				{
+					if(!(preg_match("/initial_value_\d+/", $value)))
+					{
+						if(strlen($value))
+						{
+							foreach($this->getAnswers() as $answeridx => $answer)
+							{
+								if($answer->getRandomID() == $matches[1])
+								{
+									$solutionSubmit[$answeridx] = $value;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		return $solutionSubmit;
+	}
+
+	/**
+	 * @param $user_order
+	 * @param $nested_solution
+	 * @return int
+	 */
+	protected function calculateReachedPointsForSolution($user_order, $nested_solution)
+	{
+		if($this->getOrderingType() != OQ_NESTED_PICTURES && $this->getOrderingType() != OQ_NESTED_TERMS)
+		{
+			ksort($user_order);
+			$user_order = array_values($user_order);
+		}
+
+		$points = 0;
+		$correctcount = 0;
+
+		foreach($this->answers as $index => $answer)
+		{
+			if($nested_solution == true)
+			{
+				$random_id = $answer->getRandomID();
+
+				if($random_id == $user_order[$random_id]['random_id'] && $answer->getOrderingDepth() == $user_order[$random_id]['depth'] && $index == $user_order[$random_id]['index'])
+				{
+					$correctcount++;
+				}
+			} else
+			{
+				if($index == $user_order[$index])
+				{
+					$correctcount++;
+				}
+			}
+		}
+
+		if($correctcount == count($this->answers))
+		{
+			$points = $this->getPoints();
+			return $points;
+		}
+		return $points;
 	}
 
 	/***

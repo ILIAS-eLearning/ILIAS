@@ -362,6 +362,17 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
 		return $points;
 	}
 
+	public function calculateReachedPointsFromPreviewSession(ilAssQuestionPreviewSession $previewSession)
+	{
+		$points = 0;
+		if ($this->contains($previewSession->getParticipantsSolution()))
+		{
+			$points = $this->getPoints();
+		}
+
+		return $points;
+	}
+
 	/**
 	 * Checks for a given value within the range
 	 *
@@ -389,6 +400,23 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
 		}
 		return FALSE;
 	}
+	
+	public function getSolutionSubmit()
+	{
+		return trim(str_replace(",",".",$_POST["numeric_result"]));
+	}
+	
+	public function isValidSolutionSubmit($numeric_solution)
+	{
+		require_once './Services/Math/classes/class.EvalMath.php';
+		$math = new EvalMath();
+		$math->suppress_errors = TRUE;
+		$result = $math->evaluate($numeric_solution);
+		
+		return !(
+			($result === FALSE || $result === TRUE) && strlen($numeric_solution) > 0
+		);
+	}
 
 	/**
 	 * Saves the learners input of the question to the database.
@@ -410,14 +438,12 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
 		}
 
 		$entered_values = 0;
-		$numeric_result = str_replace(",",".",$_POST["numeric_result"]);
 
-		require_once './Services/Math/classes/class.EvalMath.php';
-		$math = new EvalMath();
-		$math->suppress_errors = TRUE;
-		$result = $math->evaluate($numeric_result);
 		$returnvalue = true;
-		if ((($result === FALSE) || ($result === TRUE)) && (strlen($result) > 0))
+
+		$numeric_result = $this->getSolutionSubmit();
+
+		if( !$this->isValidSolutionSubmit($numeric_result) )
 		{
 			ilUtil::sendInfo($this->lng->txt("err_no_numeric_value"), true);
 			$returnvalue = false;
@@ -509,6 +535,18 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
 		}
 
 		return $returnvalue;
+	}
+
+	protected function savePreviewData(ilAssQuestionPreviewSession $previewSession)
+	{
+		$numericSolution = $this->getSolutionSubmit();
+
+		if( !$this->isValidSolutionSubmit($numericSolution) )
+		{
+			ilUtil::sendInfo($this->lng->txt("err_no_numeric_value"), true);
+		}
+		
+		$previewSession->setParticipantsSolution($numericSolution);
 	}
 
 	public function saveAdditionalQuestionDataToDb()

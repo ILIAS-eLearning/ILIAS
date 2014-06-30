@@ -189,7 +189,7 @@ class assFormulaQuestion extends assQuestion
 		return true;
 	}
 	
-	public function substituteVariables($userdata = null, $graphicalOutput = FALSE, $forsolution = FALSE, $result_output = FALSE)
+	public function substituteVariables($userdata = null, $graphicalOutput = FALSE, $forsolution = FALSE, $result_output = FALSE, ilAssQuestionPreviewSession $previewSession = null)
 	{
 		global $ilDB;
 		
@@ -216,6 +216,12 @@ class assFormulaQuestion extends assQuestion
 					{
 						$value = $userdata[$varObj->getVariable()];
 						$varObj->setValue($value);
+					}
+					elseif( is_object($previewSession) )
+					{
+						$userSolution = $previewSession->getParticipantsSolution();
+						$userSolution[$varObj->getVariable()] = $varObj->getValue();
+						$previewSession->setParticipantsSolution($userSolution);
 					}
 					else
 					{
@@ -948,9 +954,25 @@ class assFormulaQuestion extends assQuestion
 				$user_solution[$matches[1]]["unit"] = $solution_value["value2"];
 			}
 		}
+		//vd($this->getResults());
+				$points = 0;
+		foreach($this->getResults() as $result)
+		{
+			//vd($user_solution[$result->getResult()]["value"]);
+			$points += $result->getReachedPoints($this->getVariables(), $this->getResults(), $user_solution[$result->getResult()]["value"], $user_solution[$result->getResult()]["unit"], $this->unitrepository->getUnits());
+		}
+
+		return $points;
+	}
+	
+	public function calculateReachedPointsFromPreviewSession(ilAssQuestionPreviewSession $previewSession)
+	{
+		$user_solution = $previewSession->getParticipantsSolution();
+
 		$points = 0;
 		foreach($this->getResults() as $result)
 		{
+			//vd($user_solution[$result->getResult()]["value"]);
 			$points += $result->getReachedPoints($this->getVariables(), $this->getResults(), $user_solution[$result->getResult()]["value"], $user_solution[$result->getResult()]["unit"], $this->unitrepository->getUnits());
 		}
 
@@ -975,10 +997,13 @@ class assFormulaQuestion extends assQuestion
 		}
 
 		$this->getProcessLocker()->requestUserSolutionUpdateLock();
+
+		$solutionSubmit = $this->getSolutionSubmit();
 		
 		$entered_values = FALSE;
-		foreach($_POST as $key => $value)
+		foreach($solutionSubmit as $key => $value)
 		{
+			$matches = null;
 			if(preg_match("/^result_(\\\$r\\d+)$/", $key, $matches))
 			{
 				if(strlen($value)) $entered_values = TRUE;
@@ -1058,6 +1083,27 @@ class assFormulaQuestion extends assQuestion
 		}
 
 		return true;
+	}
+	
+	protected function savePreviewData(ilAssQuestionPreviewSession $previewSession)
+	{
+		$userSolution = $previewSession->getParticipantsSolution();
+		
+		foreach($this->getSolutionSubmit() as $key => $val)
+		{
+			$matches = null;
+			
+			if(preg_match("/^result_(\\\$r\\d+)$/", $key, $matches))
+			{
+				$userSolution[$matches[1]] = $val;
+			}
+			else if(preg_match("/^result_(\\\$r\\d+)_unit$/", $key, $matches))
+			{
+				$userSolution[$matches[1] . "_unit"] = $val;
+			}
+		}
+
+		$previewSession->setParticipantsSolution($userSolution);
 	}
 	
 	/**
@@ -1254,12 +1300,13 @@ class assFormulaQuestion extends assQuestion
 				$user_solution[$result->getResult()]["value"] = $value;
 				$user_solution[$result->getResult()]["frac_helper"] = $frac_helper;
 			}
+			elseif($result->getPrecision() > 0)
+			{
+				$user_solution[$result->getResult()]["value"] = round($resVal, $result->getPrecision());
+			}
 			else
 			{
-				if($result->getPrecision() > 0)
-				{
-					$user_solution[$result->getResult()]["value"] = round($resVal, $result->getPrecision());
-				}
+				$user_solution[$result->getResult()]["value"] = round($resVal);
 			}
 		}
 		return $user_solution;
@@ -1301,5 +1348,24 @@ class assFormulaQuestion extends assQuestion
 	public function getUnitrepository()
 	{
 		return $this->unitrepository;
+	}
+
+	/**
+	 * @return array
+	 */
+	protected function getSolutionSubmit()
+	{
+		$solutionSubmit = array();
+		foreach($_POST as $k => $v)
+		{
+			if(preg_match("/^result_(\\\$r\\d+)$/", $k))
+			{
+				$solutionSubmit[$k] = $v;
+			} elseif(preg_match("/^result_(\\\$r\\d+)_unit$/", $k))
+			{
+				$solutionSubmit[$k] = $v;
+			}
+		}
+		return $solutionSubmit;
 	}
 }

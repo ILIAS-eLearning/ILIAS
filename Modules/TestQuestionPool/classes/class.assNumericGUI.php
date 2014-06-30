@@ -254,11 +254,15 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
 	 *
 	 * @return string
 	 */
-	public function getPreview($show_question_only = FALSE)
+	public function getPreview($show_question_only = FALSE, $showInlineFeedback = false, ilAssQuestionPreviewSession $previewSession = NULL)
 	{
 		// generate the question output
 		require_once './Services/UICore/classes/class.ilTemplate.php';
 		$template = new ilTemplate("tpl.il_as_qpl_numeric_output.html", TRUE, TRUE, "Modules/TestQuestionPool");
+		if( is_object($previewSession) )
+		{
+			$template->setVariable("NUMERIC_VALUE", " value=\"".$previewSession->getParticipantsSolution()."\"");
+		}
 		$template->setVariable("NUMERIC_SIZE", $this->object->getMaxChars());
 		$questiontext = $this->object->getQuestion();
 		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));

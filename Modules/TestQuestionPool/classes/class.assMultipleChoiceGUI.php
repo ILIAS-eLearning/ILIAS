@@ -426,8 +426,9 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 		return $solutionoutput;
 	}
 	
-	function getPreview($show_question_only = FALSE)
+	function getPreview($show_question_only = FALSE, $showInlineFeedback = false, ilAssQuestionPreviewSession $previewSession = null)
 	{
+		$user_solution = is_object($previewSession) ? $previewSession->getParticipantsSolution() : array();
 		// shuffle output
 		$keys = $this->getChoiceKeys();
 
@@ -474,9 +475,22 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 					$template->parseCurrentBlock();
 				}
 			}
+
+			if( $showInlineFeedback )
+			{
+				$this->populateSpecificFeedbackInline($user_solution, $answer_id, $template);
+			}
+			
 			$template->setCurrentBlock("answer_row");
 			$template->setVariable("ANSWER_ID", $answer_id);
 			$template->setVariable("ANSWER_TEXT", $this->object->prepareTextareaOutput($answer->getAnswertext(), TRUE));
+			foreach ($user_solution as $mc_solution)
+			{
+				if (strcmp($mc_solution, $answer_id) == 0)
+				{
+					$template->setVariable("CHECKED_ANSWER", " checked=\"checked\"");
+				}
+			}
 			$template->parseCurrentBlock();
 		}
 		$questiontext = $this->object->getQuestion();
@@ -569,57 +583,11 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 					$template->parseCurrentBlock();
 				}
 			}
-			if ($show_feedback && $this->object->getSpecificFeedbackSetting() == 2)
-				{
-					foreach ($user_solution as $mc_solution)
-					{
-						if (strcmp($mc_solution, $answer_id) == 0)
-						{
-							$fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation(
-									$this->object->getId(), $answer_id
-							);
-							if (strlen($fb))
-							{
-								$template->setCurrentBlock("feedback");
-								$template->setVariable("FEEDBACK", $this->object->prepareTextareaOutput( $fb, true ));
-								$template->parseCurrentBlock();
-							}
-						}
-					}
-				}
-
-				if ($show_feedback && $this->object->getSpecificFeedbackSetting() == 1)
-				{
-					$fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation(
-							$this->object->getId(), $answer_id
-					);
-					if (strlen($fb))
-					{
-						$template->setCurrentBlock("feedback");
-						$template->setVariable("FEEDBACK", $this->object->prepareTextareaOutput( $fb, true ));
-						$template->parseCurrentBlock();
-					}					
-				}
-
-				if ($show_feedback && $this->object->getSpecificFeedbackSetting() == 3)
-				{
-					$answer = $this->object->getAnswer($answer_id);
-
-					if ($answer->getPoints() > 0)
-					{
-						$fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation(
-								$this->object->getId(), $answer_id
-						);
-						if (strlen($fb))
-						{
-							$template->setCurrentBlock("feedback");
-							$template->setVariable("FEEDBACK", $this->object->prepareTextareaOutput( $fb, true ));
-							$template->parseCurrentBlock();
-						}
-					}
-
-				}					
 			
+			if( $show_feedback )
+			{
+				$this->populateSpecificFeedbackInline($user_solution, $answer_id, $template);					
+			}
 
 			$template->setCurrentBlock("answer_row");
 			$template->setVariable("ANSWER_ID", $answer_id);
@@ -987,5 +955,58 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 			$tpl->parseCurrentBlock();
 		}
 		return $tpl;
+	}
+
+	/**
+	 * @param $user_solution
+	 * @param $answer_id
+	 * @param $template
+	 * @return array
+	 */
+	private function populateSpecificFeedbackInline($user_solution, $answer_id, $template)
+	{
+		if($this->object->getSpecificFeedbackSetting() == 2)
+		{
+			foreach($user_solution as $mc_solution)
+			{
+				if(strcmp($mc_solution, $answer_id) == 0)
+				{
+					$fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation($this->object->getId(), $answer_id);
+					if(strlen($fb))
+					{
+						$template->setCurrentBlock("feedback");
+						$template->setVariable("FEEDBACK", $this->object->prepareTextareaOutput($fb, true));
+						$template->parseCurrentBlock();
+					}
+				}
+			}
+		}
+
+		if($this->object->getSpecificFeedbackSetting() == 1)
+		{
+			$fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation($this->object->getId(), $answer_id);
+			if(strlen($fb))
+			{
+				$template->setCurrentBlock("feedback");
+				$template->setVariable("FEEDBACK", $this->object->prepareTextareaOutput($fb, true));
+				$template->parseCurrentBlock();
+			}
+		}
+
+		if($this->object->getSpecificFeedbackSetting() == 3)
+		{
+			$answer = $this->object->getAnswer($answer_id);
+
+			if($answer->getPoints() > 0)
+			{
+				$fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation($this->object->getId(), $answer_id);
+				if(strlen($fb))
+				{
+					$template->setCurrentBlock("feedback");
+					$template->setVariable("FEEDBACK", $this->object->prepareTextareaOutput($fb, true));
+					$template->parseCurrentBlock();
+				}
+			}
+		}
 	}
 }

@@ -786,19 +786,58 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 	}
 	}
 	
-	function getPreview($show_question_only = FALSE)
+	function getPreview($show_question_only = FALSE, $showInlineFeedback = false, ilAssQuestionPreviewSession $previewSession = null)
 	{
+		if( is_object($previewSession) && count($previewSession->getParticipantsSolution()) )
+		{
+			if ($this->object->getOrderingType() == OQ_NESTED_TERMS || $this->object->getOrderingType() == OQ_NESTED_PICTURES)
+			{
+				$answerMap = $this->getRandomIdToAnswerMap();
+	
+				$answerArray = array();
+				$shuffleAnswers = false;
+				
+				foreach($previewSession->getParticipantsSolution() as $val1 => $val2)
+				{
+					list($randomId, $depth) = explode(':', $val2);
+	
+					$answ = new ASS_AnswerOrdering(
+						$answerMap[$randomId]->getAnswertext(), $randomId, $depth
+					);
+	
+					$answerArray[] = $answ;
+	
+					$jssolutions[$val2] = $val1;
+				}
+			}
+			else
+			{
+				foreach($previewSession->getParticipantsSolution() as $val1 => $val2)
+				{
+					$jssolutions[$val2] = $val1;
+				}
+			}
+		}
+		else
+		{
+			$answerArray = $this->object->answers;
+			$shuffleAnswers = true;
+		}
+		 
+		
 		global $ilUser;
 		
 		// shuffle output
 		$keys = array_keys($this->object->answers);
-		shuffle($keys);
+		if($shuffleAnswers)
+		{
+			shuffle($keys);
+		}
 
 		// generate the question output
 		include_once "./Services/UICore/classes/class.ilTemplate.php";
 		$template = new ilTemplate("tpl.il_as_qpl_ordering_output.html", TRUE, TRUE, "Modules/TestQuestionPool");
-		if ($this->object->getOrderingType() == OQ_NESTED_TERMS
-		||$this->object->getOrderingType() == OQ_NESTED_PICTURES)
+		if ($this->object->getOrderingType() == OQ_NESTED_TERMS || $this->object->getOrderingType() == OQ_NESTED_PICTURES)
 		{
 			$this->object->setOutputType(OUTPUT_JAVASCRIPT);
 
@@ -806,13 +845,13 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			include_once "./Services/UICore/classes/class.ilTemplate.php";
 			$template = new ilTemplate("tpl.il_as_qpl_ordering_output.html", TRUE, TRUE, "Modules/TestQuestionPool");
 
-		$jsswitch = "";
+			$jsswitch = "";
 
 			include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 			include_once 'Modules/TestQuestionPool/classes/class.ilNestedOrderingGUI.php';
 			$answers = new ilNestedOrderingGUI($this->lng->txt("answers"), "answers");
 			$answers->setOrderingType($this->object->getOrderingType());
-			$answers->setObjAnswersArray($this->object->answers);
+			$answers->setObjAnswersArray($answerArray, $shuffleAnswers);
 
 			if($this->object->getOrderingType() == OQ_NESTED_PICTURES)
 			{
@@ -837,132 +876,156 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		}
 		else
 		{
-		$jsswitch = "";
-		if (strcmp($this->ctrl->getCmd(), 'preview') == 0)
-		{
-			if (array_key_exists('js', $_GET))
+			$jsswitch = "";
+			if (strcmp($this->ctrl->getCmd(), 'preview') == 0)
 			{
-				$ilUser->writePref('tst_javascript', $_GET['js']);
-			}
-			$jstemplate = new ilTemplate("tpl.il_as_qpl_javascript_switch.html", TRUE, TRUE, "Modules/TestQuestionPool");
-			if ($ilUser->getPref("tst_javascript") == 1)
-			{
-				$jstemplate->setVariable("JAVASCRIPT_IMAGE", ilUtil::getImagePath("javascript_disable.png"));
-				$jstemplate->setVariable("JAVASCRIPT_IMAGE_ALT", $this->lng->txt("disable_javascript"));
-				$jstemplate->setVariable("JAVASCRIPT_IMAGE_TITLE", $this->lng->txt("disable_javascript"));
-				$this->ctrl->setParameterByClass($this->ctrl->getCmdClass(), "js", "0");
-				$jstemplate->setVariable("JAVASCRIPT_URL", $this->ctrl->getLinkTargetByClass($this->ctrl->getCmdClass(), $this->ctrl->getCmd()));
-			}
-			else
-			{
-				$jstemplate->setVariable("JAVASCRIPT_IMAGE", ilUtil::getImagePath("javascript.png"));
-				$jstemplate->setVariable("JAVASCRIPT_IMAGE_ALT", $this->lng->txt("enable_javascript"));
-				$jstemplate->setVariable("JAVASCRIPT_IMAGE_TITLE", $this->lng->txt("enable_javascript"));
-				$this->ctrl->setParameterByClass($this->ctrl->getCmdClass(), "js", "1");
-				$jstemplate->setVariable("JAVASCRIPT_URL", $this->ctrl->getLinkTargetByClass($this->ctrl->getCmdClass(), $this->ctrl->getCmd()));
-			}
-			$jsswitch = $jstemplate->get();
-			if ($ilUser->getPref('tst_javascript')) $this->object->setOutputType(OUTPUT_JAVASCRIPT);
-		}
-
-		if ($this->object->getOutputType() == OUTPUT_JAVASCRIPT)
-		{
-			// BEGIN: add javascript code for javascript enabled ordering questions
-			$this->tpl->addBlockFile("CONTENT_BLOCK", "head_content", "tpl.il_as_qpl_ordering_output_javascript.html", "Modules/TestQuestionPool");
-			$this->tpl->touchBlock('head_content');
-
-			require_once 'Services/jQuery/classes/class.iljQueryUtil.php';
-			iljQueryUtil::initjQuery();
-			iljQueryUtil::initjQueryUI();
-			// END: add javascript code for javascript enabled ordering questions
-			
-			// BEGIN: add additional stylesheet for javascript enabled ordering questions
-			$this->tpl->setCurrentBlock("AdditionalStyle");
-			$this->tpl->setVariable("LOCATION_ADDITIONAL_STYLESHEET", ilUtil::getStyleSheetLocation("output", "test_javascript.css", "Modules/TestQuestionPool"));
-			$this->tpl->parseCurrentBlock();
-			// END: add additional stylesheet for javascript enabled ordering questions
-		}
-
-		if ($this->object->getOutputType() != OUTPUT_JAVASCRIPT)
-		{
-			foreach ($keys as $idx)
-			{
-				$answer = $this->object->answers[$idx];
-				if ($this->object->getOrderingType() == OQ_PICTURES)
+				if (array_key_exists('js', $_GET))
 				{
-					$template->setCurrentBlock("ordering_row_standard_pictures");
-					$template->setVariable("PICTURE_HREF", $this->object->getImagePathWeb() . $answer->getAnswertext());
-					$thumbweb = $this->object->getImagePathWeb() . $this->object->getThumbPrefix() . $answer->getAnswertext();
-					$thumb = $this->object->getImagePath() . $this->object->getThumbPrefix() . $answer->getAnswertext();
-					if (!@file_exists($thumb)) $this->object->rebuildThumbnails();
-					$template->setVariable("THUMB_HREF", $thumbweb);
-					$template->setVariable("THUMB_ALT", $this->lng->txt("thumbnail"));
-					$template->setVariable("THUMB_TITLE", $this->lng->txt("enlarge"));
-					$template->setVariable("ANSWER_ID", $answer->getRandomID());
-					$template->parseCurrentBlock();
+					$ilUser->writePref('tst_javascript', $_GET['js']);
+				}
+				$jstemplate = new ilTemplate("tpl.il_as_qpl_javascript_switch.html", TRUE, TRUE, "Modules/TestQuestionPool");
+				if ($ilUser->getPref("tst_javascript") == 1)
+				{
+					$jstemplate->setVariable("JAVASCRIPT_IMAGE", ilUtil::getImagePath("javascript_disable.png"));
+					$jstemplate->setVariable("JAVASCRIPT_IMAGE_ALT", $this->lng->txt("disable_javascript"));
+					$jstemplate->setVariable("JAVASCRIPT_IMAGE_TITLE", $this->lng->txt("disable_javascript"));
+					$this->ctrl->setParameterByClass($this->ctrl->getCmdClass(), "js", "0");
+					$jstemplate->setVariable("JAVASCRIPT_URL", $this->ctrl->getLinkTargetByClass($this->ctrl->getCmdClass(), $this->ctrl->getCmd()));
 				}
 				else
 				{
-					$template->setCurrentBlock("ordering_row_standard_text");
-					$template->setVariable("ANSWER_TEXT", $this->object->prepareTextareaOutput($answer->getAnswertext(), TRUE));
+					$jstemplate->setVariable("JAVASCRIPT_IMAGE", ilUtil::getImagePath("javascript.png"));
+					$jstemplate->setVariable("JAVASCRIPT_IMAGE_ALT", $this->lng->txt("enable_javascript"));
+					$jstemplate->setVariable("JAVASCRIPT_IMAGE_TITLE", $this->lng->txt("enable_javascript"));
+					$this->ctrl->setParameterByClass($this->ctrl->getCmdClass(), "js", "1");
+					$jstemplate->setVariable("JAVASCRIPT_URL", $this->ctrl->getLinkTargetByClass($this->ctrl->getCmdClass(), $this->ctrl->getCmd()));
+				}
+				$jsswitch = $jstemplate->get();
+				if ($ilUser->getPref('tst_javascript')) $this->object->setOutputType(OUTPUT_JAVASCRIPT);
+			}
+	
+			if ($this->object->getOutputType() == OUTPUT_JAVASCRIPT)
+			{
+				// BEGIN: add javascript code for javascript enabled ordering questions
+				$this->tpl->addBlockFile("CONTENT_BLOCK", "head_content", "tpl.il_as_qpl_ordering_output_javascript.html", "Modules/TestQuestionPool");
+				$this->tpl->touchBlock('head_content');
+	
+				require_once 'Services/jQuery/classes/class.iljQueryUtil.php';
+				iljQueryUtil::initjQuery();
+				iljQueryUtil::initjQueryUI();
+				// END: add javascript code for javascript enabled ordering questions
+				
+				// BEGIN: add additional stylesheet for javascript enabled ordering questions
+				$this->tpl->setCurrentBlock("AdditionalStyle");
+				$this->tpl->setVariable("LOCATION_ADDITIONAL_STYLESHEET", ilUtil::getStyleSheetLocation("output", "test_javascript.css", "Modules/TestQuestionPool"));
+				$this->tpl->parseCurrentBlock();
+				// END: add additional stylesheet for javascript enabled ordering questions
+				
+				$template->setCurrentBlock('form_submit_register');
+				$template->touchBlock('form_submit_register');
+				$template->parseCurrentBlock();
+				
+				if (count($jssolutions))
+				{
+					ksort($jssolutions);
+					$js = "";
+					foreach ($jssolutions as $key => $value)
+					{
+						if (is_object($this->object->getAnswer($value)))
+						{
+							$js .= "initialorder.push('id_" . $this->object->getAnswer($value)->getRandomID() . "');";
+						}
+					}
+					$js .= "restoreInitialOrder();";
+				}
+				if (strlen($js))
+				{
+					$template->setCurrentBlock("javascript_restore_order");
+					$template->setVariable("RESTORE_ORDER", $js);
+					$template->parseCurrentBlock();
+				}
+			}
+	
+			if ($this->object->getOutputType() != OUTPUT_JAVASCRIPT)
+			{
+				foreach ($keys as $idx)
+				{
+					$answer = $this->object->answers[$idx];
+					if ($this->object->getOrderingType() == OQ_PICTURES)
+					{
+						$template->setCurrentBlock("ordering_row_standard_pictures");
+						$template->setVariable("PICTURE_HREF", $this->object->getImagePathWeb() . $answer->getAnswertext());
+						$thumbweb = $this->object->getImagePathWeb() . $this->object->getThumbPrefix() . $answer->getAnswertext();
+						$thumb = $this->object->getImagePath() . $this->object->getThumbPrefix() . $answer->getAnswertext();
+						if (!@file_exists($thumb)) $this->object->rebuildThumbnails();
+						$template->setVariable("THUMB_HREF", $thumbweb);
+						$template->setVariable("THUMB_ALT", $this->lng->txt("thumbnail"));
+						$template->setVariable("THUMB_TITLE", $this->lng->txt("enlarge"));
+						$template->setVariable("ANSWER_ID", $answer->getRandomID());
+						$template->parseCurrentBlock();
+					}
+					else
+					{
+						$template->setCurrentBlock("ordering_row_standard_text");
+						$template->setVariable("ANSWER_TEXT", $this->object->prepareTextareaOutput($answer->getAnswertext(), TRUE));
+						$template->setVariable("ANSWER_ID", $answer->getRandomID());
+						$template->parseCurrentBlock();
+					}
+					$template->setCurrentBlock("ordering_row_standard");
 					$template->setVariable("ANSWER_ID", $answer->getRandomID());
 					$template->parseCurrentBlock();
 				}
-				$template->setCurrentBlock("ordering_row_standard");
-				$template->setVariable("ANSWER_ID", $answer->getRandomID());
+			}
+			else
+			{
+				foreach ($keys as $idx)
+				{
+					$answer = $this->object->answers[$idx];
+					if ($this->object->getOrderingType() == OQ_PICTURES)
+					{
+						$template->setCurrentBlock("ordering_row_javascript_pictures");
+						$template->setVariable("PICTURE_HREF", $this->object->getImagePathWeb() . $answer->getAnswertext());
+						$thumbweb = $this->object->getImagePathWeb() . $this->object->getThumbPrefix() . $answer->getAnswertext();
+						$thumb = $this->object->getImagePath() . $this->object->getThumbPrefix() . $answer->getAnswertext();
+						if (!@file_exists($thumb)) $this->object->rebuildThumbnails();
+						$template->setVariable("THUMB_HREF", $thumbweb);
+						$template->setVariable("THUMB_ALT", $this->lng->txt("thumbnail"));
+						$template->setVariable("THUMB_TITLE", $this->lng->txt("thumbnail"));
+						$template->setVariable("ENLARGE_HREF", ilUtil::getImagePath("enlarge.png", FALSE));
+						$template->setVariable("ENLARGE_ALT", $this->lng->txt("enlarge"));
+						$template->setVariable("ENLARGE_TITLE", $this->lng->txt("enlarge"));
+						$template->setVariable("ANSWER_ID", $answer->getRandomID());
+						$template->parseCurrentBlock();
+					}
+					else
+					{
+						$template->setCurrentBlock("ordering_row_javascript_text");
+						$template->setVariable("ANSWER_TEXT", $this->object->prepareTextareaOutput($answer->getAnswertext(), TRUE));
+						$template->setVariable("ANSWER_ID", $answer->getRandomID());
+						$template->parseCurrentBlock();
+					}
+				}
+				$template->setCurrentBlock("ordering_with_javascript");
+				if ($this->object->getOrderingType() == OQ_PICTURES)
+				{
+					$template->setVariable("RESET_POSITIONS", $this->lng->txt("reset_pictures"));
+				}
+				else
+				{
+					$template->setVariable("RESET_POSITIONS", $this->lng->txt("reset_definitions"));
+				}
 				$template->parseCurrentBlock();
 			}
-		}
-		else
-		{
-			foreach ($keys as $idx)
+			$questiontext = $this->object->getQuestion();
+			$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
+			$questionoutput = $jsswitch . $template->get();
+			if (!$show_question_only)
 			{
-				$answer = $this->object->answers[$idx];
-				if ($this->object->getOrderingType() == OQ_PICTURES)
-				{
-					$template->setCurrentBlock("ordering_row_javascript_pictures");
-					$template->setVariable("PICTURE_HREF", $this->object->getImagePathWeb() . $answer->getAnswertext());
-					$thumbweb = $this->object->getImagePathWeb() . $this->object->getThumbPrefix() . $answer->getAnswertext();
-					$thumb = $this->object->getImagePath() . $this->object->getThumbPrefix() . $answer->getAnswertext();
-					if (!@file_exists($thumb)) $this->object->rebuildThumbnails();
-					$template->setVariable("THUMB_HREF", $thumbweb);
-					$template->setVariable("THUMB_ALT", $this->lng->txt("thumbnail"));
-					$template->setVariable("THUMB_TITLE", $this->lng->txt("thumbnail"));
-					$template->setVariable("ENLARGE_HREF", ilUtil::getImagePath("enlarge.png", FALSE));
-					$template->setVariable("ENLARGE_ALT", $this->lng->txt("enlarge"));
-					$template->setVariable("ENLARGE_TITLE", $this->lng->txt("enlarge"));
-					$template->setVariable("ANSWER_ID", $answer->getRandomID());
-					$template->parseCurrentBlock();
-				}
-				else
-				{
-					$template->setCurrentBlock("ordering_row_javascript_text");
-					$template->setVariable("ANSWER_TEXT", $this->object->prepareTextareaOutput($answer->getAnswertext(), TRUE));
-					$template->setVariable("ANSWER_ID", $answer->getRandomID());
-					$template->parseCurrentBlock();
-				}
+				// get page object output
+				$questionoutput = $this->getILIASPage($questionoutput);
 			}
-			$template->setCurrentBlock("ordering_with_javascript");
-			if ($this->object->getOrderingType() == OQ_PICTURES)
-			{
-				$template->setVariable("RESET_POSITIONS", $this->lng->txt("reset_pictures"));
-			}
-			else
-			{
-				$template->setVariable("RESET_POSITIONS", $this->lng->txt("reset_definitions"));
-			}
-			$template->parseCurrentBlock();
+			return $questionoutput;
 		}
-		$questiontext = $this->object->getQuestion();
-		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
-		$questionoutput = $jsswitch . $template->get();
-		if (!$show_question_only)
-		{
-			// get page object output
-			$questionoutput = $this->getILIASPage($questionoutput);
-		}
-		return $questionoutput;
-	}
 	}
 
 	private function getRandomIdToAnswerMap()

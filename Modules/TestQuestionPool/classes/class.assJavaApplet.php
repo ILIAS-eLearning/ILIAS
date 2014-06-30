@@ -667,6 +667,19 @@ class assJavaApplet extends assQuestion implements ilObjQuestionScoringAdjustabl
 
 		return $points;
 	}
+	
+	public function calculateReachedPointsFromPreviewSession(ilAssQuestionPreviewSession $previewSession)
+	{
+		$points = 0;
+		foreach($previewSession->getParticipantsSolution() as $solution)
+		{
+			if( isset($solution['points']) )
+			{
+				$points += $solution['points'];
+			}
+		}
+		return $points;
+	}
 
 	/**
 	 * Returns the evaluation data, a learner has entered to answer the question
@@ -848,6 +861,13 @@ class assJavaApplet extends assQuestion implements ilObjQuestionScoringAdjustabl
 		//$this->getProcessLocker()->releaseUserSolutionUpdateLock();
 		
  		return true;
+	}
+
+	protected function savePreviewData(ilAssQuestionPreviewSession $previewSession)
+	{
+		// nothing to save!
+
+		return true;
 	}
 
 	/**

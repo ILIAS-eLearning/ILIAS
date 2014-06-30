@@ -241,10 +241,19 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
 		return $solutionoutput;
 	}
 	
-	function getPreview($show_question_only = FALSE)
+	function getPreview($show_question_only = FALSE, $showInlineFeedback = false, ilAssQuestionPreviewSession $previewSession = null)
 	{
+		if( is_object($previewSession) && strlen($previewSession->getParticipantsSolution()) )
+		{
+			$elements = $previewSession->getParticipantsSolution();
+			$elements = $this->object->splitAndTrimOrderElementText($elements, $this->object->getAnswerSeparator());
+		}
+		else
+		{
+			$elements = $this->object->getRandomOrderingElements();
+		}
+		
 		$template = new ilTemplate("tpl.il_as_qpl_orderinghorizontal_preview.html",TRUE, TRUE, "Modules/TestQuestionPool");
-		$elements = $this->object->getRandomOrderingElements();
 		foreach ($elements as $id => $element)
 		{
 			$template->setCurrentBlock("element");

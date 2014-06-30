@@ -228,6 +228,8 @@ abstract class assQuestion
 	 * @var ilAssQuestionProcessLocker
 	 */
 	protected $processLocker;
+
+	public $questionActionCmd = 'handleQuestionAction';
 	
 	/**
 	* assQuestion constructor
@@ -279,6 +281,8 @@ abstract class assQuestion
 		$this->outputType = OUTPUT_HTML;
 		$this->arrData = array();
 		$this->setExternalId('');
+
+		$this->questionActionCmd = 'handleQuestionAction';
 	}
 
 	/**
@@ -1027,6 +1031,14 @@ abstract class assQuestion
 		
 		return $saveStatus;
 	}
+
+	/**
+	 * persists the preview state for current user and question
+	 */
+	final public function persistPreviewState(ilAssQuestionPreviewSession $previewSession)
+	{
+		$this->savePreviewData($previewSession);
+	}
 	
 	/**
 	 * Saves the learners input of the question to the database.
@@ -1050,6 +1062,11 @@ abstract class assQuestion
 	 */
 	abstract protected function reworkWorkingData($active_id, $pass, $obligationsAnswered);
 
+	protected function savePreviewData(ilAssQuestionPreviewSession $previewSession)
+	{
+		$previewSession->setParticipantsSolution($this->getSolutionSubmit());
+	}
+	
 	/** @TODO Move this to a proper place. */
 	function _updateTestResultCache($active_id, ilAssQuestionProcessLocker $processLocker = null)
 	{
@@ -3022,6 +3039,24 @@ abstract class assQuestion
 	 * @return integer/array $points/$details (array $details is deprecated !!)
 	 */
 	abstract public function calculateReachedPoints($active_id, $pass = NULL, $returndetails = FALSE);
+
+	public function calculateReachedPointsFromPreviewSession(ilAssQuestionPreviewSession $previewSession)
+	{
+		return $this->calculateReachedPointsForSolution($previewSession->getParticipantsSolution());
+	}
+	
+	public function isPreviewSolutionCorrect(ilAssQuestionPreviewSession $previewSession)
+	{
+		$reachedPoints = $this->calculateReachedPointsFromPreviewSession($previewSession);
+
+		if( $reachedPoints < $this->getMaximumPoints() )
+		{
+			return false;
+		}
+		
+		return true;
+	}
+
 
 	/**
 	 * Adjust the given reached points by checks for all

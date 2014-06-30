@@ -250,8 +250,9 @@ class assTextSubsetGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 		return $solutionoutput;
 	}
 	
-	function getPreview($show_question_only = FALSE)
+	function getPreview($show_question_only = FALSE, $showInlineFeedback = false, ilAssQuestionPreviewSession $previewSession = null)
 	{
+		$solutions = is_object($previewSession) ? $previewSession->getParticipantsSolution() : array();
 		// generate the question output
 		include_once "./Services/UICore/classes/class.ilTemplate.php";
 		$template = new ilTemplate("tpl.il_as_qpl_textsubset_output.html", TRUE, TRUE, "Modules/TestQuestionPool");
@@ -259,6 +260,13 @@ class assTextSubsetGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 		for ($i = 0; $i < $this->object->getCorrectAnswers(); $i++)
 		{
 			$template->setCurrentBlock("textsubset_row");
+			foreach ($solutions as $idx => $solution_value)
+			{
+				if ($idx == $i)
+				{
+					$template->setVariable("TEXTFIELD_VALUE", " value=\"" . $solution_value."\"");
+				}
+			}
 			$template->setVariable("COUNTER", $i+1);
 			$template->setVariable("TEXTFIELD_ID", sprintf("%02d", $i+1));
 			$template->setVariable("TEXTFIELD_SIZE", $width);

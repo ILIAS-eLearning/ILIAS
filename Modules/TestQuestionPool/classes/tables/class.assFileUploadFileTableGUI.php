@@ -21,7 +21,7 @@ class assFileUploadFileTableGUI extends ilTable2GUI
 	 * @param
 	 * @return
 	 */
-	public function __construct($a_parent_obj, $a_parent_cmd)
+	public function __construct($a_parent_obj, $a_parent_cmd, $formname = 'test_output')
 	{
 	 	global $lng,$ilCtrl;
 	 	
@@ -30,15 +30,15 @@ class assFileUploadFileTableGUI extends ilTable2GUI
 	 	
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
-		$this->setFormName('test_output');
+		$this->setFormName($formname);
 		$this->setStyle('table', 'std');
 		$this->addColumn('','f','1%');
 		$this->addColumn($this->lng->txt('filename'),'filename', '70%');
 		$this->addColumn($this->lng->txt('date'),'date', '29%');
 		$this->setDisplayAsBlock(true);
 	 	
-		$this->setPrefix('file');
-		$this->setSelectAllCheckbox('file');
+		$this->setPrefix('deletefiles');
+		$this->setSelectAllCheckbox('deletefiles');
 		
 		$this->addCommandButton($a_parent_cmd, $this->lng->txt('delete'));
 		$this->setRowTemplate("tpl.il_as_qpl_fileupload_file_row.html", "Modules/TestQuestionPool");

@@ -1310,8 +1310,7 @@ return;
 				include_once("./Services/User/classes/class.ilUserUtil.php");
 				
 				// presentation
-				if ($this->getOutputMode() == IL_PAGE_PREVIEW ||
-					$this->getRenderPageContainer())
+				if( $this->isPageContainerToBeRendered() )
 				{
 					$tpl->touchBlock("page_container_1");
 					$tpl->touchBlock("page_container_2");
@@ -3842,6 +3841,12 @@ return;
 		ilUtil::sendSuccess($lng->txt("cont_page_lock_released"), true);
 		$ilCtrl->redirect($this, "preview");
 	}
-
+	
+	protected function isPageContainerToBeRendered()
+	{
+		return (
+			$this->getRenderPageContainer() || $this->getOutputMode() == IL_PAGE_PREVIEW
+		);
+	}
 }
 ?>

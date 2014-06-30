@@ -808,8 +808,10 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 	 * @return string HTML code which contains the preview output of the question
 	 * @access public
 	 */
-	function getPreview($show_question_only = FALSE)
+	function getPreview($show_question_only = FALSE, $showInlineFeedback = false, ilAssQuestionPreviewSession $previewSession = null)
 	{
+		$user_solution = is_object($previewSession) ? $previewSession->getParticipantsSolution() : array();
+		
 		// generate the question output
 		include_once "./Services/UICore/classes/class.ilTemplate.php";
 		$template = new ilTemplate("tpl.il_as_qpl_cloze_question_output.html", TRUE, TRUE, "Modules/TestQuestionPool"); 
@@ -829,6 +831,13 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 						$gaptemplate->parseCurrentBlock();
 					}
 					$gaptemplate->setVariable("GAP_COUNTER", $gap_index);
+					foreach ($user_solution as $val1 => $val2)
+					{
+						if (strcmp($val1, $gap_index) == 0)
+						{
+							$gaptemplate->setVariable("VALUE_GAP", " value=\"" . ilUtil::prepareFormOutput($val2) . "\"");
+						}
+					}
 					$output = preg_replace("/\[gap\].*?\[\/gap\]/", $gaptemplate->get(), $output, 1);
 					break;
 				case CLOZE_SELECT:
@@ -838,6 +847,16 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 						$gaptemplate->setCurrentBlock("select_gap_option");
 						$gaptemplate->setVariable("SELECT_GAP_VALUE", $item->getOrder());
 						$gaptemplate->setVariable("SELECT_GAP_TEXT", ilUtil::prepareFormOutput($item->getAnswerText()));
+						foreach ($user_solution as $val1 => $val2)
+						{
+							if (strcmp($val1, $gap_index) == 0)
+							{
+								if (strcmp($val2, $item->getOrder()) == 0)
+								{
+									$gaptemplate->setVariable("SELECT_GAP_SELECTED", " selected=\"selected\"");
+								}
+							}
+						}
 						$gaptemplate->parseCurrentBlock();
 					}
 					$gaptemplate->setVariable("PLEASE_SELECT", $this->lng->txt("please_select"));
@@ -854,6 +873,13 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 						$gaptemplate->parseCurrentBlock();
 					}
 					$gaptemplate->setVariable("GAP_COUNTER", $gap_index);
+					foreach ($user_solution as $val1 => $val2)
+					{
+						if (strcmp($val1, $gap_index) == 0)
+						{
+							$gaptemplate->setVariable("VALUE_GAP", " value=\"" . ilUtil::prepareFormOutput($val2) . "\"");
+						}
+					}
 					$output = preg_replace("/\[gap\].*?\[\/gap\]/", $gaptemplate->get(), $output, 1);
 					break;
 			}

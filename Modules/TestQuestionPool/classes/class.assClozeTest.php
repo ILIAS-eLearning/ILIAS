@@ -1165,9 +1165,6 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 	{
 		global $ilDB;
 		
-		$found_value1 = array();
-		$found_value2 = array();
-		$detailed = array();
 		if (is_null($pass))
 		{
 			$pass = $this->getSolutionMaxPass($active_id);
@@ -1195,103 +1192,45 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 				);
 			}
 		}
-		$points = 0;
-		$counter = 0;
-		$solution_values_text = array(); // for identical scoring checks
-		$solution_values_select = array(); // for identical scoring checks
-		$solution_values_numeric = array(); // for identical scoring checks
-		foreach ($user_result as $gap_id => $value) 
+
+		if ($returndetails)
 		{
-			if (array_key_exists($gap_id, $this->gaps))
+			$detailed = array();
+			$this->calculateReachedPointsForSolution($user_result, $detailed);
+			return $detailed;
+		}
+		
+		return $this->calculateReachedPointsForSolution($user_result);
+	}
+	
+	public function getSolutionSubmit()
+	{
+		$solutionSubmit = array();
+		
+		foreach ($_POST as $key => $value)
+		{
+			if (preg_match("/^gap_(\d+)/", $key, $matches))
 			{
-				switch ($this->gaps[$gap_id]->getType())
+				$value = ilUtil::stripSlashes($value, FALSE);
+				if (strlen($value))
 				{
-					case CLOZE_TEXT:
-						$gappoints = 0;
-						for ($order = 0; $order < $this->gaps[$gap_id]->getItemCount(); $order++) 
+					$gap = $this->getGap($matches[1]);
+					if (is_object($gap))
+					{
+						if (!(($gap->getType() == CLOZE_SELECT) && ($value == -1)))
 						{
-							$answer = $this->gaps[$gap_id]->getItem($order);
-							$gotpoints = $this->getTextgapPoints($answer->getAnswertext(), $value["value"], $answer->getPoints());
-							if ($gotpoints > $gappoints) $gappoints = $gotpoints;
-						}
-						if (!$this->getIdenticalScoring())
-						{
-							// check if the same solution text was already entered
-							if ((in_array($value["value"], $solution_values_text)) && ($gappoints > 0))
+							if ($gap->getType() == CLOZE_NUMERIC)
 							{
-								$gappoints = 0;
+								$value = str_replace(",", ".", $value);
 							}
+							$solutionSubmit[trim($matches[1])] = $value;
 						}
-						$points += $gappoints;
-						$detailed[$gap_id] = array("points" =>$gappoints, "best" => ($this->getMaximumGapPoints($gap_id) == $gappoints) ? TRUE : FALSE, "positive" => ($gappoints > 0) ? TRUE : FALSE);
-						array_push($solution_values_text, $value["value"]);
-						break;
-					case CLOZE_NUMERIC:
-						$gappoints = 0;
-						for ($order = 0; $order < $this->gaps[$gap_id]->getItemCount(); $order++) 
-						{
-							$answer = $this->gaps[$gap_id]->getItem($order);
-							$gotpoints = $this->getNumericgapPoints($answer->getAnswertext(), $value["value"], $answer->getPoints(), $answer->getLowerBound(), $answer->getUpperBound());
-							if ($gotpoints > $gappoints) $gappoints = $gotpoints;
-						}
-						if (!$this->getIdenticalScoring())
-						{
-							// check if the same solution value was already entered
-							include_once "./Services/Math/classes/class.EvalMath.php";
-							$eval = new EvalMath();
-							$eval->suppress_errors = TRUE;
-							$found_value = FALSE;
-							foreach ($solution_values_numeric as $solval)
-							{
-								if ($eval->e($solval) == $eval->e($value["value"]))
-								{
-									$found_value = TRUE;
-								}
-							}
-							if ($found_value && ($gappoints > 0))
-							{
-								$gappoints = 0;
-							}
-						}
-						$points += $gappoints;
-						$detailed[$gap_id] = array("points" =>$gappoints, "best" => ($this->getMaximumGapPoints($gap_id) == $gappoints) ? TRUE : FALSE, "positive" => ($gappoints > 0) ? TRUE : FALSE);
-						array_push($solution_values_numeric, $value["value"]);
-						break;
-					case CLOZE_SELECT:
-						if ($value["value"] >= 0)
-						{
-							for ($order = 0; $order < $this->gaps[$gap_id]->getItemCount(); $order++) 
-							{
-								$answer = $this->gaps[$gap_id]->getItem($order);
-								if ($value["value"] == $answer->getOrder())
-								{
-									$answerpoints = $answer->getPoints();
-									if (!$this->getIdenticalScoring())
-									{
-										// check if the same solution value was already entered
-										if ((in_array($answer->getAnswertext(), $solution_values_select)) && ($answerpoints > 0))
-										{
-											$answerpoints = 0;
-										}
-									}
-									$points += $answerpoints;
-									$detailed[$gap_id] = array("points" =>$answerpoints, "best" => ($this->getMaximumGapPoints($gap_id) == $answerpoints) ? TRUE : FALSE, "positive" => ($answerpoints > 0) ? TRUE : FALSE);
-									array_push($solution_values_select, $answer->getAnswertext());
-								}
-							}
-						}
-						break;
+					}
 				}
 			}
 		}
-		if ($returndetails)
-		{
-			return $detailed;
-		}
-		else
-		{
-			return $points;
-		}
+		
+		return $solutionSubmit;
 	}
 
 	/**
@@ -1328,11 +1267,12 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 		);
 
 		$entered_values = 0;
-		foreach ($_POST as $key => $value) 
+		
+		foreach($this->getSolutionSubmit() as $val1 => $val2)
 		{
-			if (preg_match("/^gap_(\d+)/", $key, $matches)) 
+			if (preg_match("/^gap_(\d+)/", $val1, $matches)) 
 			{ 
-				$value = ilUtil::stripSlashes($value, FALSE);
+				$value = ilUtil::stripSlashes($val2, FALSE);
 				if (strlen($value))
 				{
 					$gap = $this->getGap($matches[1]);
@@ -1382,7 +1322,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 		
 		return TRUE;
 	}
-
+	
 	/**
 	 * Reworks the allready saved working data if neccessary
 	 *
@@ -1640,5 +1580,109 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 		$mobs = ilObjMediaObject::_getMobsOfObject("qpl:html", $this->getId());
 		$result['mobs'] = $mobs;
 		return json_encode($result);
+	}
+
+	/**
+	 * @param $user_result
+	 * @param $detailed
+	 * @return array
+	 */
+	private function calculateReachedPointsForSolution($user_result, &$detailed = null)
+	{
+		if($detailed === null)
+		{
+			$detailed = array();
+		}
+		
+		$points = 0;
+		$counter = 0;
+		$solution_values_text = array(); // for identical scoring checks
+		$solution_values_select = array(); // for identical scoring checks
+		$solution_values_numeric = array(); // for identical scoring checks
+		foreach($user_result as $gap_id => $value)
+		{
+			if(array_key_exists($gap_id, $this->gaps))
+			{
+				switch($this->gaps[$gap_id]->getType())
+				{
+					case CLOZE_TEXT:
+						$gappoints = 0;
+						for($order = 0; $order < $this->gaps[$gap_id]->getItemCount(); $order++)
+						{
+							$answer = $this->gaps[$gap_id]->getItem($order);
+							$gotpoints = $this->getTextgapPoints($answer->getAnswertext(), $value["value"], $answer->getPoints());
+							if($gotpoints > $gappoints) $gappoints = $gotpoints;
+						}
+						if(!$this->getIdenticalScoring())
+						{
+							// check if the same solution text was already entered
+							if((in_array($value["value"], $solution_values_text)) && ($gappoints > 0))
+							{
+								$gappoints = 0;
+							}
+						}
+						$points += $gappoints;
+						$detailed[$gap_id] = array("points" => $gappoints, "best" => ($this->getMaximumGapPoints($gap_id) == $gappoints) ? TRUE : FALSE, "positive" => ($gappoints > 0) ? TRUE : FALSE);
+						array_push($solution_values_text, $value["value"]);
+						break;
+					case CLOZE_NUMERIC:
+						$gappoints = 0;
+						for($order = 0; $order < $this->gaps[$gap_id]->getItemCount(); $order++)
+						{
+							$answer = $this->gaps[$gap_id]->getItem($order);
+							$gotpoints = $this->getNumericgapPoints($answer->getAnswertext(), $value["value"], $answer->getPoints(), $answer->getLowerBound(), $answer->getUpperBound());
+							if($gotpoints > $gappoints) $gappoints = $gotpoints;
+						}
+						if(!$this->getIdenticalScoring())
+						{
+							// check if the same solution value was already entered
+							include_once "./Services/Math/classes/class.EvalMath.php";
+							$eval = new EvalMath();
+							$eval->suppress_errors = TRUE;
+							$found_value = FALSE;
+							foreach($solution_values_numeric as $solval)
+							{
+								if($eval->e($solval) == $eval->e($value["value"]))
+								{
+									$found_value = TRUE;
+								}
+							}
+							if($found_value && ($gappoints > 0))
+							{
+								$gappoints = 0;
+							}
+						}
+						$points += $gappoints;
+						$detailed[$gap_id] = array("points" => $gappoints, "best" => ($this->getMaximumGapPoints($gap_id) == $gappoints) ? TRUE : FALSE, "positive" => ($gappoints > 0) ? TRUE : FALSE);
+						array_push($solution_values_numeric, $value["value"]);
+						break;
+					case CLOZE_SELECT:
+						if($value["value"] >= 0)
+						{
+							for($order = 0; $order < $this->gaps[$gap_id]->getItemCount(); $order++)
+							{
+								$answer = $this->gaps[$gap_id]->getItem($order);
+								if($value["value"] == $answer->getOrder())
+								{
+									$answerpoints = $answer->getPoints();
+									if(!$this->getIdenticalScoring())
+									{
+										// check if the same solution value was already entered
+										if((in_array($answer->getAnswertext(), $solution_values_select)) && ($answerpoints > 0))
+										{
+											$answerpoints = 0;
+										}
+									}
+									$points += $answerpoints;
+									$detailed[$gap_id] = array("points" => $answerpoints, "best" => ($this->getMaximumGapPoints($gap_id) == $answerpoints) ? TRUE : FALSE, "positive" => ($answerpoints > 0) ? TRUE : FALSE);
+									array_push($solution_values_select, $answer->getAnswertext());
+								}
+							}
+						}
+						break;
+				}
+			}
+		}
+		return $points;
 	}
 }

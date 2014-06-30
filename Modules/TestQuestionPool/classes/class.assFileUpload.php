@@ -307,6 +307,12 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 		$points = 0;
 		return $points;
 	}
+
+	protected function calculateReachedPointsForSolution($userSolution)
+	{
+		$points = 0;
+		return $points;
+	}
 	
 	/**
 	* Check file upload
@@ -411,6 +417,14 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 	}
 
 	/**
+	 * Returns the filesystem path for file uploads
+	 */
+	protected function getPreviewFileUploadPath($userId)
+	{
+		return CLIENT_WEB_DIR . "/assessment/qst_preview/$userId/{$this->getId()}/fileuploads/";
+	}
+
+	/**
 	* Returns the file upload path for web accessible files of a question
 	*
 	* @access public
@@ -420,6 +434,16 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 		if (is_null($question_id)) $question_id = $this->getId();
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
 		$webdir = ilUtil::removeTrailingPathSeparators(CLIENT_WEB_DIR) . "/assessment/tst_$test_id/$active_id/$question_id/files/";
+		return str_replace(ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH), ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH), $webdir);
+	}
+
+	/**
+	 * Returns the filesystem path for file uploads
+	 */
+	protected function getPreviewFileUploadPathWeb($userId)
+	{
+		include_once "./Services/Utilities/classes/class.ilUtil.php";
+		$webdir = ilUtil::removeTrailingPathSeparators(CLIENT_WEB_DIR) . "/assessment/qst_preview/$userId/{$this->getId()}/fileuploads/";
 		return str_replace(ilUtil::removeTrailingPathSeparators(ILIAS_ABSOLUTE_PATH), ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH), $webdir);
 	}
 
@@ -445,6 +469,11 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 			array_push($found, $data);
 		}
 		return $found;
+	}
+	
+	public function getPreviewFileUploads(ilAssQuestionPreviewSession $previewSession)
+	{
+		return $previewSession->getParticipantsSolution();
 	}
 	
 	/**
@@ -506,6 +535,20 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 				array($solution_id)
 			);
 		}
+	}
+
+	protected function deletePreviewFileUploads($userId, $userSolution, $files)
+	{
+		foreach($files as $name)
+		{
+			if( isset($userSolution[$name]) )
+			{
+				unset($userSolution[$name]);
+				@unlink($this->getPreviewFileUploadPath($userId) . $name);
+			}
+		}
+
+		return $userSolution;
 	}
 	
 	/**
@@ -600,7 +643,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 		}
 
 		$entered_values = false;
-		if (strcmp($_POST['cmd']['handleQuestionAction'], $this->lng->txt('delete')) == 0)
+		if (strcmp($_POST['cmd'][$this->questionActionCmd], $this->lng->txt('delete')) == 0)
 		{
 			if (is_array($_POST['deletefiles']) && count($_POST['deletefiles']) > 0)
 			{
@@ -658,6 +701,57 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 		}
 		
 		return true;
+	}
+	
+	protected function savePreviewData(ilAssQuestionPreviewSession $previewSession)
+	{
+		$userSolution = $previewSession->getParticipantsSolution();
+		
+		if( !is_array($userSolution) )
+		{
+			$userSolution = array();
+		}
+		
+		if (strcmp($_POST['cmd'][$this->questionActionCmd], $this->lng->txt('delete')) == 0)
+		{
+			if (is_array($_POST['deletefiles']) && count($_POST['deletefiles']) > 0)
+			{
+				$userSolution = $this->deletePreviewFileUploads($previewSession->getUserId(), $userSolution, $_POST['deletefiles']);
+			}
+			else
+			{
+				ilUtil::sendInfo($this->lng->txt('no_checkbox'), true);
+			}
+		}
+		else
+		{
+			if (strlen($_FILES["upload"]["tmp_name"]))
+			{
+				if ($this->checkUpload())
+				{
+					if( !@file_exists($this->getPreviewFileUploadPath($previewSession->getUserId())) )
+					{
+						ilUtil::makeDirParents($this->getPreviewFileUploadPath($previewSession->getUserId()));
+					}
+					
+					$version = time();
+					$filename_arr = pathinfo($_FILES["upload"]["name"]);
+					$extension = $filename_arr["extension"];
+					$newfile = "file_".md5($_FILES["upload"]["name"])."_" . $version . "." . $extension;
+					ilUtil::moveUploadedFile($_FILES["upload"]["tmp_name"], $_FILES["upload"]["name"], $this->getPreviewFileUploadPath($previewSession->getUserId()) . $newfile);
+
+					$userSolution[$newfile] = array(
+						'solution_id' => $newfile,
+						'value1' => $newfile,
+						'value2' => $_FILES['upload']['name'],
+						'tstamp' => $version,
+						'webpath' => $this->getPreviewFileUploadPathWeb($previewSession->getUserId())
+					);
+				}
+			}
+		}
+
+		$previewSession->setParticipantsSolution($userSolution);
 	}
 
 	/**

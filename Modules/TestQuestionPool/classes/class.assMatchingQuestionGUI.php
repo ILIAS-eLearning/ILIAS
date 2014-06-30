@@ -552,14 +552,27 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		return $solutionoutput;
 	}
 
-	public function getPreview($show_question_only = FALSE)
+	public function getPreview($show_question_only = FALSE, $showInlineFeedback = false, ilAssQuestionPreviewSession $previewSession = null)
 	{
+		$solutions = is_object($previewSession) ? $previewSession->getParticipantsSolution() : array();
+
 		$this->tpl->addJavaScript('Modules/TestQuestionPool/js/jquery-ui-1-10-3-fixed.js');
 		$this->tpl->addJavaScript('Modules/TestQuestionPool/js/ilMatchingQuestion.js');
 		$this->tpl->addCss(ilUtil::getStyleSheetLocation('output', 'test_javascript.css', 'Modules/TestQuestionPool'));
 
 		$template = new ilTemplate("tpl.il_as_qpl_matching_output.html", TRUE, TRUE, "Modules/TestQuestionPool");
 
+		foreach ($solutions as $idx => $solution_value)
+		{
+			if (($solution_value["value2"] > -1) && ($solution_value["value1"] > -1))
+			{
+				$template->setCurrentBlock("matching_data");
+				$template->setVariable("TERM_ID", $solution_value["value1"]);
+				$template->setVariable("DEFINITION_ID", $solution_value["value2"]);
+				$template->parseCurrentBlock();
+			}
+		}
+		
 		// shuffle output
 		$terms = $this->object->getTerms();
 		$definitions = $this->object->getDefinitions();
