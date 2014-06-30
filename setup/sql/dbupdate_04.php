@@ -1607,7 +1607,6 @@ if($ilDB->tableExists('ecs_remote_user'))
 }
 
 ?>
-
 <#4247>
 <?php
 if(!$ilDB->tableExists('ecs_remote_user') )
@@ -1648,4 +1647,19 @@ if(!$ilDB->tableExists('ecs_remote_user') )
 	$ilDB->createSequence('ecs_remote_user');
 }
 ?>
+<#4248>
+<?php
 
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+ilDBUpdateNewObjectType::addAdminNode('excs', 'Exercise Settings');
+
+?>
+<#4249>
+<?php
+
+if ($ilDB->tableColumnExists('exc_data', 'add_desktop'))
+{
+	$ilDB->dropTableColumn('exc_data', 'add_desktop');
+}
+
+?>

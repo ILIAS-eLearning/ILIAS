@@ -14434,3 +14434,6 @@ content#:#cont_insert_amd_page_list#:#Insert Page List
 content#:#cont_update_amd_page_list#:#Edit Page List
 wiki#:#wiki_amd_page_list_no_hits#:#No matching pages
 obj#:#obj_tool_setting_taxonomies#:#Taxonomies
+administration#:#obj_excs#:#Exercise
+administration#:#obj_excs_desc#:#Global Exercise Settings
+exercise#:#exc_admin_settings#:#Exercise Administration

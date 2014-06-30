@@ -761,10 +761,6 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$cb->setInfo($this->lng->txt("exc_show_submissions_info"));
 		$a_form->addItem($cb);
 		
-		$dtop = new ilCheckboxInputGUI($this->lng->txt("to_desktop"), "dtop");
-		$dtop->setInfo($this->lng->txt("exc_to_desktop_info"));
-		$a_form->addItem($dtop);
-
 		$section = new ilFormSectionHeaderGUI();
 		$section->setTitle($this->lng->txt('exc_notification'));
 		$a_form->addItem($section);
@@ -790,8 +786,6 @@ class ilObjExerciseGUI extends ilObjectGUI
 			$a_values["pass_nr"] = $this->object->getPassNr();
 		}
 		
-		$a_values["dtop"] = $this->object->hasAddToDesktop();
-
 		include_once "./Services/Notification/classes/class.ilNotification.php";
 		$a_values["notification"] = ilNotification::hasNotification(
 				ilNotification::TYPE_EXERCISE_SUBMISSION, $ilUser->getId(),
@@ -811,8 +805,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		}
 		
 		$this->object->setCompletionBySubmission($a_form->getInput('completion_by_submission') == 1 ? true : false);
-		$this->object->setAddToDesktop($a_form->getInput("dtop"));		
-
+		
 		include_once "./Services/Notification/classes/class.ilNotification.php";
 		ilNotification::setNotification(ilNotification::TYPE_EXERCISE_SUBMISSION,
 			$ilUser->getId(), $this->object->getId(),

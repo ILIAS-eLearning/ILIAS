@@ -32,8 +32,6 @@ class ilObjExercise extends ilObject
 	var $instruction;
 	var $certificate_visibility;
 	
-	protected $add_to_desktop; // [bool]
-	
 	/**
 	 * 
 	 * Indicates whether completion by submission is enabled or not
@@ -413,8 +411,6 @@ class ilObjExercise extends ilObject
 			}
 			$this->setCompletionBySubmission($row->compl_by_submission == 1 ? true : false);
 			$this->setCertificateVisibility($row->certificate_visibility);
-			
-			$this->setAddToDesktop($row->add_desktop);
 		}
 		
 		$this->members_obj = new ilExerciseMembers($this);
@@ -453,8 +449,7 @@ class ilObjExercise extends ilObject
 			"pass_mode" => array("text", $this->getPassMode()),
 			"pass_nr" => array("integer", $this->getPassNr()),
 			"show_submissions" => array("integer", (int) $this->getShowSubmissions()),
-			'compl_by_submission' => array('integer', (int)$this->isCompletionBySubmissionEnabled()),
-			'add_desktop' => array('integer', (int)$this->hasAddToDesktop())
+			'compl_by_submission' => array('integer', (int)$this->isCompletionBySubmissionEnabled())
 			), array(
 			"obj_id" => array("integer", $this->getId())
 			));
@@ -1294,14 +1289,15 @@ class ilObjExercise extends ilObject
 		return false;
 	}
 	
-	function setAddToDesktop($a_value)
+	/**
+	 * Add to desktop after hand-in
+	 * 
+	 * @return bool
+	 */
+	function hasAddToDesktop()	
 	{
-		$this->add_to_desktop = (bool)$a_value;
-	}
-	
-	function hasAddToDesktop()
-	{
-		return $this->add_to_desktop;
+		$exc_set = new ilSetting("excs");
+		return (bool)$exc_set->get("add_to_pd", true);
 	}
 }
 
