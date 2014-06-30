@@ -101,10 +101,19 @@ class ilTestSkillLevelThresholdsTableGUI extends ilTable2GUI
 
 	private function buildThresholdInput($skillBaseId, $skillTrefId, $skillLevelId)
 	{
-		$threshold = $this->skillLevelThresholdList->getThreshold($skillBaseId, $skillTrefId, $skillLevelId)->getThreshold();
+		$threshold = $this->skillLevelThresholdList->getThreshold($skillBaseId, $skillTrefId, $skillLevelId);
+
+		if( $threshold instanceof ilTestSkillLevelThreshold )
+		{
+			$thresholdValue = $threshold->getThreshold();
+		}
+		else
+		{
+			$thresholdValue = '';
+		}
 
 		$skillKey = $skillBaseId.':'.$skillTrefId;
 
-		return "<input type\"text\" size=\"2\" name=\"threshold[{$skillKey}][$skillLevelId]\" value=\"{$threshold}\" />";
+		return "<input type\"text\" size=\"2\" name=\"threshold[{$skillKey}][$skillLevelId]\" value=\"{$thresholdValue}\" />";
 	}
 }
