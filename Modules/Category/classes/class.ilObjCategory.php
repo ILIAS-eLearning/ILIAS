@@ -224,7 +224,7 @@ class ilObjCategory extends ilContainer
 				
 					// assign new taxonomy to new category
 					ilObjTaxonomy::saveUsage($new_tax->getId(), ilObject::_lookupObjId($a_target_id));		
-									
+														
 					// clone assignments (for all sub-items)
 					foreach($mappings as $old_ref_id => $new_ref_id)
 					{
@@ -233,17 +233,20 @@ class ilObjCategory extends ilContainer
 							$old_obj_id = ilObject::_lookupObjId($old_ref_id);
 							$new_obj_id = ilObject::_lookupObjId($new_ref_id);
 							$obj_type = ilObject::_lookupType($old_obj_id);
-							
-							$new_tax_ass = new ilTaxNodeAssignment($obj_type, $new_obj_id, "obj", $new_tax->getId());					
+																	
 							$tax_ass = new ilTaxNodeAssignment($obj_type, $old_obj_id, "obj", $old_tax_id);
-							$assignmts = $tax_ass->getAssignmentsOfItem($old_obj_id);							
-							foreach($assignmts as $a)
-							{								
-								if($tax_map[$a["node_id"]])
-								{
-									$new_tax_ass->addAssignment($tax_map[$a["node_id"]], $new_obj_id);
-								}
-							}												
+							$assignmts = $tax_ass->getAssignmentsOfItem($old_obj_id);	
+							if(sizeof($assignmts))
+							{
+								$new_tax_ass = new ilTaxNodeAssignment($obj_type, $new_obj_id, "obj", $new_tax->getId());									
+								foreach($assignmts as $a)
+								{								
+									if($tax_map[$a["node_id"]])
+									{
+										$new_tax_ass->addAssignment($tax_map[$a["node_id"]], $new_obj_id);
+									}
+								}			
+							}
 						}			
 					}
 				}
