@@ -1551,3 +1551,7 @@ if( !$ilDB->tableColumnExists('tst_test_rnd_qst', 'src_pool_def_fi') )
 	));
 }
 ?>
+<#4244>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
