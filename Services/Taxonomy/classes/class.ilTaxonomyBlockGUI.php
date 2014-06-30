@@ -190,7 +190,8 @@ class ilTaxonomyBlockGUI extends ilBlockGUI
 				
 				foreach($matching as $item)
 				{								
-					if($ilAccess->checkAccess("read", "", $item["ref_id"]))
+					if(!$tree->isDeleted($item["ref_id"]) &&
+						$ilAccess->checkAccess("read", "", $item["ref_id"]))
 					{
 						$res[] = $item;
 						

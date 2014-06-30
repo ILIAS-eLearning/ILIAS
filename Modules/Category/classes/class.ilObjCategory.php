@@ -193,9 +193,62 @@ class ilObjCategory extends ilContainer
 		$new_obj->saveIcons($this->getBigIconPath(),
 			$this->getSmallIconPath(),
 			$this->getTinyIconPath());
-	 	
-	 	
+		
 	 	return $new_obj;
+	}
+	
+	public function cloneDependencies($a_target_id,$a_copy_id)
+	{		
+		parent::cloneDependencies($a_target_id,$a_copy_id);
+	
+								
+		// clone taxonomies		
+			
+		include_once("./Services/Taxonomy/classes/class.ilObjTaxonomy.php");
+		$all_tax = ilObjTaxonomy::getUsageOfObject($this->getId());
+		if(sizeof($all_tax))
+		{								
+			include_once("./Services/Taxonomy/classes/class.ilTaxNodeAssignment.php");
+			
+			$cwo = ilCopyWizardOptions::_getInstance($a_copy_id);
+			$mappings = $cwo->getMappings();
+			
+			foreach($all_tax as $old_tax_id)
+			{
+				if($old_tax_id)
+				{					
+					// clone it			
+					$old_tax = new ilObjTaxonomy($old_tax_id);
+					$new_tax = $old_tax->cloneObject(0,0,true);
+					$tax_map = $old_tax->getNodeMapping();
+				
+					// assign new taxonomy to new category
+					ilObjTaxonomy::saveUsage($new_tax->getId(), ilObject::_lookupObjId($a_target_id));		
+									
+					// clone assignments (for all sub-items)
+					foreach($mappings as $old_ref_id => $new_ref_id)
+					{
+						if($old_ref_id != $new_ref_id)
+						{
+							$old_obj_id = ilObject::_lookupObjId($old_ref_id);
+							$new_obj_id = ilObject::_lookupObjId($new_ref_id);
+							$obj_type = ilObject::_lookupType($old_obj_id);
+							
+							$new_tax_ass = new ilTaxNodeAssignment($obj_type, $new_obj_id, "obj", $new_tax->getId());					
+							$tax_ass = new ilTaxNodeAssignment($obj_type, $old_obj_id, "obj", $old_tax_id);
+							$assignmts = $tax_ass->getAssignmentsOfItem($old_obj_id);							
+							foreach($assignmts as $a)
+							{								
+								if($tax_map[$a["node_id"]])
+								{
+									$new_tax_ass->addAssignment($tax_map[$a["node_id"]], $new_obj_id);
+								}
+							}												
+						}			
+					}
+				}
+			}
+		}		
 	}
 	
 	/**
