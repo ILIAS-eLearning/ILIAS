@@ -1523,3 +1523,19 @@ if( !$ilDB->tableColumnExists('tst_active', 'last_finished_pass') )
 	));
 }
 ?>
+<#4241>
+<?php
+if( !$ilDB->tableColumnExists('tst_tests', 'result_tax_filters') )
+{
+	$ilDB->addTableColumn('tst_tests', 'result_tax_filters', array(
+		'type' => 'text',
+		'length' => 255,
+		'notnull' => false,
+		'default' => null
+	));
+}
+?>
+<#4242>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

@@ -45,6 +45,11 @@ ilObjTest extends ilObject
 	 * @var bool
 	 */
 	private $skillServiceEnabled = false;
+
+	/**
+	 * @var array
+	 */
+	private $resultFilterTaxIds = array();
 	
 	/**
 	* Kiosk mode
@@ -1309,7 +1314,8 @@ ilObjTest extends ilObject
 				'question_set_type' => array('text', $this->getQuestionSetType()),
 				'char_selector_availability' => array('integer', (int)$this->getCharSelectorAvailability()),
 				'char_selector_definition' => array('text', (string)$this->getCharSelectorDefinition()),
-				'skill_service' => array('integer', (int)$this->isSkillServiceEnabled())
+				'skill_service' => array('integer', (int)$this->isSkillServiceEnabled()),
+				'result_tax_filters' => array('text', serialize((array)$this->getResultFilterTaxIds()))
 			));
 				    
 			$this->test_id = $next_id;
@@ -1419,7 +1425,8 @@ ilObjTest extends ilObject
 						'question_set_type' => array('text', $this->getQuestionSetType()),
 						'char_selector_availability' => array('integer', (int)$this->getCharSelectorAvailability()),
 						'char_selector_definition' => array('text', (string)$this->getCharSelectorDefinition()),
-						'skill_service' => array('integer', (int)$this->isSkillServiceEnabled())
+						'skill_service' => array('integer', (int)$this->isSkillServiceEnabled()),
+						'result_tax_filters' => array('text', serialize((array)$this->getResultFilterTaxIds()))
 					),
 					array(
 						'test_id' => array('integer', (int)$this->getTestId())
@@ -1904,6 +1911,7 @@ ilObjTest extends ilObject
 			$this->setCharSelectorAvailability((int)$data->char_selector_availability);
 			$this->setCharSelectorDefinition($data->char_selector_definition);
 			$this->setSkillServiceEnabled((bool)$data->skill_service);
+			$this->setResultFilterTaxIds(strlen($data->result_tax_filters) ? unserialize($data->result_tax_filters) : array());
 			$this->loadQuestions();
 		}
 
@@ -4022,7 +4030,7 @@ function getAnswerFeedbackPoints()
 		}
 		return $result;
 	}
-	
+
 	/**
 	* Calculates the results of a test for a given user
 	* and returns an array with all test results
@@ -5912,6 +5920,9 @@ function getAnswerFeedbackPoints()
 				case 'skill_service':
 					$this->setSkillServiceEnabled((bool)$metadata['entry']);
 					break;
+				case 'result_tax_filters':
+					$this->setResultFilterTaxIds(strlen($metadata['entry']) ? unserialize($metadata['entry']) : array());
+					break;
 			}
 			if (preg_match("/mark_step_\d+/", $metadata["label"]))
 			{
@@ -6294,6 +6305,12 @@ function getAnswerFeedbackPoints()
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "skill_service");
 		$a_xml_writer->xmlElement("fieldentry", NULL, (int)$this->isSkillServiceEnabled());
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+
+		// result_tax_filters
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "result_tax_filters");
+		$a_xml_writer->xmlElement("fieldentry", NULL, serialize((array)$this->getResultFilterTaxIds()));
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
 
 
@@ -6901,6 +6918,7 @@ function getAnswerFeedbackPoints()
 		$newObj->setCharSelectorAvailability((int)$this->getCharSelectorAvailability());
 		$newObj->setCharSelectorDefinition($this->getCharSelectorDefinition());
 		$newObj->setSkillServiceEnabled($this->isSkillServiceEnabled());
+		$newObj->setResultFilterTaxIds($this->getResultFilterTaxIds());
 		$newObj->saveToDb();
 		
 		// clone certificate
@@ -9452,7 +9470,8 @@ function getAnswerFeedbackPoints()
 			'show_examview_pdf' => $this->getShowExamviewPdf(),
 			'char_selector_availability' => $this->getCharSelectorAvailability(),
 			'char_selector_definition' => $this->getCharSelectorDefinition(),
-			'skill_service' => (int)$this->isSkillServiceEnabled()
+			'skill_service' => (int)$this->isSkillServiceEnabled(),
+			'result_tax_filters' => (array)$this->getResultFilterTaxIds()
 		);
 		$next_id = $ilDB->nextId('tst_test_defaults');
 		$affectedRows = $ilDB->manipulateF("INSERT INTO tst_test_defaults (test_defaults_id, name, user_fi, defaults, marks, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
@@ -9550,6 +9569,7 @@ function getAnswerFeedbackPoints()
 		$this->setCharSelectorAvailability($testsettings['char_selector_availability']);
 		$this->setCharSelectorDefinition($testsettings['char_selector_definition']);
 		$this->setSkillServiceEnabled((bool)$testsettings['skill_service']);
+		$this->setResultFilterTaxIds((array)$testsettings['result_tax_filters']);
 		$this->saveToDb();
 
 		return true;
@@ -11485,6 +11505,21 @@ function getAnswerFeedbackPoints()
 		
 		return $this->participantDataExist;
 	}
+
+	public function isScoreReportingAvailable()
+	{
+		if ($this->getScoreReporting() == 4)
+		{
+			return false;
+		}
+
+		if ($this->getScoreReporting() == 3 && $this->object->getReportingDate() > time())
+		{
+			return false;
+		}
+
+		return true;
+	}
 	
 	public function recalculateScores($preserve_manscoring = false)
 	{
@@ -11537,6 +11572,16 @@ function getAnswerFeedbackPoints()
 	public function isSkillServiceEnabled()
 	{
 		return $this->skillServiceEnabled;
+	}
+
+	public function setResultFilterTaxIds($resultFilterTaxIds)
+	{
+		$this->resultFilterTaxIds = $resultFilterTaxIds;
+	}
+
+	public function getResultFilterTaxIds()
+	{
+		return $this->resultFilterTaxIds;
 	}
 
 	public function isSkillServiceToBeConsidered()

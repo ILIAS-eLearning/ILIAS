@@ -1452,6 +1452,8 @@ assessment#:#test_presentation#:#Ausgabeoptionen
 assessment#:#test_results#:#Ergebnisausgabeoptionen
 assessment#:#misc#:#Verschiedene Optionen
 assessment#:#tst_back_to_top#:#Zurück nach oben
+assessment#:#tst_results_tax_filters#:#Ergebnis Filter
+assessment#:#tst_back_to_pass_details#:#Zurück zur Übersicht des Durchlaufs
 assessment#:#tst_answer_details#:#Antwort Details
 assessment#:#tst_list_answer_details#:#Zeige in Liste unterhalb
 assessment#:#tst_single_answer_details#:#Zeige einzelne Antwort

@@ -108,6 +108,11 @@ abstract class ilTestQuestionSetConfig
 	abstract public function removeQuestionSetRelatedData();
 
 	/**
+	 * resets all test settings that depends on a non changed question set config
+	 */
+	abstract public function resetQuestionSetRelatedTestSettings();
+
+	/**
 	 * removes all question set config related data for cloned/copied test
 	 *
 	 * @param ilObjTest $cloneTestOBJ
@@ -148,4 +153,6 @@ abstract class ilTestQuestionSetConfig
 		
 		return $questionPoolPathString;
 	}
+
+	abstract public function isResultTaxonomyFilterSupported();
 }

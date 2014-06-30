@@ -62,16 +62,6 @@ class ilObjTestSettingsGeneralGUI
 	 * @var $settingsTemplate ilSettingsTemplate 
 	 */
 	protected $settingsTemplate = null;
-	
-	/**
-	 * the fact wether participant data exists or not, initialised by lazy loading
-	 * 
-	 * DO NOT ACCESS THIS VARIABLE DIRECTLY
-	 * ALWAYS USE -> ilObjTestSettingsGeneralGUI::participantDataExist()
-	 * 
-	 * @var boolean
-	 */
-	private $participantDataExist = null;
 
 	/**
 	 * Constructor 

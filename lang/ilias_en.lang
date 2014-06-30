@@ -1273,6 +1273,8 @@ assessment#:#test_presentation#:#Presentation Options
 assessment#:#test_results#:#Results Options
 assessment#:#misc#:#Misc Options
 assessment#:#tst_back_to_top#:#Back to Top
+assessment#:#tst_results_tax_filters#:#Result Filter
+assessment#:#tst_back_to_pass_details#:#Back to Pass Details
 assessment#:#tst_answer_details#:#Answer Details
 assessment#:#tst_list_answer_details#:#Show in List Below
 assessment#:#tst_single_answer_details#:#Show Single Answer

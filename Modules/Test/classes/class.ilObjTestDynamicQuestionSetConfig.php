@@ -304,6 +304,11 @@ class ilObjTestDynamicQuestionSetConfig extends ilTestQuestionSetConfig
 		$this->deleteFromDb();
 	}
 
+	public function resetQuestionSetRelatedTestSettings()
+	{
+		// nothing to do
+	}
+
 	/**
 	 * removes all question set config related data for cloned/copied test
 	 *
@@ -469,5 +474,10 @@ class ilObjTestDynamicQuestionSetConfig extends ilTestQuestionSetConfig
 		}
 		
 		return $questionChangeListener;
+	}
+
+	public function isResultTaxonomyFilterSupported()
+	{
+		return false;
 	}
 }

@@ -265,7 +265,7 @@ class ilTestServiceGUI
 			$markects = $this->lng->txt("mark_tst_ects");
 			$markects = str_replace("[markects]", $this->lng->txt("ects_grade_". strtolower($ects_mark)), $markects);
 		}
-		return array("mark" => $mark, "markects" => $markects);
+		return array("mark" => $mark, "markects" => $markects, 'passed' => $mark_obj->getPassed());
 	}
 
 	/**
@@ -451,17 +451,18 @@ class ilTestServiceGUI
 		$this->ctrl->setParameter($targetGUI, 'active_id', $active_id);
 		$this->ctrl->setParameter($targetGUI, 'pass', $pass);
 
-		require_once 'Modules/Test/classes/tables/class.ilTestPassDetailsOverviewTableGUI.php';
-		$table = new ilTestPassDetailsOverviewTableGUI($this->ctrl, $targetGUI, $targetCMD);
+		$tableGUI = $this->buildPassDetailsOverviewTableGUI($targetGUI, $targetCMD);
+		$tableGUI->setAnswerListAnchorEnabled($questionAnchorNav);
+		$tableGUI->setSingleAnswerScreenCmd($questionDetailsCMD);
 
-		$table->setActiveId($active_id);
-		$table->setPass($pass);
-		$table->setAnswerListAnchorEnabled($questionAnchorNav);
-		$table->setSingleAnswerScreenCmd($questionDetailsCMD);
+		$tableGUI->initColumns()->initFilter();
 
-		$table->setShowHintCount($this->object->isOfferingQuestionHintsEnabled());
+		$tableGUI->setActiveId($active_id);
+		$tableGUI->setPass($pass);
 
-		$table->setShowSuggestedSolution(false);
+		$tableGUI->setShowHintCount($this->object->isOfferingQuestionHintsEnabled());
+
+		$tableGUI->setShowSuggestedSolution(false);
 		$usersQuestionSolutions = array();
 
 		foreach($result_array as $key => $val)
@@ -473,16 +474,18 @@ class ilTestServiceGUI
 
 			if( $this->object->getShowSolutionSuggested() && strlen($val['solution']) )
 			{
-				$table->setShowSuggestedSolution(true);
+				$tableGUI->setShowSuggestedSolution(true);
 			}
 
 			$usersQuestionSolutions[$key] = $val;
 		}
 
-		$table->init();
-		$table->setData($usersQuestionSolutions);
+		$tableGUI->setFilterCommand($targetCMD.'SetTableFilter');
+		$tableGUI->setResetCommand($targetCMD.'ResetTableFilter');
 
-		return $this->ctrl->getHTML($table);
+		$tableGUI->setData($usersQuestionSolutions);
+
+		return $this->ctrl->getHTML($tableGUI);
 	}
 
 	/**
@@ -813,6 +816,16 @@ class ilTestServiceGUI
 
 		require_once './Modules/Test/classes/class.ilTestPDFGenerator.php';
 		ilTestPDFGenerator::generatePDF($output, ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $question_gui->object->getTitle());
+	}
+
+	/**
+	 * @return ilTestPassDetailsOverviewTableGUI
+	 */
+	protected function buildPassDetailsOverviewTableGUI($targetGUI, $targetCMD)
+	{
+		require_once 'Modules/Test/classes/tables/class.ilTestPassDetailsOverviewTableGUI.php';
+		$tableGUI = new ilTestPassDetailsOverviewTableGUI($this->ctrl, $targetGUI, $targetCMD);
+		return $tableGUI;
 	}
 }
 

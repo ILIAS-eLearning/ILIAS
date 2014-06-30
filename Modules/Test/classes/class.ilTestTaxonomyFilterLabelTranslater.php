@@ -106,4 +106,12 @@ class ilTestTaxonomyFilterLabelTranslater
 	{
 		return $this->taxonomyNodeLabels[$taxonomyTreeId];
 	}
+
+	public function loadLabelsFromTaxonomyIds($taxonomyIds)
+	{
+		$this->taxonomyTreeIds = $taxonomyIds;
+
+		$this->loadTaxonomyTreeLabels();
+	}
+
 }

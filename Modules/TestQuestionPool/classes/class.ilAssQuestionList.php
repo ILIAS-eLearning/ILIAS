@@ -41,6 +41,8 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 	 * @var integer
 	 */
 	private $parentObjId = null;
+
+	private $parentObjType = 'qpl';
 	
 	/**
 	 * available taxonomy ids for current parent question container
@@ -97,7 +99,12 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 	 * @var array
 	 */
 	private $questions = array();
-	
+
+
+	const QUESTION_INSTANCE_TYPE_ORIGINALS = 'QST_INSTANCE_TYPE_ORIGINALS';
+	const QUESTION_INSTANCE_TYPE_DUPLICATES = 'QST_INSTANCE_TYPE_DUPLICATES';
+	private $questionInstanceTypeFilter = self::QUESTION_INSTANCE_TYPE_ORIGINALS;
+
 	/**
 	 * Constructor
 	 * 
@@ -111,7 +118,27 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 		$this->pluginAdmin = $pluginAdmin;
 		$this->parentObjId = $parentObjId;
 	}
-	
+
+	public function setParentObjectType($parentObjType)
+	{
+		$this->parentObjType = $parentObjType;
+	}
+
+	public function getParentObjectType()
+	{
+		return $this->parentObjType;
+	}
+
+	public function setQuestionInstanceTypeFilter($questionInstanceTypeFilter)
+	{
+		$this->questionInstanceTypeFilter = $questionInstanceTypeFilter;
+	}
+
+	public function getQuestionInstanceTypeFilter()
+	{
+		return $this->questionInstanceTypeFilter;
+	}
+
 	public function addFieldFilter($fieldName, $fieldValue)
 	{
 		$this->fieldFilters[$fieldName] = $fieldValue;
@@ -196,11 +223,11 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 				
 				$taxTree = new ilTaxonomyTree($taxId);
 				
-				$taxNodeAssignment = new ilTaxNodeAssignment('qpl', $this->parentObjId, 'quest', $taxId);
+				$taxNodeAssignment = new ilTaxNodeAssignment($this->parentObjType, $this->parentObjId, 'quest', $taxId);
 
 				$subNodes = $taxTree->getSubTreeIds($taxNode);
 				$subNodes[] = $taxNode;
-				
+
 				$taxItems = $taxNodeAssignment->getAssignmentsOfNode($subNodes);
 				
 				foreach($taxItems as $taxItem)
@@ -216,6 +243,22 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 		}
 
 		return $expressions;
+	}
+
+	private function getQuestionInstanceTypeFilterExpression()
+	{
+		switch( $this->getQuestionInstanceTypeFilter() )
+		{
+			case self::QUESTION_INSTANCE_TYPE_ORIGINALS:
+
+				return 'qpl_questions.original_id IS NULL';
+
+			case self::QUESTION_INSTANCE_TYPE_DUPLICATES:
+
+				return 'qpl_questions.original_id IS NOT NULL';
+		}
+
+		return null;
 	}
 	
 	private function getAnswerStatusFilterExpressions()
@@ -267,10 +310,17 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 	
 	private function getConditionalExpression()
 	{
-		$CONDITIONS = array_merge(
-				$this->getFieldFilterExpressions(),
-				$this->getTaxonomyFilterExpressions(),
-				$this->getAnswerStatusFilterExpressions()
+		$CONDITIONS = array();
+
+		if( $this->getQuestionInstanceTypeFilterExpression() !== null )
+		{
+			$CONDITIONS[] = $this->getQuestionInstanceTypeFilterExpression();
+		}
+
+		$CONDITIONS = array_merge($CONDITIONS,
+			$this->getFieldFilterExpressions(),
+			$this->getTaxonomyFilterExpressions(),
+			$this->getAnswerStatusFilterExpressions()
 		);
 		
 		$CONDITIONS = implode(' AND ', $CONDITIONS);
@@ -316,17 +366,18 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 			
 			{$this->getTableJoinExpression()}
 			
-			WHERE		qpl_questions.original_id IS NULL
+			WHERE		qpl_questions.obj_fi = %s
 			AND			qpl_questions.tstamp > 0
-			AND			qpl_questions.obj_fi = %s
-			
+
 			{$this->getConditionalExpression()}
 		";
 		
 		#vd($query);
 
 		$res = $this->db->queryF($query, array('integer'), array($this->parentObjId));
-		
+
+		//echo $this->db->db->last_query;
+
 		#vd($this->db->db->last_query);
 		
 		while( $row = $this->db->fetchAssoc($res) )
@@ -395,6 +446,11 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 	public function getQuestionDataArray()
 	{
 		return $this->questions;
+	}
+
+	public function isInList($questionId)
+	{
+		return isset($this->questions[$questionId]);
 	}
 
 	/**

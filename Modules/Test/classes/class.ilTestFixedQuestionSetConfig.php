@@ -65,6 +65,11 @@ class ilTestFixedQuestionSetConfig extends ilTestQuestionSetConfig
 		$this->testOBJ->saveCompleteStatus($this);
 	}
 
+	public function resetQuestionSetRelatedTestSettings()
+	{
+		// nothing to do
+	}
+
 	/**
 	 * removes all question set config related data for cloned/copied test
 	 *
@@ -130,5 +135,10 @@ class ilTestFixedQuestionSetConfig extends ilTestQuestionSetConfig
 	public function deleteFromDb()
 	{
 		// TODO: Implement deleteFromDb() method.
+	}
+
+	public function isResultTaxonomyFilterSupported()
+	{
+		return false;
 	}
 }

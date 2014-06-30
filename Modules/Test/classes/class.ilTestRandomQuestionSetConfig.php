@@ -354,10 +354,17 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
 		$stagingPool = new ilTestRandomQuestionSetStagingPoolBuilder(
 			$this->db, $this->testOBJ
 		);
-
 		$stagingPool->reset();
 
+		$this->resetQuestionSetRelatedTestSettings();
+
 		$this->deleteFromDb();
+	}
+
+	public function resetQuestionSetRelatedTestSettings()
+	{
+		$this->testOBJ->setResultFilterTaxIds(array());
+		$this->testOBJ->saveToDb(true);
 	}
 
 	/**
@@ -425,5 +432,10 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
 				'test_fi' => array('integer', $testId)
 			)
 		);
+	}
+
+	public function isResultTaxonomyFilterSupported()
+	{
+		return true;
 	}
 }
