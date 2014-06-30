@@ -401,7 +401,7 @@ class assFormulaQuestion extends assQuestion
 						{
 							$units .= ' &asymp; ' . $frac_helper . ', ';
 						}
-						elseif (strlen($userdata[$result]["frac_helper"]))
+						elseif (is_array($userdata) && isset($userdata[$result]) && strlen($userdata[$result]["frac_helper"]))
 						{
 							if(!preg_match('-/-',  $value))
 							{
@@ -415,7 +415,7 @@ class assFormulaQuestion extends assQuestion
 						{
 							$units .= ' &asymp; ' . $frac_helper . ', ';
 						}
-						elseif (strlen($userdata[$result]["frac_helper"]))
+						elseif (is_array($userdata) && isset($userdata[$result]) && strlen($userdata[$result]["frac_helper"]))
 						{
 							if(!preg_match('-/-',  $value))
 							{
