@@ -228,7 +228,7 @@ class ilObjTestSettingsScoringResultsGUI
 		$exportSettings = (array)$form->getItemByPostVar('export_settings');
 		$this->testOBJ->setExportSettingsSingleChoiceShort( (int)in_array('exp_sc_short', $exportSettings) );
 
-		$this->testOBJ->setPrintBestSolutionWithResult( (int)$form->getItemByPostVar('print_bs_with_res')->getValue() );
+		$this->testOBJ->setPrintBestSolutionWithResult( (int)$form->getItemByPostVar('print_bs_with_res')->getChecked() );
 		$this->testOBJ->setPassDeletionAllowed( (bool)$form->getItemByPostVar('pass_deletion_allowed')->getValue() );
 
 		// result filter taxonomies
