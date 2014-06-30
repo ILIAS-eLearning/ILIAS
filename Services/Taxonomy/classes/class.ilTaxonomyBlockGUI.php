@@ -119,7 +119,7 @@ class ilTaxonomyBlockGUI extends ilBlockGUI
 	public function getHTML()
 	{	
 		$this->tax_data = $this->getActiveTaxonomies();
-		if(!is_array($this->tax_data))
+		if(!sizeof($this->tax_data))
 		{
 			return "";
 		}

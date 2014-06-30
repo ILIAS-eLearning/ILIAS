@@ -32,6 +32,7 @@ class ilCategoryExporter extends ilXmlExporter
 		{
 			return array();
 		}
+		
 		if(count(ilExportOptions::getInstance()->getSubitemsForExport()) > 1)
 		{
 			return array(
@@ -44,7 +45,39 @@ class ilCategoryExporter extends ilXmlExporter
 		}
 		return array();
 	}
+	
+	/**
+	 * Get tail dependencies
+	 *
+	 * @param		string		entity
+	 * @param		string		target release
+	 * @param		array		ids
+	 * @return		array		array of array with keys "component", entity", "ids"
+	 */
+	function getXmlExportTailDependencies($a_entity, $a_target_release, $a_ids)
+	{
+		if ($a_entity == "cat")
+		{
+			include_once("./Services/Taxonomy/classes/class.ilObjTaxonomy.php");
+			$tax_ids = array();
+			foreach ($a_ids as $id)
+			{
+				$t_ids = ilObjTaxonomy::getUsageOfObject($id);
+				if (count($t_ids) > 0)
+				{
+					$tax_ids[$t_ids[0]] = $t_ids[0];
+				}
+			}
 
+			return array (
+				array(
+					"component" => "Services/Taxonomy",
+					"entity" => "tax",
+					"ids" => $tax_ids)
+				);
+		}
+		return array();
+	}
 
 	/**
 	 * Get xml

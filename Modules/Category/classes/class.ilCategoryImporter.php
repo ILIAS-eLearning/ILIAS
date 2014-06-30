@@ -64,6 +64,50 @@ class ilCategoryImporter extends ilXmlImporter
 		{
 			$GLOBALS['ilLog']->write(__METHOD__.': Parsing failed with message, "'.$e->getMessage().'".');
 		}
+							
+		foreach($a_mapping->getMappingsOfEntity('Services/Container', 'objs') as $old => $new)
+		{
+			$type = ilObject::_lookupType($new);
+			
+			// see ilGlossaryImporter::importXmlRepresentation()
+			// see ilTaxonomyDataSet::importRecord()
+			
+			$a_mapping->addMapping("Services/Taxonomy", "tax_item",
+				$type.":obj:".$old, $new);
+
+			// this is since 4.3 does not export these ids but 4.4 tax node assignment needs it
+			$a_mapping->addMapping("Services/Taxonomy", "tax_item_obj_id",
+				$type.":obj:".$old, $new);
+			
+		}		
 	}
+	
+	/**
+	 * Final processing
+	 *
+	 * @param
+	 * @return
+	 */
+	function finalProcessing($a_mapping)
+	{	
+//echo "<pre>".print_r($a_mapping, true)."</pre>"; exit;
+		// get all categories of the import
+		include_once("./Services/Taxonomy/classes/class.ilObjTaxonomy.php");
+		$maps = $a_mapping->getMappingsOfEntity("Modules/Category", "cat");
+		foreach ($maps as $old => $new)
+		{
+			if ($old != "new_id" && (int) $old > 0)
+			{
+				// get all new taxonomys of this object
+				$new_tax_ids = $a_mapping->getMapping("Services/Taxonomy", "tax_usage_of_obj", $old);
+				$tax_ids = explode(":", $new_tax_ids);
+				foreach ($tax_ids as $tid)
+				{
+					ilObjTaxonomy::saveUsage($tid, $new);
+				}
+			}
+		}		
+	}
+	
 }
 ?>
