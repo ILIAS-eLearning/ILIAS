@@ -27,6 +27,9 @@ class ilTestSkillQuestionAssignmentsTableGUI extends ilTable2GUI
 
 		$this->lng = $lng;
 		$this->ctrl = $ctrl;
+		
+		$this->setId('assQstSkl');
+		$this->getPrefix('assQstSkl');
 
 		$this->setStyle('table', 'fullwidth');
 

@@ -179,7 +179,7 @@ class ilTestSkillQuestionAssignmentsGUI
 	private function buildTableGUI()
 	{
 		require_once 'Modules/Test/classes/tables/class.ilTestSkillQuestionAssignmentsTableGUI.php';
-		$table = new ilTestSkillQuestionAssignmentsTableGUI($this, 'show', $this->ctrl, $this->lng);
+		$table = new ilTestSkillQuestionAssignmentsTableGUI($this, self::CMD_SHOW_SKILL_QUEST_ASSIGNS, $this->ctrl, $this->lng);
 
 		return $table;
 	}
