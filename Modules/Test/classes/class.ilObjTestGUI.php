@@ -5,6 +5,7 @@ require_once './Modules/Test/exceptions/class.ilTestException.php';
 require_once './Services/Object/classes/class.ilObjectGUI.php';
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 require_once './Modules/Test/classes/class.ilObjAssessmentFolderGUI.php';
+require_once './Modules/Test/classes/class.ilObjAssessmentFolder.php';
 require_once './Modules/Test/classes/class.ilTestExpressPage.php';
 
 /**
