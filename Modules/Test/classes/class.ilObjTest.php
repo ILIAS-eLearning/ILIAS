@@ -6962,10 +6962,13 @@ function getAnswerFeedbackPoints()
 				require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetBuilderWithAmountPerPool.php';
 				require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetSourcePoolDefinitionFactory.php';
 
-				$srcPoolDefFactory = new ilTestRandomQuestionSetSourcePoolDefinitionFactory($ilDB, $this);
-				$srcPoolDefList = new ilTestRandomQuestionSetSourcePoolDefinitionList($ilDB, $this, $srcPoolDefFactory);
-				$srcPoolDefList->loadDefinitions();
-				$num = ilTestRandomQuestionSetBuilderWithAmountPerPool::getRequiredQuestionAmountForDefinitionList($srcPoolDefList);
+				$sourcePoolDefinitionList = new ilTestRandomQuestionSetSourcePoolDefinitionList(
+						$ilDB, $this, new ilTestRandomQuestionSetSourcePoolDefinitionFactory($ilDB, $this)
+				);
+
+				$sourcePoolDefinitionList->loadDefinitions();
+
+				$num = $sourcePoolDefinitionList->getQuestionAmount();
 			}
 			else
 			{

@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetQuestionCollection.php';
+
 /**
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
@@ -63,20 +65,28 @@ abstract class ilTestRandomQuestionSetBuilder
 
 	protected function getQuestionStageForSourcePoolDefinitionList(ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList)
 	{
-		$questionStage = array();
+		$questionStage = new ilTestRandomQuestionSetQuestionCollection();
 
 		foreach($sourcePoolDefinitionList as $definition)
 		{
 			/** @var ilTestRandomQuestionSetSourcePoolDefinition $definition */
 
 			$questions = $this->getQuestionStageForSourcePoolDefinition($definition);
-			$questionStage = array_merge($questionStage, $questions);
+			$questionStage->mergeQuestionCollection($questions);
 		}
 
-		return array_unique($questionStage);
+		return $questionStage->getUniqueQuestionCollection();
 	}
 
 	protected function getQuestionStageForSourcePoolDefinition(ilTestRandomQuestionSetSourcePoolDefinition $definition)
+	{
+		$questionIds = $this->getQuestionIdsForSourcePoolDefinitionIds($definition);
+		$questionStage = $this->buildSetQuestionCollection($definition, $questionIds);
+
+		return $questionStage;
+	}
+
+	private function getQuestionIdsForSourcePoolDefinitionIds(ilTestRandomQuestionSetSourcePoolDefinition $definition)
 	{
 		$this->stagingPoolQuestionList->resetQuestionList();
 
@@ -96,6 +106,23 @@ abstract class ilTestRandomQuestionSetBuilder
 		return $this->stagingPoolQuestionList->getQuestions();
 	}
 
+	private function buildSetQuestionCollection(ilTestRandomQuestionSetSourcePoolDefinition $definition, $questionIds)
+	{
+		$setQuestionCollection = new ilTestRandomQuestionSetQuestionCollection();
+
+		foreach($questionIds as $questionId)
+		{
+			$setQuestion = new ilTestRandomQuestionSetQuestion();
+
+			$setQuestion->setQuestionId($questionId);
+			$setQuestion->setSourcePoolDefinitionId($definition->getId());
+
+			$setQuestionCollection->addQuestion($setQuestion);
+		}
+
+		return $setQuestionCollection;
+	}
+
 	private function hasTaxonomyFilter(ilTestRandomQuestionSetSourcePoolDefinition $definition)
 	{
 		if( !(int)$definition->getMappedFilterTaxId() )
@@ -113,58 +140,43 @@ abstract class ilTestRandomQuestionSetBuilder
 
 	protected function storeQuestionSet(ilTestSession $testSession, $questionSet)
 	{
-		foreach($questionSet as $sequencePosition => $questionId)
+		$position = 0;
+
+		foreach($questionSet->getQuestions() as $setQuestion)
 		{
-			$this->storeQuestion($testSession, $questionId, $sequencePosition);
+			/* @var ilTestRandomQuestionSetQuestion $setQuestion */
+
+			$setQuestion->setSequencePosition($position++);
+
+			$this->storeQuestion($testSession, $setQuestion);
 		}
 	}
 
-	private function storeQuestion(ilTestSession $testSession, $questionId, $sequencePosition)
+	private function storeQuestion(ilTestSession $testSession, ilTestRandomQuestionSetQuestion $setQuestion)
 	{
 		$nextId = $this->db->nextId('tst_test_rnd_qst');
 
 		$this->db->insert('tst_test_rnd_qst', array(
 			'test_random_question_id' => array('integer', $nextId),
 			'active_fi' => array('integer', $testSession->getActiveId()),
-			'question_fi' => array('integer', $questionId),
-			'sequence' => array('integer', $sequencePosition),
+			'question_fi' => array('integer', $setQuestion->getQuestionId()),
+			'sequence' => array('integer', $setQuestion->getSequencePosition()),
 			'pass' => array('integer', $testSession->getPass()),
-			'tstamp' => array('integer', time())
+			'tstamp' => array('integer', time()),
+			'src_pool_def_fi' => array('integer', $setQuestion->getSourcePoolDefinitionId())
 		));
 	}
 
-	protected function fetchQuestionsFromStageRandomly($questionStage, $requiredQuestionAmount)
+	protected function fetchQuestionsFromStageRandomly(ilTestRandomQuestionSetQuestionCollection $questionStage, $requiredQuestionAmount)
 	{
-		$randomKeys = $this->getRandomArrayKeys($questionStage, $requiredQuestionAmount);
-
-		$questionSet = array();
-
-		foreach($randomKeys as $randomKey)
-		{
-			$questionSet[] = $questionStage[$randomKey];
-		}
+		$questionSet = $questionStage->getRandomQuestionCollection($requiredQuestionAmount);
 
 		if( $this->testOBJ->getShuffleQuestions() )
 		{
-			shuffle($questionSet);
+			$questionSet->shuffleQuestions();
 		}
 
 		return $questionSet;
-	}
-
-	private function getRandomArrayKeys($array, $numKeys)
-	{
-		if( $numKeys < 1 )
-		{
-			return array();
-		}
-
-		if( $numKeys > 1 )
-		{
-			return array_rand($array, $numKeys);
-		}
-
-		return array( array_rand($array, $numKeys) );
 	}
 
 	// =================================================================================================================

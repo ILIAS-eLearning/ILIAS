@@ -14,20 +14,18 @@ class ilTestRandomQuestionSetBuilderWithAmountPerPool extends ilTestRandomQuesti
 	public function checkBuildable()
 	{
 		$questionStage = $this->getQuestionStageForSourcePoolDefinitionList($this->sourcePoolDefinitionList);
-		return $this->isQuestionSetFetchable($this->sourcePoolDefinitionList, $questionStage);
-	}
 
-	private function isQuestionSetFetchable(ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList, $questionStage)
-	{
-		$requiredAmount = $this->getRequiredQuestionAmountForDefinitionList($sourcePoolDefinitionList);
-		$possibleAmount = count($questionStage);
+		if( $questionStage->isSmallerThan($this->sourcePoolDefinitionList->getQuestionAmount()) )
+		{
+			return false;
+		}
 
-		return ( $possibleAmount >= $requiredAmount );
+		return true;
 	}
 
 	public function performBuild(ilTestSession $testSession)
 	{
-		$questionSet = array();
+		$questionSet = new ilTestRandomQuestionSetQuestionCollection();
 
 		foreach($this->sourcePoolDefinitionList as $definition)
 		{
@@ -37,11 +35,9 @@ class ilTestRandomQuestionSetBuilderWithAmountPerPool extends ilTestRandomQuesti
 
 			$potentialQuestionStage = $this->getQuestionStageForSourcePoolDefinition($definition);
 
-			$actualQuestionStage = $this->getUniqueQuestionCollectionFromPotentialQuestionCollection(
-				$potentialQuestionStage, $questionSet
-			);
+			$actualQuestionStage = $potentialQuestionStage->getRelativeComplementCollection($questionSet);
 
-			if( $this->questionCollectionGreaterThanRequiredAmount($actualQuestionStage, $requiredQuestionAmount) )
+			if( $actualQuestionStage->isGreaterThan($requiredQuestionAmount) )
 			{
 				$questions = $this->fetchQuestionsFromStageRandomly($actualQuestionStage, $requiredQuestionAmount);
 			}
@@ -50,59 +46,20 @@ class ilTestRandomQuestionSetBuilderWithAmountPerPool extends ilTestRandomQuesti
 				$questions = $actualQuestionStage;
 			}
 
-			$questionSet = $this->mergeQuestionCollections($questionSet, $questions);
+			$questionSet->mergeQuestionCollection($questions);
 		}
 
-		$requiredQuestionAmount = self::getRequiredQuestionAmountForDefinitionList($this->sourcePoolDefinitionList);
+		$requiredQuestionAmount = $this->sourcePoolDefinitionList->getQuestionAmount();
 
-		if( $this->questionCollectionSmallerThanRequiredAmount($questionSet, $requiredQuestionAmount) )
+		if( $questionSet->isSmallerThan($requiredQuestionAmount) )
 		{
-			$missingQuestionCount = $this->getMissingQuestionCount($questionSet, $requiredQuestionAmount);
+			$missingQuestionCount = $questionSet->getMissingCount($requiredQuestionAmount);
 			$questionStage = $this->getQuestionStageForSourcePoolDefinitionList($this->sourcePoolDefinitionList);
 			$questions = $this->fetchQuestionsFromStageRandomly($questionStage, $missingQuestionCount);
 
-			$questionSet = $this->mergeQuestionCollections($questionSet, $questions);
+			$questionSet->mergeQuestionCollection($questions);
 		}
 
 		$this->storeQuestionSet($testSession, $questionSet);
-	}
-
-	private function getUniqueQuestionCollectionFromPotentialQuestionCollection($potentialQuestionCollection, $otherQuestionCollection)
-	{
-		$uniqueQuestionCollection = array_diff($potentialQuestionCollection, $otherQuestionCollection);
-		return $uniqueQuestionCollection;
-	}
-
-	private function questionCollectionGreaterThanRequiredAmount($questionCollection, $requiredAmount)
-	{
-		return count($questionCollection) > $requiredAmount;
-	}
-
-	private function questionCollectionSmallerThanRequiredAmount($questionCollection, $requiredAmount)
-	{
-		return count($questionCollection) < $requiredAmount;
-	}
-
-	private function mergeQuestionCollections($questionSet, $questions)
-	{
-		return array_merge($questionSet, $questions);
-	}
-
-	private function getMissingQuestionCount($questionSet, $requiredQuestionAmount)
-	{
-		return ( $requiredQuestionAmount - count($questionSet) );
-	}
-
-	public static function getRequiredQuestionAmountForDefinitionList(ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList)
-	{
-		$requiredQuestionAmountPerTest = 0;
-
-		foreach($sourcePoolDefinitionList as $definition)
-		{
-			/** @var ilTestRandomQuestionSetSourcePoolDefinition $definition */
-			$requiredQuestionAmountPerTest += $definition->getQuestionAmount();
-		}
-
-		return $requiredQuestionAmountPerTest;
 	}
 }

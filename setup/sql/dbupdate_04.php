@@ -1539,3 +1539,15 @@ if( !$ilDB->tableColumnExists('tst_tests', 'result_tax_filters') )
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#4243>
+<?php
+if( !$ilDB->tableColumnExists('tst_test_rnd_qst', 'src_pool_def_fi') )
+{
+	$ilDB->addTableColumn('tst_test_rnd_qst', 'src_pool_def_fi', array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => false,
+		'default' => null
+	));
+}
+?>

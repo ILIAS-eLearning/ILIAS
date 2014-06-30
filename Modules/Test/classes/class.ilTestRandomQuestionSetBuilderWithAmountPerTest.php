@@ -15,7 +15,12 @@ class ilTestRandomQuestionSetBuilderWithAmountPerTest extends ilTestRandomQuesti
 	{
 		$questionStage = $this->getQuestionStageForSourcePoolDefinitionList($this->sourcePoolDefinitionList);
 
-		return $this->isQuestionSetFetchable($questionStage);
+		if( $questionStage->isSmallerThan($this->questionSetConfig->getQuestionAmountPerTest()) )
+		{
+			return false;
+		}
+
+		return true;
 	}
 
 	public function performBuild(ilTestSession $testSession)
@@ -27,13 +32,5 @@ class ilTestRandomQuestionSetBuilderWithAmountPerTest extends ilTestRandomQuesti
 		);
 
 		$this->storeQuestionSet($testSession, $questionSet);
-	}
-
-	private function isQuestionSetFetchable($questionStage)
-	{
-		$requiredAmount = $this->questionSetConfig->getQuestionAmountPerTest();
-		$possibleAmount = count($questionStage);
-
-		return ( $possibleAmount >= $requiredAmount );
 	}
 }
