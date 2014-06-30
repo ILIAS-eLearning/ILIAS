@@ -303,6 +303,10 @@ class gevUserUtils {
 		return $ret;
 	}
 	
+	public function getLogin() {
+		return $this->getUser()->getLogin();
+	}
+	
 	public function getGender() {
 		return $this->getUser()->getGender();
 	}
@@ -354,6 +358,29 @@ class gevUserUtils {
 	public function getOvernightDetailsForCourse($a_crs_id) {
 		// TODO: implement
 		return "TBD";
+	}
+	
+	
+	// For IV-Import Process
+	public function iv_isActivated() {
+		global $ilDB;
+		$res = $ilDB->query("SELECT * FROM gev_user_reg_tokens ".
+						    " WHERE email = ".$ilDB->quote($this->getLogin(), "text").
+							"   AND token_used IS NULL");
+
+		if ($ilDB->fetchAssoc($res)) {
+			return false;
+		}
+		return true;
+	}
+	
+	public function iv_setActivated() {
+		global $ilDB;
+		
+		$ilDB->manipulate("UPDATE gev_user_reg_tokens ".
+						  "   SET token_used = NOW() ".
+						  " WHERE email = ".$ilDB->quote($this->getLogin(), "text")
+						);
 	}
 }
 

@@ -588,9 +588,22 @@ class ilPersonalSettingsGUI
 		// due to first login or password of user is expired
 		if($ilUser->isPasswordChangeDemanded())
 		{
-			ilUtil::sendInfo(
-				$this->lng->txt('password_change_on_first_login_demand')
-			);
+			// gev-patch start
+			// first login via script after iv import?
+			require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+			$utils = gevUserUtils::getInstance($ilUser->getId());
+			
+			if ($utils->iv_isActivated()) {
+				ilUtil::sendInfo(
+					$this->lng->txt('password_change_on_first_login_demand')
+				);
+			}
+			else {
+				ilUtil::sendInfo(
+						$this->lng->txt("gev_set_password_on_first_login")
+					);
+			}
+			// gev-patch end
 		}
 		else if($ilUser->isPasswordExpired())
 		{
@@ -628,7 +641,13 @@ class ilPersonalSettingsGUI
 			//if (
 			//	($ilUser->getAuthMode(true) != AUTH_SHIBBOLETH || !$ilSetting->get("shib_auth_allow_local"))
 			//)
-			if($ilUser->getAuthMode(true) == AUTH_LOCAL)
+			
+			// gev-patch start
+			// first login via script after iv import
+			require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+			$utils = gevUserUtils::getInstance($ilUser->getId());
+			if($ilUser->getAuthMode(true) == AUTH_LOCAL && $utils->iv_isActivated())
+			// gev-patch end
 			{
 				// current password
 				$cpass = new ilPasswordInputGUI($lng->txt("current_password"), "current_password");
@@ -743,7 +762,13 @@ class ilPersonalSettingsGUI
 			// unless the user uses Shibboleth authentication with additional
 			// local authentication for WebDAV.
 			#if ($ilUser->getAuthMode(true) != AUTH_SHIBBOLETH || ! $ilSetting->get("shib_auth_allow_local"))
-			if($ilUser->getAuthMode(true) == AUTH_LOCAL)
+			
+			// gev-patch start
+			// first login via script after iv import
+			require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+			$utils = gevUserUtils::getInstance($ilUser->getId());
+			if($ilUser->getAuthMode(true) == AUTH_LOCAL && $utils->iv_isActivated())
+			// gev-patch end
 			{
 				// check current password
 				if (md5($_POST["current_password"]) != $ilUser->getPasswd() and
@@ -801,7 +826,12 @@ class ilPersonalSettingsGUI
 				{
 					$ilUser->setLastPasswordChangeToNow();
 				}
-
+				
+				// gev-patch start
+				// iv imported user has set his new password, password form
+				// works normally now.
+				$utils->iv_setActivated();
+				// gev-patch end
 				if(ilSession::get('orig_request_target'))
 				{
 					ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
@@ -812,7 +842,9 @@ class ilPersonalSettingsGUI
 				else
 				{
 					ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
-					$this->showPassword(true, true);
+					// gev-patch start
+					$this->showPassword(true, false);
+					// gev-patch end
 					return;
 				}
 			}
