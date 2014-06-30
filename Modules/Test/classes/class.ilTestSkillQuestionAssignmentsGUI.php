@@ -131,6 +131,8 @@ class ilTestSkillQuestionAssignmentsGUI
 		{
 			require_once 'Modules/Test/classes/class.ilTestSkillQuestionAssignment.php';
 
+			$success = false;
+			
 			foreach($_POST['quantifiers'] as $assignmentKey => $quantifier)
 			{
 				$assignmentKey = explode(':',$assignmentKey);
@@ -156,6 +158,7 @@ class ilTestSkillQuestionAssignmentsGUI
 			}
 		}
 
+		ilUtil::sendSuccess($this->lng->txt('tst_msg_skl_qst_assign_points_saved'), true);
 		$this->ctrl->redirect($this, self::CMD_SHOW_SKILL_QUEST_ASSIGNS);
 	}
 

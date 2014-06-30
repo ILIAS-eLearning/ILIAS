@@ -90,6 +90,7 @@ class ilTestSkillLevelThresholdsGUI
 			}
 		}
 
+		ilUtil::sendSuccess($this->lng->txt('tst_msg_skl_lvl_thresholds_saved'), true);
 		$this->ctrl->redirect($this, self::CMD_SHOW_SKILL_THRESHOLDS);
 	}
 
