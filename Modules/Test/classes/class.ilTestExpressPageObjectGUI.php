@@ -258,7 +258,8 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
 		{
 			$questionType = $_REQUEST['sel_question_types'];
 		}
-		
+
+		include_once 'Modules/Test/classes/class.ilObjAssessmentFolder.php';
 		if( ilObjAssessmentFolder::isAdditionalQuestionContentEditingModePageObjectEnabled() )
 		{
 			$addContEditMode = $_POST['add_quest_cont_edit_mode'];
