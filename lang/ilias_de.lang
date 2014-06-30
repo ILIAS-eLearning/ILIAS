@@ -8997,7 +8997,7 @@ news#:#news_period_1_year#:#Letztes Jahr
 news#:#news_period_x_days#:#Letzte %s Tage
 news#:#news_period_x_months#:#Letzte %s Monate
 news#:#news_period_x_weeks#:#Letzte %s Wochen
-news#:#news_public_feed#:#Extra Webfeed-URL
+news#:#news_public_feed#:#Eigener Webfeed
 news#:#news_public_feed_info#:#Wenn diese Option gewählt wird, wird eine eigene Newsfeed-URL für diese Objekt erzeugt.
 news#:#news_related_to#:#bezieht sich auf
 news#:#news_rss_period#:#RSS Zeitraum
