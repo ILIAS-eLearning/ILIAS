@@ -25,6 +25,8 @@ class gevSettings {
 	// Block "Trainingsverwaltung"
 	// Nummer der Maßnahme
 	const CRS_AMD_CUSTOM_ID 		= "crs_amd_custom_id";
+	// Nummernkreis
+	const CRS_AMD_CUSTOM_ID_TEMPLATE = "crs_amd_custom_id_template";
 	// Trainingsvorlage (nicht im Konzept)
 	const CRS_AMD_TEMPLATE_TITLE	= "crs_amd_template_title";
 	// Trainingsvorlage Ref-ID (nicht im Konzept)

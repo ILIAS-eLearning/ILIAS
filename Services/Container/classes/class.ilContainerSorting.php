@@ -183,16 +183,51 @@ class ilContainerSorting
 				case ilContainer::SORT_TITLE:
 					foreach((array) $a_items as $type => $data)
 					{
-						// this line used until #4389 has been fixed (3.10.6)
-						// reanimated with 4.4.0
-						$sorted[$type] = ilUtil::sortArray((array) $data,'title','asc',false);
+						// gev-patch start
+						if ($type !== "crs") {
+							// this line used until #4389 has been fixed (3.10.6)
+							// reanimated with 4.4.0
+							$sorted[$type] = ilUtil::sortArray((array) $data,'title','asc',false);
 
-						// the next line tried to use db sorting and has replaced sortArray due to bug #4389
-						// but leads to bug #12165. PHP should be able to do a proper sorting, if the locale
-						// is set correctly, so we witch back to sortArray (with 4.4.0) and see what
-						// feedback we get
-						// (next line has been used from 3.10.6 to 4.3.x)
-//						$sorted[$type] = $data;
+							// the next line tried to use db sorting and has replaced sortArray due to bug #4389
+							// but leads to bug #12165. PHP should be able to do a proper sorting, if the locale
+							// is set correctly, so we witch back to sortArray (with 4.4.0) and see what
+							// feedback we get
+							// (next line has been used from 3.10.6 to 4.3.x)
+	//						$sorted[$type] = $data;
+						}
+						else {
+							require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+							
+							$tmplts = array();
+							$crss_with_start = array();
+							$crss_without_start = array();
+							
+							foreach($data as &$params) {
+								$util = gevCourseUtils::getInstance($params["obj_id"]);
+								if ($util->isTemplate()) {
+									$tmplts[] = $params;
+								}
+								else {
+									$start = $util->getStartDate();
+
+									if ($start !== null) {
+										$params["course_start"] = $start->get(IL_CAL_DATE);
+										$crss_with_start[] = $params;
+									}
+									else {
+										$crss_without_start[] = $params;
+									}
+								}
+							}
+							
+							$crss_with_start = ilUtil::sortArray((array) $crss_with_start, "course_start", "desc", false);
+							$crss_without_start = ilUtil::sortArray((array) $crss_without_start, "title", "asc", false);
+							$tmplts = ilUtil::sortArray((array) $tmplts, "title", "asc", false);
+							
+							$sorted[$type] = array_merge($tmplts, $crss_without_start, $crss_with_start);
+						}
+						// gev-patch end
 					}
 					return $sorted ? $sorted : array();
 					
