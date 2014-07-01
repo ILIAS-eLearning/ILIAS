@@ -1663,3 +1663,30 @@ if ($ilDB->tableColumnExists('exc_data', 'add_desktop'))
 }
 
 ?>
+<#4250>
+<?php
+if( !$ilDB->tableColumnExists('tst_tests', 'show_grading_status') )
+{
+	$ilDB->addTableColumn('tst_tests', 'show_grading_status', array(
+		'type' => 'integer',
+		'length' => 1,
+		'notnull' => false,
+		'default' => 0
+	));
+
+	$ilDB->queryF("UPDATE tst_tests SET show_grading_status = %s", array('integer'), array(1));
+}
+
+if( !$ilDB->tableColumnExists('tst_tests', 'show_grading_mark') )
+{
+	$ilDB->addTableColumn('tst_tests', 'show_grading_mark', array(
+		'type' => 'integer',
+		'length' => 1,
+		'notnull' => false,
+		'default' => 0
+	));
+
+	$ilDB->queryF("UPDATE tst_tests SET show_grading_mark = %s", array('integer'), array(1));
+}
+?>
+

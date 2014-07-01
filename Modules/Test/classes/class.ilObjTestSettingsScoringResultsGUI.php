@@ -20,7 +20,15 @@ class ilObjTestSettingsScoringResultsGUI
 	const CMD_SHOW_FORM					= 'showForm';
 	const CMD_SAVE_FORM					= 'saveForm';
 	const CMD_CONFIRMED_SAVE_FORM		= 'confirmedSaveForm';
-	
+
+	/**
+	 * form field value constants
+	 */
+	const FORM_FIELD_VALUE_RESULTS_GRADING_SHOW_STATUS = 'status';
+	const FORM_FIELD_VALUE_RESULTS_GRADING_SHOW_MARK = 'mark';
+	const FORM_FIELD_VALUE_RESULTS_GRADING_SHOW_NONE = 'none';
+	const FORM_FIELD_VALUE_RESULTS_GRADING_SHOW_BOTH = 'both';
+
 	/** @var ilCtrl $ctrl */
 	protected $ctrl = null;
 	
@@ -215,6 +223,28 @@ class ilObjTestSettingsScoringResultsGUI
 			$this->testOBJ->setReportingDate('');
 		}
 
+		switch( $form->getItemByPostVar('show_result_grading')->getValue() )
+		{
+			case self::FORM_FIELD_VALUE_RESULTS_GRADING_SHOW_BOTH:
+				$this->testOBJ->setShowGradingStatusEnabled(true);
+				$this->testOBJ->setShowGradingMarkEnabled(true);
+				break;
+			case self::FORM_FIELD_VALUE_RESULTS_GRADING_SHOW_NONE:
+				$this->testOBJ->setShowGradingStatusEnabled(false);
+				$this->testOBJ->setShowGradingMarkEnabled(false);
+				break;
+			case self::FORM_FIELD_VALUE_RESULTS_GRADING_SHOW_STATUS:
+				$this->testOBJ->setShowGradingStatusEnabled(true);
+				$this->testOBJ->setShowGradingMarkEnabled(false);
+				break;
+			case self::FORM_FIELD_VALUE_RESULTS_GRADING_SHOW_MARK:
+				$this->testOBJ->setShowGradingStatusEnabled(false);
+				$this->testOBJ->setShowGradingMarkEnabled(true);
+				break;
+		}
+		
+		$this->testOBJ->setPrintBestSolutionWithResult( (int)$form->getItemByPostVar('print_bs_with_res')->getChecked() );
+
 		$resultsPresentationSettings = (array)$form->getItemByPostVar('results_presentation')->getValue();
 		$this->testOBJ->setShowPassDetails( (int)in_array('pass_details', $resultsPresentationSettings) );
 		$this->testOBJ->setShowSolutionDetails( (int)in_array('solution_details', $resultsPresentationSettings) );
@@ -228,7 +258,6 @@ class ilObjTestSettingsScoringResultsGUI
 		$exportSettings = (array)$form->getItemByPostVar('export_settings');
 		$this->testOBJ->setExportSettingsSingleChoiceShort( (int)in_array('exp_sc_short', $exportSettings) );
 
-		$this->testOBJ->setPrintBestSolutionWithResult( (int)$form->getItemByPostVar('print_bs_with_res')->getChecked() );
 		$this->testOBJ->setPassDeletionAllowed( (bool)$form->getItemByPostVar('pass_deletion_allowed')->getValue() );
 
 		// result filter taxonomies
@@ -489,6 +518,26 @@ class ilObjTestSettingsScoringResultsGUI
 		$results_access_date_limitation->addSubItem($reporting_date);
 		$form->addItem($results_access);
 
+		// grading in test results
+		$rg = new ilRadioGroupInputGUI($this->lng->txt('tst_results_grading'), 'show_result_grading');
+		$rg->addOption(new ilRadioOption(
+			$this->lng->txt('tst_results_grading_opt_show_both'), self::FORM_FIELD_VALUE_RESULTS_GRADING_SHOW_BOTH
+		));
+		$rg->addOption(new ilRadioOption(
+			$this->lng->txt('tst_results_grading_opt_show_none'), self::FORM_FIELD_VALUE_RESULTS_GRADING_SHOW_NONE
+		));
+		$rg->addOption(new ilRadioOption(
+			$this->lng->txt('tst_results_grading_opt_show_status'), self::FORM_FIELD_VALUE_RESULTS_GRADING_SHOW_STATUS
+		));
+		$rg->addOption(new ilRadioOption(
+			$this->lng->txt('tst_results_grading_opt_show_mark'), self::FORM_FIELD_VALUE_RESULTS_GRADING_SHOW_MARK
+		));
+		$rg->setValue($this->getShowGradingFormFieldValue(
+			$this->testOBJ->isShowGradingStatusEnabled(), $this->testOBJ->isShowGradingMarkEnabled()
+		));
+		$form->addItem($rg);
+
+		// best solution in test results
 		$results_print_best_solution = new ilCheckboxInputGUI($this->lng->txt('tst_results_print_best_solution'), 'print_bs_with_res');
 		$results_print_best_solution->setInfo($this->lng->txt('tst_results_print_best_solution_info'));
 		$results_print_best_solution->setValue(1);
@@ -664,5 +713,32 @@ class ilObjTestSettingsScoringResultsGUI
 		}
 
 		return $this->availableTaxonomyIds;
+	}
+
+	/**
+	 * @param $showGradingStatusEnabled
+	 * @param $showGradingMarkEnabled
+	 * @return string
+	 */
+	private function getShowGradingFormFieldValue($showGradingStatusEnabled, $showGradingMarkEnabled)
+	{
+		if( $showGradingStatusEnabled && $showGradingMarkEnabled )
+		{
+			$formFieldValue = self::FORM_FIELD_VALUE_RESULTS_GRADING_SHOW_BOTH;
+		}
+		elseif( $showGradingStatusEnabled )
+		{
+			$formFieldValue = self::FORM_FIELD_VALUE_RESULTS_GRADING_SHOW_STATUS;
+		}
+		elseif( $showGradingMarkEnabled )
+		{
+			$formFieldValue = self::FORM_FIELD_VALUE_RESULTS_GRADING_SHOW_MARK;
+		}
+		else
+		{
+			$formFieldValue = self::FORM_FIELD_VALUE_RESULTS_GRADING_SHOW_NONE;
+		}
+
+		return $formFieldValue;
 	}
 }

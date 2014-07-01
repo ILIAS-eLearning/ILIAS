@@ -14,8 +14,7 @@ include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 * @defgroup ModulesTest Modules/Test
 * @extends ilObject
 */
-class
-ilObjTest extends ilObject
+class ilObjTest extends ilObject
 {
 	#region Properties
 	
@@ -508,7 +507,16 @@ ilObjTest extends ilObject
 	/** @var string definition of selector for special characters  */
 	protected $char_selector_definition;
 
-	
+	/**
+	 * @var bool
+	 */
+	protected $showGradingStatusEnabled;
+
+	/**
+	 * @var bool
+	 */
+	protected $showGradingMarkEnabled;
+
 	#endregion
 	
 	/**
@@ -615,6 +623,9 @@ ilObjTest extends ilObject
 		$this->sign_submission = false;
 		$this->char_selector_availability = 0;
 		$this->char_selector_definition = null;
+		
+		$this->showGradingStatusEnabled = true;
+		$this->showGradingMarkEnabled = true;
 		
 		$this->ilObject($a_id, $a_call_by_reference);
 	}
@@ -1315,7 +1326,9 @@ ilObjTest extends ilObject
 				'char_selector_availability' => array('integer', (int)$this->getCharSelectorAvailability()),
 				'char_selector_definition' => array('text', (string)$this->getCharSelectorDefinition()),
 				'skill_service' => array('integer', (int)$this->isSkillServiceEnabled()),
-				'result_tax_filters' => array('text', serialize((array)$this->getResultFilterTaxIds()))
+				'result_tax_filters' => array('text', serialize((array)$this->getResultFilterTaxIds())),
+				'show_grading_status' => array('integer', (int)$this->isShowGradingStatusEnabled()),
+				'show_grading_mark' => array('integer', (int)$this->isShowGradingMarkEnabled())
 			));
 				    
 			$this->test_id = $next_id;
@@ -1426,7 +1439,9 @@ ilObjTest extends ilObject
 						'char_selector_availability' => array('integer', (int)$this->getCharSelectorAvailability()),
 						'char_selector_definition' => array('text', (string)$this->getCharSelectorDefinition()),
 						'skill_service' => array('integer', (int)$this->isSkillServiceEnabled()),
-						'result_tax_filters' => array('text', serialize((array)$this->getResultFilterTaxIds()))
+						'result_tax_filters' => array('text', serialize((array)$this->getResultFilterTaxIds())),
+						'show_grading_status' => array('integer', (int)$this->isShowGradingStatusEnabled()),
+						'show_grading_mark' => array('integer', (int)$this->isShowGradingMarkEnabled())
 					),
 					array(
 						'test_id' => array('integer', (int)$this->getTestId())
@@ -1912,6 +1927,8 @@ ilObjTest extends ilObject
 			$this->setCharSelectorDefinition($data->char_selector_definition);
 			$this->setSkillServiceEnabled((bool)$data->skill_service);
 			$this->setResultFilterTaxIds(strlen($data->result_tax_filters) ? unserialize($data->result_tax_filters) : array());
+			$this->setShowGradingStatusEnabled((bool)$data->show_grading_status);
+			$this->setShowGradingMarkEnabled((bool)$data->show_grading_mark);
 			$this->loadQuestions();
 		}
 
@@ -5923,6 +5940,12 @@ function getAnswerFeedbackPoints()
 				case 'result_tax_filters':
 					$this->setResultFilterTaxIds(strlen($metadata['entry']) ? unserialize($metadata['entry']) : array());
 					break;
+				case 'show_grading_status':
+					$this->setShowGradingStatusEnabled((bool)$metadata['entry']);
+					break;
+				case 'show_grading_mark':
+					$this->setShowGradingMarkEnabled((bool)$metadata['entry']);
+					break;
 			}
 			if (preg_match("/mark_step_\d+/", $metadata["label"]))
 			{
@@ -6311,6 +6334,18 @@ function getAnswerFeedbackPoints()
 		$a_xml_writer->xmlStartTag("qtimetadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "result_tax_filters");
 		$a_xml_writer->xmlElement("fieldentry", NULL, serialize((array)$this->getResultFilterTaxIds()));
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+
+		// show_grading_status
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "show_grading_status");
+		$a_xml_writer->xmlElement("fieldentry", NULL, (int)$this->isShowGradingStatusEnabled());
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
+
+		// show_grading_mark
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "show_grading_mark");
+		$a_xml_writer->xmlElement("fieldentry", NULL, (int)$this->isShowGradingMarkEnabled());
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
 
 
@@ -9474,7 +9509,9 @@ function getAnswerFeedbackPoints()
 			'char_selector_availability' => $this->getCharSelectorAvailability(),
 			'char_selector_definition' => $this->getCharSelectorDefinition(),
 			'skill_service' => (int)$this->isSkillServiceEnabled(),
-			'result_tax_filters' => (array)$this->getResultFilterTaxIds()
+			'result_tax_filters' => (array)$this->getResultFilterTaxIds(),
+			'show_grading_status' => (int)$this->isShowGradingStatusEnabled(),
+			'show_grading_mark' => (int)$this->isShowGradingMarkEnabled()
 		);
 		$next_id = $ilDB->nextId('tst_test_defaults');
 		$affectedRows = $ilDB->manipulateF("INSERT INTO tst_test_defaults (test_defaults_id, name, user_fi, defaults, marks, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
@@ -9573,6 +9610,9 @@ function getAnswerFeedbackPoints()
 		$this->setCharSelectorDefinition($testsettings['char_selector_definition']);
 		$this->setSkillServiceEnabled((bool)$testsettings['skill_service']);
 		$this->setResultFilterTaxIds((array)$testsettings['result_tax_filters']);
+		$this->setShowGradingStatusEnabled((bool)$testsettings['show_grading_status']);
+		$this->setShowGradingMarkEnabled((bool)$testsettings['show_grading_mark']);
+
 		$this->saveToDb();
 
 		return true;
@@ -11615,5 +11655,25 @@ function getAnswerFeedbackPoints()
 		}
 
 		return self::$isSkillManagementGloballyActivated;
+	}
+
+	public function setShowGradingStatusEnabled($showGradingStatusEnabled)
+	{
+		$this->showGradingStatusEnabled = $showGradingStatusEnabled;
+	}
+
+	public function isShowGradingStatusEnabled()
+	{
+		return $this->showGradingStatusEnabled;
+	}
+
+	public function setShowGradingMarkEnabled($showGradingMarkEnabled)
+	{
+		$this->showGradingMarkEnabled = $showGradingMarkEnabled;
+	}
+
+	public function isShowGradingMarkEnabled()
+	{
+		return $this->showGradingMarkEnabled;
 	}
 }
