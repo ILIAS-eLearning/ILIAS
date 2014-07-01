@@ -30,6 +30,8 @@ class gevCourseUtils {
 		$this->crs_obj = null;
 		$this->gev_settings = gevSettings::getInstance();
 		$this->amd = gevAMDUtils::getInstance();
+		
+		$this->membership = null;
 	}
 	
 	static public function getInstance($a_crs_id) {
@@ -376,9 +378,18 @@ class gevCourseUtils {
 	
 	// Participants, Trainers and other members
 	
-	public function getMembersExceptForAdmin() {
-		// TODO: implement!
-		return array();
+	public function getMembership() {
+		if ($this->membership === null) {
+			require_once("Services/Membership/classes/class.ilParticipants.php");
+			$this->membership = new ilParticipants($this->crs_id);
+		}
+		
+		return $this->membership;
+	}
+	
+	public function getMembersExceptForAdmins() {
+		$ms = $this->getMembership();
+		return array_merge($ms->getMembers(), $ms->getTutors());
 	}
 	
 	public function getTrainer() {
@@ -628,11 +639,30 @@ class gevCourseUtils {
 	
 	// Desk Display creation
 	
-	public function buildDeskDisplays($a_send) {
+	public function canBuildDeskDisplays() {
+		return count($this->getMembersExceptForAdmins()) > 0;
+	}
+	
+	public function buildDeskDisplays($a_path = null) {
 		require_once("Services/DeskDisplays/classes/class.ilDeskDisplay.php");
 		$dd = new ilDeskDisplay($this->db, $this->log);
 		
+		// Generali-Konzept, Kapitel "Tischaufsteller"
+		$dd->setLine1Font("Arial", 48, false, false);
+		$dd->setLine1Color(150, 150, 150);
+		$dd->setLine2Font("Arial", 96, false, false);
+		$dd->setLine2Color(0, 0, 0);
+		$dd->setSpaceLeft(2);
+		$dd->setSpaceBottom1(10.0);
+		$dd->setSpaceBottom2(6.5);
 		
+		$dd->setUsers($this->getMembersExceptForAdmins());
+		if ($a_path === null) {
+			$dd->deliver();
+		}
+		else {
+			$dd->build($a_path);
+		}
 	}
 
 }

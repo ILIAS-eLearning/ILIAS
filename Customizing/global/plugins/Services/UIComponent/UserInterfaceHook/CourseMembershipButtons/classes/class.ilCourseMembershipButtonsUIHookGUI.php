@@ -30,13 +30,19 @@ class ilCourseMembershipButtonsUIHookGUI extends ilUIHookPluginGUI {
 			)
 		and $a_part == "template_load"
 		and $a_parameters["tpl_id"] == "Services/UIComponent/Toolbar/tpl.toolbar.html") {
+			require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+			require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+			$utils = gevCourseUtils::getInstance(gevObjectUtils::getObjId($_GET["ref_id"]));
+			
 			$this->lng->loadLanguageModule("crsbook");
 			$this->toolbar->addSeparator();
 			$this->toolbar->addButton( $this->lng->txt("gev_member_list")
 									 , "ilias.php?ref_id=".$_GET["ref_id"]."&cmd=trainer&baseClass=gevMemberListDeliveryGUI"
 									 );
-			$this->toolbar->addButton( $this->lng->txt("gev_desk_displays")
-									 , "ilias.php?$ref_id=".$_GET["ref_id"]."&baseClass=gevDeskDisplayDeliveryGUI");
+			if ($utils->canBuildDeskDisplays()) {
+				$this->toolbar->addButton( $this->lng->txt("gev_desk_displays")
+										 , "ilias.php?ref_id=".$_GET["ref_id"]."&baseClass=gevDeskDisplaysDeliveryGUI");
+			}
 			$this->toolbar->addButton( $this->lng->txt("gev_bookings")
 									 , "ilias.php?ref_id=".$_GET["ref_id"]."&cmdClass=ilcoursebookingadmingui&baseClass=ilCourseBookingGUI"
 									 );
