@@ -30,6 +30,7 @@ class gevOrgUnitUtils {
 		$this->amd = gevAMDUtils::getInstance();
 		
 		$this->local_roles = null;
+		$this->flipped_local_roles = null;
 		$this->role_folder = null;
 		$this->rbac_admin = null;
 		$this->rbac_review = null;
@@ -350,10 +351,28 @@ class gevOrgUnitUtils {
 	
 	public function getLocalRoles() {
 		if ($this->local_roles === null) {
+			$review = $this->getRbacReview();
+			$role_ids = $review->getLocalRoles($this->getRefId());
 			
+			$res = $this->db->query("SELECT obj_id, title FROM object_data ".
+									" WHERE ".$this->db->in("obj_id", $role_ids, false, "integer")
+									);
+			
+			$this->local_roles = array();
+			while($rec = $this->db->fetchAssoc($res)) {
+				$this->local_roles[$rec["obj_id"]] = $rec["title"];
+			}
 		}
 		
 		return $this->local_roles;
+	}
+	
+	public function getFlippedLocalRoles() {
+		if ($this->flipped_local_roles === null) {
+			$this->flipped_local_roles = array_flip($this->getLocalRoles());
+		}
+		
+		return $this->flipped_local_roles;
 	}
 	
 	public function getRbacAdmin() {
@@ -377,7 +396,25 @@ class gevOrgUnitUtils {
 	// assignment of users to the org-unit
 	
 	public function assignUser($a_user_id, $a_role_name) {
+		if ($a_role_name == "Mitarbeiter") {
+			$role_name = "il_orgu_employee_".$this->getRefId();
+		}
+		else if ($a_role_name == "Vorgesetzter") {
+			$role_name = "il_orgu_superior_".$this->getRefId();	
+		}
+		else {
+			$role_name = "Org-".$a_role_name;
+		}
+
+		$roles = $this->getFlippedLocalRoles();
 		
+		if (!array_key_exists($role_name, $roles)) {
+			$this->log->write("gevOrgUnitUtils::assignUser: Could not find role with name ".$role_name.
+							  " in Org-Unit with ref_id ".$this->getRefId());
+			return;
+		}
+		
+		$this->getRbacAdmin()->assignUser($roles[$role_name], $a_user_id);
 	}
 	
 	// assignment and deassignment of standard org unit roles for the default org
@@ -399,24 +436,8 @@ class gevOrgUnitUtils {
 		return $ret;
 	}
 	
-	public function getAssignedLocalRoles() {
-		$review = $this->getRbacReview();
-		$role_ids = $review->getLocalRoles($this->getRefId());
-		
-		$res = $this->db->query("SELECT obj_id, title FROM object_data ".
-								" WHERE ".$this->db->in("obj_id", $role_ids, false, "integer")
-								);
-		
-		$ret = array();
-		while($rec = $this->db->fetchAssoc($res)) {
-			$ret[$rec["obj_id"]] = $rec["title"];
-		}
-		
-		return $ret;
-	}
-	
 	public function hasRolesForDefaultOrgUnits() {
-		$cur = $this->getAssignedLocalRoles();
+		$cur = $this->getLocalRoles();
 		$to = $this->getRoleTemplatesForDefaultOrgUnits();
 
 		foreach ($to as $id => $title) {
@@ -446,7 +467,7 @@ class gevOrgUnitUtils {
 	public function removeRolesForDefaultOrgUnits() {
 		$admin = $this->getRbacAdmin();
 		
-		$cur = array_flip($this->getAssignedLocalRoles());
+		$cur = array_flip($this->getLocalRoles());
 		$to = $this->getRoleTemplatesForDefaultOrgUnits();
 		
 		foreach ($to as $id => $title) {

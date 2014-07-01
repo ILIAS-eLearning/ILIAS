@@ -522,7 +522,9 @@ class gevUserUtils {
 	}
 	
 	public function assignOrgRole($a_org_id, $a_role_name) {
-		
+		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
+		$utils = gevOrgUnitUtils::getInstance($a_org_id);
+		$utils->assignUser($this->user_id, $a_role_name);
 	}
 	
 	
