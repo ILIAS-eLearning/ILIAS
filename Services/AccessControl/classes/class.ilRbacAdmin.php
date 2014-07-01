@@ -271,6 +271,36 @@ class ilRbacAdmin
 		
 		return true;
 	}
+	
+	// gev-patch start
+	/**
+	* Deassigns all users from a role. Update of table rbac_ua.
+	* @access	public
+	* @param	integer	object id of role
+	* @return	boolean	true on success
+	*/
+	function deassignUsers($a_rol_id)
+	{
+		global $ilDB;
+		
+		if (!isset($a_rol_id))
+		{
+			$message = get_class($this)."::deassignUsers(): Missing parameter! role_id: ".$a_rol_id;
+			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
+		}
+
+		$query = "DELETE FROM rbac_ua ".
+			 "WHERE rol_id = ".$ilDB->quote($a_rol_id,'integer')." ";
+		$res = $ilDB->manipulate($query);
+		
+		// we don't use ldap for generali
+		//include_once('Services/LDAP/classes/class.ilLDAPRoleGroupMapping.php');
+		//$mapping = ilLDAPRoleGroupMapping::_getInstance();
+		//$mapping->deassign($a_rol_id,$a_usr_id); 
+		
+		return true;
+	}
+	// gev-patch end
 
 	/**
 	* Grants a permission to an object and a specific role. Update of table rbac_pa

@@ -74,7 +74,10 @@ class ilObjOrgUnit extends ilContainer {
 
     public function update() {
         global $ilDB;
-        parent::update();
+        // gev-patch start
+        // moved to after AMD update
+        //parent::update();
+        // gev-patch end
         $sql = 'SELECT * FROM ' . self::TABLE_NAME .' WHERE orgu_id = ' . $ilDB->quote($this->getId(), 'integer');
         $set = $ilDB->query($sql);
         if ($ilDB->numRows($set)) {
@@ -96,6 +99,11 @@ class ilObjOrgUnit extends ilContainer {
             // If no type is assigned, delete relations by passing an empty array
             ilAdvancedMDRecord::saveObjRecSelection($this->getId(), 'orgu_type', array());
         }
+        
+        // gev-patch start
+        parent::update();
+        // gev-patch end
+        
     }
 
     public function getOrgUnitTypeId() {
