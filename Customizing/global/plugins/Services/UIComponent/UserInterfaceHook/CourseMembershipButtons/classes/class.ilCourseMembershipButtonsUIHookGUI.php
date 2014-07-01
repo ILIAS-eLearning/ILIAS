@@ -33,8 +33,7 @@ class ilCourseMembershipButtonsUIHookGUI extends ilUIHookPluginGUI {
 			require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 			require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
 			$utils = gevCourseUtils::getInstance(gevObjectUtils::getObjId($_GET["ref_id"]));
-			
-			$this->lng->loadLanguageModule("crsbook");
+
 			$this->toolbar->addSeparator();
 			$this->toolbar->addButton( $this->lng->txt("gev_member_list")
 									 , "ilias.php?ref_id=".$_GET["ref_id"]."&cmd=trainer&baseClass=gevMemberListDeliveryGUI"
@@ -43,9 +42,6 @@ class ilCourseMembershipButtonsUIHookGUI extends ilUIHookPluginGUI {
 				$this->toolbar->addButton( $this->lng->txt("gev_desk_displays")
 										 , "ilias.php?ref_id=".$_GET["ref_id"]."&baseClass=gevDeskDisplaysDeliveryGUI");
 			}
-			$this->toolbar->addButton( $this->lng->txt("gev_bookings")
-									 , "ilias.php?ref_id=".$_GET["ref_id"]."&cmdClass=ilcoursebookingadmingui&baseClass=ilCourseBookingGUI"
-									 );
 		}
 		
 		return array("mode" => ilUIHookPluginGUI::KEEP, "html" => "");
