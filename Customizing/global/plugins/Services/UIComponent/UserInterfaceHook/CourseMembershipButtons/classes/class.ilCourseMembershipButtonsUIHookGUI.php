@@ -35,6 +35,8 @@ class ilCourseMembershipButtonsUIHookGUI extends ilUIHookPluginGUI {
 			$this->toolbar->addButton( $this->lng->txt("gev_member_list")
 									 , "ilias.php?ref_id=".$_GET["ref_id"]."&cmd=trainer&baseClass=gevMemberListDeliveryGUI"
 									 );
+			$this->toolbar->addButton( $this->lng->txt("gev_desk_displays")
+									 , "ilias.php?$ref_id=".$_GET["ref_id"]."&baseClass=gevDeskDisplayDeliveryGUI");
 			$this->toolbar->addButton( $this->lng->txt("gev_bookings")
 									 , "ilias.php?ref_id=".$_GET["ref_id"]."&cmdClass=ilcoursebookingadmingui&baseClass=ilCourseBookingGUI"
 									 );

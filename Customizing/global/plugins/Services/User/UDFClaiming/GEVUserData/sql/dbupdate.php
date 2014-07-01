@@ -297,3 +297,31 @@ $fields = array( "ADP-Nummer"		=> array( gevSettings::USR_UDF_ADP_NUMBER
 gevUDFUtils::createUDFFields($fields);
 
 ?>
+
+<#2>
+<?php
+
+require_once("Services/GEV/Utils/classes/class.gevUDFUtils.php");
+require_once("Services/User/classes/class.ilUserDefinedFields.php");
+
+$fields = array( "HPE"		=> array( gevSettings::USR_UDF_HPE
+											, UDF_TYPE_TEXT
+											, array( "visible"				=> true
+												   , "changeable"			=> true
+												   , "searchable"			=> true
+												   , "required"				=> false
+												   , "export"				=> true
+												   , "course_export"		=> true
+												   , "group_export"			=> true
+												   , "registration_visible"	=> true
+												   , "visible_lua"			=> true
+												   , "changeable_lua"		=> true
+												   , "certificate"			=> true
+												   )
+											, null
+											)
+				);
+
+gevUDFUtils::createUDFFields($fields);
+
+?>

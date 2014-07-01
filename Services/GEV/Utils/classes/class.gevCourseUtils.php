@@ -21,9 +21,10 @@ class gevCourseUtils {
 	static $instances = array();
 	
 	protected function __construct($a_crs_id) {
-		global $ilDB;
+		global $ilDB, $ilLog;
 		
 		$this->db = &$ilDB;
+		$this->log = &$ilLog;
 		
 		$this->crs_id = $a_crs_id;
 		$this->crs_obj = null;
@@ -373,6 +374,13 @@ class gevCourseUtils {
 		return gevOrgUnitUtils::getInstance($id);	
 	}
 	
+	// Participants, Trainers and other members
+	
+	public function getMembersExceptForAdmin() {
+		// TODO: implement!
+		return array();
+	}
+	
 	public function getTrainer() {
 		// TODO: implement
 		return "TBD";
@@ -616,6 +624,15 @@ class gevCourseUtils {
 		
 		ilDatePresentation::setUseRelativeDates(true);
 		return $arr;
+	}
+	
+	// Desk Display creation
+	
+	public function buildDeskDisplays($a_send) {
+		require_once("Services/DeskDisplays/classes/class.ilDeskDisplay.php");
+		$dd = new ilDeskDisplay($this->db, $this->log);
+		
+		
 	}
 
 }

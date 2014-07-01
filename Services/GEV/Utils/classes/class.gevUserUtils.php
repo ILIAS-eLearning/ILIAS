@@ -514,6 +514,14 @@ class gevUserUtils {
 		$this->udf_utils->setField($this->user_id, gevSettings::USR_UDF_STATUS, $a_status);
 	}
 	
+	public function getHPE() {
+		$val = $this->udf_utils->getField($this->user_id, gevSettings::USR_UDF_HPE);
+	}
+	
+	public function setHPE($a_hpe) {
+		$this->udf_utils->setField($this->user_id, gevSettings::USR_UDF_HPE, $a_hpe);
+	}
+
 	
 	// role assignment
 	

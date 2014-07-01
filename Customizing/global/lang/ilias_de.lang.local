@@ -71,6 +71,7 @@ gev#:#gev_book_course#:#Training buchen
 gev#:#gev_bookable#:#buchbar
 gev#:#gev_bookable_waiting#:#buchbar auf Warteliste
 gev#:#gev_not_bookable#:#ausgebucht
+gev#:#gev_desk_displays#:#Tischaufsteller
 rbac#:#orgu_view_employee_bookings#:#Buchungen von Mitarbeitern einsehen
 rbac#:#orgu_view_employee_bookings_rcrsv#:#Buchungen von Mitarbeitern einsehen (rekursiv)
 rbac#:#orgu_book_employees#:#Mitarbeiter auf Seminare buchen

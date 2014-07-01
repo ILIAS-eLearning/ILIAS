@@ -180,6 +180,9 @@ class gevSettings {
 	// Status (????)
 	const USR_UDF_STATUS			= "usr_udf_status";
 	
+	// HPE
+	const USR_UDF_HPE				= "usr_udf_hpe";
+	
 	
 	private function __construct() {
 		$this->settings = new ilSetting(self::MODULE_NAME);
