@@ -66,7 +66,11 @@ class ilLPStatusManualByTutor extends ilLPStatus
 		{
 			// diff in progress and completed (use stored result in LPStatusWrapper)
 			$users = array_diff($members, ilLPStatusWrapper::_getInProgress($a_obj_id));
-			$users = array_diff($users, ilLPStatusWrapper::_getCompleted($a_obj_id));			
+			$users = array_diff($users, ilLPStatusWrapper::_getCompleted($a_obj_id));		
+			
+			// patch generali start
+			$users = array_diff($users, ilLPStatusWrapper::_getFailed($a_obj_id));			
+			// patch generali end
 		}
 		
 		return $users;
@@ -86,6 +90,10 @@ class ilLPStatusManualByTutor extends ilLPStatus
 		
 		// Exclude all users with status completed.
 		$users = array_diff((array) $users,ilLPStatusWrapper::_getCompleted($a_obj_id));
+		
+		// patch generali start
+		$users = array_diff($users, ilLPStatusWrapper::_getFailed($a_obj_id));
+		// patch generali end
 
 		if($users)
 		{
@@ -121,6 +129,33 @@ class ilLPStatusManualByTutor extends ilLPStatus
 		return $usr_ids;
 	}
 	
+	// patch generali start	
+	function _getFailed($a_obj_id)
+	{
+		global $ilDB;
+		
+		$usr_ids = array();
+
+		$query = "SELECT DISTINCT(usr_id) user_id FROM ut_lp_marks ".
+			"WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ".
+			"AND status = ".$ilDB->quote(ilLPStatus::LP_STATUS_FAILED_NUM, 'integer');
+		
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$usr_ids[] = $row->user_id;
+		}
+		
+		if($usr_ids)
+		{
+			// Exclude all non members
+			$usr_ids = array_intersect(self::getMembers($a_obj_id), (array)$usr_ids);
+		}
+
+		return $usr_ids;
+	}
+	// patch generali end	
+	
 	/**
 	 * Determine status
 	 *
@@ -138,14 +173,24 @@ class ilLPStatusManualByTutor extends ilLPStatus
 		{
 			case "crs":
 			case "grp":
-				// completed?
-				$set = $ilDB->query($q = "SELECT usr_id FROM ut_lp_marks ".
-					"WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ".
-					"AND usr_id = ".$ilDB->quote($a_user_id ,'integer')." ".
-					"AND completed = '1' ");
-				if ($rec = $ilDB->fetchAssoc($set))
+				
+				// patch generali start
+				
+				$set = $ilDB->query("SELECT usr_id,u_comment,completed".
+					" FROM ut_lp_marks".
+					" WHERE obj_id = ".$ilDB->quote($a_obj_id, 'integer').
+					" AND usr_id = ".$ilDB->quote($a_user_id, 'integer'));
+				$row = $ilDB->fetchAssoc($set);				
+				if (is_array($row))
 				{
-					$status = self::LP_STATUS_COMPLETED_NUM;
+					if(substr($row["u_comment"], 0, 10) == "lp_status_")
+					{
+						$status = (int)substr($row["u_comment"], 10);						
+					}					
+					else if($row["completed"])
+					{
+						$status = self::LP_STATUS_COMPLETED_NUM;
+					}
 				}
 				else
 				{				
@@ -155,6 +200,9 @@ class ilLPStatusManualByTutor extends ilLPStatus
 						$status = self::LP_STATUS_IN_PROGRESS_NUM;
 					}
 				}
+				
+				// patch generali end
+				
 				break;
 		}
 		return $status;
@@ -212,8 +260,20 @@ class ilLPStatusManualByTutor extends ilLPStatus
 	 * @return array 
 	 */
 	public static function _lookupFailedForObject($a_obj_id, $a_user_ids = null)
-	{
-		return array();
+	{		
+		// patch generali start
+		
+		if(!$a_user_ids)
+		{
+			$a_user_ids = self::getMembers($a_obj_id);
+			if(!$a_user_ids)
+			{
+				return array();
+			}
+		}
+		return self::_lookupStatusForObject($a_obj_id, self::LP_STATUS_FAILED_NUM, $a_user_ids);
+		
+		// patch generali end
 	}
 	
 	/**

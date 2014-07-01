@@ -1784,21 +1784,20 @@ class ilObjCourseGUI extends ilContainerGUI
 													"", 'ilmemberexportgui');
 				}
 				
-				// patch generali start 
+				// gev-patch start
+				$this->ctrl->setParameterByClass('ilcoursebookingadmingui', 'ref_id', $this->object->getRefId());
+				$this->tabs_gui->addSubTabTarget("gev_bookings",
+					$this->ctrl->getLinkTargetByClass(array('ilcoursebookinggui', 'ilcoursebookingadmingui'),''),
+					"", 'ilcoursebookingadmingui');		
+				$this->ctrl->setParameterByClass('ilcoursebookingadmingui', 'ref_id', '');
 				
-				if(DEVMODE && true)
-				{				
-					$this->ctrl->setParameterByClass('ilcoursebookingadmingui', 'ref_id', $this->object->getRefId());
-					$this->tabs_gui->addSubTabTarget("generali_test",
-						$this->ctrl->getLinkTargetByClass(array('ilcoursebookinggui', 'ilcoursebookingadmingui'),''),
-						"", 'ilcoursebookingadmingui');		
-					$this->ctrl->setParameterByClass('ilcoursebookingadmingui', 'ref_id', '');
-				}
-				
-				// patch generali end
-				
+				$this->ctrl->setParameterByClass('ilparticipationstatusadmingui', 'ref_id', $this->object->getRefId());
+				$this->tabs_gui->addSubTabTarget("gev_participation_status",
+					$this->ctrl->getLinkTargetByClass(array('ilparticipationstatusgui', 'ilparticipationstatusadmingui'),''),
+					"", 'ilparticipationstatusadmingui');		
+				$this->ctrl->setParameterByClass('ilparticipationstatusadmingui', 'ref_id', '');
+				// gev-patch end
 				break;
-
 				
 		}
 	}

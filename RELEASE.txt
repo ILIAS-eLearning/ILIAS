@@ -8,3 +8,4 @@ svn.ilias.de/svn/ilias/branches/CaT/extensions/4_4_Booking					merged: 50176
 svn.ilias.de/svn/ilias/branches/CaT/patches/4_4_AMDForOrgTypes				merged: 50343
 svn.ilias.de/svn/ilias/branches/CaT/extensions/4_4_MailTemplates			merged: 50245
 svn.ilias.de/svn/ilias/branches/CaT/extensions/4_4_DeskDisplays				merged: 50399
+svn.ilias.de/svn/ilias/branches/CaT/extensions/4_4_ParticipationStatus		merged: 50318

@@ -1,0 +1,12 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<service xmlns="http://www.w3.org" version="$Id$"
+	id="ptst">	
+	<baseclasses>
+		<baseclass name="ilParticipationStatusGUI" dir="classes" />	
+	</baseclasses>	
+	<events>		
+		<event type="listen" id="Services/Tracking" />
+		<event type="raise" id="setStatusAndPoints" />
+		<event type="raise" id="deleteStatus" />
+	</events>	
+</service>

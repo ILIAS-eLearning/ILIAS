@@ -1,0 +1,34 @@
+<tr class="{CSS_ROW}">
+  <td class="std" valign="top">
+	  {TXT_NAME}
+  </td>
+  <td class="std" valign="top">
+	 {TXT_LOGIN}
+  </td> 
+  <td class="std" valign="top">
+	 {TXT_ORG}
+  </td> 
+  <!-- BEGIN read_only_bl -->
+  <td class="std" valign="top">
+	 {STATUS_STATIC}
+  </td>  
+   <td class="std" valign="top">
+	 {POINTS_STATIC}
+  </td>
+  <!-- END read_only_bl -->
+  <!-- BEGIN edit_bl -->
+  <td class="std" valign="top">
+	<select name="status[{ID}]">
+		<!-- BEGIN option_bl -->
+		<option value="{OPTION_VALUE}"{OPTION_SEL}>{OPTION_TXT}</option>
+		<!-- END option_bl -->
+	</select>
+  </td>  
+   <td class="std" valign="top">
+	 <input name="cpoints[{ID}]" type="text" value="{POINTS}" maxlength="{PMAX}" size="{PMAX}"{POINTS_ALERT} />	
+  </td>
+  <!-- END edit_bl -->
+   <td class="std" valign="top">
+	 {TXT_CHANGED_BY}
+  </td>
+</tr>
