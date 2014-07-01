@@ -1,6 +1,6 @@
 <?php
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
-chdir("../../../");  // I was told that this is OK.
+chdir("../../../");
 ini_set('display_errors', 1);
 error_reporting(E_ALL ^ E_STRICT);
 require_once("./include/inc.header.php");

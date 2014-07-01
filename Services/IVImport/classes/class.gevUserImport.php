@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once("./Services/User/classes/class.ilObjUser.php");
+require_once("./Services/GEV/Utils/classes/class.gevUserUtils.php");
 
 
 /**
@@ -78,26 +79,33 @@ class gevUserImport {
 		if ($ilias_user === false) {
 			return 'User already exists.';
 		}
+		$this->set_gev_attributes($ilias_user, $shadow_user);
 
 		$ilias_user_id = $ilias_user->getId();
 		$this->set_ilias_user_id($shadow_user['id'], $ilias_user_id);
 
 		$this->log_user_in($ilias_user_id);
 		$this->set_token_used_field($token);
+
+		return false;
 	}
 
 
 	private function get_shadow_user($stellennummer, $email) {
 		$sql = "
 			SELECT
-				*
+				* 
 			FROM
 				`ivimport_adp`
+			INNER JOIN
+				`ivimport_stelle`
+			ON
+				( `ivimport_stelle`.`stellennummer` = `ivimport_adp`.`stelle` )
 			WHERE
-				`stelle`=" . $this->ilDB->quote($stellennummer, "text") . "
+				`ivimport_adp`.`stelle`=" . $this->ilDB->quote($stellennummer, "text") . "
 			AND
-				`email`=" . $this->ilDB->quote($email, "text") . "
-		";
+				`ivimport_adp`.`email`=" . $this->ilDB->quote($email, "text") . "
+			";
 		$result = mysql_query($sql, $this->mysql);
 
 		if ((!$result) || (mysql_num_rows($result) !== 1)) {
@@ -105,6 +113,7 @@ class gevUserImport {
 		}
 
 		while ($row = mysql_fetch_assoc($result)) {
+			print_r($row);
 			return $row;
 		}
 	}
@@ -138,6 +147,31 @@ class gevUserImport {
 
 		$user->create();
 		$user->saveAsNew();
+		return $user;
+	}
+
+	private function set_gev_attributes(&$user, $shadow_user) {
+		$utils = gevUserUtils::getInstance($user->getId());
+
+		$utils->setJobNumber($shadow_user['stellennummer']);
+		$utils->setADPNumber($shadow_user['adp']);
+		$utils->setIHKNumber($shadow_user['ihk']);
+		$utils->setADTitle($shadow_user['ad_title']);
+		$utils->setAgentKey($shadow_user['vms']);
+		$utils->setCompanyTitle($shadow_user['gesellschaftstitel']);
+		//$utils->setStatus();
+		$utils->setHPE($shadow_user['hpe']);
+
+		$entry_date = $shadow_user['beginn'];
+		if ($entry_date) {
+			$utils->setEntryDate(new ilDate($entry_date, IL_CAL_DATE));
+		}
+		$exit_date = $shadow_user['ende'];
+		if ($exit_date) {
+			$utils->setExitDate(new ilDate($exit_date, IL_CAL_DATE));
+		}
+
+		$user->update();
 		return $user;
 	}
 
