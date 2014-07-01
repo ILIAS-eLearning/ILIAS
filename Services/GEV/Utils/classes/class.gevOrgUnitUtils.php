@@ -20,13 +20,19 @@ class gevOrgUnitUtils {
 	static $provider_names = null;
 
 	protected function __construct($a_orgu_id) {
-		global $ilDB, $ilias;
+		global $ilDB, $ilias, $ilLog;
 		$this->db = &$ilDB;
 		$this->ilias = &$ilias;
+		$this->log = &$ilLog;
 		$this->orgu_id = $a_orgu_id;
+		$this->ref_id = null;
 		$this->gev_set = gevSettings::getInstance();
 		$this->amd = gevAMDUtils::getInstance();
 		
+		$this->local_roles = null;
+		$this->role_folder = null;
+		$this->rbac_admin = null;
+		$this->rbac_review = null;
 		$this->orgu_instance = null;
 		$this->orgu_type = false;
 	}
@@ -116,6 +122,15 @@ class gevOrgUnitUtils {
 		}
 		
 		return $this->orgu_instance;
+	}
+	
+	public function getRefId() {
+		if ($this->ref_id === null) {
+			require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+			$this->ref_id = gevObjectUtils::getRefId($this->orgu_id);
+		}
+		
+		return $this->ref_id;
 	}
 	
 	public function getTitle() {
@@ -321,6 +336,49 @@ class gevOrgUnitUtils {
 		$this->checkIsVenue("setCostsPerDailyCatering");
 		$this->amd->setField($this->orgu_id, gevSettings::ORG_AMD_COSTS_FOOD, $a_costs);
 	}
+
+	// Helpers and Caching for role related stuff
+	
+	public function getRoleFolder() {
+		if ($this->role_folder === null) {
+			$rolf_data = $this->getRbacReview()->getRoleFolderOfObject($this->getRefId());
+			$this->role_folder  = $this->ilias->obj_factory->getInstanceByRefId($rolf_data["ref_id"]);
+		}
+		
+		return $this->role_folder;
+	}
+	
+	public function getLocalRoles() {
+		if ($this->local_roles === null) {
+			
+		}
+		
+		return $this->local_roles;
+	}
+	
+	public function getRbacAdmin() {
+		if ($this->rbac_admin === null) {
+			require_once("Services/AccessControl/classes/class.ilRbacAdmin.php");
+			$this->rbac_admin = new ilRbacAdmin();
+		}
+		
+		return $this->rbac_admin;
+	}
+	
+	public function getRbacReview() {
+		if ($this->rbac_review === null) {
+			require_once("Services/AccessControl/classes/class.ilRbacReview.php");
+			$this->rbac_review = new ilRbacReview();
+		}
+		
+		return $this->rbac_review;
+	}
+	
+	// assignment of users to the org-unit
+	
+	public function assignUser($a_user_id, $a_role_name) {
+		
+	}
 	
 	// assignment and deassignment of standard org unit roles for the default org
 	// units of the Generali.
@@ -342,12 +400,8 @@ class gevOrgUnitUtils {
 	}
 	
 	public function getAssignedLocalRoles() {
-		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
-		
-		require_once("Services/AccessControl/classes/class.ilRbacReview.php");
-		$review = new ilRbacReview();
-		
-		$role_ids = $review->getLocalRoles(gevObjectUtils::getRefId($this->orgu_id));
+		$review = $this->getRbacReview();
+		$role_ids = $review->getLocalRoles($this->getRefId());
 		
 		$res = $this->db->query("SELECT obj_id, title FROM object_data ".
 								" WHERE ".$this->db->in("obj_id", $role_ids, false, "integer")
@@ -374,18 +428,10 @@ class gevOrgUnitUtils {
 	}
 	
 	public function addRolesForDefaultOrgUnits() {
-		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
-		
-		require_once("Services/AccessControl/classes/class.ilRbacAdmin.php");
-		$admin = new ilRbacAdmin();
-		
-		require_once("Services/AccessControl/classes/class.ilRbacReview.php");
-		$review = new ilRbacReview();
-		
-		$ref_id = gevObjectUtils::getRefId($this->orgu_id);
-		
-		$rolf_data = $review->getRoleFolderofObject($ref_id);
-		$folder  = $this->ilias->obj_factory->getInstanceByRefId($rolf_data["ref_id"]);
+		$review = $this->getRbacReview();
+		$admin = $this->getRbacAdmin();
+		$ref_id = $this->getRefId();
+		$folder  = $this->getRoleFolder();
 		
 		$to = $this->getRoleTemplatesForDefaultOrgUnits();
 		
@@ -398,8 +444,7 @@ class gevOrgUnitUtils {
 	}
 	
 	public function removeRolesForDefaultOrgUnits() {
-		require_once("Services/AccessControl/classes/class.ilRbacAdmin.php");
-		$admin = new ilRbacAdmin();
+		$admin = $this->getRbacAdmin();
 		
 		$cur = array_flip($this->getAssignedLocalRoles());
 		$to = $this->getRoleTemplatesForDefaultOrgUnits();
