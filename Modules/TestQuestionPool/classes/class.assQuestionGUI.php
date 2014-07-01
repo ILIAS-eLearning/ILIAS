@@ -914,7 +914,7 @@ abstract class assQuestionGUI
 		$question->setCols(80);
 		if (!$this->object->getSelfAssessmentEditingMode())
 		{
-			if( $this->object->getAdditionalContentEditingMode() == assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_DEFAULT )
+			if( $this->object->getAdditionalContentEditingMode() != assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_PAGE_OBJECT )
 			{
 				$question->setUseRte(TRUE);
 				include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
