@@ -12,6 +12,7 @@
 
 require_once("Modules/OrgUnit/classes/Types/class.ilOrgUnitType.php");
 require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
+require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
 require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 
 class gevOrgUnitUtils {
@@ -32,8 +33,6 @@ class gevOrgUnitUtils {
 		$this->local_roles = null;
 		$this->flipped_local_roles = null;
 		$this->role_folder = null;
-		$this->rbac_admin = null;
-		$this->rbac_review = null;
 		$this->orgu_instance = null;
 		$this->orgu_type = false;
 	}
@@ -342,7 +341,7 @@ class gevOrgUnitUtils {
 	
 	public function getRoleFolder() {
 		if ($this->role_folder === null) {
-			$rolf_data = $this->getRbacReview()->getRoleFolderOfObject($this->getRefId());
+			$rolf_data = gevRoleUtils::getRbacReview()->getRoleFolderOfObject($this->getRefId());
 			$this->role_folder  = $this->ilias->obj_factory->getInstanceByRefId($rolf_data["ref_id"]);
 		}
 		
@@ -351,7 +350,7 @@ class gevOrgUnitUtils {
 	
 	public function getLocalRoles() {
 		if ($this->local_roles === null) {
-			$review = $this->getRbacReview();
+			$review = gevRoleUtils::getRbacReview();
 			$role_ids = $review->getLocalRoles($this->getRefId());
 			
 			$res = $this->db->query("SELECT obj_id, title FROM object_data ".
@@ -374,47 +373,29 @@ class gevOrgUnitUtils {
 		
 		return $this->flipped_local_roles;
 	}
-	
-	public function getRbacAdmin() {
-		if ($this->rbac_admin === null) {
-			require_once("Services/AccessControl/classes/class.ilRbacAdmin.php");
-			$this->rbac_admin = new ilRbacAdmin();
-		}
-		
-		return $this->rbac_admin;
-	}
-	
-	public function getRbacReview() {
-		if ($this->rbac_review === null) {
-			require_once("Services/AccessControl/classes/class.ilRbacReview.php");
-			$this->rbac_review = new ilRbacReview();
-		}
-		
-		return $this->rbac_review;
-	}
-	
+
 	// assignment of users to the org-unit
 	
-	public function assignUser($a_user_id, $a_role_name) {
-		if ($a_role_name == "Mitarbeiter") {
-			$role_name = "il_orgu_employee_".$this->getRefId();
+	public function assignUser($a_user_id, $a_role_title) {
+		if ($a_role_title == "Mitarbeiter") {
+			$role_title = "il_orgu_employee_".$this->getRefId();
 		}
-		else if ($a_role_name == "Vorgesetzter") {
-			$role_name = "il_orgu_superior_".$this->getRefId();	
+		else if ($a_role_title == "Vorgesetzter") {
+			$role_title = "il_orgu_superior_".$this->getRefId();	
 		}
 		else {
-			$role_name = "Org-".$a_role_name;
+			$role_title = "Org-".$a_role_title;
 		}
 
 		$roles = $this->getFlippedLocalRoles();
 		
-		if (!array_key_exists($role_name, $roles)) {
-			$this->log->write("gevOrgUnitUtils::assignUser: Could not find role with name ".$role_name.
+		if (!array_key_exists($role_title, $roles)) {
+			$this->log->write("gevOrgUnitUtils::assignUser: Could not find role with name ".$role_title.
 							  " in Org-Unit with ref_id ".$this->getRefId());
 			return;
 		}
 		
-		$this->getRbacAdmin()->assignUser($roles[$role_name], $a_user_id);
+		gevRoleUtils::getRbacAdmin()->assignUser($roles[$role_title], $a_user_id);
 	}
 	
 	// assignment and deassignment of standard org unit roles for the default org
@@ -449,8 +430,8 @@ class gevOrgUnitUtils {
 	}
 	
 	public function addRolesForDefaultOrgUnits() {
-		$review = $this->getRbacReview();
-		$admin = $this->getRbacAdmin();
+		$review = gevRoleUtils::getRbacReview();
+		$admin = gevRoleUtils::getRbacAdmin();
 		$ref_id = $this->getRefId();
 		$folder  = $this->getRoleFolder();
 		
@@ -465,7 +446,7 @@ class gevOrgUnitUtils {
 	}
 	
 	public function removeRolesForDefaultOrgUnits() {
-		$admin = $this->getRbacAdmin();
+		$admin = gevRoleUtils::getRbacAdmin();
 		
 		$cur = array_flip($this->getLocalRoles());
 		$to = $this->getRoleTemplatesForDefaultOrgUnits();
