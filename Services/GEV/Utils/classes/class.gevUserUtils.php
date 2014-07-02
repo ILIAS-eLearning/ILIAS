@@ -557,7 +557,7 @@ class gevUserUtils {
 		global $ilDB;
 		$res = $ilDB->query("SELECT * FROM gev_user_reg_tokens ".
 						    " WHERE email = ".$ilDB->quote($this->getLogin(), "text").
-							"   AND token_used IS NULL");
+							"   AND password_changed IS NULL");
 
 		if ($ilDB->fetchAssoc($res)) {
 			return false;
@@ -569,7 +569,7 @@ class gevUserUtils {
 		global $ilDB;
 		
 		$ilDB->manipulate("UPDATE gev_user_reg_tokens ".
-						  "   SET token_used = NOW() ".
+						  "   SET password_changed = NOW() ".
 						  " WHERE email = ".$ilDB->quote($this->getLogin(), "text")
 						);
 	}

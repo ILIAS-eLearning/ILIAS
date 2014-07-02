@@ -84,9 +84,8 @@ class gevUserImport {
 		$ilias_user_id = $ilias_user->getId();
 		$this->set_ilias_user_id($shadow_user['id'], $ilias_user_id);
 
-		$this->log_user_in($ilias_user_id);
 		$this->set_token_used_field($token);
-
+		$this->log_user_in($username, $token);
 		return false;
 	}
 
@@ -113,7 +112,6 @@ class gevUserImport {
 		}
 
 		while ($row = mysql_fetch_assoc($result)) {
-			print_r($row);
 			return $row;
 		}
 	}
@@ -371,8 +369,17 @@ class gevUserImport {
 		return $this->ilDB->query($sql) === 1;
 	}
 
-	private function log_user_in($ilias_user_id) {
+	private function log_user_in($username, $password) {
+		$_POST["username"] = $username;
+		$_POST["password"] = $password;
+		$_POST["cmd"]["showLogin"] = "Anmelden";
+		$_GET["lang"] = "de";
+		$_GET["cmd"] = "post";
+		$_GET["cmdClass"] = "ilstartupgui";
+		$_GET["cmd"] = "post";
+		$_GET["baseClass"] = "ilStartupGUI";
 
+		require_once("ilias.php");
 	}
 }
 
