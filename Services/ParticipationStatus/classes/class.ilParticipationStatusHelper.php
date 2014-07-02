@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once("Services/GEV/classes/class.gevCourseUtils.php");
+require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 
 /**
  * Course participation status helper 
