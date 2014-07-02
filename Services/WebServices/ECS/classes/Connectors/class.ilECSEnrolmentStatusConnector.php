@@ -126,11 +126,11 @@ class ilECSEnrolmentStatusConnector extends ilECSConnector
 			$ilLog->write(__METHOD__.': ... got HTTP 201 (created)');
 
 			$result = new ilECSResult($ret);
-			$auth = $result->getResult();
+			$enrolment_res = $result->getResult();
 
-			$ilLog->write(__METHOD__.': ... got hash: '.$auth->hash);
+			$ilLog->write(__METHOD__.': ... Received result: '.print_r($enrolment_res,TRUE));
 
-			return $auth->hash;
+			return $enrolment_res;
 	 	}
 	 	catch(ilCurlConnectionException $exc)
 	 	{

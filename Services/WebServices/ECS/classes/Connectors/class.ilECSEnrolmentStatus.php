@@ -14,6 +14,14 @@ class ilECSEnrolmentStatus
 	const STATUS_UNSUBSCRIBED = 'unsubscribed';
 	const STATUS_ACCOUNT_DEACTIVATED = 'account_deactivated';
 	
+	const ID_EPPN = 'ecs_ePPN';
+	const ID_LOGIN_UID = 'ecs_loginUID';
+	const ID_LOGIN = 'ecs_login';
+	const ID_UID = 'ecs_uid';
+	const ID_EMAIL = 'ecs_email';
+	const ID_PERSONAL_UNIQUE_CODE = 'ecs_PersonalUniqueCode';
+	const ID_CUSTOM = 'ecs_custom';
+	
 
 	// json fields
 	public $url = '';

@@ -164,7 +164,14 @@ class ilObjRemoteCourse extends ilRemoteObjectBase
 		include_once('./Services/WebServices/ECS/classes/class.ilECSDataMappingSetting.php');
 		$definition = ilECSUtils::getEContentDefinition($this->getECSObjectType());		
 		$this->importMetadataFromJson($a_ecs_content, $a_server, $definition, 
-			ilECSDataMappingSetting::MAPPING_IMPORT_RCRS);					
+			ilECSDataMappingSetting::MAPPING_IMPORT_RCRS);	
+		
+		include_once './Services/WebServices/ECS/classes/class.ilECSImport.php';
+		$import = new ilECSImport($a_server->getServerId(),$this->getId());
+		$import->setContentId($a_ecs_content->courseID);
+		$import->save();
+		
+		
 	}
 	
 	

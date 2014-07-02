@@ -194,9 +194,9 @@ class ilAuthContainerECS extends Auth_Container
 	 		$details = $connector->getAuth($hash,TRUE);
 			
 			$GLOBALS['ilLog']->write(__METHOD__.': '.print_r($details,TRUE));
-			$GLOBALS['ilLog']->write(__METHOD__.': Token created for mid '. $details->getFirstReceiver());
+			$GLOBALS['ilLog']->write(__METHOD__.': Token created for mid '. $details->getFirstSender());
 			
-			$this->setMID($details->getFirstReceiver());
+			$this->setMID($details->getFirstSender());
 		}
 	 	catch(ilECSConnectorException $e)
 	 	{

@@ -68,7 +68,7 @@ abstract class ilECSObjectSettings
 	
 	/**
 	 * Get content object
-	 * @return object ilObject
+	 * @return ilObject
 	 */
 	public function getContentObject()
 	{

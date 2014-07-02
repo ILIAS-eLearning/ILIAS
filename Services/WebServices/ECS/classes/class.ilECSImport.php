@@ -100,6 +100,24 @@ class ilECSImport
 		
 	}
 	
+	public static function lookupObjIdsByContentId($a_content_id)
+	{
+		global $ilDB;
+		
+		$query = "SELECT obj_id FROM ecs_import ".
+			"WHERE content_id = ".$ilDB->quote($a_content_id,'integer');
+		
+		$res = $ilDB->query($query);
+		
+		$obj_ids = array();
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$obj_ids[] = $row->obj_id;
+		}	
+		return  $obj_ids;
+	}
+
+
 	/**
 	 * Lookup econtent id 
 	 * The econtent id is the unique id from ecs

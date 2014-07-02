@@ -24,6 +24,25 @@ class ilECSRemoteUser
 	}
 	
 	/**
+	 * Get instance for usr_id
+	 * @param type $a_usr_id
+	 * @return \self|null
+	 */
+	public static function factory($a_usr_id)
+	{
+		global $ilDB;
+		
+		$query = 'SELECT eru_id FROM ecs_remote_user '.
+				'WHERE usr_id = '.$ilDB->quote($a_usr_id,'integer');
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return new self($row->eru_id);
+		}
+		return null;
+	}
+	
+	/**
 	 * Check if entry exists for user
 	 */
 	public function exists()
@@ -141,7 +160,6 @@ class ilECSRemoteUser
 		{
 			$this->setServerId($row->sid);
 			$this->setMid($row->mid);
-			$this->setSessionId($row->session_id);
 			$this->setUserId($row->usr_id);
 			$this->setRemoteUserId($row->remote_usr_id);
 		}

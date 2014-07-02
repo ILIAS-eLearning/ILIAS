@@ -63,10 +63,22 @@ class ilECSAppEventListener implements ilAppEventListener
 			case 'Modules/Course':
 				switch($a_event)
 				{
+					case 'deleteParticipant':
+						if(ilObjUser::_lookupAuthMode($a_parameter['usr_id']) == 'ecs')
+						{
+							if(!$user = ilObjectFactory::getInstanceByObjId($a_parameter['usr_id']))
+							{
+								$GLOBALS['ilLog']->write(__METHOD__.': No valid user found for usr_id '.$a_parameter['usr_id']);
+								return true;
+							}
+							include_once './Services/WebServices/ECS/classes/Connectors/class.ilECSEnrolmentStatus.php';
+							self::updateEnrolmentStatus($a_parameter['obj_id'], $user, ilECSEnrolmentStatus::STATUS_UNSUBSCRIBED);
+						}
+						break;
 					case 'addSubscriber':
 					case 'addParticipant':
 						
-						if((ilObjUser::_lookupAuthMode($a_parameter['usr_id']) == 'ecs') or 1)
+						if((ilObjUser::_lookupAuthMode($a_parameter['usr_id']) == 'ecs'))
 						{
 							if(!$user = ilObjectFactory::getInstanceByObjId($a_parameter['usr_id']))
 							{
@@ -91,7 +103,8 @@ class ilECSAppEventListener implements ilAppEventListener
 							}
 							self::_sendNotification($settings,$user);
 							
-							self::updateEnrolmentStatus($a_parameter['obj_id'],$user);
+							include_once './Services/WebServices/ECS/classes/Connectors/class.ilECSEnrolmentStatus.php';
+							self::updateEnrolmentStatus($a_parameter['obj_id'],  $user, ilECSEnrolmentStatus::STATUS_ACTIVE);
 							unset($user);
 						}
 						break;
@@ -157,19 +170,26 @@ class ilECSAppEventListener implements ilAppEventListener
 	}
 	
 	
-	protected static function updateEnrolmentStatus($a_obj_id, ilObjUser $user)
+	protected static function updateEnrolmentStatus($a_obj_id, ilObjUser $user, $a_status)
 	{
+		include_once './Services/WebServices/ECS/classes/class.ilECSRemoteUser.php';
+		$remote = ilECSRemoteUser::factory($user->getId());
+		if(!$remote instanceof ilECSRemoteUser)
+		{
+			return FALSE;
+		}
+		
 		include_once './Services/WebServices/ECS/classes/Connectors/class.ilECSEnrolmentStatus.php';
 		$enrol = new ilECSEnrolmentStatus();
 		$enrol->setId('il_'.$GLOBALS['ilSetting']->get('inst_id',0).'_'.ilObject::_lookupType($a_obj_id).'_'.$a_obj_id);
-		$enrol->setPersonId($user->getLogin());
-		$enrol->setPersonIdType('ecs_login');
-		$enrol->setStatus(ilECSEnrolmentStatus::STATUS_ACTIVE);
+		$enrol->setPersonId($remote->getRemoteUserId());
+		$enrol->setPersonIdType(ilECSEnrolmentStatus::ID_UID);
+		$enrol->setStatus($a_status);
 		
 		try {
 			include_once './Services/WebServices/ECS/classes/Connectors/class.ilECSEnrolmentStatusConnector.php';
 			$con = new ilECSEnrolmentStatusConnector(ilECSSetting::getInstanceByServerId(1));
-			$con->addEnrolmentStatus($enrol,12);
+			$con->addEnrolmentStatus($enrol,$remote->getMid());
 		}
 		catch(ilECSConnectorException $e)
 		{
