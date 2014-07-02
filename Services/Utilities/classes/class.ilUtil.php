@@ -5085,7 +5085,7 @@ class ilUtil
 	 */
 	public static function parseImportId($a_import_id)
 	{
-		$exploded = explode('_'.$a_import_id);
+		$exploded = explode('_',$a_import_id);
 
 		$parsed['orig'] = $a_import_id;
 		if($exploded[0] == 'il')
