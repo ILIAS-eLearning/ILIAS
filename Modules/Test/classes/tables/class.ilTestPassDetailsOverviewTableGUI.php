@@ -9,6 +9,8 @@ require_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvance
  * @version	$Id$
  *
  * @package	Modules/Test
+ *
+ * @ilCtrl_Calls ilTestPassDetailsOverviewTableGUI: ilFormPropertyDispatchGUI
  */
 class ilTestPassDetailsOverviewTableGUI extends ilTable2GUI
 {
@@ -35,23 +37,32 @@ class ilTestPassDetailsOverviewTableGUI extends ilTable2GUI
 		$this->setDefaultOrderDirection('ASC');
 
 		parent::__construct($parent, $cmd);
-		
+
+		$this->setFormName('tst_pass_details_overview');
+		$this->setFormAction($this->ctrl->getFormAction($parent, $cmd));
+
 		// Don't set any limit because of print/pdf views.
 		$this->setLimit(PHP_INT_MAX);
 		$this->setExternalSegmentation(true);
 
 		$this->disable('linkbar');
-		$this->disable('numinfo');
-		$this->disable('numinfo_header');
 		$this->disable('hits');
 		$this->disable('sort');
+
+		//$this->disable('numinfo');
+		//$this->disable('numinfo_header');
+		// KEEP THIS ENABLED, SINCE NO TABLE FILTER ARE PROVIDED OTHERWISE
+
 
 		$this->setTitle($this->lng->txt('tst_pass_details_overview_table_title'));
 
 		$this->setRowTemplate('tpl.il_as_tst_pass_details_overview_qst_row.html', 'Modules/Test');
 	}
 
-	public function init()
+	/**
+	 * @return ilTestPassDetailsOverviewTableGUI $this
+	 */
+	public function initColumns()
 	{
 		$this->setTitle(sprintf(
 			$this->lng->txt('tst_pass_details_overview_table_title'), $this->getPass() + 1
@@ -79,6 +90,31 @@ class ilTestPassDetailsOverviewTableGUI extends ilTable2GUI
 		{
 			$this->addColumn('', '', '1');
 		}
+
+		return $this;
+	}
+
+	/**
+	 * @return ilTestPassDetailsOverviewTableGUI $this
+	 */
+	public function initFilter()
+	{
+		if( count($this->parent_obj->object->getResultFilterTaxIds()) )
+		{
+			require_once 'Services/Taxonomy/classes/class.ilTaxSelectInputGUI.php';
+
+			foreach($this->parent_obj->object->getResultFilterTaxIds() as $taxId)
+			{
+				$postvar = "tax_$taxId";
+
+				$inp = new ilTaxSelectInputGUI($taxId, $postvar, true);
+				$this->addFilterItem($inp);
+				$inp->readFromSession();
+				$this->filter[$postvar] = $inp->getValue();
+			}
+		}
+
+		return $this;
 	}
 
 	public function fillRow(array $row)
