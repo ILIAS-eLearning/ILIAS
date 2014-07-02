@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+require_once("Services/GEV/classes/class.gevCourseUtils.php");
+
 /**
  * Course participation status helper 
  * 
@@ -21,7 +23,10 @@ class ilParticipationStatusHelper
 	 */	
 	protected function __construct(ilObjCourse $a_course)
 	{
-		$this->setCourse($a_course);				
+		global $ilLog;
+		$this->log = &$ilLog;
+		
+		$this->setCourse($a_course);		
 	}
 	
 	/**
@@ -82,6 +87,9 @@ class ilParticipationStatusHelper
 	protected function setCourse(ilObjCourse $a_course)
 	{
 		$this->course = $a_course;
+		// gev-patch start
+		$this->utils = gevCourseUtils::getInstanceByObj($a_course);
+		// gev-patch end
 	}
 	
 	/**
@@ -106,8 +114,23 @@ class ilParticipationStatusHelper
 	 */
 	public function getParticipationStatusMode()
 	{
-		// mock
-		return ilParticipationStatus::MODE_NON_REVIEWED;
+		$type = $this->utils->getType();
+		switch ($type) {
+			case "Präsenztraining":
+				return ilParticipationStatus::MODE_NON_REVIEWED;
+			case "Selbstlernkurs":
+				return ilParticipationStatus::MODE_CONTINUOUS;
+			case "Spezialistenschulung Präsenztraining":
+				return ilParticipationStatus::MODE_REVIEWED;
+			case "Spezialistenschulung Webinar":
+				return ilParticipationStatus::MODE_REVIEWED;
+			case "Webinar":
+				return ilParticipationStatus::MODE_NON_REVIEWED;
+			default:
+				$this->log->write( "ilParticipationStatusHelper::getParticipationStatusMode: "
+								 . "Unknown type '".$type."'");
+				return ilParticipationStatus::MODE_REVIEWED;
+		}
 	}
 	
 	/**
@@ -117,8 +140,7 @@ class ilParticipationStatusHelper
 	 */
 	public function getMaxCreditPoints()
 	{
-		// mock
-		return 1000;
+		return $this->utils->getCreditPoints();
 	}
 	
 	/**
@@ -128,10 +150,7 @@ class ilParticipationStatusHelper
 	 */
 	public function getCourseStart()
 	{
-		// mock
-		$date = new ilDate(date("Y-m-d"), IL_CAL_DATE);
-		$date->increment(IL_CAL_WEEK, -2);
-		return $date;
+		return $this->utils->getStartDate();
 	}
 	
 	/**
@@ -141,9 +160,7 @@ class ilParticipationStatusHelper
 	 */
 	public function getStartForParticipationStatusSetting()
 	{
-		$date = new ilDateTime(time(), IL_CAL_UNIX);
-		$date->increment(IL_CAL_WEEK, -1);
-		return $date;
+		return $this->utils->getStartDate();
 	}
 	
 	/**

@@ -16,6 +16,7 @@ require_once("Services/Calendar/classes/class.ilDateTime.php");
 require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
 require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
 require_once("Services/Calendar/classes/class.ilDatePresentation.php");
+require_once("Modules/Courses/classes/class.ilObjCourse.php");
 
 class gevCourseUtils {
 	static $instances = array();
@@ -41,6 +42,11 @@ class gevCourseUtils {
 
 		self::$instances[$a_crs_id] = new gevCourseUtils($a_crs_id);
 		return self::$instances[$a_crs_id];
+	}
+	
+	static public function getInstanceByObj(ilObjCourse $a_crs) {
+		$inst = gevCourseUtils::getInstance($a_crs->getId());
+		$inst->crs_obj = $a_crs;
 	}
 
 	static public  function getLinkTo($a_crs_id) {
@@ -251,7 +257,7 @@ class gevCourseUtils {
 	}
 	
 	public function getCreditPoints() {
-		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_CREDIT_POINTS);
+		return intval($this->amd->getField($this->crs_id, gevSettings::CRS_AMD_CREDIT_POINTS));
 	}
 	
 	public function getFee() {
