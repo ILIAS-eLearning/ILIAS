@@ -1696,3 +1696,14 @@ include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObje
 ilDBUpdateNewObjectType::addAdminNode('taxs', 'Taxonomy Settings');
 
 ?>
+<#4252>
+<?php
+// Datacollection: Add formula fieldtype
+$ilDB->insert('il_dcl_datatype', array(
+        'id' => array('integer', 11),
+        'title' => array('text', 'formula'),
+        'ildb_type' => array('text', 'text'),
+        'storage_location' => array('integer', 0),
+        'sort' => array('integer', 90),
+    ));
+?>

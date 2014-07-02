@@ -226,6 +226,7 @@ class ilDataCollectionFieldEditGUI
 				//Type Reference: List Tabels
 				if($datatype['id'] == ilDataCollectionDatatype::INPUTFORMAT_REFERENCE AND $property['id'] == ilDataCollectionField::PROPERTYID_REFERENCE)
 				{
+					$options = array();
 					// Get Tables
 					require_once("./Modules/DataCollection/classes/class.ilDataCollectionTable.php");
 					$tables = $this->parent_obj->getDataCollectionObject()->getTables();
@@ -272,6 +273,20 @@ class ilDataCollectionFieldEditGUI
                     );
                     $table_selection->setOptions($options);
                     $opt->addSubItem($table_selection);
+                } elseif ($property['id'] == ilDataCollectionField::PROPERTYID_FORMULA_EXPRESSION) {
+                    $table = ilDataCollectionCache::getTableCache((int)$_GET['table_id']);
+                    $fields = array();
+                    $compatible_datatypes = ilDataCollectionFormulaField::getCompatibleDatatypes();
+                    foreach ($table->getFields() as $f) {
+                        if (!in_array($f->getDatatypeId(), $compatible_datatypes)) {
+                            continue;
+                        }
+                        $fields[] = '<a class="dclPropExpressionField">' . $f->getTitle() . '</a>';
+                    }
+                    $subitem = new ilTextInputGUI($lng->txt('dcl_prop_expression'), 'prop_' . $property['id']);
+                    $operators = implode(', ', array_keys(ilDclExpressionParser::getOperators()));
+                    $subitem->setInfo(sprintf($lng->txt('dcl_prop_expression_info'), $operators, implode('<br>', $fields)));
+                    $opt->addSubItem($subitem);
                 }
 				//All other Types: List properties saved in propertie definition table
 				elseif($property['datatype_id'] == $datatype['id'])

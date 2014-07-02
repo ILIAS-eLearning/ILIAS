@@ -1,20 +1,18 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-require_once "./Services/Utilities/classes/class.ilMimeTypeUtil.php";
-require_once "class.ilDataCollectionTreePickInputGUI.php";
-require_once "class.ilDataCollectionCache.php";
-require_once "./Services/MediaObjects/classes/class.ilObjMediaObject.php";
-require_once "./Modules/File/classes/class.ilObjFile.php";
-require_once "./Services/Form/classes/class.ilSelectInputGUI.php";
-require_once "./Services/Form/classes/class.ilMultiSelectInputGUI.php";
-require_once "./Services/Form/classes/class.ilDateTimeInputGUI.php";
-require_once "./Services/Form/classes/class.ilTextInputGUI.php";
-require_once "./Services/Form/classes/class.ilFileInputGUI.php";
-require_once "./Services/Form/classes/class.ilImageFileInputGUI.php";
+require_once("./Services/Utilities/classes/class.ilMimeTypeUtil.php");
+require_once("class.ilDataCollectionTreePickInputGUI.php");
+require_once("class.ilDataCollectionCache.php");
+require_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
+require_once("./Modules/File/classes/class.ilObjFile.php");
+require_once("./Services/Form/classes/class.ilSelectInputGUI.php");
+require_once("./Services/Form/classes/class.ilMultiSelectInputGUI.php");
+require_once("./Services/Form/classes/class.ilDateTimeInputGUI.php");
+require_once("./Services/Form/classes/class.ilTextInputGUI.php");
+require_once("./Services/Form/classes/class.ilFileInputGUI.php");
+require_once("./Services/Form/classes/class.ilImageFileInputGUI.php");
 require_once("./Services/Preview/classes/class.ilPreview.php");
 require_once('./Services/Preview/classes/class.ilPreviewGUI.php');
-
-
 
 /**
 * Class ilDataCollectionDatatype
@@ -23,6 +21,7 @@ require_once('./Services/Preview/classes/class.ilPreviewGUI.php');
 * @author Marcel Raimann <mr@studer-raimann.ch>
 * @author Fabian Schmid <fs@studer-raimann.ch>
 * @author Oskar Truffer <ot@studer-raimann.ch>
+* @author Stefan Wanzenried <sw@studer-raimann.ch>
 * @version $Id: 
 *
 * @ingroup ModulesDataCollection
@@ -41,6 +40,7 @@ class ilDataCollectionDatatype
     const INPUTFORMAT_ILIAS_REF 	= 8;
     const INPUTFORMAT_MOB 		    = 9;
     const INPUTFORMAT_REFERENCELIST = 10;
+    const INPUTFORMAT_FORMULA       = 11;
 
     const LINK_MAX_LENGTH = 40;
 
@@ -227,17 +227,18 @@ class ilDataCollectionDatatype
 		return $return;
 	}
 
-	/**
-	 * @param $type_id
-	 * @param ilDataCollectionField $field
-	 * @return ilCheckboxInputGUI|ilDateTimeInputGUI|ilFileInputGUI|ilTextInputGUI|NULL
-	 */
+    /**
+     * @param ilDataCollectionField $field
+     * @internal param $type_id
+     * @return ilCheckboxInputGUI|ilDateTimeInputGUI|ilFileInputGUI|ilTextInputGUI|NULL
+     */
 	static function getInputField(ilDataCollectionField $field)
 	{
 		global $lng;
 		$type_id = $field->getDatatypeId();
 		$title = $field->getTitle();
-		switch($type_id)
+		$input = null;
+        switch($type_id)
 		{
 			case ilDataCollectionDatatype::INPUTFORMAT_TEXT:
 				$input = new ilTextInputGUI($title, 'field_'.$field->getId());
@@ -280,16 +281,19 @@ class ilDataCollectionDatatype
 				$input->setAllowDeletion(true);
                 break;
 		}
-        if($field->getDescription())
+        if($field->getDescription() && $input !== null) {
             $input->setInfo($field->getDescription().($input->getInfo()?"<br>".$input->getInfo():""));
+        }
 		return $input;
 	}
-	
-	/**
-	 * addFilterInputFieldToTable This function adds the according filter item to the table gui passed as argument.
-	 * @param $field ilDataCollectionField The field which should be filterable.
-	 * @param &$table ilTable2GUI The table you want the filter to be added to.
-	 */
+
+    /**
+     * addFilterInputFieldToTable This function adds the according filter item to the table gui passed as argument.
+     *
+     * @param $field ilDataCollectionField The field which should be filterable.
+     * @param &$table ilTable2GUI The table you want the filter to be added to.
+     * @return null|object
+     */
 	static function addFilterInputFieldToTable(ilDataCollectionField $field, ilTable2GUI &$table)
 	{
 		global $lng;
@@ -373,11 +377,15 @@ class ilDataCollectionDatatype
 			
 		return $input;
 	}
-	
-	/*
-	 * passThroughFilter
-	 */
-	static function passThroughFilter(ilDataCollectionRecord $record,ilDataCollectionField $field, $filter)
+
+
+    /**
+     * @param ilDataCollectionRecord $record
+     * @param ilDataCollectionField $field
+     * @param $filter
+     * @return bool
+     */
+    public static function passThroughFilter(ilDataCollectionRecord $record,ilDataCollectionField $field, $filter)
 	{
 		$pass = false;
 		$type_id = $field->getDatatypeId();
@@ -453,7 +461,8 @@ class ilDataCollectionDatatype
 
 
 	/**
-	 * Function to parse incoming data from form input value $value. returns the strin/number/etc. to store in the database.
+	 * Function to parse incoming data from form input value $value. returns the string/number/etc. to store in the database.
+     *
 	 * @param $value
      * @param ilDataCollectionRecordField $record_field
 	 * @return int|string
@@ -639,11 +648,12 @@ class ilDataCollectionDatatype
 		return $return;
 	}
 
-	/**
-	 * function parses stored value in database to a html output for eg. the record list gui.
-	 * @param $value
-	 * @return mixed
-	 */
+    /**
+     * function parses stored value in database to a html output for eg. the record list gui.
+     * @param $value
+     * @param ilDataCollectionRecordField $record_field
+     * @return mixed
+     */
 	public function parseHTML($value, ilDataCollectionRecordField $record_field)
 	{
         global $ilAccess, $ilCtrl, $lng;;
@@ -687,7 +697,7 @@ class ilDataCollectionDatatype
 
             case self::INPUTFORMAT_MOB:
 
-                $mob = new ilObjMediaObject($value,false);
+                $mob = new ilObjMediaObject($value, false);
                 $dir  = ilObjMediaObject::_getDirectory($mob->getId());
                 $media_item = $mob->getMediaItem('Standard');
                 if(!$media_item->location) {

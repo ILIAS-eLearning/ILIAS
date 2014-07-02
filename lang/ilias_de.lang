@@ -12645,6 +12645,10 @@ dcl#:#dcl_table_settings_saved#:#Tabellen Einstellungen wurden gespeichert.
 dcl#:#dcl_no_search_results_found_for#:#Es wurden keine Module gefunden mit:
 dcl#:#dcl_export_enabled#:#Tabellen export für alle Benutzer erlauben
 dcl#:#dcl_inconsistent_at#:#Die Datenbank ist inkonsisten. Eine Referenz existiert nicht mehr.
+dcl#:#dcl_formula#:#Formel
+dcl#:#dcl_prop_expression#:#Ausdruck
+dcl#:#dcl_prop_expression_info#:#Gültige Operatoren: <b>%s</b><br>Es können Klammern <b>"(", ")"</b> zum Gruppieren von Ausdrücken verwendet werden.<br>Zeichenketten einfügen: <b>"The result is " & [[Int 1]] * [[Int2]]</b><br><br>Gültige Felder (auf den Titel klicken um als Platzhalter in Ausdruck einzufügen):<br>%s
+dcl#:#dcl_error_parsing_expression#:#Fehler beim Evaluieren des Ausdrucks
 common#:#obj_tool_settings#:#Tools
 common#:#obj_tool_settings_title#:#Tool-Einstellungen
 common#:#obj_tool_setting_calendar#:#Kalender

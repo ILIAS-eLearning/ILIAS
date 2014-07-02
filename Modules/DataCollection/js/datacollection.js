@@ -17,6 +17,20 @@ $(document).ready(function(){
         $(".dcl_reference_hover[rec_id="+ref+"]").fadeOut(0);
     });
 
+    /**
+     * Increment comments count after saving comment with ajax
+     * @param o Object
+     */
+    if (typeof ilNotes != 'undefined') {
+        ilNotes.callbackSuccess = function(o) {
+            if (o && o.argument.mode == 'cmd') {
+                var $elem = $('tr.dcl_comments_active .dcl_comment').find('.ilHActProp');
+                var count = parseInt($elem.text());
+                $elem.html(++count);
+            }
+        }
+    }
+
     var dcl = {};
 
     dcl.removeHighlightedRows = function() {
@@ -44,5 +58,17 @@ $(document).ready(function(){
     $('#fixed_content').click(function() {
         dcl.removeHighlightedRows();
     });
+
+    /**
+     * Formula fields
+     */
+    $('a.dclPropExpressionField').click(function(){
+        var placeholder = '[[' + $(this).text() + ']]';
+        var $expression = $('#prop_12');
+        var caretPos = document.getElementById('prop_12').selectionStart;
+        var expression = $expression.val();
+        $expression.val(expression.substring(0, caretPos) + placeholder + expression.substring(caretPos));
+    });
+
 
 });

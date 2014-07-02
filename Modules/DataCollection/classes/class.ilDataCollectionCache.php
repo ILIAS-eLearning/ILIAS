@@ -2,6 +2,7 @@
 require_once('class.ilDataCollectionReferenceField.php');
 require_once('class.ilDataCollectionRatingField.php');
 require_once('class.ilDataCollectionILIASRefField.php');
+require_once('class.ilDataCollectionFormulaField.php');
 
 /**
  * Created by JetBrains PhpStorm.
@@ -90,6 +91,8 @@ class ilDataCollectionCache{
                     return new ilDataCollectionReferenceField($record, $field);
                 else
                     return new ilDataCollectionNReferenceField($record, $field);
+            case ilDataCollectionDatatype::INPUTFORMAT_FORMULA:
+                return new ilDataCollectionFormulaField($record, $field);
             default:
                 return new ilDataCollectionRecordField($record, $field);
         }

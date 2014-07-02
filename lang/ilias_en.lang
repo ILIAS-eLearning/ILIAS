@@ -12763,6 +12763,10 @@ dcl#:#dcl_mob#:#Image
 dcl#:#dcl_width#:#Width
 dcl#:#dcl_height#:#Height
 dcl#:#dcl_notimage_exception#:#The file has to be a picture.
+dcl#:#dcl_formula#:#Formula
+dcl#:#dcl_prop_expression#:#Expression
+dcl#:#dcl_prop_expression_info#:#Known operators: <b>%s</b><br>You can also use brackets <b>"(", ")"</b> to group calculations.<br>Concatenate strings like this: <b>"The result is " & [[Int 1]] * [[Int2]]</b><br><br>Available fields (click on title to copy field inside expression):<br>%s
+dcl#:#dcl_error_parsing_expression#:#Error parsing expression
 common#:#obj_tool_settings#:#Tools
 common#:#obj_tool_settings_title#:#Tool Settings
 common#:#obj_tool_setting_calendar#:#Calendar

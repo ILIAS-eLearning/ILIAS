@@ -55,7 +55,7 @@ class ilDataCollectionRecordEditGUI
         include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
 		$this->parent_obj = $parent_obj;
-		$this->record_id = $_GET['record_id'];
+		$this->record_id = $_REQUEST['record_id'];
 		$this->table_id = $_GET['table_id'];
 
 		if($_REQUEST['table_id'])
@@ -191,7 +191,9 @@ class ilDataCollectionRecordEditGUI
 		foreach($allFields as $field)
 		{
 			$item = ilDataCollectionDatatype::getInputField($field);
-			
+			if ($item === null) {
+                continue; // Fields calculating values at runtime, e.g. ilDataCollectionFormulaField do not have input
+            }
 			if($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_REFERENCE)
 			{
 				$fieldref = $field->getFieldRef();

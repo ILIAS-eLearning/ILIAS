@@ -33,7 +33,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 	 */
 	public function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
 	{
-		global $lng, $ilCtrl;
+		global $lng, $ilCtrl, $tpl;
 		
 		parent::__construct($a_id, $a_id_type, $a_parent_node_id);
 
@@ -49,7 +49,9 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 		}
 
 		$ilCtrl->saveParameter($this, "table_id");
-	}
+        $tpl->addJavaScript("Modules/DataCollection/js/datacollection.js");
+
+    }
 	
 	/*
 	 * getStandardCmd

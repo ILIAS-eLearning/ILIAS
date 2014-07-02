@@ -108,7 +108,7 @@ class ilDataCollectionField
     const PROPERTYID_LEARNING_PROGRESS = 9;
     const PROPERTYID_ILIAS_REFERENCE_LINK = 10;
     const PROPERTYID_N_REFERENCE = 11;
-
+    const PROPERTYID_FORMULA_EXPRESSION = 12;
 
 	// type of table il_dcl_view
 	const VIEW_VIEW 		= 1;
