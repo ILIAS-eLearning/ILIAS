@@ -88,9 +88,9 @@ class ilObjTaxonomyAdministrationGUI extends ilObjectGUI
 	{		
 		$this->tabs_gui->activateTab('settings');	
 		
-		
-		// $this->tpl->setContent();
-
+		require_once "Services/Taxonomy/classes/class.ilTaxonomyAdministrationRepositoryTableGUI.php";
+		$tbl = new ilTaxonomyAdministrationRepositoryTableGUI($this, "listRepository", $this->object);				
+		$this->tpl->setContent($tbl->getHTML());
 	}
 }
 
