@@ -184,7 +184,7 @@ class ilMemberAgreementGUI
 	 * @param type $a_obj_id
 	 * @param type $a_type
 	 */
-	public static function addCustomFields($form, $a_obj_id, $a_type)
+	public static function addCustomFields($form, $a_obj_id, $a_type, $a_mode = 'user')
 	{
 		global $lng;
 		
@@ -196,9 +196,12 @@ class ilMemberAgreementGUI
 			return $form;
 		}
 		
-		$cdf = new ilNonEditableValueGUI($lng->txt('ps_crs_user_fields'));
-		$cdf->setValue($lng->txt($a_type.'_ps_cdf_info'));
-		$cdf->setRequired(true);
+		if($a_mode == 'user')
+		{
+			$cdf = new ilNonEditableValueGUI($lng->txt('ps_crs_user_fields'));
+			$cdf->setValue($lng->txt($a_type.'_ps_cdf_info'));
+			$cdf->setRequired(true);
+		}
 		
 		foreach($cdf_fields as $field_obj)
 		{
@@ -223,14 +226,21 @@ class ilMemberAgreementGUI
 							// open answers
 							if(in_array($key, $open_answer_indexes))
 							{
-								$open_answer = new ilTextInputGUI('Sonstiges', 'cdf_oa_'.$field_obj->getId());
+								$open_answer = new ilTextInputGUI('Sonstiges', 'cdf_oa_'.$field_obj->getId().'_'.$key);
 								$open_answer->setRequired(true);
 								$option_radio->addSubItem($open_answer);
 							}
 							
 							$option_radios->addOption($option_radio);
 						}
-						$cdf->addSubItem($option_radios);
+						if($a_mode == 'user')
+						{
+							$cdf->addSubItem($option_radios);
+						}
+						else
+						{
+							$form->addItem($option_radios);
+						}
 					}
 					else
 					{
@@ -241,7 +251,14 @@ class ilMemberAgreementGUI
 						{
 							$select->setRequired(true);
 						}
-						$cdf->addSubItem($select);
+						if($a_mode == 'user')
+						{
+							$cdf->addSubItem($select);
+						}
+						else
+						{
+							$form->addItem($select);
+						}
 					}
 					break;				
 
@@ -254,11 +271,21 @@ class ilMemberAgreementGUI
 					{
 						$text->setRequired(true);
 					}
-					$cdf->addSubItem($text);
+					if($a_mode == 'user')
+					{
+						$cdf->addSubItem($text);
+					}
+					else
+					{
+						$form->addItem($text);
+					}
 					break;
 			}
 		}
-		$form->addItem($cdf);
+		if($a_mode == 'user')
+		{
+			$form->addItem($cdf);
+		}
 		return $form;
 		
 	}
@@ -301,14 +328,72 @@ class ilMemberAgreementGUI
 		}
 	}
 	
+	public static function setCourseDefinedFieldValues(ilPropertyFormGUI $form, $a_obj_id, $a_usr_id = 0)
+	{
+		global $ilUser;
+		
+		if(!$a_usr_id)
+		{
+			$a_usr_id = $ilUser->getId();
+		}
+		
+		$ud = ilCourseUserData::_getValuesByObjId($a_obj_id);
+		
+		foreach(ilCourseDefinedFieldDefinition::_getFields($a_obj_id) as $field_obj)
+		{
+			$current_value = $ud[$a_usr_id][$field_obj->getId()];
+			if(!$current_value)
+			{
+				continue;
+			}
+			
+			switch($field_obj->getType())
+			{
+				case IL_CDF_TYPE_SELECT:
+					
+					$id = $field_obj->getIdByValue($current_value);
+					
+					if($id >= 0)
+					{
+						$item = $form->getItemByPostVar('cdf_'.$field_obj->getId());
+						$item->setValue($field_obj->getId().'_'.$id);
+					}
+					else
+					{
+						// open answer
+						$open_answer_indexes = $field_obj->getValueOptions();
+						$open_answer_index = end($open_answer_indexes);
+						$item = $form->getItemByPostVar('cdf_'.$field_obj->getId());
+						$item->setValue($field_obj->getId().'_'.$open_answer_index);
+						$item_txt = $form->getItemByPostVar('cdf_oa_'.$field_obj->getId().'_'.$open_answer_index);
+						if($item_txt)
+						{
+							$item_txt->setValue($current_value);
+						}
+					}
+					break;
+					
+				case IL_CDF_TYPE_TEXT:
+					$item = $form->getItemByPostVar('cdf_'.$field_obj->getId());
+					$item->setValue($current_value);
+					break;
+			}
+		}
+	}
+	
 	
 	/**
 	 * Save course defined fields
 	 * @param ilPropertyFormGUI $form
 	 */
-	public static function saveCourseDefinedFields(ilPropertyFormGUI $form, $a_obj_id)
+	public static function saveCourseDefinedFields(ilPropertyFormGUI $form, $a_obj_id, $a_usr_id = 0)
 	{
 		global $ilUser;
+		
+		if(!$a_usr_id)
+		{
+			$a_usr_id = $ilUser->getId();
+		}
 		
 		foreach(ilCourseDefinedFieldDefinition::_getFields($a_obj_id) as $field_obj)
 		{
@@ -321,7 +406,7 @@ class ilMemberAgreementGUI
 					$open_answer_indexes = (array) $field_obj->getValueOptions();
 					if(in_array($option_id, $open_answer_indexes))
 					{
-						$value = $form->getInput('cdf_oa_'.$field_obj->getId());
+						$value = $form->getInput('cdf_oa_'.$field_obj->getId().'_'.$option_id);
 					}
 					else
 					{

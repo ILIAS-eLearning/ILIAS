@@ -378,5 +378,77 @@ class ilObjectCustomUserFieldsGUI
 		$re->setValue(1);
 		$this->form->addItem($re);
 	}
+	
+	/**
+	 * Edit Member
+	 * @param ilPropertyFormGUI $form
+	 */
+	protected function editMember(ilPropertyFormGUI $form = null)
+	{
+		$GLOBALS['ilCtrl']->saveParameter($this,'member_id');
+
+		$GLOBALS['ilTabs']->clearTargets();
+		$GLOBALS['ilTabs']->clearSubTabs();
+		$GLOBALS['ilTabs']->setBackTarget($this->lng->txt('back'),$this->ctrl->getLinkTarget($this,'cancelEditMember'));
+		
+		
+		if($form instanceof ilPropertyFormGUI)
+		{
+			$GLOBALS['tpl']->setContent($form->getHTML());
+		}
+		else
+		{
+			$form = $this->initMemberForm();
+			ilMemberAgreementGUI::setCourseDefinedFieldValues($form, $this->getObjId(), (int) $_REQUEST['member_id']);
+		}
+		
+		$GLOBALS['tpl']->setContent($form->getHTML());
+	}
+	
+
+	/**
+	 * Cancel editing
+	 */
+	protected function cancelEditMember()
+	{
+		$GLOBALS['ilCtrl']->returnToParent($this);
+	}
+	
+	protected function initMemberForm()
+	{
+		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($GLOBALS['ilCtrl']->getFormAction($this));
+		$title = $this->lng->txt(ilObject::_lookupType($this->getObjId()).'_cdf_edit_member');
+		$name = ilObjUser::_lookupName((int) $_REQUEST['member_id']);
+		$title .= (': '.$name['lastname'].', '.$name['firstname']);
+		$form->setTitle($title);
+		
+		include_once './Services/Membership/classes/class.ilMemberAgreementGUI.php';
+		ilMemberAgreementGUI::addCustomFields($form, $this->getObjId(), ilObject::_lookupType($this->getObjId()),'edit');
+		
+		$form->addCommandButton('saveMember', $this->lng->txt('save'));
+		$form->addCommandButton('cancelEditMember', $this->lng->txt('cancel'));
+		
+		return $form;
+	}
+	
+	protected function saveMember()
+	{
+		$GLOBALS['ilCtrl']->saveParameter($this,'member_id');
+		
+		$form = $this->initMemberForm();
+		if($form->checkInput())
+		{
+			ilMemberAgreementGUI::saveCourseDefinedFields($form, $this->getObjId(), (int) $_REQUEST['member_id']);
+			ilUtil::sendSuccess($this->lng->txt('settings_saved'),TRUE);
+			$GLOBALS['ilCtrl']->returnToParent($this);
+			return TRUE;
+		}
+		
+		$form->setValuesByPost();
+		ilUtil::sendFailure($this->lng->txt('err_check_input'));
+		return $this->editMember($form);
+	}
 }
 ?>
