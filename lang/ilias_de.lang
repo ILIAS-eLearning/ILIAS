@@ -637,12 +637,12 @@ assessment#:#manscoring_questions_not_found#:#Dieser Testdurchlauf beinhaltet ke
 assessment#:#manscoring_results_pass#:#Manuell bewertbare Fragen für Testdurchlauf %s
 assessment#:#manscoring_select_user#:#Bitte wählen Sie einen Teilnehmer aus, den Sie bewerten wollen
 assessment#:#mark_schema#:#Notenschema
+assessment#:#grading_status_passed_msg#:#Herzlichen Glückwunsch! Sie haben den Test <b>bestanden</b>.
+assessment#:#grading_status_failed_msg#:#Sie haben den Test leider <b>nicht bestanden</b>.
+assessment#:#grading_obligations_answered_msg#:#Alle obligatorischen Fragen wurden beantwortet.
+assessment#:#grading_obligations_missing_msg#:#Nicht alle obligatorischen Fragen wurden beantwortet.
+assessment#:#grading_mark_msg#:#Sie haben die Note &quot;[mark]&quot; erzielt.
 assessment#:#mark_tst_ects#:#Ihre ECTS-Note lautet &quot;[markects]&quot;
-assessment#:#mark_tst_failed#:#Sie haben den Test leider <b>nicht bestanden</b>.<br /><br />Sie haben die Note &quot;[mark]&quot; erzielt.
-assessment#:#mark_tst_failed_obligations_answered#:#Sie haben den Test leider <b>nicht bestanden</b>.<br /><br />Alle obligatorischen Fragen wurden beantwortet.<br />Sie haben die Note &quot;[mark]&quot; erzielt.
-assessment#:#mark_tst_failed_obligations_missing#:#Sie haben den Test leider <b>nicht bestanden</b>.<br /><br />Nicht alle obligatorischen Fragen wurden beantwortet.<br />Sie haben die Note &quot;[mark]&quot; erzielt.
-assessment#:#mark_tst_passed#:#Herzlichen Glückwunsch! Sie haben den Test <b>bestanden</b> und dabei die Note &quot;[mark]&quot; erzielt.
-assessment#:#mark_tst_passed_obligations_answered#:#Herzlichen Glückwunsch! Sie haben den Test <b>bestanden</b> und dabei die Note &quot;[mark]&quot; erzielt.<br />Alle obligatorischen Fragen wurden beantwortet.
 assessment#:#match_terms_and_definitions#:#Zuordnung von Termen und Definitionen
 assessment#:#match_terms_and_pictures#:#Zuordnung von Termen und Bildern
 assessment#:#matches#:#passt zu
@@ -1178,6 +1178,11 @@ assessment#:#tst_results_access_date#:#Datum
 assessment#:#tst_results_access_description#:#Diese Option regelt den Zugang der Teilnehmer zu ihren Testergebnissen. Wenn auf die Testergebnisse nach Beendigung des Tests zugegriffen werden kann, wird nach dem erstmaligen Abschließen eines Testdurchlaufs eine Schaltfläche zu den Testergebnissen angeboten. Wenn ein Datum und eine Uhrzeit angegeben werden, können die Teilnehmer erst auf die Testergebnisse zugreifen, wenn das Datum und die Uhrzeit erreicht sind. Wenn auf die Testergebnisse immer zugegriffen werden kann, dürfen die Teilnehmer die Ergebnisse jederzeit einsehen, selbst wenn sie den Test noch nicht vollständig durchlaufen haben. Ist 'Nie' ausgewählt, haben die Teilnehmer keinen Zugriff auf die Testergebnisse.
 assessment#:#tst_results_access_finished#:#Nach Beendigung eines Testdurchlaufs
 assessment#:#tst_results_access_never#:#Nie
+assessment#:#tst_results_grading#:#Bewertung in Testergebnissen
+assessment#:#tst_results_grading_opt_show_both#:#Zeige den Bestanden/Nicht bestanden Status und die resultierende Note
+assessment#:#tst_results_grading_opt_show_none#:#Zeige weder den Bestanden/Nicht bestanden Status noch die resultierende Note
+assessment#:#tst_results_grading_opt_show_status#:#Zeige nur den Bestanden/Nicht bestanden Status
+assessment#:#tst_results_grading_opt_show_mark#:#Zeige nur die resultierende Note
 assessment#:#tst_results_aggregated#:#Aggregierte Testergebnisse
 assessment#:#tst_results_back_evaluation#:#Zurück zur Auswertungsübersicht
 assessment#:#tst_results_back_introduction#:#Zurück zur Startseite

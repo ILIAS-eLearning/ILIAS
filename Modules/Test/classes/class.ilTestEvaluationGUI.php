@@ -856,14 +856,11 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$toolbar->build();
 		$template->setVariable('RESULTS_TOOLBAR', $this->ctrl->getHTML($toolbar));
 
-		if ($this->object->getNrOfTries() == 1)
+		if( $this->isGradingMessageRequired() && $this->object->getNrOfTries() == 1 )
 		{
-			$statement = $this->getFinalStatement($active_id);
-			$template->setVariable("USER_MARK", $statement["mark"]);
-			if (strlen($statement["markects"]))
-			{
-				$template->setVariable("USER_MARK_ECTS", $statement["markects"]);
-			}
+			$template->setCurrentBlock('grading_message');
+			$template->setVariable('GRADING_MESSAGE', $this->getGradingMessage($active_id));
+			$template->parseCurrentBlock();
 		}
 
 		$list_of_answers = $this->getPassListOfAnswers($result_array, $active_id, $pass, $_SESSION['tst_results_show_best_solutions'], false, false, false, true);
@@ -932,16 +929,18 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$overview = $this->getPassOverview($active_id, "iltestevaluationgui", "outParticipantsPassDetails");
 		$template->setVariable("PASS_OVERVIEW", $overview);
 
-		$statement = $this->getFinalStatement($active_id);
 		$user_id = $this->object->_getUserIdFromActiveId($active_id);
 		$user_data = $this->getResultsUserdata($testSession, $active_id);
 		$template->setVariable("USER_DATA", $user_data);
 		$template->setVariable("TEXT_OVERVIEW", $this->lng->txt("tst_results_overview"));
-		$template->setVariable("USER_MARK", $statement["mark"]);
-		if (strlen($statement["markects"]))
+
+		if( $this->isGradingMessageRequired() )
 		{
-			$template->setVariable("USER_MARK_ECTS", $statement["markects"]);
+			$template->setCurrentBlock('grading_message');
+			$template->setVariable('GRADING_MESSAGE', $this->getGradingMessage($active_id));
+			$template->parseCurrentBlock();
 		}
+
 		$template->setVariable("TEXT_RESULTS", $this->lng->txt("tst_results"));
 		$template->parseCurrentBlock();
 
@@ -1066,10 +1065,11 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$tpl->parseCurrentBlock();
 		}
 
-		if ($this->object->getNrOfTries() == 1)
+		if( $this->isGradingMessageRequired() && $this->object->getNrOfTries() == 1 )
 		{
-			$markOutputHTML = $this->getMarkOutputHTML($active_id);
-			$tpl->setVariable('MARK_OUTPUT', $markOutputHTML);
+			$tpl->setCurrentBlock('grading_message');
+			$tpl->setVariable('GRADING_MESSAGE', $this->getGradingMessage($active_id));
+			$tpl->parseCurrentBlock();
 		}
 
 		$overview = $this->getPassDetailsOverview(
@@ -1175,7 +1175,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$template->setVariable("TEXT_RESULTS", $this->lng->txt("tst_results_overview"));
 		$template->parseCurrentBlock();
 
-		$statement = $this->getFinalStatement($active_id);
 		$user_data = $this->getResultsUserdata($testSession, $active_id, TRUE);
 
 		if ($this->object->getAnonymity()) {
@@ -1185,15 +1184,13 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$template->setVariable("TEXT_HEADING", sprintf($this->lng->txt("tst_result_user_name"), $uname));
 			$template->setVariable("USER_DATA", $user_data);
 		}
-		$template->setVariable("USER_MARK", $statement["mark"]);
-		if (strlen($statement["markects"]))
+		
+		if( $this->isGradingMessageRequired() )
 		{
-			$template->setVariable("USER_MARK_ECTS", $statement["markects"]);
+			$template->setCurrentBlock('grading_message');
+			$template->setVariable('GRADING_MESSAGE', $this->getGradingMessage($active_id));
+			$template->parseCurrentBlock();
 		}
-		$template->parseCurrentBlock();
-
-		$markOutputHTML = $this->getMarkOutputHTML($active_id);
-		$template->setVariable('MARK_OUTPUT', $markOutputHTML);
 
 		$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "Modules/Test"), "print");
 		if ($this->object->getShowSolutionAnswersOnly())
@@ -1682,28 +1679,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			assQuestion::_updateTestResultCache($active_fi);
 
 		$this->redirectToPassDeletionContext($_POST['context']);
-	}
-
-	/**
-	 * @param $statement
-	 * @return string
-	 */
-	protected function getMarkOutputHTML($activeId)
-	{
-		$statement = $this->getFinalStatement($activeId);
-
-		$tpl = new ilTemplate('tpl.tst_mark_output.html', TRUE, TRUE, 'Modules/Test');
-
-		$tpl->setVariable('STATUS_CSS_CLASS', $statement['passed'] ? 'passed' : 'failed');
-
-		$tpl->setVariable('USER_MARK', $statement['mark']);
-
-		if(strlen($statement['markects']))
-		{
-			$tpl->setVariable('USER_MARK_ECTS', $statement['markects']);
-		}
-
-		return $tpl->get();
 	}
 
 	/**
