@@ -109,7 +109,7 @@ class gevUserUtils {
 				 			     $this->db->quote(date("Y-m-d", time() + 14 * 24 * 60 * 60), "date").
 				 "            )".
 				 "       OR   (   ltype.value = ".$this->db->quote("Webinar", "text").
-				 "            AND ADDDATE(start_date.value, -1 * bk_deadl.value) < ".
+				 "            AND ADDDATE(start_date.value, -1 * bk_deadl.value) < ".	
 				 				 $this->db->quote(date("Y-m-d", time() + 7 * 24 * 60 * 60), "date").
 				 "            )".
 				 "       )".
@@ -126,7 +126,7 @@ class gevUserUtils {
 			
 			// TODO: there need to be a check weather the user has met the preconditions here
 			// to.
-			if (gevObjectUtils::checkAccessOfUser($this->user_id, "view",  "", $val["obj_id"], "crs")
+			if (gevObjectUtils::checkAccessOfUser($this->user_id, "visible",  "", $val["obj_id"], "crs")
 			&& $crs_booking->getFreePlaces() > 4) {
 				$ret[] = $val["obj_id"];
 			}
