@@ -14440,3 +14440,5 @@ exercise#:#exc_admin_settings#:#Exercise Administration
 administration#:#obj_taxs#:#Taxonomy
 administration#:#obj_taxs_desc#:#Global Taxonomy Settings
 tax#:#tax_admin_settings_repository#:#Repository Taxonomies
+crs#:#crs_cdf_edit_member#:#Edit Course Relevant User Data
+grp#:#grp_cdf_edit_member#:#Edit Group Relevant User Data

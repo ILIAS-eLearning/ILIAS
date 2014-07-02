@@ -22,8 +22,7 @@
   +-----------------------------------------------------------------------------+
  */
 
-include_once('./Services/Table/classes/class.ilTable2GUI.php');
-
+include_once './Services/Membership/classes/class.ilParticipantsTableGUI.php';
 /**
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
@@ -31,16 +30,12 @@ include_once('./Services/Table/classes/class.ilTable2GUI.php');
  *
  * @ingroup ModulesCourse
  */
-class ilCourseParticipantsTableGUI extends ilTable2GUI
+class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 {
 	protected $type = 'admin';
 	protected $show_learning_progress = false;
 	protected $show_timings = false;
 	protected $show_edit_link = true;
-	protected static $export_allowed = false;
-	protected static $confirmation_required = true;
-	protected static $accepted_ids = null;
-	protected static $all_columns = null;
 
 	protected $role_id = 0;
 
@@ -90,7 +85,7 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 		$this->setId('crs_' . $a_type . '_' . $a_role_id.'_'. $a_parent_obj->object->getId());
 		parent::__construct($a_parent_obj, 'members');
 
-		$this->initAcceptedAgreements();
+		$this->initSettings();
 
 		$this->setFormName('participants');
 
@@ -210,34 +205,6 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 		
 	}
 
-	/**
-	 * Get selectable columns
-	 * @return 
-	 */
-	public function getSelectableColumns()
-	{		
-		global $ilSetting;
-		
-		if(self::$all_columns)
-		{
-			#return self::$all_columns;
-		}
-
-		include_once './Services/PrivacySecurity/classes/class.ilExportFieldsInfo.php';
-		$ef = ilExportFieldsInfo::_getInstanceByType($this->getParentObject()->object->getType());
-		self::$all_columns = $ef->getSelectableFieldsInfo($this->getParentObject()->object->getId());
-		
-		if ($this->type == 'member' &&
-			$ilSetting->get('user_portfolios'))
-		{
-			self::$all_columns['prtf'] = array(
-				'txt' => $this->lng->txt('obj_prtf'),
-				'default' => false
-			);			
-		}
-		
-		return self::$all_columns;
-	}
 
 	/**
 	 * fill row 
@@ -396,14 +363,8 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 			$this->tpl->setVariable('PASSED_INFO', $a_set["passed_info"]);
 		}		
 		
-		$this->ctrl->setParameter($this->parent_obj, 'member_id', $a_set['usr_id']);
-		if($this->show_edit_link)
-		{
-			$this->tpl->setCurrentBlock('link');
-			$this->tpl->setVariable('LINK_NAME', $this->ctrl->getLinkTarget($this->parent_obj, 'editMember'));
-			$this->tpl->setVariable('LINK_TXT', $this->lng->txt('edit'));
-			$this->tpl->parseCurrentBlock();
-		}		
+		$this->showActionLinks($a_set);
+		
 		if($a_set['passed'] && $this->enable_certificates)
 		{
 			$this->tpl->setCurrentBlock('link');
@@ -587,37 +548,6 @@ class ilCourseParticipantsTableGUI extends ilTable2GUI
 		}
 		$this->setMaxCount($usr_data['cnt'] ? $usr_data['cnt'] : 0);
 		return $this->setData($a_user_data);
-	}
-
-	public function checkAcceptance($a_usr_id)
-	{
-		if(!self::$confirmation_required)
-		{
-			return true;
-		}
-		if(!self::$export_allowed)
-		{
-			return false;
-		}
-		return in_array($a_usr_id, self::$accepted_ids);
-	}
-
-	/**
-	 * Init acceptance
-	 * @return 
-	 */
-	public function initAcceptedAgreements()
-	{
-		if(self::$accepted_ids !== NULL)
-		{
-			return true;
-		}
-
-		self::$export_allowed = ilPrivacySettings::_getInstance()->checkExportAccess($this->getParentObject()->object->getRefId());
-		self::$confirmation_required = ilPrivacySettings::_getInstance()->courseConfirmationRequired();
-
-		include_once 'Services/Membership/classes/class.ilMemberAgreement.php';
-		self::$accepted_ids = ilMemberAgreement::lookupAcceptedAgreements($this->getParentObject()->object->getId());
 	}
 	
 }

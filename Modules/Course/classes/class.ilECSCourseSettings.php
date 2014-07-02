@@ -37,7 +37,9 @@ class ilECSCourseSettings extends ilECSObjectSettings
 		
 		include_once('./Services/WebServices/ECS/classes/class.ilECSUtils.php');
 		$definition = ilECSUtils::getEContentDefinition($this->getECSObjectType());
-		$this->addMetadataToJson($json, $a_server, $definition);		
+		$this->addMetadataToJson($json, $a_server, $definition);
+		
+		$json->courseID = 'il_'.IL_INST_ID.'_'.$this->getContentObject()->getType().'_'.$this->getContentObject()->getId();
 		
 		return $json;
 	}

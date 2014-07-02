@@ -4406,6 +4406,11 @@ class ilObjCourseGUI extends ilContainerGUI
 			case 'ilobjectcustomuserfieldsgui':
 				include_once './Services/Membership/classes/class.ilObjectCustomUserFieldsGUI.php';
 				
+				if(isset($_REQUEST['member_id']))
+				{
+					$this->ctrl->setReturn($this,'members');
+				}
+				
 				$cdf_gui = new ilObjectCustomUserFieldsGUI($this->object->getId());
 				$this->setSubTabs('properties');
 				$this->tabs_gui->setTabActive('settings');

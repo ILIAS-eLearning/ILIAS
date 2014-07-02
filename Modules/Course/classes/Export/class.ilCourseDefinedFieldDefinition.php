@@ -278,7 +278,7 @@ class ilCourseDefinedFieldDefinition
 	}
 	public function getIdByValue($a_value)
 	{
-		return ($pos = array_search($a_value,$this->values) === false) ? -1 : $pos;
+		return (($pos = array_search($a_value,$this->values)) === false) ? -1 : $pos;
 	}
 	
 	public function isRequired()
