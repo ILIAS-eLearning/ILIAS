@@ -280,6 +280,10 @@ class ilDataCollectionDatatype
                 $input = new ilImageFileInputGUI($title, 'field_'.$field->getId());
 				$input->setAllowDeletion(true);
                 break;
+            case ilDataCollectionDatatype::INPUTFORMAT_FORMULA:
+                $input = new ilTextInputGUI($title, 'field_' . $field->getId());
+                $input->setDisabled(true);
+                break;
 		}
         if($field->getDescription() && $input !== null) {
             $input->setInfo($field->getDescription().($input->getInfo()?"<br>".$input->getInfo():""));
