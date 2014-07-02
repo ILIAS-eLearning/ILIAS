@@ -34,6 +34,7 @@ include_once("./Services/Table/classes/class.ilTableGUI.php");
 * @ilCtrl_Calls ilAdministrationGUI: ilObjRemoteGlossaryGUI, ilObjRemoteFileGUI, ilObjRemoteGroupGUI, ilObjECSSettingsGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjCloudGUI, ilObjRepositorySettingsGUI, ilObjWebResourceAdministrationGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjCourseAdministrationGUI, ilObjGroupAdministrationGUI, ilObjExerciseAdministrationGUI
+* @ilCtrl_Calls ilAdministrationGUI: ilObjTaxonomyAdministrationGUI
 * // BEGIN WebDAV
 * @ilCtrl_Calls ilAdministrationGUI: ilObjFileAccessSettingsGUI, ilPermissionGUI, ilObjRemoteTestGUI
 * // END WebDAV
@@ -446,7 +447,7 @@ class ilAdministrationGUI
 			2 => array(
 				"services" =>
 					array("pdts", "nwss", "tags", "prfa", "skmg", "cals", "mail", 
-						"---", "seas", "mds","cert", 'ecss', "pays", "extt")
+						"---", "seas", "mds", "taxs", "cert", 'ecss', "pays", "extt")
 				),
 			3 => array(
 				"objects" =>

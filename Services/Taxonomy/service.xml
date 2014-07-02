@@ -6,5 +6,10 @@
 		<object id="tax" class_name="Taxonomy" dir="classes"
 			checkbox="1" inherit="0" translate="0" rbac="0">
 		</object>
+		<object id="taxs" class_name="TaxonomyAdministration" dir="classes"
+			checkbox="0" inherit="0" translate="sys" rbac="1" system="1" administration="1">
+			<parent id="adm" max="1">adm</parent>
+			<subobj id="rolf" max="1">rolf</subobj>
+		</object>
 	</objects>
 </service>

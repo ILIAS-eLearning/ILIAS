@@ -14437,3 +14437,6 @@ obj#:#obj_tool_setting_taxonomies#:#Taxonomies
 administration#:#obj_excs#:#Exercise
 administration#:#obj_excs_desc#:#Global Exercise Settings
 exercise#:#exc_admin_settings#:#Exercise Administration
+administration#:#obj_taxs#:#Taxonomy
+administration#:#obj_taxs_desc#:#Global Taxonomy Settings
+tax#:#tax_admin_settings_repository#:#Repository Taxonomies

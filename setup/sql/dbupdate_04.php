@@ -1689,4 +1689,10 @@ if( !$ilDB->tableColumnExists('tst_tests', 'show_grading_mark') )
 	$ilDB->queryF("UPDATE tst_tests SET show_grading_mark = %s", array('integer'), array(1));
 }
 ?>
+<#4251>
+<?php
 
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+ilDBUpdateNewObjectType::addAdminNode('taxs', 'Taxonomy Settings');
+
+?>

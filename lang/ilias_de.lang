@@ -14431,3 +14431,6 @@ obj#:#obj_tool_setting_taxonomies#:#Taxonomien
 administration#:#obj_excs#:#Übung
 administration#:#obj_excs_desc#:#Globale Übungseinstellungen
 exercise#:#exc_admin_settings#:#Übungs-Administration
+administration#:#obj_taxs#:#Taxonomie
+administration#:#obj_taxs_desc#:#Globale Taxonomieeinstellungen
+tax#:#tax_admin_settings_repository#:#Magazin-Taxonomien
