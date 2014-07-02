@@ -2759,6 +2759,7 @@ div.ilRightPanel {
 	bottom: 0;
 	right: 0;
 	width: 500px;
+	left: auto !important;
 }
 
 /* Tabs */
