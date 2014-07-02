@@ -47,6 +47,7 @@ class gevCourseUtils {
 	static public function getInstanceByObj(ilObjCourse $a_crs) {
 		$inst = gevCourseUtils::getInstance($a_crs->getId());
 		$inst->crs_obj = $a_crs;
+		return $inst;
 	}
 
 	static public  function getLinkTo($a_crs_id) {
@@ -385,17 +386,16 @@ class gevCourseUtils {
 	// Participants, Trainers and other members
 	
 	public function getMembership() {
-		if ($this->membership === null) {
-			require_once("Services/Membership/classes/class.ilParticipants.php");
-			$this->membership = new ilParticipants($this->crs_id);
-		}
-		
-		return $this->membership;
+		return $this->getCourse()->getMembersObject();
 	}
 	
 	public function getMembersExceptForAdmins() {
 		$ms = $this->getMembership();
 		return array_merge($ms->getMembers(), $ms->getTutors());
+	}
+	
+	public function getParticipants() {
+		return $this->getMembership()->getParticipants();
 	}
 	
 	public function getTrainer() {
