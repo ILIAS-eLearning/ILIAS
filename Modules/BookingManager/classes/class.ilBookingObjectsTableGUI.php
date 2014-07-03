@@ -17,6 +17,9 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 	protected $pool_id;	// [int]
 	protected $has_schedule;	// [bool]
 	protected $may_edit;	// [bool]
+	protected $overall_limit;	// [int]
+	protected $reservations;	// [array]
+	protected $current_bookings; // [int]
 	
 	/**
 	 * Constructor
@@ -24,14 +27,17 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 	 * @param	string	$a_parent_cmd
 	 * @param	int		$a_ref_id
 	 * @param	int		$a_pool_id
+	 * @param	bool	$a_pool_has_schedule
+	 * @param	int		$a_pool_overall_limit
 	 */
-	function __construct($a_parent_obj, $a_parent_cmd, $a_ref_id, $a_pool_id, $a_pool_has_schedule)
+	function __construct($a_parent_obj, $a_parent_cmd, $a_ref_id, $a_pool_id, $a_pool_has_schedule, $a_pool_overall_limit)
 	{
 		global $ilCtrl, $lng, $ilAccess;
 
 		$this->ref_id = $a_ref_id;
 		$this->pool_id = $a_pool_id;
 		$this->has_schedule = $a_pool_has_schedule;
+		$this->overall_limit = $a_pool_overall_limit;
 		$this->may_edit = $ilAccess->checkAccess('write', '', $this->ref_id);
 		
 		$this->setId("bkobj");
@@ -64,8 +70,42 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 	 */
 	function getItems()
 	{		
+		global $ilUser;
+		
 		include_once 'Modules/BookingManager/classes/class.ilBookingObject.php';
 		$data = ilBookingObject::getList($this->pool_id);
+		
+		include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';
+		foreach($data as $item)
+		{
+			$item_id = $item["booking_object_id"];
+			$item_rsv = ilBookingReservation::getList(array($item_id), 1000, 0, array());
+			$this->reservations[$item_id] = $item_rsv["data"];
+		}				
+		
+		if(!$this->has_schedule && 
+			$this->overall_limit)		
+		{	
+			$this->current_bookings = 0;
+			foreach($this->reservations as $obj_rsv)
+			{
+				foreach($obj_rsv as $item)
+				{
+					if($item["status"] != ilBookingReservation::STATUS_CANCELLED)
+					{						
+						if($item["user_id"] == $ilUser->getId())
+						{
+							$this->current_bookings++;
+						}
+					}
+				}
+			}			
+			
+			if($this->current_bookings >= $this->overall_limit)
+			{
+				ilUtil::sendInfo($this->lng->txt("book_overall_limit_warning"));
+			}
+		}
 		
 		$this->setMaxCount(sizeof($data));
 		$this->setData($data);
@@ -87,11 +127,9 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 	    $this->tpl->setVariable("TXT_DESC", nl2br($a_set["description"]));
 		
 		if(!$this->has_schedule)		
-		{									
-			include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';
-			$reservation = ilBookingReservation::getList(array($a_set['booking_object_id']), 1000, 0, array());
+		{												
 			$cnt = 0;						
-			foreach($reservation["data"] as $item)
+			foreach($this->reservations[$a_set["booking_object_id"]] as $item)
 			{			
 				if($item["status"] != ilBookingReservation::STATUS_CANCELLED)
 				{
@@ -109,16 +147,15 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 			$this->tpl->setVariable("VALUE_AVAIL", $a_set["nr_items"]-$cnt); 
 			$this->tpl->setVariable("VALUE_AVAIL_ALL", $a_set["nr_items"]); 
 
-			if($a_set["nr_items"] <= $cnt || $has_booking)
+			if($a_set["nr_items"] <= $cnt || $has_booking 
+				|| ($this->overall_limit && $this->current_bookings && $this->current_bookings >= $this->overall_limit))
 			{
 				$booking_possible = false;
 			}			
 		}
 		else if(!$this->may_edit)
-		{
-			include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';
-			$reservation = ilBookingReservation::getList(array($a_set['booking_object_id']), 1000, 0, array());					
-			foreach($reservation["data"] as $item)
+		{							
+			foreach($this->reservations[$a_set["booking_object_id"]] as $item)
 			{			
 				if($item["status"] != ilBookingReservation::STATUS_CANCELLED &&
 					$item["user_id"] == $ilUser->getId())

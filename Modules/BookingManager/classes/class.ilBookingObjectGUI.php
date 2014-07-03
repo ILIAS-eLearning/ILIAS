@@ -14,6 +14,7 @@ class ilBookingObjectGUI
 	protected $ref_id; // [int]
 	protected $pool_id; // [int]
 	protected $pool_has_schedule; // [bool]
+	protected $pool_overall_limit; // [int]
 	
 	/**
 	 * Constructor
@@ -25,6 +26,9 @@ class ilBookingObjectGUI
 		$this->pool_id = $a_parent_obj->object->getId();		
 		$this->pool_has_schedule = 
 			($a_parent_obj->object->getScheduleType() != ilObjBookingPool::TYPE_NO_SCHEDULE);
+		$this->pool_overall_limit = $this->pool_has_schedule 
+			? null
+			: $a_parent_obj->object->getOverallLimit();		
 	}
 
 	/**
@@ -67,7 +71,7 @@ class ilBookingObjectGUI
 		$plink = new ilPermanentLinkGUI('book', $this->ref_id);
 		
 		include_once 'Modules/BookingManager/classes/class.ilBookingObjectsTableGUI.php';
-		$table = new ilBookingObjectsTableGUI($this, 'render', $this->ref_id, $this->pool_id, $this->pool_has_schedule);
+		$table = new ilBookingObjectsTableGUI($this, 'render', $this->ref_id, $this->pool_id, $this->pool_has_schedule, $this->pool_overall_limit);
 		$tpl->setContent($bar.$table->getHTML().$plink->getHTML());
 	}
 
