@@ -876,10 +876,14 @@ class ilPropertyFormGUI extends ilFormGUI
 		// #13531 - get content that has to reside outside of the parent form tag, e.g. panels/layers
 		foreach($this->items as $item)
 		{
-			$outside = $item->getContentOutsideFormTag();
-			if($outside)
+			// #13536 - ilFormSectionHeaderGUI does NOT extend ilFormPropertyGUI ?!
+			if(method_exists($item, "getContentOutsideFormTag"))
 			{
-				$html .= $outside;
+				$outside = $item->getContentOutsideFormTag();
+				if($outside)
+				{
+					$html .= $outside;
+				}
 			}
 		}
 		
