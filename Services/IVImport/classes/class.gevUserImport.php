@@ -1,7 +1,11 @@
 <?php
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+require_once("./Modules/OrgUnit/classes/class.ilObjOrgUnit.php");
 require_once("./Services/User/classes/class.ilObjUser.php");
+require_once("./Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
+require_once("./Services/GEV/Utils/classes/class.gevRoleUtils.php");
+require_once("./Services/GEV/Utils/classes/class.gevSettings.php");
 require_once("./Services/GEV/Utils/classes/class.gevUserUtils.php");
 
 
@@ -80,6 +84,8 @@ class gevUserImport {
 			return 'User already exists.';
 		}
 		$this->set_gev_attributes($ilias_user, $shadow_user);
+		$this->set_global_role($ilias_user, $shadow_user);
+		$this->set_orgunit_role($ilias_user, $shadow_user);
 
 		$ilias_user_id = $ilias_user->getId();
 		$this->set_ilias_user_id($shadow_user['id'], $ilias_user_id);
@@ -171,6 +177,22 @@ class gevUserImport {
 
 		$user->update();
 		return $user;
+	}
+
+	private function set_global_role(&$user, $shadow_user) {
+		$vermittlerstatus = $shadow_user['vermittlerstatus'];
+		$role_title = gevSettings::$VMS_ROLE_MAPPING[$vermittlerstatus][0];
+		$utils = gevRoleUtils::getInstance();
+		$utils->assignUserToGlobalRole($user->getId(), $role_title);
+	}
+
+	private function set_orgunit_role(&$user, $shadow_user) {
+		$vermittlerstatus = $shadow_user['vermittlerstatus'];
+		$role_title = gevSettings::$VMS_ROLE_MAPPING[$vermittlerstatus][1];
+		$orgunit_import_id = $shadow_user['org_unit'];
+		$orgunit_id = ilObjOrgUnit::_lookupObjIdByImportId($orgunit_import_id);
+		$utils = gevOrgUnitUtils::getInstance($orgunit_id);
+		$utils->assignUser($user->getId(), $role_title);
 	}
 
 
