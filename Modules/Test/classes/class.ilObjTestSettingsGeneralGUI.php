@@ -165,6 +165,26 @@ class ilObjTestSettingsGeneralGUI
 	{
 		return $this->saveFormCmd(true);
 	}
+
+	private function fixPostValuesForInconsistentFormObjectTree(ilPropertyFormGUI $form)
+	{
+		$fields = array('act_starting_time', 'act_ending_time', 'starting_time', 'ending_time');
+		
+		foreach($fields as $field)
+		{
+			if( !($form->getItemByPostVar($field) instanceof ilFormPropertyGUI) )
+			{
+				continue;
+			}
+			
+			if( !$form->getItemByPostVar($field)->getDisabled() )
+			{
+				continue;
+			}
+			
+			unset($_POST[$field]);
+		}
+	}
 	
 	private function saveFormCmd($isConfirmedSave = false)
 	{
@@ -173,6 +193,7 @@ class ilObjTestSettingsGeneralGUI
 		// form validation and initialisation
 		
 		$errors = !$form->checkInput(); // ALWAYS CALL BEFORE setValuesByPost()
+		$this->fixPostValuesForInconsistentFormObjectTree($form);
 		$form->setValuesByPost(); // NEVER CALL THIS BEFORE checkInput()
 									// Sarcasm? No. Because checkInput checks the form graph against the POST without
 									// actually setting the values into the form. Sounds ridiculous? Indeed, and it is.
