@@ -3,7 +3,7 @@
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */#
 
 /**
-* Utilities for AdvancedMetadata of Generali.
+* Utilities for OrgUnits of Generali.
 *
 * @author	Richard Klees <richard.klees@concepts-and-training.de>
 * @author	Fabian Kochem <fabian.kochem@concepts-and-training.de>
@@ -460,6 +460,48 @@ class gevOrgUnitUtils {
 			$admin->deassignUsers($id);
 			$admin->deleteLocalRole($id);
 		}
+	}
+}
+
+
+
+class gevOrgUnitCache {
+	protected $root_id;
+	protected $cache = array();
+	private $tree;
+
+	public function __construct($root_id) {
+		$this->root_id = $root_id;
+		$this->tree = ilObjOrgUnitTree::_getInstance();
+	}
+
+	public function index() {
+		$children = $this->tree->getAllChildren($this->root_id);
+		foreach ($children as $child_id) {
+			$child_obj = new ilObjOrgUnit($child_id);
+			$import_id = $child_obj->getImportId();
+			$this->addToCache($child_id, $import_id);
+		}
+	}
+
+	public function addToCache($ref_id, $import_id) {
+		if ($import_id === null) {
+			$import_id = 'root';
+		}
+
+		if ($this->isImportIdInCache($import_id)) {
+			die('Duplicate Import ID: ' . $import_id);
+		}
+
+		$this->cache[$import_id] = $ref_id;
+	}
+
+	public function isImportIdInCache($import_id) {
+		return array_key_exists($import_id, $this->cache);
+	}
+
+	public function getRefIdByImportId($import_id) {
+		return $this->cache[$import_id];
 	}
 }
 
