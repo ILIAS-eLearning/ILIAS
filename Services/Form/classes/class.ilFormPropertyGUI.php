@@ -466,5 +466,16 @@ class ilFormPropertyGUI
 		
 		return $tpl->get();
 	}
+	
+	/**
+	 * Get content that has to reside outside of the parent form tag, e.g. panels/layers
+	 * 
+	 * @return string
+	 */
+	public function getContentOutsideFormTag()
+	{
+		
+	}
 }
+
 ?>

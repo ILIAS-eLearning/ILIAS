@@ -376,11 +376,20 @@ class ilLinkInputGUI extends ilFormPropertyGUI
 			include_once("./Modules/LearningModule/classes/class.ilInternalLinkGUI.php");
 			$html.= $hidden_type->getToolbarHTML().
 				$hidden_id->getToolbarHTML().
-				$hidden_target->getToolbarHTML().
-				ilInternalLinkGUI::getInitHTML("");
+				$hidden_target->getToolbarHTML();
 		}
 		
 		return $html;
+	}
+	
+	public function getContentOutsideFormTag()
+	{
+		if($this->getAllowedLinkTypes() == self::INT ||
+			$this->getAllowedLinkTypes() == self::BOTH)
+		{
+			// as the ajax-panel uses a form it has to be outside of the parent form!
+			return ilInternalLinkGUI::getInitHTML("");
+		}
 	}
 	
 	public static function getTranslatedValue($a_value)
