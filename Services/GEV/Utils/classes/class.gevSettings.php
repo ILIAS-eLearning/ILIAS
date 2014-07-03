@@ -182,6 +182,45 @@ class gevSettings {
 	
 	// HPE
 	const USR_UDF_HPE				= "usr_udf_hpe";
+
+	// Role mapping
+	static $VMS_ROLE_MAPPING = array(
+		601 => array("DBV-VL-EVG",       "DBV"),
+		602 => array("NA",               "Mitarbeiter"),
+		603 => array("BA",               "Mitarbeiter"),
+		604 => array("BA",               "Mitarbeiter"),
+		606 => array("BA",               "Mitarbeiter"),
+		607 => array("BA",               "Mitarbeiter"),
+		608 => array("VP",               "Mitarbeiter"),
+		609 => array("OD/LD/BD/VD/VTWL", "Vorgesetzter"),
+		610 => array("DBV-VL-EVG",       "DBV"),
+		613 => array("DBV-UV",           "DBV"),
+		614 => array("DBV-VL-EVG",       "DBV"),
+		615 => array("DBV-UV",           "DBV"),
+		616 => array("DBV-UV",           "DBV"),
+		617 => array("",                 "DBV"), // TODO
+		618 => array("DBV-VL-EVG",       "DBV"),
+		625 => array("OD/LD/BD/VD/VTWL", "Vorgesetzter"),
+		628 => array("HA",               "Vorgesetzter"),
+		630 => array("HA",               "Vorgesetzter"),
+		632 => array("HA",               "Vorgesetzter"),
+		633 => array("HA",               "Vorgesetzter"),
+		634 => array("AVL",              "Vorgesetzter"),
+		649 => array("OD/LD/BD/VD/VTWL", "Vorgesetzter"),
+		650 => array("VP",               "Mitarbeiter"),
+		651 => array("VP",               "Mitarbeiter"),
+		653 => array("NA",               "Mitarbeiter"),
+		655 => array("NA",               "Mitarbeiter"),
+		657 => array("NA",               "Mitarbeiter"),
+		664 => array("NA",               "Mitarbeiter"),
+		671 => array("OD/LD/BD/VD/VTWL", "Vorgesetzter"),
+		674 => array("VP",               "Mitarbeiter"),
+		675 => array("DBV-VL-EVG",       "DBV"),
+		679 => array("VP",               "Mitarbeiter"),
+		693 => array("NA",               "Mitarbeiter"),
+		694 => array("BA",               "Mitarbeiter")
+
+	);
 	
 	
 	private function __construct() {
