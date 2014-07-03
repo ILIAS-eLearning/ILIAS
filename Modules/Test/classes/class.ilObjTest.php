@@ -11556,7 +11556,7 @@ function getAnswerFeedbackPoints()
 			return false;
 		}
 
-		if ($this->getScoreReporting() == 3 && $this->object->getReportingDate() > time())
+		if ($this->getScoreReporting() == 3 && $this->getReportingDate() > time())
 		{
 			return false;
 		}
