@@ -14448,3 +14448,6 @@ grp#:#grp_cdf_edit_member#:#Gruppenspezifische Benutzerdaten bearbeiten
 book#:#book_overall_limit#:#Begrenzung der Buchungsanzahl
 book#:#book_overall_limit_info#:#Maximale Anzahl Buchungen je Benutzer in diesem Buchungspool
 book#:#book_overall_limit_warning#:#Sie haben die maximale Anzahl Buchungen erreicht.
+cntr#:#cntr_tax_none_available#:#Es gibt keine verfügbaren Taxonomien.
+cntr#:#cntr_taxonomy_sideblock_settings#:#Taxonomieblock-Einstellungen
+cntr#:#cntr_taxonomy_show_sideblock#:#Taxonomie im Seitenblock darstellen

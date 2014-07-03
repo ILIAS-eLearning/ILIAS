@@ -78,12 +78,19 @@ class ilTaxonomyBlockGUI extends ilBlockGUI
 	{	
 		global $tree;
 		
-	// currently only active for categories
+		// currently only active for categories
 		if($this->parent_obj_type != "cat")
 		{
 			return array();
 		}
-		
+				
+		$current_active = ilContainer::_lookupContainerSetting($this->parent_obj_id, "tax_sblock");
+		if(!$current_active)
+		{
+			return array();
+		}
+		$current_active = unserialize($current_active);
+				
 		include_once "Services/Object/classes/class.ilObjectServiceSettingsGUI.php";
 		include_once "Services/Taxonomy/classes/class.ilObjTaxonomy.php";
 		
@@ -105,7 +112,10 @@ class ilTaxonomyBlockGUI extends ilBlockGUI
 					{
 						foreach($node_taxes as $node_tax)
 						{					
-							$res[$node_tax["tax_id"]] = $node_tax["title"];
+							if(in_array($node_tax["tax_id"], $current_active))
+							{
+								$res[$node_tax["tax_id"]] = $node_tax["title"];
+							}
 						}
 					}
 				}
