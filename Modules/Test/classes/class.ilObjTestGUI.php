@@ -1968,6 +1968,8 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			$errors = !$form->checkInput();
 			
+			$this->fixPostValuesForInconsistentFormObjectTree($form);
+			
 			$form->setValuesByPost();
 			if( $online->getChecked() && !$this->object->isComplete() )
 			{
@@ -1997,6 +1999,26 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 
 		return $errors;
+	}
+
+	private function fixPostValuesForInconsistentFormObjectTree(ilPropertyFormGUI $form)
+	{
+		$fields = array('act_starting_time', 'act_ending_time', 'starting_time', 'ending_time');
+
+		foreach($fields as $field)
+		{
+			if( !($form->getItemByPostVar($field) instanceof ilFormPropertyGUI) )
+			{
+				continue;
+			}
+
+			if( !$form->getItemByPostVar($field)->getDisabled() )
+			{
+				continue;
+			}
+
+			unset($_POST[$field]);
+		}
 	}
 	
 	/**
