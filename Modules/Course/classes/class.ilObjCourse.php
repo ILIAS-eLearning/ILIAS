@@ -2000,6 +2000,8 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		
 		$part->add($a_user_id,$a_role);
 		$part->sendNotification($part->NOTIFY_ACCEPT_USER, $a_user_id);
+		$part->sendNotification($part->NOTIFY_ADMINS,$a_user_id);
+		
 		
 		include_once './Modules/Forum/classes/class.ilForumNotification.php';
 		ilForumNotification::checkForumsExistsInsert($this->getRefId(), $a_user_id);
