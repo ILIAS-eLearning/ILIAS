@@ -14451,3 +14451,5 @@ administration#:#obj_taxs_desc#:#Global Taxonomy Settings
 tax#:#tax_admin_settings_repository#:#Repository Taxonomies
 crs#:#crs_cdf_edit_member#:#Edit Course Relevant User Data
 grp#:#grp_cdf_edit_member#:#Edit Group Relevant User Data
+book#:#book_overall_limit#:#Limit number of bookings
+book#:#book_overall_limit_info#:#Maximum number of bookings for each user in this booking pool

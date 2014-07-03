@@ -14445,3 +14445,5 @@ administration#:#obj_taxs_desc#:#Globale Taxonomieeinstellungen
 tax#:#tax_admin_settings_repository#:#Magazin-Taxonomien
 crs#:#crs_cdf_edit_member#:#Kursspezifische Benutzerdaten bearbeiten
 grp#:#grp_cdf_edit_member#:#Gruppenspezifische Benutzerdaten bearbeiten
+book#:#book_overall_limit#:#Begrenzung der Buchungsanzahl
+book#:#book_overall_limit_info#:#Maximale Anzahl Buchungen je Benutzer in diesem Buchungspool

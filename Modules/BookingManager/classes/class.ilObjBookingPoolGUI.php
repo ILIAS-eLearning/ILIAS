@@ -168,6 +168,12 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		$none = new ilRadioOption($this->lng->txt("book_schedule_type_none"), ilObjBookingPool::TYPE_NO_SCHEDULE);
 		$none->setInfo($this->lng->txt("book_schedule_type_none_info"));
 		$type->addOption($none);
+		
+		$limit = new ilNumberInputGUI($this->lng->txt("book_overall_limit"), "limit");
+		$limit->setSize(4);
+		$limit->setMinValue(1);
+		$limit->setInfo($this->lng->txt("book_overall_limit_info"));
+		$none->addSubItem($limit);
 	
 		$public = new ilCheckboxInputGUI($this->lng->txt("book_public_log"), "public");
 		$public->setInfo($this->lng->txt("book_public_log_info"));
@@ -179,6 +185,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		$a_values["online"] = !$this->object->isOffline();
 		$a_values["public"] = $this->object->hasPublicLog();
 		$a_values["stype"] = $this->object->getScheduleType();
+		$a_values["limit"] = $this->object->getOverallLimit();
 	}
 
 	protected function updateCustom(ilPropertyFormGUI $a_form)
@@ -186,6 +193,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 		$this->object->setOffline(!$a_form->getInput('online'));
 		$this->object->setPublicLog($a_form->getInput('public'));
 		$this->object->setScheduleType($a_form->getInput('stype'));
+		$this->object->setOverallLimit($a_form->getInput('limit') ? $a_form->getInput('limit') : null);
 	}
 
 	/**

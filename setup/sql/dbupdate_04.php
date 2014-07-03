@@ -1707,3 +1707,16 @@ $ilDB->insert('il_dcl_datatype', array(
         'sort' => array('integer', 90),
     ));
 ?>
+<#4253>
+<?php
+
+if( !$ilDB->tableColumnExists('booking_settings', 'ovlimit') )
+{
+	$ilDB->addTableColumn('booking_settings', 'ovlimit', array(
+		'type' => 'integer',
+		'length' => 1,
+		'notnull' => false
+	));
+}
+
+?>

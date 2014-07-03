@@ -12,9 +12,10 @@ require_once "./Services/Object/classes/class.ilObject.php";
 */
 class ilObjBookingPool extends ilObject
 {
-	protected $offline;			// bool
-	protected $public_log;		// bool
-	protected $schedule_type;	// int
+	protected $offline;			// [bool]
+	protected $public_log;		// [bool]
+	protected $schedule_type;	// [int]
+	protected $overall_limit;   // [int]
 	
 	const TYPE_FIX_SCHEDULE = 1;
 	const TYPE_NO_SCHEDULE = 2;
@@ -39,7 +40,8 @@ class ilObjBookingPool extends ilObject
 		$fields = array(
 			"schedule_type" => array("integer", $this->getScheduleType()),
 			"pool_offline" => array("integer", $this->isOffline()),
-			"public_log" => array("integer", $this->hasPublicLog())		
+			"public_log" => array("integer", $this->hasPublicLog()),		
+			"ovlimit" => array("integer", $this->getOverallLimit())		
 		);
 		
 		return $fields;
@@ -101,6 +103,7 @@ class ilObjBookingPool extends ilObject
 			$this->setOffline($row['pool_offline']);
 			$this->setPublicLog($row['public_log']);
 			$this->setScheduleType($row['schedule_type']);
+			$this->setOverallLimit($row['ovlimit']);
 		}
 	}
 
@@ -155,6 +158,7 @@ class ilObjBookingPool extends ilObject
 		$new_obj->setOffline($this->isOffline());
 		$new_obj->setScheduleType($this->getScheduleType());
 		$new_obj->setPublicLog($this->hasPublicLog());
+		$new_obj->setOverallLimit($this->getOverallLimit());
 		
 		$smap = null;
 		if($this->getScheduleType() == self::TYPE_FIX_SCHEDULE)
@@ -340,6 +344,30 @@ class ilObjBookingPool extends ilObject
 			" WHERE booking_pool_id = ".$ilDB->quote($a_obj_id, "integer"));
 		$row = $ilDB->fetchAssoc($set);				
 		return !(bool)$row["pool_offline"];
+	}
+	
+	/**
+	 * Set overall / global booking limit
+	 * 
+	 * @param int $a_value
+	 */
+	public function setOverallLimit($a_value = null)
+	{
+		if($a_value !== null)
+		{
+			$a_value = (int)$a_value;
+		}
+		$this->overall_limit = $a_value;
+	}
+	
+	/**
+	 * Get overall / global booking limit
+	 * 
+	 * @return int $a_value
+	 */
+	public function getOverallLimit()
+	{
+		return $this->overall_limit;
 	}
 }
 
