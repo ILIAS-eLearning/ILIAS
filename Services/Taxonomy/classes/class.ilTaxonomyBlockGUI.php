@@ -83,13 +83,12 @@ class ilTaxonomyBlockGUI extends ilBlockGUI
 		{
 			return array();
 		}
-				
-		$current_active = ilContainer::_lookupContainerSetting($this->parent_obj_id, "tax_sblock");
+		
+		$current_active = ilContainer::_getContainerSettings($this->parent_obj_id);		
 		if(!$current_active)
 		{
 			return array();
 		}
-		$current_active = unserialize($current_active);
 				
 		include_once "Services/Object/classes/class.ilObjectServiceSettingsGUI.php";
 		include_once "Services/Taxonomy/classes/class.ilObjTaxonomy.php";
@@ -112,7 +111,7 @@ class ilTaxonomyBlockGUI extends ilBlockGUI
 					{
 						foreach($node_taxes as $node_tax)
 						{					
-							if(in_array($node_tax["tax_id"], $current_active))
+							if(isset($current_active["tax_sblock_".$node_tax["tax_id"]]))
 							{
 								$res[$node_tax["tax_id"]] = $node_tax["title"];
 							}

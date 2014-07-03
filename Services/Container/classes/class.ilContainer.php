@@ -243,6 +243,31 @@ class ilContainer extends ilObject
 		return $res;
 	}	
 	
+	public static function _deleteContainerSettings($a_id, $a_keyword = null, $a_keyword_like = false)
+	{
+		global $ilDB;
+		
+		if(!$a_id)
+		{
+			return;
+		}
+		
+		$sql = "DELETE FROM container_settings WHERE ".
+				" id = ".$ilDB->quote($a_id ,'integer');
+		if($a_keyword)
+		{
+			if(!$a_keyword_like)
+			{
+				$sql .= " AND keyword = ".$ilDB->quote($a_keyword, "text");
+			}
+			else
+			{
+				$sql .= " AND ".$ilDB->like("keyword", "text", $a_keyword);
+			}
+		}		
+		$ilDB->manipulate($sql);		
+	}	
+	
 	public static function _exportContainerSettings(ilXmlWriter $a_xml, $a_obj_id)
 	{
 		// container settings

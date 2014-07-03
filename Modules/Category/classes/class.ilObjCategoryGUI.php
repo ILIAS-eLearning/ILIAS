@@ -1746,17 +1746,21 @@ class ilObjCategoryGUI extends ilContainerGUI
 		$block = new ilCheckboxGroupInputGUI($this->lng->txt("cntr_taxonomy_show_sideblock"), "sblock");
 		$form->addItem($block);
 		
+		$current = ilContainer::_getContainerSettings($this->object->getId());
+		$value = array();
+		
 		foreach($tax as $tax_id => $tax_title)
 		{
 			$block->addOption(new ilCheckboxOption($tax_title, $tax_id));
+			if(is_array($current) &&
+				isset($current["tax_sblock_".$tax_id]))
+			{
+				$value[] = $tax_id;
+			}
 		}
-		
-		$value = ilContainer::_lookupContainerSetting($this->object->getId(), "tax_sblock");
-		if($value)
-		{
-			$block->setValue(unserialize($value));
-		}
-			
+	
+		$block->setValue($value);
+					
 		$form->addCommandButton("updateTaxonomySettings", $this->lng->txt("save"));
 		
 		return $form;
@@ -1787,8 +1791,17 @@ class ilObjCategoryGUI extends ilContainerGUI
 			{
 				$sblock = $form->getInput("sblock");
 				
-				ilContainer::_writeContainerSetting($this->object->getId(), 
-					"tax_sblock", is_array($sblock) ? serialize($sblock) : null);
+				ilContainer::_deleteContainerSettings($this->object->getId(),
+					"tax_sblock_%", true);
+				
+				if(is_array($sblock))
+				{
+					foreach($sblock as $tax_id)
+					{
+						ilContainer::_writeContainerSetting($this->object->getId(), 
+							"tax_sblock_".$tax_id, true);				
+					}
+				}
 				
 				ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
 			}
