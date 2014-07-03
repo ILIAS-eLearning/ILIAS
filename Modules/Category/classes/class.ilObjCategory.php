@@ -53,6 +53,17 @@ class ilObjCategory extends ilContainer
 		$query = "DELETE FROM object_translation WHERE obj_id = ".$ilDB->quote($this->getId(),'integer');
 		$res = $ilDB->manipulate($query);
 		
+		// taxonomies
+		include_once "Services/Taxonomy/classes/class.ilObjTaxonomy.php";
+		foreach(ilObjTaxonomy::getUsageOfObject($this->getId()) as $tax_id)
+		{
+			if($tax_id)
+			{
+				$tax = new ilObjTaxonomy($tax_id);
+				$tax->delete();
+			}
+		}
+		
 		$ilAppEventHandler->raise('Modules/Category',
 			'delete',
 			array('object' => $this,
