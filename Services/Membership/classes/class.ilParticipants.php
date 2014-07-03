@@ -371,6 +371,15 @@ class ilParticipants
 	}
 	
 	/**
+	 * get current obj_id
+	 * @return type
+	 */
+	public function getObjId()
+	{
+		return $this->obj_id;
+	}
+	
+	/**
 	 * Get object type
 	 * @return string obj_type
 	 */

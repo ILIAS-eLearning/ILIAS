@@ -17,5 +17,23 @@ include_once('./Services/Membership/classes/class.ilWaitingList.php');
 class ilCourseWaitingList extends ilWaitingList
 {
 	
+	/**
+	 * Add to waiting list and raise event
+	 * @param int $a_usr_id
+	 */
+	public function addToList($a_usr_id)
+	{
+		global $ilAppEventHandler, $ilLog;
+		
+		$ilLog->write(__METHOD__.': Raise new event: Modules/Course addParticipant');
+		$ilAppEventHandler->raise(
+				"Modules/Course", 
+				'addToWaitingList', 
+				array(
+					'obj_id' => $this->obj_id,
+					'usr_id' => $a_usr_id
+				)
+			);
+	}
 }
 ?>

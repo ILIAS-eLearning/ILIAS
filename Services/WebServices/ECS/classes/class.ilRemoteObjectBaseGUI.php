@@ -108,6 +108,15 @@ abstract class ilRemoteObjectBaseGUI extends ilObject2GUI
 	 */
 	public function callObject()
 	{
+		include_once './Services/Tracking/classes/class.ilChangeEvent.php';
+		ilChangeEvent::_recordReadEvent(
+				$this->getType(),
+				$this->object->getRefId(),
+				$this->object->getId(),
+				$GLOBALS['ilUser']->getId()
+		);
+				
+
 		// check if the assigned object is hosted on the same installation
 		$link = $this->object->getFullRemoteLink();
 		if($link)
@@ -141,7 +150,7 @@ abstract class ilRemoteObjectBaseGUI extends ilObject2GUI
 	public function infoScreen()
 	{
 		global $ilErr,$ilUser,$ilTabs;
-
+		
 		if(!$this->checkPermissionBool('visible'))
 		{
 			$ilErr->raiseError($this->lng->txt('msg_no_perm_read'),$ilErr->MESSAGE);

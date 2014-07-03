@@ -33,5 +33,7 @@
 		<event type="raise" id="delete" />
 		<event type="raise" id="addParticipant" />
 		<event type="raise" id="deleteParticipant" />
+		<event type="raise" id="addToWaitingList" />
+		<event type="raise" id="addSubscriber" />
 	</events>
 </module>

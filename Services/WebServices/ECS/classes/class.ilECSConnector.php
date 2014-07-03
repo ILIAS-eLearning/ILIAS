@@ -611,7 +611,7 @@ class ilECSConnector
  			$this->curl->setOpt(CURLOPT_HTTPHEADER,array(0 => 'Accept: application/json'));
  			$this->curl->setOpt(CURLOPT_RETURNTRANSFER,1);
  			$this->curl->setOpt(CURLOPT_VERBOSE,1);
-			$this->curl->setOpt(CURLOPT_TIMEOUT_MS,500);
+			$this->curl->setOpt(CURLOPT_TIMEOUT_MS,2000);
 
 			switch($this->getServer()->getAuthType())
 			{

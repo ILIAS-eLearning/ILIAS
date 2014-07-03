@@ -63,6 +63,22 @@ class ilECSAppEventListener implements ilAppEventListener
 			case 'Modules/Course':
 				switch($a_event)
 				{
+
+					case 'addSubscriber':
+					case 'addToWaitingList':
+						if(ilObjUser::_lookupAuthMode($a_parameter['usr_id']) == 'ecs')
+						{
+							if(!$user = ilObjectFactory::getInstanceByObjId($a_parameter['usr_id']))
+							{
+								$GLOBALS['ilLog']->write(__METHOD__.': No valid user found for usr_id '.$a_parameter['usr_id']);
+								return true;
+							}
+							include_once './Services/WebServices/ECS/classes/Connectors/class.ilECSEnrolmentStatus.php';
+							self::updateEnrolmentStatus($a_parameter['obj_id'], $user, ilECSEnrolmentStatus::STATUS_PENDING);
+						}
+						break;
+						
+				
 					case 'deleteParticipant':
 						if(ilObjUser::_lookupAuthMode($a_parameter['usr_id']) == 'ecs')
 						{

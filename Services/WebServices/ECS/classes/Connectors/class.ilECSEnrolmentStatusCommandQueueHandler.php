@@ -139,6 +139,10 @@ class ilECSEnrolmentStatusCommandQueueHandler implements ilECSCommandQueueHandle
 		
 		switch($status->getStatus())
 		{
+			case ilECSEnrolmentStatus::STATUS_PENDING:
+				// nothing todo in the moment: maybe send mail
+				break;
+				
 			case ilECSEnrolmentStatus::STATUS_ACTIVE:
 				$GLOBALS['ilLog']->write(__METHOD__.': Add desktop item: '.$a_usr_id.' '.$ref_id.' '.$obj_id);
 				ilObjUser::_addDesktopItem($a_usr_id, $ref_id, ilObject::_lookupType($obj_id));
@@ -146,7 +150,6 @@ class ilECSEnrolmentStatusCommandQueueHandler implements ilECSCommandQueueHandle
 			
 			case ilECSEnrolmentStatus::STATUS_ACCOUNT_DEACTIVATED:
 			case ilECSEnrolmentStatus::STATUS_DENIED:
-			case ilECSEnrolmentStatus::STATUS_PENDING:
 			case ilECSEnrolmentStatus::STATUS_REJECTED:
 			case ilECSEnrolmentStatus::STATUS_UNSUBSCRIBED:
 				$GLOBALS['ilLog']->write(__METHOD__.': Remove desktop item: '.$a_usr_id.' '.$ref_id.' '.$obj_id);
