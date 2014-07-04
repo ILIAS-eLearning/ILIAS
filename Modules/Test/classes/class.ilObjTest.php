@@ -5,15 +5,15 @@ include_once "./Services/Object/classes/class.ilObject.php";
 include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 
 /**
-* Class ilObjTest
-*
-* @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
-* @author		Björn Heyser <bheyser@databay.de>
-* @version		$Id$
-*
-* @defgroup ModulesTest Modules/Test
-* @extends ilObject
-*/
+ * Class ilObjTest
+ *
+ * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
+ * @author		Björn Heyser <bheyser@databay.de>
+ * @version		$Id$
+ *
+ * @defgroup ModulesTest Modules/Test
+ * @extends ilObject
+ */
 class ilObjTest extends ilObject
 {
 	#region Properties
