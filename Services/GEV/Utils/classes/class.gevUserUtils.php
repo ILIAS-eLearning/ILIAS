@@ -549,7 +549,17 @@ class gevUserUtils {
 		return "TBD";
 	}
 	
+	public function getUserWhoBookedAtCourse($a_crs_id) {
+		return "TBD";
+	}
 	
+	public function getFirstnameOfUserWhoBookedAtCourse() {
+		return "TBD";
+	}
+	
+	public function getLastnameOfUserWhoBookedAtCourse() {
+		return "TBD";
+	}
 	
 	// For IV-Import Process
 	

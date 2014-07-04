@@ -148,6 +148,7 @@ class gevAMDUtils {
 			case ilAdvancedMDFieldDefinition::TYPE_PROVIDER_SELECT:
 			case ilAdvancedMDFieldDefinition::TYPE_LONG_TEXT:
 			case ilAdvancedMDFieldDefinition::TYPE_TEXT:
+			case ilAdvancedMDFieldDefinition::TYPE_SCHEDULE:
 				return "text";
 			case ilAdvancedMDFieldDefinition::TYPE_DATE:
 				return "date";
@@ -203,11 +204,12 @@ class gevAMDUtils {
 			case ilAdvancedMDFieldDefinition::TYPE_FLOAT:
 				return floatval($a_value);
 			case ilAdvancedMDFieldDefinition::TYPE_MULTI_SELECT:
+			case ilAdvancedMDFieldDefinition::TYPE_SCHEDULE:
 				return unserialize($a_value);
 			case ilAdvancedMDFieldDefinition::TYPE_LOCATION:
 				die("gevAMDUtils::canonicalTransformTypedValue: Location not implemented.");
 			default:
-				throw new Exception("gevAMDUtils::getValue: Can't get AMD Value of field ".$a_field_id." for type ".$a_type.".");
+				throw new Exception("gevAMDUtils::canonicalTransformTypedValue: Can't get AMD Value of field ".$a_field_id." for type ".$a_type.".");
 		}
 	}
 	

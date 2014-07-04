@@ -33,6 +33,8 @@ class gevCourseUtils {
 		$this->amd = gevAMDUtils::getInstance();
 		
 		$this->membership = null;
+		$this->main_trainer = null;
+		$this->main_admin = null;
 	}
 	
 	static public function getInstance($a_crs_id) {
@@ -208,7 +210,7 @@ class gevCourseUtils {
 	
 	public function getFormattedStartDate() {
 		ilDatePresentation::setUseRelativeDates(false);
-		$val = ilDatePresentation::formatDate($this->crs_utils->getStartDate());
+		$val = ilDatePresentation::formatDate($this->getStartDate());
 		ilDatePresentation::setUseRelativeDates(true);
 		return $val;
 	}
@@ -221,8 +223,39 @@ class gevCourseUtils {
 		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_END_DATE);
 	}
 	
+	public function getFormattedEndDate() {
+		ilDatePresentation::setUseRelativeDates(false);
+		$val = ilDatePresentation::formatDate($this->getEndDate());
+		ilDatePresentation::setUseRelativeDates(true);
+		return $val;
+	}
+	
 	public function setEndDate($a_date) {
 		$this->amd->setField($this->crs_id, gevSettings::CRS_AMD_END_DATE, $a_date);
+	}
+	
+	public function getSchedule() {
+		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_SCHEDULE);
+	}
+	
+	public function getFormattedStartTime() {
+		$schedule = $this->getSchedule();
+		if (count($schedule) == 0) {
+			return "";
+		}
+		
+		$spl = explode("-", $schedule[0]);
+		return $spl[0];
+	}
+	
+	public function getFormattedEndTime() {
+		$schedule = $this->getSchedule();
+		if (count($schedule) == 0) {
+			return "";
+		}
+		
+		$spl = explode("-", $schedule[count($schedule) - 1]);
+		return $spl[1];
 	}
 	
 	public function getTopics() {
@@ -340,6 +373,8 @@ class gevCourseUtils {
 		$this->amd->setField($this->crs_id, gevSettings::CRS_AMD_PROVIDER, $a_provider);
 	}
 	
+	// Venue Info
+	
 	public function getVenueId() {
 		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_VENUE);
 	}
@@ -366,6 +401,62 @@ class gevCourseUtils {
 		return $ven->getLongTitle();
 	}
 	
+	public function getVenueStreet() {
+		$ven = $this->getVenue();
+		if ($ven === null) {
+			return "";
+		}
+		
+		return $ven->getStreet();
+	}
+	
+	public function getVenueHouseNumber() {
+		$ven = $this->getVenue();
+		if ($ven === null) {
+			return "";
+		}
+		
+		return $ven->getHouseNumber();
+	}
+	
+	public function getVenueZipcode() {
+		$ven = $this->getVenue();
+		if ($ven === null) {
+			return "";
+		}
+		
+		return $ven->getZipcode();
+	}
+	
+	public function getVenueCity() {
+		$ven = $this->getVenue();
+		if ($ven === null) {
+			return "";
+		}
+		
+		return $ven->getCity();
+	}
+	
+	public function getVenuePhone() {
+		$ven = $this->getVenue();
+		if ($ven === null) {
+			return "";
+		}
+		
+		return $ven->getContactPhone();
+	}
+	
+	public function getVenueEmail() {
+		$ven = $this->getVenue();
+		if ($ven === null) {
+			return "";
+		}
+		
+		return $ven->getContactEmail();
+	}
+	
+	// Accomodation Info
+	
 	public function getAccomodationId() {
 		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_ACCOMODATION);
 	}
@@ -383,6 +474,79 @@ class gevCourseUtils {
 		return gevOrgUnitUtils::getInstance($id);	
 	}
 	
+	public function getAccomodationTitle() {
+		$ven = $this->getAccomodation();
+		if ($ven === null) {
+			return "";
+		}
+		
+		return $ven->getLongTitle();
+	}
+	
+	public function getAccomodationStreet() {
+		$ven = $this->getAccomodation();
+		if ($ven === null) {
+			return "";
+		}
+		
+		return $ven->getStreet();
+	}
+	
+	public function getAccomodationHouseNumber() {
+		$ven = $this->getAccomodation();
+		if ($ven === null) {
+			return "";
+		}
+		
+		return $ven->getHouseNumber();
+	}
+	
+	public function getAccomodationZipcode() {
+		$ven = $this->getAccomodation();
+		if ($ven === null) {
+			return "";
+		}
+		
+		return $ven->getZipcode();
+	}
+	
+	public function getAccomodationCity() {
+		$ven = $this->getAccomodation();
+		if ($ven === null) {
+			return "";
+		}
+		
+		return $ven->getCity();
+	}
+	
+	public function getAccomodationPhone() {
+		$ven = $this->getAccomodation();
+		if ($ven === null) {
+			return "";
+		}
+		
+		return $ven->getContactPhone();
+	}
+	
+	public function getAccomodationEmail() {
+		$ven = $this->getAccomodation();
+		if ($ven === null) {
+			return "";
+		}
+		
+		return $ven->getContactEmail();
+	}
+	
+	// derived courses for templates
+	
+	public function getDerivedCourseIds() {
+		if (!$this->isTemplate()) {
+			throw new Exception("gevCourseUtils::getDerivedCourseIds: this course is no template and thus has no derived courses.");
+		}
+		
+		die("TDB");
+	}
+	
 	// Participants, Trainers and other members
 	
 	public function getMembership() {
@@ -391,31 +555,141 @@ class gevCourseUtils {
 	
 	public function getMembersExceptForAdmins() {
 		$ms = $this->getMembership();
-		return array_merge($ms->getMembers(), $ms->getTutors());
+		return array_merge($ms->getMembers(), $ms->getAdmins());
 	}
 	
 	public function getParticipants() {
 		return $this->getMembership()->getParticipants();
 	}
 	
-	public function getTrainer() {
-		// TODO: implement
-		return "TBD";
+	public function getTrainers() {
+		return $this->getMembership()->getTutors();
 	}
 	
-	public function getTrainingAdviser() {
-		// TODO: implement
-		return "TBD";
+	public function getAdmins() {
+		return $this->getMembership()->getAdmins();
 	}
 	
-	public function getDerivedCourseIds() {
-		if (!$this->isTemplate()) {
-			throw new Exception("gevCourseUtils::getDerivedCourseIds: this course is no template and thus has no derived courses.");
+	public function getMainTrainer() {
+		if ($this->main_trainer === null) {
+			$tutors = ksort($this->getTrainers());
+			
+			if(count($tutors) != 0) {
+				$this->main_trainer = new ilObjUser($tutors[0]);
+			}
 		}
 		
-	
+		return $this->main_trainer;
 	}
 	
+	public function getMainAdmin() {
+		if ($this->main_admin === null) {
+			$admins = ksort($this->getAdmins());
+			if (count($admins) != 0) {
+				$this->main_admin = new ilObjUser($admins[0]);
+			}
+		}
+		
+		return $this->main_admin;
+	}
+	
+	// Training Officer Info (Themenverantwortlicher)
+	
+	public function getTrainingOfficerName() {
+		return $this->getCourse()->getContactName();
+	}
+	
+	public function getTrainingOfficerEMail() {
+		return $this->getCourse()->getContactEmail();
+	}
+	
+	public function getTrainingOfficerPhone() {
+		return $this->getCourse()->getContactPhone();
+	}
+	
+	// Main Trainer Info
+	
+	public function getMainTrainerFirstname() {
+		$tr = $this->getMainTrainer();
+		if ($tr === null) {
+			return $tr->getFirstname();
+		}
+		return "";
+	}
+	
+	public function getMainTrainerLastname() {
+		$tr = $this->getMainTrainer();
+		if ($tr === null) {
+			return $this->getMainTrainer()->getLastname();
+		}
+		return "";
+	}
+	
+	public function getMainTrainerName() {
+		$tr = $this->getMainTrainer();
+		if ($tr === null) {
+			return $this->getMainTrainerFirstname()." ".$this->getMainTrainerLastname();
+		}
+		return "";
+	}
+	
+	public function getMainTrainerPhone() {
+		$tr = $this->getMainTrainer();
+		if ($tr === null) {
+			return $this->getMainTrainer()->getPhoneOffice();
+		}
+		return "";
+	}
+	
+	public function getMainTrainerEMail() {
+		$tr = $this->getMainTrainer();
+		if ($tr === null) {
+			return $this->getMainTrainer()->getEmail();
+		}
+		return "";
+	}
+	
+	// Main Admin info
+	
+	public function getMainAdminFirstname() {
+		$tr = $this->getMainAdmin();
+		if ($tr === null) {
+			return $tr->getFirstname();
+		}
+		return "";
+	}
+	
+	public function getMainAdminLastname() {
+		$tr = $this->getMainAdmin();
+		if ($tr === null) {
+			return $tr->getLastname();
+		}
+		return "";
+	}
+	
+	public function getMainAdminName() {
+		$tr = $this->getMainAdmin();
+		if ($tr === null) {
+			return $tr->getMainTrainerFirstname()." ".$tr->getMainTrainerLastname();
+		}
+		return "";
+	}
+	
+	public function getMainAdminPhone() {
+		$tr = $this->getMainAdmin();
+		if ($tr === null) {
+			return $tr->getPhoneOffice();
+		}
+		return "";
+	}
+	
+	public function getMainAdminEMail() {
+		$tr = $this->getMainAdmin();
+		if ($tr === null) {
+			return $tr->getEmail();
+		}
+		return "";
+	}
 	
 	// Memberlist creation
 	

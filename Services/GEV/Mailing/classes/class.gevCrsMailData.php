@@ -83,10 +83,10 @@ class gevCrsMailData extends ilMailData {
 			case "MEDIEN":
 				$val = implode(", ", $this->crs_utils->getMedia());
 				break;
-			case "Zielgruppen":
+			case "ZIELGRUPPEN":
 				$val = implode(", ", $this->crs_utils->getTargetGroup());
 				break;
-			case "Inhalt":
+			case "INHALT":
 				$val = $this->crs_utils->getContents();
 				if (!$a_markup) {
 					$val = strip_tags($val);
@@ -95,33 +95,99 @@ class gevCrsMailData extends ilMailData {
 			case "ID":
 				$val = $this->crs_utils->getCustomId();
 				break;
-			case "Startdatum":
-				$val =$this->crs_utils->getFormattedStartDate();
+			case "STARTDATUM":
+				$val = $this->crs_utils->getFormattedStartDate();
 				break;
-			//case "Startzeit"				, "Uhrzeit des Beginns des Trainings")
-			//case "Enddatum"				, "Enddatum des Trainings")
-			//case "Endzeit"				, "Uhrzteit des Ende des Trainings")
-			//case "TV-Name"				, "Name des Themenverantwortlichen des Trainings")
-			//case "TV-Telefon"			, "Telefonnummer des Themenverantwortlichen")
-			//case "TV-Email"				, "Emailadresse des Themenverantwortlichen")
-			//case "Admin-Name"			, "Name des Trainingsadministrator")
-			//case "Admin-Telefon"			, "Telefonnummer des Trainingsadministrators")
-			//case "Admin-Email"			, "Emailadresse des Trainingsadministrators")
-			//case "Trainer-Name"			, "Name des Trainers")
-			//case "Trainer-Telefon"		, "Telefonnummer des Trainers")
-			//case "Trainer-Email"			, "Email des Trainers")
-			//case "VO-Name"				, "Name des Veranstaltungsorts des Trainings")
-			//case "VO-Straße"				, "Straße des Veranstaltungsorts")
-			//case "VO-Hausnummer"			, "Hausnummer des Veranstaltungsorts")
-			//case "VO-PLZ"				, "Postleitzahl des Veranstaltungsorts")
-			//case "VO-Ort"				, "Ort des Veranstaltungsorts")
-			//case "Hotel-Name"			, "Name des Übernachtungsorts des Trainings")
-			//case "Hotel-Straße"			, "Straße des Übernachtungsorts")
-			//case "Hotel-Hausnummer"		, "Hausnummer des Übernachtungsorts")
-			//case "Hotel-PLZ"				, "Postleitzahl des Übernachtungsorts")
-			//case "Hotel-Ort"				, "Ort des Übernachtungsorts")
-			//case "Hotel-Telefon"			, "Telefonnummer des Übernachtungsorts")
-			//case "Hotel-Email"			, "Emailadresse des Übernachtungsorts")
+			case "STARTZEIT":
+				$val = $this->crs_utils->getFormattedStartTime();
+				break;
+			case "ENDDATUM":
+				$val = $this->crs_utils->getFormattedEndDate();
+				break;
+			case "ENDZEIT":
+				$val = $this->crs_utils->getFormattedEndTime();
+				break;
+			case "TV-NAME":
+				$val = $this->crs_utils->getTrainingOfficerName();
+				break;
+			case "TV-TELEFON":
+				$val = $this->crs_utils->getTrainingOfficerPhone();
+				break;
+			case "TV-EMAIL":
+				$val = $this->crs_utils->getTrainingOfficerEmail();
+				break;
+			case "TRAININGSBETREUER-VORNAME":
+				$val = $this->crs_utils->getMainAdminFirstname();
+				break;
+			case "TRAININGSBETREUER-NACHNAME":
+				$val = $this->crs_utils->getMainAdminLastname();
+				break;
+			case "TRAININGSBETREUER-TELEFON":
+				$val = $this->crs_utils->getMainAdminPhone();
+				break;
+			case "TRAININGSBETREUER-EMAIL":
+				$val = $this->crs_utils->getMainAdminEmail();
+				break;
+			case "TRAINER-NAME":
+				$val = $this->crs_utils->getMainTrainerName();
+				break;
+			case "TRAINER-TELEFON":
+				$val = $this->crs_utils->getMainTrainerPhone();
+				break;
+			case "TRAINER-EMAIL":
+				$val = $this->crs_utils->getMainTrainerEmail();
+				break;
+			case "VO-NAME":
+				$val = $this->crs_utils->getVenueTitle();
+				break;
+			case "VO-STRAßE":
+				$val = $this->crs_utils->getVenueStreet();
+				break;
+			case "VO-HAUSNUMMER":
+				$val = $this->crs_utils->getVenueHouseNumber();
+				break;
+			case "VO-PLZ":
+				$val = $this->crs_utils->getVenueZipcode();
+				break;
+			case "VO-ORT":
+				$val = $this->crs_utils->getVenueCity();
+				break;
+			case "VO-TELEFON":
+				$val = $this->crs_utils->getVenuePhone();
+				break;
+			case "HOTEL-NAME":
+				$val = $this->crs_utils->getAccomodationTitle();
+				break;
+			case "HOTEL-STRAßE":
+				$val = $this->crs_utils->getAccomodationStreet();
+				break;
+			case "HOTEL-HAUSNUMMER":
+				$val = $this->crs_utils->getAccomodationHouseNumber();
+				break;
+			case "HOTEL-PLZ":
+				$val = $this->crs_utils->getAccomodationZipcode();
+				break;
+			case "HOTEL-ORT":
+				$val = $this->crs_utils->getAccomodationCity();
+				break;
+			case "HOTEL-TELEFON":
+				$val = $this->crs_utils->getAccomodationPhone();
+				break;
+			case "HOTEL-EMAIL":
+				$val = $this->crs_utils->getAccomodationEmail();
+				break;
+			/*case "BUCHENDER_VORNAME":
+				break;
+			case "BUCHENDER_NACHNAME":
+				break;
+			case "EINSATZTAGE":
+				break;
+			case "UEBERNACHTUNGEN":
+				break;
+			case "LISTE":
+				break;*/
+			default:
+				$val = $a_placeholder_code;
 		}
 		
 		$this->cache[$a_placeholder_code] = $val;
