@@ -80,7 +80,7 @@ class ilCourseBooking
 		if($ilDB->numRows($set))
 		{
 			$res = $ilDB->fetchAssoc($set);
-			return $res["status"];
+			return $res;
 		}
 	}
 	
