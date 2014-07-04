@@ -292,7 +292,7 @@ class ilCustomBlock
 	* Query BlocksForContext
 	*
 	*/
-	public function queryBlocksForContext()
+	public function queryBlocksForContext($a_include_sub_obj = true)
 	{
 		global $ilDB;
 		
@@ -300,10 +300,13 @@ class ilCustomBlock
 			"FROM il_custom_block ".
 			"WHERE ".
 				"context_obj_id = ".$ilDB->quote($this->getContextObjId(), "integer").
-				" AND context_obj_type = ".$ilDB->quote($this->getContextObjType(), "text").
-				" AND context_sub_obj_id = ".$ilDB->quote($this->getContextSubObjId(), "integer").
+				" AND context_obj_type = ".$ilDB->quote($this->getContextObjType(), "text");										
+		if($a_include_sub_obj_id)
+		{
+			$query .= " AND context_sub_obj_id = ".$ilDB->quote($this->getContextSubObjId(), "integer").
 				" AND ".$ilDB->equals("context_sub_obj_type", $this->getContextSubObjType(), "text", true);
-				//" AND context_sub_obj_type = ".$ilDB->quote($this->getContextSubObjType(), "text")."";
+			//" AND context_sub_obj_type = ".$ilDB->quote($this->getContextSubObjType(), "text")."";
+		}
 //echo "$query";
 		$set = $ilDB->query($query);
 		$result = array();
@@ -365,7 +368,26 @@ die("ilCustomBlock::queryTitleForId is deprecated");
 		}
 		
 		return $result;
-
+	}
+		
+	public static function multiBlockQuery($a_context_obj_type, array $a_context_obj_ids)
+	{
+		global $ilDB;
+		
+		$query = "SELECT id, context_obj_id, context_obj_type, context_sub_obj_id, context_sub_obj_type, type, title ".
+			"FROM il_custom_block ".
+			"WHERE ".
+				$ilDB->in("context_obj_id", $a_context_obj_ids, "", "integer").				
+				" AND context_obj_type = ".$ilDB->quote($a_context_obj_type, "text").
+			" ORDER BY title";
+		$set =  $ilDB->query($query);
+		$result = array();
+		while($rec = $ilDB->fetchAssoc($set))
+		{
+			$result[] = $rec;
+		}
+		
+		return $result;
 	}
 
 

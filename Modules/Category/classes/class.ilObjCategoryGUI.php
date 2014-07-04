@@ -1746,14 +1746,12 @@ class ilObjCategoryGUI extends ilContainerGUI
 		$block = new ilCheckboxGroupInputGUI($this->lng->txt("cntr_taxonomy_show_sideblock"), "sblock");
 		$form->addItem($block);
 		
-		$current = ilContainer::_getContainerSettings($this->object->getId());
-		$value = array();
+		$current = $this->getActiveBlocks();
 		
 		foreach($tax as $tax_id => $tax_title)
 		{
 			$block->addOption(new ilCheckboxOption($tax_title, $tax_id));
-			if(is_array($current) &&
-				isset($current["tax_sblock_".$tax_id]))
+			if(in_array($tax_id, $current))
 			{
 				$value[] = $tax_id;
 			}
@@ -1781,6 +1779,27 @@ class ilObjCategoryGUI extends ilContainerGUI
 		$this->tpl->setContent($form->getHTML());
 	}
 	
+	protected function getActiveBlocks()
+	{		
+		$res = array();
+		
+		include_once "Services/Block/classes/class.ilCustomBlock.php";
+		$cblock = new ilCustomBlock();
+		$cblock->setContextObjId($this->object->getId());
+		$cblock->setContextObjType("cat");	
+		$cblock->setContextSubObjType("tax");
+		
+		foreach($cblock->queryBlocksForContext(false) as $item)
+		{
+			if($item["context_sub_obj_type"] == "tax")
+			{
+				$res[$item["id"]] = $item["context_sub_obj_id"];
+			}
+		}
+
+		return $res;
+	}
+	
 	protected function updateTaxonomySettingsObject()
 	{
 		$taxonomies = $this->getTaxonomiesForRefId();
@@ -1791,15 +1810,37 @@ class ilObjCategoryGUI extends ilContainerGUI
 			{
 				$sblock = $form->getInput("sblock");
 				
-				ilContainer::_deleteContainerSettings($this->object->getId(),
-					"tax_sblock_%", true);
+				$current = $this->getActiveBlocks();
+				$current_map = array_flip($current);
 				
 				if(is_array($sblock))
 				{
 					foreach($sblock as $tax_id)
 					{
-						ilContainer::_writeContainerSetting($this->object->getId(), 
-							"tax_sblock_".$tax_id, true);				
+						if(!in_array($tax_id, $current))
+						{
+							$cblock = new ilCustomBlock();
+							$cblock->setContextObjId($this->object->getId());
+							$cblock->setContextObjType("cat");	
+							$cblock->setContextSubObjId($tax_id);
+							$cblock->setContextSubObjType("tax");
+							$cblock->setType("tax");
+							$cblock->setTitle($taxonomies[$tax_id]);
+							$cblock->create();		
+						}
+						else
+						{
+							unset($current_map[$tax_id]);
+						}
+					}
+				}
+				
+				if(sizeof($current_map))
+				{
+					foreach($current_map as $block_id)
+					{
+						$cblock = new ilCustomBlock($block_id);
+						$cblock->delete();
 					}
 				}
 				

@@ -85,8 +85,7 @@ class ilColumnGUI
 		
 	protected $default_blocks = array(
 		"cat" => array(
-			"ilNewsForContextBlockGUI" => IL_COL_RIGHT,
-			"ilTaxonomyBlockGUI" => IL_COL_RIGHT
+			"ilNewsForContextBlockGUI" => IL_COL_RIGHT
 			),
 		"crs" => array(
 			"ilNewsForContextBlockGUI" => IL_COL_RIGHT,
@@ -530,10 +529,19 @@ class ilColumnGUI
 				// get block for custom blocks
 				if ($block["custom"])
 				{
-					include_once("./".self::$locations[$gui_class]."classes/".
-						"class.".$block_class.".php");
-					$app_block = new $block_class($block["id"]);
-					$block_gui->setBlock($app_block);
+					$path = "./".self::$locations[$gui_class]."classes/".
+						"class.".$block_class.".php";					
+					if(file_exists($path))
+					{
+						include_once($path);
+						$app_block = new $block_class($block["id"]);
+					}
+					else
+					{
+						// we only need generic block
+						$app_block = new ilCustomBlock($block["id"]);
+					}
+					$block_gui->setBlock($app_block);											
 					if (isset($block["ref_id"]))
 					{
 						$block_gui->setRefId($block["ref_id"]);
@@ -899,10 +907,10 @@ class ilColumnGUI
 		if (!$this->getRepositoryMode())
 		{
 			include_once("./Services/Block/classes/class.ilCustomBlock.php");
-			$costum_block = new ilCustomBlock();
-			$costum_block->setContextObjId($ilCtrl->getContextObjId());
-			$costum_block->setContextObjType($ilCtrl->getContextObjType());
-			$c_blocks = $costum_block->queryBlocksForContext();
+			$custom_block = new ilCustomBlock();
+			$custom_block->setContextObjId($ilCtrl->getContextObjId());
+			$custom_block->setContextObjType($ilCtrl->getContextObjType());
+			$c_blocks = $custom_block->queryBlocksForContext();
 	
 			foreach($c_blocks as $c_block)
 			{
@@ -975,6 +983,32 @@ class ilColumnGUI
 					}
 				}
 			}
+										
+			// repository object custom blocks, e.g. category taxonomies
+			include_once("./Services/Block/classes/class.ilCustomBlock.php");
+			$custom_block = new ilCustomBlock();
+			$custom_block->setContextObjId($ilCtrl->getContextObjId());
+			$custom_block->setContextObjType($ilCtrl->getContextObjType());	
+			$c_blocks = $custom_block->queryBlocksForContext(false); // get all sub-object types
+			
+			foreach($c_blocks as $c_block)
+			{
+				$type = $c_block["type"];
+				$class = array_search($type, self::$block_types);				
+				
+				if($class)
+				{				
+					$nr = $def_nr++;					
+					$side = IL_COL_RIGHT;
+						
+					$this->blocks[$side][] = array(
+						"nr" => $nr,
+						"class" => $class,
+						"type" => $type,
+						"id" => $c_block["id"],
+						"custom" => true);
+				}
+			}			
 		}
 		
 		

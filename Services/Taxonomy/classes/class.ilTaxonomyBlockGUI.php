@@ -18,8 +18,11 @@ class ilTaxonomyBlockGUI extends ilBlockGUI
 	protected $parent_obj_type; // [string]
 	protected $parent_obj_id; // [int]
 	protected $parent_ref_id; // [int]	
+	protected $tax_id; // [int]	
 	protected $tax_data; // [array]
 	protected $item_list_gui; // [array]
+	
+	protected static $valid_tax_map = array();
 	
 	public function __construct()
 	{		
@@ -74,61 +77,15 @@ class ilTaxonomyBlockGUI extends ilBlockGUI
 		}
 	}
 	
-	protected function getActiveTaxonomies()
-	{	
-		global $tree;
-		
-		// currently only active for categories
-		if($this->parent_obj_type != "cat")
-		{
-			return array();
-		}
-		
-		$current_active = ilContainer::_getContainerSettings($this->parent_obj_id);		
-		if(!$current_active)
-		{
-			return array();
-		}
-				
-		include_once "Services/Object/classes/class.ilObjectServiceSettingsGUI.php";
-		include_once "Services/Taxonomy/classes/class.ilObjTaxonomy.php";
-		
-		// see ilTaxMDGUI::getSelectableTaxonomies()
-		
-		$res = array();
-		foreach($tree->getPathFull($this->parent_ref_id) as $node)
-		{
-			if($node["type"] == "cat")
-			{				
-				if(ilContainer::_lookupContainerSetting(
-					$node["obj_id"],
-					ilObjectServiceSettingsGUI::TAXONOMIES,
-					false
-					))
-				{
-					$node_taxes = ilObjTaxonomy::getUsageOfObject($node["obj_id"], true);
-					if(sizeof($node_taxes))
-					{
-						foreach($node_taxes as $node_tax)
-						{					
-							if(isset($current_active["tax_sblock_".$node_tax["tax_id"]]))
-							{
-								$res[$node_tax["tax_id"]] = $node_tax["title"];
-							}
-						}
-					}
-				}
-			}
-		}
-		
-		asort($res);
-		return $res;				
+	public function setBlock(ilCustomBlock $a_block)
+	{
+		$this->tax_id = $a_block->getContextSubObjId();
+		$this->setTitle($a_block->getTitle());
 	}
 	
 	public function getHTML()
 	{	
-		$this->tax_data = $this->getActiveTaxonomies();
-		if(!sizeof($this->tax_data))
+		if(!$this->validateTax())
 		{
 			return "";
 		}
@@ -137,32 +94,55 @@ class ilTaxonomyBlockGUI extends ilBlockGUI
 	}		
 	
 	public function fillDataSection()
-	{
-		global $lng, $objDefinition;
-		
-		$this->setTitle($lng->txt("obj_tax"));
-		
+	{		
 		$html = "";
 		
-		$class_name = $objDefinition->getClassName($this->parent_obj_type);
-		$gui = "il".$class_name."GUI";
-		
-		include_once("./Services/Taxonomy/classes/class.ilTaxonomyExplorerGUI.php");
-		foreach($this->tax_data as $tax_id => $tax_title)
-		{						
-			$tax_exp = new ilTaxonomyExplorerGUI($this, "", $tax_id,
-				get_class($this), "filterContainer");
-			if (!$tax_exp->handleCommand())
-			{
-				// :TODO:
-				$html .= "<div>".$tax_title."</div>";
-						
-				$html .= $tax_exp->getHTML()."&nbsp;";
-			}			
-		}
-		
+		include_once("./Services/Taxonomy/classes/class.ilTaxonomyExplorerGUI.php");							
+		$tax_exp = new ilTaxonomyExplorerGUI($this, "", $this->tax_id,
+			get_class($this), "filterContainer");
+		if (!$tax_exp->handleCommand())
+		{			
+			$html = $tax_exp->getHTML()."&nbsp;";
+		}			
+				
 		return $this->tpl->setVariable("DATA", $html);
 	}
+	
+	protected function validateTax()
+	{
+		global $tree;
+		
+		if(!$this->tax_id)
+		{
+			return false;
+		}	
+		
+		if(!isset(self::$valid_tax_map[$this->parent_ref_id]))
+		{				
+			include_once "Services/Object/classes/class.ilObjectServiceSettingsGUI.php";
+			include_once "Services/Taxonomy/classes/class.ilObjTaxonomy.php";
+
+			$valid = array();
+			foreach($tree->getPathFull($this->parent_ref_id) as $node)
+			{			
+				if($node["type"] == "cat")
+				{						
+					if(ilContainer::_lookupContainerSetting(
+						$node["obj_id"],
+						ilObjectServiceSettingsGUI::TAXONOMIES,
+						false
+						))
+					{		
+						$valid = array_merge($valid,
+							ilObjTaxonomy::getUsageOfObject($node["obj_id"]));							
+					}		
+					self::$valid_tax_map[$node["ref_id"]] = $valid;		
+				}	
+			}					
+		}
+
+		return in_array($this->tax_id, self::$valid_tax_map[$this->parent_ref_id]);			
+	}	
 	
 	protected function getReadableSubObjectsForTaxNodeId($a_node_id)
 	{
@@ -279,5 +259,5 @@ class ilTaxonomyBlockGUI extends ilBlockGUI
 	
 			$tpl->setContent($ltpl->get());
 		}		
-	}
+	}	
 }
