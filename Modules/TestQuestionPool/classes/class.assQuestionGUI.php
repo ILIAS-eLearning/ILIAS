@@ -1295,7 +1295,7 @@ abstract class assQuestionGUI
 						$file->setValue($_FILES["file"]["name"]);
 						$this->object->saveSuggestedSolution("file", "", 0, array("name" => $_FILES["file"]["name"], "type" => $_FILES["file"]["type"], "size" => $_FILES["file"]["size"], "filename" => $_POST["filename"]));
 						$originalexists = $this->object->_questionExistsInPool($this->object->original_id);
-						if ($_GET["calling_test"] && $originalexists && assQuestion::_isWriteable($this->object->original_id, $ilUser->getId()))
+						if (($_GET["calling_test"] || (isset($_GET['calling_consumer']) && (int)$_GET['calling_consumer'])) && $originalexists && assQuestion::_isWriteable($this->object->original_id, $ilUser->getId()))
 						{
 							return $this->originalSyncForm("suggestedsolution");
 						}
@@ -1360,7 +1360,7 @@ abstract class assQuestionGUI
 							break;
 					}
 					$originalexists = $this->object->_questionExistsInPool($this->object->original_id);
-					if ($_GET["calling_test"] && $originalexists && assQuestion::_isWriteable($this->object->original_id, $ilUser->getId()))
+					if (($_GET["calling_test"] || (isset($_GET['calling_consumer']) && (int)$_GET['calling_consumer'])) && $originalexists && assQuestion::_isWriteable($this->object->original_id, $ilUser->getId()))
 					{
 						return $this->originalSyncForm("suggestedsolution");
 					}
