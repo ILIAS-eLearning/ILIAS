@@ -1601,6 +1601,11 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 		$solution_values_numeric = array(); // for identical scoring checks
 		foreach($user_result as $gap_id => $value)
 		{
+			if(is_string($value))
+			{
+				$value = array("value" => $value);
+			}
+			
 			if(array_key_exists($gap_id, $this->gaps))
 			{
 				switch($this->gaps[$gap_id]->getType())
