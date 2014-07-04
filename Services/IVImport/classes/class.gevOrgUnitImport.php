@@ -56,8 +56,6 @@ class gevOrgUnitImport {
 		$objects = array();
 		foreach($this->index as $id => $row) {
 			$obj = $this->importRow($row);
-			$this->putOrgUnitInTree($obj, $row);
-			$obj->initDefaultRoles();
 		}
 	}
 
@@ -75,19 +73,20 @@ class gevOrgUnitImport {
 
 	public function createOrgUnit($import_id, $row) {
 		$obj = new ilObjOrgUnit();
-		$this->setAttributes($obj, $import_id, $row);
+		$title = $row['name'];
+		echo $title."\n";
+
+		$obj->setTitle($title);
+		$obj->setImportId($import_id);
 		$obj->create();
 		$obj->createReference();
+		$this->putOrgUnitInTree($obj, $row);
+
+		$this->setAttributes($obj, $import_id, $row);
 		return $obj;
 	}
 
 	private function setAttributes(&$obj, $import_id, $row) {
-		$title = $row['name'];
-		echo $title."\n";
-		$obj->setImportId($import_id);
-
-		$obj->setTitle($title);
-
 		$utils = gevOrgUnitUtils::getInstance($obj->getId());
 
 		$obj->update();
@@ -98,7 +97,6 @@ class gevOrgUnitImport {
 		$utils->setCity($row['ort']);
 		$utils->setContactPhone($row['telefon']);
 		$utils->setContactFax($row['fax']);
-		$obj->update();
 	}
 
 	public function putOrgUnitInTree(&$obj, $row) {
