@@ -224,8 +224,8 @@ class ilObjRootFolderGUI extends ilContainerGUI
 			else
 			{
 				if ($this->object->getDescription() != "")
-				{
-					$this->tpl->setTitle($this->object->getDescription());
+				{					
+					$this->tpl->setDescription($this->object->getDescription()); // #13479
 				}
 			}
 		}
