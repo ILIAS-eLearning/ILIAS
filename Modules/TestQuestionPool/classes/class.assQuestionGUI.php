@@ -460,6 +460,17 @@ abstract class assQuestionGUI
 		}
 		else
 		{
+			if(isset($_GET['calling_consumer']) && (int)$_GET['calling_consumer'])
+			{
+				$ref_id = (int)$_GET['calling_consumer'];
+				$consumer = ilObjectFactory::getInstanceByRefId($ref_id);
+				if($consumer instanceof ilQuestionEditingFormConsumer)
+				{
+					ilUtil::redirect($consumer->getQuestionEditingFormBackTarget($_GET['consumer_context']));
+				}
+				require_once 'Services/Link/classes/class.ilLink.php';
+				ilUtil::redirect(ilLink::_getLink($ref_id));
+			}
 			$_GET["ref_id"] = $_GET["calling_test"];
 			ilUtil::redirect("ilias.php?baseClass=ilObjTestGUI&cmd=questions&ref_id=".$_GET["calling_test"]);
 		}
@@ -473,6 +484,17 @@ abstract class assQuestionGUI
 		}
 		else
 		{
+			if(isset($_GET['calling_consumer']) && (int)$_GET['calling_consumer'])
+			{
+				$ref_id = (int)$_GET['calling_consumer'];
+				$consumer = ilObjectFactory::getInstanceByRefId($ref_id);
+				if($consumer instanceof ilQuestionEditingFormConsumer)
+				{
+					ilUtil::redirect($consumer->getQuestionEditingFormBackTarget($_GET['consumer_context']));
+				}
+				require_once 'Services/Link/classes/class.ilLink.php';
+				ilUtil::redirect(ilLink::_getLink($ref_id));
+			}
 			$_GET["ref_id"] = $_GET["calling_test"];
 			ilUtil::redirect("ilias.php?baseClass=ilObjTestGUI&cmd=questions&ref_id=".$_GET["calling_test"]);
 		}
