@@ -19,7 +19,10 @@ $name = $ilClientIniFile->readVariable('shadowdb', 'name');
 $mysql = mysql_connect($host, $user, $pass) or die(mysql_error());
 mysql_select_db($name, $mysql);
 
-$container = 59622;
+$container = $_GET['container'];
+if (!$container) {
+    die('Please set container parameter.');
+}
 $import = gevOrgUnitImport::getInstance($mysql, $container);
 
 ?>
