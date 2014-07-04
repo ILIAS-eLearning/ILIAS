@@ -7564,21 +7564,6 @@ function getAnswerFeedbackPoints()
 		);
 	}
 
-
-	/**
-	 * submits active test for user user_id
-	 */
-	function setActiveTestSubmitted($user_id)
-	{
-		global $ilDB, $ilLog;
-
-		$affectedRows = $ilDB->manipulateF("UPDATE tst_active SET submitted = %s, submittimestamp = %s, tstamp = %s WHERE test_fi = %s AND user_fi = %s",
-			array('integer', 'timestamp', 'integer', 'integer', 'integer'),
-			array(1, date('Y-m-d H:i:s'), time(), $this->getTestId(), $user_id)
-		);
-		$this->testSession = NULL;
-	}
-
 	/**
 	 * returns if the active for user_id has been submitted
 	 */
@@ -10302,7 +10287,9 @@ function getAnswerFeedbackPoints()
 						}
 						else
 						{
-							$this->setActiveTestSubmitted($user_id);
+							$testSession->setSubmitted(1);
+							$testSession->setSubmittedTimestamp(date('Y-m-d H:i:s'));
+							$testSession->saveToDb();
 						}
 					}
 					$number--;
