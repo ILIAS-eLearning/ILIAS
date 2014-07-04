@@ -787,18 +787,14 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
 		$template = new ilTemplate("tpl.il_as_tst_pass_details_overview_participants.html", TRUE, TRUE, "Modules/Test");
 
-		include_once './Services/WebServices/RPC/classes/class.ilRPCServerSettings.php';
-		if(ilRPCServerSettings::getInstance()->isEnabled())
-		{
-			$this->ctrl->setParameter($this, "pdf", "1");
-			$template->setCurrentBlock("pdf_export");
-			$template->setVariable("PDF_URL", $this->ctrl->getLinkTarget($this, "outParticipantsPassDetails"));
-			$this->ctrl->setParameter($this, "pdf", "");
-			$template->setVariable("PDF_TEXT", $this->lng->txt("pdf_export"));
-			$template->setVariable("PDF_IMG_ALT", $this->lng->txt("pdf_export"));
-			$template->setVariable("PDF_IMG_URL", ilUtil::getHtmlPath(ilUtil::getImagePath("application-pdf.png")));
-			$template->parseCurrentBlock();
-		}
+		$this->ctrl->setParameter($this, "pdf", "1");
+		$template->setCurrentBlock("pdf_export");
+		$template->setVariable("PDF_URL", $this->ctrl->getLinkTarget($this, "outParticipantsPassDetails"));
+		$this->ctrl->setParameter($this, "pdf", "");
+		$template->setVariable("PDF_TEXT", $this->lng->txt("pdf_export"));
+		$template->setVariable("PDF_IMG_ALT", $this->lng->txt("pdf_export"));
+		$template->setVariable("PDF_IMG_URL", ilUtil::getHtmlPath(ilUtil::getImagePath("application-pdf.png")));
+		$template->parseCurrentBlock();
 
 		if (array_key_exists("statistics", $_GET) && ($_GET["statistics"] == 1))
 		{
