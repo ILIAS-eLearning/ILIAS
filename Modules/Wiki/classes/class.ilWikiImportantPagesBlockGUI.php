@@ -127,17 +127,18 @@ class ilWikiImportantPagesBlockGUI extends ilBlockGUI
 		$list->setListClass("ilWikiBlockListNoIndent", 1);
 		
 		$cnt = 1;
+		$title = ilObjWiki::_lookupStartPage(ilObject::_lookupObjId($_GET["ref_id"]));
 		if (!$this->export)
 		{
 			$list->addListNode("<p class='small'><a href='".
 				$ilCtrl->getLinkTargetByClass("ilobjwikigui", "gotoStartPage")
-				."'>".$lng->txt("wiki_start_page")."</a></p>", 1, 0);
+				."'>".$title."</a></p>", 1, 0);
 		}
 		else
 		{
 			$list->addListNode("<p class='small'><a href='".
 				"index.html".
-				"'>".$lng->txt("wiki_start_page")."</a></p>", 1, 0);
+				"'>".$title."</a></p>", 1, 0);
 		}
 		$cpar[0] = 1;
 		
