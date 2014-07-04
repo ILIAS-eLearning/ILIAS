@@ -312,4 +312,23 @@ class ilCheckboxGroupInputGUI extends ilSubEnabledFormPropertyGUI implements ilT
 
 		return $tpl->get();
 	}
+
+	/**
+	 * returns a flat array of possibly existing subitems recursively
+	 *
+	 * @return array
+	 */
+	public function getSubInputItemsRecursive()
+	{
+		$subInputItems = parent::getSubInputItemsRecursive();
+		foreach($this->getOptions() as $option)
+		{
+			/**
+			 * @var $option ilRadioOption
+			 */
+			$subInputItems = array_merge( $subInputItems, $option->getSubInputItemsRecursive() );
+		}
+
+		return $subInputItems;
+	}
 }

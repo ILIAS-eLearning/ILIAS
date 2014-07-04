@@ -133,4 +133,25 @@ class ilRadioOption
 		return $this->sub_items;
 	}
 
+	public function getSubInputItemsRecursive()
+	{
+		$subInputItems = array();
+
+		foreach( $this->sub_items as $subItem )
+		{
+			if( $subItem->getType() == 'section_header' )
+			{
+				continue;
+			}
+
+			$subInputItems[] = $subItem;
+
+			if( $subItem instanceof ilSubEnabledFormPropertyGUI )
+			{
+				$subInputItems = array_merge( $subInputItems, $subItem->getSubInputItemsRecursive() );
+			}
+		}
+
+		return $subInputItems;
+	}
 }
