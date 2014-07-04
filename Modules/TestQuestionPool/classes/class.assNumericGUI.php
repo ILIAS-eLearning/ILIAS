@@ -390,28 +390,8 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
 				array("assessment"),
 				$classname, "");
 		}
-		
-		if (($_GET["calling_test"] > 0) || ($_GET["test_ref_id"] > 0))
-		{
-			$ref_id = $_GET["calling_test"];
-			if (strlen($ref_id) == 0) 
-			{
-				$ref_id = $_GET["test_ref_id"];
-			}
 
-			global $___test_express_mode;
-			if (!$_GET['test_express_mode'] && !$___test_express_mode) {
-				$ilTabs->setBackTarget($this->lng->txt("backtocallingtest"), "ilias.php?baseClass=ilObjTestGUI&cmd=questions&ref_id=$ref_id");
-			}
-			else {
-				$link = ilTestExpressPage::getReturnToPageLink();
-				$ilTabs->setBackTarget($this->lng->txt("backtocallingtest"), $link);
-			}
-		}
-		else
-		{
-			$ilTabs->setBackTarget($this->lng->txt("qpl"), $this->ctrl->getLinkTargetByClass("ilobjquestionpoolgui", "questions"));
-		}
+		$this->addBackTab($ilTabs);
 	}
 
 	/**

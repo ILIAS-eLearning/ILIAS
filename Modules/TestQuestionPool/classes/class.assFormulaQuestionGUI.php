@@ -127,16 +127,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
 				$classname, "");
 		}
 
-		if(($_GET["calling_test"] > 0) || ($_GET["test_ref_id"] > 0))
-		{
-			$ref_id = $_GET["calling_test"];
-			if(strlen($ref_id) == 0) $ref_id = $_GET["test_ref_id"];
-			$ilTabs->setBackTarget($this->lng->txt("backtocallingtest"), "ilias.php?baseClass=ilObjTestGUI&cmd=questions&ref_id=$ref_id");
-		}
-		else
-		{
-			$ilTabs->setBackTarget($this->lng->txt("qpl"), $this->ctrl->getLinkTargetByClass("ilobjquestionpoolgui", "questions"));
-		}
+		$this->addBackTab($ilTabs);
 	}
 
 	function getCommand($cmd)
@@ -876,7 +867,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
 			$this->object->saveToDb();
 			$originalexists = $this->object->_questionExistsInPool($this->object->original_id);
 			include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-			if ($_GET["calling_test"] && $originalexists && assQuestion::_isWriteable($this->object->original_id, $ilUser->getId()))
+			if (($_GET["calling_test"] || (isset($_GET['calling_consumer']) && (int)$_GET['calling_consumer'])) && $originalexists && assQuestion::_isWriteable($this->object->original_id, $ilUser->getId()))
 			{
 				$this->ctrl->redirect($this, "originalSyncForm");
 				return;

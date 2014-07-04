@@ -49,8 +49,13 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$this->ctrl =& $ilCtrl;
 		
 		$this->ctrl->saveParameter($this, array(
-			"ref_id", "test_ref_id", "calling_test", "test_express_mode", "q_id", 'tax_node'
+			"ref_id", "test_ref_id", "calling_test", "test_express_mode", "q_id", 'tax_node', 'calling_consumer', 'consumer_context'
 		));
+		$this->ctrl->saveParameter($this, "calling_consumer");
+		$this->ctrl->saveParameterByClass('ilAssQuestionPageGUI', 'calling_consumer');
+		$this->ctrl->saveParameterByClass('ilAssQuestionPageGUI', 'consumer_context');
+		$this->ctrl->saveParameterByClass('ilobjquestionpoolgui', 'calling_consumer');
+		$this->ctrl->saveParameterByClass('ilobjquestionpoolgui', 'consumer_context');
 
 		$this->ilObjectGUI("",$_GET["ref_id"], true, false);
 	}
@@ -986,6 +991,17 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 
 			}
 		}
+		else if(isset($_GET['calling_consumer']) && (int)$_GET['calling_consumer'])
+		{
+			$ref_id = (int)$_GET['calling_consumer'];
+			$consumer = ilObjectFactory::getInstanceByRefId($ref_id);
+			if($consumer instanceof ilQuestionEditingFormConsumer)
+			{
+				ilUtil::redirect($consumer->getQuestionEditingFormBackTarget($_GET['consumer_context']));
+			}
+			require_once 'Services/Link/classes/class.ilLink.php';
+			ilUtil::redirect(ilLink::_getLink($ref_id));
+		}
 
 		$this->object->purgeQuestions();
 		// reset test_id SESSION variable
@@ -1346,7 +1362,14 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				}
 				$this->tpl->setTitle($title);
 				$this->tpl->setDescription($q_gui->object->getComment());
-				$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_".$this->object->getType()."_b.png"), $this->lng->txt("obj_qpl"));
+				if($this->object instanceof ilObjectPlugin)
+				{
+					$this->tpl->setTitleIcon($this->object->plugin->getImagePath("icon_".$this->object->getType()."_b.png"), $this->lng->txt("obj_" . $this->object->getType()));
+				}
+				else
+				{
+					$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_".$this->object->getType()."_b.png"), $this->lng->txt("obj_qpl"));
+				}
 			}
 			else
 			{

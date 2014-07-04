@@ -66,8 +66,14 @@ abstract class assQuestionGUI
 		$this->ctrl->saveParameter($this, "q_id");
 		$this->ctrl->saveParameter($this, "prev_qid");
 		$this->ctrl->saveParameter($this, "calling_test");
+		$this->ctrl->saveParameter($this, "calling_consumer");
+		$this->ctrl->saveParameter($this, "consumer_context");
 		$this->ctrl->saveParameterByClass('ilAssQuestionPageGUI', 'test_express_mode');
+		$this->ctrl->saveParameterByClass('ilAssQuestionPageGUI', 'calling_consumer');
+		$this->ctrl->saveParameterByClass('ilAssQuestionPageGUI', 'consumer_context');
 		$this->ctrl->saveParameterByClass('ilobjquestionpoolgui', 'test_express_mode');
+		$this->ctrl->saveParameterByClass('ilobjquestionpoolgui', 'calling_consumer');
+		$this->ctrl->saveParameterByClass('ilobjquestionpoolgui', 'consumer_context');
 
 		include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
 		$this->errormessage = $this->lng->txt("fill_out_all_required_fields");
@@ -548,7 +554,7 @@ abstract class assQuestionGUI
 
 
 			include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-			if($_GET["calling_test"] && $originalexists && assQuestion::_isWriteable($this->object->original_id, $ilUser->getId()))
+			if(($_GET["calling_test"] || (isset($_GET['calling_consumer']) && (int)$_GET['calling_consumer'])) && $originalexists && assQuestion::_isWriteable($this->object->original_id, $ilUser->getId()))
 			{
 				ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
 				$this->ctrl->setParameter($this, 'return_to', 'editQuestion');
@@ -659,7 +665,7 @@ abstract class assQuestionGUI
 			$this->object->saveToDb();
 			$originalexists = $this->object->_questionExistsInPool($this->object->original_id);
 			include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-			if($_GET["calling_test"] && $originalexists && assQuestion::_isWriteable($this->object->original_id, $ilUser->getId()))
+			if(($_GET["calling_test"] || (isset($_GET['calling_consumer']) && (int)$_GET['calling_consumer'])) && $originalexists && assQuestion::_isWriteable($this->object->original_id, $ilUser->getId()))
 			{
 				ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
 				$this->ctrl->redirect($this, "originalSyncForm");
@@ -1801,5 +1807,45 @@ abstract class assQuestionGUI
 	abstract public function getPreview(
 		$show_question_only = FALSE, $showInlineFeedback = false, ilAssQuestionPreviewSession $previewSession = null
 	);
+
+	/**
+	 * @param ilTabsGUI $ilTabs
+	 */
+	protected function addBackTab(ilTabsGUI $ilTabs)
+	{
+		if(($_GET["calling_test"] > 0) || ($_GET["test_ref_id"] > 0))
+		{
+			$ref_id = $_GET["calling_test"];
+			if(strlen($ref_id) == 0) $ref_id = $_GET["test_ref_id"];
+
+			if(!$_GET['test_express_mode'] && !$GLOBALS['___test_express_mode'])
+			{
+				$ilTabs->setBackTarget($this->lng->txt("backtocallingtest"), "ilias.php?baseClass=ilObjTestGUI&cmd=questions&ref_id=$ref_id");
+			}
+			else
+			{
+				$link = ilTestExpressPage::getReturnToPageLink();
+				$ilTabs->setBackTarget($this->lng->txt("backtocallingtest"), $link);
+			}
+		}
+		else if(isset($_GET['calling_consumer']) && (int)$_GET['calling_consumer'])
+		{
+			$ref_id = (int)$_GET['calling_consumer'];
+			$consumer = ilObjectFactory::getInstanceByRefId($ref_id);
+			if($consumer instanceof ilQuestionEditingFormConsumer)
+			{
+				$ilTabs->setBackTarget($consumer->getQuestionEditingFormBackTargetLabel(), $consumer->getQuestionEditingFormBackTarget($_GET['consumer_context']));
+			}
+			else
+			{
+				require_once 'Services/Link/classes/class.ilLink.php';
+				$ilTabs->setBackTarget($this->lng->txt("qpl"), ilLink::_getLink($ref_id));
+			}
+		}
+		else
+		{
+			$ilTabs->setBackTarget($this->lng->txt("qpl"), $this->ctrl->getLinkTargetByClass("ilobjquestionpoolgui", "questions"));
+		}
+	}
 
 }
