@@ -54,6 +54,10 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 	 */
 	public function executeCommand()
 	{
+		//gev-patch start
+		ilUtil::redirect('ilias.php?baseClass=gevDesktopGUI');
+		//gev-patch end
+		
 		global $ilTabs,$ilUser;
 		
 		if($this->getWaitingList()->isOnList($ilUser->getId()))
