@@ -20,7 +20,7 @@ class gevOrgUnitImport {
 	private $index = array();
 	static $instance = null;
 
-	protected function __construct($root_id, $mysql) {
+	protected function __construct($mysql, $root_id) {
 		$this->root_id = $root_id;
 		$this->mysql = $mysql;
 
@@ -31,7 +31,7 @@ class gevOrgUnitImport {
 		$this->importIndex();
 	}
 
-	public function getInstance($root_id=null) {
+	public function getInstance($mysql, $root_id=null) {
 		if (self::$instance !== null) {
 			return self::$instance;
 		}
@@ -40,7 +40,7 @@ class gevOrgUnitImport {
 			$root_id = ilObjOrgUnit::getRootOrgRefId();
 		}
 
-		self::$instance = new self($root_id);
+		self::$instance = new self($mysql, $root_id);
 		return self::$instance;
 	}
 
@@ -57,6 +57,7 @@ class gevOrgUnitImport {
 		foreach($this->index as $id => $row) {
 			$obj = $this->importRow($row);
 			$this->putOrgUnitInTree($obj, $row);
+			$obj->initDefaultRoles();
 		}
 	}
 
