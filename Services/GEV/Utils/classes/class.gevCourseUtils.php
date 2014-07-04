@@ -156,6 +156,10 @@ class gevCourseUtils {
 		return $this->crs_obj;
 	}
 	
+	public function getId() {
+		return $this->crs_id;
+	}
+	
 	public function getTitle() {
 		return $this->getCourse()->getTitle();
 	}

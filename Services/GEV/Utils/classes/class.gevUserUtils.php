@@ -34,6 +34,7 @@ class gevUserUtils {
 		$this->user_obj = null;
 		
 		$this->potentiallyBookableCourses = null;
+		$this->users_who_booked_at_course = array();
 	}
 	
 	public function getUser() {
@@ -550,15 +551,22 @@ class gevUserUtils {
 	}
 	
 	public function getUserWhoBookedAtCourse($a_crs_id) {
-		return "TBD";
+		require_once("Services/CourseBooking/classes/class.ilCourseBooking.php");
+		if (!array_key_exists($a_crs_id, $this->users_who_booked_at_course)) {
+			$bk_info = ilCourseBooking::getUserData($a_crs_id, $this->user_id);
+			$this->users_who_booked_at_course[$a_crs_id] 
+				= new ilObjUser($bk_info["status_changed_by"]);
+		}
+		
+		return $this->users_who_booked_at_course[$a_crs_id];
 	}
 	
-	public function getFirstnameOfUserWhoBookedAtCourse() {
-		return "TBD";
+	public function getFirstnameOfUserWhoBookedAtCourse($a_crs_id) {
+		return $this->getUserWhoBookedAtCourse($a_crs_id)->getFirstname();
 	}
 	
-	public function getLastnameOfUserWhoBookedAtCourse() {
-		return "TBD";
+	public function getLastnameOfUserWhoBookedAtCourse($a_crs_id) {
+		return $this->getUserWhoBookedAtCourse($a_crs_id)->getLastname();
 	}
 	
 	// For IV-Import Process

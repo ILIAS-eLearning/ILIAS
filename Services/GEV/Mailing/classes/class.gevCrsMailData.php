@@ -176,11 +176,13 @@ class gevCrsMailData extends ilMailData {
 			case "HOTEL-EMAIL":
 				$val = $this->crs_utils->getAccomodationEmail();
 				break;
-			/*case "BUCHENDER_VORNAME":
+			case "BUCHENDER_VORNAME":
+				$val = $this->usr_utils->getFirstnameOfUserWhoBookedAtCourse($this->crs_utils->getId());
 				break;
 			case "BUCHENDER_NACHNAME":
+				$val = $this->usr_utils->getLastnameOfUserWhoBookedAtCourse($this->crs_utils->getId());
 				break;
-			case "EINSATZTAGE":
+			/*case "EINSATZTAGE":
 				break;
 			case "UEBERNACHTUNGEN":
 				break;
