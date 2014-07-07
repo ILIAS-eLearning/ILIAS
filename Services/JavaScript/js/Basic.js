@@ -494,11 +494,20 @@ il.Util.addOnLoad(function () {
 			$(this).on(ev,function(e) {
 				var $el = $(this);	
 				
-				// If submit button has been tagged do not prevent anything						
+				// If form/submit button has been tagged do not prevent anything						
 				if ($el.hasClass('omitPreventDoubleSubmission')) {
 					return this;
 				}
-															
+					
+				if(ev == 'submit')
+				{
+					// if the submit button has been tagged separately
+					if($(':input[type=submit]:focus').hasClass('omitPreventDoubleSubmission'))
+					{
+						return this;
+					}
+				}
+														
 				if ($el.data('submitted') === true) {
 					// Previously submitted - don't submit again
 					e.preventDefault();

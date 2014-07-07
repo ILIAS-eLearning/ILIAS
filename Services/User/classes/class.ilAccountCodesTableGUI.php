@@ -47,7 +47,8 @@ class ilAccountCodesTableGUI extends ilTable2GUI
 		$this->setTopCommands(true);
 		$this->addMultiCommand("deleteConfirmation", $lng->txt("delete"));
 		
-		$this->addCommandButton("exportCodes", $lng->txt("user_account_codes_export"));
+		$this->addCommandButton("exportCodes", $lng->txt("user_account_codes_export"),
+			"", "", "omitPreventDoubleSubmission");
 		
 		$this->getItems();
 	}

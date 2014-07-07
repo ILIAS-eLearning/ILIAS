@@ -1163,10 +1163,10 @@ class ilTable2GUI extends ilTableGUI
 	* @param	string	Command
 	* @param	string	Text
 	*/
-	function addCommandButton($a_cmd, $a_text, $a_onclick = '', $a_id = "")
+	function addCommandButton($a_cmd, $a_text, $a_onclick = '', $a_id = "", $a_class = null)
 	{
 		$this->buttons[] = array("cmd" => $a_cmd, "text" => $a_text, 'onclick' => $a_onclick,
-			"id" => $a_id);
+			"id" => $a_id, "class" => $a_class);
 	}
 
 	/**
@@ -2502,6 +2502,10 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 				if ($button["id"] != "")
 				{
 					$this->tpl->setVariable("PBID", ' id="'.$button["id"].'" ');
+				}				
+				if ($button["class"] != "")
+				{
+					$this->tpl->setVariable("PBBT_CLASS", ' '.$button["class"]);
 				}
 				$this->tpl->setVariable("PBTN_NAME", $button["cmd"]);
 				$this->tpl->setVariable("PBTN_VALUE", $button["text"]);
@@ -2518,6 +2522,10 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 					$this->tpl->setCurrentBlock("plain_top_button");
 					$this->tpl->setVariable("PBTN_NAME", $button["cmd"]);
 					$this->tpl->setVariable("PBTN_VALUE", $button["text"]);
+					if ($button["class"] != "")
+					{
+						$this->tpl->setVariable("PBBT_CLASS", ' '.$button["class"]);
+					}
 					$this->tpl->parseCurrentBlock();
 				}
 			}
