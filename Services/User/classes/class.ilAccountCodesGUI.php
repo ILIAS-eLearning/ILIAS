@@ -244,8 +244,8 @@ class ilAccountCodesGUI
 
 		if(sizeof($codes))
 		{
-			// :TODO: add url/link to login?!
-			ilUtil::deliverData(implode("\n", $codes), "ilias_account_codes_".date("d-m-Y").".txt","text/plain");
+			// #13497
+			ilUtil::deliverData(implode("\r\n", $codes), "ilias_account_codes_".date("d-m-Y").".txt","text/plain");
 		}
 		else
 		{
