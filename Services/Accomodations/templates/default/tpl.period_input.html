@@ -1,0 +1,27 @@
+<div id="{ID}">
+	<!-- BEGIN simple_rows_bl -->
+	<div>
+		<input type="checkbox" value="{SPL_VALUE}" name="{SPL_POSTVAR}[]"{SPL_CHECKED}{SPL_DISABLED}>
+		{SPL_TXT}
+	</div>
+	<!-- END simple_rows_bl -->
+	<!-- BEGIN overnight_bl -->
+	<table class="nobackground" datatable="0">		
+		<tr>
+			<th class="std"></th>
+			<th class="std">{OV_TXT_HEAD_FROM}</th>
+			<th class="std">{OV_TXT_HEAD_TO}</th>
+		</tr>		
+		<!-- BEGIN overnight_rows_bl -->
+		<tr>
+			<td class="std"><input type="checkbox" value="{OV_VALUE}" name="{OV_POSTVAR}[]"{OV_CHECKED}{OV_DISABLED}></td>
+			<td class="std">{OV_TXT_FROM}</td>
+			<td class="std">{OV_TXT_TO}</td>		
+		</tr>
+		<!-- END overnight_rows_bl -->			
+	</table>
+	<!-- END overnight_bl -->
+	<!-- BEGIN hidden_bl -->
+	<input type="hidden" name="{HIDDEN_POSTVAR}[]" value="{HIDDEN_VALUE}" />
+	<!-- END hidden_bl -->
+</div>

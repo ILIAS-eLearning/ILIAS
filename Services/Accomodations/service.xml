@@ -1,0 +1,10 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<service xmlns="http://www.w3.org" version="$Id$"
+	id="acco">	
+	<baseclasses>
+		<baseclass name="ilAccomodationsGUI" dir="classes" />	
+	</baseclasses>	
+	<events>		
+		<event type="raise" id="set" />
+	</events>	
+</service>
