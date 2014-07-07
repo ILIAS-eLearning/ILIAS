@@ -282,7 +282,7 @@ class ilMailSearchGUI
 		$all_results = new ilSearchResult();
 
 		$query_parser = new ilQueryParser(addcslashes($_SESSION['mail_search_search'], '%_'));
-		$query_parser->setCombination(QP_COMBINATION_OR);
+		$query_parser->setCombination(QP_COMBINATION_AND);
 		$query_parser->setMinWordLength(3);
 		$query_parser->parse();
 
@@ -391,7 +391,7 @@ class ilMailSearchGUI
 		$group_results = new ilSearchResult();
 
 		$query_parser = new ilQueryParser(addcslashes($_SESSION['mail_search_search'], '%_'));
-		$query_parser->setCombination(QP_COMBINATION_OR);
+		$query_parser->setCombination(QP_COMBINATION_AND);
 		$query_parser->setMinWordLength(3);
 		$query_parser->parse();
 
