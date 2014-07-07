@@ -4,8 +4,6 @@ ini_set('display_errors', 1);
 error_reporting(E_ALL ^ E_STRICT);
 header("Content-Type: text/plain, charset=utf-8");
 
-
-
 function import_ilias() {
 	// ILIAS core requires an authenticated user to use its API, unless the
 	// called script name is index.php (see ilInitialisation::authenticate()).
@@ -29,6 +27,7 @@ function get_gev_import() {
 
 	$mysql = mysql_connect($host, $user, $pass) or die(mysql_error());
 	mysql_select_db($name, $mysql);
+	mysql_set_charset('utf8', $mysql);
 
 	include("./Services/IVImport/classes/class.gevUserImport.php");
 	$import = gevUserImport::getInstance($mysql, $ilDB);

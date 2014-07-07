@@ -18,6 +18,7 @@ $name = $ilClientIniFile->readVariable('shadowdb', 'name');
 
 $mysql = mysql_connect($host, $user, $pass) or die(mysql_error());
 mysql_select_db($name, $mysql);
+mysql_set_charset('utf8', $mysql);
 
 $container = $_GET['container'];
 if (!$container) {
