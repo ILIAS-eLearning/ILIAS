@@ -1797,7 +1797,7 @@ class ilObjCourseGUI extends ilContainerGUI
 					"", 'ilparticipationstatusadmingui');		
 				$this->ctrl->setParameterByClass('ilparticipationstatusadmingui', 'ref_id', '');
 				$this->ctrl->setParameterByClass('ilsetaccomodationsgui', 'ref_id', $this->object->getRefId());
-				$this->tabs_gui->addSubTabTarget("generali_accomodations",
+				$this->tabs_gui->addSubTabTarget("gev_accomodations",
 					$this->ctrl->getLinkTargetByClass(array('ilaccomodationsgui', 'ilsetaccomodationsgui'),''),
 					"", 'ilsetaccomodationsgui');		
 				$this->ctrl->setParameterByClass('ilsetaccomodationsgui', 'ref_id', '');

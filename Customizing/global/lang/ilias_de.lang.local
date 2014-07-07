@@ -91,7 +91,8 @@ orgu#:#orgu_type_msg_deletion_prevented#:#Das Löschen des Typs wurde durch ein 
 orgu#:#orgu_type_msg_deleted#:#Typ gelöscht.
 orgu#:#orgu_adv_settings#:#erweiterte Einstellungen
 gev#:#gev_bookings#:#Buchungen
-gev#:#gev_bookings#:#Teilnahmenstatus
+gev#:#gev_participation_status#:#Teilnahmestatus
+gev#:#gev_accomodations#:#Übernachtungen
 gev#:#gev_unlimited#:#unbegrenzt
 orgu#:#orgu_type_msg_unable_delete#:#Konnte Typ nicht löschen, da er von folgenden Organisationseinheiten verwendet wird: %s
 mail#:#templates#:#Vorlagen
