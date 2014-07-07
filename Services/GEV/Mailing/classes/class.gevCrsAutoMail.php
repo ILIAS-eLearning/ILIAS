@@ -140,85 +140,61 @@ abstract class gevCrsAutoMail extends ilAutoMail {
 	// COURSE PEOPLE
 
 	protected function getCourseParticipants() {
-		return array();
-		// TODO: maybe this needs to be adjusted to fit new gev logic
-		$members = $this->getCourseMembers();
-		$special_members = $this->getCourseSpecialMembers();
-		$trainers = $this->getCourseTrainers();
-		$admins = $this->getCourseAdmins();
-		return array_diff($members, $special_members, $trainers, $admins);
+		$utils = gevCourseUtils::getInstance($this->crs_id);
+		return $utils->getParticipants();
 	}
 
 	protected function getCourseMembers() {
-		// TODO: maybe this needs to be adjusted to fit new gev logic
-		return $this->getCourse()->getMembersObject()->getParticipants();
+		$utils = gevCourseUtils::getInstance($this->crs_id);
+		return $utils->getMembers();
 	}
 
 	protected function getCourseTrainers() {
-		// TODO: maybe this needs to be adjusted to fit new gev logic
-		return $this->getCourse()->getMembersObject()->getTutors();
-	}
-
-	protected function getCourseFullTrainers() {
-		return array();
-		// TODO: maybe this needs to be adjusted to fit new gev logic
-		$full_ids = array();
-
-		foreach ($this->getCourseTrainers() as $user_id) {
-			$part = new vfParticipant($this->crs_id, $user_id);
-			if ($part->getFunction() != vfParticipant::FUNCTION_TRAINER_SIDE) {
-				$full_ids[] = $user_id;
-			}
-		}
-
-		return $full_ids;
-	}
-
-	protected function getCourseSideTrainers() {
-		return array();
-		// TODO: maybe this needs to be adjusted to fit new gev logic
-		$side_ids = array();
-
-		foreach($this->getCourseMembers() as $user_id) {
-			$part = new vfParticipant($this->crs_id, $user_id);
-			if($part->getFunction() == vfParticipant::FUNCTION_TRAINER_SIDE) {
-				$side_ids[] = $user_id;
-			}
-		}
-
-		return $side_ids;
-	}
-
-	protected function getCourseSpecialMembers() {
-		// TODO: this needs to be adjusted to fit new gev logic for sure
-		return array();
-		$co_ids = array();
-
-		$co_functions = array( vfParticipant::FUNCTION_TRAINEE
-							 , vfParticipant::FUNCTION_SPEAKER
-							 , vfParticipant::FUNCTION_HOST
-							 , vfParticipant::FUNCTION_ASSISTANT
-							 , vfParticipant::FUNCTION_OBSERVER
-							 , vfParticipant::FUNCTION_OBSERVER2
-							 , vfParticipant::FUNCTION_OBSERVER3
-							 , vfParticipant::FUNCTION_OBSERVER4
-							 , vfParticipant::FUNCTION_GUEST
-							 );
-
-		foreach($this->getCourseMembers() as $user_id) {
-			$part = new vfParticipant($this->crs_id, $user_id);
-			if(in_array($part->getFunction(), $co_functions)) {
-				$co_ids[] = $user_id;
-			}
-		}
-
-		return $co_ids;
+		$utils = gevCourseUtils::getInstance($this->crs_id);
+		return $utils->getTrainers();
 	}
 
 	protected function getCourseAdmins() {
-		return $this->getCourse()->getMembersObject()->getAdmins();
+		$utils = gevCourseUtils::getInstance($this->crs_id);
+		return $utils->getAdmins();
 	}
 
+	protected function getCourseCancelledMembers() {
+		$utils = gevCourseUtils::getInstance($this->crs_id);
+		return $utils->getCancelledMembers();
+	}
+
+	protected function getCourseCancelledWithCostsMembers() {
+		$utils = gevCourseUtils::getInstance($this->crs_id);
+		return $utils->getCancelledWithCostsMembers();
+	}
+
+	protected function getCourseCancelledWithoutCostsMembers() {
+		$utils = gevCourseUtils::getInstance($this->crs_id);
+		return $utils->getCancelledWithoutCostsMembers();
+	}
+
+	protected function getCourseSuccessfullParticipants() {
+		$utils = gevCourseUtils::getInstance($this->crs_id);
+		return $utils->getSuccessfullParticipants();
+	}
+
+	protected function getCourseAbsentParticipants(){
+		$utils = gevCourseUtils::getInstance($this->crs_id);
+		return $utils->getAbsentParticipants();
+	}
+
+	protected function getCourseExcusedParticipants(){
+		$utils = gevCourseUtils::getInstance($this->crs_id);
+		return $utils->getExcusedParticipants();
+	}
+
+	protected function getCourseUsersOnWaitingList() {
+		$utils = gevCourseUtils::getInstance($this->crs_id);
+		return $utils->getWaitingMembers();
+	}
+	
+	
 	protected function getCourseAccomodationAddress() {
 		$accom = $this->getCourseUtils()->getVenue();
 		
@@ -269,115 +245,6 @@ abstract class gevCrsAutoMail extends ilAutoMail {
 		}
 
 		return $addresses;
-	}
-
-	protected function getCourseCancelledMembers() {
-		return array();
-		// TODO: this needs to be adjusted
-		require_once("./Services/VoFue/Patch/classes/class.vfHistorizingHandler.php");
-
-		$ret = array();
-
-		foreach (vfHistorizingHandler::getHistorizedDeletedMembers($this->crs_id, array()) as $record) {
-			$ret[] = $record["user_id"];
-		}
-
-		return $ret;
-	}
-
-	protected function getCourseCancelledWithCostsMembers() {
-		return array();
-		// TODO: this needs to be adjusted
-		require_once("./Services/VoFue/Patch/classes/class.vfHistorizingHandler.php");
-
-		$ret = array();
-
-		foreach (vfHistorizingHandler::getHistorizedDeletedMembers($this->crs_id, array()) as $record) {
-			$ret[] = $record["user_id"];
-		}
-
-		return $ret;
-	}
-
-	protected function getCourseCancelledWithoutCostsMembers() {
-		return array();
-		// TODO: this needs to be adjusted
-		require_once("./Services/VoFue/Patch/classes/class.vfHistorizingHandler.php");
-
-		$ret = array();
-
-		foreach (vfHistorizingHandler::getHistorizedDeletedMembers($this->crs_id, array()) as $record) {
-			$ret[] = $record["user_id"];
-		}
-
-		return $ret;
-	}
-
-	protected function getCourseSuccessfullParticipants() {
-		return array();
-		// TODO: this needs to be adjusted
-		return $this->getCourseParticipantsWithStatus(vfParticipant::STATUS_ATTENDED);
-	}
-
-	protected function getCourseAbsentParticipants(){
-		return array();
-		// TODO: this needs to be adjusted
-		return $this->getCourseParticipantsWithStatus(vfParticipant::STATUS_ABSENT_NO_INFO);
-	}
-
-	protected function getCourseExcusedParticipants(){
-		return array();
-		// TODO: this needs to be adjusted
-		return array_merge( $this->getCourseParticipantsWithStatus(vfParticipant::STATUS_EXCUSED)
-						  , $this->getCourseParticipantsWithStatus(vfParticipant::STATUS_REFUSED));
-	}
-
-	protected function getCourseParticipantsWithStatus($a_status) {
-		return array();
-		// TODO: this needs to be adjusted
-		$ret = array();
-		foreach ($this->getCourseParticipants() as $part_id) {
-			$part = new vfParticipant($this->crs_id, $part_id);
-			if ($part->getStatus() == $a_status) {
-				$ret[] = $part_id;
-			}
-		}
-		return $ret;
-	}
-
-	protected function filterUsersWithUnfullfilledParticipationPrecondition($a_user_ids) {
-		// TODO: this needs to be adjusted
-		$result = $this->db->query("SELECT precond_part
-									 FROM vf_crs_data
-									 WHERE id = ".$this->db->quote($this->crs_id, "integer")
-								   );
-
-		$row = $this->db->fetchAssoc($result);
-
-		if($row["precond_part"]) {
-			require_once "Services/Tracking/classes/class.ilLPStatus.php";
-
-			$failed_members = array();
-
-			$precond_id = ilObject::_lookupObjId($row["precond_part"]);
-
-			foreach ($a_user_ids as $participant) {
-				if (ilLPStatus::_lookupStatus($precond_id, $participant) != LP_STATUS_COMPLETED_NUM) {
-					$failed_members[] = $participant;
-				}
-			}
-
-			return $failed_members;
-		}
-		else {
-			return array();
-		}
-	}
-
-	protected function getCourseUsersOnWaitingList() {
-		require_once("./Modules/Course/classes/class.ilCourseWaitingList.php");
-		$wlist = new ilCourseWaitingList($this->crs_id);
-		return $wlist->getUserIds();
 	}
 
 	protected function getAttachments() {

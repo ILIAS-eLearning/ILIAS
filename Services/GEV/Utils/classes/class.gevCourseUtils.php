@@ -29,6 +29,7 @@ class gevCourseUtils {
 		
 		$this->crs_id = $a_crs_id;
 		$this->crs_obj = null;
+		$this->crs_bookings = null;
 		$this->gev_settings = gevSettings::getInstance();
 		$this->amd = gevAMDUtils::getInstance();
 		
@@ -154,6 +155,16 @@ class gevCourseUtils {
 		}
 		
 		return $this->crs_obj;
+	}
+	
+	public function getBookings() {
+		require_once("Services/CourseBooking/classes/class.ilCourseBookings.php");
+		
+		if ($this->crs_bookings === null) {
+			$this->crs_bookings = ilCourseBookings::getInstance($this->getCourse());
+		}
+		
+		return $this->crs_bookings;
 	}
 	
 	public function getId() {
@@ -574,6 +585,10 @@ class gevCourseUtils {
 		return $this->getMembership()->getAdmins();
 	}
 	
+	public function getMembers() {
+		return $this->getMembership()->getMembers();
+	}
+	
 	public function getMainTrainer() {
 		if ($this->main_trainer === null) {
 			$tutors = ksort($this->getTrainers());
@@ -595,6 +610,34 @@ class gevCourseUtils {
 		}
 		
 		return $this->main_admin;
+	}
+	
+	public function getCancelledMembers() {
+		return $this->getBookings()->getCancelledUsers();
+	}
+	
+	public function getCancelledWithCostsMembers() {
+		return $this->getBookings()->getCancelledWithCostsUsers();
+	}
+	
+	public function getCancelledWithoutCostsMembers() {
+		return $this->getBookings()->getCancelledWithoutCostsMembers();
+	}
+	
+	public function getSucessfullParticipants() {
+		die("NYI!");
+	}
+	
+	public function getAbsentParticipants() {
+		die("NYI!");
+	}
+	
+	public function getExcusedParticipants() {
+		die("NYI!");
+	}
+	
+	public function getWaitingMembers() {
+		die("NYI!");
 	}
 	
 	// Training Officer Info (Themenverantwortlicher)
