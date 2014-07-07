@@ -196,6 +196,9 @@ class ilAdvancedMDRecordGUI
 				$element->setTitle($def->getTitle());
 				$element->setInfo($def->getDescription());
 				
+				// definition may customize ADT form element
+				$def->prepareElementForEditor($element);
+				
 				if($values->isDisabled($def->getFieldId()))
 				{
 					$element->setDisabled(true);

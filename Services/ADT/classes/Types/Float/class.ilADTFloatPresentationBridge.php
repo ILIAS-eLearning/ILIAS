@@ -16,8 +16,13 @@ class ilADTFloatPresentationBridge extends ilADTPresentationBridge
 			// :TODO: language specific?		
 			// gev-patch start
 			// changed . and ,
+			$def = $this->getADT()->getCopyOfDefinition();					
+			$suffix = $def->getSuffix() ? " ".$def->getSuffix() : null;
+			
+			// :TODO: language specific?		
 			return number_format($this->getADT()->getNumber(), 
-				$this->getADT()->getCopyOfDefinition()->getDecimals(), ".", ",");
+				$this->getADT()->getCopyOfDefinition()->getDecimals(), ".", ",").
+				$suffix;
 			// gev-patch end
 		}
 	}

@@ -710,10 +710,10 @@ class ilAdvancedMDSettingsGUI
 			}
 			// sort by position
 			asort($_POST['position'],SORT_NUMERIC);
-			$counter = 1;			
+			$positions = array_flip(array_keys($_POST['position'])); // #152			
 			foreach($fields as $field)
 			{
-				$field->setPosition($counter++);
+				$field->setPosition($positions[$field->getFieldId()]);
 				$field->update();				
 			}
 		}

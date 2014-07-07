@@ -34,6 +34,12 @@ class ilADTIntegerFormBridge extends ilADTFormBridge
 			$number->setMaxLength($length);
 		}
 		
+		$suffix = $def->getSuffix();
+		if($suffix !== null)
+		{
+			$number->setSuffix($suffix);
+		}
+		
 		$number->setValue($this->getADT()->getNumber());				
 		
 		$this->addToParentElement($number);

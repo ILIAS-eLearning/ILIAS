@@ -13,7 +13,9 @@ class ilADTIntegerPresentationBridge extends ilADTPresentationBridge
 	{
 		if(!$this->getADT()->isNull())
 		{
-			return $this->getADT()->getNumber();
+			$def = $this->getADT()->getCopyOfDefinition();	
+			$suffix = $def->getSuffix() ? " ".$def->getSuffix() : null;
+			return $this->getADT()->getNumber().$suffix;
 		}
 	}
 	

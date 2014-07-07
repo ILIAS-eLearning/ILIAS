@@ -38,7 +38,17 @@ class ilADTText extends ilADT
 	
 	public function getLength()
 	{
-		return strlen($this->getText());
+		// see ilStr::strLen();
+		// not using ilStr to reduce dependencies in this low-level code
+		
+		if(function_exists("mb_strlen"))
+		{
+			return mb_strlen($this->getText(), "UTF-8");
+		}
+		else
+		{
+			return strlen($this->getText());
+		}		
 	}
 	
 	

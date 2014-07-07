@@ -13,7 +13,7 @@ class ilADTTextPresentationBridge extends ilADTPresentationBridge
 	{
 		if(!$this->getADT()->isNull())
 		{
-			return $this->getADT()->getText();
+			return nl2br($this->getADT()->getText());
 		}
 	}
 	

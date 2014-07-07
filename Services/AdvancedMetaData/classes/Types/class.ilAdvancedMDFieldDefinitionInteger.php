@@ -37,8 +37,8 @@ class ilAdvancedMDFieldDefinitionInteger extends ilAdvancedMDFieldDefinition
 
 		$def->setMin($this->getMin());
 		$def->setMax($this->getMax());
-		// :TODO: suffix ?!
-
+		$def->setSuffix($this->getSuffix());
+		
 		return $def;
 	}	
 	
@@ -154,6 +154,10 @@ class ilAdvancedMDFieldDefinitionInteger extends ilAdvancedMDFieldDefinition
 		{
 			$res[$lng->txt("md_adv_number_max")] = $this->getMax();
 		}
+		if($this->getSuffix())
+		{
+			$res[$lng->txt("md_adv_number_suffix")] = $this->getSuffix();
+		}
 		
 		return $res;
 	}
@@ -178,12 +182,16 @@ class ilAdvancedMDFieldDefinitionInteger extends ilAdvancedMDFieldDefinition
 		$max->setSize(10);
 		$a_form->addItem($max);
 		
-		// :TODO: suffix?
+		$suffix = new ilTextInputGUI($lng->txt("md_adv_number_suffix"), "suffix");
+		$suffix->setValue($this->getSuffix());		
+		$suffix->setSize(10);
+		$a_form->addItem($suffix);
 				
 		if($a_disabled)
 		{
 			$min->setDisabled(true);
 			$max->setDisabled(true);
+			$suffix->setDisabled(true);
 		}						
 	}
 	
@@ -193,15 +201,15 @@ class ilAdvancedMDFieldDefinitionInteger extends ilAdvancedMDFieldDefinition
 	 * @param ilPropertyFormGUI $a_form
 	 */
 	public function importCustomDefinitionFormPostValues(ilPropertyFormGUI $a_form)
-	{		
-		// :TODO: min > max ?!
-		
+	{				
 		$min = $a_form->getInput("min");		
 		$this->setMin(($min !== "") ? $min : null);
+		
 		$max = $a_form->getInput("max");
 		$this->setMax(($max !== "") ? $max : null);	
 		
-		// :TODO: suffix?
+		$suffix = $a_form->getInput("suffix");
+		$this->setSuffix(($suffix !== "") ? $suffix : null);	
 	}	
 	
 	
@@ -213,6 +221,7 @@ class ilAdvancedMDFieldDefinitionInteger extends ilAdvancedMDFieldDefinition
 	{				
 		$a_writer->xmlElement('FieldValue',array("id"=>"min"),$this->getMin());					
 		$a_writer->xmlElement('FieldValue',array("id"=>"max"),$this->getMax());					
+		$a_writer->xmlElement('FieldValue',array("id"=>"suffix"),$this->getSuffix());					
 	}	
 	
 	public function importXMLProperty($a_key, $a_value)
@@ -224,6 +233,10 @@ class ilAdvancedMDFieldDefinitionInteger extends ilAdvancedMDFieldDefinition
 		if($a_key == "max")
 		{
 			$this->setMax($a_value != "" ? $a_value : null);
+		}
+		if($a_key == "suffix")
+		{
+			$this->setSuffix($a_value != "" ? $a_value : null);
 		}
 	}		
 	

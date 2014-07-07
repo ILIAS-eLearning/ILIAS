@@ -4,6 +4,7 @@ class ilADTIntegerDefinition extends ilADTDefinition
 {	
 	protected $min_value; // [int]
 	protected $max_value; // [int]
+	protected $suffix; // [string]
 	
 	
 	// properties
@@ -40,6 +41,16 @@ class ilADTIntegerDefinition extends ilADTDefinition
 	public function setMax($a_value)
 	{
 		$this->max = $this->handleNumber($a_value);
+	}
+	
+	public function getSuffix()
+	{
+		return $this->suffix;
+	}
+	
+	public function setSuffix($a_value)
+	{
+		$this->suffix = trim($a_value);
 	}
 	
 	
