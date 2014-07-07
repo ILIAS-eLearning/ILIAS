@@ -20,7 +20,7 @@ class gevTrainerAdded extends gevCrsAutoMail {
 	}
 	
 	public function getRecipientUserIDs() {
-		return $this->getCourseFullTrainers();
+		return $this->getCourseTrainers();
 	}
 	
 	public function getCC($a_recipient) {

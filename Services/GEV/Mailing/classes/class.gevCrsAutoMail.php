@@ -158,6 +158,11 @@ abstract class gevCrsAutoMail extends ilAutoMail {
 		$utils = gevCourseUtils::getInstance($this->crs_id);
 		return $utils->getAdmins();
 	}
+	
+	protected function getCourseSpecialMembers() {
+		// TODO: implement this!
+		return array();
+	}
 
 	protected function getCourseCancelledMembers() {
 		$utils = gevCourseUtils::getInstance($this->crs_id);

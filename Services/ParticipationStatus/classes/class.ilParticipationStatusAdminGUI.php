@@ -158,7 +158,7 @@ class ilParticipationStatusAdminGUI
 			if ($start !== null) {
 				ilUtil::sendInfo(sprintf($lng->txt("ptst_admin_start_date_not_reached"), 
 					ilDatePresentation::formatDate($start)));
-			}					
+			}
 		}
 		else
 		{

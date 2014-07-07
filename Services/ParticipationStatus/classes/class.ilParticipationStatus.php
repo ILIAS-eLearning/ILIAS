@@ -569,6 +569,53 @@ class ilParticipationStatus
 		return $res;
 	}
 	
+	/**
+	 * Get ids of all users who are successfull at the course.
+	 *
+	 * @return array
+	 */
+	public function getSuccessfullUsers() {
+		return $this->getUsersWithStatus(self::STATUS_SUCCESSFUL);
+	}
+	
+	/**
+	 * Get ids of all users who are successfull at the course.
+	 *
+	 * @return array
+	 */
+	public function getAbsentExcusedUsers() {
+		return $this->getUsersWithStatus(self::STATUS_ABSENT_EXCUSED);
+	}
+	
+	/**
+	 * Get ids of all users who are successfull at the course.
+	 *
+	 * @return array
+	 */
+	public function getAbsentNotExcusedUsers() {
+		return $this->getUsersWithStatus(self::STATUS_ABSENT_NOT_EXCUSED);
+		
+	}
+	
+	/**
+	 * Get ids of all users who are successfull at the course.
+	 *
+	 * @return array
+	 */
+	protected function getUsersWithStatus($a_status) {
+		global $ilDB;
+		
+		$res = $ilDB->query("SELECT user_id FROM crs_pstatus_usr "
+						   ." WHERE crs_id = ".$ilDB->quote($this->getCourse()->getId(), "integer")
+						   ."   AND status = ".$ilDB->quote($a_status, "integer")
+						   );
+		$ret = array();
+		while ($rec = $ilDB->fetchAssoc($res)) {
+			$ret[] = $rec["user_id"];
+		}
+		
+		return $ret;
+	}
 	
 	//
 	// state
