@@ -1791,11 +1791,17 @@ class ilObjCourseGUI extends ilContainerGUI
 					"", 'ilcoursebookingadmingui');		
 				$this->ctrl->setParameterByClass('ilcoursebookingadmingui', 'ref_id', '');
 				
-				$this->ctrl->setParameterByClass('ilparticipationstatusadmingui', 'ref_id', $this->object->getRefId());
-				$this->tabs_gui->addSubTabTarget("gev_participation_status",
-					$this->ctrl->getLinkTargetByClass(array('ilparticipationstatusgui', 'ilparticipationstatusadmingui'),''),
-					"", 'ilparticipationstatusadmingui');		
-				$this->ctrl->setParameterByClass('ilparticipationstatusadmingui', 'ref_id', '');
+				require_once("Services/ParticipationStatus/classes/class.ilParticipationStatusHelper.php");
+				$ps_helper = ilParticipationStatusHelper::getInstance($this->object);
+				if (   $ps_helper->isStartForParticipationStatusSettingReached()
+					&& $ps_helper->getParticipationStatusMode() != ilParticipationStatus::MODE_CONTINUOUS) {
+					$this->ctrl->setParameterByClass('ilparticipationstatusadmingui', 'ref_id', $this->object->getRefId());
+					$this->tabs_gui->addSubTabTarget("gev_participation_status",
+						$this->ctrl->getLinkTargetByClass(array('ilparticipationstatusgui', 'ilparticipationstatusadmingui'),''),
+						"", 'ilparticipationstatusadmingui');		
+					$this->ctrl->setParameterByClass('ilparticipationstatusadmingui', 'ref_id', '');
+				}
+				
 				$this->ctrl->setParameterByClass('ilsetaccomodationsgui', 'ref_id', $this->object->getRefId());
 				$this->tabs_gui->addSubTabTarget("gev_accomodations",
 					$this->ctrl->getLinkTargetByClass(array('ilaccomodationsgui', 'ilsetaccomodationsgui'),''),
