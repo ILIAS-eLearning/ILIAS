@@ -154,8 +154,11 @@ class ilParticipationStatusAdminGUI
 			$this->setTabs("listStatus");
 			
 			ilDatePresentation::setUseRelativeDates(false);
-			ilUtil::sendInfo(sprintf($lng->txt("ptst_admin_start_date_not_reached"), 
-				ilDatePresentation::formatDate($helper->getStartForParticipationStatusSetting())));					
+			$start = $helper->getStartForParticipationStatusSetting();
+			if ($start !== null) {
+				ilUtil::sendInfo(sprintf($lng->txt("ptst_admin_start_date_not_reached"), 
+					ilDatePresentation::formatDate($start)));
+			}					
 		}
 		else
 		{
