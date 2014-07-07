@@ -1939,9 +1939,10 @@ function buildNavTree(rootAct,name,tree){
 	if (mlaunch.mNavState.mChoice!=null)
 	{
 		var id=rootAct.id;
-		if (rootAct.isvisible==true && typeof(mlaunch.mNavState.mChoice[id])=="object") {	
-			il.NestedList.addNode('rte_tree', par_id, ITEM_PREFIX + rootAct.id,
-				"<a href='#this' id='" + ITEM_PREFIX + rootAct.id + "' target='_self'>" + rootAct.title + "</a>",
+		if (rootAct.isvisible==true && typeof(mlaunch.mNavState.mChoice[id])=="object") {
+			var it_id=(ITEM_PREFIX + rootAct.id).replace(/\./g,"_");
+			il.NestedList.addNode('rte_tree', (""+par_id).replace(/\./g,"_"), it_id,
+				"<a href='#this' id='" + it_id + "' target='_self'>" + rootAct.title + "</a>",
 				true);
 			par_id = ITEM_PREFIX + rootAct.id;
 		}	
@@ -1954,9 +1955,9 @@ function buildNavTree(rootAct,name,tree){
 				var id=rootAct.item[i].id;
 				if (mlaunch.mNavState.mChoice!=null) {
 					if (rootAct.item[i].isvisible==true && typeof(mlaunch.mNavState.mChoice[id])=="object") {
-						
-						il.NestedList.addNode('rte_tree', par_id, ITEM_PREFIX + rootAct.item[i].id,
-							"<a href='#this' id='" + ITEM_PREFIX + rootAct.item[i].id + "' target='_self'>" + rootAct.item[i].title + "</a>",
+						var it_id=(ITEM_PREFIX + rootAct.item[i].id).replace(/\./g,"_");
+						il.NestedList.addNode('rte_tree', (""+par_id).replace(/\./g,"_"), it_id,
+							"<a href='#this' id='" + it_id + "' target='_self'>" + rootAct.item[i].title + "</a>",
 							true);
 						var next_par_id = ITEM_PREFIX + rootAct.item[i].id;
 					}	
@@ -3778,7 +3779,7 @@ function updateNav(ignore) {
 				continue;
 			}
 		}
-		var elm = all(ITEM_PREFIX + tree[i].mActivityID);
+		var elm = all(ITEM_PREFIX + tree[i].mActivityID.replace(/\./g,"_"));
 	//	if (!elm) {return;}
 //console.log("-" + ITEM_PREFIX + tree[i].mActivityID + "-" + disable + "-");
 		if (disable)
