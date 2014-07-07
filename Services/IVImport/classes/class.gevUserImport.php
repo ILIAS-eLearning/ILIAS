@@ -134,19 +134,61 @@ class gevUserImport {
 		$user->setLastname($shadow_user['nachname']);
 		$user->setFirstname($shadow_user['vorname']);
 		$user->setEmail($shadow_user['email']);
-		$user->setGender($shadow_user['geschlecht']);
+		$user->setGender(strtolower($shadow_user['geschlecht']));
 
 		$user->setActive(true);
 		$user->setTimeLimitUnlimited(true);
 
 		$user->setBirthday($shadow_user['geburtsdatum']);
 		$user->setZipcode($shadow_user['plz']);
-		$user->setStreet($shadow_user['street']);
+		$user->setStreet($shadow_user['strasse']);
 		$user->setPhoneOffice($shadow_user['telefon']);
 		$user->setFax($shadow_user['fax']);
 
-		if ($shadow_user['land'] == 'Deutschland') {
-			$user->setSelectedCountry('DE');
+		$country = null;
+		switch ($shadow_user['land']) {
+			case 'A':
+				$country = 'AT';
+				break;
+
+			case 'B':
+				$country = 'BE';
+				break;
+
+			case 'CH':
+				$country = 'CH';
+				break;
+
+			case 'D':
+				$country = 'DE';
+				break;
+
+			case 'F':
+				$country = 'FR';
+				break;
+
+			case 'GB':
+				$country = 'GB';
+				break;
+
+			case 'I':
+				$country = 'IT';
+				break;
+
+			case 'NL':
+				$country = 'NL';
+				break;
+
+			case 'L':
+				$country = 'LU';
+				break;
+
+			default:
+				break;
+
+		}
+		if ($country !== null) {
+			$user->setSelectedCountry($country);
 		}
 
 		$user->create();
