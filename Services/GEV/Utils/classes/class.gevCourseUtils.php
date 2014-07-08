@@ -125,6 +125,40 @@ class gevCourseUtils {
 		$temp = explode("-", $a_custom_id);
 		return $temp[1];
 	}
+	
+	/**
+	 * Every course template has an unique id (e.g. SL10001) from a block of
+	 * ids (e.g. SL10000). This function creates a fresh unique id from a 
+	 * block of ids.
+	 *
+	 * WARNING: The assumption here is, that an block (= $a_tmplt) is always
+	 * constructed from two alphanums, 2 digits that should be used to identify
+	 * the block and 3 zeros that will be filled with subsequent numbers for
+	 * the template.
+	 **/
+	static public function createNewTemplateCustomId($a_tmplt) {
+		global $ilDB, $ilLog;
+		$gev_settings = gevSettings::getInstance();
+		$field_id = $gev_settings->getAMDFieldId(gevSettings::CRS_AMD_CUSTOM_ID);
+		
+		$pre = substr($a_tmplt, 0, 4);
+		
+		$res = $ilDB->query("SELECT MAX(value) as m "
+						   ."  FROM adv_md_values_text "
+						   ." WHERE value LIKE ".$ilDB->quote($pre."%", "text")
+						   ."   AND field_id = ".$ilDB->quote($field_id, "integer")
+						   );
+		
+		if ($val = $ilDB->fetchAssoc($res)) {
+			$num = intval(substr($val["m"], 4)) + 1;
+		}
+		else {
+			$num = 1;
+		}
+		$num = sprintf("%03d", $num);
+		return $pre.$num;
+	}
+	
 
 	/**
 	 * Get custom roles assigned to a course.
@@ -147,6 +181,7 @@ class gevCourseUtils {
 		
 		return $custom_roles;
 	}
+	
 	
 	public function getCourse() {
 		require_once("Modules/Course/classes/class.ilObjCourse.php");
@@ -198,6 +233,10 @@ class gevCourseUtils {
 	
 	public function setCustomId($a_id) {
 		$this->amd->setField($this->crs_id, gevSettings::CRS_AMD_CUSTOM_ID, $a_id);
+	}
+	
+	public function getTemplateCustomId() {
+		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_CUSTOM_ID_TEMPLATE);
 	}
 	
 	public function getTemplateTitle() {

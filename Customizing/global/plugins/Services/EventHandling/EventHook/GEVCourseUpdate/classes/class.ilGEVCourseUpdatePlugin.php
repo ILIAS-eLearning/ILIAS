@@ -1,6 +1,7 @@
 <?php
 
 require_once("./Services/EventHandling/classes/class.ilEventHookPlugin.php");
+		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 
 class ilGEVCourseUpdatePlugin extends ilEventHookPlugin
 {
@@ -13,25 +14,56 @@ class ilGEVCourseUpdatePlugin extends ilEventHookPlugin
 			return;
 		}
 		
-		$this->updatedCourses($a_parameter["object"], $a_parameter["obj_id"]);
+		global $ilLog;
+		
+		$this->log = $ilLog;
+		
+		$this->crs_utils = gevCourseUtils::getInstanceByObj($a_parameter["object"]);
+		$this->crs = $a_parameter["object"];
+		$this->crs_id = $a_parameter["obj_id"];
+		
+		if(!$this->crs_utils->isTemplate()) {
+			$this->updatedCourse();
+		}
+		else {
+			$this->updateTemplateCourse();
+		}
 	}
 
-	public function updatedCourses($a_crs, $a_crs_id) {
-		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
-		global $ilLog;
-
+	public function updatedCourse() {
 		try {
-			$utils = gevCourseUtils::getInstance($a_crs_id);
+			$this->crs->enableWaitingList($this->crs_utils->getWaitingListActive());
+			$this->crs->enableSubscriptionMembershipLimitation($this->crs_utils->getWaitingListActive());
+			$this->crs->setSubscriptionMaxMembers(intval($this->crs_utils->getMaxParticipants()));
 
-			$a_crs->enableWaitingList($utils->getWaitingListActive());
-			$a_crs->enableSubscriptionMembershipLimitation($utils->getWaitingListActive());
-			$a_crs->setSubscriptionMaxMembers(intval($utils->getMaxParticipants()));
-
-			$a_crs->update(false);
+			$this->crs->update(false);
 		}
 		catch (Exception $e) {
-			$ilLog->write("Error in GEVCourseUpdate::updatedCourses: ".print_r($e, true));
+			$this->log->write("Error in GEVCourseUpdate::updatedCourse: ".print_r($e, true));
 		}
+	}
+	
+	public function updateTemplateCourse() {
+		try {
+			$this->maybeSetTemplateCustomId();
+		}
+		catch (Exception $e) {
+			$this->log->write("Error in GEVCourseUpdate::updateTemplateCourse: ".print_r($e, true));
+		}
+	}
+	
+	protected function maybeSetTemplateCustomId() {
+		if ($this->crs_utils->getCustomId()) {
+			return;
+		}
+		
+		$tmplt = $this->crs_utils->getTemplateCustomId();
+		if (!$tmplt) {
+			return;
+		}
+		
+		$custom_id = gevCourseUtils::createNewTemplateCustomId($tmplt);
+		$this->crs_utils->setCustomId($custom_id);
 	}
 }
 

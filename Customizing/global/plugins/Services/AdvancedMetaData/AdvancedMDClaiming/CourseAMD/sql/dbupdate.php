@@ -323,3 +323,31 @@ array( "Zeitraum"
 
 gevAMDUtils::createAMDRecords($records, array("crs"));
 ?>
+
+<#2>
+<?php
+
+require_once("Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php");
+require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
+require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+
+gevAMDUtils::addAMDField( "Verwaltung"
+						, "Nummernkreis"
+						, gevSettings::CRS_AMD_CUSTOM_ID_TEMPLATE
+						, "Zu verwendender Nummernkreis für diese Vorlage"
+						, false
+						, array( "AD20000"
+							   , "AD30000"
+							   , "AD40000"
+							   , "AD50000"
+							   , "AD55000"
+							   , "AD60000"
+							   , "AD65000"
+							   , "AD70000"
+							   , "ST10000"
+							   , "SL10000"
+							   )
+						, ilAdvancedMDFieldDefinition::TYPE_SELECT
+						);
+
+?>

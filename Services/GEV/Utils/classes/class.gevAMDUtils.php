@@ -320,12 +320,13 @@ class gevAMDUtils {
 		return $record_ids;
 	}
 	
-	public static function addAMDField($a_record_title, $a_title, $a_gev_setting, $a_desc, $a_def, $a_type) {
+	public static function addAMDField($a_record_title, $a_title, $a_gev_setting, $a_desc, $a_searchable, $a_def, $a_type) {
 		global $ilDB;
+		$gev_set = gevSettings::getInstance();
 		$result = $ilDB->query("SELECT record_id FROM adv_md_record WHERE title = ".$ilDB->quote($a_record_title, "text"));
 		
 		if ($record = $ilDB->fetchAssoc($result)) {
-			$f_id = ilAdvancedMDClaimingPlugin::createDBField($record["record_id"], $a_type, $a_title, $a_desc, $a_def);
+			$f_id = ilAdvancedMDClaimingPlugin::createDBField($record["record_id"], $a_type, $a_title, $a_desc, $a_searchable, $a_def);
 			$gev_set->set($a_gev_setting, $record["record_id"]." ".$f_id);
 		}
 		else {
