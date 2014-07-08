@@ -134,12 +134,18 @@ class gevUserImport {
 		$user->setLastname($shadow_user['nachname']);
 		$user->setFirstname($shadow_user['vorname']);
 		$user->setEmail($shadow_user['email']);
-		$user->setGender(strtolower($shadow_user['geschlecht']));
+
+		if ($shadow_user['geschlecht'] == 'W') {
+			$user->setGender('f');
+		} else {
+			$user->setGender('m');
+		}
 
 		$user->setActive(true);
 		$user->setTimeLimitUnlimited(true);
 
 		$user->setBirthday($shadow_user['geburtsdatum']);
+		$user->setCity($shadow_user['ort']);
 		$user->setZipcode($shadow_user['plz']);
 		$user->setStreet($shadow_user['strasse']);
 		$user->setPhoneOffice($shadow_user['telefon']);
