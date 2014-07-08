@@ -61,6 +61,8 @@ class ilGEVCourseUpdatePlugin extends ilEventHookPlugin
 		if (!$tmplt) {
 			return;
 		}
+		$tmplt = explode(" ", $tmplt);
+		$tmplt = $tmplt[0];
 		
 		$custom_id = gevCourseUtils::createNewTemplateCustomId($tmplt);
 		$this->crs_utils->setCustomId($custom_id);

@@ -336,16 +336,16 @@ gevAMDUtils::addAMDField( "Verwaltung"
 						, gevSettings::CRS_AMD_CUSTOM_ID_TEMPLATE
 						, "Zu verwendender Nummernkreis für diese Vorlage"
 						, false
-						, array( "AD20000"
-							   , "AD30000"
-							   , "AD40000"
-							   , "AD50000"
-							   , "AD55000"
-							   , "AD60000"
-							   , "AD65000"
-							   , "AD70000"
-							   , "ST10000"
-							   , "SL10000"
+						, array( "AD20000 Veranstaltungen zum Vertriebswegebudget"
+							   , "AD30000 Azubiseminare"
+							   , "AD40000 FFS"
+							   , "AD50000 Grund- und IHK-Ausbildung"
+							   , "AD55000 GEP BA (ehem. Postphase)"
+							   , "AD60000 Weiterbildung"
+							   , "AD65000 Generali Entwicklungsprogramme"
+							   , "AD70000 Webinare"
+							   , "ST10000 Spezialistenveranstaltungen (SpezialistenTrainings)"
+							   , "SL10000 Selbstlernkurse"
 							   )
 						, ilAdvancedMDFieldDefinition::TYPE_SELECT
 						);
