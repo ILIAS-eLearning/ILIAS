@@ -107,6 +107,8 @@ class gevOrgUnitImport {
 			$parent_id = $this->root_id;
 		}
 		$obj->putInTree($parent_id);
+		$obj->initDefaultRoles();
+		$obj->update();
 	}
 }
 

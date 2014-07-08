@@ -233,7 +233,7 @@ class gevUserImport {
 		$role_title = gevSettings::$VMS_ROLE_MAPPING[$vermittlerstatus][1];
 		$orgunit_import_id = $shadow_user['org_unit'];
 		$orgunit_id = ilObjOrgUnit::_lookupObjIdByImportId($orgunit_import_id);
-		if (!$org_unit_id) {
+		if (!$orgunit_id) {
 			throw new Exception("Could not determine obj_id for org unit with import id '".$orgunit_import_id."'");
 		}
 		$utils = gevOrgUnitUtils::getInstance($orgunit_id);
