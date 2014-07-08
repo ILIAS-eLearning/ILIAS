@@ -868,9 +868,9 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$template->setVariable("TEXT_RESULTS", $this->lng->txt("tst_results"));
 		$template->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$template->setVariable("PASS_DETAILS", $overview);
-		$template->setVariable("USER_DETAILS", $user_data);
+		$template->setVariable("USER_DATA", $user_data);
 		$uname = $this->object->userLookupFullName($user_id);
-		$template->setVariable("USER_NAME", sprintf($this->lng->txt("tst_result_user_name_pass"), $pass + 1, $uname));
+		$template->setVariable("TEXT_HEADING", sprintf($this->lng->txt("tst_result_user_name_pass"), $pass + 1, $uname));
 
 		$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "Modules/Test"), "print");
 		if ($this->object->getShowSolutionAnswersOnly())
