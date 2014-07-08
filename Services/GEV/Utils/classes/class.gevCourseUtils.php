@@ -598,6 +598,14 @@ class gevCourseUtils {
 		return $this->getMembership()->getMembers();
 	}
 	
+	public function getSpecialMembers() {		
+		return array_diff( $this->getParticipants()
+						 , $this->getMembers()
+						 , $this->getAdmins()
+						 , $this->getTrainers()
+						 );
+	}
+	
 	public function getMainTrainer() {
 		if ($this->main_trainer === null) {
 			$tutors = ksort($this->getTrainers());
@@ -972,6 +980,7 @@ class gevCourseUtils {
 		ilDatePresentation::setUseRelativeDates(true);
 		return $arr;
 	}
+	
 	
 	// Desk Display creation
 	
