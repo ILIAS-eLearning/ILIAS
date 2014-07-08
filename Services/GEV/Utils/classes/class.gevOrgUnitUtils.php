@@ -130,6 +130,10 @@ class gevOrgUnitUtils {
 			$this->ref_id = gevObjectUtils::getRefId($this->orgu_id);
 		}
 		
+		if (!$this->ref_id) {
+			throw new Exception("Could not determine ref_id for org unit with id '".$this->orgu_id."'");
+		}
+		
 		return $this->ref_id;
 	}
 	

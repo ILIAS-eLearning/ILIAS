@@ -545,9 +545,10 @@ class gevUserUtils {
 		return "TBD";
 	}
 	
-	public function getOvernightDetailsForCourse($a_crs_id) {
-		// TODO: implement
-		return "TBD";
+	public function getOvernightDetailsForCourse(ilObjCourse $a_crs) {
+		require_once("Services/Accomodations/classes/class.ilAccomodations.php");
+		return ilAccomodations::getInstance($a_crs)
+							  ->getAccomodationsOfUser($this->user_id);
 	}
 	
 	public function getUserWhoBookedAtCourse($a_crs_id) {
