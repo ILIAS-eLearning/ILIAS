@@ -740,6 +740,10 @@ class ilObjTestGUI extends ilObjectGUI
 		require_once 'Modules/Test/classes/toolbars/class.ilTestResultsToolbarGUI.php';
 		$toolbar = new ilTestResultsToolbarGUI($this->ctrl, $this->lng);
 
+		$this->ctrl->setParameter($this, 'pdf', '1');
+		$toolbar->setPdfExportLinkTarget( $this->ctrl->getLinkTarget($this, 'showDetailedResults') );
+		$this->ctrl->setParameter($this, 'pdf', '');
+
 		if( $show_answers )
 		{
 			if( isset($_GET['show_best_solutions']) )
@@ -805,8 +809,19 @@ class ilObjTestGUI extends ilObjectGUI
 			$template->setVariable( "USER_RESULT", $results );
 			$template->parseCurrentBlock();
 		}
-
-		return $template;
+		
+		if( $this->isPdfDeliveryRequest() )
+		{
+			require_once 'class.ilTestPDFGenerator.php';
+			
+			ilTestPDFGenerator::generatePDF(
+				$template->get(), ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $this->object->getTitle()
+			);
+		}
+		else
+		{
+			return $template;
+		}
 	}
 
 	private function redirectTo_ilObjTestSettingsGeneralGUI_showForm_Object()
@@ -5170,5 +5185,23 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->lng->txt("tst_delete_dyn_test_results_btn"),
 			false
 		);
+	}
+
+	/**
+	 * @return bool
+	 */
+	private function isPdfDeliveryRequest()
+	{
+		if( !isset($_GET['pdf']) )
+		{
+			return false;
+		}
+
+		if( !(bool)$_GET['pdf'] )
+		{
+			return false;
+		}
+
+		return true;
 	}
 }
