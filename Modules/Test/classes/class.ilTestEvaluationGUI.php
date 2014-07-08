@@ -878,7 +878,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print_hide_content.css", "Modules/Test"), "print");
 		}
 
-		if (array_key_exists("pdf", $_GET) && ($_GET["pdf"] == 1))
+		if( $this->isPdfDeliveryRequest() )
 		{
 			//$this->object->deliverPDFfromHTML($template->get());
 			require_once 'class.ilTestPDFGenerator.php';
