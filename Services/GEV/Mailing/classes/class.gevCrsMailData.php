@@ -182,12 +182,23 @@ class gevCrsMailData extends ilMailData {
 			case "BUCHENDER_NACHNAME":
 				$val = $this->usr_utils->getLastnameOfUserWhoBookedAtCourse($this->crs_utils->getId());
 				break;
-			/*case "EINSATZTAGE":
-				break;
+			//case "EINSATZTAGE":
+			//	break;
 			case "UEBERNACHTUNGEN":
+				$tmp = $this->usr_utils->getOvernightDetailsForCourse($this->crs_utils->getCourse());
+				$dates = array();
+				ilDatePresentation::setUseRelativeDates(false);
+				foreach ($tmp as $date) {
+					$d = ilDatePresentation::formatDate($date);
+					$date->increment(ilDateTime::DAY, 1);
+					$d .= " - ".ilDatePresentation::formatDate($date); 
+					$dates[] = $d;
+				}
+				ilDatePresentation::setUseRelativeDates(true);
+				$val = implode("<br />", $dates);
 				break;
-			case "LISTE":
-				break;*/
+			//case "LISTE":
+			//	break;
 			default:
 				$val = $a_placeholder_code;
 		}
