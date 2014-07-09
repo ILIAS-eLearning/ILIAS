@@ -468,6 +468,9 @@ class ilLearningProgressBaseGUI
 	function __appendUserInfo(&$info, $a_user)
 	{
 		global $ilUser;
+		
+		// #13525 - irrelevant personal data is not to be presented
+		return;
 
 		if(!is_object($a_user))
 		{
