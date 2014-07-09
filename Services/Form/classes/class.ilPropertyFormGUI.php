@@ -46,8 +46,10 @@ include_once './Services/Form/classes/class.ilBirthdayInputGUI.php';
 */
 class ilPropertyFormGUI extends ilFormGUI
 {
-	private $buttons = array();
-	private $items = array();
+	// gev-patch start
+	protected $buttons = array();
+	protected $items = array();
+	// gev-patch end
 	protected $mode = "std";
 	protected $check_input_called = false;
 	protected $disable_standard_message = false;
