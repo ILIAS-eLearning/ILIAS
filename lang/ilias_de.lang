@@ -14451,7 +14451,7 @@ book#:#book_overall_limit_warning#:#Sie haben die maximale Anzahl Buchungen erre
 cntr#:#cntr_tax_none_available#:#Es gibt keine verfügbaren Taxonomien.
 cntr#:#cntr_taxonomy_sideblock_settings#:#Taxonomieblock-Einstellungen
 cntr#:#cntr_taxonomy_show_sideblock#:#Taxonomie im Seitenblock darstellen
-survey#:#svy_eval_skipped_value#:#Evaluation - "übersprungen"
+survey#:#svy_eval_skipped_value#:#Ergebnisse: "übersprungen"
 survey#:#svy_eval_skipped_value_lng#:#Wert aus Sprachdatei übernehmen
 survey#:#svy_eval_skipped_value_lng_info#:#Aktueller Wert: "%s"
 survey#:#svy_eval_skipped_value_custom#:#Angepassten Wert verwenden
