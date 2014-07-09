@@ -1146,13 +1146,13 @@ class ilCtrl
 					$ilDB->quote($ilUser->getId(), "integer").
 					" AND session_id = ".$ilDB->quote(session_id(), "text"));
 				$rec = $ilDB->fetchAssoc($res);
-				
+//echo session_id();
 				if ($rec["token"] != "")
 				{
 					$this->rtoken = $rec["token"];
 					return $rec["token"];
 				}
-				
+//echo "new rtoken, new entry for :".$ilUser->getId().":".session_id().":"; exit;
 				$this->rtoken = md5(uniqid(rand(), true));
 				
 				// delete entries older than one and a half days
@@ -1214,9 +1214,19 @@ class ilCtrl
 				*/
 
 				// remove tokens from older sessions
-				$ilDB->manipulate("DELETE FROM il_request_token WHERE ". 		 
+				// if we do this immediately, working with multiple windows does not work:
+				// - window one: open form (with token a)
+				// - window two: open form (with token b)
+				// - submit window one: a is verified, but b must not be deleted immediately, otherwise
+				// - window two: submit results in invalid token
+				// see also bug #13551
+				$dt = new ilDateTime(time(),IL_CAL_UNIX);
+				$dt->increment(IL_CAL_DAY, -1);
+				$dt->increment(IL_CAL_HOUR, -12);
+				$ilDB->manipulate("DELETE FROM il_request_token WHERE ".
 					" user_id = ".$ilDB->quote($ilUser->getId(), "integer")." AND ". 		 
-					" session_id != ".$ilDB->quote(session_id(), "text"));
+					" session_id != ".$ilDB->quote(session_id(), "text")." AND ".
+					" stamp < ".$ilDB->quote($dt->get(IL_CAL_DATETIME), "timestamp"));
 				return true; 		 
 			} 		 
 			else
