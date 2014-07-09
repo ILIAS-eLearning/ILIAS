@@ -10,14 +10,15 @@
 *
 * @ilCtrl_Calls gevDesktopGUI: gevMyCoursesGUI
 * @ilCtrl_Calls gevDesktopGUI: gevCourseSearchGUI
+* @ilCtrl_Calls gevDesktopGUI: gevBookingGUI
 *
 */
 
 class gevDesktopGUI {
 	public function __construct() {
-		global $ilLng, $ilCtrl, $tpl;
+		global $lng, $ilCtrl, $tpl;
 		
-		$this->lng = &$ilLng;
+		$this->lng = &$lng;
 		$this->ctrl = &$ilCtrl;
 		$this->tpl = &$tpl;
 
@@ -43,11 +44,16 @@ class gevDesktopGUI {
 				$gui = new gevCourseSearchGUI();
 				$ret = $this->ctrl->forwardCommand($gui);
 				break;
-			case "gevmemberlistdeliverygui":
+			/*case "gevmemberlistdeliverygui":
 				require_once("Services/GEV/Desktop/classes/class.gevMemberListDeliveryGUI.php");
 				$gui = new gevMemberListDeliveryGUI();
 				$this->ctrl->forward($gui);
-				return;
+				return;*/
+			case "gevbookinggui";
+				require_once("Services/GEV/Desktop/classes/class.gevBookingGUI.php");
+				$gui = new gevBookingGUI();
+				$ret = $this->ctrl->forwardCommand($gui);
+				break;
 			default:	
 				$this->dispatchCmd($cmd);
 				break;

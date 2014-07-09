@@ -8,10 +8,10 @@ class ilMailLogTableGUI extends ilTable2GUI {
 		$this->parent_gui = &$a_parent_gui;
 		$this->mail_log = &$a_mail_log;
 
-		global $ilCtrl, $ilLng;
+		global $ilCtrl, $lng;
 
 		$this->ctrl = &$ilCtrl;
-		$this->lng = &$ilLng;
+		$this->lng = &$lng;
 
 		parent::__construct($a_parent_gui, $a_parent_cmd);
 

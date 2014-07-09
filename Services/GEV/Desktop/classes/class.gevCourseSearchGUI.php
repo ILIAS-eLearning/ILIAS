@@ -18,15 +18,15 @@ require_once("Services/GEV/Desktop/classes/class.gevCourseSearchTableGUI.php");
 
 class gevCourseSearchGUI {
 	public function __construct() {
-		global $ilLng, $ilCtrl, $tpl, $ilUser;
+		global $lng, $ilCtrl, $tpl, $ilUser;
 
-		$this->lng = &$ilLng;
+		$this->lng = &$lng;
 		$this->ctrl = &$ilCtrl;
 		$this->tpl = &$tpl;
 		$this->user_id = $ilUser->getId();
 		$this->user_utils = gevUserUtils::getInstance($ilUser->getId());
 
-		if ($this->user_utils->hasUSerSelectorOnSearchGUI()) {
+		if ($this->user_utils->hasUserSelectorOnSearchGUI()) {
 			$this->target_user_id = $_POST["target_user_id"]
 								  ? $_POST["target_user_id"]
 								  : $ilUser->getId();
