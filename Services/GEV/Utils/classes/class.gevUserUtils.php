@@ -575,7 +575,7 @@ class gevUserUtils {
 	public function iv_isActivated() {
 		global $ilDB;
 		$res = $ilDB->query("SELECT * FROM gev_user_reg_tokens ".
-						    " WHERE email = ".$ilDB->quote($this->getLogin(), "text").
+						    " WHERE username = ".$ilDB->quote($this->getLogin(), "text").
 							"   AND password_changed IS NULL");
 
 		if ($ilDB->fetchAssoc($res)) {
@@ -589,7 +589,7 @@ class gevUserUtils {
 		
 		$ilDB->manipulate("UPDATE gev_user_reg_tokens ".
 						  "   SET password_changed = NOW() ".
-						  " WHERE email = ".$ilDB->quote($this->getLogin(), "text")
+						  " WHERE username = ".$ilDB->quote($this->getLogin(), "text")
 						);
 	}
 }
