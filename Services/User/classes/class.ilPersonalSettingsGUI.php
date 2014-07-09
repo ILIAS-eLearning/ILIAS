@@ -768,8 +768,12 @@ class ilPersonalSettingsGUI
 			require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 			$utils = gevUserUtils::getInstance($ilUser->getId());
 			if($ilUser->getAuthMode(true) == AUTH_LOCAL && $utils->iv_isActivated())
-			// gev-patch end
 			{
+				if (ilSession::get("orig_request_target")) {
+					ilSession::set("orig_request_target", "index.php");
+				}
+				// gev-patch end
+				
 				// check current password
 				if (md5($_POST["current_password"]) != $ilUser->getPasswd() and
 					$ilUser->getPasswd())
