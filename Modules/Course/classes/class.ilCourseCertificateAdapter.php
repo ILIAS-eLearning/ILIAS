@@ -144,7 +144,7 @@ class ilCourseCertificateAdapter extends ilCertificateAdapter
 												, IL_CAL_DATETIME)
 											: "");
 		//$vars["COURSE_TOPICS"] = ilUtil::prepareFormOutput(implode(", ", $crs->getTopics()));
-		$vars["COURSE_CREDIT_POINTS"] = ilUtil::prepareFormOutput($crs->getCreditPoints());
+		$vars["COURSE_CREDIT_POINTS"] = ilUtil::prepareFormOutput($crs->getCreditPointsOf($user_id));
 		// gev-patch end
 		
 		$insert_tags = array();

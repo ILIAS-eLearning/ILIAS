@@ -794,6 +794,14 @@ class gevCourseUtils {
 		return "";
 	}
 	
+	
+	// Info about participants
+	
+	public function getCreditPointsOf($a_user_id) {
+		return $this->getParticipations()->getCreditPoints($a_user_id, false);
+	}
+	
+	
 	// Memberlist creation
 	
 	public function deliverMemberList($a_hotel_list) {
