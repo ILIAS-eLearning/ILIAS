@@ -772,7 +772,7 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
 		}
 		else
 		{
-			array_push($a_array, $this->lng->txt("skipped"));
+			array_push($a_array, $this->getSkippedValue());
 			for ($index = 0; $index < $this->categories->getCategoryCount(); $index++)
 			{
 				array_push($a_array, "");

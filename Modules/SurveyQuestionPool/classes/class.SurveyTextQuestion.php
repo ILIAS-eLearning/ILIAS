@@ -527,7 +527,7 @@ class SurveyTextQuestion extends SurveyQuestion
 		}
 		else
 		{
-			array_push($a_array, $this->lng->txt("skipped"));
+			array_push($a_array, $this->getSkippedValue());
 		}
 	}
 

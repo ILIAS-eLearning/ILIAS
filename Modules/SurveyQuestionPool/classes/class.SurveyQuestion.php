@@ -2413,5 +2413,11 @@ class SurveyQuestion
 	{
 		return (bool)sizeof($this->getCopyIds());						
 	}
+	
+	public function getSkippedValue()
+	{
+		include_once "Modules/Survey/classes/class.ilObjSurvey.php";
+		return ilObjSurvey::getSurveySkippedValue();
+	}
 }
 ?>

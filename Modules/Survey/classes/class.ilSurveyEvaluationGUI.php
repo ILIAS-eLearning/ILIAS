@@ -1071,7 +1071,7 @@ class ilSurveyEvaluationGUI
 					{
 						$text = $found;
 					}
-					if (strlen($text) == 0) $text = $this->lng->txt("skipped");
+					if (strlen($text) == 0) $text = ilObjSurvey::getSurveySkippedValue();
 					$wt = $this->object->getWorkingtimeForParticipant($data['active_id']);
 					if ($first)
 					{

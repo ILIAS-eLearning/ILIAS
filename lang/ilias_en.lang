@@ -14457,3 +14457,9 @@ book#:#book_overall_limit_warning#:#You have reached the maximum number of booki
 cntr#:#cntr_tax_none_available#:#There are no taxonomies available.
 cntr#:#cntr_taxonomy_sideblock_settings#:#Taxonomy Block Settings
 cntr#:#cntr_taxonomy_show_sideblock#:#Show taxonomy in side block
+survey#:#svy_eval_skipped_value#:#Evaluation - "skipped"
+survey#:#svy_eval_skipped_value_lng#:#Use language file entry
+survey#:#svy_eval_skipped_value_lng_info#:#Current value: "%s"
+survey#:#svy_eval_skipped_value_custom#:#Use custom value
+survey#:#svy_eval_skipped_value_custom_info#:#Define any (or empty) value to use for skipped answers
+survey#:#svy_eval_skipped_value_custom_value#:#Value
