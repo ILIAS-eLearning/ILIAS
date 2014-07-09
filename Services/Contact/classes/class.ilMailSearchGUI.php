@@ -334,7 +334,7 @@ class ilMailSearchGUI
 	
 			$all_results->setMaxHits(100000);
 			$all_results->preventOverwritingMaxhits(true);
-			$all_results->filter(ROOT_FOLDER_ID,QP_COMBINATION_OR);
+			$all_results->filter(ROOT_FOLDER_ID, true);
 	
 			
 			//$users = $all_results->getResults();
@@ -439,7 +439,7 @@ class ilMailSearchGUI
 			$group_results->setMaxHits(PHP_INT_MAX);
 			$group_results->preventOverwritingMaxhits(true);
 			$group_results->setRequiredPermission('read');
-			$group_results->filter(ROOT_FOLDER_ID, QP_COMBINATION_OR);
+			$group_results->filter(ROOT_FOLDER_ID, true);
 
 			$visible_groups = array();
 			if($group_results->getResults())
