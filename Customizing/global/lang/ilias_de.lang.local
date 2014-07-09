@@ -592,3 +592,18 @@ exc#:#exc_create_team_times_up_warning#:#Sie können kein Team mehr erstellen. B
 crs#:#crs_registration_confirmation_info#:#Der Beitritt erfolgt nur, wenn er durch einen Trainingsbetreuer oder Trainer bestätigt wird.
 exc#:#exc_completion_by_tutor#:#Nur manuell durch Trainer
 gev#:#gev_set_password_on_first_login#:#Bitte setzen sie ein Passwort für ihren Zugang zur Generali-Akademie.
+gev#:#gev_course_id#:#Nr. der Maßnahme
+gev#:#gev_target_group#:#Zielgruppe
+gev#:#gev_targets_and_benefit#:#Ziele und Nutzen
+gev#:#gev_contents#:#Inhalte
+gev#:#gev_course_type#:#Lernart
+gev#:#gev_methods#:#Methoden
+gev#:#gev_provider#:#Anbieter
+gev#:#gev_venue#:#Veranstaltungsort
+gev#:#gev_instructor#:#Referent
+gev#:#gev_free_places#:#verfügbare Plätze
+gev#:#gev_training_contact#:#Ansprechpartner
+gev#:#gev_training_fee#:#Teilnahmegebühr
+gev#:#gev_credit_points#:#Bildungspunkte
+gev#:#gev_subscription_end#:#Anmeldungsende
+gev#:#gev_booking_note#:#Mit der verbindlichen Buchung bestätigen sie, Buchung und Übernachtung mit ihrer Führungskraft abgestimmt zu haben.

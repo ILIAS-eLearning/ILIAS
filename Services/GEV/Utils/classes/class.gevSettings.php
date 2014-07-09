@@ -221,6 +221,21 @@ class gevSettings {
 		694 => array("BA",               "Mitarbeiter")
 
 	);
+
+	// Names of roles where users do not need to pay fees
+	static $NO_PAYMENT_ROLES = array(
+		  "Administrator"
+		, "eingeschränkter Admin"
+		, "OD/LD/BD/VD/VTWL"
+		, "LD/BD-Innen"
+		, "DBV/VL-EVG"
+		, "DBV-UV"
+		, "AVL"
+		, "Azubi"
+		, "ID-1"
+		, "ID-2"
+		, "int. Referent"
+		);
 	
 	
 	private function __construct() {

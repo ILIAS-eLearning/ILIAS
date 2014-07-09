@@ -68,7 +68,12 @@ class gevCourseUtils {
 	}
 	
 	static public function getBookingLinkTo($a_crs_id, $a_usr_id) {
-		return "NYI!"; // TODO: Implement this!
+		global $ilCtrl;
+		$ilCtrl->setParameterByClass("gevBookingGUI", "user_id", $a_usr_id);
+		$ilCtrl->setParameterByClass("gevBookingGUI", "crs_id", $a_crs_id);
+		$lnk = $ilCtrl->getLinkTargetByClass("gevBookingGUI", "book");
+		$ilCtrl->clearParametersByClass("gevBookingGUI");
+		return $lnk;
 	}
 
 	static public function mkDeadlineDate($a_start_date, $a_deadline) {
@@ -272,8 +277,12 @@ class gevCourseUtils {
 	}
 	
 	public function getFormattedStartDate() {
+		$d = $this->getStartDate();
+		if (!$d) {
+			return null;
+		}
 		ilDatePresentation::setUseRelativeDates(false);
-		$val = ilDatePresentation::formatDate($this->getStartDate());
+		$val = ilDatePresentation::formatDate($d);
 		ilDatePresentation::setUseRelativeDates(true);
 		return $val;
 	}
@@ -287,8 +296,12 @@ class gevCourseUtils {
 	}
 	
 	public function getFormattedEndDate() {
+		$d = $this->getEndDate();
+		if (!$d) {
+			return null;
+		}
 		ilDatePresentation::setUseRelativeDates(false);
-		$val = ilDatePresentation::formatDate($this->getEndDate());
+		$val = ilDatePresentation::formatDate($d);
 		ilDatePresentation::setUseRelativeDates(true);
 		return $val;
 	}
@@ -319,6 +332,26 @@ class gevCourseUtils {
 		
 		$spl = explode("-", $schedule[count($schedule) - 1]);
 		return $spl[1];
+	}
+	
+	public function getFormattedAppointment() {
+		$start = $this->getStartDate();
+		$end = $this->getEndDate();
+		if ($start && $end) {
+			return ilDatePresentation::formatPeriod($start, $end);
+		}
+		return "";
+	}
+	
+	public function getFormattedBookingDeadlineDate() {
+		$dl = $this->getBookingDeadline();
+		if (!$dl) {
+			return "";
+		}
+		ilDatePresentation::setUseRelativeDates(false);
+		$val = ilDatePresentation::formatDate($this->getEndDate());
+		ilDatePresentation::setUseRelativeDates(true);
+		return $val;
 	}
 	
 	public function getTopics() {
@@ -409,7 +442,11 @@ class gevCourseUtils {
 	}
 	
 	public function getBookingDeadline() {
-		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_BOOKING_DEADLINE);
+		$val = $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_BOOKING_DEADLINE);
+		if (!$val) {
+			$val = 1;
+		}
+		return $val;
 	}
 	
 	public function setBookingDeadline($a_dl) {
@@ -428,12 +465,25 @@ class gevCourseUtils {
 		return self::mkDeadlineDate($this->getStartDate(), $this->getCancelWaitingList());
 	}
 	
+	public function getFreePlaces() {
+		return $this->getBookings()->getFreePlaces();
+	}
+	
 	public function getProviderId() {
 		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_PROVIDER);
 	}
 	
 	public function setProviderId($a_provider) {
 		$this->amd->setField($this->crs_id, gevSettings::CRS_AMD_PROVIDER, $a_provider);
+	}
+	
+	public function getProvider() {
+		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
+		$id = $this->getProviderId();
+		if ($id === null) {
+			return null;
+		}
+		return gevOrgUnitUtils::getInstance($id);
 	}
 	
 	// Venue Info
@@ -598,6 +648,11 @@ class gevCourseUtils {
 		}
 		
 		return $ven->getContactEmail();
+	}
+	
+	public function getFormattedPreconditions() {
+		// TODO: implement this!
+		return "NYI!";
 	}
 	
 	// derived courses for templates

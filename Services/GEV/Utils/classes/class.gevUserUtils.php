@@ -218,7 +218,7 @@ class gevUserUtils {
 		while($val = $this->db->fetchAssoc($res)) {
 			// TODO: there need to be a check whether the user has met the preconditions here
 			// too.
-			if (gevObjectUtils::checkAccessOfUser($this->user_id, "view",  "", $val["obj_id"], "crs")) {
+			if (gevObjectUtils::checkAccessOfUser($this->user_id, "visible",  "", $val["obj_id"], "crs")) {
 				$crss[] = $val["obj_id"];
 			}
 		}
@@ -292,7 +292,7 @@ class gevUserUtils {
 	}
 	
 	public function hasUserSelectorOnSearchGUI() {
-		return true; // TODO: Implement that properly.
+		return false; // TODO: Implement that properly.
 	}
 	
 	public function getEmployeesForCourseSearch() {
@@ -537,6 +537,11 @@ class gevUserUtils {
 		$utils->assignUser($this->user_id, $a_role_title);
 	}
 	
+	
+	public function paysFees() {
+		// TODO: implement
+		return true;
+	}
 	
 	// course specific stuff
 	
