@@ -696,3 +696,13 @@ $ilDB->modifyTableColumn(
 		}
 	}
 ?>
+<#39>
+<?php
+if( $ilDB->tableColumnExists('qpl_qst_essay', 'keyword_relation') )
+{
+	$ilDB->queryF(
+		"UPDATE qpl_qst_essay SET keyword_relation = %s WHERE keyword_relation = %s",
+		array('text', 'text'), array('non', 'none')
+	);
+}
+?>
