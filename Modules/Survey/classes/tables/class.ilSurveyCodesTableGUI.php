@@ -67,7 +67,8 @@ class ilSurveyCodesTableGUI extends ilTable2GUI
 		$this->addMultiCommand('exportCodes', $this->lng->txt('export'));
 		$this->addMultiCommand('deleteCodesConfirm', $this->lng->txt('delete'));
 		
-		$this->addCommandButton('exportAllCodes', $this->lng->txt('export_all_survey_codes'));
+		$this->addCommandButton('exportAllCodes', $this->lng->txt('export_all_survey_codes'),
+			'', '', 'omitPreventDoubleSubmission');
 	
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
 

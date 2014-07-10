@@ -10322,8 +10322,8 @@ survey#:#mail_survey_codes#:#Mail access codes or messages
 survey#:#externalmails_info#:#The import file must be a CSV file, columns separated by a semicolon. The first row contains the column titles. The file must at least contain an 'email' column containing the recipient email.
 survey#:#externaltext#:#Import text
 survey#:#externaltext_info#:#The import text must be arranged in rows and columns, columns separated by a semicolon. The first row contains the column titles. The text must at least contain an 'email' column containing the recipient email.
-survey#:#import_from_file#:#Import from a file
-survey#:#import_from_text#:#Import from a text
+survey#:#import_from_file#:#Import user data from a file
+survey#:#import_from_text#:#Import user data from a text
 survey#:#import_from_dataset#:#Import from a dataset
 survey#:#recipients#:#Recipients
 survey#:#send_to_all#:#To all recipients
@@ -14463,3 +14463,5 @@ survey#:#svy_eval_skipped_value_lng_info#:#Current value: "%s"
 survey#:#svy_eval_skipped_value_custom#:#Use custom value
 survey#:#svy_eval_skipped_value_custom_info#:#Define any (or empty) value to use for skipped answers
 survey#:#svy_eval_skipped_value_custom_value#:#Value
+survey#:#svy_import_codes#:#Import Codes
+survey#:#svy_import_codes_info#:#This import requires a "%s" export file.

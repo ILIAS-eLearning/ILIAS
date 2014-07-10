@@ -510,6 +510,10 @@ class ilSurveyParticipantsGUI
 		
 		$ilToolbar->addSeparator();
 		
+		$ilToolbar->addFormButton($this->lng->txt("svy_import_codes"), "importAccessCodes");
+		
+		$ilToolbar->addSeparator();
+		
 		$languages = $this->lng->getInstalledLanguages();
 		$options = array();
 		$this->lng->loadLanguageModule("meta");
@@ -661,6 +665,90 @@ class ilSurveyParticipantsGUI
 	{
 		$export = $this->object->getSurveyCodesForExport();
 		ilUtil::deliverData($export, ilUtil::getASCIIFilename($this->object->getTitle() . ".csv"));
+	}
+	
+	/**
+	 * Import codes from export codes file (upload form)
+	 */
+	protected function importAccessCodesObject()
+	{		
+		$this->parent_gui->handleWriteAccess();
+		$this->setCodesSubtabs();
+		
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form_import_file = new ilPropertyFormGUI();
+		$form_import_file->setFormAction($this->ctrl->getFormAction($this));
+		$form_import_file->setTableWidth("100%");
+		$form_import_file->setId("codes_import_file");
+
+		$headerfile = new ilFormSectionHeaderGUI();
+		$headerfile->setTitle($this->lng->txt("svy_import_codes"));
+		$form_import_file->addItem($headerfile);
+		
+		$export_file = new ilFileInputGUI($this->lng->txt("codes"), "codes");
+		$export_file->setInfo(sprintf($this->lng->txt('svy_import_codes_info'),
+			$this->lng->txt("export_all_survey_codes")));
+		$export_file->setSuffixes(array("csv"));
+		$export_file->setRequired(true);
+		$form_import_file->addItem($export_file);
+		
+		$form_import_file->addCommandButton("importAccessCodesAction", $this->lng->txt("import"));
+		$form_import_file->addCommandButton("codes", $this->lng->txt("cancel"));
+
+		$this->tpl->setContent($form_import_file->getHTML());
+	}
+	
+	/**
+	 * Import codes from export codes file
+	 */
+	protected function importAccessCodesActionObject()
+	{
+		if(trim($_FILES['codes']['tmp_name']))
+		{
+			$existing = array();
+			foreach($this->object->getSurveyCodesTableData() as $item)
+			{
+				$existing[$item["code"]] = $item["id"];
+			}
+			
+			include_once "./Services/Utilities/classes/class.ilCSVReader.php";
+			$reader = new ilCSVReader();
+			$reader->open($_FILES['codes']['tmp_name']);			
+			foreach($reader->getDataArrayFromCSVFile() as $row)
+			{
+				if(sizeof($row) == 8)
+				{
+					// used/sent/url are not relevant when importing
+					list($code, $email, $last_name, $first_name, $created, $used, $sent, $url) = $row;
+					
+					// unique code?
+					if(!array_key_exists($code, $existing))
+					{
+						// could be date or datetime
+						if(strlen($created) == 10)
+						{
+							$created = new ilDate($created, IL_CAL_DATE);						
+						}
+						else
+						{
+							$created = new ilDateTime($created, IL_CAL_DATETIME);
+						}
+						$created = $created->get(IL_CAL_UNIX);
+						
+						$user_data = array(
+							"email" => $email
+							,"lastname" => $last_name
+							,"firstname" => $first_name
+						);			
+						$this->object->importSurveyCode($code, $created, $user_data);						
+					}					
+				}				
+			}						
+			
+			ilUtil::sendSuccess($this->lng->txt('codes_created'), true);
+		}
+		
+		$this->ctrl->redirect($this, 'codes');
 	}
 	
 	/**

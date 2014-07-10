@@ -4683,8 +4683,8 @@ class ilObjSurvey extends ilObject
 			}
 						
 			// No relative (today, tomorrow...) dates in export.
-			$date = new ilDate($row['tstamp'],IL_CAL_UNIX);
-			$item[] = $date->get(IL_CAL_DATE);
+			$date = new ilDateTime($row['tstamp'],IL_CAL_UNIX);
+			$item[] = $date->get(IL_CAL_DATETIME);
 			
 			$item[] = ($this->isSurveyCodeUsed($row["survey_key"])) ? 1 : 0;
 			$item[] = ($row["sent"]) ? 1 : 0;
@@ -4814,6 +4814,18 @@ class ilObjSurvey extends ilObject
 		}
 		
 		return $res;
+	}
+	
+	function importSurveyCode($a_anonymize_key, $a_created, $a_data)
+	{
+		global $ilDB;
+		
+		$next_id = $ilDB->nextId('svy_anonymous');
+		$ilDB->manipulateF("INSERT INTO svy_anonymous (anonymous_id, survey_key, survey_fi, externaldata, tstamp) ".
+			"VALUES (%s, %s, %s, %s, %s)",
+			array('integer','text','integer','text','integer'),
+			array($next_id, $a_anonymize_key, $this->getSurveyId(), serialize($a_data), $a_created)
+		);
 	}
 
 	function createSurveyCodesForExternalData($data)

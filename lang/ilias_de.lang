@@ -11132,8 +11132,8 @@ survey#:#import_error_opening_file#:#Fehler beim Öffnen der Importdatei!
 survey#:#import_error_survey_no_proper_values#:#Die Umfrage-Eigenschaften beinhalten keine korrekten Werte!
 survey#:#import_error_survey_no_properties#:#Keine Umfrage-Eigenschaften gefunden.
 survey#:#import_from_dataset#:#Import aus einem Datensatz
-survey#:#import_from_file#:#Import aus einer Datei
-survey#:#import_from_text#:#Import aus einem Text
+survey#:#import_from_file#:#Import von Benutzerdaten aus einer Datei
+survey#:#import_from_text#:#Import von Benutzerdaten aus einem Text
 survey#:#import_no_file_selected#:#Keine Datei ausgewählt!
 survey#:#import_question#:#Frage(n) importieren
 survey#:#import_wrong_file_type#:#Falscher Dateityp!
@@ -14457,3 +14457,5 @@ survey#:#svy_eval_skipped_value_lng_info#:#Aktueller Wert: "%s"
 survey#:#svy_eval_skipped_value_custom#:#Angepassten Wert verwenden
 survey#:#svy_eval_skipped_value_custom_info#:#Geben sie einen (oder leeren) Wert für übersprungene Antworten an
 survey#:#svy_eval_skipped_value_custom_value#:#Wert
+survey#:#svy_import_codes#:#Schlüssel importieren
+survey#:#svy_import_codes_info#:#Dieser Import benötigt eine "%s"-Export-Datei.
