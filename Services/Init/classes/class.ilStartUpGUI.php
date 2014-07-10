@@ -1147,6 +1147,9 @@ class ilStartUpGUI
 		$client_id = $_COOKIE["ilClientId"];
 		ilUtil::setCookie("ilClientId","");
 
+		$this->showLogin();
+
+/*
 		//instantiate logout template
 		self::initStartUpTemplate("tpl.logout.html");
 		
@@ -1175,6 +1178,7 @@ class ilStartUpGUI
 		$tpl->setVariable("CLIENT_ID","?client_id=".$client_id."&lang=".$lng->getLangKey());
 
 		$tpl->show();
+*/		
 	}
 
 	/**
