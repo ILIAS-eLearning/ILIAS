@@ -426,4 +426,18 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
 			)
 		);
 	}
+
+	// -----------------------------------------------------------------------------------------------------------------
+	
+	public function getSelectableQuestionPools()
+	{
+		return $this->testOBJ->getAvailableQuestionpools(
+			true, $this->arePoolsWithHomogeneousScoredQuestionsRequired(), false, true, true
+		);
+	}
+	
+	public function doesSelectableQuestionPoolsExist()
+	{
+		return (bool)count($this->getSelectableQuestionPools());
+	}
 }

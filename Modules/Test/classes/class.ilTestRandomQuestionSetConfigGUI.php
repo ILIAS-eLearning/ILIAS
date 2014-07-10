@@ -383,7 +383,7 @@ class ilTestRandomQuestionSetConfigGUI
 		require_once 'Modules/Test/classes/toolbars/class.ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUI.php';
 
 		$toolbar = new ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUI(
-			$this->ctrl, $this->lng, $this->testOBJ, $this, $this->questionSetConfig
+			$this->ctrl, $this->lng, $this, $this->questionSetConfig
 		);
 
 		$toolbar->build();
@@ -690,7 +690,7 @@ class ilTestRandomQuestionSetConfigGUI
 		throw new ilTestQuestionPoolNotAvailableAsSourcePoolException();
 	}
 
-	private function handleConfigurationStateMessages($afterRebuildQuestionStageCmd)
+	private function handleConfigurationStateMessages($currentRequestCmd)
 	{
 		if( !$this->questionSetConfig->isQuestionAmountConfigComplete() )
 		{
@@ -714,7 +714,12 @@ class ilTestRandomQuestionSetConfigGUI
 				$this->lng->txt('tst_msg_rand_quest_set_stage_pool_last_sync'), ilDatePresentation::formatDate($syncDate)
 			);
 
-			$infoMessage .= "<br />{$this->buildQuestionStageRebuildButton($afterRebuildQuestionStageCmd)}";
+			$infoMessage .= "<br />{$this->buildQuestionStageRebuildButton($currentRequestCmd)}";
+		}
+		
+		if( $this->isNoAvailableQuestionPoolsHintRequired($currentRequestCmd) )
+		{
+			$infoMessage .= '<br />'.$this->lng->txt('tst_msg_rand_quest_set_no_pools_available');
 		}
 
 		ilUtil::sendInfo($infoMessage);
@@ -736,5 +741,24 @@ class ilTestRandomQuestionSetConfigGUI
 		$button = "<a href=\"{$href}\">{$label}</a>";
 		
 		return $button;
+	}
+
+	/**
+	 * @param $currentRequestCmd
+	 * @return bool
+	 */
+	private function isNoAvailableQuestionPoolsHintRequired($currentRequestCmd)
+	{
+		if( $currentRequestCmd != self::CMD_SHOW_SRC_POOL_DEF_LIST )
+		{
+			return false;
+		}
+		
+		if( $this->questionSetConfig->doesSelectableQuestionPoolsExist() )
+		{
+			return false;
+		}
+		
+		return true;
 	}
 }
