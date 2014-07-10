@@ -171,7 +171,7 @@ class assTextQuestionImport extends assQuestionImport
 		}
 		if($no_keywords_found)
 		{
-			$this->object->setKeywordRelation('none');
+			$this->object->setKeywordRelation('non');
 			$this->object->addAnswer('', $maxpoints);
 		}
 			
