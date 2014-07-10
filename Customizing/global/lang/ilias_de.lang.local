@@ -612,5 +612,22 @@ gev#:#gev_book_employee#:#Mitarbeiter buchen
 gev#:#gev_booking_header_note#:#Bitte bestätigen sie die verbindliche Buchung über die Schaltfläche.
 gev#:#gev_booking_for#:#Buchung für:
 gev#:#gev_set_billing_data#:#Rechnungsdaten eingeben
-gev#:#gev_to_course_serach#:#Zum Bildungsangebot
+gev#:#gev_to_course_search#:#Zum Bildungsangebot
 gev#:#gev_obligatory_booking#:#Verbindliche Buchung
+acco#:#accomodations#:#Übernachtungen
+acco#:#acco_period_input_from#:#von
+acco#:#acco_period_input_to#:#bis
+acco#:#acco_period_input_from_first#:#Vorabend
+acco#:#acco_period_input_to_last#:#Nächster Morgen
+gev#:#gev_bill_recipient#:#Rechnungsempfänger
+gev#:#gev_bill_agency_name#:#Agenturname
+gev#:#gev_bill_costcenter#:#folgendes Agenturkonto soll mit der Buchung belastet werden
+gev#:#gev_coupon_codes#:#Gutscheincode(s)
+gev#:#gev_bill_email#:#Versandadresse für Rechnung
+gev#:#gev_accept_book_cond#:#Hiermit akzeptiere ich die Buchungs- und Stornierungsbedingungen der Generali Online Akademie.
+gev#:#housenumber#:#Hausnummer
+gev#:#gev_book_no_cond_accept#:#Sie müssen die Bedingungen akzeptieren um die Buchung abschließen zu können.
+gev#:#gev_invalid_coupon_codes#:#Folgende Gutscheincodes sind nicht mehr gültig: %s
+gev#:#gev_passed_similar_course_self#:#Sie haben bereits ein ähnliches Training erfolgreich abgeschlossen und dürfen dieses Angebot daher nicht buchen.
+gev#:#gev_passed_similar_course_employee#:#Ihr Mitarbeit hat bereits ein ähnliches Training erfolgreich abgeschlossen. Die dürfen dieses Angebot daher für ihren Mitarbeiter nicht buchen.
+gev#:#gev_course_is_full#:#Leider ist das Training bereits ausgebucht.

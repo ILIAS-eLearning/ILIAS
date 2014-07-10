@@ -32,15 +32,19 @@ class gevBookingGUI {
 	public function executeCommand() {
 		$this->initUser();
 		$this->initCourse();
+		
+		$this->checkIfUserAlreadyPassedASimilarCourse();
+		$this->checkIfCourseIsFull();
+		
 		$cmd = $this->ctrl->getCmd();
 		
 		switch($cmd) {
 			case "backToSearch":
-				ilUtil::redirect("ilias.php?baseClass=gevDesktopGUI&cmd=toCourseSearch");
-				return;
+				$this->toCourseSearch();
 			case "book":
 			case "paymentInfo":
-			case "finalizeBooking":
+			case "finalizeBookingWithoutPayment":
+			case "finalizeBookingWithPayment":
 				$this->setRequestParameters();
 				$cont = $this->$cmd();
 				break;
@@ -72,6 +76,29 @@ class gevBookingGUI {
 		
 		$this->crs_id = $_GET["crs_id"];
 		$this->crs_utils = gevCourseUtils::getInstance($this->crs_id);
+	}
+	
+	protected function toCourseSearch() {
+		ilUtil::redirect("ilias.php?baseClass=gevDesktopGUI&cmd=toCourseSearch");
+		exit();
+	}
+	
+	protected function checkIfUserAlreadyPassedASimilarCourse() {
+		// TODO: implement
+		if (false) {
+			ilUtil::sendFailure( $this->isSelfBooking() ? $this->lng->txt("gev_passed_similar_course_self")
+														: $this->lng->txt("gev_passed_similar_course_employee")
+							   , true);
+			$this->toCourseSearch();
+		}
+	}
+	
+	protected function checkIfCourseIsFull() {
+		// TODO: implement
+		if (false) {
+			ilUtil::sendFailure($this->lng->txt("gev_course_is_full"), true);
+			$this->toCourseSearch();
+		}
 	}
 	
 	protected function setRequestParameters() {
@@ -123,17 +150,18 @@ class gevBookingGUI {
 	protected function book() {
 		require_once("Services/CaTUIComponents/classes/class.catPropertyFormGUI.php");
 		require_once("Services/Form/classes/class.ilNonEditableValueGUI.php");
+		require_once("Services/Accomodations/classes/class.ilSetAccomodationsGUI.php");
 		
 		$form = new catPropertyFormGUI();
 		$form->setTemplate("tpl.gev_booking_form.html", "Services/GEV/Desktop");
 		$form->setTitle($this->crs_utils->getTitle());
-		$form->addCommandButton("backToSearch", $this->lng->txt("gev_course_search"));
+		$form->addCommandButton("backToSearch", $this->lng->txt("gev_to_course_search"));
 		
 		if ($this->isWithPayment()) {
 			$form->addCommandButton("paymentInfo", $this->lng->txt("gev_set_billing_data"));
 		}
 		else {
-			$form->addCommandButton("finalizeBooking", $this->lng->txt("gev_obligatory_booking"));
+			$form->addCommandButton("finalizeBookingWithoutPayment", $this->lng->txt("gev_obligatory_booking"));
 		}
 		$form->setFormAction($this->ctrl->getFormAction($this));
 
@@ -213,10 +241,8 @@ class gevBookingGUI {
 			$form->addItem($field);
 		}
 		
-		// TODO: use to be implemented ilAccomodationsFormGUIHelper here.
-		//$overnights = new ilAccomodationsPeriodInputGUI($this->lng->txt("gev_accomodations"), "overnights");
-		//$overnights->setPeriod($this->crs_utils->getStartDate(), $this->crs_utils->getEndDate());
-		//$form->addItem($overnights);
+		$this->lng->loadLanguageModule("acco");
+		ilSetAccomodationsGUI::addAccomodationsToForm($form, $this->crs_id, $this->user_id);
 		
 		if ($this->isSelfBooking()) {
 			$note = new ilNonEditableValueGUI($this->lng->txt("notice"), "", true);
@@ -226,13 +252,156 @@ class gevBookingGUI {
 		
 		return $form->getHTML();
 	}
-
-	protected function paymentInfo() {
-		die("payment_info");
+	
+	protected function buildPaymentForm($a_accomodations = null) {
+		require_once("Services/CaTUIComponents/classes/class.catPropertyFormGUI.php");
+		require_once("Services/Form/classes/class.ilTextInputGUI.php");
+		require_once("Services/Form/classes/class.ilEMailInputGUI.php");
+		require_once("Services/Form/classes/class.ilCheckboxInputGUI.php");
+		require_once("Services/Form/classes/class.ilHiddenInputGUI.php");
+		
+		$form = new catPropertyFormGUI();
+		$form->setTemplate("tpl.gev_booking_form.html", "Services/GEV/Desktop");
+		$form->setTitle($this->crs_utils->getTitle());
+		$form->addCommandButton("backToSearch", $this->lng->txt("gev_to_course_search"));
+		$form->addCommandButton("finalizeBookingWithPayment", $this->lng->txt("gev_obligatory_booking"));
+		$form->setFormAction($this->ctrl->getFormAction($this));
+		
+		$recipient = new ilTextInputGUI($this->lng->txt("gev_bill_recipient"), "recipient");
+		$recipient->setRequired(true);
+		$form->addItem($recipient);
+		
+		$agency = new ilTextInputGUI($this->lng->txt("gev_bill_agency_name"), "agency");
+		$agency->setRequired(true);
+		$form->addItem($agency);
+		
+		$street = new ilTextInputGUI($this->lng->txt("street"), "street");
+		$street->setRequired(true);
+		$form->addItem($street);
+		
+		$housenumber = new ilTextInputGUI($this->lng->txt("housenumber"), "housenumber");
+		$housenumber->setRequired(true);
+		$form->addItem($housenumber);
+		
+		$zipcode = new ilTextInputGUI($this->lng->txt("zipcode"), "zipcode");
+		$zipcode->setRequired(true);
+		$form->addItem($zipcode);
+		
+		$city = new ilTextInputGUI($this->lng->txt("city"), "city");
+		$city->setRequired(true);
+		$form->addItem($city);
+		
+		$costcenter = new ilTextInputGUI($this->lng->txt("gev_bill_costcenter"), "costcenter");
+		$costcenter->setRequired(true);
+		$form->addItem($costcenter);
+		
+		$coupons = new ilTextInputGUI($this->lng->txt("gev_coupon_codes"), "coupons");
+		$coupons->setMulti(true);
+		$form->addItem($coupons);
+		
+		$email = new ilEMailInputGUI($this->lng->txt("gev_bill_email"), "email");
+		$email->setRequired(true);
+		$form->addItem($email);
+		
+		$agb = new ilCheckboxInputGUI($this->lng->txt("gev_accept_book_cond"), "agb");
+		$form->addItem($agb);
+		
+		$accomodations = new ilHiddenInputGUI("accomodations");
+		if ($a_accomodations) {
+			$accomodations->setValue(serialize($a_accomodations));
+		}
+		$form->addItem($accomodations);
+		
+		return $form;
 	}
 
-	protected function finalizeBooking() {
-		die("finalizeBooking");
+	protected function paymentInfo() {
+		require_once("Services/CaTUIComponents/classes/class.catPropertyFormGUI.php");
+		require_once("Services/Accomodations/classes/class.ilSetAccomodationsGUI.php");
+		
+		$_form = new catPropertyFormGUI();
+		ilSetAccomodationsGUI::addAccomodationsToForm($_form, $this->crs_id, $this->user_id);
+		if (!$_form->checkInput()) {
+			$this->log->write("gevBookingGUI::paymentInfo: This should not happen, the form input did not check correctly.");
+			ilUtil::redirect("ilias.php?baseClass=gevDesktopGUI&cmd=toCourseSearch");
+			return;
+		}
+		
+		$accomodations = $_form->getInput("acco");
+
+		$form = $this->buildPaymentForm($accomodations);
+		$last_bill_data = $this->user_utils->getLastBillingDataMaybe();
+		if ($last_bill_data) {
+			foreach ($last_bill_data as $key => $value) {
+				$form->getItemByPostVar($key)->setValue($value);
+			}
+		}
+		
+		return $form->getHTML();
+	}
+	
+	protected function finalizeBookingWithPayment() {
+		require_once("Services/GEV/Utils/classes/class.gevBillingUtils.php");
+		$billing_utils = gevBillingUtils::getInstance();
+		
+		
+		$form = $this->buildPaymentForm();
+		
+		$ok = false;
+		if ($form->checkInput()) {
+			$ok = true;
+			if (!$form->getInput("agb")) {
+				$ok = false;
+				$form->getItemByPostvar("agb")->setAlert($this->lng->txt("gev_book_no_cond_accept"));
+			}
+			
+			if ($ok) {
+				$coupons = $form->getInput("coupons");
+				$invalid_codes = array();
+				foreach ($coupons as $coupon) {
+					if (!$billing_utils->isValidCouponCode()) {
+						$invalid_codes[] = $coupon;
+					}
+				}
+				if (count($invalid_codes) > 0) {
+					$ok = false;
+					$form->getItemByPostvar("coupons")->setAlert( sprintf( $this->lng->txt("gev_invalid_coupon_codes")
+																		 , implode(", ", $invalid_codes)
+																		 )
+																);
+				}
+			}
+		}
+		
+		if ($ok) {
+			$accomodations = unserialize($form->getInput("accomodations"));
+			$this->finalizeBooking($a_accomodations);
+			$billing_utils->createBill( $this->user_id
+									  , $this->crs_id
+									  , $form->getInput("recipient")
+									  , $form->getInput("agency")
+									  , $form->getInput("street")
+									  , $form->getInput("housenumber")
+									  , $form->getInput("zipcode")
+									  , $form->getInput("city")
+									  , $form->getInput("costcenter")
+									  , $form->getInput("coupons")
+									  , $form->getInput("email")
+									  );
+		}
+		else {
+			$form->setValuesByPost();
+			return $form->getHTML();
+		}
+	}
+
+	protected function finalizeBookingWithoutPayment() {
+		$accomodations = $_form->getInput("acco");
+		$this->finalizeBooking($accomodations);
+	}
+	
+	protected function finalizeBooking($a_accomodations) {
+		
 	}
 }
 

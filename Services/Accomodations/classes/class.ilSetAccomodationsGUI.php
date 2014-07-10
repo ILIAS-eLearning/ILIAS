@@ -274,6 +274,7 @@ class ilSetAccomodationsGUI
 		$name->setValue($uname["lastname"].", ".$uname["firstname"]);
 		$form->addItem($name);
 		
+		/*
 		$user_nights = array();
 		foreach($this->getAccomodations()->getAccomodationsOfUser($a_user_id) as $night)
 		{
@@ -289,6 +290,9 @@ class ilSetAccomodationsGUI
 		$nights->setMode(ilAccomodationsPeriodInputGUI::MODE_OVERNIGHT);
 		$nights->setValue($user_nights);
 		$form->addItem($nights);
+		*/
+		
+		self::addAccomodationsToForm($form, $this->getCourse()->getId(), $a_user_id);
 
 		$form->addCommandButton("saveUserAccomodations", $lng->txt("save"));
 		$form->addCommandButton("returnToParent", $lng->txt("cancel"));
@@ -337,6 +341,7 @@ class ilSetAccomodationsGUI
 		$form = $this->initUserForm($user_id);
 		if($form->checkInput())
 		{
+				/*
 			$nights = $form->getInput("acco");
 			
 			if(!is_array($nights))
@@ -351,6 +356,9 @@ class ilSetAccomodationsGUI
 				}
 				$this->getAccomodations()->setAccomodationsOfUser($user_id, $nights);
 			}
+			*/
+			
+			self::importAccomodationsFromForm($form, $this->getCourse()->getId(), $user_id);
 			
 			ilUtil::sendSuccess($lng->txt("settings_saved"), true);
 			$this->returnToParent();
@@ -359,4 +367,76 @@ class ilSetAccomodationsGUI
 		$form->setValuesByPost();
 		$this->editUserOperationDays($form);
 	}	
+	
+	
+	//
+	// form gui helper	
+	// 
+	
+	/**
+	 * Add accomodations of user for course to form
+	 * 
+	 * @param ilPropertyFormGUI $a_form
+	 * @param int $a_course_obj_id
+	 * @param int $a_user_id
+	 * @param string $a_field_name
+	 */
+	public static function addAccomodationsToForm(ilPropertyFormGUI $a_form, $a_course_obj_id, $a_user_id, $a_field_name = "acco")
+	{		
+		global $lng;
+		
+		require_once "Modules/Course/classes/class.ilObjCourse.php";
+		$course = new ilObjCourse($a_course_obj_id, false);		
+		$accomodations = ilAccomodations::getInstance($course);
+	
+		$user_nights = array();
+		foreach($accomodations->getAccomodationsOfUser($a_user_id) as $night)
+		{
+			$user_nights[] = $night->get(IL_CAL_DATE);
+		}
+		
+		require_once "Services/Accomodations/classes/class.ilAccomodationsPeriodInputGUI.php";
+		$nights = new ilAccomodationsPeriodInputGUI($lng->txt("acco_accomodations"), $a_field_name);		
+		$nights->setPeriod(
+			$accomodations->getCourseStart()->get(IL_CAL_DATE)
+			,$accomodations->getCourseEnd()->get(IL_CAL_DATE)
+		);
+		$nights->setMode(ilAccomodationsPeriodInputGUI::MODE_OVERNIGHT);
+		$nights->setValue($user_nights);
+		$a_form->addItem($nights);		
+	}
+	
+	/**
+	 * Import accomodations of user from form input
+	 * 
+	 * @param ilPropertyFormGUI $a_form
+	 * @param int $a_course_obj_id
+	 * @param int $a_user_id
+	 * @param string $a_field_name
+	 */
+	public static function importAccomodationsFromForm(ilPropertyFormGUI $a_form, $a_course_obj_id, $a_user_id, $a_field_name = "acco")
+	{
+		require_once "Modules/Course/classes/class.ilObjCourse.php";
+		$course = new ilObjCourse($a_course_obj_id, false);		
+		$accomodations = ilAccomodations::getInstance($course);
+				
+		$nights = $a_form->getInput($a_field_name);					
+		if(!is_array($nights))
+		{
+			$accomodations->deleteAccomodations($a_user_id);
+		}					
+		else 
+		{
+			$nights = self::formInputToAccomodationsArray($nights);
+			$accomodations->setAccomodationsOfUser($a_user_id, $nights);
+		}		
+	}
+	
+	public static function formInputToAccomodationsArray($a_nights) {
+		foreach($a_nights as $idx => $night)
+		{
+			$a_nights[$idx] = new ilDate($night, IL_CAL_DATE);
+		}
+		return $a_nights;
+	}
 }

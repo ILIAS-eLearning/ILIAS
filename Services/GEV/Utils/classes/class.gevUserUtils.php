@@ -605,6 +605,22 @@ class gevUserUtils {
 						  " WHERE username = ".$ilDB->quote($this->getLogin(), "text")
 						);
 	}
+	
+	// billing info
+	
+	public function getLastBillingDataMaybe() {
+		// TODO: implement
+		return null;
+		return array( "recipient" => "RECIPIENT"
+					, "agency" => "AGENCY"
+					, "street" => "STREET"
+					, "housenumber" => "HOUSENUMBER"
+					, "zipcode" => "ZIPCODE"
+					, "city" => "CITY"
+					, "costcenter" => "COSTCENTER"
+					, "email" => "EMAIL"
+					);
+	}
 }
 
 ?>
