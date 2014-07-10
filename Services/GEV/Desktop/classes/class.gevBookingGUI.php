@@ -35,11 +35,22 @@ class gevBookingGUI {
 		$cmd = $this->ctrl->getCmd();
 		
 		switch($cmd) {
+			case "backToSearch":
+				ilUtil::redirect("ilias.php?baseClass=gevDesktopGUI&cmd=toCourseSearch");
+				return;
 			case "book":
-				$this->$cmd();
+			case "paymentInfo":
+			case "finalizeBooking":
+				$this->setRequestParameters();
+				$cont = $this->$cmd();
 				break;
 			default:
 				$this->log->write("gevBookingGUI: Unknown command '".$cmd."'");
+		}
+		
+		
+		if ($cont) {
+			$this->insertInTemplate($cont);
 		}
 	}
 	
@@ -63,21 +74,77 @@ class gevBookingGUI {
 		$this->crs_utils = gevCourseUtils::getInstance($this->crs_id);
 	}
 	
+	protected function setRequestParameters() {
+		$this->ctrl->setParameter($this, "crs_id", $this->crs_id);
+		$this->ctrl->setParameter($this, "user_id", $this->user_id);
+	}
+	
+	protected function isSelfBooking() {
+		return $this->user_id == $this->current_user->getId();
+	}
+	
+	protected function isWithPayment() {
+		return $this->user_utils->paysFees() && ($this->crs_utils->getFee()?true:false);
+	}
+	
+	protected function insertInTemplate($a_cont) {
+		require_once("Services/CaTUIComponents/classes/class.catTitleGUI.php");
+		require_once("Services/CaTUIComponents/classes/class.catHSpacerGUI.php");
+		
+		if ($this->isSelfBooking()) {
+			$title = new catTitleGUI("gev_booking", "gev_booking_header_note", "GEV_img/ico-head-booking.png");
+			$employee_info = "";
+		}
+		else {
+			require_once("Services/CaTUIComponents/classes/class.catPropertyFormGUI.php");
+			require_once("Services/Form/classes/class.ilNonEditableValueGUI.php");
+			
+			$title = new catTitleGUI("gev_book_employee", "gev_booking_header_note", "GEV_img/ico-head-booking.png");
+			$spacer = new catHSpacerGUI();
+			
+			$form = new catPropertyFormGUI();
+			$form->setTemplate("tpl.gev_booking_form.html", "Services/GEV/Desktop");
+			$field = new ilNonEditableValueGUI($this->lng->txt("gev_booking_for"), "", true);
+			$field->setValue($this->user_utils->getFullName());
+			$form->addItem($field);
+			
+			$employee = $spacer->render()
+					  . $form->getContent()
+					  . $spacer->render()
+					  ;
+		}
+		
+		$this->tpl->setContent( $title->render()
+							  . $employee
+							  . $a_cont
+							  );
+	}
+	
 	protected function book() {
 		require_once("Services/CaTUIComponents/classes/class.catPropertyFormGUI.php");
 		require_once("Services/Form/classes/class.ilNonEditableValueGUI.php");
 		
 		$form = new catPropertyFormGUI();
 		$form->setTemplate("tpl.gev_booking_form.html", "Services/GEV/Desktop");
+		$form->setTitle($this->crs_utils->getTitle());
+		$form->addCommandButton("backToSearch", $this->lng->txt("gev_course_search"));
 		
+		if ($this->isWithPayment()) {
+			$form->addCommandButton("paymentInfo", $this->lng->txt("gev_set_billing_data"));
+		}
+		else {
+			$form->addCommandButton("finalizeBooking", $this->lng->txt("gev_obligatory_booking"));
+		}
+		$form->setFormAction($this->ctrl->getFormAction($this));
+
 		$prv = $this->crs_utils->getProvider();
 		$ven = $this->crs_utils->getVenue();
 		
 		$vals = array(
 			  array( $this->lng->txt("gev_course_id")
-			  	   , true
-			  	   , $this->crs_utils->getCustomId()
-			  	   )
+				   , true
+				   , $this->crs_utils->getCustomId()
+				   )
 			, array( $this->lng->txt("gev_target_group")
 				   , true
 				   , $this->crs_utils->getTargetGroupDesc()
@@ -123,7 +190,7 @@ class gevBookingGUI {
 				   , $this->crs_utils->getMainAdminName()
 				   )
 			, array( $this->lng->txt("gev_training_fee")
-				   , ($this->crs_utils->getFee()?true:false) && $this->user_utils->paysFees()
+				   , $this->isWithPayment()
 				   , str_replace(".", ",", "".$this->crs_utils->getFee()) . " &euro;"
 				   )
 			, array( $this->lng->txt("gev_credit_points")
@@ -151,13 +218,21 @@ class gevBookingGUI {
 		//$overnights->setPeriod($this->crs_utils->getStartDate(), $this->crs_utils->getEndDate());
 		//$form->addItem($overnights);
 		
-		if ($this->user_id == $this->current_user->getId()) {
+		if ($this->isSelfBooking()) {
 			$note = new ilNonEditableValueGUI($this->lng->txt("notice"), "", true);
 			$note->setValue($this->lng->txt("gev_booking_note"));
 			$form->addItem($note);
 		}
 		
-		$this->tpl->setContent($form->getContent());
+		return $form->getHTML();
+	}
+
+	protected function paymentInfo() {
+		die("payment_info");
+	}
+
+	protected function finalizeBooking() {
+		die("finalizeBooking");
 	}
 }
 

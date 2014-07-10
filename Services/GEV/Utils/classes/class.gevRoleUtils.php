@@ -85,6 +85,10 @@ class gevRoleUtils {
 		
 		gevRoleUtils::getRbacAdmin()->assignUser($roles[$a_role_title], $a_user_id);
 	}
+	
+	public function getGlobalRolesOf($a_user_id) {
+		return $this->getRbacReview()->assignedGlobalRoles($a_user_id);
+	}
 }
 
 ?>
