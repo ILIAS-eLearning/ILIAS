@@ -315,7 +315,7 @@ class ilCourseBookings
 	 * @param int $a_user_id
 	 * @return int
 	 */
-	protected function getUserStatus($a_user_id)
+	public function getUserStatus($a_user_id)
 	{
 		$crs_id = $this->getCourse()->getId();
 		

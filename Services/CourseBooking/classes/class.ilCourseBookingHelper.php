@@ -109,7 +109,7 @@ class ilCourseBookingHelper
 	 */
 	public function getBookingDeadline()
 	{
-		return gevCourseUtils::getInstance($this->course->getId())->getBookingDeadline();
+		return gevCourseUtils::getInstance($this->course->getId())->getBookingDeadlineDate();
 	}
 	
 	/**

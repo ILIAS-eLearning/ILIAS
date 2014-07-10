@@ -583,6 +583,10 @@ class gevUserUtils {
 		return $this->getUserWhoBookedAtCourse($a_crs_id)->getLastname();
 	}
 	
+	public function getBookingStatusAtCourse($a_course_id) {
+		return gevCourseUtils::getInstance($a_course_id)->getBookingStatusOf($this->user_id);
+	}
+	
 	// For IV-Import Process
 	
 	public function iv_isActivated() {

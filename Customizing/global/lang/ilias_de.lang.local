@@ -631,3 +631,10 @@ gev#:#gev_invalid_coupon_codes#:#Folgende Gutscheincodes sind nicht mehr gültig
 gev#:#gev_passed_similar_course_self#:#Sie haben bereits ein ähnliches Training erfolgreich abgeschlossen und dürfen dieses Angebot daher nicht buchen.
 gev#:#gev_passed_similar_course_employee#:#Ihr Mitarbeit hat bereits ein ähnliches Training erfolgreich abgeschlossen. Die dürfen dieses Angebot daher für ihren Mitarbeiter nicht buchen.
 gev#:#gev_course_is_full#:#Leider ist das Training bereits ausgebucht.
+gev#:#gev_not_allowed_to_book_crs_for_other#:#Sie dürfen dieses Training nicht für einen anderen Benutzer buchen.
+gev#:#gev_user_not_allowed_to_book_crs#:#Der Benutzer darf dieses Training nicht buchen.
+gev#:#gev_finalize_booking_error#:#Beim finalisieren der Buchung ist ein Fehler aufgetreten.
+gev#:#gev_was_booked_self#:#Das Training "%s" wurde erfolgreich für sie gebucht.
+gev#:#gev_was_booked_waiting_self#:#Sie wurden beim Training "%s" erfolgreich auf die Warteliste hinzugefügt.
+gev#:#gev_was_booked_employee#:#Ihr Mitarbeiter %s wurde erfolgreich auf das Training "%s" gebucht.
+gev#:#gev_was_booked_waiting_employee#:#Ihr Mitarbeiter %s wurde erfolgreich beim Training "%s" auf die Warteliste hinzugefügt.

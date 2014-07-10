@@ -1112,6 +1112,15 @@ class gevCourseUtils {
 		}
 	}
 
+	// Booking
+	
+	public function bookUser($a_user_id) {
+		return $this->getBookings()->join($a_user_id);
+	}
+	
+	public function getBookingStatusOf($a_user_id) {
+		return $this->getBookings()->getUserStatus($a_user_id);
+	}
 }
 
 ?>
