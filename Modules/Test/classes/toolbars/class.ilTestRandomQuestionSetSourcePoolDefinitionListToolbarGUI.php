@@ -26,13 +26,6 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUI extends ilToolba
 	public $lng = null;
 	
 	/**
-	 * object instance for current test
-	 *
-	 * @var ilObjTest
-	 */
-	public $testOBJ = null;
-	
-	/**
 	 * global $lng object
 	 * 
 	 * @var ilTestRandomQuestionSetConfigGUI
@@ -46,11 +39,10 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUI extends ilToolba
 	 */
 	public $questionSetConfig = null;
 	
-	public function __construct(ilCtrl $ctrl, ilLanguage $lng, ilObjTest $testOBJ, ilTestRandomQuestionSetConfigGUI $questionSetConfigGUI, ilTestRandomQuestionSetConfig $questionSetConfig)
+	public function __construct(ilCtrl $ctrl, ilLanguage $lng, ilTestRandomQuestionSetConfigGUI $questionSetConfigGUI, ilTestRandomQuestionSetConfig $questionSetConfig)
 	{
 		$this->ctrl = $ctrl;
 		$this->lng = $lng;
-		$this->testOBJ = $testOBJ;
 		$this->questionSetConfigGUI = $questionSetConfigGUI;
 		$this->questionSetConfig = $questionSetConfig;
 
@@ -59,22 +51,12 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUI extends ilToolba
 	
 	public function build()
 	{
-		$availablePools = $this->testOBJ->getAvailableQuestionpools(
-				true, $this->questionSetConfig->arePoolsWithHomogeneousScoredQuestionsRequired(), false, true, true
-		);
-		
-		require_once 'Services/Form/classes/class.ilSelectInputGUI.php';
-		$poolSelection = new ilSelectInputGUI(null, 'quest_pool_id');
-		$poolSelection->setOptions( $this->buildSourcePoolSelectOptionsArray($availablePools) );
-		
-		$this->addInputItem($poolSelection, true);
-		
 		$this->setFormAction( $this->ctrl->getFormAction($this->questionSetConfigGUI) );
-		
-		$this->addFormButton(
-				$this->lng->txt('tst_rnd_quest_set_tb_add_pool_btn'),
-				ilTestRandomQuestionSetConfigGUI::CMD_SHOW_CREATE_SRC_POOL_DEF_FORM
-		);
+
+		if( $this->questionSetConfig->doesSelectableQuestionPoolsExist() )
+		{
+			$this->populateNewQuestionSelectionRuleInputs();
+		}
 	}
 	
 	private function buildSourcePoolSelectOptionsArray($availablePools)
@@ -87,5 +69,21 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUI extends ilToolba
 		}
 		
 		return $sourcePoolSelectOptionArray;
+	}
+
+	private function populateNewQuestionSelectionRuleInputs()
+	{
+		$availablePools = $this->questionSetConfig->getSelectableQuestionPools();
+
+		require_once 'Services/Form/classes/class.ilSelectInputGUI.php';
+		$poolSelection = new ilSelectInputGUI(null, 'quest_pool_id');
+		$poolSelection->setOptions($this->buildSourcePoolSelectOptionsArray($availablePools));
+
+		$this->addInputItem($poolSelection, true);
+
+		$this->addFormButton(
+			$this->lng->txt('tst_rnd_quest_set_tb_add_pool_btn'),
+			ilTestRandomQuestionSetConfigGUI::CMD_SHOW_CREATE_SRC_POOL_DEF_FORM
+		);
 	}
 }
