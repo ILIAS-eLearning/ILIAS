@@ -695,6 +695,21 @@ class ilTestRandomQuestionSetConfigGUI
 		if( !$this->questionSetConfig->isQuestionAmountConfigComplete() )
 		{
 			$infoMessage = $this->lng->txt('tst_msg_rand_quest_set_incomplete_quest_amount_cfg');
+			
+			if( $this->isQuestionAmountConfigPerTestHintRequired($currentRequestCmd) )
+			{
+				$infoMessage .= '<br />'.sprintf(
+					$this->lng->txt('tst_msg_rand_quest_set_change_quest_amount_here'),
+					$this->buildGeneralConfigSubTabLink()
+				);
+			}
+			elseif( $this->isQuestionAmountConfigPerPoolHintRequired($currentRequestCmd) )
+			{
+				$infoMessage .= '<br />'.sprintf(
+					$this->lng->txt('tst_msg_rand_quest_set_change_quest_amount_here'),
+					$this->buildQuestionSelectionSubTabLink()
+				);
+			}
 		}
 		elseif( !$this->questionSetConfig->hasSourcePoolDefinitions() )
 		{
@@ -714,7 +729,7 @@ class ilTestRandomQuestionSetConfigGUI
 				$this->lng->txt('tst_msg_rand_quest_set_stage_pool_last_sync'), ilDatePresentation::formatDate($syncDate)
 			);
 
-			$infoMessage .= "<br />{$this->buildQuestionStageRebuildButton($currentRequestCmd)}";
+			$infoMessage .= "<br />{$this->buildQuestionStageRebuildLink($currentRequestCmd)}";
 		}
 		
 		if( $this->isNoAvailableQuestionPoolsHintRequired($currentRequestCmd) )
@@ -729,7 +744,7 @@ class ilTestRandomQuestionSetConfigGUI
 	 * @param $afterRebuildQuestionStageCmd
 	 * @return string
 	 */
-	private function buildQuestionStageRebuildButton($afterRebuildQuestionStageCmd)
+	private function buildQuestionStageRebuildLink($afterRebuildQuestionStageCmd)
 	{
 		$this->ctrl->setParameter(
 			$this, self::HTTP_PARAM_AFTER_REBUILD_QUESTION_STAGE_CMD, $afterRebuildQuestionStageCmd
@@ -738,9 +753,23 @@ class ilTestRandomQuestionSetConfigGUI
 		$href = $this->ctrl->getLinkTarget($this, self::CMD_BUILD_QUESTION_STAGE);
 		$label = $this->lng->txt('tst_btn_rebuild_random_question_stage');
 		
-		$button = "<a href=\"{$href}\">{$label}</a>";
+		return "<a href=\"{$href}\">{$label}</a>";
+	}
+
+	private function buildGeneralConfigSubTabLink()
+	{
+		$href = $this->ctrl->getLinkTarget($this, self::CMD_SHOW_GENERAL_CONFIG_FORM);
+		$label = $this->lng->txt('tst_rnd_quest_cfg_tab_general');
 		
-		return $button;
+		return "<a href=\"{$href}\">{$label}</a>";
+	}
+
+	private function buildQuestionSelectionSubTabLink()
+	{
+		$href = $this->ctrl->getLinkTarget($this, self::CMD_SHOW_SRC_POOL_DEF_LIST);
+		$label = $this->lng->txt('tst_rnd_quest_cfg_tab_pool');
+
+		return "<a href=\"{$href}\">{$label}</a>";
 	}
 
 	/**
@@ -759,6 +788,44 @@ class ilTestRandomQuestionSetConfigGUI
 			return false;
 		}
 		
+		return true;
+	}
+	
+	/**
+	 * @param $currentRequestCmd
+	 * @return bool
+	 */
+	private function isQuestionAmountConfigPerPoolHintRequired($currentRequestCmd)
+	{
+		if( $currentRequestCmd != self::CMD_SHOW_GENERAL_CONFIG_FORM )
+		{
+			return false;
+		}
+
+		if( !$this->questionSetConfig->isQuestionAmountConfigurationModePerPool() )
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * @param $currentRequestCmd
+	 * @return bool
+	 */
+	private function isQuestionAmountConfigPerTestHintRequired($currentRequestCmd)
+	{
+		if( $currentRequestCmd != self::CMD_SHOW_SRC_POOL_DEF_LIST )
+		{
+			return false;
+		}
+
+		if( !$this->questionSetConfig->isQuestionAmountConfigurationModePerTest() )
+		{
+			return false;
+		}
+
 		return true;
 	}
 }
