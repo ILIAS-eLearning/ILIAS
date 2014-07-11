@@ -1134,10 +1134,6 @@ class gevCourseUtils {
 		return $this->getBookings()->getUserStatus($a_user_id);
 	}
 	
-	public function getFreePlaces() {
-		return $this->getBookings()->getFreePlaces();
-	}
-	
 	public function isWaitingListActivated() {
 		return $this->getBookings()->isWaitingListActivated();
 	}
