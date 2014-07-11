@@ -769,9 +769,7 @@ class ilPersonalSettingsGUI
 			$utils = gevUserUtils::getInstance($ilUser->getId());
 			if($ilUser->getAuthMode(true) == AUTH_LOCAL && $utils->iv_isActivated())
 			{
-				if (ilSession::get("orig_request_target")) {
-					ilSession::set("orig_request_target", "index.php");
-				}
+				ilSession::set("orig_request_target", "index.php");
 				// gev-patch end
 				
 				// check current password
