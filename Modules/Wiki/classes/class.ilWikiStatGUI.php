@@ -283,8 +283,9 @@ class ilWikiStatGUI
 	{
 		$scope = ceil(sizeof($a_data)/31);		
 		
-		include_once "Services/Chart/classes/class.ilChart.php";
-		$chart = new ilChart("wikistat", 600, 400);
+		include_once "Services/Chart/classes/class.ilChartGrid.php";
+		$chart = ilChart::getInstanceByType(ilChart::TYPE_GRID, "wikistat");
+		$chart->setSize(600, 400);
 		$chart->setColors(array("#C0E0FF"));
 
 		$legend = new ilChartLegend();
@@ -313,13 +314,13 @@ class ilWikiStatGUI
 			,ilWikiStat::KEY_FIGURE_WIKI_PAGE_FOOTNOTES
 			)))
 		{		
-			$series = new ilChartData("lines");
+			$series = $chart->getDataInstance(ilChartGrid::DATA_LINES);
 			$series->setLineSteps(true);
 			$series->setFill(true, "#E0F0FF");
 		}
 		else
 		{
-			$series = new ilChartData("bars");			
+			$series = $chart->getDataInstance(ilChartGrid::DATA_BARS);
 			$series->setBarOptions(round(10/($scope*2))/10);					
 		}
 		$series->setLabel(ilWikiStat::getFigureTitle($a_figure));
