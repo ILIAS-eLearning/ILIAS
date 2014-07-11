@@ -203,6 +203,26 @@ class ilObjHelpSettings extends ilObject2
 			" id = ".$ilDB->quote($a_id, "integer"));
 		
 	}
-	
+
+	/**
+	 * Check if LM is a help LM
+	 *
+	 * @param integer $a_lm_id lm id
+	 * @return bool true/false
+	 */
+	static function isHelpLM($a_lm_id)
+	{
+		global $ilDB;
+
+		$set = $ilDB->query("SELECT id FROM help_module ".
+			" WHERE lm_id = ".$ilDB->quote($a_lm_id, "integer")
+		);
+		if ($rec = $ilDB->fetchAssoc($set))
+		{
+			return true;
+		}
+		return false;
+	}
+
 }
 ?>
