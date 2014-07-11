@@ -2,7 +2,7 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceHelper.php';
-
+require_once("Services/jQuery/classes/class.iljQueryUtil.php");
 /**
 * StartUp GUI class. Handles Login and Registration.
 *
@@ -1950,6 +1950,13 @@ class ilStartUpGUI
 		 * @var $ilAccess  ilAccessHandler
 		 */
 		global $tpl, $lng, $ilCtrl, $ilSetting, $ilAccess;
+
+
+
+	
+		iljQueryUtil::initjQuery();
+		//$tpl->addJavaScript("./Services/CaTUIComponents/js/catAccordionTable.js");
+
 
 		$tpl->addBlockfile('CONTENT', 'content', 'tpl.startup_screen.html', 'Services/Init');
 		$tpl->setVariable('HEADER_ICON', ilUtil::getImagePath('HeaderIcon.png'));
