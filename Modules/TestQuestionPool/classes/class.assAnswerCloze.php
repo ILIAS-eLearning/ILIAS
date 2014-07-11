@@ -103,9 +103,12 @@ class assAnswerCloze extends ASS_AnswerSimple
 	function setUpperBound($bound)
 	{
 		$bound = str_replace(",", ".", $bound);
-		if ($bound < $this->getAnswertext() || strlen($bound) == 0)
+
+		$value = $this->getNumericValueFromAnswerText();
+		
+		if ($bound < $value || strlen($bound) == 0)
 		{
-			$bound = $this->getAnswertext();
+			$bound = $value;
 		}
 		
 		if ( is_numeric($bound) )
@@ -117,7 +120,15 @@ class assAnswerCloze extends ASS_AnswerSimple
 			$this->upperBound = $this->getAnswertext();
 		}
 	}
-	
+
+	protected function getNumericValueFromAnswerText()
+	{
+		include_once("./Services/Math/classes/class.EvalMath.php");
+		$eval = new EvalMath();
+		$eval->suppress_errors = true;
+		return $eval->e(str_replace(",", ".", ilUtil::stripSlashes($this->getAnswertext(), FALSE)));
+	}
+
 	function getLowerBound()
 	{
 		return $this->lowerBound;
