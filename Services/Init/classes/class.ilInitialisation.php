@@ -833,9 +833,15 @@ class ilInitialisation
 	protected static function initLog() 
 	{		
 		require_once "./Services/Logging/classes/class.ilLog.php";
-		$log = new ilLog(ILIAS_LOG_DIR,ILIAS_LOG_FILE,CLIENT_ID,ILIAS_LOG_ENABLED,ILIAS_LOG_LEVEL);				
+		try
+		{
+			$log = new ilLog(ILIAS_LOG_DIR,ILIAS_LOG_FILE,CLIENT_ID,ILIAS_LOG_ENABLED,ILIAS_LOG_LEVEL);				
+		}
+		catch(ilLogException $e)
+		{
+			self::abortAndDie($e->getMessage());
+		}
 		self::initGlobal("ilLog", $log);
-		
 		// deprecated
 		self::initGlobal("log", $log);
 	}
