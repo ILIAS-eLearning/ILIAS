@@ -1139,7 +1139,7 @@ class gevCourseUtils {
 	}
 	
 	public function canBookCourseForOther($a_user_id, $a_other_id) {
-		return $this->getBookingPermission($a_user_id)->bookCourseForUser($a_other_id);
+		return $this->getBookingPermissions($a_user_id)->bookCourseForUser($a_other_id);
 	}
 	
 	public function isBookableFor($a_user) {

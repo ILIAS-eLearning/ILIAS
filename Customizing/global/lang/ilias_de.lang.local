@@ -638,3 +638,4 @@ gev#:#gev_was_booked_self#:#Das Training "%s" wurde erfolgreich für sie gebucht
 gev#:#gev_was_booked_waiting_self#:#Sie wurden beim Training "%s" erfolgreich auf die Warteliste hinzugefügt.
 gev#:#gev_was_booked_employee#:#Ihr Mitarbeiter %s wurde erfolgreich auf das Training "%s" gebucht.
 gev#:#gev_was_booked_waiting_employee#:#Ihr Mitarbeiter %s wurde erfolgreich beim Training "%s" auf die Warteliste hinzugefügt.
+gev#:#gev_course_bill_title#:#Buchung des Trainings "%s" für "%s"

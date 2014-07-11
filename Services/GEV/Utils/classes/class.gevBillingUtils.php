@@ -9,20 +9,21 @@
 * @version	$Id$
 */
 
-require_once("Services/Calendar/classes/class.ilDateTime.php");
 require_once("Services/Calendar/classes/class.ilDate.php");
-require_once("Services/CourseBooking/classes/class.ilCourseBooking.php");
-require_once("Services/CourseBooking/classes/class.ilUserCourseBookings.php");
-require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
-require_once("Services/GEV/Utils/classes/class.gevUDFUtils.php");
 require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
-require_once("Services/GEV/Utils/classes/class.gevSettings.php");
-require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
+require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+
 
 class gevBillingUtils {
+	const BILL_VAT = 19;
+	const BILL_CURRENCY = "EUR";
+	
 	static protected $instance = null;
 
 	protected function __construct() {
+		global $lng, $ilLog;
+		$this->lng = &$lng;
+		$this->log = &$ilLog;
 	}
 	
 	static public function getInstance() {
@@ -34,24 +35,109 @@ class gevBillingUtils {
 	}
 	
 	public function isValidCouponCode($a_code) {
-		// TODO: implement
-		return true;
+		require_once("Services/Billing/classes/class.ilCoupons.php");
+		return ilCoupons::getSingleton()->isValidCode($a_code);
 	}
 	
-	public function createBill( $a_user_id
-							  , $a_crs_id
-							  , $a_recipient
-							  , $a_agency
-							  , $a_street
-							  , $a_housenumber
-							  , $a_zipcode
-							  , $a_city
-							  , $a_costcenter
-							  , $a_coupons
-							  , $a_email
-							  ) {
-		// TODO: implement
-		return;
+	public function createCourseBill( $a_user_id
+									, $a_crs_id
+									, $a_recipient
+									, $a_agency
+									, $a_street
+									, $a_housenumber
+									, $a_zipcode
+									, $a_city
+									, $a_costcenter
+									, $a_coupons
+									, $a_email
+									) {
+		require_once("Services/Billing/classes/class.ilBill.php");
+		require_once("Services/Billing/classes/class.ilCoupon.php");
+		
+		$user_utils = gevUserUtils::getInstance($a_user_id);
+		$crs_utils = gevCourseUtils::getInstance($a_crs_id);
+		
+		$bill = new ilBill();
+		$bill->setBillyear(date("Y"));
+		$bill->setContextId($a_crs_id);
+		$bill->setRecipientName($a_agency.", ".$a_recipient);
+		$bill->setRecipientStreet($a_street);
+		$bill->setRecipientHousenumber($a_housenumber);
+		$bill->setRecipientZipcode($a_zipcode);
+		$bill->setRecipientCity($a_city);
+		$bill->setRecipientCountry("");
+		$bill->setDate(new ilDate(time(), IL_CAL_UNIX));
+		$bill->setTitle(sprintf( $this->lng->txt("gev_course_bill_title")
+							   , $crs_utils->getTitle()
+							   , $user_utils->getFirstname()." ".$user_utils->getLastname()
+							   )
+						);
+		$bill->setVAT(self::BILL_VAT);
+		$bill->setCostCenter($a_costcenter);
+		$bill->setCurrency(self::BILL_CURRENCY);
+		$bill->setUserId($a_user_id);
+		$bill->create();
+
+		$fee = $crs_utils->getFee();
+		
+		$this->createItem( "Training \"".$crs_utils->getTitle()."\""
+						 , $fee
+						 , $a_crs_id
+						 , $bill
+						);
+		
+		$coupon_dummy = new ilCoupon();
+		
+		// Take Coupon codes as long as the amount of the bill is
+		// larger then 0.
+		foreach($a_coupons as $code) {
+			$coupon = $coupon_dummy->getInstance($code);
+			$value = $coupon->getValue();
+			if ($fee > $value) {
+				// Take complete coupon value and preceed afterwards
+				$diff = $value;
+				$break = false;
+			}
+			else {
+				// Take only the leftover of the fee.
+				$diff = $fee;
+				$break = true;
+			}
+			$fee -= $diff;
+			$coupon->subtractValue($diff);
+			
+			$this->createItem("Gutschein ".$code
+							 , -1 * $diff
+							 , null
+							 , $bill
+							 );
+
+			if ($break) {
+				break;
+			}
+		}
+		
+		$bill->update();
+		
+		$this->log->write("gevBillingUtils::createCourseBill: created bill with id '".$bill->getId()."'");
+		
+		// TODO: send email!
+	}
+
+	protected function createItem( $a_title
+								 , $a_amount
+								 , $a_context_id
+								 , ilBill $bill
+								 ) {
+		$item = new ilBillItem();
+		$item->setTitle($a_title);
+		$item->setPreTaxAmount($a_amount);
+		$item->setVAT(self::BILL_VAT);
+		$item->setCurrency(self::BILL_CURRENCY);
+		$item->setContextId($a_context_id);
+		$item->setBill($bill);
+		$item->create();
+		return $item;
 	}
 }
 

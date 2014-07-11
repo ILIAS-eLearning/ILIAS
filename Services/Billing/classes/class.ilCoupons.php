@@ -123,6 +123,25 @@ class ilCoupons
 		return $coupons;
 	}
 
+	/**
+	 * @param string $a_code
+	 * @return bool
+	 */
+	public function isValidCode($a_code)
+	{
+		$result = $this->db->queryF('
+			SELECT *
+			FROM coupon
+			WHERE coupon_code = %s AND coupon_active = %s',
+			array('text', 'integer'),
+			array($a_code, 1)
+		);
+		
+		if ($this->db->fetchAssoc($result)) {
+			return true;
+		}
+		return false;
+	}
 
 	/**
 	 * @param integer $a_value

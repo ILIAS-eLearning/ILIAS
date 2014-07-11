@@ -95,7 +95,8 @@ class gevBookingGUI {
 	}
 	
 	protected function checkIfCourseIsFull() {
-		if (  $this->crs_utils->getFreePlaces() <= 0 
+		$free_places = $this->crs_utils->getFreePlaces();
+		if ( $free_places && $free_places <= 0 
 		  && !$this->crs_utils->isWaitingListActivated()) {
 			ilUtil::sendFailure($this->lng->txt("gev_course_is_full"), true);
 			$this->toCourseSearch();
@@ -103,15 +104,15 @@ class gevBookingGUI {
 	}
 	
 	protected function checkIfUserIsAllowedToBookCourseForOtherUser() {
-		if ( $this->crs_utils->canBookCourseForOther($this->current_user->getId(), $this->user_id)) {
-			ilUtil::sendFailure($this->lng->txt("gev_not_allowed_to_book_crs_for_other"));
+		if ( !$this->crs_utils->canBookCourseForOther($this->current_user->getId(), $this->user_id)) {
+			ilUtil::sendFailure($this->lng->txt("gev_not_allowed_to_book_crs_for_other"), true);
 			$this->toCourseSearch();
 		}
 	}
 	
 	public function checkIfUserIsAllowedToBookCourse() {
-		if ($this->crs_utils->isBookableFor($this->user_id)) {
-			ilUtil::sendFailure($this->lng->txt("gev_user_not_allowed_to_book_crs"));
+		if ( !$this->crs_utils->isBookableFor($this->user_id)) {
+			ilUtil::sendFailure($this->lng->txt("gev_user_not_allowed_to_book_crs"), true);
 			$this->toCourseSearch();
 		}
 	}
@@ -240,10 +241,10 @@ class gevBookingGUI {
 				   , true
 				   , $this->crs_utils->getCreditPoints()
 				   )
-			, array( $this->lng->txt("precondition")
-				   , true
-				   , $this->crs_utils->getFormattedPreconditions()
-				   )
+			//, array( $this->lng->txt("precondition")
+			//	   , true
+			//	   , $this->crs_utils->getFormattedPreconditions()
+			//	   )
 			);
 		
 		foreach ($vals as $val) {
@@ -316,9 +317,10 @@ class gevBookingGUI {
 		$coupons->setMulti(true);
 		$form->addItem($coupons);
 		
-		$email = new ilEMailInputGUI($this->lng->txt("gev_bill_email"), "email");
-		$email->setRequired(true);
-		$form->addItem($email);
+		// TODO: this needs to be enable if sending of emails works
+		//$email = new ilEMailInputGUI($this->lng->txt("gev_bill_email"), "email");
+		//$email->setRequired(true);
+		//$form->addItem($email);
 		
 		$agb = new ilCheckboxInputGUI($this->lng->txt("gev_accept_book_cond"), "agb");
 		$form->addItem($agb);
@@ -340,7 +342,7 @@ class gevBookingGUI {
 		ilSetAccomodationsGUI::addAccomodationsToForm($_form, $this->crs_id, $this->user_id);
 		if (!$_form->checkInput()) {
 			$this->log->write("gevBookingGUI::paymentInfo: This should not happen, the form input did not check correctly.");
-			ilUtil::redirect("ilias.php?baseClass=gevDesktopGUI&cmd=toCourseSearch");
+			$this->toCourseSearch();
 			return;
 		}
 		
@@ -375,7 +377,11 @@ class gevBookingGUI {
 			if ($ok) {
 				$coupons = $form->getInput("coupons");
 				$invalid_codes = array();
-				foreach ($coupons as $coupon) {
+				foreach ($coupons as $key => $coupon) {
+					if (!$coupon) {
+						unset($coupons[$key]);
+						continue;
+					}
 					if (!$billing_utils->isValidCouponCode($coupon)) {
 						$invalid_codes[] = $coupon;
 					}
@@ -392,19 +398,20 @@ class gevBookingGUI {
 		
 		if ($ok) {
 			$accomodations = unserialize($form->getInput("accomodations"));
-			$this->finalizeBooking($accomodations);
-			$billing_utils->createBill( $this->user_id
-									  , $this->crs_id
-									  , $form->getInput("recipient")
-									  , $form->getInput("agency")
-									  , $form->getInput("street")
-									  , $form->getInput("housenumber")
-									  , $form->getInput("zipcode")
-									  , $form->getInput("city")
-									  , $form->getInput("costcenter")
-									  , $form->getInput("coupons")
-									  , $form->getInput("email")
-									  );
+			$status = $this->finalizeBooking($accomodations);
+			$billing_utils->createCourseBill( $this->user_id
+											, $this->crs_id
+											, $form->getInput("recipient")
+											, $form->getInput("agency")
+											, $form->getInput("street")
+											, $form->getInput("housenumber")
+											, $form->getInput("zipcode")
+											, $form->getInput("city")
+											, $form->getInput("costcenter")
+											, $coupons
+											, $form->getInput("email")
+											);
+			$this->finalizedBookingRedirect($status);
 		}
 		else {
 			$form->setValuesByPost();
@@ -414,7 +421,8 @@ class gevBookingGUI {
 
 	protected function finalizeBookingWithoutPayment() {
 		$accomodations = $_form->getInput("acco");
-		$this->finalizeBooking($accomodations);
+		$status = $this->finalizeBooking($accomodations);
+		$this->finalizedBookingRedirect($status);
 	}
 	
 	protected function finalizeBooking($a_accomodations) {
@@ -435,7 +443,18 @@ class gevBookingGUI {
 			$this->failAtFinalize("Status was neither booked nor waiting.");
 		}
 		
-		$booked = $status == ilCourseBooking::STATUS_BOOKED;
+		return $status;
+	}
+	
+	protected function failAtFinalize($msg) {
+		$this->log->write("gevBookingGUI::finalizeBooking: ".$msg);
+		ilUtil::sendFailure($this->lng->txt("gev_finalize_booking_error"), true);
+		$this->toCourseSearch();
+		exit();
+	}
+	
+	protected function finalizedBookingRedirect($a_status) {
+		$booked = $a_status == ilCourseBooking::STATUS_BOOKED;
 		
 		if ($this->isSelfBooking()) {
 			ilUtil::sendSuccess( sprintf( $booked ? $this->lng->txt("gev_was_booked_self")
@@ -455,15 +474,8 @@ class gevBookingGUI {
 										 )
 								, true
 								);
-			ilUtil::redirect("ilias.php?baseClass=gevDesktopGUI&cmdClass=toCourseSearch");
+			$this->toCourseSearch();
 		}
-	}
-	
-	protected function failAtFinalize($msg) {
-		$this->log->write("gevBookingGUI::finalizeBooking: ".$msg);
-		ilUtil::sendFailure($this->lng->txt("gev_finalize_booking_error"), true);
-		$this->toCourseSearch();
-		exit();
 	}
 }
 
