@@ -59,6 +59,7 @@ class ilLog
 	* @param	string
 	* @return	boolean
 	* @access	public
+	* @throws ilLogException
 	*/
 	function ilLog($a_log_path, $a_log_file, $a_tag = "", $a_enabled = true, $a_log_level = NULL)
 	{
@@ -277,6 +278,10 @@ class ilLog
 		$this->write(print_r($a_var, true), $a_log_level);
 	}
 	
+	/**
+	 * Open log file
+	 * @throws ilLogException
+	 */
 	private function open()
 	{
 		if(!$this->fp)
