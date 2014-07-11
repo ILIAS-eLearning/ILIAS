@@ -99,7 +99,7 @@ class ilSurveyExecutionGUI
 		return $ret;
 	}
 	
-	protected function checkAuth($a_may_start = false)
+	protected function checkAuth($a_may_start = false, $a_ignore_status = false)
 	{
 		global $rbacsystem, $ilUser;
 		
@@ -162,32 +162,35 @@ class ilSurveyExecutionGUI
 			}									
 		}
 		$_SESSION["appr_id"][$this->object->getId()] = $appr_id;
-								
-		$status = $this->object->isSurveyStarted($user_id, $anonymous_code, $appr_id);		
-		// completed
-		if($status === 1)
+					
+		if(!$a_ignore_status)
 		{
-			ilUtil::sendFailure($this->lng->txt("already_completed_survey"), true);
-			$this->ctrl->redirectByClass("ilobjsurveygui", "infoScreen");
-		}
-		// starting 
-		else if ($status === false)
-		{			
-			if($a_may_start)
-			{								
-				$_SESSION["finished_id"][$this->object->getId()] = 
-					$this->object->startSurvey($user_id, $anonymous_code, $appr_id);				
-			}
-			else
+			$status = $this->object->isSurveyStarted($user_id, $anonymous_code, $appr_id);		
+			// completed
+			if($status === 1)
 			{
-				ilUtil::sendFailure($this->lng->txt("survey_use_start_button"), true);
+				ilUtil::sendFailure($this->lng->txt("already_completed_survey"), true);
 				$this->ctrl->redirectByClass("ilobjsurveygui", "infoScreen");
 			}
-		}		
-		// resuming
-		else
-		{
-			// nothing todo
+			// starting 
+			else if ($status === false)
+			{			
+				if($a_may_start)
+				{								
+					$_SESSION["finished_id"][$this->object->getId()] = 
+						$this->object->startSurvey($user_id, $anonymous_code, $appr_id);				
+				}
+				else
+				{
+					ilUtil::sendFailure($this->lng->txt("survey_use_start_button"), true);
+					$this->ctrl->redirectByClass("ilobjsurveygui", "infoScreen");
+				}
+			}		
+			// resuming
+			else
+			{
+				// nothing todo
+			}
 		}
 		
 		// validate finished id
@@ -737,6 +740,11 @@ class ilSurveyExecutionGUI
 		}
 		else
 		{			
+			if($has_button)
+			{
+				$ilToolbar->addSeparator();
+			}
+			
 			$ilToolbar->addButton($this->lng->txt("exit"),
 				$this->ctrl->getLinkTarget($this, "exitSurvey"));		
 			
@@ -832,10 +840,10 @@ class ilSurveyExecutionGUI
 			$this->backToRepository();
 		}
 		
-		$this->checkAuth();		
+		$this->checkAuth(false, true);		
 		
-		$ilToolbar->addButton($this->lng->txt("exit"),
-				$this->ctrl->getLinkTarget($this, "exitSurvey"));	
+		$ilToolbar->addButton($this->lng->txt("btn_back"),
+				$this->ctrl->getLinkTarget($this, "runShowFinishedPage"));	
 		
 		$survey_gui = new ilObjSurveyGUI();
 		$html = $survey_gui->getUserResultsTable($_SESSION["finished_id"][$this->object->getId()]);
@@ -849,7 +857,7 @@ class ilSurveyExecutionGUI
 			$this->backToRepository();
 		}
 		
-		$this->checkAuth();		
+		$this->checkAuth(false, true);		
 		
 		$recipient = $_POST["mail"];	
 		if(!ilUtil::is_email($recipient))
