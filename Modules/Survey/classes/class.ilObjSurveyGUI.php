@@ -1601,31 +1601,31 @@ class ilObjSurveyGUI extends ilObjectGUI
 					$survey_started = $this->object->isSurveyStarted($ilUser->getId(), $anonymous_code);				
 					if ($survey_started === 1)
 					{							
-						if($this->object->hasViewOwnResults())
-						{
-							$ilToolbar->addButton($this->lng->txt("svy_view_own_results"),
-								$this->ctrl->getLinkTarget($this, "viewUserResults"));		
-						}
-						
-						if($this->object->hasMailOwnResults())
+						if($ilUser->getId() != ANONYMOUS_USER_ID)
 						{
 							if($this->object->hasViewOwnResults())
 							{
-								$ilToolbar->addSeparator();
+								$ilToolbar->addButton($this->lng->txt("svy_view_own_results"),
+									$this->ctrl->getLinkTarget($this, "viewUserResults"));		
 							}
-													
-							require_once "Services/Form/classes/class.ilTextInputGUI.php";								
-							$mail = new ilTextInputGUI($this->lng->txt("email"), "mail");
-							$mail->setSize(25);
-							if($ilUser->getId() != ANONYMOUS_USER_ID)
+
+							if($this->object->hasMailOwnResults())
 							{
-								$mail->setValue($ilUser->getEmail());
+								if($this->object->hasViewOwnResults())
+								{
+									$ilToolbar->addSeparator();
+								}
+
+								require_once "Services/Form/classes/class.ilTextInputGUI.php";								
+								$mail = new ilTextInputGUI($this->lng->txt("email"), "mail");
+								$mail->setSize(25);								
+								$mail->setValue($ilUser->getEmail());								
+								$ilToolbar->addInputItem($mail, true);							
+
+								$ilToolbar->setFormAction($this->ctrl->getFormAction($this, "mailUserResults"));
+								$ilToolbar->addFormButton($this->lng->txt("svy_mail_own_results"),
+									"mailUserResults");														
 							}
-							$ilToolbar->addInputItem($mail, true);							
-							
-							$ilToolbar->setFormAction($this->ctrl->getFormAction($this, "mailUserResults"));
-							$ilToolbar->addFormButton($this->lng->txt("svy_mail_own_results"),
-								"mailUserResults");														
 						}
 						
 						ilUtil::sendInfo($this->lng->txt("already_completed_survey"));

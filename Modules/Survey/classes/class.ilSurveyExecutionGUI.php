@@ -699,7 +699,7 @@ class ilSurveyExecutionGUI
 		
 		$has_button = false;
 		
-		if(!$this->preview)
+		if(!$this->preview && $ilUser->getId() != ANONYMOUS_USER_ID)
 		{
 			if($this->object->hasViewOwnResults())
 			{
@@ -718,11 +718,8 @@ class ilSurveyExecutionGUI
 
 				require_once "Services/Form/classes/class.ilTextInputGUI.php";								
 				$mail = new ilTextInputGUI($this->lng->txt("email"), "mail");
-				$mail->setSize(25);
-				if($ilUser->getId() != ANONYMOUS_USER_ID)
-				{
-					$mail->setValue($ilUser->getEmail());
-				}
+				$mail->setSize(25);				
+				$mail->setValue($ilUser->getEmail());				
 				$ilToolbar->addInputItem($mail, true);	
 
 				$ilToolbar->setFormAction($this->ctrl->getFormAction($this, "mailUserResults"));
