@@ -102,13 +102,13 @@ class gevCourseSearchTableGUI extends catAccordionTableGUI {
 			else {
 				$status = $this->bookable_waiting_img;
 			}
+			$action = '<a href="'.gevCourseUtils::getBookingLinkTo($a_set["obj_id"], $this->user_id).'">'.
+				  $this->book_img."</a>";
 		}
 		else {
 			$status = $this->not_bookable_img;
+			$action = "";
 		}
-
-		$action = '<a href="'.gevCourseUtils::getBookingLinkTo($a_set["obj_id"], $this->user_id).'">'.
-				  $this->book_img."</a>";
 
 		$this->tpl->setVariable("TITLE", $a_set["title"]);
 		$this->tpl->setVariable("STATUS", $status);
