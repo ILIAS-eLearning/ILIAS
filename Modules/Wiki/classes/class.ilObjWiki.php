@@ -20,7 +20,8 @@ class ilObjWiki extends ilObject
 {
 	protected $online = false;
 	protected $public_notes = true;
-	
+	protected $empty_page_templ = true;
+
 	/**
 	* Constructor
 	* @access	public
@@ -286,6 +287,26 @@ class ilObjWiki extends ilObject
 	}
 
 	/**
+	 * Set empty page template
+	 *
+	 * @param boolean $a_val empty page template	
+	 */
+	function setEmptyPageTemplate($a_val)
+	{
+		$this->empty_page_templ = $a_val;
+	}
+	
+	/**
+	 * Get empty page template
+	 *
+	 * @return boolean empty page template
+	 */
+	function getEmptyPageTemplate()
+	{
+		return $this->empty_page_templ;
+	}
+	
+	/**
 	 * Is wiki an online help wiki?
 	 *
 	 * @return boolean true, if current wiki is an online help wiki
@@ -315,7 +336,8 @@ class ilObjWiki extends ilObject
 			"short" => array("text", $this->getShortTitle()),
 			"rating" => array("integer", (int) $this->getRating()),
 			"public_notes" => array("integer", (int) $this->getPublicNotes()),
-			"introduction" => array("clob", $this->getIntroduction())
+			"introduction" => array("clob", $this->getIntroduction()),
+			"empty_page_templ" => array("integer", (int) $this->getEmptyPageTemplate()),
 			));
 
 		// create start page
@@ -362,7 +384,8 @@ class ilObjWiki extends ilObject
 			"public_notes" => array("integer", $this->getPublicNotes()),
 			"introduction" => array("clob", $this->getIntroduction()),
 			"imp_pages" => array("integer", $this->getImportantPages()),
-			"page_toc" => array("integer", $this->getPageToc())
+			"page_toc" => array("integer", $this->getPageToc()),
+			"empty_page_templ" => array("integer", $this->getEmptyPageTemplate())
 			), array(
 			"id" => array("integer", $this->getId())
 			));
@@ -410,6 +433,7 @@ class ilObjWiki extends ilObject
 		$this->setIntroduction($rec["introduction"]);
 		$this->setImportantPages($rec["imp_pages"]);
 		$this->setPageToc($rec["page_toc"]);
+		$this->setEmptyPageTemplate($rec["empty_page_templ"]);
 
 		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
 		$this->setStyleSheetId((int) ilObjStyleSheet::lookupObjectStyle($this->getId()));
@@ -1013,6 +1037,74 @@ class ilObjWiki extends ilObject
 		}
 		
 		return $new_obj;
+	}
+
+	/**
+	 * Get template selection on creation? If more than one template (including empty page template)
+	 * is activated -> return true
+	 *
+	 * @return boolean true, if manual template selection needed
+	 */
+	function getTemplateSelectionOnCreation()
+	{
+		$num = (int) $this->getEmptyPageTemplate();
+		include_once("./Modules/Wiki/classes/class.ilWikiPageTemplate.php");
+		$wt = new ilWikiPageTemplate($this->getId());
+		$ts = $wt->getAllInfo(ilWikiPageTemplate::TYPE_NEW_PAGES);
+		$num += count($ts);
+		if ($num > 1)
+		{
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Create new wiki page
+	 *
+	 * @param string $a_page_title page title
+	 * @param int $a_template_page template page id
+	 * @return ilWikiPage new wiki page
+	 */
+	function createWikiPage($a_page_title, $a_template_page = 0)
+	{
+		// check if template has to be used
+		if ($a_template_page == 0)
+		{
+			if (!$this->getEmptyPageTemplate())
+			{
+				include_once("./Modules/Wiki/classes/class.ilWikiPageTemplate.php");
+				$wt = new ilWikiPageTemplate($this->getId());
+				$ts = $wt->getAllInfo(ilWikiPageTemplate::TYPE_NEW_PAGES);
+				if (count($ts) == 1)
+				{
+					$t = current($ts);
+					$a_template_page = $t["wpage_id"];
+				}
+			}
+		}
+
+		// create the page
+		$page = new ilWikiPage();
+		$page->setWikiId($this->getId());
+		$page->setTitle(ilWikiUtil::makeDbTitle($a_page_title));
+		if($this->getRating() && $this->getRatingForNewPages())
+		{
+			$page->setRating(true);
+		}
+
+		// needed for notification
+		$page->setWikiRefId($this->getRefId());
+		$page->create();
+
+		// copy template into new page
+		if ($a_template_page > 0)
+		{
+			$orig = new ilWikiPage($a_template_page);
+			$orig->copy($page->getId());
+		}
+
+		return $page;
 	}
 
 }

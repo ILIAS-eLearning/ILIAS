@@ -1714,6 +1714,7 @@ return;
 						 'enable_sa_qst' => $cfg->getEnableSelfAssessment() ? "y" : "n",
 						 'enable_file_list' => $cfg->getEnablePCType("FileList") ? "y" : "n",
 						 'enable_content_includes' => $cfg->getEnablePCType("ContentInclude") ? "y" : "n",
+						 'enable_content_templates' => (count($this->getPageObject()->getContentTemplates()) > 0) ? "y" : "n",
 						 'paste' => $paste ? "y" : "n",
 						 'media_mode' => $media_mode,
 						 'javascript' => $sel_js_mode,

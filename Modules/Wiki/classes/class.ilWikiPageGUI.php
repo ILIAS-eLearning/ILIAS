@@ -87,6 +87,9 @@ class ilWikiPageGUI extends ilPageObjectGUI
 				$rating_gui = new ilRatingGUI();
 				$rating_gui->setObject($this->getPageObject()->getParentId(), "wiki",
 					$this->getPageObject()->getId(), "wpg");
+				// patch-begin freiburg
+				$rating_gui->setUpdateCallback(array($this, "updateStatsRating"));
+				// patch-end freiburg				
 				$this->ctrl->forwardCommand($rating_gui);
 				$ilCtrl->redirect($this, "preview");
 				break;
@@ -374,12 +377,12 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		if(!$this->getAbstractOnly())
 		{
 			$this->setPresentationTitle($this->getWikiPage()->getTitle());
-			$this->increaseViewCount();		
+			
+			// wiki stats clean up
+			// $this->increaseViewCount(); 
 		}
-		
-		$output = parent::showPage();
-		
-		return $output;
+	
+		return parent::showPage();
 	}
 	
 	protected function increaseViewCount()
@@ -391,7 +394,12 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		// enable object statistics
 		require_once('Services/Tracking/classes/class.ilChangeEvent.php');
 		ilChangeEvent::_recordReadEvent("wiki", $this->getWikiPage()->getWikiRefId(),
-			$this->getWikiPage()->getWikiId(), $ilUser->getId());			
+			$this->getWikiPage()->getWikiId(), $ilUser->getId());	
+		
+		// patch-begin freiburg
+		include_once "./Modules/Wiki/classes/class.ilWikiStat.php";
+		ilWikiStat::handleEvent(ilWikiStat::EVENT_PAGE_READ, $this->getWikiPage());
+		// patch-end freiburg
 	}
 
 	/**
@@ -399,11 +407,17 @@ class ilWikiPageGUI extends ilPageObjectGUI
 	*/
 	function postOutputProcessing($a_output)
 	{
+		global $ilCtrl;
+
 //echo htmlentities($a_output);
 		include_once("./Modules/Wiki/classes/class.ilWikiUtil.php");
+
+		$ilCtrl->setParameterByClass("ilobjwikigui", "from_page", ilWikiUtil::makeUrlTitle($_GET["page"]));
 		$output = ilWikiUtil::replaceInternalLinks($a_output,
 			$this->getWikiPage()->getWikiId(),
 			($this->getOutputMode() == "offline"));
+		$ilCtrl->setParameterByClass("ilobjwikigui", "from_page", $_GET["from_page"]);
+
 		return $output;
 	}
 	
@@ -767,6 +781,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		include_once "./Services/Notification/classes/class.ilNotification.php";
 		ilWikiUtil::sendNotification("comment", ilNotification::TYPE_WIKI_PAGE, $this->getWikiRefId(), $a_page_id, $note);
 	}
+<<<<<<< .working
 	
 	
 	//
@@ -833,5 +848,18 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		}		
 		$ilCtrl->redirect($this, "preview");
 	}
+=======
+		
+	// patch-begin freiburg
+	public function updateStatsRating($a_wiki_id, $a_wiki_type, $a_page_id, $a_page_type)
+	{
+		// patch-begin freiburg
+		include_once "./Modules/Wiki/classes/class.ilWikiStat.php";
+		ilWikiStat::handleEvent(ilWikiStat::EVENT_PAGE_RATING, $this->getPageObject());
+		// patch-end freiburg		
+	}
+	// patch-end freiburg
+>>>>>>> .merge-right.r48387
 } 
+
 ?>

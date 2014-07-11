@@ -575,12 +575,27 @@ class ilRatingGUI
 					$rating, $cat_id);					
 			}
 		}
+				
+		// patch-begin freiburg
+		if($this->update_callback)
+		{
+			call_user_func($this->update_callback, $this->obj_id, $this->obj_type,
+				$this->sub_obj_id, $this->sub_obj_type);			
+		}		
+		// patch-end freiburg
 		
 		if($ilCtrl->isAsynch())
 		{
 			exit();
 		}
 	}
+	
+	// patch-begin freiburg
+	public function setUpdateCallback($a_callback)
+	{
+		$this->update_callback = $a_callback;
+	}		
+	// patch-end freiburg		
 	
 	/**
 	* Reset Rating

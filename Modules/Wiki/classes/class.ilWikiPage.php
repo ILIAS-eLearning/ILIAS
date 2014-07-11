@@ -188,6 +188,11 @@ class ilWikiPage extends ilPageObject
 		{
 			parent::create();
 			$this->saveInternalLinks($this->getDomDoc());
+			
+			// patch-begin freiburg
+			include_once "./Modules/Wiki/classes/class.ilWikiStat.php";
+			ilWikiStat::handleEvent(ilWikiStat::EVENT_PAGE_CREATED, $this);
+			// patch-end freiburg
 
 			include_once "./Services/Notification/classes/class.ilNotification.php";
 			ilWikiUtil::sendNotification("new", ilNotification::TYPE_WIKI, $this->getWikiRefId(), $this->getId());
@@ -195,7 +200,48 @@ class ilWikiPage extends ilPageObject
 
 		$this->updateNews();
 	}
+	
+	
+	// patch-begin freiburg
+	
+	public function afterUpdate($a_domdoc, $a_xml)
+	{				
+		// internal == wiki links	
+		include_once "Modules/Wiki/classes/class.ilWikiUtil.php";
+		$int_links = sizeof(ilWikiUtil::collectInternalLinks($a_xml, $this->getWikiId(), true));
+		
+		$xpath = new DOMXPath($a_domdoc);
+	
+		// external = internal + external links
+		$ext_links = sizeof($xpath->query('//IntLink'));		
+		$ext_links += sizeof($xpath->query('//ExtLink'));		
+		
+		$footnotes = sizeof($xpath->query('//Footnote'));
+		
+		
+		// words/characters (xml)
+				
+		$xml = strip_tags($a_xml);	
+		
+		include_once "Services/Utilities/classes/class.ilStr.php";
+		$num_chars = ilStr::strLen($xml);
+		$num_words = sizeof(explode(" ", $xml));
+						
+		$page_data = array(
+			"int_links" => $int_links,
+			"ext_links" => $ext_links,
+			"footnotes" => $footnotes,
+			"num_words" => $num_words,
+			"num_chars" => $num_chars
+		);
+		
+		include_once "./Modules/Wiki/classes/class.ilWikiStat.php";
+		ilWikiStat::handleEvent(ilWikiStat::EVENT_PAGE_UPDATED, $this, null, $page_data);				
+	}
+		
+	// patch-end freiburg
 
+	
 	/**
 	* update object data
 	*
@@ -217,9 +263,10 @@ class ilWikiPage extends ilPageObject
 		$updated = parent::update($a_validate, $a_no_history);
 
 		if ($updated === true)
-		{
+		{		
 			include_once "./Services/Notification/classes/class.ilNotification.php";
 			ilWikiUtil::sendNotification("update", ilNotification::TYPE_WIKI_PAGE, $this->getWikiRefId(), $this->getId());	
+			
 			$this->updateNews(true);
 		}
 		else
@@ -271,6 +318,11 @@ class ilWikiPage extends ilPageObject
 		// delete internal links information to this page
 		include_once("./Services/COPage/classes/class.ilInternalLink.php");
 		ilInternalLink::_deleteAllLinksToTarget("wpg", $this->getId());
+		
+		// patch-begin freiburg
+		include_once "./Modules/Wiki/classes/class.ilWikiStat.php";
+		ilWikiStat::handleEvent(ilWikiStat::EVENT_PAGE_DELETED, $this);
+		// patch-end freiburg		
 
 		include_once "./Services/Notification/classes/class.ilNotification.php";
 		ilWikiUtil::sendNotification("delete", ilNotification::TYPE_WIKI_PAGE, $this->getWikiRefId(), $this->getId());
@@ -970,6 +1022,24 @@ class ilWikiPage extends ilPageObject
 		}
 		return $href;
 	}
-	
+
+
+	/**
+	 * Get content templates
+	 *
+	 * @return array array of arrays with "id" => page id (int), "parent_type" => parent type (string), "title" => title (string)
+	 */
+	function getContentTemplates()
+	{
+		include_once("./Modules/Wiki/classes/class.ilWikiPageTemplate.php");
+		$wt = new ilWikiPageTemplate($this->getWikiId());
+		$templates = array();
+		foreach ($wt->getAllInfo(ilWikiPageTemplate::TYPE_ADD_TO_PAGE) as $t)
+		{
+			$templates[] = array("id" => $t["wpage_id"], "parent_type" => "wpg", "title" => $t["title"]);
+		}
+		return $templates;
+	}
+
 }
 ?>

@@ -1289,7 +1289,7 @@ abstract class ilPageObject
 			"ed_align_right_float", "ed_delete_item", "ed_new_item_before",
 			"ed_new_item_after", "ed_copy_clip", "please_select", "ed_split_page",
 			"ed_item_up", "ed_item_down", "ed_split_page_next","ed_enable",
-			"de_activate", "ed_paste", "ed_edit_multiple", "ed_cut", "ed_copy");
+			"de_activate", "ed_paste", "ed_edit_multiple", "ed_cut", "ed_copy", "ed_insert_templ");
 		
 		// collect lang vars from pc elements
 		include_once("./Services/COPage/classes/class.ilCOPagePCDef.php");
@@ -2384,8 +2384,10 @@ abstract class ilPageObject
 			call_user_func($def["pc_class"].'::afterPageUpdate', $this, $a_domdoc, $a_xml, $a_creation);
 		}
 				
+		// patch-begin freiburg
 		// call page hook
-		$this->afterUpdate();
+		$this->afterUpdate($a_domdoc, $a_xml);
+		// patch-end freiburg
 		
 		// call update listeners
 		$this->callUpdateListeners();
@@ -3776,6 +3778,7 @@ abstract class ilPageObject
 		{
 			$path.= $sep."//".$el."[not(@PCID)]";
 			$sep = " | ";
+			$path.= $sep."//".$el."[@PCID='']";
 		}
 		
 		$xpc = xpath_new_context($mydom);
@@ -3878,6 +3881,8 @@ abstract class ilPageObject
 		foreach ($this->id_elements as $el)
 		{
 			$path.= $sep."//".$el."[not(@PCID)]";
+			$sep = " | ";
+			$path.= $sep."//".$el."[@PCID='']";
 			$sep = " | ";
 		}
 		$xpc = xpath_new_context($mydom);
@@ -4993,6 +4998,7 @@ abstract class ilPageObject
 		return $rec;
 	}
 	
+<<<<<<< .working
 	/**
 	 * Truncate (html) string
 	 * 
@@ -5140,6 +5146,16 @@ abstract class ilPageObject
 		}
 		
 		return $truncate;
+	}
+	
+	/**
+	 * Get content templates
+	 *
+	 * @return array array of arrays with "id" => page id (int), "parent_type" => parent type (string), "title" => title (string)
+	 */
+	function getContentTemplates()
+	{
+		return array();
 	}
 }
 ?>

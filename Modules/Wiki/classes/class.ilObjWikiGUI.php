@@ -15,7 +15,7 @@ require_once "./Modules/Wiki/classes/class.ilObjWiki.php";
 * @ilCtrl_IsCalledBy ilObjWikiGUI: ilRepositoryGUI, ilAdministrationGUI
 * @ilCtrl_Calls ilObjWikiGUI: ilPublicUserProfileGUI, ilObjStyleSheetGUI
 * @ilCtrl_Calls ilObjWikiGUI: ilExportGUI, ilCommonActionDispatcherGUI
-* @ilCtrl_Calls ilObjWikiGUI: ilRatingGUI
+* @ilCtrl_Calls ilObjWikiGUI: ilRatingGUI, ilWikiPageTemplateGUI, ilWikiStatGUI
 */
 class ilObjWikiGUI extends ilObjectGUI
 {
@@ -46,7 +46,7 @@ class ilObjWikiGUI extends ilObjectGUI
 		$cmd = $this->ctrl->getCmd();
 
 		$this->prepareOutput();
-		
+	
   		switch($next_class)
 		{
 			case "ilinfoscreengui":
@@ -143,17 +143,39 @@ class ilObjWikiGUI extends ilObjectGUI
 				$this->ctrl->forwardCommand($gui);
 				break;
 			
-			case "ilratinggui":
+			case "ilratinggui":				
 				// for rating category editing
 				$this->checkPermission("write");
 				$this->addHeaderAction();
 				$ilTabs->activateTab("settings");
 				$this->setSettingsSubTabs("rating_categories");
 				include_once("Services/Rating/classes/class.ilRatingGUI.php");
-				$gui = new ilRatingGUI();
+				$gui = new ilRatingGUI();				
 				$gui->setObject($this->object->getId(), $this->object->getType());
 				$gui->setExportCallback(array($this, "getSubObjectTitle"), $this->lng->txt("page"));
 				$this->ctrl->forwardCommand($gui);
+				break;
+			
+			// patch-begin freiburg
+			case "ilwikistatgui":
+				$this->checkPermission("write");
+				
+				$this->addHeaderAction();
+				$ilTabs->activateTab("statistics");
+				
+				include_once "Modules/Wiki/classes/class.ilWikiStatGUI.php";
+				$gui = new ilWikiStatGUI($this->object->getId());
+				$this->ctrl->forwardCommand($gui);
+				break;			
+			// patch-end freiburg
+
+			case "ilwikipagetemplategui":
+				$this->addHeaderAction();
+				$ilTabs->activateTab("settings");
+				$this->setSettingsSubTabs("page_templates");
+				include_once("./Modules/Wiki/classes/class.ilWikiPageTemplateGUI.php");
+				$wptgui = new ilWikiPageTemplateGUI($this);
+				$this->ctrl->forwardCommand($wptgui);
 				break;
 
 			default:
@@ -442,10 +464,15 @@ class ilObjWikiGUI extends ilObjectGUI
 		
 		$ilHelp->setScreenIdComponent("wiki");
 
+		
 		// wiki tabs
 		if (in_array($ilCtrl->getCmdClass(), array("", "ilobjwikigui",
-			"ilinfoscreengui", "ilpermissiongui", "ilexportgui", "ilratingcategorygui")))
-		{
+			"ilinfoscreengui", "ilpermissiongui", "ilexportgui", "ilratingcategorygui",
+			// patch-begin freiburg
+			"ilwikistatgui", "ilwikipagetemplategui"
+			// patch-end freiburg
+			)))
+		{	
 			if ($_GET["page"] != "")
 			{
 				$tabs_gui->setBackTarget($lng->txt("wiki_last_visited_page"),
@@ -468,14 +495,14 @@ class ilObjWikiGUI extends ilObjectGUI
 					$lng->txt("info_short"),
 					$this->ctrl->getLinkTargetByClass("ilinfoscreengui", "showSummary"));
 			}
-
+	
 			// settings
 			if ($ilAccess->checkAccess('write', "", $this->object->getRefId()))
 			{
 				$ilTabs->addTab("settings",
 					$lng->txt("settings"),
 					$this->ctrl->getLinkTarget($this, "editSettings"));
-			}
+			}			
 
 			// contributors
 			if ($ilAccess->checkAccess('write', "", $this->object->getRefId()))
@@ -485,14 +512,24 @@ class ilObjWikiGUI extends ilObjectGUI
 					$this->ctrl->getLinkTarget($this, "listContributors"));
 			}
 
+			// patch-begin freiburg
+			// statistics
+			if ($ilAccess->checkAccess('write', "", $this->object->getRefId()))
+			{
+				$ilTabs->addTab("statistics",
+					$lng->txt("statistics"),
+					$this->ctrl->getLinkTargetByClass("ilWikiStatGUI", "initial"));
+			}
+			// patch-end freiburg
+
+
 			if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
 			{
 				$ilTabs->addTab("export",
 					$lng->txt("export"),
 					$this->ctrl->getLinkTargetByClass("ilexportgui", ""));
 			}
-
-	
+		
 			// edit permissions
 			if ($ilAccess->checkAccess('edit_permission', "", $this->object->getRefId()))
 			{
@@ -511,7 +548,8 @@ class ilObjWikiGUI extends ilObjectGUI
 		global $ilTabs, $ilCtrl, $lng;
 
 		if (in_array($a_active,
-			array("general_settings", "style", "imp_pages", "rating_categories")))
+			array("general_settings", "style", "imp_pages", "rating_categories",
+			"page_templates")))
 		{
 			// general properties
 			$ilTabs->addSubTab("general_settings",
@@ -527,7 +565,12 @@ class ilObjWikiGUI extends ilObjectGUI
 			$ilTabs->addSubTab("imp_pages",
 				$lng->txt("wiki_navigation"),
 				$ilCtrl->getLinkTarget($this, 'editImportantPages'));
-			
+
+			// page templates
+			$ilTabs->addSubTab("page_templates",
+				$lng->txt("wiki_page_templates"),
+				$ilCtrl->getLinkTargetByClass("ilwikipagetemplategui", ""));
+
 			// rating categories
 			if($this->object->getRating() && $this->object->getRatingCategories())
 			{
@@ -1083,24 +1126,20 @@ class ilObjWikiGUI extends ilObjectGUI
 		}
 		else
 		{
-			// create the page
-			$page = new ilWikiPage();
-			$page->setWikiId($this->object->getId());
-			$page->setTitle(ilWikiUtil::makeDbTitle($_GET["page"]));
-			
-			if($this->object->getRating() && $this->object->getRatingForNewPages())
+			if (!$this->object->getTemplateSelectionOnCreation())
 			{
-				$page->setRating(true);
-			}
-			
-			// needed for notification
-			$page->setWikiRefId($this->object->getRefId());
-			
-			$page->create();
+				$this->object->createWikiPage($a_page);
 
-			// redirect to newly created page
-			$ilCtrl->setParameterByClass("ilwikipagegui", "page", ilWikiUtil::makeUrlTitle(($a_page)));
-			$ilCtrl->redirectByClass("ilwikipagegui", "edit");
+				// redirect to newly created page
+				$ilCtrl->setParameterByClass("ilwikipagegui", "page", ilWikiUtil::makeUrlTitle(($a_page)));
+				$ilCtrl->redirectByClass("ilwikipagegui", "edit");
+			}
+			else
+			{
+				$ilCtrl->setParameter($this, "page", ilWikiUtil::makeUrlTitle($_GET["page"]));
+				$ilCtrl->setParameter($this, "from_page", ilWikiUtil::makeUrlTitle($_GET["from_page"]));
+				$ilCtrl->redirect($this, "showTemplateSelection");
+			}
 		}
 	}
 
@@ -1677,6 +1716,109 @@ class ilObjWikiGUI extends ilObjectGUI
 		include_once "Modules/Wiki/classes/class.ilWikiPage.php";
 		return ilWikiPage::lookupTitle($a_id);		
 	}
+
+	/**
+	 * Show template selection
+	 */
+	function showTemplateSelectionObject()
+	{
+		global $lng, $tpl, $ilTabs, $ilCtrl;
+
+
+		$ilCtrl->setParameterByClass("ilobjwikigui", "from_page", ilWikiUtil::makeUrlTitle($_GET["from_page"]));
+		$ilTabs->clearTargets();
+		ilUtil::sendInfo($lng->txt("wiki_page_not_exist_select_templ"));
+
+		$form = $this->initTemplateSelectionForm();
+		$tpl->setContent($form->getHTML());
+	}
+
+	/**
+	 * Init template selection form.
+	 */
+	public function initTemplateSelectionForm()
+	{
+		global $lng, $ilCtrl;
+
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+
+		// page name
+		$hi = new ilHiddenInputGUI("page");
+		$hi->setValue($_GET["page"]);
+		$form->addItem($hi);
+
+		// page template
+		$radg = new ilRadioGroupInputGUI($lng->txt("wiki_page_template"), "page_templ");
+		$radg->setRequired(true);
+
+		if ($this->object->getEmptyPageTemplate())
+		{
+			$op1 = new ilRadioOption($lng->txt("wiki_empty_page"), 0);
+			$radg->addOption($op1);
+		}
+
+		include_once("./Modules/Wiki/classes/class.ilWikiPageTemplate.php");
+		$wt = new ilWikiPageTemplate($this->object->getId());
+		$ts = $wt->getAllInfo(ilWikiPageTemplate::TYPE_NEW_PAGES);
+		foreach ($ts as $t)
+		{
+			$op = new ilRadioOption($t["title"], $t["wpage_id"]);
+			$radg->addOption($op);
+		}
+
+		$form->addItem($radg);
+
+		// save and cancel commands
+		$form->addCommandButton("createPageUsingTemplate", $lng->txt("wiki_create_page"));
+		$form->addCommandButton("cancelCreationPageUsingTemplate", $lng->txt("cancel"));
+
+		$form->setTitle($lng->txt("wiki_new_page").": ".$_GET["page"]);
+		$form->setFormAction($ilCtrl->getFormAction($this));
+
+		return $form;
+	}
+
+	/**
+	 * Save creation with template form
+	 */
+	public function createPageUsingTemplateObject()
+	{
+		global $tpl, $lng, $ilCtrl;
+
+		$form = $this->initTemplateSelectionForm();
+		if ($form->checkInput())
+		{
+			$a_page = $_POST["page"];
+			$this->object->createWikiPage($a_page, (int) $_POST["page_templ"]);
+
+			// redirect to newly created page
+			$ilCtrl->setParameterByClass("ilwikipagegui", "page", ilWikiUtil::makeUrlTitle(($a_page)));
+			$ilCtrl->redirectByClass("ilwikipagegui", "edit");
+
+			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+			$ilCtrl->redirect($this, "");
+		}
+		else
+		{
+			$form->setValuesByPost();
+			$tpl->setContent($form->getHtml());
+		}
+	}
+
+	/**
+	 * Cancel page creation using a template
+	 */
+	function cancelCreationPageUsingTemplateObject()
+	{
+		global $ilCtrl;
+
+		// redirect to newly created page
+		$ilCtrl->setParameterByClass("ilwikipagegui", "page", ilWikiUtil::makeUrlTitle(($_GET["from_page"])));
+		$ilCtrl->redirectByClass("ilwikipagegui", "preview");
+	}
+
+
 }
 
 ?>

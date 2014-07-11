@@ -138,7 +138,7 @@ class ilRating
 	* @param	string		$a_sub_obj_type		Subobject Type
 	* @param	int			$a_category_id		Category ID
 	*/
-	public static function getOverallRatingForObject($a_obj_id, $a_obj_type, $a_sub_obj_id, $a_sub_obj_type, $a_category_id = null)
+	public static function getOverallRatingForObject($a_obj_id, $a_obj_type, $a_sub_obj_id = null, $a_sub_obj_type = null, $a_category_id = null)
 	{
 		global $ilDB;
 	
@@ -147,11 +147,19 @@ class ilRating
 			return self::$list_data["all"][$a_obj_type."/".$a_obj_id];	
 		}
 		
-		$q = "SELECT AVG(rating) av FROM il_rating WHERE ".
-			"obj_id = ".$ilDB->quote((int) $a_obj_id, "integer")." AND ".
-			"obj_type = ".$ilDB->quote($a_obj_type, "text")." AND ".
-			"sub_obj_id = ".$ilDB->quote((int) $a_sub_obj_id, "integer")." AND ".
-			$ilDB->equals("sub_obj_type", $a_sub_obj_type, "text", true);
+		// patch-begin freiburg
+		
+		$q = "SELECT AVG(rating) av FROM il_rating".
+			" WHERE obj_id = ".$ilDB->quote((int) $a_obj_id, "integer").
+			" AND obj_type = ".$ilDB->quote($a_obj_type, "text");		
+		if($a_sub_obj_id)
+		{
+			$q .= " AND sub_obj_id = ".$ilDB->quote((int) $a_sub_obj_id, "integer").
+				" AND ".$ilDB->equals("sub_obj_type", $a_sub_obj_type, "text", true);
+		}
+		
+		// patch-end freiburg
+		
 		if ($a_category_id !== null)
 		{
 			$q .= " AND category_id = ".$ilDB->quote((int) $a_category_id, "integer");
