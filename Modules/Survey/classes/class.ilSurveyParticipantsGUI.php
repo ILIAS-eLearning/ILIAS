@@ -1055,7 +1055,11 @@ class ilSurveyParticipantsGUI
 	{
 		if(sizeof($a_user_ids))
 		{			
-			$this->object->addAppraisee(array_pop($a_user_ids));
+			// #13319
+			foreach(array_unique($a_user_ids) as $user_id)
+			{
+				$this->object->addAppraisee($user_id);
+			}
 
 			ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
 		}
@@ -1282,15 +1286,18 @@ class ilSurveyParticipantsGUI
 				
 		if(sizeof($a_user_ids))
 		{			
-			$user_id = array_pop($a_user_ids);
-			
-			if($ilAccess->checkAccess("write", "", $this->ref_id) ||
-				$this->object->get360SelfEvaluation() ||
-				$user_id != $ilUser->getId())
-			{			
-				$this->object->addRater($appr_id, $user_id);		
-				ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);			
+			// #13319
+			foreach(array_unique($a_user_ids) as $user_id)
+			{							
+				if($ilAccess->checkAccess("write", "", $this->ref_id) ||
+					$this->object->get360SelfEvaluation() ||
+					$user_id != $ilUser->getId())
+				{					
+					$this->object->addRater($appr_id, $user_id);									
+				}
 			}
+			
+			ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);	
 		}
 		
 		$this->ctrl->setParameter($this, "appr_id", $appr_id);

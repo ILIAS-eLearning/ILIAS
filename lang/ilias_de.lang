@@ -1,4 +1,4 @@
-/* Copyright (c) 1998-2013 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2014 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file (All entries)
 *
@@ -755,7 +755,7 @@ assessment#:#polygon_click_starting_point#:#Bitte klicken Sie auf den Startpunkt
 assessment#:#postpone#:#Frage zurückstellen
 assessment#:#postponed#:#zurückgestellt
 assessment#:#preview#:#Vorschau
-assessment#:#previous_question_rows#:#<< Fragen %d - %d von %d
+assessment#:#previous_question_rows#:#« Fragen %d - %d von %d
 assessment#:#print_answers#:#Antworten drucken
 assessment#:#qpl_qst_edit_form_taxonomy_section#:#Zuordnung zu Taxonomieknoten
 assessment#:#qpl_qst_edit_form_taxonomy#:#Taxonomie "%s"
@@ -3418,7 +3418,7 @@ common#:#install#:#Installieren
 common#:#install_local#:#Mit lokaler Version installieren
 common#:#installed#:#Installiert
 common#:#installed_local#:#Mit lokaler Version installiert
-common#:#instant_messengers#:#Instant Messengers
+common#:#instant_messengers#:#Instant Messenger
 common#:#institution#:#Institution
 common#:#internal_local_roles_only#:#Lokale Rollen (nur automatisch erstellte)
 common#:#internal_system#:#Internes System
@@ -4518,7 +4518,7 @@ common#:#rolt_add#:#Rollenvorlage anlegen
 common#:#rolt_added#:#Rollenvorlage angelegt
 common#:#rolt_edit#:#Rollenvorlage bearbeiten
 common#:#rolt_new#:#Neue Rollenvorlage
-rbac#:#rbac_create_cat#:#Benutzer kann Kategorien anlegen
+rbac#:#rbac_create_cat#:#Kategorien anlegen
 common#:#root_edit#:#Systemknoten bearbeiten
 rbac#:#root_edit_permission#:#Rechteeinstellungen ändern
 rbac#:#root_read#:#Lesezugriff auf ILIAS-System
@@ -8058,7 +8058,7 @@ license#:#remaining_licenses_explanation#:#Die Anzahl verfügbarer Lizenzen erre
 license#:#used_licenses#:#Verbrauchte Lizenzen
 license#:#used_licenses_explanation#:#Jeder Erstaufruf eines Benutzers verbraucht eine Lizenz.
 license#:#zero_licenses_explanation#:#Tragen Sie 0 ein, um die Lizenzierung zu deaktivieren.
-mail#:#activate_serial_letter_placetos_no_documents_exist_cant_saveholders#:#Platzhalter für Serienbrief aktivieren
+mail#:#activate_serial_letter_placeholders#:#Platzhalter für Serienbrief aktivieren
 mail#:#advice_mail_body_secured#:#Aus Ihrer Mail wurden aus Sicherheitsgründen bestimmte Elemente entfernt. Bitte kontrollieren Sie den vom System bereinigten Inhalt und schicken Sie die Mail erneut ab.
 mail#:#also_as_email#:#Auch als E-Mail
 mail#:#bc#:#BC
@@ -9955,7 +9955,7 @@ rbac#:#rbac_create_tst#:#Test anlegen
 rbac#:#rbac_create_webr#:#Weblink anlegen
 rbac#:#rbac_create_wiki#:#Wiki anlegen
 rbac#:#rbac_create_bibl#:#Literaturliste anlegen
-rbac#:#rbac_create_cld#:#Cloud-Objekt erstellen
+rbac#:#rbac_create_cld#:#Cloud-Objekt anlegen
 rbac#:#sess_delete#:#Sitzung löschen
 rbac#:#sess_edit_event#:#Kalendertermine bearbeiten
 rbac#:#sess_edit_permission#:#Rechteeinstellungen ändern
@@ -11108,7 +11108,7 @@ survey#:#mail_import_example1#:#email;Vorname;Nachname
 survey#:#mail_import_example2#:#ralfkoenig@domain.tld;Ralf;König
 survey#:#mail_import_example3#:#ugoldschmidt@domain.tld;Ute;Goldschmidt
 survey#:#mail_sent_short#:#Versendet
-survey#:#mail_survey_codes#:#Zugangsschlüssel versenden
+survey#:#mail_survey_codes#:#Zugangsschlüssel und Nachrichten versenden
 survey#:#mailaddresses#:#Empfängeradressen
 survey#:#mailaddresses_info#:#Tragen Sie hier eine kommagetrennte Liste der Empfänger ein, an die eine Benachrichtigung über abgeschlossene Umfragen versendet werden soll.
 survey#:#mailnotification#:#E-Mail-Benachrichtigung
@@ -12799,6 +12799,7 @@ dcl#:#dcl_empty_view_success#:#Die Vorlage wurde erfolgreich gelöscht.
 dcl#:#dcl_permissions_form#:#Berechtigungen
 dcl#:#dcl_no_fields_yet#:#Es wurden noch keine Felder für diese Tabelle erstellt, daher können noch keine Einträge eingefügt werden.
 dcl#:#dcl_create_fields#:#Bitte erstellen Sie neue Felder unter dem "Felder" Tab.
+dcl#:#fieldtitle_allow_chars#:#Erlaubte Zeichen: %s
 rating#:#rating_number_votes#:#%s Bewertungen
 administration#:#system_check_no_owner#:#Objekte ohne Besitzer
 blog#:#blog_import#:#Blog importieren
@@ -13068,6 +13069,16 @@ dcl#:#dcl_file_format_description#:#Die Import-Datei muss im Excel-Format .xls v
 dcl#:#dcl_simulate_import#:#Import simulieren
 dcl#:#dcl_simulate_info#:#Hierbei werden keine Datensätze angelegt, sondern nur Feedback zu Fehlern in der Import-Datei gegeben. Dadurch können Sie fehlerhafte Imports vermeiden.
 dcl#:#dcl_multiple_selection#:#Mehrfachauswahl
+dcl#:#dcl_id#:#ID
+dcl#:#dcl_id_description#:#Die interne ID.
+dcl#:#dcl_creation_date#:#Erstellungs Datum
+dcl#:#dcl_creation_date_description#:#Das Datum an dem dieser Eintrag erstellt wurde.
+dcl#:#dcl_last_update#:#Letzte Änderung
+dcl#:#dcl_last_update_description#:#Das Datum an dem dieser Eintrag zuletzt geändert wurde.
+dcl#:#dcl_owner#:#Besitzer
+dcl#:#dcl_owner_description#:#Der Besitzer dieses Eintrages.
+dcl#:#dcl_last_edited_by#:#Zuletzt geändert von
+dcl#:#dcl_last_edited_by_description#:#Der Benutzer der diesen Eintrag zuletzt geändert hat.
 crs#:#crs_notification_list_title#:#Benachrichtigung über neue Mitglieder
 common#:#objs_bibl#:#Literaturlisten
 common#:#obj_bibl#:#Literaturliste
@@ -13496,9 +13507,9 @@ mail#:#system_notification_installation_signature#:#Diese E-Mail wurde automatis
 mail#:#system_notification_installation_changed_by#:#Geändert durch
 exc#:#exc_feedback_notification_reason#:#Sie erhalten diese Nachricht, da sie ein Teilnehmer der oben genannten Übung sind.
 exc#:#exc_team_notification_reason#:#Sie erhalten diese Nachricht, da sie ein Teilnehmer der oben genannten Übung sind.
-blog#:#blog_change_notification_reason#:#Sie erhalten diese Nachricht, da sie die Benachrichtigsfunktion für den oben genannten Blog aktiviert haben.
+blog#:#blog_change_notification_reason#:#Sie erhalten diese Nachricht, da sie die Benachrichtigungsfunktion für das oben genannte Blog aktiviert haben.
 survey#:#survey_notification_finished_introduction#:#der folgende Teilnehmer hat die Umfrage beendet.
-survey#:#survey_notification_finished_reason#:#Sie erhalten diese Nachricht, da sie die Benachrichtigsfunktion für die oben genannte Umfrage aktiviert haben.
+survey#:#survey_notification_finished_reason#:#Sie erhalten diese Nachricht, da sie die Benachrichtigungsfunktion für die oben genannte Umfrage aktiviert haben.
 content#:#cont_offline_mode_allow#:#Offline-Modus erlauben
 content#:#cont_offline_mode_allow_info#:#Wenn der Offline-Modus erlaubt ist, erscheint unter 'Aktionen' beim Lernmodul zusätzlich die Option 'Offline-Modus' und für Nutzer mit dem Recht zur Bearbeitung des Lernfortschritts unter 'Einstellungen' zusätzlich der Reiter 'Offline-Nutzung'. Im Offline-Modus können Lernmodule nur im SCORM-Offline-Player von ILIAS (Firefox Add-on) dargestelllt werden. Zum Beenden des Offline-Modus können Nutzer über die Option 'Offline-Modus' Lernstandsdaten importieren. Daten im SCORM-Offline-Player werden somit für dieses Lernmodul gelöscht. Bevor Sie den Offline-Modus erlauben, sollten Sie die erforderlichen Einstellungen zum Lernfortschritt abgeschlossen haben.
 wiki#:#wiki_start_page_info#:#Gibt es noch keine Wikiseite mit diesem Titel, wird eine neue, leere Seite erstellt.
@@ -13584,7 +13595,6 @@ content#:#cont_verification_placeh#:#Klicken und bearbeiten, um ein Zertifikat e
 content#:#cont_verification_placehl#:#Zertifikat-Platzhalter
 content#:#cont_ed_plachverification#:#Platzhalter Zertifikat
 cld#:#cld_auth_failed_no_object_created#:#Authentifzierung fehlgeschlagen. Es wurde kein Cloud-Objekt angelegt.
-dcl#:#fieldtitle_allow_chars#:#Erlaubte Zeichen: %s
 common#:#objs_orgu#:#Organisationseinheiten
 common#:#obj_orgu#:#Organisationseinheit
 orgu#:#view_learning_progress#:#Lernfortschritt einsehen
@@ -13594,7 +13604,7 @@ orgu#:#il_orgu_employee#:#Mitarbeiter
 orgu#:#il_orgu_superior#:#Vorgesetzte
 orgu#:#orgu_staff#:#Personen
 orgu#:#orgu_view_learning_progress_rec#:#Lernfortschritt rekursiv einsehen
-orgu#:#Staff#:#Staff
+orgu#:#Staff#:#Personen
 orgu#:#orgu_edit#:#Bearbeiten
 orgu#:#employee#:#Mitarbeiter
 orgu#:#superior#:#Vorgesetzter
@@ -13649,8 +13659,8 @@ glo#:#glo_term#:#Glossarbegriff
 content#:#glo_add_term_properties#:#Zusätzliche Eigenschaften von Glossarbegriffen
 exc#:#exc_multi_feedback#:#Multi-Feedback
 exc#:#exc_download_zip_structure#:#ZIP-Verzeichnisstruktur herunterladen
-exc#:#exc_multi_feedback_file#:#Multi-Feedback Datei
-exc#:#exc_multi_feedback_files#:#Multi-Feedback Dateien
+exc#:#exc_multi_feedback_file#:#Multi-Feedback-Datei
+exc#:#exc_multi_feedback_files#:#Multi-Feedback-Dateien
 assessment#:#assFormulaQuestion#:#Formelfrage
 assessment#:#parseQuestion#:#Frage analysieren
 assessment#:#variables#:#Variablen
@@ -14061,8 +14071,8 @@ mail#:#mail_nacc_timelimit#:#Zugangszeitraum des Benutzers
 common#:#msg_obj_already_deleted#:#Das Objekt wurde bereits gelöscht.
 rbac#:#rbac_create_prtt#:#Portfoliovorlage anlegen
 rbac#:#glo_edit_content#:#Benutzer kann Inhalt bearbeiten
-rbac#:#rbac_create_rolt#:#Neue Rollenvorlage anlegen
-rbac#:#rbac_create_role#:#Neue Rolle anlegen
+rbac#:#rbac_create_rolt#:#Rollenvorlage anlegen
+rbac#:#rbac_create_role#:#Rolle anlegen
 obj#:#obj_activation_list_gui#:#Verfügbarkeit
 content#:#lm_activate_rating#:#Bewertung der Seiten erlauben
 wiki#:#wiki_rate_overall#:#Wiki bewerten
@@ -14132,11 +14142,10 @@ cat#:#cat_more_translations#:#Weitere Übersetzungen
 content#:#cont_got_lock#:#Diese Seite wurde für Ihre Bearbeitung gesperrt. Bitte geben Sie die Seite nach Ihren Änderungen wieder frei.
 content#:#cont_finish_editing#:#Bearbeitung beenden
 content#:#cont_page_lock_released#:#Die Bearbeitung wurde beendet. Die Seite wurde wieder freigegeben.
-rbac#:#rbac_create_chat#:#Create Chat###30 12 2013 new variable
-orgu#:#backto_staff#:#Back to staff###30 12 2013 new variable
-exc#:#exc_multi_feedb_info#:#On this screen you can upload multiple feedbacks in one file. First click on "Download ZIP Structure", save the ZIP file and extract it on your local computer. Put the feedback files into the corresponding user directories. Now compress the whole directory as one ZIP file agin. Browse your local filesystem for the file and select it as the "Multi-Feedback File" in the form below. After that click "Upload". A confirmation screen will list the files. Please avoid using any special characters in your filenames.###30 12 2013 new variable
-scov#:#crsv_create#:#Create SCORM Certificate###30 12 2013 new variable
-scov#:#crsv_create_info#:#Select a completed learning module to generate a certificate for it###30 12 2013 new variable
+orgu#:#backto_staff#:#Zurück zu Personen
+exc#:#exc_multi_feedb_info#:#Auf dieser Seite können Sie die Feedback-Dateien für mehrere Übungsteilnehmer auf einmal hochladen.<br /> <br />Klicken Sie zunächst unten auf den Button "ZIP-Verzeichnisstruktur herunterladen" und speichern Sie die ZIP-Datei auf Ihrem Computer. Dort öffnen Sie im nächsten Schritt die ZIP-Datei, um die Verzeichnisstruktur zu entpacken. Legen Sie nun die Feedback-Dateien in die entsprechenden Ordner der Übungsteilnehmer und komprimieren abschließend das Verzeichnis wieder als ZIP-Datei. Wählen Sie nun auf dieser Seite unten diese ZIP-Datei als Multi-Feedback-Datei aus und laden diese hoch. Die Bestätigungsseite führt alle hochgeladenen Dateien auf. <br /> <br /><b>Wichtig</b>: Vermeiden Sie auf jeden Fall Umlaute und Sonderzeichen in den Dateinamen, da hierdurch Probleme bei der Zuordnung der Dateien entstehen.
+scov#:#crsv_create#:#SCORM-Zertifikat anlegen
+scov#:#crsv_create_info#:#Wählen Sie ein absolviertes Lernmodul aus, um dafür ein Zertifikat zu generieren.
 skmg#:#skmg_usage#:#Gebrauch
 skmg#:#skmg_type#:#Typ
 skmg#:#skmg_number#:#Nummmer
@@ -14219,7 +14228,7 @@ rbac#:#orgu_read_users#:#Lokale Benutzerkonten dieser Organisationseinheit könn
 rbac#:#orgu_cat_administrate_users#:#Lokale Benutzerkonten können angelegt und verwaltet werden
 rbac#:#orgu_delete#:#Organisationseinheit löschen oder verschieben
 rbac#:#orgu_edit_permission#:#Rechteeinstellungen ändern
-rbac#:#rbac_create_orgu#:#Benutzer kann Organisationseinheiten anlegen
+rbac#:#rbac_create_orgu#:#Organisationseinheiten anlegen
 prtf#:#prtf_page_element_teaser_skills#:#Innerhalb des Portfolios erscheint an dieser Stelle Ihre Kompetenzausprägung.
 prtf#:#prtf_page_element_teaser_blog_template#:#Innerhalb des Portfolios erscheint an dieser Stelle ein Blog Ihres Arbeitsraums.
 prtf#:#prtf_page_element_teaser_consultation_hours#:#Innerhalb des Portfolios erscheint an dieser Stelle ein Kalender Ihrer Sprechstunden.

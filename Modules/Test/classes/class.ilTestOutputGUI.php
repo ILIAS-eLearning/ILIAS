@@ -19,6 +19,7 @@ require_once './Modules/Test/classes/class.ilTestPlayerAbstractGUI.php';
  * 
  * @ilCtrl_Calls ilTestOutputGUI: ilAssQuestionHintRequestGUI, ilAssSpecFeedbackPageGUI, ilAssGenFeedbackPageGUI
  * @ilCtrl_Calls ilTestOutputGUI: ilTestSignatureGUI
+ * @ilCtrl_Calls ilTestOutputGUI: ilAssQuestionPageGUI
  */
 class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 {
@@ -70,6 +71,15 @@ class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		
 		switch($next_class)
 		{
+			case 'ilassquestionpagegui':
+				
+				$questionId = $this->testSequence->getQuestionForSequence( $this->calculateSequence() );
+				
+				require_once "./Modules/TestQuestionPool/classes/class.ilAssQuestionPageGUI.php";
+				$page_gui = new ilAssQuestionPageGUI($questionId);
+				$ret = $this->ctrl->forwardCommand($page_gui);
+				break;
+			
 			case 'iltestsubmissionreviewgui':
 				require_once './Modules/Test/classes/class.ilTestSubmissionReviewGUI.php';
 				$gui = new ilTestSubmissionReviewGUI($this, $this->object);
@@ -356,6 +366,21 @@ class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 				break;
 		}
 	}
+	
+	private function isValidSequenceElement($sequenceElement)
+	{
+		if( $sequenceElement < 1 )
+		{
+			return false;
+		}
+		
+		if( !$this->testSequence->getPositionOfSequence($sequenceElement) )
+		{
+			return false;
+		}
+		
+		return true;
+	}
 
 	/**
 	 * Creates the learners output of a question
@@ -364,7 +389,10 @@ class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 	{
 		global $ilUser;
 		
-		if ($sequence < 1) $sequence = $this->testSequence->getFirstSequence();
+		if( !$this->isValidSequenceElement($sequence) )
+		{
+			$sequence = $this->testSequence->getFirstSequence();
+		}
 		
 		$_SESSION["active_time_id"]= $this->object->startWorkingTime($this->testSession->getActiveId(), 
 																	 $this->testSession->getPass()

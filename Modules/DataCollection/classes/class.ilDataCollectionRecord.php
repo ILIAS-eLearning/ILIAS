@@ -348,17 +348,23 @@ class ilDataCollectionRecord
 	{
 
 		$this->loadRecordFields();
-		
+		$html = "";
+
 		if(ilDataCollectionStandardField::_isStandardField($field_id))
 		{
-			return $this->getStandardFieldHTML($field_id);
+			$html =  $this->getStandardFieldHTML($field_id);
 
 		}
 		else
 		{
-			return $this->recordfields[$field_id]->getHTML($options);
+			$html = $this->recordfields[$field_id]->getHTML($options);
 		}
 
+		// This is a workaround as templating in ILIAS currently has some issues with curly brackets.see: http://www.ilias.de/mantis/view.php?id=12681#bugnotes
+		$html = str_ireplace("{", "&#123;", $html);
+		$html = str_ireplace("}", "&#125;", $html);
+
+		return $html;
 	}
 
     /*

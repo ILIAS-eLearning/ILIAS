@@ -1101,10 +1101,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 				$this->ctrl->redirect($this, "showFinalStatement");
 			}
 		}
-		if($_GET['crs_show_result'])
-		{
-			$this->ctrl->redirectByClass("ilobjtestgui", "backToCourse");
-		}
 
 		if (!$this->object->canViewResults()) 
 		{
@@ -1122,7 +1118,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	public function showFinalStatementCmd()
 	{
 		$template = new ilTemplate("tpl.il_as_tst_final_statement.html", TRUE, TRUE, "Modules/Test");
-		$this->ctrl->setParameter($this, "crs_show_result", $_GET['crs_show_result']);
 		$this->ctrl->setParameter($this, "skipfinalstatement", 1);
 		$template->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "redirectBack"));
 		$template->setVariable("FINALSTATEMENT", $this->object->getFinalStatement());

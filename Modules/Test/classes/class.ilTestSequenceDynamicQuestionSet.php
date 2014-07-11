@@ -393,11 +393,6 @@ class ilTestSequenceDynamicQuestionSet
 	
 	// -----------------------------------------------------------------------------------------------------------------
 	
-	public function handleQuestionVisibility(ilObjTest $testOBJ, $crsShowResultParam)
-	{
-		// nothing to do, but this method is called from info screen for all kinds of TestSequences
-	}
-	
 	public function hasStarted()
 	{
 		return $this->trackedQuestionExists();

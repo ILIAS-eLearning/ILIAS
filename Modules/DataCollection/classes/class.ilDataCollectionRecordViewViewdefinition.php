@@ -174,7 +174,8 @@ class ilDataCollectionRecordViewViewdefinition extends ilPageObject
 
 		require_once("./Modules/DataCollection/classes/class.ilDataCollectionTable.php");
 		$objTable = ilDataCollectionCache::getTableCache($a_table_id);
-		$fields = $objTable->getFields($a_table_id);
+		$fields = $objTable->getRecordFields();
+		$standardFields = $objTable->getStandardFields();
 
 		foreach($fields as $field)
 		{
@@ -203,6 +204,10 @@ class ilDataCollectionRecordViewViewdefinition extends ilPageObject
                     $all['[dcliln field="'.$field->getTitle().'"][/dcliln]'] = $field;
                 }
 			}
+		}
+
+		foreach($standardFields as $field){
+			$all[] = "[".$field->getId()."]";
 		}
 
 		return $all;

@@ -2336,6 +2336,9 @@ class ilObjExerciseGUI extends ilObjectGUI
 				}		
 			}
 
+			// #13380
+			$ass->setFeedbackCron($_POST["fb"]);
+			
 			$ass->save();
 			
 			// save files
@@ -2564,6 +2567,9 @@ class ilObjExerciseGUI extends ilObjectGUI
 			{
 				$ass->handleFeedbackFileUpload($_FILES["fb_file"]);
 			}
+			
+			// #13380
+			$ass->setFeedbackCron($_POST["fb"]);
 			
 			$ass->update();
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
@@ -3425,7 +3431,10 @@ class ilObjExerciseGUI extends ilObjectGUI
 		// $this->tabs_gui->setTabActive("content");
 		// $this->addContentSubTabs("content");
 		
-		if (mktime() > $this->ass->getDeadline() && ($this->ass->getDeadline() != 0))
+		// #13414
+		$read_only = (mktime() > $this->ass->getDeadline() && ($this->ass->getDeadline() != 0));
+				
+		if ($read_only)
 		{
 			ilUtil::sendInfo($this->lng->txt("exercise_time_over"));
 		}
@@ -3450,7 +3459,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		
 		include_once "Modules/Exercise/classes/class.ilExAssignmentTeamTableGUI.php";
 		$tbl = new ilExAssignmentTeamTableGUI($this, "submissionScreenTeam",
-			ilExAssignmentTeamTableGUI::MODE_EDIT, $team_id, $this->ass);
+			ilExAssignmentTeamTableGUI::MODE_EDIT, $team_id, $this->ass, null, $read_only);
 		
 		$this->tpl->setContent($tbl->getHTML());				
 	}

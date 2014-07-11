@@ -260,7 +260,7 @@ class ilSubscriberTableGUI extends ilTable2GUI
 		$a_user_data = array();
 		foreach((array) $usr_data['set'] as $ud)
 		{			
-			$a_user_data[$ud['usr_id']] = array_merge($ud,$course_user_data[$ud['usr_id']]);
+			$a_user_data[$ud['usr_id']] = array_merge($ud,(array) $course_user_data[$ud['usr_id']]);
 		}
 
 		// Custom user data fields

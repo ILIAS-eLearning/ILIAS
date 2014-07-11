@@ -1557,6 +1557,14 @@ class ilObjectGUI
 		{
 			$_POST["id"] = array($_GET["item_ref_id"]);
 		}
+		
+		if(is_array($_POST["id"]))
+		{
+			foreach($_POST["id"] as $idx => $id)
+			{
+				$_POST["id"][$idx] = (int)$id;
+			}
+		}
 
 		// SAVE POST VALUES (get rid of this
 		ilSession::set("saved_post", $_POST["id"]);

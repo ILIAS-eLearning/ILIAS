@@ -285,8 +285,9 @@ return true;*/
 			$a_string = preg_replace("/\[IF_NO_PASSWORD\].*\[\/IF_NO_PASSWORD\]/imsU", "", $a_string);
 			$a_string = preg_replace("/\[IF_PASSWORD\](.*)\[\/IF_PASSWORD\]/imsU", "$1", $a_string);
 		}
-				
-		if (!$a_user->checkTimeLimit())
+		
+		// #13346
+		if (!$a_user->getTimeLimitUnlimited())
 		{
 			// #6098
 			$a_string = preg_replace("/\[IF_TIMELIMIT\](.*)\[\/IF_TIMELIMIT\]/imsU", "$1", $a_string);
@@ -296,8 +297,7 @@ return true;*/
 			$a_string  = str_replace("[TIMELIMIT]", $timelimit, $a_string);
 		}
 		else
-		{
-			// #13346
+		{			
 			$a_string = preg_replace("/\[IF_TIMELIMIT\](.*)\[\/IF_TIMELIMIT\]/imsU", "", $a_string);
 		}
 		

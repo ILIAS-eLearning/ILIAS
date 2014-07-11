@@ -52,7 +52,7 @@ class ilDataCollectionDatatype
     // REFERENCELIST
     const INPUTFORMAT_REFERENCELIST = 10;
 
-    const LINK_MAX_LENGTH = 30;
+    const LINK_MAX_LENGTH = 40;
 
 
 	/**
@@ -696,11 +696,7 @@ class ilDataCollectionDatatype
                     elseif(!(preg_match('~(^(news|(ht|f)tp(s?)\://){1}\S+)~i', $value)))
                         return $link;
 
-                    if(strlen($link) > self::LINK_MAX_LENGTH){
-                        $link = substr($value, 0, (self::LINK_MAX_LENGTH-3)/2);
-                        $link.= "...";
-                        $link .= substr($value, -(self::LINK_MAX_LENGTH-3)/2);
-                    }
+                    $link = $this->shortenLink($link);
 					$html = "<a target='_blank' href='".$value."'>".$link."</a>";
 				}
 				else
@@ -720,6 +716,30 @@ class ilDataCollectionDatatype
 				break;
 		}
         return $html;
+	}
+
+	/**
+	 * This method shortens a link. The http(s):// and the www part are taken away. The rest will be shortened to sth similar to:
+	 * "somelink.de/lange...gugus.html".
+	 * @param $value The link in it's original form.
+	 * @return string The shortened link
+	 */
+	private function shortenLink($value){
+		if(strlen($value) > self::LINK_MAX_LENGTH){
+			if(substr($value, 0, 7) == "http://")
+				$value = substr($value, 7);
+			if(substr($value, 0, 8) == "https://")
+				$value = substr($value, 8);
+			if(substr($value, 0, 4) == "www.")
+				$value = substr($value, 4);
+		}
+
+		if(strlen($value) > self::LINK_MAX_LENGTH){
+			$link = substr($value, 0, (self::LINK_MAX_LENGTH-3)/2);
+	        $link.= "...";
+	        $link .= substr($value, -(self::LINK_MAX_LENGTH-3)/2);
+		}
+		return $link;
 	}
 
 

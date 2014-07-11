@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+		colors="true"
+		stopOnFailure="true"
+		syntaxCheck="false"
+		backupGlobals="false">
+	<logging>
+		<log type="coverage-html"
+			 target="build/coverage"
+			 charset="UTF-8"
+			 highLowerBound="80"
+			 highlight="true" />
+		<log type="testdox-html"
+			 target="build/dox.html" />
+	</logging>
+	<filter>
+		<whitelist>
+			<directory suffix=".php">classes</directory>
+		</whitelist>
+	</filter>
+</phpunit>

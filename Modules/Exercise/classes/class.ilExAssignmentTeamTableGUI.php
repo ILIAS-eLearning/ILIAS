@@ -15,6 +15,7 @@ class ilExAssignmentTeamTableGUI extends ilTable2GUI
 	protected $team_id; // [int]
 	protected $assignment; // [ilExAssignment]
 	protected $member_ids; // [array]	
+	protected $read_only; // [bool]	
 	
 	const MODE_ADD = 1;
 	const MODE_EDIT = 2;
@@ -28,8 +29,9 @@ class ilExAssignmentTeamTableGUI extends ilTable2GUI
 	 * @param int $a_team_id
 	 * @param ilExAssignment $a_assignment
 	 * @param array $a_member_ids
+	 * @param bool $a_read_only
 	 */
-	public function  __construct($a_parent_obj, $a_parent_cmd, $a_mode, $a_team_id, ilExAssignment $a_assignment, array $a_member_ids = null)
+	public function  __construct($a_parent_obj, $a_parent_cmd, $a_mode, $a_team_id, ilExAssignment $a_assignment, array $a_member_ids = null, $a_read_only = false)
 	{
 		global $ilCtrl;
 				
@@ -37,10 +39,14 @@ class ilExAssignmentTeamTableGUI extends ilTable2GUI
 		$this->team_id = $a_team_id;
 		$this->assignment = $a_assignment;
 		$this->member_ids = $a_member_ids;
+		$this->read_only = (bool)$a_read_only;
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
-		$this->addColumn("", "", 1);
+		if(!$this->read_only)
+		{
+			$this->addColumn("", "", 1);
+		}
 		$this->addColumn($this->lng->txt("name"), "name");
 		
 		$this->setDefaultOrderField("name");
@@ -48,15 +54,18 @@ class ilExAssignmentTeamTableGUI extends ilTable2GUI
 		$this->setRowTemplate("tpl.exc_team_member_row.html", "Modules/Exercise");
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));
 
-		if($this->mode == self::MODE_ADD)
-		{
-			$this->setTitle($this->lng->txt("exc_team_member_container_add"));
-			$this->addMultiCommand("addTeamMemberContainerAction", $this->lng->txt("add"));
-		}
-		else
-		{
-			$this->setTitle($this->lng->txt("exc_team_members"));
-			$this->addMultiCommand("confirmRemoveTeamMember", $this->lng->txt("remove"));
+		if(!$this->read_only)
+		{					
+			if($this->mode == self::MODE_ADD)
+			{
+				$this->setTitle($this->lng->txt("exc_team_member_container_add"));
+				$this->addMultiCommand("addTeamMemberContainerAction", $this->lng->txt("add"));
+			}
+			else
+			{
+				$this->setTitle($this->lng->txt("exc_team_members"));
+				$this->addMultiCommand("confirmRemoveTeamMember", $this->lng->txt("remove"));
+			}
 		}
 		
 		$this->getItems();
@@ -99,7 +108,10 @@ class ilExAssignmentTeamTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($a_set)
 	{		
-		$this->tpl->setVariable("VAL_ID", $a_set["id"]);
+		if(!$this->read_only)
+		{
+			$this->tpl->setVariable("VAL_ID", $a_set["id"]);
+		}
 		$this->tpl->setVariable("TXT_NAME", $a_set["name"]);		
 	}
 }

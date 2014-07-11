@@ -286,10 +286,10 @@ class ilObjectLP
 		ilChangeEvent::_deleteReadEventsForUsers($this->obj_id, $a_user_ids);		
 				
 		// update LP status to get collections up-to-date
-		include_once "Services/Tracking/classes/class.ilLPStatus.php";
+		include_once "Services/Tracking/classes/class.ilLPStatusWrapper.php";	
 		foreach($a_user_ids as $user_id)
 		{
-			ilLPStatus::_updateStatus($this->obj_id, $user_id);
+			ilLPStatusWrapper::_updateStatus($this->obj_id, $user_id);
 		}
 	}
 		
@@ -340,6 +340,12 @@ class ilObjectLP
 			{
 				$coll_ref_id = ilObject::_getAllReferences($rec["obj_id"]);
 				$coll_ref_id = array_pop($coll_ref_id);
+				
+				// #13402
+				if($coll_ref_id == $a_source_ref_id)
+				{
+					continue;
+				}
 				
 				// get path to collection (including collection "parent")
 				$coll_path = $tree->getPathId($coll_ref_id);

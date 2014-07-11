@@ -161,5 +161,18 @@ abstract class ilHtmlPurifierAbstractLibWrapper implements ilHtmlPurifierInterfa
 
 		return $supportedElements;
 	}
+	
+	protected function makeElementListTinyMceCompliant($elements)
+	{
+		// Bugfix #5945: Necessary because TinyMCE does not use the "u" 
+		// html element but <span style="text-decoration: underline">E</span>
+		
+		if( in_array('u', $elements) && !in_array('span', $elements) )
+		{
+			$elements[] = 'span';
+		}
+		
+		return $elements;
+	}
 }
 ?>
