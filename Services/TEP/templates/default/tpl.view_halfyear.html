@@ -1,0 +1,31 @@
+<div class="il_tep_content" style="width:{SHEET_WIDTH}px;">
+	<table style="margin-right:150px;"> <!-- margin is needed since expanded dates on the right would not be foldable. -->
+		<tr>
+			<th class="std small" style="width: 50px;">&nbsp;</th>
+			<!-- BEGIN col_head_bl -->
+			<th class="il_tep_content_head std small" style="width:{COL_WIDTH}px;" id="il_tep_content_ref_col_{COL_ID}">{COL_HEAD}</th>
+			<!-- END col_head_bl -->
+			<th class="std small" style="width: 50px;">&nbsp;</th>
+		</tr>
+		<!-- BEGIN row_bl -->
+		<tr>
+			<td class="il_tep_content_days std small numfield">{DAY}.</td>
+			<!-- BEGIN col_bl -->
+			<td class="il_tep_content_cell std small {HOLIDAY_CLASS}">
+				<div class="il_tep_event_wrapper" style="width:{WRAPPER_WIDTH}px;">
+					<div class="bg_div"></div>
+					{COL}
+					<!-- BEGIN col_actions_bl -->
+					<div class="il_tep_content_cell_action" id="il_tep_content_cell_action_{ACTION_ID}">
+						<!-- {ACTION_LIST} -->
+						<a href="{ADD_URL}"><img src="{ADD_ICON}" alt="{ADD_ALT}" title="{ADD_ALT}" /></a>
+					</div>
+					<!-- END col_actions_bl -->
+				</div>
+			</td>
+			<!-- END col_bl -->
+			<td class="il_tep_content_days std small numfield">{DAY}.</td>
+		</tr>
+		<!-- END row_bl -->
+	</table>
+</div>

@@ -1,0 +1,143 @@
+
+div.il_tep_nav {
+	margin: 5px;
+	color: #CCC;
+	text-align: center;
+}
+
+div.il_tep_nav td {
+	text-align: center;
+}
+
+div.il_tep_nav a.il_tep_nav_current {
+	font-weight: bold;
+}
+
+div.il_tep_filter {
+
+}
+
+td.il_tep_filter_submit {
+	text-align: right;
+}
+
+div.il_tep_toolbar {
+	margin-top: 5px;
+	margin-bottom: 5px;
+	text-align: left;
+}
+
+div.il_tep_content {
+	margin-top: 5px;
+}
+
+div.il_tep_content table {
+	padding: 0;
+	margin: 0;
+	border: 1px solid #CCC;
+	border-collapse: collapse;
+}
+
+div.il_tep_content tr, div.il_tep_event_wrapper {
+	height: 24px;
+}
+
+div.il_tep_event_wrapper {
+	position: absolute;
+	overflow: visible;
+	padding-bottom: -2px;
+}
+
+div.il_tep_content td, div.il_tep_content th {
+	border: 1px solid #CCC;
+	padding: 0;
+	font-size: 80%;
+}
+
+div.il_tep_content th {
+	white-space: nowrap;
+}
+
+div.il_tep_content td.numfield {
+	text-align: right;
+}
+
+div.il_tep_content div.il_tep_event {
+	border: 1px solid #888;
+	overflow: hidden;
+	margin: -1px;
+	padding: 2px;
+	float: left;
+	position: absolute;
+}
+
+div.il_tep_content th.il_tep_content_head {
+	text-align: center;
+	vertical-align: middle;
+}
+
+div.il_tep_content td.il_tep_content_days {
+	padding-right: 5px;
+	height: 24px;
+	position: relative;
+	overflow: visible;
+}
+
+div.il_tep_content td.il_tep_content_cell {
+	vertical-align: top;
+	height: 24px;
+	position: relative;
+}
+
+div.il_tep_expander {
+	position: absolute;
+	right: 0px;
+	bottom: 0px;
+	width: 16px;
+	height: 16px;
+	z-index: 20;
+}
+
+div.il_tep_expander img {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+}
+
+div.il_tep_content_cell_action {
+	height: 100%;
+	width: 15px;
+	position: absolute;
+	right: -17px;
+}
+
+div.il_tep_legend {
+	margin-top: 10px;
+}
+
+div.il_tep_legend table {
+	margin: 0;
+	padding: 0;
+	width: 100%;
+}
+
+td.il_tep_legend_item {
+	margin-bottom: 5px;
+	border-bottom: 1px solid #EEE;
+	width: 220px;
+	white-space: nowrap;
+}
+
+td.il_tep_legend_item span {
+	width: 100px;
+	border: 1px solid #EEE;
+}
+
+td.il_tep_content_cell.holiday .bg_div {
+	background-color: #e0e0e0;
+	left: 0;
+	right: -20px;
+	top: 0;
+	bottom: 0px;
+	position:absolute;
+}

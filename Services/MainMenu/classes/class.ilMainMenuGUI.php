@@ -461,8 +461,13 @@ class ilMainMenuGUI
 			$a_tpl->setVariable("NAVIGATION_HISTORY", $nav_html);
 			$a_tpl->parseCurrentBlock();
 		}*/
-
-
+		
+		// patch generali start
+		global $ilCtrl;
+		$a_tpl->setVariable("CHAT_LAST_MESSAGE", 
+			'<a href="'.$ilCtrl->getLinkTargetByClass("iltepgui", "").'">TEP</a>');
+		// patch generali end
+		
 		if ($a_call_get)
 		{
 			return $a_tpl->get();

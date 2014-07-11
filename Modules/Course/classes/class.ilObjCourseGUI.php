@@ -1807,8 +1807,13 @@ class ilObjCourseGUI extends ilContainerGUI
 					$this->ctrl->getLinkTargetByClass(array('ilaccomodationsgui', 'ilsetaccomodationsgui'),''),
 					"", 'ilsetaccomodationsgui');		
 				$this->ctrl->setParameterByClass('ilsetaccomodationsgui', 'ref_id', '');
+				$this->ctrl->setParameterByClass('iltepoperationdaysgui', 'ref_id', $this->object->getRefId());
+				$this->tabs_gui->addSubTabTarget("generali_operation_days",
+					$this->ctrl->getLinkTargetByClass(array('iltepgui', 'iltepoperationdaysgui'),''),
+					"", 'ilcoursebookingadmingui');		
+				$this->ctrl->setParameterByClass('iltepoperationdaysgui', 'ref_id', '');
 				// gev-patch end
-
+				
 				break;
 				
 		}

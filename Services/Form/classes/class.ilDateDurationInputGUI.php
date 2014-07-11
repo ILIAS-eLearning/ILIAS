@@ -425,8 +425,10 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 			$ok = false;
 		}
 
-		#$_POST[$this->getPostVar()]['start']['date'] = $date->get(IL_CAL_FKT_DATE,'Y-m-d',$ilUser->getTimeZone());
-		#$_POST[$this->getPostVar()]['start']['time'] = $date->get(IL_CAL_FKT_DATE,'H:i:s',$ilUser->getTimeZone());
+		// patch generali start
+		$_POST[$this->getPostVar()]['start']['date'] = $date->get(IL_CAL_FKT_DATE,'Y-m-d',$ilUser->getTimeZone());
+		$_POST[$this->getPostVar()]['start']['time'] = $date->get(IL_CAL_FKT_DATE,'H:i:s',$ilUser->getTimeZone());
+		// patch generali end
 
 		$this->setStart($date);
 
@@ -469,8 +471,10 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 			$ok = false;
 		}
 
-		#$_POST[$this->getPostVar()]['end']['date'] = $date->get(IL_CAL_FKT_DATE,'Y-m-d',$ilUser->getTimeZone());
-		#$_POST[$this->getPostVar()]['end']['time'] = $date->get(IL_CAL_FKT_DATE,'H:i:s',$ilUser->getTimeZone());
+		// patch generali start
+		$_POST[$this->getPostVar()]['end']['date'] = $date->get(IL_CAL_FKT_DATE,'Y-m-d',$ilUser->getTimeZone());
+		$_POST[$this->getPostVar()]['end']['time'] = $date->get(IL_CAL_FKT_DATE,'H:i:s',$ilUser->getTimeZone());
+		// patch generali end
 
 		$this->setEnd($date);
 

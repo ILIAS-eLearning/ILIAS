@@ -12,3 +12,4 @@ svn.ilias.de/svn/ilias/branches/CaT/extensions/4_4_DeskDisplays				merged: 50399
 svn.ilias.de/svn/ilias/branches/CaT/extensions/4_4_ParticipationStatus		merged: 50318
 svn.ilias.de/svn/ilias/branches/CaT/extensions/4_4_Accomodations			merged: 51291
 svn.ilias.de/svn/ilias/branches/CaT/extensions/4_4_Billing					merged: 51249
+svn.ilias.de/svn/ilias/branches/CaT/extensions/4_4_TEP						merged: 51177

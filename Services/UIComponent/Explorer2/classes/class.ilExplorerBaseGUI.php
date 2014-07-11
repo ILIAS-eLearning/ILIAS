@@ -594,6 +594,15 @@ abstract class ilExplorerBaseGUI
 		return $etpl->get();
 	}
 	
+	
+	// patch generali start	
+	protected function isNodeSelectable(array $a_node)
+	{
+		return true;
+	}	
+	// patch generali end
+	
+	
 	/**
 	 * Render node
 	 *
@@ -607,30 +616,34 @@ abstract class ilExplorerBaseGUI
 		// select mode?
 		if ($this->select_postvar != "")
 		{
-			if ($this->select_multi)
-			{
-				$tpl->setCurrentBlock("cb");
-				if (in_array($this->getNodeId($a_node), $this->selected_nodes))
+			// patch generali start
+			if($this->isNodeSelectable($a_node))
+			{			
+				if ($this->select_multi)
 				{
-					$tpl->setVariable("CHECKED", 'checked="checked"');
+					$tpl->setCurrentBlock("cb");
+					if (in_array($this->getNodeId($a_node), $this->selected_nodes))
+					{
+						$tpl->setVariable("CHECKED", 'checked="checked"');
+					}
+					$tpl->setVariable("CB_VAL", $this->getNodeId($a_node));
+					$tpl->setVariable("CB_NAME", $this->select_postvar."[]");
+					$tpl->parseCurrentBlock();
 				}
-				$tpl->setVariable("CB_VAL", $this->getNodeId($a_node));
-				$tpl->setVariable("CB_NAME", $this->select_postvar."[]");
-				$tpl->parseCurrentBlock();
-			}
-			else
-			{
-				$tpl->setCurrentBlock("rd");
-				if (in_array($this->getNodeId($a_node), $this->selected_nodes))
+				else
 				{
-					$tpl->setVariable("SELECTED", 'checked="checked"');
+					$tpl->setCurrentBlock("rd");
+					if (in_array($this->getNodeId($a_node), $this->selected_nodes))
+					{
+						$tpl->setVariable("SELECTED", 'checked="checked"');
+					}
+					$tpl->setVariable("RD_VAL", $this->getNodeId($a_node));
+					$tpl->setVariable("RD_NAME", $this->select_postvar);
+					$tpl->parseCurrentBlock();
 				}
-				$tpl->setVariable("RD_VAL", $this->getNodeId($a_node));
-				$tpl->setVariable("RD_NAME", $this->select_postvar);
-				$tpl->parseCurrentBlock();
 			}
-		}
-		
+			// patch generali end
+		}		
 		
 		if ($this->isNodeHighlighted($a_node))
 		{

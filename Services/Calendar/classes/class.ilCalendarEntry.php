@@ -40,6 +40,11 @@ class ilCalendarEntry implements ilDatePeriod
 	protected $completion = 0;
 
 	protected $notification = false;
+	
+	// patch generali start
+	protected $type; // [string]
+	// patch generali end
+	
 
 	/**
 	 * Constructor
@@ -545,6 +550,32 @@ class ilCalendarEntry implements ilDatePeriod
 		return (bool) $this->notification;
 	}
 	
+	
+	// patch generali start
+	
+	/**
+	 * Set type
+	 * 
+	 * @param string $a_type
+	 */
+	public function setType($a_type)
+	{
+		$this->type = trim($a_type);
+	}
+	
+	/**
+	 * Get type
+	 * 
+	 * @return string
+	 */
+	public function getType()
+	{
+		return $this->type;
+	}
+	
+	// patch generali end
+	
+	
 	/**
 	 * update
 	 *
@@ -574,7 +605,10 @@ class ilCalendarEntry implements ilDatePeriod
 	 		"context_id = ".$this->db->quote($this->getContextId() ,'integer').", ".
 			"completion = ".$this->db->quote($this->getCompletion(), 'integer').", ".
 			"is_milestone = ".$this->db->quote($this->isMilestone() ? 1 : 0, 'integer').", ".
-			'notification = '.$this->db->quote($this->isNotificationEnabled() ? 1 : 0,'integer').' '.
+			// patch generali start
+			'entry_type = '.$this->db->quote($this->getType(),'text').', '.
+			// patch generali end
+			'notification = '.$this->db->quote($this->isNotificationEnabled() ? 1 : 0,'integer').' '.			
 	 		"WHERE cal_id = ".$this->db->quote($this->getEntryId() ,'integer')." ";
 	 	$res = $ilDB->manipulate($query);
 
@@ -596,7 +630,9 @@ class ilCalendarEntry implements ilDatePeriod
 	 	$utc_timestamp = $now->get(IL_CAL_DATETIME,'',ilTimeZone::UTC);
 
 	 	$query = "INSERT INTO cal_entries (cal_id,title,last_update,subtitle,description,location,fullday,starta,enda, ".
-			"informations,auto_generated,context_id,translation_type, completion, is_milestone, notification) ".
+			// patch generali start
+			"informations,auto_generated,context_id,translation_type, completion, is_milestone, entry_type, notification) ".
+			// patch generali end
 			"VALUES( ".
 			$ilDB->quote($next_id,'integer').", ".
 	 		$this->db->quote($this->getTitle(),'text').", ".
@@ -613,7 +649,10 @@ class ilCalendarEntry implements ilDatePeriod
 	 		$this->db->quote($this->getTranslationType() ,'integer').", ".
 			$this->db->quote($this->getCompletion(), 'integer').", ".
 			$this->db->quote($this->isMilestone() ? 1 : 0, 'integer').", ".
-			$this->db->quote($this->isNotificationEnabled() ? 1 : 0,'integer').' '.
+			// patch generali start
+			$this->db->quote($this->getType(),'text').', '.
+			// patch generali end
+			$this->db->quote($this->isNotificationEnabled() ? 1 : 0,'integer').' '.			
 	 		")";
 	 	$res = $ilDB->manipulate($query);	
 		
@@ -708,7 +747,12 @@ class ilCalendarEntry implements ilDatePeriod
 				$this->start = new ilDateTime($row->starta,IL_CAL_DATETIME,'UTC');
 				$this->end = new ilDateTime($row->enda,IL_CAL_DATETIME,'UTC');
 			}
+			
+			// patch generali start
+			$this->setType($row->entry_type);
+			// patch generali end
 		}
+		
 		
 	}
 	

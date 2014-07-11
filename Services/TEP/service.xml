@@ -1,0 +1,14 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<service xmlns="http://www.w3.org" version="$Id$"
+	id="tep">	
+	<baseclasses>
+		<baseclass name="ilTEPGUI" dir="classes" />	
+	</baseclasses>	
+	<events>		
+		<event type="listen" id="Modules/Course" />
+		<event type="listen" id="Services/User" />
+		<event type="raise" id="create" />
+		<event type="raise" id="update" />
+		<event type="raise" id="delete" />
+	</events>	
+</service>

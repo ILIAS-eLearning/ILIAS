@@ -1,0 +1,29 @@
+div.ilMainHeader, .ilHeader, .il_Header, #il_left_col, .vf_tep_filter, .vf_tep_toolbar, .vf_tep_nav .small, #il_left_col_td, .vf_tep_legend, .il_Footer {
+	display: none;
+}
+
+div.ilFrameBL {
+	padding: 0px !important;
+}
+
+.il_ColumnLayout > table:first-child {
+	display: none;
+}
+
+.ilTabContentOuter, .ilTabContentOuter > table > tr > td {
+	margin: 0px !important;
+	padding: 0px !important;
+	border: none !important;
+}
+
+.ilTabContentInner {
+	padding: 0px !important;
+	margin: 0px !important;
+}
+
+h3 {
+	margin-top: 2px !important;
+	margin-bottom:2px !important;
+	font-size: 90% !important;
+	font-weight: bold !important;
+}

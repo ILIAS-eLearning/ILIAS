@@ -1,0 +1,50 @@
+<div class="il_tep_filter">
+	<form method="POST" action="{FORM_CMD}">
+		<fieldset class="ilTableFilter">
+			<table class="ilTableFilter">
+				<tr>
+					<td class="ilFilterOption">
+						<div class="ilTableFilterLabel">{PERIOD_CAPTION}</div>
+						<div class="ilTableFilterInput">{PERIOD_FIELD}</div>
+					</td>
+					<td class="ilFilterOption">
+						<div class="ilTableFilterLabel">{ENTRY_TYPE_CAPTION}</div>
+						<div class="ilTableFilterInput">{ENTRY_TYPE_FIELD}</div>
+					</td>
+					<td class="ilFilterOption">
+						<div class="ilTableFilterLabel">{ENTRY_TITLE_CAPTION}</div>
+						<div class="ilTableFilterInput">{ENTRY_TITLE_FIELD}</div>
+					</td>		
+					<td class="ilFilterOption">
+						<div class="ilTableFilterLabel">{VENUE_CAPTION}</div>
+						<div class="ilTableFilterInput">{VENUE_FIELD}</div>					
+					</td>									
+				</tr>
+				<tr>		
+					<!-- BEGIN orgu_bl -->
+					<td class="ilFilterOption">						
+						<div class="ilTableFilterLabel">{ORGU_CAPTION}</div>
+						<div class="ilTableFilterInput">{ORGU_FIELD}</div>								
+					</td>	
+					<!-- END orgu_bl -->	
+					<td class="ilFilterOption">						
+						<!-- BEGIN notut_bl -->
+						<div class="ilTableFilterLabel">{NO_TUTOR_CAPTION}</div>
+						<div class="ilTableFilterInput">{NO_TUTOR_FIELD}</div>
+						<!-- END notut_bl -->
+						<!-- BEGIN tutor_bl -->
+						<div class="ilTableFilterLabel">{TUTOR_CAPTION}</div>
+						<div class="ilTableFilterInput">{TUTOR_FIELD}</div>
+						<!-- END tutor_bl -->
+					</td>	
+					<td colspan="2">&nbsp;</td>
+				</tr>				
+				<tr>																
+					<td class="il_tep_filter_submit" colspan="4">
+						<input type="submit" class="submit" value="{SUBMIT_CAPTION}" name="{SUBMIT_CMD}" />
+					</td>
+				</tr>
+			</table>
+		</fieldset>
+	</form>
+</div>
