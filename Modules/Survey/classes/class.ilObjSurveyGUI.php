@@ -1977,23 +1977,28 @@ class ilObjSurveyGUI extends ilObjectGUI
 		{
 			if(count($page) > 0)
 			{
+				$res[] = "\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
+				
 				// question block
 				if(count($page) > 1)
 				{
 					if((bool)$page[0]["questionblock_show_blocktitle"])
-					{
-						$res[$this->lng->txt("questionblock")] = trim($page[0]["questionblock_title"]);
+					{						
+						$res[$this->lng->txt("questionblock")] = trim($page[0]["questionblock_title"])."\n\n";
 					}
 				}
 				
 				// questions
+				
+				$page_res = array();
+				
 				foreach($page as $question)
-				{				
-					$question_parts = array();
-					
+				{						
 					$question_gui = $this->object->getQuestionGUI($question["type_tag"], $question["question_id"]);
 					if(is_object($question_gui))
 					{						
+						$question_parts = array();										
+						
 						// heading
 						if(strlen($question["heading"]))
 						{
@@ -2062,17 +2067,21 @@ class ilObjSurveyGUI extends ilObjectGUI
 							$question_parts[$this->lng->txt("answer")] = 
 								($multiline ? "\n" : "").implode("\n", $parts);
 						}
-					}
-				}
-				
-				foreach($question_parts as $type => $value)
-				{
-					$res[] = $type.": ".$value;
-				}
-				
-				$res[] = "\n-------------------------------\n";
+						
+						$tmp = array();
+						foreach($question_parts as $type => $value)
+						{
+							$tmp[] = $type.": ".$value;
+						}
+						$page_res[] = implode("\n", $tmp);
+					}			
+					
+					$res[] = implode("\n\n-------------------------------\n\n", $page_res);
+				}								
 			}			
 		}
+		
+		$res[] = "\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
 		
 		return implode("\n", $res);
 	}
