@@ -334,6 +334,10 @@ class gevUserUtils {
 		return $this->getLastname().", ".$this->getFirstname();
 	}
 	
+	public function getEMail() {
+		return $this->getUser()->getEmail();
+	}
+	
 	public function getOrgUnit() {
 		//TODO: implement
 		return 56;
@@ -603,39 +607,47 @@ class gevUserUtils {
 	
 	public function iv_isActivated() {
 		global $ilDB;
-		$res = $ilDB->query("SELECT * FROM gev_user_reg_tokens ".
-						    " WHERE username = ".$ilDB->quote($this->getLogin(), "text").
-							"   AND password_changed IS NULL");
+		$res = $this->db->query("SELECT * FROM gev_user_reg_tokens ".
+								" WHERE username = ".$ilDB->quote($this->getLogin(), "text").
+								"   AND password_changed IS NULL");
 
-		if ($ilDB->fetchAssoc($res)) {
+		if ($this->db->fetchAssoc($res)) {
 			return false;
 		}
 		return true;
 	}
 	
 	public function iv_setActivated() {
-		global $ilDB;
-		
-		$ilDB->manipulate("UPDATE gev_user_reg_tokens ".
-						  "   SET password_changed = NOW() ".
-						  " WHERE username = ".$ilDB->quote($this->getLogin(), "text")
-						);
+		$this->db->manipulate("UPDATE gev_user_reg_tokens ".
+							  "   SET password_changed = NOW() ".
+							  " WHERE username = ".$ilDB->quote($this->getLogin(), "text")
+							  );
 	}
 	
 	// billing info
 	
 	public function getLastBillingDataMaybe() {
-		// TODO: implement
-		return null;
-		return array( "recipient" => "RECIPIENT"
-					, "agency" => "AGENCY"
-					, "street" => "STREET"
-					, "housenumber" => "HOUSENUMBER"
-					, "zipcode" => "ZIPCODE"
-					, "city" => "CITY"
-					, "costcenter" => "COSTCENTER"
-					, "email" => "EMAIL"
-					);
+		$res = $this->db->query( "SELECT bill_recipient_name, bill_recipient_street, bill_recipient_zip, bill_recipient_hnr, bill_recipient_city, bill_cost_center "
+								."  FROM bill "
+								." WHERE bill_usr_id = ".$this->db->quote($this->user_id, "integer")
+								." ORDER BY bill_pk DESC LIMIT 1"
+								);
+		
+		if ($rec = $this->db->fetchAssoc($res)) {
+			$spl = explode(",", $rec["bill_recipient_name"]);
+			return array( "recipient" => trim($spl[1])
+						, "agency" => trim($spl[0])
+						, "street" => $rec["bill_recipient_street"]
+						, "housenumber" => $rec["bill_recipient_hnr"]
+						, "zipcode" => $rec["bill_recipient_zip"]
+						, "city" => $rec["bill_recipient_city"]
+						, "costcenter" => $rec["bill_cost_center"]
+						, "email" => $this->getEMail()
+						);
+		}
+		else {
+			return null;
+		}
 	}
 }
 

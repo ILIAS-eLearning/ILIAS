@@ -317,10 +317,9 @@ class gevBookingGUI {
 		$coupons->setMulti(true);
 		$form->addItem($coupons);
 		
-		// TODO: this needs to be enable if sending of emails works
-		//$email = new ilEMailInputGUI($this->lng->txt("gev_bill_email"), "email");
-		//$email->setRequired(true);
-		//$form->addItem($email);
+		$email = new ilEMailInputGUI($this->lng->txt("gev_bill_email"), "email");
+		$email->setRequired(true);
+		$form->addItem($email);
 		
 		$agb = new ilCheckboxInputGUI($this->lng->txt("gev_accept_book_cond"), "agb");
 		$form->addItem($agb);
