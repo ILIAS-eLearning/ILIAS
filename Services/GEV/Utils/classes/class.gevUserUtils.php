@@ -587,6 +587,11 @@ class gevUserUtils {
 		return gevCourseUtils::getInstance($a_course_id)->getBookingStatusOf($this->user_id);
 	}
 	
+	public function hasPassedCourseDerivedFromTemplate($a_tmplt_ref_id) {
+		// TODO: implement
+		return false;
+	}
+	
 	// For IV-Import Process
 	
 	public function iv_isActivated() {

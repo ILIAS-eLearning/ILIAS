@@ -30,6 +30,7 @@ class gevCourseUtils {
 		$this->crs_id = $a_crs_id;
 		$this->crs_obj = null;
 		$this->crs_bookings = null;
+		$this->crs_booking_permissions = null;
 		$this->crs_participations = null;
 		$this->gev_settings = gevSettings::getInstance();
 		$this->amd = gevAMDUtils::getInstance();
@@ -193,6 +194,7 @@ class gevCourseUtils {
 		
 		if ($this->crs_obj === null) {
 			$this->crs_obj = new ilObjCourse($this->crs_id, false);
+			$this->crs_obj->setRefId(gevObjectUtils::getRefId($this->crs_id));
 		}
 		
 		return $this->crs_obj;
@@ -205,6 +207,16 @@ class gevCourseUtils {
 		}
 		
 		return $this->crs_bookings;
+	}
+	
+	public function getBookingPermissions($a_user_id) {
+		require_once("Services/CourseBooking/classes/class.ilCourseBookingPermissions.php");
+		return ilCourseBookingPermissions::getInstance($this->getCourse(), $a_user_id);
+	}
+	
+	public function getBookingHelper() {
+		require_once("Services/CourseBooking/classes/class.ilCourseBookingHelper.php");
+		return ilCourseBookingHelper::getInstance($this->getCourse());
 	}
 	
 	public function getParticipations() {
@@ -1120,6 +1132,22 @@ class gevCourseUtils {
 	
 	public function getBookingStatusOf($a_user_id) {
 		return $this->getBookings()->getUserStatus($a_user_id);
+	}
+	
+	public function getFreePlaces() {
+		return $this->getBookings()->getFreePlaces();
+	}
+	
+	public function isWaitingListActivated() {
+		return $this->getBookings()->isWaitingListActivated();
+	}
+	
+	public function canBookCourseForOther($a_user_id, $a_other_id) {
+		return $this->getBookingPermission($a_user_id)->bookCourseForUser($a_other_id);
+	}
+	
+	public function isBookableFor($a_user) {
+		return $this->getBookingHelper($a_user_id)->isBookable($a_user);
 	}
 }
 

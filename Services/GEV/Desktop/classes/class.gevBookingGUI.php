@@ -86,8 +86,7 @@ class gevBookingGUI {
 	}
 	
 	protected function checkIfUserAlreadyPassedASimilarCourse() {
-		// TODO: implement
-		if (false) {
+		if ($this->user_utils->hasPassedCourseDerivedFromTemplate($this->crs_utils->getTemplateRefId())) {
 			ilUtil::sendFailure( $this->isSelfBooking() ? $this->lng->txt("gev_passed_similar_course_self")
 														: $this->lng->txt("gev_passed_similar_course_employee")
 							   , true);
@@ -96,24 +95,22 @@ class gevBookingGUI {
 	}
 	
 	protected function checkIfCourseIsFull() {
-		// TODO: implement
-		if (false) {
+		if (  $this->crs_utils->getFreePlaces() <= 0 
+		  && !$this->crs_utils->isWaitingListActivated()) {
 			ilUtil::sendFailure($this->lng->txt("gev_course_is_full"), true);
 			$this->toCourseSearch();
 		}
 	}
 	
 	protected function checkIfUserIsAllowedToBookCourseForOtherUser() {
-		// TODO: implement
-		if (false) {
+		if ( $this->crs_utils->canBookCourseForOther($this->current_user->getId(), $this->user_id)) {
 			ilUtil::sendFailure($this->lng->txt("gev_not_allowed_to_book_crs_for_other"));
 			$this->toCourseSearch();
 		}
 	}
 	
 	public function checkIfUserIsAllowedToBookCourse() {
-		// TODO: implement
-		if (false) {
+		if ($this->crs_utils->isBookableFor($this->user_id)) {
 			ilUtil::sendFailure($this->lng->txt("gev_user_not_allowed_to_book_crs"));
 			$this->toCourseSearch();
 		}
@@ -428,7 +425,7 @@ class gevBookingGUI {
 		if (!$this->crs_utils->bookUser($this->user_id)) {
 			$this->failAtFinalize("Someone managed to get here but not being able to book the course.");
 		}
-		$acco = ilSetAccomodationsGUI::formInputToAccomodationsArray($a_accomodations);
+		$acco = ilSetAccomodationsGUI::formInputToAccomodationsArray($a_accomodations);	
 		$acco_inst = ilAccomodations::getInstance($this->crs_utils->getCourse());
 		$acco_inst->setAccomodationsOfUser($this->user_id, $acco);
 		
