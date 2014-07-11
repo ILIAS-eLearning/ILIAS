@@ -204,6 +204,8 @@ class ilDclStack
 class ilDclExpressionParser
 {
 
+    const N_DECIMALS = 1;
+
     /**
      * @var ilDataCollectionRecord
      */
@@ -270,7 +272,16 @@ class ilDclExpressionParser
                 if ($field === null || !in_array($field->getDatatypeId(), ilDataCollectionFormulaField::getCompatibleDatatypes())) {
                     throw new ilException("Field with title '$field_title' either not found or not compatible");
                 }
-                $math_tokens[] = (float) $this->record->getRecordField($field->getId())->getValue();
+                if ($field->isStandardField()) {
+                    throw new ilException("Standard-Fields not supported by the formula field");
+                }
+                // Just to be absolutely sure we got object...
+                $record_field = $this->record->getRecordField($field->getId());
+                if (is_object($record_field)) {
+                    $math_tokens[] = (float) $record_field->getValue();
+                } else {
+                    throw new ilException("Could not load RecordField object");
+                }
             } else {
                 // Assume that token is either numeric or operator
                 $math_tokens[] = $token;
@@ -351,7 +362,8 @@ class ilDclExpressionParser
         }
         // If one element is left on stack, we are done. Otherwise calculate
         if ($stack->count() == 1) {
-            return $stack->pop();
+            $result = $stack->pop();
+            return (ctype_digit((string) $result)) ? $result : number_format($result, self::N_DECIMALS, '.', "'");
         } else {
             while ($stack->count() >= 3) {
                 $right = $stack->pop();
@@ -359,7 +371,8 @@ class ilDclExpressionParser
                 $left = $stack->pop();
                 $stack->push($this->calculate($operator, $left, $right));
             }
-            return $stack->pop();
+            $result = $stack->pop();
+            return (ctype_digit((string) $result)) ? $result : number_format($result, self::N_DECIMALS, '.', "'");
         }
     }
 

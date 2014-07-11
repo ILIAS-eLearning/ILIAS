@@ -1730,3 +1730,13 @@ if( $ilDB->tableColumnExists('qpl_qst_essay', 'keyword_relation') )
 	);
 }
 ?>
+<#4255>
+    <?php
+    // Datacollection: Add formula fieldtype
+    $ilDB->insert('il_dcl_datatype_prop', array(
+        'id' => array('integer', 12),
+        'datatype_id' => array('integer', 11),
+        'title' => array('text', 'expression'),
+        'inputformat' => array('integer', 2),
+    ));
+?>

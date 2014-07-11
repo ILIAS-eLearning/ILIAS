@@ -278,7 +278,7 @@ class ilDataCollectionFieldEditGUI
                     $fields = array();
                     $compatible_datatypes = ilDataCollectionFormulaField::getCompatibleDatatypes();
                     foreach ($table->getFields() as $f) {
-                        if (!in_array($f->getDatatypeId(), $compatible_datatypes)) {
+                        if (!in_array($f->getDatatypeId(), $compatible_datatypes) || $f->isStandardField()) {
                             continue;
                         }
                         $fields[] = '<a class="dclPropExpressionField">' . $f->getTitle() . '</a>';
