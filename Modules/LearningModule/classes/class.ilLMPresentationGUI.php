@@ -69,6 +69,10 @@ class ilLMPresentationGUI
 			{
 				$this->lang = $ilUser->getCurrentLanguage();
 			}
+			if ($this->lang == $this->ot->getMasterLanguage())
+			{
+				$this->lang = "-";
+			}
 		}
 
 		if(IS_PAYMENT_ENABLED)
