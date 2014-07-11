@@ -17,17 +17,19 @@ global $ilIliasIniFile, $lng, $ilUser, $https;
 $lng->loadLanguageModule("form");
 
 $htdocs      = $ilIliasIniFile->readVariable('server', 'absolute_path') . '/';
-$weburl      = $ilIliasIniFile->readVariable('server', 'http_path') . '/';
+$weburl = $ilIliasIniFile->readVariable('server', 'absolute_path') . '/';
+if(defined('ILIAS_HTTP_PATH'))
+{
+	$weburl = substr(ILIAS_HTTP_PATH, 0, strrpos(ILIAS_HTTP_PATH, '/Services')) . '/';
+}
+
 $installpath = $htdocs;
+
 
 // directory where tinymce files are located
 $iliasMobPath      = 'data/' . CLIENT_ID . '/mobs/';
 $iliasAbsolutePath = $htdocs;
 $iliasHttpPath     = $weburl;
-if($iliasHttpPath && strpos($iliasHttpPath, 'https://') === false && $https->isDetected())
-{
-	$iliasHttpPath = str_replace('http://', 'https://', $iliasHttpPath);
-}
 
 // base url for images
 $tinyMCE_base_url = $weburl;
