@@ -1984,7 +1984,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				{
 					if((bool)$page[0]["questionblock_show_blocktitle"])
 					{						
-						$res[$this->lng->txt("questionblock")] = trim($page[0]["questionblock_title"])."\n\n";
+						$res[$this->lng->txt("questionblock")] = trim($page[0]["questionblock_title"])."\n";
 					}
 				}
 				
