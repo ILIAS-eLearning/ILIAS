@@ -421,9 +421,11 @@ if ($this->private_enabled && $this->public_enabled
 				$filter = $_POST["note"];
 			}
 		}
+
 		$notes = ilNote::_getNotesOfObject($this->rep_obj_id, $this->obj_id,
 			$this->obj_type, $a_type, $this->inc_sub, $filter,
-			$user_setting_notes_public_all, $this->repository_mode);
+			$user_setting_notes_public_all, $this->repository_mode, (bool)$_SESSION["comments_sort_asc"]);
+
 		$all_notes = ilNote::_getNotesOfObject($this->rep_obj_id, $this->obj_id,
 			$this->obj_type, $a_type, $this->inc_sub, $filter,
 			"", $this->repository_mode);
@@ -608,7 +610,19 @@ if ($this->private_enabled && $this->public_enabled
 			$tpl->setCurrentBlock("note_row");
 			$tpl->parseCurrentBlock();
 		}
-
+		
+		if((int)$_SESSION["comments_sort_asc"] == 1)
+		{
+			$sort_txt = $lng->txt("notes_sort_desc");
+			$sort_cmd = "listSortDesc";
+		}
+		else
+		{
+			$sort_txt = $lng->txt("notes_sort_asc");
+			$sort_cmd = "listSortAsc";
+		}	
+		$this->renderLink($tpl, "sort_list", $sort_txt, $sort_cmd, $anch);
+		
 		// list all notes
 		if ($user_setting_notes_by_type != "n" || !$this->enable_hiding)
 		{
@@ -910,22 +924,30 @@ if ($this->private_enabled && $this->public_enabled
 	*/
 	function checkDeletion($a_note)
 	{
-		global $ilUser;
+		global $ilUser, $ilSetting;
 		
 		if ($ilUser->getId() == ANONYMOUS_USER_ID)
 		{
 			return false;
-		}
+		}				
+				
+		$is_author = ($a_note->getAuthor() == $ilUser->getId());
 		
-		// delete note stuff for all private notes
-		if (($a_note->getType() == IL_NOTE_PRIVATE && $a_note->getAuthor() == $ilUser->getId()) ||
-			($a_note->getType() == IL_NOTE_PUBLIC &&
-				($this->public_deletion_enabled))
-			)
+		if ($a_note->getType() == IL_NOTE_PRIVATE && $is_author)
 		{
 			return true;
 		}
-
+		
+		if ($a_note->getType() == IL_NOTE_PUBLIC && $this->public_deletion_enabled)
+		{
+			return true;
+		}
+		
+		if ($a_note->getType() == IL_NOTE_PUBLIC && $is_author && $ilSetting->get("comments_del_user", 0))
+		{			
+			return true;
+		}
+		
 		return false;
 	}
 	
@@ -1704,6 +1726,18 @@ $ilCtrl->redirect($this, "showNotes", "notes_top", $this->ajax);
 			}
 		}
 	}	
+	
+	protected function listSortAsc()
+	{
+		$_SESSION["comments_sort_asc"] = 1;
+		return $this->getNotesHtml();
+	}
+	
+	protected function listSortDesc()
+	{
+		$_SESSION["comments_sort_asc"] = 0;
+		return $this->getNotesHtml();
+	}		
 }
 
 ?>

@@ -1740,3 +1740,340 @@ if( $ilDB->tableColumnExists('qpl_qst_essay', 'keyword_relation') )
         'inputformat' => array('integer', 2),
     ));
 ?>
+<#4256>
+<?php
+if( !$ilDB->tableExists('wiki_stat') )
+{
+	$ilDB->createTable('wiki_stat', array(
+		'wiki_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'ts' => array(
+			'type' => 'timestamp',
+			'notnull' => true
+		),
+		'num_pages' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'del_pages' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'avg_rating' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		)
+	));
+
+	$ilDB->addPrimaryKey('wiki_stat', array('wiki_id', 'ts'));
+}
+?>
+<#4257>
+<?php
+if( !$ilDB->tableExists('wiki_stat_page_user') )
+{
+	$ilDB->createTable('wiki_stat_page_user', array(
+		'wiki_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'page_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'user_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'ts' => array(
+			'type' => 'timestamp',
+			'notnull' => true
+		),
+		'changes' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'read_events' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		)
+	));
+
+	$ilDB->addPrimaryKey('wiki_stat_page_user', array('wiki_id', 'page_id', 'ts', 'user_id'));
+}
+?>
+<#4258>
+<?php
+if( !$ilDB->tableExists('wiki_stat_user') )
+{
+	$ilDB->createTable('wiki_stat_user', array(
+		'wiki_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'user_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'ts' => array(
+			'type' => 'timestamp',
+			'notnull' => true
+		),
+		'new_pages' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		)
+	));
+
+	$ilDB->addPrimaryKey('wiki_stat_user', array('wiki_id', 'user_id', 'ts'));
+}
+?>
+<#4259>
+<?php
+if( !$ilDB->tableExists('wiki_stat_page') )
+{
+	$ilDB->createTable('wiki_stat_page', array(
+		'wiki_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'page_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'ts' => array(
+			'type' => 'timestamp',
+			'notnull' => true
+		),
+		'int_links' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'ext_links' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'footnotes' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'num_ratings' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'num_words' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'num_chars' => array(
+			'type' => 'integer',
+			'length' => 8,
+			'notnull' => true
+		),
+
+	));
+
+	$ilDB->addPrimaryKey('wiki_stat_page', array('wiki_id', 'page_id', 'ts'));
+}
+?>
+<#4260>
+<?php
+if( !$ilDB->tableColumnExists('wiki_stat_page', 'avg_rating') )
+{
+	$ilDB->addTableColumn('wiki_stat_page', 'avg_rating',
+		array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		));			
+}
+?>
+<#4261>
+<?php
+
+if( !$ilDB->tableColumnExists('wiki_stat', 'ts_day') )
+{
+	$ilDB->addTableColumn('wiki_stat', 'ts_day',
+		array(
+			'type' => 'text',
+			'length' => 10,
+			'fixed' => true,
+			'notnull' => false
+		));		
+	$ilDB->addTableColumn('wiki_stat', 'ts_hour',
+		array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false
+		));			
+}
+
+if( !$ilDB->tableColumnExists('wiki_stat_page', 'ts_day') )
+{
+	$ilDB->addTableColumn('wiki_stat_page', 'ts_day',
+		array(
+			'type' => 'text',
+			'length' => 10,
+			'fixed' => true,
+			'notnull' => false
+		));		
+	$ilDB->addTableColumn('wiki_stat_page', 'ts_hour',
+		array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false
+		));			
+}
+
+if( !$ilDB->tableColumnExists('wiki_stat_user', 'ts_day') )
+{
+	$ilDB->addTableColumn('wiki_stat_user', 'ts_day',
+		array(
+			'type' => 'text',
+			'length' => 10,
+			'fixed' => true,
+			'notnull' => false
+		));		
+	$ilDB->addTableColumn('wiki_stat_user', 'ts_hour',
+		array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false
+		));			
+}
+
+if( !$ilDB->tableColumnExists('wiki_stat_page_user', 'ts_day') )
+{
+	$ilDB->addTableColumn('wiki_stat_page_user', 'ts_day',
+		array(
+			'type' => 'text',
+			'length' => 10,
+			'fixed' => true,
+			'notnull' => false
+		));		
+	$ilDB->addTableColumn('wiki_stat_page_user', 'ts_hour',
+		array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false
+		));			
+}
+
+?>
+<#4262>
+<?php
+	if( !$ilDB->tableExists('wiki_page_template') )
+	{
+		$ilDB->createTable('wiki_page_template', array(
+			'wiki_id' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true
+			),
+			'wpage_id' => array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true
+			)
+		));
+
+		$ilDB->addPrimaryKey('wiki_page_template', array('wiki_id', 'wpage_id'));
+	}
+?>
+<#4263>
+<?php
+if(!$ilDB->tableColumnExists('wiki_page_template', 'new_pages') )
+{
+	$ilDB->addTableColumn('wiki_page_template', 'new_pages',
+		array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+		));
+	$ilDB->addTableColumn('wiki_page_template', 'add_to_page',
+		array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+		));
+}
+?>
+<#4264>
+<?php
+if(!$ilDB->tableColumnExists('il_wiki_data', 'empty_page_templ') )
+{
+	$ilDB->addTableColumn('il_wiki_data', 'empty_page_templ',
+		array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 1
+		));
+}
+?>
+<#4265>
+<?php
+
+if( !$ilDB->tableColumnExists('wiki_stat_page', 'deleted') )
+{	
+	$ilDB->addTableColumn('wiki_stat_page', 'deleted',
+		array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+		));			
+}
+
+?>
+<#4266>
+<?php
+
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+
+$wiki_type_id = ilDBUpdateNewObjectType::getObjectTypeId('wiki');
+if($wiki_type_id)
+{	
+	$new_ops_id = ilDBUpdateNewObjectType::addCustomRBACOperation('statistics_read', 'Read Statistics', 'object', 2200);
+	if($new_ops_id)
+	{
+		ilDBUpdateNewObjectType::addRBACOperation($wiki_type_id, $new_ops_id);
+		
+		$src_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('write');
+		if($src_ops_id)
+		{
+			ilDBUpdateNewObjectType::cloneOperation('wiki', $src_ops_id, $new_ops_id);
+		}
+	}
+}
+
+?>
+<#4267>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

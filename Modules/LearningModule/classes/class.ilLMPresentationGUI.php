@@ -1079,7 +1079,9 @@ class ilLMPresentationGUI
 		}
 		
 		$notes_gui = new ilNoteGUI($this->lm->getId(), $this->getCurrentPageId(), "pg");
-		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]))
+		
+		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]) &&
+			$ilSetting->get("comments_del_tutor", 1))
 		{
 			$notes_gui->enablePublicNotesDeletion(true);
 		}

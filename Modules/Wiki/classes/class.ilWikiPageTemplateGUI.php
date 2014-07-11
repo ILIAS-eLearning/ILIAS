@@ -43,7 +43,7 @@ class ilWikiPageTemplateGUI
 		{
 			default:
 				$cmd = $this->ctrl->getCmd("listTemplates");
-				if (in_array($cmd, array("listTemplates", "add", "remove", "saveTemplateSettings")))
+				if (in_array($cmd, array("listTemplates", "add", "remove", "saveTemplateSettings", "addPageTemplateFromPageAction", "removePageTemplateFromPageAction")))
 				{
 					$this->$cmd();
 				}
@@ -151,7 +151,39 @@ class ilWikiPageTemplateGUI
 		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
 		$this->ctrl->redirect($this, "listTemplates");
 	}
-
+	
+	
+	//
+	// PAGE ACTIONS
+	//
+	
+	function removePageTemplateFromPageAction()
+	{
+		$page_id = (int)$_GET["wpg_id"];
+		if($page_id)
+		{
+			include_once("./Modules/Wiki/classes/class.ilWikiPageTemplate.php");
+			$wpt = new ilWikiPageTemplate($this->wiki->getId());
+			$wpt->remove($page_id);
+			ilUtil::sendSuccess($this->lng->txt("wiki_template_status_removed"), true);
+		}
+		
+		$this->ctrl->redirect($this, "listTemplates");		
+	}
+	
+	function addPageTemplateFromPageAction()
+	{
+		$page_id = (int)$_GET["wpg_id"];
+		if($page_id)
+		{
+			include_once("./Modules/Wiki/classes/class.ilWikiPageTemplate.php");
+			$wpt = new ilWikiPageTemplate($this->wiki->getId());
+			$wpt->save($page_id);
+			ilUtil::sendSuccess($this->lng->txt("wiki_template_added"), true);
+		}
+		
+		$this->ctrl->redirect($this, "listTemplates");		
+	}
 }
 
 ?>

@@ -158,7 +158,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 	 */
 	function preview($a_mode = null)
 	{
-		global $ilCtrl, $lng, $tpl, $ilUser, $ilToolbar;
+		global $ilCtrl, $tpl, $ilSetting;
 		
 		$this->getBlogPosting()->increaseViewCnt();
 		
@@ -189,10 +189,14 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 		else
 		{
 			$callback = array($this, "observeNoteAction");
-			
+									
 			// notes
+			
+			$may_delete_comments = ($this->checkAccess("contribute") &&
+				$ilSetting->get("comments_del_tutor", 1));
+			
 			$wtpl->setVariable("NOTES", $this->getNotesHTML($this->getBlogPosting(),
-				false, $this->enable_public_notes, $this->checkAccess("contribute"), $callback));
+				false, $this->enable_public_notes, $may_delete_comments, $callback));
 		}
 
 		// permanent link

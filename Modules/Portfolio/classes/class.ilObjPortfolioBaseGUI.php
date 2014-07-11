@@ -544,6 +544,8 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 	 */
 	function preview($a_return = false, $a_content = false, $a_show_notes = true)
 	{				
+		global $ilSetting;
+		
 		// public profile
 		if($_REQUEST["back_url"])
 		{
@@ -668,7 +670,9 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 			$note_gui->setRepositoryMode(false);			
 			$note_gui->enablePublicNotes(true);
 			$note_gui->enablePrivateNotes(false);
-			$note_gui->enablePublicNotesDeletion($this->user_id == $user_id);
+			
+			$note_gui->enablePublicNotesDeletion(($this->user_id == $user_id) &&
+				$ilSetting->get("comments_del_tutor", 1));
 						
 			$next_class = $this->ctrl->getNextClass($this);
 			if ($next_class == "ilnotegui")

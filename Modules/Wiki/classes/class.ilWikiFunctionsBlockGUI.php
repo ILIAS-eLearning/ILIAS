@@ -246,6 +246,19 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
 				$list->addItem($lng->txt("wiki_delete_page"), "",
 					$ilCtrl->getLinkTargetByClass("ilwikipagegui", "deleteWikiPageConfirmationScreen"));
 			}
+			
+			include_once "Modules/Wiki/classes/class.ilWikiPageTemplate.php";
+			$wpt = new ilWikiPageTemplate($this->getPageObject()->getParentId());
+			if(!$wpt->isPageTemplate($this->getPageObject()->getId()))
+			{
+				$list->addItem($lng->txt("wiki_add_template"), "",
+					$ilCtrl->getLinkTargetByClass("ilwikipagetemplategui", "addPageTemplateFromPageAction"));
+			}		
+			else
+			{
+				$list->addItem($lng->txt("wiki_remove_template_status"), "",
+					$ilCtrl->getLinkTargetByClass("ilwikipagetemplategui", "removePageTemplateFromPageAction"));
+			}
 		}
 
 		if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]) ||
@@ -287,6 +300,13 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
 			$actions[] = array(
 				"txt" => $lng->txt("settings"),
 				"href" => $ilCtrl->getLinkTargetByClass("ilobjwikigui", "editSettings")
+				);
+		}
+		else if ($ilAccess->checkAccess('statistics_read', "", $_GET["ref_id"]))
+		{
+			$actions[] = array(
+				"txt" => $lng->txt("statistics"),
+				"href" => $ilCtrl->getLinkTargetByClass(array("ilobjwikigui", "ilwikistatgui"), "initial")
 				);
 		}
 

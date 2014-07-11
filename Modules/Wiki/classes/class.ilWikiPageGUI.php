@@ -12,7 +12,7 @@ include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
 *
 * @ilCtrl_Calls ilWikiPageGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector
 * @ilCtrl_Calls ilWikiPageGUI: ilPublicUserProfileGUI, ilPageObjectGUI, ilNoteGUI
-* @ilCtrl_Calls ilWikiPageGUI: ilCommonActionDispatcherGUI, ilRatingGUI
+* @ilCtrl_Calls ilWikiPageGUI: ilCommonActionDispatcherGUI, ilRatingGUI, ilWikiStatGUI
 *
 * @ingroup ModulesWiki
 */
@@ -68,7 +68,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 	*/
 	function &executeCommand()
 	{
-		global $ilCtrl, $ilTabs, $ilUser;
+		global $ilCtrl, $ilTabs, $ilUser, $ilAccess;
 		
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -87,9 +87,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 				$rating_gui = new ilRatingGUI();
 				$rating_gui->setObject($this->getPageObject()->getParentId(), "wiki",
 					$this->getPageObject()->getId(), "wpg");
-				// patch-begin freiburg
-				$rating_gui->setUpdateCallback(array($this, "updateStatsRating"));
-				// patch-end freiburg				
+				$rating_gui->setUpdateCallback(array($this, "updateStatsRating"));				
 				$this->ctrl->forwardCommand($rating_gui);
 				$ilCtrl->redirect($this, "preview");
 				break;
@@ -105,6 +103,19 @@ class ilWikiPageGUI extends ilPageObjectGUI
 				$gui->setRatingCallback($this, "preview");
 				$this->ctrl->forwardCommand($gui);
 				break;
+			
+			case "ilwikistatgui":		
+				if($ilAccess->checkAccess("statistics_read", "", $this->wiki_ref_id))
+				{
+					$this->tabs_gui->clearTargets(); // see ilObjWikiGUI::getTabs()
+					$this->getTabs("statistics");
+
+					include_once "Modules/Wiki/classes/class.ilWikiStatGUI.php";
+					$gui = new ilWikiStatGUI($this->getPageObject()->getParentId(),
+						$this->getPageObject()->getId());
+					$this->ctrl->forwardCommand($gui);
+				}
+				break;			
 				
 			default:
 
@@ -297,9 +308,11 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		if (!$ilSetting->get("disable_comments") &&
 			ilObjWiki::_lookupPublicNotes($this->getPageObject()->getParentId()))
 		{
+			$may_delete = ($ilSetting->get("comments_del_tutor", 1) &&
+				$ilAccess->checkAccess("write", "", $_GET["ref_id"]));		
 			$wtpl->setVariable("NOTES", $this->getNotesHTML($this->getPageObject(),
 				true, ilObjWiki::_lookupPublicNotes($this->getPageObject()->getParentId()),
-				$ilAccess->checkAccess("write", "", $_GET["ref_id"]), $callback));
+				$may_delete, $callback));
 		}
 		
 		// permanent link
@@ -396,10 +409,8 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		ilChangeEvent::_recordReadEvent("wiki", $this->getWikiPage()->getWikiRefId(),
 			$this->getWikiPage()->getWikiId(), $ilUser->getId());	
 		
-		// patch-begin freiburg
 		include_once "./Modules/Wiki/classes/class.ilWikiStat.php";
 		ilWikiStat::handleEvent(ilWikiStat::EVENT_PAGE_READ, $this->getWikiPage());
-		// patch-end freiburg
 	}
 
 	/**
@@ -439,9 +450,16 @@ class ilWikiPageGUI extends ilPageObjectGUI
 
 	function getTabs($a_activate = "")
 	{
-		global $ilTabs, $ilCtrl;
+		global $ilTabs, $ilCtrl, $ilAccess;
 
 		parent::getTabs($a_activate);
+		
+		if($ilAccess->checkAccess("statistics_read", "", $_GET["ref_id"])) 
+		{
+			$ilTabs->addTarget("statistics",
+				$this->ctrl->getLinkTargetByClass(array("ilwikipagegui", "ilwikistatgui"),
+				"initial"), "", "ilwikistatgui");
+		}		
 		
 		$ilCtrl->setParameterByClass("ilobjwikigui", "wpg_id",
 			ilWikiPage::getPageIdForTitle($this->getPageObject()->getParentId(),
@@ -781,7 +799,12 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		include_once "./Services/Notification/classes/class.ilNotification.php";
 		ilWikiUtil::sendNotification("comment", ilNotification::TYPE_WIKI_PAGE, $this->getWikiRefId(), $a_page_id, $note);
 	}
-<<<<<<< .working
+		
+	public function updateStatsRating($a_wiki_id, $a_wiki_type, $a_page_id, $a_page_type)
+	{
+		include_once "./Modules/Wiki/classes/class.ilWikiStat.php";
+		ilWikiStat::handleEvent(ilWikiStat::EVENT_PAGE_RATING, $this->getPageObject());	
+	}
 	
 	
 	//
@@ -848,18 +871,6 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		}		
 		$ilCtrl->redirect($this, "preview");
 	}
-=======
-		
-	// patch-begin freiburg
-	public function updateStatsRating($a_wiki_id, $a_wiki_type, $a_page_id, $a_page_type)
-	{
-		// patch-begin freiburg
-		include_once "./Modules/Wiki/classes/class.ilWikiStat.php";
-		ilWikiStat::handleEvent(ilWikiStat::EVENT_PAGE_RATING, $this->getPageObject());
-		// patch-end freiburg		
-	}
-	// patch-end freiburg
->>>>>>> .merge-right.r48387
 } 
 
 ?>

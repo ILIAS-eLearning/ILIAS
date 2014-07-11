@@ -392,7 +392,7 @@ class ilNote
 	*/
 	function _getNotesOfObject($a_rep_obj_id, $a_obj_id, $a_obj_type,
 		$a_type = IL_NOTE_PRIVATE, $a_incl_sub = false, $a_filter = "",
-		$a_all_public = "y", $a_repository_mode = true)
+		$a_all_public = "y", $a_repository_mode = true, $a_sort_ascending = false)
 	{
 		global $ilDB, $ilUser;
 		
@@ -415,7 +415,9 @@ class ilNote
 			$sub_where.
 			" AND type = ".$ilDB->quote((int) $a_type, "integer").
 			$author_where.
-			" ORDER BY creation_date DESC";
+			" ORDER BY creation_date ";
+		
+		$q .= ((bool)$a_sort_ascending) ? "ASC" : "DESC";
 		
 		$set = $ilDB->query($q);
 		$notes = array();

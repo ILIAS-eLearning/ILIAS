@@ -772,7 +772,7 @@ class ilDBUpdate
 	public function customUpdatesAvailable()
 	{
 		// trunk does not support custom updates
-		return false;
+//		return false;
 		
 		$this->readCustomUpdatesInfo();
 		if ($this->custom_updates_file_version > $this->custom_updates_current_version)

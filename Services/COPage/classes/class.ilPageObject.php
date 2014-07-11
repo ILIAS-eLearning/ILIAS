@@ -2384,10 +2384,8 @@ abstract class ilPageObject
 			call_user_func($def["pc_class"].'::afterPageUpdate', $this, $a_domdoc, $a_xml, $a_creation);
 		}
 				
-		// patch-begin freiburg
 		// call page hook
 		$this->afterUpdate($a_domdoc, $a_xml);
-		// patch-end freiburg
 		
 		// call update listeners
 		$this->callUpdateListeners();
@@ -4998,7 +4996,6 @@ abstract class ilPageObject
 		return $rec;
 	}
 	
-<<<<<<< .working
 	/**
 	 * Truncate (html) string
 	 * 

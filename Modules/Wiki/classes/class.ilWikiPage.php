@@ -189,20 +189,15 @@ class ilWikiPage extends ilPageObject
 			parent::create();
 			$this->saveInternalLinks($this->getDomDoc());
 			
-			// patch-begin freiburg
 			include_once "./Modules/Wiki/classes/class.ilWikiStat.php";
 			ilWikiStat::handleEvent(ilWikiStat::EVENT_PAGE_CREATED, $this);
-			// patch-end freiburg
-
+			
 			include_once "./Services/Notification/classes/class.ilNotification.php";
 			ilWikiUtil::sendNotification("new", ilNotification::TYPE_WIKI, $this->getWikiRefId(), $this->getId());
 		}
 
 		$this->updateNews();
 	}
-	
-	
-	// patch-begin freiburg
 	
 	public function afterUpdate($a_domdoc, $a_xml)
 	{				
@@ -238,9 +233,6 @@ class ilWikiPage extends ilPageObject
 		include_once "./Modules/Wiki/classes/class.ilWikiStat.php";
 		ilWikiStat::handleEvent(ilWikiStat::EVENT_PAGE_UPDATED, $this, null, $page_data);				
 	}
-		
-	// patch-end freiburg
-
 	
 	/**
 	* update object data
@@ -319,10 +311,8 @@ class ilWikiPage extends ilPageObject
 		include_once("./Services/COPage/classes/class.ilInternalLink.php");
 		ilInternalLink::_deleteAllLinksToTarget("wpg", $this->getId());
 		
-		// patch-begin freiburg
 		include_once "./Modules/Wiki/classes/class.ilWikiStat.php";
-		ilWikiStat::handleEvent(ilWikiStat::EVENT_PAGE_DELETED, $this);
-		// patch-end freiburg		
+		ilWikiStat::handleEvent(ilWikiStat::EVENT_PAGE_DELETED, $this);	
 
 		include_once "./Services/Notification/classes/class.ilNotification.php";
 		ilWikiUtil::sendNotification("delete", ilNotification::TYPE_WIKI_PAGE, $this->getWikiRefId(), $this->getId());

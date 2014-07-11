@@ -107,7 +107,23 @@ class ilWikiPageTemplate
 			" wiki_id = ".$this->db->quote($this->wiki_id, "integer").
 			" AND wpage_id = ".$this->db->quote($a_id, "integer")
 		);
-
+	}
+	
+	/**
+	 * Is page set as template?
+	 * 
+	 * @param int $a_id wiki page id
+	 * @return type bool
+	 */
+	function isPageTemplate($a_id)
+	{
+		$set = $this->db->query("SELECT t.wpage_id".
+			" FROM wiki_page_template t".
+			" JOIN il_wiki_page p ON ".
+			" (t.wpage_id = p.id) ".
+			" WHERE t.wiki_id = ".$this->db->quote($this->wiki_id, "integer").
+			" AND p.id = ".$this->db->quote($a_id, "integer"));
+		return (bool)$this->db->numRows($set);
 	}
 
 }

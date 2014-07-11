@@ -156,9 +156,8 @@ class ilObjWikiGUI extends ilObjectGUI
 				$this->ctrl->forwardCommand($gui);
 				break;
 			
-			// patch-begin freiburg
 			case "ilwikistatgui":
-				$this->checkPermission("write");
+				$this->checkPermission("statistics_read");
 				
 				$this->addHeaderAction();
 				$ilTabs->activateTab("statistics");
@@ -167,7 +166,6 @@ class ilObjWikiGUI extends ilObjectGUI
 				$gui = new ilWikiStatGUI($this->object->getId());
 				$this->ctrl->forwardCommand($gui);
 				break;			
-			// patch-end freiburg
 
 			case "ilwikipagetemplategui":
 				$this->addHeaderAction();
@@ -468,9 +466,7 @@ class ilObjWikiGUI extends ilObjectGUI
 		// wiki tabs
 		if (in_array($ilCtrl->getCmdClass(), array("", "ilobjwikigui",
 			"ilinfoscreengui", "ilpermissiongui", "ilexportgui", "ilratingcategorygui",
-			// patch-begin freiburg
 			"ilwikistatgui", "ilwikipagetemplategui"
-			// patch-end freiburg
 			)))
 		{	
 			if ($_GET["page"] != "")
@@ -512,16 +508,13 @@ class ilObjWikiGUI extends ilObjectGUI
 					$this->ctrl->getLinkTarget($this, "listContributors"));
 			}
 
-			// patch-begin freiburg
 			// statistics
-			if ($ilAccess->checkAccess('write', "", $this->object->getRefId()))
+			if ($ilAccess->checkAccess('statistics_read', "", $this->object->getRefId()))
 			{
 				$ilTabs->addTab("statistics",
 					$lng->txt("statistics"),
 					$this->ctrl->getLinkTargetByClass("ilWikiStatGUI", "initial"));
 			}
-			// patch-end freiburg
-
 
 			if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
 			{
