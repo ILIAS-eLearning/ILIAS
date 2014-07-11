@@ -14416,13 +14416,13 @@ blog#:#blog_presentation_frame#:#Presentation
 blog#:#blog_presentation_overview#:#Overview
 blog#:#blog_nav_mode#:#Mode
 blog#:#blog_nav_mode_month_list#:#List of months
-blog#:#blog_nav_mode_month_list_info#:#List of all months, posting will be included optionally
+blog#:#blog_nav_mode_month_list_info#:#List of all months, postings will be included optionally
 blog#:#blog_nav_mode_month_list_num_detail#:#Number of postings
 blog#:#blog_nav_mode_month_list_num_detail_info#:#Postings above the limit are not listed but are available via their month.
 blog#:#blog_nav_mode_month_list_num_month#:#Number of months
 blog#:#blog_nav_mode_month_list_num_month_info#:#Months above the limit will not be listed and are not available.
 blog#:#blog_nav_mode_month_single#:#Single Month
-blog#:#blog_nav_mode_month_single_info#:#All postings of a month are listed.
+blog#:#blog_nav_mode_month_single_info#:#All postings of a month are listed. The desired month can be choosen with a dropdown. 
 blog#:#blog_list_num_postings#:#Number of postings in initial overview
 blog#:#blog_list_num_postings_info#:#This setting is only used if no specific month is selected.
 blog#:#blog_enable_keywords#:#Enable Keywords

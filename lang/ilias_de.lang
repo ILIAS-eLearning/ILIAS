@@ -14416,7 +14416,7 @@ blog#:#blog_nav_mode_month_list_num_detail_info#:#Weitere Einträge werden nicht
 blog#:#blog_nav_mode_month_list_num_month#:#Anzahl Monate
 blog#:#blog_nav_mode_month_list_num_month_info#:#Weitere Monate werden nicht gelistet und sind nicht erreichbar. 
 blog#:#blog_nav_mode_month_single#:#Kompletter Monat
-blog#:#blog_nav_mode_month_single_info#:#Listet alle Beiträge eines Monats
+blog#:#blog_nav_mode_month_single_info#:#Listet alle Beiträge eines Monats. Der gewünschte Monat kann mit einem Dropdown gewählt werden.
 blog#:#blog_list_num_postings#:#Anzahl Einträge in der initialen Übersicht
 blog#:#blog_list_num_postings_info#:#Diese Einstellung wird nur verwendet, wenn kein konkreter Monat ausgewählt ist.
 blog#:#blog_enable_keywords#:#Schlagwörter aktivieren
