@@ -1618,14 +1618,14 @@ class ilObjSurveyGUI extends ilObjectGUI
 
 								require_once "Services/Form/classes/class.ilTextInputGUI.php";								
 								$mail = new ilTextInputGUI($this->lng->txt("email"), "mail");
-								$mail->setSize(25);								
-								$mail->setValue($ilUser->getEmail());								
+								$mail->setSize(25);		
+								$mail->setValue($ilUser->getEmail());															
 								$ilToolbar->addInputItem($mail, true);							
 
 								$ilToolbar->setFormAction($this->ctrl->getFormAction($this, "mailUserResults"));
 								$ilToolbar->addFormButton($this->lng->txt("svy_mail_own_results"),
 									"mailUserResults");														
-							}
+							}						
 						}
 						
 						ilUtil::sendInfo($this->lng->txt("already_completed_survey"));
