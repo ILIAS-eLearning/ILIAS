@@ -265,7 +265,7 @@ class gevUserUtils {
 				 , gevSettings::CRS_AMD_GOALS 				=> "goals"
 				 , gevSettings::CRS_AMD_CONTENTS 			=> "content"
 			);
-		
+
 		$info = gevAMDUtils::getInstance()->getTable($crss, $crs_amd, array(), array(),
 													 "ORDER BY ".$a_order." ".$a_direction." ".
 													 " LIMIT ".$a_limit." OFFSET ".$a_offset);
@@ -275,18 +275,25 @@ class gevUserUtils {
 		foreach ($info as $key => $value) {
 			// TODO: This surely could be tweaked to be faster if there was no need
 			// to instantiate the course to get booking information about it.
-			$crs = new ilObjCourse($info["obj_id"], false);
+			$crs_utils = gevCourseUtils::getInstance($value["obj_id"]);
+/*			$crs = new ilObjCourse($info["obj_id"], false);
 			$crs_booking = ilCourseBookings::getInstance($crs);
-			$crs_booking_perms = ilCourseBookingPermissions::getInstance($crs);
+			$crs_booking_perms = ilCourseBookingPermissions::getInstance($crs);*/
 			$orgu_utils = gevOrgUnitUtils::getInstance($value["location"]);
 			
+			if (!$crs_utils->canBookCourseForOther($ilUser->getId(), $this->user_id)) {
+				unset($info[$key]);
+				continue;
+			}
 			
 			$info[$key]["location"] = $orgu_utils->getLongTitle();
 			$info[$key]["booking_date"] = gevCourseUtils::mkDeadlineDate( $value["start_date"]
 																		, $value["booking_date"]
 																		);
-			$info[$key]["bookable"] = $crs_booking_perms->bookCourseForUser($this->user_id);
-			$info[$key]["free_places"] = $crs_booking->getFreePlaces();
+			$info[$key]["free_places"] = $crs_utils->getFreePlaces();
+			$info[$key]["bookable"] = $info[$key]["free_places"] === null 
+									|| $info[$key]["free_places"] > 0
+									|| $crs_utils->isWaitingListActivated();
 		}
 
 		return $info;
