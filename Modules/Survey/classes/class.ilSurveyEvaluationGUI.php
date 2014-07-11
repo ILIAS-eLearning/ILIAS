@@ -591,11 +591,13 @@ class ilSurveyEvaluationGUI
 
 			if ($details)
 			{
-				$ilToolbar->addFormButton($this->lng->txt("export"), 'exportDetailData');			
+				$ilToolbar->addFormButton($this->lng->txt("export"), 'exportDetailData', 
+					'', false, 'omitPreventDoubleSubmission');			
 			}
 			else
 			{
-				$ilToolbar->addFormButton($this->lng->txt("export"), 'exportData');
+				$ilToolbar->addFormButton($this->lng->txt("export"), 'exportData',
+					'', false, 'omitPreventDoubleSubmission');
 			}
 			
 			$finished_ids = null;
@@ -1032,11 +1034,13 @@ class ilSurveyEvaluationGUI
 				));
 			$ilToolbar->addInputItem($label);
 
-			$ilToolbar->addFormButton($this->lng->txt("export"), 'exportevaluationuser');		
+			$ilToolbar->addFormButton($this->lng->txt("export"), 'exportevaluationuser',
+				'', false, 'omitPreventDoubleSubmission');		
 
 			$ilToolbar->addSeparator();
 
-			$ilToolbar->addButton($this->lng->txt("print"), "#", "", "", "onclick=\"javascript:window.print()\"");
+			$ilToolbar->addButton($this->lng->txt("print"), "#", "", "", 
+				"onclick=\"javascript:window.print()\"", "", "submit omitPreventDoubleSubmission");
 
 			$finished_ids = null;
 			if($appr_id)
