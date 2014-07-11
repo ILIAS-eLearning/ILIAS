@@ -291,7 +291,7 @@ assessment#:#circle_click_center#:#Please click on center of the desired area.
 assessment#:#circle_click_circle#:#Please click on a circle point of the desired area.
 assessment#:#circle#:#Circle
 assessment#:#clientip#:#Client IP
-assessment#:#close_text_hint#:#You can define a gap by entering [gap][/gap] at the text position of your choice or by clicking the button. Press the 'Create gaps' button to add an editable form for every gap.
+assessment#:#close_text_hint#:#To add a new gap set the cursor to the position of your choice and click the button "Insert Gap". Corresponding editing sections will apear below. You can also edit gaps by clicking on the gaps within the gap text.
 assessment#:#insert_gap#:#Insert Gap
 assessment#:#cloze_fixed_textlength_description#:#If you enter a value greater than 0, all text and numeric gap text fields will be created with the fixed length of this value, if there is no optional length for the gap is set.
 assessment#:#cloze_fixed_textlength#:#Text Field Length

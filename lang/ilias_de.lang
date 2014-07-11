@@ -396,7 +396,7 @@ assessment#:#circle#:#Kreis
 assessment#:#circle_click_center#:#Bitte klicken Sie auf den Mittelpunkt der gewünschten Region
 assessment#:#circle_click_circle#:#Bitte klicken Sie auf einen Punkt auf dem Umkreis der gewünschten Region
 assessment#:#clientip#:#Client IP
-assessment#:#close_text_hint#:#Sie definieren eine Lücke durch die Angabe von [gap][/gap] an der gewünschten Position im Text bzw. durch Betätigen des Buttons. Klicken Sie dann auf die Schaltfläche 'Lücken erzeugen', um Bearbeitungsformulare für jede Lücke zu erzeugen.
+assessment#:#close_text_hint#:#Um eine Lücke in den Text einzufügen setzen Sie den Cursor an die entsprechende Position und betätigen Sie den Button "Lücke erzeugen". Anschließend stehen weiter unten entsprechende Bearbeitungsbereiche zur Verfügung. Ebenso können Sie die Lücken zur Berarbeitung im Lückentext direkt anclicken.
 assessment#:#insert_gap#:#Lücke einfügen
 assessment#:#cloze_fixed_textlength#:#Länge des Textfeldes
 assessment#:#cloze_fixed_textlength_description#:#Wenn Sie einen Wert größer als 0 eintragen, werden alle Textlücken und numerischen Lücken mit der angegebenen Länge erzeugt, wenn für die einzelnen Lücken keine optionale Länge angegeben wurde. 
