@@ -87,7 +87,12 @@ class ilPCResourcesGUI extends ilPageContentGUI
 		$item_groups = array();
 		foreach ($childs as $c)
 		{
-			$type_counts[$c["type"]] += 1;
+			// see bug #12471
+			//echo "<br>-".$c["type"]."-".$objDefinition->getGroupOfObj($c["type"])."-";
+			$key = ($objDefinition->getGroupOfObj($c["type"]) != "")
+				? $objDefinition->getGroupOfObj($c["type"])
+				: $c["type"];
+			$type_counts[$key] += 1;
 			if ($c["type"] == "itgr")
 			{
 				$item_groups[$c["ref_id"]] = $c["title"];
@@ -123,7 +128,7 @@ class ilPCResourcesGUI extends ilPageContentGUI
 		$types = array();
 		foreach($sub_objs as $k => $so)
 		{
-			if ($k != "itgr")
+			if ($k != "itgr" & $k != "icrs")
 			{
 				$types[$k] = $this->lng->txt("objs_".$k)." (".(int) $type_counts[$k].")";
 			}
