@@ -426,6 +426,7 @@ class assMatchingQuestionGUI extends assQuestionGUI
 		}
 
 		$i = 0;
+		
 		foreach ($solutions as $solution)
 		{
 			$definition = $this->object->getDefinitionWithIdentifier($solution['value2']);
@@ -480,11 +481,15 @@ class assMatchingQuestionGUI extends assQuestionGUI
 				if ($graphicalOutput)
 				{
 					// output of ok/not ok icons for user entered solutions
-					$ok = FALSE;
+					$ok = false;
 					foreach ($this->object->getMatchingPairs() as $pair)
 					{
-						if (is_object($term)) if (($pair->definition->identifier == $definition->identifier) && ($pair->term->identifier == $term->identifier)) $ok = true;
+						if( $this->isCorrectMatching($pair, $definition, $term) )
+						{
+							$ok = true;
+						}
 					}
+					
 					if ($ok)
 					{
 						$template->setCurrentBlock("icon_ok");
@@ -1428,5 +1433,30 @@ class assMatchingQuestionGUI extends assQuestionGUI
 
 		$feedback .= '</tbody></table>';
 		return $this->object->prepareTextareaOutput($feedback, TRUE);
+	}
+	
+	private function isCorrectMatching($pair, $definition, $term)
+	{
+		if( !($pair->points > 0) )
+		{
+			return false;
+		}
+		
+		if( !is_object($term) )
+		{
+			return false;
+		}
+
+		if( $pair->definition->identifier != $definition->identifier )
+		{
+			return false;
+		}
+
+		if( $pair->term->identifier != $term->identifier )
+		{
+			return false;
+		}
+		
+		return true;
 	}
 }
