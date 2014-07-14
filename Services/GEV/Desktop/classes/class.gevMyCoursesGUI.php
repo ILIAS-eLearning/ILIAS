@@ -104,7 +104,7 @@ class gevMyCoursesGUI {
 		$choice->setEnableTitle(true);
 		$choice->setTitle("gev_cancellation");
 		$choice->setQuestion($msg);
-		$choice->setAbort($this->lng->txt("abort"), $this->ctrl->getLinkTarget($this, "view"));
+		$choice->setAbort($this->lng->txt("cancel"), $this->ctrl->getLinkTarget($this, "view"));
 		$this->ctrl->setParameter($this, "crs_id", $this->crs_id);
 		$choice->addChoice($action, $this->ctrl->getLinkTarget($this, "finalizeCancellation"));
 		$this->ctrl->clearParameters($this, "crs_id", $this->crs_id);
