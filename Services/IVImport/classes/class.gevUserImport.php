@@ -199,6 +199,8 @@ class gevUserImport {
 
 		$user->create();
 		$user->saveAsNew();
+		$user->setOwner(6);
+		$user->update();
 		return $user;
 	}
 

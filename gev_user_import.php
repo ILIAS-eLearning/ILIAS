@@ -14,6 +14,9 @@ function import_ilias() {
 	$_SERVER['PHP_SELF'] = str_replace(basename(__file__), 'index.php', $php_self);
 	include("./include/inc.header.php");
 	$_SERVER['PHP_SELF'] = $php_self;
+	global $ilAuth;
+	$ilAuth->logout();
+	session_destroy();
 }
 
 
