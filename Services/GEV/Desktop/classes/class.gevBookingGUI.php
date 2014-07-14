@@ -130,6 +130,10 @@ class gevBookingGUI {
 		return $this->user_utils->paysFees() && ($this->crs_utils->getFee()?true:false);
 	}
 	
+	protected function isWithAccomodations() {
+		return $this->crs_utils->getAccomodation();
+	}
+	
 	protected function insertInTemplate($a_cont) {
 		require_once("Services/CaTUIComponents/classes/class.catTitleGUI.php");
 		require_once("Services/CaTUIComponents/classes/class.catHSpacerGUI.php");
@@ -257,7 +261,7 @@ class gevBookingGUI {
 			$form->addItem($field);
 		}
 		
-		if ($this->crs_utils->getAccomodation()) {
+		if ($this->isWithAccomodations()) {
 			$this->lng->loadLanguageModule("acco");
 			ilSetAccomodationsGUI::addAccomodationsToForm($form, $this->crs_id, $this->user_id);
 		}
@@ -324,21 +328,28 @@ class gevBookingGUI {
 		$agb = new ilCheckboxInputGUI($this->lng->txt("gev_accept_book_cond"), "agb");
 		$form->addItem($agb);
 		
-		$accomodations = new ilHiddenInputGUI("accomodations");
-		if ($a_accomodations) {
-			$accomodations->setValue(serialize($a_accomodations));
+		if($this->isWithAccomodations()) {
+			$accomodations = new ilHiddenInputGUI("accomodations");
+			if ($a_accomodations) {
+				$accomodations->setValue(serialize($a_accomodations));
+			}
+			$form->addItem($accomodations);
 		}
-		$form->addItem($accomodations);
 		
 		return $form;
+	}
+	
+	private function getAccomodationsForm() {
+		$_form = new catPropertyFormGUI();
+		ilSetAccomodationsGUI::addAccomodationsToForm($_form, $this->crs_id, $this->user_id);
+		return $_form;
 	}
 
 	protected function paymentInfo() {
 		require_once("Services/CaTUIComponents/classes/class.catPropertyFormGUI.php");
 		require_once("Services/Accomodations/classes/class.ilSetAccomodationsGUI.php");
 		
-		$_form = new catPropertyFormGUI();
-		ilSetAccomodationsGUI::addAccomodationsToForm($_form, $this->crs_id, $this->user_id);
+		$_form = $this->getAccomodationsForm();
 		if (!$_form->checkInput()) {
 			$this->log->write("gevBookingGUI::paymentInfo: This should not happen, the form input did not check correctly.");
 			$this->toCourseSearch();
@@ -396,7 +407,12 @@ class gevBookingGUI {
 		}
 		
 		if ($ok) {
-			$accomodations = unserialize($form->getInput("accomodations"));
+			if ($this->isWithAccomodations()) {
+				$accomodations = unserialize($form->getInput("accomodations"));
+			}
+			else {
+				$accomodations = null;
+			}
 			$status = $this->finalizeBooking($accomodations);
 			$billing_utils->createCourseBill( $this->user_id
 											, $this->crs_id
@@ -419,7 +435,18 @@ class gevBookingGUI {
 	}
 
 	protected function finalizeBookingWithoutPayment() {
-		$accomodations = $_form->getInput("acco");
+		if ($this->isWithPayment()) {
+			$_form = $this->getAccomodationsForm();
+			if (!$_form->checkInput()) {
+				$this->log->write("gevBookingGUI::finalizeBookingWithoutPayment: This should not happen, the form input did not check correctly.");
+				$this->toCourseSearch();
+				return;
+			}
+			$accomodations = $_form->getInput("acco");
+		}
+		else {
+			$accomodations = null;
+		}
 		$status = $this->finalizeBooking($accomodations);
 		$this->finalizedBookingRedirect($status);
 	}
@@ -432,9 +459,11 @@ class gevBookingGUI {
 		if (!$this->crs_utils->bookUser($this->user_id)) {
 			$this->failAtFinalize("Someone managed to get here but not being able to book the course.");
 		}
-		$acco = ilSetAccomodationsGUI::formInputToAccomodationsArray($a_accomodations);	
-		$acco_inst = ilAccomodations::getInstance($this->crs_utils->getCourse());
-		$acco_inst->setAccomodationsOfUser($this->user_id, $acco);
+		if ($a_accomodations) {
+			$acco = ilSetAccomodationsGUI::formInputToAccomodationsArray($a_accomodations);	
+			$acco_inst = ilAccomodations::getInstance($this->crs_utils->getCourse());
+			$acco_inst->setAccomodationsOfUser($this->user_id, $acco);
+		}
 		
 		$status = $this->crs_utils->getBookingStatusOf($this->user_id);
 		
