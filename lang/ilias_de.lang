@@ -1236,7 +1236,7 @@ assessment#:#tst_show_pass_details#:#Ergebnisübersicht für laufende Tests anbi
 assessment#:#tst_show_results#:#Testergebnisse anzeigen
 assessment#:#tst_show_side_list#:#Fragenliste seitlich anzeigen
 assessment#:#tst_show_solution_answers_only#:#Druckausgabe der Ergebnisse (nur Antworten)
-assessment#:#tst_show_solution_details#:#Bewertungsdetails
+assessment#:#tst_show_solution_details#:#Bewertungsdetails anzeigen
 assessment#:#tst_show_solution_feedback#:#Antwortspezifische Rückmeldungen in den Testergebnissen anzeigen
 assessment#:#tst_show_solution_printview#:#Liste der Antworten anzeigen
 assessment#:#tst_show_solution_signature#:#Platzhalter für Unterschrift anzeigen
