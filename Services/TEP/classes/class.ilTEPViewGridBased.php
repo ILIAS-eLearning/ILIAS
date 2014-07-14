@@ -852,7 +852,7 @@ abstract class ilTEPViewGridBased extends ilTEPView
 	{				
 		global $tpl;
 				
-		$tpl->addCss("Services/TEP/templates/default/tep.css");
+		$tpl->addCss(ilUtil::getStyleSheetLocation("filesystem", "tep.css", "Services/TEP"));
 		$tpl->addJavaScript("Services/TEP/js/tep.js");
 				
 		$tep_tpl = new ilTemplate("tpl.view_grid.html", true, true, "Services/TEP");		
