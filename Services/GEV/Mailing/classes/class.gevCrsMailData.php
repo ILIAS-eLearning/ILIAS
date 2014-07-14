@@ -92,6 +92,12 @@ class gevCrsMailData extends ilMailData {
 					$val = strip_tags($val);
 				}
 				break;
+			case "ZIELE UND NUTZEN":
+				$val = $this->crs_utils->getGoals();
+				if (!$a_markup) {
+					$val = strip_tags($val);
+				}
+				break;
 			case "ID":
 				$val = $this->crs_utils->getCustomId();
 				break;

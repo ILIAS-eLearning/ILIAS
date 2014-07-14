@@ -630,6 +630,35 @@ class ilBill
 
 		return $newBill;
 	}
+	
+	/**
+	 * @param integer $a_user_id
+	 * @param integer $a_context_id
+	 * @throws ilException
+	 * @return array(ilBill)
+	 *
+	 */
+	public static function getInstancesByUserAndContext($a_user_id, $a_context_id) 
+	{
+		$db = $GLOBALS["ilDB"];
+		$result = $db->query("SELECT * FROM bill "
+							." WHERE bill_usr_id = ".$db->quote($a_user_id, "integer")
+							."   AND bill_context_id = ".$db->quote($a_context_id)
+							." ORDER BY bill_pk DESC"
+							);
+		
+		$ret = array();
+		while ($rec = $db->fetchAssoc($result))
+		{
+			$bill = self::createInstanceFromArray($rec);
+			$items = $bill->loadExistingBillItems($bill->getId());
+			foreach ($items as $item) {
+				$bill->loadedBillItems[] = $item;
+			}
+			$ret[] = $bill;
+		}
+		return $ret;
+	}
 
 	/**
 	 * @param array $instancedata

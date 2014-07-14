@@ -33,6 +33,7 @@ class gevCrsMailTypeAdapter extends ilMailTypeAdapter {
 				, array("Medien"					, "beim Training verwendete Medien aus Mehrfachauswahl")
 				, array("Zielgruppen"				, "Zielgruppen des Trainings aus Mehrfachauswahl")
 				, array("Inhalt"					, "Inhalt des Trainings aus Freitext")
+				, array("Ziele und Nutzen"			, "Ziele und Nutzen des Trainings aus Freitext")
 				, array("ID"						, "Maßnahmennummer des Trainings")
 				, array("Startdatum"				, "Beginndatum des Trainings")
 				, array("Startzeit"					, "Uhrzeit des Beginns des Trainings")

@@ -120,12 +120,14 @@ class gevBillingUtils {
 		
 		$bill->update();
 		
-		$this->log->write("gevBillingUtils::createCourseBill: created bill with id '".$bill->getId()."'");
+		$this->log->write("gevBillingUtils::createCourseBill: created bill with id '".$bill->getId()."'".
+						  " for user ".$a_user_id." at course ".$a_crs_id);
 		
 		// TODO: send email!
 	}
 
 	protected function createItem( $a_title
+								 , $a_desc
 								 , $a_amount
 								 , $a_context_id
 								 , ilBill $bill
@@ -139,6 +141,36 @@ class gevBillingUtils {
 		$item->setBill($bill);
 		$item->create();
 		return $item;
+	}
+	
+	protected function resetCouponValuesFromItems($a_items) {
+		$coupon_dummy = new ilCoupon();
+		foreach ($a_items as $item) {
+			$spl = explode(" ", $item->getTitle());
+			// items of coupons have a title starting with 'Gutschein'
+			// (see createCourseBill) and do not have a context id.
+			if ($spl[0] != "Gutschein" || $item->getContextId()) {
+				continue;
+			}
+			$code = $spl[1];
+			// if the item is finalized already, something went terribly wrong
+			if ($item->isFinalized()) {
+				$this->log->write("gevBillingUtils::createCourseBill: ".
+								  "item '".$item->getId()." for coupon '".$code."' ".
+								  "already finalized.");
+				continue;
+			}
+			try {
+				$coupon = $coupon_dummy->getInstance($code);
+			}
+			catch (ilException $e) {
+				$this->log->write("gevBillingUtils::createCourseBill: ".
+								  "Tried to reset value for coupon with code '".$code."'".
+								  " but could not get coupon instance.");
+				continue;
+			}
+			$coupon->addValue($item->getPreTaxAmount());
+		}
 	}
 }
 

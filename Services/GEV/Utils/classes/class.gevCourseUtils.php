@@ -1158,7 +1158,7 @@ class gevCourseUtils {
 	}
 	
 	public function cancelBookingOf($a_user_id) {
-		return $this->getBookings()->cancel();
+		return $this->getBookings()->cancel($a_user_id);
 	}
 }
 
