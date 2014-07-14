@@ -14281,3 +14281,9 @@ forum#:#move_thread_to_forum#:#Verschiebe Thema in anderes Forum
 survey#:#spl_save_obligatory_state#:#verpflichtend-Status speichern
 forum#:#post_reply_count#:#Re(%s):
 dateplaner#:#cal_ical_url#:#iCal-URL
+survey#:#svy_eval_skipped_value#:#Ergebnisse: "übersprungen"
+survey#:#svy_eval_skipped_value_lng#:#Wert aus Sprachdatei übernehmen
+survey#:#svy_eval_skipped_value_lng_info#:#Aktueller Wert: "%s"
+survey#:#svy_eval_skipped_value_custom#:#Angepassten Wert verwenden
+survey#:#svy_eval_skipped_value_custom_info#:#Geben sie einen (oder leeren) Wert für übersprungene Antworten an
+survey#:#svy_eval_skipped_value_custom_value#:#Wert

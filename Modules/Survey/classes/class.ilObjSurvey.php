@@ -3197,7 +3197,7 @@ class ilObjSurvey extends ilObject
 			{
 				$text = $found;
 			}
-			if (strlen($text) == 0) $text = $this->lng->txt("skipped");
+			if (strlen($text) == 0) $text = self::getSurveySkippedValue();
 			$text = str_replace("<br />", "\n", $text);
 			$textresult .= $text . "\n\n";
 		}
@@ -6483,6 +6483,24 @@ class ilObjSurvey extends ilObject
 	function getActivationEndDate()
 	{
 		return (strlen($this->activation_ending_time)) ? $this->activation_ending_time : NULL;
+	}
+	
+	public static function getSurveySkippedValue()
+	{		
+		global $lng;
+		
+		// #13541
+		
+		include_once "./Services/Administration/classes/class.ilSetting.php";
+		$surveySetting = new ilSetting("survey");
+		if(!$surveySetting->get("skipped_is_custom", false))
+		{
+			return $lng->txt("skipped");
+		}
+		else
+		{
+			return $surveySetting->get("skipped_custom_value", "");
+		}
 	}
 	
 } // END class.ilObjSurvey

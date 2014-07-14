@@ -283,6 +283,27 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
 		$code->setChecked($use_anonymous_id);
 		$code->setInfo($lng->txt("use_anonymous_id_desc"));
 		$form->addItem($code);
+		
+		// Skipped
+		$eval_skipped = new ilRadioGroupInputGUI($lng->txt("svy_eval_skipped_value"), "skcust");
+		$eval_skipped->setRequired(true);
+		$form->addItem($eval_skipped);
+		
+		$eval_skipped->setValue($surveySetting->get("skipped_is_custom", false) 
+			? "cust"
+			: "lng");
+		
+		$skipped_lng = new ilRadioOption($lng->txt("svy_eval_skipped_value_lng"), "lng");
+		$skipped_lng->setInfo(sprintf($lng->txt("svy_eval_skipped_value_lng_info"), $lng->txt("skipped")));
+		$eval_skipped->addOption($skipped_lng);
+		$skipped_cust = new ilRadioOption($lng->txt("svy_eval_skipped_value_custom"), "cust");
+		$skipped_cust->setInfo($lng->txt("svy_eval_skipped_value_custom_info"));
+		$eval_skipped->addOption($skipped_cust);
+		
+		$skipped_cust_value = new ilTextInputGUI($lng->txt("svy_eval_skipped_value_custom_value"), "cust_value");
+		$skipped_cust_value->setSize(15);
+		$skipped_cust_value->setValue($surveySetting->get("skipped_custom_value", ""));
+		$skipped_cust->addSubItem($skipped_cust_value);
 
 		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
 		{
@@ -303,6 +324,17 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
 		$surveySetting = new ilSetting("survey");
 		$surveySetting->set("unlimited_invitation", ($_POST["unlimited_invitation"]) ? "1" : "0");
 		$surveySetting->set("use_anonymous_id", ($_POST["use_anonymous_id"]) ? "1" : "0");
+		
+		if($_POST["skcust"] == "lng")
+		{
+			$surveySetting->set("skipped_is_custom", false);
+		}
+		else
+		{
+			$surveySetting->set("skipped_is_custom", true);
+			$surveySetting->set("skipped_custom_value", trim($_POST["cust_value"]));
+		}
+		
 		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
 		$ilCtrl->redirect($this, "settings");
 	}
