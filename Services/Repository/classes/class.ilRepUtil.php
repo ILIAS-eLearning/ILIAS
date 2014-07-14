@@ -343,7 +343,7 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 	*/
 	function restoreObjects($a_cur_ref_id, $a_ref_ids)
 	{
-		global $rbacsystem, $log, $ilAppEventHandler, $lng;
+		global $rbacsystem, $log, $ilAppEventHandler, $lng, $tree;
 
 		$cur_obj_id = ilObject::_lookupObjId($a_cur_ref_id);
 		
@@ -378,17 +378,28 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 			
 			// BEGIN ChangeEvent: Record undelete. 
 			require_once('Services/Tracking/classes/class.ilChangeEvent.php');
-			global $ilUser, $tree;
+			global $ilUser;
 
-			$node_data = $saved_tree->getNodeData($id);
-			$saved_tree->deleteTree($node_data);
+			// already done
+			//$node_data = $saved_tree->getNodeData($id);
+			//$saved_tree->deleteTree($node_data);
 
 			// Record undelete event
-			$node_data = $tree->getNodeData($id);
-			$parent_data = $tree->getParentNodeData($node_data['ref_id']);
-			ilChangeEvent::_recordWriteEvent($node_data['obj_id'], $ilUser->getId(), 'undelete', 
-				$parent_data['obj_id']);
-			ilChangeEvent::_catchupWriteEvents($cur_obj_id, $ilUser->getId());			
+			// fetch node data from current node
+			//
+			// do not read from tree
+			#$node_data = $tree->getNodeData($id);
+			#$parent_data = $tree->getParentNodeData($node_data['ref_id']);
+			
+			ilChangeEvent::_recordWriteEvent(
+					ilObject::_lookupObjId($id),
+					$ilUser->getId(), 
+					'undelete', 
+					ilObject::_lookupObjId($tree->getParentId())
+			);
+			ilChangeEvent::_catchupWriteEvents(
+					$cur_obj_id, 
+					$ilUser->getId());			
 			// END PATCH ChangeEvent: Record undelete.
 			
 		}
