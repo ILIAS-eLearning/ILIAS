@@ -673,6 +673,10 @@ class gevCourseUtils {
 		return $ven->getContactEmail();
 	}
 	
+	public function getWebLocation() {
+		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_WEB_LOCATION);
+	}
+	
 	public function getFormattedPreconditions() {
 		// TODO: implement this!
 		return "NYI!";

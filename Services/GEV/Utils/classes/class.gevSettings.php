@@ -92,7 +92,9 @@ class gevSettings {
 	const CRS_AMD_VENUE				= "crs_amd_venue";
 	// Übernachtungsort
 	const CRS_AMD_ACCOMODATION		= "crs_amd_accomodation";
-
+	// Veranstaltungsort Internet
+	const CRS_AMD_WEB_LOCATION		= "crs_amd_web_location";
+	
 
 	// Typen von Organisationseinheiten
 	const ORG_TYPE_VENUE			= "org_unit_type_venue";

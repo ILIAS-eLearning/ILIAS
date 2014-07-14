@@ -351,3 +351,21 @@ gevAMDUtils::addAMDField( "Verwaltung"
 						);
 
 ?>
+
+<#3>
+<?php
+
+require_once("Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php");
+require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
+require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+
+gevAMDUtils::addAMDField( "Orte und Anbieter"
+						, "Weblink"
+						, gevSettings::CRS_AMD_WEB_LOCATION
+						, "Link zum virtuellen Klassenraum"
+						, false
+						, null
+						, ilAdvancedMDFieldDefinition::TYPE_TEXT
+						);
+
+?>
