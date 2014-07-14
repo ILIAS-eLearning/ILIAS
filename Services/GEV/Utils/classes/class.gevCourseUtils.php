@@ -453,6 +453,17 @@ class gevCourseUtils {
 		return self::mkDeadlineDate($this->getStartDate(), $this->getCancelDeadline());
 	}
 	
+	public function isCancelDeadlineExpired() {
+		$dl = $this->getCancelDeadlineDate();
+		
+		if (!$dl) {
+			return false;
+		}
+		
+		$now = new ilDateTime(time(), IL_CAL_UNIX);
+		return ilDateTime::_before($dl, $now);
+	}
+	
 	public function getBookingDeadline() {
 		$val = $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_BOOKING_DEADLINE);
 		if (!$val) {
@@ -1144,6 +1155,10 @@ class gevCourseUtils {
 	
 	public function isBookableFor($a_user) {
 		return $this->getBookingHelper($a_user_id)->isBookable($a_user);
+	}
+	
+	public function cancelBookingOf($a_user_id) {
+		return $this->getBookings()->cancel();
 	}
 }
 

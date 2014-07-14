@@ -640,3 +640,9 @@ gev#:#gev_was_booked_employee#:#Ihr Mitarbeiter %s wurde erfolgreich auf das Tra
 gev#:#gev_was_booked_waiting_employee#:#Ihr Mitarbeiter %s wurde erfolgreich beim Training "%s" auf die Warteliste hinzugefügt.
 gev#:#gev_course_bill_title#:#Buchung des Trainings "%s" für "%s"
 gev#:#gev_trainer_operation_days#:#Trainereinsatztage
+gev#:#gev_costly_cancellation_msg#:#Die Stornierung ihrer Buchung des Trainings "%s" ist leider nicht mehr kostenlos möglich. Möchten sie die Buchung trotzdem stornieren?
+gev#:#gev_costly_cancellation_action#:#Kostenpflichtig Stornieren
+gev#:#gev_free_cancellation_msg#:#Möchten sie die Buchung des Trainings "%s" wirklich stornieren?
+gev#:#gev_free_cancellation_action#:#Kostenfrei Stornieren
+gev#:#gev_cancellation#:#Stornierung
+gev#:#gev_cancellation_success#:#Ihre Buchung des Trainings "%s" wurde erfolgreich storniert.
