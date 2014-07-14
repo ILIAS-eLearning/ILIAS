@@ -905,7 +905,8 @@ abstract class ilMailingGUI {
 		$table_gui->setTitle($a_title);
 
 		$table_gui->setData($a_user_data);
-		
+		$table_gui->setLimit(1000000);
+
 		return $table_gui;
 	}
 
