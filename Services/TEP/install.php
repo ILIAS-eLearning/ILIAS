@@ -2,7 +2,7 @@
 
 // exit();
 
-$update = false;
+//$update = false;
 
 // init helper class
 require_once "../../Customizing/class.ilCustomInstaller.php";

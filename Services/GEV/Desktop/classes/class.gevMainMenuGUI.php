@@ -19,11 +19,12 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 	public function __construct() {
 		parent::__construct($a_target, $a_use_start_template);
 		
-		global $lng, $ilCtrl, $ilAccess;
+		global $lng, $ilCtrl, $ilAccess, $ilUser;
 		
 		$this->lng = &$lng;
 		$this->ctrl = &$ilCtrl;
 		$this->access = &$ilAccess;
+		$this->user = &$ilUser;
 
 		$this->lng->loadLanguageModule("gev");
 	}
@@ -50,6 +51,17 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 		
 		$has_super_admin_menu = $this->access->checkAccess("write", "", $general_settings);
 		
+		require_once("Services/TEP/classes/class.ilTEPPermissions.php");
+		$tep_permissions = ilTEPPermissions::getInstance($this->user->getId());
+		
+		$employee_booking = false;
+		$my_org_unit = false;
+		$tep = $tep_permissions->isTutor();
+		$pot_participants = false;
+		$apprentices = false;
+		
+		$has_others_menu = $employee_booking || $my_org_unit || $tep || $pot_participants || $apprentices;
+		
 		
 		$menu = array( 
 			//							single entry?
@@ -67,12 +79,12 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 				, "gev_my_roadmap" => array(false, "NYI!")
 				, "gev_my_trainer_ap" => array(false, "NYI!")
 				))
-			, "gev_others_menu" => array(false, false, array(
-				  "gev_employee_booking" => array(true, "NYI!")
-				, "gev_my_org_unit" => array(true, "NYI!")
-				, "gev_tep" => array(true, "NYI!")
-				, "gev_pot_participants" => array(true, "NYI!")
-				, "gev_my_apprentices" => array(true, "NYI!")
+			, "gev_others_menu" => array(false, $has_others_menu, array(
+				  "gev_employee_booking" => array($employee_booking, "NYI!")
+				, "gev_my_org_unit" => array($my_org_unit, "NYI!")
+				, "gev_tep" => array($tep, "ilias.php?baseClass=ilTEPGUI")
+				, "gev_pot_participants" => array($pot_participants, "NYI!")
+				, "gev_my_apprentices" => array($apprentices, "NYI!")
 				))
 			, "gev_process_menu" => array(false, false, array(
 				  "gev_apprentice_grant" => array(true, "NYI!")
