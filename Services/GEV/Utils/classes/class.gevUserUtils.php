@@ -627,7 +627,8 @@ class gevUserUtils {
 	// billing info
 	
 	public function getLastBillingDataMaybe() {
-		$res = $this->db->query( "SELECT bill_recipient_name, bill_recipient_street, bill_recipient_zip, bill_recipient_hnr, bill_recipient_city, bill_cost_center "
+		$res = $this->db->query( "SELECT bill_recipient_name, bill_recipient_street, bill_recipient_zip"
+								."   , bill_recipient_hnr, bill_recipient_city, bill_recipient_email, bill_cost_center "
 								."  FROM bill "
 								." WHERE bill_usr_id = ".$this->db->quote($this->user_id, "integer")
 								." ORDER BY bill_pk DESC LIMIT 1"
@@ -642,7 +643,7 @@ class gevUserUtils {
 						, "zipcode" => $rec["bill_recipient_zip"]
 						, "city" => $rec["bill_recipient_city"]
 						, "costcenter" => $rec["bill_cost_center"]
-						, "email" => $this->getEMail()
+						, "email" => $rec["bill_recipient_email"]
 						);
 		}
 		else {

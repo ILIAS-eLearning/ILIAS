@@ -66,6 +66,7 @@ class gevBillingUtils {
 		$bill->setRecipientZipcode($a_zipcode);
 		$bill->setRecipientCity($a_city);
 		$bill->setRecipientCountry("");
+		$bill->setRecipientEmail($a_email);
 		$bill->setDate(new ilDate(time(), IL_CAL_UNIX));
 		$bill->setTitle(sprintf( $this->lng->txt("gev_course_bill_title")
 							   , $crs_utils->getTitle()

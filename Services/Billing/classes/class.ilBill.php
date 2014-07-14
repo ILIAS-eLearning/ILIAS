@@ -57,6 +57,11 @@ class ilBill
 	private $recipientCountry = "";
 
 	/**
+	 * @var string
+	 */
+	private $recipientEmail = "";
+
+	/**
 	 * @var ilDate
 	 */
 	private $date;
@@ -219,6 +224,14 @@ class ilBill
 	public function setRecipientCountry($recipientCountry)
 	{
 		$this->recipientCountry = $recipientCountry;
+	}
+	
+	/**
+	 * @param string $recipientEmail
+	 */
+	public function setRecipientEmail($recipientEmail)
+	{
+		$this->recipientEmail = $recipientEmail;
 	}
 
 	/**
@@ -547,6 +560,13 @@ class ilBill
 	{
 		return $this->recipientCountry;
 	}
+	
+	/**
+	 * @return string
+	 */
+	public function getRecipientEmail() {
+		return $this->recipientEmail;
+	}
 
 	/**
 	 * @param string $a_bill_number
@@ -629,6 +649,7 @@ class ilBill
 		$instance->setRecipientZipcode($instancedata["bill_recipient_zip"]);
 		$instance->setRecipientCity($instancedata["bill_recipient_city"]);
 		$instance->setRecipientCountry($instancedata["bill_recipient_cntry"]);
+		$instance->setRecipientEmail($instancedata["bill_recipient_email"]);
 		$instance->setTitle($instancedata["bill_title"]);
 		$instance->setDescription($instancedata["bill_description"]);
 		$instance->setVAT($instancedata["bill_vat"]);
@@ -705,6 +726,7 @@ class ilBill
 			. ",bill_recipient_zip"
 			. ",bill_recipient_city"
 			. ",bill_recipient_cntry"
+			. ",bill_recipient_email"
 			. ",bill_date"
 			. ",bill_title"
 			. ",bill_description"
@@ -723,6 +745,7 @@ class ilBill
 			. "," . $this->db->quote($this->recipientZipcode, 'text')
 			. "," . $this->db->quote($this->recipientCity, 'text')
 			. "," . $this->db->quote($this->recipientCountry, 'text')
+			. "," . $this->db->quote($this->recipientEmail, 'text')
 			. "," . $this->db->quote($this->getDate()->get(IL_CAL_UNIX), 'integer')
 			. "," . $this->db->quote($this->title, 'text')
 			. "," . $this->db->quote($this->description, 'text')
@@ -774,6 +797,7 @@ class ilBill
 			. ",bill_recipient_zip=" . $this->db->quote($this->recipientZipcode, 'text')
 			. ",bill_recipient_city=" . $this->db->quote($this->recipientCity, 'text')
 			. ",bill_recipient_cntry=" . $this->db->quote($this->recipientCountry, 'text')
+			. ",bill_recipient_email=" . $this->db->quote($this->recipientEmail, 'text')
 			. ",bill_date=" . $this->db->quote($this->date->get(IL_CAL_UNIX), 'integer')
 			. ",bill_title=" . $this->db->quote($this->title, 'text')
 			. ",bill_description=" . $this->db->quote($this->description, 'text')

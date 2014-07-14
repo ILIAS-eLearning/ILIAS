@@ -597,3 +597,17 @@ $data = array( array(1, "Training", "f6006", "000000", "0")
 $ilDB->executeMultiple($stmt, $data);
 $ilDB->free($stmt);
 ?>
+
+<#23>
+<?php
+
+$ilDB->addTableColumn( "bill"
+					 , "bill_recipient_email"
+					 , array( "type" 	=> "text"
+					 		, "length"	=> 255
+					 		, "notnull"	=> false
+					 		, "default" => null
+					 		)
+					 );
+
+?>
