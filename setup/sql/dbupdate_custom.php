@@ -582,17 +582,17 @@ $ilDB->addPrimaryKey('gev_user_reg_tokens', array('token'));
 
 $stmt = $ilDB->prepareManip("INSERT INTO tep_type (id, title, bg_color, font_color, tep_active) VALUES (?, ?, ?, ?, ?) "
 						   , array("integer", "text", "text", "text", "integer"));
-$data = array( array(0, "Training", "f6006", "ffffff", "0")
-			 , array(1, "Veranstaltung (LD)", "f76809", "ffffff", "1")
-			 , array(2, "Projekt/Sondermaßnahme", "b90007", "ffffff", "1")
-			 , array(3, "Trainingsvorbereitung", "a2ff2c", "ffffff", "1")
-			 , array(4, "Büro", "f6006", "49ff00", "1")
-			 , array(5, "Bereichs-/Abteilungsmeeting", "1900ff", "ffffff", "1")
-			 , array(6, "Besprechung", "4effff", "ffffff", "1")
-			 , array(7, "Besuch Infoveranstaltung", "feff98", "ffffff", "1")
-			 , array(8, "Weiterbildung", "feff00", "ffffff", "1")
-			 , array(9, "Urlaub/Gleittag", "e0e0e0", "ffffff", "1")
-			 , array(10, "Feiertag im Bundesland", "c0c0c0", "ffffff", "1")
+$data = array( array(1, "Training", "f6006", "000000", "0")
+			 , array(2, "Veranstaltung (LD)", "f76809", "000000", "1")
+			 , array(3, "Projekt/Sondermaßnahme", "b90007", "000000", "1")
+			 , array(4, "Trainingsvorbereitung", "a2ff2c", "000000", "1")
+			 , array(5, "Büro", "49ff00", "000000", "1")
+			 , array(6, "Bereichs-/Abteilungsmeeting", "1900ff", "ffffff", "1")
+			 , array(7, "Besprechung", "4effff", "000000", "1")
+			 , array(8, "Besuch Infoveranstaltung", "feff98", "000000", "1")
+			 , array(9, "Weiterbildung", "feff00", "000000", "1")
+			 , array(10, "Urlaub/Gleittag", "e0e0e0", "000000", "1")
+			 , array(11, "Feiertag im Bundesland", "c0c0c0", "000000", "1")
 			 );
 $ilDB->executeMultiple($stmt, $data);
 $ilDB->free($stmt);

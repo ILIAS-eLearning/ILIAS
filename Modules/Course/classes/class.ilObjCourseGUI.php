@@ -1808,7 +1808,7 @@ class ilObjCourseGUI extends ilContainerGUI
 					"", 'ilsetaccomodationsgui');		
 				$this->ctrl->setParameterByClass('ilsetaccomodationsgui', 'ref_id', '');
 				$this->ctrl->setParameterByClass('iltepoperationdaysgui', 'ref_id', $this->object->getRefId());
-				$this->tabs_gui->addSubTabTarget("generali_operation_days",
+				$this->tabs_gui->addSubTabTarget("gev_trainer_operation_days",
 					$this->ctrl->getLinkTargetByClass(array('iltepgui', 'iltepoperationdaysgui'),''),
 					"", 'ilcoursebookingadmingui');		
 				$this->ctrl->setParameterByClass('iltepoperationdaysgui', 'ref_id', '');
@@ -2802,6 +2802,16 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"));
 		$this->membersObject();
+		// gev-patch start
+		global $ilAppEventHandler;
+		$ilAppEventHandler->raise('Modules/Course',
+			'updateMembers',
+			array('object' => $this->object,
+				  'obj_id' => $this->object->getId()
+				  )
+			);
+		// gev-patch end
+		
 		return true;		
 	
 	}

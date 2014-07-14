@@ -114,6 +114,7 @@ class ilParticipationStatusHelper
 	 */
 	public function getParticipationStatusMode()
 	{
+		require_once("Services/ParticipationStatus/classes/class.ilParticipationStatus.php");
 		$type = $this->utils->getType();
 		switch ($type) {
 			case "Präsenztraining":

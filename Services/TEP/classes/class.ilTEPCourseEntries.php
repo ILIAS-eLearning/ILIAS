@@ -114,10 +114,8 @@ class ilTEPCourseEntries
 	 */
 	public function getCourseStart()
 	{
-		// :TODO: mock
-		$date = new ilDate(date("Y-m-d"), IL_CAL_DATE);
-		$date->increment(IL_CAL_WEEK, 1);
-		return $date;
+		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+		return gevCourseUtils::getInstance($this->getCourse()->getId())->getStartDate();
 	}
 	
 	/**
@@ -127,10 +125,8 @@ class ilTEPCourseEntries
 	 */
 	public function getCourseEnd()
 	{
-		// :TODO: mock
-		$date = new ilDate(date("Y-m-d"), IL_CAL_DATE);
-		$date->increment(IL_CAL_WEEK, 2);
-		return $date;
+		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+		return gevCourseUtils::getInstance($this->getCourse()->getId())->getStartDate();
 	}
 	
 	/**
@@ -140,8 +136,8 @@ class ilTEPCourseEntries
 	 */
 	public function getCourseVenue()
 	{
-		// :TODO: mock
-		return "Cologne";
+		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+		return gevCourseUtils::getInstance($this->getCourse()->getId())->getVenueTitle();
 	}
 	
 	

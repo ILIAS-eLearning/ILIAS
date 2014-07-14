@@ -9,9 +9,8 @@
  * @ingroup ServicesTEP
  */
 class ilTEPAppEventListener
-{			
-	// :TODO:
-	const COURSE_ENTRY_TYPE = "crs";
+{
+	const COURSE_ENTRY_TYPE = 1;
 	
 	public static function handleEvent($a_component, $a_event, $a_parameter)
 	{		
@@ -45,6 +44,10 @@ class ilTEPAppEventListener
 				case "deleteParticipant":
 					// params: obj_id, usr_id					
 					self::syncCourseByObjectId($a_parameter["obj_id"]);	
+					break;
+					
+				case "updateMembers":
+					self::syncCourse($a_parameter["object"]);	
 					break;
 			}						
 		}
