@@ -562,13 +562,13 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
 		$template = new ilTemplate("tpl.il_as_qpl_matching_output.html", TRUE, TRUE, "Modules/TestQuestionPool");
 
-		foreach ($solutions as $idx => $solution_value)
+		foreach($solutions as $defId => $terms)
 		{
-			if (($solution_value["value2"] > -1) && ($solution_value["value1"] > -1))
+			foreach($terms as $termId)
 			{
 				$template->setCurrentBlock("matching_data");
-				$template->setVariable("TERM_ID", $solution_value["value1"]);
-				$template->setVariable("DEFINITION_ID", $solution_value["value2"]);
+				$template->setVariable("DEFINITION_ID", $defId);
+				$template->setVariable("TERM_ID", $termId);
 				$template->parseCurrentBlock();
 			}
 		}

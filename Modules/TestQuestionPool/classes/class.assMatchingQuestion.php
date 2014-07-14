@@ -1223,7 +1223,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
 		if( $this->checkSubmittedMatchings($submittedMatchings) )
 		{
-			$previewSession->setParticipantsSolution(array_flip($submittedMatchings));
+			$previewSession->setParticipantsSolution($submittedMatchings);
 		}
 	}
 
