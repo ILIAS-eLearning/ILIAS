@@ -572,3 +572,4 @@ step_proxy#:#Proxy###02 09 2012 new variable
 db_innodb#:#MySQL (InnoDB)###02 09 2012 new variable
 show_update_steps#:#Show Update Step###02 09 2012 new variable
 lang_fa#:#Persian (farsi###17 02 2013 new variable
+feedback_recipient_info#:#This address is used in the footer link "Contact Administration"###14 07 2014 new variable

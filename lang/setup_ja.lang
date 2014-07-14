@@ -561,3 +561,4 @@ zip_path#:#ZipのPath
 zip_path_comment#:#エクスポートファイルの作成用　例 '/your_path/zip'
 zip_path_comment_win#:#インポートファイルの解凍用　例 'C
 zipcode#:#郵便番号
+feedback_recipient_info#:#This address is used in the footer link "Contact Administration"###14 07 2014 new variable

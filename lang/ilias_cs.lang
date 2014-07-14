@@ -13025,3 +13025,7 @@ book#:#book_copy#:#Copy Booking Pool###21 03 2014 new variable
 common#:#obj_book_duplicate#:#Copy Booking Pool###21 03 2014 new variable
 meta#:#meta_c_XK#:#Kosovo###21 03 2014 new variable
 survey#:#mailparticipantdata_placeholder#:#The following placeholders will be replaced with real user data in personalized surveys:###21 03 2014 new variable
+assessment#:#tst_question_not_from_pool_info#:#No Pool###14 07 2014 new variable
+common#:#frm_import#:#Import Forum###14 07 2014 new variable
+survey#:#spl_save_obligatory_state#:#Save Obligatory States###14 07 2014 new variable
+forum#:#post_reply_count#:#Re(%s):###14 07 2014 new variable

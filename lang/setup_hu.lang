@@ -563,3 +563,4 @@ step_proxy#:#Proxy
 db_innodb#:#MySQL (InnoDB)
 show_update_steps#:#Frissítés lépéseinek megjelenítése
 lang_fa#:#Persian (farsi###17 02 2013 new variable
+feedback_recipient_info#:#This address is used in the footer link "Contact Administration"###14 07 2014 new variable
