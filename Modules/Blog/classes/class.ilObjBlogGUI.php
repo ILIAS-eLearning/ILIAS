@@ -1652,13 +1652,15 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 					break;
 				}
 				
+				$add_year = false;
 				$year = substr($month, 0, 4);
 				if(!$last_year || $year != $last_year)
 				{
-					$wtpl->setVariable("YEAR", $year);
+					// #13562
+					$add_year = true;
 					$last_year = $year;
-				}				
-
+				}
+				
 				$mon_counter++;
 
 				$month_name = ilCalendarUtil::_numericMonthToString((int)substr($month, 5));
@@ -1675,7 +1677,14 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 
 				// list postings for month
 				if($counter < $max_detail_postings)
-				{				
+				{													
+					if($add_year)
+					{
+						$wtpl->setCurrentBlock("navigation_year_details");
+						$wtpl->setVariable("YEAR", $year);
+						$wtpl->parseCurrentBlock();			
+					}				
+					
 					foreach($postings as $id => $posting)
 					{						
 						if($max_detail_postings && $counter >= $max_detail_postings)
@@ -1722,6 +1731,13 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				// summarized month
 				else
 				{
+					if($add_year)
+					{
+						$wtpl->setCurrentBlock("navigation_year");
+						$wtpl->setVariable("YEAR", $year);
+						$wtpl->parseCurrentBlock();			
+					}		
+					
 					$wtpl->setCurrentBlock("navigation_month");
 					$wtpl->setVariable("MONTH_NAME", $month_name);				
 					$wtpl->setVariable("URL_MONTH", $month_url);
