@@ -19,8 +19,14 @@ class ilSessionStatistics
 	 */
 	public static function isActive()
 	{
+		global $ilSetting;
+		
+		return (bool)$ilSetting->get('session_statistics', 1);
+		
+		/* #13566 - includes somehow won't work this late in the request - doing it directly
 		include_once "Services/Tracking/classes/class.ilObjUserTracking.php";
 		return ilObjUserTracking::_enabledSessionStatistics();
+		*/		
 	}	
 	
 	/**
