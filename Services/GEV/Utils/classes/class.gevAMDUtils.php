@@ -196,9 +196,19 @@ class gevAMDUtils {
 			case ilAdvancedMDFieldDefinition::TYPE_TEXT:
 				return $a_value;
 			case ilAdvancedMDFieldDefinition::TYPE_DATE:
-				return new ilDate($a_value, IL_CAL_DATE);
+				if ($a_value) {
+					return new ilDate($a_value, IL_CAL_DATE);
+				}
+				else {
+					return null;
+				}
 			case ilAdvancedMDFieldDefinition::TYPE_DATETIME:
-				return new ilDateTime($a_value, IL_CAL_DATETIME);
+				if ($a_value) {
+					return new ilDateTime($a_value, IL_CAL_DATE);
+				}
+				else {
+					return null;
+				}
 			case ilAdvancedMDFieldDefinition::TYPE_INTEGER:
 				return intval($a_value);
 			case ilAdvancedMDFieldDefinition::TYPE_FLOAT:

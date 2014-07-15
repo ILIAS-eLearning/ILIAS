@@ -369,3 +369,21 @@ gevAMDUtils::addAMDField( "Orte und Anbieter"
 						);
 
 ?>
+
+<#4>
+<?php
+
+require_once("Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php");
+require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
+require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+
+gevAMDUtils::addAMDField( "Zeitraum"
+						, "geplant für"
+						, gevSettings::CRS_AMD_SCHEDULED_FOR
+						, ""
+						, false
+						, null
+						, ilAdvancedMDFieldDefinition::TYPE_TEXT
+						);
+
+?>

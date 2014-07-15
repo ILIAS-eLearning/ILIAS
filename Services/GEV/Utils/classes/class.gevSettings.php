@@ -42,8 +42,10 @@ class gevSettings {
 	// Start- und Enddatum
 	const CRS_AMD_START_DATE		= "crs_amd_start_date";
 	const CRS_AMD_END_DATE			= "crs_amd_end_date";
-	//Zeitplan
+	// Zeitplan
 	const CRS_AMD_SCHEDULE			= "crs_amd_schedule";
+	// geplant für
+	const CRS_AMD_SCHEDULED_FOR		= "crs_amd_scheduled_for";
 	
 	// Block Trainingsinhalte
 	// Trainingsthema
