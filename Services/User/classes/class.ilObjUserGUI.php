@@ -1189,6 +1189,11 @@ class ilObjUserGUI extends ilObjectGUI
 		// active
 		$ac = new ilCheckboxInputGUI($lng->txt("active"), "active");
 		$ac->setChecked(true);
+		// gev-patch start
+		$ac->setInfo("Achtung: Gesperrte Benutzerkonten dürfen ausschließlich"
+					." mit einer schriftlichen Einwilligungserklärung auf aktiv"
+					." gesetzt werden. Einwilligungserklärung zwingend archivieren.");
+		// gev-patch end
 		$this->form_gui->addItem($ac);
 
 		// access	@todo: get fields right (names change)
