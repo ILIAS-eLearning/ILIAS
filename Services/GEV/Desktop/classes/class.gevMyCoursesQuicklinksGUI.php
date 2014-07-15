@@ -28,11 +28,11 @@ class gevMyCoursesQuicklinksGUI {
 		$tpl = new ilTemplate("tpl.gev_my_courses_quicklinks.html", true, true, "Services/GEV/Desktop");
 
 		$user_utils = gevUserUtils::getInstance($this->user->getId());
-		$next_crs = gevCourseUtils::getInstance($user_utils->getNextCourse());
-		$last_crs = gevCourseUtils::getInstance($user_utils->getLastCourse());
+		$next_crs_link = $this->maybeGetCourseLink($user_utils->getNextCourseId(), "noNextCourse");
+		$last_crs_link = $this->maybeGetCourseLink($user_utils->getLastCourseId(), "noLastCourse");
 
-		$qls = array( "gev_next_course" => array($next_crs->getLink(), "ql_next_course.png")
-					, "gev_last_course" => array($last_crs->getLink(), "ql_last_course.png")
+		$qls = array( "gev_next_course" => array($next_crs_link, "ql_next_course.png")
+					, "gev_last_course" => array($last_crs_link, "ql_last_course.png")
 					, "gev_my_edu_bio" => array($user_utils->getEduBioLink(), "ql_edu_bio.png")
 					);
 
@@ -53,6 +53,16 @@ class gevMyCoursesQuicklinksGUI {
 		}
 
 		return $ql_title->render() . $tpl->get();
+	}
+	
+	protected function maybeGetCourseLink($a_crs_id, $a_fail_cmd) {
+		if ($a_crs_id !== null) {
+			$crs = gevCourseUtils::getInstance($a_crs_id);
+			return $crs->getLink();
+		}
+		else {
+			return $this->ctrl->getLinkTargetByClass("gevMyCoursesGUI", $a_fail_cmd);
+		}
 	}
 }
 

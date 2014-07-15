@@ -35,6 +35,8 @@ class gevMyCoursesGUI {
 			case "view":
 			case "cancelBooking":
 			case "finalizeCancellation":
+			case "noNextCourse":
+			case "noLastCourse":
 				$cont = $this->$cmd();
 			default:
 				$this->log->write("gevBookingGUI: Unknown command '".$cmd."'");
@@ -121,6 +123,16 @@ class gevMyCoursesGUI {
 								   )
 						   );
 		return $this->render();
+	}
+	
+	public function noNextCourse() {
+		ilUtil::sendFailure($this->lng->txt("gev_no_next_course"));
+		return $this->view();
+	}
+	
+	public function noLastCourse() {
+		ilUtil::sendFailure($this->lng->txt("gev_no_last_course"));
+		return $this->view();
 	}
 }
 

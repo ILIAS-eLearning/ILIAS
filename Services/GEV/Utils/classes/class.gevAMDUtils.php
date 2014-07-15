@@ -76,7 +76,6 @@ class gevAMDUtils {
 				 "  FROM object_data od\n".
 				 implode("\n", array_merge($query_parts[1], $a_additional_joins))."\n".
 				 "WHERE ".$this->db->in("od.obj_id", $a_objs, false, "integer")." ".$a_additional_where;
-
 		//die($query);	
 		$res = $this->db->query($query);
 

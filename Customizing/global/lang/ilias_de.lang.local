@@ -647,3 +647,5 @@ gev#:#gev_free_cancellation_action#:#Kostenfrei Stornieren
 gev#:#gev_cancellation#:#Stornierung
 gev#:#gev_cancellation_success#:#Ihre Buchung des Trainings "%s" wurde erfolgreich storniert.
 common#:#federal_state#:#Bundesland
+gev#:#gev_no_next_course#:#Sie haben derzeit kein Training gebucht.
+gev#:#gev_no_last_course#:#Sie haben derzeit kein Training gebucht.

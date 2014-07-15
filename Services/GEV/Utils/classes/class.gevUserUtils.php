@@ -57,12 +57,38 @@ class gevUserUtils {
 		return self::$instances[$a_user_id];
 	}
 	
-	public function getNextCourse() {
-		return 0;	// TODO: implement that properly
+	public function getNextCourseId() {
+		$now = date("Y-m-d");
+		$crss = $this->getBookedCourses();
+		$amd = array( gevSettings::CRS_AMD_START_DATE => "start_date");
+		$info = gevAMDUtils::getInstance()->getTable($crss, $amd, array(), array(),
+													 " AND amd0.value >= ".$this->db->quote($now, "text").
+													 " ORDER BY start_date ASC".
+													 " LIMIT 1 OFFSET 0");
+		if (count($info) > 0) {
+			$val = array_pop($info);
+			return $val["obj_id"];
+		}
+		else {
+			return null;
+		}
 	}
 	
-	public function getLastCourse() {
-		return 0;	// TODO: implement that properly
+	public function getLastCourseId() {
+		$now = date("Y-m-d");
+		$crss = $this->getBookedCourses();
+		$amd = array( gevSettings::CRS_AMD_START_DATE => "start_date");
+		$info = gevAMDUtils::getInstance()->getTable($crss, $amd, array(), array(),
+													 " AND amd0.value < ".$this->db->quote($now, "text").
+													 " ORDER BY start_date DESC".
+													 " LIMIT 1 OFFSET 0");
+		if (count($info) > 0) {
+			$val = array_pop($info);
+			return $val["obj_id"];
+		}
+		else {
+			return null;
+		}
 	}
 	
 	public function getEduBioLink() {
@@ -157,7 +183,7 @@ class gevUserUtils {
 			);
 		
 		
-		$booked = $this->courseBookings->getBookedCourses();
+		$booked = $this->getBookedCourses();
 		$booked_amd = gevAMDUtils::getInstance()->getTable($booked, $crs_amd);
 		foreach ($booked_amd as $key => $value) {
 			$booked_amd[$key]["status"] = ilCourseBooking::STATUS_BOOKED;
@@ -597,6 +623,10 @@ class gevUserUtils {
 	
 	public function getBookingStatusAtCourse($a_course_id) {
 		return gevCourseUtils::getInstance($a_course_id)->getBookingStatusOf($this->user_id);
+	}
+	
+	public function getBookedCourses() {
+		return $this->courseBookings->getBookedCourses();
 	}
 	
 	public function hasPassedCourseDerivedFromTemplate($a_tmplt_ref_id) {
