@@ -3412,8 +3412,17 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 			else
 			{
 				$user_alias = $ilUser->getLogin();	
-			}			
-			
+			}
+
+			$status = 1;
+			if(
+				$this->objProperties->isPostActivationEnabled() &&
+				!$this->is_moderator || $this->objCurrentPost->isAnyParentDeactivated()
+			)
+			{
+				$status = 0;
+			}
+
 			// build new thread
 			$newPost = $frm->generateThread(
 				$topicData['top_pk'],
@@ -3422,7 +3431,9 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 				ilRTE::_replaceMediaObjectImageSrc($this->create_topic_form_gui->getInput('message'), 0),
 				$this->create_topic_form_gui->getItemByPostVar('notify') ? (int)$this->create_topic_form_gui->getInput('notify') : 0,
 				$this->create_topic_form_gui->getItemByPostVar('notify_posts') ? (int)$this->create_topic_form_gui->getInput('notify_posts') : 0,
-				$user_alias
+				$user_alias,
+				'',
+				$status
 			);
 			
 			$file = $_FILES['userfile'];
