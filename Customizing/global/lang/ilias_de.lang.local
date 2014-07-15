@@ -646,3 +646,4 @@ gev#:#gev_free_cancellation_msg#:#Möchten sie die Buchung des Trainings "%s" wi
 gev#:#gev_free_cancellation_action#:#Kostenfrei Stornieren
 gev#:#gev_cancellation#:#Stornierung
 gev#:#gev_cancellation_success#:#Ihre Buchung des Trainings "%s" wurde erfolgreich storniert.
+common#:#federal_state#:#Bundesland

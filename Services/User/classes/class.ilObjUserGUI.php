@@ -1471,6 +1471,17 @@ class ilObjUserGUI extends ilObjectGUI
 			}
 			if($this->isSettingChangeable($field[0]))
 			{
+				// gev-patch start
+				if ($field[0] == "country") {
+					$inp = new ilTextInputGUI($lng->txt("federal_state"), $field[0]);
+					$inp->setSize($field[1]);
+					$inp->setMaxLength($field[2]);
+					$inp->setRequired(isset($settings["require_".$field[0]]) &&
+						$settings["require_".$field[0]]);
+					$this->form_gui->addItem($inp);
+				}
+				else
+				// gev-patch end
 				if ($field[0] != "sel_country")
 				{
 					$inp = new ilTextInputGUI($lng->txt($field[0]), $field[0]);
