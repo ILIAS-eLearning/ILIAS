@@ -48,8 +48,14 @@
 	width: 50%;
 	overflow-x: auto;
 }
+
+.lcol.participant
+{
+    width: 49%;
+}
+
 .rcol.solution {
-	width: 45%;
+	width: 49%;
 	overflow-x: auto;
 	padding: 5px;
 	background: #E2FFC7; /* Fallback IE 6-8 */
