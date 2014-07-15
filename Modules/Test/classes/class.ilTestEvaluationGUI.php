@@ -1170,7 +1170,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		}
 
 		$template->setCurrentBlock("pass_overview");
-		$overview = $this->getPassOverview($active_id, "iltestevaluationgui", "outUserPassDetails", FALSE, true /*$hide_details*/);
+		$overview = $this->getPassOverview($active_id, "iltestevaluationgui", "outUserPassDetails", FALSE, $hide_details);
 		$template->setVariable("PASS_OVERVIEW", $overview);
 		$template->setVariable("TEXT_RESULTS", $this->lng->txt("tst_results_overview"));
 		$template->parseCurrentBlock();
