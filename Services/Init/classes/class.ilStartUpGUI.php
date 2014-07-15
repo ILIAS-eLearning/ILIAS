@@ -1946,6 +1946,10 @@ class ilStartUpGUI
 		 * @var $ilAccess  ilAccessHandler
 		 */
 		global $tpl, $lng, $ilCtrl, $ilSetting, $ilAccess;
+		
+		// #13574 - basic.js is included with ilTemplate, so jQuery is needed, too
+		include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
+		iljQueryUtil::initjQuery();
 
 		$tpl->addBlockfile('CONTENT', 'content', 'tpl.startup_screen.html', 'Services/Init');
 		$tpl->setVariable('HEADER_ICON', ilUtil::getImagePath('HeaderIcon.png'));
