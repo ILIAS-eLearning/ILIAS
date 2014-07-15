@@ -4294,6 +4294,7 @@ div.ilAttendanceListPrint td, div.ilAttendanceListPrint th {
 }
 
 body.ilBodyPrint {
+    height: auto;
 	background-color: #FFF;
 	margin: 10px;
 	padding: 0;
