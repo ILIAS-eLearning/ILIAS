@@ -1114,7 +1114,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		}
 		else
 		{
-			$this->tpl->setVariable('PRINT_CONTENT', $tpl->get());
+			$this->tpl->setContent($tpl->get());
 		}
 	}
 
@@ -1208,7 +1208,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		}
 		else
 		{
-			$this->tpl->setVariable("PRINT_CONTENT", $templatehead->get());
+			$this->tpl->setContent($templatehead->get());
 		}
 	}
 
