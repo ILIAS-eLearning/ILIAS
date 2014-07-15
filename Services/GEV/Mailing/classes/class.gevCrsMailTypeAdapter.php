@@ -39,6 +39,7 @@ class gevCrsMailTypeAdapter extends ilMailTypeAdapter {
 				, array("Startzeit"					, "Uhrzeit des Beginns des Trainings")
 				, array("Enddatum"					, "Enddatum des Trainings")
 				, array("Endzeit"					, "Uhrzeit des Ende des Trainings")
+				, array("Zeitplan"					, "Zeitplan des Trainings")
 				, array("TV-Name"					, "Name des Themenverantwortlichen des Trainings")
 				, array("TV-Telefon"				, "Telefonnummer des Themenverantwortlichen")
 				, array("TV-Email"					, "Emailadresse des Themenverantwortlichen")

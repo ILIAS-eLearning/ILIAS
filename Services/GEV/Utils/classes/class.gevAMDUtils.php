@@ -210,11 +210,14 @@ class gevAMDUtils {
 					return null;
 				}
 			case ilAdvancedMDFieldDefinition::TYPE_INTEGER:
+				// TODO: do a check similar to TYPE_DATETIME here?
 				return intval($a_value);
 			case ilAdvancedMDFieldDefinition::TYPE_FLOAT:
+				// TODO: do a check similar to TYPE_DATETIME here?
 				return floatval($a_value);
 			case ilAdvancedMDFieldDefinition::TYPE_MULTI_SELECT:
 			case ilAdvancedMDFieldDefinition::TYPE_SCHEDULE:
+				// TODO: do a check similar to TYPE_DATETIME here?
 				return unserialize($a_value);
 			case ilAdvancedMDFieldDefinition::TYPE_LOCATION:
 				die("gevAMDUtils::canonicalTransformTypedValue: Location not implemented.");
