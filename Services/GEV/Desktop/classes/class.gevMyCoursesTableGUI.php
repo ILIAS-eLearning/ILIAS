@@ -67,8 +67,6 @@ class gevCoursesTableGUI extends catAccordionTableGUI {
 		$this->tpl->setVariable("ACCORDION_ROW", $this->getAccordionRowClass());
 		$this->tpl->setVariable("COLSPAN", $this->getColspan());
 
-		print_r($a_set);	
-
 		if ($a_set["start_date"] == null ) {
 			if ($a_set["scheduled_for"] == null) {
 				$date = $this->lng->txt("gev_table_no_entry");
