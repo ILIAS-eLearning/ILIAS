@@ -145,6 +145,10 @@ class ilTEPCourseEntries
 	// CRUD
 	//
 
+	const SYNC_NO_CHANGE = 0;
+	const SYNC_UPDATED = 0;
+	const SYNC_DELETED = 0;
+
 	/**
 	 * Sync course settings/metadata with calendar entry
 	 *
@@ -155,36 +159,45 @@ class ilTEPCourseEntries
 	{
 		$course = $this->getCourse();
 		
-		// course settings
-		$changed = false;
-		if($course->getTitle() != $a_entry->getTitle())
-		{
-			$a_entry->setTitle($course->getTitle());
-			$changed = true;
-		}
-		if($course->getDescription() != $a_entry->getDescription())
-		{
-			$a_entry->setDescription($course->getDescription());
-			$changed = true;
-		}
+		$start = $this->getCourseStart();
+		$end = $this->getCourseEnd();
+
 		
-		// course period
-		if($this->getCourseStart()->get(IL_CAL_DATE) != $a_entry->getStart()->get(IL_CAL_DATE))
-		{
-			$a_entry->setStart($this->getCourseStart());
-			$changed = true;
+		if ($start !== null && $end !== null) {
+			// course settings
+			$changed = self::SYNC_NO_CHANGE;
+			if($course->getTitle() != $a_entry->getTitle())
+			{
+				$a_entry->setTitle($course->getTitle());
+				$changed = self::SYNC_UPDATED;
+			}
+			if($course->getDescription() != $a_entry->getDescription())
+			{
+				$a_entry->setDescription($course->getDescription());
+				$changed = self::SYNC_UPDATED;
+			}
+			// course period
+			if($start->get(IL_CAL_DATE) != $a_entry->getStart()->get(IL_CAL_DATE))
+			{
+				$a_entry->setStart($start);
+				$changed = self::SYNC_UPDATED;
+			}
+			if($end->get(IL_CAL_DATE) != $a_entry->getEnd()->get(IL_CAL_DATE))
+			{
+				$a_entry->setEnd($end);
+				$changed = self::SYNC_UPDATED;
+			}		 
+			
+			// course venue
+			if($this->getCourseVenue() != $a_entry->getLocation())
+			{
+				$a_entry->setLocation($this->getCourseVenue());
+				$changed = self::SYNC_UPDATED;
+			}
 		}
-		if($this->getCourseEnd()->get(IL_CAL_DATE) != $a_entry->getEnd()->get(IL_CAL_DATE))
-		{
-			$a_entry->setEnd($this->getCourseEnd());
-			$changed = true;
-		}		 
-		
-		// course venue
-		if($this->getCourseVenue() != $a_entry->getLocation())
-		{
-			$a_entry->setLocation($this->getCourseVenue());
-			$changed = true;
+		else {
+			$a_entry->delete();
+			$changed = self::SYNC_DELETED;
 		}
 		
 		return $changed;
@@ -269,13 +282,17 @@ class ilTEPCourseEntries
 		}
 		
 		$crs_entry = new ilTEPEntry($master_id);
-		if($this->syncEntry($crs_entry))
+		$syn_res = $this->syncEntry($crs_entry);
+		if($syn_res == self::SYNC_UPDATED)
 		{			
 			// see below - we are handling derived entries ourselves
 			if(!$crs_entry->update(false))
 			{
 				return;
 			}
+		}
+		if ($syn_res == self::SYNC_DELETED) {
+			return;
 		}
 		
 		$tutor_entries = ilCalDerivedEntry::getUserIdsByMasterEntryIds(array($master_id));
