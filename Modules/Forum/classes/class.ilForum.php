@@ -552,7 +552,7 @@ class ilForum
 	* @return	integer	new post ID
 	* @access public
 	*/
-	public function generateThread($forum_id, $user, $subject, $message, $notify, $notify_posts, $alias = '', $date = '')
+	public function generateThread($forum_id, $user, $subject, $message, $notify, $notify_posts, $alias = '', $date = '', $status = 1)
 	{	
 		global $ilDB;
 
@@ -591,7 +591,7 @@ class ilForum
 			WHERE top_pk = %s',
 			array('integer'), array($forum_id));
 		
-		return $this->generatePost($forum_id, $objNewThread->getId(), $user, $message, 0, $notify, $subject, $alias, $objNewThread->getCreateDate());
+		return $this->generatePost($forum_id, $objNewThread->getId(), $user, $message, 0, $notify, $subject, $alias, $objNewThread->getCreateDate(), $status);
 	}
 	
 	/**
