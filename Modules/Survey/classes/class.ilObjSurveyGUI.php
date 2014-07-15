@@ -2074,10 +2074,10 @@ class ilObjSurveyGUI extends ilObjectGUI
 							$tmp[] = $type.": ".$value;
 						}
 						$page_res[] = implode("\n", $tmp);
-					}			
-					
-					$res[] = implode("\n\n-------------------------------\n\n", $page_res);
-				}								
+					}													
+				}				
+				
+				$res[] = implode("\n\n-------------------------------\n\n", $page_res);
 			}			
 		}
 		
