@@ -395,7 +395,7 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 					ilObject::_lookupObjId($id),
 					$ilUser->getId(), 
 					'undelete', 
-					ilObject::_lookupObjId($tree->getParentId())
+					ilObject::_lookupObjId($tree->getParentId($id))
 			);
 			ilChangeEvent::_catchupWriteEvents(
 					$cur_obj_id, 
