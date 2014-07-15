@@ -143,7 +143,7 @@ class gevBillingUtils {
 		return $item;
 	}
 	
-	protected function resetCouponValuesFromItems($a_items) {
+	public function resetCouponValuesFromItems($a_items) {
 		$coupon_dummy = new ilCoupon();
 		foreach ($a_items as $item) {
 			$spl = explode(" ", $item->getTitle());
