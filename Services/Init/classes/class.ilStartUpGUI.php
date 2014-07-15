@@ -950,10 +950,7 @@ class ilStartUpGUI
 		 * @var $lng ilLanguage
 		 */
 		global $tpl, $lng;
-		
-		require_once 'Services/jQuery/classes/class.iljQueryUtil.php';
-		iljQueryUtil::initjQuery();
-
+	
 		$lng->loadLanguageModule('auth');		
 		self::initStartUpTemplate('tpl.login_account_migration.html');
 	 
