@@ -1,8 +1,8 @@
 $(document).ready(function ()
 {
     "use strict";
-    var clone_active = -1;
-
+    var clone_active    = -1;
+    var active_gap      = -1;
     bindTextareaHandler();
     paintGaps();
     createGapListener();
@@ -471,7 +471,12 @@ $(document).ready(function ()
 
     function bindInputHandler()
     {
-        $('.text_field').bind('blur keyup', function(event){
+        var listener = 'blur';
+        if (typeof(tinyMCE) != "undefined")
+        {
+            listener = 'blur keyup';
+        }
+        $('.text_field').bind(listener, function(event){
             var pos = getPositionFromInputs($(this));
             gaps_php[0][pos[0]].values[pos[1]].answer = $(this).val();
             editTextarea(pos[0]);
@@ -685,7 +690,11 @@ $(document).ready(function ()
 
     function setCursorPositionTiny(editor, index)
     {
-        var content = editor.getContent({format: 'html'});
+        var content = editor.getContent({format: 'html'});     
+        if( index == '-1')
+        {
+            index = 0;
+        }
         var part1 = content.substr(0, index);
         var part2 = content.substr(index);
         var bookmark = editor.selection.getBookmark(0);
@@ -721,8 +730,11 @@ $(document).ready(function ()
             var start = text.indexOf('[gap ', end);
             end = text.indexOf('[/gap]', parseInt(end)) + 5;
             if (start < position && end >= position) {
-                inGap = start;
-                gapNumber = text.substr(parseInt(start) + 5, 1);
+                inGap = parseInt(end) + 1;
+                var gapSize = parseInt(end) - parseInt(start);
+                var gapContent = text.substr(parseInt(start) + 5, gapSize);
+                gapContent = gapContent.split(']');
+                gapNumber = gapContent[0];
             }
         }
         return [gapNumber, inGap];
@@ -788,11 +800,36 @@ $(document).ready(function ()
     {
         if (typeof(tinymce) != "undefined") {
             //ToDo: Bug in tiny steals focus on setContent (tinymce Bug #6423)
+            var inst = tinyMCE.activeEditor;
+            var cursor = getCursorPositionTiny(inst);
             tinymce.get('cloze_text').setContent(text);
+            var inGap = cursorInGap(cursor);
+            if(inGap[1] != '-1' )
+            {
+                var newIndex = parseInt(inGap[1]);
+                active_gap = newIndex;
+            }
+            setCursorPositionTiny(inst, active_gap);
         }
         else {
             var textarea = $('textarea#cloze_text');
+            var cursor = textarea.prop("selectionStart");
             textarea.val(text);
+            var inGap = cursorInGap(cursor + 1);
+            console.log(inGap)
+            if(inGap != '-1')
+            {
+                if(active_gap == '-1')
+                {
+                    setCaretPosition(textarea, cursor);
+                }
+                else
+                {
+                    textarea.prop("selectionStart",active_gap);
+                    textarea.prop("selectionEnd",active_gap);
+                }
+                active_gap = parseInt(inGap[1]);
+            }
         }
     }
 
