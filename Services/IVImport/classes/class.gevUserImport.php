@@ -49,11 +49,13 @@ class gevUserImport {
 		}
 
 		$shadow_user = $this->get_shadow_user($stelle, $email);
-		if ($shadow_user !== false) {
-			$token = $this->generate_confirmation_token();
-			$this->save_token($token, $username, $stelle, $email);
-			$this->send_confirmation_email($token, $username, $email);
+		if ($shadow_user === false) {
+			return 'User not found in shadow database.';
 		}
+
+		$token = $this->generate_confirmation_token();
+		$this->save_token($token, $username, $stelle, $email);
+		$this->send_confirmation_email($token, $username, $email);
 
 		return false;
 	}
@@ -83,6 +85,7 @@ class gevUserImport {
 		if ($ilias_user === false) {
 			return 'User already exists.';
 		}
+		$ilias_user->update();
 		$this->set_gev_attributes($ilias_user, $shadow_user);
 		$this->set_global_role($ilias_user, $shadow_user);
 		$this->set_orgunit_role($ilias_user, $shadow_user);
@@ -93,6 +96,49 @@ class gevUserImport {
 		$this->set_token_used_field($token);
 		$this->log_user_in($username, $token);
 		return false;
+	}
+
+
+	public function update_imported_shadow_users() {
+		$shadow_users = $this->get_imported_shadow_users();
+		if (!$shadow_users) {
+			return;
+		}
+
+		foreach($shadow_users as $ilias_id => $shadow_user) {
+			print_r($shadow_user);
+			$user = new ilObjUser($ilias_id);
+			$this->set_ilias_user_attributes($user, $shadow_user);
+			$user->update();
+			$this->set_gev_attributes($user, $shadow_user);
+			$user->update();
+		}
+	}
+
+	private function get_imported_shadow_users() {
+		$sql = "
+			SELECT
+				*
+			FROM
+				`ivimport_adp`
+			INNER JOIN
+				`ivimport_stelle`
+			ON
+				( `ivimport_stelle`.`stellennummer` = `ivimport_adp`.`stelle` )
+			WHERE
+				`ivimport_adp`.`ilias_id` IS NOT NULL
+		";
+		$result = mysql_query($sql, $this->mysql);
+
+		if ((!$result) || (mysql_num_rows($result) === 0)) {
+			return false;
+		}
+
+		$ret = array();
+		while ($row = mysql_fetch_assoc($result)) {
+			$ret[$row['ilias_id']] = $row;
+		}
+		return $ret;
 	}
 
 
@@ -131,6 +177,17 @@ class gevUserImport {
 		$user->setLogin($username);
 		$user->setPasswd($token);
 
+		$this->set_ilias_user_attributes($user, $shadow_user);
+
+		$user->create();
+		$user->saveAsNew();
+		$user->setOwner(6);
+		$user->update();
+		return $user;
+
+	}
+
+	private function set_ilias_user_attributes(&$user, $shadow_user) {
 		$user->setLastname($shadow_user['nachname']);
 		$user->setFirstname($shadow_user['vorname']);
 		$user->setEmail($shadow_user['email']);
@@ -197,10 +254,6 @@ class gevUserImport {
 			$user->setSelectedCountry($country);
 		}
 
-		$user->create();
-		$user->saveAsNew();
-		$user->setOwner(6);
-		$user->update();
 		return $user;
 	}
 
@@ -225,7 +278,6 @@ class gevUserImport {
 			$utils->setExitDate(new ilDate($exit_date, IL_CAL_DATE));
 		}
 
-		$user->update();
 		return $user;
 	}
 
