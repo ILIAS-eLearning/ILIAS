@@ -325,7 +325,78 @@ class ilTagging
 
 		return $cnt;
 	}
+	
+	/**
+	 * Count tags for given object ids
+	 * 
+	 * @param array $a_obj_ids obj_id => type
+	 * @param int $a_user_id
+	 * @return array obj_id => counter
+	 */
+	static function _getTagCloudForObjects(array $a_obj_ids, $a_user_id = null)
+	{
+		global $ilDB;
+		
+		$res = array();
+		
+		$sql = "SELECT obj_id, obj_type, tag".
+			" FROM il_tag".
+			" WHERE ".$ilDB->in("obj_id", array_keys($a_obj_ids), false, "integer").
+			" AND is_offline = ".$ilDB->quote(0, "integer");
+		if($a_user_id)
+		{
+			$sql .= " AND user_id = ".$ilDB->quote($a_user_id, "integer");
+		}						
+		$sql .= " ORDER BY tag";
+		$set = $ilDB->query($sql);
+		while($row = $ilDB->fetchAssoc($set))
+		{			
+			if($a_obj_ids[$row["obj_id"]] == $row["obj_type"])
+			{
+				$tag = $row["tag"];
+				if(!isset($res[$tag]))
+				{
+					$res[$tag] = 1;
+				}
+				else
+				{
+					$res[$tag]++;
+				}
+			}			
+		}
 
+		return $res;						
+	}
+	
+	/**
+	 * Find all objects with given tag
+	 * 
+	 * @param string $a_tag
+	 * @param int $a_user_id
+	 * @return array
+	 */
+	static function _findObjectsByTag($a_tag, $a_user_id = null)
+	{
+		global $ilDB;
+		
+		$res = array();
+		
+		$sql = "SELECT obj_id, obj_type".
+			" FROM il_tag".
+			" WHERE tag = ".$ilDB->quote($a_tag, "text").
+			" AND is_offline = ".$ilDB->quote(0, "integer");
+		if($a_user_id)
+		{
+			$sql .= " AND user_id = ".$ilDB->quote($a_user_id, "integer");
+		}						
+		$set = $ilDB->query($sql);
+		while($row = $ilDB->fetchAssoc($set))
+		{			
+			$res[$row["obj_id"]] = $row["obj_type"];
+		}
+
+		return $res;			
+	}
 }
 
 ?>

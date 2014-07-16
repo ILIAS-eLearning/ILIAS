@@ -60,7 +60,8 @@ class ilColumnGUI
 		'ilPDTaggingBlockGUI' => 'Services/Tagging/',
 		'ilChatroomBlockGUI' => 'Modules/Chatroom/',
 		'ilPollBlockGUI' => 'Modules/Poll/',
-		'ilTaxonomyBlockGUI' => 'Services/Taxonomy/'
+		'ilTaxonomyBlockGUI' => 'Services/Taxonomy/',
+		'ilTagCloudBlockGUI' => 'Services/Tagging/'
 	);
 	
 	static protected $block_types = array(
@@ -79,7 +80,8 @@ class ilColumnGUI
 		'ilPDTaggingBlockGUI' => 'pdtag',
 		'ilChatroomBlockGUI' => 'chatviewer',
 		'ilPollBlockGUI' => 'poll',
-		'ilTaxonomyBlockGUI' => 'tax'
+		'ilTaxonomyBlockGUI' => 'tax',
+		'ilTagCloudBlockGUI' => 'tagcld'
 	);
 	
 		
@@ -89,11 +91,14 @@ class ilColumnGUI
 			),
 		"crs" => array(
 			"ilNewsForContextBlockGUI" => IL_COL_RIGHT,
-			"ilCalendarBlockGUI" => IL_COL_RIGHT
+			"ilCalendarBlockGUI" => IL_COL_RIGHT,
+			"ilTagCloudBlockGUI" => IL_COL_RIGHT
 			),
 		"grp" => array(
 			"ilNewsForContextBlockGUI" => IL_COL_RIGHT,
-			"ilCalendarBlockGUI" => IL_COL_RIGHT),
+			"ilCalendarBlockGUI" => IL_COL_RIGHT,
+			"ilTagCloudBlockGUI" => IL_COL_RIGHT
+			),
 		"frm" => array("ilNewsForContextBlockGUI" => IL_COL_RIGHT),
 		"root" => array(),
 		"info" => array(
@@ -136,7 +141,8 @@ class ilColumnGUI
 			"pdbookm" => true,
 			"pdtag" => true,
 			"pdnotes" => true,
-			"chatviewer" => true);
+			"chatviewer" => true,
+			"tagcld" => true);
 			
 	protected $check_nr_limit =
 		array("pdfeed" => true);
@@ -1071,6 +1077,11 @@ class ilColumnGUI
 			{
 				include_once('./Services/Calendar/classes/class.ilCalendarSettings.php');
 				return ilCalendarSettings::_getInstance()->isEnabled();
+			}
+			elseif($a_type == "tagcld")
+			{
+				$tags_active = new ilSetting("tags");
+				return (bool)$tags_active->get("enable", false);			
 			}
 			return false;
 		}
