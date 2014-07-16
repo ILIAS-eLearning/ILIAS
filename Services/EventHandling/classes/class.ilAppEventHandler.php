@@ -121,7 +121,8 @@ class ilAppEventHandler
 				if (is_file($file))
 				{
 					include_once($file);
-					call_user_func(array($class, 'handleEvent'), $a_component, $a_event, $a_parameter);
+					$result = call_user_func(array($class, 'handleEvent'), $a_component, $a_event, $a_parameter);
+					$a = 1;
 				}
 			}
 		}

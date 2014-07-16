@@ -388,7 +388,7 @@ class ilObjUser extends ilObject
 	*/
 	function saveAsNew($a_from_formular = true)
 	{ 
-		global $ilErr, $ilDB, $ilSetting, $ilUser;
+		global $ilErr, $ilDB, $ilSetting, $ilUser, $ilAppEventHandler;
 
 		switch ($this->passwd_type)
 		{
@@ -498,6 +498,9 @@ class ilObjUser extends ilObject
 		include_once "./Services/Bookmarks/classes/class.ilBookmarkFolder.php";
 		$bmf = new ilBookmarkFolder(0, $this->id);
 		$bmf->createNewBookmarkTree();
+		
+		$ilAppEventHandler->raise("Services/User", "createUser",
+			array("user_obj" => $this));
 	}
 
 	/**
