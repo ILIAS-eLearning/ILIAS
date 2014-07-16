@@ -427,11 +427,17 @@ abstract class ilDB extends PEAR
 				{
 					$stack = $e->getTraceAsString();
 				}
-
-				if(is_object($ilLog))
-					$ilLog->logStack();
-				$this->raisePearError("ilDB Error: ".$a_info."<br />".
-					$a_res->getMessage()."<br />".$a_res->getUserInfo()."<br />".$stack, $a_level);							
+				
+				if($this->unfatal)
+				{
+					throw new ilException( $a_res->getMessage() );
+				}
+				else {
+					if(is_object($ilLog))
+						$ilLog->logStack();
+					$this->raisePearError("ilDB Error: ".$a_info."<br />".
+						$a_res->getMessage()."<br />".$a_res->getUserInfo()."<br />".$stack, $a_level);							
+				}
 			}
 			else
 			{
@@ -2469,6 +2475,25 @@ abstract class ilDB extends PEAR
 	function getSubType()
 	{
 		return $this->sub_type;
+	}
+
+	/** @var bool $unfatal */
+	protected $unfatal;
+
+	/**
+	 * @param boolean $unfatal
+	 */
+	public function setUnfatal( $unfatal )
+	{
+		$this->unfatal = $unfatal;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function getUnfatal()
+	{
+		return $this->unfatal;
 	}
 
 } //end Class

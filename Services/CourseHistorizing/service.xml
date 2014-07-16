@@ -1,0 +1,6 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<service xmlns="http://www.w3.org" version="$Id$" name="CourseHistorizing" short="crshist" dir="Services/CourseHistorizing" id="usrhist">
+	<events>
+		<event type="listen" id="Modules/Course" />
+	</events>
+</service>

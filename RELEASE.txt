@@ -13,3 +13,4 @@ svn.ilias.de/svn/ilias/branches/CaT/extensions/4_4_ParticipationStatus		merged: 
 svn.ilias.de/svn/ilias/branches/CaT/extensions/4_4_Accomodations			merged: 51291
 svn.ilias.de/svn/ilias/branches/CaT/extensions/4_4_Billing					merged: 51249
 svn.ilias.de/svn/ilias/branches/CaT/extensions/4_4_TEP						merged: 51177
+svn.ilias.de/svn/ilias/branches/CaT/extensions/4_4_CourseHistorizing		merged: 51475
