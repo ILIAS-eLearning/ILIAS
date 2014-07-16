@@ -111,7 +111,7 @@ class ilDataCollectionFormulaField extends ilDataCollectionRecordField
     protected function parse()
     {
         if (!$this->parsed_value) {
-            $parser = new ilDclExpressionParser($this->expression, $this->record);
+            $parser = new ilDclExpressionParser($this->expression, $this->record, $this->field);
             try {
                 $this->parsed_value = $parser->parse();
             } catch (ilException $e) {
@@ -197,6 +197,11 @@ class ilDclExpressionParser
     protected $record;
 
     /**
+     * @var ilDataCollectionField
+     */
+    protected $field;
+
+    /**
      * @var string
      */
     protected $expression;
@@ -212,15 +217,46 @@ class ilDclExpressionParser
         '^' => array('precedence' => 3),
     );
 
+    /**
+     * @var array
+     */
+    protected static $cache_tokens = array();
+
+    /**
+     * @var array
+     */
+    protected static $cache_fields = array();
+
+    /**
+     * @var array
+     */
+    protected static $cache_math_tokens = array();
+
+    /**
+     * @var array
+     */
+    protected static $cache_math_function_tokens = array();
+
+    /**
+     * @var array
+     */
+    protected static $functions = array(
+        'SUM',
+        'AVERAGE',
+        'MIN',
+        'MAX',
+    );
 
     /**
      * @param string $expression
      * @param ilDataCollectionRecord $record
+     * @param ilDataCollectionField $field
      */
-    public function __construct($expression, ilDataCollectionRecord $record)
+    public function __construct($expression, ilDataCollectionRecord $record, ilDataCollectionField $field)
     {
         $this->expression = $expression;
         $this->record = $record;
+        $this->field = $field;
     }
 
 
@@ -234,7 +270,12 @@ class ilDclExpressionParser
      */
     public function parse()
     {
-        $tokens = ilDclTokenizer::getTokens($this->expression);
+        if (isset(self::$cache_tokens[$this->field->getId()])) {
+            $tokens = self::$cache_tokens[$this->field->getId()];
+        } else {
+            $tokens = ilDclTokenizer::getTokens($this->expression);
+            self::$cache_tokens[$this->field->getId()] = $tokens;
+        }
 //        echo "<pre>" . print_r($tokens, 1) . "</pre>";
         $parsed = '';
         foreach ($tokens as $token) {
@@ -242,6 +283,7 @@ class ilDclExpressionParser
                 continue;
             }
             if ($this->isMathToken($token)) {
+                $token = $this->calculateFunctions($token);
                 $math_tokens = ilDclTokenizer::getMathTokens($token);
                 $parsed .= $this->parseMath($this->substituteFieldValues($math_tokens));
             } else {
@@ -269,6 +311,15 @@ class ilDclExpressionParser
 
 
     /**
+     * @return array
+     */
+    public static function getFunctions()
+    {
+        return self::$functions;
+    }
+
+
+    /**
      * Check if a given token is a math expression
      *
      * @param string $token
@@ -276,11 +327,80 @@ class ilDclExpressionParser
      */
     protected function isMathToken($token)
     {
-        if (strpos($token, '"') === 0) {
-            return false;
+        if (isset(self::$cache_math_tokens[$this->field->getId()][$token])) {
+            return self::$cache_math_tokens[$this->field->getId()][$token];
+        } else {
+            if (strpos($token, '"') === 0) {
+                return false;
+            }
+            $operators = array_keys(self::getOperators());
+            $functions = self::getFunctions();
+            $result = (bool) preg_match('#(\\' . implode("|\\", $operators) . '|' . implode('|', $functions) . ')#', $token);
+            self::$cache_math_tokens[$this->field->getId()][$token] = $result;
+            return $result;
         }
-        $operators = array_keys(self::getOperators());
-        return (bool) preg_match('#(\\' . implode("|\\", $operators) . ')#', $token);
+    }
+
+
+    /**
+     * Execute any math functions inside a token
+     *
+     * @param string $token
+     * @return string
+     */
+    protected function calculateFunctions($token)
+    {
+        if (isset(self::$cache_math_function_tokens[$this->field->getId()][$token])) {
+            $result = self::$cache_math_function_tokens[$this->field->getId()][$token];
+            if ($result === false) {
+                return $token;
+            }
+        } else {
+            $pattern = '#';
+            foreach (self::getFunctions() as $function) {
+                $pattern .= "($function)\\(([^)]*)\\)|";
+            }
+            if (!preg_match_all(rtrim($pattern, '|') . '#', $token, $result)) {
+                // No functions found inside token, just return token again
+                self::$cache_math_function_tokens[$this->field->getId()][$token] = false;
+                return $token;
+            }
+        }
+        // Function found inside token, calculate!
+        foreach ($result[0] as $k => $to_replace) {
+            $function_args = $this->getFunctionArgs($k, $result);
+            $function = $function_args['function'];
+            $args = $this->substituteFieldValues($function_args['args']);
+            $token = str_replace($to_replace, $this->calculateFunction($function, $args), $token);
+        }
+        return $token;
+    }
+
+
+    /**
+     * Helper method to return the function and its arguments from a preg_replace_all $result array
+     *
+     * @param $index
+     * @param array $data
+     * @return array
+     */
+    protected function getFunctionArgs($index, array $data)
+    {
+        $return = array(
+            'function' => '',
+            'args' => array(),
+        );
+        for ($i=1;$i<count($data);$i++) {
+            $_data = $data[$i];
+            if ($_data[$index]) {
+                $function = $_data[$index];
+                $args = explode(';', $data[$i+1][$index]);
+                $return['function'] = $function;
+                $return['args'] = $args;
+                break;
+            }
+        }
+        return $return;
     }
 
 
@@ -305,7 +425,7 @@ class ilDclExpressionParser
 
 
     /**
-     * Substitute field values in placehoders like [[Field Title]]
+     * Substitute field values in placehoders like [[Field Title]] from current record
      *
      * @param string $placeholder
      * @throws ilException
@@ -313,11 +433,20 @@ class ilDclExpressionParser
      */
     protected function substituteFieldValue($placeholder)
     {
-        $table = ilDataCollectionCache::getTableCache($this->record->getTableId());
-        $field_title = preg_replace('#^\[\[(.*)\]\]#', "$1", $placeholder);
-        $field = $table->getFieldByTitle($field_title);
-        if ($field === null) {
-            throw new ilException("Field with title '$field_title' either not found or not compatible");
+        if (isset(self::$cache_fields[$placeholder])) {
+            $field = self::$cache_fields[$placeholder];
+        } else {
+            $table = ilDataCollectionCache::getTableCache($this->record->getTableId()); // TODO May need caching per table in future
+            $field_title = preg_replace('#^\[\[(.*)\]\]#', "$1", $placeholder);
+            $field = $table->getFieldByTitle($field_title);
+            if ($field === null) {
+                // Workaround for standardfields - title my be ID
+                $field = $table->getField($field_title);
+                if ($field === null) {
+                    throw new ilException("Field with title '$field_title' not found");
+                }
+            }
+            self::$cache_fields[$placeholder] = $field;
         }
         return $this->record->getRecordFieldHTML($field->getId());
     }
@@ -393,6 +522,32 @@ class ilDclExpressionParser
             }
             $result = $stack->pop();
             return (ctype_digit((string) $result)) ? $result : number_format($result, self::N_DECIMALS, '.', "'");
+        }
+    }
+
+
+    /**
+     * Calculate a function with its arguments
+     *
+     * @param $function Function name to calculate
+     * @param array $args Arguments of function
+     * @return float|int|number
+     * @throws ilException
+     */
+    protected function calculateFunction($function, array $args=array())
+    {
+        switch ($function) {
+            case 'AVERAGE':
+                $count = count($args);
+                return ($count) ? array_sum($args) / $count : 0;
+            case 'SUM':
+                return array_sum($args);
+            case 'MIN':
+                return min($args);
+            case 'MAX':
+                return max($args);
+            default:
+                throw new ilException("Unrecognized function '$function'");
         }
     }
 

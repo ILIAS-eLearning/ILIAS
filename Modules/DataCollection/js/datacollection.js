@@ -63,7 +63,7 @@ $(document).ready(function(){
      * Formula fields
      */
     $('a.dclPropExpressionField').click(function(){
-        var placeholder = '[[' + $(this).text() + ']]';
+        var placeholder = '[[' + $(this).attr('data-placeholder') + ']]';
         var $expression = $('#prop_12');
         var caretPos = document.getElementById('prop_12').selectionStart;
         var expression = $expression.val();

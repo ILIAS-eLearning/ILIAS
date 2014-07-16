@@ -277,11 +277,13 @@ class ilDataCollectionFieldEditGUI
                     $table = ilDataCollectionCache::getTableCache((int)$_GET['table_id']);
                     $fields = array();
                     foreach ($table->getFields() as $f) {
-                        $fields[] = '<a class="dclPropExpressionField">' . $f->getTitle() . '</a>';
+                        $placeholder = ($f->isStandardField()) ? $f->getId() : $f->getTitle();
+                        $fields[] = '<a class="dclPropExpressionField" data-placeholder="' . $placeholder . '">' . $f->getTitle() . '</a>';
                     }
                     $subitem = new ilTextAreaInputGUI($lng->txt('dcl_prop_expression'), 'prop_' . $property['id']);
                     $operators = implode(', ', array_keys(ilDclExpressionParser::getOperators()));
-                    $subitem->setInfo(sprintf($lng->txt('dcl_prop_expression_info'), $operators, implode('<br>', $fields)));
+                    $functions = implode(', ', ilDclExpressionParser::getFunctions());
+                    $subitem->setInfo(sprintf($lng->txt('dcl_prop_expression_info'), $operators, $functions, implode('<br>', $fields)));
                     $opt->addSubItem($subitem);
                 }
 				//All other Types: List properties saved in propertie definition table

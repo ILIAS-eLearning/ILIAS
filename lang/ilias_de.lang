@@ -12346,6 +12346,7 @@ dcl#:#dcl_please_select#:#--- Bitte wählen ---
 dcl#:#dcl_asc#:#Aufsteigende Reihenfolge (ASC)
 dcl#:#dcl_desc#:#Absteigende Reihenfolge (DESC)
 dcl#:#dcl_comments#:#Kommentare
+dcl#:#dcl_comments_description#:#Zeigt die Anzahl Kommentare eines Datensatzes.
 common#:#obj_dcl_duplicate#:#Datensammlung kopieren
 survey#:#freetext_answers#:#Freitext-Antworten
 forum#:#frm_at_least_one_moderator#:#Es muss mindestens ein Moderator zugewiesen sein.
@@ -12649,7 +12650,7 @@ dcl#:#dcl_export_enabled#:#Tabellen export für alle Benutzer erlauben
 dcl#:#dcl_inconsistent_at#:#Die Datenbank ist inkonsisten. Eine Referenz existiert nicht mehr.
 dcl#:#dcl_formula#:#Formel
 dcl#:#dcl_prop_expression#:#Ausdruck
-dcl#:#dcl_prop_expression_info#:#Gültige Operatoren: <b>%s</b><br>Es können Klammern <b>"(", ")"</b> zum Gruppieren von Ausdrücken verwendet werden.<br>Zeichenketten einfügen: <b>"The result is " & [[Int 1]] * [[Int2]]</b><br><br>Gültige Felder (auf den Titel klicken um als Platzhalter in Ausdruck einzufügen):<br>%s
+dcl#:#dcl_prop_expression_info#:#Gültige Operatoren: <b>%s</b><br>Unterstützte Funktionen: <b>%s</b><br>Verwenden Sie Klammern <b>"(", ")"</b> zum Gruppieren von Ausdrücken.<br>Zeichenketten und Platzhalter verbinden mit &: <b>"Das Resultat ist " & [[Int 1]] * [[Int 2]]</b><br>Verwenden der Funktionen: <b>SUM([[Int 1]];[[Int 2]])</b><br><br>Gültige Felder (auf den Titel klicken um als Platzhalter in Ausdruck einzufügen):<br>%s
 dcl#:#dcl_error_parsing_expression#:#Fehler beim Evaluieren des Ausdrucks
 dcl#:#dcl_display_action_menu#:#Das referenzierte Modul kann kopiert oder verlinkt werden
 common#:#obj_tool_settings#:#Tools
