@@ -16,7 +16,7 @@ class gevUpdatedListForAccomodation extends gevCrsAutoMail {
 	public function getScheduledFor() {
 		$date = $this->getCourseStart();
 		if ($date) {
-			$date->increment(-1 * self::DAYS_BEFORE_COURSE_START, IL_CAL_DAY);
+			$date->increment(IL_CAL_DAY, -1 * self::DAYS_BEFORE_COURSE_START);
 		}
 		return $date;
 	}

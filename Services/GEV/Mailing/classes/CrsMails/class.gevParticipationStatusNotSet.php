@@ -16,7 +16,7 @@ class gevParticipationStatusNotSet extends gevCrsAutoMail {
 	public function getScheduledFor() {
 		$date = $this->getCourseUtils()->getEndDate();
 		if ($date) {
-			$date->increment(self::DAYS_AFTER_COURSE_END, IL_CAL_DAY);
+			$date->increment(IL_CAL_DAY, self::DAYS_AFTER_COURSE_END);
 		}
 		return $date;
 	}
