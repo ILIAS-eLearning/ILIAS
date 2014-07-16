@@ -33,6 +33,7 @@ class gevUserUtils {
 		$this->db = &$ilDB;
 		$this->access = &$ilAccess;
 		$this->user_obj = null;
+		$this->org_id = null;
 		
 		$this->potentiallyBookableCourses = null;
 		$this->users_who_booked_at_course = array();
@@ -365,14 +366,51 @@ class gevUserUtils {
 		return $this->getUser()->getEmail();
 	}
 	
-	public function getOrgUnit() {
-		//TODO: implement
-		return 56;
+	public function getOrgUnitId() {
+		if ($this->orgu_id === null) {
+			$query = "SELECT oref.obj_id FROM object_data od "
+					."JOIN rbac_ua ua ON od.obj_id = ua.rol_id "
+					."JOIN object_reference oref ON oref.ref_id = SUBSTR(od.title, 18) "
+					."WHERE od.type = 'role' " 
+					."AND ua.usr_id = 6 "
+					."AND od.title LIKE 'il_orgu_employee_%' "
+					."ORDER BY obj_id ASC LIMIT 1 OFFSET 0";
+			
+			$res = $this->db->query($query);
+			if ($rec = $this->db->fetchAssoc($res)) {
+				$this->orgu_id = $rec["obj_id"];
+			}
+			else {
+				// Ok, so he is no employee. Maybe he's a superior?
+				$query = "SELECT oref.obj_id FROM object_data od "
+						."JOIN rbac_ua ua ON od.obj_id = ua.rol_id "
+						."JOIN object_reference oref ON oref.ref_id = SUBSTR(od.title, 18) "
+						."WHERE od.type = 'role' " 
+						."AND ua.usr_id = 6 "
+						."AND od.title LIKE 'il_orgu_superior_%' "
+						."ORDER BY obj_id ASC LIMIT 1 OFFSET 0";
+				$res = $this->db->query($query);
+				if ($rec = $this->db->fetchAssoc($res)) {
+					return $rec["obj_id"];
+				}
+				else {
+					// Oh no, he's not assigned anywhere....
+					$this->orgu_id = null;
+				}
+			}
+		}
+		return $this->orgu_id;
 	}
 	
 	public function getOrgUnitTitle() {
-		// TODO: implement
-		return "CaT";
+		$orgu_id = $this->getOrgUnitId();
+		if ($orgu_id === null) {
+			return "";
+		}
+		else {
+			require_once("Service/GEV/classes/class.gevOrgUnitUtils.php");
+			return gevOrgUnitUtils::getInstance($orgu_id)->getTitle();
+		}
 	}
 	
 	public function getBirthday() {
