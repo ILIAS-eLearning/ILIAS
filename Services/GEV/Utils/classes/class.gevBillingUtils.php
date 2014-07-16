@@ -262,8 +262,6 @@ class gevBillingUtils {
 		// search for the item regarding the course...
 		$items = $bill->getItems();
 		foreach ($items as $item) {
-			print_r($item);
-			echo $item->getContextId()." ".$a_crs_id."\n";
 			if ($item->getContextId() == $a_crs_id) {
 				// ... and change its title appropriately
 				$item->setTitle(sprintf( $this->lng->txt("gev_cancellation_bill_item")
