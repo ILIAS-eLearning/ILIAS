@@ -349,6 +349,8 @@ class ilBillItem
 		$item->setCurrency($data['billitem_currency']);
 		$item->setpreTaxAmount($data['billitem_pta']);
 		$item->setFinal($data['billitem_final']);
+		$item->setContextId($data['billitem_context_id']);
+		
 
 		return $item;
 	}

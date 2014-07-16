@@ -648,7 +648,7 @@ class ilPDFBill
 	/**
 	 * @param string $a_sideinfo_pre
 	 */
-	public function setSideInfoForCurrentPreTaxes($a_sideinfo_pre = "(netto)")
+	public function setSideInfoForCurrentAfterTaxes($a_sideinfo_pre = "(netto)")
 	{
 		$this->plSideInfoForCurrentAfterTaxes = $a_sideinfo_pre;
 	}
@@ -656,7 +656,7 @@ class ilPDFBill
 	/**
 	 * @param string $a_sideinfo_after
 	 */
-	public function setSideInfoForCurrentAfterTaxes($a_sideinfo_after = "(brutto)")
+	public function setSideInfoForCurrentPreTaxes($a_sideinfo_after = "(brutto)")
 	{
 		$this->plSideInfoForCurrentPreTaxes = $a_sideinfo_after;
 	}
@@ -1158,9 +1158,9 @@ class ilPDFBill
 	private function createCalculationHeadline($fontHeight)
 	{
 
-		$info1 = ($this->encodeSpecialChars($this->bill->getCurrency()) . " " . $this->plSideInfoForCurrentAfterTaxes);
+		$info1 = ($this->encodeSpecialChars($this->bill->getCurrency()) . " " . $this->plSideInfoForCurrentPreTaxes);
 		$info2 = ($this->encodeSpecialChars($this->plCalculationTaxAmount));
-		$info3 = ($this->encodeSpecialChars($this->bill->getCurrency()) . " " . $this->plSideInfoForCurrentPreTaxes);
+		$info3 = ($this->encodeSpecialChars($this->bill->getCurrency()) . " " . $this->plSideInfoForCurrentAfterTaxes);
 
 		$this->pdf->setXY($this->spaceLeft + 8 + $this->addidistX, $this->spaceText + $fontHeight * 2 + $this->addidistY * 3);
 		$this->pdf->Cell(1, 0, $info1, 0, 0, 'R', 0);

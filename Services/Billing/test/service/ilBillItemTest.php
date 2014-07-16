@@ -862,4 +862,17 @@ class ilBillItemTest extends PHPUnit_Extensions_Database_TestCase
 		$instance->delete();
 	}
 
+	/**
+	 * @depends testInstanceBillCanBeCreated
+	 */
+	public function testCreateBillAndItemAndAssertItemContextId(ilBill $bill){
+		$instance = $bill->getInstanceById(3);
+		$bill->getItems();
+		$items=$instance->getItems();
+		var_dump($items);
+		$this->assertEquals(0, $items[0]->getContextId());
+		$this->assertEquals(1, $items[1]->getContextId());
+		
+	}
+
 }

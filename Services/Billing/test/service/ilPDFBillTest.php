@@ -248,6 +248,7 @@ class ilPDFBillTest extends PHPUnit_Extensions_Database_TestCase
 
 		$reflectionProperty = $reflection_class->getProperty('plSideInfoForCurrentPreTaxes');
 		$reflectionProperty->setAccessible(true);
+		
 		$prop = $reflectionProperty->getValue($ilPDFBill);
 		$this->assertEquals('(sideinfo)', $prop);
 	}

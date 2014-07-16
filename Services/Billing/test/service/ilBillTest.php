@@ -573,7 +573,7 @@ class ilBillTest extends PHPUnit_Extensions_Database_TestCase
 		$bill->setDate(new ilDate(time(), IL_CAL_UNIX));
 		$bill->create();
 		$bill->finalize();
-		$this->assertEquals($bill->getBillNumber(), date("Ymd") . "-00002");
+		$this->assertEquals($bill->getBillNumber(), date("Ymd") . "-00001");
 	}
 
 	public function testDeleteBillWithoutIdSet()
