@@ -1071,7 +1071,8 @@ class ilObjCourseGUI extends ilContainerGUI
 				array(
 					ilObjectServiceSettingsGUI::CALENDAR_VISIBILITY,
 					ilObjectServiceSettingsGUI::NEWS_VISIBILITY,
-					ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS
+					ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS,				
+					ilObjectServiceSettingsGUI::TAG_CLOUD
 				)
 			);
 			
@@ -1467,7 +1468,8 @@ class ilObjCourseGUI extends ilContainerGUI
 				array(
 					ilObjectServiceSettingsGUI::CALENDAR_VISIBILITY,
 					ilObjectServiceSettingsGUI::NEWS_VISIBILITY,
-					ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS
+					ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS,
+					ilObjectServiceSettingsGUI::TAG_CLOUD
 				)
 			);
 

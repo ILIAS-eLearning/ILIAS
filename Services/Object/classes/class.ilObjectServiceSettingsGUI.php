@@ -18,6 +18,7 @@ class ilObjectServiceSettingsGUI
 	const AUTO_RATING_NEW_OBJECTS = 'cont_auto_rate_new_obj';
 	const INFO_TAB_VISIBILITY = 'cont_show_info_tab';
 	const TAXONOMIES = 'cont_taxonomies';
+	const TAG_CLOUD = 'cont_tag_cloud';
 	
 	private $gui = null;
 	private $modes = array();
@@ -114,6 +115,37 @@ class ilObjectServiceSettingsGUI
 				$form->addItem($news);
 			}
 		}
+				
+		// tag cloud
+		if(in_array(self::TAG_CLOUD, $services))
+		{			
+			$tags_active = new ilSetting("tags");
+			if($tags_active->get("enable", false))
+			{
+				$tag = new ilCheckboxInputGUI($GLOBALS['lng']->txt('obj_tool_setting_tag_cloud'), self::TAG_CLOUD);
+				$tag->setInfo($GLOBALS['lng']->txt('obj_tool_setting_tag_cloud_info'));
+				$tag->setValue(1);		
+				$tag->setChecked(ilContainer::_lookupContainerSetting(
+							$a_obj_id,
+							self::TAG_CLOUD,
+							false
+					));
+				$form->addItem($tag);						
+			}			
+		}		
+		
+		// taxonomies
+		if(in_array(self::TAXONOMIES, $services))
+		{	
+			$tax = new ilCheckboxInputGUI($GLOBALS['lng']->txt('obj_tool_setting_taxonomies'), self::TAXONOMIES);
+			$tax->setValue(1);		
+			$tax->setChecked(ilContainer::_lookupContainerSetting(
+						$a_obj_id,
+						self::TAXONOMIES,
+						false
+				));
+			$form->addItem($tax);			
+		}				
 		
 		// auto rating
 		if(in_array(self::AUTO_RATING_NEW_OBJECTS, $services))
@@ -131,19 +163,6 @@ class ilObjectServiceSettingsGUI
 						false
 				));
 			$form->addItem($rate);			
-		}
-		
-		// taxonomies
-		if(in_array(self::TAXONOMIES, $services))
-		{	
-			$tax = new ilCheckboxInputGUI($GLOBALS['lng']->txt('obj_tool_setting_taxonomies'), self::TAXONOMIES);
-			$tax->setValue(1);		
-			$tax->setChecked(ilContainer::_lookupContainerSetting(
-						$a_obj_id,
-						self::TAXONOMIES,
-						false
-				));
-			$form->addItem($tax);			
 		}
 		
 		return $form;
@@ -194,6 +213,13 @@ class ilObjectServiceSettingsGUI
 		{
 			include_once './Services/Container/classes/class.ilContainer.php';
 			ilContainer::_writeContainerSetting($a_obj_id,self::TAXONOMIES,(int) $form->getInput(self::TAXONOMIES));
+		}
+		
+		// tag cloud
+		if(in_array(self::TAG_CLOUD, $services))
+		{
+			include_once './Services/Container/classes/class.ilContainer.php';
+			ilContainer::_writeContainerSetting($a_obj_id,self::TAG_CLOUD,(int) $form->getInput(self::TAG_CLOUD));
 		}
 		
 		return true;

@@ -538,7 +538,8 @@ class ilObjGroupGUI extends ilContainerGUI
 			array(
 				ilObjectServiceSettingsGUI::CALENDAR_VISIBILITY,
 				ilObjectServiceSettingsGUI::NEWS_VISIBILITY,
-				ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS
+				ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS,
+				ilObjectServiceSettingsGUI::TAG_CLOUD
 			)
 		);
 			
@@ -2826,7 +2827,8 @@ class ilObjGroupGUI extends ilContainerGUI
 					array(
 						ilObjectServiceSettingsGUI::CALENDAR_VISIBILITY,
 						ilObjectServiceSettingsGUI::NEWS_VISIBILITY,
-						ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS
+						ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS,
+						ilObjectServiceSettingsGUI::TAG_CLOUD
 					)
 				);
 

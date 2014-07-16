@@ -14502,3 +14502,5 @@ pd#:#pd_enable_comments_del_user#:#Kommentare können von ihren Autoren gelösch
 pd#:#pd_enable_comments_del_tutor#:#Jegliche Kommentare können von Tutoren gelöscht werden
 notes#:#notes_sort_asc#:#Aufsteigend sortieren
 notes#:#notes_sort_desc#:#Absteigend sortieren
+obj#:#obj_tool_setting_tag_cloud#:#Tag Cloud
+obj#:#obj_tool_setting_tag_cloud_info#:#Der "Tag Cloud"-Block wird innerhalb des Inhaltstabs angezeigt.
