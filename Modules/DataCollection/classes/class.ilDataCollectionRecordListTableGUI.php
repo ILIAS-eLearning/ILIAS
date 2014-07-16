@@ -149,15 +149,6 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
             foreach($this->table->getVisibleFields() as $field)
             {
                 $title = $field->getTitle();
-                //Check Options of Displaying
-//                $options = array();
-//                $arr_properties = $field->getProperties();
-//                if ($arr_properties[ilDataCollectionField::PROPERTYID_REFERENCE_LINK]) {
-//                    $options['link']['display'] = true;
-//                }
-//                if ($arr_properties[ilDataCollectionField::PROPERTYID_ILIAS_REFERENCE_LINK]) {
-//                    $options['link']['display'] = true;
-//                }
                 $record_data[$title] = $record->getRecordFieldHTML($field->getId());
 
                 // Additional column filled in ::fillRow() method, showing the learning progress
