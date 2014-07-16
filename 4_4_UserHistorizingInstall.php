@@ -20,6 +20,7 @@
  * 
  * @version $Id$
  */
+/*
 if($_SERVER['argc'] < 4)
 {
 	die("Usage: " . __FILE__ . " username password client\n");
@@ -33,7 +34,7 @@ ilAuthFactory::setContext(ilAuthFactory::CONTEXT_CRON);
 $_POST['username'] 		= $_SERVER['argv'][1];
 $_POST['password'] 		= $_SERVER['argv'][2];
 $_COOKIE["ilClientId"] 	= $_SERVER['argv'][3];
-
+*/
 require_once './include/inc.header.php';
 
 /** @var ilDB $ilDB */

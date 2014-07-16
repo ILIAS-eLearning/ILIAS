@@ -58,6 +58,21 @@ class gevUserUtils {
 		return self::$instances[$a_user_id];
 	}
 	
+	static public function getInstanceByObj(ilObjUser $a_user_obj) {
+		$inst = self::getInstance($a_user_obj->getId());
+		$inst->user_obj = $a_user_obj;
+		return $inst;
+	}
+	
+	static public function getInstanceByObjOrId($a_user) {
+		if (is_int($a_user)) {
+			return self::getInstance($user);
+		}
+		else {
+			return self::getInstanceByObj($a_user);
+		}
+	}
+	
 	public function getNextCourseId() {
 		$now = date("Y-m-d");
 		$crss = $this->getBookedCourses();
@@ -638,6 +653,10 @@ class gevUserUtils {
 		require_once("Services/Accomodations/classes/class.ilAccomodations.php");
 		return ilAccomodations::getInstance($a_crs)
 							  ->getAccomodationsOfUser($this->user_id);
+	}
+	
+	public function getOvernightAmountForCourse(ilObjCourse $a_crs) {
+		return count($this->getOvernightDetailsForCourse($a_crs));
 	}
 	
 	public function getUserWhoBookedAtCourse($a_crs_id) {

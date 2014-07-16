@@ -177,14 +177,14 @@ class gevBillingUtils {
 		}
 	}
 	
-	protected function getNonFinalizedBillForCourseAndUser($a_user_id, $a_crs_id) {
+	public function getBillForCourseAndUser($a_user_id, $a_crs_id) {
 		$bills = ilBill::getInstancesByUserAndContext($a_user_id, $a_crs_id);
 		$amount_bills = count($bills);
 		
 		if ($amount_bills == 0) {
 			// there is no bill for the user at the course, so we don't need 
 			// to do anything.
-			return;
+			return null;
 		}
 		
 		if ($amount_bills > 1) {
@@ -198,7 +198,14 @@ class gevBillingUtils {
 			return null;
 		}
 		
-		$bill = $bills[0];
+		return $bills[0];
+	}
+	
+	protected function getNonFinalizedBillForCourseAndUser($a_user_id, $a_crs_id) {
+		$bill = $this->getBillForCourseAndUser($a_user_id, $a_crs_id);
+		if ($bill === null) {
+			return null;
+		}
 		
 		if ($bill->isFinalized()) {
 			// this is an assumption about the booking process. The bill should

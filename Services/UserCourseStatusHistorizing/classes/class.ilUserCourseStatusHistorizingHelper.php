@@ -4,12 +4,15 @@
 /**
  * Class ilUserCourseStatusHistorizingHelper
  * 
- * This is a MOCK, full of HokumTech predictable nonsense rocket-science.
- * 
  * @author Maximilian Becker <mbecker@databay.de>
- *
+ * @author Richard Klees <richard.klees@concepts-and-training.de>
  * @version $Id$
  */
+
+require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+require_once("Service/GEV/Utils/classes/class.gevBillingUtils.php");
+
 class ilUserCourseStatusHistorizingHelper 
 {
 	#region Singleton
@@ -48,14 +51,12 @@ class ilUserCourseStatusHistorizingHelper
 	 * @param integer|ilObjUser   $user
 	 * @param integer|ilObjCourse $course
 	 *
-	 * @TODO: Implement "the real thing".
-	 *
 	 * @return integer
 	 */
 	public static function getCreditPointsOf($user, $course)
 	{
-		$credit_points = substr(self::getNumericHash($user),4,3);
-		return (int)$credit_points;
+		return gevCourseUtils::getInstanceByObjOrId($course)
+							 ->getCreditPointsOf(self::getId($user));
 	}
 
 	/**
@@ -64,15 +65,12 @@ class ilUserCourseStatusHistorizingHelper
 	 * @param integer|ilObjUser   $user
 	 * @param integer|ilObjCourse $course
 	 *
-	 * @TODO: Implement "the real thing".
-	 *
 	 * @return string
 	 */
 	public static function getBookingStatusOf($user, $course)
 	{
-		$booking_status = substr(self::getNumericHash($user),2,4);
-
-		return 'Booking_status_' . $booking_status;
+		return gevCourseUtils::getInstanceByObjOrId($course)
+							 ->getBookingStatusLabelOf(self::getId($user));
 	}
 
 	/**
@@ -81,15 +79,12 @@ class ilUserCourseStatusHistorizingHelper
 	 * @param integer|ilObjUser   $user
 	 * @param integer|ilObjCourse $course
 	 *
-	 * @TODO: Implement "the real thing".
-	 *
 	 * @return string
 	 */
 	public static function getParticipationStatusOf($user, $course)
 	{
-		$participation_status = substr(self::getNumericHash($user),2,4);
-
-		return 'Participation_status_' . $participation_status;
+		// TODO: implement
+		return "";
 	}
 
 	/**
@@ -98,14 +93,14 @@ class ilUserCourseStatusHistorizingHelper
 	 * @param integer|ilObjUser   $user
 	 * @param integer|ilObjCourse $course
 	 *
-	 * @TODO: Implement "the real thing".
-	 *
 	 * @return integer
 	 */
 	public static function getOvernightsOf($user, $course)
 	{
-		$overnights = substr(self::getNumericHash($user),4,3);
-		return (int)$overnights;
+
+		$user_utils = gevUserUtils::getInstanceByObjOrId($user);
+		$crs_utils = gevCourseUtils::getInstanceByObjOrId($course);
+		return $user_utils->getOvernightAmountForCourse($crs_utils->getCourse());
 	}
 
 	/**
@@ -114,14 +109,13 @@ class ilUserCourseStatusHistorizingHelper
 	 * @param integer|ilObjUser   $user
 	 * @param integer|ilObjCourse $course
 	 *
-	 * @TODO: Implement "the real thing".
-	 *
 	 * @return string
 	 */
 	public static function getFunctionOf($user, $course)
 	{
-		$function = substr(self::getNumericHash($user),10,5);
-		return (string) $function;
+		return gevUserUtils::getInstanceByObjOrId($user)
+						   ->getFunctionAtCourse(self::getId($course));
+
 	}
 
 	/**
@@ -132,39 +126,29 @@ class ilUserCourseStatusHistorizingHelper
 	 * @param integer|ilObjUser   $user
 	 * @param integer|ilObjCourse $course
 	 *
-	 * @TODO: Implement "the real thing".
-	 *
 	 * @return string
 	 */
 	public static function getBillIdOf($user, $course)
 	{
-		$function = substr(self::getNumericHash($user),10,5);
-		return (string) $function;
+		
+		$bill = gevBillingUtils::getInstance()
+							   ->getBillForCourseAndUser( self::getId($user)
+							   							, self::getId($course)
+							   							);
+		if ($bill) {
+			return $bill->getId();
+		}
+		else {
+			return null;
+		}
 	}
-
-	/**
-	 * HokumTech Helper
-	 *
-	 * Returns a numeric hash from the given integer or ilObjUser.
-	 *
-	 * @param int|ilObjUser $user
-	 *
-	 * @TODO: Remove this method once production code is implemented.
-	 *
-	 * @return integer
-	 */
-	protected static function getNumericHash($user)
-	{
-		if($user instanceof ilObjUser)
-		{
-			$hash = md5(serialize($user));
+	
+	protected static function getId($obj) {
+		if (is_int($obj)) {
+			return $obj;
 		}
-		else
-		{
-			$hash = md5($user);
+		else {
+			return $obj->getId();
 		}
-		$numeric_hash = hexdec( $hash );
-
-		return $numeric_hash;
 	}
 }

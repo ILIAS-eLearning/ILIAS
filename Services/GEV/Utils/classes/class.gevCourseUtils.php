@@ -53,6 +53,15 @@ class gevCourseUtils {
 		$inst->crs_obj = $a_crs;
 		return $inst;
 	}
+	
+	static public function getInstanceByObjOrId($a_course) {
+		if (is_int($a_course)) {
+			return self::getInstance($a_course);
+		}
+		else {
+			return self::getInstanceByObjOrId($a_course);
+		}
+	}
 
 	static public  function getLinkTo($a_crs_id) {
 		return "goto.php?target=crs_".gevObjectUtils::getRefId($a_crs_id)	;
@@ -501,6 +510,15 @@ class gevCourseUtils {
 			return null;
 		}
 		return gevOrgUnitUtils::getInstance($id);
+	}
+	
+	public function getProviderTitle() {
+		$prv = $this->getProvider();
+		if ($prv === null) {
+			return "";
+		}
+		
+		return $prv->getLongTitle();
 	}
 	
 	// Venue Info
@@ -1142,6 +1160,22 @@ class gevCourseUtils {
 	public function getBookingStatusOf($a_user_id) {
 		require_once("Services/CourseBooking/classes/class.ilCourseBooking.php");
 		return ilCourseBooking::getUserStatus($this->crs_id, $a_user_id);
+	}
+	
+	public function getBookingStatusLabelOf($a_user_id) {
+		$status = $this->getBookingStatusOf($a_user_id);
+		switch ($status) {
+			case ilCourseBooking::STATUS_BOOKED:
+				return "gebucht";
+			case ilCourseBooking::STATUS_WAITING:
+				return "auf Warteliste";
+			case ilCourseBooking::STATUS_CANCELLED_WITH_COSTS:
+				return "kostenpflichtig storniert";
+			case ilCourseBooking::STATUS_CANCELLED_WITHOUT_COSTS:
+				return "kostenfrei storniert";
+			default:
+				return "";
+		}
 	}
 	
 	public function isWaitingListActivated() {

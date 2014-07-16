@@ -4,9 +4,14 @@
 /**
  * Class ilCourseHistorizingHelper
  * 
- * This is a MOCK, full of HokumTech predictable nonsense rocket-science.
- *
+ * @author Maximilian Becker <mbecker@databay.de>
+ * @author Richard Klees <richard.klees@concepts-and-training.de>
+ * @version $Id$
  */
+
+
+require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+
 class ilCourseHistorizingHelper 
 {
 	#region Singleton
@@ -48,15 +53,8 @@ class ilCourseHistorizingHelper
 	 */
 	public static function getCustomIdOf($course)
 	{
-		/* Hokum-Tech predictable nonsense rocket science:
-		 *
-		 * In order to have a meaningful behaviour, we need to get the same random result during
-		 * subsequent calls to the method. So here's a hash over the $course and we return a substring 
-		 * of the hash as a suffix to the custom id.
-		 */
-		$ou_suffix = substr(self::getNumericHash($course),0,3);
-
-		return 'CustomID_' . $ou_suffix;
+		return gevCourseUtils::getInstanceByObjOrId($course)
+							 ->getCustomId();
 	}
 
 	/**
@@ -68,15 +66,8 @@ class ilCourseHistorizingHelper
 	 */
 	public static function getTemplateTitleOf($course)
 	{
-		/* Hokum-Tech predictable nonsense rocket science:
-		 *
-		 * In order to have a meaningful behaviour, we need to get the same random result during
-		 * subsequent calls to the method. So here's a hash over the $course and we return a substring 
-		 * of the hash as a suffix to the template title.
-		 */
-		$ou_suffix = substr(self::getNumericHash($course),1,3);
-
-		return 'TemplateTitle_' . $ou_suffix;
+		return gevCourseUtils::getInstanceByObjOrId($course)
+							 ->getTemplateTitle();
 	}
 
 	/**
@@ -88,15 +79,8 @@ class ilCourseHistorizingHelper
 	 */
 	public static function getTypeOf($course)
 	{
-		/* Hokum-Tech predictable nonsense rocket science:
-		 *
-		 * In order to have a meaningful behaviour, we need to get the same random result during
-		 * subsequent calls to the method. So here's a hash over the $course and we return a substring 
-		 * of the hash as a suffix to the type.
-		 */
-		$ou_suffix = substr(self::getNumericHash($course),2,3);
-
-		return 'Type_' . $ou_suffix;
+		return gevCourseUtils::getInstanceByObjOrId($course)
+							 ->getType();
 	}
 
 	/**
@@ -108,20 +92,8 @@ class ilCourseHistorizingHelper
 	 */
 	public static function getTopicOf($course)
 	{
-		/* Hokum-Tech predictable nonsense rocket science:
-		 *
-		 * In order to have a meaningful behaviour, we need to get the same random result during
-		 * subsequent calls to the method. So here's a hash over the $course and we return a substring 
-		 * of the hash as a suffix to the topic.
-		 */
-		$ou_suffix = substr(self::getNumericHash($course),3,1);
-
-		$topics = array();
-		for($i = 0; $i <= $ou_suffix; $i++)
-		{
-			$topics[] = 'Topic_'.substr(self::getNumericHash($course),$i, 2);
-		}
-		return $topics;
+		return gevCourseUtils::getInstanceByObjOrId($course)
+							 ->getTopics();
 	}
 
 	/**
@@ -133,13 +105,8 @@ class ilCourseHistorizingHelper
 	 */
 	public static function getBeginOf($course)
 	{
-		/* Hokum-Tech predictable nonsense rocket science:
-		 *
-		 * In order to have a meaningful behaviour, we need to get the same random result during
-		 * subsequent calls to the method. So here's a hash over the $course and we return a substring 
-		 * of the hash as a input for the date.
-		 */
-		return new ilDate(substr(self::getNumericHash($course),1,10), IL_CAL_UNIX);
+		return gevCourseUtils::getInstanceByObjOrId($course)
+							 ->getStartDate();
 	}
 
 	/**
@@ -151,13 +118,8 @@ class ilCourseHistorizingHelper
 	 */
 	public static function getEndOf($course)
 	{
-		/* Hokum-Tech predictable nonsense rocket science:
-		 *
-		 * In order to have a meaningful behaviour, we need to get the same random result during
-		 * subsequent calls to the method. So here's a hash over the $course and we return a substring 
-		 * of the hash as input for the date.
-		 */
-		return new ilDate(substr(self::getNumericHash($course),2,10), IL_CAL_UNIX);
+		return gevCourseUtils::getInstanceByObjOrId($course)
+							 ->getEndDate();
 	}
 
 	/**
@@ -169,13 +131,8 @@ class ilCourseHistorizingHelper
 	 */
 	public static function getHoursOf($course)
 	{
-		/* Hokum-Tech predictable nonsense rocket science:
-		 *
-		 * In order to have a meaningful behaviour, we need to get the same random result during
-		 * subsequent calls to the method. So here's a hash over the $course and we return a substring 
-		 * of the hash as hours.
-		 */
-		return (int) substr(self::getNumericHash($course),4,1);
+		// TODO: implement
+		return 0;
 	}
 
 	/**
@@ -187,24 +144,8 @@ class ilCourseHistorizingHelper
 	 */
 	public static function isExpertCourse($course)
 	{
-		/* Hokum-Tech predictable nonsense rocket science:
-		 *
-		 * In order to have a meaningful behaviour, we need to get the same random result during
-		 * subsequent calls to the method. So here's a hash over the $course and we return true or
-		 * false based on the parity of a hashes digit.
-		 */
-		$numeric_hash = self::getNumericHash($course);
-
-		if ( $numeric_hash % 2 == 0)
-		{
-			$date = true;
-		}
-		else
-		{
-			$date = false;
-		}
-
-		return $date;
+		return gevCourseUtils::getInstanceByObjOrId($course)
+							 ->getIsExpertTraining();
 	}
 
 	/**
@@ -216,15 +157,8 @@ class ilCourseHistorizingHelper
 	 */
 	public static function getVenueOf($course)
 	{
-		/* Hokum-Tech predictable nonsense rocket science:
-		 *
-		 * In order to have a meaningful behaviour, we need to get the same random result during
-		 * subsequent calls to the method. So here's a hash over the $user and we return a substring 
-		 * of the hash as a suffix to the units name.
-		 */
-		$ou_suffix = substr(self::getNumericHash($course),4,3);
-
-		return 'Venue_' . $ou_suffix;
+		return gevCourseUtils::getInstanceByObjOrId($course)
+							 ->geVenueTitle();
 	}
 
 	/**
@@ -236,15 +170,8 @@ class ilCourseHistorizingHelper
 	 */
 	public static function getProviderOf($course)
 	{
-		/* Hokum-Tech predictable nonsense rocket science:
-		 *
-		 * In order to have a meaningful behaviour, we need to get the same random result during
-		 * subsequent calls to the method. So here's a hash over the $user and we return a substring 
-		 * of the hash as a suffix to the units name.
-		 */
-		$ou_suffix = substr(self::getNumericHash($course),5,3);
-
-		return 'Provider_' . $ou_suffix;
+		return gevCourseUtils::getInstanceByObjOrId($course)
+							 ->geProviderTitle();
 	}
 
 	/**
@@ -256,15 +183,8 @@ class ilCourseHistorizingHelper
 	 */
 	public static function getMaxCreditPointsOf($course)
 	{
-		/* Hokum-Tech predictable nonsense rocket science:
-		 *
-		 * In order to have a meaningful behaviour, we need to get the same random result during
-		 * subsequent calls to the method. So here's a hash over the $user and we return a substring 
-		 * of the hash as a suffix to the units name.
-		 */
-		$ou_suffix = substr(self::getNumericHash($course),6,2);
-
-		return (string) $ou_suffix;
+		return gevCourseUtils::getInstanceByObjOrId($course)
+							 ->getCreditPoints();
 	}
 
 	/**
@@ -276,39 +196,8 @@ class ilCourseHistorizingHelper
 	 */
 	public static function getFeeOf($course)
 	{
-		/* Hokum-Tech predictable nonsense rocket science:
-		 *
-		 * In order to have a meaningful behaviour, we need to get the same random result during
-		 * subsequent calls to the method. So here's a hash over the $user and we return a substring 
-		 * of the hash as a suffix to the units name.
-		 */
-		$ou_suffix = (int) substr(self::getNumericHash($course),4,5);
-
-		return (float) $ou_suffix/100;
-	}
-
-	/**
-	 * HokumTech Helper
-	 *
-	 * Returns a hash from the given integer or ilObjCourse.
-	 * 
-	 * @param int|ilObjCourse $course
-	 *
-	 * @return integer
-	 */
-	protected static function getNumericHash($course)
-	{
-		if($course instanceof ilObjCourse)
-		{
-			$hash = md5(serialize($course->getId()));
-		}
-		else
-		{
-			$hash = md5($course);
-		}
-		$numeric_hash = hexdec( $hash );
-
-		return $numeric_hash;
+		return gevCourseUtils::getInstanceByObjOrId($course)
+							 ->getFee();
 	}
 
 	/**
@@ -320,14 +209,8 @@ class ilCourseHistorizingHelper
 	 */
 	public static function getTutorOf($course)
 	{
-		/* Hokum-Tech predictable nonsense rocket science:
-		 *
-		 * In order to have a meaningful behaviour, we need to get the same random result during
-		 * subsequent calls to the method. So here's a hash over the $course and we return a substring 
-		 * of the hash as a suffix to the tutor name.
-		 */
-		$suffix = substr(self::getNumericHash($course),4,3);
+		$utils = gevCourseUtils::getInstanceByObjOrId($course);
 
-		return 'Mann, Heinz_L_' . $suffix;
+		return $utils->getMainTrainerLastname().", ". $utils->getMainTrainerFirstname();
 	}
 }
