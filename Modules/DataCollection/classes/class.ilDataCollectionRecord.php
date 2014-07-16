@@ -380,8 +380,9 @@ class ilDataCollectionRecord
 		}
 
 		// This is a workaround as templating in ILIAS currently has some issues with curly brackets.see: http://www.ilias.de/mantis/view.php?id=12681#bugnotes
-		$html = str_ireplace("{", "&#123;", $html);
-		$html = str_ireplace("}", "&#125;", $html);
+        // SW 16.07.2014 Uncommented again, as some fields are outputting javascript that was broken due to entity encode the curly brackets
+//		$html = str_ireplace("{", "&#123;", $html);
+//		$html = str_ireplace("}", "&#125;", $html);
 
 		return $html;
 	}
@@ -397,12 +398,15 @@ class ilDataCollectionRecord
 
         if(ilDataCollectionStandardField::_isStandardField($field_id))
         {
-            return $this->getStandardFieldHTML($field_id);
+            $html = $this->getStandardFieldHTML($field_id);
         }
         else
         {
-            return $this->recordfields[$field_id]->getSingleHTML($options);
+            $html = $this->recordfields[$field_id]->getSingleHTML($options);
         }
+		$html = str_ireplace("{", "&#123;", $html);
+		$html = str_ireplace("}", "&#125;", $html);
+        return $html;
     }
 
 

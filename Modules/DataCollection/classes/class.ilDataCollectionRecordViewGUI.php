@@ -186,11 +186,11 @@ class ilDataCollectionRecordViewGUI
                 $html = preg_replace_callback($pattern, array($this, "doExtReplace"), $html);
             }
 
-            $html = str_ireplace("[".$field->getTitle()."]", $this->record_obj->getRecordFieldHTML($field->getId()), $html);
+            $html = str_ireplace("[".$field->getTitle()."]", $this->record_obj->getRecordFieldSingleHTML($field->getId()), $html);
 
         }
         foreach($table->getStandardFields() as $field) {
-            $html = str_ireplace("[".$field->getId()."]", $this->record_obj->getRecordFieldHTML($field->getId()), $html);
+            $html = str_ireplace("[".$field->getId()."]", $this->record_obj->getRecordFieldSingleHTML($field->getId()), $html);
         }
         $rctpl->setVariable("CONTENT",$html);
 

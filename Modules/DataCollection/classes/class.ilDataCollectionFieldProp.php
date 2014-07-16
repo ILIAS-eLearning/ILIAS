@@ -164,6 +164,15 @@ class ilDataCollectionFieldProp
 	public function doUpdate()
 	{
 		global $ilDB;
+        /** @var ilDB $ilDB */
+
+        $sql = "SELECT * FROM il_dcl_field_prop WHERE datatype_prop_id = " . $ilDB->quote($this->getDatatypePropertyId(), 'integer') .
+               " AND field_id = " . $ilDB->quote($this->getFieldId(), 'integer');
+        $set = $ilDB->query($sql);
+        if (!$ilDB->numRows($set)) {
+            $this->doCreate();
+            return;
+        }
 
 		$ilDB->update("il_dcl_field_prop", array(
 				"datatype_prop_id" => array("integer", $this->getDatatypePropertyId()),

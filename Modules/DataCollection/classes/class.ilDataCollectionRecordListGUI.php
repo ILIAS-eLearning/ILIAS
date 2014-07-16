@@ -7,7 +7,7 @@ include_once("./Modules/DataCollection/classes/class.ilDataCollectionDatatype.ph
 require_once('./Modules/DataCollection/classes/class.ilDataCollectionRecordListTableGUI.php');
 
 /**
- * Class ilDataCollectionField
+ * Class ilDataCollectionRecordListGUI
  *
  * @author Martin Studer <ms@studer-raimann.ch>
  * @author Marcel Raimann <mr@studer-raimann.ch>

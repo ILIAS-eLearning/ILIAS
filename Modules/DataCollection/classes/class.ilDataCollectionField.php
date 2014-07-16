@@ -109,6 +109,7 @@ class ilDataCollectionField
     const PROPERTYID_ILIAS_REFERENCE_LINK = 10;
     const PROPERTYID_N_REFERENCE = 11;
     const PROPERTYID_FORMULA_EXPRESSION = 12;
+    const PROPERTYID_DISPLAY_COPY_LINK_ACTION_MENU = 13;
 
 	// type of table il_dcl_view
 	const VIEW_VIEW 		= 1;

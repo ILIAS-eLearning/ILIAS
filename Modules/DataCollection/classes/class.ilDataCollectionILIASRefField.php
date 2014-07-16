@@ -5,6 +5,7 @@
 require_once 'class.ilDataCollectionRecordField.php';
 require_once("./Services/Rating/classes/class.ilRatingGUI.php");
 require_once("./Services/Link/classes/class.ilLink.php");
+require_once('./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php');
 
 /**
  * Class ilDataCollectionField
@@ -20,60 +21,77 @@ require_once("./Services/Link/classes/class.ilLink.php");
 class ilDataCollectionILIASRefField extends ilDataCollectionRecordField{
 
 	/**
-	 * @var bool
-	 */
-	protected $rated;
-
-	/**
 	 * @var int
 	 */
 	protected $dcl_obj_id;
+
+    /**
+     * @var array
+     */
+    protected $properties = array();
 
 	public function __construct(ilDataCollectionRecord $record, ilDataCollectionField $field){
 		parent::__construct($record, $field);
 		$dclTable = ilDataCollectionCache::getTableCache($this->getField()->getTableId());
 		$this->dcl_obj_id = $dclTable->getCollectionObject()->getId();
+        $this->properties = $field->getProperties();
 	}
 
 
-    /*
-      * getHTML
-      *
-      * @param array $options
-      * @return string
-      */
-	public function getHTML(array $options = array()){
-		$value = $this->getValue();
-//		$link = ilLink::_getStaticLink($value);
-		$id = ilObject::_lookupObjId($value);
-
-
-        if($options['link']['display']) {
-            $html = $this->getLinkHTML($options['link']['name']);
-        } else {
-            $html = ilObject::_lookupTitle($id);
+    /**
+     * @param array $options
+     * @return mixed|string
+     */
+    public function getHTML(array $options = array()){
+        $value = $this->getValue();
+        if (!$value) {
+            return '';
         }
-
+		$id = ilObject::_lookupObjId($value);
+        $title = ilObject::_lookupTitle($id);
+        if ($this->properties[ilDataCollectionField::PROPERTYID_ILIAS_REFERENCE_LINK]) {
+            $show_action_menu = ($this->properties[ilDataCollectionField::PROPERTYID_DISPLAY_COPY_LINK_ACTION_MENU]) ? true : false;
+            $html = $this->getLinkHTML($title, $show_action_menu);
+        } else {
+            $html = $title;
+        }
 		return $html;
 	}
 
-    /*
-      * get Link
-      *
-      * @param  string    $link_name
-      */
-    public function getLinkHTML($link_name = NULL) {
+
+    public function getSingleHTML(array $options=array())
+    {
         $value = $this->getValue();
-        $link = ilLink::_getStaticLink($value);
-        $id = ilObject::_lookupObjId($value);
-
-        if($link_name) {
-            $html = "<a href='".$link."'>".$link_name."</a>";
-        } else {
-            $html = "<a href='".$link."'>".ilObject::_lookupTitle($id)."</a>";
+        if (!$value) {
+            return '';
         }
+        $id = ilObject::_lookupObjId($value);
+        $title = ilObject::_lookupTitle($id);
+        if ($this->properties[ilDataCollectionField::PROPERTYID_ILIAS_REFERENCE_LINK]) {
+            return $this->getLinkHTML($title);
+        }
+        return $title;
+    }
 
-        return $html;
+
+    /**
+     * @param $title
+     * @param $show_action_menu
+     * @return string
+     */
+    public function getLinkHTML($title, $show_action_menu=false) {
+        $link = ilLink::_getStaticLink($this->getValue());
+        if ($show_action_menu) {
+            $list = new ilAdvancedSelectionListGUI();
+            $list->setId('adv_list_copy_link_' . $this->field->getId() . $this->record->getId());
+            $list->setListTitle($title);
+            $list->addItem('View', 'view', $link);
+            $list->addItem('Copy', 'copy', $this->getActionLink('copy'));
+            $list->addItem('Link', 'link', $this->getActionLink('link'));
+            return $list->getHTML();
+        } else {
+            return "<a href=\"$link\">$title</a>";
+        }
     }
 
 	public function getExportValue(){
@@ -94,5 +112,27 @@ class ilDataCollectionILIASRefField extends ilDataCollectionRecordField{
 		$result = $ilDB->query($query);
 		return ($result->numRows() == 0)? false:$result->fetchRow(DB_FETCHMODE_OBJECT);
 	}
+
+
+    /**
+     * @param string $mode copy|link
+     * @return string
+     */
+    protected function getActionLink($mode)
+    {
+        global $ilCtrl;
+        switch ($mode) {
+            case 'copy':
+                $ilCtrl->setParameterByClass('ilobjectcopygui', 'item_ref_id', $this->getValue());
+                $ilCtrl->setParameterByClass('ilobjrootfoldergui', 'item_ref_id', $this->getValue());
+                $ilCtrl->setParameterByClass('ilobjectcopygui', 'source_id', $this->getValue());
+                return $ilCtrl->getLinkTargetByClass('ilobjectcopygui', 'initTargetSelection');
+            case 'link':
+                return $ilCtrl->getLinkTargetByClass(array('ilrepositorygui','ilobjrootfoldergui'), 'link');
+            default:
+                return '';
+        }
+    }
+
 }
 ?>

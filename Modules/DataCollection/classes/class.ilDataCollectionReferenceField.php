@@ -26,13 +26,14 @@ class ilDataCollectionReferenceField extends ilDataCollectionRecordField{
 	 */
 	protected $dcl_obj_id;
 
-
+    protected $properties = array();
 
 	public function __construct(ilDataCollectionRecord $record, ilDataCollectionField $field){
 		parent::__construct($record, $field);
 		$dclTable = ilDataCollectionCache::getTableCache($this->getField()->getTableId());
 		$this->dcl_obj_id = $dclTable->getCollectionObject()->getId();
-	}
+	    $this->properties = $this->field->getProperties();
+    }
 
     /*
 	 * getHTML
@@ -52,57 +53,51 @@ class ilDataCollectionReferenceField extends ilDataCollectionRecordField{
 
 
         $ref_record = ilDataCollectionCache::getRecordCache($value);
+        $html = "";
         if(!$ref_record->getTableId() || !$record_field->getField() || !$record_field->getField()->getTableId()){
             //the referenced record_field does not seem to exist.
-            $html = "";
             $record_field->setValue(NULL);
             $record_field->doUpdate();
-        }
-        else
-        {
-            $html = $ref_record->getRecordFieldHTML($record_field->getField()->getFieldRef());
-
-            if($options['link']['display']) {
+        } else {
+            if ($this->properties[ilDataCollectionField::PROPERTYID_REFERENCE_LINK]) {
                 global $ilDB;
+                /** @var ilDB $ilDB */
                 $ref_record = ilDataCollectionCache::getRecordCache($value);
                 $ref_table = $ref_record->getTableId();
-
+                // Checks if a view exists
                 $query = "SELECT table_id FROM il_dcl_view WHERE table_id = ".$ref_table." AND type = ".$ilDB->quote(0, "integer")." AND formtype = ".$ilDB->quote(0, "integer");
                 $set = $ilDB->query($query);
-                if($set->numRows())
-                    $html = $this->getLinkHTML($options['link']['name'], $this->getValue());
+                if($ilDB->numRows($set)) {
+                    $html = $this->getLinkHTML(null, $this->getValue());
+                } else {
+                    $html = $ref_record->getRecordFieldHTML($record_field->getField()->getFieldRef());
+                }
+            } else {
+                $html = $ref_record->getRecordFieldHTML($record_field->getField()->getFieldRef());
             }
         }
-
-
 		return $html;
 	}
 
-    /*
-      * get Link
-      *
-      * @param  string    $link_name
-      */
+
+    /**
+     * @param null $link_name
+     * @param $value
+     * @return string
+     */
     protected function getLinkHTML($link_name = NULL, $value) {
         global $ilCtrl;
 
         if(!$value || $value == "-"){
             return "";
         }
-
         $record_field = $this;
         $ref_record = ilDataCollectionCache::getRecordCache($value);
-
-        $objRefField = ilDataCollectionCache::getFieldCache($record_field->getField()->getFieldRef());
-        $objRefTable = ilDataCollectionCache::getTableCache($objRefField->getTableId());
-
         if(!$link_name) {
           $link_name =  $ref_record->getRecordFieldHTML($record_field->getField()->getFieldRef());
         }
-
         $ilCtrl->setParameterByClass("ildatacollectionrecordviewgui", "record_id", $ref_record->getId());
         $html = "<a href='". $ilCtrl->getLinkTargetByClass("ilDataCollectionRecordViewGUI","renderRecord")."&disable_paging=1'>".$link_name."</a>";
-
 
         return $html;
     }

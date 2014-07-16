@@ -501,6 +501,9 @@ class ilObjDataCollection extends ilObject2
         $result = $ilDB->query('SELECT * FROM il_dcl_table WHERE obj_id = ' . $ilDB->quote($obj_id, 'integer') . ' AND title = ' . $ilDB->quote($title, 'text'));
         return ($ilDB->numRows($result)) ? true : false;
     }
+
+    public function getStyleSheetId() {}
+
 }
 
 ?>

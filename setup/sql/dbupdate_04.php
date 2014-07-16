@@ -2077,3 +2077,12 @@ if($wiki_type_id)
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#4268>
+<?php
+    $ilDB->insert('il_dcl_datatype_prop', array(
+    'id' => array('integer', 13),
+    'datatype_id' => array('integer', 8),
+    'title' => array('text', 'display_action_menu'),
+    'inputformat' => array('integer', 4),
+    ));
+?>
