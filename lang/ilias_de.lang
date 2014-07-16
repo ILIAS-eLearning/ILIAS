@@ -14273,7 +14273,6 @@ meta#:#md_adv_confirm_definition_select_option#:#Gelöschte Option
 meta#:#md_adv_confirm_definition_select_option_remove#:#Wert entfernen
 meta#:#md_adv_confirm_definition_select_option_overwrite#:#Wert überschreiben
 meta#:#md_adv_confirm_definition_select_section#:#Migration der gelöschten Optionen
-ecs#:#ecs_server_title#:#Name der ECS-Konfiguration
 assessment#:#fq_precision_info#:#Geben Sie hier die Anzahl der gewünschten Nachkommastellen an.
 assessment#:#result_units_info#:#Die hier ausgewählten Einheiten werden dem Lernenden zur Antwort angeboten. Der Lernende muss sich hier für eine Einheit entscheiden.
 assessment#:#fq_no_restriction_info#:#Sowohl Dezimalzahlen als auch Brüche werden als Eingabe akzeptiert.
