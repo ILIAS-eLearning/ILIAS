@@ -8,7 +8,8 @@ require_once './Services/User/classes/class.ilUserUtil.php';
 require_once('./Services/Object/classes/class.ilCommonActionDispatcherGUI.php');
 require_once('./Modules/DataCollection/classes/class.ilObjDataCollection.php');
 require_once('class.ilDataCollectionTable.php');
-
+require_once('./Services/Notes/classes/class.ilNote.php');
+require_once('./Services/Notes/classes/class.ilNoteGUI.php');
 
 /**
 * Class ilDataCollectionRecord
@@ -473,7 +474,9 @@ class ilDataCollectionRecord
 	{
 		switch($field_id)
 		{
-			case 'owner':
+            case 'id':
+                return $this->getId();
+            case 'owner':
 				return ilUserUtil::getNamePresentation($this->getOwner());
 			case 'last_edit_by':
                 return ilUserUtil::getNamePresentation($this->getLastEditBy());

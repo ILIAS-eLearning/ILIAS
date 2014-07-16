@@ -15,14 +15,6 @@ class ilDataCollectionFormulaField extends ilDataCollectionRecordField
 {
 
     /**
-     * @var array
-     */
-    protected static $compatible_datatypes = array(
-        ilDataCollectionDatatype::INPUTFORMAT_NUMBER,
-        ilDataCollectionDatatype::INPUTFORMAT_RATING,
-    );
-
-    /**
      * @var string
      */
     protected $expression = '';
@@ -110,13 +102,6 @@ class ilDataCollectionFormulaField extends ilDataCollectionRecordField
     }
 
 
-    /**
-     * @return array
-     */
-    public static function getCompatibleDatatypes() {
-        return self::$compatible_datatypes;
-    }
-
 
     /**
      * Parse expression
@@ -130,7 +115,7 @@ class ilDataCollectionFormulaField extends ilDataCollectionRecordField
             try {
                 $this->parsed_value = $parser->parse();
             } catch (ilException $e) {
-                return $this->lng->txt('dcl_error_parsing_expression');
+                return $this->lng->txt('dcl_error_parsing_expression') . ' (' . $e->getMessage(). ')';
             }
         }
         return $this->parsed_value;
@@ -212,10 +197,9 @@ class ilDclExpressionParser
     protected $record;
 
     /**
-     * @var ilDclTokenizer
+     * @var string
      */
-    protected $tokenizer;
-
+    protected $expression;
 
     /**
      * @var array
@@ -235,60 +219,41 @@ class ilDclExpressionParser
      */
     public function __construct($expression, ilDataCollectionRecord $record)
     {
-        $this->tokenizer = new ilDclTokenizer($expression);
+        $this->expression = $expression;
         $this->record = $record;
     }
 
 
     /**
      * Parse expression and return result.
-     * This method loops the tokens and checks if Token is of type string or math. Math means that the
-     * token is either a numeric value, an operator or brackets.
+     * This method loops the tokens and checks if Token is of type string or math. Concatenates results
+     * to produce resulting string of parsed expression.
      *
      * @throws ilException
      * @return string
      */
     public function parse()
     {
-        $tokens = $this->tokenizer->getTokens();
-        $math_tokens = array();
+        $tokens = ilDclTokenizer::getTokens($this->expression);
+//        echo "<pre>" . print_r($tokens, 1) . "</pre>";
         $parsed = '';
         foreach ($tokens as $token) {
             if (empty($token)) {
                 continue;
             }
-            if (strpos($token, '"') === 0) {
-                // Token is a string
-                if (count($math_tokens)) {
-                    $parsed .= $this->parseMath($math_tokens);
-                    $math_tokens = array();
-                }
-                $parsed .= trim($token, '"');
-            } elseif (strpos($token, '[[') === 0) {
-                // Token is a placeholder -> Replace with field value
-                $table = ilDataCollectionCache::getTableCache($this->record->getTableId());
-                $field_title = preg_replace('#^\[\[(.*)\]\]#', "$1", $token);
-                $field = $table->getFieldByTitle($field_title);
-                if ($field === null || !in_array($field->getDatatypeId(), ilDataCollectionFormulaField::getCompatibleDatatypes())) {
-                    throw new ilException("Field with title '$field_title' either not found or not compatible");
-                }
-                if ($field->isStandardField()) {
-                    throw new ilException("Standard-Fields not supported by the formula field");
-                }
-                // Just to be absolutely sure we got object...
-                $record_field = $this->record->getRecordField($field->getId());
-                if (is_object($record_field)) {
-                    $math_tokens[] = (float) $record_field->getValue();
-                } else {
-                    throw new ilException("Could not load RecordField object");
-                }
+            if ($this->isMathToken($token)) {
+                $math_tokens = ilDclTokenizer::getMathTokens($token);
+                $parsed .= $this->parseMath($this->substituteFieldValues($math_tokens));
             } else {
-                // Assume that token is either numeric or operator
-                $math_tokens[] = $token;
+                // Token is a string, either a field placeholder [[Field name]] or a string starting with "
+                if (strpos($token, '"') === 0) {
+                    $parsed .= strip_tags(trim($token, '"'));
+                } elseif (strpos($token, '[[') === 0) {
+                    $parsed .= strip_tags($this->substituteFieldValue($token));
+                } else {
+                    throw new ilException("Unrecognized string token: '$token'");
+                }
             }
-        }
-        if (count($math_tokens)) {
-            $parsed .= $this->parseMath($math_tokens);
         }
         return $parsed;
     }
@@ -300,6 +265,61 @@ class ilDclExpressionParser
     public static function getOperators()
     {
         return self::$operators;
+    }
+
+
+    /**
+     * Check if a given token is a math expression
+     *
+     * @param string $token
+     * @return bool
+     */
+    protected function isMathToken($token)
+    {
+        if (strpos($token, '"') === 0) {
+            return false;
+        }
+        $operators = array_keys(self::getOperators());
+        return (bool) preg_match('#(\\' . implode("|\\", $operators) . ')#', $token);
+    }
+
+
+    /**
+     * Given an array of tokens, replace each token that is a placeholder (e.g. [[Field name]]) with it's value
+     *
+     * @param array $tokens
+     * @return array
+     */
+    protected function substituteFieldValues(array $tokens)
+    {
+        $replaced = array();
+        foreach ($tokens as $token) {
+            if (strpos($token, '[[') === 0) {
+                $replaced[] = $this->substituteFieldValue($token);
+            } else {
+                $replaced[] = $token;
+            }
+        }
+        return $replaced;
+    }
+
+
+    /**
+     * Substitute field values in placehoders like [[Field Title]]
+     *
+     * @param string $placeholder
+     * @throws ilException
+     * @return string
+     */
+    protected function substituteFieldValue($placeholder)
+    {
+        $table = ilDataCollectionCache::getTableCache($this->record->getTableId());
+        $field_title = preg_replace('#^\[\[(.*)\]\]#', "$1", $placeholder);
+        $field = $table->getFieldByTitle($field_title);
+        if ($field === null) {
+            throw new ilException("Field with title '$field_title' either not found or not compatible");
+        }
+        return $this->record->getRecordFieldHTML($field->getId());
     }
 
 
@@ -417,51 +437,34 @@ class ilDclExpressionParser
 class ilDclTokenizer
 {
 
-    /**
-     * @var array
-     */
-    protected $tokens = array();
 
     /**
-     * @var string
-     */
-    protected $expression = '';
-
-    /**
-     * @param $expression
-     */
-    public function __construct($expression)
-    {
-        $this->expression = $expression;
-        $this->tokenize();
-    }
-
-    /**
+     * Split expression by & (ignore escaped &-symbols with backslash)
+     *
+     * @param string $expression Global expression to parse
      * @return array
      */
-    public function getTokens()
+    public static function getTokens($expression)
     {
-        return $this->tokens;
+        $expression = ltrim($expression, '=');
+        $expression = trim($expression);
+        $tokens = preg_split('#[^\\\\]&#', $expression);
+        return array_map('trim', $tokens);
     }
 
 
     /**
-     * Generate array of tokens
+     * Generate tokens for a math expression
      *
-     * Example:
-     * Expression: [[Feld 1]] + 20 * 3 & " concatenated String " &  [[Feld3]]
-     *
-     * Translates to:
-     * array([[Feld 1]], +, 20, *, 3, "concatenated String", [[Feld3]])
+     * @param string $math_expression Expression of type math
+     * @return array
      */
-    protected function tokenize()
+    public static function getMathTokens($math_expression)
     {
-        if (!count($this->tokens)) {
-            $operators = array_keys(ilDclExpressionParser::getOperators());
-            $pattern = '#((^\[\[)[\d\.]+)|&|(\(|\)|\\' . implode("|\\", $operators) . ')#';
-            $tokens = preg_split($pattern, $this->expression, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
-            $this->tokens = array_map('trim', $tokens);
-        }
+        $operators = array_keys(ilDclExpressionParser::getOperators());
+        $pattern = '#((^\[\[)[\d\.]+)|(\(|\)|\\' . implode("|\\", $operators) . ')#';
+        $tokens = preg_split($pattern, $math_expression, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
+        return array_map('trim', $tokens);
     }
 }
 

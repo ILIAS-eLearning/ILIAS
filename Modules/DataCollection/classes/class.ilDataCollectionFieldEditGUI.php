@@ -276,14 +276,10 @@ class ilDataCollectionFieldEditGUI
                 } elseif ($property['id'] == ilDataCollectionField::PROPERTYID_FORMULA_EXPRESSION) {
                     $table = ilDataCollectionCache::getTableCache((int)$_GET['table_id']);
                     $fields = array();
-                    $compatible_datatypes = ilDataCollectionFormulaField::getCompatibleDatatypes();
                     foreach ($table->getFields() as $f) {
-                        if (!in_array($f->getDatatypeId(), $compatible_datatypes) || $f->isStandardField()) {
-                            continue;
-                        }
                         $fields[] = '<a class="dclPropExpressionField">' . $f->getTitle() . '</a>';
                     }
-                    $subitem = new ilTextInputGUI($lng->txt('dcl_prop_expression'), 'prop_' . $property['id']);
+                    $subitem = new ilTextAreaInputGUI($lng->txt('dcl_prop_expression'), 'prop_' . $property['id']);
                     $operators = implode(', ', array_keys(ilDclExpressionParser::getOperators()));
                     $subitem->setInfo(sprintf($lng->txt('dcl_prop_expression_info'), $operators, implode('<br>', $fields)));
                     $opt->addSubItem($subitem);
