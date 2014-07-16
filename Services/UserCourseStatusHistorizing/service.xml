@@ -1,0 +1,11 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<service xmlns="http://www.w3.org" version="$Id$" name="UserCourseStatusHistorizing" short="usrcrshist" dir="Services/UserCourseStatusHistorizing" id="usrcrshist">
+	<events>
+		<event type="listen" id="Services/User" />
+		<event type="listen" id="Services/ParticipationStatus" />
+		<event type="listen" id="Services/Bookings" />
+		<event type="listen" id="Services/Billing" />
+		<event type="listen" id="Modules/Course" />
+		<event type="listen" id="Services/Accomodation" />
+	</events>
+</service>
