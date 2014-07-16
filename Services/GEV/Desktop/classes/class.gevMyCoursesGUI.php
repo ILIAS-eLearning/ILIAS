@@ -105,7 +105,10 @@ class gevMyCoursesGUI {
 		require_once("Services/CaTUIComponents/classes/class.catChoiceGUI.php");
 		$choice = new catChoiceGUI();
 		$choice->setEnableTitle(true);
-		$choice->setTitle("gev_cancellation");
+		$choice->setTitle("gev_cancellation_title");
+		$choice->setSubTitle("gev_cancellation_subtitle");
+		$choice->setImage("GEV_img/ico-head-trash.png");
+
 		$choice->setQuestion($msg);
 		$choice->setAbort($this->lng->txt("cancel"), $this->ctrl->getLinkTarget($this, "view"));
 		$this->ctrl->setParameter($this, "crs_id", $this->crs_id);
