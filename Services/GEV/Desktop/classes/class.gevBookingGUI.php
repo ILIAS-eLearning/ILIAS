@@ -43,6 +43,7 @@ class gevBookingGUI {
 		switch($cmd) {
 			case "backToSearch":
 				$this->toCourseSearch();
+				break;
 			case "book":
 			case "paymentInfo":
 			case "finalizeBookingWithoutPayment":

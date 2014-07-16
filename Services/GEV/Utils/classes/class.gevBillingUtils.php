@@ -24,6 +24,8 @@ class gevBillingUtils {
 		global $lng, $ilLog;
 		$this->lng = &$lng;
 		$this->log = &$ilLog;
+		
+		$this->lng->loadLanguageModule("gev");
 	}
 	
 	static public function getInstance() {
@@ -81,7 +83,9 @@ class gevBillingUtils {
 
 		$fee = $crs_utils->getFee();
 		
-		$this->createItem( "Training \"".$crs_utils->getTitle()."\""
+		$this->createItem( sprintf($this->lng->txt("gev_fee_bill_item")
+								  , $crs_utils->getTitle()
+								  )
 						 , $fee
 						 , $a_crs_id
 						 , $bill
@@ -107,7 +111,9 @@ class gevBillingUtils {
 			$fee -= $diff;
 			$coupon->subtractValue($diff);
 			
-			$this->createItem("Gutschein ".$code
+			$this->createItem( sprintf($this->lng->txt("gev_coupon_bill_item")
+									  , $code
+									  )
 							 , -1 * $diff
 							 , null
 							 , $bill
@@ -122,19 +128,16 @@ class gevBillingUtils {
 		
 		$this->log->write("gevBillingUtils::createCourseBill: created bill with id '".$bill->getId()."'".
 						  " for user ".$a_user_id." at course ".$a_crs_id);
-		
-		// TODO: send email!
 	}
 
 	protected function createItem( $a_title
-								 , $a_desc
-								 , $a_amount
+								 , $a_posttax_amount
 								 , $a_context_id
 								 , ilBill $bill
 								 ) {
 		$item = new ilBillItem();
 		$item->setTitle($a_title);
-		$item->setPreTaxAmount($a_amount);
+		$item->setPreTaxAmount($a_posttax_amount/(1.0 + self::BILL_VAT/100.0));
 		$item->setVAT(self::BILL_VAT);
 		$item->setCurrency(self::BILL_CURRENCY);
 		$item->setContextId($a_context_id);
@@ -143,7 +146,8 @@ class gevBillingUtils {
 		return $item;
 	}
 	
-	public function resetCouponValuesFromItems($a_items) {
+	protected function resetCouponValuesFromItems($a_items) {
+		require_once("Services/Billing/classes/class.ilCoupon.php");
 		$coupon_dummy = new ilCoupon();
 		foreach ($a_items as $item) {
 			$spl = explode(" ", $item->getTitle());
@@ -171,6 +175,114 @@ class gevBillingUtils {
 			}
 			$coupon->addValue($item->getPreTaxAmount());
 		}
+	}
+	
+	protected function getNonFinalizedBillForCourseAndUser($a_user_id, $a_crs_id) {
+		$bills = ilBill::getInstancesByUserAndContext($a_user_id, $a_crs_id);
+		$amount_bills = count($bills);
+		
+		if ($amount_bills == 0) {
+			// there is no bill for the user at the course, so we don't need 
+			// to do anything.
+			return;
+		}
+		
+		if ($amount_bills > 1) {
+			// this is an assumption about the booking process. There should
+			// never be more than one bill per course and user.
+			$this->log->write("gevBillingUtils::getNonFinalizedBillForCourseAndUser: ".
+						  "There is more than one bill for user ".$a_user_id.
+						  " at course ".$a_crs_id.", this violates a crucial".
+						  "assumption about the booking process."
+						  );
+			return null;
+		}
+		
+		$bill = $bills[0];
+		
+		if ($bill->isFinalized()) {
+			// this is an assumption about the booking process. The bill should
+			// be finalized only after a training where booking status can't 
+			// change anymore.
+			$this->log->write("gevBillingUtils::getNonFinalizedBillForCourseAndUser: ".
+						  "The bill for user ".$a_user_id." at course ".
+						  $a_crs_id." is already finalized, which violates a crucial".
+						  "assumption about the booking process.");
+			return null;
+		}
+		
+		return $bill;
+	}
+	
+	public function cancelBill($a_crs_id, $a_user_id) {
+		$bill = $this->getNonFinalizedBillForCourseAndUser($a_user_id, $a_crs_id);
+		if ($bill === null) {
+			return;
+		}
+	
+		$items = $bill->getItems();
+		$this->resetCouponValuesFromItems($items);
+		foreach ($items as $item) {
+			if ($item->isFinalized()) {
+				$this->log->write("gevBillingUtils::cancelBill: item '".$item->getId()."' ".
+								  "in bill '".$bill->getId()."' already finalized. This should ".
+								  "not happen...");
+			}
+			else {
+				$item->delete();
+			}
+		}
+		$bill->delete();
+		$this->log->write("gevBillingUtils::cancelBill: deleted bill ".$bill->getId()." for user ".$a_user_id.
+						  " at course ".$a_crs_id.".");
+	}
+	
+	public function createCancellationBillAndCoupon($a_crs_id, $a_user_id) {
+		$bill = $this->getNonFinalizedBillForCourseAndUser($a_user_id, $a_crs_id);
+		if ($bill === null) {
+			return;
+		}
+		
+		require_once("Services/Billing/classes/class.ilCoupons.php");
+		
+		$crs_utils = gevCourseUtils::getInstance($a_crs_id);
+		$user_utils = gevUserUtils::getInstance($a_user_id);
+		
+		// remove course context id, to make assumption in getNonFinalizedBillForCourseAndUser
+		// hold
+		$bill->setContextId(0);
+		$bill->setTitle(sprintf( $this->lng->txt("gev_cancellation_bill_title")
+							   , $crs_utils->getTitle()
+							   , $user_utils->getFirstname()." ".$user_utils->getLastname()
+							   )
+						);
+		// bill will be send immediately
+		$bill->setDate(new ilDate(time(), IL_CAL_UNIX));
+
+		// search for the item regarding the course...
+		$items = $bill->getItems();
+		foreach ($items as $item) {
+			print_r($item);
+			echo $item->getContextId()." ".$a_crs_id."\n";
+			if ($item->getContextId() == $a_crs_id) {
+				// ... and change its title appropriately
+				$item->setTitle(sprintf( $this->lng->txt("gev_cancellation_bill_item")
+									   , $crs_utils->getTitle()
+									   )
+								);
+				$item->update();
+			}
+		}
+		$bill->update();
+		$bill->finalize();
+
+		$coupon_code = ilCoupons::getSingleton()->createCoupon((float)$bill->getAmount(), time() + 365 * 24 * 60 * 60);
+		
+		$this->log->write("gevBillingUtils::createCancellationBillAndCoupon: created cancelation bill '"
+						 .$bill->getid()."' for course '".$a_crs_id."' and user '".$a_user_id."' with "
+						 ."coupon '".$coupon_code."'");
+		
+		// TODO: send email
 	}
 }
 

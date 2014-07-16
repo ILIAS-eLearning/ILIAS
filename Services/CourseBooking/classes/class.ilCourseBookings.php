@@ -581,6 +581,8 @@ class ilCourseBookings
 			case ilCourseBooking::STATUS_BOOKED:
 				$now = new ilDate(time(), IL_CAL_UNIX);
 				$deadline = $this->getCancellationDeadline();
+				global $ilLog;
+				$ilLog->write(print_r($deadline, true));
 				if(ilDate::_after($now, $deadline))
 				{
 					return $this->cancelWithCosts($a_user_id);

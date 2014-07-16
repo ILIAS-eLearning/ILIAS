@@ -639,6 +639,10 @@ gev#:#gev_was_booked_waiting_self#:#Sie wurden beim Training "%s" erfolgreich au
 gev#:#gev_was_booked_employee#:#Ihr Mitarbeiter %s wurde erfolgreich auf das Training "%s" gebucht.
 gev#:#gev_was_booked_waiting_employee#:#Ihr Mitarbeiter %s wurde erfolgreich beim Training "%s" auf die Warteliste hinzugefügt.
 gev#:#gev_course_bill_title#:#Buchung des Trainings "%s" für "%s"
+gev#:#gev_cancellation_bill_title#:#Stornierung der Buchung des Trainings "%s" für "%s"
+gev#:#gev_fee_bill_item#:#Teilnahmegebühr Training "%s"
+gev#:#gev_coupon_bill_item#:#Gutschein %s
+gev#:#gev_cancellation_bill_item#:#Stornierungsgebühr Training "%s"
 gev#:#gev_trainer_operation_days#:#Trainereinsatztage
 gev#:#gev_costly_cancellation_msg#:#Die Stornierung ihrer Buchung des Trainings "%s" ist leider nicht mehr kostenlos möglich. Möchten sie die Buchung trotzdem stornieren?
 gev#:#gev_costly_cancellation_action#:#Kostenpflichtig Stornieren

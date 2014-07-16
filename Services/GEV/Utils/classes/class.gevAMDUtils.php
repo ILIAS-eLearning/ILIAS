@@ -76,7 +76,7 @@ class gevAMDUtils {
 				 "  FROM object_data od\n".
 				 implode("\n", array_merge($query_parts[1], $a_additional_joins))."\n".
 				 "WHERE ".$this->db->in("od.obj_id", $a_objs, false, "integer")." ".$a_additional_where;
-		//die($query);	
+
 		$res = $this->db->query($query);
 
 		return $this->makeTableResult($res, $field_ids, $types, $a_amd_settings);
@@ -176,7 +176,6 @@ class gevAMDUtils {
 				$field_id = $a_field_ids[$i];
 				$res[$field_name] = gevAMDUtils::canonicalTransformTypedValue($a_types[$field_id], $res[$field_name]);
 			}
-			
 			$ret[$res["obj_id"]] = $res;
 		}
 

@@ -101,12 +101,14 @@ class ilCoupons
 	{
 		if(!is_numeric($a_amount) || (int)$a_amount != $a_amount || $a_amount < 0)
 		{
-			throw new ilException('The passed amount parameter must be a positive integer');
+			throw new ilException('ilCoupons::createCoupons: The passed amount parameter must be a positive integer '
+								 .' but is "'.$a_amount.'"');
 		}
 
 		if(!is_numeric($a_value) || (float)$a_value != $a_value || $a_value < 0)
 		{
-			throw new ilException('The passed value parameter must be a positive floating point number');
+			throw new ilException('ilCoupons::createCoupons: The passed value parameter must be a positive floating point number '
+								 .'but is "'.$a_value.'"');
 		}
 
 		$coupons         = array();
@@ -121,6 +123,18 @@ class ilCoupons
 		$GLOBALS['ilAppEventHandler']->raise('Billing', 'couponsCreated', array('coupons' => $coupons_objects));
 
 		return $coupons;
+	}
+	
+	/**
+	 * @param integer		$a_value
+	 * @param integer 		$a_expires
+	 * @param string|null	$a_prefix
+	 * @return ilCoupon
+	 * @throws ilException
+	 */
+	public function createCoupon($a_value, $a_expires, $a_prefix = null) {
+		$coupons = $this->createCoupons(1, $a_value, $a_expires, $a_prefix);
+		return $coupons[0];
 	}
 
 	/**

@@ -191,7 +191,7 @@ class gevUserUtils {
 			$booked_amd[$key]["cancel_date"] = gevCourseUtils::mkDeadlineDate( $value["start_date"]
 																			 , $value["cancel_date"]
 																			 );
-			
+			// TODO: Push this to SQL-Statement.
 			$orgu_utils = gevOrgUnitUtils::getInstance($value["location"]);
 			$booked_amd[$key]["location"] = $orgu_utils->getLongTitle();
 		}

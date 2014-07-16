@@ -38,8 +38,9 @@ class gevMyCoursesGUI {
 			case "noNextCourse":
 			case "noLastCourse":
 				$cont = $this->$cmd();
+				break;
 			default:
-				$this->log->write("gevBookingGUI: Unknown command '".$cmd."'");
+				$this->log->write("gevMyCoursesGUI: Unknown command '".$cmd."'");
 		}
 		
 		if ($cont) {
@@ -132,7 +133,7 @@ class gevMyCoursesGUI {
 	
 	public function noLastCourse() {
 		ilUtil::sendFailure($this->lng->txt("gev_no_last_course"));
-		return $this->view();
+		return $this->view();	
 	}
 }
 
