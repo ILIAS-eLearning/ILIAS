@@ -49,9 +49,10 @@ class ilDataCollectionILIASRefField extends ilDataCollectionRecordField{
         }
 		$id = ilObject::_lookupObjId($value);
         $title = ilObject::_lookupTitle($id);
-        if ($this->properties[ilDataCollectionField::PROPERTYID_ILIAS_REFERENCE_LINK]) {
-            $show_action_menu = ($this->properties[ilDataCollectionField::PROPERTYID_DISPLAY_COPY_LINK_ACTION_MENU]) ? true : false;
-            $html = $this->getLinkHTML($title, $show_action_menu);
+        if ($this->properties[ilDataCollectionField::PROPERTYID_DISPLAY_COPY_LINK_ACTION_MENU]) {
+            $html = $this->getLinkHTML($title, true);
+        } else if ($this->properties[ilDataCollectionField::PROPERTYID_ILIAS_REFERENCE_LINK]) {
+            $html = $this->getLinkHTML($title);
         } else {
             $html = $title;
         }
@@ -80,14 +81,17 @@ class ilDataCollectionILIASRefField extends ilDataCollectionRecordField{
      * @return string
      */
     public function getLinkHTML($title, $show_action_menu=false) {
+        global $lng;
         $link = ilLink::_getStaticLink($this->getValue());
         if ($show_action_menu) {
             $list = new ilAdvancedSelectionListGUI();
             $list->setId('adv_list_copy_link_' . $this->field->getId() . $this->record->getId());
             $list->setListTitle($title);
-            $list->addItem('View', 'view', $link);
-            $list->addItem('Copy', 'copy', $this->getActionLink('copy'));
-            $list->addItem('Link', 'link', $this->getActionLink('link'));
+            if ($this->properties[ilDataCollectionField::PROPERTYID_ILIAS_REFERENCE_LINK]) {
+                $list->addItem($lng->txt('view'), 'view', $link);
+            }
+            $list->addItem($lng->txt('copy'), 'copy', $this->getActionLink('copy'));
+            $list->addItem($lng->txt('link'), 'link', $this->getActionLink('link'));
             return $list->getHTML();
         } else {
             return "<a href=\"$link\">$title</a>";
