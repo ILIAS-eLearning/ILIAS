@@ -195,6 +195,14 @@ class ilObjTaggingSettingsGUI extends ilObjectGUI
 			$cb_prop->addSubItem($cb_prop2);
 
 		$form->addItem($cb_prop);
+				
+		include_once "Services/Administration/classes/class.ilAdministrationSettingsFormHandler.php";
+		ilAdministrationSettingsFormHandler::addFieldsToForm(
+			ilAdministrationSettingsFormHandler::FORM_TAGGING, 
+			$form,
+			$this
+		);		
+		
 		$this->tpl->setContent($form->getHTML());
 	}
 	

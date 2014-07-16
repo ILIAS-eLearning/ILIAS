@@ -300,7 +300,7 @@ class ilTaggingGUI
 		}
 
 		$img = ilUtil::img(ilObject::_getIcon($this->obj_id, "tiny"));
-		$tpl->setVariable("TXT_OBJ_TITLE", $img." ".ilObject::_lookupTitle($this->obj_id));
+		$tpl->setVariable("TXT_OBJ_TITLE", $img." ".ilObject::_lookupTitle($this->obj_id));		
 		$tags = ilTagging::getTagsForUserAndObject($this->obj_id, $this->obj_type,
 			$this->sub_obj_id, $this->sub_obj_type, $this->getUserId());
 		$tpl->setVariable("VAL_TAGS",
@@ -312,7 +312,30 @@ class ilTaggingGUI
 			$ilCtrl->getFormActionByClass("iltagginggui", "", "", true).
 			"');";
 		$tpl->setVariable("ON_SUBMIT", $os);
-
+		
+		$tags_set = new ilSetting("tags");
+		if($tags_set->get("enable_all_users"))
+		{			
+			$tpl->setVariable("TAGS_TITLE", $lng->txt("tagging_my_tags"));
+			
+			$all_obj_tags = ilTagging::_getListTagsForObjects(array($this->obj_id));			
+			$all_obj_tags = $all_obj_tags[$this->obj_id];
+			if(is_array($all_obj_tags) && 
+				sizeof($all_obj_tags) != sizeof($tags))
+			{
+				$tpl->setVariable("TITLE_OTHER", $lng->txt("tagging_other_users"));
+				$tpl->setCurrentBlock("tag_other_bl");
+				foreach($all_obj_tags as $tag => $is_owner)
+				{
+					if(!$is_owner)
+					{
+						$tpl->setVariable("OTHER_TAG", $tag);
+						$tpl->parseCurrentBlock();
+					}
+				}
+				
+			}
+		}
 		
 		echo $tpl->get();
 		exit;

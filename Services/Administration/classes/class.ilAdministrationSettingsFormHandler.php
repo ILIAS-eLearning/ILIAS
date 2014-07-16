@@ -23,6 +23,7 @@ class ilAdministrationSettingsFormHandler
 	const FORM_FORUM = 10;
 	const FORM_ACCESSIBILITY = 11;
 	const FORM_WSP = 12;
+	const FORM_TAGGING = 13;
 
 	const SETTINGS_USER             = "usrf";
 	const SETTINGS_GENERAL          = "adm";
@@ -126,6 +127,10 @@ class ilAdministrationSettingsFormHandler
 			
 			case self::FORM_WSP:
 				$types = array(self::SETTINGS_PORTFOLIO);
+				break;
+			
+			case self::FORM_TAGGING:
+				$types = array(self::SETTINGS_REPOSITORY);
 				break;
 			
 			default:

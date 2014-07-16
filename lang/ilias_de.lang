@@ -14504,3 +14504,5 @@ notes#:#notes_sort_asc#:#Aufsteigend sortieren
 notes#:#notes_sort_desc#:#Absteigend sortieren
 obj#:#obj_tool_setting_tag_cloud#:#Tag Cloud
 obj#:#obj_tool_setting_tag_cloud_info#:#Der "Tag Cloud"-Block wird innerhalb des Inhaltstabs angezeigt.
+administration#:#adm_show_comments_tagging_in_lists_tags#:#Einzelne Tags anstatt Anzahl auflisten
+tagging#:#tagging_other_users#:#Andere Benutzer

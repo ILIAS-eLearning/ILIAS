@@ -111,6 +111,7 @@ class ilObjectListGUI
 
 	static protected $cnt_notes = array();
 	static protected $cnt_tags = array();
+	static protected $tags = array();
 	static protected $comments_activation = array();
 	static protected $preload_done = false;
 	
@@ -1769,7 +1770,8 @@ class ilObjectListGUI
 		// add common properties (comments, notes, tags)
 		if ((self::$cnt_notes[$note_obj_id][IL_NOTE_PRIVATE] > 0 ||
 			self::$cnt_notes[$note_obj_id][IL_NOTE_PUBLIC] > 0 || 
-			self::$cnt_tags[$note_obj_id] > 0) &&
+			self::$cnt_tags[$note_obj_id] > 0 ||
+			is_array(self::$tags[$note_obj_id])) &&
 			($ilUser->getId() != ANONYMOUS_USER_ID))
 		{			
 			include_once("./Services/Notes/classes/class.ilNoteGUI.php");
@@ -1798,17 +1800,43 @@ class ilObjectListGUI
 					"newline" => $nl);
 				$nl = false;
 			}
-			if ($this->tags_enabled && self::$cnt_tags[$note_obj_id] > 0)
+			if ($this->tags_enabled && 
+				(self::$cnt_tags[$note_obj_id] > 0 ||
+				is_array(self::$tags[$note_obj_id])))
 			{
 				$tags_set = new ilSetting("tags");
 				if ($tags_set->get("enable"))
 				{
+					$tags_url = ilTaggingGUI::getListTagsJSCall($this->ajax_hash, $redraw_js);
+					
+					// list object tags
+					if(is_array(self::$tags[$note_obj_id]))
+					{
+						$tags_tmp = array();
+						foreach(self::$tags[$note_obj_id] as $tag => $is_tag_owner)
+						{
+							if($is_tag_owner)
+							{
+								$tags_tmp[] = "<a href='#' onclick=\"return ".
+									$tags_url."\">".$tag."</a>";
+							}
+							else
+							{
+								$tags_tmp[] = $tag;
+							}
+						}
+						$tags_value = implode(" ", $tags_tmp);
+					}
+					// tags counter
+					else
+					{
+						$tags_value = "<a href='#' onclick=\"return ".$tags_url."\">".
+							self::$cnt_tags[$note_obj_id]."</a>";						
+					}
 					$props[] = array("alert" => false,
-						"property" => $lng->txt("tagging_tags"),
-						"value" => "<a href='#' onclick=\"return ".
-							ilTaggingGUI::getListTagsJSCall($this->ajax_hash, $redraw_js)."\">".
-						self::$cnt_tags[$note_obj_id]."</a>",
-						"newline" => $nl);
+							"property" => $lng->txt("tagging_tags"),
+							"value" => $tags_value,
+							"newline" => $nl);
 					$nl = false;
 				}
 			}
@@ -3679,20 +3707,59 @@ class ilObjectListGUI
 	 */
 	static function preloadCommonProperties($a_obj_ids, $a_context)
 	{
-		global $lng;
+		global $lng, $ilSetting, $ilUser;
 		
 		if($a_context == self::CONTEXT_REPOSITORY)
-		{
-			$lng->loadLanguageModule("notes");
-			$lng->loadLanguageModule("tagging");
-			$lng->loadLanguageModule("rating");
-
-			include_once("./Services/Tagging/classes/class.ilTagging.php");
-			self::$cnt_tags = ilTagging::_countTags($a_obj_ids);
-
-			include_once("./Services/Notes/classes/class.ilNote.php");
-			self::$cnt_notes = ilNote::_countNotesAndCommentsMultiple($a_obj_ids, true);
-			self::$comments_activation = ilNote::getRepObjActivation($a_obj_ids);	
+		{			
+			$active_notes =	!$ilSetting->get("disable_notes");
+			$active_comments = !$ilSetting->get("disable_comments");
+		
+			if($active_notes || $active_comments)
+			{
+				include_once("./Services/Notes/classes/class.ilNote.php");
+			}
+			
+			if($active_comments)
+			{
+				// needed for action				
+				self::$comments_activation = ilNote::getRepObjActivation($a_obj_ids);	
+			}
+			
+			// properties are optional
+			if($ilSetting->get('comments_tagging_in_lists'))
+			{			
+				if($active_notes || $active_comments)
+				{
+					self::$cnt_notes = ilNote::_countNotesAndCommentsMultiple($a_obj_ids, true);
+					
+					$lng->loadLanguageModule("notes");
+				}
+								
+				$tags_set = new ilSetting("tags");
+				if($tags_set->get("enable"))
+				{
+					$all_users = $tags_set->get("enable_all_users");
+				
+					include_once("./Services/Tagging/classes/class.ilTagging.php");
+					if(!$ilSetting->get('comments_tagging_in_lists_tags'))
+					{
+						self::$cnt_tags = ilTagging::_countTags($a_obj_ids, $all_users);
+					}		
+					else
+					{				
+						$tag_user_id = null;
+						if(!$all_users)
+						{
+							$tag_user_id = $ilUser->getId();
+						}						
+						self::$tags = ilTagging::_getListTagsForObjects($a_obj_ids, $tag_user_id);
+					}
+					
+					$lng->loadLanguageModule("tagging");
+				}
+			}			
+								
+			$lng->loadLanguageModule("rating");			
 		}
 		
 		self::$preload_done = true;

@@ -219,6 +219,11 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 		$pl->setValue(1);
 		$pl->setChecked($ilSetting->get('comments_tagging_in_lists'));
 		$form->addItem($pl);
+		
+		$pltags = new ilCheckboxInputGUI($this->lng->txt('adm_show_comments_tagging_in_lists_tags'),'comments_tagging_in_lists_tags');
+		$pltags->setValue(1);
+		$pltags->setChecked($ilSetting->get('comments_tagging_in_lists_tags'));
+		$pl->addSubItem($pltags);
 				
 		
 		$form->addCommandButton('saveSettings', $this->lng->txt('save'));
@@ -259,6 +264,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 			$ilSetting->set("rep_shorten_description_length", (int)$form->getInput('rep_shorten_description_length'));										
 			$ilSetting->set('item_cmd_asynch',(int) $_POST['item_cmd_asynch']);			
      		$ilSetting->set('comments_tagging_in_lists',(int) $_POST['comments_tagging_in_lists']);	
+     		$ilSetting->set('comments_tagging_in_lists_tags',(int) $_POST['comments_tagging_in_lists_tags']);	
 						
 			require_once 'Services/Tracking/classes/class.ilChangeEvent.php';			
 			if ($form->getInput('change_event_tracking'))
@@ -712,6 +718,8 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 	
 	public function addToExternalSettingsForm($a_form_id)
 	{				
+		global $ilSetting;
+		
 		switch($a_form_id)
 		{						
 			case ilAdministrationSettingsFormHandler::FORM_LP:
@@ -719,7 +727,17 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 				require_once 'Services/Tracking/classes/class.ilChangeEvent.php';		
 				$fields = array('trac_repository_changes' => array(ilChangeEvent::_isActive(), ilAdministrationSettingsFormHandler::VALUE_BOOL));
 												
-				return array(array("view", $fields));			
+				return array(array("view", $fields));	
+				
+				
+			case ilAdministrationSettingsFormHandler::FORM_TAGGING:
+				
+				$fields = array(
+					'adm_show_comments_tagging_in_lists' => array($ilSetting->get('comments_tagging_in_lists'), ilAdministrationSettingsFormHandler::VALUE_BOOL,
+						array('adm_show_comments_tagging_in_lists_tags' => array($ilSetting->get('comments_tagging_in_lists_tags'), ilAdministrationSettingsFormHandler::VALUE_BOOL))
+				));
+				
+				return array(array("view", $fields));	
 		}
 	}
 }

@@ -302,5 +302,9 @@ class ilTagCloudBlockGUI extends ilBlockGUI
 	
 			$tpl->setContent($ltpl->get());
 		}		
+		else
+		{
+			ilUtil::sendFailure($lng->txt("no_permission"));
+		}
 	}	
 }

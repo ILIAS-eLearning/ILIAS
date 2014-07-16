@@ -306,15 +306,19 @@ class ilTagging
 	 * Count all tags for repository objects
 	 * 
 	 * @param array $a_obj_ids repository object IDs array
+	 * @param bool $a_all_users 
 	 */
-	static function _countTags($a_obj_ids)
+	static function _countTags($a_obj_ids, $a_all_users = false)
 	{
 		global $ilDB, $ilUser;
 		
 		$q = "SELECT count(*) c, obj_id FROM il_tag WHERE ".
-			$ilDB->in("obj_id", $a_obj_ids, false, "integer")." AND ".
-			" user_id = ".$ilDB->quote($ilUser->getId(), "integer").
-			" GROUP BY obj_id";
+			$ilDB->in("obj_id", $a_obj_ids, false, "integer");
+		if(!(bool)$a_all_users)
+		{
+			$q .= " AND user_id = ".$ilDB->quote($ilUser->getId(), "integer");
+		}
+		$q .= " GROUP BY obj_id";
 		
 		$cnt = array();
 		$set = $ilDB->query($q);
@@ -396,6 +400,42 @@ class ilTagging
 		}
 
 		return $res;			
+	}
+	
+	/**
+	 * Get tags for given object ids
+	 * 
+	 * @param array $a_obj_ids 
+	 * @param int $a_user_id
+	 * @return array
+	 */
+	static function _getListTagsForObjects(array $a_obj_ids, $a_user_id = null)
+	{
+		global $ilDB, $ilUser;
+		
+		$res = array();
+		
+		$sql = "SELECT obj_id, tag, user_id".
+			" FROM il_tag".
+			" WHERE ".$ilDB->in("obj_id", $a_obj_ids, false, "integer").
+			" AND is_offline = ".$ilDB->quote(0, "integer");
+		if($a_user_id)
+		{
+			$sql .= " AND user_id = ".$ilDB->quote($a_user_id, "integer");
+		}						
+		$sql .= " ORDER BY tag";
+		$set = $ilDB->query($sql);
+		while($row = $ilDB->fetchAssoc($set))
+		{						
+			$tag = $row["tag"];
+			$res[$row["obj_id"]][$tag] = false;
+			if($row["user_id"] == $ilUser->getId())
+			{
+				$res[$row["obj_id"]][$tag] = true;
+			}
+		}
+		
+		return $res;						
 	}
 }
 

@@ -5,10 +5,21 @@
 <span class="small">{TXT_OBJ_TITLE}</span>
 </h3>
 </div>
+<!-- BEGIN mess_bl -->
 <div style="padding:5px;">{MESS}</div>
+<!-- END mess_bl -->
 <div style="padding:5px 10px;">
+<!-- BEGIN tags_title_bl -->
+<h3>{TAGS_TITLE}</h3>
+<!-- END tags_title_bl -->
 <form id="ilTagFormAjax" method="post" name="cmd" action="#" onsubmit="{ON_SUBMIT}">
 <textarea id="tags" class="noRTEditor" name="tags" wrap="virtual" style="width:450px;" rows="4">{VAL_TAGS}</textarea><br />
 <input class="submit" type="submit" name="cmd[{CMD_SAVE}]" value="{TXT_SAVE}">
 </form>
+<!-- BEGIN other_users_bl -->
+<h3>{TITLE_OTHER}</h3>
+<!-- BEGIN tag_other_bl -->
+{OTHER_TAG}
+<!-- END tag_other_bl -->	
+<!-- END other_users_bl -->
 </div>
