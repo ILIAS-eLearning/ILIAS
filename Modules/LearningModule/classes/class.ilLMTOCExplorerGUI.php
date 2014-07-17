@@ -289,6 +289,11 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
 					}
 				}
 			}
+			include_once("./Modules/LearningModule/classes/class.ilLMPageObject.php");
+			if ($nid = ilLMPageObject::getExportId($this->lm->getId(), $a_node["child"]))
+			{
+				return "lm_pg_".$nid.".html";
+			}
 			return "lm_pg_".$a_node["child"].".html";
 		}
 
