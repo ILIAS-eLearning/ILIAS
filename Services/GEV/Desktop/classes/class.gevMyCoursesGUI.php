@@ -99,8 +99,82 @@ class gevMyCoursesGUI {
 			$msg = $this->lng->txt("gev_free_cancellation_msg");
 			$action = $this->lng->txt("gev_costly_cancellation_action");
 		}
-	
+	/*
 		$msg = sprintf($msg, $crs_utils->getTitle());
+		
+					, array( $this->lng->txt("gev_target_group")
+				   , true
+				   , $this->crs_utils->getTargetGroupDesc()
+				   )
+			, array( $this->lng->txt("gev_targets_and_benefit")
+				   , true
+				   , $this->crs_utils->getGoals()
+				   )
+			, array( $this->lng->txt("gev_contents")
+				   , true
+				   , $this->crs_utils->getContents()
+				   )
+		
+		$vals = array(
+			  array( $this->lng->txt("gev_course_id")
+				   , true
+				   , $this->crs_utils->getCustomId()
+				   )
+			, array( $this->lng->txt("gev_course_type")
+				   , true
+				   , implode(", ", $this->crs_utils->getMethods())
+				   )
+			, array( $this->lng->txt("appointment")
+				   , true
+				   , $this->crs_utils->getFormattedAppointment()
+				   )
+			, array( $this->lng->txt("gev_provider")
+				   , $prv?true:false
+				   , $prv?$prv->getTitle():""
+				   )
+			, array( $this->lng->txt("gev_venue")
+				   , $ven?true:false
+				   , $ven?$ven->getTitle():""
+				   )
+			, array( $this->lng->txt("gev_instructor")
+				   , true
+				   , $this->crs_utils->getMainTrainerName()
+				   )
+			, array( $this->lng->txt("gev_subscription_end")
+				   , true
+				   , $this->lng->txt("until") . " ". $this->crs_utils->getFormattedBookingDeadlineDate()
+				   )
+			, array( $this->lng->txt("gev_free_places")
+				   , true
+				   , $this->crs_utils->getFreePlaces()
+				   )
+			, array( $this->lng->txt("gev_training_contact")
+				   , true
+				   , $this->crs_utils->getMainAdminName()
+				   )
+			, array( $this->lng->txt("gev_training_fee")
+				   , $this->isWithPayment()
+				   , str_replace(".", ",", "".$this->crs_utils->getFee()) . " &euro;"
+				   )
+			, array( $this->lng->txt("gev_credit_points")
+				   , true
+				   , $this->crs_utils->getCreditPoints()
+				   )
+			//, array( $this->lng->txt("precondition")
+			//	   , true
+			//	   , $this->crs_utils->getFormattedPreconditions()
+			//	   )
+			);
+		
+		foreach ($vals as $val) {
+			if (!$val[1] or !$val[2]) {
+				continue;
+			}
+		
+			$field = new ilNonEditableValueGUI($val[0], "", true);
+			$field->setValue($val[2]);
+			$form->addItem($field);
+		}*/
 		
 		require_once("Services/CaTUIComponents/classes/class.catChoiceGUI.php");
 		$choice = new catChoiceGUI();

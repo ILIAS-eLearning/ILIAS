@@ -55,11 +55,11 @@ class gevCourseUtils {
 	}
 	
 	static public function getInstanceByObjOrId($a_course) {
-		if (is_int($a_course)) {
-			return self::getInstance($a_course);
+		if (is_int($a_course) || is_numeric($a_course)) {
+			return self::getInstance((int)$a_course);
 		}
 		else {
-			return self::getInstanceByObjOrId($a_course);
+			return self::getInstanceByObj($a_course);
 		}
 	}
 

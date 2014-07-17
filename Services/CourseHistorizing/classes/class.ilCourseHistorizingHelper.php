@@ -92,8 +92,14 @@ class ilCourseHistorizingHelper
 	 */
 	public static function getTopicOf($course)
 	{
-		return gevCourseUtils::getInstanceByObjOrId($course)
-							 ->getTopics();
+		$topic =  gevCourseUtils::getInstanceByObjOrId($course)
+								->getTopics();
+		if ($topic === null) {
+			return array();
+		}
+		else {
+			return $topic;
+		}
 	}
 
 	/**
@@ -159,7 +165,7 @@ class ilCourseHistorizingHelper
 	public static function getVenueOf($course)
 	{
 		return gevCourseUtils::getInstanceByObjOrId($course)
-							 ->geVenueTitle();
+							 ->getVenueTitle();
 	}
 
 	/**
@@ -172,7 +178,7 @@ class ilCourseHistorizingHelper
 	public static function getProviderOf($course)
 	{
 		return gevCourseUtils::getInstanceByObjOrId($course)
-							 ->geProviderTitle();
+							 ->getProviderTitle();
 	}
 
 	/**
@@ -212,7 +218,12 @@ class ilCourseHistorizingHelper
 	{
 		$utils = gevCourseUtils::getInstanceByObjOrId($course);
 
-		return $utils->getMainTrainerLastname().", ". $utils->getMainTrainerFirstname();
+		$lastname = $utils->getMainTrainerLastname();
+		$firstname = $utils->getMainTrainerFirstname();
+
+		if ($lastname && $firstname) {
+			return $lastname.", ".$firstname;
+		}
 	}
 	
 	/**

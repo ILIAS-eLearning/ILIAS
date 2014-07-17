@@ -77,13 +77,13 @@ class ilCourseHistorizingAppEventListener
 	{
 		if (!self::$ilCourseHistorizing)
 		{
-			require_once 'class.ilCourseHistorizing.php';
+			require_once ("Services/CourseHistorizing/classes/class.ilCourseHistorizing.php");
 			self::$ilCourseHistorizing = new ilCourseHistorizing();
 		}
 
 		if(!self::$ilCourseHistorizingHelper)
 		{
-			require_once 'class.ilCourseHistorizingHelper.php';
+			require_once ("Services/CourseHistorizing/classes/class.ilCourseHistorizingHelper.php");
 			self::$ilCourseHistorizingHelper = ilCourseHistorizingHelper::getInstance();
 		}
 	}

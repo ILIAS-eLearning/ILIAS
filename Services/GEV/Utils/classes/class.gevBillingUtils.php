@@ -178,6 +178,7 @@ class gevBillingUtils {
 	}
 	
 	public function getBillForCourseAndUser($a_user_id, $a_crs_id) {
+		require_once("Services/Billing/classes/class.ilBill.php");
 		$bills = ilBill::getInstancesByUserAndContext($a_user_id, $a_crs_id);
 		$amount_bills = count($bills);
 		

@@ -373,9 +373,10 @@ abstract class ilHistorizingStorage
 			throw new Exception('Illegal call: Case-Id does not point to a unique record.');
 		}
 
-		if ( count($cases) == 0 )
+		if ( count($cases) == 0 && $mass_modification_allowed == false)
 		{
-			self::createRecord($a_case_id, $a_data, '1', $a_record_creator, $a_creation_timestamp);
+			self::validateRecordData($a_data);
+			return self::createRecord($a_case_id, $a_data, '1', $a_record_creator, $a_creation_timestamp);
 		}
 
 		foreach ($cases as $case)

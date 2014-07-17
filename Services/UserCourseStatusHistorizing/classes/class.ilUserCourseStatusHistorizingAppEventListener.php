@@ -39,8 +39,21 @@ class ilUserCourseStatusHistorizingAppEventListener
 	{
 		self::initEventHandler();
 		
+		global $ilLog;
+		$ilLog->write(print_r(array($a_component, $a_event, $a_parameter), true));
+		
+		if ($a_component == "Modules/Course" && (  $a_event == "update"
+												|| $a_event == "delete"
+												|| $a_event == "create"
+												|| $a_event == "updateMembers") 
+			) {
+			return;
+		}
+		
 		// Normalize events parameters
-		if ($a_event == "addParticipant" || $a_event == "deleteParticipant") {
+		if (   $a_event == "addParticipant" 
+			|| $a_event == "deleteParticipant"
+			) {
 			$a_parameter["crs_id"] = $a_parameter["obj_id"];
 		}
 		if ($a_event == "setStatusAndPoints") {
@@ -67,25 +80,25 @@ class ilUserCourseStatusHistorizingAppEventListener
 	{
 		if (!self::$ilUserCourseStatusHistorizing)
 		{
-			require_once 'class.ilUserCourseStatusHistorizing.php';
+			require_once ('Services/UserCourseStatusHistorizing/classes/class.ilUserCourseStatusHistorizing.php');
 			self::$ilUserCourseStatusHistorizing = new ilUserCourseStatusHistorizing();
 		}
 
 		if (!self::$ilUserCourseStatusHistorizingHelper)
 		{
-			require_once 'class.ilUserCourseStatusHistorizingHelper.php';
+			require_once ('Services/UserCourseStatusHistorizing/classes/class.ilUserCourseStatusHistorizingHelper.php');
 			self::$ilUserCourseStatusHistorizingHelper = ilUserCourseStatusHistorizingHelper::getInstance();
 		}
 
 		if(!self::$ilUserHistorizingHelper)
 		{
-			require_once '../../UserHistorizing/classes/class.ilUserHistorizingHelper.php';
+			require_once ('Services/UserHistorizing/classes/class.ilUserHistorizingHelper.php');
 			self::$ilUserHistorizingHelper = ilUserHistorizingHelper::getInstance();
 		}
 
 		if(!self::$ilCourseHistorizingHelper)
 		{
-			require_once '../../CourseHistorizing/classes/class.ilCourseHistorizingHelper.php';
+			require_once ('Services/CourseHistorizing/classes/class.ilCourseHistorizingHelper.php');
 			self::$ilCourseHistorizingHelper = ilCourseHistorizingHelper::getInstance();
 		}
 
@@ -127,6 +140,8 @@ class ilUserCourseStatusHistorizingAppEventListener
 	{
 		$user_id = $parameter["usr_id"];
 		$course_id = $parameter["crs_id"];
+		global $ilLog;
+		$ilLog->write($event."-".$user_id."-".$course_id);
 		$data_payload = array(
 			'credit_points'						=> self::$ilUserCourseStatusHistorizingHelper->getCreditPointsOf($user_id, $course_id),
 			'bill_id'							=> self::$ilUserCourseStatusHistorizingHelper->getBillIdOf($user_id, $course_id),

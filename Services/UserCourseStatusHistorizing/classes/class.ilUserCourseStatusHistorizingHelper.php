@@ -11,7 +11,7 @@
 
 require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
-require_once("Service/GEV/Utils/classes/class.gevBillingUtils.php");
+require_once("Services/GEV/Utils/classes/class.gevBillingUtils.php");
 
 class ilUserCourseStatusHistorizingHelper 
 {
@@ -144,8 +144,8 @@ class ilUserCourseStatusHistorizingHelper
 	}
 	
 	protected static function getId($obj) {
-		if (is_int($obj)) {
-			return $obj;
+		if (is_int($obj) || is_numeric($obj)) {
+			return (int)$obj;
 		}
 		else {
 			return $obj->getId();

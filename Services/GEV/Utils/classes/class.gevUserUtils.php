@@ -65,8 +65,8 @@ class gevUserUtils {
 	}
 	
 	static public function getInstanceByObjOrId($a_user) {
-		if (is_int($a_user)) {
-			return self::getInstance($user);
+		if (is_int($a_user) || is_numeric($a_user)) {
+			return self::getInstance((int)$a_user);
 		}
 		else {
 			return self::getInstanceByObj($a_user);

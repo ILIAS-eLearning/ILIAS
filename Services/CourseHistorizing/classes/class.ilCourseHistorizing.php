@@ -121,7 +121,8 @@ class ilCourseHistorizing extends ilHistorizingStorage
 			'provider'			=> 'text',
 			'tutor'				=> 'text',
 			'max_credit_points'	=> 'text',
-			'fee'				=> 'float'
+			'fee'				=> 'float',
+			'is_template'		=> 'text'
 		);
 
 		return $definition;
