@@ -1013,7 +1013,7 @@ class ilObjWiki extends ilObject
 			$new_page->setRating($page->getRating());
 			$new_page->create();
 
-			$page->copy($new_page->getId());
+			$page->copy($new_page->getId(), "", 0, true);
 			//$new_page->setXMLContent($page->copyXMLContent(true));
 			//$new_page->buildDom(true);
 			//$new_page->update();

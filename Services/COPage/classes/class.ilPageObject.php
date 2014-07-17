@@ -4811,7 +4811,7 @@ abstract class ilPageObject
 	 * @param string $a_parent_type target parent type
 	 * @param int $a_parent_id target parent id
 	 */
-	function copy($a_id, $a_parent_type = "", $a_parent_id = 0)
+	function copy($a_id, $a_parent_type = "", $a_parent_id = 0, $a_clone_mobs = false)
 	{
 		if ($a_parent_type == "")
 		{
@@ -4838,7 +4838,7 @@ abstract class ilPageObject
 				$new_page_object->setParentId($a_parent_id);
 				$new_page_object->setId($a_id);
 			}
-			$new_page_object->setXMLContent($orig_page->copyXMLContent());
+			$new_page_object->setXMLContent($orig_page->copyXMLContent($a_clone_mobs));
 			$new_page_object->setActive($orig_page->getActive());
 			$new_page_object->setActivationStart($orig_page->getActivationStart());
 			$new_page_object->setActivationEnd($orig_page->getActivationEnd());
