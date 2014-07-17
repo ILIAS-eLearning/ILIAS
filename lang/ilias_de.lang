@@ -7083,7 +7083,7 @@ dateplaner#:#cal_table_categories#:#Kalenderauswahl
 dateplaner#:#cal_task_completion#:#Fertigstellung
 dateplaner#:#cal_third#:#Dritten
 dateplaner#:#cal_time_format_info#:#Bitte wählen Sie ein Format für die Eingabe und Darstellung der Zeit.
-dateplaner#:#cal_timezone_info#:#Bitte wählen Sie die nächstgelegene Stadt in Ihrer Zeitzone aus.
+dateplaner#:#cal_timezone_info#:#Bitte wählen Sie die nächstgelegene Stadt in Ihrer Zeitzone für die Anzeige von Terminen innerhalb von ILIAS aus.
 dateplaner#:#cal_type_crs#:#Kurskalender
 dateplaner#:#cal_type_grp#:#Gruppenkalender
 dateplaner#:#cal_type_info#:#Bitte wählen Sie die Kalenderart aus. "Öffentliche Kalender" sind für alle Benutzer sichtbar.
@@ -7098,7 +7098,10 @@ dateplaner#:#cal_upcoming_events_header#:#Zukünftige Termine
 dateplaner#:#cal_user_date_format#:#Datumsformat für die Eingabe
 dateplaner#:#cal_user_settings#:#Kalendereinstellungen
 dateplaner#:#cal_user_time_format#:#Zeitformat
-dateplaner#:#cal_user_timezone#:#Zeitzone
+dateplaner#:#cal_user_timezone#:#ILIAS-Zeitzone
+dateplaner#:#cal_export_timezone#:#Zeitzone für Kalender-Export
+dateplaner#:#cal_export_timezone_tz#:#Benutze ILIAS-Zeitzone
+dateplaner#:#cal_export_timezone_utc#:#Benutze UTC-Zeitzone (kompatibel mit MS Outlook)
 dateplaner#:#cal_week_abbrev#:#KW
 dateplaner#:#cal_week_month_view#:#Einstellungen Wochen-/Monatsansicht
 dateplaner#:#cal_week_overview#:#Wochenübersicht
