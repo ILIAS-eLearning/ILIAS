@@ -701,3 +701,29 @@ if( $ilDB->tableColumnExists('qpl_qst_essay', 'keyword_relation') )
 	);
 }
 ?>
+<#28>
+<?php
+	$ilDB->modifyTableColumn(
+		'help_map',
+		'screen_id',
+		array(
+			"type" => "text",
+			"length" => 100,
+			"notnull" => false,
+			'fixed' => false
+		)
+	);
+?>
+<#29>
+	<?php
+	$ilDB->modifyTableColumn(
+		'help_map',
+		'screen_sub_id',
+		array(
+			"type" => "text",
+			"length" => 100,
+			"notnull" => false,
+			'fixed' => false
+		)
+	);
+?>
