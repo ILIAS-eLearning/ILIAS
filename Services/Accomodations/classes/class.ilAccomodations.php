@@ -191,6 +191,16 @@ class ilAccomodations
 	 */
 	public function validateUser($a_user_id)
 	{
+		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+		$status = gevCourseUtils::getInstanceByObj($this->getCourse())
+								->getBookingStatusOf($a_user_id);
+		if (in_array($status, array( ilCourseBooking::STATUS_BOOKED
+								   , ilCourseBooking::STATUS_WAITING
+								   )
+			))	 {
+			return true;
+		}
+		
 		$members = $this->getCourse()->getMembersObject();
 		if($members->isMember($a_user_id) ||
 			$members->isTutor($a_user_id))
