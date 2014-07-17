@@ -152,9 +152,10 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		{
 			$print_view = false;
 			$this->__showButton($this->ctrl->getLinkTarget($this,'show'),$this->lng->txt('trac_view_list'));
-		}
+		}		
 		else
 		{
+			/*
 			$print_view = (bool)$_GET['prt'];
 			if(!$print_view)
 			{
@@ -162,7 +163,8 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 				$this->ctrl->setParameter($this, 'prt', 1);
 				$ilToolbar->addButton($this->lng->txt('print_view'),$this->ctrl->getLinkTarget($this,'details'), '_blank');
 				$this->ctrl->setParameter($this, 'prt', '');
-			}
+			}			 
+			*/
 		}
 
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
@@ -194,11 +196,13 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		$this->tpl->setVariable("LP_OBJECTS", $gui->getHTML());
 		$this->tpl->setVariable("LEGEND", $this->__getLegendHTML());
 
+		/*
 		if($a_print_view)
 		{
 			echo $this->tpl->get("DEFAULT", false, false, false, false, false, false);
 			exit();
-		}
+		}		 
+		*/
 	}
 
 	function userDetails()
@@ -223,13 +227,15 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		$user_id = (int)$_GET["user_id"];
 		$this->ctrl->setParameter($this, "user_id", $user_id);
 
+		/*
 		if(!$print_view)
 		{
 			$this->ctrl->setParameter($this, 'prt', 1);
 			$ilToolbar->addButton($this->lng->txt('print_view'),$this->ctrl->getLinkTarget($this,'userDetails'), '_blank');
 			$this->ctrl->setParameter($this, 'prt', '');
 		};
-
+		*/
+		
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.lp_loo.html','Services/Tracking');
 
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
@@ -246,11 +252,13 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		$this->tpl->setVariable('LP_OBJECTS', $table->getHTML());
 		$this->tpl->setVariable('LEGEND', $this->__getLegendHTML());
 
+		/*
 		if($print_view)
 		{
 			echo $this->tpl->get("DEFAULT", false, false, false, false, false, false);
 			exit();
-		}
+		}		 
+		*/
 	}
 
 	function show()
