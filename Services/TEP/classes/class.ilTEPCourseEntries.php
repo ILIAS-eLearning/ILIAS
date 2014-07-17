@@ -126,7 +126,7 @@ class ilTEPCourseEntries
 	public function getCourseEnd()
 	{
 		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
-		return gevCourseUtils::getInstance($this->getCourse()->getId())->getStartDate();
+		return gevCourseUtils::getInstance($this->getCourse()->getId())->getEndDate();
 	}
 	
 	/**
@@ -146,8 +146,8 @@ class ilTEPCourseEntries
 	//
 
 	const SYNC_NO_CHANGE = 0;
-	const SYNC_UPDATED = 0;
-	const SYNC_DELETED = 0;
+	const SYNC_UPDATED = 1;
+	const SYNC_DELETED = 2;
 
 	/**
 	 * Sync course settings/metadata with calendar entry
@@ -161,7 +161,6 @@ class ilTEPCourseEntries
 		
 		$start = $this->getCourseStart();
 		$end = $this->getCourseEnd();
-
 		
 		if ($start !== null && $end !== null) {
 			// course settings
@@ -294,7 +293,7 @@ class ilTEPCourseEntries
 		if ($syn_res == self::SYNC_DELETED) {
 			return;
 		}
-		
+
 		$tutor_entries = ilCalDerivedEntry::getUserIdsByMasterEntryIds(array($master_id));
 		$tutor_entries = (array)$tutor_entries[$master_id];	
 		
