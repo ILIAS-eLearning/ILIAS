@@ -261,6 +261,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$page_gui->setEnabledMaps(true);
 		$page_gui->setEnabledPCTabs(true);
 		$page_gui->setEnabledInternalLinks(true);
+		$page_gui->getPageConfig()->addIntLinkFilter("File");
 
 		// old editor information text
 		$xpage_id = ilContainer::_lookupContainerSetting($this->object->getId(),
