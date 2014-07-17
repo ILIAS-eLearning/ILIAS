@@ -2086,3 +2086,29 @@ if($wiki_type_id)
     'inputformat' => array('integer', 4),
     ));
 ?>
+<#4269>
+<?php
+	$ilDB->modifyTableColumn(
+		'help_map',
+		'screen_id',
+		array(
+			"type" => "text",
+			"length" => 100,
+			"notnull" => false,
+			'fixed' => false
+		)
+	);
+?>
+<#4270>
+	<?php
+	$ilDB->modifyTableColumn(
+		'help_map',
+		'screen_sub_id',
+		array(
+			"type" => "text",
+			"length" => 100,
+			"notnull" => false,
+			'fixed' => false
+		)
+	);
+?>
