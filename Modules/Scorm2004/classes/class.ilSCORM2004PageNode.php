@@ -130,10 +130,12 @@ class ilSCORM2004PageNode extends ilSCORM2004Node
 		$clone_mobs = ($this->getSLMId() == $a_target_slm->getId())
 			? false
 			: true;
-		
-		$page->setXMLContent($this->page_object->copyXMLContent($clone_mobs));
-		$page->buildDom();
-		$page->update();
+
+		$this->page_object->copy($page->getId(), $page->getParentType(), $page->getParentId(), $clone_mobs);
+
+		//$page->setXMLContent($this->page_object->copyXMLContent($clone_mobs));
+		//$page->buildDom();
+		//$page->update();
 
 		return $slm_page;
 	}
