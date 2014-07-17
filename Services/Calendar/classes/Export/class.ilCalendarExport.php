@@ -21,6 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
+include_once './Services/Calendar/classes/class.ilCalendarUserSettings.php';
 include_once './Services/Calendar/classes/iCal/class.ilICalWriter.php';
 include_once './Services/Calendar/classes/class.ilCalendarCategory.php';
 include_once './Services/Calendar/classes/class.ilCalendarEntry.php';
