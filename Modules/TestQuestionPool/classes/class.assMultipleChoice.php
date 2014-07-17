@@ -629,22 +629,19 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 		
 		foreach($solutionSubmit as $value)
 		{
-			if (preg_match("/^multiple_choice_result_(\d+)/", $key, $matches))
+			if (strlen($value))
 			{
-				if (strlen($value))
-				{
-					$next_id = $ilDB->nextId('tst_solutions');
-					$ilDB->insert("tst_solutions", array(
-						"solution_id" => array("integer", $next_id),
-						"active_fi" => array("integer", $active_id),
-						"question_fi" => array("integer", $this->getId()),
-						"value1" => array("clob", $value),
-						"value2" => array("clob", null),
-						"pass" => array("integer", $pass),
-						"tstamp" => array("integer", time())
-					));
-					$entered_values++;
-				}
+				$next_id = $ilDB->nextId('tst_solutions');
+				$ilDB->insert("tst_solutions", array(
+					"solution_id" => array("integer", $next_id),
+					"active_fi" => array("integer", $active_id),
+					"question_fi" => array("integer", $this->getId()),
+					"value1" => array("clob", $value),
+					"value2" => array("clob", null),
+					"pass" => array("integer", $pass),
+					"tstamp" => array("integer", time())
+				));
+				$entered_values++;
 			}
 		}
 
@@ -1264,7 +1261,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 		$solutionSubmit = array();
 		foreach($_POST as $key => $value)
 		{
-			if(preg_match("/^multiple_choice_result_(\d+)/", $key, $matches))
+			if(preg_match("/^multiple_choice_result_(\d+)/", $key))
 			{
 				if(strlen($value))
 				{
