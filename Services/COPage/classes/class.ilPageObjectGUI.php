@@ -3550,7 +3550,7 @@ return;
 			foreach ($q_ids as $q_id)
 			{
 				$q_exporter = new ilQuestionExporter($a_no_interaction);
-				$js[$q_id] = $q_exporter->exportQuestion($q_id);
+				$js[$q_id] = $q_exporter->exportQuestion($q_id, null, $this->getOutputMode());
 			}
 		}
 		return $js;

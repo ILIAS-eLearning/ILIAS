@@ -69,6 +69,14 @@ abstract class ilAssQuestionFeedback
 	 * @var ilLanguage
 	 */
 	protected $lng = null;
+
+	/**
+	 * page object output mode
+	 *
+	 * @access protected
+	 * @var string
+	 */
+	protected $page_obj_output_mode = "presentation";
 	
 	/**
 	 * constructor
@@ -662,7 +670,27 @@ abstract class ilAssQuestionFeedback
 		
 		return "<a href='$linkHREF'>$linkTEXT</a>";
 	}
-	
+
+	/**
+	 * Set page object output mode
+	 *
+	 * @param string $a_val page output mode
+	 */
+	final public function setPageObjectOutputMode($a_val)
+	{
+		$this->page_obj_output_mode = $a_val;
+	}
+
+	/**
+	 * Get page object output mode
+	 *
+	 * @return string page output mode
+	 */
+	final public function getPageObjectOutputMode()
+	{
+		return $this->page_obj_output_mode;
+	}
+
 	/**
 	 * returns the content of page object with given type and id
 	 * 
@@ -680,8 +708,8 @@ abstract class ilAssQuestionFeedback
 		$this->ensurePageObjectExists($pageObjectType, $pageObjectId);
 		
 		$pageObjectGUI = new $cl($pageObjectId);
-		$pageObjectGUI->setOutputMode("presentation");
-		return $pageObjectGUI->presentation();
+		$pageObjectGUI->setOutputMode($this->getPageObjectOutputMode());
+		return $pageObjectGUI->presentation($this->getPageObjectOutputMode());
 	}
 	
 	/**
