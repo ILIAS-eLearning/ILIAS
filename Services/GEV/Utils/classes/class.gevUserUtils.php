@@ -645,8 +645,7 @@ class gevUserUtils {
 	// course specific stuff
 	
 	public function getFunctionAtCourse($a_crs_id) {
-		// TODO: implement
-		return "TBD";
+		return gevCourseUtils::getInstance($a_course_id)->getFunctionOfUser($this->user_id);
 	}
 	
 	public function getOvernightDetailsForCourse(ilObjCourse $a_crs) {

@@ -83,8 +83,8 @@ class ilUserCourseStatusHistorizingHelper
 	 */
 	public static function getParticipationStatusOf($user, $course)
 	{
-		// TODO: implement
-		return "";
+		return gevCourseUtils::getInstanceByObjOrId($course)
+							 ->getParticipationStatusLabelOf(self::getId($user));
 	}
 
 	/**

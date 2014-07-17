@@ -131,8 +131,9 @@ class ilCourseHistorizingHelper
 	 */
 	public static function getHoursOf($course)
 	{
-		// TODO: implement
-		return 0;
+		// count hours in schedule 
+		return gevCourseUtils::getInstanceByObjOrId($course)
+							 ->getAmountHours();
 	}
 
 	/**

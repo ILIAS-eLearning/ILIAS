@@ -369,6 +369,23 @@ class gevCourseUtils {
 		return $val;
 	}
 	
+	public function getAmountHours() {
+		$type = $this->getType();
+		if ( $type === null
+		  || in_array($type, array("POT-Termin", "Selbstlernkurs"))) {
+			return null;
+		}
+		$schedule = $this->getSchedule();
+		$hours = 0;
+		foreach ($schedule as $day) {
+			$spl = split("-", $day);
+			$spl[0] = split(":", $spl[0]);
+			$spl[1] = split(":", $spl[1]);
+			$hours += $spl[1][0] - $spl[0][0] + ($spl[1][1] - $spl[0][1])/60.0;
+		}
+		return round($hours);
+	}
+	
 	public function getTopics() {
 		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_TOPIC);
 	}
@@ -1192,6 +1209,39 @@ class gevCourseUtils {
 	
 	public function cancelBookingOf($a_user_id) {
 		return $this->getBookings()->cancel($a_user_id);
+	}
+	
+	// Participation
+	
+	public function getParticipationStatusOf($a_user_id) {
+		if ($this->getBookingStatusOf($a_user_id) == ilCourseBooking::STATUS_BOOKED) {
+			return $this->getParticipations()->getStatus($a_user_id, true);
+		}
+		else {
+			return $this->getParticipations()->getStatus($a_user_id, false);
+		}
+	}
+	
+	public function getParticipationStatusLabelOf($a_user_id) {
+		$status = $this->getParticipationStatusOf($a_user_id);
+		switch ($status) {
+			case ilParticipationStatus::STATUS_NOT_SET:
+				return "nicht gesetzt";
+			case ilParticipationStatus::STATUS_SUCCESSFUL:
+				return "teilgenommen";
+			case ilParticipationStatus::STATUS_ABSENT_EXCUSED:
+				return "fehlt entschuldigt";
+			case ilParticipationStatus::STATUS_ABSENT_NOT_EXCUSED:
+				return "fehlt ohne Absage";
+			default:
+				return "";
+		}
+	}
+	
+	//
+	
+	public function getFunctionOfUser($a_user_id) {
+		return "";
 	}
 }
 
