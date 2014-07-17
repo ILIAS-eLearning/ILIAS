@@ -1012,10 +1012,11 @@ class ilObjWiki extends ilObject
 			$new_page->setBlocked($page->getBlocked());
 			$new_page->setRating($page->getRating());
 			$new_page->create();
-			
-			$new_page->setXMLContent($page->copyXMLContent(true));
-			$new_page->buildDom();
-			$new_page->update();
+
+			$page->copy($new_page->getId());
+			//$new_page->setXMLContent($page->copyXMLContent(true));
+			//$new_page->buildDom(true);
+			//$new_page->update();
 			$map[$p["id"]] = $new_page->getId();
 		}
 		
