@@ -417,11 +417,15 @@ class ilTEPEntries
 			require_once "Services/TEP/classes/class.ilTEPPeriodInputGUI.php";
 			
 			foreach($op_map as $master_id)
-			{										
-				$master_has_missing_days = false;				
-				
+			{														
 				$master_entry_id = $this->buildEntryId($master_id);
 				$master_entry = $a_raw[0][$master_entry_id];
+				
+				// #183
+				$master_days = ilTEPPeriodInputGUI::convertPeriodToDays(
+					$master_entry["start"]
+					,$master_entry["end"]
+				);				
 								
 				$op_days = new ilTEPOperationDays(
 					ilTEPEntry::OPERATION_DAY_ID
@@ -432,18 +436,18 @@ class ilTEPEntries
 				$op_user_days = $op_days->getDaysForUsers(array_keys($op_objects[$master_id]));
 				
 				// convert user operation days to chunks and split derived entries
+				$master_op_days = array();
 				foreach($op_user_days as $user_id => $days)
-				{	
+				{						
 					foreach($days as $idx => $day)
-					{
+					{					
 						$days[$idx] = $day->get(IL_CAL_DATE);
+						$master_op_days[] = $days[$idx];
 					}										
-					$chunks = ilTEPPeriodInputGUI::convertDaysToChunks($days);		
-					if(sizeof($chunks) > 1)
-					{
-						// if there are several chunks, days are missing
-						$master_has_missing_days = true;
-						
+					
+					// days are missing?
+					if(array_diff($master_days, $days))
+					{																							
 						$derived_entry_id = $op_objects[$master_id][$user_id];					
 						$org_entry = $a_raw[$user_id][$derived_entry_id];						
 						
@@ -453,6 +457,7 @@ class ilTEPEntries
 						$derived_id = $this->getDerivedIdFromEntryId($derived_entry_id);
 						
 						// create entries for each chunk
+						$chunks = ilTEPPeriodInputGUI::convertDaysToChunks($days);							
 						foreach($chunks as $idx => $chunk)
 						{							
 							// adapt entry period to chunk
@@ -469,8 +474,10 @@ class ilTEPEntries
 					}
 				}	
 				
+				$master_op_days = array_unique($master_op_days);
+				
 				// if all days are accounted for, master entry must not be displayed
-				if(!$master_has_missing_days)
+				if(!array_diff($master_days, $master_op_days))
 				{
 					unset($a_raw[0][$master_entry_id]);					
 				}

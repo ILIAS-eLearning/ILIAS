@@ -296,7 +296,7 @@ class ilTEPCourseEntries
 		}
 		
 		$tutor_entries = ilCalDerivedEntry::getUserIdsByMasterEntryIds(array($master_id));
-		$tutor_entries = $tutor_entries[$master_id];	
+		$tutor_entries = (array)$tutor_entries[$master_id];	
 		
 		foreach($this->getCourse()->getMembersObject()->getTutors() as $tutor_id)
 		{			
