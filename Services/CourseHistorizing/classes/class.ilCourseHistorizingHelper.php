@@ -214,4 +214,21 @@ class ilCourseHistorizingHelper
 
 		return $utils->getMainTrainerLastname().", ". $utils->getMainTrainerFirstname();
 	}
+	
+	/**
+	 * Returns weather course is a template object or not.
+	 *
+	 * @param integer|ilObjCourse $course
+	 *
+	 * @return string
+	 */
+	public static function getIsTemplate($course) {
+		if (gevCourseUtils::getInstanceByObjOrId($course)
+						  ->isTemplate()) {
+			return "Ja";
+		}
+		else {
+			return "Nein";
+		}
+	}
 }

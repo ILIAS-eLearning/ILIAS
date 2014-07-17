@@ -611,3 +611,16 @@ $ilDB->addTableColumn( "bill"
 					 );
 
 ?>
+
+<#24>
+<?php
+
+$ilDB->addTableColumn( "hist_course"
+					 , "is_template"
+					 , array( "type" 	=> "text"
+					 		, "length" 	=> 8
+					 		, "notnull" => false
+					 		)
+					 );
+
+?>
