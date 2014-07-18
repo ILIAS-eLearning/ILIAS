@@ -156,7 +156,7 @@ class gevMyCoursesGUI {
 				   )
 			, array( $this->lng->txt("gev_training_fee")
 				   , $usr_utils->paysFees() && ($crs_utils->getFee()?true:false)
-				   , str_replace(".", ",", "".$crs_utils->getFee()) . " &euro;"
+				   , str_replace(".", ",", "".$crs_utils->getFormattedFee()) . " &euro;"
 				   )
 			, array( $this->lng->txt("gev_credit_points")
 				   , true

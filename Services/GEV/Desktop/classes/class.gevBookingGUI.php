@@ -244,7 +244,7 @@ class gevBookingGUI {
 				   )
 			, array( $this->lng->txt("gev_training_fee")
 				   , $this->isWithPayment()
-				   , str_replace(".", ",", "".$this->crs_utils->getFee()) . " &euro;"
+				   , str_replace(".", ",", "".$this->crs_utils->getFormattedFee()) . " &euro;"
 				   )
 			, array( $this->lng->txt("gev_credit_points")
 				   , true

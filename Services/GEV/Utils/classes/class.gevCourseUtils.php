@@ -459,6 +459,13 @@ class gevCourseUtils {
 		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_FEE);
 	}
 	
+	public function getFormattedFee() {
+		$fee = $this->getFee();
+		if ($fee) {
+			return str_replace(".", ",", number_format((float)$fee, 2));
+		}
+	}
+	
 	public function getMinParticipants() {
 		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_MIN_PARTICIPANTS);
 	}
