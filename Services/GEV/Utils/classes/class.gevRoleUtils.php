@@ -95,7 +95,7 @@ class gevRoleUtils {
 			);
 	}
 	
-	public function deassignUserToGlobalRole($a_user_id, $a_role_title) {
+	public function deassignUserFromGlobalRole($a_user_id, $a_role_title) {
 		$roles = $this->getFlippedGlobalRoles();
 		
 		if (!array_key_exists($a_role_title, $roles)) {

@@ -87,11 +87,11 @@ class gevUserImport {
 		}
 		$ilias_user->update();
 		$this->set_gev_attributes($ilias_user, $shadow_user);
-		$this->set_global_role($ilias_user, $shadow_user);
-		$this->set_orgunit_role($ilias_user, $shadow_user);
+		$this->update_global_role($ilias_user, $shadow_user);
+		$this->update_orgunit_role($ilias_user, $shadow_user);
 
 		$ilias_user_id = $ilias_user->getId();
-		$this->set_ilias_user_id($shadow_user['id'], $ilias_user_id);
+		$this->set_ilias_user_id($shadow_user['adp_id'], $ilias_user_id);
 
 		$this->set_token_used_field($token);
 		$this->log_user_in($username, $token);
@@ -106,19 +106,22 @@ class gevUserImport {
 		}
 
 		foreach($shadow_users as $ilias_id => $shadow_user) {
-			print_r($shadow_user);
 			$user = new ilObjUser($ilias_id);
 			$this->set_ilias_user_attributes($user, $shadow_user);
 			$user->update();
 			$this->set_gev_attributes($user, $shadow_user);
 			$user->update();
+			$this->update_global_role($user, $shadow_user);
+			$this->update_orgunit_role($user, $shadow_user);
+			//print_r($shadow_user);
 		}
 	}
 
 	private function get_imported_shadow_users() {
 		$sql = "
 			SELECT
-				*
+				*,
+				`ivimport_adp`.`id` AS `adp_id`
 			FROM
 				`ivimport_adp`
 			INNER JOIN
@@ -163,9 +166,8 @@ class gevUserImport {
 			return false;
 		}
 
-		while ($row = mysql_fetch_assoc($result)) {
-			return $row;
-		}
+		$row = mysql_fetch_assoc($result);
+		return $row;
 	}
 
 	private function create_ilias_user($username, $shadow_user, $token) {
@@ -281,14 +283,54 @@ class gevUserImport {
 		return $user;
 	}
 
-	private function set_global_role(&$user, $shadow_user) {
+	private function update_global_role(&$user, $shadow_user) {
+		$user_id = $user->getId();
 		$vermittlerstatus = $shadow_user['vermittlerstatus'];
 		$role_title = gevSettings::$VMS_ROLE_MAPPING[$vermittlerstatus][0];
 		$utils = gevRoleUtils::getInstance();
-		$utils->assignUserToGlobalRole($user->getId(), $role_title);
+		$utils->assignUserToGlobalRole($user_id, $role_title);
+
+		$sql = "
+			SELECT
+				`global_role_title`
+			FROM
+				`ivimport_roleassignment`
+			WHERE
+				`ilias_id` = " . $this->ilDB->quote($user_id, "integer") . "
+			AND
+				`global_role_title` IS NOT NULL
+		";
+		$result = mysql_query($sql, $this->mysql);
+		if (($result) && (mysql_num_rows($result) === 1)) {
+			$row = mysql_fetch_assoc($result);
+			$saved_role_title = $row['global_role_title'];
+			if ($saved_role_title != $role_title) {
+				$utils->deassignUserFromGlobalRole($user_id, $saved_role_title);
+			}
+		}
+
+		$sql = "
+			INSERT INTO
+				`ivimport_roleassignment`
+			(
+				`ilias_id`,
+				`global_role_title`
+			)
+			VALUES (
+				" . $this->ilDB->quote($user_id, "integer") . ",
+				" . $this->ilDB->quote($role_title, "text") . "
+			)
+			ON DUPLICATE KEY UPDATE
+				`global_role_title`=VALUES(`global_role_title`)
+		";
+		$result = mysql_query($sql, $this->mysql);
+		if (!$result) {
+			throw new Exception("Could not write global role into shadow db.");
+		}
 	}
 
-	private function set_orgunit_role(&$user, $shadow_user) {
+	private function update_orgunit_role(&$user, $shadow_user) {
+		$user_id = $user->getId();
 		$vermittlerstatus = $shadow_user['vermittlerstatus'];
 		$role_title = gevSettings::$VMS_ROLE_MAPPING[$vermittlerstatus][1];
 		$orgunit_import_id = $shadow_user['org_unit'];
@@ -297,7 +339,58 @@ class gevUserImport {
 			throw new Exception("Could not determine obj_id for org unit with import id '".$orgunit_import_id."'");
 		}
 		$utils = gevOrgUnitUtils::getInstance($orgunit_id);
-		$utils->assignUser($user->getId(), $role_title);
+		$utils->getOrgUnitInstance();
+		$utils->assignUser($user_id, $role_title);
+
+
+
+		$sql = "
+			SELECT
+				`orgunit_id`,
+				`orgunit_role_title`
+			FROM
+				`ivimport_roleassignment`
+			WHERE
+				`ilias_id` = " . $this->ilDB->quote($user_id, "integer") . "
+			AND
+				`orgunit_id` IS NOT NULL
+			AND
+				`orgunit_role_title` IS NOT NULL
+		";
+
+		$result = mysql_query($sql, $this->mysql);
+		if (($result) && (mysql_num_rows($result) === 1)) {
+			$row = mysql_fetch_assoc($result);
+			$saved_orgunit_id = $row['orgunit_id'];
+			$saved_role_title = $row['orgunit_role_title'];
+
+			if (($saved_orgunit_id != $orgunit_id) || ($saved_role_title != $role_title)) {
+				echo "deassign ". $user_id . " " . $role_title . "\n";
+				$utils->deassignUser($user_id, $role_title);
+			}
+		}
+
+		$sql = "
+			INSERT INTO
+				`ivimport_roleassignment`
+			(
+				`ilias_id`,
+				`orgunit_id`,
+				`orgunit_role_title`
+			)
+			VALUES (
+				" . $this->ilDB->quote($user_id, "integer") . ",
+				" . $this->ilDB->quote($orgunit_id, "integer") . ",
+				" . $this->ilDB->quote($role_title, "text") . "
+			)
+			ON DUPLICATE KEY UPDATE
+				`orgunit_id`=VALUES(`orgunit_id`),
+				`orgunit_role_title`=VALUES(`orgunit_role_title`)
+		";
+		$result = mysql_query($sql, $this->mysql);
+		if (!$result) {
+			throw new Exception("Could not write global role into shadow db.");
+		}
 	}
 
 
