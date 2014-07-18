@@ -189,7 +189,18 @@ class ilPollDataSet extends ilDataSet
 		{
 			case "poll":
 				include_once("./Modules/Poll/classes/class.ilObjPoll.php");
-				$newObj = new ilObjPoll();
+				
+				// container copy
+				if($new_id = $a_mapping->getMapping("Services/Container", "objs", $a_rec["Id"]))
+				{
+					$newObj = ilObjectFactory::getInstanceByObjId($new_id, false);
+				}
+				else
+				{	
+					$newObj = new ilObjPoll();
+					$newObj->create();
+				}
+					
 				$newObj->setTitle($a_rec["Title"]);
 				$newObj->setDescription($a_rec["Description"]);
 				if((int)$a_rec["MaxAnswers"])
@@ -202,9 +213,7 @@ class ilPollDataSet extends ilDataSet
 				{
 					$newObj->setShowResultsAs($a_rec["ShowResultsAs"]);
 				}
-				$newObj->setShowComments($a_rec["ShowComments"]);
-				$newObj->create();
-								
+				$newObj->setShowComments($a_rec["ShowComments"]);												
 				$newObj->setQuestion($a_rec["Question"]);				
 				$newObj->setImage($a_rec["Image"]);
 				$newObj->setViewResults($a_rec["ViewResults"]);

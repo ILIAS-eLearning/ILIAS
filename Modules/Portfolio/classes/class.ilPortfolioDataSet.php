@@ -164,11 +164,20 @@ class ilPortfolioDataSet extends ilDataSet
 		{
 			case "prtt":
 				include_once("./Modules/Portfolio/classes/class.ilObjPortfolioTemplate.php");
-				$newObj = new ilObjPortfolioTemplate();
+				
+				// container copy
+				if($new_id = $a_mapping->getMapping("Services/Container", "objs", $a_rec["Id"]))
+				{
+					$newObj = ilObjectFactory::getInstanceByObjId($new_id, false);
+				}
+				else
+				{	
+					$newObj = new ilObjPortfolioTemplate();				
+					$newObj->create();
+				}
+								
 				$newObj->setTitle($a_rec["Title"]);
 				$newObj->setDescription($a_rec["Description"]);
-				$newObj->create();
-								
 				$newObj->setPublicComments($a_rec["Notes"]);
 				$newObj->setBackgroundColor($a_rec["BgColor"]);
 				$newObj->setFontColor($a_rec["FontColor"]);
