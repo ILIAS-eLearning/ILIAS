@@ -497,6 +497,39 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		return "ilportfoliopagegui";
 	}
 	
+	protected function initCopyPageFormOptions(ilFormPropertyGUI $a_tgt)
+	{
+		$all = ilObjPortfolio::getPortfoliosOfUser($this->user_id);			
+		if(sizeof($all) > 1)
+		{			
+			$old = new ilRadioOption($this->lng->txt("prtf_existing_portfolio"), "old");
+			$a_tgt->addOption($old);
+
+			$options = array();
+			foreach($all as $item)
+			{
+				if($item["id"] != $this->object->getId())
+				{
+					$options[$item["id"]] = $item["title"]; 
+				}
+			}				
+			$prtf = new ilSelectInputGUI($this->lng->txt("portfolio"), "prtf");
+			$prtf->setRequired(true);
+			$prtf->setOptions($options);
+			$old->addSubItem($prtf);
+		}
+
+		$new = new ilRadioOption($this->lng->txt("prtf_new_portfolio"), "new");
+		$a_tgt->addOption($new);
+
+		// 1st page
+		$tf = new ilTextInputGUI($this->lng->txt("title"), "title");
+		$tf->setMaxLength(128);
+		$tf->setSize(40);
+		$tf->setRequired(true);
+		$new->addSubItem($tf);		
+	}
+	
 	
 	//
 	// BLOG

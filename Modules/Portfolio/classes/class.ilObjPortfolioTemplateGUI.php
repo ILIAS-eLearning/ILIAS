@@ -359,13 +359,19 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
 	 * Get portfolio template page instance
 	 * 
 	 * @param int $a_page_id
+	 * @param int $a_portfolio_id
 	 * @return ilPortfolioTemplatePage
 	 */
-	protected function getPageInstance($a_page_id = null)
+	protected function getPageInstance($a_page_id = null, $a_portfolio_id = null)
 	{		
+		// #11531
+		if(!$a_portfolio_id && $this->object)
+		{
+			$a_portfolio_id = $this->object->getId();
+		}
 		include_once "Modules/Portfolio/classes/class.ilPortfolioTemplatePage.php";			
 		$page = new ilPortfolioTemplatePage($a_page_id);
-		$page->setPortfolioId($this->object->getId());
+		$page->setPortfolioId($a_portfolio_id);
 		return $page;
 	}
 	
@@ -391,6 +397,32 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
 	public function getPageGUIClassName()
 	{
 		return "ilportfoliotemplatepagegui";
+	}
+	
+	protected function initCopyPageFormOptions(ilFormPropertyGUI $a_tgt)
+	{
+		$all = ilObjPortfolioTemplate::getAvailablePortfolioTemplates("write");
+		if(sizeof($all) > 1)
+		{			
+			$old = new ilRadioOption($this->lng->txt("prtf_existing_portfolio"), "old");
+			$a_tgt->addOption($old);
+
+			$options = array();
+			foreach($all as $id => $title)
+			{
+				if($id != $this->object->getId())
+				{
+					$options[$id] = $title; 
+				}
+			}				
+			$prtf = new ilSelectInputGUI($this->lng->txt("obj_prtt"), "prtf");
+			$prtf->setRequired(true);
+			$prtf->setOptions($options);
+			$old->addSubItem($prtf);
+		}
+		
+		// no option to create new template here
+		$a_tgt->setValue("old");
 	}
 	
 	

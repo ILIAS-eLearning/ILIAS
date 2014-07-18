@@ -147,7 +147,7 @@ class ilObjPortfolioTemplate extends ilObjPortfolioBase
 	// HELPER
 	//
 	
-	public static function getAvailablePortfolioTemplates()
+	public static function getAvailablePortfolioTemplates($a_permission = "read")
 	{
 		global $ilUser, $ilAccess;
 		
@@ -155,25 +155,25 @@ class ilObjPortfolioTemplate extends ilObjPortfolioBase
 		
 		foreach(ilObject::_getObjectsByType("prtt") as $obj)
 		{
-			$readable = false;
+			$has_permission = false;
 			
 			if($obj["owner"] == $ilUser->getId() && false)
 			{
-				$readable = true;
+				$has_permission = true;
 			}
 			else
 			{
 				foreach(ilObject::_getAllReferences($obj["obj_id"]) as $ref_id)
 				{
-					if($ilAccess->checkAccess("read", "", $ref_id))
+					if($ilAccess->checkAccess($a_permission, "", $ref_id))
 					{
-						$readable = true;
+						$has_permission = true;
 						break;
 					}											
 				}				
 			}
 			
-			if($readable)
+			if($has_permission)
 			{
 				$res[$obj["obj_id"]] = $obj["title"];
 			}			
