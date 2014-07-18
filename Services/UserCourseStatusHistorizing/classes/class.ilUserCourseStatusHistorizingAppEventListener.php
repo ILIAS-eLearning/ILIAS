@@ -39,8 +39,8 @@ class ilUserCourseStatusHistorizingAppEventListener
 	{
 		self::initEventHandler();
 		
-		//global $ilLog;
-		//$ilLog->write(print_r(array($a_component, $a_event, $a_parameter), true));
+		global $ilLog;
+		$ilLog->write(print_r(array($a_component, $a_event, $a_parameter), true));
 		
 		if ($a_component == "Modules/Course" && (  $a_event == "update"
 												|| $a_event == "delete"
@@ -140,9 +140,20 @@ class ilUserCourseStatusHistorizingAppEventListener
 	{
 		$user_id = $parameter["usr_id"];
 		$course_id = $parameter["crs_id"];
-		//global $ilLog;
-		//$ilLog->write($event."-".$user_id."-".$course_id);
-		// TODO: certificate!
+		global $ilLog;
+		$ilLog->write($event."-".$user_id."-".$course_id);
+		// TODO: certificate!!
+		
+		// TODO: this needs to be fixed to yield the individual data for the partipant
+		$begin_date = self::$ilCourseHistorizingHelper->getBeginOf($parameter);
+		if ($begin_date) {
+			$begin_date = $begin_date->get(IL_CAL_DATE);
+		}
+		$end_date = self::$ilCourseHistorizingHelper->getEndOf($parameter);
+		if ($end_date) {
+			$end_date = $end_date->get(IL_CAL_DATE);
+		}
+		
 		$data_payload = array(
 			'credit_points'						=> self::$ilUserCourseStatusHistorizingHelper->getCreditPointsOf($user_id, $course_id),
 			'bill_id'							=> self::$ilUserCourseStatusHistorizingHelper->getBillIdOf($user_id, $course_id),
@@ -150,8 +161,8 @@ class ilUserCourseStatusHistorizingAppEventListener
 			'participation_status'				=> self::$ilUserCourseStatusHistorizingHelper->getParticipationStatusOf($user_id, $course_id),
 			'okz'								=> self::$ilUserHistorizingHelper->getOKZOf($user_id),
 			'certificate'						=> null, ///self::$ilUserCourseStatusHistorizingHelper->hasCertificate ->  getCertificateOf($user_id, $course_id),
-			'begin_date'						=> self::$ilCourseHistorizingHelper->getBeginOf($course_id)->get(IL_CAL_DATE),
-			'end_date'							=> self::$ilCourseHistorizingHelper->getEndOf($course_id)->get(IL_CAL_DATE),
+			'begin_date'						=> $begin_date,
+			'end_date'							=> $end_date,
 			'overnights'						=> self::$ilUserCourseStatusHistorizingHelper->getOvernightsOf($user_id, $course_id),
 			'function'							=> self::$ilUserCourseStatusHistorizingHelper->getFunctionOf($user_id, $course_id)
 		);
