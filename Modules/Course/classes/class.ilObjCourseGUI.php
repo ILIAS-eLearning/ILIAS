@@ -2157,6 +2157,15 @@ class ilObjCourseGUI extends ilContainerGUI
 		//$ilToolbar->addButton($this->lng->txt("crs_print_list"),
 			$this->ctrl->getLinkTarget($this, 'printMembers'));
 		*/
+		$utils = gevCourseUtils::getInstanceByObj($this->object);
+		$ilToolbar->addSeparator();
+		$ilToolbar->addButton( $this->lng->txt("gev_member_list")
+							 , "ilias.php?ref_id=".$_GET["ref_id"]."&cmd=trainer&baseClass=gevMemberListDeliveryGUI"
+							 );
+		if ($utils->canBuildDeskDisplays()) {
+			$ilToolbar->addButton( $this->lng->txt("gev_desk_displays")
+									 , "ilias.php?ref_id=".$_GET["ref_id"]."&baseClass=gevDeskDisplaysDeliveryGUI");
+		}
 		// gev-patch end
 		
 		/* attendance list button
