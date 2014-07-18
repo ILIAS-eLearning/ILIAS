@@ -482,6 +482,7 @@ il.Util.addOnLoad(function () {
 	$(window).resize(il.UICore.refreshLayout);
 	$(window).scroll(il.UICore.refreshLayout);
 	il.UICore.refreshLayout();
+	il.Util.omitPreventDoubleSubmission = false;
 
 	// jQuery plugin to prevent double submission of forms
 	// see http://stackoverflow.com/questions/2830542/prevent-double-submission-of-forms-in-jquery
@@ -491,6 +492,14 @@ il.Util.addOnLoad(function () {
 		if ($(this).get(0)) {
 			t = $(this).get(0).tagName;
 			ev = (t == 'FORM') ? 'submit' : 'click';
+			if (t == 'FORM') {
+				$(this).find(":input[type=submit]").on('click',function(e) {
+					il.Util.omitPreventDoubleSubmission = false;
+					if($(this).hasClass('omitPreventDoubleSubmission')) {
+						il.Util.omitPreventDoubleSubmission = true;
+					}
+				});
+			}
 			$(this).on(ev,function(e) {
 				var $el = $(this);	
 				
@@ -502,7 +511,7 @@ il.Util.addOnLoad(function () {
 				if(ev == 'submit')
 				{
 					// if the submit button has been tagged separately
-					if($(':input[type=submit]:focus').hasClass('omitPreventDoubleSubmission'))
+					if($(':input[type=submit]:focus').hasClass('omitPreventDoubleSubmission') || il.Util.omitPreventDoubleSubmission)
 					{
 						return this;
 					}
