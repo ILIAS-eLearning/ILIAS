@@ -97,14 +97,22 @@ class ilUserHistorizingAppEventListener
 			return array( 'deleted' => 1);
 		}
 		
-		$entry_date = self::$ilUserHistorizingHelper->getEntryDateOf($parameter['user_obj'])->get(IL_CAL_DATE);
+		$entry_date = self::$ilUserHistorizingHelper->getEntryDateOf($parameter['user_obj']);
 		$exit_date = self::$ilUserHistorizingHelper->getExitDateOf($parameter['user_obj']);
+		if ($entry_date != null)
+		{
+			$entry_date = $entry_date->get(IL_CAL_DATE);
+		}
 		if ($exit_date != null)
 		{
 			$exit_date = $exit_date->get(IL_CAL_DATE);
 		}
 
-		$certification_begins = self::$ilUserHistorizingHelper->getBeginOfCertificationPeriodOf($parameter['user_obj'])->get(IL_CAL_DATE);
+		$certification_begins = self::$ilUserHistorizingHelper->getBeginOfCertificationPeriodOf($parameter['user_obj']);
+		if ($certification_begins)
+		{
+			$certification_begins = $certification_begins->get(IL_CAL_DATE);
+		}
 
 		/** @var ilObjUser $parameter */
 		$data_payload = array(
