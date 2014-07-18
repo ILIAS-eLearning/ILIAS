@@ -623,10 +623,21 @@ class gevUserUtils {
 		gevRoleUtils::getInstance()->assignUserToGlobalRole($this->user_id, $a_role_title);
 	}
 	
+	public function deassignGlobalRole($a_role_title) {
+		require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
+		gevRoleUtils::getInstance()->deassignUserFromGlobalRole($this->user_id, $a_role_title);
+	}
+	
 	public function assignOrgRole($a_org_id, $a_role_title) {
 		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
 		$utils = gevOrgUnitUtils::getInstance($a_org_id);
 		$utils->assignUser($this->user_id, $a_role_title);
+	}
+	
+	public function deassignOrgRole($a_org_id, $a_role_title) {
+		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
+		$utils = gevOrgUnitUtils::getInstance($a_org_id);
+		$utils->deassignUser($this->user_id, $a_role_title);
 	}
 	
 	

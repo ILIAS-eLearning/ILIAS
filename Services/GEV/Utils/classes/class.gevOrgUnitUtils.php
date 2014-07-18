@@ -402,6 +402,28 @@ class gevOrgUnitUtils {
 		gevRoleUtils::getRbacAdmin()->assignUser($roles[$role_title], $a_user_id);
 	}
 	
+	public function deassignUser($a_user_id, $a_role_title) {
+		if ($a_role_title == "Mitarbeiter") {
+			$role_title = "il_orgu_employee_".$this->getRefId();
+		}
+		else if ($a_role_title == "Vorgesetzter") {
+			$role_title = "il_orgu_superior_".$this->getRefId();	
+		}
+		else {
+			$role_title = "Org-".$a_role_title;
+		}
+
+		$roles = $this->getFlippedLocalRoles();
+		
+		if (!array_key_exists($role_title, $roles)) {
+			$this->log->write("gevOrgUnitUtils::assignUser: Could not find role with name ".$role_title.
+							  " in Org-Unit with ref_id ".$this->getRefId());
+			return;
+		}
+		
+		gevRoleUtils::getRbacAdmin()->deassignUser($roles[$role_title], $a_user_id);
+	}
+	
 	// assignment and deassignment of standard org unit roles for the default org
 	// units of the Generali.
 	

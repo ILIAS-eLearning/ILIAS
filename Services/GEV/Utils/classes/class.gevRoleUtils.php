@@ -95,6 +95,27 @@ class gevRoleUtils {
 			);
 	}
 	
+	public function deassignUserToGlobalRole($a_user_id, $a_role_title) {
+		$roles = $this->getFlippedGlobalRoles();
+		
+		if (!array_key_exists($a_role_title, $roles)) {
+			$this->log->write("gevRoleUtils::assignUserToGlobalRole: Could not assign user "
+							 .$a_user_id." to unknown role ".$a_role_title);
+			return;
+		}
+		
+		$role_id = $roles[$a_role_title];
+		gevRoleUtils::getRbacAdmin()->deassignUser($role_id, $a_user_id);
+		
+		global $ilAppEventHandler;
+		$ilAppEventHandler->raise('Services/GEV',
+			'deassignGlobalRole',
+			array('user_id' => $a_user_id,
+				  'role_id' => $role_id
+				  )
+			);
+	}
+	
 	public function getGlobalRolesOf($a_user_id) {
 		return $this->getRbacReview()->assignedGlobalRoles($a_user_id);
 	}
