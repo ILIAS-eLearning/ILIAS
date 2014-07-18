@@ -299,7 +299,7 @@ class ilMailFormGUI
 		
 		$inp = new ilTextInputGUI($this->lng->txt("search_for"), 'search');
 		$inp->setSize(30);
-		$dsDataLink = $ilCtrl->getLinkTarget($this, 'lookupRecipientAsync', '', true);		
+		$dsDataLink = $ilCtrl->getLinkTarget($this, 'lookupRecipientAsync', '', true, false);
 		$inp->setDataSource($dsDataLink);
 		
 		if (strlen(trim($_SESSION["mail_search_search"])) > 0)
@@ -741,8 +741,8 @@ class ilMailFormGUI
 		}
 		
 		$mailFormObj = new ilMailForm;
-		$result = $mailFormObj->getRecipientAsync("%" .$search. "%", $search);
-	
+		$result      = $mailFormObj->getRecipientAsync("%" . ilUtil::stripSlashes($search) . "%", ilUtil::stripSlashes($search));
+		
 		echo ilJsonUtil::encode($result);
 		exit;
 	}

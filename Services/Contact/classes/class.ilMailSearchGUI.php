@@ -170,6 +170,9 @@ class ilMailSearchGUI
 		
 		$inp = new ilTextInputGUI($this->lng->txt("search_for"), 'search');
 		$inp->setSize(30);
+		$dsDataLink = $ilCtrl->getLinkTarget($this, 'lookupRecipientAsync', '', true, false);
+		$inp->setDataSource($dsDataLink);
+		
 		if (strlen(trim($_SESSION["mail_search_search"])) > 0)
 		{
 			$inp->setValue(ilUtil::prepareFormOutput(trim($_SESSION["mail_search_search"]), true));
@@ -181,6 +184,27 @@ class ilMailSearchGUI
 		
 		return $form;
 	}
+
+	public function lookupRecipientAsync()
+	{
+		include_once 'Services/JSON/classes/class.ilJsonUtil.php';
+		include_once 'Services/Mail/classes/class.ilMailForm.php';
+
+		$search = $_REQUEST["term"];
+		$result = array();
+		if (!$search)
+		{
+			echo ilJsonUtil::encode($result);
+			exit;
+		}
+
+		$mailFormObj = new ilMailForm;
+		$result      = $mailFormObj->getRecipientAsync("%" . ilUtil::stripSlashes($search) . "%", ilUtil::stripSlashes($search));
+
+		echo ilJsonUtil::encode($result);
+		exit;
+	}
+
 
 	public function showResults()
 	{

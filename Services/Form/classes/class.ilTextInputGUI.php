@@ -457,22 +457,20 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
 				// use id for autocomplete selector
 				$sel_auto = "#".$this->getFieldId();
 			}
-			
+
+			$tpl->setCurrentBlock("autocomplete_bl");
 			if(!$this->ajax_datasource_delimiter)
 			{
-				$tpl->setCurrentBlock("autocomplete_bl");
 				$tpl->setVariable('SEL_AUTOCOMPLETE', $sel_auto);
 				$tpl->setVariable('URL_AUTOCOMPLETE', $this->getDataSource());
-				$tpl->parseCurrentBlock();
 			}
 			else
 			{
-				$tpl->setCurrentBlock("autocomplete_bl");
 				$tpl->setVariable('AUTOCOMPLETE_DELIMITER', $this->ajax_datasource_delimiter);
 				$tpl->setVariable('SEL_AUTOCOMPLETE_DELIMITER', $sel_auto);
 				$tpl->setVariable('URL_AUTOCOMPLETE_DELIMITER', $this->getDataSource());
-				$tpl->parseCurrentBlock();
 			}
+			$tpl->parseCurrentBlock();
 		}
 		
 		if ($a_mode == "toolbar")
