@@ -457,6 +457,7 @@ die("ilObjTaxonomyGUI::getTreeHTML is deprecated.");
 			{
 				$order_nr = ilTaxonomyNode::getNextOrderNr($tax->getId(), (int) $_GET["tax_node"]);
 			}
+	//echo $order_nr; exit;
 			$node->setOrderNr($order_nr);
 			$node->setTaxonomyId($tax->getId());
 			$node->create();
@@ -593,12 +594,13 @@ die("ilObjTaxonomyGUI::getTreeHTML is deprecated.");
 		include_once("./Services/Taxonomy/classes/class.ilTaxonomyNode.php");
 		if (is_array($_POST["order"]))
 		{
-			asort($_POST["order"]);
-			$cnt = 10;
+//			asort($_POST["order"]);
+//			$cnt = 10;
 			foreach ($_POST["order"] as $k => $v)
 			{
-				ilTaxonomyNode::writeOrderNr(ilUtil::stripSlashes($k), $cnt);
-				$cnt+= 10;
+				ilTaxonomyNode::writeOrderNr(ilUtil::stripSlashes($k), $v);
+				ilTaxonomyNode::fixOrderNumbers($this->getCurrentTaxonomyId(), (int) $_GET["tax_node"]);
+//				$cnt+= 10;
 			}
 		}
 		
@@ -928,17 +930,21 @@ die("ilObjTaxonomyGUI::getTreeHTML is deprecated.");
 		if (is_array($_POST["order"]))
 		{
 			$order = $_POST["order"];
-			asort($order, SORT_NUMERIC);
-			$cnt = 10;
+			//asort($order, SORT_NUMERIC);
+			//$cnt = 10;
 			$tax_node = (int) $_GET["tax_node"];
 			foreach ($order as $a_item_id => $ord_nr)
 			{
 				$tax_ass = new ilTaxNodeAssignment($this->assigned_item_comp_id,
 					$this->assigned_item_obj_id,
 					$this->assigned_item_type, $this->getCurrentTaxonomyId());
-				$tax_ass->setOrderNr($tax_node, $a_item_id, $cnt);				
-				$cnt+= 10;
+				$tax_ass->setOrderNr($tax_node, $a_item_id, $ord_nr);
+				//$cnt+= 10;
 			}
+			$tax_ass = new ilTaxNodeAssignment($this->assigned_item_comp_id,
+				$this->assigned_item_obj_id,
+				$this->assigned_item_type, $this->getCurrentTaxonomyId());
+			$tax_ass->fixOrderNr($tax_node);
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 		}
 		$ilCtrl->redirect($this, "listAssignedItems");

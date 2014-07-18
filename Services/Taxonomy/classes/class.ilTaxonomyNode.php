@@ -380,7 +380,7 @@ class ilTaxonomyNode
 			$a_parent_id = $tax_tree->readRootId();
 		}
 		$childs = $tax_tree->getChilds($a_parent_id);
-		$childs = ilUtil::sortArray($childs, "order_nr", "asc", false);
+		$childs = ilUtil::sortArray($childs, "order_nr", "asc", true);
 
 		$cnt = 10;
 		foreach ($childs as $c)

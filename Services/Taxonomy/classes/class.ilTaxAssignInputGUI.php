@@ -120,20 +120,34 @@ class ilTaxAssignInputGUI extends ilSelectInputGUI
 	{
 		include_once("./Services/Taxonomy/classes/class.ilTaxNodeAssignment.php");
 		$tax_node_ass = new ilTaxNodeAssignment($a_component_id, $a_obj_id, $a_item_type, $this->getTaxonomyId());
-		$tax_node_ass->deleteAssignmentsOfItem($a_item_id);
+		//$tax_node_ass->deleteAssignmentsOfItem($a_item_id);
+
 		$post = $_POST[$this->getPostVar()];
-//var_dump($_POST);
-//var_dump($post);
-		if ($this->getMulti())
+		if (!$this->getMulti())
 		{
-			foreach ($post as $p)
+			$post = array($post);
+		}
+
+		$current_ass = $tax_node_ass->getAssignmentsOfItem($a_item_id);
+		$exising = array();
+		foreach ($current_ass as $ca)
+		{
+			if (!in_array($ca["node_id"], $post))
+			{
+				$tax_node_ass->deleteAssignment($ca["node_id"], $a_item_id);
+			}
+			else
+			{
+				$exising[] = $ca["node_id"];
+			}
+		}
+
+		foreach ($post as $p)
+		{
+			if (!in_array($p, $exising))
 			{
 				$tax_node_ass->addAssignment(ilUtil::stripSlashes($p), $a_item_id);
 			}
-		}
-		else
-		{
-			$tax_node_ass->addAssignment(ilUtil::stripSlashes($post), $a_item_id);
 		}
 	}
 	
