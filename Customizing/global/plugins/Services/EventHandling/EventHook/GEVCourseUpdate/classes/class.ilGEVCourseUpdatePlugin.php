@@ -45,7 +45,13 @@ class ilGEVCourseUpdatePlugin extends ilEventHookPlugin
 	
 	public function updateTemplateCourse() {
 		try {
+			$this->crs->enableWaitingList($this->crs_utils->getWaitingListActive());
+			$this->crs->enableSubscriptionMembershipLimitation($this->crs_utils->getWaitingListActive());
+			$this->crs->setSubscriptionMaxMembers(intval($this->crs_utils->getMaxParticipants()));
+			
 			$this->maybeSetTemplateCustomId();
+		
+			$this->crs->update(false);
 		}
 		catch (Exception $e) {
 			$this->log->write("Error in GEVCourseUpdate::updateTemplateCourse: ".print_r($e, true));
