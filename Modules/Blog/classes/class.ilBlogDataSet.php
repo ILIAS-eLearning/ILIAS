@@ -170,11 +170,20 @@ class ilBlogDataSet extends ilDataSet
 		{
 			case "blog":
 				include_once("./Modules/Blog/classes/class.ilObjBlog.php");
-				$newObj = new ilObjBlog();
+				
+				// container copy
+				if($new_id = $a_mapping->getMapping("Services/Container", "objs", $a_rec["Id"]))
+				{
+					$newObj = ilObjectFactory::getInstanceByObjId($new_id, false);
+				}
+				else
+				{	
+					$newObj = new ilObjBlog();
+					$newObj->create();
+				}
+				
 				$newObj->setTitle($a_rec["Title"]);
-				$newObj->setDescription($a_rec["Description"]);
-				$newObj->create();
-								
+				$newObj->setDescription($a_rec["Description"]);											
 				$newObj->setNotesStatus($a_rec["Notes"]);
 				$newObj->setBackgroundColor($a_rec["BgColor"]);
 				$newObj->setFontColor($a_rec["FontColor"]);
