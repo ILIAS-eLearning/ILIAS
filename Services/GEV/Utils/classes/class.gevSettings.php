@@ -202,8 +202,9 @@ class gevSettings {
 		614 => array("DBV/VL-EVG",       "DBV"),
 		615 => array("DBV-UV",           "DBV"),
 		616 => array("DBV-UV",           "DBV"),
-		617 => array("",                 "DBV"), // TODO
+		617 => array("DBV-VL-EVG",       "DBV"),
 		618 => array("DBV/VL-EVG",       "DBV"),
+		620 => array("DBV-VL-EVG",       "DBV"),
 		625 => array("OD/LD/BD/VD/VTWL", "Vorgesetzter"),
 		628 => array("HA",               "Vorgesetzter"),
 		630 => array("HA",               "Vorgesetzter"),
@@ -216,11 +217,13 @@ class gevSettings {
 		653 => array("NA",               "Mitarbeiter"),
 		655 => array("NA",               "Mitarbeiter"),
 		657 => array("NA",               "Mitarbeiter"),
+		661 => array("NA",               "Mitarbeiter"),
 		664 => array("NA",               "Mitarbeiter"),
 		671 => array("OD/LD/BD/VD/VTWL", "Vorgesetzter"),
 		674 => array("VP",               "Mitarbeiter"),
 		675 => array("DBV/VL-EVG",       "DBV"),
 		679 => array("VP",               "Mitarbeiter"),
+		690 => array("HA",               "Vorgesetzter"),
 		693 => array("NA",               "Mitarbeiter"),
 		694 => array("BA",               "Mitarbeiter")
 
