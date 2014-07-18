@@ -296,7 +296,7 @@ class ilCronManager
 		}
 		
 		$ilLog->write("Cron XML - Job ".$a_id." in class ".$a_class." (".
-			$class_file.") is invalid.");
+			$class_file.") is invalid.".$mess);
 	}
 	
 	/**
