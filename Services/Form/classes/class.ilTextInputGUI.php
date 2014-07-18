@@ -358,6 +358,11 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
 	*/
 	public function render($a_mode = "")
 	{
+		/**
+		 * @var $lng ilLanguage
+		 */
+		global $lng;
+		
 		$tpl = new ilTemplate("tpl.prop_textinput.html", true, true, "Services/Form");
 		if (strlen($this->getValue()))
 		{
@@ -471,6 +476,8 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
 				$tpl->setVariable('URL_AUTOCOMPLETE_DELIMITER', $this->getDataSource());
 			}
 			$tpl->parseCurrentBlock();
+
+			$tpl->setVariable('MORE_TXT', $lng->txt('autocomplete_more'));
 		}
 		
 		if ($a_mode == "toolbar")

@@ -6,23 +6,21 @@
 	<!-- BEGIN prop_text_autocomplete -->	
 	<script type="text/javascript">
 		il.Util.addOnLoad(
-               
+
 			function() {
+
 				$.widget( "custom.iladvancedautocomplete", $.ui.autocomplete, {
 					more: false,
 					_renderMenu: function(ul, items) {
 						var that = this;
 						$.each(items, function(index, item) {
-
-                            that._renderItemData(ul, item);
-							
-							
+							that._renderItemData(ul, item);
 						});
 
 						that.options.requestUrl = that.options.requestUrl.replace(/&fetchall=1/g, '');
 
 						if (that.more) {console.log('asdf');
-							ul.append("<li class='ui-menu-category ui-menu-more'><span>&raquo;More</span></li>");
+							ul.append("<li class='ui-menu-category ui-menu-more'><span>&raquo;{MORE_TXT}</span></li>");
 							ul.find('li').last().on('click', function(e) {
 								that.options.requestUrl += '&fetchall=1';
 								that.close(e);
@@ -34,8 +32,9 @@
 						}
 					}
 				});
+
 				<!-- BEGIN ac_multi -->ilMultiFormValues.addAutocomplete('{ID_AUTOCOMPLETE}', '{MURL_AUTOCOMPLETE}');<!-- END ac_multi -->
-				
+
 				<!-- BEGIN autocomplete_bl -->
 				$('{SEL_AUTOCOMPLETE}').iladvancedautocomplete({
 					requestUrl: "{URL_AUTOCOMPLETE}",
@@ -53,9 +52,9 @@
 						});
 					},
 					minLength: 3
-				});			
+				});
 				<!-- END autocomplete_bl -->
-				
+
 				<!-- BEGIN autocomplete_delimiter_bl -->
 				function split( val ) {
 					if(val !== undefined) {
@@ -66,7 +65,7 @@
 				function extractLast( term ) {
 					return split( term ).pop();
 				}
-									
+
 				$('{SEL_AUTOCOMPLETE_DELIMITER}').iladvancedautocomplete({
 					requestUrl: "{URL_AUTOCOMPLETE_DELIMITER}",
 					source: function( request, response ) {
@@ -78,7 +77,7 @@
 							response(data.items);
 						});
 					},
-					search: function() {				
+					search: function() {
 						// custom minLength
 						var term = extractLast( this.value );
 						if ( term.length < 3 ) {
@@ -102,15 +101,15 @@
 					}
 				});
 				// don't navigate away from the field on tab when selecting an item
-				$('{SEL_AUTOCOMPLETE_DELIMITER}').bind( "keydown", function( event ) {					
+				$('{SEL_AUTOCOMPLETE_DELIMITER}').bind( "keydown", function( event ) {
 					if ( event.keyCode === $.ui.keyCode.TAB &&
 						$( this ).ilautocomplete("widget").is(':visible') ) {
 							event.preventDefault();
 					}
-				});				
+				});
 				<!-- END autocomplete_delimiter_bl -->
 			}
 		);	
 	</script>
-	<!-- END prop_text_autocomplete -->		
+	<!-- END prop_text_autocomplete -->
 </div>
