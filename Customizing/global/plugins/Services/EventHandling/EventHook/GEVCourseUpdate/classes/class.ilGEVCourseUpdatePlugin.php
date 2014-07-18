@@ -50,6 +50,7 @@ class ilGEVCourseUpdatePlugin extends ilEventHookPlugin
 			$this->crs->setSubscriptionMaxMembers(intval($this->crs_utils->getMaxParticipants()));
 			
 			$this->maybeSetTemplateCustomId();
+			$this->crs_utils->updateDerivedCourses();
 		
 			$this->crs->update(false);
 		}
@@ -74,6 +75,7 @@ class ilGEVCourseUpdatePlugin extends ilEventHookPlugin
 		
 		$custom_id = gevCourseUtils::createNewTemplateCustomId($tmplt);
 		$this->crs_utils->setCustomId($custom_id);
+
 	}
 }
 

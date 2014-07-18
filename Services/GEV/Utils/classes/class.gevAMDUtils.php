@@ -82,7 +82,7 @@ class gevAMDUtils {
 		return $this->makeTableResult($res, $field_ids, $types, $a_amd_settings);
 	}
 
-	protected function getFieldId($a_amd_setting) {
+	public function getFieldId($a_amd_setting) {
 		return $this->gev_settings->getAMDFieldId($a_amd_setting);
 		//$amd_id = explode(" ", $this->gev_settings->get($a_amd_setting));
 		//return $amd_id[1];

@@ -768,11 +768,37 @@ class gevCourseUtils {
 		if (!$this->isTemplate()) {
 			throw new Exception("gevCourseUtils::getDerivedCourseIds: this course is no template and thus has no derived courses.");
 		}
-
-		$field_id = $this->amd->getFieldId(gevSettings::CRS_AMD_TEMPLATE_REF_ID);
+		
+		$ref_id_field = $this->amd->getFieldId(gevSettings::CRS_AMD_TEMPLATE_REF_ID);
+		
 		$ref_ids = gevObjectUtils::getAllRefIds($this->crs_id);
 		
-		//$res = $this->db->query("SELECT * FROM ")
+		$res = $this->db->query( "SELECT obj_id FROM adv_md_values_int"
+								." WHERE field_id = ".$this->db->quote($ref_id_field, "integer")
+								."  AND ".$this->db->in("value", $ref_ids, false, "integer")
+								);
+		$obj_ids = array();
+		while ($rec = $this->db->fetchAssoc($res)) {
+			$obj_ids[] = $rec["obj_id"];
+		}
+		
+		return $obj_ids;
+	}
+	
+	public function updateDerivedCourses() {
+		if (!$this->isTemplate()) {
+			throw new Exception("gevCourseUtils::updateDerivedCourses: this course is no template and thus has no derived courses.");
+		}
+
+		$obj_ids = $this->getDerivedCourseIds();
+		
+		$tmplt_title_field = $this->amd->getFieldId(gevSettings::CRS_AMD_TEMPLATE_TITLE);
+		
+		$this->db->manipulate( "UPDATE adv_md_values_text "
+							  ."   SET value = ".$this->db->quote($this->getTitle(), "text")
+							  ." WHERE ".$this->db->in("obj_id", $obj_ids, false, "integer")
+							  ."   AND field_id = ".$this->db->quote($tmplt_title_field, "integer")
+							 );
 	}
 	
 	// Participants, Trainers and other members
