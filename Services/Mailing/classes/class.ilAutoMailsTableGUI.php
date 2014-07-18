@@ -34,6 +34,7 @@ class ilAutoMailsTableGUI extends ilTable2GUI
 		if($a_title) {
 			$this->setEnableTitle(true);
 		}
+		$this->setLimit(1000000);
 
 		$this->setRowTemplate('tpl.auto_mail_table_row.html', 'Services/Mailing');
 
