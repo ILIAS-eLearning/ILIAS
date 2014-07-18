@@ -39,8 +39,8 @@ class ilUserCourseStatusHistorizingAppEventListener
 	{
 		self::initEventHandler();
 		
-		global $ilLog;
-		$ilLog->write(print_r(array($a_component, $a_event, $a_parameter), true));
+		//global $ilLog;
+		//$ilLog->write(print_r(array($a_component, $a_event, $a_parameter), true));
 		
 		if ($a_component == "Modules/Course" && (  $a_event == "update"
 												|| $a_event == "delete"
@@ -140,15 +140,16 @@ class ilUserCourseStatusHistorizingAppEventListener
 	{
 		$user_id = $parameter["usr_id"];
 		$course_id = $parameter["crs_id"];
-		global $ilLog;
-		$ilLog->write($event."-".$user_id."-".$course_id);
+		//global $ilLog;
+		//$ilLog->write($event."-".$user_id."-".$course_id);
+		// TODO: certificate!
 		$data_payload = array(
 			'credit_points'						=> self::$ilUserCourseStatusHistorizingHelper->getCreditPointsOf($user_id, $course_id),
 			'bill_id'							=> self::$ilUserCourseStatusHistorizingHelper->getBillIdOf($user_id, $course_id),
 			'booking_status'					=> self::$ilUserCourseStatusHistorizingHelper->getBookingStatusOf($user_id, $course_id),
 			'participation_status'				=> self::$ilUserCourseStatusHistorizingHelper->getParticipationStatusOf($user_id, $course_id),
 			'okz'								=> self::$ilUserHistorizingHelper->getOKZOf($user_id),
-			'certificate'						=> self::$ilUserCourseStatusHistorizingHelper->hasCertificate ->  getCertificateOf($user_id, $course_id),
+			'certificate'						=> null, ///self::$ilUserCourseStatusHistorizingHelper->hasCertificate ->  getCertificateOf($user_id, $course_id),
 			'begin_date'						=> self::$ilCourseHistorizingHelper->getBeginOf($course_id)->get(IL_CAL_DATE),
 			'end_date'							=> self::$ilCourseHistorizingHelper->getEndOf($course_id)->get(IL_CAL_DATE),
 			'overnights'						=> self::$ilUserCourseStatusHistorizingHelper->getOvernightsOf($user_id, $course_id),
