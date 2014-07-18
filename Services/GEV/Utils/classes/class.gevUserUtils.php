@@ -718,7 +718,7 @@ class gevUserUtils {
 	public function iv_setActivated() {
 		$this->db->manipulate("UPDATE gev_user_reg_tokens ".
 							  "   SET password_changed = NOW() ".
-							  " WHERE username = ".$ilDB->quote($this->getLogin(), "text")
+							  " WHERE username = ".$this->db->quote($this->getLogin(), "text")
 							  );
 	}
 	
