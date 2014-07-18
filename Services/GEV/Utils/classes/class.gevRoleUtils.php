@@ -89,6 +89,26 @@ class gevRoleUtils {
 	public function getGlobalRolesOf($a_user_id) {
 		return $this->getRbacReview()->assignedGlobalRoles($a_user_id);
 	}
+	
+	public function getLocalRoleIdsAndTitles($a_obj_id) {
+		require_once("Services/GEV/Utils/classes/class.gevObjectUtils.php");
+		$rbac_review = $this->getRbacReview();
+
+		$rolf = $rbac_review->getRoleFolderOfObject(gevObjectUtils::getRefId($a_obj_id));
+
+		if (!isset($rolf["ref_id"]) or !$rolf["ref_id"]) {
+			throw new Exception("gevRoleUtils::getLocalRoleIdsAndTitles: Could not load role folder.");
+		}
+		
+		$roles = $rbac_review->getRolesOfRoleFolder($rolf["ref_id"], false);
+		$res = $this->db->query( "SELECT obj_id, title FROM object_data "
+								." WHERE ".$this->db->in("obj_id", $roles, false, "integer"));
+		$ret = array();
+		while ($rec = $this->db->fetchAssoc($res)) {
+			$ret[$rec["obj_id"]] = $rec["title"];
+		}
+		return $ret;
+	}
 }
 
 ?>

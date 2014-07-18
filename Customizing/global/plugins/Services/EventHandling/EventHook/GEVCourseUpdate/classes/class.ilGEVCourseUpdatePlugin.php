@@ -53,6 +53,8 @@ class ilGEVCourseUpdatePlugin extends ilEventHookPlugin
 	}
 	
 	protected function maybeSetTemplateCustomId() {
+		require_once("Service/GEV/Utils/classes/class.gevSettings.php");
+		
 		if ($this->crs_utils->getCustomId()) {
 			return;
 		}

@@ -22,10 +22,13 @@ class gevCourseUtils {
 	static $instances = array();
 	
 	protected function __construct($a_crs_id) {
-		global $ilDB, $ilLog;
+		global $ilDB, $ilLog, $lng;
 		
 		$this->db = &$ilDB;
 		$this->log = &$ilLog;
+		$this->lng = &$lng;
+		
+		$this->lng->loadLanguageModule("crs");
 		
 		$this->crs_id = $a_crs_id;
 		$this->crs_obj = null;
@@ -33,6 +36,7 @@ class gevCourseUtils {
 		$this->crs_participations = null;
 		$this->gev_settings = gevSettings::getInstance();
 		$this->amd = gevAMDUtils::getInstance();
+		$this->local_roles = null;
 		
 		$this->membership = null;
 		$this->main_trainer = null;
@@ -40,6 +44,10 @@ class gevCourseUtils {
 	}
 	
 	static public function getInstance($a_crs_id) {
+		if (!is_int($a_crs_id) && !is_numeric($a_crs_id)) {
+			throw new Exception("gevCourseUtils::getInstance: no integer crs_id given.");
+		}
+		
 		if (array_key_exists($a_crs_id, self::$instances)) {
 			return self::$instances[$a_crs_id];
 		}
@@ -230,6 +238,31 @@ class gevCourseUtils {
 		
 		return $this->crs_participations;
 	}
+	
+	public function getLocalRoles() {
+		if ($this->local_roles === null) {
+			require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
+			$this->local_roles = gevRoleUtils::getInstance()->getLocalRoleIdsAndTitles($this->crs_id);
+			
+			// rewrite names of member, tutor and admin roles
+			foreach ($this->local_roles as $id => $title) {
+				$pref = substr($title, 0, 8);
+				if ($pref == "il_crs_m") {
+					$this->local_roles[$id] = $this->lng->txt("crs_member");
+				}
+				else if ($pref == "il_crs_t") {
+					$this->local_roles[$id] = $this->lng->txt("crs_tutor");
+				}
+				else if ($pref == "il_crs_a") {
+					$this->local_roles[$id] = $this->lng->txt("crs_admin");
+				}
+			}
+		}
+		return $this->local_roles;
+	}
+	
+	//
+	
 	
 	public function getId() {
 		return $this->crs_id;
@@ -717,8 +750,11 @@ class gevCourseUtils {
 		if (!$this->isTemplate()) {
 			throw new Exception("gevCourseUtils::getDerivedCourseIds: this course is no template and thus has no derived courses.");
 		}
+
+		$field_id = $this->amd->getFieldId(gevSettings::CRS_AMD_TEMPLATE_REF_ID);
+		$ref_ids = gevObjectUtils::getAllRefIds($this->crs_id);
 		
-		die("TDB");
+		//$res = $this->db->query("SELECT * FROM ")
 	}
 	
 	// Participants, Trainers and other members
@@ -1241,7 +1277,16 @@ class gevCourseUtils {
 	//
 	
 	public function getFunctionOfUser($a_user_id) {
-		return "";
+		require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
+		$utils = gevRoleUtils::getInstance();
+		$roles = $this->getLocalRoles();
+		$res = $this->db->query( "SELECT rol_id FROM rbac_ua "
+								." WHERE usr_id = ".$this->db->quote($a_user_id)
+								."   AND ".$this->db->in("rol_id", array_keys($roles), false, "integer"));
+		if ($rec = $this->db->fetchAssoc($res)) {
+			return $roles[$rec["rol_id"]];
+		}
+		return null;
 	}
 }
 
