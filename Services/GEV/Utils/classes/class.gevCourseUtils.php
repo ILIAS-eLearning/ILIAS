@@ -392,12 +392,12 @@ class gevCourseUtils {
 	}
 	
 	public function getFormattedBookingDeadlineDate() {
-		$dl = $this->getBookingDeadline();
+		$dl = $this->getBookingDeadlineDate();
 		if (!$dl) {
 			return "";
 		}
 		ilDatePresentation::setUseRelativeDates(false);
-		$val = ilDatePresentation::formatDate($this->getEndDate());
+		$val = ilDatePresentation::formatDate($dl);
 		ilDatePresentation::setUseRelativeDates(true);
 		return $val;
 	}
@@ -504,6 +504,17 @@ class gevCourseUtils {
 	
 	public function getCancelDeadlineDate() {
 		return self::mkDeadlineDate($this->getStartDate(), $this->getCancelDeadline());
+	}
+	
+	public function getFormattedCancelDeadline() {
+		$dl = $this->getCancelDeadlineDate();
+		if (!$dl) {
+			return "";
+		}
+		ilDatePresentation::setUseRelativeDates(false);
+		$val = ilDatePresentation::formatDate($dl);
+		ilDatePresentation::setUseRelativeDates(true);
+		return $val;
 	}
 	
 	public function isCancelDeadlineExpired() {

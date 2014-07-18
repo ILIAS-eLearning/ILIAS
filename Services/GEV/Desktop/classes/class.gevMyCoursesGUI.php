@@ -84,6 +84,8 @@ class gevMyCoursesGUI {
 	public function cancelBooking() {
 		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		require_once("Services/CaTUIComponents/classes/class.catPropertyFormGUI.php");
+		
 		$this->loadCourseIdAndStatus();
 		$crs_utils = gevCourseUtils::getInstance($this->crs_id);
 		$usr_utils = gevUserUtils::getInstance($this->user->getId());
@@ -92,41 +94,41 @@ class gevMyCoursesGUI {
 		   && $crs_utils->getFee() 
 		   && $this->status != ilCourseBooking::STATUS_WAITING 
 		   && $crs_utils->isCancelDeadlineExpired()) {
-			$msg = $this->lng->txt("gev_costly_cancellation_msg");
 			$action = $this->lng->txt("gev_costly_cancellation_action");
 		}
 		else {
-			$msg = $this->lng->txt("gev_free_cancellation_msg");
 			$action = $this->lng->txt("gev_costly_cancellation_action");
+			$link =  $this->ctrl->getLinkTarget($this, "finalizeCancellation");
 		}
-	/*
-		$msg = sprintf($msg, $crs_utils->getTitle());
 		
-					, array( $this->lng->txt("gev_target_group")
-				   , true
-				   , $this->crs_utils->getTargetGroupDesc()
-				   )
-			, array( $this->lng->txt("gev_targets_and_benefit")
-				   , true
-				   , $this->crs_utils->getGoals()
-				   )
-			, array( $this->lng->txt("gev_contents")
-				   , true
-				   , $this->crs_utils->getContents()
-				   )
+		$title = new catTitleGUI("gev_cancellation_title", "gev_cancellation_subtitle", "GEV_img/ico-head-trash.png");
 		
+		$form = new catPropertyFormGUI();
+		$form->setTemplate("tpl.gev_booking_form.html", "Services/GEV/Desktop");
+		$form->setTitle($crs_utils->getTitle());
+		$this->ctrl->setParameter($this, "crs_id", $this->crs_id);
+		$form->setFormAction($this->ctrl->getFormAction($this));
+		$this->ctrl->clearParameters($this, "crs_id", $this->crs_id);
+		$form->addCommandButton("view", $this->lng->txt("cancel"));
+		$form->addCommandButton("finalizeCancellation", $action);
+		
+
 		$vals = array(
 			  array( $this->lng->txt("gev_course_id")
 				   , true
-				   , $this->crs_utils->getCustomId()
+				   , $crs_utils->getCustomId()
 				   )
 			, array( $this->lng->txt("gev_course_type")
 				   , true
-				   , implode(", ", $this->crs_utils->getMethods())
+				   , implode(", ", $crs_utils->getType())
+				   )
+			, array( $this->lng->txt("gev_methods")
+				   , true
+				   , implode(", ", $crs_utils->getMethods())
 				   )
 			, array( $this->lng->txt("appointment")
 				   , true
-				   , $this->crs_utils->getFormattedAppointment()
+				   , $crs_utils->getFormattedAppointment()
 				   )
 			, array( $this->lng->txt("gev_provider")
 				   , $prv?true:false
@@ -138,32 +140,28 @@ class gevMyCoursesGUI {
 				   )
 			, array( $this->lng->txt("gev_instructor")
 				   , true
-				   , $this->crs_utils->getMainTrainerName()
+				   , $crs_utils->getMainTrainerName()
 				   )
-			, array( $this->lng->txt("gev_subscription_end")
+			, array( $this->lng->txt("gev_free_cancellation_until")
 				   , true
-				   , $this->lng->txt("until") . " ". $this->crs_utils->getFormattedBookingDeadlineDate()
+				   , $crs_utils->getFormattedCancelDeadline()
 				   )
 			, array( $this->lng->txt("gev_free_places")
 				   , true
-				   , $this->crs_utils->getFreePlaces()
+				   , $crs_utils->getFreePlaces()
 				   )
 			, array( $this->lng->txt("gev_training_contact")
 				   , true
-				   , $this->crs_utils->getMainAdminName()
+				   , $crs_utils->getMainAdminName()
 				   )
 			, array( $this->lng->txt("gev_training_fee")
-				   , $this->isWithPayment()
-				   , str_replace(".", ",", "".$this->crs_utils->getFee()) . " &euro;"
+				   , $usr_utils->paysFees() && ($crs_utils->getFee()?true:false)
+				   , str_replace(".", ",", "".$crs_utils->getFee()) . " &euro;"
 				   )
 			, array( $this->lng->txt("gev_credit_points")
 				   , true
-				   , $this->crs_utils->getCreditPoints()
+				   , $crs_utils->getCreditPoints()
 				   )
-			//, array( $this->lng->txt("precondition")
-			//	   , true
-			//	   , $this->crs_utils->getFormattedPreconditions()
-			//	   )
 			);
 		
 		foreach ($vals as $val) {
@@ -174,21 +172,9 @@ class gevMyCoursesGUI {
 			$field = new ilNonEditableValueGUI($val[0], "", true);
 			$field->setValue($val[2]);
 			$form->addItem($field);
-		}*/
-		
-		require_once("Services/CaTUIComponents/classes/class.catChoiceGUI.php");
-		$choice = new catChoiceGUI();
-		$choice->setEnableTitle(true);
-		$choice->setTitle("gev_cancellation_title");
-		$choice->setSubTitle("gev_cancellation_subtitle");
-		$choice->setImage("GEV_img/ico-head-trash.png");
+		}
 
-		$choice->setQuestion($msg);
-		$choice->setAbort($this->lng->txt("cancel"), $this->ctrl->getLinkTarget($this, "view"));
-		$this->ctrl->setParameter($this, "crs_id", $this->crs_id);
-		$choice->addChoice($action, $this->ctrl->getLinkTarget($this, "finalizeCancellation"));
-		$this->ctrl->clearParameters($this, "crs_id", $this->crs_id);
-		return $choice->render();
+		return $title->render() . $form->getHTML();
 	}
 	
 	public function finalizeCancellation() {

@@ -208,6 +208,10 @@ class gevBookingGUI {
 				   )
 			, array( $this->lng->txt("gev_course_type")
 				   , true
+				   , implode(", ", $this->crs_utils->getType())
+				   )
+			, array( $this->lng->txt("gev_methods")
+				   , true
 				   , implode(", ", $this->crs_utils->getMethods())
 				   )
 			, array( $this->lng->txt("appointment")
