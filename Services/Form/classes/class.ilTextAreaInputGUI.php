@@ -470,6 +470,10 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
 					if(!array_diff($this->getRteTags(), $this->getRteTagSet("mini")))
 					{
 						$rte->removeAllPlugins();
+						
+						// #13603 - "paste from word" is essential
+						$rte->addPlugin("paste"); 
+						
 						// #11980 - p-tag is mandatory but we do not want the icons it comes with
 						$rte->disableButtons(array("anchor", "justifyleft", "justifycenter", 
 							"justifyright", "justifyfull", "formatselect", "removeformat",
