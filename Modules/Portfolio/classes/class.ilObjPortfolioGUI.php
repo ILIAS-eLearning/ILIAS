@@ -508,7 +508,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 			$options = array();
 			foreach($all as $item)
 			{
-				if($item["id"] != $this->object->getId())
+				if(true /* $item["id"] != $this->object->getId() */)
 				{
 					$options[$item["id"]] = $item["title"]; 
 				}
@@ -522,7 +522,6 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		$new = new ilRadioOption($this->lng->txt("prtf_new_portfolio"), "new");
 		$a_tgt->addOption($new);
 
-		// 1st page
 		$tf = new ilTextInputGUI($this->lng->txt("title"), "title");
 		$tf->setMaxLength(128);
 		$tf->setSize(40);

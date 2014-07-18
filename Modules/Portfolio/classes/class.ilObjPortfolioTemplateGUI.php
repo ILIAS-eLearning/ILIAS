@@ -364,7 +364,6 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
 	 */
 	protected function getPageInstance($a_page_id = null, $a_portfolio_id = null)
 	{		
-		// #11531
 		if(!$a_portfolio_id && $this->object)
 		{
 			$a_portfolio_id = $this->object->getId();
@@ -410,7 +409,7 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
 			$options = array();
 			foreach($all as $id => $title)
 			{
-				if($id != $this->object->getId())
+				if(true /* $id != $this->object->getId() */)
 				{
 					$options[$id] = $title; 
 				}
