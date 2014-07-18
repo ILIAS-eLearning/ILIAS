@@ -83,7 +83,16 @@ class gevRoleUtils {
 			return;
 		}
 		
-		gevRoleUtils::getRbacAdmin()->assignUser($roles[$a_role_title], $a_user_id);
+		$role_id = $roles[$a_role_title];
+		gevRoleUtils::getRbacAdmin()->assignUser($role_id, $a_user_id);
+		
+		global $ilAppEventHandler;
+		$ilAppEventHandler->raise('Services/GEV',
+			'assignGlobalRole',
+			array('user_id' => $a_user_id,
+				  'role_id' => $role_id
+				  )
+			);
 	}
 	
 	public function getGlobalRolesOf($a_user_id) {
