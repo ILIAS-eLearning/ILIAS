@@ -24,13 +24,6 @@ class ilMailViewGUI {
 		$this->recipient = $a_recipient;
 		$this->cc = $a_cc;
 		$this->bcc = $a_bcc;
-		
-		print_r($this->frame);
-		echo "--------\n";
-		print_r($this->image_path);
-		echo "--------\n";
-		print_r($this->image_style);
-		die();
 	}
 
 	private function fillRow($tpl, $name, $value) {
