@@ -115,8 +115,14 @@ class ilCourseHistorizingAppEventListener
 	 */
 	protected static function getStateData($event, $parameter)
 	{
-		$begin_date = self::$ilCourseHistorizingHelper->getBeginOf($parameter)->get(IL_CAL_DATE);
+		$begin_date = self::$ilCourseHistorizingHelper->getBeginOf($parameter);
+		if ($begin_date) {
+			$begin_date = $begin_date->get(IL_CAL_DATE);
+		}
 		$end_date = self::$ilCourseHistorizingHelper->getEndOf($parameter);
+		if ($end_date) {
+			$end_date = $end_date->get(IL_CAL_DATE);
+		}
 
 		$data_payload = array(
 			'custom_id'							=> self::$ilCourseHistorizingHelper->getCustomIdOf($parameter),
