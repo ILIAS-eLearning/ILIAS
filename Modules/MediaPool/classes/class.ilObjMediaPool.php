@@ -718,10 +718,11 @@ class ilObjMediaPool extends ilObject
 					$new_page->setId($item->getId());
 					$new_page->create();
 					
-					// todo: make mobs being copied
-					$new_page->setXMLContent($page->copyXMLContent(true));
-					$new_page->buildDom();
-					$new_page->update();
+					// copy page
+					$page->copy($new_page->getId(), $new_page->getParentType(), $new_page->getParentId(), true);
+					//$new_page->setXMLContent($page->copyXMLContent(true));
+					//$new_page->buildDom();
+					//$new_page->update();
 					break;
 					
 				case "fold":
