@@ -5471,6 +5471,8 @@ class ilObjCourseGUI extends ilContainerGUI
 			}
 
 			// add to desktop link
+			// gev-patch
+			/*
 			if(!$ilUser->isDesktopItem($ref_id,$type) and
 			   $this->object->getAboStatus())
 			{
@@ -5497,6 +5499,8 @@ class ilObjCourseGUI extends ilContainerGUI
 					$this->tpl->setVariable("LINK_NAME", $this->lng->txt("unsubscribe"));
 					$this->tpl->parseCurrentBlock();
 			}
+			*/
+			// gev-patch end
 
 
 			// Description

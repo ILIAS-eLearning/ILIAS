@@ -401,6 +401,8 @@ class ilCourseObjectivePresentationGUI
 			if(!$ilUser->isDesktopItem($lm_id,$obj_type) and 
 			   ($this->course_obj->getAboStatus() == $this->course_obj->ABO_ENABLED))
 			{
+				// gev-patch start
+				/*
 				if ($rbacsystem->checkAccess('read',$lm_id))
 				{
 					$this->tpl->setCurrentBlock("lm_desklink");
@@ -412,6 +414,8 @@ class ilCourseObjectivePresentationGUI
 					$this->tpl->setVariable("TXT_DESK_LMS", $this->lng->txt("to_desktop"));
 					$this->tpl->parseCurrentBlock();
 				}
+				*/
+				//gev-patch end
 			}
 
 			// CONTINUE LINK

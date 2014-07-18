@@ -2462,6 +2462,8 @@ class ilObjectListGUI
 			*/
 			// END WebDAV: Lock/Unlock objects
 
+			// gev-patch start
+			/*
 			if (!$ilUser->isDesktopItem($this->getCommandId(), $type))
 			{
 				// Pass type and object ID to ilAccess to improve performance
@@ -2489,6 +2491,8 @@ class ilObjectListGUI
 						ilUtil::getImagePath("cmd_pd_rem_s.png"));
 				}
 			}
+			*/
+			// gev-patch end
 		}
 	}
 

@@ -247,6 +247,7 @@ class ilCourseContentGUI
 			}
 
 			// add to desktop link
+			/*
 			if(!$ilUser->isDesktopItem($ref_id,$type) and
 			   $this->course_obj->getAboStatus())
 			{
@@ -273,7 +274,7 @@ class ilCourseContentGUI
 					$this->tpl->setVariable("LINK_NAME", $this->lng->txt("unsubscribe"));
 					$this->tpl->parseCurrentBlock();
 			}
-
+			*/
 
 			// Description
 			if(strlen($ilObjDataCache->lookupDescription($obj_id)))
