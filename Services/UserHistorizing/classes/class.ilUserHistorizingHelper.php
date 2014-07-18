@@ -55,7 +55,7 @@ class ilUserHistorizingHelper
 	 */
 	public static function getOrgUnitOf($user)
 	{
-		return gevUserUtils::getInstanceByUserObjOrId($user)->getOrgUnitTitle();
+		return gevUserUtils::getInstanceByObjOrId($user)->getOrgUnitTitle();
 	}
 
 	/**
@@ -67,7 +67,7 @@ class ilUserHistorizingHelper
 	 */
 	public static function getPositionKeyOf($user)
 	{
-		return gevUserUtils::getInstanceByUserObjOrId($user)->getAgentKey();
+		return gevUserUtils::getInstanceByObjOrId($user)->getAgentKey();
 	}
 
 	/**
@@ -79,7 +79,7 @@ class ilUserHistorizingHelper
 	 */
 	public static function getExitDateOf($user)
 	{
-		return gevUserUtils::getInstanceByUserObjOrId($user)->getExitDate();
+		return gevUserUtils::getInstanceByObjOrId($user)->getExitDate();
 	}
 
 	/**
@@ -91,7 +91,7 @@ class ilUserHistorizingHelper
 	 */
 	public static function getEntryDateOf($user)
 	{
-		return gevUserUtils::getInstanceByUserObjOrId($user)->getEntryDate();
+		return gevUserUtils::getInstanceByObjOrId($user)->getEntryDate();
 	}
 
 	/**
@@ -106,7 +106,7 @@ class ilUserHistorizingHelper
 		// TODO: implement!
 		return "";
 		//require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
-		//return gevUserUtils::getInstanceByUserObjOrId($user)->getEntryDate();
+		//return gevUserUtils::getInstanceByObjOrId($user)->getEntryDate();
 	}
 
 	/**
@@ -121,7 +121,7 @@ class ilUserHistorizingHelper
 		// TODO: implement!
 		return "";
 		//require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
-		//return gevUserUtils::getInstanceByUserObjOrId($user)->getEntryDate();
+		//return gevUserUtils::getInstanceByObjOrId($user)->getEntryDate();
 	}
 
 	/**
@@ -136,6 +136,6 @@ class ilUserHistorizingHelper
 		// TODO: implement!
 		return "";
 		//require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
-		//return gevUserUtils::getInstanceByUserObjOrId($user)->getEntryDate();
+		//return gevUserUtils::getInstanceByObjOrId($user)->getEntryDate();
 	}
 }

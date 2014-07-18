@@ -286,6 +286,9 @@ abstract class gevCrsAutoMail extends ilAutoMail {
 			$this->template_variant = new ilMailTemplateVariantEntity();
 			$this->template_variant->setIlDB($this->db);
 		}
+		if ($this->template_frame === null) {
+			$this->template_frame = new ilMailTemplateFrameSettingsEntity($this->db, new ilSetting("mail_tpl"));
+		}
 
 		$this->template_settings->loadById($a_templ_id);
 		$this->template_variant->loadByTypeAndLanguage($a_templ_id, $a_language);
@@ -375,6 +378,11 @@ abstract class gevCrsAutoMail extends ilAutoMail {
 					, "message_plain" => $message["plain"]
 					, "message_html" => $message["html"]
 					, "attachments" => $this->getAttachmentsForMail($a_recipient)
+					, "frame_plain" => $this->template_frame->getPlainTextFrame()
+					, "frame_html" => $this->template_frame->getHtmlFrame()
+					, "image_path" => $this->template_frame->getFileSystemBasePath()."/"
+									  .$this->template_frame->getImageName()
+					, "image_styles" => $this->template_frame->getImageStyles()
 					);
 	}
 
