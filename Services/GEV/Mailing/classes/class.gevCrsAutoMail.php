@@ -274,7 +274,8 @@ abstract class gevCrsAutoMail extends ilAutoMail {
 		require_once "./Services/MailTemplates/classes/class.ilMailTemplateSettingsEntity.php";
 		require_once "./Services/MailTemplates/classes/class.ilMailTemplateVariantEntity.php";
 		require_once "./Services/MailTemplates/classes/class.ilMailTemplateManagementAPI.php";
-
+		require_once "./Services/MailTemplates/classes/class.ilMailTemplateFrameSettingsEntity.php";
+		
 		if ($this->template_api === null) {
 			$this->template_api = new ilMailTemplateManagementAPI();
 		}

@@ -50,6 +50,10 @@ class ilUserCourseStatusHistorizingAppEventListener
 			return;
 		}
 		
+		if ($a_component == "Services/User") {
+			return;
+		}
+		
 		// Normalize events parameters
 		if (   $a_event == "addParticipant" 
 			|| $a_event == "deleteParticipant"

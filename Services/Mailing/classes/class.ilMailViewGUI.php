@@ -8,7 +8,7 @@
 */
 
 class ilMailViewGUI {
-	public function __construct($a_view_title, $a_backlink, $a_subject, $a_text, $a_attachments = array(), $a_recipient = null, $a_cc = null, $a_bcc = null) {
+	public function __construct($a_view_title, $a_backlink, $a_subject, $a_text, $a_frame = null, $a_image_path = null, $a_image_style = null, $a_attachments = array(), $a_recipient = null, $a_cc = null, $a_bcc = null) {
 		global $lng;
 
 		$this->lng = &$lng;
@@ -17,10 +17,20 @@ class ilMailViewGUI {
 		$this->backlink = $a_backlink;
 		$this->subject = $a_subject;
 		$this->text = $a_text;
+		$this->frame = $a_frame;
+		$this->image_path = $a_image_path;
+		$this->image_style = $a_image_style;
 		$this->attachments = $a_attachments;
 		$this->recipient = $a_recipient;
 		$this->cc = $a_cc;
 		$this->bcc = $a_bcc;
+		
+		print_r($this->frame);
+		echo "--------\n";
+		print_r($this->image_path);
+		echo "--------\n";
+		print_r($this->image_style);
+		die();
 	}
 
 	private function fillRow($tpl, $name, $value) {

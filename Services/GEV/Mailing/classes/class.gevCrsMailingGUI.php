@@ -300,10 +300,15 @@ class gevCrsMailingGUI extends ilMailingGUI {
 			return $this->showInvitationMails();
 		}
 
+		$is_html_mail = strlen($mail["message_html"]) > 0;
+
 		$view_gui=  new ilMailViewGUI( $this->lng->txt("preview").": "."Einladungsmail für ".$this->lng->txt($function)
 									 , $this->ctrl->getLinkTarget($this, "showInvitationMails")
 									 , $mail["subject"]
-									 , strlen($mail["message_html"]) > 0 ? $mail["message_html"] : $mail["message_plain"]
+									 , $is_html_mail ? $mail["message_html"] : $mail["message_plain"]
+									 , $is_html_message ? $mail["frame_html"] : $mail["frame_plain"]
+									 , $is_html_message ? $mail["image_path"] : null
+									 , $is_html_message ? $mail["image_style"] : null
 									 , $mail["attachments"]
 									 );
 

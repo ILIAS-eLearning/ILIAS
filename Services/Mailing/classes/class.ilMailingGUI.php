@@ -731,10 +731,15 @@ abstract class ilMailingGUI {
 
 		require_once("Services/Mailing/classes/class.ilMailViewGUI.php");
 
+		$is_html_message = strlen($mail["message_html"]) > 0;
+
 		$view_gui = new ilMailViewGUI( $this->lng->txt("preview").": ".$mail["title"]
 									 , $this->ctrl->getLinkTarget($this, "showAutoMails")
 									 , $mail["subject"]
-									 , strlen($mail["message_html"]) > 0 ? $mail["message_html"] : $mail["message_plain"]
+									 , $is_html_message ? $mail["message_html"] : $mail["message_plain"]
+									 , $is_html_message ? $mail["frame_html"] : $mail["frame_plain"]
+									 , $is_html_message ? $mail["image_path"] : null
+									 , $is_html_message ? $mail["image_style"] : null
 									 , $mail["attachments"]
 									 );
 
