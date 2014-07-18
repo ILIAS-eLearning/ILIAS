@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+include_once("./Services/Utilities/classes/class.ilDOMUtil.php");
+
 /**
 * Class ilMediaAliasItem
 *
@@ -605,6 +607,7 @@ class ilMediaAliasItem
 	{
 		$attributes = array("Shape" => $a_shape_type,
 			"Coords" => $a_coords, "Id" => $a_id);
+
 		$ma_node = ilDOMUtil::addElementToList($this->dom, $this->item_node,
 			"MapArea", array(), "", $attributes);
 
