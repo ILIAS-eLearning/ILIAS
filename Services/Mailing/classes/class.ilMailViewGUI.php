@@ -19,7 +19,7 @@ class ilMailViewGUI {
 		$this->text = $a_text;
 		$this->frame = $a_frame;
 		$this->image_path = $a_image_path;
-		$this->image_style = $a_image_style;
+		$this->image_style = $a_image_style?$a_image_style:"";
 		$this->attachments = $a_attachments;
 		$this->recipient = $a_recipient;
 		$this->cc = $a_cc;
@@ -50,8 +50,19 @@ class ilMailViewGUI {
 			$this->fillRow($tpl, $this->lng->txt("bcc_recipient"), $this->bcc);
 		}
 
+		
+		if ($this->frame) {
+			$msg = str_ireplace("[content]", $this->text, $this->frame);
+			if ($this->image_path) {
+				$msg = str_ireplace("[image]", "<img src='".$this->image_path."' style='".$this->image_style."' />", $msg);
+			}
+		}
+		else {
+			$msg = $this->txt;
+		}
+
 		$this->fillRow($tpl, $this->lng->txt("subject"), $this->subject);
-		$this->fillRow($tpl, $this->lng->txt("content"), $this->text);
+		$this->fillRow($tpl, $this->lng->txt("content"), $msg);
 
 		if (count($this->attachments) > 0) {
 			$tpl->setCurrentBlock("attachment_row_bl");
