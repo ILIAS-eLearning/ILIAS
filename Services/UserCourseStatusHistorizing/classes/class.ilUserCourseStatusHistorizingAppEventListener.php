@@ -39,8 +39,8 @@ class ilUserCourseStatusHistorizingAppEventListener
 	{
 		self::initEventHandler();
 		
-		global $ilLog;
-		$ilLog->write(print_r(array($a_component, $a_event, $a_parameter), true));
+		//global $ilLog;
+		//$ilLog->write(print_r(array($a_component, $a_event, $a_parameter), true));
 		
 		if ($a_component == "Modules/Course" && (  $a_event == "update"
 												|| $a_event == "delete"
@@ -140,16 +140,16 @@ class ilUserCourseStatusHistorizingAppEventListener
 	{
 		$user_id = $parameter["usr_id"];
 		$course_id = $parameter["crs_id"];
-		global $ilLog;
-		$ilLog->write($event."-".$user_id."-".$course_id);
+		//global $ilLog;
+		//$ilLog->write($event."-".$user_id."-".$course_id);
 		// TODO: certificate!!
 		
 		// TODO: this needs to be fixed to yield the individual data for the partipant
-		$begin_date = self::$ilCourseHistorizingHelper->getBeginOf($parameter);
+		$begin_date = self::$ilCourseHistorizingHelper->getBeginOf($course_id);
 		if ($begin_date) {
 			$begin_date = $begin_date->get(IL_CAL_DATE);
 		}
-		$end_date = self::$ilCourseHistorizingHelper->getEndOf($parameter);
+		$end_date = self::$ilCourseHistorizingHelper->getEndOf($course_id);
 		if ($end_date) {
 			$end_date = $end_date->get(IL_CAL_DATE);
 		}
