@@ -159,11 +159,20 @@ class ilPollDataSet extends ilDataSet
 		{
 			case "poll":
 				include_once("./Modules/Poll/classes/class.ilObjPoll.php");
-				$newObj = new ilObjPoll();
+				
+				// #13605
+				if($new_id = $a_mapping->getMapping("Services/Container", "objs", $a_rec["Id"]))
+				{
+					$newObj = ilObjectFactory::getInstanceByObjId($new_id, false);
+				}
+				else
+				{				
+					$newObj = new ilObjPoll();					
+					$newObj->create();
+				}
+								
 				$newObj->setTitle($a_rec["Title"]);
 				$newObj->setDescription($a_rec["Description"]);
-				$newObj->create();
-								
 				$newObj->setQuestion($a_rec["Question"]);				
 				$newObj->setImage($a_rec["Image"]);
 				$newObj->setViewResults($a_rec["ViewResults"]);
