@@ -1644,6 +1644,13 @@ class ilObjCourseGUI extends ilContainerGUI
 	{
 		global $rbacsystem,$ilUser,$ilAccess,$tree;
 		
+		// gev-patch start
+		if (isset($this->subtabs_are_already_set)) {
+			return;
+		}
+		$this->subtabs_are_already_set = true;
+		// gev-patch end
+		
 		switch ($a_tab)
 		{
 			case "properties":
