@@ -309,10 +309,11 @@ class ilCronManagerGUI
 		
 		if($_REQUEST["jid"])
 		{
-			$job = ilCronManager::getJobInstanceById($_REQUEST["jid"]);
+			$job_id = trim($_REQUEST["jid"]);
+			$job = ilCronManager::getJobInstanceById($job_id);
 			if($job)
 			{
-				$res[$job->getId()] = $job;
+				$res[$job_id] = $job;
 			}
 		}
 		else if(is_array($_REQUEST["mjid"]))
@@ -322,7 +323,7 @@ class ilCronManagerGUI
 				$job = ilCronManager::getJobInstanceById($job_id);
 				if($job)
 				{
-					$res[$job->getId()] = $job;
+					$res[$job_id] = $job;
 				}
 			}			
 		}
@@ -345,6 +346,7 @@ class ilCronManagerGUI
 		
 		if(sizeof($jobs) == 1)
 		{
+			$job_id = array_pop(array_keys($jobs));
 			$job = array_pop($jobs);				
 			$title = $job->getTitle();
 			if(!$title)
@@ -355,15 +357,15 @@ class ilCronManagerGUI
 			$cgui->setHeaderText(sprintf($lng->txt("cron_action_".$a_action."_sure"), 
 				$title));
 
-			$ilCtrl->setParameter($this, "jid", $job->getId());
+			$ilCtrl->setParameter($this, "jid", $job_id);
 		}
 		else
 		{
 			$cgui->setHeaderText($lng->txt("cron_action_".$a_action."_sure_multi"));
 			
-			foreach($jobs as $job)
+			foreach($jobs as $job_id => $job)
 			{
-				$cgui->addItem("mjid[]", $job->getId(), $job->getTitle());
+				$cgui->addItem("mjid[]", $job_id, $job->getTitle());
 			}			
 		}
 		

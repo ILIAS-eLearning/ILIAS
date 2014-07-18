@@ -275,8 +275,24 @@ class ilCronManager
 					{
 						return $job;
 					}
+					else
+					{
+						$mess .= " - job id mismatch";
+					}
+				}
+				else
+				{
+					$mess .= " - does not extend ilCronJob";
 				}
 			}
+			else
+			{
+				$mess = "- class not found in file";
+			}
+		}
+		else
+		{
+			$mess = " - class file not found";
 		}
 		
 		$ilLog->write("Cron XML - Job ".$a_id." in class ".$a_class." (".
