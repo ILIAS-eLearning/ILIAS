@@ -115,8 +115,6 @@ class ilUserCourseStatusHistorizing extends ilHistorizingStorage
 	protected function getContentColumnsDefinition()
 	{
 		$definition =  array(
-			'usr_id'				=> 'integer',
-			'crs_id'				=> 'integer',
 			'credit_points'			=> 'integer',
 			'bill_id'				=> 'integer',
 			'booking_status'		=> 'text',
