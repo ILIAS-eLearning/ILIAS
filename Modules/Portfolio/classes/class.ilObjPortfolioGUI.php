@@ -499,25 +499,19 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 	
 	protected function initCopyPageFormOptions(ilFormPropertyGUI $a_tgt)
 	{
-		$all = ilObjPortfolio::getPortfoliosOfUser($this->user_id);			
-		if(sizeof($all) > 1)
-		{			
-			$old = new ilRadioOption($this->lng->txt("prtf_existing_portfolio"), "old");
-			$a_tgt->addOption($old);
+		$old = new ilRadioOption($this->lng->txt("prtf_existing_portfolio"), "old");
+		$a_tgt->addOption($old);
 
-			$options = array();
-			foreach($all as $item)
-			{
-				if(true /* $item["id"] != $this->object->getId() */)
-				{
-					$options[$item["id"]] = $item["title"]; 
-				}
-			}				
-			$prtf = new ilSelectInputGUI($this->lng->txt("portfolio"), "prtf");
-			$prtf->setRequired(true);
-			$prtf->setOptions($options);
-			$old->addSubItem($prtf);
-		}
+		$options = array();
+		$all = ilObjPortfolio::getPortfoliosOfUser($this->user_id);			
+		foreach($all as $item)
+		{				
+			$options[$item["id"]] = $item["title"]; 				
+		}				
+		$prtf = new ilSelectInputGUI($this->lng->txt("portfolio"), "prtf");
+		$prtf->setRequired(true);
+		$prtf->setOptions($options);
+		$old->addSubItem($prtf);	
 
 		$new = new ilRadioOption($this->lng->txt("prtf_new_portfolio"), "new");
 		$a_tgt->addOption($new);

@@ -399,26 +399,20 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
 	}
 	
 	protected function initCopyPageFormOptions(ilFormPropertyGUI $a_tgt)
-	{
-		$all = ilObjPortfolioTemplate::getAvailablePortfolioTemplates("write");
-		if(sizeof($all) > 1)
-		{			
-			$old = new ilRadioOption($this->lng->txt("prtf_existing_portfolio"), "old");
-			$a_tgt->addOption($old);
+	{						
+		$old = new ilRadioOption($this->lng->txt("prtf_existing_portfolio"), "old");
+		$a_tgt->addOption($old);
 
-			$options = array();
-			foreach($all as $id => $title)
-			{
-				if(true /* $id != $this->object->getId() */)
-				{
-					$options[$id] = $title; 
-				}
-			}				
-			$prtf = new ilSelectInputGUI($this->lng->txt("obj_prtt"), "prtf");
-			$prtf->setRequired(true);
-			$prtf->setOptions($options);
-			$old->addSubItem($prtf);
-		}
+		$options = array();
+		$all = ilObjPortfolioTemplate::getAvailablePortfolioTemplates("write");
+		foreach($all as $id => $title)
+		{		
+			$options[$id] = $title; 			
+		}				
+		$prtf = new ilSelectInputGUI($this->lng->txt("obj_prtt"), "prtf");
+		$prtf->setRequired(true);
+		$prtf->setOptions($options);
+		$old->addSubItem($prtf);		
 		
 		// no option to create new template here
 		$a_tgt->setValue("old");
