@@ -615,9 +615,11 @@ class ilLMPresentationGUI
 
 			// TODO: Very dirty hack to force the import of JavaScripts in learning content in the FAQ frame (e.g. if jsMath is in the content)
 			// Unfortunately there is no standardized way to do this somewhere else. Calling fillJavaScripts always in ilTemplate causes multiple additions of the the js files.
-			if (strcmp($_GET["frame"], "topright") == 0) $this->tpl->fillJavaScriptFiles();
-			if (strcmp($_GET["frame"], "right") == 0) $this->tpl->fillJavaScriptFiles();
-			if (strcmp($_GET["frame"], "botright") == 0) $this->tpl->fillJavaScriptFiles();
+			// 19.7.2014: outcommented, since fillJavaScriptFiles is called in the next blocks, and the
+			// following lines would add the js files two times
+//			if (strcmp($_GET["frame"], "topright") == 0) $this->tpl->fillJavaScriptFiles();
+//			if (strcmp($_GET["frame"], "right") == 0) $this->tpl->fillJavaScriptFiles();
+//			if (strcmp($_GET["frame"], "botright") == 0) $this->tpl->fillJavaScriptFiles();
 
 			if (!$this->offlineMode())
 			{
@@ -1931,7 +1933,6 @@ class ilLMPresentationGUI
 			}
 		}
 		$link_info.= "</IntLinkInfos>";
-
 		return $link_info;
 	}
 
@@ -1989,6 +1990,7 @@ class ilLMPresentationGUI
 
 		$int_links = $term_gui->getInternalLinks();
 		$link_xml = $this->getLinkXML($int_links, $this->getLayoutLinkTargets());
+		$link_xml.= $this->getLinkTargetsXML();
 		$term_gui->setLinkXML($link_xml);
 
 		$term_gui->setOfflineDirectory($this->getOfflineDirectory());
@@ -2040,6 +2042,7 @@ class ilLMPresentationGUI
 		//$int_links = $page_object->getInternalLinks();
 		$med_links = ilMediaItem::_getMapAreasIntLinks($_GET["mob_id"]);
 		$link_xml = $this->getLinkXML($med_links, $this->getLayoutLinkTargets());
+		$link_xml.= $this->getLinkTargetsXML();
 //echo "<br><br>".htmlentities($link_xml);
 		require_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 		$media_obj = new ilObjMediaObject($_GET["mob_id"]);

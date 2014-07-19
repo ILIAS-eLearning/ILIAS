@@ -368,7 +368,7 @@ class ilGlossaryTermGUI
 		for($j=0; $j<count($defs); $j++)
 		{
 			$def = $defs[$j];
-			$page = new ilGlossaryDefPage("gdf", $def["id"]);
+			$page = new ilGlossaryDefPage($def["id"]);
 			$page->buildDom();
 			$page_links = $page->getInternalLinks();
 			foreach($page_links as $key => $page_link)
