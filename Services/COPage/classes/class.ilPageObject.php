@@ -1492,7 +1492,7 @@ abstract class ilPageObject
 		// get all internal links of the page
 		$xpc = xpath_new_context($this->dom);
 		$path = "//IntLink";
-		$res =& xpath_eval($xpc, $path);
+		$res = xpath_eval($xpc, $path);
 
 		$links = array();
 		$cnt_multiple = 1;
