@@ -79,6 +79,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
 		
 		$this->tpl->addJavascript("./Services/COPage/phpBB/3_0_5/editor.js");
 		//$this->tpl->addJavascript("./Services/COPage/js/page_editing.js");
+		$this->tpl->addJavascript("./Services/COPage/js/paragraph_editing.js");
 		$this->tpl->addJavascript("./Services/COPage/js/page_editing_4_0_12.js");
 
 		// get all rows

@@ -56,7 +56,7 @@
 }
 </style>
 
-<div class="yui-skin-sam">
+<div id="ilEditorPanelParent" class="yui-skin-sam">
 <div id="ilEditorPanel" style="display:none;">
 	<div class="hd">&nbsp;</div>
 	<div class="bd" id="ilIntLinkPanel">
@@ -67,4 +67,5 @@
 
 <script language="JavaScript" type="text/javascript">
 il.Util.addOnLoad(function() {il.IntLink.init({url: '{IL_INT_LINK_URL}'})});
+<!-- BEGIN move_to_body -->il.Util.addOnLoad(function() {$("#ilEditorPanelParent").appendTo("body")});<!-- END move_to_body -->
 </script>
