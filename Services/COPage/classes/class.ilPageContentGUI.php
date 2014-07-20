@@ -262,7 +262,7 @@ class ilPageContentGUI
 			$btpl->setCurrentBlock("int_link_prep");
 			$btpl->setVariable("INT_LINK_PREP", ilInternalLinkGUI::getInitHTML(
 				$ilCtrl->getLinkTargetByClass(array("ilpageeditorgui", "ilinternallinkgui"),
-						"", false, true, false)));
+						"", false, true, false), true));
 			$btpl->parseCurrentBlock();
 
 		}
