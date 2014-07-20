@@ -5907,7 +5907,6 @@ content#:#cont_resource#:#Ressource
 content#:#cont_resource_size#:#Originalgröße der Ressource
 content#:#cont_resource_type#:#Typ
 content#:#cont_resources#:#Ressourcen
-content#:#cont_Ressources#:#Ressourcen
 content#:#cont_revision#:#Änderung
 content#:#cont_right#:#Rechts
 content#:#cont_right_float#:#Rechts, Text umfließt
@@ -14287,3 +14286,4 @@ survey#:#svy_eval_skipped_value_lng_info#:#Aktueller Wert: "%s"
 survey#:#svy_eval_skipped_value_custom#:#Angepassten Wert verwenden
 survey#:#svy_eval_skipped_value_custom_info#:#Geben sie einen (oder leeren) Wert für übersprungene Antworten an
 survey#:#svy_eval_skipped_value_custom_value#:#Wert
+rbac#:#rbac_create_chat#:#Create Chat###20 07 2014 new variable
