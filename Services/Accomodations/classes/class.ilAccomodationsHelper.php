@@ -7,6 +7,9 @@
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @ingroup ServicesAccomodations
  */
+
+require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+
 class ilAccomodationsHelper
 {
 	protected $course; // [ilObjCourse]
@@ -82,6 +85,9 @@ class ilAccomodationsHelper
 	protected function setCourse(ilObjCourse $a_course)
 	{
 		$this->course = $a_course;
+		// gev-patch start
+		$this->utils = gevCourseUtils::getInstanceByObj($a_course);
+		// gev-patch end
 	}
 	
 	/**
@@ -106,9 +112,7 @@ class ilAccomodationsHelper
 	 */
 	public function getCourseStart()
 	{
-		$date = new ilDate(date("Y-m-d"), IL_CAL_DATE);
-		$date->increment(IL_CAL_WEEK, 1);
-		return $date;
+		return $this->utils->getStartDate();
 	}
 	
 	/**
@@ -118,8 +122,6 @@ class ilAccomodationsHelper
 	 */
 	public function getCourseEnd()
 	{
-		$date = new ilDate(date("Y-m-d"), IL_CAL_DATE);
-		$date->increment(IL_CAL_WEEK, 2);
-		return $date;
-	}	
+		return $this->utils->getEndDate();
+	}
 }
