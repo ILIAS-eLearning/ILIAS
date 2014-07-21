@@ -1446,11 +1446,14 @@ abstract class ilMailingGUI {
 			$mail["attachments"][$key]["link"] = $this->ctrl->getLinkTarget($this, "deliverMailLogAttachment");
 			$this->ctrl->clearParametersByClass("vfCrsMailingGUI");
 		}
-
+		
 		$view_gui = new ilMailViewGUI( $mail["occasion"]." ".($this->lng->txt("mailing_on"))." ".$moment
 									 , $this->ctrl->getLinkTarget($this, "showLog")
 									 , $mail["subject"]
 									 , $mail["message"]
+									 , null
+									 , null
+									 , null
 									 , $mail["attachments"]
 									 , $mail["to"]
 									 , $mail["cc"]

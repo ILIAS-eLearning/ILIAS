@@ -58,7 +58,7 @@ class ilMailViewGUI {
 			}
 		}
 		else {
-			$msg = $this->txt;
+			$msg = $this->text;
 		}
 
 		$this->fillRow($tpl, $this->lng->txt("subject"), $this->subject);
