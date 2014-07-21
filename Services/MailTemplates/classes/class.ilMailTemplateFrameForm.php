@@ -92,6 +92,7 @@ class ilMailTemplateFrameForm
 		$input_html->setPurifier($purifier);
 		$input_html->removePlugin('ilimgupload');
 		$input_html->disableButtons(array('ilimgupload'));
+		$input_html->setRteTagSet('extended');
 
 		$prop = new ilMailTemplatePlaceholdersPropertyGUI($input_html);
 		$prop->addPlaceHolder('CONTENT', $this->lng->txt('mail_template_placeholder_content'));

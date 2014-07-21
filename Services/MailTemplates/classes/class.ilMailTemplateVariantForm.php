@@ -131,6 +131,9 @@ class ilMailTemplateVariantForm
 		$input_html->usePurifier(true);
 		$input_html->setPurifier($purifier);
 		$input_html->setValue($form_values['message_html']);
+		$input_html->removePlugin('ilimgupload');
+		$input_html->disableButtons(array('ilimgupload'));
+		$input_html->setRteTagSet('extended');
 		$this->form->addItem($input_html);
 
 		$prop2 = new ilMailTemplatePlaceholdersPropertyGUI($input_html, $template_adapter);
@@ -142,17 +145,25 @@ class ilMailTemplateVariantForm
 		$prop2->addPlaceHolder('CLIENT_NAME', $this->lng->txt('mail_nacc_client_name'));
 		$this->form->addItem($prop2);
 
-		$input_created = new ilNonEditableValueGUI($this->lng->txt('mail_message_created'), 'mail_message_created');
+		$input_created = new ilNonEditableValueGUI($this->lng->txt('mail_message_created'));
 		$input_created->setValue(
 			(int)$form_values['created_date'] ? ilDatePresentation::formatDate(new ilDateTime($form_values['created_date'], IL_CAL_UNIX)) : '-'
 		);
 		$this->form->addItem($input_created);
 
-		$input_updated = new ilNonEditableValueGUI($this->lng->txt('mail_message_updated'), 'mail_message_updated');
+		$hidden_input_created = new ilHiddenInputGUI('mail_message_created');
+		$hidden_input_created->setValue($form_values['created_date']);
+		$this->form->addItem($hidden_input_created);
+
+		$input_updated = new ilNonEditableValueGUI($this->lng->txt('mail_message_updated'));
 		$input_updated->setValue(
-			(int)$form_values['update_date'] ? ilDatePresentation::formatDate(new ilDateTime($form_values['update_date'], IL_CAL_UNIX)) : '-'
+			(int)$form_values['updated_date'] ? ilDatePresentation::formatDate(new ilDateTime($form_values['updated_date'], IL_CAL_UNIX)) : '-'
 		);
 		$this->form->addItem($input_updated);
+		
+		$hidden_input_updated = new ilHiddenInputGUI('mail_message_updated');
+		$hidden_input_updated->setValue($form_values['update_date']);
+		$this->form->addItem($hidden_input_updated);
 
 		$input_update_usr = new ilNonEditableValueGUI($this->lng->txt('mail_message_updated_usr'), 'mail_message_updated_usr');
 		$input_update_usr->setValue(

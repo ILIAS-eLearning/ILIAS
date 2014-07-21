@@ -349,16 +349,16 @@ class ilMailTemplatesGUI extends ilObjectGUI
 			require_once 'Services/MailTemplates/classes/class.ilMailTemplateVariantEntity.php';
 			$entity = new ilMailTemplateVariantEntity();
 			$entity->setIlDB($this->ilDB);
-			$entity->setId($_POST['mail_template_variant_id']);
-			$entity->setMailTypesFi($_POST['mail_types_fi']);
-			$entity->setLanguage($_POST['mail_types_language']);
-			$entity->setMessageSubject($_POST['mail_message_subject']);
+			$entity->setId((int)$_POST['mail_template_variant_id']);
+			$entity->setMailTypesFi((int)$_POST['mail_types_fi']);
+			$entity->setLanguage(ilUtil::stripSlashes($_POST['mail_types_language']));
+			$entity->setMessageSubject(ilUtil::stripSlashes($_POST['mail_message_subject']));
 			$entity->setMessagePlain($_POST['mail_message_plain']);
 			$entity->setMessageHtml($_POST['mail_message_html']);
-			$entity->setCreatedDate($_POST['mail_message_created']);
+			$entity->setCreatedDate(ilUtil::stripSlashes($_POST['mail_message_created']));
 			$entity->setUpdatedDate(time());
-			$entity->setUpdatedUsrFi($ilUser->getId());
-			$entity->setTemplateActive($_POST['mail_message_active']);
+			$entity->setUpdatedUsrFi((int)$ilUser->getId());
+			$entity->setTemplateActive((int)$_POST['mail_message_active']);
 			$entity->save();		
 			
 			if ($_POST['cmd']['save_and_sample_variant'] == $this->lng->txt('save_and_sample_variant'))
