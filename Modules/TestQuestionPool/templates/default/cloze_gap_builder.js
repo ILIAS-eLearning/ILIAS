@@ -1,8 +1,9 @@
 $(document).ready(function ()
 {
     "use strict";
-    var clone_active    = -1;
-    var active_gap      = -1;
+    var clone_active        = -1;
+    var active_gap          = -1;
+    var g_cursor_pos        = '';
     bindTextareaHandler();
     paintGaps();
     createGapListener();
@@ -71,7 +72,6 @@ $(document).ready(function ()
     {
         buildTitle(counter);
         buildSelectionField(type, counter);
-
         if (type === 'text' || type == 'numeric') {
             $('#prototype_gapsize').clone().attr({
                 'id': 'gap_' + counter + '_gapsize_row',
@@ -121,7 +121,6 @@ $(document).ready(function ()
             'class': 'error_answer_' + counter,
             'name': 'error_answer_' + counter
         });
-
         moveFooterBelow();
     }
     function highlightRed(selector)
@@ -159,12 +158,10 @@ $(document).ready(function ()
                     {
                         Object.keys(obj).forEach(function (key)
                         {
-                            console.log(obj[key],key)
                             if(obj[key]===true)
                             {
                                 highlightRed($('#gap_' + row + '_numeric_' + key));
                                 showHidePrototypes(row,'formula',true);
-                                console.log('#gap_' + row + '_numeric_' + key)
                             }
                             else
                             {
@@ -543,6 +540,7 @@ $(document).ready(function ()
         cloze_text_selector.on('keydown', function () {
             var cursorPosition = $('#cloze_text').prop('selectionStart');
             var pos = cursorInGap(cursorPosition);
+            g_cursor_pos = cursorPosition;
             if (pos[1] != -1) {
                 setCaretPosition(document.getElementById('cloze_text'), pos[1]);
                 cloneFormPart(pos[0]);
@@ -550,15 +548,36 @@ $(document).ready(function ()
                 return false;
             }
         });
+        cloze_text_selector.keyup(function(e){
+            if(e.keyCode == 8 || e.keyCode == 46)
+            {
+                checkTextAreaAgainstJson();
+            }
+        });
         cloze_text_selector.click(function () {
             var cursorPosition = $('#cloze_text').prop('selectionStart');
             var pos = cursorInGap(cursorPosition);
+            g_cursor_pos = cursorPosition;
             if (pos[1] != -1) {
                 setCaretPosition(document.getElementById('cloze_text'), pos[1]);
                 cloneFormPart(pos[0]);
                 window.location.hash = 'lightbox';
                 return false;
             }
+        });
+        cloze_text_selector.bind('paste', function (event){
+            event.preventDefault();
+            var clipboard_text = (event.originalEvent || event).clipboardData.getData('text/plain') || prompt('Paste something..');
+            clipboard_text = clipboard_text.replace(/\[gap[\s\S\d]*?\]/g, '[gap]');
+            var text = getTextAreaValue();
+            var textBefore = text.substring(0,  g_cursor_pos );
+            var textAfter  = text.substring(g_cursor_pos, text.length );
+            setTextAreaValue(textBefore + clipboard_text + textAfter);
+            createNewGapCode();
+            cleanGapCode();
+            paintGaps();
+            g_cursor_pos = parseInt(g_cursor_pos) + clipboard_text.length;
+            setCaretPosition(cloze_text_selector, parseInt(g_cursor_pos));
         });
     }
 
@@ -568,6 +587,7 @@ $(document).ready(function ()
         tinymce_iframe_selector.keydown(function () {
             var inst = tinyMCE.activeEditor;
             var cursorPosition = getCursorPositionTiny(inst);
+            g_cursor_pos = cursorPosition;
             var pos = cursorInGap(cursorPosition);
             if (pos[1] != -1) {
                 setCursorPositionTiny(inst, pos[1]);
@@ -576,10 +596,18 @@ $(document).ready(function ()
                 return false;
             }
         });
+        tinymce_iframe_selector.keyup(function(e){
+            if(e.keyCode == 8 || e.keyCode == 46)
+            {
+                checkTextAreaAgainstJson();
+            }
+        });
         tinymce_iframe_selector.click(function () {
             var inst = tinyMCE.activeEditor;
             var cursorPosition = getCursorPositionTiny(inst);
+            g_cursor_pos = cursorPosition;
             var pos = cursorInGap(cursorPosition);
+            checkTextAreaAgainstJson();
             if (pos[1] != -1) {
                 //setCursorPositionTiny(inst,pos[1]);
                 cloneFormPart(pos[0]);
@@ -587,39 +615,102 @@ $(document).ready(function ()
                 return false;
             }
         });
-    }
+      
+        tinymce_iframe_selector.blur(function () {
+            checkTextAreaAgainstJson();
+        });
 
+       tinymce_iframe_selector.bind('paste', function (event){
+            event.preventDefault();
+            var clipboard_text = (event.originalEvent || event).clipboardData.getData('text/plain') || prompt('Paste something..');
+            clipboard_text = clipboard_text.replace(/\[gap[\s\S\d]*?\]/g, '[gap]');
+            var text = getTextAreaValue();
+            var textBefore = text.substring(0,  g_cursor_pos );
+            var textAfter  = text.substring(g_cursor_pos, text.length );
+            setTextAreaValue(textBefore + clipboard_text + textAfter); 
+            createNewGapCode();
+            cleanGapCode();
+            g_cursor_pos = parseInt(g_cursor_pos) + clipboard_text.length;
+            correctCursorPositionInTextarea();
+       });
+    }      
+    
     function checkTextAreaAgainstJson()
     {
-        var fail = false;
         var text = getTextAreaValue();
         var text_match = text.match(/\[gap[\s\S\d]*?\](.*?)\[\/gap\]/g);
-        if (text_match !== null) {
-            for (var i = 0; i < text_match.length; i++) {
-                var pos = parseInt(i) + 1;
-                var string_match = '[gap ' + pos + ']';
-                for (var j = 0; j < gaps_php[0][i].values.length; j++) {
-                    string_match += gaps_php[0][i].values[j].answer + ',';
+        var to_be_removed = new Array();
+        if(gaps_php[0] !==null && gaps_php[0].length!== 0 && text_match !== null && text_match.length !== null)
+        {
+            if(gaps_php[0].length != text_match.length)
+            {
+                var gap_exists_in_txtarea = new Array();
+                for (var i = 0; i < text_match.length; i++)
+                {   
+                    var gap_exists = text_match[i].split(']');
+                    gap_exists = gap_exists[0].split('[gap ');
+                    gap_exists_in_txtarea.push(gap_exists[1]);
                 }
-                string_match = string_match.replace(/,+$/, '');
-                string_match += '[/gap]';
-                if (text_match[i] != string_match) {
-                    console.log('BROKEN', text_match[i], string_match, 'text_row_' + i + '_0');
-                    $('#text_row_' + i + '_0').css('background-color', 'orange');
-                    fail = true;
+                for (var i = 0; i < gaps_php[0].length; i++)
+                {
+                    var j = i+1;
+                    if(gap_exists_in_txtarea.indexOf(j + '') == -1)
+                    {
+                        to_be_removed.push(i);
+                    }
                 }
+                var allready_removed = 0;
+                for(var i = 0; i < to_be_removed.length; i++)
+                {
+                    var k = to_be_removed[i] - allready_removed;
+                    gaps_php[0].splice(k,1);
+                    allready_removed++;
+                }
+                cleanGapCode();
+                paintGaps();
+                correctCursorPositionInTextarea();
             }
         }
-        if (fail === true) {
-            $('textarea#cloze_text').css('background-color', 'orange');
-        }
-        else {
-            $('.interactive').css('background-color', '');
-            $('textarea#cloze_text').css('background-color', '');
-            $('#createGaps').css('color', '');
+        else
+        {
+            gaps_php[0] = new Array();
+            paintGaps();
         }
     }
 
+    function correctCursorPositionInTextarea()
+    {
+        if (typeof(tinymce) != "undefined") 
+        {
+            setTimeout(function (){
+                var pos = cursorInGap(g_cursor_pos);
+                if (pos[1] != -1)
+                {
+                    setCursorPositionTiny(tinyMCE.activeEditor, pos[1]);
+                }
+                else
+                {
+                    setCursorPositionTiny(tinyMCE.activeEditor, parseInt(g_cursor_pos));
+                }
+            }, 0);
+        }
+        else
+        {
+            setTimeout(function (){
+                var cloze_text_selector = document.getElementById('cloze_text');
+                var pos = cursorInGap(g_cursor_pos);
+                if (pos[1] != -1)
+                {
+                    setCaretPosition(cloze_text_selector, parseInt(pos[1]));
+                }
+                else
+                {
+                    setCaretPosition(cloze_text_selector, parseInt(g_cursor_pos));
+                }
+            }, 0);
+        }
+    }
+    
     function createGapListener()
     {
         $('#createGaps').on('click', function () {
@@ -816,7 +907,6 @@ $(document).ready(function ()
             var cursor = textarea.prop("selectionStart");
             textarea.val(text);
             var inGap = cursorInGap(cursor + 1);
-            console.log(inGap)
             if(inGap != '-1')
             {
                 if(active_gap == '-1')
@@ -847,30 +937,33 @@ $(document).ready(function ()
         }
         clone_active = pos;
         pos = parseInt(pos) - 1;
-        var clone_type = gaps_php[0][pos].type;
-        $('#lightbox_content').html('');
-        if (clone_type === '') {
-            clone_type = 'text';
+        if(gaps_php[0][pos])
+        {
+            var clone_type = gaps_php[0][pos].type;
+            $('#lightbox_content').html('');
+            if (clone_type === '') {
+                clone_type = 'text';
+            }
+            if (clone_type == 'text') {
+                $('#text-gap-r-' + pos).clone(true).removeAttr("id").appendTo('#lightbox_content');
+            }
+            else if (clone_type == 'select') {
+                $('#select-gap-r-' + pos).clone(true).removeAttr("id").appendTo('#lightbox_content');
+                $('#shuffle_answers_' + pos).clone(true).removeAttr("id").appendTo('#lightbox_content');
+            }
+            else if (clone_type == 'numeric') {
+                $('#numeric-gap-r-' + pos).clone(true).removeAttr("id").appendTo('#lightbox_content');
+                $('#numeric_answers_' + pos).clone(true).removeAttr("id").appendTo('#lightbox_content');
+                $('#numeric_answers_lower_' + pos).clone(true).removeAttr("id").appendTo('#lightbox_content');
+                $('#numeric_answers_upper_' + pos).clone(true).removeAttr("id").appendTo('#lightbox_content');
+                $('#numeric_answers_points_' + pos).clone(true).removeAttr("id").appendTo('#lightbox_content');
+            }
+            $('#text_row_' + pos + '_0').clone(true).removeAttr("id").appendTo('#lightbox_content');
+            $('.error_answer_' + pos).clone(true).removeAttr("id").appendTo('#lightbox_content');
+            var gapName = parseInt(pos) + 1;
+            $('#lightbox_title_top').find('h3').html('Gap ' + gapName);
+            $('#lightbox_title_bottom').find('h3').html('Gap ' + gapName);
         }
-        if (clone_type == 'text') {
-            $('#text-gap-r-' + pos).clone(true).removeAttr("id").appendTo('#lightbox_content');
-        }
-        else if (clone_type == 'select') {
-            $('#select-gap-r-' + pos).clone(true).removeAttr("id").appendTo('#lightbox_content');
-            $('#shuffle_answers_' + pos).clone(true).removeAttr("id").appendTo('#lightbox_content');
-        }
-        else if (clone_type == 'numeric') {
-            $('#numeric-gap-r-' + pos).clone(true).removeAttr("id").appendTo('#lightbox_content');
-            $('#numeric_answers_' + pos).clone(true).removeAttr("id").appendTo('#lightbox_content');
-            $('#numeric_answers_lower_' + pos).clone(true).removeAttr("id").appendTo('#lightbox_content');
-            $('#numeric_answers_upper_' + pos).clone(true).removeAttr("id").appendTo('#lightbox_content');
-            $('#numeric_answers_points_' + pos).clone(true).removeAttr("id").appendTo('#lightbox_content');
-        }
-        $('#text_row_' + pos + '_0').clone(true).removeAttr("id").appendTo('#lightbox_content');
-        $('.error_answer_' + pos).clone(true).removeAttr("id").appendTo('#lightbox_content');
-        var gapName = parseInt(pos) + 1;
-        $('#lightbox_title_top').find('h3').html('Gap ' + gapName);
-        $('#lightbox_title_bottom').find('h3').html('Gap ' + gapName);
     }
 
     $(function ()
