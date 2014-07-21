@@ -266,7 +266,7 @@ class gevBookingGUI {
 			$form->addItem($field);
 		}
 		
-		if ($this->isWithAccomodations()) {
+		if ($this->isWithAccomodations() && $this->crs_utils->getStartDate() !== null && $this->crs_utils->getEndDate() !== null) {
 			$this->lng->loadLanguageModule("acco");
 			ilSetAccomodationsGUI::addAccomodationsToForm($form, $this->crs_id, $this->user_id);
 		}

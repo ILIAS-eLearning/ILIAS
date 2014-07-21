@@ -1809,11 +1809,19 @@ class ilObjCourseGUI extends ilContainerGUI
 					$this->ctrl->setParameterByClass('ilparticipationstatusadmingui', 'ref_id', '');
 				}
 				
-				$this->ctrl->setParameterByClass('ilsetaccomodationsgui', 'ref_id', $this->object->getRefId());
-				$this->tabs_gui->addSubTabTarget("gev_accomodations",
-					$this->ctrl->getLinkTargetByClass(array('ilaccomodationsgui', 'ilsetaccomodationsgui'),''),
-					"", 'ilsetaccomodationsgui');		
-				$this->ctrl->setParameterByClass('ilsetaccomodationsgui', 'ref_id', '');
+				require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+				$crs_utils = gevCourseUtils::getInstanceByObj($this->object);
+				if ( $crs_utils->getAccomodation() !== null 
+				  && $crs_utils->getStartDate() !== null
+				  && $crs_utils->getEndDate() !== null) {
+					$this->ctrl->setParameterByClass('ilsetaccomodationsgui', 'ref_id', $this->object->getRefId());
+					$this->tabs_gui->addSubTabTarget("gev_accomodations",
+						$this->ctrl->getLinkTargetByClass(array('ilaccomodationsgui', 'ilsetaccomodationsgui'),''),
+						"", 'ilsetaccomodationsgui');		
+					$this->ctrl->setParameterByClass('ilsetaccomodationsgui', 'ref_id', '');
+				}
+				
+				
 				$this->ctrl->setParameterByClass('iltepoperationdaysgui', 'ref_id', $this->object->getRefId());
 				$this->tabs_gui->addSubTabTarget("gev_trainer_operation_days",
 					$this->ctrl->getLinkTargetByClass(array('iltepgui', 'iltepoperationdaysgui'),''),
