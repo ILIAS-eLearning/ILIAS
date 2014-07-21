@@ -375,7 +375,7 @@ abstract class gevCrsAutoMail extends ilAutoMail {
 					, "to" => $this->getTo($a_recipient)
 					, "cc" => $this->getCC($a_recipient)
 					, "bcc" => $this->getBCC($a_recipient)
-					, "subject" => $message["subject"]
+					, "subject" => $message["subject"]?$message["subject"]:""
 					, "message_plain" => $message["plain"]
 					, "message_html" => $message["html"]
 					, "attachments" => $this->getAttachmentsForMail($a_recipient)
@@ -415,9 +415,9 @@ abstract class gevCrsAutoMail extends ilAutoMail {
 	public function send($a_recipients = null, $a_occasion = null) {
 		//TODO: this needs to be adjusted
 		// Do not send mails for online-trainings.
-		if ($this->getCourse()->getVfSettings()->isTypeOnline()) {
+/*		if ($this->getCourse()->getVfSettings()->isTypeOnline()) {
 			return;
-		}
+		}*/
 
 		// Do not send mails for courses that are offline.
 		if ($this->getCourse()->getOfflineStatus()) {

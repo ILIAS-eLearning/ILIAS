@@ -12,7 +12,7 @@
 * @author Richard Klees <richard.klees@concepts-and-training>
 */
 
-require_once("Services/FileSystemStorage/classes/class.ilFileSystemStorage.php");
+require_once("Services/FileSystem/classes/class.ilFileSystemStorage.php");
 
 class ilMailLogStorage extends ilFileSystemStorage {
 	private $obj_prefix;

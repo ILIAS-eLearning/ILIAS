@@ -161,7 +161,7 @@ abstract class ilAutoMail {
 	 */
 	public function send($a_recipients = null, $a_occasion = null) {
 		// I really don't like that dependency...
-		require_once ("./Services/Mail/phpmailer/class.phpmailer.php");
+		require_once ("./Services/MailTemplates/lib/phpmailer/class.phpmailer.php");
 
 		global $ilUser;
 
@@ -210,13 +210,27 @@ abstract class ilAutoMail {
 
 			$mail->Subject = $mail_data["subject"];
 
+			$msg_html = $mail_data["message_html"];
+			$msg_plain = $mail_data["message_plain"];
+			
+			if ($mail_data["frame_html"]) {
+				$msg_html = str_ireplace("[content]", $msg_html, $mail_data["frame_html"]);
+			}
+			if ($mail_data["frame_plain"]) {
+				$msg_plain = str_ireplace("[content]", $msg_plain, $mail_data["frame_plain"]);
+			}
+			if ($mail_data["image_path"]) {
+				$msg_html = str_ireplace("[image]", '<img src="cid:frame_image_path" style="'.$mail_data["image_style"].'" />', $msg_html);
+				$mail->AddEmbeddedImage($mail_data["image_path"], "frame_image_path");
+			}
+
 			if (strlen($mail_data["message_html"]) > 0) {
-				$mail->Body = $mail_data["message_html"];
+				$mail->Body = $msg_html;
 				$mail->isHTML(true);
-				$mail->AltBody = $mail_data["message_plain"];
+				$mail->AltBody = $msg_plain;
 			}
 			else {
-				$mail->Body = $mail_data["message_plain"];
+				$mail->Body = $msg_plain;
 				$mail->isHTML(false);
 			}
 

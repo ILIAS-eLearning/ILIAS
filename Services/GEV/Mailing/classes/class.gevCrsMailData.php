@@ -78,13 +78,31 @@ class gevCrsMailData extends ilMailData {
 				$val = $this->crs_utils->getCreditPoints();
 				break;
 			case "METHODEN":
-				$val = implode(", ", $this->crs_utils->getMethods());
+				$methods = $this->crs_utils->getMethods();
+				if ($methods !== null) {
+					$val = implode(", ", $methods);
+				}
+				else {
+					$val = "";
+				}
 				break;
 			case "MEDIEN":
-				$val = implode(", ", $this->crs_utils->getMedia());
+				$media = $this->crs_utils->getMedia();
+				if ($media !== null) {
+					$val = implode(", ", $media);
+				}
+				else {
+					$val = "";
+				}
 				break;
 			case "ZIELGRUPPEN":
-				$val = implode(", ", $this->crs_utils->getTargetGroup());
+				$target_group =  $this->crs_utils->getTargetGroup();
+				if ($target_group !== null) {
+					$val = implode(", ", $target_group);
+				}
+				else {
+					$val = "";
+				}
 				break;
 			case "INHALT":
 				$val = $this->crs_utils->getContents();
