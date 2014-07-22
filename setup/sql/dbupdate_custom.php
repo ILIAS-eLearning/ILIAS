@@ -582,7 +582,7 @@ $ilDB->addPrimaryKey('gev_user_reg_tokens', array('token'));
 
 $stmt = $ilDB->prepareManip("INSERT INTO tep_type (id, title, bg_color, font_color, tep_active) VALUES (?, ?, ?, ?, ?) "
 						   , array("integer", "text", "text", "text", "integer"));
-$data = array( array(1, "Training", "f6006", "000000", "0")
+$data = array( array(1, "Training", "f6000d", "000000", "0")
 			 , array(2, "Veranstaltung (LD)", "f76809", "000000", "1")
 			 , array(3, "Projekt/Sondermaßnahme", "b90007", "000000", "1")
 			 , array(4, "Trainingsvorbereitung", "a2ff2c", "000000", "1")

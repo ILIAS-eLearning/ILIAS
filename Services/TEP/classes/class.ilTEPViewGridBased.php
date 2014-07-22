@@ -391,9 +391,10 @@ abstract class ilTEPViewGridBased extends ilTEPView
 		
 		require_once "Services/TEP/classes/class.ilCalEntryType.php";
 		require_once "Services/TEP/classes/class.ilTEPEntry.php";		
-		$used = ilTEPEntry::getAllTypesInUse();		
-		if($used)
-		{
+		//$used = ilTEPEntry::getAllTypesInUse();		
+		//if($used)
+		//{
+		$used = ilCalEntryType::getAll();
 			$tep_tpl = new ilTemplate("tpl.view_legend.html", true, true, "Services/TEP");
 			
 			$counter = 0;
@@ -422,7 +423,7 @@ abstract class ilTEPViewGridBased extends ilTEPView
 			$tep_tpl->setVariable("TITLE", $lng->txt("tep_legend"));
 			
 			return $tep_tpl->get();
-		}
+		//}
 	}	
 	
 	/**

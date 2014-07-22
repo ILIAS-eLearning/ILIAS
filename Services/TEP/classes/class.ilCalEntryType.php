@@ -286,6 +286,17 @@ class ilCalEntryType
 		return $res;
 	}
 	
+	public static function getAll() {
+		global $ilDB;
+		
+		$ret = array();
+		$res = $ilDB->query("SELECT id FROM tep_type");
+		while ($rec = $ilDB->fetchAssoc($res)) {
+			$ret[] = $rec["id"];
+		}
+		return $ret;
+	}
+	
 	/**
 	 * Get complete entry data
 	 *
