@@ -1434,8 +1434,13 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 					
 					$alist->addItem($lng->txt("rename"), "rename", 
 						$ilCtrl->getLinkTargetByClass("ilblogpostinggui", "edittitle"));
-					$alist->addItem($lng->txt("blog_edit_keywords"), "keywords", 
-						$ilCtrl->getLinkTargetByClass("ilblogpostinggui", "editKeywords"));				
+					
+					if($this->object->hasKeywords()) // #13616
+					{
+						$alist->addItem($lng->txt("blog_edit_keywords"), "keywords", 
+							$ilCtrl->getLinkTargetByClass("ilblogpostinggui", "editKeywords"));		
+					}
+					
 					$alist->addItem($lng->txt("blog_edit_date"), "editdate", 
 						$ilCtrl->getLinkTargetByClass("ilblogpostinggui", "editdate"));
 					$alist->addItem($lng->txt("delete"), "delete",
