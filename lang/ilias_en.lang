@@ -6044,9 +6044,12 @@ dateplaner#:#cal_type_usr#:#Personal Calendar
 dateplaner#:#cal_unshare_cal#:#Stop Sharing
 dateplaner#:#cal_unshared_selected_usr#:#Stopped sharing the calendar with the selected users.
 dateplaner#:#cal_user_settings#:#Calendar Settings
+dateplaner#:#cal_user_timezone#:#ILIAS-Zeitzone
+dateplaner#:#cal_export_timezone#:#Timezone for Calendar Export
+dateplaner#:#cal_export_timezone_tz#:#Use ILIAS-Timezone
+dateplaner#:#cal_export_timezone_utc#:#Use Timezone UTC (compatible with MS Outlook)
 dateplaner#:#cal_user_date_format#:#Date Input Format
 dateplaner#:#cal_user_time_format#:#Time Format
-dateplaner#:#cal_user_timezone#:#Timezone
 dateplaner#:#cal_week_abbrev#:#W
 dateplaner#:#cal_week_month_view#:#Week/Month View Settings
 dateplaner#:#cal_week_overview#:#Week Overview
@@ -14287,3 +14290,64 @@ survey#:#svy_eval_skipped_value_lng_info#:#Current value: "%s"
 survey#:#svy_eval_skipped_value_custom#:#Use custom value
 survey#:#svy_eval_skipped_value_custom_info#:#Define any (or empty) value to use for skipped answers
 survey#:#svy_eval_skipped_value_custom_value#:#Value
+survey#:#svy_import_codes#:#Import Codes
+survey#:#svy_import_codes_info#:#This import requires a "%s" export file.
+wiki#:#wiki_stat_num_pages#:#Number of Pages
+wiki#:#wiki_stat_new_pages#:#Number of New Pages
+wiki#:#wiki_stat_new_pages_avg#:#Average Number of New Pages per User
+wiki#:#wiki_stat_edit_pages#:#Number of Edited Pages
+wiki#:#wiki_stat_edit_pages_avg#:#Average Number of Edited Pages per User
+wiki#:#wiki_page_templates#:#Page Templates
+wiki#:#wiki_template_status_removed#:#Template status removed.
+wiki#:#wiki_remove_template_status#:#Remove Template Status
+wiki#:#wiki_template_added#:#Template page added.
+wiki#:#wiki_templ_new_pages#:#Available on Page Creation
+wiki#:#wiki_templ_add_to_page#:#Available for Being Added to Existing Pages
+wiki#:#wiki_add_template#:#Set Template Status
+wiki#:#wiki_empty_page_template#:#Empty Page Template on Page Creation
+wiki#:#wiki_page_not_exist_select_templ#:#This page does not exist yet. Please select a template for the new page.
+wiki#:#wiki_new_page#:#New Page
+wiki#:#wiki_page_template#:#Page Template
+wiki#:#wiki_empty_page#:#Empty Page
+wiki#:#wiki_create_page#:#Create Page
+content#:#cont_ed_insert_templ#:#Insert Content Template
+content#:#cont_template#:#Template
+wiki#:#wiki_stat_scope#:#Timeframe
+wiki#:#wiki_stat_figure#:#Figure
+wiki#:#wiki_stat_deleted_pages#:#Number of Deleted Pages
+wiki#:#wiki_stat_read_pages#:#Number of Read Accesses
+wiki#:#wiki_stat_user_edit_pages#:#Number of Users Who Edited Pages 
+wiki#:#wiki_stat_user_edit_pages_avg#:#Average Number of Users Who Edited Pages 
+wiki#:#wiki_stat_num_rating#:#Number of Ratings
+wiki#:#wiki_stat_num_rating_avg#:#Average Number of Ratings per Page
+wiki#:#wiki_stat_rating_avg#:#Average Rating
+wiki#:#wiki_stat_internal_links#:#Number of Internal Links
+wiki#:#wiki_stat_internal_links_avg#:#Average Number of Internal Links per Page
+wiki#:#wiki_stat_external_links#:#Number of External Links
+wiki#:#wiki_stat_external_links_avg#:#Average Number of External Links per Page
+wiki#:#wiki_stat_words#:#Number of Words
+wiki#:#wiki_stat_words_avg#:# Average Number of Words per Page
+wiki#:#wiki_stat_chars#:#Number of Characters
+wiki#:#wiki_stat_chars_avg#:#Average Number of Characters per Page
+wiki#:#wiki_stat_footnotes#:#Number of Footnotes
+wiki#:#wiki_stat_footnotes_avg#:#Average Number of Footnotes per Page
+wiki#:#wiki_stat_page_changes#:#Number of Changes
+wiki#:#wiki_stat_page_changes_avg#:#Average Number of Changes
+wiki#:#wiki_stat_page_user_edit#:#Number of Users Who Edited Page
+wiki#:#wiki_stat_page_read#:#Number of Read Accesses
+wiki#:#wiki_stat_page_internal_links#:#Number of Internal Links
+wiki#:#wiki_stat_page_external_links#:#Number of External Links
+wiki#:#wiki_stat_page_words#:#Number of Words
+wiki#:#wiki_stat_page_characters#:#Number of Characters
+wiki#:#wiki_stat_page_footnotes#:#Number of Footnotes
+wiki#:#wiki_stat_page_ratings#:#Number of Ratings
+rbac#:#statistics_read#:#View Statistics
+rbac#:#wiki_statistics_read#:#View Statistics
+pd#:#pd_enable_comments_del_user#:#Comments may be deleted by their authors
+pd#:#pd_enable_comments_del_tutor#:#Any Comment may be deleted by tutors
+notes#:#notes_sort_asc#:#Sort Ascending
+notes#:#notes_sort_desc#:#Sort Descending
+obj#:#obj_tool_setting_tag_cloud#:#Tag Cloud
+obj#:#obj_tool_setting_tag_cloud_info#:#The "tag cloud" block will be displayed inside the "Content" tab.
+administration#:#adm_show_comments_tagging_in_lists_tags#:#Display tags instead of number
+tagging#:#tagging_other_users#:#Other Users

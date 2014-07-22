@@ -21,6 +21,7 @@
 	+-----------------------------------------------------------------------------+
 */
 
+include_once './Services/Calendar/classes/class.ilCalendarUserSettings.php';
 include_once './Services/Calendar/classes/iCal/class.ilICalWriter.php';
 include_once './Services/Calendar/classes/class.ilCalendarCategory.php';
 include_once './Services/Calendar/classes/class.ilCalendarEntry.php';
@@ -42,6 +43,7 @@ class ilCalendarExport
 
 
 	protected $calendars = array();
+	protected $user_settings = NULL;
 	protected $appointments = array();
 	protected $writer = null;
 	
@@ -49,7 +51,19 @@ class ilCalendarExport
 	{
 		$this->calendars = $a_calendar_ids;
 		$this->writer = new ilICalWriter();
+		
+		$this->user_settings = ilCalendarUserSettings::_getInstanceByUserId($GLOBALS['ilUser']->getId());
 	}
+	
+	/**
+	 * Get user settings
+	 * @return ilCalendarUserSettings
+	 */
+	public function getUserSettings()
+	{
+		return $this->user_settings;
+	}
+	
 
 	public function setExportType($a_type)
 	{
@@ -105,6 +119,11 @@ class ilCalendarExport
 	
 	protected function addTimezone()
 	{
+		if($this->getUserSettings()->getExportTimeZoneType() == ilCalendarUserSettings::CAL_EXPORT_TZ_UTC)
+		{
+			return;
+		}
+		
 		$this->writer->addLine('X-WR-TIMEZONE:'.$GLOBALS['ilUser']->getTimeZone());
 		
 		include_once './Services/Calendar/classes/class.ilCalendarUtil.php';
@@ -221,14 +240,21 @@ class ilCalendarExport
 		}
 		else
 		{
-			#$start = $app->getStart()->get(IL_CAL_FKT_DATE,'Ymd\THis\Z',ilTimeZone::UTC);
-			#$start = $app->getStart()->get(IL_CAL_FKT_DATE,'Ymd\THis',$ilUser->getTimeZone());
-			$start = $startInit->get(IL_CAL_FKT_DATE,'Ymd\THis',$ilUser->getTimeZone());
-			#$end = $app->getEnd()->get(IL_CAL_FKT_DATE,'Ymd\THis\Z',ilTimeZone::UTC);
-			#$end = $app->getEnd()->get(IL_CAL_FKT_DATE,'Ymd\THis',$ilUser->getTimeZone());
-			$end = $endInit->get(IL_CAL_FKT_DATE,'Ymd\THis',$ilUser->getTimeZone());
-			$this->writer->addLine('DTSTART;TZID='.$ilUser->getTimezone().':'. $start);
-			$this->writer->addLine('DTEND;TZID='.$ilUser->getTimezone().':'.$end);
+			if($this->getUserSettings()->getExportTimeZoneType() == ilCalendarUserSettings::CAL_EXPORT_TZ_UTC)
+			{
+				$start = $app->getStart()->get(IL_CAL_FKT_DATE,'Ymd\THis\Z',ilTimeZone::UTC);
+				$end = $app->getEnd()->get(IL_CAL_FKT_DATE,'Ymd\THis\Z',ilTimeZone::UTC);
+				$this->writer->addLine('DTSTART:'. $start);
+				$this->writer->addLine('DTEND:'.$end);
+				
+			}
+			else
+			{
+				$start = $startInit->get(IL_CAL_FKT_DATE,'Ymd\THis',$ilUser->getTimeZone());
+				$end = $endInit->get(IL_CAL_FKT_DATE,'Ymd\THis',$ilUser->getTimeZone());
+				$this->writer->addLine('DTSTART;TZID='.$ilUser->getTimezone().':'. $start);
+				$this->writer->addLine('DTEND;TZID='.$ilUser->getTimezone().':'.$end);
+			}
 		}
 		// end-patch aptar
 
