@@ -329,7 +329,7 @@ class ilCourseBookingAdminGUI
 		foreach($tree->getChildsByType(ROOT_FOLDER_ID, "grp") as $node)
 		{
 			$ref_id = $node["child"];
-			if($ilAccess->checkAccess("view", "", $ref_id))
+			if($ilAccess->checkAccess("visible", "", $ref_id))
 			{
 				$options[$node["obj_id"]] = $node["title"];
 			}					

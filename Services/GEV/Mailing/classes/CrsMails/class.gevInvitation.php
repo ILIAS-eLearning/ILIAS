@@ -16,6 +16,10 @@ class gevInvitation extends gevCrsAutoMail {
 		$this->mail_settings = null;
 		$this->vofue_settings = null;
 		$this->attachments = null;
+		
+		
+		$additional_mail_settings = new gevCrsAdditionalMailSettings($a_crs_id);
+		$this->days_before_course_start = $additional_mail_settings->getInvitationMailingDate();
 	}
 
 	public function getTitle() {

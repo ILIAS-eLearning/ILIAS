@@ -386,7 +386,10 @@ class gevCourseUtils {
 		$start = $this->getStartDate();
 		$end = $this->getEndDate();
 		if ($start && $end) {
-			return ilDatePresentation::formatPeriod($start, $end);
+			ilDatePresentation::setUseRelativeDates(false);
+			$val = ilDatePresentation::formatPeriod($start, $end);
+			ilDatePresentation::setUseRelativeDates(true);
+			return $val;
 		}
 		return "";
 	}

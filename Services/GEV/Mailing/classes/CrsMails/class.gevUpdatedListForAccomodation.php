@@ -3,7 +3,7 @@
 require_once("Services/GEV/Mailing/classes/class.gevCrsAutoMail.php");
 
 class gevUpdatedListForAccomodation extends gevCrsAutoMail {
-	const DAYS_BEFORE_COURSE_START = 2;
+	const DAYS_BEFORE_COURSE_START = 3;
 	
 	public function getTitle() {
 		return "Teilnehmerliste Hotel";

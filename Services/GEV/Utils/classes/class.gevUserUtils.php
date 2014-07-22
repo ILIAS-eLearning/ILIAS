@@ -423,7 +423,7 @@ class gevUserUtils {
 			return "";
 		}
 		else {
-			require_once("Service/GEV/classes/class.gevOrgUnitUtils.php");
+			require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
 			return gevOrgUnitUtils::getInstance($orgu_id)->getTitle();
 		}
 	}

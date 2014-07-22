@@ -11,6 +11,8 @@ class gevCrsAdditionalMailSettings {
 	protected $crs_id;
 	protected $settings;
 	protected $db;
+	
+	const INVITATION_MAIL_DEFAULT_DATE = 14;
 
 	public function __construct($a_crs_id) {
 		global $ilDB, $ilCtrl;
@@ -68,11 +70,14 @@ class gevCrsAdditionalMailSettings {
 		if ($record = $this->db->fetchAssoc($result)) {
 			$this->settings = array( "send_list_to_accom" => $record["send_list_to_accom"] != 0
 								   , "send_list_to_venue" => $record["send_list_to_venue"] != 0
+								   , "inv_mail_date" => $record["inv_mailing_date"] ? $record["inv_mailing_date"]
+								   													: self::INVITATION_MAIL_DEFAULT_DATE
 								   );
 		}
 		else {
 			$this->settings = array( "send_list_to_accom" => true
 								   , "send_list_to_venue" => true
+								   , "inv_mail_date" => self::INVITATION_MAIL_DEFAULT_DATE
 								   );
 		}
 	}
