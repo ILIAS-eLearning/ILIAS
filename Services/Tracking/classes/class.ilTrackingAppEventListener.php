@@ -36,7 +36,12 @@ class ilTrackingAppEventListener implements ilAppEventListener
 						break;
 						
 					case 'delete':
-						self::handleDelete($obj_id);
+						// ilRepUtil will raise "delete" even if only reference was deleted!
+						$all_ref = ilObject::_getAllReferences($obj_id);					
+						if(!sizeof($all_ref))
+						{		
+							self::handleDelete($obj_id);
+						}
 						break;						
 				}
 				break;			
