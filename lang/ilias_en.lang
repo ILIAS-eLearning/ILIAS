@@ -14531,3 +14531,4 @@ obj#:#obj_tool_setting_tag_cloud_info#:#The "tag cloud" block will be displayed 
 administration#:#adm_show_comments_tagging_in_lists_tags#:#Display tags instead of number
 tagging#:#tagging_other_users#:#Other Users
 common#:#autocomplete_more#:#more
+user#:#passwd_generation_pre#:#Pre-defined Passwords

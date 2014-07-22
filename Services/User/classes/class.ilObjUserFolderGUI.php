@@ -2025,7 +2025,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$this->form->addItem($pass);
 		 
 		// password generation
-		$cb = new ilCheckboxInputGUI($this->lng->txt("passwd_generation"), "passwd_auto_generate");
+		$cb = new ilCheckboxInputGUI($this->lng->txt("passwd_generation_pre"), "passwd_auto_generate");
 		$cb->setChecked($ilSetting->get("passwd_auto_generate"));		
 		$cb->setInfo($this->lng->txt("passwd_generation_info"));
 		$this->form->addItem($cb);
