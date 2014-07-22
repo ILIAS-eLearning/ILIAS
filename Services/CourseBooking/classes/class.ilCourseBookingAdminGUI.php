@@ -326,17 +326,10 @@ class ilCourseBookingAdminGUI
 		$form->setTitle($lng->txt("crsbook_admin_add_group"));
 
 		$options = array("" => $lng->txt("please_select"));
-		foreach($tree->getChildsByType(ROOT_FOLDER_ID, "grp") as $node)
+		$this->insertAddableGroups($options);
+		if(sizeof($options) == 1)
 		{
-			$ref_id = $node["child"];
-			if($ilAccess->checkAccess("visible", "", $ref_id))
-			{
-				$options[$node["obj_id"]] = $node["title"];
-			}					
-		}
-		if(!sizeof($options))
-		{
-			ilUtil::sendFailure($lng->txt("msg_no_perm_read"), true);
+			ilUtil::sendFailure($lng->txt("admin_no_group_available"), true);
 			$ilCtrl->redirect($this, "listBookings");
 		}
 		
@@ -349,6 +342,19 @@ class ilCourseBookingAdminGUI
 		$form->addCommandButton("listBookings", $lng->txt("cancel"));
 		
 		return $form;
+	}
+	
+	protected function insertAddableGroups(&$a_options) {
+		global $ilDB, $ilAccess;
+		$res = $ilDB->query( "SELECT od.obj_id, od.title, oref.ref_id "
+						    ."  FROM object_data od"
+						    ."  JOIN object_reference oref ON oref.obj_id = od.obj_id "
+						    ." WHERE od.type = 'grp'");
+		while ($rec = $ilDB->fetchAssoc($res)) {
+			if ($ilAccess->checkAccess("visible", "", $rec["ref_id"], "grp", $rec["obj_id"])) {
+				$a_options[$rec["obj_id"]] = $rec["title"];
+			}
+		}
 	}
 	
 	/**

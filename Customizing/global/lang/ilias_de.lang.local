@@ -660,3 +660,4 @@ rbac#:#tep_view_other#:#TEP Termine von anderen Trainern sehen
 rbac#:#tep_view_other_rcrsv#:#TEP Termine von anderen Trainer sehen (rekursiv)
 rbac#:#tep_edit_other#:#TEP Termine von anderen Trainern bearbeiten
 rbac#:#tep_edit_other_rcrsv#:#TEP Termine von anderen Trainern bearbeiten (rekursiv)
+crsbook#:#admin_no_group_available#:#Sie besitzen auf keine Gruppen eine ausreichende Zugriffsberechtigung.
