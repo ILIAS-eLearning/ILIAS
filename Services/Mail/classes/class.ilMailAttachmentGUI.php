@@ -82,12 +82,9 @@ class ilMailAttachmentGUI
 
 		$files = array();
 
-		if(count($_POST['filename']) == 0)
-		{
-			ilUtil::sendFailure($this->lng->txt('mail_select_one_file'));
-			return $this->showAttachments();
-		}
-		
+		// Important: Do not check for uploaded files here, otherwise it is no more possible to remove files (please ignore bug reports like 10137)
+
+		$size_of_selected_files = 0;
 		if(is_array($_POST['filename']) && count($_POST['filename']) > 0)
 		{
 			foreach($_POST['filename'] as $file)
@@ -95,8 +92,15 @@ class ilMailAttachmentGUI
 				if(file_exists($this->mfile->getMailPath() . '/' . basename($ilUser->getId() . '_' . urldecode($file))))
 				{
 					$files[] = urldecode($file);
+					$size_of_selected_files += filesize($this->mfile->getMailPath() . '/' . basename($ilUser->getId() . '_' . urldecode($file)));
 				}
 			}
+		}
+
+		if($files && $size_of_selected_files > $this->mfile->getAttachmentsTotalSizeLimit())
+		{
+			ilUtil::sendFailure($this->lng->txt('mail_max_size_attachments_total_error') . ' ' . ilFormat::formatSize($this->mfile->getAttachmentsTotalSizeLimit()));
+			return $this->showAttachments();
 		}
 
 		$this->umail->saveAttachments($files);
@@ -178,14 +182,50 @@ class ilMailAttachmentGUI
 		$this->showAttachments();
 	}
 
+	/**
+	 * @return ilPropertyFormGUI
+	 */
+	protected function getToolbarForm()
+	{
+		require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
+		$form = new ilPropertyFormGUI();
+		$attachment = new ilFileInputGUI($this->lng->txt('upload'), 'userfile');
+		$attachment->setRequired(true);
+		$attachment->setSize(20);
+		$form->addItem($attachment);
+		return $form;
+	}
+
 	public function uploadFile()
 	{
+		/**
+		 * @var $lng ilLanguage
+		 */
+		global $lng;
+
 		if(strlen(trim($_FILES['userfile']['name'])))
 		{
-			if($this->mfile->storeUploadedFile($_FILES['userfile']) == 1)
+			$form = $this->getToolbarForm();
+			if($form->checkInput())
 			{
-				ilUtil::sendFailure($this->lng->txt('mail_maxsize_attachment_error') . ' ' . ilFormat::formatSize($this->mfile->getUploadLimit()));
+				$this->mfile->storeUploadedFile($_FILES['userfile']);
+				ilUtil::sendSuccess($lng->txt('saved_successfully'));
 			}
+			else
+			{
+				if($form->getItemByPostVar('userfile')->getAlert() != $lng->txt("form_msg_file_size_exceeds"))
+				{
+					ilUtil::sendFailure($form->getItemByPostVar('userfile')->getAlert());
+				}
+				else
+				{
+					ilUtil::sendFailure($this->lng->txt('mail_maxsize_attachment_error') . ' ' . ilFormat::formatSize($this->mfile->getUploadLimit()));
+				}
+			}
+		}
+		else
+		{
+			ilUtil::sendFailure($this->lng->txt('mail_select_one_file'));
 		}
 
 		$this->showAttachments();
