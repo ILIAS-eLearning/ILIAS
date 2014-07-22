@@ -6995,7 +6995,7 @@ dateplaner#:#cal_table_categories#:#Kalenderauswahl
 dateplaner#:#cal_task_completion#:#Fertigstellung
 dateplaner#:#cal_third#:#Dritten
 dateplaner#:#cal_time_format_info#:#Bitte wählen Sie ein Format für die Eingabe und Darstellung der Zeit.
-dateplaner#:#cal_timezone_info#:#Bitte wählen Sie die nächstgelegene Stadt in Ihrer Zeitzone aus.
+dateplaner#:#cal_timezone_info#:#Bitte wählen Sie die nächstgelegene Stadt in Ihrer Zeitzone für die Anzeige von Terminen innerhalb von ILIAS aus.
 dateplaner#:#cal_type_crs#:#Kurskalender
 dateplaner#:#cal_type_grp#:#Gruppenkalender
 dateplaner#:#cal_type_info#:#Bitte wählen Sie die Kalenderart aus. "Öffentliche Kalender" sind für alle Benutzer sichtbar.
@@ -7010,7 +7010,10 @@ dateplaner#:#cal_upcoming_events_header#:#Zukünftige Termine
 dateplaner#:#cal_user_date_format#:#Datumsformat für die Eingabe
 dateplaner#:#cal_user_settings#:#Kalendereinstellungen
 dateplaner#:#cal_user_time_format#:#Zeitformat
-dateplaner#:#cal_user_timezone#:#Zeitzone
+dateplaner#:#cal_user_timezone#:#ILIAS-Zeitzone
+dateplaner#:#cal_export_timezone#:#Zeitzone für Kalender-Export
+dateplaner#:#cal_export_timezone_tz#:#Benutze ILIAS-Zeitzone
+dateplaner#:#cal_export_timezone_utc#:#Benutze UTC-Zeitzone (kompatibel mit MS Outlook)
 dateplaner#:#cal_week_abbrev#:#KW
 dateplaner#:#cal_week_month_view#:#Einstellungen Wochen-/Monatsansicht
 dateplaner#:#cal_week_overview#:#Wochenübersicht
@@ -13025,3 +13028,57 @@ survey#:#mailparticipantdata_placeholder#:# Bei personalisierten Umfragen werden
 common#:#frm_import#:#Forum importieren
 survey#:#spl_save_obligatory_state#:#verpflichtend-Status speichern
 forum#:#post_reply_count#:#Re(%s):
+dateplaner#:#cal_ical_url#:#iCal-URL
+survey#:#svy_eval_skipped_value#:#Ergebnisse: "übersprungen"
+survey#:#svy_eval_skipped_value_lng#:#Wert aus Sprachdatei übernehmen
+survey#:#svy_eval_skipped_value_lng_info#:#Aktueller Wert: "%s"
+survey#:#svy_eval_skipped_value_custom#:#Angepassten Wert verwenden
+survey#:#svy_eval_skipped_value_custom_info#:#Geben sie einen (oder leeren) Wert für übersprungene Antworten an
+survey#:#svy_eval_skipped_value_custom_value#:#Wert
+rbac#:#rbac_create_chat#:#Create Chat###20 07 2014 new variable
+survey#:#svy_import_codes#:#Schlüssel importieren
+survey#:#svy_import_codes_info#:#Dieser Import benötigt eine "%s"-Export-Datei.
+wiki#:#wiki_stat_num_pages#:#Anzahl Seiten
+wiki#:#wiki_stat_new_pages#:#Anzahl neue Seiten 
+wiki#:#wiki_stat_new_pages_avg#:#Durchschnitt der Anzahl neuer Seiten je Benutzer
+wiki#:#wiki_stat_edit_pages#:#Anzahl geänderte Seiten
+wiki#:#wiki_stat_edit_pages_avg#:#Durchschnitt der Anzahl geänderter Seiten je Benutzer
+wiki#:#wiki_stat_scope#:#Zeitraum
+wiki#:#wiki_stat_figure#:#Kennzahl
+wiki#:#wiki_stat_deleted_pages#:#Anzahl gelöschter Seiten
+wiki#:#wiki_stat_read_pages#:#Anzahl Lesezugriffe 
+wiki#:#wiki_stat_user_edit_pages#:#Anzahl Benutzer welche Seiten geändert haben 
+wiki#:#wiki_stat_user_edit_pages_avg#:#Durchschnitt Anzahl Benutzer welche Seiten geändert haben 
+wiki#:#wiki_stat_num_rating#:#Anzahl der Bewertungen 
+wiki#:#wiki_stat_num_rating_avg#:#Durchschnitt der Anzahl der Bewertungen je Seite
+wiki#:#wiki_stat_rating_avg#:#Durchschnittliche Bewertung
+wiki#:#wiki_stat_internal_links#:#Anzahl interne Links
+wiki#:#wiki_stat_internal_links_avg#:#Durchschnitt der Anzahl interner Links je Seite
+wiki#:#wiki_stat_external_links#:#Anzahl externer Links
+wiki#:#wiki_stat_external_links_avg#:#Durchschnitt der Anzahl externer Links je Seite
+wiki#:#wiki_stat_words#:#Anzahl Wörter
+wiki#:#wiki_stat_words_avg#:#Durchschnittliche Anzahl Wörter je Seite
+wiki#:#wiki_stat_chars#:#Anzahl Zeichen
+wiki#:#wiki_stat_chars_avg#:#Durchschnittliche Anzahl Zeichen je Seite
+wiki#:#wiki_stat_footnotes#:#Anzahl Fußnoten
+wiki#:#wiki_stat_footnotes_avg#:#Durchschnittliche Anzahl Fußnoten je Seite
+wiki#:#wiki_stat_page_changes#:#Anzahl Änderungen
+wiki#:#wiki_stat_page_changes_avg#:#Durchschnitt der Anzahl Änderungen je Benutzer
+wiki#:#wiki_stat_page_user_edit#:#Anzahl Benutzer, die Seite geändert haben
+wiki#:#wiki_stat_page_read#:#Anzahl Lesezugriffe
+wiki#:#wiki_stat_page_internal_links#:#Anzahl interne Links
+wiki#:#wiki_stat_page_external_links#:#Anzahl externe Links
+wiki#:#wiki_stat_page_words#:#Anzahl Wörter
+wiki#:#wiki_stat_page_characters#:#Anzahl Zeichen
+wiki#:#wiki_stat_page_footnotes#:#Anzahl Fußnoten
+wiki#:#wiki_stat_page_ratings#:#Anzahl Bewertungen
+rbac#:#statistics_read#:#Statistiken einsehen
+rbac#:#wiki_statistics_read#:#Statistiken einsehen
+pd#:#pd_enable_comments_del_user#:#Kommentare können von ihren Autoren gelöscht werden
+pd#:#pd_enable_comments_del_tutor#:#Jegliche Kommentare können von Tutoren gelöscht werden
+notes#:#notes_sort_asc#:#Aufsteigend sortieren
+notes#:#notes_sort_desc#:#Absteigend sortieren
+obj#:#obj_tool_setting_tag_cloud#:#Tag Cloud
+obj#:#obj_tool_setting_tag_cloud_info#:#Der "Tag Cloud"-Block wird innerhalb des Inhaltstabs angezeigt.
+administration#:#adm_show_comments_tagging_in_lists_tags#:#Einzelne Tags anstatt Anzahl auflisten
+tagging#:#tagging_other_users#:#Andere Benutzer

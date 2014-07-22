@@ -124,6 +124,7 @@ class ilCalendarUserSettingsGUI
 	{
 		
 		$this->user_settings->setTimeZone($_POST['timezone']);
+		$this->user_settings->setExportTimeZoneType((int) $_POST['export_tz']);
 		$this->user_settings->setWeekStart((int) $_POST['weekstart']);
 		$this->user_settings->setDateFormat((int) $_POST['date_format']);
 		$this->user_settings->setTimeFormat((int) $_POST['time_format']);
@@ -169,6 +170,15 @@ class ilCalendarUserSettingsGUI
 		$select->setInfo($this->lng->txt('cal_timezone_info'));
 		$select->setValue($this->user_settings->getTimeZone());
 		$this->form->addItem($select);
+		
+		$export_type = new ilRadioGroupInputGUI($this->lng->txt('cal_export_timezone'),'export_tz');
+		$export_type->setValue($this->user_settings->getExportTimeZoneType());
+		
+		$export_tz = new ilRadioOption($this->lng->txt('cal_export_timezone_tz'), ilCalendarUserSettings::CAL_EXPORT_TZ_TZ);
+		$export_type->addOption($export_tz);
+		$export_utc = new ilRadioOption($this->lng->txt('cal_export_timezone_utc'), ilCalendarUserSettings::CAL_EXPORT_TZ_UTC);
+		$export_type->addOption($export_utc);
+		$this->form->addItem($export_type);
 
 		$year = date("Y");
 		$select = new ilSelectInputGUI($this->lng->txt('cal_user_date_format'),'date_format');
