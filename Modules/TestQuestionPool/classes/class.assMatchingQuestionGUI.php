@@ -444,6 +444,13 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			{
 				if (strlen($definition->picture))
 				{
+					if( strlen($definition->text) )
+					{
+						$template->setCurrentBlock('definition_image_text');
+						$template->setVariable("TEXT_DEFINITION", ilUtil::prepareFormOutput($definition->text));
+						$template->parseCurrentBlock();
+					}
+					
 					$template->setCurrentBlock('definition_image');
 					$template->setVariable('ANSWER_IMAGE_URL', $this->object->getImagePathWeb() . $this->object->getThumbPrefix() . $definition->picture);
 					$template->setVariable('ANSWER_IMAGE_ALT', (strlen($definition->text)) ? ilUtil::prepareFormOutput($definition->text) : ilUtil::prepareFormOutput($definition->picture));
@@ -451,7 +458,6 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 					$template->setVariable('URL_PREVIEW', $this->object->getImagePathWeb() . $definition->picture);
 					$template->setVariable("TEXT_PREVIEW", $this->lng->txt('preview'));
 					$template->setVariable("IMG_PREVIEW", ilUtil::getImagePath('enlarge.png'));
-					$template->setVariable("TEXT_DEFINITION", (strlen($definition->text)) ? $this->lng->txt('definition') . ' ' . ($i+1) . ': ' . ilUtil::prepareFormOutput($definition->text) : $this->lng->txt('definition') . ' ' . ($i+1));
 					$template->parseCurrentBlock();
 				}
 				else
@@ -465,13 +471,19 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			{
 				if (strlen($term->picture))
 				{
+					if( strlen($term->text) )
+					{
+						$template->setCurrentBlock('term_image_text');
+						$template->setVariable("TEXT_TERM", ilUtil::prepareFormOutput($term->text));
+						$template->parseCurrentBlock();
+					}
+					
 					$template->setCurrentBlock('term_image');
 					$template->setVariable('ANSWER_IMAGE_URL', $this->object->getImagePathWeb() . $this->object->getThumbPrefix() . $term->picture);
 					$template->setVariable('ANSWER_IMAGE_ALT', (strlen($term->text)) ? ilUtil::prepareFormOutput($term->text) : ilUtil::prepareFormOutput($term->picture));
 					$template->setVariable('ANSWER_IMAGE_TITLE', (strlen($term->text)) ? ilUtil::prepareFormOutput($term->text) : ilUtil::prepareFormOutput($term->picture));
 					$template->setVariable('URL_PREVIEW', $this->object->getImagePathWeb() . $term->picture);
 					$template->setVariable("TEXT_PREVIEW", $this->lng->txt('preview'));
-					$template->setVariable("TEXT_TERM", (strlen($term->text)) ? $this->lng->txt('term') . ' ' . ($i+1) . ': ' . ilUtil::prepareFormOutput($term->text) : $this->lng->txt('term') . ' ' . ($i+1));
 					$template->setVariable("IMG_PREVIEW", ilUtil::getImagePath('enlarge.png'));
 					$template->parseCurrentBlock();
 				}
