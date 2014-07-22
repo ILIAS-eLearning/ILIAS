@@ -14351,3 +14351,5 @@ obj#:#obj_tool_setting_tag_cloud#:#Tag Cloud
 obj#:#obj_tool_setting_tag_cloud_info#:#The "tag cloud" block will be displayed inside the "Content" tab.
 administration#:#adm_show_comments_tagging_in_lists_tags#:#Display tags instead of number
 tagging#:#tagging_other_users#:#Other Users
+mail#:#mail_max_size_attachments_total#:#Please enter the maximum file size allowed as attachment per mail. This setting is not related to other resource limits, e.g. upload_max_filesize etc. (since you can attach multiple files). 
+mail#:#mail_max_size_attachments_total_error#:#The allowed attachment size is:
