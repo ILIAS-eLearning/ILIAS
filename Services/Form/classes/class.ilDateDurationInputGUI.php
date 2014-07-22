@@ -206,7 +206,7 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 	*/
 	public function setShowDate($a_showdate)
 	{
-		$this->showdate = $a_showdate;
+		$this->show_date = $a_showdate;
 	}
 
 	/**
@@ -216,7 +216,7 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 	*/
 	public function getShowDate()
 	{
-		return $this->showdate;
+		return $this->show_date;
 	}
 	
 	/**
