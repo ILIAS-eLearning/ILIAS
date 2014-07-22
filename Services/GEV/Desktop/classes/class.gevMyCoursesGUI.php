@@ -97,8 +97,7 @@ class gevMyCoursesGUI {
 			$action = $this->lng->txt("gev_costly_cancellation_action");
 		}
 		else {
-			$action = $this->lng->txt("gev_costly_cancellation_action");
-			$link =  $this->ctrl->getLinkTarget($this, "finalizeCancellation");
+			$action = $this->lng->txt("gev_free_cancellation_action");
 		}
 		
 		$title = new catTitleGUI("gev_cancellation_title", "gev_cancellation_subtitle", "GEV_img/ico-head-trash.png");
