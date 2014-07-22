@@ -745,6 +745,10 @@ class ilSurveyEvaluationGUI
 		array_push($csvrow, $this->lng->txt("lastname")); // #12756
 		array_push($csvrow, $this->lng->txt("firstname"));
 		array_push($csvrow, $this->lng->txt("login"));
+		array_push($csvrow, $this->lng->txt('workingtime')); // #13622
+		array_push($csvrow, $this->lng->txt('survey_results_finished'));
+		array_push($csvrow2, "");
+		array_push($csvrow2, "");
 		array_push($csvrow2, "");
 		array_push($csvrow2, "");
 		array_push($csvrow2, "");
@@ -828,10 +832,6 @@ class ilSurveyEvaluationGUI
 				array_push($csvrow, $resultset["gender"]);
 			}			
 		    */
-			foreach ($questions as $question_id => $question)
-			{
-				$question->addUserSpecificResultsData($csvrow, $resultset);
-			}
 			$wt = $this->object->getWorkingtimeForParticipant($user_id);
 			array_push($csvrow, $wt);
 			
@@ -843,7 +843,12 @@ class ilSurveyEvaluationGUI
 			else
 			{
 				array_push($csvrow, "-");
-			}
+			}			
+			
+			foreach ($questions as $question_id => $question)
+			{
+				$question->addUserSpecificResultsData($csvrow, $resultset);
+			}			
 			
 			array_push($csvfile, $csvrow);
 		}
@@ -919,8 +924,6 @@ class ilSurveyEvaluationGUI
 								$mainworksheet->writeString($row, 0, ilExcelUtils::_convert_text($csvrow[0], $_POST["export_format"]), $format_title);
 							}
 						}
-						$mainworksheet->writeString($row, $col++, ilExcelUtils::_convert_text($this->lng->txt('workingtime'), $_POST['export_format']), $format_title);
-						$mainworksheet->writeString($row, $col++, ilExcelUtils::_convert_text($this->lng->txt('survey_results_finished'), $_POST['export_format']), $format_title);
 						$row = $contentstartrow;
 					}
 					else
@@ -958,11 +961,6 @@ class ilSurveyEvaluationGUI
 				$separator = ";";				
 				foreach ($csvfile as $idx => $csvrow)
 				{					
-					if(!$idx)
-					{
-						$csvrow[] = $this->lng->txt('workingtime');
-						$csvrow[] = $this->lng->txt('survey_results_finished');
-					}										
 					$csvrow =& str_replace("\n", " ", $this->object->processCSVRow($csvrow, TRUE, $separator));					
 					$csv .= join($csvrow, $separator) . "\n";
 				}
