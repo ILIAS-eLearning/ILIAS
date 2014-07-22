@@ -67,7 +67,7 @@ class ilSurveyResultsUserTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt("question"),'', '');
 		$this->addColumn($this->lng->txt("results"),'', '');
 		$this->addColumn($this->lng->txt("workingtime"),'workingtime', '');
-		$this->addColumn($this->lng->txt("survey_results_finished"),'state', '');
+		$this->addColumn($this->lng->txt("survey_results_finished"),'finished', '');
 	
 		$this->setRowTemplate("tpl.il_svy_svy_results_user_row.html", "Modules/Survey");
 
