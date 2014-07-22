@@ -9937,7 +9937,7 @@ function getAnswerFeedbackPoints()
 		}
 	}
 	
-	protected function getPassed($active_id)
+	public function getPassed($active_id)
 	{
 		global $ilDB;
 		
