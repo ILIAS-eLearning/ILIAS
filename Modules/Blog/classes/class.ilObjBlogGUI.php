@@ -1219,6 +1219,11 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		$tpl->setTopBar($back);
 		
 		$this->renderFullscreenHeader($tpl, $owner);
+			
+		// #13564
+		$this->ctrl->setParameter($this, "bmn", "");
+		$tpl->setTitleUrl($this->ctrl->getLinkTarget($this, "preview")); 
+		$this->ctrl->setParameter($this, "bmn", $this->month);
 				
 		$this->setContentStyleSheet();		
 	
@@ -1282,8 +1287,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			$banner_width,
 			$banner_height,
 			$a_export);
-		$a_tpl->setBodyClass("std ilExternal ilBlog");
-		
+		$a_tpl->setBodyClass("std ilExternal ilBlog");		
 	}
 	
 	/**

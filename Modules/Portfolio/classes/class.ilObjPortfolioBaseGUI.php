@@ -706,6 +706,11 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 		}
 		
 		self::renderFullscreenHeader($this->object, $this->tpl, $user_id);
+		
+		// #13564
+		$this->ctrl->setParameter($this, "user_page", "");
+		$this->tpl->setTitleUrl($this->ctrl->getLinkTarget($this, "preview")); 
+		$this->ctrl->setParameter($this, "user_page", $this->page_id);
 						
 		// wiki/forum will set locator items
 		$this->tpl->setVariable("LOCATOR", "");

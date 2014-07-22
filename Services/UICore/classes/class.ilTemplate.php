@@ -41,7 +41,8 @@ class ilTemplate extends ilTemplateX
 	protected static $il_cache = array();
 	protected $message = "";
 	
-	protected $title_desc = "";
+	protected $title_desc = "";	
+	protected $title_url = "";
 	protected $upper_icon = "";
 	protected $tree_flat_link = "";
 	protected $mount_webfolder = "";
@@ -55,6 +56,7 @@ class ilTemplate extends ilTemplateX
 	protected $title_alerts = array();
 	protected $header_action;
 	protected $lightbox = array();
+	
 
 	/**
 	* constructor
@@ -1582,6 +1584,14 @@ class ilTemplate extends ilTemplateX
 	}
 	
 	/**
+	* sets title url in standard template
+	*/
+	function setTitleUrl($a_url)
+	{
+		$this->title_url = $a_url;
+	}
+	
+	/**
 	 * Set title color
 	 *
 	 * @param string $a_val color	
@@ -1643,6 +1653,10 @@ class ilTemplate extends ilTemplateX
 		{
 			$this->title = ilUtil::stripScriptHTML($this->title);			
 			$this->setVariable("HEADER", $this->title);
+			if ($this->title_url != "")
+			{
+				$this->setVariable("HEADER_URL", ' href="'.$this->title_url.'"');
+			}
 			if ($this->getTitleColor() != "")
 			{
 				$this->setVariable("HEADER_COLOR", " style=\"color: #".$this->getTitleColor()."\"");
