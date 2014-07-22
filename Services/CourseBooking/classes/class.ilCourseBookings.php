@@ -533,7 +533,7 @@ class ilCourseBookings
 	 */
 	public function join($a_user_id)
 	{
-		$now = new ilDate(time(), IL_CAL_UNIX);
+		$now = new ilDate(date("Y-m-d"), IL_CAL_DATE);
 		$deadline = $this->getBookingDeadline();
 		if(ilDate::_after($now, $deadline))
 		{
@@ -583,7 +583,7 @@ class ilCourseBookings
 				$deadline = $this->getCancellationDeadline();
 				global $ilLog;
 				$ilLog->write(print_r($deadline, true));
-				if(ilDate::_after($now, $deadline))
+				if($deadline !== null && ilDate::_after($now, $deadline))
 				{
 					return $this->cancelWithCosts($a_user_id);
 				}
