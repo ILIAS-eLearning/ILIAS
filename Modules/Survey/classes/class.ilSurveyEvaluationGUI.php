@@ -734,6 +734,9 @@ class ilSurveyEvaluationGUI
 	{
 		global $ilLog;
 		
+		// #13620
+		ilDatePresentation::setUseRelativeDates(false);
+		
 		$csvfile = array();
 		$csvrow = array();
 		$csvrow2 = array();
