@@ -16,14 +16,6 @@ require_once './Modules/Test/classes/class.ilTestPlayerAbstractGUI.php';
  * @version		$Id$
  * 
  * @inGroup		ModulesTest
- * 
- * @ilCtrl_Calls ilTestOutputGUI: ilAssGenFeedbackPageGUI
- * @ilCtrl_Calls ilTestOutputGUI: ilAssSpecFeedbackPageGUI
- * @ilCtrl_Calls ilTestOutputGUI: ilAssQuestionHintRequestGUI
- * @ilCtrl_Calls ilTestOutputGUI: ilTestSignatureGUI
- * @ilCtrl_Calls ilTestOutputGUI: ilAssQuestionPageGUI
- * @ilCtrl_Calls ilTestOutputGUI: ilTestSubmissionReviewGUI
- * @ilCtrl_Calls ilTestOutputGUI: ilTestPasswordProtectionGUI
  */
 abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 {

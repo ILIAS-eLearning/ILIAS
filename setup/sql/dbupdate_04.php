@@ -2136,3 +2136,7 @@ foreach($mods as $mod)
 }
 
 ?>
+<#4272>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
