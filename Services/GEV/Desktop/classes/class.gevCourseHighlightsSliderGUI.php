@@ -63,7 +63,11 @@ class gevCourseHighlightsSliderGUI extends catSliderGUI {
 			$tpl->setVariable("TITLE", $crs["title"]);
 			if ($crs["start_date"] && $crs["end_date"]) {
 				$tpl->setCurrentBlock("date");
-				$tpl->setVariable("DATE", ilDatePresentation::formatPeriod($crs["start_date"], $crs["end_date"]));
+				//$tpl->setVariable("DATE", ilDatePresentation::formatPeriod($crs["start_date"], $crs["end_date"]));
+				$dat = ilDatePresentation::formatPeriod($crs["start_date"], $crs["end_date"]);
+				$dat = str_replace('-', '-<br>', $dat);
+				$tpl->setVariable("DATE", $dat);
+
 				$tpl->parseCurrentBlock();
 			}
 			if ($crs["venue"]) {
