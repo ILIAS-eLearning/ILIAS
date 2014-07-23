@@ -2140,3 +2140,18 @@ foreach($mods as $mod)
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#4273>
+<?php
+$ilDB->insert('il_dcl_datatype_prop', array(
+    'id' => array('integer', 14),
+    'datatype_id' => array('integer', 2),
+    'title' => array('text', 'link_detail_page'),
+    'inputformat' => array('integer', 4),
+));
+$ilDB->insert('il_dcl_datatype_prop', array(
+    'id' => array('integer', 15),
+    'datatype_id' => array('integer', 9),
+    'title' => array('text', 'link_detail_page'),
+    'inputformat' => array('integer', 4),
+));
+?>

@@ -13,6 +13,7 @@ require_once("./Services/Form/classes/class.ilFileInputGUI.php");
 require_once("./Services/Form/classes/class.ilImageFileInputGUI.php");
 require_once("./Services/Preview/classes/class.ilPreview.php");
 require_once('./Services/Preview/classes/class.ilPreviewGUI.php');
+require_once('class.ilDataCollectionRecordViewViewdefinition.php');
 
 /**
 * Class ilDataCollectionDatatype
@@ -709,6 +710,11 @@ class ilDataCollectionDatatype
                     break;
                 }
                 $html = '<img src="'.$dir."/".$media_item->location.'" />';
+                $arr_properties = $record_field->getField()->getProperties();
+                if ($arr_properties[ilDataCollectionField::PROPERTYID_LINK_DETAIL_PAGE_MOB] && ilDataCollectionRecordViewViewdefinition::getIdByTableId($record_field->getRecord()->getTableId())) {
+                    $ilCtrl->setParameterByClass('ildatacollectionrecordviewgui', 'record_id', $record_field->getRecord()->getId());
+                    $html = '<a href="' . $ilCtrl->getLinkTargetByClass("ildatacollectionrecordviewgui", 'renderRecord') . '">' . $html . '</a>';
+                }
                 break;
 				
 			case self::INPUTFORMAT_BOOLEAN:
@@ -729,7 +735,7 @@ class ilDataCollectionDatatype
 				//Property URL
 
 				$arr_properties = $record_field->getField()->getProperties();
-                if($arr_properties[ilDataCollectionField::PROPERTYID_URL])
+                if ($arr_properties[ilDataCollectionField::PROPERTYID_URL])
 				{
                     $link = $value;
                     if (preg_match("/^[a-z0-9!#$%&'*+=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i", $value))
@@ -740,16 +746,12 @@ class ilDataCollectionDatatype
                     $link = $this->shortenLink($link);
 					$html = "<a target='_blank' href='".$value."'>".$link."</a>";
 				}
-				else
-				{
+				elseif ($arr_properties[ilDataCollectionField::PROPERTYID_LINK_DETAIL_PAGE_TEXT] && ilDataCollectionRecordViewViewdefinition::getIdByTableId($record_field->getRecord()->getTableId())) {
+                    $ilCtrl->setParameterByClass('ildatacollectionrecordviewgui', 'record_id', $record_field->getRecord()->getId());
+                    $html = '<a href="' . $ilCtrl->getLinkTargetByClass("ildatacollectionrecordviewgui", 'renderRecord') . '">' . $value . '</a>';
+                } else {
 					$html = $value;
 				}
-				// BEGIN EASTEREGG
-				/*if(strtolower($value) == "nyan it plx!"){
-					$link = ilLink::_getLink($_GET['ref_id']);
-					$html = "<a href='http://nyanit.com/".$link."'>Data Collections rock!</a>";
-				}*/
-				// END EASTEREGG
 				break;
 				
 			default:

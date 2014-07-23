@@ -13163,6 +13163,7 @@ dcl#:#dcl_next_record#:#Nächster Datensatz
 dcl#:#dcl_record_from_total#:#%d von %d
 dcl#:#dcl_delete_fields#:#Felder löschen
 dcl#:#dcl_view_own_records_perm#:#Nur eigene Datensätze anzeigen
+dcl#:#dcl_link_detail_page#:#Einträge als Link zur Detail-Seite anzeigen
 crs#:#crs_notification_list_title#:#Benachrichtigung über neue Mitglieder
 common#:#objs_bibl#:#Literaturlisten
 common#:#obj_bibl#:#Literaturliste

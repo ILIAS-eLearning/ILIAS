@@ -110,6 +110,8 @@ class ilDataCollectionField
     const PROPERTYID_N_REFERENCE = 11;
     const PROPERTYID_FORMULA_EXPRESSION = 12;
     const PROPERTYID_DISPLAY_COPY_LINK_ACTION_MENU = 13;
+    const PROPERTYID_LINK_DETAIL_PAGE_TEXT = 14;
+    const PROPERTYID_LINK_DETAIL_PAGE_MOB = 15;
 
 	// type of table il_dcl_view
 	const VIEW_VIEW 		= 1;
