@@ -146,6 +146,17 @@ class ilDataCollectionTable
         if ($exec_delete) {
             $query = "DELETE FROM il_dcl_table WHERE id = ".$ilDB->quote($this->getId(), "integer");
             $ilDB->manipulate($query);
+
+            // Delete also view definitions
+            $set = $ilDB->query('SELECT * FROM il_dcl_view WHERE table_id = ' . $ilDB->quote($this->getId(), 'integer'));
+            $view_ids = array();
+            while ($row = $ilDB->fetchObject($set)) {
+                $view_ids[] = $row->id;
+            }
+            if (count($view_ids)) {
+                $ilDB->manipulate("DELETE FROM il_dcl_viewdefinition WHERE view_id IN (" . implode(',', $view_ids) . ")");
+            }
+            $ilDB->manipulate("DELETE FROM il_dcl_view WHERE table_id = " . $ilDB->quote($this->getId(), 'integer'));
         }
 	}
 
