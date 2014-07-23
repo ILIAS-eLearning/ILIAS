@@ -314,7 +314,7 @@ class ilWebAccessChecker
 			$obj_id = (int) substr($this->subpath, $seperator + 1);
 		}
 		// component name (generic)
-		elseif ($pos4 > 4)
+		elseif ($pos4 > 3)
 		{			
 			$seperator = strpos($this->subpath, '/', $pos4);
 			$path = explode("/", substr($this->subpath, $seperator +1));
