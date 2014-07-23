@@ -487,9 +487,13 @@ div.tst_mark_output
 div.tst_mark_output.failed { color: red; }
 div.tst_mark_output.passed { color: green; }
 
+a.il_participant_block_back_anchor,
 a.il_question_answer_list_back_anchor
 {
     float:right;
-    font-size:0.7em;
     margin-right:3px;
+}
+a.il_question_answer_list_back_anchor
+{
+    font-size:0.7em;
 }

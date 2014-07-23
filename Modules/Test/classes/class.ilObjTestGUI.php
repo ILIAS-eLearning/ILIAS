@@ -729,16 +729,16 @@ class ilObjTestGUI extends ilObjectGUI
 	 */
 	public function createUserResults($show_pass_details, $show_answers, $show_reached_points, $show_user_results)
 	{
-		global $ilTabs;
+		global $ilTabs, $ilDB;
 
 		$ilTabs->setBackTarget(
 			$this->lng->txt('back'), $this->ctrl->getLinkTarget($this, 'participants')
 		);
 
 		$template = new ilTemplate("tpl.il_as_tst_participants_result_output.html", TRUE, TRUE, "Modules/Test");
-
+		
 		require_once 'Modules/Test/classes/toolbars/class.ilTestResultsToolbarGUI.php';
-		$toolbar = new ilTestResultsToolbarGUI($this->ctrl, $this->lng);
+		$toolbar = new ilTestResultsToolbarGUI($this->ctrl, $this->tpl, $this->lng);
 
 		$this->ctrl->setParameter($this, 'pdf', '1');
 		$toolbar->setPdfExportLinkTarget( $this->ctrl->getLinkTarget($this, 'showDetailedResults') );
@@ -773,11 +773,25 @@ class ilObjTestGUI extends ilObjectGUI
 			}
 		}
 
+		require_once 'Modules/Test/classes/class.ilTestParticipantData.php';
+		$participantData = new ilTestParticipantData($ilDB, $this->lng);
+		if( $this->object->getFixedParticipants() )
+		{
+			$participantData->setUserIds($show_user_results);
+		}
+		else
+		{
+			$participantData->setActiveIds($show_user_results);
+		}
+		$participantData->load($this->object->getTestId());
+		$toolbar->setParticipantSelectorOptions($participantData->getOptionArray($show_user_results));
+
 		$toolbar->build();
 		$template->setVariable('RESULTS_TOOLBAR', $this->ctrl->getHTML($toolbar));
 
 		include_once "./Modules/Test/classes/class.ilTestServiceGUI.php";
 		$serviceGUI = new ilTestServiceGUI($this->object);
+		$serviceGUI->setParticipantData($participantData);
 
 		$count      = 0;
 		foreach ($show_user_results as $key => $active_id)

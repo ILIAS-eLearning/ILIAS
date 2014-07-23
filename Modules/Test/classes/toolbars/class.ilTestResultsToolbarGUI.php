@@ -17,6 +17,11 @@ class ilTestResultsToolbarGUI extends ilToolbarGUI
 	public $ctrl = null;
 
 	/**
+	 * @var ilTemplate
+	 */
+	public $tpl = null;
+
+	/**
 	 * @var ilLanguage
 	 */
 	public $lng = null;
@@ -41,9 +46,15 @@ class ilTestResultsToolbarGUI extends ilToolbarGUI
 	 */
 	private $hideBestSolutionsLinkTarget = null;
 
-	public function __construct(ilCtrl $ctrl, ilLanguage $lng)
+	/**
+	 * @var array
+	 */
+	private $participantSelectorOptions = array();
+
+	public function __construct(ilCtrl $ctrl, ilTemplate $tpl, ilLanguage $lng)
 	{
 		$this->ctrl = $ctrl;
+		$this->tpl = $tpl;
 		$this->lng = $lng;
 
 		parent::__construct();
@@ -51,6 +62,8 @@ class ilTestResultsToolbarGUI extends ilToolbarGUI
 	
 	public function build()
 	{
+		$this->setId('tst_results_toolbar');
+		
 		$this->addButton($this->lng->txt('print'), 'javascript:window.print();');
 
 		if( strlen($this->getPdfExportLinkTarget()) )
@@ -65,11 +78,28 @@ class ilTestResultsToolbarGUI extends ilToolbarGUI
 
 		if( strlen($this->getShowBestSolutionsLinkTarget()) )
 		{
+			$this->addSeparator();
 			$this->addButton( $this->lng->txt('tst_btn_show_best_solutions'), $this->getShowBestSolutionsLinkTarget() );
 		}
 		elseif( strlen($this->getHideBestSolutionsLinkTarget()) )
 		{
+			$this->addSeparator();
 			$this->addButton( $this->lng->txt('tst_btn_hide_best_solutions'), $this->getHideBestSolutionsLinkTarget() );
+		}
+		
+		if( count($this->getParticipantSelectorOptions()) )
+		{
+			$this->addSeparator();
+
+			require_once 'Services/Form/classes/class.ilSelectInputGUI.php';
+			$sel = new ilSelectInputGUI($this->lng->txt('tst_res_jump_to_participant'), 'active_id');
+			$sel->addCustomAttribute('id="ilTestResultParticipantSelector"');
+			$sel->setOptions($this->getParticipantSelectorOptions());
+			$this->addInputItem($sel, true);
+			
+			$this->addLink($this->lng->txt('tst_jump'), '');
+			
+			$this->tpl->addJavaScript('Modules/Test/js/ilTestResultParticipantSelector.js');
 		}
 	}
 
@@ -119,5 +149,15 @@ class ilTestResultsToolbarGUI extends ilToolbarGUI
 	public function getHideBestSolutionsLinkTarget()
 	{
 		return $this->hideBestSolutionsLinkTarget;
+	}
+
+	public function setParticipantSelectorOptions($participantSelectorOptions)
+	{
+		$this->participantSelectorOptions = $participantSelectorOptions;
+	}
+
+	public function getParticipantSelectorOptions()
+	{
+		return $this->participantSelectorOptions;
 	}
 }

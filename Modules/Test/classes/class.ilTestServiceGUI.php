@@ -53,6 +53,11 @@ class ilTestServiceGUI
 	 * @var ilTestSessionFactory 
 	 */
 	protected $testSessionFactory = null;
+
+	/**
+	 * @var ilTestParticipantData
+	 */
+	protected $participantData;
 	
 	/**
 	 * The constructor takes the test object reference as parameter 
@@ -77,6 +82,22 @@ class ilTestServiceGUI
 		
 		require_once 'Modules/Test/classes/class.ilTestSessionFactory.php';
 		$this->testSessionFactory = new ilTestSessionFactory($this->object);
+	}
+
+	/**
+	 * @param \ilTestParticipantData $participantData
+	 */
+	public function setParticipantData($participantData)
+	{
+		$this->participantData = $participantData;
+	}
+
+	/**
+	 * @return \ilTestParticipantData
+	 */
+	public function getParticipantData()
+	{
+		return $this->participantData;
 	}
 	
 	/**
@@ -249,7 +270,7 @@ class ilTestServiceGUI
 
 							$template->setCurrentBlock('back_anchor');
 							$template->setVariable('HREF_BACK_ANCHOR', "#pass_details_tbl_row_act_{$active_id}_qst_{$question}");
-							$template->setVariable('TXT_BACK_ANCHOR', $this->lng->txt('tst_back_to_top'));
+							$template->setVariable('TXT_BACK_ANCHOR', $this->lng->txt('tst_back_to_question_list'));
 							$template->parseCurrentBlock();
 						}
 
@@ -612,9 +633,17 @@ class ilTestServiceGUI
 		include_once("./Services/UICore/classes/class.ilTemplate.php");
 		$template = new ilTemplate("tpl.il_as_tst_results_participant.html", TRUE, TRUE, "Modules/Test");
 
-		$user_id = $this->object->_getUserIdFromActiveId($active_id);
-		$uname = $this->object->userLookupFullName($user_id, TRUE);
-
+		if( $this->participantData instanceof ilTestParticipantData )
+		{
+			$user_id = $this->participantData->getUserIdByActiveId($active_id);
+			$uname = $this->participantData->getConcatedFullnameByActiveId($active_id, false);
+		}
+		else
+		{
+			$user_id = $this->object->_getUserIdFromActiveId($active_id);
+			$uname = $this->object->userLookupFullName($user_id, TRUE);
+		}
+		
 		if (((array_key_exists("pass", $_GET)) && (strlen($_GET["pass"]) > 0)) || (!is_null($pass)))
 		{
 			if (is_null($pass))	$pass = $_GET["pass"];
@@ -652,6 +681,16 @@ class ilTestServiceGUI
 			$signature = $this->getResultsSignature();
 			$template->setVariable("SIGNATURE", $signature);
 		}
+
+		$template->setCurrentBlock('participant_back_anchor');
+		$template->setVariable("HREF_PARTICIPANT_BACK_ANCHOR", "#tst_results_toolbar");
+		$template->setVariable("TXT_PARTICIPANT_BACK_ANCHOR", $this->lng->txt('tst_back_to_top'));
+		$template->parseCurrentBlock();
+
+		$template->setCurrentBlock('participant_block_id');
+		$template->setVariable("PARTICIPANT_BLOCK_ID", "participant_active_{$active_id}");
+		$template->parseCurrentBlock();
+
 		$template->setVariable("TEXT_HEADING", sprintf($this->lng->txt("tst_result_user_name"), $uname));
 		$template->setVariable("USER_DATA", $user_data);
 

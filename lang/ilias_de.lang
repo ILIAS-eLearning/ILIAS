@@ -567,6 +567,9 @@ assessment#:#final_statement#:#Abschließende Bemerkung
 assessment#:#final_statement_show#:#Abschließende Bemerkung anzeigen
 assessment#:#final_statement_show_desc#:#Wenn diese Option ausgewählt ist, wird die Abschließende Bemerkung direkt nach dem finalen Beenden eines Tests anzeigt.
 assessment#:#fixed_participants_hint#:#Dieser Test ist nur für diese feste Gruppe von Teilnehmern verfügbar. Wenn Sie den Test für beliebige Teilnehmer verfügbar machen wollen, müssen Sie die Auswahl im Kontrollkästchen für feste Teilnehmer in den Testeinstellungen ändern.
+assessment#:#tst_res_jump_to_participant#:#Zu Teilnehmer springen
+assessment#:#tst_jump#:#Springe
+assessment#:#tst_participant_fullname_pattern#:#%2$s, %1$s
 assessment#:#flashfile#:#Flash-Datei
 assessment#:#forcejs#:#JavaScript für die Ausgabe von Testfragen erzwingen
 assessment#:#forcejs_desc#:#Wenn diese Option ausgewählt ist, wird bei allen Testfragen die JavaScript-basierte Ausgabe herkömmlichen Ausgabe vorgezogen.
@@ -1463,6 +1466,7 @@ assessment#:#test_presentation#:#Ausgabeoptionen
 assessment#:#test_results#:#Ergebnisausgabeoptionen
 assessment#:#misc#:#Verschiedene Optionen
 assessment#:#tst_back_to_top#:#Zurück nach oben
+assessment#:#tst_back_to_question_list#:#Zurück zur Fragenliste
 assessment#:#tst_results_tax_filters#:#Ergebnis Filter
 assessment#:#tst_back_to_pass_details#:#Zurück zur Übersicht des Durchlaufs
 assessment#:#tst_answer_details#:#Antwort Details

@@ -8848,6 +8848,9 @@ function getAnswerFeedbackPoints()
 		return ($result->numRows() > 0) ? true : false;
 	}
 
+	/**
+	 * @deprecated: use ilTestParticipantData instead
+	 */
 	public static function _getUserIdFromActiveId($active_id)
 	{
 		global $ilDB;
@@ -9304,13 +9307,15 @@ function getAnswerFeedbackPoints()
 	}
 
 	/**
-	* Returns the full name of a test user according to the anonymity status
-	*
-	* @param int $user_id The database ID of the user
-	* @param boolean $overwrite_anonymity Indicates if the anonymity status should be ignored
-	* @return string The full name of the user or UNKNOWN if the anonymity status is affected
-	* @access public
-	*/
+	 * Returns the full name of a test user according to the anonymity status
+	 *
+	 * @param int $user_id The database ID of the user
+	 * @param boolean $overwrite_anonymity Indicates if the anonymity status should be ignored
+	 * @return string The full name of the user or UNKNOWN if the anonymity status is affected
+	 * @access public
+	 * 
+	 * @deprecated: use ilTestParticipantData instead
+	 */
 	function userLookupFullName($user_id, $overwrite_anonymity = FALSE, $sorted_order = FALSE, $suffix = "")
 	{
 		if ($this->getAnonymity() && !$overwrite_anonymity)
