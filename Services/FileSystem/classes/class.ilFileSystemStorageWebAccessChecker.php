@@ -17,7 +17,14 @@ abstract class ilFileSystemStorageWebAccessChecker implements ilComponentWebAcce
 	
 	public function isValidPath(array $a_path)
 	{
-		$obj_id = (int)array_pop(explode("_", $a_path[1]));	
+		// last element is file		
+		array_pop($a_path);
+		
+		// 2nd to last: directory with object id
+		$dir = array_pop($a_path);
+		
+		// extract id from directory title
+		$obj_id = (int)array_pop(explode("_", $dir));	
 		if((int)$obj_id)
 		{
 			$this->object_id = $obj_id;
