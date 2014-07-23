@@ -55,7 +55,7 @@ class ilSurveyResultsCumulatedTableGUI extends ilTable2GUI
 		$this->setFormName('invitegroups');
 		$this->setStyle('table', 'fullwidth');
 
-		$this->addColumn($this->lng->txt("title"),'title', '');
+		$this->addColumn($this->lng->txt("title"),'counter', ''); // #13649
 		foreach ($this->getSelectedColumns() as $c)
 		{
 			if (strcmp($c, 'question') == 0) $this->addColumn($this->lng->txt("question"),'question', '');
@@ -74,7 +74,7 @@ class ilSurveyResultsCumulatedTableGUI extends ilTable2GUI
 
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
 		
-		$this->setDefaultOrderField("title");
+		$this->setDefaultOrderField("counter");
 		
 		$this->setShowRowsSelector(true);
 
@@ -118,6 +118,11 @@ class ilSurveyResultsCumulatedTableGUI extends ilTable2GUI
 			"default" => true
 		);
 		return $cols;
+	}
+	
+	public function numericOrdering($a_field) 
+	{
+		return !in_array($a_field, array("question", "question_type"));
 	}
 
 	/**
