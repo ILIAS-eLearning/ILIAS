@@ -1242,7 +1242,8 @@ class ilSurveyPageGUI
 				$ilToolbar->addSeparator();
 
 				$last_on_page = 0;
-				if($a_pages)
+				if($a_pages && 
+					is_array($a_pages[$this->current_page-1]))				
 				{
 					$last_on_page = $a_pages[$this->current_page-1];
 					$last_on_page = array_pop($last_on_page);
