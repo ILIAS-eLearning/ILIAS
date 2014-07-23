@@ -133,7 +133,12 @@ class ilObjDataCollection extends ilObject2
 	static function sendNotification($a_action, $a_table_id, $a_record_id = NULL)
 	{
 		global $ilUser, $ilAccess;
-		
+
+        // If coming from trash, never send notifications and don't load dcl Object
+        if ($_GET['ref_id'] == SYSTEM_FOLDER_ID) {
+            return;
+        }
+
 		$dclObj = new ilObjDataCollection($_GET['ref_id']);
 		
 		if($dclObj->getNotification() != 1)
