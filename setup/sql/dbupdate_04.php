@@ -2112,3 +2112,27 @@ if($wiki_type_id)
 		)
 	);
 ?>
+<#4271>
+<?php
+
+$client_id = basename(CLIENT_DATA_DIR);
+$web_path = ilUtil::getWebspaceDir().$client_id;
+$sec_path = $web_path."/sec";
+
+if(!file_exists($sec_path))
+{
+	ilUtil::makeDir($sec_path);
+}
+
+$mods = array("ilBlog", "ilPoll", "ilPortfolio");
+foreach($mods as $mod)
+{
+	$mod_path = $web_path."/".$mod;
+	if(file_exists($mod_path))
+	{
+		$mod_sec_path = $sec_path."/".$mod;
+		rename($mod_path, $mod_sec_path);
+	}
+}
+
+?>

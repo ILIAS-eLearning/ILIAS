@@ -285,6 +285,7 @@ class ilWebAccessChecker
 		$pos1 = strpos($this->subpath, "lm_data/lm_") + 11;
 		$pos2 = strpos($this->subpath, "mobs/mm_") + 8;
 		$pos3 = strpos($this->subpath, "usr_images/") + 11;
+		$pos4 = strpos($this->subpath, "sec") + 3;
 		
 		$obj_id = 0;
 		$type = 'none';
@@ -312,8 +313,48 @@ class ilWebAccessChecker
 			$seperator = strpos($this->subpath, '_', $pos3);
 			$obj_id = (int) substr($this->subpath, $seperator + 1);
 		}
+		// component name (generic)
+		elseif ($pos4 > 4)
+		{			
+			$seperator = strpos($this->subpath, '/', $pos4);
+			$path = explode("/", substr($this->subpath, $seperator +1));
+			$component = array_shift($path);
+			if(substr($component, 0, 2) == "il")
+			{				
+				$component = substr($component, 2);
+				$comp_dir = null;
+				if(ilComponent::lookupId(IL_COMP_MODULE, $component))
+				{
+					$comp_dir = "Modules";
+				}
+				else if(ilComponent::lookupId(IL_COMP_SERVICE, $component))
+				{
+					$comp_dir = "Services";
+				}	
+				if($comp_dir)
+				{
+					$comp_class = "il".$component."WebAccessChecker";
+					$comp_include = $comp_dir."/".$component."/classes/class.".$comp_class.".php";
+					if(file_exists($comp_include))
+					{
+						include_once $comp_include;					
+						if(class_exists($comp_class))
+						{
+							$comp_inst = new $comp_class();
+							if($comp_inst instanceof ilComponentWebAccessChecker)
+							{
+								if($comp_inst->isValidPath($path))
+								{
+									$type = "sec";														
+								}
+							}
+						}							
+					}
+				}			
+			}
+		}
 		
-		if (!$obj_id || $type == 'none')
+		if ((!$obj_id && $type != "sec") || $type == 'none')
 		{
 			$this->errorcode = 404;
 			$this->errortext = $this->lng->txt("obj_not_found");
@@ -365,6 +406,17 @@ class ilWebAccessChecker
 				if ($this->checkAccessUserImage($obj_id))
 				{
 					return true;
+				}
+				break;
+				
+			case 'sec':
+				if($obj_id = $comp_inst->getRepositoryObjectId())
+				{
+					return $this->checkAccessObject($obj_id);
+				}
+				else
+				{
+					return $comp_inst->checkAccess($this->check_users);					
 				}
 				break;
 		}

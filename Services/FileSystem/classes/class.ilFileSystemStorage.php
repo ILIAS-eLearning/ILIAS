@@ -35,10 +35,11 @@ abstract class ilFileSystemStorage
 {
 	const STORAGE_WEB = 1;
 	const STORAGE_DATA = 2;
+	const STORAGE_SECURED = 3;
 	
 	const FACTOR = 100;
 	const MAX_EXPONENT = 3;
-	
+	const SECURED_DIRECTORY = "sec";	
 	
 	private $container_id;
 	private $storage_type;
@@ -167,6 +168,12 @@ abstract class ilFileSystemStorage
 				
 			case self::STORAGE_WEB:
 				$this->path = ilUtil::getWebspaceDir();
+				break;
+			
+			case self::STORAGE_SECURED:
+				$this->path = ilUtil::getWebspaceDir();
+				$this->path = ilUtil::removeTrailingPathSeparators($this->path);
+				$this->path .= '/'.self::SECURED_DIRECTORY;				
 				break;
 		}
 		$this->path = ilUtil::removeTrailingPathSeparators($this->path);
