@@ -92,12 +92,12 @@ class ilTestResultsToolbarGUI extends ilToolbarGUI
 			$this->addSeparator();
 
 			require_once 'Services/Form/classes/class.ilSelectInputGUI.php';
-			$sel = new ilSelectInputGUI($this->lng->txt('tst_res_jump_to_participant'), 'active_id');
+			$sel = new ilSelectInputGUI('', 'active_id');
 			$sel->addCustomAttribute('id="ilTestResultParticipantSelector"');
-			$sel->setOptions($this->getParticipantSelectorOptions());
-			$this->addInputItem($sel, true);
+			$sel->setOptions($this->getParticipantSelectorOptionsWithHintOption());
+			$this->addInputItem($sel);
 			
-			$this->addLink($this->lng->txt('tst_jump'), '');
+			$this->addLink($this->lng->txt('tst_res_jump_to_participant_btn'), '');
 			
 			$this->tpl->addJavaScript('Modules/Test/js/ilTestResultParticipantSelector.js');
 		}
@@ -159,5 +159,22 @@ class ilTestResultsToolbarGUI extends ilToolbarGUI
 	public function getParticipantSelectorOptions()
 	{
 		return $this->participantSelectorOptions;
+	}
+	
+	public function getParticipantSelectorOptionsWithHintOption()
+	{
+		$options = array($this->lng->txt('tst_res_jump_to_participant_hint_opt'));
+		
+		if( function_exists('array_replace') )
+		{
+			return array_replace($options, $this->getParticipantSelectorOptions());
+		}
+		
+		foreach($this->getParticipantSelectorOptions() as $key => $val)
+		{
+			$options[$key] = $val;
+		}
+
+		return $options;
 	}
 }
