@@ -120,7 +120,7 @@ class ilTestParticipantData
 			$options[$activeId] = $this->buildFormatedFullname($usrData);
 		}
 		
-		sort($options);
+		asort($options);
 		
 		return $options;
 	}
