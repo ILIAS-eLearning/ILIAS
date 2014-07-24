@@ -45,15 +45,20 @@ $css_buffer = array(
 
 
 if($ilAuth->getAuth()){
+    $redirect = "ilias.php?baseClass=gevDesktopGUI&cmd=toStaticPages";
+    $redirect .= '&ctpl_file=' .$ctpl_file;
+//    $redirect .= '&ctpl_file=' .$_REQUEST['tpl'] .'.html';
+    ilUtil::redirect($redirect);
+
+    
 /*
     require_once("Services/GEV/Desktop/classes/class.gevMainMenuGUI.php");
     $mainMenu = new gevMainMenuGUI("_top");
     $content .= $mainMenu->renderMainMenuListEntries('', false);
-*/    
 
     $ctpl = new ilTemplate($tpl_file_loggedin, 0, 0, "Customizing/global/skin/genv");
     array_push($content_buffer, $ctpl);
-
+*/    
 } else {
     array_push($css_buffer, $cssfile_loggedout);
 

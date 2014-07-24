@@ -11,6 +11,7 @@
 * @ilCtrl_Calls gevDesktopGUI: gevMyCoursesGUI
 * @ilCtrl_Calls gevDesktopGUI: gevCourseSearchGUI
 * @ilCtrl_Calls gevDesktopGUI: gevBookingGUI
+* @ilCtrl_Calls gevDesktopGUI: gevStaticpagesGUI
 *
 */
 
@@ -49,11 +50,18 @@ class gevDesktopGUI {
 				$gui = new gevMemberListDeliveryGUI();
 				$this->ctrl->forward($gui);
 				return;*/
-			case "gevbookinggui";
+			case "gevbookinggui":
 				require_once("Services/GEV/Desktop/classes/class.gevBookingGUI.php");
 				$gui = new gevBookingGUI();
 				$ret = $this->ctrl->forwardCommand($gui);
 				break;
+
+			case "gevstaticpagesgui":			
+				require_once("Services/GEV/Desktop/classes/class.gevStaticPagesGUI.php");
+				$gui = new gevStaticpagesGUI();
+				$ret = $this->ctrl->forwardCommand($gui);
+				break;
+
 			default:	
 				$this->dispatchCmd($cmd);
 				break;
@@ -70,6 +78,7 @@ class gevDesktopGUI {
 		switch($a_cmd) {
 			case "toCourseSearch":
 			case "toMyCourses":
+			case "toStaticPages":
 				$this->$a_cmd();
 			default:
 				throw new Exception("Unknown command: ".$a_cmd);
@@ -82,6 +91,10 @@ class gevDesktopGUI {
 	
 	protected function toMyCourses() {
 		$this->ctrl->redirectByClass("gevMyCoursesGUI");
+	}	
+
+	protected function toStaticPages() {
+		$this->ctrl->redirectByClass("gevStaticPagesGUI", $_REQUEST['ctpl_file']);
 	}
 }
 
