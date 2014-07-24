@@ -2570,7 +2570,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 						$is_moderator = ilForum::_isModerator($_GET['ref_id'], $node->getUserId());
 						if($is_moderator)
 						{
-							$rowCol = 'ilHighlighted';
+							$rowCol = 'ilModeratorPosting';
 						}
 						else $rowCol = ilUtil::switchColor($z, 'tblrow1', 'tblrow2');
 					}
