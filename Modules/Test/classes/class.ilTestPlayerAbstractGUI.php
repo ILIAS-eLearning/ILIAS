@@ -1856,17 +1856,18 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	
 	protected function prepareSummaryPage()
 	{
-		$this->tpl->addBlockFile($this->getContentBlockName(), "adm_content", "tpl.il_as_tst_question_summary.html", "Modules/Test");
-		
-		if( $this->object->getKioskMode() )
+		$this->tpl->addBlockFile(
+			$this->getContentBlockName(), 'adm_content', 'tpl.il_as_tst_question_summary.html', 'Modules/Test'
+		);
+
+		if ($this->object->getShowCancel())
 		{
-			$head = $this->getKioskHead();
-			if( strlen($head) )
-			{
-				$this->tpl->setCurrentBlock("kiosk_options");
-				$this->tpl->setVariable("KIOSK_HEAD", $head);
-				$this->tpl->parseCurrentBlock();
-			}
+			$this->populateCancelButtonBlock();
+		}
+
+		if ($this->object->getKioskMode())
+		{
+			$this->populateKioskHead();
 		}
 	}
 	
@@ -1879,7 +1880,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	
 	protected function populateKioskHead()
 	{
-		ilUtil::sendInfo();
+		ilUtil::sendInfo(); // ???
 		
 		$head = $this->getKioskHead();
 		
