@@ -104,7 +104,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 				);
 
 				require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintRequestGUI.php';
-				$gui = new ilAssQuestionHintRequestGUI($this, $this->testSession, $questionGUI);
+				$gui = new ilAssQuestionHintRequestGUI($this, self::CMD_SHOW_QUESTION, $this->testSession, $questionGUI);
 				
 				$this->ctrl->forwardCommand($gui);
 				
