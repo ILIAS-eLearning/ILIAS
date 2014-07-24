@@ -4208,6 +4208,12 @@ div.ilFrmPostHeader span.small {
 	margin: 0 0 3px;
 }
 
+.ilModeratorPosting {
+	border: 1px solid #FD7;
+	background-color: #FF9;
+	padding: 0 5px;
+}
+
 div.ilAttendanceListPrint td, div.ilAttendanceListPrint th {
 	border: 1px solid #D6D6D6;
 	padding: 2px;

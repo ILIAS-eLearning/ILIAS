@@ -260,7 +260,7 @@ class ilForumExportGUI
 			$is_moderator = ilForum::_isModerator($_GET['ref_id'], $post->getUserId());
 			if($is_moderator)
 			{
-				$rowCol = 'ilHighlighted';
+				$rowCol = 'ilModeratorPosting';
 			}
 			else
 			{
