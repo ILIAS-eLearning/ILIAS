@@ -252,7 +252,8 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		$tableGUI = $this->buildQuestionSetFilterStatisticTableGUI();
 		$tableGUI->resetFilter();
 		
-		$this->testSession->setTaxonomyFilterSelection( array() );
+		$this->testSession->getQuestionSetFilterSelection()->setTaxonomySelection( array() );
+		$this->testSession->getQuestionSetFilterSelection()->setAnswerStatusSelection( null );
 		$this->testSession->saveToDb();
 		
 		$this->testSequence->resetTrackedQuestionList();
