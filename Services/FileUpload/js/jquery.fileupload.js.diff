@@ -1,0 +1,18 @@
+--- C:/Users/jluetzen/AppData/Local/Temp/jquery.fileupload.js-rev51733.svn000.tmp.js	Mo Jul 14 13:26:20 2014
++++ D:/xampp/htdocs/leifos/trunk/Services/FileUpload/js/jquery.fileupload.js	Fr Jul 25 12:33:03 2014
+@@ -1227,6 +1227,7 @@
+                 data = {};
+             if (dataTransfer && dataTransfer.files && dataTransfer.files.length) {
+                 e.preventDefault();
++				e.stopPropagation();
+                 this._getDroppedFiles(dataTransfer).always(function (files) {
+                     data.files = files;
+                     if (that._trigger(
+@@ -1249,6 +1250,7 @@
+                         $.Event('dragover', {delegatedEvent: e})
+                     ) !== false) {
+                 e.preventDefault();
++				e.stopPropagation();
+                 dataTransfer.dropEffect = 'copy';
+             }
+         },
