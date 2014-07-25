@@ -223,7 +223,7 @@ class ilTEPGUI
 		
 		$this->setTabs();
 				
-		$tpl->addCss("Services/TEP/templates/default/tep_print.css", "print");	
+		$tpl->addCss(ilUtil::getStyleSheetLocation("filesystem", "tep_print.css", "Services/TEP"), "print");	
 		
 		$view = $this->getView();
 		$has_data = $view->loadData();
