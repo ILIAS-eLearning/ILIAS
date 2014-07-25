@@ -266,9 +266,6 @@ class ilObjUserTracking extends ilObject
 	{
 		global $ilDB;
 
-		$query = "DELETE FROM ut_access WHERE user_id = ".$ilDB->quote($a_usr_id, "integer")."";
-		$ilDB->manipulate($query);
-
 		$query = sprintf('DELETE FROM read_event WHERE usr_id = %s ',
 			$ilDB->quote($a_usr_id,'integer'));
 		$aff = $ilDB->manipulate($query);			

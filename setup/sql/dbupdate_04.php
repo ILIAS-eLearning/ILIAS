@@ -2155,3 +2155,9 @@ $ilDB->insert('il_dcl_datatype_prop', array(
     'inputformat' => array('integer', 4),
 ));
 ?>
+<#4274>
+<?php>
+
+$ilDB->dropTable("ut_access"); // #13663
+
+?>
