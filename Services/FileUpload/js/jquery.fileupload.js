@@ -1227,6 +1227,7 @@
                 data = {};
             if (dataTransfer && dataTransfer.files && dataTransfer.files.length) {
                 e.preventDefault();
+				e.stopPropagation();
                 this._getDroppedFiles(dataTransfer).always(function (files) {
                     data.files = files;
                     if (that._trigger(
@@ -1249,6 +1250,7 @@
                         $.Event('dragover', {delegatedEvent: e})
                     ) !== false) {
                 e.preventDefault();
+				e.stopPropagation();
                 dataTransfer.dropEffect = 'copy';
             }
         },
