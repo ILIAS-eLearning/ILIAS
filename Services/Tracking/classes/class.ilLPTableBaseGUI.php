@@ -190,7 +190,8 @@ class ilLPTableBaseGUI extends ilTable2GUI
 			return false;
 		}		
 		$olp = ilObjectLP::getInstance($a_data["obj_id"]);
-		if(!$olp->isActive())
+		if(get_class($olp) != "ilObjectLP" && // #13654 - LP could be unsupported
+			!$olp->isActive())
 		{
 			return false;
 		}
