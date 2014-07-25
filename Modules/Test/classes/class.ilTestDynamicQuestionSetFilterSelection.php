@@ -26,6 +26,11 @@ class ilTestDynamicQuestionSetFilterSelection
 	private $taxonomySelection = array();
 
 	/**
+	 * @var array
+	 */
+	private $forcedQuestionIds = array();
+
+	/**
 	 * @param int $answerStatusActiveId
 	 */
 	public function setAnswerStatusActiveId($answerStatusActiveId)
@@ -72,4 +77,20 @@ class ilTestDynamicQuestionSetFilterSelection
 	{
 		return $this->taxonomySelection;
 	}
-} 
+
+	/**
+	 * @param array $forcedQuestionIds
+	 */
+	public function setForcedQuestionIds($forcedQuestionIds)
+	{
+		$this->forcedQuestionIds = $forcedQuestionIds;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getForcedQuestionIds()
+	{
+		return $this->forcedQuestionIds;
+	}
+}

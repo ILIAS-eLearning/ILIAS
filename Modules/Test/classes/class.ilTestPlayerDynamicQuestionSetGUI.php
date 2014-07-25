@@ -435,9 +435,11 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 
 		$this->handleJavascriptActivationStatus();
 
-		$this->testSequence->loadQuestions(
-				$this->dynamicQuestionSetConfig, $this->testSession->getQuestionSetFilterSelection()
-		);
+		$filterSelection = $this->testSession->getQuestionSetFilterSelection();
+		
+		$filterSelection->setForcedQuestionIds(array($this->testSession->getCurrentQuestionId()));
+		
+		$this->testSequence->loadQuestions($this->dynamicQuestionSetConfig, $filterSelection);
 		
 		$this->testSequence->cleanupQuestions($this->testSession);
 		

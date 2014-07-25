@@ -125,6 +125,8 @@ class ilTestDynamicQuestionSet
 			));
 		}
 		
+		$questionList->setForcedQuestionIds($filterSelection->getForcedQuestionIds());
+		
 		$questionList->load();
 		
 		return $questionList;
