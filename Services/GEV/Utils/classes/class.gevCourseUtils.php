@@ -465,8 +465,12 @@ class gevCourseUtils {
 	public function getFormattedFee() {
 		$fee = $this->getFee();
 		if ($fee) {
-			return str_replace(".", ",", number_format((float)$fee, 2));
+			return gevCourseUtils::formatFee($fee);
 		}
+	}
+	
+	static public function formatFee($a_fee) {
+		return str_replace(".", ",", number_format((float)$a_fee, 2));
 	}
 	
 	public function getMinParticipants() {
