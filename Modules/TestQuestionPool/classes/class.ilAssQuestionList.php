@@ -71,6 +71,11 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 	private $answerStatusActiveId = null;
 
 	/**
+	 * @var array
+	 */
+	private $forcedQuestionIds = array();
+
+	/**
 	 * answer status domain for single questions
 	 */
 	const QUESTION_ANSWER_STATUS_NON_ANSWERED = 'nonAnswered';
@@ -150,6 +155,22 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 	public function getAnswerStatusFilter()
 	{
 		return $this->answerStatusFilter;
+	}
+
+	/**
+	 * @param array $forcedQuestionIds
+	 */
+	public function setForcedQuestionIds($forcedQuestionIds)
+	{
+		$this->forcedQuestionIds = $forcedQuestionIds;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getForcedQuestionIds()
+	{
+		return $this->forcedQuestionIds;
 	}
 	
 	private function getFieldFilterExpressions()
@@ -265,7 +286,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 		return $tableJoin;
 	}
 	
-	private function getConditionalExpression()
+	private function getConditionalFilterExpression()
 	{
 		$CONDITIONS = array_merge(
 				$this->getFieldFilterExpressions(),
@@ -305,11 +326,9 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 		";
 	}
 	
-	public function load()
+	private function buildBasicQuery()
 	{
-		$this->checkFilters();
-			
-		$query = "
+		return "
 			{$this->getSelectFieldsExpression()}
 			
 			FROM		qpl_questions
@@ -317,15 +336,37 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 			{$this->getTableJoinExpression()}
 			
 			WHERE		qpl_questions.original_id IS NULL
+			AND			qpl_questions.obj_fi = {$this->db->quote($this->parentObjId, 'integer')}
 			AND			qpl_questions.tstamp > 0
-			AND			qpl_questions.obj_fi = %s
-			
-			{$this->getConditionalExpression()}
 		";
+	}
+	
+	private function buildQuery()
+	{
+		$query = $this->buildBasicQuery()."
+			{$this->getConditionalFilterExpression()}
+		";
+		
+		if( count($this->getForcedQuestionIds()) )
+		{
+			$query .= "
+				UNION {$this->buildBasicQuery()}
+				AND	{$this->db->in('qpl_questions.question_id', $this->getForcedQuestionIds(), false, 'integer')}
+			";
+		}
+		
+		return $query;
+	}
+	
+	public function load()
+	{
+		$this->checkFilters();
+		
+		$query = $this->buildQuery();
 		
 		#vd($query);
 
-		$res = $this->db->queryF($query, array('integer'), array($this->parentObjId));
+		$res = $this->db->query($query);
 		
 		#vd($this->db->db->last_query);
 		
