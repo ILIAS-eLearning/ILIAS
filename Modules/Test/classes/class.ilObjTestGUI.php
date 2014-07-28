@@ -778,9 +778,15 @@ class ilObjTestGUI extends ilObjectGUI
 		foreach ($_POST["file"] as $file)
 		{
 			$file = basename($file);
+			$dir = substr($file, 0, strlen($file) - 4);
+			
+			if( !strlen($file) || !strlen($dir) )
+			{
+				continue;
+			}
 			
 			$exp_file = $export_dir."/".$file;
-			$exp_dir = $export_dir."/".substr($file, 0, strlen($file) - 4);
+			$exp_dir = $export_dir."/".$dir;
 			if (@is_file($exp_file))
 			{
 				unlink($exp_file);
