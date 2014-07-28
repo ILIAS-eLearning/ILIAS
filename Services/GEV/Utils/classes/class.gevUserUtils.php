@@ -232,6 +232,8 @@ class gevUserUtils {
 		
 		$is_tmplt_field_id = $this->gev_set->getAMDFieldId(gevSettings::CRS_AMD_IS_TEMPLATE);
 		$start_date_field_id = $this->gev_set->getAMDFieldId(gevSettings::CRS_AMD_START_DATE);
+		$type_field_id = $this->gev_set->getAMDFieldId(gevSettings::CRS_AMD_TYPE);
+		$bk_deadl_field_id = $this->gev_set->getAMDFieldId(gevSettings::CRS_AMD_BOOKING_DEADLINE);
 		
 		// try to narrow down the set as much as possible to avoid permission checks
 		$query = "SELECT DISTINCT cs.obj_id ".
@@ -246,14 +248,25 @@ class gevUserUtils {
 				 " LEFT JOIN adv_md_values_date amd2".
 				 "   ON cs.obj_id = amd2.obj_id ".
 				 "   AND amd2.field_id = ".$this->db->quote($start_date_field_id, "integer").
+				 // this is knowledge from the course amd plugin
+				 " LEFT JOIN adv_md_values_text ltype".
+				 "   ON cs.obj_id = ltype.obj_id ".
+				 "   AND ltype.field_id = ".$this->db->quote($type_field_id, "integer").
+				 // this is knowledge from the course amd plugin
+				 " LEFT JOIN adv_md_values_int bk_deadl ".
+				 "   ON cs.obj_id = bk_deadl.obj_id ".
+				 "   AND bk_deadl.field_id = ".$this->db->quote($bk_deadl_field_id, "integer").
 				 " WHERE cs.activation_type = 1".
 				 "   AND cs.activation_start < ".time().
 				 "   AND cs.activation_end > ".time().
 				 "   AND oref.deleted IS NULL".
 				 "   AND amd1.value = ".$this->db->quote("Nein", "text").
-				 "   AND ( amd2.value > ".$this->db->quote(date("Y-m-d"), "date").
-				 "       OR amd2.value IS NULL ".
-				 "       )".
+				 "   AND (   (".$this->db->in("ltype.value", array("Präsenztraining", "Webinar"), false, "text").
+				 "            AND ADDDATE(amd2.value, -1 * bk_deadl.value) >= ".$this->db->quote(date("Y-m-d")).
+				 "		     )".
+				 "		  OR (".$this->db->in("ltype.value", array("Selbstlernkurs"), false, "text").
+				 "			 )".
+				 "		 )".
 				 "";
 		
 		$res = $this->db->query($query);

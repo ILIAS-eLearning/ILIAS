@@ -535,7 +535,7 @@ class ilCourseBookings
 	{
 		$now = new ilDate(date("Y-m-d"), IL_CAL_DATE);
 		$deadline = $this->getBookingDeadline();
-		if(ilDate::_after($now, $deadline))
+		if($deadline && ilDate::_after($now, $deadline))
 		{
 			return false;
 		}
