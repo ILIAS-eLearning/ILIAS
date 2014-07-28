@@ -110,10 +110,13 @@ class ilPortfolioRepositoryGUI
 	protected function show()
 	{
 		global $tpl, $lng, $ilToolbar, $ilCtrl;
-				
-		$ilToolbar->addButton($lng->txt("prtf_add_portfolio"),
-			$ilCtrl->getLinkTargetByClass("ilObjPortfolioGUI", "create"));		
-	
+		
+		include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
+		$button = ilLinkButton::getInstance();
+		$button->setCaption("prtf_add_portfolio");
+		$button->setUrl($ilCtrl->getLinkTargetByClass("ilObjPortfolioGUI", "create"));
+		$ilToolbar->addButtonInstance($button);
+		
 		include_once "Modules/Portfolio/classes/class.ilPortfolioTableGUI.php";
 		$table = new ilPortfolioTableGUI($this, "show", $this->user_id);
 		

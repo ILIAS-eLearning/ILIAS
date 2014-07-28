@@ -364,8 +364,12 @@ class ilObjectAddNewItemGUI
 		$ov->addTrigger($ov_trigger_id, "click", $ov_trigger_id, false, "tl", "tr");
 
 		// toolbar
-		$ilToolbar->addButton($lng->txt("cntr_add_new_item"), "#", "", "", 
-			"", $ov_trigger_id, 'submit emphsubmit');
+		include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
+		$button = ilLinkButton::getInstance();
+		$button->setId($ov_trigger_id);
+		$button->setCaption("cntr_add_new_item");
+		$button->setPrimary(true);
+		$ilToolbar->addButtonInstance($button);
 			
 		// css?
 		$tpl->setVariable("SELECT_OBJTYPE_REPOS",

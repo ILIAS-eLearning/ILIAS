@@ -639,7 +639,13 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 			$submit_link = $this->ctrl->getLinkTarget($this, "finalize");
 			$this->ctrl->setParameter($this, "ass", "");
 			$this->ctrl->setParameter($this, "exc", "");	
-			$info .= " <a class=\"submit emphsubmit\" href=\"".$submit_link."\">".$this->lng->txt("prtf_finalize_portfolio")."</a>";
+			
+			include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
+			$button = ilLinkButton::getInstance();
+			$button->setCaption("prtf_finalize_portfolio");
+			$button->setPrimary(true);
+			$button->setUrl($submit_link);			
+			$info .= " ".$button->render();			
 		}
 		
 		// submitted files
@@ -655,9 +661,14 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 			$rel = ilDatePresentation::useRelativeDates();
 			ilDatePresentation::setUseRelativeDates(false);
 			
+			include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
+			$button = ilLinkButton::getInstance();
+			$button->setCaption("download");
+			$button->setUrl($dl_link);			
+			
 			$info .= "<br />".sprintf($this->lng->txt("prtf_exercise_submitted_info"), 
 				ilDatePresentation::formatDate(new ilDateTime($submitted["ts"], IL_CAL_DATETIME)),
-				"<a href=\"".$dl_link."\" class=\"submit\">".$this->lng->txt("download")."</a>");
+				$button->render());
 			
 			ilDatePresentation::setUseRelativeDates($rel);
 		}		

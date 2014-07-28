@@ -95,6 +95,8 @@ class ilToolbarGUI
 	
 	/**
 	* Add button to toolbar
+	* 
+	* @deprecated use addButtonInstance() instead! 
 	*
 	* @param	string		text
 	* @param	string		link href / submit command
@@ -111,6 +113,8 @@ class ilToolbarGUI
 
 	/**
 	* Add form button to toolbar
+	* 
+	* deprecated use addButtonInstance() instead! 
 	*
 	* @param	string		text
 	* @param	string		link href / submit command
@@ -130,6 +134,16 @@ class ilToolbarGUI
 	public function addInputItem(ilToolbarItem $a_item, $a_output_label = false)
 	{
 		$this->items[] = array("type" => "input", "input" => $a_item, "label" => $a_output_label);
+	}
+	
+	/**
+	 * Add button instance
+	 * 
+	 * @param ilButton $a_button
+	 */
+	public function addButtonInstance(ilButton $a_button)
+	{
+		$this->items[] = array("type" => "button_obj", "instance" => $a_button); 
 	}
 	
 	/**
@@ -282,6 +296,13 @@ class ilToolbarGUI
 						{
 							$tpl->setVariable("SUB_CLASS", " ".$item["class"]);
 						}
+						$tpl->parseCurrentBlock();
+						$tpl->touchBlock("item");
+						break;
+						
+					case "button_obj":
+						$tpl->setCurrentBlock("button_instance");
+						$tpl->setVariable("BUTTON_OBJ", $item["instance"]->render());
 						$tpl->parseCurrentBlock();
 						$tpl->touchBlock("item");
 						break;

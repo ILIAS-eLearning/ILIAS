@@ -123,10 +123,13 @@ class ilSurveyPhrasesGUI
 		$this->ctrl->setParameter($this, "p_id", "");
 		
 		if ($rbacsystem->checkAccess("write", $this->ref_id))
-		{
-			$ilToolbar->addButton($this->lng->txt('phrase_new'), 
-				$this->ctrl->getLinkTarget($this, 'newPhrase'));
-			
+		{			
+			include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
+			$button = ilLinkButton::getInstance();
+			$button->setCaption("phrase_new");								
+			$button->setUrl($this->ctrl->getLinkTarget($this, "newPhrase"));										
+			$ilToolbar->addButtonInstance($button);		
+		
 			include_once "./Modules/SurveyQuestionPool/classes/tables/class.ilSurveyPhrasesTableGUI.php";
 			$table_gui = new ilSurveyPhrasesTableGUI($this, 'phrases');
 			$phrases =& ilSurveyPhrases::_getAvailablePhrases(1);

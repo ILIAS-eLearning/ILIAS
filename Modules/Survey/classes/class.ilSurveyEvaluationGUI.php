@@ -589,16 +589,19 @@ class ilSurveyEvaluationGUI
 				));
 			$ilToolbar->addInputItem($label);
 
+			include_once "Services/UIComponent/Button/classes/class.ilSubmitButton.php";		
+			$button = ilSubmitButton::getInstance();
+			$button->setCaption("export");			
 			if ($details)
 			{
-				$ilToolbar->addFormButton($this->lng->txt("export"), 'exportDetailData', 
-					'', false, 'omitPreventDoubleSubmission');			
+				$button->setCommand('exportDetailData');					
 			}
 			else
 			{
-				$ilToolbar->addFormButton($this->lng->txt("export"), 'exportData',
-					'', false, 'omitPreventDoubleSubmission');
+				$button->setCommand('exportData');				
 			}
+			$button->setOmitPreventDoubleSubmission(true);
+			$ilToolbar->addButtonInstance($button);	
 			
 			$finished_ids = null;
 			if($appr_id)
@@ -704,9 +707,12 @@ class ilSurveyEvaluationGUI
 					$appr->setOptions($options);
 					$appr->setValue($this->getAppraiseeId());
 					$ilToolbar->addInputItem($appr, true);
-	
-					$ilToolbar->addFormButton($this->lng->txt("survey_360_select_appraisee"), 
-						$this->ctrl->getCmd());							
+					
+					include_once "Services/UIComponent/Button/classes/class.ilSubmitButton.php";		
+					$button = ilSubmitButton::getInstance();
+					$button->setCaption("survey_360_select_appraisee");								
+					$button->setCommand($this->ctrl->getCmd());															
+					$ilToolbar->addButtonInstance($button);	
 	
 					if($appr_id)
 					{
@@ -1034,15 +1040,23 @@ class ilSurveyEvaluationGUI
 				'title_label'=> $this->lng->txt('export_title_label')
 				));
 			$ilToolbar->addInputItem($label);
-
-			$ilToolbar->addFormButton($this->lng->txt("export"), 'exportevaluationuser',
-				'', false, 'omitPreventDoubleSubmission');		
+			
+			include_once "Services/UIComponent/Button/classes/class.ilSubmitButton.php";
+			$button = ilSubmitButton::getInstance();
+			$button->setCaption("export");
+			$button->setCommand('exportevaluationuser');
+			$button->setOmitPreventDoubleSubmission(true);
+			$ilToolbar->addButtonInstance($button);		
 
 			$ilToolbar->addSeparator();
 
-			$ilToolbar->addButton($this->lng->txt("print"), "#", "", "", 
-				"onclick=\"javascript:window.print()\"", "", "submit omitPreventDoubleSubmission");
-
+			include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
+			$button = ilLinkButton::getInstance();
+			$button->setCaption("print");
+			$button->setOnClick("window.print(); return false;");
+			$button->setOmitPreventDoubleSubmission(true);
+			$ilToolbar->addButtonInstance($button);		
+			
 			$finished_ids = null;
 			if($appr_id)
 			{

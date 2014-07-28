@@ -181,21 +181,37 @@ class ilSurveyEditorGUI
 			$types = new ilSelectInputGUI($this->lng->txt("create_new"), "sel_question_types");
 			$types->setOptions($qtypes);
 			$ilToolbar->addInputItem($types, "");
-			$ilToolbar->addFormButton($this->lng->txt("svy_create_question"), "createQuestion");
+			
+			
+			include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
+			include_once "Services/UIComponent/Button/classes/class.ilSubmitButton.php";
+			
+			$button = ilSubmitButton::getInstance();
+			$button->setCaption("svy_create_question");								
+			$button->setCommand("createQuestion");
+			$ilToolbar->addButtonInstance($button);		
 			
 			if($this->object->isPoolActive())
 			{
 				$ilToolbar->addSeparator();
 
-				$cmd = ($ilUser->getPref('svy_insert_type') == 1 || strlen($ilUser->getPref('svy_insert_type')) == 0) ? 'browseForQuestions' : 'browseForQuestionblocks';
-				$ilToolbar->addButton($this->lng->txt("browse_for_questions"),
-					$this->ctrl->getLinkTarget($this, $cmd));
+				$cmd = ($ilUser->getPref('svy_insert_type') == 1 || 
+					strlen($ilUser->getPref('svy_insert_type')) == 0) 
+					? 'browseForQuestions' 
+					: 'browseForQuestionblocks';
+								
+				$button = ilLinkButton::getInstance();
+				$button->setCaption("browse_for_questions");								
+				$button->setUrl($this->ctrl->getLinkTarget($this, $cmd));										
+				$ilToolbar->addButtonInstance($button);						
 			}
 
 			$ilToolbar->addSeparator();
-
-			$ilToolbar->addButton($this->lng->txt("add_heading"), 
-				$this->ctrl->getLinkTarget($this, "addHeading"));
+			
+			$button = ilLinkButton::getInstance();
+			$button->setCaption("add_heading");								
+			$button->setUrl($this->ctrl->getLinkTarget($this, "addHeading"));										
+			$ilToolbar->addButtonInstance($button);		
 		}
 		if ($hasDatasets)
 		{
@@ -1218,24 +1234,44 @@ class ilSurveyEditorGUI
 	*/
 	function printViewObject()
 	{	
+		global $ilToolbar;
+		
 		$this->questionsSubtabs("print");
-		$template = new ilTemplate("tpl.il_svy_svy_printview.html", TRUE, TRUE, "Modules/Survey");
+		
+		include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
+		$button = ilLinkButton::getInstance();
+		$button->setCaption("print");								
+		$button->setOnClick("window.print(); return false;");				
+		$button->setOmitPreventDoubleSubmission(true);
+		$ilToolbar->addButtonInstance($button);				
 			
 		include_once './Services/WebServices/RPC/classes/class.ilRPCServerSettings.php';
 		if(ilRPCServerSettings::getInstance()->isEnabled())
 		{
 			$this->ctrl->setParameter($this, "pdf", "1");
-			$template->setCurrentBlock("pdf_export");
-			$template->setVariable("PDF_URL", $this->ctrl->getLinkTarget($this, "printView"));
+			$pdf_url = $this->ctrl->getLinkTarget($this, "printView");
 			$this->ctrl->setParameter($this, "pdf", "");
-			$template->setVariable("PDF_TEXT", $this->lng->txt("pdf_export"));
-			$template->setVariable("PDF_IMG_ALT", $this->lng->txt("pdf_export"));
-			$template->setVariable("PDF_IMG_URL", ilUtil::getHtmlPath(ilUtil::getImagePath("application-pdf.png")));
-			$template->parseCurrentBlock();
+			
+			/*
+			include_once "Services/UIComponent/Button/classes/class.ilImageLinkButton.php";
+			$button = ilImageLinkButton::getInstance();
+			$button->setCaption("pdf_export");								
+			$button->setUrl($pdf_url);		
+			$button->forceTitle(true);			
+			$button->setImage("application-pdf.png");				
+			$ilToolbar->addButtonInstance($button);				  
+			*/		
+						
+			$button = ilLinkButton::getInstance();
+			$button->setCaption("pdf_export");								
+			$button->setUrl($pdf_url);				
+			$button->setOmitPreventDoubleSubmission(true);
+			$ilToolbar->addButtonInstance($button);	
 		}
-		$template->setVariable("PRINT_TEXT", $this->lng->txt("print"));
-		$template->setVariable("PRINT_URL", "javascript:window.print();");
-
+		
+		
+		$template = new ilTemplate("tpl.il_svy_svy_printview.html", TRUE, TRUE, "Modules/Survey");
+	
 		$pages =& $this->object->getSurveyPages();
 		foreach ($pages as $page)
 		{

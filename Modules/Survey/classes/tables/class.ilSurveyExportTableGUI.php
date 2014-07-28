@@ -75,9 +75,7 @@ class ilSurveyExportTableGUI extends ilTable2GUI
 		else
 		{
 			$this->addMultiCommand('downloadExportFile', $this->lng->txt('download'));
-			$this->addMultiCommand('confirmDeleteExportFile', $this->lng->txt('delete'));
-
-			$this->addCommandButton('createExportFile', $this->lng->txt('svy_create_export_file'));
+			$this->addMultiCommand('confirmDeleteExportFile', $this->lng->txt('delete'));		
 		}
 
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));

@@ -164,12 +164,13 @@ class ilRepositorySearchGUI
 			$si->setOptions($a_options['user_type']);
 			$toolbar->addInputItem($si);
 		}
-
-		$toolbar->addFormButton(
-			$a_options['submit_name'],
-			'addUserFromAutoComplete'
-		);
 		
+		include_once "Services/UIComponent/Button/classes/class.ilSubmitButton.php";
+		$button = ilSubmitButton::getInstance();
+		$button->setCaption($a_options['submit_name'], false);
+		$button->setCommand('addUserFromAutoComplete');
+		$ilToolbar->addButtonInstance($button);
+
 		if((bool)$a_options['add_search'] || 
 			is_numeric($a_options['add_from_container']))
 		{		
@@ -178,10 +179,12 @@ class ilRepositorySearchGUI
 			$ilToolbar->addSeparator();
 					
 			if((bool)$a_options['add_search'])
-			{							
-				$ilToolbar->addButton(
-					$lng->txt("search_users"),
-					$ilCtrl->getLinkTargetByClass('ilRepositorySearchGUI',''));
+			{											
+				include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
+				$button = ilLinkButton::getInstance();
+				$button->setCaption("search_users");
+				$button->setUrl($ilCtrl->getLinkTargetByClass('ilRepositorySearchGUI',''));
+				$ilToolbar->addButtonInstance($button);				
 			}
 
 			if(is_numeric($a_options['add_from_container']))
@@ -202,11 +205,12 @@ class ilRepositorySearchGUI
 					}
 					
 					$ilCtrl->setParameterByClass('ilRepositorySearchGUI', "list_obj", ilObject::_lookupObjId($parent_container_ref_id));
-
-					$ilToolbar->addButton(
-						$lng->txt("search_add_members_from_container_".$parent_container_type),
-						$ilCtrl->getLinkTargetByClass(array(get_class($parent_object),'ilRepositorySearchGUI'), 'listUsers')
-					);
+					
+					include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
+					$button = ilLinkButton::getInstance();
+					$button->setCaption("search_add_members_from_container_".$parent_container_type);
+					$button->setUrl($ilCtrl->getLinkTargetByClass(array(get_class($parent_object),'ilRepositorySearchGUI'), 'listUsers'));
+					$ilToolbar->addButtonInstance($button);		
 				}
 			}
 		}

@@ -172,8 +172,13 @@ class ilWorkspaceAccessGUI
 		$ilToolbar->addInputItem($actions);
 		
 		$ilToolbar->setFormAction($this->ctrl->getFormAction($this));		
-		$ilToolbar->addFormButton($this->lng->txt("add"), "addpermissionhandler");
 		
+		include_once "Services/UIComponent/Button/classes/class.ilSubmitButton.php";
+		$button = ilSubmitButton::getInstance();
+		$button->setCaption("add");
+		$button->setCommand("addpermissionhandler");
+		$ilToolbar->addButtonInstance($button);
+	
 		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessTableGUI.php";
 		$table = new ilWorkspaceAccessTableGUI($this, "share", $this->node_id, $this->getAccessHandler());
 		$tpl->setContent($table->getHTML().$this->footer);

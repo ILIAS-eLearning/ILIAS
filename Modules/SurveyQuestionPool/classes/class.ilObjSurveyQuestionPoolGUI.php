@@ -355,14 +355,24 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 	* display the import form to import questions into the questionpool
 	*/
 	public function importQuestionsObject()
-	{
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_import_question.html", "Modules/SurveyQuestionPool");
-		$this->tpl->setCurrentBlock("adm_content");
-		$this->tpl->setVariable("TEXT_IMPORT_QUESTION", $this->lng->txt("import_question"));
-		$this->tpl->setVariable("TEXT_SELECT_FILE", $this->lng->txt("select_file"));
-		$this->tpl->setVariable("TEXT_UPLOAD", $this->lng->txt("upload"));
-		$this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this));
-		$this->tpl->parseCurrentBlock();
+	{		
+		global $tpl;
+		
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this, "uploadQuestions"));
+		$form->setTitle($this->lng->txt("import_question"));
+
+		include_once("./Services/Form/classes/class.ilFileInputGUI.php");
+		$fi = new ilFileInputGUI($this->lng->txt("select_file"), "qtidoc");
+		$fi->setSuffixes(array("xml", "zip"));
+		$fi->setRequired(true);
+		$form->addItem($fi);
+
+		$form->addCommandButton("uploadQuestions", $this->lng->txt("import"));
+		$form->addCommandButton("questions", $this->lng->txt("cancel"));
+	
+		$tpl->setContent($form->getHTML());
 	}
 
 	/**
@@ -378,7 +388,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			$error = 1;
 		}
 		// check correct file type
-		if (strpos("xml", $_FILES["qtidoc"]["type"]) !== FALSE)
+		if (!$error && strpos("xml", $_FILES["qtidoc"]["type"]) !== FALSE)
 		{
 			$error = 1;
 		}
@@ -445,11 +455,19 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 			$qtypes->setOptions($options);
 			
 			$ilToolbar->setFormAction($this->ctrl->getFormAction($this));
-			$ilToolbar->addFormButton($this->lng->txt("svy_create_question"), "createQuestion");
+			
+			include_once "Services/UIComponent/Button/classes/class.ilSubmitButton.php";
+			$button = ilSubmitButton::getInstance();
+			$button->setCaption("svy_create_question");
+			$button->setCommand("createQuestion");
+			$ilToolbar->addButtonInstance($button);	
 			
 			$ilToolbar->addSeparator();
 			
-			$ilToolbar->addFormButton($this->lng->txt('import'), 'importQuestions');
+			$button = ilSubmitButton::getInstance();
+			$button->setCaption("import");
+			$button->setCommand("importQuestions");
+			$ilToolbar->addButtonInstance($button);	
 		}
 				
 		include_once "./Modules/SurveyQuestionPool/classes/tables/class.ilSurveyQuestionsTableGUI.php";

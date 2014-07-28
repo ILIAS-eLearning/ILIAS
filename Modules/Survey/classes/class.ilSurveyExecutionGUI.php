@@ -699,13 +699,17 @@ class ilSurveyExecutionGUI
 		
 		$has_button = false;
 		
+		include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
+		
 		if(!$this->preview)
 		{
 			if($this->object->hasViewOwnResults())
-			{
-				$ilToolbar->addButton($this->lng->txt("svy_view_own_results"),
-					$this->ctrl->getLinkTarget($this, "viewUserResults"));
-				
+			{								
+				$button = ilLinkButton::getInstance();
+				$button->setCaption("svy_view_own_results");								
+				$button->setUrl($this->ctrl->getLinkTarget($this, "viewUserResults"));										
+				$ilToolbar->addButtonInstance($button);		
+			
 				$has_button = true;
 			}
 				
@@ -724,10 +728,13 @@ class ilSurveyExecutionGUI
 					$mail->setValue($ilUser->getEmail());				
 				}
 				$ilToolbar->addInputItem($mail, true);	
-
+								
 				$ilToolbar->setFormAction($this->ctrl->getFormAction($this, "mailUserResults"));
-				$ilToolbar->addFormButton($this->lng->txt("svy_mail_own_results"),
-						"mailUserResults");		
+								
+				$button = ilSubmitButton::getInstance();
+				$button->setCaption("svy_mail_own_results");
+				$button->setCommand("mailUserResults");
+				$ilToolbar->addButtonInstance($button);		
 				
 				$has_button = true;
 			}										
@@ -745,9 +752,11 @@ class ilSurveyExecutionGUI
 				$ilToolbar->addSeparator();
 			}
 			
-			$ilToolbar->addButton($this->lng->txt("exit"),
-				$this->ctrl->getLinkTarget($this, "exitSurvey"));		
-			
+			$button = ilLinkButton::getInstance();
+			$button->setCaption("exit");								
+			$button->setUrl($this->ctrl->getLinkTarget($this, "exitSurvey"));										
+			$ilToolbar->addButtonInstance($button);		
+		
 			$ftpl = new ilTemplate("tpl.il_svy_svy_finished.html", true, true, "Modules/Survey");		
 			
 			if(strlen($this->object->getOutro()))
@@ -841,10 +850,13 @@ class ilSurveyExecutionGUI
 		}
 		
 		$this->checkAuth(false, true);		
-		
-		$ilToolbar->addButton($this->lng->txt("btn_back"),
-				$this->ctrl->getLinkTarget($this, "runShowFinishedPage"));	
-		
+				
+		include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
+		$button = ilLinkButton::getInstance();
+		$button->setCaption("btn_back");								
+		$button->setUrl($this->ctrl->getLinkTarget($this, "runShowFinishedPage"));										
+		$ilToolbar->addButtonInstance($button);		
+			
 		$survey_gui = new ilObjSurveyGUI();
 		$html = $survey_gui->getUserResultsTable($_SESSION["finished_id"][$this->object->getId()]);
 		$this->tpl->setContent($html);	

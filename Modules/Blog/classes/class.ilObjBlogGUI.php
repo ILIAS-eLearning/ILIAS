@@ -801,7 +801,11 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			$title = new ilTextInputGUI($lng->txt("title"), "title");
 			$ilToolbar->addInputItem($title, $lng->txt("title"));
 			
-			$ilToolbar->addFormButton($lng->txt("blog_add_posting"), "createPosting");
+			include_once "Services/UIComponent/Button/classes/class.ilSubmitButton.php";
+			$button = ilSubmitButton::getInstance();
+			$button->setCaption("blog_add_posting");
+			$button->setCommand("createPosting");
+			$ilToolbar->addButtonInstance($button);
 						
 			// exercise blog?			
 			include_once "Modules/Exercise/classes/class.ilObjExercise.php";			
@@ -886,13 +890,19 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		
 		// submit button
 		if(!$times_up)
-		{
+		{			
 			$ilCtrl->setParameter($this, "exc", $exercise_id);				
 			$ilCtrl->setParameter($this, "ass", $a_assignment_id);
 			$submit_link = $ilCtrl->getLinkTarget($this, "finalize");
 			$ilCtrl->setParameter($this, "ass", "");
 			$ilCtrl->setParameter($this, "exc", "");	
-			$info .= " <a class=\"submit emphsubmit\" href=\"".$submit_link."\">".$lng->txt("blog_finalize_blog")."</a>";
+			
+			include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
+			$button = ilLinkButton::getInstance();
+			$button->setCaption("blog_finalize_blog");
+			$button->setPrimary(true);
+			$button->setUrl($submit_link);			
+			$info .= " ".$button->render();
 		}
 		
 		// submitted files
@@ -908,9 +918,14 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			$rel = ilDatePresentation::useRelativeDates();
 			ilDatePresentation::setUseRelativeDates(false);
 			
+			include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
+			$button = ilLinkButton::getInstance();
+			$button->setCaption("download");		
+			$button->setUrl($dl_link);			
+			
 			$info .= "<br />".sprintf($lng->txt("blog_exercise_submitted_info"), 
 				ilDatePresentation::formatDate(new ilDateTime($submitted["ts"], IL_CAL_DATETIME)),
-				"<a href=\"".$dl_link."\" class=\"submit\">".$lng->txt("download")."</a>");
+				$button->render());
 			
 			ilDatePresentation::setUseRelativeDates($rel);
 		}		
@@ -2035,11 +2050,12 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				}			
 				$url = ILIAS_HTTP_PATH."/feed.php?blog_id=".$blog_id.
 					"&client_id=".rawurlencode(CLIENT_ID);
-
-				$wtpl->setCurrentBlock("rss");
-				$wtpl->setVariable("URL_RSS", $url);
-				$wtpl->setVariable("IMG_RSS", ilUtil::getImagePath("rss.png"));
-				$wtpl->parseCurrentBlock();
+				
+				include_once "Services/UIComponent/Button/classes/class.ilImageLinkButton.php";
+				$button = ilImageLinkButton::getInstance();
+				$button->setImage("rss.png");
+				$button->setUrl($url);
+				$wtpl->setVariable("RSS_BUTTON", $button->render());
 			}
 		}
 		

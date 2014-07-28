@@ -1235,8 +1235,13 @@ class ilSurveyPageGUI
 
 		if(!$this->has_datasets)
 		{
-			$ilToolbar->addButton($lng->txt("survey_add_new_question"),	$ilCtrl->getLinkTarget($this, "addQuestionToolbarForm"));
-			
+			include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
+
+			$button = ilLinkButton::getInstance();
+			$button->setCaption("survey_add_new_question");								
+			$button->setUrl($ilCtrl->getLinkTarget($this, "addQuestionToolbarForm"));										
+			$ilToolbar->addButtonInstance($button);		
+
 			if($this->object->isPoolActive())
 			{
 				$ilToolbar->addSeparator();
@@ -1253,9 +1258,15 @@ class ilSurveyPageGUI
 				$ilCtrl->setParameter($this->editor_gui, "pgov", $this->current_page);
 				$ilCtrl->setParameter($this->editor_gui, "pgov_pos", $last_on_page."c");
 
-				$cmd = ($ilUser->getPref('svy_insert_type') == 1 || strlen($ilUser->getPref('svy_insert_type')) == 0) ? 'browseForQuestions' : 'browseForQuestionblocks';
-				$ilToolbar->addButton($lng->txt("browse_for_questions"),
-					$ilCtrl->getLinkTarget($this->editor_gui, $cmd));		
+				$cmd = ($ilUser->getPref('svy_insert_type') == 1 || 
+					strlen($ilUser->getPref('svy_insert_type')) == 0) 
+					? 'browseForQuestions' 
+					: 'browseForQuestionblocks';
+								
+				$button = ilLinkButton::getInstance();
+				$button->setCaption("browse_for_questions");								
+				$button->setUrl($ilCtrl->getLinkTarget($this->editor_gui, $cmd));										
+				$ilToolbar->addButtonInstance($button);		
 				
 				$ilCtrl->setParameter($this->editor_gui, "pgov", "");
 				$ilCtrl->setParameter($this->editor_gui, "pgov_pos", "");
@@ -1324,12 +1335,22 @@ class ilSurveyPageGUI
 			if(!$this->has_datasets)
 			{								
 				$ilToolbar->addSeparator();
+				
 				$ilCtrl->setParameter($this, "csum", md5(print_r($a_pages[$this->current_page-1], true)));
-				$ilToolbar->addButton($lng->txt("survey_delete_page"), $ilCtrl->getLinkTarget($this, "deleteBlock"));
-				$ilCtrl->setParameter($this, "csum", "");						
+				$url = $ilCtrl->getLinkTarget($this, "deleteBlock");
+				$ilCtrl->setParameter($this, "csum", "");	
+				
+				$button = ilLinkButton::getInstance();
+				$button->setCaption("survey_delete_page");								
+				$button->setUrl($url);										
+				$ilToolbar->addButtonInstance($button);									
 				
 				$ilToolbar->addSeparator();
-				$ilToolbar->addButton($lng->txt("survey_move_page"), $ilCtrl->getLinkTarget($this, "movePageForm"));
+				
+				$button = ilLinkButton::getInstance();
+				$button->setCaption("survey_move_page");								
+				$button->setUrl($ilCtrl->getLinkTarget($this, "movePageForm"));										
+				$ilToolbar->addButtonInstance($button);						
 			}
 		}
 	}

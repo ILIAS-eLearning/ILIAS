@@ -265,21 +265,29 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 		}
 		
 		$this->tabs_gui->activateTab("pages");
-
-		$ilToolbar->addButton($this->lng->txt("prtf_add_page"),
-			$this->ctrl->getLinkTarget($this, "addPage"));
+		
+		include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
+		
+		$button = ilLinkButton::getInstance();
+		$button->setCaption("prtf_add_page");
+		$button->setUrl($this->ctrl->getLinkTarget($this, "addPage"));
+		$ilToolbar->addButtonInstance($button);
 
 		if(!$ilSetting->get('disable_wsp_blogs'))
 		{
-			$ilToolbar->addButton($this->lng->txt("prtf_add_blog"),
-				$this->ctrl->getLinkTarget($this, "addBlog"));
+			$button = ilLinkButton::getInstance();
+			$button->setCaption("prtf_add_blog");
+			$button->setUrl($this->ctrl->getLinkTarget($this, "addBlog"));
+			$ilToolbar->addButtonInstance($button);
 		}
 
 		$ilToolbar->addSeparator();
-
-		$ilToolbar->addButton($this->lng->txt("export_html"),
-			$this->ctrl->getLinkTarget($this, "export"));				
-				
+		
+		$button = ilLinkButton::getInstance();
+		$button->setCaption("export_html");
+		$button->setUrl($this->ctrl->getLinkTarget($this, "export"));
+		$ilToolbar->addButtonInstance($button);
+		
 		include_once "Modules/Portfolio/classes/class.ilPortfolioPageTableGUI.php";
 		$table = new ilPortfolioPageTableGUI($this, "view");
 		

@@ -1289,10 +1289,16 @@ class ilObjSurveyGUI extends ilObjectGUI
 	*/
 	public function exportObject()
 	{
-		global $ilTabs;
+		global $ilTabs, $ilToolbar;
 		
 		$this->handleWriteAccess();
 		$ilTabs->activateTab("export");
+		
+		include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
+		$button = ilLinkButton::getInstance();
+		$button->setCaption("svy_create_export_file");								
+		$button->setUrl($this->ctrl->getLinkTarget($this, "createExportFile"));										
+		$ilToolbar->addButtonInstance($button);		
 
 		$export_dir = $this->object->getExportDirectory();
 		$export_files = $this->object->getExportFiles($export_dir);
@@ -1310,7 +1316,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 				));
 			}
 		}
-
+		
 		include_once "./Modules/Survey/classes/tables/class.ilSurveyExportTableGUI.php";
 		$table_gui = new ilSurveyExportTableGUI($this, 'export');
 		$table_gui->setData($data);
@@ -1605,8 +1611,11 @@ class ilObjSurveyGUI extends ilObjectGUI
 						{
 							if($this->object->hasViewOwnResults())
 							{
-								$ilToolbar->addButton($this->lng->txt("svy_view_own_results"),
-									$this->ctrl->getLinkTarget($this, "viewUserResults"));		
+								include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
+								$button = ilLinkButton::getInstance();
+								$button->setCaption("svy_view_own_results");								
+								$button->setUrl($this->ctrl->getLinkTarget($this, "viewUserResults"));										
+								$ilToolbar->addButtonInstance($button);		
 							}
 
 							if($this->object->hasMailOwnResults())
@@ -1623,8 +1632,12 @@ class ilObjSurveyGUI extends ilObjectGUI
 								$ilToolbar->addInputItem($mail, true);							
 
 								$ilToolbar->setFormAction($this->ctrl->getFormAction($this, "mailUserResults"));
-								$ilToolbar->addFormButton($this->lng->txt("svy_mail_own_results"),
-									"mailUserResults");														
+								
+								include_once "Services/UIComponent/Button/classes/class.ilSubmitButton.php";
+								$button = ilSubmitButton::getInstance();
+								$button->setCaption("svy_mail_own_results");
+								$button->setCommand("mailUserResults");
+								$ilToolbar->addButtonInstance($button);																				
 							}						
 						}
 						
@@ -1746,7 +1759,14 @@ class ilObjSurveyGUI extends ilObjectGUI
 		if($big_button)
 		{			
 			$ilToolbar->setFormAction($this->ctrl->getFormAction($output_gui, "infoScreen"));
-			$ilToolbar->addFormButton($big_button[1], $big_button[0], "", true);
+			
+			include_once "Services/UIComponent/Button/classes/class.ilSubmitButton.php";
+			$button = ilSubmitButton::getInstance();
+			$button->setCaption($big_button[1], false);
+			$button->setCommand($big_button[0]);
+			$button->setPrimary(true);
+			$ilToolbar->addButtonInstance($button);		
+			
 			$ilToolbar->setCloseFormTag(false);
 			$info->setOpenFormTag(false);
 		}

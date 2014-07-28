@@ -177,6 +177,9 @@ class ilExportGUI
 	{
 		global $tpl, $ilToolbar, $ilCtrl, $lng;
 
+		include_once "Services/UIComponent/Button/classes/class.ilSubmitButton.php";
+		$button = ilSubmitButton::getInstance();		
+		
 		// creation buttons
 		$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
 		if (count($this->getFormats()) > 1)
@@ -190,14 +193,20 @@ class ilExportGUI
 			$si = new ilSelectInputGUI($lng->txt("type"), "format");
 			$si->setOptions($options);
 			$ilToolbar->addInputItem($si, true);
-			$ilToolbar->addFormButton($lng->txt("exp_create_file"), "createExportFile");
+			
+			$button->setCaption("exp_create_file");
+			$button->setCommand("createExportFile");			
 		}
 		else
 		{
 			$format = $this->getFormats();
 			$format = $format[0];
-			$ilToolbar->addFormButton($lng->txt("exp_create_file")." (".$format["txt"].")", "create_".$format["key"]);
+			
+			$button->setCaption($lng->txt("exp_create_file")." (".$format["txt"].")", false);
+			$button->setCommand("create_".$format["key"]);				
 		}
+		
+		$ilToolbar->addButtonInstance($button);		
 	
 		include_once("./Services/Export/classes/class.ilExportTableGUI.php");
 		$table = new ilExportTableGUI($this, "listExportFiles", $this->obj);
