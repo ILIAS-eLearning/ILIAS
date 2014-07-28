@@ -157,6 +157,7 @@ class gevUserUtils {
 				 				 $this->db->quote(date("Y-m-d", time() + 7 * 24 * 60 * 60), "date").
 				 "            )".
 				 "       )".
+				 "   AND ADDDATE(start_date.value, -1 * bk_deadl.value) >= ".$this->db->quote(date("Y-m-d"), "text").
 				 "";
 
 		$res = $this->db->query($query);
@@ -262,7 +263,7 @@ class gevUserUtils {
 				 "   AND oref.deleted IS NULL".
 				 "   AND amd1.value = ".$this->db->quote("Nein", "text").
 				 "   AND (   (".$this->db->in("ltype.value", array("Präsenztraining", "Webinar"), false, "text").
-				 "            AND ADDDATE(amd2.value, -1 * bk_deadl.value) >= ".$this->db->quote(date("Y-m-d")).
+				 "            AND ADDDATE(amd2.value, -1 * bk_deadl.value) >= ".$this->db->quote(date("Y-m-d"), "text").
 				 "		     )".
 				 "		  OR (".$this->db->in("ltype.value", array("Selbstlernkurs"), false, "text").
 				 "			 )".
