@@ -306,6 +306,8 @@ class ilExportGUI
 		{
 			$file = explode(":", $file);
 			
+			$file[1] = basename($file[1]);
+			
 			include_once("./Services/Export/classes/class.ilExport.php");
 			$export_dir = ilExport::_getExportDirectory($this->obj->getId(),
 				str_replace("..", "", $file[0]), $this->obj->getType());
@@ -352,6 +354,9 @@ class ilExportGUI
 		include_once("./Services/Export/classes/class.ilExport.php");
 		$export_dir = ilExport::_getExportDirectory($this->obj->getId(),
 			str_replace("..", "", $file[0]), $this->obj->getType());
+				
+		$file[1] = basename($file[1]);
+		
 		ilUtil::deliverFile($export_dir."/".$file[1],
 			$file[1]);
 	}
