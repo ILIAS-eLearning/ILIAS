@@ -2098,8 +2098,10 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 
 
 		$export_dir = $this->object->getOfflineDirectory();
-		ilUtil::deliverFile($export_dir."/".$_POST["file"][0],
-			$_POST["file"][0]);
+	
+		$file = basename($_POST["file"][0]);
+		
+		ilUtil::deliverFile($export_dir."/".$file, $file);
 	}
 
 
