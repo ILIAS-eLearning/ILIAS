@@ -169,8 +169,10 @@ class gevUserUtils {
 			
 			$crs_booking->getFreePlaces();
 			
-			// TODO: there need to be a check weather the user has met the preconditions here
-			// to.
+			if (!$crs_utils->canBookCourseForOther($ilUser->getId(), $this->user_id)) {
+				continue;
+			}
+			
 			if (gevObjectUtils::checkAccessOfUser($this->user_id, "visible",  "", $val["obj_id"], "crs")
 			&& $crs_booking->getFreePlaces() > 4) {
 				$ret[] = $val["obj_id"];
@@ -276,8 +278,6 @@ class gevUserUtils {
 		
 		$crss = array();
 		while($val = $this->db->fetchAssoc($res)) {
-			// TODO: there need to be a check whether the user has met the preconditions here
-			// too.
 			$crs_utils = gevCourseUtils::getInstance($val["obj_id"]);
 			
 			if (!$crs_utils->canBookCourseForOther($ilUser->getId(), $this->user_id)) {

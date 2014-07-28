@@ -390,6 +390,8 @@ class ilSetAccomodationsGUI
 		$accomodations = ilAccomodations::getInstance($course);
 	
 		$user_nights = array();
+		$acco = $accomodations->getAccomodationsOfUser($a_user_id);
+		die("foo:".print_r($acco, true));
 		foreach($accomodations->getAccomodationsOfUser($a_user_id) as $night)
 		{
 			$user_nights[] = $night->get(IL_CAL_DATE);

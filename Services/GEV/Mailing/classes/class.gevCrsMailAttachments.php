@@ -19,6 +19,7 @@ class gevCrsMailAttachments extends ilMailAttachments {
 	public function __construct($a_obj_id) {
 		parent::__construct($a_obj_id);
 		$this->crs = null;
+		$this->crs_utils = null;
 		
 		$this->generated_files = array( self::LIST_FOR_TRAINER_NAME
 									  , self::LIST_FOR_HOTEL_NAME
@@ -110,16 +111,26 @@ class gevCrsMailAttachments extends ilMailAttachments {
 		return $this->crs;
 	}
 	
+	protected function getCourseUtils() {
+		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+		
+		if ($this->crs_utils === null) {
+			$this->crs_utils = gevCourseUtils::getInstanceByObj($this->getCourse());
+		}
+	
+		return $this->crs_utils;
+	}
+	
 	protected function generateFile($a_filename) {
 		$path = parent::getPathTo($a_filename);
 		$this->create();
 		
 		switch($a_filename) {
 			case "Teilnehmerliste_Trainer.xls":
-				$this->getCourse()->buildMemberList(false, true, false, $path);
+				$this->getCourseUtils()->buildMemberList(false, $path, false);
 				return;
 			case "Teilnehmerliste_Hotel.xls":
-				$this->getCourse()->buildMemberList(true, false, false, $path);
+				$this->getCourseUtils()->buildMemberList(false, $path, true);
 				return;
 		}
 		

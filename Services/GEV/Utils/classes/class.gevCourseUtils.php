@@ -835,8 +835,8 @@ class gevCourseUtils {
 	
 	public function getMainTrainer() {
 		if ($this->main_trainer === null) {
-			$tutors = ksort($this->getTrainers());
-			
+			$tutors = $this->getTrainers();
+			sort($tutors);
 			if(count($tutors) != 0) {
 				$this->main_trainer = new ilObjUser($tutors[0]);
 			}
@@ -847,7 +847,8 @@ class gevCourseUtils {
 	
 	public function getMainAdmin() {
 		if ($this->main_admin === null) {
-			$admins = ksort($this->getAdmins());
+			$admins = $this->getAdmins();
+			sort($admins);
 			if (count($admins) != 0) {
 				$this->main_admin = new ilObjUser($admins[0]);
 			}
@@ -961,7 +962,7 @@ class gevCourseUtils {
 	public function getMainAdminName() {
 		$tr = $this->getMainAdmin();
 		if ($tr !== null) {
-			return $tr->getMainTrainerFirstname()." ".$tr->getMainTrainerLastname();
+			return $this->getMainTrainerFirstname()." ".$this->getMainTrainerLastname();
 		}
 		return "";
 	}
@@ -1000,6 +1001,9 @@ class gevCourseUtils {
 		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 		
 		global $lng;
+		
+		$lng->loadLanguageModule("common");
+		$lng->loadLanguageModule("gev");
 
 		if ($a_filename === null) {
 			if(!$a_send)
