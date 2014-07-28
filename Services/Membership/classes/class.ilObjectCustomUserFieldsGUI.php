@@ -439,11 +439,20 @@ class ilObjectCustomUserFieldsGUI
 	
 	protected function saveMember()
 	{
+		global $ilUser;
+		
 		$GLOBALS['ilCtrl']->saveParameter($this,'member_id');
 		
 		$form = $this->initMemberForm();
 		if($form->checkInput())
 		{
+			// save history
+			include_once './Services/Membership/classes/class.ilObjectCustomUserFieldHistory.php';
+			$history = new ilObjectCustomUserFieldHistory($this->getObjId(), $ilUser->getId());
+			$history->setEditingTime(new ilDateTime(time(),IL_CAL_UNIX));
+			$history->setUpdateUser((int) $_REQUEST['member_id']);
+			$history->save();
+			
 			ilMemberAgreementGUI::saveCourseDefinedFields($form, $this->getObjId(), (int) $_REQUEST['member_id']);
 			ilUtil::sendSuccess($this->lng->txt('settings_saved'),TRUE);
 			$GLOBALS['ilCtrl']->returnToParent($this);

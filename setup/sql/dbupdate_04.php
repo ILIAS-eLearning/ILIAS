@@ -2161,3 +2161,33 @@ $ilDB->insert('il_dcl_datatype_prop', array(
 $ilDB->dropTable("ut_access"); // #13663
 
 ?>
+<#4275>
+<?php
+
+if(!$ilDB->tableExists('obj_user_data_hist') )
+{
+	$ilDB->createTable('obj_user_data_hist', array(
+		'obj_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'usr_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'update_user' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'editing_time' => array(
+			'type' => 'timestamp',
+			'notnull' => false
+		)
+	));
+	$ilDB->addPrimaryKey('obj_user_data_hist',array('obj_id','usr_id'));
+}
+
+?>

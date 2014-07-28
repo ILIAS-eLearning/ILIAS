@@ -102,7 +102,10 @@ class ilMemberAgreementGUI
 	 */
 	protected function showAgreement(ilPropertyFormGUI $form = null)
 	{
+		global $ilUser;
+		
 		$form = $this->initFormAgreement($form);
+		self::setCourseDefinedFieldValues($form, $this->obj_id, $ilUser->getId());
 		
 		$this->tpl->setContent($form->getHTML());
 		return true;
@@ -301,6 +304,8 @@ class ilMemberAgreementGUI
 	 */
 	private function save()
 	{
+		global $ilUser;
+		
 		$form = $this->initFormAgreement();
 		
 		if($form->checkInput())
@@ -310,6 +315,13 @@ class ilMemberAgreementGUI
 			$this->getAgreement()->setAccepted(true);
 			$this->getAgreement()->setAcceptanceTime(time());
 			$this->getAgreement()->save();
+			
+			include_once './Services/Membership/classes/class.ilObjectCustomUserFieldHistory.php';
+			$history = new ilObjectCustomUserFieldHistory($this->obj_id,$ilUser->getId());
+			$history->setUpdateUser($ilUser->getId());
+			$history->setEditingTime(new ilDateTime(time(),IL_CAL_UNIX));
+			$history->save();
+			
 			$this->ctrl->returnToParent($this);
 		}
 		elseif(!$this->checkAgreement())
