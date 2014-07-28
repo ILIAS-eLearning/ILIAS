@@ -190,9 +190,13 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
 		if ($this->checkPermissionBool("read"))
 		{
 			$this->lng->loadLanguageModule("cntr");
-			$ilToolbar->addButton($this->lng->txt("prtf_create_portfolio_from_template"),
-				$this->ctrl->getLinkTarget($this, "createfromtemplate"),
-				"", "", "", "", "submit emphsubmit");
+			
+			include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
+			$button = ilLinkButton::getInstance();
+			$button->setPrimary(true);
+			$button->setCaption("prtf_create_portfolio_from_template");
+			$button->setUrl($this->ctrl->getLinkTarget($this, "createfromtemplate"));										
+			$ilToolbar->addButtonInstance($button);
 		}
 				
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
@@ -479,15 +483,18 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
 	//
 		
 	function preview($a_return = false, $a_content = false, $a_show_notes = true)
-	{			
+	{				
 		if(!$this->checkPermissionBool("write") &&
 			$this->checkPermissionBool("read"))		
 		{
-			$this->lng->loadLanguageModule("cntr");			
-			$url = $this->ctrl->getLinkTarget($this, "createfromtemplate");
-			$button = '<a href="'.$url.'" class="submit emphsubmit">'.
-				$this->lng->txt("prtf_create_portfolio_from_template").'</a>';			
-			$this->tpl->setHeaderActionMenu($button);			
+			$this->lng->loadLanguageModule("cntr");		
+			
+			include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
+			$button = ilLinkButton::getInstance();
+			$button->setPrimary(true);
+			$button->setCaption("prtf_create_portfolio_from_template");
+			$button->setUrl($this->ctrl->getLinkTarget($this, "createfromtemplate"));										
+			$this->tpl->setHeaderActionMenu($button->render());					
 		}
 		
 		return parent::preview($a_return , $a_content, $a_show_notes);
