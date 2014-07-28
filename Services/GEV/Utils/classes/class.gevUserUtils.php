@@ -165,6 +165,7 @@ class gevUserUtils {
 		$ret = array();
 		while($val = $this->db->fetchAssoc($res)) {
 			$crs = new ilObjCourse($val["obj_id"], false);
+			$crs_utils = gevCourseUtils::getInstanceByObj($crs);
 			$crs_booking = ilCourseBookings::getInstance($crs);
 			
 			$crs_booking->getFreePlaces();

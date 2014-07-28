@@ -133,7 +133,9 @@ class gevBookingGUI {
 	}
 	
 	protected function isWithAccomodations() {
-		return $this->crs_utils->getAccomodation();
+		return $this->crs_utils->getAccomodation() 
+			&& ($this->crs_utils->getStartDate() !== null) 
+			&& ($this->crs_utils->getEndDate() !== null);
 	}
 	
 	protected function insertInTemplate($a_cont, $a_cmd) {
