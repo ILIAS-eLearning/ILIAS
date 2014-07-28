@@ -902,7 +902,7 @@ class gevCourseUtils {
 	
 	public function getMainTrainerFirstname() {
 		$tr = $this->getMainTrainer();
-		if ($tr === null) {
+		if ($tr !== null) {
 			return $tr->getFirstname();
 		}
 		return "";
@@ -910,7 +910,7 @@ class gevCourseUtils {
 	
 	public function getMainTrainerLastname() {
 		$tr = $this->getMainTrainer();
-		if ($tr === null) {
+		if ($tr !== null) {
 			return $this->getMainTrainer()->getLastname();
 		}
 		return "";
@@ -918,7 +918,7 @@ class gevCourseUtils {
 	
 	public function getMainTrainerName() {
 		$tr = $this->getMainTrainer();
-		if ($tr === null) {
+		if ($tr !== null) {
 			return $this->getMainTrainerFirstname()." ".$this->getMainTrainerLastname();
 		}
 		return "";
@@ -926,7 +926,7 @@ class gevCourseUtils {
 	
 	public function getMainTrainerPhone() {
 		$tr = $this->getMainTrainer();
-		if ($tr === null) {
+		if ($tr !== null) {
 			return $this->getMainTrainer()->getPhoneOffice();
 		}
 		return "";
@@ -934,7 +934,7 @@ class gevCourseUtils {
 	
 	public function getMainTrainerEMail() {
 		$tr = $this->getMainTrainer();
-		if ($tr === null) {
+		if ($tr !== null) {
 			return $this->getMainTrainer()->getEmail();
 		}
 		return "";
@@ -944,7 +944,7 @@ class gevCourseUtils {
 	
 	public function getMainAdminFirstname() {
 		$tr = $this->getMainAdmin();
-		if ($tr === null) {
+		if ($tr !== null) {
 			return $tr->getFirstname();
 		}
 		return "";
@@ -952,7 +952,7 @@ class gevCourseUtils {
 	
 	public function getMainAdminLastname() {
 		$tr = $this->getMainAdmin();
-		if ($tr === null) {
+		if ($tr !== null) {
 			return $tr->getLastname();
 		}
 		return "";
@@ -960,7 +960,7 @@ class gevCourseUtils {
 	
 	public function getMainAdminName() {
 		$tr = $this->getMainAdmin();
-		if ($tr === null) {
+		if ($tr !== null) {
 			return $tr->getMainTrainerFirstname()." ".$tr->getMainTrainerLastname();
 		}
 		return "";
@@ -968,7 +968,7 @@ class gevCourseUtils {
 	
 	public function getMainAdminPhone() {
 		$tr = $this->getMainAdmin();
-		if ($tr === null) {
+		if ($tr !== null) {
 			return $tr->getPhoneOffice();
 		}
 		return "";
@@ -976,7 +976,7 @@ class gevCourseUtils {
 	
 	public function getMainAdminEMail() {
 		$tr = $this->getMainAdmin();
-		if ($tr === null) {
+		if ($tr !== null) {
 			return $tr->getEmail();
 		}
 		return "";
@@ -1199,14 +1199,20 @@ class gevCourseUtils {
 		return $row;
 	}
 	
-	protected function getListMetaData() {		
+	protected function getListMetaData() {
+		$start_date = $this->getStartDate();
+		$end_date = $this->getEndDate();
 		$arr = array("Titel" => $this->getTitle()
 					, "Untertitel" => $this->getSubtitle()
 					, "Nummer der Maßnahme" => $this->getCustomId()
-					, "Datum" => ilDatePresentation::formatPeriod($this->getStartDate(), $this->getEndDate())
+					, "Datum" => ($start_date !== null && $end_date !== null)
+								 ? ilDatePresentation::formatPeriod($this->getStartDate(), $this->getEndDate())
+								 : ""
 					, "Veranstaltungsort" => $this->getVenueTitle()
-					, "Trainer" => $this->getTrainer()
-					, "Trainingsbetreuer" => $this->getTrainingAdviser()
+					, "Trainer" => ($this->getMainTrainer() !== null)
+								   ?$this->getMainTrainerLastname().", ".$this->getMainTrainerFirstname()
+								   :""
+					, "Trainingsbetreuer" => $this->getTrainingOfficerName()
 					, "Bildungspunkte" => $this->getCreditPoints()
 					);
 		return $arr;
