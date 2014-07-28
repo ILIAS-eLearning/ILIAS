@@ -130,17 +130,23 @@ class ilLDAPResult
 		 			$data['dn'] = $value;
 		 			continue;
 		 		}
-				
-		 		if($value['count'] > 1)
-		 		{
-			 		for($i = 0; $i < $value['count']; $i++)
-			 		{
-		 				$data[$key][] = $value[$i];
-		 			}
-		 		}
-				elseif($value['count'] == 1)
+				if(is_array($value))
 				{
-					$data[$key] = $value[0];
+					if($value['count'] > 1)
+					{
+						for($i = 0; $i < $value['count']; $i++)
+						{
+							$data[$key][] = $value[$i];
+						}
+					}
+					elseif($value['count'] == 1)
+					{
+						$data[$key] = $value[0];
+					}
+				}
+				else
+				{
+					$data[$key] = $value;
 				}
 		 	}
 		 	$this->all_rows[] = $data;
