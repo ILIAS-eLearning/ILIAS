@@ -306,9 +306,9 @@ class gevCrsMailingGUI extends ilMailingGUI {
 									 , $this->ctrl->getLinkTarget($this, "showInvitationMails")
 									 , $mail["subject"]
 									 , $is_html_mail ? $mail["message_html"] : $mail["message_plain"]
-									 , $is_html_message ? $mail["frame_html"] : $mail["frame_plain"]
-									 , $is_html_message ? $mail["image_path"] : null
-									 , $is_html_message ? $mail["image_style"] : null
+									 , $is_html_mail ? $mail["frame_html"] : $mail["frame_plain"]
+									 , $is_html_mail ? $mail["image_path"] : null
+									 , $is_html_mail ? $mail["image_style"] : null
 									 , $mail["attachments"]
 									 );
 

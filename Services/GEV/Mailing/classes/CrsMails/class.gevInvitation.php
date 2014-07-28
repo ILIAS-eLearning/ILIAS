@@ -118,6 +118,11 @@ class gevInvitation extends gevCrsAutoMail {
 					, "message_plain" => $message["plain"]
 					, "message_html" => $message["html"]
 					, "attachments" => $attachments
+					, "frame_plain" => $this->template_frame->getPlainTextFrame()
+					, "frame_html" => $this->template_frame->getHtmlFrame()
+					, "image_path" => $this->template_frame->getFileSystemBasePath()."/"
+									  .$this->template_frame->getImageName()
+					, "image_styles" => $this->template_frame->getImageStyles()
 					);
 	}
 
