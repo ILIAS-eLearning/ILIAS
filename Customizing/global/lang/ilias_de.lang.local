@@ -608,8 +608,12 @@ gev#:#gev_credit_points#:#Bildungspunkte
 gev#:#gev_subscription_end#:#Anmeldungsende
 gev#:#gev_booking_note#:#Mit der verbindlichen Buchung bestätigen sie, Buchung und Übernachtung mit ihrer Führungskraft abgestimmt zu haben.
 gev#:#gev_booking#:#Buchung
+gev#:#gev_booking_bill_data#:#Rechnungsdaten
+gev#:#gev_booking_check_bill_data#:#Rechnungsdaten überprüfen
 gev#:#gev_book_employee#:#Mitarbeiter buchen
 gev#:#gev_booking_header_note#:#Bitte bestätigen sie die verbindliche Buchung über die Schaltfläche.
+gev#:#gev_booking_header_note_bill_data#:#Bitte betätigen sie die Schaltfläche "Rechnungsdaten eingeben".
+gev#:#gev_booking_header_note_check_bill_data#:#Bitte betätigen sie die Schaltfläche "Rechnungsdaten überprüfen".
 gev#:#gev_booking_for#:#Buchung für:
 gev#:#gev_set_billing_data#:#Rechnungsdaten eingeben
 gev#:#gev_to_course_search#:#Zum Bildungsangebot
@@ -662,3 +666,5 @@ rbac#:#tep_edit_other#:#TEP Termine von anderen Trainern bearbeiten
 rbac#:#tep_edit_other_rcrsv#:#TEP Termine von anderen Trainern bearbeiten (rekursiv)
 crsbook#:#admin_no_group_available#:#Sie besitzen auf keine Gruppen eine ausreichende Zugriffsberechtigung.
 gev#:#gev_table_no_entry#:#-
+gev#:#gev_payment_type#:#Zahlungsart
+gev#:#gev_payment_type_bill#:#Rechnung
