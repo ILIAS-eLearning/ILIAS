@@ -782,12 +782,28 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	*/
 	function outParticipantsPassDetails()
 	{
-		global $ilTabs;
+		global $ilTabs, $ilAccess;
 
-		$this->ctrl->saveParameter($this, "pass");
+		if (!$ilAccess->checkAccess('write', '', $this->ref_id))
+		{
+			// allow only write access
+			ilUtil::sendInfo($this->lng->txt('no_permission'), true);
+			$this->ctrl->redirectByClass('ilObjTestGUI', 'infoScreen');
+		}
+
 		$this->ctrl->saveParameter($this, "active_id");
-		$active_id = $_GET["active_id"];
-		$pass = $_GET["pass"];
+		$active_id = (int)$_GET["active_id"];
+		$testSession = $this->testSessionFactory->getSession($active_id);
+
+		// protect actives from other tests
+		if( $testSession->getTestId() != $this->object->getTestId() )
+		{
+			ilUtil::sendInfo($this->lng->txt('no_permission'), true);
+			$this->ctrl->redirectByClass('ilObjTestGUI', 'infoScreen');
+		}
+		
+		$this->ctrl->saveParameter($this, "pass");
+		$pass = (int)$_GET["pass"];
 
 		if ( isset($_GET['statistics']) && $_GET['statistics'] == 1)
 		{
@@ -809,8 +825,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				$this->lng->txt('tst_results_back_overview'), $this->ctrl->getLinkTarget($this, 'outParticipantsResultsOverview')
 			);
 		}
-
-		$testSession = $this->testSessionFactory->getSession($active_id);
 		
 		$result_array =& $this->object->getTestResult($active_id, $pass);
 		
@@ -897,13 +911,24 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	*/
 	function outParticipantsResultsOverview()
 	{
-		global $ilTabs;
-
-		$template = new ilTemplate("tpl.il_as_tst_pass_overview_participants.html", TRUE, TRUE, "Modules/Test");
-
-		$active_id = $_GET["active_id"];
+		global $ilTabs, $ilAccess;
 		
+		if (!$ilAccess->checkAccess('write', '', $this->ref_id))
+		{
+			// allow only write access
+			ilUtil::sendInfo($this->lng->txt('no_permission'), true);
+			$this->ctrl->redirectByClass('ilObjTestGUI', 'infoScreen');
+		}
+
+		$active_id = (int)$_GET["active_id"];
 		$testSession = $this->testSessionFactory->getSession($active_id);
+
+		// protect actives from other tests
+		if( $testSession->getTestId() != $this->object->getTestId() )
+		{
+			ilUtil::sendInfo($this->lng->txt('no_permission'), true);
+			$this->ctrl->redirectByClass('ilObjTestGUI', 'infoScreen');
+		}
 
 		if ($this->object->getNrOfTries() == 1)
 		{
@@ -915,6 +940,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$ilTabs->setBackTarget(
 			$this->lng->txt('back'), $this->ctrl->getLinkTargetByClass('ilobjtestgui', 'participants')
 		);
+
+		$template = new ilTemplate("tpl.il_as_tst_pass_overview_participants.html", TRUE, TRUE, "Modules/Test");
 
 		require_once 'Modules/Test/classes/toolbars/class.ilTestResultsToolbarGUI.php';
 		$toolbar = new ilTestResultsToolbarGUI($this->ctrl, $this->tpl, $this->lng);
