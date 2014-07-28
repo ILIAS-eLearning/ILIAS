@@ -30,6 +30,10 @@ class ilUserHistorizingAppEventListener
 	public static function handleEvent($a_component, $a_event, $a_parameter)
 	{
 		self::initEventHandler();
+		
+		if ($a_component == "Modules/OrgUnit") {
+			$a_parameter["user_obj"] = new ilObjUser($a_parameter["user_id"]);
+		}
 
 		self::$ilUserHistorizing->updateHistorizedData(
 			self::getCaseId($a_event, $a_parameter), 
@@ -93,6 +97,7 @@ class ilUserHistorizingAppEventListener
 	 */
 	protected static function getStateData($event, $parameter)
 	{
+		//global $ilLog;
 		if ($event === 'deleteUser') {
 			return array( 'deleted' => 1);
 		}
@@ -129,6 +134,8 @@ class ilUserHistorizingAppEventListener
 			'begin_of_certification'			=> $certification_begins,
 			'deleted'							=> 0
 		);
+		
+		//$ilLog->write(print_r($data_payload, true));
 
 		return $data_payload;
 	}

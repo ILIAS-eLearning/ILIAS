@@ -2,5 +2,6 @@
 <service xmlns="http://www.w3.org" version="$Id$" name="UserHistorizing" short="usrhist" dir="Services/UserHistorizing" id="usrhist">
 	<events>
 		<event type="listen" id="Services/User" />
+		<event type="listen" id="Modules/OrgUnit" />
 	</events>
 </service>
