@@ -1015,9 +1015,10 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			}
 		}
 
+		$active_id = $testSession->getActiveId();
+		$user_id = $testSession->getUserId();
+
 		$this->ctrl->saveParameter($this, "pass");
-		$this->ctrl->saveParameter($this, "active_id");
-		$active_id = $_GET["active_id"];
 		$pass = $_GET["pass"];
 
 		$result_array = $this->getFilteredTestResult($active_id, $pass);
@@ -1028,8 +1029,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$command_solution_details = "outCorrectSolution";
 		}
 		$questionAnchorNav = $this->object->canShowSolutionPrintview();
-
-		$user_id = $this->object->_getUserIdFromActiveId($active_id);
 
 		$tpl = new ilTemplate('tpl.il_as_tst_pass_details_overview_participants.html', true, true, "Modules/Test");
 
@@ -1317,10 +1316,26 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	*/
 	function outCorrectSolution()
 	{
-		global $ilTabs;
+		if( !$this->object->getShowSolutionDetails() )
+		{
+			ilUtil::sendInfo($this->lng->txt("no_permission"), true);
+			$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
+		}
+
+		$activeId = $this->testSessionFactory->getSession()->getActiveId();
+		
+		if( !($activeId > 0) )
+		{
+			$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
+		}
 
 		$this->ctrl->saveParameter($this, "pass");
-		$this->ctrl->saveParameter($this, "active_id");
+		$pass = (int)$_GET['pass'];
+
+		$questionId = (int)$_GET['evaluation'];
+		
+		global $ilTabs;
+
 		$ilTabs->setBackTarget($this->lng->txt("tst_back_to_pass_details"), $this->ctrl->getLinkTarget($this, 'outUserPassDetails'));
 
 		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
@@ -1338,7 +1353,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print_hide_content.css", "Modules/Test"), "print");
 		}
 
-		$solution = $this->getCorrectSolutionOutput($_GET["evaluation"], $_GET["active_id"], $_GET["pass"]);
+		$solution = $this->getCorrectSolutionOutput($questionId, $activeId, $pass);
 
 		$this->tpl->setContent($solution);
 	}
