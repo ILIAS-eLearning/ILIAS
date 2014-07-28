@@ -439,9 +439,7 @@ class gevUserUtils {
 	
 	public function getFormattedBirthday() {
 		require_once("Services/Calendar/classes/class.ilDatePresentation.php");
-		ilDatePresentation::setUseRelativeDates(false);
 		$date = ilDatePresentation::formatDate($this->getBirthday());
-		ilDatePresentation::setUseRelativeDates(true);
 		return $date;
 	}
 	

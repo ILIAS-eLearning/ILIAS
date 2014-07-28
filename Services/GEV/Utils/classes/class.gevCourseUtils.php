@@ -329,9 +329,7 @@ class gevCourseUtils {
 		if (!$d) {
 			return null;
 		}
-		ilDatePresentation::setUseRelativeDates(false);
 		$val = ilDatePresentation::formatDate($d);
-		ilDatePresentation::setUseRelativeDates(true);
 		return $val;
 	}
 	
@@ -348,9 +346,7 @@ class gevCourseUtils {
 		if (!$d) {
 			return null;
 		}
-		ilDatePresentation::setUseRelativeDates(false);
 		$val = ilDatePresentation::formatDate($d);
-		ilDatePresentation::setUseRelativeDates(true);
 		return $val;
 	}
 	
@@ -386,9 +382,7 @@ class gevCourseUtils {
 		$start = $this->getStartDate();
 		$end = $this->getEndDate();
 		if ($start && $end) {
-			ilDatePresentation::setUseRelativeDates(false);
 			$val = ilDatePresentation::formatPeriod($start, $end);
-			ilDatePresentation::setUseRelativeDates(true);
 			return $val;
 		}
 		return "";
@@ -399,9 +393,7 @@ class gevCourseUtils {
 		if (!$dl) {
 			return "";
 		}
-		ilDatePresentation::setUseRelativeDates(false);
 		$val = ilDatePresentation::formatDate($dl);
-		ilDatePresentation::setUseRelativeDates(true);
 		return $val;
 	}
 	
@@ -525,9 +517,7 @@ class gevCourseUtils {
 		if (!$dl) {
 			return "";
 		}
-		ilDatePresentation::setUseRelativeDates(false);
 		$val = ilDatePresentation::formatDate($dl);
-		ilDatePresentation::setUseRelativeDates(true);
 		return $val;
 	}
 	
@@ -1209,9 +1199,7 @@ class gevCourseUtils {
 		return $row;
 	}
 	
-	protected function getListMetaData() {
-		ilDatePresentation::setUseRelativeDates(false);
-		
+	protected function getListMetaData() {		
 		$arr = array("Titel" => $this->getTitle()
 					, "Untertitel" => $this->getSubtitle()
 					, "Nummer der Maßnahme" => $this->getCustomId()
@@ -1221,8 +1209,6 @@ class gevCourseUtils {
 					, "Trainingsbetreuer" => $this->getTrainingAdviser()
 					, "Bildungspunkte" => $this->getCreditPoints()
 					);
-		
-		ilDatePresentation::setUseRelativeDates(true);
 		return $arr;
 	}
 	

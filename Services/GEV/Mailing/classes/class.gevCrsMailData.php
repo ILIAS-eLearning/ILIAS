@@ -59,8 +59,6 @@ class gevCrsMailData extends ilMailData {
 			return $this->cache[$a_placeholder_code];
 		}
 		
-		ilDatePresentation::setUseRelativeDates(false);
-		
 		switch ($a_placeholder_code) {
 			case "TRAININGSTITEL":
 				$val = $this->crs_utils->getTitle();
@@ -218,14 +216,12 @@ class gevCrsMailData extends ilMailData {
 			case "UEBERNACHTUNGEN":
 				$tmp = $this->usr_utils->getOvernightDetailsForCourse($this->crs_utils->getCourse());
 				$dates = array();
-				ilDatePresentation::setUseRelativeDates(false);
 				foreach ($tmp as $date) {
 					$d = ilDatePresentation::formatDate($date);
 					$date->increment(ilDateTime::DAY, 1);
 					$d .= " - ".ilDatePresentation::formatDate($date); 
 					$dates[] = $d;
 				}
-				ilDatePresentation::setUseRelativeDates(true);
 				$val = implode($a_markup?"<br />":"\n", $dates);
 				break;
 			//case "LISTE":

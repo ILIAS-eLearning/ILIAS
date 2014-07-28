@@ -60,6 +60,9 @@ class ilDatePresentation
 	 */
 	public static function useRelativeDates()
 	{
+		// gev-patch start
+		return false;
+		// gev-patch end
 		return self::$use_relative_dates;
 	}
 	
