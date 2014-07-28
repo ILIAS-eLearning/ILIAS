@@ -777,6 +777,8 @@ class ilObjTestGUI extends ilObjectGUI
 		$export_dir = $this->object->getExportDirectory();
 		foreach ($_POST["file"] as $file)
 		{
+			$file = basename($file);
+			
 			$exp_file = $export_dir."/".$file;
 			$exp_dir = $export_dir."/".substr($file, 0, strlen($file) - 4);
 			if (@is_file($exp_file))
