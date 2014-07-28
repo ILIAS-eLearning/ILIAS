@@ -381,7 +381,7 @@ class ilSetAccomodationsGUI
 	 * @param int $a_user_id
 	 * @param string $a_field_name
 	 */
-	public static function addAccomodationsToForm(ilPropertyFormGUI $a_form, $a_course_obj_id, $a_user_id, $a_field_name = "acco")
+	public static function addAccomodationsToForm(ilPropertyFormGUI $a_form, $a_course_obj_id, $a_user_id, $a_field_name = "acco", $a_fill_default = false)
 	{		
 		global $lng;
 		
@@ -390,11 +390,20 @@ class ilSetAccomodationsGUI
 		$accomodations = ilAccomodations::getInstance($course);
 	
 		$user_nights = array();
-		$acco = $accomodations->getAccomodationsOfUser($a_user_id);
-		//die("foo:".print_r($acco, true));
-		foreach($accomodations->getAccomodationsOfUser($a_user_id) as $night)
-		{
-			$user_nights[] = $night->get(IL_CAL_DATE);
+
+		if (!$a_fill_default) {
+			foreach($accomodations->getAccomodationsOfUser($a_user_id) as $night)
+			{
+				$user_nights[] = $night->get(IL_CAL_DATE);
+			}
+		}
+		else {
+			$start = $accomodations->getCourseStart();
+			$end = $accomodations->getCourseEnd();
+			while (ilDate::_before($start, $end)) {
+				$user_nights[] = $start->get(IL_CAL_DATE);
+				$start->increment(IL_CAL_DAY, 1);
+			}
 		}
 		
 		require_once "Services/Accomodations/classes/class.ilAccomodationsPeriodInputGUI.php";
