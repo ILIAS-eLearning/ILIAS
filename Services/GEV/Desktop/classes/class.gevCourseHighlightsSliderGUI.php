@@ -12,6 +12,7 @@
 require_once("Services/CaTUIComponents/classes/class.catSliderGUI.php");
 require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
 require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
 require_once("Services/Calendar/classes/class.ilDatePresentation.php");
 
@@ -72,7 +73,7 @@ class gevCourseHighlightsSliderGUI extends catSliderGUI {
 			}
 			if ($crs["venue"]) {
 				$tpl->setCurrentBlock("venue");
-				$tpl->setVariable("VENUE", $crs["venue"]);
+				$tpl->setVariable("VENUE", gevOrgUnitUtils::getInstance($crs["venue"])->getLongTitle());
 				$tpl->parseCurrentBlock();
 			}
 			$tpl->setVariable("FEE", gevCourseUtils::formatFee($crs["fee"]));
