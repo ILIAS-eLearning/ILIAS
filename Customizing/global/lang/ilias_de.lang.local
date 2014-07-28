@@ -197,8 +197,9 @@ mailing#:#no_mail_for_some_users#:#Mail konnte nicht an alle ausgewählten Benut
 gev#:#gev_org_unit_short#:#Org.-Einheit
 gev#:#gev_crs_book_overnight_details#:#Übernachtungen
 gev#:#gev_signature#:#Unterschrift
-gev#:#gev_excel_member_title#:#Teilnehmerliste
-gev#:#gev_excel_member_row_title#:#Generelle Angaben zum Seminar
+gev#:#gev_excel_member_title#:#Mitgliederliste
+gev#:#gev_excel_course_title#:#Generelle Angaben zum Seminar
+gev#:#gev_excel_member_row_title#:#Mitgliederliste
 gev#:#gev_hotel#:#Hotel
 common#:#obj_crs#:#Training
 gev#:#gev_member_list#:#Mitgliederliste
