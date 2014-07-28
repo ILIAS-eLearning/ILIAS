@@ -57,9 +57,12 @@ class ilAccountCodesGUI
 			$ilErr->raiseError($lng->txt("msg_no_perm_read"),$ilErr->MESSAGE);
 		}
 
-		$ilToolbar->addButton($lng->txt("user_account_codes_add"),
-			$ilCtrl->getLinkTarget($this, "addCodes"));
-
+		include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
+		$button = ilLinkButton::getInstance();
+		$button->setCaption("user_account_codes_add");
+		$button->setUrl($ilCtrl->getLinkTarget($this, "addCodes"));	
+		$ilToolbar->addButtonInstance($button);
+		
 		include_once("./Services/User/classes/class.ilAccountCodesTableGUI.php");
 		$ctab = new ilAccountCodesTableGUI($this, "listCodes");
 		$tpl->setContent($ctab->getHTML());

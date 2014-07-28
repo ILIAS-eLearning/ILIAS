@@ -1168,6 +1168,16 @@ class ilTable2GUI extends ilTableGUI
 		$this->buttons[] = array("cmd" => $a_cmd, "text" => $a_text, 'onclick' => $a_onclick,
 			"id" => $a_id, "class" => $a_class);
 	}
+	
+	/**
+	 * Add Command button instance
+	 * 
+	 * @param ilButton $a_button
+	 */
+	function addCommandButtonInstance(ilButton $a_button)
+	{
+		$this->buttons[] = $a_button;
+	}
 
 	/**
 	* Add Selection List + Command button
@@ -2492,6 +2502,20 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 		{
 			foreach ($this->buttons as $button)
 			{
+				if(!is_array($button))
+				{
+					if($button instanceof ilButton)
+					{	
+						$this->tpl->setVariable('BUTTON_OBJ', $button->render());	
+						
+						// this will remove id - should be unique
+						$button = clone $button;
+																		
+						$this->tpl->setVariable('BUTTON_TOP_OBJ', $button->render());
+					}
+					continue;
+				}
+				
 				if (strlen($button['onclick']))
 				{
 					$this->tpl->setCurrentBlock('cmdonclick');

@@ -67,11 +67,15 @@ class ilSurveyCodesTableGUI extends ilTable2GUI
 		$this->addMultiCommand('exportCodes', $this->lng->txt('export'));
 		$this->addMultiCommand('deleteCodesConfirm', $this->lng->txt('delete'));
 		
-		$this->addCommandButton('exportAllCodes', $this->lng->txt('export_all_survey_codes'),
-			'', '', 'omitPreventDoubleSubmission');
-	
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
 
+		include_once "Services/UIComponent/Button/classes/class.ilSubmitButton.php";
+		$button = ilSubmitButton::getInstance();
+		$button->setCaption("export_all_survey_codes");
+		$button->setCommand("exportAllCodes");
+		$button->setOmitPreventDoubleSubmission(true);		
+		$this->addCommandButtonInstance($button);
+	
 		$this->setDefaultOrderField("code");
 		$this->setDefaultOrderDirection("asc");
 

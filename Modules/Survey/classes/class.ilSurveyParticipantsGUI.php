@@ -501,17 +501,33 @@ class ilSurveyParticipantsGUI
 		$si->setValue(1);
 		$si->setSize(3);
 		$ilToolbar->addInputItem($si, true);
-		$ilToolbar->addFormButton($this->lng->txt("create"), "createSurveyCodes");
 		
+		include_once "Services/UIComponent/Button/classes/class.ilSubmitButton.php";
+		
+		$button = ilSubmitButton::getInstance();
+		$button->setCaption("create");
+		$button->setCommand("createSurveyCodes");
+		$ilToolbar->addButtonInstance($button);
+	
 		$ilToolbar->addSeparator();
 		
-		$ilToolbar->addFormButton($this->lng->txt("import_from_file"), "importExternalMailRecipientsFromFileForm");
-		$ilToolbar->addFormButton($this->lng->txt("import_from_text"), "importExternalMailRecipientsFromTextForm");
+		$button = ilSubmitButton::getInstance();
+		$button->setCaption("import_from_file");
+		$button->setCommand("importExternalMailRecipientsFromFileForm");
+		$ilToolbar->addButtonInstance($button);
+		
+		$button = ilSubmitButton::getInstance();
+		$button->setCaption("import_from_text");
+		$button->setCommand("importExternalMailRecipientsFromTextForm");
+		$ilToolbar->addButtonInstance($button);
 		
 		$ilToolbar->addSeparator();
-		
-		$ilToolbar->addFormButton($this->lng->txt("svy_import_codes"), "importAccessCodes");
-		
+				
+		$button = ilSubmitButton::getInstance();
+		$button->setCaption("svy_import_codes");
+		$button->setCommand("importAccessCodes");
+		$ilToolbar->addButtonInstance($button);
+			
 		$ilToolbar->addSeparator();
 		
 		$languages = $this->lng->getInstalledLanguages();
@@ -526,9 +542,12 @@ class ilSurveyParticipantsGUI
 		$si->setOptions($options);
 		$si->setValue($default_lang);
 		$ilToolbar->addInputItem($si, true);
-		$ilToolbar->addFormButton($this->lng->txt("set"), "setCodeLanguage");
 		
-
+		$button = ilSubmitButton::getInstance();
+		$button->setCaption("set");
+		$button->setCommand("setCodeLanguage");
+		$ilToolbar->addButtonInstance($button);
+	
 		include_once "./Modules/Survey/classes/tables/class.ilSurveyCodesTableGUI.php";
 		$table_gui = new ilSurveyCodesTableGUI($this, 'codes');
 		$survey_codes = $this->object->getSurveyCodesTableData(null, $default_lang);

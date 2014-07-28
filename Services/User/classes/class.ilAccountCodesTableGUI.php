@@ -47,8 +47,12 @@ class ilAccountCodesTableGUI extends ilTable2GUI
 		$this->setTopCommands(true);
 		$this->addMultiCommand("deleteConfirmation", $lng->txt("delete"));
 		
-		$this->addCommandButton("exportCodes", $lng->txt("user_account_codes_export"),
-			"", "", "omitPreventDoubleSubmission");
+		include_once "Services/UIComponent/Button/classes/class.ilSubmitButton.php";
+		$button = ilSubmitButton::getInstance();
+		$button->setCaption("user_account_codes_export");
+		$button->setCommand("exportCodes");
+		$button->setOmitPreventDoubleSubmission(true);		
+		$this->addCommandButtonInstance($button);
 		
 		$this->getItems();
 	}
