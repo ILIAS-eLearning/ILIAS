@@ -86,12 +86,15 @@ class ilAdvancedMDSettingsGUI
 			array(
 				ilAdvancedMDPermissionHelper::ACTION_MD_CREATE_RECORD
 				,ilAdvancedMDPermissionHelper::ACTION_MD_IMPORT_RECORDS
-		));
+		));				
 		
 		if($perm[ilAdvancedMDPermissionHelper::ACTION_MD_CREATE_RECORD])
 		{		
-			$ilToolbar->addButton($this->lng->txt('add'),
-				$this->ctrl->getLinkTarget($this, "createRecord"));
+			include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";		
+			$button = ilLinkButton::getInstance();
+			$button->setCaption("add");
+			$button->setUrl($this->ctrl->getLinkTarget($this, "createRecord"));		
+			$ilToolbar->addButtonInstance($button);
 			
 			if($perm[ilAdvancedMDPermissionHelper::ACTION_MD_IMPORT_RECORDS])
 			{
@@ -101,8 +104,11 @@ class ilAdvancedMDSettingsGUI
 		
 		if($perm[ilAdvancedMDPermissionHelper::ACTION_MD_IMPORT_RECORDS])
 		{
-			$ilToolbar->addButton($this->lng->txt('import'),
-				$this->ctrl->getLinkTarget($this, "importRecords"));
+			include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";		
+			$button = ilLinkButton::getInstance();
+			$button->setCaption("import");
+			$button->setUrl($this->ctrl->getLinkTarget($this, "importRecords"));		
+			$ilToolbar->addButtonInstance($button);			
 		}
 		
 		$this->record_objs = $this->getRecordObjects();
@@ -655,8 +661,14 @@ class ilAdvancedMDSettingsGUI
 			}	
 			$types->setOptions($options);		
 			$ilToolbar->addInputItem($types);		
+			
 			$ilToolbar->setFormAction($this->ctrl->getFormAction($this, "createField"));
-			$ilToolbar->addFormButton($this->lng->txt('add'), "createField");
+			
+			include_once "Services/UIComponent/Button/classes/class.ilSubmitButton.php";		
+			$button = ilSubmitButton::getInstance();
+			$button->setCaption("add");
+			$button->setCommand("createField");
+			$ilToolbar->addButtonInstance($button);			
 		}
 	
 		// show field table

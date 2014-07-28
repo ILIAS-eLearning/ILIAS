@@ -196,8 +196,22 @@ abstract class ilExplorerSelectInputGUI extends ilFormPropertyGUI implements ilT
 		$tpl->setVariable("EXPL", $this->explorer_gui->getHTML());
 		
 		$top_tb = new ilToolbarGUI();
-		$top_tb->addButton($lng->txt("select"), "#", "", "", "", "", "submit omitPreventDoubleSubmission ilExplSelectInputButS");
-		$top_tb->addButton($lng->txt("cancel"), "#", "", "", "", "", "submit omitPreventDoubleSubmission ilExplSelectInputButC");
+		
+		include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
+		
+		$button = ilLinkButton::getInstance();
+		$button->setCaption("select");
+		$button->addCSSClass("ilExplSelectInputButS");
+		$button->setOmitPreventDoubleSubmission(true);		
+		$top_tb->addButtonInstance($button);
+		
+		$button = ilLinkButton::getInstance();
+		$button->setCaption("cancel");
+		$button->addCSSClass("ilExplSelectInputButC");
+		$button->setOmitPreventDoubleSubmission(true);		
+		$top_tb->addButtonInstance($button);
+		
+		// :TODO: we should probably clone the buttons properly
 		$tpl->setVariable("TOP_TB", $top_tb->getHTML());
 		$tpl->setVariable("BOT_TB", $top_tb->getHTML());
 
