@@ -772,13 +772,29 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	*/
 	function outParticipantsPassDetails()
 	{
-		$this->ctrl->saveParameter($this, "pass");
+		global $ilTabs, $ilAccess;
+
+		if (!$ilAccess->checkAccess('write', '', $this->ref_id))
+		{
+			// allow only write access
+			ilUtil::sendInfo($this->lng->txt('no_permission'), true);
+			$this->ctrl->redirectByClass('ilObjTestGUI', 'infoScreen');
+		}
+
 		$this->ctrl->saveParameter($this, "active_id");
-		$active_id = $_GET["active_id"];
-		$pass = $_GET["pass"];
-		
+		$active_id = (int)$_GET["active_id"];
 		$testSession = $this->testSessionFactory->getSession($active_id);
+
+		// protect actives from other tests
+		if( $testSession->getTestId() != $this->object->getTestId() )
+		{
+			ilUtil::sendInfo($this->lng->txt('no_permission'), true);
+			$this->ctrl->redirectByClass('ilObjTestGUI', 'infoScreen');
+		}
 		
+		$this->ctrl->saveParameter($this, "pass");
+		$pass = (int)$_GET["pass"];
+
 		$result_array =& $this->object->getTestResult($active_id, $pass);
 		
 		$overview = $this->getPassDetailsOverview($result_array, $active_id, $pass, "iltestevaluationgui", "outParticipantsPassDetails");		
@@ -862,12 +878,25 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	*/
 	function outParticipantsResultsOverview()
 	{
-		$template = new ilTemplate("tpl.il_as_tst_pass_overview_participants.html", TRUE, TRUE, "Modules/Test");
-
-		$active_id = $_GET["active_id"];
+		global $ilAccess;
 		
+		if (!$ilAccess->checkAccess('write', '', $this->ref_id))
+		{
+			// allow only write access
+			ilUtil::sendInfo($this->lng->txt('no_permission'), true);
+			$this->ctrl->redirectByClass('ilObjTestGUI', 'infoScreen');
+		}
+
+		$active_id = (int)$_GET["active_id"];
 		$testSession = $this->testSessionFactory->getSession($active_id);
 		
+		// protect actives from other tests
+		if( $testSession->getTestId() != $this->object->getTestId() )
+		{
+			ilUtil::sendInfo($this->lng->txt('no_permission'), true);
+			$this->ctrl->redirectByClass('ilObjTestGUI', 'infoScreen');
+		}
+
 		if ($this->object->getNrOfTries() == 1)
 		{
 			$this->ctrl->setParameter($this, "active_id", $active_id);
@@ -875,6 +904,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$this->ctrl->redirect($this, "outParticipantsPassDetails");
 		}
 
+		$template = new ilTemplate("tpl.il_as_tst_pass_overview_participants.html", TRUE, TRUE, "Modules/Test");
 
 		$this->ctrl->setParameter($this, "pdf", "1");
 		$template->setCurrentBlock("pdf_export");
