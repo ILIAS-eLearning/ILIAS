@@ -127,7 +127,6 @@ class ilCourseBooking
 			$fields["user_id"] = array("integer", $a_user_id);
 			
 			$ilDB->insert("crs_book", $fields);
-			
 		}
 				
 		self::raiseEvent("setStatus", $a_course_obj_id, $a_user_id);

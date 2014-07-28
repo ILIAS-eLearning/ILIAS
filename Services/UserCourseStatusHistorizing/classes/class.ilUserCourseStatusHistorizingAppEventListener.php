@@ -64,6 +64,10 @@ class ilUserCourseStatusHistorizingAppEventListener
 			$a_parameter["crs_id"] = $a_parameter["crs_obj_id"];
 			$a_parameter["usr_id"] = $a_parameter["user_id"];
 		}
+		if ($a_component == "Services/CourseBooking") {
+			$a_parameter["crs_id"] = $a_parameter["crs_obj_id"];
+			$a_parameter["usr_id"] = $a_parameter["user_id"];
+		}
 		// TODO: normalized data from bill here.
 
 		self::$ilUserCourseStatusHistorizing->updateHistorizedData(

@@ -3,7 +3,7 @@
 	<events>
 		<event type="listen" id="Services/User" />
 		<event type="listen" id="Services/ParticipationStatus" />
-		<event type="listen" id="Services/Bookings" />
+		<event type="listen" id="Services/CourseBooking" />
 		<event type="listen" id="Services/Billing" />
 		<event type="listen" id="Modules/Course" />
 		<event type="listen" id="Services/Accomodation" />
