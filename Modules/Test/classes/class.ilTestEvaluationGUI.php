@@ -938,9 +938,10 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	*/
 	function outUserPassDetails()
 	{
+		$active_id = $testSession->getActiveId();
+		$user_id = $testSession->getUserId();
+
 		$this->ctrl->saveParameter($this, "pass");
-		$this->ctrl->saveParameter($this, "active_id");
-		$active_id = $_GET["active_id"];
 		$pass = $_GET["pass"];
 		$result_array =& $this->object->getTestResult($active_id, $pass);
 
@@ -950,8 +951,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$command_solution_details = "outCorrectSolution";
 		}
 		$overview = $this->getPassDetailsOverview($result_array, $active_id, $pass, "iltestevaluationgui", "outUserPassDetails", $command_solution_details);
-
-		$user_id = $this->object->_getUserIdFromActiveId($active_id);
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_pass_details_overview_participants.html", "Modules/Test");
 
@@ -1252,6 +1251,24 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	*/
 	function outCorrectSolution()
 	{
+		if( !$this->object->getShowSolutionDetails() )
+		{
+			ilUtil::sendInfo($this->lng->txt("no_permission"), true);
+			$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
+		}
+
+		$activeId = $this->testSessionFactory->getSession()->getActiveId();
+		
+		if( !($activeId > 0) )
+		{
+			$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
+		}
+
+		$this->ctrl->saveParameter($this, "pass");
+		$pass = (int)$_GET['pass'];
+
+		$questionId = (int)$_GET['evaluation'];
+
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_correct_solution.html", "Modules/Test");
 
 		include_once("./Services/Style/classes/class.ilObjStyleSheet.php");
@@ -1270,7 +1287,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		}
 
 		$this->tpl->setCurrentBlock("adm_content");
-		$solution = $this->getCorrectSolutionOutput($_GET["evaluation"], $_GET["active_id"], $_GET["pass"]);
+		$solution = $this->getCorrectSolutionOutput($questionId, $activeId, $pass);
 		$this->tpl->setVariable("OUTPUT_SOLUTION", $solution);
 		$this->tpl->setVariable("TEXT_BACK", $this->lng->txt("back"));
 		$this->ctrl->saveParameter($this, "pass");
