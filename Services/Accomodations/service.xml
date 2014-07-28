@@ -6,5 +6,6 @@
 	</baseclasses>	
 	<events>		
 		<event type="raise" id="set" />
+		<event type="listen" id="Modules/Course" />
 	</events>	
 </service>

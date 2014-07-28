@@ -10,7 +10,7 @@ svn.ilias.de/svn/ilias/branches/CaT/patches/4_4_AMDForOrgTypes					merged: 50343
 svn.ilias.de/svn/ilias/branches/CaT/extensions/4_4_MailTemplates				merged: 51487
 svn.ilias.de/svn/ilias/branches/CaT/extensions/4_4_DeskDisplays					merged: 50399
 svn.ilias.de/svn/ilias/branches/CaT/extensions/4_4_ParticipationStatus			merged: 50318
-svn.ilias.de/svn/ilias/branches/CaT/extensions/4_4_Accomodations				merged: 51291
+svn.ilias.de/svn/ilias/branches/CaT/extensions/4_4_Accomodations				merged: 51678
 svn.ilias.de/svn/ilias/branches/CaT/extensions/4_4_Billing						merged: 51489
 svn.ilias.de/svn/ilias/branches/CaT/extensions/4_4_TEP							merged: 51394
 svn.ilias.de/svn/ilias/branches/CaT/extensions/4_4_CourseHistorizing			merged: 51475
