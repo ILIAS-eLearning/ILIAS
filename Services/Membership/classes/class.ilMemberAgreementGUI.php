@@ -419,7 +419,7 @@ class ilMemberAgreementGUI
 					break;
 			}
 			
-			$course_user_data = new ilCourseUserData($ilUser->getId(),$field_obj->getId());
+			$course_user_data = new ilCourseUserData($a_usr_id,$field_obj->getId());
 			$course_user_data->setValue($value);
 			$course_user_data->update();
 		}

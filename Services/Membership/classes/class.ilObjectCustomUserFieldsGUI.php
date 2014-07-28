@@ -414,6 +414,10 @@ class ilObjectCustomUserFieldsGUI
 		$GLOBALS['ilCtrl']->returnToParent($this);
 	}
 	
+	/**
+	 * Init member form
+	 * @return \ilPropertyFormGUI
+	 */
 	protected function initMemberForm()
 	{
 		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
