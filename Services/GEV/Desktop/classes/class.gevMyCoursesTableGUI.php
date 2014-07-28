@@ -33,6 +33,7 @@ class gevCoursesTableGUI extends catAccordionTableGUI {
 		$this->setTitle("gev_my_courses");
 		$this->setSubtitle("gev_my_courses_desc");
 		$this->setImage("GEV_img/ico-head-my-training-deployments.png");
+		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, "view"));
 
 
 		$this->setTopCommands(false);

@@ -227,6 +227,8 @@ class gevUserUtils {
 	}
 	
 	public function getPotentiallyBookableCourseIds() {
+		global $ilUser;
+		
 		if ($this->potentiallyBookableCourses !== null) {
 			return $this->potentiallyBookableCourses;
 		}
@@ -276,6 +278,12 @@ class gevUserUtils {
 		while($val = $this->db->fetchAssoc($res)) {
 			// TODO: there need to be a check whether the user has met the preconditions here
 			// too.
+			$crs_utils = gevCourseUtils::getInstance($val["obj_id"]);
+			
+			if (!$crs_utils->canBookCourseForOther($ilUser->getId(), $this->user_id)) {
+				continue;
+			}
+			
 			if (gevObjectUtils::checkAccessOfUser($this->user_id, "visible",  "", $val["obj_id"], "crs")) {
 				$crss[] = $val["obj_id"];
 			}
@@ -322,7 +330,7 @@ class gevUserUtils {
 				 , gevSettings::CRS_AMD_GOALS 				=> "goals"
 				 , gevSettings::CRS_AMD_CONTENTS 			=> "content"
 			);
-
+			
 		$info = gevAMDUtils::getInstance()->getTable($crss, $crs_amd, array(), array(),
 													 "ORDER BY ".$a_order." ".$a_direction." ".
 													 " LIMIT ".$a_limit." OFFSET ".$a_offset);
