@@ -115,6 +115,8 @@ class gevUserUtils {
 		require_once("Modules/Course/classes/class.ilObjCourse.php");
 		require_once("Services/CourseBooking/classes/class.ilCourseBookings.php");
 		
+		global $ilUser;
+		
 		$is_tmplt_field_id = $this->gev_set->getAMDFieldId(gevSettings::CRS_AMD_IS_TEMPLATE);
 		$start_date_field_id = $this->gev_set->getAMDFieldId(gevSettings::CRS_AMD_START_DATE);
 		$type_field_id = $this->gev_set->getAMDFieldId(gevSettings::CRS_AMD_TYPE);
