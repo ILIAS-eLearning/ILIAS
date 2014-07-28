@@ -135,9 +135,9 @@ abstract class ilTEPViewGridBased extends ilTEPView
 			
 			// single-tutor view 
 			if(!$this->isMultiTutor())
-			{			
-				// restrict to selected user (if valid)
-				if($filter["tutor"] && in_array($filter["tutor"], $this->all_tutors))
+			{							
+				// restrict to selected user (if valid) #233
+				if($filter["tutor"] && array_key_exists($filter["tutor"], $this->all_tutors))
 				{
 					$tutors = array($filter["tutor"]);
 				}

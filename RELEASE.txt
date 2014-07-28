@@ -12,7 +12,7 @@ svn.ilias.de/svn/ilias/branches/CaT/extensions/4_4_DeskDisplays					merged: 5039
 svn.ilias.de/svn/ilias/branches/CaT/extensions/4_4_ParticipationStatus			merged: 50318
 svn.ilias.de/svn/ilias/branches/CaT/extensions/4_4_Accomodations				merged: 51678
 svn.ilias.de/svn/ilias/branches/CaT/extensions/4_4_Billing						merged: 51489
-svn.ilias.de/svn/ilias/branches/CaT/extensions/4_4_TEP							merged: 51394
+svn.ilias.de/svn/ilias/branches/CaT/extensions/4_4_TEP							merged: 51659
 svn.ilias.de/svn/ilias/branches/CaT/extensions/4_4_CourseHistorizing			merged: 51475
 svn.ilias.de/svn/ilias/branches/CaT/extensions/4_4_UserHistorizing				merged: 51312
 svn.ilias.de/svn/ilias/branches/CaT/extensions/4_4_UserCourseStatusHistorizing	merged: 51305
