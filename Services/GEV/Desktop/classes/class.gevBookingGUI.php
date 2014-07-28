@@ -518,7 +518,7 @@ class gevBookingGUI {
 		$payment_data = unserialize($payment_data);
 
 		if ($this->isWithAccomodations()) {
-			$accomodations = unserialize($payment_data("accomodations"));
+			$accomodations = unserialize($payment_data["accomodations"]);
 		}
 		else {
 			$accomodations = null;
