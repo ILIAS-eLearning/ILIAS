@@ -713,20 +713,15 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->ctrl->redirect($this, "export");
 		}
 
-		if( !$this->isValidExportFile($_POST["file"][0]) )
+		$filename = basename($_POST["file"][0]);
+		$file = $this->object->getExportDirectory().'/'.$filename;
+		
+		if( !file_exists($file) )
 		{
 			$this->ctrl->redirect($this, 'export');
 		}
 
-		$export_dir = $this->object->getExportDirectory();
-		ilUtil::deliverFile($export_dir."/".$_POST["file"][0],
-			$_POST["file"][0]);
-	}
-	
-	private function isValidExportFile($file)
-	{
-		$reg = '/^\d+__\d+__tst(__results){0,1}_'.$this->object->getId().'\.(zip|csv|xls)$/';
-		return preg_match($reg, $file);
+		ilUtil::deliverFile($file, $filename);
 	}
 
 	/**
