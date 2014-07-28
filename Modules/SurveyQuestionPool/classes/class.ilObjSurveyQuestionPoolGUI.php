@@ -585,8 +585,10 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 
 		$export_dir = $this->object->getExportDirectory();
 		include_once "./Services/Utilities/classes/class.ilUtil.php";
-		ilUtil::deliverFile($export_dir."/".$_POST["file"][0],
-			$_POST["file"][0]);
+		
+		$file = basename($_POST["file"][0]);
+		
+		ilUtil::deliverFile($export_dir."/".$file, $file);
 	}
 
 	/**
@@ -632,6 +634,8 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
 		$export_dir = $this->object->getExportDirectory();
 		foreach($_POST['file'] as $file)
 		{
+			$file = basename($file);
+			
 			$exp_file = $export_dir."/".$file;
 			$exp_dir = $export_dir."/".substr($file, 0, strlen($file) - 4);
 			if (@is_file($exp_file))
