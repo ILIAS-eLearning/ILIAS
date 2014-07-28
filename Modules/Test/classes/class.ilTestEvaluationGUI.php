@@ -938,6 +938,8 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 	*/
 	function outUserPassDetails()
 	{
+		$testSession = $this->testSessionFactory->getSession();
+		
 		$active_id = $testSession->getActiveId();
 		$user_id = $testSession->getUserId();
 
