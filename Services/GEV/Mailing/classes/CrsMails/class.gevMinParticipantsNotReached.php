@@ -22,10 +22,10 @@ class gevMinParticipantsNotReached extends gevCrsAutoMail {
 	}
 	
 	public function shouldBeSend() {
-		/*$utils = $this->getCourseUtils();
-		if ($utils->getMinParticipants() < ) {
-			
-		}*/
+		$utils = $this->getCourseUtils();
+		if ($utils->getMinParticipants() <= count($utils->getParticipants())) {
+			return false;
+		}
 		
 		return parent::shouldBeSend();
 	}

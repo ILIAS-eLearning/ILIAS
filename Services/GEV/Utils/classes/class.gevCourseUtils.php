@@ -1324,6 +1324,10 @@ class gevCourseUtils {
 		}
 	}
 	
+	public function allParticipationStatusSet() {
+		return $this->getParticipations()->allStatusSet();
+	}
+	
 	//
 	
 	public function getFunctionOfUser($a_user_id) {

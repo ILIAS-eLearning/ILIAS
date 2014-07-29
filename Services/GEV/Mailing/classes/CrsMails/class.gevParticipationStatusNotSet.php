@@ -21,6 +21,15 @@ class gevParticipationStatusNotSet extends gevCrsAutoMail {
 		return $date;
 	}
 	
+	public function shouldBeSend() {
+		$utils = $this->getCourseUtils();
+		if ($utils->allParticipationStatusSet()) {
+			return false;
+		}
+		
+		return parent::shouldBeSend();
+	}
+	
 	public function getTemplateCategory() {
 		return "R06";
 	}
