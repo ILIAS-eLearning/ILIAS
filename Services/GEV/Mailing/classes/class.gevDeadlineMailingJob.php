@@ -6,10 +6,7 @@ require_once("Services/Cron/classes/class.ilCronJobResult.php");
 require_once("Services/Calendar/classes/class.ilDateTime.php");
 
 
-class ilDeadlineMailingJob extends ilCronJob {
-	const BEFORE_COURSE = 1;
-	const AFTER_COURSE = 2;
-	
+class gevDeadlineMailingJob extends ilCronJob {
 	public function getId() {
 		return "gev_deadline_mailing";
 	}

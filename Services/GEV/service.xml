@@ -8,6 +8,7 @@
 	<objects>
 	</objects>
 	<crons>
-		<cron id="gev_deadline_mailing" class="ilDeadlineMailingJob" path="Services/GEV/Mailing/classes/" />
+		<cron id="gev_deadline_mailing" class="gevDeadlineMailingJob" path="Services/GEV/Mailing/classes/" />
+		<cron id="gev_deferred_mailing" class="gevDeferredMailingJob" path="Services/GEV/Mailing/classes/" />
 	</crons>
 </service>
