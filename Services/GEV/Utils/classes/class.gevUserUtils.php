@@ -409,12 +409,12 @@ class gevUserUtils {
 	public function getOrgUnitId() {
 		if ($this->orgu_id === null) {
 			$query = "SELECT oref.obj_id FROM object_data od "
-					."JOIN rbac_ua ua ON od.obj_id = ua.rol_id "
-					."JOIN object_reference oref ON oref.ref_id = SUBSTR(od.title, 18) "
-					."WHERE od.type = 'role' " 
-					."AND ua.usr_id = ".$this->db->quote($this->user_id, "integer")
-					."AND od.title LIKE 'il_orgu_employee_%' "
-					."ORDER BY obj_id ASC LIMIT 1 OFFSET 0";
+					." JOIN rbac_ua ua ON od.obj_id = ua.rol_id "
+					." JOIN object_reference oref ON oref.ref_id = SUBSTR(od.title, 18) "
+					." WHERE od.type = 'role' " 
+					." AND ua.usr_id = ".$this->db->quote($this->user_id, "integer")
+					." AND od.title LIKE 'il_orgu_employee_%' "
+					." ORDER BY obj_id ASC LIMIT 1 OFFSET 0";
 			
 			$res = $this->db->query($query);
 			if ($rec = $this->db->fetchAssoc($res)) {
@@ -423,12 +423,12 @@ class gevUserUtils {
 			else {
 				// Ok, so he is no employee. Maybe he's a superior?
 				$query = "SELECT oref.obj_id FROM object_data od "
-						."JOIN rbac_ua ua ON od.obj_id = ua.rol_id "
-						."JOIN object_reference oref ON oref.ref_id = SUBSTR(od.title, 18) "
-						."WHERE od.type = 'role' " 
-						."AND ua.usr_id = ".$this->db->quote($this->user_id, "integer")
-						."AND od.title LIKE 'il_orgu_superior_%' "
-						."ORDER BY obj_id ASC LIMIT 1 OFFSET 0";
+						." JOIN rbac_ua ua ON od.obj_id = ua.rol_id "
+						." JOIN object_reference oref ON oref.ref_id = SUBSTR(od.title, 18) "
+						." WHERE od.type = 'role' " 
+						." AND ua.usr_id = ".$this->db->quote($this->user_id, "integer")
+						." AND od.title LIKE 'il_orgu_superior_%' "
+						." ORDER BY obj_id ASC LIMIT 1 OFFSET 0";
 				$res = $this->db->query($query);
 				if ($rec = $this->db->fetchAssoc($res)) {
 					return $rec["obj_id"];
