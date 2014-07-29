@@ -580,6 +580,7 @@ class ilBookingReservation
 				}
 				else
 				{
+					$res[$idx]["status"] = $detail["status"];
 					unset($res[$idx]["group_id"]);
 				}				
 			}			
