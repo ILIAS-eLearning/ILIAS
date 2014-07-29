@@ -440,6 +440,10 @@ abstract class gevCrsAutoMail extends ilAutoMail {
 		return $res;
 	}
 
+	public function sendDeferred($a_recipients = null, $a_occasion = null) {
+		// TODO: implement this!
+	}
+
 	public function getMail($a_recipient) {
 		if (!$this->checkUserID($a_recipient)) {
 			throw new Exception("This mail will only work for ILIAS-Users.");

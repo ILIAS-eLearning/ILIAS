@@ -74,6 +74,10 @@ class gevCrsAutoMails extends ilAutoMails {
 		require_once("./Services/GEV/Mailing/classes/CrsMails/class.".$this->mail_data[$a_id].".php");
 		return new $this->mail_data[$a_id]($this->obj_id, $a_id);
 	}
+	
+	public function sendDeferred($a_mail_id, $a_recipients = null, $a_occasion = null) {
+		return $this->getAutoMail($a_mail_id)->sendDeferred($a_recipients, $a_occasion);
+	}
 
 	public function getUserOccasion() {
 		return $this->lng->txt("send_by").": ".parent::getUserOccasion();

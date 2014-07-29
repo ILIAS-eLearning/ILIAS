@@ -825,7 +825,7 @@ class gevCourseUtils {
 	}
 	
 	public function getMembers() {
-		return array_merge($this->getMembership()->getMembers(), $this->getTrainers(), $this->getTutors());
+		return array_merge($this->getMembership()->getMembers(), $this->getTrainers(), $this->getAdmins());
 	}
 	
 	public function getSpecialMembers() {		
