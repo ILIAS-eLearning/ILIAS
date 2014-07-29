@@ -7,7 +7,6 @@ $(document).ready(function ()
     bindTextareaHandler();
     paintGaps();
     createGapListener();
-
     function paintGaps()
     {
         $(".interactive").remove();
@@ -142,6 +141,11 @@ $(document).ready(function ()
             return 0;
         }
     }
+    function checkFormula(val)
+    {
+        var regex = /^-?(\d*)(,|\.|\/){0,1}(\d*)$/;
+        return regex.exec(val);
+    }
     function checkForm()
     {
         var row = 0;
@@ -169,7 +173,22 @@ $(document).ready(function ()
                             }
                         });
                     }
-
+                }
+                if(checkFormula(entry.values[0].lower))
+                {
+                    removeHighlight($('#gap_' + row + '_numeric_lower'));
+                }
+                else
+                {
+                    highlightRed($('#gap_' + row + '_numeric_lower'));
+                }
+                if(checkFormula(entry.values[0].upper))
+                {
+                    removeHighlight($('#gap_' + row + '_numeric_upper'));
+                }
+                else
+                {
+                    highlightRed($('#gap_' + row + '_numeric_upper'));
                 }
                 input_failed += checkInputIsNumeric(entry.values[0].points,row,'_points');
                 if (input_failed !== 0 ) {
@@ -312,6 +331,10 @@ $(document).ready(function ()
                     {
                         'id': 'table_body_' + counter_question
                     });
+                $('#text_row_' + counter_question + '_' + c).find('.submit.remove_gap_button').attr(
+                    {
+                        'id': 'remove_gap_' + counter_question
+                    });
             }
             else {
                 $('#inner_text').clone().attr(
@@ -391,7 +414,6 @@ $(document).ready(function ()
             points: '0',
             answer: ''
         });
-        
         gaps_php[0][pos[2]].values.splice(parseInt(pos[3]) + 1, 0, insert);
         paintGaps();
     });
@@ -411,17 +433,17 @@ $(document).ready(function ()
 
     $('.remove_gap_button').live('click', function ()
     {
-        var getPosition = $(this).closest('.interactive').attr('id');
+        var getPosition = $(this).attr('id');
+        var whereAmI    = $(this).parents().eq(4).attr('id');
         var pos = getPosition.split('_');
-        var position = pos[2];
-        if (position == "container") {
-            position = pos[3];
-        }
         if (confirm($('#delete_gap_question').text())) {
-
-            gaps_php[0].splice(position, 1);
-            removeFromTextarea(position);
+            gaps_php[0].splice(pos[2], 1);
+            removeFromTextarea(pos[2]);
             paintGaps();
+            if(whereAmI == 'lightbox_content')
+            {
+                window.location.hash = '';
+            }
         }
     });
 
@@ -469,10 +491,7 @@ $(document).ready(function ()
     function bindInputHandler()
     {
         var listener = 'blur';
-        if (typeof(tinyMCE) != "undefined")
-        {
-            listener = 'blur keyup';
-        }
+        $('.text_field').off('blur');
         $('.text_field').bind(listener, function(event){
             var pos = getPositionFromInputs($(this));
             gaps_php[0][pos[0]].values[pos[1]].answer = $(this).val();
@@ -484,7 +503,8 @@ $(document).ready(function ()
             }
             checkForm();
         });
-        $('.gap_points').keyup(function () {
+        $('.gap_points').off('blur');
+        $('.gap_points').blur(function (e) {
             var pos = getPositionFromInputs($(this));
             gaps_php[0][pos[0]].values[pos[1]].points = $(this).val();
             if (clone_active != -1) {
@@ -501,8 +521,10 @@ $(document).ready(function ()
             }
             checkForm();
         });
-        $('.numeric_gap').keyup(function () {
+        $('.numeric_gap').off('blur');
+        $('.numeric_gap').blur(function () {
             var pos = getPositionFromInputs($(this),true);
+            $(this).val($(this).val().replace(/ /g,''));
             if (pos.length == 3) {
                 gaps_php[0][pos[1]].values[0].answer = $(this).val();
                 editTextarea(pos[1]);
@@ -512,7 +534,7 @@ $(document).ready(function ()
             }
             else {
                 if (pos[3] == 'lower') {
-                    gaps_php[0][pos[1]].values[0].lower = $(this).val();
+                    gaps_php[0][pos[1]].values[0].lower = $(this).val().replace(/ /g,'');
                     if (clone_active != -1) {
                         $('.interactive').find('#gap_' + pos[1] + '_numeric_lower').val($(this).val());
                     }
@@ -543,8 +565,7 @@ $(document).ready(function ()
             g_cursor_pos = cursorPosition;
             if (pos[1] != -1) {
                 setCaretPosition(document.getElementById('cloze_text'), pos[1]);
-                cloneFormPart(pos[0]);
-                window.location.hash = 'lightbox';
+                focusOnFormular(pos);
                 return false;
             }
         });
@@ -560,8 +581,7 @@ $(document).ready(function ()
             g_cursor_pos = cursorPosition;
             if (pos[1] != -1) {
                 setCaretPosition(document.getElementById('cloze_text'), pos[1]);
-                cloneFormPart(pos[0]);
-                window.location.hash = 'lightbox';
+                focusOnFormular(pos);
                 return false;
             }
         });
@@ -591,8 +611,7 @@ $(document).ready(function ()
             var pos = cursorInGap(cursorPosition);
             if (pos[1] != -1) {
                 setCursorPositionTiny(inst, pos[1]);
-                cloneFormPart(pos[0]);
-                window.location.hash = 'lightbox';
+                focusOnFormular(pos);
                 return false;
             }
         });
@@ -610,8 +629,7 @@ $(document).ready(function ()
             checkTextAreaAgainstJson();
             if (pos[1] != -1) {
                 //setCursorPositionTiny(inst,pos[1]);
-                cloneFormPart(pos[0]);
-                window.location.hash = 'lightbox';
+                focusOnFormular(pos);
                 return false;
             }
         });
@@ -635,6 +653,15 @@ $(document).ready(function ()
        });
     }      
     
+    function focusOnFormular(pos)
+    {
+        cloneFormPart(pos[0]);
+        window.location.hash = 'lightbox';
+        var gap = parseInt(pos[0]) - 1;
+        $('#cloze_text').focus();
+        $('#lightbox_inner').find('#gap_' + gap + '\\[answer\\]\\[0\\]').focus();
+        $('#lightbox_inner').find('#gap_' + gap + '_numeric').focus();
+    }
     function checkTextAreaAgainstJson()
     {
         var text = getTextAreaValue();

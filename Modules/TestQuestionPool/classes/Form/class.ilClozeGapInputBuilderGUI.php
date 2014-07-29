@@ -89,20 +89,21 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
 					if ($result === false)
 					{
 						$error=true;
-						$mark_errors['answer']=true;
 					}
-					$result = $eval->e(str_replace(",", ".",$_POST['gap_' . $key .'_numeric_lower']));
+					$lower = $_POST['gap_' . $key .'_numeric_lower'];
+					$has_valid_chars = ilClozeGapInputBuilderGUI::checkForValidFormula($lower);
+					$result = $eval->e(str_replace(",", ".", $lower), FALSE);
+					if ($result === false || !$has_valid_chars )
+					{
+						$error=true;
+					}
+					$_POST['gap_' . $key .'_numeric_lower'] = $result;
+					$result = $eval->e(str_replace(",", ".",$_POST['gap_' . $key .'_numeric_upper']), FALSE);
 					if ($result === false)
 					{
 						$error=true;
-						$mark_errors['lower']=true;
 					}
-					$result = $eval->e(str_replace(",", ".",$_POST['gap_' . $key .'_numeric_upper']));
-					if ($result === false)
-					{
-						$error=true;
-						$mark_errors['upper']=true;
-					}
+					$_POST['gap_' . $key .'_numeric_upper'] = $result;
 					$points=$_POST['gap_' . $key .'_numeric_points'];
 					if(!isset($points) || $points == "" || !is_numeric($points) || $points == 0)
 					{
@@ -117,6 +118,10 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
 		return !$error;
 	}
 	
+	protected function checkForValidFormula($value)
+	{
+		return preg_match("/^-?(\\d*)(,|\\.|\\/){0,1}(\\d*)$/", $value, $matches);
+	}
 	public function setValueByArray($data)
 	{
 		$this->setValue($data);
