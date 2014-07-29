@@ -1,0 +1,2521 @@
+@import "less/reset.less";
+
+/* --------------------------------------------------------------
+   GLOBAL STYLES
+-------------------------------------------------------------- */
+html {
+	height: 100%;
+}
+
+body {
+	height: 100%;
+}
+
+body {
+	color: #222;
+	background: none #FFF;
+	line-height: 1.3;
+	font-size: .89em;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+h1 {
+	font-size: 1.5em;
+}
+
+h2 {
+	font-size: 1.4em;
+}
+
+h3 {
+	font-size: 1.3em;
+}
+
+h4 {
+	font-size: 1.2em;
+}
+
+h5 {
+	font-size: 1.1em;
+}
+
+h6 {
+	font-size: 1em;
+}
+
+h1, h2, h3, h4, h5 {
+	font-weight: normal;
+}
+
+ul, ol, p {
+	margin: .8em 0;
+}
+
+ol, ul { 
+	padding-left: 40px 
+}
+
+ol { 
+	list-style-type: decimal 
+}
+
+ol ul, ul ol,
+ul ul, ol ol { 
+	margin-top: 0; 
+	margin-bottom: 0 
+}
+
+small, sub, sup {
+	font-size: .8em;
+}
+
+em, i {
+	font-style: italic;
+}
+
+u {
+	text-decoration: underline;
+}
+
+sub {
+	vertical-align: sub;
+}
+
+sup {
+	vertical-align: super;
+}
+
+strong, b {
+	font-weight: bold;
+}
+
+select {
+	margin: 0;
+	font: inherit;
+	padding: 1px;
+	text-decoration: none;
+	font-size: 80%;
+	border: 1px solid #E0E0E0;
+}
+
+input, textarea {
+	font: inherit;
+}
+
+label, input[type=checkbox], input[type=radio], select {
+	cursor: pointer;
+}
+
+input[type=checkbox], input[type=radio] {
+	border-style: none;
+	background-color: transparent;
+}
+
+input[type=text], input[type=file], input[type=password], textarea {
+	border: 1px solid #E0E0E0;
+	padding: 3px;
+	text-decoration: none;
+	font-size: 90%;
+}
+
+input[type=text]:focus, input[type=file]:focus, input[type=password]:focus,
+textarea:focus, select:focus {
+	border-color: #A0B0FF;
+}
+
+a {
+	color: #03A;
+	text-decoration: none;
+	cursor: pointer;
+/* BEGIN WebDAV: Enable links with AnchorClick behavior for Internet Explorer. 
+ * All skins which want to support mounting of Webfolders using Internet Explorer
+ * must explicitly enable AnchorClick behavior.
+ */
+  behavior: url(#default#AnchorClick);
+/* END WebDAV: Enable links with AnchorClick behavior for Internet Explorer. */
+}
+
+a:hover {
+	color: #000;
+	text-decoration: underline;
+}
+
+hr {
+	margin-bottom: .8em;
+	border: none;
+	border-top: 1px solid #ddd;
+}
+
+table {
+	font-size: 100%;
+}
+
+img {
+	vertical-align: middle;
+}
+
+tr, td {
+    vertical-align: top;
+	white-space: normal;
+    word-wrap: break-word;
+}
+
+code {
+	font-family: Pragmata, Menlo, 'DejaVu LGC Sans Mono', 'DejaVu Sans Mono', Consolas, 'Everson Mono', 'Lucida Console', 'Andale Mono', 'Nimbus Mono L', 'Liberation Mono', FreeMono, 'Osaka Monospaced', Courier, 'New Courier', monospace;
+	font-size: 90%;
+	color: #858585;
+}
+
+@media print {
+  h1, h2, h3, h4, h5, h6 { 
+	page-break-after: avoid;
+  }
+  
+  ul, ol, dl { 
+	page-break-before: avoid;
+  }
+}
+
+/* --------------------------------------------------------------
+   SPECIAL STYLES
+-------------------------------------------------------------- */
+
+body#tinymce, body.mceContentBody {
+	height: auto;
+}
+
+body.std {
+	background: url(images/frame_back.png) repeat-x #F9F9F9 ;
+}
+
+.ilHidden {
+	visibility: hidden;
+}
+
+.ilNoDisplay {
+	display: none;
+}
+
+.ilDisplayInline {
+	display: inline;
+}
+
+.ilDisplayBlock {
+	display: block;
+}
+
+.ilClearFloat {
+	clear: both; 
+}
+
+.ilFloatRight {
+  float: right;
+}
+
+.ilFloatLeft {
+  float: left;
+}
+
+.ilWhiteSpaceNowrap {
+	white-space: nowrap;
+}
+
+.ilPositionStatic {
+	position: static;
+}
+
+.ilPositionRelative {
+	position: relative;
+}
+
+.ilPrintContent {
+	padding: 0 15px;
+}
+
+div.ilFrame {
+	padding: 0;
+}
+
+div.ilStartupFrame{
+	margin: 10px auto;
+	background: url(images/head_back.png) repeat-x #F9F9F9 ;
+	width: 750px;
+	box-shadow: 0 0 40px #808080;
+	min-height: 450px;
+}
+
+div#il_startup_content {
+	padding: 40px 20px 35px;
+	box-shadow: inset 0 2px 2px #D0D0D0;
+	background-color: #F9F9F9;
+}
+
+#il_startup_content form table {
+	/* out-commented due to http://www.ilias.de/mantis/view.php?id=10264 */
+	/* width: 500px; */
+}
+
+.ilStartupSection {
+	text-align: center;
+	padding-top: 25px;
+}
+
+.ilCenter {
+	text-align: center;
+}
+
+.ilRight {
+	text-align: right;
+}
+
+.ilValignTop {
+	vertical-align: top;
+}
+
+.ilValignMiddle {
+	vertical-align: middle;
+}
+
+.ilValignBottom {
+	vertical-align: bottom;
+}
+
+
+div.ilStartupSection div.ilForm {
+	margin:auto;
+	text-align:left;
+	width:40em;
+}
+
+.registration {
+  margin: 5px auto 0;
+  width: 700px;
+}
+
+div#mainspacekeeper {
+	background-color: #F9F9F9;
+	box-shadow: inset 0 2px 2px #D0D0D0;
+}
+
+div#mainscrolldiv {
+	padding: 5px 10px 0;
+	background-color: #F9F9F9;
+	box-shadow: inset 0px 2px 2px #D0D0D0;
+}
+
+.fullwidth {
+	width: 100%;
+}
+
+.halfWidth {
+	width: 50%;
+}
+
+.ilInheritBGColor {
+	background-color: inherit;
+}
+
+/* --- 3 column layout -- */
+
+.il_ColumnLayout {
+	width: 100%;
+	min-height: 100%;
+}
+
+#il_left_col {
+	vertical-align: top;
+	width: 20%;
+	padding: 0 0 0 1%;
+	float: left;
+}
+
+#il_center_col {
+	vertical-align: top;
+	width: 98%;
+	padding: 0 1%;
+	min-height: 1px;
+	float: left;
+	padding-bottom: 15px;
+}
+
+#il_center_col.one_side_col {
+	width: 77%;
+}
+#il_center_col.two_side_col {
+	width: 56%;
+}
+
+#il_right_col {
+	vertical-align: top;
+	width: 20%;
+	padding: 0 1% 0 0;
+	float: left;
+}
+
+input.fullwidth, textarea.fullwidth {
+	width: 98%;
+}
+
+div.input {
+	border: 1px solid #E0E0E0;
+	padding: 3px;
+	text-decoration: none;
+	font-size: 90%;
+	background-color: #FFF;
+	overflow: auto;
+}
+div.input:focus {
+	border-color: #A0B0FF;
+}
+input[type=text].numeric {
+	text-align: right;
+}
+
+/* ---------------- alternating tablerowcolors ----------------- */
+.tblrow2_mo {
+	background-color: #F1F1F1;
+	color: #222;
+	padding: 3px;
+}
+
+.tblrow1_mo {
+	background-color: #FFF;
+	color: #222;
+	padding: 3px;
+}
+
+.tblrow1_mo:hover, .tblrow2_mo:hover {
+	background-color: #D0D0FF;
+}
+
+.tblrowmarked {
+	background-color: #FFE4E4;
+	color: #222;
+	padding: 3px;
+}
+
+.tblrow2top {
+	background-color: #F1F1F1;
+	color: #222;
+	padding: 3px;
+	vertical-align: top;
+}
+
+.tblrow1top {
+	background-color: #FFF;
+	color: #222;
+	padding: 3px;
+	vertical-align: top;
+}
+
+.tblrowmarkedtop {
+	background-color: #FFE4E4;
+	color: #222;
+	padding: 3px;
+	vertical-align: top;
+}
+
+/* -------------------- table formatting ------------------ */
+
+div.ilCommandRow {
+	 text-align: right; 
+	 padding-right: 1%; 
+	 margin-bottom: 15px;
+}
+
+div.ilCommandRow.one_side_col {
+	 padding-right: 22%; 
+}
+
+div.ilAdminRow {
+	margin: 10px 1% 20px;
+	width: 98%;
+}
+
+table.std {
+	color: #222;
+	background-color: #BBB;
+	border-spacing: 0;
+	border-collapse: collapse;
+	border: 1px solid #9EADBA;
+}
+
+
+table.halfwidth {
+	color: #222;
+	background-color: #BBB;
+	width: 50%;
+	border-spacing: 0;
+	border-collapse: collapse;
+	border: 1px solid #9EADBA;
+}
+
+
+.fullwidth_invisible {
+	color: #222;
+	background-color: #FFF;
+	width: 100%;
+	border-spacing: 0;
+}
+
+table.nobackground {
+	color: #000;
+	background-color: inherit;
+	border-spacing: 0;
+	padding: 3px;
+}
+
+table.shop {
+  width: 50%;
+  margin: 0;
+  border-spacing: 0;
+}
+
+div.shop {
+  text-align: right;
+  margin-top: -20px;
+}
+
+.shop img {}
+
+.subitem {
+  clear: both;
+  margin: 5px 0px;
+  padding-top: 5px;
+  border-top: 1px dotted #C0C0C0;
+}
+  
+td.nobackground {
+	color: #000;
+	background-color: inherit;
+	border-spacing: 0;
+	border: none;
+	padding: 3px;
+	vertical-align: top;
+}
+
+
+.tbltitle {
+	color: #222;
+	font-weight: bold;
+	background: #EDEDED url(images/TableHeader.png) repeat-x;
+}
+
+tr.tbltitle {
+	border-bottom: 1px solid #9EADBA;
+}
+
+tr.std {
+	background-color: #FFF;
+	color: #222;
+	padding: 3px;
+}
+
+th {
+	text-align: left;
+	vertical-align: bottom;
+	font-weight: normal;
+}
+
+td.std, th.std {
+	padding: 4px 6px;
+	text-align: left;
+}
+
+th.option, td.option {
+	background-color: #F5F5F5;
+	color: #222;
+	padding: 3px;
+	font-weight : bold;
+	vertical-align: top;
+	text-align: right;
+	border-top: 1px solid #9EADBA;
+}
+
+td.sub_option {
+	background-color: #FFF;
+	color: #222;
+	padding: 3px;
+	font-weight : bold;
+	vertical-align: top;
+	text-align: right;
+	border-top: 1px solid #9EADBA;
+}
+
+td.option_value {
+	background: none #FFF;
+	color: #222;
+	padding: 3px;
+	vertical-align: top;
+	text-align: left;
+	border-top: 1px solid #9EADBA;
+}
+
+td.option_value_center {
+	background: none #FFF;
+	color: #222;
+	padding: 3px;
+	vertical-align: top;
+	text-align: center;
+	border-top: 1px solid #9EADBA;
+}
+
+td.option_value_details {
+	background: none #FFF;
+	color: #222;
+	padding: 3px;
+	vertical-align: top;
+	text-align: left;
+}
+td.option_value_center_details {
+	background: none #FFE4E4;
+	color: #222;
+	padding: 3px;
+	vertical-align: top;
+	text-align: center;
+}
+
+td.option_desc, p.option_desc {
+	background: none #FFF;
+	color: #222;
+	padding: 3px;
+	font-style: italic;
+	font-weight: normal;
+	vertical-align: top;
+	text-align: left;
+}
+
+td.option_info {
+	background: none #FFF;
+	color: #222;
+	padding: 3px;
+    font-weight: bold;
+	vertical-align: top;
+	text-align: center;
+}
+
+td.boxed {
+	border: 1px solid #000;
+}
+
+/*Link, Visited, Hover, Focus, Activ*/
+a.il_ContainerItemCommand2:link, a.il_ContainerItemCommand2:visited,
+a.il_ContainerItemCommand:link, a.il_ContainerItemCommand:visited {
+	font-size: 80%;
+	text-decoration: none;
+	margin: 0 3px 0 0;
+	white-space: nowrap;
+	font-weight: normal;
+}
+
+a.il_ContainerItemCommand2:hover,
+a.il_ContainerItemCommand:hover {
+	text-decoration: underline;
+}
+
+div.il_ContainerItemCommands2 {
+	text-align: right;
+	margin: 0 3px 3px;
+}
+
+
+div.il_ContainerItemCommands {
+	padding: 2px 0;
+}
+
+h4.il_ContainerItemTitle {
+	padding: 0;
+	margin: 0;
+	font-weight: normal;
+	font-size: 100%;
+	display: inline;
+}
+
+div.il_ContainerItemTitle {
+	float: left;
+	padding-bottom: 5px;
+}
+
+div.il_ItemProperties {
+	margin: 2px 0 5px;
+	text-align: left;
+	font-weight: normal;
+	font-size: 90%;
+}
+
+div.il_ItemNotice {
+	margin: 2px 0 5px;
+	text-align: left;
+	font-weight: normal;
+	font-size: 90%;
+	color: green;
+}
+
+div.il_Preconditions {
+	margin-top: 3px;
+	text-align: left;
+	font-size: 90%;
+}
+
+a.il_ItemProperty:link, a.il_ItemProperty:visited {
+	text-decoration: none;
+	font-weight: normal;
+}
+
+a.il_ItemProperty:hover {
+	color: #000;
+}
+
+span.il_ItemAlertProperty {
+	color: #C04000;
+}
+
+span.il_ItemProperty {
+}
+
+
+/* InfoScreen */
+table.il_InfoScreen {
+	color: #222;
+	background-color: #FFF;
+	width: 100%;
+	/* border-spacing: 0; */
+	border-collapse: collapse;
+	border: 1px solid #D6D6D6;
+}
+
+div.ilInfoScreenSec {
+	padding: 10px;
+}
+
+div.ilInfoScreenSec > h3 {
+	margin: 8px 0 14px;
+	border-bottom: 1px solid #D6D6D6;
+	color: #505050;
+	font-weight: normal;
+	font-size: 120%;
+}
+
+td.il_InfoScreenProperty {
+	border-right: 1px solid #D6D6D6;
+	text-align: right;
+	padding: 6px 10px 6px 4px;
+	vertical-align: top;
+	color: #505050;
+	width: 200px;
+}
+
+td.il_InfoScreenPropertyValue {
+	padding: 6px 4px 6px 10px;
+	vertical-align: top;
+}
+
+
+/* Table Links */
+a.tblheader, a.tblheader:visited {
+	color: #3444AA;
+}
+
+a.tblheader:hover {
+	color: #000;
+}
+
+/* --- description text ---*/
+div.il_Description, td.il_Description {
+	margin: 2px 0 5px;
+	font-size: 90%;
+	font-weight: normal;
+	text-align: left;
+}
+
+div.il_Description_no_margin, td.il_Description_no_margin {
+	font-size: 90%;
+	font-style: italic;
+	text-align: left;
+}
+
+div.il_info {
+	font-size: 90%;
+	text-align: left;
+}
+
+/* ---------------- headlines ------------------ */
+div.il_HeaderOuter {
+	clear: both;
+}
+
+div.il_Header, a#il_mhead_t_focus {
+	color: #505050;
+}
+
+h1.ilHeader {
+	margin: 0;
+	padding: 15px 0 5px;
+	font-size: 140%;
+	font-weight: normal;
+	border-bottom: 1px solid #EAEAEA;
+}
+
+
+h1.ilHeaderHasIcon {
+	margin-left: 50px;
+}
+
+span.ilHeader {}
+
+div.ilHeadAction {
+	float: right;
+	margin: 21px 21px 5px 0; /* bottom 5px blog fullscreen */
+}
+
+div.ilHeadAction .prop {
+	padding-right: 10px;
+}
+
+div.ilHeadAction a:hover {
+	text-decoration: none;
+}
+
+div.ilHeaderDesc {
+	font-size: 80%;
+	padding: 5px 0 0 51px;
+	color: #808080;
+}
+
+div.ilHeaderAlert {
+	font-size: 80%;
+	padding: 5px 0 0 51px;
+	color: #C04000;
+}
+
+div.il_HeaderInner {
+	margin-bottom: 10px;
+	padding: 13px 10px 15px;
+	color: #222;
+}
+
+div.il_TreeIcons {
+	padding: 15px 15px 0 0;
+	margin: 0;
+	float: right;
+}
+
+a.ilMainHeader, a.ilMainHeader:hover {
+	padding: 1px 5px;
+	margin: 2px 0;
+	border: 1px solid #B0B0B0;
+	background-color: #E6ECF8;
+	font-size: 90%;
+}
+
+div.ilLogin {
+	padding: 21px 20px 3px 10px;
+	margin: 0;
+	white-space: nowrap;
+	float: right;
+	font-size: 85%;
+}
+
+span.il_menu {
+	line-height: 150%;
+	padding-left: 30px;
+}
+
+.ilLanguageSelection {
+	font-size: 80%;
+}
+
+div.il_Footer {
+	padding: 10px 0;
+	font-size: 90%;
+	text-align: center;
+}
+
+
+/* ----------------- permanent link  ------------- */
+div.ilPermaLink {
+	margin: 15px;
+}
+
+div.ilPermaLink .small {
+	font-size: 70%;
+}
+
+div.ilPermaLink .il_adv_sel {
+	font-size: 100%;
+}
+
+div.ilPermaLink input {
+	font-size: 70%;
+	width: 350px;
+}
+
+div.ilPermaLink a {
+	font-size: 1em;
+}
+
+
+/* ----------------- invisible border ------------- */
+div.invisible_border {
+	margin: 15px;
+}
+
+.ilInvisibleBorder {
+	padding: 15px;
+}
+
+/* ------- Helptext --------- */
+span.il_Helptext {
+	font-size: 90%;
+	font-weight: normal;
+}
+
+/* ----------------- alternative text styles ------------- */
+.small {
+	text-decoration: none;
+	font-size: 90%;
+}
+
+.xsmall {
+	text-decoration: none;
+	font-size: 80%;
+}
+
+.smallgreen {
+	text-decoration: none;
+	font-size: 90%;
+	color: green;
+}
+
+.smallred {
+	text-decoration: none;
+	font-size: 90%;
+	color: red;
+}
+
+.obligatory {
+	font-weight: normal;
+	color: #800000;
+	font-variant: normal;
+}
+
+.warning {
+	text-decoration: none;
+	font-weight: bold;
+	color: red;
+}
+
+div.Access {
+	text-decoration: none;
+	font-weight: bold;
+	text-decoration: underline;
+	color: red;
+}
+
+.asterisk {
+	color: red;
+	font-size: 90%;
+}
+
+.default {
+	text-decoration: none;
+	font-weight: normal;
+}
+
+
+.quote {
+	font-style: italic;
+	font-weight: normal;
+}
+
+.subtitle {
+	font-style: italic;
+	font-weight: normal;
+	font-size: 90%;
+}
+
+.questiontext {
+	font-weight: bold;
+}
+
+.bold {
+	font-weight: bold;
+}
+
+/* ----------------- alternative text styles ------------- */
+.light {
+	color: #909090;
+}
+
+/* ----------------- normal links ------------- */
+a.light:link, a.light:visited {
+	text-decoration: none;
+	color: #35B;
+}
+
+a.light:hover {
+	color: #000;
+}
+
+a.nostyle:link, a.nostyle:visited {
+	text-decoration: none;
+	color: #000;
+}
+
+a.nostyle:hover {
+	color: #000;
+}
+
+
+/* ------------------ buttons -------------- */
+div.il_ButtonGroup {
+	margin: 3px 0 10px;
+	line-height: 150%;
+	white-space: nowrap;
+	display: block;
+}
+
+
+input.submit, a.submit, a.submit:hover {
+	font-size: 80%;
+	font-weight: normal;
+	line-height: 16px;
+	vertical-align: baseline;
+	color: #359;
+	background: url(images/ButtonsBack.png) repeat-x top;
+	background-size: auto 100%;
+	/*box-shadow: 0 1px 0 rgba(255, 255, 255, 0.6) inset;
+	background-image: -moz-linear-gradient(center top , #EDEDED, #FAFAFA);*/
+	border: 1px solid #D0D0D0;
+	/* border: 1px solid #C0C0C0; */
+	padding: 2px 5px;
+	margin: 0;
+	text-decoration: none;
+	cursor: pointer;
+	display: inline-block;
+	border-radius: 2px;	
+}
+
+input.submit:hover, a.submit:hover {
+	border-color: #B0B0B0;
+	color: #101010;
+	box-shadow: 0px 0px 1px #A0A0A0;
+}
+
+input.emphsubmit, a.emphsubmit, a.emphsubmit:hover {
+	background-color: #5dbf61;
+	background-image: none;	/* IE10 will not work otherwise */
+	background-image: -moz-linear-gradient(top , #5dbf61, #4fa152);
+	background-image: -webkit-linear-gradient(top , #5dbf61, #4fa152);
+	background-image: -o-linear-gradient(top , #5dbf61, #4fa152);
+	background-image: linear-gradient(to bottom , #5dbf61, #4fa152);
+	background-repeat: repeat-x;
+	border-color: #0044CC #0044CC #003AAD;
+	color: #FFFFFF;
+	font-weight: 600;
+	border-color: #4ea051 #4ea051 #7fcc81;
+	min-width: 100px;
+	display: inline-block;
+	text-align: center;
+}
+
+input.emphsubmit:hover, a.emphsubmit:hover {
+	border-color: #707070;
+	color: #FFFFFF;
+	box-shadow: 0px 0px 1px #909090;
+}
+
+input.ilSubmitInactive, input.ilSubmitInactive:hover,
+a.ilSubmitInactive, a.ilSubmitInactive:hover {
+	color: #909090;
+	cursor: default;
+	border-color: #D0D0D0;
+	box-shadow: none;
+	background: url(images/ButtonsBack.png) repeat-x top;
+	background-size: auto 100%;
+}
+
+div.il_ButtonGroup.bigButton > input.submit {
+	 padding: 10px;
+}
+
+div.il_ButtonGroup.bigButton > input.submit:hover {}
+
+input.submit_disabled, a.submit_disabled, a.submit_disabled:hover {
+	background-color: #E6ECF8;
+	color: gray;
+	border: 1px solid #B6B6B6;
+	padding: 2px;
+	text-decoration:none;
+	font-size: 90%;
+	cursor: pointer;
+}
+
+
+input.tblrow1, input.tblrow2 {
+	background-color: #FFF;
+	color: #000;
+	background-image: none;
+	padding: 0;
+}
+
+input.ilEditSubmit:hover {
+	color: #000;
+}
+
+/* Messages */
+div.ilInfoMessage, 
+div.ilFailureMessage, 
+div.ilSuccessMessage, 
+div.ilQuestionMessage {
+	background-color: #ECF0F9;
+	margin: 0 0 8px 10px;
+	padding: 5px 30px;
+	min-height: 20px;
+	font-size: 90%;
+	clear: both;
+}
+
+div.ilFailureMessage {
+	background-color: #FCEAEA;
+}
+
+div.ilSuccessMessage {
+	background-color: #F0FDF0;
+}
+
+div.ilQuestionMessage {
+	background-color: #FFFCEE;
+}
+
+div.ilMessageBox {
+	position: relative;
+}
+
+
+img.ilInfoMessage,
+img.ilFailureMessage,
+img.ilSuccessMessage,
+img.ilQuestionMessage {
+	position: absolute;
+}
+
+.alert {
+	color: #C04000;
+}
+
+
+/* ------------------ content window body tag (not used yet) -------------- */
+.content {
+	margin: 0;
+}
+
+
+/* ------------------ blind image - spacer gif --------------
+   please use this style class always when using this blind image */
+img.spacer {
+	display: block;
+}
+
+
+/* -- Members Gallery Styles -- */
+div.il_MembersGallery {
+	margin: 0 auto;
+	text-align: center;
+	width: 95%;
+	padding: 8px;
+	line-height: 1.33;
+	display: block;
+	float: left;
+}
+
+div.il_Member,
+div.il_Tutor,
+div.il_Admin {
+	page-break-before: auto;
+	margin: 0 5px 20px;
+	background-color: #EEE;
+	padding: 10px 5px;
+	font-size: 75%;
+	width: 12em;
+	height: 14em;
+	float: left;
+	text-align: center;
+	overflow: hidden;
+}
+
+div.il_Member p,
+div.il_Tutor p,
+div.il_Admin p {
+	white-space: nowrap;
+}
+
+div.il_Tutor {
+	background-color: #BBB;
+}
+
+div.il_Admin {
+	background-color: #E4F2FF;
+}
+
+div.il_Admin img,
+div.il_Member img,
+div.il_Tutor img {
+	padding: 2px; 
+	border: 1px solid #000;
+}
+
+
+div#agreement {
+	width: 100%;
+	height: 375px;
+	overflow: auto;
+	overflow-x: hidden;
+}
+
+span.ilSearchHighlight {
+	font-weight: bold;
+}
+
+div.il_SearchFragment {
+	margin: 2px 0 5px;
+	font-size: 80%;
+	font-weight: normal;
+	text-align: left;
+}
+
+
+
+div.ilTabContentOuter {
+	background-color: #FFF;
+	border: 1px solid #E0E0E0;
+	clear: both;
+	width: 100%;
+	min-height: 100%;
+	float: left;
+	box-shadow: 3px 3px 4px #D0D0D0;
+	margin-bottom: 10px;
+}
+
+div.ilTabContentInner {
+	padding: 0;
+	margin: 15px 0;
+	clear: both;
+	min-height: 300px;
+	width: 100%;
+}
+
+div.ilTabsTable {
+	display: table; 
+	width: 100%;
+}
+
+div.ilTabsTableRow {
+	display: table-row;
+}
+
+div.ilTabsTableCell {
+	display: table-cell;
+}
+
+/* left navigation area (used, e.g. for explorer trees) */
+div.ilLeftNav {
+	top: 85px;
+	bottom:	0;
+	width: 300px;
+	float:left;
+	position: fixed;
+	padding: 5px;
+	overflow: auto;
+	background-color: #F5F5F5;
+	border-right: 3px solid #E9E9E9;
+	box-shadow: inset 0px 2px 2px #D0D0D0;
+}
+
+/* bottom center area (optional bottom area, used e.g. in learning modules) */
+div#bot_center_area {
+	bottom:	0;
+	left:	310px;
+	right: 0;
+	height: 300px;
+	position: fixed;
+	padding: 5px;
+	background-color: #F5F5F5;
+	border-right: 3px solid #E9E9E9;
+	border-top: 3px solid #E9E9E9;
+	box-shadow: inset 0px 2px 2px #D0D0D0;
+	-webkit-overflow-scrolling: touch; /* Bug 11209 */ 
+	overflow: auto; /* Bug 11209 */
+}
+
+div#bot_center_area iframe {
+	-webkit-overflow-scrolling: touch; /* Bug 11209 */
+	overflow: auto; /* Bug 11209 */
+	border: none;
+	width: 100%;
+	height: 100%;
+}
+
+div#bot_center_area_drag {
+	left: 0;
+	right: 0;
+	height: 4px;
+	cursor: row-resize;
+	margin-top: -8px;
+	position: absolute;
+}
+
+#drag_zmove {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	z-index: 7;
+	display: none;
+}
+
+div#bot_center_area_drag:hover {
+	background: none #FA9;
+}
+
+img.ilAreaClose {
+	width: 20px;
+	height: 20px;
+	background: url(images/icon_close2_s.png) no-repeat center;
+	position: absolute;
+	left: 0;
+	top: 0;
+	cursor: pointer;
+}
+
+.ilLeftNavSpace {
+	/* padding: 0 20px 0 310px; */
+	left: 310px !important;
+}
+
+div.ilRightAreaSpace {
+	width: 50%;
+}
+
+div.ilContentFixed {
+	/*background-color: #F9F9F9;
+	box-shadow: inset 0px 2px 2px #D0D0D0;*/
+	right: 0;
+	bottom: 0;
+	left: 0;
+	position: fixed;
+	top: 85px;
+	overflow: auto;
+
+}
+
+/* right area (used in learning modules) */
+div#right_area {
+	bottom:	0;
+	width: 50%;
+	right: 0px;
+	top: 85px;
+	position: fixed;
+	padding: 5px;
+	background-color: #F5F5F5;
+	border-left: 3px solid #E9E9E9;
+	box-shadow: inset 0px 2px 2px #D0D0D0;
+	-webkit-overflow-scrolling: touch; /* Bug 11209 */ 
+	overflow: auto; /* Bug 11209 */
+}
+
+div#right_area iframe {
+	-webkit-overflow-scrolling: touch; /* Bug 11209 */
+	overflow: auto; /* Bug 11209 */
+	border: none;
+	width: 100%;
+	height: 100%;
+}
+
+div#right_cont_area {
+	bottom:	0;
+	width: 50%;
+	right: 0px;
+	top: 85px;
+	position: fixed;
+	background-color: #F5F5F5;
+	border-left: 3px solid #E9E9E9;
+	-webkit-overflow-scrolling: touch; /* Bug 11209 */ 
+	overflow: hidden;
+}
+
+div#right_top_area {
+	top: 0;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	background-color: #F5F5F5;
+	border-bottom: 3px solid #E9E9E9;
+	box-shadow: inset 0px 2px 2px #D0D0D0;
+	-webkit-overflow-scrolling: touch; /* Bug 11209 */ 
+	overflow: hidden;
+	display: none;
+}
+
+div.ilRightContAreaSplit div#right_top_area {
+	height: 50%;
+}
+
+div#right_top_area iframe {
+	-webkit-overflow-scrolling: touch; /* Bug 11209 */
+	overflow: auto; /* Bug 11209 */
+	border: none;
+	width: 100%;
+	height: 100%;
+}
+
+div#right_bottom_area {
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	background-color: #F5F5F5;
+	box-shadow: inset 0px 2px 2px #D0D0D0;
+	-webkit-overflow-scrolling: touch; /* Bug 11209 */ 
+	overflow: hidden;
+	display: none;
+}
+
+div.ilRightContAreaSplit div#right_bottom_area {
+	top: 50%;
+	height: 50%;
+}
+
+
+div#right_bottom_area iframe {
+	-webkit-overflow-scrolling: touch; /* Bug 11209 */
+	overflow: auto; /* Bug 11209 */
+	border: none;
+	width: 100%;
+	height: 100%;
+}
+
+
+/* right panel (e.g. notes, comments) */
+div.ilRightPanel {
+	overflow: auto;
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	width: 500px;
+	left: auto !important;
+}
+
+/* Tabs */
+div.il_Tab {
+    float: left;
+	padding-left: 0;
+	line-height: normal;
+	/* border-bottom: 1px solid #E0E0E0; */
+	margin: 0 10px;
+}
+
+ul.il_Tab {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	position: relative;
+	top: 1px;
+}
+
+li.tabinactive {
+	float: left;
+	margin: 0 4px 0 0;
+	padding: 0;
+	border-bottom: 1px solid #E0E0E0;
+	white-space: nowrap;
+}
+
+
+/* Overlays, Blocks */
+div.il_Block, table.il_Block, .ilOverlay {
+	background-color: #FFF;
+	border: 1px solid #D6D6D6;
+	text-align: left;
+}
+
+.ilOverlay {
+	position: absolute;
+	box-shadow: 2px 2px 4px #C0C0C0;
+}
+
+/* Blocks */
+
+div.il_Block, table.il_Block {
+	width: 100%;
+	border-spacing:0px;
+	border-collapse:collapse;
+	margin-bottom: 20px;
+	clear: both;
+	table-layout: fixed;
+	word-wrap: break-word;
+}
+
+div.ilBlockHeader, div.ilBlockHeaderBig,
+td.ilBlockHeader, td.ilBlockHeaderBig {
+	font-weight: bold;
+	padding: 3px;
+	text-align:left;
+	font-size: 90%;
+	color: #404040;
+	background: url(images/block_top.png) repeat-x #F8F8F8 ;
+	border-bottom: 1px solid #E9E9E9;
+}
+
+div.ilBlockHeaderBig, td.ilBlockHeaderBig {
+	font-size: 100%;
+}
+
+h3.ilBlockHeader {
+	font-weight: bold;
+	margin: 0;
+	padding: 0;
+	font-size: 100%;
+	display: inline;
+}
+
+
+/* possibly deprecated */
+.il_BlockInfo {
+	font-size: 80%;
+	color: #909090;
+}
+
+/* new class */
+div.ilBlockInfo {
+	font-size: 75%;
+	color: #909090;
+	border-bottom: 1px solid #E9E9E9;
+	padding: 1px 3px;
+	background-color: #F9F9F9;
+	text-align: right;
+}
+
+div.ilBlockContent {
+	padding: 5px;
+}
+
+th.ilContainerBlockHeader {
+	font-weight: bold;
+	font-size: 90%;
+	padding: 2px;
+	text-align:left;
+	vertical-align: middle;
+	background: url(images/block_top.png) repeat-x #F8F8F8;
+	border-bottom: 1px solid #E9E9E9;
+}
+
+h3.ilContainerBlockHeader {
+	font-weight: bold;
+	padding: 0;
+	margin: 0;
+	display: inline;
+	font-size: 100%;
+}
+
+table.ilContainerBlock {
+	border: 1px solid #D6D6D6;
+	width: 100%;
+	/* border-spacing: 0; */
+	border-collapse: collapse;
+	clear: both;
+	margin-bottom: 20px;
+}
+
+h3.ilPDBlockSubHeader {
+	margin: 0;
+	display: block;
+	font-weight: normal;
+	text-align: left;
+	font-size: 90%;
+	background-color: #F8F8F8;
+	vertical-align: middle;
+	border-top: 1px solid #F0F0F0;
+	padding: 1px 3px;
+}
+
+.ilBlockRow1, .ilBlockRow2 {
+	padding: 3px;
+	border-bottom: 1px solid #F0F0F0;
+}
+
+div.ilBlockPropertyCaption {
+	font-weight: bold;
+}
+
+/* Services/Bookmarks */
+#block_pdbookm_0 #tree_div {
+	overflow: auto;
+	width: 100%;
+}
+
+
+/* Toolbar */
+div.ilToolbar {
+	background-color: #F4F4F4;
+	padding: 5px 3px;
+	margin-bottom: 8px;
+	font-size: 90%;
+	white-space: nowrap;
+}
+
+span.ilToolbarSeparator {
+	border-right: solid 1px #E0E0E0;
+	padding: 0 10px 2px 0;
+	margin-right: 10px;
+}
+
+/* Repository */
+div.ilContainerListItemOuter {
+	padding: 15px;
+	zoom: 1;
+}
+
+td.ilContainerListFooter {
+	padding-left: 15px;
+}
+
+div.ilContainerListItemOuterHighlight {
+	padding: 15px;
+	background-color: #FFFFD9;
+	zoom: 1;
+}
+
+.ilCLIRow1, .ilCLIRow2 {
+	padding: 0;
+	border-top: 1px solid #F0F0F0;
+}
+
+td.ilCLI {
+	padding: 0;
+}
+
+div.il_ContainerListItem {
+	margin: 2px 0;
+	padding-left: 8px;
+}
+
+div.ilCreationFormSection {
+	width: 700px;
+}
+
+div.ilCreationFormSection div.ilForm {
+	width: 699px;
+}
+
+div.ilCreationFormSection div.ilForm div.ilForm {
+	width: auto;
+}
+
+div.il_adv_sel {
+	border: 1px solid #D6D6D6;
+	box-shadow: 2px 2px 4px #C0C0C0;
+}
+
+table.il_adv_sel {
+	color: #000;
+	background-color: #FFF;
+	border-spacing: 0;
+	cursor: pointer;
+}
+
+tr.il_adv_sel {
+	cursor: pointer;
+}
+
+tr.il_adv_sel_act {
+	background-color: #FFF9BC;
+	cursor: pointer;
+}
+
+td.il_adv_sel {
+	border-bottom: 1px solid #F0F0F0;
+	padding: 3px 10px;
+	text-align: left;
+	white-space: nowrap;
+	cursor: pointer;
+	font-weight: normal;
+}
+
+#ilAdvSelListTable_item_creation td.il_adv_sel {
+	min-width: 150px;
+}
+
+td.il_adv_sel_ic {
+	border-bottom: 1px solid #F0F0F0;
+	padding: 3px 0 3px 10px;
+	text-align: left;
+	cursor: pointer;
+}
+
+div.il_adv_cont {
+	background: url(images/25black.png); 
+}
+
+
+
+table.fullwidth {
+	background-color: #FFF;
+	width: 100%;
+	border-collapse: collapse;
+}
+
+
+/* Navigation History */
+form.ilNavHistoryForm {
+	padding: 0;
+	margin: 0 5px 0 0;
+	padding: 5px 5px 2px;
+	border: none;
+	display: inline;
+	font-size: 80%;
+}
+
+input.ilNavHistorySubmit {
+	color: #2255A0;
+	padding: 0;
+	margin: 0;
+	border: none;
+	cursor: pointer;
+	background-color: #F0F0F0;
+}
+
+select.ilNavHistorySelect {
+	border: none;
+	padding: 0;
+	background-image: none;
+	text-decoration: none;
+}
+
+.ilAccHeadingHidden, .ilAccHidden, .ui-helper-hidden-accessible {
+	position: absolute;
+	left: -2000px;
+	top: auto;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+}
+
+a.ilAccAnchor, a.ilAccAnchor:hover {
+	text-decoration: none;
+	color: inherit;
+}
+
+
+
+/* PageLayout Previews */
+div.ilc_QuestionPlaceHolderThumb,
+div.ilc_MediaPlaceHolderThumb,
+div.ilc_TextPlaceHolderThumb,
+div.ilc_PredTextPlaceHolderThumb {
+	margin: 1px;
+	padding: 5px 2px 5px 0;
+	border: 1px solid gray;
+	font-size: 10px;
+	background: url(images/question_placeholder_thumb.png) no-repeat center;
+	font-weight: bold;
+}
+
+div.ilc_MediaPlaceHolderThumb {
+	background-image: url(images/media_placeholder_thumb.png);	
+}
+
+div.ilc_TextPlaceHolderThumb {
+	background-image: url(images/text_placeholder_thumb.png);
+}
+
+div.ilc_PredTextPlaceHolderThumb {
+	background-image: url(images/pred_text_placeholder_thumb.png);
+}
+
+div.ilc_HeadlineThumb {
+	font-size: 11px;
+	font-weight: bold;
+	width: 100%;
+	border-bottom: 1px solid gray;
+	color: gray;
+	margin:2px 0 4px;
+}
+
+/* Profile */
+div.ilProfile {
+	width: 450px;
+	margin: 0 auto;
+	background: url(images/form_back.png) repeat-y #F6F6F6;
+	border: 1px solid #D0D5EA;
+	padding: 15px;
+}
+
+h3.ilProfileName {
+	margin: 0 0 10px;
+	padding: 0;
+	font-weight: normal;
+	font-size: 130%
+}
+
+div.ilProfileSection {
+	margin-top: 20px;
+	font-size: 90%;
+	color: #606060;
+}
+
+h3.ilProfileSectionHead {
+	margin: 0 0 3px;
+	padding: 0;
+	font-weight: normal;
+	font-size: 110%;
+	color: #202020;
+}
+
+/* revised 4.1 */
+/* Tooltip */
+.ui-tooltip-rounded,
+.ui-tooltip-rounded .ui-tooltip-content,
+.ui-tooltip-tipsy,
+.ui-tooltip-tipsy .ui-tooltip-content,
+.ui-tooltip-youtube,
+.ui-tooltip-youtube .ui-tooltip-content{
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+}
+
+.ui-tooltip-shadow{
+	-webkit-box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.15);
+	-moz-box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.15);
+	box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.15);
+}
+
+/* locator */
+div.ilLocator {
+	padding: 2px 0 0 10px;
+	zoom: 1;
+}
+
+a.ilLocatorLink {
+	color: #80A0D0;
+	font-weight: normal;
+}
+
+a.ilLocatorLink:hover {
+}
+
+
+
+
+/* Fixed Frame Width */
+div.ilFrameFixedWidth, .ilFrameFixedWidth #mainscrolldiv {
+	/* max-width: 880px; */
+	margin: 0 auto;
+}
+
+.ilFrameFixedWidth #mainscrolldiv {
+	max-width: 880px;
+	margin: 0 auto;
+}
+
+div.ilFrameFixedWidthHeader {
+	max-width: 880px;
+	margin: 0 auto;
+	padding: 0;
+}
+
+.ilFrameFixedWidthHeader div.ilHeaderBanner {
+	max-width: 880px;
+	margin: 5px auto;
+}
+
+div.ilHeaderImg {
+	float: left; 
+	margin: 2px 10px 10px 0;
+}
+
+.ilHeaderImg img {
+	border: none;
+	margin-right: 25px;
+	max-height: 120px;
+}
+
+.ilFrameFixedWidth h1.ilHeader {
+	padding: 0;
+	margin-top: 20px;
+	border-bottom: 0;
+}
+
+.ilFrameFixedWidth div.ilHeaderDesc {
+	padding-left: 0;
+}
+
+
+div.ilBox {
+	background: url(images/FramedBack.png) repeat-x;
+	border: 1px solid #E0E0E0;
+	padding: 10px;
+	margin-bottom: 20px;
+}
+
+/* Services/Container */
+div#cont_paste_explorer_tree ul.il_Explorer {
+    margin: 0 0 0 24px;
+}
+
+
+/* Top-Bar */
+div.ilTopBar {
+  background-color: #444;
+  color: white;
+  padding: 5px 10px;
+}
+
+div.ilTopBar a {
+	color: white;
+}
+
+div.ilTopBarLeft {
+	float: left;
+}
+
+div.ilTopBarRight {
+	float: right;
+}
+
+div.ilTopBarRight span#ilAdvSelListAnchorElement_asl {
+	margin-right: 25px;
+	color: black;
+}
+
+div.ilTopBarRight td.il_adv_sel {
+	background-color: #444;
+}
+
+
+div.ilSideBarHead{
+	background-color: #F0F0F0;
+	margin-bottom: 5px;
+	padding: 5px;
+}
+
+div.ilSideBarHead h3{
+	font-size: 110%;
+	color: #606060;
+	display: inline;
+}
+
+div.ilSideBarContent{
+	padding: 5px;
+}
+
+/* jquery ui autocomplete */
+.ui-menu {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	display: block;
+	float: left;
+	background-color: white;
+	border: 1px solid #E0E0E0;
+	font-size: 90%;
+	box-shadow: 2px 2px 4px #C0C0C0; 
+}
+
+#mm_search_menu_ac .ui-menu {
+	border: none;
+	box-shadow: none; 
+}
+
+
+.ui-menu .ui-menu-item {
+	margin: 0;
+	padding: 0;
+	zoom: 1;
+	float: left;
+	clear: left;
+	width: 100%;
+}
+
+.ui-menu .ui-menu-category {
+	margin: 0;
+	padding: 2px;
+	zoom: 1;
+	float: left;
+	clear: left;
+	width: 100%;
+	font-weight: bold;
+}
+
+.ui-menu .ui-menu-more {
+	display: block;
+	zoom: 1;
+	color: #03A;
+	cursor: pointer;
+	float: left;
+	clear: left;
+	width: 100%;
+}
+
+.ui-menu .ui-menu-more span {
+	padding: 2px;
+}
+
+.ui-menu .ui-menu-more:hover {
+	background-color: white;
+}
+
+.ui-autocomplete {
+	max-height: 400px;
+	overflow-y: auto;
+	/* prevent horizontal scrollbar */
+	overflow-x: hidden;
+}
+
+.ui-menu .ui-menu-item a {
+	text-decoration: none;
+	display: block;
+	padding: 2px 4px;
+	line-height: 1.5;
+	zoom: 1;
+	color: #03A;
+}
+.ui-menu .ui-menu-item a.ui-state-hover,
+.ui-menu .ui-menu-item a.ui-state-active {
+	background-color: #FF9;
+}
+
+.iosPdBlockDragAndDropPlaceholder {
+	border: 3px #C0C0C0 dashed;
+	border-radius: 8px;
+	margin-bottom: 15px;
+}
+
+
+
+
+/* Services/UIComponent/Lightbox */
+.ilLightbox {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	left: 0;
+	background-color: #303030;
+	overflow: auto;
+}
+
+a.ilMediaLightboxClose {
+	display: block;
+	float: right;
+	margin: 0 0 10px 10px;
+	width: 20px;
+	height: 20px;
+	background:url(images/close_dg.png) no-repeat center;
+	cursor: pointer;
+}
+
+.ilLightboxContent {
+	margin: 50px auto 0;
+	width: 640px;
+	max-width: 100%;
+}
+
+div.ilAttendanceListPrint td, div.ilAttendanceListPrint th {
+	border: 1px solid #D6D6D6;
+	padding: 2px;
+}
+
+body.ilBodyPrint {
+    height: auto;
+	background-color: #FFF;
+	margin: 10px;
+	padding: 0;
+}
+
+table.il_user_quota_disk_usage_overview {
+	background-color: white;
+}
+
+/* Component Imports */
+
+@import "less/Services/Accordion/delos.less";
+@import "less/Modules/ScormAicc/delos.less";
+@import "less/Services/Form/delos.less";
+@import "less/Services/UIComponent/Explorer2/delos.less";
+@import "less/Modules/Forum/delos.less";
+@import "less/Services/Mail/delos.less";
+@import "less/Services/COPage/delos.less";
+@import "less/Services/Calendar/delos.less";
+@import "less/Modules/Wiki/delos.less";
+@import "less/Services/MainMenu/delos.less";
+@import "less/Services/UIComponent/Tabs/delos.less";
+@import "less/Services/UIComponent/GroupedList/delos.less";
+@import "less/Services/Table/delos.less";
+@import "less/Services/Notes/delos.less";
+@import "less/Modules/Blog/delos.less";
+@import "less/Services/Skill/delos.less";
+@import "less/Modules/Poll/delos.less";
+@import "less/Services/Search/delos.less";
+@import "less/Services/Help/delos.less";
+@import "less/Modules/DataCollection/delos.less";
+@import "less/Modules/Bibliographic/delos.less";
+@import "less/Services/MediaObjects/delos.less";
+@import "less/Services/Chart/delos.less";
+@import "less/Services/Captcha/delos.less";
+
+
+
+.ilUserOnlineRow {
+	margin: 0 0 0 40px;
+}
+
+.ilUserImage {
+	margin:0 0 0 -40px;
+}
+
+div.ilUserImage + img {
+	margin: 2px 0; 
+}
+
+span[id^="ilAdvSelListAnchorElement_"] + div {
+	position: absolute; 
+	z-index: 5000; 
+	left: 0; 
+	right: 0;
+}
+
+div[id^="ilAdvSelListTable_"] {
+	overflow: auto; 
+	background-color: #FFF;
+	clear: both;
+	display: none;
+	position: absolute;
+}
+
+td.ilAsyncImgLoader {
+	padding: 0 40px;
+}
+
+#chat_actions {
+	white-space: nowrap; 
+	margin-left: 10px;
+}
+
+#chat_messages {
+	width: 100%; 
+	min-height: 200px;
+}
+
+#chat_users {
+	overflow: auto; 
+	height: 100%;
+}
+
+#private_rooms {
+	z-index: 200; 
+	display: none;
+}
+
+td.chatroom {
+	width: 200px; 
+	height: auto;
+}
+
+ul.noStyle {
+	list-style: none;
+}
+
+.noMargin {
+	margin: 0;
+}
+
+li.smallPad {
+	padding: 1px;
+}
+
+.listIndent {
+	padding: 0 0 20px;
+}
+
+div.editLink {
+	padding-right: 1em;
+}
+
+.ilTextinfo {
+	margin-bottom: 10px;
+}
+
+div[id^="ilFormField"] {
+	margin-bottom: 10px;
+}
+
+/* basic responsiveness (beta)
+
+   The following section targets smartphones.
+  
+   iPads come with a device width of 768, the iPhone with 320, most smartphones seem to
+   use a width under 640px, so 640 seems to be a good choice here.
+   If you make any changes in this query, please add a reason to this comment and if possible an url that
+   backs this decision.
+   
+   List of common devices width values: http://cssmediaqueries.com/target/
+   Google recommending 640px: https://developers.google.com/webmasters/smartphone-sites/details
+   
+   */
+@media
+	only screen and (max-width: 640px)
+{
+	html {
+		-webkit-text-size-adjust: none;
+	}
+	
+	body {
+		font-family: Arial, sans-serif !important;
+	}
+	
+	#il_left_col, #imgtree, #il_screen_id, #help_tt, #help_tr, .ilTopTitle, #il_status_box {
+		display: none;
+	}
+	
+	#il_right_col {
+		float: none;
+		padding: 0;
+		vertical-align: top;
+		width: 100%;
+	}
+	
+	div#il_main_logo {
+		position: absolute;
+		margin: 0;
+		padding: 5px 10px;
+	}
+	
+	div#il_main_logo img {
+		width: 20px;
+		height: 20px;
+		margin: 0;
+		padding: 0;
+	}
+	
+	div.ilMainMenuSection .ilMainMenuSide, div.ilMainMenuSection .ilMainMenuSide li.ilMainMenu {
+		height: 0px;
+	}
+	
+	div.ilMainMenuSearch {
+		position: absolute;
+		background: none;
+		top: 0px;
+		right: 0px;
+	}
+	
+	div.ilLogin {
+		padding: 34px 20px 6px 10px;
+	}
+	
+	span.il_menu {
+		padding-left: 0px;
+	}
+
+	div.ilMainMenu {
+		padding: 0;
+		width: 100%;
+	}
+	
+	li.ilMainMenu {
+		width: 50%;
+        border: 0;
+	}
+
+    a.MMActive, a.MMInactive {
+        border-left: 1px solid #A3C8FF;
+        border-right: 1px solid #A3C8FF;
+    }
+
+	div.ilMainMenuSection {
+		background-color: #9BC5ED;
+	}
+	
+	ul.ilMainMenuSide, div.ilLogin {
+		float: left;
+	}
+	
+	ul.ilMainMenuSide {
+		margin-left: 20px;
+	}
+	
+	div.ilMainHeader {
+		min-height: auto;
+		min-width: 1px;
+    }
+    
+    input.ilMainMenuSearch {
+    	box-shadow: none;
+    	border: 1px solid #A0B0C0;
+    }
+    
+    div#mainscrolldiv {
+    	padding: 5px 0px 0;
+    }
+    
+    div.il_HeaderInner {
+		color: #222;
+		margin-bottom: 15px;
+		padding: 5px;
+	}
+	
+	#il_center_col.one_side_col ,
+	#il_center_col.two_side_col,
+    #il_right_col {
+		width: auto;
+        float: none;
+		padding: 0 10px;
+	}
+	
+	div.il_Block {
+		/* due to mantis #10052 ? */
+		/* alex, 1.Jan.2014: I do not see a reason to remove the border here, this looks odd */
+		/* border: 0 none; */
+	}
+
+	textarea {
+		max-width: 100%; 
+	}
+	
+	input, select {
+		max-width: 100%;
+	}
+	
+	/* height: auto; messes e.g. survey progress bar */
+	img {
+		max-width: 100%;
+	}
+	
+	div.ilStartupFrame {
+		margin: 0;
+		width: 100%;
+	}
+	
+	#il_startup_content form table {
+		width: auto;
+	}
+
+	div.il_Tab {
+		margin: 0 5px 10px;
+		background-color: #F4F4F4;
+		border: 1px solid #E0E0E0;
+		padding: 2px 2px 4px 2px;
+		clear: both;
+	}
+	
+	div.il_SubTab {
+		width: auto;
+	}
+
+	li.tabactive, li.tabinactive, a.tabactive, a.tabinactive {
+		background: none;
+		border: 0;
+		padding: 2px 3px;
+	}
+	
+	li.tabactive {
+		background-color: #FFF;
+	}
+	
+	a.tabinactive:hover {
+		background: none;
+	}
+
+	a.tabactive:link, a.tabactive:visited, a.tabactive:hover {
+		text-decoration: underline;
+	}
+	
+	div.ilTabContentInner {
+		overflow: visible;
+	}
+	
+	div.ilTabContentOuter {
+		box-shadow: none;
+		border: none;
+        /* since the div in the main template got also a display table-cell
+        through ilTabsTableCell the width:auto shrinks the div to the size of the content.
+        We do not want that */
+		/* width: auto; */
+	}
+	
+	div.ilFormOption {
+		width: auto;
+	}
+	
+	div.ilFormSubOption {
+		padding: 3px;
+		border: none;
+		background-color: #F0F0F0;
+	}
+
+	div.ilLeftNav {
+		width: 0;
+		display: none;
+	}
+
+	div.ilLeftNavSpace {
+		padding: 0;
+		left: 0px !important;
+	}
+
+	div.ilContentFixed {
+		left: 0;
+		position: static;
+	}
+	
+	.ilFrameFixedWidthHeader div.ilHeaderBanner {
+		max-width: 100%;
+    }
+    
+    .ilFrameFixedWidthHeader .ilHeaderImg {
+    	background-color: yellow;
+    	max-width: 30%;
+    }
+    
+    .ilFrameFixedWidthHeader .ilHeaderImg img {
+		max-width: 100%;
+		height: auto;
+		margin-right: 25px;
+	}
+	
+	div.ilTableOuter {
+		max-width: 100%;
+		overflow: auto;
+	}
+
+	div.ilForm, div.ilFormRow {
+		display: block;
+		background: none;
+		border: none;
+	}
+	
+	div.ilForm {
+		width: 400px;
+		max-width: 100%;
+	}
+
+	div.ilSubForm {
+		display: block;
+		width: auto;
+	}
+	
+	div.ilFormHeader, div.ilFormFooter {
+		background-color: #E8EDF9;
+		border: none;
+		padding: 5px 10px 2px;
+		margin: 20px 0 5px;
+		font-size: 100%;
+		display: block;
+	}
+	
+	div.ilFormFooter {
+		background-color: #F5F5F5;
+		padding: 8px 10px 2px;
+		margin: 10px 0 5px;
+	}
+	
+	h3.ilFormHeader {
+		font-weight: normal;
+		font-size: 110%;
+	}
+	
+	div.ilFormCommands {
+		text-align: left;
+		margin: 0 0 10px;
+		padding: 0;
+		background: none;
+		border: none;
+		width: auto;
+	}
+
+	div.ilFormInfo {
+		float: right;
+	}
+
+	div.ilFormOption {
+		display: block;
+		text-align: left;
+		padding: 3px 10px;
+		font-size: 100%;
+		background-color: #F4F4F4;
+		border: none;
+		width: auto;
+		float: none;
+	}
+
+	div.ilFormValue {
+		padding: 8px 10px 3px;
+		font-size: 90%;
+		border: none;
+		width: auto;
+		background-color: #FAFAFA;
+		margin: 0 0 8px;
+		display: block;
+	}
+	
+	div.ilFormInfo {
+		float: none;
+	}
+
+	.ilFrmPostRow div.ilForm,
+	.ilFrmPostRow div.ilForm input[type=text],
+	.ilFrmPostRow div.ilForm textarea {
+		width: 100%;
+	}
+
+	.ilFrmPostRow div.ilForm div.ilFormValue {
+		width: auto;
+	}
+
+	.ilFrmPostRow img.ilUserIcon {
+		width: 50px;
+		height: 50px;
+	}
+	
+	.ilFrmPostTitle {
+		margin-top: 5px;
+		font-size: 100%;
+	}
+	
+	div.ilGoogleMap {
+		max-width: 100%;
+	}
+
+	.ilFrmPostContentContainer {
+		width: 100%;
+	}
+}
+
+/* print css */
+@media print {
+
+	div.ilTabContentOuter {
+		border: none;
+		box-shadow: none;
+	}
+
+	div.ilTabsTable {
+		display: block; 
+		width: auto;
+	}
+	
+	div.ilTabsTableRow {
+		display: block;
+	}
+	
+	div.ilTabsTableCell {
+		display: block;
+	}
+	
+	div.ilContentFixed {
+		left: 0;
+		position: static;
+	}
+}
+
