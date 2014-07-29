@@ -14539,3 +14539,6 @@ common#:#autocomplete_more#:#more
 user#:#passwd_generation_pre#:#Pre-defined Passwords
 mail#:#mail_max_size_attachments_total#:#Please enter the maximum file size allowed as attachment per mail. This setting is not related to other resource limits, e.g. upload_max_filesize etc. (since you can attach multiple files). 
 mail#:#mail_max_size_attachments_total_error#:#The allowed attachment size is:
+grp#:#grp_cdf_tbl_last_edit#:#Last Update (Group-specific Data)
+crs#:#crs_cdf_tbl_last_edit#:#Last Update (Course-specific Data)
+ps#:#cdf_edited_by_self#:#by the User

@@ -187,6 +187,13 @@ class ilExportFieldsInfo
 			$fields['odf_'.$def->getId()]['txt'] = $def->getName();
 			$fields['odf_'.$def->getId()]['default'] = 0;
 		}
+
+		if(count($cdf))
+		{
+			// add last edit
+			$fields['odf_last_update']['txt'] = $GLOBALS['lng']->txt($this->getType().'_cdf_tbl_last_edit');
+			$fields['odf_last_update']['default'] = 0;
+		}
 		
 		return $fields;
 	}

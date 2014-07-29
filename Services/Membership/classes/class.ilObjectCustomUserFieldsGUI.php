@@ -448,9 +448,9 @@ class ilObjectCustomUserFieldsGUI
 		{
 			// save history
 			include_once './Services/Membership/classes/class.ilObjectCustomUserFieldHistory.php';
-			$history = new ilObjectCustomUserFieldHistory($this->getObjId(), $ilUser->getId());
+			$history = new ilObjectCustomUserFieldHistory($this->getObjId(), (int) $_REQUEST['member_id']);
 			$history->setEditingTime(new ilDateTime(time(),IL_CAL_UNIX));
-			$history->setUpdateUser((int) $_REQUEST['member_id']);
+			$history->setUpdateUser($ilUser->getId());
 			$history->save();
 			
 			ilMemberAgreementGUI::saveCourseDefinedFields($form, $this->getObjId(), (int) $_REQUEST['member_id']);

@@ -70,9 +70,8 @@ class ilPrivacySettings
 	/**
 	 * Get instance of ilPrivacySettings
 	 *
-	 * @return object ilPrivacySettings
 	 * @access public
-	 *
+	 * @return \ilPrivacySettings
 	 */
 	public static function _getInstance()
 	{
@@ -279,6 +278,24 @@ class ilPrivacySettings
 	public function enabledCourseAccessTimes()
 	{
 		return (bool) $this->show_crs_access_times;
+	}
+	
+	/**
+	 * Check if access time are enabled for a specific type
+	 * @param type $a_obj_type
+	 * @return type
+	 */
+	public function enabledAccessTimesByType($a_obj_type)
+	{
+		switch($a_obj_type)
+		{
+			case 'crs':
+				return $this->enabledCourseAccessTimes();
+				
+			case 'grp':
+				return $this->enabledGroupAccessTimes();
+		}
+		
 	}
 
 	/**

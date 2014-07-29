@@ -202,6 +202,10 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
 					}
 					$this->tpl->setVariable('VAL_CUST', implode('<br />', $tmp)) ;					
 					break;
+					
+				case 'odf_last_update':
+					$this->tpl->setVariable('VAL_EDIT_INFO',$a_set['odf_info_txt']);
+					break;
                                         
                 default:
                     $this->tpl->setCurrentBlock('custom_fields');
@@ -368,8 +372,36 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
 					}
 				}
 			}
+			// add last edit date
+			include_once './Services/Membership/classes/class.ilObjectCustomUserFieldHistory.php';
+			foreach(ilObjectCustomUserFieldHistory::lookupEntriesByObjectId($this->getParentObject()->object->getId()) as $usr_id => $edit_info)
+			{
+				if(!isset($a_user_data[$usr_id]))
+				{
+					continue;
+				}
+				
+				include_once './Services/PrivacySecurity/classes/class.ilPrivacySettings.php';
+				if($usr_id == $edit_info['update_user'])
+				{
+					$a_user_data[$usr_id]['odf_last_update'] = '';
+					$a_user_data[$usr_id]['odf_info_txt'] = $GLOBALS['lng']->txt('cdf_edited_by_self');
+					if(ilPrivacySettings::_getInstance()->enabledAccessTimesByType($this->getParentObject()->object->getType()))
+					{
+						$a_user_data[$usr_id]['odf_last_update'] .= ('_'.$edit_info['editing_time']->get(IL_CAL_UNIX));
+						$a_user_data[$usr_id]['odf_info_txt'] .= (', '.ilDatePresentation::formatDate($edit_info['editing_time']));
+					}
+				}
+				else
+				{
+					$a_user_data[$usr_id]['odf_last_update'] = $edit_info['edit_user'];
+					$a_user_data[$usr_id]['odf_last_update'] .= ('_'.$edit_info['editing_time']->get(IL_CAL_UNIX));
+					
+					$name = ilObjUser::_lookupName($edit_info['update_user']);
+					$a_user_data[$usr_id]['odf_info_txt'] = ($name['firstname'].' '.$name['lastname'].', '.ilDatePresentation::formatDate($edit_info['editing_time']));
+				}
+			}
 		}
-		
         foreach($usr_data['set'] as $user)
         {
             // Check acceptance

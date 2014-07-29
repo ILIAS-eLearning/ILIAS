@@ -22,6 +22,7 @@ abstract class ilParticipantTableGUI extends ilTable2GUI
 	{		
 		global $ilSetting;
 		
+		$GLOBALS['lng']->loadLanguageModule('ps');
 		if(self::$all_columns)
 		{
 			# return self::$all_columns;
