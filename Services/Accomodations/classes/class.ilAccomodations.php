@@ -152,8 +152,13 @@ class ilAccomodations
 		// each result day represents the night AFTER that day
 		
 		$end = $this->getCourseEnd();
+		$start = $this->getCourseStart();
+		
+		if($end === null || $start === null) {
+			return array();
+		}
 				
-		$current = clone $this->getCourseStart();			
+		$current = clone $start;			
 		$current->increment(IL_CAL_DAY, -1); // night before course start
 		
 		$counter = 0;
