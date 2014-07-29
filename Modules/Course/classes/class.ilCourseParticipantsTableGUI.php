@@ -288,7 +288,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
 					
 					
 				case 'odf_last_update':
-					$this->tpl->setVariable('VAL_EDIT_INFO',$a_set['odf_info_txt']);
+					$this->tpl->setVariable('VAL_EDIT_INFO',(string) $a_set['odf_info_txt']);
 					break;
 
 				default:
