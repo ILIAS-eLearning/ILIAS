@@ -965,7 +965,7 @@ class gevCourseUtils {
 	public function getMainAdminName() {
 		$tr = $this->getMainAdmin();
 		if ($tr !== null) {
-			return $this->getMainTrainerFirstname()." ".$this->getMainTrainerLastname();
+			return $this->getMainAdminFirstname()." ".$this->getMainAdminLastname();
 		}
 		return "";
 	}
@@ -1325,7 +1325,7 @@ class gevCourseUtils {
 	}
 	
 	public function allParticipationStatusSet() {
-		return $this->getParticipations()->allStatusSet();
+		return $this->getParticipations()->allStatusSet(); 
 	}
 	
 	//
