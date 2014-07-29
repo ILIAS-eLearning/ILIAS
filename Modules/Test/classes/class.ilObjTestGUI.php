@@ -701,6 +701,13 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function downloadExportFileObject()
 	{
+		global $ilAccess;
+		if( !$ilAccess->checkAccess('write', '', $this->ref_id) )
+		{
+			ilUtil::sendInfo($this->lng->txt('no_permission'), true);
+			$this->ctrl->redirect($this, 'infoScreen');
+		}
+		
 		if(!isset($_POST["file"]))
 		{
 			ilUtil::sendInfo($this->lng->txt("no_checkbox"), true);
@@ -729,6 +736,13 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function confirmDeleteExportFileObject()
 	{
+		global $ilAccess;
+		if( !$ilAccess->checkAccess('write', '', $this->ref_id) )
+		{
+			ilUtil::sendInfo($this->lng->txt('no_permission'), true);
+			$this->ctrl->redirect($this, 'infoScreen');
+		}
+		
 		if (!isset($_POST["file"]))
 		{
 			ilUtil::sendFailure($this->lng->txt("no_checkbox"), true);
@@ -764,6 +778,13 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function cancelDeleteExportFileObject()
 	{
+		global $ilAccess;
+		if( !$ilAccess->checkAccess('write', '', $this->ref_id) )
+		{
+			ilUtil::sendInfo($this->lng->txt('no_permission'), true);
+			$this->ctrl->redirect($this, 'infoScreen');
+		}
+		
 		ilUtil::sendInfo($this->lng->txt("msg_cancel"), true);
 		$this->ctrl->redirect($this, "export");
 	}
@@ -774,6 +795,13 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function deleteExportFileObject()
 	{
+		global $ilAccess;
+		if( !$ilAccess->checkAccess('write', '', $this->ref_id) )
+		{
+			ilUtil::sendInfo($this->lng->txt('no_permission'), true);
+			$this->ctrl->redirect($this, 'infoScreen');
+		}
+		
 		$export_dir = $this->object->getExportDirectory();
 		foreach ($_POST["file"] as $file)
 		{
