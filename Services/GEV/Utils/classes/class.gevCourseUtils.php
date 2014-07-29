@@ -59,6 +59,7 @@ class gevCourseUtils {
 	static public function getInstanceByObj(ilObjCourse $a_crs) {
 		$inst = gevCourseUtils::getInstance($a_crs->getId());
 		$inst->crs_obj = $a_crs;
+		$inst->crs_obj->setRefId(gevObjectUtils::getRefId($this->crs_id));
 		return $inst;
 	}
 	

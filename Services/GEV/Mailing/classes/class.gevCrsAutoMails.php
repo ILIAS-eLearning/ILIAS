@@ -15,7 +15,7 @@ class gevCrsAutoMails extends ilAutoMails {
 		$this->mail_data = array(
 		  "self_booking_to_booked" 								=> "gevSelfBookingToBooked"
 		, "self_booking_to_waiting" 							=> "gevSelfBookingToWaiting"
-		, "superior_booking_to_booked" 								=> "gevSuperiorBookingToBooked"
+		, "superior_booking_to_booked" 							=> "gevSuperiorBookingToBooked"
 		, "superior_booking_to_waiting"							=> "gevSuperiorBookingToWaiting"
 		, "admin_booking_to_booked" 							=> "gevAdminBookingToBooked"
 		, "admin_booking_to_waiting" 							=> "gevAdminBookingToWaiting"
