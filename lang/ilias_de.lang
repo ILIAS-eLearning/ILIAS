@@ -14524,3 +14524,11 @@ mail#:#mail_max_size_attachments_total_error#:#Die maximal erlaubte Dateigröße
 grp#:#grp_cdf_tbl_last_edit#:#Letzte Änderung (Gruppenspezifische Daten)
 crs#:#crs_cdf_tbl_last_edit#:#Letzte Änderung (Kursspezifische Daten)
 ps#:#cdf_edited_by_self#:#durch den Benutzer
+rbac#:#excs_visible#:#Übungs-Administration ist sichtbar
+rbac#:#excs_read#:#Lesezugriff auf Übungs-Administration
+rbac#:#excs_write#:#Einstellungen in Übungs-Administration bearbeiten
+rbac#:#excs_edit_permission#:#Rechteeinstellungen für die Übungs-Administration ändern
+rbac#:#taxs_visible#:#Taxonomie-Administration ist sichtbar
+rbac#:#taxs_read#:#Lesezugriff auf Taxonomie-Administration
+rbac#:#taxs_write#:#Einstellungen in Taxonomie-Administration bearbeiten
+rbac#:#taxs_edit_permission#:#Rechteeinstellungen für die Taxonomie-Administration ändern

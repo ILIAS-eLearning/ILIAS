@@ -14542,3 +14542,11 @@ mail#:#mail_max_size_attachments_total_error#:#The allowed attachment size is:
 grp#:#grp_cdf_tbl_last_edit#:#Last Update (Group-specific Data)
 crs#:#crs_cdf_tbl_last_edit#:#Last Update (Course-specific Data)
 ps#:#cdf_edited_by_self#:#by the User
+rbac#:#excs_visible#:#Exercise administration is visible
+rbac#:#excs_read#:#User has read access to Exercise administration
+rbac#:#excs_write#:#Edit settings in Exercise administration
+rbac#:#excs_edit_permission#:#User can change permission settings in Exercise administration
+rbac#:#taxs_visible#:#Taxonomy administration is visible
+rbac#:#taxs_read#:#User has read access to Taxonomy administration
+rbac#:#taxs_write#:#Edit settings in Taxonomy administration
+rbac#:#taxs_edit_permission#:#User can change permission settings in Taxonomy administration
