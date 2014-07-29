@@ -233,6 +233,31 @@ class assClozeTestImport extends assQuestionImport
 										}
 									} 
 								}
+								else
+								{
+									// found a feedback for the identifier
+									if (count($ifb->material))
+									{
+										foreach ($ifb->material as $material)
+										{
+											$feedbacks[$ifb->getIdent()] = $material;
+										}
+									}
+									if ((count($ifb->flow_mat) > 0))
+									{
+										foreach ($ifb->flow_mat as $fmat)
+										{
+											if (count($fmat->material))
+											{
+												foreach ($fmat->material as $material)
+												{
+													$feedbacks[$ifb->getIdent()] = $material;
+												}
+											}
+										}
+									}
+									
+								}
 							}
 						}
 					}
