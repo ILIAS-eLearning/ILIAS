@@ -12,6 +12,7 @@ class ilAccomodationsAppEventListener
 {	
 	static function handleEvent($a_component, $a_event, $a_parameter)
 	{
+		include_once "Services/Accomodations/classes/class.ilAccomodations.php";
 		global $ilUser;
 				
 		if($a_component == "Modules/Course")
