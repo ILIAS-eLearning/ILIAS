@@ -73,7 +73,8 @@ class ilPersonalDesktopGUI
 		// gev-patch start
 		$cmd = $_GET["cmd"];
 		$cmd_class = $_GET["cmdClass"];
-		if (! ( $cmd == "jumpToProfile" 
+		if (! ( $cmd == "jumpToProfile"
+			||  $cmd == "jumpToSettings" 
 			||  $cmd == "showPassword"
 			||  $cmd_class == "ilpersonalprofilegui"
 			||  $cmd_class == "ilpersonalsettingsgui"
