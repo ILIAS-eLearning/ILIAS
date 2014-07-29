@@ -150,7 +150,7 @@ class gevUserUtils {
 				 "   AND NOT start_date.value IS NULL ".
 				 // generali konzept "Trainingsbewerbung"
 				 "   AND (".
-				 "            (   ltype.value = ".$this->db->quote("Präsenztraining", "text").
+				 "            (   ltype.value LIKE 'Pr_senztraining' ".
 				 "            AND ADDDATE(start_date.value, -1 * bk_deadl.value) < ".
 				 			     $this->db->quote(date("Y-m-d", time() + 14 * 24 * 60 * 60), "date").
 				 "            )".
@@ -269,13 +269,13 @@ class gevUserUtils {
 				 "   AND cs.activation_end > ".time().
 				 "   AND oref.deleted IS NULL".
 				 "   AND amd1.value = ".$this->db->quote("Nein", "text").
-				 "   AND (   (".$this->db->in("ltype.value", array("Präsenztraining", "Webinar"), false, "text").
+				 "   AND (   ( (ltype.value LIKE 'Pr_senztraining' OR ltype.value = 'Webinar')".
 				 "            AND ADDDATE(amd2.value, -1 * bk_deadl.value) >= ".$this->db->quote(date("Y-m-d"), "text").
 				 "		     )".
 				 "		  OR (".$this->db->in("ltype.value", array("Selbstlernkurs"), false, "text").
 				 "			 )".
 				 "		 )".
-				 "";
+				 "";	
 		
 		$res = $this->db->query($query);
 		
