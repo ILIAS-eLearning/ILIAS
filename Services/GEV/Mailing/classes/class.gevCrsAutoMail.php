@@ -86,7 +86,7 @@ abstract class gevCrsAutoMail extends ilAutoMail {
 
 	protected function getCourseUtils() {
 		if ($this->crs_utils === null) {
-			$this->crs_utils = gevCourseUtils::getInstance($this->crs_id);
+			$this->crs_utils = gevCourseUtils::getInstanceByObj($this->getCourse());
 		}
 		return $this->crs_utils;
 	}
@@ -96,6 +96,15 @@ abstract class gevCrsAutoMail extends ilAutoMail {
 	}
 
 	abstract function _getDescription();
+
+	// This will be evaluated by the mailing cron job only and could be
+	// used to encode special circumstances under which the mail should not
+	// be send (e.g. for reminders).
+	// Per default disables sending of mails for offline courses.
+	public function shouldBeSend() {
+		include_once 'Modules/Course/classes/class.ilObjCourseAccess.php';
+		return !ilObjCourseAccess::_isOffline($this->crs_id);
+	}
 
 	// SOME DEFAULTS
 

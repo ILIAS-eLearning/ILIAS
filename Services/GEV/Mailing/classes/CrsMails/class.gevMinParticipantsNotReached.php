@@ -21,6 +21,16 @@ class gevMinParticipantsNotReached extends gevCrsAutoMail {
 		return $date;
 	}
 	
+	public function shouldBeSend() {
+		/*$utils = $this->getCourseUtils();
+		if ($utils->getMinParticipants() < ) {
+			
+		}*/
+		
+		return parent::shouldBeSend();
+	}
+
+	
 	public function getTemplateCategory() {
 		return "R01";
 	}

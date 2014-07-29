@@ -20,7 +20,7 @@ class gevSelfBookingToBooked extends gevCrsAutoMail {
 	}
 	
 	public function getRecipientUserIDs() {
-		return $this->getCourseMembers();
+		return $this->getCourseParticipants();
 	}
 	
 	public function getCC($a_recipient) {

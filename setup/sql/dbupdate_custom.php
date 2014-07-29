@@ -624,3 +624,30 @@ $ilDB->addTableColumn( "hist_course"
 					 );
 
 ?>
+
+<#25>
+<?php
+
+// Tracking Infos about cron jobs for mail
+
+$fields = array (
+    'crs_id' => array(
+        'type' => 'integer',
+        'length' => 4,
+        'notnull' => true
+        ),
+    'title' => array(
+        "type" => "text",
+        "length" => 64,
+        "notnull" => true
+        ),
+    'send_at' => array(
+        'type' => 'timestamp',
+        'notnull' => false
+        )
+);
+
+$ilDB->createTable('gev_crs_dl_mail_cron', $fields);
+$ilDB->addPrimaryKey('gev_crs_dl_mail_cron', array('crs_id', 'title'));
+
+?>

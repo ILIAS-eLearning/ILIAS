@@ -811,7 +811,9 @@ class gevCourseUtils {
 	}
 	
 	public function getParticipants() {
-		return $this->getMembership()->getParticipants();
+		require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
+		$role = $this->getCourse()->getDefaultMemberRole();
+		return gevRoleUtils::getInstance()->getRbacReview()->assignedUsers($role);
 	}
 	
 	public function getTrainers() {
@@ -823,12 +825,12 @@ class gevCourseUtils {
 	}
 	
 	public function getMembers() {
-		return $this->getMembership()->getMembers();
+		return array_merge($this->getMembership()->getMembers(), $this->getTrainers(), $this->getTutors());
 	}
 	
 	public function getSpecialMembers() {		
-		return array_diff( $this->getParticipants()
-						 , $this->getMembers()
+		return array_diff( $this->getMembers()
+						 , $this->getParticipants()
 						 , $this->getAdmins()
 						 , $this->getTrainers()
 						 );

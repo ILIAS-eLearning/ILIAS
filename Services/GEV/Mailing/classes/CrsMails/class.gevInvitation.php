@@ -1,6 +1,7 @@
 <?php
 
 require_once("Services/GEV/Mailing/classes/class.gevCrsAutoMail.php");
+require_once("Services/GEV/Mailing/classes/class.gevCrsAdditionalMailSettings.php");
 
 class gevInvitation extends gevCrsAutoMail {
 	protected $mail_settings;
@@ -27,7 +28,7 @@ class gevInvitation extends gevCrsAutoMail {
 	}
 
 	public function getDescription() {
-		return self::DAYS_BEFORE_COURSE_START." Tage vor Trainingsbeginn";
+		return $this->days_before_course_start." Tage vor Trainingsbeginn";
 	}
 	
 	public function _getDescription() {
@@ -41,7 +42,7 @@ class gevInvitation extends gevCrsAutoMail {
 	public function getScheduledFor() {
 		$date = $this->getCourseUtils()->getStartDate();
 		if ($date) {
-			$date->increment(IL_CAL_DAY, -1 * self::DAYS_BEFORE_COURSE_START);
+			$date->increment(IL_CAL_DAY, -1 * $this->days_before_course_start);
 		}
 		return $date;
 	}
