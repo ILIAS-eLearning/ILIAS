@@ -24,18 +24,22 @@ class gevCrsAutoMails extends ilAutoMails {
 		, "self_cancel_waiting_to_cancelled_without_costs" 		=> "gevSelfCancelWaitingToCancelledWithoutCosts"
 		, "superior_cancel_booked_to_cancelled_with_costs" 		=> "gevSuperiorCancelBookedToCancelledWithCosts"
 		, "superior_cancel_booked_to_cancelled_without_costs" 	=> "gevSuperiorCancelBookedToCancelledWithoutCosts"
-		, "superior_cancel_waiting_to_cancelled_with_costs" 	=> "gevSuperiorCancelWaitingToCancelledWithoutCosts"
+		, "superior_cancel_waiting_to_cancelled_without_costs" 	=> "gevSuperiorCancelWaitingToCancelledWithoutCosts"
 		, "admin_cancel_booked_to_cancelled_with_costs" 		=> "gevAdminCancelBookedToCancelledWithCosts"
 		, "admin_cancel_booked_to_cancelled_without_costs" 		=> "gevAdminCancelBookedToCancelledWithoutCosts"
 		, "admin_cancel_waiting_to_cancelled_without_costs" 	=> "gevAdminCancelWaitingToCancelledWithoutCosts"
+		, "participant_waiting_to_booked" 						=> "gevParticipantWaitingToBooked"		
+		
 		, "participant_left_corporation" 						=> "gevParticipantLeftCorporation"
-		, "participant_waiting_to_booked" 						=> "gevParticipantWaitingToBooked"
+
 		, "participant_successfull" 							=> "gevParticipantSuccessfull"
 		, "participant_absent_excused" 							=> "gevParticipantAbsentExcused"
 		, "participant_absent_not_excused"						=> "gevParticipantAbsentNotExcused"
+		
 		, "trainer_added" 										=> "gevTrainerAdded"
 		, "trainer_removed" 									=> "gevTrainerRemoved"
 		, "training_cancelled"									=> "gevTrainingCancelled"
+		
 		, "min_participants_not_reached" 						=> "gevMinParticipantsNotReached"
 		, "reminder_participants" 								=> "gevReminderParticipants"
 		, "reminder_trainer"									=> "gevReminderTrainer"
@@ -43,6 +47,7 @@ class gevCrsAutoMails extends ilAutoMails {
 		, "updated_list_for_accomodation" 						=> "gevUpdatedListForAccomodation"
 		, "participation_status_not_set" 						=> "gevParticipationStatusNotSet"
 		, "invitation" 											=> "gevInvitation"
+		
 		, "waiting_list_cancelled"								=> "gevWaitingListCancelled"
 		);
 

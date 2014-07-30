@@ -451,10 +451,10 @@ abstract class gevCrsAutoMail extends ilAutoMail {
 		}
 		
 		if ($a_occasion === null) {
-			$a_occasion = $this->lng->txt("send_by").": ".$this->user->getLogin();
+			$a_occasion = $this->getTitle();//$this->lng->txt("send_by").": ".$this->user->getLogin();
 		}
 		
-		gevDeferredMails::getInstance()->deferredSendMail($this->getId(), $a_recipients, $a_occasion);
+		gevDeferredMails::getInstance()->deferredSendMail($this->crs_id, $this->getId(), $a_recipients, $a_occasion);
 	}
 
 	public function getMail($a_recipient) {

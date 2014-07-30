@@ -32,9 +32,11 @@ class gevDeferredMailingJob extends ilCronJob {
 	}
 	
 	public function run() {
+		require_once("Services/GEV/Mailing/classes/class.gevDeferredMails.php");
+		$df = gevDeferredMails::getInstance();
+		$df->sendDeferredMails();
+		
 		$cron_result = new ilCronJobResult();
-
-
 		$cron_result->setStatus(ilCronJobResult::STATUS_OK);
 		return $cron_result;
 	}

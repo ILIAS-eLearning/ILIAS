@@ -129,7 +129,7 @@ class ilCourseBooking
 			$ilDB->insert("crs_book", $fields);
 		}
 				
-		self::raiseEvent("setStatus", $a_course_obj_id, $a_user_id);
+		self::raiseEvent("setStatus", $a_course_obj_id, $a_user_id, $old, $a_status);
 		
 		return true;
 	}
@@ -141,7 +141,7 @@ class ilCourseBooking
 	 * @param int $a_course_obj_id
 	 * @param int $a_user_id
 	 */
-	protected static function raiseEvent($a_event, $a_course_obj_id = null, $a_user_id = null)
+	protected static function raiseEvent($a_event, $a_course_obj_id = null, $a_user_id = null, $old_status = null, $new_status = null)
 	{
 		global $ilAppEventHandler;
 		
@@ -157,6 +157,8 @@ class ilCourseBooking
 			{
 				$params["user_id"] = $a_user_id;
 			}
+			$params["old_status"] = $old_status;
+			$params["new_status"] = $new_status;
 		}
 		
 		$ilAppEventHandler->raise("Services/CourseBooking", $a_event, $params);
@@ -182,7 +184,7 @@ class ilCourseBooking
 				" AND user_id = ".$ilDB->quote($a_user_id, "integer");
 			$ilDB->manipulate($sql);
 			
-			self::raiseEvent("deleteStatus", $a_course_obj_id, $a_user_id);			
+			self::raiseEvent("deleteStatus", $a_course_obj_id, $a_user_id, $old, null);			
 		}					
 	}
 	

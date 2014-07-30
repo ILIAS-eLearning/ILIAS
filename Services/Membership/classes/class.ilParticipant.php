@@ -299,8 +299,17 @@ abstract class ilParticipant
 		global $rbacadmin,$ilDB, $ilAppEventHandler;
 		
 		$this->dropDesktopItem($a_usr_id);
+		// gev-patch start
+		global $rbacreview;
+		$old_role_id = null;
+		// gev-patch end
 		foreach($this->roles as $role_id)
 		{
+			// gev-patch start
+			if ($rbacreview->isAssigned($a_usr_id, $role_id)) {
+				$old_role_id = $role_id;
+			}
+			// gev-patch end
 			$rbacadmin->deassignUser($role_id,$a_usr_id);
 		}
 		
@@ -312,7 +321,10 @@ abstract class ilParticipant
 		if($this->type == 'crs')
 		{
 		 	// Add event: used for ecs accounts
-			$ilAppEventHandler->raise("Modules/Course", "deleteParticipant", array('obj_id' => $this->obj_id, 'usr_id' => $a_usr_id));
+		 	// gev-patch start
+			//$ilAppEventHandler->raise("Modules/Course", "deleteParticipant", array('obj_id' => $this->obj_id, 'usr_id' => $a_usr_id));
+			$ilAppEventHandler->raise("Modules/Course", "deleteParticipant", array('obj_id' => $this->obj_id, 'usr_id' => $a_usr_id, 'role_id' => $old_role_id));
+			// gev-patch end
 		}		
 		
 		return true;
