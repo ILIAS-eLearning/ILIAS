@@ -131,7 +131,7 @@ class gevCrsMailData extends ilMailData {
 				break;
 			case "ZEITPLAN":
 				$val = $this->crs_utils->getSchedule();
-				$val = implode($a_markup?"<br />":"\n", $dates);
+				$val = implode("<br />", $val);
 				break;
 			case "TV-NAME":
 				$val = $this->crs_utils->getTrainingOfficerName();
@@ -222,7 +222,7 @@ class gevCrsMailData extends ilMailData {
 					$d .= " - ".ilDatePresentation::formatDate($date); 
 					$dates[] = $d;
 				}
-				$val = implode($a_markup?"<br />":"\n", $dates);
+				$val = implode("<br />", $dates);
 				break;
 			//case "LISTE":
 			//	break;

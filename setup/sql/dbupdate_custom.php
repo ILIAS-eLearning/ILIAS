@@ -651,3 +651,37 @@ $ilDB->createTable('gev_crs_dl_mail_cron', $fields);
 $ilDB->addPrimaryKey('gev_crs_dl_mail_cron', array('crs_id', 'title'));
 
 ?>
+
+
+<#26>
+<?php
+
+// Tracking Infos about cron jobs for mail
+
+$fields = array (
+    'crs_id' => array(
+        'type' => 'integer',
+        'length' => 4,
+        'notnull' => true
+        ),
+    'mail_id' => array(
+        "type" => "text",
+        "length" => 64,
+        "notnull" => true
+        ),
+    'recipient' => array(
+        'type' => 'text',
+        "length" => 128,
+        'notnull' => false
+        )
+    , "occasion" => array(
+        'type' => 'text',
+        "length" => 256,
+        'notnull' => true
+    )
+);
+
+$ilDB->createTable('gev_crs_deferred_mails', $fields);
+$ilDB->addPrimaryKey('gev_crs_deferred_mails', array('crs_id', 'mail_id', 'recipient'));
+
+?>

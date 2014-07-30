@@ -26,13 +26,14 @@ abstract class gevCrsAutoMail extends ilAutoMail {
 	private static $template_type = "CrsMail";
 
 	public function __construct($a_crs_id, $a_id) {
-		global $ilDB, $lng, $ilCtrl, $ilias, $ilSetting;
+		global $ilDB, $lng, $ilCtrl, $ilias, $ilSetting, $ilUser;
 
 		$this->db = &$ilDB;
 		$this->lng = &$lng;
 		$this->ctrl = &$ilCtrl;
 		$this->settings = &$ilSetting;
 		$this->ilias = &$ilias;
+		$this->user = &$ilUser;
 
 		if (!is_numeric($a_crs_id)) {
 			throw new Exception ("gevCrsAutoMail not initialised with integer crs_id.");
@@ -385,7 +386,7 @@ abstract class gevCrsAutoMail extends ilAutoMail {
 					, "cc" => $this->getCC($a_recipient)
 					, "bcc" => $this->getBCC($a_recipient)
 					, "subject" => $message["subject"]?$message["subject"]:""
-					, "message_plain" => $message["plain"]
+					, "message_plain" => str_replace("<br />", "\n", $message["plain"])
 					, "message_html" => $message["html"]
 					, "attachments" => $this->getAttachmentsForMail($a_recipient)
 					, "frame_plain" => $this->template_frame->getPlainTextFrame()
@@ -441,7 +442,19 @@ abstract class gevCrsAutoMail extends ilAutoMail {
 	}
 
 	public function sendDeferred($a_recipients = null, $a_occasion = null) {
-		// TODO: implement this!
+		require_once("Services/GEV/Mailing/classes/class.gevDeferredMails.php");
+		
+		if ($a_recipients === null) {
+			$a_recipients = $this->getUsersOnly()
+							? $this->getRecipientUserIDs()
+							: $this->getRecipientAddresses();
+		}
+		
+		if ($a_occasion === null) {
+			$a_occasion = $this->lng->txt("send_by").": ".$this->user->getLogin();
+		}
+		
+		gevDeferredMails::getInstance()->deferredSendMail($this->getId(), $a_recipients, $a_occasion);
 	}
 
 	public function getMail($a_recipient) {
