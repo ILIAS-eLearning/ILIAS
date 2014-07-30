@@ -64,7 +64,8 @@ class ilUserCourseStatusHistorizingAppEventListener
 			$a_parameter["crs_id"] = $a_parameter["crs_obj_id"];
 			$a_parameter["usr_id"] = $a_parameter["user_id"];
 		}
-		if ($a_component == "Services/CourseBooking") {
+		if (   $a_component == "Services/CourseBooking" 
+			|| $a_component == "Services/Accomodations") {
 			$a_parameter["crs_id"] = $a_parameter["crs_obj_id"];
 			$a_parameter["usr_id"] = $a_parameter["user_id"];
 		}
