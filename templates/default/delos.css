@@ -4377,7 +4377,8 @@ div[id^="ilFormField"] {
 	margin-bottom: 10px;
 }
 
-a[id^="tr_rtg"]:hover {
+a[id^="tr_rtg"]:hover,
+a[onclick*="saveRating"]:hover {
 	text-decoration: none;
 }
 
