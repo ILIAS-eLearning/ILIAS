@@ -254,8 +254,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			$form->setValuesByPost();
 			$errors = !$form->checkInput();
 			$form->setValuesByPost(); // again, because checkInput now performs the whole stripSlashes handling and we need this if we don't want to have duplication of backslashes
-			if ((!$errors) && (count($this->object->getTerms()) < (count($this->object->getDefinitions())))
-				&& !$this->object->getSelfAssessmentEditingMode())
+			if( !$errors && !$this->isValidTermAndDefinitionAmount($form) && !$this->object->getSelfAssessmentEditingMode() )
 			{
 				$errors = true;
 				$terms = $form->getItemByPostVar('terms');
@@ -267,6 +266,23 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
 		if (!$checkonly) $this->tpl->setVariable("QUESTION_DATA", $form->getHTML());
 		return $errors;
+	}
+
+	/**
+	 * @param ilPropertyFormGUI $form
+	 * @return bool
+	 */
+	private function isValidTermAndDefinitionAmount(ilPropertyFormGUI $form)
+	{
+		$numTerms = count($form->getItemByPostVar('terms')->getValues());
+		$numDefinitions = count($form->getItemByPostVar('definitions')->getValues());
+		
+		if($numTerms >= $numDefinitions)
+		{
+			return true;
+		}
+		
+		return false;
 	}
 
 	public function populateAnswerSpecificFormPart(\ilPropertyFormGUI $form)
