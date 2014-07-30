@@ -269,19 +269,29 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 	}
 
 	/**
+	 * for mode 1:1 terms count must not be less than definitions count
+	 * for mode n:n this limitation is cancelled
+	 *
 	 * @param ilPropertyFormGUI $form
 	 * @return bool
 	 */
 	private function isValidTermAndDefinitionAmount(ilPropertyFormGUI $form)
 	{
+		$matchingMode = $form->getItemByPostVar('matching_mode')->getValue();
+
+		if( $matchingMode == assMatchingQuestion::MATCHING_MODE_N_ON_N )
+		{
+			return true;
+		}
+
 		$numTerms = count($form->getItemByPostVar('terms')->getValues());
 		$numDefinitions = count($form->getItemByPostVar('definitions')->getValues());
-		
+
 		if($numTerms >= $numDefinitions)
 		{
 			return true;
 		}
-		
+
 		return false;
 	}
 
