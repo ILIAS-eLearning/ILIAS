@@ -4377,6 +4377,10 @@ div[id^="ilFormField"] {
 	margin-bottom: 10px;
 }
 
+a[id^="tr_rtg"]:hover {
+	text-decoration: none;
+}
+
 /* basic responsiveness (beta)
 
    The following section targets smartphones.
