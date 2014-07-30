@@ -786,9 +786,9 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 	}
 	}
 	
-	function getPreview($show_question_only = FALSE, $showInlineFeedback = false, ilAssQuestionPreviewSession $previewSession = null)
+	function getPreview($show_question_only = FALSE, $showInlineFeedback = false)
 	{
-		if( is_object($previewSession) && count((array)$previewSession->getParticipantsSolution()) )
+		if( is_object($this->getPreviewSession()) && count((array)$this->getPreviewSession()->getParticipantsSolution()) )
 		{
 			if ($this->object->getOrderingType() == OQ_NESTED_TERMS || $this->object->getOrderingType() == OQ_NESTED_PICTURES)
 			{
@@ -797,7 +797,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 				$answerArray = array();
 				$shuffleAnswers = false;
 				
-				foreach((array)$previewSession->getParticipantsSolution() as $val1 => $val2)
+				foreach((array)$this->getPreviewSession()->getParticipantsSolution() as $val1 => $val2)
 				{
 					list($randomId, $depth) = explode(':', $val2);
 	
@@ -812,7 +812,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			}
 			else
 			{
-				foreach((array)$previewSession->getParticipantsSolution() as $val1 => $val2)
+				foreach((array)$this->getPreviewSession()->getParticipantsSolution() as $val1 => $val2)
 				{
 					$jssolutions[$val2] = $val1;
 				}

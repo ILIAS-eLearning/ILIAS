@@ -463,7 +463,7 @@ class assJavaAppletGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 		return $solutionoutput;
 	}
 	
-	function getPreview($show_question_only = FALSE, $showInlineFeedback = false, ilAssQuestionPreviewSession $previewSession = null)
+	function getPreview($show_question_only = FALSE, $showInlineFeedback = false)
 	{
 		// generate the question output
 		include_once "./Services/UICore/classes/class.ilTemplate.php";

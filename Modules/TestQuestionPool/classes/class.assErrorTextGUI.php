@@ -315,9 +315,10 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 		return $solutionoutput;
 	}
 
-	function getPreview($show_question_only = FALSE, $showInlineFeedback = false, ilAssQuestionPreviewSession $previewSession = NULL)
+	function getPreview($show_question_only = FALSE, $showInlineFeedback = false)
 	{
-		$selections = is_object($previewSession) ? (array)$previewSession->getParticipantsSolution() : array();
+		$selections = is_object($this->getPreviewSession()) ? (array)$this->getPreviewSession()->getParticipantsSolution() : array();
+
 		$template = new ilTemplate("tpl.il_as_qpl_errortext_output.html",TRUE, TRUE, "Modules/TestQuestionPool");
 		if ($this->object->getTextSize() >= 10) echo $template->setVariable("STYLE", " style=\"font-size: " . $this->object->getTextSize() . "%;\"");
 		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->getQuestion(), TRUE));

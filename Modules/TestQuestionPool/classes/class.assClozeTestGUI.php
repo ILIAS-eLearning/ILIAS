@@ -808,9 +808,9 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 	 * @return string HTML code which contains the preview output of the question
 	 * @access public
 	 */
-	function getPreview($show_question_only = FALSE, $showInlineFeedback = false, ilAssQuestionPreviewSession $previewSession = null)
+	function getPreview($show_question_only = FALSE, $showInlineFeedback = false)
 	{
-		$user_solution = is_object($previewSession) ? (array)$previewSession->getParticipantsSolution() : array();
+		$user_solution = is_object($this->getPreviewSession()) ? (array)$this->getPreviewSession()->getParticipantsSolution() : array();
 		
 		// generate the question output
 		include_once "./Services/UICore/classes/class.ilTemplate.php";

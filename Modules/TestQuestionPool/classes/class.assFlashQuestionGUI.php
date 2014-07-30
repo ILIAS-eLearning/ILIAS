@@ -337,7 +337,7 @@ class assFlashQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoring
 		return $solutionoutput;
 	}
 	
-	function getPreview($show_question_only = FALSE, $showInlineFeedback = false, ilAssQuestionPreviewSession $previewSession = null)
+	function getPreview($show_question_only = FALSE, $showInlineFeedback = false)
 	{
 		$template = new ilTemplate("tpl.il_as_qpl_flash_question_output.html",TRUE, TRUE, "Modules/TestQuestionPool");
 		$params = array();

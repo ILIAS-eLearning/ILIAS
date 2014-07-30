@@ -314,13 +314,13 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 		return $solutionoutput;
 	}
 	
-	function getPreview($show_question_only = FALSE, $showInlineFeedback = false, ilAssQuestionPreviewSession $previewSession = null)
+	function getPreview($show_question_only = FALSE, $showInlineFeedback = false)
 	{
 		$template = new ilTemplate("tpl.il_as_qpl_fileupload_output.html",TRUE, TRUE, "Modules/TestQuestionPool");
 
-		if( is_object($previewSession) )
+		if( is_object($this->getPreviewSession()) )
 		{
-			$files = $this->object->getPreviewFileUploads($previewSession);
+			$files = $this->object->getPreviewFileUploads($this->getPreviewSession());
 			if (count($files))
 			{
 				include_once "./Modules/TestQuestionPool/classes/tables/class.assFileUploadFileTableGUI.php";

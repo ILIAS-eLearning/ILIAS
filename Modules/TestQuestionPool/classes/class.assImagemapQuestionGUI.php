@@ -606,11 +606,11 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		return $solutionoutput;
 	}
 	
-	function getPreview($show_question_only = FALSE, $showInlineFeedback = false, ilAssQuestionPreviewSession $previewSession = null)
+	function getPreview($show_question_only = FALSE, $showInlineFeedback = false)
 	{
-		if( is_object($previewSession) )
+		if( is_object($this->getPreviewSession()) )
 		{
-			$user_solution = array_values($previewSession->getParticipantsSolution());
+			$user_solution = array_values($this->getPreviewSession()->getParticipantsSolution());
 			
 			include_once "./Modules/TestQuestionPool/classes/class.ilImagemapPreview.php";
 			$preview = new ilImagemapPreview($this->object->getImagePath().$this->object->getImageFilename());

@@ -247,9 +247,9 @@ class ilAssQuestionPreviewGUI
 			$this->ctrl->setCmd('preview');
 		}
 
-		$questionHtml = $this->questionGUI->getPreview(
-			true, $this->isShowSpecificQuestionFeedbackRequired(), $this->previewSession
-		);
+		$this->questionGUI->setPreviewSession($this->previewSession);
+		
+		$questionHtml = $this->questionGUI->getPreview(true, $this->isShowSpecificQuestionFeedbackRequired());
 		
 		$pageGUI->setQuestionHTML(array($this->questionOBJ->getId() => $questionHtml));
 
@@ -279,6 +279,8 @@ class ilAssQuestionPreviewGUI
 			$this->ctrl->setCmdClass(get_class($pageGUI));
 			$this->ctrl->setCmd('preview');
 		}
+
+		$this->questionGUI->setPreviewSession($this->previewSession);
 
 		$pageGUI->setQuestionHTML(array($this->questionOBJ->getId() => $this->questionGUI->getSolutionOutput(0)));
 

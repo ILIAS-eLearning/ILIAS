@@ -1043,11 +1043,22 @@ class assFormulaQuestionGUI extends assQuestionGUI
 			{
 				if(is_null($pass)) $pass = ilObjTest::_getPass($active_id);
 			}
-			$user_solution = $this->object->getBestSolution($active_id, $pass);
+			$user_solution = $this->object->getBestSolution($this->getSolutionValues($active_id, $pass));
 		}
-		
+		elseif( is_object($this->getPreviewSession()) )
+		{
+			$solutionValues = array();
+			
+			foreach($this->getPreviewSession()->getParticipantsSolution() as $val1 => $val2)
+			{
+				$solutionValues[] = array('value1' => $val1, 'value2' => $val2);
+			}
+			
+			$user_solution = $this->object->getBestSolution($solutionValues);
+		}
+	
 		$template = new ilTemplate("tpl.il_as_qpl_formulaquestion_output_solution.html", true, true, 'Modules/TestQuestionPool');
-		$questiontext = $this->object->substituteVariables($user_solution, $graphicalOutput, TRUE, $result_output);
+		$questiontext = $this->object->substituteVariables($user_solution, $graphicalOutput, TRUE, $result_output, $this->getPreviewSession());
 
 		$template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, TRUE));
 		$questionoutput   = $template->get();
@@ -1063,13 +1074,13 @@ class assFormulaQuestionGUI extends assQuestionGUI
 		return $solutionoutput;
 	}
 
-	function getPreview($show_question_only = FALSE, $showInlineFeedback = false, ilAssQuestionPreviewSession $previewSession = null)
+	function getPreview($show_question_only = FALSE, $showInlineFeedback = false)
 	{
 		$user_solution = array();
 		
-		if( is_object($previewSession) )
+		if( is_object($this->getPreviewSession()) )
 		{
-			$solutions = $previewSession->getParticipantsSolution();
+			$solutions = $this->getPreviewSession()->getParticipantsSolution();
 	
 			foreach($solutions as $val1 => $val2)
 			{
@@ -1095,11 +1106,11 @@ class assFormulaQuestionGUI extends assQuestionGUI
 				}
 			}
 		}
-		
+
 		$template = new ilTemplate("tpl.il_as_qpl_formulaquestion_output.html", true, true, 'Modules/TestQuestionPool');
-		if( is_object($previewSession) )
+		if( is_object($this->getPreviewSession()) )
 		{
-			$questiontext = $this->object->substituteVariables($user_solution, false, false, false, $previewSession);
+			$questiontext = $this->object->substituteVariables($user_solution, false, false, false, $this->getPreviewSession());
 		}
 		else
 		{

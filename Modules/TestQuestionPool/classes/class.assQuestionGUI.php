@@ -1826,9 +1826,7 @@ abstract class assQuestionGUI
 		);
 	}
 
-	abstract public function getPreview(
-		$show_question_only = FALSE, $showInlineFeedback = false, ilAssQuestionPreviewSession $previewSession = null
-	);
+	abstract public function getPreview($show_question_only = FALSE, $showInlineFeedback = false);
 
 	/**
 	 * @param ilTabsGUI $ilTabs
@@ -1870,4 +1868,24 @@ abstract class assQuestionGUI
 		}
 	}
 
+	/**
+	 * @var ilAssQuestionPreviewSession
+	 */
+	private $previewSession;
+
+	/**
+	 * @param \ilAssQuestionPreviewSession $previewSession
+	 */
+	public function setPreviewSession($previewSession)
+	{
+		$this->previewSession = $previewSession;
+	}
+
+	/**
+	 * @return \ilAssQuestionPreviewSession
+	 */
+	public function getPreviewSession()
+	{
+		return $this->previewSession;
+	}
 }

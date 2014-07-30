@@ -341,7 +341,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 		return $solutionoutput;
 	}
 	
-	public function getPreview($show_question_only = FALSE, $showInlineFeedback = false, ilAssQuestionPreviewSession $previewSession = null)
+	public function getPreview($show_question_only = FALSE, $showInlineFeedback = false)
 	{
 		$keys = $this->getChoiceKeys();
 		
@@ -388,17 +388,17 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 					$template->parseCurrentBlock();
 				}
 			}
-			if( $showInlineFeedback && is_object($previewSession) )
+			if( $showInlineFeedback && is_object($this->getPreviewSession()) )
 			{
-				$this->populateInlineFeedback($template, $answer_id, $previewSession->getParticipantsSolution());
+				$this->populateInlineFeedback($template, $answer_id, $this->getPreviewSession()->getParticipantsSolution());
 			}
 			$template->setCurrentBlock("answer_row");
 			$template->setVariable("ANSWER_ID", $answer_id);
 			$template->setVariable("ANSWER_TEXT", $this->object->prepareTextareaOutput($answer->getAnswertext(), TRUE));
 			
-			if( is_object($previewSession) )
+			if( is_object($this->getPreviewSession()) )
 			{
-				$user_solution = $previewSession->getParticipantsSolution();
+				$user_solution = $this->getPreviewSession()->getParticipantsSolution();
 				if (strcmp($user_solution, $answer_id) == 0)
 				{
 					$template->setVariable("CHECKED_ANSWER", " checked=\"checked\"");

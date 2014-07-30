@@ -972,8 +972,12 @@ class assFormulaQuestion extends assQuestion
 		$points = 0;
 		foreach($this->getResults() as $result)
 		{
-			//vd($user_solution[$result->getResult()]["value"]);
-			$points += $result->getReachedPoints($this->getVariables(), $this->getResults(), $user_solution[$result->getResult()]["value"], $user_solution[$result->getResult()]["unit"], $this->unitrepository->getUnits());
+			$points += $result->getReachedPoints(
+				$this->getVariables(),
+				$this->getResults(),
+				$user_solution[$result->getResult()],
+				$user_solution[$result->getResult().'_unit'],
+				$this->unitrepository->getUnits());
 		}
 
 		return $points;
@@ -1233,12 +1237,9 @@ class assFormulaQuestion extends assQuestion
 	 * @return array An associated array containing the best solution
 	 * @access public
 	 */
-	public function getBestSolution($active_id, $pass)
+	public function getBestSolution($solutions)
 	{
 		$user_solution              = array();
-		$user_solution["active_id"] = $active_id;
-		$user_solution["pass"]      = $pass;
-		$solutions                  =& $this->getSolutionValues($active_id, $pass);
 
 		foreach($solutions as $idx => $solution_value)
 		{
