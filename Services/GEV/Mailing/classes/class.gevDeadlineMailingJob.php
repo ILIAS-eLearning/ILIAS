@@ -132,7 +132,7 @@ class gevDeadlineMailingJob extends ilCronJob {
 								 );
 			}
 			
-			// test to avoid php idiocracies
+			// test to avoid php idiosyncracies
 			if (count($this->deadline_jobs) != $num_jobs) {
 				throw new Exception("ilDeadlineMailingJob::run: array containing all jobs was modified unintentionally.");
 			}

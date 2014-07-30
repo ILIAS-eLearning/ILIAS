@@ -745,6 +745,15 @@ class gevUserUtils {
 							  );
 	}
 	
+	// superiors/employees
+	
+	public function isSuperiorOf($a_user_id) {
+		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php");
+		$tree = ilObjOrgUnitTree::_getInstance();
+		// propably faster then checking the employees of this->user
+		return in_array($this->user_id, $tree->getSuperiorsOfUser($a_user_id));
+	}
+	
 	// billing info
 	
 	public function getLastBillingDataMaybe() {
