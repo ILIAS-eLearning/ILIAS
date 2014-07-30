@@ -2891,7 +2891,9 @@ $tabs_gui = $ilTabs;
 		
 		$toolbar = new ilToolbarGUI();
 		
-		if((bool)$ilias->getSetting('cron_web_resource_check'))
+		// #13684
+		include_once "Services/Cron/classes/class.ilCronManager.php";
+		if(ilCronManager::isJobActive("lm_link_check"))
 		{
 			include_once './Services/LinkChecker/classes/class.ilLinkCheckNotify.php';
 			include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
