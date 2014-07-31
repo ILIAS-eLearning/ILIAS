@@ -136,8 +136,8 @@ class ilPasswordAssistanceGUI
 		);
 		$tpl->setVariable("TXT_USERNAME", $lng->txt("username"));
 		$tpl->setVariable("TXT_EMAIL", $lng->txt("email"));
-		$tpl->setVariable("USERNAME", htmlentities($username));
-		$tpl->setVariable("EMAIL", htmlentities($email));
+		$tpl->setVariable("USERNAME", ilUtil::prepareFormOutput($username));
+		$tpl->setVariable("EMAIL", ilUtil::prepareFormOutput($email));
 		$tpl->setVariable("TXT_SUBMIT", $lng->txt("submit"));
 		$tpl->setVariable("BACK", $lng->txt("back"));
 		$tpl->setVariable("LINK_BACK",
@@ -203,8 +203,8 @@ class ilPasswordAssistanceGUI
 		);
 		$tpl->setVariable("TXT_USERNAME", $lng->txt("username"));
 		$tpl->setVariable("TXT_EMAIL", $lng->txt("email"));
-		$tpl->setVariable("USERNAME", $username);
-		$tpl->setVariable("EMAIL", htmlentities($email));
+		$tpl->setVariable("USERNAME", ilUtil::prepareFormOutput($username));
+		$tpl->setVariable("EMAIL", ilUtil::prepareFormOutput($email));
 		$tpl->setVariable("TXT_SUBMIT", $lng->txt("submit"));
 		$tpl->setVariable("BACK", $lng->txt("back"));
 		$tpl->setVariable("LINK_BACK",
@@ -607,9 +607,9 @@ class ilPasswordAssistanceGUI
 			$tpl->setVariable("TXT_USERNAME", $lng->txt("username"));
 			$tpl->setVariable("TXT_PASSWORD1", $lng->txt("password"));
 			$tpl->setVariable("TXT_PASSWORD2", $lng->txt("retype_password"));
-			$tpl->setVariable("USERNAME", $username);
-			$tpl->setVariable("PASSWORD1", $password1);
-			$tpl->setVariable("PASSWORD2", $password2);
+			$tpl->setVariable("USERNAME", ilUtil::prepareFormOutput($username));
+			$tpl->setVariable("PASSWORD1", ilUtil::prepareFormOutput($password1));
+			$tpl->setVariable("PASSWORD2", ilUtil::prepareFormOutput($password2));
 			$tpl->setVariable("TXT_SUBMIT", $lng->txt("submit"));
 			$tpl->setVariable("KEY", $pwassist_id);
 			$tpl->setVariable("BACK", $lng->txt("back"));
