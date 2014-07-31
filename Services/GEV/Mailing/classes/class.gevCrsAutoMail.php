@@ -238,7 +238,6 @@ abstract class gevCrsAutoMail extends ilAutoMail {
 	}
 
 	protected function getCourseHotelAddresses() {
-		// TODO: this needs to be adjusted
 		$to_accom = $this->getAdditionalMailSettings()->getSendListToAccomodation();
 		$to_venue = $this->getAdditionalMailSettings()->getSendListToVenue();
 		$accom_address = $this->getCourseAccomodationAddress();
@@ -317,10 +316,9 @@ abstract class gevCrsAutoMail extends ilAutoMail {
 	}
 
 	protected function getUserFunction($a_user_id) {
-		// TODO: this needs to be adjusted
-		$ref_ids = ilObject::_getAllReferences($this->crs_id);
-		$ref_id = array_pop($ref_ids);
-		return vfParticipant::getParsedFunction($ref_id, $user_id, true);
+		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+		return gevCourseUtils::getInstance($this->crs_id)
+							 ->getFunctionOfUser($a_user_id);
 	}
 
 	protected function getFrom() {
@@ -339,7 +337,6 @@ abstract class gevCrsAutoMail extends ilAutoMail {
 	}
 
 	protected function getCC($a_recipient) {
-		//TODO: this needs to be adjusted
 		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 
 		if (!$this->checkUserID($a_recipient)) {
@@ -360,7 +357,7 @@ abstract class gevCrsAutoMail extends ilAutoMail {
 		}*/
 
 		//return $this->global_bcc;
-		return null;
+		return array();
 	}
 
 	protected function getFullnameForTemplate($a_recipient) {
@@ -422,7 +419,7 @@ abstract class gevCrsAutoMail extends ilAutoMail {
 	}
 
 	public function send($a_recipients = null, $a_occasion = null) {
-		//TODO: this needs to be adjusted
+		//TODO: this maybe needs to be adjusted
 		// Do not send mails for online-trainings.
 /*		if ($this->getCourse()->getVfSettings()->isTypeOnline()) {
 			return;
