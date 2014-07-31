@@ -60,7 +60,7 @@
 			</xsl:when>
 			<xsl:when test="@class='surveySheet'">
 				<fo:block>
-					<xsl:attribute name="page-break-inside">avoid</xsl:attribute>
+					<!-- <xsl:attribute name="page-break-inside">avoid</xsl:attribute> -->
 					<xsl:attribute name="background-color">#F0F0F0</xsl:attribute>
 					<xsl:attribute name="margin-top">1em</xsl:attribute>
 					<xsl:attribute name="padding">0.25em</xsl:attribute>
