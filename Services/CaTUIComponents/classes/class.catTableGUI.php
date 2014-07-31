@@ -87,6 +87,15 @@ class catTableGUI extends ilTable2GUI {
 		}
 		return parent::render();
 	}
+	
+	protected function fillRow($a_set)
+	{
+		foreach ($this->column as $col) {
+			$key = $col["sort_field"];
+			$value = $a_set[$key];
+			$this->tpl->setVariable("VAL_".strtoupper($key), $value);
+		}
+	}
 }
 
 ?>

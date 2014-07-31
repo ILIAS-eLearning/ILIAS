@@ -20,8 +20,9 @@ class catTitleGUI {
 	protected $legend;
 	protected $command;
 	protected $command_lng_var;
+	protected $use_lng;
 
-	public function __construct($a_title = null, $a_subtitle = null, $a_img = null) {
+	public function __construct($a_title = null, $a_subtitle = null, $a_img = null, $a_use_lng = true) {
 		global $lng, $ilCtrl;
 
 		$this->lng = &$lng;
@@ -33,6 +34,7 @@ class catTitleGUI {
 		$this->legend = null;
 		$this->command = null;
 		$this->command_lng_var = null;
+		$this->use_lng = $a_use_lng;
 	}
 
 	public function setTitle($a_title) {
@@ -82,18 +84,30 @@ class catTitleGUI {
 		$this->command_lng_var = null;
 	}
 
+	// switch weather vars should be understand as lang vars (true) or
+	// be used as it. Defaults to true.
+	public function useLng($a_use_it) {
+		$this->use_lng = (bool)$a_use_it;
+	}
+
 	public function render() {
 		$tpl = new ilTemplate("tpl.cat_title.html", true, true, "Services/CaTUIComponents");
 
 		if ($this->title !== null) {
 			$tpl->setCurrentBlock("title");
-			$tpl->setVariable("TITLE", $this->lng->txt($this->title));
+			$tpl->setVariable("TITLE", $this->use_lng
+									 ? $this->lng->txt($this->title)
+									 : $this->title
+									 );
 			$tpl->parseCurrentBlock();
 		}
 
 		if ($this->subtitle !== null) {
 			$tpl->setCurrentBlock("title");
-			$tpl->setVariable("SUBTITLE", $this->lng->txt($this->subtitle));
+			$tpl->setVariable("SUBTITLE", $this->use_lng
+										? $this->lng->txt($this->subtitle)
+										: $this->subtitle
+										);
 			$tpl->parseCurrentBlock();
 		}
 
@@ -112,7 +126,10 @@ class catTitleGUI {
 		if ($this->command !== null) {
 			$tpl->setCurrentBlock("command");
 			$tpl->setVariable("CMD_TARGET", $this->command);
-			$tpl->setVariable("CMD_TXT", $this->lng->txt($this->command_lng_var));
+			$tpl->setVariable("CMD_TXT", $this->use_lng
+									   ? $this->lng->txt($this->command_lng_var)
+									   : $this->command_lng_var
+									   );
 			$tpl->parseCurrentBlock();
 		}
 

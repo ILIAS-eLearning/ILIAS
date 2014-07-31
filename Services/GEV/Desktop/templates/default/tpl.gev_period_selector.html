@@ -1,0 +1,40 @@
+<form id="form_{POST_VAR}" enctype="multipart/form-data" action="{ACTION}" method="post">
+	{TXT_START}&nbsp;
+	{START_SELECT} <input type="image" alt="{TXT_START_CALENDAR}" title="{TXT_START_CALENDAR}" src="{IMG_START_CALENDAR}" id="btn_cal_start_{START_ID}" />
+	<script type="text/javascript">
+	//<![CDATA[
+	Calendar.setup( 
+	{ 
+		button : "btn_cal_start_{DATE_ID_START}",
+		inputFieldsDate : "{INPUT_FIELDS_START}",
+		firstDay : {DATE_FIRST_DAY},
+		onUpdate : ilUpdateEndDate
+	}
+	);
+	YAHOO.util.Event.onDOMReady(ilInitDuration,prefix = new String("{POST_VAR}"));
+	YAHOO.util.Event.onDOMReady(ilDisableSessionTime,prefix = new String("{POST_VAR}"));
+
+	//]]>
+	</script>
+	&nbsp;{TXT_END}&nbsp;
+	{END_SELECT} <input type="image" alt="{TXT_END_CALENDAR}" title="{TXT_END_CALENDAR}" src="{IMG_END_CALENDAR}" id="btn_cal_end_{END_ID}" />
+	<script type="text/javascript">
+		//<![CDATA[
+		Calendar.setup( 
+		{ 
+			button : "btn_cal_end_{DATE_ID_END}",
+			firstDay : {DATE_FIRST_DAY},
+			inputFieldsDate : "{INPUT_FIELDS_END}"
+		}
+		);
+		
+		//]]>
+	</script>
+</form>
+<script type="text/javascript">
+$(document).ready(function () {
+    $('#form_{POST_VAR}').find("select").on("change", function(ev){
+    	$(ev.target).parents("form").submit();
+    })
+});
+</script>

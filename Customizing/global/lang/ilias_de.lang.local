@@ -669,3 +669,16 @@ crsbook#:#admin_no_group_available#:#Sie besitzen auf keine Gruppen eine ausreic
 gev#:#gev_table_no_entry#:#-
 gev#:#gev_payment_type#:#Zahlungsart
 gev#:#gev_payment_type_bill#:#Rechnung
+gev#:#gev_my_edu_bio_desc#:#Hier sehen sie Ihre Bildungspunkte und die von Ihnen besuchten Trainings.
+gev#:#gev_others_edu_bio#:#Bildungsbiographie von %s
+gev#:#gev_others_edu_bio_desc#:#Hier sehen sie die Bildungspunkte und die von besuchten Trainings von %s.
+gev#:#gev_passed#:#bestanden
+gev#:#gev_in_progress#:#in Bearbeitung
+gev#:#gev_failed#:#nicht bestanden
+gev#:#gev_period#:#Zeitraum:
+gev#:#gev_until#:#bis
+gev#:#gev_training_id#:#ID
+gev#:#gev_costs#:#Kosten
+gev#:#gev_from#:#ab
+gev#:#gev_get_certificate#:#Zertifikat abrufen
+gev#:#gev_get_bill#:#Rechung anfordern

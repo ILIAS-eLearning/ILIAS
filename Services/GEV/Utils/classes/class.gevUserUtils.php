@@ -108,7 +108,11 @@ class gevUserUtils {
 	}
 	
 	public function getEduBioLink() {
-		return "http://www.google.de"; //TODO: implement this properly
+		global $ilCtrl;
+		$ilCtrl->setParameterByClass("gevEduBiographyGUI", "target_user_id", $this->user_id);
+		$link = $ilCtrl->getLinkTargetByClass("gevEduBiographyGUI", "view");
+		$ilCtrl->clearParametersByClass("gevEduBiographyGUI");
+		return $link; //TODO: implement this properly
 	}
 	
 	public function getCourseHighlights() {
@@ -781,6 +785,13 @@ class gevUserUtils {
 			$orgus = $parents;
 		}
 		return $sups;
+	}
+	
+	public function isEmployeeOf($a_user_id) {
+		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php");
+		$tree = ilObjOrgUnitTree::_getInstance();
+		// propably faster then checking the employees of this->user
+		return in_array($a_user_id, $tree->getSuperiorsOfUser($this->user_id));
 	}
 	
 	// billing info

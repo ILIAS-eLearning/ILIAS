@@ -9,10 +9,7 @@
 * @version	$Id$
 */
 
-require_once("Services/CaTUIComponents/classes/class.catTitleGUI.php");
 require_once("Services/CaTUIComponents/classes/class.catSelectInputGUI.php");
-require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
-require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 
 class gevUserSelectorGUI {
 	protected $users;

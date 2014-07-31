@@ -12,6 +12,7 @@
 * @ilCtrl_Calls gevDesktopGUI: gevCourseSearchGUI
 * @ilCtrl_Calls gevDesktopGUI: gevBookingGUI
 * @ilCtrl_Calls gevDesktopGUI: gevStaticpagesGUI
+* @ilCtrl_Calls gevDesktopGUI: gevEduBiographyGUI
 *
 */
 
@@ -59,6 +60,12 @@ class gevDesktopGUI {
 			case "gevstaticpagesgui":			
 				require_once("Services/GEV/Desktop/classes/class.gevStaticPagesGUI.php");
 				$gui = new gevStaticpagesGUI();
+				$ret = $this->ctrl->forwardCommand($gui);
+				break;
+
+			case "gevedubiographygui":
+				require_once("Services/GEV/Desktop/classes/class.gevEduBiographyGUI.php");
+				$gui = new gevEduBiographyGUI();
 				$ret = $this->ctrl->forwardCommand($gui);
 				break;
 
