@@ -49,15 +49,14 @@ class gevCrsAdditionalMailSettings {
 	}
 
 	public function getInvitationMailingDate() {
-		return $this->settings["invitation_mailing_date"];
+		return $this->settings["inv_mailing_date"];
 	}
 	
 	public function setInvitationMailingDate($a_date) {
 		if (gettype($a_date) != "integer") {
 			throw new Exception("gevCrsAdditionalMailSettings::setInvitationMailingDate expected integer as first argument, ".gettype($a_date)." given.");
 		}
-		
-		$this->settings["invitation_mailing_date"] = $a_date;
+		$this->settings["inv_mailing_date"] = $a_date;
 	}
 
 	protected function read() {
@@ -70,14 +69,14 @@ class gevCrsAdditionalMailSettings {
 		if ($record = $this->db->fetchAssoc($result)) {
 			$this->settings = array( "send_list_to_accom" => $record["send_list_to_accom"] != 0
 								   , "send_list_to_venue" => $record["send_list_to_venue"] != 0
-								   , "inv_mail_date" => $record["inv_mailing_date"] ? $record["inv_mailing_date"]
+								   , "inv_mailing_date" => $record["inv_mailing_date"] ? $record["inv_mailing_date"]
 								   													: self::INVITATION_MAIL_DEFAULT_DATE
 								   );
 		}
 		else {
 			$this->settings = array( "send_list_to_accom" => true
 								   , "send_list_to_venue" => true
-								   , "inv_mail_date" => self::INVITATION_MAIL_DEFAULT_DATE
+								   , "inv_mailing_date" => self::INVITATION_MAIL_DEFAULT_DATE
 								   );
 		}
 	}
@@ -88,12 +87,12 @@ class gevCrsAdditionalMailSettings {
 				"(".$this->db->quote($this->crs_id, "integer").", "
 				   .$this->db->quote($this->settings["send_list_to_accom"]?1:0, "integer").", "
 				   .$this->db->quote($this->settings["send_list_to_venue"]?1:0, "integer").", "
-				   .$this->db->quote($this->settings["invitation_mailing_date"], "integer").
+				   .$this->db->quote($this->settings["inv_mailing_date"], "integer").
 				") 
 				ON DUPLICATE KEY UPDATE
 				 	send_list_to_accom = ".$this->db->quote($this->settings["send_list_to_accom"]?1:0, "integer").",
 					send_list_to_venue = ".$this->db->quote($this->settings["send_list_to_venue"]?1:0, "integer").",
-					inv_mailing_date = ".$this->db->quote($this->settings["invitation_mailing_date"], "integer");
+					inv_mailing_date = ".$this->db->quote($this->settings["inv_mailing_date"], "integer");
 
 		$this->db->manipulate($query);
 	}
@@ -105,7 +104,7 @@ class gevCrsAdditionalMailSettings {
 
 		$other->setSendListToAccomodation($this->getSendListToAccomodation());
 		$other->setSendListToVenue($this->getSendListToVenue());
-		$other->setInvitationMailingDate($inv_mail_date ? $inv_mail_date : 29);
+		$other->setInvitationMailingDate($inv_mail_date ? $inv_mail_date : self::INVITATION_MAIL_DEFAULT_DATE);
 
 		$other->save();
 	}

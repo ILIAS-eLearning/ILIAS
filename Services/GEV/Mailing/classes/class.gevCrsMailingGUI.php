@@ -452,11 +452,10 @@ class gevCrsMailingGUI extends ilMailingGUI {
 		$form = $this->getAdditionalSettingsForm();
 		
 		$form->setValuesByPost();
-		
 		if ($form->checkInput()) {
 			$this->getAdditionalMailSettings()->setSendListToAccomodation((bool) ($form->getInput("send_list_to_accom") == 1));
 			$this->getAdditionalMailSettings()->setSendListToVenue((bool) ($form->getInput("send_list_to_venue") == 1));
-			$this->getAdditionalMailSettings()->setInvitationMailingDate((int) ($form->getInput("inv_mailing_date")));
+			$this->getAdditionalMailSettings()->setInvitationMailingDate(intval($form->getInput("inv_mailing_date")));
 			$this->getAdditionalMailSettings()->save();
 			
 			ilUtil::sendSuccess($this->lng->txt("gev_additional_settings_updated"));
