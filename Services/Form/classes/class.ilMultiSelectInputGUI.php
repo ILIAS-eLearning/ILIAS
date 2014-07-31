@@ -277,8 +277,14 @@ class ilMultiSelectInputGUI extends ilFormPropertyGUI implements ilTableFilterIt
 		
 		$tpl->setVariable("ID", $this->getFieldId());
 
-		$tpl->setVariable("WIDTH", $this->getWidth());
-		$tpl->setVariable("HEIGHT", $this->getHeight());
+		if($this->getWidth())
+		{
+			$tpl->setVariable("WIDTH", $this->getWidth());
+		}
+		if($this->getHeight())
+		{
+			$tpl->setVariable("HEIGHT", $this->getHeight());
+		}
 		
 		return $tpl->get();
 	}
