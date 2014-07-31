@@ -73,10 +73,10 @@ class gevListForAccomodation extends gevCrsAutoMail {
 		$member_list_name = gevCrsMailAttachments::LIST_FOR_HOTEL_NAME;
 		$path = $this->getAttachments()->getPathTo($member_list_name);
 
-		$this->ctrl->setParameterByClass("vfCrsMailingGUI", "auto_mail_id",$this->getId());
-		$this->ctrl->setParameterByClass("vfCrsMailingGUI", "filename", $member_list_name);
-		$link = $this->ctrl->getLinkTargetByClass("vfCrsMailingGUI", "deliverAutoMailAttachment");
-		$this->ctrl->clearParametersByClass("vfCrsMailingGUI");
+		$this->ctrl->setParameterByClass("gevCrsMailingGUI", "auto_mail_id",$this->getId());
+		$this->ctrl->setParameterByClass("gevCrsMailingGUI", "filename", $member_list_name);
+		$link = $this->ctrl->getLinkTargetByClass("gevCrsMailingGUI", "deliverAutoMailAttachment");
+		$this->ctrl->clearParametersByClass("gevCrsMailingGUI");
 
 		$message = $this->getMessageFromTemplate($this->getTemplateId(), null, $a_recipient["email"], $a_recipient["name"]);
 
