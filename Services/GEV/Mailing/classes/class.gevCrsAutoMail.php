@@ -344,7 +344,7 @@ abstract class gevCrsAutoMail extends ilAutoMail {
 		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 
 		if (!$this->checkUserID($a_recipient)) {
-			throw new Exception("GEV-Mails will only work for ILIAS-Users.");
+			return array();
 		}
 
 		$superior_ids = gevUserUtils::getInstance($a_recipient)->getDirectSuperiors();
