@@ -50,14 +50,15 @@ class gevCrsMailData extends ilMailData {
 	}
 	
 	function getPlaceholderLocalized($a_placeholder_code, $a_lng, $a_markup = false) {
-		if (  $this->crs_utils === null
-		   || $this->usr_utils === null) {
-			throw new Exception("gevCrsMailData::getPlaceholderLocalized: course or user utilities not initialized.");
+		if (  $this->crs_utils === null) {
+			throw new Exception("gevCrsMailData::getPlaceholderLocalized: course utilities not initialized.");
 		}
 		
 		if (array_key_exists($a_placeholder_code, $this->cache)) {
 			return $this->cache[$a_placeholder_code];
 		}
+		
+		$val = null;
 		
 		switch ($a_placeholder_code) {
 			case "TRAININGSTITEL":
@@ -206,28 +207,36 @@ class gevCrsMailData extends ilMailData {
 				$val = $this->crs_utils->getAccomodationEmail();
 				break;
 			case "BUCHENDER_VORNAME":
-				$val = $this->usr_utils->getFirstnameOfUserWhoBookedAtCourse($this->crs_utils->getId());
+				if ($this->usr_utils !== null) {
+					$val = $this->usr_utils->getFirstnameOfUserWhoBookedAtCourse($this->crs_utils->getId());
+				}
 				break;
 			case "BUCHENDER_NACHNAME":
-				$val = $this->usr_utils->getLastnameOfUserWhoBookedAtCourse($this->crs_utils->getId());
+				if ($this->usr_utils !== null) {
+					$val = $this->usr_utils->getLastnameOfUserWhoBookedAtCourse($this->crs_utils->getId());
+				}
 				break;
 			//case "EINSATZTAGE":
 			//	break;
 			case "UEBERNACHTUNGEN":
-				$tmp = $this->usr_utils->getOvernightDetailsForCourse($this->crs_utils->getCourse());
-				$dates = array();
-				foreach ($tmp as $date) {
-					$d = ilDatePresentation::formatDate($date);
-					$date->increment(ilDateTime::DAY, 1);
-					$d .= " - ".ilDatePresentation::formatDate($date); 
-					$dates[] = $d;
+				if ($this->usr_utils !== null) {
+					$tmp = $this->usr_utils->getOvernightDetailsForCourse($this->crs_utils->getCourse());
+					$dates = array();
+					foreach ($tmp as $date) {
+						$d = ilDatePresentation::formatDate($date);
+						$date->increment(ilDateTime::DAY, 1);
+						$d .= " - ".ilDatePresentation::formatDate($date); 
+						$dates[] = $d;
+					}
+					$val = implode("<br />", $dates);
 				}
-				$val = implode("<br />", $dates);
 				break;
 			//case "LISTE":
 			//	break;
-			default:
-				$val = $a_placeholder_code;
+		}
+		
+		if ($val === null) {
+			$val = $a_placeholder_code;
 		}
 		
 		$this->cache[$a_placeholder_code] = $val;
