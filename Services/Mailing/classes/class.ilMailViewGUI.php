@@ -16,9 +16,7 @@ class ilMailViewGUI {
 		$this->view_title = $a_view_title;
 		$this->backlink = $a_backlink;
 		$this->subject = $a_subject;
-		$this->text = (strpos("<p>", $a_text) === false) //html mails will contain a <p>, plain text not
-					? str_replace("\n", "<br />", $a_text)
-					: $a_text;
+		$this->text = $a_text;
 		$this->frame = $a_frame;
 		$this->image_path = $a_image_path;
 		$this->image_style = $a_image_style?$a_image_style:"";
@@ -61,6 +59,10 @@ class ilMailViewGUI {
 		}
 		else {
 			$msg = $this->text;
+		}
+
+		if (strpos("<p>", $msg) === false) { //html mails will contain a <p>, plain text won't
+			$msg = str_replace("\n", "<br />", $msg);
 		}
 
 		$this->fillRow($tpl, $this->lng->txt("subject"), $this->subject);
