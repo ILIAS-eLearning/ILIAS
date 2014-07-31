@@ -2191,3 +2191,32 @@ if(!$ilDB->tableExists('obj_user_data_hist') )
 }
 
 ?>
+<#4276>
+<?php
+if(!$ilDB->tableColumnExists('frm_threads', 'avg_rating'))
+{
+	$ilDB->addTableColumn('frm_threads', 'avg_rating',
+		array(
+			'type' => 'float',
+			'notnull' => true,
+			'default' => 0
+		));
+}
+?>
+<#4277>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#4278>
+<?php
+if(!$ilDB->tableColumnExists('frm_settings', 'thread_rating'))
+{
+	$ilDB->addTableColumn('frm_settings', 'thread_rating',
+		array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+		));
+}
+?>
