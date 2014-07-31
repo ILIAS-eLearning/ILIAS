@@ -132,6 +132,11 @@ class gevCrsMailData extends ilMailData {
 				break;
 			case "ZEITPLAN":
 				$val = $this->crs_utils->getSchedule();
+				$counter = 1;
+				foreach ($val as $key => $value) {
+					$val[$key] = "Tag ".$counter.": ".$value;
+					$counter += 1;
+				}
 				$val = implode("<br />", $val);
 				break;
 			case "TV-NAME":
