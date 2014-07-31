@@ -954,7 +954,7 @@ class ilSurveyEditorGUI
 	{
 		$block_id = (int)$_REQUEST["bl_id"];		
 		$this->ctrl->setParameter($this, "bl_id", $block_id);
-		
+	
 		if(!$a_form)
 		{
 			$a_form = $this->initQuestionblockForm($block_id);
@@ -988,7 +988,7 @@ class ilSurveyEditorGUI
 	}
 	
 	protected function initQuestionblockForm($a_block_id = null, $a_question_ids = null)
-	{
+	{		
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this, "saveDefineQuestionblock"));
@@ -1044,10 +1044,18 @@ class ilSurveyEditorGUI
 	public function saveDefineQuestionblockObject()
 	{
 		$block_id = (int)$_REQUEST["bl_id"];
+		$q_ids = $_POST["qids"];
+				
+		$this->ctrl->setParameter($this, "bl_id", $block_id);
+					
+		if(!$block_id && !is_array($q_ids))
+		{
+			$this->ctrl->redirect($this, "questions");
+		}
 		
 		$form = $this->initQuestionblockForm($block_id);
 		if($form->checkInput())
-		{								
+		{				
 			$title = $form->getInput("title");
 			$show_questiontext = $form->getInput("show_questiontext");
 			$show_blocktitle = $form->getInput("show_blocktitle") ;
@@ -1057,10 +1065,10 @@ class ilSurveyEditorGUI
 				$this->object->modifyQuestionblock($block_id, $title, 
 					$show_questiontext, $show_blocktitle);
 			}
-			else
+			else if($q_ids)
 			{
 				$this->object->createQuestionblock($title, $show_questiontext, 
-					$show_blocktitle, $_POST["qids"]);
+					$show_blocktitle, $q_ids);
 			}
 			
 			ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);
@@ -1154,7 +1162,15 @@ class ilSurveyEditorGUI
 
 	public function saveHeadingObject()
 	{
-		$form = $this->initHeadingForm((int)$_REQUEST["q_id"]);		
+		$q_id = (int)$_REQUEST["q_id"];
+		if(!$q_id)
+		{
+			$this->ctrl->redirect($this, "questions");
+		}
+		
+		$this->ctrl->setParameter($this, "q_id", $q_id);
+		
+		$form = $this->initHeadingForm($q_id);		
 		if ($form->checkInput())
 		{			
 			include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
@@ -1257,8 +1273,8 @@ class ilSurveyEditorGUI
 						$template->parseCurrentBlock();
 					}
 				}
-				if (count($page) > 1)
-				{
+				if (count($page) > 1 && $page[0]["questionblock_show_blocktitle"])
+				{					
 					$template->setCurrentBlock("page");
 					$template->setVariable("BLOCKTITLE", $page[0]["questionblock_title"]);
 					$template->parseCurrentBlock();
