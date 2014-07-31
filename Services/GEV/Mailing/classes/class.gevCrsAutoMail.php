@@ -341,26 +341,27 @@ abstract class gevCrsAutoMail extends ilAutoMail {
 
 	protected function getCC($a_recipient) {
 		//TODO: this needs to be adjusted
-		require_once("Services/VoFue/Patch/classes/class.vfUtil.php");
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 
 		if (!$this->checkUserID($a_recipient)) {
-			throw new Exception("VoFue-Mails will only work for ILIAS-Users.");
+			throw new Exception("GEV-Mails will only work for ILIAS-Users.");
 		}
 
-		$superior_ids = vfUtil::getSuperior($a_recipient);
+		$superior_ids = gevUserUtils::getInstance($a_recipient)->getDirectSuperiors();
 
 		return array_map(array($this, "getTo"), $superior_ids);
 	}
 
 	protected function getBCC($a_recipient) {
 		//TODO: this needs to be adjusted
-		if ($this->global_bcc === null) {
+		/*if ($this->global_bcc === null) {
 			require_once "Services/Administration/classes/class.ilSetting.php";
 			$vofue_set = new ilSetting("vofue");
 			$this->global_bcc = array($vofue_set->get("mail_setting_bcc"));
-		}
+		}*/
 
-		return $this->global_bcc;
+		//return $this->global_bcc;
+		return null;
 	}
 
 	protected function getFullnameForTemplate($a_recipient) {
@@ -400,7 +401,6 @@ abstract class gevCrsAutoMail extends ilAutoMail {
 	// Turn template to mail content. Returns
 	// a dict containing fields "subject", "plain" and "html"
 	protected function getMessageFromTemplate($a_templ_id, $a_user_id, $a_email, $a_name) {
-		//TODO: this needs to be adjusted
 		$this->initTemplateObjects($a_templ_id, "de");
 
 		require_once "./Services/GEV/Mailing/classes/class.gevCrsMailData.php";

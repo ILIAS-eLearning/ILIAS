@@ -754,6 +754,35 @@ class gevUserUtils {
 		return in_array($this->user_id, $tree->getSuperiorsOfUser($a_user_id));
 	}
 	
+	public function getDirectSuperiors() {
+		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php");
+		$tree = ilObjOrgUnitTree::_getInstance();
+		$sups = $tree->getSuperiorsOfUser($this->user_id, false);
+		if (count($sups) > 0) {
+			return $sups;
+		}
+		// ok, so there are no superiors in any org-unit where the user is employee
+		// we need to find the superiors by ourselves
+		$sups = array();
+		$orgus = $tree->getOrgUnitsOfUser($this->user_id);
+		$parents = array();
+		
+		while (count ($sups) == 0) {
+			foreach ($orgus as $ref) {
+				$parents = $tree->getParent($ref);
+			}
+			if (count($parents) == 0) {
+				return array();
+			}
+			$parents = array_unique($parents);
+			foreach ($parents as $ref) {
+				$sups = array_merge($sups, $this->getSuperiors($ref, false));
+			}
+			$orgus = $parents;
+		}
+		return $sups;
+	}
+	
 	// billing info
 	
 	public function getLastBillingDataMaybe() {
