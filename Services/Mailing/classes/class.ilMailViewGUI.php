@@ -16,7 +16,9 @@ class ilMailViewGUI {
 		$this->view_title = $a_view_title;
 		$this->backlink = $a_backlink;
 		$this->subject = $a_subject;
-		$this->text = $a_text;
+		$this->text = (strpos("<p>", $a_text) === false) //html mails will contain a <p>, plain text not
+					? str_replace("\n", "<br />", $a_text)
+					: $a_text;
 		$this->frame = $a_frame;
 		$this->image_path = $a_image_path;
 		$this->image_style = $a_image_style?$a_image_style:"";
@@ -26,7 +28,7 @@ class ilMailViewGUI {
 		$this->bcc = $a_bcc;
 	}
 
-	private function fillRow($tpl, $name, $value) {
+	private function fillRow($tpl, $name, $value) {	
 		$tpl->setCurrentBlock("row_bl");
 		$tpl->setVariable("NAME", $name);
 		$tpl->setVariable("VALUE", $value);
