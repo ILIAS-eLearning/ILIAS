@@ -4,11 +4,10 @@
 require_once './Services/MailTemplates/classes/class.ilMailTypeAdapter.php';
 
 /**
- * VoFue mail placeholders
+ * GEV mail placeholders for courses
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @version $Id$
- * @ingroup ServicesVoFuePatch
  */
 class gevCrsMailTypeAdapter extends ilMailTypeAdapter {
 	private $placeholders = null;

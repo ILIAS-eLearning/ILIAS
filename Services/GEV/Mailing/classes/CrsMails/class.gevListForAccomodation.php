@@ -68,7 +68,7 @@ class gevListForAccomodation extends gevCrsAutoMail {
 	}
 	
 	public function getAttachmentsForMail() {
-		require_once ("Services/VoFue/Course/classes/class.gevCrsMailAttachments.php");
+		require_once ("Services/GEV/Mailing/classes/class.gevCrsMailAttachments.php");
 
 		$member_list_name = gevCrsMailAttachments::LIST_FOR_HOTEL_NAME;
 		$path = $this->getAttachments()->getPathTo($member_list_name);

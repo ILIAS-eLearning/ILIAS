@@ -15,7 +15,6 @@ class gevInvitation extends gevCrsAutoMail {
 		parent::__construct($a_crs_id, $a_id);
 
 		$this->mail_settings = null;
-		$this->vofue_settings = null;
 		$this->attachments = null;
 		
 		
@@ -69,7 +68,7 @@ class gevInvitation extends gevCrsAutoMail {
 
 	public function getMail($a_recipient) {
 		if (!$this->checkUserID($a_recipient)) {
-			throw new Exception("VoFue-Invitation-Mails will only work for ILIAS-Users.");
+			throw new Exception("GEV-Invitation-Mails will only work for ILIAS-Users.");
 		}
 
 		$function = $this->getUserFunction($a_recipient);

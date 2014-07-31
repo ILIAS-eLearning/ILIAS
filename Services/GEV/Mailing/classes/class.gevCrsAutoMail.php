@@ -14,7 +14,6 @@ require_once ("./Services/GEV/Utils/classes/class.gevUserUtils.php");
 abstract class gevCrsAutoMail extends ilAutoMail {
 	protected $crs_id;
 	protected $crs;
-	protected $vofue_settings;
 	protected $template_api;
 	protected $template_settings;
 	protected $template_variant;
@@ -264,8 +263,8 @@ abstract class gevCrsAutoMail extends ilAutoMail {
 
 	protected function getAttachments() {
 		if ($this->attachments === null) {
-			require_once ("Services/VoFue/Course/classes/class.vfCrsMailAttachments.php");
-			$this->attachments = new vfCrsMailAttachments($this->crs_id);
+			require_once ("Services/GEV/Mailing/classes/class.gevCrsMailAttachments.php");
+			$this->attachments = new gevCrsMailAttachments($this->crs_id);
 		}
 
 		return $this->attachments;
@@ -356,8 +355,8 @@ abstract class gevCrsAutoMail extends ilAutoMail {
 		//TODO: this needs to be adjusted
 		/*if ($this->global_bcc === null) {
 			require_once "Services/Administration/classes/class.ilSetting.php";
-			$vofue_set = new ilSetting("vofue");
-			$this->global_bcc = array($vofue_set->get("mail_setting_bcc"));
+			$vfue_set = new ilSetting("vfue");
+			$this->global_bcc = array($vofe_set->get("mail_setting_bcc"));
 		}*/
 
 		//return $this->global_bcc;
@@ -480,7 +479,7 @@ abstract class gevCrsAutoMail extends ilAutoMail {
 
 		if (count($cc) == 0) {
 			// no cc means no superior => no need to send mail
-			// VoFue #4934
+			// VoFe #4934
 			return null;
 		}
 

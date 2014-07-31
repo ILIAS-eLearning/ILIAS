@@ -328,12 +328,6 @@ class gevCrsMailingGUI extends ilMailingGUI {
 
 			$settings = $_POST[$name];
 
-			/*if ($name == "standard" AND $settings["template"] == -1) {
-				ilUtil::sendFailure($this->lng->txt("vofue_mailing_no_standard_mail_failure"));
-				$success = false;
-
-			}*/
-
 			if (!array_key_exists("template", $settings)) {
 				die("No template set for ".$name.".");
 			}
@@ -412,7 +406,6 @@ class gevCrsMailingGUI extends ilMailingGUI {
 	// Refreshing of attachments at seminar templates.
 
 	protected function confirmRefreshAttachments() {
-		# TODO: make this fit generali
 		require_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
 
 		$conf = new ilConfirmationGUI();
@@ -422,12 +415,12 @@ class gevCrsMailingGUI extends ilMailingGUI {
 		$conf->setConfirm($this->lng->txt("refresh"), "refreshAttachments");
 		$conf->setCancel($this->lng->txt("cancel"), "showAttachments");
 
-		require_once("./Services/VoFue/Patch/classes/class.vfCourseSettings.php");
+		require_once("./Services/GEV/Utils/classes/class.gevCourseUtils.php");
 
-		foreach(vfCourseSettings::findCoursesByTemplateId($this->obj_id) as $crs) {
-			$conf->addItem("crs", $crs["obj_id"], $crs["title"]." (".
-							ilDatePresentation::formatDate(new ilDate($crs["crs_start"], IL_CAL_DATE)). " - ".
-							ilDatePresentation::formatDate(new ilDate($crs["crs_end"], IL_CAL_DATE))
+		foreach(gevCourseUtils::getInstance($this->obj_id)->getDerivedCourseIds() as $crs_id) {
+			$util = gevCourseUtils::getInstance($crs_id);
+			$conf->addItem("crs", $crs_id, $util->getTitle()." (".
+							$util->getFormattedAppointment()
 							.")");
 		}
 
@@ -435,8 +428,9 @@ class gevCrsMailingGUI extends ilMailingGUI {
 	}
 
 	protected function refreshAttachments() {
-		foreach(vfCourseSettings::findCoursesByTemplateId($this->obj_id) as $crs) {
-			$this->getAttachments()->copyTo($crs["obj_id"]);
+		require_once("./Services/GEV/Utils/classes/class.gevCourseUtils.php");
+		foreach(gevCourseUtils::getInstance($this->obj_id)->getDerivedCourseIds() as $crs_id) {
+			$this->getAttachments()->copyTo($crs_id);
 		}
 
 		ilUtil::sendSuccess($this->lng->txt("gev_attachments_refreshed"));
