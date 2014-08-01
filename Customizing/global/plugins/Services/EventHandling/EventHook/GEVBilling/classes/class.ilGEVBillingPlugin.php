@@ -1,6 +1,7 @@
 <?php
 
 require_once("./Services/EventHandling/classes/class.ilEventHookPlugin.php");
+require_once("Services/Billing/classes/class.ilBill.php");
 
 
 class ilGEVBillingPlugin extends ilEventHookPlugin
@@ -17,6 +18,9 @@ class ilGEVBillingPlugin extends ilEventHookPlugin
 		}
 		if ($a_component = "Services/Participation" && $a_event == "setStatusAndPoints") {
 			$this->participationStatusChanged($a_parameter["crs_obj_id"], $a_parameter["user_id"]);
+		}
+		if ($a_component = "Services/Billing" && $a_event == "billFinalized") {
+			$this->billFinalized($a_parameter["bill"]);
 		}
 	}
 	
@@ -93,6 +97,11 @@ class ilGEVBillingPlugin extends ilEventHookPlugin
 			    || $status == ilParticipationStatus::STATUS_ABSENT_NOT_EXCUSED) {
 			$billing_utils->finalizeNoShowBill($a_crs_id, $a_user_id);
 		}
+	}
+	
+	protected function billFinalized(ilBill $a_bill) {
+		require_once("Services/GEV/Utils/classes/class.gevBillStorage.php");
+		gevBillStorage::getInstance()->storeBill($a_bill);
 	}
 }
 
