@@ -13584,9 +13584,9 @@ exc#:#exc_peer_review_show_not_rated_yet#:#You must give feedback before you can
 exc#:#exc_peer_review_show#:#Show Received Feedback
 exc#:#exc_needs_deadline#:#This feature does only work with an assignment deadline.
 exc#:#exc_team_upload_not_supported#:#This feature does not support team upload assignments.
-exc#:#exc_global_feedback_file#:#Feedback file for all learners
+exc#:#exc_global_feedback_file#:#Sample Solution
 exc#:#exc_global_feedback_file_cron#:#Notification
-exc#:#exc_global_feedback_file_cron_info#:#All learners will be notified via cron job when the feedback file becomes available.
+exc#:#exc_global_feedback_file_cron_info#:#All learners will be notified via cron job when the sample solution becomes available.
 exc#:#exc_feedback_notification_subject#:#Feedback is available for assignment of exercise "%s"
 exc#:#exc_feedback_notification_salutation#:#Hello %s,
 exc#:#exc_feedback_notification_body#:#Feedback is now available for the following assignment.
@@ -14556,3 +14556,6 @@ exc#:#exc_peer_review_personal#:#Personalized Peer-Feedback
 exc#:#exc_peer_review_personal_info#:#Peers are shown with full name
 exc#:#exc_peer_review_recipient#:#Feedback Recipient
 exc#:#exc_peer_review_giver#:#Feedback Giver
+exc#:#exc_global_feedback_file_date#:#Availability 
+exc#:#exc_global_feedback_file_date_deadline#:#After deadline
+exc#:#exc_global_feedback_file_date_upload#:#After submission

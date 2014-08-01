@@ -2259,3 +2259,16 @@ if(!$ilDB->tableColumnExists('exc_assignment', 'peer_prsl'))
 		));
 }
 ?>
+<#4282>
+<?php
+if(!$ilDB->tableColumnExists('exc_assignment', 'fb_date'))
+{
+	$ilDB->addTableColumn('exc_assignment', 'fb_date',
+		array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 1
+		));
+}
+?>

@@ -590,7 +590,16 @@ class ilExAssignmentGUI
 							$img." ".$lng->txt("exc_".$status));
 					}
 					
-					if ($cnt_files > 0 || ($times_up && $a_data["fb_file"]))
+					if($a_data["fb_date"] == ilExAssignment::FEEDBACK_DATE_DEADLINE)
+					{
+						$show_global_feedback = ($times_up && $a_data["fb_file"]);
+					}
+					else
+					{
+						$show_global_feedback = ($last_sub && $a_data["fb_file"]);
+					}			
+					
+					if ($cnt_files > 0 || $show_global_feedback)
 					{
 						$info->addSection($lng->txt("exc_fb_files").
 							'<a name="fb'.$a_data["id"].'"></a>');
@@ -608,8 +617,8 @@ class ilExAssignmentGUI
 							}
 						}
 						
-						// global feedback
-						if($times_up && $a_data["fb_file"])
+						// global feedback																	
+						if($show_global_feedback)
 						{
 							$info->addProperty($a_data["fb_file"],
 								$lng->txt("download"),

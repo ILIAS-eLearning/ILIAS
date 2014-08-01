@@ -2209,10 +2209,16 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$fb = new ilCheckboxInputGUI($lng->txt("exc_global_feedback_file"), "fb");				
 		$this->form->addItem($fb);
 		
-		$fb_file = new ilFileInputGUi($lng->txt("file"), "fb_file");
+		$fb_file = new ilFileInputGUI($lng->txt("file"), "fb_file");
 		// $fb_file->setRequired(true);
 		$fb_file->setALlowDeletion(true);
 		$fb->addSubItem($fb_file);
+		
+		$fb_date = new ilRadioGroupInputGUI($lng->txt("exc_global_feedback_file_date"), "fb_date");
+		$fb_date->setRequired(true);
+		$fb_date->addOption(new ilRadioOption($lng->txt("exc_global_feedback_file_date_deadline"), ilExAssignment::FEEDBACK_DATE_DEADLINE));
+		$fb_date->addOption(new ilRadioOption($lng->txt("exc_global_feedback_file_date_upload"), ilExAssignment::FEEDBACK_DATE_SUBMISSION));
+		$fb->addSubItem($fb_date);
 		
 		$fb_cron = new ilCheckboxInputGUI($lng->txt("exc_global_feedback_file_cron"), "fb_cron");
 		$fb_cron->setInfo($lng->txt("exc_global_feedback_file_cron_info"));
@@ -2457,6 +2463,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		{						
 			$this->form->getItemByPostVar("fb")->setChecked(true);
 			$this->form->getItemByPostVar("fb_cron")->setChecked($ass->hasFeedbackCron());			
+			$this->form->getItemByPostVar("fb_date")->setValue($ass->getFeedbackDate());			
 			$this->form->getItemByPostVar("fb_file")->setValue(basename($ass->getFeedbackFilePath()));
 		}
 		
