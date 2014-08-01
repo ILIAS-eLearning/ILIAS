@@ -1101,8 +1101,8 @@ class ilObjExercise extends ilObject
 			$this->members_obj->assignMember($user_id);
 		}
 		// no submission yet
-		ilExAssignment::updateStatusReturnedForUser($a_ass_id, $user_id, 0);
-		ilExerciseMembers::_writeReturned($this->getId(), $user_id, 0);
+		ilExAssignment::updateStatusReturnedForUser($a_ass_id, $user_id, 1);
+		ilExerciseMembers::_writeReturned($this->getId(), $user_id, 1);
 		
 		return $next_id;
 	}

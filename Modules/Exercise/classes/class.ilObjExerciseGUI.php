@@ -2359,9 +2359,9 @@ class ilObjExerciseGUI extends ilObjectGUI
 					$ass->setPeerReviewDeadline(null);
 				}		
 			}
-			
-			// #13380
-			$ass->setFeedbackCron($_POST["fb"]);
+						
+			$ass->setFeedbackCron($_POST["fb"]); // #13380
+			$ass->setFeedbackDate($_POST["fb_date"]);
 
 			$ass->save();
 			
@@ -2600,9 +2600,9 @@ class ilObjExerciseGUI extends ilObjectGUI
 			{
 				$ass->handleFeedbackFileUpload($_FILES["fb_file"]);
 			}
-			
-			// #13380
-			$ass->setFeedbackCron($_POST["fb"]);
+						
+			$ass->setFeedbackCron($_POST["fb"]); // #13380
+			$ass->setFeedbackDate($_POST["fb_date"]);
 			
 			$ass->update();
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);

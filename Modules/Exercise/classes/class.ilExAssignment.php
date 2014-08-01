@@ -984,6 +984,22 @@ class ilExAssignment
 	function updateStatusReturnedForUser($a_ass_id, $a_user_id, $a_status)
 	{
 		global $ilDB;
+		
+		// first upload => notification on submission?
+		if($a_status &&
+			!self::lookupStatusReturnedOfUser($a_ass_id, $a_user_id))
+		{
+			$set = $ilDB->query("SELECT fb_cron, fb_date, fb_file".
+				" FROM exc_assignment".
+				" WHERE id = ".$ilDB->quote($a_ass_id, "integer"));
+			$row = $ilDB->fetchAssoc($set);
+			if($row["fb_cron"] &&
+				$row["fb_file"] &&
+				$row["fb_date"] == self::FEEDBACK_DATE_SUBMISSION)
+			{
+				ilExAssignment::sendFeedbackNotifications($a_ass_id, $a_user_id);
+			}
+		}
 
 		$ilDB->manipulateF("UPDATE exc_mem_ass_status ".
 			"SET returned = %s, status_time= %s ".
@@ -2776,6 +2792,7 @@ class ilExAssignment
 		
 		$set = $ilDB->query("SELECT id,fb_file FROM exc_assignment".
 			" WHERE fb_cron = ".$ilDB->quote(1, "integer").
+			" AND fb_date = ".$ilDB->quote(self::FEEDBACK_DATE_DEADLINE, "integer").
 			" AND time_stamp IS NOT NULL".
 			" AND time_stamp > ".$ilDB->quote(0, "integer").			
 			" AND time_stamp < ".$ilDB->quote(time(), "integer").
@@ -2787,11 +2804,11 @@ class ilExAssignment
 				$res[] = $row["id"];			
 			}
 		}		
-		
+	
 		return $res;
 	}
 	
-	public function sendFeedbackNotifications($a_ass_id)
+	public function sendFeedbackNotifications($a_ass_id, $a_user_id = null)
 	{
 		global $ilDB;
 		
@@ -2803,14 +2820,17 @@ class ilExAssignment
 			return false;
 		}		
 		
-		// already done?
-		$set = $ilDB->query("SELECT fb_cron_done".
-			" FROM exc_assignment".
-			" WHERE id = ".$ilDB->quote($a_ass_id, "integer"));
-		$row = $ilDB->fetchAssoc($set);
-		if($row["fb_cron_done"])
+		if(!$a_user_id)
 		{
-			return false;
+			// already done?
+			$set = $ilDB->query("SELECT fb_cron_done".
+				" FROM exc_assignment".
+				" WHERE id = ".$ilDB->quote($a_ass_id, "integer"));
+			$row = $ilDB->fetchAssoc($set);
+			if($row["fb_cron_done"])
+			{
+				return false;
+			}
 		}
 		
 		include_once "./Services/Notification/classes/class.ilSystemNotification.php";
@@ -2821,14 +2841,22 @@ class ilExAssignment
 		$ntf->setIntroductionLangId("exc_feedback_notification_body");
 		$ntf->addAdditionalInfo("exc_assignment", $ass->getTitle());
 		$ntf->setGotoLangId("exc_feedback_notification_link");		
-		$ntf->setReasonLangId("exc_feedback_notification_reason");		
+		$ntf->setReasonLangId("exc_feedback_notification_reason");	
 		
-		include_once "./Modules/Exercise/classes/class.ilExerciseMembers.php";
-		$ntf->sendMail(ilExerciseMembers::_getMembers($ass->getExerciseId()));
+		if(!$a_user_id)
+		{
+			include_once "./Modules/Exercise/classes/class.ilExerciseMembers.php";
+			$ntf->sendMail(ilExerciseMembers::_getMembers($ass->getExerciseId()));
+						
+			$ilDB->manipulate("UPDATE exc_assignment".
+				" SET fb_cron_done = ".$ilDB->quote(1, "integer").
+				" WHERE id = ".$ilDB->quote($a_ass_id, "integer"));
+		}
+		else
+		{		
+			$ntf->sendMail(array($a_user_id));
+		}
 		
-		$ilDB->manipulate("UPDATE exc_assignment".
-			" SET fb_cron_done = ".$ilDB->quote(1, "integer").
-			" WHERE id = ".$ilDB->quote($a_ass_id, "integer"));
 		return true;		
 	}
 	

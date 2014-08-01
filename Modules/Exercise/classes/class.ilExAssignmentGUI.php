@@ -556,13 +556,24 @@ class ilExAssignmentGUI
 				{
 					$feedback_id = $ilUser->getId();
 				}
+				
+				// global feedback / sample solution
+				if($a_data["fb_date"] == ilExAssignment::FEEDBACK_DATE_DEADLINE)
+				{
+					$show_global_feedback = ($times_up && $a_data["fb_file"]);
+				}
+				else
+				{
+					$show_global_feedback = ($last_sub && $a_data["fb_file"]);
+				}								
+				
 				$storage = new ilFSStorageExercise($a_data["exc_id"], $a_data["id"]);					
 				$cnt_files = $storage->countFeedbackFiles($feedback_id);
 				$lpcomment = ilExAssignment::lookupCommentForUser($a_data["id"], $ilUser->getId());
 				$mark = ilExAssignment::lookupMarkOfUser($a_data["id"], $ilUser->getId());
 				$status = ilExAssignment::lookupStatusOfUser($a_data["id"], $ilUser->getId());				
 				if ($lpcomment != "" || $mark != "" || $status != "notgraded" || 
-					$cnt_files > 0 || ($times_up && $a_data["fb_file"]))
+					$cnt_files > 0 || $show_global_feedback)
 				{
 					$info->addSection($lng->txt("exc_feedback_from_tutor"));
 					if ($lpcomment != "")
@@ -589,15 +600,6 @@ class ilExAssignmentGUI
 						$info->addProperty($lng->txt("status"),
 							$img." ".$lng->txt("exc_".$status));
 					}
-					
-					if($a_data["fb_date"] == ilExAssignment::FEEDBACK_DATE_DEADLINE)
-					{
-						$show_global_feedback = ($times_up && $a_data["fb_file"]);
-					}
-					else
-					{
-						$show_global_feedback = ($last_sub && $a_data["fb_file"]);
-					}			
 					
 					if ($cnt_files > 0 || $show_global_feedback)
 					{
