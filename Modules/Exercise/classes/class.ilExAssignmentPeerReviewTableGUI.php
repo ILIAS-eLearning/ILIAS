@@ -17,7 +17,7 @@ class ilExAssignmentPeerReviewTableGUI extends ilTable2GUI
 	protected $user_id; // [int]
 	protected $peer_data; // [array]
 	protected $read_only; // [array]
-
+	
 	/**
 	 * Constructor
 	 *
@@ -55,7 +55,8 @@ class ilExAssignmentPeerReviewTableGUI extends ilTable2GUI
 		$this->setDefaultOrderField("tstamp");
 						
 		$this->setRowTemplate("tpl.exc_peer_review_row.html", "Modules/Exercise");
-		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));
+		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd), 
+			$this->ass->hasPeerReviewFileUpload());
 
 		$this->setTitle($a_ass->getTitle().": ".$this->lng->txt("exc_peer_review")." - ".$this->lng->txt($a_title));
 		
@@ -67,7 +68,7 @@ class ilExAssignmentPeerReviewTableGUI extends ilTable2GUI
 		
 		$this->disable("numinfo");
 		
-		$this->getItems();
+		$this->getItems();				
 	}
 	
 	protected function getItems()
@@ -86,6 +87,7 @@ class ilExAssignmentPeerReviewTableGUI extends ilTable2GUI
 				"ass", $item["peer_id"], "peer", $item["giver_id"]));
 			$row["comment"] = $item["pcomment"];
 			$row["tstamp"] = $item["tstamp"];					
+			$row["upload"] = $item["upload"];					
 			
 			$data[] = $row;
 		}
@@ -171,6 +173,7 @@ class ilExAssignmentPeerReviewTableGUI extends ilTable2GUI
 			{
 				$this->tpl->setCurrentBlock("file_upload_bl");		
 				$this->tpl->setVariable("FILE_ID", $idx);		
+				$this->tpl->setVariable("FILE_CAPTION", $this->lng->txt("file_add"));		
 				$this->tpl->parseCurrentBlock();	
 			}
 			
@@ -184,8 +187,18 @@ class ilExAssignmentPeerReviewTableGUI extends ilTable2GUI
 			$this->tpl->setCurrentBlock("pcomment_static_bl");
 			$this->tpl->setVariable("VAL_PCOMMENT_STATIC", $a_set["comment"]);		
 			$this->tpl->parseCurrentBlock();	
+			
+			if($this->ass->hasPeerReviewFileUpload() && $a_set["upload"])
+			{				
+				$url = $ilCtrl->getLinkTarget($this->parent_obj, "downloadPeerReview");
+				
+				$this->tpl->setCurrentBlock("file_static_bl");		
+				$this->tpl->setVariable("FILE_NAME", $a_set["upload"]);
+				$this->tpl->setVariable("FILE_URL", $url);
+				$this->tpl->parseCurrentBlock();	
+			}
 		}				
-	}
+	}	
 }
 
 ?>

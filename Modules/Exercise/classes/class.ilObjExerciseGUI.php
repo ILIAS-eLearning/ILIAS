@@ -4095,14 +4095,25 @@ class ilObjExerciseGUI extends ilObjectGUI
 			$ilCtrl->redirect($this, "showOverview");
 		}
 		
+		$has_upload = $this->ass->hasPeerReviewFileUpload();
+		
 		foreach($_POST["pc"] as $idx => $value)
-		{
-			$idx = explode("__", $idx);
-			$peer_id = $idx[1];			
-			if($idx[0] == $ilUser->getId() && trim($value))
+		{			
+			$file = array(null, null);
+			if($has_upload && $_FILES["fu"]["tmp_name"][$idx])
 			{
-				$this->ass->updatePeerReviewComment($peer_id, $value);				
+				$file = array(
+					$_FILES["fu"]["tmp_name"][$idx]
+					,$_FILES["fu"]["name"][$idx]
+				);
 			}
+			
+			$parts = explode("__", $idx);					
+			if($parts[0] == $ilUser->getId() && 
+				(trim($value) || $file))
+			{
+				$this->ass->updatePeerReviewComment($parts[1], $value, $file[0], $file[1]);				
+			}			
 		}
 		
 		ilUtil::sendInfo($this->lng->txt("exc_peer_review_updated"), true);
@@ -4182,6 +4193,11 @@ class ilObjExerciseGUI extends ilObjectGUI
 		
 		ilUtil::sendInfo($this->lng->txt("exc_peer_review_updated"), true);
 		$ilCtrl->redirect($this, "editPeerReview");	
+	}
+	
+	function downloadPeerReviewObject()
+	{
+		
 	}
 	
 	function showPersonalPeerReviewObject()

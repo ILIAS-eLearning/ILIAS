@@ -915,10 +915,12 @@ class ilTable2GUI extends ilTableGUI
 	* Set Form action parameter.
 	*
 	* @param	string	$a_form_action	Form action
+	* @param	bvool	$a_multipart	Form multipart status
 	*/
-	final public function setFormAction($a_form_action)
+	final public function setFormAction($a_form_action, $a_multipart = false)
 	{
 		$this->form_action = $a_form_action;
+		$this->form_multipart = (bool)$a_multipart;
 	}
 	
 	/**
@@ -1560,9 +1562,14 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 					$hash = "#".$this->getTopAnchor();
 				}
 
+				if((bool)$this->form_multipart)
+				{
+					$this->tpl->touchBlock("form_multipart_bl");
+				}
+				
 				$this->tpl->setCurrentBlock("tbl_form_header");
 				$this->tpl->setVariable("FORMACTION", $this->getFormAction().$hash);
-				$this->tpl->setVariable("FORMNAME", $this->getFormName());
+				$this->tpl->setVariable("FORMNAME", $this->getFormName());				
 				$this->tpl->parseCurrentBlock();
 			}
 

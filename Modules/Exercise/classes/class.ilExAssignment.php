@@ -2610,13 +2610,29 @@ class ilExAssignment
 			" AND ass_id = ".$ilDB->quote($this->getId(), "integer"));
 	}
 	
-	public function updatePeerReviewComment($a_peer_id, $a_comment)
+	public function updatePeerReviewComment($a_peer_id, $a_comment, $a_file_tmp_name = null, $a_file_name = null)
 	{
 		global $ilDB, $ilUser;
 		
+		// file upload
+		$upload_file = null;
+		if($a_file_tmp_name)
+		{			
+			include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
+			$storage = new ilFSStorageExercise($this->getExerciseId(), $this->getId());
+			$path = $storage->getPeerReviewUploadPath($a_peer_id);			
+			$new_file = $path."/".$ilUser->getId();			
+			@unlink($new_file);
+			if(@move_uploaded_file($a_file_tmp_name, $new_file))
+			{
+				$upload_file = $a_file_name;			
+			}
+		}
+		
 		$ilDB->manipulate("UPDATE exc_assignment_peer".
 			" SET tstamp = ".$ilDB->quote(ilUtil::now(), "timestamp").
-			", pcomment  = ".$ilDB->quote($a_comment, "text").
+			", pcomment  = ".$ilDB->quote(trim($a_comment), "text").
+			", upload  = ".$ilDB->quote($upload_file, "text").
 			" WHERE giver_id = ".$ilDB->quote($ilUser->getId(), "integer").
 			" AND peer_id = ".$ilDB->quote($a_peer_id, "integer").
 			" AND ass_id = ".$ilDB->quote($this->getId(), "integer"));
