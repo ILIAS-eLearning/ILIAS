@@ -34,6 +34,7 @@ class ilExAssignment
 	protected $peer;
 	protected $peer_min;
 	protected $peer_dl;
+	protected $peer_file;
 	protected $feedback_file;
 	protected $feedback_cron;
 	
@@ -316,6 +317,26 @@ class ilExAssignment
 	}
 	
 	/**
+	 * Set peer review file upload
+	 *
+	 * @param	bool
+	 */
+	function setPeerReviewFileUpload($a_val)
+	{
+		$this->peer_file = (bool)$a_val;
+	}
+	
+	/**
+	 * Get peer review file upload status
+	 *
+	 * @return	bool
+	 */
+	function hasPeerReviewFileUpload()
+	{
+		return $this->peer_file;
+	}
+	
+	/**
 	 * Set (global) feedback file
 	 * 
 	 * @param string $a_value
@@ -378,6 +399,7 @@ class ilExAssignment
 			$this->setPeerReview($rec["peer"]);
 			$this->setPeerReviewMin($rec["peer_min"]);
 			$this->setPeerReviewDeadline($rec["peer_dl"]);
+			$this->setPeerReviewFileUpload($rec["peer_file"]);
 			$this->setFeedbackFile($rec["fb_file"]);
 			$this->setFeedbackCron($rec["fb_cron"]);
 		}
@@ -411,6 +433,7 @@ class ilExAssignment
 			"peer" => array("integer", $this->getPeerReview()),
 			"peer_min" => array("integer", $this->getPeerReviewMin()),
 			"peer_dl" => array("integer", $this->getPeerReviewDeadline()),
+			"peer_file" => array("integer", $this->hasPeerReviewFileUpload()),
 			"fb_file" => array("text", $this->getFeedbackFile()),
 			"fb_cron" => array("integer", $this->hasFeedbackCron()))
 			);
@@ -440,6 +463,7 @@ class ilExAssignment
 			"peer" => array("integer", $this->getPeerReview()),
 			"peer_min" => array("integer", $this->getPeerReviewMin()),
 			"peer_dl" => array("integer", $this->getPeerReviewDeadline()),
+			"peer_file" => array("integer", $this->hasPeerReviewFileUpload()),
 			"fb_file" => array("text", $this->getFeedbackFile()),
 			"fb_cron" => array("integer", $this->hasFeedbackCron())
 			),
@@ -529,6 +553,7 @@ class ilExAssignment
 				"peer" => $rec["peer"],
 				"peer_min" => $rec["peer_min"],
 				"peer_dl" => $rec["peer_dl"],
+				"peer_file" => $rec["peer_file"],
 				"fb_file" => $rec["fb_file"],
 				"fb_cron" => $rec["fb_cron"],
 				);
@@ -561,6 +586,7 @@ class ilExAssignment
 			$new_ass->setPeerReview($d["peer"]);
 			$new_ass->setPeerReviewMin($d["peer_min"]);
 			$new_ass->setPeerReviewDeadline($d["peer_dl"]);
+			$new_ass->setPeerReviewFileUpload($d["peer_file"]);
 			$new_ass->setFeedbackFile($d["fb_file"]);
 			$new_ass->setFeedbackCron($d["fb_cron"]);
 			$new_ass->save();

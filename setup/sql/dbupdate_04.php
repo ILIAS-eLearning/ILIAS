@@ -2220,3 +2220,16 @@ if(!$ilDB->tableColumnExists('frm_settings', 'thread_rating'))
 		));
 }
 ?>
+<#4279>
+<?php
+if(!$ilDB->tableColumnExists('exc_assignment', 'peer_file'))
+{
+	$ilDB->addTableColumn('exc_assignment', 'peer_file',
+		array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false,
+			'default' => 0
+		));
+}
+?>

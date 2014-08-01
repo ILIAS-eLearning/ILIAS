@@ -14550,3 +14550,5 @@ rbac#:#taxs_visible#:#Taxonomy administration is visible
 rbac#:#taxs_read#:#User has read access to Taxonomy administration
 rbac#:#taxs_write#:#Edit settings in Taxonomy administration
 rbac#:#taxs_edit_permission#:#User can change permission settings in Taxonomy administration
+exc#:#exc_peer_review_file#:#File Upload
+exc#:#exc_peer_review_file_info#:#Enable peers to upload 1 file per review

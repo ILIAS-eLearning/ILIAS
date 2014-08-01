@@ -2189,6 +2189,10 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$peer_dl->enableDateActivation("", "peer_dl_tgl");
 		$peer_dl->setShowTime(true);
 		$peer->addSubItem($peer_dl);
+				
+		$peer_file = new ilCheckboxInputGUI($lng->txt("exc_peer_review_file"), "peer_file");				
+		$peer_file->setInfo($lng->txt("exc_peer_review_file_info"));
+		$peer->addSubItem($peer_file);
 		
 		
 		// global feedback
@@ -2323,6 +2327,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 			{
 				$ass->setPeerReview($_POST["peer"]);
 				$ass->setPeerReviewMin($_POST["peer_min"]);
+				$ass->setPeerReviewFileUpload($_POST["peer_file"]);
 										
 				if($_POST["peer_dl_tgl"])
 				{
@@ -2407,6 +2412,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		{
 			$values["peer"] = $ass->getPeerReview();
 			$values["peer_min"] = $ass->getPeerReviewMin();
+			$values["peer_file"] = $ass->hasPeerReviewFileUpload();
 				
 			if ($ass->getPeerReviewDeadline() > 0)
 			{
@@ -2544,6 +2550,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 			{
 				$ass->setPeerReview($_POST["peer"]);
 				$ass->setPeerReviewMin($_POST["peer_min"]);
+				$ass->setPeerReviewFileUpload($_POST["peer_file"]);
 				
 				if($_POST["peer_dl_tgl"])
 				{

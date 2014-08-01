@@ -165,9 +165,16 @@ class ilExAssignmentPeerReviewTableGUI extends ilTable2GUI
 				$this->tpl->parseCurrentBlock();
 			}
 			
-			
-			$this->tpl->setCurrentBlock("pcomment_edit_bl");				
 			$idx = $a_set["giver_id"]."__".$a_set["peer_id"];
+			
+			if($this->ass->hasPeerReviewFileUpload())
+			{
+				$this->tpl->setCurrentBlock("file_upload_bl");		
+				$this->tpl->setVariable("FILE_ID", $idx);		
+				$this->tpl->parseCurrentBlock();	
+			}
+			
+			$this->tpl->setCurrentBlock("pcomment_edit_bl");							
 			$this->tpl->setVariable("VAL_ID", $idx);		
 			$this->tpl->setVariable("VAL_PCOMMENT_EDIT", $a_set["comment"]);	
 			$this->tpl->parseCurrentBlock();	

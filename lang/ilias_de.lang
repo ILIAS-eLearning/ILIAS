@@ -14532,3 +14532,5 @@ rbac#:#taxs_visible#:#Taxonomie-Administration ist sichtbar
 rbac#:#taxs_read#:#Lesezugriff auf Taxonomie-Administration
 rbac#:#taxs_write#:#Einstellungen in Taxonomie-Administration bearbeiten
 rbac#:#taxs_edit_permission#:#Rechteeinstellungen für die Taxonomie-Administration ändern
+exc#:#exc_peer_review_file#:#Datei-Upload
+exc#:#exc_peer_review_file_info#:#Ermöglicht Peers 1 Datei je Review hochzuladen
