@@ -42,8 +42,12 @@ class gevEduBiographyGUI {
 	}
 	
 	protected function checkPermission() {
-		return $this->user->getId() == $this->target_user_id
-			|| $this->target_user_utils->isEmployeeOf($this->user->getId());
+		if(    $this->user->getId() == $this->target_user_id
+			|| $this->target_user_utils->isEmployeeOf($this->user->getId())) {
+			return;
+		}
+		ilUtil::sendFailure($this->lng->txt("no_edu_bio_permission"), true);
+		ilUtil::redirect("ilias.php?baseClass=gevDesktopGUI&cmdClass=toMyCourses");
 	}
 	
 	public function render() {
