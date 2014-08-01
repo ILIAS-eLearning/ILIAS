@@ -835,9 +835,6 @@ span.il_menu {
   line-height: 150%;
   padding-left: 30px;
 }
-.ilLanguageSelection {
-  font-size: 80%;
-}
 div.il_Footer {
   padding: 10px 0;
   font-size: 90%;
@@ -1638,32 +1635,6 @@ div.ilc_HeadlineThumb {
   border-bottom: 1px solid gray;
   color: gray;
   margin: 2px 0 4px;
-}
-/* Profile */
-div.ilProfile {
-  width: 450px;
-  margin: 0 auto;
-  background: url(images/form_back.png) repeat-y #f6f6f6;
-  border: 1px solid #D0D5EA;
-  padding: 15px;
-}
-h3.ilProfileName {
-  margin: 0 0 10px;
-  padding: 0;
-  font-weight: normal;
-  font-size: 130%;
-}
-div.ilProfileSection {
-  margin-top: 20px;
-  font-size: 90%;
-  color: #606060;
-}
-h3.ilProfileSectionHead {
-  margin: 0 0 3px;
-  padding: 0;
-  font-weight: normal;
-  font-size: 110%;
-  color: #202020;
 }
 /* revised 4.1 */
 /* Tooltip */
@@ -2889,6 +2860,9 @@ input.ilOpenIDBox {
   background: #ffffff url(images/openid.png) 1px 2px no-repeat;
   padding-left: 20px;
 }
+.ilLanguageSelection {
+  font-size: 80%;
+}
 /* Services/UIComponent/Tabs */
 a.tabinactive {
   float: left;
@@ -3603,6 +3577,32 @@ div.iosCaptchaInputCommandContainer .audio {
   margin: 0 10px 0 12px;
   vertical-align: middle;
 }
+/* Services/User */
+div.ilProfile {
+  width: 450px;
+  margin: 0 auto;
+  background: url(images/form_back.png) repeat-y #f6f6f6;
+  border: 1px solid #D0D5EA;
+  padding: 15px;
+}
+h3.ilProfileName {
+  margin: 0 0 10px;
+  padding: 0;
+  font-weight: normal;
+  font-size: 130%;
+}
+div.ilProfileSection {
+  margin-top: 20px;
+  font-size: 90%;
+  color: #606060;
+}
+h3.ilProfileSectionHead {
+  margin: 0 0 3px;
+  padding: 0;
+  font-weight: normal;
+  font-size: 110%;
+  color: #202020;
+}
 .ilUserOnlineRow {
   margin: 0 0 0 40px;
 }
@@ -3668,10 +3668,6 @@ div.editLink {
 }
 div[id^="ilFormField"] {
   margin-bottom: 10px;
-}
-a[id^="tr_rtg"]:hover,
-a[onclick*="saveRating"]:hover {
-	text-decoration: none;
 }
 /* basic responsiveness (beta)
 

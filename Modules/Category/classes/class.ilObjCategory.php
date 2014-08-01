@@ -185,8 +185,14 @@ class ilObjCategory extends ilContainer
 	 	include_once('./Services/Container/classes/class.ilContainerSortingSettings.php');
 	 	ilContainerSortingSettings::_cloneSettings($this->getId(),$new_obj->getId());
 	 	*/
-	 	$first = true;
-	 	$translations = $this->getTranslations();
+
+		include_once("./Services/Object/classes/class.ilObjectTranslation.php");
+		$ot = ilObjectTranslation::getInstance($this->getId());
+		$ot->copy($new_obj->getId());
+
+		/*
+		$first = true;
+		$translations = $this->getTranslations();
 	 	if(is_array($translations['Fobject']))
 	 	{
 		 	foreach($translations['Fobject'] as $num => $translation)
@@ -198,7 +204,7 @@ class ilObjCategory extends ilContainer
 		 			$first = false;
 		 		}
 		 	}
-	 	}
+	 	}*/
 	 	
 		// clone icons
 		$new_obj->saveIcons($this->getBigIconPath(),
