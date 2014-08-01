@@ -1827,7 +1827,7 @@ class ilObjMediaObject extends ilObject
 			{
 				if(ilUtil::isConvertVersionAtLeast("6.3.8-3"))
 				{
-					ilUtil::execConvert($file."[0] -geometry ".$a_width."x".$a_height."^ -gravity center -extent ".$a_width."x".$a_height." PNG:".$dir."/mob_vpreview.png");
+					ilUtil::execConvert(ilUtil::escapeShellArg($file)."[0] -geometry ".$a_width."x".$a_height."^ -gravity center -extent ".$a_width."x".$a_height." PNG:".$dir."/mob_vpreview.png");
 				}
 				else
 				{
