@@ -28,7 +28,11 @@
 	  {VAL_PCOMMENT_STATIC}
 	  <!-- END pcomment_static_bl -->
 	  <!-- BEGIN file_static_bl -->
-	  <div><a href="{FILE_URL}">{FILE_NAME}</a></div>
+	  <div><a href="{FILE_URL}">{FILE_NAME}</a>
+	  <!-- BEGIN file_static_del_bl -->
+	  &nbsp;&nbsp;&nbsp;<span class="small"><input type="checkbox" name="fud[{FILE_DEL_ID}]" value="1" />{FILE_DEL_CAPTION}</span>
+	  <!-- END file_static_del_bl -->
+	  </div>
 	  <!-- END file_static_bl -->
   </td> 
   <td class="std" valign="top"> 

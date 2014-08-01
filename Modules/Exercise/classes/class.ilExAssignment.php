@@ -2539,7 +2539,7 @@ class ilExAssignment
 			if($a_only_valid)
 			{
 				$valid = false;			
-				if(trim($row["pcomment"]))
+				if(trim($row["pcomment"]) || $row["upload"])
 				{
 					$valid = true;
 				}
@@ -2577,9 +2577,9 @@ class ilExAssignment
 			
 			$comment = $row["pcomment"];
 			
-			if($comment || $rating)
+			if($comment || $rating || $row["upload"])
 			{
-				$res[$row["peer_id"]][$row["giver_id"]] = array($comment, $rating);
+				$res[$row["peer_id"]][$row["giver_id"]] = array($comment, $rating, $row["upload"]);
 			}
 		}						
 		
@@ -2610,32 +2610,52 @@ class ilExAssignment
 			" AND ass_id = ".$ilDB->quote($this->getId(), "integer"));
 	}
 	
-	public function updatePeerReviewComment($a_peer_id, $a_comment, $a_file_tmp_name = null, $a_file_name = null)
+	public function getPeerUploadFilePath($a_peer_id, $a_giver_id)
+	{
+		include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
+		$storage = new ilFSStorageExercise($this->getExerciseId(), $this->getId());
+		$path = $storage->getPeerReviewUploadPath($a_peer_id);			
+		return $path."/".$a_giver_id;			
+	}
+	
+	public function updatePeerReviewComment($a_peer_id, $a_comment, $a_file_tmp_name = null, $a_file_name = null, $a_file_del = false)
 	{
 		global $ilDB, $ilUser;
-		
-		// file upload
+				
+		// file upload			
 		$upload_file = null;
 		if($a_file_tmp_name)
 		{			
-			include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
-			$storage = new ilFSStorageExercise($this->getExerciseId(), $this->getId());
-			$path = $storage->getPeerReviewUploadPath($a_peer_id);			
-			$new_file = $path."/".$ilUser->getId();			
-			@unlink($new_file);
+			$new_file = $this->getPeerUploadFilePath($a_peer_id, $ilUser->getId());			
+			@unlink($new_file);			
 			if(@move_uploaded_file($a_file_tmp_name, $new_file))
 			{
 				$upload_file = $a_file_name;			
 			}
 		}
+		// remove existing file
+		else if((bool)$a_file_del)
+		{
+			$old_file = $this->getPeerUploadFilePath($a_peer_id, $ilUser->getId());		
+			@unlink($old_file);
+			
+			$upload_file = "";			
+		}		
 		
-		$ilDB->manipulate("UPDATE exc_assignment_peer".
+		$sql = "UPDATE exc_assignment_peer".
 			" SET tstamp = ".$ilDB->quote(ilUtil::now(), "timestamp").
-			", pcomment  = ".$ilDB->quote(trim($a_comment), "text").
-			", upload  = ".$ilDB->quote($upload_file, "text").
-			" WHERE giver_id = ".$ilDB->quote($ilUser->getId(), "integer").
+			", pcomment  = ".$ilDB->quote(trim($a_comment), "text");
+		
+		if($upload_file !== null)
+		{
+			$sql .= ", upload  = ".$ilDB->quote($upload_file, "text");
+		}
+		
+		$sql .= " WHERE giver_id = ".$ilDB->quote($ilUser->getId(), "integer").
 			" AND peer_id = ".$ilDB->quote($a_peer_id, "integer").
-			" AND ass_id = ".$ilDB->quote($this->getId(), "integer"));
+			" AND ass_id = ".$ilDB->quote($this->getId(), "integer");
+		
+		$ilDB->manipulate($sql);
 	}
 	
 	public static function countGivenFeedback($a_ass_id)

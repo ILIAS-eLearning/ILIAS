@@ -186,18 +186,32 @@ class ilExAssignmentPeerReviewTableGUI extends ilTable2GUI
 		{
 			$this->tpl->setCurrentBlock("pcomment_static_bl");
 			$this->tpl->setVariable("VAL_PCOMMENT_STATIC", $a_set["comment"]);		
-			$this->tpl->parseCurrentBlock();	
-			
-			if($this->ass->hasPeerReviewFileUpload() && $a_set["upload"])
-			{				
-				$url = $ilCtrl->getLinkTarget($this->parent_obj, "downloadPeerReview");
+			$this->tpl->parseCurrentBlock();				
+		}				
 				
-				$this->tpl->setCurrentBlock("file_static_bl");		
-				$this->tpl->setVariable("FILE_NAME", $a_set["upload"]);
-				$this->tpl->setVariable("FILE_URL", $url);
+		if($this->ass->hasPeerReviewFileUpload() && $a_set["upload"])
+		{				
+			$idx = $a_set["giver_id"]."__".$a_set["peer_id"];
+			
+			if(!$this->read_only)
+			{				
+				$this->tpl->setCurrentBlock("file_static_del_bl");					
+				$this->tpl->setVariable("FILE_DEL_CAPTION", $this->lng->txt("delete_existing_file"));
+				$this->tpl->setVariable("FILE_DEL_ID", $idx);
 				$this->tpl->parseCurrentBlock();	
 			}
-		}				
+			
+			$ilCtrl->setParameter($this->parent_obj, "fu", $idx);					
+			$url = $ilCtrl->getLinkTarget($this->parent_obj, "downloadPeerReview");
+			$ilCtrl->setParameter($this->parent_obj, "fu", "");	
+			
+			$this->tpl->setCurrentBlock("file_static_bl");					
+			$this->tpl->setVariable("FILE_NAME", $a_set["upload"]);
+			$this->tpl->setVariable("FILE_URL", $url);
+			$this->tpl->parseCurrentBlock();	
+			
+		
+		}
 	}	
 }
 

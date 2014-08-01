@@ -105,6 +105,8 @@ class ilExAssignmentListTextTableGUI extends ilTable2GUI
 
 	protected function fillRow($a_set)
 	{				
+		global $ilCtrl;
+		
 		if($this->show_peer_review && isset($a_set["peer"]))
 		{			
 			$acc_data = array();
@@ -125,6 +127,19 @@ class ilExAssignmentListTextTableGUI extends ilTable2GUI
 				if($peer_review[0])
 				{					
 					$acc_item .= '<div class="small">'.nl2br($peer_review[0])."</div>";
+				}
+				
+				if($peer_review[2])
+				{					
+					$file = $this->ass->getPeerUploadFilePath($a_set["uid"], $peer_id);
+					if(file_exists($file))
+					{
+						$ilCtrl->setParameter($this->parent_obj, "fu", $peer_id."__".$a_set["uid"]);
+						$dl = $ilCtrl->getLinkTarget($this->parent_obj, "downloadPeerReview");
+						$ilCtrl->setParameter($this->parent_obj, "fu", "");
+						
+						$acc_item .= '<div class="small"><a href="'.$dl.'">'.$peer_review[2]."</a></div>";
+					}
 				}
 					
 				$acc_data[$peer_id] = array("name" => $peer_name, "review" => $acc_item);

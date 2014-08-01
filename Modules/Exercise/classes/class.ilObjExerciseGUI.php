@@ -4099,20 +4099,27 @@ class ilObjExerciseGUI extends ilObjectGUI
 		
 		foreach($_POST["pc"] as $idx => $value)
 		{			
-			$file = array(null, null);
-			if($has_upload && $_FILES["fu"]["tmp_name"][$idx])
-			{
-				$file = array(
-					$_FILES["fu"]["tmp_name"][$idx]
-					,$_FILES["fu"]["name"][$idx]
-				);
+			$file = array(null, null, null);
+			if($has_upload)
+			{								
+				if($_FILES["fu"]["tmp_name"][$idx])
+				{
+					$file = array(
+						$_FILES["fu"]["tmp_name"][$idx]
+						,$_FILES["fu"]["name"][$idx]
+					);
+				}
+				else if($_POST["fud"][$idx])
+				{
+					$file = array(null, null, true);
+				}
 			}
 			
 			$parts = explode("__", $idx);					
 			if($parts[0] == $ilUser->getId() && 
 				(trim($value) || $file))
 			{
-				$this->ass->updatePeerReviewComment($parts[1], $value, $file[0], $file[1]);				
+				$this->ass->updatePeerReviewComment($parts[1], $value, $file[0], $file[1], $file[2]);				
 			}			
 		}
 		
@@ -4197,7 +4204,49 @@ class ilObjExerciseGUI extends ilObjectGUI
 	
 	function downloadPeerReviewObject()
 	{
+		global $ilCtrl, $ilUser;
 		
+		if(!$this->ass || 
+			!$this->ass->getPeerReview() ||
+			!$this->ass->hasPeerReviewFileUpload() ||
+			!$_GET["fu"])				
+		{
+			$ilCtrl->redirect($this, "showOverview");
+		}
+		
+		$parts = explode("__", $_GET["fu"]);
+		$giver_id = $parts[0];
+		$peer_id = $parts[1];
+		
+		if($giver_id == $ilUser->getId() || 
+			$peer_id == $ilUser->getId())
+		{		
+			$this->checkPermission("read");			
+		}
+		else
+		{
+			$this->checkPermission("write");												
+		}
+		
+		$peer_items = $this->ass->getPeerReviewsByPeerId($peer_id, true);				
+		if(sizeof($peer_items))
+		{
+			foreach($peer_items as $item)
+			{
+				if($item["giver_id"] == $giver_id)
+				{													
+					$file = $this->ass->getPeerUploadFilePath($peer_id, $giver_id);			
+					if(file_exists($file))
+					{
+						ilUtil::deliverFile($file, $item["upload"]);
+					}			
+					
+					break;
+				}
+			}
+		}		
+		
+		$ilCtrl->redirect($this, "showOverview");		
 	}
 	
 	function showPersonalPeerReviewObject()
