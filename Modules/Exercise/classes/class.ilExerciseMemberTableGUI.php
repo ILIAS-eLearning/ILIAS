@@ -306,7 +306,7 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 			}
 
 			// note
-			$this->tpl->setVariable("TXT_NOTE", $lng->txt("note"));
+			$this->tpl->setVariable("TXT_NOTE", $lng->txt("exc_note_for_tutor"));
 			$this->tpl->setVariable("NAME_NOTE",
 				"notice[$member_id]");
 			$this->tpl->setVariable("VAL_NOTE",
