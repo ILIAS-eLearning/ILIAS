@@ -40,7 +40,15 @@ class ilGEVMailingPlugin extends ilEventHookPlugin
 		$bt = $this->getBookingType($usr_id, $crs_id);
 		$mails = new gevCrsAutoMails($crs_id);
 		
-		if ($os == null) {
+		if ($os == ilCourseBooking::STATUS_WAITING && $ns == ilCourseBooking::STATUS_BOOKED) {
+			$mails->sendDeferred("participant_waiting_to_booked", array($usr_id));
+		}
+		
+		// do not handle all booking events here, since the way the 
+		// booking was made is crucial here. Mails will be send in the 
+		// respective forms instead.
+		
+/*		if ($os == null) {
 			if ($ns == ilCourseBooking::STATUS_BOOKED) {
 				if ($os == null) {
 					if ($bt == self::SELF_BOOKING) {
@@ -105,7 +113,7 @@ class ilGEVMailingPlugin extends ilEventHookPlugin
 					}
 				}
 			}
-		}
+		}*/
 	}
 	
 	protected function getBookingType($a_user_id, $a_crs_id) {

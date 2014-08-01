@@ -71,7 +71,16 @@ class gevDeferredMails {
 			case "trainer_removed":
 				$this->removeDeferredMails( array($crs_id)
 										  , array( "trainer_added"
-										  		 , "trainer_removed")
+										  		 , "trainer_removed"
+										  		 )
+										  , array($a_recipient)
+										  );
+			case "admin_cancel_booked_to_cancelled_without_costs":
+			case "admin_cancel_waiting_to_cancelled_without_costs":
+				$this->removeDeferredMails( array( $crs_id)
+										  , array( "admin_booking_to_waiting"
+										  		 , "admin_booking_to_booked"
+												 )
 										  , array($a_recipient)
 										  );
 		}
@@ -86,6 +95,14 @@ class gevDeferredMails {
 				return count($this->getDeferredMails( array( $crs_id)
 													, array( "trainer_added"
 														   , "trainer_removed"
+														   )
+													, array($a_recipient)
+													)) == 0;
+			case "admin_cancel_booked_to_cancelled_without_costs":
+			case "admin_cancel_waiting_to_cancelled_without_costs":
+				return count($this->getDeferredMails( array( $crs_id)
+													, array( "admin_booking_to_waiting"
+														   , "admin_booking_to_booked"
 														   )
 													, array($a_recipient)
 													)) == 0;

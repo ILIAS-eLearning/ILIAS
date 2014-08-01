@@ -763,6 +763,12 @@ class ilCourseBookingAdminGUI
 				}				
 				if($bookings->bookCourse($user_id))
 				{				
+					// gev-patch start
+					require_once("Services/GEV/Mailing/classes/class.gevCrsAutoMails.php");
+					$automails = new gevCrsAutoMails($this->getCourse()->getId());
+					$automails->sendDeferred("admin_booking_to_booked", array($user_id));
+					// gev-patch end
+					
 					// :TODO: needed?
 					$members_obj->sendNotification($members_obj->NOTIFY_ACCEPT_USER, $user_id);			
 					ilForumNotification::checkForumsExistsInsert($this->getCourse()->getRefId(), $user_id);
@@ -777,6 +783,11 @@ class ilCourseBookingAdminGUI
 					continue;
 				}				
 				$bookings->putOnWaitingList($user_id);
+				// gev-patch start
+				require_once("Services/GEV/Mailing/classes/class.gevCrsAutoMails.php");
+				$automails = new gevCrsAutoMails($this->getCourse()->getId());
+				$automails->sendDeferred("admin_booking_to_waiting", array($user_id));
+				// gev-patch end
 			}
 			
 			$added_users++;
@@ -915,8 +926,21 @@ class ilCourseBookingAdminGUI
 		if($user_id)
 		{								
 			$bookings = ilCourseBookings::getInstance($this->getCourse());
+			// gev-patch start
+			$old_status = $bookings->getUserStatus($user_id);
+			// gev-patch end
 			if($bookings->cancelWithoutCosts($user_id))
 			{
+				// gev-patch start
+				require_once("Services/GEV/Mailing/classes/class.gevCrsAutoMails.php");
+				$automails = new gevCrsAutoMails($this->getCourse()->getId());
+				if ($old_status == ilCourseBooking::STATUS_BOOKED) {
+					$automails->sendDeferred("admin_cancel_booked_to_cancelled_without_costs", array($user_id));
+				}
+				else if ($old_status == ilCourseBooking::STATUS_WAITING) {
+					$automails->sendDeferred("admin_cancel_waiting_to_cancelled_without_costs", array($user_id));
+				}
+				// gev-patch end
 				ilUtil::sendSuccess($lng->txt("crsbook_admin_user_action_done"), true);
 			}
 		}
@@ -934,9 +958,14 @@ class ilCourseBookingAdminGUI
 		$user_id = $this->isUserActionPossible(ilCourseBooking::STATUS_CANCELLED_WITH_COSTS);
 		if($user_id)
 		{								
-			$bookings = ilCourseBookings::getInstance($this->getCourse());		
+			$bookings = ilCourseBookings::getInstance($this->getCourse());
 			if($bookings->cancelWithCosts($user_id))
 			{
+				// gev-patch start
+				require_once("Services/GEV/Mailing/classes/class.gevCrsAutoMails.php");
+				$automails = new gevCrsAutoMails($this->getCourse()->getId());
+				$automails->sendDeferred("admin_cancel_booked_to_cancelled_with_costs", array($user_id));
+				// gev-patch end
 				ilUtil::sendSuccess($lng->txt("crsbook_admin_user_action_done"), true);
 			}
 		}

@@ -93,6 +93,7 @@ class catTableGUI extends ilTable2GUI {
 		foreach ($this->column as $col) {
 			$key = $col["sort_field"];
 			$value = $a_set[$key];
+			//echo $key."-".$value."\n";
 			$this->tpl->setVariable("VAL_".strtoupper($key), $value);
 		}
 	}

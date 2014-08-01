@@ -178,9 +178,29 @@ class gevMyCoursesGUI {
 	
 	public function finalizeCancellation() {
 		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+		require_once("Services/GEV/Mailing/classes/class.gevCrsAutoMails.php");
 		$this->loadCourseIdAndStatus();
+		$automails = new gevCrsAutoMails($this->crs_id);
 		$crs_utils = gevCourseUtils::getInstance($this->crs_id);
-		$crs_utils->cancelBookingOf($this->user->getId());
+		$user_id = $this->user->getId();
+		$old_status = $crs_utils->getBookingStatusOf($user_id);
+		$crs_utils->cancelBookingOf($user_id);
+		$new_status = $crs_utils->getBookingStatusOf($user_id);
+		
+		if ($old_status == ilCourseBooking::STATUS_WAITING) {
+			if ($new_status == ilCourseBooking::STATUS_CANCELLED_WITHOUT_COSTS) {
+				$automails->send("self_cancel_waiting_to_cancelled_without_costs", array($user_id));
+			}
+		}
+		else if ($old_status == ilCourseBooking::STATUS_BOOKED) {
+			if ($new_status == ilCourseBooking::STATUS_CANCELLED_WITHOUT_COSTS) {
+				$automails->send("self_cancel_booked_to_cancelled_without_costs", array($user_id));
+			}
+			else if ($new_status == ilCourseBooking::STATUS_CANCELLED_WITHOUT_COSTS) {
+				$automails->send("self_cancel_booked_to_cancelled_with_costs", array($user_id));
+			}
+		}
+		
 		ilUtil::sendSuccess(sprintf( $this->lng->txt("gev_cancellation_success")
 								   , $crs_utils->getTitle()
 								   )

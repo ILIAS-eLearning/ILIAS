@@ -589,9 +589,18 @@ class gevBookingGUI {
 	}
 	
 	protected function finalizedBookingRedirect($a_status) {
+		require_once("Services/GEV/Mailing/classes/class.gevCrsAutoMails.php");
 		$booked = $a_status == ilCourseBooking::STATUS_BOOKED;
+		$automails = new gevCrsAutoMails($this->crs_id);
 		
 		if ($this->isSelfBooking()) {
+			if ($booked) {
+				$automails->send("self_booking_to_booked", array($this->user_id));
+			}
+			else {
+				$automails->send("self_booking_to_waiting", array($this->user_id));
+			}
+			
 			ilUtil::sendSuccess( sprintf( $booked ? $this->lng->txt("gev_was_booked_self")
 												  : $this->lng->txt("gev_was_booked_waiting_self")
 										, $this->crs_utils->getTitle()
@@ -602,6 +611,13 @@ class gevBookingGUI {
 			ilUtil::redirect("ilias.php?baseClass=gevDesktopGUI&cmdClass=toMyCourses");
 		}
 		else {
+			if ($booked) {
+				$automails->send("superior_booking_to_booked", array($this->user_id));
+			}
+			else {
+				$automails->send("superior_booking_to_waiting", array($this->user_id));
+			}
+			
 			ilUtil::sendSuccess( sprintf ($booked ? $this->lng->txt("gev_was_booked_employee")
 										 		  : $this->lng->txt("gev_was_booked_waiting_employee")
 										 , $this->user_utils->getFirstname()." ".$this->user_utils->getLastname()
