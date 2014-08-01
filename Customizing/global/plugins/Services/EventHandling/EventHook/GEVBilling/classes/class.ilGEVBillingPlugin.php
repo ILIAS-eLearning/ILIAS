@@ -15,6 +15,9 @@ class ilGEVBillingPlugin extends ilEventHookPlugin
 		if ($a_component = "Services/CourseBooking" && $a_event == "setStatus") {
 			$this->bookingStatusChanged($a_parameter["crs_obj_id"], $a_parameter["user_id"]);
 		}
+		if ($a_component = "Services/Participation" && $a_event == "setStatusAndPoints") {
+			$this->participationStatusChanged($a_parameter["crs_obj_id"], $a_parameter["user_id"]);
+		}
 	}
 	
 	protected function bookingStatusChanged($a_crs_id, $a_user_id) {
@@ -33,7 +36,7 @@ class ilGEVBillingPlugin extends ilEventHookPlugin
 		$usr_utils = gevUserUtils::getInstance($a_user_id);
 		
 		if (!$usr_utils->paysFees()) {
-			// Nothing to do with billing here either.
+			// Nothing to do with billing here too.
 			return;
 		}
 		
@@ -57,6 +60,38 @@ class ilGEVBillingPlugin extends ilEventHookPlugin
 			// Nothing to do here, bill was created in booking process if user or
 			// superior did the booking. There should be no bills if admin books
 			// a user.
+		}
+	}
+	
+	protected function participationStatusChanged($a_crs_id, $a_user_id) {
+		global $ilLog;
+		
+		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+		$crs_utils = gevCourseUtils::getInstance($a_crs_id);
+		
+		if (!$crs_utils->getFee()) {
+			// No billing here.
+			return;
+		}
+		
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		$user_utils = gevUserUtils::getInstance($a_crs_id);
+		
+		if (!$user_utils->paysFees()) {
+			// no billing here too.
+			return;
+		}
+		
+		require_once("Services/GEV/Utils/classes/class.gevBillingUtils.php");
+		$billing_utils = gevBillingUtils::getInstance();
+		
+		$status = $crs_utils->getParticipationStatusOf($a_user_id);
+		if ($status == ilParticipationStatus::STATUS_SUCCESSFUL) {
+			$billing_utils->finalizeBill($a_crs_id, $a_user_id);
+		}
+		else if (  $status == ilParticipationStatus::STATUS_ABSENT_EXCUSED
+			    || $status == ilParticipationStatus::STATUS_ABSENT_NOT_EXCUSED) {
+			$billing_utils->finalizeNoShowBill($a_crs_id, $a_user_id);
 		}
 	}
 }

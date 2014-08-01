@@ -202,7 +202,7 @@ class gevBillingUtils {
 		return $bills[0];
 	}
 	
-	protected function getNonFinalizedBillForCourseAndUser($a_user_id, $a_crs_id) {
+	protected function getNonFinalizedBillForCourseAndUser($a_crs_id, $a_user_id) {
 		$bill = $this->getBillForCourseAndUser($a_user_id, $a_crs_id);
 		if ($bill === null) {
 			return null;
@@ -222,8 +222,51 @@ class gevBillingUtils {
 		return $bill;
 	}
 	
+	public function finalizeBill($a_crs_id, $a_user_id) {
+		$bill = $this->getNonFinalizedBillForCourseAndUser($a_crs_id, $a_user_id);
+		if ($bill === null) {
+			return;
+		}
+		
+		$bill->finalize();
+		
+		// TODO: send mail here
+	}
+	
+	public function finalizeNoShowBill($a_crs_id, $a_user_id) {
+		$bill = $this->getNonFinalizedBillForCourseAndUser($a_crs_id, $a_user_id);
+		if ($bill === null) {
+			return;
+		}
+		
+		$bill->setTitle(sprintf( $this->lng->txt("gev_no_show_bill_title")
+							   , $crs_utils->getTitle()
+							   , $user_utils->getFirstname()." ".$user_utils->getLastname()
+							   )
+						);
+		// bill will be send immediately
+		$bill->setDate(new ilDate(time(), IL_CAL_UNIX));
+
+		// search for the item regarding the course...
+		$items = $bill->getItems();
+		foreach ($items as $item) {
+			if ($item->getContextId() == $a_crs_id) {
+				// ... and change its title appropriately
+				$item->setTitle(sprintf( $this->lng->txt("gev_no_show_bill_item")
+									   , $crs_utils->getTitle()
+									   )
+								);
+				$item->update();
+			}
+		}
+		
+		$bill->finalize();
+				
+		// TODO: send mail here
+	}
+	
 	public function cancelBill($a_crs_id, $a_user_id) {
-		$bill = $this->getNonFinalizedBillForCourseAndUser($a_user_id, $a_crs_id);
+		$bill = $this->getNonFinalizedBillForCourseAndUser($a_crs_id, $a_user_id);
 		if ($bill === null) {
 			return;
 		}
@@ -246,7 +289,7 @@ class gevBillingUtils {
 	}
 	
 	public function createCancellationBillAndCoupon($a_crs_id, $a_user_id) {
-		$bill = $this->getNonFinalizedBillForCourseAndUser($a_user_id, $a_crs_id);
+		$bill = $this->getNonFinalizedBillForCourseAndUser($a_crs_id, $a_user_id);
 		if ($bill === null) {
 			return;
 		}
@@ -255,6 +298,8 @@ class gevBillingUtils {
 		
 		$crs_utils = gevCourseUtils::getInstance($a_crs_id);
 		$user_utils = gevUserUtils::getInstance($a_user_id);
+		
+		$crs_id = $bill->getContextId();
 		
 		// remove course context id, to make assumption in getNonFinalizedBillForCourseAndUser
 		// hold

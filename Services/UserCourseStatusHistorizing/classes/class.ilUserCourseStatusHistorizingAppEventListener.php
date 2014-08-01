@@ -39,7 +39,7 @@ class ilUserCourseStatusHistorizingAppEventListener
 	{
 		self::initEventHandler();
 		
-		//global $ilLog;
+		global $ilLog;
 		//$ilLog->write(print_r(array($a_component, $a_event, $a_parameter), true));
 		
 		if ($a_component == "Modules/Course" && (  $a_event == "update"
@@ -68,6 +68,15 @@ class ilUserCourseStatusHistorizingAppEventListener
 			|| $a_component == "Services/Accomodations") {
 			$a_parameter["crs_id"] = $a_parameter["crs_obj_id"];
 			$a_parameter["usr_id"] = $a_parameter["user_id"];
+		}
+		if (   $a_component == "Services/Billing") {
+			$a_parameter["crs_id"] = $a_parameter["bill"]->getContextId();
+			$a_parameter["usr_id"] = $a_parameter["bill"]->getUserId();
+			$ilLog->write(print_r($a_parameter, true));
+			if($a_parameter["crs_id"] === 0) {
+				// bill is a cancel bill.
+				return;
+			}
 		}
 		// TODO: normalized data from bill here.
 

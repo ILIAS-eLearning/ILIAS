@@ -157,7 +157,7 @@ class ilGEVMailingPlugin extends ilEventHookPlugin
 		
 		$usr_id = intval($a_parameter["user_id"]);
 		$crs_id = intval($a_parameter["crs_obj_id"]);
-		$status = gevCrsUtils::getInstance($crs_id)->getParticipationStatusOf($usr_id);
+		$status = gevCourseUtils::getInstance($crs_id)->getParticipationStatusOf($usr_id);
 		$mails = new gevCrsAutoMails($crs_id);
 		
 		if ($status == ilParticipationStatus::STATUS_SUCCESSFUL) {
