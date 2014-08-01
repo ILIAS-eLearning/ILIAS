@@ -177,9 +177,42 @@ class gevBillingUtils {
 		}
 	}
 	
-	public function getBillForCourseAndUser($a_user_id, $a_crs_id) {
+	protected function getBillForCourseAndUser($a_user_id, $a_crs_id) {
 		require_once("Services/Billing/classes/class.ilBill.php");
-		$bills = ilBill::getInstancesByUserAndContext($a_user_id, $a_crs_id);
+		return ilBill::getInstancesByUserAndContext($a_user_id, $a_crs_id);
+		
+/*		$amount_bills = count($bills);
+		
+		if ($amount_bills == 0) {
+			// there is no bill for the user at the course, so we don't need 
+			// to do anything.
+			return null;
+		}
+		
+		if ($amount_bills > 1) {
+			// this is an assumption about the booking process. There should
+			// never be more than one bill per course and user.
+			$this->log->write("gevBillingUtils::getBillsForCourseAndUser: ".
+						  "There is more than one bill for user ".$a_user_id.
+						  " at course ".$a_crs_id.", this violates a crucial".
+						  "assumption about the booking process."
+						  );
+			return null;
+		}
+		
+		return $bills[0];*/
+	}
+	
+	public function getNonFinalizedBillForCourseAndUser($a_crs_id, $a_user_id) {
+		$bills = $this->getBillsForCourseAndUser($a_user_id, $a_crs_id);
+		
+		// discard finalized bills
+		foreach ($bills as $key => $bill) {
+			if ($bill->isFinalized()) {
+				unset($bills[$key]);
+			}
+		}
+		
 		$amount_bills = count($bills);
 		
 		if ($amount_bills == 0) {
@@ -192,7 +225,7 @@ class gevBillingUtils {
 			// this is an assumption about the booking process. There should
 			// never be more than one bill per course and user.
 			$this->log->write("gevBillingUtils::getNonFinalizedBillForCourseAndUser: ".
-						  "There is more than one bill for user ".$a_user_id.
+						  "There is more than one non finalized bill for user ".$a_user_id.
 						  " at course ".$a_crs_id.", this violates a crucial".
 						  "assumption about the booking process."
 						  );
@@ -200,26 +233,6 @@ class gevBillingUtils {
 		}
 		
 		return $bills[0];
-	}
-	
-	protected function getNonFinalizedBillForCourseAndUser($a_crs_id, $a_user_id) {
-		$bill = $this->getBillForCourseAndUser($a_user_id, $a_crs_id);
-		if ($bill === null) {
-			return null;
-		}
-		
-		if ($bill->isFinalized()) {
-			// this is an assumption about the booking process. The bill should
-			// be finalized only after a training where booking status can't 
-			// change anymore.
-			$this->log->write("gevBillingUtils::getNonFinalizedBillForCourseAndUser: ".
-						  "The bill for user ".$a_user_id." at course ".
-						  $a_crs_id." is already finalized, which violates a crucial".
-						  "assumption about the booking process.");
-			return null;
-		}
-		
-		return $bill;
 	}
 	
 	public function finalizeBill($a_crs_id, $a_user_id) {
@@ -300,10 +313,7 @@ class gevBillingUtils {
 		$user_utils = gevUserUtils::getInstance($a_user_id);
 		
 		$crs_id = $bill->getContextId();
-		
-		// remove course context id, to make assumption in getNonFinalizedBillForCourseAndUser
-		// hold
-		$bill->setContextId(0);
+
 		$bill->setTitle(sprintf( $this->lng->txt("gev_cancellation_bill_title")
 							   , $crs_utils->getTitle()
 							   , $user_utils->getFirstname()." ".$user_utils->getLastname()

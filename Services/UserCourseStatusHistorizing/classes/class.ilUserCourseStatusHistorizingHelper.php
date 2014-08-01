@@ -132,7 +132,8 @@ class ilUserCourseStatusHistorizingHelper
 	{
 		
 		$bill = gevBillingUtils::getInstance()
-							   ->getBillForCourseAndUser( self::getId($user)
+							   ->getNonFinalizedBillForCourseAndUser
+							   							( self::getId($user)
 							   							, self::getId($course)
 							   							);
 		if ($bill) {

@@ -367,14 +367,19 @@ class gevBookingGUI {
 		require_once("Services/CaTUIComponents/classes/class.catPropertyFormGUI.php");
 		require_once("Services/Accomodations/classes/class.ilSetAccomodationsGUI.php");
 		
-		$_form = $this->getAccomodationsForm();
-		if (!$_form->checkInput()) {
-			$this->log->write("gevBookingGUI::paymentInfo: This should not happen, the form input did not check correctly.");
-			$this->toCourseSearch();
-			return;
+		if ($this->isWithAccomodations() && $this->crs_utils->getStartDate() !== null && $this->crs_utils->getEndDate() !== null) {
+			$_form = $this->getAccomodationsForm();
+			if (!$_form->checkInput()) {
+				$this->log->write("gevBookingGUI::paymentInfo: This should not happen, the form input did not check correctly.");
+				$this->toCourseSearch();
+				return;
+			}
+			
+			$accomodations = $_form->getInput("acco");
 		}
-		
-		$accomodations = $_form->getInput("acco");
+		else {
+			$accomodations = null;
+		}
 
 		$form = $this->buildPaymentForm($accomodations);
 		$form->addCommandButton("backToSearch", $this->lng->txt("gev_to_course_search"));

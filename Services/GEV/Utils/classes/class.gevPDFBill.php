@@ -12,7 +12,7 @@ class gevPDFBill extends ilPDFBill {
 	public function __construct() {
 		parent::__construct();
 		
-		// Set specs here
+		// TODO: set specs here
 	}
 	
 	public static function getInstance() {
@@ -21,6 +21,13 @@ class gevPDFBill extends ilPDFBill {
 		}
 		
 		return self::$instance;
+	}
+	
+	public function setBill(ilBill $a_bill) {
+		//require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+		parent::setBill($a_bill);
+		//$crs_utils = 
+		//TODO: title and stuff needs to be set here
 	}
 }
 

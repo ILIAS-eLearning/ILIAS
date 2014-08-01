@@ -407,7 +407,7 @@ class ilSetAccomodationsGUI
 		}
 		
 		require_once "Services/Accomodations/classes/class.ilAccomodationsPeriodInputGUI.php";
-		$nights = new ilAccomodationsPeriodInputGUI($lng->txt("acco_accomodations"), $a_field_name);		
+		$nights = new ilAccomodationsPeriodInputGUI($lng->txt("acco_accomodations"), $a_field_name);
 		$nights->setPeriod(
 			$accomodations->getCourseStart()->get(IL_CAL_DATE)
 			,$accomodations->getCourseEnd()->get(IL_CAL_DATE)
