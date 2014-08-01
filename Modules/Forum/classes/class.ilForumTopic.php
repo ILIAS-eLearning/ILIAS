@@ -46,9 +46,14 @@ class ilForumTopic
 	private $db = null;
 	
 	private $is_moderator = false;
-	
-	protected $orderDirection = 'DESC';
-	
+
+	/**
+	 * @var double
+	 */
+	private $average_rating = 0;
+
+	private $orderDirection = 'DESC';
+
 	protected static $possibleOrderDirections = array('ASC', 'DESC');
 	
 	/**
@@ -94,6 +99,7 @@ class ilForumTopic
 		$this->setImportName($data['import_name']);
 		$this->setSticky((int) $data['is_sticky']);
 		$this->setClosed((int) $data['is_closed']);
+		$this->setAverageRating($data['avg_rating']);
 
 		// Aggregated values
 		$this->setNumPosts((int) $data['num_posts']);
@@ -126,9 +132,10 @@ class ilForumTopic
 					thr_update,
 					import_name,
 					is_sticky,
-					is_closed
+					is_closed,
+					avg_rating
 				)
-				VALUES(%s,%s,%s,%s,%s,%s,%s,%s, %s, %s,%s,%s)',
+				VALUES(%s,%s,%s,%s,%s,%s,%s,%s, %s, %s,%s,%s,%s)',
 
 				array(	'integer',
 						'integer',
@@ -141,7 +148,8 @@ class ilForumTopic
 						'timestamp',
 						'text',
 						'integer',
-						'integer'),
+						'integer',
+						'float'),
 				array(	$nextId,	
 						$this->forum_id,
 						$this->subject,
@@ -153,7 +161,8 @@ class ilForumTopic
 						NULL,
 						$this->import_name,
 						$this->is_sticky,
-						$this->is_closed
+						$this->is_closed,
+						$this->average_rating
 			));
 			$this->id = $nextId;
 							
@@ -179,15 +188,17 @@ class ilForumTopic
 					thr_subject = %s,
 					thr_update = %s,
 					thr_num_posts = %s,
-					thr_last_post = %s
+					thr_last_post = %s,
+					avg_rating = %s
 				WHERE thr_pk = %s',
-				array('integer', 'text','timestamp', 'integer', 'text', 'integer'),
+				array('integer', 'text','timestamp', 'integer', 'text', 'float', 'integer'),
 				array(	$this->forum_id, 
 						$this->subject, 
 			/*			$this->changedate, */
 						date('Y-m-d H:i:s'),
 						$this->num_posts, 
-						$this->last_post_string, 
+						$this->last_post_string,
+						$this->average_rating,
 						$this->id
 			));
 			
@@ -235,6 +246,7 @@ class ilForumTopic
 				$this->is_sticky = $row->is_sticky;
 				$this->is_closed = $row->is_closed;
 				$this->frm_obj_id = $row->frm_obj_id;
+				$this->average_rating = $row->avg_rating;
 				
 				return true;
 			}
@@ -951,6 +963,22 @@ class ilForumTopic
 		}
 		
 		return false;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getAverageRating()
+	{
+		return $this->average_rating;
+	}
+
+	/**
+	 * @param int $average_rating
+	 */
+	public function setAverageRating($average_rating)
+	{
+		$this->average_rating = $average_rating;
 	}
 
 	public function setId($a_id)

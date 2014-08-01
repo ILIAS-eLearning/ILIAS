@@ -66,16 +66,6 @@ class ilForumProperties
 	private $user_toggle_noti = false;
 
 	/**
-	 *
-	 * Allow ratings in forum threads
-	 *
-	 * @access	private
-	 * @type	boolean
-	 * @var		boolean
-	 */
-	private $thread_ratings_allowed = false;
-	
-	/**
 	 * Preset subject on reply.
 	 * If deactivated, user is forced to enter a new subject
 	 *
@@ -100,14 +90,22 @@ class ilForumProperties
 	 * @access private
 	 */
 	private $thread_sorting = 0;
+
+	/**
+	 * @var bool
+	 */
+	private $is_thread_rating_enabled = false;
 	
 	/**
 	 * DB Object
 	 * @access	private
 	 */
-	private $db = null;	
-	
-	static private $instances = array();	
+	private $db = null;
+
+	/**
+	 * @var ilForumProperties[]
+	 */
+	static private $instances = array();
 	
 	protected function __construct($a_obj_id = 0)
 	{
@@ -121,7 +119,11 @@ class ilForumProperties
 	private function __clone()
 	{		
 	}
-	
+
+	/**
+	 * @param int $a_obj_id
+	 * @return ilForumProperties
+	 */
 	static public function getInstance($a_obj_id = 0)
 	{
 		if (!self::$instances[$a_obj_id])
@@ -157,6 +159,7 @@ class ilForumProperties
 				$this->notification_type = $row->notification_type == null ? 'default': $row->notification_type;
 				$this->mark_mod_posts = $row->mark_mod_posts == 1 ? true : false;
 				$this->thread_sorting = $row->thread_sorting == 1? true : false;
+				$this->setIsThreadRatingEnabled((bool)$row->thread_rating);
 
 				return true;
 			}
@@ -183,7 +186,8 @@ class ilForumProperties
 					'add_re_subject'	=> array('integer', $this->add_re_subject),
 					'notification_type' => array('text', $this->notification_type),
 					'mark_mod_posts'	=> array('integer', $this->mark_mod_posts),
-					'thread_sorting'	=> array('integer', $this->thread_sorting)
+					'thread_sorting'	=> array('integer', $this->thread_sorting),
+					'thread_rating'		=> array('integer', $this->isIsThreadRatingEnabled())
 				)
 			);
 
@@ -208,7 +212,8 @@ class ilForumProperties
 					'add_re_subject'	=> array('integer', $this->add_re_subject),
 					'notification_type' => array('text', $this->notification_type),
 					'mark_mod_posts'	=> array('integer', $this->mark_mod_posts),
-					'thread_sorting'	=> array('integer', $this->thread_sorting)
+					'thread_sorting'	=> array('integer', $this->thread_sorting),
+					'thread_rating'		=> array('integer', $this->isIsThreadRatingEnabled())
 				),
 			array(	'obj_id'			=> array('integer', $this->obj_id))
 			);
@@ -233,13 +238,30 @@ class ilForumProperties
 					'add_re_subject'	=> array('integer', $this->add_re_subject),
 					'notification_type' => array('text', $this->notification_type),
 					'mark_mod_posts'	=> array('integer', $this->mark_mod_posts),
-					'thread_sorting'	=> array('integer', $this->thread_sorting)
+					'thread_sorting'	=> array('integer', $this->thread_sorting),
+					'thread_rating'		=> array('integer', $this->isIsThreadRatingEnabled())
 				)
 			);
 			return true;
 		}
 		
 		return false;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function isIsThreadRatingEnabled()
+	{
+		return (bool)$this->is_thread_rating_enabled;
+	}
+
+	/**
+	 * @param boolean $is_thread_rating_enabled
+	 */
+	public function setIsThreadRatingEnabled($is_thread_rating_enabled)
+	{
+		$this->is_thread_rating_enabled = (bool)$is_thread_rating_enabled;
 	}
 	
 	public function setDefaultView($a_default_view)
@@ -348,18 +370,6 @@ class ilForumProperties
 		return 0;
 	}
 
-	public function isThreadRatingAllowed($a_allow_rating = null)
-	{
-		if(null === $a_allow_rating)
-		{
-			return $this->thread_ratings_allowed;
-		}
-
-		$this->thread_ratings_allowed = $a_allow_rating;
-
-		return $this;
-	}
-
 	public function setPresetSubject($a_preset_subject)
 	{
 		$this->preset_subject = $a_preset_subject;
@@ -441,7 +451,7 @@ class ilForumProperties
 	}
 	public function getThreadSorting()
 	{
-		return $this->thread_sorting;	
+		return $this->thread_sorting;
 	}
 	
 	/**
@@ -459,7 +469,4 @@ class ilForumProperties
 	{
 		return $this->admin_force_noti;
 	}
-
-
 }
-?>

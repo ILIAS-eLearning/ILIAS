@@ -36,7 +36,7 @@ class ilForumExporter extends ilXmlExporter
 		$xml = '';
 
 		include_once 'Modules/Forum/classes/class.ilForumXMLWriter.php';
-		if( ilObject::_lookupType($a_id) == 'frm' )
+		if(ilObject::_lookupType($a_id) == 'frm')
 		{
 			$writer = new ilForumXMLWriter();
 			$writer->setForumId($a_id);
@@ -58,13 +58,21 @@ class ilForumExporter extends ilXmlExporter
 	 */
 	function getValidSchemaVersions($a_entity)
 	{
-		return array (
+		return array(
 			"4.1.0" => array(
-				"namespace" => "http://www.ilias.de/Modules/Forum/frm/4_1",
-				"xsd_file" => "ilias_frm_4_1.xsd",
-				"uses_dataset" => true,
-				"min" => "4.1.0",
-				"max" => "")
+				"namespace"    => "http://www.ilias.de/Modules/Forum/frm/4_1",
+				"xsd_file"     => "ilias_frm_4_1.xsd",
+				"uses_dataset" => false,
+				"min"          => "4.1.0",
+				"max"          => "4.4.999"
+			),
+			"4.5.0" => array(
+				"namespace"    => "http://www.ilias.de/Modules/Forum/frm/4_5",
+				"xsd_file"     => "ilias_frm_4_5.xsd",
+				"uses_dataset" => false,
+				"min"          => "4.5.0",
+				"max"          => ""
+			)
 		);
 	}
 }

@@ -184,6 +184,10 @@ class ilForumXMLParser extends ilSaxParser
 				$x['Statistics'] = $this->cdata;
 				break;
 			
+			case 'ThreadRatings':
+				$x['ThreadRatings'] = $this->cdata;
+				break;
+			
 			case 'PostingActivation':
 				$x['PostingActivation'] = $this->cdata;
 				break;
@@ -271,6 +275,8 @@ class ilForumXMLParser extends ilSaxParser
 							(int) $this->forumArray['Pseudonyms'] );
 					$newObjProp->setStatisticsStatus(
 							(int) $this->forumArray['Statistics'] );
+					$newObjProp->setIsThreadRatingEnabled(
+							(int) $this->forumArray['ThreadRatings'] );
 					$newObjProp->setPostActivation(
 							(int) $this->forumArray['PostingActivation'] );
 					$newObjProp->setPresetSubject(

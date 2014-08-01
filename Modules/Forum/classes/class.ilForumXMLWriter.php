@@ -83,6 +83,7 @@ class ilForumXMLWriter extends ilXmlWriter
 		$this->xmlElement("DefaultView",  null, (int)$row->default_view);
 		$this->xmlElement("Pseudonyms",  null, (int)$row->anonymized);
 		$this->xmlElement("Statistics",  null, (int)$row->statistics_enabled);
+		$this->xmlElement("ThreadRatings",  null, (int)$row->thread_rating);
 		$this->xmlElement("PostingActivation",  null, (int)$row->post_activation);
 		$this->xmlElement("PresetSubject",  null, (int)$row->preset_subject);
 		$this->xmlElement("PresetRe",  null, (int)$row->add_re_subject);
