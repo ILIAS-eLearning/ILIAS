@@ -2197,6 +2197,11 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$peer_prsl = new ilCheckboxInputGUI($lng->txt("exc_peer_review_personal"), "peer_prsl");				
 		$peer_prsl->setInfo($lng->txt("exc_peer_review_personal_info"));
 		$peer->addSubItem($peer_prsl);
+				
+		if($this->ass->getDeadline() && $this->ass->getDeadline() < time())
+		{
+			$peer_prsl->setDisabled(true);
+		}
 		
 		
 		// global feedback
@@ -2332,7 +2337,11 @@ class ilObjExerciseGUI extends ilObjectGUI
 				$ass->setPeerReview($_POST["peer"]);
 				$ass->setPeerReviewMin($_POST["peer_min"]);
 				$ass->setPeerReviewFileUpload($_POST["peer_file"]);
-				$ass->setPeerReviewPersonalized($_POST["peer_prsl"]);
+				
+				if($ass->getDeadline() && $ass->getDeadline() > time())
+				{
+					$ass->setPeerReviewPersonalized($_POST["peer_prsl"]);
+				}
 										
 				if($_POST["peer_dl_tgl"])
 				{
@@ -2557,7 +2566,11 @@ class ilObjExerciseGUI extends ilObjectGUI
 				$ass->setPeerReview($_POST["peer"]);
 				$ass->setPeerReviewMin($_POST["peer_min"]);
 				$ass->setPeerReviewFileUpload($_POST["peer_file"]);
-				$ass->setPeerReviewPersonalized($_POST["peer_prsl"]);
+				
+				if($ass->getDeadline() && $ass->getDeadline() > time())
+				{
+					$ass->setPeerReviewPersonalized($_POST["peer_prsl"]);
+				}
 				
 				if($_POST["peer_dl_tgl"])
 				{
