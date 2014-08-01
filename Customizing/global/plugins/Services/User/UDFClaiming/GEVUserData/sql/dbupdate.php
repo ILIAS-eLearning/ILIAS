@@ -325,3 +325,96 @@ $fields = array( "HPE"		=> array( gevSettings::USR_UDF_HPE
 gevUDFUtils::createUDFFields($fields);
 
 ?>
+
+<#3>
+<?php
+
+require_once("Services/GEV/Utils/classes/class.gevUDFUtils.php");
+require_once("Services/User/classes/class.ilUserDefinedFields.php");
+
+$fields = array( "TP-Typ"	=> array( gevSettings::USR_TP_TYPE
+											, UDF_TYPE_SELECT
+											, array( "visible"				=> true
+												   , "changeable"			=> false
+												   , "searchable"			=> true
+												   , "required"				=> false
+												   , "export"				=> true
+												   , "course_export"		=> false
+												   , "group_export"			=> false
+												   , "registration_visible"	=> false
+												   , "visible_lua"			=> false
+												   , "changeable_lua"		=> false
+												   , "certificate"			=> false
+												   )
+											, array( "1 - Kein Service"
+												   , "2 - Bildungsdienstleister"
+												   , "3 - TP-Basis"
+												   , "4 - TP-Service"
+												   )
+											)
+				, "BWV-ID"	=> array( gevSettings::USR_BWV_ID
+				 							, UDF_TYPE_TEXT
+											, array( "visible"				=> true
+												   , "changeable"			=> false
+												   , "searchable"			=> true
+												   , "required"				=> false
+												   , "export"				=> true
+												   , "course_export"		=> false
+												   , "group_export"			=> false
+												   , "registration_visible"	=> false
+												   , "visible_lua"			=> false
+												   , "changeable_lua"		=> false
+												   , "certificate"			=> false
+												   )
+											, null
+				 							)
+				, "Zuweisung WBD OKZ" => array( gevSettings::USR_WBD_OKZ
+											, UDF_TYPE_SELECT
+											, array( "visible"				=> true
+												   , "changeable"			=> false
+												   , "searchable"			=> true
+												   , "required"				=> false
+												   , "export"				=> true
+												   , "course_export"		=> false
+												   , "group_export"			=> false
+												   , "registration_visible"	=> false
+												   , "visible_lua"			=> false
+												   , "changeable_lua"		=> false
+												   , "certificate"			=> false
+												   )
+											, array( "0 - aus Stellung"
+												   , "1 - OKZ1"
+												   , "2 - OKZ2"
+												   , "3 - OKZ3"
+												   , "4 - keine Zuordnung"
+												   )
+											)
+				, "Zuweisung WBD Vermittlerstatus" => array( gevSettings::USR_WBD_STATUS
+											, UDF_TYPE_SELECT
+											, array( "visible"				=> true
+												   , "changeable"			=> false
+												   , "searchable"			=> true
+												   , "required"				=> false
+												   , "export"				=> true
+												   , "course_export"		=> false
+												   , "group_export"			=> false
+												   , "registration_visible"	=> false
+												   , "visible_lua"			=> false
+												   , "changeable_lua"		=> false
+												   , "certificate"			=> false
+												   )
+											, array( "0 - aus Stellung"
+												   , "1 - Angestellter Außendienst"
+												   , "2 - Ausschließlichkeitsvermittler"
+												   , "3 - Makler"
+												   , "4 - Mehrfachagent"
+												   , "5 - Mitarbeiter eines Vermittlers"
+												   , "6 - Sonstiges"
+												   , "7 - keine Zuordnung"
+												   )
+											)
+				);
+
+gevUDFUtils::createUDFFields($fields);
+
+?>

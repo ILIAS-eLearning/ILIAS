@@ -186,6 +186,16 @@ class gevSettings {
 	
 	// HPE
 	const USR_UDF_HPE				= "usr_udf_hpe";
+	
+	// WBD-Stuff
+	// type of service for user
+	const USR_TP_TYPE				= "usr_udf_tp_type";
+	// Vermittlernummer bei der WBD
+	const USR_BWV_ID				= "usr_udf_bwv_id";
+	// how is the okz of the user determined
+	const USR_WBD_OKZ				= "usr_udf_wbd_okz";
+	// how is the "Vermittlungstätigkeit" determined
+	const USR_WBD_STATUS			= "usr_udf_wbd_status";
 
 	// Role mapping
 	static $VMS_ROLE_MAPPING = array(
