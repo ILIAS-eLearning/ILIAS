@@ -43,13 +43,34 @@ class ilExAssignmentPeerReviewTableGUI extends ilTable2GUI
 		
 		$this->setLimit(9999);
 	
-		$this->addColumn($this->lng->txt("id"), "seq");
+		if(!$this->ass->hasPeerReviewPersonalized())
+		{
+			$this->addColumn($this->lng->txt("id"), "seq");
+		}
+		else if(!$this->read_only)
+		{
+			$this->addColumn($this->lng->txt("exc_peer_review_recipient"), "name");
+		}
+		else 
+		{
+			$this->addColumn($this->lng->txt("exc_peer_review_giver"), "name");
+		}
 		if(!$this->read_only)
 		{
 			$this->addColumn($this->lng->txt("exc_submission"), "");
 		}
+		
 		$this->addColumn($this->lng->txt("exc_peer_review_rating"), "mark");
-		$this->addColumn($this->lng->txt("exc_peer_review_comment"), "");
+		
+		if(!$this->read_only)
+		{
+			$this->addColumn($this->lng->txt("exc_peer_review_comment"), "");			
+		}
+		else
+		{
+			$this->addColumn($this->lng->txt("exc_peer_review"), "");
+		}
+				
 		$this->addColumn($this->lng->txt("last_update"), "tstamp");
 		
 		$this->setDefaultOrderField("tstamp");
@@ -59,11 +80,18 @@ class ilExAssignmentPeerReviewTableGUI extends ilTable2GUI
 			$this->ass->hasPeerReviewFileUpload());
 
 		$this->setTitle($a_ass->getTitle().": ".$this->lng->txt("exc_peer_review")." - ".$this->lng->txt($a_title));
-		
+						
 		if(!$this->read_only)
 		{
 			$this->addCommandButton("updatePeerReview", $this->lng->txt("save"));
 		}
+		else 
+		{
+			include_once "Services/User/classes/class.ilUserUtil.php";
+			$this->setDescription($this->lng->txt("exc_peer_review_recipient").
+				": ".ilUserUtil::getNamePresentation($a_user_id));
+		}
+		
 		$this->addCommandButton($a_cancel_cmd, $this->lng->txt("cancel"));
 		
 		$this->disable("numinfo");
@@ -74,12 +102,18 @@ class ilExAssignmentPeerReviewTableGUI extends ilTable2GUI
 	protected function getItems()
 	{
 		$data = array();
+		
+		$personal = $this->ass->hasPeerReviewPersonalized();
+		
+		if($personal)
+		{
+			include_once "Services/User/classes/class.ilUserUtil.php";
+		}
 				
 		foreach($this->peer_data as $idx => $item)
 		{
 			$row = array();
-			
-			$row["seq"] = $idx+1;
+						
 			$row["giver_id"] = $item["giver_id"];
 			$row["peer_id"] = $item["peer_id"];
 			$row["submission"] = "";
@@ -87,7 +121,20 @@ class ilExAssignmentPeerReviewTableGUI extends ilTable2GUI
 				"ass", $item["peer_id"], "peer", $item["giver_id"]));
 			$row["comment"] = $item["pcomment"];
 			$row["tstamp"] = $item["tstamp"];					
-			$row["upload"] = $item["upload"];					
+			$row["upload"] = $item["upload"];	
+			
+			if(!$personal)
+			{
+				$row["seq"] = $idx+1;
+			}
+			else if(!$this->read_only)
+			{
+				$row["name"] = ilUserUtil::getNamePresentation($item["peer_id"]);
+			}				
+			else
+			{
+				$row["name"] = ilUserUtil::getNamePresentation($item["giver_id"]);
+			}
 			
 			$data[] = $row;
 		}
@@ -97,7 +144,7 @@ class ilExAssignmentPeerReviewTableGUI extends ilTable2GUI
 	
 	public function numericOrdering($a_field) 
 	{
-		if(in_array($a_field, array("mark", "tstamp")))
+		if(in_array($a_field, array("mark", "tstamp", "seq")))
 		{
 			return true;
 		}
@@ -108,7 +155,14 @@ class ilExAssignmentPeerReviewTableGUI extends ilTable2GUI
 	{		
 		global $ilCtrl;
 					
-		$this->tpl->setVariable("VAL_SEQ", $a_set["seq"]);		
+		if(isset($a_set["seq"]))
+		{
+			$this->tpl->setVariable("VAL_SEQ", $a_set["seq"]);		
+		}
+		else
+		{
+			$this->tpl->setVariable("VAL_SEQ", $a_set["name"]);		
+		}
 			
 		if($a_set["tstamp"])
 		{

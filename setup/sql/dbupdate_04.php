@@ -2246,3 +2246,16 @@ if(!$ilDB->tableColumnExists('exc_assignment_peer', 'upload'))
 		));
 }
 ?>
+<#4281>
+<?php
+if(!$ilDB->tableColumnExists('exc_assignment', 'peer_prsl'))
+{
+	$ilDB->addTableColumn('exc_assignment', 'peer_prsl',
+		array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false,
+			'default' => 0
+		));
+}
+?>

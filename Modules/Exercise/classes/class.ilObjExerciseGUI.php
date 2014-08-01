@@ -2194,6 +2194,10 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$peer_file->setInfo($lng->txt("exc_peer_review_file_info"));
 		$peer->addSubItem($peer_file);
 		
+		$peer_prsl = new ilCheckboxInputGUI($lng->txt("exc_peer_review_personal"), "peer_prsl");				
+		$peer_prsl->setInfo($lng->txt("exc_peer_review_personal_info"));
+		$peer->addSubItem($peer_prsl);
+		
 		
 		// global feedback
 		
@@ -2328,6 +2332,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 				$ass->setPeerReview($_POST["peer"]);
 				$ass->setPeerReviewMin($_POST["peer_min"]);
 				$ass->setPeerReviewFileUpload($_POST["peer_file"]);
+				$ass->setPeerReviewPersonalized($_POST["peer_prsl"]);
 										
 				if($_POST["peer_dl_tgl"])
 				{
@@ -2413,6 +2418,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 			$values["peer"] = $ass->getPeerReview();
 			$values["peer_min"] = $ass->getPeerReviewMin();
 			$values["peer_file"] = $ass->hasPeerReviewFileUpload();
+			$values["peer_prsl"] = $ass->hasPeerReviewPersonalized();
 				
 			if ($ass->getPeerReviewDeadline() > 0)
 			{
@@ -2551,6 +2557,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 				$ass->setPeerReview($_POST["peer"]);
 				$ass->setPeerReviewMin($_POST["peer_min"]);
 				$ass->setPeerReviewFileUpload($_POST["peer_file"]);
+				$ass->setPeerReviewPersonalized($_POST["peer_prsl"]);
 				
 				if($_POST["peer_dl_tgl"])
 				{
@@ -3964,7 +3971,15 @@ class ilObjExerciseGUI extends ilObjectGUI
 			}
 			else
 			{			
-				$a_form->setDescription($lng->txt("id").": ".(int)$_GET["seq"]);
+				if(!$this->ass->hasPeerReviewPersonalized())
+				{
+					$a_form->setDescription($lng->txt("id").": ".(int)$_GET["seq"]);
+				}
+				else
+				{
+					include_once "Services/User/classes/class.ilUserUtil.php";
+					$a_form->setDescription(ilUserUtil::getNamePresentation($user_id));	
+				}
 								
 				foreach($this->ass->getPeerReviewsByPeerId($user_id) as $item)
 				{

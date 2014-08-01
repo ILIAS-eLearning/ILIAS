@@ -14552,3 +14552,7 @@ rbac#:#taxs_write#:#Edit settings in Taxonomy administration
 rbac#:#taxs_edit_permission#:#User can change permission settings in Taxonomy administration
 exc#:#exc_peer_review_file#:#File Upload
 exc#:#exc_peer_review_file_info#:#Enable peers to upload 1 file per review
+exc#:#exc_peer_review_personal#:#Personalized Peer-Feedback
+exc#:#exc_peer_review_personal_info#:#Peers are shown with full name
+exc#:#exc_peer_review_recipient#:#Feedback Recipient
+exc#:#exc_peer_review_giver#:#Feedback Giver
