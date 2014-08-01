@@ -101,6 +101,7 @@ class gevEduBiographyGUI {
 	public function renderTable() {
 		require_once("Services/CatUIComponents/classes/class.catTableGUI.php");
 		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 		require_once("Services/Calendar/classes/class.ilDatePresentation.php");
 		
 		$table = new catTableGUI($this, "view");
@@ -116,7 +117,7 @@ class gevEduBiographyGUI {
 		$table->addColumn($this->lng->txt("gev_provider"), "provider");
 		$table->addColumn($this->lng->txt("il_crs_tutor"), "trainer");
 		$table->addColumn($this->lng->txt("gev_points"), "points");
-		$table->addColumn($this->lng->txt("gev_costs"), "costs");
+		$table->addColumn($this->lng->txt("gev_costs"), "fee");
 		$table->addColumn($this->lng->txt("status"), "status");
 		$table->addColumn($this->lng->txt("gev_wbd_relevant"), "wbd");
 		$table->addColumn($this->action_img, "action");
@@ -139,10 +140,12 @@ class gevEduBiographyGUI {
 		$res = $this->db->query($query);
 		
 		$no_entry = $this->lng->txt("gev_table_no_entry");
+		$user_utils = gevUserUtils::getInstance($this->target_user_id);
+		
 		$data = array();
 		while($rec = $this->db->fetchAssoc($res)) {
-			$rec["fee"] = ($rec["bill_id"] != -1 && $rec["fee"] != -1)
-						? $rec["fee"] = gevCourseUtils::formatFee($rec["fee"])
+			$rec["fee"] = (($rec["bill_id"] != -1 || $user_utils->paysFees())&& $rec["fee"] != -1)
+						? $rec["fee"] = gevCourseUtils::formatFee($rec["fee"])." &euro;"
 						: $rec["fee"] == "-empty-";
 			$rec["status"] = ( $rec["participation_status"] == "fehlt entschuldigt" 
 							|| $rec["participation_status"] == "fehlt ohne Absage")
@@ -189,7 +192,7 @@ class gevEduBiographyGUI {
 			
 			$data[] = $rec;
 		}
-		
+
 		$table->setData($data);
 		
 		return $table->getHTML();
