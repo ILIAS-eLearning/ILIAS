@@ -1100,9 +1100,9 @@ class ilObjExercise extends ilObject
 		{
 			$this->members_obj->assignMember($user_id);
 		}
-		// no submission yet
-		ilExAssignment::updateStatusReturnedForUser($a_ass_id, $user_id, 1);
-		ilExerciseMembers::_writeReturned($this->getId(), $user_id, 1);
+		// no submission (of blog/portfolio) yet (unless text assignment)
+		ilExAssignment::updateStatusReturnedForUser($a_ass_id, $user_id, (bool)$a_text);
+		ilExerciseMembers::_writeReturned($this->getId(), $user_id, (bool)$a_text);
 		
 		return $next_id;
 	}
