@@ -202,6 +202,8 @@ class ilFFmpeg
 	 */
 	static function convert($a_file, $a_target_mime, $a_target_dir = "", $a_target_filename = "")
 	{
+		return; // currently not supported
+
 		if (self::$formats[$a_target_mime]["target"] != true)
 		{
 			include_once("./Services/MediaObjects/exceptions/class.ilFFmpegException.php");
@@ -222,7 +224,7 @@ class ilFFmpeg
 		
 		$target_file = $target_dir."/".$target_filename;
 		
-		$cmd = "-y -i ".$a_file." ".$pars." ".$target_file;
+		$cmd = "-y -i ".ilUtil::escapeShellArg($a_file)." ".$pars." ".ilUtil::escapeShellArg($target_file);
 
 		$ret = self::exec($cmd." 2>&1");
 		self::$last_return = $ret;
@@ -274,7 +276,7 @@ class ilFFmpeg
 		$target_file = $target_dir."/".$a_target_filename;
 		
 		$sec = (int) $a_sec;
-		$cmd = "-y -i ".$a_file." -r 1 -f image2 -vframes 1 -ss ".$sec." ".$target_file;
+		$cmd = "-y -i ".ilUtil::escapeShellArg($a_file)." -r 1 -f image2 -vframes 1 -ss ".$sec." ".ilUtil::escapeShellArg($target_file);
 //echo "-$cmd-"; exit;
 		$ret = self::exec($cmd." 2>&1");
 		self::$last_return = $ret;
