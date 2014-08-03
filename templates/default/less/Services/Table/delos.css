@@ -142,3 +142,41 @@ tr.tblheader {
   font-size: 90%;
   border-bottom: 1px solid #D6D6D6;
 }
+/* ---------------- alternating tablerowcolors ----------------- */
+.tblrow2_mo {
+  background-color: #F1F1F1;
+  color: #222;
+  padding: 3px;
+}
+.tblrow1_mo {
+  background-color: #FFF;
+  color: #222;
+  padding: 3px;
+}
+.tblrow1_mo:hover,
+.tblrow2_mo:hover {
+  background-color: #D0D0FF;
+}
+.tblrowmarked {
+  background-color: #FFE4E4;
+  color: #222;
+  padding: 3px;
+}
+.tblrow2top {
+  background-color: #F1F1F1;
+  color: #222;
+  padding: 3px;
+  vertical-align: top;
+}
+.tblrow1top {
+  background-color: #FFF;
+  color: #222;
+  padding: 3px;
+  vertical-align: top;
+}
+.tblrowmarkedtop {
+  background-color: #FFE4E4;
+  color: #222;
+  padding: 3px;
+  vertical-align: top;
+}

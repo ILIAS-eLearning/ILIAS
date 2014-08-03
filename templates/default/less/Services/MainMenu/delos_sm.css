@@ -1,0 +1,62 @@
+/* Services/MainMenu */
+#il_screen_id {
+  display: none;
+}
+div#il_main_logo {
+  position: absolute;
+  margin: 0;
+  padding: 5px 10px;
+}
+div#il_main_logo img {
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  padding: 0;
+}
+div.ilMainMenuSection .ilMainMenuSide,
+div.ilMainMenuSection .ilMainMenuSide li.ilMainMenu {
+  height: 0px;
+}
+div.ilMainMenuSearch {
+  position: absolute;
+  background: none;
+  top: 0px;
+  right: 0px;
+}
+div.ilLogin {
+  padding: 34px 20px 6px 10px;
+}
+span.il_menu {
+  padding-left: 0px;
+}
+div.ilMainMenu {
+  padding: 0;
+  width: 100%;
+}
+li.ilMainMenu {
+  width: 50%;
+  border: 0;
+}
+a.MMActive,
+a.MMInactive {
+  border-left: 1px solid #A3C8FF;
+  border-right: 1px solid #A3C8FF;
+}
+div.ilMainMenuSection {
+  background-color: #9BC5ED;
+}
+ul.ilMainMenuSide,
+div.ilLogin {
+  float: left;
+}
+ul.ilMainMenuSide {
+  margin-left: 20px;
+}
+div.ilMainHeader {
+  min-height: auto;
+  min-width: 1px;
+}
+input.ilMainMenuSearch {
+  box-shadow: none;
+  border: 1px solid #A0B0C0;
+}

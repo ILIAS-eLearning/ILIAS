@@ -1,0 +1,53 @@
+/* Services/Membership */
+div.ilAttendanceListPrint td,
+div.ilAttendanceListPrint th {
+  border: 1px solid #D6D6D6;
+  padding: 2px;
+}
+body.ilBodyPrint {
+  height: auto;
+  background-color: #FFF;
+  margin: 10px;
+  padding: 0;
+}
+/* -- Members Gallery Styles -- */
+div.il_MembersGallery {
+  margin: 0 auto;
+  text-align: center;
+  width: 95%;
+  padding: 8px;
+  line-height: 1.33;
+  display: block;
+  float: left;
+}
+div.il_Member,
+div.il_Tutor,
+div.il_Admin {
+  page-break-before: auto;
+  margin: 0 5px 20px;
+  background-color: #EEE;
+  padding: 10px 5px;
+  font-size: 75%;
+  width: 12em;
+  height: 14em;
+  float: left;
+  text-align: center;
+  overflow: hidden;
+}
+div.il_Member p,
+div.il_Tutor p,
+div.il_Admin p {
+  white-space: nowrap;
+}
+div.il_Tutor {
+  background-color: #BBB;
+}
+div.il_Admin {
+  background-color: #E4F2FF;
+}
+div.il_Admin img,
+div.il_Member img,
+div.il_Tutor img {
+  padding: 2px;
+  border: 1px solid #000;
+}

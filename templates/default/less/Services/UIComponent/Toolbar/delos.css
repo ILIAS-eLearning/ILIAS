@@ -1,0 +1,13 @@
+/* Services/UIComponent/Toolbar */
+div.ilToolbar {
+  background-color: #F4F4F4;
+  padding: 5px 3px;
+  margin-bottom: 8px;
+  font-size: 90%;
+  white-space: nowrap;
+}
+span.ilToolbarSeparator {
+  border-right: solid 1px #E0E0E0;
+  padding: 0 10px 2px 0;
+  margin-right: 10px;
+}

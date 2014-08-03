@@ -951,8 +951,11 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 	{
 		if ($this->_isPageTranslation())
 		{
+			parent::prepareOutput();
+			global $ilTabs;
+			$ilTabs->clearTargets();
 			// show the pure translation page without menu, tabs etc.
-			$this->tpl->addBlockFile("CONTENT","content","tpl.adm_translate.html","Services/Language");
+			//$this->tpl->addBlockFile("CONTENT","content","tpl.adm_translate.html","Services/Language");
 			$this->tpl->setHeaderPageTitle($this->lng->txt("translation"));
 			$this->tpl->setTitle($this->lng->txt("translation"). " "
 									.$this->lng->txt("meta_l_".$this->object->key));

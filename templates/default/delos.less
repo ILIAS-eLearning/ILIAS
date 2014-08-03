@@ -196,10 +196,6 @@ body.std {
 	display: none;
 }
 
-.ilDisplayInline {
-	display: inline;
-}
-
 .ilDisplayBlock {
 	display: block;
 }
@@ -220,9 +216,6 @@ body.std {
 	white-space: nowrap;
 }
 
-.ilPositionStatic {
-	position: static;
-}
 
 .ilPositionRelative {
 	position: relative;
@@ -236,29 +229,6 @@ div.ilFrame {
 	padding: 0;
 }
 
-div.ilStartupFrame{
-	margin: 10px auto;
-	background: url(images/head_back.png) repeat-x #F9F9F9 ;
-	width: 750px;
-	box-shadow: 0 0 40px #808080;
-	min-height: 450px;
-}
-
-div#il_startup_content {
-	padding: 40px 20px 35px;
-	box-shadow: inset 0 2px 2px #D0D0D0;
-	background-color: #F9F9F9;
-}
-
-#il_startup_content form table {
-	/* out-commented due to http://www.ilias.de/mantis/view.php?id=10264 */
-	/* width: 500px; */
-}
-
-.ilStartupSection {
-	text-align: center;
-	padding-top: 25px;
-}
 
 .ilCenter {
 	text-align: center;
@@ -268,23 +238,9 @@ div#il_startup_content {
 	text-align: right;
 }
 
-.ilValignTop {
-	vertical-align: top;
-}
 
 .ilValignMiddle {
 	vertical-align: middle;
-}
-
-.ilValignBottom {
-	vertical-align: bottom;
-}
-
-
-div.ilStartupSection div.ilForm {
-	margin:auto;
-	text-align:left;
-	width:40em;
 }
 
 .registration {
@@ -305,14 +261,6 @@ div#mainscrolldiv {
 
 .fullwidth {
 	width: 100%;
-}
-
-.halfWidth {
-	width: 50%;
-}
-
-.ilInheritBGColor {
-	background-color: inherit;
 }
 
 /* --- 3 column layout -- */
@@ -371,49 +319,6 @@ input[type=text].numeric {
 	text-align: right;
 }
 
-/* ---------------- alternating tablerowcolors ----------------- */
-.tblrow2_mo {
-	background-color: #F1F1F1;
-	color: #222;
-	padding: 3px;
-}
-
-.tblrow1_mo {
-	background-color: #FFF;
-	color: #222;
-	padding: 3px;
-}
-
-.tblrow1_mo:hover, .tblrow2_mo:hover {
-	background-color: #D0D0FF;
-}
-
-.tblrowmarked {
-	background-color: #FFE4E4;
-	color: #222;
-	padding: 3px;
-}
-
-.tblrow2top {
-	background-color: #F1F1F1;
-	color: #222;
-	padding: 3px;
-	vertical-align: top;
-}
-
-.tblrow1top {
-	background-color: #FFF;
-	color: #222;
-	padding: 3px;
-	vertical-align: top;
-}
-
-.tblrowmarkedtop {
-	background-color: #FFE4E4;
-	color: #222;
-	padding: 3px;
-	vertical-align: top;
-}
 
 /* -------------------- table formatting ------------------ */
 
@@ -441,16 +346,6 @@ table.std {
 }
 
 
-table.halfwidth {
-	color: #222;
-	background-color: #BBB;
-	width: 50%;
-	border-spacing: 0;
-	border-collapse: collapse;
-	border: 1px solid #9EADBA;
-}
-
-
 .fullwidth_invisible {
 	color: #222;
 	background-color: #FFF;
@@ -465,18 +360,6 @@ table.nobackground {
 	padding: 3px;
 }
 
-table.shop {
-  width: 50%;
-  margin: 0;
-  border-spacing: 0;
-}
-
-div.shop {
-  text-align: right;
-  margin-top: -20px;
-}
-
-.shop img {}
 
 .subitem {
   clear: both;
@@ -560,21 +443,6 @@ td.option_value_center {
 	border-top: 1px solid #9EADBA;
 }
 
-td.option_value_details {
-	background: none #FFF;
-	color: #222;
-	padding: 3px;
-	vertical-align: top;
-	text-align: left;
-}
-td.option_value_center_details {
-	background: none #FFE4E4;
-	color: #222;
-	padding: 3px;
-	vertical-align: top;
-	text-align: center;
-}
-
 td.option_desc, p.option_desc {
 	background: none #FFF;
 	color: #222;
@@ -585,14 +453,6 @@ td.option_desc, p.option_desc {
 	text-align: left;
 }
 
-td.option_info {
-	background: none #FFF;
-	color: #222;
-	padding: 3px;
-    font-weight: bold;
-	vertical-align: top;
-	text-align: center;
-}
 
 td.boxed {
 	border: 1px solid #000;
@@ -651,12 +511,6 @@ div.il_ItemNotice {
 	color: green;
 }
 
-div.il_Preconditions {
-	margin-top: 3px;
-	text-align: left;
-	font-size: 90%;
-}
-
 a.il_ItemProperty:link, a.il_ItemProperty:visited {
 	text-decoration: none;
 	font-weight: normal;
@@ -673,42 +527,6 @@ span.il_ItemAlertProperty {
 span.il_ItemProperty {
 }
 
-
-/* InfoScreen */
-table.il_InfoScreen {
-	color: #222;
-	background-color: #FFF;
-	width: 100%;
-	/* border-spacing: 0; */
-	border-collapse: collapse;
-	border: 1px solid #D6D6D6;
-}
-
-div.ilInfoScreenSec {
-	padding: 10px;
-}
-
-div.ilInfoScreenSec > h3 {
-	margin: 8px 0 14px;
-	border-bottom: 1px solid #D6D6D6;
-	color: #505050;
-	font-weight: normal;
-	font-size: 120%;
-}
-
-td.il_InfoScreenProperty {
-	border-right: 1px solid #D6D6D6;
-	text-align: right;
-	padding: 6px 10px 6px 4px;
-	vertical-align: top;
-	color: #505050;
-	width: 200px;
-}
-
-td.il_InfoScreenPropertyValue {
-	padding: 6px 4px 6px 10px;
-	vertical-align: top;
-}
 
 
 /* Table Links */
@@ -798,27 +616,6 @@ div.il_TreeIcons {
 	padding: 15px 15px 0 0;
 	margin: 0;
 	float: right;
-}
-
-a.ilMainHeader, a.ilMainHeader:hover {
-	padding: 1px 5px;
-	margin: 2px 0;
-	border: 1px solid #B0B0B0;
-	background-color: #E6ECF8;
-	font-size: 90%;
-}
-
-div.ilLogin {
-	padding: 21px 20px 3px 10px;
-	margin: 0;
-	white-space: nowrap;
-	float: right;
-	font-size: 85%;
-}
-
-span.il_menu {
-	line-height: 150%;
-	padding-left: 30px;
 }
 
 
@@ -951,15 +748,6 @@ a.light:link, a.light:visited {
 }
 
 a.light:hover {
-	color: #000;
-}
-
-a.nostyle:link, a.nostyle:visited {
-	text-decoration: none;
-	color: #000;
-}
-
-a.nostyle:hover {
 	color: #000;
 }
 
@@ -1114,55 +902,6 @@ img.spacer {
 	display: block;
 }
 
-
-/* -- Members Gallery Styles -- */
-div.il_MembersGallery {
-	margin: 0 auto;
-	text-align: center;
-	width: 95%;
-	padding: 8px;
-	line-height: 1.33;
-	display: block;
-	float: left;
-}
-
-div.il_Member,
-div.il_Tutor,
-div.il_Admin {
-	page-break-before: auto;
-	margin: 0 5px 20px;
-	background-color: #EEE;
-	padding: 10px 5px;
-	font-size: 75%;
-	width: 12em;
-	height: 14em;
-	float: left;
-	text-align: center;
-	overflow: hidden;
-}
-
-div.il_Member p,
-div.il_Tutor p,
-div.il_Admin p {
-	white-space: nowrap;
-}
-
-div.il_Tutor {
-	background-color: #BBB;
-}
-
-div.il_Admin {
-	background-color: #E4F2FF;
-}
-
-div.il_Admin img,
-div.il_Member img,
-div.il_Tutor img {
-	padding: 2px; 
-	border: 1px solid #000;
-}
-
-
 div#agreement {
 	width: 100%;
 	height: 375px;
@@ -1170,16 +909,6 @@ div#agreement {
 	overflow-x: hidden;
 }
 
-span.ilSearchHighlight {
-	font-weight: bold;
-}
-
-div.il_SearchFragment {
-	margin: 2px 0 5px;
-	font-size: 80%;
-	font-weight: normal;
-	text-align: left;
-}
 
 
 
@@ -1274,24 +1003,12 @@ div#bot_center_area_drag:hover {
 	background: none #FA9;
 }
 
-img.ilAreaClose {
-	width: 20px;
-	height: 20px;
-	background: url(images/icon_close2_s.png) no-repeat center;
-	position: absolute;
-	left: 0;
-	top: 0;
-	cursor: pointer;
-}
 
 .ilLeftNavSpace {
 	/* padding: 0 20px 0 310px; */
 	left: 310px !important;
 }
 
-div.ilRightAreaSpace {
-	width: 50%;
-}
 
 div.ilContentFixed {
 	/*background-color: #F9F9F9;
@@ -1305,92 +1022,6 @@ div.ilContentFixed {
 
 }
 
-/* right area (used in learning modules) */
-div#right_area {
-	bottom:	0;
-	width: 50%;
-	right: 0px;
-	top: 85px;
-	position: fixed;
-	padding: 5px;
-	background-color: #F5F5F5;
-	border-left: 3px solid #E9E9E9;
-	box-shadow: inset 0px 2px 2px #D0D0D0;
-	-webkit-overflow-scrolling: touch; /* Bug 11209 */ 
-	overflow: auto; /* Bug 11209 */
-}
-
-div#right_area iframe {
-	-webkit-overflow-scrolling: touch; /* Bug 11209 */
-	overflow: auto; /* Bug 11209 */
-	border: none;
-	width: 100%;
-	height: 100%;
-}
-
-div#right_cont_area {
-	bottom:	0;
-	width: 50%;
-	right: 0px;
-	top: 85px;
-	position: fixed;
-	background-color: #F5F5F5;
-	border-left: 3px solid #E9E9E9;
-	-webkit-overflow-scrolling: touch; /* Bug 11209 */ 
-	overflow: hidden;
-}
-
-div#right_top_area {
-	top: 0;
-	width: 100%;
-	height: 100%;
-	position: absolute;
-	background-color: #F5F5F5;
-	border-bottom: 3px solid #E9E9E9;
-	box-shadow: inset 0px 2px 2px #D0D0D0;
-	-webkit-overflow-scrolling: touch; /* Bug 11209 */ 
-	overflow: hidden;
-	display: none;
-}
-
-div.ilRightContAreaSplit div#right_top_area {
-	height: 50%;
-}
-
-div#right_top_area iframe {
-	-webkit-overflow-scrolling: touch; /* Bug 11209 */
-	overflow: auto; /* Bug 11209 */
-	border: none;
-	width: 100%;
-	height: 100%;
-}
-
-div#right_bottom_area {
-	top: 0px;
-	width: 100%;
-	height: 100%;
-	position: absolute;
-	background-color: #F5F5F5;
-	box-shadow: inset 0px 2px 2px #D0D0D0;
-	-webkit-overflow-scrolling: touch; /* Bug 11209 */ 
-	overflow: hidden;
-	display: none;
-}
-
-div.ilRightContAreaSplit div#right_bottom_area {
-	top: 50%;
-	height: 50%;
-}
-
-
-div#right_bottom_area iframe {
-	-webkit-overflow-scrolling: touch; /* Bug 11209 */
-	overflow: auto; /* Bug 11209 */
-	border: none;
-	width: 100%;
-	height: 100%;
-}
-
 
 /* right panel (e.g. notes, comments) */
 div.ilRightPanel {
@@ -1401,31 +1032,6 @@ div.ilRightPanel {
 	right: 0;
 	width: 500px;
 	left: auto !important;
-}
-
-/* Tabs */
-div.il_Tab {
-    float: left;
-	padding-left: 0;
-	line-height: normal;
-	/* border-bottom: 1px solid #E0E0E0; */
-	margin: 0 10px;
-}
-
-ul.il_Tab {
-	margin: 0;
-	padding: 0;
-	list-style: none;
-	position: relative;
-	top: 1px;
-}
-
-li.tabinactive {
-	float: left;
-	margin: 0 4px 0 0;
-	padding: 0;
-	border-bottom: 1px solid #E0E0E0;
-	white-space: nowrap;
 }
 
 
@@ -1441,219 +1047,6 @@ div.il_Block, table.il_Block, .ilOverlay {
 	box-shadow: 2px 2px 4px #C0C0C0;
 }
 
-/* Blocks */
-
-div.il_Block, table.il_Block {
-	width: 100%;
-	border-spacing:0px;
-	border-collapse:collapse;
-	margin-bottom: 20px;
-	clear: both;
-	table-layout: fixed;
-	word-wrap: break-word;
-}
-
-div.ilBlockHeader, div.ilBlockHeaderBig,
-td.ilBlockHeader, td.ilBlockHeaderBig {
-	font-weight: bold;
-	padding: 3px;
-	text-align:left;
-	font-size: 90%;
-	color: #404040;
-	background: url(images/block_top.png) repeat-x #F8F8F8 ;
-	border-bottom: 1px solid #E9E9E9;
-}
-
-div.ilBlockHeaderBig, td.ilBlockHeaderBig {
-	font-size: 100%;
-}
-
-h3.ilBlockHeader {
-	font-weight: bold;
-	margin: 0;
-	padding: 0;
-	font-size: 100%;
-	display: inline;
-}
-
-
-/* possibly deprecated */
-.il_BlockInfo {
-	font-size: 80%;
-	color: #909090;
-}
-
-/* new class */
-div.ilBlockInfo {
-	font-size: 75%;
-	color: #909090;
-	border-bottom: 1px solid #E9E9E9;
-	padding: 1px 3px;
-	background-color: #F9F9F9;
-	text-align: right;
-}
-
-div.ilBlockContent {
-	padding: 5px;
-}
-
-th.ilContainerBlockHeader {
-	font-weight: bold;
-	font-size: 90%;
-	padding: 2px;
-	text-align:left;
-	vertical-align: middle;
-	background: url(images/block_top.png) repeat-x #F8F8F8;
-	border-bottom: 1px solid #E9E9E9;
-}
-
-h3.ilContainerBlockHeader {
-	font-weight: bold;
-	padding: 0;
-	margin: 0;
-	display: inline;
-	font-size: 100%;
-}
-
-table.ilContainerBlock {
-	border: 1px solid #D6D6D6;
-	width: 100%;
-	/* border-spacing: 0; */
-	border-collapse: collapse;
-	clear: both;
-	margin-bottom: 20px;
-}
-
-h3.ilPDBlockSubHeader {
-	margin: 0;
-	display: block;
-	font-weight: normal;
-	text-align: left;
-	font-size: 90%;
-	background-color: #F8F8F8;
-	vertical-align: middle;
-	border-top: 1px solid #F0F0F0;
-	padding: 1px 3px;
-}
-
-.ilBlockRow1, .ilBlockRow2 {
-	padding: 3px;
-	border-bottom: 1px solid #F0F0F0;
-}
-
-div.ilBlockPropertyCaption {
-	font-weight: bold;
-}
-
-/* Services/Bookmarks */
-#block_pdbookm_0 #tree_div {
-	overflow: auto;
-	width: 100%;
-}
-
-
-/* Toolbar */
-div.ilToolbar {
-	background-color: #F4F4F4;
-	padding: 5px 3px;
-	margin-bottom: 8px;
-	font-size: 90%;
-	white-space: nowrap;
-}
-
-span.ilToolbarSeparator {
-	border-right: solid 1px #E0E0E0;
-	padding: 0 10px 2px 0;
-	margin-right: 10px;
-}
-
-/* Repository */
-div.ilContainerListItemOuter {
-	padding: 15px;
-	zoom: 1;
-}
-
-td.ilContainerListFooter {
-	padding-left: 15px;
-}
-
-div.ilContainerListItemOuterHighlight {
-	padding: 15px;
-	background-color: #FFFFD9;
-	zoom: 1;
-}
-
-.ilCLIRow1, .ilCLIRow2 {
-	padding: 0;
-	border-top: 1px solid #F0F0F0;
-}
-
-td.ilCLI {
-	padding: 0;
-}
-
-div.il_ContainerListItem {
-	margin: 2px 0;
-	padding-left: 8px;
-}
-
-div.ilCreationFormSection {
-	width: 700px;
-}
-
-div.ilCreationFormSection div.ilForm {
-	width: 699px;
-}
-
-div.ilCreationFormSection div.ilForm div.ilForm {
-	width: auto;
-}
-
-div.il_adv_sel {
-	border: 1px solid #D6D6D6;
-	box-shadow: 2px 2px 4px #C0C0C0;
-}
-
-table.il_adv_sel {
-	color: #000;
-	background-color: #FFF;
-	border-spacing: 0;
-	cursor: pointer;
-}
-
-tr.il_adv_sel {
-	cursor: pointer;
-}
-
-tr.il_adv_sel_act {
-	background-color: #FFF9BC;
-	cursor: pointer;
-}
-
-td.il_adv_sel {
-	border-bottom: 1px solid #F0F0F0;
-	padding: 3px 10px;
-	text-align: left;
-	white-space: nowrap;
-	cursor: pointer;
-	font-weight: normal;
-}
-
-#ilAdvSelListTable_item_creation td.il_adv_sel {
-	min-width: 150px;
-}
-
-td.il_adv_sel_ic {
-	border-bottom: 1px solid #F0F0F0;
-	padding: 3px 0 3px 10px;
-	text-align: left;
-	cursor: pointer;
-}
-
-div.il_adv_cont {
-	background: url(images/25black.png); 
-}
-
 
 
 table.fullwidth {
@@ -1662,32 +1055,6 @@ table.fullwidth {
 	border-collapse: collapse;
 }
 
-
-/* Navigation History */
-form.ilNavHistoryForm {
-	padding: 0;
-	margin: 0 5px 0 0;
-	padding: 5px 5px 2px;
-	border: none;
-	display: inline;
-	font-size: 80%;
-}
-
-input.ilNavHistorySubmit {
-	color: #2255A0;
-	padding: 0;
-	margin: 0;
-	border: none;
-	cursor: pointer;
-	background-color: #F0F0F0;
-}
-
-select.ilNavHistorySelect {
-	border: none;
-	padding: 0;
-	background-image: none;
-	text-decoration: none;
-}
 
 .ilAccHeadingHidden, .ilAccHidden, .ui-helper-hidden-accessible {
 	position: absolute;
@@ -1703,77 +1070,7 @@ a.ilAccAnchor, a.ilAccAnchor:hover {
 	color: inherit;
 }
 
-
-
-/* PageLayout Previews */
-div.ilc_QuestionPlaceHolderThumb,
-div.ilc_MediaPlaceHolderThumb,
-div.ilc_TextPlaceHolderThumb,
-div.ilc_PredTextPlaceHolderThumb {
-	margin: 1px;
-	padding: 5px 2px 5px 0;
-	border: 1px solid gray;
-	font-size: 10px;
-	background: url(images/question_placeholder_thumb.png) no-repeat center;
-	font-weight: bold;
-}
-
-div.ilc_MediaPlaceHolderThumb {
-	background-image: url(images/media_placeholder_thumb.png);	
-}
-
-div.ilc_TextPlaceHolderThumb {
-	background-image: url(images/text_placeholder_thumb.png);
-}
-
-div.ilc_PredTextPlaceHolderThumb {
-	background-image: url(images/pred_text_placeholder_thumb.png);
-}
-
-div.ilc_HeadlineThumb {
-	font-size: 11px;
-	font-weight: bold;
-	width: 100%;
-	border-bottom: 1px solid gray;
-	color: gray;
-	margin:2px 0 4px;
-}
-
-
 /* revised 4.1 */
-/* Tooltip */
-.ui-tooltip-rounded,
-.ui-tooltip-rounded .ui-tooltip-content,
-.ui-tooltip-tipsy,
-.ui-tooltip-tipsy .ui-tooltip-content,
-.ui-tooltip-youtube,
-.ui-tooltip-youtube .ui-tooltip-content{
-	-moz-border-radius: 4px;
-	-webkit-border-radius: 4px;
-	border-radius: 4px;
-}
-
-.ui-tooltip-shadow{
-	-webkit-box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.15);
-	-moz-box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.15);
-	box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.15);
-}
-
-/* locator */
-div.ilLocator {
-	padding: 2px 0 0 10px;
-	zoom: 1;
-}
-
-a.ilLocatorLink {
-	color: #80A0D0;
-	font-weight: normal;
-}
-
-a.ilLocatorLink:hover {
-}
-
-
 
 
 /* Fixed Frame Width */
@@ -1827,10 +1124,6 @@ div.ilBox {
 	margin-bottom: 20px;
 }
 
-/* Services/Container */
-div#cont_paste_explorer_tree ul.il_Explorer {
-    margin: 0 0 0 24px;
-}
 
 
 /* Top-Bar */
@@ -1891,11 +1184,6 @@ div.ilSideBarContent{
 	box-shadow: 2px 2px 4px #C0C0C0; 
 }
 
-#mm_search_menu_ac .ui-menu {
-	border: none;
-	box-shadow: none; 
-}
-
 
 .ui-menu .ui-menu-item {
 	margin: 0;
@@ -1954,57 +1242,6 @@ div.ilSideBarContent{
 	background-color: #FF9;
 }
 
-.iosPdBlockDragAndDropPlaceholder {
-	border: 3px #C0C0C0 dashed;
-	border-radius: 8px;
-	margin-bottom: 15px;
-}
-
-
-
-
-/* Services/UIComponent/Lightbox */
-.ilLightbox {
-	position: absolute;
-	top: 0;
-	bottom: 0;
-	right: 0;
-	left: 0;
-	background-color: #303030;
-	overflow: auto;
-}
-
-a.ilMediaLightboxClose {
-	display: block;
-	float: right;
-	margin: 0 0 10px 10px;
-	width: 20px;
-	height: 20px;
-	background:url(images/close_dg.png) no-repeat center;
-	cursor: pointer;
-}
-
-.ilLightboxContent {
-	margin: 50px auto 0;
-	width: 640px;
-	max-width: 100%;
-}
-
-div.ilAttendanceListPrint td, div.ilAttendanceListPrint th {
-	border: 1px solid #D6D6D6;
-	padding: 2px;
-}
-
-body.ilBodyPrint {
-    height: auto;
-	background-color: #FFF;
-	margin: 10px;
-	padding: 0;
-}
-
-table.il_user_quota_disk_usage_overview {
-	background-color: white;
-}
 
 /* Component Imports */
 
@@ -2033,88 +1270,36 @@ table.il_user_quota_disk_usage_overview {
 @import "less/Services/Chart/delos.less";
 @import "less/Services/Captcha/delos.less";
 @import "less/Services/User/delos.less";
+@import "less/Services/Style/delos.less";
+@import "less/Modules/Course/delos.less";
+@import "less/Modules/Chatroom/delos.less";
+@import "less/Services/Container/delos.less";
+@import "less/Modules/LearningModule/delos.less";
+@import "less/Services/PersonalDesktop/delos.less";
+@import "less/Services/UIComponent/AdvancedSelectionList/delos.less";
+@import "less/Services/Object/delos.less";
+@import "less/Services/Navigation/delos.less";
+@import "less/Services/Block/delos.less";
+@import "less/Services/UIComponent/Lightbox/delos.less";
+@import "less/Services/Membership/delos.less";
+@import "less/Modules/BookingManager/delos.less";
+@import "less/Services/InfoScreen/delos.less";
+@import "less/Services/Init/delos.less";
+@import "less/Services/Bookmarks/delos.less";
+@import "less/Services/UIComponent/Toolbar/delos.less";
+@import "less/Services/UIComponent/Tooltip/delos.less";
+@import "less/Services/Locator/delos.less";
 
 
-
-.ilUserOnlineRow {
-	margin: 0 0 0 40px;
-}
-
-.ilUserImage {
-	margin:0 0 0 -40px;
-}
-
-div.ilUserImage + img {
-	margin: 2px 0; 
-}
-
-span[id^="ilAdvSelListAnchorElement_"] + div {
-	position: absolute; 
-	z-index: 5000; 
-	left: 0; 
-	right: 0;
-}
-
-div[id^="ilAdvSelListTable_"] {
-	overflow: auto; 
-	background-color: #FFF;
-	clear: both;
-	display: none;
-	position: absolute;
-}
-
-td.ilAsyncImgLoader {
-	padding: 0 40px;
-}
-
-#chat_actions {
-	white-space: nowrap; 
-	margin-left: 10px;
-}
-
-#chat_messages {
-	width: 100%; 
-	min-height: 200px;
-}
-
-#chat_users {
-	overflow: auto; 
-	height: 100%;
-}
-
-#private_rooms {
-	z-index: 200; 
-	display: none;
-}
-
-td.chatroom {
-	width: 200px; 
-	height: auto;
-}
-
-ul.noStyle {
-	list-style: none;
-}
 
 .noMargin {
 	margin: 0;
-}
-
-li.smallPad {
-	padding: 1px;
-}
-
-.listIndent {
-	padding: 0 0 20px;
 }
 
 div.editLink {
 	padding-right: 1em;
 }
 
-.ilTextinfo {
-	margin-bottom: 10px;
-}
 
 div[id^="ilFormField"] {
 	margin-bottom: 10px;
@@ -2144,7 +1329,7 @@ div[id^="ilFormField"] {
 		font-family: Arial, sans-serif !important;
 	}
 	
-	#il_left_col, #imgtree, #il_screen_id, #help_tt, #help_tr, .ilTopTitle, #il_status_box {
+	#il_left_col, #imgtree, #help_tt, #help_tr, .ilTopTitle, #il_status_box {
 		display: none;
 	}
 	
@@ -2154,76 +1339,7 @@ div[id^="ilFormField"] {
 		vertical-align: top;
 		width: 100%;
 	}
-	
-	div#il_main_logo {
-		position: absolute;
-		margin: 0;
-		padding: 5px 10px;
-	}
-	
-	div#il_main_logo img {
-		width: 20px;
-		height: 20px;
-		margin: 0;
-		padding: 0;
-	}
-	
-	div.ilMainMenuSection .ilMainMenuSide, div.ilMainMenuSection .ilMainMenuSide li.ilMainMenu {
-		height: 0px;
-	}
-	
-	div.ilMainMenuSearch {
-		position: absolute;
-		background: none;
-		top: 0px;
-		right: 0px;
-	}
-	
-	div.ilLogin {
-		padding: 34px 20px 6px 10px;
-	}
-	
-	span.il_menu {
-		padding-left: 0px;
-	}
 
-	div.ilMainMenu {
-		padding: 0;
-		width: 100%;
-	}
-	
-	li.ilMainMenu {
-		width: 50%;
-        border: 0;
-	}
-
-    a.MMActive, a.MMInactive {
-        border-left: 1px solid #A3C8FF;
-        border-right: 1px solid #A3C8FF;
-    }
-
-	div.ilMainMenuSection {
-		background-color: #9BC5ED;
-	}
-	
-	ul.ilMainMenuSide, div.ilLogin {
-		float: left;
-	}
-	
-	ul.ilMainMenuSide {
-		margin-left: 20px;
-	}
-	
-	div.ilMainHeader {
-		min-height: auto;
-		min-width: 1px;
-    }
-    
-    input.ilMainMenuSearch {
-    	box-shadow: none;
-    	border: 1px solid #A0B0C0;
-    }
-    
     div#mainscrolldiv {
     	padding: 5px 0px 0;
     }
@@ -2270,58 +1386,7 @@ div[id^="ilFormField"] {
 		width: auto;
 	}
 
-	div.il_Tab {
-		margin: 0 5px 10px;
-		background-color: #F4F4F4;
-		border: 1px solid #E0E0E0;
-		padding: 2px 2px 4px 2px;
-		clear: both;
-	}
-	
-	div.il_SubTab {
-		width: auto;
-	}
 
-	li.tabactive, li.tabinactive, a.tabactive, a.tabinactive {
-		background: none;
-		border: 0;
-		padding: 2px 3px;
-	}
-	
-	li.tabactive {
-		background-color: #FFF;
-	}
-	
-	a.tabinactive:hover {
-		background: none;
-	}
-
-	a.tabactive:link, a.tabactive:visited, a.tabactive:hover {
-		text-decoration: underline;
-	}
-	
-	div.ilTabContentInner {
-		overflow: visible;
-	}
-	
-	div.ilTabContentOuter {
-		box-shadow: none;
-		border: none;
-        /* since the div in the main template got also a display table-cell
-        through ilTabsTableCell the width:auto shrinks the div to the size of the content.
-        We do not want that */
-		/* width: auto; */
-	}
-	
-	div.ilFormOption {
-		width: auto;
-	}
-	
-	div.ilFormSubOption {
-		padding: 3px;
-		border: none;
-		background-color: #F0F0F0;
-	}
 
 	div.ilLeftNav {
 		width: 0;
@@ -2358,106 +1423,14 @@ div[id^="ilFormField"] {
 		overflow: auto;
 	}
 
-	div.ilForm, div.ilFormRow {
-		display: block;
-		background: none;
-		border: none;
-	}
-	
-	div.ilForm {
-		width: 400px;
-		max-width: 100%;
-	}
+	@import "less/Services/MainMenu/delos_sm.less";
+	@import "less/Services/UIComponent/Tabs/delos_sm.less";
+	@import "less/Services/Form/delos_sm.less";
+	@import "less/Modules/Forum/delos_sm.less";
 
-	div.ilSubForm {
-		display: block;
-		width: auto;
-	}
-	
-	div.ilFormHeader, div.ilFormFooter {
-		background-color: #E8EDF9;
-		border: none;
-		padding: 5px 10px 2px;
-		margin: 20px 0 5px;
-		font-size: 100%;
-		display: block;
-	}
-	
-	div.ilFormFooter {
-		background-color: #F5F5F5;
-		padding: 8px 10px 2px;
-		margin: 10px 0 5px;
-	}
-	
-	h3.ilFormHeader {
-		font-weight: normal;
-		font-size: 110%;
-	}
-	
-	div.ilFormCommands {
-		text-align: left;
-		margin: 0 0 10px;
-		padding: 0;
-		background: none;
-		border: none;
-		width: auto;
-	}
 
-	div.ilFormInfo {
-		float: right;
-	}
-
-	div.ilFormOption {
-		display: block;
-		text-align: left;
-		padding: 3px 10px;
-		font-size: 100%;
-		background-color: #F4F4F4;
-		border: none;
-		width: auto;
-		float: none;
-	}
-
-	div.ilFormValue {
-		padding: 8px 10px 3px;
-		font-size: 90%;
-		border: none;
-		width: auto;
-		background-color: #FAFAFA;
-		margin: 0 0 8px;
-		display: block;
-	}
-	
-	div.ilFormInfo {
-		float: none;
-	}
-
-	.ilFrmPostRow div.ilForm,
-	.ilFrmPostRow div.ilForm input[type=text],
-	.ilFrmPostRow div.ilForm textarea {
-		width: 100%;
-	}
-
-	.ilFrmPostRow div.ilForm div.ilFormValue {
-		width: auto;
-	}
-
-	.ilFrmPostRow img.ilUserIcon {
-		width: 50px;
-		height: 50px;
-	}
-	
-	.ilFrmPostTitle {
-		margin-top: 5px;
-		font-size: 100%;
-	}
-	
 	div.ilGoogleMap {
 		max-width: 100%;
-	}
-
-	.ilFrmPostContentContainer {
-		width: 100%;
 	}
 }
 
