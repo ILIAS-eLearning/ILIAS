@@ -72,7 +72,7 @@ class ilUserCourseStatusHistorizingAppEventListener
 		if (   $a_component == "Services/Billing") {
 			$a_parameter["crs_id"] = $a_parameter["bill"]->getContextId();
 			$a_parameter["usr_id"] = $a_parameter["bill"]->getUserId();
-			$ilLog->write(print_r($a_parameter, true));
+			//$ilLog->write(print_r($a_parameter, true));
 			if($a_parameter["crs_id"] === 0) {
 				// bill is a cancel bill.
 				return;

@@ -100,8 +100,21 @@ class ilGEVBillingPlugin extends ilEventHookPlugin
 	}
 	
 	protected function billFinalized(ilBill $a_bill) {
+		global $ilLog;
+		
 		require_once("Services/GEV/Utils/classes/class.gevBillStorage.php");
 		gevBillStorage::getInstance()->storeBill($a_bill);
+		
+		$context_id = $a_bill->getContextId();
+		
+		if ($context_id) {
+			require_once("Services/GEV/Mailing/classes/CrsMails/class.gevCrsBillMail.php");
+			$automail = new gevCrsBillMail($context_id);
+			$automail->sendBill($a_bill);
+		}
+		else {
+			$ilLog->write("ilGEVBillingPlugin::billFinalized: Bill ".$a_bill->getId()." has no context id.");
+		}
 	}
 }
 

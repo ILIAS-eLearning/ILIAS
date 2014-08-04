@@ -163,7 +163,7 @@ abstract class ilAutoMail {
 		// I really don't like that dependency...
 		require_once ("./Services/MailTemplates/lib/phpmailer/class.phpmailer.php");
 
-		global $ilUser;
+		global $ilUser, $ilLog;
 
 		if ($a_recipients === null) {
 			$a_recipients = $this->getUsersOnly()
@@ -240,7 +240,9 @@ abstract class ilAutoMail {
 				$mail->AddAttachment($attachment["path"], $attachment["name"]);
 			}
 
-			$mail->Send();
+			if (!$mail->Send()) {
+				$ilLog->write("ilMail::send: PHPMailer-error when sending ".$this->getId().": ".$mail->ErrorInfo);
+			}
 
 			$this->log($mail_data, $a_occasion);
 		}

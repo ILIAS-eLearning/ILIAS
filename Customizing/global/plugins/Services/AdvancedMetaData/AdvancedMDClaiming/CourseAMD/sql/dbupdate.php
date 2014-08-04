@@ -23,7 +23,7 @@ $gev_set = gevSettings::getInstance();
 $records = 
 array( "Zeitraum"
 	 	=> array(null,
-	 	   array( "Startdatum" =>
+	 	   array( "Startdatum" =>	
 	 	   				array( gevSettings::CRS_AMD_START_DATE
 	 	   					 , null
 	 	   					 , true
@@ -398,7 +398,7 @@ require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 global $ilDB;
 
 $ilDB->manipulate("UPDATE adv_mdf_definition SET title = 'Link WebEX' WHERE title = 'Weblink'");
-$ilDB->manipulate("UPDATE settings SET value = 'crs_amd_webex_link' WHERE value = 'crs_amd_web_location'");
+$ilDB->manipulate("UPDATE settings SET keyword = 'crs_amd_webex_link' WHERE keyword = 'crs_amd_web_location'");
 
 gevAMDUtils::addAMDField( "Orte und Anbieter"
 						, "Passwort WebEX"

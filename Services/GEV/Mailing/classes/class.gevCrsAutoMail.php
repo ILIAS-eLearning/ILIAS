@@ -426,7 +426,9 @@ abstract class gevCrsAutoMail extends ilAutoMail {
 		}*/
 
 		// Do not send mails for courses that are offline.
-		if ($this->getCourse()->getOfflineStatus()) {
+		// except for billing mails. This is a hack and really
+		// no good design.
+		if ($this->getCourse()->getOfflineStatus() && $this->getId() != "bill_mail") {
 			return;
 		}
 

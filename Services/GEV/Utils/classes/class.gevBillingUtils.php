@@ -177,7 +177,7 @@ class gevBillingUtils {
 		}
 	}
 	
-	protected function getBillForCourseAndUser($a_user_id, $a_crs_id) {
+	protected function getBillsForCourseAndUser($a_user_id, $a_crs_id) {
 		require_once("Services/Billing/classes/class.ilBill.php");
 		return ilBill::getInstancesByUserAndContext($a_user_id, $a_crs_id);
 		
@@ -226,7 +226,7 @@ class gevBillingUtils {
 			// never be more than one bill per course and user.
 			$this->log->write("gevBillingUtils::getNonFinalizedBillForCourseAndUser: ".
 						  "There is more than one non finalized bill for user ".$a_user_id.
-						  " at course ".$a_crs_id.", this violates a crucial".
+						  " at course ".$a_crs_id.", this violates a crucial ".
 						  "assumption about the booking process."
 						  );
 			return null;
@@ -242,8 +242,6 @@ class gevBillingUtils {
 		}
 		
 		$bill->finalize();
-		
-		// TODO: send mail here
 	}
 	
 	public function finalizeNoShowBill($a_crs_id, $a_user_id) {
@@ -274,8 +272,6 @@ class gevBillingUtils {
 		}
 		
 		$bill->finalize();
-				
-		// TODO: send mail here
 	}
 	
 	public function cancelBill($a_crs_id, $a_user_id) {
@@ -340,8 +336,6 @@ class gevBillingUtils {
 		$this->log->write("gevBillingUtils::createCancellationBillAndCoupon: created cancelation bill '"
 						 .$bill->getid()."' for course '".$a_crs_id."' and user '".$a_user_id."' with "
 						 ."coupon '".$coupon_code."'");
-		
-		// TODO: send email
 	}
 }
 
