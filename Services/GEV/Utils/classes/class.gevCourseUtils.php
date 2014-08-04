@@ -751,8 +751,16 @@ class gevCourseUtils {
 		return $ven->getContactEmail();
 	}
 	
-	public function getWebLocation() {
-		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_WEB_LOCATION);
+	public function getWebExLink() {
+		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_WEBEX_LINK);
+	}
+	
+	public function getWebExPassword() {
+		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_WEBEX_PASSWORD);
+	}
+	
+	public function getCSNLink() {
+		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_CSN_LINK);
 	}
 	
 	public function getFormattedPreconditions() {

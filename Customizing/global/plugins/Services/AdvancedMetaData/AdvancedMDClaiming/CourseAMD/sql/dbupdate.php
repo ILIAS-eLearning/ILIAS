@@ -387,3 +387,35 @@ gevAMDUtils::addAMDField( "Zeitraum"
 						);
 
 ?>
+
+<#5>
+<?php
+
+require_once("Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php");
+require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
+require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+
+global $ilDB;
+
+$ilDB->manipulate("UPDATE adv_mdf_definition SET title = 'Link WebEX' WHERE title = 'Weblink'");
+$ilDB->manipulate("UPDATE settings SET value = 'crs_amd_webex_link' WHERE value = 'crs_amd_web_location'");
+
+gevAMDUtils::addAMDField( "Orte und Anbieter"
+						, "Passwort WebEX"
+						, gevSettings::CRS_AMD_WEBEX_PASSWORD
+						, "Passwort zum virtuellen Klassenraum"
+						, false
+						, null
+						, ilAdvancedMDFieldDefinition::TYPE_TEXT
+						);
+
+gevAMDUtils::addAMDField( "Orte und Anbieter"
+						, "Link CSN"
+						, gevSettings::CRS_AMD_CSN_LINK
+						, "Link zu CSN"
+						, false
+						, null
+						, ilAdvancedMDFieldDefinition::TYPE_TEXT
+						);
+
+?>
