@@ -4494,6 +4494,67 @@ class ilObjExerciseGUI extends ilObjectGUI
 		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
 		$this->ctrl->redirect($this, "members");
 	}
+	
+	/**
+	 * Save comment for learner (asynch)
+	 */
+	function saveCommentForLearnersObject()
+	{
+		$this->checkPermission("write");
+		
+		$res = array("result"=>false);
+		
+		if($this->ctrl->isAsynch())
+		{
+			$ass_id = (int)$_POST["ass_id"];
+			$user_id = (int)$_POST["mem_id"];
+			$comment = trim($_POST["comm"]);
+			
+			if($ass_id && $user_id)
+			{				
+				// team upload?
+				if(is_object($this->ass) && $this->ass->getType() == ilExAssignment::TYPE_UPLOAD_TEAM)
+				{
+					$team_id = $this->ass->getTeamId($user_id);
+					$user_ids = $this->ass->getTeamMembers($team_id);		
+				}
+				else
+				{
+					$user_ids = array($user_id);
+				}				
+				
+				$all_members = new ilExerciseMembers($this->object);
+				$all_members = $all_members->getMembers();
+				
+				$reci_ids = array();
+				foreach($user_ids as $user_id)
+				{
+					if(in_array($user_id, $all_members))
+					{
+						ilExAssignment::updateCommentForUser($ass_id, $user_id,
+							ilUtil::stripSlashes($comment));
+						
+						if(trim($comment))
+						{
+							$reci_ids[] = $user_id;
+						}
+					}
+				}
+				
+				if(sizeof($reci_ids))
+				{
+					// send notification
+					$this->object->sendFeedbackFileNotification("dummy", 
+						$reci_ids, $ass_id);
+				}
+				
+				$res = array("result"=>true, "snippet"=>ilUtil::shortenText($comment, 25, true));
+			}						
+		}				
+		
+		echo(json_encode($res));		
+		exit();
+	}
 }
 
 ?>

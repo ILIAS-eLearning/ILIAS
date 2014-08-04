@@ -58,9 +58,7 @@
   <!-- END download_new_link -->
   <div style="margin: 2px 0px 0px 0px">
   <span class="small">
-  {TXT_NOTE}:<br /><input type="text" name="{NAME_NOTE}" value="{VAL_NOTE}" size="45" maxlength="200" /><br />
-  {TXT_LCOMMENT}:<br />
-  <textarea name="{NAME_LCOMMENT}" cols="45" rows="2" wrap="virtual">{VAL_LCOMMENT}</textarea>
+  {TXT_NOTE}:<br /><input type="text" name="{NAME_NOTE}" value="{VAL_NOTE}" size="45" maxlength="200" />
   </span>
   </div>
   </td>
@@ -77,8 +75,14 @@
   <!-- END status_date -->
   </span>
   </td>
-  <td class="std">
-  <div><a class="il_ContainerItemCommand" target="_blank" href="{LINK_FEEDBACK}">{TXT_FEEDBACK}</a></div>
+  <td class="std">	 
+  <div id="{LCOMMENT_ID}" class="small">{LCOMMENT_SNIPPET}</div>
+  <div id="{COMMENT_OVERLAY_TRIGGER_ID}">	  
+	  <a href="#" class="il_ContainerItemCommand">{COMMENT_OVERLAY_TRIGGER_TEXT}</a>
+  </div>	  
+  <div style="margin-top: 12px">
+	  <a class="il_ContainerItemCommand" target="_blank" href="{LINK_FEEDBACK}">{TXT_FEEDBACK}</a>
+  </div>
   <!-- BEGIN feedback_date -->
   <div class="small" style="margin-top: 4px">
   {TXT_FEEDBACK_MAIL_SENT}<br />
