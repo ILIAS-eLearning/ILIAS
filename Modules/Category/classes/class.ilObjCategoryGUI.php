@@ -606,24 +606,15 @@ class ilObjCategoryGUI extends ilContainerGUI
 		$pres = new ilFormSectionHeaderGUI();
 		$pres->setTitle($this->lng->txt('obj_presentation'));
 		$form->addItem($pres);
-
-		// sorting
-		include_once('Services/Container/classes/class.ilContainerSortingSettings.php');
-		$settings = new ilContainerSortingSettings($this->object->getId());
-
-		$sort = new ilRadioGroupInputGUI($this->lng->txt('sorting_header'), "sorting");
-		$sort_title = new ilRadioOption($this->lng->txt('sorting_title_header'),
-			ilContainer::SORT_TITLE);
-		$sort_title->setInfo($this->lng->txt('sorting_info_title'));
-		$sort->addOption($sort_title);
-
-		$sort_manual = new ilRadioOption($this->lng->txt('sorting_manual_header'),
-			ilContainer::SORT_MANUAL);
-		$sort_manual->setInfo($this->lng->txt('sorting_info_manual'));
-		$sort->addOption($sort_manual);
-
-		$sort->setValue($settings->getSortMode());
-		$form->addItem($sort);
+		
+		
+		$form = $this->initSortingForm(
+				$form,
+				array(
+					ilContainer::SORT_TITLE,
+					ilContainer::SORT_MANUAL
+				)
+		);
 				
 		// icon settings
 //		$this->showCustomIconsEditing(1, $form, false);
@@ -686,11 +677,8 @@ class ilObjCategoryGUI extends ilContainerGUI
 				$this->object->setDescription($desc);
 				$this->object->update();
 				
-				include_once('Services/Container/classes/class.ilContainerSortingSettings.php');
-				$settings = new ilContainerSortingSettings($this->object->getId());
-				$settings->setSortMode($form->getInput("sorting"));
-				$settings->update();
-
+				$this->saveSortingSettings($form);
+				
 				// save custom icons
 /*				if ($this->ilias->getSetting("custom_icons"))
 				{

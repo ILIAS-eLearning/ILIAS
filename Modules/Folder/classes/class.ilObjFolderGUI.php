@@ -200,55 +200,36 @@ class ilObjFolderGUI extends ilContainerGUI
 			$this->ctrl->returnToParent($this);
 		}
 	}
+	
+	
 
 	protected function initEditCustomForm(ilPropertyFormGUI $a_form) 
 	{
 		// Show didactic template type
 		$this->initDidacticTemplate($a_form);
-
-		// Sorting
-		$sog = new ilRadioGroupInputGUI($this->lng->txt('sorting_header'),'sor');
-		$sog->setRequired(true);
 		
-		// implicit: there is always a group or course in the path
-		$sde = new ilRadioOption();
-		$sde->setValue(ilContainer::SORT_INHERIT);
-		$sde->setTitle($this->lng->txt('sort_inherit_prefix').' ('.
-			ilContainerSortingSettings::sortModeToString(ilContainerSortingSettings::lookupSortModeFromParentContainer($this->object->getId())).') ');
-		$sde->setInfo($this->lng->txt('sorting_info_inherit'));
-		$sog->addOption($sde);
-		
-		$sma = new ilRadioOption();
-		$sma->setValue(ilContainer::SORT_TITLE);
-		$sma->setTitle($this->lng->txt('sorting_title_header'));
-		$sma->setInfo($this->lng->txt('sorting_info_title'));
-		$sog->addOption($sma);
-
-		$sti = new ilRadioOption();
-		$sti->setValue(ilContainer::SORT_MANUAL);
-		$sti->setTitle($this->lng->txt('sorting_manual_header'));
-		$sti->setInfo($this->lng->txt('sorting_info_manual'));
-		$sog->addOption($sti);
-		
-		$a_form->addItem($sog);
+		$this->initSortingForm(
+			$a_form,
+			array(
+				ilContainer::SORT_INHERIT,
+				ilContainer::SORT_TITLE,
+				ilContainer::SORT_MANUAL
+			)
+		);
 	}
 
 	protected function getEditFormCustomValues(array &$a_values)
 	{
 		// we cannot use $this->object->getOrderType()
 		// if set to inherit it will be translated to parent setting
-		include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
-		$sort = new ilContainerSortingSettings($this->object->getId());
-		$a_values["sor"] = $sort->getSortMode();
+		#include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
+		#$sort = new ilContainerSortingSettings($this->object->getId());
+		#$a_values["sor"] = $sort->getSortMode();
 	}
 
 	protected function updateCustom(ilPropertyFormGUI $a_form)
 	{
-		// Save sorting
-		include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
-		$sort = new ilContainerSortingSettings($this->object->getId());
-		$sort->setSortMode($a_form->getInput('sor'));
-		$sort->update();
+		$this->saveSortingSettings($a_form);
 	}
 	
 	// BEGIN ChangeEvent show info screen on folder object
@@ -480,10 +461,25 @@ class ilObjFolderGUI extends ilContainerGUI
 	 * @param
 	 * @return
 	 */
-	function editObject()
+	public function editObject()
 	{
+		global $ilTabs, $ilErr;
+		
 		$this->setSubTabs("settings");
-		parent::editObject();
+		$ilTabs->activateTab("settings");
+
+		if (!$this->checkPermissionBool("write"))
+		{
+			$ilErr->raiseError($this->lng->txt("msg_no_perm_write"),$ilErr->MESSAGE);
+		}
+
+		$form = $this->initEditForm();
+		$values = $this->getEditFormValues();
+		if($values)
+		{
+			$form->setValuesByArray($values,TRUE);
+		}
+		$GLOBALS['tpl']->setContent($form->getHTML());
 	}
 	
 	

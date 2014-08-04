@@ -543,12 +543,8 @@ class ilObjGroupGUI extends ilContainerGUI
 			)
 		);
 			
-		
 		// Save sorting
-		include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
-		$sort = new ilContainerSortingSettings($this->object->getId());
-		$sort->setSortMode((int) $_POST['sor']);
-		$sort->update();
+		$this->saveSortingSettings($this->form);
 
 		// BEGIN ChangeEvents: Record update Object.
 		require_once('Services/Tracking/classes/class.ilChangeEvent.php');
@@ -2722,17 +2718,20 @@ class ilObjGroupGUI extends ilContainerGUI
 			$lim->addSubItem($wait);
 			$this->form->addItem($lim);
 
-
-
 			// Group presentation
-			$hasParentCourse = $tree->checkForParentType($this->object->getRefId(),'crs');
+			$hasParentMembership = 
+				(
+					$tree->checkForParentType($this->object->getRefId(),'crs') ||
+					$tree->checkForParentType($this->object->getRefId(),'crs')
+				);
+			
 			$pres = new ilFormSectionHeaderGUI();
 			$pres->setTitle($this->lng->txt('grp_setting_header_presentation'));
 			$this->form->addItem($pres);
 			
 			// presentation type							
 			$view_type = new ilRadioGroupInputGUI($this->lng->txt('grp_presentation_type'),'view_mode');		
-			if($hasParentCourse)
+			if($hasParentMembership)
 			{								
 				switch($this->object->getViewMode())
 				{
@@ -2754,7 +2753,7 @@ class ilObjGroupGUI extends ilContainerGUI
 				$view_type->addOption($opt);
 			}	
 			
-			if($hasParentCourse &&
+			if($hasParentMembership &&
 				$this->object->getViewMode(false) == ilContainer::VIEW_INHERIT)
 			{
 				$view_type->setValue(ilContainer::VIEW_INHERIT);
@@ -2763,7 +2762,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			{
 				$view_type->setValue($this->object->getViewMode(true));
 			}
-
+			
 			$opt = new ilRadioOption($this->lng->txt('cntr_view_simple'),ilContainer::VIEW_SIMPLE);
 			$opt->setInfo($this->lng->txt('grp_view_info_simple'));
 			$view_type->addOption($opt);
@@ -2774,46 +2773,15 @@ class ilObjGroupGUI extends ilContainerGUI
 			$this->form->addItem($view_type);
 
 			
-			$sog = new ilRadioGroupInputGUI($this->lng->txt('sorting_header'),'sor');
-			$sog->setRequired(true);
-			if($a_mode == 'edit')
+			// Sorting
+			$sorting_settings = array();
+			if($hasParentMembership)
 			{
-				$sog->setValue(ilContainerSortingSettings::_readSortMode(ilObject::_lookupObjId($this->object->getRefId())));
+				$sorting_settings[] = ilContainer::SORT_INHERIT;
 			}
-			elseif($hasParentCourse)
-			{
-				$sog->setValue(ilContainer::SORT_INHERIT);
-			}
-			else
-			{
-				$sog->setValue(ilContainer::SORT_TITLE);
-			}
-
-			if($hasParentCourse)
-			{
-				$sde = new ilRadioOption();
-				$sde->setValue(ilContainer::SORT_INHERIT);
-
-				$title = $this->lng->txt('sort_inherit_prefix');
-				$title .= ': '.ilContainerSortingSettings::sortModeToString(ilContainerSortingSettings::lookupSortModeFromParentContainer(ilObject::_lookupObjectId($ref_id)));
-				$sde->setTitle($title);
-				$sde->setInfo($this->lng->txt('sorting_info_inherit'));
-				$sog->addOption($sde);
-			}
-
-			$sma = new ilRadioOption();
-			$sma->setValue(ilContainer::SORT_TITLE);
-			$sma->setTitle($this->lng->txt('sorting_title_header'));
-			$sma->setInfo($this->lng->txt('sorting_info_title'));
-			$sog->addOption($sma);
-
-			$sti = new ilRadioOption();
-			$sti->setValue(ilContainer::SORT_MANUAL);
-			$sti->setTitle($this->lng->txt('sorting_manual_header'));
-			$sti->setInfo($this->lng->txt('sorting_info_manual'));
-			$sog->addOption($sti);
-
-			$this->form->addItem($sog);
+			$sorting_settings[] = ilContainer::SORT_TITLE;
+			$sorting_settings[] = ilContainer::SORT_MANUAL;
+			$this->initSortingForm($this->form, $sorting_settings);
 
 			// additional features
 			$feat = new ilFormSectionHeaderGUI();

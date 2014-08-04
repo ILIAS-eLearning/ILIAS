@@ -1017,8 +1017,10 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 		else
 		{
-			$this->object->setOrderType((int) $_POST['order_type']);
+			$this->object->setOrderType($form->getInput('sorting'));
 		}
+		$this->saveSortingSettings($form);
+		
 		/*
 		$this->object->setArchiveStart($archive_start->get(IL_CAL_UNIX));
 		$this->object->setArchiveEnd($archive_end->get(IL_CAL_UNIX));		
@@ -1385,49 +1387,17 @@ class ilObjCourseGUI extends ilContainerGUI
 			$optt->setInfo($this->lng->txt('crs_view_info_timing'));
 			$view_type->addOption($optt);
 
-			/*
-			$opt = new ilRadioOption($this->lng->txt('crs_view_archive'),IL_CRS_VIEW_ARCHIVE);
-			$opt->setInfo($this->lng->txt('crs_archive_info'));
-			
-				$down = new ilCheckboxInputGUI('','archive_type');
-				$down->setOptionTitle($this->lng->txt('crs_archive_download'));
-				$down->setChecked($this->object->getArchiveType() == IL_CRS_ARCHIVE_DOWNLOAD);
-				$opt->addSubItem($down);
-				
-				$start = new ilDateTimeInputGUI($this->lng->txt('crs_start'),'archive_start');
-				$start->setShowTime(true);
-				$start_date = new ilDateTime($this->object->getArchiveStart(),IL_CAL_UNIX);
-				$start->setDate($start_date);
-				$opt->addSubItem($start);
-
-				$end = new ilDateTimeInputGUI($this->lng->txt('crs_end'),'archive_end');
-				$end->setShowTime(true);
-				$end_date = new ilDateTime($this->object->getArchiveEnd(),IL_CAL_UNIX);
-				$end->setDate($end_date);
-				$opt->addSubItem($end);
-				
-			$view_type->addOption($opt);
-		*/
 		$form->addItem($view_type);
 		
-		// sorting type
-		$sort = new ilRadioGroupInputGUI($this->lng->txt('crs_sortorder_abo'),'order_type');
-		$sort->setValue($this->object->getOrderType());
+		$this->initSortingForm(
+			$form, 
+			array(
+				ilContainer::SORT_TITLE,
+				ilContainer::SORT_MANUAL,
+				ilContainer::SORT_ACTIVATION
+			)
+		);
 		
-			$opt = new ilRadioOption($this->lng->txt('crs_sort_title'),ilContainer::SORT_TITLE);
-			$opt->setInfo($this->lng->txt('crs_sort_title_info'));
-			$sort->addOption($opt);
-			
-			$opt = new ilRadioOption($this->lng->txt('crs_sort_manual'),ilContainer::SORT_MANUAL);
-			$opt->setInfo($this->lng->txt('crs_sort_manual_info'));
-			$sort->addOption($opt);
-
-			$opt = new ilRadioOption($this->lng->txt('crs_sort_activation'),ilContainer::SORT_ACTIVATION);
-			$opt->setInfo($this->lng->txt('crs_sort_timing_info'));
-			$sort->addOption($opt);
-			
-
-		$form->addItem($sort);
 
 
 		// lp vs. course status

@@ -3861,5 +3861,99 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		}
 	}
 	
+	/**
+	 * Append sorting settings to property form
+	 * @param ilPropertyFormGUI $form
+	 * @param type $a_sorting_settings
+	 */
+	protected function initSortingForm(ilPropertyFormGUI $form, array $a_sorting_settings)
+	{
+		include_once('Services/Container/classes/class.ilContainerSortingSettings.php');
+		include_once './Services/Container/classes/class.ilContainer.php';
+		
+		$settings = new ilContainerSortingSettings($this->object->getId());
+		$sort = new ilRadioGroupInputGUI($this->lng->txt('sorting_header'), "sorting");
+		
+		if(in_array(ilContainer::SORT_INHERIT, $a_sorting_settings))
+		{
+			$sort_inherit = new ilRadioOption();
+			$sort_inherit->setTitle(
+				$this->lng->txt('sort_inherit_prefix').
+					' ('.ilContainerSortingSettings::sortModeToString(
+							ilContainerSortingSettings::lookupSortModeFromParentContainer(
+									$this->object->getId())).') '
+			);
+			$sort_inherit->setValue(ilContainer::SORT_INHERIT);
+			$sort_inherit->setInfo($this->lng->txt('sorting_info_inherit'));
+			$sort->addOption($sort_inherit);
+		}
+		if(in_array(ilContainer::SORT_TITLE,$a_sorting_settings))
+		{
+			$sort_title = new ilRadioOption(
+					$this->lng->txt('sorting_title_header'),
+					ilContainer::SORT_TITLE
+			);
+			$sort_title->setInfo($this->lng->txt('sorting_info_title'));
+			$sort->addOption($sort_title);
+		}
+		if(in_array(ilContainer::SORT_MANUAL, $a_sorting_settings))
+		{
+			$sort_manual = new ilRadioOption(
+				$this->lng->txt('sorting_manual_header'),
+				ilContainer::SORT_MANUAL
+			);
+			$sort_manual->setInfo($this->lng->txt('sorting_info_manual'));
+			$sort->addOption($sort_manual);
+		}
+		if(in_array(ilContainer::SORT_ACTIVATION, $a_sorting_settings))
+		{
+			$sort_activation = new ilRadioOption($this->lng->txt('crs_sort_activation'),ilContainer::SORT_ACTIVATION);
+			$sort_activation->setInfo($this->lng->txt('crs_sort_timing_info'));
+			$sort->addOption($sort_activation);
+		}
+
+		$sort->setValue($settings->getSortMode());
+		$form->addItem($sort);
+		
+		return $form;
+		
+		
+		
+
+		// Sorting
+		$sog = new ilRadioGroupInputGUI($this->lng->txt('sorting_header'),'sor');
+		$sog->setRequired(true);
+		
+		// implicit: there is always a group or course in the path
+		
+		$sma = new ilRadioOption();
+		$sma->setValue(ilContainer::SORT_TITLE);
+		$sma->setTitle($this->lng->txt('sorting_title_header'));
+		$sma->setInfo($this->lng->txt('sorting_info_title'));
+		$sog->addOption($sma);
+
+		$sti = new ilRadioOption();
+		$sti->setValue(ilContainer::SORT_MANUAL);
+		$sti->setTitle($this->lng->txt('sorting_manual_header'));
+		$sti->setInfo($this->lng->txt('sorting_info_manual'));
+		$sog->addOption($sti);
+		
+		$a_form->addItem($sog);
+		
+		
+	}
+	
+	/**
+	 * Save sorting settings
+	 * @param ilPropertyFormGUI $form
+	 */
+	protected function saveSortingSettings(ilPropertyFormGUI $form)
+	{
+		include_once('Services/Container/classes/class.ilContainerSortingSettings.php');
+		$settings = new ilContainerSortingSettings($this->object->getId());
+		$settings->setSortMode($form->getInput("sorting"));
+		$settings->update();
+	}
+	
 }
 ?>
