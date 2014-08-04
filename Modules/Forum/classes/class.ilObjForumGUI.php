@@ -159,8 +159,10 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		 * @var $ilAccess ilAccessHandler
 		 * @var $ilCtrl ilCtrl
 		 * @var $ilTabs ilTabsGUI
+		 * @var $ilErr  ilErrorHandling
+		 * @var $ilUser ilObjUser
 		 */
-		global $ilNavigationHistory, $ilAccess, $ilCtrl, $ilTabs;
+		global $ilNavigationHistory, $ilAccess, $ilCtrl, $ilTabs, $ilErr, $ilUser;
 		
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -238,6 +240,26 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$exp = new ilExportGUI($this);
 				$exp->addFormat('xml');
 				$this->ctrl->forwardCommand($exp);
+				break;
+
+			case "ilratinggui":
+				if(!$this->objProperties->isIsThreadRatingEnabled() || $ilUser->isAnonymous())
+				{
+					$ilErr->raiseError($this->lng->txt('msg_no_perm_read'), $ilErr->MESSAGE);
+				}
+
+				require_once 'Services/Rating/classes/class.ilRatingGUI.php';
+				$rating_gui = new ilRatingGUI();
+				$rating_gui->setObject($this->object->getId(), $this->object->getType(), $this->objCurrentTopic->getId(), 'thread');
+
+				$ilCtrl->setParameter($this, 'thr_pk', (int)$_GET['thr_pk']);
+				$this->ctrl->forwardCommand($rating_gui);
+
+				$avg = ilRating::getOverallRatingForObject($this->object->getId(), $this->object->getType(), (int)$_GET['thr_pk'], 'thread');
+				$this->objCurrentTopic->setAverageRating($avg['avg']);
+				$this->objCurrentTopic->update();
+
+				$ilCtrl->redirect($this, "showThreads");
 				break;
 			
 			case 'ilcommonactiondispatchergui':
@@ -347,6 +369,11 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$cb_prop->setValue('1');
 		$cb_prop->setInfo($this->lng->txt('mark_moderator_posts_desc'));
 		$a_form->addItem($cb_prop);
+
+		$cb_prop = new ilCheckboxInputGUI($this->lng->txt('enable_thread_ratings'), 'thread_rating');
+		$cb_prop->setValue(1);
+		$cb_prop->setInfo($this->lng->txt('enable_thread_ratings_info'));
+		$a_form->addItem($cb_prop);
 	}
 
 	protected function getEditFormCustomValues(Array &$a_values)
@@ -359,6 +386,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$a_values['subject_setting'] = $this->objProperties->getSubjectSetting();
 		$a_values['mark_mod_posts'] = $this->objProperties->getMarkModeratorPosts();
 		$a_values['thread_sorting'] = $this->objProperties->getThreadSorting();
+		$a_values['thread_rating'] = $this->objProperties->isIsThreadRatingEnabled();
 		
 		$default_view = 
 			in_array((int)$this->objProperties->getDefaultView(), array(ilForumProperties::VIEW_DATE_ASC, ilForumProperties::VIEW_DATE_DESC)) 
@@ -410,6 +438,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->objProperties->setSubjectSetting( $a_form->getInput('subject_setting'));
 		$this->objProperties->setMarkModeratorPosts((int) $a_form->getInput('mark_mod_posts'));
 		$this->objProperties->setThreadSorting((int)$a_form->getInput('thread_sorting'));
+		$this->objProperties->setIsThreadRatingEnabled((bool)$a_form->getInput('thread_rating'));
 		
 		$this->objProperties->update();
 	}

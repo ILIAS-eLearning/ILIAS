@@ -1017,6 +1017,15 @@ class ilForum
 			$excluded_ids_condition = ' AND ' . $ilDB->in('thr_pk', $params['excluded_ids'], true, 'integer'). ' ';
 		}
 
+		if(!in_array(strtolower($params['order_column']), array('lp_date', 'rating')))
+		{
+			$params['order_column'] = 'post_date';
+		}
+		if(!in_array(strtolower($params['order_direction']), array('asc', 'desc')))
+		{
+			$params['order_direction'] = 'desc';
+		}
+
 		// Count all threads for the passed forum
 		$query = "SELECT COUNT(thr_pk) cnt
 				  FROM frm_threads
@@ -1041,10 +1050,33 @@ class ilForum
 		$frm_props = ilForumProperties::getInstance($this->getForumId());
 
 		$optional_fields = '';
+		if($frm_props->isIsThreadRatingEnabled())
+		{
+			$optional_fields = ',avg_rating';
+		}
 		if($frm_props->getThreadSorting() == 1)
 		{
 			$optional_fields = ',thread_sorting';
 		}
+
+		$additional_sort = '';
+		if($frm_props->getThreadSorting())
+		{
+			$additional_sort .= ' ,thread_sorting ASC ';
+		}
+		
+		$dynamic_columns = array(
+			' ,post_date ' . $params['order_direction']
+		);
+		if($frm_props->isIsThreadRatingEnabled())
+		{
+			$dynamic_columns[] = ' ,avg_rating ' . $params['order_direction'];
+		}
+		if('rating' == strtolower($params['order_column']))
+		{
+			$dynamic_columns = array_reverse($dynamic_columns);
+		}
+		$additional_sort .= implode(' ', $dynamic_columns);
 
 		if(!$ilUser->isAnonymous())
 		{
@@ -1086,16 +1118,7 @@ class ilForum
 					  LEFT JOIN frm_user_read postread
 						ON postread.post_id = pos_pk
 						AND postread.usr_id = %s";
-					 
-			if($frm_props->getThreadSorting() == 1)
-			{
-				$additional_sort = ', thread_sorting ASC, post_date DESC ';
-			}
-			else
-			{
-				$additional_sort = ', post_date DESC';
-			}
-	
+
 			$query .= " WHERE thr_top_fk = %s
 						{$excluded_ids_condition}
 						GROUP BY thr_pk, thr_top_fk, thr_subject, thr_usr_id, thr_usr_alias, thr_num_posts, thr_last_post, thr_date, thr_update, visits, frm_threads.import_name, is_sticky, is_closed
@@ -1146,15 +1169,6 @@ class ilForum
 					  
 					  LEFT JOIN frm_posts
 						ON pos_thr_fk = thr_pk $active_query";
-
-			if($frm_props->getThreadSorting() == 1)
-			{
-				$additional_sort = ', thread_sorting ASC, post_date DESC ';
-			}
-			else
-			{
-				$additional_sort = ', post_date DESC';
-			}
 
 			$query .= " WHERE thr_top_fk = %s
 						{$excluded_ids_condition}

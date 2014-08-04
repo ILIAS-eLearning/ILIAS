@@ -12410,6 +12410,9 @@ book#:#book_confirm_booking_no_schedule#:#Sind Sie sicher, daß Sie das folgende
 forum#:#sort_by_posts#:#Nach Beiträgen sortieren
 forum#:#forums_forum_notification_disabled#:#Sie werden nicht mehr über neue Beiträge in diesem Forum benachrichtigt.
 forum#:#number_of_threads#:#Anzahl dargestellter Themen pro Seite
+forum#:#frm_rating#:#Bewertung
+forum#:#enable_thread_ratings#:#Themen bewerten
+forum#:#enable_thread_ratings_info#:#Falls aktiviert, können Themen dieses Forums von Benutzern bewertet werden.
 common#:#obj_poll#:#Abstimmung
 common#:#objs_poll#:#Abstimmungen
 common#:#obj_poll_dupliate:#:#Abstimmung kopieren

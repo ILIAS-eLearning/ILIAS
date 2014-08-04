@@ -5,6 +5,7 @@ require_once 'Services/Table/classes/class.ilTable2GUI.php';
 require_once 'Services/Calendar/classes/class.ilDatePresentation.php';
 require_once 'Modules/Forum/classes/class.ilForumAuthorInformation.php';
 require_once 'Modules/Forum/classes/class.ilForumAuthorInformationCache.php';
+require_once 'Services/Rating/classes/class.ilRatingGUI.php';
 
 /**
  * Class ilForumTopicTableGUI
@@ -85,7 +86,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
 
 		// Let the database do the work
 		$this->setDefaultOrderDirection('DESC');
-		$this->setDefaultOrderField('is_sticky');
+		$this->setDefaultOrderField('lp_date');
 		$this->setExternalSorting(true);
 		$this->setExternalSegmentation(true);
 
@@ -127,14 +128,15 @@ class ilForumTopicTableGUI extends ilTable2GUI
 			$this->addColumn('', 'check', '10px', true);
 		}
 
-		$this->addColumn($this->lng->txt('forums_thread'), 'th_title');
-		$this->addColumn($this->lng->txt('forums_created_by'), 'author');
-		$this->addColumn($this->lng->txt('forums_articles'), 'num_posts');
-		$this->addColumn($this->lng->txt('visits'), 'num_visit');
-		$this->addColumn($this->lng->txt('forums_last_post'), 'lp_date');
-
-		// Disable sorting
-		$this->disable('sort');
+		$this->addColumn($this->lng->txt('forums_thread'), '');
+		$this->addColumn($this->lng->txt('forums_created_by'), '');
+		$this->addColumn($this->lng->txt('forums_articles'), '');
+		$this->addColumn($this->lng->txt('visits'), '');
+		$this->addColumn($this->lng->txt('forums_last_post'), 'post_date');
+		if('showThreads' == $this->parent_cmd && $this->parent_obj->objProperties->isIsThreadRatingEnabled())
+		{
+			$this->addColumn($this->lng->txt('frm_rating'), 'rating');
+		}
 
 		// Default Form Action
 		$this->setFormAction($this->ctrl->getFormAction($this->getParentObject(), 'showThreads'));
@@ -227,6 +229,14 @@ class ilForumTopicTableGUI extends ilTable2GUI
 			$this->tpl->setVariable('VAL_CHECK', ilUtil::formCheckbox(
 				(isset($_POST['thread_ids']) && in_array($thread->getId(), $_POST['thread_ids']) ? true : false), 'thread_ids[]', $thread->getId()
 			));
+
+			if($this->parent_obj->objProperties->isIsThreadRatingEnabled())
+			{
+				$rating = new ilRatingGUI();
+				$rating->setObject($this->parent_obj->object->getId(), $this->parent_obj->object->getType(), $thread->getId(), 'thread');
+				$rating->setUserId($ilUser->getId());
+				$this->tpl->setVariable('VAL_RATING', $rating->getHTML());
+			}
 		}
 		else
 		{
@@ -379,12 +389,14 @@ class ilForumTopicTableGUI extends ilTable2GUI
 		if($this->parent_cmd == 'mergeThreads' &&
 		   $this->getSelectedThread() instanceof ilForumTopic)
 		{
-			$excluded_ids[] = $this->getSelectedThread()->getId();	
+			$excluded_ids[] = $this->getSelectedThread()->getId();
 		}
 
 		$params = array(
-			'is_moderator' => $this->getIsModerator(),
-			'excluded_ids' => $excluded_ids
+			'is_moderator'    => $this->getIsModerator(),
+			'excluded_ids'    => $excluded_ids,
+			'order_column'    => $this->getOrderField(),
+			'order_direction' => $this->getOrderDirection()
 		);
 
 		$data = $this->getMapper()->getAllThreads($this->topicData['top_pk'], $params, (int)$this->getLimit(), (int)$this->getOffset());
