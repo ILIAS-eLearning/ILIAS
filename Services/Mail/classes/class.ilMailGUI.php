@@ -149,7 +149,7 @@ class ilMailGUI
 		if('tree' == ilSession::get(self::VIEWMODE_SESSION_KEY) &&
 			$this->ctrl->getCmd() != "showExplorer")
 		{
-			$this->showExplorer();		
+			$this->showExplorer();
 		}
 
 		include_once "Services/jQuery/classes/class.iljQueryUtil.php";
@@ -199,8 +199,13 @@ class ilMailGUI
 		{
 			$_GET["target"] = "ilmailfoldergui";
 		}
-				
-		if ($_GET["type"] == "add_subfolder")
+
+		if($_GET['type'] == 'redirect_to_read')
+		{
+			$this->ctrl->setParameterByClass('ilMailFolderGUI', 'mail_id', (int)$_GET['mail_id']);
+			$this->ctrl->redirectByClass('ilMailFolderGUI', 'showMail');
+		}
+		else if ($_GET["type"] == "add_subfolder")
 		{
 			$this->ctrl->redirectByClass($_GET["target"], "addSubFolder");
 		}
@@ -265,17 +270,34 @@ class ilMailGUI
 		
 		if('tree' != ilSession::get(self::VIEWMODE_SESSION_KEY))
 		{
-			$this->ctrl->setParameter($this, 'viewmode', 'tree');
-			$this->tpl->setTreeFlatIcon($this->ctrl->getLinkTarget($this), 'tree');
+			$tree_state = 'tree';
 		}
 		else
 		{
-			$this->ctrl->setParameter($this, 'viewmode', 'flat');
-			$this->tpl->setTreeFlatIcon($this->ctrl->getLinkTarget($this), 'flat');
+			$tree_state = 'flat';
 		}
+
+		if($this->isMailDetailCommand($this->ctrl->getCmd()))
+		{
+			$this->ctrl->setParameter($this, 'mail_id', (int)$_GET['mail_id']);
+			$this->ctrl->setParameter($this, 'type', 'redirect_to_read');
+		}
+
+		$this->ctrl->setParameter($this, 'viewmode', $tree_state);
+		$this->tpl->setTreeFlatIcon($this->ctrl->getLinkTarget($this), $tree_state);
+
 		$this->ctrl->clearParameters($this);
 		$this->tpl->setCurrentBlock("tree_icons");
-		$this->tpl->parseCurrentBlock();		 
+		$this->tpl->parseCurrentBlock();
+	}
+
+	/**
+	 * @param string $cmd
+	 * @return bool
+	 */
+	private function isMailDetailCommand($cmd)
+	{
+		return in_array(strtolower($cmd), array('showmail')) && isset($_GET['mail_id']) && (int)$_GET['mail_id'];
 	}
 
 	private function showExplorer()
