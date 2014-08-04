@@ -1055,12 +1055,19 @@ class ilInfoScreenGUI
 		}
 		else
 		{
+			$ref_id = $this->gui_object->object->getRefId();			
+			$has_write = $ilAccess->checkAccess("write", "", $ref_id);
+			
+			if($has_write && $ilSetting->get("comments_del_tutor", 1))
+			{
+				$notes_gui->enablePublicNotesDeletion(true);
+			}
+			
 			/* should probably be discussed further
 			for now this will only work properly with comments settings 
 			(see ilNoteGUI constructor) 
-			*/
-			$ref_id = $this->gui_object->object->getRefId();
-			if ($ilAccess->checkAccess("write", "", $ref_id) ||
+			*/			
+			if ($has_write ||
 				$ilAccess->checkAccess("edit_permissions", "", $ref_id))
 			{			
 				$notes_gui->enableCommentsSettings();
