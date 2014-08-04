@@ -2084,6 +2084,8 @@ class ilObjSurvey extends ilObject
 			array('integer','integer','integer','integer'),
 			array($next_id, $this->getSurveyId(), $questionblock_id, $question_id)
 		);
+		
+		$this->deleteConstraints($question_id); // #13713
 	}
 
 /**
