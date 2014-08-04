@@ -83,6 +83,10 @@ class ilExParticipantTableGUI extends ilTable2GUI
 		{
 			$this->addCommandButton("saveStatusParticipant", $lng->txt("exc_save_changes"));
 		}
+		
+		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
+		include_once "Services/UIComponent/Overlay/classes/class.ilOverlayGUI.php";
+		$this->overlay_tpl = new ilTemplate("tpl.exc_learner_comment_overlay.html", true, true, "Modules/Exercise");
 	}
 	
 	/**
@@ -193,13 +197,49 @@ class ilExParticipantTableGUI extends ilTable2GUI
 				ilUtil::prepareFormOutput(ilExAssignment::lookupNoticeOfUser($d["id"], $this->part_id)));
 
 			// comment for learner
+			
+			$lcomment_value = ilExAssignment::lookupCommentForUser($d["id"], $this->part_id);
+			
+			$overlay_id = "excasscomm_".$d["id"]."_".$this->part_id;
+			$overlay_trigger_id = $overlay_id."_tr";
+			$overlay = new ilOverlayGUI($overlay_id);
+			$overlay->setAnchor($overlay_trigger_id);
+			$overlay->setTrigger($overlay_trigger_id, "click", $overlay_trigger_id);
+			$overlay->add();
+			
+			$this->tpl->setVariable("LCOMMENT_ID", $overlay_id."_snip");
+			$this->tpl->setVariable("LCOMMENT_SNIPPET", ilUtil::shortenText($lcomment_value, 25, true));
+			$this->tpl->setVariable("COMMENT_OVERLAY_TRIGGER_ID", $overlay_trigger_id);
+			$this->tpl->setVariable("COMMENT_OVERLAY_TRIGGER_TEXT", $lng->txt("exc_comment_for_learner_edit"));
+								
+			$lcomment_form = new ilPropertyFormGUI();	
+			$lcomment_form->setId($overlay_id);
+			$lcomment_form->setPreventDoubleSubmission(false);
+			
+			$lcomment = new ilTextAreaInputGUI($lng->txt("exc_comment_for_learner"), "lcomment_".$d["id"]."_".$this->part_id);
+			$lcomment->setInfo($lng->txt("exc_comment_for_learner_info"));
+			$lcomment->setValue($lcomment_value);
+			$lcomment->setCols(45);
+			$lcomment->setRows(5);			
+			$lcomment_form->addItem($lcomment);
+			
+			$lcomment_form->addCommandButton("save", $lng->txt("save"));
+			// $lcomment_form->addCommandButton("cancel", $lng->txt("cancel"));
+			
+			$this->overlay_tpl->setCurrentBlock("overlay_bl");			
+			$this->overlay_tpl->setVariable("COMMENT_OVERLAY_ID", $overlay_id);
+			$this->overlay_tpl->setVariable("COMMENT_OVERLAY_FORM", $lcomment_form->getHTML());
+			$this->overlay_tpl->parseCurrentBlock();
+			
+			/*			
 			$this->tpl->setVariable("TXT_LCOMMENT", $lng->txt("exc_comment_for_learner"));
 			$this->tpl->setVariable("NAME_LCOMMENT",
 				"lcomment[".$d["id"]."]");
 			$lpcomment = ilExAssignment::lookupCommentForUser($d["id"], $this->part_id);
 			$this->tpl->setVariable("VAL_LCOMMENT",
 				ilUtil::prepareFormOutput($lpcomment));
-
+			*/
+			
 			// solved
 			//$this->tpl->setVariable("CHKBOX_SOLVED",
 			//	ilUtil::formCheckbox($this->exc->members_obj->getStatusByMember($member_id),"solved[$member_id]",1));
@@ -302,6 +342,16 @@ class ilExParticipantTableGUI extends ilTable2GUI
 			$this->tpl->touchBlock("member_has_no_team_bl");
 		}
 	}
-
+	
+	public function render()
+	{
+		global $ilCtrl;
+		
+		$url = $ilCtrl->getLinkTarget($this->getParentObject(), "saveCommentForLearners", "", true, false);		
+		$this->overlay_tpl->setVariable("AJAX_URL", $url);
+		
+		return parent::render().
+			$this->overlay_tpl->get();
+	}
 }
 ?>

@@ -11,7 +11,7 @@ il.Util.addOnLoad(function() {
 		var ass_id = form_id_parts[2];
 		var member_id = form_id_parts[3];			
 		if(ass_id && member_id)	{
-			var comment = $('#lcomment__'+member_id+'__').val();
+			var comment = $('#lcomment_'+ass_id+'_'+member_id).val();
 
 			$.ajax({
 				url: "{AJAX_URL}",

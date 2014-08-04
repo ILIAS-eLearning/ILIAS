@@ -337,7 +337,7 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 			$lcomment_form->setId($overlay_id);
 			$lcomment_form->setPreventDoubleSubmission(false);
 			
-			$lcomment = new ilTextAreaInputGUI($lng->txt("exc_comment_for_learner"), "lcomment[".$member_id."]");
+			$lcomment = new ilTextAreaInputGUI($lng->txt("exc_comment_for_learner"), "lcomment_".$this->ass_id."_".$member_id);
 			$lcomment->setInfo($lng->txt("exc_comment_for_learner_info"));
 			$lcomment->setValue($lcomment_value);
 			$lcomment->setCols(45);

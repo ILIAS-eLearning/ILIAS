@@ -1636,8 +1636,11 @@ class ilObjExerciseGUI extends ilObjectGUI
 
 				ilExAssignment::updateMarkOfUser($ass_id, $user_id,
 					ilUtil::stripSlashes($_POST['mark'][$key]));
+				
+				/*
 				ilExAssignment::updateCommentForUser($ass_id, $user_id,
-					ilUtil::stripSlashes($_POST['lcomment'][$key]));
+					ilUtil::stripSlashes($_POST['lcomment'][$key]));				 
+				*/
 			}			
 		}
 		
