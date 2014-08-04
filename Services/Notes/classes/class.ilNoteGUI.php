@@ -240,7 +240,7 @@ class ilNoteGUI
 	*/
 	function getNotesHTML($a_init_form = true)
 	{
-		global $ilUser, $lng, $ilCtrl;
+		global $ilUser, $lng, $ilCtrl, $ilSetting;
 		
 		$lng->loadLanguageModule("notes");
 
@@ -287,7 +287,7 @@ if ($this->private_enabled && $this->public_enabled
 		
 		// :TODO: public enabled vs. comments_settings needs to be discussed - see poll!
 		$comments_col = false; 
-		if (($this->public_enabled || !$this->comments_settings) && (!$this->delete_note || $this->public_deletion_enabled)
+		if (($this->public_enabled || !$this->comments_settings) && (!$this->delete_note || $this->public_deletion_enabled || $ilSetting->get("comments_del_user", 0))
 			&& !$hide_comments /* && $ilUser->getId() != ANONYMOUS_USER_ID */)
 		{
 			$ntpl->setVariable("COMMENTS", $this->getNoteListHTML(IL_NOTE_PUBLIC, $a_init_form));

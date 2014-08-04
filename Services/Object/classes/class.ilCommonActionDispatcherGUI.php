@@ -130,7 +130,7 @@ class ilCommonActionDispatcherGUI
 		
 	function executeCommand()
 	{
-		global $ilCtrl;
+		global $ilCtrl, $ilSetting;
 
 		// check access for object 
 		if ($this->node_id && 
@@ -159,11 +159,17 @@ class ilCommonActionDispatcherGUI
 				$note_gui = new ilNoteGUI($this->obj_id, $this->sub_id, $obj_type);
 				$note_gui->enablePrivateNotes(true);	
 				
+				$has_write = $this->access_handler->checkAccess("write", "", $this->node_id);
+				if($has_write && $ilSetting->get("comments_del_tutor", 1))
+				{
+					$note_gui->enablePublicNotesDeletion(true);
+				}
+				
 				// comments cannot be turned off globally
 				if($this->enable_comments_settings)
 				{
 					// should only be shown if active or permission to toggle
-					if($this->access_handler->checkAccess("write", "", $this->node_id) ||
+					if($has_write ||
 						$this->access_handler->checkAccess("edit_permissions", "", $this->node_id))
 					{
 						$note_gui->enableCommentsSettings();
