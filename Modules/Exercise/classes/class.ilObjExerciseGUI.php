@@ -4396,9 +4396,14 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$ilTabs->activateTab("grades");
 		$this->checkPermission("write");
 		$this->addSubmissionSubTabs("assignment");
-
-		$ilToolbar->addButton($lng->txt("exc_download_zip_structure"),
-			$this->ctrl->getLinkTarget($this, "downloadMultiFeedbackZip"));
+		
+		// #13719
+		include_once("./Services/UIComponent/Button/classes/class.ilLinkButton.php");
+		$button = ilLinkButton::getInstance();				
+		$button->setCaption("exc_download_zip_structure");
+		$button->setUrl($this->ctrl->getLinkTarget($this, "downloadMultiFeedbackZip"));							
+		$button->setOmitPreventDoubleSubmission(true);
+		$ilToolbar->addButtonInstance($button);
 		
 		if(!$a_form)
 		{
