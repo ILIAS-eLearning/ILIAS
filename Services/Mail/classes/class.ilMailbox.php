@@ -469,9 +469,10 @@ class ilMailbox
 		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
 		
 		return array(
-					"title"    => stripslashes($row->title),
-					"type"     => $row->m_type
-					);
+			"obj_id"   => $row->obj_id,
+			"title"    => stripslashes($row->title),
+			"type"     => $row->m_type
+		);
 	}
 	/**
 	* get id of parent folder

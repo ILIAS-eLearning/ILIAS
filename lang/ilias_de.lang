@@ -8080,6 +8080,8 @@ mail#:#advice_mail_body_secured#:#Aus Ihrer Mail wurden aus Sicherheitsgründen 
 mail#:#also_as_email#:#Auch als E-Mail
 mail#:#bc#:#BC
 chatroom#:#chat_select_room#:#Chatraum auswählen
+mail#:#back_to_folder#:#Zurück zum Ordner
+mail#:#current_folder#:#Aktueller Ordner: %s
 mail#:#chat_users_have_been_invited#:#Die Benutzer wurden eingeladen:
 mail#:#chat_users_without_login#:#Die folgenden Benutzer haben keinen ILIAS-Account und können nicht eingeladen werden:
 mail#:#chat_users_without_permission#:#Die folgenden Benutzer haben keinen Zugriff zum ausgewählten Raum:

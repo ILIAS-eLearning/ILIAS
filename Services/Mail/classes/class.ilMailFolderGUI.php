@@ -701,14 +701,18 @@ class ilMailFolderGUI
 		/**
 		 * @var $ilUser ilObjUser
 		 * @var $ilToolbar ilToolbarGUI
+		 * @var $ilTabs ilTabsGUI
 		 */
-		global $ilUser, $ilToolbar;
+		global $ilUser, $ilToolbar, $ilTabs;
 
 		if($_SESSION['mail_id'])
 		{
 			$_GET['mail_id']     = $_SESSION['mail_id'];
 			$_SESSION['mail_id'] = '';
 		}
+
+		$ilTabs->clearTargets();
+		$ilTabs->setBackTarget($this->lng->txt('back_to_folder'), $this->ctrl->getFormAction($this, 'showFolder'));
 
 		$this->umail->markRead(array((int)$_GET['mail_id']));
 		$mailData = $this->umail->getMail((int)$_GET['mail_id']);
@@ -862,6 +866,8 @@ class ilMailFolderGUI
 			$isTrashFolder = true;
 		}
 
+		$current_folder_data = $this->mbox->getFolderData((int)$_GET['mobj_id']);
+
 		$selectOptions = array();
 		$actions       = $this->mbox->getActions((int)$_GET["mobj_id"]);
 		foreach($actions as $key => $action)
@@ -871,8 +877,9 @@ class ilMailFolderGUI
 				$folders = $this->mbox->getSubFolders();
 				foreach($folders as $folder)
 				{
-					if($folder["type"] != 'trash' ||
-						!$isTrashFolder
+					if(
+						($folder["type"] != 'trash' || !$isTrashFolder) &&
+						$folder['obj_id'] != $current_folder_data['obj_id']
 					)
 					{
 						$optionText = '';
@@ -891,6 +898,17 @@ class ilMailFolderGUI
 			}
 		}
 
+		if($current_folder_data['type'] == 'user_folder')
+		{
+			$txt_folder = $current_folder_data['title'];
+		}
+		else
+		{
+			$txt_folder = $this->lng->txt('mail_' . $current_folder_data['title']);
+		}
+		$ilToolbar->addSeparator();
+		$ilToolbar->addText(sprintf($this->lng->txt('current_folder'), $txt_folder));
+
 		if(is_array($selectOptions) && count($selectOptions))
 		{
 			include_once 'Services/Form/classes/class.ilSelectInputGUI.php';
@@ -898,7 +916,6 @@ class ilMailFolderGUI
 			$actions->setOptions($selectOptions);
 			$this->ctrl->setParameter($this, 'mail_id', (int)$_GET['mail_id']);
 			$ilToolbar->setFormAction($this->ctrl->getFormAction($this, 'showMail'));
-			$ilToolbar->addSeparator();
 			$ilToolbar->addInputItem($actions);
 			$ilToolbar->addFormButton($this->lng->txt('submit'), 'changeFolder');
 		}
