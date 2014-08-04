@@ -213,6 +213,7 @@ class ilObjFolderGUI extends ilContainerGUI
 			array(
 				ilContainer::SORT_INHERIT,
 				ilContainer::SORT_TITLE,
+				ilContainer::SORT_CREATION,
 				ilContainer::SORT_MANUAL
 			)
 		);

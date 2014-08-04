@@ -3894,7 +3894,23 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 					ilContainer::SORT_TITLE
 			);
 			$sort_title->setInfo($this->lng->txt('sorting_info_title'));
+			
+			$this->initSortingDirectionForm($settings,$sort_title,'title');
 			$sort->addOption($sort_title);
+		}
+		if(in_array(ilContainer::SORT_CREATION, $a_sorting_settings))
+		{
+			$sort_activation = new ilRadioOption($this->lng->txt('sorting_creation_header'),ilContainer::SORT_CREATION);
+			$sort_activation->setInfo($this->lng->txt('sorting_creation_info'));
+			$this->initSortingDirectionForm($settings,$sort_activation,'creation');
+			$sort->addOption($sort_activation);
+		}
+		if(in_array(ilContainer::SORT_ACTIVATION, $a_sorting_settings))
+		{
+			$sort_activation = new ilRadioOption($this->lng->txt('crs_sort_activation'),ilContainer::SORT_ACTIVATION);
+			$sort_activation->setInfo($this->lng->txt('crs_sort_timing_info'));
+			$this->initSortingDirectionForm($settings,$sort_activation,'activation');
+			$sort->addOption($sort_activation);
 		}
 		if(in_array(ilContainer::SORT_MANUAL, $a_sorting_settings))
 		{
@@ -3905,42 +3921,39 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$sort_manual->setInfo($this->lng->txt('sorting_info_manual'));
 			$sort->addOption($sort_manual);
 		}
-		if(in_array(ilContainer::SORT_ACTIVATION, $a_sorting_settings))
-		{
-			$sort_activation = new ilRadioOption($this->lng->txt('crs_sort_activation'),ilContainer::SORT_ACTIVATION);
-			$sort_activation->setInfo($this->lng->txt('crs_sort_timing_info'));
-			$sort->addOption($sort_activation);
-		}
 
 		$sort->setValue($settings->getSortMode());
 		$form->addItem($sort);
 		
 		return $form;
+	}
+	
+	/**
+	 * Add sorting direction
+	 * @param ilFormPropertyGUI $element
+	 */
+	protected function initSortingDirectionForm(ilContainerSortingSettings $sorting_settings, $element, $a_prefix)
+	{
+		$direction = new ilRadioGroupInputGUI($this->lng->txt('sorting_direction'),$a_prefix.'_sorting_direction');
+		$direction->setValue($sorting_settings->getSortDirection());
+		$direction->setRequired(TRUE);
 		
+		// desc
+		$desc = new ilRadioOption(
+				$this->lng->txt('sorting_desc'),
+				ilContainer::SORT_DIRECTION_DESC
+		);
+		$direction->addOption($desc);
 		
+		// desc
+		$asc = new ilRadioOption(
+				$this->lng->txt('sorting_asc'),
+				ilContainer::SORT_DIRECTION_ASC
+		);
+		$direction->addOption($asc);
+		$element->addSubItem($direction);
 		
-
-		// Sorting
-		$sog = new ilRadioGroupInputGUI($this->lng->txt('sorting_header'),'sor');
-		$sog->setRequired(true);
-		
-		// implicit: there is always a group or course in the path
-		
-		$sma = new ilRadioOption();
-		$sma->setValue(ilContainer::SORT_TITLE);
-		$sma->setTitle($this->lng->txt('sorting_title_header'));
-		$sma->setInfo($this->lng->txt('sorting_info_title'));
-		$sog->addOption($sma);
-
-		$sti = new ilRadioOption();
-		$sti->setValue(ilContainer::SORT_MANUAL);
-		$sti->setTitle($this->lng->txt('sorting_manual_header'));
-		$sti->setInfo($this->lng->txt('sorting_info_manual'));
-		$sog->addOption($sti);
-		
-		$a_form->addItem($sog);
-		
-		
+		return $element;
 	}
 	
 	/**
@@ -3952,6 +3965,20 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		include_once('Services/Container/classes/class.ilContainerSortingSettings.php');
 		$settings = new ilContainerSortingSettings($this->object->getId());
 		$settings->setSortMode($form->getInput("sorting"));
+		
+		switch($form->getInput('sorting'))
+		{
+			case ilContainer::SORT_TITLE:
+				$settings->setSortDirection($form->getInput('title_sorting_direction'));
+				break;
+			case ilContainer::SORT_ACTIVATION:
+				$settings->setSortDirection($form->getInput('activation_sorting_direction'));
+				break;
+			case ilContainer::SORT_CREATION:
+				$settings->setSortDirection($form->getInput('creation_sorting_direction'));
+				break;
+		}
+		
 		$settings->update();
 	}
 	

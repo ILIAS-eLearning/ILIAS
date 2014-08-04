@@ -14548,4 +14548,9 @@ exc#:#exc_global_feedback_file_date_deadline#:#Nach dem Abgabetermin
 exc#:#exc_global_feedback_file_date_upload#:#Nach der Abgabe
 exc#:#exc_note_for_tutor#:#Notiz für Tutoren
 exc#:#exc_comment_for_learner_edit#:#Kommentar für Lerner bearbeiten
+common#:#sorting_creation_header#:#Nach Erstellungsdatum
+common#:#sorting_creation_info#:#Die enthaltenen Objekte werden automatisch nach ihrem Erstellungsdatum sortiert.
 exc#:#exc_comment_for_learner_info#:#Es wird eine Benachrichtigung an den Benutzer gesendet und die Datei wird in dessen Übungseinheiten-Übersicht gelistet.
+common#:#sorting_direction#:#Sortierungsrichtung
+common#:#sorting_desc#:#Absteigend
+common#:#sorting_asc#:#Aufsteigend

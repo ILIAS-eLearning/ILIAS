@@ -612,6 +612,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 				$form,
 				array(
 					ilContainer::SORT_TITLE,
+					ilContainer::SORT_CREATION,
 					ilContainer::SORT_MANUAL
 				)
 		);

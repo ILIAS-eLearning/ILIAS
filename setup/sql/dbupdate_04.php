@@ -2272,3 +2272,16 @@ if(!$ilDB->tableColumnExists('exc_assignment', 'fb_date'))
 		));
 }
 ?>
+<#4283>
+<?php
+if(!$ilDB->tableColumnExists('container_sorting_set', 'sort_direction'))
+{
+	$ilDB->addTableColumn('container_sorting_set', 'sort_direction',
+		array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+		));
+}
+?>

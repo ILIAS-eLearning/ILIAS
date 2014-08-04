@@ -14567,3 +14567,8 @@ exc#:#exc_global_feedback_file_date_upload#:#After submission
 exc#:#exc_note_for_tutor#:#Note for Tutors
 exc#:#exc_comment_for_learner_edit#:#Edit Comment for Learner
 exc#:#exc_comment_for_learner_info#:#A notification is sent to the user and the feedback will be listed in the user's assignment view.
+common#:#sorting_creation_header#:#By Creation Date
+common#:#sorting_creation_info#:#Content items are arranged automatically by their creation date.
+common#:#sorting_direction#:#Sorting Direction
+common#:#sorting_desc#:#Descendent
+common#:#sorting_asc#:#Ascending

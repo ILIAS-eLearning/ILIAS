@@ -2780,6 +2780,7 @@ class ilObjGroupGUI extends ilContainerGUI
 				$sorting_settings[] = ilContainer::SORT_INHERIT;
 			}
 			$sorting_settings[] = ilContainer::SORT_TITLE;
+			$sorting_settings[] = ilContainer::SORT_CREATION;
 			$sorting_settings[] = ilContainer::SORT_MANUAL;
 			$this->initSortingForm($this->form, $sorting_settings);
 

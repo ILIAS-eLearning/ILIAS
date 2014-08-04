@@ -278,6 +278,7 @@ class ilObjRootFolderGUI extends ilContainerGUI
 				$form,
 				array(
 					ilContainer::SORT_TITLE,
+					ilContainer::SORT_CREATION,
 					ilcontainer::SORT_MANUAL
 				)
 		);

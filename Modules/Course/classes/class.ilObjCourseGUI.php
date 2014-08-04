@@ -1394,6 +1394,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			array(
 				ilContainer::SORT_TITLE,
 				ilContainer::SORT_MANUAL,
+				ilContainer::SORT_CREATION,
 				ilContainer::SORT_ACTIVATION
 			)
 		);
