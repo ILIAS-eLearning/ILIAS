@@ -134,7 +134,13 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 	 */
 	protected function nextQuestionCmd()
 	{
-		$this->saveQuestionSolution();
+		$questionId = $this->testSequence->getQuestionForSequence($_GET["sequence"]);
+
+		if( !$this->isParticipantsAnswerFixed($questionId) )
+		{
+			$this->saveQuestionSolution();
+		}
+		
 		$this->ctrl->setParameter($this, "activecommand", "next");
 		$this->ctrl->redirect($this, "redirectQuestion");
 	}
@@ -144,7 +150,13 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 	 */
 	protected function previousQuestionCmd()
 	{
-		$this->saveQuestionSolution();
+		$questionId = $this->testSequence->getQuestionForSequence($_GET["sequence"]);
+
+		if( !$this->isParticipantsAnswerFixed($questionId) )
+		{
+			$this->saveQuestionSolution();
+		}
+
 		$this->ctrl->setParameter($this, "activecommand", "previous");
 		$this->ctrl->redirect($this, "redirectQuestion");
 	}
@@ -448,10 +460,31 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		{
 			$answer_feedback = TRUE;
 		}
-		
-		// Answer specific feedback is rendered into the display of the test question with in the concrete question types outQuestionForTest-method.
-		// Notation of the params prior to getting rid of this crap in favor of a class
-		$question_gui->outQuestionForTest(
+
+		if( $this->isParticipantsAnswerFixed($questionId) )
+		{
+			$solutionoutput = $question_gui->getSolutionOutput(
+				$this->testSession->getActiveId(), 	#active_id
+				NULL, 												#pass
+				FALSE, 												#graphical_output
+				false,				#result_output
+				FALSE, 												#show_question_only
+				FALSE,												#show_feedback
+				false, 												#show_correct_solution
+				FALSE, 												#show_manual_scoring
+				true												#show_question_text
+			);
+
+			$this->tpl->setVariable("QUESTION_OUTPUT", $solutionoutput);
+			$this->tpl->setVariable("FORMACTION", $formaction);
+
+			$directfeedback = true;
+		}
+		else
+		{
+			// Answer specific feedback is rendered into the display of the test question with in the concrete question types outQuestionForTest-method.
+			// Notation of the params prior to getting rid of this crap in favor of a class
+			$question_gui->outQuestionForTest(
 				$formaction, 										#form_action
 				$this->testSession->getActiveId(), 	#active_id
 				NULL, 												#pass
@@ -459,12 +492,13 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 				$user_post_solution, 								#user_post_solution
 				$answer_feedback									#answer_feedback == inline_specific_feedback
 			);
-		// The display of specific inline feedback and specific feedback in an own block is to honor questions, which
-		// have the possibility to embed the specific feedback into their output while maintaining compatibility to
-		// questions, which do not have such facilities. E.g. there can be no "specific inline feedback" for essay
-		// questions, while the multiple-choice questions do well.
-				
-		$this->fillQuestionRelatedNavigation($question_gui);
+			// The display of specific inline feedback and specific feedback in an own block is to honor questions, which
+			// have the possibility to embed the specific feedback into their output while maintaining compatibility to
+			// questions, which do not have such facilities. E.g. there can be no "specific inline feedback" for essay
+			// questions, while the multiple-choice questions do well.
+
+			$this->fillQuestionRelatedNavigation($question_gui);
+		}
 
 		if ($directfeedback)
 		{
@@ -693,14 +727,29 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
 	protected function showInstantResponseCmd()
 	{
-		$this->saveQuestionSolution();
+		$questionId = $this->testSequence->getQuestionForSequence($_GET["sequence"]);
+		
+		if( !$this->isParticipantsAnswerFixed($questionId) )
+		{
+			$this->saveQuestionSolution();
+			
+			$this->testSequence->setQuestionChecked($questionId);
+			$this->testSequence->saveToDb();
+		}
+		
 		$this->ctrl->setParameter($this, "activecommand", "directfeedback");
 		$this->ctrl->redirect($this, "redirectQuestion");
 	}
 
 	protected function showQuestionListCmd()
 	{
-		$this->saveQuestionSolution();
+		$questionId = $this->testSequence->getQuestionForSequence($_GET["sequence"]);
+
+		if( !$this->isParticipantsAnswerFixed($questionId) )
+		{
+			$this->saveQuestionSolution();
+		}
+
 		if ($this->saveResult == FALSE)
 		{
 			$this->ctrl->setParameter($this, "activecommand", "");
@@ -726,17 +775,27 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 	 */
 	protected function postponeQuestionCmd()
 	{
-		$this->saveQuestionSolution();
+		$questionId = $this->testSequence->getQuestionForSequence($_GET["sequence"]);
+
+		if( !$this->isParticipantsAnswerFixed($questionId) )
+		{
+			$this->saveQuestionSolution();
+		}
+
 		$this->ctrl->setParameter($this, "activecommand", "postpone");
 		$this->ctrl->redirect($this, "redirectQuestion");
 	}
 
 	protected function handleQuestionActionCmd()
 	{
-		$this->updateWorkingTime();
+		$questionId = $this->testSequence->getQuestionForSequence($_GET["sequence"]);
 
-		$this->saveQuestionSolution();
-		
+		if( !$this->isParticipantsAnswerFixed($questionId) )
+		{
+			$this->updateWorkingTime();
+			$this->saveQuestionSolution();
+		}
+
 		$this->ctrl->setParameter($this, 'activecommand', 'handleQuestionAction');
 		$this->ctrl->redirect($this, 'redirectQuestion');
 	}

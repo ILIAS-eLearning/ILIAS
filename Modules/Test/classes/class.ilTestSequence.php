@@ -48,6 +48,16 @@ class ilTestSequence
 	var $isRandomTest;
 
 	/**
+	 * @var array
+	 */
+	private $alreadyCheckedQuestions;
+
+	/**
+	 * @var integer
+	 */
+	private $newlyCheckedQuestion;
+
+	/**
 	* ilTestSequence constructor
 	*
 	* The constructor takes possible arguments an creates an instance of 
@@ -66,6 +76,9 @@ class ilTestSequence
 			"postponed" => array(),
 			"hidden" => array()
 		);
+		
+		$this->alreadyCheckedQuestions = array();
+		$this->newlyCheckedQuestion = null;
 	}
 	
 	function getActiveId()
@@ -134,8 +147,14 @@ class ilTestSequence
 	*/
 	public function loadFromDb()
 	{
+		$this->loadQuestionSequence();
+		$this->loadCheckedQuestions();
+	}
+	
+	private function loadQuestionSequence()
+	{
 		global $ilDB;
-		$result = $ilDB->queryF("SELECT * FROM tst_sequence WHERE active_fi = %s AND pass = %s", 
+		$result = $ilDB->queryF("SELECT * FROM tst_sequence WHERE active_fi = %s AND pass = %s",
 			array('integer','integer'),
 			array($this->active_id, $this->pass)
 		);
@@ -153,6 +172,20 @@ class ilTestSequence
 		}
 	}
 	
+	private function loadCheckedQuestions()
+	{
+		global $ilDB;
+
+		$res = $ilDB->queryF("SELECT question_fi FROM tst_seq_qst_checked WHERE active_fi = %s AND pass = %s",
+			array('integer','integer'), array($this->active_id, $this->pass)
+		);
+		
+		while( $row = $ilDB->fetchAssoc($res) )
+		{
+			$this->alreadyCheckedQuestions[ $row['question_fi'] ] = $row['question_fi'];
+		}
+	}
+	
 	/**
 	* Saves the sequence data for a given pass to the database
 	*
@@ -160,8 +193,14 @@ class ilTestSequence
 	*/
 	public function saveToDb()
 	{
+		$this->saveQuestionSequence();
+		$this->saveNewlyCheckedQuestion();
+	}
+	
+	private function saveQuestionSequence()
+	{
 		global $ilDB;
-		
+
 		$postponed = NULL;
 		if ((is_array($this->sequencedata["postponed"])) && (count($this->sequencedata["postponed"])))
 		{
@@ -172,12 +211,12 @@ class ilTestSequence
 		{
 			$hidden = serialize($this->sequencedata["hidden"]);
 		}
-		
+
 		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_sequence WHERE active_fi = %s AND pass = %s",
 			array('integer','integer'),
 			array($this->active_id, $this->pass)
 		);
-		
+
 		$affectedRows = $ilDB->insert("tst_sequence", array(
 			"active_fi" => array("integer", $this->active_id),
 			"pass" => array("integer", $this->pass),
@@ -186,6 +225,23 @@ class ilTestSequence
 			"hidden" => array("text", $hidden),
 			"tstamp" => array("integer", time())
 		));
+	}
+
+	/**
+	 * @global ilDB $ilDB
+	 */
+	private function saveNewlyCheckedQuestion()
+	{
+		if( (int)$this->newlyCheckedQuestion )
+		{
+			global $ilDB;
+			
+			$ilDB->replace('tst_seq_qst_checked', array(
+				'active_fi' => array('integer', (int)$this->active_id),
+				'pass' => array('integer', (int)$this->pass),
+				'question_fi' => array('integer', (int)$this->newlyCheckedQuestion)
+			), array());
+		}
 	}
 	
 	function postponeQuestion($question_id)
@@ -280,6 +336,16 @@ class ilTestSequence
 				array_push($this->sequencedata["hidden"], intval($this->questions[$sequence]));
 			}
 		}
+	}
+	
+	public function setQuestionChecked($questionId)
+	{
+		$this->newlyCheckedQuestion = $questionId;
+	}
+	
+	public function isQuestionChecked($questionId)
+	{
+		return isset($this->alreadyCheckedQuestions[$questionId]);
 	}
 	
 	function getPositionOfSequence($sequence)

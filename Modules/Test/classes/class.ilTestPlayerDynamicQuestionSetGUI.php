@@ -188,7 +188,9 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 	{
 		$this->prepareSummaryPage();
 		
-		if( $this->testSession->getCurrentQuestionId() )
+		$questionId = $this->testSession->getCurrentQuestionId();
+		
+		if( $questionId && !$this->isParticipantsAnswerFixed($questionId) )
 		{
 			$this->updateWorkingTime();
 			$this->saveQuestionSolution();
@@ -278,10 +280,15 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 	{
 		$this->prepareSummaryPage();
 
-		$this->updateWorkingTime();
-		$this->saveQuestionSolution();
-		$this->persistQuestionAnswerStatus();
-		
+		$questionId = $this->testSession->getCurrentQuestionId();
+
+		if( $questionId && !$this->isParticipantsAnswerFixed($questionId) )
+		{
+			$this->updateWorkingTime();
+			$this->saveQuestionSolution();
+			$this->persistQuestionAnswerStatus();
+		}
+
 		$this->testSequence->loadQuestions(
 				$this->dynamicQuestionSetConfig, $this->testSession->getQuestionSetFilterSelection()
 		);
@@ -321,9 +328,14 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 	
 	protected function nextQuestionCmd()
 	{
-		$this->updateWorkingTime();
-		$this->saveQuestionSolution();
-		$this->persistQuestionAnswerStatus();
+		$questionId = $this->testSession->getCurrentQuestionId();
+
+		if( $questionId && !$this->isParticipantsAnswerFixed($questionId) )
+		{
+			$this->updateWorkingTime();
+			$this->saveQuestionSolution();
+			$this->persistQuestionAnswerStatus();
+		}
 
 		$this->resetCurrentQuestion();
 		
@@ -332,10 +344,15 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 	
 	protected function postponeQuestionCmd()
 	{
-		$this->updateWorkingTime();
-		$this->saveQuestionSolution();
-		$this->persistQuestionAnswerStatus();
-		
+		$questionId = $this->testSession->getCurrentQuestionId();
+
+		if( $questionId && !$this->isParticipantsAnswerFixed($questionId) )
+		{
+			$this->updateWorkingTime();
+			$this->saveQuestionSolution();
+			$this->persistQuestionAnswerStatus();
+		}
+
 		$this->testSequence->setQuestionPostponed(
 				$this->testSession->getCurrentQuestionId()
 		);
@@ -350,9 +367,14 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 	
 	protected function markQuestionCmd()
 	{
-		$this->updateWorkingTime();
-		$this->saveQuestionSolution();
-		$this->persistQuestionAnswerStatus();
+		$questionId = $this->testSession->getCurrentQuestionId();
+
+		if( $questionId && !$this->isParticipantsAnswerFixed($questionId) )
+		{
+			$this->updateWorkingTime();
+			$this->saveQuestionSolution();
+			$this->persistQuestionAnswerStatus();
+		}
 
 		global $ilUser;
 		$this->object->setQuestionSetSolved(1, $this->testSession->getCurrentQuestionId(), $ilUser->getId());
@@ -362,9 +384,14 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 
 	protected function unmarkQuestionCmd()
 	{
-		$this->updateWorkingTime();
-		$this->saveQuestionSolution();
-		$this->persistQuestionAnswerStatus();
+		$questionId = $this->testSession->getCurrentQuestionId();
+
+		if( $questionId && !$this->isParticipantsAnswerFixed($questionId) )
+		{
+			$this->updateWorkingTime();
+			$this->saveQuestionSolution();
+			$this->persistQuestionAnswerStatus();
+		}
 
 		global $ilUser;
 		$this->object->setQuestionSetSolved(0, $this->testSession->getCurrentQuestionId(), $ilUser->getId());
@@ -406,7 +433,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		if( !$this->testSession->getCurrentQuestionId() )
 		{
 			$this->testSession->setCurrentQuestionId(
-					$this->testSequence->getUpcomingQuestionId()
+				$this->testSequence->getUpcomingQuestionId($this->object->isInstantFeedbackAnswerFixationEnabled())
 			);
 		}
 		
@@ -429,9 +456,17 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 	
 	protected function showInstantResponseCmd()
 	{
-		$this->updateWorkingTime();
-		$this->saveQuestionSolution();
-		$this->persistQuestionAnswerStatus();
+		$questionId = $this->testSession->getCurrentQuestionId();
+
+		if( $questionId && !$this->isParticipantsAnswerFixed($questionId) )
+		{
+			$this->updateWorkingTime();
+			$this->saveQuestionSolution();
+			$this->persistQuestionAnswerStatus();
+
+			$this->testSequence->setQuestionChecked($questionId);
+			$this->testSequence->saveToDb();
+		}
 
 		$this->handleJavascriptActivationStatus();
 
@@ -455,10 +490,15 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 	
 	protected function handleQuestionActionCmd()
 	{
-		$this->updateWorkingTime();
-		$this->saveQuestionSolution();
-		$this->persistQuestionAnswerStatus();
-		
+		$questionId = $this->testSession->getCurrentQuestionId();
+
+		if( $questionId && !$this->isParticipantsAnswerFixed($questionId) )
+		{
+			$this->updateWorkingTime();
+			$this->saveQuestionSolution();
+			$this->persistQuestionAnswerStatus();
+		}
+
 		$this->ctrl->setParameter(
 				$this, 'sequence', $this->testSession->getCurrentQuestionId()
 		);
@@ -522,23 +562,45 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		{
 			$answer_feedback = TRUE;
 		}
-		
-		// Answer specific feedback is rendered into the display of the test question with in the concrete question types outQuestionForTest-method.
-		// Notation of the params prior to getting rid of this crap in favor of a class
-		$question_gui->outQuestionForTest(
-				$formaction, 										#form_action
+
+		if( $this->isParticipantsAnswerFixed($this->testSession->getCurrentQuestionId()) )
+		{
+			$solutionoutput = $question_gui->getSolutionOutput(
 				$this->testSession->getActiveId(), 	#active_id
 				NULL, 												#pass
-				$is_postponed, 										#is_postponed
-				$user_post_solution, 								#user_post_solution
-				$answer_feedback									#answer_feedback == inline_specific_feedback
+				FALSE, 												#graphical_output
+				false,				#result_output
+				FALSE, 												#show_question_only
+				FALSE,												#show_feedback
+				false, 												#show_correct_solution
+				FALSE, 												#show_manual_scoring
+				true												#show_question_text
 			);
-		// The display of specific inline feedback and specific feedback in an own block is to honor questions, which
-		// have the possibility to embed the specific feedback into their output while maintaining compatibility to
-		// questions, which do not have such facilities. E.g. there can be no "specific inline feedback" for essay
-		// questions, while the multiple-choice questions do well.
-				
-		$this->fillQuestionRelatedNavigation($question_gui);
+
+			$this->tpl->setVariable("QUESTION_OUTPUT", $solutionoutput);
+			$this->tpl->setVariable("FORMACTION", $formaction);
+
+			$directfeedback = true;
+		}
+		else
+		{
+			// Answer specific feedback is rendered into the display of the test question with in the concrete question types outQuestionForTest-method.
+			// Notation of the params prior to getting rid of this crap in favor of a class
+			$question_gui->outQuestionForTest(
+					$formaction, 										#form_action
+					$this->testSession->getActiveId(), 	#active_id
+					NULL, 												#pass
+					$is_postponed, 										#is_postponed
+					$user_post_solution, 								#user_post_solution
+					$answer_feedback									#answer_feedback == inline_specific_feedback
+				);
+			// The display of specific inline feedback and specific feedback in an own block is to honor questions, which
+			// have the possibility to embed the specific feedback into their output while maintaining compatibility to
+			// questions, which do not have such facilities. E.g. there can be no "specific inline feedback" for essay
+			// questions, while the multiple-choice questions do well.
+
+			$this->fillQuestionRelatedNavigation($question_gui);
+		}
 
 		if ($directfeedback)
 		{
@@ -815,7 +877,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		
 		$this->saveResult = FALSE;
 
-		if ($this->canSaveResult() || $force)
+		if ($this->canSaveResult($qId) || $force)
 		{
 				global $ilUser;
 				

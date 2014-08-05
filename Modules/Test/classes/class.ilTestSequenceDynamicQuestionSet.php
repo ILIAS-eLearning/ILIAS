@@ -37,6 +37,16 @@ class ilTestSequenceDynamicQuestionSet
 	 * @var array
 	 */
 	private $postponedQuestions = array();
+
+	/**
+	 * @var array
+	 */
+	private $alreadyCheckedQuestions;
+
+	/**
+	 * @var integer
+	 */
+	private $newlyCheckedQuestion;
 	
 	/**
 	 * @var array
@@ -58,6 +68,9 @@ class ilTestSequenceDynamicQuestionSet
 		$this->db = $db;
 		$this->questionSet = $questionSet;
 		$this->activeId = $activeId;
+
+		$this->alreadyCheckedQuestions = array();
+		$this->newlyCheckedQuestion = null;
 	}
 	
 	function getActiveId()
@@ -66,6 +79,12 @@ class ilTestSequenceDynamicQuestionSet
 	}
 	
 	public function loadFromDb()
+	{
+		$this->loadQuestionSequence();
+		$this->loadCheckedQuestions();
+	}
+	
+	private function loadQuestionSequence()
 	{
 		$query = "SELECT * FROM tst_sequence WHERE active_fi = %s AND pass = %s";
 		
@@ -84,8 +103,28 @@ class ilTestSequenceDynamicQuestionSet
 			break;
 		}
 	}
+
+	private function loadCheckedQuestions()
+	{
+		global $ilDB;
+
+		$res = $ilDB->queryF("SELECT question_fi FROM tst_seq_qst_checked WHERE active_fi = %s AND pass = %s",
+			array('integer','integer'), array($this->getActiveId(), 0)
+		);
+
+		while( $row = $ilDB->fetchAssoc($res) )
+		{
+			$this->alreadyCheckedQuestions[ $row['question_fi'] ] = $row['question_fi'];
+		}
+	}
 	
 	public function saveToDb()
+	{
+		$this->saveQuestionSequence();
+		$this->saveNewlyCheckedQuestion();
+	}
+
+	private function saveQuestionSequence()
 	{
 		$tracking = serialize($this->questionTracking);
 		
@@ -122,6 +161,20 @@ class ilTestSequenceDynamicQuestionSet
 				'hidden' => array('text', $hidden),
 				'tstamp' => array('integer', time())
 			));
+		}
+	}
+	
+	private function saveNewlyCheckedQuestion()
+	{
+		if( (int)$this->newlyCheckedQuestion )
+		{
+			global $ilDB;
+			
+			$ilDB->replace('tst_seq_qst_checked', array(
+				'active_fi' => array('integer', (int)$this->getActiveId()),
+				'pass' => array('integer', 0),
+				'question_fi' => array('integer', (int)$this->newlyCheckedQuestion)
+			), array());
 		}
 	}
 	
@@ -175,16 +228,16 @@ class ilTestSequenceDynamicQuestionSet
 	
 	// -----------------------------------------------------------------------------------------------------------------
 	
-	public function getUpcomingQuestionId()
+	public function getUpcomingQuestionId($excludeCheckedQuestions)
 	{
-		$questionId = $this->fetchUpcomingQuestionId(true);
+		$questionId = $this->fetchUpcomingQuestionId($excludeCheckedQuestions, true);
 		
 		if( $questionId )
 		{
 			return $questionId;
 		}
 		
-		$questionId = $this->fetchUpcomingQuestionId(false);
+		$questionId = $this->fetchUpcomingQuestionId($excludeCheckedQuestions, false);
 		
 		if( $questionId )
 		{
@@ -194,7 +247,7 @@ class ilTestSequenceDynamicQuestionSet
 		return null;
 	}
 	
-	private function fetchUpcomingQuestionId($forceNonAnswered = false)
+	private function fetchUpcomingQuestionId($excludeCheckedQuestions, $forceNonAnsweredQuestion)
 	{
 		foreach($this->questionSet->getActualQuestionSequence() as $level => $questions)
 		{
@@ -202,6 +255,11 @@ class ilTestSequenceDynamicQuestionSet
 			
 			foreach($questions as $pos => $qId)
 			{
+				if( $excludeCheckedQuestions && $this->isQuestionChecked($qId) )
+				{
+					continue;
+				}
+				
 				if( isset($this->correctAnsweredQuestions[$qId]) )
 				{
 					continue;
@@ -213,7 +271,7 @@ class ilTestSequenceDynamicQuestionSet
 					continue;
 				}
 				
-				if( $forceNonAnswered && isset($this->wrongAnsweredQuestions[$qId]) )
+				if( $forceNonAnsweredQuestion && isset($this->wrongAnsweredQuestions[$qId]) )
 				{
 					continue;
 				}
@@ -350,6 +408,17 @@ class ilTestSequenceDynamicQuestionSet
 	}
 	
 	// -----------------------------------------------------------------------------------------------------------------
+
+	public function setQuestionChecked($questionId)
+	{
+		$this->newlyCheckedQuestion = $questionId;
+		$this->alreadyCheckedQuestions[$questionId] = $questionId;
+	}
+
+	public function isQuestionChecked($questionId)
+	{
+		return isset($this->alreadyCheckedQuestions[$questionId]);
+	}
 
 	public function setQuestionPostponed($questionId)
 	{

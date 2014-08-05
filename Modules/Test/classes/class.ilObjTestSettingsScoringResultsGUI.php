@@ -472,15 +472,32 @@ class ilObjTestSettingsScoringResultsGUI
 
 		// instant feedback
 		$instant_feedback = new ilCheckboxGroupInputGUI($this->lng->txt('tst_instant_feedback'), 'instant_feedback');
-		$instant_feedback->addOption(new ilCheckboxOption($this->lng->txt('tst_instant_feedback_answer_specific'), 'instant_feedback_specific', ''));
-		$instant_feedback->addOption(new ilCheckboxOption($this->lng->txt('tst_instant_feedback_answer_generic'), 'instant_feedback_generic', ''));
-		$instant_feedback->addOption(new ilCheckboxOption($this->lng->txt('tst_instant_feedback_results'), 'instant_feedback_points', ''));
-		$instant_feedback->addOption(new ilCheckboxOption($this->lng->txt('tst_instant_feedback_solution'), 'instant_feedback_solution', ''));
+		$instant_feedback->addOption(new ilCheckboxOption(
+			$this->lng->txt('tst_instant_feedback_answer_specific'), 'instant_feedback_specific',
+			$this->lng->txt('tst_instant_feedback_answer_specific_desc')
+		));
+		$instant_feedback->addOption(new ilCheckboxOption(
+			$this->lng->txt('tst_instant_feedback_answer_generic'), 'instant_feedback_generic',
+			$this->lng->txt('tst_instant_feedback_answer_generic_desc')
+		));
+		$instant_feedback->addOption(new ilCheckboxOption(
+			$this->lng->txt('tst_instant_feedback_results'), 'instant_feedback_points',
+			$this->lng->txt('tst_instant_feedback_results_desc')
+		));
+		$instant_feedback->addOption(new ilCheckboxOption(
+			$this->lng->txt('tst_instant_feedback_solution'), 'instant_feedback_solution',
+			$this->lng->txt('tst_instant_feedback_solution_desc')
+		));
+		$instant_feedback->addOption(new ilCheckboxOption(
+			$this->lng->txt('tst_instant_feedback_fix_usr_answer'), 'instant_feedback_answer_fixation',
+			$this->lng->txt('tst_instant_feedback_fix_usr_answer_desc')
+		));
 		$values = array();
 		if ($this->testOBJ->getSpecificAnswerFeedback()) array_push($values, 'instant_feedback_specific');
 		if ($this->testOBJ->getGenericAnswerFeedback()) array_push($values, 'instant_feedback_generic');
 		if ($this->testOBJ->getAnswerFeedbackPoints()) array_push($values, 'instant_feedback_points');
 		if ($this->testOBJ->getInstantFeedbackSolution()) array_push($values, 'instant_feedback_solution');
+		if( $this->testOBJ->isInstantFeedbackAnswerFixationEnabled() ) array_push($values, 'instant_feedback_answer_fixation');
 		$instant_feedback->setValue($values);
 		$instant_feedback->setInfo($this->lng->txt('tst_instant_feedback_description'));
 		$form->addItem($instant_feedback);

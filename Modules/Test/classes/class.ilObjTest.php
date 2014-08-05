@@ -517,6 +517,11 @@ class ilObjTest extends ilObject
 	 */
 	protected $showGradingMarkEnabled;
 
+	/**
+	 * @var bool
+	 */
+	protected $instantFeedbackAnswerFixationEnabled;
+
 	#endregion
 	
 	/**
@@ -626,6 +631,8 @@ class ilObjTest extends ilObject
 		
 		$this->showGradingStatusEnabled = true;
 		$this->showGradingMarkEnabled = true;
+		
+		$this->instantFeedbackAnswerFixationEnabled = false;
 		
 		$this->ilObject($a_id, $a_call_by_reference);
 	}
@@ -1328,7 +1335,8 @@ class ilObjTest extends ilObject
 				'skill_service' => array('integer', (int)$this->isSkillServiceEnabled()),
 				'result_tax_filters' => array('text', serialize((array)$this->getResultFilterTaxIds())),
 				'show_grading_status' => array('integer', (int)$this->isShowGradingStatusEnabled()),
-				'show_grading_mark' => array('integer', (int)$this->isShowGradingMarkEnabled())
+				'show_grading_mark' => array('integer', (int)$this->isShowGradingMarkEnabled()),
+				'inst_fb_answer_fixation' => array('integer', (int)$this->isInstantFeedbackAnswerFixationEnabled())
 			));
 				    
 			$this->test_id = $next_id;
@@ -1441,7 +1449,8 @@ class ilObjTest extends ilObject
 						'skill_service' => array('integer', (int)$this->isSkillServiceEnabled()),
 						'result_tax_filters' => array('text', serialize((array)$this->getResultFilterTaxIds())),
 						'show_grading_status' => array('integer', (int)$this->isShowGradingStatusEnabled()),
-						'show_grading_mark' => array('integer', (int)$this->isShowGradingMarkEnabled())
+						'show_grading_mark' => array('integer', (int)$this->isShowGradingMarkEnabled()),
+						'inst_fb_answer_fixation' => array('integer', (int)$this->isInstantFeedbackAnswerFixationEnabled())
 					),
 					array(
 						'test_id' => array('integer', (int)$this->getTestId())
@@ -1929,6 +1938,7 @@ class ilObjTest extends ilObject
 			$this->setResultFilterTaxIds(strlen($data->result_tax_filters) ? unserialize($data->result_tax_filters) : array());
 			$this->setShowGradingStatusEnabled((bool)$data->show_grading_status);
 			$this->setShowGradingMarkEnabled((bool)$data->show_grading_mark);
+			$this->setInstantFeedbackAnswerFixationEnabled((bool)$data->inst_fb_answer_fixation);
 			$this->loadQuestions();
 		}
 
@@ -6954,6 +6964,7 @@ function getAnswerFeedbackPoints()
 		$newObj->setCharSelectorDefinition($this->getCharSelectorDefinition());
 		$newObj->setSkillServiceEnabled($this->isSkillServiceEnabled());
 		$newObj->setResultFilterTaxIds($this->getResultFilterTaxIds());
+		$newObj->setInstantFeedbackAnswerFixationEnabled($this->isInstantFeedbackAnswerFixationEnabled());
 		$newObj->saveToDb();
 		
 		// clone certificate
@@ -10478,18 +10489,23 @@ function getAnswerFeedbackPoints()
             }
         }
 
-        public function setScoringFeedbackOptionsByArray($options) {
+        public function setScoringFeedbackOptionsByArray($options)
+		{
 			if (is_array($options))
 			{
 				$this->setGenericAnswerFeedback(	in_array('instant_feedback_generic',  $options) ? 1 : 0);
 				$this->setSpecificAnswerFeedback(	in_array('instant_feedback_specific', $options) ? 1 : 0);
 				$this->setAnswerFeedbackPoints(		in_array('instant_feedback_points',   $options) ? 1 : 0);
 				$this->setInstantFeedbackSolution(	in_array('instant_feedback_solution', $options) ? 1 : 0);
-        	} else {
+				$this->setInstantFeedbackAnswerFixationEnabled(	in_array('instant_feedback_answer_fixation', $options) ? true : false);
+        	}
+			else
+			{
 				$this->setGenericAnswerFeedback(0);
 				$this->setSpecificAnswerFeedback(0);
 				$this->setAnswerFeedbackPoints(0);
 				$this->setInstantFeedbackSolution(0);
+				$this->setInstantFeedbackAnswerFixationEnabled(false);
 			}
 		}
 
@@ -11668,4 +11684,16 @@ function getAnswerFeedbackPoints()
 	{
 		return $this->showGradingMarkEnabled;
 	}
+
+	public function setInstantFeedbackAnswerFixationEnabled($instantFeedbackAnswerFixationEnabled)
+	{
+		$this->instantFeedbackAnswerFixationEnabled = $instantFeedbackAnswerFixationEnabled;
+	}
+
+	public function isInstantFeedbackAnswerFixationEnabled()
+	{
+		return $this->instantFeedbackAnswerFixationEnabled;
+	}
+	
+	
 }

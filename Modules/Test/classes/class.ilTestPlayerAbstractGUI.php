@@ -1910,4 +1910,19 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$this->ctrl->setParameterByClass('ilTestPasswordProtectionGUI', 'nextCommand', $nextCommand);
 		$this->ctrl->redirectByClass('ilTestPasswordProtectionGUI', 'showPasswordForm');
 	}
+
+	protected function isParticipantsAnswerFixed($questionId)
+	{
+		if( !$this->object->isInstantFeedbackAnswerFixationEnabled() )
+		{
+			return false;
+		}
+
+		if( !$this->testSequence->isQuestionChecked($questionId) )
+		{
+			return false;
+		}
+
+		return true;
+	}
 }
