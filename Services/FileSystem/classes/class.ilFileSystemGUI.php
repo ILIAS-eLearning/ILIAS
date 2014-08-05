@@ -576,40 +576,56 @@ class ilFileSystemGUI
 			? $this->main_dir."/".$cur_subdir
 			: $this->main_dir;
 
-
-		include_once 'Services/FileSystem/classes/class.ilUploadFiles.php';
-
+		$tgt_file = null;
+		
 		if (is_file($_FILES["new_file"]["tmp_name"]))
 		{
-			move_uploaded_file($_FILES["new_file"]["tmp_name"],
-				$cur_dir."/".ilUtil::stripSlashes($_FILES["new_file"]["name"]));
-			if (is_file($cur_dir."/".ilUtil::stripSlashes($_FILES["new_file"]["name"])))
-			{
-				ilUtil::sendSuccess($lng->txt("cont_file_created"), true);
-				$this->setPerformedCommand("create_file",
-					array("name" => ilUtil::stripSlashes($_FILES["new_file"]["name"])));
-
-			}
+			$tgt_file = $cur_dir."/".ilUtil::stripSlashes($_FILES["new_file"]["name"]);
+			
+			move_uploaded_file($_FILES["new_file"]["tmp_name"], $tgt_file);
+			
 		}
 		elseif ($_POST["uploaded_file"])
-		{
+		{					
+			include_once 'Services/FileSystem/classes/class.ilUploadFiles.php';
+
 			// check if the file is in the ftp directory and readable
 			if (ilUploadFiles::_checkUploadFile($_POST["uploaded_file"]))
 			{
+				$tgt_file = $cur_dir."/".ilUtil::stripSlashes($_POST["uploaded_file"]);			
+				
 				// copy uploaded file to data directory
-				ilUploadFiles::_copyUploadFile($_POST["uploaded_file"],
-					$cur_dir."/".ilUtil::stripSlashes($_POST["uploaded_file"]));
-			}
-			if (is_file($cur_dir."/".ilUtil::stripSlashes($_POST["uploaded_file"])))
-			{
-				ilUtil::sendSuccess($lng->txt("cont_file_created"), true);
-				$this->setPerformedCommand("create_file",
-					array("name" => ilUtil::stripSlashes($_POST["uploaded_file"])));
-			}
+				ilUploadFiles::_copyUploadFile($_POST["uploaded_file"], $tgt_file);
+			}			
 		}
 		else if (trim($_FILES["new_file"]["name"]) == "")
 		{
 			ilUtil::sendFailure($lng->txt("cont_enter_a_file"), true);
+		}
+		
+		if($tgt_file && is_file($tgt_file))
+		{			
+			$unzip = null;
+			
+			// extract zip?						
+			include_once("./Services/Utilities/classes/class.ilMimeTypeUtil.php");					
+			if(ilMimeTypeUtil::getMimeType($tgt_file) == "application/zip")
+			{
+				$this->ctrl->setParameter($this, "upfile", basename($tgt_file));
+				$url = $this->ctrl->getLinkTarget($this, "unzipFile");
+				$this->ctrl->setParameter($this, "upfile", "");
+				
+				include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
+				$unzip = ilLinkButton::getInstance();
+				$unzip->setCaption("unzip");
+				$unzip->setUrl($url);
+				$unzip = " ".$unzip->render();
+			}
+			
+			ilUtil::sendSuccess($lng->txt("cont_file_created").$unzip, true);
+			
+			$this->setPerformedCommand("create_file",
+				array("name" => substr($tgt_file, strlen($this->main_dir)+1)));		
 		}
 
 		$this->ctrl->saveParameter($this, "cdir");
@@ -710,24 +726,35 @@ class ilFileSystemGUI
 	{
 		global $lng;
 		
-		if (!isset($_POST["file"]))
+		if (isset($_GET["upfile"]))
 		{
-			$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+			$file = basename($_GET["upfile"]);
 		}
+		else
+		{			
+			if (!isset($_POST["file"]))
+			{
+				$this->ilias->raiseError($this->lng->txt("no_checkbox"),$this->ilias->error_obj->MESSAGE);
+			}
 
-		if (count($_POST["file"]) > 1)
-		{
-			$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
+			if (count($_POST["file"]) > 1)
+			{
+				$this->ilias->raiseError($this->lng->txt("cont_select_max_one_item"),$this->ilias->error_obj->MESSAGE);
+			}
+			
+			$file = basename($_POST["file"][0]);			
 		}
 
 		$cur_subdir = str_replace(".", "", ilUtil::stripSlashes($_GET["cdir"]));
 		$cur_dir = (!empty($cur_subdir))
 			? $this->main_dir."/".$cur_subdir
 			: $this->main_dir;
-		$file = $cur_dir."/".ilUtil::stripSlashes($_POST["file"][0]);
+		$file = $cur_dir."/".ilUtil::stripSlashes($file);
 
 		if (@is_file($file))
 		{
+			$cur_files = array_keys(ilUtil::getDir($cur_dir));
+			
 			if ($this->getAllowDirectories())
 			{
 				ilUtil::unzip($file, true);
@@ -735,6 +762,39 @@ class ilFileSystemGUI
 			else
 			{
 				ilUtil::unzip($file, true, true);
+			}
+			
+			$new_files = array_keys(ilUtil::getDir($cur_dir));
+			
+			$diff = array_diff($new_files, $cur_files);					
+			if(sizeof($diff))
+			{
+				if ($this->getAllowDirectories())
+				{
+					include_once("./Services/Utilities/classes/class.ilFileUtils.php");
+					$new_files = array();
+					
+					foreach($diff as $new_item)
+					{
+						if(is_dir($cur_dir."/".$new_item))
+						{
+							ilFileUtils::recursive_dirscan($cur_dir."/".$new_item, $new_files);
+						}
+					}
+					
+					if(is_array($new_files["path"]))
+					{						
+						foreach($new_files["path"] as $idx => $path)
+						{
+							$path = substr($path, strlen($this->main_dir)+1);
+							$diff[] = $path.$new_files["file"][$idx];							
+						}
+					}					
+				}
+				
+				$this->setPerformedCommand("unzip_file",
+					array("name" => substr($file, strlen($this->main_dir)+1), 						
+						"added" => $diff));
 			}
 		}
 

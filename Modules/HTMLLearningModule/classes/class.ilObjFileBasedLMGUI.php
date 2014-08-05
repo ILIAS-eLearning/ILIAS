@@ -107,14 +107,54 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 				$ilTabs->activateTab('id_list_files');
 				$fs_gui =& new ilFileSystemGUI($this->object->getDataDirectory());
 				$fs_gui->activateLabels(true, $this->lng->txt("cont_purpose"));
-				$fs_gui->setTableId("htlmfs".$this->object->getId());
+				$fs_gui->setTableId("htlmfs".$this->object->getId());			
 				if ($this->object->getStartFile() != "")
 				{
 					$fs_gui->labelFile($this->object->getStartFile(),
 						$this->lng->txt("cont_startfile"));
-				}
+				}							
 				$fs_gui->addCommand($this, "setStartFile", $this->lng->txt("cont_set_start_file"));
+				
 				$ret =& $this->ctrl->forwardCommand($fs_gui);
+				
+				// try to set start file automatically
+				if (!$this->object->getStartFile())
+				{					
+					$do_update = false;
+										
+					$pcommand = $fs_gui->getLastPerformedCommand();										
+					if (is_array($pcommand))
+					{
+						$valid = array("index.htm", "index.html", "start.htm", "start.html");						
+						if($pcommand["cmd"] == "create_file")
+						{
+							$file = strtolower(basename($pcommand["name"]));
+							if(in_array($file, $valid))
+							{
+								$this->object->setStartFile($pcommand["name"]);
+								$do_update = true;
+							}
+						}
+						else if($pcommand["cmd"] == "unzip_file")
+						{
+							foreach($pcommand["added"] as $file)
+							{
+								if(in_array(basename($file), $valid))
+								{
+									$this->object->setStartFile($file);
+									$do_update = true;
+									break;
+								}
+							}
+						}				
+					}
+					
+					if($do_update)
+					{
+						$this->object->update();
+						$this->ctrl->redirectByClass("ilfilesystemgui", "listFiles");
+					}
+				}
 				break;
 
 			case "ilinfoscreengui":

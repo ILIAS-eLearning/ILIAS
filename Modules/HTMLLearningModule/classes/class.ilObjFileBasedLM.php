@@ -119,13 +119,17 @@ class ilObjFileBasedLM extends ilObject
 	}
 
 	function getStartFile()
-	{
-		return $this->start_file;
+	{		
+		return $this->start_file;		
 	}
 
 	function setStartFile($a_file)
 	{
-		$this->start_file = $a_file;
+		if($a_file &&
+			file_exists($this->getDataDirectory()."/".$a_file))
+		{				
+			$this->start_file = $a_file;
+		}
 	}
 
 	function setOnline($a_online)
