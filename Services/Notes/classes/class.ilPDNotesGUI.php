@@ -116,7 +116,7 @@ class ilPDNotesGUI
 	*/
 	function view()
 	{
-		global $ilUser, $lng;
+		global $ilUser, $lng, $ilSetting, $ilAccess;
 
 		//$this->tpl->addBlockFile("ADM_CONTENT", "objects", "tpl.table.html")
 		include_once("Services/Notes/classes/class.ilNoteGUI.php");
@@ -146,11 +146,13 @@ class ilPDNotesGUI
 		{
 			if ($first)	// take first one as default
 			{
-				$this->current_rel_obj = $r["rep_obj_id"];
+				$this->current_rel_obj = $r["rep_obj_id"];				
+				$current_ref_ids = $r["ref_ids"];				
 			}
 			if ($r["rep_obj_id"] == $ilUser->getPref("pd_notes_rel_obj".$this->getMode()))
 			{
 				$this->current_rel_obj = $r["rep_obj_id"];
+				$current_ref_ids = $r["ref_ids"];		
 			}
 			$first = false;
 		}		
@@ -173,6 +175,21 @@ class ilPDNotesGUI
 		{
 			$notes_gui->enablePrivateNotes(false);
 			$notes_gui->enablePublicNotes(true);
+			
+			// #13707
+			if ($this->current_rel_obj > 0 && 
+				sizeof($current_ref_ids) &&
+				$ilSetting->get("comments_del_tutor", 1)) 
+			{
+				foreach($current_ref_ids as $ref_id)
+				{
+					if($ilAccess->checkAccess("write", "", $ref_id))
+					{
+						$notes_gui->enablePublicNotesDeletion(true);
+						break;
+					}	
+				}
+			}																	
 		}
 		$notes_gui->enableHiding(false);
 		$notes_gui->enableTargets(true);
@@ -187,7 +204,14 @@ class ilPDNotesGUI
 		}
 		else
 		{
-			$html = $notes_gui->getNotesHTML();
+			if ($this->getMode() == ilPDNotesGUI::PRIVATE_NOTES)
+			{
+				$html = $notes_gui->getOnlyNotesHTML();
+			}
+			else
+			{
+				$html = $notes_gui->getOnlyCommentsHTML();
+			}			
 		}
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.pd_notes.html", "Services/Notes");

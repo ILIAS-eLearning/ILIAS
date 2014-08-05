@@ -568,6 +568,8 @@ class ilNote
 				$ref_ids = ilObject::_getAllReferences($rep["rep_obj_id"]);
 				if($ref_ids)
 				{
+					$reps[$idx]["ref_ids"] = array_values($ref_ids);
+					
 					foreach($ref_ids as $ref_id)
 					{
 						if(!$tree->isDeleted($ref_id))
@@ -586,6 +588,8 @@ class ilNote
 					$node_id = $wsp_tree->lookupNodeId($rep["rep_obj_id"]);
 					if($node_id)
 					{
+						$reps[$idx]["wsp_id"] = $node_id;
+						
 						$has_active_ref = true;
 					}
 				}
