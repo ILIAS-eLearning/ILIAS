@@ -634,26 +634,30 @@ class ilObjPollGUI extends ilObject2GUI
 	 */
 	function _goto($a_target)
 	{						
-		global $tree;
+		global $tree, $ilAccess;
 		
 		$id = explode("_", $a_target);		
+		$ref_id = $id[0];
+					
+		// #13728 - used in notification mostly
+		if ($ilAccess->checkAccess("write", "", $ref_id))
+		{
+			$_GET["baseClass"] = "ilRepositoryGUI";	
+			$_GET["ref_id"] = $ref_id;		
+			$_GET["cmd"] = "showParticipants";		
+			include("ilias.php");
+			exit;		 
+		}
+		else
+		{
+			// is sideblock: so show parent instead
+			$container_id = $tree->getParentId($ref_id);
 
-		// is sideblock: so show parent instead
-		$container_id = $tree->getParentId($id[0]);
-		
-		// #11810
-		include_once "Services/Link/classes/class.ilLink.php";
-		ilUtil::redirect(ilLink::_getLink($container_id).
-			"#poll".ilObject::_lookupObjId($id[0]));
-		
-		/*
-		$_GET["baseClass"] = "ilRepositoryGUI";	
-		$_GET["ref_id"] = $container_id;		
-		$_GET["cmd"] = "render";		
-		
-		include("ilias.php");
-		exit;		 
-		*/
+			// #11810
+			include_once "Services/Link/classes/class.ilLink.php";
+			ilUtil::redirect(ilLink::_getLink($container_id).
+				"#poll".ilObject::_lookupObjId($id[0]));
+		}		
 	}
 }
 
