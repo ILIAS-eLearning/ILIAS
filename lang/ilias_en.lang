@@ -14315,9 +14315,9 @@ content#:#cont_edit_definitions#:#Edit Definitions
 content#:#cont_edit_definition#:#Edit Definition
 poll#:#poll_mode#:#Mode
 poll#:#poll_mode_anonymous#:#Anonymous
-poll#:#poll_mode_anonymous_info#:#Votes cannot be traced back to users.
+poll#:#poll_mode_anonymous_info#:#Votes cannot be traced back to participants.
 poll#:#poll_mode_personal#:#Personal
-poll#:#poll_mode_personal_info#:#A list of users with their respective votes is available when having sufficient permission.
+poll#:#poll_mode_personal_info#:#A list of participants with their respective votes is available when having sufficient permission.
 poll#:#poll_non_anonymous_warning#:#Votes are not anonymized for the poll owner.
 poll#:#poll_result_answers#:#Votes
 poll#:#poll_result_users#:#Participants
