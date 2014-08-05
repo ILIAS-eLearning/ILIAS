@@ -2285,3 +2285,41 @@ if(!$ilDB->tableColumnExists('container_sorting_set', 'sort_direction'))
 		));
 }
 ?>
+<#4284>
+<?php
+if( !$ilDB->tableExists('tst_seq_qst_checked') )
+{
+	$ilDB->createTable('tst_seq_qst_checked', array(
+		'active_fi' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'pass' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'question_fi' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		)
+	));
+
+	$ilDB->addPrimaryKey('tst_seq_qst_checked',array('active_fi','pass', 'question_fi'));
+}
+
+if( !$ilDB->tableColumnExists('tst_tests', 'inst_fb_answer_fixation') )
+{
+	$ilDB->addTableColumn('tst_tests', 'inst_fb_answer_fixation', array(
+		'type' => 'integer',
+		'length' => 1,
+		'notnull' => false,
+		'default' => null
+	));
+}
+?>
