@@ -12970,7 +12970,7 @@ help#:#help_tooltips_and_help#:#Tooltips und Handlungsanweisungen
 help#:#help_help_only#:#Nur Handlungsanweisungen
 help#:#help_tooltips_only#:#Nur Tooltips
 help#:#help_set_mode#:#Hilfemodus setzen
-poll#:#poll_result#:#Abstimmungsergebnis
+poll#:#poll_result#:#Ergebnisse
 fold#:#fold_copy#:#Ordner kopieren
 rbac#:#rfil_delete#:#ECS-Kategorie löschen
 rbac#:#rfil_edit_permission#:#Rechteeinstellungen ändern
@@ -14303,7 +14303,7 @@ obj#:#obj_deactivate_multilang_conf#:#Wollen Sie die Unterstützung für mehrspr
 obj#:#obj_multilang_deactivated#:#Die Unterstützung für mehrsprachige Inhalte wurde deaktiviert.
 cntr#:#cntr_container_only_on_their_own#:#Kategorien, Kurse, Gruppen und Ordner können nur einzeln kopiert werden. Bitte wählen Sie nur ein solches Objekt aus.
 cntr#:#objects_duplicated#:#Die Objekte wurden kopiert.
-poll#:#poll_max_number_of_answers#:#Maximale Anzahl Antworten je Benutzer
+poll#:#poll_max_number_of_answers#:#Maximale Anzahl Antworten je Teilnehmer
 poll#:#poll_vote_error_single#:#Wählen Sie eine Antwort aus.
 poll#:#poll_vote_error_multi#:#Wählen Sie maximal %s Antworten aus.
 poll#:#poll_result_sorting#:#Sortierung
@@ -14313,9 +14313,9 @@ content#:#cont_edit_definitions#:#Definitionen bearbeiten
 content#:#cont_edit_definition#:#Definition bearbeiten
 poll#:#poll_mode#:#Modus
 poll#:#poll_mode_anonymous#:#Anonym
-poll#:#poll_mode_anonymous_info#:#Stimmen können Nutzern nicht zugeordnet werden.
+poll#:#poll_mode_anonymous_info#:#Abgegebene Stimmen können den Teilnehmenden nicht zugeordnet werden.
 poll#:#poll_mode_personal#:#Personalisiert
-poll#:#poll_mode_personal_info#:#A Liste der Nutzer mit ihren Stimmen ist mit ausreichenden Rechten verfügbar.
+poll#:#poll_mode_personal_info#:#Eine Liste der Teilnehmenden mit den abgegebenen Stimmen ist mit ausreichenden Rechten verfügbar.
 poll#:#poll_non_anonymous_warning#:#Die Stimmen werden für den Ersteller der Abstimmung nicht anonymisiert.
 poll#:#poll_result_answers#:#Stimmen
 poll#:#poll_result_users#:#Teilnehmer
