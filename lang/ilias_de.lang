@@ -14316,7 +14316,7 @@ poll#:#poll_mode_anonymous#:#Anonym
 poll#:#poll_mode_anonymous_info#:#Stimmen können Nutzern nicht zugeordnet werden.
 poll#:#poll_mode_personal#:#Personalisiert
 poll#:#poll_mode_personal_info#:#A Liste der Nutzer mit ihren Stimmen ist mit ausreichenden Rechten verfügbar.
-poll#:#poll_non_anonymous_warning#:#Dies ist eine nicht-anonyme Abstimmung.
+poll#:#poll_non_anonymous_warning#:#Die Stimmen werden für den Ersteller der Abstimmung nicht anonymisiert.
 poll#:#poll_result_answers#:#Stimmen
 poll#:#poll_result_users#:#Teilnehmer
 user#:#usr_id#:#Systeminterne ID
@@ -14554,3 +14554,4 @@ exc#:#exc_comment_for_learner_info#:#Es wird eine Benachrichtigung an den Benutz
 common#:#sorting_direction#:#Sortierungsrichtung
 common#:#sorting_desc#:#Absteigend
 common#:#sorting_asc#:#Aufsteigend
+poll#:#poll_anonymous_warning#:#Die Stimmen werden für den Ersteller der Abstimmung anonymisiert.

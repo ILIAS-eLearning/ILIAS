@@ -109,12 +109,17 @@ class ilPollBlockGUI extends ilBlockGUI
 			
 			if($this->poll_block->mayVote($ilUser->getId()))
 			{						
+				$this->tpl->setCurrentBlock("mode_info_bl");			
 				if($this->poll_block->getPoll()->getNonAnonymous())
-				{
-					$this->tpl->setCurrentBlock("non_anon_bl");				
-					$this->tpl->setVariable("NON_ANONYMOUS", $lng->txt("poll_non_anonymous_warning"));
-					$this->tpl->parseCurrentBlock();
+				{						
+					$mode_info = $lng->txt("poll_non_anonymous_warning");					
 				}
+				else
+				{
+					$mode_info = $lng->txt("poll_anonymous_warning");	
+				}
+				$this->tpl->setVariable("MODE_INFO", $mode_info);
+				$this->tpl->parseCurrentBlock();
 
 				$is_multi_answer = ($this->poll_block->getPoll()->getMaxNumberOfAnswers() > 1);
 

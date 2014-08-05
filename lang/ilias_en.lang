@@ -14318,7 +14318,7 @@ poll#:#poll_mode_anonymous#:#Anonymous
 poll#:#poll_mode_anonymous_info#:#Votes cannot be traced back to users.
 poll#:#poll_mode_personal#:#Personal
 poll#:#poll_mode_personal_info#:#A list of users with their respective votes is available when having sufficient permission.
-poll#:#poll_non_anonymous_warning#:#This is a non-anonymous poll.
+poll#:#poll_non_anonymous_warning#:#Votes are not anonymized for the poll owner.
 poll#:#poll_result_answers#:#Votes
 poll#:#poll_result_users#:#Participants
 user#:#usr_id#:#System ID
@@ -14572,3 +14572,4 @@ common#:#sorting_creation_info#:#Content items are arranged automatically by the
 common#:#sorting_direction#:#Sorting Direction
 common#:#sorting_desc#:#Descendent
 common#:#sorting_asc#:#Ascending
+poll#:#poll_anonymous_warning#:#Votes are anonymized for the poll owner.
