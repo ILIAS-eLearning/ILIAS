@@ -38,7 +38,7 @@ class ilContainerSortingSettings
 	
 	protected $obj_id;
 	protected $sort_mode = ilContainer::SORT_TITLE;
-	protected $sort_direction = ilContainer::SORT_DIRECTION_DESC;
+	protected $sort_direction = ilContainer::SORT_DIRECTION_ASC;
 	
 	protected $db;
 	
@@ -49,7 +49,7 @@ class ilContainerSortingSettings
 	 * @param
 	 * 
 	 */
-	public function __construct($a_obj_id)
+	public function __construct($a_obj_id = 0)
 	{
 	 	global $ilDB;
 	 	
@@ -150,19 +150,6 @@ class ilContainerSortingSettings
 		return ilContainer::SORT_TITLE;
 	}
 	
-	
-	/**
-	 * is manual sorting enabled
-	 *
-	 * @access public
-	 * @param int obj_id
-	 * 
-	 */
-	public function _isManualSortingEnabled($a_obj_id)
-	{
-	 	return self::_lookupSortMode($a_obj_id) == ilContainer::SORT_MANUAL;
-	}
-	
 	/**
 	 * Clone settings
 	 *
@@ -213,7 +200,7 @@ class ilContainerSortingSettings
 	 */
 	public function getSortDirection()
 	{
-		return $this->sort_direction ? $this->sort_direction : ilContainer::SORT_DIRECTION_DESC;
+		return $this->sort_direction ? $this->sort_direction : ilContainer::SORT_DIRECTION_ASC;
 	}
 	
 	/**

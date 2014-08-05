@@ -60,8 +60,8 @@ class ilContainer extends ilObject
 	const SORT_INHERIT = 3;
 	const SORT_CREATION = 4;
 	
-	const SORT_DIRECTION_DESC = 0;
-	const SORT_DIRECTION_ASC = 1;
+	const SORT_DIRECTION_ASC = 0;
+	const SORT_DIRECTION_DESC = 1;
 
 	static $data_preloaded = false;
 	

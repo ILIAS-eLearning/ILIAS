@@ -519,40 +519,6 @@ class ilObjRootFolderGUI extends ilContainerGUI
 
 		ilObjectGUI::_gotoRepositoryRoot(true);
 	}
-
-	/**
-	 * show sorting settings
-	 *
-	 * @access protected
-	 */
-	protected function showSortingSettings()
-	{
-		$this->tpl->setVariable('TXT_SORTING',$this->lng->txt('sorting_header'));
-		$this->tpl->setVariable('TXT_SORT_TITLE',$this->lng->txt('sorting_title_header'));
-		$this->tpl->setVariable('INFO_SORT_TITLE',$this->lng->txt('sorting_info_title'));
-		$this->tpl->setVariable('TXT_SORT_MANUAL',$this->lng->txt('sorting_manual_header'));
-		$this->tpl->setVariable('INFO_SORT_MANUAL',$this->lng->txt('sorting_info_manual'));
-		
-		include_once('Services/Container/classes/class.ilContainerSortingSettings.php');
-		if($this->getCreationMode())
-		{
-			$settings = new ilContainerSortingSettings(0);
-		}
-		else
-		{
-			$settings = new ilContainerSortingSettings($this->object->getId());
-		}
-		
-		
-		$this->tpl->setVariable('RADIO_SORT_TITLE',ilUtil::formRadioButton(
-			$settings->getSortMode() == ilContainer::SORT_TITLE,
-			'sorting',
-			ilContainer::SORT_TITLE));
-		$this->tpl->setVariable('RADIO_SORT_MANUAL',ilUtil::formRadioButton(
-			$settings->getSortMode() == ilContainer::SORT_MANUAL,
-			'sorting',
-			ilContainer::SORT_MANUAL));
-	}
 	
 }
 ?>

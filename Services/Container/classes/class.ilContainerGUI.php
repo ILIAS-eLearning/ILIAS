@@ -3938,6 +3938,13 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$direction->setValue($sorting_settings->getSortDirection());
 		$direction->setRequired(TRUE);
 		
+		// asc
+		$asc = new ilRadioOption(
+				$this->lng->txt('sorting_asc'),
+				ilContainer::SORT_DIRECTION_ASC
+		);
+		$direction->addOption($asc);
+
 		// desc
 		$desc = new ilRadioOption(
 				$this->lng->txt('sorting_desc'),
@@ -3945,12 +3952,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		);
 		$direction->addOption($desc);
 		
-		// desc
-		$asc = new ilRadioOption(
-				$this->lng->txt('sorting_asc'),
-				ilContainer::SORT_DIRECTION_ASC
-		);
-		$direction->addOption($asc);
 		$element->addSubItem($direction);
 		
 		return $element;

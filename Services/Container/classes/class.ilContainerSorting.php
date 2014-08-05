@@ -21,6 +21,9 @@
 	+-----------------------------------------------------------------------------+
 */
 
+include_once './Services/Container/classes/class.ilContainer.php';
+include_once('Services/Container/classes/class.ilContainerSortingSettings.php');
+
 /** 
 * 
 * @author Stefan Meyer <meyer@leifos.com>
@@ -36,8 +39,7 @@ class ilContainerSorting
 	protected $obj_id;
 	protected $db;
 	
-	protected $manual_sort_enabled = false;
-	protected $sorting_mode = 0;
+	protected $sorting_settings = null;
 	
 	const ORDER_DEFAULT = 999999;
 
@@ -59,17 +61,13 @@ class ilContainerSorting
 	}
 	
 	/**
-	 * get sort mode
-	 *
-	 * @access public
-	 * @param
-	 * @return
+	 * Get sorting settings
+	 * @return ilContainerSortingSettings
 	 */
-	public function getSortMode()
+	public function getSortingSettings()
 	{
-		return $this->sorting_mode;
+		return $this->sorting_settings;
 	}
-	
 	
 	/**
 	 * get instance by obj_id
@@ -176,16 +174,21 @@ class ilContainerSorting
 	public function sortItems($a_items)
 	{
 		$sorted = array();
-		if(!$this->manual_sort_enabled)
+		if($this->getSortingSettings()->getSortMode() != ilContainer::SORT_MANUAL)
 		{
-			switch($this->getSortMode())
+			switch($this->getSortingSettings()->getSortMode())
 			{
 				case ilContainer::SORT_TITLE:
 					foreach((array) $a_items as $type => $data)
 					{
 						// this line used until #4389 has been fixed (3.10.6)
 						// reanimated with 4.4.0
-						$sorted[$type] = ilUtil::sortArray((array) $data,'title','asc',false);
+						$sorted[$type] = ilUtil::sortArray(
+								(array) $data,
+								'title',
+								($this->getSortingSettings()->getSortDirection() == ilContainer::SORT_DIRECTION_ASC) ? 'asc' : 'desc',
+								FALSE
+						);
 
 						// the next line tried to use db sorting and has replaced sortArray due to bug #4389
 						// but leads to bug #12165. PHP should be able to do a proper sorting, if the locale
@@ -199,7 +202,26 @@ class ilContainerSorting
 				case ilContainer::SORT_ACTIVATION:
 					foreach((array) $a_items as $type => $data)
 					{
-						$sorted[$type] = ilUtil::sortArray((array) $data,'start','asc',true);
+						$sorted[$type] = ilUtil::sortArray(
+								(array) $data,
+								'start',
+								($this->getSortingSettings()->getSortDirection() == ilContainer::SORT_DIRECTION_ASC) ? 'asc' : 'desc',
+								TRUE
+						);
+						
+					}
+					return $sorted ? $sorted : array();
+					
+					
+				case ilContainer::SORT_CREATION:
+					foreach((array) $a_items as $type => $data)
+					{
+						$sorted[$type] = ilUtil::sortArray(
+								(array) $data,
+								'create_date',
+								($this->getSortingSettings()->getSortDirection() == ilContainer::SORT_DIRECTION_ASC) ? 'asc' : 'desc',
+								TRUE
+						);
 					}
 					return $sorted ? $sorted : array();
 			}
@@ -253,10 +275,9 @@ class ilContainerSorting
 	 */
 	public function sortSubItems($a_parent_type,$a_parent_id,$a_items)
 	{
-		switch($this->getSortMode())
+		switch($this->getSortingSettings()->getSortMode())
 		{
 			case ilContainer::SORT_MANUAL:
-				// Add position
 				$items = array();
 				foreach($a_items as $key => $item)
 				{
@@ -264,28 +285,35 @@ class ilContainerSorting
 					$items[$key]['position'] = isset($this->sorting[$a_parent_type][$a_parent_id][$item['child']]) ? 
 													$this->sorting[$a_parent_type][$a_parent_id][$item['child']] : self::ORDER_DEFAULT;
 				}
-				return ilUtil::sortArray((array) $items,'position','asc',true);
+				return ilUtil::sortArray((array) $items,'position','asc',TRUE);
 				
 
-			case ilContainer::SORT_TITLE:
+			case ilContainer::SORT_ACTIVATION:
+				return ilUtil::sortArray(
+					(array) $a_items,
+					'start',
+					($this->getSortingSettings()->getSortDirection() == ilContainer::SORT_DIRECTION_ASC) ? 'asc' : 'desc',
+					TRUE
+				);
+
+			case ilContainer::SORT_CREATION:
+				return ilUtil::sortArray(
+					(array) $a_items,
+					'create_date',
+					($this->getSortingSettings()->getSortDirection() == ilContainer::SORT_DIRECTION_ASC) ? 'asc' : 'desc',
+					TRUE
+				);
+
 			default:
-				return ilUtil::sortArray((array) $a_items,'title','asc',true);
+			case ilContainer::SORT_TITLE:
+				return ilUtil::sortArray(
+					(array) $a_items,
+					'title',
+					($this->getSortingSettings()->getSortDirection() == ilContainer::SORT_DIRECTION_ASC) ? 'asc' : 'desc',
+					FALSE
+				);
 		}
 
-	}
-	
-	
-	
-		
-	/**
-	 * is manual sorting enabled
-	 *
-	 * @access public
-	 * @return bool
-	 */
-	public function isManualSortingEnabled()
-	{
-		return (bool) $this->manual_sort_enabled;
 	}
 	
 	/**
@@ -392,15 +420,26 @@ class ilContainerSorting
 	 */
 	private function read()
 	{
-	 	if(!$this->obj_id)
+	 	global $tree;
+		
+		if(!$this->obj_id)
 	 	{
 	 		return true;
 	 	}
-	 	
-	 	include_once('Services/Container/classes/class.ilContainerSortingSettings.php');
-	 	$this->manual_sort_enabled = ilContainerSortingSettings::_isManualSortingEnabled($this->obj_id);
-	 	$this->sorting_mode = ilContainerSortingSettings::_lookupSortMode($this->obj_id);
-	 	
+		
+		$this->sorting_settings = ilContainerSortingSettings::getInstanceByObjId($this->obj_id);
+		if($this->getSortingSettings()->getSortMode() == ilContainer::SORT_INHERIT)
+		{
+			// lookup settings of parent course
+			$ref_ids = ilObject::_getAllReferences($this->obj_id);
+			$ref_id = end($ref_ids);
+			$crs_ref_id = $tree->checkForParentType($ref_id,'crs');
+			$crs_obj_id = ilObject::_lookupObjId($crs_ref_id);
+			
+			$crs_settings = ilContainerSortingSettings::getInstanceByObjId($crs_obj_id);
+			$this->sorting_settings = clone $crs_settings;
+			
+		}
 	 	$query = "SELECT * FROM container_sorting ".
 	 		"WHERE obj_id = ".$this->db->quote($this->obj_id ,'integer')." ORDER BY position";
 	 	$res = $this->db->query($query);
