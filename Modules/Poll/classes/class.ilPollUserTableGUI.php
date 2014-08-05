@@ -24,8 +24,8 @@ class ilPollUserTableGUI extends ilTable2GUI
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
 		$this->addColumn($lng->txt("login"), "login");
-		$this->addColumn($lng->txt("lastname"), "firstname");
-		$this->addColumn($lng->txt("firstname"), "lastname");
+		$this->addColumn($lng->txt("lastname"), "lastname");
+		$this->addColumn($lng->txt("firstname"), "firstname");
 		
 		foreach($this->getParentObject()->object->getAnswers() as $answer)
 		{
@@ -89,9 +89,9 @@ class ilPollUserTableGUI extends ilTable2GUI
 	
 	protected function fillRowCSV($a_csv, $a_set)
 	{
-		$a_csv->addColumn($a_set["login"]);
-		$a_csv->addColumn($a_set["firstname"]);
+		$a_csv->addColumn($a_set["login"]);		
 		$a_csv->addColumn($a_set["lastname"]);
+		$a_csv->addColumn($a_set["firstname"]);
 		foreach($this->answer_ids as $answer_id)
 		{			
 			if($a_set["answer".$answer_id])
@@ -108,9 +108,9 @@ class ilPollUserTableGUI extends ilTable2GUI
 	
 	protected function fillRowExcel($a_worksheet, &$a_row, $a_set)
 	{
-		$a_worksheet->write($a_row, 0, $a_set["login"]);
-		$a_worksheet->write($a_row, 1, $a_set["firstname"]);
-		$a_worksheet->write($a_row, 2, $a_set["lastname"]);		
+		$a_worksheet->write($a_row, 0, $a_set["login"]);		
+		$a_worksheet->write($a_row, 1, $a_set["lastname"]);		
+		$a_worksheet->write($a_row, 2, $a_set["firstname"]);
 		$col = 2;
 		foreach($this->answer_ids as $answer_id)
 		{			
