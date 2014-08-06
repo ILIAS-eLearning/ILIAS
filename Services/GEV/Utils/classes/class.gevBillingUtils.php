@@ -21,9 +21,10 @@ class gevBillingUtils {
 	static protected $instance = null;
 
 	protected function __construct() {
-		global $lng, $ilLog;
+		global $lng, $ilLog, $ilDB;
 		$this->lng = &$lng;
 		$this->log = &$ilLog;
+		$this->db = &$ilDB;
 		
 		$this->lng->loadLanguageModule("gev");
 	}
@@ -329,10 +330,14 @@ class gevBillingUtils {
 			}
 		}
 		$bill->update();
-		$bill->finalize();
 
 		$coupon_code = ilCoupons::getSingleton()->createCoupon((float)$bill->getAmount(), time() + 365 * 24 * 60 * 60);
 		
+		$this->db->manipulate("INSERT INTO gev_bill_coupon (bill_pk,coupon_code) VALUES "
+							  ."(".$this->db->quote($bill->getId(), "integer").", ".$this->db->quote($coupon_code, "text").")");
+
+		$bill->finalize();
+
 		$this->log->write("gevBillingUtils::createCancellationBillAndCoupon: created cancelation bill '"
 						 .$bill->getid()."' for course '".$a_crs_id."' and user '".$a_user_id."' with "
 						 ."coupon '".$coupon_code."'");

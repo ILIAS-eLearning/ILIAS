@@ -11,8 +11,6 @@ class ilGEVBillingPlugin extends ilEventHookPlugin
 	}
 	
 	final function handleEvent($a_component, $a_event, $a_parameter) {
-		//global $ilLog;
-		//$ilLog->write(print_r(array($a_component, $a_event, $a_parameter), true));
 		if ($a_component = "Services/CourseBooking" && $a_event == "setStatus") {
 			$this->bookingStatusChanged($a_parameter["crs_obj_id"], $a_parameter["user_id"]);
 		}
@@ -100,8 +98,6 @@ class ilGEVBillingPlugin extends ilEventHookPlugin
 	}
 	
 	protected function billFinalized(ilBill $a_bill) {
-		global $ilLog;
-		
 		require_once("Services/GEV/Utils/classes/class.gevBillStorage.php");
 		gevBillStorage::getInstance()->storeBill($a_bill);
 		

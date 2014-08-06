@@ -907,7 +907,7 @@ class ilBill
 			array('integer', 'integer'),
 			array(1, $this->getId())
 		);
-
+		
 		$this->db->commit();
 
 		$GLOBALS['ilAppEventHandler']->raise('Services/Billing', 'billFinalized', array('bill' => $this));

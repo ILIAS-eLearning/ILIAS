@@ -179,6 +179,7 @@ class gevMyCoursesGUI {
 	public function finalizeCancellation() {
 		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 		require_once("Services/GEV/Mailing/classes/class.gevCrsAutoMails.php");
+
 		$this->loadCourseIdAndStatus();
 		$automails = new gevCrsAutoMails($this->crs_id);
 		$crs_utils = gevCourseUtils::getInstance($this->crs_id);
@@ -196,7 +197,7 @@ class gevMyCoursesGUI {
 			if ($new_status == ilCourseBooking::STATUS_CANCELLED_WITHOUT_COSTS) {
 				$automails->send("self_cancel_booked_to_cancelled_without_costs", array($user_id));
 			}
-			else if ($new_status == ilCourseBooking::STATUS_CANCELLED_WITHOUT_COSTS) {
+			else if ($new_status == ilCourseBooking::STATUS_CANCELLED_WITH_COSTS) {
 				$automails->send("self_cancel_booked_to_cancelled_with_costs", array($user_id));
 			}
 		}

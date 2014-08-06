@@ -1162,14 +1162,14 @@ class ilPDFBill
 		$info2 = ($this->encodeSpecialChars($this->plCalculationTaxAmount));
 		$info3 = ($this->encodeSpecialChars($this->bill->getCurrency()) . " " . $this->plSideInfoForCurrentAfterTaxes);
 
-		$this->pdf->setXY($this->spaceLeft + 8 + $this->addidistX, $this->spaceText + $fontHeight * 2 + $this->addidistY * 3);
+		$this->pdf->setXY($this->spaceLeft + 9.2 + $this->addidistX, $this->spaceText + $fontHeight * 2 + $this->addidistY * 3);
 		$this->pdf->Cell(1, 0, $info1, 0, 0, 'R', 0);
-		$this->pdf->setXY($this->spaceLeft + 11 + $this->addidistX * 2, $this->spaceText + $fontHeight * 2 + $this->addidistY * 3);
+		$this->pdf->setXY($this->spaceLeft + 12.2 + $this->addidistX * 2, $this->spaceText + $fontHeight * 2 + $this->addidistY * 3);
 		$this->pdf->Cell(1, 0, $info2, 0, 0, 'R', 0);
-		$this->pdf->setXY($this->spaceLeft + 14 + $this->addidistX * 3, $this->spaceText + $fontHeight * 2 + $this->addidistY * 3);
+		$this->pdf->setXY($this->spaceLeft + 15.2 + $this->addidistX * 3, $this->spaceText + $fontHeight * 2 + $this->addidistY * 3);
 		$this->pdf->Cell(1, 0, $info3, 0, 0, 'R', 0);
 
-		$this->pdf->Line($this->spaceLeft, $this->spaceText + $fontHeight * 3 + $this->addidistY * 2, $this->spaceLeft + 11.5 + $this->additionaldistanceline, $this->spaceText + $fontHeight * 3 + $this->addidistY * 2);
+		$this->pdf->Line($this->spaceLeft, $this->spaceText + $fontHeight * 3 + $this->addidistY * 2, $this->spaceLeft + 12.7 + $this->additionaldistanceline, $this->spaceText + $fontHeight * 3 + $this->addidistY * 2);
 	}
 
 	/**
@@ -1189,15 +1189,15 @@ class ilPDFBill
 			$height = $this->spaceText + $fontHeight * 2.5 + $this->distanceindex + $this->addidistY * 1.5;
 
 			$this->pdf->setXY($this->spaceLeft, $height);
-			$this->pdf->Cell(5, 0, ($this->encodeSpecialChars($item->getTitle())), 0, 0, 'L', 0);
+			$this->pdf->Cell(7, 0, ($this->encodeSpecialChars($item->getTitle())), 0, 0, 'L', 0);
 
-			$this->pdf->setXY($this->spaceLeft + 8 + $this->addidistX, $height);
+			$this->pdf->setXY($this->spaceLeft + 9.2 + $this->addidistX, $height);
 			$this->pdf->Cell(1, 0, $this->round($item->getPreTaxAmount()), 0, 0, 'R', 0);
 
-			$this->pdf->setXY($this->spaceLeft + 11 + $this->addidistX * 2, $height);
+			$this->pdf->setXY($this->spaceLeft + 12.2 + $this->addidistX * 2, $height);
 			$this->pdf->Cell(1, 0, ($this->round($item->getVAT())) . " %", 0, 0, 'R', 0);
 
-			$this->pdf->setXY($this->spaceLeft + 14 + $this->addidistX * 3, $height);
+			$this->pdf->setXY($this->spaceLeft + 15.2 + $this->addidistX * 3, $height);
 			$this->pdf->Cell(1, 0, $this->round($amount), 0, 0, 'R', 0);
 
 			$this->distanceindex += $this->addidistY * 1.25;
@@ -1223,20 +1223,20 @@ class ilPDFBill
 	{
 		$this->pdf->SetLineWidth(0.05);
 		$height = $this->spaceText + $fontHeight * 3 + $distanceindex + $this->addidistY * 2;
-		$this->pdf->Line($this->spaceLeft, $this->spaceText + $fontHeight * 2.75 + $distanceindex + $this->addidistY, $this->spaceLeft + 11.5 + $this->additionaldistanceline, $this->spaceText + $fontHeight * 2.75 + $distanceindex + $this->addidistY);
+		$this->pdf->Line($this->spaceLeft, $this->spaceText + $fontHeight * 2.75 + $distanceindex + $this->addidistY, $this->spaceLeft + 12.7 + $this->additionaldistanceline, $this->spaceText + $fontHeight * 2.75 + $distanceindex + $this->addidistY);
 		$this->pdf->SetFont($this->TextFontName, $this->determineIfBoldOrItalic(true, $this->TextFontItalic), $this->TextFontSize);
 		$this->pdf->setXY($this->spaceLeft, $height);
 		$this->pdf->Cell(1, 0, $this->plCalculationTotalAmount, 0, 0, 'L', 0);
 
 		$this->pdf->SetFont($this->TextFontName, $this->determineIfBoldOrItalic($this->TextFontBold, $this->TextFontItalic), $this->TextFontSize);
-		$this->pdf->setXY($this->spaceLeft + 8 + $this->addidistX, $height);
+		$this->pdf->setXY($this->spaceLeft + 9.2 + $this->addidistX, $height);
 		$this->pdf->Cell(1, 0, $this->round($this->sumPreTax), 0, 0, 'R', 0);
-		$this->pdf->setXY($this->spaceLeft + 11 + $this->addidistX * 2, $height);
+		$this->pdf->setXY($this->spaceLeft + 12.2 + $this->addidistX * 2, $height);
 		$this->pdf->Cell(1, 0, $this->round($this->sumVAT)." ".$this->encodeSpecialChars($this->bill->getCurrency()), 0, 0, 'R', 0);
 
 
 		$this->pdf->SetFont($this->TextFontName, $this->determineIfBoldOrItalic(true, $this->TextFontItalic), $this->TextFontSize);
-		$this->pdf->setXY($this->spaceLeft + 14 + $this->addidistX * 3, $height);
+		$this->pdf->setXY($this->spaceLeft + 15.2 + $this->addidistX * 3, $height);
 		$this->pdf->Cell(1, 0, $this->round($this->sumAfterTax), 0, 0, 'R', 0);
 	}
 
@@ -1249,7 +1249,15 @@ class ilPDFBill
 
 		$this->pdf->SetFont($this->TextFontName, $this->determineIfBoldOrItalic($this->TextFontBold, $this->TextFontItalic), $this->TextFontSize);
 		$this->forwardingY = $this->pdf->WriteMultiCell($this->spaceLeft, $this->spaceText + $fontHeight * 3.5 + $distanceindex + 2, $this->encodeSpecialChars($this->plPosttext), $this->spaceRight);
-		$this->pdf->WriteText($this->spaceLeft, $this->forwardingY + 0.5, $this->encodeSpecialChars($this->plGreetings));
+		
+		$greets = explode("\n", $this->plGreetings);
+		
+		$count = 0;
+		
+		foreach ($greets as $greeting) {
+			$this->pdf->WriteText($this->spaceLeft, $this->forwardingY + 1.0 + $count * 0.8, $this->encodeSpecialChars($greeting));
+			$count += 1;
+		}
 	}
 
 	/**
@@ -1257,8 +1265,11 @@ class ilPDFBill
 	 */
 	private function createPageNumber()
 	{
-		$this->pdf->SetFont($this->DateFontName, $this->determineIfBoldOrItalic($this->DateFontBold, $this->DateFontItalic), $this->DateFontSize);
-		$this->pdf->WriteText(21 - $this->spaceRight, 29.7 - $this->spaceBottom, 1);
+		// gev-patch start
+		//$this->pdf->SetFont($this->DateFontName, $this->determineIfBoldOrItalic($this->DateFontBold, $this->DateFontItalic), $this->DateFontSize);
+		//$this->pdf->WriteText(21 - $this->spaceRight, 29.7 - $this->spaceBottom, 1);
+		//$this->pdf->WriteText($this->spaceLeft, 29.7 - $this->spaceBottom, 1);
+		// gev-patch end
 	}
 
 	/**

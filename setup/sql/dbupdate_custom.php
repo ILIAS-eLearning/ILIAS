@@ -685,3 +685,27 @@ $ilDB->createTable('gev_crs_deferred_mails', $fields);
 $ilDB->addPrimaryKey('gev_crs_deferred_mails', array('crs_id', 'mail_id', 'recipient'));
 
 ?>
+
+<#27>
+<?php
+
+// Tracking relation between coupons and bills they were created for.
+
+$fields = array (
+	'bill_pk' => array(
+		'type'    => 'integer',
+		'length'  => 4,
+		'notnull' => true,
+		'default' => 0
+	),
+	'coupon_code' => array(
+		'type'    => 'text',
+		'length'  => 255,
+		'notnull' => true
+	)
+);
+
+$ilDB->createTable('gev_bill_coupon', $fields);
+$ilDB->addPrimaryKey('gev_bill_coupon', array('bill_pk'));
+
+?>

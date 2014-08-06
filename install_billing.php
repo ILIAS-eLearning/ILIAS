@@ -25,7 +25,7 @@ echo "Started installing billing service...<br />";
 
 // Move these steps to separate database update steps in a dbupdate_custom.php file
 /* * ************************************************************************* */
-if(!$ilDB->tableExists('bill'))
+/*if(!$ilDB->tableExists('bill'))
 {
 	$fields = array(
 		'bill_pk'               => array(
@@ -138,9 +138,9 @@ if(!$ilDB->tableExists('bill'))
 	$ilDB->createTable('bill', $fields);
 	$ilDB->addPrimaryKey('bill', array('bill_pk'));
 	$ilDB->createSequence('bill');
-}
+}*/
 /* * ************************************************************************* */
-if(!$ilDB->tableExists('billitem'))
+/*if(!$ilDB->tableExists('billitem'))
 {
 	$fields = array(
 		'billitem_pk'          => array(
@@ -198,9 +198,9 @@ if(!$ilDB->tableExists('billitem'))
 	$ilDB->createTable('billitem', $fields);
 	$ilDB->addPrimaryKey('billitem', array('billitem_pk'));
 	$ilDB->createSequence('billitem');
-}
+}*/
 /* * ************************************************************************* */
-if(!$ilDB->tableExists('coupon'))
+/*if(!$ilDB->tableExists('coupon'))
 {
 	$fields = array(
 		'coupon_pk'          => array(
@@ -313,7 +313,7 @@ if(
 		$ilDB->addUniqueConstraint('bill', array('bill_number'), 'c1');
 	}
 }
-
+*/
 echo "Started installing language variables...<br />";
 
 
@@ -381,11 +381,11 @@ function addLangData($a_module, $a_lang_map, array $a_data, $a_remark)
 }
 
 $lang_data = array(
-	"billing_numberlabel" => array("Rechnungsnummer:", "Bill Number:"),
-	"billing_vat"         => array("Umsatzsteuer", "Sales Tax"),
-	"billing_net"         => array("(netto)", "(after tax)"),
-	"billing_bru"         => array("(brutto)", "(pre-tax)"),
-	"billing_val"         => array("Rechnungsbetrag", "Amount")
+	"numberlabel" => array("Rechnungsnummer", "Bill Number"),
+	"vat"         => array("Umsatzsteuer", "Sales Tax"),
+	"net"         => array("(netto)", "(after tax)"),
+	"bru"         => array("(brutto)", "(pre-tax)"),
+	"val"         => array("Rechnungsbetrag", "Amount")
 );
 addLangData("billing", array("de", "en"), $lang_data, "patch generali - Billing");
 
