@@ -343,7 +343,8 @@ class gevBookingGUI {
 		$email->setRequired(true);
 		$form->addItem($email);
 		
-		$agb = new ilCheckboxInputGUI($this->lng->txt("gev_accept_book_cond"), "agb");
+		$agb = new ilCheckboxInputGUI("", "agb");
+		$agb->setOptionTitle($this->lng->txt("gev_accept_book_cond"));
 		$form->addItem($agb);
 		
 		if($this->isWithAccomodations()) {
