@@ -31,7 +31,7 @@ class gevPDFBill extends ilPDFBill {
 		$this->setCalculationFont("Arial", 9, false, false);
 		$this->setSpaceRight(2.5);
 		// This is bad, but i don't know how to do that differently.
-		$this->setBackground(dirname(__FILE__)."/../../../../Customizing/global/skin/genv/bill_background.png");
+		$this->setBackground(ILIAS_ABSOLUTE_PATH."/Customizing/global/skin/genv/bill_background.png");
 	}
 	
 	public static function getInstance() {
