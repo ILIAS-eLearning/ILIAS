@@ -470,7 +470,7 @@ class ilPortfolioAccessHandler
 		if($a_filter["crsgrp"])
 		{
 			include_once "Services/Membership/classes/class.ilParticipants.php";
-			$part = new ilParticipants($a_filter["crsgrp"]);
+			$part = ilParticipants::getInstanceByObjId($a_filter['crsgrp']);
 			$part = $part->getParticipants();
 			if(!sizeof($part))
 			{

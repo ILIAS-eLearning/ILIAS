@@ -35,6 +35,8 @@ include_once('./Services/Membership/classes/class.ilParticipants.php');
 
 class ilGroupParticipants extends ilParticipants
 {
+	const COMPONENT_NAME = 'Modules/Group';
+	
 	protected static $instances = array();
 
 	/**
@@ -46,7 +48,7 @@ class ilGroupParticipants extends ilParticipants
 	public function __construct($a_obj_id)
 	{
 		$this->type = 'grp';
-		parent::__construct($a_obj_id);
+		parent::__construct(self::COMPONENT_NAME,$a_obj_id);
 	}
 	
 	/**

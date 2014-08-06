@@ -34,6 +34,8 @@ include_once('./Services/Membership/classes/class.ilParticipant.php');
 
 class ilCourseParticipant extends ilParticipant
 {
+	const COMPONENT_NAME = 'Modules/Course';
+	
 	protected static $instances = array();
 	
 	/**
@@ -60,7 +62,7 @@ class ilCourseParticipant extends ilParticipant
 		$this->NOTIFY_UNSUBSCRIBE = 11;
 		$this->NOTIFY_WAITING_LIST = 12; 
 		
-		parent::__construct($a_obj_id,$a_usr_id);
+		parent::__construct(self::COMPONENT_NAME,$a_obj_id,$a_usr_id);
 	}
 
 	/**

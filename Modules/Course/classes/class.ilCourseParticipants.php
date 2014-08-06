@@ -34,7 +34,10 @@ include_once('./Services/Membership/classes/class.ilParticipants.php');
 
 class ilCourseParticipants extends ilParticipants
 {
+	const COMPONENT_NAME = 'Modules/Course';
+	
 	protected static $instances = array();
+	
 	
 	/**
 	 * Singleton constructor
@@ -60,7 +63,7 @@ class ilCourseParticipants extends ilParticipants
 		$this->NOTIFY_UNSUBSCRIBE = 11;
 		$this->NOTIFY_WAITING_LIST = 12; 
 		
-		parent::__construct($a_obj_id);
+		parent::__construct(self::COMPONENT_NAME,$a_obj_id);
 	}
 
 	/**
@@ -79,7 +82,7 @@ class ilCourseParticipants extends ilParticipants
 		}
 		return self::$instances[$a_obj_id] = new ilCourseParticipants($a_obj_id);
 	}
-
+	
 	/**
 	 * Get member roles
 	 * @param int $a_ref_id

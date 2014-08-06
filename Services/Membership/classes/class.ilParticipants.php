@@ -17,8 +17,10 @@ define('IL_GRP_ADMIN',4);
 define('IL_GRP_MEMBER',5);
 
 
-class ilParticipants
+abstract class ilParticipants
 {
+	protected $component = '';
+	
 	protected $obj_id = 0;
 	protected $type = '';
 	protected $ref_id = 0;
@@ -45,13 +47,15 @@ class ilParticipants
 	 * @param int obj_id of container
 	 * 
 	 */
-	public function __construct($a_obj_id)
+	public function __construct($a_component_name, $a_obj_id)
 	{
 	 	global $ilDB,$lng;
 	 	
 	 	$this->ilDB = $ilDB;
 	 	$this->lng = $lng;
 	 
+		$this->component = $a_component_name;
+		
 	 	$this->obj_id = $a_obj_id;
 	 	$this->type = ilObject::_lookupType($a_obj_id);
 		$ref_ids = ilObject::_getAllReferences($this->obj_id);
@@ -66,6 +70,7 @@ class ilParticipants
 	 * 
 	 * @param int $a_obj_id
 	 * @return ilParticipants
+	 * @throws InvalidArgumentException
 	 */
 	public static function getInstanceByObjId($a_obj_id)
 	{
@@ -79,11 +84,24 @@ class ilParticipants
 			case 'grp':
 				include_once './Modules/Group/classes/class.ilGroupParticipants.php';
 				return ilGroupParticipants::_getInstanceByObjId($a_obj_id);
+				
+			default:
+				$GLOBALS['ilLog']->logStack();
+				$GLOBALS['ilLog']->write(__METHOD__.': Invalid obj_id given: '.$a_obj_id);
+				throw new InvalidArgumentException('Invalid obj id given');
 		}
-		// @todo proper error handling
-		return null;
 	}
 	
+	/**
+	 * Get component name
+	 * Used for raising events
+	 */
+	protected function getComponent()
+	{
+		return $this->component;
+	}
+
+
 	
 	/**
 	 * Check if (current) user has access to the participant list
@@ -697,12 +715,13 @@ class ilParticipants
 		$this->readParticipants();
 		$this->readParticipantsStatus();
 		
-		if($this->type == 'crs')
-		{
-		 	// Add event: used for ecs accounts
-			$GLOBALS['ilAppEventHandler']->raise("Modules/Course", "deleteParticipant", array('obj_id' => $this->obj_id, 'usr_id' => $a_usr_id));
-		}		
-		
+		$GLOBALS['ilAppEventHandler']->raise(
+				$this->getComponent(),
+				"deleteParticipant", 
+				array(
+					'obj_id' => $this->obj_id, 
+					'usr_id' => $a_usr_id)
+		);
 		
 		return true;
 	}
@@ -842,17 +861,15 @@ class ilParticipants
 		include_once './Services/Membership/classes/class.ilWaitingList.php';
 		ilWaitingList::deleteUserEntry($a_usr_id,$this->obj_id);
 
-		if($this->type == 'crs') {
-			$ilLog->write(__METHOD__.': Raise new event: Modules/Course addParticipant');
-			$ilAppEventHandler->raise(
-					"Modules/Course", 
-					"addParticipant", 
-					array(
-						'obj_id' => $this->obj_id,
-						'usr_id' => $a_usr_id,
-						'role_id' => $a_role)
-			);
-		}
+		$ilLog->write(__METHOD__.': Raise new event: Modules/Course|Group addParticipant');
+		$ilAppEventHandler->raise(
+				$this->getComponent(),
+				"addParticipant", 
+				array(
+					'obj_id' => $this->obj_id,
+					'usr_id' => $a_usr_id,
+					'role_id' => $a_role)
+		);
 	 	return true;
 	}
 	

@@ -37,6 +37,8 @@ abstract class ilParticipant
 	private $usr_id = 0;
 	protected $type = '';
 	private $ref_id = 0;
+	
+	private $component = '';
 
 	private $participants = false;
 	private $admins = false;
@@ -53,7 +55,7 @@ abstract class ilParticipant
 	 * @access protected
 	 * @param int obj_id of container
 	 */
-	protected function __construct($a_obj_id,$a_usr_id)
+	protected function __construct($a_component_name, $a_obj_id, $a_usr_id)
 	{
 	 	global $ilDB,$lng;
 	 	
@@ -62,9 +64,21 @@ abstract class ilParticipant
 	 	$this->type = ilObject::_lookupType($a_obj_id);
 		$ref_ids = ilObject::_getAllReferences($this->obj_id);
 		$this->ref_id = current($ref_ids);
+		
+		$this->component = $a_component_name;
 	 	
 	 	$this->readParticipant();
 	 	$this->readParticipantStatus();
+	}
+	
+	/**
+	 * Get component name
+	 * Used for event handling
+	 * @return type
+	 */
+	protected function getComponent()
+	{
+		return $this->component;
 	}
 
 	/**
@@ -278,12 +292,15 @@ abstract class ilParticipant
 		include_once './Services/Membership/classes/class.ilWaitingList.php';
 		ilWaitingList::deleteUserEntry($a_usr_id,$this->obj_id);
 
-		if($this->type == 'crs')
-		{
-		 	// Add event: used for ecs accounts
-			$ilLog->write(__METHOD__.': Raise new event: Modules/Course addParticipant');
-			$ilAppEventHandler->raise("Modules/Course", "addParticipant", array('obj_id' => $this->obj_id, 'usr_id' => $a_usr_id,'role_id' => $a_role));
-		}
+		$ilLog->write(__METHOD__.': Raise new event: Modules/Course addParticipant');
+		$ilAppEventHandler->raise(
+				$this->getComponent(),
+				"addParticipant", 
+				array(
+					'obj_id' => $this->obj_id, 
+					'usr_id' => $a_usr_id,
+					'role_id' => $a_role)
+		);
 	 	return true;
 	}
 	
@@ -309,12 +326,13 @@ abstract class ilParticipant
 			"AND obj_id = ".$ilDB->quote($this->obj_id ,'integer');
 		$res = $ilDB->manipulate($query);
 		
-		if($this->type == 'crs')
-		{
-		 	// Add event: used for ecs accounts
-			$ilAppEventHandler->raise("Modules/Course", "deleteParticipant", array('obj_id' => $this->obj_id, 'usr_id' => $a_usr_id));
-		}		
-		
+		$ilAppEventHandler->raise(
+				"Modules/Course", 
+				"deleteParticipant", 
+				array(
+					'obj_id' => $this->obj_id, 
+					'usr_id' => $a_usr_id)
+		);
 		return true;
 	}
 	
