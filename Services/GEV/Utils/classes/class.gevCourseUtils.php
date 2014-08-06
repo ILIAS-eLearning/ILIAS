@@ -463,7 +463,7 @@ class gevCourseUtils {
 	}
 	
 	static public function formatFee($a_fee) {
-		return str_replace(".", ",", number_format((float)$a_fee, 2));
+		return number_format((float)$a_fee, 2, ",", ".");
 	}
 	
 	public function getMinParticipants() {
