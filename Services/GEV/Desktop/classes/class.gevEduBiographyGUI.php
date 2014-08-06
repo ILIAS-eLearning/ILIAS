@@ -103,7 +103,7 @@ class gevEduBiographyGUI {
 	}
 	
 	public function renderTable() {
-		require_once("Services/CatUIComponents/classes/class.catTableGUI.php");
+		require_once("Services/CaTUIComponents/classes/class.catTableGUI.php");
 		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 		require_once("Services/Calendar/classes/class.ilDatePresentation.php");
