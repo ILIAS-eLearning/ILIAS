@@ -4536,6 +4536,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 					{
 						ilExAssignment::updateCommentForUser($ass_id, $user_id,
 							ilUtil::stripSlashes($comment));
+						ilExAssignment::updateStatusTimeOfUser($ass_id, $user_id);
 						
 						if(trim($comment))
 						{
