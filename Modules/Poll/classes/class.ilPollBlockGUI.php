@@ -246,7 +246,13 @@ class ilPollBlockGUI extends ilBlockGUI
 						// $chart_data->setLabelRadius(0.8);
 						
 						$chart->addData($chart_data);
-
+						
+						$pie_legend_id = "poll_legend_".$this->getRefId();
+						$legend = new ilChartLegend();
+						$legend->setContainer($pie_legend_id);
+						$chart->setLegend($legend);
+						
+						$this->tpl->setVariable("PIE_LEGEND_ID", $pie_legend_id);
 						$this->tpl->setVariable("PIE_CHART", $chart->getHTML());
 					}
 					// bar chart

@@ -17,6 +17,7 @@ class ilChartLegend
 	protected $background; // [color]
 	protected $opacity; // [float] 0-1
 	protected $border; // [color]
+	protected $container; // [string]
 
 	/**
 	 * Constructor
@@ -168,6 +169,26 @@ class ilChartLegend
 	}
 	
 	/**
+	 * Set container id
+	 *
+	 * @param string
+	 */
+	public function setContainer($a_value)
+	{
+		$this->container = trim($a_value);
+	}
+	
+	/**
+	 * Get container id
+	 *
+	 * @return string
+	 */
+	public function getContainer()
+	{
+		return $this->container;
+	}
+	
+	/**
 	 * Convert (global) properties to flot config
 	 * 
 	 * @param object $a_options	 
@@ -184,7 +205,13 @@ class ilChartLegend
 		
 		$a_options->backgroundColor = ilChart::renderColor($this->getBackground());
 		$a_options->backgroundOpacity = str_replace(",",".",$this->getOpacity());
-		$a_options->labelBoxBorderColor = ilChart::renderColor($this->getLabelBorder());		
+		$a_options->labelBoxBorderColor = ilChart::renderColor($this->getLabelBorder());
+		
+		$container = $this->getContainer();
+		if($container)
+		{
+			$a_options->container = '#'.$container;
+		}
 	}			
 }
 

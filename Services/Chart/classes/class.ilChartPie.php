@@ -33,10 +33,12 @@ class ilChartPie extends ilChart
 	public function parseGlobalOptions(stdClass $a_options)
 	{
 		// if no inner labels set, use legend
-		if(!isset($a_options->series->pie->label))
+		if(!isset($a_options->series->pie->label) && 
+			!$this->legend)
 		{
-			$this->legend = new ilChartLegend();
-			$this->legend->setPosition("nw");
+			$legend = new ilChartLegend();
+			$legend->setPosition("nw");
+			$this->setLegend($legend);			
 		}
 	}
 }
