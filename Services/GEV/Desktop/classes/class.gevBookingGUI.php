@@ -459,6 +459,7 @@ class gevBookingGUI {
 	}
 	
 	protected function showBookingInfo() {
+		require_once("Services/GEV/Utils/classes/class.gevBillingUtils.php");
 		$billing_utils = gevBillingUtils::getInstance();
 		$form = $this->buildPaymentForm();
 		
