@@ -823,24 +823,117 @@ class gevUserUtils {
 
 	// wbd stuff
 	
+	const WBD_NO_SERVICE 		= "0 - Kein Service";
+	const WBD_EDU_PROVIDER		= "1 - Bildungsdienstleister";
+	const WBD_TP_BASIS			= "2 - TP-Basis";
+	const WBD_TP_SERVICE		= "3 - TP-Service";
+	
+	const WBD_OKZ_FROM_POSITION	= "0 - aus Stellung";
+	const WBD_OKZ1				= "1 - OKZ1";
+	const WBD_OKZ2				= "2 - OKZ2";
+	const WBD_OKZ3				= "3 - OKZ3";
+	const WBD_NO_OKZ			= "4 - keine Zuordnung";
+
+	public function getWBDTPType() {
+		return $this->udf_utils->getField($this->user_id, gevSettings::USR_TP_TYPE);
+	}
+	
+	public function setWBDTPType($a_type) {
+		if (!in_array($a_type, array( self::WBD_NO_SERVICE, self::WBD_EDU_PROVIDER
+									, self::WBD_TP_BASIS, self::WBD_TP_SERVICE))
+			) {
+			throw new Exception("gevUserUtils::setWBDTPType: ".$a_type." is no valid type.");
+		}
+
+		return $this->udf_utils->getField($this->user_id, gevSettings::USR_TP_TYPE, $a_type);
+	}
+	
+	public function getWBDBWVId() {
+		return $this->udf_utils->getField($this->user_id, gevSettings::USR_BWV_ID);
+	}
+	
+	public function setWBDBWVId($a_id) {
+		$this->udf_utils->setField($this->user_id, gevSettings::USR_TP_TYPE, $a_id);
+	}
+	
+	public function getRawWBDOKZ() {
+		return $this->udf_utils->getField($this->user_id, gevSettings::USR_WBD_OKZ);
+	}
+	
+	public function setRawWBDOKZ($a_okz) {
+		if (!in_array($a_okz, array( self::WBD_OKZ_FROM_POSITION, self::WBD_NO_OKZ
+								   , self::WBD_OKZ1, self::WBD_OKZ2, self::WBD_OKZ3))
+		   ) {
+			throw new Exception("gevUserUtils::setRawWBDOKZ: ".$a_okz." is no valid okz.");
+		}
+		
+		return $this->udf_utils->getField($this->user_id, gevSettings::USR_WBD_OKZ, $a_okz);
+	}
+	
+	public function getWBDOKZ() {
+		$okz = $this->getRawWBBOKZ();
+		
+		if ($okz == WBD_NO_OKZ) {
+			return null;
+		}
+		
+		if (in_array($okz, array(self::WBD_OKZ1, self::WBD_OKZ2, self::WBD_OKZ3))) {
+			$spl = explode("-", $okz);
+			return trim($spl[1]);
+		}
+		
+		// TODO: implement "aus Stellung";
+		throw new Exception("gevUserUtils::getWBDOKZ: branch 'aus Stellung' not implemented.");
+		
+		return;
+	}
+	
 	public function transferPointsToWBD() {
-		// TODO: implement that properly
-		return true;
+		return (   in_array($this->getWDBOKZ(), 
+							array("OKZ1", "OKZ2", "OKZ3"))
+				&& in_array($this->getWBDTPType(), 
+							array(self::WBD_EDU_PROVIDER, self::WBD_TP_BASIS, self::WBD_TP_SERVICE))
+				&& $this->getWBDBWVId()
+				);
 	}
 	
 	public function transferPointsFromWBD() {
-		// TODO: implement that properly
-		return true;
+		return (   in_array($this->getWDBOKZ(), 
+							array("OKZ1", "OKZ2", "OKZ3"))
+				&& in_array($this->getWBDTPType() == self::WBD_TP_SERVICE)
+				&& $this->getWBDBWVId()
+				);
+	}
+	
+	public function getWBDFirstCertificationPeriodBegin() {
+		$date = $this->udf_utils->getField($this->user_id, gevSettings::USR_WBD_OUSR_WBD_CERT_PERIOD_BEGINKZ);
+		return new ilDate($date, IL_CAL_DATE);
+	}
+	
+	public function setWBDFirstCertificationPeriodBegin(ilDate $a_start) {
+		$this->udf_utils->setField($this->user_id, gevSettings::USR_WBD_CERT_PERIOD_BEGIN, $a_start->get(IL_CAL_DATE));
 	}
 	
 	public function getStartOfCurrentCertificationPeriod() {
-		// TODO: implement that properly
-		return new ilDate(date("Y-m-d"), IL_CAL_DATE);
+		return $this->getStartOfCurrentCertificationX(5);
 	}
 	
 	public function getStartOfCurrentCertificationYear() {
-		// TODO: implement that properly
-		return new ilDate(date("Y-m-d"), IL_CAL_DATE);
+		return $this->getStartOfCurrentCertificationX(1);
+	}
+	
+	protected function getStartOfCurrentCertificationX($a_year_step) {
+		require_once("Services/Calendar/classes/class.ilDateTime.php");
+		
+		$now = new ilDate(date("Y-m-d"), IL_CAL_DATE);
+		$start = $this->getWBDFirstCertificationPeriodBegin();
+		
+		while(ilDateTime::_before($start, $now)) {
+			$start->increment(ilDateTime::YEAR, $a_year_step);
+		}
+		$start->increment(ilDateTime::YEAR, -1 * $a_year_step);
+		
+		return $start;
 	}
 }
 

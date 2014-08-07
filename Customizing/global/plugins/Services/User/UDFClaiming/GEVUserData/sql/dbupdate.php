@@ -346,10 +346,10 @@ $fields = array( "TP-Typ"	=> array( gevSettings::USR_TP_TYPE
 												   , "changeable_lua"		=> false
 												   , "certificate"			=> false
 												   )
-											, array( "1 - Kein Service"
-												   , "2 - Bildungsdienstleister"
-												   , "3 - TP-Basis"
-												   , "4 - TP-Service"
+											, array( "0 - Kein Service"
+												   , "1 - Bildungsdienstleister"
+												   , "2 - TP-Basis"
+												   , "3 - TP-Service"
 												   )
 											)
 				, "BWV-ID"	=> array( gevSettings::USR_BWV_ID
@@ -416,5 +416,33 @@ $fields = array( "TP-Typ"	=> array( gevSettings::USR_TP_TYPE
 				);
 
 gevUDFUtils::createUDFFields($fields);
+
+?>
+
+<#4>
+<?php
+
+require_once("Services/GEV/Utils/classes/class.gevUDFUtils.php");
+require_once("Services/User/classes/class.ilUserDefinedFields.php");
+
+gevUDFUtils::createUDFFields(array(
+	"Beginn erste Zertifizierungsperiode" => array( gevSettings::USR_WBD_CERT_PERIOD_BEGIN
+											, UDF_TYPE_TEXT
+											, array( "visible"				=> true
+												   , "changeable"			=> false
+												   , "searchable"			=> true
+												   , "required"				=> false
+												   , "export"				=> true
+												   , "course_export"		=> false
+												   , "group_export"			=> false
+												   , "registration_visible"	=> false
+												   , "visible_lua"			=> false
+												   , "changeable_lua"		=> false
+												   , "certificate"			=> false
+												   )
+											, null
+											)
+	));
+
 
 ?>
