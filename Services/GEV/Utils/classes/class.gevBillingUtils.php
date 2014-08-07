@@ -37,9 +37,56 @@ class gevBillingUtils {
 		return self::$instance;
 	}
 	
+	static public function formatPrize($a_prize) {
+		return number_format((float)$a_prize, 2, ",", ".");
+	}
+	
 	public function isValidCouponCode($a_code) {
 		require_once("Services/Billing/classes/class.ilCoupons.php");
 		return ilCoupons::getSingleton()->isValidCode($a_code);
+	}
+	
+	public function getCouponValues($a_coupons) {
+		$coupon_dummy = new ilCoupon();
+		$ret = array();
+		foreach($a_coupons as $coupon) {
+			$coup = $coupon_dummy->getInstance($coupon);
+			$ret[$coupon] = $coup->getValue();
+		}
+		
+		return $ret;
+	}
+	
+	public function getPrizeIncludingCoupons($a_prize, $a_coupons) {
+		$a_prize = (float)$a_prize;
+		$coupon_dummy = new ilCoupon();
+		
+		// Take Coupon codes as long as the prize is
+		// larger then 0.
+		foreach($a_coupons as $code) {
+			$coupon = $coupon_dummy->getInstance($code);
+			if ($coupon->isExpired()) {
+				continue;
+			}
+			$value = $coupon->getValue();
+			if ($a_prize > $value) {
+				// Take complete coupon value and preceed afterwards
+				$diff = $value;
+				$break = false;
+			}
+			else {
+				// Take only the leftover of the fee.
+				$diff = $a_prize;
+				$break = true;
+			}
+			$a_prize -= $diff;
+			
+			if ($break) {
+				break;
+			}
+		}
+		
+		return $a_prize;
 	}
 	
 	public function createCourseBill( $a_user_id
@@ -98,6 +145,9 @@ class gevBillingUtils {
 		// larger then 0.
 		foreach($a_coupons as $code) {
 			$coupon = $coupon_dummy->getInstance($code);
+			if ($coupon->isExpired()) {
+				continue;
+			}
 			$value = $coupon->getValue();
 			if ($fee > $value) {
 				// Take complete coupon value and preceed afterwards

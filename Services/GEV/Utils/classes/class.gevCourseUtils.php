@@ -463,7 +463,8 @@ class gevCourseUtils {
 	}
 	
 	static public function formatFee($a_fee) {
-		return number_format((float)$a_fee, 2, ",", ".");
+		require_once("Services/GEV/Utils/classes/class.gevBillingUtils.php");
+		return gevBillingUtils::formatPrize($a_fee);
 	}
 	
 	public function getMinParticipants() {

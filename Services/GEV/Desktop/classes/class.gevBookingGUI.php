@@ -399,12 +399,20 @@ class gevBookingGUI {
 		require_once("Services/CaTUIComponents/classes/class.catPropertyFormGUI.php");
 		require_once("Services/Form/classes/class.ilNonEditableValueGUI.php");
 		require_once("Services/Accomodations/classes/class.ilSetAccomodationsGUI.php");
+		require_once("Services/GEV/Utils/classes/class.gevBillingUtils.php");
+		$billing_utils = gevBillingUtils::getInstance();
 		
 		$form = new catPropertyFormGUI();
 		$form->setTemplate("tpl.gev_booking_form.html", "Services/GEV/Desktop");
 		$form->setTitle($this->crs_utils->getTitle());
 		$form->addCommandButton("backToSearch", $this->lng->txt("gev_to_course_search"));
 		$form->addCommandButton("finalizeBookingWithPayment", $this->lng->txt("gev_obligatory_booking"));
+		
+		$coupon_values = $billing_utils->getCouponValues($a_payment_data["coupons"]);
+		$coupons = array();
+		foreach ($coupon_values as $code => $value) {
+			$coupons[] = $code." (".gevBillingUtils::formatPrize($value)." €)";
+		}
 		
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		$vals = array(
@@ -439,7 +447,13 @@ class gevBookingGUI {
 				   , $a_payment_data["costcenter"]
 				   )
 			, array( $this->lng->txt("gev_coupon_codes")
-				   , implode(", ", $a_payment_data["coupons"])
+				   , implode(", ", $coupons)
+				   )
+			, array( $this->lng->txt("gev_overall_prize")
+				   , $billing_utils->formatPrize(
+				    	$billing_utils->getPrizeIncludingCoupons($this->crs_utils->getFee()
+				   												, $a_payment_data["coupons"])
+				   		)." €"
 				   )
 			, array( $this->lng->txt("gev_bill_email")
 				   , $a_payment_data["email"]
