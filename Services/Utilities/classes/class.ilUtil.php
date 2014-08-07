@@ -2239,6 +2239,16 @@ class ilUtil
 		{
 			return false;
 		}	
+		
+		// gev-patch start
+		// for the sake of ie 8
+		header("Pragma: ");
+		header("Cache-Control: ");
+		header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+		header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+		header("Cache-Control: no-store, no-cache, must-revalidate"); // HTTP/1.1
+		header("Cache-Control: post-check=0, pre-check=0", false);
+		// gev-patch end
 
 		if ($isInline) {
 			$disposition = "inline"; // "inline" to view file in browser
