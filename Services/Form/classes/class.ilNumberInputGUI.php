@@ -19,8 +19,10 @@ class ilNumberInputGUI extends ilSubEnabledFormPropertyGUI
 	protected $suffix;
 	protected $minvalue = false;
 	protected $minvalueShouldBeGreater = false;
+	protected $minvalue_visible = false;
 	protected $maxvalue = false;
 	protected $maxvalueShouldBeLess = false;
+	protected $maxvalue_visible = false;
 	protected $decimals;
 	protected $allow_decimals = false;
 	
@@ -188,10 +190,12 @@ class ilNumberInputGUI extends ilSubEnabledFormPropertyGUI
 	* Set Minimum Value.
 	*
 	* @param	float	$a_minvalue	Minimum Value
+	* @param	bool	$a_display_always
 	*/
-	function setMinValue($a_minvalue)
+	function setMinValue($a_minvalue, $a_display_always = false)
 	{
 		$this->minvalue = $a_minvalue;
+		$this->minvalue_visible = (bool)$a_display_always;
 	}
 
 	/**
@@ -208,10 +212,12 @@ class ilNumberInputGUI extends ilSubEnabledFormPropertyGUI
 	* Set Maximum Value.
 	*
 	* @param	float	$a_maxvalue	Maximum Value
+	* @param	bool	$a_display_always
 	*/
-	function setMaxValue($a_maxvalue)
+	function setMaxValue($a_maxvalue, $a_display_always = false)
 	{
 		$this->maxvalue = $a_maxvalue;
+		$this->maxvalue_visible = (bool)$a_display_always;
 	}
 
 	/**
@@ -281,15 +287,15 @@ class ilNumberInputGUI extends ilSubEnabledFormPropertyGUI
 		if ($this->getRequired() && trim($_POST[$this->getPostVar()]) == "")
 		{
 			$this->setAlert($lng->txt("msg_input_is_required"));
-
 			return false;
 		}
 
 		if (trim($_POST[$this->getPostVar()]) != "" &&
 			! is_numeric(str_replace(',', '.', $_POST[$this->getPostVar()])))
 		{
+			$this->minvalue_visible = true;
+			$this->maxvalue_visible = true;
 			$this->setAlert($lng->txt("form_msg_numeric_value_required"));
-
 			return false;
 		}
 
@@ -299,8 +305,8 @@ class ilNumberInputGUI extends ilSubEnabledFormPropertyGUI
 				$this->getMinValue() !== false &&
 				$_POST[$this->getPostVar()] <= $this->getMinValue())
 			{
+				$this->minvalue_visible = true;
 				$this->setAlert($lng->txt("form_msg_value_too_low"));
-
 				return false;
 			}
 		}
@@ -310,8 +316,8 @@ class ilNumberInputGUI extends ilSubEnabledFormPropertyGUI
 				$this->getMinValue() !== false &&
 				$_POST[$this->getPostVar()] < $this->getMinValue())
 			{
-				$this->setAlert($lng->txt("form_msg_value_too_low"));
-
+				$this->minvalue_visible = true;
+				$this->setAlert($lng->txt("form_msg_value_too_low"));				
 				return false;
 			}
 		}
@@ -322,8 +328,8 @@ class ilNumberInputGUI extends ilSubEnabledFormPropertyGUI
 				$this->getMaxValue() !== false &&
 				$_POST[$this->getPostVar()] >= $this->getMaxValue())
 			{
+				$this->maxvalue_visible = true;
 				$this->setAlert($lng->txt("form_msg_value_too_high"));
-
 				return false;
 			}
 		}
@@ -333,8 +339,8 @@ class ilNumberInputGUI extends ilSubEnabledFormPropertyGUI
 				$this->getMaxValue() !== false &&
 				$_POST[$this->getPostVar()] > $this->getMaxValue())
 			{
+				$this->maxvalue_visible = true;
 				$this->setAlert($lng->txt("form_msg_value_too_high"));
-
 				return false;
 			}
 		}
@@ -394,12 +400,12 @@ class ilNumberInputGUI extends ilSubEnabledFormPropertyGUI
 			$constraints = $lng->txt("form_format").": ###.".str_repeat("#", $this->getDecimals());
 			$delim = ", ";
 		}
-		if ($this->getMinValue() !== false)
+		if ($this->getMinValue() !== false && $this->minvalue_visible)
 		{
 			$constraints.= $delim.$lng->txt("form_min_value").": ".(($this->minvalueShouldBeGreater()) ? "&gt; " : "").$this->getMinValue();
 			$delim = ", ";
 		}
-		if ($this->getMaxValue() !== false)
+		if ($this->getMaxValue() !== false && $this->maxvalue_visible)
 		{
 			$constraints.= $delim.$lng->txt("form_max_value").": ".(($this->maxvalueShouldBeLess()) ? "&lt; " : "").$this->getMaxValue();
 			$delim = ", ";

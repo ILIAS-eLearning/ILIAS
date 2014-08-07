@@ -733,7 +733,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 			include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
 			$mand = ilExAssignment::countMandatory($this->object->getId());
 			$min = max($mand, 1);
-			$ni->setMinValue($min);
+			$ni->setMinValue($min, true);
 			$ni->setInfo($this->lng->txt("exc_min_nr_info"));
 			$op2->addSubItem($ni);
 
