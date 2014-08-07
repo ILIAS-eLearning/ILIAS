@@ -66,7 +66,7 @@ class SurveyTextQuestionGUI extends SurveyQuestionGUI
 		$textwidth->setRequired(true);
 		$textwidth->setSize(3);		
 		$textwidth->setDecimals(0);
-		$textwidth->setMinValue(10);
+		$textwidth->setMinValue(10, true);
 		$a_form->addItem($textwidth);
 		
 		// textheight

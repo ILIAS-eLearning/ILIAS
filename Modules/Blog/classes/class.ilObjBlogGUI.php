@@ -242,6 +242,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		$post_num->setInfo($lng->txt("blog_list_num_postings_info"));
 		$post_num->setSize(3);
 		$post_num->setMinValue(1);
+		$post_num->setRequired(true);
 		$a_form->addItem($post_num);
 		
 		$abs_shorten = new ilCheckboxInputGUI($lng->txt("blog_abstract_shorten"), "abss");
@@ -251,7 +252,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		$abs_shorten_len->setSize(5);
 		$abs_shorten_len->setRequired(true);
 		$abs_shorten_len->setSuffix($lng->txt("blog_abstract_shorten_characters"));
-		$abs_shorten_len->setMinValue(50);
+		$abs_shorten_len->setMinValue(50, true);
 		$abs_shorten->addSubItem($abs_shorten_len);
 		
 		$abs_img = new ilCheckboxInputGUI($lng->txt("blog_abstract_image"), "absi");
@@ -262,14 +263,14 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		$abs_img_width->setSize(5);
 		$abs_img_width->setRequired(true);
 		$abs_img_width->setSuffix($lng->txt("blog_abstract_image_pixels"));
-		$abs_img_width->setMinValue(32);
+		$abs_img_width->setMinValue(32, true);
 		$abs_img->addSubItem($abs_img_width);
 		
 		$abs_img_height = new ilNumberInputGUI($lng->txt("blog_abstract_image_height"), "absih");
 		$abs_img_height->setSize(5);
 		$abs_img_height->setRequired(true);
 		$abs_img_height->setSuffix($lng->txt("blog_abstract_image_pixels"));
-		$abs_img_height->setMinValue(32);
+		$abs_img_height->setMinValue(32, true);
 		$abs_img->addSubItem($abs_img_height);
 	}
 
