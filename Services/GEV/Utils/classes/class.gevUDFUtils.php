@@ -35,7 +35,7 @@ class gevUDFUtils {
 		$field_id = $this->gev_settings->getUDFFieldId($a_udf_setting);
 		$field_type = $this->getFieldType($field_id);
 		
-		if (in_array($field_type, array(UDF_TYPE_SELECT, UDF_TYPE_WYSIWYG))) {
+		if (in_array($field_type, array(UDF_TYPE_WYSIWYG))) {
 			throw new Exception("gevUDFUtils::getField: type '".$field_type."' not supported right now.");
 		}
 		
@@ -54,7 +54,7 @@ class gevUDFUtils {
 		$field_id = $this->gev_settings->getUDFFieldId($a_udf_setting);
 		$field_type = $this->getFieldType($field_id);
 		
-		if (in_array($field_type, array(UDF_TYPE_SELECT, UDF_TYPE_WYSIWYG))) {
+		if (in_array($field_type, array(UDF_TYPE_WYSIWYG))) {
 			throw new Exception("gevUDFUtils::getField: type '".$field_type."' not supported right now.");
 		}
 		

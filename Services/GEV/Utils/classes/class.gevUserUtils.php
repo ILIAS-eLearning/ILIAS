@@ -823,7 +823,7 @@ class gevUserUtils {
 
 	// wbd stuff
 	
-	const WBD_NO_SERVICE 		= "0 - Kein Service";
+	const WBD_NO_SERVICE 		= "0 - kein Service";
 	const WBD_EDU_PROVIDER		= "1 - Bildungsdienstleister";
 	const WBD_TP_BASIS			= "2 - TP-Basis";
 	const WBD_TP_SERVICE		= "3 - TP-Service";
@@ -871,7 +871,7 @@ class gevUserUtils {
 	}
 	
 	public function getWBDOKZ() {
-		$okz = $this->getRawWBBOKZ();
+		$okz = $this->getRawWBDOKZ();
 		
 		if ($okz == WBD_NO_OKZ) {
 			return null;
@@ -883,13 +883,13 @@ class gevUserUtils {
 		}
 		
 		// TODO: implement "aus Stellung";
-		throw new Exception("gevUserUtils::getWBDOKZ: branch 'aus Stellung' not implemented.");
+		//throw new Exception("gevUserUtils::getWBDOKZ: branch 'aus Stellung' not implemented.");
 		
 		return;
 	}
 	
 	public function transferPointsToWBD() {
-		return (   in_array($this->getWDBOKZ(), 
+		return (   in_array($this->getWBDOKZ(), 
 							array("OKZ1", "OKZ2", "OKZ3"))
 				&& in_array($this->getWBDTPType(), 
 							array(self::WBD_EDU_PROVIDER, self::WBD_TP_BASIS, self::WBD_TP_SERVICE))
@@ -898,7 +898,7 @@ class gevUserUtils {
 	}
 	
 	public function transferPointsFromWBD() {
-		return (   in_array($this->getWDBOKZ(), 
+		return (   in_array($this->getWBDOKZ(), 
 							array("OKZ1", "OKZ2", "OKZ3"))
 				&& in_array($this->getWBDTPType() == self::WBD_TP_SERVICE)
 				&& $this->getWBDBWVId()

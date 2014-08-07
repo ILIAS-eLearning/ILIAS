@@ -346,7 +346,7 @@ $fields = array( "TP-Typ"	=> array( gevSettings::USR_TP_TYPE
 												   , "changeable_lua"		=> false
 												   , "certificate"			=> false
 												   )
-											, array( "0 - Kein Service"
+											, array( "0 - kein Service"
 												   , "1 - Bildungsdienstleister"
 												   , "2 - TP-Basis"
 												   , "3 - TP-Service"
