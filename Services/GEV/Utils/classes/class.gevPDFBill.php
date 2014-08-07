@@ -28,8 +28,8 @@ class gevPDFBill extends ilPDFBill {
 		$this->setTitleFont("Arial", 10, false, false);
 		$this->setSpaceText(12.0);
 		$this->setTextFont("Arial", 10, false, false);
-		$this->setCalculationFont("Arial", 9, false, false);
-		$this->setSpaceRight(2.5);
+		$this->setCalculationFont("Arial", 8, false, false);
+		$this->setSpaceRight(3.5);
 		// This is bad, but i don't know how to do that differently.
 		$this->setBackground(ILIAS_ABSOLUTE_PATH."/Customizing/global/skin/genv/bill_background.png");
 	}
@@ -52,10 +52,10 @@ class gevPDFBill extends ilPDFBill {
 		$booking_status = $crs_utils->getBookingStatusOf($a_bill->getUserId());
 		
 		$this->setAbout("Rechnung");
-		$this->setTitle("Veranstaltungstitel: ".$crs_utils->getTitle()." ".$crs_utils->getCustomId()
+		$this->setTitle("Veranstaltungstitel: ".$crs_utils->getTitle().", ".$crs_utils->getCustomId()
 					   .", ".$crs_utils->getFormattedAppointment());
 		$this->setPretext("Für die Weiterbildung des Teilnehmers ".$user_utils->getFirstname()." ".$user_utils->getLastname().
-						  " erlauben wir uns folgende Rechnung zu stellen.");
+						  " erlauben wir uns folgende Rechnung zu stellen:");
 		$posttext = "Der Rechnungsbetrag wird ihrem Agenturkonto ".$a_bill->getCostCenter()." belastet.";
 		if ($booking_status == ilCourseBooking::STATUS_CANCELLED_WITH_COSTS) {
 			$res = $this->db->query("SELECT coupon_code FROM gev_bill_coupon WHERE bill_pk = ".$a_bill->getId());
@@ -67,7 +67,7 @@ class gevPDFBill extends ilPDFBill {
 		}
 		$this->setPosttext($posttext);
 		
-		$this->setGreetings("Mit freundlichen Grüßen\nGenerali Versicherung AG\nPersonalentwicklung Vertrieb");
+		$this->setGreetings(" \nMit freundlichen Grüßen\nGenerali Versicherung AG\nPersonalentwicklung Vertrieb");
 		//TODO: title and stuff needs to be set here
 	}
 }
