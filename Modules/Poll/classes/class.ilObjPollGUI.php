@@ -134,7 +134,7 @@ class ilObjPollGUI extends ilObject2GUI
 		$a_form->addItem($section);
 
 		$comment = new ilCheckboxInputGUI($this->lng->txt('poll_comments'), 'comment');
-		$comment->setInfo($this->lng->txt('poll_comments_info'));
+		//$comment->setInfo($this->lng->txt('poll_comments_info'));
 		$a_form->addItem($comment);
 	}
 
