@@ -446,21 +446,10 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->setSubTabs('settings');
 		$this->tabs_gui->setTabActive('settings');
 		$this->tabs_gui->setSubTabActive('grp_settings');
-		
-		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.grp_edit.html','Modules/Group');
-		if($_GET['group_type_changed'])
-		{
-			$this->ctrl->clearParameters($this);
-			$this->tpl->setVariable('GRP_FORMACTION',$this->ctrl->getFormAction($this));
-			$this->tpl->setVariable('TXT_SW_GRP_TYPE_S',$this->lng->txt('grp_change_type'));
-			$this->tpl->setVariable('TXT_SW_GRP_TYPE_C',$this->lng->txt('cancel'));
-			$this->initForm('update_group_type');
-		}
-		else
-		{
-			$this->initForm('edit');
-		}
-		$this->tpl->setVariable('EDIT_FORM',$this->form->getHTML());
+
+		$this->initForm('edit');
+
+		$this->tpl->setVariable('ADM_CONTENT',$this->form->getHTML());
 	}
 	
 	/**
@@ -522,7 +511,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		}
 
 		$modified = false;		
-		if($this->object->isGroupTypeModified($old_type) and !$update_group_type)
+		if($this->object->isGroupTypeModified($old_type))
 		{
 			$modified = true;
 			$this->object->setGroupType($old_type);
@@ -2615,10 +2604,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		// CLOSED GROUP
 		$opt_closed = new ilRadioOption($this->lng->txt('grp_closed'),GRP_TYPE_CLOSED,$this->lng->txt('grp_closed_info'));
 		$grp_type->addOption($opt_closed);
-		if($a_mode == 'update_group_type')
-		{
-			$grp_type->setAlert($this->lng->txt('grp_type_changed_info'));
-		}
+
 		$this->form->addItem($grp_type);
 
 		if($a_mode == 'edit')
@@ -2843,16 +2829,6 @@ class ilObjGroupGUI extends ilContainerGUI
 				$this->form->addCommandButton('cancel',$this->lng->txt('cancel'));
 				return true;
 
-			case 'update_group_type':
-				$grp_type->setValue(
-					$type == GRP_TYPE_PUBLIC ?
-					GRP_TYPE_CLOSED :
-					GRP_TYPE_PUBLIC
-				);
-
-				$this->form->setTitle($this->lng->txt('grp_edit'));
-				$this->form->setTitleIcon(ilUtil::getImagePath('icon_grp.png'));
-				return true;				
 		}
 		return true;
 	}
