@@ -820,6 +820,28 @@ class gevUserUtils {
 			return null;
 		}
 	}
+
+	// wbd stuff
+	
+	public function transferPointsToWBD() {
+		// TODO: implement that properly
+		return true;
+	}
+	
+	public function transferPointsFromWBD() {
+		// TODO: implement that properly
+		return true;
+	}
+	
+	public function getStartOfCurrentCertificationPeriod() {
+		// TODO: implement that properly
+		return new ilDate(date("Y-m-d"), IL_CAL_DATE);
+	}
+	
+	public function getStartOfCurrentCertificationYear() {
+		// TODO: implement that properly
+		return new ilDate(date("Y-m-d"), IL_CAL_DATE);
+	}
 }
 
 ?>

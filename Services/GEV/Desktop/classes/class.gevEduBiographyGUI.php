@@ -33,6 +33,9 @@ class gevEduBiographyGUI {
 		}
 
 		$this->target_user_utils = gevUserUtils::getInstance($this->target_user_id);
+		
+		$this->query_where = null;
+		$this->query_from = null;
 	}
 	
 	public function executeCommand() {
@@ -99,7 +102,120 @@ class gevEduBiographyGUI {
 	}
 	
 	public function renderOverview() {
-		return "";
+		$user_utils = gevUserUtils::getInstance($this->target_user_id);
+		$tpl = new ilTemplate("tpl.gev_edu_bio_overview.html", true, true, "Services/GEV/Desktop");
+
+		$this->renderAcademyPoints($tpl);
+		
+		if ($user_utils->transferPointsFromWBD()) {
+			$this->renderWBDPoints($tpl);
+		}
+		else if($user_utils->transferPointsToWBD()) {
+			$tpl->setCurrentBlock("wbd_transfer");
+			$tpl->setVariable("TRANSFER_TITLE", $this->lng->txt("gev_wbd_transfer_on"));
+			$tpl->parseCurrentBlock();
+		}
+		
+		return $tpl->get();
+	}
+	
+	protected function renderAcademyPoints($tpl) {
+		require_once("Services/Calendar/classes/class.ilDatePresentation.php");
+		
+		$tpl->setVariable("ACADEMY_SUM_TITLE", $this->lng->txt("gev_points_in_academy"));
+		$tpl->setVariable("ACADEMY_SUM_FIVE_YEAR_TITLE", $this->lng->txt("gev_points_in_five_years"));
+		
+		$start_date = $this->start_date->get(IL_CAL_FKT_GETDATE);
+		$fy_start = new ilDate($start_date["year"]."-01-01", IL_CAL_DATE); 
+		$fy_end = new ilDate($start_date["year"]."-12-31", IL_CAL_DATE);
+		$fy_end->increment(ilDateTime::YEAR, 4);
+
+		$tpl->setVariable("ACADEMY_FIVE_YEAR", ilDatePresentation::formatPeriod($fy_start, $fy_end));
+	
+		$query = $this->academyQuery($this->start_date, $this->end_date);
+		$res = $this->db->query($query);
+		if ($rec = $this->db->fetchAssoc($res)) {
+			$tpl->setVariable("ACADEMY_SUM", $rec["sum"] ? $rec["sum"] : 0);
+		}
+	
+		$query = $this->academyQuery($fy_start, $fy_end);
+		$res = $this->db->query($query);
+		if ($rec = $this->db->fetchAssoc($res)) {
+			$tpl->setVariable("ACADEMY_SUM_FIVE_YEAR", $rec["sum"] ? $rec["sum"] : 0);
+		}
+	}
+	
+	protected function academyQuery(ilDate $start, ilDate $end) {
+		return   "SELECT SUM(usrcrs.credit_points) sum "
+				.$this->queryFrom()
+				.$this->queryWhere($start, $end)
+				." AND usrcrs.participation_status = 'teilgenommen'"
+				." AND crs.crs_id > 0" // only academy points
+				;
+	}
+	
+	protected function renderWBDPoints($tpl) {
+		require_once("Services/Calendar/classes/class.ilDatePresentation.php");
+		$user_utils = gevUserUtils::getInstance($this->target_user_id);
+
+		$tpl->setVariable("WBD_SUM_TITLE", $this->lng->txt("gev_points_in_wbd"));
+		$tpl->setVariable("WBD_SUM_CERT_PERIOD_TITLE", $this->lng->txt("gev_points_in_wbd_cert_period"));
+		$tpl->setVariable("WBD_SUM_CUR_YEAR_TITLE", $this->lng->txt("gev_points_in_wbd_cert_year"));
+		$tpl->setVariable("WBD_SUM_CUR_YEAR_PRED_TITLE", $this->lng->txt("gev_points_at_end_of_cert_year"));
+		
+		$cy_start = $user_utils->getStartOfCurrentCertificationYear();
+		$cy_end = $user_utils->getStartOfCurrentCertificationYear();
+		$cy_end->increment(ilDateTime::YEAR, 1);
+		
+		$cp_start = $user_utils->getStartOfCurrentCertificationPeriod();
+		$cp_end = $user_utils->getStartOfCurrentCertificationPeriod();
+		$cp_end->increment(ilDateTime::YEAR, 5);
+		
+		$tpl->setVariable("WBD_CERT_PERIOD", ilDatePresentation::formatPeriod($cp_start, $cp_end));
+		$tpl->setVariable("WBD_CERT_YEAR", ilDatePresentation::formatPeriod($cy_start, $cy_end));
+		
+		$query = $this->wbdQuery($this->start_date, $this->end_date);
+		$res = $this->db->query($query);
+		if ($rec = $this->db->fetchAssoc($res)) {
+			$tpl->setVariable("WBD_SUM", $rec["sum"] ? $rec["sum"] : 0);
+		}
+		
+		$query = $this->wbdQuery($cy_start, $cy_end);
+		$res = $this->db->query($query);
+		if ($rec = $this->db->fetchAssoc($res)) {
+			$tpl->setVariable("WBD_SUM_CUR_YEAR", $rec["sum"] ? $rec["sum"] : 0);
+		}
+		
+		$query = $this->wbdQuery($cp_start, $cp_end);
+		$res = $this->db->query($query);
+		if ($rec = $this->db->fetchAssoc($res)) {
+			$tpl->setVariable("WBD_SUM_CERT_PERIOD", $rec["sum"] ? $rec["sum"] : 0);
+		}
+		
+		$query = "SELECT SUM(usrcrs.credit_points) sum "
+				.$this->queryFrom()
+				.$this->queryWhere($cy_start, $cy_end)
+				." AND usrcrs.booking_status = 'gebucht'"
+				." AND ".$this->db->in("usrcrs.participation_status", array("teilgenommen", "nicht gesetzt"), false, "text")
+				." AND (".$this->db->in("usrcrs.okz", array("OKZ1", "OKZ2", "OKZ3"), false, "text")
+				."      OR crs.crs_id < 0 "
+				."     )"
+				;
+		$res = $this->db->query($query);
+		if ($rec = $this->db->fetchAssoc($res)) {
+			$tpl->setVariable("WBD_SUM_CUR_YEAR_PRED", $rec["sum"] ? $rec["sum"] : 0);
+		}
+	}
+	
+	protected function wbdQuery(ilDate $start, ilDate $end) {
+		return   "SELECT SUM(usrcrs.credit_points) sum "
+				.$this->queryFrom()
+				.$this->queryWhere($start, $end)
+				." AND usrcrs.participation_status = 'teilgenommen'"
+				." AND (".$this->db->in("usrcrs.okz", array("OKZ1", "OKZ2", "OKZ3"), false, "text")
+				."      OR crs.crs_id < 0 "
+				."     )"
+				;
 	}
 	
 	public function renderTable() {
@@ -120,7 +236,7 @@ class gevEduBiographyGUI {
 		$table->addColumn($this->lng->txt("gev_location"), "location");
 		$table->addColumn($this->lng->txt("gev_provider"), "provider");
 		$table->addColumn($this->lng->txt("il_crs_tutor"), "trainer");
-		$table->addColumn($this->lng->txt("gev_points"), "points");
+		$table->addColumn($this->lng->txt("gev_points"), "credit_points");
 		$table->addColumn($this->lng->txt("gev_costs"), "fee");
 		$table->addColumn($this->lng->txt("status"), "status");
 		$table->addColumn($this->lng->txt("gev_wbd_relevant"), "wbd");
@@ -128,17 +244,10 @@ class gevEduBiographyGUI {
 		
 		$query =	 "SELECT crs.custom_id, crs.title, crs.type, usrcrs.begin_date, usrcrs.end_date, "
 					."       crs.venue, crs.provider, crs.tutor, usrcrs.credit_points, crs.fee, "
-					."       usrcrs.participation_status, usrcrs.okz, usrcrs.bill_id, usrcrs.certificate"
-					."  FROM hist_usercoursestatus usrcrs "
-					."  JOIN hist_user usr ON usr.user_id = usrcrs.usr_id AND usr.hist_historic = 0"
-					."  JOIN hist_course crs ON crs.crs_id = usrcrs.crs_id AND crs.hist_historic = 0"
-					." WHERE usr.user_id = ".$this->db->quote($this->target_user_id, "integer")
-					."   AND ".$this->db->in("usrcrs.function", array("Mitglied", "Teilnehmer", "Member"), false, "text")
-					."   AND usrcrs.booking_status = 'gebucht'"
-					."   AND usrcrs.hist_historic = 0 "
-					."   AND ( usrcrs.end_date > ".$this->db->quote($this->start_date->get(IL_CAL_DATE), "date")
-					."        OR usrcrs.end_date = '-empty-')"
-					."   AND usrcrs.begin_date < ".$this->db->quote($this->end_date->get(IL_CAL_DATE), "date")
+					."       usrcrs.participation_status, usrcrs.okz, usrcrs.bill_id, usrcrs.certificate, "
+					."       usrcrs.booking_status "
+					. $this->queryFrom()
+					. $this->queryWhere($this->start_date, $this->end_date)
 					;
 		
 		$res = $this->db->query($query);
@@ -151,13 +260,18 @@ class gevEduBiographyGUI {
 			$rec["fee"] = (($rec["bill_id"] != -1 || $user_utils->paysFees())&& $rec["fee"] != -1)
 						? $rec["fee"] = gevCourseUtils::formatFee($rec["fee"])." &euro;"
 						: $rec["fee"] == "-empty-";
-			$rec["status"] = ( $rec["participation_status"] == "fehlt entschuldigt" 
-							|| $rec["participation_status"] == "fehlt ohne Absage")
-						   ? $this->in_failed_img
-						   : ( ($rec["participation_status"] == "teilgenommen")
-						   	 ? $this->passed_img
-						   	 : $this->in_progress_img
-						   	 );
+						
+			if ($rec["participation_status"] == "teilgenommen") {
+				$rec["status"] = $this->success_img;
+			}
+			else if (in_array($rec["participation_status"], array("fehlt entschuldigt", "fehlt ohne Absage"))
+				 ||  in_array($rec["booking_status"], array("kostenpflichtig storniert", "kostenfrei storniert"))
+				) {
+				$rec["status"] = $this->failed_img;
+			}
+			else {
+				$rec["status"] = $this->in_progress_img;
+			}
 
 			if ($rec["begin_date"] == "0000-00-00" && $rec["end_date"] == "0000-00-00") {
 				$rec["date"] = $no_entry;
@@ -200,6 +314,32 @@ class gevEduBiographyGUI {
 		$table->setData($data);
 		
 		return $table->getHTML();
+	}
+	
+	protected function queryWhere(ilDate $start, ilDate $end) {
+		if ($this->query_where === null) {
+			$this->query_where =
+					 " WHERE usr.user_id = ".$this->db->quote($this->target_user_id, "integer")
+					."   AND ".$this->db->in("usrcrs.function", array("Mitglied", "Teilnehmer", "Member"), false, "text")
+					."   AND ".$this->db->in("usrcrs.booking_status", array("gebucht", "kostenpflichtig storniert", "kostenfrei storniert"), false, "text")
+					."   AND usrcrs.hist_historic = 0 "
+					."   AND ( usrcrs.end_date >= ".$this->db->quote($start->get(IL_CAL_DATE), "date")
+					."        OR usrcrs.end_date = '-empty-')"
+					."   AND usrcrs.begin_date <= ".$this->db->quote($end->get(IL_CAL_DATE), "date")
+					;
+		}
+		
+		return $this->query_where;
+	}
+	
+	protected function queryFrom() {
+		if ($this->query_from === null) {
+			$this->query_from =
+					 "  FROM hist_usercoursestatus usrcrs "
+					."  JOIN hist_user usr ON usr.user_id = usrcrs.usr_id AND usr.hist_historic = 0"
+					."  JOIN hist_course crs ON crs.crs_id = usrcrs.crs_id AND crs.hist_historic = 0";
+		}
+		return $this->query_from;
 	}
 }
 

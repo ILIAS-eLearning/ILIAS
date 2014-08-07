@@ -685,3 +685,10 @@ gev#:#gev_costs#:#Kosten
 gev#:#gev_from#:#ab
 gev#:#gev_get_certificate#:#Zertifikat abrufen
 gev#:#gev_get_bill#:#Rechung anfordern
+gev#:#gev_wbd_transfer_on#:#Ihre Bildungspunkte werden an die WBD gemeldet.
+gev#:#gev_points_in_academy#:#Bildungspunkte in der Generali Online Akademie
+gev#:#gev_points_in_five_years#:#Punkte im 5-Jahres-Zeitraum
+gev#:#gev_points_in_wbd#:#Bildungspunkte in der WBD
+gev#:#gev_points_in_wbd_cert_period#:#Punkte in der aktuellen Zertifizierungsperiode
+gev#:#gev_points_in_wbd_cert_year#:#Punkte im aktuellen Zertifizierungsjahr
+gev#:#gev_points_at_end_of_cert_year#:#voraussichtliche Punkte bis zum Ende des aktuellen Zertifizierungsjahres
