@@ -47,6 +47,7 @@ class gevBillingUtils {
 	}
 	
 	public function getCouponValues($a_coupons) {
+		require_once("Services/Billing/classes/class.ilCoupon.php");
 		$coupon_dummy = new ilCoupon();
 		$ret = array();
 		foreach($a_coupons as $coupon) {
@@ -58,6 +59,7 @@ class gevBillingUtils {
 	}
 	
 	public function getPrizeIncludingCoupons($a_prize, $a_coupons) {
+		require_once("Services/Billing/classes/class.ilCoupon.php");
 		$a_prize = (float)$a_prize;
 		$coupon_dummy = new ilCoupon();
 		

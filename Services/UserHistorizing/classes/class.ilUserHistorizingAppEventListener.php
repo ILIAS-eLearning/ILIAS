@@ -32,6 +32,10 @@ class ilUserHistorizingAppEventListener
 		self::initEventHandler();
 		
 		if ($a_component == "Modules/OrgUnit") {
+			if (in_array($a_event, array("delete", "initDefaultRoles"))) {
+				return;
+			}
+			
 			$a_parameter["user_obj"] = new ilObjUser($a_parameter["user_id"]);
 		}
 
@@ -134,7 +138,7 @@ class ilUserHistorizingAppEventListener
 			'begin_of_certification'			=> $certification_begins,
 			'deleted'							=> 0
 		);
-		
+
 		//$ilLog->write(print_r($data_payload, true));
 
 		return $data_payload;
