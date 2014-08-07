@@ -906,7 +906,7 @@ class gevUserUtils {
 	}
 	
 	public function getWBDFirstCertificationPeriodBegin() {
-		$date = $this->udf_utils->getField($this->user_id, gevSettings::USR_WBD_OUSR_WBD_CERT_PERIOD_BEGINKZ);
+		$date = $this->udf_utils->getField($this->user_id, gevSettings::USR_WBD_CERT_PERIOD_BEGIN);
 		return new ilDate($date, IL_CAL_DATE);
 	}
 	

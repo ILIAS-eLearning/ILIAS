@@ -103,10 +103,8 @@ class ilUserHistorizingHelper
 	 */
 	public static function getBWVIdOf($user)
 	{
-		// TODO: implement!
-		return "";
-		//require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
-		//return gevUserUtils::getInstanceByObjOrId($user)->getEntryDate();
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		//return gevUserUtils::getInstanceByObjOrId($user)->getWBDBWVId();
 	}
 
 	/**
@@ -118,10 +116,8 @@ class ilUserHistorizingHelper
 	 */
 	public static function getBeginOfCertificationPeriodOf($user)
 	{
-		// TODO: implement!
-		return "";
-		//require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
-		//return gevUserUtils::getInstanceByObjOrId($user)->getEntryDate();
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		return gevUserUtils::getInstanceByObjOrId($user)->getWBDFirstCertificationPeriodBegin();
 	}
 
 	/**
@@ -133,9 +129,7 @@ class ilUserHistorizingHelper
 	 */
 	public static function getOKZOf($user)
 	{
-		// TODO: implement!
-		return "";
-		//require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
-		//return gevUserUtils::getInstanceByObjOrId($user)->getEntryDate();
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		return gevUserUtils::getInstanceByObjOrId($user)->getWBDOKZ();
 	}
 }
