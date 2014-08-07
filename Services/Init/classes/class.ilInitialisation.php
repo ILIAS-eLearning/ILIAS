@@ -1341,6 +1341,9 @@ class ilInitialisation
 			$a_current_script == "pwassist.php" ||
 			$a_current_script == "confirmReg.php" ||
 			$a_current_script == "il_securimage_play.php" ||
+			// gev-patch start
+			$a_current_script == "gev_registration.php" ||
+			// gev-patch end
 			$a_current_script == "il_securimage_show.php") 
 		{
 			return true;
