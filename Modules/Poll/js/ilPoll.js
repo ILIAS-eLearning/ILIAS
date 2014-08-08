@@ -9,4 +9,4 @@ ilPoll = {
 		var url = this.redraw_url+"&ref_id"+ref_id;
 		il.Util.ajaxReplaceInner(url, "poll_comments_counter_"+ref_id);
 	}
-}
+};
