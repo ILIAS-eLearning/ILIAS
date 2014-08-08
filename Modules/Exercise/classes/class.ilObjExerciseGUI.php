@@ -2201,7 +2201,9 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$peer_prsl->setInfo($lng->txt("exc_peer_review_personal_info"));
 		$peer->addSubItem($peer_prsl);
 				
-		if($this->ass->getDeadline() && $this->ass->getDeadline() < time())
+		if($a_mode != "create" && // #13745
+			$this->ass && 
+			$this->ass->getDeadline() && $this->ass->getDeadline() < time())
 		{
 			$peer_prsl->setDisabled(true);
 		}
