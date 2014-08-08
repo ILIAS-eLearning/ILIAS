@@ -73,11 +73,13 @@
 			{LANG_COMMENTS}
 			<span id="poll_comments_counter_{COMMENTS_COUNT_ID}">{COMMENTS_COUNT}</span>
 		</a>				
+		<!-- BEGIN redraw_bl -->
 		<script type="text/javascript">
 			il.Util.addOnLoad(function() {
 				ilPoll.setUrl("{COMMENTS_REDRAW_URL}");
 			});		
 		</script>
+		<!-- END redraw_bl -->
     </div>
     <!-- END comment_link -->
 </tr>

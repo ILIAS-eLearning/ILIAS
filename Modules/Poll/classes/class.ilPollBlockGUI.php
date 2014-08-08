@@ -20,6 +20,8 @@ class ilPollBlockGUI extends ilBlockGUI
 	
 	protected $poll_block; // [ilPollBlock]
 	
+	static $js_init = false;
+	
 	/**
 	* Constructor
 	*/
@@ -305,13 +307,17 @@ class ilPollBlockGUI extends ilBlockGUI
 			$this->tpl->setCurrentBlock("comment_link");
 			$this->tpl->setVariable("LANG_COMMENTS", $lng->txt('poll_comments'));
 			$this->tpl->setVariable("COMMENT_JSCALL", $this->commentJSCall());
-			
-			$redraw_url = $ilCtrl->getLinkTarget($this, "getNumberOfCommentsForRedraw",
-				"", true, false);			
-			$this->tpl->setVariable("COMMENTS_REDRAW_URL", $redraw_url);	
 			$this->tpl->setVariable("COMMENTS_COUNT_ID", $this->getRefId());
 			
-			$tpl->addJavaScript("Modules/Poll/js/ilPoll.js");
+			if(!self::$js_init)
+			{
+				$redraw_url = $ilCtrl->getLinkTarget($this, "getNumberOfCommentsForRedraw",
+					"", true, false);			
+				$this->tpl->setVariable("COMMENTS_REDRAW_URL", $redraw_url);	
+
+				$tpl->addJavaScript("Modules/Poll/js/ilPoll.js");
+				self::$js_init = true;
+			}
 		}
 
 	}
