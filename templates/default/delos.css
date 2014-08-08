@@ -2816,6 +2816,12 @@ img.ilPollQuestionImage {
   margin-top: -17px;
   margin-right: 3px;
 }
+.ilPollLegend {
+  margin-bottom: 5px;
+}
+.ilPollLegend td.legendLabel {
+  font-size: 120%;
+}
 /* Services/Search */
 div.ilMainMenuSearch {
   padding: 0 10px 3px;
