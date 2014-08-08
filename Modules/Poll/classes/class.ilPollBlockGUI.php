@@ -308,7 +308,14 @@ class ilPollBlockGUI extends ilBlockGUI
 			$this->tpl->setVariable("LANG_COMMENTS", $lng->txt('poll_comments'));
 			$this->tpl->setVariable("COMMENT_JSCALL", $this->commentJSCall());
 			$this->tpl->setVariable("COMMENTS_COUNT_ID", $this->getRefId());
-			
+
+			$comments_count = $this->getNumberOfComments($this->getRefId());
+
+			if($comments_count > 0)
+			{
+				$this->tpl->setVariable("COMMENTS_COUNT", "(".$comments_count.")");
+			}
+
 			if(!self::$js_init)
 			{
 				$redraw_url = $ilCtrl->getLinkTarget($this, "getNumberOfCommentsForRedraw",
@@ -420,11 +427,45 @@ class ilPollBlockGUI extends ilBlockGUI
 
 		return $jsCall;
 	}
-	
+
+	/**
+	 * Returns comment count for JS Redraw
+	 */
 	public function getNumberOfCommentsForRedraw()
 	{
-		echo "(".mt_rand(1,50).")";
-		exit();		
+		$number = $this->getNumberOfComments($_GET["poll_id"]);
+
+		if($number > 0)
+		{
+			echo "(".$number.")";
+		}
+		else
+		{
+			echo "";
+		}
+
+		exit();
+	}
+
+	/**
+	 * Get comment count
+	 *
+	 * @param int $ref_id
+	 * @return int
+	 */
+	public function getNumberOfComments($ref_id)
+	{
+		include_once("./Services/Notes/classes/class.ilNote.php");
+
+		$obj_id = ilObject2::_lookupObjectId($ref_id);
+		$number = ilNote::_countNotesAndComments($obj_id);
+
+		if(count($number) == 0)
+		{
+			return 0;
+		}
+
+		return $number[$obj_id][IL_NOTE_PUBLIC];
 	}
 }
 
