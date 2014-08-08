@@ -95,7 +95,6 @@ class gevCrsBillMail extends gevCrsAutoMail {
 		
 		return array( array( "name" => $this->bill->getBillNumber().".pdf"
 						   , "path" => gevBillStorage::getInstance()->getPath($this->bill)
-						   , "link" => null
 						   )
 					);
 	}

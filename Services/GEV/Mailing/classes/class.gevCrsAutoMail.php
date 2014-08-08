@@ -29,7 +29,6 @@ abstract class gevCrsAutoMail extends ilAutoMail {
 
 		$this->db = &$ilDB;
 		$this->lng = &$lng;
-		$this->ctrl = &$ilCtrl;
 		$this->settings = &$ilSetting;
 		$this->ilias = &$ilias;
 		$this->user = &$ilUser;

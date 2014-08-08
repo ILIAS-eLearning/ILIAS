@@ -17,7 +17,6 @@ class gevCrsAdditionalMailSettings {
 	public function __construct($a_crs_id) {
 		global $ilDB, $ilCtrl;
 		$this->db = &$ilDB;
-		$this->ctrl = &$ilCtrl;
 
 		$this->crs_id = $a_crs_id;
 
