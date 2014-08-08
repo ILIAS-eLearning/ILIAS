@@ -69,7 +69,20 @@
 	</td>
     <!-- BEGIN comment_link -->
     <div class="il_ContainerItemCommands2">
-        <a href="#" onclick="{COMMENT_JSCALL}" class="il_ContainerItemCommand2">{LANG_COMMENTS}</a>
+        <a href="#" onclick="{COMMENT_JSCALL}" class="il_ContainerItemCommand2">
+			{LANG_COMMENTS}
+			<span id="ilPollCommentsCounter">{COMMENTS_COUNT}</span>
+		</a>
+				
+		<script type="text/javascript">
+			ilPoll = {	
+				redrawComments: function(func)
+				{
+					var comm_re_url = "{COMMENTS_REDRAW_URL}";
+					il.Util.ajaxReplaceInner(comm_re_url, "ilPollCommentsCounter");
+				}
+			}
+		</script>
     </div>
     <!-- END comment_link -->
 </tr>

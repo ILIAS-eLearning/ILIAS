@@ -305,6 +305,11 @@ class ilPollBlockGUI extends ilBlockGUI
 			$this->tpl->setCurrentBlock("comment_link");
 			$this->tpl->setVariable("LANG_COMMENTS", $lng->txt('poll_comments'));
 			$this->tpl->setVariable("COMMENT_JSCALL", $this->commentJSCall());
+			
+			$redraw_url = $ilCtrl->getLinkTarget($this, "getNumberOfCommentsForRedraw",
+				"", true, false);
+			
+			$this->tpl->setVariable("COMMENTS_REDRAW_URL", $redraw_url);	
 		}
 
 	}
@@ -403,11 +408,16 @@ class ilPollBlockGUI extends ilBlockGUI
 
 
 		$comment = new ilNoteGUI();
-		$jsCall = $comment->getListCommentsJSCall($ajaxHash);
+		$jsCall = $comment->getListCommentsJSCall($ajaxHash, "ilPoll.redrawComments();");
 
 		return $jsCall;
 	}
-
+	
+	public function getNumberOfCommentsForRedraw()
+	{
+		echo "(".mt_rand(1,50).")";
+		exit();		
+	}
 }
 
 ?>
