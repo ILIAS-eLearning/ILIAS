@@ -89,7 +89,7 @@ class ilPollBlockGUI extends ilBlockGUI
 	
 	function fillRow($a_poll)
 	{		
-		global $ilCtrl, $lng, $ilUser;
+		global $ilCtrl, $lng, $ilUser, $tpl;
 		
 		
 		// handle messages
@@ -307,9 +307,11 @@ class ilPollBlockGUI extends ilBlockGUI
 			$this->tpl->setVariable("COMMENT_JSCALL", $this->commentJSCall());
 			
 			$redraw_url = $ilCtrl->getLinkTarget($this, "getNumberOfCommentsForRedraw",
-				"", true, false);
-			
+				"", true, false);			
 			$this->tpl->setVariable("COMMENTS_REDRAW_URL", $redraw_url);	
+			$this->tpl->setVariable("COMMENTS_COUNT_ID", $this->getRefId());
+			
+			$tpl->addJavaScript("Modules/Poll/js/ilPoll.js");
 		}
 
 	}
@@ -408,7 +410,7 @@ class ilPollBlockGUI extends ilBlockGUI
 
 
 		$comment = new ilNoteGUI();
-		$jsCall = $comment->getListCommentsJSCall($ajaxHash, "ilPoll.redrawComments();");
+		$jsCall = $comment->getListCommentsJSCall($ajaxHash, "ilPoll.redrawComments(".$refId.");");
 
 		return $jsCall;
 	}
