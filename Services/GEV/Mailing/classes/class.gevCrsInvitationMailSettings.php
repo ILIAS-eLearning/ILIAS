@@ -20,7 +20,6 @@ class gevCrsInvitationMailSettings {
 	public function __construct($a_crs_id) {
 		global $ilDB, $ilCtrl;
 		$this->db = &$ilDB;
-		$this->ctrl = &$ilCtrl;
 
 		$this->crs_id = $a_crs_id;
 		$this->attachments_path = null;
@@ -67,14 +66,8 @@ class gevCrsInvitationMailSettings {
 		$attachments = array();
 
 		foreach ($a_attachments as $att) {
-			$this->ctrl->setParameterByClass("gevCrsMailingGUI", "auto_mail_id", "participant_invitation");
-			$this->ctrl->setParameterByClass("gevCrsMailingGUI", "filename", $att);
-			$link = $this->ctrl->getLinkTargetByClass("gevCrsMailingGUI", "deliverAutoMailAttachment");
-			$this->ctrl->clearParametersByClass("gevCrsMailingGUI");
-
 			$attachments[$att] = array("name" => $att
 									  , "path" => $this->getAttachments()->getPathTo($att)
-									  , "link" => $link
 									  );
 		}
 

@@ -376,6 +376,14 @@ class gevCrsMailingGUI extends ilMailingGUI {
 
 		foreach($invMailFunctions as $function) {
 			$att = $this->getInvitationMailSettings()->getAttachmentsFor($function);
+			
+			foreach($att as $attachment) {
+				$this->ctrl->setParameter($this, "auto_mail_id", "participant_invitation");
+				$this->ctrl->setParameter($this, "filename", $attachment["name"]);
+				$link = $this->ctrl->getLinkTarget($this, "deliverAutoMailAttachment");
+				$this->ctrl->clearParameters($this);
+				$attachment["link"] = $link;
+			}
 
 			if (in_array($a_filename, $att)) {
 				if ($function = "standard") {
