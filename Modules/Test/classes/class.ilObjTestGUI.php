@@ -2381,11 +2381,24 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function confirmDeleteAllUserResultsObject()
 	{
-		$this->object->removeAllTestEditings();
+		global $ilDB, $lng;
+
+		require_once 'Modules/Test/classes/class.ilTestParticipantData.php';
+		$participantData = new ilTestParticipantData($ilDB, $lng);
+		$participantData->load($this->object->getTestId());
+
+		/* @var ilTestLP $testLP */
+		require_once 'Services/Object/classes/class.ilObjectLP.php';
+		$testLP = ilObjectLP::getInstance($this->object->getId());
+		$testLP->resetLPDataForUserIds($participantData->getUserIds(), false);
+
+		$this->object->removeTestActives($participantData->getActiveIds());
+
+		#$this->object->removeAllTestEditings();
 
 		// Update lp status
-		include_once './Services/Tracking/classes/class.ilLPStatusWrapper.php';
-		ilLPStatusWrapper::_refreshStatus($this->object->getId());
+		#include_once './Services/Tracking/classes/class.ilLPStatusWrapper.php';
+		#ilLPStatusWrapper::_refreshStatus($this->object->getId());
 
 		ilUtil::sendSuccess($this->lng->txt("tst_all_user_data_deleted"), true);
 		$this->ctrl->redirect($this, "participants");
@@ -2400,23 +2413,33 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function confirmDeleteSelectedUserDataObject()
 	{
-		$active_ids = array();
-		foreach ($_POST["chbUser"] as $active_id)
+		global $ilDB, $lng;
+
+		require_once 'Modules/Test/classes/class.ilTestParticipantData.php';
+		$participantData = new ilTestParticipantData($ilDB, $lng);
+
+		if( $this->object->getFixedParticipants() )
 		{
-			if ($this->object->getFixedParticipants())
-			{
-				array_push($active_ids, $this->object->getActiveIdOfUser($active_id));
-			}
-			else
-			{
-				array_push($active_ids, $active_id);
-			}
+			$participantData->setUserIds($_POST["chbUser"]);
 		}
-		$this->object->removeSelectedTestResults($active_ids);
+		else
+		{
+			$participantData->setActiveIds($_POST["chbUser"]);
+		}
+
+		/* @var ilTestLP $testLP */
+		require_once 'Services/Object/classes/class.ilObjectLP.php';
+		$testLP = ilObjectLP::getInstance($this->object->getId());
+
+		$testLP->resetLPDataForUserIds($participantData->getUserIds(), false);
+
+		$this->object->removeTestActives($participantData->getActiveIds());
+
+		#$this->object->removeSelectedTestResults($active_ids);
 
 		// Update lp status
-		include_once './Services/Tracking/classes/class.ilLPStatusWrapper.php';
-		ilLPStatusWrapper::_refreshStatus($this->object->getId());
+		#include_once './Services/Tracking/classes/class.ilLPStatusWrapper.php';
+		#ilLPStatusWrapper::_refreshStatus($this->object->getId());
 
 		ilUtil::sendSuccess($this->lng->txt("tst_selected_user_data_deleted"), true);
 		$this->ctrl->redirect($this, "participants");

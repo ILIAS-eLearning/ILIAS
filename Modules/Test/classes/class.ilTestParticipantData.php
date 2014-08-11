@@ -57,6 +57,9 @@ class ilTestParticipantData
 			$this->byActiveId[ $row['active_id'] ] = $row;
 			$this->byUserId[ $row['user_id'] ] = $row;
 		}
+
+		$this->setActiveIds(array_keys($this->byActiveId));
+		$this->setUserIds(array_keys($this->byUserId));
 	}
 	
 	public function getConditionalExpression()
@@ -72,8 +75,13 @@ class ilTestParticipantData
 		{
 			$conditions[] = $this->db->in('user_fi', $this->getUserIds(), false, 'integer');
 		}
-		
-		return '('.implode(' OR ', $conditions).')';
+
+		if( count($conditions) )
+		{
+			return '('.implode(' OR ', $conditions).')';
+		}
+
+		return '1 = 1';
 	}
 
 	public function setActiveIds($activeIds)

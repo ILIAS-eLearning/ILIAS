@@ -654,13 +654,25 @@ class ilObjTestAccess extends ilObjectAccess
 
 		$passed_users = array();
 		// Maybe SELECT DISTINCT(tst_active.user_fi)... ?
-		$userresult = $ilDB->queryF("SELECT DISTINCT(tst_active.active_id) FROM tst_active, tst_tests WHERE tst_tests.test_id = tst_active.test_fi AND tst_tests.obj_fi = %s",
-			array('integer'),
-			array($a_obj_id)
+		$userresult = $ilDB->queryF("
+			SELECT DISTINCT(tst_active.active_id), COUNT(tst_sequence) sequences
+			FROM tst_tests
+			INNER JOIN tst_active
+			ON tst_active.test_fi = tst_tests.test_id
+			WHERE tst_tests.obj_fi = %s
+			GROUP BY tst_active.active_id
+			",
+			array('integer'), array($a_obj_id)
 		);
 		$all_participants = array();
+		$notAttempted = array();
 		while ($row = $ilDB->fetchAssoc($userresult))
 		{
+			if($row['sequences'] == 0)
+			{
+				$notAttempted[$row['user_fi']] = $row['user_fi'];
+			}
+
 			array_push($all_participants, $row['active_id']);
 		}
 		
@@ -686,6 +698,12 @@ class ilObjTestAccess extends ilObjectAccess
 		}
 		while ($data = $ilDB->fetchAssoc($result))
 		{
+			if( isset($notAttempted[$data['user_fi']]) )
+			{
+				$data['failed'] = 0;
+				$data['passed'] = 0;
+			}
+
 			$data['user_id'] = $data['user_fi'];
 			array_push($passed_users, $data);
 		}
