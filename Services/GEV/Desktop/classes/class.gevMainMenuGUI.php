@@ -30,6 +30,11 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 	}
 
 	public function renderMainMenuListEntries($a_tpl, $a_call_get = true) {
+		// No Menu during registration.
+		if (basename($_SERVER["PHP_SELF"]) == "gev_registration.php") {
+			return;
+		}
+		
 		// switch to patch template
 		$a_tpl = new ilTemplate("tpl.gev_main_menu_entries.html", true, true, "Services/GEV/Desktop");
 		
