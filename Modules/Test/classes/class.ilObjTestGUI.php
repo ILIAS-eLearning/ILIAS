@@ -2697,6 +2697,8 @@ class ilObjTestGUI extends ilObjectGUI
 			$participantData->setActiveIds($_POST["chbUser"]);
 		}
 
+		$participantData->load($this->object->getTestId());
+
 		/* @var ilTestLP $testLP */
 		require_once 'Services/Object/classes/class.ilObjectLP.php';
 		$testLP = ilObjectLP::getInstance($this->object->getId());
