@@ -424,7 +424,8 @@ class ilContainerSorting
 		
 		if(!$this->obj_id)
 	 	{
-	 		return true;
+	 		$this->sorting_settings = new ilContainerSortingSettings();
+			return true;
 	 	}
 		
 		$this->sorting_settings = ilContainerSortingSettings::getInstanceByObjId($this->obj_id);
