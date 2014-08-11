@@ -395,6 +395,7 @@ class gevUserImport {
 
 
 	private function send_confirmation_email($token) {
+		// TODO: send mail!
 		$this->set_email_sent_field($token);
 	}
 
