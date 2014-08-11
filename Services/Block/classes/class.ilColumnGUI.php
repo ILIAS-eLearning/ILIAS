@@ -126,6 +126,7 @@ class ilColumnGUI
 		"frm" => array(),
 		"root" => array(),
 		"info" => array(),
+		"fold" => array(),
 		"pd" => array("ilPDExternalFeedBlockGUI")
 		);
 		

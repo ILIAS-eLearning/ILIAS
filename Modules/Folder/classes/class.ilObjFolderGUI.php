@@ -156,6 +156,11 @@ class ilObjFolderGUI extends ilContainerGUI
 				$did = new ilDidacticTemplateGUI($this);
 				$this->ctrl->forwardCommand($did);
 				break;
+			case 'ilcolumngui':
+				$this->tabs_gui->setTabActive('none');
+				$this->checkPermission("read");
+				$this->viewObject();
+				break;
 
 			default:
 
