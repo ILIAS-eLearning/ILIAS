@@ -655,10 +655,12 @@ class ilObjTestAccess extends ilObjectAccess
 		$passed_users = array();
 		// Maybe SELECT DISTINCT(tst_active.user_fi)... ?
 		$userresult = $ilDB->queryF("
-			SELECT DISTINCT(tst_active.active_id), COUNT(tst_sequence) sequences
+			SELECT tst_active.active_id, COUNT(tst_sequence.active_fi) sequences
 			FROM tst_tests
 			INNER JOIN tst_active
 			ON tst_active.test_fi = tst_tests.test_id
+			LEFT JOIN tst_sequence
+			ON tst_sequence.active_fi = tst_active.active_id
 			WHERE tst_tests.obj_fi = %s
 			GROUP BY tst_active.active_id
 			",
@@ -673,7 +675,7 @@ class ilObjTestAccess extends ilObjectAccess
 				$notAttempted[$row['user_fi']] = $row['user_fi'];
 			}
 
-			array_push($all_participants, $row['active_id']);
+			$all_participants[$row['active_id']] = $row['active_id'];
 		}
 		
 		$result = $ilDB->query("SELECT tst_result_cache.*, tst_active.user_fi FROM tst_result_cache, tst_active WHERE tst_active.active_id = tst_result_cache.active_fi AND " . $ilDB->in('active_fi', $all_participants, false, 'integer'));
