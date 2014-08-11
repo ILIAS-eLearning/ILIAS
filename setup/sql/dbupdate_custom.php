@@ -709,3 +709,36 @@ $ilDB->createTable('gev_bill_coupon', $fields);
 $ilDB->addPrimaryKey('gev_bill_coupon', array('bill_pk'));
 
 ?>
+
+
+<#28>
+<?php
+
+// more fields in GEV_USER_REGISTRATION_TOKENS for GEV
+// for sending registration mail
+
+$ilDB->addTableColumn( "gev_user_reg_tokens"
+					 , "firstname"
+					 , array( "type" 	=> "text"
+					 		, "length"	=> 32
+					 		, "notnull"	=> true
+					 		)
+					 );
+
+$ilDB->addTableColumn( "gev_user_reg_tokens"
+					 , "lastname"
+					 , array( "type" 	=> "text"
+					 		, "length"	=> 32
+					 		, "notnull"	=> true
+					 		)
+					 );
+
+$ilDB->addTableColumn( "gev_user_reg_tokens"
+					 , "gender"
+					 , array( "type" 	=> "text"
+					 		, "length"	=> 1
+					 		, "notnull"	=> true
+					 		)
+					 );
+
+?>
