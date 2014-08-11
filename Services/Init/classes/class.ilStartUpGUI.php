@@ -1960,7 +1960,8 @@ class ilStartUpGUI
 		// gev-patch start
 		// only show the upgraded startup screen on normal login. use fallback to original
 		// screen when any command is issued.
-		if (!isset($_GET["cmd"]) || $_GET["cmd"] == "showLogin" || $_GET["cmd"] == "") {
+		if ((!isset($_GET["cmd"]) || $_GET["cmd"] == "showLogin" || $_GET["cmd"] == "")
+			&& !$_GET["cmdClass"] == "ilpasswordassistancegui") {
 			$tpl->addBlockfile('CONTENT', 'content', 'tpl.startup_screen.html', 'Services/Init');
 		}
 		else {
