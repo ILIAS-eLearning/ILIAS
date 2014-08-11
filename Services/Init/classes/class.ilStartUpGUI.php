@@ -1957,8 +1957,16 @@ class ilStartUpGUI
 		iljQueryUtil::initjQuery();
 		//$tpl->addJavaScript("./Services/CaTUIComponents/js/catAccordionTable.js");
 
-
-		$tpl->addBlockfile('CONTENT', 'content', 'tpl.startup_screen.html', 'Services/Init');
+		// gev-patch start
+		// only show the upgraded startup screen on normal login. use fallback to original
+		// screen when any command is issued.
+		if (!isset($_GET["cmd"])) {
+			$tpl->addBlockfile('CONTENT', 'content', 'tpl.startup_screen.html', 'Services/Init');
+		}
+		else {
+			$tpl->addBlockfile('CONTENT', 'content', 'tpl.startup_screen_orig.html', 'Services/Init');
+		}
+		// gev-patch end
 		$tpl->setVariable('HEADER_ICON', ilUtil::getImagePath('HeaderIcon.png'));
 
 		if($a_show_back)

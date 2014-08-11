@@ -839,6 +839,9 @@ class ilPersonalSettingsGUI
 					ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
 					$target = ilSession::get('orig_request_target');
 					ilSession::set('orig_request_target', '');
+					if (strpos($target, "gev_activate_user.php") !== false) {
+						$target = ilUtil::_getHttpPath();
+					}
 					ilUtil::redirect($target);
 				}
 				else
