@@ -174,7 +174,7 @@ class ilSubscriberTableGUI extends ilTable2GUI
 		
 		$this->tpl->setVariable('VAL_SUBTIME',ilDatePresentation::formatDate(new ilDateTime($a_set['sub_time'],IL_CAL_UNIX)));
 		
-		$this->ctrl->setParameterByClass(get_class($this->getParentObject()),'member_id',$a_set['id']);
+		$this->ctrl->setParameterByClass(get_class($this->getParentObject()),'member_id',$a_set['usr_id']);
 		$link = $this->ctrl->getLinkTargetByClass(get_class($this->getParentObject()),'sendMailToSelectedUsers');
 		$this->tpl->setVariable('MAIL_LINK',$link);
 		$this->tpl->setVariable('MAIL_TITLE',$this->lng->txt('crs_mem_send_mail'));
