@@ -252,7 +252,7 @@ class ilAccountCodesGUI
 		}
 		else
 		{
-			ilUtil::sendFailure($this->lng->txt("account_export_codes_no_data"));
+			ilUtil::sendFailure($lng->txt("account_export_codes_no_data"));
 			$this->listCodes();
 		}
 	}
