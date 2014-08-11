@@ -90,6 +90,8 @@ class gevUserImport {
 		if ($ilias_user === false) {
 			return 'User already exists.';
 		}
+		// make root be the owner of the new user.
+		$ilias_user->setOwner(6);
 		$ilias_user->update();
 		$this->set_gev_attributes($ilias_user, $shadow_user);
 		$this->update_global_role($ilias_user, $shadow_user);
