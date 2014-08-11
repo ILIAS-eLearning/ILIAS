@@ -40,7 +40,8 @@ class gevUserImport {
 		$username = $email;
 
 		if ($this->token_exists_for_email($email)) {
-			if ($this->token_exists_for_stelle($stelle)) {
+			$token = $this->get_token_for_stelle($stelle);
+			if ($token !== null) {
 				$this->send_confirmation_email($token);
 				return false;
 			} else {
@@ -52,9 +53,13 @@ class gevUserImport {
 		if ($shadow_user === false) {
 			return 'User not found in shadow database.';
 		}
+		else {
+			$iv_data = $this->get_additional_user_data($stelle, $email);
+		}
 
 		$token = $this->generate_confirmation_token();
-		$this->save_token($token, $username, $stelle, $email);
+		$this->save_token($token, $username, $stelle, $email
+						 , $iv_data["firstname"], $iv_data["lastname"], $iv_data["gender"]);
 		$this->send_confirmation_email($token, $username, $email);
 
 		return false;
@@ -168,6 +173,30 @@ class gevUserImport {
 
 		$row = mysql_fetch_assoc($result);
 		return $row;
+	}
+
+	private function get_additional_user_data($stellennummer, $email) {
+		$sql = "
+			SELECT 
+				`nachname` lastname,
+				`vorname` firstname,
+				IF (`geschlecht`='M','m','f') gender
+			FROM `ivimport_adp`
+			INNER JOIN
+				`ivimport_stelle`
+			ON 
+				( `ivimport_stelle`.`stellennummer` = `ivimport_adp`.`stelle` )
+			WHERE
+				`ivimport_adp`.`stelle`=" . $this->ilDB->quote($stellennummer, "text") . "
+			AND
+				`ivimport_adp`.`email`=" . $this->ilDB->quote($email, "text") . "
+		";
+		$result = mysql_query($sql, $this->mysql);
+		
+		if ((!$result) || (mysql_num_rows($result) !== 1)) {
+			return array();
+		}
+		return mysql_fetch_assoc($result);
 	}
 
 	private function create_ilias_user($username, $shadow_user, $token) {
@@ -395,7 +424,9 @@ class gevUserImport {
 
 
 	private function send_confirmation_email($token) {
-		// TODO: send mail!
+		require_once("Services/GEV/Mailing/classes/class.gevRegistrationMails.php");
+		$reg_mails = new gevRegistrationMails($token);
+		$reg_mails->getAutoMail("evg_activation")->send();
 		$this->set_email_sent_field($token);
 	}
 
@@ -436,6 +467,12 @@ class gevUserImport {
 				`gev_user_reg_tokens`
 			WHERE
 				`username` LIKE " . $this->ilDB->quote($wildcard, "text") . "
+			
+			UNION SELECT `login` username
+			FROM
+				`usr_data`
+			WHERE
+				`login` LIKE " . $this->ilDB->quote($wildcard, "text") . "
 		";
 
 		$result = $this->ilDB->query($sql);
@@ -548,6 +585,23 @@ class gevUserImport {
 		return $this->ilDB->numRows($result) > 0;
 	}
 
+	private function get_token_for_stelle($stelle) {
+		$sql = "
+			SELECT
+				token
+			FROM
+				`gev_user_reg_tokens` 
+			WHERE
+				`stelle`=" . $this->ilDB->quote($stelle, "text") . ";
+		";
+
+		$result = $this->ilDB->query($sql);
+		if ($rec = $this->ilDB->fetchAssoc($result)) {
+			return $rec["token"];
+		}
+		return null;
+	}
+
 	private function get_token_data($token) {
 		$sql = "
 			SELECT
@@ -569,7 +623,7 @@ class gevUserImport {
 		}
 	}
 
-	private function save_token($token, $username, $stelle, $email) {
+	private function save_token($token, $username, $stelle, $email, $firstname, $lastname, $gender) {
 		$sql = "
 			INSERT INTO
 				`gev_user_reg_tokens`
@@ -577,13 +631,19 @@ class gevUserImport {
 				`token` ,
 				`stelle` ,
 				`username` ,
-				`email`
+				`email` ,
+				`firstname` ,
+				`lastname` ,
+				`gender` 
 			)
 			VALUES (
 				" . $this->ilDB->quote($token, "text") . ",
 				" . $this->ilDB->quote($stelle, "text") . ",
 				" . $this->ilDB->quote($username, "text") . ",
-				" . $this->ilDB->quote($email, "text") . "
+				" . $this->ilDB->quote($email, "text") . ",
+				" . $this->ilDB->quote($firstname, "text") . ",
+				" . $this->ilDB->quote($lastname, "text") . ",
+				" . $this->ilDB->quote($gender, "text"). "
 			);
 		";
 

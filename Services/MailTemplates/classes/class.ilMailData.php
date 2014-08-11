@@ -16,4 +16,10 @@ abstract class ilMailData
 	abstract function getAttachments($a_lng); // Please note this is a plural. The method differs from the original concept!
 
 	abstract function getRecipientUserId();
+	
+	// gev-patch start
+	function deliversStandardPlaceholders() {
+		return false;
+	}
+	// gev-patch end
 }

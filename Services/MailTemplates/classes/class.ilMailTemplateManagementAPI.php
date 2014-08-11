@@ -350,8 +350,16 @@ class ilMailTemplateManagementAPI
 		$messages['plain']   = $variant->getMessagePlain();
 		$messages['html']    = $variant->getMessageHtml();
 		$messages['subject'] = $variant->getMessageSubject();
-						
-		if ($a_mail_data->getRecipientUserId())
+
+		// gev-patch start
+		if ($a_mail_data->deliversStandardPlaceholders()) {
+			$salutation = $a_mail_data->getPlaceholderLocalized("SALUTATION");
+			$login = $a_mail_data->getPlaceholderLocalized("LOGIN");
+			$first_name = $a_mail_data->getPlaceholderLocalized("FIRST_NAME");
+			$last_name = $a_mail_data->getPlaceholderLocalized("LAST_NAME");
+		}
+		// gev-patch end
+		else if ($a_mail_data->getRecipientUserId())
 		{
 			$user = self::getCachedUserInstance($a_mail_data->getRecipientUserId());
 			$salutation = $this->getSalutation($user, $lng);

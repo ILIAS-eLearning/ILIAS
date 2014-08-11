@@ -23,6 +23,7 @@ function import_ilias($logout=true) {
 import_ilias();
 $import = get_gev_import();
 
+/*
 $action = $_GET['action'];
 switch ($action) {
 
@@ -38,7 +39,7 @@ switch ($action) {
 		header('Location: /');
 		break;
 
-	case 'activate':
+	case 'activate':*/
 		$token = $_GET['token'];
 
 		$error = $import->activate($token);
@@ -46,11 +47,11 @@ switch ($action) {
 		if ($error) {
 			die($error);
 		}
-
+/*
 		break;
 
 	default:
 		break;
-}
+}*/
 
 ?>
