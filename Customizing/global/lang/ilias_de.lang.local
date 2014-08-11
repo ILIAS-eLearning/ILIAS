@@ -694,7 +694,7 @@ gev#:#gev_points_in_wbd_cert_year#:#Punkte im aktuellen Zertifizierungsjahr
 gev#:#gev_points_at_end_of_cert_year#:#voraussichtliche Punkte bis zum Ende des aktuellen Zertifizierungsjahres
 gev#:#gev_overall_prize#:#Gesamtpreis
 gev#:#gev_position#:#Vermittlernummer
-gev#:#gev_evg_registration#:#Registrierung
+gev#:#gev_evg_registration#:#Registrierung: Generali Online Akademie
 gev#:#gev_evg_registration_header_note#:#Hier können sie einen neuen Benutzer mit ihren Daten aus der IV-Datenbank anlegen.
 gev#:#gev_evg_registration_not_found#:#Es konnte kein Datensatz gefunden werden, der mit ihren Eingaben übereinstimmt.
 gev#:#gev_registration_success#:#Eine Email mit einem Aktivierungslink wurde an sie versendet.
