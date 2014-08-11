@@ -87,8 +87,25 @@ class ilLPStatusTestPassed extends ilLPStatus
 				$user_ids[] = $user_data['user_id'];
 			}
 		}
+
 		$ilBench->stop('LearningProgress','9183_LPStatusTestPassed_completed');
 		return $user_ids ? $user_ids : array();
+	}
+
+	function _getNotAttempted($a_obj_id)
+	{
+		$user_ids = array();
+
+		$status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
+
+		foreach($status_info['results'] as $user_data)
+		{
+			if( !$user_data['failed'] && !$user_data['passed'] )
+			{
+				$user_ids[] = $user_data['user_id'];
+			}
+		}
+		return $user_ids;
 	}
 
 	function _getFailed($a_obj_id)
@@ -151,22 +168,34 @@ class ilLPStatusTestPassed extends ilLPStatus
 		
 		include_once './Modules/Test/classes/class.ilObjTestAccess.php';
 
-		$res = $ilDB->query("SELECT tries FROM tst_active".
-			" WHERE user_fi = ".$ilDB->quote($a_user_id, "integer").
-			" AND test_fi = ".$ilDB->quote(ilObjTestAccess::_getTestIDFromObjectID($a_obj_id)));
+		$res = $ilDB->query("
+			SELECT tst_active.active_id, tst_active.tries, count(tst_sequence.active_fi) sequences
+			FROM tst_active
+			LEFT JOIN tst_sequence
+			ON tst_sequence.active_fi = tst_active.active_id
+			WHERE tst_active.user_fi = {$ilDB->quote($a_user_id, "integer")}
+			AND tst_active.test_fi = {$ilDB->quote(ilObjTestAccess::_getTestIDFromObjectID($a_obj_id))}
+			GROUP BY tst_active.active_id, tst_active.tries
+		");
 		
 		if ($rec = $ilDB->fetchAssoc($res))
 		{
-			include_once './Modules/Test/classes/class.ilObjTestAccess.php';
-			if (ilObjTestAccess::_isPassed($a_user_id, $a_obj_id))
+			if( $rec['sequences'] > 0 )
 			{
-				$status = LP_STATUS_COMPLETED_NUM;
+				include_once './Modules/Test/classes/class.ilObjTestAccess.php';
+				if (ilObjTestAccess::_isPassed($a_user_id, $a_obj_id))
+				{
+					$status = LP_STATUS_COMPLETED_NUM;
+				}
+				else
+				{
+					$status = LP_STATUS_FAILED_NUM;
+				}
 			}
 			else
 			{
-				$status = LP_STATUS_FAILED_NUM;
+				$status = LP_STATUS_NOT_ATTEMPTED_NUM;
 			}
-			
 		}
 		
 		return $status;		

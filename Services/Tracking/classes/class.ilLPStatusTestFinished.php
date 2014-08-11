@@ -29,16 +29,27 @@ class ilLPStatusTestFinished extends ilLPStatus
 
 		include_once './Modules/Test/classes/class.ilObjTestAccess.php';
 
-		$query = "SELECT DISTINCT(user_fi) FROM tst_active ".
-			" WHERE tries = ".$ilDB->quote(0, "integer").
-			" AND test_fi = ".$ilDB->quote(ilObjTestAccess::_getTestIDFromObjectID($a_obj_id), "integer");
+		$query = "
+			SELECT active_id, user_fi, COUNT(tst_sequence.active_fi) sequences
+			FROM tst_active
+			LEFT JOIN tst_sequence
+			ON tst_sequence.active_fi = tst_active.active_id
+			WHERE tries = {$ilDB->quote(0, "integer")}
+			AND test_fi = {$ilDB->quote(ilObjTestAccess::_getTestIDFromObjectID($a_obj_id), "integer")}
+			GROUP BY active_id, user_fi
+			HAVING COUNT(tst_sequence.active_fi) > {$ilDB->quote(0, "integer")}
+		";
 
 		$res = $ilDB->query($query);
+
+		$user_ids = array();
+
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$user_ids[] = $row->user_fi;
+			$user_ids[$row->user_fi] = $row->user_fi;
 		}
-		return $user_ids ? $user_ids : array();
+
+		return array_values($user_ids);
 	}
 
 
@@ -48,16 +59,55 @@ class ilLPStatusTestFinished extends ilLPStatus
 
 		include_once './Modules/Test/classes/class.ilObjTestAccess.php';
 
-		$query = "SELECT DISTINCT(user_fi) FROM tst_active ".
-			" WHERE tries > ".$ilDB->quote(0, "integer").
-			" AND test_fi = ".$ilDB->quote(ilObjTestAccess::_getTestIDFromObjectID($a_obj_id));
+		$query = "
+			SELECT active_id, user_fi, COUNT(tst_sequence.active_fi) sequences
+			FROM tst_active
+			LEFT JOIN tst_sequence
+			ON tst_sequence.active_fi = tst_active.active_id
+			WHERE tries > {$ilDB->quote(0, "integer")}
+			AND test_fi = {$ilDB->quote(ilObjTestAccess::_getTestIDFromObjectID($a_obj_id))}
+			GROUP BY active_id, user_fi
+			HAVING COUNT(tst_sequence.active_fi) > {$ilDB->quote(0, "integer")}
+		";
 
 		$res = $ilDB->query($query);
+
+		$user_ids = array();
+
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$user_ids[] = $row->user_fi;
+			$user_ids[$row->user_fi] = $row->user_fi;
 		}
-		return $user_ids ? $user_ids : array();
+
+		return array_values($user_ids);
+	}
+
+	function _getNotAttempted($a_obj_id)
+	{
+		global $ilDB;
+
+		include_once './Modules/Test/classes/class.ilObjTestAccess.php';
+
+		$query = "
+			SELECT active_id, user_fi, COUNT(tst_sequence.active_fi) sequences
+			FROM tst_active
+			LEFT JOIN tst_sequence
+			ON tst_sequence.active_fi = tst_active.active_id
+			WHERE test_fi = {$ilDB->quote(ilObjTestAccess::_getTestIDFromObjectID($a_obj_id))}
+			GROUP BY active_id, user_fi
+			HAVING COUNT(tst_sequence.active_fi) = {$ilDB->quote(0, "integer")}
+		";
+
+		$res = $ilDB->query($query);
+
+		$user_ids = array();
+
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$user_ids[$row->user_fi] = $row->user_fi;
+		}
+
+		return array_values($user_ids);
 	}
 
 	/**
@@ -94,27 +144,33 @@ class ilLPStatusTestFinished extends ilLPStatus
 	 */
 	function determineStatus($a_obj_id, $a_user_id, $a_obj = null)
 	{
-		global $ilObjDataCache, $ilDB, $ilLog;
-		
-		$status = LP_STATUS_NOT_ATTEMPTED_NUM;
+		global $ilDB;
 		
 		include_once './Modules/Test/classes/class.ilObjTestAccess.php';
 
-		$res = $ilDB->query("SELECT tries FROM tst_active".
-			" WHERE user_fi = ".$ilDB->quote($a_user_id, "integer").
-			" AND test_fi = ".$ilDB->quote(ilObjTestAccess::_getTestIDFromObjectID($a_obj_id)));
-		
+		$res = $ilDB->query("
+			SELECT active_id, user_fi, tries, COUNT(tst_sequence.active_fi) sequences
+			FROM tst_active
+			LEFT JOIN tst_sequence
+			ON tst_sequence.active_fi = tst_active.active_id
+			WHERE user_fi = {$ilDB->quote($a_user_id, "integer")}
+			AND test_fi = {$ilDB->quote(ilObjTestAccess::_getTestIDFromObjectID($a_obj_id))}
+			GROUP BY active_id, user_fi, tries
+		");
+
+		$status = LP_STATUS_NOT_ATTEMPTED_NUM;
+
 		if ($rec = $ilDB->fetchAssoc($res))
 		{
-			if ($rec["tries"] == 0)
+			if ($rec['sequences'] > 0)
 			{
 				$status = LP_STATUS_IN_PROGRESS_NUM;
+				
+				if ($rec['tries'] > 0)
+				{
+					$status = LP_STATUS_COMPLETED_NUM;
+				}
 			}
-			else if ($rec["tries"] > 0)
-			{
-				$status = LP_STATUS_COMPLETED_NUM;
-			}
-
 		}
 
 		return $status;		
