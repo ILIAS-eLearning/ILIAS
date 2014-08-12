@@ -15,7 +15,7 @@ class ilGEVCourseCreationPlugin extends ilEventHookPlugin
 		
 		require_once("Services/Object/classes/class.ilObject.php");
 
-		if (ilObject::_lookupType($a_parameter["target_ref_id"], true) !== "crs") {
+		if (ilObject::_lookupType($a_parameter["source_ref_id"], true) !== "crs") {
 			return;
 		}
 
