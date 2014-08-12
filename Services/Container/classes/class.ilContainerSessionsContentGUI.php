@@ -112,10 +112,12 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
 	*/
 	function __showMaterials($a_tpl)
 	{
-		global $ilAccess, $lng;
+		global $lng;
 
 		$this->items = $this->getContainerObject()->getSubItems($this->getContainerGUI()->isActiveAdministrationPanel());
 		$this->clearAdminCommandsDetermination();
+		
+		$this->initRenderer();
 		
 		$output_html = $this->getContainerGUI()->getContainerPageHTML();
 		
@@ -125,97 +127,62 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
 			$output_html = $this->insertPageEmbeddedBlocks($output_html);
 		}
 
-		// sessions
-		$done_sessions = false;
-		$tpl = $this->newBlockTemplate();
-		if (
-				is_array($this->items["sess"]) or 
-				$this->items['sess_link']['prev']['value'] or
-				$this->items['sess_link']['next']['value'])
+		if (is_array($this->items["sess"]) ||
+			$this->items['sess_link']['prev']['value'] ||
+			$this->items['sess_link']['next']['value'])
 		{
 			$this->items['sess'] = ilUtil::sortArray($this->items['sess'],'start','ASC',true,true);
 			
-			// all rows
-			$item_html = array();
-			$position = 1;
-			
 			if($this->items['sess_link']['prev']['value'])
 			{
-				$item_html[] = $this->renderSessionLimitLink(true);
-			}
-			
-			foreach($this->items["sess"] as $item_data)
-			{
-				if ($this->rendered_items[$item_data["child"]] !== true)
-				{
-					$html = $this->renderItem($item_data,$position++,true);
-
-					if ($html != "")
-					{
-						$item_html[] = $html;
-					}
-				}
+				$prefix = $this->renderSessionLimitLink(true);
 			}
 			if($this->items['sess_link']['next']['value'])
 			{
-				$item_html[] = $this->renderSessionLimitLink(false);
-			}
+				$postfix = $this->renderSessionLimitLink(false);
+			}	
 			
-			// if we have at least one item, output the block
-			if (count($item_html) > 0)
-			{
-				$this->addHeaderRow($tpl, "", $lng->txt("objs_sess"));
-				foreach($item_html as $h)
-				{
-					$this->addStandardRow($tpl, $h);
+			$this->renderer->addTypeBlock("sess", $prefix, $postfix);
+			$this->renderer->setBlockPosition("sess", 1);
+			
+			$position = 1;
+			
+			foreach($this->items["sess"] as $item_data)
+			{											
+				if (!$this->renderer->hasItem($item_data["child"]))
+				{	
+					$html = $this->renderItem($item_data, $position++, true);
+					if ($html != "")
+					{
+						$this->renderer->addItemToBlock("sess", $item_data["type"], $item_data["child"], $html);
+					}
 				}
-				$done_sessions = true;
-			}
+			}				
 		}
 
-		// all other items
-		if ($done_sessions)
-		{
-			$this->addSeparatorRow($tpl);
-		}
-		
-		// item groups
-		$this->getItemGroupsHTML($tpl);
-
+		$pos = $this->getItemGroupsHTML(1);
 		
 		if (is_array($this->items["_all"]))
 		{
-			// all rows
-			$item_html = array();
+			$this->renderer->addCustomBlock("_all", $lng->txt("content"));
+			$this->renderer->setBlockPosition("_all", ++$pos);
+						
 			$position = 1;
+			
 			foreach($this->items["_all"] as $item_data)
 			{
-				if ($this->rendered_items[$item_data["child"]] !== true)
-				{
-					if ($item_data["type"] == "sess" || $item_data["type"] == "itgr")
-					{
-						continue;
-					}
-					$html = $this->renderItem($item_data,$position++,true);
+				if (!$this->renderer->hasItem($item_data["child"]))
+				{					
+					$html = $this->renderItem($item_data, $position++, true);
 					if ($html != "")
 					{
-						$item_html[] = $html;
+						$this->renderer->addItemToBlock("_all", $item_data["type"], $item_data["child"], $html);
 					}
 				}
-			}
-			
-			// if we have at least one item, output the block
-			if (count($item_html) > 0)
-			{
-				$this->addHeaderRow($tpl, "", $lng->txt("content"));
-				foreach($item_html as $h)
-				{
-					$this->addStandardRow($tpl, $h);
-				}
-			}
+			}			
 		}
 
-		$output_html .= $tpl->get();
+		$output_html .= $this->renderer->getHTML();
 		
 		$a_tpl->setVariable("CONTAINER_PAGE_CONTENT", $output_html);
 	}

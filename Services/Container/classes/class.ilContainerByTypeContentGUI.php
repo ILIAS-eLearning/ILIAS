@@ -77,10 +77,7 @@ class ilContainerByTypeContentGUI extends ilContainerContentGUI
 	*/
 	function getMainContent()
 	{
-		global $ilBench, $tree, $ilTabs, $ilAccess;
-
-		// see bug #7452
-//		$ilTabs->setSubTabActive($this->getContainerObject()->getType().'_content');
+		global $ilBench, $ilAccess;
 
 		$tpl = new ilTemplate("tpl.container_page.html", true, true,
 			"Services/Container");
@@ -106,33 +103,22 @@ class ilContainerByTypeContentGUI extends ilContainerContentGUI
 			$tpl->setVariable("CONTAINER_PAGE_CONTENT", $html);
 		}
 
-		// @todo: Move this completely to GUI class?
-/*		$this->getContainerGUI()->adminCommands = $this->adminCommands;
-		$this->getContainerGUI()->showAdministrationPanel($tpl);
-		$this->getContainerGUI()->showPossibleSubObjects();
-		$this->getContainerGUI()->showPermanentLink($tpl);*/
-		
-		$this->html = $tpl->get();
-		
-		return $this->html;
+		return $tpl->get();
 	}
 	
 	/**
 	* Render Items
 	*/
 	function renderItemList()
-	{
-		global $objDefinition, $ilBench, $ilSetting, $lng;
-		
+	{		
 		include_once("Services/Object/classes/class.ilObjectListGUIFactory.php");
-
-		$output_html = "";
+	
 		$this->clearAdminCommandsDetermination();
+	
+		$this->initRenderer();
 		
-		$type_grps = $this->getGroupedObjTypes();
-
 		// text/media page content
-		$output_html.= $this->getContainerGUI()->getContainerPageHTML();
+		$output_html = $this->getContainerGUI()->getContainerPageHTML();
 		
 		// get embedded blocks
 		if ($output_html != "")
@@ -140,74 +126,37 @@ class ilContainerByTypeContentGUI extends ilContainerContentGUI
 			$output_html = $this->insertPageEmbeddedBlocks($output_html);
 		}
 
-		$tpl = $this->newBlockTemplate();
-		
-		$first = true;
-		
 		// item groups
-		if ($this->getItemGroupsHTML($tpl))
-		{
-			$first = false;
-		}
-
+		$pos = $this->getItemGroupsHTML();
+		
 		// iterate all types
-		foreach ($type_grps as $type => $v)
-		{
-			if ($type == "itgr")
-			{
-				continue;
-			}
-			if ($this->rendered_block["type"][$type] == "" &&
-				is_array($this->items[$type]))
-			{
-				// all rows
-				$item_r = array();
+		foreach ($this->getGroupedObjTypes() as $type => $v)
+		{			
+			if(is_array($this->items[$type]) &&
+				$this->renderer->addTypeBlock($type))
+			{				
+				$this->renderer->setBlockPosition($type, ++$pos);
+				
 				$position = 1;
 				
 				foreach($this->items[$type] as $item_data)
 				{
-					if ($this->rendered_items[$item_data["child"]])
-					{
-						continue;
+					$item_ref_id = $item_data["child"];
+					
+					if(!$this->renderer->hasItem($item_ref_id))
+					{						
+						$html = $this->renderItem($item_data, $position++);
+						if ($html != "")
+						{											
+							$this->renderer->addItemToBlock($type, $item_data["type"], $item_ref_id, $html);
+						}
 					}
-					$html = $this->renderItem($item_data,$position++);
-					if ($html != "")
-					{
-						$item_r[] = array("html" => $html, "id" => $item_data["child"]);
-					}
-				}
-				
-				// if we have at least one item, output the block
-				if (count($item_r) > 0)
-				{
-					if (!$first)
-					{
-						$this->addSeparatorRow($tpl);
-					}
-					$this->addHeaderRow($tpl, $type);
-					foreach($item_r as $h)
-					{
-						$this->addStandardRow($tpl, $h["html"], $h["id"]);
-					}
-					$first = false;
-				}
+				}				
 			}
 		}
-		if (!$first)
-		{
-			$output_html.= $tpl->get();
-		}
-
-/* old page
-		if ($xpage_id > 0)
-		{				
-			$page_block = new ilTemplate("tpl.container_page_block.html", false, false,
-				"Services/Container");
-			$page_block->setVariable("CONTAINER_PAGE_CONTENT", $output_html);
-			$output_html = $page_block->get();
-		}
-*/
-
+		
+		$output_html .= $this->renderer->getHTML();
+		
 		return $output_html;
 	}
 	

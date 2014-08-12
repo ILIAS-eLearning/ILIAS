@@ -79,6 +79,8 @@ class ilContainerSimpleContentGUI extends ilContainerContentGUI
 		$this->items = $this->getContainerObject()->getSubItems($this->getContainerGUI()->isActiveAdministrationPanel());
 		$this->clearAdminCommandsDetermination();
 		
+		$this->initRenderer();
+		
 		$output_html = $this->getContainerGUI()->getContainerPageHTML();
 		
 		// get embedded blocks
@@ -87,45 +89,29 @@ class ilContainerSimpleContentGUI extends ilContainerContentGUI
 			$output_html = $this->insertPageEmbeddedBlocks($output_html);
 		}
 
-		$tpl = $this->newBlockTemplate();
-		
 		// item groups
-		$this->getItemGroupsHTML($tpl);
+		$this->getItemGroupsHTML();
 		
 		if (is_array($this->items["_all"]))
 		{
-			// all rows
-			$item_html = array();
-			$position = 1;
+			$this->renderer->addCustomBlock(1, $lng->txt("content"));
+			
+			$position = 1;			
 			foreach($this->items["_all"] as $k => $item_data)
 			{
-				if ($this->rendered_items[$item_data["child"]] !== true)
-				{
-					if ($item_data["type"] == "itgr")
-					{
-						continue;
-					}
-					
-					$html = $this->renderItem($item_data,$position++,true);
+				if (!$this->renderer->hasItem($item_data["child"]))
+				{					
+					$html = $this->renderItem($item_data, $position++, true);
 					if ($html != "")
 					{
-						$item_html[] = $html;
+						$this->renderer->addItemToBlock(1, $item_data["type"], $item_data["child"], $html);
 					}
 				}
-			}
-			
-			// if we have at least one item, output the block
-			if (count($item_html) > 0)
-			{
-				$this->addHeaderRow($tpl, "", $lng->txt("content"));
-				foreach($item_html as $h)
-				{
-					$this->addStandardRow($tpl, $h);
-				}
-			}
+			}			
 		}
 
-		$output_html .= $tpl->get();
+		$output_html .= $this->renderer->getHTML();
+		
 		$a_tpl->setVariable("CONTAINER_PAGE_CONTENT", $output_html);
 	}
 	

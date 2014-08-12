@@ -21,6 +21,8 @@ abstract class ilContainerContentGUI
 	
 	protected $details_level = self::DETAILS_DEACTIVATED;
 	
+	protected $renderer; // [ilContainerRenderer]
+	
 	var $container_gui;
 	var $container_obj;
 
@@ -201,6 +203,23 @@ abstract class ilContainerContentGUI
 	abstract function getMainContent();
 	
 	/**
+	 * Init container renderer 
+	 */
+	protected function initRenderer()
+	{							
+		include_once('./Services/Container/classes/class.ilContainerSorting.php');					
+		$sorting = ilContainerSorting::_getInstance($this->getContainerObject()->getId());
+	
+		include_once "Services/Container/classes/class.ilContainerRenderer.php";
+		$this->renderer = new ilContainerRenderer(
+			($this->getContainerGUI()->isActiveAdministrationPanel() && !$_SESSION["clipboard"])
+			,$this->getContainerGUI()->isMultiDownloadEnabled()
+			,$this->getContainerGUI()->isActiveOrdering()
+			,$sorting->getBlockPositions()
+		);				
+	}
+	
+	/**
 	* Get columngui output
 	*/
 	final private function __forwardToColumnGUI()
@@ -370,83 +389,58 @@ abstract class ilContainerContentGUI
 	function renderPageEmbeddedBlocks()
 	{
 		global $lng;
-		
-		// first all type specific blocks
-		if (is_array($this->embedded_block["type"]))
-		{
-			// all embedded typed blocks
-			foreach ($this->embedded_block["type"] as $k => $type)
-			{
-				if ($this->rendered_block["type"][$type] == "")
-				{
-					if (is_array($this->items[$type]))
-					{
-						$tpl = $this->newBlockTemplate();
-						
-						// the header
-						$this->addHeaderRow($tpl, $type);
-						
-						// all rows
-						$item_rendered = false;
-						$position = 1;
-
-						if($type == 'sess')
-						{
-							$this->items['sess'] = ilUtil::sortArray($this->items['sess'],'start','ASC',true,true);
-						}
-
-						foreach($this->items[$type] as $k => $item_data)
-						{
-							$html = $this->renderItem($item_data,$position++);
-							if ($html != "")
-							{
-								$this->addStandardRow($tpl, $html, $item_data["child"]);
-								$item_rendered = true;
-								$this->rendered_items[$item_data["child"]] = true;
-							}
-						}
-					
-						// if no item has been rendered, add message
-						if (!$item_rendered)
-						{
-							//$this->addMessageRow($tpl, $lng->txt("msg_no_type_accessible"), $type);
-							$this->rendered_block["type"][$type] = "";
-						}
-						else
-						{
-							$this->rendered_block["type"][$type] = $tpl->get();
-						}
-					}
-				}
-			}
-		}
-		
-		// all item groups
+				
+		// item groups
 		if (is_array($this->embedded_block["itgr"]))
 		{
 			$item_groups = array();
 			if (is_array($this->items["itgr"]))
-			{
-				
+			{				
 				foreach ($this->items["itgr"] as $ig)
 				{
 					$item_groups[$ig["ref_id"]] = $ig;
 				}
 			}
 
-			// all embedded typed blocks
 			foreach ($this->embedded_block["itgr"] as $ref_id)
 			{
-				// render only item groups of $this->items (valid childs)
-				if ($this->rendered_block["itgr"][$ref_id] == "" && isset($item_groups[$ref_id]))
-				{
-					$tpl = $this->newBlockTemplate();
-					$this->renderItemGroup($tpl, $item_groups[$ref_id]);
-					$this->rendered_block["itgr"][$ref_id] = $tpl->get();
+				if(isset($item_groups[$ref_id]))
+				{					
+					$this->renderItemGroup($item_groups[$ref_id]);					
 				}
 			}
 		}
+		
+		// type specific blocks
+		if (is_array($this->embedded_block["type"]))
+		{			
+			foreach ($this->embedded_block["type"] as $k => $type)
+			{
+				if (is_array($this->items[$type]) &&
+					$this->renderer->addTypeBlock($type))
+				{										
+					// :TODO: obsolete?
+					if($type == 'sess')
+					{
+						$this->items['sess'] = ilUtil::sortArray($this->items['sess'],'start','ASC',true,true);
+					}
+					
+					$position = 1;
 
+					foreach($this->items[$type] as $k => $item_data)
+					{
+						if(!$this->renderer->hasItem($item_data["child"]))
+						{
+							$html = $this->renderItem($item_data, $position++);
+							if ($html != "")
+							{
+								$this->renderer->addItemToBlock($type, $item_data["type"], $item_data["child"], $html);							
+							}
+						}
+					}	
+				}
+			}
+		}		
 	}
 	
 	/**
@@ -613,156 +607,7 @@ abstract class ilContainerContentGUI
 			
 		return $html;
 	}
-	
-	/**
-	* returns a new list block template
-	*
-	* @access	private
-	* @return	object		block template
-	*/
-	function newBlockTemplate()
-	{
-		$tpl = new ilTemplate("tpl.container_list_block.html", true, true,
-			"Services/Container");
-		$this->cur_row_type = "row_type_1";
-		return $tpl;
-	}
 
-	/**
-	* add item row to template
-	*/
-	function addStandardRow(&$a_tpl, $a_html, $a_ref_id = 0)
-	{
-		global $ilSetting, $lng;
-		
-		$this->cur_row_type = ($this->cur_row_type == "row_type_1")
-			? "row_type_2"
-			: "row_type_1";
-
-		if ($a_ref_id > 0)
-		{
-			$a_tpl->setCurrentBlock($this->cur_row_type);
-			$a_tpl->setVariable("ROW_ID", 'id="item_row_'.$a_ref_id.'"');
-			$a_tpl->parseCurrentBlock();
-		}
-		else
-		{
-			$a_tpl->touchBlock($this->cur_row_type);
-		}
-		
-		$a_tpl->setCurrentBlock("container_standard_row");
-		$a_tpl->setVariable("BLOCK_ROW_CONTENT", $a_html);
-		$a_tpl->parseCurrentBlock();
-		$a_tpl->touchBlock("container_row");
-	}
-
-	/**
-	* Add header row to block template
-	*/
-	function addHeaderRow($a_tpl, $a_type = "", $a_text = "")
-	{
-		global $lng, $ilSetting, $objDefinition;
-		
-		$a_tpl->setVariable("CB_ID", ' id="bl_cntr_'.$this->bl_cnt.'"');
-		if ($this->getContainerGUI()->isActiveAdministrationPanel() && !$_SESSION["clipboard"])
-		{
-			$this->renderSelectAllBlock($a_tpl);
-		}
-		else if ($this->getContainerGUI()->isMultiDownloadEnabled())
-		{
-			// only add select all row on types that are supported
-			if (in_array($a_type, $this->getDownloadableTypes()))
-			{
-				$this->renderSelectAllBlock($a_tpl);
-			}
-			else if ($a_type == "")
-			{
-				// container with multiple types
-				// evaluate what items aren't rendered yet
-				foreach($this->items["_all"] as $k => $item_data)
-				{
-					if ($this->rendered_items[$item_data["child"]] !== true)
-					{
-						if (in_array($item_data["type"], $this->getDownloadableTypes()))
-						{
-							$this->renderSelectAllBlock($a_tpl);
-							break;
-						}
-					}
-				}
-			}
-		}
-		
-		if ($a_text == "" && $a_type != "")
-		{
-			if (!$objDefinition->isPlugin($a_type))
-			{
-				$title = $lng->txt("objs_".$a_type);
-			}
-			else
-			{
-				include_once("./Services/Component/classes/class.ilPlugin.php");
-				$title = ilPlugin::lookupTxt("rep_robj", $a_type, "objs_".$a_type);
-			}
-		}
-		else
-		{
-			$title = $a_text;
-		}
-
-		if ($ilSetting->get("icon_position_in_lists") != "item_rows" &&
-			$a_type != "")
-		{
-			$icon = ilUtil::getImagePath("icon_".$a_type.".png");
-
-			$a_tpl->setCurrentBlock("container_header_row_image");
-			$a_tpl->setVariable("HEADER_IMG", $icon);
-			$a_tpl->setVariable("HEADER_ALT", $title);
-		}
-		else
-		{
-			$a_tpl->setCurrentBlock("container_header_row");
-		}
-		
-		$a_tpl->setVariable("BLOCK_HEADER_CONTENT", $title);
-		$a_tpl->parseCurrentBlock();
-		$a_tpl->touchBlock("container_row");
-		
-		$this->resetRowType();
-	}
-	
-	/**
-	* Gets an array containing the types that can be downloaded.
-	*/
-	private function getDownloadableTypes()
-	{
-		return array("fold", "file");
-	}
-	
-	/**
-	* Renderes the "Select All" checkbox in the header row.
-	*/
-	private function renderSelectAllBlock($a_tpl)
-	{
-		global $lng;
-		
-		$a_tpl->setCurrentBlock("select_all_row");
-		$a_tpl->setVariable("CHECKBOXNAME", "bl_cb_".$this->bl_cnt);
-		$a_tpl->setVariable("SEL_ALL_PARENT", "bl_cntr_".$this->bl_cnt);
-		$a_tpl->setVariable("SEL_ALL_PARENT", "bl_cntr_".$this->bl_cnt);
-		$a_tpl->setVariable("TXT_SELECT_ALL", $lng->txt("select_all"));
-		$a_tpl->parseCurrentBlock();
-		$this->bl_cnt++;
-	}
-
-	/**
-	* Reset row type (toggling background colors)
-	*/
-	function resetRowType()
-	{
-		$this->cur_row_type = "";
-	}
-	
 	/**
 	* Insert blocks into container page
 	*/
@@ -771,16 +616,14 @@ abstract class ilContainerContentGUI
 		$this->determinePageEmbeddedBlocks($a_output_html);
 		$this->renderPageEmbeddedBlocks($this->items);
 		
-		$type_grps = $this->getGroupedObjTypes();
-		
 		// iterate all types
-		foreach ($type_grps as $type => $v)
+		foreach ($this->getGroupedObjTypes() as $type => $v)
 		{
 			// set template (overall or type specific)
 			if (is_int(strpos($a_output_html, "[list-".$type."]")))
 			{
 				$a_output_html = eregi_replace("\[list-".$type."\]",
-					$this->rendered_block["type"][$type], $a_output_html);
+					$this->renderer->renderSingleTypeBlock($type), $a_output_html);
 			}
 		}
 		
@@ -789,63 +632,13 @@ abstract class ilContainerContentGUI
 		{
 			$itgr_ref_id = (int) $found[2];
 			
-			// check whether this item group is child -> insert editing html
-			$html = "";
-			if (isset($this->rendered_block["itgr"][$itgr_ref_id]))
-			{
-				$html = $this->rendered_block["itgr"][$itgr_ref_id];
-				$this->rendered_items[$itgr_ref_id] = true;
-			}
-			$a_output_html = eregi_replace("\[".$found[1]."\]", $html, $a_output_html);
+			$a_output_html = eregi_replace("\[".$found[1]."\]", 
+				$this->renderer->renderSingleCustomBlock($itgr_ref_id), $a_output_html);
 		}
 
 		return $a_output_html;
 	}
-
-	/**
-	* add message row
-	*/
-	function addMessageRow(&$a_tpl, $a_message, $a_type)
-	{
-		global $lng, $objDefinition;
-		
-		$this->cur_row_type = ($this->cur_row_type == "row_type_1")
-			? "row_type_2"
-			: "row_type_1";
-
-		$a_tpl->touchBlock($this->cur_row_type);
-		
-		if (!$objDefinition->isPlugin($type))
-		{
-			$type = $lng->txt("obj_".$a_type);
-		}
-		else
-		{
-			include_once("./Services/Component/classes/class.ilPlugin.php");
-			$title = ilPlugin::lookupTxt("rep_robj", $a_type, "objs_".$a_type);
-		}
-		$a_message = str_replace("[type]", $type, $a_message);
-		
-		$a_tpl->setVariable("ROW_NBSP", "&nbsp;");
-
-		$a_tpl->setCurrentBlock("container_standard_row");
-		$a_tpl->setVariable("BLOCK_ROW_CONTENT",
-			$a_message);
-		$a_tpl->parseCurrentBlock();
-		$a_tpl->touchBlock("container_row");
-	}
-
-	/**
-	* Add separator row between two blocks
-	*/
-	function addSeparatorRow(&$a_tpl)
-	{
-		global $lng;
-		
-		$a_tpl->setCurrentBlock("container_block");
-		$a_tpl->parseCurrentBlock();
-	}
-
+	
 	/**
 	* Get grouped repository object types.
 	*
@@ -891,21 +684,21 @@ abstract class ilContainerContentGUI
 	 * @param
 	 * @return
 	 */
-	function getItemGroupsHTML($a_tpl)
-	{
-		$rendered = false;
+	function getItemGroupsHTML($a_pos = 0)
+	{		
 		if (is_array($this->items["itgr"]))
-		{
+		{			
 			foreach ($this->items["itgr"] as $itgr)
 			{
-				if (!$this->rendered_items[$itgr["child"]])
+				if (!$this->renderer->hasCustomBlock($itgr["child"]))
 				{
-					$this->renderItemGroup($a_tpl, $itgr);
-					$rendered = true;
+					$this->renderItemGroup($itgr);		
+										
+					$this->renderer->setBlockPosition($itgr["ref_id"], ++$a_pos);
 				}
 			}
 		}
-		return $rendered;
+		return $a_pos;
 	}
 	
 	/**
@@ -914,7 +707,7 @@ abstract class ilContainerContentGUI
 	 * @param
 	 * @return
 	 */
-	function renderItemGroup($a_tpl, $a_itgr)
+	function renderItemGroup($a_itgr)
 	{
 		global $ilAccess, $lng;
 		
@@ -923,16 +716,14 @@ abstract class ilContainerContentGUI
 		include_once('./Services/Container/classes/class.ilContainerSorting.php');			
 		include_once('./Services/Object/classes/class.ilObjectActivation.php');
 		$items = ilObjectActivation::getItemsByItemGroup($a_itgr['ref_id']);
-		$items = ilContainerSorting::_getInstance(
-			$this->getContainerObject()->getId())->sortSubItems('itgr', $a_itgr['obj_id'],$items);
 		
-		// if no permissoin is given, set the items to "rendered" but
+		// if no permission is given, set the items to "rendered" but
 		// do not display the whole block
 		if (!$perm_ok)
 		{
 			foreach($items as $item)
 			{
-				$this->rendered_items[$item["child"]] = true;
+				$this->renderer->hideItem($item["child"]);
 			}
 			return;
 		}
@@ -946,51 +737,25 @@ abstract class ilContainerContentGUI
 			$a_itgr["title"], $a_itgr["description"]);
 		$commands_html = $item_list_gui->getCommandsHTML(); 
 		
-		$this->addSeparatorRow($a_tpl);
+		$this->renderer->addCustomBlock($a_itgr["ref_id"], $a_itgr["title"], $commands_html);
+	
 		
-		$a_tpl->setVariable("CB_ID", ' id="bl_cntr_'.$this->bl_cnt.'"');
-		if ($this->getContainerGUI()->isActiveAdministrationPanel() && !$_SESSION["clipboard"])
-		{
-			$this->renderSelectAllBlock($a_tpl);
-		}
-		else if ($this->getContainerGUI()->isMultiDownloadEnabled())
-		{
-			// contains file or folder?
-			foreach ($items as $item)
-			{
-				if (in_array($item["type"], $this->getDownloadableTypes()))
-				{
-					$this->renderSelectAllBlock($a_tpl);
-					break;
-				}			
-			}
-		}
-		
-		$a_tpl->setCurrentBlock("container_header_row");
-		$a_tpl->setVariable("BLOCK_HEADER_CONTENT", $a_itgr["title"]);
-		$a_tpl->setVariable("CHR_COMMANDS", $commands_html);
-		$a_tpl->parseCurrentBlock();
-		
-		$a_tpl->touchBlock("container_row");
-		$this->resetRowType();
-
 		// render item group sub items
-				
+		
+		$items = ilContainerSorting::_getInstance(
+			$this->getContainerObject()->getId())->sortSubItems('itgr', $a_itgr['obj_id'], $items);
+		
 		$position = 1;
 		foreach($items as $item)
 		{
 			$html2 = $this->renderItem($item, $position++, false, "[itgr][".$a_itgr['obj_id']."]");
 			if ($html2 != "")
 			{
-				$this->addStandardRow($a_tpl, $html2, $item["child"]);
-				$this->rendered_items[$item["child"]] = true;
+				// :TODO: show it multiple times?
+				$this->renderer->addItemToBlock($a_itgr["ref_id"], $item["type"], $item["child"], $html2, true);				
 			}
 		}
-
-		// finish block
-		$a_tpl->setCurrentBlock("container_block");
-		$a_tpl->parseCurrentBlock();
 	}
-	
 }
+
 ?>

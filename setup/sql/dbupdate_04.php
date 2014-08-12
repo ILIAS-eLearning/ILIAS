@@ -2323,3 +2323,24 @@ if( !$ilDB->tableColumnExists('tst_tests', 'inst_fb_answer_fixation') )
 	));
 }
 ?>
+<#4285>
+<?php
+if( !$ilDB->tableExists('container_sorting_bl') )
+{
+	$ilDB->createTable('container_sorting_bl', array(
+		'obj_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'block_ids' => array(
+			'type' => 'text',
+			'length' => 4000,
+			'notnull' => false,
+		)
+	));
+
+	$ilDB->addPrimaryKey('container_sorting_bl',array('obj_id'));
+}
+?>

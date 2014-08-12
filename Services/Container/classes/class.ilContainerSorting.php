@@ -333,7 +333,11 @@ class ilContainerSorting
 	 	}
 	 	foreach($a_type_positions as $key => $position)
 	 	{
-	 		if(!is_array($position))
+			if($key == "blocks")
+			{
+				$this->saveBlockPositions($position);
+			}
+			else if(!is_array($position))
 	 		{
 	 			$items[$key] = $position * 100;
 	 		}
@@ -409,6 +413,47 @@ class ilContainerSorting
 		}
 		return true;
 		
+	}
+		
+	/**
+	 * Save block custom positions (for current object id)
+	 *
+	 * @param array $a_values
+	 */
+	protected function saveBlockPositions(array $a_values)
+	{
+		global $ilDB;
+		
+		asort($a_values);
+	
+		$ilDB->replace(
+			'container_sorting_bl',
+			array(
+				'obj_id'	=> array('integer',$this->obj_id)
+			),
+			array(
+				'block_ids' => array('text', implode(";", array_keys($a_values)))
+			)
+		);
+	}
+	
+	/**
+	 * Read block custom positions (for current object id)
+	 * 
+	 * @return array
+	 */
+	public function getBlockPositions()
+	{
+		global $ilDB;
+		
+		$set = $ilDB->query("SELECT block_ids".
+			" FROM container_sorting_bl".
+			" WHERE obj_id = ".$ilDB->quote($this->obj_id, "integer"));
+		$row = $ilDB->fetchAssoc($set);
+		if($row["block_ids"])
+		{
+			return explode(";", $row["block_ids"]);
+		}
 	}
 	
 	

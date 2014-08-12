@@ -101,7 +101,9 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 			$this->showButton('askReset',$lng->txt('crs_reset_results'));
 		}
 
-		$this->items = $this->getContainerObject()->getSubItems($this->getContainerGUI()->isActiveAdministrationPanel());
+		$this->items = $this->getContainerObject()->getSubItems($this->getContainerGUI()->isActiveAdministrationPanel());		
+			
+		$this->initRenderer();		
 
 		$this->showStatus($tpl);
 		$this->showObjectives($tpl);
@@ -163,8 +165,6 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 			$output_html = $this->insertPageEmbeddedBlocks($output_html);
 		}
 
-		$tpl = $this->newBlockTemplate();
-		
 		// All objectives
 		include_once './Modules/Course/classes/class.ilCourseObjective.php';
 		if(!count($objective_ids = ilCourseObjective::_getObjectiveIds($this->getContainerObject()->getId())))
@@ -181,27 +181,22 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 		}
 		
 		
+		$this->renderer->addCustomBlock('lobj',$lng->txt('crs_objectives'));
+		
 		$item_html = array();
 		foreach($objective_ids as $objective_id)
 		{
 			if($html = $this->renderObjective($objective_id))
 			{
-				$item_html[] = $html;
+				$this->renderer->addItemToBlock('lobj', 'lobj', $objective_id, $html);
 			}
 		}
 		
-		// if we have at least one item, output the block
-		if (count($item_html) > 0)
-		{
-			$this->addHeaderRow($tpl,'lobj',$lng->txt('crs_objectives'));
-			foreach($item_html as $h)
-			{
-				$this->addStandardRow($tpl, $h);
-			}
-		}
+		$this->addFooterRow();
 		
-		$this->addFooterRow($tpl);
-		$this->output_html .= $output_html.$tpl->get();
+		$this->output_html .= $output_html.$this->renderer->getHTML();
+		
+		$this->renderer->resetDetails();
 	}
 	
 	/**
@@ -211,35 +206,20 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 	 * @param
 	 * @return
 	 */
-	public function addFooterRow($tpl)
+	public function addFooterRow()
 	{
 		global $ilCtrl;
-		
-		$tpl->setCurrentBlock('details_img');
-		
-		$append = $this->details_level == self::DETAILS_TITLE ? 'off' : '';
-		$tpl->setCurrentBlock('details_img');
-		$tpl->setVariable('DETAILS_SRC',ilUtil::getImagePath('details2'.$append.'.png'));
-		$tpl->setVariable('DETAILS_ALT',$this->lng->txt('details').' 2');
+				
 		$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->getContainerObject()->getRefId());
 		$ilCtrl->setParameterByClass("ilrepositorygui", "details_level", "1");
-		$tpl->setVariable('DETAILS_LINK',
-			$ilCtrl->getLinkTargetByClass("ilrepositorygui", ""));
-		$tpl->parseCurrentBlock();
-
-		$append = $this->details_level == self::DETAILS_ALL ? 'off' : '';
-		$tpl->setCurrentBlock('details_img');
-		$tpl->setVariable('DETAILS_SRC',ilUtil::getImagePath('details3'.$append.'.png'));
-		$tpl->setVariable('DETAILS_ALT',$this->lng->txt('details').' 3');
-		$ilCtrl->setParameterByClass("ilrepositorygui", "details_level", "2");
-		$tpl->setVariable('DETAILS_LINK',
-			$ilCtrl->getLinkTargetByClass("ilrepositorygui", ""));
-		$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
-		$tpl->parseCurrentBlock();
+		$url = $ilCtrl->getLinkTargetByClass("ilrepositorygui", "");		
+		$this->renderer->addDetailsLevel(2, $url, ($this->details_level == self::DETAILS_TITLE));
 		
-		$tpl->setCurrentBlock('container_details_row');
-		$tpl->setVariable('TXT_DETAILS',$this->lng->txt('details'));
-		$tpl->parseCurrentBlock();
+		$ilCtrl->setParameterByClass("ilrepositorygui", "details_level", "2");
+		$url = $ilCtrl->getLinkTargetByClass("ilrepositorygui", "");		
+		$this->renderer->addDetailsLevel(3, $url, ($this->details_level == self::DETAILS_ALL));
+		
+		$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);	
 	}
 	
 	
@@ -256,30 +236,28 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 		global $ilAccess, $lng;
 
 		$this->clearAdminCommandsDetermination();
-		
-		#$output_html = $this->getContainerGUI()->getContainerPageHTML();
-		
-		// get embedded blocks
-		if ($output_html != "")
-		{
-			$output_html = $this->insertPageEmbeddedBlocks($output_html);
-		}
-		
-		$tpl = $this->newBlockTemplate();
-		
-		// item groups
-		$tpl = $this->newBlockTemplate();
+	
+		$pos = 0;
 		
 		if ($a_mode == self::MATERIALS_OTHER)
 		{
-			$this->getItemGroupsHTML($tpl);
+			$pos = $this->getItemGroupsHTML();
 		}
-
 		
 		if (is_array($this->items["_all"]))
 		{
-			// all rows
-			$item_r = array();
+			switch($a_mode)
+			{
+				case self::MATERIALS_TESTS:
+					$block_id = "tst";
+					$this->renderer->addTypeBlock($block_id);						
+					break;
+
+				case self::MATERIALS_OTHER:
+					$block_id = "oth";
+					$this->renderer->addCustomBlock($block_id, $lng->txt('crs_other_resources'));					
+					break;
+			}
 			
 			$position = 1;
 			foreach($this->items["_all"] as $k => $item_data)
@@ -293,46 +271,19 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 					continue;
 				}
 				
-				if($this->rendered_items[$item_data["child"]] !== true)
-				{
-					$this->rendered_items[$item_data['child']] = true;
-					
+				if(!$this->renderer->hasItem($item_data["child"]))
+				{					
 					// TODO: Position (DONE ?)
 					$html = $this->renderItem($item_data,$position++,$a_mode == self::MATERIALS_TESTS ? false : true);
 					if ($html != "")
 					{
-						$item_r[] = array("html" => $html, "id" => $item_data["child"]);
+						$this->renderer->addItemToBlock($block_id, $item_data["type"], $item_data["child"], $html);						
 					}
 				}
-			}
-			
-			// if we have at least one item, output the block
-			if (count($item_r) > 0)
-			{
-				switch($a_mode)
-				{
-					case self::MATERIALS_TESTS:
-						$txt = $lng->txt('objs_tst');
-						break;
-						
-					case self::MATERIALS_OTHER:
-						$txt = $lng->txt('crs_other_resources');
-						break;
-				}
-				
-				$this->addHeaderRow($tpl,$a_mode == self::MATERIALS_TESTS ? 'tst' : '',$txt);
-				foreach($item_r as $h)
-				{
-					$this->addStandardRow($tpl, $h["html"], $h["id"]);
-				}
-			}
+			}			
 		}
-
-		#$output_html .= $tpl->get();
-		$this->output_html .= $tpl->get();
-		#$a_tpl->setCurrentBlock('cont_page_content');
-		#$a_tpl->setVariable("CONTAINER_PAGE_CONTENT", $output_html);
-		#$a_tpl->parseCurrentBlock();
+		
+		$this->output_html .= $this->renderer->getHTML();
 	}
 	
 	/**
