@@ -698,3 +698,4 @@ gev#:#gev_evg_registration#:#Registrierung: Generali Online Akademie
 gev#:#gev_evg_registration_header_note#:#Hier können sie einen neuen Benutzer mit ihren Daten aus der IV-Datenbank anlegen.
 gev#:#gev_evg_registration_not_found#:#Es konnte kein Datensatz gefunden werden, der mit ihren Eingaben übereinstimmt.
 gev#:#gev_registration_success#:#Eine Email mit einem Aktivierungslink wurde an sie versendet.
+crsbook#:#admin_assign_not_bookable#:#Der Benutzer hat bereits einen ähnlichen Kurs belegt. Trotzdem buchen?

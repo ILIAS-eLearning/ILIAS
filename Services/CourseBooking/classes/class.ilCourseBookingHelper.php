@@ -207,6 +207,15 @@ class ilCourseBookingHelper
 		
 		// see ilCourseBookingPermissions::bookCourseForSelf()
 		
+		// gev-patch start
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+		$tmplt_ref_id = gevCourseUtils::getInstanceByObj($this->getCourse())->getTemplateRefId();
+		if (!gevUserUtils::getInstance($a_user_id)->canBookCourseDerivedFromTemplate($tmplt_ref_id)) {
+			return false;
+		}
+		// gev-patch end
+		
 		return true;				
 	}	
 	
