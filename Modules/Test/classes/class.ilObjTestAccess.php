@@ -672,7 +672,7 @@ class ilObjTestAccess extends ilObjectAccess
 		{
 			if($row['sequences'] == 0)
 			{
-				$notAttempted[$row['user_fi']] = $row['user_fi'];
+				$notAttempted[$row['active_id']] = $row['active_id'];
 			}
 
 			$all_participants[$row['active_id']] = $row['active_id'];
@@ -700,7 +700,7 @@ class ilObjTestAccess extends ilObjectAccess
 		}
 		while ($data = $ilDB->fetchAssoc($result))
 		{
-			if( isset($notAttempted[$data['user_fi']]) )
+			if( isset($notAttempted[$data['active_fi']]) )
 			{
 				$data['failed'] = 0;
 				$data['passed'] = 0;
