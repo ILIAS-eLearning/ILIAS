@@ -1719,6 +1719,12 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			// Ggfls. nur renumbern.
 			require_once './Modules/TestQuestionPool/classes/class.assQuestion.php';
 			assQuestion::_updateTestResultCache($active_fi);
+		
+		if( $this->object->isDynamicTest() )
+		{
+			require_once 'Modules/Test/classes/tables/class.ilTestDynamicQuestionSetFilterStatisticTableGUI.php';
+			unset($_SESSION['form_'.ilTestDynamicQuestionSetFilterStatisticTableGUI::TABLE_ID]);
+		}
 
 		$this->redirectToPassDeletionContext($_POST['context']);
 	}
