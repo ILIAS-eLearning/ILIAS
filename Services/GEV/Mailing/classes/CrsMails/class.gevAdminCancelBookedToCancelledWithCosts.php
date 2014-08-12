@@ -24,7 +24,13 @@ class gevAdminCancelBookedToCancelledWithCosts extends gevCrsAutoMail {
 	}
 	
 	public function getCC($a_recipient) {
-		return array();
+		if (in_array( $this->getCourseUtils()->getType()
+					, array("Präsenztraining", "Spezialistenschulung Präsenztraining")
+					)
+			) {
+			require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+			return gevUserUtils::getInstance($a_recipient)->getDirectSuperiors();
+		}
 	}
 }
 

@@ -94,7 +94,7 @@ class gevRegistrationGUI {
 		
 		$form = new catPropertyFormGUI();
 		$form->setTemplate("tpl.gev_evg_registration_form.html", "Services/GEV/Registration");
-		$form->addCommandButton("finalizeEVGRegistration", $this->lng->txt("submit"));
+		$form->addCommandButton("finalizeEVGRegistration", $this->lng->txt("register"));
 		$this->ctrl->setTargetScript("gev_registration.php");
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		
