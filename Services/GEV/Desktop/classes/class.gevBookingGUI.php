@@ -88,7 +88,7 @@ class gevBookingGUI {
 	}
 	
 	protected function checkIfUserAlreadyPassedASimilarCourse() {
-		if ($this->user_utils->hasPassedCourseDerivedFromTemplate($this->crs_utils->getTemplateRefId())) {
+		if (!$this->user_utils->canBookCourseDerivedFromTemplate($this->crs_utils->getTemplateRefId())) {
 			ilUtil::sendFailure( $this->isSelfBooking() ? $this->lng->txt("gev_passed_similar_course_self")
 														: $this->lng->txt("gev_passed_similar_course_employee")
 							   , true);
