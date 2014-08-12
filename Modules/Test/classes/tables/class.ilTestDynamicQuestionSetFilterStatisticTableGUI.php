@@ -15,6 +15,8 @@ require_once 'Services/Table/classes/class.ilTable2GUI.php';
  */
 class ilTestDynamicQuestionSetFilterStatisticTableGUI extends ilTable2GUI
 {
+	const TABLE_ID = 'tstDynQuestSel';
+	
 	protected $taxIds = array();
 
 	/**
@@ -34,6 +36,9 @@ class ilTestDynamicQuestionSetFilterStatisticTableGUI extends ilTable2GUI
 	 */
 	public function __construct(ilCtrl $ctrl, ilLanguage $lng, $a_parent_obj, $a_parent_cmd, $taxIds)
 	{
+		$this->setId(self::TABLE_ID);
+		$this->setPrefix(self::TABLE_ID);
+		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
 		global $lng, $ilCtrl;
