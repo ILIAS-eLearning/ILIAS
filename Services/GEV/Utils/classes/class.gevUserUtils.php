@@ -637,7 +637,7 @@ class gevUserUtils {
 	}
 	
 	public function getStatus() {
-		$val = $this->udf_utils->getField($this->user_id, gevSettings::USR_UDF_STATUS);
+		return $this->udf_utils->getField($this->user_id, gevSettings::USR_UDF_STATUS);
 	}
 	
 	public function setStatus($a_status) {

@@ -92,7 +92,7 @@ class gevUserProfileGUI {
 
 				$this->user_utils->setBirthplace($form->getInput("birthplace"));
 				$this->user_utils->setBirthname($form->getInput("birthname"));
-				$this->user_utils->setIHKNumber($form->getInput("ihk"));
+				$this->user_utils->setIHKNumber($form->getInput("ihk_number"));
 				$this->user_utils->setPrivateEmail($form->getInput("p_email"));
 				$this->user_utils->setPrivateStreet($form->getInput("p_street"));
 				$this->user_utils->setPrivateCity($form->getInput("p_city"));
