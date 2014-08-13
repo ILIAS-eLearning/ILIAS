@@ -38,6 +38,8 @@ class gevBookingGUI {
 		$this->checkIfUserIsAllowedToBookCourseForOtherUser();
 		$this->checkIfUserIsAllowedToBookCourse();
 		
+		$this->maybeShowOtherBookingsInPeriodWarning();
+		
 		$cmd = $this->ctrl->getCmd();
 		
 		switch($cmd) {
@@ -117,6 +119,35 @@ class gevBookingGUI {
 			ilUtil::sendFailure($this->lng->txt("gev_user_not_allowed_to_book_crs"), true);
 			$this->toCourseSearch();
 		}
+	}
+	
+	public function maybeShowOtherBookingsInPeriodWarning() {
+		$start = $this->crs_utils->getStartDate();
+		$end = $this->crs_utils->getEndDate();
+		
+		if ($start === null || $end === null) {
+			return;
+		}
+		
+		require_once("Services/CourseBooking/classes/class.ilUserCourseBookings.php");
+		$others = ilUserCourseBookings::getInstance($this->user_id)
+									  ->getCoursesDuring($start, $end);
+		if (count($others) == 0) {
+			return;
+		}
+		
+		require_once("Services/Calendar/classes/class.ilDatePresentation.php");
+		
+		if ($this->isSelfBooking()) {
+			$msg = $this->lng->txt("gev_booking_other_courses_in_period_self")."<br />";
+		}
+		else {
+			$msg = $this->lng->txt("gev_booking_other_courses_in_period_others")."<br />";
+		}
+		foreach($others as $crs) {
+			$msg .= $crs["title"]." (".ilDatePresentation::formatPeriod($start, $end).")</br>";
+		}
+		ilUtil::sendInfo($msg);
 	}
 	
 	protected function setRequestParameters() {

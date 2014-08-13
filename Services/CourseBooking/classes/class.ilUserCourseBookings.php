@@ -157,29 +157,27 @@ class ilUserCourseBookings
 		require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
 		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 		require_once("Services/Calendar/classes/class.ilDateTime.php");
-		
+	
+		global $ilDB;
+	
 		$all = $this->getBookedAndWaitingCourses();
 		
 		$amd = array( gevSettings::CRS_AMD_START_DATE => "start_date"
 					, gevSettings::CRS_AMD_END_DATE => "end_date"
 					);
 		
-		$dates = gevAMDUtils::getInstance()->getTable($all, $amd);
+		$dates = gevAMDUtils::getInstance()
+							->getTable($all, $amd, array()
+									  , array(" JOIN crs_book crsbk ON od.obj_id = crsbk.crs_id")
+									  , " AND amd0.value <= ".$ilDB->quote($a_end->get(IL_CAL_DATE), "text")
+									  . " AND amd1.value >= ".$ilDB->quote($a_start->get(IL_CAL_DATE), "text")
+									  . " AND crsbk.user_id = ".$ilDB->quote($this->getUserId())
+									  . " AND ".$ilDB->in("crsbk.status", array( ilCourseBooking::STATUS_BOOKED
+									  										   , ilCourseBooking::STATUS_WAITING)
+									  					 , false, "integer"
+									  					 )
+									  );
 		
-		$res = array();
-		
-		print_r($dates);
-		die();
-		
-		foreach($dates as $date)
-		{
-			if (ilDateTime::_before($date["end_date"], $a_start)
-			||  ilDateTime::_after($date["start_date"], $a_end)) {
-				continue;
-			}
-			$res[] = $date["obj_id"];
-		}
-		
-		return $res;		
+		return $dates;
 	}	
 }
