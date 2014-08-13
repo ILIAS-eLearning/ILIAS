@@ -112,6 +112,15 @@ class ilECSCommunityReader
 	{
 		return $this->settings;
 	}
+	
+	/**
+	 * Get participants
+	 * @return ilECSParticipant[]
+	 */
+	public function getParticipants()
+	{
+		return $this->participants;
+	}
 
 
 	/**
