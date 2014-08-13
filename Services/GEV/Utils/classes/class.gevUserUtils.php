@@ -392,9 +392,8 @@ class gevUserUtils {
 		$birthname = $this->getBirthname();
 		$email = $this->getPrivateEmail();
 		$mobile = $this->getPrivatePhone();
-		return true;	
-		
-		return $birthplace && $birthname && $email && $mobile && preg_match(gevUserProfileGUI::$telno_regexp, $telno);
+	
+		return $birthplace && $birthname && $email && $mobile && preg_match(gevUserProfileGUI::$telno_regexp, $mobile);
 	}
 	
 	
