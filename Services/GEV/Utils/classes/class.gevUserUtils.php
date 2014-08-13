@@ -925,7 +925,7 @@ class gevUserUtils {
 	public function transferPointsFromWBD() {
 		return (   in_array($this->getWBDOKZ(), 
 							array("OKZ1", "OKZ2", "OKZ3"))
-				&& in_array($this->getWBDTPType() == self::WBD_TP_SERVICE)
+				&& $this->getWBDTPType() == self::WBD_TP_SERVICE
 				&& $this->getWBDBWVId()
 				);
 	}
