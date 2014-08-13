@@ -249,6 +249,7 @@ class gevEduBiographyGUI {
 		$table->addColumn($this->lng->txt("status"), "status");
 		$table->addColumn($this->lng->txt("gev_wbd_relevant"), "wbd");
 		$table->addColumn($this->action_img, "action");
+		$this->setMaxCount(10000);
 		
 		$query =	 "SELECT crs.custom_id, crs.title, crs.type, usrcrs.begin_date, usrcrs.end_date, "
 					."       crs.venue, crs.provider, crs.tutor, usrcrs.credit_points, crs.fee, "
