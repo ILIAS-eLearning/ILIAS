@@ -192,10 +192,10 @@ class ilUserCourseStatusHistorizingAppEventListener
 			'org_unit'							=> self::$ilUserHistorizingHelper->getOrgUnitOf($user_id),
 			'begin_date'						=> $begin_date,
 			'end_date'							=> $end_date,
-			'certificate'						=> 
-				(self::$ilUserCourseStatusHistorizingHelper->hasCertificate() ?  
+			'certificate'						=> null
+				/*(self::$ilUserCourseStatusHistorizingHelper->hasCertificate() ?  
 					self::$ilUserCourseStatusHistorizingHelper->getCertificateOf($user_id, $course_id) : 
-					null),
+					null)*/,
 			'overnights'						=> self::$ilUserCourseStatusHistorizingHelper->getOvernightsOf($user_id, $course_id),
 			'function'							=> self::$ilUserCourseStatusHistorizingHelper->getFunctionOf($user_id, $course_id)
 		);

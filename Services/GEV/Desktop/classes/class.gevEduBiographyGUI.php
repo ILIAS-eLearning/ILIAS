@@ -40,8 +40,16 @@ class gevEduBiographyGUI {
 	
 	public function executeCommand() {
 		$this->checkPermission();
+		$cmd = $this->ctrl->getCmd();
 		
-		return $this->render();
+		switch ($cmd) {
+			case "getCertificate":
+				return $this->deliverCertificate();
+			case "getBill":
+				return $this->getBill();
+			default:
+				return $this->render();
+		}
 	}
 	
 	protected function checkPermission() {
@@ -297,8 +305,17 @@ class gevEduBiographyGUI {
 			$rec["action"] = "";
 			if ($rec["bill_id"] != -1) {
 				$this->ctrl->setParameter($this, "bill_id", $rec["bill_id"]);
+				$this->ctrl->setParameter($this, "target_user_id", $this->target_user_id);
 				$rec["action"] = "<a href='".$this->ctrl->getLinkTarget($this, "getBill")."'>"
 							   . $this->get_bill_img."</a>";
+				$this->ctrl->clearParameters($this);
+			}
+			if ($rec["certificate"] != -1) {
+				$this->ctrl->setParameter($this, "cert_id", $rec["certificate"]);
+				$this->ctrl->setParameter($this, "target_user_id", $this->target_user_id);
+				$rec["action"] = "<a href='".$this->ctrl->getLinkTarget($this, "getCertificate")."'>"
+							   . $this->get_cert_image."</a>";
+				$this->ctrl->clearParameters($this);
 			}
 			
 			foreach ($rec as $key => $value) {
@@ -314,6 +331,58 @@ class gevEduBiographyGUI {
 		$table->setData($data);
 		
 		return $table->getHTML();
+	}
+	
+	protected function getBill() {
+		// check weather this bill really belongs to an edu bio record of the current user.
+		$bill_id = $_GET["bill_id"];
+		$res = $this->db->query( "SELECT COUNT(*) cnt"
+								."  FROM hist_usercoursestatus "
+								." WHERE usr_id = ".$this->db->quote($this->target_user_id, "integer")
+								."   AND bill_id = ".$this->db->quote($bill_id, "integer")
+								);
+		if($rec = $this->db->fetchAssoc($res)) {
+			if ($rec["cnt"] == 0) {
+				return $this->render();
+			}
+		}
+		
+		require_once("Services/Billing/classes/class.ilBill.php");
+		require_once("Services/GEV/Utils/classes/class.gevPDFBill.php");
+		$bill = ilBill::getInstanceById($_GET["bill_id"]);
+		$gevPDFBill = new gevPDFBill();
+		$gevPDFBill->setBill($bill);
+		$gevPDFBill->deliver();
+		exit();
+	}
+	
+	protected function getCertificate() {
+		// check weather this cert really belongs to an edu bio of the current user
+		$cert_id = $_GET["cert_id"];
+		$res = $this->db->query( "SELECT COUNT(*) cnt"
+								."  FROM hist_usercoursestatus "
+								." WHERE usr_id = ".$this->db->quote($this->target_user_id, "integer")
+								."   AND bill_id = ".$this->db->quote($cert_id, "integer"));
+		if ($rec = $this->db->fetchAssoc($res)) {
+			if ($rec["cnt"] == 0) {
+				return $this->render();
+			}
+		}
+		
+		// query certificate data
+		$res = $this->db->query( "SELECT hc.certfile, hs.crs_id "
+								."  FROM hist_certfile hc"
+								." JOIN hist_usercoursestatus hs ON hs.certificate = hc.row_id"
+								." WHERE row_id = ".$this->db->quote($cert_id, "integer"));
+		if ($rec = $this->db->fetchAssoc($res)) {
+			require_once("Services/Utils/classes/class.ilUtils.php");
+			require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+			$crs_utils = gevCourseUtils::getInstance($rec["crs_id"]);
+			ilUtils::deliverData($rec["certfile"], "Zertifikat_".$crs_utils->getCustomId().".pdf");
+		}
+		else {
+			return $this->render();
+		}
 	}
 	
 	protected function queryWhere(ilDate $start, ilDate $end) {
