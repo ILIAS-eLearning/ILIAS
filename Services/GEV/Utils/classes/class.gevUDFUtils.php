@@ -57,7 +57,7 @@ class gevUDFUtils {
 		if (in_array($field_type, array(UDF_TYPE_WYSIWYG))) {
 			throw new Exception("gevUDFUtils::getField: type '".$field_type."' not supported right now.");
 		}
-		
+
 		$this->db->manipulate("INSERT INTO udf_text (usr_id, field_id, value)".
 							  " VALUES ( ".$this->db->quote($a_usr_id, "integer").
 							  "        , ".$this->db->quote($field_id, "integer").

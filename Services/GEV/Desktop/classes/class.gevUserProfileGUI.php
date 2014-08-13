@@ -56,6 +56,7 @@ class gevUserProfileGUI {
 		$form->setValuesByPost();
 		
 		if ($form->checkInput()) {
+			$err = false;
 			$telno = $form->getInput("p_phone");
 			if (!preg_match($this->telno_regexp, $telno)) {
 				$telno_field = $form->getItemByPostVar("p_phone");
@@ -73,12 +74,10 @@ class gevUserProfileGUI {
 			}
 			
 			if (!$err) {
+				$birthday = $form->getInput("birthday");
 				$this->user->setLogin($form->getInput("username"));
 				$this->user->setGender($form->getInput("gender"));
-				$this->user->setBirthday($form->getInput("birthday"));
-				$this->user_utils->setBirthplace($form->getInput("birthplace"));
-				$this->user_utils->setBirthname($form->getInput("birthname"));
-				$this->user_utils->setIHKNumber($form->getInput("ihk"));
+				$this->user->setBirthday($birthday["date"]);
 				$this->user->setEmail($form->getInput("b_email"));
 				$this->user->setStreet($form->getInput("b_street"));
 				$this->user->setCity($form->getInput("b_city"));
@@ -86,6 +85,11 @@ class gevUserProfileGUI {
 				$this->user->setCountry($form->getInput("b_country"));
 				$this->user->setPhoneOffice($form->getInput("b_phone"));
 				$this->user->setFax($form->getInput("b_fax"));
+				$this->user->update();
+
+				$this->user_utils->setBirthplace($form->getInput("birthplace"));
+				$this->user_utils->setBirthname($form->getInput("birthname"));
+				$this->user_utils->setIHKNumber($form->getInput("ihk"));
 				$this->user_utils->setPrivateEmail($form->getInput("p_email"));
 				$this->user_utils->setPrivateStreet($form->getInput("p_street"));
 				$this->user_utils->setPrivateCity($form->getInput("p_city"));
@@ -94,7 +98,6 @@ class gevUserProfileGUI {
 				$this->user_utils->setPrivatePhone($form->getInput("p_phone"));
 				$this->user_utils->setPrivateFax($form->getInput("p_fax"));
 			
-				$this->user->update();
 				ilUtil::sendSuccess($this->lng->txt("gev_user_profile_saved"));
 			}
 			else {
@@ -212,7 +215,7 @@ class gevUserProfileGUI {
 		$b_zipcode->setValue($this->user->getZipcode());
 		$form->addItem($b_zipcode);
 		
-		$b_country = new ilTextInputGUI($this->lng->txt("country"), "b_country");
+		$b_country = new ilTextInputGUI($this->lng->txt("federal_state"), "b_country");
 		$b_country->setValue($this->user->getCountry());
 		$form->addItem($b_country);
 		
@@ -247,7 +250,7 @@ class gevUserProfileGUI {
 		$p_zipcode->setValue($this->user_utils->getPrivateZipcode());
 		$form->addItem($p_zipcode);
 		
-		$p_country = new ilTextInputGUI($this->lng->txt("country"), "p_country");
+		$p_country = new ilTextInputGUI($this->lng->txt("federal_state"), "p_country");
 		$p_country->setValue($this->user_utils->getPrivateState());
 		$form->addItem($p_country);
 		
@@ -272,7 +275,7 @@ class gevUserProfileGUI {
 		$form->addItem($entry_date);
 		
 		$exit_date = new ilNonEditableValueGUI($this->lng->txt("gev_exit_date"));
-		$_exit_date = $this->user_utils->getEntryDate();
+		$_exit_date = $this->user_utils->getExitDate();
 		$exit_date->setValue($_exit_date?ilDatePresentation::formatDate($_exit_date):"");
 		$form->addItem($exit_date);
 		

@@ -385,6 +385,16 @@ class gevUserUtils {
 		}
 		return $ret;
 	}
+
+	public function isProfileComplete() {
+		$birthplace = $this->getBirthplace();
+		$birthname = $this->getBirthname();
+		$email = $this->getPrivateEmail();
+		$mobile = $this->getPrivatePhone();
+		
+		return $birthplace && $birthname && $email && $mobile;
+	}
+	
 	
 	public function getLogin() {
 		return $this->getUser()->getLogin();
