@@ -601,9 +601,12 @@ class ilCourseBookingAdminGUI
 		
 		// see ilObjCourseGUI::assignMembers()
 				
-		include_once "./Services/CourseBooking/classes/class.ilCourseBookingHelper.php";		
+		include_once "./Services/CourseBooking/classes/class.ilCourseBookingHelper.php";	
+		include_once "./Services/CourseBooking/classes/class.ilUserCourseBookings.php";	
 		$bookings = ilCourseBookings::getInstance($this->getCourse());
 		$helper = ilCourseBookingHelper::getInstance($this->getCourse());
+		
+		ilDatePresentation::setUseRelativeDates(false);
 	
 		$status = array();
 		$valid = 0;
@@ -637,14 +640,29 @@ class ilCourseBookingAdminGUI
 				continue;
 			}			
 			
-			// :TODO: check overlapping bookings
-			
 			if(!$helper->isBookable($user_id))
 			{
 				$status[$user_id] = $lng->txt("crsbook_admin_assign_not_bookable_user");
 				continue;
 			}
 			
+			$user_bookings = ilUserCourseBookings::getInstance($user_id);	
+			$overlapping_courses = $user_bookings->getCoursesDuring(
+				$helper->getCourseStart(), $helper->getCourseEnd());
+			if($overlapping_courses)
+			{
+				$parts = array();
+				foreach($overlapping_courses as $course)
+				{
+					$parts[] = $course["title"]. 
+						" (".ilDatePresentation::formatDate($course["start"]).
+						" - ".ilDatePresentation::formatDate($course["end"]).")";
+				}
+				$status[$user_id] = $lng->txt("crsbook_admin_assign_overlapping_user").
+					": ".implode(", ", $parts);
+				continue;
+			}
+					
 			$status[$user_id] = $lng->txt("ok");
 			$valid++;
 		}

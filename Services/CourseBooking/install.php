@@ -2,7 +2,7 @@
 
 //exit();
 
-//$update = false;
+$update = true;
 
 // init helper class
 require_once "../../Customizing/class.ilCustomInstaller.php";
@@ -121,6 +121,7 @@ $lang_data = array(
 	,"admin_user_action_done" => array("Der Status des Benutzer wurde erfolgreich geändert.", "User status changed succesfully.")
 	,"admin_org_add_recursive" => array("Mitglieder von Untereinheiten auswählen", "Include Members of Sub-Org-Units")
 	,"admin_org_unit_has_no_members" => array("Die gewählte Org-Einheit hat keine Mitglieder", "The selected org-unit has no members")
+	,"admin_assign_overlapping_user" => array("Folgende Buchungen überschneiden sich", "The following bookings are overlapping")
 );
 
 echo "<br />lng update.";

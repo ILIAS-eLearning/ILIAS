@@ -145,7 +145,7 @@ class gevBookingGUI {
 			$msg = $this->lng->txt("gev_booking_other_courses_in_period_others")."<br />";
 		}
 		foreach($others as $crs) {
-			$msg .= $crs["title"]." (".ilDatePresentation::formatPeriod($start, $end).")</br>";
+			$msg .= $crs["title"]." (".ilDatePresentation::formatPeriod($crs["start"], $crs["end"]).")</br>";
 		}
 		ilUtil::sendInfo($msg);
 	}

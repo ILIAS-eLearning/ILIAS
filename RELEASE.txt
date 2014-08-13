@@ -5,7 +5,7 @@ svn.ilias.de/svn/ilias/branches/Release_4_4_x_branch							merged: 50300
 svn.ilias.de/svn/ilias/branches/CaT/patches/4_4_AMDTypes						merged: 50041
 svn.ilias.de/svn/ilias/branches/CaT/patches/4_4_ClaimingAMDByPlugins			merged: 51053
 svn.ilias.de/svn/ilias/branches/CaT/patches/4_4_ClaimingUDFByPlugins			merged: 49821
-svn.ilias.de/svn/ilias/branches/CaT/extensions/4_4_Booking						merged: 50176
+svn.ilias.de/svn/ilias/branches/CaT/extensions/4_4_Booking						merged: 52258
 svn.ilias.de/svn/ilias/branches/CaT/patches/4_4_AMDForOrgTypes					merged: 50343
 svn.ilias.de/svn/ilias/branches/CaT/extensions/4_4_MailTemplates				merged: 51487
 svn.ilias.de/svn/ilias/branches/CaT/extensions/4_4_DeskDisplays					merged: 50399

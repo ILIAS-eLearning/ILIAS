@@ -177,7 +177,16 @@ class ilUserCourseBookings
 									  					 , false, "integer"
 									  					 )
 									  );
-		
-		return $dates;
+
+		$res = array();
+		foreach($dates as $date) {
+			$res[] = array(
+				  "title" => $date["title"]
+				, "start" => new ilDateTime($date["start_date"], IL_CAL_DATE)
+				, "end" => new ilDateTime($date["end_date"], IL_CAL_DATE)
+				);
+		}
+
+		return $res;
 	}	
 }
