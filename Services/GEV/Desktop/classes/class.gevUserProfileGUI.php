@@ -12,7 +12,7 @@
 require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 
 class gevUserProfileGUI {
-	public $telno_regexp = "/^((00|[+])49((\s|[-\/])?)|0)1[5-7][0-9]([0-9]?)((\s|[-\/])?)([0-9 ]{7,12})$/";
+	static $telno_regexp = "/^((00|[+])49((\s|[-\/])?)|0)1[5-7][0-9]([0-9]?)((\s|[-\/])?)([0-9 ]{7,12})$/";
 	
 	
 	public function __construct() {
@@ -58,11 +58,14 @@ class gevUserProfileGUI {
 		if ($form->checkInput()) {
 			$err = false;
 			$telno = $form->getInput("p_phone");
-			if (!preg_match($this->telno_regexp, $telno)) {
-				$telno_field = $form->getItemByPostVar("p_phone");
+			$telno_field = $form->getItemByPostVar("p_phone");
+			if (!preg_match(self::$telno_regexp, $telno)) {
 				$telno_field->setAlert($this->lng->txt("gev_telno_alert"));
 				
 				$err = true;
+			}
+			else {
+				$telno_field->setAlert("");
 			}
 			
 			if(   $form->getInput("username") !== $this->user->getLogin()
@@ -259,7 +262,11 @@ class gevUserProfileGUI {
 		$form->addItem($p_country);
 		
 		$p_phone = new ilTextInputGUI($this->lng->txt("gev_mobile"), "p_phone");
-		$p_phone->setValue($this->user_utils->getPrivatePhone());
+		$telno = $this->user_utils->getPrivatePhone();
+		$p_phone->setValue($telno);
+		if (!preg_match(self::$telno_regexp, $telno)) {
+				$p_phone->setAlert($this->lng->txt("gev_telno_alert"));
+		}
 		$p_phone->setRequired(true);
 		$form->addItem($p_phone);
 		
