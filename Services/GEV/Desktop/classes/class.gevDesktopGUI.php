@@ -13,6 +13,7 @@
 * @ilCtrl_Calls gevDesktopGUI: gevBookingGUI
 * @ilCtrl_Calls gevDesktopGUI: gevStaticpagesGUI
 * @ilCtrl_Calls gevDesktopGUI: gevEduBiographyGUI
+* @ilCtrl_Calls gevDesktopGUI: gevUserProfileGUI
 *
 */
 
@@ -24,6 +25,7 @@ class gevDesktopGUI {
 		$this->ctrl = &$ilCtrl;
 		$this->tpl = &$tpl;
 
+		$this->lng->loadLanguageModule("gev");
 		$this->tpl->getStandardTemplate();
 	}
 	
@@ -69,6 +71,12 @@ class gevDesktopGUI {
 				$ret = $this->ctrl->forwardCommand($gui);
 				break;
 
+			case "gevuserprofilegui":
+				require_once("Services/GEV/Desktop/classes/class.gevUserProfileGUI.php");
+				$gui = new gevUserProfileGUI();
+				$ret = $this->ctrl->forwardCommand($gui);
+				break;
+
 			default:	
 				$this->dispatchCmd($cmd);
 				break;
@@ -85,6 +93,7 @@ class gevDesktopGUI {
 		switch($a_cmd) {
 			case "toCourseSearch":
 			case "toMyCourses":
+			case "toMyProfile":
 			case "toStaticPages":
 				$this->$a_cmd();
 			default:
@@ -102,6 +111,10 @@ class gevDesktopGUI {
 
 	protected function toStaticPages() {
 		$this->ctrl->redirectByClass("gevStaticPagesGUI", $_REQUEST['ctpl_file']);
+	}
+	
+	protected function toMyProfile() {
+		$this->ctrl->redirectByClass("gevUserProfileGUI");
 	}
 }
 

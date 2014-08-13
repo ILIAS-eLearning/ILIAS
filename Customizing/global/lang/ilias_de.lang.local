@@ -702,3 +702,22 @@ gev#:#gev_evg_registration_header_note#:#Hier können sie einen neuen Benutzer m
 gev#:#gev_evg_registration_not_found#:#Es konnte kein Datensatz gefunden werden, der mit ihren Eingaben übereinstimmt.
 gev#:#gev_registration_success#:#Eine Email mit einem Aktivierungslink wurde an sie versendet.
 crsbook#:#admin_assign_not_bookable#:#Der Benutzer hat bereits einen ähnlichen Kurs belegt. Trotzdem buchen?
+gev#:#gev_user_profile#:#Profil
+gev#:#gev_business_contact#:#Geschäftliche Kontaktdaten
+gev#:#gev_private_contact#:#Private Kontaktdaten
+gev#:#gev_profile_organisation#:#Organisation
+gev#:#gev_personal_data#:#Personendaten
+gev#:#gev_mobile#:#Mobil
+gev#:#gev_adp_number#:#ADP-Nummer
+gev#:#gev_job_number#:#Stellennummer
+gev#:#gev_email#:#Generali-Emailadresse
+gev#:#gev_birthplace#:#Geburtsort
+gev#:#gev_birthname#:#Geburtsname
+gev#:#gev_ad_title#:#AD-Titel
+gev#:#gev_agent_key#:#Vermittlerschlüssel
+gev#:#gev_company_title#:#Gesellschaftsschlüssel
+gev#:#gev_org_unit#:#zugehörige Organisationseinheit
+gev#:#gev_entry_date#:#Eintrittsdatum
+gev#:#gev_exit_date#:#Austrittsdatum
+gev#:#gev_status#:#Status
+gev#:#gev_ihk_number#:#IHK Registrierungsnummer

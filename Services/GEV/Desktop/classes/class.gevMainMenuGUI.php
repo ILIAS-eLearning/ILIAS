@@ -78,7 +78,7 @@ class gevMainMenuGUI extends ilMainMenuGUI {
   													// url
 				  "gev_my_courses" => array(true, "ilias.php?baseClass=gevDesktopGUI&cmdClass=toMyCourses")
 				, "gev_edu_bio" => array(false, "NYI!")
-				, "gev_my_profile" => array(true, "ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToProfile")
+				, "gev_my_profile" => array(true, "ilias.php?baseClass=gevDesktopGUI&cmd=toMyProfile")
 				, "gev_my_settings" => array(true, "ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToSettings")
 				, "gev_my_groups" => array(false, "NYI!")
 				, "gev_my_roadmap" => array(false, "NYI!")
