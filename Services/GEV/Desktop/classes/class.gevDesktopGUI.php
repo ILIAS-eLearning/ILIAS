@@ -32,6 +32,7 @@ class gevDesktopGUI {
 	public function executeCommand() {
 		$next_class = $this->ctrl->getNextClass();
 		$cmd = $this->ctrl->getCmd();
+		$this->checkProfileComplete($cmd, $next_class);
 		
 		if($cmd == "") {
 			$cmd = "toMyCourses";
@@ -115,6 +116,16 @@ class gevDesktopGUI {
 	
 	protected function toMyProfile() {
 		$this->ctrl->redirectByClass("gevUserProfileGUI");
+	}
+	
+	protected function checkProfileComplete($cmd, $next_class) {
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		global $ilUser;
+		$utils = gevUserUtils::getInstanceByObj($ilUser);
+		if (!$utils->isProfileComplete() && !($cmd == "toMyProfile" || $next_class == "gevuserprofilegui")) {
+			ilUtil::sendFailure($this->lng->txt("gev_profile_incomplete"), true);
+			$this->ctrl->redirect($this, "toMyProfile");
+		}
 	}
 }
 

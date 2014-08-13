@@ -387,12 +387,14 @@ class gevUserUtils {
 	}
 
 	public function isProfileComplete() {
+		require_once("Services/GEV/Desktop/classes/class.gevUserProfileGUI.php");
 		$birthplace = $this->getBirthplace();
 		$birthname = $this->getBirthname();
 		$email = $this->getPrivateEmail();
 		$mobile = $this->getPrivatePhone();
+		return true;	
 		
-		return $birthplace && $birthname && $email && $mobile;
+		return $birthplace && $birthname && $email && $mobile && preg_match(gevUserProfileGUI::$telno_regexp, $telno);
 	}
 	
 	
