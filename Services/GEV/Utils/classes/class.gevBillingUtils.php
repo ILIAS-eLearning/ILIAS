@@ -230,7 +230,7 @@ class gevBillingUtils {
 		}
 	}
 	
-	protected function getBillsForCourseAndUser($a_user_id, $a_crs_id) {
+	public function getBillsForCourseAndUser($a_user_id, $a_crs_id) {
 		require_once("Services/Billing/classes/class.ilBill.php");
 		return ilBill::getInstancesByUserAndContext($a_user_id, $a_crs_id);
 		
