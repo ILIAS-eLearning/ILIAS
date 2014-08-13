@@ -12,6 +12,9 @@
 require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 
 class gevUserProfileGUI {
+	public $telno_regexp = "/^((00|[+])49((\s|[-\/])?)|0)1[5-7][0-9]([0-9]?)((\s|[-\/])?)([0-9 ]{7,12})$/";
+	
+	
 	public function __construct() {
 		global $lng, $ilCtrl, $tpl, $ilUser, $ilLog;
 
@@ -21,20 +24,89 @@ class gevUserProfileGUI {
 		$this->log = &$ilLog;
 		$this->user = &$ilUser;
 		$this->user_id = $this->user->getId();
-		$this->user_utils = gevUserUtils::getInstanceByObj($this->user);
+		$this->user_utils = gevUserUtils::getInstance($this->user_id);
 
 		$this->tpl->getStandardTemplate();
 		$this->tpl->setTitle($this->lng->txt("gev_user_profile"));
 	}
 
 	public function executeCommand() {
+		$cmd = $this->ctrl->getCmd();
+		
+		if (!$cmd) {
+			$cmd = "show";
+		}
+		
+		switch ($cmd) {
+			case "show":
+			case "save":
+				return $this->$cmd();
+			default:
+				return $this->show();
+		}
+	}
+	
+	protected function show() {
 		$form = $this->buildUserProfileForm();
+		return $form->getHtml();
+	}
+	
+	protected function save() {
+		$form = $this->buildUserProfileForm();
+		$form->setValuesByPost();
+		
+		if ($form->checkInput()) {
+			$telno = $form->getInput("p_phone");
+			if (!preg_match($this->telno_regexp, $telno)) {
+				$telno_field = $form->getItemByPostVar("p_phone");
+				$telno_field->setAlert($this->lng->txt("gev_telno_alert"));
+				
+				$err = true;
+			}
+			
+			if(   $form->getInput("username") !== $this->user->getLogin()
+			   && $ilObjUser::_loginExists($form->getInput("username"))) {
+				$username_field = $form->getItemByPostVar("username");
+				$username_field->setAlert($this->lng->txt("login_invalid"));
+				
+				$err = true;
+			}
+			
+			if (!$err) {
+				$this->user->setLogin($form->getInput("username"));
+				$this->user->setGender($form->getInput("gender"));
+				$this->user->setBirthday($form->getInput("birthday"));
+				$this->user_utils->setBirthplace($form->getInput("birthplace"));
+				$this->user_utils->setBirthname($form->getInput("birthname"));
+				$this->user_utils->setIHKNumber($form->getInput("ihk"));
+				$this->user->setEmail($form->getInput("b_email"));
+				$this->user->setStreet($form->getInput("b_street"));
+				$this->user->setCity($form->getInput("b_city"));
+				$this->user->setZipcode($form->getInput("b_zipcode"));
+				$this->user->setCountry($form->getInput("b_country"));
+				$this->user->setPhoneOffice($form->getInput("b_phone"));
+				$this->user->setFax($form->getInput("b_fax"));
+				$this->user_utils->setPrivateEmail($form->getInput("p_email"));
+				$this->user_utils->setPrivateStreet($form->getInput("p_street"));
+				$this->user_utils->setPrivateCity($form->getInput("p_city"));
+				$this->user_utils->setPrivateZipcode($form->getInput("p_zipcode"));
+				$this->user_utils->setPrivateState($form->getInput("p_country"));
+				$this->user_utils->setPrivatePhone($form->getInput("p_phone"));
+				$this->user_utils->setPrivateFax($form->getInput("p_fax"));
+			
+				$this->user->update();
+				ilUtil::sendSuccess($this->lng->txt("gev_user_profile_saved"));
+			}
+			else {
+				ilUtil::sendFailure($this->lng->txt("form_input_not_valid"));
+			}
+		}
+		
 		return $form->getHtml();
 	}
 	
 	protected function buildUserProfileForm() {
 		require_once("Services/Form/classes/class.ilPropertyFormGUI.php");
-		require_once("Services/Form/classes/class.ilUserLoginInputGUI.php");
 		require_once("Services/Form/classes/class.ilFormSectionHeaderGUI.php");
 		require_once("Services/Form/classes/class.ilTextInputGUI.php");
 		require_once("Services/Form/classes/class.ilDateTimeInputGUI.php");
@@ -44,13 +116,14 @@ class gevUserProfileGUI {
 		require_once("Services/Form/classes/class.ilNonEditableValueGUI.php");
 		
 		$form = new ilPropertyFormGUI();
+		$form->addCommandButton("save", $this->lng->txt("save"));
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		
 		$section1 = new ilFormSectionHeaderGUI();
 		$section1->setTitle($this->lng->txt("gev_personal_data"));
 		$form->addItem($section1);
 		
-		$username = new ilUserLoginInputGUI($this->lng->txt("username"), "username");
+		$username = new ilTextInputGUI($this->lng->txt("username"), "username");
 		$username->setRequired(true);
 		$username->setValue($this->user->getLogin());
 		$form->addItem($username);
@@ -81,8 +154,10 @@ class gevUserProfileGUI {
 		$form->addItem($position_key);
 		
 		$birthday = new ilBirthdayInputGUI($this->lng->txt("birthday"), "birthday");
-		$birthday->setDate($this->user->getBirthday());
+		$date = new ilDateTime($this->user->getBirthday(), IL_CAL_DATE);
+		$birthday->setDate($date);
 		$birthday->setRequired(true);
+		$birthday->setStartYear(1940);
 		$form->addItem($birthday);
 		
 		$birthplace = new ilTextInputGUI($this->lng->txt("gev_birthplace"), "birthplace");
@@ -182,7 +257,7 @@ class gevUserProfileGUI {
 		$form->addItem($p_phone);
 		
 		$p_fax = new ilTextInputGUI($this->lng->txt("fax"), "p_fax");
-		$p_fax->setValue($this->user->getFax());
+		$p_fax->setValue($this->user_utils->getPrivateFax());
 		$form->addItem($p_fax);
 		
 		
