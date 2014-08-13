@@ -196,7 +196,7 @@ class gevUserProfileGUI {
 		$section2->setTitle($this->lng->txt("gev_business_contact"));
 		$form->addItem($section2);
 		
-		$b_email = new ilEMailInputGUI($this->lng->txt("gev_email"), "b_email");
+		$b_email = new ilNonEditableValueGUI($this->lng->txt("gev_email"), "b_email");
 		$b_email->setValue($this->user->getEmail());
 		$form->addItem($b_email);
 		
@@ -271,7 +271,7 @@ class gevUserProfileGUI {
 		$entry_date->setValue($_entry_date?ilDatePresentation::formatDate($_entry_date):"");
 		$form->addItem($entry_date);
 		
-		$exit_date = new ilNonEditableValueGUI($this->lng->txt("gev_entry_date"));
+		$exit_date = new ilNonEditableValueGUI($this->lng->txt("gev_exit_date"));
 		$_exit_date = $this->user_utils->getEntryDate();
 		$exit_date->setValue($_exit_date?ilDatePresentation::formatDate($_exit_date):"");
 		$form->addItem($exit_date);
