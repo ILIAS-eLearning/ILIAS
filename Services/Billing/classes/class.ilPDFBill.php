@@ -1140,36 +1140,36 @@ class ilPDFBill
 		
 		$datedist=0;
 		
-		
-		if($this->DateFontSize==6){$datedist=1.3;}
-		if($this->DateFontSize==7){$datedist=1.4;}
-		if($this->DateFontSize==8){$datedist=1.6;}
-		if($this->DateFontSize==9){$datedist=1.8;}
-		if($this->DateFontSize==10){$datedist=2;}
-		if($this->DateFontSize==11){$datedist=2.1;}
-		if($this->DateFontSize==12){$datedist=2.4;}
-		if($this->DateFontSize==13){$datedist=2.5;}
-		if($this->DateFontSize==14){$datedist=2.7;}
-		if($this->DateFontSize==15){$datedist=2.9;}
-		if($this->DateFontSize==16){$datedist=3;}
+		$date="12.12.1212";
+		if($this->DateFontSize==6){$datedist=1.1;}
+		if($this->DateFontSize==7){$datedist=1.3;}
+		if($this->DateFontSize==8){$datedist=1.5;}
+		if($this->DateFontSize==9){$datedist=1.7;}
+		if($this->DateFontSize==10){$datedist=1.8;}
+		if($this->DateFontSize==11){$datedist=2;}
+		if($this->DateFontSize==12){$datedist=2.2;}
+		if($this->DateFontSize==13){$datedist=2.4;}
+		if($this->DateFontSize==14){$datedist=2.6;}
+		if($this->DateFontSize==15){$datedist=2.7;}
+		if($this->DateFontSize==16){$datedist=2.9;}
 		if($this->DateFontSize==17){$datedist=3.2;}
 		if($this->DateFontSize==18){$datedist=3.4;}
 		if($this->DateFontSize==19){$datedist=3.6;}
 		if($this->DateFontSize==20){$datedist=3.7;}
 
 
-
-
+		
+		
 
 		$this->pdf->SetFont($this->DateFontName, $this->determineIfBoldOrItalic($this->DateFontBold, $this->DateFontItalic), $this->DateFontSize);
 		#$this->pdf->WriteText(21 - $this->spaceRight - count($this->bill->getDate()) - $this->spaceRight +$datedist, $this->spaceAbout, ($this->encodeSpecialChars($date)));
-		$this->pdf->WriteMultiCell(21-$this->spaceRight-$datedist, $this->spaceAbout, $this->encodeSpecialChars($date), $this->spaceRight+1);
+		$this->pdf->WriteMultiCell(21-$this->spaceRight-$datedist, $this->spaceAbout, $this->encodeSpecialChars($date), 0);
 		$this->pdf->SetFont($this->BillNumberFontName, $this->determineIfBoldOrItalic($this->BillNumberFontBold, $this->BillNumberFontItalic), $this->BillNumberFontSize);
 		$this->pdf->WriteText($this->spaceLeft, $this->spaceBillnumber, ($this->encodeSpecialChars($this->plBillNumberLabel)) . " : " . ($this->encodeSpecialChars($this->bill->getBillNumber())));
 	
 		$this->pdf->SetFont($this->TitleFontName, $this->determineIfBoldOrItalic($this->TitleFontBold, $this->TitleFontItalic), $this->TitleFontSize);
 		#$this->pdf->WriteText($this->spaceLeft, $this->spaceTitle, ($this->encodeSpecialChars($this->plTitle)));
-		$this->pdf->WriteMultiCell($this->spaceLeft, $this->spaceTitle, $this->encodeSpecialChars($this->plTitle), $this->spaceRight+1);
+		$this->pdf->WriteMultiCell($this->spaceLeft, $this->spaceTitle, $this->encodeSpecialChars($this->plTitle), $this->spaceRight+$this->spaceLeft);
 	}
 
 	/**
@@ -1179,8 +1179,8 @@ class ilPDFBill
 	{
 		$this->pdf->SetFont($this->TextFontName, $this->determineIfBoldOrItalic($this->TextFontBold, $this->TextFontItalic), $this->TextFontSize);
 		#$this->pdf->WriteText($this->spaceLeft, $this->spaceText, ($this->encodeSpecialChars($this->plSalutation)));
-		$this->forwardingY =$this->pdf->WriteMultiCell($this->spaceLeft, $this->spaceText  , $this->encodeSpecialChars($this->plSalutation), $this->spaceRight+1);
-		$this->forwardingY += $this->pdf->WriteMultiCell($this->spaceLeft, $this->forwardingY, ($this->encodeSpecialChars($this->plPretext)), $this->spaceRight+1);
+		$this->forwardingY =$this->pdf->WriteMultiCell($this->spaceLeft, $this->spaceText  , $this->encodeSpecialChars($this->plSalutation), $this->spaceRight+$this->spaceLeft);
+		$this->forwardingY += $this->pdf->WriteMultiCell($this->spaceLeft, $this->forwardingY, ($this->encodeSpecialChars($this->plPretext)),$this->spaceRight+$this->spaceLeft);
 	}
 
 	/**
@@ -1289,10 +1289,9 @@ class ilPDFBill
 	{
 
 		$this->pdf->SetFont($this->TextFontName, $this->determineIfBoldOrItalic($this->TextFontBold, $this->TextFontItalic), $this->TextFontSize);
-
-		$this->forwardingY = $this->pdf->WriteMultiCell($this->spaceLeft, $this->spaceText + $fontHeight * 3.5 + $distanceindex + 2, $this->encodeSpecialChars($this->plPosttext), $this->spaceRight+1);
+		$this->forwardingY = $this->pdf->WriteMultiCell($this->spaceLeft, $this->spaceText + $fontHeight * 3.5 + $distanceindex + 2, $this->encodeSpecialChars($this->plPosttext), $this->spaceRight+$this->spaceLeft);
 		
-		$this->forwardingY += $this->pdf->WriteMultiCell($this->spaceLeft,  $this->forwardingY , $this->encodeSpecialChars($this->plGreetings), $this->spaceRight+1);
+		$this->forwardingY += $this->pdf->WriteMultiCell($this->spaceLeft,  $this->forwardingY , $this->encodeSpecialChars($this->plGreetings), $this->spaceRight+$this->spaceLeft);
 	}
 
 	/**

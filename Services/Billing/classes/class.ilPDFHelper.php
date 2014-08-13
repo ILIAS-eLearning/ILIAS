@@ -31,7 +31,7 @@ class ilPDFHelper extends FPDF
 	public function WriteMultiCell($x, $y, $txt, $spacing)
 	{
 		$this->SetXY($x - 0.1, $y);
-		$this->MultiCell(21 - $spacing, 1, $txt);
+		$this->MultiCell(21 - $spacing+0.2, 1, $txt);
 		return $this->GetY();
 	}
 
