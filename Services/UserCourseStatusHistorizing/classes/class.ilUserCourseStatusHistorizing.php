@@ -168,4 +168,48 @@ class ilUserCourseStatusHistorizing extends ilHistorizingStorage
 			'crs_id'	 =>	'integer'
 		);
 	}
+
+	/**
+	 * Updates a historized case with the given data to be written.
+	 *
+	 * @static
+	 *
+	 * @param      $a_case_id                     Array            Array holding the case-id of the new record. See example.
+	 * @param      $a_data                        Array            Array holding the delta to be applied. See example.
+	 * @param null $a_record_creator              Integer|Null    User id of the creator, set to current user if null.
+	 * @param null $a_creation_timestamp          Integer|Null    Unix-timestamp of creation, set to now if null.
+	 * @param bool $mass_modification_allowed     Boolean|False    In order to make mass-updates, set this true.
+	 *
+	 * @throws Exception|ilException
+	 */
+	public static function updateHistorizedData(
+		$a_case_id,
+		$a_data,
+		$a_record_creator = null,
+		$a_creation_timestamp = null,
+		$mass_modification_allowed = false
+	)
+	{
+		if (strlen($a_data['certificate']))
+		{
+			global $ilDB;
+			$certfile_id = $ilDB->nextId('hist_certfile');
+			$ilDB->insert(
+				 'hist_certfile', 
+				 array(
+					 'row_id' => $certfile_id, 
+					 'certfile' => base64_encode( file_get_contents( $a_data['certificate'] ) ) 
+				 )
+			);
+			$a_data['certificate'] = $certfile_id;
+		}
+		parent::updateHistorizedData( $a_case_id,
+									  $a_data,
+									  $a_record_creator,
+									  $a_creation_timestamp,
+									  $mass_modification_allowed
+		);
+	}
+
+
 }

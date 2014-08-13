@@ -55,15 +55,17 @@ class ilUserCourseStatusHistorizingAppEventListener
 		}
 		
 		// Normalize events parameters
-		if (   $a_event == "addParticipant" 
-			|| $a_event == "deleteParticipant"
-			) {
+		if ($a_event == "addParticipant" || $a_event == "deleteParticipant") 
+		{
 			$a_parameter["crs_id"] = $a_parameter["obj_id"];
 		}
-		if ($a_event == "setStatusAndPoints") {
+
+		if ($a_event == "setStatusAndPoints") 
+		{
 			$a_parameter["crs_id"] = $a_parameter["crs_obj_id"];
 			$a_parameter["usr_id"] = $a_parameter["user_id"];
 		}
+
 		if (   $a_component == "Services/CourseBooking" 
 			|| $a_component == "Services/Accomodations") {
 			$a_parameter["crs_id"] = $a_parameter["crs_obj_id"];
@@ -78,7 +80,16 @@ class ilUserCourseStatusHistorizingAppEventListener
 				return;
 			}
 		}
+		
 		// TODO: normalized data from bill here.
+
+		if ($a_event == 'billFinalized' )
+		{
+			/** @var ilBill $bill */
+			$bill = $a_parameter['bill'];
+			$a_parameter["crs_id"] = $bill->getContextId();
+			$a_parameter["usr_id"] = $bill->getUserId();
+		}
 
 		self::$ilUserCourseStatusHistorizing->updateHistorizedData(
 			self::getCaseId($a_event, $a_parameter), 
@@ -179,9 +190,12 @@ class ilUserCourseStatusHistorizingAppEventListener
 			'participation_status'				=> self::$ilUserCourseStatusHistorizingHelper->getParticipationStatusOf($user_id, $course_id),
 			'okz'								=> self::$ilUserHistorizingHelper->getOKZOf($user_id),
 			'org_unit'							=> self::$ilUserHistorizingHelper->getOrgUnitOf($user_id),
-			'certificate'						=> null, ///self::$ilUserCourseStatusHistorizingHelper->hasCertificate ->  getCertificateOf($user_id, $course_id),
 			'begin_date'						=> $begin_date,
 			'end_date'							=> $end_date,
+			'certificate'						=> 
+				(self::$ilUserCourseStatusHistorizingHelper->hasCertificate() ?  
+					self::$ilUserCourseStatusHistorizingHelper->getCertificateOf($user_id, $course_id) : 
+					null),
 			'overnights'						=> self::$ilUserCourseStatusHistorizingHelper->getOvernightsOf($user_id, $course_id),
 			'function'							=> self::$ilUserCourseStatusHistorizingHelper->getFunctionOf($user_id, $course_id)
 		);

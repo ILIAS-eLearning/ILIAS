@@ -134,7 +134,7 @@ if(!$ilDB->tableExists('hist_certfile'))
 			'type' => 'integer',
 			'length' => 4,
 			'notnull' => true),
-		'function' => array(
+		'certfile' => array(
 			'type' => 'clob',
 			'notnull' => true)
 	);
