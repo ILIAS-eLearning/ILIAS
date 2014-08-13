@@ -75,6 +75,9 @@ class gevUserProfileGUI {
 			
 			if (!$err) {
 				$birthday = $form->getInput("birthday");
+				$bday = new ilDateTime($birthday["date"], IL_CAL_DATE);
+				$form->getItemByPostVar("birthday")->setDate($bday);
+				
 				$this->user->setLogin($form->getInput("username"));
 				$this->user->setGender($form->getInput("gender"));
 				$this->user->setBirthday($birthday["date"]);
@@ -109,6 +112,7 @@ class gevUserProfileGUI {
 	}
 	
 	protected function buildUserProfileForm() {
+		require_once("Services/Calendar/classes/class.ilDate.php");
 		require_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		require_once("Services/Form/classes/class.ilFormSectionHeaderGUI.php");
 		require_once("Services/Form/classes/class.ilTextInputGUI.php");
