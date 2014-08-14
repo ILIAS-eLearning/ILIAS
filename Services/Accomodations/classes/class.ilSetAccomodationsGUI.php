@@ -399,6 +399,7 @@ class ilSetAccomodationsGUI
 		}
 		else {
 			$start = $accomodations->getCourseStart();
+			$start->increment(ilDateTime::DAY, -1);
 			$end = $accomodations->getCourseEnd();
 			while (ilDate::_before($start, $end)) {
 				$user_nights[] = $start->get(IL_CAL_DATE);
