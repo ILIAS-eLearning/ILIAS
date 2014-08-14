@@ -176,6 +176,10 @@ class ilGEVMailingPlugin extends ilEventHookPlugin
 		   && $a_event != "deleteParticipant") {
 			return;
 		}
+		
+		// #317
+		return;
+		
 		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 		require_once("Services/ParticipationStatus/classes/class.ilParticipationStatus.php");
 		require_once("Services/GEV/Mailing/classes/class.gevCrsAutoMails.php");
