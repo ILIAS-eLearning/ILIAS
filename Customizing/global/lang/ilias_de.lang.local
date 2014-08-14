@@ -748,3 +748,4 @@ gev#:#gev_alternative_email#:#alternative E-Mail-Adresse
 gev#:#gev_wbd_registration_cb_mandatory#:#Sie müssen dieses Feld bestätigen, um die WBD-Registrierung abschließen zu können.
 gev#:#gev_wbd_registration_finished#:#Vielen Dank, wir werden für Sie ein Konto in der Weiterbildungsdatenbank (WBD) des BWV e.V. sowie ein Nutzerkonto bei der Trusted German Insurance Cloud (TGIC) eröffnen.<br /><br />Nach Eröffnung Ihres Kontos erhalten Sie von dort insgesamt 3 Systemmails mit Ihrer Benutzerkennung, Ihrem Passwort und Ihrer Vermittler-ID.
 gev#:#gev_bwv_id#:#GDV Vermittler-ID
+crsbook#:#admin_assign_overlapping#:#Folgende Buchungen überschneiden sich

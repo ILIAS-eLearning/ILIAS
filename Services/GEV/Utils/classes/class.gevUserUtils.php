@@ -334,6 +334,7 @@ class gevUserUtils {
 				 , gevSettings::CRS_AMD_CREDIT_POINTS 		=> "points"
 				 , gevSettings::CRS_AMD_FEE					=> "fee"
 				 , gevSettings::CRS_AMD_TARGET_GROUP_DESC	=> "target_group"
+				 , gevSettings::CRS_AMD_TARGET_GROUP		=> "target_group_list"
 				 , gevSettings::CRS_AMD_GOALS 				=> "goals"
 				 , gevSettings::CRS_AMD_CONTENTS 			=> "content"
 			);
@@ -357,6 +358,12 @@ class gevUserUtils {
 				unset($info[$key]);
 				continue;
 			}
+			
+			$list = "";
+			foreach ($info[$key]["target_group_list"] as $val) {
+				$list .= "<li>".$val."</li>";
+			}
+			$info[$key]["target_group"] = "<ul>".$list."</ul>".$info[$key]["target_group"];
 			
 			$info[$key]["location"] = $orgu_utils->getLongTitle();
 			$info[$key]["booking_date"] = gevCourseUtils::mkDeadlineDate( $value["start_date"]
