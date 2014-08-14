@@ -143,8 +143,7 @@ class ilLearningProgressBaseGUI
 
 
 			case self::LP_CONTEXT_REPOSITORY:
-
-				if($rbacsystem->checkAccess('edit_learning_progress',$this->getRefId()))
+				if($rbacsystem->checkAccess('read_learning_progress',$this->getRefId()))
 				{
 					// #12771 - do not show status if learning progress is deactivated					
 					include_once './Services/Object/classes/class.ilObjectLP.php';
@@ -182,7 +181,9 @@ class ilLearningProgressBaseGUI
 														$this->ctrl->getLinkTargetByClass("illplistofobjectsgui", 'showObjectSummary'),
 														"", "", "", $a_active == self::LP_ACTIVE_SUMMARY);
 					}
-
+				}				
+				if($rbacsystem->checkAccess('edit_learning_progress',$this->getRefId()))
+				{
 					$this->tabs_gui->addSubTabTarget('trac_settings',
 													 $this->ctrl->getLinkTargetByClass('illplistofsettingsgui',''),
 													 "","","",$a_active == self::LP_ACTIVE_SETTINGS);

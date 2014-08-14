@@ -2693,7 +2693,7 @@ common#:#crs_copy_threads_info#:#Bitte wählen Sie aus, welche Kursmaterialien k
 rbac#:#rbac_create_fold#:#Ordner anlegen
 rbac#:#crs_delete#:#Kurs löschen oder verschieben
 common#:#crs_edit#:#Einstellungen des Kurses
-rbac#:#crs_edit_learning_progress#:#Lernfortschritt anderer Benutzer einsehen und Einstellungen bearbeiten
+rbac#:#crs_edit_learning_progress#:#Benutzer kann Lernfortschrittseinstellungen bearbeiten
 rbac#:#crs_edit_permission#:#Rechteeinstellungen ändern
 common#:#crs_info#:#Info
 rbac#:#crs_join#:#Kurs beitreten
@@ -2943,7 +2943,7 @@ common#:#exc_download_files#:#Download-Dateien
 common#:#exc_download_new#:#Neue herunterladen
 common#:#exc_edit#:#Eine neue Übung wurde angelegt
 common#:#exc_edit_exercise#:#Übung bearbeiten
-rbac#:#exc_edit_learning_progress#:#Lernfortschritt anderer Benutzer einsehen und Einstellungen bearbeiten
+rbac#:#exc_edit_learning_progress#:#Benutzer kann Lernfortschrittseinstellungen bearbeiten
 rbac#:#exc_edit_permission#:#Rechteeinstellungen ändern
 common#:#exc_edit_until#:#Zu bearbeiten bis
 common#:#exc_exercise_sent#:#Übung versandt
@@ -3087,7 +3087,7 @@ rbac#:#fold_copy#:#Ordner kopieren
 common#:#fold_copy_threads_info#:#Bitte wählen Sie aus, welche Materialien kopiert, verknüpft oder aber bei dem Kopiervorgang ausgelassen werden sollen.
 rbac#:#fold_delete#:#Ordner löschen oder verschieben
 common#:#fold_edit#:#Ordner bearbeiten
-rbac#:#fold_edit_learning_progress#:#Lernfortschritt anderer Benutzer einsehen und Einstellungen bearbeiten
+rbac#:#fold_edit_learning_progress#:#Benutzer kann Lernfortschrittseinstellungen bearbeiten
 rbac#:#fold_edit_permission#:#Rechteeinstellungen ändern
 common#:#fold_new#:#Neuen Ordner anlegen
 rbac#:#fold_read#:#Lesezugriff auf Ordner
@@ -3256,7 +3256,7 @@ common#:#grp_deleted_export_files#:#Die ausgewählte Datei wurde gelöscht.
 common#:#grp_dismiss_member#:#Sind Sie sicher, dass folgende Mitglieder aus der Gruppe ausgetragen werden sollen?
 common#:#grp_dismiss_myself#:#Möchten Sie sich aus der Gruppe austragen?
 common#:#grp_edit#:#Einstellungen der Gruppe
-rbac#:#grp_edit_learning_progress#:#Lernfortschritt anderer Benutzer einsehen und Einstellungen bearbeiten
+rbac#:#grp_edit_learning_progress#:#Benutzer kann Lernfortschrittseinstellungen bearbeiten
 rbac#:#grp_edit_permission#:#Rechteeinstellungen ändern
 common#:#grp_err_administrator_required#:#Gruppenmitglied wurde nicht entfernt, es wird mindestens ein Administrator pro Gruppe benötigt.
 common#:#grp_err_at_least_one_groupadministrator_is_needed#:#In jeder Gruppe wird mindestens ein Gruppenadministrator benötigt
@@ -3355,7 +3355,7 @@ common#:#htlm_add#:#HTML-Lernmodul anlegen
 rbac#:#htlm_copy#:#HTML-Lernmodul kopieren
 rbac#:#htlm_delete#:#HTML-Lernmodul löschen
 common#:#htlm_edit#:#Eigenschaften des HTML-Lernmoduls bearbeiten
-rbac#:#htlm_edit_learning_progress#:#Lernfortschritt anderer Benutzer einsehen und Einstellungen bearbeiten
+rbac#:#htlm_edit_learning_progress#:#Benutzer kann Lernfortschrittseinstellungen bearbeiten
 rbac#:#htlm_edit_permission#:#Rechteeinstellungen ändern
 common#:#htlm_new#:#Neues HTML-Lernmodul anlegen
 rbac#:#htlm_read#:#HTML-Lernmodul lesen
@@ -3612,7 +3612,7 @@ common#:#lm_added#:#ILIAS-Lernmodul angelegt
 rbac#:#lm_copy#:#ILIAS-Lernmodul kopieren
 common#:#lm_create#:#Neues ILIAS-Lernmodul anlegen
 rbac#:#lm_delete#:#ILIAS-Lernmodul löschen
-rbac#:#lm_edit_learning_progress#:#Lernfortschritt anderer Benutzer einsehen und Einstellungen bearbeiten
+rbac#:#lm_edit_learning_progress#:#Benutzer kann Lernfortschrittseinstellungen bearbeiten
 rbac#:#lm_edit_permission#:#Rechteeinstellungen ändern
 common#:#lm_join#:#ILIAS-Lernmodul abonnieren
 common#:#lm_leave#:#ILIAS-Lernmodulabonnement aufheben
@@ -4602,7 +4602,7 @@ common#:#sahs#:#Lernmodul SCORM/AICC
 common#:#sahs_added#:#SCORM/AICC-Lernmodul angelegt
 common#:#sahs_create#:#Neues SCORM/AICC-Lernmodul anlegen
 rbac#:#sahs_delete#:#SCORM/AICC-Lernmodul löschen oder verschieben
-rbac#:#sahs_edit_learning_progress#:#Lernfortschritt anderer Benutzer einsehen und Einstellungen bearbeiten
+rbac#:#sahs_edit_learning_progress#:#Benutzer kann Lernfortschrittseinstellungen bearbeiten
 rbac#:#sahs_edit_permission#:#Rechteeinstellungen ändern
 common#:#sahs_insert_chap_from_clip#:#Füge Kapitel aus Zwischenablage ein
 common#:#sahs_insert_page_from_clip#:#Füge Seiten aus Zwischenablage ein
@@ -4987,7 +4987,7 @@ common#:#tst_add#:#Test anlegen
 common#:#tst_anon_eval#:#Resultate
 rbac#:#tst_copy#:#Test kopieren
 rbac#:#tst_delete#:#Test löschen oder verschieben
-rbac#:#tst_edit_learning_progress#:#Lernfortschritt anderer Benutzer einsehen und Einstellungen bearbeiten
+rbac#:#tst_edit_learning_progress#:#Benutzer kann Lernfortschrittseinstellungen bearbeiten
 rbac#:#tst_edit_permission#:#Rechteeinstellungen bearbeiten
 common#:#tst_edit_questions#:#Fragen bearbeiten
 common#:#tst_new#:#Neuen Test anlegen
@@ -9858,7 +9858,7 @@ rbac#:#crsr_read#:#Lesezugriff auf Kurs-Referenzen
 rbac#:#crsr_visible#:#Kurs-Referenzen sind sichtbar und können genutzt werden
 rbac#:#crsr_write#:#Einstellungen der Kurs-Referenzen bearbeiten
 rbac#:#edit_event#:#Kalender bearbeiten
-rbac#:#edit_learning_progress#:#Lernfortschritt bearbeiten
+rbac#:#edit_learning_progress#:#Lernfortschrittseinstellungen bearbeiten
 rbac#:#edit_permission#:#Rechteeinstellungen ändern
 rbac#:#export_member_data#:#Zugriff Benutzerdaten
 rbac#:#facs_edit_permission#:#Rechteeinstellung für die Administration ändern
@@ -14563,3 +14563,13 @@ common#:#sorting_asc#:#Aufsteigend
 poll#:#poll_anonymous_warning#:#Ihr Name wird in den Abstimmungsergebnissen nicht angezeigt.
 dateplaner#:#cal_exc_deadline#:#Abgabetermin
 dateplaner#:#cal_exc_peer_review_deadline#:#Ende des Bewertungszeitraums
+rbac#:#read_learning_progress#:#Lernfortschritt anderer Benutzer einsehen
+rbac#:#crs_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benutzer einsehen
+rbac#:#grp_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benutzer einsehen
+rbac#:#fold_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benutzer einsehen
+rbac#:#lm_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benutzer einsehen
+rbac#:#htlm_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benutzer einsehen
+rbac#:#sahs_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benutzer einsehen
+rbac#:#tst_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benutzer einsehen
+rbac#:#exc_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benutzer einsehen
+rbac#:#sess_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benutzer einsehen

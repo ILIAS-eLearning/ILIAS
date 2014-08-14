@@ -2348,3 +2348,33 @@ if( !$ilDB->tableExists('container_sorting_bl') )
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#4287>
+<?php
+
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+
+$tgt_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId("read_learning_progress");
+if(!$tgt_ops_id)
+{	
+	$tgt_ops_id = ilDBUpdateNewObjectType::addCustomRBACOperation('read_learning_progress', 'Read Learning Progress', 'object', 2300);
+}
+
+$src_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('edit_learning_progress');	
+if($src_ops_id && 
+	$tgt_ops_id)
+{			
+	// see ilObjectLP
+	$lp_types = array("crs", "grp", "fold", "lm", "htlm", "sahs", "tst", "exc", "sess");
+
+	foreach($lp_types as $lp_type)
+	{
+		$lp_type_id = ilDBUpdateNewObjectType::getObjectTypeId($lp_type);
+		if($lp_type_id)
+		{			
+			ilDBUpdateNewObjectType::addRBACOperation($lp_type_id, $tgt_ops_id);				
+			ilDBUpdateNewObjectType::cloneOperation($lp_type, $src_ops_id, $tgt_ops_id);
+		}
+	}
+}
+
+?>

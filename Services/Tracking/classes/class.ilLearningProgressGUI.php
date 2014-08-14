@@ -157,20 +157,34 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 					return "";
 				}
 				
-				// #12771
+				// #12771				
 				include_once './Services/Object/classes/class.ilObjectLP.php';
 				$olp = ilObjectLP::getInstance(ilObject::_lookupObjId($this->getRefId()));			
 				if(!$olp->isActive())
 				{
-					return 'illplistofsettingsgui';
+					if($ilAccess->checkAccess('edit_learning_progress','',$this->getRefId()))
+					{
+						return 'illplistofsettingsgui';
+					}
+					else
+					{
+						return '';
+					}
 				}
 				
-				if(!$this->anonymized and 
-				   $ilAccess->checkAccess('edit_learning_progress','',$this->getRefId()))
-				{
-					return 'illplistofobjectsgui';
+				if($ilAccess->checkAccess('read_learning_progress','',$this->getRefId()))
+				{				
+					if(!$this->anonymized)
+					{
+						return 'illplistofobjectsgui';
+					}
+					return 'illplistofprogressgui';
 				}
-				return 'illplistofprogressgui';
+				else if($ilAccess->checkAccess('edit_learning_progress','',$this->getRefId()))
+				{
+					return 'illplistofsettingsgui';
+				}
+				break;
 
 			case self::LP_CONTEXT_PERSONAL_DESKTOP:
 								
@@ -228,6 +242,7 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 				{
 					return 'illplistofprogressgui';
 				}
+				break;
 		}
 	}
 	

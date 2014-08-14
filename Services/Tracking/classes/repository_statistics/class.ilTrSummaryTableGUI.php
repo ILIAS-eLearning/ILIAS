@@ -319,8 +319,8 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 		if($this->is_root)
 		{
 			// using search to get all relevant objects
-			// #8498/#8499: restrict to objects with at least "edit_learning_progress" access
-			$preselected_obj_ids = $this->searchObjects($this->getCurrentFilter(true), "edit_learning_progress");
+			// #8498/#8499: restrict to objects with at least "read_learning_progress" access
+			$preselected_obj_ids = $this->searchObjects($this->getCurrentFilter(true), "read_learning_progress");
 		}
 		else
 		{

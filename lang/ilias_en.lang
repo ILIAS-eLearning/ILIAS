@@ -2148,7 +2148,7 @@ common#:#crs_copy_threads_info#:#Please decide which course materials should be 
 rbac#:#crs_copy#:#User can copy course
 rbac#:#rbac_create_fold#:#Create Folder
 rbac#:#crs_delete#:#User can move or delete course
-rbac#:#crs_edit_learning_progress#:#User can see learning progress of course members and edit learning progress settings
+rbac#:#crs_edit_learning_progress#:#User can edit learning progress settings
 rbac#:#crs_edit_permission#:#User can change permission settings
 common#:#crs_edit#:#Edit Course
 common#:#crs_info#:#Info
@@ -2366,7 +2366,7 @@ common#:#exc_download_all#:#Download All
 common#:#exc_download_files#:#Download Files
 common#:#exc_download_new#:#Download New
 common#:#exc_edit_exercise#:#Edit exercise
-rbac#:#exc_edit_learning_progress#:#User can see learning progress of other users and edit learning progress settings
+rbac#:#exc_edit_learning_progress#:#User can edit learning progress settings
 rbac#:#exc_edit_permission#:#User can change permission settings
 common#:#exc_edit_until#:#Edit Until
 common#:#exc_edit#:#New exercise created
@@ -2507,7 +2507,7 @@ common#:#fold_added#:#Folder added
 common#:#fold_copy_threads_info#:#Please decide which materials should be copied, linked or even omitted.
 rbac#:#fold_copy#:#User can copy folder
 rbac#:#fold_delete#:#User can move or delete folder
-rbac#:#fold_edit_learning_progress#:#User can see learning progress of other users and edit learning progress settings
+rbac#:#fold_edit_learning_progress#:#User can edit learning progress settings
 rbac#:#fold_edit_permission#:#User can change permission settings
 common#:#fold_edit#:#Edit Folder
 common#:#fold_new#:#New Folder
@@ -2670,7 +2670,7 @@ rbac#:#grp_delete#:#User can move or delete group
 common#:#grp_deleted_export_files#:#Deleted selected files.
 common#:#grp_dismiss_member#:#Are you sure you want to dismiss the following member(s) from the group?
 common#:#grp_dismiss_myself#:#Are you sure you want to leave the group?
-rbac#:#grp_edit_learning_progress#:#User can see learning progress of group members and edit learning progress settings
+rbac#:#grp_edit_learning_progress#:#User can edit learning progress settings
 rbac#:#grp_edit_permission#:#User can change permission settings
 common#:#grp_edit#:#Edit Group
 common#:#grp_err_administrator_required#:#Member could not be removed, at least one administrator per group is required !
@@ -2772,7 +2772,7 @@ common#:#hours#:#Hours
 common#:#htlm_add#:#Add HTML Learning Module
 rbac#:#htlm_copy#:#User can copy HTML learning module
 rbac#:#htlm_delete#:#User can move or delete HTML learning module
-rbac#:#htlm_edit_learning_progress#:#User can see learning progress of other users and edit learning progress settings
+rbac#:#htlm_edit_learning_progress#:#User can edit learning progress settings
 rbac#:#htlm_edit_permission#:#User can change permission settings
 common#:#htlm_edit#:#Edit HTML Learning Module Properties
 common#:#htlm_new#:#New HTML Learning Module
@@ -3020,7 +3020,7 @@ common#:#lm_added#:#ILIAS Learning Module added
 rbac#:#lm_copy#:#User can copy ILIAS learning module
 common#:#lm_create#:#Create ILIAS Learning Module
 rbac#:#lm_delete#:#User can move or delete ILIAS learning module
-rbac#:#lm_edit_learning_progress#:#User can see learning progress of other users and edit learning progress settings
+rbac#:#lm_edit_learning_progress#:#User can edit learning progress settings
 rbac#:#lm_edit_permission#:#User can change permission settings
 common#:#lm_join#:#Subscribe to ILIAS Learning Module
 common#:#lm_leave#:#Unsubscribe from ILIASLearning Module
@@ -3963,7 +3963,7 @@ common#:#sahs_added#:#SCORM/AICC Learning Module added
 rbac#:#sahs_copy#:#User can copy SCORM/AICC learning module
 common#:#sahs_create#:#Create SCORM/AICC Learning Module
 rbac#:#sahs_delete#:#User can move or delete SCORM/AICC learning module
-rbac#:#sahs_edit_learning_progress#:#User can see learning progress of other users and edit learning progress settings
+rbac#:#sahs_edit_learning_progress#:#User can edit learning progress settings
 rbac#:#sahs_edit_permission#:#User can change permission settings
 common#:#sahs_insert_chap_from_clip#:#Paste Chapters from Clipboard
 common#:#sahs_insert_page_from_clip#:#Paste Pages from Clipboard
@@ -4316,7 +4316,7 @@ common#:#tst_add#:#Add test
 common#:#tst_anon_eval#:#Results
 rbac#:#tst_copy#:#User can copy test
 rbac#:#tst_delete#:#User can move or delete test
-rbac#:#tst_edit_learning_progress#:#User can see learning progress of test participants and edit learning progress settings
+rbac#:#tst_edit_learning_progress#:#User can edit learning progress settings
 rbac#:#tst_edit_permission#:#User can change permission settings
 common#:#tst_new#:#New test
 common#:#tst_no_content#:#No tests available
@@ -14581,3 +14581,13 @@ common#:#sorting_asc#:#Ascending
 poll#:#poll_anonymous_warning#:#Your name is not visible in the poll results.
 dateplaner#:#cal_exc_deadline#:#Deadline
 dateplaner#:#cal_exc_peer_review_deadline#:#Feedback Deadline
+rbac#:#read_learning_progress#:#View learning progress of other users
+rbac#:#crs_read_learning_progress#:#User can view learning progress of other users
+rbac#:#grp_read_learning_progress#:#User can view learning progress of other users
+rbac#:#fold_read_learning_progress#:#User can view learning progress of other users
+rbac#:#lm_read_learning_progress#:#User can view learning progress of other users
+rbac#:#htlm_read_learning_progress#:#User can view learning progress of other users
+rbac#:#sahs_read_learning_progress#:#User can view learning progress of other users
+rbac#:#tst_read_learning_progress#:#User can view learning progress of other users
+rbac#:#exc_read_learning_progress#:#User can view learning progress of other users
+rbac#:#sess_read_learning_progress#:#User can view learning progress of other users
