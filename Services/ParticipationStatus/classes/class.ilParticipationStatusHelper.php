@@ -183,6 +183,6 @@ class ilParticipationStatusHelper
 	 */
 	public function getCourseNeedsAttendanceList()
 	{
-		return true;
+		return false;
 	}	
 }
