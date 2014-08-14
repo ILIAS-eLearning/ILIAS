@@ -103,8 +103,18 @@ class gevUserProfileGUI {
 				$this->user_utils->setPrivateState($form->getInput("p_country"));
 				$this->user_utils->setPrivatePhone($form->getInput("p_phone"));
 				$this->user_utils->setPrivateFax($form->getInput("p_fax"));
+				
+				$bwv_id = $form->getInput("bwv_id");
+				if ($bwv_id) {
+					$this->user_utils->setWBDBWVId($bwv_id);
+					$this->user_utils->setWBDTPType(gevUserUtils::WBD_EDU_PROVIDER);
+				}
 			
-				ilUtil::sendSuccess($this->lng->txt("gev_user_profile_saved"));
+				ilUtil::sendSuccess($this->lng->txt("gev_user_profile_saved"), true);
+				
+				if($this->user_utils->hasWBDRelevantRole() && !$this->user_utils->hasDoneWBDRegistration()) {
+					ilUtil::redirect("ilias.php?baseClass=gevDesktopGUI&cmdClass=toMyCourses");
+				}
 			}
 			else {
 				ilUtil::sendFailure($this->lng->txt("form_input_not_valid"));
@@ -183,6 +193,18 @@ class gevUserProfileGUI {
 		$ihk = new ilTextInputGUI($this->lng->txt("gev_ihk_number"), "ihk_number");
 		$ihk->setValue($this->user_utils->getIHKNumber());
 		$form->addItem($ihk);
+		
+		if ($this->user_utils->hasWBDRelevantRole() && $this->user_utils->hasDoneWBDRegistration()) {
+			$_bwv_id = $this->user_utils->getWBDBWVId();
+			if (!$_bwv_id) {
+				$bwv_id = new ilTextInputGUI($this->lng->txt("gev_bwv_id"), "bwv_id");
+			}
+			else {
+				$bwv_id = new ilNonEditableValueGUI($this->lng->txt("gev_bwv_id"));
+			}
+			$bwv_id->setValue($_bwv_id);
+			$form->addItem($bwv_id);
+		}
 		
 		$ad_title = new ilNonEditableValueGUI($this->lng->txt("gev_ad_title"));
 		$ad_title->setValue($this->user_utils->getADTitle());
@@ -265,7 +287,7 @@ class gevUserProfileGUI {
 		$telno = $this->user_utils->getPrivatePhone();
 		$p_phone->setValue($telno);
 		if (!preg_match(self::$telno_regexp, $telno)) {
-				$p_phone->setAlert($this->lng->txt("gev_telno_alert"));
+				$p_phone->setAlert($this->lng->txt("gev_telno_wbd_alert"));
 		}
 		$p_phone->setRequired(true);
 		$form->addItem($p_phone);
