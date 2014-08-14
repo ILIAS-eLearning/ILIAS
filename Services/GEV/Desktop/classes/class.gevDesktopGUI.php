@@ -34,7 +34,10 @@ class gevDesktopGUI {
 		$next_class = $this->ctrl->getNextClass();
 		$cmd = $this->ctrl->getCmd();
 		$this->checkProfileComplete($cmd, $next_class);
-		$this->checkNeedsWBDRegistration($cmd, $next_class);
+		
+		if ($next_class != "gevuserprofilegui" && $cmd != "toMyProfile") {
+			$this->checkNeedsWBDRegistration($cmd, $next_class);
+		}
 		
 		if($cmd == "") {
 			$cmd = "toMyCourses";
