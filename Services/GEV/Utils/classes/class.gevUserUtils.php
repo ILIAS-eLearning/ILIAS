@@ -755,14 +755,19 @@ class gevUserUtils {
 		$sql =  "SELECT COUNT(*) cnt "
 			   ."  FROM adv_md_values_int amd "
 			   ."  JOIN crs_book cb ON cb.crs_id = amd.obj_id AND cb.user_id = ".$this->db->quote($this->user_id, "integer")
+			   ."  LEFT JOIN crs_pstatus_usr ps ON ps.crs_id = amd.obj_id AND ps.user_id = ".$this->db->quote($this->user_id, "integer")
 			   ." WHERE amd.field_id = ".$this->db->quote($field_id, "integer")
 			   ."   AND amd.value = ".$this->db->quote($a_tmplt_ref_id, "integer")
 			   ."   
-			   		AND ".$this->db->in("cb.status"
-			   							, array(ilCourseBooking::STATUS_BOOKED, ilCourseBooking::STATUS_WAITING)
-			   							, false, "integer");
+			   		AND (    ".$this->db->in("cb.status"
+			   								, array(ilCourseBooking::STATUS_BOOKED, ilCourseBooking::STATUS_WAITING)
+			   								, false, "integer")
+			   ."          AND ( ps.status = ".$this->db->quote(ilParticipationStatus::STATUS_NOT_SET, "integer")
+			   ."               OR ps.status IS NULL"
+			   ."              )"
+			   ."       )"
 			   ;
-			   
+		
 		$res = $this->db->query($sql);
 		if ($rec = $this->db->fetchAssoc($res)) {
 			return $rec["cnt"] == 0;
