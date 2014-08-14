@@ -816,7 +816,7 @@ class gevCourseUtils {
 	
 	public function getMembersExceptForAdmins() {
 		$ms = $this->getMembership();
-		return array_merge($ms->getMembers(), $ms->getAdmins());
+		return array_merge($ms->getMembers(), $ms->getTutors());
 	}
 	
 	public function getParticipants() {
