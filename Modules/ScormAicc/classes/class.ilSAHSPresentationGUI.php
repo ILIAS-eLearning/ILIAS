@@ -613,9 +613,9 @@ class ilSAHSPresentationGUI
 		{
 			$ilTabs->addTab("info_short", $this->lng->txt("info_short"), 
 				$this->ctrl->getLinkTargetByClass("ilinfoscreengui", "showSummary"));
-			
+						
 			$ilTabs->addTab("learning_progress", $this->lng->txt("learning_progress"), 
-				$this->ctrl->getLinkTargetByClass(array('illearningprogressgui', 'illplistofprogressgui'),''));		
+				$this->ctrl->getLinkTargetByClass('illearningprogressgui',''));		
 			
 			$ilTabs->activateTab($a_active);
 		}					
