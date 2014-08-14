@@ -112,7 +112,7 @@ class gevUserUtils {
 		$ilCtrl->setParameterByClass("gevEduBiographyGUI", "target_user_id", $this->user_id);
 		$link = $ilCtrl->getLinkTargetByClass("gevEduBiographyGUI", "view");
 		$ilCtrl->clearParametersByClass("gevEduBiographyGUI");
-		return $link; //TODO: implement this properly
+		return $link;
 	}
 	
 	public function getCourseHighlights() {
@@ -377,6 +377,7 @@ class gevUserUtils {
 	
 	public function getEmployeesForCourseSearch() {
 		// TODO: Implement that properly
+		return array();
 		global $ilDB;
 		$res = $ilDB->query("SELECT usr_id, firstname, lastname FROM usr_data");
 		$ret = array();
@@ -869,6 +870,16 @@ class gevUserUtils {
 	const WBD_OKZ2				= "2 - OKZ2";
 	const WBD_OKZ3				= "3 - OKZ3";
 	const WBD_NO_OKZ			= "4 - keine Zuordnung";
+	
+	static $wbd_relevant_roles	= array( "OD/LD/BD/VD/VTWL"
+									   , "DBV-VL-EVG"
+									   , "DBV-UV"
+									   , "AVL"
+									   , "HA"
+									   , "BA"
+									   , "NA"
+									   , "VP"
+									   );
 
 	public function getWBDTPType() {
 		return $this->udf_utils->getField($this->user_id, gevSettings::USR_TP_TYPE);
@@ -918,8 +929,11 @@ class gevUserUtils {
 			return trim($spl[1]);
 		}
 		
-		// TODO: implement "aus Stellung";
-		//throw new Exception("gevUserUtils::getWBDOKZ: branch 'aus Stellung' not implemented.");
+		
+		// Everyone who has a wbd relevant role also has okz1
+		if ($this->hasWBDRelevantRole()) {
+			return "OKZ1";
+		}
 		
 		return;
 	}
@@ -970,6 +984,22 @@ class gevUserUtils {
 		$start->increment(ilDateTime::YEAR, -1 * $a_year_step);
 		
 		return $start;
+	}
+	
+	public function hasWBDRelevantRole() {
+		$query = "SELECT COUNT(*) cnt "
+				."  FROM rbac_ua ua "
+				."  JOIN object_data od ON od.obj = ua.rol_id "
+				." WHERE ua.usr_id = ".$this->db->quote($this->user_id, "integer")
+				."   AND od.type = 'role' "
+				."   AND ".$this->db->in("title", self::$wbd_relevant_roles)
+				;
+				
+		$res = $this->db->query($query);
+		if ($rec = $this->db->fetchAssoc($res)) {
+			return $rec["cnt"] > 0;
+		}
+		return false;
 	}
 }
 
