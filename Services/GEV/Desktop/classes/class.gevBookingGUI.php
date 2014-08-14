@@ -595,6 +595,10 @@ class gevBookingGUI {
 	}
 
 	protected function finalizeBookingWithoutPayment() {
+		if (!$_POST["agb"]) {
+			return $this->book(true);
+		}
+		
 		if ($this->isWithPayment()) {
 			$_form = $this->getAccomodationsForm();
 			if (!$_form->checkInput()) {
