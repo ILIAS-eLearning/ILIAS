@@ -10,7 +10,6 @@
 */
 
 require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
-require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 
 class gevRegistrationGUI {
 	public function __construct() {

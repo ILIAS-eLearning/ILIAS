@@ -199,6 +199,8 @@ class gevSettings {
 	// how is the "Vermittlungstätigkeit" determined
 	const USR_WBD_STATUS			= "usr_udf_wbd_status";
 	const USR_WBD_CERT_PERIOD_BEGIN = "usr_udf_wbd_cert_period_begin";
+	const USR_WBD_DID_REGISTRATION	= "usr_udf_wbd_did_registration";
+	const USR_WBD_COM_EMAIL			= "usr_udf_wbd_com_email";
 
 	// Role mapping
 	static $VMS_ROLE_MAPPING = array(

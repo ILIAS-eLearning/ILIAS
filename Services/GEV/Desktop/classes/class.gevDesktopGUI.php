@@ -14,6 +14,7 @@
 * @ilCtrl_Calls gevDesktopGUI: gevStaticpagesGUI
 * @ilCtrl_Calls gevDesktopGUI: gevEduBiographyGUI
 * @ilCtrl_Calls gevDesktopGUI: gevUserProfileGUI
+* @ilCtrl_Calls gevDesktopGUI: gevWBDRegistrationGUI
 *
 */
 
@@ -33,6 +34,7 @@ class gevDesktopGUI {
 		$next_class = $this->ctrl->getNextClass();
 		$cmd = $this->ctrl->getCmd();
 		$this->checkProfileComplete($cmd, $next_class);
+		$this->checkNeedsWBDRegistration($cmd, $next_class);
 		
 		if($cmd == "") {
 			$cmd = "toMyCourses";
@@ -75,6 +77,12 @@ class gevDesktopGUI {
 			case "gevuserprofilegui":
 				require_once("Services/GEV/Desktop/classes/class.gevUserProfileGUI.php");
 				$gui = new gevUserProfileGUI();
+				$ret = $this->ctrl->forwardCommand($gui);
+				break;
+
+			case "gevwbdregistrationgui":
+				require_once("Services/GEV/Registration/classes/class.gevWBDRegistrationGUI.php");
+				$gui = new gevWBDRegistrationGUI();
 				$ret = $this->ctrl->forwardCommand($gui);
 				break;
 
@@ -125,6 +133,16 @@ class gevDesktopGUI {
 		if (!$utils->isProfileComplete() && !($cmd == "toMyProfile" || $next_class == "gevuserprofilegui")) {
 			ilUtil::sendFailure($this->lng->txt("gev_profile_incomplete"), true);
 			$this->ctrl->redirect($this, "toMyProfile");
+		}
+	}
+	
+	protected function checkNeedsWBDRegistration($cmd, $next_class) {
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		global $ilUser;
+		$utils = gevUserUtils::getInstanceByObj($ilUser);
+		if ($utils->hasWBDRelevantRole() && !$utils->hasDoneWBDRegistration()
+			&& !($next_class == "gevwbdregistrationgui")) {
+			$this->ctrl->redirectByClass("gevWBDRegistrationGUI");
 		}
 	}
 }

@@ -647,7 +647,7 @@ class gevUserUtils {
 	}
 	
 	public function getHPE() {
-		$val = $this->udf_utils->getField($this->user_id, gevSettings::USR_UDF_HPE);
+		return $this->udf_utils->getField($this->user_id, gevSettings::USR_UDF_HPE);
 	}
 	
 	public function setHPE($a_hpe) {
@@ -880,6 +880,15 @@ class gevUserUtils {
 									   , "NA"
 									   , "VP"
 									   );
+	
+	static $wbd_tp_service_roles= array( "OD/LD/BD/VD/VTWL"
+									   , "DBV-VL-EVG"
+									   , "DBV-UV"
+									   , "AVL"
+									   , "HA"
+									   , "BA"
+									   , "NA"
+									   );
 
 	public function getWBDTPType() {
 		return $this->udf_utils->getField($this->user_id, gevSettings::USR_TP_TYPE);
@@ -892,7 +901,7 @@ class gevUserUtils {
 			throw new Exception("gevUserUtils::setWBDTPType: ".$a_type." is no valid type.");
 		}
 
-		return $this->udf_utils->getField($this->user_id, gevSettings::USR_TP_TYPE, $a_type);
+		$this->udf_utils->setField($this->user_id, gevSettings::USR_TP_TYPE, $a_type);
 	}
 	
 	public function getWBDBWVId() {
@@ -900,7 +909,7 @@ class gevUserUtils {
 	}
 	
 	public function setWBDBWVId($a_id) {
-		$this->udf_utils->setField($this->user_id, gevSettings::USR_TP_TYPE, $a_id);
+		$this->udf_utils->setField($this->user_id, gevSettings::USR_BWV_ID, $a_id);
 	}
 	
 	public function getRawWBDOKZ() {
@@ -989,17 +998,49 @@ class gevUserUtils {
 	public function hasWBDRelevantRole() {
 		$query = "SELECT COUNT(*) cnt "
 				."  FROM rbac_ua ua "
-				."  JOIN object_data od ON od.obj = ua.rol_id "
+				."  JOIN object_data od ON od.obj_id = ua.rol_id "
 				." WHERE ua.usr_id = ".$this->db->quote($this->user_id, "integer")
 				."   AND od.type = 'role' "
-				."   AND ".$this->db->in("title", self::$wbd_relevant_roles)
+				."   AND ".$this->db->in("od.title", self::$wbd_relevant_roles, false, "text")
 				;
-				
+
 		$res = $this->db->query($query);
 		if ($rec = $this->db->fetchAssoc($res)) {
 			return $rec["cnt"] > 0;
 		}
 		return false;
+	}
+	
+	public function hasDoneWBDRegistration() {
+		return ($this->udf_utils->getField($this->user_id, gevSettings::USR_WBD_DID_REGISTRATION) == "1 - Ja");
+	}
+	
+	public function setWBDRegistrationDone() {
+		$this->udf_utils->setField($this->user_id, gevSettings::USR_WBD_DID_REGISTRATION, "1 - Ja");
+	}
+	
+	public function canBeRegisteredAsTPService() {
+		$query = "SELECT COUNT(*) cnt "
+				."  FROM rbac_ua ua "
+				."  JOIN object_data od ON od.obj_id = ua.rol_id "
+				." WHERE ua.usr_id = ".$this->db->quote($this->user_id, "integer")
+				."   AND od.type = 'role' "
+				."   AND ".$this->db->in("od.title", self::$wbd_tp_service_roles, false, "text")
+				;
+
+		$res = $this->db->query($query);
+		if ($rec = $this->db->fetchAssoc($res)) {
+			return $rec["cnt"] > 0;
+		}
+		return false;
+	}
+	
+	public function getWBDCommunicationEmail() {
+		return $this->udf_utils->getField($this->user_id, gevSettings::USR_WBD_COM_EMAIL);
+	}
+	
+	public function setWBDCommunicationEmail($a_email) {
+		$this->udf_utils->setField($this->user_id, gevSettings::USR_WBD_COM_EMAIL, $a_email);
 	}
 }
 

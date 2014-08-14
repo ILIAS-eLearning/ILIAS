@@ -726,3 +726,24 @@ gev#:#gev_telno_wbd_alert#:#Die Telefonnummer hat kein gültiges Format.
 gev#:#gev_user_profile_saved#:#Ihre Profilinformationen wurden erfolgreich gespeichert.
 gev#:#gev_private_email#:#private Emailadresse
 gev#:#gev_profile_incomplete#:#Ihr Benutzerprofil ist unvollständig. Bitte ergänzen oder korrigieren sie die markierten Felder.
+gev#:#gev_wbd_registration#:#WBD-Registrierung
+gev#:#gev_wbd_registration_header_note#:#Registrieren sie sich bei der Weiterbildungsdatenbank.
+gev#:#gev_wbd_registration_question#:#Haben sie bereits ein Weiterbildungskonto im Rahmen der Brancheninitiative "gut beraten"?
+gev#:#gev_wbd_registration_has_bwv_id#:#Ich habe bereits eine GDV Vermittler-ID
+gev#:#gev_wbd_registration_has_bwv_id_cmd#:#Anmeldung mit Übermittlung der Punkte
+gev#:#gev_wbd_registration_no_bwv_id#:#Nein, ich habe noch keine GDV Vermittler-ID und werde diese in meinem Benutzeraccount nachtragen.
+gev#:#gev_wbd_registration_no_bwv_id_cmd#:#Anmeldung vorerst ohne Übermittlung der Punkte
+gev#:#gev_wbd_registration_create_bwv_id#:#Die Generali soll für mich ein Weiterbildungskonto eröffnen.
+gev#:#gev_wbd_registration_create_bwv_id_cmd#:#Kontoeröffnung
+gev#:#gev_mandate#:#Auftrag
+gev#:#gev_give_mandate#:#Hiermit erteile ich den %s ein WB-Konto bei der WBD einzurichten.
+gev#:#gev_agb#:#AGB
+gev#:#gev_confirm_agb#:#Mit den %s bin ich einverstanden.
+gev#:#gev_confirm_qualification#:#Ich habe die Qualifikationsvoraussetzungen gemäß Abschnitt 1 der VersVermV erbracht (Sachkundeprüfung zur Versicherungsvermittlung oder gleichgestellte andere Berufsqualifikation) oder eine Ausbildung zur Versicherungsvermittlung auf dem Niveau der Anforderungen zur Sachkundeprüfung durchlaufen.
+gev#:#gev_no_other_wbd_mandate#:#Ich versichere, dass ich nicht bereits an anderer Stelle eine solche Kontoeröffnung beantragt habe.
+gev#:#gev_wbd_notifications#:#Benachrichtigungen der WBD
+gev#:#gev_wbd_notifications_to_auth#:#Kontoauszüge und Jahreszertifikate der WBD sollen an meine Authentifizierungs-E-Mail-Adresse verschickt werden.
+gev#:#gev_wbd_notifications_to_diff#:#Kontoauszüge und Jahreszertifikate der WBD sollen an eine abweichende E-Mail-Adresse verschickt werden.
+gev#:#gev_alternative_email#:#alternative E-Mail-Adresse
+gev#:#gev_wbd_registration_cb_mandatory#:#Sie müssen dieses Feld bestätigen, um die WBD-Registrierung abschließen zu können.
+gev#:#gev_wbd_registration_finished#:#Vielen Dank, wir werden für Sie ein Konto in der Weiterbildungsdatenbank (WBD) des BWV e.V. sowie ein Nutzerkonto bei der Trusted German Insurance Cloud (TGIC) eröffnen.<br /><br />Nach Eröffnung Ihres Kontos erhalten Sie von dort insgesamt 3 Systemmails mit Ihrer Benutzerkennung, Ihrem Passwort und Ihrer Vermittler-ID.
