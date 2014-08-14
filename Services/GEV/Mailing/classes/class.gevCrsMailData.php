@@ -227,8 +227,20 @@ class gevCrsMailData extends ilMailData {
 					$val = $this->usr_utils->getLastnameOfUserWhoBookedAtCourse($this->crs_utils->getId());
 				}
 				break;
-			//case "EINSATZTAGE":
-			//	break;
+			case "EINSATZTAGE":
+				$start = $this->crs_utils->getStartDate();
+				$end = $this->crs_utils->getEndDate();
+				
+				if ($start && $end) {
+					require_once("Services/TEP/classes/class.ilTEPOperationDays.php");
+					$tmp = new ilTEPOperationDays("crs", $this->crs_utils->getId(), $start, $end);
+					$op_days = $tmp->getDaysForUser($this->rec_user_id);
+					$val = implode("<br />", $op_days);
+				}
+				else {
+					$val = "Nicht verfügbar.";
+				}
+				break;
 			case "UEBERNACHTUNGEN":
 				if ($this->usr_utils !== null) {
 					$tmp = $this->usr_utils->getOvernightDetailsForCourse($this->crs_utils->getCourse());
