@@ -378,8 +378,8 @@ abstract class gevCrsAutoMail extends ilAutoMail {
 												, $this->getEmailForTemplate($a_recipient));
 
 		return array( "from" => $this->getFrom()
-					, "to" => array_map(array($this, "getTo"), $this->getTo($a_recipient))
-					, "cc" => $this->getCC($a_recipient)
+					, "to" => $this->getTo($a_recipient)
+					, "cc" => array_map(array($this, "getTo"), $this->getCC($a_recipient))
 					, "bcc" => $this->getBCC($a_recipient)
 					, "subject" => $message["subject"]?$message["subject"]:""
 					, "message_plain" => str_replace("<br />", "\n", $message["plain"])
