@@ -243,7 +243,7 @@ class gevEduBiographyGUI {
 		$table->addColumn($this->lng->txt("date"), "date");
 		$table->addColumn($this->lng->txt("gev_location"), "location");
 		$table->addColumn($this->lng->txt("gev_provider"), "provider");
-		$table->addColumn($this->lng->txt("il_crs_tutor"), "trainer");
+		$table->addColumn($this->lng->txt("il_crs_tutor"), "tutor");
 		$table->addColumn($this->lng->txt("gev_points"), "credit_points");
 		$table->addColumn($this->lng->txt("gev_costs"), "fee");
 		$table->addColumn($this->lng->txt("status"), "status");
