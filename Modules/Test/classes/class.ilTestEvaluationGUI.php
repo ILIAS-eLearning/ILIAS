@@ -1493,30 +1493,53 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$pass = (int) $_GET['pass'];
 			
 			// Get information
-			$result = $ilDB->query(
-				'SELECT tries 
+			$result = $ilDB->query("
+				SELECT tst_active.tries, tst_active.last_finished_pass, tst_sequence.pass
 				FROM tst_active
-				WHERE active_id = ' . $ilDB->quote($active_fi, 'integer')
-			);
+				LEFT JOIN tst_sequence
+				ON tst_sequence.active_fi = tst_active.active_id
+				AND tst_sequence.pass = tst_active.tries
+				WHERE tst_active.active_id = {$ilDB->quote($active_fi, 'integer')}
+			");
+		
 			$row = $ilDB->fetchAssoc($result);
-			$tries = $row['tries'];
 			
-			$last_pass = false;
-			$must_renumber = true;			
-			// No renumbering - last pass to be deleted.
-			if ($tries == 1)
+			$tries = $row['tries'];
+			$lastFinishedPass = is_numeric($row['last_finished_pass']) ? $row['last_finished_pass'] : -1;
+		
+			if( $pass < $lastFinishedPass )
 			{
+				$isActivePass = false;
+				$must_renumber = true;
+			}
+			elseif( $pass == $lastFinishedPass )
+			{
+				$isActivePass = false;
+				
+				if( $tries == $row['pass'] )
+				{
+					$must_renumber = true;
+				}
+				else
+				{
+					$must_renumber = false;
+				}
+			}
+			elseif( $pass == $row['pass'] )
+			{
+				$isActivePass = true;
 				$must_renumber = false;
+			}
+		
+			if( $pass == 0 )
+			{
 				$last_pass = true;
 			}
-			
-			// No renumbering - high pass to be deleted.
-			if ($tries-1 == $pass)
+			else
 			{
-				$must_renumber = false;
-			
+				$last_pass = false;
 			}
-			
+						
 			// Work on tables:
 			// tst_active
 			if ($last_pass)
@@ -1527,11 +1550,12 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 					WHERE active_id = ' . $ilDB->quote($active_fi, 'integer')
 				);
 			}
-			else
+			elseif( !$isActivePass )
 			{
 				$ilDB->manipulate(
 					'UPDATE tst_active
-					SET tries = ' . $ilDB->quote($tries-1, 'integer') . '
+					SET tries = ' . $ilDB->quote($tries-1, 'integer') . ',
+					last_finished_pass = ' . $ilDB->quote($lastFinishedPass-1, 'integer') . '
 					WHERE active_id = ' . $ilDB->quote($active_fi, 'integer')
 				);
 			}
