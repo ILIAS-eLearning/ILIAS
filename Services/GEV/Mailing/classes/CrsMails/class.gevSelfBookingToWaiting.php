@@ -24,7 +24,7 @@ class gevSelfBookingToWaiting extends gevCrsAutoMail {
 	}
 	
 	public function getCC($a_recipient) {
-		return $this->maybeSuperiorsCC();
+		return $this->maybeSuperiorsCC($a_recipient);
 	}
 }
 

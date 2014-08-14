@@ -235,7 +235,7 @@ class gevCrsMailData extends ilMailData {
 					require_once("Services/TEP/classes/class.ilTEPOperationDays.php");
 					$tmp = new ilTEPOperationDays("crs", $this->crs_utils->getId(), $start, $end);
 					$op_days = $tmp->getDaysForUser($this->rec_user_id);
-					$val = implode("<br />", $op_days);
+					$val = implode("", $op_days);
 				}
 				else {
 					$val = "Nicht verfügbar.";

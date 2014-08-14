@@ -513,7 +513,7 @@ abstract class gevCrsAutoMail extends ilAutoMail {
 		$this->setAdditionalMailSettings(new gevCrsAdditionalMailSettings($this->crs_id));
 	}
 	
-	protected function maybeSuperiorsCC() {
+	protected function maybeSuperiorsCC($a_recipient) {
 		// For Präsenztrainings only
 		if (preg_match("/.*senztraining/", $this->getCourseUtils()->getType())) {
 			require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
