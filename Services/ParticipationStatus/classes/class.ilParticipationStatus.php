@@ -841,7 +841,7 @@ class ilParticipationStatus
 			$params["user_id"] = $a_user_id;			
 		}
 		
-		$ilAppEventHandler->raise("Services/ParticipationsStatus", $a_event, $params);
+		$ilAppEventHandler->raise("Services/ParticipationStatus", $a_event, $params);
 	}
 	
 	
