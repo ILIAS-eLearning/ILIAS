@@ -72,7 +72,7 @@ class gevCourseSearchTableGUI extends catAccordionTableGUI {
 			$order = "title";
 		}
 		if ($order == "date") {
-			$order = $start_date;
+			$order = "start_date";
 		}
 
 		$this->setData($user_util->getPotentiallyBookableCourseInformation(
