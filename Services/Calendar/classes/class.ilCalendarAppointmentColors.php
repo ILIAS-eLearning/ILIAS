@@ -67,7 +67,12 @@ class ilCalendarAppointmentColors
 										"#C1FFC1",
 										"#B4EEB4",
 										"#98FB98",
-										"#90EE90"));
+										"#90EE90"),
+									'exc' => array(
+										"#BC6F16",
+										"#BA7832",
+										"#B78B4D",
+										"#B59365"));
 																				
 									
 	

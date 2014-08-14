@@ -491,13 +491,15 @@ class ilExAssignment
 		$exc = new ilObjExercise($this->getExerciseId(), false);
 		$exc->updateAllUsersStatus();
 		ilExAssignment::createNewAssignmentRecords($next_id, $exc);
+		
+		$this->handleCalendarEntries("create");
 	}
 	
 	/**
 	 * Update
 	 */
 	function update()
-	{
+	{		
 		global $ilDB;
 		
 		$ilDB->update("exc_assignment",
@@ -524,6 +526,8 @@ class ilExAssignment
 			));
 		$exc = new ilObjExercise($this->getExerciseId(), false);
 		$exc->updateAllUsersStatus();
+		
+		$this->handleCalendarEntries("update");
 	}
 	
 	/**
@@ -540,6 +544,8 @@ class ilExAssignment
 			);
 		$exc = new ilObjExercise($this->getExerciseId(), false);
 		$exc->updateAllUsersStatus();
+		
+		$this->handleCalendarEntries("delete");
 	}
 	
 	function deleteFeedbackFile()
@@ -3081,7 +3087,64 @@ class ilExAssignment
 		}
 		$this->clearMultiFeedbackDirectory();
 	}
+	
+	/**
+	 * Handle calendar entries for deadline(s)
+	 * 
+	 * @param string $a_event
+	 */
+	protected function handleCalendarEntries($a_event)
+	{		
+		global $ilAppEventHandler;
+		
+		$dl_id = $this->getId()."0";
+		$fbdl_id = $this->getId()."1";
+		
+		$context_ids = array($dl_id, $fbdl_id);		
+		$apps = array();
+		
+		if($a_event != "delete")
+		{										
+			include_once "Services/Calendar/classes/class.ilCalendarAppointmentTemplate.php";
+			
+			if($this->getDeadline())
+			{					
+				$app = new ilCalendarAppointmentTemplate($dl_id);
+				$app->setTranslationType(IL_CAL_TRANSLATION_SYSTEM);
+				$app->setSubtitle("cal_exc_deadline");
+				$app->setTitle($this->getTitle());				
+				$app->setFullday(false);
+				$app->setStart(new ilDateTime($this->getDeadline(), IL_CAL_UNIX));			
+				
+				$apps[] = $app;
+			}
 
+			if($this->getPeerReview() &&
+				$this->getPeerReviewDeadline())
+			{
+				$app = new ilCalendarAppointmentTemplate($fbdl_id);
+				$app->setTranslationType(IL_CAL_TRANSLATION_SYSTEM);
+				$app->setSubtitle("cal_exc_peer_review_deadline");
+				$app->setTitle($this->getTitle());				
+				$app->setFullday(false);
+				$app->setStart(new ilDateTime($this->getPeerReviewDeadline(), IL_CAL_UNIX));
+				
+				$apps[] = $app;
+			}		
+			
+		}			
+				
+		include_once "Modules/Exercise/classes/class.ilObjExercise.php";
+		$exc = new ilObjExercise($this->getExerciseId(), false);
+		
+		$ilAppEventHandler->raise('Modules/Exercise',
+			$a_event.'Assignment',
+			array(
+			'object' => $exc,
+			'obj_id' => $exc->getId(),			
+			'context_ids' => $context_ids,
+			'appointments' => $apps));		
+	}
 }
 
 ?>

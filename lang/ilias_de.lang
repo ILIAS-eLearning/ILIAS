@@ -14561,3 +14561,5 @@ common#:#sorting_direction#:#Sortierungsrichtung
 common#:#sorting_desc#:#Absteigend
 common#:#sorting_asc#:#Aufsteigend
 poll#:#poll_anonymous_warning#:#Ihr Name wird in den Abstimmungsergebnissen nicht angezeigt.
+dateplaner#:#cal_exc_deadline#:#Abgabetermin
+dateplaner#:#cal_exc_peer_review_deadline#:#Ende des Bewertungszeitraums

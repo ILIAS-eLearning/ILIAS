@@ -14579,3 +14579,5 @@ common#:#sorting_direction#:#Sorting Direction
 common#:#sorting_desc#:#Descendent
 common#:#sorting_asc#:#Ascending
 poll#:#poll_anonymous_warning#:#Your name is not visible in the poll results.
+dateplaner#:#cal_exc_deadline#:#Deadline
+dateplaner#:#cal_exc_peer_review_deadline#:#Feedback Deadline

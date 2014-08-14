@@ -411,7 +411,7 @@ class ilCalendarCategories
 		$has_personal_calendar = false;
 		foreach($this->categories_info as $info)
 		{
-			if($info['obj_type'] == 'sess')
+			if($info['obj_type'] == 'sess' || $info['obj_type'] == 'exc')
 			{
 				continue;
 			}
@@ -526,7 +526,8 @@ class ilCalendarCategories
 		$courses = array();
 		$groups = array();
 		$sessions = array();
-		foreach(ilObjUser::_lookupDesktopItems($ilUser->getId(),array('crs','grp','sess')) as $item)
+		$exercises = array();
+		foreach(ilObjUser::_lookupDesktopItems($ilUser->getId(),array('crs','grp','sess','exc')) as $item)
 		{
 			if($ilAccess->checkAccess('read','',$item['ref_id']))
 			{
@@ -543,13 +544,17 @@ class ilCalendarCategories
 					case 'grp':
 						$groups[] = $item['obj_id'];
 						break;
-						
+					
+					case 'exc':
+						$exercises[] = $item['obj_id'];
+						break;						
 				}
 			}
 		}
 		$this->readSelectedCategories($courses); 	
 		$this->readSelectedCategories($sessions);	 	
 		$this->readSelectedCategories($groups);
+		$this->readSelectedCategories($exercises);	 	
 
 		$this->addSubitemCalendars();
 		
@@ -582,7 +587,7 @@ class ilCalendarCategories
 		$subtree_query = $GLOBALS['tree']->getSubTreeQuery(
 				$this->root_ref_id,
 				array('object_reference.ref_id','object_data.obj_id'),
-				array('crs','grp','sess')
+				array('crs','grp','sess','exc')
 		);
 		
 		$res = $ilDB->query($subtree_query);
@@ -912,7 +917,7 @@ class ilCalendarCategories
 			"JOIN object_reference or2 ON t.child = or2.ref_id ".
 			"JOIN object_data od2 ON or2.obj_id = od2.obj_id ".
 			"JOIN cal_categories cc ON od2.obj_id = cc.obj_id ".
-			"WHERE od2.type = 'sess' ".
+			"WHERE ".$ilDB->in('od2.type',array('sess','exc'),false,'text').
 			"AND (od1.type = 'crs' OR od1.type = 'grp') ".
 			"AND ".$ilDB->in('od1.obj_id',$course_ids,false,'integer').' '.
 			"AND or2.deleted IS NULL";

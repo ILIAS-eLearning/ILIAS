@@ -346,7 +346,7 @@ class ilObjExercise extends ilObject
 	*/
 	function delete()
 	{
-		global $ilDB;
+		global $ilDB, $ilAppEventHandler;
 
 		// always call parent delete function first!!
 		if (!parent::delete())
@@ -364,7 +364,11 @@ class ilObjExercise extends ilObject
 
 		// remove all notifications
 		include_once "./Services/Notification/classes/class.ilNotification.php";
-		ilNotification::removeForObject(ilNotification::TYPE_EXERCISE_SUBMISSION, $this->getId());
+		ilNotification::removeForObject(ilNotification::TYPE_EXERCISE_SUBMISSION, $this->getId());		
+			
+		$ilAppEventHandler->raise('Modules/Exercise',
+			'delete',
+			array('obj_id'=>$this->getId()));		
 
 		return true;
 	}

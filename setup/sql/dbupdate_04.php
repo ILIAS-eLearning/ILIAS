@@ -2344,3 +2344,7 @@ if( !$ilDB->tableExists('container_sorting_bl') )
 	$ilDB->addPrimaryKey('container_sorting_bl',array('obj_id'));
 }
 ?>
+<#4286>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

@@ -30,4 +30,10 @@
 	<crons>
 		<cron id="exc_feedback_notification" class="ilExcCronFeedbackNotification" />
 	</crons>
+	<events>				
+		<event type="raise" id="createAssignment" />
+		<event type="raise" id="updateAssignment" />
+		<event type="raise" id="deleteAssignment" />		
+		<event type="raise" id="delete" />		
+	</events>
 </module>

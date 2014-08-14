@@ -932,7 +932,7 @@ class ilObjSurveyQuestionPool extends ilObject
 				global $ilPluginAdmin;
 				$pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_MODULE, "SurveyQuestionPool", "svyq");
 				foreach ($pl_names as $pl_name)
-				{
+				{					
 					$pl = ilPlugin::getPluginObject(IL_COMP_MODULE, "SurveyQuestionPool", "svyq", $pl_name);
 					if (strcmp($pl->getQuestionType(), $row["type_tag"]) == 0)
 					{

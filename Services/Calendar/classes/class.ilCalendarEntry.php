@@ -225,7 +225,7 @@ class ilCalendarEntry implements ilDatePeriod
 		}		
 		else
 		{
-			$title = $this->getTitle();
+			$title = $lng->txt($this->getTitle());
 		}
 
 		if($a_shorten)
