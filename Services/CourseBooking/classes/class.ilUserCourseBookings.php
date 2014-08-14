@@ -162,8 +162,8 @@ class ilUserCourseBookings
 	
 		$all = $this->getBookedAndWaitingCourses();
 		
-		$amd = array( gevSettings::CRS_AMD_START_DATE => "start_date"
-					, gevSettings::CRS_AMD_END_DATE => "end_date"
+		$amd = array( gevSettings::CRS_AMD_START_DATE => "start"
+					, gevSettings::CRS_AMD_END_DATE => "end"
 					);
 		
 		$dates = gevAMDUtils::getInstance()
@@ -177,16 +177,16 @@ class ilUserCourseBookings
 									  					 , false, "integer"
 									  					 )
 									  );
-
+/*
 		$res = array();
 		foreach($dates as $date) {
 			$res[] = array(
 				  "title" => $date["title"]
-				, "start" => new ilDateTime($date["start_date"], IL_CAL_DATE)
-				, "end" => new ilDateTime($date["end_date"], IL_CAL_DATE)
+				, "start" => new ilDate($date["start_date"], IL_CAL_DATE)
+				, "end" => new ilDateT($date["end_date"], IL_CAL_DATE)
 				);
-		}
+		}*/
 
-		return $res;
+		return $dates;
 	}	
 }
