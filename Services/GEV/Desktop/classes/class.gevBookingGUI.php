@@ -214,7 +214,7 @@ class gevBookingGUI {
 							  );
 	}
 	
-	protected function book() {
+	protected function book($a_alert_agb) {
 		require_once("Services/CaTUIComponents/classes/class.catPropertyFormGUI.php");
 		require_once("Services/Form/classes/class.ilNonEditableValueGUI.php");
 		require_once("Services/Accomodations/classes/class.ilSetAccomodationsGUI.php");
@@ -322,6 +322,13 @@ class gevBookingGUI {
 			$note->setValue($this->lng->txt("gev_booking_note"));
 			$form->addItem($note);
 		}
+				
+		$agb = new ilCheckboxInputGUI("", "agb");
+		$agb->setOptionTitle($this->lng->txt("gev_accept_book_cond"));
+		if ($a_alert_agb) {
+			$agb->setAlert($this->lng->txt("gev_book_no_cond_accept"));
+		}
+		$form->addItem($agb);
 		
 		return $form->getHTML();
 	}
@@ -374,10 +381,6 @@ class gevBookingGUI {
 		$email->setRequired(true);
 		$form->addItem($email);
 		
-		$agb = new ilCheckboxInputGUI("", "agb");
-		$agb->setOptionTitle($this->lng->txt("gev_accept_book_cond"));
-		$form->addItem($agb);
-		
 		if($this->isWithAccomodations()) {
 			$accomodations = new ilHiddenInputGUI("accomodations");
 			if ($a_accomodations) {
@@ -398,6 +401,10 @@ class gevBookingGUI {
 	protected function paymentInfo() {
 		require_once("Services/CaTUIComponents/classes/class.catPropertyFormGUI.php");
 		require_once("Services/Accomodations/classes/class.ilSetAccomodationsGUI.php");
+		
+		if (!$_POST["agb"]) {
+			return $this->book(true);
+		}
 		
 		if ($this->isWithAccomodations() && $this->crs_utils->getStartDate() !== null && $this->crs_utils->getEndDate() !== null) {
 			$_form = $this->getAccomodationsForm();
@@ -511,30 +518,23 @@ class gevBookingGUI {
 		$ok = false;
 		if ($form->checkInput()) {
 			$ok = true;
-			if (!$form->getInput("agb")) {
-				$ok = false;
-				$form->getItemByPostvar("agb")->setAlert($this->lng->txt("gev_book_no_cond_accept"));
+			$coupons = $form->getInput("coupons");
+			$invalid_codes = array();
+			foreach ($coupons as $key => $coupon) {
+				if (!$coupon) {
+					unset($coupons[$key]);
+					continue;
+				}
+				if (!$billing_utils->isValidCouponCode($coupon)) {
+					$invalid_codes[] = $coupon;
+				}
 			}
-			
-			if ($ok) {
-				$coupons = $form->getInput("coupons");
-				$invalid_codes = array();
-				foreach ($coupons as $key => $coupon) {
-					if (!$coupon) {
-						unset($coupons[$key]);
-						continue;
-					}
-					if (!$billing_utils->isValidCouponCode($coupon)) {
-						$invalid_codes[] = $coupon;
-					}
-				}
-				if (count($invalid_codes) > 0) {
-					$ok = false;
-					$form->getItemByPostvar("coupons")->setAlert( sprintf( $this->lng->txt("gev_invalid_coupon_codes")
-																		 , implode(", ", $invalid_codes)
-																		 )
-																);
-				}
+			if (count($invalid_codes) > 0) {
+				$ok = false;
+				$form->getItemByPostvar("coupons")->setAlert( sprintf( $this->lng->txt("gev_invalid_coupon_codes")
+																	 , implode(", ", $invalid_codes)
+																	 )
+															);
 			}
 		}
 		
