@@ -805,7 +805,7 @@ class gevUserUtils {
 		// ok, so there are no superiors in any org-unit where the user is employee
 		// we need to find the superiors by ourselves
 		$sups = array();
-		$orgus = $tree->getOrgUnitsOfUser($this->user_id);
+		$orgus = $tree->getOrgUnitOfUser($this->user_id);
 		$parents = array();
 		
 		while (count ($sups) == 0) {

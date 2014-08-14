@@ -24,7 +24,7 @@ class gevAdminBookingToBooked extends gevCrsAutoMail {
 	}
 	
 	public function getCC($a_recipient) {
-		return array();
+		return $this->maybeSuperiorsCC();
 	}
 }
 
