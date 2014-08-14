@@ -63,6 +63,8 @@ class gevPeriodSelectorGUI extends ilDateDurationInputGUI {
 	
 	public function render()
 	{
+		global $lng;
+		
 		global $lng,$ilUser;
 		
 		$tpl = new ilTemplate("tpl.gev_period_selector.html", true, true, "Services/GEV/Desktop");
@@ -118,6 +120,8 @@ class gevPeriodSelectorGUI extends ilDateDurationInputGUI {
 					'disabled' => $this->getDisabled()
 					),
 				$this->getShowEmpty()));
+		
+		$tpl->setVariable("FILTER", $lng->txt("gev_filter"));
 
 		return $tpl->get();
 	}

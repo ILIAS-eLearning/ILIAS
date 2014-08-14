@@ -30,11 +30,5 @@
 		
 		//]]>
 	</script>
+	<input class="submit" type="SUBMIT" name="cmd[view]" value="{FILTER}">
 </form>
-<script type="text/javascript">
-$(document).ready(function () {
-    $('#form_{POST_VAR}').find("select").on("change", function(ev){
-    	$(ev.target).parents("form").submit();
-    })
-});
-</script>
