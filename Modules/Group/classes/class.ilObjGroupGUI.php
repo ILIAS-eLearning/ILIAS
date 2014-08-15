@@ -401,27 +401,28 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->putObjectInTree($this->object, $_GET["ref_id"]);
 		$this->object->initGroupStatus($this->object->getGroupType());
 		
+		// check for parent group or course => SORT_INHERIT
+		$sort_mode = ilContainer::SORT_TITLE;
+		if(
+				$GLOBALS['tree']->checkForParentType($this->object->getRefId(),'crs') ||
+				$GLOBALS['tree']->checkForParentType($this->object->getRefId(),'grp')
+		)
+		{
+			$sort_mode = ilContainer::SORT_INHERIT;
+		}
+		// Save sorting
+		include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
+		$sort = new ilContainerSortingSettings($this->object->getId());
+		$sort->setSortMode($sort_mode);
+		$sort->update();
+		
+		
 		// Add user as admin and enable notification
 		include_once('./Modules/Group/classes/class.ilGroupParticipants.php');
 		$members_obj = ilGroupParticipants::_getInstanceByObjId($this->object->getId());
 		$members_obj->add($ilUser->getId(),IL_GRP_ADMIN);
 		$members_obj->updateNotification($ilUser->getId(),1);
 		
-		// has parent course
-		if($crs_refid = $tree->checkForParentType($this->object->getRefId(),'crs'))
-		{			
-			$sort_mode = ilContainer::SORT_INHERIT;
-		}
-		else
-		{
-			$sort_mode = ilContainer::SORT_TITLE;
-		}
-
-		// Save sorting
-		include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
-		$sort = new ilContainerSortingSettings($this->object->getId());
-		$sort->setSortMode($sort_mode);
-		$sort->update();
 
 		ilUtil::sendSuccess($this->lng->txt("grp_added"),true);		
 		$this->ctrl->setParameter($this,'ref_id',$this->object->getRefId());
@@ -2770,19 +2771,11 @@ class ilObjGroupGUI extends ilContainerGUI
 
 			
 			$sog = new ilRadioGroupInputGUI($this->lng->txt('sorting_header'),'sor');
+			
+			include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
+			$sort = new ilContainerSortingSettings($this->object->getId());
+			$sog->setValue($sort->getSortMode());
 			$sog->setRequired(true);
-			if($a_mode == 'edit')
-			{
-				$sog->setValue(ilContainerSortingSettings::_readSortMode(ilObject::_lookupObjId($this->object->getRefId())));
-			}
-			elseif($hasParentCourse)
-			{
-				$sog->setValue(ilContainer::SORT_INHERIT);
-			}
-			else
-			{
-				$sog->setValue(ilContainer::SORT_TITLE);
-			}
 
 			if($hasParentCourse)
 			{
@@ -2790,7 +2783,8 @@ class ilObjGroupGUI extends ilContainerGUI
 				$sde->setValue(ilContainer::SORT_INHERIT);
 
 				$title = $this->lng->txt('sort_inherit_prefix');
-				$title .= ': '.ilContainerSortingSettings::sortModeToString(ilContainerSortingSettings::lookupSortModeFromParentContainer(ilObject::_lookupObjectId($ref_id)));
+				$title .= ' ('.ilContainerSortingSettings::sortModeToString(
+						ilContainerSortingSettings::lookupSortModeFromParentContainer($this->object->getId())).') ';
 				$sde->setTitle($title);
 				$sde->setInfo($this->lng->txt('sorting_info_inherit'));
 				$sog->addOption($sde);
