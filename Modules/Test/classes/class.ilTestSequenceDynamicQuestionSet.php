@@ -372,7 +372,14 @@ class ilTestSequenceDynamicQuestionSet
 	
 	public function getTrackedQuestionCount()
 	{
-		return count($this->questionTracking);
+		$uniqueQuestions = array();
+		
+		foreach($this->questionTracking as $trackedQuestion)
+		{
+			$uniqueQuestions[$trackedQuestion['qid']] = $trackedQuestion['qid'];
+		}
+		
+		return count($uniqueQuestions);
 	}
 	
 	public function getCurrentPositionIndex($questionId)
