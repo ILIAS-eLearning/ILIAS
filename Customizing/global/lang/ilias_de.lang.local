@@ -592,7 +592,7 @@ crs#:#crs_mail_all_info#:#Teilnehmer, Trainingsbetreuer und Trainer können die 
 exc#:#exc_create_team_times_up_warning#:#Sie können kein Team mehr erstellen. Bitte kontaktieren Sie Ihren Trainer.
 crs#:#crs_registration_confirmation_info#:#Der Beitritt erfolgt nur, wenn er durch einen Trainingsbetreuer oder Trainer bestätigt wird.
 exc#:#exc_completion_by_tutor#:#Nur manuell durch Trainer
-gev#:#gev_set_password_on_first_login#:#Bitte setzen sie ein Passwort für ihren Zugang zur Generali-Akademie.
+gev#:#gev_set_password_on_first_login#:#Bitte setzen Sie ein Passwort für Ihren Zugang zur Generali Online Akademie.
 gev#:#gev_course_id#:#Nr. der Maßnahme
 gev#:#gev_target_group#:#Zielgruppe
 gev#:#gev_targets_and_benefit#:#Ziele und Nutzen
@@ -621,6 +621,7 @@ gev#:#gev_booking_other_courses_in_period_others#:#Ihr Mitarbeiter hat im Zeitra
 gev#:#gev_set_billing_data#:#Rechnungsdaten eingeben
 gev#:#gev_to_course_search#:#Zum Bildungsangebot
 gev#:#gev_obligatory_booking#:#Verbindliche Buchung
+gev#:#gev_evg_registration_success#:#Ihre Eingabe konnte eindeutig zugeordnet werden.
 acco#:#accomodations#:#Übernachtungen
 acco#:#acco_period_input_from#:#von
 acco#:#acco_period_input_to#:#bis
@@ -698,9 +699,9 @@ gev#:#gev_points_at_end_of_cert_year#:#voraussichtliche Punkte bis zum Ende des 
 gev#:#gev_overall_prize#:#Gesamtpreis
 gev#:#gev_position#:#Vermittlernummer
 gev#:#gev_evg_registration#:#Registrierung: Generali Online Akademie
-gev#:#gev_evg_registration_header_note#:#Hier können sie einen neuen Benutzer mit ihren Daten aus der IV-Datenbank anlegen.
-gev#:#gev_evg_registration_not_found#:#Es konnte kein Datensatz gefunden werden, der mit ihren Eingaben übereinstimmt.
-gev#:#gev_registration_success#:#Eine Email mit einem Aktivierungslink wurde an sie versendet.
+gev#:#gev_evg_registration_header_note#:#Hier können Sie einen neuen Benutzer mit ihren Daten aus der IV-Datenbank anlegen.
+gev#:#gev_evg_registration_not_found#:#Es konnte kein Datensatz gefunden werden, der mit Ihren Eingaben übereinstimmt.
+gev#:#gev_registration_success#:#Eine Email mit einem Aktivierungslink wurde an Sie versendet.
 crsbook#:#admin_assign_not_bookable#:#Der Benutzer hat bereits einen ähnlichen Kurs belegt. Trotzdem buchen?
 gev#:#gev_user_profile#:#Profil
 gev#:#gev_business_contact#:#Geschäftliche Kontaktdaten
@@ -725,10 +726,10 @@ gev#:#gev_activity#:#Aktivität
 gev#:#gev_telno_wbd_alert#:#Die Telefonnummer hat kein gültiges Format.
 gev#:#gev_user_profile_saved#:#Ihre Profilinformationen wurden erfolgreich gespeichert.
 gev#:#gev_private_email#:#private Emailadresse
-gev#:#gev_profile_incomplete#:#Ihr Benutzerprofil ist unvollständig. Bitte ergänzen oder korrigieren sie die markierten Felder.
+gev#:#gev_profile_incomplete#:#Ihr Benutzerprofil ist unvollständig. Bitte ergänzen oder korrigieren Sie die markierten Felder.
 gev#:#gev_wbd_registration#:#WBD-Registrierung
-gev#:#gev_wbd_registration_header_note#:#Registrieren sie sich bei der Weiterbildungsdatenbank.
-gev#:#gev_wbd_registration_question#:#Haben sie bereits ein Weiterbildungskonto im Rahmen der Brancheninitiative "gut beraten"?
+gev#:#gev_wbd_registration_header_note#:#Registrieren Sie sich bei der Weiterbildungsdatenbank.
+gev#:#gev_wbd_registration_question#:#Haben Sie bereits ein Weiterbildungskonto im Rahmen der Brancheninitiative „gut beraten“?
 gev#:#gev_wbd_registration_has_bwv_id#:#Ich habe bereits eine GDV Vermittler-ID
 gev#:#gev_wbd_registration_has_bwv_id_cmd#:#Anmeldung mit Übermittlung der Punkte
 gev#:#gev_wbd_registration_no_bwv_id#:#Nein, ich habe noch keine GDV Vermittler-ID und werde diese in meinem Benutzeraccount nachtragen.
