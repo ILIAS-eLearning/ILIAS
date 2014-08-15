@@ -111,6 +111,11 @@ class ilTestSequenceFactory
 					$this->testSequence = new ilTestSequenceDynamicQuestionSet(
 							$this->db, $questionSet, $testSession->getActiveId()
 					);
+					
+					$this->testSequence->setPreventCheckedQuestionsFromComingUpEnabled(
+						$this->testOBJ->isInstantFeedbackAnswerFixationEnabled()
+					);
+					
 					break;
 			}
 		}
