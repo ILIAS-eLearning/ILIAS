@@ -134,18 +134,24 @@ class ilContainerSortingSettings
 		$ref_ids = ilObject::_getAllReferences($a_obj_id);
 		$ref_id = current($ref_ids);
 
-		if($course_ref_id = $tree->checkForParentType($ref_id,'crs'))
-		{
-			$a_obj_id = ilObject::_lookupObjId($course_ref_id);
-		}
-				
-		$query = "SELECT * FROM container_sorting_set ".
-			"WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ";
-		$res = $ilDB->query($query);
 		
-		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		if($cont_ref_id = $tree->checkForParentType($ref_id,'grp'))
 		{
-			return $row->sort_mode;
+			$a_obj_id = ilObject::_lookupObjId($cont_ref_id);
+			$sort_mode = self::_readSortMode($a_obj_id);
+			if($sort_mode != ilContainer::SORT_INHERIT)
+			{
+				return $sort_mode;
+			}
+		}
+		if($cont_ref_id = $tree->checkForParentType($ref_id,'crs'))
+		{
+			$a_obj_id = ilObject::_lookupObjId($cont_ref_id);
+			$sort_mode = self::_readSortMode($a_obj_id);
+			if($sort_mode != ilContainer::SORT_INHERIT)
+			{
+				return $sort_mode;
+			}
 		}
 		return ilContainer::SORT_TITLE;
 	}
@@ -279,11 +285,11 @@ class ilContainerSortingSettings
 	 * @param
 	 * 
 	 */
-	private function read()
+	protected function read()
 	{
 	 	if(!$this->obj_id)
 	 	{
-	 		return true;
+	 		return TRUE;
 	 	}
 	 	
 	 	$query = "SELECT * FROM container_sorting_set ".
@@ -294,6 +300,7 @@ class ilContainerSortingSettings
 	 	{
 	 		$this->sort_mode = $row->sort_mode;
 			$this->sort_direction = $row->sort_direction;
+			return TRUE;
 	 	}
 	}
 	
@@ -317,7 +324,9 @@ class ilContainerSortingSettings
 
 			case ilContainer::SORT_TITLE:
 				return $lng->txt('crs_sort_title');
-				 
+				
+			case ilContainer::SORT_CREATION:
+				return $lng->txt('sorting_creation_header');
 		}
 		return '';
 	}
