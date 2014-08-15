@@ -663,8 +663,8 @@ gev#:#gev_cancellation_subtitle#:#Bitte beachten sie, dass bei der Stornierung i
 gev#:#gev_cancellation_success#:#Ihre Buchung des Trainings "%s" wurde erfolgreich storniert.
 gev#:#gev_free_cancellation_until#:#kostenfreie Stornierung bis
 common#:#federal_state#:#Bundesland
-gev#:#gev_no_next_course#:#Sie haben derzeit kein Training gebucht.
-gev#:#gev_no_last_course#:#Sie haben derzeit kein Training gebucht.
+gev#:#gev_no_next_course#:#Sie haben kein Training gebucht.
+gev#:#gev_no_last_course#:#Sie haben noch an keinem Training teilgenommen.
 rbac#:#tep_is_tutor#:#ist Trainer in dieser Einheit
 rbac#:#tep_view_other#:#TEP Termine von anderen Trainern sehen
 rbac#:#tep_view_other_rcrsv#:#TEP Termine von anderen Trainer sehen (rekursiv)
