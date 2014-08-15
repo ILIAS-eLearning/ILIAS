@@ -636,7 +636,7 @@ gev#:#gev_accept_book_cond#:#Hiermit akzeptiere ich die Buchungs- und Stornierun
 gev#:#housenumber#:#Hausnummer
 gev#:#gev_book_no_cond_accept#:#Sie müssen die Bedingungen akzeptieren um die Buchung abschließen zu können.
 gev#:#gev_invalid_coupon_codes#:#Folgende Gutscheincodes sind nicht mehr gültig: %s
-gev#:#gev_passed_similar_course_self#:#Sie haben bereits ein ähnliches Training erfolgreich abgeschlossen und dürfen dieses Angebot daher nicht buchen.
+gev#:#gev_passed_similar_course_self#:#Sie sind auf dieses Training bereits an einem anderen Termin gebucht. Sie können keinen zweiten Termin buchen. Sollten Sie den Termin wechslen wollen, stornieren Sie zunächst das bereits gebuchte Training und buchen Sie dann den gewünschten neuen Termin.
 gev#:#gev_passed_similar_course_employee#:#Ihr Mitarbeit hat bereits ein ähnliches Training erfolgreich abgeschlossen. Die dürfen dieses Angebot daher für ihren Mitarbeiter nicht buchen.
 gev#:#gev_course_is_full#:#Leider ist das Training bereits ausgebucht.
 gev#:#gev_not_allowed_to_book_crs_for_other#:#Sie dürfen dieses Training nicht für einen anderen Benutzer buchen.
