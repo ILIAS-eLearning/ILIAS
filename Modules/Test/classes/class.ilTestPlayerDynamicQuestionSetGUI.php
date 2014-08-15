@@ -394,7 +394,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		if( !$this->testSession->getCurrentQuestionId() )
 		{
 			$this->testSession->setCurrentQuestionId(
-					$this->testSequence->getUpcomingQuestionId()
+				$this->testSequence->getUpcomingQuestionId()
 			);
 		}
 		

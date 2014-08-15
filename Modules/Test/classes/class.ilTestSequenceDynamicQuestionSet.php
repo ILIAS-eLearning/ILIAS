@@ -60,7 +60,7 @@ class ilTestSequenceDynamicQuestionSet
 		$this->activeId = $activeId;
 	}
 	
-	function getActiveId()
+	public function getActiveId()
 	{
 		return $this->activeId;
 	}
@@ -177,24 +177,22 @@ class ilTestSequenceDynamicQuestionSet
 	
 	public function getUpcomingQuestionId()
 	{
-		$questionId = $this->fetchUpcomingQuestionId(true);
-		
-		if( $questionId )
-		{
+		if( $questionId = $this->fetchUpcomingQuestionId(true, true) )
 			return $questionId;
-		}
 		
-		$questionId = $this->fetchUpcomingQuestionId(false);
-		
-		if( $questionId )
-		{
+		if( $questionId = $this->fetchUpcomingQuestionId(true, false) )
 			return $questionId;
-		}
-		
+
+		if( $questionId = $this->fetchUpcomingQuestionId(false, true) )
+			return $questionId;
+
+		if( $questionId = $this->fetchUpcomingQuestionId(false, false) )
+			return $questionId;
+
 		return null;
 	}
 	
-	private function fetchUpcomingQuestionId($forceNonAnswered = false)
+	private function fetchUpcomingQuestionId($excludePostponedQuestions, $forceNonAnsweredQuestion)
 	{
 		foreach($this->questionSet->getActualQuestionSequence() as $level => $questions)
 		{
@@ -206,6 +204,11 @@ class ilTestSequenceDynamicQuestionSet
 				{
 					continue;
 				}
+
+				if( $forceNonAnsweredQuestion && isset($this->wrongAnsweredQuestions[$qId]) )
+				{
+					continue;
+				}
 				
 				if( isset($this->postponedQuestions[$qId]) )
 				{
@@ -213,29 +216,12 @@ class ilTestSequenceDynamicQuestionSet
 					continue;
 				}
 				
-				if( $forceNonAnswered && isset($this->wrongAnsweredQuestions[$qId]) )
-				{
-					continue;
-				}
-				
 				return $qId;
 			}
 			
-			if( count($postponedQuestions) )
+			if( !$excludePostponedQuestions && count($postponedQuestions) )
 			{
-				$minPostponeCount = null;
-				$minPostponeItem = null;
-
-				foreach(array_reverse($postponedQuestions, true) as $qId => $postponeCount)
-				{
-					if($minPostponeCount === null || $postponeCount <= $minPostponeCount)
-					{
-						$minPostponeCount = $postponeCount;
-						$minPostponeItem = $qId;
-					}
-				}
-
-				return $minPostponeItem;
+				return $this->fetchMostLeastPostponedQuestion($postponedQuestions);
 			}
 		}
 		
@@ -376,9 +362,6 @@ class ilTestSequenceDynamicQuestionSet
 		
 		$this->correctAnsweredQuestions[$questionId] = $questionId;
 		
-		if( isset($this->postponedQuestions[$questionId]) )
-			unset($this->postponedQuestions[$questionId]);
-		
 		if( isset($this->wrongAnsweredQuestions[$questionId]) )
 			unset($this->wrongAnsweredQuestions[$questionId]);
 	}
@@ -388,9 +371,6 @@ class ilTestSequenceDynamicQuestionSet
 		$this->trackQuestion($questionId, 'wrong');
 		
 		$this->wrongAnsweredQuestions[$questionId] = $questionId;
-		
-		if( isset($this->postponedQuestions[$questionId]) )
-			unset($this->postponedQuestions[$questionId]);
 		
 		if( isset($this->correctAnsweredQuestions[$questionId]) )
 			unset($this->correctAnsweredQuestions[$questionId]);
@@ -432,6 +412,26 @@ class ilTestSequenceDynamicQuestionSet
 		
 		return $questionSequence;
 	}
-	
+
+	/**
+	 * @param $postponedQuestions
+	 * @return int|null|string
+	 */
+	private function fetchMostLeastPostponedQuestion($postponedQuestions)
+	{
+		$minPostponeCount = null;
+		$minPostponeItem = null;
+
+		foreach(array_reverse($postponedQuestions, true) as $qId => $postponeCount)
+		{
+			if($minPostponeCount === null || $postponeCount <= $minPostponeCount)
+			{
+				$minPostponeCount = $postponeCount;
+				$minPostponeItem = $qId;
+			}
+		}
+		return $minPostponeItem;
+	}
+
 }
 
