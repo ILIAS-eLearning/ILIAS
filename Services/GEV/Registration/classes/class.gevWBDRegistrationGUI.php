@@ -131,7 +131,7 @@ class gevWBDRegistrationGUI {
 			$err = true;
 		}
 		else {
-			for ($i = 1; $i <= 3; ++$i) {
+			for ($i = 1; $i <= 4; ++$i) {
 				$chb = $form->getItemByPostVar("chb".$i);
 				if (!$chb->getChecked()) {
 					$err = true;
