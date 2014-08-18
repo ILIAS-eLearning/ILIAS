@@ -743,7 +743,7 @@ gev#:#gev_agb_tgic#:#AGB der TGIC
 gev#:#gev_agb_wbd#:#AGB der WBD
 gev#:#gev_confirm_agb#:#Mit den %s bin ich einverstanden.
 gev#:#gev_confirm_wbd#:#Mit den %s bin ich einverstanden.
-gev#:#gev_confirm_qualification#:#Ich habe die Qualifikationsvoraussetzungen gemäß Abschnitt 1 der VersVermV erbracht (Sachkundeprüfung zur Versicherungsvermittlung oder gleichgestellte andere Berufsqualifikation) oder eine Ausbildung zur Versicherungsvermittlung auf dem Niveau der Anforderungen zur Sachkundeprüfung durchlaufen.
+gev#:#gev_confirm_qualification#:#Ich habe die <a href='/data/Generali/documents/03_Checkliste Qualifikationsvoraussetzungen.pdf' target='_blank'>Qualifikationsvoraussetzungen</a> gemäß Abschnitt 1 der VersVermV erbracht (Sachkundeprüfung zur Versicherungsvermittlung oder gleichgestellte andere Berufsqualifikation) oder eine Ausbildung zur Versicherungsvermittlung auf dem Niveau der Anforderungen zur Sachkundeprüfung durchlaufen.
 gev#:#gev_no_other_wbd_mandate#:#Ich versichere, dass ich nicht bereits an anderer Stelle eine solche Kontoeröffnung beantragt habe.
 gev#:#gev_wbd_notifications#:#Benachrichtigungen der WBD
 gev#:#gev_wbd_notifications_to_auth#:#Kontoauszüge und Jahreszertifikate der WBD sollen an meine Authentifizierungs-E-Mail-Adresse verschickt werden.

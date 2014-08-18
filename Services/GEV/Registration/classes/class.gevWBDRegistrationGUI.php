@@ -221,7 +221,7 @@ class gevWBDRegistrationGUI {
 			$err = true;
 		}
 		else {
-			for ($i = 1; $i <= 4; ++$i) {
+			for ($i = 1; $i <= 5; ++$i) {
 				$chb = $form->getItemByPostVar("chb".$i);
 				if (!$chb->getChecked()) {
 					$err = true;
@@ -260,25 +260,29 @@ class gevWBDRegistrationGUI {
 		$form->addCommandButton("startRegistration", $this->lng->txt("back"));
 		$form->setFormAction($this->ctrl->getFormAction($this));
 
-		// TODO: set links to location where the appropriate pdfs are
-		$auftrag_link = "<a href=''>".$this->lng->txt("gev_mandate")."</a>";
-		$agb_link	  = "<a href=''>".$this->lng->txt("gev_agb")."</a>";
+		$wbd_link = "<a href='/data/Generali/documents/02_AGB_WBD.pdf' target='_blank'>".$this->lng->txt("gev_agb_wbd")."</a>";
+		$auftrag_link = "<a href='/data/Generali/documents/GEV_TPBUVG_Finaler_Auftrag_TP_Basis_Makler.pdf' target='_blank'>".$this->lng->txt("gev_mandate")."</a>";
+		$agb_link = "<a href='/data/Generali/documents/01_AGB_TGIC.pdf' target='_blank'>".$this->lng->txt("gev_agb_tgic")."</a>";
 
 		$chb1 = new ilCheckboxInputGUI("", "chb1");
 		$chb1->setOptionTitle(sprintf($this->lng->txt("gev_give_mandate"), $auftrag_link));
 		$form->addItem($chb1);
 
 		$chb2 = new ilCheckboxInputGUI("", "chb2");
-		$chb2->setOptionTitle(sprintf($this->lng->txt("gev_confirm_agb"), $agb_link));
+		$chb2->setOptionTitle(sprintf($this->lng->txt("gev_confirm_wbd"), $wbd_link));
 		$form->addItem($chb2);
 
-		$chb3 = new ilCheckboxInputGUI("", "chb3");
-		$chb3->setOptionTitle($this->lng->txt("gev_confirm_qualification"));
+		$chb = new ilCheckboxInputGUI("", "chb3");
+		$chb3->setOptionTitle(sprintf($this->lng->txt("gev_confirm_agb"), $agb_link));
 		$form->addItem($chb3);
 
 		$chb4 = new ilCheckboxInputGUI("", "chb4");
-		$chb4->setOptionTitle($this->lng->txt("gev_no_other_wbd_mandate"));
+		$chb4->setOptionTitle($this->lng->txt("gev_confirm_qualification"));
 		$form->addItem($chb4);
+
+		$chb5 = new ilCheckboxInputGUI("", "chb5");
+		$chb5->setOptionTitle($this->lng->txt("gev_no_other_wbd_mandate"));
+		$form->addItem($chb5);
 
 		$opt1 = new ilRadioGroupInputGUI($this->lng->txt("gev_wbd_notifications"), "notifications");
 		$opt1->addOption(new ilRadioOption($this->lng->txt("gev_wbd_notifications_to_auth"), "auth"));
