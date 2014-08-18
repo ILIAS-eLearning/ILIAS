@@ -112,6 +112,9 @@ class gevWBDRegistrationGUI {
 		$form = $a_form===null ? $this->buildTPServiceForm() : $a_form;
 
 		$tpl->setVariable("FORM", $form->getHTML());
+		$tpl->setVariable("QUESTION", $this->lng->txt("gev_wbd_registration_question"));
+		$tpl->setVariable("HAS_BWV_ID", $this->lng->txt("gev_wbd_registration_has_bwv_id"));
+		$tpl->setVariable("NO_BWV_ID", $this->lng->txt("gev_wbd_registration_no_bwv_id"));
 
 		return $tpl->get();
 	}
