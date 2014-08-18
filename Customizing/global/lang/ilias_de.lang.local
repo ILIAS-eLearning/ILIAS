@@ -761,3 +761,4 @@ crsbook#:#crsbook_admin_add_group#:#Gruppe hinzufügen
 crsbook#:#crsbook_admin_add_org_unit#:#Org.-Einheit hinzufügen
 crsbook#:#crsbook_admin_status#:#Buchungsstatus
 crsbook#:#crsbook_admin_status_change#:#Änderung des Buchungsstatus
+crsbook#:#crsbook_admin_status_booked#:#gebucht
