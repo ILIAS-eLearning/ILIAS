@@ -740,7 +740,9 @@ gev#:#gev_mandate#:#Auftrag
 gev#:#gev_give_mandate_tp_service#:#Hiermit erteile ich den %s (<a href='/data/Generali/documents/GEV_TPS_AAD_Finaler_Auftrag_TPS_AAD.pdf' target='_blank'>als AAD</a> / <a href='/data/Generali/documents/GEV_TPSEVG_Finaler_Auftrag_TPS_§84HGB.pdf' target='_blank'>als §84HGB</a>) ein WB-Konto bei der WBD einzurichten.
 gev#:#gev_give_mandate_tp_basis#:#Hiermit erteile ich den %s ein WB-Konto bei der WBD einzurichten.
 gev#:#gev_agb_tgic#:#AGB der TGIC
+gev#:#gev_agb_wbd#:#AGB der WBD
 gev#:#gev_confirm_agb#:#Mit den %s bin ich einverstanden.
+gev#:#gev_confirm_wbd#:#Mit den %s bin ich einverstanden.
 gev#:#gev_confirm_qualification#:#Ich habe die Qualifikationsvoraussetzungen gemäß Abschnitt 1 der VersVermV erbracht (Sachkundeprüfung zur Versicherungsvermittlung oder gleichgestellte andere Berufsqualifikation) oder eine Ausbildung zur Versicherungsvermittlung auf dem Niveau der Anforderungen zur Sachkundeprüfung durchlaufen.
 gev#:#gev_no_other_wbd_mandate#:#Ich versichere, dass ich nicht bereits an anderer Stelle eine solche Kontoeröffnung beantragt habe.
 gev#:#gev_wbd_notifications#:#Benachrichtigungen der WBD
