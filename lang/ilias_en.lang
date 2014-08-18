@@ -8736,7 +8736,7 @@ search#:#lucene_settings_tab#:#Lucene
 search#:#lucene_settings_title#:#Lucene Settings
 search#:#lucene_show_relevance_info#:#Search results are sorted by their relevance. If activated, the relevance is shown as additional information for each search result.
 search#:#lucene_show_relevance#:#Show Relevance
-search#:#lucene_size_frag_info#:#Please choose the maximum size of highlighted test fragments.
+search#:#lucene_size_frag_info#:#Please choose the maximum size of highlighted text fragments.
 search#:#lucene_size_fragments#:#Size of Text Fragments
 search#:#lucene_tbl_create_ini#:#Create Java-Server Ini-File
 search#:#search_active#:#Include active users
