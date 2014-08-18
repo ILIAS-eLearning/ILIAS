@@ -2378,3 +2378,7 @@ if($src_ops_id &&
 }
 
 ?>
+<#4288>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

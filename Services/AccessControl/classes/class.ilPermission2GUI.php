@@ -477,25 +477,13 @@ class ilPermission2GUI
 
 	}
 	
-	// init permission query feature
-	function info()
-	{
-		$this->__initSubTabs("info");
-
-		include_once('./Services/AccessControl/classes/class.ilObjectStatusGUI.php');
-		
-		$ilInfo = new ilObjectStatusGUI($this->gui_obj->object);
-		
-		$this->tpl->setVariable("ADM_CONTENT",$ilInfo->getHTML());
-	}
-	
 	// init sub tabs
 	function __initSubTabs($a_cmd)
 	{
 		global $ilTabs;
 
 		$perm = ($a_cmd == 'perm') ? true : false;
-		$info = ($a_cmd == 'info') ? true : false;
+		$info = ($a_cmd == 'perminfo') ? true : false;
 		$owner = ($a_cmd == 'owner') ? true : false;
 		$log = ($a_cmd == 'log') ? true : false;
 
@@ -505,7 +493,7 @@ class ilPermission2GUI
 		#$ilTabs->addSubTabTarget("permission_settings", $this->ctrl->getLinkTarget($this, "perm2"),
 		#							 "", "", "", $perm);
 								 
-		$ilTabs->addSubTabTarget("info_status_info", $this->ctrl->getLinkTarget($this, "info"),
+		$ilTabs->addSubTabTarget("info_status_info", $this->ctrl->getLinkTargetByClass(array(get_class($this),"ilobjectpermissionstatusgui"), "perminfo"),
 								 "", "", "", $info);
 		$ilTabs->addSubTabTarget("owner", $this->ctrl->getLinkTarget($this, "owner"),
 								 "", "", "", $owner);

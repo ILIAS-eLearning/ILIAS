@@ -12,7 +12,7 @@ include_once './Services/AccessControl/classes/class.ilPermission2GUI.php';
 *
 * @version $Id$
 *
-* @ilCtrl_Calls ilPermissionGUI: ilObjRoleGUI, ilRepositorySearchGUI
+* @ilCtrl_Calls ilPermissionGUI: ilObjRoleGUI, ilRepositorySearchGUI, ilObjectPermissionStatusGUI
 *
 * @ingroup	ServicesAccessControl
 */
@@ -68,6 +68,13 @@ class ilPermissionGUI extends ilPermission2GUI
 				include_once('./Services/Search/classes/class.ilRepositorySearchGUI.php');
 				$rep_search = new ilRepositorySearchGUI();
 				$this->ctrl->forwardCommand($rep_search);
+				break;
+
+			case 'ilobjectpermissionstatusgui':
+				$this->__initSubTabs("perminfo");
+				include_once('./Services/AccessControl/classes/class.ilObjectPermissionStatusGUI.php');
+				$perm_stat = new ilObjectPermissionStatusGUI($this->gui_obj->object);
+				$this->ctrl->forwardCommand($perm_stat);
 				break;
 				
 			default:
