@@ -1085,7 +1085,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		 */
 		global $lng, $ilSetting, $ilToolbar;
 
-		$ilToolbar->addLink($lng->txt('vc_information'), $this->ctrl->getLinkTarget($this, 'showVcsInformation'));
+		$ilToolbar->addButton($lng->txt('vc_information'), $this->ctrl->getLinkTarget($this, 'showVcsInformation'));
 		
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
