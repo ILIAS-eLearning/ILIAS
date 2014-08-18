@@ -963,17 +963,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$ne->setValue($ilSetting->get("ilias_version"));
 		$this->form->addItem($ne);
 
-		// version controll information, object can be created by factory in later revisions (if we support git etc.)
-		require_once 'Services/Administration/classes/class.ilSubversionInformation.php';
-		$vc = new ilSubversionInformation();
-		$revision_info = $vc->getInformationAsHtml();
-		if($revision_info)
-		{
-			$ne = new ilCustomInputGUI($lng->txt('vc_information'), '');
-			$ne->setHtml($revision_info);
-			$this->form->addItem($ne);
-		}
-		
 		// host
 		$ne = new ilNonEditableValueGUI($lng->txt("host"), "");
 		$ne->setValue($_SERVER["SERVER_NAME"]);
@@ -1089,7 +1078,18 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	*/
 	public function initBasicSettingsForm()
 	{
-		global $lng, $ilSetting;
+		/**
+		 * @var $lng ilLanguage
+		 * @var $ilSetting ilSetting
+		 * @var $ilToolbar ilToolbarGUI
+		 */
+		global $lng, $ilSetting, $ilToolbar;
+
+		require_once 'Services/UIComponent/Button/classes/class.ilLinkButton.php';
+		$button = ilLinkButton::getInstance();
+		$button->setCaption('vc_information');
+		$button->setUrl($this->ctrl->getLinkTarget($this, 'showVcsInformation'));
+		$ilToolbar->addButtonInstance($button);
 		
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
@@ -2224,5 +2224,20 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$ilErr->raiseError($lng->txt("msg_no_perm_read"), $ilErr->FATAL);
 	}
 
+	/**
+	 *
+	 */
+	protected function showVcsInformationObject()
+	{
+		// version controll information, object can be created by factory in later revisions (if we support git etc.)
+		require_once 'Services/Administration/classes/class.ilSubversionInformation.php';
+		$vc = new ilSubversionInformation();
+		$revision_info = $vc->getInformationAsHtml();
+		if($revision_info)
+		{
+			ilUtil::sendInfo($revision_info);
+		}
+
+		$this->showBasicSettingsObject();
+	}
 }
-?>
