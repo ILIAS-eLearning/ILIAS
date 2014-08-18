@@ -171,7 +171,7 @@ class gevWBDRegistrationGUI {
 		$form->setFormAction($this->ctrl->getFormAction($this));
 
 		$wbd_link = "<a href='/data/Generali/documents/02_AGB_WBD.pdf' target='_blank'>".$this->lng->txt("gev_agb_wbd")."</a>";
-		$auftrag_link = "<a href='/data/Generali/documents/GEV_TPS_AAD_Finaler_Auftrag_TPS_AAD.pdf' target='_blank'>".$this->lng->txt("gev_mandate")."</a>";
+		$auftrag_link = $this->lng->txt("gev_mandate");
 		$agb_link = "<a href='/data/Generali/documents/01_AGB_TGIC.pdf' target='_blank'>".$this->lng->txt("gev_agb_tgic")."</a>";
 
 		$chb1 = new ilCheckboxInputGUI("", "chb1");
