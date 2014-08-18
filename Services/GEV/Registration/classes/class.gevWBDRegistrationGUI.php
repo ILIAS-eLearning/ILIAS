@@ -38,7 +38,11 @@ class gevWBDRegistrationGUI {
 				$ret = $this->$cmd();
 				break;
 			default:
-				$ret = $this->startRegistration();
+				if ($this->user_utils->canBeRegisteredAsTPService()) {
+					$ret = $this->createTPServiceBWVId();
+				} else {
+					$ret = $this->startRegistration();
+				}
 		}
 		
 		require_once("Services/CaTUIComponents/classes/class.catTitleGUI.php");
@@ -161,21 +165,21 @@ class gevWBDRegistrationGUI {
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		
 		// TODO: set links to location where the appropriate pdfs are
-		$auftrag_link = "<a href=''>".$this->lng->txt("gev_mandate")."</a>";
-		$agb_link	  = "<a href=''>".$this->lng->txt("gev_agb")."</a>";
-		
+		$auftrag_link = "<a href='/data/Generali/documents/GEV_TPS_AAD_Finaler_Auftrag_TPS_AAD.pdf' target='_blank'>".$this->lng->txt("gev_mandate")."</a>";
+		$agb_link = "<a href='/data/Generali/documents/01_AGB_TGIC.pdf' target='_blank'>".$this->lng->txt("gev_agb_tgic")."</a>";
+
 		$chb1 = new ilCheckboxInputGUI("", "chb1");
-		$chb1->setOptionTitle(sprintf($this->lng->txt("gev_give_mandate"), $auftrag_link));
+		$chb1->setOptionTitle(sprintf($this->lng->txt("gev_give_mandate_tp_service"), $auftrag_link));
 		$form->addItem($chb1);
-		
+
 		$chb2 = new ilCheckboxInputGUI("", "chb2");
 		$chb2->setOptionTitle(sprintf($this->lng->txt("gev_confirm_agb"), $agb_link));
 		$form->addItem($chb2);
-		
+
 		$chb3 = new ilCheckboxInputGUI("", "chb3");
 		$chb3->setOptionTitle($this->lng->txt("gev_no_other_wbd_mandate"));
 		$form->addItem($chb3);
-		
+
 		$opt1 = new ilRadioGroupInputGUI($this->lng->txt("gev_wbd_notifications"), "notifications");
 		$opt1->addOption(new ilRadioOption($this->lng->txt("gev_wbd_notifications_to_auth"), "auth"));
 		$extra = new ilRadioOption($this->lng->txt("gev_wbd_notifications_to_diff"), "diff");
