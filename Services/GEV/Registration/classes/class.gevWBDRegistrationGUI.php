@@ -272,7 +272,7 @@ class gevWBDRegistrationGUI {
 		$chb2->setOptionTitle(sprintf($this->lng->txt("gev_confirm_wbd"), $wbd_link));
 		$form->addItem($chb2);
 
-		$chb = new ilCheckboxInputGUI("", "chb3");
+		$chb3 = new ilCheckboxInputGUI("", "chb3");
 		$chb3->setOptionTitle(sprintf($this->lng->txt("gev_confirm_agb"), $agb_link));
 		$form->addItem($chb3);
 

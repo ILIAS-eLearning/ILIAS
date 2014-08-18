@@ -1,11 +1,15 @@
 <form action="{ACTION}" method="post">
-{QUESTION}<br />
-{HAS_BWV_ID}: <input type="text" size="20" id="bwv_id" name="bwv_id" /><br />
-<input class="submit" type="SUBMIT" name="cmd[setBWVId]" value="{HAS_BWV_ID_COMMAND}"><p />
+<h2>{QUESTION}</h2>
+<p style="height: 10px"></p>
+{HAS_BWV_ID}: <input type="text" size="20" id="bwv_id" name="bwv_id" /><p />
+<input class="submit" type="SUBMIT" name="cmd[setBWVId]" value="{HAS_BWV_ID_COMMAND}">
+<p style="height: 10px"></p>
 
-{NO_BWV_ID}<br />
+{CREATE_BWV_ID}<p />
+<input class="submit" type="SUBMIT" name="cmd[createBWVId]" value="{CREATE_BWV_ID_COMMAND}"><p />
+<p style="height: 10px"></p>
+
+{NO_BWV_ID}<p />
 <input class="submit" type="SUBMIT" name="cmd[noBWVId]" value="{NO_BWV_ID_COMMAND}"><p />
 
-{CREATE_BWV_ID}<br />
-<input class="submit" type="SUBMIT" name="cmd[createBWVId]" value="{CREATE_BWV_ID_COMMAND}"><p />
 </form>

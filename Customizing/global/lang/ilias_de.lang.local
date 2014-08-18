@@ -730,11 +730,11 @@ gev#:#gev_profile_incomplete#:#Ihr Benutzerprofil ist unvollständig. Bitte erg�
 gev#:#gev_wbd_registration#:#WBD-Registrierung
 gev#:#gev_wbd_registration_header_note#:#Registrieren Sie sich bei der Weiterbildungsdatenbank.
 gev#:#gev_wbd_registration_question#:#Haben Sie bereits ein Weiterbildungskonto im Rahmen der Brancheninitiative „gut beraten“?
-gev#:#gev_wbd_registration_has_bwv_id#:#Ich habe bereits eine GDV Vermittler-ID
+gev#:#gev_wbd_registration_has_bwv_id#:#Ja, ich habe bereits eine GDV Vermittler-ID
 gev#:#gev_wbd_registration_has_bwv_id_cmd#:#Anmeldung mit Übermittlung der Punkte
 gev#:#gev_wbd_registration_no_bwv_id#:#Nein, ich habe noch keine GDV Vermittler-ID und werde diese in meinem Benutzeraccount nachtragen.
 gev#:#gev_wbd_registration_no_bwv_id_cmd#:#Anmeldung vorerst ohne Übermittlung der Punkte
-gev#:#gev_wbd_registration_create_bwv_id#:#Die Generali soll für mich ein Weiterbildungskonto eröffnen.
+gev#:#gev_wbd_registration_create_bwv_id#:#Nein, ich habe noch keine GDV Vermittler-ID. Die Generali soll für mich ein Weiterbildungskonto eröffnen.
 gev#:#gev_wbd_registration_create_bwv_id_cmd#:#Kontoeröffnung
 gev#:#gev_mandate#:#Auftrag
 gev#:#gev_give_mandate_tp_service#:#Hiermit erteile ich den %s (<a href='/data/Generali/documents/GEV_TPS_AAD_Finaler_Auftrag_TPS_AAD.pdf' target='_blank'>als AAD</a> / <a href='/data/Generali/documents/GEV_TPSEVG_Finaler_Auftrag_TPS_§84HGB.pdf' target='_blank'>als §84HGB</a>) ein WB-Konto bei der WBD einzurichten.
