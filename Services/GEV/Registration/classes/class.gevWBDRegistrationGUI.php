@@ -111,6 +111,7 @@ class gevWBDRegistrationGUI {
 		$tpl = new ilTemplate("tpl.gev_wbd_tp_service_form.html", false, false, "Services/GEV/Registration");
 		$form = $a_form===null ? $this->buildTPServiceForm() : $a_form;
 
+		$tpl->setVariable("ACTION", $this->ctrl->getFormAction($this));
 		$tpl->setVariable("FORM", $form->getHTML());
 		$tpl->setVariable("QUESTION", $this->lng->txt("gev_wbd_registration_question"));
 		$tpl->setVariable("HAS_BWV_ID", $this->lng->txt("gev_wbd_registration_has_bwv_id"));
