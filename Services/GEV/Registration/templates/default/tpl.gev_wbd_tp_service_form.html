@@ -4,3 +4,14 @@
 <p>Ich beauftrage die Generali Versicherung AG für mich ein Konto in der Weiterbildungsdatenbank (WBD) des BWV e.V. sowie ein Nutzerkonto bei der Trusted German Insurance Cloud (TGIC) zu eröffnen.</p>
 {FORM}
 </form>
+
+<p />
+
+<form action="{ACTION}" method="post">
+{QUESTION}<br />
+{HAS_BWV_ID}: <input type="text" size="20" id="bwv_id" name="bwv_id" /><br />
+<input class="submit" type="SUBMIT" name="cmd[setBWVId]" value="{HAS_BWV_ID_COMMAND}"><p />
+
+{NO_BWV_ID}<br />
+<input class="submit" type="SUBMIT" name="cmd[noBWVId]" value="{NO_BWV_ID_COMMAND}"><p />
+</form>
