@@ -6681,7 +6681,7 @@ crs#:#crs_status_determination_sync#:#Den Bestanden-Status aller Mitglieder jetz
 crs#:#crs_structure#:#Kursstruktur
 crs#:#crs_subject_course_group_notification#:#Mail-Zusammenfassung für %s
 crs#:#crs_subscribe_member#:#Ihre Anmeldung für Kurs "%s"
-crs#:#crs_subscribe_member_body#:#wir haben Sie soeben entsprechend Ihres Antrags in den Kurs "%s" aufgenommen.
+crs#:#crs_subscribe_member_body#:#wir haben Sie soeben entsprechend Ihrem Antrag in den Kurs "%s" aufgenommen.
 crs#:#crs_subscribe_wl#:#Ihre Anmeldung für Kurs "%s"
 crs#:#crs_subscribe_wl_body#:#Sie wurden auf die Warteliste des Kurses "%s" gesetzt und haben die Position %s auf der Warteliste.\n\nSie werden per Mail benachrichtigt, sobald Ihr Aufnahmeantrag angenommen bzw. abgelehnt wurde.
 crs#:#crs_subscriber#:#Aufnahmeantrag gestellt
