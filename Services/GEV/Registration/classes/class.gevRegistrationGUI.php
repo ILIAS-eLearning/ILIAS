@@ -59,10 +59,23 @@ class gevRegistrationGUI {
 			  . $tpl->get();
 	}
 	
-	protected function finalizeEVGRegistration() {	
+	protected function finalizeEVGRegistration() {
 		$form = $this->buildEVGRegisterForm();
+		$err = false;
 		
 		if (  !$form->checkInput()) {
+			$err = true;
+		} else {
+			for ($i = 1; $i <= 2; ++$i) {
+				$chb = $form->getItemByPostVar("chb".$i);
+				if (!$chb->getChecked()) {
+					$err = true;
+					$chb->setAlert($this->lng->txt("evg_mandatory"));
+				}
+			}
+		}
+
+		if ($err) {
 			return $this->startEVGRegistration($form);
 		}
 		
@@ -102,11 +115,19 @@ class gevRegistrationGUI {
 		$position->setRequired(true);
 		$form->addItem($position);
 		
-		$email = new ilEMailInputGUI($this->lng->txt("email"), "email");
+		$email = new ilEMailInputGUI($this->lng->txt("evg_email"), "email");
 		$email->setSize(40);
 		$email->setRequired(true);
 		$form->addItem($email);
-				
+
+		$chb1 = new ilCheckboxInputGUI("", "chb1");
+		$chb1->setOptionTitle($this->lng->txt("evg_toc"));
+		$form->addItem($chb1);
+
+		$chb2 = new ilCheckboxInputGUI("", "chb2");
+		$chb2->setOptionTitle($this->lng->txt("evg_wbd"));
+		$form->addItem($chb2);
+
 		return $form;
 	}
 }

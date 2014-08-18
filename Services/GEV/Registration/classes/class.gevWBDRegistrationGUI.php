@@ -166,7 +166,7 @@ class gevWBDRegistrationGUI {
 		require_once("Services/Form/classes/class.ilRadioOption.php");
 
 		$form = new ilPropertyFormGUI();
-		$form->addCommandButton("registerTPService", $this->lng->txt("register"));
+		$form->addCommandButton("registerTPService", $this->lng->txt("register_tp_service"));
 		$form->addCommandButton("startRegistration", $this->lng->txt("back"));
 		$form->setFormAction($this->ctrl->getFormAction($this));
 
@@ -256,7 +256,7 @@ class gevWBDRegistrationGUI {
 		require_once("Services/Form/classes/class.ilRadioOption.php");
 
 		$form = new ilPropertyFormGUI();
-		$form->addCommandButton("registerTPBasis", $this->lng->txt("register"));
+		$form->addCommandButton("registerTPBasis", $this->lng->txt("register_tp_basis"));
 		$form->addCommandButton("startRegistration", $this->lng->txt("back"));
 		$form->setFormAction($this->ctrl->getFormAction($this));
 
