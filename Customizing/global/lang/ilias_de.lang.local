@@ -762,3 +762,10 @@ crsbook#:#crsbook_admin_add_org_unit#:#Org.-Einheit hinzufügen
 crsbook#:#crsbook_admin_status#:#Buchungsstatus
 crsbook#:#crsbook_admin_status_change#:#Änderung des Buchungsstatus
 crsbook#:#crsbook_admin_status_booked#:#gebucht
+gev#:#view_participation_status#:#Teilnahmestatus einsehen
+gev#:#view_own_accomodations#:#Eigene Unterbringung einsehen
+gev#:#set_own_accomodations#:#Eigene Unterbringung setzen
+gev#:#set_participation_status#:#Teilnahmestatus setzen
+gev#:#review_participation_status#:#Teilnahmestatus überprüfen
+gev#:#view_others_accomodations#:#Unterbringung von anderen einsehen
+gev#:#set_others_accomodations#:#Unterbringung von anderen setzen
