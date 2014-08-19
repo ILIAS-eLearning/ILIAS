@@ -921,6 +921,7 @@ class ilExAssignment
 	 */
 	function updateStatusTimeOfUser($a_ass_id, $a_user_id)
 	{
+		// #13741 - is only used for mark
 		ilExAssignment::updateAssMemberField($a_ass_id, $a_user_id,
 			"status_time", ilUtil::now(), "timestamp");
 	}
@@ -954,11 +955,12 @@ class ilExAssignment
 	{
 		global $ilDB;
 
+		// #13741
 		$ilDB->manipulateF("UPDATE exc_mem_ass_status ".
-			"SET sent = %s, status_time= %s, sent_time = %s ".
+			"SET sent = %s, sent_time = %s ".
 			" WHERE ass_id = %s AND usr_id = %s ",
-			array("integer", "timestamp", "timestamp", "integer", "integer"),
-			array((int) $a_status, ilUtil::now(), ($a_status ? ilUtil::now() : null),
+			array("integer", "timestamp", "integer", "integer"),
+			array((int) $a_status, ($a_status ? ilUtil::now() : null),
 				$a_ass_id, $a_user_id));
 	}
 
@@ -1007,12 +1009,12 @@ class ilExAssignment
 			}
 		}
 
-		$ilDB->manipulateF("UPDATE exc_mem_ass_status ".
-			"SET returned = %s, status_time= %s ".
+		// #13741
+		$ilDB->manipulateF("UPDATE exc_mem_ass_status".
+			" SET returned = %s".
 			" WHERE ass_id = %s AND usr_id = %s",
-			array("integer", "timestamp", "integer", "integer"),
-			array((int) $a_status, ilUtil::now(),
-				$a_ass_id, $a_user_id));
+			array("integer", "integer", "integer"),
+			array((int) $a_status, $a_ass_id, $a_user_id));
 	}
 
 /*	// feedback functions
@@ -1044,11 +1046,12 @@ class ilExAssignment
 	{
 		global $ilDB;
 
+		// #13741
 		$ilDB->manipulateF("UPDATE exc_mem_ass_status ".
-			"SET feedback = %s, status_time= %s, feedback_time = %s ".
+			"SET feedback = %s, feedback_time = %s ".
 			" WHERE ass_id = %s AND usr_id = %s",
-			array("integer", "timestamp", "timestamp", "integer", "integer"),
-			array((int) $a_status, ilUtil::now(), ($a_status ? ilUtil::now() : null),
+			array("integer", "timestamp", "integer", "integer"),
+			array((int) $a_status, ($a_status ? ilUtil::now() : null),
 				$a_ass_id, $a_user_id));
 	}
 
@@ -1791,10 +1794,9 @@ class ilExAssignment
 	{
 		global $ilDB;
 		
-		// #12181
+		// #12181 / #13741
 		$ilDB->manipulate("UPDATE exc_mem_ass_status".
-			" SET notice = ".$ilDB->quote($a_notice, "text").
-			",status_time= ".$ilDB->quote(ilUtil::now(), "timestamp").
+			" SET notice = ".$ilDB->quote($a_notice, "text").		
 			" WHERE ass_id = ".$ilDB->quote($a_ass_id, "integer").
 			" AND usr_id = ".$ilDB->quote($a_user_id, "integer").
 			" AND ".$ilDB->equalsNot("notice", $a_notice, "text", true));
@@ -2370,10 +2372,12 @@ class ilExAssignment
 		{
 			$last_sub = "---";
 		}
+		/* #13741 - status_time has been reduced to grading (mark/status)
 		if (ilExAssignment::lookupUpdatedSubmission($a_ass_id, $a_user_id) == 1) 
 		{
 			$last_sub = "<b>".$last_sub."</b>";
-		}		
+		}		 
+		*/		
 		$result["last_submission"]["txt"] = $lng->txt("exc_last_submission");
 		$result["last_submission"]["value"] = $last_sub;
 		
