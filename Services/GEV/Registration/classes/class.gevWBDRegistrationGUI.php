@@ -86,6 +86,10 @@ class gevWBDRegistrationGUI {
 	}
 
 	protected function setBWVId() {
+		if ($_POST["bwv_id"] == "") {
+			return $this->startRegistration();
+		}
+
 		$this->user_utils->setWBDBWVId($_POST["bwv_id"]);
 		$this->user_utils->setWBDTPType(gevUserUtils::WBD_EDU_PROVIDER);
 		$this->user_utils->setWBDRegistrationDone();

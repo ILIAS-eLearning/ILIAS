@@ -38,7 +38,7 @@ class gevRegistrationGUI {
 		$this->tpl->setContent($cont);
 		$this->tpl->show();
 	}
-	
+
 	protected function startEVGRegistration($a_form = null) {
 		require_once("Services/CaTUIComponents/classes/class.catTitleGUI.php");
 		
@@ -58,11 +58,11 @@ class gevRegistrationGUI {
 		return  $title->render()
 			  . $tpl->get();
 	}
-	
+
 	protected function finalizeEVGRegistration() {
 		$form = $this->buildEVGRegisterForm();
 		$err = false;
-		
+
 		if (!$form->checkInput()) {
 			$err = true;
 		}
@@ -83,14 +83,14 @@ class gevRegistrationGUI {
 
 		require_once("gev_utils.php");
 		$import = get_gev_import();
-		
+
 		$error = $import->register( $form->getInput("position")
 								  , $form->getInput("email"));
 		if ($error) {
 			ilUtil::sendFailure($this->lng->txt("gev_evg_registration_not_found"));
 			return $this->startEVGRegistration($form);
 		}
-		
+
 		require_once("Services/CaTUIComponents/classes/class.catTitleGUI.php");
 
 		ilUtil::sendSuccess($this->lng->txt("gev_evg_registration_success"));
