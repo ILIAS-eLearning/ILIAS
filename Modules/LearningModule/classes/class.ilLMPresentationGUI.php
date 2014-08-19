@@ -146,12 +146,7 @@ class ilLMPresentationGUI
 		$cmd = (isset($_POST['cmd']['citation']))
 			? "ilCitation"
 			: $cmd;
-		
-		$this->trackChapterAccess();			
 
-		// ### AA 03.09.01 added page access logger ###
-		$this->lmAccess($ilUser->getId(),$_GET["ref_id"],$_GET["obj_id"]);
-		
 		$obj_id = $_GET["obj_id"];
 		$this->ctrl->setParameter($this, "obj_id", $_GET["obj_id"]);
 		$ilNavigationHistory->addItem($_GET["ref_id"], $this->ctrl->getLinkTarget($this),"lm");
@@ -253,36 +248,6 @@ class ilLMPresentationGUI
 	{
 	}
 
-	// ### AA 03.09.01 added page access logger ###
-	/**
-	* logs access to lm objects to enable retrieval of a 'last viewed lm list' and 'return to last lm'
-	* allows only ONE entry per user and lm object
-	*
-	* A.L. Ammerlaan / INGMEDIA FH-Aachen / 2003.09.08
-	*/
-	function lmAccess($usr_id,$lm_id,$obj_id)
-	{
-		global $ilDB;
-		
-		// first check if an entry for this user and this lm already exist, when so, delete
-		$q = "DELETE FROM lo_access ".
-			"WHERE usr_id = ".$ilDB->quote((int) $usr_id, "integer")." ".
-			"AND lm_id = ".$ilDB->quote((int) $lm_id, "integer");
-		$ilDB->manipulate($q);
-		$title = (is_object($this->lm))?$this->lm->getTitle():"- no title -";
-		// insert new entry
-		$pg_title = "";
-		$q = "INSERT INTO lo_access ".
-			"(timestamp,usr_id,lm_id,obj_id,lm_title) ".
-			"VALUES ".
-			"(".$ilDB->now().",".
-			$ilDB->quote((int) $usr_id, "integer").",".
-			$ilDB->quote((int) $lm_id, "integer").",".
-			$ilDB->quote((int) $obj_id, "integer").",".
-			$ilDB->quote($title, "text").")";
-		$ilDB->manipulate($q);
-	}
-
     /**
     *   calls export of digilib-object
     *   at this point other lm-objects can be exported
@@ -300,57 +265,6 @@ class ilLMPresentationGUI
 				break;
 		}
 	}
-
-
-    /**
-    *   export bibinfo for download or copy/paste
-    *
-    *   @param
-    *   @access public
-    *   @return
-    */
-	function exportbibinfo()
-	{
-		global $ilDB;
-		
-		$objRow["obj_id"] = ilObject::_lookupObjId($_GET["ref_id"]);
-		$objRow["title"] = ilObject::_lookupTitle($objRow["obj_id"]);
-
-		$filename = preg_replace('/[^a-z0-9_]/i', '_', $objRow["title"]);
-
-		$C = $this->lm_gui->showAbstract(array(1));
-
-		if ($_GET["print"]==1)
-		{
-			$printTpl = new ilTemplate("tpl.print.html", true, true, "Modules/LearningModule");
-			$printTpl->touchBlock("printreq");
-			$css1 = ilObjStyleSheet::getContentStylePath($this->lm->getStyleSheetId());
-			$css2 = ilUtil::getStyleSheetLocation();
-			$printTpl->setVariable("LOCATION_CONTENT_STYLESHEET", $css1 );
-
-			$printTpl->setVariable("LOCATION_STYLESHEET", $css2);
-
-			// syntax style
-			$printTpl->setCurrentBlock("SyntaxStyle");
-			$printTpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
-				ilObjStyleSheet::getSyntaxStylePath());
-			$printTpl->parseCurrentBlock();
-
-			$printTpl->setVariable("CONTENT",$C);
-
-			echo $printTpl->get();
-			exit;
-		}
-		else
-		{
-			ilUtil::deliverData($C, $filename.".html");
-			exit;
-		}
-
-	}
-
-
-
 
 	function attrib2arr($a_attributes)
 	{
@@ -1530,17 +1444,12 @@ class ilLMPresentationGUI
 				$this->lm->getPageHeader(), $this->lm->isActiveNumbering(),
 				$this->lm_set->get("time_scheduled_page_activation"), false, 0, $this->lang));
 
-			// update learning progress
-			if ($ilUser->getId() != ANONYMOUS_USER_ID)
-			{		
-				// #9483
-				include_once("./Services/Tracking/classes/class.ilLearningProgress.php");
-				ilLearningProgress::_tracProgress($ilUser->getId(), $this->lm->getId(), 
-					$this->lm->getRefId(), $this->lm->getType());		
-				
-				// obsolete?
-				include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
-				ilLPStatusWrapper::_updateStatus($this->lm->getId(), $ilUser->getId());				
+			// track access
+			if ($ilUser->getId() != ANONYMOUS_USER_ID && $page_id != 0 && !$this->offlineMode())
+			{
+				include_once("./Modules/LearningModule/classes/class.ilLMTracker.php");
+				$tracker = new ilLMTracker($this->lm);
+				$tracker->trackAccess($page_id);
 			}
 		}
 		else
@@ -4068,88 +3977,7 @@ class ilLMPresentationGUI
 		$this->tpl->fillWindowTitle();
 	}	
 	
-	protected function trackChapterAccess()
-	{
-		global $ilDB, $ilUser;
-			
-		// get last accessed page
-		$set = $ilDB->query("SELECT * FROM lo_access WHERE ".
-			"usr_id = ".$ilDB->quote($ilUser->getId(), "integer")." AND ".
-			"lm_id = ".$ilDB->quote($this->lm->getRefId(), "integer"));
-		$res = $ilDB->fetchAssoc($set);
-		if($res["obj_id"])
-		{	
-			include_once('Services/Tracking/classes/class.ilObjUserTracking.php');
-			$valid_timespan = ilObjUserTracking::_getValidTimeSpan();		
 
-			$pg_ts = new ilDateTime($res["timestamp"], IL_CAL_DATETIME);
-			$pg_ts = $pg_ts->get(IL_CAL_UNIX);
-			$pg_id = $res["obj_id"];			
-			if(!$this->lm_tree->isInTree($pg_id))
-			{
-				return;
-			}
-			
-			$now = time();
-			$time_diff = $read_diff = 0;
-
-			// spent_seconds or read_count ?
-			if (($now-$pg_ts) <= $valid_timespan)
-			{
-				$time_diff = $now-$pg_ts;
-			}
-			else 
-			{
-				$read_diff = 1;
-			}				
-
-			// find parent chapter(s) for that page
-			$parent_st_ids = array();
-			foreach($this->lm_tree->getPathFull($pg_id) as $item)
-			{
-				if($item["type"] == "st")
-				{
-					$parent_st_ids[] = $item["obj_id"];
-				}
-			}
-
-			if($parent_st_ids && ($time_diff || $read_diff))
-			{
-				// get existing chapter entries
-				$ex_st = array();
-				$set = $ilDB->query("SELECT obj_id FROM lm_read_event".
-					" WHERE ".$ilDB->in("obj_id", $parent_st_ids, "", "integer").
-					" AND usr_id = ".$ilDB->quote($ilUser->getId(), "integer"));
-				while($row = $ilDB->fetchAssoc($set))
-				{
-					$ex_st[] = $row["obj_id"];
-				}
-
-				// add missing chapter entries
-				$missing_st = array_diff($parent_st_ids, $ex_st);
-				if(sizeof($missing_st))
-				{
-					foreach($missing_st as $st_id)
-					{
-						$fields = array(
-							"obj_id" => array("integer", $st_id),
-							"usr_id" => array("integer", $ilUser->getId())
-						);
-						$ilDB->insert("lm_read_event", $fields);							
-					}
-				}
-
-				// update all parent chapters
-				$ilDB->manipulate("UPDATE lm_read_event SET".
-					" read_count = read_count + ".$ilDB->quote($read_diff, "integer").
-					" , spent_seconds = spent_seconds + ".$ilDB->quote($time_diff, "integer").
-					" , last_access = ".$ilDB->quote($now, "integer").
-					" WHERE ".$ilDB->in("obj_id", $parent_st_ids, "", "integer").
-					" AND usr_id = ".$ilDB->quote($ilUser->getId(), "integer"));
-			}
-		}			
-	}
-	
 	/**
 	 * Get lm page gui object
 	 *

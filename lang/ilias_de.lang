@@ -5742,7 +5742,7 @@ content#:#cont_lk_term_new#:#Glossarbegriff (Neuer Frame)
 content#:#cont_lm_comments_desc#:#Erlaubt es Benutzern öffentliche Kommentare auf allen Lernmodulseiten hinzuzufügen.
 content#:#cont_lm_default_layout#:#Standardlayout des Lernmoduls
 content#:#cont_lm_menu#:#Menü
-content#:#cont_lm_properties#:#Eigenschaften des Lernmoduls
+content#:#cont_lm_properties#:#Einstellungen des Lernmoduls
 content#:#cont_localfile#:#Lokale Datei
 content#:#cont_localization#:#Sprache
 content#:#cont_localization_info#:#Die Einstellung wird für vordefinierte Texte im Modul (z.B. "Vor" / "Zurück") benötigt.
@@ -5862,7 +5862,7 @@ content#:#cont_page_compare#:#Vergleiche ausgewählte Änderungen
 content#:#cont_page_currently_deactivated#:#Diese Seite ist momentan deaktiviert.
 content#:#cont_page_deactivated#:#Die Seite ist deaktiviert
 content#:#cont_page_deactivated_elements#:#Die Seite enthält deaktivierte Elemente
-content#:#cont_page_header#:#Als Seitenüberschrift angezeigt wird:
+content#:#cont_page_header#:#Als Seitenüberschrift angezeigt wird
 content#:#cont_page_layout#:#Seitenlayout
 content#:#cont_page_link#:#Link zur Seite
 content#:#cont_page_select_target_now#:#Wählen Sie jetzt das Ziel, wohin die Seite verschoben werden soll.
@@ -6133,7 +6133,7 @@ content#:#cont_time_limit_action#:#adlcp:timelimitaction
 content#:#cont_title#:#Titel
 content#:#cont_title_footnotes#:#Fußnoten
 content#:#cont_toc#:#Inhaltsverzeichnis
-content#:#cont_toc_mode#:#Inhaltsverzeichnis enthält:
+content#:#cont_toc_mode#:#Inhaltsverzeichnis enthält
 content#:#cont_top#:#Oben
 content#:#cont_total_time#:#Gesamtzeit
 content#:#cont_tracking_bysco#:#Nach Kapiteln
@@ -14573,3 +14573,5 @@ rbac#:#sahs_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benut
 rbac#:#tst_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benutzer einsehen
 rbac#:#exc_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benutzer einsehen
 rbac#:#sess_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benutzer einsehen
+content#:#cont_progress_icons#:#Progress Icons
+content#:#cont_progress_icons_info#:#Show progress icons instead of chapter page icons in presentation mode. Please note that progress information is stored only with ILIAS 4.5 and higher.

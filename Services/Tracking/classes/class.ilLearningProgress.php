@@ -45,7 +45,7 @@ class ilLearningProgress
 	}
 
 	// Static
-	function _tracProgress($a_user_id, $a_obj_id, $a_ref_id, $a_obj_type = '')
+	static function _tracProgress($a_user_id, $a_obj_id, $a_ref_id, $a_obj_type = '')
 	{
 		global $ilDB;
 

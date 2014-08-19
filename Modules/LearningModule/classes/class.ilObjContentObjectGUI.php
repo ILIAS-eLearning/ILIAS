@@ -343,7 +343,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 
 		$lng->loadLanguageModule("style");
 		$this->setTabs("settings");
-		$this->setSubTabs("cont_general_properties");
+		$this->setSubTabs("settings");
 
 		// lm properties
 		$this->initPropertiesForm();
@@ -384,15 +384,30 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		//$ta->setRows();
 		//$ta->setInfo($lng->txt(""));
 		$this->form->addItem($ta);
-		
+
+		$lng->loadLanguageModule("rep");
+		$section = new ilFormSectionHeaderGUI();
+		$section->setTitle($this->lng->txt('rep_activation_availability'));
+		$this->form->addItem($section);
+
 		// online
 		$online = new ilCheckboxInputGUI($lng->txt("cont_online"), "cobj_online");
 		$this->form->addItem($online);
-		
+
+		// presentation
+		$section = new ilFormSectionHeaderGUI();
+		$section->setTitle($this->lng->txt('cont_presentation'));
+		$this->form->addItem($section);
+
 		// default layout
 		$layout = self::getLayoutOption($lng->txt("cont_def_layout"), "lm_layout");
 		$this->form->addItem($layout);
-		
+
+		// layout per page
+		$lpp = new ilCheckboxInputGUI($lng->txt("cont_layout_per_page"), "layout_per_page");
+		$lpp->setInfo($this->lng->txt("cont_layout_per_page_info"));
+		$this->form->addItem($lpp);
+
 		// page header
 		$page_header = new ilSelectInputGUI($lng->txt("cont_page_header"), "lm_pg_header");
 		$option = array ("st_title" => $this->lng->txt("cont_st_title"),
@@ -411,7 +426,28 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 			"pages" => $this->lng->txt("cont_chapters_and_pages"));
 		$toc_mode->setOptions($option);
 		$this->form->addItem($toc_mode);
-		
+
+		// synchronize frames
+		/*
+		$synch = new ilCheckboxInputGUI($lng->txt("cont_synchronize_frames"), "cobj_clean_frames");
+		$synch->setInfo($this->lng->txt("cont_synchronize_frames_desc"));
+		$this->form->addItem($synch);*/
+
+		// disable default feedback for questions
+		$qfeed = new ilCheckboxInputGUI($lng->txt("cont_disable_def_feedback"), "disable_def_feedback");
+		$qfeed->setInfo($this->lng->txt("cont_disable_def_feedback_info"));
+		$this->form->addItem($qfeed);
+
+		// show progress icons
+		$progr_icons = new ilCheckboxInputGUI($lng->txt("cont_progress_icons"), "progr_icons");
+		$progr_icons->setInfo($this->lng->txt("cont_progress_icons_info"));
+		$this->form->addItem($progr_icons);
+
+		// additional features
+		$section = new ilFormSectionHeaderGUI();
+		$section->setTitle($this->lng->txt('obj_features'));
+		$this->form->addItem($section);
+
 		// public notes
 		if (!$this->ilias->getSetting('disable_comments'))
 		{
@@ -421,16 +457,6 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 			$this->form->addItem($pub_nodes);
 		}
 
-		// layout per page
-		$lpp = new ilCheckboxInputGUI($lng->txt("cont_layout_per_page"), "layout_per_page");
-		$lpp->setInfo($this->lng->txt("cont_layout_per_page_info"));
-		$this->form->addItem($lpp);
-
-		// synchronize frames
-		$synch = new ilCheckboxInputGUI($lng->txt("cont_synchronize_frames"), "cobj_clean_frames");
-		$synch->setInfo($this->lng->txt("cont_synchronize_frames_desc"));
-		$this->form->addItem($synch);
-		
 		// history user comments
 		$com = new ilCheckboxInputGUI($lng->txt("enable_hist_user_comments"), "cobj_user_comments");
 		$com->setInfo($this->lng->txt("enable_hist_user_comments_desc"));
@@ -440,16 +466,11 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		$this->lng->loadLanguageModule('rating');
 		$rate = new ilCheckboxInputGUI($this->lng->txt('rating_activate_rating'), 'rating');
 		$rate->setInfo($this->lng->txt('rating_activate_rating_info'));
-		$this->form->addItem($rate);			
+		$this->form->addItem($rate);
 		$ratep = new ilCheckboxInputGUI($this->lng->txt('lm_activate_rating'), 'rating_pages');
-		$this->form->addItem($ratep);	
+		$this->form->addItem($ratep);
 
-		// disable default feedback for questions
-		$qfeed = new ilCheckboxInputGUI($lng->txt("cont_disable_def_feedback"), "disable_def_feedback");
-		$qfeed->setInfo($this->lng->txt("cont_disable_def_feedback_info"));
-		$this->form->addItem($qfeed);
-
-		$this->form->setTitle($lng->txt("cont_general_properties"));
+		$this->form->setTitle($lng->txt("cont_lm_properties"));
 		$this->form->addCommandButton("saveProperties", $lng->txt("save"));
 		$this->form->setFormAction($ilCtrl->getFormAction($this));
 	}
@@ -500,6 +521,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		$values["rating"] = $this->object->hasRating();
 		$values["rating_pages"] = $this->object->hasRatingPages();
 		$values["disable_def_feedback"] = $this->object->getDisableDefaultFeedback();
+		$values["progr_icons"] = $this->object->getProgressIcons();
 		
 		$this->form->setValuesByArray($values);
 	}
@@ -539,6 +561,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 			$this->object->setRating($_POST["rating"]);
 			$this->object->setRatingPages($_POST["rating_pages"]);
 			$this->object->setDisableDefaultFeedback((int) $_POST["disable_def_feedback"]);
+			$this->object->setProgressIcons((int) $_POST["progr_icons"]);
 			$this->object->updateProperties();
 			$this->object->update();
 			
@@ -2615,7 +2638,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 	{
 		global $rbacsystem, $ilUser, $ilTabs, $lng;
 		
-$tabs_gui = $ilTabs;
+		$tabs_gui = $ilTabs;
 
 		// content
 		$ilTabs->addTab("content",
@@ -2694,11 +2717,11 @@ $tabs_gui = $ilTabs;
 		global $ilTabs, $ilSetting;
 
 		if (in_array($a_active,
-			array("cont_general_properties", "cont_style", "cont_lm_menu", "public_section",
+			array("settings", "cont_style", "cont_lm_menu", "public_section",
 				"cont_glossaries", "cont_multilinguality", "obj_multilinguality")))
 		{
 			// general properties
-			$ilTabs->addSubTabTarget("cont_general_properties",
+			$ilTabs->addSubTabTarget("settings",
 				$this->ctrl->getLinkTarget($this, 'properties'),
 				"", "");
 				

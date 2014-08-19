@@ -1330,7 +1330,28 @@ class ilLMObject
 		return $childs;
 	}
 	
-	
+	/**
+	 * Get all objects of learning module
+	 *
+	 * @param
+	 * @return
+	 */
+	static function _getAllLMObjectsOfLM($a_lm_id)
+	{
+		global $ilDB;
+
+		$set = $ilDB->query("SELECT obj_id FROM lm_data ".
+			" WHERE lm_id = ".$ilDB->quote($a_lm_id, "integer"));
+		$obj_ids = array();
+		while ($rec = $ilDB->fetchAssoc($set))
+		{
+			$obj_ids[] = $rec["obj_id"];
+		}
+
+		return $obj_ids;
+	}
+
+
 	////
 	//// Export ID handling
 	////
@@ -1493,6 +1514,7 @@ class ilLMObject
 				$a_force_content, $a_lm_id, $a_lang);
 		}
 	}
+
 	
 }
 ?>

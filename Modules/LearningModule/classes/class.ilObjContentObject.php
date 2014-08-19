@@ -224,6 +224,26 @@ class ilObjContentObject extends ilObject
 		return $this->disable_def_feedback;
 	}
 	
+	/**
+	 * Set progress icons
+	 *
+	 * @param bool $a_val show progress icons	
+	 */
+	function setProgressIcons($a_val)
+	{
+		$this->progr_icons = $a_val;
+	}
+	
+	/**
+	 * Get progress icons
+	 *
+	 * @return bool show progress icons
+	 */
+	function getProgressIcons()
+	{
+		return $this->progr_icons;
+	}
+	
 	function &getTree()
 	{
 		return $this->lm_tree;
@@ -1042,6 +1062,8 @@ class ilObjContentObject extends ilObject
 		$this->setRating($lm_rec["rating"]);
 		$this->setRatingPages($lm_rec["rating_pages"]);
 		$this->setDisableDefaultFeedback($lm_rec["disable_def_feedback"]);
+		$this->setProgressIcons($lm_rec["progr_icons"]);
+
 	}
 
 	/**
@@ -1083,7 +1105,8 @@ class ilObjContentObject extends ilObject
 			" layout_per_page = ".$ilDB->quote($this->getLayoutPerPage(), "integer").", ".
 			" rating = ".$ilDB->quote($this->hasRating(), "integer").", ".
 			" rating_pages = ".$ilDB->quote($this->hasRatingPages(), "integer").", ".
-			" disable_def_feedback = ".$ilDB->quote($this->getDisableDefaultFeedback(), "integer")." ".
+			" disable_def_feedback = ".$ilDB->quote($this->getDisableDefaultFeedback(), "integer").", ".
+			" progr_icons = ".$ilDB->quote($this->getProgressIcons(), "integer")." ".
 			" WHERE id = ".$ilDB->quote($this->getId(), "integer");
 		$ilDB->manipulate($q);
 	}
@@ -3140,6 +3163,8 @@ class ilObjContentObject extends ilObject
 		$new_obj->setPageHeader($this->getPageHeader());
 		$new_obj->setRating($this->hasRating());
 		$new_obj->setRatingPages($this->hasRatingPages());
+		$new_obj->setDisableDefaultFeedback($this->getDisableDefaultFeedback());
+		$new_obj->setProgressIcons($this->getProgressIcons());
 		
 		$new_obj->update();
 		

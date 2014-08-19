@@ -2382,3 +2382,13 @@ if($src_ops_id &&
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#4289>
+<?php
+$def = array(
+		'type'    => 'integer',
+		'length'  => 1,
+		'notnull' => true,
+		'default' => 0
+	);
+$ilDB->addTableColumn("content_object", "progr_icons", $def);
+?>

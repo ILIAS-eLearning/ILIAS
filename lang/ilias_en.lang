@@ -4971,7 +4971,7 @@ content#:#cont_lk_term_new#:#Glossary Term (New Frame)
 content#:#cont_lk_term#:#Glossary Term
 content#:#cont_lm_default_layout#:#Default Layout of Learning Module
 content#:#cont_lm_menu#:#Menu
-content#:#cont_lm_properties#:#Learning Module Properties
+content#:#cont_lm_properties#:#Learning Module Settings
 content#:#cont_localfile#:#Local File
 content#:#cont_LocalFile#:#Local File
 content#:#cont_location#:#Location
@@ -14591,3 +14591,5 @@ rbac#:#sahs_read_learning_progress#:#User can view learning progress of other us
 rbac#:#tst_read_learning_progress#:#User can view learning progress of other users
 rbac#:#exc_read_learning_progress#:#User can view learning progress of other users
 rbac#:#sess_read_learning_progress#:#User can view learning progress of other users
+content#:#cont_progress_icons#:#Progress Icons
+content#:#cont_progress_icons_info#:#Show progress icons instead of chapter page icons in presentation mode. Please note that progress information is stored only with ILIAS 4.5 and higher.
