@@ -63,22 +63,22 @@ class gevRegistrationGUI {
 		$form = $this->buildEVGRegisterForm();
 		$err = false;
 		
-		if (  !$form->checkInput()) {
+		if (!$form->checkInput()) {
 			$err = true;
-		} else {
-			for ($i = 1; $i <= 2; ++$i) {
-				$chb = $form->getItemByPostVar("chb".$i);
-				if (!$chb->getChecked()) {
-					$err = true;
-					$chb->setAlert($this->lng->txt("evg_mandatory"));
-				}
+		}
+
+		for ($i = 1; $i <= 2; ++$i) {
+			$chb = $form->getItemByPostVar("chb".$i);
+			if (!$chb->getChecked()) {
+				$err = true;
+				$chb->setAlert($this->lng->txt("evg_mandatory"));
 			}
 		}
 
 		if ($err) {
 			return $this->startEVGRegistration($form);
 		}
-		
+
 		require_once("gev_utils.php");
 		$import = get_gev_import();
 		
@@ -122,10 +122,12 @@ class gevRegistrationGUI {
 
 		$chb1 = new ilCheckboxInputGUI("", "chb1");
 		$chb1->setOptionTitle($this->lng->txt("evg_toc"));
+		$chb1->setRequired(true);
 		$form->addItem($chb1);
 
 		$chb2 = new ilCheckboxInputGUI("", "chb2");
 		$chb2->setOptionTitle($this->lng->txt("evg_wbd"));
+		$chb2->setRequired(true);
 		$form->addItem($chb2);
 
 		return $form;
