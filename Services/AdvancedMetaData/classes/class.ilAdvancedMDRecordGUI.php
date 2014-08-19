@@ -218,7 +218,8 @@ class ilAdvancedMDRecordGUI
 	 */
 	public function importEditFormPostValues()
 	{			
-		if(!sizeof($this->editor_form))
+		// #13774
+		if(!is_array($this->editor_form))
 		{
 			return false;
 		}
