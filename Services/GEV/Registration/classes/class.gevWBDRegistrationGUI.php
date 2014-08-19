@@ -74,7 +74,7 @@ class gevWBDRegistrationGUI {
 		$tpl = new ilTemplate("tpl.gev_wbd_start_registration.html", false, false, "Services/GEV/Registration");
 
 		$tpl->setVariable("ACTION", $this->ctrl->getFormAction($this));
-		$tpl->setVariable("QUESTION", $this->lng->txt("gev_wbd_registration_question"));
+		$tpl->setVariable("QUESTION", $this->lng->txt("gev_wbd_registration_question_basis"));
 		$tpl->setVariable("HAS_BWV_ID", $this->lng->txt("gev_wbd_registration_has_bwv_id"));
 		$tpl->setVariable("HAS_BWV_ID_COMMAND", $this->lng->txt("gev_wbd_registration_has_bwv_id_cmd"));
 		$tpl->setVariable("NO_BWV_ID", $this->lng->txt("gev_wbd_registration_no_bwv_id"));
@@ -113,7 +113,7 @@ class gevWBDRegistrationGUI {
 
 		$tpl->setVariable("ACTION", $this->ctrl->getFormAction($this));
 		$tpl->setVariable("FORM", $form->getHTML());
-		$tpl->setVariable("QUESTION", $this->lng->txt("gev_wbd_registration_question"));
+		$tpl->setVariable("QUESTION", $this->lng->txt("gev_wbd_registration_question_service"));
 		$tpl->setVariable("HAS_BWV_ID", $this->lng->txt("gev_wbd_registration_has_bwv_id"));
 		$tpl->setVariable("HAS_BWV_ID_COMMAND", $this->lng->txt("gev_wbd_registration_has_bwv_id_cmd"));
 		$tpl->setVariable("NO_BWV_ID", $this->lng->txt("gev_wbd_registration_no_bwv_id"));
