@@ -71,7 +71,7 @@ class ilAvailableRolesStatusTableGUI extends ilTable2GUI
 		{
 			$this->tpl->setCurrentBlock("original_position_with_link");
 			$this->tpl->setVariable("TXT_ORIGINAL_POSITION_WITH_LINK", $a_set["original_position"]);
-			$this->tpl->setVariable("ORIGINAL_POSITION_LINK", ilLink::_getLink($a_set["original_ref_id"]));
+			$this->tpl->setVariable("ORIGINAL_POSITION_LINK", ilLink::_getLink($a_set["original_position_ref_id"]));
 			$this->tpl->parseCurrentBlock();
 		}
 		else
