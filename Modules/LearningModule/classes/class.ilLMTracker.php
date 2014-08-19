@@ -11,8 +11,16 @@
  */
 class ilLMTracker
 {
+	const NOT_ATTEMPTED = 0;
+	const IN_PROGRESS = 1;
+	const COMPLETED = 2;
+	const FAILED = 3;
+	const CURRENT = 99;
+
 	protected $lm;
 	protected $lm_tree;
+	protected $tree_arr = array();		// tree array
+	protected $re_arr = array();		// read event data array
 
 	/**
 	 * Constructor
@@ -110,7 +118,7 @@ class ilLMTracker
 
 		// update all parent chapters
 		$ilDB->manipulate("UPDATE lm_read_event SET".
-			" read_count = read_count + ".$ilDB->quote($read_diff, "integer").
+			" read_count = read_count + 1 ".
 			" , last_access = ".$ilDB->quote($now, "integer").
 			" WHERE obj_id = ".$ilDB->quote($a_page_id, "integer").
 			" AND usr_id = ".$ilDB->quote($ilUser->getId(), "integer"));
@@ -196,6 +204,136 @@ class ilLMTracker
 					" AND usr_id = ".$ilDB->quote($ilUser->getId(), "integer"));
 			}
 		}
+	}
+
+	/**
+	 * Load LM tracking data
+	 *
+	 * @param
+	 * @return
+	 */
+	function loadLMTrackingData($a_current_node)
+	{
+		global $ilDB;
+
+		// load lm tree in array
+		$nodes = $this->lm_tree->getSubTree($this->lm_tree->getNodeData($this->lm_tree->readRootId()));
+		$node_ids = array();
+		foreach ($nodes as $node)
+		{
+			$this->tree_arr["childs"][$node["parent"]][] = $node;
+			$this->tree_arr["parent"][$node["child"]] = $node["parent"];
+			$this->tree_arr["nodes"][$node["child"]] = $node;
+		}
+
+		// load read event data
+		include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
+		$lm_obj_ids = ilLMObject::_getAllLMObjectsOfLM($this->lm->getId());
+		$set = $ilDB->query("SELECT * FROM lm_read_event ".
+			" WHERE ".$ilDB->in("obj_id", $lm_obj_ids, false, "integer"));
+		while ($rec = $ilDB->fetchAssoc($set))
+		{
+			$this->re_arr[$rec["obj_id"]] = $rec;
+		}
+
+		$this->determineProgressStatus($this->lm_tree->readRootId(), $a_current_node);
+	}
+
+	/**
+	 * Determine progress status of nodes
+	 *
+	 * @param int $a_obj_id lm object id
+	 * @return int status
+	 */
+	function determineProgressStatus($a_obj_id, $a_current_node)
+	{
+		$status = ilLMTracker::NOT_ATTEMPTED;
+
+		if (isset($this->tree_arr["nodes"][$a_obj_id]))
+		{
+			if (is_array($this->tree_arr["childs"][$a_obj_id]))
+			{
+				$cnt_completed = 0;
+				foreach ($this->tree_arr["childs"][$a_obj_id] as $c)
+				{
+					$c_stat = $this->determineProgressStatus($c["child"], $a_current_node);
+					if ($status != ilLMTracker::FAILED)
+					{
+						if ($c_stat == ilLMTracker::FAILED)
+						{
+							$status = ilLMTracker::FAILED;
+						}
+						else if ($c_stat == ilLMTracker::IN_PROGRESS)
+						{
+							$status = ilLMTracker::IN_PROGRESS;
+						}
+						else if ($c_stat == ilLMTracker::COMPLETED || $c_stat == ilLMTracker::CURRENT)
+						{
+							$status = ilLMTracker::IN_PROGRESS;
+							$cnt_completed++;
+						}
+					}
+				}
+				if ($cnt_completed == count($this->tree_arr["childs"][$a_obj_id]))
+				{
+					$status = ilLMTracker::COMPLETED;
+				}
+			}
+			else if ($this->tree_arr["nodes"][$a_obj_id]["type"] == "pg")
+			{
+				// check questions, if one is failed -> failed
+
+				// check questions, if one is not answered -> in progress
+
+				// check read event data
+				if (isset($this->re_arr[$a_obj_id]) && $this->re_arr[$a_obj_id]["read_count"] > 0)
+				{
+					$status = ilLMTracker::COMPLETED;
+				}
+				else if ($a_obj_id == $a_current_node)
+				{
+					$status = ilLMTracker::CURRENT;
+				}
+			}
+		}
+		else	// free pages (currently not called, since only walking through tree structure)
+		{
+
+		}
+		$this->tree_arr["nodes"][$a_obj_id]["status"] = $status;
+
+		return $status;
+	}
+
+
+	/**
+	 * Get icon for lm object
+	 *
+	 * @param array $a_node node array
+	 * @param int $a_current_node current node id
+	 * @return string image path
+	 */
+	function getIconForLMObject($a_node, $a_current_node)
+	{
+		if ($a_node["child"] == $a_current_node)
+		{
+			return ilUtil::getImagePath('scorm/running.png');
+		}
+		if (isset($this->tree_arr["nodes"][$a_node["child"]]))
+		{
+			switch ($this->tree_arr["nodes"][$a_node["child"]]["status"])
+			{
+				case ilLMTracker::IN_PROGRESS:
+					return ilUtil::getImagePath('scorm/incomplete.png');
+
+				case ilLMTracker::FAILED:
+					return ilUtil::getImagePath('scorm/failed.png');
+
+				case ilLMTracker::COMPLETED:
+					return ilUtil::getImagePath('scorm/completed.png');
+			}
+		}
+		return ilUtil::getImagePath('scorm/not_attempted.png');
 	}
 
 }

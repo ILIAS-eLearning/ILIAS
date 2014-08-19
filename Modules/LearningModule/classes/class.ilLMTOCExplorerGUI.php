@@ -4,7 +4,7 @@
 include_once("./Modules/LearningModule/classes/class.ilLMExplorerGUI.php");
 
 /**
- * LM editor explorer GUI class
+ * LM presentation (left frame) explorer GUI class
  *
  * @author	Alex Killing <alex.killing@gmx.de>
  * @version	$Id$
@@ -15,6 +15,7 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
 {
 	protected $lang;
 	protected $highlight_node;
+	protected $tracker;
 
 	/**
 	 * Constructor
@@ -36,6 +37,23 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
 			$this->setTypeWhiteList(array("st", "du"));
 		}
 
+	}
+
+	/**
+	 * Get HTML
+	 *
+	 * @param
+	 * @return
+	 */
+	function getHTML()
+	{
+		if ($this->lm->getProgressIcons())
+		{
+			include_once("./Modules/LearningModule/classes/class.ilLMTracker.php");
+			$this->tracker = new ilLMTracker($this->lm);
+			$this->tracker->loadLMTrackingData($this->getHighlightNode());
+		}
+		return parent::getHTML();
 	}
 
 	/**
@@ -119,6 +137,12 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
 			{
 				return $icon;
 			}
+		}
+
+		// use progress icons (does not depend on lp mode)
+		if(!$this->getOfflineMode() && $this->lm->getProgressIcons())
+		{
+			return $this->tracker->getIconForLMObject($a_node, $this->highlight_node);
 		}
 
 		include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
