@@ -68,8 +68,10 @@ class gevRegistrationGUI {
 		}
 
 		for ($i = 1; $i <= 2; ++$i) {
-			$chb = $form->getItemByPostVar("chb".$i);
-			if (!$chb->getChecked()) {
+			$id = "chb".$i;
+			$chb = $form->getItemByPostVar($id);
+			//if (!$chb->getChecked()) {  // TODO: this doesn't work, why?
+			if ($_POST[$id] != 1) {
 				$err = true;
 				$chb->setAlert($this->lng->txt("evg_mandatory"));
 			}
