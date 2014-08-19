@@ -556,6 +556,47 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 	{				
 		global $ilSetting;
 		
+		$portfolio_id = $this->object->getId();
+		$user_id = $this->object->getOwner();
+		
+		$this->tabs_gui->clearTargets();
+			
+		$pages = ilPortfolioPage::getAllPages($portfolio_id);		
+		$current_page = (int)$_GET["user_page"];
+		
+		// validate current page
+		if($pages && $current_page)
+		{
+			$found = false;
+			foreach($pages as $page)
+			{
+				if($page["id"] == $current_page)
+				{
+					$found = true;
+					break;
+				}
+			}
+			if(!$found)
+			{
+				$current_page = null;
+			}
+		}
+
+		// display first page of portfolio if none given
+		if(!$current_page && $pages)
+		{
+			$current_page = $pages;
+			$current_page = array_shift($current_page);
+			$current_page = $current_page["id"];
+		}	
+		
+		// #13788 - keep page after login
+		if($this->user_id == ANONYMOUS_USER_ID &&
+			$this->getType() == "prtf")
+		{
+			$this->tpl->setLoginTargetPar("prtf_".$this->object->getId()."_".$current_page);
+		}
+						
 		// public profile
 		if($_REQUEST["back_url"])
 		{
@@ -589,41 +630,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 				$back = $this->ctrl->getLinkTarget($this, "view");
 			}
 		}
-		$this->tpl->setTopBar($back);
-		
-		$portfolio_id = $this->object->getId();
-		$user_id = $this->object->getOwner();
-		
-		$this->tabs_gui->clearTargets();
-			
-		$pages = ilPortfolioPage::getAllPages($portfolio_id);		
-		$current_page = (int)$_GET["user_page"];
-		
-		// validate current page
-		if($pages && $current_page)
-		{
-			$found = false;
-			foreach($pages as $page)
-			{
-				if($page["id"] == $current_page)
-				{
-					$found = true;
-					break;
-				}
-			}
-			if(!$found)
-			{
-				$current_page = null;
-			}
-		}
-
-		// display first page of portfolio if none given
-		if(!$current_page && $pages)
-		{
-			$current_page = $pages;
-			$current_page = array_shift($current_page);
-			$current_page = $current_page["id"];
-		}				
+		$this->tpl->setTopBar($back);				
 		
 		// render tabs
 		$current_blog = null;
