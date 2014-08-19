@@ -87,7 +87,11 @@ class gevWBDRegistrationGUI {
 
 	protected function setBWVId() {
 		if ($_POST["bwv_id"] == "") {
-			return $this->startRegistration();
+			if ($this->user_utils->canBeRegisteredAsTPService()) {
+				return $this->createTPServiceBWVId();
+			} else {
+				return $this->startRegistration();
+			}
 		}
 
 		$this->user_utils->setWBDBWVId($_POST["bwv_id"]);
