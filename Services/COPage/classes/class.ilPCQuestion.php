@@ -337,9 +337,9 @@ class ilPCQuestion extends ilPageContent
 			{
 				$code[] = "ilias.questions.default_feedback = false;";
 			}
+						
+			$code[] = self::getJSTextInitCode($this->getPage()->getPageConfig()->getLocalizationLanguage()).' il.COPagePres.updateQuestionOverviews();';
 		}
-
-		$code[] = self::getJSTextInitCode($this->getPage()->getPageConfig()->getLocalizationLanguage()).' il.COPagePres.updateQuestionOverviews();';
 
 		$get_stored_tries = $this->getPage()->getPageConfig()->getUseStoredQuestionTries();
 		if ($get_stored_tries)
