@@ -728,7 +728,7 @@ class ilObjContentObject extends ilObject
 		}
 		return $obj_ids;
 	}
-	
+
 	/**
 	 * Lookup disable default feedback
 	 */
@@ -743,7 +743,22 @@ class ilObjContentObject extends ilObject
 
 		return $rec["disable_def_feedback"];
 	}
-	
+
+	/**
+	 * Lookup disable default feedback
+	 */
+	static function _lookupStoreTries($a_id)
+	{
+		global $ilDB;
+
+		$q = "SELECT store_tries FROM content_object ".
+			" WHERE id = ".$ilDB->quote($a_id, "integer");
+		$res = $ilDB->query($q);
+		$rec = $ilDB->fetchAssoc($res);
+
+		return $rec["store_tries"];
+	}
+
 
 	/**
 	* gets the number of learning modules assigned to a content style

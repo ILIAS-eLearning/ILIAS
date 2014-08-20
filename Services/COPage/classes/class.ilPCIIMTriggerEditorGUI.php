@@ -295,7 +295,7 @@ class ilPCIIMTriggerEditorGUI extends ilPCImageMapEditorGUI
 		$pg_gui = new ilPageObjectGUI($this->page->getParentType(), $this->page->getId());
 		$pg_gui->setOutputMode(IL_PAGE_PREVIEW);
 		$pg_gui->getPageConfig()->setEnableSelfAssessment(true);
-		$pg_gui->initSelfAssessmentRendering(true);
+//		$pg_gui->initSelfAssessmentRendering(true);		// todo: solve in other way
 		$qhtml = $pg_gui->getQuestionHTML();
 		if (is_array($qhtml))
 		{

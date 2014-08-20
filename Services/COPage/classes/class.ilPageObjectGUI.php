@@ -392,7 +392,7 @@ class ilPageObjectGUI
 
 	function setQuestionHTML($question_html)
 	{
-		$this->question_html = $question_html;
+		$this->getPageConfig()->setQuestionHTML($question_html);
 	}
 
 	function getQuestionXML()
@@ -402,7 +402,7 @@ class ilPageObjectGUI
 
 	function getQuestionHTML()
 	{
-		return $this->question_html;
+		return $this->getPageConfig()->getQuestionHTML();
 	}
 
 	function setTemplateTargetVar($a_variable)
@@ -1126,18 +1126,22 @@ return;
 		$this->ctrl->redirect($this, "edit");
 	}
 
-	/*
-	* display content of page
-	*/
+	/**
+	 * display content of page
+	 */
 	function showPage()
 	{
 		global $tree, $ilUser, $lng, $ilCtrl, $ilSetting, $ilTabs;
 
-		$this->initSelfAssessmentRendering();
+		// jquery and jquery ui are always provided for components
+		include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
+		iljQueryUtil::initjQuery();
+		iljQueryUtil::initjQueryUI();
+
+//		$this->initSelfAssessmentRendering();
 		
 		include_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
 		ilObjMediaObjectGUI::includePresentationJS($GLOBALS["tpl"]);
-
 
 		$GLOBALS["tpl"]->addJavaScript("./Services/COPage/js/ilCOPagePres.js");
 
@@ -1166,27 +1170,10 @@ return;
 					$tpl->setCurrentBlock("change_comment");
 					$tpl->setVariable("TXT_ADD_COMMENT", $this->lng->txt("cont_add_change_comment"));
 					$tpl->parseCurrentBlock();
-//					$tpl->setCurrentBlock("adm_content");
 				}
 
-				// explorer updater
-				if ($this->exp_frame != "")
-				{
-/*					$tpl->setCurrentBlock("updater");
-					$tpl->setVariable("UPDATER_FRAME", $this->exp_frame);
-					$tpl->setVariable("EXP_ID_UPDATER", $this->exp_id);
-					$tpl->setVariable("HREF_UPDATER", $this->exp_target_script);
-					$tpl->parseCurrentBlock();*/
-				}
-
-/*				$tpl->setVariable("TXT_INSERT_BEFORE", $this->lng->txt("cont_set_before"));
-				$tpl->setVariable("TXT_INSERT_AFTER", $this->lng->txt("cont_set_after"));
-				$tpl->setVariable("TXT_INSERT_CANCEL", $this->lng->txt("cont_set_cancel"));
-				$tpl->setVariable("TXT_CONFIRM_DELETE", $this->lng->txt("cont_confirm_delete"));
-*/
 				$tpl->setVariable("WYSIWYG_ACTION",
 					$ilCtrl->getFormActionByClass("ilpageeditorgui", "", "", true));
-
 
 				// determine media, html and javascript mode
 				$sel_media_mode = ($ilUser->getPref("ilPageEditor_MediaMode") == "disable")
@@ -1260,11 +1247,6 @@ return;
 						$ilCtrl->getLinkTargetByClass(array("ilpageeditorgui", "ilinternallinkgui"),
 								"", false, true, false)));
 					$tpl->parseCurrentBlock();
-
-					// internal links per js
-					//$tpl->setVariable("IL_INT_LINK_URL",
-					//	$ilCtrl->getLinkTargetByClass(array("ilpageeditorgui", "ilinternallinkgui"),
-					//		"showLinkHelp", false, true, false));
 
 					include_once("./Services/YUI/classes/class.ilYuiUtil.php");
 					ilYuiUtil::initConnection();
@@ -1818,16 +1800,6 @@ return;
 		// remove all newlines (important for code / pre output)
 		$output = str_replace("\n", "", $output);
 
-		// add question HTML (always after the cache!)
-		$qhtml = $this->getQuestionHTML();
-		if (is_array($qhtml))
-		{
-			foreach ($qhtml as $k => $h)
-			{
-				$output = str_replace($this->pl_start."Question;il__qst_$k".$this->pl_end, " ".$h, $output);
-			}
-		}
-
 //echo htmlentities($output);
 		$output = $this->postOutputProcessing($output);
 //echo htmlentities($output);
@@ -1850,23 +1822,28 @@ return;
 			$output = $pc_obj->modifyPageContentPostXsl($output, $this->getOutputMode());
 			
 			// javascript files
-			$js_files = $pc_obj->getJavascriptFiles();
+			$js_files = $pc_obj->getJavascriptFiles($this->getOutputMode());
 			foreach ($js_files as $js)
 			{
 				$GLOBALS["tpl"]->addJavascript($js);
 			}
 
 			// css files
-			$css_files = $pc_obj->getCssFiles();
+			$css_files = $pc_obj->getCssFiles($this->getOutputMode());
 			foreach ($css_files as $css)
 			{
 				$GLOBALS["tpl"]->addCss($css);
 			}
+
+			// onload code
+			$onload_code = $pc_obj->getOnloadCode($this->getOutputMode());
+			foreach ($onload_code as $code)
+			{
+				$GLOBALS["tpl"]->addOnloadCode($code);
+			}
 		}
 		
-		$output = $this->obj->insertSourceCodeParagraphs($output, $this->getOutputMode());
-
-		$output = $this->selfAssessmentRendering($output);
+//		$output = $this->selfAssessmentRendering($output);
 
 		// output
 		if ($ilCtrl->isAsynch() && !$this->getRawPageContent() &&
@@ -3540,117 +3517,6 @@ return;
 	}
 
 	/**
-	 * Get question js
-	 */
-	function getQuestionJsOfPage($a_no_interaction = false)
-	{
-		require_once './Modules/Scorm2004/classes/class.ilQuestionExporter.php';
-		$q_ids = $this->getPageObject()->getQuestionIds();
-		$js = array();
-		if (count($q_ids) > 0)
-		{
-			foreach ($q_ids as $q_id)
-			{
-				$q_exporter = new ilQuestionExporter($a_no_interaction);
-				$js[$q_id] = $q_exporter->exportQuestion($q_id, null, $this->getOutputMode());
-			}
-		}
-		return $js;
-	}
-	
-	/**
-	 * Init question handling
-	 */
-	function initSelfAssessmentRendering($a_force_no_form = false)
-	{
-		global $tpl, $ilCtrl, $lng;
-
-		if ($this->getPageConfig()->getEnableSelfAssessment())
-		{
-			$qhtml = $this->getQuestionJsOfPage(($this->getOutputMode()=="edit" || $a_force_no_form)
-				? true
-				: false);
-//			$qhtml = $this->getQuestionJsOfPage(true);
-			$this->setQuestionHTML($qhtml);
-			//include JQuery Libraries before Prototpye
-//			$tpl->addJavaScript("./Modules/Scorm2004/scripts/questions/jquery.js");
-//			$tpl->addJavaScript("./Modules/Scorm2004/scripts/questions/jquery-ui-min.js");
-			include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
-			iljQueryUtil::initjQuery();
-			iljQueryUtil::initjQueryUI();
-			$tpl->addJavaScript("./Modules/Scorm2004/scripts/questions/pure.js");
-			$tpl->addJavaScript("./Modules/Scorm2004/scripts/questions/question_handling.js");
-			$tpl->addCss("./Modules/Scorm2004/templates/default/question_handling.css");
-			if (!$this->getPageConfig()->getEnableSelfAssessmentScorm() && $this->getOutputMode() != IL_PAGE_PREVIEW
-				&& $this->getOutputMode() != "offline")
-			{
-				$tpl->addJavaScript("./Services/COPage/js/ilCOPageQuestionHandler.js");
-				$url = $ilCtrl->getLinkTarget($this, "processAnswer", "", true, false);
-				$tpl->addOnloadCode("ilCOPageQuestionHandler.initCallback('".$url."');");
-			}
-
-			if ($this->getPageConfig()->getDisableDefaultQuestionFeedback())
-			{
-				$tpl->addOnloadCode("ilias.questions.default_feedback = false;");
-			}
-
-			$lk = $this->getPageConfig()->getLocalizationLanguage();
-			self::addPreparationJavascript($tpl, $lk);
-		}
-	}
-
-	/**
-	 * Add standard texts
-	 *
-	 * @param
-	 * @return
-	 */
-	static function addPreparationJavascript($a_tpl, $a_lang)
-	{
-		global $lng;
-		
-		$a_tpl->addOnloadCode(self::getJSTextInitCode($a_lang).
-			'il.COPagePres.updateQuestionOverviews();
-			');
-	}
-	
-	/**
-	 * Get js txt init code
-	 *
-	 * @param
-	 * @return
-	 */
-	static function getJSTextInitCode($a_lang)
-	{
-		global $lng, $ilUser;
-		
-		if ($a_lang == "")
-		{
-			$a_lang = $ilUser->getLanguage();
-		}
-		
-		return 
-			'
-			ilias.questions.txt.wrong_answers = "'.$lng->txtlng("content", "cont_wrong_answers", $a_lang).'";
-			ilias.questions.txt.wrong_answers_single = "'.$lng->txtlng("content", "cont_wrong_answers_single", $a_lang).'";
-			ilias.questions.txt.tries_remaining = "'.$lng->txtlng("content", "cont_tries_remaining", $a_lang).'";
-			ilias.questions.txt.please_try_again = "'.$lng->txtlng("content", "cont_please_try_again", $a_lang).'";
-			ilias.questions.txt.all_answers_correct = "'.$lng->txtlng("content", "cont_all_answers_correct", $a_lang).'";
-			ilias.questions.txt.nr_of_tries_exceeded = "'.$lng->txtlng("content", "cont_nr_of_tries_exceeded", $a_lang).'";
-			ilias.questions.txt.correct_answers_shown = "'.$lng->txtlng("content", "cont_correct_answers_shown", $a_lang).'";
-			ilias.questions.txt.correct_answers_also = "'.$lng->txtlng("content", "cont_correct_answers_also", $a_lang).'";
-			ilias.questions.txt.correct_answer_also = "'.$lng->txtlng("content", "cont_correct_answer_also", $a_lang).'";
-			ilias.questions.txt.ov_all_correct = "'.$lng->txtlng("content", "cont_ov_all_correct", $a_lang).'";
-			ilias.questions.txt.ov_some_correct = "'.$lng->txtlng("content", "cont_ov_some_correct", $a_lang).'";
-			ilias.questions.txt.ov_wrong_answered = "'.$lng->txtlng("content", "cont_ov_wrong_answered", $a_lang).'";
-			ilias.questions.txt.please_select = "'.$lng->txtlng("content", "cont_please_select", $a_lang).'";
-			ilias.questions.refresh_lang();
-			';
-
-	}
-	
-	
-	/**
 	 * Process answer
 	 */
 	function processAnswer()
@@ -3670,21 +3536,6 @@ return;
 			ilUtil::stripSlashes($_POST["answer"]));
 	}
 
-	/**
-	 * Self assessment question rendering
-	 *
-	 * @param
-	 * @return
-	 */
-	function selfAssessmentRendering($a_output)
-	{
-		if ($this->getPageConfig()->getEnableSelfAssessment())
-		{
-			require_once './Modules/Scorm2004/classes/class.ilQuestionExporter.php';
-			$a_output = "<script>var ScormApi=null;".ilQuestionExporter::questionsJS()."</script>".$a_output;
-		}
-		return $a_output;
-	}
 
 	//
 	// Initially opened content (e.g. used in learning modules), that

@@ -32,6 +32,8 @@ abstract class ilPageConfig
 	protected $single_page_mode = false;	// currently only used by multi-lang support
 											// single page means: only one page per parent_id
 	protected $disable_default_qfeedback = false;
+	protected $question_html = array();
+	protected $use_stored_tries = false;
 	
 	/**
 	 * Constructor
@@ -503,5 +505,36 @@ abstract class ilPageConfig
 	{
 		return $this->single_page_mode;
 	}
+
+	function setQuestionHTML($question_html)
+	{
+		$this->question_html = $question_html;
+	}
+
+	function getQuestionHTML()
+	{
+		return $this->question_html;
+	}
+	
+	/**
+	 * Set use stored answers/tries
+	 *
+	 * @param bool $a_val use stored number of tries and given (correct) answers	
+	 */
+	function setUseStoredQuestionTries($a_val)
+	{
+		$this->use_stored_tries = $a_val;
+	}
+	
+	/**
+	 * Get use stored answers/tries
+	 *
+	 * @return bool use stored number of tries and given (correct) answers
+	 */
+	function getUseStoredQuestionTries()
+	{
+		return $this->use_stored_tries;
+	}
+
 }
 ?>

@@ -28,7 +28,7 @@ class ilPageQuestionProcessor
 	 * @param
 	 * @return
 	 */
-	function saveQuestionAnswer($a_type, $a_id, $a_answer)
+	static function saveQuestionAnswer($a_type, $a_id, $a_answer)
 	{
 		global $ilUser, $ilLog, $ilDB;
 //$a_type = "assOrderingQuestion";
@@ -42,7 +42,7 @@ class ilPageQuestionProcessor
 		$tries = $answer->tries;
 		$passed = $answer->passed;
 		$choice = $answer->choice;
-		$points = ilPageQuestionProcessor::calculatePoints($a_type, $a_id, $choice);
+		$points = self::calculatePoints($a_type, $a_id, $choice);
 		$ilLog->write("Points: ".$points);
 
 		$set = $ilDB->query("SELECT * FROM page_qst_answer WHERE ".
@@ -139,7 +139,7 @@ class ilPageQuestionProcessor
 	 * @param
 	 * @return
 	 */
-	function calculatePoints($a_type, $a_id, $a_choice)
+	static function calculatePoints($a_type, $a_id, $a_choice)
 	{
 		global $ilLog;
 
@@ -290,5 +290,24 @@ class ilPageQuestionProcessor
 
 		return (int) $points;
 	}
+
+	/**
+	 * Get statistics for question
+	 *
+	 * @param	int		question id
+	 * @return	array
+	 */
+	static function getAnswerStatus($a_q_id, $a_user_id)
+	{
+		global $ilDB;
+
+		$set = $ilDB->query("SELECT * FROM page_qst_answer WHERE ".
+			" qst_id = ".$ilDB->quote($a_q_id, "integer").
+			" AND user_id = ".$ilDB->quote($a_user_id, "integer")
+		);
+
+		return $ilDB->fetchAssoc($set);
+	}
+
 }
 ?>

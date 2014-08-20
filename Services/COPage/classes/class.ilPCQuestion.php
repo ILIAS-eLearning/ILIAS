@@ -249,6 +249,169 @@ class ilPCQuestion extends ilPageContent
 		return false;
 	}
 
+	/**
+	 * Modify page content after xsl
+	 *
+	 * @param string $a_output
+	 * @return string
+	 */
+	function modifyPageContentPostXsl($a_output, $a_mode)
+	{
+		if ($this->getPage()->getPageConfig()->getEnableSelfAssessment())
+		{
+			$qhtml = $this->getQuestionJsOfPage(($a_mode == "edit") ? true : false, $a_mode);
+			require_once './Modules/Scorm2004/classes/class.ilQuestionExporter.php';
+			$a_output = "<script>var ScormApi=null;".ilQuestionExporter::questionsJS()."</script>".$a_output;
+		}
+		else
+		{
+			// set by T&A components
+			$qhtml = $this->getPage()->getPageConfig()->getQuestionHTML();
+		}
+
+		if (is_array($qhtml))
+		{
+			foreach ($qhtml as $k => $h)
+			{
+				$a_output = str_replace("{{{{{Question;il__qst_$k"."}}}}}", " ".$h, $a_output);
+			}
+		}
+
+		return $a_output;
+	}
+
+	/**
+	 * Get Javascript files
+	 */
+	function getJavascriptFiles($a_mode)
+	{
+		$js_files = array();
+
+		if ($this->getPage()->getPageConfig()->getEnableSelfAssessment())
+		{
+			$js_files[] = "./Modules/Scorm2004/scripts/questions/pure.js";
+			$js_files[] = "./Modules/Scorm2004/scripts/questions/question_handling.js";
+
+		}
+
+		if (!$this->getPage()->getPageConfig()->getEnableSelfAssessmentScorm() && $a_mode != IL_PAGE_PREVIEW
+			&& $a_mode != "offline")
+		{
+			$js_files[] = "./Services/COPage/js/ilCOPageQuestionHandler.js";
+		}
+
+		return $js_files;
+	}
+
+	/**
+	 * Get css files
+	 */
+	function getCssFiles($a_mode)
+	{
+		if ($this->getPage()->getPageConfig()->getEnableSelfAssessment())
+		{
+			return array("./Modules/Scorm2004/templates/default/question_handling.css");
+		}
+		return array();
+	}
+
+	/**
+	 * Get on load code
+	 */
+	function getOnloadCode($a_mode)
+	{
+		global $ilCtrl, $ilUser;
+
+		$code = array();
+
+		if ($this->getPage()->getPageConfig()->getEnableSelfAssessment())
+		{
+			if (!$this->getPage()->getPageConfig()->getEnableSelfAssessmentScorm() && $a_mode != IL_PAGE_PREVIEW
+				&& $a_mode != "offline")
+			{
+				$url = $ilCtrl->getLinkTargetByClass(strtolower(get_class($this->getPage()))."gui", "processAnswer", "", true, false);
+				$code[] = "ilCOPageQuestionHandler.initCallback('".$url."');";
+			}
+
+			if ($this->getPage()->getPageConfig()->getDisableDefaultQuestionFeedback())
+			{
+				$code[] = "ilias.questions.default_feedback = false;";
+			}
+		}
+
+		$code[] = self::getJSTextInitCode($this->getPage()->getPageConfig()->getLocalizationLanguage()).' il.COPagePres.updateQuestionOverviews();';
+
+		$get_stored_tries = $this->getPage()->getPageConfig()->getUseStoredQuestionTries();
+		if ($get_stored_tries)
+		{
+			$q_ids = $this->getPage()->getQuestionIds();
+			if (count($q_ids) > 0)
+			{
+				foreach ($q_ids as $q_id)
+				{
+					include_once("./Services/COPage/classes/class.ilPageQuestionProcessor.php");
+					$as = ilPageQuestionProcessor::getAnswerStatus($q_id, $ilUser->getId());
+					$code[] = "ilias.questions.initAnswer(".$q_id.", ".(int) $as["try"].", ".($as["passed"] ? "true" : "null").")";
+				}
+			}
+		}
+
+		return $code;
+	}
+
+	/**
+	 * Get js txt init code
+	 *
+	 * @param
+	 * @return
+	 */
+	static function getJSTextInitCode($a_lang)
+	{
+		global $lng, $ilUser;
+
+		if ($a_lang == "")
+		{
+			$a_lang = $ilUser->getLanguage();
+		}
+
+		return
+			'
+			ilias.questions.txt.wrong_answers = "'.$lng->txtlng("content", "cont_wrong_answers", $a_lang).'";
+			ilias.questions.txt.wrong_answers_single = "'.$lng->txtlng("content", "cont_wrong_answers_single", $a_lang).'";
+			ilias.questions.txt.tries_remaining = "'.$lng->txtlng("content", "cont_tries_remaining", $a_lang).'";
+			ilias.questions.txt.please_try_again = "'.$lng->txtlng("content", "cont_please_try_again", $a_lang).'";
+			ilias.questions.txt.all_answers_correct = "'.$lng->txtlng("content", "cont_all_answers_correct", $a_lang).'";
+			ilias.questions.txt.nr_of_tries_exceeded = "'.$lng->txtlng("content", "cont_nr_of_tries_exceeded", $a_lang).'";
+			ilias.questions.txt.correct_answers_shown = "'.$lng->txtlng("content", "cont_correct_answers_shown", $a_lang).'";
+			ilias.questions.txt.correct_answers_also = "'.$lng->txtlng("content", "cont_correct_answers_also", $a_lang).'";
+			ilias.questions.txt.correct_answer_also = "'.$lng->txtlng("content", "cont_correct_answer_also", $a_lang).'";
+			ilias.questions.txt.ov_all_correct = "'.$lng->txtlng("content", "cont_ov_all_correct", $a_lang).'";
+			ilias.questions.txt.ov_some_correct = "'.$lng->txtlng("content", "cont_ov_some_correct", $a_lang).'";
+			ilias.questions.txt.ov_wrong_answered = "'.$lng->txtlng("content", "cont_ov_wrong_answered", $a_lang).'";
+			ilias.questions.txt.please_select = "'.$lng->txtlng("content", "cont_please_select", $a_lang).'";
+			ilias.questions.refresh_lang();
+			';
+
+	}
+
+	/**
+	 * Get question js
+	 */
+	function getQuestionJsOfPage($a_no_interaction, $a_mode)
+	{
+		require_once './Modules/Scorm2004/classes/class.ilQuestionExporter.php';
+		$q_ids = $this->getPage()->getQuestionIds();
+		$js = array();
+		if (count($q_ids) > 0)
+		{
+			foreach ($q_ids as $q_id)
+			{
+				$q_exporter = new ilQuestionExporter($a_no_interaction);
+				$js[$q_id] = $q_exporter->exportQuestion($q_id, null, $a_mode);
+			}
+		}
+		return $js;
+	}
 
 }
 ?>

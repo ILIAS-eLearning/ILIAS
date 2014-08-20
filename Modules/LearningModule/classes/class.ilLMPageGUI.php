@@ -23,6 +23,9 @@ class ilLMPageGUI extends ilPageObjectGUI
 		$a_prevent_get_id = false, $a_lang = "")
 	{
 		parent::__construct("lm", $a_id, $a_old_nr, $a_prevent_get_id, $a_lang);
+
+		include_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
+		$this->getPageConfig()->setUseStoredQuestionTries(ilObjContentObject::_lookupStoreTries($this->getPageObject()->getParentId()));
 	}
 
 	/**

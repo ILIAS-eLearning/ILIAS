@@ -71,16 +71,24 @@ ilias.questions.swapper = function(a)
 	}
 };
 
+ilias.questions.initAnswer = function(a_id, tries, passed) {
+	if (!answers[a_id]) {	// to keep answers[a_id].areas intact if initialized before
+		answers[a_id] = {};
+	}
+	answers[a_id].tries = tries;
+	answers[a_id].wrong = 0;
+	answers[a_id].passed = passed;
+	answers[a_id].answer = new Array();
+	answers[a_id].interactionId=null;
+	if (tries > 0 && answers[a_id].tries >= questions[a_id].nr_of_tries) {
+		answers[a_id].passed = passed;
+		ilias.questions.showFeedback(a_id);
+	}
+};
 
 ilias.questions.checkAnswers = function(a_id) {
 	if (!answers[a_id]) {
-		answers[a_id] = new Object();
-		answers[a_id].tries = 0;
-		answers[a_id].wrong = 0;
-		answers[a_id].passed = null;
-		answers[a_id].answer = new Array();
-		answers[a_id].interactionId=null;
-		
+		ilias.questions.initAnswer(a_id, 0, null);
 	}
 	answers[a_id].tries++;
 	
@@ -264,11 +272,7 @@ ilias.questions.toggleArea = function(a_id,order) {
 
 ilias.questions.initAreas = function(a_id) {
 	if (!answers[a_id]) {
-		answers[a_id] = new Object();
-		answers[a_id].tries = 0;
-		answers[a_id].wrong = 0;
-		answers[a_id].passed = null;
-		answers[a_id].answer = new Array();
+		ilias.questions.initAnswer(a_id, 0, null);
 	}
 	if (!answers[a_id].areas) {
 		answers[a_id].areas = new Array(questions[a_id].answers.length);

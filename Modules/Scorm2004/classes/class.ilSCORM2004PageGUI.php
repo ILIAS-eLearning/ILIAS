@@ -148,9 +148,6 @@ die("ilSCORM2004PageGUI forwarding to ilpageobjectgui error.");
 	}
 	
 
-	// moved to parent
-	//function getQuestionJsOfPage($a_no_interaction = false)
-
 	/**
 	 * Init question handling
 	 *
@@ -161,7 +158,7 @@ die("ilSCORM2004PageGUI forwarding to ilpageobjectgui error.");
 	{
 		if ($this->scorm_mode == "preview")
 		{
-			parent::initSelfAssessmentRendering();
+			// parent::initSelfAssessmentRendering();		// todo: not called anymore
 		}
 	}
 	

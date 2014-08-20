@@ -429,8 +429,8 @@ die("deprecated");
 		$output = "<script>var ScormApi=null;".ilQuestionExporter::questionsJS()."</script>".$output;
 		
 		$lk = ilObjSAHSLearningModule::getAffectiveLocalization($this->node_object->getSLMId());
-		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004PageGUI.php");
-		ilSCORM2004PageGUI::addPreparationJavascript($tpl, $lk);
+//		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004PageGUI.php");
+//		ilSCORM2004PageGUI::addPreparationJavascript($tpl, $lk);
 
 		$tpl->addJavaScript("./Modules/Scorm2004/scripts/questions/question_handling.js");
 		$tpl->addCss("./Modules/Scorm2004/templates/default/question_handling.css");

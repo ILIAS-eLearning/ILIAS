@@ -112,11 +112,19 @@ abstract class ilPageContent
 	{
 		return array();
 	}
-	
+
 	/**
 	 * Get css files
 	 */
 	function getCssFiles()
+	{
+		return array();
+	}
+
+	/**
+	 * Get on load code
+	 */
+	function getOnloadCode()
 	{
 		return array();
 	}

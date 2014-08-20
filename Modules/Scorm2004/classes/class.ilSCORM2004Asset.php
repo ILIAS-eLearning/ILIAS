@@ -309,9 +309,9 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 			// init and question lang vars
 			$lk = ilObjSAHSLearningModule::getAffectiveLocalization($this->slm_id);
 			$sco_tpl->setCurrentBlock("init");
-			include_once("./Modules/Scorm2004/classes/class.ilSCORM2004PageGUI.php");
+			include_once("./Services/COPage/classes/class.ilPCQuestion.php");
 			$sco_tpl->setVariable("TXT_INIT_CODE",
-				ilSCORM2004PageGUI::getJSTextInitCode($lk));
+				ilPCQuestion::getJSTextInitCode($lk));
 			$sco_tpl->parseCurrentBlock();
 			
 			// (additional) style sheets needed

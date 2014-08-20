@@ -584,6 +584,7 @@ il.COPagePres =
 	//
 
 	qover: {},
+	ganswer_data: {},
 	
 	addQuestionOverview: function(conf) {
 		this.qover[conf.id] = conf;
@@ -677,6 +678,10 @@ il.COPagePres =
 			pager.jumpToElement("container" + qid);
 		}
 		return false;
+	},
+
+	setGivenAnswerData: function (data) {
+		ilCOPagePres.ganswer_data = data;
 	},
 
 	//
