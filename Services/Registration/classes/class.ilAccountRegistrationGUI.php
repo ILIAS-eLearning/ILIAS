@@ -377,7 +377,14 @@ class ilAccountRegistrationGUI
 		if(ilTermsOfServiceHelper::isEnabled() && !$this->form->getInput('accept_terms_of_service'))
 		{
 			$agr_obj = $this->form->getItemByPostVar('accept_terms_of_service');
-			$agr_obj->setAlert($lng->txt('force_accept_usr_agreement'));
+			if($agr_obj)
+			{
+				$agr_obj->setAlert($lng->txt('force_accept_usr_agreement'));
+			}
+			else
+			{
+				ilUtil::sendFailure($lng->txt('force_accept_usr_agreement'));
+			}
 			$form_valid = false;
 		}
 
