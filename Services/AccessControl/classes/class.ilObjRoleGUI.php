@@ -629,23 +629,8 @@ class ilObjRoleGUI extends ilObjectGUI
 	 */
 	protected function checkDuplicate($a_role_id = 0)
 	{
-		global $rbacreview;
-
-		foreach($rbacreview->getRolesOfRoleFolder($this->obj_ref_id) as $role_id)
-		{
-			if($role_id == $a_role_id)
-			{
-				continue;
-			}
-			
-			$title = trim(ilObject::_lookupTitle($role_id));
-			if(strcmp($title, trim($this->form->getInput('title'))) === 0)
-			{
-				$this->form->getItemByPostVar('title')->setAlert($this->lng->txt('rbac_role_exists_alert'));
-				return true;
-			}
-		}
-		return false;
+		// disabled due to mantis #0013742: Renaming global roles: ILIAS denies if title fits other role title partially
+		return FALSE;
 	}
 	
 	/**
@@ -705,17 +690,20 @@ class ilObjRoleGUI extends ilObjectGUI
 		}
 		
 		// Show copy role button
-		$ilToolbar->setFormAction($this->ctrl->getFormAction($this));
-		$ilToolbar->addButton(
-			$this->lng->txt("adopt_perm_from_template"),
-			$this->ctrl->getLinkTarget($this,'adoptPerm')
-		);
-		if($rbacreview->isDeleteable($this->object->getId(), $this->obj_ref_id))
+		if($this->object->getId() != SYSTEM_ROLE_ID)
 		{
+			$ilToolbar->setFormAction($this->ctrl->getFormAction($this));
 			$ilToolbar->addButton(
-				$this->lng->txt('rbac_delete_role'),
-				$this->ctrl->getLinkTarget($this,'confirmDeleteRole')
+				$this->lng->txt("adopt_perm_from_template"),
+				$this->ctrl->getLinkTarget($this,'adoptPerm')
 			);
+			if($rbacreview->isDeleteable($this->object->getId(), $this->obj_ref_id))
+			{
+				$ilToolbar->addButton(
+					$this->lng->txt('rbac_delete_role'),
+					$this->ctrl->getLinkTarget($this,'confirmDeleteRole')
+				);
+			}
 		}
 		
 		$this->tpl->addBlockFile(
@@ -810,10 +798,13 @@ class ilObjRoleGUI extends ilObjectGUI
 			$this->object->getId(),
 			$a_show_admin_permissions
 		);
-		$options->addMultiCommand(
-			$a_show_admin_permissions ? 'adminPermSave' : 'permSave',
-			$this->lng->txt('save')
-		);
+		if($this->object->getId() != SYSTEM_ROLE_ID)
+		{
+			$options->addMultiCommand(
+				$a_show_admin_permissions ? 'adminPermSave' : 'permSave',
+				$this->lng->txt('save')
+			);
+		}
 
 		$options->parse();
 		$this->tpl->setVariable('OPTIONS_TABLE',$options->getHTML());

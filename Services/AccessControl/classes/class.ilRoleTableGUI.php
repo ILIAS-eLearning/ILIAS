@@ -287,7 +287,7 @@ class ilRoleTableGUI extends ilTable2GUI
 			);
 		}
 
-		if($this->getType() == self::TYPE_VIEW)
+		if($this->getType() == self::TYPE_VIEW and $set['obj_id'] != SYSTEM_ROLE_ID)
 		{
 			// Copy role
 			$this->tpl->setVariable('COPY_TEXT',$this->lng->txt('rbac_role_rights_copy'));
