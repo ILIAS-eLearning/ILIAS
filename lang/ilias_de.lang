@@ -12875,8 +12875,8 @@ blog#:#blog_contributors#:#Blog-Autoren
 blog#:#blog_add_contributor#:#Autor hinzufügen
 blog#:#blog_search_users#:#Benutzer suchen
 common#:#il_blog_contributor#:#Blog-Autor
-rbac#:#blog_contribute#:#Benutzer darf mitwirken
-blog#:#blog_contribute_other_roles#:#Die folgenden Rollen haben eine aktive "Mitwirken"-Berechtigung: %s.
+rbac#:#blog_contribute#:#Benutzer darf Einträge hinzufügen
+blog#:#blog_contribute_other_roles#:#Neben den eingetragenen 'Blog-Autoren' können auch Benutzer mit einer der folgenden Rollen Einträge hinzufügen: %s
 dcl#:#dcl_no_content_warning#:#Achtung, die Datensammlung ist bereits online, hat aber noch keinen Inhalt!
 dcl#:#dcl_visible#:#Sichtbar für alle Benutzer
 dcl#:#dcl_empty_view#:#Seitenvorlage löschen
