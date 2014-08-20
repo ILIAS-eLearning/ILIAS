@@ -475,9 +475,8 @@ class ilObjectPermissionStatusGUI
 						break;
 					}
 
-					$rolf = $this->rbacreview->getRoleFolderOfObject($node);
 
-					if (in_array($rolf['ref_id'],$rolfs))
+					if (in_array($node,$rolfs))
 					{
 						$nodedata = $tree->getNodeData($node);
 						$result_set[$counter]["effective_from"] = $nodedata["title"];
@@ -495,7 +494,7 @@ class ilObjectPermissionStatusGUI
 			else
 			{
 				$rolf = $this->rbacreview->getFoldersAssignedToRole($role["obj_id"],true);
-				$parent_node = $tree->getParentNodeData($rolf[0]);
+				$parent_node = $tree->getNodeData($rolf[0]);
 				$result_set[$counter]["original_position"] = $parent_node["title"];
 				$result_set[$counter]["original_position_ref_id"] = $parent_node["ref_id"];
 			}
