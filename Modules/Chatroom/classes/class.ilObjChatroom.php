@@ -66,35 +66,14 @@ class ilObjChatroom extends ilObject
 	 */
 	function initDefaultRoles()
 	{
-		global $rbacadmin,$rbacreview,$ilDB;
-
-		// Create a local role folder
-		$rolf_obj = $this->createRoleFolder();
-
-		// CREATE Moderator role
-		$role_obj = $rolf_obj->createRole("il_chat_moderator_".$this->getRefId(), "Moderator of chat obj_no.".$this->getId());
-		$roles[] = $role_obj->getId();
-		
-		// SET PERMISSION TEMPLATE OF NEW LOCAL ADMIN ROLE
-		$statement = $ilDB->queryF('
-			SELECT obj_id FROM object_data 
-			WHERE type = %s 
-			AND title = %s',
-			array('text', 'text'),
-			array('rolt', 'il_chat_moderator'));
-		
-		//$res = $statement->fetchRow(DB_FETCHMODE_OBJECT);
-		$res = $ilDB->fetchAssoc($statement);
-		
-		if ($res) {
-			$rbacadmin->copyRoleTemplatePermissions($res['obj_id'],ROLE_FOLDER_ID,$rolf_obj->getRefId(),$role_obj->getId());
-
-			// SET OBJECT PERMISSIONS OF COURSE OBJECT
-			$ops = $rbacreview->getOperationsOfRole($role_obj->getId(),"chtr",$rolf_obj->getRefId());
-			$rbacadmin->grantPermission($role_obj->getId(),$ops,$this->getRefId());
-		}
-
-		return $roles ? $roles : array();
+		include_once './Services/AccessControl/classes/class.ilObjRole.php';
+		$role = ilObjRole::createDefaultRole(
+				'il_chat_moderator_'.$this->getRefId(),
+				"Moderator of chat obj_no.".$this->getId(),
+				'il_chat_moderator',
+				$this->getRefId()
+		);
+		return array();
 	}
 	
 	public function cloneObject($a_target_id,$a_copy_id = 0,$a_omit_tree = false) {

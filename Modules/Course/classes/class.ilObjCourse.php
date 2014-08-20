@@ -934,14 +934,12 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		
 		$admin = $this->getDefaultAdminRole();
 		$new_admin = $new_obj->getDefaultAdminRole();
-	 	$source_rolf = $rbacreview->getRoleFolderIdOfObject($this->getRefId());
-	 	$target_rolf = $rbacreview->getRoleFolderIdOfObject($new_obj->getRefId());
 		
-		if(!$admin || !$new_admin || !$source_rolf || !$target_rolf)
+		if(!$admin || !$new_admin || !$this->getRefId() || !$new_obj->getRefId())
 		{
 			$ilLog->write(__METHOD__.' : Error cloning auto generated role: il_crs_admin');
 		}
-		$rbacadmin->copyRolePermissions($admin,$source_rolf,$target_rolf,$new_admin,true);
+		$rbacadmin->copyRolePermissions($admin,$this->getRefId(),$new_obj->getRefId(),$new_admin,true);
 		$ilLog->write(__METHOD__.' : Finished copying of role crs_admin.');
 		
 		$tutor = $this->getDefaultTutorRole();
@@ -950,7 +948,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		{
 			$ilLog->write(__METHOD__.' : Error cloning auto generated role: il_crs_tutor');
 		}
-		$rbacadmin->copyRolePermissions($tutor,$source_rolf,$target_rolf,$new_tutor,true);
+		$rbacadmin->copyRolePermissions($tutor,$this->getRefId(),$new_obj->getRefId(),$new_tutor,true);
 		$ilLog->write(__METHOD__.' : Finished copying of role crs_tutor.');
 		
 		$member = $this->getDefaultMemberRole();
@@ -959,7 +957,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		{
 			$ilLog->write(__METHOD__.' : Error cloning auto generated role: il_crs_member');
 		}
-		$rbacadmin->copyRolePermissions($member,$source_rolf,$target_rolf,$new_member,true);
+		$rbacadmin->copyRolePermissions($member,$this->getRefId(),$new_obj->getRefId(),$new_member,true);
 		$ilLog->write(__METHOD__.' : Finished copying of role crs_member.');
 		
 		return true;
@@ -1474,73 +1472,31 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	{
 		global $rbacadmin,$rbacreview,$ilDB;
 
-		$rolf_obj = $this->createRoleFolder();
-
-		// CREATE ADMIN ROLE
-		$role_obj = $rolf_obj->createRole("il_crs_admin_".$this->getRefId(),"Admin of course obj_no.".$this->getId());
-		$admin_id = $role_obj->getId();
+		include_once './Services/AccessControl/classes/class.ilObjRole.php';
+		$role = ilObjRole::createDefaultRole(
+				'il_crs_admin_'.$this->getRefId(),
+				"Admin of crs obj_no.".$this->getId(),
+				'il_crs_admin',
+				$this->getRefId()
+		);
+		$role = ilObjRole::createDefaultRole(
+				'il_crs_tutor_'.$this->getRefId(),
+				"Tutor of crs obj_no.".$this->getId(),
+				'il_crs_tutor',
+				$this->getRefId()
+		);
+		$role = ilObjRole::createDefaultRole(
+				'il_crs_member_'.$this->getRefId(),
+				"Member of crs obj_no.".$this->getId(),
+				'il_crs_member',
+				$this->getRefId()
+		);
 		
-		// SET PERMISSION TEMPLATE OF NEW LOCAL ADMIN ROLE
-		$query = "SELECT obj_id FROM object_data ".
-			" WHERE type='rolt' AND title='il_crs_admin'";
-
-		$res = $this->ilias->db->getRow($query, DB_FETCHMODE_OBJECT);
-		$rbacadmin->copyRoleTemplatePermissions($res->obj_id,ROLE_FOLDER_ID,$rolf_obj->getRefId(),$role_obj->getId());
-
-		// SET OBJECT PERMISSIONS OF COURSE OBJECT
-		$ops = $rbacreview->getOperationsOfRole($role_obj->getId(),"crs",$rolf_obj->getRefId());
-		$rbacadmin->grantPermission($role_obj->getId(),$ops,$this->getRefId());
-
-		// SET OBJECT PERMISSIONS OF ROLE FOLDER OBJECT
-		//$ops = $rbacreview->getOperationsOfRole($role_obj->getId(),"rolf",$rolf_obj->getRefId());
-		//$rbacadmin->grantPermission($role_obj->getId(),$ops,$rolf_obj->getRefId());
-
-		// CREATE TUTOR ROLE
-		// CREATE ROLE AND ASSIGN ROLE TO ROLEFOLDER...
-		$role_obj = $rolf_obj->createRole("il_crs_tutor_".$this->getRefId(),"Tutors of course obj_no.".$this->getId());
-		$member_id = $role_obj->getId();
-
-		// SET PERMISSION TEMPLATE OF NEW LOCAL ROLE
-		$query = "SELECT obj_id FROM object_data ".
-			" WHERE type='rolt' AND title='il_crs_tutor'";
-		$res = $this->ilias->db->getRow($query, DB_FETCHMODE_OBJECT);
-		$rbacadmin->copyRoleTemplatePermissions($res->obj_id,ROLE_FOLDER_ID,$rolf_obj->getRefId(),$role_obj->getId());
-
-		// SET OBJECT PERMISSIONS OF COURSE OBJECT
-		$ops = $rbacreview->getOperationsOfRole($role_obj->getId(),"crs",$rolf_obj->getRefId());
-		$rbacadmin->grantPermission($role_obj->getId(),$ops,$this->getRefId());
-
-		// SET OBJECT PERMISSIONS OF ROLE FOLDER OBJECT
-		//$ops = $rbacreview->getOperationsOfRole($role_obj->getId(),"rolf",$rolf_obj->getRefId());
-		//$rbacadmin->grantPermission($role_obj->getId(),$ops,$rolf_obj->getRefId());
-
-		// CREATE MEMBER ROLE
-		// CREATE ROLE AND ASSIGN ROLE TO ROLEFOLDER...
-		$role_obj = $rolf_obj->createRole("il_crs_member_".$this->getRefId(),"Member of course obj_no.".$this->getId());
-		$member_id = $role_obj->getId();
-
-		// SET PERMISSION TEMPLATE OF NEW LOCAL ROLE
-		$query = "SELECT obj_id FROM object_data ".
-			" WHERE type='rolt' AND title='il_crs_member'";
-		$res = $this->ilias->db->getRow($query, DB_FETCHMODE_OBJECT);
-		$rbacadmin->copyRoleTemplatePermissions($res->obj_id,ROLE_FOLDER_ID,$rolf_obj->getRefId(),$role_obj->getId());
-		
-		// SET OBJECT PERMISSIONS OF COURSE OBJECT
-		$ops = $rbacreview->getOperationsOfRole($role_obj->getId(),"crs",$rolf_obj->getRefId());
-		$rbacadmin->grantPermission($role_obj->getId(),$ops,$this->getRefId());
-
-		// SET OBJECT PERMISSIONS OF ROLE FOLDER OBJECT
-		//$ops = $rbacreview->getOperationsOfRole($role_obj->getId(),"rolf",$rolf_obj->getRefId());
-		//$rbacadmin->grantPermission($role_obj->getId(),$ops,$rolf_obj->getRefId());
-
-		unset($role_obj);
-		unset($rolf_obj);
-
 		// Break inheritance, create local roles and initialize permission
 		// settings depending on course status.
 		$this->__setCourseStatus();
 
-		return true;
+		return array();
 	}
 
 	/**
@@ -1563,8 +1519,6 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	{
 		global $rbacadmin, $rbacreview, $rbacsystem;
 
-		//get Rolefolder of course
-		$rolf_data = $rbacreview->getRoleFolderOfObject($this->getRefId());
 
 		//define all relevant roles for which rights are needed to be changed
 		$arr_parentRoles = $rbacreview->getParentRoleIds($this->getRefId());
@@ -1576,7 +1530,9 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		if (is_null($template_id))
 		{
 			$template_ops = array();
-		} else {
+		} 
+		else 
+		{
 			$template_ops = $rbacreview->getOperationsOfRole($template_id, 'crs', ROLE_FOLDER_ID);
 		}
 
@@ -1591,7 +1547,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 
 			// Delete the linked role for the parent role
 			// (just in case if it already exists).
-			$rbacadmin->deleteLocalRole($parentRole,$rolf_data["child"]);
+			$rbacadmin->deleteLocalRole($parentRole,$this->getRefId());
 
 			// Grant permissions on the course object for 
 			// the parent role. In the foreach loop we
@@ -1621,10 +1577,10 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 				$rbacadmin->copyRolePermissionIntersection(
 					$template_id, ROLE_FOLDER_ID, 
 					$parentRole, $arr_parentRoles[$parentRole]['parent'], 
-					$rolf_data["child"], $parentRole
+					$this->getRefId(), $parentRole
 				);
 			}
-			$rbacadmin->assignRoleToFolder($parentRole,$rolf_data["child"],"false");
+			$rbacadmin->assignRoleToFolder($parentRole,$this->getRefId(),"false");
 		}//END foreach
 	}
 
@@ -1658,12 +1614,11 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		if (empty($this->local_roles))
 		{
 			$this->local_roles = array();
-			$rolf  = $rbacreview->getRoleFolderOfObject($this->getRefId());
-			$role_arr  = $rbacreview->getRolesOfRoleFolder($rolf["ref_id"]);
+			$role_arr  = $rbacreview->getRolesOfRoleFolder($this->getRefId());
 
 			foreach ($role_arr as $role_id)
 			{
-				if ($rbacreview->isAssignable($role_id,$rolf["ref_id"]) == true)
+				if ($rbacreview->isAssignable($role_id,$this->getRefId()) == true)
 				{
 					$role_Obj = $this->ilias->obj_factory->getInstanceByObjId($role_id);
 
@@ -1707,8 +1662,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 			$crs_id = $this->getRefId();
 		}
 
-		$rolf 	   = $rbacreview->getRoleFolderOfObject($crs_id);
-		$role_arr  = $rbacreview->getRolesOfRoleFolder($rolf["ref_id"]);
+		$role_arr  = $rbacreview->getRolesOfRoleFolder($crs_id);
 
 		foreach ($role_arr as $role_id)
 		{
@@ -1743,9 +1697,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 
 		// GET role_objects of predefined roles
 		
-		$rolf = $rbacreview->getRoleFolderOfObject($this->getRefId());
-
-		return $rbacreview->getRolesOfRoleFolder($rolf["ref_id"],false);
+		return $rbacreview->getRolesOfRoleFolder($this->getRefId(),false);
 	}
 
 	function __deleteSettings()

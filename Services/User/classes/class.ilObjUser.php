@@ -2742,8 +2742,7 @@ class ilObjUser extends ilObject
 					$ref_id = $_SESSION["user_filter_data"];
 					if ($ref_id)
 					{
-						$rolf = $rbacreview->getRoleFolderOfObject($ref_id);
-						$local_roles = $rbacreview->getRolesOfRoleFolder($rolf["ref_id"],false);
+						$local_roles = $rbacreview->getRolesOfRoleFolder($ref_id,false);
 						if (is_array($local_roles) && count($local_roles))
 						{
 							$join_filter = " LEFT JOIN rbac_ua ON usr_data.usr_id = rbac_ua.usr_id WHERE ".
@@ -2962,8 +2961,7 @@ class ilObjUser extends ilObject
 					$ref_id = $_SESSION["user_filter_data"];
 					if ($ref_id)
 					{
-						$rolf = $rbacreview->getRoleFolderOfObject($ref_id);
-						$local_roles = $rbacreview->getRolesOfRoleFolder($rolf["ref_id"],false);
+						$local_roles = $rbacreview->getRolesOfRoleFolder($ref_id,false);
 						if (is_array($local_roles) && count($local_roles))
 					{
 							$q.= " LEFT JOIN rbac_ua ON usr_data.usr_id = rbac_ua.usr_id WHERE ".

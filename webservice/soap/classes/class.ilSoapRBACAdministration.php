@@ -286,16 +286,11 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 		}
 
 
-		$role_folder = $rbacreview->getRoleFolderOfObject($ref_id);
-
-		if(count($role_folder))
+		foreach($rbacreview->getRolesOfRoleFolder($ref_id,false) as $role_id)
 		{
-			foreach($rbacreview->getRolesOfRoleFolder($role_folder['ref_id'],false) as $role_id)
+			if($tmp_obj = ilObjectFactory::getInstanceByObjId($role_id,false))
 			{
-				if($tmp_obj = ilObjectFactory::getInstanceByObjId($role_id,false))
-				{
-					$objs[] = $tmp_obj;
-				}
+				$objs[] = $tmp_obj;
 			}
 		}
 		if(count($objs))
@@ -393,34 +388,16 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 				return $this->__raiseError('Rolenames are not allowed to start with "il_" ',
 										   'Client');
 			}
-
-			$rolf_data = $rbacreview->getRoleFolderOfObject($target_id);
-			if (!$rolf_id = $rolf_data["child"])
-			{
-				// can the current object contain a rolefolder?
-				$subobjects = $objDefinition->getSubObjects($tmp_obj->getType());
-				if(!isset($subobjects["rolf"]))
-				{
-					return $this->__raiseError('Cannot create role at this position',
-											   'Client');
-				}
-
-				// CHECK ACCESS 'create' rolefolder
-				if (!$rbacsystem->checkAccess('create',$target_id,'rolf'))
-				{
-					return $this->__raiseError('No permission to create role folders',
-											   'Client');
-				}
-
-				// create a rolefolder
-				$rolf_obj = $tmp_obj->createRoleFolder();
-				$rolf_id = $rolf_obj->getRefId();
-			}
-			$rolf_obj =& ilObjectFactory::getInstanceByRefId($rolf_id);
-			$role_obj = $rolf_obj->createRole($object_data['title'],$object_data['description'],
-			$object_data['import_id']);
-			//echo "-".$object_data['import_id']."-";
-			$new_roles[] = $role_obj->getId();
+			
+			include_once './Services/AccessControl/classes/class.ilObjRole.php';
+			$role = new ilObjRole();
+			$role->setTitle($object_data['title']);
+			$role->setDescription($object_data['description']);
+			$role->setImportId($object_data['import_id']);
+			$role->create();
+			
+			$GLOBALS['rbacadmin']->assignRoleToFolder($role->getId(),$target_id);
+			$new_roles[] = $role->getId();
 		}
 
 		return $new_roles ? $new_roles : array();
@@ -476,43 +453,22 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 										   'Client');
 			}
 
-			$rolf_data = $rbacreview->getRoleFolderOfObject($target_id);
-			if (!$rolf_id = $rolf_data["child"])
-			{
-				// can the current object contain a rolefolder?
-				$subobjects = $objDefinition->getSubObjects($tmp_obj->getType());
-				if(!isset($subobjects["rolf"]))
-				{
-					return $this->__raiseError('Cannot create role at this position',
-											   'Client');
-				}
-
-				// CHECK ACCESS 'create' rolefolder
-				if (!$rbacsystem->checkAccess('create',$target_id,'rolf'))
-				{
-					return $this->__raiseError('No permission to create role folders',
-											   'Client');
-				}
-
-				// create a rolefolder
-				$rolf_obj = $tmp_obj->createRoleFolder();
-				$rolf_id = $rolf_obj->getRefId();
-			}
-			$rolf_obj =& ilObjectFactory::getInstanceByRefId($rolf_id);
-			$role_obj = $rolf_obj->createRole($object_data['title'],$object_data['description'],$object_data['import_id']);
-
+			include_once './Services/AccessControl/classes/class.ilObjRole.php';
+			$role = new ilObjRole();
+			$role->setTitle($object_data['title']);
+			$role->setDescription($object_data['description']);
+			$role->setImportId($object_data['import_id']);
+			$role->create();
+			
+			$GLOBALS['rbacadmin']->assignRoleToFolder($role->getId(),$target_id);
+			
 			// Copy permssions
-			$rbacadmin->copyRoleTemplatePermissions($template_id,ROLE_FOLDER_ID,$rolf_obj->getRefId(),$role_obj->getId());
+			$rbacadmin->copyRoleTemplatePermissions($template_id,ROLE_FOLDER_ID,$target_id,$role->getId());
 
 			// Set object permissions according to role template
-			$ops = $rbacreview->getOperationsOfRole($role_obj->getId(),$tmp_obj->getType(),$rolf_obj->getRefId());
-			$rbacadmin->grantPermission($role_obj->getId(),$ops,$target_id);
-
-			// SET permissisons of role folder according to role template
-			$ops = $rbacreview->getOperationsOfRole($role_obj->getId(),"rolf",$rolf_obj->getRefId());
-			$rbacadmin->grantPermission($role_obj->getId(),$ops,$rolf_obj->getRefId());
-
-			$new_roles[] = $role_obj->getId();
+			$ops = $rbacreview->getOperationsOfRole($role->getId(),$tmp_obj->getType(),$target_id);
+			$rbacadmin->grantPermission($role->getId(),$ops,$target_id);
+			$new_roles[] = $role->getId();
 		}
 
 
@@ -699,16 +655,11 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 
 			$role_type = "local";
 
-			$role_folder = $rbacreview->getRoleFolderOfObject($id);
-
-			if(count($role_folder))
+			foreach($rbacreview->getRolesOfRoleFolder($id,false) as $role_id)
 			{
-				foreach($rbacreview->getRolesOfRoleFolder($role_folder['ref_id'],false) as $role_id)
+				if($tmp_obj = ilObjectFactory::getInstanceByObjId($role_id,false))
 				{
-					if($tmp_obj = ilObjectFactory::getInstanceByObjId($role_id,false))
-					{
-						$roles[] = array ("obj_id" => $role_id, "title" => $tmp_obj->getTitle(), "description" => $tmp_obj->getDescription(), "role_type" => $role_type);
-					}
+					$roles[] = array ("obj_id" => $role_id, "title" => $tmp_obj->getTitle(), "description" => $tmp_obj->getDescription(), "role_type" => $role_type);
 				}
 			}
 		}

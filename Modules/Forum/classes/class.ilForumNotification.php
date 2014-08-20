@@ -362,8 +362,7 @@ class ilForumNotification
 	{
 		global $rbacreview;
 
-		$rolf 	   = $rbacreview->getRoleFolderOfObject($a_ref_id);
-		$role_arr  = $rbacreview->getRolesOfRoleFolder($rolf["ref_id"]);
+		$role_arr  = $rbacreview->getRolesOfRoleFolder($a_ref_id);
 
 		foreach ($role_arr as $role_id)
 		{

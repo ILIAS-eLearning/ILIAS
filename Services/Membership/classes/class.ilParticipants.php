@@ -198,16 +198,7 @@ abstract class ilParticipants
 	{
 		global $rbacreview,$ilObjDataCache,$ilDB,$ilLog;
 
-		$rolf = $rbacreview->getRoleFolderOfObject($a_ref_id);
-		if(!isset($rolf['ref_id']) or !$rolf['ref_id'])
-		{
-			$title = $ilObjDataCache->lookupTitle($ilObjDataCache->lookupObjId($a_ref_id));
-			$ilLog->write(__METHOD__.': Found object without role folder. Ref_id: '.$a_ref_id.', title: '.$title);
-			$ilLog->logStack();
-			
-			return false;
-		}
-		$local_roles = $rbacreview->getRolesOfRoleFolder($rolf["ref_id"],false);
+		$local_roles = $rbacreview->getRolesOfRoleFolder($a_ref_id,false);
         
         return $rbacreview->isAssignedToAtLeastOneGivenRole($a_usr_id, $local_roles);
 	}
@@ -223,8 +214,7 @@ abstract class ilParticipants
 	{
 		global $rbacreview;
 
-		$rolf = $rbacreview->getRoleFolderOfObject($a_ref_id);
-		$lroles = $rbacreview->getRolesOfRoleFolder($rolf['ref_id'],false);
+		$lroles = $rbacreview->getRolesOfRoleFolder($a_ref_id,false);
 		return $rbacreview->getNumberOfAssignedUsers($lroles);
 	}
 
@@ -239,13 +229,13 @@ abstract class ilParticipants
 	{
 		global $rbacreview, $ilObjDataCache;
 
-		$rolf = $rbacreview->getRoleFolderIdOfObject($a_ref_id);
+		$has_policies = $rbacreview->getLocalPolicies($a_ref_id);
 
-		if(!$rolf)
+		if(!$has_policies)
 		{
 			return 0;
 		}
-		$lroles = $rbacreview->getRolesOfRoleFolder($rolf,false);
+		$lroles = $rbacreview->getRolesOfRoleFolder($a_ref_id,false);
 
 		$memberRoles = array();
 		foreach($lroles as $role_id)
@@ -374,8 +364,7 @@ abstract class ilParticipants
 		global $rbacreview;
 		
 
-		$rolf = $rbacreview->getRoleFolderIdOfObject($a_ref_id);
-		$roles = $rbacreview->getRolesOfRoleFolder($rolf,false);
+		$roles = $rbacreview->getRolesOfRoleFolder($a_ref_id,false);
 		
 		foreach($roles as $role)
 		{
@@ -953,17 +942,7 @@ abstract class ilParticipants
 	{
 		global $rbacreview,$ilObjDataCache,$ilLog;
 
-		$rolf = $rbacreview->getRoleFolderOfObject($this->ref_id);
-		
-		if(!isset($rolf['ref_id']) or !$rolf['ref_id'])
-		{
-			$title = $ilObjDataCache->lookupTitle($ilObjDataCache->lookupObjId($this->ref_id));
-			$ilLog->write(__METHOD__.': Found object without role folder. Ref_id: '.$this->ref_id.', title: '.$title);
-			$ilLog->logStack();
-			return false;
-		}
-		
-		$this->roles = $rbacreview->getRolesOfRoleFolder($rolf['ref_id'],false);
+		$this->roles = $rbacreview->getRolesOfRoleFolder($this->ref_id,false);
 
 		$users = array();
 		$this->participants = array();

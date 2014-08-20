@@ -60,21 +60,15 @@ class ilDidacticTemplateLocalRoleAction extends ilDidacticTemplateAction
 		$source = $this->initSourceObject();
 
 		// Check if role folder already exists
-		$rolf_id = $rbacreview->getRoleFolderIdOfObject($source->getRefId());
-		if(!$rolf_id)
-		{
-			$source->createRoleFolder();
-		}
-		$rolf_id = $rbacreview->getRoleFolderIdOfObject($source->getRefId());
-
-		$GLOBALS['ilLog']->write(__METHOD__.': Current role folder id is: '.$rolf_id);
 
 		// Create role
-		$rolf = ilObjectFactory::getInstanceByRefId($rolf_id,false);
-		$role = $rolf->createRole(
-			ilObject::_lookupTitle($this->getRoleTemplateId()),
-			ilObject::_lookupDescription($this->getRoleTemplateId())
-		);
+		
+		include_once './Services/AccessControl/classes/class.ilObjRole.php';
+		$role = new ilObjRole();
+		$role->setTitle(ilObject::_lookupTitle($this->getRoleTemplateId()));
+		$role->setDescription(ilObject::_lookupDescription($this->getRoleTemplateId()));
+		$role->create();
+		$rbacadmin->assignRoleToFolder($role->getId(),$source->getRefId(),"y");
 
 		$GLOBALS['ilLog']->write(__METHOD__.': Using rolt: '.$this->getRoleTemplateId().' with title "'.ilObject::_lookupTitle($this->getRoleTemplateId().'". '));
 
@@ -82,13 +76,13 @@ class ilDidacticTemplateLocalRoleAction extends ilDidacticTemplateAction
 		$rbacadmin->copyRoleTemplatePermissions(
 			$this->getRoleTemplateId(),
 			ROLE_FOLDER_ID,
-			$rolf->getRefId(),
+			$source->getRefId(),
 			$role->getId(),
 			true
 		);
 
 		// Set permissions
-		$ops = $rbacreview->getOperationsOfRole($role->getId(),$source->getType(),$rolf->getRefId());
+		$ops = $rbacreview->getOperationsOfRole($role->getId(),$source->getType(),$source->getRefId());
 		$rbacadmin->grantPermission($role->getId(),$ops,$source->getRefId());
 
 		return true;

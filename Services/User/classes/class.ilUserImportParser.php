@@ -772,8 +772,8 @@ class ilUserImportParser extends ilSaxParser
 		{
 			require_once("Modules/Course/classes/class.ilObjCourse.php");
 			require_once("Modules/Course/classes/class.ilCourseParticipants.php");
-			$rolf_refs = $rbacreview->getFoldersAssignedToRole($a_role_id, true);
-			$course_ref = $tree->getParentId($rolf_refs[0]);
+			$course_refs = $rbacreview->getFoldersAssignedToRole($a_role_id, true);
+			$course_ref = $course_refs[0];
 			$course_obj = new ilObjCourse($course_ref, true);
 			$crsmembers_obj = ilCourseParticipants::_getInstanceByObjId($course_obj->getId());
 			$this->localRoleCache[$a_role_id.'_courseMembersObject'] = $crsmembers_obj;
@@ -839,7 +839,7 @@ class ilUserImportParser extends ilSaxParser
 			$short_role_title = substr($role_obj->getTitle(),0,12);
 			$folders = $rbacreview->getFoldersAssignedToRole($a_role_id, true);
 			if (count($folders) > 0)
-				{
+			{
 				$all_parent_role_ids = $rbacreview->getParentRoleIds($folders[0]);
 				foreach ($all_parent_role_ids as $parent_role_id => $parent_role_data)
 				{

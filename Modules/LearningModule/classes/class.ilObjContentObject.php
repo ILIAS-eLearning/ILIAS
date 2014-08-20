@@ -68,41 +68,6 @@ class ilObjContentObject extends ilObject
 		$this->updateAutoGlossaries();
 	}
 
-	/**
-	* init default roles settings
-	* OBSOLETE. DON'T USE, READ TEXT BELOW
-	* @access	public
-	* @return	array	object IDs of created local roles.
-	*/
-	function initDefaultRoles()
-	{
-		return array();
-
-		global $rbacadmin, $rbacreview;
-
-		// create a local role folder
-		$rfoldObj = $this->createRoleFolder("Local roles","Role Folder of content object ".$this->getId());
-
-		// note: we don't need any roles here, local "author" roles must
-		// be created manually. subscription roles have been abandoned.
-		/*
-		// create author role and assign role to rolefolder...
-		$roleObj = $rfoldObj->createRole("author object ".$this->getRefId(),"author of content object ref id ".$this->getRefId());
-		$roles[] = $roleObj->getId();
-
-		// copy permissions from author template to new role
-		$rbacadmin->copyRolePermissions($this->getAuthorRoleTemplateId(), 8, $rfoldObj->getRefId(), $roleObj->getId());
-
-		// grant all allowed operations of role to current learning module
-		$rbacadmin->grantPermission($roleObj->getId(),
-			$rbacreview->getOperationsOfRole($roleObj->getId(), "lm", $rfoldObj->getRefId()),
-			$this->getRefId());*/
-
-		unset($rfoldObj);
-		//unset($roleObj);
-
-		return $roles ? $roles : array();
-	}
 
 
 	/**

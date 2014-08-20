@@ -204,7 +204,6 @@ class ilObjectTest extends PHPUnit_Framework_TestCase
 		$obj = new ilObject($ref_id);
 		
 		$obj->putInTree(ROOT_FOLDER_ID);
-		$obj->createRoleFolder();
 		$obj->setPermissions(ROOT_FOLDER_ID);
 		if ($tree->isInTree($ref_id))
 		{

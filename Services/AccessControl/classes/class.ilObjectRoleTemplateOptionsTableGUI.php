@@ -16,7 +16,7 @@ include_once './Services/AccessControl/classes/class.ilPermissionGUI.php';
 class ilObjectRoleTemplateOptionsTableGUI extends ilTable2GUI
 {
 	private $role_id = null;
-	private $rolf_id = null;
+	private $obj_ref_id = null;
 
 	private $show_admin_permissions = true;
 
@@ -24,7 +24,7 @@ class ilObjectRoleTemplateOptionsTableGUI extends ilTable2GUI
 	 * Constructor
 	 * @return 
 	 */
-	public function __construct($a_parent_obj,$a_parent_cmd, $a_rolf_id,$a_role_id,$a_show_admin_permissions = false)
+	public function __construct($a_parent_obj,$a_parent_cmd, $a_obj_ref_id,$a_role_id,$a_show_admin_permissions = false)
 	{
 		global $ilCtrl,$rbacreview,$tpl;
 
@@ -38,7 +38,7 @@ class ilObjectRoleTemplateOptionsTableGUI extends ilTable2GUI
 		$this->lng->loadLanguageModule('rbac');
 		
 		$this->role_id = $a_role_id;
-		$this->rolf_id = $a_rolf_id;
+		$this->obj_ref_id = $a_obj_ref_id;
 		
 
 		$this->setRowTemplate("tpl.obj_role_template_options_row.html", "Services/AccessControl");
@@ -62,9 +62,9 @@ class ilObjectRoleTemplateOptionsTableGUI extends ilTable2GUI
 	 * Get role folder of current object
 	 * @return 
 	 */
-	public function getRoleFolderId()
+	public function getObjectRefId()
 	{
-		return $this->rolf_id;
+		return $this->obj_ref_id;
 	}
 	
 	/**
@@ -96,12 +96,12 @@ class ilObjectRoleTemplateOptionsTableGUI extends ilTable2GUI
 		{
 			$this->tpl->setCurrentBlock('protected');
 			
-			if(!$rbacreview->isAssignable($this->getRoleId(), $this->getRoleFolderId()))
+			if(!$rbacreview->isAssignable($this->getRoleId(), $this->getObjectRefId()))
 			{
 				$this->tpl->setVariable('DISABLED_PROTECTED','disabled="disabled"');
 			}
 
-			if($rbacreview->isProtected($this->getRoleFolderId(), $this->getRoleId()))
+			if($rbacreview->isProtected($this->getObjectRefId(), $this->getRoleId()))
 			{
 				$this->tpl->setVariable('PROTECTED_CHECKED','checked="checked"');
 			}

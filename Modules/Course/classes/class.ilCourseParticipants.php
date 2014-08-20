@@ -91,8 +91,7 @@ class ilCourseParticipants extends ilParticipants
 	{
 		global $rbacreview;
 
-		$rolf = $rbacreview->getRoleFolderOfObject($a_ref_id);
-		$lrol = $rbacreview->getRolesOfRoleFolder($rolf['ref_id'],false);
+		$lrol = $rbacreview->getRolesOfRoleFolder($a_ref_id,false);
 
 		$roles = array();
 		foreach($lrol as $role)

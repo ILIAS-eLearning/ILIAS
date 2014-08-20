@@ -253,14 +253,8 @@ class ilPermissionGUI extends ilPermission2GUI
 				
 			// only roles which use a local policy
 			case ilObjectRolePermissionTableGUI::ROLE_FILTER_LOCAL_POLICY: 
-				$role_folder = $rbacreview->getRoleFolderOfObject($this->gui_obj->object->getRefId());
-		
-				if (!$role_folder)
-				{
-					return array();
-				}
 				
-				$arr_local_roles = $rbacreview->getRolesOfRoleFolder($role_folder["ref_id"]);
+				$arr_local_roles = $GLOBALS['rbacreview']->getRolesOfObject($this->getCurrentObject()->getRefId());
 				$arr_remove_roles = array_diff(array_keys($a_roles),$arr_local_roles);
 
 				foreach ($arr_remove_roles as $role_id)
@@ -273,14 +267,7 @@ class ilPermissionGUI extends ilPermission2GUI
 			// only true local role defined at current position
 			case ilObjectRolePermissionTableGUI::ROLE_FILTER_LOCAL_OBJECT:
 				
-				$role_folder = $rbacreview->getRoleFolderOfObject($this->gui_obj->object->getRefId());
-		
-				if (!$role_folder)
-				{
-					return array();
-				}
-				
-				$arr_local_roles = $rbacreview->getRolesOfRoleFolder($role_folder["ref_id"],false);
+				$arr_local_roles = $GLOBALS['rbacreview']->getRolesOfObject($this->getCurrentObject()->getRefId(),TRUE);
 				$arr_remove_roles = array_diff(array_keys($a_roles),$arr_local_roles);
 
 				foreach ($arr_remove_roles as $role_id)
@@ -366,19 +353,12 @@ class ilPermissionGUI extends ilPermission2GUI
 			);
 		}
 		
-		// Handle local policies.
-		$rolf_id = $this->initRoleFolder(count((array) $_POST['inherit']) ? true : false);
-		$relevant_roles = array_intersect(
-			$rbacreview->getRolesOfRoleFolder($rolf_id),
-			array_keys($roles)
-		);
-		
 		if(ilPermissionGUI::hasContainerCommands($this->getCurrentObject()->getType()))
 		{
 			foreach($roles as $role)
 			{
 				// No action for local roles
-				if($role['parent'] == $rolf_id and $role['assign'] == 'y')
+				if($role['parent'] == $this->getCurrentObject()->getRefId() and $role['assign'] == 'y')
 				{
 					continue;
 				}
@@ -388,23 +368,23 @@ class ilPermissionGUI extends ilPermission2GUI
 					continue;
 				}
 				// Stop local policy
-				if($role['parent'] == $rolf_id and !isset($_POST['inherit'][$role['obj_id']]))
+				if($role['parent'] == $this->getCurrentObject()->getRefId() and !isset($_POST['inherit'][$role['obj_id']]))
 				{
 					$role_obj = ilObjectFactory::getInstanceByObjId($role['obj_id']);
-					$role_obj->setParent($rolf_id);
+					$role_obj->setParent($this->getCurrentObject()->getRefId());
 					$role_obj->delete();
 					continue;
 				}
 				// Add local policy
-				if($role['parent'] != $rolf_id and isset($_POST['inherit'][$role['obj_id']]))
+				if($role['parent'] != $this->getCurrentObject()->getRefId() and isset($_POST['inherit'][$role['obj_id']]))
 				{
 					$rbacadmin->copyRoleTemplatePermissions(
 						$role['obj_id'], 
 						$role['parent'],
-						$rolf_id, 
+						$this->getCurrentObject()->getRefId(),
 						$role['obj_id']
 					);
-					$rbacadmin->assignRoleToFolder($role['obj_id'],$rolf_id,'n');
+					$rbacadmin->assignRoleToFolder($role['obj_id'],$this->getCurrentObject()->getRefId(),'n');
 				}
 			}
 		}
@@ -414,17 +394,17 @@ class ilPermissionGUI extends ilPermission2GUI
 		{
 			foreach($roles as $role)
 			{
-				if($rbacreview->isAssignable($role['obj_id'], $rolf_id))
+				if($rbacreview->isAssignable($role['obj_id'], $this->getCurrentObject()->getRefId()))
 				{
 					if(isset($_POST['protect'][$role['obj_id']]) and 
-						!$rbacreview->isProtected($rolf_id, $role['obj_id']))
+						!$rbacreview->isProtected($this->getCurrentObject()->getRefId(), $role['obj_id']))
 					{
-						$rbacadmin->setProtected($rolf_id, $role['obj_id'], 'y');
+						$rbacadmin->setProtected($this->getCurrentObject()->getRefId(), $role['obj_id'], 'y');
 					}
 					elseif(!isset($_POST['protect'][$role['obj_id']]) and 
-						$rbacreview->isProtected($rolf_id, $role['obj_id']))
+						$rbacreview->isProtected($this->getCurrentObject()->getRefId(), $role['obj_id']))
 					{
-						$rbacadmin->setProtected($rolf_id, $role['obj_id'], 'n');
+						$rbacadmin->setProtected($this->getCurrentObject()->getRefId(), $role['obj_id'], 'n');
 					}
 				}
 			}
@@ -476,21 +456,17 @@ class ilPermissionGUI extends ilPermission2GUI
 	
 	/**
 	 * Block role
-	 * @return 
+	 * @return void
 	 */
 	protected function blockRoles()
 	{
 		global $rbacadmin,$rbacreview;
 		
-		$rolf = $rbacreview->getRoleFolderIdOfObject($this->getCurrentObject()->getRefId());
-		
-		$p_roles = $rbacreview->getParentRoleIds($this->getCurrentObject()->getRefId());
-		
 		$roles = $_POST['roles'];
 		foreach($roles as $role)
 		{
 			// Set assign to 'y' only if it is a local role
-			$assign = $rbacreview->isAssignable($role, $rolf) ? 'y' : 'n';
+			$assign = $rbacreview->isAssignable($role, $this->getCurrentObject()->getRefId()) ? 'y' : 'n';
 
 			// Delete permissions
 			$rbacadmin->revokeSubtreePermissions($this->getCurrentObject()->getRefId(), $role);
@@ -501,7 +477,7 @@ class ilPermissionGUI extends ilPermission2GUI
 			
 			$rbacadmin->assignRoleToFolder(
 				$role,
-				$rolf,
+				$this->getCurrentObject()->getRefId(),
 				$assign
 			);
 		}
@@ -510,24 +486,6 @@ class ilPermissionGUI extends ilPermission2GUI
 		$this->ctrl->redirect($this,'perm');
 	}
 	
-	/**
-	 * Init role folder of object
-	 * @param object $a_create [optional]
-	 * @return 
-	 */
-	protected function initRoleFolder($a_create = false)
-	{
-		global $rbacreview;
-		
-		$rolf_id = $rbacreview->getRoleFolderIdOfObject($this->getCurrentObject()->getRefId());
-		
-		if($rolf_id)
-		{
-			return $rolf_id;
-		}
-		$rolf = $this->getCurrentObject()->createRoleFolder();
-		return $rolf->getRefId();
-	}
 	
 	/**
 	 * Check if container commands are possible for the current object type
@@ -585,7 +543,7 @@ class ilPermissionGUI extends ilPermission2GUI
 						'Services/AccessControl', 
 						'rolf', 
 						0, 
-						$rbacreview->getRoleFolderIdOfObject($parent_ref)
+						$parent_ref
 				);
 
 				$imp->importObject(
@@ -687,10 +645,7 @@ class ilPermissionGUI extends ilPermission2GUI
 			// Sort ids
 			$sorted_ids = ilUtil::_sortIds($ids,'object_data','type DESC,title','obj_id');
 
-			// Sort roles by title
-			$sorted_roles = ilUtil::sortArray(array_values($parent_role_ids), 'title', ASC);
 			$key = 0;
-
 			foreach($sorted_ids as $id)
 			{
 				$par = $parent_role_ids[$id];
@@ -729,5 +684,89 @@ class ilPermissionGUI extends ilPermission2GUI
 		$this->tpl->setContent($form->getHTML());
 	}
 	
+	/**
+	 * adds a local role
+	 * This method is only called when choose the option 'you may add local roles'. This option
+	 * is displayed in the permission settings dialogue for an object
+	 * TODO: this will be changed
+	 * @access	public
+	 * 
+	 */
+	protected function addRole()
+	{
+		global $rbacadmin, $rbacreview, $rbacsystem,$ilErr,$ilCtrl;
+
+		$form = $this->initRoleForm();
+		if($form->checkInput())
+		{
+			$new_title = $form->getInput("title");
+			
+			include_once './Services/AccessControl/classes/class.ilObjRole.php';
+			$role = new ilObjRole();
+			$role->setTitle($new_title);
+			$role->setDescription($form->getInput('desc'));
+			$role->create();
+			
+			$GLOBALS['rbacadmin']->assignRoleToFolder($role->getId(),$this->getCurrentObject()->getRefId());
+			
+			// protect
+			$rbacadmin->setProtected(
+				$this->getCurrentObject()->getRefId(),
+				$role->getId(),
+				$form->getInput('pro') ? 'y' : 'n'
+			);
+
+			// copy rights 
+			$right_id_to_copy = $form->getInput("rights");
+			if($right_id_to_copy)
+			{
+				$parentRoles = $rbacreview->getParentRoleIds($this->getCurrentObject()->getRefId(),true);
+				$rbacadmin->copyRoleTemplatePermissions(
+					$right_id_to_copy,
+					$parentRoles[$right_id_to_copy]["parent"],
+					$this->getCurrentObject()->getRefId(),
+					$role->getId(),
+					false);
+
+				if($form->getInput('existing'))
+				{
+					if($form->getInput('pro'))
+					{
+						$role->changeExistingObjects(
+							$this->getCurrentObject()->getRefId(),
+							ilObjRole::MODE_PROTECTED_KEEP_LOCAL_POLICIES,
+							array('all')
+						);
+					}
+					else
+					{
+						$role->changeExistingObjects(
+							$this->getCurrentObject()->getRefId(),
+							ilObjRole::MODE_UNPROTECTED_KEEP_LOCAL_POLICIES,
+							array('all')
+						);
+					}
+				}
+			}
+
+			// add to desktop items
+			if($form->getInput("desktop"))
+			{
+				include_once 'Services/AccessControl/classes/class.ilRoleDesktopItem.php';
+				$role_desk_item_obj = new ilRoleDesktopItem($role->getId());
+				$role_desk_item_obj->add(
+						$this->getCurrentObject()->getRefId(),
+						ilObject::_lookupType($this->getCurrentObject()->getRefId(),true));
+			}		
+
+			ilUtil::sendSuccess($this->lng->txt("role_added"),true);
+			$this->ctrl->redirect($this,'perm');
+		}
+		else
+		{
+			$form->setValuesByPost();
+			$this->tpl->setContent($form->getHTML());
+		}
+	}
 }
 ?>

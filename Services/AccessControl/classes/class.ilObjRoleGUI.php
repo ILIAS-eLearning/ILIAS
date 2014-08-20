@@ -30,12 +30,6 @@ class ilObjRoleGUI extends ilObjectGUI
 	*/
 	var $type;
 
-	/**
-	* rolefolder ref_id where role is assigned to
-	* @var		string
-	* @access	public
-	*/
-	var $rolf_ref_id;
 	
 	protected $obj_ref_id = 0;
 	protected $obj_obj_id = 0;
@@ -58,16 +52,8 @@ class ilObjRoleGUI extends ilObjectGUI
 		//TODO: move this to class.ilias.php
 		define("USER_FOLDER_ID",7);
 		
-		if($_GET['rolf_ref_id'] != '')
-		{
-			$this->rolf_ref_id = $_GET['rolf_ref_id'];
-		}
-		else
-		{
-			$this->rolf_ref_id = $_GET['ref_id'];
-		}
 		// Add ref_id of object that contains this role folder
-		$this->obj_ref_id = $tree->getParentId($this->rolf_ref_id);
+		$this->obj_ref_id = (int) $_GET['ref_id'];
 		$this->obj_obj_id = ilObject::_lookupObjId($this->getParentRefId());
 		$this->obj_obj_type = ilObject::_lookupType($this->getParentObjId());
 		
@@ -75,7 +61,7 @@ class ilObjRoleGUI extends ilObjectGUI
 
 		$this->type = "role";
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,false);
-		$this->ctrl->saveParameter($this, array("obj_id", "rolf_ref_id"));
+		$this->ctrl->saveParameter($this, array("obj_id"));
 	}
 
 
@@ -108,7 +94,7 @@ class ilObjRoleGUI extends ilObjectGUI
 				
 				include_once './Services/Export/classes/class.ilExportOptions.php';
 				$eo = ilExportOptions::newInstance(ilExportOptions::allocateExportId());
-				$eo->addOption(ilExportOptions::KEY_ROOT,0,$this->object->getId(),$this->rolf_ref_id);
+				$eo->addOption(ilExportOptions::KEY_ROOT,0,$this->object->getId(),$this->obj_ref_id);
 				
 				include_once './Services/Export/classes/class.ilExportGUI.php';
 				$exp = new ilExportGUI($this, new ilObjRole($this->object->getId()));
@@ -212,16 +198,8 @@ class ilObjRoleGUI extends ilObjectGUI
 		global $rbacsystem,$rbacreview,$tree;
 
 
-		#if(!$rbacsystem->checkAccess('edit_permission', $this->rolf_ref_id))
-		/*
-		if(!$this->checkAccess('edit_permission'))
-		{
-			ilUtil::sendFailure()
-			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
-		}
-		*/
-		if(!$rbacreview->isAssignable($this->object->getId(),$this->rolf_ref_id) &&
-			$this->rolf_ref_id != ROLE_FOLDER_ID)
+		if(!$rbacreview->isAssignable($this->object->getId(),$this->obj_ref_id) &&
+			$this->obj_ref_id != ROLE_FOLDER_ID)
 		{
 			ilUtil::sendInfo($this->lng->txt('role_no_users_no_desk_items'));
 			return true;
@@ -278,7 +256,6 @@ class ilObjRoleGUI extends ilObjectGUI
 		global $rbacsystem;
 		
 		
-		#if(!$rbacsystem->checkAccess('edit_permission', $this->rolf_ref_id))
 		if(!$this->checkAccess('edit_permission'))
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
@@ -338,7 +315,6 @@ class ilObjRoleGUI extends ilObjectGUI
 	{
 		global $rbacsystem;
 		
-		#if (!$rbacsystem->checkAccess('edit_permission', $this->rolf_ref_id))
 		if(!$this->checkAccess('edit_permission'))
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
@@ -493,7 +469,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		$desc->setRows(3);
 		$this->form->addItem($desc);
 		
-		if($this->rolf_ref_id == ROLE_FOLDER_ID)
+		if($this->obj_ref_id == ROLE_FOLDER_ID)
 		{
 			$reg = new ilCheckboxInputGUI($this->lng->txt('allow_register'),'reg');
 			$reg->setValue(1);
@@ -572,7 +548,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		{
 			$data['wsp_disk_quota'] = $role->getPersonalWorkspaceDiskQuota() / (pow(ilFormat::_getSizeMagnitude(),2));		
 		}
-		$data['pro'] = $rbacreview->isProtected($this->rolf_ref_id, $role->getId());
+		$data['pro'] = $rbacreview->isProtected($this->obj_ref_id, $role->getId());
 		
 		$this->form->setValuesByArray($data);
 	}
@@ -589,7 +565,7 @@ class ilObjRoleGUI extends ilObjectGUI
 	{
 		global $rbacsystem;
 		
-		if(!$rbacsystem->checkAccess('create_role',$this->rolf_ref_id))
+		if(!$rbacsystem->checkAccess('create_role',$this->obj_ref_id))
 		{
 			$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->MESSAGE);
 		}
@@ -630,9 +606,9 @@ class ilObjRoleGUI extends ilObjectGUI
 			include_once './Services/AccessControl/classes/class.ilObjRole.php';
 			$this->loadRoleProperties($this->role = new ilObjRole());
 			$this->role->create();
-			$rbacadmin->assignRoleToFolder($this->role->getId(), $this->rolf_ref_id,'y');
+			$rbacadmin->assignRoleToFolder($this->role->getId(), $this->obj_ref_id,'y');
 			$rbacadmin->setProtected(
-				$this->rolf_ref_id,
+				$this->obj_ref_id,
 				$this->role->getId(),
 				$this->form->getInput('pro') ? 'y' : 'n'
 			);
@@ -655,7 +631,7 @@ class ilObjRoleGUI extends ilObjectGUI
 	{
 		global $rbacreview;
 
-		foreach($rbacreview->getRolesOfRoleFolder($this->rolf_ref_id) as $role_id)
+		foreach($rbacreview->getRolesOfRoleFolder($this->obj_ref_id) as $role_id)
 		{
 			if($role_id == $a_role_id)
 			{
@@ -687,7 +663,7 @@ class ilObjRoleGUI extends ilObjectGUI
 			$this->loadRoleProperties($this->object);
 			$this->object->update();
 			$rbacadmin->setProtected(
-				$this->rolf_ref_id,
+				$this->obj_ref_id,
 				$this->object->getId(),
 				$this->form->getInput('pro') ? 'y' : 'n'
 			);
@@ -734,7 +710,7 @@ class ilObjRoleGUI extends ilObjectGUI
 			$this->lng->txt("adopt_perm_from_template"),
 			$this->ctrl->getLinkTarget($this,'adoptPerm')
 		);
-		if($rbacreview->isDeleteable($this->object->getId(), $this->rolf_ref_id))
+		if($rbacreview->isDeleteable($this->object->getId(), $this->obj_ref_id))
 		{
 			$ilToolbar->addButton(
 				$this->lng->txt('rbac_delete_role'),
@@ -756,7 +732,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		$acc->setBehaviour(ilAccordionGUI::FORCE_ALL_OPEN);
 		$acc->setId('template_perm_'.$this->getParentRefId());
 		
-		if($this->rolf_ref_id == ROLE_FOLDER_ID)
+		if($this->obj_ref_id == ROLE_FOLDER_ID)
 		{
 			if($a_show_admin_permissions)
 			{
@@ -830,7 +806,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		$options = new ilObjectRoleTemplateOptionsTableGUI(
 			$this,
 			'perm',
-			$this->rolf_ref_id,
+			$this->obj_ref_id,
 			$this->object->getId(),
 			$a_show_admin_permissions
 		);
@@ -867,7 +843,7 @@ class ilObjRoleGUI extends ilObjectGUI
 
 		$output = array();
 		
-		$parent_role_ids = $rbacreview->getParentRoleIds($this->rolf_ref_id,true);
+		$parent_role_ids = $rbacreview->getParentRoleIds($this->obj_ref_id,true);
 		$ids = array();
 		foreach($parent_role_ids as $id => $tmp)
 		{
@@ -981,7 +957,7 @@ class ilObjRoleGUI extends ilObjectGUI
 			$ilErr->raiseError($this->lng->txt('msg_no_perm_perm'),$ilErr->WARNING);
 		}
 		
-		$this->object->setParent((int) $_GET['rolf_ref_id']);
+		$this->object->setParent((int) $this->obj_ref_id);
 		$this->object->delete();
 		ilUtil::sendSuccess($this->lng->txt('msg_deleted_role'),true);
 		
@@ -998,16 +974,6 @@ class ilObjRoleGUI extends ilObjectGUI
 		global $rbacsystem, $rbacadmin, $rbacreview, $objDefinition, $tree;
 
 		// for role administration check write of global role folder
-		/*
-		if ($this->rolf_ref_id == ROLE_FOLDER_ID)
-		{
-			$access = $rbacsystem->checkAccess('write',$this->rolf_ref_id);
-		}
-		else	// for local roles check 'edit permission' of parent object of the local role folder
-		{
-			$access = $rbacsystem->checkAccess('edit_permission',$tree->getParentId($this->rolf_ref_id));
-		}
-		*/
 		$access = $this->checkAccess('visible,write','edit_permission');
 			
 		if (!$access)
@@ -1020,11 +986,11 @@ class ilObjRoleGUI extends ilObjectGUI
 		$rbac_log_active = ilRbacLog::isActive();
 		if($rbac_log_active)
 		{
-			$rbac_log_old = ilRbacLog::gatherTemplate($this->rolf_ref_id, $this->object->getId());
+			$rbac_log_old = ilRbacLog::gatherTemplate($this->obj_ref_id, $this->object->getId());
 		}
 
 		// delete all template entries of enabled types
-		if($this->rolf_ref_id == ROLE_FOLDER_ID)
+		if($this->obj_ref_id == ROLE_FOLDER_ID)
 		{
 			if($a_show_admin_permissions)
 			{
@@ -1043,7 +1009,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		foreach($subs as $subtype => $def)
 		{
 			// Delete per object type
-			$rbacadmin->deleteRolePermission($this->object->getId(),$this->rolf_ref_id,$subtype);
+			$rbacadmin->deleteRolePermission($this->object->getId(),$this->obj_ref_id,$subtype);
 		}
 
 		if (empty($_POST["template_perm"]))
@@ -1054,12 +1020,12 @@ class ilObjRoleGUI extends ilObjectGUI
 		foreach ($_POST["template_perm"] as $key => $ops_array)
 		{
 			// sets new template permissions
-			$rbacadmin->setRolePermission($this->object->getId(), $key, $ops_array, $this->rolf_ref_id);
+			$rbacadmin->setRolePermission($this->object->getId(), $key, $ops_array, $this->obj_ref_id);
 		}
 
 		if($rbac_log_active)
 		{
-			$rbac_log_new = ilRbacLog::gatherTemplate($this->rolf_ref_id, $this->object->getId());
+			$rbac_log_new = ilRbacLog::gatherTemplate($this->obj_ref_id, $this->object->getId());
 			$rbac_log_diff = ilRbacLog::diffTemplate($rbac_log_old, $rbac_log_new);
 			ilRbacLog::add(ilRbacLog::EDIT_TEMPLATE, $this->obj_ref_id, $rbac_log_diff);
 		}
@@ -1068,9 +1034,9 @@ class ilObjRoleGUI extends ilObjectGUI
 		$this->object->update();
 		
 		// set protected flag
-		if ($this->rolf_ref_id == ROLE_FOLDER_ID or $rbacreview->isAssignable($this->object->getId(),$this->rolf_ref_id))
+		if ($this->obj_ref_id == ROLE_FOLDER_ID or $rbacreview->isAssignable($this->object->getId(),$this->obj_ref_id))
 		{
-			$rbacadmin->setProtected($this->rolf_ref_id,$this->object->getId(),ilUtil::tf2yn($_POST['protected']));
+			$rbacadmin->setProtected($this->obj_ref_id,$this->object->getId(),ilUtil::tf2yn($_POST['protected']));
 		}
 		
 		if($a_show_admin_permissions)
@@ -1098,10 +1064,10 @@ class ilObjRoleGUI extends ilObjectGUI
 			return true;
 		}
 		
-		$start = ($this->rolf_ref_id == ROLE_FOLDER_ID ? ROOT_FOLDER_ID : $tree->getParentId($this->rolf_ref_id));
+		$start = ($this->obj_ref_id == ROLE_FOLDER_ID ? ROOT_FOLDER_ID : $this->obj_ref_id);
 		if($a_show_admin_permissions)
 		{
-			$start = $tree->getParentId($this->rolf_ref_id);
+			$start = $tree->getParentId($this->obj_ref_id);
 		}
 
 		if($_POST['protected'])
@@ -1166,12 +1132,12 @@ class ilObjRoleGUI extends ilObjectGUI
 		}
 		else
 		{
-			$rbacadmin->deleteRolePermission($this->object->getId(), $this->rolf_ref_id);
-			$parentRoles = $rbacreview->getParentRoleIds($this->rolf_ref_id,true);
+			$rbacadmin->deleteRolePermission($this->object->getId(), $this->obj_ref_id);
+			$parentRoles = $rbacreview->getParentRoleIds($this->obj_ref_id,true);
 			$rbacadmin->copyRoleTemplatePermissions(
 				$_POST["adopt"],
 				$parentRoles[$_POST["adopt"]]["parent"],
-				$this->rolf_ref_id,
+				$this->obj_ref_id,
 				$this->object->getId(),
 				false);		
 
@@ -1213,8 +1179,8 @@ class ilObjRoleGUI extends ilObjectGUI
 			ilUtil::sendFailure($this->lng->txt('msg_no_perm_assign_user_to_role'),true);
 			return false;
 		}
-		if(!$rbacreview->isAssignable($this->object->getId(),$this->rolf_ref_id) &&
-			$this->rolf_ref_id != ROLE_FOLDER_ID)
+		if(!$rbacreview->isAssignable($this->object->getId(),$this->obj_ref_id) &&
+			$this->obj_ref_id != ROLE_FOLDER_ID)
 		{
 			ilUtil::sendFailure($this->lng->txt('err_role_not_assignable'),true);
 			return false;
@@ -1260,7 +1226,6 @@ class ilObjRoleGUI extends ilObjectGUI
 	{
     	global $rbacsystem, $rbacadmin, $rbacreview;
 
-		#if (!$rbacsystem->checkAccess("edit_userassignment", $this->rolf_ref_id))
 		if(!$this->checkAccess('edit_userassignment','edit_permission'))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_assign_user_to_role"),$this->ilias->error_obj->MESSAGE);
@@ -1331,7 +1296,6 @@ class ilObjRoleGUI extends ilObjectGUI
 	{
 		global $rbacreview, $rbacsystem, $lng, $ilUser;
 		
-		//if (!$rbacsystem->checkAccess("edit_userassignment", $this->rolf_ref_id))
 		if(!$this->checkAccess('edit_userassignment','edit_permission'))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_assign_user_to_role"),$this->ilias->error_obj->MESSAGE);
@@ -1543,7 +1507,7 @@ class ilObjRoleGUI extends ilObjectGUI
 
 		$counter = 0;
 
-		foreach ($tree->getPathFull($this->rolf_ref_id) as $key => $row)
+		foreach ($tree->getPathFull($this->obj_ref_id) as $key => $row)
 		{
 			if ($counter++)
 			{
@@ -1616,17 +1580,14 @@ class ilObjRoleGUI extends ilObjectGUI
 	{
 		global $rbacsystem,$rbacreview, $ilHelp;
 
-		$base_role_folder = $rbacreview->getFoldersAssignedToRole($this->object->getId(),true);
+		$base_role_container = $rbacreview->getFoldersAssignedToRole($this->object->getId(),true);
 		
-//var_dump($base_role_folder);
-//echo "-".$this->rolf_ref_id."-";
 
 		$activate_role_edit = false;
 		
 		// todo: activate the following (allow editing of local roles in
 		// roles administration)
-		//if (in_array($this->rolf_ref_id,$base_role_folder))
-		if (in_array($this->rolf_ref_id,$base_role_folder) ||
+		if (in_array($this->obj_ref_id,$base_role_container) ||
 			(strtolower($_GET["baseClass"]) == "iladministrationgui" &&
 			$_GET["admin_mode"] == "settings"))
 		{
@@ -1720,9 +1681,9 @@ class ilObjRoleGUI extends ilObjectGUI
 		
 		$a_perm_obj = $a_perm_obj ? $a_perm_obj : $a_perm_global;
 		
-		if($this->rolf_ref_id == ROLE_FOLDER_ID)
+		if($this->obj_ref_id == ROLE_FOLDER_ID)
 		{
-			return $rbacsystem->checkAccess($a_perm_global,$this->rolf_ref_id);
+			return $rbacsystem->checkAccess($a_perm_global,$this->obj_ref_id);
 		}
 		else
 		{
@@ -1744,7 +1705,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		}
 		
 		// Role is protected
-		if($rbacreview->isProtected($this->rolf_ref_id, $this->object->getId()))
+		if($rbacreview->isProtected($this->obj_ref_id, $this->object->getId()))
 		{
 			// TODO: check if recursive_list is enabled
 			// and if yes: check if inheritance is broken for the relevant object types
@@ -1836,7 +1797,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		global $tree,$rbacreview,$rbacadmin;
 		
 		$mode = (int) $_POST['mode'];
-		$start = ($this->rolf_ref_id == ROLE_FOLDER_ID ? ROOT_FOLDER_ID : $tree->getParentId($this->rolf_ref_id));
+		$start = ($this->obj_ref_id == ROLE_FOLDER_ID ? ROOT_FOLDER_ID : $tree->getParentId($this->obj_ref_id));
 		$this->object->changeExistingObjects($start,$mode,unserialize(ilUtil::stripSlashes($_POST['type_filter'])));
 		
 		ilUtil::sendSuccess($this->lng->txt('settings_saved'),true);
@@ -1855,7 +1816,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		switch($a_tab)
 		{
 			case 'default_perm_settings':
-				if($this->rolf_ref_id != ROLE_FOLDER_ID)
+				if($this->obj_ref_id != ROLE_FOLDER_ID)
 				{
 					return true;
 				}

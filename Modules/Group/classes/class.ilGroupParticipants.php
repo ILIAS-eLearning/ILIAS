@@ -77,8 +77,7 @@ class ilGroupParticipants extends ilParticipants
 	{
 		global $rbacreview;
 
-		$rolf = $rbacreview->getRoleFolderOfObject($a_ref_id);
-		$lrol = $rbacreview->getRolesOfRoleFolder($rolf['ref_id'],false);
+		$lrol = $rbacreview->getRolesOfRoleFolder($a_ref_id,false);
 
 		$roles = array();
 		foreach($lrol as $role)
@@ -110,16 +109,7 @@ class ilGroupParticipants extends ilParticipants
 	{
 		global $rbacreview,$ilObjDataCache,$ilDB,$ilLog;
 
-		$rolf = $rbacreview->getRoleFolderOfObject($a_ref_id);
-		if(!isset($rolf['ref_id']) or !$rolf['ref_id'])
-		{
-			$title = $ilObjDataCache->lookupTitle($ilObjDataCache->lookupObjId($a_ref_id));
-			$ilLog->write(__METHOD__.': Found object without role folder. Ref_id: '.$a_ref_id.', title: '.$title);
-			$ilLog->logStack();
-			
-			return false;
-		}
-		$local_roles = $rbacreview->getRolesOfRoleFolder($rolf["ref_id"],false);
+		$local_roles = $rbacreview->getRolesOfRoleFolder($a_ref_id,false);
         return $rbacreview->isAssignedToAtLeastOneGivenRole($a_usr_id, $local_roles);
 	}
 	

@@ -789,20 +789,6 @@ class ilObjTest extends ilObject
 		}
 	}
 
-	/**
-	* init default roles settings
-	*
-	* If your module does not require any default roles, delete this method
-	* (For an example how this method is used, look at ilObjForum)
-	*
-	* @access	public
-	* @return	array	object IDs of created local roles.
-	*/
-	function initDefaultRoles()
-	{
-		global $rbacadmin;
-		return array();
-	}
 
 	/**
 	* notifys an object about an event occured

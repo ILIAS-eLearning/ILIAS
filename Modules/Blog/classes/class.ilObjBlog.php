@@ -802,32 +802,15 @@ class ilObjBlog extends ilObject2
 	
 	function initDefaultRoles()
 	{
-		global $rbacadmin, $rbacreview, $ilDB;
-
-		// SET PERMISSION TEMPLATE OF NEW LOCAL CONTRIBUTOR ROLE
-		$set = $ilDB->query("SELECT obj_id FROM object_data ".
-			" WHERE type=".$ilDB->quote("rolt", "text").
-			" AND title=".$ilDB->quote("il_blog_contributor", "text"));
-		$res = $ilDB->fetchAssoc($set);
-		if($res["obj_id"])
-		{
-			$rolf_obj = $this->createRoleFolder();
-
-			// CREATE ADMIN ROLE
-			$role_obj = $rolf_obj->createRole("il_blog_contributor_".$this->getRefId(),
-				"Contributor of blog obj_no.".$this->getId());
-
-			$rbacadmin->copyRoleTemplatePermissions($res["obj_id"], ROLE_FOLDER_ID, 
-				$rolf_obj->getRefId(), $role_obj->getId());
-
-			// SET OBJECT PERMISSIONS OF BLOG OBJECT
-			$ops = $rbacreview->getOperationsOfRole($role_obj->getId(), "blog", $rolf_obj->getRefId());
-			$rbacadmin->grantPermission($role_obj->getId(), $ops, $this->getRefId());
-			
-			return true;
-		}
-
-		return false;
+		include_once './Services/AccessControl/classes/class.ilObjRole.php';
+		$role = ilObjRole::createDefaultRole(
+				'il_blog_contributor_'.$this->getRefId(),
+				"Contributor of blog obj_no.".$this->getId(),
+				'il_blog_contributor',
+				$this->getRefId()
+		);
+		
+		return array();
 	}
 	
 	/**

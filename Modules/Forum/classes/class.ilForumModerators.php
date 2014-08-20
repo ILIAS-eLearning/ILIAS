@@ -40,8 +40,7 @@ class ilForumModerators
 	{
 		global $rbacreview, $rbacadmin;
 		
-		$role_folder_id = $rbacreview->getRoleFolderIdOfObject($this->ref_id); 
-		$role_list = $rbacreview->getRoleListByObject($role_folder_id);
+		$role_list = $rbacreview->getRoleListByObject($this->getRefId());
 		foreach ($role_list as $role)
 		{
 			if(strpos($role['title'], 'il_frm_moderator') !== false)
@@ -64,8 +63,7 @@ class ilForumModerators
 	{
 		global $rbacreview, $rbacadmin;
 		
-		$role_folder_id = $rbacreview->getRoleFolderIdOfObject($this->ref_id); 
-		$role_list = $rbacreview->getRoleListByObject($role_folder_id);
+		$role_list = $rbacreview->getRoleListByObject($this->getRefId());
 		foreach ($role_list as $role)
 		{
 			if(strpos($role['title'], 'il_frm_moderator') !== false)
@@ -88,8 +86,7 @@ class ilForumModerators
 	{
 		global $rbacreview;
 		
-		$role_folder = $rbacreview->getRoleFolderOfObject($this->ref_id);	
-		$roles = $rbacreview->getRoleListByObject($role_folder['child']);
+		$roles = $rbacreview->getRoleListByObject($this->getRefId());
 		foreach($roles as $role)
 		{
 			if(strpos($role['title'], 'il_frm_moderator') !== false)
@@ -106,8 +103,7 @@ class ilForumModerators
 	{
 		global $rbacreview;
 		
-		$role_folder = $rbacreview->getRoleFolderOfObject($this->ref_id);	
-		$roles = $rbacreview->getRoleListByObject($role_folder['child']);
+		$roles = $rbacreview->getRoleListByObject($this->getRefId());
 		foreach($roles as $role)
 		{
 			if(strpos($role['title'], 'il_frm_moderator') !== false)

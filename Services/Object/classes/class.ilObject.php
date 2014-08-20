@@ -1501,40 +1501,6 @@ class ilObject
 		return array();
 	}
 	
-	/**
-	* creates a local role folder
-	* 
-	* @access	public
-	* @param	string	rolefolder title
-	* @param	string	rolefolder description
-	* @param	object	parent object where the rolefolder is attached to
-	* @return	object	rolefolder object
-	*/
-	function createRoleFolder()
-	{
-		global $rbacreview;
-		
-		// does a role folder already exists?
-		// (this check is only 'to be sure' that no second role folder is created under one object.
-		// the if-construct should never return true)
-		if ($rolf_data = $rbacreview->getRoleFolderofObject($this->getRefId()))
-		{
-			$rfoldObj = $this->ilias->obj_factory->getInstanceByRefId($rolf_data["ref_id"]);
-		}
-		else
-		{
-			include_once ("./Services/AccessControl/classes/class.ilObjRoleFolder.php");
-			$rfoldObj = new ilObjRoleFolder();
-			$rfoldObj->setTitle($this->getId());
-			$rfoldObj->setDescription(" (ref_id ".$this->getRefId().")");
-			$rfoldObj->create();
-			$rfoldObj->createReference();
-			$rfoldObj->putInTree($this->getRefId());
-			$rfoldObj->setPermissions($this->getRefId());
-		}
-		
-		return $rfoldObj;
-	}
 
 	/**
 	 * Apply template

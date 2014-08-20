@@ -1652,8 +1652,7 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 		$this->tpl->setVariable('IMG_ARROW', ilUtil::getImagePath('arrow_downright.png'));
 		$this->tpl->setVariable('OK', $this->lng->txt('ok'));
 		
-		$role_folder = $rbacreview->getRoleFolderOfObject( $this->object->getRefId() );
-		$role_ids = $rbacreview->getRolesOfRoleFolder($role_folder['ref_id'], false);	
+		$role_ids = $rbacreview->getRolesOfRoleFolder($this->object->getRefId(), false);	
 		foreach($role_ids as $role_id)
 		{
 			$this->tpl->setCurrentBlock('mailbox_row');

@@ -1944,11 +1944,10 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->tpl->setVariable("OK",$this->lng->txt('next'));
 		
 		// Get role mailbox addresses
-		$role_folder = $rbacreview->getRoleFolderOfObject($this->object->getRefId());
-		$role_ids = $rbacreview->getRolesOfRoleFolder($role_folder['ref_id'], false);
+		$role_ids = $rbacreview->getRolesOfRoleFolder($this->object->getRefId(), false);
 		$role_addrs = array();
 		
-				// Sort by relevance
+		// Sort by relevance
 		$sorted_role_ids = array();
 		$counter = 2;
 		foreach($role_ids as $role_id)

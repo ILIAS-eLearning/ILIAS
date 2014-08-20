@@ -49,8 +49,6 @@ class ilObjectRoleTemplatePermissionTableGUI extends ilTable2GUI
 		$this->ref_id = $a_ref_id;
 		$this->role_id = $a_role_id;
 		
-		$this->role_folder_id = $rbacreview->getRoleFolderIdOfObject($this->getRefId());            
-
 		$this->setRowTemplate("tpl.obj_role_template_perm_row.html", "Services/AccessControl");
 		$this->setLimit(100);
 		$this->setShowRowsSelector(false);
@@ -83,7 +81,7 @@ class ilObjectRoleTemplatePermissionTableGUI extends ilTable2GUI
 		}
 		self::$template_permissions = $rbacreview->getAllOperationsOfRole(
 			$this->getRoleId(),
-			$this->getRoleFolderId()
+			$this->getRefId()
 		);
 	}
 	
@@ -113,15 +111,6 @@ class ilObjectRoleTemplatePermissionTableGUI extends ilTable2GUI
 	public function getTemplateType()
 	{
 		return $this->tpl_type;
-	}
-	
-	/**
-	 * Get role folder of current object
-	 * @return 
-	 */
-	public function getRoleFolderId()
-	{
-		return $this->role_folder_id;
 	}
 	
 	/**

@@ -270,76 +270,6 @@ class ilObjiLincCourse extends ilContainer
 		
 	}
 	
-	/**
-	* init default roles settings
-	* 
-	* @access	public
-	* @return	array	object IDs of created local roles.
-	*/
-	function initDefaultRoles()
-	{
-		global $rbacadmin, $rbacreview, $ilDB;
-
-		
-		// create a local role folder
-		$rfoldObj =& $this->createRoleFolder();
-
-		// ADMIN ROLE
-		// create role and assign role to rolefolder...
-		$roleObj = $rfoldObj->createRole("il_icrs_admin_".$this->getRefId(),"LearnLinc admin of seminar obj_no.".$this->getId());
-		$this->m_roleAdminId = $roleObj->getId();
-
-		//set permission template of new local role
-		$res = $ilDB->queryf('
-			SELECT obj_id FROM object_data WHERE type= %s AND title= %s',
-			array('text', 'text'), array('rolt', 'il_icrs_admin'));
-		
-		$r = $ilDB->fetchObject($res);
-		
-		$rbacadmin->copyRoleTemplatePermissions($r->obj_id,ROLE_FOLDER_ID,$rfoldObj->getRefId(),$roleObj->getId());
-
-		// set object permissions of icrs object
-		$ops = $rbacreview->getOperationsOfRole($roleObj->getId(),"icrs",$rfoldObj->getRefId());
-		$rbacadmin->grantPermission($roleObj->getId(),$ops,$this->getRefId());
-
-		// set object permissions of role folder object
-		//$ops = $rbacreview->getOperationsOfRole($roleObj->getId(),"rolf",$rfoldObj->getRefId());
-		//$rbacadmin->grantPermission($roleObj->getId(),$ops,$rfoldObj->getRefId());
-
-		// MEMBER ROLE
-		// create role and assign role to rolefolder...
-		$roleObj = $rfoldObj->createRole("il_icrs_member_".$this->getRefId(),"LearnLinc admin of seminar obj_no.".$this->getId());
-		$this->m_roleMemberId = $roleObj->getId();
-
-		//set permission template of new local role
-		$res = $ilDB->queryf('
-			SELECT obj_id FROM object_data WHERE type= %s AND title= %s',
-			array('text', 'text'), array('rolt', 'il_icrs_member'));
-
-		$r = $ilDB->fetchObject($res);
-						
-		$rbacadmin->copyRoleTemplatePermissions($r->obj_id,ROLE_FOLDER_ID,$rfoldObj->getRefId(),$roleObj->getId());
-		
-		// set object permissions of icrs object
-		$ops = $rbacreview->getOperationsOfRole($roleObj->getId(),"icrs",$rfoldObj->getRefId());
-		$rbacadmin->grantPermission($roleObj->getId(),$ops,$this->getRefId());
-
-		// set object permissions of role folder object
-		//$ops = $rbacreview->getOperationsOfRole($roleObj->getId(),"rolf",$rfoldObj->getRefId());
-		//$rbacadmin->grantPermission($roleObj->getId(),$ops,$rfoldObj->getRefId());
-
-		unset($rfoldObj);
-		unset($roleObj);
-
-		$roles[] = $this->m_roleAdminId;
-		$roles[] = $this->m_roleMemberId;
-		
-		// Break inheritance and initialize permission settings using intersection method with a non_member_template 
-		// not implemented for ilinc. maybe never will...
-		$this->__setCourseStatus();
-		
-		return $roles ? $roles : array();
-	}
 
 	/**
 	* notifys an object about an event occured
@@ -566,12 +496,11 @@ class ilObjiLincCourse extends ilContainer
 		if (empty($this->local_roles))
 		{
 			$this->local_roles = array();
-			$rolf 	   = $rbacreview->getRoleFolderOfObject($this->getRefId());
-			$role_arr  = $rbacreview->getRolesOfRoleFolder($rolf["ref_id"]);
+			$role_arr  = $rbacreview->getRolesOfRoleFolder($this->getRefId());
 
 			foreach ($role_arr as $role_id)
 			{
-				if ($rbacreview->isAssignable($role_id,$rolf["ref_id"]) == true)
+				if ($rbacreview->isAssignable($role_id,$this->getRefId()) == true)
 				{
 					$role_Obj =& $this->ilias->obj_factory->getInstanceByObjId($role_id);
 					
@@ -1122,8 +1051,7 @@ class ilObjiLincCourse extends ilContainer
 			$grp_id = $this->getRefId();
 		}
 
-		$rolf 	   = $rbacreview->getRoleFolderOfObject($grp_id);
-		$role_arr  = $rbacreview->getRolesOfRoleFolder($rolf["ref_id"]);
+		$role_arr  = $rbacreview->getRolesOfRoleFolder($grp_id);
 
 		foreach ($role_arr as $role_id)
 		{
@@ -1243,8 +1171,7 @@ class ilObjiLincCourse extends ilContainer
 	{
 		global $rbacreview;
 		
-		$rolf = $rbacreview->getRoleFolderOfObject($a_ref_id);
-		$local_roles = $rbacreview->getRolesOfRoleFolder($rolf["ref_id"],false);
+		$local_roles = $rbacreview->getRolesOfRoleFolder($a_ref_id,false);
 		$user_roles = $rbacreview->assignedRoles($a_user_id);
 		
 		if (!array_intersect($local_roles,$user_roles))

@@ -1,25 +1,5 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
 /**
@@ -41,7 +21,7 @@ class ilRbacAdmin
 	* Constructor
 	* @access	public
 	*/
-	function ilRbacAdmin()
+	public function __construct()
 	{
 		global $ilDB,$ilErr,$ilias;
 
@@ -60,13 +40,13 @@ class ilRbacAdmin
 	}
 
 	/**
-	* deletes a user from rbac_ua
-	*  all user <-> role relations are deleted
-	* @access	public
-	* @param	integer	user_id
-	* @return	boolean	true on success
-	*/
-	function removeUser($a_usr_id)
+	 * deletes a user from rbac_ua
+	 *  all user <-> role relations are deleted
+	 * @access	public
+	 * @param	integer	user_id
+	 * @return	boolean	true on success
+	 */
+	public function removeUser($a_usr_id)
 	{
 		global $ilDB;
 		
@@ -83,13 +63,13 @@ class ilRbacAdmin
 	}
 
 	/**
-	* Deletes a role and deletes entries in object_data, rbac_pa, rbac_templates, rbac_ua, rbac_fa
-	* @access	public
-	* @param	integer		obj_id of role (role_id)
-	* @param	integer		ref_id of role folder (ref_id)
-	* @return	boolean     true on success
-	*/
-	function deleteRole($a_rol_id,$a_ref_id)
+	 * Deletes a role and deletes entries in object_data, rbac_pa, rbac_templates, rbac_ua, rbac_fa
+	 * @access	public
+	 * @param	integer		obj_id of role (role_id)
+	 * @param	integer		ref_id of role folder (ref_id)
+	 * @return	boolean     true on success
+	 */
+	public function deleteRole($a_rol_id,$a_ref_id)
 	{
 		global $lng,$ilDB;
 
@@ -130,12 +110,12 @@ class ilRbacAdmin
 	}
 
 	/**
-	* Deletes a template from role folder and deletes all entries in rbac_templates, rbac_fa
- 	* @access	public
-	* @param	integer		object_id of role template
-	* @return	boolean
-	*/
-	function deleteTemplate($a_obj_id)
+	 * Deletes a template from role folder and deletes all entries in rbac_templates, rbac_fa
+	 * @access	public
+	 * @param	integer		object_id of role template
+	 * @return	boolean
+	 */
+	public function deleteTemplate($a_obj_id)
 	{
 		global $ilDB;
 		
@@ -157,13 +137,13 @@ class ilRbacAdmin
 	}
 
 	/**
-	* Deletes a local role and entries in rbac_fa and rbac_templates
-	* @access	public
-	* @param	integer	object_id of role
-	* @param	integer	ref_id of role folder (optional)
-	* @return	boolean true on success
-	*/
-	function deleteLocalRole($a_rol_id,$a_ref_id = 0)
+	 * Deletes a local role and entries in rbac_fa and rbac_templates
+	 * @access	public
+	 * @param	integer	object_id of role
+	 * @param	integer	ref_id of role folder (optional)
+	 * @return	boolean true on success
+	 */
+	public function deleteLocalRole($a_rol_id,$a_ref_id = 0)
 	{
 		global $ilDB;
 		
@@ -198,15 +178,15 @@ class ilRbacAdmin
 
 
 	/**
-	* Assigns an user to a role. Update of table rbac_ua
-	* TODO: remove deprecated 3rd parameter sometime
-	* @access	public
-	* @param	integer	object_id of role
-	* @param	integer	object_id of user
-	* @param	boolean	true means default role (optional
-	* @return	boolean
-	*/
-	function assignUser($a_rol_id,$a_usr_id,$a_default = false)
+	 * Assigns an user to a role. Update of table rbac_ua
+	 * TODO: remove deprecated 3rd parameter sometime
+	 * @access	public
+	 * @param	integer	object_id of role
+	 * @param	integer	object_id of user
+	 * @param	boolean	true means default role (optional
+	 * @return	boolean
+	 */
+	public function assignUser($a_rol_id,$a_usr_id,$a_default = false)
 	{
 		global $ilDB,$rbacreview;
 		
@@ -244,13 +224,13 @@ class ilRbacAdmin
 	}
 
 	/**
-	* Deassigns a user from a role. Update of table rbac_ua
-	* @access	public
-	* @param	integer	object id of role
-	* @param	integer	object id of user
-	* @return	boolean	true on success
-	*/
-	function deassignUser($a_rol_id,$a_usr_id)
+	 * Deassigns a user from a role. Update of table rbac_ua
+	 * @access	public
+	 * @param	integer	object id of role
+	 * @param	integer	object id of user
+	 * @return	boolean	true on success
+	 */
+	public function deassignUser($a_rol_id,$a_usr_id)
 	{
 		global $ilDB;
 		
@@ -273,14 +253,14 @@ class ilRbacAdmin
 	}
 
 	/**
-	* Grants a permission to an object and a specific role. Update of table rbac_pa
-	* @access	public
-	* @param	integer	object id of role
-	* @param	array	array of operation ids
-	* @param	integer	reference id of that object which is granted the permissions
-	* @return	boolean
-	*/
-	function grantPermission($a_rol_id,$a_ops,$a_ref_id)
+	 * Grants a permission to an object and a specific role. Update of table rbac_pa
+	 * @access	public
+	 * @param	integer	object id of role
+	 * @param	array	array of operation ids
+	 * @param	integer	reference id of that object which is granted the permissions
+	 * @return	boolean
+	 */
+	public function grantPermission($a_rol_id,$a_ops,$a_ref_id)
 	{
 		global $ilDB;
 		
@@ -337,15 +317,15 @@ class ilRbacAdmin
 	}
 
 	/**
-	* Revokes permissions of an object of one role. Update of table rbac_pa.
-	* Revokes all permission for all roles for that object (with this reference).
-	* When a role_id is given this applies only to that role
-	* @access	public
-	* @param	integer	reference id of object where permissions should be revoked
-	* @param	integer	role_id (optional: if you want to revoke permissions of object only for a specific role)
-	* @return	boolean
-	*/
-	function revokePermission($a_ref_id,$a_rol_id = 0,$a_keep_protected = true)
+	 * Revokes permissions of an object of one role. Update of table rbac_pa.
+	 * Revokes all permission for all roles for that object (with this reference).
+	 * When a role_id is given this applies only to that role
+	 * @access	public
+	 * @param	integer	reference id of object where permissions should be revoked
+	 * @param	integer	role_id (optional: if you want to revoke permissions of object only for a specific role)
+	 * @return	boolean
+	 */
+	public function revokePermission($a_ref_id,$a_rol_id = 0,$a_keep_protected = true)
 	{
 		global $rbacreview,$log,$ilDB,$ilLog;
 
@@ -450,16 +430,6 @@ class ilRbacAdmin
 	{
 		global $ilDB;
 		
-		/*
-		$query = "DELETE FROM rbac_pa ".
-			"WHERE ref_id IN ".
-			"(SELECT child FROM tree WHERE ".
-				"lft >= (SELECT lft FROM tree WHERE child = ".$ilDB->quote($a_ref_id,'integer')." ) AND ".
-				"rgt <= (SELECT rgt FROM tree WHERE child = ".$ilDB->quote($a_ref_id,'integer')." ) ".
-			") ".
-			"AND rol_id = ".$ilDB->quote($a_role_id,'integer');
-		*/
-		
 		$query = 'DELETE FROM rbac_pa '.
 				'WHERE ref_id IN '.
 				'( '.$GLOBALS['tree']->getSubTreeQuery($a_ref_id,array('child')).' ) '.
@@ -479,41 +449,17 @@ class ilRbacAdmin
 	{
 		global $ilDB;
 		
-		/*
-		$query = "DELETE FROM rbac_templates ".
-			"WHERE parent IN ".
-			"(SELECT child FROM tree WHERE ".
-				"lft >= (SELECT lft FROM tree WHERE child = ".$ilDB->quote($a_ref_id,'integer')." ) AND ".
-				"rgt <= (SELECT rgt FROM tree WHERE child = ".$ilDB->quote($a_ref_id,'integer')." ) ".
-			") ".
-			"AND rol_id = ".$ilDB->quote($a_rol_id,'integer');
-		*/
-		
 		$query = 'DELETE FROM rbac_templates '.
 				'WHERE parent IN ( '.
 				$GLOBALS['tree']->getSubTreeQuery($a_ref_id, array('child')).' ) '.
 				'AND rol_id = '.$ilDB->quote($a_rol_id,'integer');
 		
-		$GLOBALS['ilLog']->write($query);
-		
 		$ilDB->manipulate($query);
 
-		/*
-		$query = "DELETE FROM rbac_fa ".
-			"WHERE parent IN ".
-			"(SELECT child FROM tree WHERE ".
-				"lft >= (SELECT lft FROM tree WHERE child = ".$ilDB->quote($a_ref_id,'integer')." ) AND ".
-				"rgt <= (SELECT rgt FROM tree WHERE child = ".$ilDB->quote($a_ref_id,'integer')." ) ".
-			") ".
-			"AND rol_id = ".$ilDB->quote($a_rol_id,'integer');
-		*/
 		$query = 'DELETE FROM rbac_fa '.
 				'WHERE parent IN ( '.
 				$GLOBALS['tree']->getSubTreeQuery($a_ref_id,array('child')).' ) '.
 				'AND rol_id = '.$ilDB->quote($a_rol_id,'integer');
-		
-		$GLOBALS['ilLog']->write($query);
-			
 		
 		$ilDB->manipulate($query);
 
@@ -521,13 +467,13 @@ class ilRbacAdmin
 	}
 
 	/**
-	* Revokes permissions of a LIST of objects of ONE role. Update of table rbac_pa.
-	* @access	public
-	* @param	array	list of reference_ids to revoke permissions
-	* @param	integer	role_id
-	* @return	boolean
-	*/
-	function revokePermissionList($a_ref_ids,$a_rol_id)
+	 * Revokes permissions of a LIST of objects of ONE role. Update of table rbac_pa.
+	 * @access	public
+	 * @param	array	list of reference_ids to revoke permissions
+	 * @param	integer	role_id
+	 * @return	boolean
+	 */
+	public function revokePermissionList($a_ref_ids,$a_rol_id)
 	{
 		global $ilDB;
 		
@@ -584,16 +530,16 @@ class ilRbacAdmin
 	}
 
 	/**
-	* Copies template permissions of one role to another.
-	* It's also possible to copy template permissions from/to RoleTemplateObject
-	* @access	public
-	* @param	integer		$a_source_id		role_id source
-	* @param	integer		$a_source_parent	parent_id source
-	* @param	integer		$a_dest_parent		parent_id destination
- 	* @param	integer		$a_dest_id			role_id destination
-	* @return	boolean 
-	*/
-	function copyRoleTemplatePermissions($a_source_id,$a_source_parent,$a_dest_parent,$a_dest_id,$a_consider_protected = true)
+	 * Copies template permissions of one role to another.
+	 * It's also possible to copy template permissions from/to RoleTemplateObject
+	 * @access	public
+	 * @param	integer		$a_source_id		role_id source
+	 * @param	integer		$a_source_parent	parent_id source
+	 * @param	integer		$a_dest_parent		parent_id destination
+	 * @param	integer		$a_dest_id			role_id destination
+	 * @return	boolean 
+	 */
+	public function copyRoleTemplatePermissions($a_source_id,$a_source_parent,$a_dest_parent,$a_dest_id,$a_consider_protected = true)
 	{
 		global $rbacreview,$ilDB;
 
@@ -654,19 +600,19 @@ class ilRbacAdmin
 		return true;
 	}
 	/**
-	* Copies the intersection of the template permissions of two roles to a
-        * third role.
-        *
-	* @access	public
-	* @param	integer		$a_source1_id		role_id source
-	* @param	integer		$a_source1_parent	parent_id source
-	* @param	integer		$a_source2_id		role_id source
-	* @param	integer		$a_source2_parent	parent_id source
- 	* @param	integer		$a_dest_id			role_id destination
-	* @param	integer		$a_dest_parent		parent_id destination
-	* @return	boolean 
-	*/
-	function copyRolePermissionIntersection($a_source1_id,$a_source1_parent,$a_source2_id,$a_source2_parent,$a_dest_parent,$a_dest_id)
+	 * Copies the intersection of the template permissions of two roles to a
+	 * third role.
+	 *
+	 * @access	public
+	 * @param	integer		$a_source1_id		role_id source
+	 * @param	integer		$a_source1_parent	parent_id source
+	 * @param	integer		$a_source2_id		role_id source
+	 * @param	integer		$a_source2_parent	parent_id source
+	 * @param	integer		$a_dest_id			role_id destination
+	 * @param	integer		$a_dest_parent		parent_id destination
+	 * @return	boolean 
+	 */
+	public function copyRolePermissionIntersection($a_source1_id,$a_source1_parent,$a_source2_id,$a_source2_parent,$a_dest_parent,$a_dest_id)
 	{
 		global $rbacreview,$ilDB;
 		
@@ -825,16 +771,16 @@ class ilRbacAdmin
 
 	
 	/**
-	* Deletes all entries of a template. If an object type is given for third parameter only
-	* the entries for that object type are deleted
-	* Update of table rbac_templates.
-	* @access	public
-	* @param	integer		object id of role
-	* @param	integer		ref_id of role folder
-	* @param	string		object type (optional)
-	* @return	boolean
-	*/
-	function deleteRolePermission($a_rol_id,$a_ref_id,$a_type = false)
+	 * Deletes all entries of a template. If an object type is given for third parameter only
+	 * the entries for that object type are deleted
+	 * Update of table rbac_templates.
+	 * @access	public
+	 * @param	integer		object id of role
+	 * @param	integer		ref_id of role folder
+	 * @param	string		object type (optional)
+	 * @return	boolean
+	 */
+	public function deleteRolePermission($a_rol_id,$a_ref_id,$a_type = false)
 	{
 		global $ilDB;
 		
@@ -866,16 +812,16 @@ class ilRbacAdmin
 	}
 	
 	/**
-	* Inserts template permissions in rbac_templates for an specific object type. 
-	*  Update of table rbac_templates
-	* @access	public
-	* @param	integer		role_id
-	* @param	string		object type
-	* @param	array		operation_ids
-	* @param	integer		ref_id of role folder object
-	* @return	boolean
-	*/
-	function setRolePermission($a_rol_id,$a_type,$a_ops,$a_ref_id)
+	 * Inserts template permissions in rbac_templates for an specific object type. 
+	 *  Update of table rbac_templates
+	 * @access	public
+	 * @param	integer		role_id
+	 * @param	string		object type
+	 * @param	array		operation_ids
+	 * @param	integer		ref_id of role folder object
+	 * @return	boolean
+	 */
+	public function setRolePermission($a_rol_id,$a_type,$a_ops,$a_ref_id)
 	{
 		global $ilDB;
 		
@@ -924,19 +870,19 @@ class ilRbacAdmin
 	}
 
 	/**
-	* Assigns a role to an role folder
-	* A role folder is an object to store roles.
-	* Every role is assigned to minimum one role folder
-	* If the inheritance of a role is stopped, a new role template will created, and the role is assigned to
-	* minimum two role folders. All roles with stopped inheritance need the flag '$a_assign = false'
-	*
-	* @access	public
-	* @param	integer		object id of role
-	* @param	integer		ref_id of role folder
-	* @param	string		assignable('y','n'); default: 'y'
-	* @return	boolean
-	*/
-	function assignRoleToFolder($a_rol_id,$a_parent,$a_assign = "y")
+	 * Assigns a role to an role folder
+	 * A role folder is an object to store roles.
+	 * Every role is assigned to minimum one role folder
+	 * If the inheritance of a role is stopped, a new role template will created, and the role is assigned to
+	 * minimum two role folders. All roles with stopped inheritance need the flag '$a_assign = false'
+	 *
+	 * @access	public
+	 * @param	integer		object id of role
+	 * @param	integer		ref_id of role folder
+	 * @param	string		assignable('y','n'); default: 'y'
+	 * @return	boolean
+	 */
+	public function assignRoleToFolder($a_rol_id,$a_parent,$a_assign = "y")
 	{
 		global $ilDB,$rbacreview;
 		
@@ -973,14 +919,14 @@ class ilRbacAdmin
 	}
 
 	/**
-	* Assign an existing operation to an object
-	*  Update of rbac_ta.
-	* @access	public
-	* @param	integer	object type
-	* @param	integer	operation_id
-	* @return	boolean
-	*/
-	function assignOperationToObject($a_type_id,$a_ops_id)
+	 * Assign an existing operation to an object
+	 *  Update of rbac_ta.
+	 * @access	public
+	 * @param	integer	object type
+	 * @param	integer	operation_id
+	 * @return	boolean
+	 */
+	public function assignOperationToObject($a_type_id,$a_ops_id)
 	{
 		global $ilDB;
 		
@@ -999,13 +945,13 @@ class ilRbacAdmin
 	}
 
 	/**
-	* Deassign an existing operation from an object 
-	* Update of rbac_ta
-	* @access	public
-	* @param	integer	object type
-	* @param	integer	operation_id
-	* @return	boolean
-	*/
+	 * Deassign an existing operation from an object 
+	 * Update of rbac_ta
+	 * @access	public
+	 * @param	integer	object type
+	 * @param	integer	operation_id
+	 * @return	boolean
+	 */
 	function deassignOperationFromObject($a_type_id,$a_ops_id)
 	{
 		global $ilDB;
@@ -1034,7 +980,7 @@ class ilRbacAdmin
 	 * @param type $a_value y or n
 	 * @return boolean
 	 */
-	function setProtected($a_ref_id,$a_role_id,$a_value)
+	public function setProtected($a_ref_id,$a_role_id,$a_value)
 	{
 		global $ilDB;
 		
@@ -1061,16 +1007,8 @@ class ilRbacAdmin
 	{
 	 	global $rbacreview,$ilLog,$ilObjDataCache;
 	 	
-	 	$source_rolf = $rbacreview->getRoleFolderIdOfObject($a_source_id);
-	 	$target_rolf = $rbacreview->getRoleFolderIdOfObject($a_target_id);
-
-	 	if(!$source_rolf)
-	 	{
-	 		// Nothing to do
-	 		return true;
-	 	}
 	 	$real_local = array();
-	 	foreach($rbacreview->getRolesOfRoleFolder($source_rolf,false) as $role_data)
+	 	foreach($rbacreview->getRolesOfRoleFolder($a_source_id,false) as $role_data)
 	 	{
 	 		$title = $ilObjDataCache->lookupTitle($role_data);
 	 		if(substr($title,0,3) == 'il_')
@@ -1084,17 +1022,6 @@ class ilRbacAdmin
 	 		return true;
 	 	}
 	 	// Create role folder
-	 	if(!$target_rolf)
-	 	{
-	 		$tmp_obj = ilObjectFactory::getInstanceByRefId($a_target_id,false);
-	 		if(!is_object($tmp_obj))
-	 		{
-	 			return false;
-	 		}
-	 		$rolf = $tmp_obj->createRoleFolder();
-	 		$target_rolf = $rolf->getRefId();
-	 		$ilLog->write(__METHOD__.': Created new role folder with id '.$rolf->getRefId());
-	 	}
 	 	foreach($real_local as $role)
 	 	{
 			include_once ("./Services/AccessControl/classes/class.ilObjRole.php");
@@ -1108,8 +1035,8 @@ class ilRbacAdmin
 			$roleObj->setImportId($orig->getImportId());
 			$roleObj->create();
 			
-			$this->assignRoleToFolder($roleObj->getId(),$target_rolf,"y");
-			$this->copyRolePermissions($role,$source_rolf,$target_rolf,$roleObj->getId(),true);
+			$this->assignRoleToFolder($roleObj->getId(),$a_target_id,"y");
+			$this->copyRolePermissions($role,$a_source_id,$a_target_id,$roleObj->getId(),true);
 	 		$ilLog->write(__METHOD__.': Added new local role, id '.$roleObj->getId());
 	 	}
 	 	
@@ -1194,10 +1121,7 @@ class ilRbacAdmin
 			
 			foreach($for_deletion as $role_id => $role_data)
 			{
-				if($rolf_id = $rbacreview->getRoleFolderIdOfObject($node_id))
-				{
-					$this->deleteLocalRole($role_id,$rolf_id);
-				}
+				$this->deleteLocalRole($role_id,$node_id);
 				$this->revokePermission($node_id,$role_id,false);
 //var_dump("<pre>",'REVOKE',$role_id,$node_id,$rolf_id,"</pre>");
 			}

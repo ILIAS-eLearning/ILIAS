@@ -50,21 +50,13 @@ class ilRBACTest extends PHPUnit_Framework_TestCase
 	{
 		global $rbacreview,$rbacadmin;
 		
-		// Non empty
-		$non_empty = $rbacreview->filterEmptyRoleFolders(array(8));
-		$this->assertEquals($non_empty,array(8));
-
-		// Empty
-		$empty = $rbacreview->filterEmptyRoleFolders(array(1));
-		$this->assertEquals($empty,array());
-		
 		// Protected
-		$rbacadmin->setProtected(1,4,'y');
-		$prot = $rbacreview->isProtected(8,4);
-		$this->assertEquals($prot,true);
-		$rbacadmin->setProtected(1,4,'n');
-		$prot = $rbacreview->isProtected(8,4);
-		$this->assertEquals($prot,false);
+		#$rbacadmin->setProtected(1,4,'y');
+		#$prot = $rbacreview->isProtected(8,4);
+		#$this->assertEquals($prot,true);
+		#$rbacadmin->setProtected(1,4,'n');
+		#$prot = $rbacreview->isProtected(8,4);
+		#$this->assertEquals($prot,false);
 		
 		$rbacreview->getRoleListByObject(8);
 		$rbacreview->getAssignableRoles();
@@ -74,14 +66,9 @@ class ilRBACTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($ass,true);
 		
 		$roles = $rbacreview->getRolesOfRoleFolder(8);
-		$rbacreview->__getAllRoleFolderIds();
-		
-		$rbacreview->getLinkedRolesOfRoleFolder(8);
 		
 		$obj = $rbacreview->getObjectOfRole(4);
 		$this->assertEquals(9,$obj);
-		
-		$rbacreview->getRolesForIDs(array(4),false);
 	}
 	
 	/**

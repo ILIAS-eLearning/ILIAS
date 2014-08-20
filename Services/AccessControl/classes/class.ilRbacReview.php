@@ -1,22 +1,21 @@
 <?php
-
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* class ilRbacReview
-*  Contains Review functions of core Rbac.
-*  This class offers the possibility to view the contents of the user <-> role (UR) relation and
-*  the permission <-> role (PR) relation.
-*  For example, from the UA relation the administrator should have the facility to view all user assigned to a given role.
-*  
-* 
-* @author Stefan Meyer <meyer@leifos.com>
-* @author Sascha Hofmann <saschahofmann@gmx.de>
-* 
-* @version $Id$
-* 
-* @ingroup ServicesAccessControl
-*/
+ * class ilRbacReview
+ *  Contains Review functions of core Rbac.
+ *  This class offers the possibility to view the contents of the user <-> role (UR) relation and
+ *  the permission <-> role (PR) relation.
+ *  For example, from the UA relation the administrator should have the facility to view all user assigned to a given role.
+ *  
+ * 
+ * @author Stefan Meyer <meyer@leifos.com>
+ * @author Sascha Hofmann <saschahofmann@gmx.de>
+ * 
+ * @version $Id$
+ * 
+ * @ingroup ServicesAccessControl
+ */
 class ilRbacReview
 {
 	const FILTER_ALL = 1;
@@ -33,10 +32,10 @@ class ilRbacReview
     private static $_opsCache = null;
 
 	/**
-	* Constructor
-	* @access	public
-	*/
-	function ilRbacReview()
+	 * Constructor
+	 * @access	public
+	 */
+	public function __construct()
 	{
 		global $ilDB,$ilErr,$ilias,$ilLog;
 
@@ -57,51 +56,52 @@ class ilRbacReview
 	}
 
 	/**
-	* Finds all role ids that match the specified user friendly role mailbox address list.
-	*
-	* The role mailbox name address list is an e-mail address list according to IETF RFC 822:
-	*
-	* address list  = role mailbox, {"," role mailbox } ;
-	* role mailbox  = "#", local part, ["@" domain] ;
-	*
-	* Examples: The following role mailbox names are all resolved to the role il_crs_member_123:
-	*
-	*    #Course.A
-	*    #member@Course.A
-	*    #il_crs_member_123@Course.A
-	*    #il_crs_member_123
-	*    #il_crs_member_123@ilias
-	*
-	* Examples: The following role mailbox names are all resolved to the role il_crs_member_345:
-	*
-	*    #member@[English Course]
-	*    #il_crs_member_345@[English Course]
-	*    #il_crs_member_345
-	*    #il_crs_member_345@ilias
-	*
-	* If only the local part is specified, or if domain is equal to "ilias", ILIAS compares
-	* the title of role objects with local part. Only roles that are not in a trash folder
-	* are considered for the comparison.
-	*
-	* If a domain is specified, and if the domain is not equal to "ilias", ILIAS compares
-	* the title of objects with the domain. Only objects that are not in a trash folder are
-	* considered for the comparison. Then ILIAS searches for local roles which contain
-	* the local part in their title. This allows for abbreviated role names, e.g. instead of
-	* having to specify #il_grp_member_345@MyGroup, it is sufficient to specify #member@MyGroup.
-	*
-	* The address list may contain addresses thate are not role mailboxes. These addresses
-	* are ignored.
-	*
-	* If a role mailbox address is ambiguous, this function returns the ID's of all role
-	* objects that are possible recipients for the role mailbox address. 
-	*
-	* If Pear Mail is not installed, then the mailbox address 
-	*
-	*
-	* @access	public
-	* @param	string	IETF RFX 822 address list containing role mailboxes.
-	* @return	int[] Array with role ids that were found
-	*/
+	 * Finds all role ids that match the specified user friendly role mailbox address list.
+	 *
+	 * The role mailbox name address list is an e-mail address list according to IETF RFC 822:
+	 *
+	 * address list  = role mailbox, {"," role mailbox } ;
+	 * role mailbox  = "#", local part, ["@" domain] ;
+	 *
+	 * Examples: The following role mailbox names are all resolved to the role il_crs_member_123:
+	 *
+	 *    #Course.A
+	 *    #member@Course.A
+	 *    #il_crs_member_123@Course.A
+	 *    #il_crs_member_123
+	 *    #il_crs_member_123@ilias
+	 *
+	 * Examples: The following role mailbox names are all resolved to the role il_crs_member_345:
+	 *
+	 *    #member@[English Course]
+	 *    #il_crs_member_345@[English Course]
+	 *    #il_crs_member_345
+	 *    #il_crs_member_345@ilias
+	 *
+	 * If only the local part is specified, or if domain is equal to "ilias", ILIAS compares
+	 * the title of role objects with local part. Only roles that are not in a trash folder
+	 * are considered for the comparison.
+	 *
+	 * If a domain is specified, and if the domain is not equal to "ilias", ILIAS compares
+	 * the title of objects with the domain. Only objects that are not in a trash folder are
+	 * considered for the comparison. Then ILIAS searches for local roles which contain
+	 * the local part in their title. This allows for abbreviated role names, e.g. instead of
+	 * having to specify #il_grp_member_345@MyGroup, it is sufficient to specify #member@MyGroup.
+	 *
+	 * The address list may contain addresses thate are not role mailboxes. These addresses
+	 * are ignored.
+	 *
+	 * If a role mailbox address is ambiguous, this function returns the ID's of all role
+	 * objects that are possible recipients for the role mailbox address. 
+	 *
+	 * If Pear Mail is not installed, then the mailbox address 
+	 *
+	 *
+	 * @access	public
+	 * @param	string	IETF RFX 822 address list containing role mailboxes.
+	 * @return	int[] Array with role ids that were found
+	 * @todo refactor rolf
+	 */
 	function searchRolesByMailboxAddressList($a_address_list)
 	{
 		global $ilDB;
@@ -322,6 +322,7 @@ class ilRbacReview
 	 * @param int a role id
 	 * @param boolean is_localize whether mailbox addresses should be localized
 	 * @return	String mailbox address or null, if role does not exist.
+	 * @todo refactor rolf
 	 */
 	function getRoleMailboxAddress($a_role_id, $is_localize = true)
 	{
@@ -539,13 +540,14 @@ class ilRbacReview
 
 	
 	/**
-	* Checks if a role already exists. Role title should be unique
-	* @access	public
-	* @param	string	role title
-	* @param	integer	obj_id of role to exclude in the check. Commonly this is the current role you want to edit
-	* @return	boolean	true if exists
-	*/
-	function roleExists($a_title,$a_id = 0)
+	 * Checks if a role already exists. Role title should be unique
+	 * @access	public
+	 * @param	string	role title
+	 * @param	integer	obj_id of role to exclude in the check. Commonly this is the current role you want to edit
+	 * @return	boolean	true if exists
+	 * @todo refactor rolf => DONE
+	 */
+	public function roleExists($a_title,$a_id = 0)
 	{
 		global $ilDB;
 		
@@ -571,21 +573,20 @@ class ilRbacReview
 	}
 
 	/**
-    * Note: This function performs faster than the new getParentRoles function,
-    *       because it uses database indexes whereas getParentRoles needs
-    *       a full table space scan.
-	* 
-	* Get parent roles in a path. If last parameter is set 'true'
-	* it delivers also all templates in the path
-	* @access	private
-	* @param	array	array with path_ids
-	* @param	boolean	true for role templates (default: false)
-	* @return	array	array with all parent roles (obj_ids)
-	*/
-	function __getParentRoles($a_path,$a_templates,$a_keep_protected)
+	 * Note: This function performs faster than the new getParentRoles function,
+	 *       because it uses database indexes whereas getParentRoles needs
+	 *       a full table space scan.
+	 * 
+	 * Get parent roles in a path. If last parameter is set 'true'
+	 * it delivers also all templates in the path
+	 * @access	protected
+	 * @param	array	array with path_ids
+	 * @param	boolean	true for role templates (default: false)
+	 * @return	array	array with all parent roles (obj_ids)
+	 * @todo refactor rolf => DONE
+	 */
+	protected function __getParentRoles($a_path,$a_templates)
 	{
-		global $log,$ilDB;
-		
 		if (!isset($a_path) or !is_array($a_path))
 		{
 			$message = get_class($this)."::getParentRoles(): No path given or wrong datatype!";
@@ -595,63 +596,36 @@ class ilRbacReview
 		$parent_roles = array();
 		$role_hierarchy = array();
 		
-        // Select all role folders on a path using a single SQL-statement.
-		// CREATE IN() STATEMENT
-        $in = $ilDB->in('t.parent',$a_path,false,'integer');
-
-        $q = "SELECT t.child,t.depth FROM tree t ".
-             "JOIN object_reference r ON r.ref_id = t.child ".
-             "JOIN object_data o ON o.obj_id = r.obj_id ".
-             "WHERE ".$in." ".
-             "AND o.type= ".$ilDB->quote('rolf','text')." ".
-             "ORDER BY t.depth ASC";
-
-        $r = $this->ilDB->query($q);
-		
-		
-		// Sort by path (Administration -> Rolefolder is first element)
-		$role_rows = array();
-		while($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		foreach($a_path as $ref_id)
 		{
-			
-			$depth = ($row->child == ROLE_FOLDER_ID ? 0 : $row->depth);
-			$role_rows[$depth]['child'] = $row->child;
-		}
-		ksort($role_rows,SORT_NUMERIC);
-
-		foreach($role_rows as $row)
-		{
-			$roles = $this->getRoleListByObject($row['child'],$a_templates);
-            foreach ($roles as $role)
-            {
+			$roles = $this->getRoleListByObject($ref_id,$a_templates);
+			foreach($roles as $role)
+			{
                 $id = $role["obj_id"];
-                $role["parent"] = $row['child'];
+                $role["parent"] = $ref_id;
                 $parent_roles[$id] = $role;
 
                 if (!array_key_exists($role['obj_id'],$role_hierarchy))
                 {
-                    $role_hierarchy[$id] = $row['child'];
+                    $role_hierarchy[$id] = $ref_id;
                 }
-            }
-        }
-		if (!$a_keep_protected)
-		{
-			return $this->__setProtectedStatus($parent_roles,$role_hierarchy,reset($a_path));
+			}
 		}
-		return $parent_roles;
+		return $this->__setProtectedStatus($parent_roles,$role_hierarchy,reset($a_path));
 	}
 
 	/**
-	* get an array of parent role ids of all parent roles, if last parameter is set true
-	* you get also all parent templates
-	* @access	public
-	* @param	integer		ref_id of an object which is end node
-	* @param	boolean		true for role templates (default: false)
-	* @return	array       array(role_ids => role_data)
-	*/
-	function getParentRoleIds($a_endnode_id,$a_templates = false,$a_keep_protected = false)
+	 * get an array of parent role ids of all parent roles, if last parameter is set true
+	 * you get also all parent templates
+	 * @access	public
+	 * @param	integer		ref_id of an object which is end node
+	 * @param	boolean		true for role templates (default: false)
+	 * @return	array       array(role_ids => role_data)
+	 * @todo refactor rolf => DONE
+	 */
+	public function getParentRoleIds($a_endnode_id,$a_templates = false)
 	{
-		global $tree,$log,$ilDB;
+		global $tree;
 
 		if (!isset($a_endnode_id))
 		{
@@ -663,22 +637,24 @@ class ilRbacReview
 		//var_dump($a_endnode_id);exit;
 		//$log->write("ilRBACreview::getParentRoleIds(), 0");	
 		$pathIds  = $tree->getPathId($a_endnode_id);
-
+		
 		// add system folder since it may not in the path
-		$pathIds[0] = SYSTEM_FOLDER_ID;
+		//$pathIds[0] = SYSTEM_FOLDER_ID;
+		$pathIds[0] = ROLE_FOLDER_ID;
 		//$log->write("ilRBACreview::getParentRoleIds(), 1");
 		#return $this->getParentRoles($a_endnode_id,$a_templates,$a_keep_protected);
-		return $this->__getParentRoles($pathIds,$a_templates,$a_keep_protected);
+		return $this->__getParentRoles($pathIds,$a_templates);
 	}
 
 	/**
-	* Returns a list of roles in an container
-	* @access	public
-	* @param	integer	ref_id
-	* @param	boolean	if true fetch template roles too
-	* @return	array	set ids
-	*/
-	function getRoleListByObject($a_ref_id,$a_templates = false)
+	 * Returns a list of roles in an container
+	 * @access	public
+	 * @param	integer	ref_id of object
+	 * @param	boolean	if true fetch template roles too
+	 * @return	array	set ids
+	 * @todo refactor rolf => DONE 
+	 */
+	public function getRoleListByObject($a_ref_id,$a_templates = false)
 	{
 		global $ilDB;
 		
@@ -714,11 +690,12 @@ class ilRbacReview
 	}
 	
 	/**
-	* Returns a list of all assignable roles
-	* @access	public
-	* @param	boolean	if true fetch template roles too
-	* @return	array	set ids
-	*/
+	 * Returns a list of all assignable roles
+	 * @access	public
+	 * @param	boolean	if true fetch template roles too
+	 * @return	array	set ids
+	 * @todo refactor rolf => DONE 
+	 */
 	function getAssignableRoles($a_templates = false,$a_internal_roles = false, $title_filter = '')
 	{
 		global $ilDB;
@@ -755,22 +732,22 @@ class ilRbacReview
 	}
 
 	/**
-	* Returns a list of assignable roles in a subtree of the repository
-	* @access	public
-	* @param	ref_id Rfoot node of subtree
-	* @return	array	set ids
-	*/
-	function getAssignableRolesInSubtree($ref_id)
+	 * Returns a list of assignable roles in a subtree of the repository
+	 * @access	public
+	 * @param	ref_id Root node of subtree
+	 * @return	array	set ids
+	 * @todo refactor rolf => DONE
+	 */
+	public function getAssignableRolesInSubtree($ref_id)
 	{
 		global $ilDB;
-		
 		
 		$query = 'SELECT rol_id FROM rbac_fa fa '.
 				'JOIN tree t1 ON t1.child = fa.parent '.
 				'JOIN object_data obd ON fa.rol_id = obd.obj_id ' .
 				'WHERE assign = '.$ilDB->quote('y','text').' '.
 				'AND obd.type = '.$ilDB->quote('role','text').' '.
-				'AND t1.parent IN ('.
+				'AND t1.child IN ('.
 				$GLOBALS['tree']->getSubTreeQuery($ref_id,array('child')).' '.
 				') ';
 		
@@ -786,23 +763,23 @@ class ilRbacReview
 	}
 
 	/**
-	* Get all assignable roles under a specific node
-	* @access	public
-	* @param ref_id
-	* @return	array	set ids
-	*/
-	function getAssignableChildRoles($a_ref_id)
+	 * Get all assignable roles directly under a specific node
+	 * @access	public
+	 * @param ref_id
+	 * @return	array	set ids
+	 * @todo refactor rolf => Find a better name; reduce sql fields
+	 */
+	public function getAssignableChildRoles($a_ref_id)
 	{
 		global $ilDB;
-		global $tree;
 
 		$query = "SELECT fa.*, rd.* ".
 			 "FROM object_data rd ".
 			 "JOIN rbac_fa fa ON rd.obj_id = fa.rol_id ".
-			 "JOIN tree t ON t.child = fa.parent ". 
 			 "WHERE fa.assign = 'y' ".
-			 "AND t.parent = ".$this->ilDB->quote($a_ref_id,'integer')." "
+			 "AND fa.parent = ".$this->ilDB->quote($a_ref_id,'integer')." "
 			;
+		
 		$res = $ilDB->query($query);
 		while($row = $ilDB->fetchAssoc($res))
 		{
@@ -812,12 +789,13 @@ class ilRbacReview
 	}
 	
 	/**
-	* get roles and templates or only roles; returns string for where clause
-	* @access	private
-	* @param	boolean	true: with templates
-	* @return	string	where clause
-	*/
-	function __setTemplateFilter($a_templates)
+	 * get roles and templates or only roles; returns string for where clause
+	 * @access	private
+	 * @param	boolean	true: with templates
+	 * @return	string	where clause
+	 * @todo refactor rolf => DONE
+	 */
+	protected function __setTemplateFilter($a_templates)
 	{
 		global $ilDB;
 		
@@ -834,17 +812,18 @@ class ilRbacReview
 	}
 
 	/**
-	* computes role type in role list array:
-	* global: roles in ROLE_FOLDER_ID
-	* local: assignable roles in other role folders
-	* linked: roles with stoppped inheritance
-	* template: role templates
-	* 
-	* @access	private
-	* @param	array	role list
-	* @return	array	role list with additional entry for role_type
-	*/
-	function __setRoleType($a_role_list)
+	 * computes role type in role list array:
+	 * global: roles in ROLE_FOLDER_ID
+	 * local: assignable roles in other role folders
+	 * linked: roles with stoppped inheritance
+	 * template: role templates
+	 * 
+	 * @access	private
+	 * @param	array	role list
+	 * @return	array	role list with additional entry for role_type
+	 * @todo refactor rolf => DONE
+	 */
+	protected function __setRoleType($a_role_list)
 	{
 		foreach ($a_role_list as $key => $val)
 		{
@@ -890,6 +869,7 @@ class ilRbacReview
 	 * @global ilDB $ilDB
 	 * @param array $a_roles
 	 * @return int
+	 * @todo refactor rolf => DONE
 	 */
 	public function getNumberOfAssignedUsers(Array $a_roles)
 	{
@@ -904,13 +884,14 @@ class ilRbacReview
 	}
 	
 	/**
-	* get all assigned users to a given role
-	* @access	public
-	* @param	integer	role_id
-	* @param    array   columns to get form usr_data table (optional)
-	* @return	array	all users (id) assigned to role OR arrays of user datas
-	*/
-	function assignedUsers($a_rol_id, $a_fields = NULL)
+	 * get all assigned users to a given role
+	 * @access	public
+	 * @param	integer	role_id
+	 * @param    array   columns to get form usr_data table (optional)
+	 * @return	array	all users (id) assigned to role OR arrays of user datas
+	 * @todo refactor rolf =>  (check result buffering)
+	 */
+	public function assignedUsers($a_rol_id, $a_fields = NULL)
 	{
 		global $ilBench,$ilDB;
 		
@@ -969,13 +950,14 @@ class ilRbacReview
 	}
 
 	/**
-	* check if a specific user is assigned to specific role
-	* @access	public
-	* @param	integer		usr_id
-	* @param	integer		role_id
-	* @return	boolean
-	*/
-	function isAssigned($a_usr_id,$a_role_id)
+	 * check if a specific user is assigned to specific role
+	 * @access	public
+	 * @param	integer		usr_id
+	 * @param	integer		role_id
+	 * @return	boolean
+	 * @todo refactor rolf =>  DONE
+	 */
+	public function isAssigned($a_usr_id,$a_role_id)
 	{
         // Quickly determine if user is assigned to a role
 		global $ilDB;
@@ -990,17 +972,18 @@ class ilRbacReview
 	}
     
 	/**
-	* check if a specific user is assigned to at least one of the
-    * given role ids.
-    * This function is used to quickly check whether a user is member
-    * of a course or a group.
-    *
-	* @access	public
-	* @param	integer		usr_id
-	* @param	array[integer]		role_ids
-	* @return	boolean
-	*/
-	function isAssignedToAtLeastOneGivenRole($a_usr_id,$a_role_ids)
+	 * check if a specific user is assigned to at least one of the
+	 * given role ids.
+	 * This function is used to quickly check whether a user is member
+	 * of a course or a group.
+	 *
+	 * @access	public
+	 * @param	integer		usr_id
+	 * @param	array[integer]		role_ids
+	 * @return	boolean
+	 * @todo refactor rolf =>  DONE
+	 */
+	public function isAssignedToAtLeastOneGivenRole($a_usr_id,$a_role_ids)
 	{
 		global $ilDB;
 
@@ -1014,12 +997,13 @@ class ilRbacReview
 	}
 	
 	/**
-	* get all assigned roles to a given user
-	* @access	public
-	* @param	integer		usr_id
-	* @return	array		all roles (id) the user have
-	*/
-	function assignedRoles($a_usr_id)
+	 * get all assigned roles to a given user
+	 * @access	public
+	 * @param	integer		usr_id
+	 * @return	array		all roles (id) the user have
+	 * @todo refactor rolf =>  DONE
+	 */
+	public function assignedRoles($a_usr_id)
 	{
 		global $ilDB;
 		
@@ -1038,6 +1022,7 @@ class ilRbacReview
 	/**
 	 * Get assigned global roles for an user
 	 * @param int	$a_usr_id	Id of user account
+	 * @todo refactor rolf =>  DONE
 	 */
 	public function assignedGlobalRoles($a_usr_id)
 	{
@@ -1058,13 +1043,14 @@ class ilRbacReview
 	}
 
 	/**
-	* Check if its possible to assign users
-	* @access	public
-	* @param	integer	object id of role
-	* @param	integer	ref_id of object in question
-	* @return	boolean 
-	*/
-	function isAssignable($a_rol_id, $a_ref_id)
+	 * Check if its possible to assign users
+	 * @access	public
+	 * @param	integer	object id of role
+	 * @param	integer	ref_id of object in question
+	 * @return	boolean 
+	 * @todo refactor rolf (expects object reference id instead of rolf) => DONE
+	 */
+	public function isAssignable($a_rol_id, $a_ref_id)
 	{
 		global $ilBench,$ilDB;
 
@@ -1095,6 +1081,8 @@ class ilRbacReview
 	
 	/**
 	 * Temporary bugfix
+	 * @todo refactor rolf => DONE
+	 * 
 	 */
 	public function hasMultipleAssignments($a_role_id)
 	{
@@ -1107,16 +1095,17 @@ class ilRbacReview
 	}
 
 	/**
-	* returns an array of role folder ids assigned to a role. A role with stopped inheritance
-	* may be assigned to more than one rolefolder.
-	* To get only the original location of a role, set the second parameter to true
-	*
-	* @access	public
-	* @param	integer		role id
-	* @param	boolean		get only rolefolders where role is assignable (true) 
-	* @return	array		reference IDs of role folders
-	*/
-	function getFoldersAssignedToRole($a_rol_id, $a_assignable = false)
+	 * Returns an array of objects assigned to a role. A role with stopped inheritance
+	 * may be assigned to more than one objects.
+	 * To get only the original location of a role, set the second parameter to true
+	 *
+	 * @access	public
+	 * @param	integer		role id
+	 * @param	boolean		get only rolefolders where role is assignable (true) 
+	 * @return	array		reference IDs of role folders
+	 * @todo refactor rolf  => RENAME (rest done)
+	 */
+	public function getFoldersAssignedToRole($a_rol_id, $a_assignable = false)
 	{
 		global $ilDB;
 		
@@ -1141,16 +1130,55 @@ class ilRbacReview
 		}
 		return $folders ? $folders : array();
 	}
+	
+	/**
+	 * Get roles of object
+	 * @param type $a_ref_id
+	 * @param type $a_assignable
+	 * @throws InvalidArgumentException
+	 * @todo refactor rolf => DONE 
+	 */
+	public function getRolesOfObject($a_ref_id, $a_assignable_only = FALSE)
+	{
+		global $ilDB;
+		
+		if(!isset($a_ref_id))
+		{
+			$GLOBALS['ilLog']->logStack();
+			throw new InvalidArgumentException(__METHOD__.': No ref_id given!');
+		}
+		if($a_assignable_only === TRUE)
+		{
+			$and = 'AND assign = '.$ilDB->quote('y','text');
+		}
+		$query = "SELECT rol_id FROM rbac_fa ".
+			 "WHERE parent = ".$ilDB->quote($a_ref_id,'integer')." ".
+			 $and;
+
+		$res = $ilDB->query($query);
+		
+		$role_ids = array();
+		while($row = $ilDB->fetchObject($res))
+		{
+			$role_ids[] = $row->rol_id;
+		}
+		return $role_ids;
+	}
+	 
+	
+	
 
 	/**
-	* get all roles of a role folder including linked local roles that are created due to stopped inheritance
-	* returns an array with role ids
-	* @access	public
-	* @param	integer		ref_id of object
-	* @param	boolean		if false only get true local roles
-	* @return	array		Array with rol_ids
-	*/
-	function getRolesOfRoleFolder($a_ref_id,$a_nonassignable = true)
+	 * get all roles of a role folder including linked local roles that are created due to stopped inheritance
+	 * returns an array with role ids
+	 * @access	public
+	 * @param	integer		ref_id of object
+	 * @param	boolean		if false only get true local roles
+	 * @return	array		Array with rol_ids
+	 * @deprecated since version 4.5.0
+	 * @todo refactor rolf => RENAME
+	 */
+	public function getRolesOfRoleFolder($a_ref_id,$a_nonassignable = true)
 	{
 		global $ilBench,$ilDB,$ilLog;
 		
@@ -1184,11 +1212,12 @@ class ilRbacReview
 	}
 	
 	/**
-	* get only 'global' roles
-	* @access	public
-	* @return	array		Array with rol_ids
-	*/
-	function getGlobalRoles()
+	 * get only 'global' roles
+	 * @access	public
+	 * @return	array		Array with rol_ids
+	 * @todo refactor rolf => DONE
+	 */
+	public function getGlobalRoles()
 	{
 		return $this->getRolesOfRoleFolder(ROLE_FOLDER_ID,false);
 	}
@@ -1196,21 +1225,16 @@ class ilRbacReview
 	/**
 	 * Get local roles of object
 	 * @param int $a_ref_id
+	 * @todo refactor rolf => DONE
 	 */
 	public function getLocalRoles($a_ref_id)
 	{
 		global $ilDB;
 
-		// @todo: all this in one query
-		$rolf = $this->getRoleFolderIdOfObject($a_ref_id);
-		if(!$rolf)
-		{
-			return array();
-		}
 		$lroles = array();
-		foreach($this->getRolesOfRoleFolder($rolf) as $role_id)
+		foreach($this->getRolesOfRoleFolder($a_ref_id) as $role_id)
 		{
-			if($this->isAssignable($role_id, $rolf))
+			if($this->isAssignable($role_id, $a_ref_id))
 			{
 				$lroles[] = $role_id;
 			}
@@ -1219,11 +1243,27 @@ class ilRbacReview
 	}
 
 	/**
-	* get only 'global' roles
-	* @access	public
-	* @return	array		Array with rol_ids
-	*/
-	function getGlobalRolesArray()
+	 * Get all roles with local policies
+	 * @param type $a_ref_id
+	 * @return type
+	 */
+	public function getLocalPolicies($a_ref_id)
+	{
+		$lroles = array();
+		foreach($this->getRolesOfRoleFolder($a_ref_id) as $role_id)
+		{
+			$lroles[] = $role_id;
+		}
+		return $lroles;
+	}
+
+	/**
+	 * get only 'global' roles
+	 * @access	public
+	 * @return	array		Array with rol_ids
+	 * @todo refactor rolf => DONE
+	 */
+	public function getGlobalRolesArray()
 	{
 		foreach($this->getRolesOfRoleFolder(ROLE_FOLDER_ID,false) as $role_id)
 		{
@@ -1234,11 +1274,12 @@ class ilRbacReview
 	}
 
 	/**
-	* get only 'global' roles (with flag 'assign_users')
-	* @access	public
-	* @return	array		Array with rol_ids
-	*/
-	function getGlobalAssignableRoles()
+	 * get only 'global' roles (with flag 'assign_users')
+	 * @access	public
+	 * @return	array		Array with rol_ids
+	 * @todo refactor rolf => DONE
+	 */
+	public function getGlobalAssignableRoles()
 	{
 		include_once './Services/AccessControl/classes/class.ilObjRole.php';
 
@@ -1253,67 +1294,12 @@ class ilRbacReview
 		return $ga ? $ga : array();
 	}
 
-	/**
-	* get all role folder ids
-	* @access	private
-	* @return	array
-	*/
-	function __getAllRoleFolderIds()
-	{
-		global $ilDB;
-		
-		$query = "SELECT DISTINCT parent FROM rbac_fa";
-		$res = $ilDB->query($query);
-
-		$parent = array();
-		while($row = $ilDB->fetchObject($res))
-		{
-			$parent[] = $row->parent;
-		}
-		return $parent;
-	}
 
 	/**
-	* returns the data of a role folder assigned to an object
-	* @access	public
-	* @param	integer		ref_id of object with a rolefolder object under it
-	* @return	array		empty array if rolefolder not found
-	*/
-	function getRoleFolderOfObject($a_ref_id)
-	{
-		global $tree,$ilBench;
-		
-		$ilBench->start("RBAC", "review_getRoleFolderOfObject");
-		
-		if (!isset($a_ref_id))
-		{
-			$GLOBALS['ilLog']->logStack();
-			$message = get_class($this)."::getRoleFolderOfObject(): No ref_id given!";
-			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
-		}
-		$childs = $tree->getChildsByType($a_ref_id,"rolf");
-
-		$ilBench->stop("RBAC", "review_getRoleFolderOfObject");
-
-		return $childs[0] ? $childs[0] : array();
-	}
-	
-	function getRoleFolderIdOfObject($a_ref_id)
-	{
-		$rolf = $this->getRoleFolderOfObject($a_ref_id);
-		
-		if (!$rolf)
-		{
-			return false;
-		}
-		
-		return $rolf['ref_id'];
-	}
-
-	/**
-	 * Check if role
+	 * Check if role is assigned to an object
+	 * @todo refactor rolf => DONE (renamed)
 	 */
-	public function isRoleAssignedToFolder($a_role_id, $a_parent_id)
+	public function isRoleAssignedToObject($a_role_id, $a_parent_id)
 	{
 		global $rbacreview, $ilDB;
 
@@ -1325,11 +1311,12 @@ class ilRbacReview
 	}
 
 	/**
-	* get all possible operations 
-	* @access	public
-	* @return	array	array of operation_id
-	*/
-	function getOperations()
+	 * get all possible operations 
+	 * @access	public
+	 * @return	array	array of operation_id
+	 * @todo refactor rolf => DONE
+	 */
+	public function getOperations()
 	{
 		global $ilDB;
 
@@ -1346,11 +1333,12 @@ class ilRbacReview
  	}
 
 	/**
-	* get one operation by operation id
-	* @access	public
-	* @return	array data of operation_id
-	*/
-	function getOperation($ops_id)
+	 * get one operation by operation id
+	 * @access	public
+	 * @return	array data of operation_id
+	 * @todo refactor rolf => DONE
+	 */
+	public function getOperation($ops_id)
 	{
 		global $ilDB;
 
@@ -1367,13 +1355,14 @@ class ilRbacReview
 	}
 	
 	/**
-	* get all possible operations of a specific role
-	* The ref_id of the role folder (parent object) is necessary to distinguish local roles
-	* @access	public
-	* @param	integer	role_id
-	* @param	integer	role folder id
-	* @return	array	array of operation_id and types
-	*/
+	 * get all possible operations of a specific role
+	 * The ref_id of the role folder (parent object) is necessary to distinguish local roles
+	 * @access	public
+	 * @param	integer	role_id
+	 * @param	integer	role folder id
+	 * @return	array	array of operation_id and types
+	 * @todo refactor rolf => DONE
+	 */
 	public function getAllOperationsOfRole($a_rol_id, $a_parent = 0)
 	{
 		global $ilDB;
@@ -1388,6 +1377,7 @@ class ilRbacReview
 			"AND parent = ".$ilDB->quote($a_parent,'integer');
 		$res = $ilDB->query($query);
 
+		$ops_arr = array();
 		while ($row = $ilDB->fetchObject($res))
 		{
 			$ops_arr[$row->type][] = $row->ops_id;
@@ -1400,6 +1390,7 @@ class ilRbacReview
 	 * @param object $a_ref_id
 	 * @param object $a_role_id
 	 * @return 
+	 * @todo refactor rolf => DONE
 	 */
 	public function getActiveOperationsOfRole($a_ref_id, $a_role_id)
 	{
@@ -1419,15 +1410,16 @@ class ilRbacReview
 	
 
 	/**
-	* get all possible operations of a specific role
-	* The ref_id of the role folder (parent object) is necessary to distinguish local roles
-	* @access	public
-	* @param	integer	role_id
-	* @param	string	object type
-	* @param	integer	role folder id
-	* @return	array	array of operation_id
-	*/
-	function getOperationsOfRole($a_rol_id,$a_type,$a_parent = 0)
+	 * get all possible operations of a specific role
+	 * The ref_id of the role folder (parent object) is necessary to distinguish local roles
+	 * @access	public
+	 * @param	integer	role_id
+	 * @param	string	object type
+	 * @param	integer	role folder id
+	 * @return	array	array of operation_id
+	 * @todo refactor rolf => DONE
+	 */
+	public function getOperationsOfRole($a_rol_id, $a_type, $a_parent = 0)
 	{
 		global $ilDB,$ilLog;
 		
@@ -1462,7 +1454,14 @@ class ilRbacReview
 		return $ops_arr;
 	}
 	
-	function getRoleOperationsOnObject($a_role_id,$a_ref_id)
+	/**
+	 * @global ilDB $ilDB
+	 * @param type $a_role_id
+	 * @param type $a_ref_id
+	 * @return type
+	 * @todo rafactor rolf => DONE
+	 */
+	public function getRoleOperationsOnObject($a_role_id,$a_ref_id)
 	{
 		global $ilDB;
 		
@@ -1480,12 +1479,13 @@ class ilRbacReview
 	}
 
 	/**
-	* all possible operations of a type
-	* @access	public
-	* @param	integer		object_ID of type
-	* @return	array		valid operation_IDs
-	*/
-	function getOperationsOnType($a_typ_id)
+	 * all possible operations of a type
+	 * @access	public
+	 * @param	integer		object_ID of type
+	 * @return	array		valid operation_IDs
+	 * @todo rafactor rolf => DONE
+	 */
+	public function getOperationsOnType($a_typ_id)
 	{
 		global $ilDB;
 
@@ -1512,12 +1512,14 @@ class ilRbacReview
 	}
 
 	/**
-	* all possible operations of a type
-	* @access	public
-	* @param	integer		object_ID of type
-	* @return	array		valid operation_IDs
-	*/
-	function getOperationsOnTypeString($a_type)
+	 * all possible operations of a type
+	 * @access	public
+	 * @param	integer		object_ID of type
+	 * @return	array		valid operation_IDs
+	 * @todo rafactor rolf => DONE
+	 * 
+	 */
+	public function getOperationsOnTypeString($a_type)
 	{
 		global $ilDB;
 
@@ -1537,6 +1539,7 @@ class ilRbacReview
 	 * @param string $a_type Type is "object" or 
 	 * @param string $a_class
 	 * @return 
+	 * @todo refactor rolf => DONE
 	 */
 	public function getOperationsByTypeAndClass($a_type,$a_class)
 	{
@@ -1571,24 +1574,29 @@ class ilRbacReview
 
 	
 	/**
-	* get all objects in which the inheritance of role with role_id was stopped
-	* the function returns all reference ids of objects containing a role folder.
-	* @access	public
-	* @param	integer	role_id
-	* @param	array   filter ref_ids
-	* @return	array	with ref_ids of objects
-	*/
-	function getObjectsWithStopedInheritance($a_rol_id,$a_filter = array())
+	 * get all objects in which the inheritance of role with role_id was stopped
+	 * the function returns all reference ids of objects containing a role folder.
+	 * @access	public
+	 * @param	integer	role_id
+	 * @param	array   filter ref_ids
+	 * @return	array	with ref_ids of objects
+	 * @todo refactor rolf => DONE
+	 */
+	public function getObjectsWithStopedInheritance($a_rol_id,$a_filter = array())
 	{
 		global $ilDB;
 		
-		$query = 'SELECT t.parent p FROM tree t JOIN rbac_fa fa ON fa.parent = child '.
-			'WHERE assign = '.$ilDB->quote('n','text').' '.
-			'AND rol_id = '.$ilDB->quote($a_rol_id,'integer').' ';
+		#$query = 'SELECT t.parent p FROM tree t JOIN rbac_fa fa ON fa.parent = child '.
+		#	'WHERE assign = '.$ilDB->quote('n','text').' '.
+		#	'AND rol_id = '.$ilDB->quote($a_rol_id,'integer').' ';
+		
+		$query = 'SELECT parent p FROM rbac_fa '.
+				'WHERE assign = '.$ilDB->quote('n','text').' '.
+				'AND rol_id = '.$ilDB->quote($a_rol_id,'integer').' ';
 		
 		if($a_filter)
 		{
-			$query .= ('AND '.$ilDB->in('t.parent',(array) $a_filter,false,'integer'));
+			$query .= ('AND '.$ilDB->in('parent',(array) $a_filter,false,'integer'));
 		}
 
 		$res = $ilDB->query($query);
@@ -1601,12 +1609,13 @@ class ilRbacReview
 	}
 
 	/**
-	* checks if a rolefolder is set as deleted (negative tree_id)
-	* @access	public
-	* @param	integer	ref_id of rolefolder
-	* @return	boolean	true if rolefolder is set as deleted
-	*/
-	function isDeleted($a_node_id)
+	 * Checks if a rolefolder is set as deleted (negative tree_id)
+	 * @access	public
+	 * @param	integer	ref_id of rolefolder
+	 * @return	boolean	true if rolefolder is set as deleted
+	 * @todo refactor rolf => DELETE method
+	 */
+	public function isDeleted($a_node_id)
 	{
 		global $ilDB;
 		
@@ -1638,13 +1647,23 @@ class ilRbacReview
 	 * Check if role is a global role
 	 * @param type $a_role_id
 	 * @return type
+	 * @todo refactor rolf => DONE
 	 */
 	public function isGlobalRole($a_role_id)
 	{
 		return in_array($a_role_id,$this->getGlobalRoles());
 	}
 	
-	function getRolesByFilter($a_filter = 0,$a_user_id = 0, $title_filter = '')
+	/**
+	 * 
+	 * @global ilDB $ilDB
+	 * @param type $a_filter
+	 * @param type $a_user_id
+	 * @param type $title_filter
+	 * @return type
+	 * @todo refactor rolf => DONE
+	 */
+	public function getRolesByFilter($a_filter = 0,$a_user_id = 0, $title_filter = '')
 	{
 		global $ilDB;
 		
@@ -1727,9 +1746,15 @@ class ilRbacReview
 
 		return $roles ? $roles : array();
 	}
-	
-	// get id of a given object type (string)
-	function getTypeId($a_type)
+
+	/**
+	 * Get type id of object
+	 * @global ilDB $ilDB
+	 * @param type $a_type
+	 * @return type
+	 * @todo refactor rolf => DONE
+	 */
+	public function getTypeId($a_type)
 	{
 		global $ilDB;
 
@@ -1742,14 +1767,15 @@ class ilRbacReview
 	}
 
 	/**
-	* get ops_id's by name.
-	*
-	* Example usage: $rbacadmin->grantPermission($roles,ilRbacReview::_getOperationIdsByName(array('visible','read'),$ref_id));
-	*
-	* @access	public
-	* @param	array	string name of operation. see rbac_operations
-	* @return	array   integer ops_id's
-	*/
+	 * get ops_id's by name.
+	 *
+	 * Example usage: $rbacadmin->grantPermission($roles,ilRbacReview::_getOperationIdsByName(array('visible','read'),$ref_id));
+	 *
+	 * @access	public
+	 * @param	array	string name of operation. see rbac_operations
+	 * @return	array   integer ops_id's
+	 * @todo refactor rolf => DONE
+	 */
 	public static function _getOperationIdsByName($operations)
 	{
 		global $ilDB;
@@ -1771,12 +1797,13 @@ class ilRbacReview
 	}
 	
 	/**
-	* get operation id by name of operation
-	* @access	public
-	* @access	static
-	* @param	string	operation name
-	* @return	integer	operation id
-	*/
+	 * get operation id by name of operation
+	 * @access	public
+	 * @access	static
+	 * @param	string	operation name
+	 * @return	integer	operation id
+	 * @todo refactor rolf => DONE
+	 */
 	public static function _getOperationIdByName($a_operation)
 	{
 		global $ilDB,$ilErr;
@@ -1810,6 +1837,7 @@ class ilRbacReview
 	 * Lookup operation ids
 	 * @param array $a_type_arr e.g array('cat','crs','grp'). The operation name (e.g. 'create_cat') is generated automatically
 	 * @return array int Array with operation ids
+	 * @todo refactor rolf => DONE
 	 */
 	public static function lookupCreateOperationIds($a_type_arr)
 	{
@@ -1843,40 +1871,16 @@ class ilRbacReview
 	}
 
 
-	/**
-	* get all linked local roles of a role folder that are created due to stopped inheritance
-	* returns an array with role ids
-	* @access	public
-	* @param	integer		ref_id of object
-	* @param	boolean		if false only get true local roles
-	* @return	array		Array with rol_ids
-	*/
-	function getLinkedRolesOfRoleFolder($a_ref_id)
-	{
-		global $ilDB;
-		
-		if (!isset($a_ref_id))
-		{
-			$message = get_class($this)."::getLinkedRolesOfRoleFolder(): No ref_id given!";
-			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
-		}
-		
-		$and = " AND assign='n'";
-
-		$query = "SELECT rol_id FROM rbac_fa ".
-			 "WHERE parent = ".$ilDB->quote($a_ref_id,'integer')." ".
-			 $and;
-		$res = $this->ilDB->query($query);
-		while($row = $ilDB->fetchObject($res))
-		{
-			$rol_id[] = $row->rol_id;
-		}
-
-		return $rol_id ? $rol_id : array();
-	}
 	
-	// checks if default permission settings of role under current parent (rolefolder) are protected from changes
-	function isProtected($a_ref_id,$a_role_id)
+	/**
+	 * @todo refactor rolf => search calls
+	 * @global ilDB $ilDB
+	 * @param type $a_ref_id
+	 * @param type $a_role_id
+	 * @return type
+	 * @todo refactor rolf => DONE
+	 */
+	public function isProtected($a_ref_id,$a_role_id)
 	{
 		global $ilDB;
 		
@@ -1891,7 +1895,19 @@ class ilRbacReview
 	
 	// this method alters the protected status of role regarding the current user's role assignment
 	// and current postion in the hierarchy.
-	function __setProtectedStatus($a_parent_roles,$a_role_hierarchy,$a_ref_id)
+
+	/**
+	 * Set protected status
+	 * @global type $rbacsystem
+	 * @global type $ilUser
+	 * @global type $log
+	 * @param type $a_parent_roles
+	 * @param type $a_role_hierarchy
+	 * @param type $a_ref_id
+	 * @return boolean
+	 * @todo refactor rolf => DONE
+	 */
+	protected function __setProtectedStatus($a_parent_roles,$a_role_hierarchy,$a_ref_id)
 	{
 		//vd('refId',$a_ref_id,'parent roles',$a_parent_roles,'role-hierarchy',$a_role_hierarchy);
 		
@@ -1932,8 +1948,8 @@ class ilRbacReview
 					//$log->write("ilRBACreview::__setProtectedStatus(), 1");
 					// check if role grants 'edit_permission' to parent
 					$rolf = $a_parent_roles[$role_id]['parent'];
-					$parent_obj = $GLOBALS['tree']->getParentId($rolf);
-					if ($rbacsystem->checkPermission($parent_obj,$lvl_role_id,'edit_permission'))
+					#$parent_obj = $GLOBALS['tree']->getParentId($rolf);
+					if ($rbacsystem->checkPermission($rolf,$lvl_role_id,'edit_permission'))
 					{
 						#echo "<br />Permission granted";
 						//$log->write("ilRBACreview::__setProtectedStatus(), 2");
@@ -1946,20 +1962,19 @@ class ilRbacReview
 				}
 			}
 		}
-		
 		return $a_parent_roles;
 	}
 	
 	/**
-	* get operation list by object type
-	* TODO: rename function to: getOperationByType
-	* @access	public
-	* @access 	static
-	* @param	string	object type you want to have the operation list
-	* @param	string	order column
-	* @param	string	order direction (possible values: ASC or DESC)
-	* @return	array	returns array of operations
-	*/
+	 * get operation list by object type
+	 * @access	public
+	 * @access 	static
+	 * @param	string	object type you want to have the operation list
+	 * @param	string	order column
+	 * @param	string	order direction (possible values: ASC or DESC)
+	 * @return	array	returns array of operations
+	 * @todo refactor rolf => DONE
+	 */
 	public static function _getOperationList($a_type = null)
 	 {
 		global $ilDB;
@@ -1995,6 +2010,12 @@ class ilRbacReview
 		return $arr;
 	}
 	
+	/**
+	 * 
+	 * @param type $a_ops_arr
+	 * @return type
+	 * @todo refactor rolf => DONE
+	 */
 	public static function _groupOperationsByClass($a_ops_arr)
 	{
 		$arr = array();
@@ -2010,6 +2031,8 @@ class ilRbacReview
 
 	/**
 	 * Get object id of objects a role is assigned to
+	 * 
+	 * @todo refactor rolf (due to performance reasons the new version does not check for deleted roles only in object reference)
 	 *
 	 * @access public
 	 * @param int role id
@@ -2028,12 +2051,18 @@ class ilRbacReview
 			return $obj_cache[$a_role_id];
 		}
 		
-		$query = "SELECT obr.obj_id FROM rbac_fa rfa ".
-			"JOIN tree ON rfa.parent = tree.child ".
-			"JOIN object_reference obr ON tree.parent = obr.ref_id ".
-			"WHERE tree.tree = 1 ".
-			"AND assign = 'y' ".
-			"AND rol_id = ".$ilDB->quote($a_role_id,'integer')." ";
+		$query = 'SELECT obr.obj_id FROM rbac_fa rfa '.
+				'JOIN object_reference obr ON rfa.parent = obr.ref_id '.
+				'WHERE assign = '.$ilDB->quote('y','text'). ' '.
+				'AND rol_id = '.$ilDB->quote($a_role_id,'integer').' '.
+				'AND deleted IS NULL';
+		
+		#$query = "SELECT obr.obj_id FROM rbac_fa rfa ".
+		#	"JOIN tree ON rfa.parent = tree.child ".
+		#	"JOIN object_reference obr ON tree.parent = obr.ref_id ".
+		#	"WHERE tree.tree = 1 ".
+		#	"AND assign = 'y' ".
+		#	"AND rol_id = ".$ilDB->quote($a_role_id,'integer')." ";
 		$res = $ilDB->query($query);
 		
 		$obj_cache[$a_role_id] = 0;
@@ -2047,17 +2076,23 @@ class ilRbacReview
 	/**
 	 * Get reference of role
 	 * @param object $a_role_id
-	 * @return 
+	 * @return int
+	 * @todo refactor rolf (no deleted check)
 	 */
 	public function getObjectReferenceOfRole($a_role_id)
 	{
 		global $ilDB;
 		
-		$query = "SELECT tree.parent ref FROM rbac_fa fa ".
-			"JOIN tree ON fa.parent = tree.child ".
-			"WHERE tree.tree = 1 ".
-			"AND assign = ".$ilDB->quote('y','text').' '.
-			"AND rol_id = ".$ilDB->quote($a_role_id,'integer');
+		$query = 'SELECT parent ref FROM rbac_fa '.
+				'WHERE rol_id = '.$ilDB->quote($a_role_id,'integer').' '.
+				'AND assign = '.$ilDB->quote('y','text');
+		
+		
+		#$query = "SELECT tree.parent ref FROM rbac_fa fa ".
+		#	"JOIN tree ON fa.parent = tree.child ".
+		#	"WHERE tree.tree = 1 ".
+		#	"AND assign = ".$ilDB->quote('y','text').' '.
+		#	"AND rol_id = ".$ilDB->quote($a_role_id,'integer');
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -2072,8 +2107,10 @@ class ilRbacReview
 	 *
 	 * @param int $a_role_id
 	 * @return boolean
+	 * @todo refactor rolf => DONE
 	 */
-	public function isRoleDeleted ($a_role_id){
+	public function isRoleDeleted ($a_role_id)
+	{
 		$rolf_list = $this->getFoldersAssignedToRole($a_role_id, false);
 		$deleted = true;
 		if (count($rolf_list))
@@ -2091,7 +2128,14 @@ class ilRbacReview
 	}
 	
 	
-	function getRolesForIDs($role_ids, $use_templates)
+	/**
+	 * @global ilDB $ilDB
+	 * @param type $role_ids
+	 * @param type $use_templates
+	 * @return type
+	 * @todo refactor rolf => DONE
+	 */
+	public function getRolesForIDs($role_ids, $use_templates)
 	{
 		global $ilDB;
 		
@@ -2120,6 +2164,7 @@ class ilRbacReview
 	/**
 	 * get operation assignments 
 	 * @return array array(array('typ_id' => $typ_id,'title' => $title,'ops_id => '$ops_is,'operation' => $operation),...
+	 * @todo refactor rolf => DONE
 	 */
 	public function getOperationAssignment()
 	{
@@ -2144,32 +2189,11 @@ class ilRbacReview
 	}
 	
 	/**
-	 * Filter empty role folder.
-	 * This method is used after deleting
-	 * roles, to check which empty role folders have to deleted.
-	 *  
-	 * @param array	$a_rolf_candidates
-	 * @return array
-	 */
-	public function filterEmptyRoleFolders($a_rolf_candidates)
-	{
-		global $ilDB;
-
-		$query = 'SELECT DISTINCT(parent) parent FROM rbac_fa '.
-			'WHERE '.$ilDB->in('parent',$a_rolf_candidates,false,'integer');
-		$res = $ilDB->query($query);
-		while($row = $ilDB->fetchObject($res))
-		{
-			$non_empty[] = $row->parent;
-		}
-		return $non_empty ? $non_empty : array();
-	}
-	
-	/**
-	 * Check if role is deleteableat a specific position
+	 * Check if role is deleteable at a specific position
 	 * @param object $a_role_id
 	 * @param int rolf_id
 	 * @return 
+	 * @todo refactor rolf => DONE
 	 */
 	public function isDeleteable($a_role_id, $a_rolf_id)
 	{
@@ -2192,6 +2216,7 @@ class ilRbacReview
 	 * Check if the role is system generate role or role template
 	 * @param int $a_role_id
 	 * @return bool
+	 * @todo refactor rolf => DONE
 	 */
 	public function isSystemGeneratedRole($a_role_id)
 	{
@@ -2205,6 +2230,7 @@ class ilRbacReview
 	 * @global ilDB $ilDB
 	 * @param int $a_role_id
 	 * @return int
+	 * @todo refactor rolf => RENAME
 	 */
 	public function getRoleFolderOfRole($a_role_id)
 	{
@@ -2235,8 +2261,9 @@ class ilRbacReview
 	 *
 	 * @param int $a_user_id user id
 	 * @param int $a_ref_id ref id
+	 * @todo refactor rolf => DONE
 	 */
-	function getUserPermissionsOnObject($a_user_id, $a_ref_id)
+	public function getUserPermissionsOnObject($a_user_id, $a_ref_id)
 	{
 		global $ilDB;
 		

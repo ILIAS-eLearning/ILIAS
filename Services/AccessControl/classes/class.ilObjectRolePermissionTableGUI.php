@@ -22,7 +22,6 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
 	const ROLE_FILTER_LOCAL_OBJECT = 5;
 	
 	private $ref_id = null;
-	private $role_folder_id = 0;
 	private $roles = array();
 
 	private $tree_path_ids = array();
@@ -44,7 +43,6 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
 		
 		$this->ref_id = $a_ref_id;
 		$this->tree_path_ids = $tree->getPathId($this->ref_id);
-		$this->role_folder_id = $rbacreview->getRoleFolderIdOfObject($this->getRefId());            
 		
 		$this->setId('objroleperm_'.$this->ref_id);
 
@@ -66,14 +64,6 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
 		$this->initFilter();
 	}
 	
-	/**
-	 * Get role folder of current object
-	 * @return 
-	 */
-	public function getRoleFolderId()
-	{
-		return $this->role_folder_id;
-	}
 
 	/**
 	 * Get tree path ids
@@ -374,20 +364,17 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
 		
 		$counter = 0;
 		
-		$rolf = $rbacreview->getRoleFolderIdOfObject($this->getRefId());
-
 		// Local policy
 		if(ilPermissionGUI::hasContainerCommands($this->getObjType()))
 		{
 			$roles = array();
-			$local_roles = $rbacreview->getRoleFolderIdOfObject($this->getRefId());
-			$local_roles = $rbacreview->getRolesOfRoleFolder($local_roles);
+			$local_roles = $rbacreview->getRolesOfObject($this->getRefId());
 			foreach($this->getVisibleRoles() as $role_id => $role_data)
 			{
 				$roles[$role_data['obj_id']] = array(
 					'protected' => $role_data['protected'],
 					'local_policy' => in_array($role_data['obj_id'],$local_roles),
-					'isLocal' => ($rolf == $role_data['parent']) && $role_data['assign'] == 'y'
+					'isLocal' => ($this->getRefId() == $role_data['parent']) && $role_data['assign'] == 'y'
 				);
 			}
 			$perms[$counter]['roles'] = $roles;
@@ -403,7 +390,7 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
 			foreach($this->getVisibleRoles() as $role_id => $role_data)
 			{
 				$roles[$role_data['obj_id']] = array(
-					'protected_allowed' => $rbacreview->isAssignable($role_data['obj_id'],$rolf),
+					'protected_allowed' => $rbacreview->isAssignable($role_data['obj_id'],$this->getRefId()),
 					'protected_status' => $rbacreview->isProtected($role_data['parent'], $role_data['obj_id'])
 				);
 			}
@@ -647,11 +634,10 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
 		$role['title'] = ilObjRole::_getTranslation($role['title']);
 		
 		// No local policies
-		if($role['parent'] != $this->getRoleFolderId())
+		if($role['parent'] != $this->getRefId())
 		{
 			return $role['title'];
 		} 
-		$ilCtrl->setParameterByClass('ilobjrolegui', 'rolf_ref_id', $this->getRoleFolderId());
 		$ilCtrl->setParameterByClass('ilobjrolegui', 'obj_id', $role['obj_id']);
 		
 		return '<a class="tblheader" href="'.$ilCtrl->getLinkTargetByClass('ilobjrolegui','').'" >'.$role['title'].'</a>';

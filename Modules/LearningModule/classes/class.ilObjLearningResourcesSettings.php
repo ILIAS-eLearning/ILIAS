@@ -98,31 +98,6 @@ class ilObjLearningResourcesSettings extends ilObject
 		return true;
 	}
 
-	/**
-	* init default roles settings
-	* 
-	* If your module does not require any default roles, delete this method 
-	* (For an example how this method is used, look at ilObjForum)
-	* 
-	* @access	public
-	* @return	array	object IDs of created local roles.
-	*/
-	function initDefaultRoles()
-	{
-		global $rbacadmin;
-		
-		// create a local role folder
-		//$rfoldObj = $this->createRoleFolder("Local roles","Role Folder of forum obj_no.".$this->getId());
-
-		// create moderator role and assign role to rolefolder...
-		//$roleObj = $rfoldObj->createRole("Moderator","Moderator of forum obj_no.".$this->getId());
-		//$roles[] = $roleObj->getId();
-
-		//unset($rfoldObj);
-		//unset($roleObj);
-
-		return $roles ? $roles : array();
-	}
 
 	/**
 	* notifys an object about an event occured

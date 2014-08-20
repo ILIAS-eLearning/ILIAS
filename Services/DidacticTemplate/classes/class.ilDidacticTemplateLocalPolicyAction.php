@@ -177,19 +177,11 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 
 		$roles = $this->filterRoles($source);
 
-		// Create role folder if there is any local role left
-		$rolf = $rbacreview->getRoleFolderIdOfObject($source->getRefId());
-
-		if(count($roles) and !$rolf)
-		{
-			$rolf = $source->createRoleFolder();
-			$rolf = $rolf->getRefId();
-		}
 		// Create local policy for filtered roles
 		foreach($roles as $role_id => $role)
 		{
 			// No local policies for protected roles of higher context
-			if($role['protected'] and $role['parent'] != $rolf)
+			if($role['protected'] and $role['parent'] != $source->getRefId())
 			{
 				continue;
 			}
@@ -208,8 +200,6 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 		global $rbacreview,$rbacadmin,$tree;
 
 		$source = $this->initSourceObject();
-		$rolf = $rbacreview->getRoleFolderIdOfObject($source->getRefId());
-
 		$roles = $this->filterRoles($source);
 
 		// Delete local policy for filtered roles
@@ -217,7 +207,7 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 		{
 			// Do not delete local roles of auto genrated roles
 			if(!$rbacreview->isGlobalRole($role['obj_id']) and
-				$rbacreview->isAssignable($role['obj_id'],$role['parent']) and
+				$rbacreview->isAssignable($role['obj_id'],$source->getRefId()) and
 				$rbacreview->isSystemGeneratedRole($role['obj_id']))
 			{
 				$this->revertLocalPolicy($source, $role);
@@ -225,7 +215,7 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 			else
 			{
 				// delete local role and change exiting objects
-				$rbacadmin->deleteLocalRole($role_id,$rolf);
+				$rbacadmin->deleteLocalRole($role_id,$source->getRefId());
 				// Change existing object
 				include_once './Services/AccessControl/classes/class.ilObjRole.php';
 				$role_obj = new ilObjRole($role_id);
@@ -380,15 +370,12 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 		
 		$GLOBALS['ilLog']->write(__METHOD__.': Using role: '.print_r($role,true));
 
-		$role_folder_id = $rbacreview->getRoleFolderIdOfObject($source->getRefId());
-
-		$GLOBALS['ilLog']->write(__METHOD__.': Role folder id: '.$role_folder_id);
 
 		// Add local policy
 
-		if(!$rbacreview->isRoleAssignedToFolder($role['obj_id'],$role_folder_id))
+		if(!$rbacreview->isRoleAssignedToObject($role['obj_id'],$source->getRefId()))
 		{
-			$rbacadmin->assignRoleToFolder($role['obj_id'],$role_folder_id,'n');
+			$rbacadmin->assignRoleToFolder($role['obj_id'],$source->getRefId(),'n');
 		}
 
 		switch($this->getRoleTemplateType())
@@ -402,7 +389,7 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 					$this->getRoleTemplateId(),
 					ROLE_FOLDER_ID,
 					$role['obj_id'],
-					$role_folder_id
+					$source->getRefId()
 				);
 				break;
 
@@ -412,7 +399,7 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 				$rbacadmin->copyRoleTemplatePermissions(
 					$this->getRoleTemplateId(),
 					ROLE_FOLDER_ID,
-					$role_folder_id,
+					$source->getRefId(),
 					$role['obj_id'],
 					true
 				);
@@ -426,7 +413,7 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 					$role['parent'],
 					$this->getRoleTemplateId(),
 					ROLE_FOLDER_ID,
-					$role_folder_id,
+					$source->getRefId(),
 					$role['obj_id']
 				);
 				break;
@@ -460,9 +447,8 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 		}
 
 
-		$role_folder_id = $rbacreview->getRoleFolderIdOfObject($source->getRefId());
-		// No role folder found
-		if(!$role_folder_id)
+		// No local policies
+		if(!$rbacreview->getLocalPolicies($source->getRefId()))
 		{
 			return false;
 		}
@@ -489,7 +475,7 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 		$rbacadmin->copyRoleTemplatePermissions(
 			$rolt_id,
 			ROLE_FOLDER_ID,
-			$role_folder_id,
+			$source->getRefId(),
 			$role['obj_id'],
 			true
 		);

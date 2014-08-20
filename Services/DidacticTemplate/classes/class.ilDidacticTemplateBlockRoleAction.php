@@ -149,16 +149,8 @@ class ilDidacticTemplateBlockRoleAction extends ilDidacticTemplateAction
 	{
 		global $rbacadmin, $rbacreview;
 		
-		// Create role folder if it does not exist
-		$rolf = $rbacreview->getRoleFolderIdOfObject($source->getRefId());
-		if(!$rolf)
-		{
-			$rolf_obj = $source->createRoleFolder();
-			$rolf = $rolf_obj->getRefId();
-		}
-
 		// Set assign to 'y' only if it is a local role
-		$assign = $rbacreview->isAssignable($a_role_id, $rolf) ? 'y' : 'n';
+		$assign = $rbacreview->isAssignable($a_role_id, $source->getRefId()) ? 'y' : 'n';
 
 		// Delete permissions
 		$rbacadmin->revokeSubtreePermissions($source->getRefId(), $a_role_id);
@@ -168,7 +160,7 @@ class ilDidacticTemplateBlockRoleAction extends ilDidacticTemplateAction
 
 		$rbacadmin->assignRoleToFolder(
 			$a_role_id,
-			$rolf,
+			$source->getRefId(),
 			$assign
 		);
 		return true;
@@ -201,19 +193,15 @@ class ilDidacticTemplateBlockRoleAction extends ilDidacticTemplateAction
 		global $rbacreview, $rbacadmin;
 
 		// Create role folder if it does not exist
-		$rolf = $rbacreview->getRoleFolderIdOfObject($source->getRefId());
-		if(!$rolf)
-		{
-			return false;
-		}
+		//$rolf = $rbacreview->getRoleFolderIdOfObject($source->getRefId());
 
-		if($rbacreview->getRoleFolderOfRole($a_role_id) == $rolf)
+		if($rbacreview->getRoleFolderOfRole($a_role_id) == $source->getRefId())
 		{
 			$GLOBALS['ilLog']->write(__METHOD__.': Ignoring local role: '.ilObject::_lookupTitle($a_role_id));
 			return false;
 		}
 
-		$rbacadmin->deleteLocalRole($a_role_id, $rolf);
+		$rbacadmin->deleteLocalRole($a_role_id, $source->getRefId());
 
 		// Change existing object
 		include_once './Services/AccessControl/classes/class.ilObjRole.php';

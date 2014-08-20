@@ -66,10 +66,7 @@ class ilAccessControlExporter extends ilXmlExporter
 		$eo->read();
 		
 		$rolf = $eo->getOptionByObjId($a_id,ilExportOptions::KEY_ROOT);
-		
-		#$rolfs = $rbacreview->getFoldersAssignedToRole($a_id,false);
-		#$rolf = end($rolfs);
-		
+		// @todo refactor rolf
 		$writer->setRoles(array($a_id => $rolf));
 		$writer->write();
 		return $writer->xmlDumpMem($format);

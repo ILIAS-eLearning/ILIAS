@@ -178,48 +178,33 @@ class ilObjOrgUnit extends ilContainer {
 		return $this->superior_role;
 	}
 
-	public function initDefaultRoles(){
-		global $rbacadmin,$rbacreview, $ilAppEventHandler;
-
-		$rolf_obj = $this->createRoleFolder();
-
-		// CREATE Employee ROLE
-		$role_obj = $rolf_obj->createRole("il_orgu_employee_".$this->getRefId(),"Emplyee of org unit obj_no.".$this->getId());
-// = $
-// EMPLOYEE DOES NOT YET NEED A ROLE TEMPLATE.
-//		// SET PERMISSION TEMPLATE OF NEW LOCAL ADMIN ROLE
-//		$query = "SELECT obj_id FROM object_data ".
-//			" WHERE type='rolt' AND title='il_orgu_employee'";
-//
-//		$res = $this->ilias->db->getRow($query, DB_FETCHMODE_OBJECT);
-//		$rbacadmin->copyRoleTemplatePermissions($res->obj_id,ROLE_FOLDER_ID,$rolf_obj->getRefId(),$role_obj->getId());
-//
-//		// SET OBJECT PERMISSIONS OF COURSE OBJECT
-//		$ops = $rbacreview->getOperationsOfRole($role_obj->getId(),"orgu",$rolf_obj->getRefId());
-//		$rbacadmin->grantPermission($role_obj->getId(),$ops,$this->getRefId());
-
-		// CREATE Superior ROLE
-		$role_obj = $rolf_obj->createRole("il_orgu_superior_".$this->getRefId(),"Superior of org unit obj_no.".$this->getId());
-
-		// SET PERMISSION TEMPLATE OF NEW LOCAL ADMIN ROLE
-		$query = "SELECT obj_id FROM object_data ".
-			" WHERE type='rolt' AND title='il_orgu_superior'";
-
-		$res = $this->ilias->db->getRow($query, DB_FETCHMODE_OBJECT);
-		$rbacadmin->copyRoleTemplatePermissions($res->obj_id,ROLE_FOLDER_ID,$rolf_obj->getRefId(),$role_obj->getId());
-
-		// SET OBJECT PERMISSIONS OF COURSE OBJECT
-		$ops = $rbacreview->getOperationsOfRole($role_obj->getId(),"orgu",$rolf_obj->getRefId());
-		$rbacadmin->grantPermission($role_obj->getId(),$ops,$this->getRefId());
-
+	public function initDefaultRoles()
+	{
+		include_once './Services/AccessControl/classes/class.ilObjRole.php';
+		$role = new ilObjRole();
+		$role->setTitle("il_orgu_employee_".$this->getRefId());
+		$role->setDescription("Emplyee of org unit obj_no.".$this->getId());
+		$role->create();
+		
+		$GLOBALS['rbacadmin']->assignRoleToFolder($role->getId(),$this->getRefId(),'y');
+		
+		
+		include_once './Services/AccessControl/classes/class.ilObjRole.php';
+		$role_sup = ilObjRole::createDefaultRole(
+				'il_orgu_superior_'.$this->getRefId(),
+				"Superior of org unit obj_no.".$this->getId(),
+				'il_orgu_superior',
+				$this->getRefId()
+		);
+		
 
         $ilAppEventHandler->raise('Modules/OrgUnit',
             'initDefaultRoles',
             array('object' => $this,
                   'obj_id' => $this->getId(),
                   'ref_id' =>  $this->getRefId(),
-                  'role_superior_id' => $role_obj->getId(),
-                  'role_employee_id' => $role_obj->getId()));
+                  'role_superior_id' => $role->getId(),
+                  'role_employee_id' => $role_sup->getId()));
 
 	}
 

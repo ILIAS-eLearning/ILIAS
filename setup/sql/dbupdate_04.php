@@ -2402,3 +2402,23 @@ $def = array(
 	);
 $ilDB->addTableColumn("content_object", "store_tries", $def);
 ?>
+<#4291>
+<?php
+
+	$query = 'UPDATE rbac_fa f '.
+			'SET parent  = '.
+				'(SELECT t.parent FROM tree t where t.child = f.parent) '.
+			'WHERE f.parent != '.$ilDB->quote(8,'integer');
+	$ilDB->manipulate($query);
+?>
+
+<#4292>
+<?php
+	$query = 'UPDATE rbac_templates rt '.
+			'SET parent = '.
+			'(SELECT t.parent FROM tree t WHERE t.child = rt.parent) '.
+			'WHERE rt.parent != '.$ilDB->quote(8,'integer');
+	$ilDB->manipulate($query);
+?>
+	
+

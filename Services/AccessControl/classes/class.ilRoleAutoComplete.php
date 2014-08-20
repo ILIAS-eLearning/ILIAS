@@ -74,18 +74,14 @@ class ilRoleAutoComplete
 		$counter = 0;
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$rolf = $rbacreview->getRoleFolderIdOfObject($row->ref_id);
-			if($rolf)
+			foreach($rbacreview->getRolesOfRoleFolder($row->ref_id,false) as $rol_id)
 			{
-				foreach($rbacreview->getRolesOfRoleFolder($rolf,false) as $rol_id)
-				{
-					$role = ilObject::_lookupTitle($rol_id);
+				$role = ilObject::_lookupTitle($rol_id);
 					
-					$result[$counter] = new stdClass();
-					$result[$counter]->value = $role;
-					$result[$counter]->label = $role." (".$row->title.")";
-					++$counter;
-				}
+				$result[$counter] = new stdClass();
+				$result[$counter]->value = $role;
+				$result[$counter]->label = $role." (".$row->title.")";
+				++$counter;
 			}
 		}
 		return ilJsonUtil::encode($result);

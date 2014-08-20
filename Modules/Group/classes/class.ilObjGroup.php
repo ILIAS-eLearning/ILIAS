@@ -834,14 +834,11 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 
 		$admin = $this->getDefaultAdminRole();
 		$new_admin = $new_obj->getDefaultAdminRole();
-	 	$source_rolf = $rbacreview->getRoleFolderIdOfObject($this->getRefId());
-	 	$target_rolf = $rbacreview->getRoleFolderIdOfObject($new_obj->getRefId());
-
-		if(!$admin || !$new_admin || !$source_rolf || !$target_rolf)
+		if(!$admin || !$new_admin || !$this->getRefId() || !$new_obj->getRefId())
 		{
 			$ilLog->write(__METHOD__.' : Error cloning auto generated role: il_grp_admin');
 		}
-		$rbacadmin->copyRolePermissions($admin,$source_rolf,$target_rolf,$new_admin,true);
+		$rbacadmin->copyRolePermissions($admin,$this->getRefId(),$new_obj->getRefId(),$new_admin,true);
 		$ilLog->write(__METHOD__.' : Finished copying of role il_grp_admin.');
 
 		$member = $this->getDefaultMemberRole();
@@ -850,7 +847,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 		{
 			$ilLog->write(__METHOD__.' : Error cloning auto generated role: il_grp_member');
 		}
-		$rbacadmin->copyRolePermissions($member,$source_rolf,$target_rolf,$new_member,true);
+		$rbacadmin->copyRolePermissions($member,$this->getRefId(),$new_obj->getRefId(),$new_member,true);
 		$ilLog->write(__METHOD__.' : Finished copying of role grp_member.');
 	}
 
@@ -1099,8 +1096,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 			$grp_id = $this->getRefId();
 		}
 
-		$rolf 	   = $rbacreview->getRoleFolderOfObject($grp_id);
-		$role_arr  = $rbacreview->getRolesOfRoleFolder($rolf["ref_id"]);
+		$role_arr  = $rbacreview->getRolesOfRoleFolder($grp_id);
 
 		foreach ($role_arr as $role_id)
 		{
@@ -1136,12 +1132,11 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 		if (empty($this->local_roles))
 		{
 			$this->local_roles = array();
-			$rolf 	   = $rbacreview->getRoleFolderOfObject($this->getRefId());
-			$role_arr  = $rbacreview->getRolesOfRoleFolder($rolf["ref_id"]);
+			$role_arr  = $rbacreview->getRolesOfRoleFolder($this->getRefId());
 
 			foreach ($role_arr as $role_id)
 			{
-				if ($rbacreview->isAssignable($role_id,$rolf["ref_id"]) == true)
+				if ($rbacreview->isAssignable($role_id,$this->getRefId()) == true)
 				{
 					$role_Obj =& $this->ilias->obj_factory->getInstanceByObjId($role_id);
 
@@ -1207,16 +1202,12 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 		
 		$parent_roles = $rbacreview->getParentRoleIds($this->getRefId());
 		$real_parent_roles = array_diff(array_keys($parent_roles),$this->getDefaultGroupRoles());
-		$rolf_data = $rbacreview->getRoleFolderOfObject($this->getRefId());
 		
 		// Delete parent roles with stopped inheritance
 		foreach($real_parent_roles as $role_id)
 		{
 			// Delete local role
-			if(isset($rolf_data['child']) and $rolf_data['child'])
-			{
-				$rbacadmin->deleteLocalRole($role_id,$rolf_data['child']);
-			}
+			$rbacadmin->deleteLocalRole($role_id,$this->getRefId());
 		}
 		$parent_roles = $rbacreview->getParentRoleIds($this->getRefId());
 		$real_parent_roles = array_diff(array_keys($parent_roles),$this->getDefaultGroupRoles());
@@ -1233,13 +1224,10 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 		}
 		
 		$first = true;
-		foreach($tree->getFilteredSubTree($this->getRefId(),array('rolf','grp')) as $subnode)
+		foreach($tree->getFilteredSubTree($this->getRefId(),array('grp')) as $subnode)
 		{
 			// Read template operations
 			$template_ops = $rbacreview->getOperationsOfRole($template_id,$subnode['type'], ROLE_FOLDER_ID);
-			
-			$rolf_data = $rbacreview->getRoleFolderOfObject($subnode['child']);
-			
 			
 			// for all parent roles
 			foreach($real_parent_roles as $role_id)
@@ -1249,11 +1237,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 					continue;
 				}
 
-				// Delete local role
-				if(isset($rolf_data['child']) and $rolf_data['child'])
-				{
-					$rbacadmin->deleteLocalRole($role_id,$rolf_data['child']);
-				}
+				$rbacadmin->deleteLocalRole($role_id,$subnode['child']);
 				
 				// Store current operations
 				$current_ops = $rbacreview->getOperationsOfRole($role_id,$subnode['type'],$parent_roles[$role_id]['parent']);
@@ -1281,8 +1265,8 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 					$rbacadmin->copyRolePermissionIntersection(
 						$template_id, ROLE_FOLDER_ID,
 						$role_id, $parent_roles[$role_id]['parent'],
-						$rolf_data["child"],$role_id);
-					$rbacadmin->assignRoleToFolder($role_id,$rolf_data["child"],"n");
+						$subnode["child"],$role_id);
+					$rbacadmin->assignRoleToFolder($role_id,$subnode['child'],"n");
 					
 				}
 			}
@@ -1311,13 +1295,10 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 	{
 		global $rbacadmin, $rbacreview, $rbacsystem;
 
-		//get Rolefolder of group
-		$rolf_data = $rbacreview->getRoleFolderOfObject($this->getRefId());
-
 		//define all relevant roles that rights are needed to be changed
 		$arr_parentRoles = $rbacreview->getParentRoleIds($this->getRefId());
 
-		$real_local_roles = $rbacreview->getRolesOfRoleFolder($rolf_data['ref_id'],false);
+		$real_local_roles = $rbacreview->getRolesOfRoleFolder($this->getRefId(),false);
 		$arr_relevantParentRoleIds = array_diff(array_keys($arr_parentRoles),$real_local_roles);
 
 		//group status open (aka public) or group status closed
@@ -1348,10 +1329,9 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 				
 				// Added additional check, since this operation is very dangerous.
 				// If there is no role folder ALL parent roles are deleted. 
-				if(isset($rolf_data['child']) and $rolf_data['child'])
-				{
-					$rbacadmin->deleteLocalRole($parentRole,$rolf_data["child"]);
-				}
+
+				// @todo refactor rolf
+				$rbacadmin->deleteLocalRole($parentRole,$this->getRefId());
 
 				// Grant permissions on the group object for
 				// the parent role. In the foreach loop we
@@ -1376,12 +1356,13 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 				// initialize it with the intersection of
 				// il_grp_status_open/_closed and the permission
 				// template of the parent role
+				
 				$rbacadmin->copyRolePermissionIntersection(
 					$template_id, ROLE_FOLDER_ID,
 					$parentRole, $arr_parentRoles[$parentRole]['parent'],
-					$rolf_data["child"], $parentRole
+					$this->getRefId(), $parentRole
 				);
-				$rbacadmin->assignRoleToFolder($parentRole,$rolf_data["child"],"false");
+				$rbacadmin->assignRoleToFolder($parentRole,$this->getRefId(),"false");
 			}//END foreach
 		}
 	}
@@ -1419,19 +1400,14 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 	{
 		global $rbacsystem,$rbacreview;
 
-		$role_folder = $rbacreview->getRoleFolderOfObject($this->getRefId());
-		$local_roles = $rbacreview->getRolesOfRoleFolder($role_folder["ref_id"]);
+		$local_roles = $rbacreview->getRolesOfRoleFolder($this->getRefId());
 
-		//get Rolefolder of group
-		$rolf_data = $rbacreview->getRoleFolderOfObject($this->getRefId());
 		//get all relevant roles
 		$arr_globalRoles = array_diff($local_roles, $this->getDefaultGroupRoles());
 
 		//if one global role has no permission to join the group is officially closed !
 		foreach ($arr_globalRoles as $globalRole)
 		{
-			$ops_of_role = $rbacreview->getOperationsOfRole($globalRole,"grp", ROLE_FOLDER_ID);
-
 			if ($rbacsystem->checkPermission($this->getRefId(), $globalRole ,"join"))
 			{
 				return $this->group_status = GRP_TYPE_PUBLIC;
@@ -1493,54 +1469,24 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 	*/
 	function initDefaultRoles()
 	{
-		global $rbacadmin, $rbacreview;
-
-		// create a local role folder
-		$rfoldObj =& $this->createRoleFolder();
-
-		// ADMIN ROLE
-		// create role and assign role to rolefolder...
-		$roleObj = $rfoldObj->createRole("il_grp_admin_".$this->getRefId(),"Groupadmin of group obj_no.".$this->getId());
-		$this->m_roleAdminId = $roleObj->getId();
-
-		//set permission template of new local role
-		$q = "SELECT obj_id FROM object_data WHERE type='rolt' AND title='il_grp_admin'";
-		$r = $this->ilias->db->getRow($q, DB_FETCHMODE_OBJECT);
-		$rbacadmin->copyRoleTemplatePermissions($r->obj_id,ROLE_FOLDER_ID,$rfoldObj->getRefId(),$roleObj->getId());
-
-		// set object permissions of group object
-		$ops = $rbacreview->getOperationsOfRole($roleObj->getId(),"grp",$rfoldObj->getRefId());
-		$rbacadmin->grantPermission($roleObj->getId(),$ops,$this->getRefId());
-
-		// set object permissions of role folder object
-		//$ops = $rbacreview->getOperationsOfRole($roleObj->getId(),"rolf",$rfoldObj->getRefId());
-		//$rbacadmin->grantPermission($roleObj->getId(),$ops,$rfoldObj->getRefId());
-
-		// MEMBER ROLE
-		// create role and assign role to rolefolder...
-		$roleObj = $rfoldObj->createRole("il_grp_member_".$this->getRefId(),"Groupmember of group obj_no.".$this->getId());
-		$this->m_roleMemberId = $roleObj->getId();
-
-		//set permission template of new local role
-		$q = "SELECT obj_id FROM object_data WHERE type='rolt' AND title='il_grp_member'";
-		$r = $this->ilias->db->getRow($q, DB_FETCHMODE_OBJECT);
-		$rbacadmin->copyRoleTemplatePermissions($r->obj_id,ROLE_FOLDER_ID,$rfoldObj->getRefId(),$roleObj->getId());
-
-		// set object permissions of group object
-		$ops = $rbacreview->getOperationsOfRole($roleObj->getId(),"grp",$rfoldObj->getRefId());
-		$rbacadmin->grantPermission($roleObj->getId(),$ops,$this->getRefId());
-
-		// set object permissions of role folder object
-		//$ops = $rbacreview->getOperationsOfRole($roleObj->getId(),"rolf",$rfoldObj->getRefId());
-		//$rbacadmin->grantPermission($roleObj->getId(),$ops,$rfoldObj->getRefId());
-
-		unset($rfoldObj);
-		unset($roleObj);
-
-		$roles[] = $this->m_roleAdminId;
-		$roles[] = $this->m_roleMemberId;
-
-		return $roles ? $roles : array();
+		include_once './Services/AccessControl/classes/class.ilObjRole.php';
+		$role = ilObjRole::createDefaultRole(
+				'il_grp_admin_'.$this->getRefId(),
+				"Groupadmin group obj_no.".$this->getId(),
+				'il_grp_admin',
+				$this->getRefId()
+		);
+		$this->m_roleAdminId = $role->getId();
+		
+		$role = ilObjRole::createDefaultRole(
+				'il_grp_member_'.$this->getRefId(),
+				"Groupmember of group obj_no.".$this->getId(),
+				'il_grp_member',
+				$this->getRefId()
+		);
+		$this->m_roleMemberId = $role->getId();
+		
+		return array();
 	}
 
 	/**
@@ -1675,8 +1621,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 	{
 		global $rbacreview,$ilObjDataCache,$ilDB;
 
-		$rolf = $rbacreview->getRoleFolderOfObject($a_ref_id);
-		$local_roles = $rbacreview->getRolesOfRoleFolder($rolf["ref_id"],false);
+		$local_roles = $rbacreview->getRolesOfRoleFolder($a_ref_id,false);
 		$user_roles = $rbacreview->assignedRoles($a_user_id);
 
 		// Used for membership limitations -> check membership by given field
@@ -1729,8 +1674,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 		$ref_ids = ilObject::_getAllReferences($a_obj_id);
 		$ref_id = current($ref_ids);
 
-		$rolf = $rbacreview->getRoleFolderOfObject($ref_id);
-		$local_roles = $rbacreview->getRolesOfRoleFolder($rolf['ref_id'],false);
+		$local_roles = $rbacreview->getRolesOfRoleFolder($ref_id,false);
 
 		$users = array();
 		foreach($local_roles as $role_id)

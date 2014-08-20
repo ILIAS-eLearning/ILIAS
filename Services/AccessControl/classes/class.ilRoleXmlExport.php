@@ -55,7 +55,7 @@ class ilRoleXmlExport extends ilXmlWriter
 	/**
 	 * Add one role
 	 * @param int $a_role_id
-	 * @param int $a_rolf_id
+	 * @param int $a_ref_id of source object
 	 */
 	public function addRole($a_role_id, $a_rolf_id)
 	{

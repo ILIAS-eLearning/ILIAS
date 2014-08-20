@@ -803,7 +803,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 					{
 						$rolf = $rbacreview->getFoldersAssignedToRole($role_id,true);
 						if ($rbacreview->isDeleted($rolf[0])
-								|| ! $rbacsystem->checkAccess('write',$tree->getParentId($rolf[0])))
+								|| ! $rbacsystem->checkAccess('write',$rolf[0]))
 						{
 
 							return $this->__raiseError($lng->txt("usrimport_with_specified_role_not_permitted")." $role_name ($role_id)","Server");
@@ -907,7 +907,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 			// We also don't show the roles which are in the ROLE_FOLDER_ID folder.
 			// (The ROLE_FOLDER_ID folder contains the global roles).
 			if($rbacreview->isDeleted($rolf)
-				|| !$rbacsystem->checkAccess('edit_permission',$tree->getParentId($rolf)))
+				|| !$rbacsystem->checkAccess('edit_permission',$rolf))
 			{
 				$ilLog->write(__METHOD__.': Role deleted or no permission.');
 			    $checked_roles[$a_role] = false;
@@ -1044,7 +1044,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		{
 			$rolf = $rbacreview->getFoldersAssignedToRole($role_id,true);
 			if ($rbacreview->isDeleted($rolf[0])
-					|| ! $rbacsystem->checkAccess('write',$tree->getParentId($rolf[0])))
+					|| ! $rbacsystem->checkAccess('write',$rolf[0]))
 			{
 				return $this->__raiseError("Role access not permitted. ($role_id)","Server");
 			}

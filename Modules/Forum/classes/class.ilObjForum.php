@@ -565,14 +565,12 @@ class ilObjForum extends ilObject
 
 		$moderator     = ilObjForum::_lookupModeratorRole($this->getRefId());
 		$new_moderator = ilObjForum::_lookupModeratorRole($new_obj->getRefId());
-		$source_rolf   = $rbacreview->getRoleFolderIdOfObject($this->getRefId());
-		$target_rolf   = $rbacreview->getRoleFolderIdOfObject($new_obj->getRefId());
 
-		if(!$moderator || !$new_moderator || !$source_rolf || !$target_rolf)
+		if(!$moderator || !$new_moderator || !$this->getRefId() || !$new_obj->getRefId())
 		{
 			$ilLog->write(__METHOD__ . ' : Error cloning auto generated role: il_frm_moderator');
 		}
-		$rbacadmin->copyRolePermissions($moderator, $source_rolf, $target_rolf, $new_moderator, true);
+		$rbacadmin->copyRolePermissions($moderator, $this->getRefId(), $new_obj->getRefId(), $new_moderator, true);
 		$ilLog->write(__METHOD__ . ' : Finished copying of role il_frm_moderator.');
 
 		include_once './Modules/Forum/classes/class.ilForumModerators.php';
@@ -672,37 +670,14 @@ class ilObjForum extends ilObject
 	 */
 	public function initDefaultRoles()
 	{
-		/**
-		 * @var $ilDB         ilDB
-		 * @var $rbacadmin    ilRbacAdmin
-		 * @var $rbacreview   ilRbacReview
-		 */
-		global $rbacadmin, $rbacreview, $ilDB;
-
-		// Create a local role folder
-		$rolf_obj = $this->createRoleFolder();
-
-		// CREATE Moderator role
-		$role_obj = $rolf_obj->createRole("il_frm_moderator_" . $this->getRefId(), "Moderator of forum obj_no." . $this->getId());
-		$roles[]  = $role_obj->getId();
-
-		// SET PERMISSION TEMPLATE OF NEW LOCAL ADMIN ROLE
-		$statement = $ilDB->queryf('
-			SELECT obj_id FROM object_data 
-			WHERE type = %s 
-			AND title = %s',
-			array('text', 'text'),
-			array('rolt', 'il_frm_moderator'));
-
-		$res = $ilDB->fetchObject($statement);
-
-		$rbacadmin->copyRoleTemplatePermissions($res->obj_id, ROLE_FOLDER_ID, $rolf_obj->getRefId(), $role_obj->getId());
-
-		// SET OBJECT PERMISSIONS OF COURSE OBJECT
-		$ops = $rbacreview->getOperationsOfRole($role_obj->getId(), "frm", $rolf_obj->getRefId());
-		$rbacadmin->grantPermission($role_obj->getId(), $ops, $this->getRefId());
-
-		return $roles ? $roles : array();
+		include_once './Services/AccessControl/classes/class.ilObjRole.php';
+		$role = ilObjRole::createDefaultRole(
+				'il_frm_moderator_'.$this->getRefId(),
+				"Moderator of forum obj_no.".$this->getId(),
+				'il_frm_moderator',
+				$this->getRefId()
+		);
+		return array();
 	}
 
 	/**

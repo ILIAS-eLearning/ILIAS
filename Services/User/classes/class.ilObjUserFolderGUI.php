@@ -1149,9 +1149,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
 					// and for which the user has write permissions.
 					// We also don't show the roles which are in the ROLE_FOLDER_ID folder.
 					// (The ROLE_FOLDER_ID folder contains the global roles).
-					if (!$rbacreview->isDeleted($rolf[0])
-					&& $rbacsystem->checkAccess('write',$tree->getParentId($rolf[0]))
-					&& $rolf[0] != ROLE_FOLDER_ID
+					if (
+						!$rbacreview->isDeleted($rolf[0]) &&
+						$rbacsystem->checkAccess('write',$rolf[0]) &&
+						$rolf[0] != ROLE_FOLDER_ID
 					)
 					{
 						// A local role is only displayed, if it is contained in the subtree of 
@@ -1325,7 +1326,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 					{
 						$rolf = $rbacreview->getFoldersAssignedToRole($role_id,true);
 						if ($rbacreview->isDeleted($rolf[0])
-							|| ! $rbacsystem->checkAccess('write',$tree->getParentId($rolf[0])))
+							|| ! $rbacsystem->checkAccess('write',$rolf[0]))
 						{
 							ilUtil::delDir($import_dir);
 							$this->ilias->raiseError($this->lng->txt("usrimport_with_specified_role_not_permitted"), 

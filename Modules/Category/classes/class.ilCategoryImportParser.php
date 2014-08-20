@@ -124,37 +124,6 @@ class ilCategoryImportParser extends ilSaxParser
 				$this->category->createReference();
 				$this->category->putInTree($cur_parent);
 				$this->parent[$this->parent_cnt++] = $this->category->getRefId();
-				
-				// added for create local roles to categories imported
-				if ($this->withrol) {
-				    
-				  //CHECK ACCESS 'create' rolefolder
-				  if (!$rbacsystem->checkAccess('create',$this->category->getRefId(),'rolf')) {
-				    $this->ilias->raiseError($this->lng->txt("msg_no_perm_create_rolf"),$this->ilias->error_obj->WARNING);
-				  }
- 
-				  include_once ("./Services/Object/classes/class.ilObject.php");
-				  include_once ("./Services/AccessControl/classes/class.ilObjRole.php");
-  
-				  // create a rolefolder
-				  $rolfObj = $this->category->createRoleFolder("Local roles","Role Folder of category obj_no. ".$this->category->getRefId());
-				  $parentRoles = $rbacreview->getParentRoleIds($rolfObj->getRefId(),true);
-				
-				  // iterate through the chosen templates to create a rol for each checkbox checked
-				  foreach($_POST["adopt"] as $postadopt) {
-					  
-					  $desc = $a_attribs["Id"]. " ".$parentRoles[$postadopt]["title"];
-					  $roleObj = $rolfObj->createRole($desc,"Local rol for category ".$desc);
-					  // adopt permissions from rol template selected
-				  	  $rbacadmin->copyRoleTemplatePermissions($postadopt,$parentRoles[$postadopt]["parent"],$rolfObj->getRefId(),$roleObj->getId());					
-					  unset($roleObj);
-				  }
-
-				  unset($rolfObj);
-				  unset($parentRoles);
-				  
-				  // -----------------------------
-				}
 				break;
 
 		case "CategorySpec":

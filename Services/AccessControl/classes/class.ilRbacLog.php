@@ -59,17 +59,15 @@ class ilRbacLog
 		}
 
 		// inheritance
-		$rolf_data = $rbacreview->getRoleFolderOfObject($a_ref_id);
-		$rolf_id = $rolf_data["child"];
-		if($rolf_id && $rolf_id != ROLE_FOLDER_ID)
+		if($a_ref_id && $a_ref_id != ROLE_FOLDER_ID)
 		{
 			if($a_add_action)
 			{
-				$result["inht"]["add"] = $rbacreview->getRolesOfRoleFolder($rolf_id);
+				$result["inht"]["add"] = $rbacreview->getRolesOfRoleFolder($a_ref_id);
 			}
 			else
 			{
-				$result["inht"] = $rbacreview->getRolesOfRoleFolder($rolf_id);
+				$result["inht"] = $rbacreview->getRolesOfRoleFolder($a_ref_id);
 			}
 		}
 		
@@ -123,11 +121,11 @@ class ilRbacLog
 		return $result;
 	}
 
-	static public function gatherTemplate($a_role_folder_ref_id, $a_role_id)
+	static public function gatherTemplate($a_role_ref_id, $a_role_id)
 	{
 		global $rbacreview;
 
-		return $rbacreview->getAllOperationsOfRole($a_role_id, $a_role_folder_ref_id);
+		return $rbacreview->getAllOperationsOfRole($a_role_id, $a_role_ref_id);
 	}
 
 	static public function diffTemplate(array $a_old, array $a_new)
