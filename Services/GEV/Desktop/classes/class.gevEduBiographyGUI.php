@@ -237,6 +237,7 @@ class gevEduBiographyGUI {
 		$table->setTopCommands(false);
 		$table->setEnableHeader(true);
 		$table->setRowTemplate("tpl.gev_edu_bio_row.html", "Services/GEV/Desktop");
+		$table->addColumn("", "blank", "0px", false);
 		$table->addColumn($this->lng->txt("gev_training_id"), "custom_id");
 		$table->addColumn($this->lng->txt("title"), "title");
 		$table->addColumn($this->lng->txt("gev_learning_type"), "type");
