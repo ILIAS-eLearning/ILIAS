@@ -2392,3 +2392,13 @@ $def = array(
 	);
 $ilDB->addTableColumn("content_object", "progr_icons", $def);
 ?>
+<#4290>
+<?php
+$def = array(
+		'type'    => 'integer',
+		'length'  => 1,
+		'notnull' => true,
+		'default' => 0
+	);
+$ilDB->addTableColumn("content_object", "store_tries", $def);
+?>

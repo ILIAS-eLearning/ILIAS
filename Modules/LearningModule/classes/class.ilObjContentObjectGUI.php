@@ -433,15 +433,30 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		$synch->setInfo($this->lng->txt("cont_synchronize_frames_desc"));
 		$this->form->addItem($synch);*/
 
+		// show progress icons
+		$progr_icons = new ilCheckboxInputGUI($lng->txt("cont_progress_icons"), "progr_icons");
+		$progr_icons->setInfo($this->lng->txt("cont_progress_icons_info"));
+		$this->form->addItem($progr_icons);
+
+		// self assessment
+		$section = new ilFormSectionHeaderGUI();
+		$section->setTitle($this->lng->txt('cont_self_assessment'));
+		$this->form->addItem($section);
+
 		// disable default feedback for questions
 		$qfeed = new ilCheckboxInputGUI($lng->txt("cont_disable_def_feedback"), "disable_def_feedback");
 		$qfeed->setInfo($this->lng->txt("cont_disable_def_feedback_info"));
 		$this->form->addItem($qfeed);
 
-		// show progress icons
-		$progr_icons = new ilCheckboxInputGUI($lng->txt("cont_progress_icons"), "progr_icons");
-		$progr_icons->setInfo($this->lng->txt("cont_progress_icons_info"));
-		$this->form->addItem($progr_icons);
+		// tries
+		$radg = new ilRadioGroupInputGUI($lng->txt("cont_tries"), "store_tries");
+		$radg->setValue(0);
+		$op1 = new ilRadioOption($lng->txt("cont_tries_reset_on_visit"), 0,$lng->txt("cont_tries_reset_on_visit_info"));
+		$radg->addOption($op1);
+		$op2 = new ilRadioOption($lng->txt("cont_tries_store"), 1,$lng->txt("cont_tries_store_info"));
+		$radg->addOption($op2);
+		$this->form->addItem($radg);
+
 
 		// additional features
 		$section = new ilFormSectionHeaderGUI();
@@ -522,6 +537,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		$values["rating_pages"] = $this->object->hasRatingPages();
 		$values["disable_def_feedback"] = $this->object->getDisableDefaultFeedback();
 		$values["progr_icons"] = $this->object->getProgressIcons();
+		$values["store_tries"] = $this->object->getStoreTries();
 		
 		$this->form->setValuesByArray($values);
 	}
@@ -562,6 +578,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 			$this->object->setRatingPages($_POST["rating_pages"]);
 			$this->object->setDisableDefaultFeedback((int) $_POST["disable_def_feedback"]);
 			$this->object->setProgressIcons((int) $_POST["progr_icons"]);
+			$this->object->setStoreTries((int) $_POST["store_tries"]);
 			$this->object->updateProperties();
 			$this->object->update();
 			

@@ -243,7 +243,27 @@ class ilObjContentObject extends ilObject
 	{
 		return $this->progr_icons;
 	}
-	
+
+	/**
+	 * Set store tries
+	 *
+	 * @param bool $a_val store tries
+	 */
+	function setStoreTries($a_val)
+	{
+		$this->store_tries = $a_val;
+	}
+
+	/**
+	 * Get store tries
+	 *
+	 * @return bool store tries
+	 */
+	function getStoreTries()
+	{
+		return $this->store_tries;
+	}
+
 	function &getTree()
 	{
 		return $this->lm_tree;
@@ -1063,7 +1083,7 @@ class ilObjContentObject extends ilObject
 		$this->setRatingPages($lm_rec["rating_pages"]);
 		$this->setDisableDefaultFeedback($lm_rec["disable_def_feedback"]);
 		$this->setProgressIcons($lm_rec["progr_icons"]);
-
+		$this->setStoreTries($lm_rec["store_tries"]);
 	}
 
 	/**
@@ -1106,7 +1126,8 @@ class ilObjContentObject extends ilObject
 			" rating = ".$ilDB->quote($this->hasRating(), "integer").", ".
 			" rating_pages = ".$ilDB->quote($this->hasRatingPages(), "integer").", ".
 			" disable_def_feedback = ".$ilDB->quote($this->getDisableDefaultFeedback(), "integer").", ".
-			" progr_icons = ".$ilDB->quote($this->getProgressIcons(), "integer")." ".
+			" progr_icons = ".$ilDB->quote($this->getProgressIcons(), "integer").", ".
+			" store_tries = ".$ilDB->quote($this->getStoreTries(), "integer")." ".
 			" WHERE id = ".$ilDB->quote($this->getId(), "integer");
 		$ilDB->manipulate($q);
 	}

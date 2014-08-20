@@ -5862,7 +5862,7 @@ content#:#cont_page_compare#:#Vergleiche ausgewählte Änderungen
 content#:#cont_page_currently_deactivated#:#Diese Seite ist momentan deaktiviert.
 content#:#cont_page_deactivated#:#Die Seite ist deaktiviert
 content#:#cont_page_deactivated_elements#:#Die Seite enthält deaktivierte Elemente
-content#:#cont_page_header#:#Als Seitenüberschrift angezeigt wird
+content#:#cont_page_header#:#Seitenüberschrift
 content#:#cont_page_layout#:#Seitenlayout
 content#:#cont_page_link#:#Link zur Seite
 content#:#cont_page_select_target_now#:#Wählen Sie jetzt das Ziel, wohin die Seite verschoben werden soll.
@@ -6133,7 +6133,7 @@ content#:#cont_time_limit_action#:#adlcp:timelimitaction
 content#:#cont_title#:#Titel
 content#:#cont_title_footnotes#:#Fußnoten
 content#:#cont_toc#:#Inhaltsverzeichnis
-content#:#cont_toc_mode#:#Inhaltsverzeichnis enthält
+content#:#cont_toc_mode#:#Inhaltsverzeichnis
 content#:#cont_top#:#Oben
 content#:#cont_total_time#:#Gesamtzeit
 content#:#cont_tracking_bysco#:#Nach Kapiteln
@@ -14573,5 +14573,11 @@ rbac#:#sahs_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benut
 rbac#:#tst_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benutzer einsehen
 rbac#:#exc_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benutzer einsehen
 rbac#:#sess_read_learning_progress#:#Benutzer kann Lernfortschritt anderer Benutzer einsehen
-content#:#cont_progress_icons#:#Progress Icons
-content#:#cont_progress_icons_info#:#Show progress icons instead of chapter page icons in presentation mode. Please note that progress information is stored only with ILIAS 4.5 and higher.
+content#:#cont_progress_icons#:#Fortschritts-Icons
+content#:#cont_progress_icons_info#:#Zeigt Fortschritts-Icons anstatt der Kapitel- und Seiten-Icons im Inhaltsverzeichnis an. Fortschrittsinformationen werden von ILIAS ab Version 4.5 gespeichert.
+content#:#cont_self_assessment#:#Self Assessment
+content#:#cont_tries#:#Number of Tries
+content#:#cont_tries_reset_on_visit#:#Reset on Page Visit
+content#:#cont_tries_reset_on_visit_info#:#Questions start with 0 number of tries each time a learner visits a page.
+content#:#cont_tries_store#:#Store between Page Visits
+content#:#cont_tries_store_info#:#Number of tries are accumulated and stored.
