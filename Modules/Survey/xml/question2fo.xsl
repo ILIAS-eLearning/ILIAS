@@ -45,18 +45,20 @@
 	<xsl:template match="//div">
 		<xsl:choose>
 			<xsl:when test="@class='solutionbox'">
-				<xsl:attribute name="border-width">1</xsl:attribute>
-				<xsl:attribute name="border-style">solid</xsl:attribute>
-				<xsl:attribute name="border-color">#808080</xsl:attribute>
-				<xsl:attribute name="margin-top">1em</xsl:attribute>
-				<xsl:attribute name="margin-left">0.25em</xsl:attribute>
-				<xsl:attribute name="margin-right">0.25em</xsl:attribute>
-				<xsl:attribute name="padding-left">0.25em</xsl:attribute>
-				<xsl:attribute name="padding-right">0.25em</xsl:attribute>
-				<xsl:attribute name="padding-top">2px</xsl:attribute>
-				<xsl:attribute name="padding-bottom">2px</xsl:attribute>
-				<xsl:attribute name="background-color">#FFFFFF</xsl:attribute>
-				<xsl:apply-templates select="node()"></xsl:apply-templates>
+				<fo:block>
+					<xsl:attribute name="border-width">1</xsl:attribute>
+					<xsl:attribute name="border-style">solid</xsl:attribute>
+					<xsl:attribute name="border-color">#808080</xsl:attribute>
+					<xsl:attribute name="margin-top">1em</xsl:attribute>
+					<xsl:attribute name="margin-left">0.25em</xsl:attribute>
+					<xsl:attribute name="margin-right">0.25em</xsl:attribute>
+					<xsl:attribute name="padding-left">0.25em</xsl:attribute>
+					<xsl:attribute name="padding-right">0.25em</xsl:attribute>
+					<xsl:attribute name="padding-top">2px</xsl:attribute>
+					<xsl:attribute name="padding-bottom">2px</xsl:attribute>
+					<xsl:attribute name="background-color">#FFFFFF</xsl:attribute>
+					<xsl:apply-templates select="node()"></xsl:apply-templates>
+				</fo:block>
 			</xsl:when>
 			<xsl:when test="@class='surveySheet'">
 				<fo:block>
