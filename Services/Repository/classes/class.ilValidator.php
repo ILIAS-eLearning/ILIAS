@@ -2128,6 +2128,7 @@ restore starts here
 					case 'role' :
 					case 'mob' :
 					case 'sty' :
+					case 'tax' : // #13798
 						// We are not interested in dumping these object types.
 						continue 2;
 						//break; NOT REACHED
