@@ -228,6 +228,27 @@ class ilObjContentObject extends ilObject
 	{
 		return $this->store_tries;
 	}
+	
+	/**
+	 * Set restrict forward navigation
+	 *
+	 * @param bool $a_val restrict forward navigation	
+	 */
+	function setRestrictForwardNavigation($a_val)
+	{
+		$this->restrict_forw_nav = $a_val;
+	}
+	
+	/**
+	 * Get restrict forward navigation
+	 *
+	 * @return bool restrict forward navigation
+	 */
+	function getRestrictForwardNavigation()
+	{
+		return $this->restrict_forw_nav;
+	}
+	
 
 	function &getTree()
 	{
@@ -1064,6 +1085,7 @@ class ilObjContentObject extends ilObject
 		$this->setDisableDefaultFeedback($lm_rec["disable_def_feedback"]);
 		$this->setProgressIcons($lm_rec["progr_icons"]);
 		$this->setStoreTries($lm_rec["store_tries"]);
+		$this->setRestrictForwardNavigation($lm_rec["restrict_forw_nav"]);
 	}
 
 	/**
@@ -1107,7 +1129,8 @@ class ilObjContentObject extends ilObject
 			" rating_pages = ".$ilDB->quote($this->hasRatingPages(), "integer").", ".
 			" disable_def_feedback = ".$ilDB->quote($this->getDisableDefaultFeedback(), "integer").", ".
 			" progr_icons = ".$ilDB->quote($this->getProgressIcons(), "integer").", ".
-			" store_tries = ".$ilDB->quote($this->getStoreTries(), "integer")." ".
+			" store_tries = ".$ilDB->quote($this->getStoreTries(), "integer").", ".
+			" restrict_forw_nav = ".$ilDB->quote($this->getRestrictForwardNavigation(), "integer")." ".
 			" WHERE id = ".$ilDB->quote($this->getId(), "integer");
 		$ilDB->manipulate($q);
 	}

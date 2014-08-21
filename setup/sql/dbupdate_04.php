@@ -2420,5 +2420,13 @@ $ilDB->addTableColumn("content_object", "store_tries", $def);
 			'WHERE rt.parent != '.$ilDB->quote(8,'integer');
 	$ilDB->manipulate($query);
 ?>
-	
-
+<#4293>
+<?php
+$def = array(
+		'type'    => 'integer',
+		'length'  => 1,
+		'notnull' => true,
+		'default' => 0
+	);
+$ilDB->addTableColumn("content_object", "restrict_forw_nav", $def);
+?>

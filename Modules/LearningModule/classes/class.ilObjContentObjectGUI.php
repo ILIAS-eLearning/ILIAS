@@ -457,6 +457,10 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		$radg->addOption($op2);
 		$this->form->addItem($radg);
 
+		// restrict forward navigation
+		$qfeed = new ilCheckboxInputGUI($lng->txt("cont_restrict_forw_nav"), "restrict_forw_nav");
+		$qfeed->setInfo($this->lng->txt("cont_restrict_forw_nav_info"));
+		$this->form->addItem($qfeed);
 
 		// additional features
 		$section = new ilFormSectionHeaderGUI();
@@ -538,6 +542,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		$values["disable_def_feedback"] = $this->object->getDisableDefaultFeedback();
 		$values["progr_icons"] = $this->object->getProgressIcons();
 		$values["store_tries"] = $this->object->getStoreTries();
+		$values["restrict_forw_nav"] = $this->object->getRestrictForwardNavigation();
 		
 		$this->form->setValuesByArray($values);
 	}
@@ -579,6 +584,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 			$this->object->setDisableDefaultFeedback((int) $_POST["disable_def_feedback"]);
 			$this->object->setProgressIcons((int) $_POST["progr_icons"]);
 			$this->object->setStoreTries((int) $_POST["store_tries"]);
+			$this->object->setRestrictForwardNavigation((int) $_POST["restrict_forw_nav"]);
 			$this->object->updateProperties();
 			$this->object->update();
 			

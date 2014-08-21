@@ -14581,3 +14581,5 @@ content#:#cont_tries_reset_on_visit#:#Reset on Page Visit
 content#:#cont_tries_reset_on_visit_info#:#Questions start with 0 number of tries each time a learner visits a page.
 content#:#cont_tries_store#:#Store between Page Visits
 content#:#cont_tries_store_info#:#Number of tries are accumulated and stored.
+content#:#cont_restrict_forw_nav#:#Restrict Forward Navigation
+content#:#cont_restrict_forw_nav_info#:#Learners cannot navigate to subsequent pages unless they answered all previous questions correctly.
