@@ -316,8 +316,8 @@ class gevEduBiographyGUI {
 			if ($rec["certificate"] != -1) {
 				$this->ctrl->setParameter($this, "cert_id", $rec["certificate"]);
 				$this->ctrl->setParameter($this, "target_user_id", $this->target_user_id);
-				$rec["action"] = "<a href='".$this->ctrl->getLinkTarget($this, "getCertificate")."'>"
-							   . $this->get_cert_image."</a>";
+				$rec["action"] .= "<a href='".$this->ctrl->getLinkTarget($this, "getCertificate")."'>"
+							   . $this->get_cert_img."</a>";
 				$this->ctrl->clearParameters($this);
 			}
 			
