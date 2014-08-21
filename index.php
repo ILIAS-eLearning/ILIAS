@@ -13,10 +13,11 @@
 
 
 include('./_launchDate.php');
-if( $delta > 0 
-	&& $_SERVER['SERVER_NAME'] != 'generali.test.cat06.de' 
+if( 
+	($delta > 0 
+	&& $_SERVER['SERVER_NAME'] != 'generali.test.cat06.de')
 	//&& $_SERVER['SERVER_NAME'] != 'localhost' 
-	&& $_GET['countdown'] != 1 
+	|| $_GET['countdown'] != 1 
 	){
     header('Location: ./countdown.php');
     die();
