@@ -1448,7 +1448,7 @@ class ilLMPresentationGUI
 			if ($ilUser->getId() != ANONYMOUS_USER_ID && $page_id != 0 && !$this->offlineMode())
 			{
 				include_once("./Modules/LearningModule/classes/class.ilLMTracker.php");
-				$tracker = new ilLMTracker($this->lm);
+				$tracker = ilLMTracker::getInstance($this->lm->getRefId());
 				$tracker->trackAccess($page_id);
 			}
 		}

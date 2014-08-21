@@ -50,9 +50,12 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
 		if ($this->lm->getProgressIcons())
 		{
 			include_once("./Modules/LearningModule/classes/class.ilLMTracker.php");
-			$this->tracker = new ilLMTracker($this->lm);
+			$this->tracker = ilLMTracker::getInstance($this->lm->getRefId());
 			$this->tracker->loadLMTrackingData($this->getHighlightNode());
 		}
+
+		//$preds = $this->getTree()->fetchPredecessorNode($this->highlight_node, "pg", true);
+
 		return parent::getHTML();
 	}
 

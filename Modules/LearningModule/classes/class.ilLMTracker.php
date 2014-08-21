@@ -17,23 +17,49 @@ class ilLMTracker
 	const FAILED = 3;
 	const CURRENT = 99;
 
-	protected $lm;
+	protected $lm_ref_id;
+	protected $lm_obj_id;
 	protected $lm_tree;
+	protected $lm_obj_ids = array();
 	protected $tree_arr = array();		// tree array
 	protected $re_arr = array();		// read event data array
+	protected $loaded_for_node = false;	// current node for that the tracking data has been loaded
+	protected $dirty = false;
+	protected $page_questions = array();
+	protected $all_questions = array();
+	protected $answer_status = array();
+
+	static $instances = array();
 
 	/**
 	 * Constructor
 	 *
 	 * @param ilObjLearningModule $a_lm learning module
 	 */
-	function __construct(ilObjLearningModule $a_lm)
+	private function __construct($a_ref_id)
 	{
-		$this->lm = $a_lm;
+		$this->lm_ref_id = $a_ref_id;
+		$this->lm_obj_id = ilObject::_lookupObjId($a_ref_id);
 
 		include_once("./Modules/LearningModule/classes/class.ilLMTree.php");
-		$this->lm_tree = ilLMTree::getInstance($this->lm->getId());
+		$this->lm_tree = ilLMTree::getInstance($this->lm_obj_id);
 	}
+
+	/**
+	 * Get instance
+	 *
+	 * @param
+	 * @return
+	 */
+	static function getInstance($a_ref_id)
+	{
+		if (!isset(self::$instances[$a_ref_id]))
+		{
+			self::$instances[$a_ref_id] = new ilLMTracker($a_ref_id);
+		}
+		return self::$instances[$a_ref_id];
+	}
+
 
 	/**
 	 * Track access to lm page
@@ -48,18 +74,20 @@ class ilLMTracker
 		$this->trackPageAndChapterAccess($a_page_id);
 
 		// track last page access (must be done after calling trackPageAndChapterAccess())
-		$this->trackLastPageAccess($ilUser->getId(), $this->lm->getRefId(), $a_page_id);
+		$this->trackLastPageAccess($ilUser->getId(), $this->lm_ref_id, $a_page_id);
 
 		// #9483
 		// general learning module lp tracking
 		include_once("./Services/Tracking/classes/class.ilLearningProgress.php");
-		ilLearningProgress::_tracProgress($ilUser->getId(), $this->lm->getId(),
-			$this->lm->getRefId(), $this->lm->getType());
+		ilLearningProgress::_tracProgress($ilUser->getId(), $this->lm_obj_id,
+			$this->lm_ref_id, "lm");
 
 		// obsolete?
 		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
-		ilLPStatusWrapper::_updateStatus($this->lm->getId(), $ilUser->getId());
+		ilLPStatusWrapper::_updateStatus($this->lm_obj_id, $ilUser->getId());
 
+		// mark currently loaded data as dirty to force reload if necessary
+		$this->dirty = true;
 	}
 
 	/**
@@ -79,7 +107,7 @@ class ilLMTracker
 			"AND lm_id = ".$ilDB->quote((int) $lm_id, "integer");
 		$ilDB->manipulate($q);
 
-		$title = (is_object($this->lm))?$this->lm->getTitle():"- no title -";
+		$title = "";
 
 		$q = "INSERT INTO lo_access ".
 			"(timestamp,usr_id,lm_id,obj_id,lm_title) ".
@@ -131,7 +159,7 @@ class ilLMTracker
 		// get last accessed page
 		$set = $ilDB->query("SELECT * FROM lo_access WHERE ".
 			"usr_id = ".$ilDB->quote($ilUser->getId(), "integer")." AND ".
-			"lm_id = ".$ilDB->quote($this->lm->getRefId(), "integer"));
+			"lm_id = ".$ilDB->quote($this->lm_ref_id, "integer"));
 		$res = $ilDB->fetchAssoc($set);
 		if($res["obj_id"])
 		{
@@ -214,11 +242,22 @@ class ilLMTracker
 	 */
 	function loadLMTrackingData($a_current_node)
 	{
-		global $ilDB;
+		global $ilDB, $ilUser;
+
+		// we must prevent loading tracking data multiple times during a request where possible
+		// please note that the dirty flag works only to a certain limit
+		// e.g. if questions are answered the flag is not set (yet)
+		// or if pages/chapter are added/deleted the flag is not set
+		if ($this->loaded_for_node === (int) $a_current_node && !$this->dirty)
+		{
+			return;
+		}
+
+		$this->loaded_for_node = (int) $a_current_node;
+		$this->dirty = false;
 
 		// load lm tree in array
 		$nodes = $this->lm_tree->getSubTree($this->lm_tree->getNodeData($this->lm_tree->readRootId()));
-		$node_ids = array();
 		foreach ($nodes as $node)
 		{
 			$this->tree_arr["childs"][$node["parent"]][] = $node;
@@ -226,17 +265,33 @@ class ilLMTracker
 			$this->tree_arr["nodes"][$node["child"]] = $node;
 		}
 
-		// load read event data
+		// load all lm obj ids of learning module
 		include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
-		$lm_obj_ids = ilLMObject::_getAllLMObjectsOfLM($this->lm->getId());
+		$this->lm_obj_ids = ilLMObject::_getAllLMObjectsOfLM($this->lm_obj_id);
+
+		// load read event data
 		$set = $ilDB->query("SELECT * FROM lm_read_event ".
-			" WHERE ".$ilDB->in("obj_id", $lm_obj_ids, false, "integer"));
+			" WHERE ".$ilDB->in("obj_id", $this->lm_obj_ids, false, "integer"));
 		while ($rec = $ilDB->fetchAssoc($set))
 		{
 			$this->re_arr[$rec["obj_id"]] = $rec;
 		}
 
-		$this->determineProgressStatus($this->lm_tree->readRootId(), $a_current_node);
+		// load question/pages information
+		include_once("./Modules/LearningModule/classes/class.ilLMPageObject.php");
+		$q = ilLMPageObject::queryQuestionsOfLearningModule($this->lm_obj_id, "", "", 0, 0);
+		foreach ($q["set"] as $quest)
+		{
+			$this->page_questions[$quest["page_id"]][] = $quest["question_id"];
+			$this->all_questions[] = $quest["question_id"];
+		}
+
+		// load question answer information
+		include_once("./Services/COPage/classes/class.ilPageQuestionProcessor.php");
+		$this->answer_status = ilPageQuestionProcessor::getAnswerStatus($this->all_questions, $ilUser->getId());
+
+		$has_pred_incorrect_answers = false;
+		$this->determineProgressStatus($this->lm_tree->readRootId(), $a_current_node, $has_pred_incorrect_answers);
 	}
 
 	/**
@@ -245,7 +300,7 @@ class ilLMTracker
 	 * @param int $a_obj_id lm object id
 	 * @return int status
 	 */
-	function determineProgressStatus($a_obj_id, $a_current_node)
+	function determineProgressStatus($a_obj_id, $a_current_node, &$a_has_pred_incorrect_answers)
 	{
 		$status = ilLMTracker::NOT_ATTEMPTED;
 
@@ -253,15 +308,19 @@ class ilLMTracker
 		{
 			if (is_array($this->tree_arr["childs"][$a_obj_id]))
 			{
+				$this->tree_arr["nodes"][$a_obj_id]["has_pred_incorrect_answers"] = $a_has_pred_incorrect_answers;
+				// sort childs in correct order
+				$this->tree_arr["childs"][$a_obj_id] = ilUtil::sortArray($this->tree_arr["childs"][$a_obj_id], "lft", "asc", true);
+
 				$cnt_completed = 0;
 				foreach ($this->tree_arr["childs"][$a_obj_id] as $c)
 				{
-					$c_stat = $this->determineProgressStatus($c["child"], $a_current_node);
+					$c_stat = $this->determineProgressStatus($c["child"], $a_current_node, $a_has_pred_incorrect_answers);
 					if ($status != ilLMTracker::FAILED)
 					{
 						if ($c_stat == ilLMTracker::FAILED)
 						{
-							$status = ilLMTracker::FAILED;
+							$status = ilLMTracker::IN_PROGRESS;
 						}
 						else if ($c_stat == ilLMTracker::IN_PROGRESS)
 						{
@@ -273,6 +332,10 @@ class ilLMTracker
 							$cnt_completed++;
 						}
 					}
+					if ($c_stat == ilLMTracker::FAILED || $c_stat == ilLMTracker::IN_PROGRESS)
+					{
+						$a_has_pred_incorrect_answers = true;
+					}
 				}
 				if ($cnt_completed == count($this->tree_arr["childs"][$a_obj_id]))
 				{
@@ -281,10 +344,6 @@ class ilLMTracker
 			}
 			else if ($this->tree_arr["nodes"][$a_obj_id]["type"] == "pg")
 			{
-				// check questions, if one is failed -> failed
-
-				// check questions, if one is not answered -> in progress
-
 				// check read event data
 				if (isset($this->re_arr[$a_obj_id]) && $this->re_arr[$a_obj_id]["read_count"] > 0)
 				{
@@ -294,6 +353,34 @@ class ilLMTracker
 				{
 					$status = ilLMTracker::CURRENT;
 				}
+
+				if (is_array($this->page_questions[$a_obj_id]))
+				{
+					// check questions, if one is failed -> failed
+					foreach ($this->page_questions[$a_obj_id] as $q_id)
+					{
+						if (is_array($this->answer_status[$q_id])
+							&& $this->answer_status[$q_id]["try"] > 0
+							&& !$this->answer_status[$q_id]["passed"])
+						{
+							$status = ilLMTracker::FAILED;
+						}
+					}
+
+					// check questions, if one is not answered -> in progress
+					if ($status != ilLMTracker::FAILED)
+					{
+						foreach ($this->page_questions[$a_obj_id] as $q_id)
+						{
+							if (!is_array($this->answer_status[$q_id])
+								|| $this->answer_status[$q_id]["try"] == 0)
+							{
+								$status = ilLMTracker::IN_PROGRESS;
+							}
+						}
+					}
+				}
+				$this->tree_arr["nodes"][$a_obj_id]["has_pred_incorrect_answers"] = $a_has_pred_incorrect_answers;
 			}
 		}
 		else	// free pages (currently not called, since only walking through tree structure)

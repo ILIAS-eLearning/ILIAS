@@ -301,12 +301,28 @@ class ilPageQuestionProcessor
 	{
 		global $ilDB;
 
+		$qst = (is_array($a_q_id))
+			? $ilDB->in("qst_id", $a_q_id, false, "integer")
+			: " qst_id = ".$ilDB->quote($a_q_id, "integer");
+
 		$set = $ilDB->query("SELECT * FROM page_qst_answer WHERE ".
-			" qst_id = ".$ilDB->quote($a_q_id, "integer").
+			$qst.
 			" AND user_id = ".$ilDB->quote($a_user_id, "integer")
 		);
 
-		return $ilDB->fetchAssoc($set);
+		if (is_array($a_q_id))
+		{
+			$recs = array();
+			while ($rec = $ilDB->fetchAssoc($set))
+			{
+				$recs[$rec["qst_id"]] = $rec;
+			}
+			return $recs;
+		}
+		else
+		{
+			return $ilDB->fetchAssoc($set);
+		}
 	}
 
 }

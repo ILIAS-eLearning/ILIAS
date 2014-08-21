@@ -686,7 +686,7 @@ class ilLMPageObject extends ilLMObject
 	 * @param
 	 * @return
 	 */
-	function queryQuestionsOfLearningModule($a_lm_id, $a_order_field,
+	static function queryQuestionsOfLearningModule($a_lm_id, $a_order_field,
 		$a_order_dir, $a_offset, $a_limit)
 	{
 		global $ilDB, $rbacreview;
@@ -715,7 +715,10 @@ class ilLMPageObject extends ilLMObject
 
 		$offset = (int) $a_offset;
 		$limit = (int) $a_limit;
-		$ilDB->setLimit($limit, $offset);
+		if ($a_limit > 0)
+		{
+			$ilDB->setLimit($limit, $offset);
+		}
 
 		// set query
 		$set = $ilDB->query($query);
