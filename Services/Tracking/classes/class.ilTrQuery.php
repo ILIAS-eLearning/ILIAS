@@ -395,7 +395,13 @@ class ilTrQuery
 						// remove complete entry - offending field was filtered
 						if(isset($a_filters[$field]))
 						{
-							unset($a_result["set"][$idx]);
+							// we cannot remove row because of pagination!
+							foreach(array_keys($a_result["set"][$idx]) as $col_id)
+							{
+								$a_result["set"][$idx][$col_id] = null;
+							}
+							$a_result["set"][$idx]["privacy_conflict"] = true;
+							// unset($a_result["set"][$idx]);
 							break;
 						}
 						// remove offending field
@@ -408,7 +414,7 @@ class ilTrQuery
 			}
 		}
 		
-		$a_result["cnt"] = sizeof($a_result["set"]);		
+		// $a_result["cnt"] = sizeof($a_result["set"]);		
 	}
 
 	/**
