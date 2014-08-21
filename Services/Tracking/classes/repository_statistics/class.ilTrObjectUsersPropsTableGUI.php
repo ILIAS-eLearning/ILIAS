@@ -125,7 +125,7 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 	function getItems()
 	{
 		global $lng;
-
+		
 		$this->determineOffsetAndOrder();
 		
 		include_once("./Services/Tracking/classes/class.ilTrQuery.php");
@@ -296,43 +296,51 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 
 		foreach ($this->getSelectedColumns() as $c)
 		{
-			if($c == 'status' && $data[$c] != ilLPStatus::LP_STATUS_COMPLETED_NUM)
-			{
-				$timing = $this->showTimingsWarning($this->ref_id, $data["usr_id"]);
-				if($timing)
+			if(!(bool)$data["privacy_conflict"]) 
+			{									
+				if($c == 'status' && $data[$c] != ilLPStatus::LP_STATUS_COMPLETED_NUM)
 				{
-					if($timing !== true)
+					$timing = $this->showTimingsWarning($this->ref_id, $data["usr_id"]);
+					if($timing)
 					{
-						$timing = ": ".ilDatePresentation::formatDate(new ilDate($timing, IL_CAL_UNIX));
+						if($timing !== true)
+						{
+							$timing = ": ".ilDatePresentation::formatDate(new ilDate($timing, IL_CAL_UNIX));
+						}
+						else
+						{
+							$timing = "";
+						}
+						$this->tpl->setCurrentBlock('warning_img');
+						$this->tpl->setVariable('WARNING_IMG', ilUtil::getImagePath('time_warn.png'));
+						$this->tpl->setVariable('WARNING_ALT', $this->lng->txt('trac_time_passed').$timing);
+						$this->tpl->parseCurrentBlock();
 					}
-					else
-					{
-						$timing = "";
-					}
-					$this->tpl->setCurrentBlock('warning_img');
-					$this->tpl->setVariable('WARNING_IMG', ilUtil::getImagePath('time_warn.png'));
-					$this->tpl->setVariable('WARNING_ALT', $this->lng->txt('trac_time_passed').$timing);
+				}
+
+				// #7694
+				if($c == 'login' && !$data["active"])
+				{
+					$this->tpl->setCurrentBlock('inactive_bl');
+					$this->tpl->setVariable('TXT_INACTIVE', $lng->txt("inactive"));				
 					$this->tpl->parseCurrentBlock();
 				}
+				
+				$val = $this->parseValue($c, $data[$c], "user");
 			}
-			
-			// #7694
-			if($c == 'login' && !$data["active"])
+			else
 			{
-				$this->tpl->setCurrentBlock('inactive_bl');
-				$this->tpl->setVariable('TXT_INACTIVE', $lng->txt("inactive"));				
-				$this->tpl->parseCurrentBlock();
+				$val = "-";
 			}
 
-			$this->tpl->setCurrentBlock("user_field");
-			$val = $this->parseValue($c, $data[$c], "user");
+			$this->tpl->setCurrentBlock("user_field");			
 			$this->tpl->setVariable("VAL_UF", $val);
 			$this->tpl->parseCurrentBlock();
 		}
 		
 		$ilCtrl->setParameterByClass("illplistofobjectsgui", "user_id", $data["usr_id"]);
 		
-		if(!$this->getPrintMode())
+		if(!$this->getPrintMode() && !(bool)$data["privacy_conflict"]) 
 		{
 			if(in_array($this->type, array("crs", "grp", "cat", "fold")))
 			{
