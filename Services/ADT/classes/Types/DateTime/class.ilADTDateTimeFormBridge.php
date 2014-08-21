@@ -5,10 +5,16 @@ require_once "Services/ADT/classes/Bridges/class.ilADTFormBridge.php";
 class ilADTDateTimeFormBridge extends ilADTFormBridge
 {
 	protected $invalid_input; // [bool]
+	protected $text_input; // [bool]
 	
 	protected function isValidADT(ilADT $a_adt) 
 	{
 		return ($a_adt instanceof ilADTDateTime);
+	}
+	
+	public function setTextInputMode($a_value)
+	{
+		$this->text_input = (bool)$a_value;
 	}
 	
 	public function addToForm()
@@ -21,10 +27,17 @@ class ilADTDateTimeFormBridge extends ilADTFormBridge
 		$date->setShowTime(true);
 
 		$this->addBasicFieldProperties($date, $this->getADT()->getCopyOfDefinition());		
-
-		if(!$this->isRequired())
-		{			
-			$date->enableDateActivation("", $this->getElementId()."_tgl", !(!$adt_date || $adt_date->isNull()));
+		
+		if((bool)$this->text_input)
+		{
+			$date->setMode(ilDateTimeInputGUI::MODE_INPUT);			
+		}	
+		else
+		{
+			if(!$this->isRequired())
+			{			
+				$date->enableDateActivation("", $this->getElementId()."_tgl", !(!$adt_date || $adt_date->isNull()));
+			}
 		}
 
 		$date->setDate($adt_date);				
@@ -45,7 +58,9 @@ class ilADTDateTimeFormBridge extends ilADTFormBridge
 			$date = null;
 
 			$toggle = true;
-			if(!$this->isRequired())
+			
+			if(!$this->isRequired() &&
+				!(bool)$this->text_input)
 			{
 				// :TODO: should be handle by ilDateTimeInputGUI
 				$toggle = $_POST[$field->getActivationPostVar()];
@@ -57,7 +72,7 @@ class ilADTDateTimeFormBridge extends ilADTFormBridge
 				$incoming = $this->getForm()->getInput($this->getElementId());
 				if($incoming["date"] && $incoming["time"])
 				{
-					$date = new ilDate($incoming["date"]." ".$incoming["time"], IL_CAL_DATETIME);
+					$date = new ilDateTime($incoming["date"]." ".$incoming["time"], IL_CAL_DATETIME);
 				}
 			}
 				

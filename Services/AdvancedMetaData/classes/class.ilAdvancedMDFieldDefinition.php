@@ -1061,8 +1061,16 @@ abstract class ilAdvancedMDFieldDefinition
 	
 	public function searchSubObjects(ilADTSearchBridge $a_adt_search, $a_obj_id, $sub_obj_type)
 	{
-		include_once('Services/ADT/classes/ActiveRecord/class.ilADTActiveRecordByType.php');			 			
-		$condition = $a_adt_search->getSQLCondition(ilADTActiveRecordByType::SINGLE_COLUMN_NAME);		
+		include_once('Services/ADT/classes/ActiveRecord/class.ilADTActiveRecordByType.php');	
+		$element_id = ilADTActiveRecordByType::SINGLE_COLUMN_NAME;
+		
+		// :TODO:
+		if($a_adt_search instanceof ilADTLocationSearchBridgeSingle)
+		{
+			$element_id = "loc";
+		}
+						 			
+		$condition = $a_adt_search->getSQLCondition($element_id);		
 		if($condition)
 		{			
 			$objects = ilADTActiveRecordByType::find("adv_md_values", $this->getADT()->getType(), $this->getFieldId(), $condition);

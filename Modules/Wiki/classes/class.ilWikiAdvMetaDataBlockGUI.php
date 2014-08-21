@@ -10,7 +10,7 @@ include_once("Services/Block/classes/class.ilBlockGUI.php");
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @version $Id$
  *
- * @ilCtrl_Is+++CalledBy ilWikiAdvMetaDataBlockGUI: ilColumnGUI
+ * @ilCtrl_IsCalledBy ilWikiAdvMetaDataBlockGUI: ilColumnGUI
  *
  * @ingroup ModulesWiki
  */
@@ -23,32 +23,28 @@ class ilWikiAdvMetaDataBlockGUI extends ilBlockGUI
 	protected $obj_id; // [int]
 	protected $ref_id; // [int]
 	protected $page_id; // [int]
+	protected $record; // [ilAdvancedMDRecord]
 	
 	static protected $records = array(); // [array]
 	
 	/**
 	* Constructor
 	*/
-	function __construct()
+	function __construct(ilAdvancedMDRecord $a_record)
 	{
 		global $ilCtrl, $lng;
 		
 		parent::ilBlockGUI();
+						
+		$this->record = $a_record;		
 		
-		//$this->setImage(ilUtil::getImagePath("icon_news_s.png"));
-
-		$lng->loadLanguageModule("wiki");
-		//$this->setBlockId(...);
-		/*$this->setLimit(5);
-		$this->setAvailableDetailLevels(3);*/
+		$this->setTitle($this->record->getTitle());		
+		$this->setBlockId("advmdwiki_".$this->record->getRecordId());				
 		$this->setEnableNumInfo(false);
-		
-//		$this->setTitle($lng->txt("wiki_important_pages"));
-		$this->setTitle($lng->txt("wiki_advmd_block_title"));
-		//$this->setRowTemplate("tpl.block_row_news_for_context.html", "Services/News");
-		//$this->setData($data);
+		// $this->setAvailableDetailLevels(3);		
 		$this->allow_moving = false;
-		//$this->handleView();
+		
+		$lng->loadLanguageModule("wiki");
 	}
 
 	/**
@@ -121,7 +117,7 @@ class ilWikiAdvMetaDataBlockGUI extends ilBlockGUI
 		
 		return parent::getHTML();
 	}
-
+		
 	/**
 	* Fill data section
 	*/
@@ -131,43 +127,49 @@ class ilWikiAdvMetaDataBlockGUI extends ilBlockGUI
 		
 		// see ilAdvancedMDRecordGUI::parseInfoPage()
 		
+		$old_dt = ilDatePresentation::useRelativeDates();		
+		ilDatePresentation::setUseRelativeDates(false);
+		
 		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');
 		include_once('Services/ADT/classes/class.ilADTFactory.php');	
-		
-		foreach(self::getRecords($this->obj_id) as $record)
-		{		
-			// record title currently not required
-			// ilAdvancedMDRecord::_lookupTitle($record->getRecordId()); 
-		
-			$values = new ilAdvancedMDValues($record->getRecordId(), $this->obj_id, "wpg", $this->page_id);
-			
-			// this correctly binds group and definitions
-			$values->read();
-			
-			$defs = $values->getDefinitions();									
-			foreach($values->getADTGroup()->getElements() as $element_id => $element)				
-			{																								
-				$btpl->setCurrentBlock("item");
-				$btpl->setVariable("CAPTION", $defs[$element_id]->getTitle());
-				if($element->isNull())
-				{	
-					$value = "-";
-				}
-				else
+				
+		$values = new ilAdvancedMDValues($this->record->getRecordId(), $this->obj_id, "wpg", $this->page_id);
+
+		// this correctly binds group and definitions
+		$values->read();
+
+		$defs = $values->getDefinitions();									
+		foreach($values->getADTGroup()->getElements() as $element_id => $element)				
+		{																								
+			$btpl->setCurrentBlock("item");
+			$btpl->setVariable("CAPTION", $defs[$element_id]->getTitle());
+			if($element->isNull())
+			{	
+				$value = "-";
+			}
+			else
+			{
+				$value = ilADTFactory::getInstance()->getPresentationBridgeForInstance($element);
+
+				if($element instanceof ilADTLocation)
 				{
-					$value = ilADTFactory::getInstance()->getPresentationBridgeForInstance($element)->getHTML();
+					$value->setSize("100%", "200px");
 				}
-				$btpl->setVariable("VALUE", $value);
-				$btpl->parseCurrentBlock();				
-			}			
+
+				$value = $value->getHTML();
+			}
+			$btpl->setVariable("VALUE", $value);
+			$btpl->parseCurrentBlock();										
 		}
 		
 		$this->setDataSection($btpl->get());		
 		
+		ilDatePresentation::setUseRelativeDates($old_dt);
+		
 		return;		
 	}		
 	
-	protected static function getRecords($a_wiki_obj_id)
+	public static function getRecords($a_wiki_obj_id)
 	{
 		if(!array_key_exists($a_wiki_obj_id, self::$records))
 		{

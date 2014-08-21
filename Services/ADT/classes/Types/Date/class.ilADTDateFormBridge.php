@@ -5,12 +5,18 @@ require_once "Services/ADT/classes/Bridges/class.ilADTFormBridge.php";
 class ilADTDateFormBridge extends ilADTFormBridge
 {
 	protected $invalid_input; // [bool]
+	protected $text_input; // [bool]
 	
 	protected function isValidADT(ilADT $a_adt) 
 	{
 		return ($a_adt instanceof ilADTDate);
-	}
+	}	
 	
+	public function setTextInputMode($a_value)
+	{
+		$this->text_input = (bool)$a_value;
+	}
+		
 	protected function addToElementId($a_add)
 	{		
 		return $this->getElementId()."[".$a_add."]";		
@@ -25,9 +31,16 @@ class ilADTDateFormBridge extends ilADTFormBridge
 
 		$this->addBasicFieldProperties($date, $this->getADT()->getCopyOfDefinition());		
 
-		if(!$this->isRequired())
-		{			
-			$date->enableDateActivation("", $this->getElementId()."_tgl", !(!$adt_date || $adt_date->isNull()));
+		if((bool)$this->text_input)
+		{
+			$date->setMode(ilDateTimeInputGUI::MODE_INPUT);			
+		}	
+		else
+		{
+			if(!$this->isRequired())
+			{			
+				$date->enableDateActivation("", $this->getElementId()."_tgl", !(!$adt_date || $adt_date->isNull()));
+			}
 		}
 
 		$date->setDate($adt_date);	
@@ -48,7 +61,9 @@ class ilADTDateFormBridge extends ilADTFormBridge
 			$date = null;
 
 			$toggle = true;
-			if(!$this->isRequired())
+			
+			if(!$this->isRequired() &&
+				!(bool)$this->text_input)
 			{
 				// :TODO: should be handle by ilDateTimeInputGUI				
 				$toggle = $_POST[$field->getActivationPostVar()];

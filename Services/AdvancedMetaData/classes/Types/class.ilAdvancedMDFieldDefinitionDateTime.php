@@ -107,6 +107,15 @@ class ilAdvancedMDFieldDefinitionDateTime extends ilAdvancedMDFieldDefinition
 			return "{".$start->get(IL_CAL_DATETIME)." TO ".$end->get(IL_CAL_DATETIME)."}";
 		}
 	}
+	
+	// 
+	// presentation
+	//
+	
+	public function prepareElementForEditor(ilADTFormBridge $a_text)
+	{
+		$a_text->setTextInputMode(true);
+	}
 }
 
 ?>

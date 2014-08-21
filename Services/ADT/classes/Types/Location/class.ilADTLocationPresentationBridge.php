@@ -4,9 +4,18 @@ require_once "Services/ADT/classes/Bridges/class.ilADTPresentationBridge.php";
 
 class ilADTLocationPresentationBridge extends ilADTPresentationBridge
 {
+	protected $width; // [mixed]
+	protected $height; // [mixed]
+	
 	protected function isValidADT(ilADT $a_adt)
 	{
 		return ($a_adt instanceof ilADTLocation);
+	}
+	
+	public function setSize($a_width, $a_height)
+	{
+		$this->width = $a_width;
+		$this->height = $a_height;
 	}
 	
 	public function getHTML()
@@ -23,7 +32,16 @@ class ilADTLocationPresentationBridge extends ilADTPresentationBridge
 			$map_gui->setEnableLargeMapControl(true);
 			$map_gui->setEnableUpdateListener(false);
 			$map_gui->setEnableCentralMarker(true);
-
+			
+			if($this->width)
+			{
+				$map_gui->setWidth($this->width);
+			}
+			if($this->height)
+			{
+				$map_gui->setHeight($this->height);
+			}
+			
 			return $map_gui->getHtml();			
 		}
 	}
