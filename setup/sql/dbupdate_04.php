@@ -2404,6 +2404,9 @@ $ilDB->addTableColumn("content_object", "store_tries", $def);
 ?>
 <#4291>
 <?php
+	$query = 'DELETE FROM rbac_fa WHERE parent = '.$ilDB->quote(0,'integer');
+	$ilDB->manipulate($query);
+
 
 	$query = 'UPDATE rbac_fa f '.
 			'SET parent  = '.
@@ -2414,6 +2417,9 @@ $ilDB->addTableColumn("content_object", "store_tries", $def);
 
 <#4292>
 <?php
+	$query = 'DELETE FROM rbac_templates WHERE parent = '.$ilDB->quote(0,'integer');
+	$ilDB->manipulate($query);
+
 	$query = 'UPDATE rbac_templates rt '.
 			'SET parent = '.
 			'(SELECT t.parent FROM tree t WHERE t.child = rt.parent) '.
