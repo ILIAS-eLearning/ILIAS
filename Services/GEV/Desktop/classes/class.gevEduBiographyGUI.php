@@ -67,6 +67,7 @@ class gevEduBiographyGUI {
 		require_once("Services/CaTUIComponents/classes/class.catLegendGUI.php");
 		require_once("Services/GEV/Desktop/classes/class.gevPeriodSelectorGUI.php");
 		
+		
 		if ($this->user->getId() == $this->target_user_id) {
 			$title = new catTitleGUI("gev_my_edu_bio", "gev_my_edu_bio_desc", "GEV_img/ico-head-edubio.png");
 		}

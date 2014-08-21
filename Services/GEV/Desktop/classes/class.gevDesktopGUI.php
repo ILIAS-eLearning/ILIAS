@@ -43,13 +43,18 @@ class gevDesktopGUI {
 			$cmd = "toMyCourses";
 		}
 
+
+		global $ilMainMenu;
+
 		switch($next_class) {
 			case "gevmycoursesgui":
+				$ilMainMenu->setActive("gev_me_menu");
 				require_once("Services/GEV/Desktop/classes/class.gevMyCoursesGUI.php");
 				$gui = new gevMyCoursesGUI();
 				$ret = $this->ctrl->forwardCommand($gui);
 				break;
 			case "gevcoursesearchgui":
+				$ilMainMenu->setActive("gev_search_menu");
 				require_once("Services/GEV/Desktop/classes/class.gevCourseSearchGUI.php");
 				$gui = new gevCourseSearchGUI();
 				$ret = $this->ctrl->forwardCommand($gui);
@@ -72,12 +77,14 @@ class gevDesktopGUI {
 				break;
 
 			case "gevedubiographygui":
+				$ilMainMenu->setActive("gev_me_menu");
 				require_once("Services/GEV/Desktop/classes/class.gevEduBiographyGUI.php");
 				$gui = new gevEduBiographyGUI();
 				$ret = $this->ctrl->forwardCommand($gui);
 				break;
 
 			case "gevuserprofilegui":
+				$ilMainMenu->setActive("gev_me_menu");
 				require_once("Services/GEV/Desktop/classes/class.gevUserProfileGUI.php");
 				$gui = new gevUserProfileGUI();
 				$ret = $this->ctrl->forwardCommand($gui);
