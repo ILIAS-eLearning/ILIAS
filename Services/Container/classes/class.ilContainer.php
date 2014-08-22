@@ -63,6 +63,13 @@ class ilContainer extends ilObject
 	const SORT_DIRECTION_ASC = 0;
 	const SORT_DIRECTION_DESC = 1;
 
+	const SORT_NEW_ITEMS_POSITION_TOP = 0;
+	const SORT_NEW_ITEMS_POSITION_BOTTOM = 1;
+
+	const SORT_NEW_ITEMS_ORDER_TITLE = 0;
+	const SORT_NEW_ITEMS_ORDER_CREATION = 1;
+
+
 	static $data_preloaded = false;
 	
 	/**

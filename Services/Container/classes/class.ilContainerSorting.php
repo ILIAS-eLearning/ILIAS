@@ -40,7 +40,6 @@ class ilContainerSorting
 	protected $db;
 	
 	protected $sorting_settings = null;
-	
 	const ORDER_DEFAULT = 999999;
 
 	/**
@@ -248,6 +247,8 @@ class ilContainerSorting
 				}
 			}
 
+			$items = $this->sortOrderDefault($items);
+
 			switch($type)
 			{
 				case '_all':
@@ -285,6 +286,8 @@ class ilContainerSorting
 					$items[$key]['position'] = isset($this->sorting[$a_parent_type][$a_parent_id][$item['child']]) ? 
 													$this->sorting[$a_parent_type][$a_parent_id][$item['child']] : self::ORDER_DEFAULT;
 				}
+
+				$items = $this->sortOrderDefaultItems($items);
 				return ilUtil::sortArray((array) $items,'position','asc',TRUE);
 				
 
@@ -501,6 +504,50 @@ class ilContainerSorting
 	 		}
 	 	}
 		return true;
+	}
+
+	/**
+	 * Position and order sort order for new object without position in manual sorting type
+	 *
+	 * @param $items
+	 * @return array
+	 */
+	private function sortOrderDefault($items)
+	{
+		$no_position = array();
+
+		foreach($items as $key => $item)
+		{
+			if($item["position"] == self::ORDER_DEFAULT)
+			{
+				$no_position[]= array("key" => $key, "title" => $item["title"], "create_date" => $item["create_date"]);
+			}
+
+		}
+
+		if(!count($no_position))
+		{
+			return $items;
+		}
+
+		switch($this->getSortingSettings()->getSortNewItemsOrder())
+		{
+			case ilContainer::SORT_NEW_ITEMS_ORDER_TITLE:
+				$no_position = ilUtil::sortArray( (array) $no_position, 'title','asc', TRUE);
+				break;
+			case ilContainer::SORT_NEW_ITEMS_ORDER_CREATION:
+				$no_position = ilUtil::sortArray((array) $no_position, 'create_date', 'asc', TRUE);
+				break;
+		}
+		$count = $this->getSortingSettings()->getSortNewItemSPosition()
+			== ilContainer::SORT_NEW_ITEMS_POSITION_TOP ? 0 : 900000;
+
+		foreach($no_position as $values)
+		{
+			$items[$values["key"]]["position"] = $count;
+			$count++;
+		}
+		return $items;
 	}
 }
 

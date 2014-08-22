@@ -39,7 +39,9 @@ class ilContainerSortingSettings
 	protected $obj_id;
 	protected $sort_mode = ilContainer::SORT_TITLE;
 	protected $sort_direction = ilContainer::SORT_DIRECTION_ASC;
-	
+	protected $new_items_position = ilContainer::SORT_NEW_ITEMS_POSITION_BOTTOM;
+	protected $new_items_order = ilContainer::SORT_NEW_ITEMS_ORDER_TITLE;
+
 	protected $db;
 	
 	/**
@@ -178,11 +180,14 @@ class ilContainerSortingSettings
 				"WHERE obj_id = ".$ilDB->quote($a_new_id)." ";
 			$ilDB->manipulate($query);
 
-			$query = "INSERT INTO container_sorting_set  (obj_id,sort_mode, sort_direction) ".
+			$query = "INSERT INTO container_sorting_set  ".
+				"(obj_id,sort_mode, sort_direction, new_items_position, new_items_order) ".
 				"VALUES( ".
 				$ilDB->quote($a_new_id ,'integer').", ".
-				$ilDB->quote($row[0] ,'integer')." ".
-				$ilDB->quote($row[1],'integer').' '.
+				$ilDB->quote($row[0] ,'integer').", ".
+				$ilDB->quote($row[1],'integer').', '.
+				$ilDB->quote($row[2],'integer').', '.
+				$ilDB->quote($row[3],'integer').' '.
 				")";
 			$ilDB->manipulate($query);
 		}
@@ -208,7 +213,25 @@ class ilContainerSortingSettings
 	{
 		return $this->sort_direction ? $this->sort_direction : ilContainer::SORT_DIRECTION_ASC;
 	}
-	
+
+	/**
+	 * GET new item position
+	 * @return int position
+	 */
+	public function getSortNewItemsPosition()
+	{
+		return $this->new_items_position;
+	}
+
+	/**
+	 * GET new item order
+	 * @return int position
+	 */
+	public function getSortNewItemsOrder()
+	{
+		return $this->new_items_order;
+	}
+
 	/**
 	 * set sort mode
 	 *
@@ -229,7 +252,25 @@ class ilContainerSortingSettings
 	{
 		$this->sort_direction = (int) $a_direction;
 	}
-	
+
+	/**
+	 * SET new item position
+	 * @param int $a_position
+	 */
+	public function setSortNewItemsPosition($a_position)
+	{
+		$this->new_items_position = (int)$a_position;
+	}
+
+	/**
+	 * SET new item order
+	 * @param int $a_order
+	 */
+	public function  setSortNewItemsOrder($a_order)
+	{
+		$this->new_items_order = (int)$a_order;
+	}
+
 	/**
 	 * Update
 	 *
@@ -257,11 +298,14 @@ class ilContainerSortingSettings
 	{
 		global $ilDB;
 
-		$query = "INSERT INTO container_sorting_set (obj_id,sort_mode, sort_direction) ".
+		$query = "INSERT INTO container_sorting_set ".
+			"(obj_id,sort_mode, sort_direction, new_items_position, new_items_order) ".
 			"VALUES ( ".
 			$this->db->quote($this->obj_id ,'integer').", ".
 			$this->db->quote($this->sort_mode ,'integer').", ".
-			$this->db->quote($this->sort_direction,'integer').' '.
+			$this->db->quote($this->sort_direction,'integer').', '.
+			$this->db->quote($this->new_items_position,'integer').', '.
+			$this->db->quote($this->new_items_order,'integer').' '.
 			")";
 		$res = $ilDB->manipulate($query);
 	}
@@ -300,6 +344,8 @@ class ilContainerSortingSettings
 	 	{
 	 		$this->sort_mode = $row->sort_mode;
 			$this->sort_direction = $row->sort_direction;
+			$this->new_items_position = $row->new_items_position;
+			$this->new_items_order = $row->new_items_order;
 			return TRUE;
 	 	}
 	}

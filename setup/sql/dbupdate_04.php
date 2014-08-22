@@ -2449,3 +2449,27 @@ $ilDB->manipulate("DELETE FROM il_custom_block".
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#4296>
+<?php
+if( !$ilDB->tableColumnExists('container_sorting_set', 'new_items_position'))
+{
+	$def = array(
+		'type'    => 'integer',
+		'length'  => 1,
+		'notnull' => true,
+		'default' => 1
+	);
+	$ilDB->addTableColumn('container_sorting_set', 'new_items_position', $def);
+}
+
+if( !$ilDB->tableColumnExists('container_sorting_set', 'new_items_order'))
+{
+	$def = array(
+		'type'    => 'integer',
+		'length'  => 1,
+		'notnull' => true,
+		'default' => 0
+	);
+	$ilDB->addTableColumn('container_sorting_set', 'new_items_order', $def);
+}
+?>

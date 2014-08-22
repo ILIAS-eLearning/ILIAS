@@ -14588,4 +14588,7 @@ content#:#cont_no_page_access_unansw_q#:#You need to answer all questions of pre
 classification#:#clsfct_block_title#:#Auswahl nach Themen
 classification#:#clsfct_block_info#:#Ihre Auswahl filtert die Objekte.
 classification#:#clsfct_content_title#:#Zu Ihrer Auswahl passende Objekte.
-classification#:#clsfct_content_no_match#:#Keine Treffer
+classification#:#clsfct_content_no_match#:#Keine Treffercntr#:#sorting_new_items_position#:#Position neuer Objekte
+cntr#:#sorting_new_items_at_top#:#Oben
+cntr#:#sorting_new_items_at_bottom#:#Unten
+cntr#:#sorting_new_items_order#:#Reihenfolge neuer Objekte

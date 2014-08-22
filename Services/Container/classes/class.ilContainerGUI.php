@@ -3715,6 +3715,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 				ilContainer::SORT_MANUAL
 			);
 			$sort_manual->setInfo($this->lng->txt('sorting_info_manual'));
+			$this->initManualSortingOptionForm($settings, $sort_manual, "manual");
 			$sort->addOption($sort_manual);
 		}
 
@@ -3752,7 +3753,60 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		
 		return $element;
 	}
-	
+
+	/**
+	 * Add manual sorting options
+	 *
+	 */
+	protected function initManualSortingOptionForm(ilContainerSortingSettings $sorting_settings, $element, $a_prefix)
+	{
+		$position = new ilRadioGroupInputGUI($this->lng->txt('sorting_new_items_position'),$a_prefix.'_new_items_position');
+		$position->setValue($sorting_settings->getSortNewItemsPosition());
+		$position->setRequired(TRUE);
+
+		//new items insert on top
+		$new_top = new ilRadioOption(
+			$this->lng->txt('sorting_new_items_at_top'),
+			ilContainer::SORT_NEW_ITEMS_POSITION_TOP
+		);
+
+		$position->addOption($new_top);
+
+		//new items insert at bottom
+		$new_bottom = new ilRadioOption(
+			$this->lng->txt('sorting_new_items_at_bottom'),
+			ilContainer::SORT_NEW_ITEMS_POSITION_BOTTOM
+		);
+
+		$position->addOption($new_bottom);
+
+		$element->addSubItem($position);
+
+		$order = new ilRadioGroupInputGUI($this->lng->txt('sorting_new_items_order'),$a_prefix.'_new_items_order');
+		$order->setValue($sorting_settings->getSortNewItemsOrder());
+		$order->setRequired(TRUE);
+
+		//new items sort in alphabetical order
+		$new_title = new ilRadioOption(
+			$this->lng->txt('sorting_title_header'),
+			ilContainer::SORT_NEW_ITEMS_ORDER_TITLE
+		);
+
+		$order->addOption($new_title);
+
+		//new items sort by creation date
+		$new_creation = new ilRadioOption(
+			$this->lng->txt('sorting_creation_header'),
+			ilContainer::SORT_NEW_ITEMS_ORDER_CREATION
+		);
+
+		$order->addOption($new_creation);
+
+		$element->addSubItem($order);
+
+		return $element;
+	}
+
 	/**
 	 * Save sorting settings
 	 * @param ilPropertyFormGUI $form
@@ -3773,6 +3827,10 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 				break;
 			case ilContainer::SORT_CREATION:
 				$settings->setSortDirection($form->getInput('creation_sorting_direction'));
+				break;
+			case ilContainer::SORT_MANUAL:
+				$settings->setSortNewItemsPosition($form->getInput('manual_new_items_position'));
+				$settings->setSortNewItemsOrder($form->getInput('manual_new_items_order'));
 				break;
 		}
 		
