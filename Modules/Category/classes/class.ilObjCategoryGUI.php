@@ -21,6 +21,8 @@ require_once "./Services/Container/classes/class.ilContainerGUI.php";
 class ilObjCategoryGUI extends ilContainerGUI
 {
 	var $ctrl;
+	
+	const CONTAINER_SETTING_TAXBLOCK = "tax_sblock_";
 
 	/**
 	* Constructor
@@ -1696,29 +1698,16 @@ class ilObjCategoryGUI extends ilContainerGUI
 		
 		$res = array();
 		foreach($tree->getPathFull($this->object->getRefId()) as $node)
-		{
-			if($node["type"] == "cat")
-			{	
-				/* :TODO:
-				if(ilContainer::_lookupContainerSetting(
-					$node["obj_id"],
-					ilObjectServiceSettingsGUI::TAXONOMIES,
-					false
-					))
-				{				 
-				*/
-				if(true)
-				{
-					$node_taxes = ilObjTaxonomy::getUsageOfObject($node["obj_id"], true);
-					if(sizeof($node_taxes))
-					{
-						foreach($node_taxes as $node_tax)
-						{					
-							$res[$node_tax["tax_id"]] = $node_tax["title"];
-						}
-					}
+		{			
+			// find all defined taxes for parent node, activation is not relevant
+			$node_taxes = ilObjTaxonomy::getUsageOfObject($node["obj_id"], true);
+			if(sizeof($node_taxes))
+			{
+				foreach($node_taxes as $node_tax)
+				{					
+					$res[$node_tax["tax_id"]] = $node_tax["title"];
 				}
-			}
+			}							
 		}
 		
 		asort($res);
@@ -1772,20 +1761,16 @@ class ilObjCategoryGUI extends ilContainerGUI
 	{		
 		$res = array();
 		
-		include_once "Services/Block/classes/class.ilCustomBlock.php";
-		$cblock = new ilCustomBlock();
-		$cblock->setContextObjId($this->object->getId());
-		$cblock->setContextObjType("cat");	
-		$cblock->setContextSubObjType("tax");
+		$prefix = self::CONTAINER_SETTING_TAXBLOCK;
 		
-		foreach($cblock->queryBlocksForContext(false) as $item)
+		foreach(ilContainer::_getContainerSettings($this->object->getId()) as $keyword => $value)
 		{
-			if($item["context_sub_obj_type"] == "tax")
+			if(substr($keyword, 0, strlen($prefix)) == $prefix && (bool)$value)
 			{
-				$res[$item["id"]] = $item["context_sub_obj_id"];
-			}
+				$res[] = substr($keyword, strlen($prefix));
+			}			
 		}
-
+		
 		return $res;
 	}
 	
@@ -1799,40 +1784,20 @@ class ilObjCategoryGUI extends ilContainerGUI
 			{
 				$sblock = $form->getInput("sblock");
 				
-				$current = $this->getActiveBlocks();
-				$current_map = array_flip($current);
+				$prefix = self::CONTAINER_SETTING_TAXBLOCK;
+				
+				ilContainer::_deleteContainerSettings($this->object->getId(), 
+					$prefix."%", true);
 				
 				if(is_array($sblock))
 				{
 					foreach($sblock as $tax_id)
-					{
-						if(!in_array($tax_id, $current))
-						{
-							$cblock = new ilCustomBlock();
-							$cblock->setContextObjId($this->object->getId());
-							$cblock->setContextObjType("cat");	
-							$cblock->setContextSubObjId($tax_id);
-							$cblock->setContextSubObjType("tax");
-							$cblock->setType("tax");
-							$cblock->setTitle($taxonomies[$tax_id]);
-							$cblock->create();		
-						}
-						else
-						{
-							unset($current_map[$tax_id]);
-						}
+					{					
+						ilContainer::_writeContainerSetting($this->object->getId(),
+							$prefix.$tax_id, 1);											
 					}
 				}
-				
-				if(sizeof($current_map))
-				{
-					foreach($current_map as $block_id)
-					{
-						$cblock = new ilCustomBlock($block_id);
-						$cblock->delete();
-					}
-				}
-				
+			
 				ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
 			}
 		}

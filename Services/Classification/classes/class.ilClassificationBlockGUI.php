@@ -17,10 +17,9 @@ class ilClassificationBlockGUI extends ilBlockGUI
 {		
 	protected $parent_obj_type; // [string]
 	protected $parent_obj_id; // [int]
-	protected $parent_ref_id; // [int]	
+	protected $parent_ref_id; // [int]		
+	protected $providers; // [array]
 	protected $item_list_gui; // [array]
-	
-	protected static $valid_tax_map = array();
 	
 	public function __construct()
 	{		
@@ -34,6 +33,14 @@ class ilClassificationBlockGUI extends ilBlockGUI
 		
 		$lng->loadLanguageModule("classification");
 		$this->setTitle($lng->txt("clsfct_block_title"));
+		$this->setFooterInfo($lng->txt("clsfct_block_info"));
+		
+		include_once "Services/Classification/classes/class.ilClassificationProvider.php";
+		$this->providers = ilClassificationProvider::getValidProviders(
+				$this->parent_ref_id,
+				$this->parent_obj_id,
+				$this->parent_obj_typ
+		);
 	}
 	
 	public static function getBlockType()
@@ -92,34 +99,59 @@ class ilClassificationBlockGUI extends ilBlockGUI
 	
 	public function fillDataSection()
 	{		
-		$html = "";
+		$html = array();
 		
+		foreach($this->providers as $provider)
+		{
+			$provider->render(
+				$html,
+				$this,
+				"",
+				get_class($this),
+				"filterContainer"
+			);
+		}		
 		
-		
-		return $this->tpl->setVariable("DATA", $html);
+		if(sizeof($html))
+		{
+			$btpl = new ilTemplate("tpl.classification_block.html", true, true, "Services/Classification");
+			foreach($html as $item)
+			{
+				$btpl->setCurrentBlock("provider_chunk_bl");
+				$btpl->setVariable("TITLE", $item["title"]);
+				$btpl->setVariable("CHUNK", $item["html"]);
+				$btpl->parseCurrentBlock();
+			}
+
+			return $this->tpl->setVariable("DATA", $btpl->get());
+		}
 	}
 	
 	protected function validate()
-	{
-		return false;
+	{				
+		return sizeof($this->providers);
 	}	
 	
 	protected function filterContainer()
 	{
 		global $ilCtrl, $tpl, $objDefinition, $lng;
 				
+		// :TODO:
+		
 		$node_id = (int)$_REQUEST["tax_node"];
 		if(!$node_id)
 		{
 			$ilCtrl->returnToParent($this);
 		}
 		
-		$valid_objects = $this->getReadableSubObjectsForTaxNodeId($node_id);				
+		$valid_objects = $this->providers[0]->getReadableSubObjectsForTaxNodeId($node_id);	
+		
+		
 		if(sizeof($valid_objects))
 		{	
 			// see ilPDTaggingBlockGUI::showResourcesForTag()
 			
-			$ltpl = new ilTemplate("tpl.taxonomy_object_list.html", true, true, "Services/Taxonomy");
+			$ltpl = new ilTemplate("tpl.classification_object_list.html", true, true, "Services/Classification");
 			
 			$this->item_list_gui = array();
 			foreach($valid_objects as $obj)
