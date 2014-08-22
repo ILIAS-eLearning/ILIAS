@@ -153,12 +153,12 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
 		{
 			if(is_array($this->selection[$type]))
 			{				
-				$only_user = ($type == "personal")
-					? $ilUser->getId()
-					: null;				
+				$invert = ($type == "personal")
+					? false
+					: true;
 				
 				// :TODO: multi-select?		
-				return array_keys(ilTagging::_findObjectsByTag(array_shift($this->selection[$type]), $only_user));						
+				return array_keys(ilTagging::_findObjectsByTag(array_shift($this->selection[$type]), $ilUser->getId(), $invert));						
 			}
 		}
 		

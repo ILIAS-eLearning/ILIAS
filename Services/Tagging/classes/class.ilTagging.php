@@ -394,7 +394,7 @@ class ilTagging
 	 * @param int $a_user_id
 	 * @return array
 	 */
-	static function _findObjectsByTag($a_tag, $a_user_id = null)
+	static function _findObjectsByTag($a_tag, $a_user_id = null, $a_invert = false)
 	{
 		global $ilDB;
 		
@@ -406,7 +406,14 @@ class ilTagging
 			" AND is_offline = ".$ilDB->quote(0, "integer");
 		if($a_user_id)
 		{
-			$sql .= " AND user_id = ".$ilDB->quote($a_user_id, "integer");
+			if(!$a_invert)
+			{
+				$sql .= " AND user_id = ".$ilDB->quote($a_user_id, "integer");
+			}
+			else
+			{
+				$sql .= " AND user_id <> ".$ilDB->quote($a_user_id, "integer");
+			}
 		}						
 		$set = $ilDB->query($sql);
 		while($row = $ilDB->fetchAssoc($set))
