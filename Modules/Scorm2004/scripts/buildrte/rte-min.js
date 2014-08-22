@@ -1,4 +1,4 @@
-// Build: 2013627161303 
+// Build: 2014822212742 
 
 function ADLAuxiliaryResource()
 {}
@@ -3021,7 +3021,8 @@ var tree=msequencer.mSeqTree.mActivityMap;var disable;var first=true;for(i in tr
 if(test){if(test['mIsSelectable']==true&&test['mIsEnabled']==true){disable=false;}else{disable=true;disabled_str="Disabled";}}
 if(guiItem&&ignore==true){if(guiItem.id==ITEM_PREFIX+tree[i].mActivityID)
 {continue;}}
-var elm=all(ITEM_PREFIX+tree[i].mActivityID);if(disable)
+var elm=all(ITEM_PREFIX+tree[i].mActivityID);if(guiItem&&guiItem.id==elm.id){if(elm)toggleClass(elm.parentNode,"ilc_rte_status_RTERunning",1);continue;}
+if(disable)
 {toggleClass(elm,'ilc_rte_tlink_RTETreeLinkDisabled',1);}
 else
 {toggleClass(elm,'ilc_rte_tlink_RTETreeLink',1);}
@@ -3107,7 +3108,7 @@ switch(state)
 sendLogEntry(getMsecSinceStart(),'Commit',param,"","false",142);return setReturn(142,'','false');case RUNNING:if((!cmiItem.cmi.mode||cmiItem.cmi.mode==="normal")&&(typeof cmiItem.cmi.session_time!="undefined"||config.time_from_lms==true)){if(config.time_from_lms==true){var interval=(currentTime()-msec)/1000;var dur=new ADLDuration({iFormat:FORMAT_SECONDS,iValue:interval});cmiItem.cmi.session_time=dur.format(FORMAT_SCHEMA);}
 var total_time=addTimes(total_time_at_initialize,cmiItem.cmi.session_time);cmiItem.cmi.total_time=total_time.toString();}
 var returnValue1=syncCMIADLTree();var returnValue=onCommit(cmiItem);if(returnValue&&saveOnCommit==true){if(config.sequencing_enabled){var sgo=saveSharedData(cmiItem);}
-returnValue=save();}
+returnValue=save();if(config.sequencing_enabled){var valid=new ADLValidRequests();valid=msequencer.getValidRequests(valid);msequencer.mSeqTree.setValidRequests(valid);mlaunch.mNavState=msequencer.mSeqTree.getValidRequests();if(all("treeView")!=null)updateNav(false);}}
 if(returnValue)
 {dirty=false;if(logActive&&commitByTerminate==false)
 sendLogEntry(getMsecSinceStart(),'Commit',param,"","true",0);return setReturn(0,'','true');}

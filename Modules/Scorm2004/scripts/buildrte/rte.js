@@ -1,4 +1,4 @@
-// Build: 2013627161303 
+// Build: 2014822212742 
 /*
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
@@ -13094,13 +13094,13 @@ function init(config)
 	}	
 	
 	initStatusArray();
-	
+
 	if (wasSuspended==true) {
 	 	mlaunch = msequencer.navigate(NAV_RESUMEALL);
 	} else {
 		//do a fake launch to check if TOC choice should be displayed
 		mlaunch = msequencer.navigate(NAV_NONE);
-	
+
 		if (mlaunch.mNavState.mStart) {
 			//launch first activity //assume course has not be launched before
 			mlaunch = msequencer.navigate(NAV_START);
@@ -14510,6 +14510,12 @@ function updateNav(ignore) {
 			}
 		}
 		var elm = all(ITEM_PREFIX + tree[i].mActivityID);
+		
+		//added to sign actual node
+		if(guiItem && guiItem.id == elm.id) {
+			if (elm) toggleClass(elm.parentNode,"ilc_rte_status_RTERunning",1);
+			continue;
+		}
 	//	if (!elm) {return;}
 //console.log("-" + ITEM_PREFIX + tree[i].mActivityID + "-" + disable + "-");
 		if (disable)
@@ -14604,7 +14610,7 @@ function updateNav(ignore) {
 				}
 			}
 		}
-		
+
 		//toggleClass(elm.parentNode, 'hidden', item.hidden);
 		first = false;
 	}
@@ -15030,6 +15036,15 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 //						sgo=save_global_objectives();
 					}
 					returnValue = save();
+					// added to synchronize the new data. it might update the navigation
+					if (config.sequencing_enabled) {
+						// this will update the UI tree 
+						var valid = new ADLValidRequests();
+						valid = msequencer.getValidRequests(valid);
+						msequencer.mSeqTree.setValidRequests(valid);
+						mlaunch.mNavState = msequencer.mSeqTree.getValidRequests();
+						if (all("treeView")!=null) updateNav(false);
+					}
 				}
 				if (returnValue) 
 				{
