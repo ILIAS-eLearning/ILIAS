@@ -603,6 +603,17 @@ class ilSCORM13Player
 		//get json string
 		$g_data = new stdClass();
 
+		$global_to_system = 1;
+
+		$res = $ilDB->queryF('SELECT global_to_system FROM cp_package WHERE obj_id = %s',
+			array('integer'),
+			array($this->packageId)
+		);
+		while($data = $ilDB->fetchAssoc($res)) 
+		{
+			$global_to_system = $data['global_to_system'];
+		}
+
 		$query = 'SELECT objective_id, scope_id, satisfied, measure, user_id, 
 						 score_min, score_max, score_raw, completion_status, 
 						 progress_measure '
@@ -621,60 +632,62 @@ class ilSCORM13Player
 		);		
 		while($row = $ilDB->fetchAssoc($res))
 		{
-			$learner = $row['user_id'];
-			$objective_id = $row['objective_id'];
-			if($row['scope_id'] == 0)
+			if (($global_to_system == 1 && $row['scope_id'] == 0) || ($global_to_system == 0 && $row['scope_id'] > 0))
 			{
-				$scope = "null"; 
-			}
-			else
-			{
-				$scope = $row['scope_id'];
-			}
+				$learner = $row['user_id'];
+				$objective_id = $row['objective_id'];
+				if($row['scope_id'] == 0)
+				{
+					$scope = "null"; 
+				}
+				else
+				{
+					$scope = $row['scope_id'];
+				}
+				
+				if($row['satisfied'] != NULL)
+				{
+					$toset = $row['satisfied'];
+					$g_data->{"satisfied"}->{$objective_id}->{$learner}->{$scope} = $toset;
+				}
+				
+				if($row['measure'] != NULL)
+				{
+					$toset = $row['measure'];
+					$g_data->{"measure"}->{$objective_id}->{$learner}->{$scope} = $toset;
+				}
+				
+				if($row['score_raw'] != NULL)
+				{
+					$toset = $row['score_raw'];
+					$g_data->{"score_raw"}->{$objective_id}->{$learner}->{$scope} = $toset;
+				}
+				
+				if($row['score_min'] != NULL)
+				{
+					$toset = $row['score_min'];
+					$g_data->{"score_min"}->{$objective_id}->{$learner}->{$scope} = $toset;
+				}
+				
+				if($row['score_max'] != NULL)
+				{
+					$toset = $row['score_max'];
+					$g_data->{"score_max"}->{$objective_id}->{$learner}->{$scope} = $toset;
+				}
+				
+				if($row['progress_measure'] != NULL)
+				{
+					$toset = $row['progress_measure'];
+					$g_data->{"progress_measure"}->{$objective_id}->{$learner}->{$scope} = $toset;
+				}
+				
+				if($row['completion_status'] != NULL)
+				{
+					$toset = $row['completion_status'];
+					$g_data->{"completion_status"}->{$objective_id}->{$learner}->{$scope} = $toset;
+				}
 			
-			if($row['satisfied'] != NULL)
-			{
-				$toset = $row['satisfied'];
-				$g_data->{"satisfied"}->{$objective_id}->{$learner}->{$scope} = $toset;
 			}
-			
-			if($row['measure'] != NULL)
-			{
-				$toset = $row['measure'];
-				$g_data->{"measure"}->{$objective_id}->{$learner}->{$scope} = $toset;
-			}
-			
-			if($row['score_raw'] != NULL)
-			{
-				$toset = $row['score_raw'];
-				$g_data->{"score_raw"}->{$objective_id}->{$learner}->{$scope} = $toset;
-			}
-			
-			if($row['score_min'] != NULL)
-			{
-				$toset = $row['score_min'];
-				$g_data->{"score_min"}->{$objective_id}->{$learner}->{$scope} = $toset;
-			}
-			
-			if($row['score_max'] != NULL)
-			{
-				$toset = $row['score_max'];
-				$g_data->{"score_max"}->{$objective_id}->{$learner}->{$scope} = $toset;
-			}
-			
-			if($row['progress_measure'] != NULL)
-			{
-				$toset = $row['progress_measure'];
-				$g_data->{"progress_measure"}->{$objective_id}->{$learner}->{$scope} = $toset;
-			}
-			
-			if($row['completion_status'] != NULL)
-			{
-				$toset = $row['completion_status'];
-				$g_data->{"completion_status"}->{$objective_id}->{$learner}->{$scope} = $toset;
-			}
-			
-			
 		}
 		$gobjective_data = json_encode($g_data);
 		$ilLog->write("SCORM2004 gobjective_data=".$gobjective_data);
