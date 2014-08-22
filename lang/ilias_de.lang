@@ -6217,7 +6217,7 @@ content#:#text_repr_info#:#Wird verwendet, wenn die Grafik nicht angezeigt werde
 crs#:#activation_times_not_valid#:#Die Zeidauer für 'Verfügbarkeit' ist nicht gültig.
 crs#:#add_event#:#Sitzung hinzufügen
 crs#:#assigned#:#Zugeordnet
-crs#:#contact_email_not_valid#:#Die E-Mail Adresse ist nicht gültig.
+crs#:#contact_email_not_valid#:#Die E-Mail-Adresse ist nicht gültig.
 crs#:#crs_accept_subscriber#:#Aufnahme in Kurs "%s"
 crs#:#crs_accept_subscriber_body#:#Sie sind in den Kurs "%s" aufgenommen worden.
 crs#:#crs_access#:#Zugang
@@ -12695,7 +12695,7 @@ dcl#:#dcl_record_edit_viewdefinition#:#Bearbeite Seitenvorlage
 dcl#:#dcl_record_list_viewdefinition#:#Liste der Seitenvorlagen
 dcl#:#dcl_checked#:#Ausgewählt
 dcl#:#dcl_not_checked#:#Nicht ausgewählt
-dcl#:#dcl_noturl_exception#:#Bitte geben Sie einen Link (beginnend mit http://) oder eine Email Adresse ein.
+dcl#:#dcl_noturl_exception#:#Bitte geben Sie einen Link (beginnend mit http://) oder eine E-Mail Adresse ein.
 dcl#:#dcl_field_title_change_warning#:#Sie haben den Titel des Feldes geändert, dadurch funktionieren unter Umständen die Platzhalter in der Seitenvorlage nicht mehr, diese müssen gegebenenfalls manuell angepasst werden.
 dcl#:#dcl_field_title_unique#:#Es existiert bereits ein Feld mit diesem Titel. Titel muss eindeutig sein.
 dcl#:#dcl_table_title_unique#:#Es existiert bereits eine Tabelle mit diesem Titel. Titel muss eindeutig sein.
@@ -14147,7 +14147,7 @@ blog#:#blog_posting_not_found#:#Der Blog-Eintrag ist nicht verfügbar.
 ldap#:#ldap_choose_role#:#Rolle auswählen
 rep#:#rep_time_period#:#Zeitraum
 cntr#:#exc_next_deadline_single#:#Abgabefrist
-file#:#repository_disk_quota_info#:#Wenn aktiviert, wird für alle Benutzer die Disk-Quota im Magazin geprüft und optional Emails an Administratoren und Benutzer versendet.
+file#:#repository_disk_quota_info#:#Wenn aktiviert, wird für alle Benutzer die Disk-Quota im Magazin geprüft und optional E-Mails an Administratoren und Benutzer versendet.
 trac#:#trac_object_statistics_info#:#Wenn aktiviert, werden Daten für die Zugriffsstatistiken gesammelt.
 ldap#:#ldap_user_sync_cron_info#:#Wenn aktiviert, werden Benutzerkonten aus dem LDAP-Verzeichnis importiert und optional laufend synchronisiert.
 exc#:#exc_peer_review_cron_info#:#Wenn aktiviert, werden Übungsteilnehmer an ausstehendes Peer-Feedback erinnert.
@@ -14172,7 +14172,7 @@ skmg#:#skmg_number#:#Nummmer
 skmg#:#skmg_usage_type_info_gen#:#Allgemeiner Gebrauch in Magazinobjekten
 skmg#:#skmg_usage_type_info_mat#:#Benutzer haben Material zugeordnet
 skmg#:#skmg_usage_type_info_user#:#Zuordnung zu Benutzern
-skmg#:#skmg_usage_type_info_pers#:#Selected by Users as Personal Skill###30 12 2013 new variable
+skmg#:#skmg_usage_type_info_pers#:#Von Benutzern als persönliche Kompetenz ausgewählt
 skmg#:#skmg_usage_type_info_seval#:#Selbsteinschätzungen
 skmg#:#skmg_usage_type_info_prof#:#Nutzung in Kompetenzprofilen
 skmg#:#skmg_usage_type_info_res#:#Zuordnung zu Magazinobjekten
