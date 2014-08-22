@@ -14605,3 +14605,5 @@ content#:#cont_restrict_forw_nav_info#:#Learners cannot navigate to subsequent p
 content#:#cont_no_page_access_unansw_q#:#You need to answer all questions of previous pages correctly to gain access to this page.
 classification#:#clsfct_block_title#:#Selection by Topics
 classification#:#clsfct_block_info#:#Your Selection filters the objects.
+classification#:#clsfct_content_title#:#Objects matching your selection
+classification#:#clsfct_content_no_match#:#No hits

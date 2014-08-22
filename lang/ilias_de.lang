@@ -14587,3 +14587,5 @@ content#:#cont_restrict_forw_nav_info#:#Learners cannot navigate to subsequent p
 content#:#cont_no_page_access_unansw_q#:#You need to answer all questions of previous pages correctly to gain access to this page.
 classification#:#clsfct_block_title#:#Auswahl nach Themen
 classification#:#clsfct_block_info#:#Ihre Auswahl filtert die Objekte.
+classification#:#clsfct_content_title#:#Zu Ihrer Auswahl passende Objekte.
+classification#:#clsfct_content_no_match#:#Keine Treffer

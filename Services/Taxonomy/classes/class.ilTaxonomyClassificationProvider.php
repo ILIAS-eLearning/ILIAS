@@ -13,6 +13,8 @@ include_once("Services/Classification/classes/class.ilClassificationProvider.php
  */
 class ilTaxonomyClassificationProvider extends ilClassificationProvider
 {			
+	protected $selection; // [array]
+	
 	protected static $valid_tax_map = array();
 	
 	public static function isActive($a_parent_ref_id, $a_parent_obj_id, $a_parent_obj_type)
@@ -28,16 +30,39 @@ class ilTaxonomyClassificationProvider extends ilClassificationProvider
 		{
 			$tax_exp = new ilTaxonomyExplorerGUI($a_parent_gui, $a_parent_cmd, 
 				$tax_id, $a_target_gui, $a_target_cmd);
+			$tax_exp->setSelectMode("clsfct_tax_node[".$tax_id."]", true);
+			$tax_exp->setSkipRootNode(true);
+			$tax_exp->activateHighlight($this->active_filter);
+			
+			if(is_array($this->selection[$tax_id]))
+			{
+				foreach($this->selection[$tax_id] as $node_id)
+				{
+					$tax_exp->setNodeSelected($node_id);
+				}
+			}
+			
 			if (!$tax_exp->handleCommand())
-			{			
-				$tax_exp->setSkipRootNode(true);
-				
+			{											
 				$a_html[] = array(
 					"title" => ilObject::_lookupTitle($tax_id),
 					"html" => $tax_exp->getHTML()
 				);
 			}					
 		}									
+	}
+	
+	public function importPostData()
+	{
+		if(is_array($_POST["clsfct_tax_node"]))
+		{
+			return $_POST["clsfct_tax_node"];			
+		}
+	}
+	
+	public function setSelection($a_value)
+	{
+		$this->selection = $a_value;
 	}
 	
 	protected static function getActiveTaxonomiesForParentRefId($a_parent_ref_id)
@@ -87,54 +112,42 @@ class ilTaxonomyClassificationProvider extends ilClassificationProvider
 		return sizeof(self::$valid_tax_map[$a_parent_ref_id]);		
 	}
 	
-	public function getReadableSubObjectsForTaxNodeId($a_node_id)
-	{
-		global $tree, $ilAccess;
-		
-		$res = array();
-		
-		include_once "Services/Taxonomy/classes/class.ilTaxonomyNode.php";
-		$node = new ilTaxonomyNode($a_node_id);		
-		$tax_id = $node->getTaxonomyId();
-		
-		include_once("./Services/Taxonomy/classes/class.ilTaxonomyTree.php");
-		$tax_tree = new ilTaxonomyTree($tax_id);
-		$sub_nodes = $tax_tree->getSubTreeIds($a_node_id);
-		$sub_nodes[] = $a_node_id;
-					
+	public function getFilteredObjects()
+	{				
+		include_once "Services/Taxonomy/classes/class.ilTaxonomyTree.php";
 		include_once("./Services/Taxonomy/classes/class.ilTaxNodeAssignment.php");		
-		$obj_ids = ilTaxNodeAssignment::findObjectsByNode($tax_id, $sub_nodes, "obj");
-		if(sizeof($obj_ids))
-		{			
-			$fields = array(
-				"object_reference.ref_id"
-				,"object_data.obj_id" 
-				,"object_data.type" 
-				,"object_data.title"
-				,"object_data.description"
-			);
-			$matching = $tree->getSubTreeFilteredByObjIds($this->parent_ref_id, $obj_ids, $fields);
-			if(sizeof($matching))
-			{				
-				// :TODO: not sure if this makes sense...
-				include_once "Services/Object/classes/class.ilObjectListGUIPreloader.php";
-				$preloader = new ilObjectListGUIPreloader(ilObjectListGUI::CONTEXT_REPOSITORY);
-				
-				foreach($matching as $item)
-				{								
-					if(!$tree->isDeleted($item["ref_id"]) &&
-						$ilAccess->checkAccess("read", "", $item["ref_id"]))
-					{
-						$res[] = $item;
+		
+		$tax_obj_ids = array();
+		
+		foreach($this->selection as $tax_id => $node_ids)
+		{
+			$tax_tree = new ilTaxonomyTree($tax_id);
+			
+			// combine taxonomy nodes OR
+			$tax_nodes = array();
+			foreach($node_ids as $node_id)
+			{											
+				$tax_nodes = array_merge($tax_nodes, $tax_tree->getSubTreeIds($node_id));
+				$tax_nodes[] = $node_id;
+			}
 						
-						$preloader->addItem($item["obj_id"], $item["type"], $item["ref_id"]);					
-					}
-				}	
-				
-				$preloader->preload();
+			$tax_obj_ids[$tax_id] = ilTaxNodeAssignment::findObjectsByNode($tax_id, $tax_nodes, "obj");								
+		}
+					
+		// combine taxonomies AND
+		$obj_ids = null;		
+		foreach($tax_obj_ids as $tax_objs)
+		{
+			if($obj_ids === null)
+			{
+				$obj_ids = $tax_objs;
+			}
+			else
+			{	
+				$obj_ids = array_intersect($obj_ids, $tax_objs);
 			}			
 		}
 		
-		return $res;
+		return (array)$obj_ids;		
 	}
 }

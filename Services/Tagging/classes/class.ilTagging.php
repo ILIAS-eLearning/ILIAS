@@ -335,15 +335,16 @@ class ilTagging
 	 * 
 	 * @param array $a_obj_ids obj_id => type
 	 * @param int $a_user_id
+	 * @param int $a_divide
 	 * @return array obj_id => counter
 	 */
-	static function _getTagCloudForObjects(array $a_obj_ids, $a_user_id = null)
+	static function _getTagCloudForObjects(array $a_obj_ids, $a_user_id = null, $a_divide = false)
 	{
 		global $ilDB;
 		
 		$res = array();
 		
-		$sql = "SELECT obj_id, obj_type, tag".
+		$sql = "SELECT obj_id, obj_type, tag, user_id".
 			" FROM il_tag".
 			" WHERE ".$ilDB->in("obj_id", array_keys($a_obj_ids), false, "integer").
 			" AND is_offline = ".$ilDB->quote(0, "integer");
@@ -358,13 +359,27 @@ class ilTagging
 			if($a_obj_ids[$row["obj_id"]] == $row["obj_type"])
 			{
 				$tag = $row["tag"];
-				if(!isset($res[$tag]))
+					
+				if($a_divide)
 				{
-					$res[$tag] = 1;
+					if($row["user_id"] == $a_divide)
+					{
+						$res["personal"][$tag] = isset($res["personal"][$tag])
+							? $res["personal"][$tag]++
+							: 1;
+					}
+					else
+					{
+						$res["other"][$tag] = isset($res["other"][$tag])
+							? $res["other"][$tag]++
+							: 1;
+					}
 				}
 				else
-				{
-					$res[$tag]++;
+				{	
+					$res[$tag] = isset($res[$tag])
+						? $res[$tag]++
+						: 1;					
 				}
 			}			
 		}

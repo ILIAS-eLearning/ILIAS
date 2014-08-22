@@ -67,6 +67,11 @@ class ilTaxonomyExplorerGUI extends ilTreeExplorerGUI
 			return $a_node["title"];
 		}
 	}
+		
+	function isNodeClickable($a_node) 
+	{
+		return !(bool)$this->select_postvar;
+	}
 	
 	/**
 	 * Get node href
@@ -92,7 +97,10 @@ class ilTaxonomyExplorerGUI extends ilTreeExplorerGUI
 	 */
 	function getNodeIcon($a_node)
 	{
-		return ilUtil::getImagePath("icon_taxn_s.png");
+		if(!$this->select_postvar)
+		{
+			return ilUtil::getImagePath("icon_taxn_s.png");
+		}
 	}
 	
 	/**
@@ -103,11 +111,27 @@ class ilTaxonomyExplorerGUI extends ilTreeExplorerGUI
 	 */
 	function isNodeHighlighted($a_node)
 	{
-		if ($a_node["child"] == $_GET["tax_node"])
+		if(!$this->select_postvar)
 		{
-			return true;
+			if ($a_node["child"] == $_GET["tax_node"])
+			{
+				return true;
+			}
+		}
+		else
+		{
+			if(in_array($a_node["child"], $this->selected_nodes) &&
+				(bool)$this->active_highlight)
+			{
+				return true;
+			}
 		}
 		return false;
+	}
+	
+	public function activateHighlight($a_value)
+	{
+		$this->active_highlight = (bool)$a_value;
 	}
 	
 }
