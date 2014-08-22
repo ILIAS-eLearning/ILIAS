@@ -118,11 +118,19 @@ class gevEduBiographyGUI {
 		
 		if ($user_utils->transferPointsFromWBD()) {
 			$this->renderWBDPoints($tpl);
+			$tpl->setVariable("WBDPOINTSVISIBIBLE", "visible");
 		}
-		else if($user_utils->transferPointsToWBD()) {
-			$tpl->setCurrentBlock("wbd_transfer");
-			$tpl->setVariable("TRANSFER_TITLE", $this->lng->txt("gev_wbd_transfer_on"));
-			$tpl->parseCurrentBlock();
+		else {
+			$tpl->setVariable("WBDPOINTSVISIBIBLE", "invisible");
+			if($user_utils->transferPointsToWBD()) {
+				$tpl->setVariable("WBDTRANSVISIBIBLE", "visible");
+				$tpl->setCurrentBlock("wbd_transfer");
+				$tpl->setVariable("TRANSFER_TITLE", $this->lng->txt("gev_wbd_transfer_on"));
+				$tpl->parseCurrentBlock();
+			} 
+			else {
+				$tpl->setVariable("WBDTRANSVISIBIBLE", "visible");
+			}
 		}
 		
 		return $tpl->get();
