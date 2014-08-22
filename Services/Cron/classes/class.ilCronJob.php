@@ -189,7 +189,15 @@ abstract class ilCronJob
 	{
 		
 	}
-	
+
+	/**
+	 * Defines whether or not a cron job can be started manually
+	 * @return bool
+	 */
+	public function isManuallyExecutable()
+	{
+		return true;
+	}
 	
 	// 
 	// SETTINGS

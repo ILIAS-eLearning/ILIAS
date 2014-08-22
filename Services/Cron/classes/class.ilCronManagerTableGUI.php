@@ -215,6 +215,8 @@ class ilCronManagerTableGUI extends ilTable2GUI
 			$res["last_run"] = null;
 		}			
 		
+		$res['is_manually_executable'] = $job->isManuallyExecutable();
+		
 		return $res;
 	}
 
@@ -309,7 +311,10 @@ class ilCronManagerTableGUI extends ilTable2GUI
 			// deactivate
 			else 
 			{
-				$actions[] = "run";
+				if($a_set['is_manually_executable'])
+				{
+					$actions[] = 'run';
+				}
 				$actions[] = "deactivate";
 			}
 			// edit (schedule)
