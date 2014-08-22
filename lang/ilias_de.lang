@@ -9860,7 +9860,7 @@ rbac#:#precondition_num_obligatory#:#Anzahl benötigter Materialien
 rbac#:#precondition_num_optional_info#:#Bitte geben Sie die minimale Anzahl der Materialien an, die notwendig ist, um die Vorbedingung zu erfüllen.
 rbac#:#precondition_obligatory#:#Obligatorisch
 rbac#:#precondition_obligatory_alt#:#Die Vorbedingung muss erfüllt werden
-rbac#:#precondition_obligatory_info#:#Obligatorische Vorbedingen müssen erfüllt werden, um Zugriff zu erlangen.
+rbac#:#precondition_obligatory_info#:#Obligatorische Vorbedingungen müssen erfüllt werden, um Zugriff zu erlangen.
 rbac#:#precondition_obligatory_settings#:#Einstellungen für Vorbedingungen
 rbac#:#prfa_edit_permission#:#Rechteeinstellungen in Portfolio-Administration ändern
 rbac#:#prfa_read#:#Lesezugriff auf Portfolio-Administration
@@ -12690,7 +12690,7 @@ dcl#:#dcl_record_edit_viewdefinition#:#Bearbeite Seitenvorlage
 dcl#:#dcl_record_list_viewdefinition#:#Liste der Seitenvorlagen
 dcl#:#dcl_checked#:#Ausgewählt
 dcl#:#dcl_not_checked#:#Nicht ausgewählt
-dcl#:#dcl_noturl_exception#:#Bitte geben Sie einen Link (beginnend mit http://) oder eine Email Adresse ein.
+dcl#:#dcl_noturl_exception#:#Bitte geben Sie einen Link (beginnend mit http://) oder eine E-Mail-Adresse ein.
 dcl#:#dcl_field_title_change_warning#:#Sie haben den Titel des Feldes geändert, dadurch funktionieren unter Umständen die Platzhalter in der Seitenvorlage nicht mehr, diese müssen gegebenenfalls manuell angepasst werden.
 pd#:#pd_export_profile#:#Persönliche Daten exportieren
 pd#:#pd_download_last_export_file#:#Aktuelle Exportdatei herunterladen
@@ -12951,7 +12951,7 @@ ecs#:#ecs_cmap_att_organisation#:#Einrichtung
 ecs#:#ecs_cmap_att_term#:#Semester
 ecs#:#ecs_cmap_att_title#:#Veranstaltungstitel
 ecs#:#ecs_cmap_att_lecturer#:#Lehrperson
-ecs#:#ecs_cmap_atts_table#:#Konfiguration der Zuordnungs-Attribute
+ecs#:#ecs_cmap_atts_table#:#Konfiguration der Zuordnungsattribute
 ecs#:#ecs_cmap_attributes#:#Attribute
 ecs#:#ecs_cmap_overview#:#Zuordnungsübersicht
 ecs#:#ecs_cmap_mapping_form_title#:#Kurszuordnung für Kategorie:
@@ -12967,8 +12967,8 @@ ecs#:#ecs_cmap_delete_attribute_btn#:#Letztes Attribut löschen
 ecs#:#ecs_cmap_form_filter_by_values#:#Filter nach Attributwerten
 ecs#:#ecs_cmap_form_current_dir#:#Aktuelles Verzeichnis
 ecs#:#ecs_cmap_form_dir_relation#:#Verzeichnisbezug
-content#:#cont_custom_menu_entries#:#Custom Menu Entries###27 12 2012 new variable
-content#:#cont_anonymous_user_missing_perm#:#Anonymous users currently have no permission to access this learning module.###27 12 2012 new variable
+content#:#cont_custom_menu_entries#:#Einträge des erweiterten Menüs
+content#:#cont_anonymous_user_missing_perm#:#Nicht-angemeldete Benutzer haben aktuell keinen Zugriff auf dieses Lernmodul.
 rbac#:#itgr_visible#:#Objektblock ist sichtbar
 content#:#glo_term_must_belong_to_glo#:#Die Aktion kann nur für Begriffe ausgeführt werden, welche innerhalb dieses Glossares definiert wurden.
 common#:#edited_on#:#Bearbeitet am
@@ -12981,9 +12981,9 @@ blog#:#blog_toggle_draft_admin#:#Blog-Eintrag deaktivieren
 blog#:#blog_keywords_info#:#Benutzen Sie die +/- Icons um Schlagwörter hinzuzufügen und zu entfernen.
 crs#:#crs_notification_list_title#:#Benachrichtigung über neue Mitglieder
 obj#:#edit_questions#:#Fragen bearbeiten
-user#:#user_delete_own_account_logout_confirmation#:#Ihr Account wurde zur Löschung markiert, bitten authentifizieren Sie sich, um den Vorgang fortzusetzen.
+user#:#user_delete_own_account_logout_confirmation#:#Ihr Account wurde zum Löschen markiert. Bitte authentifizieren Sie sich, um den Vorgang fortzusetzen.
 user#:#user_delete_own_account_logout_button#:#Mit Authentifizierung fortsetzen
-user#:#user_delete_own_account_aborted#:#Der Lösch-Prozess wurde abgebrochen, der Account ist unverändert.
+user#:#user_delete_own_account_aborted#:#Der Löschprozess wurde abgebrochen. Der Account ist unverändert.
 rbac#:#edit_userassignment#:#Benutzerzuweisung ändern
 blog#:#blog_posting_edit_approval_info#:#Der Eintrag muss vor der Veröffentlichung durch einen Tutor freigeschaltet werden.
 mail#:#mail_add_folder#:#Neuen Ordner erstellen
@@ -13002,9 +13002,9 @@ prtf#:#prtf_allow_html#:#HTML/Javascript erlauben
 prtf#:#prtf_allow_html_info#:#Benutzer können HTML oder Javascript in Ihren Portfolio-Seiten verwenden. Dies kann zu Sicherheitsproblemen führen.
 blog#:#blog_allow_html#:#HTML/Javascript erlauben
 blog#:#blog_allow_html_info#:#Benutzer können HTML oder Javascript in Ihren Blog-Einträgen verwenden. Dies kann zu Sicherheitsproblemen führen.
-wiki#:#wiki_start_page_info#:#Wenn es noch keine Wikiseite mit diesem Titel gibt, so wird eine neue (leere) Seite erstellt.
-blog#:#blog_draft_info_contributors#:#This posting draft is only visible for the contributors.###10 07 2013 new variable
-exp#:#exp_file_created#:#The export file has been created.###10 07 2013 new variable
+wiki#:#wiki_start_page_info#:#Wenn es noch keine Wikiseite mit diesem Titel gibt, wird eine neue (leere) Seite erstellt.
+blog#:#blog_draft_info_contributors#:#Dieser Entwurf ist nur für Blog-Autoren sichtbar.
+exp#:#exp_file_created#:#Die Export-Datei wurde erzeugt.
 survey#:#survey_notification_tutor_link#:#Link zur Umfrage
 dcl#:#fieldtitle_allow_chars#:#Erlaubte Zeichen: %s
 crs#:#crs_passed_status_system#:#System
