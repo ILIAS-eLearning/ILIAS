@@ -341,18 +341,21 @@ class ilCronManagerGUI
 			$ilCtrl->redirect($this, "render");
 		}
 
-		// Filter jobs which are not indented to be executed manually
-		$jobs = array_filter($jobs, function($job) use ($a_action) {
-			/**
-			 * @var $job ilCronJob
-			 */
-			return $job->isManuallyExecutable() || 'run' != $a_action;
-		});
-
-		if(0 == count($jobs))
+		if('run' == $a_action)
 		{
-			ilUtil::sendFailure($lng->txt('cron_no_executable_job_selected'), true);
-			$ilCtrl->redirect($this, 'render');
+			// Filter jobs which are not indented to be executed manually
+			$jobs = array_filter($jobs, function ($job) {
+				/**
+				 * @var $job ilCronJob
+				 */
+				return $job->isManuallyExecutable();
+			});
+
+			if(0 == count($jobs))
+			{
+				ilUtil::sendFailure($lng->txt('cron_no_executable_job_selected'), true);
+				$ilCtrl->redirect($this, 'render');
+			}
 		}
 
 		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
