@@ -287,7 +287,7 @@ class ilContainerSorting
 													$this->sorting[$a_parent_type][$a_parent_id][$item['child']] : self::ORDER_DEFAULT;
 				}
 
-				$items = $this->sortOrderDefaultItems($items);
+				$items = $this->sortOrderDefault($items);
 				return ilUtil::sortArray((array) $items,'position','asc',TRUE);
 				
 
