@@ -632,7 +632,7 @@ class ilSCORM13Player
 		);		
 		while($row = $ilDB->fetchAssoc($res))
 		{
-			if (($global_to_system == 1 && $row['scope_id'] == 0) || ($global_to_system == 0 && $row['scope_id'] > 0))
+			if (($global_to_system == 1 && $row['scope_id'] == 0) || ($global_to_system == 0 && $row['scope_id'] == $this->packageId))
 			{
 				$learner = $row['user_id'];
 				$objective_id = $row['objective_id'];
