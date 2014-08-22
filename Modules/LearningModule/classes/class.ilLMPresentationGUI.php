@@ -266,6 +266,19 @@ class ilLMPresentationGUI
 		}
 	}
 
+	/**
+	 * Get tracker
+	 *
+	 * @return ilLMTracker tracker instance
+	 */
+	function getTracker()
+	{
+		include_once("./Modules/LearningModule/classes/class.ilLMTracker.php");
+		$tracker = ilLMTracker::getInstance($this->lm->getRefId());
+		$tracker->setCurrentPage($this->getCurrentPageId());
+		return $tracker;
+	}
+
 	function attrib2arr($a_attributes)
 	{
 		$attr = array();
@@ -749,6 +762,7 @@ class ilLMPresentationGUI
 	{
 		include_once("./Modules/LearningModule/classes/class.ilLMTOCExplorerGUI.php");
 		$exp = new ilLMTOCExplorerGUI($this, "ilTOC", $this, $this->lang);
+		$exp->setTracker($this->getTracker());
 		if (!$exp->handleCommand())
 		{
 			// determine highlighted and force open nodes
@@ -1135,7 +1149,12 @@ class ilLMPresentationGUI
 
 		$this->tpl->setLocator();
 	}
-	
+
+	/**
+	 * Get the current page id
+	 *
+	 * @return bool|int current page id
+	 */
 	function getCurrentPageId()
 	{
 		global $ilUser;
@@ -1282,6 +1301,7 @@ class ilLMPresentationGUI
 
 		$this->fill_on_load_code = true;
 
+		// check if page is (not) visible in public area
 		if(($ilUser->getId() == ANONYMOUS_USER_ID || $this->needs_to_be_purchased) && 
 		   $this->lm_gui->object->getPublicAccessMode() == 'selected')
 		{
@@ -1295,6 +1315,21 @@ class ilLMPresentationGUI
 		{
 			return $this->showPreconditionsOfPage($this->getCurrentPageId());
 		}
+
+		// if navigation is restricted based on correct answered questions
+		// check if we have preceeding pages including unsanswered/incorrect answered questions
+		if (!$this->offlineMode())
+		{
+			if ($this->lm->getRestrictForwardNavigation())
+			{
+				if ($this->getTracker()->hasPredIncorrectAnswers($this->getCurrentPageId()))
+				{
+					$this->showNavRestrictionDueToQuestions();
+					return;
+				}
+			}
+		}
+
 
 		require_once("./Modules/LearningModule/classes/class.ilLMPageGUI.php");
 		require_once("./Modules/LearningModule/classes/class.ilLMPageObject.php");
@@ -1447,9 +1482,7 @@ class ilLMPresentationGUI
 			// track access
 			if ($ilUser->getId() != ANONYMOUS_USER_ID && $page_id != 0 && !$this->offlineMode())
 			{
-				include_once("./Modules/LearningModule/classes/class.ilLMTracker.php");
-				$tracker = ilLMTracker::getInstance($this->lm->getRefId());
-				$tracker->trackAccess($page_id);
+				$this->getTracker()->trackAccess($page_id);
 			}
 		}
 		else
@@ -3889,16 +3922,17 @@ class ilLMPresentationGUI
 		
 		return $link;
 	}
-	
-	
-	
-	function showNoPublicAccess()
-	{
-		$page_id = $this->getCurrentPageId();
 
+	/**
+	 * Show message screen
+	 *
+	 * @param
+	 * @return
+	 */
+	function showMessageScreen($a_content)
+	{
 		// content style
 		$this->tpl->setCurrentBlock("ContentStyle");
-		
 		if (!$this->offlineMode())
 		{
 			$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
@@ -3908,13 +3942,32 @@ class ilLMPresentationGUI
 		{
 			$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET", "content_style/content.css");
 		}
-		
 		$this->tpl->parseCurrentBlock();
-		$this->tpl->addBlockFile("PAGE_CONTENT", "pg_content", "tpl.page_nopublicaccess.html", "Modules/LearningModule");
-		$this->tpl->setCurrentBlock("pg_content");
-		$this->tpl->setVariable("TXT_PAGE_NO_PUBLIC_ACCESS",$this->lng->txt("msg_page_no_public_access"));
-		$this->tpl->parseCurrentBlock();
+
+		$tpl = new ilTemplate("tpl.page_message_screen.html", true, true, "Modules/LearningModule");
+		$tpl->setVariable("TXT_PAGE_NO_PUBLIC_ACCESS", $a_content);
+
+		$this->tpl->setVariable("PAGE_CONTENT", $tpl->get());
 	}
+
+
+	/**
+	 * Show info message, if page is not accessible in public area
+	 */
+	function showNoPublicAccess()
+	{
+		$this->showMessageScreen($this->lng->txt("msg_page_no_public_access"));
+	}
+
+	/**
+	 * Show message if navigation to page is not allowed due to unanswered
+	 * questions.
+	 */
+	function showNavRestrictionDueToQuestions()
+	{
+		$this->showMessageScreen($this->lng->txt("cont_no_page_access_unansw_q"));
+	}
+
 	
 	function getSourcecodeDownloadLink() {
 		if (!$this->offlineMode())

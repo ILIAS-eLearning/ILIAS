@@ -1,6 +1,23 @@
 <?php exit; ?>
 
 ===================================
+LMPresentation
+===================================
+
+Typical Control Flow
+
+- executeCommand()
+  - layout()
+    - determineLayout()
+      - getCurrentPageId()
+    - ilMainMenu
+    - ilTOC
+    - ilPage
+    - ...
+
+
+
+===================================
 LP in Learning Modules
 ===================================
 

@@ -31,6 +31,10 @@ class ilLMTracker
 
 	static $instances = array();
 
+	////
+	//// Constructing
+	////
+
 	/**
 	 * Constructor
 	 *
@@ -60,6 +64,9 @@ class ilLMTracker
 		return self::$instances[$a_ref_id];
 	}
 
+	////
+	//// Tracking
+	////
 
 	/**
 	 * Track access to lm page
@@ -234,13 +241,38 @@ class ilLMTracker
 		}
 	}
 
+
+	////
+	//// Tracking
+	////
+
 	/**
-	 * Load LM tracking data
+	 * Set current page
+	 *
+	 * @param id $a_val current page id
+	 */
+	public function setCurrentPage($a_val)
+	{
+		$this->current_page_id = $a_val;
+	}
+
+	/**
+	 * Get current page
+	 *
+	 * @return id current page id
+	 */
+	public function getCurrentPage()
+	{
+		return $this->current_page_id;
+	}
+
+	/**
+	 * Load LM tracking data. Loaded when needed.
 	 *
 	 * @param
 	 * @return
 	 */
-	function loadLMTrackingData($a_current_node)
+	protected function loadLMTrackingData()
 	{
 		global $ilDB, $ilUser;
 
@@ -248,12 +280,12 @@ class ilLMTracker
 		// please note that the dirty flag works only to a certain limit
 		// e.g. if questions are answered the flag is not set (yet)
 		// or if pages/chapter are added/deleted the flag is not set
-		if ($this->loaded_for_node === (int) $a_current_node && !$this->dirty)
+		if ($this->loaded_for_node === (int) $this->getCurrentPage() && !$this->dirty)
 		{
 			return;
 		}
 
-		$this->loaded_for_node = (int) $a_current_node;
+		$this->loaded_for_node = (int) $this->getCurrentPage();
 		$this->dirty = false;
 
 		// load lm tree in array
@@ -291,7 +323,7 @@ class ilLMTracker
 		$this->answer_status = ilPageQuestionProcessor::getAnswerStatus($this->all_questions, $ilUser->getId());
 
 		$has_pred_incorrect_answers = false;
-		$this->determineProgressStatus($this->lm_tree->readRootId(), $a_current_node, $has_pred_incorrect_answers);
+		$this->determineProgressStatus($this->lm_tree->readRootId(), $has_pred_incorrect_answers);
 	}
 
 	/**
@@ -300,7 +332,7 @@ class ilLMTracker
 	 * @param int $a_obj_id lm object id
 	 * @return int status
 	 */
-	function determineProgressStatus($a_obj_id, $a_current_node, &$a_has_pred_incorrect_answers)
+	protected function determineProgressStatus($a_obj_id, &$a_has_pred_incorrect_answers)
 	{
 		$status = ilLMTracker::NOT_ATTEMPTED;
 
@@ -315,7 +347,7 @@ class ilLMTracker
 				$cnt_completed = 0;
 				foreach ($this->tree_arr["childs"][$a_obj_id] as $c)
 				{
-					$c_stat = $this->determineProgressStatus($c["child"], $a_current_node, $a_has_pred_incorrect_answers);
+					$c_stat = $this->determineProgressStatus($c["child"], $a_has_pred_incorrect_answers);
 					if ($status != ilLMTracker::FAILED)
 					{
 						if ($c_stat == ilLMTracker::FAILED)
@@ -349,7 +381,7 @@ class ilLMTracker
 				{
 					$status = ilLMTracker::COMPLETED;
 				}
-				else if ($a_obj_id == $a_current_node)
+				else if ($a_obj_id == $this->getCurrentPage())
 				{
 					$status = ilLMTracker::CURRENT;
 				}
@@ -397,12 +429,13 @@ class ilLMTracker
 	 * Get icon for lm object
 	 *
 	 * @param array $a_node node array
-	 * @param int $a_current_node current node id
+	 * @param int $a_highlighted_node current node id
 	 * @return string image path
 	 */
-	function getIconForLMObject($a_node, $a_current_node)
+	public function getIconForLMObject($a_node, $a_highlighted_node = 0)
 	{
-		if ($a_node["child"] == $a_current_node)
+		$this->loadLMTrackingData();
+		if ($a_node["child"] == $a_highlighted_node)
 		{
 			return ilUtil::getImagePath('scorm/running.png');
 		}
@@ -422,6 +455,23 @@ class ilLMTracker
 		}
 		return ilUtil::getImagePath('scorm/not_attempted.png');
 	}
+
+	/**
+	 * Has predecessing incorrect answers
+	 *
+	 * @param int $a_obj_id
+	 * @return bool true if incorrect/unsanswered questions exist in predecessing pages
+	 */
+	function hasPredIncorrectAnswers($a_obj_id)
+	{
+		$this->loadLMTrackingData();
+		if (is_array($this->tree_arr["nodes"][$a_obj_id]))
+		{
+			return $this->tree_arr["nodes"][$a_obj_id]["has_pred_incorrect_answers"];
+		}
+		return false;
+	}
+
 
 }
 

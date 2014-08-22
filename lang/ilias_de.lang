@@ -14584,3 +14584,4 @@ content#:#cont_tries_store#:#Store between Page Visits
 content#:#cont_tries_store_info#:#Number of tries are accumulated and stored.
 content#:#cont_restrict_forw_nav#:#Restrict Forward Navigation
 content#:#cont_restrict_forw_nav_info#:#Learners cannot navigate to subsequent pages unless they answered all previous questions correctly.
+content#:#cont_no_page_access_unansw_q#:#You need to answer all questions of previous pages correctly to gain access to this page.

@@ -36,27 +36,26 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
 		{
 			$this->setTypeWhiteList(array("st", "du"));
 		}
-
 	}
 
 	/**
-	 * Get HTML
+	 * Set tracker
 	 *
-	 * @param
-	 * @return
+	 * @param ilLMTracker $a_val tracker object
 	 */
-	function getHTML()
+	function setTracker($a_val)
 	{
-		if ($this->lm->getProgressIcons())
-		{
-			include_once("./Modules/LearningModule/classes/class.ilLMTracker.php");
-			$this->tracker = ilLMTracker::getInstance($this->lm->getRefId());
-			$this->tracker->loadLMTrackingData($this->getHighlightNode());
-		}
+		$this->tracker = $a_val;
+	}
 
-		//$preds = $this->getTree()->fetchPredecessorNode($this->highlight_node, "pg", true);
-
-		return parent::getHTML();
+	/**
+	 * Get tracker
+	 *
+	 * @return ilLMTracker tracker object
+	 */
+	function getTracker()
+	{
+		return $this->tracker;
 	}
 
 	/**
@@ -191,6 +190,19 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
 		global $ilUser;
 
 		$orig_node_id = $a_node["child"];
+
+		// if navigation is restricted based on correct answered questions
+		// check if we have preceeding pages including unsanswered/incorrect answered questions
+		if (!$this->getOfflineMode())
+		{
+			if ($this->lm->getRestrictForwardNavigation())
+			{
+				if ($this->getTracker()->hasPredIncorrectAnswers($orig_node_id))
+				{
+					return false;
+				}
+			}
+		}
 
 		if ($a_node["type"] == "st")
 		{
