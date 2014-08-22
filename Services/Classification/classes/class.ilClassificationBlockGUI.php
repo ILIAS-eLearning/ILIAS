@@ -59,12 +59,12 @@ class ilClassificationBlockGUI extends ilBlockGUI
 		{
 			default:
 				// explorer call
-				if($ilCtrl->isAsynch())
+				if($ilCtrl->isAsynch() && $cmd != "getAjax" && $cmd != "filterContainer")
 				{
 					$this->getHTML();
 				}
 				else
-				{
+				{					
 					$this->$cmd();
 				}
 				break;
@@ -74,6 +74,11 @@ class ilClassificationBlockGUI extends ilBlockGUI
 	static function getScreenMode()
 	{
 		global $ilCtrl;
+		
+		if($ilCtrl->isAsynch())
+		{
+			return;
+		}
 				
 		switch($ilCtrl->getCmd())
 		{
@@ -84,31 +89,45 @@ class ilClassificationBlockGUI extends ilBlockGUI
 	
 	public function getHTML()
 	{			
+		global $tpl, $ilCtrl;
+		
+		if(!$ilCtrl->isAsynch())
+		{
+			unset($_SESSION[self::getBlockType()]);					
+		}
+		
 		$this->initProviders();
 		
 		if(!$this->validate())
 		{
 			return "";
 		}
+		
+		$tpl->addJavaScript("Services/Classification/js/ilClassification.js");
 				
 		return parent::getHTML();		
 	}		
 	
+	public function getAjax()
+	{
+		global $tpl;
+		
+		$this->initProviders(true);		
+		
+		echo $this->getHTML();
+		echo $tpl->getOnLoadCodeForAsynch();
+
+		exit();
+	}
+	
 	public function fillDataSection()
 	{		
-		global $ilCtrl, $lng;
+		global $ilCtrl, $tpl;
 		
-		$html = array();
-		
+		$html = array();		
 		foreach($this->providers as $provider)
 		{
-			$provider->render(
-				$html,
-				$this,
-				"",
-				get_class($this),
-				"filterContainer"
-			);
+			$provider->render($html);
 		}		
 		
 		if(sizeof($html))
@@ -122,11 +141,15 @@ class ilClassificationBlockGUI extends ilBlockGUI
 				$btpl->setVariable("CHUNK", $item["html"]);
 				$btpl->parseCurrentBlock();
 			}
+						
+			$ajax_block_id = "block_".$this->getBlockType()."_0";
+			$ajax_block_url = $ilCtrl->getLinkTarget($this, "getAjax", "", true, false);
+			$ajax_content_id = "il_center_col";
+			$ajax_content_url = $ilCtrl->getLinkTarget($this, "filterContainer", "", true, false);
+		
+			$tpl->addOnLoadCode('il.Classification.setAjax("'.$ajax_block_id.'", "'.
+				$ajax_block_url.'", "'.$ajax_content_id.'", "'.$ajax_content_url.'");');
 			
-			$btpl->setVariable("FORM_ACTION", $ilCtrl->getFormAction($this, "filterContainer"));
-			$btpl->setVariable("SUBMIT_CAPTION", $lng->txt("filter"));
-			$btpl->setVariable("SUBMIT_ID", "cmd[filterContainer]");
-
 			return $this->tpl->setVariable("DATA", $btpl->get());
 		}
 	}
@@ -138,22 +161,24 @@ class ilClassificationBlockGUI extends ilBlockGUI
 	
 	protected function filterContainer()
 	{
-		global $tpl, $objDefinition, $lng, $tree, $ilAccess, $ilCtrl;
+		global $objDefinition, $lng, $tree, $ilAccess, $ilCtrl;
 		
-		$this->initProviders(true);
+		$this->initProviders();
 			
 		// empty selection is invalid
+		/*
 		if(!$_SESSION[self::getBlockType()])
 		{
 			$ilCtrl->returnToParent($this); 
 		}
+		*/
 		
 		$all_matching_provider_object_ids = null;
 	
 		foreach($this->providers as $provider)
 		{
 			$id = get_class($provider);
-			$current = $_SESSION[self::getBlockType()][$id];			
+			$current = $_SESSION[self::getBlockType()][$id];				
 			if($current)
 			{
 				// combine providers AND
@@ -273,7 +298,8 @@ class ilClassificationBlockGUI extends ilBlockGUI
 			$content_block->setContent($lng->txt("clsfct_content_no_match"));
 		}
 				
-		$tpl->setContent($content_block->getHTML());
+		echo $content_block->getHTML();
+		exit();
 	}	
 	
 	protected function initProviders($a_check_post = false)
@@ -284,19 +310,17 @@ class ilClassificationBlockGUI extends ilBlockGUI
 			self::$providers_cache[$this->parent_ref_id] = ilClassificationProvider::getValidProviders(
 					$this->parent_ref_id,
 					$this->parent_obj_id,
-					$this->parent_obj_typ,
-					$a_check_post				
+					$this->parent_obj_typ			
 			);			
 		}
 		$this->providers = self::$providers_cache[$this->parent_ref_id];		
 		
-		if($a_check_post &&
-			is_array($_POST))
+		if($a_check_post)
 		{
 			foreach($this->providers as $provider)
 			{	
 				$id = get_class($provider);
-				$current = $provider->importPostData();
+				$current = $provider->importPostData($_SESSION[self::getBlockType()][$id]);
 				if($current)
 				{
 					$_SESSION[self::getBlockType()][$id] = $current;

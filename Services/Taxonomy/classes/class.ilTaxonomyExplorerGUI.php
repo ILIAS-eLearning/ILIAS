@@ -66,12 +66,7 @@ class ilTaxonomyExplorerGUI extends ilTreeExplorerGUI
 		{
 			return $a_node["title"];
 		}
-	}
-		
-	function isNodeClickable($a_node) 
-	{
-		return !(bool)$this->select_postvar;
-	}
+	}	
 	
 	/**
 	 * Get node href
@@ -83,10 +78,17 @@ class ilTaxonomyExplorerGUI extends ilTreeExplorerGUI
 	{
 		global $ilCtrl;
 		
-		$ilCtrl->setParameterByClass($this->target_gui, "tax_node", $a_node["child"]);
-		$href = $ilCtrl->getLinkTargetByClass($this->target_gui, $this->target_cmd);
-		$ilCtrl->setParameterByClass($this->target_gui, "tax_node", $_GET["tax_node"]);
-		return $href;
+		if(!$this->onclick)
+		{
+			$ilCtrl->setParameterByClass($this->target_gui, "tax_node", $a_node["child"]);
+			$href = $ilCtrl->getLinkTargetByClass($this->target_gui, $this->target_cmd);
+			$ilCtrl->setParameterByClass($this->target_gui, "tax_node", $_GET["tax_node"]);
+			return $href;
+		}
+		else
+		{
+			return "#";
+		}
 	}
 	
 	/**
@@ -96,11 +98,8 @@ class ilTaxonomyExplorerGUI extends ilTreeExplorerGUI
 	 * @return
 	 */
 	function getNodeIcon($a_node)
-	{
-		if(!$this->select_postvar)
-		{
-			return ilUtil::getImagePath("icon_taxn_s.png");
-		}
+	{		
+		return ilUtil::getImagePath("icon_taxn_s.png");		
 	}
 	
 	/**
@@ -110,30 +109,27 @@ class ilTaxonomyExplorerGUI extends ilTreeExplorerGUI
 	 * @return
 	 */
 	function isNodeHighlighted($a_node)
-	{
-		if(!$this->select_postvar)
+	{		
+		if ((!$this->onclick && $a_node["child"] == $_GET["tax_node"]) || 
+			($this->onclick && is_array($this->selected_nodes) && in_array($a_node["child"], $this->selected_nodes)))
 		{
-			if ($a_node["child"] == $_GET["tax_node"])
-			{
-				return true;
-			}
-		}
-		else
-		{
-			if(in_array($a_node["child"], $this->selected_nodes) &&
-				(bool)$this->active_highlight)
-			{
-				return true;
-			}
-		}
+			return true;
+		}		
 		return false;
 	}
 	
-	public function activateHighlight($a_value)
+	function setOnClick($a_value)
 	{
-		$this->active_highlight = (bool)$a_value;
+		$this->onclick = $a_value;
 	}
 	
+	function getNodeOnClick($a_node)
+	{	
+		if($this->onclick)
+		{
+			return str_replace("{NODE_CHILD}", $a_node["child"], $this->onclick);
+		}
+	}	
 }
 
 ?>

@@ -22,22 +22,21 @@ class ilTaxonomyClassificationProvider extends ilClassificationProvider
 		return (bool)self::getActiveTaxonomiesForParentRefId($a_parent_ref_id);
 	}	
 	
-	public function render(array &$a_html, $a_parent_gui, $a_parent_cmd, $a_target_gui, $a_target_cmd)
-	{			
+	public function render(array &$a_html)
+	{
 		include_once("./Services/Taxonomy/classes/class.ilTaxonomyExplorerGUI.php");	
 	
 		foreach(self::$valid_tax_map[$this->parent_ref_id] as $tax_id)
 		{
-			$tax_exp = new ilTaxonomyExplorerGUI($a_parent_gui, $a_parent_cmd, 
-				$tax_id, $a_target_gui, $a_target_cmd);
-			$tax_exp->setSelectMode("clsfct_tax_node[".$tax_id."]", true);
+			$tax_exp = new ilTaxonomyExplorerGUI(null, null, $tax_id, null, null);			
 			$tax_exp->setSkipRootNode(true);
-			$tax_exp->activateHighlight($this->active_filter);
+			$tax_exp->setOnClick("il.Classification.toggle({tax_node: '{NODE_CHILD}'});");
 			
-			if(is_array($this->selection[$tax_id]))
+			if(is_array($this->selection))
 			{
-				foreach($this->selection[$tax_id] as $node_id)
+				foreach($this->selection as $node_id)
 				{
+					$tax_exp->setPathOpen($node_id);
 					$tax_exp->setNodeSelected($node_id);
 				}
 			}
@@ -52,11 +51,28 @@ class ilTaxonomyClassificationProvider extends ilClassificationProvider
 		}									
 	}
 	
-	public function importPostData()
+	public function importPostData($a_saved = null)
 	{
-		if(is_array($_POST["clsfct_tax_node"]))
-		{
-			return $_POST["clsfct_tax_node"];			
+		$incoming_id = (int)$_REQUEST["tax_node"];
+		if($incoming_id)
+		{			
+			if(is_array($a_saved))
+			{
+				foreach($a_saved as $idx => $node_id)
+				{
+					if($node_id == $incoming_id)
+					{
+						unset($a_saved[$idx]);
+						return $a_saved;
+					}
+				}
+				$a_saved[] = $incoming_id;
+				return $a_saved;
+			}
+			else
+			{
+				return array($incoming_id);
+			}
 		}
 	}
 	
@@ -115,11 +131,19 @@ class ilTaxonomyClassificationProvider extends ilClassificationProvider
 	public function getFilteredObjects()
 	{				
 		include_once "Services/Taxonomy/classes/class.ilTaxonomyTree.php";
-		include_once("./Services/Taxonomy/classes/class.ilTaxNodeAssignment.php");		
+		include_once "Services/Taxonomy/classes/class.ilTaxNodeAssignment.php";				
+		include_once "Services/Taxonomy/classes/class.ilTaxonomyNode.php";				
 		
-		$tax_obj_ids = array();
+		$tax_obj_ids = $tax_map = array();
+			
+		// :TODO: this could be smarter
+		foreach($this->selection as $node_id)
+		{		
+			$node = new ilTaxonomyNode($node_id);
+			$tax_map[$node->getTaxonomyId()][] = $node_id;
+		}
 		
-		foreach($this->selection as $tax_id => $node_ids)
+		foreach($tax_map as $tax_id => $node_ids)
 		{
 			$tax_tree = new ilTaxonomyTree($tax_id);
 			

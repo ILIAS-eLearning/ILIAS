@@ -48,9 +48,9 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
 		return $valid;
 	}	
 		
-	public function render(array &$a_html, $a_parent_gui, $a_parent_cmd, $a_target_gui, $a_target_cmd)
+	public function render(array &$a_html)
 	{		
-		global $ilCtrl, $lng;
+		global $lng;
 		
 		$all_tags = $this->getSubTreeTags();				
 		if($all_tags)
@@ -77,23 +77,23 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
 
 					$tpl->setCurrentBlock("tag_bl");
 					foreach($tags as $tag => $counter)
-					{
-						$ilCtrl->setParameterByClass($a_target_gui, "tag", rawurlencode($tag));
-						$tpl->setVariable("HREF_TAG",
-							$ilCtrl->getLinkTargetByClass($a_target_gui, $a_target_cmd));
-						$tpl->setVariable("TAG_TITLE", $tag);
+					{						
+						$tpl->setVariable("TAG_TYPE", $type);
+						$tpl->setVariable("TAG_TITLE", $tag);					
 						$tpl->setVariable("FONT_SIZE",
 							ilTagging::calculateFontSize($counter, $max)."%");
 
-						if($this->selection == $tag)
+						if(is_array($this->selection[$type]) &&
+							in_array($tag, $this->selection[$type]))
 						{
-							$tpl->setVariable("TAG_CLASS", ' class="ilHighlighted"');
+							$tpl->setVariable("TAG_CLASS", ' class="ilHighlighted"');							
 						}
 
 						$tpl->parseCurrentBlock();
 					}
-					$tpl->setVariable("CLOUD_STYLE", ' class="small"');
-
+					
+					$tpl->setVariable("CLOUD_STYLE", ' class="small"');					
+					
 					$a_html[] = array(
 						"title" => $title,
 						"html" => $tpl->get()
@@ -101,14 +101,30 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
 				}
 			}
 			
-			$ilCtrl->setParameterByClass($a_target_gui, "tag", "");
+			if($this->selection)
+			{
+				$a_html[] = array(
+						"title" => "Related Tags",
+						"html" => ":TODO:"
+					);
+			}
 		}
 	}
 	
 	
-	public function importPostData()
-	{
-		return $_REQUEST["tag"];
+	public function importPostData($a_saved = null)
+	{		
+		$type = trim($_REQUEST["tag_type"]);
+		$tag = trim($_REQUEST["tag"]);				
+		if($type && $tag)
+		{
+			if(is_array($a_saved[$type]) &&
+				in_array($tag, $a_saved[$type]))
+			{
+				return;
+			}
+			return array($type=>array($tag));
+		}
 	}
 	
 	public function setSelection($a_value)
@@ -124,15 +140,29 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
 		{
 			return;
 		}
-				
-		$only_user = null;		
-		if(!$this->enable_all_users)
-		{
-			$only_user = $ilUser->getId();
-		}		
 		
-		include_once "Services/Tagging/classes/class.ilTagging.php"; 		
-		return array_keys(ilTagging::_findObjectsByTag($this->selection, $only_user));		
+		include_once "Services/Tagging/classes/class.ilTagging.php"; 	
+		
+		$types = array("personal");
+		if($this->enable_all_users)
+		{
+			$types[] = "other";
+		}			
+				
+		foreach($types as $type)
+		{
+			if(is_array($this->selection[$type]))
+			{				
+				$only_user = ($type == "personal")
+					? $ilUser->getId()
+					: null;				
+				
+				// :TODO: multi-select?		
+				return array_keys(ilTagging::_findObjectsByTag(array_shift($this->selection[$type]), $only_user));						
+			}
+		}
+		
+		return;
 	}
 				
 	protected function getSubTreeTags()
