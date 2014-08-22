@@ -305,6 +305,8 @@ class ilAdvancedMDRecordGUI
 					$field->setSearchValueSerialized($field_form, $this->search_form_values[$field->getFieldId()]);
 				}
 				
+				$field->prepareElementForSearch($field_form);
+				
 				$field_form->addToForm();
 				
 				$this->search_form[$field->getFieldId()] = array("def"=>$field, "value"=>$field_form);			

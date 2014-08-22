@@ -4,9 +4,16 @@ require_once "Services/ADT/classes/Bridges/class.ilADTSearchBridgeSingle.php";
 
 class ilADTDateSearchBridgeSingle extends ilADTSearchBridgeSingle
 {
+	protected $text_input; // [bool]
+	
 	protected function isValidADTDefinition(ilADTDefinition $a_adt_def)
 	{
 		return ($a_adt_def instanceof ilADTDateDefinition);
+	}
+	
+	public function setTextInputMode($a_value)
+	{
+		$this->text_input = (bool)$a_value;
 	}
 	
 	
@@ -29,11 +36,19 @@ class ilADTDateSearchBridgeSingle extends ilADTSearchBridgeSingle
 		global $lng;
 		
 		$adt_date = $this->getADT()->getDate();
-		$checked = !(!$adt_date || $adt_date->isNull());
 		
-		$date = new ilDateTimeInputGUI($this->getTitle(), $this->getElementId());
-		$date->enableDateActivation($lng->txt("enabled"), $this->addToElementId("tgl"), $checked);
+		$date = new ilDateTimeInputGUI($this->getTitle(), $this->getElementId());		
 		$date->setShowTime(false);
+		
+		if(!(bool)$this->text_input)
+		{
+			$checked = !(!$adt_date || $adt_date->isNull());
+			$date->enableDateActivation($lng->txt("enabled"), $this->addToElementId("tgl"), $checked);
+		}
+		else
+		{
+			$date->setMode(ilDateTimeInputGUI::MODE_INPUT);
+		}		
 		
 		$date->setDate($adt_date);
 		
@@ -42,7 +57,11 @@ class ilADTDateSearchBridgeSingle extends ilADTSearchBridgeSingle
 	
 	protected function shouldBeImportedFromPost(array $a_post)
 	{
-		return (bool)$a_post["tgl"];
+		if(!(bool)$this->text_input)
+		{
+			return (bool)$a_post["tgl"];			
+		}
+		return parent::shouldBeImportedFromPost($post);
 	}
 	
 	public function importFromPost(array $a_post = null)
@@ -51,10 +70,16 @@ class ilADTDateSearchBridgeSingle extends ilADTSearchBridgeSingle
 	
 		if($post && $this->shouldBeImportedFromPost($post))
 		{
-			$date = mktime(12, 0, 0,
-				$post["date"]["m"], 
-				$post["date"]["d"], 
-				$post["date"]["y"]);
+			include_once "Services/ADT/classes/class.ilADTDateSearchUtil.php";
+			
+			if((bool)$this->text_input)
+			{
+				$date = ilADTDateSearchUtil::handleTextInputPost(ilADTDateSearchUtil::MODE_DATE, $post);
+			}
+			else
+			{
+				$date = ilADTDateSearchUtil::handleSelectInputPost(ilADTDateSearchUtil::MODE_DATE, $post);	
+			}
 			
 			// :TODO: all dates are imported as valid 
 			

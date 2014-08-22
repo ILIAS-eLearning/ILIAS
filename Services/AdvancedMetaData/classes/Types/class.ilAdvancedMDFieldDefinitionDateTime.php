@@ -68,6 +68,16 @@ class ilAdvancedMDFieldDefinitionDateTime extends ilAdvancedMDFieldDefinition
 	}	
 	
 	
+	// 
+	// presentation
+	//
+	
+	public function prepareElementForEditor(ilADTFormBridge $a_bridge)
+	{
+		$a_bridge->setTextInputMode(true);
+	}
+	
+	
 	//
 	// search
 	// 
@@ -108,13 +118,9 @@ class ilAdvancedMDFieldDefinitionDateTime extends ilAdvancedMDFieldDefinition
 		}
 	}
 	
-	// 
-	// presentation
-	//
-	
-	public function prepareElementForEditor(ilADTFormBridge $a_text)
+	public function prepareElementForSearch(ilADTSearchBridge $a_bridge)
 	{
-		$a_text->setTextInputMode(true);
+		$a_bridge->setTextInputMode(true);
 	}
 }
 

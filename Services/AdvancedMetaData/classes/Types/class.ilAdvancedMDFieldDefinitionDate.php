@@ -67,6 +67,17 @@ class ilAdvancedMDFieldDefinitionDate extends ilAdvancedMDFieldDefinition
 		return false;
 	}	
 	
+	
+	// 
+	// presentation
+	//
+	
+	public function prepareElementForEditor(ilADTFormBridge $a_bridge)
+	{
+		$a_bridge->setTextInputMode(true);
+	}
+		
+	
 	//
 	// search
 	// 
@@ -107,15 +118,10 @@ class ilAdvancedMDFieldDefinitionDate extends ilAdvancedMDFieldDefinition
 			return "{".$start->get(IL_CAL_DATE)." TO ".$end->get(IL_CAL_DATE)."}";
 		}
 	}
-	
-	
-	// 
-	// presentation
-	//
-	
-	public function prepareElementForEditor(ilADTFormBridge $a_text)
+		
+	public function prepareElementForSearch(ilADTSearchBridge $a_bridge)
 	{
-		$a_text->setTextInputMode(true);
+		$a_bridge->setTextInputMode(true);
 	}
 }
 

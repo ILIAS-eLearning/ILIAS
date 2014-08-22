@@ -979,9 +979,9 @@ abstract class ilAdvancedMDFieldDefinition
 	/**
 	 * Prepare editor form elements
 	 * 
-	 * @param ilADTFormBridge $a_text
+	 * @param ilADTFormBridge $a_bridge
 	 */
-	public function prepareElementForEditor(ilADTFormBridge $a_text)
+	public function prepareElementForEditor(ilADTFormBridge $a_bridge)
 	{
 		// type-specific		
 	}
@@ -1070,7 +1070,7 @@ abstract class ilAdvancedMDFieldDefinition
 			$element_id = "loc";
 		}
 						 			
-		$condition = $a_adt_search->getSQLCondition($element_id);		
+		$condition = $a_adt_search->getSQLCondition($element_id);				
 		if($condition)
 		{			
 			$objects = ilADTActiveRecordByType::find("adv_md_values", $this->getADT()->getType(), $this->getFieldId(), $condition);
@@ -1086,9 +1086,10 @@ abstract class ilAdvancedMDFieldDefinition
 					}
 				}	
 				return $res;
-			}
-			return array();
+			}			
 		}		
+		
+		return array();
 	}
 		
 	/**
@@ -1127,6 +1128,16 @@ abstract class ilAdvancedMDFieldDefinition
 	public function getLuceneSearchString($a_value)
 	{
 		return $a_value;
+	}
+	
+	/**
+	 * Prepare search form elements
+	 * 
+	 * @param ilADTSearchBridge $a_bridge
+	 */
+	public function prepareElementForSearch(ilADTSearchBridge $a_bridge)
+	{
+		// type-specific		
 	}
 }
 
