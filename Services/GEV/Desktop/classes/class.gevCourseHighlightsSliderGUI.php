@@ -65,7 +65,7 @@ class gevCourseHighlightsSliderGUI extends catSliderGUI {
 			$org_title = $crs["title"];
 			if(strlen($org_title) > 64) {
 				$title = '<a title="' .$org_title .'">';
-				$title .= substr($org_title, 0, 64);
+				$title .= substr($org_title, 0, 48);
 				$title .= ' [...]</a>';
 			}else{
 				$title = $org_title;
