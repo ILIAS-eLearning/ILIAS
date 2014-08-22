@@ -61,7 +61,15 @@ class gevCourseHighlightsSliderGUI extends catSliderGUI {
 			$tpl = new ilTemplate("tpl.gev_course_highlight_slide.html", false, false, "Services/GEV/Desktop");
 			$tpl->setVariable("CREDIT_POINT", $crs["credit_points"]);
 			$tpl->setVariable("TYPE", $crs["type"]);
-			$tpl->setVariable("TITLE", $crs["title"]);
+
+			$org_title = $crs["title"];
+			if(strlen($org_title) > 64) {
+				$title = '<a title="' .$org_title .'">';
+				$title .= substr($org_title, 0, 64);
+				$title .= ' [...]</a>';
+			}
+			$tpl->setVariable("TITLE", $title);
+
 			if ($crs["start_date"] && $crs["end_date"]) {
 				$tpl->setCurrentBlock("date");
 				//$tpl->setVariable("DATE", ilDatePresentation::formatPeriod($crs["start_date"], $crs["end_date"]));
