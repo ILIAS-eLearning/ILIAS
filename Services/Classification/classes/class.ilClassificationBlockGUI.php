@@ -4,38 +4,41 @@
 include_once("Services/Block/classes/class.ilBlockGUI.php");
 
 /**
-* Taxonomy blocks, displayed in different contexts, e.g. categories
-*
-* @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-* @version $Id$
-*
-* @ilCtrl_IsCalledBy ilTaxonomyBlockGUI: ilColumnGUI
-*
-* @ingroup ServicesTaxonomy
-*/
-class ilTaxonomyBlockGUI extends ilBlockGUI
+ * Classification block, displayed in different contexts, e.g. categories
+ *
+ * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @version $Id$
+ *
+ * @ilCtrl_IsCalledBy ilClassificationBlockGUI: ilColumnGUI
+ *
+ * @ingroup ServicesClassification
+ */
+class ilClassificationBlockGUI extends ilBlockGUI
 {		
 	protected $parent_obj_type; // [string]
 	protected $parent_obj_id; // [int]
 	protected $parent_ref_id; // [int]	
-	protected $tax_id; // [int]	
-	protected $tax_data; // [array]
 	protected $item_list_gui; // [array]
 	
 	protected static $valid_tax_map = array();
 	
 	public function __construct()
 	{		
+		global $lng;
+		
 		parent::__construct();
 							
 		$this->parent_ref_id = (int)$_GET["ref_id"];
 		$this->parent_obj_id = ilObject::_lookupObjId($this->parent_ref_id);
 		$this->parent_obj_type = ilObject::_lookupType($this->parent_obj_id);	
+		
+		$lng->loadLanguageModule("classification");
+		$this->setTitle($lng->txt("clsfct_block_title"));
 	}
 	
 	public static function getBlockType()
 	{
-		return 'tax';
+		return 'clsfct';
 	}
 
 	public static function isRepositoryObject()
@@ -77,15 +80,9 @@ class ilTaxonomyBlockGUI extends ilBlockGUI
 		}
 	}
 	
-	public function setBlock(ilCustomBlock $a_block)
-	{
-		$this->tax_id = $a_block->getContextSubObjId();
-		$this->setTitle($a_block->getTitle());
-	}
-	
 	public function getHTML()
 	{	
-		if(!$this->validateTax())
+		if(!$this->validate())
 		{
 			return "";
 		}
@@ -97,103 +94,15 @@ class ilTaxonomyBlockGUI extends ilBlockGUI
 	{		
 		$html = "";
 		
-		include_once("./Services/Taxonomy/classes/class.ilTaxonomyExplorerGUI.php");							
-		$tax_exp = new ilTaxonomyExplorerGUI($this, "", $this->tax_id,
-			get_class($this), "filterContainer");
-		if (!$tax_exp->handleCommand())
-		{			
-			$html = $tax_exp->getHTML()."&nbsp;";
-		}			
-				
+		
+		
 		return $this->tpl->setVariable("DATA", $html);
 	}
 	
-	protected function validateTax()
+	protected function validate()
 	{
-		global $tree;
-		
-		if(!$this->tax_id)
-		{
-			return false;
-		}	
-		
-		if(!isset(self::$valid_tax_map[$this->parent_ref_id]))
-		{				
-			include_once "Services/Object/classes/class.ilObjectServiceSettingsGUI.php";
-			include_once "Services/Taxonomy/classes/class.ilObjTaxonomy.php";
-
-			$valid = array();
-			foreach($tree->getPathFull($this->parent_ref_id) as $node)
-			{			
-				if($node["type"] == "cat")
-				{						
-					if(ilContainer::_lookupContainerSetting(
-						$node["obj_id"],
-						ilObjectServiceSettingsGUI::TAXONOMIES,
-						false
-						))
-					{		
-						$valid = array_merge($valid,
-							ilObjTaxonomy::getUsageOfObject($node["obj_id"]));							
-					}		
-					self::$valid_tax_map[$node["ref_id"]] = $valid;		
-				}	
-			}					
-		}
-
-		return in_array($this->tax_id, self::$valid_tax_map[$this->parent_ref_id]);			
+		return false;
 	}	
-	
-	protected function getReadableSubObjectsForTaxNodeId($a_node_id)
-	{
-		global $tree, $ilAccess;
-		
-		$res = array();
-		
-		include_once "Services/Taxonomy/classes/class.ilTaxonomyNode.php";
-		$node = new ilTaxonomyNode($a_node_id);		
-		$tax_id = $node->getTaxonomyId();
-		
-		include_once("./Services/Taxonomy/classes/class.ilTaxonomyTree.php");
-		$tax_tree = new ilTaxonomyTree($tax_id);
-		$sub_nodes = $tax_tree->getSubTreeIds($a_node_id);
-		$sub_nodes[] = $a_node_id;
-					
-		include_once("./Services/Taxonomy/classes/class.ilTaxNodeAssignment.php");		
-		$obj_ids = ilTaxNodeAssignment::findObjectsByNode($tax_id, $sub_nodes, "obj");
-		if(sizeof($obj_ids))
-		{			
-			$fields = array(
-				"object_reference.ref_id"
-				,"object_data.obj_id" 
-				,"object_data.type" 
-				,"object_data.title"
-				,"object_data.description"
-			);
-			$matching = $tree->getSubTreeFilteredByObjIds($this->parent_ref_id, $obj_ids, $fields);
-			if(sizeof($matching))
-			{				
-				// :TODO: not sure if this makes sense...
-				include_once "Services/Object/classes/class.ilObjectListGUIPreloader.php";
-				$preloader = new ilObjectListGUIPreloader(ilObjectListGUI::CONTEXT_REPOSITORY);
-				
-				foreach($matching as $item)
-				{								
-					if(!$tree->isDeleted($item["ref_id"]) &&
-						$ilAccess->checkAccess("read", "", $item["ref_id"]))
-					{
-						$res[] = $item;
-						
-						$preloader->addItem($item["obj_id"], $item["type"], $item["ref_id"]);					
-					}
-				}	
-				
-				$preloader->preload();
-			}			
-		}
-		
-		return $res;
-	}
 	
 	protected function filterContainer()
 	{

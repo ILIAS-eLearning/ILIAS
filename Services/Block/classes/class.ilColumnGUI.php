@@ -60,8 +60,7 @@ class ilColumnGUI
 		'ilPDTaggingBlockGUI' => 'Services/Tagging/',
 		'ilChatroomBlockGUI' => 'Modules/Chatroom/',
 		'ilPollBlockGUI' => 'Modules/Poll/',
-		'ilTaxonomyBlockGUI' => 'Services/Taxonomy/',
-		'ilTagCloudBlockGUI' => 'Services/Tagging/'
+		'ilClassificationBlockGUI' => 'Services/Classification/',	
 	);
 	
 	static protected $block_types = array(
@@ -80,24 +79,24 @@ class ilColumnGUI
 		'ilPDTaggingBlockGUI' => 'pdtag',
 		'ilChatroomBlockGUI' => 'chatviewer',
 		'ilPollBlockGUI' => 'poll',
-		'ilTaxonomyBlockGUI' => 'tax',
-		'ilTagCloudBlockGUI' => 'tagcld'
+		'ilClassificationBlockGUI' => 'clsfct',
 	);
 	
 		
 	protected $default_blocks = array(
 		"cat" => array(
-			"ilNewsForContextBlockGUI" => IL_COL_RIGHT
+			"ilNewsForContextBlockGUI" => IL_COL_RIGHT,
+			"ilClassificationBlockGUI" => IL_COL_RIGHT
 			),
 		"crs" => array(
 			"ilNewsForContextBlockGUI" => IL_COL_RIGHT,
 			"ilCalendarBlockGUI" => IL_COL_RIGHT,
-			"ilTagCloudBlockGUI" => IL_COL_RIGHT
+			"ilClassificationBlockGUI" => IL_COL_RIGHT
 			),
 		"grp" => array(
 			"ilNewsForContextBlockGUI" => IL_COL_RIGHT,
 			"ilCalendarBlockGUI" => IL_COL_RIGHT,
-			"ilTagCloudBlockGUI" => IL_COL_RIGHT
+			"ilClassificationBlockGUI" => IL_COL_RIGHT
 			),
 		"frm" => array("ilNewsForContextBlockGUI" => IL_COL_RIGHT),
 		"root" => array(),
@@ -991,7 +990,7 @@ class ilColumnGUI
 				}
 			}
 										
-			// repository object custom blocks, e.g. category taxonomies
+			// repository object custom blocks
 			include_once("./Services/Block/classes/class.ilCustomBlock.php");
 			$custom_block = new ilCustomBlock();
 			$custom_block->setContextObjId($ilCtrl->getContextObjId());

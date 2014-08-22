@@ -2436,3 +2436,16 @@ $def = array(
 	);
 $ilDB->addTableColumn("content_object", "restrict_forw_nav", $def);
 ?>
+<#4294>
+<?php
+
+// category taxonomy custom blocks are obsolete
+$ilDB->manipulate("DELETE FROM il_custom_block".
+	" WHERE context_obj_type = ".$ilDB->quote("cat", "text").
+	" AND context_sub_obj_type = ".$ilDB->quote("tax", "text"));
+
+?>
+<#4295>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
