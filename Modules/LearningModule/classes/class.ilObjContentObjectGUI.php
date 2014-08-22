@@ -443,11 +443,6 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		$section->setTitle($this->lng->txt('cont_self_assessment'));
 		$this->form->addItem($section);
 
-		// disable default feedback for questions
-		$qfeed = new ilCheckboxInputGUI($lng->txt("cont_disable_def_feedback"), "disable_def_feedback");
-		$qfeed->setInfo($this->lng->txt("cont_disable_def_feedback_info"));
-		$this->form->addItem($qfeed);
-
 		// tries
 		$radg = new ilRadioGroupInputGUI($lng->txt("cont_tries"), "store_tries");
 		$radg->setValue(0);
@@ -460,6 +455,11 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		// restrict forward navigation
 		$qfeed = new ilCheckboxInputGUI($lng->txt("cont_restrict_forw_nav"), "restrict_forw_nav");
 		$qfeed->setInfo($this->lng->txt("cont_restrict_forw_nav_info"));
+		$this->form->addItem($qfeed);
+
+		// disable default feedback for questions
+		$qfeed = new ilCheckboxInputGUI($lng->txt("cont_disable_def_feedback"), "disable_def_feedback");
+		$qfeed->setInfo($this->lng->txt("cont_disable_def_feedback_info"));
 		$this->form->addItem($qfeed);
 
 		// additional features

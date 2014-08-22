@@ -1336,12 +1336,16 @@ class ilLMObject
 	 * @param
 	 * @return
 	 */
-	static function _getAllLMObjectsOfLM($a_lm_id)
+	static function _getAllLMObjectsOfLM($a_lm_id, $a_type = "")
 	{
 		global $ilDB;
 
+		$and = ($a_type != "")
+			? " AND type = ".$ilDB->quote($a_type, "text")
+			: "";
+
 		$set = $ilDB->query("SELECT obj_id FROM lm_data ".
-			" WHERE lm_id = ".$ilDB->quote($a_lm_id, "integer"));
+			" WHERE lm_id = ".$ilDB->quote($a_lm_id, "integer").$and);
 		$obj_ids = array();
 		while ($rec = $ilDB->fetchAssoc($set))
 		{

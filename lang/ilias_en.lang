@@ -14595,11 +14595,11 @@ rbac#:#sess_read_learning_progress#:#User can view learning progress of other us
 content#:#cont_progress_icons#:#Progress Icons
 content#:#cont_progress_icons_info#:#Show progress icons instead of chapter page icons in presentation mode. Please note that progress information is stored only with ILIAS 4.5 and higher.
 content#:#cont_self_assessment#:#Self Assessment
-content#:#cont_tries#:#Number of Tries
+content#:#cont_tries#:#Question Behaviour
 content#:#cont_tries_reset_on_visit#:#Reset on Page Visit
-content#:#cont_tries_reset_on_visit_info#:#Questions start with 0 number of tries each time a learner visits a page.
-content#:#cont_tries_store#:#Store between Page Visits
-content#:#cont_tries_store_info#:#Number of tries are accumulated and stored.
+content#:#cont_tries_reset_on_visit_info#:#Questions start with 0 number of tries each time a learner visits a page. Learner has to answer questions on every page visit.
+content#:#cont_tries_store#:#Store Answer Status
+content#:#cont_tries_store_info#:#Number of tries are accumulated and stored. Correctly answered questions must not be answered again. Learners may run out of tries for questions.
 content#:#cont_restrict_forw_nav#:#Restrict Forward Navigation
 content#:#cont_restrict_forw_nav_info#:#Learners cannot navigate to subsequent pages unless they answered all previous questions correctly.
 content#:#cont_no_page_access_unansw_q#:#You need to answer all questions of previous pages correctly to gain access to this page.

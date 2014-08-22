@@ -289,6 +289,7 @@ class ilLMTracker
 		$this->dirty = false;
 
 		// load lm tree in array
+		$this->tree_arr = array();
 		$nodes = $this->lm_tree->getSubTree($this->lm_tree->getNodeData($this->lm_tree->readRootId()));
 		foreach ($nodes as $node)
 		{
@@ -302,6 +303,7 @@ class ilLMTracker
 		$this->lm_obj_ids = ilLMObject::_getAllLMObjectsOfLM($this->lm_obj_id);
 
 		// load read event data
+		$this->re_arr = array();
 		$set = $ilDB->query("SELECT * FROM lm_read_event ".
 			" WHERE ".$ilDB->in("obj_id", $this->lm_obj_ids, false, "integer"));
 		while ($rec = $ilDB->fetchAssoc($set))
@@ -310,6 +312,8 @@ class ilLMTracker
 		}
 
 		// load question/pages information
+		$this->page_questions = array();
+		$this->all_questions = array();
 		include_once("./Modules/LearningModule/classes/class.ilLMPageObject.php");
 		$q = ilLMPageObject::queryQuestionsOfLearningModule($this->lm_obj_id, "", "", 0, 0);
 		foreach ($q["set"] as $quest)
@@ -338,9 +342,9 @@ class ilLMTracker
 
 		if (isset($this->tree_arr["nodes"][$a_obj_id]))
 		{
+			$this->tree_arr["nodes"][$a_obj_id]["has_pred_incorrect_answers"] = $a_has_pred_incorrect_answers;
 			if (is_array($this->tree_arr["childs"][$a_obj_id]))
 			{
-				$this->tree_arr["nodes"][$a_obj_id]["has_pred_incorrect_answers"] = $a_has_pred_incorrect_answers;
 				// sort childs in correct order
 				$this->tree_arr["childs"][$a_obj_id] = ilUtil::sortArray($this->tree_arr["childs"][$a_obj_id], "lft", "asc", true);
 
@@ -465,11 +469,13 @@ class ilLMTracker
 	function hasPredIncorrectAnswers($a_obj_id)
 	{
 		$this->loadLMTrackingData();
+		$ret = false;
 		if (is_array($this->tree_arr["nodes"][$a_obj_id]))
 		{
-			return $this->tree_arr["nodes"][$a_obj_id]["has_pred_incorrect_answers"];
+			$ret = $this->tree_arr["nodes"][$a_obj_id]["has_pred_incorrect_answers"];
 		}
-		return false;
+
+		return $ret;
 	}
 
 
