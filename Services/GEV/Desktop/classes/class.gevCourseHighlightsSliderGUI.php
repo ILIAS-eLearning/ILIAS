@@ -67,6 +67,8 @@ class gevCourseHighlightsSliderGUI extends catSliderGUI {
 				$title = '<a title="' .$org_title .'">';
 				$title .= substr($org_title, 0, 64);
 				$title .= ' [...]</a>';
+			}else{
+				$title = $org_title;
 			}
 			$tpl->setVariable("TITLE", $title);
 
