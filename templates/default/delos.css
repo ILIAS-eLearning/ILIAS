@@ -1327,6 +1327,7 @@ span.ilHeader {}
 
 div.ilHeadAction {
 	float: right;
+	position: relative;
 	margin: 21px 21px 5px 0; /* bottom 5px blog fullscreen */
 }
 
