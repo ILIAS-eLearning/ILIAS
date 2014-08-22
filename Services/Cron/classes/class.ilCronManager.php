@@ -66,8 +66,15 @@ class ilCronManager
 		$job = self::getJobInstanceById($a_job_id);		
 		if($job)
 		{			
-			$job_data = array_pop(self::getCronJobData($job->getId()));
-			$result = self::runJob($job, $job_data, true);						
+			if($job->isManuallyExecutable())
+			{
+				$job_data = array_pop(self::getCronJobData($job->getId()));
+				$result   = self::runJob($job, $job_data, true);
+			}
+			else
+			{
+				$ilLog->write("CRON - job ".$a_job_id." is not intended to be executed manually");
+			}
 		}
 		else
 		{
