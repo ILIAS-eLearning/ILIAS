@@ -1,4 +1,4 @@
-// Build: 2014822212742 
+// Build: 2014822213424 
 /*
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
@@ -13502,8 +13502,8 @@ function save()
 		walk (sharedObjectives, "objective");
 
 		result["adl_seq_utilities"]=this.adl_seq_utilities;
-		if (toJSONString(saved_adl_seq_utilities) != toJSONString(this.adl_seq_utilities)) {
-			saved_adl_seq_utilities = this.adl_seq_utilities;
+		if (saved_adl_seq_utilities != toJSONString(this.adl_seq_utilities)) {
+			saved_adl_seq_utilities = toJSONString(this.adl_seq_utilities);
 			result["changed_seq_utilities"]=1;
 		}
 		else {
@@ -14790,7 +14790,7 @@ var DISABLED_ACTIONS = /^disabled$/i;
 var state = WAITING; 
 var SCOEntryedAct = null;
 
-var saved_adl_seq_utilities = {"satisfied":{},"measure":{},"status":{}};
+var saved_adl_seq_utilities = '{"satisfied":{},"measure":{},"status":{}}';
 var saved_result;
 var saved={
 	"comment":{"data":[],"checkplus":8},
