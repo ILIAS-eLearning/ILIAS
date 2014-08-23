@@ -562,10 +562,10 @@ class ilWikiPageGUI extends ilPageObjectGUI
 	{
 		global $ilUser, $lng, $ilToolbar, $ilCtrl, $tpl;
 
-		$ilToolbar->setFormAction($ilCtrl->getFormActionByClass("ilobjwikigui", "printView"),
+		/*$ilToolbar->setFormAction($ilCtrl->getFormActionByClass("ilobjwikigui", "printView"),
 			false, "print_view");
 		$ilToolbar->addFormButton($lng->txt("cont_show_print_view"), "printView");
-		$ilToolbar->setCloseFormTag(false);
+		$ilToolbar->setCloseFormTag(false);*/
 
 		$this->initPrintViewSelectionForm();
 
@@ -609,10 +609,11 @@ class ilWikiPageGUI extends ilPageObjectGUI
 
 		$this->form->addCommandButton("printView", $lng->txt("cont_show_print_view"));
 		//$this->form->setOpenTag(false);
-		$this->form->setCloseTag(false);
+		//$this->form->setCloseTag(false);
 
 		$this->form->setTitle($lng->txt("cont_print_selection"));
-		//$this->form->setFormAction($ilCtrl->getFormAction($this));
+		$this->form->setFormAction($ilCtrl->getFormActionByClass("ilobjwikigui", "printView"),
+			false, "print_view");
 	}
 
 	////
