@@ -10,9 +10,9 @@ Typical Control Flow
   - layout()
     - determineLayout()
       - getCurrentPageId()
-    - ilMainMenu
-    - ilTOC
     - ilPage
+    - ilTOC
+    - ilMainMenu
     - ...
 
 
