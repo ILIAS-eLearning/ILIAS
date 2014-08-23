@@ -108,10 +108,6 @@ ol, ul {
 	padding-left: 40px 
 }
 
-ol { 
-	list-style-type: decimal 
-}
-
 ol ul, ul ol,
 ul ul, ol ol { 
 	margin-top: 0; 
