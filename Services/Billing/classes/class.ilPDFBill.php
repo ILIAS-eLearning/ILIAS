@@ -1164,7 +1164,7 @@ class ilPDFBill
 		#$this->pdf->WriteText(21 - $this->spaceRight - count($this->bill->getDate()) - $this->spaceRight +$datedist, $this->spaceAbout, ($this->encodeSpecialChars($date)));
 		$this->pdf->WriteMultiCell(21-$this->spaceRight-$datedist, $this->spaceAbout, $this->encodeSpecialChars($date), 0);
 		$this->pdf->SetFont($this->BillNumberFontName, $this->determineIfBoldOrItalic($this->BillNumberFontBold, $this->BillNumberFontItalic), $this->BillNumberFontSize);
-		$this->pdf->WriteText($this->spaceLeft, $this->spaceBillnumber, ($this->encodeSpecialChars($this->plBillNumberLabel)) . " : " . ($this->encodeSpecialChars($this->bill->getBillNumber())));
+		$this->pdf->WriteText($this->spaceLeft, $this->spaceBillnumber, ($this->encodeSpecialChars($this->plBillNumberLabel)) . ": " . ($this->encodeSpecialChars($this->bill->getBillNumber())));
 	
 		$this->pdf->SetFont($this->TitleFontName, $this->determineIfBoldOrItalic($this->TitleFontBold, $this->TitleFontItalic), $this->TitleFontSize);
 		#$this->pdf->WriteText($this->spaceLeft, $this->spaceTitle, ($this->encodeSpecialChars($this->plTitle)));

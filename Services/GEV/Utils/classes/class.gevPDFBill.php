@@ -60,8 +60,8 @@ class gevPDFBill extends ilPDFBill {
 		if ($booking_status == ilCourseBooking::STATUS_CANCELLED_WITH_COSTS) {
 			$res = $this->db->query("SELECT coupon_code FROM gev_bill_coupon WHERE bill_pk = ".$a_bill->getId());
 			if ($rec = $this->db->fetchAssoc($res)) {
-				$posttext .= " Sie erhalten von uns den Gutscheincode ".$rec["coupon_code"]."in Höhe von "
-						     .number_format($a_bill->getAmount(), 2, ",", "").", welchen sie für Folgebuchungen "
+				$posttext .= " Sie erhalten von uns den Gutscheincode ".$rec["coupon_code"]." in Höhe von "
+						     .number_format($a_bill->getAmount(), 2, ",", "")." EUR, welchen sie für Folgebuchungen "
 						     ."einlösen können. Der Gutschein ist ein Jahr gültig.";
 			}
 		}
