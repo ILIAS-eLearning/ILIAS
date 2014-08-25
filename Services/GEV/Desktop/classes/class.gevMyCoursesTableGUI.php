@@ -98,7 +98,7 @@ class gevCoursesTableGUI extends catAccordionTableGUI {
 		}
 
 		$now = new ilDate(date("Y-m-d"), IL_CAL_DATE);
-		if (ilDateTime::_before($now, $a_set["start_date"])) {
+		if ($a_set["start_date"] === null || ilDateTime::_before($now, $a_set["start_date"] !== null?$a_set["start_date"]:$now)) {
 			$action = '<a href="'.gevCourseUtils::getCancelLinkTo($a_set["obj_id"], $this->user_id).'">'.
 					  $this->cancel_img."</a>";
 		}

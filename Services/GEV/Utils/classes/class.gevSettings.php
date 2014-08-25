@@ -252,11 +252,11 @@ class gevSettings {
 		, "LD/BD-Innen"
 		, "DBV/VL-EVG"
 		, "DBV-UV"
-		, "AVL"
 		, "Azubi"
 		, "ID-1"
 		, "ID-2"
 		, "int. Referent"
+		, "ext. Referent"
 		);
 	
 	
