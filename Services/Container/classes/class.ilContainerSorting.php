@@ -533,13 +533,25 @@ class ilContainerSorting
 		switch($this->getSortingSettings()->getSortNewItemsOrder())
 		{
 			case ilContainer::SORT_NEW_ITEMS_ORDER_TITLE:
-				$no_position = ilUtil::sortArray( (array) $no_position, 'title','asc', TRUE);
+				$no_position = ilUtil::sortArray( (array) $no_position,
+					'title',
+					($this->getSortingSettings()->getSortDirection() == ilContainer::SORT_DIRECTION_ASC) ? 'asc' : 'desc',
+					TRUE);
 				break;
 			case ilContainer::SORT_NEW_ITEMS_ORDER_CREATION:
-				$no_position = ilUtil::sortArray((array) $no_position, 'create_date', 'asc', TRUE);
+				$no_position = ilUtil::sortArray((array) $no_position,
+					'create_date',
+					($this->getSortingSettings()->getSortDirection() == ilContainer::SORT_DIRECTION_ASC) ? 'asc' : 'desc',
+					TRUE);
 				break;
+			case ilContainer::SORT_NEW_ITEMS_ORDER_ACTIVATION:
+				$no_position = ilUtil::sortArray((array) $no_position,
+					'start',
+					($this->getSortingSettings()->getSortDirection() == ilContainer::SORT_DIRECTION_ASC) ? 'asc' : 'desc',
+					TRUE);
+
 		}
-		$count = $this->getSortingSettings()->getSortNewItemSPosition()
+		$count = $this->getSortingSettings()->getSortNewItemsPosition()
 			== ilContainer::SORT_NEW_ITEMS_POSITION_TOP ? 0 : 900000;
 
 		foreach($no_position as $values)

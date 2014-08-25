@@ -68,6 +68,7 @@ class ilContainer extends ilObject
 
 	const SORT_NEW_ITEMS_ORDER_TITLE = 0;
 	const SORT_NEW_ITEMS_ORDER_CREATION = 1;
+	const SORT_NEW_ITEMS_ORDER_ACTIVATION = 2;
 
 
 	static $data_preloaded = false;
