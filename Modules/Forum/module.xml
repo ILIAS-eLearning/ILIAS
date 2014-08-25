@@ -21,6 +21,8 @@
 	</objects>
 	<events>		
 		<event type="listen" id="Services/News" />
+		<event type="listen" id="Modules/Course" />
+		<event type="listen" id="Modules/Group" />
 	</events>
 	<crons>		
 		<cron id="frm_notification" class="ilForumCronNotification" />
