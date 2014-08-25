@@ -1228,7 +1228,7 @@ class gevCourseUtils {
 					, "Trainer" => ($this->getMainTrainer() !== null)
 								   ?$this->getMainTrainerLastname().", ".$this->getMainTrainerFirstname()
 								   :""
-					, "Trainingsbetreuer" => $this->getTrainingOfficerName()
+					, "Trainingsbetreuer" => $this->getMainAdminName()
 					, "Bildungspunkte" => $this->getCreditPoints()
 					);
 		return $arr;
