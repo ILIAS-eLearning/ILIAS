@@ -572,11 +572,13 @@ class ilObjectListGUI
 	* En/disable path
 	*
 	* @param bool
+	* @param int
 	* @return void
 	*/
-	function enablePath($a_path)
+	function enablePath($a_path, $a_start_node = null)
 	{
 		$this->path_enabled = $a_path;
+		$this->path_start_node = (int)$a_start_node;
 	}
 
 	/**
@@ -3268,9 +3270,13 @@ class ilObjectListGUI
 			$path_gui = new ilPathGUI();
 			$path_gui->enableTextOnly(!$this->path_linked);
 			$path_gui->setUseImages(false);
+			
+			$start_node = $this->path_start_node
+				? $this->path_start_node
+				: ROOT_FOLDER_ID;
 				
 			$this->tpl->setCurrentBlock("path_item");
-			$this->tpl->setVariable('PATH_ITEM',$path_gui->getPath(ROOT_FOLDER_ID,$this->ref_id));
+			$this->tpl->setVariable('PATH_ITEM',$path_gui->getPath($start_node,$this->ref_id));
 			$this->tpl->parseCurrentBlock();
 
 			$this->tpl->setCurrentBlock("path");

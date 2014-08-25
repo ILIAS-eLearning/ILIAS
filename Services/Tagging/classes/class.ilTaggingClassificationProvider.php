@@ -101,13 +101,15 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
 				}
 			}
 			
+			/*
 			if($this->selection)
 			{
 				$a_html[] = array(
 						"title" => "Related Tags",
 						"html" => ":TODO:"
 					);
-			}
+			}			 
+			*/
 		}
 	}
 	
