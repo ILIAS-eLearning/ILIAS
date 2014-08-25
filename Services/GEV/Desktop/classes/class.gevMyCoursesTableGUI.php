@@ -97,8 +97,14 @@ class gevCoursesTableGUI extends catAccordionTableGUI {
 			$status = "";
 		}
 
-		$action = '<a href="'.gevCourseUtils::getCancelLinkTo($a_set["obj_id"], $this->user_id).'">'.
-				  $this->cancel_img."</a>";
+		$now = new ilDate(date("Y-m-d"), IL_CAL_DATE);
+		if (ilDateTime::_before($now, $a_set["start_date"])) {
+			$action = '<a href="'.gevCourseUtils::getCancelLinkTo($a_set["obj_id"], $this->user_id).'">'.
+					  $this->cancel_img."</a>";
+		}
+		else {
+			$action = "";
+		}
 
 		$this->tpl->setVariable("TITLE", $a_set["title"]);
 		$this->tpl->setVariable("STATUS", $status);
