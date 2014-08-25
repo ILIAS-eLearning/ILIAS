@@ -491,7 +491,7 @@ class gevBookingGUI {
 				   , $billing_utils->formatPrize(
 				    	$billing_utils->getPrizeIncludingCoupons($this->crs_utils->getFee()
 				   												, $a_payment_data["coupons"])
-				   		)." €"
+				   		)." &euro;"
 				   )
 			, array( $this->lng->txt("gev_bill_email")
 				   , $a_payment_data["email"]

@@ -777,7 +777,7 @@ crsbook#:#admin_user_action_confirm_CancelWithCosts#:#Wollen Sie den Teilnahme w
 crsbook#:#admin_user_action_done#:#Der Status des Benutzer wurde erfolgreich geändert.
 crsbook#:#admin_org_add_recursive#:#Mitglieder von Untereinheiten auswählen
 crsbook#:#admin_org_unit_has_no_members#:#Die gewählte Org-Einheit hat keine Mitglieder
-crsbook#:#admin_assign_overlapping_user#:#Folgende Buchungen überschneiden sich=======
+crsbook#:#admin_assign_overlapping_user#:#Folgende Buchungen überschneiden sich
 gev#:#gev_filter#:#Filter
 crsbook#:#crsbook_admin_tab_list_bookings#:#Buchungen
 crsbook#:#crsbook_admin_tab_list_cancellations#:#Stornierungen

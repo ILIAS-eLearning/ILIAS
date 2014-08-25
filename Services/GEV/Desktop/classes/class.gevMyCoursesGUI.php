@@ -85,10 +85,13 @@ class gevMyCoursesGUI {
 		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 		require_once("Services/CaTUIComponents/classes/class.catPropertyFormGUI.php");
+		require_once("Services/GEV/Utils/classes/class.gevBillingUtils.php");
 		
 		$this->loadCourseIdAndStatus();
 		$crs_utils = gevCourseUtils::getInstance($this->crs_id);
 		$usr_utils = gevUserUtils::getInstance($this->user->getId());
+		$bill_utils = gevBillingUtils::getInstance();
+		$bill = $bill_utils->getNonFinalizedBillForCourseAndUser($this->crs_id, $this->user->getId());
 		
 		if ( $usr_utils->paysFees() 
 		   && $crs_utils->getFee() 
@@ -153,10 +156,12 @@ class gevMyCoursesGUI {
 				   , true
 				   , $crs_utils->getMainAdminName()
 				   )
-			, array( $this->lng->txt("gev_training_fee")
-				   , $usr_utils->paysFees() && ($crs_utils->getFee()?true:false)
-				   , str_replace(".", ",", "".$crs_utils->getFormattedFee()) . " &euro;"
-				   )
+			, array( $this->lng->txt("gev_overall_prize")
+				   , ($bill !== null)
+				   , $bill_utils->formatPrize(
+				   			$bill !== null?$bill->getAmount():0
+				   		)." &euro;"
+				   	)
 			, array( $this->lng->txt("gev_credit_points")
 				   , true
 				   , $crs_utils->getCreditPoints()
