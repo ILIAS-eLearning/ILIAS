@@ -96,9 +96,11 @@ class gevCoursesTableGUI extends catAccordionTableGUI {
 		else {
 			$status = "";
 		}
-
 		$now = new ilDate(date("Y-m-d"), IL_CAL_DATE);
-		if ($a_set["start_date"] === null || ilDateTime::_before($now, $a_set["start_date"] !== null?$a_set["start_date"]:$now)) {
+		if ((   $a_set["start_date"] === null 
+			|| ilDateTime::_before($now, $a_set["start_date"] !== null?$a_set["start_date"]:$now)
+			)
+			&& $a_set["type"] != "Selbstlernkurs") {
 			$action = '<a href="'.gevCourseUtils::getCancelLinkTo($a_set["obj_id"], $this->user_id).'">'.
 					  $this->cancel_img."</a>";
 		}
