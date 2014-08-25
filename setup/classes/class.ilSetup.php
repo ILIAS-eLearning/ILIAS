@@ -75,7 +75,7 @@ class ilSetup extends PEAR
 		
 		define("ILIAS_MODULE","setup");
 		
-		$this->auth = ($a_auth) ? true : false;
+		$this->auth = ($this->checkAuth()) ? true : false;
 		$this->access_mode = $a_auth_type;
 
 		// safe mode status & exec_dir
@@ -513,7 +513,7 @@ class ilSetup extends PEAR
 	*/
 	function checkAuth()
 	{
-		if ($_SESSION["auth"] === true)
+		if ($_SESSION["auth"] === true && $_SESSION["auth_path"] == ILIAS_HTTP_PATH)
 		{
 			return true;
 		}
@@ -752,6 +752,7 @@ class ilSetup extends PEAR
 
 		// all checks passed -> user valid
 		$_SESSION["auth"] = true;
+		$_SESSION["auth_path"] = ILIAS_HTTP_PATH;
 		$_SESSION["access_mode"] = "client";
 		$_SESSION["ClientId"] = $this->client->getId();		
 		return true;
@@ -769,6 +770,7 @@ class ilSetup extends PEAR
 		if ($this->ini->readVariable("setup","pass") == $a_password)
 		{
 			$_SESSION["auth"] = true;
+			$_SESSION["auth_path"] = ILIAS_HTTP_PATH;
 			$_SESSION["access_mode"] = "admin";
 			return true;
 		}
@@ -1250,6 +1252,7 @@ class ilSetup extends PEAR
 
 		// everything is fine. so we authenticate the user and set access mode to 'admin'
 		$_SESSION["auth"] = true;
+		$_SESSION["auth_path"] = ILIAS_HTTP_PATH;
 		$_SESSION["access_mode"] = "admin";	
 
 		return true;
