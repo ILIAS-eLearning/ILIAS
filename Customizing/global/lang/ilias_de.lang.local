@@ -19,240 +19,240 @@ acco#:#acco_period_input_from_first#:#Vorabend
 acco#:#acco_period_input_to#:#bis
 acco#:#acco_period_input_to_last#:#Nächster Morgen
 acco#:#accomodations#:#Übernachtungen
-administration#:#adm_rep_tree_limit_grp_crs#:#Alle Objekte auf Anzeige in Kursen und Gruppen beschränken
-administration#:#adm_rep_tree_only_cntr_info#:#Es werden nur Kategorien, Kurse und Gruppen aufgeführt.
-administration#:#confirm_message_course_export#:#Sie haben für ein oder mehrere Felder den Kurs-Export aktiviert. Wenn Sie diese Ã„nderung bestätigen, werden alle Kursnutzungsvereinbarungen zurückgesetzt.
-administration#:#course_export#:#Sichtbar in der Kursteilnehmerverwaltung
-assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#Der Teilnehmer konnte den Test nicht starten, da die maximale Anzahl der gleichzeitiger Teilnehmer für diesen Kurs bereits erreicht ist.
-assessment#:#tst_availability_limitless_info#:#Wählen Sie diese Einstellung, um den Kurs für Benutzer verfügbar zumachen. Die Verfügbarkeit ist abhängig von der unten ausgewählten Einstellung für Teilnehmer.
-assessment#:#tst_availability_until_info#:#Wählen Sie diese Einstellung, um den Kurs, abhängig von der unten ausgewählten Einstellung für Teilnehmer, nur während eines definierten Zeitraums freizuschalten.
-barometer#:#change_course#:#Kurswechsel
-blog#:#blog_posting_edit_approval_info#:#Der Eintrag muss vor der Veröffentlichung durch einen Tutor freigeschaltet werden.
-cntr#:#cntr_container_only_on_their_own#:#Kategorien, Kurse, Gruppen und Ordner können nur einzeln kopiert werden. Bitte wählen Sie nur ein solches Objekt aus.
-common#:#advanced_editing_rep_page_editing_desc#:#Diese Funktion ermöglicht das Hinzufügen von Text und Medien zu einer Kategorie, einem Ordner und zu den Inhaltsseiten von Kursen und Gruppen. Wenn die Funktion deaktiviert wird, werden bereits existierende Texte/Medien nicht mehr angezeigt.
-common#:#back_to_crs_content#:#Zurück zum Inhalt des Kurses
-common#:#clone_existing_course#:#Vorhandenen Kurs kopieren
-common#:#clone_option_in_crs#:#In existierenden Kurs kopieren
-common#:#course#:#Kurs
-common#:#courses#:#Kurse
-common#:#crs#:#Kurs
-common#:#crs_a#:#einen Kurs
-common#:#crs_add#:#Kurs anlegen
-common#:#crs_added#:#Kurs angelegt
-common#:#crs_at_least_one_admin#:#Diesem Kurs muss mindestens ein Administrator zugeordnet sein.
-common#:#crs_available#:#Verfügbare Kurse
-common#:#crs_cancel_waiting_list#:#Sind Sie sicher, dass Sie sich aus der Warteliste des Kurses "%s" austragen möchten?
-common#:#crs_copy_threads_info#:#Bitte wählen Sie aus, welche Kursmaterialien kopiert, verknüpft oder aber bei dem Kopiervorgang ausgelassen werden sollen.
-common#:#crs_edit#:#Einstellungen des Kurses
-common#:#crs_management_system#:#Kursmanagementsystem
-common#:#crs_new#:#Neuen Kurs anlegen
-common#:#crs_removed_from_waiting_list#:#Sie wurden aus der Warteliste des Kurses "%s" ausgetragen.
-common#:#crs_title#:#Kurstitel
-common#:#crs_unsubscribe#:#Kursmitgliedschaft beenden
-common#:#crs_wizard_page#:#Kurs kopieren (Schritt 2/2)
-common#:#crsr#:#Kurs-Referenz
-common#:#crsr_edit#:#Kurs-Referenz bearbeiten
-common#:#crsr_edit_info#:#Bitte wählen Sie den Kurs aus, für den Sie eine Referenz erstellen möchten.
-common#:#crsr_new#:#Neue Kurs-Referenz anlegen
-common#:#display_webdav_actions_info#:#Zeigt die Aktion 'Als Webordner öffnen' bei jeder Kategorie, Ordner, Gruppe und Kurs im Magazin an.
-common#:#enable_course_group_notifications#:#Tägliche Mail für Gruppen und Kurs News
-common#:#enable_custom_icons_info#:#Damit können Sie eigene Symbole (Icons) für einzelne Kategorien, Kurse und Gruppen definieren. Die entsprechenden Bilddateien laden Sie in den Eigenschaften der entsprechenden Kategorien, Kurse und Gruppen hoch.
+administration#:#adm_rep_tree_limit_grp_crs#:#Alle Objekte auf Anzeige in Trainings und Gruppen beschränken
+administration#:#adm_rep_tree_only_cntr_info#:#Es werden nur Kategorien, Trainings und Gruppen aufgeführt.
+administration#:#confirm_message_course_export#:#Sie haben für ein oder mehrere Felder den Trainings-Export aktiviert. Wenn Sie diese Änderung bestätigen, werden alle Trainingsnutzungsvereinbarungen zurückgesetzt.
+administration#:#course_export#:#Sichtbar in der Trainingsteilnehmerverwaltung
+assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#Der Teilnehmer konnte den Test nicht starten, da die maximale Anzahl der gleichzeitiger Teilnehmer für dieses Training bereits erreicht ist.
+assessment#:#tst_availability_limitless_info#:#Wählen Sie diese Einstellung, um das Training für Benutzer verfügbar zumachen. Die Verfügbarkeit ist abhängig von der unten ausgewählten Einstellung für Teilnehmer.
+assessment#:#tst_availability_until_info#:#Wählen Sie diese Einstellung, um das Training, abhängig von der unten ausgewählten Einstellung für Teilnehmer, nur während eines definierten Zeitraums freizuschalten.
+barometer#:#change_course#:#Trainingswechsel
+blog#:#blog_posting_edit_approval_info#:#Der Eintrag muss vor der Veröffentlichung durch einen Trainer freigeschaltet werden.
+cntr#:#cntr_container_only_on_their_own#:#Kategorien, Trainings, Gruppen und Ordner können nur einzeln kopiert werden. Bitte wählen Sie nur ein solches Objekt aus.
+common#:#advanced_editing_rep_page_editing_desc#:#Diese Funktion ermöglicht das Hinzufügen von Text und Medien zu einer Kategorie, einem Ordner und zu den Inhaltsseiten von Trainings und Gruppen. Wenn die Funktion deaktiviert wird, werden bereits existierende Texte/Medien nicht mehr angezeigt.
+common#:#back_to_crs_content#:#Zurück zum Inhalt des Trainings
+common#:#clone_existing_course#:#Vorhandenes Training kopieren
+common#:#clone_option_in_crs#:#In existierendes Training kopieren
+common#:#course#:#Trainings
+common#:#courses#:#Training
+common#:#crs#:#Training
+common#:#crs_a#:#ein Training 
+common#:#crs_add#:#Training anlegen
+common#:#crs_added#:#Training angelegt
+common#:#crs_at_least_one_admin#:#Diesem Training muss mindestens ein Trainingsbetreuer zugeordnet sein.
+common#:#crs_available#:#Verfügbare Trainings
+common#:#crs_cancel_waiting_list#:#Sind Sie sicher, dass Sie sich aus der Warteliste des Trainings "%s" austragen möchten?
+common#:#crs_copy_threads_info#:#Bitte wählen Sie aus, welche Trainingsmaterialien kopiert, verknüpft oder aber bei dem Kopiervorgang ausgelassen werden sollen.
+common#:#crs_edit#:#Einstellungen des Trainings
+common#:#crs_management_system#:#Trainingsmanagementsystem
+common#:#crs_new#:#Neues Training anlegen
+common#:#crs_removed_from_waiting_list#:#Sie wurden aus der Warteliste des Trainings "%s" ausgetragen.
+common#:#crs_title#:#Trainingstitel
+common#:#crs_unsubscribe#:#Trainingsteilnahme beenden
+common#:#crs_wizard_page#:#Training kopieren (Schritt 2/2)
+common#:#crsr#:#Trainings-Referenz
+common#:#crsr_edit#:#Trainings-Referenz bearbeiten
+common#:#crsr_edit_info#:#Bitte wählen Sie das Training aus, für das Sie eine Referenz erstellen möchten.
+common#:#crsr_new#:#Neue Trainings-Referenz anlegen
+common#:#display_webdav_actions_info#:#Zeigt die Aktion 'Als Webordner öffnen' bei jeder Kategorie, Ordner, Gruppe und Training im Magazin an.
+common#:#enable_course_group_notifications#:#Tägliche Mail für Gruppen und Trainings News
+common#:#enable_custom_icons_info#:#Damit können Sie eigene Symbole (Icons) für einzelne Kategorien, Trainings und Gruppen definieren. Die entsprechenden Bilddateien laden Sie in den Eigenschaften der entsprechenden Kategorien, Training und Gruppen hoch.
 common#:#federal_state#:#Bundesland
-common#:#groupings_assigned_obj_crs#:#Zugeordnete Kurse
+common#:#groupings_assigned_obj_crs#:#Zugeordnete Trainings
 common#:#il_crs_admin#:#Trainingsbetreuer
 common#:#il_crs_member#:#Teilnehmer
-common#:#il_crs_non_member#:#Kein Kursmitglied
+common#:#il_crs_non_member#:#Kein Trainingsteilnehmer
 common#:#il_crs_tutor#:#Trainer
-common#:#mail_search_courses_not_found#:#Es wurden keine Kurse gefunden, in denen Sie Mitglied sind.
-common#:#msg_copy_clipboard_source#:#Wählen Sie nun den Kurs aus, dessen Inhalte kopiert werden sollen. Klicken Sie anschlieÃŸend auf den Weiter-Button.
-common#:#my_courses#:#Meine Kurse
-common#:#my_courses_groups#:#Meine Kurse und Gruppen
+common#:#mail_search_courses_not_found#:#Es wurden keine Trainings gefunden, in denen Sie Teilnehmer sind.
+common#:#msg_copy_clipboard_source#:#Wählen Sie nun das Training aus, dessen Inhalte kopiert werden sollen. Klicken Sie anschließend auf den Weiter-Button.
+common#:#my_courses#:#Meine Trainings
+common#:#my_courses_groups#:#Meine Trainings und Gruppen
 common#:#obj_crs#:#Training
-common#:#obj_crs_duplicate#:#Kurs kopieren
-common#:#obj_crs_select#:#-- Bitte wählen Sie einen Kurs aus --
-common#:#obj_crsr#:#Kurs-Referenz
-common#:#obj_crss#:#Kurs
-common#:#obj_crss_desc#:#Allgemeine Einstellungen für Kurse
-common#:#obj_crsv#:#Kurszertifikat
-common#:#objs_crs#:#Kurse
-common#:#objs_crsr#:#Kurs-Referenzen
+common#:#obj_crs_duplicate#:#Trainings kopieren
+common#:#obj_crs_select#:# -- Bitte wählen Sie ein Training aus --
+common#:#obj_crsr#:#Trainings-Referenz
+common#:#obj_crss#:#Training
+common#:#obj_crss_desc#:#Allgemeine Einstellungen für Trainings
+common#:#obj_crsv#:#Trainingszertifikat
+common#:#objs_crs#:#Trainings
+common#:#objs_crsr#:#Trainings-Referenzen
 common#:#orgu_orgu_type#:#Typen
-common#:#preview_learner_info#:#Wenn aktiviert, wird Kurs- und Gruppenadministratoren die Möglichkeit angeboten, den Kurs oder die Gruppe aus Sicht eines fiktiven Kurs- bzw. Gruppenmitglieds zu betrachten.
-common#:#settings_for_all_members#:#Benachrichtigung für alle Kurs-/Gruppenmitglieder aktiviert
-common#:#settings_per_users#:#Individuelle Einstellung für jedes Kurs-/Gruppenmitglied
-common#:#shib_general_wayf_login_instructions#:#Falls Sie keiner der angegebenen Organisationen angehören und Zugang zu einem Kurs auf diesem Server benötigen, wenden Sie sich bitte an den
-common#:#sort_inherit_prefix#:#Durch Kurs bestimmt
-common#:#sorting_info_inherit#:#Wird die Sortierung des übergeordneten Kurses geändert, ändert sich auch die Gruppensortierung.
-common#:#startpage#:#ILIAS-Anmeldeseite
-common#:#tutors#:#Tutoren
+common#:#preview_learner_info#:#Wenn aktiviert, wird Trainingsbetreuern und Gruppenadministratoren die Möglichkeit angeboten, das Training oder die Gruppe aus Sicht eines fiktiven Trainingsteilnehmers bzw. Gruppenmitglieds zu betrachten.
+common#:#settings_for_all_members#:#Benachrichtigung für alle Trainings-/Gruppenmitglieder aktiviert
+common#:#settings_per_users#:#Individuelle Einstellung für jedes Trainings-/Gruppenmitglied
+common#:#shib_general_wayf_login_instructions#:#Falls Sie keiner der angegebenen Organisationen angehören und Zugang zu einem Training auf diesem Server benötigen, wenden Sie sich bitte an den
+common#:#sort_inherit_prefix#:#Durch Training bestimmt
+common#:#sorting_info_inherit#:#Wird die Sortierung des übergeordneten Trainings geändert, ändert sich auch die Gruppensortierung.
+common#:#startpage#:#Anmeldeseite Generali Online Akademie
+common#:#tutors#:#Trainer
 common#:#udf_type_longtext#:#Langtext
 common#:#udf_type_multiselect#:#Mehrfachauswahl
 common#:#udf_type_providerselect#:#Anbieter
 common#:#udf_type_venueselect#:#Ort
 common#:#until#:#bis
-common#:#users_online_show_associated#:#Nur Mitglieder aus meinen Kursen und Gruppen anzeigen
-common#:#users_online_show_short_associated#:#Nur Kurs- und Gruppenmitglieder
-common#:#usr_filter_coursemember#:#Mitglied eines Kurses
-common#:#usr_without_courses#:#Benutzer ohne Kurse zugewiesen
+common#:#users_online_show_associated#:#Nur Teilnehmer aus meinen Trainings und Gruppen anzeigen
+common#:#users_online_show_short_associated#:#Nur Trainings- und Gruppenmitglieder
+common#:#usr_filter_coursemember#:#Teilnehmer eines Trainings
+common#:#usr_without_courses#:#Benutzer ohne Training zugewiesen
 common#:#webshop#:#Webshop
-content#:#seq_abandonall#:#Die Kurssitzung wurde abgebrochen.
-content#:#seq_coursecomplete#:#Der aktuelle Kurs wurde vollständig bearbeitet.
-content#:#seq_endsession#:#Die aktuelle Kurssitzung wurde beendet.
-crs#:#crs_accept_subscriber#:#Aufnahme in Kurs "%s"
-crs#:#crs_accept_subscriber_body#:#Sie sind in den Kurs "%s" aufgenommen worden.
-crs#:#crs_activation_limited_visibility_info#:#AuÃŸerhalb des angegebenen Zeitraums wird der Kurstitel angezeigt, die Inhalte aber nicht.
-crs#:#crs_activation_online_info#:#Nur wenn der Kurs online geschaltet ist, können Benutzer dem Kurs beitreten und Kursmitglieder auf den Kurs zugreifen. Wenn nicht, ist der Kurs nur für Administratoren und Tutoren verfügbar.
-crs#:#crs_add_grp_assignment#:#Kurs(e) zuordnen
-crs#:#crs_add_remove_from_desktop_info#:#Mitglieder können Kursobjekte auf ihren Schreibtisch legen.
-crs#:#crs_add_subscribers#:#In Kurs aufnehmen
-crs#:#crs_added#:#Ein neuer Kurs wurde hinzugefügt
-crs#:#crs_added_member#:#Aufnahme in Kurs "%s"
-crs#:#crs_added_member_body#:#sie sind in den Kurs "%s" aufgenommen worden.
+content#:#seq_abandonall#:#Die Trainingsitzung wurde abgebrochen.
+content#:#seq_coursecomplete#:#Das aktuelle Training wurde vollständig bearbeitet.
+content#:#seq_endsession#:#Die aktuelle Trainingssitzung wurde beendet.
+crs#:#crs_accept_subscriber#:#Aufnahme in Training "%s"
+crs#:#crs_accept_subscriber_body#:#Sie sind in das Training "%s" aufgenommen worden.
+crs#:#crs_activation_limited_visibility_info#:#Außerhalb des angegebenen Zeitraums wird der Trainingstitel angezeigt, die Inhalte aber nicht.
+crs#:#crs_activation_online_info#:#Nur wenn das Training online geschaltet ist, können Benutzer dem Training beitreten und Trainingsteilnehmer auf das Training zugreifen. Wenn nicht, ist das Training nur für Trainingsbetreuer und Trainer verfügbar.
+crs#:#crs_add_grp_assignment#:#Training(s) zuordnen
+crs#:#crs_add_remove_from_desktop_info#:#Teilnehmer können Trainingsobjekte auf ihren Schreibtisch legen.
+crs#:#crs_add_subscribers#:#In Training aufnehmen
+crs#:#crs_added#:#Ein neues Training wurde hinzugefügt
+crs#:#crs_added_member#:#Aufnahme in das Training "%s"
+crs#:#crs_added_member_body#:#sie sind in das Training "%s" aufgenommen worden.
 crs#:#crs_admin#:#Trainingsbetreuer
 crs#:#crs_admin_no_notify#:#Trainingsbetreuer (keine Benachrichtigung)
 crs#:#crs_admin_notify#:#Trainingsbetreuer (Benachrichtigung)
 crs#:#crs_administrators#:#Trainingsbetreuer
-crs#:#crs_agreement_required#:#Sie können diesem Kurs nur beitreten, wenn Sie der Nutzungsvereinbarung zustimmen.
-crs#:#crs_allow_abo#:#Erlaube Abonnierung von Kursobjekten
-crs#:#crs_archive_info#:#Wenn eingeschaltet, werden alle Kursinhalte ausgeblendet. Lediglich HMTL-Archive des Kurses werden angezeigt bzw. zum Herunterladen angeboten.
-crs#:#crs_auto_notification_info#:#Mail-Benachrichtigungen werden automatisch an jene Mitglieder versendet, die von einem Tutor oder Administrator in den Kurs aufgenommen wurden.
-crs#:#crs_availability_limitless_info#:#Bei dieser Einstellung steht ein online geschalteter Kurs den Kursmitgliedern zeitlich unbegrenzt zur Verfügung.
-crs#:#crs_availability_until_info#:#Bei dieser Einstellung steht ein online geschalteter Kurs nur während eines definierten Zeitraums zur Verfügung.
-crs#:#crs_blocked_member#:#Status in Kurs "%s"
-crs#:#crs_blocked_member_body#:#ihre Mitgliedschaft im Kurs "%s" wurde gesperrt.
-crs#:#crs_cancel_subscription#:#Austritt aus Kurs "%s"
-crs#:#crs_cancel_subscription_body#:#die Teilnehmerin/der Teilnehmer %s ist aus dem Kurs "%s" ausgetreten.
-crs#:#crs_cancel_subscription_body2#:#Eventuell sind Teilnehmende in die Warteliste dieses Kurses eingetragen.\nUm die Liste der Teilnehmenden anzuzeigen, rufen Sie bitte folgenden Link auf:
+crs#:#crs_agreement_required#:#Sie können diesem Training nur beitreten, wenn Sie der Nutzungsvereinbarung zustimmen.
+crs#:#crs_allow_abo#:#Erlaube Abonnierung von Trainingobjekten
+crs#:#crs_archive_info#:#Wenn eingeschaltet, werden alle Trainingsinhalte ausgeblendet. Lediglich HMTL-Archive des Trainings werden angezeigt bzw. zum Herunterladen angeboten.
+crs#:#crs_auto_notification_info#:#Mail-Benachrichtigungen werden automatisch an jene Teilnehmer versendet, die von einem Trainer oder Trainingsbetreuer  in das Training aufgenommen wurden.
+crs#:#crs_availability_limitless_info#:#Bei dieser Einstellung steht ein online geschaltetes Training den Trainingsteilnehmern zeitlich unbegrenzt zur Verfügung.
+crs#:#crs_availability_until_info#:#Bei dieser Einstellung steht ein online geschaltetes Training nur während eines definierten Zeitraums zur Verfügung.
+crs#:#crs_blocked_member#:#Status im Training "%s"
+crs#:#crs_blocked_member_body#:#ihre Mitgliedschaft im Training "%s" wurde gesperrt.
+crs#:#crs_cancel_subscription#:#Austritt aus Training "%s"
+crs#:#crs_cancel_subscription_body#:#die Teilnehmerin/der Teilnehmer %s ist aus dem Training "%s" ausgetreten.
+crs#:#crs_cancel_subscription_body2#:#Eventuell sind Teilnehmende in die Warteliste dieses Trainings eingetragen.\nUm die Liste der Teilnehmenden anzuzeigen, rufen Sie bitte folgenden Link auf:
 crs#:#crs_contact#:#Themenverantwortlicher
-crs#:#crs_content#:#Kursinhalt
-crs#:#crs_copy#:#Kurs kopieren
-crs#:#crs_course_status_of_users#:#Bestehen des Kurses
-crs#:#crs_crs_structure#:#Kursstruktur
-crs#:#crs_custom_user_fields#:#Kursspezifische Benutzerdaten
-crs#:#crs_delete_members_sure#:#Sind Sie sicher, dass die ausgewählten Mitglieder aus dem Kurs ausgetragen werden sollen?
+crs#:#crs_content#:#Trainingsinhalt
+crs#:#crs_copy#:#Training kopieren
+crs#:#crs_course_status_of_users#:#Bestehen des Trainings
+crs#:#crs_crs_structure#:#Trainingsstruktur
+crs#:#crs_custom_user_fields#:#Trainingsspezifische Benutzerdaten
+crs#:#crs_delete_members_sure#:#Sind Sie sicher, dass die ausgewählten Teilnehmer aus dem Training ausgetragen werden sollen?
 crs#:#crs_description#:#Untertitel
-crs#:#crs_details#:#Kursdetails
-crs#:#crs_dismiss_member#:#Mitgliedschaft im Kurs "%s" beendet
-crs#:#crs_dismiss_member_body#:#ihre Mitgliedschaft im Kurs "%s" ist beendet worden.
-crs#:#crs_enable_map#:#Karte zum Kurs aktivieren
-crs#:#crs_export#:#Kursexport
-crs#:#crs_grouping#:#Kursgruppierung
-crs#:#crs_grouping_select_one#:#Bitte wählen Sie eine Kursgruppierung aus.
-crs#:#crs_groupings#:#Kursgruppierungen
-crs#:#crs_groupings_ask_delete#:#Kursgruppierung löschen
-crs#:#crs_grp_already_assigned#:#Da Sie bereits Mitglied in einem der Kurse sind, können Sie nicht einem weiteren Kurs aus der Liste beitreten!
-crs#:#crs_grp_assign_crs#:#Kurs zuordnen
-crs#:#crs_grp_assigned_courses#:#Die ausgewählten Kurse wurden zugeordnet.
-crs#:#crs_grp_assigned_courses_info#:#Zugeordnete Kurse:
-crs#:#crs_grp_assignments#:#Zuordnung von Kursmitgliedern zu Gruppen
-crs#:#crs_grp_courses_already_assigned#:#Die ausgewählten Kurse sind bereits zugeordnet.
-crs#:#crs_grp_crs_assignment#:#Kurszuordnung
-crs#:#crs_grp_info_reg#:#Die folgenden Kurse unterliegen einer Mitgliedschaftsbeschränkung. Sie können nur einem dieser Kurse beitreten:
-crs#:#crs_grp_matriculation_required#:#Zur Aufnahme in diese Kursgruppierung ist eine eindeutige Matrikelnummer notwendig. <br />Bitte tragen Sie diese in den Einstellungen des Persönlichen Profils ein.
-crs#:#crs_grp_no_course_selected#:#Bitte wählen Sie mindestens einen Kurs aus.
-crs#:#crs_grp_no_courses_assigned#:#Keine zugeordneten Kurse.
-crs#:#crs_grp_table_assigned_courses#:#Zugeordnete Kurse
-crs#:#crs_header_archives#:#Kursarchive
-crs#:#crs_header_members#:#Kursmitglieder
-crs#:#crs_import#:#Kurs importieren
-crs#:#crs_info_agree#:#Ich bin damit einverstanden, dass die oben angegebenen Daten von Kursadministratoren eingesehen werden können.
-crs#:#crs_info_agreement#:#Die folgenden Daten können von Kursadministratoren eingesehen werden:
-crs#:#crs_info_reg_direct#:#Sie können diesem Kurs direkt beitreten.
-crs#:#crs_info_reg_password#:#Wenn Sie das Kurspasswort von einem Kursadministrator erhalten haben, können Sie in diesen Kurs beitreten.
-crs#:#crs_info_settings#:#Kursinfo
-crs#:#crs_info_start#:#Bitte bearbeiten Sie zunächst alle unten aufgeführten Materialien.<br/>Wenn Sie alle Objekte bearbeitet haben, werden weitere Kursinhalte für Sie freigeschaltet.
-crs#:#crs_item_availability_info#:#Wählen Sie diese Einstellung, um das Kursmaterial nur während eines bestimmten Zeitraumes verfügbar zu machen.
-crs#:#crs_lim_assigned#:#Bereits Mitglied in Kurs "%s".
-crs#:#crs_mail_all_info#:#Mitglieder, Administratoren und Tutoren können die Funktion "Mail an Mitglieder" im Reiter "Mitglieder" nutzen.
-crs#:#crs_mail_permanent_link#:#Wählen Sie den folgenden Link, um auf den Kursinhalt zuzugreifen:
-crs#:#crs_mail_tutors_only#:#Nur für Administratoren und Tutoren
-crs#:#crs_mail_tutors_only_info#:#Nur Administratoren und Tutoren können die Funktion "Mail an Mitglieder" im Reiter "Mitglieder" nutzen.
-crs#:#crs_map_location#:#Ort auf Karte zum Kurs
-crs#:#crs_member_of#:#Mitglied des Kurses:
-crs#:#crs_members_deleted#:#Das/die Mitglied(er) wurde(n) aus dem Kurs ausgetragen
-crs#:#crs_members_footer#:#Kursmitglied(er)
-crs#:#crs_members_map#:#Karte Kursmitglieder
-crs#:#crs_members_print_title#:#Kursmitglieder
-crs#:#crs_members_table#:#Teilnehmer des Kurses
-crs#:#crs_members_title#:#Kursmitglieder
-crs#:#crs_min_one_admin#:#Diesem Kurs muÃŸ mindestens ein Administrator zugeordnet bleiben.
-crs#:#crs_moved_item#:#Das Kursobjekt wurde verschoben.
-crs#:#crs_new_subscription#:#Beitritt zum Kurs "%s"
-crs#:#crs_new_subscription_body#:#%s ist dem Kurs %s beigetreten.
-crs#:#crs_new_subscription_request#:#Aufnahmeantrag für Kurs "%s"
-crs#:#crs_new_subscription_request_body#:#%s hat einen Aufnahmeantrag für den Kurs "%s" gestellt.
-crs#:#crs_new_subscription_request_body2#:#Um den Benutzer zum Kurs zuzulassen oder den Antrag abzuweisen, müssen Sie die Mitgliederverwaltung des Kurses aufrufen.\nWählen Sie dazu bitte folgenden Link:
-crs#:#crs_news#:#Mail zum Kurs
-crs#:#crs_no_archives_available#:#Es sind keine Kursarchive verfügbar
-crs#:#crs_no_exercises#:#Keine Ãœbung innerhalb des Kurses gefunden
-crs#:#crs_no_groupings_assigned#:#Diesem Kurs sind keine Gruppierungen zugeordnet.
-crs#:#crs_no_lms_inside_course#:#Keine Lernmaterialien in diesem Kurs gefunden.
-crs#:#crs_no_lms_inside_crs#:#In diesem Kurs befinden sich keine Lernmodule, die diesem Lernziel zugeordnet werden könnten.
-crs#:#crs_no_member_selected#:#Sie haben kein Kursmitglied ausgewählt
-crs#:#crs_no_members_assigned#:#Diesem Kurs sind noch keine Mitglieder zugeordnet
-crs#:#crs_no_objective_lms_found#:#Dieser Kurs enthält keine Materialien, die dem Lernziel zugeordnet werden könnten.
-crs#:#crs_no_objectives_created#:#Diesem Kurs sind keine Lernziele zugeordnet.
-crs#:#crs_no_starter_created#:#Diesem Kurs sind keine Startobjekte zugeordnet.
-crs#:#crs_no_tests_inside_crs#:#In diesem Kurs befinden sich keine Tests, die diesem Lernziel zugeordnet werden könnten.
-crs#:#crs_notification_salutation#:#Liebe Kursteilnehmerin, lieber Kursteilnehmer,
-crs#:#crs_number_users_added#:#Die folgende Anzahl von Benutzern wurden dem Kurs hinzugefügt:
-crs#:#crs_obj_initial_req_info#:#Kursteilnehmern, die diese Punktzahl erreicht haben, werden keine Kursmaterialien zur weiteren Bearbeitung empfohlen.
-crs#:#crs_objective_wiz_materials#:#Kursmaterialien zuordnen
-crs#:#crs_objective_wiz_materials_info#:#Hier können Sie festlegen, welche Kursmaterialien zur Bearbeitung des Lernziels empfohlen werden.
-crs#:#crs_objective_wiz_self_info#:#Legen Sie nun die Fragen des Einstiegstests fest. Der Einstiegstest dient der Ãœberprüfung, ob und welche Vorkenntnisse bei den Kursteilnehmern vorhanden sind.
-crs#:#crs_objectives_info_final#:#Leider haben Sie noch nicht alle Lernziele dieses Kurses erfüllt. <br />Bitte wählen Sie die markierten Lernziele eins nach dem anderen aus und bearbeiten Sie die zugehörigen Materialen. <br />Wenn Sie alle markierten Lernziele überprüft haben, können Sie den Abschlusstest erneut durchführen.
-crs#:#crs_objectives_info_finished#:#Gratulation, Sie haben alle Lernziele dieses Kurses erreicht.
-crs#:#crs_objectives_info_none#:#Das Folgende ist eine Auflistung aller Lernziele dieses Kurses. <br />Bitte wählen Sie ein Lernziel nach dem anderen aus und bearbeiten Sie die zugehörigen Materialien.
-crs#:#crs_objectives_lm_assignment#:#Zuordnung von Kursmaterialien
-crs#:#crs_objectives_reset_sure#:#Sind Sie sicher, dass Sie alle Ergebnisse dieses Kurses zurücksetzen möchten? <br />Alle Fortschritte, Testergebnisse werden unwiderruflich gelöscht.
-crs#:#crs_other_groupings#:#Gruppierungen anderer Kurse
-crs#:#crs_other_resources#:#Weitere Kursmaterialien
-crs#:#crs_reg_lim_info#:#Diese Einstellung erlaubt den Kursbeitritt nur während eines definierten Zeitraumes. Wählen Sie auÃŸerdem noch ein Beitrittsverfahren aus.
-crs#:#crs_reg_notify_info#:#Wenn eingeschaltet werden alle Kursadministratoren und -tutoren die Status 'Benachrichtigung' haben, über neue Beitritte informiert.
-crs#:#crs_reg_password_info#:#Benutzer müssen dieses Passwort eingeben, um dem Kurs beitreten zu können.
-crs#:#crs_reg_unlim_info#:#Diese Einstellung erlaubt den zeitlich unbegrenzten Kursbeitritt. Wählen Sie auÃŸerdem noch ein Beitrittsverfahren aus.
-crs#:#crs_reg_user_already_assigned#:#Sie sind bereits Mitglied dieses Kurses
-crs#:#crs_registration#:#Zum Kurs beitreten
-crs#:#crs_registration_confirmation_info#:#Der Beitritt erfolgt nur, wenn er durch einen Kursadministrator oder Kurstutor bestätigt wird.
-crs#:#crs_registration_deactivated#:#Nur Kursdministratoren und Kurstutoren können Benutzer in den Kurs aufnehmen.
-crs#:#crs_reject_subscriber#:#Ablehnung für Kurs "%s"
-crs#:#crs_reject_subscriber_body#:#Ihr Aufnahmeantrag für den Kurs "%s" ist abgelehnt worden.
-crs#:#crs_set_on_waiting_list#:#Wenn Sie einen Aufnahmeantrag stellen, werden Sie auf die Warteliste gesetzt. Sie erhalten dann eine Mail der Kursleitung, ob Ihr Aufnahmeantrag angenommen oder abgelehnt wird.
-crs#:#crs_settings#:#Kurseinstellungen
-crs#:#crs_status_changed#:#Status in Kurs "%s"
-crs#:#crs_status_changed_body#:#ihr Status in Kurs "%s" wurde geändert.
-crs#:#crs_status_determination_lp_info#:#Wechselt der Lernfortschritt auf "Bearbeitet", wird der Status "Bestanden" gesetzt. Der Tutor kann den Status manuell überschreiben.
-crs#:#crs_status_determination_manual#:#Nur manuell durch Tutor
-crs#:#crs_structure#:#Kursstruktur
-crs#:#crs_subscribe_member#:#Ihre Anmeldung für Kurs "%s"
-crs#:#crs_subscribe_member_body#:#wir haben Sie soeben entsprechend Ihres Antrags in den Kurs "%s" aufgenommen.
-crs#:#crs_subscribe_wl#:#Ihre Anmeldung für Kurs "%s"
-crs#:#crs_subscribe_wl_body#:#Sie wurden auf die Warteliste des Kurses "%s" gesetzt und haben die Position %s auf der Warteliste.\n\nSie werden per Mail benachrichtigt, sobald Ihr Aufnahmeantrag angenommen bzw. abgelehnt wurde.
-crs#:#crs_subscription_options_password#:#Beitritt mit Kurspasswort
-crs#:#crs_subscription_requested#:#Sie haben einen Aufnahmeantrag für den Kurs gestellt.
-crs#:#crs_subscription_successful#:#Sie sind in den Kurs aufgenommen worden.
-crs#:#crs_syllabus#:#Kursprogramm
-crs#:#crs_timings_update_error#:#Die empfohlene Lernzeit folgender Kursmaterialien widerspricht dem angegebenen spätestmöglichen Lernzeitpunkt.
-crs#:#crs_tutor#:#Tutor
-crs#:#crs_tutor_no_notify#:#Tutor (keine Benachrichtigung)
-crs#:#crs_tutor_notify#:#Tutor (Benachrichtigung)
-crs#:#crs_tutors#:#Tutoren
-crs#:#crs_unblocked_member#:#Status in Kurs "%s"
-crs#:#crs_unblocked_member_body#:#ihre Mitgliedschaft für Kurs "%s" wurde freigeschaltet.
-crs#:#crs_unsubscribe_member#:#Ihre Abmeldung vom Kurs "%s"
-crs#:#crs_unsubscribe_member_body#:#wir bestätigen Ihre Abmeldung vom Kurs "%s".
-crs#:#crs_unsubscribe_sure#:#Sind Sie sicher, dass Sie die Mitgliedschaft in diesem Kurs beenden möchten?
-crs#:#crs_unsubscribed_from_crs#:#Ihre Kursmitgliedschaft wurde beendet.
-crs#:#crs_user_agreement_info#:#Für Kursadministratoren freigegebene Daten
-crs#:#crs_user_already_assigned#:#Die Person ist bereits Teilnehmer dieses Kurses.
-crs#:#crs_users_added#:#Benutzer wurde(n) in den Kurs aufgenommen
-crs#:#crs_users_already_assigned#:#Ein Benutzer ist bereits Mitglied dieses Kurses
-crs#:#crs_warn_no_max_set_on_waiting_list#:#Die maximale Teilnehmeranzahl ist erreicht. Sie können sich jedoch auf die Warteliste für diesen Kurs setzen lassen und würden benachrichtigt, wenn Sie in den Kurs nachrücken könnten.
-crs#:#crs_warn_wl_set_on_waiting_list#:#Es sind bereits Teilnehmer auf der Warteliste eingetragen. Sie können sich jedoch auf die Warteliste für diesen Kurs setzen lassen. Sie werden per Mail benachrichtigt, sobald Ihr Aufnahmeantrag angenommen oder abgelehnt wurde.
-crs#:#event_inc_tutors#:#Tutoren anzeigen
-crs#:#event_tbl_tutors#:#Tutoren
-crs#:#import_crs#:#Kurs importieren
-crs#:#timing_tutor_visible#:#Bemerkung ist sichtbar für den Tutor
+crs#:#crs_details#:#Trainingdetails
+crs#:#crs_dismiss_member#:#Mitgliedschaft im Training "%s" beendet
+crs#:#crs_dismiss_member_body#:#ihre Mitgliedschaft im Training "%s" ist beendet worden.
+crs#:#crs_enable_map#:#Karte zum Training aktivieren
+crs#:#crs_export#:#Trainingsexport
+crs#:#crs_grouping#:#Trainingsgruppierung
+crs#:#crs_grouping_select_one#:#Bitte wählen Sie eine Trainingsgruppierung aus.
+crs#:#crs_groupings#:#Trainingsgruppierungen
+crs#:#crs_groupings_ask_delete#:#Trainingsgruppierung löschen
+crs#:#crs_grp_already_assigned#:#Da Sie bereits Teilnehmer in einem der Trainings sind, können Sie nicht einem weiteren Training aus der Liste beitreten!
+crs#:#crs_grp_assign_crs#:#Training zuordnen
+crs#:#crs_grp_assigned_courses#:#Die ausgewählten Trainings wurden zugeordnet.
+crs#:#crs_grp_assigned_courses_info#:#Zugeordnete Trainings:
+crs#:#crs_grp_assignments#:#Zuordnung von Trainingsteilnehmern zu Gruppen
+crs#:#crs_grp_courses_already_assigned#:#Die ausgewählten Trainings sind bereits zugeordnet.
+crs#:#crs_grp_crs_assignment#:#Trainingszuordnung
+crs#:#crs_grp_info_reg#:#Die folgenden Trainings unterliegen einer Mitgliedschaftsbeschränkung. Sie können nur einem dieser Trainings beitreten:
+crs#:#crs_grp_matriculation_required#:#Zur Aufnahme in diese Trainingsgruppierung ist eine eindeutige Matrikelnummer notwendig. <br />Bitte tragen Sie diese in den Einstellungen des Persönlichen Profils ein.
+crs#:#crs_grp_no_course_selected#:#Bitte wählen Sie mindestens ein Training aus.
+crs#:#crs_grp_no_courses_assigned#:#Keine zugeordneten Trainings.
+crs#:#crs_grp_table_assigned_courses#:#Zugeordnete Trainings
+crs#:#crs_header_archives#:#Trainingsarchive
+crs#:#crs_header_members#:#Trainingsteilnehmer
+crs#:#crs_import#:#Training importieren
+crs#:#crs_info_agree#:#Ich bin damit einverstanden, dass die oben angegebenen Daten von Trainingsbetreuern eingesehen werden können.
+crs#:#crs_info_agreement#:#Die folgenden Daten können von Trainingsbetreuern eingesehen werden:
+crs#:#crs_info_reg_direct#:#Sie können diesem Training direkt beitreten.
+crs#:#crs_info_reg_password#:#Wenn Sie das Trainingspasswort von einem Trainingsbetreuer erhalten haben, können Sie in diesem Training beitreten.
+crs#:#crs_info_settings#:#Trainingsinfo
+crs#:#crs_info_start#:#Bitte bearbeiten Sie zunächst alle unten aufgeführten Materialien.<br/>Wenn Sie alle Objekte bearbeitet haben, werden weitere Trainingsinhalte für Sie freigeschaltet.
+crs#:#crs_item_availability_info#:#Wählen Sie diese Einstellung, um das Trainingsmaterial nur während eines bestimmten Zeitraumes verfügbar zu machen.
+crs#:#crs_lim_assigned#:#Bereits Teilnehmer in Kurs "%s".
+crs#:#crs_mail_all_info#:#Teilnehmer, Trainingsbetreuer und Trainer können die Funktion "Mail an Teilnehmer" im Reiter "Teilnehmer" nutzen.
+crs#:#crs_mail_permanent_link#:#Wählen Sie den folgenden Link, um auf den Trainingsinhalt zuzugreifen:
+crs#:#crs_mail_tutors_only#:#Nur für Trainingsbetreuer und Trainer
+crs#:#crs_mail_tutors_only_info#:#Nur Trainingsbetreuer und Trainer können die Funktion "Mail an Teilnehmer" im Reiter "Teilnehmer" nutzen.
+crs#:#crs_map_location#:#Ort auf Karte zum Training
+crs#:#crs_member_of#:#Mitglied des Trainings:
+crs#:#crs_members_deleted#:#Der/die Trainingsteilnehmer wurde(n) aus dem Training ausgetragen
+crs#:#crs_members_footer#:#Trainingsteilnehmer(in)
+crs#:#crs_members_map#:#Karte Trainingsteilnehmer
+crs#:#crs_members_print_title#:#Trainingsteilnehmer 
+crs#:#crs_members_table#:#Teilnehmer des Trainings
+crs#:#crs_members_title#:#Trainingsteilnehmer 
+crs#:#crs_min_one_admin#:#Diesem Training muß mindestens ein Trainingsbetreuer zugeordnet bleiben.
+crs#:#crs_moved_item#:#Das Trainingsobjekt wurde verschoben.
+crs#:#crs_new_subscription#:#Beitritt zum Training "%s"
+crs#:#crs_new_subscription_body#:#%s ist dem Training %s beigetreten.
+crs#:#crs_new_subscription_request#:#Aufnahmeantrag für das Training "%s"
+crs#:#crs_new_subscription_request_body#:#%s hat einen Aufnahmeantrag für das Training "%s" gestellt.
+crs#:#crs_new_subscription_request_body2#:#Um den Benutzer zum Training zuzulassen oder den Antrag abzuweisen, müssen Sie die Teilnehmerverwaltung des Training aufrufen.\nWählen Sie dazu bitte folgenden Link:
+crs#:#crs_news#:#Mail zum Training
+crs#:#crs_no_archives_available#:#Es sind keine Trainingsarchive verfügbar
+crs#:#crs_no_exercises#:#Keine Übung innerhalb des Trainings gefunden
+crs#:#crs_no_groupings_assigned#:#Diesem Training sind keine Gruppierungen zugeordnet.
+crs#:#crs_no_lms_inside_course#:#Keine Lernmaterialien in diesem Training gefunden.
+crs#:#crs_no_lms_inside_crs#:#In diesem Training befinden sich keine Lernmodule, die diesem Lernziel zugeordnet werden könnten.
+crs#:#crs_no_member_selected#:#Sie haben kein Trainingsmitglied ausgewählt
+crs#:#crs_no_members_assigned#:#Diesem Training sind noch keine Teilnehmer zugeordnet
+crs#:#crs_no_objective_lms_found#:#Dieses Training enthält keine Materialien, die dem Lernziel zugeordnet werden könnten.
+crs#:#crs_no_objectives_created#:#Diesem Training sind keine Lernziele zugeordnet.
+crs#:#crs_no_starter_created#:#Diesem Training sind keine Startobjekte zugeordnet.
+crs#:#crs_no_tests_inside_crs#:#In diesem Training befinden sich keine Tests, die diesem Lernziel zugeordnet werden könnten.
+crs#:#crs_notification_salutation#:#Liebe Trainingsteilnehmerin, lieber Trainingsteilnehmer,
+crs#:#crs_number_users_added#:#Die folgende Anzahl von Benutzern wurden dem Training hinzugefügt:
+crs#:#crs_obj_initial_req_info#:#Trainingsteilnehmern, die diese Punktzahl erreicht haben, werden keine Trainingsmaterialien zur weiteren Bearbeitung empfohlen.
+crs#:#crs_objective_wiz_materials#:#Trainingsmaterialien zuordnen
+crs#:#crs_objective_wiz_materials_info#:#Hier können Sie festlegen, welche Trainingsmaterialien zur Bearbeitung des Lernziels empfohlen werden.
+crs#:#crs_objective_wiz_self_info#:#Legen Sie nun die Fragen des Einstiegstests fest. Der Einstiegstest dient der Überprüfung, ob und welche Vorkenntnisse bei den Trainingsteilnehmern vorhanden sind.
+crs#:#crs_objectives_info_final#:#Leider haben Sie noch nicht alle Lernziele dieses Trainings erfüllt. <br />Bitte wählen Sie die markierten Lernziele eins nach dem anderen aus und bearbeiten Sie die zugehörigen Materialen. <br />Wenn Sie alle markierten Lernziele überprüft haben, können Sie den Abschlusstest erneut durchführen.
+crs#:#crs_objectives_info_finished#:#Gratulation, Sie haben alle Lernziele dieses Trainings erreicht.
+crs#:#crs_objectives_info_none#:#Das Folgende ist eine Auflistung aller Lernziele dieses Trainings. <br />Bitte wählen Sie ein Lernziel nach dem anderen aus und bearbeiten Sie die zugehörigen Materialien.
+crs#:#crs_objectives_lm_assignment#:#Zuordnung von Trainingsmaterialien
+crs#:#crs_objectives_reset_sure#:#Sind Sie sicher, dass Sie alle Ergebnisse dieses Trainings zurücksetzen möchten? <br />Alle Fortschritte, Testergebnisse werden unwiderruflich gelöscht.
+crs#:#crs_other_groupings#:#Gruppierungen anderer Trainings
+crs#:#crs_other_resources#:#Weitere Trainingsmaterialien
+crs#:#crs_reg_lim_info#:#Diese Einstellung erlaubt den Trainingsbeitritt nur während eines definierten Zeitraumes. Wählen Sie außerdem noch ein Beitrittsverfahren aus.
+crs#:#crs_reg_notify_info#:#Wenn eingeschaltet werden alle Trainingsbetreuer und Trainer die Status 'Benachrichtigung' haben, über neue Beitritte informiert.
+crs#:#crs_reg_password_info#:#Benutzer müssen dieses Passwort eingeben, um dem Training beitreten zu können.
+crs#:#crs_reg_unlim_info#:#Diese Einstellung erlaubt den zeitlich unbegrenzten Trainingsbeitritt. Wählen Sie außerdem noch ein Beitrittsverfahren aus.
+crs#:#crs_reg_user_already_assigned#:#Sie sind bereits Teilnehmer dieses Trainings
+crs#:#crs_registration#:#Zum Training beitreten
+crs#:#crs_registration_confirmation_info#:#Der Beitritt erfolgt nur, wenn er durch einen Trainingsbetreuer oder Trainer bestätigt wird.
+crs#:#crs_registration_deactivated#:#Nur Trainingsbetreuer und Trainer können Benutzer in das Training aufnehmen.
+crs#:#crs_reject_subscriber#:#Ablehnung für das Training "%s"
+crs#:#crs_reject_subscriber_body#:#Ihr Aufnahmeantrag für das Training "%s" ist abgelehnt worden.
+crs#:#crs_set_on_waiting_list#:#Wenn Sie einen Aufnahmeantrag stellen, werden Sie auf die Warteliste gesetzt. Sie erhalten dann eine Mail der Trainingsleitung, ob Ihr Aufnahmeantrag angenommen oder abgelehnt wird.
+crs#:#crs_settings#:#Trainingseinstellungen
+crs#:#crs_status_changed#:#Status im Training Kurs "%s"
+crs#:#crs_status_changed_body#:#ihr Status im Training "%s" wurde geÃ¤ndert.
+crs#:#crs_status_determination_lp_info#:#Wechselt der Lernfortschritt auf "Bearbeitet", wird der Status "Bestanden" gesetzt. Der Trainer kann den Status manuell überschreiben.
+crs#:#crs_status_determination_manual#:#Nur manuell durch Trainer
+crs#:#crs_structure#:#Trainingsstruktur
+crs#:#crs_subscribe_member#:#Ihre Anmeldung für das Training "%s"
+crs#:#crs_subscribe_member_body#:#wir haben Sie soeben entsprechend Ihres Antrags in das Training "%s" aufgenommen.
+crs#:#crs_subscribe_wl#:#Ihre Anmeldung für das Training "%s"
+crs#:#crs_subscribe_wl_body#:#Sie wurden auf die Warteliste des Trainings "%s" gesetzt und haben die Position %s auf der Warteliste.\n\nSie werden per Mail benachrichtigt, sobald Ihr Aufnahmeantrag angenommen bzw. abgelehnt wurde.
+crs#:#crs_subscription_options_password#:#Beitritt mit Trainingspasswort
+crs#:#crs_subscription_requested#:#Sie haben einen Aufnahmeantrag für das Training gestellt.
+crs#:#crs_subscription_successful#:#Sie sind in das Training aufgenommen worden.
+crs#:#crs_syllabus#:#Trainingsprogramm
+crs#:#crs_timings_update_error#:#Die empfohlene Lernzeit folgender Trainingsmaterialien widerspricht dem angegebenen spätestmöglichen Lernzeitpunkt.
+crs#:#crs_tutor#:#Trainer
+crs#:#crs_tutor_no_notify#:#Trainer (keine Benachrichtigung)
+crs#:#crs_tutor_notify#:#Trainer (Benachrichtigung)
+crs#:#crs_tutors#:#Trainer
+crs#:#crs_unblocked_member#:#Status in Training "%s"
+crs#:#crs_unblocked_member_body#:#ihre Mitgliedschaft für das Training "%s" wurde freigeschaltet.
+crs#:#crs_unsubscribe_member#:#Ihre Abmeldung vom Training "%s"
+crs#:#crs_unsubscribe_member_body#:#wir bestätigen Ihre Abmeldung vom Training "%s".
+crs#:#crs_unsubscribe_sure#:#Sind Sie sicher, dass Sie die Mitgliedschaft in diesem Training beenden möchten?
+crs#:#crs_unsubscribed_from_crs#:#Ihre Trainingsmitgliedschaft wurde beendet.
+crs#:#crs_user_agreement_info#:#Für Trainingsbetreuer freigegebene Daten
+crs#:#crs_user_already_assigned#:#Die Person ist bereits Teilnehmer dieses Trainings.
+crs#:#crs_users_added#:#Benutzer wurde(n) in das Training aufgenommen
+crs#:#crs_users_already_assigned#:#Ein Benutzer ist bereits Teilnehmer dieses Trainings
+crs#:#crs_warn_no_max_set_on_waiting_list#:#Die maximale Teilnehmeranzahl ist erreicht. Sie können sich jedoch auf die Warteliste für dieses Training setzen lassen und würden benachrichtigt, wenn Sie in den Kurs nachrücken könnten.
+crs#:#crs_warn_wl_set_on_waiting_list#:#Es sind bereits Teilnehmer auf der Warteliste eingetragen. Sie können sich jedoch auf die Warteliste für dieses Training setzen lassen. Sie werden per Mail benachrichtigt, sobald Ihr Aufnahmeantrag angenommen oder abgelehnt wurde.
+crs#:#event_inc_tutors#:#Trainer anzeigen
+crs#:#event_tbl_tutors#:#Trainer
+crs#:#import_crs#:#Trainings importieren
+crs#:#timing_tutor_visible#:#Bemerkung ist sichtbar für den Trainer
 crsbook#:#acco_accomodations#:#Übernachtung(en)
 crsbook#:#admin_action_book#:#Als Teilnehmer hinzufügen
 crsbook#:#admin_action_cancel_with_costs#:#Mit Kosten stornieren
@@ -291,68 +291,67 @@ crsbook#:#crsbook_admin_status_change#:#Änderung des Buchungsstatus
 crsbook#:#crsbook_admin_status_waiting#:#auf Warteliste
 crsbook#:#crsbook_admin_tab_list_bookings#:#Buchungen
 crsbook#:#crsbook_admin_tab_list_cancellations#:#Stornierungen
-crsv#:#crsv_create#:#Kurszertifikat erstellen
-crsv#:#crsv_create_info#:#Wählen Sie einen Kurs, für den Sie ein Zertifikat benötigen
-crs #:#crs_member_administration#:#Teilnehmerverwaltung
-crs #:#crs_members#:#Mitglieder
-crs #:#crs_new_subscription_request_body2#:#Um den Benutzer zum Kurs zuzulassen oder den Antrag abzuweisen, müssen Sie die Mitgliederverwaltung des Kurses aufrufen.\nWählen Sie dazu bitte folgenden Link:
-dateplaner#:#cal_adm_notification_info#:#Wählen Sie diese Einstellung, um eine optionale Mailbenachrichtigung für Kurs- und Gruppentermine zu ermöglichen.
-dateplaner#:#cal_cg_notification#:#Kurs/Gruppenbenachrichtigung
-dateplaner#:#cal_cg_registration_info#:#Wenn aktiviert, können sich Benutzer für Kurs- und Gruppentermine anmelden.
-dateplaner#:#cal_cg_registrations#:#Anmeldung für Kurs/Gruppentermine
-dateplaner#:#cal_ch_target_object_info#:#Begrenzt Sprechstunden auf die ausgewählten Kurse und Gruppen im Magazin. Mehrere Objekte können kommagetrennt angegeben werden.
-dateplaner#:#cal_crs_new_notification_body#:#ein neuer Termin ist im Kurs "%s" angelegt worden.
-dateplaner#:#cal_crs_new_notification_sub#:#Neuer Termin in Kurs "%s"
-dateplaner#:#cal_crs_notification_body#:#es erfolgte eine Terminänderung im Kurs "%s".
-dateplaner#:#cal_crs_notification_sub#:#Terminänderung in Kurs "%s"
-dateplaner#:#cal_enable_group_milestones_desc#:#Diese Option aktiviert das Management von Meilensteinen im Kalender (Kurse und Gruppen).
-dateplaner#:#cal_notification_crsgrp#:#Benachrichtigung für Kurs/Gruppenteilnehmer
-dateplaner#:#cal_notification_info#:#Wenn aktiviert, werden alle Kurs/Gruppenteilnehmenden über die Terminänderung per Mailbenachrichtigung informiert.
-dateplaner#:#cal_setting_global_crs_vis#:#Anzeige in Kursen
-dateplaner#:#cal_setting_global_crs_vis_info#:#Wenn aktiviert, wird der Kurskalender standardmäÃŸig in Kursen angezeigt. Unabhängig davon kann der Kalender in den Kurseinstellungen de/aktiviert werden.
-dateplaner#:#cal_type_crs#:#Kurskalender
-dateplaner#:#crs_cal_activation_end#:#Kursende
-dateplaner#:#crs_cal_activation_start#:#Kursbeginn
-ecs#:#ecs_approval_rcp#:#Benachrichtigungen über Kursfreigaben
-ecs#:#ecs_approval_rcp_info#:#Geben Sie hier einen oder mehrere Benutzernamen (durch Komma getrennt) ein, die über neue Kursfreigaben per E-Mail benachrichtigt werden sollen.
-ecs#:#ecs_cmap_all_in_one#:#Kurse in einer Kategorie
-ecs#:#ecs_cmap_all_in_one_cat#:#Kurs-Kategorie
-ecs#:#ecs_cmap_all_in_one_info#:#Bitte geben Sie die Kategorie an, in welcher alle Kurse angelegt werden sollen. In allen weiteren Kategorien werden ggf. Kurs-Referenzen angelegt.
-ecs#:#ecs_cmap_def_cat_info#:#Bitte geben Sie die Kategorie an, in welcher Kurse angelegt werde sollen, die über bestehende Regeln nicht zugeordnet werden können.
-ecs#:#ecs_cmap_enable#:#Kurszuordnung
-ecs#:#ecs_cmap_mapping_form_title#:#Kurszuordnung für Kategorie:
-ecs#:#ecs_crs_alloc#:#Kurszuordnungen
-ecs#:#ecs_crs_alloc_set#:#Kurszuordnungen bearbeiten
-ecs#:#ecs_crs_export#:#Kursfreigaben
-ecs#:#ecs_crs_export_obj_settings#:#Einstellungen für Kursfreigaben
-ecs#:#ecs_econ_rcp#:#Benachrichtigungen über externe Kurse
-ecs#:#ecs_econ_rcp_info#:#Geben Sie hier einen oder mehrere Benutzernamen (durch Komma getrennt) ein, die über neue externe Kurse per E-Mail benachrichtigt werden sollen.
-ecs#:#ecs_enable_participant#:#Kursimport und Export zulassen
-ecs#:#ecs_export#:#Kursfreigaben
-ecs#:#ecs_export_created_body_a#:#Ein neuer Kurs wurde freigegeben:
-ecs#:#ecs_export_obj_settings#:#Einstellungen für Kursfreigaben
-ecs#:#ecs_import#:#Externe Kurse
-ecs#:#ecs_new_approval_subject#:#Ein neuer Kurs wurde freigegeben
-ecs#:#ecs_no_owner#:#Bitte wählen Sie aus, unter welcher Community Sie diesen Kurs veröffentlichen möchten.
-ecs#:#ecs_node_mapping_create_empty#:#Nur Kategorien anlegen, die Kurse enthalten
-ecs#:#ecs_node_mapping_create_empty_info#:#Nur in Verbindung mit der Kurszuordnung nutzbar (diese wird automatisch aktiviert).
-ecs#:#ecs_read_remote_links#:#Kursinformationen aktualisieren
-ecs#:#ecs_released#:#Freigegebene Kurse
-ecs#:#ecs_remote_imported#:#Die Informationen über Kursänderungen wurden neu eingelesen.
-ecs#:#ecs_role_mappings#:#Rollenzuordnung für Kurse/Gruppen
-exc#:#exc_completion_by_submission_info#:#Gibt ein Teilnehmer ein Arbeitsergebnis ab, wird der Status "Bestanden" gesetzt. Der Tutor kann den Status manuell überschreiben. Das Ã„ndern dieser Einstellung hat keine Auswirkung auf bestehende Bewertungen.
-exc#:#exc_completion_by_tutor#:#Nur manuell durch Tutor
-exc#:#exc_create_team_times_up_warning#:#Sie können kein Team mehr erstellen. Bitte kontaktieren Sie Ihren Tutor.
-exc#:#exc_submission_notification_info#:#Sie werden per Mail benachrichtigt, sobald neue Arbeitsergebnisse abgegeben wurden. Dies ist eine persönliche Einstellung, die nur für Sie gilt. Andere Tutoren der Ãœbung sind davon nicht betroffen.
-exc#:#exc_team_member_container_add#:#Team-Mitglied aus Kurs/Gruppe hinzufügen
-exercise#:#exc_crs_add_members#:#Mitglieder dieses Kurses hinzufügen
-exercise#:#exc_feedback_from_tutor#:#Feedback des Tutors
-fm#:#fm_settings_active_info#:#Benutzer können Kategorien, Kurse, Gruppen und Ordner öffnen, indem sie im Magazin die Aktion "Mit Dateimanager öffnen" ausführen.
-gev#:# gev_search_menu#:#Seminarsuche
+crsv#:#crsv_create#:#Trainingszertifikat erstellen
+crsv#:#crsv_create_info#:#Wählen Sie ein Training, für das Sie ein Zertifikat benötigen
+crs #:#crs_member_administration#:#Mitgliederverwaltung
+crs #:#crs_members#:#Teilnehmer
+crs #:#crs_new_subscription_request_body2#:#Um den Benutzer zum Training zuzulassen oder den Antrag abzuweisen, müssen Sie die Mitgliederverwaltung des Training aufrufen.\nWählen Sie dazu bitte folgenden Link:
+dateplaner#:#cal_adm_notification_info#:#Wählen Sie diese Einstellung, um eine optionale Mailbenachrichtigung für Trainings- und Gruppentermine zu ermöglichen.
+dateplaner#:#cal_cg_notification#:#Trainings/Gruppenbenachrichtigung
+dateplaner#:#cal_cg_registration_info#:#Wenn aktiviert, können sich Benutzer für Trainings- und Gruppentermine anmelden.
+dateplaner#:#cal_cg_registrations#:#Anmeldung für Trainings/Gruppentermine
+dateplaner#:#cal_ch_target_object_info#:#Begrenzt Sprechstunden auf die ausgewählten Trainings und Gruppen im Magazin. Mehrere Objekte können kommagetrennt angegeben werden.
+dateplaner#:#cal_crs_new_notification_body#:#ein neuer Termin ist im Training "%s" angelegt worden.
+dateplaner#:#cal_crs_new_notification_sub#:#Neuer Termin im Training "%s"
+dateplaner#:#cal_crs_notification_body#:#es erfolgte eine Terminänderung im Training "%s".
+dateplaner#:#cal_crs_notification_sub#:#Terminänderung im Training "%s"
+dateplaner#:#cal_enable_group_milestones_desc#:#Diese Option aktiviert das Management von Meilensteinen im Kalender (Trainings und Gruppen).
+dateplaner#:#cal_notification_crsgrp#:#Benachrichtigung für Trainings/Gruppenteilnehmer
+dateplaner#:#cal_notification_info#:#Wenn aktiviert, werden alle Trainings/Gruppenteilnehmenden über die Terminänderung per Mailbenachrichtigung informiert.
+dateplaner#:#cal_setting_global_crs_vis#:#Anzeige in Trainings
+dateplaner#:#cal_setting_global_crs_vis_info#:#Wenn aktiviert, wird der Trainingskalender standardmäßig in Trainings angezeigt. Unabhängig davon kann der Kalender in den Trainingseinstellungen de/aktiviert werden.
+dateplaner#:#cal_type_crs#:#Trainingskalender
+dateplaner#:#crs_cal_activation_end#:#Trainingsende
+dateplaner#:#crs_cal_activation_start#:#Trainingsbeginn
+ecs#:#ecs_approval_rcp#:#Benachrichtigungen über Trainingsfreigaben
+ecs#:#ecs_approval_rcp_info#:#Geben Sie hier einen oder mehrere Benutzernamen (durch Komma getrennt) ein, die über neue Trainingsfreigaben per E-Mail benachrichtigt werden sollen.
+ecs#:#ecs_cmap_all_in_one#:#Trainings in einer Kategorie
+ecs#:#ecs_cmap_all_in_one_cat#:#Trainings-Kategorie
+ecs#:#ecs_cmap_all_in_one_info#:#Bitte geben Sie die Kategorie an, in welcher alle Trainings angelegt werden sollen. In allen weiteren Kategorien werden ggf. Trainings-Referenzen angelegt.
+ecs#:#ecs_cmap_def_cat_info#:#Bitte geben Sie die Kategorie an, in welcher Trainings angelegt werde sollen, die über bestehende Regeln nicht zugeordnet werden können.
+ecs#:#ecs_cmap_enable#:#Trainingszuordnung
+ecs#:#ecs_cmap_mapping_form_title#:#Trainingszuordnung für Kategorie:
+ecs#:#ecs_crs_alloc#:#Trainingszuordnungen
+ecs#:#ecs_crs_alloc_set#:#Trainingszuordnungen bearbeiten
+ecs#:#ecs_crs_export#:#Trainingsfreigaben
+ecs#:#ecs_crs_export_obj_settings#:#Einstellungen für Trainingsfreigaben
+ecs#:#ecs_econ_rcp#:#Benachrichtigungen über externe Trainings
+ecs#:#ecs_econ_rcp_info#:#Geben Sie hier einen oder mehrere Benutzernamen (durch Komma getrennt) ein, die über neue externe Trainings per E-Mail benachrichtigt werden sollen.
+ecs#:#ecs_enable_participant#:#Trainingsimport und Export zulassen
+ecs#:#ecs_export#:#Trainingsfreigaben
+ecs#:#ecs_export_created_body_a#:#Ein neues Training wurde freigegeben:
+ecs#:#ecs_export_obj_settings#:#Einstellungen für Trainingsfreigaben
+ecs#:#ecs_import#:#Externe Trainings
+ecs#:#ecs_new_approval_subject#:#Ein neues Training wurde freigegeben
+ecs#:#ecs_no_owner#:#Bitte wählen Sie aus, unter welcher Community Sie dieses Training veröffentlichen möchten.
+ecs#:#ecs_node_mapping_create_empty#:#Nur Kategorien anlegen, die Trainings enthalten
+ecs#:#ecs_node_mapping_create_empty_info#:#Nur in Verbindung mit der Trainingszuordnung nutzbar (diese wird automatisch aktiviert).
+ecs#:#ecs_read_remote_links#:#Trainingsinformationen aktualisieren
+ecs#:#ecs_released#:#Freigegebene Trainings
+ecs#:#ecs_remote_imported#:#Die Informationen über Trainingsänderungen wurden neu eingelesen.
+ecs#:#ecs_role_mappings#:#Rollenzuordnung für Trainings/Gruppen
+exc#:#exc_completion_by_submission_info#:#Gibt ein Teilnehmer ein Arbeitsergebnis ab, wird der Status "Bestanden" gesetzt. Der Trainer kann den Status manuell überschreiben. Das Ändern dieser Einstellung hat keine Auswirkung auf bestehende Bewertungen.
+exc#:#exc_completion_by_tutor#:#Nur manuell durch Trainer
+exc#:#exc_create_team_times_up_warning#:#Sie können kein Team mehr erstellen. Bitte kontaktieren Sie Ihren Trainer.
+exc#:#exc_submission_notification_info#:#Sie werden per Mail benachrichtigt, sobald neue Arbeitsergebnisse abgegeben wurden. Dies ist eine persönliche Einstellung, die nur für Sie gilt. Andere Trainer derÜbung sind davon nicht betroffen.
+exc#:#exc_team_member_container_add#:#Team-Mitglied aus Training/Gruppe hinzufügen
+exercise#:#exc_crs_add_members#:#Mitglieder dieses Trainings hinzufügen
+exercise#:#exc_feedback_from_tutor#:#Feedback des Trainers
+fm#:#fm_settings_active_info#:#Benutzer können Kategorien, Trainings, Gruppen und Ordner öffnen, indem sie im Magazin die Aktion "Mit Dateimanager öffnen" ausführen.
+gev#:# gev_search_menu#:#Trainingssuche
 gev#:#dont_send_mail#:#keine Mail versenden
 gev#:#evg_email#:#Generali E-Mail-Adresse
-gev#:#evg_mandatory#:#Sie müssen dieses Feld bestätigen, um sich registrieren zu können.gevgevgev#:#gev_accept_book_cond#:#Hiermit akzeptiere ich die Buchungs- und Stornierungsbedingungen der Generali Online Akademie.
-gev#:#gev_accomodations#:#Übernachtungen
+gev#:#evg_mandatory#:#Sie müssen dieses Feld bestätigen, um sich registrieren zu können.gevgevgevgev#:#gev_accomodations#:#Übernachtungen
 gev#:#gev_activity#:#Aktivität
 gev#:#gev_ad_title#:#AD-Titel
 gev#:#gev_additional_settings_update_failure#:#Die weiteren Einstellungen konnten nicht aktualisiert werden.
@@ -368,7 +367,7 @@ gev#:#gev_attachment_used_in#:#Die Datei wird in folgenden Mails verwendet
 gev#:#gev_attachments_refreshed#:#Anhänge aktualisiert.
 gev#:#gev_bill_agency_name#:#Agenturname
 gev#:#gev_bill_costcenter#:#folgendes Agenturkonto soll mit der Buchung belastet werden
-gev#:#gev_bill_email#:#
+gev#:#gev_bill_email#:#E-Mail-Adresse für Rechnungszustellung
 gev#:#gev_bill_recipient#:#Rechnungsempfänger
 gev#:#gev_birthname#:#Geburtsname
 gev#:#gev_birthplace#:#Geburtsort
@@ -398,10 +397,10 @@ gev#:#gev_cancellation_subtitle#:#Bitte beachten sie, dass bei der Stornierung i
 gev#:#gev_cancellation_success#:#Ihre Buchung des Trainings "%s" wurde erfolgreich storniert.
 gev#:#gev_cancellation_title#:#Stornierung
 gev#:#gev_cant_replace_autogenerated_file#:#Die Datei '%s' ist automatisch generiert und kann nicht ersetzt werden.
-gev#:#gev_cert_course_end_date#:#Enddatum des Kurses
-gev#:#gev_cert_course_start_date#:#Startdatum des Kurses
+gev#:#gev_cert_course_end_date#:#Enddatum des Trainings
+gev#:#gev_cert_course_start_date#:#Startdatum des Trainings
 gev#:#gev_cert_course_topics#:#Trainingskategorien des Kurses
-gev#:#gev_cert_course_type#:#Lernart des Kurses
+gev#:#gev_cert_course_type#:#Lernart des Trainings
 gev#:#gev_cert_points#:#Weiterbildungspunkte bei erfolgreicher Teilnahme
 gev#:#gev_company_title#:#Gesellschaftsschlüssel
 gev#:#gev_competence_mgmt#:#Kompetenzen
@@ -446,7 +445,7 @@ gev#:#gev_failed#:#nicht bestanden
 gev#:#gev_fee_bill_item#:#Teilnahmegebühr Training "%s"
 gev#:#gev_filter#:#Filter
 gev#:#gev_finalize_booking_error#:#Beim finalisieren der Buchung ist ein Fehler aufgetreten.
-gev#:#gev_finalize_booking_error #:#Beim finalisieren der Buchung ist ein Fehler aufgetreten.
+gev#:#gev_finalize_booking_error #:#Beim Finalisieren der Buchung ist ein Fehler aufgetreten.
 gev#:#gev_free_cancellation_action#:#Kostenfrei Stornieren
 gev#:#gev_free_cancellation_msg#:#Möchten sie die Buchung des Trainings "%s" wirklich stornieren?
 gev#:#gev_free_cancellation_until#:#kostenfreie Stornierung bis
@@ -477,7 +476,7 @@ gev#:#gev_member_list#:#Mitgliederliste
 gev#:#gev_methods#:#Methoden
 gev#:#gev_mobile#:#Mobil
 gev#:#gev_my_apprentices#:#Auszubildende
-gev#:#gev_my_courses#:#Meine Kurse
+gev#:#gev_my_courses#:#Meine Trainings
 gev#:#gev_my_courses_desc#:#Hier sehen Sie auf einen Blick alle von Ihnen gebuchten Trainings.
 gev#:#gev_my_edu_bio#:#Meine Bildungsbiografie
 gev#:#gev_my_edu_bio_desc#:#Hier sehen sie Ihre Bildungspunkte und die von Ihnen besuchten Trainings.
@@ -564,7 +563,7 @@ gev#:#gev_venue#:#Veranstaltungsort
 gev#:#gev_waiting#:#gebucht auf Warteliste
 gev#:#gev_was_booked_employee#:#Ihr Mitarbeiter %s wurde erfolgreich auf das Training "%s" gebucht.
 gev#:#gev_was_booked_self#:#Das Training "%s" wurde erfolgreich für sie gebucht.
-gev#:#gev_was_booked_self #:#
+gev#:#gev_was_booked_self #:#Das Training "%s" wurde erfolgreich für Sie gebucht.
 gev#:#gev_was_booked_waiting_employee#:#Ihr Mitarbeiter %s wurde erfolgreich beim Training "%s" auf die Warteliste hinzugefügt.
 gev#:#gev_was_booked_waiting_self#:#Sie wurden beim Training "%s" erfolgreich auf die Warteliste hinzugefügt.
 gev#:#gev_wbd_notifications#:#Benachrichtigungen der WBD
@@ -597,22 +596,22 @@ gev#:#use_standard_mail#:#Standardmail verwenden
 gev#:#view_others_accomodations#:#Unterbringung von anderen einsehen
 gev#:#view_own_accomodations#:#Eigene Unterbringung einsehen
 gev#:#view_participation_status#:#Teilnahmestatus einsehen
-gmaps#:#gmaps_enable_gmaps_info#:#Aktiviere Google Maps in Persönlichen Profilen, Kursen und Gruppen
-gmaps#:#gmaps_public_profile_info#:#Wenn angeklickt, wird der eigene Standort Standort auf der Google Map im Profil angezeigt. Dazu muss aber Ihr Profil aktiviert sein. Bei Kurs- und Gruppenkarten wird der Standort ebenfalls angezeigt.
-grp#:#grp_view_inherit#:#Durch Kurs bestimmt
-grp#:#grp_view_inherit_info#:#Wird die Ansicht des übergeordneten Kurses geändert, ändert sich auch die Gruppenansicht.
-license#:#course_licenses_rare#:#Warnung: für ein Kursobjekt sind nur noch %s Lizenzen vorhanden! Wechseln Sie zur Registerkarte "Lizenzen", um zu sehen, welche Lizenzen erhöht werden müssen.
-license#:#license_warning_info#:#Bis zu dieser Anzahl verfügbarer Lizenzen für Lerninhalte in einem Kurs wird bei der Aufnahme von Kursmitglieder eine Warnmeldung ausgegeben.
+gmaps#:#gmaps_enable_gmaps_info#:#Aktiviere Google Maps in Persönlichen Profilen, Trainings und Gruppen
+gmaps#:#gmaps_public_profile_info#:#Wenn angeklickt, wird der eigene Standort Standort auf der Google Map im Profil angezeigt. Dazu muss aber Ihr Profil aktiviert sein. Bei Trainings- und Gruppenkarten wird der Standort ebenfalls angezeigt.
+grp#:#grp_view_inherit#:#Durch Training bestimmt
+grp#:#grp_view_inherit_info#:#Wird die Ansicht des übergeordneten Trainings geändert, ändert sich auch die Gruppenansicht.
+license#:#course_licenses_rare#:#Warnung: für ein Trainingsobjekt sind nur noch %s Lizenzen vorhanden! Wechseln Sie zur Registerkarte "Lizenzen", um zu sehen, welche Lizenzen erhöht werden müssen.
+license#:#license_warning_info#:#Bis zu dieser Anzahl verfügbarer Lizenzen für Lerninhalte in einem Training wird bei der Aufnahme von Trainingsteilnehmern eine Warnmeldung ausgegeben.
 mail#:#cancel_delete_template_type#:#Abbrechen
 mail#:#cancel_template_type_settings#:#Abbrechen
 mail#:#cancel_template_variant#:#Abbrechen
 mail#:#confirm_delete_template_type_p#:#Vorlagentypen wirklich löschen?
 mail#:#confirm_delete_template_type_s#:#Vorlagentyp wirklich löschen?
 mail#:#login_none#:#(kein Login) 
-mail#:#mail_crs_list_members_not_available#:#Die Mitglieder der markierten Kurse können nicht aufgelistet werden.
-mail#:#mail_crs_list_members_not_available_for_at_least_one_crs#:#Die Mitglieder von mindestens einem gewählten Kurs können nicht aufgelistet werden.
-mail#:#mail_enable_crs_member_notification#:#Kursbenachrichtigung
-mail#:#mail_enable_crs_member_notification_info#:#Wenn aktiviert, werden Teilnehmer automatisch über Ã„nderungen ihrer Kursmitgliedschaften per Mail informatiert.
+mail#:#mail_crs_list_members_not_available#:#Die Teilnehmer der markierten Trainings können nicht aufgelistet werden.
+mail#:#mail_crs_list_members_not_available_for_at_least_one_crs#:#Die Teilnehmer von mindestens einem gewählten Training können nicht aufgelistet werden.
+mail#:#mail_enable_crs_member_notification#:#Trainingsbenachrichtigung
+mail#:#mail_enable_crs_member_notification_info#:#Wenn aktiviert, werden Teilnehmer automatisch über Änderungen ihrer Trainingsmitgliedschaften per Mail informatiert.
 mail#:#mail_message_active#:#Variante aktiv?
 mail#:#mail_message_created#:#Erstellungsdatum
 mail#:#mail_message_html#:#Nachricht (HTML)
@@ -620,11 +619,11 @@ mail#:#mail_message_plain#:#Nachricht (Nur-Text)
 mail#:#mail_message_subject#:#Betreff
 mail#:#mail_message_updated#:#Letzte Änderung
 mail#:#mail_message_updated_usr#:#Verändert durch
-mail#:#mail_my_courses#:#Meine Kurse
-mail#:#mail_nacc_target#:#URL des Zielobjekts, z. B. ein Kurs, auf den von auÃŸerhalb von ILIAS verlinkt wird.
-mail#:#mail_nacc_target_title#:#Titel des Zielobjekts, z. B. der Kurstitel
-mail#:#mail_nacc_target_type#:#Typ des Zielobjekts, z. B. "Kurs" für ein Kursobjekt
-mail#:#mail_select_course#:#Bitte mindestens einen Kurs auswählen.
+mail#:#mail_my_courses#:#Meine Trainings
+mail#:#mail_nacc_target#:#URL des Zielobjekts, z. B. ein Training, auf den von außerhalb von ILIAS verlinkt wird.
+mail#:#mail_nacc_target_title#:#Titel des Zielobjekts, z. B. der Trainingstitel
+mail#:#mail_nacc_target_type#:#Typ des Zielobjekts, z. B. "Training" für ein Trainingsobjekt
+mail#:#mail_select_course#:#Bitte mindestens ein Training auswählen.
 mail#:#mail_template_category#:#Vorlagenname
 mail#:#mail_template_category_name#:#Vorlagenname
 mail#:#mail_template_consumer_invalid_file_or_classname#:#Die angegebene Datei oder die darin enthaltene Klasse erfüllt nicht das geforderte Namensschema.
@@ -696,8 +695,8 @@ mailing#:#upload_attachment_failure#:#Beim Upload des Anhangs ist ein unbekannte
 mailing#:#upload_attachment_no_file#:#Die hochgeladene Datei ist leer.
 mailing#:#upload_attachment_success#:#Datei '%s' erfolgreich hochgeladen.
 modul#:#identifier#:#2Text (original)
-news#:#news_enable_internal_news_info#:#Aktiviert Nachrichtenblöcke für Kategorien, Kurse, Gruppen und andere Objekte. Benutzer können diese Nachrichten abonnieren und erhalten diese auf ihrem Persönlichen Schreibtisch.
-news#:#news_nr_of_items_info#:#Anzahl der Nachrichten, die für ein Objekt (z. B. eine Datei oder ein Lernmodul) in der Datenbank vorgehalten werden. Beachten Sie bitte, dass Containerobjekte wie Kategorien oder Kurse mehr Nachrichten enthalten können, da sie auch die Nachrichten ihrer Unterobjekte anzeigen.
+news#:#news_enable_internal_news_info#:#Aktiviert Nachrichtenblöcke für Kategorien, Trainings, Gruppen und andere Objekte. Benutzer können diese Nachrichten abonnieren und erhalten diese auf ihrem Persönlichen Schreibtisch.
+news#:#news_nr_of_items_info#:#Anzahl der Nachrichten, die für ein Objekt (z. B. eine Datei oder ein Lernmodul) in der Datenbank vorgehalten werden. Beachten Sie bitte, dass Containerobjekte wie Kategorien oder Trainings mehr Nachrichten enthalten können, da sie auch die Nachrichten ihrer Unterobjekte anzeigen.
 orgu#:#orgu_adv_settings#:#erweiterte Einstellungen
 orgu#:#orgu_settings#:#Einstellungen
 orgu#:#orgu_type#:#Typ
@@ -709,98 +708,98 @@ orgu#:#orgu_type_msg_deleted#:#Typ gelöscht.
 orgu#:#orgu_type_msg_deletion_prevented#:#Das Löschen des Typs wurde durch ein Plugin verhindert.
 orgu#:#orgu_type_msg_unable_delete#:#Konnte Typ nicht löschen, da er von folgenden Organisationseinheiten verwendet wird: %s
 orgu#:#orgu_types#:#Typen
-payment#:#pay_crs_max_members_exceeded#:#Die maximale Teilnehmerzahl für diesen Kurs ist bereits erreicht. Deswegen können Sie diesen Kurs momentan leider nicht kaufen.
-payment#:#pays_erp_tst_product#:#Dies ist nur eine Proberechnung. Bei einem wirklichen Kaufvorgang  erscheint hier der Name des Kurses oder der Datei.
-pd#:#pd_enable_my_memberships#:#'Meine Kurse und Gruppen' aktivieren
-pd#:#pd_enable_my_memberships_info#:#Die Sicht 'Meine Mitgliedschaften' enthält alle Kurse und Gruppen, in denen der Benutzer Mitglied ist.
-pd#:#pd_my_memberships_intro#:#Willkommen zu Ihren Kurs- und Gruppenmitgliedschaften
-pd#:#pd_my_memberships_intro2#:#Hier finden Sie alle Kurse und Gruppen, in denen Sie Mitglied sind. Zur Zeit verfügen Sie über keinerlei Mitgliedschaften. Um Kurs- oder Gruppenmitglied zu werden gibt es zwei Wege:<br /><ol><li>Sie können Kursen oder Gruppen beitreten, bei denen der Beitritt von einen Administrator erlaubt wurde.</li><li>Ein Administrator kann Ihnen eine Kurs- oder Gruppenmitgliedsrolle zuweisen.</li></ol><br />In beiden Fällen erscheinen die entsprechenden Kurse oder Gruppen automatisch in dieser Ãœbersicht.
-pd#:#pd_view_select_at_least_one#:#Bitte wählen Sie mindestens eine Sicht, entweder 'Ausgewählte Angebote' und/oder 'Meine Kurse und Gruppen'.
-ps#:#crs_ps_agreement_req_info#:#Bitte stimmen Sie der Nutzungsvereinbarung zu, um auf die Kursinhalte zugreifen zu können.
-ps#:#crs_ps_cdf_info#:#Weitere kursspezifische Daten. Bitte füllen Sie die folgenden Felder aus.
-ps#:#crs_ps_required_info#:#Für die Teilnahme an diesem Kurs werden weitere Informationen benötigt.
-ps#:#ps_cdf_no_fields#:#Dieser Kurs enthält keine Datenfelder
-ps#:#ps_crs_user_fields#:#Kursspezifische Benutzerdaten
-ps#:#ps_export_confirm#:#Aktiviere Nutzungsvereinbarung für Kursmitglieder
-ps#:#ps_export_course#:#Persönliche Daten in Kursen anzeigen und exportieren
-ps#:#ps_export_tutor#:#Tutoren
-ps#:#ps_show_crs_access#:#Anzeige der letzten Zugriffszeit von Kursteilnehmern
-pwassist#:#password_assistance#:#Passwort-Unterstützung
-pwassist#:#pwassist_enter_email#:#Geben Sie eine E-Mail-Adresse ein, und klicken Sie auf Abschicken.\nILIAS sendet eine E-Mail an diese Adresse. Die E-Mail enthält alle Benutzernamen, in deren Profil die E-Mail eingegeben wurde.\nWählen Sie den passenden Benutzernamen aus und lassen Sie sich mit der "Passwort vergessen"-Funktion ein neues Passwort schicken. Falls Sie mit dieser Funktion keine E-Mail erhalten, benachrichtigen Sie bitte Ihre Kursleitung oder senden Sie ein E-Mail an %1$s.
-pwassist#:#pwassist_enter_username_and_email#:#Geben Sie einen Benutzernamen und die dazugehörende E-Mail-Adresse ein, und klicken Sie auf Abschicken.\nILIAS sendet eine E-Mail an diese Adresse. Die E-Mail enthält eine Adresse zu einer Webseite, mit der Sie ein neues Passwort für das Benutzerkonto eingeben können.\nFalls Sie mit dieser Funktion Ihr Passwort nicht setzen können, benachrichtigen Sie bitte Ihre Kursleitung oder senden Sie ein E-Mail an %1$s.
-pwassist#:#pwassist_enter_username_and_new_password#:#Geben Sie den Benutzernamen, für den Sie Passwort-Unterstützung angefordert haben, und das zuzuweisende Passwort ein.
-pwassist#:#pwassist_mail_body#:#Tragen Sie ein neues Passwort für Ihr Benutzerkonto ein:\n\t%1$s\n\nDiese Nachricht wurde automatisch generiert von der ILIAS-Installation:\n\t%2$s\n\nSie (oder jemand mit der Adresse %3$s) hat Passwort-Unterstützung für den Benutzernamen "%4$s" angefordert.\n\nBitte prüfen Sie sorgfältig die nachfolgend aufgeführten Fälle, und handeln Sie wie vorgeschlagen:\n\n-Sie haben die Passwort-Unterstützung auf dem Server versehentlich benutzt:\nLöschen Sie diese Mail.\n\n-Sie sind sicher, dass Sie nie Passwort-Unterstützung für den angegebenen ILIAS-Server angefordert haben:\nBitte nehmen Sie mit %5$s Kontakt auf.\n\n- Sie haben um Passwort-Unterstützung angefragt.\nBitte gehen Sie wie folgt vor:\n\n1. Starten Sie Ihren Browser.\n\n2. Geben Sie folgende Adresse in Ihrem Browser ein:\n\t%6$s\n\nWichtig: Die Adresse besteht aus einer einzigen Zeile. Wenn Sie die Adresse aufgetrennt in mehrere Zeilen sehen, dann hat Ihr E-Mail-Programm diese Zeilenumbrüche eingefügt.\n\n3. Ihr Browser zeigt nun eine Seite an, mit der Sie ein neues Passwort an das Benutzerkonto zuweisen können.\n\nBitte beachen Sie:\nAus Sicherheitsgründen können Sie diese drei Schritte nur exakt einmal und innerhalb einer begrenzten Zeit ausführen. Danach wird die Adresse ungültig, und Sie müssen die Passwort-Unterstützung auf dem ILIAS-Server erneut anfordern.
-pwassist#:#pwassist_mail_sent#:#ILIAS hat eine E-Mail an die Adresse %1$s versandt.\nWeitere Anweisungen finden Sie in dieser Mail.
-pwassist#:#pwassist_mail_subject#:#ILIAS-Passwort-Unterstützung
-pwassist#:#pwassist_username_mail_body#:#Dies sind die aktiven Benutzernamen, die ILIAS für die E-Mail-Adresse verfügbar hat:\n%s\n\nDiese Mail ist automatisch generiert worden von der ILIAS-Installation:\n\t%s\n\nSie (oder jemand mit der Adresse %s) hat die Benutzernamenauflistung für die E-Mail-Adresse '%s' angefordert.\n\nBitte prüfen Sie sorgfältig die nachfolgend aufgeführten Fälle, und handeln Sie wie vorgeschlagen:\n\n-Sie haben die Benutzernamen-Unterstützung auf dem Server versehentlich benutzt:\nLöschen Sie diese E-Mail.\n\n-Sie sind sicher, dass Sie nie Benutzernamen-Unterstützung für den angegebenen ILIAS-Server angefordert haben:\nBitte nehmen Sie mit %s Kontakt auf.\n\n- Sie haben um Benutzernamen-Unterstützung angefragt.\nBitte gehen Sie wie folgt vor:\n\n1. Starten Sie Ihren Browser.\n\n2. Geben Sie folgende Adresse in Ihrem Browser ein:\n\t%s\n\nWichtig: Die Adresse besteht aus einer einzigen Zeile. Wenn Sie die Adresse aufgetrennt in mehrere Zeilen sehen, dann hat Ihr E-Mail-Programm diese Zeilenumbrüche eingefügt.\n\n3. Ihr Browser zeigt nun die Passwort-Unterstützungs-Seite an. Verwenden Sie diese Funktion, um sich zu einer Kombination aus Benutzernamen und E-Mail ein neues Passwort schicken zu lassen.
-rbac#:#book_employees_rcrsv#:#Mitarbeiter auf Seminare buchen (rekursiv)
+payment#:#pay_crs_max_members_exceeded#:#Die maximale Teilnehmerzahl für dieses Training ist bereits erreicht. Deswegen können Sie dieses Training momentan leider nicht kaufen.
+payment#:#pays_erp_tst_product#:#Dies ist nur eine Proberechnung. Bei einem wirklichen Kaufvorgang  erscheint hier der Name des Trainings oder der Datei.
+pd#:#pd_enable_my_memberships#:#Meine Trainings und Gruppen' aktivieren
+pd#:#pd_enable_my_memberships_info#:#Die Sicht 'Meine Mitgliedschaften' enthält alle Trainings und Gruppen, in denen der Benutzer Teilnehmer ist.
+pd#:#pd_my_memberships_intro#:#Willkommen zu Ihren Trainings- und Gruppenmitgliedschaften
+pd#:#pd_my_memberships_intro2#:#Hier finden Sie alle Trainings und Gruppen, in denen Sie Teilnehmer sind. Zur Zeit verfügen Sie über keinerlei Mitgliedschaften. Um Trainings- oder Gruppenmitglied zu werden gibt es zwei Wege:<br /><ol><li>Sie können Trainings oder Gruppen beitreten, bei denen der Beitritt von einen Trainingsbetreuer erlaubt wurde.</li><li>Ein Trainingsbetreuer kann Ihnen eine Trainings- oder Gruppenmitgliedsrolle zuweisen.</li></ol><br />In beiden Fällen erscheinen die entsprechenden Trainings oder Gruppen automatisch in dieser Übersicht.
+pd#:#pd_view_select_at_least_one#:#Bitte wählen Sie mindestens eine Sicht, entweder 'Ausgewählte Angebote' und/oder 'Meine Trainings und Gruppen'.
+ps#:#crs_ps_agreement_req_info#:#Bitte stimmen Sie der Nutzungsvereinbarung zu, um auf die Trainingsinhalte zugreifen zu können.
+ps#:#crs_ps_cdf_info#:#Weitere trainingsspezifische Daten. Bitte füllen Sie die folgenden Felder aus.
+ps#:#crs_ps_required_info#:#Für die Teilnahme an diesem Training werden weitere Informationen benötigt.
+ps#:#ps_cdf_no_fields#:#Diesers Training enthält keine Datenfelder
+ps#:#ps_crs_user_fields#:#Trainingsspezifische Benutzerdaten
+ps#:#ps_export_confirm#:#Aktiviere Nutzungsvereinbarung für Trainingsmitglieder
+ps#:#ps_export_course#:#Persönliche Daten in Trainings anzeigen und exportieren
+ps#:#ps_export_tutor#:#Trainer
+ps#:#ps_show_crs_access#:#Anzeige der letzten Zugriffszeit von Trainingsteilnehmern
+pwassist#:#password_assistance#:#Passwort-/Benutzernamen-Unterstützung
+pwassist#:#pwassist_enter_email#:#Sollten Sie sich nicht mehr an Ihren Benutzernamen erinnern können, so können Sie sich diesen hier per E-Mail zuschicken lassen. <br /><br />Geben Sie Ihre E-Mail-Adresse ein und klicken Sie auf die Schaltfläche "Abschicken".\n \nSie erhalten eine E-Mail mit Ihrem Benutzernamen.  Sind mehrere Benutzernamen mit Ihrer E-Mail-Adresse hinterlegt, so werden alle Benutzernamen aufgelistet. \n \nFalls  Sie keine E-Mail erhalten, benachrichtigen Sie bitte Ihre Trainingsleitung oder senden Sie eine E-Mail an  %1$s.
+pwassist#:#pwassist_enter_username_and_email#:#Sollten Sie Ihr Passwort vergessen haben, so können Sie sich hier eine E-Mail zuschicken lassen, mit der Sie Ihr Passwort zurücksetzen können. \n\nGeben Sie bitte Ihren Benutzernamen und die dazugehörende E-Mail-Adresse ein. Klicken Sie dann auf die Schaltfläche "Abschicken". \n \nSie erhalten dann eine E-Mail mit weiteren Anweisungen. \n \nFalls Sie mit dieser Funktion Ihr Passwort nicht zurücksetzen können, benachrichtigen Sie bitte Ihre Trainingsleitung oder senden Sie ein E-Mail an %1$s.
+pwassist#:#pwassist_enter_username_and_new_password#:#Geben Sie den Benutzernamen, für den Sie Passwort-Unterstützung angefordert haben, und das neue Passwort ein.
+pwassist#:#pwassist_mail_body#:#Sehr geehrte Generali Online Akademie Nutzerin,\nsehr geehrter Generali Online Akademie Nutzer,\n\nSie haben soeben die Rücksetzung Ihres Passworts angefordert. Bitte öffnen Sie den folgenden Link, um Ihr neues Passwort zu vergeben:\n%1$s\n\nHinweis: Der Link besteht aus nur einer Zeile. Sollte er durch Ihr E-Mail-Programm auf mehrere Zeilen aufgeteilt sein, so entfernen Sie bitte die Zeilenumbrüche. Aus Sicherheitsgründen kann der Link nur einmal und innerhalb einer begrenzten Zeit aufgerufen werden. Danach wird der Link ungültig und Sie müssen die Passwort-Unterstützung erneut anfordern.\n\nDiese Nachricht wurde automatisch generiert von: %2$s\nIhr Benutzername lautet: %4$s\n\nSollten Sie versehentlich die Passwort-Unterstützung benutzt haben, so löschen Sie bitte diese Nachricht.\nSollten Sie keine Passwort-Unterstützung angefordert haben, so nehmen Sie bitte mit %5$s Kontakt auf.\n\nMit freundlichen Grüßen \nIhre Generali Online Akademie
+pwassist#:#pwassist_mail_sent#:#Wir haben soeben eine E-Mail an die Adresse %1$s versendet.\nWeitere Anweisungen entnehmen Sie bitte dieser Nachricht.
+pwassist#:#pwassist_mail_subject#:#Generali Online Akademie: Passwort-/Benutzernamen-Unterstützung
+pwassist#:#pwassist_username_mail_body#:#Sehr geehrte Generali Online Akademie Nutzerin,\nsehr geehrte Generali Online Akademie Nutzer,\n\nSie haben soeben Ihren Benutzernamen für die Generali Online Akademie angefragt. \n\nDies sind die aktiven Nutzernamen, die wir unter Ihrer E-Mail-Adresse registriert haben: \n%1$s\n\nDiese E-Mail ist automatisch generiert worden von: %2$s \nDie eingetragene E-Mail-Adresse lautet: %4$s \n\nMit freundlichen Grüßen \nIhre Generali Online Akademie
+rbac#:#book_employees_rcrsv#:#Mitarbeiter auf Training buchen (rekursiv)
 rbac#:#book_users#:#Buchungen vornehmen
 rbac#:#cancel_bookings#:#Stornierungen vornehmen
-rbac#:#crs_copy#:#Kurs kopieren
-rbac#:#crs_delete#:#Kurs löschen oder verschieben
-rbac#:#crs_join#:#Kurs beitreten
-rbac#:#crs_leave#:#Kurs verlassen
-rbac#:#crs_read#:#Kurs lesen
-rbac#:#crs_visible#:#Kurs ist sichtbar
-rbac#:#crs_write#:#Kurs bearbeiten
-rbac#:#crsr_copy#:#Kurs-Referenzen kopieren
-rbac#:#crsr_delete#:#Kurs-Referenzen verschieben oder löschen
-rbac#:#crsr_read#:#Lesezugriff auf Kurs-Referenzen
-rbac#:#crsr_visible#:#Kurs-Referenzen sind sichtbar und können genutzt werden
-rbac#:#crsr_write#:#Einstellungen der Kurs-Referenzen bearbeiten
-rbac#:#crss_edit_permission#:#Rechteeinstellungen für die Kurs-Administration ändern
-rbac#:#crss_read#:#Lesezugriff auf Kurs-Administration
-rbac#:#crss_visible#:#Kurs-Administration ist sichtbar
-rbac#:#crss_write#:#Einstellungen in Kurs-Administration bearbeiten
+rbac#:#crs_copy#:#Training kopieren
+rbac#:#crs_delete#:#Training löschen oder verschieben
+rbac#:#crs_join#:#Training beitreten
+rbac#:#crs_leave#:#Training verlassen
+rbac#:#crs_read#:#Training lesen
+rbac#:#crs_visible#:#Training ist sichtbar
+rbac#:#crs_write#:#Training bearbeiten
+rbac#:#crsr_copy#:#Trainings-Referenzen kopieren
+rbac#:#crsr_delete#:#Trainings-Referenzen verschieben oder löschen
+rbac#:#crsr_read#:#Lesezugriff auf Trainings-Referenzen
+rbac#:#crsr_visible#:#Trainings-Referenzen sind sichtbar und können genutzt werden
+rbac#:#crsr_write#:#Einstellungen der Trainings-Referenzen bearbeiten
+rbac#:#crss_edit_permission#:#Rechteeinstellungen für die Trainings-Betreuung ändern
+rbac#:#crss_read#:#Lesezugriff auf Trainings-Betreuung
+rbac#:#crss_visible#:#Trainingsbetreuer ist sichtbar
+rbac#:#crss_write#:#Einstellungen in Trainings-Betreuung bearbeiten
 rbac#:#orgu_book_employees#:#Mitarbeiter auf Seminare buchen
-rbac#:#orgu_book_employees_rcrsv#:#Mitarbeiter auf Seminare buchen (rekursiv)
+rbac#:#orgu_book_employees_rcrsv#:#Mitarbeiter auf Trainings buchen (rekursiv)
 rbac#:#orgu_cancel_employee_bookings#:#Buchungen von Mitarbeitern stornieren
 rbac#:#orgu_cancel_employee_bookings_rcrsv#:#Buchungen von Mitarbeitern stornieren (rekursiv)
 rbac#:#orgu_copy#:#Organisationseinheiten kopieren
 rbac#:#orgu_view_employee_bookings#:#Buchungen von Mitarbeitern einsehen
 rbac#:#orgu_view_employee_bookings_rcrsv#:#Buchungen von Mitarbeitern einsehen (rekursiv)
 rbac#:#orgu_view_learning_progress_rec#:#Lernfortschritt einsehen (rekursiv)
-rbac#:#ps_export_member_data#:#Export von Mitgliederdaten in Gruppen und Kursen erlauben
-rbac#:#rbac_create_crs#:#Kurs anlegen
-rbac#:#rbac_create_crsr#:#Kursreferenz anlegen
-rbac#:#rbac_delete_local_policies_info#:#Wählen Sie diese Einstellung, um alle vorhandenen lokalen Zugriffsregelungen (z.B. in Kursen und Gruppen) zu entfernen. Alle Rechte werden neu geschrieben, anschlieÃŸend wird der Rechteschutz aktiviert.
-rbac#:#rbac_unprotected_delete_local_policies_info#:#Wenn aktiviert, werden alle lokalen Zugriffsregelungen überschrieben und die Rechte in Kursen und Gruppen neu initialisiert.
+rbac#:#ps_export_member_data#:#Export von Teilnehmerdaten in Gruppen und Trainings erlauben
+rbac#:#rbac_create_crs#:#Training anlegen
+rbac#:#rbac_create_crsr#:#Trainingreferenz anlegen
+rbac#:#rbac_delete_local_policies_info#:#WÃ¤hlen Sie diese Einstellung, um alle vorhandenen lokalen Zugriffsregelungen (z.B. in Trainings und Gruppen) zu entfernen. Alle Rechte werden neu geschrieben, anschlieÃŸend wird der Rechteschutz aktiviert.
+rbac#:#rbac_unprotected_delete_local_policies_info#:#Wenn aktiviert, werden alle lokalen Zugriffsregelungen Ã¼berschrieben und die Rechte in Trainings und Gruppen neu initialisiert.
 rbac#:#tep_edit_other#:#TEP Termine von anderen Trainern bearbeiten
 rbac#:#tep_edit_other_rcrsv#:#TEP Termine von anderen Trainern bearbeiten (rekursiv)
 rbac#:#tep_is_tutor#:#ist Trainer in dieser Einheit
 rbac#:#tep_view_other#:#TEP Termine von anderen Trainern sehen
 rbac#:#tep_view_other_rcrsv#:#TEP Termine von anderen Trainer sehen (rekursiv)
 rbac#:#view_bookings#:#Buchungen einsehen
-search#:#search_add_members_from_container_crs#:#Benutzer aus aktuellem Kurs hinzufügen
-search#:#search_crs_title#:#Kursname
-search#:#search_for_crs_members#:#Nach Kursmitgliedern suchen
-survey#:#survey_notification_target_group_parent_course#:#Alle Teilnehmer des übergeordneten Kurses/Gruppe
-survey#:#survey_notification_target_group_parent_course_inactive#:#Kein übergeordneter Kurs/Gruppe - keine Erinnerung möglich!
-survey#:#survey_notification_tutor_recipients#:#Tutoren (Benutzername[n])
-survey#:#survey_notification_tutor_setting#:#Tutoren benachrichtigen, wenn alle Teilnehmer beendet haben
-tep#:#tep_column_no_tutor#:#Seminare ohne Trainer
-tep#:#tep_filter_no_tutor#:#Seminare ohne Trainer anzeigen?
-tep#:#tep_filter_orgu_all#:# --Alle Tutoren--
-tep#:#tep_filter_tutor#:#Tutor
-tep#:#tep_filter_tutor_empty#:#Die Auswahl der Organisationseinheiten enthält keine Tutoren.
-trac#:#trac_crs_assignments#:#Auswahl der Kurselemente, die für die Anzeige des Lernfortschritts berücksichtigt werden:
-trac#:#trac_crs_items#:#Kurselemente
-trac#:#trac_crs_members#:#Kursteilnehmer:
-trac#:#trac_crs_releavant_items#:#Kursobjekte
-trac#:#trac_crs_relevant_items#:#Kursmaterialien
-trac#:#trac_learning_progress_objects_description#:#Diese Liste zeigt eine Ãœbersicht all Ihrer Kurse und Objekte.
-trac#:#trac_mode_exercise_returned_info#:#Den Lernstand der Benutzer (etwa 'Bearbeitet' oder 'Nicht bestanden') bestimmen Tutoren.
-trac#:#trac_mode_manual_by_tutor#:#Manuell durch Tutor
-trac#:#trac_mode_manual_by_tutor_info#:#Den Lernstand der Benutzer (etwa 'Bearbeitet' oder 'Nicht bestanden') bestimmen Tutoren.
-trac#:#trac_object_stat_lp#:#Lernstandstatistik Kurs
-trac#:#trac_sure_delete_data#:#Wollen Sie wirklich die Daten der folgenden Monate löschen? Dadurch werden folgende Statistiken für diesen Zeitraum entfernt: Nutzungsintensität, Tagesverlauf, Lernstandstatistik Kurs und Anzahl der Objekte.
-trac#:#trac_view_crs#:#Zur Kursübersicht
-user#:#user_member_of_course_group#:#Mitglied in Kurs/Gruppe
-user#:#user_no_courses#:#Keinem Kurs zugeordnet
-user#:#user_please_select_course_group#:#Bitte wählen Sie eine Gruppe oder einen Kurs aus.
-user#:#user_select_course_group#:#Kurs/Gruppe auswählen
-wiki#:#wiki_feedback_from_tutor#:#Feedback des Tutors
-wsp#:#wsp_list_crsv#:#Kurszertifikat
-wsp#:#wsp_set_permission_course#:#Kursmitglieder
-wsp#:#wsp_shared_member_filter#:#Kurs-/Gruppenmitglieder
-wsp#:#wsp_type_crsv#:#Zertifikat: Kurs
+search#:#search_add_members_from_container_crs#:#Benutzer aus aktuellem Training hinzufügen
+search#:#search_crs_title#:#Trainingsname
+search#:#search_for_crs_members#:#Nach Trainingsteilnehmern suchen
+survey#:#survey_notification_target_group_parent_course#:#Alle Teilnehmer des/der übergeordnete(n) Trainings/Gruppe
+survey#:#survey_notification_target_group_parent_course_inactive#:#Kein(e) übergeordnete(s) Training/Gruppe - keine Erinnerung möglich!
+survey#:#survey_notification_tutor_recipients#:#Trainer (Benutzername[n])
+survey#:#survey_notification_tutor_setting#:#Trainer benachrichtigen, wenn alle Teilnehmer beendet haben
+tep#:#tep_column_no_tutor#:#Trainings ohne Trainer
+tep#:#tep_filter_no_tutor#:#Trainings ohne Trainer anzeigen?
+tep#:#tep_filter_orgu_all#:#--Alle Trainer--
+tep#:#tep_filter_tutor#:#Trainer
+tep#:#tep_filter_tutor_empty#:#Die Auswahl der Organisationseinheiten enthält keine Trainer.
+trac#:#trac_crs_assignments#:#Auswahl der Trainingselemente, die für die Anzeige des Lernfortschritts berücksichtigt werden:
+trac#:#trac_crs_items#:#Trainingselemente
+trac#:#trac_crs_members#:#Trainingsteilnehmer:
+trac#:#trac_crs_releavant_items#:#Trainingsobjekte
+trac#:#trac_crs_relevant_items#:#Trainingsmaterialien
+trac#:#trac_learning_progress_objects_description#:#Diese Liste zeigt eine Übersicht all Ihrer Trainings und Objekte.
+trac#:#trac_mode_exercise_returned_info#:#Den Lernstand der Benutzer (etwa 'Bearbeitet' oder 'Nicht bestanden') bestimmen Trainer.
+trac#:#trac_mode_manual_by_tutor#:#Manuell durch Trainer
+trac#:#trac_mode_manual_by_tutor_info#:#Den Lernstand der Benutzer (etwa 'Bearbeitet' oder 'Nicht bestanden') bestimmen Trainer.
+trac#:#trac_object_stat_lp#:#Lernstandstatistik Training
+trac#:#trac_sure_delete_data#:#Wollen Sie wirklich die Daten der folgenden Monate löschen? Dadurch werden folgende Statistiken für diesen Zeitraum entfernt: Nutzungsintensität, Tagesverlauf, Lernstandstatistik Training und Anzahl der Objekte.
+trac#:#trac_view_crs#:#Zur Trainingsübersicht
+user#:#user_member_of_course_group#:#Teilnehmer in Training/Gruppe
+user#:#user_no_courses#:#Keinem Training zugeordnet
+user#:#user_please_select_course_group#:#Bitte wählen Sie eine Gruppe oder ein Training aus.
+user#:#user_select_course_group#:#Training/Gruppe auswählen
+wiki#:#wiki_feedback_from_tutor#:#Feedback des Trainerss
+wsp#:#wsp_list_crsv#:#Trainingszertifikat
+wsp#:#wsp_set_permission_course#:#Trainingsteilnehmer
+wsp#:#wsp_shared_member_filter#:#Trainings-/Gruppenmitglieder
+wsp#:#wsp_type_crsv#:#Zertifikat: Training
