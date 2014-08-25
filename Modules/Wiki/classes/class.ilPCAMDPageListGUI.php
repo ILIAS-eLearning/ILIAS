@@ -163,22 +163,23 @@ class ilPCAMDPageListGUI extends ilPageContentGUI
 	function update()
 	{				
 		$form = $this->initForm();
-		if($form->checkInput())
-		{			
-			$elements = $this->record_gui->importSearchForm();			
-			if(is_array($elements))
-			{	
-				$this->content_obj->setData($elements);
-				$this->updated = $this->pg_obj->update();
-				if ($this->updated === true)
-				{
-					$this->ctrl->returnToParent($this, "jump".$this->hier_id);
-				}
+		$valid = $form->checkInput();
+		if($valid)
+		{
+			$elements = $this->record_gui->importSearchForm();
+		}													
+		if(is_array($elements))
+		{	
+			$this->content_obj->setData($elements);
+			$this->updated = $this->pg_obj->update();
+			if ($this->updated === true)
+			{
+				$this->ctrl->returnToParent($this, "jump".$this->hier_id);
 			}
-		}
+		}		
 
 		$this->pg_obj->addHierIDs();
-		$form->setValuesByPost();
+		// $form->setValuesByPost();
 		return $this->edit($form);			
 	}
 }

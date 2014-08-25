@@ -14611,3 +14611,5 @@ cntr#:#sorting_new_items_position#:#Position For New Objects
 cntr#:#sorting_new_items_at_top#:#Top
 cntr#:#sorting_new_items_at_bottom#:#Bottom
 cntr#:#sorting_new_items_order#:#Order For New Objects
+form#:#form_location_radius#:#Radius
+form#:#form_location_radius_km#:#km

@@ -4,6 +4,8 @@ require_once "Services/ADT/classes/Bridges/class.ilADTSearchBridgeSingle.php";
 
 class ilADTLocationSearchBridgeSingle extends ilADTSearchBridgeSingle
 {
+	protected $radius; // [int]	
+	
 	protected function isValidADTDefinition(ilADTDefinition $a_adt_def)
 	{
 		return ($a_adt_def instanceof ilADTLocationDefinition);
@@ -26,29 +28,66 @@ class ilADTLocationSearchBridgeSingle extends ilADTSearchBridgeSingle
 	// form
 	
 	public function addToForm()
-	{													
+	{			
+		global $lng;
+		
 		$adt = $this->getADT();
 		
-		$loc = new ilLocationInputGUI($this->getTitle(), $this->getElementId());
+		$default = false;
+		if($adt->isNull())
+		{
+			// see ilPersonalProfileGUI::addLocationToForm()
+			
+			// use installation default
+			include_once("./Services/GoogleMaps/classes/class.ilGoogleMapUtil.php");
+			$def = ilGoogleMapUtil::getDefaultSettings();
+			$adt->setLatitude($def["latitude"]);
+			$adt->setLongitude($def["longitude"]);
+			$adt->setZoom($def["zoom"]);
+			
+			$default = true;
+		}
+		
+		$optional = new ilCheckboxInputGUI($this->getTitle(), $this->addToElementId("tgl"));
+		
+		if(!$default && !$adt->isNull())
+		{
+			$optional->setChecked(true);
+		}
+			
+		$loc = new ilLocationInputGUI($lng->txt("location"), $this->getElementId());
 		$loc->setLongitude($adt->getLongitude());
 		$loc->setLatitude($adt->getLatitude());
-		$loc->setZoom($adt->getZoom());
-		
-		$loc->setInfo(":TODO: location circum search");
-		
-		$this->addToParentElement($loc);
+		$loc->setZoom($adt->getZoom());				
+		$optional->addSubItem($loc);
+			
+		$rad = new ilNumberInputGUI($lng->txt("form_location_radius"), $this->addToElementId("rad"));
+		$rad->setSize(4);
+		$rad->setSuffix($lng->txt("form_location_radius_km"));
+		$rad->setValue($this->radius);
+		$rad->setRequired(true);
+		$optional->addSubItem($rad);
+				
+		$this->addToParentElement($optional);
+	}
+	
+	protected function shouldBeImportedFromPost($a_post)
+	{
+		return (bool)$a_post["tgl"];
 	}
 	
 	public function importFromPost(array $a_post = null)
-	{		
+	{				
 		$post = $this->extractPostValues($a_post);
 				
 		if($post && $this->shouldBeImportedFromPost($post))
-		{								
+		{													
 			$item = $this->getForm()->getItemByPostVar($this->getElementId());
 			$item->setLongitude($post["longitude"]);
 			$item->setLatitude($post["latitude"]);
-			$item->setZoom($post["zoom"]);		
+			$item->setZoom($post["zoom"]);	
+			
+			$this->radius = (int)$post["rad"];
 						
 			$this->getADT()->setLongitude($post["longitude"]);
 			$this->getADT()->setLatitude($post["latitude"]);
@@ -59,7 +98,38 @@ class ilADTLocationSearchBridgeSingle extends ilADTSearchBridgeSingle
 			// :TODO: ?	
 		}	
 	}
+		
+	public function isValid()
+	{
+		return (parent::isValid() && (int)$this->radius);		
+	}
 	
+	
+	// bounding
+	
+	/**
+	 * Get bounding box for location circum search
+	 * 
+	 * @param float $a_latitude
+	 * @param float $a_longitude
+	 * @param int $a_radius
+	 * @return array
+	 */
+	protected function getBoundingBox($a_latitude, $a_longitude, $a_radius)
+	{
+		$earth_radius = 6371;
+		
+		$max_lat = $a_latitude + rad2deg($a_radius/$earth_radius);
+		$min_lat = $a_latitude - rad2deg($a_radius/$earth_radius);
+		$max_long = $a_longitude + rad2deg($a_radius/$earth_radius/cos(deg2rad($a_latitude)));
+		$min_long = $a_longitude - rad2deg($a_radius/$earth_radius/cos(deg2rad($a_latitude)));
+
+		return array(
+			"lat" => array("min"=>$min_lat, "max"=>$max_lat)
+			,"long" => array("min"=>$min_long, "max"=>$max_long)
+		);
+	}
+
 	
 	// db
 	
@@ -69,9 +139,14 @@ class ilADTLocationSearchBridgeSingle extends ilADTSearchBridgeSingle
 		
 		if(!$this->isNull() && $this->isValid())
 		{
+			$box = $this->getBoundingBox($this->getADT()->getLatitude(), $this->getADT()->getLongitude(), $this->radius);
+						
 			$res = array();			
-			$res[] = $a_element_id."_lat = ".$ilDB->quote($this->getADT()->getLatitude(), "float");				
-			$res[] = $a_element_id."_long = ".$ilDB->quote($this->getADT()->getLongitude(), "float");				
+			$res[] = $a_element_id."_lat >= ".$ilDB->quote($box["lat"]["min"], "float");	
+			$res[] = $a_element_id."_lat <= ".$ilDB->quote($box["lat"]["max"], "float");	
+			$res[] = $a_element_id."_long >= ".$ilDB->quote($box["long"]["min"], "float");	
+			$res[] = $a_element_id."_long <= ".$ilDB->quote($box["long"]["max"], "float");	
+				
 			return "(".implode(" AND ", $res).")";
 		}
 	}
@@ -84,8 +159,9 @@ class ilADTLocationSearchBridgeSingle extends ilADTSearchBridgeSingle
 		if(!$this->isNull() && $this->isValid())		
 		{			
 			return serialize(array(
-				"lat"=>$this->getADT()->getLatitude()
-				,"long"=>$this->getADT()->getLongitude()
+				"lat" => $this->getADT()->getLatitude()
+				,"long" => $this->getADT()->getLongitude()
+				,"radius" => (int)$this->radius
 			));
 		}		
 	}
@@ -97,6 +173,7 @@ class ilADTLocationSearchBridgeSingle extends ilADTSearchBridgeSingle
 		{
 			$this->getADT()->setLatitude($a_value["lat"]);			
 			$this->getADT()->setLongitude($a_value["long"]);			
+			$this->radius = (int)$a_value["radius"];			
 		}		
 	}
 	

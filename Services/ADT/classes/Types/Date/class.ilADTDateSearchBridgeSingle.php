@@ -83,7 +83,10 @@ class ilADTDateSearchBridgeSingle extends ilADTSearchBridgeSingle
 			
 			// :TODO: all dates are imported as valid 
 			
-			$date = new ilDate($date, IL_CAL_UNIX);
+			if($date)
+			{
+				$date = new ilDate($date, IL_CAL_UNIX);
+			}
 			
 			if($this->getForm() instanceof ilPropertyFormGUI)
 			{

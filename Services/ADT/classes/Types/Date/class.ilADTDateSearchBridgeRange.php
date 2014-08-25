@@ -162,8 +162,14 @@ class ilADTDateSearchBridgeRange extends ilADTSearchBridgeRange
 			
 			// :TODO: all dates are imported as valid 						
 			
-			$start = new ilDate($start, IL_CAL_UNIX);
-			$end = new ilDate($end, IL_CAL_UNIX);
+			if($start)
+			{
+				$start = new ilDate($start, IL_CAL_UNIX);
+			}
+			if($end)
+			{
+				$end = new ilDate($end, IL_CAL_UNIX);
+			}
 			
 			if($this->getForm() instanceof ilPropertyFormGUI)
 			{
