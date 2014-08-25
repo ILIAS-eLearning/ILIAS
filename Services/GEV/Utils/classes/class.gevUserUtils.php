@@ -767,7 +767,7 @@ class gevUserUtils {
 			   ."              )"
 			   ."       )"
 			   ;
-		
+			
 		$res = $this->db->query($sql);
 		if ($rec = $this->db->fetchAssoc($res)) {
 			return $rec["cnt"] == 0;

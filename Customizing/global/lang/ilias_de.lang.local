@@ -755,6 +755,29 @@ gev#:#gev_wbd_registration_finished#:#Vielen Dank, wir werden für Sie ein Konto
 gev#:#gev_bwv_id#:#GDV Vermittler-ID
 crsbook#:#admin_assign_overlapping#:#Folgende Buchungen überschneiden sich
 gev#:#gev_wbd_relevant#:#WBD relevant
+crsbook#:#admin_status_waiting#:#Auf Warteliste
+crsbook#:#admin_status_cancelled_with_costs#:#Mit Kosten storniert
+crsbook#:#admin_status_cancelled_without_costs#:#Ohne Kosten storniert
+crsbook#:#admin_assign_confirm#:#Bestätigen Sie bitte die Buchung der folgenden Teilnehmer.
+crsbook#:#admin_assign_cancelled_user#:#Wurde bereits storniert
+crsbook#:#admin_assign_not_bookable_user#:#Ist nicht buchbar
+crsbook#:#admin_assign_already_assigned#:#Ist bereits gebucht (oder auf der Warteliste)
+crsbook#:#admin_add_participants#:#Teilnehmer hinzufügen
+crsbook#:#admin_status#:#Buchungsstatus
+crsbook#:#admin_do_not_add#:#Nicht hinzufügen
+crsbook#:#admin_group_has_no_members#:#Die gewählte Gruppe 
+crsbook#:#admin_action_to_waiting_list#:#Auf die Warteliste
+crsbook#:#admin_action_book#:#Als Teilnehmer hinzufügen
+crsbook#:#admin_action_cancel_without_costs#:#Ohne Kosten stornieren
+crsbook#:#admin_action_cancel_with_costs#:#Mit Kosten stornieren
+crsbook#:#admin_user_action_confirm_ToWaitingList#:#Wollen Sie den Teilnehmer wirklich auf die Warteliste verschieben?
+crsbook#:#admin_user_action_confirm_Book#:#Wollen Sie die Teilnahme wirklich buchen?
+crsbook#:#admin_user_action_confirm_CancelWithoutCosts#:#Wollen Sie den Teilnahme wirklich ohne Kosten stornieren?
+crsbook#:#admin_user_action_confirm_CancelWithCosts#:#Wollen Sie den Teilnahme wirklich mit Kosten stornieren
+crsbook#:#admin_user_action_done#:#Der Status des Benutzer wurde erfolgreich geändert.
+crsbook#:#admin_org_add_recursive#:#Mitglieder von Untereinheiten auswählen
+crsbook#:#admin_org_unit_has_no_members#:#Die gewählte Org-Einheit hat keine Mitglieder
+crsbook#:#admin_assign_overlapping_user#:#Folgende Buchungen überschneiden sich=======
 gev#:#gev_filter#:#Filter
 crsbook#:#crsbook_admin_tab_list_bookings#:#Buchungen
 crsbook#:#crsbook_admin_tab_list_cancellations#:#Stornierungen
