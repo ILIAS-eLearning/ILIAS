@@ -1814,8 +1814,11 @@ function updateControls(controlState)
 }
 
 
-function setResource(id, url, base) 
+function setResource() 
 {
+	var id  = openedResource[0];
+	var url = openedResource[1];
+	var base= openedResource[2];
 	if (url.substring(0,4) != "http") url= base + url;
 //IE11 problem
 	// if (!top.frames[RESOURCE_NAME])
@@ -1936,9 +1939,10 @@ function buildNavTree(rootAct,name,tree){
 	if (mlaunch.mNavState.mChoice!=null)
 	{
 		var id=rootAct.id;
-		if (rootAct.isvisible==true && typeof(mlaunch.mNavState.mChoice[id])=="object") {	
-			il.NestedList.addNode('rte_tree', par_id, ITEM_PREFIX + rootAct.id,
-				"<a href='#this' id='" + ITEM_PREFIX + rootAct.id + "' target='_self'>" + rootAct.title + "</a>",
+		if (rootAct.isvisible==true && typeof(mlaunch.mNavState.mChoice[id])=="object") {
+			var it_id=(ITEM_PREFIX + rootAct.id).replace(/\./g,"_");
+			il.NestedList.addNode('rte_tree', (""+par_id).replace(/\./g,"_"), it_id,
+				"<a href='#this' id='" + it_id + "' target='_self'>" + rootAct.title + "</a>",
 				true);
 			par_id = ITEM_PREFIX + rootAct.id;
 		}	
@@ -1951,9 +1955,9 @@ function buildNavTree(rootAct,name,tree){
 				var id=rootAct.item[i].id;
 				if (mlaunch.mNavState.mChoice!=null) {
 					if (rootAct.item[i].isvisible==true && typeof(mlaunch.mNavState.mChoice[id])=="object") {
-						
-						il.NestedList.addNode('rte_tree', par_id, ITEM_PREFIX + rootAct.item[i].id,
-							"<a href='#this' id='" + ITEM_PREFIX + rootAct.item[i].id + "' target='_self'>" + rootAct.item[i].title + "</a>",
+						var it_id=(ITEM_PREFIX + rootAct.item[i].id).replace(/\./g,"_");
+						il.NestedList.addNode('rte_tree', (""+par_id).replace(/\./g,"_"), it_id,
+							"<a href='#this' id='" + it_id + "' target='_self'>" + rootAct.item[i].title + "</a>",
 							true);
 						var next_par_id = ITEM_PREFIX + rootAct.item[i].id;
 					}	
@@ -3245,7 +3249,8 @@ function onItemDeliver(item, wasSuspendAll) // onDeliver called from sequencing 
 	    && envEditor==false) {
 		item.parameters = "?"+ item.parameters;
 	} 
-	setResource(item.id, item.href+randNumber+item.parameters, this.config.package_url);
+	openedResource=[item.id, item.href+randNumber+item.parameters, this.config.package_url];
+	setResource();
 }
 
 
@@ -3717,9 +3722,9 @@ function onTerminate(data)
 	msequencer.mSeqTree.setValidRequests(valid);
 	mlaunch.mNavState = msequencer.mSeqTree.getValidRequests();
 //check if better without updateNav and updateControls
-//	updateNav(false);
+	updateNav(false);
 	updateControls();
-	
+	setResource();
 	return true;
 }
 
@@ -3774,7 +3779,7 @@ function updateNav(ignore) {
 				continue;
 			}
 		}
-		var elm = all(ITEM_PREFIX + tree[i].mActivityID);
+		var elm = all(ITEM_PREFIX + tree[i].mActivityID.replace(/\./g,"_"));
 	//	if (!elm) {return;}
 //console.log("-" + ITEM_PREFIX + tree[i].mActivityID + "-" + disable + "-");
 		if (disable)
@@ -4055,6 +4060,8 @@ var saved={
 // SCO related Variables
 var currentAPI; // reference to API during runtime of a SCO
 var scoStartTime = null;
+
+var openedResource = new Array();
 
 var treeView=true;
 
