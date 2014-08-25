@@ -159,4 +159,47 @@ class ilUserCourseStatusHistorizingHelper
 			return $obj->getId();
 		}
 	}
+	
+	/**
+	 * Returns true when the start and end of the course should be tracked individually per user.
+	 * 
+	 * @param integer|ilObjUser   $user
+	 * @param integer|ilObjCourse $course
+	 *
+	 * @return bool
+	 */
+	public function courseHasIndividualStartAndEnd($course) {
+		return gevCourseUtils::getInstanceByObjOrId($course)->getType() == "Selbstlernkurs";
+	}
+	
+	/**
+	 * Sets the individual start and end date based on the booking and participation status.
+	 *
+	 * @param array 	$payload	according to layout in ilUserCourseStatusHistorizingAppEventListener::getStateData
+	 *
+	 * @return null
+	 */
+	public function setIndividualStartAndEnd($user_id, $course_is, &$payload) {
+		require_once("Services/UserCourseStatusHistorizing/classes/class.ilUserCourseStatusHistorizing.php");
+		require_once("Services/Calendar/classes/class.ilDateTime.php");
+		
+		$case_id = array( 'usr_id'	 =>	$user_id
+						, 'crs_id'	 =>	$course_id
+						);
+		
+		if (!ilUserCourseStatusHistorizing::caseExists($case_id)) {
+			$payload["begin_date"] = date("Y-m-d");
+			return;
+		}
+		
+		if ($payload["participation_status"] !== "teilgenommen") {
+			return;
+		}
+		
+		$cur = ilUserCourseStatusHistorizing::getCurrentRecordByCase();
+		
+		if ($cur["participation_status"] !== "teilgenommen") {
+			$payload["end_date"] = date("Y-m-d");
+		}
+	}
 }

@@ -173,14 +173,22 @@ class ilUserCourseStatusHistorizingAppEventListener
 		//$ilLog->write($event."-".$user_id."-".$course_id);
 		// TODO: certificate!!
 		
+		$individual_start_and_end = self::$ilUserCourseStatusHistorizingHelper->courseHasIndividualStartAndEnd($course_id);
+		
 		// TODO: this needs to be fixed to yield the individual data for the partipant
-		$begin_date = self::$ilCourseHistorizingHelper->getBeginOf($course_id);
-		if ($begin_date) {
-			$begin_date = $begin_date->get(IL_CAL_DATE);
+		if (!$individual_start_and_end) {
+			$begin_date = self::$ilCourseHistorizingHelper->getBeginOf($course_id);
+			if ($begin_date) {
+				$begin_date = $begin_date->get(IL_CAL_DATE);
+			}
+			$end_date = self::$ilCourseHistorizingHelper->getEndOf($course_id);
+			if ($end_date) {
+				$end_date = $end_date->get(IL_CAL_DATE);
+			}
 		}
-		$end_date = self::$ilCourseHistorizingHelper->getEndOf($course_id);
-		if ($end_date) {
-			$end_date = $end_date->get(IL_CAL_DATE);
+		else {
+			$begin_date = null;
+			$end_date = null;
 		}
 		
 		$data_payload = array(
@@ -199,6 +207,10 @@ class ilUserCourseStatusHistorizingAppEventListener
 			'overnights'						=> self::$ilUserCourseStatusHistorizingHelper->getOvernightsOf($user_id, $course_id),
 			'function'							=> self::$ilUserCourseStatusHistorizingHelper->getFunctionOf($user_id, $course_id)
 		);
+
+		if ($individual_start_and_end) {
+			self::$ilUserCourseStatusHistorizingHelper->setIndividualStartAndEnd($user_id, $course_id, $data_payload);
+		}
 
 		return $data_payload;
 	}
