@@ -225,8 +225,8 @@ class ilTEPGUI
 		$this->setTabs();
 				
 		//$tpl->addCss(ilUtil::getStyleSheetLocation("filesystem", "tep_print.css", "Services/TEP"), "print");	
-		$csspath = 'Customizing/global/skin/genv/Services/TEP';
-		$tpl->addCss(ilUtil::getStyleSheetLocation("filesystem", "tep_print.css", $csspath), "print");	
+		$csspath = 'Customizing/global/skin/genv/Services/TEP/tep_print.css';
+		$tpl->addCss($csspath, "print");	
 
 		
 		$view = $this->getView();
