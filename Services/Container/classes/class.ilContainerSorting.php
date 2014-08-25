@@ -520,7 +520,8 @@ class ilContainerSorting
 		{
 			if($item["position"] == self::ORDER_DEFAULT)
 			{
-				$no_position[]= array("key" => $key, "title" => $item["title"], "create_date" => $item["create_date"]);
+				$no_position[]= array("key" => $key, "title" => $item["title"], "create_date" => $item["create_date"],
+					"start" => $item["start"]);
 			}
 
 		}
