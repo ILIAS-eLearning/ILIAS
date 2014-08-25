@@ -83,7 +83,8 @@ class ilPersonalDesktopGUI
 		}
 		// gev-patch end
 		
-		global $ilSetting, $rbacsystem;
+		global $ilSetting, $rbacsystem, $ilMainMenu;
+		$ilMainMenu->setActive("gev_me_menu");
 
 		$next_class = $this->ctrl->getNextClass();
 		$this->ctrl->setReturn($this, "show");

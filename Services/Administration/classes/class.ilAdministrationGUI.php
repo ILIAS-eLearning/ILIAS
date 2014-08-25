@@ -104,7 +104,9 @@ class ilAdministrationGUI
 	*/
 	function &executeCommand()
 	{
-		global $tree, $rbacsystem, $ilias, $lng, $objDefinition, $ilHelp;
+		global $tree, $rbacsystem, $ilias, $lng, $objDefinition, $ilHelp, $ilMainMenu;
+		
+		$ilMainMenu->setActive("gev_admin_menu");
 		
 		// permission checks
 		include_once './Services/MainMenu/classes/class.ilMainMenuGUI.php';
