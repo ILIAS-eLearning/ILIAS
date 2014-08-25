@@ -259,6 +259,12 @@ class ilClassificationBlockGUI extends ilBlockGUI
 							$this->item_list_gui[$type]->enablePayment(false);
 							$this->item_list_gui[$type]->enableLink(false);
 							$this->item_list_gui[$type]->enableIcon(true);
+							
+							// :TOOD: for each item or just for each list?
+							foreach($this->providers as $provider)
+							{
+								$provider->initListGUI($this->item_list_gui[$type]);
+							}							
 						}
 
 						$html = $this->item_list_gui[$type]->getListItemHTML(

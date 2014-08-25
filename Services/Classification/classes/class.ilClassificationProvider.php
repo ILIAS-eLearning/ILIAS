@@ -104,5 +104,16 @@ abstract class ilClassificationProvider
 	 * 
 	 * @return array
 	 */
-	abstract public function getFilteredObjects();			
+	abstract public function getFilteredObjects();		
+	
+	
+	/**
+	 * Init list gui properties
+	 * 
+	 * @param ilObjectListGUI $a_list_gui
+	 */
+	public function initListGUI(ilObjectListGUI $a_list_gui)
+	{
+		
+	}
 }

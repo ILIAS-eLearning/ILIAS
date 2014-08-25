@@ -192,4 +192,9 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
 			return ilTagging::_getTagCloudForObjects($sub_ids, $only_user, $ilUser->getId());						
 		}
 	}	
+	
+	public function initListGUI(ilObjectListGUI $a_list_gui)
+	{
+		$a_list_gui->enableTags(true);
+	}
 }
