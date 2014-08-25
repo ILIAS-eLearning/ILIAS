@@ -397,7 +397,6 @@ class gevBookingGUI {
 		}
 		
 		if ($a_payment_data !== null) {
-			print_r($a_payment_data);
 			$form->getItemByPostVar("recipient")->setValue($a_payment_data["recipient"]);
 			$form->getItemByPostVar("agency")->setValue($a_payment_data["agency"]);
 			$form->getItemByPostVar("street")->setValue($a_payment_data["street"]);
