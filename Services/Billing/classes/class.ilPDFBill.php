@@ -134,12 +134,12 @@ class ilPDFBill
 	/**
 	 * @var string
 	 */
-	private $plSideInfoForCurrentAfterTaxes = '(netto)';
+	private $plSideInfoForCurrentAfterTaxes = '(brutto)';
 
 	/**
 	 * @var string
 	 */
-	private $plSideInfoForCurrentPreTaxes = '(brutto)';
+	private $plSideInfoForCurrentPreTaxes = '(netto)';
 
 	/**
 	 * @var string
@@ -377,8 +377,8 @@ class ilPDFBill
 
 		$GLOBALS['lng']->loadLanguageModule('billing');
 
-		$this->plSideInfoForCurrentAfterTaxes   = $GLOBALS['lng']->txt("billing_net");
-		$this->plSideInfoForCurrentPreTaxes = $GLOBALS['lng']->txt("billing_bru");
+		$this->plSideInfoForCurrentAfterTaxes   = $GLOBALS['lng']->txt("billing_bru");
+		$this->plSideInfoForCurrentPreTaxes = $GLOBALS['lng']->txt("billing_net");
 		$this->plCalculationTotalAmount       = $GLOBALS['lng']->txt("billing_val");
 		$this->plCalculationTaxAmount         = $GLOBALS['lng']->txt("billing_vat");
 		$this->plBillNumberLabel              = $GLOBALS['lng']->txt("billing_numberlabel");
@@ -1140,7 +1140,6 @@ class ilPDFBill
 		
 		$datedist=0;
 		
-		$date="12.12.1212";
 		if($this->DateFontSize==6){$datedist=1.1;}
 		if($this->DateFontSize==7){$datedist=1.3;}
 		if($this->DateFontSize==8){$datedist=1.5;}
@@ -1271,14 +1270,14 @@ class ilPDFBill
 
 		$this->pdf->SetFont($this->CalculationFontName, $this->determineIfBoldOrItalic($this->CalculationFontBold, $this->CalculationFontItalic), $this->CalculationFontSize);
 		$this->pdf->setXY($this->spaceLeft + 9.2 + $this->addidistX, $height);
-		$this->pdf->Cell(1, 0, $this->round($this->sumPreTax), 0, 0, 'R', 0);
+		$this->pdf->Cell(1, 0, $this->round($this->sumPreTax)." ".$this->encodeSpecialChars($this->bill->getCurrency()), 0, 0, 'R', 0);
 		$this->pdf->setXY($this->spaceLeft + 12.2 + $this->addidistX * 2, $height);
 		$this->pdf->Cell(1, 0, $this->round($this->sumVAT)." ".$this->encodeSpecialChars($this->bill->getCurrency()), 0, 0, 'R', 0);
 
 
 		$this->pdf->SetFont($this->CalculationFontName, $this->determineIfBoldOrItalic($this->CalculationFontBold, $this->CalculationFontItalic), $this->CalculationFontSize);
 		$this->pdf->setXY($this->spaceLeft + 15.2 + $this->addidistX * 3, $height);
-		$this->pdf->Cell(1, 0, $this->round($this->sumAfterTax), 0, 0, 'R', 0);
+		$this->pdf->Cell(1, 0, $this->round($this->sumAfterTax)." ".$this->encodeSpecialChars($this->bill->getCurrency()), 0, 0, 'R', 0);
 	}
 
 	/**

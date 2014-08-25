@@ -56,7 +56,7 @@ class gevPDFBill extends ilPDFBill {
 					   .", ".$crs_utils->getFormattedAppointment());
 		$this->setPretext("Für die Weiterbildung des Teilnehmers ".$user_utils->getFirstname()." ".$user_utils->getLastname().
 						  " erlauben wir uns folgende Rechnung zu stellen:");
-		$posttext = "Der Rechnungsbetrag wird ihrem Agenturkonto ".$a_bill->getCostCenter()." belastet.";
+		$posttext = "Der Rechnungsbetrag wird in dem Agenturkonto ".$a_bill->getCostCenter()." belastet.";
 		if ($booking_status == ilCourseBooking::STATUS_CANCELLED_WITH_COSTS) {
 			$res = $this->db->query("SELECT coupon_code FROM gev_bill_coupon WHERE bill_pk = ".$a_bill->getId());
 			if ($rec = $this->db->fetchAssoc($res)) {
