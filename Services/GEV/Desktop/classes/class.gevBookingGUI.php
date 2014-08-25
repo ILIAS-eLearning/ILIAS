@@ -333,7 +333,7 @@ class gevBookingGUI {
 		return $form->getHTML();
 	}
 	
-	protected function buildPaymentForm($a_accomodations = null) {
+	protected function buildPaymentForm($a_accomodations = null, $a_payment_data = null) {
 		require_once("Services/CaTUIComponents/classes/class.catPropertyFormGUI.php");
 		require_once("Services/Form/classes/class.ilTextInputGUI.php");
 		require_once("Services/Form/classes/class.ilEMailInputGUI.php");
@@ -381,12 +381,33 @@ class gevBookingGUI {
 		$email->setRequired(true);
 		$form->addItem($email);
 		
+		if ($a_accomodations === null && $a_payment_info !== null) {
+			$a_accomodations = $a_payment_info["accomodations"];
+		}
+		else {
+			$a_accomodations = serialize($a_accomodations);
+		}
+		
 		if($this->isWithAccomodations()) {
 			$accomodations = new ilHiddenInputGUI("accomodations");
 			if ($a_accomodations) {
-				$accomodations->setValue(serialize($a_accomodations));
+				$accomodations->setValue($a_accomodations);
 			}
 			$form->addItem($accomodations);
+		}
+		
+		if ($a_payment_data !== null) {
+			print_r($a_payment_data);
+			$form->getItemByPostVar("recipient")->setValue($a_payment_data["recipient"]);
+			$form->getItemByPostVar("agency")->setValue($a_payment_data["agency"]);
+			$form->getItemByPostVar("street")->setValue($a_payment_data["street"]);
+			$form->getItemByPostVar("housenumber")->setValue($a_payment_data["housenumber"]);
+			$form->getItemByPostVar("zipcode")->setValue($a_payment_data["zipcode"]);
+			$form->getItemByPostVar("city")->setValue($a_payment_data["city"]);
+			$form->getItemByPostVar("costcenter")->setValue($a_payment_data["costcenter"]);
+			$form->getItemByPostVar("email")->setValue($a_payment_data["email"]);
+			$form->getItemByPostVar("coupons")->setMultiValues($a_payment_data["coupons"]);
+			$form->getItemByPostVar("coupons")->setValue($a_payment_data["coupons"][0]);
 		}
 		
 		return $form;
@@ -420,20 +441,28 @@ class gevBookingGUI {
 			$accomodations = null;
 		}
 
-		$form = $this->buildPaymentForm($accomodations);
+		if($_POST["payment_data"]) {
+			$unser = unserialize($_POST["payment_data"]);
+		}
+		else {
+			$unser = null;
+		}
+		$form = $this->buildPaymentForm($accomodations, $unser);
 		$form->addCommandButton("backToSearch", $this->lng->txt("gev_to_course_search"));
 		$form->addCommandButton("showBookingInfo", $this->lng->txt("gev_booking_check_bill_data"));
-		$last_bill_data = $this->user_utils->getLastBillingDataMaybe();
-		if ($last_bill_data) {
-			foreach ($last_bill_data as $key => $value) {
-				$form->getItemByPostVar($key)->setValue($value);
+		if ($unser === null) {
+			$last_bill_data = $this->user_utils->getLastBillingDataMaybe();
+			if ($last_bill_data) {
+				foreach ($last_bill_data as $key => $value) {
+					$form->getItemByPostVar($key)->setValue($value);
+				}
 			}
 		}
 		
 		return $form->getHTML();
 	}
 	
-	protected function buildBookingInfoForm($a_payment_data) {
+	protected function buildBookingInfoForm($a_payment_data, $back_command = null) {
 		require_once("Services/CaTUIComponents/classes/class.catPropertyFormGUI.php");
 		require_once("Services/Form/classes/class.ilNonEditableValueGUI.php");
 		require_once("Services/Accomodations/classes/class.ilSetAccomodationsGUI.php");
@@ -443,6 +472,9 @@ class gevBookingGUI {
 		$form = new catPropertyFormGUI();
 		$form->setTemplate("tpl.gev_booking_form.html", "Services/GEV/Desktop");
 		$form->setTitle($this->crs_utils->getTitle());
+		if ($back_command !== null) {
+			$form->addCommandButton($back_command, $this->lng->txt("back"));
+		}
 		$form->addCommandButton("backToSearch", $this->lng->txt("gev_to_course_search"));
 		$form->addCommandButton("finalizeBookingWithPayment", $this->lng->txt("gev_obligatory_booking"));
 		
@@ -507,6 +539,11 @@ class gevBookingGUI {
 		$payment_data = new ilHiddenInputGUI("payment_data");
 		$payment_data->setValue(serialize($a_payment_data));
 		$form->addItem($payment_data);
+		
+		$hidden_agb = new ilHiddenInputGUI("agb");
+		$hidden_agb->setValue(1);
+		$form->addItem($hidden_agb);
+		
 		return $form;
 	}
 	
@@ -550,7 +587,7 @@ class gevBookingGUI {
 								 , "email"			=> $form->getInput("email")
 								 , "accomodations"	=> $form->getInput("accomodations")
 								);
-			$info_form = $this->buildBookingInfoForm($payment_data);
+			$info_form = $this->buildBookingInfoForm($payment_data, "paymentInfo");
 			return $info_form->getHTML();
 		}
 		else {
