@@ -351,7 +351,8 @@ fm#:#fm_settings_active_info#:#Benutzer können Kategorien, Trainings, Gruppen u
 gev#:# gev_search_menu#:#Trainingssuche
 gev#:#dont_send_mail#:#keine Mail versenden
 gev#:#evg_email#:#Generali E-Mail-Adresse
-gev#:#evg_mandatory#:#Sie müssen dieses Feld bestätigen, um sich registrieren zu können.gevgevgevgevgev#:#gev_activity#:#Aktivität
+gev#:#evg_mandatory#:#Sie müssen dieses Feld bestätigen, um sich registrieren zu können.
+gev#:#gev_activity#:#Aktivität
 gev#:#gev_ad_title#:#AD-Titel
 gev#:#gev_additional_settings_update_failure#:#Die weiteren Einstellungen konnten nicht aktualisiert werden.
 gev#:#gev_additional_settings_updated#:#Die weiteren Einstellungen wurden aktualisiert.
