@@ -142,9 +142,15 @@ class gevDeferredMails {
 				$cur_crs_id = $mail["crs_id"];
 				$automails = new gevCrsAutoMails($cur_crs_id);
 			}
-			
-			$automails->send($mail["mail_id"], array($mail["recipient"]), $mail["occasion"]);
-			$ilLog->write("gevDeferredMails::sendDeferredMails: send mail crs_id = ".$mail["crs_id"].", mail_id = ".$mail["mail_id"].", recipient = ".$mail["recipient"]);
+
+			try {
+				$automails->send($mail["mail_id"], array($mail["recipient"]), $mail["occasion"]);
+				$ilLog->write("gevDeferredMails::sendDeferredMails: send mail crs_id = ".$mail["crs_id"].", mail_id = ".$mail["mail_id"].", recipient = ".$mail["recipient"]);
+			}
+			catch (Exception $e) {
+				$ilLog->write("gevDeferredMails::sendDeferredMails: ERROR ".$e);
+			}
+
 			$this->removeDeferredMails(array($mail["crs_id"]), array($mail["mail_id"]), array($mail["recipient"]));
 		}
 	}
