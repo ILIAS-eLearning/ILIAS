@@ -146,7 +146,7 @@ class ilCoupons
 		$result = $this->db->queryF('
 			SELECT *
 			FROM coupon
-			WHERE coupon_code = %s AND coupon_active = %s',
+			WHERE coupon_code = %s AND coupon_active = %s AND coupon_value > 0',
 			array('text', 'integer'),
 			array($a_code, 1)
 		);
