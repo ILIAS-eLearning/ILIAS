@@ -154,4 +154,7 @@ fnew = Lang(SOURCEFILE)
 fbase.update(fnew)
 fbase.outfile = TARGETFILE
 fbase.writeFile()
+
+for i in BUFFER:
+	print i
 print 'done'
