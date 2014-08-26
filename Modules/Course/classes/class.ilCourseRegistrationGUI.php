@@ -509,6 +509,23 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 				break;
 			
 			default:
+				
+				if($this->container->isSubscriptionMembershipLimited() && $this->container->getSubscriptionMaxMembers())
+				{
+					$success = $GLOBALS['rbacadmin']->assignUserLimited(
+						ilParticipants::getDefaultMemberRole($this->container->getRefId()),
+						$ilUser->getId(),
+						$this->container->getSubscriptionMaxMembers(),
+						array(ilParticipants::getDefaultMemberRole($this->container->getRefId()))
+					);
+					if(!$success)
+					{
+						ilUtil::sendFailure($this->lng->txt('crs_subscription_failed_limit'));
+						$this->show();
+						return FALSE;
+					}
+				}
+				
 				$this->participants->add($ilUser->getId(),IL_CRS_MEMBER);
 				$this->participants->sendNotification($this->participants->NOTIFY_ADMINS,$ilUser->getId());
 				$this->participants->sendNotification($this->participants->NOTIFY_REGISTERED,$ilUser->getId());

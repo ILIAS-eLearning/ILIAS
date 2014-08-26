@@ -14613,6 +14613,7 @@ cntr#:#sorting_new_items_at_bottom#:#Bottom
 cntr#:#sorting_new_items_order#:#Order For New Objects
 form#:#form_location_radius#:#Radius
 form#:#form_location_radius_km#:#km
+crs#:#crs_subscription_failed_limit#:#The maximum number of participants has been exceeded.
 common#:#send_mail_to_inactive_users#:#Earlist Point, where a reminder mail will be sent in days
 common#:#send_mail_to_inactive_users_desc#:#A reminder mail will be send, to the mail address in this period of time, before the User will be deleted.
 common#:#send_mail_to_inactive_users_numbers_only#:#Only positive non decimal numbers are accepted.

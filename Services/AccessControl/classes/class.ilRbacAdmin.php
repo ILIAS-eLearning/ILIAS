@@ -175,6 +175,66 @@ class ilRbacAdmin
 		$res = $ilDB->manipulate($query);
 		return true;
 	}
+	
+	/**
+	 * Assign user limited
+	 * @param type $a_role_id
+	 * @param type $a_usr_id
+	 * @param type $a_limit
+	 */
+	public function assignUserLimited($a_role_id, $a_usr_id, $a_limit, $a_limited_roles = array())
+	{
+		global $ilDB;
+		
+		$GLOBALS['ilDB']->lockTables(
+				array(
+					0 => array('name' => 'rbac_ua', 'type' => ilDB::LOCK_WRITE)
+				)
+		);
+		
+		$limit_query = 'SELECT COUNT(*) num FROM rbac_ua '.
+				'WHERE '.$GLOBALS['ilDB']->in('rol_id',(array) $a_limited_roles,FALSE,'integer');
+		$res = $GLOBALS['ilDB']->query($limit_query);
+		$GLOBALS['ilLog']->write(__METHOD__.': '.$limit_query);
+		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+		if($row->num >= $a_limit)
+		{
+			$GLOBALS['ilDB']->unlockTables();
+			return FALSE;
+		}
+		
+		$query = "INSERT INTO rbac_ua (usr_id, rol_id) ".
+			"VALUES (".
+				$ilDB->quote($a_usr_id,'integer').",".$ilDB->quote($a_role_id,'integer').
+			")";
+			$res = $ilDB->manipulate($query);
+		
+		$GLOBALS['ilDB']->unlockTables();
+		
+		
+		$this->addDesktopItem($a_role_id,$a_usr_id);
+	
+		include_once('Services/LDAP/classes/class.ilLDAPRoleGroupMapping.php');
+		$mapping = ilLDAPRoleGroupMapping::_getInstance();
+		$mapping->assign($a_role_id,$a_usr_id); 
+		return TRUE;
+	}
+
+	/**
+	 * Add desktop item
+	 * @param type $a_rol_id
+	 * @param type $a_usr_id
+	 */
+	protected function addDesktopItem($a_rol_id, $a_usr_id)
+	{
+		include_once 'Services/AccessControl/classes/class.ilRoleDesktopItem.php';
+		$role_desk_item_obj = new ilRoleDesktopItem($a_rol_id);
+		foreach($role_desk_item_obj->getAll() as $item_data)
+		{
+			include_once './Services/User/classes/class.ilObjUser.php';
+			ilObjUser::_addDesktopItem($a_usr_id, $item_data['item_id'], $item_data['item_type']);
+		}
+	}
 
 
 	/**
@@ -186,7 +246,7 @@ class ilRbacAdmin
 	 * @param	boolean	true means default role (optional
 	 * @return	boolean
 	 */
-	public function assignUser($a_rol_id,$a_usr_id,$a_default = false)
+	public function assignUser($a_rol_id,$a_usr_id)
 	{
 		global $ilDB,$rbacreview;
 		
@@ -206,14 +266,7 @@ class ilRbacAdmin
 			 "VALUES (".$ilDB->quote($a_usr_id,'integer').",".$ilDB->quote($a_rol_id,'integer').")";
 			$res = $ilDB->manipulate($query);
 		
-			include_once 'Services/AccessControl/classes/class.ilRoleDesktopItem.php';
-			$role_desk_item_obj = new ilRoleDesktopItem($a_rol_id);
-			foreach($role_desk_item_obj->getAll() as $item_data)
-			{
-				include_once './Services/User/classes/class.ilObjUser.php';
-				ilObjUser::_addDesktopItem($a_usr_id, $item_data['item_id'], $item_data['item_type']);
-			}
-			
+			$this->addDesktopItem($a_rol_id, $a_usr_id);
 		}
 		
 		include_once('Services/LDAP/classes/class.ilLDAPRoleGroupMapping.php');
