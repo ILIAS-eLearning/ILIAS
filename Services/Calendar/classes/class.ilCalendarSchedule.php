@@ -229,6 +229,12 @@ class ilCalendarSchedule
 					$calc = new ilCalendarRecurrenceCalculator($event,$rec);
 					foreach($calc->calculateDateList($this->start,$this->end)->get() as $rec_date)
 					{
+						if($this->type == self::TYPE_PD_UPCOMING &&
+							$rec_date->get(IL_CAL_UNIX) < time())
+						{
+							continue;
+						}		
+						
 						$this->schedule[$counter]['event'] = $event;
 						$this->schedule[$counter]['dstart'] = $rec_date->get(IL_CAL_UNIX);
 						$this->schedule[$counter]['dend'] = $this->schedule[$counter]['dstart'] + $duration;
@@ -252,7 +258,8 @@ class ilCalendarSchedule
 								break;
 						}
 						$counter++;
-						if($this->areEventsLimited() && $counter >= $this->getEventsLimit())
+						if($this->type != self::TYPE_PD_UPCOMING &&
+							$this->areEventsLimited() && $counter >= $this->getEventsLimit())
 						{
 							break;
 						}
@@ -288,10 +295,20 @@ class ilCalendarSchedule
 					}
 				}
 				$counter++;
-				if($this->areEventsLimited() && $counter >= $this->getEventsLimit())
+				if($this->type != self::TYPE_PD_UPCOMING &&
+					$this->areEventsLimited() && $counter >= $this->getEventsLimit())
 				{
 					break;
 				}
+			}
+		}
+		
+		if($this->type == self::TYPE_PD_UPCOMING)
+		{
+			$this->schedule = ilUtil::sortArray($this->schedule, "dstart", "asc", true);
+			if($this->areEventsLimited() && sizeof($this->schedule) >= $this->getEventsLimit())
+			{
+				$this->schedule = array_slice($this->schedule, 0, $this->getEventsLimit());
 			}
 		}
 	}
