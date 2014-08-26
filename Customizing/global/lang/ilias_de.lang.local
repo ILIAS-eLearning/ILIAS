@@ -549,6 +549,7 @@ gev#:#gev_table_no_entry#:#-
 gev#:#gev_target_group#:#Zielgruppe
 gev#:#gev_targets_and_benefit#:#Ziele und Nutzen
 gev#:#gev_telno_wbd_alert#:#Die Telefonnummer hat kein gültiges Format.
+gev#:#gev_telno_alert#:#Die Telefonnummer muss das Format +49 1xxx xxxxxxxx haben.
 gev#:#gev_tep#:#TEP
 gev#:#gev_theirs_highlights_desc#:#Hier finden Sie neue und interessante Angebote zugeschnitten auf die individuellen Anforderungen ihres Mitarbeiters.
 gev#:#gev_to_course_search#:#Zum Bildungsangebot
