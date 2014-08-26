@@ -2156,7 +2156,7 @@ $ilDB->insert('il_dcl_datatype_prop', array(
 ));
 ?>
 <#4274>
-<?php>
+<?php
 
 $ilDB->dropTable("ut_access"); // #13663
 
@@ -2473,3 +2473,7 @@ if( !$ilDB->tableColumnExists('container_sorting_set', 'new_items_order'))
 	$ilDB->addTableColumn('container_sorting_set', 'new_items_order', $def);
 }
 ?>
+<#4297>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>	
