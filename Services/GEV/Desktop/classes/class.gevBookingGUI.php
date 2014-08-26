@@ -172,7 +172,7 @@ class gevBookingGUI {
 	
 	protected function isSelfLearningCourse() {
 		if ($this->is_self_learning === null) {
-			$this->is_self_learning = $crs_utils->getType() !== "Selbstlernkurs";
+			$this->is_self_learning = $this->crs_utils->getType() !== "Selbstlernkurs";
 		}
 		return $this->is_self_learning;
 	}
@@ -694,7 +694,6 @@ class gevBookingGUI {
 		require_once("Services/GEV/Mailing/classes/class.gevCrsAutoMails.php");
 		$booked = $a_status == ilCourseBooking::STATUS_BOOKED;
 		$automails = new gevCrsAutoMails($this->crs_id);
-		$crs_utils = gevCourseUtils::getInstance($this->crs_id);
 		
 		if ($this->isSelfBooking()) {
 			if (!$this->isSelfLearningCourse()) {
@@ -716,7 +715,7 @@ class gevBookingGUI {
 			ilUtil::redirect("ilias.php?baseClass=gevDesktopGUI&cmdClass=toMyCourses");
 		}
 		else {
-			if ($crs_utils->getType() !== "Selbstlernkurs") {
+			if (!$this->isSelfLearningCourse()) {
 				if ($booked) {
 					$automails->send("superior_booking_to_booked", array($this->user_id));
 				}
