@@ -996,13 +996,6 @@ class gevCourseUtils {
 	}
 	
 	
-	// Info about participants
-	
-	public function getCreditPointsOf($a_user_id) {
-		return $this->getParticipations()->getCreditPoints($a_user_id, false);
-	}
-	
-	
 	// Memberlist creation
 	
 	public function deliverMemberList($a_hotel_list) {
@@ -1337,8 +1330,6 @@ class gevCourseUtils {
 		return $this->getParticipations()->allStatusSet(); 
 	}
 	
-	//
-	
 	public function getFunctionOfUser($a_user_id) {
 		require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
 		$utils = gevRoleUtils::getInstance();
@@ -1351,6 +1342,18 @@ class gevCourseUtils {
 		}
 		return null;
 	}
+	
+	public function getCreditPointsOf($a_user_id) {
+		$sp = $this->getParticipations()->getStatusAndPoints($a_user_id);
+		if ($sp["status"] == ilParticipationStatus::STATUS_NOT_SET) {
+			return $this->getCreditPoints();
+		}
+		if ($sp["status"] == ilParticipationStatus::STATUS_SUCCESSFUL) {
+			return $sp["points"];
+		}
+		return 0;
+	}
+	
 }
 
 ?>

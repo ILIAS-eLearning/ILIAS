@@ -168,6 +168,7 @@ class gevEduBiographyGUI {
 				.$this->queryWhere($start, $end)
 				." AND usrcrs.participation_status = 'teilgenommen'"
 				." AND crs.crs_id > 0" // only academy points
+				." AND usrcrs.credit_points > 0" // guard, -1 means empty
 				;
 	}
 	
@@ -217,6 +218,7 @@ class gevEduBiographyGUI {
 				." AND (".$this->db->in("usrcrs.okz", array("OKZ1", "OKZ2", "OKZ3"), false, "text")
 				."      OR crs.crs_id < 0 "
 				."     )"
+				." AND usrcrs.credit_points > 0" // guard, -1 means empty
 				;
 		$res = $this->db->query($query);
 		if ($rec = $this->db->fetchAssoc($res)) {
@@ -232,6 +234,7 @@ class gevEduBiographyGUI {
 				." AND (".$this->db->in("usrcrs.okz", array("OKZ1", "OKZ2", "OKZ3"), false, "text")
 				."      OR crs.crs_id < 0 "
 				."     )"
+				." AND usrcrs.credit_points > 0" // guard, -1 means empty
 				;
 	}
 	
