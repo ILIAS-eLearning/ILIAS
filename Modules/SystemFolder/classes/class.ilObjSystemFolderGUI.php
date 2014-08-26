@@ -434,18 +434,8 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$robot_settings = ilRobotSettings::_getInstance();
 
 		$error_se = false;
-		if(!$robot_settings->checkModRewrite())
-		{
-			$error_se = true;
-			$this->tpl->setVariable('OPEN_GOOGLE_CHECKED','disabled="disabled"');
 
-			$this->tpl->setCurrentBlock('search_engine_alert');
-			$this->tpl->setVariable('SE_ALERT_IMG',ilUtil::getImagePath('icon_alert_s.png'));
-			$this->tpl->setVariable('SE_ALT_ALERT',$this->lng->txt('alert'));
-			$this->tpl->setVariable('TXT_SE_ALERT',$this->lng->txt('mod_rewrite_disabled'));
-			$this->tpl->parseCurrentBlock();
-		}
-		elseif(!$robot_settings->checkRewrite())
+		if(!$robot_settings->checkRewrite())
 		{
 			$error_se = true;
 			$this->tpl->setVariable('OPEN_GOOGLE_CHECKED','disabled="disabled"');
@@ -1822,13 +1812,8 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			$cb2 = new ilCheckboxInputGUI($this->lng->txt("search_engine"), "open_google");
 			$cb2->setInfo($this->lng->txt("enable_search_engine"));
 			$cb->addSubItem($cb2);
-			if(!$robot_settings->checkModRewrite())
-			{
-				$cb2->setAlert($lng->txt("mod_rewrite_disabled"));
-				$cb2->setChecked(false);
-				$cb2->setDisabled(true);
-			}
-			elseif(!$robot_settings->checkRewrite())
+
+			if(!$robot_settings->checkRewrite())
 			{
 				$cb2->setAlert($lng->txt("allow_override_alert"));
 				$cb2->setChecked(false);
