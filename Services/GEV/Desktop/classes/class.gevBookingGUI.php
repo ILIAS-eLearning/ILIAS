@@ -172,7 +172,7 @@ class gevBookingGUI {
 	
 	protected function isSelfLearningCourse() {
 		if ($this->is_self_learning === null) {
-			$this->is_self_learning = $this->crs_utils->getType() !== "Selbstlernkurs";
+			$this->is_self_learning = $this->crs_utils->getType() == "Selbstlernkurs";
 		}
 		return $this->is_self_learning;
 	}
