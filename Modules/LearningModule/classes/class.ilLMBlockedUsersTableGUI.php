@@ -31,15 +31,15 @@ class ilLMBlockedUsersTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt("user"), "user");
 		$this->addColumn($this->lng->txt("question"), "");
 		$this->addColumn($this->lng->txt("page"), "page_title");
-		$this->addColumn($this->lng->txt("last_try"), "last_try");
-		$this->addColumn($this->lng->txt("ignore_fail"));
+		$this->addColumn($this->lng->txt("cont_last_try"), "last_try");
+		$this->addColumn($this->lng->txt("cont_ignore_fail"));
 		
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
 		$this->setRowTemplate("tpl.blocked_users.html", "Modules/LearningModule");
 
 		$this->addMultiCommand("sendMailToBlockedUsers", $lng->txt("send_mail"));
-		$this->addMultiCommand("resetNumberOfTries", $lng->txt("cont_reset_nr_tries"));
-		$this->addMultiCommand("ignoreFailStatus", $lng->txt("cont_ignor_fail_allow_to_continue"));
+		$this->addMultiCommand("resetNumberOfTries", $lng->txt("cont_reset_nr_of_tries"));
+		$this->addMultiCommand("ignoreFailStatus", $lng->txt("cont_ignore_fail_allow_continue"));
 		//$this->addCommandButton("", $lng->txt(""));
 	}
 

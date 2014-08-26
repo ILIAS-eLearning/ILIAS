@@ -14595,6 +14595,12 @@ cntr#:#sorting_new_items_at_bottom#:#Unten
 cntr#:#sorting_new_items_order#:#Reihenfolge neuer Objekte
 form#:#form_location_radius#:#Umkreis
 form#:#form_location_radius_km#:#km
+content#:#cont_question_stats#:#Statistic
+content#:#cont_blocked_users#:#Blocked Users
+content#:#cont_last_try#:#Last Try
+content#:#cont_ignore_fail#:#Ignore Fail
+content#:#cont_reset_nr_of_tries#:#Reset Number of Tries
+content#:#cont_ignore_fail_allow_continue#:#Ignore Fail / Allow to Continue
 crs#:#crs_subscription_failed_limit#:#Die maximale Teilnehmeranzahl wurde überschritten.
 common#:#delete_inactive_user_accounts_frequency#:#Intervall
 common#:#delete_inactive_user_accounts_frequency_desc#:#Intervall, mit welchem auf Löschung sowie auf Email Versand getestet wird.
