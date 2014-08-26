@@ -18,6 +18,9 @@ acco#:#acco_period_input_from#:#von
 acco#:#acco_period_input_from_first#:#Vorabend
 acco#:#acco_period_input_to#:#bis
 acco#:#acco_period_input_to_last#:#Nächster Morgen
+acco#:#acco_tab_list_accomodations#:#Übernachtungen
+acco#:#acco_accomodations#:#Übernachtungen
+acco#:#acco_edit_user_accomodations#:#Teilnehmer bearbeiten
 acco#:#accomodations#:#Übernachtungen
 administration#:#adm_rep_tree_limit_grp_crs#:#Alle Objekte auf Anzeige in Trainings und Gruppen beschränken
 administration#:#adm_rep_tree_only_cntr_info#:#Es werden nur Kategorien, Trainings und Gruppen aufgeführt.
@@ -384,7 +387,7 @@ gev#:#gev_booking_for#:#Buchung für:
 gev#:#gev_booking_header_note#:#Bitte bestätigen sie die verbindliche Buchung über die Schaltfläche.
 gev#:#gev_booking_header_note_bill_data#:#Bitte betätigen sie die Schaltfläche "Rechnungsdaten eingeben".
 gev#:#gev_booking_header_note_check_bill_data#:#Bitte betätigen sie die Schaltfläche "Rechnungsdaten überprüfen".
-gev#:#gev_booking_note#:#Mit der verbindlichen Buchung bestätigen sie, Buchung und Übernachtung mit ihrer Führungskraft abgestimmt zu haben.
+gev#:#gev_booking_note#:#Mit der verbindlichen Buchung bestätigen Sie, Buchung und Übernachtung mit ihrer Führungskraft abgestimmt zu haben.
 gev#:#gev_booking_other_courses_in_period_others#:#Ihr Mitarbeiter hat im Zeitraum des Trainings bereits andere Trainings gebucht:
 gev#:#gev_booking_other_courses_in_period_self#:#Sie haben im Zeitraum des Trainings bereits andere Trainings gebucht:
 gev#:#gev_bookings#:#Buchungen
@@ -435,7 +438,7 @@ gev#:#gev_employee_booking#:#Mitarbeiterbuchungen
 gev#:#gev_entry_date#:#Eintrittsdatum
 gev#:#gev_evg_registration#:#Registrierung: Generali Online Akademie
 gev#:#gev_evg_registration_header_note#:#Hier können Sie einen neuen Benutzer mit ihren Daten aus der IV-Datenbank anlegen.
-gev#:#gev_evg_registration_not_found#:#Es konnte kein Datensatz gefunden werden, der mit Ihren Eingaben übereinstimmt.
+gev#:#gev_evg_registration_not_found#:#Zu Ihrer Eingabe konnte kein passender Datensatz gefunden werden. Versuchen Sie es erneut oder wenden Sie sich an <a href="mailto:bildungspunkte.de@generali.com">bildungspunkte.de@generali.com</a>.
 gev#:#gev_evg_registration_success#:#Ihre Eingabe konnte eindeutig zugeordnet werden.
 gev#:#gev_excel_course_title#:#Generelle Angaben zum Seminar
 gev#:#gev_excel_member_row_title#:#Mitgliederliste
@@ -567,18 +570,20 @@ gev#:#gev_was_booked_self #:#Das Training "%s" wurde erfolgreich für Sie gebuch
 gev#:#gev_was_booked_waiting_employee#:#Ihr Mitarbeiter %s wurde erfolgreich beim Training "%s" auf die Warteliste hinzugefügt.
 gev#:#gev_was_booked_waiting_self#:#Sie wurden beim Training "%s" erfolgreich auf die Warteliste hinzugefügt.
 gev#:#gev_wbd_notifications#:#Benachrichtigungen der WBD
-gev#:#gev_wbd_notifications_to_auth#:#Kontoauszüge und Jahreszertifikate der WBD sollen an meine Authentifizierungs-E-Mail-Adresse verschickt werden.
+gev#:#gev_wbd_notifications_to_auth#:#Kontoauszüge und Jahreszertifikate der WBD sollen an meine Authentifizierungs-E-Mail-Adresse (private E-Mail-Adresse) verschickt werden.
 gev#:#gev_wbd_notifications_to_diff#:#Kontoauszüge und Jahreszertifikate der WBD sollen an eine abweichende E-Mail-Adresse verschickt werden.
 gev#:#gev_wbd_registration#:#WBD-Registrierung
 gev#:#gev_wbd_registration_cb_mandatory#:#Sie müssen dieses Feld bestätigen, um die WBD-Registrierung abschließen zu können.
 gev#:#gev_wbd_registration_create_bwv_id#:#Nein, ich habe noch keine GDV Vermittler-ID. Die Generali soll für mich ein Weiterbildungskonto eröffnen.
 gev#:#gev_wbd_registration_create_bwv_id_cmd#:#Kontoeröffnung
-gev#:#gev_wbd_registration_finished#:#Vielen Dank, wir werden für Sie ein Konto in der Weiterbildungsdatenbank (WBD) des BWV e.V. sowie ein Nutzerkonto bei der Trusted German Insurance Cloud (TGIC) eröffnen.<br /><br />Nach Eröffnung Ihres Kontos erhalten Sie von dort insgesamt 3 Systemmails mit Ihrer Benutzerkennung, Ihrem Passwort und Ihrer Vermittler-ID.
+gev#:#gev_wbd_registration_finished_create_bwv_id#:#Vielen Dank, wir werden für Sie ein Konto in der Weiterbildungsdatenbank (WBD) des BWV e.V. sowie ein Nutzerkonto bei der Trusted German Insurance Cloud (TGIC) eröffnen.<br /><br />Nach Eröffnung Ihres Kontos erhalten Sie von dort insgesamt 3 Systemmails mit Ihrer Benutzerkennung, Ihrem Passwort und Ihrer Vermittler-ID.
 gev#:#gev_wbd_registration_has_bwv_id#:#Ja, ich habe bereits eine GDV Vermittler-ID
 gev#:#gev_wbd_registration_has_bwv_id_cmd#:#Anmeldung mit Übermittlung der Punkte
+gev#:#gev_wbd_registration_finished_has_bwv_id#:#Vielen Dank, wir werden Ihre bei uns erworbenen Weiterbildungspunkte unter dieser Vermittler-ID an die zentrale Weiterbildungsdatenbank melden.
 gev#:#gev_wbd_registration_header_note#:#Registrieren Sie sich bei der Weiterbildungsdatenbank.
 gev#:#gev_wbd_registration_no_bwv_id#:#Nein, ich habe noch keine GDV Vermittler-ID und werde diese in meinem Benutzeraccount nachtragen.
-gev#:#gev_wbd_registration_no_bwv_id_cmd#:#Anmeldung vorerst ohne Übermittlung der Punkte
+gev#:#gev_wbd_registration_no_bwv_id_cmd#:#Anmeldung ohne Eröffnung eines Kontos und vorerst ohne Übermittlung der Punkte
+gev#:#gev_wbd_registration_finished_no_bwv_id#:#Vielen Dank für die Anmeldung an der Generali Online Akademie. Wir werden Ihre bei uns erworbenen Weiterbildungspunkte in der Generali Onlineakademie sammeln und nach Eingabe Ihrer GDV Vermittler-ID an die zentrale Weiterbildungsdatenbank (WBD) melden.<br /><br />Bitte beachten Sie, daß die Weiterbildungspunkte verfallen, sofern Sie Ihre GDV Vermittler-ID nicht innerhalb von 12 Monaten in Ihren Profildaten ergänzen.
 gev#:#gev_wbd_registration_question_basis#:#Haben Sie bereits ein Weiterbildungskonto im Rahmen der Brancheninitiative „gut beraten“?
 gev#:#gev_wbd_registration_question_service#:#Sofern die Generali nicht Ihr Trusted Partner Service sein soll, oder Sie bereits an anderer Stelle eine Kontoeröffnung beantragt haben, nutzen Sie unten stehende Eingabefelder.
 gev#:#gev_wbd_relevant#:#WBD relevant
@@ -770,6 +775,12 @@ rbac#:#tep_is_tutor#:#ist Trainer in dieser Einheit
 rbac#:#tep_view_other#:#TEP Termine von anderen Trainern sehen
 rbac#:#tep_view_other_rcrsv#:#TEP Termine von anderen Trainer sehen (rekursiv)
 rbac#:#view_bookings#:#Buchungen einsehen
+rbac#:#view_employee_bookings#:#Buchungen von Mitarbeitern einsehen
+rbac#:#view_employee_bookings_rcrsv#:#Buchungen von Mitarbeitern einsehen (rekursiv)
+rbac#:#book_employees#:#Mitarbeiter buchen
+rbac#:#book_employees_rcrsv#:#Mitarbeiter buchen (rekursiv)
+rbac#:#cancel_employee_bookings#:#Buchungen von Mitarbeitern stornieren
+rbac#:#cancel_employee_bookings_rcrsv#:#Buchungen von Mitarbeitern stornieren (rekursiv)
 search#:#search_add_members_from_container_crs#:#Benutzer aus aktuellem Training hinzufügen
 search#:#search_crs_title#:#Trainingsname
 search#:#search_for_crs_members#:#Nach Trainingsteilnehmern suchen
