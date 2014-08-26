@@ -1302,12 +1302,13 @@ class gevCourseUtils {
 	// Participation
 	
 	public function getParticipationStatusOf($a_user_id) {
-		if ($this->getBookingStatusOf($a_user_id) == ilCourseBooking::STATUS_BOOKED) {
-			return $this->getParticipations()->getStatus($a_user_id, true);
+		$sp = $this->getParticipations()->getStatusAndPoints($a_user_id);
+		$status = $sp["status"];
+		
+		if ($status === null && $this->getBookingStatusOf($a_user_id) == ilCourseBooking::STATUS_BOOKED) {
+			return ilParticipationStatus::STATUS_NOT_SET;
 		}
-		else {
-			return $this->getParticipations()->getStatus($a_user_id, false);
-		}
+		return $status;
 	}
 	
 	public function getParticipationStatusLabelOf($a_user_id) {
@@ -1349,7 +1350,10 @@ class gevCourseUtils {
 			return $this->getCreditPoints();
 		}
 		if ($sp["status"] == ilParticipationStatus::STATUS_SUCCESSFUL) {
-			return $sp["points"];
+			if ($sp["points"] !== null) {
+				return $sp["points"];
+			}
+			return $this->getCreditPoints();
 		}
 		return 0;
 	}
