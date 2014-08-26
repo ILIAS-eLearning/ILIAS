@@ -263,6 +263,10 @@ class gevUserProfileGUI {
 		$section3->setTitle($this->lng->txt("gev_private_contact"));
 		$form->addItem($section3);
 		
+		$info = new ilNonEditableValueGUI("");
+		$info->setValue($this->lng->txt("gev_private_contact_info"));
+		$form->addItem($info);
+		
 		$p_email = new ilEMailInputGUI($this->lng->txt("email"), "p_email");
 		$p_email->setValue($this->user_utils->getPrivateEmail());
 		$p_email->setRequired(true);
