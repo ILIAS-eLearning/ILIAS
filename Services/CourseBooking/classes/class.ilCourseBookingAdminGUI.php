@@ -647,8 +647,16 @@ class ilCourseBookingAdminGUI
 			}
 			
 			$user_bookings = ilUserCourseBookings::getInstance($user_id);	
-			$overlapping_courses = $user_bookings->getCoursesDuring(
-				$helper->getCourseStart(), $helper->getCourseEnd());
+			$course_start = $helper->getCourseStart();
+			$course_end = $helper->getCourseEnd();
+			
+			if ($course_start && $course_end) {
+				$overlapping_courses = $user_bookings->getCoursesDuring(
+					$helper->getCourseStart(), $helper->getCourseEnd());
+			}
+			else {
+				$overlapping_courses = null;
+			}
 			if($overlapping_courses)
 			{
 				$parts = array();
