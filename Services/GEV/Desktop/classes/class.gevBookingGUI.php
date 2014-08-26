@@ -25,6 +25,7 @@ class gevBookingGUI {
 		$this->user_utils = null;
 		$this->crs_id = null;
 		$this->crs_utils = null;
+		$this->is_self_learning = null;
 
 		$this->tpl->getStandardTemplate();
 	}
@@ -169,6 +170,13 @@ class gevBookingGUI {
 			&& ($this->crs_utils->getEndDate() !== null);
 	}
 	
+	protected function isSelfLearningCourse() {
+		if ($this->is_self_learning === null) {
+			$this->is_self_learning = $crs_utils->getType() !== "Selbstlernkurs";
+		}
+		return $this->is_self_learning;
+	}
+	
 	protected function insertInTemplate($a_cont, $a_cmd) {
 		require_once("Services/CaTUIComponents/classes/class.catTitleGUI.php");
 		require_once("Services/CaTUIComponents/classes/class.catHSpacerGUI.php");
@@ -234,6 +242,7 @@ class gevBookingGUI {
 
 		$prv = $this->crs_utils->getProvider();
 		$ven = $this->crs_utils->getVenue();
+		$booking_dl = $this->crs_utils->getFormattedBookingDeadlineDate();
 		
 		$vals = array(
 			  array( $this->lng->txt("gev_course_id")
@@ -277,15 +286,15 @@ class gevBookingGUI {
 				   , $this->crs_utils->getMainTrainerName()
 				   )
 			, array( $this->lng->txt("gev_subscription_end")
-				   , true
+				   , $booking_dl != "" && !$this->isSelfLearningCourse()
 				   , $this->lng->txt("until") . " ". $this->crs_utils->getFormattedBookingDeadlineDate()
 				   )
 			, array( $this->lng->txt("gev_free_places")
-				   , true
+				   , !$this->isSelfLearningCourse()
 				   , $this->crs_utils->getFreePlaces()
 				   )
 			, array( $this->lng->txt("gev_training_contact")
-				   , true
+				   , !$this->isSelfLearningCourse()
 				   , $this->crs_utils->getMainAdminName()
 				   )
 			, array( $this->lng->txt("gev_training_fee")
@@ -688,7 +697,7 @@ class gevBookingGUI {
 		$crs_utils = gevCourseUtils::getInstance($this->crs_id);
 		
 		if ($this->isSelfBooking()) {
-			if ($crs_utils->getType() !== "Selbstlernkurs") {
+			if (!$this->isSelfLearningCourse()) {
 				if ($booked) {
 					$automails->send("self_booking_to_booked", array($this->user_id));
 				}
