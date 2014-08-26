@@ -200,9 +200,9 @@ class ilMainMenuGUI
 
 		if (!$this->small)
 		{
-	
 			// login stuff
-			if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
+			//if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
+			if ($_SESSION["AccountId"] == ANONYMOUS_USER_ID || isset($_SESSION['AccountId']) == False)
 			{
 				include_once 'Services/Registration/classes/class.ilRegistrationSettingsGUI.php';
 				if (ilRegistrationSettings::_lookupRegistrationType() != IL_REG_DISABLED)
