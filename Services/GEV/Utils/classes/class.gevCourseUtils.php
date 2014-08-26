@@ -769,6 +769,14 @@ class gevCourseUtils {
 		return "NYI!";
 	}
 	
+	public function getOrgaInfo() {
+		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_ORGA);
+	}
+	
+	public function setOrgaInfo($a_orga) {
+		$this->amd->setField($this->crs_id, gevSettings::CRS_AMD_ORGA, $a_orga);
+	}
+	
 	// derived courses for templates
 	
 	public function getDerivedCourseIds() {

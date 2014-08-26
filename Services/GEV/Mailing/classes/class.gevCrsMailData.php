@@ -254,6 +254,9 @@ class gevCrsMailData extends ilMailData {
 					$val = implode("<br />", $dates);
 				}
 				break;
+			case "ORGANISATORISCHES":
+				$val = $this->crs_utils->getOrgaInfo();
+				break;
 			//case "LISTE":
 			//	break;
 		}

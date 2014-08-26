@@ -419,3 +419,20 @@ gevAMDUtils::addAMDField( "Orte und Anbieter"
 						);
 
 ?>
+
+<#6>
+<?php
+
+require_once("Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php");
+require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
+require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+
+gevAMDUtils::addAMDField( "Orte und Anbieter"
+						, "Organisatorisches"
+						, gevSettings::CRS_AMD_ORGA
+						, ""
+						, false
+						, null
+						, ilAdvancedMDFieldDefinition::TYPE_LONG_TEXT
+						);
+?>

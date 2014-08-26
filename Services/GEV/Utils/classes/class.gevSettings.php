@@ -46,6 +46,8 @@ class gevSettings {
 	const CRS_AMD_SCHEDULE			= "crs_amd_schedule";
 	// geplant für
 	const CRS_AMD_SCHEDULED_FOR		= "crs_amd_scheduled_for";
+	// Organisatorisches
+	const CRS_AMD_ORGA				= "crs_amd_orga";
 	
 	// Block Trainingsinhalte
 	// Trainingsthema
