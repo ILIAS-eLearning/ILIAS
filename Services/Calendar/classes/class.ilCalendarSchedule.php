@@ -44,6 +44,7 @@ class ilCalendarSchedule
 	const TYPE_WEEK = 2;
 	const TYPE_MONTH = 3;
 	const TYPE_INBOX = 4;
+	const TYPE_PD_UPCOMING = 5;
 	
 	protected $limit_events = -1;
 	protected $schedule = array();
@@ -503,6 +504,7 @@ class ilCalendarSchedule
 				$this->end->increment(IL_CAL_DAY,6);
 				break;
 			
+			case self::TYPE_PD_UPCOMING:
 			case self::TYPE_INBOX:
 				$this->start = $seed;
 				$this->end = clone $this->start;
