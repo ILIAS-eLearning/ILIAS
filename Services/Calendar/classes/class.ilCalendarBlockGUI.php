@@ -811,23 +811,38 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		$seed = new ilDate(date('Y-m-d',time()),IL_CAL_DATE);
 		
 		include_once('./Services/Calendar/classes/class.ilCalendarSchedule.php');		
-		$schedule = new ilCalendarSchedule($seed, ilCalendarSchedule::TYPE_INBOX);		
+		$schedule = new ilCalendarSchedule($seed, ilCalendarSchedule::TYPE_PD_UPCOMING);		
 		$schedule->addSubitemCalendars(true); // #12007
-		$events = $schedule->getEvents();
+		$schedule->setEventsLimit(20);
+		$schedule->calculate();
+		$events = $schedule->getScheduledEvents(); // #13809
 		
 		$data = array();
 		if(sizeof($events))
 		{			
-			foreach($events as $event)
-			{							
+			foreach($events as $item)
+			{										
+				$start = $item["dstart"];
+				$end = $item["dend"];				
+				if($item["fullday"])
+				{
+					$start = new ilDate($start, IL_CAL_UNIX);
+					$end = new ilDate($end, IL_CAL_UNIX);
+				}
+				else
+				{
+					$start = new ilDateTime($start, IL_CAL_UNIX);
+					$end = new ilDateTime($end, IL_CAL_UNIX);
+				}
+				
 				$ilCtrl->clearParametersByClass('ilcalendardaygui');
-				$ilCtrl->setParameterByClass('ilcalendardaygui','seed',$event->getStart());
+				$ilCtrl->setParameterByClass('ilcalendardaygui','seed', $start->get(IL_CAL_DATE));
 				$link = $ilCtrl->getLinkTargetByClass('ilcalendardaygui','');
 				$ilCtrl->clearParametersByClass('ilcalendardaygui');
 			
 				$data[] = array(	
-					"date" =>  ilDatePresentation::formatPeriod($event->getStart(), $event->getEnd()),
-					"title" => $event->getPresentationTitle(),			
+					"date" =>  ilDatePresentation::formatPeriod($start, $end),
+					"title" => $item["event"]->getPresentationTitle(),			
 					"url" => $link
 					);				
 			}			
