@@ -20,7 +20,7 @@ require_once "Services/Contact/classes/class.ilAddressbookTableGUI.php";
 class ilMailAddressbookGUI
 {
 	private $tpl = null;
-	private $ctrl = null;
+	public $ctrl = null;
 	private $lng = null;
 	private $tabs_gui = null;
 	
@@ -145,7 +145,7 @@ class ilMailAddressbookGUI
 		 * @var $ilSetting ilSetting
 		 */
 		global $lng, $ilSetting;
-		
+
 		$autoupdate = (int)$_POST['auto_update'];
 		if(!$ilSetting->get('cron_upd_adrbook', 0))
 		{
@@ -153,7 +153,7 @@ class ilMailAddressbookGUI
 		}
 		
 		if($this->checkInput($_GET['addr_id']))
-			{
+		{
 			if(!isset($_POST['login']) || !strlen($_POST['login']))
 			{
 				$autoupdate = 0;
@@ -295,6 +295,7 @@ class ilMailAddressbookGUI
 		
 		$login = new ilTextInputGUI($this->lng->txt("username"), "login");
 		$login->setValue(isset($_POST['login']) ? ilUtil::prepareFormOutput($_POST['login'], true) : ilUtil::prepareFormOutput($entry['login']));
+		$login->setDataSource($this->ctrl->getLinkTarget($this, 'lookupAddressbookAsync', '', true));
 		$form->addItem($login);
 		
 		if($ilSetting->get('cron_upd_adrbook', 0))
@@ -417,145 +418,22 @@ class ilMailAddressbookGUI
 	    include_once "Services/Mail/classes/class.ilMail.php";
 	    $mail = new ilMail($_SESSION["AccountId"]);
 	    $mailing_allowed = $rbacsystem->checkAccess('internal_mail',$mail->getMailObjectReferenceId());
-
-	    // searchbox
-	    include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
-	    $searchform = new ilPropertyFormGUI();
-	    $searchform->setFormAction($this->ctrl->getFormAction($this, "saveEntry"));
-
-	    $dsDataLink = $ilCtrl->getLinkTarget($this, 'lookupAddressbookAsync', '', true, false);
-	    $inp = new ilTextInputGUI($this->lng->txt('search_for'), 'search_qry');
-	    $inp->setDataSource($dsDataLink);
-
-	    $searchform->addItem($inp);
-	    $searchform->addCommandButton('search', $this->lng->txt("send"));
-	    $this->tpl->setVariable('SEARCHFORM', $searchform->getHtml());
-
-
-	    $this->tpl->setVariable('ACTION', $this->ctrl->getFormAction($this, "saveEntry"));
-	    $this->tpl->setVariable("TXT_SEARCH_FOR",$this->lng->txt("search_for"));
-	    $this->tpl->setVariable("BUTTON_SEARCH",$this->lng->txt("send"));
-
-	    if (strlen(trim($_SESSION["addr_search"])) > 0)
-	    {
-			$this->tpl->setVariable("VALUE_SEARCH_FOR", ilUtil::prepareFormOutput(trim($_SESSION["addr_search"]), true));
-	    }
+		
+		// check if current user may send smtp mails
+		$smtp_mailing_allowed =  $rbacsystem->checkAccess("smtp_mail", $this->umail->getMailObjectReferenceId());
 
 	    $tbl = new ilAddressbookTableGUI($this);
-	    $tbl->setTitle($lng->txt("mail_addr_entries"));
-	    $tbl->setRowTemplate("tpl.mail_addressbook_row.html", "Services/Contact");
-
-	    $tbl->setDefaultOrderField('login');
-
-		$width = '20%';
-		if($ilSetting->get('cron_upd_adrbook', 0))
-		{
-			$width = '16.6%';
-		}
-
-	    $result = array();
-	    $this->abook->setSearchQuery($_SESSION['addr_search']);
+		$tbl->setMailingAllowed($mailing_allowed);
+		$tbl->setSmtpMailingAllowed($smtp_mailing_allowed);
+		
+	    $this->abook->setSearchQuery($tbl->getFilterQuery());
 	    $entries = $this->abook->getEntries();
-		$tbl->addColumn('', 'check', '1px', true);
-		$tbl->addColumn($this->lng->txt('login'), 'login', $width);
-		$tbl->addColumn($this->lng->txt('firstname'), 'firstname', $width);
-		$tbl->addColumn($this->lng->txt('lastname'), 'lastname', $width);
-		$tbl->addColumn($this->lng->txt('email'), 'email', $width);
-		if($ilSetting->get('cron_upd_adrbook', 0))
-		{
-			$tbl->addColumn($this->lng->txt('auto_update'), '', $width);
-		}
-		$tbl->addColumn($this->lng->txt('actions'), '', '20%');
-
-	    include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
-
-	    if (count($entries))
-	    {
-		$tbl->enable('select_all');
-		$tbl->setSelectAllCheckbox('addr_id');
+		
+		$tbl->setData($entries);
 
 		$chatSettings = new ilSetting('chatroom');
 		$chat_active = $chatSettings->get("chat_enabled", false);
-
-		$counter = 0;
-		
-		foreach ($entries as $entry)
-		{
-		    $result[$counter]['check'] = ilUtil::formCheckbox(0, 'addr_id[]', $entry["addr_id"]);
-
-		    $this->ctrl->setParameter($this, 'addr_id',  $entry['addr_id']);
-
-			$result[$counter]['login'] = '';
-			if($entry["login"] != "")
-			{
-				if($mailing_allowed)
-				{
-					$result[$counter]['login_linked_link'] = $this->ctrl->getLinkTarget($this, 'mailToUsers');
-					$result[$counter]['login']             = $result[$counter]['login_linked_login'] = $entry["login"];
-				}
-				else
-				{
-					$result[$counter]['login'] = $result[$counter]['login_unliked'] = $entry["login"];
-				}
-			}
-
-			$result[$counter]['firstname'] = $entry["firstname"];
-			$result[$counter]['lastname']  = $entry["lastname"];
-
-			if($_GET["baseClass"] == "ilMailGUI" && $rbacsystem->checkAccess("smtp_mail", $this->umail->getMailObjectReferenceId()))
-			{
-				$result[$counter]['email']             = $result[$counter]['email_linked_email'] = $entry["email"];
-				$result[$counter]['email_linked_link'] = $this->ctrl->getLinkTarget($this, "mailToUsers");
-			}
-			else
-			{
-				$result[$counter]['email'] = $result[$counter]['email_unlinked'] = $entry["email"];
-			}
-
-		    $current_selection_list = new ilAdvancedSelectionListGUI();
-		    $current_selection_list->setListTitle($this->lng->txt("actions"));
-		    $current_selection_list->setId("act_".$counter);
-
-		    $current_selection_list->addItem($this->lng->txt("edit"), '', $this->ctrl->getLinkTarget($this, "showAddressForm"));
-
-		    if ($mailing_allowed)
-			$current_selection_list->addItem($this->lng->txt("send_mail_to"), '', $this->ctrl->getLinkTarget($this, "mailToUsers"));
-
-		    $current_selection_list->addItem($this->lng->txt("delete"), '', $this->ctrl->getLinkTarget($this, "confirmDelete"));
-
-		    if ($chat_active)
-			$current_selection_list->addItem($this->lng->txt("invite_to_chat"), '', $this->ctrl->getLinkTarget($this, "inviteToChat"));
-
-			$this->ctrl->clearParameters($this);
-
-			if($ilSetting->get('cron_upd_adrbook', 0))
-			{
-				$result[$counter]['auto_update'] = $entry['auto_update'] ? $lng->txt('yes') : $lng->txt('no');
-			}
-
-		    $result[$counter]['COMMAND_SELECTION_LIST'] = $current_selection_list->getHTML();
-		    ++$counter;
-		}
-
-		if ($mailing_allowed)
-		    $tbl->addMultiCommand('mailToUsers', $this->lng->txt('send_mail_to'));
-
-		$tbl->addMultiCommand('confirmDelete', $this->lng->txt('delete'));
-
-		if ($chat_active)
-		    $tbl->addMultiCommand('inviteToChat', $this->lng->txt('invite_to_chat'));
-	    }
-	    else
-	    {
-		$tbl->disable('header');
-		$tbl->disable('footer');
-
-		$tbl->setNoEntriesText($this->lng->txt('mail_search_no'));
-	    }
-
-	    $tbl->setData($result);
-
-	    $tbl->addCommandButton('showAddressForm', $this->lng->txt('add'));
+		$tbl->setChatActive($chat_active);
 
 	    $this->tpl->setVariable('TABLE', $tbl->getHTML());
 
@@ -883,6 +761,22 @@ class ilMailAddressbookGUI
 		{
 			$this->tabs_gui->activateTab($a_id);
 		}
+	}
+	
+	public function setAddressbookFilter()
+	{
+		$table = new ilAddressbookTableGUI($this, 'showAddressbook');
+		$table->resetOffset();
+		$table->writeFilterToSession();
+		$this->showAddressbook();
+	}
+
+	public function resetAddressbookFilter()
+	{
+		$table = new ilAddressbookTableGUI($this, 'showAddressbook');
+		$table->resetOffset();
+		$table->resetFilter();
+		$this->showAddressbook();
 	}
 }
 ?>
