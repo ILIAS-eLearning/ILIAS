@@ -14613,3 +14613,12 @@ cntr#:#sorting_new_items_at_bottom#:#Bottom
 cntr#:#sorting_new_items_order#:#Order For New Objects
 form#:#form_location_radius#:#Radius
 form#:#form_location_radius_km#:#km
+common#:#send_mail_to_inactive_users#:#Earlist Point, where a reminder mail will be sent in days
+common#:#send_mail_to_inactive_users_desc#:#A reminder mail will be send, to the mail address in this period of time, before the User will be deleted.
+common#:#send_mail_to_inactive_users_numbers_only#:#Only positive non decimal numbers are accepted.
+common#:#send_mail_to_inactive_users_must_be_smaller_than#:#This value must be smaller than the value 'Days passed since last login'.
+common#:#del_mail_subject#:#(ILIAS) – Your account will be deleted
+common#:#del_mail_body#:#Hello %1$s, %2$s you haven't logged in for a long period of time, on %3$s. So your account will be deleted in %4$s days. You have to login again to prevent the deletion of your account.
+common#:#delete_inactive_user_accounts_frequency#:#Frequency
+common#:#delete_inactive_user_accounts_frequency_desc#:#Frequency, in which the deletion and email distibution will be tested.
+common#:#send_mail_reminder_window_too_small#:#Your Frequency setting is too large for this reminder value.

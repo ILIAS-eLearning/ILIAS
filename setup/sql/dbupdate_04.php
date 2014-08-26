@@ -2476,4 +2476,26 @@ if( !$ilDB->tableColumnExists('container_sorting_set', 'new_items_order'))
 <#4297>
 <?php
 	$ilCtrlStructureReader->getStructure();
-?>	
+?>
+<#4298>
+<?php
+if(!$ilDB->tableExists('usr_cron_mail_reminder'))
+{
+	$fields = array (
+		'usr_id'    => array(
+			'type'    => 'integer',
+			'length'  => 4,
+			'default' => 0,
+			'notnull' => true
+		),
+		'ts'   => array(
+			'type'    => 'integer',
+			'length'  => 4,
+			'default' => 0,
+			'notnull' => true
+		)
+	);
+	$ilDB->createTable('usr_cron_mail_reminder', $fields);
+	$ilDB->addPrimaryKey('usr_cron_mail_reminder', array('usr_id'));
+}
+?>

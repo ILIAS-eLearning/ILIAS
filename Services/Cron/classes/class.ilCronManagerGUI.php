@@ -190,10 +190,12 @@ class ilCronManagerGUI
 					}
 
 					ilCronManager::updateJobSchedule($job, $type, $value);
-				}				
-
-				ilUtil::sendSuccess($lng->txt("cron_action_edit_success"), true);
-				$ilCtrl->redirect($this, "render");
+				}
+				if($valid)
+				{
+					ilUtil::sendSuccess($lng->txt("cron_action_edit_success"), true);
+					$ilCtrl->redirect($this, "render");
+				}
 			}
 		}
 		

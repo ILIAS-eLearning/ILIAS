@@ -2,11 +2,14 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once "Services/Cron/classes/class.ilCronJob.php";
+include_once 'Services/Mail/classes/class.ilMimeMail.php';
+include_once 'Services/User/classes/class.ilCronDeleteInactiveUserReminderMail.php';
 
 /**
  * This cron deletes user accounts by INACTIVITY period
  *
  * @author Bjoern Heyser <bheyser@databay.de>
+ * @author Guido Vollbach <gvollbach@databay.de>
  * @version $Id$
  *
  * @package ilias
@@ -14,9 +17,10 @@ include_once "Services/Cron/classes/class.ilCronJob.php";
 class ilCronDeleteInactiveUserAccounts extends ilCronJob
 {	
 	const DEFAULT_INACTIVITY_PERIOD = 365;
+	const DEFAULT_REMINDER_PERIOD   = 0;
 
 	private $period = null;
-
+	private $reminderTimer = null;
 	private $include_roles = null;
 	
 	public function __construct()
@@ -34,6 +38,10 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
 			$this->period = $ilSetting->get(
 				'cron_inactive_user_delete_period',
 				self::DEFAULT_INACTIVITY_PERIOD
+			);
+			$this->reminderTimer = $ilSetting->get(
+				'cron_inactive_user_reminder_period',
+				self::DEFAULT_REMINDER_PERIOD
 			);
 		}
 	}
@@ -83,14 +91,16 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
 	}
 	
 	public function run()
-	{		
-		global $rbacreview;
+	{
+		global $rbacreview, $ilLog;
 		
 		$status = ilCronJobResult::STATUS_NO_ACTION;
-		
+		$reminder_time      = (int)$this->reminderTimer;
+		$checkMail          = (int)$this->period - $reminder_time;
 		$usr_ids = ilObjUser::_getUserIdsByInactivityPeriod($this->period);
-
 		$counter = 0;
+		$userDeleted        = 0;
+		$userMailsDelivered = 0;
 		foreach($usr_ids as $usr_id)
 		{
 			if($usr_id == ANONYMOUS_USER_ID || $usr_id == SYSTEM_USER_ID) continue;
@@ -104,19 +114,40 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
 					break;
 				}
 			}
-			if($continue) continue;
+			if($continue)
+			{
+				continue;
+			}
+
+			/**
+			 * @var $user ilObjUser
+			 */
 
 			$user = ilObjectFactory::getInstanceByObjId($usr_id);
-
-			$user->delete();
-			
+			$last_login_timestamp = strtotime($user->getLastLogin());
+			$grace_period_over    = time() - ((int)$this->period * 24 * 60 * 60);
+			if($last_login_timestamp < $grace_period_over)
+			{
+				$user->delete();
+				$userDeleted++;
+			}
+			else if($reminder_time > 0)
+			{
+				$mailSent = ilCronDeleteInactiveUserReminderMail::checkIfReminderMailShouldBeSend($user, $reminder_time);
+				if($mailSent)
+				{
+					$userMailsDelivered++;
+				}
+			}
 			$counter++;
 		}
 		
 		if($counter)
 		{
 			$status = ilCronJobResult::STATUS_OK;
-		}		
+		}
+		ilCronDeleteInactiveUserReminderMail::removeEntriesFromTableIfLastLoginIsNewer();
+		$ilLog->write("CRON - ilCronDeleteInactiveUserAccounts::run(), deleted => $userDeleted User(s), sent reminder mail to $userMailsDelivered User(s)");
 		$result = new ilCronJobResult();
 		$result->setStatus($status);		
 		return $result;
@@ -125,6 +156,12 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
 	public function addCustomSettingsToForm(ilPropertyFormGUI $a_form)
 	{
 		global $lng, $rbacreview, $ilObjDataCache, $ilSetting;
+		
+		$schedule = $a_form->getItemByPostVar('type');
+		$schedule->setTitle($lng->txt('delete_inactive_user_accounts_frequency'),
+			'delete_inactive_user_accounts_frequency');
+		$schedule->setInfo($lng->txt('delete_inactive_user_accounts_frequency_desc'),
+			'delete_inactive_user_accounts_frequency_desc');
 
 		include_once('Services/Form/classes/class.ilMultiSelectInputGUI.php');
 		$sub_mlist = new ilMultiSelectInputGUI(
@@ -157,8 +194,19 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
 		$sub_text->setSize(4);
 		$sub_text->setMaxLength(4);
 		$sub_text->setRequired(true);
-		$a_form->addItem($sub_text);		
-		
+		$a_form->addItem($sub_text);
+
+		$sub_period = new ilNumberInputGUI(
+			$lng->txt('send_mail_to_inactive_users'),
+			'cron_inactive_user_reminder_period'
+		);
+		$sub_period->setInfo($lng->txt("send_mail_to_inactive_users_desc"));
+		$sub_period->setValue($ilSetting->get("cron_inactive_user_reminder_period", $default_setting));
+		$sub_period->setSize(4);
+		$sub_period->setMaxLength(4);
+		$sub_period->setRequired(false);
+		$sub_period->setMinValue(0);
+		$a_form->addItem($sub_period);
 		/*		
 		$default_setting = ilCronDeleteInactiveUserAccounts::DEFAULT_SETTING_INCLUDE_ADMINS;
 		$sub_cb = new ilCheckboxInputGUI($lng->txt('delete_inactive_user_accounts_include_admins'),'cron_inactive_user_delete_include_admins');
@@ -168,17 +216,109 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
 		$a_form->addItem($sub_cb);
 		*/		
 	}
-	
+
 	public function saveCustomSettings(ilPropertyFormGUI $a_form)
 	{
-		global $ilSetting;
-		
+		global $ilSetting, $lng;
 		$setting = implode(',', $_POST['cron_inactive_user_delete_include_roles']);
-		if( !strlen($setting) ) $setting = null;
-		$ilSetting->set('cron_inactive_user_delete_include_roles', $setting);
-		$ilSetting->set('cron_inactive_user_delete_period', $_POST['cron_inactive_user_delete_period']);
-		
+		if(!strlen($setting))
+		{
+			$setting = null;
+		}
+
+		$valid = true;
+		$delete_period 		= ilUtil::stripSlashes($_POST['cron_inactive_user_delete_period']);
+		$reminder_period 	= ilUtil::stripSlashes($_POST['cron_inactive_user_reminder_period']);
+		$cron_period 		= (int) ilUtil::stripSlashes($_POST['type']);
+		$cron_period_custom	= (int) ilUtil::stripSlashes($_POST['sdyi']);
+
+		if($this->isDecimal($delete_period))
+		{
+			$valid = false;
+			$a_form->getItemByPostVar('cron_inactive_user_delete_period')->setAlert($lng->txt('send_mail_to_inactive_users_numbers_only'),'send_mail_to_inactive_users_numbers_only');
+		}
+		if($this->isDecimal($reminder_period))
+		{
+			$valid = false;
+			$a_form->getItemByPostVar('cron_inactive_user_reminder_period')->setAlert($lng->txt('send_mail_to_inactive_users_numbers_only'),'send_mail_to_inactive_users_numbers_only');
+		}
+		if($reminder_period >= $delete_period)
+		{
+			$valid = false;
+			$a_form->getItemByPostVar('cron_inactive_user_reminder_period')->setAlert($lng->txt('send_mail_to_inactive_users_must_be_smaller_than'),'send_mail_to_inactive_users_must_be_smaller_than');
+		}
+		if($cron_period >= ilCronJob::SCHEDULE_TYPE_IN_DAYS && $cron_period <= ilCronJob::SCHEDULE_TYPE_YEARLY && $reminder_period > 0)
+		{
+			$logic					= true;
+			$check_window_logic 	= $delete_period - $reminder_period;
+			if($cron_period ==  ilCronJob::SCHEDULE_TYPE_IN_DAYS)
+			{
+				if($check_window_logic < $cron_period_custom)
+				{
+					$logic 	= false;
+				}
+			}
+			else if($cron_period == ilCronJob::SCHEDULE_TYPE_WEEKLY)
+			{
+				if($check_window_logic <= 7)
+				{
+					$logic 	= false;
+				}
+			}
+			else if($cron_period ==  ilCronJob::SCHEDULE_TYPE_MONTHLY)
+			{
+				if($check_window_logic <= 31)
+				{
+					$logic 	= false;
+				}
+			}
+			else if($cron_period ==  ilCronJob::SCHEDULE_TYPE_QUARTERLY)
+			{
+				if($check_window_logic <= 92)
+				{
+					$logic 	= false;
+				}
+			}
+			else if($cron_period ==  ilCronJob::SCHEDULE_TYPE_YEARLY)
+			{
+				if($check_window_logic <= 366)
+				{
+					$logic 	= false;
+				}
+			}
+			if(!$logic)
+			{
+				$valid 		= false;
+				$a_form->getItemByPostVar('cron_inactive_user_reminder_period')->setAlert($lng->txt('send_mail_reminder_window_too_small'),'send_mail_reminder_window_too_small');
+			}
+		}
+		if($_POST['cron_inactive_user_delete_period'])
+		{
+			$ilSetting->set('cron_inactive_user_delete_include_roles', $setting);
+			$ilSetting->set('cron_inactive_user_delete_period', $_POST['cron_inactive_user_delete_period']);
+		}
+		if($this->reminderTimer > $reminder_period)
+		{
+			ilCronDeleteInactiveUserReminderMail::flushDataTable();
+		}
+		$ilSetting->set('cron_inactive_user_reminder_period', $reminder_period);
+
+		if(!$valid)
+		{
+			ilUtil::sendFailure($lng->txt("form_input_not_valid"));
+			return false;
+		}
+
 		return true;
+	}
+
+	protected function isDecimal($number)
+	{
+		if(strpos($number,',') || strpos($number,'.'))
+		{
+			return true;
+		}
+		return false;
 	}
 }
 

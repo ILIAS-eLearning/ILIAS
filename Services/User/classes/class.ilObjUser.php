@@ -1399,6 +1399,10 @@ class ilObjUser extends ilObject
 		include_once "./Services/DiskQuota/classes/class.ilDiskQuotaHandler.php";
 		ilDiskQuotaHandler::deleteByOwner($this->getId());
 		
+		// remove reminder entries
+		require_once 'Services/User/classes/class.ilCronDeleteInactiveUserReminderMail.php';
+		ilCronDeleteInactiveUserReminderMail::removeSingleUserFromTable($this->getId());
+		
 		// Delete user defined field entries
 		$this->deleteUserDefinedFieldEntries();
 		
