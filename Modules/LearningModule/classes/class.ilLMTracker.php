@@ -478,6 +478,64 @@ class ilLMTracker
 		return $ret;
 	}
 
+	////
+	//// Blocked Users
+	////
+
+	/**
+	 * Get blocked users information
+	 *
+	 * @param
+	 * @return
+	 */
+	function getBlockedUsersInformation()
+	{
+		global $ilDB, $lng, $ilPluginAdmin, $ilUser;
+
+		$blocked_users = array();
+
+		// load question/pages information
+		$this->page_questions = array();
+		$this->all_questions = array();
+		$page_for_question = array();
+		include_once("./Modules/LearningModule/classes/class.ilLMPageObject.php");
+		$q = ilLMPageObject::queryQuestionsOfLearningModule($this->lm_obj_id, "", "", 0, 0);
+		foreach ($q["set"] as $quest)
+		{
+			$this->page_questions[$quest["page_id"]][] = $quest["question_id"];
+			$this->all_questions[] = $quest["question_id"];
+			$page_for_question[$quest["question_id"]] = $quest["page_id"];
+		}
+
+		// get question information
+		include_once("./Modules/TestQuestionPool/classes/class.ilAssQuestionList.php");
+		$qlist = new ilAssQuestionList($ilDB, $lng, $ilPluginAdmin, 0);
+		$qlist->addFieldFilter("question_id", $this->all_questions);
+		$qlist->load();
+		$qdata = $qlist->getQuestionDataArray();
+
+		// load question answer information
+		include_once("./Services/COPage/classes/class.ilPageQuestionProcessor.php");
+		$this->answer_status = ilPageQuestionProcessor::getAnswerStatus($this->all_questions, $ilUser->getId());
+
+		include_once("./Modules/LearningModule/classes/class.ilLMPageObject.php");
+		foreach ($this->answer_status as $as)
+		{
+			if ($as["try"] >= $qdata[$as["qst_id"]]["nr_of_tries"] && $qdata[$as["qst_id"]]["nr_of_tries"] > 0 && !$as["passed"])
+			{
+		//var_dump($qdata[$as["qst_id"]]);
+				$name = ilObjUser::_lookupName($as["user_id"]);
+				$as["user_name"] = $name["lastname"].", ".$name["firstname"]." [".$name["login"]."]";
+				$as["question_text"] = $qdata[$as["qst_id"]]["question_text"];
+				$as["page_id"] = $page_for_question[$as["qst_id"]];
+				$as["page_title"] = ilLMPageObject::_lookupTitle($as["page_id"]);
+				$blocked_users[] = $as;
+			}
+		}
+
+		return $blocked_users;
+	}
+
 
 }
 

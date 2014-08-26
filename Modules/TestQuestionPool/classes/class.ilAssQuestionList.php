@@ -219,6 +219,14 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 					
 					$expressions[] = "qpl_qst_type.type_tag = {$this->db->quote($fieldValue, 'text')}";
 					break;
+
+				case 'question_id':
+					if ($fieldValue != "" && !is_array($fieldValue))
+					{
+						$fieldValue = array($fieldValue);
+					}
+					$expressions[] = $this->db->in("qpl_questions.question_id", $fieldValue, false, "integer");
+					break;
 			}
 		}
 		

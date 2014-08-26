@@ -2543,19 +2543,34 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 
 	/**
 	 * List questions
-	 *
-	 * @param
-	 * @return
 	 */
 	function listQuestions()
 	{
 		global $tpl;
 
-		$this->setTabs();
-		$this->setContentSubTabs("export_ids");
-		
+		$this->setTabs("questions");
+		$this->setQuestionsSubTabs("question_stats");
+
 		include_once("./Modules/LearningModule/classes/class.ilLMQuestionListTableGUI.php");
 		$table = new ilLMQuestionListTableGUI($this, "listQuestions", $this->object);
+		$tpl->setContent($table->getHTML());
+
+	}
+
+	/**
+	 * List blocked users
+	 */
+	function listBlockedUsers()
+	{
+		global $tpl;
+
+		$this->setTabs("questions");
+		$this->setQuestionsSubTabs("blocked_users");
+
+
+
+		include_once("./Modules/LearningModule/classes/class.ilLMBlockedUsersTableGUI.php");
+		$table = new ilLMBlockedUsersTableGUI($this, "listBlockedUsers", $this->object);
 		$tpl->setContent($table->getHTML());
 
 	}
@@ -2583,8 +2598,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 	/**
 	 * Set pages tabs
 	 *
-	 * @param
-	 * @return
+	 * @param string $a_active active subtab
 	 */
 	function setContentSubTabs($a_active)
 	{
@@ -2601,11 +2615,6 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		$ilTabs->addSubtab("pages",
 			$lng->txt("cont_all_pages"),
 			$ilCtrl->getLinkTarget($this, "pages"));
-		
-		// questions
-		$ilTabs->addSubtab("questions",
-			$lng->txt("objs_qst"),
-			$ilCtrl->getLinkTarget($this, "listQuestions"));
 
 		// export ids
 		if ($lm_set->get("html_export_ids"))
@@ -2644,7 +2653,11 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 					$ilCtrl->getLinkTarget($this, "linkChecker"));
 			}
 		}
-		
+
+		$ilTabs->addSubtab("history",
+			$lng->txt("history"),
+			$this->ctrl->getLinkTarget($this, "history"));
+
 		// maintenance
 		$ilTabs->addSubtab("maintenance",
 			$lng->txt("cont_maintenance"),
@@ -2652,6 +2665,28 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		
 		$ilTabs->activateSubTab($a_active);
 		$ilTabs->activateTab("content");
+	}
+
+	/**
+	 * Set pages tabs
+	 *
+	 * @param string $a_active active subtab
+	 */
+	function setQuestionsSubTabs($a_active)
+	{
+		global $ilTabs, $lng, $ilCtrl;
+
+		// chapters
+		$ilTabs->addSubtab("question_stats",
+			$lng->txt("cont_question_stats"),
+			$ilCtrl->getLinkTarget($this, "listQuestions"));
+
+		// blocked users
+		$ilTabs->addSubtab("blocked_users",
+			$lng->txt("cont_blocked_users"),
+			$ilCtrl->getLinkTarget($this, "listBlockedUsers"));
+
+		$ilTabs->activateSubTab($a_active);
 	}
 
 	/**
@@ -2678,6 +2713,10 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 			$lng->txt("settings"),
 			$this->ctrl->getLinkTarget($this,'properties'));
 
+		// questions
+		$ilTabs->addTab("questions",
+			$lng->txt("objs_qst"),
+			$this->ctrl->getLinkTarget($this, "listQuestions"));
 
 		// learning progress
 		include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
@@ -2695,11 +2734,6 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 				$lng->txt("bib_data"),
 				$this->ctrl->getLinkTarget($this, "editBibItem"));
 		}
-		
-		// history
-		$ilTabs->addTab("history",
-			$lng->txt("history"),
-			$this->ctrl->getLinkTarget($this, "history"));
 
 		// meta data
 		$ilTabs->addTab("meta",
@@ -2881,7 +2915,8 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 	*/
 	function history()
 	{
-		$this->setTabs("history");
+		$this->setTabs("content");
+		$this->setContentSubTabs("history");
 
 		require_once("./Services/History/classes/class.ilHistoryGUI.php");
 		$hist_gui =& new ilHistoryGUI($this->object->getId() ,

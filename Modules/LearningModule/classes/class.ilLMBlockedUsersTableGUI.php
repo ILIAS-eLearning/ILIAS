@@ -1,0 +1,75 @@
+<?php
+
+/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+include_once("./Services/Table/classes/class.ilTable2GUI.php");
+
+/**
+ * TableGUI class for 
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ * @version $Id$
+ *
+ * @ingroup Services
+ */
+class ilLMBlockedUsersTableGUI extends ilTable2GUI
+{
+	/**
+	 * Constructor
+	 */
+	function __construct($a_parent_obj, $a_parent_cmd, $a_lm)
+	{
+		global $ilCtrl, $lng, $ilAccess, $lng;
+
+		$this->lm = $a_lm;
+
+		parent::__construct($a_parent_obj, $a_parent_cmd);
+		$this->setData($this->getBlockedUsers());
+		$this->setTitle($lng->txt(""));
+		
+		$this->addColumn("", "", "1px");
+		$this->addColumn($this->lng->txt("user"), "user");
+		$this->addColumn($this->lng->txt("question"), "");
+		$this->addColumn($this->lng->txt("page"), "page_title");
+		$this->addColumn($this->lng->txt("last_try"), "last_try");
+		$this->addColumn($this->lng->txt("ignore_fail"));
+		
+		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
+		$this->setRowTemplate("tpl.blocked_users.html", "Modules/LearningModule");
+
+		$this->addMultiCommand("sendMailToBlockedUsers", $lng->txt("send_mail"));
+		$this->addMultiCommand("resetNumberOfTries", $lng->txt("cont_reset_nr_tries"));
+		$this->addMultiCommand("ignoreFailStatus", $lng->txt("cont_ignor_fail_allow_to_continue"));
+		//$this->addCommandButton("", $lng->txt(""));
+	}
+
+	/**
+	 * Get blocked users
+	 *
+	 * @return array array of blocked user information
+	 */
+	protected function getBlockedUsers()
+	{
+		include_once("./Modules/LearningModule/classes/class.ilLMTracker.php");
+		$track = ilLMTracker::getInstance($this->lm->getRefId());
+
+		return $bl_users = $track->getBlockedUsersInformation();
+	}
+	
+	/**
+	 * Fill table row
+	 */
+	protected function fillRow($a_set)
+	{
+		global $lng;
+
+		$this->tpl->setVariable("USER_ID", $a_set["qst_id"].":".$a_set["user_id"]);
+		$this->tpl->setVariable("USER_NAME", $a_set["user_name"]);
+		$this->tpl->setVariable("QUESTION", $a_set["question_text"]);
+		$this->tpl->setVariable("PAGE", $a_set["page_title"]);
+		$this->tpl->setVariable("LAST_TRY", $a_set["last_try"]);
+		$this->tpl->setVariable("IGNORE_FAIL", ($a_set["ignore_fail"] ? $lng->txt("yes") : $lng->txt("no")));
+	}
+
+}
+?>
