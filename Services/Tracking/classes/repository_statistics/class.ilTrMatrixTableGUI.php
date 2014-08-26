@@ -20,6 +20,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 	protected $in_course; // int
 	protected $in_group; // int
 	protected $privacy_fields; // array
+	protected $privacy_cols; // array
 
 	/**
 	 * Constructor
@@ -66,6 +67,12 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 		foreach ($selected as $c)
 		{
 			$title = $labels[$c]["txt"];
+			
+			if(isset($labels[$c]["no_permission"]) && (bool)$labels[$c]["no_permission"])
+			{
+				$title .= " (".$lng->txt("status_no_permission").")";
+			}
+			
 			$tooltip = "";
 			if(isset($labels[$c]["icon"]))
 			{
@@ -108,7 +115,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 
 	function getSelectableColumns()
 	{
-		global $ilObjDataCache;
+		global $ilObjDataCache, $rbacsystem;
 		
 		$user_cols = $this->getSelectableUserColumns($this->in_course, $this->in_group);
 		
@@ -130,6 +137,16 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 				}
 				else
 				{
+					$no_perm = false;
+					
+					$ref_id = $this->ref_ids[$obj_id];
+					if($ref_id &&
+						!$rbacsystem->checkAccess('read_learning_progress', $ref_id))
+					{
+						$no_perm = true;
+						$this->privacy_cols[] = $obj_id;
+					}
+					
 					$title = $ilObjDataCache->lookupTitle($obj_id);
 					$type = $ilObjDataCache->lookupType($obj_id);
 					$icon = ilObject::_getIcon("", "tiny", $type);
@@ -139,7 +156,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 						$sess = new ilObjSession($obj_id, false);
 						$title = $sess->getPresentationTitle();
 					}
-					$tmp_cols[strtolower($title)."#~#obj_".$obj_id] = array("txt" => $title, "icon" => $icon, "type" => $type, "default" => true);
+					$tmp_cols[strtolower($title)."#~#obj_".$obj_id] = array("txt" => $title, "icon" => $icon, "type" => $type, "default" => true, "no_permission" => $no_perm);
 				}
 			}
 			if(sizeof($this->objective_ids))
@@ -346,23 +363,24 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 	function fillRow(array $a_set)
 	{
 		global $lng;
-		
-		// #7694
-		if(!$a_set["active"])
-		{
-			$this->tpl->setCurrentBlock('inactive_bl');
-			$this->tpl->setVariable('TXT_INACTIVE', $lng->txt("inactive"));				
-			$this->tpl->parseCurrentBlock();
-		}
-		
-		$this->tpl->setVariable("VAL_LOGIN", $a_set["login"]);
-		
+				
 		foreach ($this->getSelectedColumns() as $c)
 		{
 			switch($c)
 			{				
-				case (substr($c, 0, 4) == "obj_"):
+				case (substr($c, 0, 4) == "obj_"):										
 					$obj_id = substr($c, 4);
+					
+					// object without read-lp-permission
+					if(in_array($obj_id, $this->privacy_cols) || 
+						$a_set["privacy_conflict"])
+					{
+						$this->tpl->setCurrentBlock("objects");
+						$this->tpl->setVariable("VAL_STATUS", "&nbsp;");
+						$this->tpl->parseCurrentBlock();				
+						continue;
+					}
+					
 					if(!isset($a_set["objects"][$obj_id]))
 					{
 						$data = array("status"=>0);
@@ -398,7 +416,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 
 					$this->tpl->setCurrentBlock("objects");
 					$this->tpl->setVariable("VAL_STATUS", $this->parseValue("status", $data["status"], ""));
-					$this->tpl->setVariable("VAL_PERCENTAGE", $this->parseValue("percentage", $data["percentage"], ""));
+					$this->tpl->setVariable("VAL_PERCENTAGE", $this->parseValue("percentage", $data["percentage"], ""));					
 					$this->tpl->parseCurrentBlock();
 					break;
 
@@ -416,17 +434,53 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 						$data = $a_set["objects"][$obj_id];
 					}
 					$this->tpl->setCurrentBlock("objects");
-					$this->tpl->setVariable("VAL_STATUS", $this->parseValue("status", $data["status"], ""));
+					if(!$a_set["privacy_conflict"])
+					{
+						$this->tpl->setVariable("VAL_STATUS", $this->parseValue("status", $data["status"], ""));
+					}
+					else
+					{
+						$this->tpl->setVariable("VAL_STATUS", "&nbsp;");
+					}
 					$this->tpl->parseCurrentBlock();
 					break;
 					
-				default:
+				default:										
 					$this->tpl->setCurrentBlock("user_field");
-					$this->tpl->setVariable("VAL_UF", $this->parseValue($c, $a_set[$c], ""));
+					if(!$a_set["privacy_conflict"])
+					{
+						$this->tpl->setVariable("VAL_UF", $this->parseValue($c, $a_set[$c], ""));
+					}
+					else
+					{
+						$this->tpl->setVariable("VAL_UF", "&nbsp;");
+					}
 					$this->tpl->parseCurrentBlock();
 					break;
 			}
 		}
+				
+		// #7694
+		if(!$a_set["active"] || $a_set["privacy_conflict"])
+		{
+			$mess = array();
+			if($a_set["privacy_conflict"])
+			{
+				$mess[] = $lng->txt("status_no_permission");
+			}
+			else if(!$a_set["active"])
+			{
+				$mess[] = $lng->txt("inactive");
+			}			
+			$this->tpl->setCurrentBlock('inactive_bl');
+			$this->tpl->setVariable('TXT_INACTIVE', implode(", ", $mess));				
+			$this->tpl->parseCurrentBlock();
+		}
+		
+		$login = !$a_set["privacy_conflict"]
+			? $a_set["login"]
+			: "&nbsp;";	
+		$this->tpl->setVariable("VAL_LOGIN", $login);				
 	}
 
 	protected function fillHeaderExcel($worksheet, &$a_row)

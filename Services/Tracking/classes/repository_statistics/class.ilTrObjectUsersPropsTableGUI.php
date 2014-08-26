@@ -26,13 +26,14 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 	protected $filter; // array
 	protected $in_course; // int
 	protected $in_group; // int
+	protected $has_edit; // bool
 	
 	/**
 	* Constructor
 	*/
 	function __construct($a_parent_obj, $a_parent_cmd, $a_obj_id, $a_ref_id, $a_print_view = false)
 	{
-		global $ilCtrl, $lng, $tree;
+		global $ilCtrl, $lng, $tree, $rbacsystem;
 		
 		$this->setId("troup");
 		$this->obj_id = $a_obj_id;
@@ -97,6 +98,9 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 		$this->initFilter();
 
 		$this->getItems();
+		
+		// #13808
+		$this->has_edit = $rbacsystem->checkAccess('edit_learning_progress',$this->ref_id);
 	}
 	
 	/**
@@ -293,7 +297,7 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 	protected function fillRow($data)
 	{
 		global $ilCtrl, $lng;
-
+		
 		foreach ($this->getSelectedColumns() as $c)
 		{
 			if(!(bool)$data["privacy_conflict"]) 
@@ -330,7 +334,14 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 			}
 			else
 			{
-				$val = "-";
+				if($c == 'login')
+				{
+					$this->tpl->setCurrentBlock('inactive_bl');
+					$this->tpl->setVariable('TXT_INACTIVE', $lng->txt("status_no_permission"));				
+					$this->tpl->parseCurrentBlock();
+				}
+				
+				$val = "&nbsp;";
 			}
 
 			$this->tpl->setCurrentBlock("user_field");			
@@ -350,10 +361,13 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 				$this->tpl->parseCurrentBlock();
 			}
 
-			$this->tpl->setCurrentBlock("item_command");
-			$this->tpl->setVariable("HREF_COMMAND", $ilCtrl->getLinkTargetByClass("illplistofobjectsgui", "edituser"));
-			$this->tpl->setVariable("TXT_COMMAND", $lng->txt('edit'));
-			$this->tpl->parseCurrentBlock();
+			if($this->has_edit)
+			{
+				$this->tpl->setCurrentBlock("item_command");
+				$this->tpl->setVariable("HREF_COMMAND", $ilCtrl->getLinkTargetByClass("illplistofobjectsgui", "edituser"));
+				$this->tpl->setVariable("TXT_COMMAND", $lng->txt('edit'));
+				$this->tpl->parseCurrentBlock();
+			}
 		}
 
 		$ilCtrl->setParameterByClass("illplistofobjectsgui", 'user_id', '');

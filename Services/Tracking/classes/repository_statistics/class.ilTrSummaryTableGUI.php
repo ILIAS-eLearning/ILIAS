@@ -311,7 +311,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 	 */
 	function getItems($a_object_id, $a_ref_id)
 	{
-		global $lng;
+		global $lng, $rbacsystem;
 
 		include_once("./Services/Tracking/classes/class.ilTrQuery.php");
 
@@ -365,7 +365,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 
 		$rows = array();
 		foreach($data["set"] as $idx => $result)
-		{
+		{			
 			// sessions have no title
 			if($result["title"] == "" && $result["type"] == "sess")
 			{
@@ -375,7 +375,33 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 			}
 
 			$data["set"][$idx]["offline"] = ilLearningProgressBaseGUI::isObjectOffline($result["obj_id"], $result["type"]);
-
+			
+			// #13808
+			if($result["ref_ids"])
+			{
+				$valid = false;
+				foreach($result["ref_ids"] as $check_ref_id)
+				{					
+					if($rbacsystem->checkAccess("read_learning_progress", $check_ref_id))
+					{
+						$valid = true;
+						break;
+					}
+				}
+				if(!$valid)
+				{					
+					foreach(array_keys($data["set"][$idx]) as $col_id)
+					{
+						if(!in_array($col_id, array("type", "title", "obj_id", "ref_id", "offline")))
+						{
+							$data["set"][$idx][$col_id] = null;
+						}
+					}
+					$data["set"][$idx]["privacy_conflict"] = true;
+					continue;
+				}			
+			}
+			
 			// percentages
 			$users_no = $result["user_total"];
 			$data["set"][$idx]["country"] = $this->getItemsPercentages($result["country"], $users_no);
@@ -599,16 +625,24 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 		$this->tpl->setVariable("ICON_ALT", $lng->txt($a_set["type"]));
 	    $this->tpl->setVariable("TITLE", $a_set["title"]);
 
-		if($a_set["offline"])
+		if($a_set["offline"] || $a_set["privacy_conflict"])
 		{
-			$this->tpl->setCurrentBlock("offline");
-			$this->tpl->setVariable("TEXT_STATUS", $this->lng->txt("status"));
-			$this->tpl->setVariable("TEXT_OFFLINE", $this->lng->txt("offline"));
+			$mess = array();
+			if($a_set["offline"])
+			{
+				$mess[] = $lng->txt("offline");
+			}
+			if($a_set["privacy_conflict"])
+			{
+				$mess[] = $lng->txt("status_no_permission");
+			}
+			$this->tpl->setCurrentBlock("status_bl");
+			$this->tpl->setVariable("TEXT_STATUS", implode(", ", $mess));
 			$this->tpl->parseCurrentBlock();
 		}
 
 		foreach ($this->getSelectedColumns() as $c)
-		{
+		{			
 			switch($c)
 			{
 				case "country":
@@ -634,7 +668,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 					break;
 			}
 		}
-
+		
 		if($this->is_root)
 		{
 			$path = $this->buildPath($a_set["ref_ids"], false, true);

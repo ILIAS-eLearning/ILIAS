@@ -93,10 +93,18 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 
 	function updateUser()
 	{
+		global $rbacsystem;
+		
 		if(isset($_GET["userdetails_id"]))
 		{
 			$parent = $this->details_id;
 			$this->__initDetails((int)$_GET["userdetails_id"]);
+		}
+		
+		if(!$rbacsystem->checkAccess('edit_learning_progress', $this->details_id))
+		{
+			ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
+			$this->ctrl->returnToParent($this);
 		}
 		
 		$this->__updateUser($_REQUEST['user_id'], $this->details_obj_id);
@@ -115,7 +123,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 
 	function editUser()
 	{
-		global $ilObjDataCache;
+		global $ilObjDataCache, $rbacsystem;
 
 		$parent_id = $this->details_id;
 		if(isset($_GET["userdetails_id"]))
@@ -128,6 +136,12 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		{
 			$sub_id = NULL;
 			$cancel = "details";
+		}
+		
+		if(!$rbacsystem->checkAccess('edit_learning_progress', $sub_id))
+		{
+			ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
+			$this->ctrl->returnToParent($this);
 		}
 
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");

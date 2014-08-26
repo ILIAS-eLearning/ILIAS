@@ -132,7 +132,7 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
 	*/
 	function getItems()
 	{
-		global $lng, $tree;
+		global $rbacsystem;
 
 		$this->determineOffsetAndOrder();
 		
@@ -166,6 +166,23 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
 				$this->filter,
 				$additional_fields,
 				$this->filter["view_mode"]);
+		}
+		
+		// #13808
+		foreach($tr_data["set"] as $idx => $row)
+		{						
+			if($row["ref_id"] && 
+				!$rbacsystem->checkAccess("read_learning_progress", $row["ref_id"]))
+			{
+				foreach(array_keys($row) as $col_id)
+				{
+					if(!in_array($col_id, array("type", "obj_id", "ref_id", "title", "sort_title")))
+					{
+						$tr_data["set"][$idx][$col_id] = null;
+					}
+				}				
+				$tr_data["set"][$idx]["privacy_conflict"] = true;
+			}			
 		}
 
 		$this->setMaxCount($tr_data["cnt"]);
@@ -213,29 +230,6 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
 		}
 	}
 
-
-	/**
-	 * Get children for given object
-	 * @param	int		$a_parent_id
-	 * @param	array	$result
-	 */
-	function getObjectHierarchy($a_parent_id, array &$result)
-	{
-		include_once "Services/Object/classes/class.ilObjectLP.php";		
-		$olp = ilObjectLP::getInstance($a_parent_id);
-		$collection = $olp->getCollectionInstance();
-		if($collection)
-		{		
-			foreach($collection->getItems() as $child_ref_id)
-			{
-				$child_id = ilObject::_lookupObjId($child_ref_id);
-				$result[] = $child_id;
-				$this->getObjectHierarchy($child_id, $result);
-			}
-		}
-	}
-	
-	
 	/**
 	* Init filter
 	*/
@@ -269,7 +263,7 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
 	*/
 	protected function fillRow($data)
 	{
-		global $ilCtrl, $lng;
+		global $ilCtrl, $lng, $rbacsystem;
 
 		if(!$this->isPercentageAvailable($data["obj_id"]))
 		{
@@ -278,78 +272,92 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
 
 		foreach ($this->getSelectedColumns() as $c)
 		{
-			$val = (trim($data[$c]) == "")
-				? " "
-				: $data[$c];
-
-			if ($data[$c] != "" || $c == "status")
+			if(!$data["privacy_conflict"])
 			{
-				switch ($c)
+				$val = (trim($data[$c]) == "")
+					? " "
+					: $data[$c];
+
+				if ($data[$c] != "" || $c == "status")
 				{
-					case "first_access":
-						$val = ilDatePresentation::formatDate(new ilDateTime($data[$c],IL_CAL_DATETIME));
-						break;
+					switch ($c)
+					{
+						case "first_access":
+							$val = ilDatePresentation::formatDate(new ilDateTime($data[$c],IL_CAL_DATETIME));
+							break;
 
-					case "last_access":
-						$val = ilDatePresentation::formatDate(new ilDateTime($data[$c],IL_CAL_UNIX));
-						break;
+						case "last_access":
+							$val = ilDatePresentation::formatDate(new ilDateTime($data[$c],IL_CAL_UNIX));
+							break;
 
-					case "status":
-						include_once("./Services/Tracking/classes/class.ilLearningProgressBaseGUI.php");
-						$path = ilLearningProgressBaseGUI::_getImagePathForStatus($data[$c]);
-						$text = ilLearningProgressBaseGUI::_getStatusText($data[$c]);
-						$val = ilUtil::img($path, $text);
+						case "status":
+							include_once("./Services/Tracking/classes/class.ilLearningProgressBaseGUI.php");
+							$path = ilLearningProgressBaseGUI::_getImagePathForStatus($data[$c]);
+							$text = ilLearningProgressBaseGUI::_getStatusText($data[$c]);
+							$val = ilUtil::img($path, $text);
 
-						if($data["type"] != "lobj" && $data["type"] != "sco")	
-						{
-							$timing = $this->showTimingsWarning($data["ref_id"], $this->user_id);
-							if($timing)
+							if($data["type"] != "lobj" && $data["type"] != "sco")	
 							{
-								if($timing !== true)
+								$timing = $this->showTimingsWarning($data["ref_id"], $this->user_id);
+								if($timing)
 								{
-									$timing = ": ".ilDatePresentation::formatDate(new ilDate($timing, IL_CAL_UNIX));
+									if($timing !== true)
+									{
+										$timing = ": ".ilDatePresentation::formatDate(new ilDate($timing, IL_CAL_UNIX));
+									}
+									else
+									{
+										$timing = "";
+									}
+									$this->tpl->setCurrentBlock('warning_img');
+									$this->tpl->setVariable('WARNING_IMG', ilUtil::getImagePath('time_warn.png'));
+									$this->tpl->setVariable('WARNING_ALT', $this->lng->txt('trac_time_passed').$timing);
+									$this->tpl->parseCurrentBlock();
 								}
-								else
-								{
-									$timing = "";
-								}
-								$this->tpl->setCurrentBlock('warning_img');
-								$this->tpl->setVariable('WARNING_IMG', ilUtil::getImagePath('time_warn.png'));
-								$this->tpl->setVariable('WARNING_ALT', $this->lng->txt('trac_time_passed').$timing);
-								$this->tpl->parseCurrentBlock();
-							}
+					}
+							break;
+
+						case "spent_seconds":
+							include_once("./Services/Utilities/classes/class.ilFormat.php");
+							$val = ilFormat::_secondsToString($data[$c]);
+							break;
+
+						case "percentage":
+							$val = $data[$c]."%";
+							break;
+
+					}
 				}
-						break;
-
-					case "spent_seconds":
-						include_once("./Services/Utilities/classes/class.ilFormat.php");
-						$val = ilFormat::_secondsToString($data[$c]);
-						break;
-
-					case "percentage":
-						$val = $data[$c]."%";
-						break;
-
+				if ($c == "mark" && in_array($this->type, array("lm", "dbk")))
+				{
+					$val = "-";
+				}
+				if ($c == "spent_seconds" && in_array($this->type, array("exc")))
+				{
+					$val = "-";
+				}
+				if ($c == "percentage" &&
+					(in_array(strtolower($this->status_class),
+							  array("illpstatusmanual", "illpstatusscormpackage", "illpstatustestfinished")) ||
+					$this->type == "exc"))
+				{
+					$val = "-";
 				}
 			}
-			if ($c == "mark" && in_array($this->type, array("lm", "dbk")))
+			else
 			{
-				$val = "-";
-			}
-			if ($c == "spent_seconds" && in_array($this->type, array("exc")))
-			{
-				$val = "-";
-			}
-			if ($c == "percentage" &&
-				(in_array(strtolower($this->status_class),
-						  array("illpstatusmanual", "illpstatusscormpackage", "illpstatustestfinished")) ||
-				$this->type == "exc"))
-			{
-				$val = "-";
+				$val = "&nbsp;";
 			}
 
 			$this->tpl->setCurrentBlock("user_field");
 			$this->tpl->setVariable("VAL_UF", $val);
+			$this->tpl->parseCurrentBlock();
+		}
+				
+		if($data["privacy_conflict"])
+		{
+			$this->tpl->setCurrentBlock("permission_bl");
+			$this->tpl->setVariable("TXT_NO_PERMISSION", $lng->txt("status_no_permission"));
 			$this->tpl->parseCurrentBlock();
 		}
 
@@ -400,14 +408,18 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
-		if(!in_array($data["type"], array("sco", "lobj")) && !$this->getPrintMode())
-        {
-			$this->tpl->setCurrentBlock("item_command");
-			$ilCtrl->setParameterByClass("illplistofobjectsgui", "userdetails_id", $data["ref_id"]);
-			$this->tpl->setVariable("HREF_COMMAND", $ilCtrl->getLinkTargetByClass("illplistofobjectsgui", 'edituser'));
-			$this->tpl->setVariable("TXT_COMMAND", $lng->txt('edit'));
-			$ilCtrl->setParameterByClass("illplistofobjectsgui", "userdetails_id", "");
-			$this->tpl->parseCurrentBlock();
+		// #13808
+		if($rbacsystem->checkAccess('edit_learning_progress', $data["ref_id"]))
+		{
+			if(!in_array($data["type"], array("sco", "lobj")) && !$this->getPrintMode())
+			{
+				$this->tpl->setCurrentBlock("item_command");
+				$ilCtrl->setParameterByClass("illplistofobjectsgui", "userdetails_id", $data["ref_id"]);
+				$this->tpl->setVariable("HREF_COMMAND", $ilCtrl->getLinkTargetByClass("illplistofobjectsgui", 'edituser'));
+				$this->tpl->setVariable("TXT_COMMAND", $lng->txt('edit'));
+				$ilCtrl->setParameterByClass("illplistofobjectsgui", "userdetails_id", "");
+				$this->tpl->parseCurrentBlock();
+			}
 		}
 	}
 	

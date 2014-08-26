@@ -119,6 +119,7 @@ class ilADTLocationSearchBridgeSingle extends ilADTSearchBridgeSingle
 	{
 		$earth_radius = 6371;
 		
+		// http://www.d-mueller.de/blog/umkreissuche-latlong-und-der-radius/
 		$max_lat = $a_latitude + rad2deg($a_radius/$earth_radius);
 		$min_lat = $a_latitude - rad2deg($a_radius/$earth_radius);
 		$max_long = $a_longitude + rad2deg($a_radius/$earth_radius/cos(deg2rad($a_latitude)));

@@ -396,7 +396,7 @@ class ilTrQuery
 						if(isset($a_filters[$field]))
 						{
 							// we cannot remove row because of pagination!
-							foreach(array_keys($a_result["set"][$idx]) as $col_id)
+							foreach(array_keys($row) as $col_id)
 							{
 								$a_result["set"][$idx][$col_id] = null;
 							}
@@ -667,6 +667,10 @@ class ilTrQuery
 				if($a_preselected_obj_ids)
 				{
 					$object_data[$rec["obj_id"]]["ref_ids"] = $a_preselected_obj_ids[$rec["obj_id"]];
+				}
+				else
+				{
+					$object_data[$rec["obj_id"]]["ref_ids"] = array($objects["ref_ids"][$rec["obj_id"]]);
 				}
 			}
 
