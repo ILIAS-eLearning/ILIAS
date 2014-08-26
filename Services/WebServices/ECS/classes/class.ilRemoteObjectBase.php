@@ -23,6 +23,7 @@ abstract class ilRemoteObjectBase extends ilObject2
 	protected $realm_plain = '';
 	
 	const MAIL_SENDER = 6;
+	const OBJECT_OWNER = 6;
 
 	/**
 	 * Constructor
@@ -81,6 +82,12 @@ abstract class ilRemoteObjectBase extends ilObject2
 				include_once 'Modules/RemoteTest/classes/class.ilObjRemoteTest.php';
 				return new ilObjRemoteTest();	
 		}		
+	}
+	
+	public function beforeCreate()
+	{
+		$this->setOwner(self::OBJECT_OWNER);
+		return parent::beforeCreate();
 	}
 	
 	/**
