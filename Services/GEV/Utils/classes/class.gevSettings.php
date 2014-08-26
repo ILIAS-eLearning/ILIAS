@@ -261,6 +261,11 @@ class gevSettings {
 		, "ext. Referent"
 		);
 	
+	static $ADMIN_ROLES = array(
+		  "Administrator"
+		, "eingeschränkter Admin"
+		);
+	
 	
 	private function __construct() {
 		$this->settings = new ilSetting(self::MODULE_NAME);

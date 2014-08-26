@@ -260,6 +260,16 @@ class ilLocatorGUI
 		{
 			foreach($items as $item)
 			{
+				// gev-patch start
+				// let a course be the start of the locator
+				require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+				global $ilUser;
+				$user_utils = gevUserUtils::getInstanceByObj($ilUser);
+				if ($first && ilObject::_lookupType($item["ref_id"], true) != "crs" && !$user_utils->isAdmin()) {
+					continue;
+				}
+				// gev-patch end
+				
 				if (!$first)
 				{
 					$loc_tpl->touchBlock("locator_separator_prefix");

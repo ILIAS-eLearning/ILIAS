@@ -688,13 +688,26 @@ class gevUserUtils {
 	
 	
 	public function paysFees() {
+		return $this->hasRoleIn(gevSettings::$NO_PAYMENT_ROLES);
+	}
+	
+	public function isAdmin() {
+		// root
+		if ($this->user_id == 6) {
+			return true;
+		}
+		
+		return $this->hasRoleIn(gevSettings::$ADMIN_ROLES);
+	}
+	
+	protected function hasRoleIn($a_roles) {
 		$roles = gevRoleUtils::getInstance()->getGlobalRolesOf($this->user_id);
 
 		foreach($roles as $key => $value) {
 			$roles[$key] = ilObject::_lookupTitle($value);
 		}
 
-		foreach (gevSettings::$NO_PAYMENT_ROLES as $role) {
+		foreach ($a_roles as $role) {
 			if (in_array($role, $roles)) {
 				return false;
 			}
