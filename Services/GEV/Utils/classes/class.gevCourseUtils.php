@@ -1106,7 +1106,7 @@ class gevCourseUtils {
 				if($a_hotel_list)
 				{
 					// vfstep3.1
-					$worksheet->write($row, 4, $user_utils->getOvernightDetailsForCourse($this->getCourse()), $format_wrap);
+					$worksheet->write($row, 4, $user_utils->getFormattedOvernightDetailsForCourse($this->getCourse()), $format_wrap);
 
 					//$txt[] = $lng->txt("vofue_crs_book_overnight_details").": ".$user_data["ov"];
 				}

@@ -715,6 +715,59 @@ class gevUserUtils {
 							  ->getAccomodationsOfUser($this->user_id);
 	}
 	
+	public function getFormattedOvernightDetailsForCourse(ilObjCourse $a_crs) {
+		require_once("Services/Calendar/classes/class.ilDateTime.php");
+		require_once("Services/Calendar/classes/class.ilDatePresentation.php");
+		$ovs = $this->getOvernightDetailsForCourse($a_crs);
+		
+		// will contain arrays with start and end of consecutive sequences
+		// of overnights, where 0 => start and 1 => null|end
+		$ovs_cons = array();
+		// the consecutive sequence we are currently working on
+		$ovs_cur = array();
+		// the last checked overnight
+		$ov_cur = null;
+		
+		// search for consecutive sequences of overnights
+		foreach ($ovs as $ov) {
+			if ($ov_cur === null) {
+				$ovs_cur[0] = $ov;
+				$ov_cur = $ov;
+				continue;
+			}
+			
+			$cur_p1 = new ilDate($ov_cur->get(IL_CAL_DATE), IL_CAL_DATE);
+			$cur_p1->increment(ilDateTime::DAY, 1);
+			if ($ov->get(IL_CAL_DATE) == $cur_p1->get(IL_CAL_DATE)) {
+				$ovs_cur[1] = $ov;
+			}
+			else {
+				$ovs_cons[] = $ovs_cur;
+				$ovs_cur = array($ov);
+				$ov_cur = $ov;
+			}
+		}
+		
+		$ovs_cons[] = $ovs_cur;
+		
+		// adjust the sequences. since convention in Accomodations package is
+		// to give the starting day for an overnight, the enddates of the
+		// consecutive sequences must be adopted accordingly.
+		foreach ($ovs_cons as $key => $ovs) {
+			if (count($ovs) == 1) {
+				$end = new ilDate($ovs[0]->get(IL_CAL_DATE), IL_CAL_DATE);
+				$end->increment(ilDateTime::DAY, 1);
+				$ovs[1] = $end;
+			}
+			else {
+				$ovs[1]->increment(ilDateTime::DAY, 1);
+			}
+			$ov_cons[$key] = ilDatePresentation::formatPeriod($ovs[0], $ovs[1]);
+		}
+		
+		return implode(", ", $ov_cons);
+	}
+	
 	public function getOvernightAmountForCourse(ilObjCourse $a_crs) {
 		return count($this->getOvernightDetailsForCourse($a_crs));
 	}
