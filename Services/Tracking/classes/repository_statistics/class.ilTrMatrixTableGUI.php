@@ -20,7 +20,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 	protected $in_course; // int
 	protected $in_group; // int
 	protected $privacy_fields; // array
-	protected $privacy_cols; // array
+	protected $privacy_cols = array(); // array
 
 	/**
 	 * Constructor
