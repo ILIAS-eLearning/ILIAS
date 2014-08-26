@@ -50,7 +50,23 @@ class ilTaxAssignedItemsTableGUI extends ilTable2GUI
 		$this->setRowTemplate("tpl.tax_ass_items_row.html", "Services/Taxonomy");
 		$this->addCommandButton("saveAssignedItemsSorting", $lng->txt("save"));
 	}
-	
+
+	/**
+	 *
+	 *
+	 * @param
+	 * @return
+	 */
+	function numericOrdering($a_field)
+	{
+		if (in_array($a_field, array("order_nr")))
+		{
+			return true;
+		}
+		return false;
+	}
+
+
 	/**
 	 * Fill table row
 	 */

@@ -36,9 +36,14 @@ class ilTrackingAppEventListener implements ilAppEventListener
 						break;
 						
 					case 'delete':
-						include_once './Services/Object/classes/class.ilObjectLP.php';
-						$olp = ilObjectLP::getInstance($obj_id);
-						$olp->handleDelete();
+						// ilRepUtil will raise "delete" even if only reference was deleted!
+						$all_ref = ilObject::_getAllReferences($obj_id);					
+						if(!sizeof($all_ref))
+						{		
+							include_once './Services/Object/classes/class.ilObjectLP.php';
+							$olp = ilObjectLP::getInstance($obj_id);
+							$olp->handleDelete();
+						}
 						break;						
 				}
 				break;

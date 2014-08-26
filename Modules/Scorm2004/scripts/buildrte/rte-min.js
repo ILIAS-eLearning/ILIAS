@@ -1,4 +1,4 @@
-// Build: 2014512195717 
+// Build: 2014708000536 
 
 function ADLAuxiliaryResource()
 {}
@@ -2722,8 +2722,8 @@ elm=all("res");if(elm)
 {elm.style.height=h;}
 var tbh=$('#toolbar').outerHeight();if(document.getElementById("toolbar").style.display=="none")tbh=0;$('#leftView').css('top',tbh+"px");$('#dragbar').css('top',tbh+"px");$('#tdResource').css('top',tbh+"px");}
 function buildNavTree(rootAct,name,tree){il.NestedList.addList('rte_tree',{ul_class:'ilc_rte_tul_RTETreeList',li_class:'ilc_rte_tli_RTETreeItem',exp_class:'ilc_rte_texp_RTETreeExpanded',col_class:'ilc_rte_texp_RTETreeCollapsed'});var par_id=0;if(mlaunch.mNavState.mChoice!=null)
-{var id=rootAct.id;if(rootAct.isvisible==true&&typeof(mlaunch.mNavState.mChoice[id])=="object"){il.NestedList.addNode('rte_tree',par_id,ITEM_PREFIX+rootAct.id,"<a href='#this' id='"+ITEM_PREFIX+rootAct.id+"' target='_self'>"+rootAct.title+"</a>",true);par_id=ITEM_PREFIX+rootAct.id;}}
-function build2(rootAct,par_id){if(rootAct.item){for(var i=0;i<rootAct.item.length;i++){var id=rootAct.item[i].id;if(mlaunch.mNavState.mChoice!=null){if(rootAct.item[i].isvisible==true&&typeof(mlaunch.mNavState.mChoice[id])=="object"){il.NestedList.addNode('rte_tree',par_id,ITEM_PREFIX+rootAct.item[i].id,"<a href='#this' id='"+ITEM_PREFIX+rootAct.item[i].id+"' target='_self'>"+rootAct.item[i].title+"</a>",true);var next_par_id=ITEM_PREFIX+rootAct.item[i].id;}}
+{var id=rootAct.id;if(rootAct.isvisible==true&&typeof(mlaunch.mNavState.mChoice[id])=="object"){var it_id=(ITEM_PREFIX+rootAct.id).replace(/\./g,"_");il.NestedList.addNode('rte_tree',(""+par_id).replace(/\./g,"_"),it_id,"<a href='#this' id='"+it_id+"' target='_self'>"+rootAct.title+"</a>",true);par_id=ITEM_PREFIX+rootAct.id;}}
+function build2(rootAct,par_id){if(rootAct.item){for(var i=0;i<rootAct.item.length;i++){var id=rootAct.item[i].id;if(mlaunch.mNavState.mChoice!=null){if(rootAct.item[i].isvisible==true&&typeof(mlaunch.mNavState.mChoice[id])=="object"){var it_id=(ITEM_PREFIX+rootAct.item[i].id).replace(/\./g,"_");il.NestedList.addNode('rte_tree',(""+par_id).replace(/\./g,"_"),it_id,"<a href='#this' id='"+it_id+"' target='_self'>"+rootAct.item[i].title+"</a>",true);var next_par_id=ITEM_PREFIX+rootAct.item[i].id;}}
 if(rootAct.item[i].item){build2(rootAct.item[i],next_par_id);}}}}
 build2(rootAct,par_id);$("#treeView").empty();il.NestedList.draw('rte_tree',0,'treeView');}
 function abortNavigation()
@@ -3045,7 +3045,7 @@ var tree=msequencer.mSeqTree.mActivityMap;var disable;var first=true;for(i in tr
 if(test){if(test['mIsSelectable']==true&&test['mIsEnabled']==true){disable=false;}else{disable=true;disabled_str="Disabled";}}
 if(guiItem&&ignore==true){if(guiItem.id==ITEM_PREFIX+tree[i].mActivityID)
 {continue;}}
-var elm=all(ITEM_PREFIX+tree[i].mActivityID);if(disable)
+var elm=all(ITEM_PREFIX+tree[i].mActivityID.replace(/\./g,"_"));if(disable)
 {toggleClass(elm,'ilc_rte_tlink_RTETreeLinkDisabled',1);}
 else
 {toggleClass(elm,'ilc_rte_tlink_RTETreeLink',1);}

@@ -662,3 +662,106 @@ $ilCtrlStructureReader->getStructure();
 // Bibliographic Module: Increase the allowed text-size for attributes from 512 to 4000
 $ilDB->modifyTableColumn("il_bibl_attribute", "value", array("type" => "text", "length" => 4000));
 ?>
+<#24>
+<?php
+if( !$ilDB->tableColumnExists('tst_dyn_quest_set_cfg', 'answer_filter_enabled') )
+{
+	$ilDB->addTableColumn('tst_dyn_quest_set_cfg', 'answer_filter_enabled', array(
+		'type' => 'integer',
+		'length' => 1,
+		'notnull' => false,
+		'default' => null
+	));
+}
+if( !$ilDB->tableColumnExists('tst_active', 'answerstatusfilter') )
+{
+	$ilDB->addTableColumn('tst_active', 'answerstatusfilter', array(
+		'type' => 'text',
+		'length' => 16,
+		'notnull' => false,
+		'default' => null
+	));
+}
+?>
+<#25>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#26>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#27>
+<?php
+if( $ilDB->tableColumnExists('qpl_qst_essay', 'keyword_relation') )
+{
+	$ilDB->queryF(
+		"UPDATE qpl_qst_essay SET keyword_relation = %s WHERE keyword_relation = %s",
+		array('text', 'text'), array('non', 'none')
+	);
+}
+?>
+<#28>
+<?php
+	$ilDB->modifyTableColumn(
+		'help_map',
+		'screen_id',
+		array(
+			"type" => "text",
+			"length" => 100,
+			"notnull" => false,
+			'fixed' => false
+		)
+	);
+?>
+<#29>
+	<?php
+	$ilDB->modifyTableColumn(
+		'help_map',
+		'screen_sub_id',
+		array(
+			"type" => "text",
+			"length" => 100,
+			"notnull" => false,
+			'fixed' => false
+		)
+	);
+?>
+<#30>
+<?php
+if( !$ilDB->tableExists('tst_seq_qst_checked') )
+{
+	$ilDB->createTable('tst_seq_qst_checked', array(
+		'active_fi' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'pass' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'question_fi' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		)
+	));
+
+	$ilDB->addPrimaryKey('tst_seq_qst_checked',array('active_fi','pass', 'question_fi'));
+}
+
+if( !$ilDB->tableColumnExists('tst_tests', 'inst_fb_answer_fixation') )
+{
+	$ilDB->addTableColumn('tst_tests', 'inst_fb_answer_fixation', array(
+		'type' => 'integer',
+		'length' => 1,
+		'notnull' => false,
+		'default' => null
+	));
+}
+?>

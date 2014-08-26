@@ -254,8 +254,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			$form->setValuesByPost();
 			$errors = !$form->checkInput();
 			$form->setValuesByPost(); // again, because checkInput now performs the whole stripSlashes handling and we need this if we don't want to have duplication of backslashes
-			if ((!$errors) && (count($this->object->getTerms()) < (count($this->object->getDefinitions())))
-				&& !$this->object->getSelfAssessmentEditingMode())
+			if( !$errors && !$this->isValidTermAndDefinitionAmount($form) && !$this->object->getSelfAssessmentEditingMode() )
 			{
 				$errors = true;
 				$terms = $form->getItemByPostVar('terms');
@@ -267,6 +266,23 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
 		if (!$checkonly) $this->tpl->setVariable("QUESTION_DATA", $form->getHTML());
 		return $errors;
+	}
+
+	/**
+	 * @param ilPropertyFormGUI $form
+	 * @return bool
+	 */
+	private function isValidTermAndDefinitionAmount(ilPropertyFormGUI $form)
+	{
+		$numTerms = count($form->getItemByPostVar('terms')->getValues());
+		$numDefinitions = count($form->getItemByPostVar('definitions')->getValues());
+		
+		if($numTerms >= $numDefinitions)
+		{
+			return true;
+		}
+		
+		return false;
 	}
 
 	public function populateAnswerSpecificFormPart(\ilPropertyFormGUI $form)
@@ -428,6 +444,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		}
 
 		$i = 0;
+		
 		foreach ($solutions as $solution)
 		{
 			$definition = $this->object->getDefinitionWithIdentifier($solution['value2']);
@@ -482,11 +499,15 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 				if ($graphicalOutput)
 				{
 					// output of ok/not ok icons for user entered solutions
-					$ok = FALSE;
+					$ok = false;
 					foreach ($this->object->getMatchingPairs() as $pair)
 					{
-						if (is_object($term)) if (($pair->definition->identifier == $definition->identifier) && ($pair->term->identifier == $term->identifier)) $ok = true;
+						if( $this->isCorrectMatching($pair, $definition, $term) )
+						{
+							$ok = true;
+						}
 					}
+					
 					if ($ok)
 					{
 						$template->setCurrentBlock("icon_ok");
@@ -1350,5 +1371,30 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 	public function getAggregatedAnswersView($relevant_answers)
 	{
 		return ''; //print_r($relevant_answers,true);
+	}
+	
+	private function isCorrectMatching($pair, $definition, $term)
+	{
+		if( !($pair->points > 0) )
+		{
+			return false;
+		}
+		
+		if( !is_object($term) )
+		{
+			return false;
+		}
+
+		if( $pair->definition->identifier != $definition->identifier )
+		{
+			return false;
+		}
+
+		if( $pair->term->identifier != $term->identifier )
+		{
+			return false;
+		}
+		
+		return true;
 	}
 }

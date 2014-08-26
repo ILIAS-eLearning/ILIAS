@@ -172,6 +172,8 @@ class ilItemGroupItems
 	 */
 	function getAssignableItems()
 	{
+		global $objDefinition;
+		
 		if ($this->getItemGroupRefId() <= 0)
 		{
 			return array();
@@ -198,6 +200,11 @@ class ilItemGroupItems
 			// see http://www.ilias.de/mantis/view.php?id=10269
 			if ($node['type'] == "file" &&
 				ilObjFileAccess::_isFileHidden($node['title']))
+			{
+				continue;							
+			}
+			
+			if ($objDefinition->isInactivePlugin($node['type']))
 			{
 				continue;
 			}

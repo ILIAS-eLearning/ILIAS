@@ -13,6 +13,23 @@ class ilSessionStatistics
 	const SLOT_SIZE = 15;
 	
 	/**
+	 * Is session statistics active at all?
+	 * 
+	 * @return bool
+	 */
+	public static function isActive()
+	{
+		global $ilSetting;
+		
+		return (bool)$ilSetting->get('session_statistics', 1);
+		
+		/* #13566 - includes somehow won't work this late in the request - doing it directly
+		include_once "Services/Tracking/classes/class.ilObjUserTracking.php";
+		return ilObjUserTracking::_enabledSessionStatistics();
+		*/			
+	}	
+	
+	/**
 	 * Create raw data entry
 	 * 
 	 * @param int $a_session_id
@@ -24,11 +41,11 @@ class ilSessionStatistics
 	{
 		global $ilDB;
 		
-		if(!$a_user_id || !$a_session_id)
+		if(!$a_user_id || !$a_session_id || !self::isActive())
 		{
 			return;
 		}
-		
+	
 		// #9669: if a session was destroyed and somehow the session id is still 
 		// in use there will be a id-collision for the raw-entry
 		
@@ -55,6 +72,11 @@ class ilSessionStatistics
 	public static function closeRawEntry($a_session_id, $a_context = null, $a_expired_at = null)
 	{
 		global $ilDB;
+		
+		if(!self::isActive())
+		{
+			return;
+		}
 		
 		// single entry
 		if(!is_array($a_session_id))
@@ -238,7 +260,12 @@ class ilSessionStatistics
      * @param integer $a_now
 	 */
 	public static function aggretateRaw($a_now)
-	{						
+	{								
+		if(!self::isActive())
+		{
+			return;
+		}
+		
 		$slot = self::createNewAggregationSlot($a_now);
 		while(is_array($slot))
 		{

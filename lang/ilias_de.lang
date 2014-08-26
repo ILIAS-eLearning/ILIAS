@@ -683,6 +683,8 @@ assessment#:#tst_msg_rand_quest_set_stage_pool_last_sync#:#Ein Test mit zufälli
 assessment#:#tst_msg_rand_quest_set_pass_not_buildable#:#Mit der aktuellen Auswahl an Fragenpools und der Fragenanzahl kann kein Test mit zufälliger Fragenauswahl erzeugt werden.
 assessment#:#tst_msg_rand_quest_set_no_src_pool_defs#:#Um einen Test mit zufälliger Fragenauswahl zu ermöglichen, muss mindestens ein Fragenpool ausgewählt sein, aus dem Fragen entnommen werden können.
 assessment#:#tst_msg_rand_quest_set_incomplete_quest_amount_cfg#:#Ohne die Angabe einer Fragenanzahl kann kein Test mit zufälliger Fragenauswahl erzeugt werden.
+assessment#:#tst_msg_rand_quest_set_no_pools_available#:#Aktuell können Sie keine neuen Regeln für die Fragenauswahl hinzufügen, da keine Fragenpools zur Verfügung stehen.
+assessment#:#tst_msg_rand_quest_set_change_quest_amount_here#:#Sie können die Fragenanzahl hier einstellen: %s
 assessment#:#tst_rnd_quest_set_cfg_pool_form#:#Regel für Fragenauswahl
 assessment#:#tst_inp_source_pool_label#:#Fragenpool
 assessment#:#tst_inp_source_pool_filter_tax#:#Taxonomiefilter
@@ -754,6 +756,7 @@ assessment#:#polygon_click_next_point#:#Bitte klicken Sie auf den nächsten Punk
 assessment#:#polygon_click_starting_point#:#Bitte klicken Sie auf den Startpunkt des Polygonzugs.
 assessment#:#postpone#:#Frage zurückstellen
 assessment#:#postponed#:#zurückgestellt
+assessment#:#postpone_status#:#Postponed
 assessment#:#preview#:#Vorschau
 assessment#:#previous_question_rows#:#« Fragen %d - %d von %d
 assessment#:#print_answers#:#Antworten drucken
@@ -827,7 +830,7 @@ assessment#:#radio_unset#:#Nicht ausgewählt
 assessment#:#random_accept_sample#:#Zusammenstellung akzeptieren
 assessment#:#random_another_sample#:#Neue Zusammenstellung
 assessment#:#random_selection#:#Zufällige Auswahl
-assessment#:#tst_rnd_quest_set_cfg_general_form#:#Konfiguration der zufälligen Fragenauswahl
+assessment#:#tst_rnd_quest_set_cfg_general_form#:#Konfiguration der zufälligen Fragenauswahl 
 assessment#:#range#:#Bereich
 assessment#:#range_lower_limit#:#Untere Schranke
 assessment#:#range_upper_limit#:#Obere Schranke
@@ -1217,11 +1220,11 @@ assessment#:#tst_settings_template#:#Vorlage
 assessment#:#tst_show_answer_sheet#:#Antwortenübersicht anzeigen
 assessment#:#tst_show_cancel#:#Option "Test unterbrechen" anzeigen
 assessment#:#tst_show_cancel_description#:#Zeigt während der Testdurchführung eine Schaltfläche an, mit der der Test unterbrochen werden kann. Nutzen Sie diese Option nicht gemeinsam mit einer 'Maximalen Bearbeitungsdauer' des Tests, da das Unterbrechen des Tests nicht die Bearbeitungszeit anhält.
-assessment#:#tst_show_pass_details#:#Ergebnisübersicht für laufende Tests anbieten
+assessment#:#tst_show_pass_details#:#Detaillierte Ergebnisse für laufende Tests anbieten
 assessment#:#tst_show_results#:#Testergebnisse anzeigen
 assessment#:#tst_show_side_list#:#Fragenliste seitlich anzeigen
 assessment#:#tst_show_solution_answers_only#:#Druckausgabe der Ergebnisse (nur Antworten)
-assessment#:#tst_show_solution_details#:#Bewertungsdetails
+assessment#:#tst_show_solution_details#:#Bewertungsdetails anzeigen
 assessment#:#tst_show_solution_feedback#:#Antwortspezifische Rückmeldungen in den Testergebnissen anzeigen
 assessment#:#tst_show_solution_printview#:#Liste der Antworten anzeigen
 assessment#:#tst_show_solution_signature#:#Platzhalter für Unterschrift anzeigen
@@ -1282,9 +1285,9 @@ assessment#:#tst_total_questions#:#Gesamtanzahl der Fragen
 assessment#:#tst_total_questions_description#:#Wenn Sie diesen Wert setzen, werden die Zahlenangaben zu den einzelnen Fragenpools ignoriert. Wenn Sie diesen Wert nicht setzen, müssen Sie zu jedem Fragenpool eine Anzahl von Fragen angeben, die aus diesem Fragenpool verwendet werden soll.
 assessment#:#tst_tst_date#:#Datum des Tests
 assessment#:#tst_type#:#Test-Typ
-assessment#:#exam_id#:#Klausurnummer:
-assessment#:#examid_in_kiosk#:#Klausurnummer im Kiosk-Modus anzeigen
-assessment#:#show_exam_id#:#Klausurnummer anzeigen
+assessment#:#exam_id#:#Klausurnummer: 
+assessment#:#examid_in_kiosk#:#Klausurnummer im Kiosk-Modus anzeigen 
+assessment#:#show_exam_id#:#Klausurnummer anzeigen 
 assessment#:#tst_type_changed#:#Sie haben den Testtyp geändert. Alle bereits durchgeführten Tests wurden gelöscht!
 assessment#:#tst_type_comment#:#Warnung: Das Ändern des Testtyps bei einem laufenden Test löscht alle bereits durchgeführten Tests!
 assessment#:#tst_types#:#Test-Typen
@@ -1367,12 +1370,19 @@ assessment#:#tst_question_set_type_dynamic_desc#:#In diesem Modus wird genau ein
 assessment#:#tst_change_quest_set_type_from_old_to_new_with_conflict#:#Sie sind im Begriff den Test-Modus von <b>%s</b> auf <b>%s</b> zu ändern, obwohl eine Test-Modus-abhängige Fragen/Fragenpool Konfiguration bereits existiert.<br />Diese bereits existierende Konfiguration wird verloren gehen, wenn Sie den Test-Modus ändern.
 assessment#:#tst_msg_dynamic_question_set_config_modified#:#Konfiguration für fortlaufende Fragenauswahl wurde geändert.
 assessment#:#tst_msg_cannot_modify_dynamic_question_set_conf_due_to_part#:#Konfiguration für fortlaufende Fragenauswahl kann nicht geändert werden, da bereits Teilnehmerergebisse vorliegen.
+assessment#:#tst_delete_dyn_test_results_btn#:#Testergebnisse löschen
+assessment#:#tst_dyn_test_msg_pass_deletion_link#:#Bisherige Antworten löschen
 assessment#:#tst_form_dynamic_question_set_config#:#Fortlaufende Fragenauswahl
 assessment#:#tst_input_dynamic_question_set_source_questionpool#:#Fragenpool
 assessment#:#tst_dynamic_question_set_source_questionpool_summary_string#:#%s (Pfad: %s) [%s Fragen]
 assessment#:#tst_dyn_quest_set_src_qpl_summary_string_trashed#:#%s (Aktuell im Papierkorb) [%s Fragen]
 assessment#:#tst_dyn_quest_set_src_qpl_summary_string_deleted#:#%s (Endgültig gelöscht)
 assessment#:#tst_input_dynamic_question_set_taxonomie_filter_enabled#:#Zeige Taxonomiefilter
+assessment#:#tst_input_dyn_quest_set_answer_status_filter_enabled#:#Zeige Filter für Beantwortungsstatus
+assessment#:#tst_question_answer_status#:#Beantwortungsstatus
+assessment#:#tst_question_answer_status_all_non_correct#:#Alle, außer richtig beantwortete Fragen
+assessment#:#tst_question_answer_status_non_answered#:#Noch nicht beantwortete Fragen
+assessment#:#tst_question_answer_status_wrong_answered#:#Nur falsch beantwortete Fragen
 assessment#:#tst_input_dynamic_question_set_question_ordering#:#Fragen-Ordnung
 assessment#:#tst_input_dynamic_question_set_question_ordering_by_date#:#Ordne Fragen nach Datum
 assessment#:#tst_inp_dyn_quest_set_quest_ordering_by_date_desc#:#Die Reihenfolge der Fragen orientiert sich am Datum der letzten Änderung.
@@ -1384,7 +1394,12 @@ assessment#:#tst_start_dyn_test_with_cur_quest_sel#:#Test mit aktueller Fragenau
 assessment#:#tst_resume_dyn_test_with_cur_quest_sel#:#Test mit aktueller Fragenauswahl fortsetzen
 assessment#:#tst_back_dyn_test_with_cur_quest_sel#:#Zurück zum Test mit aktueller Fragenauswahl
 assessment#:#tst_tracked_question_list#:#Vorherige beantwortete Fragen
-assessment#:#tst_filtered_question_list#:#Auswahl der Testfragen
+assessment#:#tst_dynamic_question_set_selection#:#Auswahl der Testfragen
+assessment#:#tst_num_open_questions#:#Offene Fragen
+assessment#:#tst_num_non_answered_questions#:#Nicht beantwortete Fragen
+assessment#:#tst_num_wrong_answered_questions#:#Falsch beantwortete Fragen
+assessment#:#tst_num_postponed_questions#:#Zurückgestellte Fragen
+assessment#:#tst_num_marked_questions#:#Markierte Fragen
 assessment#:#tst_change_dyn_test_question_selection#:#Aktuelle Fragenauswahl ändern
 assessment#:#tst_dyn_test_msg_currently_finished_completely#:#Aktuell haben Sie alle Fragen des Quellfragenpool erfolgreich beantwortet. Sowie neue oder veränderte Fragen im Quellfragenpool vorliegen können Sie den Test fortführen.
 assessment#:#tst_dyn_test_msg_currently_finished_selection#:#In der aktuellen Fragenauswahl haben Sie alle Fragen erfolgreich beantwortet. Ändern Sie die Fragenauswahl um den Test fort zu führen.
@@ -1416,7 +1431,7 @@ assessment#:#saved_adjustment#:#Veränderung gespeichert.
 assessment#:#sign_submission#:#Digitale Signatur von Testabgaben
 assessment#:#sign_submission_info#:#Wenn diese Option aktiviert wurde und ein Signatur-Plugin installiert und aktiviert ist, werden Teilnehmer aufgefordert ihre Testabgabe zu signieren.
 assessment#:#preserve_manscoring#:#Manuelle Bewertungen erhalten
-assessment#:#preserve_manscoring_info#:#Aufgrund von Veränderungen in der Fragebewertung kann es erforderlich sein, bislang erfolgte manuelle Bewertungen zu verwerfen. Dieser Schalter gestattet die Entwertung ALLER manuellen Bewertungen in einem Test und sollte nur in Ausnahmefällen genutzt werden.
+assessment#:#preserve_manscoring_info#:#Aufgrund von Veränderungen in der Fragebewertung kann es erforderlich sein, bislang erfolgte manuelle Bewertungen zu verwerfen. Dieser Schalter gestattet die Entwertung ALLER manuellen Bewertungen in einem Test und sollte nur in Ausnahmefällen genutzt werden. 
 auth#:#auth_account_code#:#Code
 auth#:#auth_account_code_info#:#Um Ihr Benutzerkonto zu reaktivieren, können Sie einen ILIAS-Benutzerkonten-Code benutzen.
 auth#:#auth_account_code_title#:#Benutzerkonten-Code
@@ -4732,11 +4747,11 @@ common#:#socialbm_link_description#:#Sie können die Platzhalter &#123;TITLE&#12
 common#:#socialbm_sure_delete_entry#:#Sind Sie sicher, dass Sie die ausgewählten Social Bookmark-Dienste gelöscht werden sollen?
 common#:#sort_activation_header#:#Nach Zeitvorgaben
 common#:#sort_by_this_column#:#Nach dieser Spalte sortieren
-common#:#sort_inherit_prefix#:#Durch Kurs bestimmt
+common#:#sort_inherit_prefix#:#Durch Kurs/Gruppe bestimmt
 common#:#sorting_header#:#Sortierung
-common#:#sorting_info_inherit#:#Wird die Sortierung des übergeordneten Kurses geändert, ändert sich auch die Gruppensortierung.
+common#:#sorting_info_inherit#:#Wird die Sortierung des übergeordneten Kurses bzw. der Gruppe geändert, ändert sich auch diese Sortierung.
 common#:#sorting_info_manual#:#Die enthaltenen Objekte können in einer gewünschten Reihenfolge angeordnet werden.
-common#:#sorting_info_title#:#Die enthaltenen Objekte werden automatisch nach ihrem Titel sortiert.
+common#:#sorting_info_title#:#Die enthaltenen Objekte werden automatisch nach ihrem Titel sortiert. 
 common#:#sorting_manual_header#:#Manuell
 common#:#sorting_save#:#Sortierung speichern
 common#:#sorting_title_header#:#Alphabetisch nach Titel
@@ -5892,7 +5907,6 @@ content#:#cont_resource#:#Ressource
 content#:#cont_resource_size#:#Originalgröße der Ressource
 content#:#cont_resource_type#:#Typ
 content#:#cont_resources#:#Ressourcen
-content#:#cont_Ressources#:#Ressourcen
 content#:#cont_revision#:#Änderung
 content#:#cont_right#:#Rechts
 content#:#cont_right_float#:#Rechts, Text umfließt
@@ -6203,7 +6217,7 @@ content#:#text_repr_info#:#Wird verwendet, wenn die Grafik nicht angezeigt werde
 crs#:#activation_times_not_valid#:#Die Zeidauer für 'Verfügbarkeit' ist nicht gültig.
 crs#:#add_event#:#Sitzung hinzufügen
 crs#:#assigned#:#Zugeordnet
-crs#:#contact_email_not_valid#:#Die E-Mail Adresse ist nicht gültig.
+crs#:#contact_email_not_valid#:#Die E-Mail-Adresse ist nicht gültig.
 crs#:#crs_accept_subscriber#:#Aufnahme in Kurs "%s"
 crs#:#crs_accept_subscriber_body#:#Sie sind in den Kurs "%s" aufgenommen worden.
 crs#:#crs_access#:#Zugang
@@ -6611,7 +6625,7 @@ crs#:#crs_status_determination_sync#:#Den Bestanden-Status aller Mitglieder jetz
 crs#:#crs_structure#:#Kursstruktur
 crs#:#crs_subject_course_group_notification#:#Mail-Zusammenfassung für %s
 crs#:#crs_subscribe_member#:#Ihre Anmeldung für Kurs "%s"
-crs#:#crs_subscribe_member_body#:#wir haben Sie soeben entsprechend Ihres Antrags in den Kurs "%s" aufgenommen.
+crs#:#crs_subscribe_member_body#:#wir haben Sie soeben entsprechend Ihrem Antrag in den Kurs "%s" aufgenommen.
 crs#:#crs_subscribe_wl#:#Ihre Anmeldung für Kurs "%s"
 crs#:#crs_subscribe_wl_body#:#Sie wurden auf die Warteliste des Kurses "%s" gesetzt und haben die Position %s auf der Warteliste.\n\nSie werden per Mail benachrichtigt, sobald Ihr Aufnahmeantrag angenommen bzw. abgelehnt wurde.
 crs#:#crs_subscriber#:#Aufnahmeantrag gestellt
@@ -6792,7 +6806,7 @@ crs#:#sess_gen_mark_title#:#Erzeuge Spalte für Noten
 crs#:#sess_gen_signature#:#Erzeuge Spalte für Unterschrift
 crs#:#sess_join_info#:#Bitte klicken Sie die Anmelden-Schaltfläche, wenn Sie an der Sitzung teilnehmen möchten.
 crs#:#sess_limit#:#Sitzungsanzahl begrenzen
-crs#:#sess_limit_info#:#Wählen Sie diese Einstellung, um die Anzahl der dargestellten Sitzungen zu bestimmen.
+crs#:#sess_limit_info#:#Wählen Sie diese Einstellung, um die Anzahl der dargestellten Sitzungen zu bestimmen. 
 crs#:#sess_num_next#:#Anzahl nachfolgender Sitzungen
 crs#:#sess_num_prev#:#Anzahl vergangener Sitzungen
 crs#:#sess_print_attendance_list#:#Liste drucken
@@ -6907,7 +6921,7 @@ dateplaner#:#cal_confirm_booking#:#Sprechstunde buchen
 dateplaner#:#cal_confirm_booking_info#:#Bitte bestätigen Sie die Buchung der Sprechstunde.
 dateplaner#:#cal_confirm_reg_info#:#Bitte bestätigen Sie die Anmeldung für diesen Termin.
 dateplaner#:#cal_confirm_unreg_info#:#Bitte bestätigen Sie die Abmeldung von diesen Termin.
-dateplaner#:#cal_consultation_hours_for#:#Sprechstunde
+dateplaner#:#cal_consultation_hours_for#:#Sprechstunde 
 dateplaner#:#cal_create#:#Erzeuge
 dateplaner#:#cal_created_appointment#:#Ein neuer Termin wurde angelegt.
 dateplaner#:#cal_created_milestone#:#Der Meilenstein wurde angelegt.
@@ -7023,7 +7037,7 @@ dateplaner#:#cal_table_categories#:#Kalenderauswahl
 dateplaner#:#cal_task_completion#:#Fertigstellung
 dateplaner#:#cal_third#:#Dritten
 dateplaner#:#cal_time_format_info#:#Bitte wählen Sie ein Format für die Eingabe und Darstellung der Zeit.
-dateplaner#:#cal_timezone_info#:#Bitte wählen Sie die nächstgelegene Stadt in Ihrer Zeitzone aus.
+dateplaner#:#cal_timezone_info#:#Bitte wählen Sie die nächstgelegene Stadt in Ihrer Zeitzone für die Anzeige von Terminen innerhalb von ILIAS aus.
 dateplaner#:#cal_type_crs#:#Kurskalender
 dateplaner#:#cal_type_grp#:#Gruppenkalender
 dateplaner#:#cal_type_info#:#Bitte wählen Sie die Kalenderart aus. "Öffentliche Kalender" sind für alle Benutzer sichtbar.
@@ -7038,7 +7052,10 @@ dateplaner#:#cal_upcoming_events_header#:#Zukünftige Termine
 dateplaner#:#cal_user_date_format#:#Datumsformat für die Eingabe
 dateplaner#:#cal_user_settings#:#Kalendereinstellungen
 dateplaner#:#cal_user_time_format#:#Zeitformat
-dateplaner#:#cal_user_timezone#:#Zeitzone
+dateplaner#:#cal_user_timezone#:#ILIAS-Zeitzone
+dateplaner#:#cal_export_timezone#:#Zeitzone für Kalender-Export
+dateplaner#:#cal_export_timezone_tz#:#Benutze ILIAS-Zeitzone
+dateplaner#:#cal_export_timezone_utc#:#Benutze UTC-Zeitzone (kompatibel mit MS Outlook)
 dateplaner#:#cal_week_abbrev#:#KW
 dateplaner#:#cal_week_month_view#:#Einstellungen Wochen-/Monatsansicht
 dateplaner#:#cal_week_overview#:#Wochenübersicht
@@ -8063,6 +8080,8 @@ mail#:#advice_mail_body_secured#:#Aus Ihrer Mail wurden aus Sicherheitsgründen 
 mail#:#also_as_email#:#Auch als E-Mail
 mail#:#bc#:#BC
 chatroom#:#chat_select_room#:#Chatraum auswählen
+mail#:#back_to_folder#:#Zurück zum Ordner
+mail#:#current_folder#:#Aktueller Ordner: %s
 mail#:#chat_users_have_been_invited#:#Die Benutzer wurden eingeladen:
 mail#:#chat_users_without_login#:#Die folgenden Benutzer haben keinen ILIAS-Account und können nicht eingeladen werden:
 mail#:#chat_users_without_permission#:#Die folgenden Benutzer haben keinen Zugriff zum ausgewählten Raum:
@@ -8325,7 +8344,7 @@ meta#:#md_adv_import_record#:#Datensatz importieren
 meta#:#md_adv_no_fields#:#Keine Felder definiert
 meta#:#md_adv_placeholder_for#:#Platzhalter für:
 meta#:#md_adv_placeholders#:#Platzhalter
-meta#:#md_adv_record_list#:#Datensätze
+meta#:#md_adv_record_list#:#Datensätze und Darstellung
 meta#:#md_adv_records#:#Enthaltene Datensätze
 meta#:#md_adv_records_exported#:#Eine neue Exportdatei wurde angelegt.
 meta#:#md_adv_searchable#:#Durchsuchbar
@@ -8982,7 +9001,7 @@ news#:#news_period_x_days#:#Letzte %s Tage
 news#:#news_period_x_months#:#Letzte %s Monate
 news#:#news_period_x_weeks#:#Letzte %s Wochen
 news#:#news_public_feed#:#Eigener Webfeed
-news#:#news_public_feed_info#:#Es wird ein RSS-Icon mit einer separaten Webfeed-URL angezeigt.
+news#:#news_public_feed_info#:#Es wird ein RSS-Icon mit einer separaten Webfeed-URL angezeigt. 
 news#:#news_related_to#:#bezieht sich auf
 news#:#news_rss_period#:#RSS-Zeitraum
 news#:#news_rss_title_format#:#RSS-Titelformat
@@ -10048,7 +10067,7 @@ registration#:#registration_codes_add#:#Codes erzeugen
 registration#:#registration_codes_edit_header#:#Neue Codes erzeugen
 registration#:#registration_codes_export#:#Codes exportieren
 registration#:#registration_codes_number#:#Anzahl Codes
-registration#:#registration_codes_roles#:#Globale Rolle
+registration#:#registration_codes_roles#:#Globale Rolle 
 registration#:#registration_export_codes_no_data#:#Keine Codes wurden für den Export ausgewählt.
 registration#:#registration_generated#:#Erzeugt am
 registration#:#registration_generated_all#:#Alle Daten
@@ -10875,7 +10894,7 @@ survey#:#anonymize_key_introduction#:#In dieser Umfrage werden alle Daten anonym
 survey#:#anonymize_personalized#:#Personalisierte Umfrage
 survey#:#anonymize_registered_user#:#Anonymisierter Zugang
 survey#:#anonymize_resume_introduction#:#Bitte geben Sie Ihren Zugangsschlüssel für die Umfrage ein, um die Umfrage wieder aufnehmen zu können. Der Zugangsschlüssel wurde Ihnen in Ihren ILIAS-Posteingang gesendet, nachdem Sie die Umfrage begonnen haben.
-survey#:#anonymize_survey_description#:#Die Anonymisierung entfernt alle persönlichen Daten aus der Umfragenstatistik. Ein Zugangsschlüssel ist eine fünfstellige Kennung, die benötigt wird, um an einer anonymisierten Umfrage teilzunehmen.
+survey#:#anonymize_survey_description#:#Die Anonymisierung entfernt alle persönlichen Daten aus der Umfragenstatistik. Ein Zugangsschlüssel ist eine fünfstellige Kennung, die benötigt wird, um an einer anonymisierten Umfrage teilzunehmen. 
 survey#:#anonymize_with_code#:#Anonyme Umfrage mit Zugangsschlüssel
 survey#:#anonymize_with_code_all#:#Zugriff über einen Zugangsschlüssel für alle Benutzer
 survey#:#anonymize_without_code#:#Anonyme Umfrage
@@ -11113,7 +11132,7 @@ survey#:#mailaddresses#:#Empfängeradressen
 survey#:#mailaddresses_info#:#Tragen Sie hier eine kommagetrennte Liste der Empfänger ein, an die eine Benachrichtigung über abgeschlossene Umfragen versendet werden soll.
 survey#:#mailnotification#:#E-Mail-Benachrichtigung
 survey#:#mailparticipantdata#:#Zusätzliche Teilnehmerdaten
-survey#:#mailparticipantdata_info#:#Fügen Sie einen einleitenden Text hinzu, der vor den Ergebnisdaten eines Teilnehmers in die E-Mail eingetragen wird.
+survey#:#mailparticipantdata_info#:#Fügen Sie einen einleitenden Text hinzu, der vor den Ergebnisdaten eines Teilnehmers in die E-Mail eingetragen wird. 
 survey#:#maintenance#:#Teilnehmer
 survey#:#manage_phrases#:#Meine Phrasen
 survey#:#material#:#Material
@@ -11336,7 +11355,7 @@ survey#:#subject_mail_survey_id#:#Ihr Zugangsschlüssel für "%s"
 survey#:#subtype#:#Untertyp
 survey#:#survey_add_new_question#:#Neue Seite hinzufügen
 survey#:#survey_at_beginning#:#An den Anfang
-survey#:#survey_auth_mode#:#Zugriffsmodus
+survey#:#survey_auth_mode#:#Modus
 survey#:#survey_auto_block_title#:#Seitenüberschrift
 survey#:#survey_available_question_pools#:#Verfügbare Pools
 survey#:#survey_behind_page#:#Hinter
@@ -12196,7 +12215,7 @@ assessment#:#tst_question_hints_table_link_edit_hint_points#:#Punkte bearbeiten
 assessment#:#tst_question_hints_table_link_edit_hint_page#:#Seite bearbeiten
 assessment#:#tst_question_hints_form_cmd_save_points#:#Speichere Punkte
 assessment#:#tst_question_hints_form_cmd_save_points_and_edit_page#:# Speichere Punkte und bearbeite Seite
-assessment#:#tst_question_hints_back_to_hint_list#:#Liste der Fragenhinweise
+assessment#:#tst_question_hints_back_to_hint_list#:#Liste der Fragenhinweise 
 assessment#:#conf_delete_pass#:#Durchgang wirklich löschen?
 common#:#objs_blog#:#Blogs
 common#:#obj_blog_duplicate#:#Blog kopieren
@@ -12450,7 +12469,7 @@ common#:#grp_list_reg_noreg#:#Keine Anmeldung möglich
 common#:#grp_list_reg_limit_full#:#Keine freien Plätze verfügbar
 common#:#grp_list_reg_limit_places#:#Freie Plätze
 common#:#grp_list_reg_period#:#Beitrittszeitraum
-crs#:#crs_member_passed_status_changed#:#Update Status
+crs#:#crs_member_passed_status_changed#:#Update Status 
 common#:#obj_hlps#:#Online-Hilfe
 common#:#add_entry#:#Eintragen
 common#:#obj_poll_duplicate#:#Abstimmung kopieren
@@ -12676,7 +12695,7 @@ dcl#:#dcl_record_edit_viewdefinition#:#Bearbeite Seitenvorlage
 dcl#:#dcl_record_list_viewdefinition#:#Liste der Seitenvorlagen
 dcl#:#dcl_checked#:#Ausgewählt
 dcl#:#dcl_not_checked#:#Nicht ausgewählt
-dcl#:#dcl_noturl_exception#:#Bitte geben Sie einen Link (beginnend mit http://) oder eine Email Adresse ein.
+dcl#:#dcl_noturl_exception#:#Bitte geben Sie einen Link (beginnend mit http://) oder eine E-Mail Adresse ein.
 dcl#:#dcl_field_title_change_warning#:#Sie haben den Titel des Feldes geändert, dadurch funktionieren unter Umständen die Platzhalter in der Seitenvorlage nicht mehr, diese müssen gegebenenfalls manuell angepasst werden.
 dcl#:#dcl_field_title_unique#:#Es existiert bereits ein Feld mit diesem Titel. Titel muss eindeutig sein.
 dcl#:#dcl_table_title_unique#:#Es existiert bereits eine Tabelle mit diesem Titel. Titel muss eindeutig sein.
@@ -12718,7 +12737,7 @@ itgr#:#itgr_edit#:#Objekteblock bearbeiten
 rbac#:#itgr_read#:#Lesezugriff auf Objekteblock
 rbac#:#itgr_write#:#Inhalt und Einstellungen eines Objekteblocks bearbeiten
 rbac#:#itgr_copy#:#Objekteblock kopieren
-rbac#:#itgr_delete#:#Objekteblock löschen oder verschieben
+rbac#:#itgr_delete#:#Objekteblock löschen oder verschieben 
 rbac#:#itgr_edit_permission#:#Rechteeinstellungen des Objekteblocks ändern
 rbac#:#rbac_create_itgr#:#Objekteblock anlegen
 itgr#:#itgr_materials#:#Objekte
@@ -12739,7 +12758,7 @@ dcl#:#dcl_status#:#Dein Status
 dcl#:#dcl_mob#:#Bild
 dcl#:#dcl_width#:#Breite
 dcl#:#dcl_height#:#Höhe
-dcl#:#dcl_table_info#:#Nachfolgend legen Sie fest, was Benutzer mit dem Recht "Eintragen" in dieser Datensammlung tun dürfen.
+dcl#:#dcl_table_info#:#Nachfolgend legen Sie fest, was Benutzer mit dem Recht "Eintragen" in dieser Datensammlung tun dürfen. 
 dcl#:#dcl_delete_table#:#Lösche Tabelle
 dcl#:#dcl_confirm_delete_table#:#Wollen Sie diese Tablle wirklich löschen inkl. Inhalt und Struktur?
 dcl#:#dcl_cant_delete_main_table#:#Sie können diese Tabelle nicht komplett löschen, da Sie die zentrale Tabelle dieser Datensammlung ist. Hingegen wurden der Inhalt und die Struktur erfolgreich gelöscht.
@@ -12788,8 +12807,8 @@ blog#:#blog_contributors#:#Blog-Autoren
 blog#:#blog_add_contributor#:#Autor hinzufügen
 blog#:#blog_search_users#:#Benutzer suchen
 common#:#il_blog_contributor#:#Blog-Autor
-rbac#:#blog_contribute#:#Benutzer darf mitwirken
-blog#:#blog_contribute_other_roles#:#Die folgenden Rollen haben eine aktive "Mitwirken"-Berechtigung: %s.
+rbac#:#blog_contribute#:#Benutzer darf Einträge hinzufügen
+blog#:#blog_contribute_other_roles#:#Neben den eingetragenen 'Blog-Autoren' können auch Benutzer mit einer der folgenden Rollen Einträge hinzufügen: %s
 dcl#:#dcl_no_content_warning#:#Achtung, die Datensammlung ist bereits online, hat aber noch keinen Inhalt!
 dcl#:#dcl_visible#:#Sichtbar für alle Benutzer
 dcl#:#dcl_empty_view#:#Seitenvorlage löschen
@@ -12991,18 +13010,18 @@ survey#:#svy_invite_action#:#NutzerInnen zu einer Umfrage einladen
 rbac#:#chtr_delete#:#Chat löschen oder verschieben
 ecs#:#ecs_role_mappings#:#Rollenzuordnung für Kurse/Gruppen
 ecs#:#ecs_role_mapping_value#:#Attributwert
-forum#:#sorting_manual_sticky#:#Manuelle Sortierung der Top-Themen
+forum#:#sorting_manual_sticky#:#Manuelle Sortierung der Top-Themen 
 forum#:#frm_sorting_threads#:#Themen-Sortierung
 forum#:#frm_sorting_posts#:#Beitrags-Sortierung
 forum#:#sticky_threads_always_on_top#:#"Top-Themen" erscheinen generell immer ganz oben in der Liste der Themen. Innerhalb der "Top-Themen" haben Sie bei Wahl dieser Option die Möglichkeit, die Sortierung manuell anzupassen.
-mail#:#cron_update_addressbook#:#Adressbucheinträge automatisch synchronisieren
-mail#:#cron_update_addressbook_desc#:#Wenn diese Option eingeschaltet ist, haben Benutzer die Möglichkeit festzulegen, ob mit Benutzerkonten verknüpfte Adressbucheintrage durch den Cron-Job synchronisiert werden sollen. Es werden nur jene Daten aktualisiert, die vom Benutzer freigegeben wurden.
+mail#:#cron_update_addressbook#:#Adressbucheinträge automatisch synchronisieren 
+mail#:#cron_update_addressbook_desc#:#Wenn diese Option eingeschaltet ist, haben Benutzer die Möglichkeit festzulegen, ob mit Benutzerkonten verknüpfte Adressbucheintrage durch den Cron-Job synchronisiert werden sollen. Es werden nur jene Daten aktualisiert, die vom Benutzer freigegeben wurden. 
 mail#:#auto_update#:#Aktualisierung
 blog#:#blog_toggle_draft_admin#:#Blog-Eintrag deaktivieren
 blog#:#blog_keywords_info#:#Benutzen Sie die +/- Icons um Schlagwörter hinzuzufügen und zu entfernen.
 forum#:#merge#:#Zusammenführen
 forum#:#please_choose_target#:#Bitte wählen Sie ein Thema als Ziel der Zusammenführung.
-forum#:#frm_sure_merge_threads#:#Sind Sie sicher, dass Sie diese beiden Themen zu einem Thema zusammenführen wollen? Achtung: Diese Aktion kann nicht rückgängig gemacht werden! Das ältere der gewählten Themen wird immer als Zusammenführungs-Ziel behandelt.
+forum#:#frm_sure_merge_threads#:#Sind Sie sicher, dass Sie diese beiden Themen zu einem Thema zusammenführen wollen? Achtung: Diese Aktion kann nicht rückgängig gemacht werden! Das ältere der gewählten Themen wird immer als Zusammenführungs-Ziel behandelt. 
 forum#:#not_allowed_to_merge_into_another_forum#:#Es ist nicht möglich Themen verschiedener Foren zusammenzuführen.
 forum#:#frm_selected_merge_src#:#Gewähltes Thema für die Zusammenführung: %s
 forum#:#error_same_thread_ids#:#Es müssen zwei verschiedene Themen ausgewählt werden.
@@ -13057,6 +13076,7 @@ cron#:#cron_action_activate_success#:#Cron-Job aktiviert.
 cron#:#cron_action_deactivate_success#:#Cron-Job deaktiviert.
 cron#:#cron_action_reset_success#:#Cron-Job zurückgesetzt.
 cron#:#cron_action_edit_success#:#Zeitplan aktualisiert.
+cron#:#cron_no_executable_job_selected#:#Bitte wählen Sie mindestens einen ausführbaren Cron-Job.
 dcl#:#dcl_no_warnings#:#Der Import wurde reibungslos abgeschlossen.
 dcl#:#dcl_not_supported_in_import#:#Dieser Feldtyp ist für den Import nicht unterstützt.
 dcl#:#dcl_no_such_reference#:#Der folgende Wert ist in der Referenztabelle nicht vorhanden:
@@ -13152,7 +13172,7 @@ blog#:#blog_posting_edit_approval_info#:#Der Eintrag muss vor der Veröffentlich
 survey#:#survey_code_delete_sure#:#Wollen Sie wirklich die folgenden Zugangsschlüssel löschen?
 survey#:#survey_360_title#:#360°
 survey#:#survey_360_mode#:#360°-Feedback
-survey#:#survey_360_self_evaluation#:#Feedback-Nehmer können selbst Feedback geben
+survey#:#survey_360_self_evaluation#:#Feedback-Nehmer können selbst Feedback geben 
 survey#:#survey_360_self_raters#:#Feedback-Nehmer können ihre Feedback-Geber verwalten
 survey#:#survey_360_self_appraisee#:#Benutzer können sich selbst als Feedback-Nehmer hinzufügen
 survey#:#survey_360_results#:#Feedback-Nehmer können die Antworten einsehen
@@ -13262,7 +13282,7 @@ common#:#rpc_pdf_generation#:#PDF-Erstellung
 common#:#rpc_pdf_font#:#Schriftarten
 common#:#rpc_pdf_font_info#:#Zusätzliche Schriftarten zur Erzeugung von PDF-Dateien. Alle zusätzlich angegebenen Schriftarten müssen serverseitig installiert sein oder dem Java-Server beim Starten bekannt gemacht werden.
 registration#:#registration_codes_no_assigned_role#:#Keine vorgegebene zugewiesene Rolle
-registration#:#registration_codes_roles_local#:#Lokale Rolle(n)
+registration#:#registration_codes_roles_local#:#Lokale Rolle(n) 
 registration#:#registration_codes_roles_title#:#Rolle für neue Accounts
 registration#:#registration_codes_roles_limitation_none#:#Keine vorgegebene Zugangsbefristung
 registration#:#reg_access_limitation_mode_absolute_target#:#Gültig bis
@@ -13416,7 +13436,7 @@ cld#:#cld_unknown_exception#:#Unbekannter Fehler
 cld#:#cld_upload_failed_max_filesize#:#Hochladen fehlgeschlagen. Maximale Dateigrösse wurde überschritten
 cld#:#cld_upload_failed#:#Herunterladen fehlgeschlagen
 cld#:#cld_upload_files#:#Heraufladen
-assessment#:#tst_show_solution_compare#:#Antwort und Lösung in der Antwortliste gegenüberstellen
+assessment#:#tst_show_solution_compare#:#Antwort und Lösung in der Liste der Antworten gegenüberstellen
 assessment#:#tst_header_participant#:#Ergebnis:
 assessment#:#tst_header_solution#:#Korrekte Lösung:
 common#:#obj_cld#:#Cloud-Objekt
@@ -13514,7 +13534,7 @@ content#:#cont_offline_mode_allow#:#Offline-Modus erlauben
 content#:#cont_offline_mode_allow_info#:#Wenn der Offline-Modus erlaubt ist, erscheint unter 'Aktionen' beim Lernmodul zusätzlich die Option 'Offline-Modus' und für Nutzer mit dem Recht zur Bearbeitung des Lernfortschritts unter 'Einstellungen' zusätzlich der Reiter 'Offline-Nutzung'. Im Offline-Modus können Lernmodule nur im SCORM-Offline-Player von ILIAS (Firefox Add-on) dargestelllt werden. Zum Beenden des Offline-Modus können Nutzer über die Option 'Offline-Modus' Lernstandsdaten importieren. Daten im SCORM-Offline-Player werden somit für dieses Lernmodul gelöscht. Bevor Sie den Offline-Modus erlauben, sollten Sie die erforderlichen Einstellungen zum Lernfortschritt abgeschlossen haben.
 wiki#:#wiki_start_page_info#:#Gibt es noch keine Wikiseite mit diesem Titel, wird eine neue, leere Seite erstellt.
 administration#:#adm_https#:#HTTPS
-common#:#obj_reps#:#Magazin
+common#:#obj_reps#:#Magazin 
 common#:#obj_reps_desc#:#Allgemeine Einstellungen für das Magazin
 rep#:#rep_object_lists#:#Objektlisten
 rep#:#rep_custom_icons#:#Angepasste Icons
@@ -13552,7 +13572,7 @@ payment#:#placeholders#:#Platzhalter
 payment#:#current_timestamp#:#Aktueller Unix-Zeitstempel
 payment#:#user_id#:#Benutzer-ID
 payment#:#incremental_number#:#Eine sich inkrementierende Ziffer
-rep#:#rep_new_item_group_separator#:#Spaltentrenner
+rep#:#rep_new_item_group_separator#:#Spaltentrenner 
 rep#:#rep_new_item_group_other#:#Weitere
 wsp#:#wsp_shared_title#:#Titel der Ressource
 adve#:#adve_excass_settings#:#Übungseinheiten
@@ -13586,7 +13606,7 @@ prtf#:#prtf_create_template_from_portfolio#:#Portfolio
 prtf#:#prtf_create_template_from_portfolio_info#:#Wählen Sie ein Portfolio um dessen Inhalte und Einstellungen für die Vorlage zu übernehmen.
 prtf#:#prtf_template_import_quota_failure#:#Diese Portfoliovorlage kann nicht kopiert werden, da Ihre Disk-Quota überschritten würde.
 cntr#:#prtf_create_portfolio_from_template#:#Portfolio aus Vorlage erstellen
-administration#:#vc_information#:#Versionskontrolle
+administration#:#vc_information#:#VCS-Informationen anzeigen
 administration#:#svn_revision_current#:#Aktuelle Revision: %s
 administration#:#svn_revision_last_change#:#Zuletzt geänderte Revision: %s
 administration#:#svn_root#:#Root: %s
@@ -13755,7 +13775,7 @@ assessment#:#adm_categories#:#Pool-Kategorien
 assessment#:#change_adm_categories_not_allowed#:#An dieser Stelle haben Sie keine Schreibberechtigung an der Kategorie.
 assessment#:#change_adm_units_not_allowed#:#Diese Einheit kann nur durch einen Administrator geändert werden
 assessment#:#expected_result_type#:#Erwarteter Ergebnistyp
-assessment#:#enter_valid_values#:#Bitte achten Sie auf die Eingabe gültiger Werte. Die Eingabe von Buchstaben wird als falsch gewertet!
+assessment#:#enter_valid_values#:#Bitte achten Sie auf die Eingabe gültiger Werte. Die Eingabe von Buchstaben wird als falsch gewertet! 
 assessment#:#res_contains_undef_var#:#In der Formel werden Variablen verwendet, die im Fragen-Text nicht vorhanden sind.
 assessment#:#que_contains_unused_var#:#Im Fragen-Text sind Variablen enthalten, die in keiner Formel verwendet werden.
 assessment#:#res_contains_undef_res#:#In der Formel werden Ergebnisse verwendet, die im Fragen-Text nicht vorhanden sind.
@@ -13786,7 +13806,7 @@ grp#:#grp_mail_tutors_only#:#Nur für Administratoren
 grp#:#grp_mail_all#:#Für alle Mitglieder
 grp#:#grp_mail_tutors_only_info#:#Nur Administratoren können die Funktion "Mail an Mitglieder" im Reiter Mitglieder nutzen.
 grp#:#grp_mail_all_info#:#Mitglieder und  Administratoren können die Funktion "Mail an Mitglieder" im Reiter Mitglieder nutzen.
-content#:#cont_ed_insert_consultation_hours#:#Sprechstunden hinzufügen
+content#:#cont_ed_insert_consultation_hours#:#Sprechstunden einfügen
 content#:#cont_insert_consultation_hours#:#Sprechstunden hinzufügen
 content#:#cont_update_consultation_hours#:#Sprechstunden bearbeiten
 content#:#cont_cach_mode#:#Modus
@@ -13967,7 +13987,7 @@ adve#:#char_selector_custom_items_info4b#:#Zeichenbereiche können mit einem "-"
 adve#:#char_selector_custom_items_info5a#:#U+00C0
 adve#:#char_selector_custom_items_info5b#:#Ein Zeichen kann auch in Unicode-Notation angegeben werden (Groß-/Kleinschreibung beliebig).
 adve#:#char_selector_custom_items_info6a#:#U+00C0-U+00CF
-adve#:#char_selector_custom_items_info6b#:#Auch Zeichenbereiche können in Unicode-Notation angegeben werden
+adve#:#char_selector_custom_items_info6b#:#Auch Zeichenbereiche können in Unicode-Notation angegeben werden 
 adve#:#char_selector_unicode_all#:#Alle Unicode-Blöcke
 adve#:#adve_char_selector_settings#:#Zeichenauswahl
 common#:#scorm_login_as_learner_id#:#SCORM 2004: verwende ILIAS-Benutzername als cmi.learner_id
@@ -14026,7 +14046,7 @@ sop#:#sop_text_start_offline#:#Lernmodul im Offline-Modus starten
 sop#:#sop_start_offline#:#Lernmodul offline starten
 sop#:#sop_text_start_som#:#SCORM-Offline-Manager starten
 sop#:#sop_start_som#:#SOM Starten
-sop#:#sop_text_push_tracking#:#Lernstandsdaten nach ILIAS importieren und wieder in den Online-Modus wechseln
+sop#:#sop_text_push_tracking#:#Lernstandsdaten nach ILIAS importieren und wieder in den Online-Modus wechseln  
 sop#:#sop_push_tracking#:#Lernstandsdaten importieren
 common#:#obj_wiks#:#Wiki
 common#:#obj_wiks_desc#:#Globale Wiki-Einstellungen
@@ -14055,7 +14075,7 @@ content#:#cont_col_ordering#:#Spaltenanordnung
 ecs#:#ecs_cmap_delete_rule#:#Zuordnung löschen
 wsp#:#wsp_list_excv#:#Übungszertifikat
 wsp#:#wsp_list_tstv#:#Testzertifikat
-assessment#:#fq_formula_desc#:#Erlaubt ist die Verwendung von bereits definierten Variablen ($v1 bis $vn), von bereits definierten Ergebnissen (z.B. $r1), das beliebige Klammern von Ausdrücken, die mathematischen Operatoren + (Addition), - (Subtraktion), * (Multiplikation), / (Division), ^ (Potenzieren), die Verwendung der Konstanten 'pi' für die Zahl Pi und 'e‘ für die Eulersche Zahl, sowie die mathematischen Funktionen 'sin', 'sinh', 'arcsin', 'asin', 'arcsinh', 'asinh', 'cos', 'cosh', 'arccos', 'acos', 'arccosh', 'acosh', 'tan', 'tanh', 'arctan', 'atan', 'arctanh', 'atanh', 'sqrt', 'abs', 'ln', 'log'.
+assessment#:#fq_formula_desc#:#Erlaubt ist die Verwendung von bereits definierten Variablen ($v1 bis $vn), von bereits definierten Ergebnissen (z.B. $r1), das beliebige Klammern von Ausdrücken, die mathematischen Operatoren + (Addition), - (Subtraktion), * (Multiplikation), / (Division), ^ (Potenzieren), die Verwendung der Konstanten 'pi' für die Zahl Pi und 'e‘ für die Eulersche Zahl, sowie die mathematischen Funktionen 'sin', 'sinh', 'arcsin', 'asin', 'arcsinh', 'asinh', 'cos', 'cosh', 'arccos', 'acos', 'arccosh', 'acosh', 'tan', 'tanh', 'arctan', 'atan', 'arctanh', 'atanh', 'sqrt', 'abs', 'ln', 'log'. 	  				 	 	 	   	 	  	   		  	 
 rep#:#rep_add_new_def_grp_templates#:#Vorlagen
 cmps#:#cmps_repository_object_types#:#Objekttypen im Magazin
 rep#:#rep_new_item_menu#:#"Neues Objekt hinzufügen"-Menü
@@ -14127,7 +14147,7 @@ blog#:#blog_posting_not_found#:#Der Blog-Eintrag ist nicht verfügbar.
 ldap#:#ldap_choose_role#:#Rolle auswählen
 rep#:#rep_time_period#:#Zeitraum
 cntr#:#exc_next_deadline_single#:#Abgabefrist
-file#:#repository_disk_quota_info#:#Wenn aktiviert, wird für alle Benutzer die Disk-Quota im Magazin geprüft und optional Emails an Administratoren und Benutzer versendet.
+file#:#repository_disk_quota_info#:#Wenn aktiviert, wird für alle Benutzer die Disk-Quota im Magazin geprüft und optional E-Mails an Administratoren und Benutzer versendet.
 trac#:#trac_object_statistics_info#:#Wenn aktiviert, werden Daten für die Zugriffsstatistiken gesammelt.
 ldap#:#ldap_user_sync_cron_info#:#Wenn aktiviert, werden Benutzerkonten aus dem LDAP-Verzeichnis importiert und optional laufend synchronisiert.
 exc#:#exc_peer_review_cron_info#:#Wenn aktiviert, werden Übungsteilnehmer an ausstehendes Peer-Feedback erinnert.
@@ -14152,7 +14172,7 @@ skmg#:#skmg_number#:#Nummmer
 skmg#:#skmg_usage_type_info_gen#:#Allgemeiner Gebrauch in Magazinobjekten
 skmg#:#skmg_usage_type_info_mat#:#Benutzer haben Material zugeordnet
 skmg#:#skmg_usage_type_info_user#:#Zuordnung zu Benutzern
-skmg#:#skmg_usage_type_info_pers#:#Selected by Users as Personal Skill###30 12 2013 new variable
+skmg#:#skmg_usage_type_info_pers#:#Von Benutzern als persönliche Kompetenz ausgewählt
 skmg#:#skmg_usage_type_info_seval#:#Selbsteinschätzungen
 skmg#:#skmg_usage_type_info_prof#:#Nutzung in Kompetenzprofilen
 skmg#:#skmg_usage_type_info_res#:#Zuordnung zu Magazinobjekten
@@ -14260,24 +14280,19 @@ assessment#:#fq_no_restriction_info#:#Sowohl Dezimalzahlen als auch Brüche werd
 assessment#:#additional_rating_info#:#Bitte beachten Sie, dass die hier angegebenen Werte in Prozent angegeben werden und sich diese auf 100 summieren müssen.
 assessment#:#intprecision_info#:#"Teilbar durch" hat nur Auswirkungen auf die Variablenerzeugung, wenn der Wert für die Präzision 0 beträgt. In diesem Fall legt "Teilbar durch" fest, durch welche ganze Zahl die erzeugte Variable teilbar sein muss. Ein Wert von 10 erzeugt also nur ganze Zahlen, die durch 10 teilbar sind, ein Wert von 5 erzeugt ganze Zahlen, die durch 5 teilbar sind usw. Bei einer Präzision von 0 ist "Teilbar durch" ein Pflichtfeld und muss eine positive, ganze Zahl enthalten. Voreingestellt ist der Werte 1 für beliebige ganze Zahlen.
 assessment#:#tolerance_info#:#Die Toleranz legt eine erlaubte prozentuale Abweichung vom Ergebniswert fest. Bei einer Toleranz von 0 wird nur der exakte Ergebniswert als korrekt bewertet.
-meta#:#md_adv_presentation#:#Darstellung
-meta#:#udf_type_integer#:#Ganzzahl
-meta#:#md_adv_number_max#:#Maximaler Wert
-meta#:#md_adv_number_min#:#Minimaler Wert
-meta#:#udf_type_float#:#Gleitkommazahl
-meta#:#udf_type_location#:#Standort
-meta#:#md_adv_number_decimals#:#Nachkommastellen
-meta#:#md_adv_confirm_definition#:#Bitte bestätigen Sie die neuen Einstellungen.
-meta#:#md_adv_confirm_definition_select_option#:#Gelöschte Option
-meta#:#md_adv_confirm_definition_select_option_remove#:#Wert entfernen
-meta#:#md_adv_confirm_definition_select_option_overwrite#:#Wert überschreiben
-meta#:#md_adv_confirm_definition_select_section#:#Migration der gelöschten Optionen
 assessment#:#result_unit_info#:#Bitte beachten Sie, dass die hier festgelegte Einheit auch innerhalb der "Auswählbaren Einheiten" selektiert werden muss.
 forum#:#merge_posts_into_thread#:#Verschmelze Posts mit anderem Thema
 forum#:#move_thread_to_forum#:#Verschiebe Thema in anderes Forum
 survey#:#spl_save_obligatory_state#:#verpflichtend-Status speichern
 forum#:#post_reply_count#:#Re(%s):
 dateplaner#:#cal_ical_url#:#iCal-URL
-meta#:#md_adv_text_max_length#:#Maximale Länge
-meta#:#md_adv_text_multi#:#Mehrzeilig
-meta#:#md_adv_number_suffix#:#Suffix
+survey#:#svy_eval_skipped_value#:#Ergebnisse: "übersprungen"
+survey#:#svy_eval_skipped_value_lng#:#Wert aus Sprachdatei übernehmen
+survey#:#svy_eval_skipped_value_lng_info#:#Aktueller Wert: "%s"
+survey#:#svy_eval_skipped_value_custom#:#Angepassten Wert verwenden
+survey#:#svy_eval_skipped_value_custom_info#:#Geben sie einen (oder leeren) Wert für übersprungene Antworten an
+survey#:#svy_eval_skipped_value_custom_value#:#Wert
+rbac#:#rbac_create_chat#:#Create Chat###20 07 2014 new variable
+mail#:#mail_max_size_attachments_total#:#Bitte geben Sie hier die erlaubte Dateigröße für Mailanhänge an. Diese Einstellung hat keinen Einfluss auf das Hochladen von Dateien (hier gelten die Serverlimitierungen, z.B. upload_max_filesize), sondern lediglich auf die Datenmenge der als Anhang einer Mail ausgewählten Dateien. 
+mail#:#mail_max_size_attachments_total_error#:#Die maximal erlaubte Dateigröße für Anhänge beträgt:
+user#:#passwd_generation_pre#:#Vordefinierte Passwörter

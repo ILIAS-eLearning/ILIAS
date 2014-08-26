@@ -108,10 +108,6 @@ ol, ul {
 	padding-left: 40px 
 }
 
-ol { 
-	list-style-type: decimal 
-}
-
 ol ul, ul ol,
 ul ul, ol ol { 
 	margin-top: 0; 
@@ -1327,6 +1323,7 @@ span.ilHeader {}
 
 div.ilHeadAction {
 	float: right;
+	position: relative;
 	margin: 21px 21px 5px 0; /* bottom 5px blog fullscreen */
 }
 
@@ -2750,6 +2747,7 @@ div.ilRightPanel {
 	bottom: 0;
 	right: 0;
 	width: 500px;
+	left: auto !important;
 }
 
 /* Tabs */
@@ -4207,12 +4205,19 @@ div.ilFrmPostHeader span.small {
 	margin: 0 0 3px;
 }
 
+.ilModeratorPosting {
+	border: 1px solid #FD7;
+	background-color: #FF9;
+	padding: 0 5px;
+}
+
 div.ilAttendanceListPrint td, div.ilAttendanceListPrint th {
 	border: 1px solid #D6D6D6;
 	padding: 2px;
 }
 
 body.ilBodyPrint {
+    height: auto;
 	background-color: #FFF;
 	margin: 10px;
 	padding: 0;
@@ -4367,6 +4372,11 @@ ilBorderLeft {
 
 div[id^="ilFormField"] {
 	margin-bottom: 10px;
+}
+
+a[id^="tr_rtg"]:hover,
+a[onclick*="saveRating"]:hover {
+	text-decoration: none;
 }
 
 /* basic responsiveness (beta)

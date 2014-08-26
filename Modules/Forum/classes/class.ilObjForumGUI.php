@@ -760,20 +760,24 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 		$ilTabs->setTabActive('settings');
 		$ilTabs->addSubTabTarget('basic_settings', $this->ctrl->getLinkTarget($this, 'edit'), 'edit', get_class($this), '', $_GET['cmd']=='edit'? true : false );
-		// member tab
-		// check if there a parent-node is a grp or crs
-		$grp_ref_id = $tree->checkForParentType($this->object->getRefId(), 'grp');
-		$crs_ref_id = $tree->checkForParentType($this->object->getRefId(), 'crs');
 
-		if((int)$grp_ref_id > 0 || (int)$crs_ref_id > 0 )
+		// notification tab
+		if($this->ilias->getSetting('forum_notification') > 0)
 		{
-			#show member-tab for notification if forum-notification is enabled in administration
-			if($ilAccess->checkAccess('edit_permission', '', $this->ref_id) && $this->ilias->getSetting('forum_notification') > 0)
+			// check if there a parent-node is a grp or crs
+			$grp_ref_id = $tree->checkForParentType($this->object->getRefId(), 'grp');
+			$crs_ref_id = $tree->checkForParentType($this->object->getRefId(), 'crs');
+	
+			if((int)$grp_ref_id > 0 || (int)$crs_ref_id > 0 )
 			{
-				$mem_active = array('showMembers', 'forums_notification_settings');
-				(in_array($_GET['cmd'],$mem_active)) ? $force_mem_active = true : $force_mem_active = false;
-
-				$ilTabs->addSubTabTarget('notifications', $this->ctrl->getLinkTarget($this, 'showMembers'), $_GET['cmd'], get_class($this), '', $force_mem_active);
+				#show member-tab for notification if forum-notification is enabled in administration
+				if($ilAccess->checkAccess('write', '', $this->ref_id))
+				{
+					$mem_active = array('showMembers', 'forums_notification_settings');
+					(in_array($_GET['cmd'],$mem_active)) ? $force_mem_active = true : $force_mem_active = false;
+	
+					$ilTabs->addSubTabTarget('notifications', $this->ctrl->getLinkTarget($this, 'showMembers'), $_GET['cmd'], get_class($this), '', $force_mem_active);
+				}
 			}
 		}
 		return true;
@@ -2566,7 +2570,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 						$is_moderator = ilForum::_isModerator($_GET['ref_id'], $node->getUserId());
 						if($is_moderator)
 						{
-							$rowCol = 'ilHighlighted';
+							$rowCol = 'ilModeratorPosting';
 						}
 						else $rowCol = ilUtil::switchColor($z, 'tblrow1', 'tblrow2');
 					}
@@ -2718,8 +2722,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 					}
 		
 					$tpl->setVariable('POST_DATE', $frm->convertDate($node->getCreateDate()));
-					$tpl->setVariable('SPACER', "<hr noshade width=100% size=1 align='center' />");
-						
+
 					if (!$node->isCensored() ||
 						($this->objCurrentPost->getId() == $node->getId() && $_GET['action'] == 'censor'))
 					{
@@ -2741,7 +2744,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 							}
 						}
 						
-						/** @todo mjansen: possible bugfix for mantis #8223 */
+						// possible bugfix for mantis #8223
 						if($node->getMessage() == strip_tags($node->getMessage()))
 						{
 							// We can be sure, that there are not html tags
@@ -3409,8 +3412,17 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 			else
 			{
 				$user_alias = $ilUser->getLogin();	
-			}			
-			
+			}
+
+			$status = 1;
+			if(
+				$this->objProperties->isPostActivationEnabled() &&
+				!$this->is_moderator || $this->objCurrentPost->isAnyParentDeactivated()
+			)
+			{
+				$status = 0;
+			}
+
 			// build new thread
 			$newPost = $frm->generateThread(
 				$topicData['top_pk'],
@@ -3419,7 +3431,9 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 				ilRTE::_replaceMediaObjectImageSrc($this->create_topic_form_gui->getInput('message'), 0),
 				$this->create_topic_form_gui->getItemByPostVar('notify') ? (int)$this->create_topic_form_gui->getInput('notify') : 0,
 				$this->create_topic_form_gui->getItemByPostVar('notify_posts') ? (int)$this->create_topic_form_gui->getInput('notify_posts') : 0,
-				$user_alias
+				$user_alias,
+				'',
+				$status
 			);
 			
 			$file = $_FILES['userfile'];
@@ -4216,13 +4230,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 		if($lg instanceof ilObjForumListGUI)
 		{
-			include_once 'Modules/Forum/classes/class.ilForumNotification.php';
-			$frm_noti = new ilForumNotification((int) $_GET['ref_id']);
-			$frm_noti->setUserId($ilUser->getId());
-			$user_toggle = (int)$frm_noti->isUserToggleNotification();
-			$admin_forced_noti = (int)$frm_noti->isAdminForceNotification();
-			
-			$is_user_allowed_to_deactivate_notification = ($admin_forced_noti == 1 && $user_toggle == 0);
+			$is_user_allowed_to_deactivate_notification = $this->isUserAllowedToDeactivateNotification();
 			
 			// Notification button
 			$frm_notificiation_enabled = false;
@@ -4293,6 +4301,37 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		}
 
 		return $lg;
+	}
+	
+	public function isUserAllowedToDeactivateNotification()
+	{
+		if($this->objProperties->getNotificationType() == 'default')
+		{
+			return true;
+		}
+		
+		if($this->objProperties->isUserToggleNoti() ==  0)
+		{
+			return true;
+		}
+		
+		if($this->isParentObjectCrsOrGrp());
+		{	
+			global $ilUser;
+
+			include_once 'Modules/Forum/classes/class.ilForumNotification.php';
+
+			$frm_noti = new ilForumNotification((int) $_GET['ref_id']);
+			$frm_noti->setUserId($ilUser->getId());
+			
+			$user_toggle = (int)$frm_noti->isUserToggleNotification();
+			if($user_toggle == 0) 
+			{	
+				return true;
+			}
+		}
+		
+		return false;
 	}
 	
 	private function isParentObjectCrsOrGrp()

@@ -950,10 +950,7 @@ class ilStartUpGUI
 		 * @var $lng ilLanguage
 		 */
 		global $tpl, $lng;
-		
-		require_once 'Services/jQuery/classes/class.iljQueryUtil.php';
-		iljQueryUtil::initjQuery();
-
+	
 		$lng->loadLanguageModule('auth');		
 		self::initStartUpTemplate('tpl.login_account_migration.html');
 	 
@@ -1950,6 +1947,10 @@ class ilStartUpGUI
 		 * @var $ilAccess  ilAccessHandler
 		 */
 		global $tpl, $lng, $ilCtrl, $ilSetting, $ilAccess;
+		
+		// #13574 - basic.js is included with ilTemplate, so jQuery is needed, too
+		include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
+		iljQueryUtil::initjQuery();
 
 
 

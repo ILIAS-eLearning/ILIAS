@@ -21,9 +21,10 @@ class ilObjUserTracking extends ilObject
 	var $extended_data;
 	var $learning_progress;
 	var $tracking_user_related;
-	var $object_statistics_enabled;
-	var $lp_list_gui;
+	var $object_statistics_enabled;			
 	var $lp_learner;
+	var $session_statistics_enabled;
+	var $lp_list_gui;
 
 	// BEGIN ChangeEvent
 	/**
@@ -102,7 +103,7 @@ class ilObjUserTracking extends ilObject
 	{
 		global $ilSetting;
 		
-		return (bool)$ilSetting->get('object_statistics');
+		return (bool)$ilSetting->get('object_statistics', 0);
 	}
 	
 	/**
@@ -123,6 +124,36 @@ class ilObjUserTracking extends ilObject
 	public function enabledObjectStatistics()
 	{
 		return (bool)$this->object_statistics_enabled;
+	}
+	
+	/**
+	* Sets the session statistics property.
+	* 
+	* @param	boolean	new value
+	* @return	void
+	*/
+	public function enableSessionStatistics($newValue)
+	{
+		$this->session_statistics_enabled = (bool)$newValue;
+	}
+	/**
+	* Gets the session statistic property.
+	* 
+	* @return	boolean	value
+	*/
+	public function enabledSessionStatistics()
+	{
+		return (bool)$this->session_statistics_enabled;
+	}
+	
+    /**
+	* check wether session statistics is enabled or not
+	*/
+	static function _enabledSessionStatistics()
+	{
+		global $ilSetting;
+		
+		return (bool)$ilSetting->get('session_statistics', 1);
 	}
 
 	function setValidTimeSpan($a_time_span)
@@ -183,8 +214,9 @@ class ilObjUserTracking extends ilObject
 		$ilSetting->set("tracking_time_span",$this->getValidTimeSpan());
 		$ilSetting->set("lp_extended_data", $this->extended_data);
 		$ilSetting->set("object_statistics", (int)$this->enabledObjectStatistics());		
-		// $ilSetting->set("lp_desktop", (int)$this->hasLearningProgressDesktop());
+		// $ilSetting->set("lp_desktop", (int)$this->hasLearningProgressDesktop());		
 		$ilSetting->set("lp_learner", (int)$this->hasLearningProgressLearner());
+		$ilSetting->set("session_statistics", (int)$this->enabledSessionStatistics());
 		$ilSetting->set("lp_list_gui", (int)$this->hasLearningProgressListGUI());
 
 		/* => REPOSITORY
@@ -213,11 +245,12 @@ class ilObjUserTracking extends ilObject
 
 		$this->enableLearningProgress($ilSetting->get("enable_tracking",0));
 		$this->enableUserRelatedData($ilSetting->get("save_user_related_data",0));
-		$this->enableObjectStatistics($ilSetting->get("object_statistics"),0);
+		$this->enableObjectStatistics($ilSetting->get("object_statistics",0));
 		$this->setValidTimeSpan($ilSetting->get("tracking_time_span", self::DEFAULT_TIME_SPAN));
-		// $this->setLearningProgressDesktop($ilSetting->get("lp_desktop"), 1);
-		$this->setLearningProgressLearner($ilSetting->get("lp_learner"), 1);
-		$this->setLearningProgressListGUI($ilSetting->get("lp_list_gui"), 0);
+		// $this->setLearningProgressDesktop($ilSetting->get("lp_desktop", 1));
+		$this->setLearningProgressLearner($ilSetting->get("lp_learner", 1));
+		$this->enableSessionStatistics($ilSetting->get("session_statistics", 1)); 
+		$this->setLearningProgressListGUI($ilSetting->get("lp_list_gui", 0));
 
 		// BEGIN ChangeEvent
 		require_once 'Services/Tracking/classes/class.ilChangeEvent.php';
@@ -296,7 +329,7 @@ class ilObjUserTracking extends ilObject
 	{
 		global $ilias;
 		
-		return (bool)$ilias->getSetting("lp_learner");
+		return (bool)$ilias->getSetting("lp_learner", 1);
 	}
 	
 	function setLearningProgressListGUI($a_value)
@@ -313,7 +346,7 @@ class ilObjUserTracking extends ilObject
 	{
 		global $ilias;
 		
-		return (bool)$ilias->getSetting("lp_list_gui");
+		return (bool)$ilias->getSetting("lp_list_gui", 0);
 	}
 
 } // END class.ilObjUserTracking

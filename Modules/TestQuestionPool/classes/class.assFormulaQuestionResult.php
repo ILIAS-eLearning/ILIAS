@@ -99,7 +99,7 @@ class assFormulaQuestionResult
 			}
 		}
 
-		return $formula;
+		return "(".$formula.")";
 	}
 
 	public function calculateFormula($variables, $results, $question_id = 0, $use_precision = true)
@@ -124,7 +124,7 @@ class assFormulaQuestionResult
 					continue;
 				}
 				$value   = $varObj->getBaseValue();
-				$formula = preg_replace("/\\\$" . substr($variable, 1) . "(?![0-9]+)/", "(" . $value . ")" . "\\1", $formula);
+				$formula = preg_replace("/\\\$" . substr($variable, 1) . "(?![0-9]+)/", "(".$value.")" . "\\1", $formula);
 			}
 		}
 		$math                  = new EvalMath();
@@ -171,7 +171,7 @@ class assFormulaQuestionResult
 						continue;
 					}
 					$varObj->setRandomValue();
-					$formula = preg_replace("/\\\$" . substr($variable, 1) . "(?![0-9]+)/", $varObj->getBaseValue() . "\\1", $formula);
+					$formula = preg_replace("/\\\$" . substr($variable, 1) . "(?![0-9]+)/", "(".$varObj->getBaseValue().")" . "\\1", $formula);
 				}
 			}
 			$math                  = new EvalMath();
@@ -219,7 +219,7 @@ class assFormulaQuestionResult
 						continue;
 					}
 					$varObj->setRandomValue();
-					$formula = preg_replace("/\\\$" . substr($variable, 1) . "(?![0-9]+)/", "(".$varObj->getBaseValue() . ")\\1", $formula);
+					$formula = preg_replace("/\\\$" . substr($variable, 1) . "(?![0-9]+)/", "(".$varObj->getBaseValue().")" . "\\1", $formula);
 				}
 			}
 			$math                  = new EvalMath();
@@ -287,7 +287,7 @@ class assFormulaQuestionResult
 					$tmp_value = $varObj->getValue();
 				}
 
-				$formula = preg_replace("/\\\$" . substr($variable, 1) . "(?![0-9]+)/", "(".$tmp_value . ")\\1", $formula);
+				$formula = preg_replace("/\\\$" . substr($variable, 1) . "(?![0-9]+)/", "(".$tmp_value.")" . "\\1", $formula);
 			}
 		}
 
@@ -530,7 +530,7 @@ class assFormulaQuestionResult
 					{
 						$tmp_value = $varObj->getValue();
 					}
-					$formula = preg_replace("/\\\$" . substr($variable, 1) . "(?![0-9]+)/", $tmp_value . "\\1", $formula);
+					$formula = preg_replace("/\\\$" . substr($variable, 1) . "(?![0-9]+)/", "(".$tmp_value.")" . "\\1", $formula);
 				}
 			}
 
@@ -666,7 +666,7 @@ class assFormulaQuestionResult
 				foreach($matches[1] as $variable)
 				{
 					$varObj  = $variables[$variable];
-					$formula = preg_replace("/\\\$" . substr($variable, 1) . "(?![0-9]+)/", $varObj->getBaseValue() . "\\1", $formula);
+					$formula = preg_replace("/\\\$" . substr($variable, 1) . "(?![0-9]+)/", "(".$varObj->getBaseValue().")" . "\\1", $formula);
 				}
 			}
 			$math                  = new EvalMath();

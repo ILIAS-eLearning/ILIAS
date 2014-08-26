@@ -78,7 +78,7 @@ class ilTestSession
 	*
 	* @access public
 	*/
-	function ilTestSession()
+	public function __construct()
 	{
 		$this->active_id = 0;
 		$this->user_id = 0;

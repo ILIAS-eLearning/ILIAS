@@ -410,9 +410,6 @@ class ilContainer extends ilObject
 			$ml = new ilPageMultiLang("cont", $this->getId());
 			$ml->copy("cont", $new_obj->getId());*/
 
-			include_once("./Services/Object/classes/class.ilObjectTranslation.php");
-			$ot = ilObjectTranslation::getInstance($this->getId());
-			$ot->copy($new_obj->getId());
 		}
 		
 		return $new_obj;

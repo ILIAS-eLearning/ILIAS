@@ -514,6 +514,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		$this->initPropertiesForm();
 		if ($this->form->checkInput())
 		{
+			include_once("./Services/Object/classes/class.ilObjectTranslation.php");
 			$ot = ilObjectTranslation::getInstance($this->object->getId());
 			if ($ot->getContentActivated())
 			{
@@ -2098,8 +2099,10 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 
 
 		$export_dir = $this->object->getOfflineDirectory();
-		ilUtil::deliverFile($export_dir."/".$_POST["file"][0],
-			$_POST["file"][0]);
+	
+		$file = basename($_POST["file"][0]);
+		
+		ilUtil::deliverFile($export_dir."/".$file, $file);
 	}
 
 
@@ -2889,7 +2892,9 @@ $tabs_gui = $ilTabs;
 		
 		$toolbar = new ilToolbarGUI();
 		
-		if((bool)$ilias->getSetting('cron_web_resource_check'))
+		// #13684
+		include_once "Services/Cron/classes/class.ilCronManager.php";
+		if(ilCronManager::isJobActive("lm_link_check"))
 		{
 			include_once './Services/LinkChecker/classes/class.ilLinkCheckNotify.php';
 			include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';

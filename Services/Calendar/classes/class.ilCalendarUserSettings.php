@@ -13,6 +13,9 @@ class ilCalendarUserSettings
 	const CAL_SELECTION_MEMBERSHIP = 1;
 	const CAL_SELECTION_ITEMS = 2;
 	
+	const CAL_EXPORT_TZ_TZ = 1;
+	const CAL_EXPORT_TZ_UTC = 2;
+	
 	public static $instances = array();
 	
 	protected $user;
@@ -20,6 +23,7 @@ class ilCalendarUserSettings
 	
 	private $calendar_selection_type = 1;
 	private $timezone;
+	private $export_tz_type = self::CAL_EXPORT_TZ_TZ;
 	private $weekstart;
 	private $time_format;
 	private $date_format;
@@ -103,6 +107,43 @@ class ilCalendarUserSettings
 	{
 		$this->timezone = $a_tz;
 	}
+	
+	/**
+	 * Get export timezone setting
+	 * @return type
+	 */
+	public function getExportTimeZoneType()
+	{
+		return $this->export_tz_type;
+	}
+	
+	/**
+	 * Set export timezone type
+	 * @param type $a_type
+	 */
+	public function setExportTimeZoneType($a_type)
+	{
+		$this->export_tz_type = $a_type;
+	}
+	
+	/**
+	 * Get export timezone
+	 * @return type
+	 */
+	public function getExportTimeZone()
+	{
+		switch($this->getExportTimeZoneType())
+		{
+			case self::CAL_EXPORT_TZ_TZ:
+				return $this->getTimeZone();
+				
+			case self::CAL_EXPORT_TZ_UTC:
+				include_once './Services/Calendar/classes/class.ilTimeZone.php';
+				return ilTimeZone::UTC;
+		}
+	}
+	
+	
 	
 	/**
 	 * set week start
@@ -240,6 +281,7 @@ class ilCalendarUserSettings
 	public function save()
 	{
 		$this->user->writePref('user_tz',$this->getTimeZone());
+		$this->user->writePref('export_tz_type',$this->getExportTimeZoneType());
 		$this->user->writePref('weekstart',$this->getWeekStart());
 		$this->user->writePref('date_format',$this->getDateFormat());
 		$this->user->writePref('time_format',$this->getTimeFormat());	
@@ -256,7 +298,14 @@ class ilCalendarUserSettings
 	 */
 	protected function read()
 	{
+		
+		
 		$this->timezone = $this->user->getTimeZone();
+		$this->export_tz_type = (
+				($this->user->getPref('export_tz_type') !== FALSE) ? 
+				$this->user->getPref('export_tz_type') :
+				$this->export_tz_type
+		);
 		$this->date_format = $this->user->getDateFormat();
 		$this->time_format = $this->user->getTimeFormat();
 		if(($weekstart = $this->user->getPref('weekstart')) === false)

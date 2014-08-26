@@ -1839,7 +1839,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 						}
 						if (!$checked)
 						{
-							array_push($a_array, $this->lng->txt("skipped"));
+							array_push($a_array, $this->getSkippedValue());
 						}
 						if ($row->other)
 						{
@@ -1870,7 +1870,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 						}
 						if (!$checked)
 						{
-							array_push($a_array, $this->lng->txt("skipped"));
+							array_push($a_array, $this->getSkippedValue());
 						}
 						else
 						{
@@ -1906,7 +1906,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 		}
 		else
 		{
-			array_push($a_array, $this->lng->txt("skipped"));
+			array_push($a_array, $this->getSkippedValue());
 			for ($i = 0; $i < $this->getRowCount(); $i++)
 			{
 				array_push($a_array, "");

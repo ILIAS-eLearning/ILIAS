@@ -759,9 +759,11 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 							$page->create();
 							
 							// copy content
-							$page->setXMLContent($original->copyXMLContent());
-							$page->buildDom();
-							$page->update();
+							$original->copy($page->getId(), $page->getParentType(), $page->getParentId(), true);
+
+							//$page->setXMLContent($original->copyXMLContent());
+							//$page->buildDom();
+							//$page->update();
 						}
 					}
 				}

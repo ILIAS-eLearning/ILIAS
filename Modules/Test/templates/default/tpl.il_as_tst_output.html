@@ -208,6 +208,25 @@
     YAHOO.util.Event.onDOMReady(startSave);
     <!-- END autosave -->
 	YAHOO.util.Event.onDOMReady(initCharCounter);
+
+	(function($){ $(document).ready( function()
+	{
+		//return;
+		$('#taForm').on('keyup keydown keypress', function(event) {
+			if (event.which == 13) {
+				if ($(event.target).prop("tagName").toLowerCase() != "textarea" &&
+					(
+						$(event.target).prop("tagName").toLowerCase() != "input"
+							||
+							$(event.target).prop("type") != "submit"
+						)) {
+					event.preventDefault();
+				}
+			}
+		});
+	}
+	); })(jQuery);
+	
 </script>
 <div id="autosavemessage" style="font-style: italic; border: 1px #666 solid; background-color: #ffffe0; position: fixed; right: 0; top: 0;"></div>
 </div>

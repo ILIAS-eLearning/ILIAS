@@ -885,7 +885,10 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		// Last try in limited tries & confirmed?
 		if (($actualpass == $this->object->getNrOfTries() - 1) && (!$requires_confirmation))
 		{
-			$this->object->setActiveTestSubmitted($ilUser->getId());
+			$this->testSession->setSubmitted(1);
+			$this->testSession->setSubmittedTimestamp(date('Y-m-d H:i:s'));
+			$this->testSession->saveToDb();
+			
 			$ilAuth->setIdle(ilSession::getIdleValue(), false);
 			$ilAuth->setExpire(0);
 			switch ($this->object->getMailNotification())
@@ -1913,17 +1916,18 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	
 	protected function prepareSummaryPage()
 	{
-		$this->tpl->addBlockFile($this->getContentBlockName(), "adm_content", "tpl.il_as_tst_question_summary.html", "Modules/Test");
-		
-		if( $this->object->getKioskMode() )
+		$this->tpl->addBlockFile(
+			$this->getContentBlockName(), 'adm_content', 'tpl.il_as_tst_question_summary.html', 'Modules/Test'
+		);
+
+		if ($this->object->getShowCancel())
 		{
-			$head = $this->getKioskHead();
-			if( strlen($head) )
-			{
-				$this->tpl->setCurrentBlock("kiosk_options");
-				$this->tpl->setVariable("KIOSK_HEAD", $head);
-				$this->tpl->parseCurrentBlock();
-			}
+			$this->populateCancelButtonBlock();
+		}
+
+		if ($this->object->getKioskMode())
+		{
+			$this->populateKioskHead();
 		}
 	}
 	
@@ -1936,7 +1940,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	
 	protected function populateKioskHead()
 	{
-		ilUtil::sendInfo();
+		ilUtil::sendInfo(); // ???
 		
 		$head = $this->getKioskHead();
 		

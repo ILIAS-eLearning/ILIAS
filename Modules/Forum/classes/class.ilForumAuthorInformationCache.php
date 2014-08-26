@@ -46,8 +46,9 @@ class ilForumAuthorInformationCache
 		{
 			$in    = $ilDB->in('ud.usr_id', $usr_ids_to_request, false, 'integer');
 			$query = "
-				SELECT ud.usr_id, login, firstname, lastname, title, gender, pprof.value public_profile, pgen.value public_gender, pup.value public_upload
+				SELECT ud.usr_id, od.create_date, login, firstname, lastname, ud.title, gender, pprof.value public_profile, pgen.value public_gender, pup.value public_upload
 				FROM usr_data ud
+				INNER JOIN object_data od ON od.obj_id = ud.usr_id
 				LEFT JOIN usr_pref pprof ON pprof.usr_id = ud.usr_id AND pprof.keyword = %s
 				LEFT JOIN usr_pref pgen ON pgen.usr_id = ud.usr_id AND pgen.keyword = %s
 				LEFT JOIN usr_pref pup ON pup.usr_id = ud.usr_id AND pup.keyword = %s
@@ -69,6 +70,7 @@ class ilForumAuthorInformationCache
 				$user->setTitle($row['title']);
 				$user->setFirstname($row['firstname']);
 				$user->setLastname($row['lastname']);
+				$user->create_date = $row['create_date']; // create_date is currently a public member, has to be changed in future evtl.
 				$user->setPref('public_profile', $row['public_profile']);
 				$user->setPref('public_gender', $row['public_gender']);
 				$user->setPref('public_upload', $row['public_upload']);

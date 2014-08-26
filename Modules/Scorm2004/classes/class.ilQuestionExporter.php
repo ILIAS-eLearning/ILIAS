@@ -58,7 +58,7 @@ class ilQuestionExporter
 	}
 	
 	
-	public function exportQuestion($a_ref_id, $a_image_path = null) {
+	public function exportQuestion($a_ref_id, $a_image_path = null, $a_output_mode = "presentation") {
 		
 		if ($a_ref_id != "")
 		{
@@ -75,6 +75,7 @@ class ilQuestionExporter
 		if (method_exists($this,$type))
 		{
 			$this->q_gui->object->setExportImagePath($a_image_path);
+			$this->q_gui->object->feedbackOBJ->setPageObjectOutputMode($a_output_mode);
 			$this->json = $this->q_gui->object->toJSON();
 			$this->json_decoded = json_decode($this->json);
 			self::$exported[$this->json_decoded->id] = $this->json;

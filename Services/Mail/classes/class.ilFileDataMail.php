@@ -10,7 +10,10 @@
 * 
 */
 require_once("./Services/FileSystem/classes/class.ilFileData.php");
-				
+
+/**
+ * Class ilFileDataMail
+ */
 class ilFileDataMail extends ilFileData
 {
 	/**
@@ -27,7 +30,10 @@ class ilFileDataMail extends ilFileData
 	*/
 	var $mail_path;
 
-	var $mail_maxsize_attach;
+	/**
+	 * @var
+	 */
+	protected $mail_max_upload_file_size;
 
 	/**
 	* Constructor
@@ -44,8 +50,7 @@ class ilFileDataMail extends ilFileData
 		$this->checkReadWrite();
 		$this->user_id = $a_user_id;
 
-
-		$this->__initAttachmentMaxSize();
+		$this->initAttachmentMaxUploadSize();
 	}
 
 	/**
@@ -69,9 +74,21 @@ class ilFileDataMail extends ilFileData
 		}
 		return false;
 	}
-	function getUploadLimit()
+
+	/**
+	 * @return int
+	 */
+	public function getUploadLimit()
 	{
-		return $this->mail_maxsize_attach;
+		return $this->mail_max_upload_file_size;
+	}
+
+	/**
+	 * @return float
+	 */
+	public function getAttachmentsTotalSizeLimit()
+	{
+		return (float)$this->ilias->getSetting('mail_maxsize_attach', 0) * 1024;
 	}
 
 	/**
@@ -258,10 +275,11 @@ class ilFileDataMail extends ilFileData
 	 */
 	public function storeAsAttachment($a_filename,$a_content)
 	{
-		if(strlen($a_content) >= $this->mail_maxsize_attach)
+		if(strlen($a_content) >= $this->getUploadLimit())
 		{
 			return 1;
 		}
+
 		$name = ilUtil::_sanitizeFilemame($a_filename);
 		$this->rotateFiles($this->getMailPath().'/'.$this->user_id.'_'.$name);
 
@@ -280,35 +298,20 @@ class ilFileDataMail extends ilFileData
 		return true;	 	
 	}
 	
-	
 	/**
-	* store uploaded file in filesystem
-	* @param array HTTP_POST_FILES
-	* @access	public
-	* @return integer 0 on success
-	*/
-	function storeUploadedFile($a_http_post_file)
+	 * @param array $file
+	 */
+	public function storeUploadedFile($file)
 	{
-		if($a_http_post_file["size"] >= $this->mail_maxsize_attach)
-		{
-			return 1;
-		}
+		$file['name'] = ilUtil::_sanitizeFilemame($file['name']);
 
-		if(isset($a_http_post_file) && $a_http_post_file['size'])
-		{
-			$a_http_post_file['name'] = ilUtil::_sanitizeFilemame($a_http_post_file['name']);
-			
-			$this->rotateFiles($this->getMailPath().'/'.$this->user_id.'_'.$a_http_post_file['name']);
-			
-			ilUtil::moveUploadedFile(
-				$a_http_post_file['tmp_name'],
-				$a_http_post_file['name'],
-				$this->getMailPath().'/'.$this->user_id.'_'.$a_http_post_file['name']
-			);
-			
-			return 0;
-		}
-		return 1;
+		$this->rotateFiles($this->getMailPath() . '/' . $this->user_id . '_' . $file['name']);
+
+		ilUtil::moveUploadedFile(
+			$file['tmp_name'],
+			$file['name'],
+			$this->getMailPath() . '/' . $this->user_id . '_' . $file['name']
+		);
 	}
 
 	/**
@@ -542,10 +545,14 @@ class ilFileDataMail extends ilFileData
 		
 		return true;
 	}
-	function __initAttachmentMaxSize()
+
+	/**
+	 * 
+	 */
+	protected function initAttachmentMaxUploadSize()
 	{
 		/** @todo mjansen: Unfortunately we cannot reuse the implementation of ilFileInputGUI */
-		
+
 		// Copy of ilFileInputGUI: begin
 		// get the value for the maximal uploadable filesize from the php.ini (if available)
 		$umf = ini_get("upload_max_filesize");
@@ -553,29 +560,27 @@ class ilFileDataMail extends ilFileData
 		$pms = ini_get("post_max_size");
 
 		//convert from short-string representation to "real" bytes
-		$multiplier_a=array("K"=>1024, "M"=>1024*1024, "G"=>1024*1024*1024);
+		$multiplier_a = array("K" => 1024, "M" => 1024 * 1024, "G" => 1024 * 1024 * 1024);
 
-		$umf_parts=preg_split("/(\d+)([K|G|M])/", $umf, -1, PREG_SPLIT_DELIM_CAPTURE|PREG_SPLIT_NO_EMPTY);
-		$pms_parts=preg_split("/(\d+)([K|G|M])/", $pms, -1, PREG_SPLIT_DELIM_CAPTURE|PREG_SPLIT_NO_EMPTY);
+		$umf_parts = preg_split("/(\d+)([K|G|M])/", $umf, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
+		$pms_parts = preg_split("/(\d+)([K|G|M])/", $pms, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
 
-		if (count($umf_parts) == 2) { $umf = $umf_parts[0]*$multiplier_a[$umf_parts[1]]; }
-		if (count($pms_parts) == 2) { $pms = $pms_parts[0]*$multiplier_a[$pms_parts[1]]; }
+		if(count($umf_parts) == 2)
+		{
+			$umf = $umf_parts[0] * $multiplier_a[$umf_parts[1]];
+		}
+		if(count($pms_parts) == 2)
+		{
+			$pms = $pms_parts[0] * $multiplier_a[$pms_parts[1]];
+		}
 
 		// use the smaller one as limit
 		$max_filesize = min($umf, $pms);
 
-		if (!$max_filesize) $max_filesize = max($umf, $pms);
+		if(!$max_filesize) $max_filesize = max($umf, $pms);
 		// Copy of ilFileInputGUI: end
 
-		$mail_system_limitation_in_byte = (float)$this->ilias->getSetting('mail_maxsize_attach', 0) * 1024;
-		if(!$mail_system_limitation_in_byte)
-		{
-			$mail_system_limitation_in_byte = $max_filesize;
-		}
-
-		$mail_system_limitation_in_byte = min($mail_system_limitation_in_byte, $max_filesize);
-		
-		$this->mail_maxsize_attach = $mail_system_limitation_in_byte;
+		$this->mail_max_upload_file_size = $max_filesize;
 	}
 
 	/**

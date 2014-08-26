@@ -2,6 +2,9 @@
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Modules/Test/classes/class.ilTestSession.php';
+require_once 'Modules/Test/classes/class.ilTestDynamicQuestionSetFilterSelection.php';
+
+require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionList.php';
 
 /**
  * Test session handler for tests with mode dynamic question set
@@ -13,16 +16,24 @@ require_once 'Modules/Test/classes/class.ilTestSession.php';
  */
 class ilTestSessionDynamicQuestionSet extends ilTestSession
 {
-	private $taxonomyFilterSelection = array();
-
-	public function getTaxonomyFilterSelection()
+	/**
+	 * @var ilTestDynamicQuestionSetFilterSelection
+	 */
+	private $questionSetFilterSelection = null;
+	
+	public function __construct()
 	{
-		return $this->taxonomyFilterSelection;
+		parent::__construct();
+		
+		$this->questionSetFilterSelection = new ilTestDynamicQuestionSetFilterSelection();
 	}
 
-	public function setTaxonomyFilterSelection($taxonomyFilterSelection)
+	/**
+	 * @return ilTestDynamicQuestionSetFilterSelection
+	 */
+	public function getQuestionSetFilterSelection()
 	{
-		$this->taxonomyFilterSelection = $taxonomyFilterSelection;
+		return $this->questionSetFilterSelection;
 	}
 	
 	public function loadFromDb($active_id)
@@ -44,7 +55,10 @@ class ilTestSessionDynamicQuestionSet extends ilTestSession
 			$this->submitted = ($row["submitted"]) ? TRUE : FALSE;
 			$this->submittedTimestamp = $row["submittimestamp"];
 			$this->tstamp = $row["tstamp"];
-			$this->setTaxonomyFilterSelection(unserialize($row['taxfilter']));
+
+			$this->questionSetFilterSelection->setTaxonomySelection(unserialize($row['taxfilter']));
+			$this->questionSetFilterSelection->setAnswerStatusSelection($row['answerstatusfilter']);
+			$this->questionSetFilterSelection->setAnswerStatusActiveId($row['active_id']);
 		}
 	}
 	
@@ -94,7 +108,10 @@ class ilTestSessionDynamicQuestionSet extends ilTestSession
 			$this->submitted = ($row["submitted"]) ? TRUE : FALSE;
 			$this->submittedTimestamp = $row["submittimestamp"];
 			$this->tstamp = $row["tstamp"];
-			$this->setTaxonomyFilterSelection(strlen($row["taxfilter"]) ? unserialize($row["taxfilter"]) : array());
+
+			$this->questionSetFilterSelection->setTaxonomySelection(unserialize($row['taxfilter']));
+			$this->questionSetFilterSelection->setAnswerStatusSelection($row['answerstatusfilter']);
+			$this->questionSetFilterSelection->setAnswerStatusActiveId($row['active_id']);
 		}
 	}
 	
@@ -112,7 +129,8 @@ class ilTestSessionDynamicQuestionSet extends ilTestSession
 					'submitted' => array('integer', $submitted),
 					'submittimestamp' => array('timestamp', (strlen($this->getSubmittedTimestamp())) ? $this->getSubmittedTimestamp() : NULL),
 					'tstamp' => array('integer', time()-10),
-					'taxfilter' => array('text', serialize($this->getTaxonomyFilterSelection()))
+					'taxfilter' => array('text', serialize($this->getQuestionSetFilterSelection()->getTaxonomySelection())),
+					'answerstatusfilter' => array('text', $this->getQuestionSetFilterSelection()->getAnswerStatusSelection())
 				),
 				array(
 					'active_id' => array('integer', $this->getActiveId())
@@ -143,7 +161,8 @@ class ilTestSessionDynamicQuestionSet extends ilTestSession
 						'submitted' => array('integer', $submitted),
 						'submittimestamp' => array('timestamp', (strlen($this->getSubmittedTimestamp())) ? $this->getSubmittedTimestamp() : NULL),
 						'tstamp' => array('integer', time()-10),
-						'taxfilter' => array('text', serialize($this->getTaxonomyFilterSelection()))
+						'taxfilter' => array('text', serialize($this->getQuestionSetFilterSelection()->getTaxonomySelection())),
+						'answerstatusfilter' => array('text', $this->getQuestionSetFilterSelection()->getAnswerStatusSelection())
 					)
 				);
 				$this->active_id = $next_id;

@@ -57,6 +57,9 @@ if (!defined('K_TCPDF_EXTERNAL_CONFIG')) {
 	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 	// Try to automatically set the value for the following K_PATH_MAIN constant.
 	// NOTE: delete this section and manually set the K_PATH_MAIN constant below for better performances.
+	// PATCH BEGIN: ILIAS
+	if( false ) {
+	// PATCH END: ILIAS
 	$tcpdf_install_dirs = array();
 	if (strpos(dirname(__FILE__), '/config') !== false) {
 		// default config file
@@ -72,6 +75,9 @@ if (!defined('K_TCPDF_EXTERNAL_CONFIG')) {
 			break;
 		}
 	}
+	// PATCH BEGIN: ILIAS
+	} $k_path_main = dirname(dirname(__FILE__)).'/';
+	// PATCH END: ILIAS
 	if (!file_exists($k_path_main)) {
 		die('TCPDF ERROR: please set the correct path to TCPDF on the configuration file');
 	}

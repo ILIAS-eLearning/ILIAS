@@ -129,7 +129,7 @@ class ilTestFixedParticipantsTableGUI extends ilTable2GUI
 		
 		if( $data['active_id'] > 0 && !$this->testQuestionSetDepenciesBroken )
 		{
-			$this->tpl->setCurrentBlock('results');
+			$this->tpl->setCurrentBlock('action_results');
 			$this->tpl->setVariable("RESULTS", $data['result']);
 			$this->tpl->setVariable("RESULTS_TEXT", ilUtil::prepareFormOutput($this->lng->txt('tst_show_results')));
 			$this->tpl->parseCurrentBlock();

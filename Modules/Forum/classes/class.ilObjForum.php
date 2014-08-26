@@ -315,33 +315,21 @@ class ilObjForum extends ilObject
 			AND thread_id = %s',
 			array('integer', 'integer', 'integer'),
 			array($a_usr_id, $this->getId(), $a_thread_id));
+		$data = $ilDB->fetchAssoc($res);
 
-		if($ilDB->numRows($res))
-		{
-			$ilDB->manipulateF('
-				UPDATE frm_thread_access 
-				SET access_last = %s
-				WHERE usr_id = %s
-				AND obj_id = %s
-				AND thread_id = %s',
-				array('integer', 'integer', 'integer', 'integer'),
-				array(time(), $a_usr_id, $this->getId(), $a_thread_id));
-
-		}
-		else
-		{
-			$ilDB->manipulateF('
-				INSERT INTO frm_thread_access 
-				(	access_last,
-					access_old,
-				 	usr_id,
-				 	obj_id,
-				 	thread_id)
-				VALUES (%s,%s,%s,%s,%s)',
-				array('integer', 'integer', 'integer', 'integer', 'integer'),
-				array(time(), '0', $a_usr_id, $this->getId(), $a_thread_id));
-
-		}
+		$ilDB->replace(
+			'frm_thread_access',
+			array(
+				'usr_id'    => array('integer', $a_usr_id),
+				'obj_id'    => array('integer', $this->getId()),
+				'thread_id' => array('integer', $a_thread_id)
+			),
+			array(
+				'access_last'   => array('integer', time()),
+				'access_old'    => array('integer', isset($data['access_old']) ? $data['access_old'] : 0),
+				'access_old_ts' => array('timestamp', $data['access_old_ts'])
+			)
+		);
 
 		return true;
 	}

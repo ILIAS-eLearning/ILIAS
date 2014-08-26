@@ -49,7 +49,7 @@ class ilCloudPluginItemCreationListGUI extends ilCloudPluginListGUI
         {
             $icon_path = "./Modules/Cloud/templates/images/icon_folder_s.png";
             $this->gl->addEntry(ilUtil::img($icon_path)." ".$lng->txt("cld_add_folder"), "javascript:il.CloudFileList.createFolder();",
-                "_top", "", "", "il_cld_add_file", $lng->txt("cld_info_add_folder_to_current_directory"), "bottom center", "top center", false);
+                "_top", "", "", "il_cld_add_folder", $lng->txt("cld_info_add_folder_to_current_directory"), "bottom center", "top center", false);
         }
 
         $this->addItemsAfter();

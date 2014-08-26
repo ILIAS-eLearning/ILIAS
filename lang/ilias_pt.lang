@@ -5630,7 +5630,6 @@ content#:#cont_resource#:#Recurso
 content#:#cont_resource_size#:#Resource Size
 content#:#cont_resource_type#:#tipo
 content#:#cont_resources#:#Recursos
-content#:#cont_Ressources#:#Ressources
 content#:#cont_revision#:#Revision
 content#:#cont_right#:#Right
 content#:#cont_right_float#:#Right, Floating
@@ -12919,7 +12918,6 @@ assessment#:#tst_start_dyn_test_with_cur_quest_sel#:#Start Test with Current Que
 assessment#:#tst_resume_dyn_test_with_cur_quest_sel#:#Resume Test with Current Question Selection###24 10 2013 new variable
 assessment#:#tst_back_dyn_test_with_cur_quest_sel#:#Back to Test with Current Question Selection###24 10 2013 new variable
 assessment#:#tst_tracked_question_list#:#Previously Answered Questions###24 10 2013 new variable
-assessment#:#tst_filtered_question_list#:#Test Question Selection###24 10 2013 new variable
 assessment#:#tst_change_dyn_test_question_selection#:#Change Current Question Selection###24 10 2013 new variable
 assessment#:#tst_dyn_test_msg_currently_finished_completely#:#Currently you have answered all questions from the source questin pool successfully. When there are new or edited questions in the question pool you can proceed the test.###24 10 2013 new variable
 assessment#:#tst_dyn_test_msg_currently_finished_selection#:#With the current question selection you have answered all questions successfully. Change the question selection to proceed the test.###24 10 2013 new variable
@@ -14254,3 +14252,38 @@ forum#:#move_thread_to_forum#:#Move Thread to other Forum###14 05 2014 new varia
 survey#:#spl_save_obligatory_state#:#Save Obligatory States###14 05 2014 new variable
 forum#:#post_reply_count#:#Re(%s):###14 05 2014 new variable
 dateplaner#:#cal_ical_url#:#iCal-URL###14 05 2014 new variable
+assessment#:#tst_msg_random_question_set_synced#:#The questions for the current configuration has been synchronized successfully.###20 07 2014 new variable
+assessment#:#tst_btn_rebuild_random_question_stage#:#Synchronize Quesitons from Pool###20 07 2014 new variable
+assessment#:#tst_msg_rand_quest_set_no_pools_available#:#Currently you cannot add new rules for the question selection, because there are no question pools available.###20 07 2014 new variable
+assessment#:#tst_msg_rand_quest_set_change_quest_amount_here#:#You can change the question amount here: %s###20 07 2014 new variable
+assessment#:#postpone_status#:#Postponed###20 07 2014 new variable
+assessment#:#tst_delete_dyn_test_results_btn#:#Delete Test Results###20 07 2014 new variable
+assessment#:#tst_dyn_test_msg_pass_deletion_link#:#Delete Previous Answers###20 07 2014 new variable
+assessment#:#tst_input_dyn_quest_set_answer_status_filter_enabled#:#Provide Answer Status Filter###20 07 2014 new variable
+assessment#:#tst_question_answer_status#:#Answer Status###20 07 2014 new variable
+assessment#:#tst_question_answer_status_all_non_correct#:#All Questions (Except Correct Answered Ones)###20 07 2014 new variable
+assessment#:#tst_question_answer_status_non_answered#:#Non Answered Questions###20 07 2014 new variable
+assessment#:#tst_question_answer_status_wrong_answered#:#Wrong Answered Questions###20 07 2014 new variable
+assessment#:#tst_dynamic_question_set_selection#:#Test Question Selection###20 07 2014 new variable
+assessment#:#tst_num_open_questions#:#Open Questions###20 07 2014 new variable
+assessment#:#tst_num_non_answered_questions#:#Non Answered Questions###20 07 2014 new variable
+assessment#:#tst_num_wrong_answered_questions#:#Wrong Answered Questions###20 07 2014 new variable
+assessment#:#tst_num_postponed_questions#:#Postponed Questions###20 07 2014 new variable
+assessment#:#tst_num_marked_questions#:#Marked Questions###20 07 2014 new variable
+tos#:#tos_no_documents_exist_cant_save#:#Currently there are no terms of service for any of the installed languages. Please add at least one document for any of the installed languages.###20 07 2014 new variable
+dcl#:#dcl_id#:#ID###20 07 2014 new variable
+dcl#:#dcl_id_description#:#The internal ID.###20 07 2014 new variable
+dcl#:#dcl_creation_date#:#Creation Date###20 07 2014 new variable
+dcl#:#dcl_creation_date_description#:#The date on which the entry was created.###20 07 2014 new variable
+dcl#:#dcl_last_update#:#Last Edited###20 07 2014 new variable
+dcl#:#dcl_last_update_description#:#The date the entry was last edited.###20 07 2014 new variable
+dcl#:#dcl_owner#:#Owner###20 07 2014 new variable
+dcl#:#dcl_owner_description#:#The owner of the entry.###20 07 2014 new variable
+dcl#:#dcl_last_edited_by#:#Last edited by###20 07 2014 new variable
+dcl#:#dcl_last_edited_by_description#:#The user that edited this entry last.###20 07 2014 new variable
+survey#:#svy_eval_skipped_value#:#Results: "skipped"###20 07 2014 new variable
+survey#:#svy_eval_skipped_value_lng#:#Use language file entry###20 07 2014 new variable
+survey#:#svy_eval_skipped_value_lng_info#:#Current value: "%s"###20 07 2014 new variable
+survey#:#svy_eval_skipped_value_custom#:#Use custom value###20 07 2014 new variable
+survey#:#svy_eval_skipped_value_custom_info#:#Define any (or empty) value to use for skipped answers###20 07 2014 new variable
+survey#:#svy_eval_skipped_value_custom_value#:#Value###20 07 2014 new variable

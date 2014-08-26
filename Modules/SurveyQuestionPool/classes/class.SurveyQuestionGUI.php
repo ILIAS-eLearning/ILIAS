@@ -347,6 +347,14 @@ abstract class SurveyQuestionGUI
 					
 		if($this->saveForm())
 		{	
+			// #13784
+			if ($a_return && 
+				!SurveyQuestion::_isComplete($this->object->getId()))
+			{
+				ilUtil::sendFailure($this->lng->txt("survey_error_insert_incomplete_question"));			
+				return $this->editQuestion();
+			}	
+			
 			$ilUser->setPref("svy_lastquestiontype", $this->object->getQuestionType());
 			$ilUser->writePref("svy_lastquestiontype", $this->object->getQuestionType());				
 

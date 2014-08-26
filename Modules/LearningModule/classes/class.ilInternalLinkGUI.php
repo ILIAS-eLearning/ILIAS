@@ -1143,7 +1143,7 @@ class ilInternalLinkGUI
 	/**
 	 * Get initialisation HTML to use interna link editing
 	 */
-	function getInitHTML($a_url)
+	function getInitHTML($a_url, $a_move_to_body = false)
 	{
 		global $tpl;
 
@@ -1155,6 +1155,10 @@ class ilInternalLinkGUI
 		$tpl->addJavascript("./Services/Link/js/ilIntLink.js");
 
 		$ltpl = new ilTemplate("tpl.int_link_panel.html", true, true, "Services/Link");
+		if ($a_move_to_body)
+		{
+			$ltpl->touchBlock("move_to_body");
+		}
 		$ltpl->setVariable("IL_INT_LINK_URL", $a_url);
 
 		return $ltpl->get();

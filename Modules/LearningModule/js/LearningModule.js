@@ -70,39 +70,44 @@ il.LearningModule = {
 	
 	loadContentFrame: function (href, t) {
 		var area, el_id = t + "_area";
+		var doc;
 
+		doc = (window.top != window.self)
+			? window.parent.document : document;
+
+//console.log("LoadContentFrame:" + href + ":" + t +":");
 		// exception we should get rid off
 		if (t == "center_bottom") {
 			el_id = "bot_center_area";
 		}
 		
 		if (t != "right_top" && t != "right_bottom") { 
-			area = $("#" + el_id);
+			area = $("#" + el_id, doc);
 			if (area.length == 0) {
 				$('body').append('<div id="' + el_id + '"><div id="' + el_id + '_drag"></div><img class="ilAreaClose" src="./templates/default/images/empty.png" /><iframe /></div>');
 			}
 		} else {
 			//check right area existence
-			area = $("#right_cont_area");
+			area = $("#right_cont_area", doc);
 			if (area.length == 0) {
 				$('body').append('<div id="right_cont_area"><div id="right_area_drag"></div></div>');
 			}
 			// append right top and right bottom areas
-			area = $("#right_top_area");
+			area = $("#right_top_area", doc);
 			if (area.length == 0) {
 				$('#right_cont_area').append('<div id="right_top_area"><div id="right_top_drag"></div><img class="ilAreaClose" src="./templates/default/images/empty.png" /><iframe /></div>');
 			}
-			area = $("#right_bottom_area");
+			area = $("#right_bottom_area", doc);
 			if (area.length == 0) {
 				$('#right_cont_area').append('<div id="right_bottom_area"><div id="right_bottom_drag"></div><img class="ilAreaClose" src="./templates/default/images/empty.png" /><iframe /></div>');
 			}
 		}
 		
-		$("#" + el_id + " img.ilAreaClose").click(function () {
+		$("#" + el_id + " img.ilAreaClose", doc).click(function () {
 			il.LearningModule.closeContentFrame(t);
 			});
-		$("#" + el_id + " > iframe").attr("src", href);
-		$("#" + el_id).css("display", "block");
+		$("#" + el_id + " > iframe", doc).attr("src", href);
+		$("#" + el_id, doc).css("display", "block");
 		il.UICore.initLayoutDrag();
 		
 		il.LearningModule.refreshLayout();

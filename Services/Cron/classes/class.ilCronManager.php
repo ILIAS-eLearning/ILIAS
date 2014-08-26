@@ -66,8 +66,15 @@ class ilCronManager
 		$job = self::getJobInstanceById($a_job_id);		
 		if($job)
 		{			
-			$job_data = array_pop(self::getCronJobData($job->getId()));
-			$result = self::runJob($job, $job_data, true);						
+			if($job->isManuallyExecutable())
+			{
+				$job_data = array_pop(self::getCronJobData($job->getId()));
+				$result   = self::runJob($job, $job_data, true);
+			}
+			else
+			{
+				$ilLog->write("CRON - job ".$a_job_id." is not intended to be executed manually");
+			}
 		}
 		else
 		{
@@ -275,12 +282,28 @@ class ilCronManager
 					{
 						return $job;
 					}
+					else
+					{
+						$mess .= " - job id mismatch";
+					}
+				}
+				else
+				{
+					$mess .= " - does not extend ilCronJob";
 				}
 			}
+			else
+			{
+				$mess = "- class not found in file";
+			}
+		}
+		else
+		{
+			$mess = " - class file not found";
 		}
 		
 		$ilLog->write("Cron XML - Job ".$a_id." in class ".$a_class." (".
-			$class_file.") is invalid.");
+			$class_file.") is invalid.".$mess);
 	}
 	
 	/**

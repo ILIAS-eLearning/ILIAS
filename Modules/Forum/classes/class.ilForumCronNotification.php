@@ -144,7 +144,7 @@ class ilForumCronNotification extends ilCronJob
 		include_once 'Services/User/classes/class.ilObjUser.php';
 		include_once 'Services/Language/classes/class.ilLanguage.php';
 		
-		$forumObj = new ilObjForum((int)$_GET['ref_id']);
+		$forumObj = new ilObjForum();
 		$frm = $forumObj->Forum;
 
 		$numRows = 0;

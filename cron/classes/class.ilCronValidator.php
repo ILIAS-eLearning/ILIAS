@@ -24,6 +24,8 @@
 			$count_limit = (bool)$ilUser->getPref('systemcheck_count_limit');
 			$age_limit = (bool)$ilUser->getPref('systemcheck_age_limit');
 			$type_limit = $ilUser->getPref('systemcheck_type_limit');
+			
+			$lng->loadLanguageModule("administration"); // #13486
 
 			include_once "./Services/Repository/classes/class.ilValidator.php";
 			$validator = new ilValidator(true);

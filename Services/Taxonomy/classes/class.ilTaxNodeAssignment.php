@@ -199,6 +199,8 @@ class ilTaxNodeAssignment
 	 *
 	 * @param int $a_node_id node id
 	 * @param int $a_item_id item id
+	 * @param int $a_order_nr order nr
+	 * @throws ilTaxonomyException
 	 */
 	function addAssignment($a_node_id, $a_item_id, $a_order_nr = 0)
 	{
@@ -219,7 +221,22 @@ class ilTaxNodeAssignment
 		{
 			throw new ilTaxonomyException('addAssignment: Node ID does not belong to current taxonomy.');
 		}
-		
+
+		// do not re-assign, if assignment already exists
+		// order number should be kept in this case
+		$set2 = $ilDB->query($q = "SELECT item_id FROM tax_node_assignment ".
+			" WHERE component = ".$ilDB->quote($this->getComponentId(), "text").
+			" AND item_type = ".$ilDB->quote($this->getItemType(), "text").
+			" AND obj_id = ".$ilDB->quote($this->getObjectId(), "integer").
+			" AND node_id = ".$ilDB->quote($a_node_id, "integer").
+			" AND tax_id = ".$ilDB->quote($this->getTaxonomyId(), "integer").
+			" AND item_id = ".$ilDB->quote($a_item_id, "integer")
+		);
+		if ($rec2 = $ilDB->fetchAssoc($set2))
+		{
+			return;
+		}
+
 		if ($a_order_nr == 0)
 		{
 			$a_order_nr = $this->getMaxOrderNr($a_node_id) + 10;
@@ -239,7 +256,44 @@ class ilTaxNodeAssignment
 				)
 			);
 	}
-	
+
+	/**
+	 * Delete assignment
+	 *
+	 * @param int $a_node_id node id
+	 * @param int $a_item_id item id
+	 * @throws ilTaxonomyException
+	 */
+	function deleteAssignment($a_node_id, $a_item_id)
+	{
+		global $ilDB;
+
+		// nothing to do, if not both IDs are greater 0
+		if ((int) $a_node_id == 0 || (int) $a_item_id == 0)
+		{
+			return;
+		}
+
+		// sanity check: does the node belong to the given taxonomy?
+		$set = $ilDB->query("SELECT tax_tree_id FROM tax_tree ".
+			" WHERE child = ".$ilDB->quote($a_node_id, "integer")
+		);
+		$rec = $ilDB->fetchAssoc($set);
+		if ($rec["tax_tree_id"] != $this->getTaxonomyId())
+		{
+			throw new ilTaxonomyException('addAssignment: Node ID does not belong to current taxonomy.');
+		}
+
+		$ilDB->manipulate("DELETE FROM tax_node_assignment WHERE ".
+			" component = ".$ilDB->quote($this->getComponentId(), "text").
+			" AND item_type = ".$ilDB->quote($this->getItemType(), "text").
+			" AND obj_id = ".$ilDB->quote($this->getObjectId(), "integer").
+			" AND item_id = ".$ilDB->quote($a_item_id, "integer").
+			" AND node_id = ".$ilDB->quote($a_node_id, "integer").
+			" AND tax_id = ".$ilDB->quote($this->getTaxonomyId(), "integer")
+		);
+	}
+
 	/**
 	 * Get maximum order number
 	 *
@@ -332,7 +386,40 @@ class ilTaxNodeAssignment
 			" node_id = ".$ilDB->quote($a_node_id, "integer")
 		);
 	}
-	
+
+	/**
+	 * Fix Order Nr
+	 */
+	function fixOrderNr($a_node_id)
+	{
+		global $ilDB;
+
+		$set = $ilDB->query("SELECT * FROM tax_node_assignment ".
+			" WHERE component = ".$ilDB->quote($this->getComponentId(), "text").
+			" AND item_type = ".$ilDB->quote($this->getItemType(), "text").
+			" AND obj_id = ".$ilDB->quote($this->getObjectId(), "integer").
+			" AND node_id = ".$ilDB->quote($a_node_id, "integer").
+			" AND tax_id = ".$ilDB->quote($this->getTaxonomyId(), "integer").
+			" ORDER BY order_nr ASC"
+		);
+		$cnt = 10;
+		while ($rec = $ilDB->fetchAssoc($set))
+		{
+			$ilDB->manipulate("UPDATE tax_node_assignment SET ".
+				" order_nr = ".$ilDB->quote($cnt, "integer").
+				" WHERE component = ".$ilDB->quote($this->getComponentId(), "text").
+				" AND item_type = ".$ilDB->quote($this->getItemType(), "text").
+				" AND obj_id = ".$ilDB->quote($this->getObjectId(), "integer").
+				" AND node_id = ".$ilDB->quote($a_node_id, "integer").
+				" AND tax_id = ".$ilDB->quote($this->getTaxonomyId(), "integer").
+				" AND item_id = ".$ilDB->quote($rec["item_id"], "integer")
+				);
+			$cnt+= 10;
+		}
+	}
+
+
+
 }
 
 ?>

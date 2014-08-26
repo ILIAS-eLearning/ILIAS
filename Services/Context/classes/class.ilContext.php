@@ -27,9 +27,10 @@ class ilContext
 	const CONTEXT_SOAP_WITHOUT_CLIENT = 10;
 	const CONTEXT_UNITTEST = 11;
 	const CONTEXT_REST = 12;
+	const CONTEXT_SCORM = 13;
 
 	// gev-patch start
-	const CONTEXT_WEB_NOAUTH = 13;
+	const CONTEXT_WEB_NOAUTH = 14;
 	// gev-patch end
 
 	/**
@@ -96,12 +97,12 @@ class ilContext
 
 			case self::CONTEXT_REST:
 				return 'ilContextRest';
-
+			case self::CONTEXT_SCORM:
+				return 'ilContextScorm';
 			// gev-patch start
 			case self::CONTEXT_WEB_NOAUTH:
 				return 'gevContextWebNoAuth';
 			// gev-patch end
-
 		}
 	}
 

@@ -564,11 +564,15 @@ class ilGlossaryTerm
 			$new_md = $md->cloneMD($a_glossary_id,
 				$new_def->getPageObject()->getId(),
 				$old_def->getPageObject()->getParentType());
-			
+
+
+			$new_page = $new_def->getPageObject();
+			$old_def->getPageObject()->copy($new_page->getId(), $new_page->getParentType(), $new_page->getParentId(), true);
+
 			// page content
-			$new_def->getPageObject()->setXMLContent($old_def->getPageObject()->copyXmlContent(true));
-			$new_def->getPageObject()->buildDom();
-			$new_def->getPageObject()->update();
+			//$new_def->getPageObject()->setXMLContent($old_def->getPageObject()->copyXmlContent(true));
+			//$new_def->getPageObject()->buildDom();
+			//$new_def->getPageObject()->update();
 			
 		}
 		

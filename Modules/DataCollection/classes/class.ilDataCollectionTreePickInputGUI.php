@@ -31,6 +31,11 @@ class ilDataCollectionTreePickInputGUI extends ilCustomInputGUI{
 	 */
 	private $search_input;
 
+    /**
+     * @var ilLanguage
+     */
+    protected $lng;
+
 	public function __construct($title, $post_var){
 		global $lng;
 		parent::__construct($title, $post_var);
@@ -41,6 +46,7 @@ class ilDataCollectionTreePickInputGUI extends ilCustomInputGUI{
 		$this->search_input->setDisabled(false);
 		$this->search_input->setInfo($lng->txt('dcl_ilias_reference_info'));
 		$this->hidden_input = new ilHiddenInputGUI($this->getPostVar());
+        $this->lng = $lng;
 	}
 
 	public function getHtml(){
@@ -50,7 +56,7 @@ class ilDataCollectionTreePickInputGUI extends ilCustomInputGUI{
 		$tpl->setVariable("AJAX_LINK", $ilCtrl->getLinkTargetByClass("ildatacollectionrecordeditgui", "searchObjects"));
 		$tpl->setVariable("LOADER_PATH", ilUtil::getImagePath("loader.gif"));
 
-		return $this->title_input->getToolbarHTML()."<br /><br />".$this->search_input->getTableFilterHTML().$this->hidden_input->getToolbarHTML()." <a href='#' id='search_button_".$this->getPostVar()."'>Search</a>".$tpl->get();
+		return $this->title_input->getToolbarHTML()."<br /><br />".$this->search_input->getTableFilterHTML().$this->hidden_input->getToolbarHTML()." <a href='#' id='search_button_".$this->getPostVar()."'>". $this->lng->txt('search') ."</a>".$tpl->get();
 	}
 
 	public function setValueByArray($value){

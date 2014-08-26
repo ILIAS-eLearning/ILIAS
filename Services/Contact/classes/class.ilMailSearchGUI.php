@@ -282,7 +282,7 @@ class ilMailSearchGUI
 		$all_results = new ilSearchResult();
 
 		$query_parser = new ilQueryParser(addcslashes($_SESSION['mail_search_search'], '%_'));
-		$query_parser->setCombination(QP_COMBINATION_OR);
+		$query_parser->setCombination(QP_COMBINATION_AND);
 		$query_parser->setMinWordLength(3);
 		$query_parser->parse();
 
@@ -302,7 +302,7 @@ class ilMailSearchGUI
 
 		$all_results->setMaxHits(100000);
 		$all_results->preventOverwritingMaxhits(true);
-		$all_results->filter(ROOT_FOLDER_ID, QP_COMBINATION_OR);
+		$all_results->filter(ROOT_FOLDER_ID, true);
 
 		// Filter users (depends on setting in user accounts)
 		include_once 'Services/User/classes/class.ilUserFilter.php';
@@ -391,7 +391,7 @@ class ilMailSearchGUI
 		$group_results = new ilSearchResult();
 
 		$query_parser = new ilQueryParser(addcslashes($_SESSION['mail_search_search'], '%_'));
-		$query_parser->setCombination(QP_COMBINATION_OR);
+		$query_parser->setCombination(QP_COMBINATION_AND);
 		$query_parser->setMinWordLength(3);
 		$query_parser->parse();
 
@@ -402,7 +402,7 @@ class ilMailSearchGUI
 		$group_results->setMaxHits(PHP_INT_MAX);
 		$group_results->preventOverwritingMaxhits(true);
 		$group_results->setRequiredPermission('read');
-		$group_results->filter(ROOT_FOLDER_ID, QP_COMBINATION_OR);
+		$group_results->filter(ROOT_FOLDER_ID, true);
 
 		$visible_groups = array();
 		if($group_results->getResults())

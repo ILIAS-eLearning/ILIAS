@@ -217,6 +217,12 @@ class ilLocatorGUI
 	*/
 	function addItem($a_title, $a_link, $a_frame = "", $a_ref_id = 0, $type = null)
 	{
+		global $ilAccess;
+		if ($a_ref_id > 0 && !$ilAccess->checkAccess("visible", "", $a_ref_id))
+		{
+			return;
+		}
+
 		$this->entries[] = array("title" => $a_title,
 			"link" => $a_link, "frame" => $a_frame, "ref_id" => $a_ref_id, "type" => $type); 
 	}

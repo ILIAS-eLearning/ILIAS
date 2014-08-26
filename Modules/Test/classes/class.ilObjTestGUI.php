@@ -2651,11 +2651,24 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function confirmDeleteAllUserResultsObject()
 	{
-		$this->object->removeAllTestEditings();
+		global $ilDB, $lng;
+
+		require_once 'Modules/Test/classes/class.ilTestParticipantData.php';
+		$participantData = new ilTestParticipantData($ilDB, $lng);
+		$participantData->load($this->object->getTestId());
+
+		/* @var ilTestLP $testLP */
+		require_once 'Services/Object/classes/class.ilObjectLP.php';
+		$testLP = ilObjectLP::getInstance($this->object->getId());
+		$testLP->resetLPDataForUserIds($participantData->getUserIds(), false);
+
+		$this->object->removeTestActives($participantData->getActiveIds());
+
+		#$this->object->removeAllTestEditings();
 
 		// Update lp status
-		include_once './Services/Tracking/classes/class.ilLPStatusWrapper.php';
-		ilLPStatusWrapper::_refreshStatus($this->object->getId());
+		#include_once './Services/Tracking/classes/class.ilLPStatusWrapper.php';
+		#ilLPStatusWrapper::_refreshStatus($this->object->getId());
 
 		ilUtil::sendSuccess($this->lng->txt("tst_all_user_data_deleted"), true);
 		$this->ctrl->redirect($this, "participants");
@@ -2670,23 +2683,35 @@ class ilObjTestGUI extends ilObjectGUI
 	*/
 	function confirmDeleteSelectedUserDataObject()
 	{
-		$active_ids = array();
-		foreach ($_POST["chbUser"] as $active_id)
+		global $ilDB, $lng;
+
+		require_once 'Modules/Test/classes/class.ilTestParticipantData.php';
+		$participantData = new ilTestParticipantData($ilDB, $lng);
+
+		if( $this->object->getFixedParticipants() )
 		{
-			if ($this->object->getFixedParticipants())
-			{
-				array_push($active_ids, $this->object->getActiveIdOfUser($active_id));
-			}
-			else
-			{
-				array_push($active_ids, $active_id);
-			}
+			$participantData->setUserIds($_POST["chbUser"]);
 		}
-		$this->object->removeSelectedTestResults($active_ids);
+		else
+		{
+			$participantData->setActiveIds($_POST["chbUser"]);
+		}
+
+		$participantData->load($this->object->getTestId());
+
+		/* @var ilTestLP $testLP */
+		require_once 'Services/Object/classes/class.ilObjectLP.php';
+		$testLP = ilObjectLP::getInstance($this->object->getId());
+
+		$testLP->resetLPDataForUserIds($participantData->getUserIds(), false);
+
+		$this->object->removeTestActives($participantData->getActiveIds());
+
+		#$this->object->removeSelectedTestResults($active_ids);
 
 		// Update lp status
-		include_once './Services/Tracking/classes/class.ilLPStatusWrapper.php';
-		ilLPStatusWrapper::_refreshStatus($this->object->getId());
+		#include_once './Services/Tracking/classes/class.ilLPStatusWrapper.php';
+		#ilLPStatusWrapper::_refreshStatus($this->object->getId());
 
 		ilUtil::sendSuccess($this->lng->txt("tst_selected_user_data_deleted"), true);
 		$this->ctrl->redirect($this, "participants");
@@ -3781,12 +3806,14 @@ class ilObjTestGUI extends ilObjectGUI
 		 * @var $ilToolbar ilToolbarGUI
 		 */
 		global $ilAccess, $ilUser, $ilToolbar;
+		
+		require_once 'Modules/Test/classes/class.ilTestDynamicQuestionSetFilterSelection.php';
 
 		$testQuestionSetConfig = $this->testQuestionSetConfigFactory->getQuestionSetConfig();
 		$testSession = $this->testSessionFactory->getSession();
 		$testSequence = $this->testSequenceFactory->getSequence($testSession);
 		$testSequence->loadFromDb();
-		$testSequence->loadQuestions($testQuestionSetConfig, array());
+		$testSequence->loadQuestions($testQuestionSetConfig, new ilTestDynamicQuestionSetFilterSelection());
 		
 		$testPlayerGUI = $this->testPlayerFactory->getPlayerGUI();
 		
@@ -3882,6 +3909,7 @@ class ilObjTestGUI extends ilObjectGUI
 							$big_button[] = array("outResultsToplist", $this->lng->txt("tst_show_toplist"), false);
 						}
 					}
+					
 				}
 			}
 			if ($testSession->getActiveId() > 0)
@@ -3892,6 +3920,12 @@ class ilObjTestGUI extends ilObjectGUI
 					$big_button[] = array("outUserListOfAnswerPasses", $this->lng->txt("tst_list_of_answers_show"), false);
 				}
 			}
+			
+			if( $this->isDeleteDynamicTestResultsButtonRequired($testSession, $testSequence) )
+			{
+				$this->populateDeleteDynamicTestResultsButton($testSession, $big_button);
+			}
+			
 			if($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
 			{
 				$enter_anonymous_code = true;
@@ -3939,7 +3973,14 @@ class ilObjTestGUI extends ilObjectGUI
 
 			foreach($big_button as $button)
 			{
-				$ilToolbar->addFormButton($button[1], $button[0], "", $button[2]);
+				if( isset($button[3]) && strlen($button[3]) )
+				{
+					$ilToolbar->addButton($button[1], $button[3], '', '', '', '', $button[2] ? 'submit emphSubmit' : 'submit');
+				}
+				else
+				{
+					$ilToolbar->addFormButton($button[1], $button[0], "", $button[2]);
+				}
 			}
 			
 			if($enter_anonymous_code)
@@ -5365,5 +5406,59 @@ class ilObjTestGUI extends ilObjectGUI
 	    ilUtil::sendSuccess($this->lng->txt('copy_questions_success'), true);
 
 	    $this->ctrl->redirect($this, 'questions');
+	}
+
+	/**
+	 * @param $testSession
+	 * @param $testSequence
+	 * @return bool
+	 */
+	private function isDeleteDynamicTestResultsButtonRequired($testSession, $testSequence)
+	{
+		if( !$testSession->getActiveId() )
+		{
+			return false;
+		}
+		
+		if( !$this->object->isDynamicTest() )
+		{
+			return false;
+		}
+		
+		if( !$this->object->isPassDeletionAllowed() )
+		{
+			return false;
+		}
+		
+		if( !$testSequence->hasStarted($testSession) )
+		{
+			return false;
+		}
+		
+		return true;
+	}
+
+	/**
+	 * @param $testSession
+	 * @param $big_button
+	 */
+	private function populateDeleteDynamicTestResultsButton($testSession, &$big_button)
+	{
+		require_once 'Modules/Test/classes/confirmations/class.ilTestPassDeletionConfirmationGUI.php';
+
+		$this->ctrl->setParameterByClass(
+			'iltestevaluationgui', 'context',
+			ilTestPassDeletionConfirmationGUI::CONTEXT_INFO_SCREEN
+		);
+		
+		$this->ctrl->setParameterByClass('iltestevaluationgui', 'active_id', $testSession->getActiveId());
+		$this->ctrl->setParameterByClass('iltestevaluationgui', 'pass', $testSession->getPass());
+		
+		$big_button[] = array(
+			'',
+			$this->lng->txt("tst_delete_dyn_test_results_btn"),
+			false,
+			$this->ctrl->getLinkTargetByClass('iltestevaluationgui', 'confirmDeletePass')
+		);
 	}
 }

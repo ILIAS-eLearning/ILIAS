@@ -88,6 +88,14 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
 	}
 	
 	/**
+	 * @return boolean
+	 */
+	public function isQuestionAmountConfigurationModePerTest()
+	{
+		return $this->getQuestionAmountConfigurationMode() == self::QUESTION_AMOUNT_CONFIG_MODE_PER_TEST;
+	}
+	
+	/**
 	 * @param integer $questionAmountPerTest
 	 */
 	public function setQuestionAmountPerTest($questionAmountPerTest)
@@ -425,5 +433,19 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
 				'test_fi' => array('integer', $testId)
 			)
 		);
+	}
+
+	// -----------------------------------------------------------------------------------------------------------------
+	
+	public function getSelectableQuestionPools()
+	{
+		return $this->testOBJ->getAvailableQuestionpools(
+			true, $this->arePoolsWithHomogeneousScoredQuestionsRequired(), false, true, true
+		);
+	}
+	
+	public function doesSelectableQuestionPoolsExist()
+	{
+		return (bool)count($this->getSelectableQuestionPools());
 	}
 }

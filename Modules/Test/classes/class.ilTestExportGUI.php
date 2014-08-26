@@ -215,19 +215,22 @@ class ilTestExportGUI extends ilExportGUI
 
 		require_once 'class.ilTestArchiver.php';
 		$archiver = new ilTestArchiver($this->getParentGUI()->object->getId());
-		$archive_dir = $archiver->getZipExportDirectory();
 
-		$export_dir = $this->obj->getExportDirectory();
+		$filename = basename($_POST["file"][0]);
+		$exportFile = $this->obj->getExportDirectory().'/'.$filename;
+		$archiveFile = $archiver->getZipExportDirectory().'/'.$filename;
 
-		if (file_exists($export_dir . '/' . $_POST['file'][0]))
+		if( file_exists($exportFile) )
 		{
-			ilUtil::deliverFile($export_dir . '/' . $_POST['file'][0], $_POST['file'][0]);
+			ilUtil::deliverFile($exportFile, $filename);
 		}
 
-		if (file_exists($archive_dir . '/' . $_POST['file'][0]))
+		if( file_exists($archiveFile) )
 		{
-			ilUtil::deliverFile($archive_dir . '/' . $_POST['file'][0], $_POST['file'][0]);
+			ilUtil::deliverFile($archiveFile, $filename);
 		}
+
+		$ilCtrl->redirect($this, 'listExportFiles');
 	}
 
 	/**
@@ -244,8 +247,16 @@ class ilTestExportGUI extends ilExportGUI
 		$export_dir = $this->obj->getExportDirectory();
 		foreach($_POST['file'] as $file)
 		{
+			$file = basename($file);
+			$dir = substr($file, 0, strlen($file) - 4);
+
+			if( !strlen($file) || !strlen($dir) )
+			{
+				continue;
+			}
+			
 			$exp_file = $export_dir.'/'.$file;
-			$exp_dir = $export_dir.'/'.substr($file, 0, strlen($file) - 4);
+			$exp_dir = $export_dir.'/'.$dir;
 			if(@is_file($exp_file))
 			{
 				unlink($exp_file);

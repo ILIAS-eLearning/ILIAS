@@ -278,7 +278,7 @@ il.IntLink =
 
 	addInternalLink: function (b, e, ev)
 	{
-		if (typeof ilCOPage != "undefined")
+		if (typeof ilCOPage != "undefined" && ($("#ilEditTableDataCl").length == 0))
 		{
 			ilCOPage.cmdIntLink(b, e);
 		} else if (il.Form) {
