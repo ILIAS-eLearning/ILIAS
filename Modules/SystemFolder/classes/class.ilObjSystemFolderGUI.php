@@ -1124,13 +1124,8 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$cb2 = new ilCheckboxInputGUI($this->lng->txt("search_engine"), "open_google");
 		$cb2->setInfo($this->lng->txt("enable_search_engine"));
 		$this->form->addItem($cb2);
-		if(!$robot_settings->checkModRewrite())
-		{
-			$cb2->setAlert($lng->txt("mod_rewrite_disabled"));
-			$cb2->setChecked(false);
-			$cb2->setDisabled(true);
-		}
-		elseif(!$robot_settings->checkRewrite())
+
+		if(!$robot_settings->checkRewrite())
 		{
 			$cb2->setAlert($lng->txt("allow_override_alert"));
 			$cb2->setChecked(false);

@@ -90,30 +90,8 @@ class ilRobotSettings
 	private function read()
 	{
 	 	$this->open_robots = (bool) $this->settings->get('open_google',false);
-	 	if(!$this->checkModRewrite())
-	 	{
-	 		$this->open_robots = false;
-	 	}
 	}
-	
-	/**
-	 * Check if mod_rewrite module is available
-	 *
-	 * @access public
-	 * @param
-	 * 
-	 */
-	public function checkModRewrite()
-	{
-		if (function_exists("apache_get_modules"))
-		{
-			if(in_array('mod_rewrite',apache_get_modules()))
-			{
-				return true;
-			}
-		}
-	 	return false;
-	}
+
 	
 	/**
 	 * Indirect Check of allow override 
