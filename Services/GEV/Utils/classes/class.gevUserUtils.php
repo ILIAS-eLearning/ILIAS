@@ -754,6 +754,9 @@ class gevUserUtils {
 		// to give the starting day for an overnight, the enddates of the
 		// consecutive sequences must be adopted accordingly.
 		foreach ($ovs_cons as $key => $ovs) {
+			if (count($ovs) == 0) {
+				continue;
+			}
 			if (count($ovs) == 1) {
 				$end = new ilDate($ovs[0]->get(IL_CAL_DATE), IL_CAL_DATE);
 				$end->increment(ilDateTime::DAY, 1);
