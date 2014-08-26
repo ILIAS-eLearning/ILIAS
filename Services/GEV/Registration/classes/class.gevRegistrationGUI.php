@@ -42,7 +42,7 @@ class gevRegistrationGUI {
 	protected function startEVGRegistration($a_form = null) {
 		require_once("Services/CaTUIComponents/classes/class.catTitleGUI.php");
 		
-		$title = new catTitleGUI("gev_evg_registration", "gev_evg_registration_header_note", "GEV_img/ico-head-evg_registration.png");
+		$title = new catTitleGUI("gev_evg_registration", null, "GEV_img/ico-head-evg_registration.png");
 		
 		$tpl = new ilTemplate("tpl.gev_evg_start_registration.html", false, false, "Services/GEV/Registration");
 		
