@@ -186,7 +186,8 @@ class gevUserProfileGUI {
 		$form->addItem($birthplace);
 		
 		$birthname = new ilTextInputGUI($this->lng->txt("gev_birthname"), "birthname");
-		$birthname->setValue($this->user_utils->getBirthname());
+		$bn = $this->user_utils->getBirthname();
+		$birthname->setValue($bn?$bn:$this->user->getLastname());
 		$birthname->setRequired(true);
 		$form->addItem($birthname);
 		
