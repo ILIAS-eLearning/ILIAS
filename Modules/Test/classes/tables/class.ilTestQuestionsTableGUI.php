@@ -79,6 +79,10 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
 		{
 			$this->addColumn($this->optionalColumns['author']['txt'],'author', '');
 		}
+		if(isset($this->visibleOptionalColumns['working_time']))
+		{
+			$this->addColumn($this->optionalColumns['working_time']['txt'],'working_time', '');
+		}
 		$this->addColumn($this->lng->txt("qpl"),'qpl', '');
 
 		$this->setSelectAllCheckbox('q_id');
@@ -127,7 +131,8 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
 		$cols = array(
 			'qid'         => array('txt' => $this->lng->txt('question_id'), 'default' => true),
 			'description' => array('txt' => $this->lng->txt('description'), 'default' => false),
-			'author'      => array('txt' => $this->lng->txt('author'), 'default' => false)
+			'author'      => array('txt' => $this->lng->txt('author'), 'default' => false),
+			'working_time'      => array('txt' => $this->lng->txt('working_time'), 'default' => false)
 		);
 
 		return $cols;
@@ -240,6 +245,10 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
 		if(isset($this->visibleOptionalColumns['author']))
 		{
 			$this->tpl->setVariable("QUESTION_AUTHOR", $data["author"]);
+		}
+		if(isset($this->visibleOptionalColumns['working_time']))
+		{
+			$this->tpl->setVariable("QUESTION_WORKING_TIME", $data["working_time"]);
 		}
 		if (ilObject::_lookupType($data["orig_obj_fi"]) == 'qpl') {
 		    $this->tpl->setVariable("QUESTION_POOL", ilObject::_lookupTitle($data["orig_obj_fi"]));

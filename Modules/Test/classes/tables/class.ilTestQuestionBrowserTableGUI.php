@@ -45,7 +45,7 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt("create_date"),'created', '');
 		$this->addColumn($this->lng->txt("last_update"),'tstamp', '');  // name of col is proper "updated" but in data array the key is "tstamp"
 		$this->addColumn($this->lng->txt("qpl"),'qpl', '');
-	
+		$this->addColumn($this->lng->txt("working_time"),'working_time', '');
 		if ($this->getWriteAccess())
 		{
 			$this->addMultiCommand('insertQuestions', $this->lng->txt('insert'));
@@ -128,7 +128,7 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
 		$this->addFilterItem($ti);
 		$ti->readFromSession();
 		$this->filter["qpl"] = $ti->getValue();
-		
+	
 	}
 
 	/**
@@ -149,6 +149,7 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("QUESTION_CREATED", ilDatePresentation::formatDate(new ilDate($data['created'],IL_CAL_UNIX)));
 		$this->tpl->setVariable("QUESTION_UPDATED", ilDatePresentation::formatDate(new ilDate($data["tstamp"],IL_CAL_UNIX)));
 		$this->tpl->setVariable("QUESTION_POOL", $data['qpl']);
+		$this->tpl->setVariable("WORKING_TIME", $data['working_time']);
 	}
 	
 	public function setWriteAccess($value)

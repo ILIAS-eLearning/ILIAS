@@ -9303,7 +9303,7 @@ function getAnswerFeedbackPoints()
 	{
 		if ($this->getAnonymity() && !$overwrite_anonymity)
 		{
-			return $this->lng->txt("unknown") . $suffix;
+			return $this->lng->txt("anonymous") . $suffix;
 		}
 		else
 		{

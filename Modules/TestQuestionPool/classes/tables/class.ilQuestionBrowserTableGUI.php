@@ -64,8 +64,8 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 				if (strcmp($c, 'author') == 0) $this->addColumn($this->lng->txt("author"),'author', '');
 				if (strcmp($c, 'created') == 0) $this->addColumn($this->lng->txt("create_date"),'created', '');
 				if (strcmp($c, 'tstamp') == 0) $this->addColumn($this->lng->txt("last_update"),'tstamp', '');
+				if (strcmp($c, 'working_time') == 0) $this->addColumn($this->lng->txt("working_time"),'working_time', '');
 			}
-
 			$this->setPrefix('q_id');
 			$this->setSelectAllCheckbox('q_id');
 		}
@@ -158,6 +158,10 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 			);
 			$cols["tstamp"] = array(
 				"txt" => $lng->txt("last_update"),
+				"default" => true
+			);
+			$cols["working_time"] = array(
+				"txt" => $lng->txt("working_time"),
 				"default" => true
 			);
 		}
@@ -330,6 +334,12 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
 				{
 					$this->tpl->setCurrentBlock('updated');
 					$this->tpl->setVariable('QUESTION_UPDATED', ilDatePresentation::formatDate(new ilDateTime($data['tstamp'], IL_CAL_UNIX)));
+					$this->tpl->parseCurrentBlock();
+				}
+				if(strcmp($c, 'working_time') == 0)
+				{
+					$this->tpl->setCurrentBlock('working_time');
+					$this->tpl->setVariable('WORKING_TIME', $data["working_time"]);
 					$this->tpl->parseCurrentBlock();
 				}
 			}
