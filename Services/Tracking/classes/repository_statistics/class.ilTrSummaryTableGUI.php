@@ -376,7 +376,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 
 			$data["set"][$idx]["offline"] = ilLearningProgressBaseGUI::isObjectOffline($result["obj_id"], $result["type"]);
 			
-			// #13808
+			// #13807
 			if($result["ref_ids"])
 			{
 				$valid = false;

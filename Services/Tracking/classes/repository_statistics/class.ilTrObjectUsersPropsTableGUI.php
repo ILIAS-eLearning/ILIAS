@@ -99,7 +99,7 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
 
 		$this->getItems();
 		
-		// #13808
+		// #13807
 		$this->has_edit = $rbacsystem->checkAccess('edit_learning_progress',$this->ref_id);
 	}
 	

@@ -168,7 +168,7 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
 				$this->filter["view_mode"]);
 		}
 		
-		// #13808
+		// #13807
 		foreach($tr_data["set"] as $idx => $row)
 		{						
 			if($row["ref_id"] && 
@@ -408,7 +408,7 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
 			$this->tpl->parseCurrentBlock();
 		}
 
-		// #13808
+		// #13807
 		if($rbacsystem->checkAccess('edit_learning_progress', $data["ref_id"]))
 		{
 			if(!in_array($data["type"], array("sco", "lobj")) && !$this->getPrintMode())
