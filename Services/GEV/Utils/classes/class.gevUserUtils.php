@@ -75,7 +75,7 @@ class gevUserUtils {
 	
 	public function getNextCourseId() {
 		$now = date("Y-m-d");
-		$crss = $this->getBookedCourses();
+		$crss = $this->getBookedAndWaitingCourses();
 		$amd = array( gevSettings::CRS_AMD_START_DATE => "start_date");
 		$info = gevAMDUtils::getInstance()->getTable($crss, $amd, array(), array(),
 													 " AND amd0.value >= ".$this->db->quote($now, "text").
@@ -220,7 +220,7 @@ class gevUserUtils {
 			$orgu_utils = gevOrgUnitUtils::getInstance($value["location"]);
 			$booked_amd[$key]["location"] = $orgu_utils->getLongTitle();
 		}
-		$waiting = $this->courseBookings->getWaitingCourses();
+		$waiting = $this->getWaitingCourses();
 		$waiting_amd = gevAMDUtils::getInstance()->getTable($waiting, $crs_amd);
 		foreach ($waiting_amd as $key => $value) {
 			$waiting_amd[$key]["status"] = ilCourseBooking::STATUS_WAITING;
@@ -813,6 +813,14 @@ class gevUserUtils {
 	
 	public function getBookedCourses() {
 		return $this->courseBookings->getBookedCourses();
+	}
+	
+	public function getWaitingCourses() {
+		return $this->courseBookings->getWaitingCourses();
+	}
+	
+	public function getBookedAndWaitingCourses() {
+		return array_merge($this->getBookedCourses(), $this->getWaitingCourses());
 	}
 	
 	public function canBookCourseDerivedFromTemplate($a_tmplt_ref_id) {
