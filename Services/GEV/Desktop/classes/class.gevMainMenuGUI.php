@@ -13,6 +13,8 @@ require_once("Services/MainMenu/classes/class.ilMainMenuGUI.php");
 require_once("Services/UIComponent/GroupedList/classes/class.ilGroupedListGUI.php");
 require_once("Services/UIComponent/Overlay/classes/class.ilOverlayGUI.php");
 
+require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+
 class gevMainMenuGUI extends ilMainMenuGUI {
 	const IL_STANDARD_ADMIN = "gev_ilias_admin_menu";
 
@@ -25,6 +27,7 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 		$this->ctrl = &$ilCtrl;
 		$this->access = &$ilAccess;
 		$this->user = &$ilUser;
+		$this->userUtils = gevUserUtils::getInstance($this->user->getId());
 
 		$this->lng->loadLanguageModule("gev");
 	}
@@ -67,12 +70,15 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 		
 		$has_others_menu = $employee_booking || $my_org_unit || $tep || $pot_participants || $apprentices;
 		
-		
+
 		require_once("Services/GEV/Reports/classes/class.gevReportingPermissions.php");
 		$report_permissions = gevReportingPermissions::getInstance($this->user->getId());
 
-		$report_permission_attendancebyuser = true;
+		$report_permission_attendancebyuser = $this->userUtils->isAdmin() || false;
 		//$report_permission_attendancebyuser = $report_permissions -> isSuperior('anywhere');
+		// or role in DBV, AVL/VL, 
+		// or isAdmin
+		
 		
 		$has_reporting_menu = $report_permission_attendancebyuser; // || ....
 				
