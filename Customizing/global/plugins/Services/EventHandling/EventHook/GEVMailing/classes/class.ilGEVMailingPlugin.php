@@ -128,11 +128,6 @@ class ilGEVMailingPlugin extends ilEventHookPlugin
 			return self::ADMIN_BOOKING;
 		}
 		
-		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
-		if ( gevUserUtils::getInstanceByObj($ilUser)->isSuperiorOf($a_user_id) ) {
-			return self::SUPERIOR_BOOKING;
-		}
-		
 		return self::ADMIN_BOOKING;
 	}
 	
