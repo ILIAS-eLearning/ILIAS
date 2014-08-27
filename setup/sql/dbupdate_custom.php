@@ -742,3 +742,10 @@ $ilDB->addTableColumn( "gev_user_reg_tokens"
 					 );
 
 ?>
+
+<#29>
+<?php
+
+$ilDB->renameTableColumn("hist_certfile", "function", "certfile");
+
+?>

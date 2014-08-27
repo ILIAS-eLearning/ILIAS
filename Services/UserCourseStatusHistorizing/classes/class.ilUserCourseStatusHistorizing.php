@@ -190,19 +190,22 @@ class ilUserCourseStatusHistorizing extends ilHistorizingStorage
 		$mass_modification_allowed = false
 	)
 	{
-		if (strlen($a_data['certificate']))
+		$current = parent::getCurrentRecordByCase($a_case_id);
+
+		if ($current['certificate'] == -1 && strlen($a_data['certificate']))
 		{
 			global $ilDB;
 			$certfile_id = $ilDB->nextId('hist_certfile');
 			$ilDB->insert(
 				 'hist_certfile', 
 				 array(
-					 'row_id' => $certfile_id, 
-					 'certfile' => base64_encode( file_get_contents( $a_data['certificate'] ) ) 
+					 'row_id' => array("integer", $certfile_id), 
+					 'certfile' => array("text", base64_encode($a_data['certificate'])) 
 				 )
 			);
 			$a_data['certificate'] = $certfile_id;
 		}
+
 		parent::updateHistorizedData( $a_case_id,
 									  $a_data,
 									  $a_record_creator,

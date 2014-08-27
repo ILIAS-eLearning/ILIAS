@@ -38,7 +38,9 @@ class ilUserCourseStatusHistorizingAppEventListener
 	public static function handleEvent($a_component, $a_event, $a_parameter)
 	{
 		self::initEventHandler();
-		
+		if ($a_component == 'Modules/Course' && $a_event == 'create') return;
+		if ($a_component == 'Modules/Course' && $a_event == 'update') return;
+
 		global $ilLog;
 		//$ilLog->write(print_r(array($a_component, $a_event, $a_parameter), true));
 		
@@ -116,6 +118,7 @@ class ilUserCourseStatusHistorizingAppEventListener
 		if (!self::$ilUserCourseStatusHistorizingHelper)
 		{
 			require_once ('Services/UserCourseStatusHistorizing/classes/class.ilUserCourseStatusHistorizingHelper.php');
+			require_once './Services/UserCourseStatusHistorizing/classes/class.ilUserCourseStatusHistorizingHelper.php';
 			self::$ilUserCourseStatusHistorizingHelper = ilUserCourseStatusHistorizingHelper::getInstance();
 		}
 
@@ -169,13 +172,9 @@ class ilUserCourseStatusHistorizingAppEventListener
 	{
 		$user_id = $parameter["usr_id"];
 		$course_id = $parameter["crs_id"];
-		//global $ilLog;
-		//$ilLog->write($event."-".$user_id."-".$course_id);
-		// TODO: certificate!!
 		
 		$individual_start_and_end = self::$ilUserCourseStatusHistorizingHelper->courseHasIndividualStartAndEnd($course_id);
 		
-		// TODO: this needs to be fixed to yield the individual data for the partipant
 		if (!$individual_start_and_end) {
 			$begin_date = self::$ilCourseHistorizingHelper->getBeginOf($course_id);
 			if ($begin_date) {
@@ -200,16 +199,19 @@ class ilUserCourseStatusHistorizingAppEventListener
 			'org_unit'							=> self::$ilUserHistorizingHelper->getOrgUnitOf($user_id),
 			'begin_date'						=> $begin_date,
 			'end_date'							=> $end_date,
-			'certificate'						=> null
-				/*(self::$ilUserCourseStatusHistorizingHelper->hasCertificate() ?  
-					self::$ilUserCourseStatusHistorizingHelper->getCertificateOf($user_id, $course_id) : 
-					null)*/,
 			'overnights'						=> self::$ilUserCourseStatusHistorizingHelper->getOvernightsOf($user_id, $course_id),
 			'function'							=> self::$ilUserCourseStatusHistorizingHelper->getFunctionOf($user_id, $course_id)
 		);
 
 		if ($individual_start_and_end) {
 			self::$ilUserCourseStatusHistorizingHelper->setIndividualStartAndEnd($user_id, $course_id, $data_payload);
+		}
+
+		if ($event == "setStatusAndPoints")
+		{
+			$data_payload['certificate'] = (self::$ilUserCourseStatusHistorizingHelper->hasCertificate($user_id, $course_id) ?
+				self::$ilUserCourseStatusHistorizingHelper->getCertificateOf($user_id, $course_id) :
+				null);
 		}
 
 		return $data_payload;

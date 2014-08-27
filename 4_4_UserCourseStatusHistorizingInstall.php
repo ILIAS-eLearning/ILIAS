@@ -100,11 +100,11 @@ if(!$ilDB->tableExists('hist_usercoursestatus'))
 		'okz' => array(
 			'type' => 'text',
 			'length' => 255,
-			'notnull' => true),
+			'notnull' => false),
 		'org_unit' => array(
 			'type' => 'text',
 			'length' => 255,
-			'notnull' => true),
+			'notnull' => false),
 		'certificate' => array(
 			'type' => 'integer',
 			'length' => 4,
@@ -116,11 +116,11 @@ if(!$ilDB->tableExists('hist_usercoursestatus'))
 		'overnights' => array(
 			'type' => 'integer',
 			'length' => 4,
-			'notnull' => true),
+			'notnull' => false),
 		'function' => array(
 			'type' => 'text',
 			'length' => 255,
-			'notnull' => true)
+			'notnull' => false)
 	);
 	$ilDB->createTable('hist_usercoursestatus', $fields);
 	$ilDB->addPrimaryKey('hist_usercoursestatus', array('row_id'));

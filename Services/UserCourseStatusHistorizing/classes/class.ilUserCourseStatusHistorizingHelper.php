@@ -202,4 +202,22 @@ class ilUserCourseStatusHistorizingHelper
 			$payload["end_date"] = date("Y-m-d");
 		}
 	}
+
+	public static function hasCertificate($user, $course)
+	{
+		require_once './Modules/Course/classes/class.ilCourseCertificateAdapter.php';
+		return ilCourseCertificateAdapter::_hasUserCertificate($user, $course)
+		    && gevCourseUtils::getInstance($course)->getParticipationStatusLabelOf($user) == "teilgenommen";
+	}
+
+	public static function getCertificateOf($user, $course)
+	{
+		require_once './Modules/Course/classes/class.ilCourseCertificateAdapter.php';
+		$course_class = ilObjectFactory::getClassByType('crs');
+		$course_obj = new $course_class($course, false);
+		$certificate_adapter = new ilCourseCertificateAdapter($course_obj);
+		include_once "./Services/Certificate/classes/class.ilCertificate.php";
+		$certificate = new ilCertificate($certificate_adapter);
+		return $certificate->outCertificate(array("user_id" => $user), false);
+	}
 }
