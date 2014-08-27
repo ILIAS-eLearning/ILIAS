@@ -527,8 +527,9 @@ class ilLPStatus
 	 *
 	 * @param int $a_obj_id object id
 	 * @param int $a_user_id user id
+	 * @param bool $a_create 
 	 */
-	public static function _lookupStatus($a_obj_id, $a_user_id)
+	public static function _lookupStatus($a_obj_id, $a_user_id, $a_create = true)
 	{
 		global $ilDB;
 		
@@ -541,7 +542,7 @@ class ilLPStatus
 		{
 			return $rec["status"];
 		}
-		else
+		else if((bool)$a_create)
 		{
 			include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
 			ilLPStatusWrapper::_updateStatus($a_obj_id, $a_user_id); 

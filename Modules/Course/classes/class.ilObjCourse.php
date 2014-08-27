@@ -2031,7 +2031,8 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 			$this->getStatusDetermination() == ilObjCourse::STATUS_DETERMINATION_LP)
 		{			
 			include_once("Services/Tracking/classes/class.ilLPStatus.php");	
-			$has_completed = ilLPStatus::_hasUserCompleted($this->getId(), $a_member_id);
+			// #13811 - we need to suppress creation if status entry
+			$has_completed = (ilLPStatus::_lookupStatus($this->getId(), $a_member_id, false) == ilLPStatus::LP_STATUS_COMPLETED_NUM);
 			$this->getMembersObject()->updatePassed($a_member_id, $has_completed, false, true);					
 		}		
 	}		
