@@ -14,6 +14,8 @@ require_once './Modules/Forum/classes/class.ilObjForum.php';
 */
 class ilForumNotification
 {
+	protected static $node_data_cache = array();
+	
 	private $notification_id;
 	private $user_id;
 	private $forum_id;
@@ -208,24 +210,18 @@ class ilForumNotification
  		array($this->getUserToggle(), $this->getUserId(),$this->getForumId(), 1));	
 	}
 	
-	public function getCrsGrpMemberToNotify()
-	{
-		global $ilDB;
-
-	}	
-	
-	
 	/* If a new member enters a Course or a Group, this function checks
 	 * if this CRS/GRP contains a forum and a notification setting set by admin or moderator
 	 * and inserts the new member into frm_notification   
 	 * */
 	public static function checkForumsExistsInsert($ref_id, $user_id = 0)
 	{
-		global $tree, $ilUser;
+		global $ilUser;
 			
 		include_once 'Modules/Forum/classes/class.ilForumProperties.php';
-
-		$node_data = $tree->getChildsByType($ref_id, 'frm');
+		
+		$node_data = self::getCachedNodeData($ref_id);
+		
 		foreach($node_data as $data)
 		{
 			//check frm_properties if frm_noti is enabled
@@ -256,9 +252,9 @@ class ilForumNotification
 	
 	public static function checkForumsExistsDelete($ref_id, $user_id = 0)
 	{
-		global $tree, $ilUser;
+		global $ilUser;
 
-		$node_data = $tree->getChildsByType($ref_id, 'frm');
+		$node_data = self::getCachedNodeData($ref_id);
 		
 		include_once 'Modules/Forum/classes/class.ilForumModerators.php';
 		
@@ -281,6 +277,20 @@ class ilForumNotification
 				$frm_noti->deleteAdminForce();	
 			}
 		}
+	}
+
+	/**
+	 * @param $ref_id
+	 */
+	public static function getCachedNodeData($ref_id)
+	{
+		if(!array_key_exists($ref_id, self::$node_data_cache))
+		{
+			global $tree;
+			self::$node_data_cache[$ref_id] = $tree->getChildsByType($ref_id, 'frm');
+		}
+		
+		return self::$node_data_cache[$ref_id];
 	}
 	
 	public static function _isParentNodeGrpCrs($a_ref_id)
