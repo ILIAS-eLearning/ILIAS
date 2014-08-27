@@ -124,10 +124,6 @@ class gevMyCoursesGUI {
 				   , true
 				   , implode(", ", $crs_utils->getType())
 				   )
-			, array( $this->lng->txt("gev_methods")
-				   , true
-				   , implode(", ", $crs_utils->getMethods())
-				   )
 			, array( $this->lng->txt("appointment")
 				   , true
 				   , $crs_utils->getFormattedAppointment()
@@ -145,7 +141,7 @@ class gevMyCoursesGUI {
 				   , $crs_utils->getMainTrainerName()
 				   )
 			, array( $this->lng->txt("gev_free_cancellation_until")
-				   , true
+				   , $this->status == ilCourseBooking::STATUS_BOOKED
 				   , $crs_utils->getFormattedCancelDeadline()
 				   )
 			, array( $this->lng->txt("gev_free_places")
@@ -154,7 +150,7 @@ class gevMyCoursesGUI {
 				   )
 			, array( $this->lng->txt("gev_training_contact")
 				   , true
-				   , $crs_utils->getMainAdminName()
+				   , $crs_utils->getMainAdminName() . " (".$crs_utils->getMainAdminEMail().")"
 				   )
 			, array( $this->lng->txt("gev_overall_prize")
 				   , ($bill !== null)
