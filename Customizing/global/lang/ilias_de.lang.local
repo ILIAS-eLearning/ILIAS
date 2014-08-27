@@ -376,7 +376,7 @@ gev#:#gev_birthname#:#Geburtsname
 gev#:#gev_birthplace#:#Geburtsort
 gev#:#gev_book_course#:#Training buchen
 gev#:#gev_book_employee#:#Mitarbeiter buchen
-gev#:#gev_book_no_cond_accept#:#Sie müssen die Bedingungen akzeptieren um die Buchung abschließen zu können.
+gev#:#gev_book_no_cond_accept#:#Sie müssen die Buchungs- und Stornierungsbedingungen akzeptieren um fortfahren zu können.
 gev#:#gev_bookable#:#buchbar
 gev#:#gev_bookable_waiting#:#buchbar auf Warteliste
 gev#:#gev_booked#:#gebucht
@@ -490,6 +490,7 @@ gev#:#gev_my_profile#:#Mein Profil
 gev#:#gev_my_roadmap#:#Meine Azubiroadmap
 gev#:#gev_my_settings#:#Meine Einstellungen
 gev#:#gev_my_trainer_ap#:#Mein Trainingseinsätze
+gev#:#gev_need_agb_accept#:#Sie müssen die Buchungs- und Stornierungsbedingungen akzeptieren um fortfahren zu können.
 gev#:#gev_next_course#:#Mein nächstes Training
 gev#:#gev_no_last_course#:#Sie haben noch an keinem Training teilgenommen.
 gev#:#gev_no_next_course#:#Sie haben kein Training gebucht.

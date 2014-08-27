@@ -432,6 +432,7 @@ class gevBookingGUI {
 		require_once("Services/Accomodations/classes/class.ilSetAccomodationsGUI.php");
 		
 		if (!$_POST["agb"]) {
+			ilUtil::sendFailure($this->lng->txt("gev_need_agb_accept"));
 			return $this->book(true);
 		}
 		
