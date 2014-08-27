@@ -11,9 +11,7 @@ class gevAttendanceByEmployeeGUI {
 		$this->tpl = &$tpl;
 		$this->db = &$ilDB;
 		$this->user = $ilUser;
-		$this->target_user_id = $_POST["target_user_id"]
-							  ? $_POST["target_user_id"]
-							  : $ilUser->getId();
+		//$this->user_id = $ilUser->getId();
 		$this->start_date = $_POST["period"]["start"]["date"]
 						  ? new ilDate(    $_POST["period"]["start"]["date"]["y"]
 						  				  ."-".$_POST["period"]["start"]["date"]["m"]
@@ -32,15 +30,16 @@ class gevAttendanceByEmployeeGUI {
 			$this->end_date->increment(ilDateTime::YEAR);
 		}
 
-		$this->target_user_utils = gevUserUtils::getInstance($this->target_user_id);
+		$this->user_utils = gevUserUtils::getInstance($this->user->getId());
 		
 		$this->query_where = null;
 		$this->query_from = null;
 	}
 	
 	public function executeCommand() {
-		/*
 		$this->checkPermission();
+
+		/*
 		$cmd = $this->ctrl->getCmd();
 		
 		switch ($cmd) {
@@ -55,16 +54,18 @@ class gevAttendanceByEmployeeGUI {
 		return $this->render();
 	}
 	
-	/*
+	
 	protected function checkPermission() {
-		if(    $this->user->getId() == $this->target_user_id
-			|| $this->target_user_utils->isEmployeeOf($this->user->getId())) {
+		//TODO: Permissions!
+		return;
+
+		if( $this->user_utils->isAdmin() ) { 
 			return;
 		}
-		ilUtil::sendFailure($this->lng->txt("no_edu_bio_permission"), true);
+		ilUtil::sendFailure($this->lng->txt("no_report_permission"), true);
 		ilUtil::redirect("ilias.php?baseClass=gevDesktopGUI&cmdClass=toMyCourses");
 	}
-	*/
+	
 	public function render() {
 		require_once("Services/CaTUIComponents/classes/class.catTitleGUI.php");
 		require_once("Services/CaTUIComponents/classes/class.catHSpacerGUI.php");

@@ -58,7 +58,7 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 		
 		require_once("Services/TEP/classes/class.ilTEPPermissions.php");
 		$tep_permissions = ilTEPPermissions::getInstance($this->user->getId());
-		
+
 		$employee_booking = false;
 		$my_org_unit = false;
 		$tep = $tep_permissions->isTutor();
@@ -67,6 +67,15 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 		
 		$has_others_menu = $employee_booking || $my_org_unit || $tep || $pot_participants || $apprentices;
 		
+		
+		require_once("Services/GEV/Reports/classes/class.gevReportingPermissions.php");
+		$report_permissions = gevReportingPermissions::getInstance($this->user->getId());
+
+		$report_permission_attendancebyuser = true;
+		//$report_permission_attendancebyuser = $report_permissions -> isSuperior('anywhere');
+		
+		$has_reporting_menu = $report_permission_attendancebyuser; // || ....
+				
 		
 		$menu = array( 
 			//							single entry?
@@ -98,8 +107,8 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 				, "gev_spec_course_approval" => array(true, "NYI!")
 				, "gev_spec_course_check" => array(true, "NYI!")
 				))
-			, "gev_reporting_menu" => array(false, true, array(
-				  "gev_report_attendance_by_employee" => array(true, "ilias.php?baseClass=gevDesktopGUI&cmd=toReportAttendanceByEmployee")
+			, "gev_reporting_menu" => array(false, $has_reporting_menu, array(
+				  "gev_report_attendance_by_employee" => array($report_permission_attendancebyuser, "ilias.php?baseClass=gevDesktopGUI&cmd=toReportAttendanceByEmployee")
 				))
 			, "gev_admin_menu" => array(false, $has_managment_menu, array(
 				  "gev_course_mgmt" => array($manage_courses, "goto.php?target=root_1")
@@ -111,6 +120,7 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 			, self::IL_STANDARD_ADMIN => array(false, $has_super_admin_menu, null)
 			);
 		
+
 		foreach ($menu as $title => $entry) {
 			if (! $entry[1]) {
 				continue;
