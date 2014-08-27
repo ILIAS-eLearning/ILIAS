@@ -98,7 +98,9 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 				, "gev_spec_course_approval" => array(true, "NYI!")
 				, "gev_spec_course_check" => array(true, "NYI!")
 				))
-			, "gev_reporting_menu" => array(false, false, array())
+			, "gev_reporting_menu" => array(false, true, array(
+				  "gev_report_attendance_by_employee" => array(true, "ilias.php?baseClass=gevDesktopGUI&cmd=toReportAttendanceByEmployee")
+				))
 			, "gev_admin_menu" => array(false, $has_managment_menu, array(
 				  "gev_course_mgmt" => array($manage_courses, "goto.php?target=root_1")
 				, "gev_user_mgmt" => array($manage_users, "ilias.php?baseClass=ilAdministrationGUI&ref_id=7&cmd=jump")

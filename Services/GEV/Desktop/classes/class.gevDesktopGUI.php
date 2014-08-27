@@ -15,6 +15,7 @@
 * @ilCtrl_Calls gevDesktopGUI: gevEduBiographyGUI
 * @ilCtrl_Calls gevDesktopGUI: gevUserProfileGUI
 * @ilCtrl_Calls gevDesktopGUI: gevWBDRegistrationGUI
+* @ilCtrl_Calls gevDesktopGUI: gevAttendanceByEmployeeGUI
 *
 */
 
@@ -78,7 +79,7 @@ class gevDesktopGUI {
 
 			case "gevedubiographygui":
 				$ilMainMenu->setActive("gev_me_menu");
-				require_once("Services/GEV/Desktop/classes/class.gevEduBiographyGUI.php");
+				require_once("Services/GEV/Reports/classes/class.gevEduBiographyGUI.php");
 				$gui = new gevEduBiographyGUI();
 				$ret = $this->ctrl->forwardCommand($gui);
 				break;
@@ -95,6 +96,14 @@ class gevDesktopGUI {
 				$gui = new gevWBDRegistrationGUI();
 				$ret = $this->ctrl->forwardCommand($gui);
 				break;
+
+			case "gevattendancebyemployeegui":
+				$ilMainMenu->setActive("gev_reporting_menu");
+				require_once("Services/GEV/Reports/classes/class.gevAttendanceByEmployeeGUI.php");
+				$gui = new gevAttendanceByEmployeeGUI();
+				$ret = $this->ctrl->forwardCommand($gui);
+				break;
+
 
 			default:	
 				$this->dispatchCmd($cmd);
@@ -114,6 +123,7 @@ class gevDesktopGUI {
 			case "toMyCourses":
 			case "toMyProfile":
 			case "toStaticPages":
+			case "toReportAttendanceByEmployee":
 				$this->$a_cmd();
 			default:
 				throw new Exception("Unknown command: ".$a_cmd);
@@ -135,6 +145,13 @@ class gevDesktopGUI {
 	protected function toMyProfile() {
 		$this->ctrl->redirectByClass("gevUserProfileGUI");
 	}
+
+	protected function toReportAttendanceByEmployee() {
+		$this->ctrl->redirectByClass("gevAttendanceByEmployeeGUI");
+	}
+
+
+
 	
 	protected function checkProfileComplete($cmd, $next_class) {
 		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
