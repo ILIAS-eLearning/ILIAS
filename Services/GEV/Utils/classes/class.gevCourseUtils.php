@@ -1248,8 +1248,8 @@ class gevCourseUtils {
 		
 		// Generali-Konzept, Kapitel "Tischaufsteller"
 		$dd->setLine1Font("Arial", 48, false, false);
-		$dd->setLine1Color(150, 150, 150);
-		$dd->setLine2Font("Arial", 96, false, false);
+		$dd->setLine1Color(120, 120, 150);
+		$dd->setLine2Font("Arial", 86, false, false);
 		$dd->setLine2Color(0, 0, 0);
 		$dd->setSpaceLeft(2);
 		$dd->setSpaceBottom1(10.0);
