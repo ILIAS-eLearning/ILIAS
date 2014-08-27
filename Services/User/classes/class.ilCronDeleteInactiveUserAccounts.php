@@ -97,7 +97,7 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
 		$status = ilCronJobResult::STATUS_NO_ACTION;
 		$reminder_time      = (int)$this->reminderTimer;
 		$checkMail          = (int)$this->period - $reminder_time;
-		$usr_ids = ilObjUser::_getUserIdsByInactivityPeriod($this->period);
+		$usr_ids = ilObjUser::_getUserIdsByInactivityPeriod($checkMail);
 		$counter = 0;
 		$userDeleted        = 0;
 		$userMailsDelivered = 0;
@@ -156,7 +156,8 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
 	public function addCustomSettingsToForm(ilPropertyFormGUI $a_form)
 	{
 		global $lng, $rbacreview, $ilObjDataCache, $ilSetting;
-		
+		$lng->loadLanguageModule("user");
+			
 		$schedule = $a_form->getItemByPostVar('type');
 		$schedule->setTitle($lng->txt('delete_inactive_user_accounts_frequency'),
 			'delete_inactive_user_accounts_frequency');
@@ -220,6 +221,7 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
 	public function saveCustomSettings(ilPropertyFormGUI $a_form)
 	{
 		global $ilSetting, $lng;
+		$lng->loadLanguageModule("user");
 		$setting = implode(',', $_POST['cron_inactive_user_delete_include_roles']);
 		if(!strlen($setting))
 		{

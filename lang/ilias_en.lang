@@ -14620,12 +14620,12 @@ content#:#cont_ignore_fail#:#Ignore Fail
 content#:#cont_reset_nr_of_tries#:#Reset Number of Tries
 content#:#cont_ignore_fail_allow_continue#:#Ignore Fail / Allow to Continue
 crs#:#crs_subscription_failed_limit#:#The maximum number of participants has been exceeded.
-common#:#send_mail_to_inactive_users#:#Earlist Point, where a reminder mail will be sent in days
-common#:#send_mail_to_inactive_users_desc#:#A reminder mail will be send, to the mail address in this period of time, before the User will be deleted.
-common#:#send_mail_to_inactive_users_numbers_only#:#Only positive non decimal numbers are accepted.
-common#:#send_mail_to_inactive_users_must_be_smaller_than#:#This value must be smaller than the value 'Days passed since last login'.
-common#:#del_mail_subject#:#(ILIAS) – Your account will be deleted
-common#:#del_mail_body#:#Hello %1$s, %2$s you haven't logged in for a long period of time, on %3$s. So your account will be deleted in %4$s days. You have to login again to prevent the deletion of your account.
-common#:#delete_inactive_user_accounts_frequency#:#Frequency
-common#:#delete_inactive_user_accounts_frequency_desc#:#Frequency, in which the deletion and email distibution will be tested.
-common#:#send_mail_reminder_window_too_small#:#Your Frequency setting is too large for this reminder value.
+user#:#send_mail_to_inactive_users#:#Earlist Point, where a reminder mail will be sent in days
+user#:#send_mail_to_inactive_users_desc#:#A reminder mail will be send, to the mail address in this period of time, before the User will be deleted.
+user#:#send_mail_to_inactive_users_numbers_only#:#Only positive non decimal numbers are accepted.
+user#:#send_mail_to_inactive_users_must_be_smaller_than#:#This value must be smaller than the value 'Days passed since last login'.
+user#:#del_mail_subject#:#(ILIAS) – Your account will be deleted
+user#:#del_mail_body#:#Hello %1$s, %2$s you haven't logged in for a long period of time, on %3$s. So your account will be deleted in %4$s days. You have to login again to prevent the deletion of your account.
+user#:#delete_inactive_user_accounts_frequency#:#Frequency
+user#:#delete_inactive_user_accounts_frequency_desc#:#Frequency, in which the deletion and email distibution will be tested.
+user#:#send_mail_reminder_window_too_small#:#Your Frequency setting is too large for this reminder value.

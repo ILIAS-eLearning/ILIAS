@@ -14602,12 +14602,12 @@ content#:#cont_ignore_fail#:#Ignore Fail
 content#:#cont_reset_nr_of_tries#:#Reset Number of Tries
 content#:#cont_ignore_fail_allow_continue#:#Ignore Fail / Allow to Continue
 crs#:#crs_subscription_failed_limit#:#Die maximale Teilnehmeranzahl wurde überschritten.
-common#:#delete_inactive_user_accounts_frequency#:#Intervall
-common#:#delete_inactive_user_accounts_frequency_desc#:#Intervall, mit welchem auf Löschung sowie auf Email Versand getestet wird.
-common#:#send_mail_to_inactive_users#:#Frühester Email-Versand vor Account-Löschung in Tagen
-common#:#send_mail_to_inactive_users_desc#:#Bevor Accounts gelöscht werden, wird eine E-Mail an die in den Stammdaten hinterlegte Adresse gesendet. Durch ein erneutes Anmelden des Benutzers in ILIAS wird die Löschung um die eingestellte Zeitspanne aufgeschoben. Bitte stellen Sie sicher, dass ein externer Mail-Empfang ermöglicht ist.
-common#:#del_mail_subject#:#(ILIAS) – Ihr Benutzerkonto wird bald gelöscht
-common#:#del_mail_body#:#Hallo %1$s, %2$sSie haben sich seit längerer Zeit nicht mehr auf der Lernplattform %3$s angemeldet. Ihr Benutzerkonto wird daher in %4$s Tagen gelöscht. Bitte melden Sie sich erneut an, damit Ihr Benutzerkonto erhalten bleibt.
-common#:#send_mail_to_inactive_users_numbers_only#:#Bitte nur ganzzahlige, positive Werte eingeben, ihre Eingabe wurde gerundet.
-common#:#send_mail_to_inactive_users_must_be_smaller_than#:#Dieser Wert muss kleiner sein, als der Wert "Vergangene Tage seit letzter Anmeldung".
-common#:#send_mail_reminder_window_too_small#:#Ihr Intervall ist zu groß um einen Emailversand vor der Account Löschung zu gewährleisten.
+user#:#delete_inactive_user_accounts_frequency#:#Intervall
+user#:#delete_inactive_user_accounts_frequency_desc#:#Intervall, mit welchem auf Löschung sowie auf Email Versand getestet wird.
+user#:#send_mail_to_inactive_users#:#Frühester Email-Versand vor Account-Löschung in Tagen
+user#:#send_mail_to_inactive_users_desc#:#Bevor Accounts gelöscht werden, wird eine E-Mail an die in den Stammdaten hinterlegte Adresse gesendet. Durch ein erneutes Anmelden des Benutzers in ILIAS wird die Löschung um die eingestellte Zeitspanne aufgeschoben. Bitte stellen Sie sicher, dass ein externer Mail-Empfang ermöglicht ist.
+user#:#del_mail_subject#:#(ILIAS) – Ihr Benutzerkonto wird bald gelöscht
+user#:#del_mail_body#:#Hallo %1$s, %2$sSie haben sich seit längerer Zeit nicht mehr auf der Lernplattform %3$s angemeldet. Ihr Benutzerkonto wird daher in %4$s Tagen gelöscht. Bitte melden Sie sich erneut an, damit Ihr Benutzerkonto erhalten bleibt.
+user#:#send_mail_to_inactive_users_numbers_only#:#Bitte nur ganzzahlige, positive Werte eingeben, ihre Eingabe wurde gerundet.
+user#:#send_mail_to_inactive_users_must_be_smaller_than#:#Dieser Wert muss kleiner sein, als der Wert "Vergangene Tage seit letzter Anmeldung".
+user#:#send_mail_reminder_window_too_small#:#Ihr Intervall ist zu groß um einen Emailversand vor der Account Löschung zu gewährleisten.
