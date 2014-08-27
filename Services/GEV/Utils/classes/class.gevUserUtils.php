@@ -688,7 +688,7 @@ class gevUserUtils {
 	
 	
 	public function paysFees() {
-		return $this->hasRoleIn(gevSettings::$NO_PAYMENT_ROLES);
+		return !$this->hasRoleIn(gevSettings::$NO_PAYMENT_ROLES);
 	}
 	
 	public function isAdmin() {
@@ -709,11 +709,11 @@ class gevUserUtils {
 
 		foreach ($a_roles as $role) {
 			if (in_array($role, $roles)) {
-				return false;
+				return true;
 			}
 		}
 		
-		return true;
+		return false;
 	}
 	
 	// course specific stuff
