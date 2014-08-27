@@ -1307,6 +1307,10 @@ class gevCourseUtils {
 		return $this->getBookings()->cancel($a_user_id);
 	}
 	
+	public function fillFreePlacesFromWaitingList() {
+		return $this->getBookings()->fillFreePlaces();
+	}
+	
 	// Participation
 	
 	public function getParticipationStatusOf($a_user_id) {
