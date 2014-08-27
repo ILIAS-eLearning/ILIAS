@@ -5,7 +5,7 @@ require_once 'Services/Mail/classes/class.ilMailAutoCompleteRecipientProvider.ph
 require_once 'Services/Utilities/classes/class.ilStr.php';
 
 /**
- * Class ilMailAutoCompleteSentMailsLoginProvider
+ * Class ilMailAutoCompleteSentMailsRecipientsProvider
  */
 class ilMailAutoCompleteSentMailsRecipientsProvider extends ilMailAutoCompleteRecipientProvider
 {

@@ -295,7 +295,7 @@ class ilMailAddressbookGUI
 		
 		$login = new ilTextInputGUI($this->lng->txt("username"), "login");
 		$login->setValue(isset($_POST['login']) ? ilUtil::prepareFormOutput($_POST['login'], true) : ilUtil::prepareFormOutput($entry['login']));
-		$login->setDataSource($this->ctrl->getLinkTarget($this, 'lookupAddressbookAsync', '', true));
+		$login->setDataSource($this->ctrl->getLinkTarget($this, 'lookupUsersAsync', '', true));
 		$form->addItem($login);
 		
 		if($ilSetting->get('cron_upd_adrbook', 0))
@@ -317,6 +317,7 @@ class ilMailAddressbookGUI
 		
 		$formItem = new ilTextInputGUI($this->lng->txt("email"), "email");
 		$formItem->setValue(isset($_POST['email']) ? ilUtil::prepareFormOutput($_POST['email'], true) : ilUtil::prepareFormOutput($entry['email']));
+		$formItem->setDataSource($this->ctrl->getLinkTarget($this, 'lookupEmailsAsync', '', true));
 		$form->addItem($formItem);
 		
 		$form->addCommandButton('saveEntry',$this->lng->txt('save'));
@@ -707,25 +708,43 @@ class ilMailAddressbookGUI
 		$ilCtrl->redirect($this, 'showAddressbook');
 	}
 	
-	public function lookupAddressbookAsync()
+	public function lookupUsersAsync()
 	{
 	    include_once 'Services/JSON/classes/class.ilJsonUtil.php';
 	    include_once 'Services/Contact/classes/class.ilMailAddressbook.php';
 
 	    $search = "%" . $_REQUEST["term"] . "%";
-	    $result = array();
-	    
-	    if( !$search )
-	    {
-		echo ilJsonUtil::encode($result);
-		exit;
-	    }
-
-	    $mailAdrBookObj = new ilMailAddressbook;
-	    $result = $mailAdrBookObj->getAddressbookAsync($search);
+	    $mailAdrBookObj = new ilMailAddressbook();
+	    $result = $mailAdrBookObj->getUsersAsync($search, $_REQUEST["term"]);
 
 	    echo ilJsonUtil::encode($result);
 	    exit;
+	}
+
+	public function lookupAddressbookAsync()
+	{
+		include_once 'Services/JSON/classes/class.ilJsonUtil.php';
+		include_once 'Services/Contact/classes/class.ilMailAddressbook.php';
+
+		$search = "%" . $_REQUEST["term"] . "%";
+		$mailAdrBookObj = new ilMailAddressbook();
+		$result = $mailAdrBookObj->getAddressbookAsync($search, $_REQUEST["term"]);
+
+		echo ilJsonUtil::encode($result);
+		exit;
+	}
+
+	public function lookupEmailsAsync()
+	{
+		include_once 'Services/JSON/classes/class.ilJsonUtil.php';
+		include_once 'Services/Contact/classes/class.ilMailAddressbook.php';
+
+		$search = "%" . $_REQUEST["term"] . "%";
+		$mailAdrBookObj = new ilMailAddressbook();
+		$result = $mailAdrBookObj->getEmailsAsync($search, $_REQUEST["term"]);
+
+		echo ilJsonUtil::encode($result);
+		exit;
 	}
 	
 	function showSubTabs()

@@ -1,60 +1,68 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+include_once './Services/Mail/classes/class.ilMailAutoCompleteRecipientResult.php';
+include_once './Services/Mail/classes/class.ilMailAutoCompleteUserProvider.php';
+include_once './Services/Mail/classes/class.ilMailAutoCompleteSearch.php';
+
+include_once './Services/Mail/classes/class.ilMailAutoCompleteSentMailsRecipientsProvider.php';
+include_once './Services/Mail/classes/class.ilMailAutoCompleteAddressbookLoginProvider.php';
+include_once './Services/Mail/classes/class.ilMailAutoCompleteAddressbookEmailProvider.php';
+include_once './Services/Mail/classes/class.ilMailAutoCompleteProviderEmailFilter.php';
+
 /**
-* @author Nadia Krzywon
+* @author Nadia Ahmad
 * @version $Id$
 *
 */
 class ilMailAddressbook
 {
-	private $user_id = null;
-
-	public function __construct()
+	public function getUsersAsync($quoted_term, $term)
 	{
-		global $ilUser;
+		$result = new ilMailAutocompleteRecipientResult(
+			isset($_GET['fetchall']) && (int)$_GET['fetchall'] ?
+				ilMailAutocompleteRecipientResult::MODE_FETCH_ALL :
+				ilMailAutocompleteRecipientResult::MODE_STOP_ON_MAX_ENTRIES
+		);
 
-		$this->user_id = $ilUser->getId();
+		$result_fetcher = new ilMailAutoCompleteSearch($result);
+		$result_fetcher->addProvider(new ilMailAutoCompleteUserProvider($quoted_term, $term));
+		$result_fetcher->search();
+
+		return $result->getItems();	
+	}
+
+	public function getAddressbookAsync($quoted_term, $term)
+	{
+		$address_book_login            = new ilMailAutoCompleteAddressbookLoginProvider($quoted_term, $term);
+		$address_book_email            = new ilMailAutoCompleteAddressbookEmailProvider($quoted_term, $term);
+
+		$result                        = new ilMailAutocompleteRecipientResult(
+			isset($_GET['fetchall']) && (int)$_GET['fetchall'] ?
+				ilMailAutocompleteRecipientResult::MODE_FETCH_ALL :
+				ilMailAutocompleteRecipientResult::MODE_STOP_ON_MAX_ENTRIES
+		);
+
+		$result_fetcher = new ilMailAutoCompleteSearch($result);
+		$result_fetcher->addProvider($address_book_login);
+		$result_fetcher->addProvider($address_book_email);
+		$result_fetcher->search();
+
+		return $result->getItems();
 	}
 	
-	public function getAddressbookAsync($search)
+	public function getEmailsAsync($quoted_term, $term)
 	{
-		global $ilDB;
-		
-		$ilDB->setLimit(0,20);
+		$result = new ilMailAutocompleteRecipientResult(
+			isset($_GET['fetchall']) && (int)$_GET['fetchall'] ?
+				ilMailAutocompleteRecipientResult::MODE_FETCH_ALL :
+				ilMailAutocompleteRecipientResult::MODE_STOP_ON_MAX_ENTRIES
+		);
 
-		$query = 
-			'SELECT DISTINCT
-				abook.login login,
-				abook.firstname firstname,
-				abook.lastname lastname
-			FROM addressbook abook
-			WHERE abook.user_id = '.$ilDB->quote($this->user_id, 'integer').'
-			AND ( '. $ilDB->like('abook.login', 'text', $search).' 
-			OR '. $ilDB->like('abook.firstname', 'text', $search).' 
-			OR '. $ilDB->like('abook.lastname', 'text', $search).' 
-			)';
+		$result_fetcher = new ilMailAutoCompleteSearch($result);
+		$result_fetcher->addProvider(new ilMailAutoCompleteProviderEmailFilter(new ilMailAutoCompleteSentMailsRecipientsProvider($quoted_term, $term)));
+		$result_fetcher->search();
 
-		$query_res = $ilDB->query($query);
-
-		$result = array();
-		
-		while ($row = $query_res->fetchRow(DB_FETCHMODE_OBJECT))
-		{
-			$tmp = new stdClass();			
-			$tmp->value = $row->login;
-			
-			$label = $row->login;			
-			if($row->firstname && $row->lastname)
-			{
-				$label .= " [" . $row->lastname . ", " . $row->firstname . "]";
-			}
-			$tmp->label = $label;			
-			
-			$result[] = $tmp;
-		}
-		
-		return $result;
+		return $result->getItems();
 	}
 }
-?>

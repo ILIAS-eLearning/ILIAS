@@ -12,7 +12,7 @@ class ilMailAutoCompleteSearch
 	protected $result;
 
 	/**
-	 * @var ilMailAutoCompleteRecipientProvider[]
+	 * @var Iterator[]
 	 */
 	protected $providers = array();
 
@@ -25,9 +25,9 @@ class ilMailAutoCompleteSearch
 	}
 
 	/**
-	 * @param ilMailAutoCompleteRecipientProvider $provider
+	 * @param Iterator $provider
 	 */
-	public function addProvider(ilMailAutoCompleteRecipientProvider $provider)
+	public function addProvider(Iterator $provider)
 	{
 		$this->providers[] = $provider;
 	}
