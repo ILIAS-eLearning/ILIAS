@@ -1,4 +1,4 @@
-// Build: 2014822213424 
+// Build: 2014827022920 
 /*
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
@@ -13517,7 +13517,7 @@ function save()
 	result["saved_global_status"]=config.status.saved_global_status;
 	var to_saved_result = toJSONString(result);
 	if (saved_result == to_saved_result) {
-//		alert("no difference");
+		updateNavForSequencing();
 		return true;
 	} else {
 		//alert("Before save "+result.node.length);
@@ -13525,6 +13525,9 @@ function save()
 		result = this.config.cmi_url 
 			? sendJSONRequest(this.config.cmi_url, result)
 			: {};
+
+		// added to synchronize the new data. it might update the navigation
+		updateNavForSequencing();
 
 		// set successful updated elements to clean
 		if(typeof result == "object") {
@@ -14446,14 +14449,7 @@ function onTerminate(data)
 		}
 	}
 	
-	// this will update the UI tree 
-	var valid = new ADLValidRequests();
-	valid = msequencer.getValidRequests(valid);
-	msequencer.mSeqTree.setValidRequests(valid);
-	mlaunch.mNavState = msequencer.mSeqTree.getValidRequests();
-//check if better without updateNav and updateControls
-	updateNav(false);
-	updateControls();
+	updateNavForSequencing();
 	
 	return true;
 }
@@ -14476,7 +14472,7 @@ var apiIndents = // for mapping internal to api representaiton
 };	
 
 
-function updateNav(ignore) {
+function updateNav(ignore, onCommit) {
 	//check for tree
 	if (!all("treeView")) {
 		return;
@@ -14511,11 +14507,6 @@ function updateNav(ignore) {
 		}
 		var elm = all(ITEM_PREFIX + tree[i].mActivityID);
 		
-		//added to sign actual node
-		if(guiItem && guiItem.id == elm.id) {
-			if (elm) toggleClass(elm.parentNode,"ilc_rte_status_RTERunning",1);
-			continue;
-		}
 	//	if (!elm) {return;}
 //console.log("-" + ITEM_PREFIX + tree[i].mActivityID + "-" + disable + "-");
 		if (disable)
@@ -14584,6 +14575,17 @@ function updateNav(ignore) {
 					}
 				}
 			}
+			
+			//added to sign actual node
+			if(onCommit==true && guiItem && guiItem.id == elm.id) {
+				removeClass(elm.parentNode,"ilc_rte_status_RTENotAttempted",1);
+				removeClass(elm.parentNode,"ilc_rte_status_RTEIncomplete",1);
+				removeClass(elm.parentNode,"ilc_rte_status_RTECompleted",1);
+				removeClass(elm.parentNode,"ilc_rte_status_RTEFailed",1);
+				removeClass(elm.parentNode,"ilc_rte_status_RTEPassed",1);
+				toggleClass(elm, "ilc_rte_tlink_RTETreeCurrent",1);
+				toggleClass(elm.parentNode,"ilc_rte_status_RTERunning",1);
+			}
 
 			if (elm != null && elm.parentNode)
 			{
@@ -14613,6 +14615,18 @@ function updateNav(ignore) {
 
 		//toggleClass(elm.parentNode, 'hidden', item.hidden);
 		first = false;
+	}
+}
+
+function updateNavForSequencing() {
+	if (this.config.sequencing_enabled) {
+		// this will update the UI tree 
+		var valid = new ADLValidRequests();
+		valid = msequencer.getValidRequests(valid);
+		msequencer.mSeqTree.setValidRequests(valid);
+		mlaunch.mNavState = msequencer.mSeqTree.getValidRequests();
+		updateNav(false,true);
+		updateControls();
 	}
 }
 
@@ -15036,15 +15050,6 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 //						sgo=save_global_objectives();
 					}
 					returnValue = save();
-					// added to synchronize the new data. it might update the navigation
-					if (config.sequencing_enabled) {
-						// this will update the UI tree 
-						var valid = new ADLValidRequests();
-						valid = msequencer.getValidRequests(valid);
-						msequencer.mSeqTree.setValidRequests(valid);
-						mlaunch.mNavState = msequencer.mSeqTree.getValidRequests();
-						if (all("treeView")!=null) updateNav(false);
-					}
 				}
 				if (returnValue) 
 				{

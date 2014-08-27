@@ -208,15 +208,6 @@ function Runtime(cmiItem, onCommit, onTerminate, onDebug)
 //						sgo=save_global_objectives();
 					}
 					returnValue = save();
-					// added to synchronize the new data. it might update the navigation
-					if (config.sequencing_enabled) {
-						// this will update the UI tree 
-						var valid = new ADLValidRequests();
-						valid = msequencer.getValidRequests(valid);
-						msequencer.mSeqTree.setValidRequests(valid);
-						mlaunch.mNavState = msequencer.mSeqTree.getValidRequests();
-						if (all("treeView")!=null) updateNav(false);
-					}
 				}
 				if (returnValue) 
 				{

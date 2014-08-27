@@ -1,4 +1,4 @@
-// Build: 2014822213424 
+// Build: 2014827022920 
 
 function ADLAuxiliaryResource()
 {}
@@ -2845,7 +2845,7 @@ walk(sharedObjectives,"objective");walk(activities,'node');result["i_check"]=0;r
 if(check0===check1){result[k]=[];}else{saved[k].data=result[k];if(k=="correct_response")saved[k].node=result["node"][0][15];result["i_set"]+=saved[k].checkplus;}}}
 if(this.config.sequencing_enabled){walk(sharedObjectives,"objective");result["adl_seq_utilities"]=this.adl_seq_utilities;if(saved_adl_seq_utilities!=toJSONString(this.adl_seq_utilities)){saved_adl_seq_utilities=toJSONString(this.adl_seq_utilities);result["changed_seq_utilities"]=1;}
 else{result["changed_seq_utilities"]=0;}}else{result["adl_seq_utilities"]={};result["changed_seq_utilities"]=0;}
-result["saved_global_status"]=config.status.saved_global_status;var to_saved_result=toJSONString(result);if(saved_result==to_saved_result){return true;}else{result=this.config.cmi_url?sendJSONRequest(this.config.cmi_url,result):{};if(typeof result=="object"){saved_result=to_saved_result;var new_global_status=null;for(k in result){if(k=="new_global_status")new_global_status=result[k];}
+result["saved_global_status"]=config.status.saved_global_status;var to_saved_result=toJSONString(result);if(saved_result==to_saved_result){updateNavForSequencing();return true;}else{result=this.config.cmi_url?sendJSONRequest(this.config.cmi_url,result):{};updateNavForSequencing();if(typeof result=="object"){saved_result=to_saved_result;var new_global_status=null;for(k in result){if(k=="new_global_status")new_global_status=result[k];}
 config.status.saved_global_status=new_global_status;return true;}}
 return false;}
 function getAPI(cp_node_id)
@@ -3014,15 +3014,14 @@ function onTerminate(data)
 if(data.adl&&data.adl.nav){var m=String(data.adl.nav.request).match(/^(\{target=([^\}]+)\})?(choice|jump|continue|previous|suspendAll|exit(All)?|abandon(All)?)$/);if(m){navReq={type:m[3].substr(0,1).toUpperCase()+m[3].substr(1),target:m[2]};}}
 if(navReq)
 {if(navReq.type!="suspend"){adlnavreq=true;if(navReq.type=="Choice"||navReq.type=="Jump"){launchTarget(navReq.target,(navReq.type=="Jump"));}else{launchNavType(navReq.type);}}}
-var valid=new ADLValidRequests();valid=msequencer.getValidRequests(valid);msequencer.mSeqTree.setValidRequests(valid);mlaunch.mNavState=msequencer.mSeqTree.getValidRequests();updateNav(false);updateControls();return true;}
-var apiIndents={'cmi':{'score':['raw','min','max','scaled'],'learner_preference':['audio_captioning','audio_level','delivery_speed','language']},'objective':{'score':['raw','min','max','scaled']}};function updateNav(ignore){if(!all("treeView")){return;}
+updateNavForSequencing();return true;}
+var apiIndents={'cmi':{'score':['raw','min','max','scaled'],'learner_preference':['audio_captioning','audio_level','delivery_speed','language']},'objective':{'score':['raw','min','max','scaled']}};function updateNav(ignore,onCommit){if(!all("treeView")){return;}
 if(ignore!=true){setToc();}
 var tree=msequencer.mSeqTree.mActivityMap;var disable;var first=true;for(i in tree){var disable=true;var disabled_str="";var test=null;if(mlaunch.mNavState.mChoice!=null){test=mlaunch.mNavState.mChoice[i];}
 if(test){if(test['mIsSelectable']==true&&test['mIsEnabled']==true){disable=false;}else{disable=true;disabled_str="Disabled";}}
 if(guiItem&&ignore==true){if(guiItem.id==ITEM_PREFIX+tree[i].mActivityID)
 {continue;}}
-var elm=all(ITEM_PREFIX+tree[i].mActivityID);if(guiItem&&guiItem.id==elm.id){if(elm)toggleClass(elm.parentNode,"ilc_rte_status_RTERunning",1);continue;}
-if(disable)
+var elm=all(ITEM_PREFIX+tree[i].mActivityID);if(disable)
 {toggleClass(elm,'ilc_rte_tlink_RTETreeLinkDisabled',1);}
 else
 {toggleClass(elm,'ilc_rte_tlink_RTETreeLink',1);}
@@ -3031,6 +3030,7 @@ if(node_stat_completion=="unknown"||node_stat_completion=="incomplete"||statusAr
 if(node_stat_completion=="browsed"){if(elm){removeClass(elm.parentNode,"ilc_rte_status_RTENotAttempted",1);toggleClass(elm.parentNode,"ilc_rte_status_RTEBrowsed",1);}}
 if(node_stat_completion=="completed"||statusArray[[tree[i].mActivityID]]['completion']=="completed"){if(elm){removeClass(elm.parentNode,"not_attempted",1);removeClass(elm.parentNode,"ilc_rte_status_RTEIncomplete",1);removeClass(elm.parentNode,"ilc_rte_status_RTEBrowsed",1);toggleClass(elm.parentNode,"ilc_rte_status_RTECompleted",1);}}
 var node_stat_success=activities[tree[i].mActivityID].success_status;if(node_stat_success=="passed"||node_stat_success=="failed"||statusArray[[tree[i].mActivityID]]['success']=="failed"||statusArray[[tree[i].mActivityID]]['success']=="passed"){if(node_stat_success=="passed"||statusArray[[tree[i].mActivityID]]['success']=="passed"){if(elm){removeClass(elm.parentNode,"ilc_rte_status_RTEFailed",1);toggleClass(elm.parentNode,"ilc_rte_status_RTEPassed",1);}}else{if(elm){removeClass(elm.parentNode,"ilc_rte_status_RTEPassed",1);toggleClass(elm.parentNode,"ilc_rte_status_RTEFailed",1);}}}
+if(onCommit==true&&guiItem&&guiItem.id==elm.id){removeClass(elm.parentNode,"ilc_rte_status_RTENotAttempted",1);removeClass(elm.parentNode,"ilc_rte_status_RTEIncomplete",1);removeClass(elm.parentNode,"ilc_rte_status_RTECompleted",1);removeClass(elm.parentNode,"ilc_rte_status_RTEFailed",1);removeClass(elm.parentNode,"ilc_rte_status_RTEPassed",1);toggleClass(elm,"ilc_rte_tlink_RTETreeCurrent",1);toggleClass(elm.parentNode,"ilc_rte_status_RTERunning",1);}
 if(elm!=null&&elm.parentNode)
 {toggleClass(elm.parentNode,"ilc_rte_node_RTESco"+disabled_str,1);}}else{if(elm&&activities[tree[i].mActivityID].href){toggleClass(elm.parentNode,"ilc_rte_status_RTEAsset",1);if(elm.parentNode)
 {toggleClass(elm.parentNode,"ilc_rte_node_RTEAsset"+disabled_str,1);}}
@@ -3040,6 +3040,7 @@ else if(!activities[tree[i].mActivityID].href&&elm!=null&&elm.parentNode)
 else
 {toggleClass(elm.parentNode,"ilc_rte_node_RTECourse"+disabled_str,1);}}}
 first=false;}}
+function updateNavForSequencing(){if(this.config.sequencing_enabled){var valid=new ADLValidRequests();valid=msequencer.getValidRequests(valid);msequencer.mSeqTree.setValidRequests(valid);mlaunch.mNavState=msequencer.mSeqTree.getValidRequests();updateNav(false,true);updateControls();}}
 function isIE(versionNumber){var detect=navigator.userAgent.toLowerCase();if(!(navigator&&navigator.userAgent&&navigator.userAgent.toLowerCase)){return false;}else{if(detect.indexOf('msie')+1){var ver=function(){var rv=-1;if(navigator.appName=='Microsoft Internet Explorer'){var ua=navigator.userAgent;var re=new RegExp("MSIE ([0-9]{1,}[\.0-9]{0,})");if(re.exec(ua)!=null){rv=parseFloat(RegExp.$1);}}
 return rv;};var valid=true;if((ver>-1)&&(ver<versionNumber)){valid=false;}
 return valid;}else{return false;}}}
@@ -3108,7 +3109,7 @@ switch(state)
 sendLogEntry(getMsecSinceStart(),'Commit',param,"","false",142);return setReturn(142,'','false');case RUNNING:if((!cmiItem.cmi.mode||cmiItem.cmi.mode==="normal")&&(typeof cmiItem.cmi.session_time!="undefined"||config.time_from_lms==true)){if(config.time_from_lms==true){var interval=(currentTime()-msec)/1000;var dur=new ADLDuration({iFormat:FORMAT_SECONDS,iValue:interval});cmiItem.cmi.session_time=dur.format(FORMAT_SCHEMA);}
 var total_time=addTimes(total_time_at_initialize,cmiItem.cmi.session_time);cmiItem.cmi.total_time=total_time.toString();}
 var returnValue1=syncCMIADLTree();var returnValue=onCommit(cmiItem);if(returnValue&&saveOnCommit==true){if(config.sequencing_enabled){var sgo=saveSharedData(cmiItem);}
-returnValue=save();if(config.sequencing_enabled){var valid=new ADLValidRequests();valid=msequencer.getValidRequests(valid);msequencer.mSeqTree.setValidRequests(valid);mlaunch.mNavState=msequencer.mSeqTree.getValidRequests();if(all("treeView")!=null)updateNav(false);}}
+returnValue=save();}
 if(returnValue)
 {dirty=false;if(logActive&&commitByTerminate==false)
 sendLogEntry(getMsecSinceStart(),'Commit',param,"","true",0);return setReturn(0,'','true');}
