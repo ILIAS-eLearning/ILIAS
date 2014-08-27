@@ -24,9 +24,9 @@ class gevPDFBill extends ilPDFBill {
 		$this->setAboutFont("Arial", 10, true, false);
 		$this->setSpaceBillNumber(10.5);
 		$this->setBillNumberFont("Arial", 10, false, false);
-		$this->setSpaceTitle(11.5);
+		$this->setSpaceTitle(11.0);
 		$this->setTitleFont("Arial", 10, false, false);
-		$this->setSpaceText(12.0);
+		$this->setSpaceText(12.5);
 		$this->setTextFont("Arial", 10, false, false);
 		$this->setCalculationFont("Arial", 8, false, false);
 		$this->setSpaceRight(3.5);

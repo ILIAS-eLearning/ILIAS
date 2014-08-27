@@ -1085,10 +1085,12 @@ class ilPDFBill
 		$fontHeight = $this->AddressFontSize * 0.04 + $this->AddressFontSize * 0.04;
 
 		$this->pdf->SetFont($this->AddressFontName, $this->determineIfBoldOrItalic($this->AddressFontBold, $this->AddressFontItalic), $this->AddressFontSize);
-		$this->pdf->WriteText($this->spaceLeft, $this->spaceAddress, $this->encodeSpecialChars($this->bill->getRecipientName()));
-		$this->pdf->WriteText($this->spaceLeft, $this->spaceAddress + $fontHeight, ($this->encodeSpecialChars($this->bill->getRecipientStreet())) . " " . $this->encodeSpecialChars($this->bill->getRecipientHousenumber()));
-		$this->pdf->WriteText($this->spaceLeft, $this->spaceAddress + $fontHeight * 2, ($this->encodeSpecialChars($this->bill->getRecipientZipcode())) . " " . ($this->encodeSpecialChars($this->bill->getRecipientCity())));
-		$this->pdf->WriteText($this->spaceLeft, $this->spaceAddress + $fontHeight * 3, ($this->encodeSpecialChars($this->bill->getRecipientCountry())));
+		$rec_name = explode(",", $this->bill->getRecipientName());
+		$this->pdf->WriteText($this->spaceLeft, $this->spaceAddress, $this->encodeSpecialChars(trim($rec_name[0])));
+		$this->pdf->WriteText($this->spaceLeft, $this->spaceAddress + $fontHeight, $this->encodeSpecialChars(trim($rec_name[1])));
+		$this->pdf->WriteText($this->spaceLeft, $this->spaceAddress + $fontHeight * 2, ($this->encodeSpecialChars($this->bill->getRecipientStreet())) . " " . $this->encodeSpecialChars($this->bill->getRecipientHousenumber()));
+		$this->pdf->WriteText($this->spaceLeft, $this->spaceAddress + $fontHeight * 3, ($this->encodeSpecialChars($this->bill->getRecipientZipcode())) . " " . ($this->encodeSpecialChars($this->bill->getRecipientCity())));
+		$this->pdf->WriteText($this->spaceLeft, $this->spaceAddress + $fontHeight * 4, ($this->encodeSpecialChars($this->bill->getRecipientCountry())));
 
 		$this->pdf->SetFont($this->AboutFontName, $this->determineIfBoldOrItalic($this->AboutFontBold, $this->AboutFontItalic), $this->AboutFontSize);
 		

@@ -134,7 +134,7 @@ class gevBillingUtils {
 		$fee = $crs_utils->getFee();
 		
 		$this->createItem( sprintf($this->lng->txt("gev_fee_bill_item")
-								  , $crs_utils->getTitle()
+								  , $crs_utils->getCustomId()
 								  )
 						 , $fee
 						 , $a_crs_id
@@ -317,7 +317,7 @@ class gevBillingUtils {
 			if ($item->getContextId() == $a_crs_id) {
 				// ... and change its title appropriately
 				$item->setTitle(sprintf( $this->lng->txt("gev_no_show_bill_item")
-									   , $crs_utils->getTitle()
+									   , $crs_utils->getCustomId()
 									   )
 								);
 				$item->update();
@@ -375,7 +375,7 @@ class gevBillingUtils {
 			if ($item->getContextId() == $a_crs_id) {
 				// ... and change its title appropriately
 				$item->setTitle(sprintf( $this->lng->txt("gev_cancellation_bill_item")
-									   , $crs_utils->getTitle()
+									   , $crs_utils->getCustomId()
 									   )
 								);
 				$item->update();
