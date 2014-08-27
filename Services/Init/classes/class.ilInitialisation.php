@@ -1395,6 +1395,13 @@ class ilInitialisation
 	 */
 	protected static function redirect($a_target, $a_message_details)
 	{		
+		// #12739
+		if(defined("ILIAS_HTTP_PATH") &&
+			!stristr($a_target, ILIAS_HTTP_PATH))
+		{
+			$a_target = ILIAS_HTTP_PATH."/".$a_target;
+		}
+		
 		if(ilContext::supportsRedirects())
 		{
 			ilUtil::redirect($a_target);
