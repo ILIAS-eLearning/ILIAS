@@ -190,7 +190,12 @@ class ilUserCourseStatusHistorizing extends ilHistorizingStorage
 		$mass_modification_allowed = false
 	)
 	{
-		$current = parent::getCurrentRecordByCase($a_case_id);
+		try {
+			$current = parent::getCurrentRecordByCase($a_case_id);
+		}
+		catch (ilException $e) {
+			$current = array();
+		}
 
 		if ($current['certificate'] == -1 && strlen($a_data['certificate']))
 		{
