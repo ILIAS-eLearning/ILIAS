@@ -12,7 +12,7 @@ class gevCrsAdditionalMailSettings {
 	protected $settings;
 	protected $db;
 	
-	const INVITATION_MAIL_DEFAULT_DATE = 14;
+	const INVITATION_MAIL_DEFAULT_DATE = 0;
 
 	public function __construct($a_crs_id) {
 		global $ilDB, $ilCtrl;

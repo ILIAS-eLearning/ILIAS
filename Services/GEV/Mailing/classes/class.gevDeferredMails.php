@@ -80,6 +80,7 @@ class gevDeferredMails {
 				$this->removeDeferredMails( array( $crs_id)
 										  , array( "admin_booking_to_waiting"
 										  		 , "admin_booking_to_booked"
+										  		 , "invitation"
 												 )
 										  , array($a_recipient)
 										  );

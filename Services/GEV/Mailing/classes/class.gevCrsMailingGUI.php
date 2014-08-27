@@ -510,7 +510,7 @@ class gevCrsMailingGUI extends ilMailingGUI {
 		$inv_mailing_date->setPostvar("inv_mailing_date");
 		$inv_mailing_date->setMinValue(0);
 		$inv_mailing_date->setDecimals(0);
-		$inv_mailing_date->setInfo("Anzahl der Tage vor dem Seminarstart, an dem die Einladungsmails verschickt werden.");
+		$inv_mailing_date->setInfo($this->lng->txt("gev_mailing_inv_mailing_date_expl"));
 		$inv_mailing_date->setValue($this->getAdditionalMailSettings()->getInvitationMailingDate());
 		$form->addItem($inv_mailing_date);
 		

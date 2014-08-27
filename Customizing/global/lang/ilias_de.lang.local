@@ -473,6 +473,7 @@ gev#:#gev_learning_type#:#Lernart
 gev#:#gev_location#:#Ort
 gev#:#gev_mail_mgmt#:#Mails
 gev#:#gev_mailing_additional_settings#:#erweiterte Einstellungen
+gev#:#gev_mailing_inv_mailing_date_expl#:#Anzahl der Tage vor dem Seminar, an dem die Einladungsmail versandt wird. Ist 0 eingestellt, wird die Mail mit der Buchungsmail versandt.
 gev#:#gev_mandate#:#Auftrag
 gev#:#gev_me_menu#:#Übersicht
 gev#:#gev_member_list#:#Mitgliederliste

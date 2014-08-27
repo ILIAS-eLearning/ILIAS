@@ -793,6 +793,7 @@ class ilCourseBookingAdminGUI
 					require_once("Services/GEV/Mailing/classes/class.gevCrsAutoMails.php");
 					$automails = new gevCrsAutoMails($this->getCourse()->getId());
 					$automails->sendDeferred("admin_booking_to_booked", array($user_id));
+					$automails->sendDeferred("invitation", array($user_id));
 					// gev-patch end
 					
 					// :TODO: needed?

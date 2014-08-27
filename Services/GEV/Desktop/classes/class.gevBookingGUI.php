@@ -700,9 +700,11 @@ class gevBookingGUI {
 			if (!$this->isSelfLearningCourse()) {
 				if ($booked) {
 					$automails->send("self_booking_to_booked", array($this->user_id));
+					$automails->send("invitation", array($this->user_id));
 				}
 				else {
 					$automails->send("self_booking_to_waiting", array($this->user_id));
+					$automails->send("invitation", array($this->user_id));
 				}
 			}
 			
@@ -719,9 +721,11 @@ class gevBookingGUI {
 			if (!$this->isSelfLearningCourse()) {
 				if ($booked) {
 					$automails->send("superior_booking_to_booked", array($this->user_id));
+					$automails->send("invitation", array($this->user_id));
 				}
 				else {
 					$automails->send("superior_booking_to_waiting", array($this->user_id));
+					$automails->send("invitation", array($this->user_id));
 				}
 			}
 			

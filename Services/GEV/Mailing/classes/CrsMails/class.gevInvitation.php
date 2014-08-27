@@ -7,8 +7,6 @@ class gevInvitation extends gevCrsAutoMail {
 	protected $mail_settings;
 	protected $attachements;
 	
-	const DAYS_BEFORE_COURSE_START = 14;
-	
 	const STOP_SEND_EXCEPTION_MESSAGE = "Stop sending invitation mail. No invitation mail defined.";
 
 	public function __construct($a_crs_id, $a_id) {
@@ -69,6 +67,21 @@ class gevInvitation extends gevCrsAutoMail {
 	public function getMail($a_recipient) {
 		if (!$this->checkUserID($a_recipient)) {
 			throw new Exception("GEV-Invitation-Mails will only work for ILIAS-Users.");
+		}
+		
+		if ($this->days_before_course_start > 0) {
+			// if this setting is 0, this means send mail immediately.
+			// if this settings is not 0, delay the sending until the day x days
+			// before course start. After that day send mails immediately.
+			$dl = $this->getCourseStart();
+			if ($dl) {
+				$now = new ilDate(date("Y-m-d"), IL_CAL_DATE);
+				$dl->increment(ilDateTime::DAY, -1 * $this->days_before_course_start);
+			
+				if(ilDateTime::_before($now, $dl)) {
+					return null;
+				}
+			}
 		}
 
 		$function = $this->getUserFunction($a_recipient);

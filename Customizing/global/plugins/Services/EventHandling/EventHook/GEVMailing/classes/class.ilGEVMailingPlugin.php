@@ -42,6 +42,7 @@ class ilGEVMailingPlugin extends ilEventHookPlugin
 		
 		if ($os == ilCourseBooking::STATUS_WAITING && $ns == ilCourseBooking::STATUS_BOOKED) {
 			$mails->sendDeferred("participant_waiting_to_booked", array($usr_id));
+			$mails->sendDeferred("invitation", array($this->user_id));
 		}
 		
 		// do not handle all booking events here, since the way the 
