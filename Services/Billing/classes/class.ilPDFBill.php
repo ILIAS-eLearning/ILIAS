@@ -1230,7 +1230,7 @@ class ilPDFBill
 			$this->pdf->Cell(1, 0, $this->round($item->getPreTaxAmount()), 0, 0, 'R', 0);
 
 			$this->pdf->setXY($this->spaceLeft + 12.2 + $this->addidistX * 2, $height);
-			$this->pdf->Cell(1, 0, ($this->round($amount - $item->getPreTaxAmount())) . " %", 0, 0, 'R', 0);
+			$this->pdf->Cell(1, 0, ($this->round($amount - $item->getPreTaxAmount())), 0, 0, 'R', 0);
 
 			$this->pdf->setXY($this->spaceLeft + 15.2 + $this->addidistX * 3, $height);
 			$this->pdf->Cell(1, 0, $this->round($amount), 0, 0, 'R', 0);
