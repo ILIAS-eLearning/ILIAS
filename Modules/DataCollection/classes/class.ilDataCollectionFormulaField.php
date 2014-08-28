@@ -110,7 +110,7 @@ class ilDataCollectionFormulaField extends ilDataCollectionRecordField
      */
     protected function parse()
     {
-        if (!$this->parsed_value) {
+        if (!$this->parsed_value && $this->expression) {
             $parser = new ilDclExpressionParser($this->expression, $this->record, $this->field);
             try {
                 $this->parsed_value = $parser->parse();
@@ -467,6 +467,9 @@ class ilDclExpressionParser
         $precedences = new ilDclStack();
         $in_bracket = false;
         foreach ($tokens as $token) {
+            if (empty($token) || is_null($token)) {
+                $token = 0;
+            }
             if (is_numeric($token) || $token === '(') {
                 $stack->push($token);
                 if ($token === '(') {
@@ -505,7 +508,7 @@ class ilDclExpressionParser
                 $stack->push($this->parseMath(array_reverse($_tokens)));
                 $in_bracket = false;
             } else {
-                throw new Exception("Unrecognized token '$token'");
+                throw new ilException("Unrecognized token '$token'");
             }
 //            $stack->debug();
         }
