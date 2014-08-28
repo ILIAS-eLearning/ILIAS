@@ -288,6 +288,25 @@ class ilCourseBookingAdminGUI
 		$tpl->setVariable("RES_TABLE", $tbl->getHTML());
 	}
 	
+	// #425
+	public function showSearchResults()
+	{
+		global $ilCtrl;
+		
+		// see ilTableGUI2::determineOffsetAndOrder()
+		$old = $_POST["_table_nav"];
+		if($_POST["_table_nav1"] != $old)
+		{
+			$nav = $_POST["_table_nav1"];
+		}
+		else if($_POST["_table_nav2"] != $old)
+		{
+			$nav = $_POST["_table_nav2"];
+		}					
+		$ilCtrl->setParameterByClass("ilrepositorysearchgui", "_table_nav", $nav);
+		$ilCtrl->redirectByClass("ilrepositorysearchgui", "showSearchResults");
+	}
+	
 	
 	//
 	// GROUP
