@@ -218,7 +218,7 @@ class gevSettings {
 		613 => array("DBV-UVG",          "DBV"),
 		614 => array("DBV/VL-EVG",       "DBV"),
 		615 => array("DBV-UVG",          "DBV"),
-		616 => array("DBV-UVG"           "DBV"),
+		616 => array("DBV-UVG",          "DBV"),
 		617 => array("DBV-VL-EVG",       "DBV"),
 		618 => array("DBV/VL-EVG",       "DBV"),
 		620 => array("DBV-VL-EVG",       "DBV"),
