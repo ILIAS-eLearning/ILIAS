@@ -373,7 +373,7 @@ class gevEduBiographyGUI {
 		$res = $this->db->query( "SELECT COUNT(*) cnt"
 								."  FROM hist_usercoursestatus "
 								." WHERE usr_id = ".$this->db->quote($this->target_user_id, "integer")
-								."   AND bill_id = ".$this->db->quote($cert_id, "integer"));
+								."   AND certificate = ".$this->db->quote($cert_id, "integer"));
 		if ($rec = $this->db->fetchAssoc($res)) {
 			if ($rec["cnt"] == 0) {
 				return $this->render();
@@ -386,10 +386,10 @@ class gevEduBiographyGUI {
 								." JOIN hist_usercoursestatus hs ON hs.certificate = hc.row_id"
 								." WHERE hc.row_id = ".$this->db->quote($cert_id, "integer"));
 		if ($rec = $this->db->fetchAssoc($res)) {
-			require_once("Services/Utils/classes/class.ilUtils.php");
+			require_once("Services/Utilities/classes/class.ilUtil.php");
 			require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 			$crs_utils = gevCourseUtils::getInstance($rec["crs_id"]);
-			ilUtils::deliverData(base64_decode($rec["certfile"]), "Zertifikat_".$crs_utils->getCustomId().".pdf");
+			ilUtil::deliverData(base64_decode($rec["certfile"]), "Zertifikat_".$crs_utils->getCustomId().".pdf", "application/pdf");
 		}
 		else {
 			return $this->render();
