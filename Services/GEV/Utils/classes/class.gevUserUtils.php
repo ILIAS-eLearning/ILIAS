@@ -965,7 +965,7 @@ class gevUserUtils {
 	
 	static $wbd_relevant_roles	= array( "OD/LD/BD/VD/VTWL"
 									   , "DBV-VL-EVG"
-									   , "DBV-UV"
+									   , "DBV-UVG"
 									   , "AVL"
 									   , "HA"
 									   , "BA"
@@ -975,7 +975,7 @@ class gevUserUtils {
 	
 	static $wbd_tp_service_roles= array( "OD/LD/BD/VD/VTWL"
 									   , "DBV-VL-EVG"
-									   , "DBV-UV"
+									   , "DBV-UVG"
 									   , "AVL"
 									   , "HA"
 									   , "BA"

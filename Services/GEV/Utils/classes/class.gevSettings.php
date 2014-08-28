@@ -215,10 +215,10 @@ class gevSettings {
 		608 => array("VP",               "Mitarbeiter"),
 		609 => array("OD/LD/BD/VD/VTWL", "Vorgesetzter"),
 		610 => array("DBV/VL-EVG",       "DBV"),
-		613 => array("DBV-UV",           "DBV"),
+		613 => array("DBV-UVG",          "DBV"),
 		614 => array("DBV/VL-EVG",       "DBV"),
-		615 => array("DBV-UV",           "DBV"),
-		616 => array("DBV-UV",           "DBV"),
+		615 => array("DBV-UVG",          "DBV"),
+		616 => array("DBV-UVG"           "DBV"),
 		617 => array("DBV-VL-EVG",       "DBV"),
 		618 => array("DBV/VL-EVG",       "DBV"),
 		620 => array("DBV-VL-EVG",       "DBV"),
@@ -253,7 +253,7 @@ class gevSettings {
 		, "OD/LD/BD/VD/VTWL"
 		, "LD/BD-Innen"
 		, "DBV/VL-EVG"
-		, "DBV-UV"
+		, "DBV-UVG"
 		, "Azubi"
 		, "ID-1"
 		, "ID-2"
