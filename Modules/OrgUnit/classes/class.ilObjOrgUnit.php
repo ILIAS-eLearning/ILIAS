@@ -2,6 +2,11 @@
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 require_once "./Services/Container/classes/class.ilContainer.php";
 require_once("./Modules/OrgUnit/classes/class.ilOrgUnitImporter.php");
+require_once('./Modules/OrgUnit/classes/Types/class.ilOrgUnitType.php');
+require_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');
+require_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
+
+
 /**
  * Class ilObjOrgUnit
  *
@@ -9,9 +14,12 @@ require_once("./Modules/OrgUnit/classes/class.ilOrgUnitImporter.php");
  *
  * @author: Oskar Truffer <ot@studer-raimann.ch>
  * @author: Martin Studer <ms@studer-raimann.ch>
+ * @author: Stefan Wanzenried <sw@studer-raimann.ch>
  *
  */
 class ilObjOrgUnit extends ilContainer {
+
+    const TABLE_NAME = 'orgu_data';
 
 	protected static $root_ref_id;
 	protected static $root_id;
@@ -19,10 +27,149 @@ class ilObjOrgUnit extends ilContainer {
 	protected $employee_role;
 	protected $superior_role;
 
+    /**
+     * Cache storing OrgUnit objects that have OrgUnit types with custom icons assigned
+     * @var array
+     */
+    protected static $icons_cache;
+
+    /**
+     * ID of assigned OrgUnit type
+     * @var int
+     */
+    protected $orgu_type_id = 0;
+
+    /**
+     * Advanced Metadata Values for this OrgUnit
+     * @var array
+     */
+    protected $amd_data;
+
+
 	public function __construct($a_id = 0,$a_call_by_reference = true){
 		$this->type = "orgu";
 		$this->ilContainer($a_id,$a_call_by_reference);
 	}
+
+    public function read() {
+        global $ilDB;
+        parent::read();
+        /** @var ilDB $ilDB */
+        $sql = 'SELECT * FROM ' . self::TABLE_NAME . ' WHERE orgu_id = ' . $ilDB->quote($this->getId(), 'integer');
+        $set = $ilDB->query($sql);
+        if ($ilDB->numRows($set)) {
+            $rec = $ilDB->fetchObject($set);
+            $this->setOrgUnitTypeId($rec->orgu_type_id);
+        }
+    }
+
+    public function create() {
+        global $ilDB;
+        parent::create();
+        $ilDB->insert(self::TABLE_NAME, array(
+           'orgu_type_id' => array('integer', $this->getOrgUnitTypeId()),
+           'orgu_id' => array('integer', $this->getId()),
+        ));
+    }
+
+    public function update() {
+        global $ilDB;
+        parent::update();
+        $sql = 'SELECT * FROM ' . self::TABLE_NAME .' WHERE orgu_id = ' . $ilDB->quote($this->getId(), 'integer');
+        $set = $ilDB->query($sql);
+        if ($ilDB->numRows($set)) {
+            $ilDB->update(self::TABLE_NAME, array(
+                'orgu_type_id' => array('integer', $this->getOrgUnitTypeId()),
+            ), array(
+                'orgu_id' => array('integer', $this->getId()),
+            ));
+        } else {
+            $ilDB->insert(self::TABLE_NAME, array(
+                'orgu_type_id' => array('integer', $this->getOrgUnitTypeId()),
+                'orgu_id' => array('integer', $this->getId()),
+            ));
+        }
+        // Update selection for advanced meta data of the type
+        if ($this->getOrgUnitTypeId()) {
+            ilAdvancedMDRecord::saveObjRecSelection($this->getId(), 'orgu_type', $this->getOrgUnitType()->getAssignedAdvancedMDRecordIds());
+        } else {
+            // If no type is assigned, delete relations by passing an empty array
+            ilAdvancedMDRecord::saveObjRecSelection($this->getId(), 'orgu_type', array());
+        }
+    }
+
+    public function getOrgUnitTypeId() {
+        return $this->orgu_type_id;
+    }
+
+    public function getOrgUnitType() {
+        return ilOrgUnitType::getInstance($this->getOrgUnitTypeId());
+    }
+
+    public function setOrgUnitTypeId($a_id) {
+        $this->orgu_type_id = $a_id;
+    }
+
+    /**
+     * Get the assigned AMD Values.
+     * If a record_id is given, returns an array with all Elements (instances of ilADT objects) belonging to this record.
+     * If no record_id is given, returns an associative array with record-IDs as keys and ilADT objects as values
+     *
+     * @param int $a_record_id
+     * @return array
+     */
+    public function getAdvancedMDValues($a_record_id=0) {
+        if (!$this->getOrgUnitTypeId()) {
+            return array();
+        }
+        // Serve from cache?
+        if (is_array($this->amd_data)) {
+            if ($a_record_id) {
+                return (isset($this->amd_data[$a_record_id])) ? $this->amd_data[$a_record_id] : array();
+            } else {
+                return $this->amd_data;
+            }
+        }
+        /** @var ilAdvancedMDValues $amd_values */
+        foreach(ilAdvancedMDValues::getInstancesForObjectId($this->getId(), 'orgu') as $record_id => $amd_values) {
+            $amd_values = new ilAdvancedMDValues($record_id, $this->getId(), 'orgu_type', $this->getOrgUnitTypeId());
+            $amd_values->read();
+            $this->amd_data[$record_id] = $amd_values->getADTGroup()->getElements();
+        }
+        if ($a_record_id) {
+            return (isset($this->amd_data[$a_record_id])) ? $this->amd_data[$a_record_id] : array();
+        } else {
+            return $this->amd_data;
+        }
+    }
+
+    /**
+     * Returns an array that maps from OrgUnit object IDs to its icon defined by the assigned OrgUnit type.
+     * Keys = OrgUnit object IDs, values = Path to the icon
+     * This allows to get the Icons of OrgUnits without loading the object (e.g. used in the tree explorer)
+     *
+     * @return array
+     */
+    public static function getIconsCache() {
+        if (is_array(self::$icons_cache)) {
+            return self::$icons_cache;
+        }
+        global $ilDB;
+        /** @var ilDB $ilDB */
+        $sql = 'SELECT orgu_id, ot.id AS type_id FROM orgu_data
+                INNER JOIN orgu_types AS ot ON (ot.id = orgu_data.orgu_type_id)
+                WHERE ot.icon IS NOT NULL';
+        $set = $ilDB->query($sql);
+        $icons_cache = array();
+        while ($row = $ilDB->fetchObject($set)) {
+            $type = ilOrgUnitType::getInstance($row->type_id);
+            if ($type && is_file($type->getIconPath(true))) {
+                $icons_cache[$row->orgu_id] = $type->getIconPath(true);
+            }
+        }
+        self::$icons_cache = $icons_cache;
+        return $icons_cache;
+    }
 
 	public static function getRootOrgRefId(){
 		self::loadRootOrgRefIdAndId();
@@ -178,33 +325,48 @@ class ilObjOrgUnit extends ilContainer {
 		return $this->superior_role;
 	}
 
-	public function initDefaultRoles()
-	{
-		include_once './Services/AccessControl/classes/class.ilObjRole.php';
-		$role = new ilObjRole();
-		$role->setTitle("il_orgu_employee_".$this->getRefId());
-		$role->setDescription("Emplyee of org unit obj_no.".$this->getId());
-		$role->create();
-		
-		$GLOBALS['rbacadmin']->assignRoleToFolder($role->getId(),$this->getRefId(),'y');
-		
-		
-		include_once './Services/AccessControl/classes/class.ilObjRole.php';
-		$role_sup = ilObjRole::createDefaultRole(
-				'il_orgu_superior_'.$this->getRefId(),
-				"Superior of org unit obj_no.".$this->getId(),
-				'il_orgu_superior',
-				$this->getRefId()
-		);
-		
+	public function initDefaultRoles(){
+		global $rbacadmin,$rbacreview, $ilAppEventHandler;
+
+		$rolf_obj = $this->createRoleFolder();
+
+		// CREATE Employee ROLE
+		$role_obj = $rolf_obj->createRole("il_orgu_employee_".$this->getRefId(),"Emplyee of org unit obj_no.".$this->getId());
+// = $
+// EMPLOYEE DOES NOT YET NEED A ROLE TEMPLATE.
+//		// SET PERMISSION TEMPLATE OF NEW LOCAL ADMIN ROLE
+//		$query = "SELECT obj_id FROM object_data ".
+//			" WHERE type='rolt' AND title='il_orgu_employee'";
+//
+//		$res = $this->ilias->db->getRow($query, DB_FETCHMODE_OBJECT);
+//		$rbacadmin->copyRoleTemplatePermissions($res->obj_id,ROLE_FOLDER_ID,$rolf_obj->getRefId(),$role_obj->getId());
+//
+//		// SET OBJECT PERMISSIONS OF COURSE OBJECT
+//		$ops = $rbacreview->getOperationsOfRole($role_obj->getId(),"orgu",$rolf_obj->getRefId());
+//		$rbacadmin->grantPermission($role_obj->getId(),$ops,$this->getRefId());
+
+		// CREATE Superior ROLE
+		$role_obj = $rolf_obj->createRole("il_orgu_superior_".$this->getRefId(),"Superior of org unit obj_no.".$this->getId());
+
+		// SET PERMISSION TEMPLATE OF NEW LOCAL ADMIN ROLE
+		$query = "SELECT obj_id FROM object_data ".
+			" WHERE type='rolt' AND title='il_orgu_superior'";
+
+		$res = $this->ilias->db->getRow($query, DB_FETCHMODE_OBJECT);
+		$rbacadmin->copyRoleTemplatePermissions($res->obj_id,ROLE_FOLDER_ID,$rolf_obj->getRefId(),$role_obj->getId());
+
+		// SET OBJECT PERMISSIONS OF COURSE OBJECT
+		$ops = $rbacreview->getOperationsOfRole($role_obj->getId(),"orgu",$rolf_obj->getRefId());
+		$rbacadmin->grantPermission($role_obj->getId(),$ops,$this->getRefId());
+
 
         $ilAppEventHandler->raise('Modules/OrgUnit',
             'initDefaultRoles',
             array('object' => $this,
                   'obj_id' => $this->getId(),
                   'ref_id' =>  $this->getRefId(),
-                  'role_superior_id' => $role->getId(),
-                  'role_employee_id' => $role_sup->getId()));
+                  'role_superior_id' => $role_obj->getId(),
+                  'role_employee_id' => $role_obj->getId()));
 
 	}
 
@@ -233,7 +395,8 @@ class ilObjOrgUnit extends ilContainer {
         {
             $data["Fobject"][$num]= array("title"	=> $row->title,
                 "desc"	=> $row->description,
-                "lang"	=> $row->lang_code
+                "lang"	=> $row->lang_code,
+                'lang_default' => $row->lang_default,
             );
             $num++;
         }
@@ -277,6 +440,9 @@ class ilObjOrgUnit extends ilContainer {
             'delete',
             array('object' => $this,
                 'obj_id' => $this->getId()));
+
+        $sql = 'DELETE FROM ' . self::TABLE_NAME . ' WHERE orgu_id = ' . $ilDB->quote($this->getId(), 'integer');
+        $ilDB->manipulate($sql);
 
         return true;
     }
@@ -353,7 +519,6 @@ class ilObjOrgUnit extends ilContainer {
 
         return true;
     }
-
 
 }
 ?>

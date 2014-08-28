@@ -12,9 +12,13 @@
 			default_pos="10" force_active="1" group="orgu" repository="0" administration="1">
 			<subobj id="rolf" max="1">rolf</subobj>
 			<parent id="orgu">orgu</parent>
+            <sub_type id="orgu_type" amet="1" />
 		</object>
 	</objects>
 	<events>
 		<event type="raise" id="delete" />
 	</events>
+    <pluginslots>
+        <pluginslot id="orgutypehk" name="OrgUnitTypeHook" />
+    </pluginslots>
 </module>

@@ -13746,6 +13746,29 @@ orgu#:#ext_id_updated#:#The external ID has been updated successfully.
 orgu#:#no_roles#:#There are no additional roles at this point.
 orgu#:#local_other_roles#:#Additional Local Roles %s
 orgu#:#backto_staff#:#Back to Staff
+orgu#:#orgu_type_deleted#:#Organisational Unit Type deleted
+orgu#:#orgu_type_add#:#Add Organisational Unit Type
+orgu#:#orgu_type_edit#:#Edit Organisational Unit Type
+orgu#:#orgu_types#:#Types
+orgu#:#orgu_type_msg_deleted#:#Deleted Organisational Unit Type
+orgu#:#orgu_type_msg_missing_title#:#There must be set a title for the default language
+orgu#:#orgu_type_msg_unable_delete#:#Unable to delete type because it is still assigned to the following Organisational Units: %s
+orgu#:#orgu_type_msg_deletion_prevented#:#Deletion of object prevented by plugins: %s
+orgu#:#orgu_type_msg_setting_member_prevented#:#Setting '%s' prevented by plugins: %s
+orgu#:#orgu_type_msg_updating_prevented#:#Updating of object prevented by plugins: %s
+orgu#:#orgu_type_msg_assign_amd_prevented#:#Assigning AMDRecord prevented by plugins: %s
+orgu#:#orgu_type_msg_deassign_amd_prevented#:#Deassigning AMDRecord prevented by plugins: %s
+orgu#:#orgu_type_msg_setting_default_lang_prevented#:#Setting '%s' as default language prevented by plugins: %s
+orgu#:#orgu_type_msg_missing_title_default_language#:#There must be set a default language and a title for the default language
+orgu#:#orgu_type_custom_icon_info#:#All Organisational Units having this type assigned will use the icon in the tree and header.
+orgu#:#orgu_settings#:#Organisational Unit Settings
+orgu#:#orgu_type#:#Organisational Unit Type
+orgu#:#orgu_orgu_type#:#Organisational Unit Type
+orgu#:#orgu_type_custom_icon#:#Custom Icon for this Organisational Unit Type
+orgu#:#orgu_adv_settings#:#Advanced Settings
+orgu#:#orgu_type_msg_error_custom_icon#:#Could not save the custom icon
+orgu#:#orgu_type_available_amd_sets#:#Available Advanced Metadata sets
+orgu#:#orgu_type_assign_amd_sets#:#Assign Advanced Metadata sets
 cld#:#cld_object_added#:#A new Cloud object has been added
 exc#:#exc_peer_review_deadline#:#Feedback Deadline 
 exc#:#exc_peer_review_deadline_info#:#Feedback can be given up to this date and received feedback is only accessible from then on.

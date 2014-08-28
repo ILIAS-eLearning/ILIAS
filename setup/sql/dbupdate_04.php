@@ -2142,18 +2142,18 @@ $ilCtrlStructureReader->getStructure();
 ?>
 <#4273>
 <?php
-$ilDB->insert('il_dcl_datatype_prop', array(
-    'id' => array('integer', 14),
-    'datatype_id' => array('integer', 2),
-    'title' => array('text', 'link_detail_page'),
-    'inputformat' => array('integer', 4),
-));
-$ilDB->insert('il_dcl_datatype_prop', array(
-    'id' => array('integer', 15),
-    'datatype_id' => array('integer', 9),
-    'title' => array('text', 'link_detail_page'),
-    'inputformat' => array('integer', 4),
-));
+//$ilDB->insert('il_dcl_datatype_prop', array(
+//    'id' => array('integer', 14),
+//    'datatype_id' => array('integer', 2),
+//    'title' => array('text', 'link_detail_page'),
+//    'inputformat' => array('integer', 4),
+//));
+//$ilDB->insert('il_dcl_datatype_prop', array(
+//    'id' => array('integer', 15),
+//    'datatype_id' => array('integer', 9),
+//    'title' => array('text', 'link_detail_page'),
+//    'inputformat' => array('integer', 4),
+//));
 ?>
 <#4274>
 <?php
@@ -2499,3 +2499,58 @@ if(!$ilDB->tableExists('usr_cron_mail_reminder'))
 	$ilDB->addPrimaryKey('usr_cron_mail_reminder', array('usr_id'));
 }
 ?>
+<#4299>
+    <?php
+    if(!$ilDB->tableExists('orgu_types')) {
+        $fields = array (
+            'id'    => array ('type' => 'integer', 'length'  => 4,'notnull' => true, 'default' => 0),
+            'default_lang'   => array ('type' => 'text', 'notnull' => true, 'length' => 4, 'fixed' => false),
+            'icon'    => array ('type' => 'text', 'length'  => 256, 'notnull' => false),
+            'owner' => array('type' => 'integer', 'notnull' => true, 'length' => 4),
+            'create_date'  => array ('type' => 'timestamp'),
+            'last_update' => array('type' => 'timestamp'),
+        );
+        $ilDB->createTable('orgu_types', $fields);
+        $ilDB->addPrimaryKey('orgu_types', array('id'));
+        $ilDB->createSequence('orgu_types');
+    }
+    ?>
+<#4300>
+    <?php
+    if(!$ilDB->tableExists('orgu_data')) {
+        $fields = array (
+            'orgu_id'    => array ('type' => 'integer', 'length'  => 4,'notnull' => true, 'default' => 0),
+            'orgu_type_id'   => array ('type' => 'integer', 'notnull' => false, 'length' => 4),
+        );
+        $ilDB->createTable('orgu_data', $fields);
+        $ilDB->addPrimaryKey('orgu_data', array('orgu_id'));
+    }
+    ?>
+<#4301>
+    <?php
+    if(!$ilDB->tableExists('orgu_types_trans')) {
+        $fields = array (
+            'orgu_type_id'    => array ('type' => 'integer', 'length'  => 4,'notnull' => true),
+            'lang'   => array ('type' => 'text', 'notnull' => true, 'length' => 4),
+            'member'    => array ('type' => 'text', 'length'  => 32, 'notnull' => true),
+            'value' => array('type' => 'text', 'length' => 4000, 'notnull' => false),
+        );
+        $ilDB->createTable('orgu_types_trans', $fields);
+        $ilDB->addPrimaryKey('orgu_types_trans', array('orgu_type_id', 'lang', 'member'));
+    }
+    ?>
+<#4302>
+    <?php
+    $ilCtrlStructureReader->getStructure();
+    ?>
+<#4303>
+    <?php
+    if(!$ilDB->tableExists('orgu_types_adv_md_rec')) {
+        $fields = array (
+            'type_id'    => array ('type' => 'integer', 'length'  => 4,'notnull' => true),
+            'rec_id'   => array ('type' => 'integer', 'notnull' => true, 'length' => 4),
+        );
+        $ilDB->createTable('orgu_types_adv_md_rec', $fields);
+        $ilDB->addPrimaryKey('orgu_types_adv_md_rec', array('type_id', 'rec_id'));
+    }
+    ?>
