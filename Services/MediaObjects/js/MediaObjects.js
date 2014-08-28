@@ -8,9 +8,12 @@ il.MediaObjects = {
 
 	init: function() {
 		$(".ilPlayerPreviewOverlayOuter").click(function (e) {
-				il.MediaObjects.processMediaPreviewClick(this, e);
+				//il.MediaObjects.processMediaPreviewClick(this, e);
 		});
-		
+		$(".ilPlayerPreviewDescriptionDownload a").click(function (e) {
+			il.MediaObjects.processDownloadLink(this, e);
+		});
+
 		window.onhashchange = function() {
 			il.MediaObjects.onHashChange();
 		}
@@ -85,6 +88,10 @@ il.MediaObjects = {
 				}
 			}
 		}
+	},
+
+	processDownloadLink: function (t,e) {
+		e.stopPropagation();
 	},
 
 	onLightboxDeactivation: function(id) {

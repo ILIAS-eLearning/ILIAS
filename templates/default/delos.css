@@ -2968,6 +2968,15 @@ span.bibl_text_inline_Emph {
   top: -240px;
   background: url(images/black60.png);
 }
+.ilPlayerPreviewDescriptionDownload {
+	float: right;
+	padding-left: 20px;
+}
+
+.ilPlayerPreviewDescriptionDownload a {
+	color: #F0F0F0;
+}
+
 .ilPlayerPreviewOverlay img {
   cursor: pointer;
   width: 100%;
