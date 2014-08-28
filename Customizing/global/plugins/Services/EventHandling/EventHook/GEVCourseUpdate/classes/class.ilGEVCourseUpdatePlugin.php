@@ -32,9 +32,14 @@ class ilGEVCourseUpdatePlugin extends ilEventHookPlugin
 
 	public function updatedCourse() {
 		try {
-			$this->crs->enableWaitingList($this->crs_utils->getWaitingListActive());
-			$this->crs->enableSubscriptionMembershipLimitation($this->crs_utils->getWaitingListActive());
-			$this->crs->setSubscriptionMaxMembers(intval($this->crs_utils->getMaxParticipants()));
+			$max_participants = intval($this->crs_utils->getMaxParticipants());
+			$this->crs->enableWaitingList($this->crs_utils->getWaitingListActive() && $max_participants > 0);
+			$this->crs->enableSubscriptionMembershipLimitation($this->crs_utils->getWaitingListActive() && $max_participants > 0);
+			$this->crs->setSubscriptionMaxMembers($max_participants);
+
+			if ($max_participants == 0) {
+				$this->crs_utils->setWaitingListActive(false, false);
+			}
 
 			$this->crs->update(false);
 		}
@@ -45,12 +50,17 @@ class ilGEVCourseUpdatePlugin extends ilEventHookPlugin
 	
 	public function updateTemplateCourse() {
 		try {
-			$this->crs->enableWaitingList($this->crs_utils->getWaitingListActive());
-			$this->crs->enableSubscriptionMembershipLimitation($this->crs_utils->getWaitingListActive());
-			$this->crs->setSubscriptionMaxMembers(intval($this->crs_utils->getMaxParticipants()));
+			$max_participants = intval($this->crs_utils->getMaxParticipants());
+			$this->crs->enableWaitingList($this->crs_utils->getWaitingListActive() && $max_participants > 0);
+			$this->crs->enableSubscriptionMembershipLimitation($this->crs_utils->getWaitingListActive() && $max_participants > 0);
+			$this->crs->setSubscriptionMaxMembers($max_participants);
 			
 			$this->maybeSetTemplateCustomId();
 			$this->crs_utils->updateDerivedCourses();
+			
+			if ($max_participants == 0) {
+				$this->crs_utils->setWaitingListActive(false, false);
+			}
 		
 			$this->crs->update(false);
 		}
