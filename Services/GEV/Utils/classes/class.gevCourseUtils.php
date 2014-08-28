@@ -1252,8 +1252,8 @@ class gevCourseUtils {
 		$dd->setLine2Font("Arial", 86, false, false);
 		$dd->setLine2Color(0, 0, 0);
 		$dd->setSpaceLeft(2);
-		$dd->setSpaceBottom1(10.0);
-		$dd->setSpaceBottom2(6.5);
+		$dd->setSpaceBottom1(12.0);
+		$dd->setSpaceBottom2(8.5);
 		
 		$dd->setUsers($this->getMembersExceptForAdmins());
 		if ($a_path === null) {
