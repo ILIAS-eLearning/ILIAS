@@ -7,7 +7,7 @@ require_once('./Services/COPage/classes/class.ilPageObjectGUI.php');
 require_once('./Modules/DataCollection/classes/class.ilDataCollectionRecord.php');
 require_once('./Modules/DataCollection/classes/class.ilDataCollectionField.php');
 require_once('./Modules/DataCollection/classes/class.ilDataCollectionRecordViewViewdefinition.php');
-
+require_once('./Services/UIComponent/Button/classes/class.ilLinkButton.php');
 
 
 /**
@@ -208,6 +208,16 @@ class ilDataCollectionRecordViewGUI
             $rctpl->setVariable('RECORD', $lng->txt('dcl_record'));
             $rctpl->setVariable('RECORD_FROM_TOTAL', sprintf($lng->txt('dcl_record_from_total'), $this->currentRecordPosition, count($this->recordIds)));
             $rctpl->setVariable('SELECT_OPTIONS', $this->renderSelectOptions());
+        }
+
+        // Edit Button
+        if ($this->record_obj->hasPermissionToEdit((int) $_GET['ref_id'])) {
+            $button = ilLinkButton::getInstance();
+            $ilCtrl->setParameterByClass('ildatacollectionrecordeditgui', 'table_id', $this->table->getId());
+            $ilCtrl->saveParameterByClass('ildatacollectionrecordeditgui', 'record_id');
+            $button->setUrl($ilCtrl->getLinkTargetByClass('ildatacollectionrecordeditgui', 'edit'));
+            $button->setCaption($lng->txt('dcl_edit_record'), false);
+            $rctpl->setVariable('EDIT_RECORD_BUTTON', $button->render());
         }
 
         // Comments
