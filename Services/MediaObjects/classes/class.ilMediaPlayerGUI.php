@@ -22,6 +22,7 @@ class ilMediaPlayerGUI
 	protected $title;
 	protected $description;
 	protected $event_callback_url = "";
+	protected $download_link = "";
 
 	function __construct($a_id = "", $a_event_callback_url = "")
 	{
@@ -215,11 +216,31 @@ class ilMediaPlayerGUI
 	}
 	
 	/**
+	 * Set download link
+	 *
+	 * @param string $a_val download link	
+	 */
+	function setDownloadLink($a_val)
+	{
+		$this->download_link = $a_val;
+	}
+	
+	/**
+	 * Get download link
+	 *
+	 * @return string download link
+	 */
+	function getDownloadLink()
+	{
+		return $this->download_link;
+	}
+	
+	/**
 	* Get Html for MP3 Player
 	*/
 	function getMp3PlayerHtml($a_preview = false)
 	{
-		global $tpl;
+		global $tpl, $lng;
 		
 		$tpl->addJavascript("./Services/MediaObjects/js/MediaObjects.js");
 		
@@ -279,6 +300,14 @@ class ilMediaPlayerGUI
 			// preview
 			if ($a_preview)
 			{
+				if ($this->getDownloadLink() != "")
+				{
+					$mp_tpl->setCurrentBlock("download");
+					$mp_tpl->setVariable("TXT_DOWNLOAD", $lng->txt("download"));
+					$mp_tpl->setVariable("HREF_DOWNLOAD", $this->getDownloadLink());
+					$mp_tpl->parseCurrentBlock();
+				}
+
 				$mp_tpl->setCurrentBlock("preview");
 				if ($this->getVideoPreviewPic() != "")
 				{
@@ -345,6 +374,14 @@ class ilMediaPlayerGUI
 			$preview_output = false;
 			if ($this->getVideoPreviewPic() != "" || $this->getForceAudioPreview())
 			{
+				if ($this->getDownloadLink() != "")
+				{
+					$mp_tpl->setCurrentBlock("adownload");
+					$mp_tpl->setVariable("TXT_DOWNLOAD", $lng->txt("download"));
+					$mp_tpl->setVariable("HREF_DOWNLOAD", $this->getDownloadLink());
+					$mp_tpl->parseCurrentBlock();
+				}
+
 				$mp_tpl->setCurrentBlock("apreview");
 				if ($this->getVideoPreviewPic() != "")
 				{
@@ -376,6 +413,15 @@ class ilMediaPlayerGUI
 		if (is_int(strpos($mimeType,"image/")))
 		{
 			$mp_tpl = new ilTemplate("tpl.flv_player.html", true, true, "Services/MediaObjects");
+
+			if ($this->getDownloadLink() != "")
+			{
+				$mp_tpl->setCurrentBlock("idownload");
+				$mp_tpl->setVariable("TXT_DOWNLOAD", $lng->txt("download"));
+				$mp_tpl->setVariable("HREF_DOWNLOAD", $this->getDownloadLink());
+				$mp_tpl->parseCurrentBlock();
+			}
+
 			$mp_tpl->setCurrentBlock("ipreview");
 			if ($this->getVideoPreviewPic() != "")
 			{

@@ -1526,6 +1526,12 @@ class ilObjMediaCastGUI extends ilObjectGUI
 				$mpl->setTitle($item["title"]);
 				$mpl->setDescription($item["content"]);
 				$mpl->setForceAudioPreview(true);
+				if ($this->object->getDownloadable())
+				{
+					$ilCtrl->setParameterByClass("ilobjmediacastgui", "item_id", $item["id"]);
+					$ilCtrl->setParameterByClass("ilobjmediacastgui", "purpose", "Standard");
+					$mpl->setDownloadLink($ilCtrl->getLinkTargetByClass("ilobjmediacastgui", "downloadItem"));
+				}
 				$med_alt = $mob->getMediaItem("VideoAlternative");
 				if (is_object($med_alt))
 				{
