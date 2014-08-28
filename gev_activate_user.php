@@ -2,7 +2,7 @@
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 ini_set('display_errors', 1);
 error_reporting(E_ALL ^ E_STRICT);
-header("Content-Type: text/plain, charset=utf-8");
+header("Content-Type: text/plain");
 include_once("gev_utils.php");
 
 function import_ilias($logout=true) {
