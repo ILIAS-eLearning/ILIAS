@@ -1,4 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?php
+
+include("./_launchDate.php");
+
+if( $delta <= 0 
+	&& $_SERVER['SERVER_NAME'] != 'generali.test.cat06.de'
+	&& $_SERVER['SERVER_NAME'] != 'localhost'){
+    header('Location: ./index.php');
+    die();
+}
+
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
@@ -176,12 +188,12 @@
 		<div id="stage">
 
 			<div id="text">
-				<h1>Schön, dass Sie uns besuchen.</h1>
+				<h1>Punkten Sie mit Wissen.</h1>
 				Die Generali Online Akademie <br>
-				befindet sich derzeit im Aufbau.
+				öffnet ihre Pforten.
 				<br>
 				<br>
-				Dauer bis zum Start:
+				Bald ist es soweit:
 
 				<div id="numbers">
 					<div id="days" class="number">dd</div>
