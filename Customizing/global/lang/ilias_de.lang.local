@@ -110,7 +110,7 @@ crs#:#crs_add_remove_from_desktop_info#:#Teilnehmer können Trainingsobjekte auf
 crs#:#crs_add_subscribers#:#In Training aufnehmen
 crs#:#crs_added#:#Ein neues Training wurde hinzugefügt
 crs#:#crs_added_member#:#Aufnahme in das Training "%s"
-crs#:#crs_added_member_body#:#sie sind in das Training "%s" aufgenommen worden.
+crs#:#crs_added_member_body#:#Sie sind in das Training "%s" aufgenommen worden.
 crs#:#crs_admin#:#Trainingsbetreuer
 crs#:#crs_admin_no_notify#:#Trainingsbetreuer (keine Benachrichtigung)
 crs#:#crs_admin_notify#:#Trainingsbetreuer (Benachrichtigung)
@@ -350,7 +350,7 @@ exc#:#exc_submission_notification_info#:#Sie werden per Mail benachrichtigt, sob
 exc#:#exc_team_member_container_add#:#Team-Mitglied aus Training/Gruppe hinzufügen
 exercise#:#exc_crs_add_members#:#Mitglieder dieses Trainings hinzufügen
 exercise#:#exc_feedback_from_tutor#:#Feedback des Trainers
-fm#:#fm_settings_active_info#:#Benutzer können Kategorien, Trainings, Gruppen und Ordner öffnen, indem sie im Magazin die Aktion "Mit Dateimanager öffnen" ausführen.
+fm#:#fm_settings_active_info#:#Benutzer können Kategorien, Trainings, Gruppen und Ordner öffnen, indem Sie im Magazin die Aktion "Mit Dateimanager öffnen" ausführen.
 gev#:# gev_search_menu#:#Trainingssuche
 gev#:#dont_send_mail#:#keine Mail versenden
 gev#:#evg_email#:#Generali E-Mail-Adresse
@@ -384,9 +384,9 @@ gev#:#gev_booking#:#Buchung
 gev#:#gev_booking_bill_data#:#Rechnungsdaten
 gev#:#gev_booking_check_bill_data#:#Rechnungsdaten überprüfen
 gev#:#gev_booking_for#:#Buchung für:
-gev#:#gev_booking_header_note#:#Bitte bestätigen sie die verbindliche Buchung über die Schaltfläche.
-gev#:#gev_booking_header_note_bill_data#:#Bitte betätigen sie die Schaltfläche "Rechnungsdaten eingeben".
-gev#:#gev_booking_header_note_check_bill_data#:#Bitte betätigen sie die Schaltfläche "Rechnungsdaten überprüfen".
+gev#:#gev_booking_header_note#:#Bitte bestätigen Sie die verbindliche Buchung über die Schaltfläche.
+gev#:#gev_booking_header_note_bill_data#:#Bitte betätigen Sie die Schaltfläche "Rechnungsdaten eingeben".
+gev#:#gev_booking_header_note_check_bill_data#:#Bitte betätigen Sie die Schaltfläche "Rechnungsdaten überprüfen".
 gev#:#gev_booking_note#:#Mit der verbindlichen Buchung bestätigen Sie, Buchung und Übernachtung mit ihrer Führungskraft abgestimmt zu haben.
 gev#:#gev_booking_other_courses_in_period_others#:#Ihr Mitarbeiter hat im Zeitraum des Trainings bereits andere Trainings gebucht:
 gev#:#gev_booking_other_courses_in_period_self#:#Sie haben im Zeitraum des Trainings bereits andere Trainings gebucht:
@@ -409,11 +409,11 @@ gev#:#gev_company_title#:#Gesellschaftsschlüssel
 gev#:#gev_competence_mgmt#:#Kompetenzen
 gev#:#gev_confirm_agb#:#Mit den %s bin ich einverstanden.
 gev#:#gev_confirm_qualification#:#Ich habe die <a href='/data/Generali/documents/03_Checkliste Qualifikationsvoraussetzungen.pdf' target='_blank' style="color: #0000ff">Qualifikationsvoraussetzungen</a> gemäß Abschnitt 1 der VersVermV erbracht (Sachkundeprüfung zur Versicherungsvermittlung oder gleichgestellte andere Berufsqualifikation) oder eine Ausbildung zur Versicherungsvermittlung auf dem Niveau der Anforderungen zur Sachkundeprüfung durchlaufen.
-gev#:#gev_confirm_refresh_attachments#:#Möchten sie die Anhänge wirklich aktualisieren?
+gev#:#gev_confirm_refresh_attachments#:#Möchten Sie die Anhänge wirklich aktualisieren?
 gev#:#gev_confirm_wbd#:#Mit den %s bin ich einverstanden.
 gev#:#gev_contents#:#Inhalte
 gev#:#gev_costly_cancellation_action#:#Kostenpflichtig Stornieren
-gev#:#gev_costly_cancellation_msg#:#Die Stornierung ihrer Buchung des Trainings "%s" ist leider nicht mehr kostenlos möglich. Möchten sie die Buchung trotzdem stornieren?
+gev#:#gev_costly_cancellation_msg#:#Die Stornierung ihrer Buchung des Trainings "%s" ist leider nicht mehr kostenlos möglich. Möchten Sie die Buchung trotzdem stornieren?
 gev#:#gev_costs#:#Kosten
 gev#:#gev_coupon_bill_item#:#Gutschein %s
 gev#:#gev_coupon_codes#:#Gutscheincode(s)
@@ -450,7 +450,7 @@ gev#:#gev_filter#:#Filter
 gev#:#gev_finalize_booking_error#:#Beim finalisieren der Buchung ist ein Fehler aufgetreten.
 gev#:#gev_finalize_booking_error #:#Beim Finalisieren der Buchung ist ein Fehler aufgetreten.
 gev#:#gev_free_cancellation_action#:#Kostenfrei Stornieren
-gev#:#gev_free_cancellation_msg#:#Möchten sie die Buchung des Trainings "%s" wirklich stornieren?
+gev#:#gev_free_cancellation_msg#:#Möchten Sie die Buchung des Trainings "%s" wirklich stornieren?
 gev#:#gev_free_cancellation_until#:#kostenfreie Stornierung bis
 gev#:#gev_free_places#:#verfügbare Plätze
 gev#:#gev_from#:#ab
@@ -505,7 +505,7 @@ gev#:#gev_org_mgmt#:#Organisationseinheiten
 gev#:#gev_org_unit#:#zugehörige Organisationseinheit
 gev#:#gev_org_unit_short#:#Org.-Einheit
 gev#:#gev_others_edu_bio#:#Bildungsbiographie von %s
-gev#:#gev_others_edu_bio_desc#:#Hier sehen sie die Bildungspunkte und die von besuchten Trainings von %s.
+gev#:#gev_others_edu_bio_desc#:#Hier sehen Sie die Bildungspunkte und die von %s besuchten Trainings.
 gev#:#gev_others_menu#:#Organisation
 gev#:#gev_overall_prize#:#Gesamtpreis
 gev#:#gev_participation_status#:#Teilnahmestatus
@@ -569,7 +569,7 @@ gev#:#gev_user_profile_saved#:#Ihre Profilinformationen wurden erfolgreich gespe
 gev#:#gev_venue#:#Veranstaltungsort
 gev#:#gev_waiting#:#gebucht auf Warteliste
 gev#:#gev_was_booked_employee#:#Ihr Mitarbeiter %s wurde erfolgreich auf das Training "%s" gebucht.
-gev#:#gev_was_booked_self#:#Das Training "%s" wurde erfolgreich für sie gebucht.
+gev#:#gev_was_booked_self#:#Das Training "%s" wurde erfolgreich für Sie gebucht.
 gev#:#gev_was_booked_self #:#Das Training "%s" wurde erfolgreich für Sie gebucht.
 gev#:#gev_was_booked_waiting_employee#:#Ihr Mitarbeiter %s wurde erfolgreich beim Training "%s" auf die Warteliste hinzugefügt.
 gev#:#gev_was_booked_waiting_self#:#Sie wurden beim Training "%s" erfolgreich auf die Warteliste hinzugefügt.
@@ -668,20 +668,20 @@ mail#:#template_type_deleted_p#:#Vorlagentypen gelöscht.
 mail#:#template_type_deleted_s#:#Vorlagentyp gelöscht.
 mail#:#templates#:#Vorlagen
 mailing#:#attachment_remove_failure#:#Der Mailanhang '%s' kann nicht gelöscht werden, da er in einer Mail verwendet wird.
-mailing#:#auto_mail_confirmation_already_send#:#Die automatische Mail '%s' ist bereits am %s versandt worden. Möchten sie die Mail trotzdem erneut versenden?
-mailing#:#auto_mail_confirmation_not_send_maybe_later#:#Die automatische Mail '%s' wird ereignissgesteuert automatisch versendet. Möchten sie diese Mail trotzdem bereits jetzt versenden?
-mailing#:#auto_mail_confirmation_not_send_scheduled#:#Die automatische Mail '%s' wird am %s automatisch versandt. Möchten sie diese Mail trotzdem bereits jetzt versenden?
+mailing#:#auto_mail_confirmation_already_send#:#Die automatische Mail '%s' ist bereits am %s versandt worden. Möchten Sie die Mail trotzdem erneut versenden?
+mailing#:#auto_mail_confirmation_not_send_maybe_later#:#Die automatische Mail '%s' wird ereignissgesteuert automatisch versendet. Möchten Sie diese Mail trotzdem bereits jetzt versenden?
+mailing#:#auto_mail_confirmation_not_send_scheduled#:#Die automatische Mail '%s' wird am %s automatisch versandt. Möchten Sie diese Mail trotzdem bereits jetzt versenden?
 mailing#:#auto_mail_send_successfully#:#Mail erfolgreich versandt.
 mailing#:#auto_mail_title#:#Titel
 mailing#:#auto_mails#:#automatische Mails
 mailing#:#bcc_recipient#:#BCC
 mailing#:#cc_recipient#:#CC
-mailing#:#confirm_delete_attachment#:#Möchten sie diese Datei aus den verfügbaren Anhängen löschen?
-mailing#:#confirm_override_attachment#:#Eine Datei mit dem Namen '%s' ist bereits in den verfügbaren Anhängen enthalten. Möchten sie die Datei ersetzen?
+mailing#:#confirm_delete_attachment#:#Möchten Sie diese Datei aus den verfügbaren Anhängen löschen?
+mailing#:#confirm_override_attachment#:#Eine Datei mit dem Namen '%s' ist bereits in den verfügbaren Anhängen enthalten. Möchten Sie die Datei ersetzen?
 mailing#:#is_unknown_attachment#:#'%s' ist kein verfügbarer Anhang.
 mailing#:#last_modified#:#Änderungsdatum
 mailing#:#last_send#:#letztes Versanddatum
-mailing#:#mail_attachments_info#:#Bitte beachten sie bei der Auswahl, dass einige Mailanbieter nur Emails mit einer maximalen Größe von 3 Mb zustellen.
+mailing#:#mail_attachments_info#:#Bitte beachten Sie bei der Auswahl, dass einige Mailanbieter nur Emails mit einer maximalen Größe von 3 Mb zustellen.
 mailing#:#mail_log#:#Maillog
 mailing#:#mail_to_members#:#Mail an Mitglieder
 mailing#:#mail_to_members_send_successfully#:#Mail erfolgreich versandt.
@@ -697,10 +697,10 @@ mailing#:#occasion#:#Anlass des Versands
 mailing#:#preview#:#Vorschau
 mailing#:#remove_attachment_success#:#Mailanhang '%s' erfolgreich gelöscht!
 mailing#:#scheduled_for#:#vorgesehenes Versanddatum
-mailing#:#select_mail_recipients#:#Bitte wählen sie die Empfänger aus.
-mailing#:#select_mail_recipients_for_auto_mail#:#Bitte wählen sie die Empfänger für die Mail '%s' aus.
+mailing#:#select_mail_recipients#:#Bitte wählen Sie die Empfänger aus.
+mailing#:#select_mail_recipients_for_auto_mail#:#Bitte wählen Sie die Empfänger für die Mail '%s' aus.
 mailing#:#send_by#:#versendet von
-mailing#:#upload_attachment_failure#:#Beim Upload des Anhangs ist ein unbekannter Fehler aufgetreten. Bitte wenden sie sich an die Administration.
+mailing#:#upload_attachment_failure#:#Beim Upload des Anhangs ist ein unbekannter Fehler aufgetreten. Bitte wenden Sie sich an die Administration.
 mailing#:#upload_attachment_no_file#:#Die hochgeladene Datei ist leer.
 mailing#:#upload_attachment_success#:#Datei '%s' erfolgreich hochgeladen.
 modul#:#identifier#:#2Text (neu)
