@@ -679,22 +679,26 @@ class ilObjTestSettingsScoringResultsGUI
 
 	private function hasScoringSettingsChanged(ilPropertyFormGUI $form)
 	{
-		if( $form->getItemByPostVar('count_system')->getValue() != $this->testOBJ->getCountSystem() )
+		$countSystem = $form->getItemByPostVar('count_system');
+		if( is_object($countSystem) && $countSystem->getValue() != $this->testOBJ->getCountSystem() )
 		{
 			return true;
 		}
 
-		if( $form->getItemByPostVar('mc_scoring')->getValue() != $this->testOBJ->getMCScoring() )
+		$mcScoring = $form->getItemByPostVar('mc_scoring');
+		if( is_object($mcScoring) && $mcScoring != $this->testOBJ->getMCScoring() )
 		{
 			return true;
 		}
 
-		if( $form->getItemByPostVar('score_cutting')->getValue() != $this->testOBJ->getScoreCutting() )
+		$scoreCutting = $form->getItemByPostVar('score_cutting');
+		if( is_object($scoreCutting) && $scoreCutting->getValue() != $this->testOBJ->getScoreCutting() )
 		{
 			return true;
 		}
 
-		if( $form->getItemByPostVar('pass_scoring')->getValue() != $this->testOBJ->getPassScoring() )
+		$passScoring = $form->getItemByPostVar('pass_scoring');
+		if( is_object($passScoring) && $passScoring->getValue() != $this->testOBJ->getPassScoring() )
 		{
 			return true;
 		}
