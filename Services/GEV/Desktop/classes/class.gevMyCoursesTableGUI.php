@@ -97,10 +97,12 @@ class gevCoursesTableGUI extends catAccordionTableGUI {
 			$status = "";
 		}
 		$now = new ilDate(date("Y-m-d"), IL_CAL_DATE);
-		if ((   $a_set["start_date"] === null 
+		$show_cancel_link = 
+			( $a_set["start_date"] === null 
 			|| ilDateTime::_before($now, $a_set["start_date"] !== null?$a_set["start_date"]:$now)
 			)
-			&& $a_set["type"] != "Selbstlernkurs") {
+			&& $a_set["type"] != "Selbstlernkurs";
+		if ($show_cancel_link) {
 			$action = '<a href="'.gevCourseUtils::getCancelLinkTo($a_set["obj_id"], $this->user_id).'">'.
 					  $this->cancel_img."</a>";
 		}
@@ -120,8 +122,11 @@ class gevCoursesTableGUI extends catAccordionTableGUI {
 		$this->tpl->setVariable("GOALS", $a_set["goals"]);
 		$this->tpl->setVariable("CONTENTS", $a_set["content"]);
 		$this->tpl->setVariable("CRS_LINK", gevCourseUtils::getLinkTo($a_set["obj_id"]));
-		$this->tpl->setVariable("CANCEL_DATE", $cancel_date);
-
+		if ($show_cancel_link) {
+			$this->tpl->setCurrentBlock("cancel_date");
+			$this->tpl->setVariable("CANCEL_DATE", $cancel_date);
+			$this->tpl->parseCurrentBlock();
+		}
 
 	}
 }
