@@ -11,7 +11,16 @@ require_once("./Services/UIComponent/Explorer2/classes/class.ilTreeExplorerGUI.p
 class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI
 {
 
-	protected $stay_with_command = array("", "render", "view", "infoScreen", "showStaff", "performPaste");
+    protected $stay_with_command = array("", "render", "view", "infoScreen", "showStaff", "performPaste");
+
+    /**
+     * Constructor
+     */
+    public function __construct($a_expl_id, $a_parent_obj, $a_parent_cmd, $a_tree)
+    {
+        parent::__construct($a_expl_id, $a_parent_obj, $a_parent_cmd, $a_tree);
+        $this->setAjax(true);
+    }
 
 		public function getNodeContent($node){
 			global $lng;
