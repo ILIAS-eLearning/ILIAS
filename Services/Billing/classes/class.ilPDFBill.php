@@ -1191,7 +1191,8 @@ class ilPDFBill
 	{
 
 		$info1 = ($this->encodeSpecialChars($this->bill->getCurrency()) . " " . $this->plSideInfoForCurrentPreTaxes);
-		$info2 = ($this->encodeSpecialChars($this->plCalculationTaxAmount));
+		//$info2 = ($this->encodeSpecialChars($this->plCalculationTaxAmount));
+		$info2 = ($this->encodeSpecialChars("USt (19,00 %)"));
 		$info3 = ($this->encodeSpecialChars($this->bill->getCurrency()) . " " . $this->plSideInfoForCurrentAfterTaxes);
 		$this->pdf->SetFont($this->CalculationFontName, $this->determineIfBoldOrItalic($this->CalculationFontBold, $this->CalculationFontItalic), $this->CalculationFontSize);
 
@@ -1229,7 +1230,7 @@ class ilPDFBill
 			$this->pdf->Cell(1, 0, $this->round($item->getPreTaxAmount()), 0, 0, 'R', 0);
 
 			$this->pdf->setXY($this->spaceLeft + 12.2 + $this->addidistX * 2, $height);
-			$this->pdf->Cell(1, 0, ($this->round($item->getVAT())) . " %", 0, 0, 'R', 0);
+			$this->pdf->Cell(1, 0, ($this->round($amount - $item->getPreTaxAmount())) . " %", 0, 0, 'R', 0);
 
 			$this->pdf->setXY($this->spaceLeft + 15.2 + $this->addidistX * 3, $height);
 			$this->pdf->Cell(1, 0, $this->round($amount), 0, 0, 'R', 0);

@@ -63,7 +63,7 @@ class gevCourseHighlightsSliderGUI extends catSliderGUI {
 			$tpl->setVariable("TYPE", $crs["type"]);
 
 			$org_title = $crs["title"];
-			if(strlen($org_title) > 64) {
+			if(strlen($org_title) > 48) {
 				$title = '<a title="' .$org_title .'">';
 				$title .= substr($org_title, 0, 48);
 				$title .= ' [...]</a>';
