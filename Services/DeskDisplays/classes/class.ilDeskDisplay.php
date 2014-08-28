@@ -580,7 +580,7 @@ class ilDeskDisplay
 	{
 		$temp_file = ilUtil::ilTempnam();
 		$this->build($temp_file);
-		ilUtil::deliverFile($temp_file, 'DeskDisplays.pdf', 'application/pdf', true, true);
+		ilUtil::deliverFile($temp_file, 'DeskDisplays.pdf', 'application/pdf', false, true);
 	}
 
 	/**
