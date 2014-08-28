@@ -331,13 +331,16 @@ class gevBookingGUI {
 			$note->setValue($this->lng->txt("gev_booking_note"));
 			$form->addItem($note);
 		}
-				
-		$agb = new ilCheckboxInputGUI("", "agb");
-		$agb->setOptionTitle($this->lng->txt("gev_accept_book_cond"));
-		if ($a_alert_agb) {
-			$agb->setAlert($this->lng->txt("gev_book_no_cond_accept"));
+		
+		
+		if (!($this->isSelfLearningCourse() && !$this->isWithPayment())) {
+			$agb = new ilCheckboxInputGUI("", "agb");
+			$agb->setOptionTitle($this->lng->txt("gev_accept_book_cond"));
+			if ($a_alert_agb) {
+				$agb->setAlert($this->lng->txt("gev_book_no_cond_accept"));
+			}
+			$form->addItem($agb);
 		}
-		$form->addItem($agb);
 		
 		return $form->getHTML();
 	}
