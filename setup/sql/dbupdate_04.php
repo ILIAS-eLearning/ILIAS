@@ -2554,3 +2554,18 @@ if(!$ilDB->tableExists('usr_cron_mail_reminder'))
         $ilDB->addPrimaryKey('orgu_types_adv_md_rec', array('type_id', 'rec_id'));
     }
     ?>
+
+<#4304>
+<?php
+	$ilDB->modifyTableColumn(
+		'ecs_server',
+		'auth_pass',
+		array(
+			"type" => "text",
+			"length" => 128,
+			"notnull" => false,
+			'fixed' => false
+		)
+	);
+?>
+
