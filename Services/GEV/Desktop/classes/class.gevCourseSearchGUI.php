@@ -25,6 +25,7 @@ class gevCourseSearchGUI {
 		$this->tpl = &$tpl;
 		$this->user_id = $ilUser->getId();
 		$this->user_utils = gevUserUtils::getInstance($ilUser->getId());
+		$this->search_form = null;
 
 		if ($this->user_utils->hasUserSelectorOnSearchGUI()) {
 			$this->target_user_id = $_POST["target_user_id"]
@@ -74,8 +75,66 @@ class gevCourseSearchGUI {
 			 	 . $spacer->render()
 			   : ""
 			   )
+			 . $this->renderSearch()
 			 . $crs_tbl->getHTML()
 			 ;
+	}
+	
+	public function renderSearch() {
+		$form = $this->getSearchForm();
+		
+		return $form->getHTML();
+	}
+	
+	public function getSearchForm() {
+		if ($this->search_form !== null) {
+			return $this->search_form;
+		}
+		
+		require_once("Services/CaTUIComponents/classes/class.catPropertyFormGUI.php");
+		require_once("Services/Form/classes/class.ilFormSectionHeaderGUI.php");
+		require_once("Services/Form/classes/class.ilTextInputGUI.php");
+		require_once("Services/Form/classes/class.ilTextInputGUI.php");
+		require_once("Services/Form/classes/class.ilSelectInputGUI.php");
+		require_once("Services/Form/classes/class.ilDateDurationInputGUI.php");
+		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+		
+		$form = new catPropertyFormGUI();
+		$form->setTemplate("tpl.gev_search_form.html", "Services/GEV/Desktop");
+		$form->setFormAction($this->ctrl->getFormAction($this));
+		$form->addCommandButton("search", $this->lng->txt("search"));
+
+		$title = new ilTextInputGUI($this->lng->txt("title"), "title");
+		$form->addItem($title);
+		
+		$custom_id = new ilTextInputGUI($this->lng->txt("gev_course_id"), "custom_id");
+		$form->addItem($custom_id);
+		
+		$type = new ilSelectInputGUI($this->lng->txt("gev_course_type"), "type");
+		$type->setOptions(gevCourseUtils::getTypeOptions());
+		$form->addItem($type);
+		
+		$categorie = new ilSelectInputGUI($this->lng->txt("gev_course_categorie"), "categorie");
+		$categorie->setOptions(gevCourseUtils::getCategorieOptions());
+		$form->addItem($categorie);
+		
+		$target_group = new ilSelectInputGUI($this->lng->txt("gev_target_group"), "target_group");
+		$target_group->setOptions(gevCourseUtils::getTargetGroupOptions());
+		$form->addItem($target_group);
+		
+		$location = new ilSelectInputGUI($this->lng->txt("udf_type_venueselect"), "location");
+		$location->setOptions(gevCourseUtils::getLocationOptions());
+		$form->addItem($location);
+		
+		$provider = new ilSelectInputGUI($this->lng->txt("udf_type_providerselect"), "provider");
+		$provider->setOptions(gevCourseUtils::getProviderOptions());
+		$form->addItem($provider);
+		
+		$period = new ilDateDurationInputGUI($this->lng->txt("time_segment"), "period");
+		$form->addItem($period);
+		
+		$this->search_form = $form;
+		return $form;
 	}
 }
 

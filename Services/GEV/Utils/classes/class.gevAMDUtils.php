@@ -295,6 +295,29 @@ class gevAMDUtils {
 		}
 	}
 	
+	// For select or multi select amd fields get an array with all options
+	// of the field.
+	public function getOptions($a_amd_setting) {
+		// TODO: There should be some checking of amd field type here.
+		
+		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+		$settings = gevSettings::getInstance();
+		$field_id = $settings->getAMDFieldId($a_amd_setting);
+		$res = $this->db->query("SELECT field_values FROM adv_mdf_definition ".
+							" WHERE field_id = ".$this->db->quote($field_id, "integer"));
+		if ($rec = $this->db->fetchAssoc($res)) {
+			$vals = unserialize($rec["field_values"]);
+			$ret = array();
+			foreach ($vals as $val) {
+				$ret[$val] = $val;
+			}
+			return $ret;
+		}
+		else {
+			throw new ilException("gevCourseUtils::getTypeOptions: There's something seriously wrong.");
+		}
+	}
+	
 	/**
 	 * Create a set of amd records.
 	 * 

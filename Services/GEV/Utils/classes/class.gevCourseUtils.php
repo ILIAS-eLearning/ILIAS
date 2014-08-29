@@ -777,6 +777,48 @@ class gevCourseUtils {
 		$this->amd->setField($this->crs_id, gevSettings::CRS_AMD_ORGA, $a_orga);
 	}
 	
+	// options for course search
+	
+	public static function getTypeOptions() {
+		require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
+		return gevAMDUtils::getInstance()->getOptions(gevSettings::CRS_AMD_TYPE);
+	}
+	
+	public static function getCategorieOptions() {
+		require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
+		return gevAMDUtils::getInstance()->getOptions(gevSettings::CRS_AMD_TOPIC);
+	}
+	
+	public static function getTargetGroupOptions() {
+		require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
+		return gevAMDUtils::getInstance()->getOptions(gevSettings::CRS_AMD_TARGET_GROUP);
+	}
+	
+	public static function getLocationOptions() {
+		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
+		return gevOrgUnitUtils::getVenueNames();
+/*		global $ilDB;
+		
+		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+		$field_id = gevSettings::getInstance()->getAMDFieldId(gevSettings::CRS_AMD_VENUE);
+		
+		$res = $ilDB->query( "SELECT DISTINCT od.title FROM adv_md_values_text amd"
+							." JOIN object_data od ON od.obj_id = amd.value"
+							." WHERE amd.field_id = ".$ilDB->quote($field_id, "integer")
+							);
+		$ret = array();
+		while($rec = $ilDB->fetchAssoc($res)) {
+			$ret[$rec["title"]] = $rec["title"];
+		}
+		
+		return $ret;*/
+	}
+	
+	public static function getProviderOptions() {
+		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
+		return gevOrgUnitUtils::getProviderNames();
+	}
+	
 	// derived courses for templates
 	
 	public function getDerivedCourseIds() {

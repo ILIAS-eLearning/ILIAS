@@ -423,6 +423,7 @@ gev#:#gev_course_id#:#Nr. der Maßnahme
 gev#:#gev_course_is_full#:#Leider ist das Training bereits ausgebucht.
 gev#:#gev_course_mgmt#:#Trainings
 gev#:#gev_course_type#:#Lernart
+gev#:#gev_course_categorie#:#Trainingskategorie
 gev#:#gev_credit_points#:#Bildungspunkte
 gev#:#gev_crs_book_overnight_details#:#Übernachtungen
 gev#:#gev_crs_function#:#Rolle
