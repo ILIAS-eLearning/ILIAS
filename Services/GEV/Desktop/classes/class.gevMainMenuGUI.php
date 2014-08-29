@@ -74,6 +74,9 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 		require_once("Services/GEV/Reports/classes/class.gevReportingPermissions.php");
 		$report_permissions = gevReportingPermissions::getInstance($this->user->getId());
 
+		//$report_permissions->getOrgUnitIdsWhereUserHasRole(array());
+		//die();
+
 		$report_permission_attendancebyuser = $this->userUtils->isAdmin() || false;
 		//$report_permission_attendancebyuser = $report_permissions -> isSuperior('anywhere');
 		// or role in DBV, AVL/VL, 

@@ -424,4 +424,34 @@ class gevReportingPermissions
 		return ($this->hasPermissionInAnyOrgUnit("tep_view_other") ||
 			$this->hasPermissionInAnyOrgUnit("tep_view_other_rcrsv"));
 	}
+
+
+
+
+	public function getOrgUnitIdsWhereUserHasRole(array $possibleRoles, $recursive=false) 
+	{
+		//current userId: $this->user_id
+
+		$valid_ou_ref_ids = array();
+		
+		$ou_tree = ilObjOrgUnitTree::_getInstance();
+		$ou_ref_ids = $ou_tree->getOrgUnitOfUser($this->user_id);
+
+		foreach ($ou_ref_ids as $ou_ref_id) {
+			//check, if user has a valid role in there.
+			//TODO: getRole and check
+			$valid_ou_ref_ids[] = $ou_ref_id;
+		}
+
+		if($recursive) {
+			$valid_ou_ref_ids = $this->getRecursiveOrgUnits($valid_ou_ref_ids);
+		}
+
+		
+		return $valid_ou_ref_ids;
+	}
+
+	
+
+
 }

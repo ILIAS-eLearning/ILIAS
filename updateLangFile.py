@@ -126,9 +126,9 @@ class LangEntry:
 
 	def __init__(self, module, identifier, text):
 		""" """
-		self.module = module
-		self.identifier = identifier
-		self.text = text
+		self.module = module.strip()
+		self.identifier = identifier.strip()
+		self.text = text.strip()
 		self.id = self.getId()
 
 	def getLine(self):

@@ -15,6 +15,7 @@
 * @ilCtrl_Calls gevDesktopGUI: gevEduBiographyGUI
 * @ilCtrl_Calls gevDesktopGUI: gevUserProfileGUI
 * @ilCtrl_Calls gevDesktopGUI: gevWBDTPServiceRegistrationGUI
+* @ilCtrl_Calls gevDesktopGUI: gevWBDTPBasicRegistrationGUI
 * @ilCtrl_Calls gevDesktopGUI: gevAttendanceByEmployeeGUI
 *
 */
@@ -96,6 +97,12 @@ class gevDesktopGUI {
 				$gui = new gevWBDTPServiceRegistrationGUI();
 				$ret = $this->ctrl->forwardCommand($gui);
 				break;
+			
+			case "gevwbdtpbasicregistrationgui":
+				require_once("Services/GEV/Registration/classes/class.gevWBDTPBasicRegistrationGUI.php");
+				$gui = new gevWBDTPBasicRegistrationGUI();
+				$ret = $this->ctrl->forwardCommand($gui);
+				break;
 
 			case "gevattendancebyemployeegui":
 				$ilMainMenu->setActive("gev_reporting_menu");
@@ -167,11 +174,26 @@ class gevDesktopGUI {
 		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 		global $ilUser;
 		$utils = gevUserUtils::getInstanceByObj($ilUser);
-		if ($utils->hasWBDRelevantRole() && !$utils->hasDoneWBDRegistration()
-			&& !($next_class == "gevwbdtpserviceregistrationgui")) {
-			$this->ctrl->redirectByClass("gevWBDTPServiceRegistrationGUI");
+		if ($utils->hasWBDRelevantRole() && !$utils->hasDoneWBDRegistration()) {
+
+			//two ways: GEV is TP or  TPBasic
+			if ($utils->canBeRegisteredAsTPService()) {
+
+				if ($next_class != "gevwbdtpserviceregistrationgui") {
+					$this->ctrl->redirectByClass("gevWBDTPServiceRegistrationGUI");
+				}
+			} else {
+				if ($next_class != "gevwbdtpbasicregistrationgui") {
+					//die('g');
+					$this->ctrl->redirectByClass("gevWBDTPBasicRegistrationGUI");
+				}
+			}
 		}
 	}
+
+
+
+
 }
 
 ?>

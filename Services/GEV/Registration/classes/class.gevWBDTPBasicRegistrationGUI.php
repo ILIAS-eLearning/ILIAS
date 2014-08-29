@@ -11,7 +11,7 @@
 
 require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 
-class gevWBDTPServiceRegistrationGUI {
+class gevWBDTPBasicRegistrationGUI {
 	public function __construct() {
 		global $lng, $ilCtrl, $ilLog, $ilUser;
 
@@ -29,31 +29,27 @@ class gevWBDTPServiceRegistrationGUI {
 		$cmd = $this->ctrl->getCmd();
 
 		switch ($cmd) {
-			//case "startRegistration":
+			case "startRegistration":
 			case "setBWVId":
 			case "noBWVId":
 			case "createBWVId":
-			//case "registerTPBasis":
-			case "registerTPService":
-			case "noServiceReg":
+			case "registerTPBasis":
+			//case "registerTPService":
 				$ret = $this->$cmd();
 				break;
-				
-				break;
 			default:
-				/*
-				if ($this->user_utils->canBeRegisteredAsTPService()) {
+				/*if ($this->user_utils->canBeRegisteredAsTPService()) {
 					$ret = $this->createTPServiceBWVId();
 				} else {
 					$ret = $this->startRegistration();
 				}
 				*/
-				$ret = $this->createTPServiceBWVId();
+				$ret = $this->startRegistration();
 		}
 
 		require_once("Services/CaTUIComponents/classes/class.catTitleGUI.php");
-		$title = new catTitleGUI("gev_wbd_registration"
-								, "gev_wbd_registration_header_note"
+		$title = new catTitleGUI("gev_wbd_registration_basic"
+								, "gev_wbd_registration_basic_header_note"
 								, "GEV_img/ico-head-wbd_registration.png"
 								);
 
@@ -76,7 +72,6 @@ class gevWBDTPServiceRegistrationGUI {
 		}
 	}
 
-/*
 	protected function startRegistration() {
 		$tpl = new ilTemplate("tpl.gev_wbd_start_registration.html", false, false, "Services/GEV/Registration");
 
@@ -91,17 +86,15 @@ class gevWBDTPServiceRegistrationGUI {
 
 		return $tpl->get();
 	}
-*/
+
 	protected function setBWVId() {
 		if ($_POST["bwv_id"] == "") {
-			/*
-			if ($this->user_utils->canBeRegisteredAsTPService()) {
+			/*if ($this->user_utils->canBeRegisteredAsTPService()) {
 				return $this->createTPServiceBWVId();
 			} else {
 				return $this->startRegistration();
-			}
-			*/
-			return $this->createTPServiceBWVId();
+			}*/
+			return $this->startRegistration();
 		}
 
 		$this->user_utils->setWBDBWVId($_POST["bwv_id"]);
@@ -119,8 +112,7 @@ class gevWBDTPServiceRegistrationGUI {
 	}
 
 	protected function createBWVId() {
-		/*
-		if ($this->user_utils->canBeRegisteredAsTPService()) {
+		/*if ($this->user_utils->canBeRegisteredAsTPService()) {
 			return $this->createTPServiceBWVId();
 		}
 		else {
@@ -133,21 +125,18 @@ class gevWBDTPServiceRegistrationGUI {
 	protected function createTPServiceBWVId($a_form = null) {
 		$tpl = new ilTemplate("tpl.gev_wbd_tp_service_form.html", false, false, "Services/GEV/Registration");
 		$form = $a_form===null ? $this->buildTPServiceForm() : $a_form;
+
 		$tpl->setVariable("ACTION", $this->ctrl->getFormAction($this));
 		$tpl->setVariable("FORM", $form->getHTML());
-/*
 		$tpl->setVariable("QUESTION", $this->lng->txt("gev_wbd_registration_question_service"));
 		$tpl->setVariable("HAS_BWV_ID", $this->lng->txt("gev_wbd_registration_has_bwv_id"));
 		$tpl->setVariable("HAS_BWV_ID_COMMAND", $this->lng->txt("gev_wbd_registration_has_bwv_id_cmd"));
 		$tpl->setVariable("NO_BWV_ID", $this->lng->txt("gev_wbd_registration_no_bwv_id"));
 		$tpl->setVariable("NO_BWV_ID_COMMAND", $this->lng->txt("gev_wbd_registration_no_bwv_id_cmd"));
 
-*/
-		$tpl->setVariable("NO_BWV_SERVICE_REG_LNK", $this->ctrl->getLinkTarget($this, 'noServiceReg'));
-
 		return $tpl->get();
 	}
-
+/*
 	protected function registerTPService() {
 		$form = $this->buildTPServiceForm();
 
@@ -181,28 +170,7 @@ class gevWBDTPServiceRegistrationGUI {
 		ilUtil::sendSuccess($this->lng->txt("gev_wbd_registration_finished_create_bwv_id"), true);
 		ilUtil::redirect("ilias.php?baseClass=gevDesktopGUI&cmdClass=toMyCourses");
 	}
-
-
-
-
-	protected function noServiceReg() {
-		$tpl = new ilTemplate("tpl.gev_wbd_tp_service_form_noreg.html", false, false, "Services/GEV/Registration");
-		
-		$tpl->setVariable("ACTION", $this->ctrl->getFormAction($this));
-		
-		$tpl->setVariable("QUESTION", $this->lng->txt("gev_wbd_registration_question_service"));
-		$tpl->setVariable("HAS_BWV_ID", $this->lng->txt("gev_wbd_registration_has_bwv_id"));
-		$tpl->setVariable("HAS_BWV_ID_COMMAND", $this->lng->txt("gev_wbd_registration_has_bwv_id_cmd"));
-		$tpl->setVariable("NO_BWV_ID", $this->lng->txt("gev_wbd_registration_no_bwv_id"));
-		$tpl->setVariable("NO_BWV_ID_COMMAND", $this->lng->txt("gev_wbd_registration_no_bwv_id_cmd"));
-		
-		//$form->addCommandButton("startRegistration", $this->lng->txt("back"));
-		return $tpl->get();
-
-	}
-
-
-
+*/
 	protected function buildTPServiceForm() {
 		require_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		require_once("Services/Form/classes/class.ilCheckboxInputGUI.php");
@@ -211,8 +179,8 @@ class gevWBDTPServiceRegistrationGUI {
 		require_once("Services/Form/classes/class.ilRadioOption.php");
 
 		$form = new ilPropertyFormGUI();
-		$form->addCommandButton("registerTPService", $this->lng->txt("register_tp_service"));
-		//$form->addCommandButton("startRegistration", $this->lng->txt("back"));
+		//$form->addCommandButton("registerTPService", $this->lng->txt("register_tp_service"));
+		$form->addCommandButton("startRegistration", $this->lng->txt("back"));
 		$form->setFormAction($this->ctrl->getFormAction($this));
 
 		$wbd_link = "<a href='/data/Generali/documents/02_AGB_WBD.pdf' target='_blank' style='color: #0000ff'>".$this->lng->txt("gev_agb_wbd")."</a>";
@@ -245,18 +213,19 @@ class gevWBDTPServiceRegistrationGUI {
 		$opt1->setValue("auth");
 		$form->addItem($opt1);
 
+
 		return $form;
 	}
 
 	protected function createTPBasisBWVId($a_form = null) {
-		$tpl = new ilTemplate("tpl.gev_wbd_tp_service_form.html", false, false, "Services/GEV/Registration");
+		$tpl = new ilTemplate("tpl.gev_wbd_tp_basis_form.html", false, false, "Services/GEV/Registration");
 		$form = $a_form===null ? $this->buildTPBasisForm() : $a_form;
 
 		$tpl->setVariable("FORM", $form->getHTML());
 
 		return $tpl->get();
 	}
-/*
+
 	protected function registerTPBasis() {
 		$form = $this->buildTPBasisForm();
 
@@ -287,10 +256,12 @@ class gevWBDTPServiceRegistrationGUI {
 
 		$this->user_utils->setWBDRegistrationDone();
 
+		/*$tpl = new ilTemplate("tpl.gev_wbd_registration_finished.html", false, false, "Services/GEV/Registration");
+		return $tpl->get();*/
 		ilUtil::sendSuccess($this->lng->txt("gev_wbd_registration_finished_create_bwv_id"), true);
 		ilUtil::redirect("ilias.php?baseClass=gevDesktopGUI&cmdClass=toMyCourses");
 	}
-*/
+
 	protected function buildTPBasisForm() {
 		require_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		require_once("Services/Form/classes/class.ilCheckboxInputGUI.php");
@@ -299,8 +270,8 @@ class gevWBDTPServiceRegistrationGUI {
 		require_once("Services/Form/classes/class.ilRadioOption.php");
 
 		$form = new ilPropertyFormGUI();
-		//$form->addCommandButton("registerTPBasis", $this->lng->txt("register_tp_basis"));
-		//$form->addCommandButton("startRegistration", $this->lng->txt("back"));
+		$form->addCommandButton("registerTPBasis", $this->lng->txt("register_tp_basis"));
+		$form->addCommandButton("startRegistration", $this->lng->txt("back"));
 		$form->setFormAction($this->ctrl->getFormAction($this));
 
 		$wbd_link = "<a href='/data/Generali/documents/02_AGB_WBD.pdf' target='_blank' style='color: #0000ff'>".$this->lng->txt("gev_agb_wbd")."</a>";
