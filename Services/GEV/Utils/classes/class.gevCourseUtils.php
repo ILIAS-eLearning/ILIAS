@@ -808,7 +808,7 @@ class gevCourseUtils {
 		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
 		$arr = gevOrgUnitUtils::getVenueNames();
 		$all = $lng->txt("gev_crs_srch_all");
-		return array_merge(array($all => $all), $arr);
+		return array($all => $all) + $arr;
 	}
 	
 	public static function getProviderOptions() {
@@ -816,7 +816,7 @@ class gevCourseUtils {
 		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
 		$arr = gevOrgUnitUtils::getProviderNames();
 		$all = $lng->txt("gev_crs_srch_all");
-		return array_merge(array($all => $all), $arr);
+		return array($all => $all) + $arr;
 	}
 	
 	// derived courses for templates

@@ -247,6 +247,96 @@ class gevUserUtils {
 		$type_field_id = $this->gev_set->getAMDFieldId(gevSettings::CRS_AMD_TYPE);
 		$bk_deadl_field_id = $this->gev_set->getAMDFieldId(gevSettings::CRS_AMD_BOOKING_DEADLINE);
 		
+		
+		// include search options 
+		$additional_join = "";
+		$additional_where = "";
+		
+		if (array_key_exists("title", $a_search_options)) {
+			$additional_join .= " LEFT JOIN object_data od ON cs.obj_id = od.obj_id ";
+			$additional_where .= " AND od.title LIKE ".$this->db->quote("%".$a_search_options["title"]."%", "text");
+		}
+		if (array_key_exists("custom_id", $a_search_options)) {
+			$custom_id_field_id = $this->gev_set->getAMDFieldId(gevSettings::CRS_AMD_CUSTOM_ID);
+			
+			// this is knowledge from the course amd plugin!
+			$additional_join .= 
+				" LEFT JOIN adv_md_values_text custom_id".
+				"   ON cs.obj_id = custom_id.obj_id ".
+				"   AND custom_id.field_id = ".$this->db->quote($custom_id_field_id, "integer")
+				;
+			$additional_where .=
+				" AND custom_id.value LIKE ".$this->db->quote("%".$a_search_options["custom_id"]."%", "text");
+		}
+		if (array_key_exists("type", $a_search_options)) {
+			$additional_where .=
+				" AND ltype.value LIKE ".$this->db->quote("%".$a_search_options["type"]."%", "text");
+		}
+		if (array_key_exists("categorie", $a_search_options)) {
+			$categorie_field_id = $this->gev_set->getAMDFieldId(gevSettings::CRS_AMD_TOPIC);
+			
+			// this is knowledge from the course amd plugin!
+			$additional_join .= 
+				" LEFT JOIN adv_md_values_text categorie".
+				"   ON cs.obj_id = categorie.obj_id ".
+				"   AND categorie.field_id = ".$this->db->quote($categorie_field_id, "integer")
+				;
+			$additional_where .=
+				" AND categorie.value LIKE ".$this->db->quote("%".$a_search_options["categorie"]."%", "text");
+		}
+		if (array_key_exists("target_group", $a_search_options)) {
+			$target_group_field_id = $this->gev_set->getAMDFieldId(gevSettings::CRS_AMD_TARGET_GROUP);
+			
+			// this is knowledge from the course amd plugin!
+			$additional_join .= 
+				" LEFT JOIN adv_md_values_text target_group".
+				"   ON cs.obj_id = target_group.obj_id ".
+				"   AND target_group.field_id = ".$this->db->quote($target_group_field_id, "integer")
+				;
+			$additional_where .=
+				" AND target_group.value LIKE ".$this->db->quote("%".$a_search_options["target_group"]."%", "text");
+		}
+		if (array_key_exists("location", $a_search_options)) {
+			$location_field_id = $this->gev_set->getAMDFieldId(gevSettings::CRS_AMD_VENUE);
+			
+			// this is knowledge from the course amd plugin!
+			$additional_join .= 
+				" LEFT JOIN adv_md_values_text location".
+				"   ON cs.obj_id = location.obj_id ".
+				"   AND location.field_id = ".$this->db->quote($location_field_id, "integer")
+				;
+			$additional_where .=
+				" AND location.value LIKE ".$this->db->quote("%".$a_search_options["location"]."%", "text");
+		}
+		if (array_key_exists("provider", $a_search_options)) {
+			$provider_field_id = $this->gev_set->getAMDFieldId(gevSettings::CRS_AMD_PROVIDER);
+			
+			// this is knowledge from the course amd plugin!
+			$additional_join .= 
+				" LEFT JOIN adv_md_values_text provider".
+				"   ON cs.obj_id = provider.obj_id ".
+				"   AND provider.field_id = ".$this->db->quote($provider_field_id, "integer")
+				;
+			$additional_where .=
+				" AND provider.value LIKE ".$this->db->quote("%".$a_search_options["provider"]."%", "text");
+		}
+		if (array_key_exists("period", $a_search_options)) {
+			$end_date_field_id = $this->gev_set->getAMDFieldId(gevSettings::CRS_AMD_START_DATE);
+			
+			// this is knowledge from the course amd plugin!
+			$additional_join .=
+				" LEFT JOIN adv_md_values_date end_date".
+				"   ON cs.obj_id = end_date.obj_id ".
+				"   AND end_date.field_id = ".$this->db->quote($end_date_field_id, "integer")
+				;
+			$additional_where .=
+				" AND ( ( NOT start_date.value >= ".$this->db->quote(date("Y-m-d", $a_search_options["period"]["end"]))." ) ".
+				"       OR ".$this->db->in("ltype.value", array("Selbstlernkurs"), false, "text").") ".
+				" AND ( ( NOT end_date.value <= ".$this->db->quote(date("Y-m-d", $a_search_options["period"]["end"]))." ) ".
+				"       OR ".$this->db->in("ltype.value", array("Selbstlernkurs"), false, "text").") "
+				;
+		}
+		
 		// try to narrow down the set as much as possible to avoid permission checks
 		$query = "SELECT DISTINCT cs.obj_id ".
 				 " FROM crs_settings cs".
@@ -268,6 +358,7 @@ class gevUserUtils {
 				 " LEFT JOIN adv_md_values_int bk_deadl ".
 				 "   ON cs.obj_id = bk_deadl.obj_id ".
 				 "   AND bk_deadl.field_id = ".$this->db->quote($bk_deadl_field_id, "integer").
+				 $additional_join.
 				 " WHERE cs.activation_type = 1".
 				 "   AND cs.activation_start < ".time().
 				 "   AND cs.activation_end > ".time().
@@ -279,6 +370,7 @@ class gevUserUtils {
 				 "		  OR (".$this->db->in("ltype.value", array("Selbstlernkurs"), false, "text").
 				 "			 )".
 				 "		 )".
+				 $additional_where.
 				 "";	
 		
 		$res = $this->db->query($query);
