@@ -4907,7 +4907,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
                 if(!$cmd)
                 {
-                    $cmd = 'view';
+                    $cmd = 'infoScreen';
                 }
                 $cmd .= 'Object';
                 $this->$cmd();
