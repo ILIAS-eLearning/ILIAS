@@ -7539,7 +7539,7 @@ exc#:#exc_msg_all_mandatory_ass#:#Sie müssen alle obligatorischen Übungseinhei
 exc#:#exc_msg_failed_mandatory#:#Sie haben mindestens eine obgligatorische Übungseinheit nicht bestanden.
 exc#:#exc_msg_min_number_ass#:#Sie müssen mindestens %s Übungseinheiten bestehen um die Übung zu bestehen.
 exc#:#exc_msg_missed_minimum_number#:#Sie haben die Mindestanzahl an Übungseinheiten nicht bestanden.
-exc#:#exc_msg_new_feedback_file_uploaded#:#Es wurde eine neue Feedback-Datei zur Übungen "%s" hinzugefügt.
+exc#:#exc_msg_new_feedback_file_uploaded#:#Es wurde eine neue Feedback-Datei zur Übung "%s" hinzugefügt.
 exc#:#exc_msg_new_feedback_file_uploaded2#:#Eine neue Feedback-Datei wurde für Sie hochgeladen.
 exc#:#exc_msg_participants_removed#:#Die Teilnehmer wurden aus der Übung entfernt.
 exc#:#exc_msg_public_submission#:#Alle Lösungsabgaben werden nach dem Abgabetermin veröffentlicht.
@@ -14557,7 +14557,7 @@ exc#:#exc_note_for_tutor#:#Notiz für Tutoren
 exc#:#exc_comment_for_learner_edit#:#Kommentar für Lerner bearbeiten
 common#:#sorting_creation_header#:#Nach Erstellungsdatum
 common#:#sorting_creation_info#:#Die enthaltenen Objekte werden automatisch nach ihrem Erstellungsdatum sortiert.
-exc#:#exc_comment_for_learner_info#:#Es wird eine Benachrichtigung an den Benutzer gesendet und die Datei wird in dessen Übungseinheiten-Übersicht gelistet.
+exc#:#exc_comment_for_learner_info#:#Es wird eine Benachrichtigung an den Benutzer gesendet und das Feedback wird in dessen Übungseinheiten-Übersicht gelistet.
 common#:#sorting_direction#:#Sortierungsrichtung
 common#:#sorting_desc#:#Absteigend
 common#:#sorting_asc#:#Aufsteigend
@@ -14611,3 +14611,5 @@ user#:#del_mail_body#:#Hallo %1$s, %2$sSie haben sich seit längerer Zeit nicht 
 user#:#send_mail_to_inactive_users_numbers_only#:#Bitte nur ganzzahlige, positive Werte eingeben, ihre Eingabe wurde gerundet.
 user#:#send_mail_to_inactive_users_must_be_smaller_than#:#Dieser Wert muss kleiner sein, als der Wert "Vergangene Tage seit letzter Anmeldung".
 user#:#send_mail_reminder_window_too_small#:#Ihr Intervall ist zu groß um einen Emailversand vor der Account Löschung zu gewährleisten.
+exc#:#exc_msg_new_feedback_text_uploaded#:#Es wurde ein neuer Kommentar zur Übung "%s" hinzugefügt.
+exc#:#exc_msg_new_feedback_text_uploaded2#:#Ein Tutor hat einen neuen Kommentar für Sie eingestellt.

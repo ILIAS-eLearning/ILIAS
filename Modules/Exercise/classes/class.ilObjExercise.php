@@ -954,7 +954,7 @@ class ilObjExercise extends ilObject
 	/**
 	 * Send feedback file notification to user
 	 */
-	function sendFeedbackFileNotification($a_feedback_file, $a_user_id, $a_ass_id)
+	function sendFeedbackFileNotification($a_feedback_file, $a_user_id, $a_ass_id, $a_is_text_feedback = false)
 	{
 		$user_ids = $a_user_id;
 		if(!is_array($user_ids))
@@ -963,8 +963,13 @@ class ilObjExercise extends ilObject
 		}
 		
 		include_once("./Modules/Exercise/classes/class.ilExerciseMailNotification.php");
+		
+		$type = (bool)$a_is_text_feedback
+			? ilExerciseMailNotification::TYPE_FEEDBACK_TEXT_ADDED
+			: ilExerciseMailNotification::TYPE_FEEDBACK_FILE_ADDED;
+				
 		$not = new ilExerciseMailNotification();
-		$not->setType(ilExerciseMailNotification::TYPE_FEEDBACK_FILE_ADDED);
+		$not->setType($type);
 		$not->setAssignmentId($a_ass_id);
 		$not->setObjId($this->getId());
 		if ($this->getRefId() > 0)

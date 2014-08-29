@@ -4549,8 +4549,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 				if(sizeof($reci_ids))
 				{
 					// send notification
-					$this->object->sendFeedbackFileNotification("dummy", 
-						$reci_ids, $ass_id);
+					$this->object->sendFeedbackFileNotification(null, $reci_ids, 
+						$ass_id, true);
 				}
 				
 				$res = array("result"=>true, "snippet"=>ilUtil::shortenText($comment, 25, true));

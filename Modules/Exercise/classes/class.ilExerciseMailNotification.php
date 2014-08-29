@@ -13,6 +13,7 @@ class ilExerciseMailNotification extends ilMailNotification
 {
 	const TYPE_FEEDBACK_FILE_ADDED = 20;
 	const TYPE_SUBMISSION_UPLOAD = 30;
+	const TYPE_FEEDBACK_TEXT_ADDED = 40;
 
 	/**
 	 *
@@ -115,6 +116,38 @@ class ilExerciseMailNotification extends ilMailNotification
 						$this->createPermanentLink()));
 					$this->getMail()->appendInstallationSignature(true);
 
+					$this->sendMail(array($rcp),array('system'));
+				}
+				break;
+				
+			case self::TYPE_FEEDBACK_TEXT_ADDED:
+				
+				foreach($this->getRecipients() as $rcp)
+				{
+					$this->initLanguage($rcp);
+					$this->initMail();
+					$this->setSubject(
+						sprintf($this->getLanguageText('exc_msg_new_feedback_text_uploaded'),
+							$this->getObjectTitle(true))
+					);
+					$this->setBody(ilMail::getSalutation($rcp,$this->getLanguage()));
+					$this->appendBody("\n\n");
+					$this->appendBody(
+						$this->getLanguageText('exc_msg_new_feedback_text_uploaded2'));
+					$this->appendBody("\n");
+					$this->appendBody(
+						$this->getLanguageText('obj_exc').": ".$this->getObjectTitle(true));
+					$this->appendBody("\n");
+					$this->appendBody(
+						$this->getLanguageText('exc_assignment').": ".
+						ilExAssignment::lookupTitle($this->getAssignmentId()));
+					$this->appendBody("\n\n");
+					$this->appendBody($this->getLanguageText('exc_mail_permanent_link'));
+					$this->appendBody("\n");
+					$this->appendBody($this->createPermanentLink(array(), '_'.$this->getAssignmentId()).
+						'#fb'.$this->getAssignmentId());
+					$this->getMail()->appendInstallationSignature(true);
+										
 					$this->sendMail(array($rcp),array('system'));
 				}
 				break;
