@@ -778,4 +778,27 @@ if( !$ilDB->tableColumnExists('tst_tests', 'inst_fb_answer_fixation') )
 		)
 	);
 ?>
+<#32>
+<?php
 
+// #13822 - oracle does not support ALTER TABLE varchar2 to CLOB
+	
+$ilDB->lockTables(array(
+	array('name'=>'exc_assignment_peer', 'type'=>ilDB::LOCK_WRITE)
+));
+
+$def = array(
+	'type'    => 'clob',
+	'notnull' => false
+);
+$ilDB->addTableColumn('exc_assignment_peer', 'pcomment_long', $def);	
+
+$ilDB->manipulate('UPDATE exc_assignment_peer SET pcomment_long = pcomment');
+
+$ilDB->dropTableColumn('exc_assignment_peer', 'pcomment');
+
+$ilDB->renameTableColumn('exc_assignment_peer', 'pcomment_long', 'pcomment');
+
+$ilDB->unlockTables();
+
+?>
