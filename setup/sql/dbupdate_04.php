@@ -2554,7 +2554,6 @@ if(!$ilDB->tableExists('usr_cron_mail_reminder'))
         $ilDB->addPrimaryKey('orgu_types_adv_md_rec', array('type_id', 'rec_id'));
     }
     ?>
-
 <#4304>
 <?php
 	$ilDB->modifyTableColumn(
@@ -2568,4 +2567,27 @@ if(!$ilDB->tableExists('usr_cron_mail_reminder'))
 		)
 	);
 ?>
+<#4305>
+<?php
 
+// #13822 - oracle does not support ALTER TABLE varchar2 to CLOB
+	
+$ilDB->lockTables(array(
+	array('name'=>'exc_assignment_peer', 'type'=>ilDB::LOCK_WRITE)
+));
+
+$def = array(
+	'type'    => 'clob',
+	'notnull' => false
+);
+$ilDB->addTableColumn('exc_assignment_peer', 'pcomment_long', $def);	
+
+$ilDB->manipulate('UPDATE exc_assignment_peer SET pcomment_long = pcomment');
+
+$ilDB->dropTableColumn('exc_assignment_peer', 'pcomment');
+
+$ilDB->renameTableColumn('exc_assignment_peer', 'pcomment_long', 'pcomment');
+
+$ilDB->unlockTables();
+
+?>
