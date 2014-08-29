@@ -35,7 +35,7 @@ class gevUserUtils {
 		$this->user_obj = null;
 		$this->org_id = null;
 		
-		$this->potentiallyBookableCourses = null;
+		$this->potentiallyBookableCourses = array();
 		$this->users_who_booked_at_course = array();
 	}
 	
@@ -235,11 +235,11 @@ class gevUserUtils {
 		return array_merge($booked_amd, $waiting_amd);
 	}
 	
-	public function getPotentiallyBookableCourseIds() {
+	public function getPotentiallyBookableCourseIds($a_search_options) {
 		global $ilUser;
-		
-		if ($this->potentiallyBookableCourses !== null) {
-			return $this->potentiallyBookableCourses;
+		$hash = md5(serialize($a_search_options));
+		if ($this->potentiallyBookableCourses[$hash] !== null) {
+			return $this->potentiallyBookableCourses[$hash];
 		}
 		
 		$is_tmplt_field_id = $this->gev_set->getAMDFieldId(gevSettings::CRS_AMD_IS_TEMPLATE);
@@ -253,13 +253,13 @@ class gevUserUtils {
 				 " LEFT JOIN object_reference oref".
 				 "   ON cs.obj_id = oref.obj_id".
 				 // this is knowledge from the course amd plugin!
-				 " LEFT JOIN adv_md_values_text amd1".
-				 "   ON cs.obj_id = amd1.obj_id ".
-				 "   AND amd1.field_id = ".$this->db->quote($is_tmplt_field_id, "integer").
+				 " LEFT JOIN adv_md_values_text is_template".
+				 "   ON cs.obj_id = is_template.obj_id ".
+				 "   AND is_template.field_id = ".$this->db->quote($is_tmplt_field_id, "integer").
 				 // this is knowledge from the course amd plugin
-				 " LEFT JOIN adv_md_values_date amd2".
-				 "   ON cs.obj_id = amd2.obj_id ".
-				 "   AND amd2.field_id = ".$this->db->quote($start_date_field_id, "integer").
+				 " LEFT JOIN adv_md_values_date start_date".
+				 "   ON cs.obj_id = start_date.obj_id ".
+				 "   AND start_date.field_id = ".$this->db->quote($start_date_field_id, "integer").
 				 // this is knowledge from the course amd plugin
 				 " LEFT JOIN adv_md_values_text ltype".
 				 "   ON cs.obj_id = ltype.obj_id ".
@@ -272,9 +272,9 @@ class gevUserUtils {
 				 "   AND cs.activation_start < ".time().
 				 "   AND cs.activation_end > ".time().
 				 "   AND oref.deleted IS NULL".
-				 "   AND amd1.value = ".$this->db->quote("Nein", "text").
+				 "   AND is_template.value = ".$this->db->quote("Nein", "text").
 				 "   AND (   ( (ltype.value LIKE 'Pr_senztraining' OR ltype.value = 'Webinar')".
-				 "            AND ADDDATE(amd2.value, -1 * bk_deadl.value) >= ".$this->db->quote(date("Y-m-d"), "text").
+				 "            AND ADDDATE(start_date.value, -1 * bk_deadl.value) >= ".$this->db->quote(date("Y-m-d"), "text").
 				 "		     )".
 				 "		  OR (".$this->db->in("ltype.value", array("Selbstlernkurs"), false, "text").
 				 "			 )".
@@ -296,11 +296,11 @@ class gevUserUtils {
 			}
 		}
 		
-		$this->potentiallyBookableCourses = $crss;
+		$this->potentiallyBookableCourses[$hash] = $crss;
 		return $crss;
 	}
 	
-	public function getPotentiallyBookableCourseInformation($a_offset, $a_limit, $a_order = "title", $a_direction = "desc") {
+	public function getPotentiallyBookableCourseInformation($a_search_options, $a_offset, $a_limit, $a_order = "title", $a_direction = "desc") {
 		require_once("Modules/Course/classes/class.ilObjCourse.php");
 		require_once("Services/CourseBooking/classes/class.ilCourseBookings.php");
 		require_once("Services/CourseBooking/classes/class.ilCourseBookingPermissions.php");
@@ -321,7 +321,7 @@ class gevUserUtils {
 			throw new Exception("gevUserUtils::getPotentiallyBookableCourseInformation: unknown direction '".$a_direction."'");
 		}
 		
-		$crss = $this->getPotentiallyBookableCourseIds();
+		$crss = $this->getPotentiallyBookableCourseIds($a_search_options);
 		
 		$crs_amd = 
 			array( gevSettings::CRS_AMD_START_DATE			=> "start_date"

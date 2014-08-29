@@ -18,11 +18,12 @@ require_once("Services/GEV/Desktop/classes/class.gevCourseSearchTableGUI.php");
 
 class gevCourseSearchGUI {
 	public function __construct() {
-		global $lng, $ilCtrl, $tpl, $ilUser;
+		global $lng, $ilCtrl, $tpl, $ilUser, $ilLog;
 
 		$this->lng = &$lng;
 		$this->ctrl = &$ilCtrl;
 		$this->tpl = &$tpl;
+		$this->log = &$ilLog;
 		$this->user_id = $ilUser->getId();
 		$this->user_utils = gevUserUtils::getInstance($ilUser->getId());
 		$this->search_form = null;
@@ -40,10 +41,14 @@ class gevCourseSearchGUI {
 	}
 
 	public function executeCommand() {
-		return $this->render();
+		$cmd = $this->ctrl->getCmd();
+		
+		$in_search = $cmd == "search";
+		
+		return $this->render($in_search);
 	}
 
-	public function render() {
+	public function render($a_in_search) {
 		if ($this->user_utils->hasUserSelectorOnSearchGUI()) {
 			$user_selector = new gevUserSelectorGUI($this->target_user_id);
 			$user_selector->setUsers($this->user_utils->getEmployeesForCourseSearch())
@@ -59,8 +64,28 @@ class gevCourseSearchGUI {
 
 		$spacer = new catHSpacerGUI();
 		$spacer_out = $spacer->render();
+		
+		$form = $this->getSearchForm();
+		if ($a_in_search) {
+			$form->setValuesByPost();
+			if ($form->checkInput()) {
+				$search_opts = $form->getInputs();
+				// clean empty or "all"-options
+				foreach($search_opts as $key => $value) {
+					if (!$value || $value == $this->lng->txt("gev_crs_srch_all")) {
+						unset($search_opts[$key]);
+					}
+				}
+			}
+			else {
+				$search_opts = array();
+			}
+		}
+		else {
+			$search_opts = array();
+		}
 
-		$crs_tbl = new gevCourseSearchTableGUI($this->target_user_id, $this);
+		$crs_tbl = new gevCourseSearchTableGUI($search_opts, $this->target_user_id, $this);
 		$crs_tbl->setTitle("gev_crs_srch_title")
 				->setSubtitle( $this->target_user_id == $this->user_id
 							 ? "gev_crs_srch_my_table_desc"
@@ -70,7 +95,7 @@ class gevCourseSearchGUI {
 				->setCommand("gev_crs_srch_limit", "www.google.de"); // TODO: set this properly
 
 		return $usrsel
-			 . ( ($hls->countHighlights() > 0)
+			 . ( ($hls->countHighlights() > 0 && $a_in_search)
 			   ?   $hls->render()
 			 	 . $spacer->render()
 			   : ""

@@ -19,7 +19,7 @@ require_once("Services/CourseBooking/classes/class.ilCourseBookingHelper.php");
 require_once("Services/CaTUIComponents/classes/class.catLegendGUI.php");
 
 class gevCourseSearchTableGUI extends catAccordionTableGUI {
-	public function __construct($a_user_id, $a_parent_obj, $a_parent_cmd="", $a_template_context="") {
+	public function __construct($a_search_options, $a_user_id, $a_parent_obj, $a_parent_cmd="", $a_template_context="") {
 		parent::__construct($a_parent_obj, $a_parent_cmd, $a_template_context);
 
 		global $ilCtrl, $lng;
@@ -35,7 +35,7 @@ class gevCourseSearchTableGUI extends catAccordionTableGUI {
 		$this->setEnableHeader(true);
 		$this->setExternalSorting(true);
 		$this->setExternalSegmentation(true);
-		$this->setMaxCount(count($user_util->getPotentiallyBookableCourseIds()));
+		$this->setMaxCount(count($user_util->getPotentiallyBookableCourseIds($a_search_options)));
 		$this->determineOffsetAndOrder();
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, "view"));
 
@@ -76,6 +76,7 @@ class gevCourseSearchTableGUI extends catAccordionTableGUI {
 		}
 
 		$this->setData($user_util->getPotentiallyBookableCourseInformation(
+										$a_search_options, 
 										$this->getOffset(),
 										$this->getLimit(),
 										$order,

@@ -35,6 +35,14 @@ class catPropertyFormGUI extends ilPropertyFormGUI {
 		return $this->tpl_location;
 	}
 	
+	public function getInputs() {
+		$ret = array();
+		foreach ($this->getItems() as $item) {
+			$ret[$item->getPostVar()] = $item->getValue();
+		}
+		return $ret;
+	}
+	
 	/**
 	* Get Content.
 	*

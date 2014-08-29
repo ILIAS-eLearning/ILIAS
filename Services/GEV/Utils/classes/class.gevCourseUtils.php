@@ -780,43 +780,43 @@ class gevCourseUtils {
 	// options for course search
 	
 	public static function getTypeOptions() {
+		global $lng;
 		require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
-		return gevAMDUtils::getInstance()->getOptions(gevSettings::CRS_AMD_TYPE);
+		$arr = gevAMDUtils::getInstance()->getOptions(gevSettings::CRS_AMD_TYPE);
+		$all = $lng->txt("gev_crs_srch_all");
+		return array_merge(array($all => $all), $arr);
 	}
 	
 	public static function getCategorieOptions() {
+		global $lng;
 		require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
-		return gevAMDUtils::getInstance()->getOptions(gevSettings::CRS_AMD_TOPIC);
+		$arr = gevAMDUtils::getInstance()->getOptions(gevSettings::CRS_AMD_TOPIC);
+		$all = $lng->txt("gev_crs_srch_all");
+		return array_merge(array($all => $all), $arr);
 	}
 	
 	public static function getTargetGroupOptions() {
+		global $lng;
 		require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
-		return gevAMDUtils::getInstance()->getOptions(gevSettings::CRS_AMD_TARGET_GROUP);
+		$arr = gevAMDUtils::getInstance()->getOptions(gevSettings::CRS_AMD_TARGET_GROUP);
+		$all = $lng->txt("gev_crs_srch_all");
+		return array_merge(array($all => $all), $arr);
 	}
 	
 	public static function getLocationOptions() {
+		global $lng;
 		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
-		return gevOrgUnitUtils::getVenueNames();
-/*		global $ilDB;
-		
-		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
-		$field_id = gevSettings::getInstance()->getAMDFieldId(gevSettings::CRS_AMD_VENUE);
-		
-		$res = $ilDB->query( "SELECT DISTINCT od.title FROM adv_md_values_text amd"
-							." JOIN object_data od ON od.obj_id = amd.value"
-							." WHERE amd.field_id = ".$ilDB->quote($field_id, "integer")
-							);
-		$ret = array();
-		while($rec = $ilDB->fetchAssoc($res)) {
-			$ret[$rec["title"]] = $rec["title"];
-		}
-		
-		return $ret;*/
+		$arr = gevOrgUnitUtils::getVenueNames();
+		$all = $lng->txt("gev_crs_srch_all");
+		return array_merge(array($all => $all), $arr);
 	}
 	
 	public static function getProviderOptions() {
+		global $lng;
 		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
-		return gevOrgUnitUtils::getProviderNames();
+		$arr = gevOrgUnitUtils::getProviderNames();
+		$all = $lng->txt("gev_crs_srch_all");
+		return array_merge(array($all => $all), $arr);
 	}
 	
 	// derived courses for templates
