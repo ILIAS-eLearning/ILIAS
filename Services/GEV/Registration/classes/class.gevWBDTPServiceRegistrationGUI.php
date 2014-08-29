@@ -11,7 +11,7 @@
 
 require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 
-class gevWBDRegistrationGUI {
+class gevWBDTPServiceRegistrationGUI {
 	public function __construct() {
 		global $lng, $ilCtrl, $ilLog, $ilUser;
 

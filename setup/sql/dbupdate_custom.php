@@ -749,3 +749,8 @@ $ilDB->addTableColumn( "gev_user_reg_tokens"
 $ilDB->renameTableColumn("hist_certfile", "function", "certfile");
 
 ?>
+
+<#30>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

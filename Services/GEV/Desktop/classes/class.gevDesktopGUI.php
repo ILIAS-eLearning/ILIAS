@@ -14,7 +14,7 @@
 * @ilCtrl_Calls gevDesktopGUI: gevStaticpagesGUI
 * @ilCtrl_Calls gevDesktopGUI: gevEduBiographyGUI
 * @ilCtrl_Calls gevDesktopGUI: gevUserProfileGUI
-* @ilCtrl_Calls gevDesktopGUI: gevWBDRegistrationGUI
+* @ilCtrl_Calls gevDesktopGUI: gevWBDTPServiceRegistrationGUI
 * @ilCtrl_Calls gevDesktopGUI: gevAttendanceByEmployeeGUI
 *
 */
@@ -91,9 +91,9 @@ class gevDesktopGUI {
 				$ret = $this->ctrl->forwardCommand($gui);
 				break;
 
-			case "gevwbdregistrationgui":
-				require_once("Services/GEV/Registration/classes/class.gevWBDRegistrationGUI.php");
-				$gui = new gevWBDRegistrationGUI();
+			case "gevwbdtpserviceregistrationgui":
+				require_once("Services/GEV/Registration/classes/class.gevWBDTPServiceRegistrationGUI.php");
+				$gui = new gevWBDTPServiceRegistrationGUI();
 				$ret = $this->ctrl->forwardCommand($gui);
 				break;
 
@@ -168,8 +168,8 @@ class gevDesktopGUI {
 		global $ilUser;
 		$utils = gevUserUtils::getInstanceByObj($ilUser);
 		if ($utils->hasWBDRelevantRole() && !$utils->hasDoneWBDRegistration()
-			&& !($next_class == "gevwbdregistrationgui")) {
-			$this->ctrl->redirectByClass("gevWBDRegistrationGUI");
+			&& !($next_class == "gevwbdtpserviceregistrationgui")) {
+			$this->ctrl->redirectByClass("gevWBDTPServiceRegistrationGUI");
 		}
 	}
 }
