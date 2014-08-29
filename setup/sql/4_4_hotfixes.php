@@ -765,3 +765,17 @@ if( !$ilDB->tableColumnExists('tst_tests', 'inst_fb_answer_fixation') )
 	));
 }
 ?>
+<#31>
+<?php
+	$ilDB->modifyTableColumn(
+		'ecs_server',
+		'auth_pass',
+		array(
+			"type" => "text",
+			"length" => 128,
+			"notnull" => false,
+			'fixed' => false
+		)
+	);
+?>
+

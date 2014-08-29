@@ -407,10 +407,11 @@ class ilECSSettingsGUI
 
 		$pass = new ilPasswordInputGUI($this->lng->txt('ecs_apache_pass'), 'auth_pass');
 		$pass->setRetype(false);
-		$pass->setSize(16);
-		$pass->setMaxLength(32);
+		$pass->setSize(32);
+		$pass->setMaxLength(128);
 		$pass->setValue((string) $this->settings->getAuthPass());
 		$pass->setRequired(true);
+		$pass->setSkipSyntaxCheck(TRUE);
 		$apa_based->addSubItem($pass);
 
 
