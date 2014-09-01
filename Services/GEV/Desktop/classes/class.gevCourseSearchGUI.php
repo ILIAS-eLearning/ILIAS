@@ -86,7 +86,7 @@ class gevCourseSearchGUI {
 		}
 
 		$crs_tbl = new gevCourseSearchTableGUI($search_opts, $this->target_user_id, $this);
-		$crs_tbl->setTitle("gev_crs_srch_title")
+		$crs_tbl->setTitle(!$a_in_search?"gev_crs_srch_title":"gev_crs_srch_results")
 				->setSubtitle( $this->target_user_id == $this->user_id
 							 ? "gev_crs_srch_my_table_desc"
 							 : "gev_crs_srch_theirs_table_desc"
