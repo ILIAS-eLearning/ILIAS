@@ -36,6 +36,7 @@ class gevUserUtils {
 		$this->org_id = null;
 		$this->direct_superior_ous = null;
 		$this->superior_ous = null;
+		$this->employees = null;
 		
 		$this->potentiallyBookableCourses = array();
 		$this->users_who_booked_at_course = array();
@@ -1090,11 +1091,65 @@ class gevUserUtils {
 		return $this->superior_ous;
 	}
 	
+	public function getEmployees() {
+		if ($employees !== null) {
+			return $this->employees();
+		}
+		
+		$_ds_ous = $this->getOrgUnitsWhereUserIsDirectSuperior();
+		$_s_ous = $this->getOrgUnitsWhereUserIsSuperior();
+	
+		// ref_ids of ous where user is direct superior
+		$ds_ous = array();
+		foreach($_ds_ous as $ou) {
+			$ds_ous[] = $ou["ref_id"];
+		}
+		// ref_ids of ous where user is superior
+		$s_ous = array();
+		foreach($_s_ous as $ou) {
+			$s_ous[] = $ou["ref_id"];
+		}
+		
+		// ref_ids of ous where user is superior but not direct superior
+		$nds_ous = array_diff($s_ous, $ds_ous);
+		
+		$this->employees = array();
+		
+		// get all employees of ous where user is direct superior
+		$res = $this->db->query(
+			 "SELECT ua.usr_id"
+			."  FROM rbac_ua ua"
+			."  JOIN tree tr ON ".$this->db->in("tr.parent", $ds_ous, false, "integer")
+			."  JOIN rbac_fa fa ON fa.parent = tr.child"
+			."  JOIN object_data od ON od.obj_id = fa.rol_id"
+			." WHERE ua.rol_id = fa.rol_id"
+			."   AND od.title LIKE 'il_orgu_employee_%'"
+			);
+		while ($rec = $this->db->fetchAssoc($res)) {
+			$this->employees[] = $rec["usr_id"];
+		}
+		
+		$res = $this->db->query(
+			 "SELECT ua.usr_id"
+			."  FROM rbac_ua ua"
+			."  JOIN tree tr ON ".$this->db->in("tr.parent", $nds_ous, false, "integer")
+			."  JOIN rbac_fa fa ON fa.parent = tr.child"
+			." WHERE ua.rol_id = fa.rol_id"
+			);
+		while ($rec = $this->db->fetchAssoc($res)) {
+			$this->employees[] = $rec["usr_id"];
+		}
+		
+		$this->employees = array_unique($this->employees);
+		
+		return $this->employees;
+	}
+	
 	// billing info
 	
 	public function getLastBillingDataMaybe() {
 		$res = $this->db->query( "SELECT bill_recipient_name, bill_recipient_street, bill_recipient_zip"
-								."   , bill_recipient_hnr, bill_recipient_city, bill_recipient_email, bill_cost_center "
+								."     , bill_recipient_hnr, bill_recipient_city, bill_recipient_email, bill_cost_center "
 								."  FROM bill "
 								." WHERE bill_usr_id = ".$this->db->quote($this->user_id, "integer")
 								." ORDER BY bill_pk DESC LIMIT 1"
