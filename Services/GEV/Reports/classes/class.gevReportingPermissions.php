@@ -426,7 +426,7 @@ class gevReportingPermissions
 	}
 
 
-
+/*
 
 	public function getOrgUnitIdsWhereUserHasRole(array $possibleRoles, $recursive=false) 
 	{
@@ -452,6 +452,6 @@ class gevReportingPermissions
 	}
 
 	
-
+*/
 
 }

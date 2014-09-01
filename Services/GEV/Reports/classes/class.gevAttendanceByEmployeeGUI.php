@@ -13,7 +13,7 @@ class gevAttendanceByEmployeeGUI {
 		$this->db = &$ilDB;
 		$this->user = $ilUser;
 		
-		$this->report_permissions = gevReportingPermissions::getInstance($this->user->getId());
+		//$this->report_permissions = gevReportingPermissions::getInstance($this->user->getId());
 
 		//$this->user_id = $ilUser->getId();
 		$this->start_date = $_POST["period"]["start"]["date"]
@@ -64,13 +64,8 @@ class gevAttendanceByEmployeeGUI {
 		if( $this->user_utils->isAdmin() ) { 
 			return;
 		} else {
-			//TODO: valid roles
-			$valid_roles = array();
-			
-			//TODO: cache this
-			$allowed_orgunits = $this->report_permissions->getOrgUnitIdsWhereUserHasRole($valid_roles);
-			
-			if($allowed_orgunits) {
+			//is superior anywhere?
+			if ($this->user_utils->getEmployees()){
 				return;
 			}
 
@@ -199,7 +194,7 @@ class gevAttendanceByEmployeeGUI {
 					."  WHERE (usrcrs.booking_status != '-empty-' OR usrcrs.participation_status != '-empty-')"
 					
 					. $this->queryWhen($this->start_date, $this->end_date)
-					. $this->queryAllowedOrgUnits()
+					. $this->queryAllowedUsers()
 					
 					."  ORDER BY usr.lastname ASC";
 
@@ -253,50 +248,21 @@ class gevAttendanceByEmployeeGUI {
 		return $this->query_when;
 	}
 	
-	protected function queryAllowedOrgUnits() {
+	protected function queryAllowedUsers() {
 		
-		$valid_roles = array();
 
 		//get org units recursively
-		$allowed_orgunits = $this->report_permissions->getOrgUnitIdsWhereUserHasRole($valid_roles, true);
+		//$allowed_orgunits = $this->report_permissions->getOrgUnitIdsWhereUserHasRole($valid_roles, true);
 		
 
-		//get all members of these units:
+		//get all users the current user is superior of:
+		$allowed_user_ids = $this->user_utils->getEmployees();
 
-		//get roles for this ou
-		//get users with this role
-
-		$allowed_user_ids = array();
-		foreach ($allowed_orgunits as $ou) {
-			//get members;
-			$unit_members = array();
-			//update $allowed_user_ids
-
-		}
+		$allowed_user_ids_str = join(',', $allowed_user_ids);
+		$query = "AND usr.user_id IN ($allowed_user_ids_str)";
 		
-		$unit_members_str = join(',', $unit_members);
-		$query = "AND usr.user_id IN ($unit_members_str)";
-		
-		//return $query;
+		return $query;
 
-		print '<pre>';
-		
-		global $ilUser;
-		print $ilUser->getId();
-		print ' - ';
-		print $ilUser->getFullname();
-		print '<hr>';
-		
-		print_r($allowed_orgunits);
-		print '<hr>';
-
-		print_r($allowed_user_ids);
-		print '<hr>';
-
-		print '</pre>';
-		return "";
-
-		die();
 	}
 
 /*	

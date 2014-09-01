@@ -1092,8 +1092,8 @@ class gevUserUtils {
 	}
 	
 	public function getEmployees() {
-		if ($employees !== null) {
-			return $this->employees();
+		if ($this->employees !== null) {
+			return $this->employees;
 		}
 		
 		$_ds_ous = $this->getOrgUnitsWhereUserIsDirectSuperior();
