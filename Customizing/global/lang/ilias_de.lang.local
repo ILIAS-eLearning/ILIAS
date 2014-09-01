@@ -422,6 +422,8 @@ gev#:#gev_course_bill_title#:#Buchung des Trainings "%s" für "%s"
 gev#:#gev_course_id#:#Nr. der Maßnahme
 gev#:#gev_course_is_full#:#Leider ist das Training bereits ausgebucht.
 gev#:#gev_course_mgmt#:#Trainings
+gev#:#gev_course_search#:#Filter
+gev#:#gev_course_search_desc#:#Hier können Sie gezielt suchen.
 gev#:#gev_course_type#:#Lernart
 gev#:#gev_course_categorie#:#Trainingskategorie
 gev#:#gev_credit_points#:#Bildungspunkte
@@ -433,6 +435,7 @@ gev#:#gev_crs_srch_my_table_desc#:#Hier sehen Sie auf einen Blick alle für Sie 
 gev#:#gev_crs_srch_theirs_table_desc#:#Hier sehen Sie auf einen Blick alle für ihren Mitarbeiter verfügbaren Angebote.
 gev#:#gev_crs_srch_title#:#Übersicht
 gev#:#gev_crs_srch_all#:#alle
+gev#:#gev_crs_srch_limit#:#Suche eingrenzen
 gev#:#gev_crs_srch_usr_slctr_caption#:#Suche für:
 gev#:#gev_desk_displays#:#Tischaufsteller
 gev#:#gev_edu_bio#:#Bildungsbiographie
