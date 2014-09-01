@@ -303,7 +303,7 @@ class ilObjTestSettingsScoringResultsGUI
 		// result filter taxonomies
 		if( $this->testQuestionSetConfigFactory->getQuestionSetConfig()->isResultTaxonomyFilterSupported() )
 		{
-			if( !$this->isHiddenFormItem'results_tax_filters' && count($this->getAvailableTaxonomyIds()) )
+			if( !$this->isHiddenFormItem('results_tax_filters') && count($this->getAvailableTaxonomyIds()) )
 			{
 				$this->testOBJ->setResultFilterTaxIds( array_intersect(
 					$this->getAvailableTaxonomyIds(), $form->getItemByPostVar('results_tax_filters')->getValue()
@@ -812,7 +812,7 @@ class ilObjTestSettingsScoringResultsGUI
 			return false;
 		}
 		
-		if( !$settings[$formFieldId]['hide']] )
+		if( !$settings[$formFieldId]['hide'] )
 		{
 			return false;
 		}
