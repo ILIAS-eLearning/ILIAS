@@ -92,7 +92,8 @@ class gevCourseSearchGUI {
 							 : "gev_crs_srch_theirs_table_desc"
 							 )
 				->setImage("GEV_img/ico-head-search.png")
-				->setCommand("gev_crs_srch_limit", "www.google.de"); // TODO: set this properly
+				//->setCommand("gev_crs_srch_limit", "www.google.de"); // TODO: set this properly
+				->setCommand("gev_crs_srch_limit", "javascript:gevShowSearchFilter();"); // TODO: set this properly
 
 		return $usrsel
 			 . ( ($hls->countHighlights() > 0 && $a_in_search)
@@ -124,10 +125,16 @@ class gevCourseSearchGUI {
 		require_once("Services/Form/classes/class.ilDateDurationInputGUI.php");
 		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 		
+		require_once("Services/CaTUIComponents/classes/class.catTitleGUI.php");
+		
+
 		$form = new catPropertyFormGUI();
 		$form->setTemplate("tpl.gev_search_form.html", "Services/GEV/Desktop");
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		$form->addCommandButton("search", $this->lng->txt("search"));
+
+		$search_title = new catTitleGUI("gev_course_search", "gev_course_search_desc", "GEV_img/ico-head-search.png");
+		$form->setTitle($search_title->render());
 
 		$title = new ilTextInputGUI($this->lng->txt("title"), "title");
 		$form->addItem($title);

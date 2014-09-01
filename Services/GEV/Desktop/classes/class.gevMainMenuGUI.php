@@ -80,7 +80,6 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 		$report_permission_attendancebyuser = $this->userUtils->isAdmin() || false;
 		//$report_permission_attendancebyuser = $report_permissions -> isSuperior('anywhere');
 		// or role in DBV, AVL/VL, 
-		// or isAdmin
 		
 		
 		$has_reporting_menu = $report_permission_attendancebyuser; // || ....

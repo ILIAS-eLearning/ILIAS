@@ -262,6 +262,10 @@ class gevAttendanceByEmployeeGUI {
 		
 
 		//get all members of these units:
+
+		//get roles for this ou
+		//get users with this role
+
 		$allowed_user_ids = array();
 		foreach ($allowed_orgunits as $ou) {
 			//get members;
