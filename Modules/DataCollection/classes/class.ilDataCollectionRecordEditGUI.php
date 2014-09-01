@@ -297,11 +297,6 @@ class ilDataCollectionRecordEditGUI
 		{
 			$value = $record_obj->getRecordFieldFormInput($field->getId());
 			$values['field_'.$field->getId()] = $value;
-			if($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_MOB){
-				$img = ilObjMediaObject::_lookupItemPath($value);
-				if($value)
-                    $this->form->getItemByPostVar('field_'.$field->getId())->setImage($img);
-			}
 		}
 
 		$this->form->setValuesByArray($values);

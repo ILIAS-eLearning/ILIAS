@@ -12779,7 +12779,7 @@ dcl#:#dcl_table_settings_saved#:#Table Settings have been saved.
 dcl#:#dcl_ILIAS_reference#:#Link to an ILIAS module
 dcl#:#dcl_learning_progress#:#Show the learning progess of the linked module of the viewer
 dcl#:#dcl_status#:#Your Status
-dcl#:#dcl_mob#:#Image
+dcl#:#dcl_mob#:#Media Object
 dcl#:#dcl_width#:#Width
 dcl#:#dcl_height#:#Height
 dcl#:#dcl_notimage_exception#:#The file has to be a picture.

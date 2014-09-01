@@ -14,6 +14,7 @@ require_once("./Services/Form/classes/class.ilImageFileInputGUI.php");
 require_once("./Services/Preview/classes/class.ilPreview.php");
 require_once('./Services/Preview/classes/class.ilPreviewGUI.php');
 require_once('class.ilDataCollectionRecordViewViewdefinition.php');
+require_once("./Services/MediaObjects/classes/class.ilMediaPlayerGUI.php");
 
 /**
 * Class ilDataCollectionDatatype
@@ -278,8 +279,9 @@ class ilDataCollectionDatatype
 				$input = new ilDataCollectionTreePickInputGUI($title, 'field_'.$field->getId());
 				break;
             case ilDataCollectionDatatype::INPUTFORMAT_MOB:
-                $input = new ilImageFileInputGUI($title, 'field_'.$field->getId());
-				$input->setAllowDeletion(true);
+                $input = new ilFileInputGUI($title, 'field_'.$field->getId());
+				$input->setSuffixes(array('jpg', 'jpeg', 'gif', 'png', 'mp3', 'flx', 'mp4', 'm4v', 'mov', 'wmv'));
+                $input->setAllowDeletion(true);
                 break;
             case ilDataCollectionDatatype::INPUTFORMAT_FORMULA:
                 $input = new ilTextInputGUI($title, 'field_' . $field->getId());
@@ -503,71 +505,58 @@ class ilDataCollectionDatatype
 	            return 0;
 
             $media = $value;
-            if($media['tmp_name'])
-            {
+            if($media['tmp_name']) {
                 $mob = new ilObjMediaObject();
                 $mob->setTitle($media['name']);
                 $mob->create();
-
                 $mob_dir = ilObjMediaObject::_getDirectory($mob->getId());
-                if (!is_dir($mob_dir))
+                if (!is_dir($mob_dir)) {
                     $mob->createDirectory();
-
+                }
                 $media_item = new ilMediaItem();
                 $mob->addMediaItem($media_item);
                 $media_item->setPurpose("Standard");
-
-
                 $file_name = ilUtil::getASCIIFilename($media['name']);
                 $file_name = str_replace(" ", "_", $file_name);
-
                 $file = $mob_dir."/".$file_name;
                 $title = $file_name;
-
+                $location = $file_name;
                 ilUtil::moveUploadedFile($media['tmp_name'], $file_name, $file);
                 ilUtil::renameExecutables($mob_dir);
+                // Check image/video
+                $format = ilObjMediaObject::getMimeType($file);
+                if ($format == 'image/jpeg') {
+                    list($width, $height, $type, $attr) = getimagesize($file);
+                    $arr_properties = $record_field->getField()->getProperties();
+                    $new_width = $arr_properties[ilDataCollectionField::PROPERTYID_WIDTH];
+                    $new_height = $arr_properties[ilDataCollectionField::PROPERTYID_HEIGHT];
+                    if($new_width || $new_height) {
+                        //only resize if it is bigger, not if it is smaller
+                        if($new_height < $height && $new_width < $width) {
+                            //resize proportional
+                            if(!$new_height || !$new_width) {
+                                $format = ilObjMediaObject::getMimeType($file);
+                                $wh = ilObjMediaObject::_determineWidthHeight("", "", $format,
+                                    "File", $file, "",
+                                    true, false, $arr_properties[ilDataCollectionField::PROPERTYID_WIDTH], (int) $arr_properties[ilDataCollectionField::PROPERTYID_HEIGHT]);
+                            } else {
+                                $wh['width'] =  (int) $arr_properties[ilDataCollectionField::PROPERTYID_WIDTH];
+                                $wh['height'] = (int) $arr_properties[ilDataCollectionField::PROPERTYID_HEIGHT];
+                            }
 
-                list($width, $height, $type, $attr) = getimagesize($file);
-
-                $arr_properties = $record_field->getField()->getProperties();
-                $new_width = $arr_properties[ilDataCollectionField::PROPERTYID_WIDTH];
-                $new_height = $arr_properties[ilDataCollectionField::PROPERTYID_HEIGHT];
-                if($new_width || $new_height)
-                {
-                    //only resize if it is bigger, not if it is smaller
-                    if($new_height < $height && $new_width < $width)
-
-                    //resize proportional
-                    if(!$new_height || !$new_width)
-                    {
-                        $format = ilObjMediaObject::getMimeType($file);
-
-                        $wh = ilObjMediaObject::_determineWidthHeight("", "", $format,
-                            "File", $file, "",
-                            true, false, $arr_properties[ilDataCollectionField::PROPERTYID_WIDTH], (int) $arr_properties[ilDataCollectionField::PROPERTYID_HEIGHT]);
+                            $location = ilObjMediaObject::_resizeImage($file,$wh['width'],$wh['height'],false);
+                        }
                     }
-                    else
-                    {
-                        $wh['width'] =  (int) $arr_properties[ilDataCollectionField::PROPERTYID_WIDTH];
-                        $wh['height'] = (int) $arr_properties[ilDataCollectionField::PROPERTYID_HEIGHT];
-                    }
-
-                    $location = ilObjMediaObject::_resizeImage($file,$wh['width'],$wh['height'],false);
-                } else {
-                    $location = $title;
                 }
                 ilObjMediaObject::_saveUsage($mob->getId(), "dcl:html", $record_field->getRecord()->getTable()->getCollectionObject()->getId());
-                $format = ilObjMediaObject::getMimeType($file);
                 $media_item->setFormat($format);
                 $media_item->setLocation($location);
                 $media_item->setLocationType("LocalFile");
-
-
                 $mob->update();
                 $return = $mob->getId();
-            }
-            else
+            } else {
                 $return = $record_field->getValue();
+            }
         }
 		elseif($this->id == ilDataCollectionDatatype::INPUTFORMAT_DATETIME)
 		{
@@ -703,17 +692,29 @@ class ilDataCollectionDatatype
             case self::INPUTFORMAT_MOB:
 
                 $mob = new ilObjMediaObject($value, false);
-                $dir  = ilObjMediaObject::_getDirectory($mob->getId());
-                $media_item = $mob->getMediaItem('Standard');
-                if(!$media_item->location) {
+                $med = $mob->getMediaItem('Standard');
+                if(!$med->location) {
                     $html = "";
                     break;
                 }
-                $html = '<img src="'.$dir."/".$media_item->location.'" />';
-                $arr_properties = $record_field->getField()->getProperties();
-                if ($arr_properties[ilDataCollectionField::PROPERTYID_LINK_DETAIL_PAGE_MOB] && ilDataCollectionRecordViewViewdefinition::getIdByTableId($record_field->getRecord()->getTableId())) {
-                    $ilCtrl->setParameterByClass('ildatacollectionrecordviewgui', 'record_id', $record_field->getRecord()->getId());
-                    $html = '<a href="' . $ilCtrl->getLinkTargetByClass("ildatacollectionrecordviewgui", 'renderRecord') . '">' . $html . '</a>';
+                if (in_array($med->getSuffix(), array('jpg', 'jpeg', 'png', 'gif'))) {
+                    // Image
+                    $dir  = ilObjMediaObject::_getDirectory($mob->getId());
+                    $html = '<img src="'.$dir."/".$med->location.'" />';
+                    $arr_properties = $record_field->getField()->getProperties();
+                    if ($arr_properties[ilDataCollectionField::PROPERTYID_LINK_DETAIL_PAGE_MOB] && ilDataCollectionRecordViewViewdefinition::getIdByTableId($record_field->getRecord()->getTableId())) {
+                        $ilCtrl->setParameterByClass('ildatacollectionrecordviewgui', 'record_id', $record_field->getRecord()->getId());
+                        $html = '<a href="' . $ilCtrl->getLinkTargetByClass("ildatacollectionrecordviewgui", 'renderRecord') . '">' . $html . '</a>';
+                    }
+                } else {
+                    // Video/Audio
+                    $arr_properties = $record_field->getField()->getProperties();
+                    $mpl = new ilMediaPlayerGUI($med->getId(), '');
+                    $mpl->setFile(ilObjMediaObject::_getURL($mob->getId())."/".$med->getLocation());
+                    $mpl->setMimeType($med->getFormat());
+                    $mpl->setDisplayWidth((int) $arr_properties[ilDataCollectionField::PROPERTYID_WIDTH]);
+                    $mpl->setDisplayHeight((int) $arr_properties[ilDataCollectionField::PROPERTYID_HEIGHT]);
+                    $html = $mpl->getPreviewHtml();
                 }
                 break;
 				
@@ -776,7 +777,7 @@ class ilDataCollectionDatatype
 			if(substr($value, 0, 4) == "www.")
 				$value = substr($value, 4);
 		}
-
+        $link = $value;
 		if(strlen($value) > self::LINK_MAX_LENGTH){
 			$link = substr($value, 0, (self::LINK_MAX_LENGTH-3)/2);
 	        $link.= "...";

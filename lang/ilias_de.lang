@@ -12823,7 +12823,7 @@ dcl#:#dcl_record_deleted#:#Eintrag gelöscht
 dcl#:#dcl_ILIAS_reference#:#Link zu einem ILIAS-Modul
 dcl#:#dcl_learning_progress#:#Zeige den Lernfortschritt des verlinkten Moduls bezüglich des Betrachters
 dcl#:#dcl_status#:#Dein Status
-dcl#:#dcl_mob#:#Bild
+dcl#:#dcl_mob#:#Medienobjekt
 dcl#:#dcl_width#:#Breite
 dcl#:#dcl_height#:#Höhe
 dcl#:#dcl_table_info#:#Nachfolgend legen Sie fest, was Benutzer mit dem Recht "Eintragen" in dieser Datensammlung tun dürfen. 
