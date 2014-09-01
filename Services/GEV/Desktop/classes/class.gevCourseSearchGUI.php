@@ -48,7 +48,7 @@ class gevCourseSearchGUI {
 		return $this->render($in_search);
 	}
 
-	public function render($a_in_search) {
+	public function render($a_in_search = false) {
 		if ($this->user_utils->hasUserSelectorOnSearchGUI()) {
 			$user_selector = new gevUserSelectorGUI($this->target_user_id);
 			$user_selector->setUsers($this->user_utils->getEmployeesForCourseSearch())
@@ -97,7 +97,7 @@ class gevCourseSearchGUI {
 				->setCommand("gev_crs_srch_limit", "-"); // TODO: set this properly
 
 		return $usrsel
-			 . ( ($hls->countHighlights() > 0 && $a_in_search)
+			 . ( ($hls->countHighlights() > 0 && !$a_in_search)
 			   ?   $hls->render()
 			 	 . $spacer->render()
 			   : ""
@@ -125,6 +125,7 @@ class gevCourseSearchGUI {
 		require_once("Services/Form/classes/class.ilSelectInputGUI.php");
 		require_once("Services/Form/classes/class.ilDateDurationInputGUI.php");
 		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+		require_once("Services/Calendar/classes/class.ilDate.php");
 		
 		require_once("Services/CaTUIComponents/classes/class.catTitleGUI.php");
 		
@@ -172,6 +173,11 @@ class gevCourseSearchGUI {
 		$form->addItem($provider);
 		
 		$period = new ilDateDurationInputGUI($this->lng->txt("time_segment"), "period");
+		$now = new ilDate(date("Y-m-d"), IL_CAL_DATE);
+		$period->setStart($now);
+		$one_year = new ilDate(date("Y-m-d"), IL_CAL_DATE);
+		$one_year->increment(ilDateTime::YEAR, 1);
+		$period->setEnd($one_year);
 		$form->addItem($period);
 		
 		$this->search_form = $form;
