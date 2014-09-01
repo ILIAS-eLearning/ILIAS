@@ -40,6 +40,15 @@ class ilSCORM2004DeleteData
 		//g_objective
 		$query = 'DELETE FROM cmi_gobjective WHERE scope_id = %s';
 		$ilDB->manipulateF($query, array('integer'), array($packageId));
+
+		$s_globalObjectiveId=self::getGlobalToSystemObjectiveIdStringForPackage($packageId);
+		if ($s_globalObjectiveId != "")  {
+			$ilDB->manipulateF(
+				'DELETE FROM cmi_gobjective WHERE scope_id = %s AND objective_id in ('.$s_globalObjectiveId.')',
+				array('integer'),
+				array(0)
+			);
+		}
 	}
 
 	public function removeCMIDataForUser($user_id)
@@ -82,6 +91,7 @@ class ilSCORM2004DeleteData
 			array('integer'),
 			array($user_id)
 		);
+
 	}
 	
 	public function removeCMIDataForUserAndPackage($user_id,$packageId)
@@ -123,6 +133,15 @@ class ilSCORM2004DeleteData
 			array('integer','integer'),
 			array($user_id,$packageId)
 		);
+
+		$s_globalObjectiveId=self::getGlobalToSystemObjectiveIdStringForPackage($packageId);
+		if ($s_globalObjectiveId != "")  {
+			$ilDB->manipulateF(
+				'DELETE FROM cmi_gobjective WHERE user_id = %s AND scope_id = %s AND objective_id in ('.$s_globalObjectiveId.')',
+				array('integer','integer'),
+				array($user_id,0)
+			);
+		}
 	}
 	
 	public function removeCMIDataForNodes($cmi_node_values)
@@ -130,7 +149,7 @@ class ilSCORM2004DeleteData
 		global $ilDB;
 		
 		//cmi interaction nodes
-		$cmi_inodes = array();
+		$cmi_inode_values = array();
 		
 		$query = 'SELECT cmi_interaction_id FROM cmi_interaction WHERE '
 			. $ilDB->in('cmi_interaction.cmi_node_id', $cmi_node_values, false, 'integer');
@@ -171,5 +190,41 @@ class ilSCORM2004DeleteData
 		$ilDB->manipulate($query);
 
 	}
+	
+	public function getGlobalToSystemObjectiveIdStringForPackage($packageId) {
+		global $ilDB;
+		
+		$existing_key_template = "";
+		$global_to_system = 1;
+
+		$res = $ilDB->queryF('SELECT global_to_system FROM cp_package WHERE obj_id = %s',
+			array('integer'),
+			array($packageId)
+		);
+		while($data = $ilDB->fetchAssoc($res)) 
+		{
+			$global_to_system = $data['global_to_system'];
+		}
+		if ($global_to_system == 0) return "";
+
+		$res = $ilDB->queryF('
+			SELECT targetobjectiveid 
+			FROM cp_mapinfo, cp_node 
+			WHERE cp_node.slm_id = %s 
+			AND cp_node.nodename = %s
+			AND cp_mapinfo.cp_node_id = cp_node.cp_node_id',
+			array('integer', 'text'),
+			array($packageId, 'mapInfo')
+		);
+		while($data = $ilDB->fetchAssoc($res)) 
+		{
+			$existing_key_template .= "'".$data['targetobjectiveid']."',";
+		}
+		//remove trailing ','
+		$existing_key_template = substr($existing_key_template, 0, strlen($existing_key_template) - 1);
+
+		return $existing_key_template;
+	}
+
 }
 ?>
