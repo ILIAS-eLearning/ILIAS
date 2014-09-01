@@ -976,7 +976,7 @@ class ilPDFBill
 	 * Generates the PDF containing the bill and delivers it to the client.
 	 * @throws ilException
 	 */
-	public function deliver()
+	public function deliver($a_filename = "Bill.pdf")
 	{
 
 		if($this->bill->isFinalized() == false)
@@ -989,7 +989,7 @@ class ilPDFBill
 		}
 		$temp_file = ilUtil::ilTempnam();
 		$this->build($temp_file);
-		ilUtil::deliverFile($temp_file, 'Bill.pdf', 'application/pdf', false, true);
+		ilUtil::deliverFile($temp_file, $a_filename, 'application/pdf', false, true);
 	}
 
 	/**

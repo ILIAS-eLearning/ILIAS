@@ -347,23 +347,26 @@ class gevEduBiographyGUI {
 	protected function getBill() {
 		// check weather this bill really belongs to an edu bio record of the current user.
 		$bill_id = $_GET["bill_id"];
-		$res = $this->db->query( "SELECT COUNT(*) cnt"
+		$res = $this->db->query( "SELECT crs_id"
 								."  FROM hist_usercoursestatus "
 								." WHERE usr_id = ".$this->db->quote($this->target_user_id, "integer")
 								."   AND bill_id = ".$this->db->quote($bill_id, "integer")
+								."   AND hist_historic = 0"
 								);
-		if($rec = $this->db->fetchAssoc($res)) {
-			if ($rec["cnt"] == 0) {
-				return $this->render();
-			}
+		
+		if ($this->db->numRows($res) != 1) {
+			return $this->render();
 		}
+		$rec = $this->db->fetchAssoc($res);
 		
 		require_once("Services/Billing/classes/class.ilBill.php");
 		require_once("Services/GEV/Utils/classes/class.gevPDFBill.php");
+		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+		$crs_utils = gevCourseUtils::getInstance($rec["crs_id"]);
 		$bill = ilBill::getInstanceById($_GET["bill_id"]);
 		$gevPDFBill = new gevPDFBill();
 		$gevPDFBill->setBill($bill);
-		$gevPDFBill->deliver();
+		$gevPDFBill->deliver("Rechnung_".$crs_utils->getCustomId().".pdf");
 		exit();
 	}
 	
