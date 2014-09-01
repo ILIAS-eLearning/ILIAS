@@ -26,6 +26,7 @@ class gevBookingGUI {
 		$this->crs_id = null;
 		$this->crs_utils = null;
 		$this->is_self_learning = null;
+		$this->is_webinar = null;
 
 		$this->tpl->getStandardTemplate();
 	}
@@ -175,6 +176,13 @@ class gevBookingGUI {
 			$this->is_self_learning = $this->crs_utils->getType() == "Selbstlernkurs";
 		}
 		return $this->is_self_learning;
+	}
+	
+	protected function isWebinar() {
+		if ($this->is_webinar === null) {
+			$this->is_webinar = $this->crs_utils->getType() == "Webinar";
+		}
+		return $this->is_webinar;
 	}
 	
 	protected function insertInTemplate($a_cont, $a_cmd) {
@@ -333,7 +341,7 @@ class gevBookingGUI {
 		}
 		
 		
-		if (!($this->isSelfLearningCourse() && !$this->isWithPayment())) {
+		if (!(($this->isSelfLearningCourse() || $this->isWebinar()) && !$this->isWithPayment())) {
 			$agb = new ilCheckboxInputGUI("", "agb");
 			$agb->setOptionTitle($this->lng->txt("gev_accept_book_cond"));
 			if ($a_alert_agb) {
@@ -434,7 +442,7 @@ class gevBookingGUI {
 		require_once("Services/CaTUIComponents/classes/class.catPropertyFormGUI.php");
 		require_once("Services/Accomodations/classes/class.ilSetAccomodationsGUI.php");
 		
-		if (!$_POST["agb"]) {
+		if (!$_POST["agb"] && ($this->isWithPayment() || !($this->isSelfLearningCourse() || $this->isWebinar()))) {
 			ilUtil::sendFailure($this->lng->txt("gev_need_agb_accept"));
 			return $this->book(true);
 		}
@@ -644,7 +652,8 @@ class gevBookingGUI {
 	}
 
 	protected function finalizeBookingWithoutPayment() {
-		if (!$_POST["agb"]) {
+		if (!$_POST["agb"] && ($this->isWithPayment() || !($this->isSelfLearningCourse() || $this->isWebinar()))) {
+			ilUtil::sendFailure($this->lng->txt("gev_need_agb_accept"));
 			return $this->book(true);
 		}
 		
