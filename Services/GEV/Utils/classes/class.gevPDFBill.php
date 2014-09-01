@@ -50,10 +50,11 @@ class gevPDFBill extends ilPDFBill {
 		$crs_utils = gevCourseUtils::getInstance($a_bill->getContextId());
 		$user_utils = gevUserUtils::getInstance($a_bill->getUserId());
 		$booking_status = $crs_utils->getBookingStatusOf($a_bill->getUserId());
+		$app = $crs_utils->getFormattedAppointment();
 		
 		$this->setAbout("Rechnung");
 		$this->setTitle("Veranstaltungstitel: ".$crs_utils->getTitle().", ".$crs_utils->getCustomId()
-					   .", ".$crs_utils->getFormattedAppointment());
+					   .($app?(", ".$app):""));
 		$this->setPretext("Für die Weiterbildung des Teilnehmers ".$user_utils->getFirstname()." ".$user_utils->getLastname().
 						  " erlauben wir uns folgende Rechnung zu stellen:");
 		$posttext = "Der Rechnungsbetrag wird in dem Agenturkonto ".$a_bill->getCostCenter()." belastet.";
