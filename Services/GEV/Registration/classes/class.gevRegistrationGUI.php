@@ -67,7 +67,7 @@ class gevRegistrationGUI {
 			$err = true;
 		}
 
-		for ($i = 1; $i <= 2; ++$i) {
+		/*for ($i = 1; $i <= 2; ++$i) {
 			$id = "chb".$i;
 			$chb = $form->getItemByPostVar($id);
 			//if (!$chb->getChecked()) {  // TODO: this doesn't work, why?
@@ -75,7 +75,7 @@ class gevRegistrationGUI {
 				$err = true;
 				$chb->setAlert($this->lng->txt("evg_mandatory"));
 			}
-		}
+		}*/
 
 		if ($err) {
 			return $this->startEVGRegistration($form);
@@ -122,7 +122,7 @@ class gevRegistrationGUI {
 		$email->setRequired(true);
 		$form->addItem($email);
 
-		$chb1 = new ilCheckboxInputGUI("", "chb1");
+		/*chb1 = new ilCheckboxInputGUI("", "chb1");
 		$chb1->setOptionTitle($this->lng->txt("evg_toc"));
 		$chb1->setRequired(true);
 		$form->addItem($chb1);
@@ -130,7 +130,7 @@ class gevRegistrationGUI {
 		$chb2 = new ilCheckboxInputGUI("", "chb2");
 		$chb2->setOptionTitle($this->lng->txt("evg_wbd"));
 		$chb2->setRequired(true);
-		$form->addItem($chb2);
+		$form->addItem($chb2);*/
 
 		return $form;
 	}

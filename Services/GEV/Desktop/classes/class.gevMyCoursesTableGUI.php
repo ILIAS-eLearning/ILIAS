@@ -35,6 +35,9 @@ class gevCoursesTableGUI extends catAccordionTableGUI {
 		$this->setImage("GEV_img/ico-head-my-training-deployments.png");
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, "view"));
 
+		$data = $user_util->getBookedAndWaitingCourseInformation();
+		$this->setMaxCount(count($data));
+		$this->setExternalSegmentation(true);
 
 		$this->setTopCommands(false);
 		$this->setEnableHeader(true);
@@ -60,7 +63,7 @@ class gevCoursesTableGUI extends catAccordionTableGUI {
 			   ->addItem($this->waiting_img, "gev_waiting");
 		$this->setLegend($legend);
 
-		$this->setData($user_util->getBookedAndWaitingCourseInformation());
+		$this->setData($data);
 	}
 
 	protected function fillRow($a_set) {
