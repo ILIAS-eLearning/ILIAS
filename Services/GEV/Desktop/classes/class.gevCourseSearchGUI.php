@@ -134,7 +134,9 @@ class gevCourseSearchGUI {
 		$form->setTemplate("tpl.gev_search_form.html", "Services/GEV/Desktop");
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		$form->addCommandButton("search", $this->lng->txt("search"));
-
+		
+		$form->setId('gevCourseSearchForm');
+		
 		global $tpl;
 		// http://www.jacklmoore.com/colorbox/
 		$tpl->addJavaScript("Services/CaTUIComponents/js/colorbox-master/jquery.colorbox-min.js");
