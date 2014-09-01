@@ -304,7 +304,7 @@ class gevBookingGUI {
 				   )
 			, array( $this->lng->txt("gev_training_contact")
 				   , !$this->isSelfLearningCourse()
-				   , $this->crs_utils->getMainAdminName()
+				   , $this->crs_utils->getMainAdminName()." (".$this->crs_utils->getMainAdminEMail().")"
 				   )
 			, array( $this->lng->txt("gev_training_fee")
 				   , $this->isWithPayment()
