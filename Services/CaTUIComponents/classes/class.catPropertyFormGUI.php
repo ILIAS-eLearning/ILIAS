@@ -61,6 +61,7 @@ class catPropertyFormGUI extends ilPropertyFormGUI {
 		$tpl->addJavaScript("./Services/JavaScript/js/Basic.js");
 		$tpl->addJavaScript("Services/Form/js/Form.js");
 
+
 		$this->tpl = new ilTemplate($this->getTemplateFilename(), true, true, $this->getTemplateLocation());
 
 		// check if form has not title and first item is a section header

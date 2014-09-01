@@ -93,7 +93,8 @@ class gevCourseSearchGUI {
 							 )
 				->setImage("GEV_img/ico-head-search.png")
 				//->setCommand("gev_crs_srch_limit", "www.google.de"); // TODO: set this properly
-				->setCommand("gev_crs_srch_limit", "javascript:gevShowSearchFilter();"); // TODO: set this properly
+				//->setCommand("gev_crs_srch_limit", "javascript:gevShowSearchFilter();"); // TODO: set this properly
+				->setCommand("gev_crs_srch_limit", "-"); // TODO: set this properly
 
 		return $usrsel
 			 . ( ($hls->countHighlights() > 0 && $a_in_search)
@@ -128,10 +129,16 @@ class gevCourseSearchGUI {
 		require_once("Services/CaTUIComponents/classes/class.catTitleGUI.php");
 		
 
+
 		$form = new catPropertyFormGUI();
 		$form->setTemplate("tpl.gev_search_form.html", "Services/GEV/Desktop");
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		$form->addCommandButton("search", $this->lng->txt("search"));
+
+		global $tpl;
+		// http://www.jacklmoore.com/colorbox/
+		$tpl->addJavaScript("Services/CaTUIComponents/js/colorbox-master/jquery.colorbox-min.js");
+
 
 		$search_title = new catTitleGUI("gev_course_search", "gev_course_search_desc", "GEV_img/ico-head-search.png");
 		$form->setTitle($search_title->render());
