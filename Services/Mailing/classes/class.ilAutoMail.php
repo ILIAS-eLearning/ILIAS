@@ -225,7 +225,7 @@ abstract class ilAutoMail {
 			}
 
 			if (strlen($mail_data["message_html"]) > 0) {
-				$mail->Body = $msg_html;
+				$mail->Body = "<div style='font-size: .8em'>".$msg_html."</div>";
 				$mail->isHTML(true);
 				$mail->AltBody = $msg_plain;
 			}
