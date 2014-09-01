@@ -249,7 +249,7 @@ class gevUserProfileGUI {
 		$b_country->setValue($this->user->getCountry());
 		$form->addItem($b_country);
 		
-		$b_phone = new ilTextInputGUI($this->lng->txt("phone"), "b_phone");
+		$b_phone = new ilTextInputGUI($this->lng->txt("gev_profile_phone"), "b_phone");
 		$b_phone->setValue($this->user->getPhoneOffice());
 		$form->addItem($b_phone);
 		
