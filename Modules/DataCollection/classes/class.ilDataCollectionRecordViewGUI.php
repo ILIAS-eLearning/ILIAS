@@ -8,7 +8,7 @@ require_once('./Modules/DataCollection/classes/class.ilDataCollectionRecord.php'
 require_once('./Modules/DataCollection/classes/class.ilDataCollectionField.php');
 require_once('./Modules/DataCollection/classes/class.ilDataCollectionRecordViewViewdefinition.php');
 require_once('./Services/UIComponent/Button/classes/class.ilLinkButton.php');
-
+require_once(dirname(__FILE__) . '/class.ilDataCollectionRecordEditGUI.php');
 
 /**
  * Class ilDataCollectionRecordViewGUI
@@ -214,6 +214,7 @@ class ilDataCollectionRecordViewGUI
         if ($this->record_obj->hasPermissionToEdit((int) $_GET['ref_id'])) {
             $button = ilLinkButton::getInstance();
             $ilCtrl->setParameterByClass('ildatacollectionrecordeditgui', 'table_id', $this->table->getId());
+            $ilCtrl->setParameterByClass('ildatacollectionrecordeditgui', 'redirect', ilDataCollectionRecordEditGUI::REDIRECT_DETAIL);
             $ilCtrl->saveParameterByClass('ildatacollectionrecordeditgui', 'record_id');
             $button->setUrl($ilCtrl->getLinkTargetByClass('ildatacollectionrecordeditgui', 'edit'));
             $button->setCaption($lng->txt('dcl_edit_record'), false);

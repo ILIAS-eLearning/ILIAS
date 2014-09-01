@@ -14,11 +14,21 @@ require_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 * @author Marcel Raimann <mr@studer-raimann.ch>
 * @author Fabian Schmid <fs@studer-raimann.ch>
 * @author Oskar Truffer <ot@studer-raimann.ch>
+* @author Stefan Wanzenried <sw@studer-raimann.ch>
 * @version $Id: 
 *
 */
 class ilDataCollectionRecordEditGUI
 {
+
+    /**
+     * Possible redirects after saving/updating a record - use GET['redirect']
+     *
+     */
+    const REDIRECT_RECORD_LIST = 1;
+    const REDIRECT_DETAIL = 2;
+
+
     /**
      * @var int
      */
@@ -71,6 +81,7 @@ class ilDataCollectionRecordEditGUI
                 $ilCtrl->redirectByClass('ildatacollectionrecordlistgui', 'listRecords');
             }
         }
+        $ilCtrl->saveParameter($this, 'redirect');
     }
 	
 	
@@ -414,7 +425,20 @@ class ilDataCollectionRecordEditGUI
 
 			$ilCtrl->setParameter($this, "table_id", $this->table_id);
 			$ilCtrl->setParameter($this, "record_id", $this->record_id);
-			$ilCtrl->redirectByClass("ildatacollectionrecordlistgui", "listRecords");
+			if (isset($_GET['redirect'])) {
+                switch ((int) $_GET['redirect']) {
+                    case self::REDIRECT_DETAIL:
+                        $ilCtrl->setParameterByClass('ildatacollectionrecordviewgui', 'record_id', $this->record_id);
+                        $ilCtrl->setParameterByClass('ildatacollectionrecordviewgui', 'table_id', $this->table_id);
+                        $ilCtrl->redirectByClass("ildatacollectionrecordviewgui", "renderRecord");
+                        break;
+                    case self::REDIRECT_RECORD_LIST:
+                        $ilCtrl->redirectByClass("ildatacollectionrecordlistgui", "listRecords");
+                        break;
+                }
+            } else {
+                $ilCtrl->redirectByClass("ildatacollectionrecordlistgui", "listRecords");
+            }
 		}
 		else
 		{
