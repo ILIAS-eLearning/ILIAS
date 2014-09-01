@@ -1056,7 +1056,7 @@ class gevUserUtils {
 	const WBD_NO_OKZ			= "4 - keine Zuordnung";
 	
 	static $wbd_relevant_roles	= array( "OD/LD/BD/VD/VTWL"
-									   , "DBV-VL-EVG"
+									   , "DBV/VL-EVG"
 									   , "DBV-UVG"
 									   , "AVL"
 									   , "HA"
@@ -1066,7 +1066,7 @@ class gevUserUtils {
 									   );
 	
 	static $wbd_tp_service_roles= array( "OD/LD/BD/VD/VTWL"
-									   , "DBV-VL-EVG"
+									   , "DBV/VL-EVG"
 									   , "DBV-UVG"
 									   , "AVL"
 									   , "HA"
