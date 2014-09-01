@@ -42,9 +42,9 @@ class gevBookingGUI {
 		
 		$this->maybeShowOtherBookingsInPeriodWarning();
 		
-		$cmd = $this->ctrl->getCmd();
+		$this->cmd = $this->ctrl->getCmd();
 		
-		switch($cmd) {
+		switch($this->cmd) {
 			case "backToSearch":
 				$this->toCourseSearch();
 				break;
@@ -54,15 +54,16 @@ class gevBookingGUI {
 			case "finalizeBookingWithoutPayment":
 			case "finalizeBookingWithPayment":
 				$this->setRequestParameters();
+				$cmd = $this->cmd;
 				$cont = $this->$cmd();
 				break;
 			default:
-				$this->log->write("gevBookingGUI: Unknown command '".$cmd."'");
+				$this->log->write("gevBookingGUI: Unknown command '".$this->cmd."'");
 		}
 		
 		
 		if ($cont) {
-			$this->insertInTemplate($cont, $cmd);
+			$this->insertInTemplate($cont, $this->cmd);
 		}
 	}
 	
@@ -443,6 +444,7 @@ class gevBookingGUI {
 		require_once("Services/Accomodations/classes/class.ilSetAccomodationsGUI.php");
 		
 		if (!$_POST["agb"] && ($this->isWithPayment() || !($this->isSelfLearningCourse() || $this->isWebinar()))) {
+			$this->cmd = "book";
 			ilUtil::sendFailure($this->lng->txt("gev_need_agb_accept"));
 			return $this->book(true);
 		}
@@ -653,6 +655,7 @@ class gevBookingGUI {
 
 	protected function finalizeBookingWithoutPayment() {
 		if (!$_POST["agb"] && ($this->isWithPayment() || !($this->isSelfLearningCourse() || $this->isWebinar()))) {
+			$this->cmd = "book";
 			ilUtil::sendFailure($this->lng->txt("gev_need_agb_accept"));
 			return $this->book(true);
 		}
