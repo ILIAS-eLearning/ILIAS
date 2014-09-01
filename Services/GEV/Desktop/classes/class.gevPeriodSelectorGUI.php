@@ -63,13 +63,13 @@ class gevPeriodSelectorGUI extends ilDateDurationInputGUI {
 	
 	public function render()
 	{
-		global $lng;
+		global $lng,$ilUser,$tpl;
+		$tpl->addJavaScript('./Services/Form/js/date_duration.js');
 		
-		global $lng,$ilUser;
+		$_tpl = new ilTemplate("tpl.gev_period_selector.html", true, true, "Services/GEV/Desktop");
+
 		
-		$tpl = new ilTemplate("tpl.gev_period_selector.html", true, true, "Services/GEV/Desktop");
-		
-		$tpl->setVariable("ACTION", $this->action);
+		$_tpl->setVariable("ACTION", $this->action);
 		
 		// Init start		
 		$start_info = $this->_start->get(IL_CAL_FKT_GETDATE,'','UTC'); 
@@ -81,19 +81,19 @@ class gevPeriodSelectorGUI extends ilDateDurationInputGUI {
 		require_once("./Services/Calendar/classes/class.ilCalendarUtil.php");
 		ilCalendarUtil::initJSCalendar();
 		
-		$tpl->setVariable('TXT_START',$this->getStartText());
-		$tpl->setVariable('TXT_END',$this->getEndText());
+		$_tpl->setVariable('TXT_START',$this->getStartText());
+		$_tpl->setVariable('TXT_END',$this->getEndText());
 		
-		$tpl->setVariable('POST_VAR',$this->getPostVar());
-		$tpl->setVariable("IMG_START_CALENDAR", ilUtil::getImagePath("calendar.png"));
-		$tpl->setVariable("TXT_START_CALENDAR", $lng->txt("open_calendar"));
-		$tpl->setVariable("START_ID", $this->getPostVar());
-		$tpl->setVariable("DATE_ID_START", $this->getPostVar());
+		$_tpl->setVariable('POST_VAR',$this->getPostVar());
+		$_tpl->setVariable("IMG_START_CALENDAR", ilUtil::getImagePath("calendar.png"));
+		$_tpl->setVariable("TXT_START_CALENDAR", $lng->txt("open_calendar"));
+		$_tpl->setVariable("START_ID", $this->getPostVar());
+		$_tpl->setVariable("DATE_ID_START", $this->getPostVar());
 			
-		$tpl->setVariable("INPUT_FIELDS_START", $this->getPostVar()."[start][date]");
+		$_tpl->setVariable("INPUT_FIELDS_START", $this->getPostVar()."[start][date]");
 		include_once './Services/Calendar/classes/class.ilCalendarUserSettings.php';
-		$tpl->setVariable('DATE_FIRST_DAY',ilCalendarUserSettings::_getInstance()->getWeekStart());
-		$tpl->setVariable("START_SELECT",
+		$_tpl->setVariable('DATE_FIRST_DAY',ilCalendarUserSettings::_getInstance()->getWeekStart());
+		$_tpl->setVariable("START_SELECT",
 			ilUtil::makeDateSelect(
 				$this->getPostVar()."[start][date]",
 				$start_info['year'], $start_info['mon'], $start_info['mday'],
@@ -105,12 +105,13 @@ class gevPeriodSelectorGUI extends ilDateDurationInputGUI {
 					),
 				$this->getShowEmpty()));
 				
-		$tpl->setVariable("IMG_END_CALENDAR", ilUtil::getImagePath("calendar.png"));
-		$tpl->setVariable("TXT_END_CALENDAR", $lng->txt("open_calendar"));
-		$tpl->setVariable("END_ID", $this->getPostVar());
-		$tpl->setVariable("DATE_ID_END", $this->getPostVar());
-		$tpl->setVariable("INPUT_FIELDS_END", $this->getPostVar()."[end][date]");
-		$tpl->setVariable("END_SELECT",
+		$_tpl->setVariable("IMG_END_CALENDAR", ilUtil::getImagePath("calendar.png"));
+		$_tpl->setVariable("TXT_END_CALENDAR", $lng->txt("open_calendar"));
+		$_tpl->setVariable("END_ID", $this->getPostVar());
+		$_tpl->setVariable("DATE_ID_END", $this->getPostVar());
+		
+		$_tpl->setVariable("INPUT_FIELDS_END", $this->getPostVar()."[end][date]");
+		$_tpl->setVariable("END_SELECT",
 			ilUtil::makeDateSelect(
 				$this->getPostVar()."[end][date]",
 				$end_info['year'], $end_info['mon'], $end_info['mday'],
@@ -121,9 +122,9 @@ class gevPeriodSelectorGUI extends ilDateDurationInputGUI {
 					),
 				$this->getShowEmpty()));
 		
-		$tpl->setVariable("FILTER", $lng->txt("gev_filter"));
+		$_tpl->setVariable("FILTER", $lng->txt("gev_filter"));
 
-		return $tpl->get();
+		return $_tpl->get();
 	}
 }
 
