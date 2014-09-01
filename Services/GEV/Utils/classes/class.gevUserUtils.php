@@ -34,6 +34,8 @@ class gevUserUtils {
 		$this->access = &$ilAccess;
 		$this->user_obj = null;
 		$this->org_id = null;
+		$this->direct_superior_ous = null;
+		$this->superior_ous = null;
 		
 		$this->potentiallyBookableCourses = array();
 		$this->users_who_booked_at_course = array();
@@ -1015,6 +1017,79 @@ class gevUserUtils {
 		return in_array($a_user_id, $tree->getSuperiorsOfUser($this->user_id));
 	}
 	
+	// returns array containing entries with obj_id and ref_id
+	public function getOrgUnitsWhereUserIsDirectSuperior() {
+		if ($this->direct_superior_ous !== null) {
+			return $this->direct_superior_ous;
+		}
+		
+		$like_role = array();
+		foreach (gevSettings::	$SUPERIOR_ROLES as $role) {
+			$like_role[] = "od.title LIKE ".$this->db->quote($role);
+		}
+		$like_role = implode(" OR ", $like_role);
+		
+		$res = $this->db->query(
+			 "SELECT oref.obj_id, oref.ref_id "
+			."  FROM object_reference oref"
+			."  JOIN object_data od ON od.type = 'role' AND ( ".$like_role ." )"
+			."  JOIN rbac_fa fa ON fa.rol_id = od.obj_id"
+			."  JOIN tree tr ON tr.child = fa.parent"
+			."  JOIN rbac_ua ua ON ua.rol_id = od.obj_id"
+			."  JOIN object_data od2 ON od2.obj_id = oref.obj_id"
+			." WHERE oref.ref_id = tr.parent"
+			."   AND ua.usr_id = ".$this->db->quote($this->user_id, "integer")
+			."   AND od2.type = 'orgu'"
+			);
+		$this->direct_superior_ous = array();
+		while($rec = $this->db->fetchAssoc($res)) {
+			$this->direct_superior_ous[] = array( "obj_id" => $rec["obj_id"]
+												, "ref_id" => $rec["ref_id"]
+												);
+		}
+		return $this->direct_superior_ous;
+	}
+	
+	public function getOrgUnitsWhereUserIsSuperior() {
+		if ($this->superior_ous !== null) {
+			return $this->superior_ous;
+		}
+		
+		$_ds_ous = $this->getOrgUnitsWhereUserIsDirectSuperior();
+		$where = array();
+		$ds_ous = array();
+		
+		foreach ($_ds_ous as $ou) {
+			$where[] = " tr.child = ".$this->db->quote($ou["ref_id"], "integer");
+			$ds_ous[] = $ou["ref_id"];
+		}
+		
+		$lr_res = $this->db->query("SELECT lft, rgt FROM tree WHERE ".$this->db->in("child", $ds_ous, false, "integer"));
+		
+		while ($lr_rec = $this->db->fetchAssoc($lr_res)) {
+			$where[] = "(tr.lft > ".$this->db->quote($lr_rec["lft"])." AND tr.rgt < ".$this->db->quote($lr_rec["rgt"]).")";
+		}
+		$where = implode(" OR ", $where);
+		
+		$res = $this->db->query(
+			 "SELECT DISTINCT oref.ref_id, oref.obj_id "
+			."  FROM object_reference oref"
+			."  JOIN object_data od ON od.obj_id = oref.obj_id"
+			."  JOIN tree tr ON ( ".$where." )"
+			." WHERE od.type = 'orgu'"
+			."   AND oref.ref_id = tr.child"
+			);
+		
+		$this->superior_ous = array();
+		while ($rec = $this->db->fetchAssoc($res)) {
+			$this->superior_ous[] = array( "ref_id" => $rec["ref_id"]
+										 , "obj_id" => $rec["obj_id"]
+										 );
+		}
+		
+		return $this->superior_ous;
+	}
+	
 	// billing info
 	
 	public function getLastBillingDataMaybe() {
@@ -1066,7 +1141,7 @@ class gevUserUtils {
 									   );
 	
 	static $wbd_tp_service_roles= array( "OD/LD/BD/VD/VTWL"
-									   , "DBV/VL-EVG"
+									   , "DBV/	VL-EVG"
 									   , "DBV-UVG"
 									   , "AVL"
 									   , "HA"

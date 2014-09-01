@@ -261,11 +261,17 @@ class gevSettings {
 		, "ext. Referent"
 		);
 	
+	// Names of roles that count as admins
 	static $ADMIN_ROLES = array(
 		  "Administrator"
 		, "eingeschränkter Admin"
 		);
 	
+	// Names of roles that count as superiors
+	static $SUPERIOR_ROLES = array(
+		  "il_orgu_superior_%"
+		, "DBV"
+		);
 	
 	private function __construct() {
 		$this->settings = new ilSetting(self::MODULE_NAME);
