@@ -34,7 +34,7 @@ class ilGEVCourseUpdatePlugin extends ilEventHookPlugin
 		try {
 			$max_participants = intval($this->crs_utils->getMaxParticipants());
 			$this->crs->enableWaitingList($this->crs_utils->getWaitingListActive() && $max_participants > 0);
-			$this->crs->enableSubscriptionMembershipLimitation($this->crs_utils->getWaitingListActive() && $max_participants > 0);
+			$this->crs->enableSubscriptionMembershipLimitation($max_participants > 0);
 			$this->crs->setSubscriptionMaxMembers($max_participants);
 
 			if ($max_participants == 0) {
