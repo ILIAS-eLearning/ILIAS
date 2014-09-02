@@ -4,6 +4,9 @@
         <baseclasses>
 			<baseclass name="ilCharSelectorGUI" dir="CharSelector/classes" />
         </baseclasses>
+		<baseclasses>
+			<baseclass name="ilUIPluginRouterGUI" dir="classes" />
+		</baseclasses>
         <objects>
         </objects>
         <pluginslots>
