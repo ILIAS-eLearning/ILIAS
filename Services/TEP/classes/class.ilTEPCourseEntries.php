@@ -165,7 +165,21 @@ class ilTEPCourseEntries
 		if ($start !== null && $end !== null) {
 			// course settings
 			$changed = self::SYNC_NO_CHANGE;
+			
+			// gev-patch start
+			require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+			$crs_utils = gevCourseUtils::getInstanceByObj($course);
+			
 			$title = $course->getTitle();
+			
+			$schedule = $crs_utils->getSchedule();
+			$counter = 1;
+			foreach ($schedule as $key => $value) {
+				$schedule[$key] = "Tag ".$counter.": ".$value;
+				$counter += 1;
+			}
+			$schedule = implode("<br />", $schedule);
+			
 			if ($course->getOfflineStatus()) {
 				$title .= " (offline)";
 			}
@@ -174,11 +188,19 @@ class ilTEPCourseEntries
 				$a_entry->setTitle($title);
 				$changed = self::SYNC_UPDATED;
 			}
-			if($course->getDescription() != $a_entry->getDescription())
+			$description = $course->getDescription();
+			if ($description) {
+				$description .= "<br />".$schedule;
+			}
+			else {
+				$description = $schedule;
+			}
+			if($description != $a_entry->getDescription())
 			{
-				$a_entry->setDescription($course->getDescription());
+				$a_entry->setDescription($description);
 				$changed = self::SYNC_UPDATED;
 			}
+			// gev-patch end
 			// course period
 			if($start->get(IL_CAL_DATE) != $a_entry->getStart()->get(IL_CAL_DATE))
 			{
