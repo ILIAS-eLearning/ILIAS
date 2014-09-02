@@ -1106,6 +1106,11 @@ class gevCourseUtils {
 
 			$worksheet->setColumn(4, 4, 50); // #4481
 		}
+		else if ($a_type == self::MEMBERLIST_PARTICIPANT) {
+			$columns[] = $lng->txt("status");
+			
+			$worksheet->setColumn(4, 4, 20);
+		}
 		else
 		{
 			$columns[] = $lng->txt("status");
@@ -1152,7 +1157,7 @@ class gevCourseUtils {
 				$worksheet->write($row, 0, $user_utils->getGender(), $format_wrap);
 				$worksheet->writeString($row, 1, $user_utils->getFirstname(), $format_wrap);
 				$worksheet->write($row, 2, $user_utils->getLastname(), $format_wrap);
-				$worksheet->write($row, 3, $user_utils->getFirstname(), $format_wrap);
+				$worksheet->write($row, 3, $user_utils->getOrgUnitTitle(), $format_wrap);
 				
 				if($a_type == self::MEMBERLIST_HOTEL)
 				{
@@ -1160,6 +1165,9 @@ class gevCourseUtils {
 					$worksheet->write($row, 4, $user_utils->getFormattedOvernightDetailsForCourse($this->getCourse()), $format_wrap);
 
 					//$txt[] = $lng->txt("vofue_crs_book_overnight_details").": ".$user_data["ov"];
+				}
+				else if ($a_type == self::MEMBERLIST_PARTICIPANT) {
+					$worksheet->write($row, 4, $user_utils->getFunctionAtCourse($this->crs_id), $format_wrap);
 				}
 				else
 				{
