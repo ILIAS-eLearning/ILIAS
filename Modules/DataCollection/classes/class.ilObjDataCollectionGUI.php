@@ -52,8 +52,8 @@ class ilObjDataCollectionGUI extends ilObject2GUI
          * @var ilCtrl $ilCtrl
          */
         if (!$ilCtrl->isAsynch()) {
-            $tpl->addJavaScript("Modules/DataCollection/js/datacollection.js");
             $tpl->addJavaScript('Modules/DataCollection/js/ilDataCollection.js');
+            $tpl->addJavaScript("Modules/DataCollection/js/datacollection.js");
             $this->tpl->addOnLoadCode("ilDataCollection.setEditUrl('" . $ilCtrl->getLinkTargetByClass(array('ilrepositorygui', 'ilobjdatacollectiongui','ildatacollectionrecordeditgui'), 'edit', '', true) ."');");
             $this->tpl->addOnLoadCode("ilDataCollection.setCreateUrl('" . $ilCtrl->getLinkTargetByClass(array('ilrepositorygui', 'ilobjdatacollectiongui','ildatacollectionrecordeditgui'), 'create', '', true) ."');");
             $this->tpl->addOnLoadCode("ilDataCollection.setSaveUrl('" . $ilCtrl->getLinkTargetByClass(array('ilrepositorygui', 'ilobjdatacollectiongui','ildatacollectionrecordeditgui'), 'save', '', true) ."');");

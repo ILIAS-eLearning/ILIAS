@@ -134,7 +134,7 @@ class ilDataCollectionRecordEditGUI
             echo $this->form->getHTML();
             exit();
         } else {
-            $this->tpl->setContent($this->form->getHTML());
+            $this->tpl->setContent("<script>ilDataCollection.strings.add_value='".$this->lng->txt('add_value')."';</script>" . $this->form->getHTML());
         }
 	}
 
@@ -149,7 +149,7 @@ class ilDataCollectionRecordEditGUI
             echo $this->form->getHTML();
             exit();
         } else {
-            $this->tpl->setContent($this->form->getHTML());
+            $this->tpl->setContent("<script>ilDataCollection.strings.add_value='".$this->lng->txt('add_value')."';</script>" . $this->form->getHTML());
         }
 	}
 	

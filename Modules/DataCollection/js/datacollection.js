@@ -84,7 +84,7 @@ $(document).ready(function(){
         $('<a></a>')
             .attr('href', '#')
             .addClass('ilDclReferenceAddValue xsmall')
-            .text('[+] Add new value')
+            .text('[+] ' + ilDataCollection.strings.add_value)
     );
 
     $('.ilDclReferenceAddValue').on('click', function() {
