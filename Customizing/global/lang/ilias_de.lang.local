@@ -375,6 +375,9 @@ gev#:#gev_bill_email#:#E-Mail-Adresse für Rechnungszustellung
 gev#:#gev_bill_recipient#:#Rechnungsempfänger
 gev#:#gev_birthname#:#Geburtsname
 gev#:#gev_birthplace#:#Geburtsort
+gev#:#gev_book_contact_pe#:#Kontakt PE
+gev#:#gev_book_contact_onside#:#Ad-Schulung.de@generali.com
+gev#:#gev_book_contact_webinar#:#Generali-Webinare.de@generali.com
 gev#:#gev_book_course#:#Training buchen
 gev#:#gev_book_employee#:#Mitarbeiter buchen
 gev#:#gev_book_no_cond_accept#:#Sie müssen die Buchungs- und Stornierungsbedingungen akzeptieren um fortfahren zu können.

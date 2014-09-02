@@ -358,9 +358,9 @@ class gevUserUtils {
 				 "   ON cs.obj_id = ltype.obj_id ".
 				 "   AND ltype.field_id = ".$this->db->quote($type_field_id, "integer").
 				 // this is knowledge from the course amd plugin
-				 " LEFT JOIN adv_md_values_int bk_deadl ".
+/*				 " LEFT JOIN adv_md_values_int bk_deadl ".
 				 "   ON cs.obj_id = bk_deadl.obj_id ".
-				 "   AND bk_deadl.field_id = ".$this->db->quote($bk_deadl_field_id, "integer").
+				 "   AND bk_deadl.field_id = ".$this->db->quote($bk_deadl_field_id, "integer").*/
 				 $additional_join.
 				 " WHERE cs.activation_type = 1".
 				 "   AND cs.activation_start < ".time().
@@ -368,7 +368,7 @@ class gevUserUtils {
 				 "   AND oref.deleted IS NULL".
 				 "   AND is_template.value = ".$this->db->quote("Nein", "text").
 				 "   AND (   ( (ltype.value LIKE 'Pr_senztraining' OR ltype.value = 'Webinar')".
-				 "            AND ADDDATE(start_date.value, -1 * bk_deadl.value) >= ".$this->db->quote(date("Y-m-d"), "text").
+				 "            AND start_date.value > ".$this->db->quote(date("Y-m-d"), "text").
 				 "		     )".
 				 "		  OR (".$this->db->in("ltype.value", array("Selbstlernkurs"), false, "text").
 				 "			 )".
