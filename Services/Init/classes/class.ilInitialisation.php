@@ -731,7 +731,20 @@ class ilInitialisation
 		{
 			$add = "&soap_pw=".$_GET["soap_pw"]."&ext_uid=".$_GET["ext_uid"];
 		}
-
+		
+		// gev-patch start
+		if (!$_GET["target"]) {
+			$matches = array();
+			$re = "/.*ilias\\.php.*ref_id=(\d+)/";
+			if (preg_match($re, $_SERVER["REQUEST_URI"], $matches)) {
+				$type = ilObject::_lookupType($matches[1], true);
+				if ($type == "crs") {
+					$_GET["target"] = "crs_".$matches[1];
+				}
+			}
+		}
+		// gev-patch end
+		
 		$script = "login.php?target=".$_GET["target"]."&client_id=".$_COOKIE["ilClientId"].
 			"&auth_stat=".$a_auth_stat.$add;
 					
