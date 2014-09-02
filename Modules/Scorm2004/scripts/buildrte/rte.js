@@ -1,4 +1,4 @@
-// Build: 2014825124526 
+// Build: 2014902165431 
 /*
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
@@ -12492,7 +12492,7 @@ function onDocumentClick (e)
 		{
 			//throw away API from previous sco and sync CMI and ADLTree
 			//onItemUndeliver();
-			mlaunch = msequencer.navigateStr( target.id.substr(3));
+			mlaunch = msequencer.navigateStr( target.id.substr(3).replace(/_____/g,'.'));
 
  			if (mlaunch.mSeqNonContent == null) {
 				//alert(activities[mlaunch.mActivityID]);
@@ -12627,23 +12627,6 @@ function setResource()
 		// open(url, RESOURCE_NAME);
 	// } 
 	
-	if (guiItem) 
-	{
-		removeClass(guiItem, "ilc_rte_tlink_RTETreeCurrent");
-		removeClass(guiItem.parentNode, "ilc_rte_status_RTERunning");
-		
-	}
-	guiItem = all(ITEM_PREFIX + id);
-	if (guiItem)
-	{
-		removeClass(guiItem.parentNode,"ilc_rte_status_RTENotAttempted",1);
-		removeClass(guiItem.parentNode,"ilc_rte_status_RTEIncomplete",1);
-		removeClass(guiItem.parentNode,"ilc_rte_status_RTECompleted",1);
-		removeClass(guiItem.parentNode,"ilc_rte_status_RTEFailed",1);
-		removeClass(guiItem.parentNode,"ilc_rte_status_RTEPassed",1);
-		addClass(guiItem, "ilc_rte_tlink_RTETreeCurrent");
-		addClass(guiItem.parentNode,"ilc_rte_status_RTERunning");
-	}
 	onWindowResize();
 	//reset
 	adlnavreq=false;
@@ -12653,6 +12636,7 @@ function setResource()
 
 function removeResource(callback) 
 {
+	guiItem = all(guiItemId);
 	if (guiItem) 
 	{
 		removeClass(guiItem, "ilc_rte_tlink_RTETreeCurrent");
@@ -12725,8 +12709,8 @@ function buildNavTree(rootAct,name,tree){
 	{
 		var id=rootAct.id;
 		if (rootAct.isvisible==true && typeof(mlaunch.mNavState.mChoice[id])=="object") {
-			var it_id=(ITEM_PREFIX + rootAct.id).replace(/\./g,"_");
-			il.NestedList.addNode('rte_tree', (""+par_id).replace(/\./g,"_"), it_id,
+			var it_id=(ITEM_PREFIX + rootAct.id).replace(/\./g,"_____");
+			il.NestedList.addNode('rte_tree', (""+par_id).replace(/\./g,"_____"), it_id,
 				"<a href='#this' id='" + it_id + "' target='_self'>" + rootAct.title + "</a>",
 				true);
 			par_id = ITEM_PREFIX + rootAct.id;
@@ -12740,8 +12724,8 @@ function buildNavTree(rootAct,name,tree){
 				var id=rootAct.item[i].id;
 				if (mlaunch.mNavState.mChoice!=null) {
 					if (rootAct.item[i].isvisible==true && typeof(mlaunch.mNavState.mChoice[id])=="object") {
-						var it_id=(ITEM_PREFIX + rootAct.item[i].id).replace(/\./g,"_");
-						il.NestedList.addNode('rte_tree', (""+par_id).replace(/\./g,"_"), it_id,
+						var it_id=(ITEM_PREFIX + rootAct.item[i].id).replace(/\./g,"_____");
+						il.NestedList.addNode('rte_tree', (""+par_id).replace(/\./g,"_____"), it_id,
 							"<a href='#this' id='" + it_id + "' target='_self'>" + rootAct.item[i].title + "</a>",
 							true);
 						var next_par_id = ITEM_PREFIX + rootAct.item[i].id;
@@ -13595,7 +13579,7 @@ function save()
 	result["totalTimeCentisec"]=totalTimeCentisec;
 	var to_saved_result = toJSONString(result);
 	if (saved_result == to_saved_result) {
-//		alert("no difference");
+		//updateNavForSequencing();
 		return true;
 	} else {
 //		alert("difference: saved_result:\n"+saved_result+"\nresult:\n"+toJSONString(result));
@@ -13604,6 +13588,8 @@ function save()
 		if (typeof SOP!="undefined" && SOP==true) result=saveRequest(result);
 		else result = this.config.store_url ? sendJSONRequest(this.config.store_url, result): {};
 		
+		// added to synchronize the new data. it might update the navigation
+		updateNavForSequencing();
 
 		// set successful updated elements to clean
 		if(typeof result == "object") {
@@ -14014,13 +14000,9 @@ function onItemDeliver(item, wasSuspendAll) // onDeliver called from sequencing 
 	// customize GUI
 	
 	syncSharedCMI(item);
-	
-	
-	updateNav();
-	updateControls();
-		
+
 	scoStartTime = currentTime();
-	
+
 	var envEditor = this.config.envEditor;
 	var randNumber="";
 	if (envEditor==1) {
@@ -14035,6 +14017,9 @@ function onItemDeliver(item, wasSuspendAll) // onDeliver called from sequencing 
 		item.parameters = "?"+ item.parameters;
 	} 
 	openedResource=[item.id, item.href+randNumber+item.parameters, this.config.package_url];
+	guiItemId = (ITEM_PREFIX + item.id).replace(/\./g,"_____");
+	updateNav();
+	updateControls();
 	setResource();
 }
 
@@ -14501,15 +14486,9 @@ function onTerminate(data)
 		}
 	}
 	
-	// this will update the UI tree 
-	var valid = new ADLValidRequests();
-	valid = msequencer.getValidRequests(valid);
-	msequencer.mSeqTree.setValidRequests(valid);
-	mlaunch.mNavState = msequencer.mSeqTree.getValidRequests();
-//check if better without updateNav and updateControls
-	updateNav(false);
-	updateControls();
-	setResource();
+	updateNavForSequencing();
+	if (!this.config.sequencing_enabled) updateNav(); //because could come later - change in 4.5
+	//setResource(); - was workaround for IE Mantis 13522, but problem with sending terminate before onunload
 	return true;
 }
 
@@ -14532,6 +14511,22 @@ var apiIndents = // for mapping internal to api representaiton
 
 
 function updateNav(ignore) {
+
+	function signActNode() {
+		if(elm && activities[tree[i].mActivityID].href && guiItemId == elm.id) {
+			removeClass(elm.parentNode,"ilc_rte_status_RTENotAttempted",1);
+			removeClass(elm.parentNode,"ilc_rte_status_RTEIncomplete",1);
+			removeClass(elm.parentNode,"ilc_rte_status_RTECompleted",1);
+			removeClass(elm.parentNode,"ilc_rte_status_RTEFailed",1);
+			removeClass(elm.parentNode,"ilc_rte_status_RTEPassed",1);
+			toggleClass(elm, "ilc_rte_tlink_RTETreeCurrent",1);
+			toggleClass(elm.parentNode,"ilc_rte_status_RTERunning",1);
+		} else {
+			removeClass(elm, "ilc_rte_tlink_RTETreeCurrent");
+			removeClass(elm.parentNode, "ilc_rte_status_RTERunning");
+		}
+	}
+
 	//check for tree
 	if (!all("treeView")) {
 		return;
@@ -14558,13 +14553,18 @@ function updateNav(ignore) {
 				disabled_str="Disabled";
 			}
 		}
-		if (guiItem && ignore==true) {
-			if (guiItem.id ==ITEM_PREFIX + tree[i].mActivityID)
-			{
-				continue;
-			}
-		}
-		var elm = all(ITEM_PREFIX + tree[i].mActivityID.replace(/\./g,"_"));
+		// if (guiItem && ignore==true) {
+			// if (guiItem.id ==ITEM_PREFIX + tree[i].mActivityID)
+			// {
+				// continue;
+			// }
+		// }
+		var elm = all(ITEM_PREFIX + tree[i].mActivityID.replace(/\./g,"_____"));
+		// if (guiItem && ignore==true) {
+			// signActNode();
+			// continue;
+		// }
+
 	//	if (!elm) {return;}
 //console.log("-" + ITEM_PREFIX + tree[i].mActivityID + "-" + disable + "-");
 		if (disable)
@@ -14633,7 +14633,6 @@ function updateNav(ignore) {
 					}
 				}
 			}
-
 			if (elm != null && elm.parentNode)
 			{
 				toggleClass(elm.parentNode,"ilc_rte_node_RTESco" + disabled_str,1);
@@ -14659,9 +14658,23 @@ function updateNav(ignore) {
 				}
 			}
 		}
-		
+		//added to sign actual node
+		// if (ignore!=true) 
+		signActNode();
 		//toggleClass(elm.parentNode, 'hidden', item.hidden);
 		first = false;
+	}
+}
+
+function updateNavForSequencing() {
+	if (this.config.sequencing_enabled) {
+		// this will update the UI tree 
+		var valid = new ADLValidRequests();
+		valid = msequencer.getValidRequests(valid);
+		msequencer.mSeqTree.setValidRequests(valid);
+		mlaunch.mNavState = msequencer.mSeqTree.getValidRequests();
+		updateNav(false);
+		updateControls();
 	}
 }
 
@@ -14812,7 +14825,7 @@ var RESOURCE_NAME = "frmResource";
 var RESOURCE_TOP = "mainTable";
 
 // GUI Variables 
-var guiItem;
+var guiItemId;
 var guiState; // loading, playing, paused, stopped, buffering
 var gConfig;
 
