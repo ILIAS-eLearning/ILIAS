@@ -1049,8 +1049,8 @@ class gevCourseUtils {
 	// Memberlist creation
 	
 	const MEMBERLIST_TRAINER = 0;
-	const MEMBERLIST_HOTEL = 0;
-	const MEMBERLIST_PARTICIPANT = 0;
+	const MEMBERLIST_HOTEL = 1;
+	const MEMBERLIST_PARTICIPANT = 2;
 	
 	public function deliverMemberList($a_type) {
 		$this->buildMemberList(true, null, $a_type);
@@ -1121,11 +1121,11 @@ class gevCourseUtils {
 			$worksheet->setColumn(5, 5, 25);
 			$worksheet->setColumn(6, 6, 20);
 		}
-		
+
 		$row = $this->buildListMeta( $workbook
 							   , $worksheet
 							   , $lng->txt("gev_excel_member_title")." ".
-										( !($a_type == self::MEMBERLIST_HOTEL)
+										( (!($a_type == self::MEMBERLIST_HOTEL))
 										? $lng->txt("obj_crs") 
 										: $lng->txt("gev_hotel")
 										)
@@ -1291,6 +1291,35 @@ class gevCourseUtils {
 					, "Bildungspunkte" => $this->getCreditPoints()
 					);
 		return $arr;
+	}
+	
+	
+	// CSV for CSN
+	
+	protected function encodeForWindows($a_str) {
+		return mb_convert_encoding($a_str, "ISO-8859-1", "UTF-8");
+	}
+	
+	public function deliverCSVForCSN() {
+		header("Pragma: ");
+		header("Cache-Control: ");
+		header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+		header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+		header("Cache-Control: no-store, no-cache, must-revalidate"); // HTTP/1.1
+		header("Cache-Control: post-check=0, pre-check=0", false);
+		header("Cache-Control: private");
+		header("Content-Type: application/csv; charset=UTF-8");
+		header("Content-Disposition:attachment; filename=\"csn_".$this->crs_id.".csv\"");
+		
+		echo $this->encodeForWindows('"Kurzname";"Telefon1 (geschäftlich)"'."\n");
+		
+		$users = array_merge($this->getTrainers(), $this->getParticipants());
+		foreach ($users as $uid) {
+			$user = new ilObjUser($uid);
+			echo $this->encodeForWindows('"'.$user->getFullname().'";"'.$user->getPhoneOffice().'"');
+		}
+		
+		exit();
 	}
 	
 	

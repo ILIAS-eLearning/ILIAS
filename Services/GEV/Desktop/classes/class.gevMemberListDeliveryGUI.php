@@ -31,6 +31,12 @@ class gevMemberListDeliveryGUI {
 			case "trainer":
 				$utils->deliverMemberList(gevCourseUtils::MEMBERLIST_TRAINER);
 				return;
+			case "participant":
+				$utils->deliverMemberList(gevCourseUtils::MEMBERLIST_PARTICIPANT);
+				return;
+			case "csn":
+				$utils->deliverCSVForCSN();
+				return;
 			default:
 				$this->ctrl->redirectByClass("gevDesktopGUI");
 				return;

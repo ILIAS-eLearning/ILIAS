@@ -2170,6 +2170,11 @@ class ilObjCourseGUI extends ilContainerGUI
 		$ilToolbar->addButton( $this->lng->txt("gev_member_list")
 							 , "ilias.php?ref_id=".$_GET["ref_id"]."&cmd=trainer&baseClass=gevMemberListDeliveryGUI"
 							 );
+		if (in_array($utils->getType(), array("Webinar", "Spezialistenschulung Webinar"))) {
+			$ilToolbar->addButton( $this->lng->txt("gev_csn_list")
+								 , "ilias.php?ref_id=".$_GET["ref_id"]."&cmd=csn&baseClass=gevMemberListDeliveryGUI"
+								 );
+		}
 		if ($utils->canBuildDeskDisplays()) {
 			$ilToolbar->addButton( $this->lng->txt("gev_desk_displays")
 									 , "ilias.php?ref_id=".$_GET["ref_id"]."&baseClass=gevDeskDisplaysDeliveryGUI");
