@@ -6148,15 +6148,15 @@ content#:#scplayer_collapsetree#:#Baum einklappen
 content#:#scplayer_continue#:#Weiter
 content#:#scplayer_debugger#:#Testwerkzeug zeigen
 content#:#scplayer_exit#:#Schliessen
-content#:#scplayer_exitall#:#Bearbeitung Beenden
+content#:#scplayer_exitall#:#Bearbeitung beenden
 content#:#scplayer_expandtree#:#Baum ausklappen
-content#:#scplayer_hidetree#:#Baum Verbergen
+content#:#scplayer_hidetree#:#Baum verbergen
 content#:#scplayer_next#:#Vor
 content#:#scplayer_phpmysqlcheck#:#Sie benötigen MYSQL 4.1 oder höher und JSON-support um die JavaScript-RTE zu nutzen.
 content#:#scplayer_previous#:#Zurück
-content#:#scplayer_showtree#:#Baum Anzeigen
+content#:#scplayer_showtree#:#Baum anzeigen
 content#:#scplayer_start#:#Start
-content#:#scplayer_suspendall#:#Bearbeitung Unterbrechen
+content#:#scplayer_suspendall#:#Bearbeitung unterbrechen
 content#:#select_a_file#:#Wählen Sie bitte eine Datei aus.
 content#:#selected_pages_only#:#nur für die unten ausgewählten Seiten
 content#:#selectFooter#:#Als Fußzeile auswählen
