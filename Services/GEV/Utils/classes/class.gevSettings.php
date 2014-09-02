@@ -272,6 +272,14 @@ class gevSettings {
 		  "il_orgu_superior_%"
 		, "DBV"
 		);
+
+	// Names of roles that count as tutors
+	static $TUTOR_ROLES = array(
+		  "il_crs_tutor_%"
+		);
+
+
+
 	
 	private function __construct() {
 		$this->settings = new ilSetting(self::MODULE_NAME);

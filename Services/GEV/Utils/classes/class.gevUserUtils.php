@@ -240,18 +240,43 @@ class gevUserUtils {
 	
 
 
-	public function getMyAppointmentsCourseIds() {
+	public function getCourseIdsWhereUserIsTutor() {
+			
+		$like_role = array();
+		foreach (gevSettings::$TUTOR_ROLES as $role) {
+			$like_role[] = "od.title LIKE ".$this->db->quote($role);
+		}
+		$like_role = implode(" OR ", $like_role);
+		
+		$res = $this->db->query(
+			 "SELECT oref.obj_id, oref.ref_id "
+			."  FROM object_reference oref"
+			."  JOIN object_data od ON od.type = 'role' AND ( ".$like_role ." )"
+			."  JOIN rbac_fa fa ON fa.rol_id = od.obj_id"
+			."  JOIN tree tr ON tr.child = fa.parent"
+			."  JOIN rbac_ua ua ON ua.rol_id = od.obj_id"
+			."  JOIN object_data od2 ON od2.obj_id = oref.obj_id"
+			." WHERE oref.ref_id = tr.parent"
+			."   AND ua.usr_id = ".$this->db->quote($this->user_id, "integer")
+			."   AND od2.type = 'crs'"
+			);
 
-			return array(
-				'261',
-				'270',
-				'280'
-				);
+		//$this->direct_superior_ous = array();
+		while($rec = $this->db->fetchAssoc($res)) {
+			print_r($rec);
+			print '<hr>';
+		/*	$this->direct_superior_ous[] = array( "obj_id" => $rec["obj_id"]
+												, "ref_id" => $rec["ref_id"]
+												);
+		*/										
+		}
+
+		return array(270, 280);
 	}
 
 	public function getMyAppointmentsCourseInformation() {
 			// used by gevMyTrainingsApTable, i.e.
-			$crss = $this->getMyAppointmentsCourseIds();
+			$crss = $this->getCourseIdsWhereUserIsTutor();
 
 			//do the amd-dance
 			$crs_amd = 
