@@ -26,10 +26,10 @@ class gevMemberListDeliveryGUI {
 		
 		switch($cmd) {
 			case "hotel":
-				$utils->deliverMemberList(true);
+				$utils->deliverMemberList(gevCourseUtils::MEMBERLIST_HOTEL);
 				return;
 			case "trainer":
-				$utils->deliverMemberList(false);
+				$utils->deliverMemberList(gevCourseUtils::MEMBERLIST_TRAINER);
 				return;
 			default:
 				$this->ctrl->redirectByClass("gevDesktopGUI");

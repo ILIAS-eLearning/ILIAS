@@ -127,10 +127,10 @@ class gevCrsMailAttachments extends ilMailAttachments {
 		
 		switch($a_filename) {
 			case "Teilnehmerliste_Trainer.xls":
-				$this->getCourseUtils()->buildMemberList(false, $path, false);
+				$this->getCourseUtils()->buildMemberList(false, $path, gevCourseUtils::MEMBERLIST_TRAINER);
 				return;
 			case "Teilnehmerliste_Hotel.xls":
-				$this->getCourseUtils()->buildMemberList(false, $path, true);
+				$this->getCourseUtils()->buildMemberList(false, $path, gevCourseUtils::MEMBERLIST_HOTEL);
 				return;
 		}
 		

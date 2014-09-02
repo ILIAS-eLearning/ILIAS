@@ -1048,11 +1048,19 @@ class gevCourseUtils {
 	
 	// Memberlist creation
 	
-	public function deliverMemberList($a_hotel_list) {
-		$this->buildMemberList(true, null, $a_hotel_list);
+	const MEMBERLIST_TRAINER = 0;
+	const MEMBERLIST_HOTEL = 0;
+	const MEMBERLIST_PARTICIPANT = 0;
+	
+	public function deliverMemberList($a_type) {
+		$this->buildMemberList(true, null, $a_type);
 	}
 	
-	public function buildMemberList($a_send, $a_filename, $a_hotel_list) {
+	public function buildMemberList($a_send, $a_filename, $a_type) {
+		if (!in_array($a_type, array(self::MEMBERLIST_TRAINER, self::MEMBERLIST_HOTEL, self::MEMBERLIST_PARTICIPANT))) {
+			throw new Exception ("Unknown type for memberlist: ".$a_type);
+		}
+
 		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 		
 		global $lng;
@@ -1092,7 +1100,7 @@ class gevCourseUtils {
 		$worksheet->setColumn(2, 2, 20);	// lastname
 		$worksheet->setColumn(3, 3, 20);	// org-unit
 		
-		if($a_hotel_list)
+		if($a_type == self::MEMBERLIST_HOTEL)
 		{
 			$columns[] = $lng->txt("gev_crs_book_overnight_details"); // #3764
 
@@ -1112,7 +1120,7 @@ class gevCourseUtils {
 		$row = $this->buildListMeta( $workbook
 							   , $worksheet
 							   , $lng->txt("gev_excel_member_title")." ".
-										( !$a_hotel_list 
+										( !($a_type == self::MEMBERLIST_HOTEL)
 										? $lng->txt("obj_crs") 
 										: $lng->txt("gev_hotel")
 										)
@@ -1146,7 +1154,7 @@ class gevCourseUtils {
 				$worksheet->write($row, 2, $user_utils->getLastname(), $format_wrap);
 				$worksheet->write($row, 3, $user_utils->getFirstname(), $format_wrap);
 				
-				if($a_hotel_list)
+				if($a_type == self::MEMBERLIST_HOTEL)
 				{
 					// vfstep3.1
 					$worksheet->write($row, 4, $user_utils->getFormattedOvernightDetailsForCourse($this->getCourse()), $format_wrap);
