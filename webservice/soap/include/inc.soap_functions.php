@@ -90,6 +90,9 @@ class ilSoapFunctions {
 		return $sua->getUser($sid,$user_id);
 	}
 
+	/**
+	 * @deprecated
+	 */
 	public static function  updateUser($sid,$user_data)
 	{
 		include_once './webservice/soap/classes/class.ilSoapUserAdministration.php';
@@ -99,6 +102,9 @@ class ilSoapFunctions {
 		return $sua->updateUser($sid,$user_data);
 	}
 
+	/**
+	 * @deprecated
+	 */
 	public static function  updatePassword($sid,$user_id,$new_password)
 	{
 		include_once './webservice/soap/classes/class.ilSoapUserAdministration.php';
@@ -108,6 +114,9 @@ class ilSoapFunctions {
 		return $sua->updatePassword($sid,$user_id,$new_password);
 	}
 
+	/**
+	 * @deprecated
+	 */
 	public static function  addUser($sid,$user_data,$global_role_id)
 	{
 		include_once './webservice/soap/classes/class.ilSoapUserAdministration.php';
@@ -116,6 +125,10 @@ class ilSoapFunctions {
 
 		return $sua->addUser($sid,$user_data,$global_role_id);
 	}
+
+	/**
+	 * @deprecated
+	 */
 	public static function  deleteUser($sid,$user_id)
 	{
 		include_once './webservice/soap/classes/class.ilSoapUserAdministration.php';

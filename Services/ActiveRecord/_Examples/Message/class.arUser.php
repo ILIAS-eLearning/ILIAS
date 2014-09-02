@@ -200,14 +200,6 @@ class arUser extends ActiveRecord {
 	 * @var int
 	 *
 	 * @con_has_field true
-	 * @con_fieldtype text
-	 * @con_length    32
-	 */
-	protected $i2passwd;
-	/**
-	 * @var int
-	 *
-	 * @con_has_field true
 	 * @con_fieldtype integer
 	 * @con_length    4
 	 */
@@ -793,23 +785,6 @@ class arUser extends ActiveRecord {
 	public function getHobby() {
 		return $this->hobby;
 	}
-
-
-	/**
-	 * @param int $i2passwd
-	 */
-	public function setI2passwd($i2passwd) {
-		$this->i2passwd = $i2passwd;
-	}
-
-
-	/**
-	 * @return int
-	 */
-	public function getI2passwd() {
-		return $this->i2passwd;
-	}
-
 
 	/**
 	 * @param int $ilinc_id

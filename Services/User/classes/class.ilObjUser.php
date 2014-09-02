@@ -2,12 +2,11 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 define ("IL_PASSWD_PLAIN", "plain");
-define ("IL_PASSWD_MD5", "md5");			// ILIAS 3 Password
-define ("IL_PASSWD_CRYPT", "crypt");		// ILIAS 2 Password
+define ("IL_PASSWD_CRYPTED", "crypted");
 
 
 require_once "./Services/Object/classes/class.ilObject.php";
-require_once './Services/User/exceptions/class.ilUserException.php'; 
+require_once './Services/User/exceptions/class.ilUserException.php';
 
 /**
 * @defgroup ServicesUser Services/User
@@ -31,24 +30,42 @@ class ilObjUser extends ilObject
 
 	var $login;		// username in system
 
-	var $passwd;	// password encoded in the format specified by $passwd_type
-	var $passwd_type;
+	/**
+	 * @var string
+	 */
+	protected $passwd; // password encoded in the format specified by $passwd_type
+
+	/**
+	 * @var string
+	 */
+	protected $passwd_type;
 					// specifies the password format.
-					// value: IL_PASSWD_PLAIN, IL_PASSWD_MD5 or IL_PASSWD_CRYPT.
+					// value: IL_PASSWD_PLAIN or IL_PASSWD_CRYPTED.
 
 					// Differences between password format in class ilObjUser and
 					// in table usr_data:
-					// Class ilObjUser supports three different password types
-					// (plain, MD5 and CRYPT) and it uses the variables $passwd
+					// Class ilObjUser supports two different password types
+					// (plain and crypted) and it uses the variables $passwd
 					// and $passwd_type to store them.
 					// Table usr_data supports only two different password types
-					// (MD5 and CRYPT) and it uses the columns "passwd" and
-					// "il2passwd" to store them.
+					// (md5 and bcrypt) and it uses the columns "passwd" and "passwd_type" to store them.
 					// The conversion between these two storage layouts is done
 					// in the methods that perform SQL statements. All other
 					// methods work exclusively with the $passwd and $passwd_type
 					// variables.
 
+	/**
+	 * The encoding algorithm of the user's password stored in the database
+	 * @var string
+	 */
+	protected $password_encoding_type;
+
+	/**
+	 * A salt used to encrypt the user's password
+	 * @var string|null
+	 */
+	protected $password_salt = null;
+	
 	var $gender;	// 'm' or 'f'
 	var $utitle;	// user title (keep in mind, that we derive $title from object also!)
 	var $firstname;
@@ -156,7 +173,7 @@ class ilObjUser extends ilObject
 	* @access	public
 	* @param	integer		user_id
 	*/
-	function ilObjUser($a_user_id = 0, $a_call_by_reference = false)
+	public function __construct($a_user_id = 0, $a_call_by_reference = false)
 	{
 		global $ilias,$ilDB;
 
@@ -165,7 +182,7 @@ class ilObjUser extends ilObject
 		$this->db =& $ilDB;
 
 		$this->type = "usr";
-		$this->ilObject($a_user_id, $a_call_by_reference);
+		parent::__construct($a_user_id, $a_call_by_reference);
 		$this->auth_mode = "default";
 		$this->passwd_type = IL_PASSWD_PLAIN;
 
@@ -218,17 +235,7 @@ class ilObjUser extends ilObject
 		{
 			// convert password storage layout used by table usr_data into
 			// storage layout used by class ilObjUser
-			if ($data["passwd"] == "" && $data["i2passwd"] != "")
-			{
-				$data["passwd_type"] = IL_PASSWD_CRYPT;
-				$data["passwd"] = $data["i2passwd"];
-			}
-			else
-			{
-				$data["passwd_type"] = IL_PASSWD_MD5;
-				//$data["passwd"] = $data["passwd"]; (implicit)
-			}
-			unset($data["i2passw"]);
+			$data["passwd_type"] = IL_PASSWD_CRYPTED;
 
 			// this assign must not be set via $this->assignData($data)
 			// because this method will be called on profile updates and
@@ -287,6 +294,38 @@ class ilObjUser extends ilObject
 	}
 
 	/**
+	 * @return string
+	 */
+	public function getPasswordEncodingType()
+	{
+		return $this->password_encoding_type;
+	}
+
+	/**
+	 * @param string $password_encryption_type
+	 */
+	public function setPasswordEncodingType($password_encryption_type)
+	{
+		$this->password_encoding_type = $password_encryption_type;
+	}
+
+	/**
+	 * @return string|null
+	 */
+	public function getPasswordSalt()
+	{
+		return $this->password_salt;
+	}
+
+	/**
+	 * @param string|null $password_salt
+	 */
+	public function setPasswordSalt($password_salt)
+	{
+		$this->password_salt = $password_salt;
+	}
+
+	/**
 	* loads a record "user" from array
 	* @access	public
 	* @param	array		userdata
@@ -338,6 +377,8 @@ class ilObjUser extends ilObject
 		$this->setEmail($a_data["email"]);
 		$this->setHobby($a_data["hobby"]);
 		$this->setClientIP($a_data["client_ip"]);
+		$this->setPasswordEncodingType($a_data['passwd_enc_type']);
+		$this->setPasswordSalt($a_data['passwd_salt']);
 
 		// instant messenger data
 		$this->setInstantMessengerId('icq',$a_data["im_icq"]);
@@ -391,17 +432,22 @@ class ilObjUser extends ilObject
 	* @access	public
 	* @param	boolean	user data from formular (addSlashes) or not (prepareDBString)
 	*/
-	function saveAsNew($a_from_formular = true)
+	public function saveAsNew($a_from_formular = true)
 	{ 
-		global $ilErr, $ilDB, $ilSetting, $ilUser;
+		/**
+		 * @var $ilErr ilErrorHandling
+		 * @var $ilUserPasswordManager ilUserPasswordManager
+		 * @var $ilDB ilDB
+		 */
+		global $ilErr, $ilUserPasswordManager, $ilDB;
 
 		switch ($this->passwd_type)
 		{
 			case IL_PASSWD_PLAIN:
-				$pw_field = "passwd";
 				if(strlen($this->passwd))
 				{
-					$pw_value = md5($this->passwd);	
+					$ilUserPasswordManager->encodePassword($this, $this->passwd);
+					$pw_value = $this->getPasswd();
 				}
 				else
 				{
@@ -409,13 +455,7 @@ class ilObjUser extends ilObject
 				}
 				break;
 
-			case IL_PASSWD_MD5:
-				$pw_field = "passwd";
-				$pw_value = $this->passwd;
-				break;
-
-			case IL_PASSWD_CRYPT:
-				$pw_field = "i2passwd";
+			case IL_PASSWD_CRYPTED:
 				$pw_value = $this->passwd;
 				break;
 
@@ -433,7 +473,9 @@ class ilObjUser extends ilObject
 		$insert_array = array(
 			"usr_id" => array("integer", $this->id),
 			"login" => array("text", $this->login),
-			$pw_field => array("text", $pw_value),
+			"passwd" => array("text", $pw_value),
+			'passwd_enc_type' => array("text", $this->getPasswordEncodingType()),
+			'passwd_salt'     => array("text", $this->getPasswordSalt()),
 			"firstname" => array("text", $this->firstname),
 			"lastname" => array("text", $this->lastname),
 			"title" => array("text", $this->utitle),
@@ -509,11 +551,16 @@ class ilObjUser extends ilObject
 
 	/**
 	* updates a record "user" and write it into database
-	* @access	public
 	*/
-	function update()
+	public function update()
 	{
-		global $ilErr, $ilDB, $ilAppEventHandler;
+		/**
+		 * @var $ilErr ilErrorHandling
+		 * @var $ilUserPasswordManager ilUserPasswordManager
+		 * @var $ilDB ilDB
+		 * @var $ilAppEventHandler ilAppEventHandler
+		 */
+		global $ilErr, $ilDB, $ilAppEventHandler, $ilUserPasswordManager;
 
         $this->syncActive();
 
@@ -579,30 +626,26 @@ class ilObjUser extends ilObject
 			case IL_PASSWD_PLAIN:
 				if(strlen($this->passwd))
 				{
-					$update_array["i2passwd"] = array("text", (string) "");
-					$update_array["passwd"] = array("text", (string) md5($this->passwd));
+					$ilUserPasswordManager->encodePassword($this, $this->passwd);
+					$update_array['passwd'] = array('text', $this->getPasswd());
 				}
 				else
 				{
-					$update_array["i2passwd"] = array("text", (string) "");
 					$update_array["passwd"] = array("text", (string) $this->passwd);
 				}
 				break;
 
-			case IL_PASSWD_MD5:
-				$update_array["i2passwd"] = array("text", (string) "");
+			case IL_PASSWD_CRYPTED:
 				$update_array["passwd"] = array("text", (string) $this->passwd);
-				break;
-
-			case IL_PASSWD_CRYPT:
-				$update_array["i2passwd"] = array("text", (string) $this->passwd);
-				$update_array["passwd"] = array("text", (string) "");
 				break;
 
 			default :
 				$ilErr->raiseError("<b>Error: passwd_type missing in function update()".$this->id."!</b><br />class: ".
 								   get_class($this)."<br />Script: ".__FILE__."<br />Line: ".__LINE__, $ilErr->FATAL);
 		}
+
+		$update_array['passwd_enc_type'] = array('text', $this->getPasswordEncodingType());
+		$update_array['passwd_salt']     = array('text', $this->getPasswordSalt());
 
 		$ilDB->update("usr_data", $update_array, array("usr_id" => array("integer", $this->id)));
 
@@ -803,142 +846,72 @@ class ilObjUser extends ilObject
 	}
 
 	/**
-	* replaces password with new md5 hash
-	* @param	string	new password as md5
-	* @return	boolean	true on success; otherwise false
-	* @access	public
-	*/
-	function replacePassword($new_md5)
-	{
-		global $ilDB;
-
-		$this->passwd_type = IL_PASSWD_MD5;
-		$this->passwd = $new_md5;
-
-		$ilDB->manipulateF("UPDATE usr_data SET ".
-			 "passwd = %s ".
-			 "WHERE usr_id = %s",
-			 array("text", "integer"), array($this->passwd, $this->id));
-
-		return true;
-	}
-
-	/**
-	* updates password
-	* @param	string	old password as plaintext
-	* @param	string	new password1 as plaintext
-	* @param	string	new password2 as plaintext
-	* @return	boolean	true on success; otherwise false
-	* @access	public
-	*/
-	function updatePassword($a_old, $a_new1, $a_new2)
-	{
-		global $ilDB;
-
-		if (func_num_args() != 3)
-		{
-			return false;
-		}
-
-		if (!isset($a_old) or !isset($a_new1) or !isset($a_new2))
-		{
-			return false;
-		}
-
-		if ($a_new1 != $a_new2)
-		{
-			return false;
-		}
-
-		// is catched by isset() ???
-		if ($a_new1 == "" || $a_old == "")
-		{
-			return false;
-		}
-
-		//check old password
-		switch ($this->passwd_type)
-		{
-			case IL_PASSWD_PLAIN:
-				if ($a_old != $this->passwd)
-				{
-					return false;
-				}
-				break;
-
-			case IL_PASSWD_MD5:
-				if (md5($a_old) != $this->passwd)
-				{
-					return false;
-				}
-				break;
-
-			case IL_PASSWD_CRYPT:
-				if (self::_makeIlias2Password($a_old) != $this->passwd)
-				{
-					return false;
-				}
-				break;
-		}
-
-		//update password
-		$this->passwd = md5($a_new1);
-		$this->passwd_type = IL_PASSWD_MD5;
-
-		$ilDB->manipulateF("UPDATE usr_data SET ".
-			 "passwd = %s ".
-			 "WHERE usr_id = %s",
-			 array("text", "integer"), array($this->passwd, $this->id));
-
-		return true;
-	}
-
-	/**
-	* reset password
-	* @param	string	new password1 as plaintext
-	* @param	string	new password2 as plaintext
-	* @return	boolean	true on success; otherwise false
-	* @access	public
-	*/
-	function resetPassword($a_new1, $a_new2)
-	{
-		global $ilDB;
-
-		if (func_num_args() != 2)
-		{
-			return false;
-		}
-
-		if (!isset($a_new1) or !isset($a_new2))
-		{
-			return false;
-		}
-
-		if ($a_new1 != $a_new2)
-		{
-			return false;
-		}
-
-		//update password
-		$this->passwd = md5($a_new1);
-		$this->passwd_type = IL_PASSWD_MD5;
-
-		$ilDB->manipulateF("UPDATE usr_data SET ".
-			 "passwd = %s ".
-			 "WHERE usr_id = %s",
-			 array("text", "integer"),
-			 array($this->passwd, $this->id));
-
-		return true;
-	}
-
-	/**
-	 * get encrypted Ilias 2 password (needed for imported ilias 2 users)
-	 * @todo: Remove this? Alex, Stefan?
+	 * Replaces the user password with a new md5 hash. This method is currently used by the ILIAS webservice.
+	 * @param   string $md5_encoded_password Password as md5
+	 * @return  boolean true on success, otherwise false
 	 */
-	public static function _makeIlias2Password($a_passwd)
+	public function replacePassword($md5_encoded_password)
 	{
-		return (crypt($a_passwd,substr($a_passwd,0,2)));
+		/**
+		 * @var $ilDB ilDB
+		 */
+		global $ilDB;
+
+		$this->setPasswd($md5_encoded_password, IL_PASSWD_CRYPTED);
+		$this->setPasswordEncodingType('md5');
+
+		$ilDB->manipulateF(
+			'UPDATE usr_data
+			SET passwd = %s, passwd_enc_type = %s
+			WHERE usr_id = %s',
+			array('text', 'text', 'integer'),
+			array($this->getPasswd(), $this->getPasswordEncodingType(), $this->getId())
+		);
+
+		return true;
+	}
+
+	/**
+	 * Resets the user password
+	 * @param    string $raw        Password as plaintext
+	 * @param    string $raw_retype Retyped password as plaintext
+	 * @return    boolean    true on success otherwise false
+	 * @access    public
+	 */
+	public function resetPassword($raw, $raw_retype)
+	{
+		/**
+		 * @var $ilUserPasswordManager ilUserPasswordManager
+		 * @var $ilDB ilDB
+		 */
+		global $ilUserPasswordManager, $ilDB;
+
+		if(func_num_args() != 2)
+		{
+			return false;
+		}
+
+		if(!isset($raw) || !isset($raw_retype))
+		{
+			return false;
+		}
+
+		if($raw != $raw_retype)
+		{
+			return false;
+		}
+
+		$ilUserPasswordManager->encodePassword($this, $raw);
+
+		$ilDB->manipulateF(
+			'UPDATE usr_data
+			SET passwd = %s, passwd_enc_type = %s, passwd_salt = %s
+			WHERE usr_id = %s',
+			array('text', 'text', 'text', 'integer'),
+			array($this->getPasswd(), $this->getPasswordEncodingType(), $this->getPasswordSalt(), $this->getId())
+		);
+
+		return true;
 	}
 
 	/**
@@ -1572,7 +1545,7 @@ class ilObjUser extends ilObject
 	}
 	/**
 	* get password type
-	* @return password type (IL_PASSWD_PLAIN, IL_PASSWD_MD5 or IL_PASSWD_CRYPT).
+	* @return password type (IL_PASSWD_PLAIN, IL_PASSWD_CRYPTED).
 	* @access	public
 	* @see getPasswd
 	*/
@@ -2044,19 +2017,6 @@ class ilObjUser extends ilObject
 			return $row['value'];
 		}
 		return 'en';
-	}
-
-
-	function _checkPassword($a_usr_id, $a_pw)
-	{
-		global $ilDB;
-
-		$pw = ilObjUser::_lookup($a_usr_id, "passwd");
-		if ($pw == md5($a_pw))
-		{
-			return true;
-		}
-		return false;
 	}
 
 	function _writeExternalAccount($a_usr_id, $a_ext_id)

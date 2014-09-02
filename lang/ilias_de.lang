@@ -4282,6 +4282,8 @@ common#:#parameter#:#Parameter
 common#:#parse#:#Parsen
 common#:#passed#:#Bestanden
 common#:#passwd#:#Passwort
+common#:#passwd_enc_type#:#Kodierung
+common#:#passwd_salt#:#Salt
 common#:#passwd_generation#:#Passwortgenerierung
 common#:#passwd_generation_info#:#Wenn die Passwortgenerierung eingeschaltet ist, können Passwörter im Persönlichen Profil nur aus einer Vorgabeliste ausgewählt werden. Benutzer haben keine Möglichkeit, eigene Passwörter festzulegen.
 common#:#passwd_invalid#:#Das neue Passwort ist nicht erlaubt! Das Passwort muss mindestens sechs Zeichen umfassen und darf nur folgende Zeichen enthalten: A-Z a-z 0-9 _.-+?#*@!$%~
@@ -5183,6 +5185,7 @@ common#:#usrimport_xml_attribute_value_inapplicable#:#Wert "%3$s" des Attributs 
 common#:#usrimport_xml_element_content_illegal#:#Inhalt "%2$s" des Elements "%1$s" ist ungültig.
 common#:#usrimport_xml_element_for_action_required#:#Element "%1$s" muss für "%2$s" Aktion angegeben werden.
 common#:#usrimport_xml_element_inapplicable#:#Element "%1$s" ist für "%2$s" Aktion nicht anwendbar.
+common#:#usrimport_xml_pw_bcrypt_missing_salt#:#Kann Passwort nicht importieren, da für die gewählte Kodierung kein Salt vorhanden ist.
 common#:#valid#:#Gültig
 common#:#validate#:#Validieren
 common#:#value#:#Wert

@@ -247,7 +247,7 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_NAMESPACE.'#updatePassword',
 								SERVICE_STYLE,
 								SERVICE_USE,
-								'ILIAS updatePassword(). Updates password of given user. Password must be MD5 hash');
+								'ILIAS updatePassword(). Updates password of given user. Password must be MD5 hash. DEPRECATED: Use importUsers() for modifications of user data.');
 
 
 		// addUser()
@@ -273,7 +273,7 @@ class ilNusoapUserAdministrationAdapter
 								SERVICE_NAMESPACE.'#deleteUser',
 								SERVICE_STYLE,
 								SERVICE_USE,
-								'ILIAS deleteUser(). Deletes all user related data (Bookmarks, Mails ...)');
+								'ILIAS deleteUser(). Deletes all user related data (Bookmarks, Mails ...). DEPRECATED: Use importUsers() for deletion of user data.');
 
 		// addCourse()
 		$this->server->register('addCourse',

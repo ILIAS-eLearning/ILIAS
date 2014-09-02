@@ -148,7 +148,10 @@ class ilAuthContainerSOAP extends Auth_Container
 	 */
 	public function loginObserver($a_username,$a_auth)
 	{
-		global $ilias, $rbacadmin, $lng, $ilSetting;
+		/**
+		 * @var $ilUserPasswordManager ilUserPasswordManager
+		 */
+		global $ilias, $rbacadmin, $lng, $ilSetting, $ilUserPasswordManager;
 		
 		$GLOBALS['ilLog']->write(__METHOD__.': SOAP login observer called');
 		
@@ -201,7 +204,8 @@ class ilAuthContainerSOAP extends Auth_Container
 			{ 
 				if (count($email_user) > 0)
 				{
-					if (ilObjUser::_checkPassword($_POST["usr_id"], $_POST["password"]))
+					$user = ilObjectFactory::getInstanceByObjId($_POST["usr_id"]);
+					if($ilUserPasswordManager->verifyPassword($user, ilUtil::stripSlashes($_POST["password"])))
 					{
 						// password is correct -> map user
 						//$this->setAuth($local_user); (use login not id)
@@ -245,7 +249,7 @@ class ilAuthContainerSOAP extends Auth_Container
 		
 		// to do: set valid password and send mail
 		$newUser["passwd"] = ""; 
-		$newUser["passwd_type"] = IL_PASSWD_MD5;
+		$newUser["passwd_type"] = IL_PASSWD_CRYPTED;
 		
 		// generate password, if local authentication is allowed
 		// and account mail is activated
@@ -256,8 +260,8 @@ class ilAuthContainerSOAP extends Auth_Container
 		{
 			$pw = ilUtil::generatePasswords(1);
 			$pw = $pw[0];
-			$newUser["passwd"] = md5($pw); 
-			$newUser["passwd_type"] = IL_PASSWD_MD5;
+			$newUser["passwd"] = $pw;
+			$newUser["passwd_type"] = IL_PASSWD_PLAIN;
 		}
 
 		//$newUser["gender"] = "m";

@@ -180,6 +180,9 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		return $this->__raiseError('User does not exist','Client');
 	}
 
+	/**
+	 * @deprecated
+	 */
 	function updateUser($sid,$user_data)
 	{
 		/**
@@ -219,7 +222,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		}
 		else
 		{
-			$user_new['passwd_type'] = IL_PASSWD_MD5;
+			$user_new['passwd_type'] = IL_PASSWD_CRYPTED;
 		}
 		$this->__setUserData($user_obj,$user_new);
 
@@ -234,6 +237,9 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		return true;
 	}
 
+	/**
+	 * @deprecated
+	 */
 	function updatePassword($sid,$user_id,$new_password)
 	{
 		$this->initAuth($sid);
@@ -261,6 +267,9 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		return true;
 	}
 
+	/**
+	 * @deprecated
+	 */
 	function addUser($sid,$user_data,$global_role_id)
 	{
 		$this->initAuth($sid);
@@ -306,7 +315,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		}
 		else
 		{
-			$user_data['passwd_type'] = IL_PASSWD_MD5;
+			$user_data['passwd_type'] = IL_PASSWD_CRYPTED;
 		}
         $this->__setUserData($new_user,$user_data);
 
@@ -346,6 +355,9 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		return $new_user->getId();
 	}
 
+	/**
+	 * @deprecated
+	 */
 	function deleteUser($sid,$user_id)
 	{
 		$this->initAuth($sid);

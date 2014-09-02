@@ -286,7 +286,7 @@ class ilAuthContainerECS extends Auth_Container
 
 		// set "plain md5" password (= no valid password)
 		$newUser["passwd"] = "";
-		$newUser["passwd_type"] = IL_PASSWD_MD5;
+		$newUser["passwd_type"] = IL_PASSWD_CRYPTED;
 
 		$newUser["auth_mode"] = "ecs";
 		$newUser["profile_incomplete"] = 0;

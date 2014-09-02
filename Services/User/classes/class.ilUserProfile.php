@@ -60,6 +60,7 @@ class ilUserProfile
 						"visib_reg_hide" => true,
 						'visib_lua_fix_value' => 0,
 						"course_export_hide" => true,
+						"export_hide" => false,
 						"group_export_hide" => true,
 						"lists_hide" => true,
 						"group" => "personal_data"),

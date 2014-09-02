@@ -96,7 +96,7 @@ class ilAuthContainerCAS extends Auth_Container
 				
 				// set "plain md5" password (= no valid password)
 				$newUser["passwd"] = ""; 
-				$newUser["passwd_type"] = IL_PASSWD_MD5;
+				$newUser["passwd_type"] = IL_PASSWD_CRYPTED;
 								
 				//$newUser["gender"] = "m";
 				$newUser["auth_mode"] = "cas";

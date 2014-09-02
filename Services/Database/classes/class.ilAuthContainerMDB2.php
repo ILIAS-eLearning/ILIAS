@@ -40,12 +40,20 @@ class ilAuthContainerMDB2 extends Auth_Container_MDB2
 	 */
 	public function __construct()
 	{
-		global $ilClientIniFile, $ilDB, $ilIliasIniFile;
+		/**
+		 * @var $ilUserPasswordManager ilUserPasswordManager
+		 */
+		global $ilClientIniFile, $ilDB, $ilIliasIniFile, $ilUserPasswordManager;
 		
 		$options['dsn']			= $ilDB->getDSN();
 		$options['table']		= $ilClientIniFile->readVariable('auth', 'table');
 		$options['usernamecol']	= $ilClientIniFile->readVariable('auth', 'usercol');
 		$options['passwordcol']	= $ilClientIniFile->readVariable('auth', 'passcol');
+
+		if(strlen($ilUserPasswordManager->getEncoderName()) > 0)
+		{
+			$options['cryptType'] = $ilUserPasswordManager->getEncoderName();
+		}
 		
 		// studip mode: check against submitted md5 password for ilSoapUserAdministration::login()
 		// todo: check whether we should put this to another place
@@ -122,6 +130,34 @@ class ilAuthContainerMDB2 extends Auth_Container_MDB2
 	{
 		return true;
 	}
-	
+
+	/**
+	 * @param    string $raw
+	 * @param    string $encoded
+	 * @param           string    string    $cryptType
+	 * @return    bool
+	 */
+	public function verifyPassword($raw, $encoded, $crypt_type = 'md5')
+	{
+		/**
+		 * @var $ilUserPasswordManager ilUserPasswordManager
+		 */
+		global $ilUserPasswordManager;
+
+		$this->log(__METHOD__ . ' called.', AUTH_LOG_DEBUG);
+
+		if($ilUserPasswordManager->isEncodingTypeSupported($crypt_type))
+		{
+			/**
+			 * @var $user ilObjUser
+			 */
+			$user = ilObjectFactory::getInstanceByObjId(ilObjUser::_loginExists($this->_auth_obj->username));
+			$user->setPasswd($encoded, IL_PASSWD_CRYPTED);
+
+			return $ilUserPasswordManager->verifyPassword($user, $raw);
+		}
+
+		// Fall through: Let pear verify the password
+		return parent::verifyPassword($raw, $encoded, $crypt_type);
+	}
 }
-?>

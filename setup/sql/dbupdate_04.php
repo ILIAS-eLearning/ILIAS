@@ -2591,3 +2591,78 @@ $ilDB->renameTableColumn('exc_assignment_peer', 'pcomment_long', 'pcomment');
 $ilDB->unlockTables();
 
 ?>
+
+
+<#4306>
+<?php
+/**
+ * @var $ilDB ilDB
+ */
+global $ilDB;
+
+$ilDB->modifyTableColumn('usr_data', 'passwd', array(
+	'type'    => 'text',
+	'length'  => 80,
+	'notnull' => false,
+	'default' => null
+));
+?>
+<#4307>
+<?php
+$ilDB->manipulateF(
+	'DELETE FROM settings WHERE keyword = %s',
+	array('text'),
+	array('usr_settings_export_password')
+);
+?>
+<#4308>
+<?php
+if(!$ilDB->tableColumnExists('usr_data', 'passwd_enc_type'))
+{
+	$ilDB->addTableColumn('usr_data', 'passwd_enc_type', array(
+		'type'    => 'text',
+		'length'  => 10,
+		'notnull' => false,
+		'default' => null
+	));
+}
+?>
+<#4309>
+<?php
+// We have to handle alle users with a password. We cannot rely on the auth_mode information.
+$ilDB->manipulateF('
+	UPDATE usr_data
+	SET passwd_enc_type = %s
+	WHERE (SUBSTR(passwd, 1, 4) = %s OR SUBSTR(passwd, 1, 4) = %s) AND passwd IS NOT NULL
+	',
+	array('text', 'text', 'text'),
+	array('bcrypt', '$2a$', '$2y$')
+);
+$ilDB->manipulateF('
+	UPDATE usr_data
+	SET passwd_enc_type = %s
+	WHERE SUBSTR(passwd, 1, 4) != %s AND SUBSTR(passwd, 1, 4) != %s AND LENGTH(passwd) = 32 AND passwd IS NOT NULL
+	',
+	array('text', 'text', 'text'),
+	array('md5', '$2a$', '$2y$')
+);
+?>
+<#4310>
+<?php
+if(!$ilDB->tableColumnExists('usr_data', 'passwd_salt'))
+{
+	$ilDB->addTableColumn('usr_data', 'passwd_salt', array(
+		'type'    => 'text',
+		'length'  => 32,
+		'notnull' => false,
+		'default' => null
+	));
+}
+?>
+<#4311>
+<?php
+if($ilDB->tableColumnExists('usr_data', 'i2passwd'))
+{
+	$ilDB->dropTableColumn('usr_data', 'i2passwd');
+}
+?>

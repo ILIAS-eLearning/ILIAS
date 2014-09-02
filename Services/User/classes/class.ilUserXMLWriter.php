@@ -179,21 +179,6 @@ class ilUserXMLWriter extends ilXmlWriter
 			}
 		}
 
-		 /**
-		  * only export one password
-		  */
-		$i2passwd = FALSE;
-		if ($this->canExport("i2passwd","i2passwd") && strlen($row["i2passwd"]) > 0)
-		{
-			$i2passwd = TRUE;
-			$this->__addElement("Password",$row["i2passwd"], array("Type" => "ILIAS2"),"i2passwd");
-		}
-		if (!$i2passwd && strlen($row["passwd"]) > 0)
-		{
-			$this->__addElement("Password",$row["passwd"], array("Type" => "ILIAS3"),"passwd");
-		}
-
-
 		$this->__addElement ("Firstname", $row["firstname"]);
 		$this->__addElement ("Lastname", $row["lastname"]);
 		$this->__addElement ("Title", $row["title"]);

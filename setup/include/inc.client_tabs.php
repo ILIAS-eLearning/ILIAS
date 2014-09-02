@@ -60,6 +60,13 @@ $this->tpl->setVariable("TAB_LINK","setup.php?cmd=proxy");
 $this->tpl->setVariable("TAB_TEXT",ucfirst($this->lng->txt("proxy")));
 $this->tpl->parseCurrentBlock();
 
+// passwd tab
+$this->tpl->setCurrentBlock("tab");
+$this->tpl->setVariable("TAB_TYPE", in_array($tab, array("passwd", "displayPassword", "savePassword")) ? "tabactive" : "tabinactive");
+$this->tpl->setVariable("TAB_LINK", "setup.php?cmd=passwd");
+$this->tpl->setVariable("TAB_TEXT", ucfirst($this->lng->txt("passwd")));
+$this->tpl->parseCurrentBlock();
+
 // ilias-NIC
 $this->tpl->setCurrentBlock("tab");
 $this->tpl->setVariable("TAB_TYPE",$tab == "nic" ? "tabactive" : "tabinactive");

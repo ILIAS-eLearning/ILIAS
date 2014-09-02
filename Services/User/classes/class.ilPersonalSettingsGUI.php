@@ -59,100 +59,6 @@ class ilPersonalSettingsGUI
 		return true;
 	}
 
-
-
-	/**
-	* change user password
-	*/
-	function changeUserPassword()
-	{
-		global $ilUser, $ilSetting;
-
-		// do nothing if auth mode is not local database
-		if ($ilUser->getAuthMode(true) != AUTH_LOCAL &&
-			($ilUser->getAuthMode(true) != AUTH_CAS || !$ilSetting->get("cas_allow_local")) &&
-			($ilUser->getAuthMode(true) != AUTH_SHIBBOLETH || !$ilSetting->get("shib_auth_allow_local")) &&
-			($ilUser->getAuthMode(true) != AUTH_SOAP || !$ilSetting->get("soap_auth_allow_local"))
-			)
-		{
-			$this->password_error = $this->lng->txt("not_changeable_for_non_local_auth");
-		}
-
-		// select password from auto generated passwords
-		if ($this->ilias->getSetting("passwd_auto_generate") == 1)
-		{
-			// The old password needs to be checked for verification
-			// unless the user uses Shibboleth authentication with additional
-			// local authentication for WebDAV.
-			if ($ilUser->getAuthMode(true) != AUTH_SHIBBOLETH || ! $ilSetting->get("shib_auth_allow_local"))
-			{
-				// check old password
-				if (md5($_POST["current_password"]) != $ilUser->getPasswd())
-				{
-					$this->password_error = $this->lng->txt("passwd_wrong");
-				}
-			}
-			// validate transmitted password
-			if (!ilUtil::isPassword($_POST["new_passwd"]))
-			{
-				$this->password_error = $this->lng->txt("passwd_not_selected");
-			}
-
-			if (empty($this->password_error))
-			{
-				ilUtil::sendSuccess($this->lng->txt("saved_successfully"));
-				$ilUser->updatePassword($_POST["current_password"], $_POST["new_passwd"], $_POST["new_passwd"]);
-			}
-		}
-		else
-		{
-			// check old password
-			if (md5($_POST["current_password"]) != $ilUser->getPasswd())
-			{
-				$this->password_error = $this->lng->txt("passwd_wrong");
-			}
-			// check new password
-			else if ($_POST["desired_password"] != $_POST["retype_password"])
-			{
-				$this->password_error = $this->lng->txt("passwd_not_match");
-			}
-			// validate password
-			else if (!ilUtil::isPassword($_POST["desired_password"],$custom_error))
-			{
-				if( $custom_error != '' )
-						$this->password_error = $custom_error;
-				else	$this->password_error = $this->lng->txt("passwd_invalid");
-			}
-			else if ($_POST["current_password"] != "" and empty($this->password_error))
-			{
-				if( $ilUser->isPasswordExpired() || $ilUser->isPasswordChangeDemanded() )
-				{
-					if( $_POST["current_password"] != $_POST["desired_password"] )
-					{
-						if( $ilUser->updatePassword($_POST["current_password"], $_POST["desired_password"], $_POST["retype_password"]) )
-						{
-							ilUtil::sendSuccess($this->lng->txt("saved_successfully"));
- 							$ilUser->setLastPasswordChangeToNow();
-						}
-					}
-					else
-					{
-						$this->password_error = $this->lng->txt("new_pass_equals_old_pass");
-					}
-				}
-				else
-				{
-					ilUtil::sendSuccess($this->lng->txt("saved_successfully"));
-					$ilUser->updatePassword($_POST["current_password"], $_POST["desired_password"], $_POST["retype_password"]);
-					$ilUser->setLastPasswordChangeToNow();
-				}
-			}
-		}
-
-		$this->saveProfile();
-	}
-
-
 	/** 
 	 * Called if the user pushes the submit button of the mail options form.
 	 * Passes the post data to the mail options model instance to store them.
@@ -737,12 +643,15 @@ class ilPersonalSettingsGUI
 			#if ($ilUser->getAuthMode(true) != AUTH_SHIBBOLETH || ! $ilSetting->get("shib_auth_allow_local"))
 			if($ilUser->getAuthMode(true) == AUTH_LOCAL)
 			{
+				/**
+				 * @var $ilUserPasswordManager ilUserPasswordManager
+				 */
+				global $ilUserPasswordManager;
 				// check current password
-				if (md5($_POST["current_password"]) != $ilUser->getPasswd() and
-					$ilUser->getPasswd())
+				if(!$ilUserPasswordManager->verifyPassword($ilUser, ilUtil::stripSlashes($_POST['current_password'])))
 				{
 					$error = true;
-					$cp->setAlert($this->lng->txt("passwd_wrong"));
+					$cp->setAlert($this->lng->txt('passwd_wrong'));
 				}
 			}
 
