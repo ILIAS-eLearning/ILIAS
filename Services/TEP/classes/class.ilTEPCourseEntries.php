@@ -165,9 +165,13 @@ class ilTEPCourseEntries
 		if ($start !== null && $end !== null) {
 			// course settings
 			$changed = self::SYNC_NO_CHANGE;
-			if($course->getTitle() != $a_entry->getTitle())
+			$title = $course->getTitle();
+			if ($course->getOfflineStatus()) {
+				$title .= " (offline)";
+			}
+			if($title != $a_entry->getTitle())
 			{
-				$a_entry->setTitle($course->getTitle());
+				$a_entry->setTitle($title);
 				$changed = self::SYNC_UPDATED;
 			}
 			if($course->getDescription() != $a_entry->getDescription())
