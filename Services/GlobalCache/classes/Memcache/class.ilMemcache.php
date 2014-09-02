@@ -13,6 +13,12 @@ class ilMemcache extends ilGlobalCacheService {
 	const STD_SERVER = '127.0.0.1';
 	const STD_PORT = 11211;
 	/**
+	 * @var array
+	 */
+	protected static $servers = array(
+		self::STD_SERVER => self::STD_PORT,
+	);
+	/**
 	 * @var Memcached
 	 */
 	protected static $memcache_object;
@@ -25,8 +31,9 @@ class ilMemcache extends ilGlobalCacheService {
 	public function __construct($service_id, $component) {
 		if (! (self::$memcache_object instanceof Memcached)) {
 			$memcached = new Memcached();
-			// $memcached->setOption(Memcached::OPT_CONNECT_TIMEOUT, 10);
-			$memcached->addServer(self::STD_SERVER, self::STD_PORT);
+			foreach (self::$servers as $host => $port) {
+				$memcached->addServer($host, $port);
+			}
 			self::$memcache_object = $memcached;
 		}
 		parent::__construct($service_id, $component);
@@ -105,6 +112,7 @@ class ilMemcache extends ilGlobalCacheService {
 	 * @return bool
 	 */
 	protected function getInstallable() {
+		return false;
 		return class_exists('Memcached');
 	}
 
@@ -131,7 +139,6 @@ class ilMemcache extends ilGlobalCacheService {
 
 	public function getInfo() {
 		echo '<pre>' . print_r($this->getMemcacheObject()->getStats(), 1) . '</pre>';
-
 		//return $this->getMemcacheObject()->getAllKeys();
 	}
 }

@@ -24,6 +24,7 @@ class ilShm extends ilGlobalCacheService {
 	 * @description set self::$installable
 	 */
 	protected function getInstallable() {
+		return false;
 		self::$active = function_exists('shm_put_var');
 	}
 

@@ -90,7 +90,9 @@ class ilXcache extends ilGlobalCacheService {
 		$var_count = ini_get('xcache.var_count') > 0;
 		$api = (php_sapi_name() !== 'cli');
 
-		return ($function_exists AND $var_size AND $var_count AND $api);
+		$active = $function_exists AND $var_size AND $var_count AND $api;
+
+		return $active;
 	}
 
 
@@ -98,12 +100,17 @@ class ilXcache extends ilGlobalCacheService {
 	 * @return bool
 	 */
 	protected function getInstallable() {
+		return false;
 		return function_exists('xcache_set');
 	}
 
 
 	public function getInfo() {
-		return xcache_info(XC_TYPE_VAR, 0);
+		if ($this->isActive()) {
+			return xcache_info(XC_TYPE_VAR, 0);
+		}
+
+		return NULL;
 	}
 }
 

@@ -114,23 +114,25 @@ class ilSetup extends PEAR
 		}
 	}
 
+
 	/**
-	* Set Client
-	*
-	* @param	object		client
-	*/
-	function setClient($a_cl)
-	{
+	 * @var ilClient
+	 */
+	public $client;
+
+
+	/**
+	 * @param $a_cl
+	 */
+	public function setClient($a_cl) {
 		$this->client = $a_cl;
 	}
 
+
 	/**
-	* Get Client
-	*
-	* @return	object		client
-	*/
-	function getClient()
-	{
+	 * @return ilClient
+	 */
+	public function getClient() {
 		return $this->client;
 	}
 	
