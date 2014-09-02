@@ -12,6 +12,7 @@ require_once "./Services/Object/classes/class.ilObject2GUI.php";
  * @author Marcel Raimann <mr@studer-raimann.ch>
  * @author Fabian Schmid <fs@studer-raimann.ch>
  * @author Oskar Truffer <ot@studer-raimann.ch>
+ * @author Stefan Wanzenried <sw@studer-raimann.ch>
  *
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilInfoScreenGUI, ilNoteGUI, ilCommonActionDispatcherGUI
  * @ilCtrl_Calls ilObjDataCollectionGUI: ilPermissionGUI, ilObjectCopyGUI, ilExportGUI
@@ -47,10 +48,18 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 		{
 			$this->table_id = $this->object->getMainTableId();
 		}
-
-		$ilCtrl->saveParameter($this, "table_id");
-        $tpl->addJavaScript("Modules/DataCollection/js/datacollection.js");
-
+        /**
+         * @var ilCtrl $ilCtrl
+         */
+        if (!$ilCtrl->isAsynch()) {
+            $tpl->addJavaScript("Modules/DataCollection/js/datacollection.js");
+            $tpl->addJavaScript('Modules/DataCollection/js/ilDataCollection.js');
+            $this->tpl->addOnLoadCode("ilDataCollection.setEditUrl('" . $ilCtrl->getLinkTargetByClass(array('ilrepositorygui', 'ilobjdatacollectiongui','ildatacollectionrecordeditgui'), 'edit', '', true) ."');");
+            $this->tpl->addOnLoadCode("ilDataCollection.setCreateUrl('" . $ilCtrl->getLinkTargetByClass(array('ilrepositorygui', 'ilobjdatacollectiongui','ildatacollectionrecordeditgui'), 'create', '', true) ."');");
+            $this->tpl->addOnLoadCode("ilDataCollection.setSaveUrl('" . $ilCtrl->getLinkTargetByClass(array('ilrepositorygui', 'ilobjdatacollectiongui','ildatacollectionrecordeditgui'), 'save', '', true) ."');");
+            $this->tpl->addOnLoadCode("ilDataCollection.setDataUrl('" . $ilCtrl->getLinkTargetByClass(array('ilrepositorygui', 'ilobjdatacollectiongui','ildatacollectionrecordeditgui'), 'getRecordData', '', true) ."');");
+        }
+        $ilCtrl->saveParameter($this, "table_id");
     }
 	
 	/*

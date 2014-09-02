@@ -2953,6 +2953,9 @@ td.dcl_actions {
 tr.dcl_comments_active > td {
   background-color: #FFFFD9;
 }
+.ilDclReferenceAddValue {
+  padding-left: 10px;
+}
 /* Modules/Bibliographic */
 span.bibl_text_inline_Emph {
   font-style: italic;

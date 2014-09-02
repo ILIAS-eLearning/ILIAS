@@ -265,10 +265,11 @@ class ilDataCollectionDatatype
 				$input = new ilFileInputGUI($title, 'field_'.$field->getId());
 				break;
 			case ilDataCollectionDatatype::INPUTFORMAT_REFERENCE:
-                if(!$field->isNRef())
-				    $input = new ilSelectInputGUI($title, 'field_'.$field->getId());
-                else
+                if(!$field->isNRef()) {
+                    $input = new ilSelectInputGUI($title, 'field_'.$field->getId());
+                } else {
                     $input = new ilMultiSelectInputGUI($title,'field_'.$field->getId());
+                }
                 break;
 			case ilDataCollectionDatatype::INPUTFORMAT_RATING:
 				$input = new ilTextInputGUI($title, 'field_'.$field->getId());

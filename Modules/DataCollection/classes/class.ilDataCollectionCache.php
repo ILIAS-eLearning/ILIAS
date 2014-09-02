@@ -3,6 +3,7 @@ require_once('class.ilDataCollectionReferenceField.php');
 require_once('class.ilDataCollectionRatingField.php');
 require_once('class.ilDataCollectionILIASRefField.php');
 require_once('class.ilDataCollectionFormulaField.php');
+require_once('class.ilDataCollectionNReferenceField.php');
 
 /**
  * Created by JetBrains PhpStorm.

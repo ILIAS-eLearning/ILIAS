@@ -52,7 +52,7 @@ $(document).ready(function(){
 
     $('.dcl_actions a[id$="comment"]').click(function(){
         $tr = $(this).parents('td.dcl_actions').parent('tr');
-       dcl.highlightRow($tr);
+        dcl.highlightRow($tr);
     });
 
     $('#fixed_content').click(function() {
@@ -70,5 +70,45 @@ $(document).ready(function(){
         $expression.val(expression.substring(0, caretPos) + placeholder + expression.substring(caretPos));
     });
 
+    /**
+     * Ajax record form submit in Overlay
+     */
+    $(document).on('submit', 'form[id^="form_dclajax"]', function(event) {
+        event.preventDefault();
+        var data = $(this).serialize();
+        ilDataCollection.saveRecordData(data);
+        return false;
+    });
+
+    $('form[id^="form_dcl"] select.ilDclInputFormatReference').parent('div.ilFormValue').append(
+        $('<a></a>')
+            .attr('href', '#')
+            .addClass('ilDclReferenceAddValue xsmall')
+            .text('[+] Add new value')
+    );
+
+    $('.ilDclReferenceAddValue').on('click', function() {
+        var $elem = $(this);
+        var $select = $elem.prev('select');
+        var table_id = $select.attr('data-ref-table-id');
+        var field_id = $select.attr('data-ref-field-id');
+        var after_save = function(o) {
+            var $input = $('form[id^="form_dclajax"] #record_id');
+            if ($input.length) {
+                var record_id = $input.val();
+                ilDataCollection.getRecordData(record_id, function(o) {
+                    var record_data = $.parseJSON(o.responseText);
+                    var new_value = record_data[field_id];
+                    // Append to select and select new value
+                    $select.append($('<option>', {
+                        value : record_id,
+                        text : new_value
+                    }));
+                    $select.find('option[value=' + record_id + ']').attr('selected', 'selected');
+                });
+            }
+        };
+        ilDataCollection.showCreateRecordOverlay(table_id, after_save);
+    });
 
 });

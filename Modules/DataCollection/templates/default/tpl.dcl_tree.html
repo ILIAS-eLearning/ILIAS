@@ -11,40 +11,40 @@
                 $displayField.hide().parent('div').attr('style', '');
                 $removeIcon.hide();
             }
-        }
+        };
 
-        var $removeIcon = $('#remove_{FIELD_ID}');
-        var $displayField = $('#display_{FIELD_ID}');
+        var $removeIcon = $('form[id^="form_dcl"] #remove_{FIELD_ID}');
+        var $displayField = $('form[id^="form_dcl"] #display_{FIELD_ID}');
         if (!$displayField.val().length) {
             toggleDisplayField('off');
         } else {
             toggleDisplayField('on');
         }
 
-        $('#dcl_loader_{FIELD_ID}').hide();
+        $('form[id^="form_dcl"] #dcl_loader_{FIELD_ID}').hide();
 
-        $('#search_{FIELD_ID}').keydown(function(event){
+        $('form[id^="form_dcl"] #search_{FIELD_ID}').keydown(function(event){
             if(event.keyCode == 13){
                 event.preventDefault();
                 dclSearchFunction(this.value);
             }
         });
 
-        $('#search_button_{FIELD_ID}').click(function(event){
-            dclSearchFunction($('#search_{FIELD_ID}').val());
+        $('form[id^="form_dcl"] #search_button_{FIELD_ID}').click(function(event){
+            dclSearchFunction($('form[id^="form_dcl"] #search_{FIELD_ID}').val());
         });
 
-        $(document).on('click','.dcl_result_{FIELD_ID}', function() {
+        $(document).on('click','form[id^="form_dcl"] .dcl_result_{FIELD_ID}', function() {
             var set_id = this.id;
             var title = this.text;
-            $("#{FIELD_ID}").val(set_id);
+            $('form[id^="form_dcl"] #{FIELD_ID}').val(set_id);
             $displayField.val(title);
             toggleDisplayField('on');
         });
 
-        $('#remove_{FIELD_ID}').click(function(){
+        $('form[id^="form_dcl"] #remove_{FIELD_ID}').click(function(){
            $displayField.val('').hide();
-           $('#{FIELD_ID}').val('');
+           $('form[id^="form_dcl"] #{FIELD_ID}').val('');
            $(this).hide();
            $displayField.parent('div').attr('style', '');
         });
@@ -54,8 +54,8 @@ function dclSearchFunction(value){
     var link = '{AJAX_LINK}';
     var replacer = new RegExp('amp;','g');
     link = link.replace(replacer, '');
-    $('#dcl_loader_{FIELD_ID}').show();
-    $("#search_output_{FIELD_ID}").load(link, {search_for: value, dest: '{FIELD_ID}'}, function() { $('#dcl_loader_{FIELD_ID}').hide();});
+    $('form[id^="form_dcl"] #dcl_loader_{FIELD_ID}').show();
+    $('form[id^="form_dcl"] #search_output_{FIELD_ID}').load(link, {search_for: value, dest: '{FIELD_ID}'}, function() { $('form[id^="form_dcl"] #dcl_loader_{FIELD_ID}').hide();});
 }
 </script>
 

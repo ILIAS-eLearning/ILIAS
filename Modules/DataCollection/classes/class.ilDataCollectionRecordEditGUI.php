@@ -6,6 +6,8 @@ require_once("./Modules/DataCollection/classes/class.ilDataCollectionField.php")
 require_once("./Modules/DataCollection/classes/class.ilDataCollectionTable.php");
 require_once("./Modules/DataCollection/classes/class.ilDataCollectionDatatype.php");
 require_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+require_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+require_once('./Services/Utilities/classes/class.ilConfirmationGUI.php');
 
 /**
 * Class ilDataCollectionRecordEditGUI
@@ -22,7 +24,7 @@ class ilDataCollectionRecordEditGUI
 {
 
     /**
-     * Possible redirects after saving/updating a record - use GET['redirect']
+     * Possible redirects after saving/updating a record - use GET['redirect'] to set constants
      *
      */
     const REDIRECT_RECORD_LIST = 1;
@@ -54,34 +56,54 @@ class ilDataCollectionRecordEditGUI
      */
     protected $record;
 
+    /**
+     * @var ilCtrl
+     */
+    protected $ctrl;
+
+    /**
+     * @var ilTemplate
+     */
+    protected $tpl;
+
+    /**
+     * @var ilLanguage
+     */
+    protected $lng;
+
+    /**
+     * @var ilUser
+     */
+    protected $user;
+
+
 	/**
 	 * Constructor
 	 *
 	 */
 	public function __construct(ilObjDataCollectionGUI $parent_obj)
 	{
-		global $ilCtrl;
+        global $ilCtrl, $tpl, $lng, $ilUser;
 
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
-		$this->form = new ilPropertyFormGUI();
+        $this->ctrl = $ilCtrl;
+        $this->tpl = $tpl;
+        $this->lng = $lng;
+        $this->user = $ilUser;
 		$this->parent_obj = $parent_obj;
 		$this->record_id = $_REQUEST['record_id'];
-		$this->table_id = $_GET['table_id'];
+		$this->table_id = $_REQUEST['table_id'];
 
-		if($_REQUEST['table_id'])
-		{
-			$this->table_id = $_REQUEST['table_id'];
-		}
-
-		$this->table = ilDataCollectionCache::getTableCache($this->table_id);
         if ($this->record_id) {
             $this->record = ilDataCollectionCache::getRecordCache($this->record_id);
             if (!$this->record->hasPermissionToEdit((int) $_GET['ref_id']) || !$this->record->hasPermissionToView((int)$_GET['ref_id'])) {
-                ilUtil::sendFailure('dcl_msg_no_perm_edit', true);
-                $ilCtrl->redirectByClass('ildatacollectionrecordlistgui', 'listRecords');
+                $this->accessDenied();
             }
+            $this->table = $this->record->getTable();
+            $this->table_id = $this->table->getId();
+        } else {
+            $this->table = ilDataCollectionCache::getTableCache($this->table_id);
         }
-        $ilCtrl->saveParameter($this, 'redirect');
+        $this->ctrl->saveParameter($this, 'redirect');
     }
 	
 	
@@ -90,9 +112,7 @@ class ilDataCollectionRecordEditGUI
 	 */
 	public function executeCommand()
 	{
-		global $ilCtrl;
-
-		$cmd = $ilCtrl->getCmd();
+		$cmd = $this->ctrl->getCmd();
 		switch($cmd)
 		{
 			default:
@@ -109,11 +129,13 @@ class ilDataCollectionRecordEditGUI
 	 */
 	public function create()
 	{
-		global $ilCtrl, $tpl;
-
 		$this->initForm();
-
-		$tpl->setContent($this->form->getHTML());
+        if ($this->ctrl->isAsynch()) {
+            echo $this->form->getHTML();
+            exit();
+        } else {
+            $this->tpl->setContent($this->form->getHTML());
+        }
 	}
 
 	/**
@@ -121,12 +143,14 @@ class ilDataCollectionRecordEditGUI
 	 */
 	public function edit()
 	{
-		global $tpl, $ilCtrl;
-		
-		$this->initForm("edit");
+		$this->initForm();
 		$this->getValues();
-		
-		$tpl->setContent($this->form->getHTML());
+        if ($this->ctrl->isAsynch()) {
+            echo $this->form->getHTML();
+            exit();
+        } else {
+            $this->tpl->setContent($this->form->getHTML());
+        }
 	}
 	
 	/**
@@ -134,22 +158,15 @@ class ilDataCollectionRecordEditGUI
 	 */
 	public function confirmDelete()
 	{
-		global $ilCtrl, $lng, $tpl;
-		
-		include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
 		$conf = new ilConfirmationGUI();
-		$conf->setFormAction($ilCtrl->getFormAction($this));
-		$conf->setHeaderText($lng->txt('dcl_confirm_delete_record'));
-
+		$conf->setFormAction($this->ctrl->getFormAction($this));
+		$conf->setHeaderText($this->lng->txt('dcl_confirm_delete_record'));
 		$record = ilDataCollectionCache::getRecordCache($this->record_id);
-		
 		$conf->addItem('record_id', $record->getId(), implode(", ", $record->getRecordFieldValues()));
 		$conf->addHiddenItem('table_id', $this->table_id);
-		
-		$conf->setConfirm($lng->txt('delete'), 'delete');
-		$conf->setCancel($lng->txt('cancel'), 'cancelDelete');
-
-		$tpl->setContent($conf->getHTML());
+		$conf->setConfirm($this->lng->txt('delete'), 'delete');
+		$conf->setCancel($this->lng->txt('cancel'), 'cancelDelete');
+		$this->tpl->setContent($conf->getHTML());
 	}
 	
 	/**
@@ -157,17 +174,14 @@ class ilDataCollectionRecordEditGUI
 	 */
 	public function cancelDelete()
 	{
-		global $ilCtrl;
-		
-		$ilCtrl->redirectByClass("ildatacollectionfieldlistgui", "listFields");
+		$this->ctrl->redirectByClass("ildatacollectionfieldlistgui", "listFields");
 	}
-	
-	/*
-	 * delete
-	 */
-	public function delete()
+
+    /**
+     * Delete record
+     */
+    public function delete()
 	{
-		global $ilCtrl, $lng;
 		$record = ilDataCollectionCache::getRecordCache($this->record_id);
 		
 		if(!$this->table->hasPermissionToDeleteRecord($this->parent_obj->ref_id, $record))
@@ -177,26 +191,52 @@ class ilDataCollectionRecordEditGUI
 		}
 		
 		$record->doDelete();
-		ilUtil::sendSuccess($lng->txt("dcl_record_deleted"), true);
-		$ilCtrl->redirectByClass("ildatacollectionrecordlistgui", "listRecords");
+		ilUtil::sendSuccess($this->lng->txt("dcl_record_deleted"), true);
+		$this->ctrl->redirectByClass("ildatacollectionrecordlistgui", "listRecords");
 	}
+
+    /**
+     * Return All fields and values from a record ID. If this method is requested over AJAX,
+     * data is returned in JSON format
+     *
+     * @param int $record_id
+     */
+    public function getRecordData($record_id=0) {
+        $record_id = ($record_id) ? $record_id : $_GET['record_id'];
+        $return = array();
+        if ($record_id) {
+            $record = ilDataCollectionCache::getRecordCache((int) $record_id);
+            if (is_object($record)) {
+                $return = $record->getRecordFieldValues();
+            }
+        }
+        if ($this->ctrl->isAsynch()) {
+            echo json_encode($return);
+            exit();
+        }
+        return $return;
+    }
 
 	/**
 	 * init Form
-	 *
-	 * @param string $a_mode values: create | edit
 	 */
 	public function initForm()
 	{
-		global $lng, $ilCtrl;
+        $this->form = new ilPropertyFormGUI();
+        $prefix = ($this->ctrl->isAsynch()) ? 'dclajax' : 'dcl'; // Used by datacolleciton.js to select input elements
+        $this->form->setId($prefix . $this->table_id . $this->record_id);
 
-		//table_id
-		$hidden_prop = new ilHiddenInputGUI("table_id");
-		$hidden_prop ->setValue($this->table_id);
+        $hidden_prop = new ilHiddenInputGUI("table_id");
+		$hidden_prop->setValue($this->table_id);
 		$this->form->addItem($hidden_prop);
+        if ($this->record_id) {
+            $hidden_prop = new ilHiddenInputGUI("record_id");
+            $hidden_prop->setValue($this->record_id);
+            $this->form->addItem($hidden_prop);
+        }
 
-		$ilCtrl->setParameter($this, "record_id", $this->record_id);
-		$this->form->setFormAction($ilCtrl->getFormAction($this));
+        $this->ctrl->setParameter($this, "record_id", $this->record_id);
+		$this->form->setFormAction($this->ctrl->getFormAction($this));
 		$allFields = $this->table->getRecordFields();
 
 		foreach($allFields as $field)
@@ -205,16 +245,15 @@ class ilDataCollectionRecordEditGUI
 			if ($item === null) {
                 continue; // Fields calculating values at runtime, e.g. ilDataCollectionFormulaField do not have input
             }
-			if($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_REFERENCE)
-			{
+			if ($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_REFERENCE) {
 				$fieldref = $field->getFieldRef();
 				$reffield = ilDataCollectionCache::getFieldCache($fieldref);
                 $options = array();
-                if(!$field->isNRef())
-				    $options[""] = $lng->txt('dcl_please_select');
+                if (!$field->isNRef()) {
+                    $options[""] = $this->lng->txt('dcl_please_select');
+                }
 				$reftable = ilDataCollectionCache::getTableCache($reffield->getTableId());
-				foreach($reftable->getRecords() as $record)
-				{
+				foreach($reftable->getRecords() as $record) {
 					// If the referenced field is MOB or FILE, we display the filename in the dropdown
                     if ($reffield->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_FILE) {
                         $file_obj = new ilObjFile($record->getRecordFieldValue($fieldref), false);
@@ -228,12 +267,16 @@ class ilDataCollectionRecordEditGUI
 				}
                 asort($options);
                 $item->setOptions($options);
-			}
-			if($this->record_id)
-			{
+                if (!$field->isNRef()) { // addCustomAttribute only defined for single selects
+                    $item->addCustomAttribute('class="ilDclInputFormatReference"');
+                    $item->addCustomAttribute('data-ref-table-id="' . $reftable->getId() .'"');
+                    $item->addCustomAttribute('data-ref-field-id="'. $reffield->getId() .'"');
+                }
+            }
+
+            if($this->record_id) {
 				$record = ilDataCollectionCache::getRecordCache($this->record_id);
 			}
-				
 
 			$item->setRequired($field->getRequired());
             //WORKAROUND. If field is from type file: if it's required but already has a value it is no longer required as the old value is taken as default without the form knowing about it.
@@ -244,11 +287,13 @@ class ilDataCollectionRecordEditGUI
                         $item->setRequired(false);
                     }
                 }
+                // If this is an ajax request to return the form, input files are currently not supported
+                if ($this->ctrl->isAsynch()) {
+                    $item->setDisabled(true);
+                }
             }
 
-
-			if(!ilObjDataCollection::_hasWriteAccess($this->parent_obj->ref_id) && $field->getLocked())
-			{
+			if(!ilObjDataCollection::_hasWriteAccess($this->parent_obj->ref_id) && $field->getLocked()) {
 				$item->setDisabled(true);
 			}
 			$this->form->addItem($item);
@@ -262,60 +307,58 @@ class ilDataCollectionRecordEditGUI
         }
 
 		// save and cancel commands
-		if(isset($this->record_id))
-		{
-			$this->form->setTitle($lng->txt("dcl_update_record"));
-			$this->form->addCommandButton("save", $lng->txt("dcl_update_record"));
-			$this->form->addCommandButton("cancelUpdate", $lng->txt("cancel"));
-		}
-		else
-		{
-			$this->form->setTitle($lng->txt("dcl_add_new_record"));
-			$this->form->addCommandButton("save", $lng->txt("save"));
-			$this->form->addCommandButton("cancelSave", $lng->txt("cancel"));
-		}
+		if($this->record_id) {
+			$this->form->setTitle($this->lng->txt("dcl_update_record"));
+			$this->form->addCommandButton("save", $this->lng->txt("dcl_update_record"));
+			if (!$this->ctrl->isAsynch()) {
+                $this->form->addCommandButton("cancelUpdate", $this->lng->txt("cancel"));
+            }
+		} else {
+			$this->form->setTitle($this->lng->txt("dcl_add_new_record"));
+			$this->form->addCommandButton("save", $this->lng->txt("save"));
+            if (!$this->ctrl->isAsynch()) {
+			    $this->form->addCommandButton("cancelSave", $this->lng->txt("cancel"));
 
-		$ilCtrl->setParameter($this, "table_id", $this->table_id);
-		$ilCtrl->setParameter($this, "record_id", $this->record_id);
+            }
+        }
+		$this->ctrl->setParameter($this, "table_id", $this->table_id);
+		$this->ctrl->setParameter($this, "record_id", $this->record_id);
 	}
 
-	/**
-	 * get Values
-	 * 
-	 */	
-	public function getValues()
+    /**
+     * Set values from object to form
+     *
+     * @return bool
+     */
+    public function getValues()
 	{
-
 		//Get Record-Values
 		$record_obj = ilDataCollectionCache::getRecordCache($this->record_id);
-
 		//Get Table Field Definitions
 		$allFields = $this->table->getFields();
-
 		$values = array();
 		foreach($allFields as $field)
 		{
 			$value = $record_obj->getRecordFieldFormInput($field->getId());
 			$values['field_'.$field->getId()] = $value;
 		}
-
-		$this->form->setValuesByArray($values);
+        $values['record_id'] = $record_obj->getId();
+        $this->form->setValuesByArray($values);
 		return true;
 	}
-	
-	/*
-	 * cancelUpdate
-	 */
-	public function cancelUpdate()
+
+    /**
+     * Cancel Update
+     */
+    public function cancelUpdate()
 	{
-		global $ilCtrl;
-		$ilCtrl->redirectByClass("ildatacollectionrecordlistgui", "listRecords");
+		$this->ctrl->redirectByClass("ildatacollectionrecordlistgui", "listRecords");
 	}
-	
-	/*
-	 * cancelSave
-	 */
-	public function cancelSave()
+
+    /**
+     * Cancel Save
+     */
+    public function cancelSave()
 	{
 		$this->cancelUpdate();
 	}
@@ -324,89 +367,71 @@ class ilDataCollectionRecordEditGUI
      * Save record
      */
     public function save()
-	{	
-		global $tpl, $ilUser, $lng, $ilCtrl;
-
-		$this->initForm();
-        if($this->form->checkInput())
-		{
+	{
+        $this->initForm();
+        if ($this->form->checkInput()) {
             $record_obj = ilDataCollectionCache::getRecordCache($this->record_id);
 			$date_obj = new ilDateTime(time(), IL_CAL_UNIX);
 			$record_obj->setTableId($this->table_id);
 			$record_obj->setLastUpdate($date_obj->get(IL_CAL_DATETIME));
-			$record_obj->setLastEditBy($ilUser->getId());
+			$record_obj->setLastEditBy($this->user->getId());
 
             $create_mode = false;
 
-			if(ilObjDataCollection::_hasWriteAccess($this->parent_obj->ref_id))
-			{
+			if(ilObjDataCollection::_hasWriteAccess($this->parent_obj->ref_id)) {
 				$all_fields = $this->table->getRecordFields();
-			}
-			else
-			{
+			} else {
 				$all_fields = $this->table->getEditableFields();
 			}
 				
 			$fail = "";
 			//Check if we can create this record.
-			foreach($all_fields as $field)
-			{
-				try
-				{
-				   $value = $this->form->getInput("field_".$field->getId());
+			foreach($all_fields as $field) {
+				try {
+				    $value = $this->form->getInput("field_".$field->getId());
 					$field->checkValidity($value, $this->record_id);
-				}catch(ilDataCollectionInputException $e){
-				 $fail .= $field->getTitle().": ".$e."<br>";
+				} catch (ilDataCollectionInputException $e){
+				    $fail .= $field->getTitle().": ".$e."<br>";
 				}
-				
 			}
-			
-			if($fail)
-			{
-				ilUtil::sendFailure($fail, true);
-				$this->sendFailure();
+
+			if ($fail) {
+				$this->sendFailure($fail);
 				return;
 			}
 
-			if(!isset($this->record_id))
-			{
-				if(!($this->table->hasPermissionToAddRecord($this->parent_obj->ref_id)))
-				{
+			if (!isset($this->record_id)) {
+				if(!($this->table->hasPermissionToAddRecord($this->parent_obj->ref_id))) {
 					$this->accessDenied();
 					return;
 				}
-				$record_obj->setOwner($ilUser->getId());
+				$record_obj->setOwner($this->user->getId());
 				$record_obj->setCreateDate($date_obj->get(IL_CAL_DATETIME));
 				$record_obj->setTableId($this->table_id);
 				$record_obj->doCreate();
 				$this->record_id = $record_obj->getId();
                 $create_mode = true;
-			}
-			else
-			{
-				if(!$record_obj->hasPermissionToEdit($this->parent_obj->ref_id))
-				{
+			} else {
+				if(!$record_obj->hasPermissionToEdit($this->parent_obj->ref_id)) {
 					$this->accessDenied();
 					return;
 				}
 			}
 			//edit values, they are valid we already checked them above
-			foreach($all_fields as $field)
-			{
-                    $value = $this->form->getInput("field_".$field->getId());
+			foreach($all_fields as $field) {
+                $value = $this->form->getInput("field_".$field->getId());
 				//deletion flag on MOB inputs.
-					if($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_MOB && $this->form->getItemByPostVar("field_".$field->getId())->getDeletionFlag()){
-						$value = -1;
-					}
-                    $record_obj->setRecordFieldValue($field->getId(), $value);
+				if ($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_MOB && $this->form->getItemByPostVar("field_".$field->getId())->getDeletionFlag()) {
+				    $value = -1;
+				}
+                $record_obj->setRecordFieldValue($field->getId(), $value);
 			}
 
             // Do we need to set a new owner for this record?
             if (!$create_mode) {
                 $owner_id = ilObjUser::_lookupId($_POST['field_owner']);
                 if(!$owner_id) {
-                    ilUtil::sendFailure($lng->txt('user_not_known'));
-                    $this->sendFailure();
+                    $this->sendFailure($this->lng->txt('user_not_known'));
                     return;
                 }
                 $record_obj->setOwner($owner_id);
@@ -416,59 +441,86 @@ class ilDataCollectionRecordEditGUI
                 ilObjDataCollection::sendNotification("new_record", $this->table_id, $record_obj->getId());
             }
 			$record_obj->doUpdate();
-			ilUtil::sendSuccess($lng->txt("msg_obj_modified"),true);
 
-			$ilCtrl->setParameter($this, "table_id", $this->table_id);
-			$ilCtrl->setParameter($this, "record_id", $this->record_id);
-			if (isset($_GET['redirect'])) {
+			$this->ctrl->setParameter($this, "table_id", $this->table_id);
+			$this->ctrl->setParameter($this, "record_id", $this->record_id);
+
+            if (!$this->ctrl->isAsynch()) {
+                ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+            }
+
+            // Check if there is set a place where to redirect after saving/editing record
+            if (isset($_GET['redirect']) && !$this->ctrl->isAsynch()) {
                 switch ((int) $_GET['redirect']) {
                     case self::REDIRECT_DETAIL:
-                        $ilCtrl->setParameterByClass('ildatacollectionrecordviewgui', 'record_id', $this->record_id);
-                        $ilCtrl->setParameterByClass('ildatacollectionrecordviewgui', 'table_id', $this->table_id);
-                        $ilCtrl->redirectByClass("ildatacollectionrecordviewgui", "renderRecord");
+                        $this->ctrl->setParameterByClass('ildatacollectionrecordviewgui', 'record_id', $this->record_id);
+                        $this->ctrl->setParameterByClass('ildatacollectionrecordviewgui', 'table_id', $this->table_id);
+                        $this->ctrl->redirectByClass("ildatacollectionrecordviewgui", "renderRecord");
                         break;
                     case self::REDIRECT_RECORD_LIST:
-                        $ilCtrl->redirectByClass("ildatacollectionrecordlistgui", "listRecords");
+                        $this->ctrl->redirectByClass("ildatacollectionrecordlistgui", "listRecords");
                         break;
+                    default:
+                        $this->ctrl->redirectByClass("ildatacollectionrecordlistgui", "listRecords");
                 }
+            } elseif ($this->ctrl->isAsynch()) {
+                // If ajax request, return the form in edit mode again
+                $this->record_id = $record_obj->getId();
+                $this->initForm();
+                $this->getValues();
+                echo $this->tpl->getMessageHTML($this->lng->txt('msg_obj_modified'), 'success') . $this->form->getHTML();
+                exit();
             } else {
-                $ilCtrl->redirectByClass("ildatacollectionrecordlistgui", "listRecords");
+                $this->ctrl->redirectByClass("ildatacollectionrecordlistgui", "listRecords");
             }
-		}
-		else
-		{
-			global $tpl;
-			$this->form->setValuesByPost();
-			$tpl->setContent($this->form->getHTML());
+		} else {
+			// Form not valid...
+            $this->form->setValuesByPost();
+			if ($this->ctrl->isAsynch()) {
+                echo $this->form->getHTML();
+                exit();
+            } else {
+                $this->tpl->setContent($this->form->getHTML());
+            }
 		}
 
 	}
-	
-	/*
-	 * accessDenied
-	 */
-	private function accessDenied()
+
+    /**
+     * Access denied
+     */
+    private function accessDenied()
 	{
-		global $tpl;
-		$tpl->setContent("Access denied");
+        if (!$this->ctrl->isAsynch()) {
+            ilUtil::sendFailure('dcl_msg_no_perm_edit', true);
+            $this->ctrl->redirectByClass('ildatacollectionrecordlistgui', 'listRecords');
+        } else {
+            echo $this->lng->txt('dcl_msg_no_perm_edit');
+            exit();
+        }
 	}
-	
-	/*
-	 * sendFailure
-	 */
-	private function sendFailure()
+
+    /**
+     * SendFailure
+     */
+    private function sendFailure($message)
 	{
-		global $tpl;
-		$this->form->setValuesByPost();
-		$tpl->setContent($this->form->getHTML());
+        $keep = ($this->ctrl->isAsynch()) ? false : true;
+        $this->form->setValuesByPost();
+		if ($this->ctrl->isAsynch()) {
+            echo $this->tpl->getMessageHTML($message, 'failure') . $this->form->getHTML();
+            exit();
+        } else {
+            ilUtil::sendFailure($message, $keep);
+            $this->tpl->setContent($this->form->getHTML());
+        }
 	}
 
 	/**
 	 * This function is only used by the ajax request if searching for ILIAS references. It builds the html for the search results.
 	 */
-	public function searchObjects(){
-		global $lng;
-
+	public function searchObjects()
+    {
 		$search = $_POST['search_for'];
 		$dest = $_POST['dest'];
 		$html = "";
@@ -491,7 +543,7 @@ class ilDataCollectionRecordEditGUI
 
 		if(!count($results = $res->getResultsByObjId()))
 		{
-			$html .= $lng->txt('dcl_no_search_results_found_for').' '.	$search."<br />";
+			$html .= $this->lng->txt('dcl_no_search_results_found_for').' '.	$search."<br />";
 		}
 		$results = $this->parseSearchResults($results);
 
@@ -501,7 +553,6 @@ class ilDataCollectionRecordEditGUI
 			{
 				include_once './Services/Tree/classes/class.ilPathGUI.php';
 				$path = new ilPathGUI();
-
 				$tpl->setCurrentBlock('result');
 				$tpl->setVariable('RESULT_PATH',$path->getPath(ROOT_FOLDER_ID, $reference)." > ".$entry['title']);
 				$tpl->setVariable('RESULT_REF',$reference);
@@ -523,17 +574,16 @@ class ilDataCollectionRecordEditGUI
 	 */
 	private function parseSearchResults($a_res)
 	{
-		foreach($a_res as $obj_id => $references)
-		{
-			$r['title'] 	= ilObject::_lookupTitle($obj_id);
+		$rows = array();
+        foreach($a_res as $obj_id => $references) {
+			$r = array();
+            $r['title'] 	= ilObject::_lookupTitle($obj_id);
 			$r['desc']		= ilObject::_lookupDescription($obj_id);
 			$r['obj_id']	= $obj_id;
 			$r['refs']		= $references;
-
 			$rows[] = $r;
 		}
-
-		return $rows ? $rows : array();
+		return $rows;
 	}
 }
 

@@ -40,3 +40,6 @@ td.dcl_actions {
 tr.dcl_comments_active > td {
   background-color: #FFFFD9;
 }
+.ilDclReferenceAddValue {
+  padding-left: 10px;
+}

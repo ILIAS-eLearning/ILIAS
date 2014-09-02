@@ -12888,6 +12888,7 @@ dcl#:#dcl_permissions_form#:#Berechtigungen
 dcl#:#dcl_no_fields_yet#:#Es wurden noch keine Felder für diese Tabelle erstellt, daher können noch keine Einträge eingefügt werden.
 dcl#:#dcl_create_fields#:#Bitte erstellen Sie neue Felder unter dem "Felder" Tab.
 dcl#:#fieldtitle_allow_chars#:#Erlaubte Zeichen: %s
+dcl#:#add_value#:#Neuer Wert hinzufügen
 rating#:#rating_number_votes#:#%s Bewertungen
 administration#:#system_check_no_owner#:#Objekte ohne Besitzer
 blog#:#blog_import#:#Blog importieren
