@@ -805,6 +805,11 @@ class ilObjTestSettingsScoringResultsGUI
 	
 	private function isHiddenFormItem($formFieldId)
 	{
+		if( !$this->settingsTemplate )
+		{
+			return false;
+		}
+		
 		$settings = $this->settingsTemplate->getSettings();
 		
 		if( !isset($settings[$formFieldId]) )
