@@ -1,4 +1,4 @@
-// Build: 2014901233736 
+// Build: 2014902192022 
 /*
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
@@ -12555,8 +12555,9 @@ function loadPage(src) {
 		var resContainer = window.document.getElementById("res");
 		resContainer.src=src;
 		resContainer.name=RESOURCE_NAME;
-		onWindowResize();	
-		
+		onWindowResize();
+		ieForceRender();
+
 		if (treeView==true && mlaunch.mSeqNonContent!="_TOC_" && mlaunch.mSeqNonContent!="_SEQABANDON_" && mlaunch.mSeqNonContent!="_SEQABANDONALL_") {
 			toggleView();
 		}
@@ -12628,6 +12629,7 @@ function setResource()
 	// } 
 	
 	onWindowResize();
+	ieForceRender();
 	//reset
 	adlnavreq=false;
 	sclogdump("Launched: "+id,"info");
@@ -12695,6 +12697,14 @@ function onWindowResize()
 	$('#tdResource').css('top', tbh + "px");
 }
 
+function ieForceRender() {
+	if(this.config.ie_force_render && ((navigator.userAgent.indexOf("MSIE") > -1 && navigator.userAgent.indexOf("MSIE 6") == -1) || navigator.userAgent.indexOf("like Gecko") > -1)) {
+		window.setTimeout("window.resizeBy(1, 1)",10000);
+		window.setTimeout("window.resizeBy(-1, -1)",10010);
+		window.setTimeout("window.resizeBy(1, 1)",20000);
+		window.setTimeout("window.resizeBy(-1, -1)",20010);
+	}
+}
 
 function buildNavTree(rootAct,name,tree){
 	

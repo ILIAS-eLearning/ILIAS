@@ -446,6 +446,20 @@ $this->ctrl->redirect($this, "properties");
 		$cb->setInfo($this->lng->txt("cont_auto_last_visited_info"));
 		$this->form->addItem($cb);
 
+		// set IE compatibility mode
+		$cb = new ilCheckboxInputGUI($this->lng->txt("cont_ie_compatibility"), "cobj_ie_compatibility");
+		$cb->setValue("y");
+		$cb->setChecked($this->object->getIe_compatibility());
+		$cb->setInfo($this->lng->txt("cont_ie_compatibility_info"));
+		$this->form->addItem($cb);
+
+		// force IE to render again
+		$cb = new ilCheckboxInputGUI($this->lng->txt("cont_ie_force_render"), "cobj_ie_force_render");
+		$cb->setValue("y");
+		$cb->setChecked($this->object->getIe_force_render());
+		$cb->setInfo($this->lng->txt("cont_ie_force_render_info"));
+		$this->form->addItem($cb);
+
 		//
 		// scorm options
 		//
@@ -723,6 +737,8 @@ $this->ctrl->redirect($this, "properties");
 			$this->object->setNoMenu(ilUtil::yn2tf($_POST["cobj_nomenu"]));
 			$this->object->setHideNavig(ilUtil::yn2tf($_POST["cobj_hidenavig"]));
 			$this->object->setAuto_last_visited(ilUtil::yn2tf($_POST["cobj_auto_last_visited"]));
+			$this->object->setIe_compatibility(ilUtil::yn2tf($_POST["cobj_ie_compatibility"]));
+			$this->object->setIe_force_render(ilUtil::yn2tf($_POST["cobj_ie_force_render"]));
 			$this->object->setFourth_edition($tmpFourth_edition);
 			$this->object->setSequencing($tmpSequencing);
 			$this->object->setInteractions(ilUtil::yn2tf($_POST["cobj_interactions"]));
