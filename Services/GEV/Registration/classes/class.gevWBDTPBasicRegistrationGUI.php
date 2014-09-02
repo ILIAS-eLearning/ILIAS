@@ -122,6 +122,7 @@ class gevWBDTPBasicRegistrationGUI {
 		return $this->createTPBasisBWVId();
 	}
 
+/*
 	protected function createTPServiceBWVId($a_form = null) {
 		$tpl = new ilTemplate("tpl.gev_wbd_tp_service_form.html", false, false, "Services/GEV/Registration");
 		$form = $a_form===null ? $this->buildTPServiceForm() : $a_form;
@@ -136,6 +137,7 @@ class gevWBDTPBasicRegistrationGUI {
 
 		return $tpl->get();
 	}
+*/	
 /*
 	protected function registerTPService() {
 		$form = $this->buildTPServiceForm();
@@ -171,6 +173,7 @@ class gevWBDTPBasicRegistrationGUI {
 		ilUtil::redirect("ilias.php?baseClass=gevDesktopGUI&cmdClass=toMyCourses");
 	}
 */
+/*
 	protected function buildTPServiceForm() {
 		require_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		require_once("Services/Form/classes/class.ilCheckboxInputGUI.php");
@@ -180,7 +183,7 @@ class gevWBDTPBasicRegistrationGUI {
 
 		$form = new ilPropertyFormGUI();
 		//$form->addCommandButton("registerTPService", $this->lng->txt("register_tp_service"));
-		$form->addCommandButton("startRegistration", $this->lng->txt("back"));
+		$form->addCommandButton("startRegistration", $this->lng->txt("gev_wbd_registration_basic_back"));
 		$form->setFormAction($this->ctrl->getFormAction($this));
 
 		$wbd_link = "<a href='/data/Generali/documents/02_AGB_WBD.pdf' target='_blank' style='color: #0000ff'>".$this->lng->txt("gev_agb_wbd")."</a>";
@@ -216,7 +219,7 @@ class gevWBDTPBasicRegistrationGUI {
 
 		return $form;
 	}
-
+*/
 	protected function createTPBasisBWVId($a_form = null) {
 		$tpl = new ilTemplate("tpl.gev_wbd_tp_basis_form.html", false, false, "Services/GEV/Registration");
 		$form = $a_form===null ? $this->buildTPBasisForm() : $a_form;
@@ -271,7 +274,7 @@ class gevWBDTPBasicRegistrationGUI {
 
 		$form = new ilPropertyFormGUI();
 		$form->addCommandButton("registerTPBasis", $this->lng->txt("register_tp_basis"));
-		$form->addCommandButton("startRegistration", $this->lng->txt("back"));
+		$form->addCommandButton("startRegistration", $this->lng->txt("gev_wbd_registration_basic_back"));
 		$form->setFormAction($this->ctrl->getFormAction($this));
 
 		$wbd_link = "<a href='/data/Generali/documents/02_AGB_WBD.pdf' target='_blank' style='color: #0000ff'>".$this->lng->txt("gev_agb_wbd")."</a>";
@@ -279,7 +282,7 @@ class gevWBDTPBasicRegistrationGUI {
 		$agb_link = "<a href='/data/Generali/documents/01_AGB_TGIC.pdf' target='_blank' style='color: #0000ff'>".$this->lng->txt("gev_agb_tgic")."</a>";
 
 		$chb1 = new ilCheckboxInputGUI("", "chb1");
-		$chb1->setOptionTitle(sprintf($this->lng->txt("gev_give_mandate"), $auftrag_link));
+		$chb1->setOptionTitle(sprintf($this->lng->txt("gev_give_mandate_tp_basis"), $auftrag_link));
 		$form->addItem($chb1);
 
 		$chb2 = new ilCheckboxInputGUI("", "chb2");
@@ -307,6 +310,7 @@ class gevWBDTPBasicRegistrationGUI {
 		$opt1->addOption($extra);
 		$opt1->setValue("auth");
 		$form->addItem($opt1);
+		//$form->addItem($email);
 
 		return $form;
 	}

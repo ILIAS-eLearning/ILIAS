@@ -528,7 +528,7 @@ gev#:#gev_points#:#Punkte
 gev#:#gev_points_at_end_of_cert_year#:#voraussichtliche Punkte bis zum Ende des aktuellen Zertifizierungsjahres
 gev#:#gev_points_in_academy#:#Bildungspunkte in der Generali Online Akademie
 gev#:#gev_points_in_five_years#:#Punkte im 5-Jahres-Zeitraum
-gev#:#gev_points_in_wbd#:#Bildungspunkte in der WBD
+gev#:#gev_points_in_wbd#:#Bildungspunkte in der WBD<br><small>Die Angaben erfolgen ohne Gewähr. Die verbindliche Angabe Ihrer Weiterbildungspunkte erhalten Sie ausschließlich auf den Seiten der WBD.</small>
 gev#:#gev_points_in_wbd_cert_period#:#Punkte in der aktuellen Zertifizierungsperiode
 gev#:#gev_points_in_wbd_cert_year#:#Punkte im aktuellen Zertifizierungsjahr
 gev#:#gev_position#:#Vermittlernummer
@@ -586,8 +586,8 @@ gev#:#gev_was_booked_self #:#Das Training "%s" wurde erfolgreich für Sie gebuch
 gev#:#gev_was_booked_waiting_employee#:#Ihr Mitarbeiter %s wurde erfolgreich beim Training "%s" auf die Warteliste hinzugefügt.
 gev#:#gev_was_booked_waiting_self#:#Sie wurden beim Training "%s" erfolgreich auf die Warteliste hinzugefügt.
 gev#:#gev_wbd_notifications#:#Benachrichtigungen der WBD
-gev#:#gev_wbd_notifications_to_auth#:#Kontoauszüge und Jahreszertifikate der WBD sollen an meine Authentifizierungs-E-Mail-Adresse (private E-Mail-Adresse) verschickt werden.
-gev#:#gev_wbd_notifications_to_diff#:#Kontoauszüge und Jahreszertifikate der WBD sollen an eine abweichende E-Mail-Adresse verschickt werden.
+gev#:#gev_wbd_notifications_to_auth#:#Kontoauszüge und Jahreszertifikate der WBD sollen an meine Authentifizierungs-E-Mail-Adresse verschickt werden.
+gev#:#gev_wbd_notifications_to_diff#:#Kontoauszüge und Jahreszertifikate der WBD sollen an eine abweichende E-Mail-Adresse verschickt werden. (Bitte füllen Sie das Feld "alternative E-Mail-Adresse" aus)
 gev#:#gev_wbd_registration#:#WBD-Registrierung
 gev#:#gev_wbd_registration_cb_mandatory#:#Sie müssen dieses Feld bestätigen, um die WBD-Registrierung abschließen zu können.
 gev#:#gev_wbd_registration_create_bwv_id#:#Nein, ich habe noch keine GDV Vermittler-ID. Die Generali soll für mich ein Weiterbildungskonto eröffnen.
@@ -830,3 +830,6 @@ wsp#:#wsp_list_crsv#:#Trainingszertifikat
 wsp#:#wsp_set_permission_course#:#Trainingsteilnehmer
 wsp#:#wsp_shared_member_filter#:#Trainings-/Gruppenmitglieder
 wsp#:#wsp_type_crsv#:#Zertifikat: Training
+gev#:#gev_wbd_registration_basic_back#:#Zurück zur Eingabe der GDV Vermittler-ID
+gev#:#gev_wbd_registration_basic#:#WBD-Registrierung 
+gev#:#gev_wbd_registration_header_note#:#Registrieren Sie sich bei der Weiterbildungsdatenbank. 
