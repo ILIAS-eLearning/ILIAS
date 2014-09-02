@@ -230,7 +230,8 @@ class gevUserProfileGUI {
 		$form->addItem($section2);
 		
 		$b_email = new ilNonEditableValueGUI($this->lng->txt("gev_email"), "b_email");
-		$b_email->setValue($this->user->getEmail());
+		$_b_email = $this->user->getEmail();
+		$b_email->setValue($_b_email);
 		$form->addItem($b_email);
 		
 		$b_street = new ilTextInputGUI($this->lng->txt("street"), "b_street");
@@ -268,7 +269,8 @@ class gevUserProfileGUI {
 		$form->addItem($info);
 		
 		$p_email = new ilEMailInputGUI($this->lng->txt("email"), "p_email");
-		$p_email->setValue($this->user_utils->getPrivateEmail());
+		$_p_email = $this->user_utils->getPrivateEmail();
+		$p_email->setValue($_p_email?$_p_email:$_b_email);
 		$p_email->setRequired(true);
 		$form->addItem($p_email);
 		
