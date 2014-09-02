@@ -150,10 +150,11 @@ class ilDatePresentation
 		else
 		{
 			include_once('./Services/Calendar/classes/class.ilCalendarUtil.php');
-			$date_str = $date->get(IL_CAL_FKT_DATE,'d').'. '.
 				// gev-patch start
+			$date_str = $date->get(IL_CAL_FKT_DATE,'d').'.'.
 				//ilCalendarUtil::_numericMonthToString($date_info['mon'],false).' '.
-				ilCalendarUtil::_numericMonthToString($date_info['mon'],true).' '.
+				//ilCalendarUtil::_numericMonthToString($date_info['mon'],true).' '.
+				sprintf("%02d", (int)$date_info["mon"]).".".
 				// gev-patch end
 				$date_info['year'];
 		}
@@ -231,6 +232,38 @@ class ilDatePresentation
 			}
 		}
 		// Different days
+		// gev-patch start
+		if (!$has_time) {
+			$start_info = $start->get(IL_CAL_FKT_GETDATE,'','UTC');
+			$end_info = $end->get(IL_CAL_FKT_GETDATE,'','UTC');
+			if ($start_info['year'] == $end_info["year"]) {
+				if ($start_info['mon'] == $end_info['mon']) {
+					return $start->get(IL_CAL_FKT_DATE,'d').'.'.
+							//ilCalendarUtil::_numericMonthToString($date_info['mon'],false).' '.
+							//ilCalendarUtil::_numericMonthToString($date_info['mon'],true).' '.
+							" - ".
+							$end->get(IL_CAL_FKT_DATE,'d').'.'.
+							//ilCalendarUtil::_numericMonthToString($date_info['mon'],false).' '.
+							//ilCalendarUtil::_numericMonthToString($date_info['mon'],true).' '.
+							sprintf("%02d", (int)$end_info["mon"]).".".
+							// gev-patch end
+							$end_info['year'];
+				}
+				
+				return $start->get(IL_CAL_FKT_DATE,'d').'.'.
+						//ilCalendarUtil::_numericMonthToString($date_info['mon'],false).' '.
+						//ilCalendarUtil::_numericMonthToString($date_info['mon'],true).' '.
+						sprintf("%02d", (int)$start_info["mon"]).". - ".
+						$end->get(IL_CAL_FKT_DATE,'d').'.'.
+						//ilCalendarUtil::_numericMonthToString($date_info['mon'],false).' '.
+						//ilCalendarUtil::_numericMonthToString($date_info['mon'],true).' '.
+						sprintf("%02d", (int)$end_info["mon"]).".".
+						// gev-patch end
+						$end_info['year'];
+			}
+		}
+		
+		// gev-path end
 		return self::formatDate($start).' - '.self::formatDate($end);
 	}
 
