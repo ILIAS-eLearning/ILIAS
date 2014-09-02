@@ -160,17 +160,17 @@ class gevAttendanceByEmployeeGUI {
 		$table_cols = array(
 			array("lastname", "lastname"),
 			array("firstname", "firstname"),
-			array("gdv_id", "bwv_id"),
-			array("kennung", "position_key"),
+			array("gev_bwv_id", "bwv_id"),
+			array("gev_agent_key", "position_key"),
 			array("gender", "gender"),
-			array("org_unit", "org_unit"),
+			array("gev_org_unit_short", "org_unit"),
 			array("title", "title"),
 			array("gev_training_id", "custom_id"),
 			array("gev_location", "venue"),
 			array("gev_provider", "provider"),
 			array("gev_learning_type", "type"),
-			array("booking_status", "booking_status"),
-			array("participation_status", "participation_status")
+			array("gev_booking_status", "booking_status"),
+			array("gev_participation_status", "participation_status")
 		);
 
 		$table->addColumn("", "blank", "0px", false);
@@ -227,6 +227,9 @@ class gevAttendanceByEmployeeGUI {
 		print_r($data);
 		print '</pre><hr>';
 		*/
+		$cnt = count($data);
+		$table->setLimit($cnt);
+		$table->setMaxCount($cnt);
 
 		$table->setData($data);
 		return $table->getHTML();
