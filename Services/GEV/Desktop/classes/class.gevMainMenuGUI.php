@@ -99,7 +99,8 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 				, "gev_my_settings" => array(true, "ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToSettings")
 				, "gev_my_groups" => array(false, "NYI!")
 				, "gev_my_roadmap" => array(false, "NYI!")
-				, "gev_my_trainer_ap" => array(false, "NYI!")
+				, "gev_my_trainer_ap" => array(true, "ilias.php?baseClass=gevDesktopGUI&cmd=toMyTrainingsAp")
+
 				))
 			, "gev_others_menu" => array(false, $has_others_menu, array(
 				  "gev_employee_booking" => array($employee_booking, "NYI!")

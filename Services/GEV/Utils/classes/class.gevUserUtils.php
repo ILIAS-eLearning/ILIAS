@@ -238,6 +238,51 @@ class gevUserUtils {
 		return array_merge($booked_amd, $waiting_amd);
 	}
 	
+
+
+	public function getMyAppointmentsCourseIds() {
+
+			return array(
+				'261',
+				'270',
+				'280'
+				);
+	}
+
+	public function getMyAppointmentsCourseInformation() {
+			// used by gevMyTrainingsApTable, i.e.
+			$crss = $this->getMyAppointmentsCourseIds();
+
+			//do the amd-dance
+			$crs_amd = 
+			array( gevSettings::CRS_AMD_START_DATE			=> "start_date"
+				 , gevSettings::CRS_AMD_END_DATE 			=> "end_date"
+				 
+				 , gevSettings::CRS_AMD_CUSTOM_ID			=> "custom_id"
+				 , gevSettings::CRS_AMD_TYPE 				=> "type"
+				 , gevSettings::CRS_AMD_VENUE 				=> "location"
+				 //, gevSettings::CRS_AMD_MAX_PARTICIPANTS	=> "mbr_max"
+				 
+				 
+				 , gevSettings::CRS_AMD_TARGET_GROUP_DESC	=> "target_group"
+				 , gevSettings::CRS_AMD_GOALS 				=> "goals"
+				 , gevSettings::CRS_AMD_CONTENTS 			=> "content"
+			);
+			$crss_amd = gevAMDUtils::getInstance()->getTable($crss, $crs_amd);
+
+			foreach ($crss_amd as $id => $entry) {
+				$entry['mbr_max'] = 10;
+				$entry['mbr_booked'] = 0;
+				$entry['apdays'] = 2;
+				$entry['category'] = '-';
+				$crss_amd[$id] = $entry;
+			}
+
+			return $crss_amd;
+	}
+
+
+
 	public function getPotentiallyBookableCourseIds($a_search_options) {
 		global $ilUser;
 		$hash = md5(serialize($a_search_options));

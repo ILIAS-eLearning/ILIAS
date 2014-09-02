@@ -17,6 +17,7 @@
 * @ilCtrl_Calls gevDesktopGUI: gevWBDTPServiceRegistrationGUI
 * @ilCtrl_Calls gevDesktopGUI: gevWBDTPBasicRegistrationGUI
 * @ilCtrl_Calls gevDesktopGUI: gevAttendanceByEmployeeGUI
+* @ilCtrl_Calls gevDesktopGUI: gevMyTrainingsApGUI
 *
 */
 
@@ -92,6 +93,13 @@ class gevDesktopGUI {
 				$ret = $this->ctrl->forwardCommand($gui);
 				break;
 
+			case "gevmytrainingsapgui":
+				$ilMainMenu->setActive("gev_me_menu");
+				require_once("Services/GEV/Desktop/classes/class.gevMyTrainingsApGUI.php");
+				$gui = new gevMyTrainingsApGUI();
+				$ret = $this->ctrl->forwardCommand($gui);
+				break;
+
 			case "gevwbdtpserviceregistrationgui":
 				require_once("Services/GEV/Registration/classes/class.gevWBDTPServiceRegistrationGUI.php");
 				$gui = new gevWBDTPServiceRegistrationGUI();
@@ -130,6 +138,7 @@ class gevDesktopGUI {
 			case "toMyCourses":
 			case "toMyProfile":
 			case "toStaticPages":
+			case "toMyTrainingsAp":
 			case "toReportAttendanceByEmployee":
 				$this->$a_cmd();
 			default:
@@ -151,6 +160,10 @@ class gevDesktopGUI {
 	
 	protected function toMyProfile() {
 		$this->ctrl->redirectByClass("gevUserProfileGUI");
+	}
+
+	protected function toMyTrainingsAp() {
+		$this->ctrl->redirectByClass("gevMyTrainingsApGUI");
 	}
 
 	protected function toReportAttendanceByEmployee() {
