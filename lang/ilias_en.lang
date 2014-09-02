@@ -112,7 +112,7 @@ administration#:#language_translation_enabled#:#Page translation enabled
 administration#:#language_translation_mode#:#Translation mode
 administration#:#log_scan_desc#:#Write scan results to 'scanlog.log' in client data directory.
 administration#:#log_scan#:#Log scan results
-administration#:#loginname_change_blocking_time_info#:#Insert a period in days that an user has to wait before changing again its login name. If you enter 0, user can change login names anytime.
+administration#:#loginname_change_blocking_time_info#:#Insert a period in days that a user has to wait before changing again its login name. If you enter 0, user can change login names anytime.
 administration#:#loginname_change_blocking_time_invalidity_info#:#Please insert a numeric value.
 administration#:#loginname_change_blocking_time#:#Blocking Time for Changing Login Names
 administration#:#loginname_history_info#:#If activated, login name changes will be logged in database. This history is accessible in the database table 'loginname_history'.
@@ -6283,7 +6283,7 @@ delic#:#delic_settings#:#Delicious Settings
 delic#:#delic_user_profile#:#Enable Delicious Account Setting in User Profile
 ecs#:#cert_serial#:#Certificate Serial Number
 ecs#:#ecs_abr#:#Abbreviation
-ecs#:#ecs_account_duration_info#:#New ECS-User accounts are limited to the session duration. After assigning an user to a course the activation period will be extended by the given number months.
+ecs#:#ecs_account_duration_info#:#New ECS-User accounts are limited to the session duration. After assigning a user to a course the activation period will be extended by the given number months.
 ecs#:#ecs_account_duration#:#Activation Period Extension
 ecs#:#ecs_active_header#:#Import/Export Allowed
 ecs#:#ecs_active#:#Enable ECS Functionalities
@@ -8087,7 +8087,7 @@ payment#:#paya_edit_pay_method#:#Edit Pay Method
 payment#:#paya_edit_prices_first#:#Please edit the prices first.
 payment#:#paya_edit_prices#:#Edit Prices
 payment#:#paya_enabled#:#Enabled
-payment#:#paya_enter_login#:#Please enter an user name.
+payment#:#paya_enter_login#:#Please enter a user name.
 payment#:#paya_err_adding_object#:#Error adding object
 payment#:#paya_error_adding_customer#:#An error occurred while adding the selling process to the statistics.
 payment#:#paya_error_mandatory_fields#:#Please fill in all mandatory fields (*).
@@ -8415,7 +8415,7 @@ ps#:#ps_password_max_age_info#:#Sets the maximum age of passwords in days. Set t
 ps#:#ps_password_max_age#:#Maximum Password Age
 ps#:#ps_password_max_length_info#:#Sets the maximum size of account passwords. Set this to 0 for disabling this option.
 ps#:#ps_password_max_length#:#Maximum Password Size
-ps#:#ps_password_min_length_info#:#Sets the minimum size of account passwords. If set to 0 the passwords anyway have to have a minimum size of 1.
+ps#:#ps_password_min_length_info#:#Sets the minimum size of account passwords. If set to 0, the passwords anyway have to have a minimum size of 1. If the required length is altered, the new requirement will be applied only to those accounts that were created or changed after the new length was set. Existing accounts are not affected.
 ps#:#ps_password_min_length#:#Minimum Password Size
 ps#:#ps_password_special_chars_enabled_info#:#If enabled, passwords have to contain special characters.
 ps#:#ps_password_special_chars_enabled#:#Force Special Characters
@@ -9609,7 +9609,7 @@ trac#:#found_too_much_objects#:#Thereby more than %s objects totally were found.
 trac#:#info_all_objects#:#The following user tracking refers to all objects of the type '%s'.
 trac#:#info_dwell_time#:#Attention: The total dwell time of an object isn't addicted to the given period of time!
 trac#:#info_found_objects#:#The user tracking refers to the following objects of the type '%s' that were found according to your search terms.
-trac#:#info_valid_request#:#The maximum valid time between two requests of an user.
+trac#:#info_valid_request#:#The maximum valid time between two requests of a user.
 trac#:#last_login#:#Last Login
 trac#:#meta_typical_learning_time#:#Typical learning time
 trac#:#newUT_settings#:#Learning Module Statistics
@@ -9781,7 +9781,7 @@ trac#:#trac_mode_scorm_package#:#Automatic by SCORM Course Status
 trac#:#trac_mode_scorm#:#Automatic by Collection of SCORM Items
 trac#:#trac_mode_test_finished_info#:#Users have to finish a test completely.
 trac#:#trac_mode_test_finished#:#Test Finished
-trac#:#trac_mode_test_passed_info#:#The test has to be passed by an user to receive the status 'Completed'.
+trac#:#trac_mode_test_passed_info#:#The test has to be passed by a user to receive the status 'Completed'.
 trac#:#trac_mode_test_passed#:#Test Passed
 trac#:#trac_mode_tlt_info#:#Users who reached the Typical Learning Time will gain the status 'Completed'. Two requests of a user within %s seconds will be counted as one coherent visit.
 trac#:#trac_mode_tlt#:#Typical Learning Time
@@ -10922,7 +10922,7 @@ payment#:#special_info#:#If enabled, this object will be shown on the entire sho
 common#:#object_purchased_date#:#Purchase-Date
 common#:#object_duration#:#Access-Duration
 common#:#new_customer#:#Are you a new customer?
-common#:#new_customer_info#:#Please click here if you do not have an user account.
+common#:#new_customer_info#:#Please click here if you do not have a user account.
 payment#:#shop_url#:#Link to shop
 payment#:#shop_bought_objects_url#:#Link to bought objects
 tstv#:#tstv_create#:#Create Test Certificate
@@ -12766,7 +12766,7 @@ fm#:#fm_settings_filesize_info#:#Enter the maximum allowed filesize for uploaded
 blog#:#blog_authors#:#Authors
 blog#:#blog_author#:#Author
 blog#:#blog_enable_approval#:#Approval
-blog#:#blog_enable_approval_info#:#Before being published all postings need to be approved by an user with permission "Edit Settings" for this blog.
+blog#:#blog_enable_approval_info#:#Before being published all postings need to be approved by a user with permission "Edit Settings" for this blog.
 blog#:#blog_approve#:#Approve
 blog#:#blog_needs_approval#:#Needs Approval
 sess#:#sess_copy#:#Copy Session
