@@ -3669,8 +3669,6 @@ common#:#passwd_list#:#List of Passwords
 common#:#passwd_not_match#:#Your entries for the new password don't match! Please re-enter your new password.
 common#:#passwd_wrong#:#The password you entered is wrong!
 common#:#passwd#:#Password
-common#:#passwd_enc_type#:#Encoding
-common#:#passwd_salt#:#Salt
 common#:#password_assistance_disabled#:#Password assistance is only available when user authentication is done via local ILIAS database.
 common#:#password_assistance_info#:#If password assistance is enabled, a link "Forgot Password?" is shown on the login page of ILIAS. Users can use this link to define a new password for their user account without needing assistance from a system administrator.
 common#:#password_change_on_first_login_demand#:#You have to change your initial password before you can start using ILIAS services.

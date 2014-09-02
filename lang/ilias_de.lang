@@ -4282,8 +4282,6 @@ common#:#parameter#:#Parameter
 common#:#parse#:#Parsen
 common#:#passed#:#Bestanden
 common#:#passwd#:#Passwort
-common#:#passwd_enc_type#:#Kodierung
-common#:#passwd_salt#:#Salt
 common#:#passwd_generation#:#Passwortgenerierung
 common#:#passwd_generation_info#:#Wenn die Passwortgenerierung eingeschaltet ist, können Passwörter im Persönlichen Profil nur aus einer Vorgabeliste ausgewählt werden. Benutzer haben keine Möglichkeit, eigene Passwörter festzulegen.
 common#:#passwd_invalid#:#Das neue Passwort ist nicht erlaubt! Das Passwort muss mindestens sechs Zeichen umfassen und darf nur folgende Zeichen enthalten: A-Z a-z 0-9 _.-+?#*@!$%~
