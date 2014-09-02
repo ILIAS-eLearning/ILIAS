@@ -54,6 +54,7 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 		$this->setEnableHeader(true);
 
 		$this->addColumn("", "expand", "0px", false, "catTableExpandButton");
+
 		$this->addColumn($this->lng->txt("title"), "title");
 		$this->addColumn($this->lng->txt("gev_training_id"), "custom_id");
 		$this->addColumn($this->lng->txt("gev_learning_type"), "type");
@@ -65,9 +66,12 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 		$this->addColumn('<img src="'.ilUtil::getImagePath("gev_action.png").'" />', "actions", "20px", false);
 
 		$data = $user_util->getMyAppointmentsCourseInformation();
+		/*
 		print '<pre>';
 		print_r($data);
 		print '</pre>';
+		*/
+		
 		/*
 		$cnt = count($data);
 		$this->setMaxCount($cnt);
@@ -121,11 +125,12 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 		}
 */
 		
-		$actions = 'x/x';
 		$mbrs = $a_set['mbr_booked'] .'/' .$a_set['mbr_max'];
 
+		$actions = 'x/x';
+
+		
 		$show_set_stat_link = 1;
-		http://localhost/4_4_generali/ilias.php?baseClass=gevDesktopGUI&cmd=toMyTrainingsAp
 
 		$memberlist_link = $this->ctrl->getLinkTarget($this->parent_obj, 'memberList')
 							.'&crsid=' .$a_set['obj_id'];
@@ -133,7 +138,6 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 		$setstatus_link = $this->ctrl->getLinkTarget($this->parent_obj, 'setParticipationStatus')
 							.'&crsid=' .$a_set['obj_id'];
 		
-//getLinkTarget($this, "getCertificate")
 
 		$this->tpl->setVariable("TITLE", $a_set["title"]);
 		$this->tpl->setVariable("CUSTOM_ID", $status);
