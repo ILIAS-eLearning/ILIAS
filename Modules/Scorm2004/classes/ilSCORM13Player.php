@@ -353,7 +353,8 @@ class ilSCORM13Player
 
 		//session
 		if ($this->slm->getSession()) {
-			$session_timeout = (int)($ilias->ini->readVariable("session","expire"))/2;
+//			$session_timeout = (int)($ilias->ini->readVariable("session","expire"))/2;
+			$session_timeout = (int)ilSession::getIdleValue()/2;
 		} else {
 			$session_timeout = 0;
 		}
