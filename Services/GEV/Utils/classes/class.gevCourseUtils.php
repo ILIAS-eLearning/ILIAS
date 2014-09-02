@@ -359,6 +359,16 @@ class gevCourseUtils {
 		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_SCHEDULE);
 	}
 	
+	public function getFormattedSchedule($a_line_break = "<br />") {
+		$schedule = $this->getSchedule();
+		$counter = 1;
+		foreach ($schedule as $key => $value) {
+			$schedule[$key] = "Tag ".$counter.": ".$value;
+			$counter += 1;
+		}
+		return implode($a_line_break, $schedule);
+	}
+	
 	public function getFormattedStartTime() {
 		$schedule = $this->getSchedule();
 		if (count($schedule) == 0) {
@@ -1041,6 +1051,21 @@ class gevCourseUtils {
 		$tr = $this->getMainAdmin();
 		if ($tr !== null) {
 			return $tr->getEmail();
+		}
+		return "";
+	}
+	
+	public function getMainAdminContactInfo() {
+		$email = $this->getMainAdminEMail();
+		$phone = $this->getMainAdminPhone();
+		if ($phone && $email) {
+			return $phone.", ".$email;
+		}
+		if ($phone) {
+			return $phone;
+		}
+		if ($email) {
+			return $email;
 		}
 		return "";
 	}

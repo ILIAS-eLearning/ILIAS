@@ -252,9 +252,16 @@ class gevBookingGUI {
 		$prv = $this->crs_utils->getProvider();
 		$ven = $this->crs_utils->getVenue();
 		$booking_dl = $this->crs_utils->getFormattedBookingDeadlineDate();
+		$admin_contact = $this->crs_utils->getMainAdminContactInfo();
+		$desc = $this->crs_utils->getSubtitle();
+		$appointment = $this->crs_utils->getFormattedAppointment();
 		
 		$vals = array(
-			  array( $this->lng->txt("gev_course_id")
+			  array($this->lng->txt("description")
+				   , $desc
+				   , $desc
+				   )
+			, array( $this->lng->txt("gev_course_id")
 				   , true
 				   , $this->crs_utils->getCustomId()
 				   )
@@ -279,8 +286,8 @@ class gevBookingGUI {
 				   , implode(", ", $this->crs_utils->getMethods())
 				   )
 			, array( $this->lng->txt("appointment")
-				   , true
-				   , $this->crs_utils->getFormattedAppointment()
+				   , $appointment
+				   , $appointment."<br/><br />".$this->crs_utils->getFormattedSchedule()
 				   )
 			, array( $this->lng->txt("gev_provider")
 				   , $prv?true:false
@@ -288,7 +295,10 @@ class gevBookingGUI {
 				   )
 			, array( $this->lng->txt("gev_venue")
 				   , $ven?true:false
-				   , $ven?$ven->getTitle():""
+				   , !$ven?"":( $ven->getTitle()."<br />".
+				   				$ven->getStreet()." ".$ven->getHouseNumber()."<br />".
+				   				$ven->getZipcode()." ".$ven->getCity()."<br />"
+				   			  )
 				   )
 			, array( $this->lng->txt("gev_instructor")
 				   , true
@@ -304,7 +314,7 @@ class gevBookingGUI {
 				   )
 			, array( $this->lng->txt("gev_training_contact")
 				   , !$this->isSelfLearningCourse()
-				   , $this->crs_utils->getMainAdminName()." (".$this->crs_utils->getMainAdminEMail().")"
+				   , $this->crs_utils->getMainAdminName().($admin_contact?(" (".$admin_contact.")"):"")
 				   )
 			, array( $this->lng->txt("gev_training_fee")
 				   , $this->isWithPayment()

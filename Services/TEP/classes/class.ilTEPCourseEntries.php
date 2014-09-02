@@ -172,14 +172,7 @@ class ilTEPCourseEntries
 			
 			$title = $course->getTitle();
 			
-			$schedule = $crs_utils->getSchedule();
-			$counter = 1;
-			foreach ($schedule as $key => $value) {
-				$schedule[$key] = "Tag ".$counter.": ".$value;
-				$counter += 1;
-			}
-			$schedule = implode("<br />", $schedule);
-			
+			$schedule = $crs_utils->getFormattedSchedule();
 			if ($course->getOfflineStatus()) {
 				$title .= " (offline)";
 			}
