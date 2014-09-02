@@ -590,15 +590,15 @@ gev#:#gev_wbd_notifications_to_auth#:#Kontoauszüge und Jahreszertifikate der WB
 gev#:#gev_wbd_notifications_to_diff#:#Kontoauszüge und Jahreszertifikate der WBD sollen an eine abweichende E-Mail-Adresse verschickt werden. (Bitte füllen Sie das Feld "alternative E-Mail-Adresse" aus)
 gev#:#gev_wbd_registration#:#WBD-Registrierung
 gev#:#gev_wbd_registration_cb_mandatory#:#Sie müssen dieses Feld bestätigen, um die WBD-Registrierung abschließen zu können.
-gev#:#gev_wbd_registration_create_bwv_id#:#Nein, ich habe noch keine GDV Vermittler-ID. Die Generali soll für mich ein Weiterbildungskonto eröffnen.
+gev#:#gev_wbd_registration_create_bwv_id#:#Die Generali soll für mich ein Weiterbildungskonto eröffnen.
 gev#:#gev_wbd_registration_create_bwv_id_cmd#:#Kontoeröffnung
 gev#:#gev_wbd_registration_finished_create_bwv_id#:#Vielen Dank, wir werden für Sie ein Konto in der Weiterbildungsdatenbank (WBD) des BWV e.V. sowie ein Nutzerkonto bei der Trusted German Insurance Cloud (TGIC) eröffnen.<br /><br />Nach Eröffnung Ihres Kontos erhalten Sie von dort insgesamt 3 Systemmails mit Ihrer Benutzerkennung, Ihrem Passwort und Ihrer Vermittler-ID.
-gev#:#gev_wbd_registration_has_bwv_id#:#Ja, ich habe bereits eine GDV Vermittler-ID
+gev#:#gev_wbd_registration_has_bwv_id#:#Ich habe bereits eine GDV Vermittler-ID
 gev#:#gev_wbd_registration_has_bwv_id_cmd#:#Anmeldung mit Übermittlung der Punkte
 gev#:#gev_wbd_registration_finished_has_bwv_id#:#Vielen Dank, wir werden Ihre bei uns erworbenen Weiterbildungspunkte unter dieser Vermittler-ID an die zentrale Weiterbildungsdatenbank melden.
 gev#:#gev_wbd_registration_header_note#:#Registrieren Sie sich bei der Weiterbildungsdatenbank.
 gev#:#gev_wbd_registration_no_bwv_id#:#Nein, ich habe noch keine GDV Vermittler-ID und werde diese in meinem Benutzeraccount nachtragen.
-gev#:#gev_wbd_registration_no_bwv_id_cmd#:#Anmeldung ohne Eröffnung eines Kontos und vorerst ohne Übermittlung der Punkte
+gev#:#gev_wbd_registration_no_bwv_id_cmd#:#Anmeldung vorerst ohne Übermittlung der Punkte
 gev#:#gev_wbd_registration_finished_no_bwv_id#:#Vielen Dank für die Anmeldung an der Generali Online Akademie. Wir werden Ihre bei uns erworbenen Weiterbildungspunkte in der Generali Onlineakademie sammeln und nach Eingabe Ihrer GDV Vermittler-ID an die zentrale Weiterbildungsdatenbank (WBD) melden.<br /><br />Bitte beachten Sie, daß die Weiterbildungspunkte verfallen, sofern Sie Ihre GDV Vermittler-ID nicht innerhalb von 12 Monaten in Ihren Profildaten ergänzen.
 gev#:#gev_wbd_registration_question_basis#:#Haben Sie bereits ein Weiterbildungskonto im Rahmen der Brancheninitiative „gut beraten“?
 gev#:#gev_wbd_registration_question_service#:#Sofern die Generali nicht Ihr Trusted Partner Service sein soll, oder Sie bereits an anderer Stelle eine Kontoeröffnung beantragt haben, nutzen Sie unten stehende Eingabefelder.
