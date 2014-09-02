@@ -1285,7 +1285,7 @@ class ilObjSAHSLearningModule extends ilObject
 		$new_obj->setDefaultLessonMode($this->getDefaultLessonMode());
 		$new_obj->setEditable($this->getEditable());
 		$new_obj->setMaxAttempt($this->getMaxAttempt());
-//		$new_obj->getModuleVersion($this->getModuleVersion());	??
+		$new_obj->setModuleVersion($this->getModuleVersion());
 		$new_obj->setModuleVersion(1);
 		$new_obj->setCreditMode($this->getCreditMode());
 		$new_obj->setAssignedGlossary($this->getAssignedGlossary());
@@ -1313,6 +1313,7 @@ class ilObjSAHSLearningModule extends ilObject
 		$new_obj->setAutoSuspend($this->getAutoSuspend());
 		$new_obj->setIe_compatibility($this->getIe_compatibility());
 		$new_obj->setIe_force_render($this->getIe_force_render());
+		$new_obj->setStyleSheetId($this->getStyleSheetId());
 		$new_obj->update();
 
 
