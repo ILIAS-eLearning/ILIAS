@@ -102,12 +102,12 @@ class gevCourseSearchTableGUI extends catAccordionTableGUI {
 
 		$unlimited = $a_set["max_participants"] == 0;
 		$now = new ilDate(date("Y-m-d"), IL_CAL_DATE);
-		$booking_deadline_expired = !ilDateTime::_after($a_set["booking_date"]?$a_set["booking_date"]:$now, $now);
+		$booking_deadline_expired = $a_set["booking_date"]? (!ilDateTime::_after($a_set["booking_date"], $now)):false;
 		if ($a_set["bookable"]) {
 			if (($a_set["free_places"] > 0 || $unlimited) && !$booking_deadline_expired) {
 				$status = $this->bookable_img;
 			}
-			else if ($a_set["free_places"] == 0 && !$booking_deadline_expired) {
+			else if ($a_set["free_places"] === 0 && !$booking_deadline_expired) {
 				$status = $this->bookable_waiting_img;
 			}
 			else {
