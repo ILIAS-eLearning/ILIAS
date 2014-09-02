@@ -3520,14 +3520,7 @@ class ilObjCourseGUI extends ilContainerGUI
 			$tabs_gui->setBackTarget( $lng->txt("back"),
 									  $this->ctrl->getLinkTargetByClass("gevDesktopGUI", "toMyCourses"));
 		}
-		// gev-patch end 
 
-		if($ilAccess->checkAccess('read','',$this->ref_id))
-		{
-			$tabs_gui->addTab('view_content', $lng->txt("content"),
-								 $this->ctrl->getLinkTarget($this,'view'));
-		}
-		
 		if ($ilAccess->checkAccess('visible','',$this->ref_id))
 		{
 			//$next_class = $this->ctrl->getNextClass($this);
@@ -3545,6 +3538,14 @@ class ilObjCourseGUI extends ilContainerGUI
 								 "infoScreen",
 								 "", "", $force_active);
 		}
+		
+		if($ilAccess->checkAccess('read','',$this->ref_id))
+		{
+			$tabs_gui->addTab('view_content', $lng->txt("content"),
+								 $this->ctrl->getLinkTarget($this,'view'));
+		}
+		
+		// gev-patch end 
 		if ($ilAccess->checkAccess('write','',$this->ref_id))
 		{
 			$force_active = (strtolower($_GET["cmdClass"]) == "ilconditionhandlerinterface"
