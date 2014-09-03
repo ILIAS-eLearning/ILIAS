@@ -303,6 +303,9 @@ class gevBillingUtils {
 			return;
 		}
 		
+		$crs_utils = gevCourseUtils::getInstance($a_crs_id);
+		$user_utils = gevUserUtils::getInstance($a_user_id);
+		
 		$bill->setTitle(sprintf( $this->lng->txt("gev_no_show_bill_title")
 							   , $crs_utils->getTitle()
 							   , $user_utils->getFirstname()." ".$user_utils->getLastname()
