@@ -355,6 +355,8 @@ class gevAMDUtils {
 	}
 	
 	public static function addAMDField($a_record_title, $a_title, $a_gev_setting, $a_desc, $a_searchable, $a_def, $a_type) {
+		require_once("Services/AdvancedMetaData/classes/class.ilAdvancedMDClaimingPlugin.php");
+		
 		global $ilDB;
 		$gev_set = gevSettings::getInstance();
 		$result = $ilDB->query("SELECT record_id FROM adv_md_record WHERE title = ".$ilDB->quote($a_record_title, "text"));
@@ -366,6 +368,14 @@ class gevAMDUtils {
 		else {
 			throw new Exception("gevAMDUtils::addAMDField: No record_id found for title '".$a_record_title."'.");
 		}
+	}
+	
+	public static function removeAMDField($a_gev_setting) {
+		require_once("Services/AdvancedMetaData/classes/class.ilAdvancedMDClaimingPlugin.php");
+		
+		$gev_set = gevSettings::getInstance();
+		$field_id = $gev_set->getAMDFieldId($a_gev_setting);
+		ilAdvancedMDClaimingPlugin::deleteDBField($field_id);
 	}
 }
 

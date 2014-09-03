@@ -360,7 +360,7 @@ require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
 require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 
 gevAMDUtils::addAMDField( "Orte und Anbieter"
-						, "Weblink"
+						, "Link WebEx"
 						, gevSettings::CRS_AMD_WEBEX_LINK
 						, "Link zum virtuellen Klassenraum"
 						, false
@@ -397,9 +397,6 @@ require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 
 global $ilDB;
 
-$ilDB->manipulate("UPDATE adv_mdf_definition SET title = 'Link WebEX' WHERE title = 'Weblink'");
-$ilDB->manipulate("UPDATE settings SET keyword = 'crs_amd_webex_link' WHERE keyword = 'crs_amd_web_location'");
-
 gevAMDUtils::addAMDField( "Orte und Anbieter"
 						, "Passwort WebEX"
 						, gevSettings::CRS_AMD_WEBEX_PASSWORD
@@ -435,4 +432,23 @@ gevAMDUtils::addAMDField( "Orte und Anbieter"
 						, null
 						, ilAdvancedMDFieldDefinition::TYPE_LONG_TEXT
 						);
+?>
+
+<#7>
+<?php
+
+global $ilDB;
+
+$ilDB->manipulate("UPDATE adv_mdf_definition SET title = 'Webinar Link' WHERE title = 'Link WebEX'");
+$ilDB->manipulate("UPDATE adv_mdf_definition SET title = 'Webinar Passwort' WHERE title = 'Passwort WebEX'");
+
+?>
+
+<#8>
+<?php
+require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
+
+gevAMDUtils::removeAMDField(gevSettings::CRS_AMD_CSN_LINK);
+
 ?>

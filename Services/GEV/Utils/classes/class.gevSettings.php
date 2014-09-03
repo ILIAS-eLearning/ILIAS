@@ -98,9 +98,9 @@ class gevSettings {
 	const CRS_AMD_ACCOMODATION		= "crs_amd_accomodation";
 	// Veranstaltungsort Internet
 	//const CRS_AMD_WEB_LOCATION		= "crs_amd_web_location";
-	const CRS_AMD_WEBEX_LINK		= "crs_amd_webex_link";
-	const CRS_AMD_WEBEX_PASSWORD	= "crs_amd_webex_password";
-	const CRS_AMD_CSN_LINK			= "crs_amd_csn_link";
+	const CRS_AMD_WEBEX_LINK		= "crs_amd_webex_link";			// these are general webinar links now
+	const CRS_AMD_WEBEX_PASSWORD	= "crs_amd_webex_password";		// these are general webinar passwords now
+	const CRS_AMD_CSN_LINK			= "crs_amd_csn_link";	// this is not used anymore
 	
 	// Typen von Organisationseinheiten
 	const ORG_TYPE_VENUE			= "org_unit_type_venue";
