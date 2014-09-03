@@ -775,9 +775,9 @@ class gevCourseUtils {
 		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_WEBEX_PASSWORD);
 	}
 	
-	public function getCSNLink() {
+	/*public function getCSNLink() {
 		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_CSN_LINK);
-	}
+	}*/
 	
 	public function getFormattedPreconditions() {
 		// TODO: implement this!

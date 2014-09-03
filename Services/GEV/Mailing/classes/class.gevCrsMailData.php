@@ -181,15 +181,15 @@ class gevCrsMailData extends ilMailData {
 			case "VO-TELEFON":
 				$val = $this->crs_utils->getVenuePhone();
 				break;
-			case "WEBEX-LINK":
+			case "WEBINAR-LINK":
 				$val = $this->crs_utils->getWebExLink();
 				break;
-			case "WEBEX-PASSWORT":
+			case "WEBINAR-PASSWORT":
 				$val = $this->crs_utils->getWebExPassword();
 				break;
-			case "CSN-LINK":
+			/*case "CSN-LINK":
 				$val = $this->crs_utils->getCSNLink();
-				break;
+				break;*/
 			case "HOTEL-NAME":
 				$val = $this->crs_utils->getAccomodationTitle();
 				break;
