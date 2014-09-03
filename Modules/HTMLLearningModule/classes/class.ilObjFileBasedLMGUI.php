@@ -132,7 +132,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 							if(in_array($file, $valid))
 							{
 								$this->object->setStartFile($pcommand["name"]);
-								$do_update = true;
+								$do_update = $pcommand["name"];
 							}
 						}
 						else if($pcommand["cmd"] == "unzip_file")
@@ -142,7 +142,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 								if(in_array(basename($file), $valid))
 								{
 									$this->object->setStartFile($file);
-									$do_update = true;
+									$do_update = $file;
 									break;
 								}
 							}
@@ -151,6 +151,8 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 					
 					if($do_update)
 					{
+						ilUtil::sendInfo(sprintf($this->lng->txt("cont_start_file_set_to"), $do_update), true);
+						
 						$this->object->update();
 						$this->ctrl->redirectByClass("ilfilesystemgui", "listFiles");
 					}
