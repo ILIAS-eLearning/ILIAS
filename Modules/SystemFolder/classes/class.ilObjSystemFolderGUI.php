@@ -911,8 +911,15 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	*/
 	function showServerInfoObject()
 	{
-		global $tpl, $ilCtrl;
+		/**
+		 * @var $ilToolbar ilToolbarGUI
+		 * @var $lng       ilLanguage
+		 * @var $ilCtrl    ilCtrl
+		 * @var $tpl       ilTemplate
+		 */
+		global $tpl, $ilCtrl, $ilToolbar, $lng;
 
+		$ilToolbar->addButton($lng->txt('vc_information'), $this->ctrl->getLinkTarget($this, 'showVcsInformation'));
 
 		$this->initServerInfoForm();
 		$this->setServerInfoSubTabs("server_data");
@@ -1081,12 +1088,9 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		/**
 		 * @var $lng ilLanguage
 		 * @var $ilSetting ilSetting
-		 * @var $ilToolbar ilToolbarGUI
 		 */
-		global $lng, $ilSetting, $ilToolbar;
+		global $lng, $ilSetting;
 
-		$ilToolbar->addButton($lng->txt('vc_information'), $this->ctrl->getLinkTarget($this, 'showVcsInformation'));
-		
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
 		$lng->loadLanguageModule("pd");
@@ -2229,6 +2233,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 			ilUtil::sendInfo($revision_info);
 		}
 
-		$this->showBasicSettingsObject();
+		$this->showServerInfoObject();
 	}
 }
