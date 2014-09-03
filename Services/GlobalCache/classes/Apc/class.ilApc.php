@@ -26,13 +26,13 @@ class ilApc extends ilGlobalCacheService {
 
 
 	/**
-	 * @param      $key
-	 * @param      $serialized_value
-	 * @param null $ttl
+	 * @param     $key
+	 * @param     $serialized_value
+	 * @param int $ttl
 	 *
 	 * @return array|bool
 	 */
-	public function set($key, $serialized_value, $ttl = NULL) {
+	public function set($key, $serialized_value, $ttl = 0) {
 		if ($this->exists($key)) {
 			return apc_store($this->returnKey($key), $serialized_value, $ttl);
 		} else {

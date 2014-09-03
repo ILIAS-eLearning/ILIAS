@@ -1,7 +1,6 @@
 <?php
 require_once('./Services/GlobalCache/classes/Memcache/class.ilMemcache.php');
 require_once('./Services/GlobalCache/classes/Xcache/class.ilXcache.php');
-require_once('./Services/GlobalCache/classes/Shm/class.ilShm.php');
 require_once('./Services/GlobalCache/classes/Apc/class.ilApc.php');
 require_once('./Services/GlobalCache/classes/Static/class.ilStaticCache.php');
 
@@ -18,8 +17,7 @@ class ilGlobalCache {
 	const TYPE_STATIC = 0;
 	const TYPE_XCACHE = 1;
 	const TYPE_MEMCACHED = 2;
-	const TYPE_SHM = 3;
-	const TYPE_APC = 4;
+	const TYPE_APC = 3;
 	const TYPE_FALLBACK = self::TYPE_STATIC;
 	const COMP_LNG = 'lng';
 	const COMP_OBJ_DEF = 'obj_def';
@@ -34,9 +32,8 @@ class ilGlobalCache {
 	 * @var array
 	 */
 	protected static $types = array(
-		//self::TYPE_MEMCACHED,
-		//self::TYPE_XCACHE,
-		//		self::TYPE_SHM,
+		// self::TYPE_MEMCACHED,
+		// self::TYPE_XCACHE,
 		self::TYPE_APC,
 		self::TYPE_STATIC
 	);
@@ -114,6 +111,15 @@ class ilGlobalCache {
 	 * @return int
 	 */
 	protected static function getComponentType($component) {
+		/**
+		 * @var $ilClientIniFile ilIniFile
+		 */
+		global $ilClientIniFile;
+		$service_type = $ilClientIniFile->readVariable('cache', 'global_cache_service_type');
+		if ($service_type) {
+			return $service_type;
+		}
+
 		$comp_setting = self::$registred_types[$component];
 
 		return $comp_setting ? $comp_setting : self::TYPE_FALLBACK;
@@ -142,11 +148,24 @@ class ilGlobalCache {
 	 */
 	public static function getAllInstallableTypes() {
 		$types = array();
+		foreach (self::getAllTypes() as $type) {
+			if ($type->isCacheServiceInstallable()) {
+				$types[] = $type;
+			}
+		}
+
+		return $types;
+	}
+
+
+	/**
+	 * @return ilGlobalCache[]
+	 */
+	public static function getAllTypes() {
+		$types = array();
 		foreach (self::$types as $type) {
 			$obj = new self($type);
-			if ($obj->isCacheServiceInstallable()) {
-				$types[] = $obj;
-			}
+			$types[$type] = $obj;
 		}
 
 		return $types;
@@ -175,9 +194,6 @@ class ilGlobalCache {
 				break;
 			case self::TYPE_XCACHE:
 				$this->global_cache = new ilXcache($this->getServiceid(), $this->getComponent());
-				break;
-			case self::TYPE_SHM:
-				$this->global_cache = new ilShm($this->getServiceid(), $this->getComponent());
 				break;
 			case self::TYPE_STATIC:
 				$this->global_cache = new ilStaticCache($this->getServiceid(), $this->getComponent());

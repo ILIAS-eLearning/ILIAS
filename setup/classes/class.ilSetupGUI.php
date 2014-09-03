@@ -2122,15 +2122,27 @@ else
 		$cache_form->addCommandButton('saveCache', $this->lng->txt('save'));
 				$cache_form->setFormAction('setup.php?cmd=gateway');
 
-		$activate_cache = new ilCheckboxInputGUI($this->lng->txt('activate_global_cache'), 'activate_global_cache');
-		$activate_cache->setChecked($ini->readVariable('cache', 'activate_global_cache'));
+		$activate_global_cache = 'activate_global_cache';
+		$global_cache_service_type = 'global_cache_service_type';
 
-		$service_type = new ilRadioGroupInputGUI($this->lng->txt('global_cache_service_type'), 'global_cache_service_type');
-		foreach (ilGlobalCache::getAllInstallableTypes() as $type) {
-			$option = new ilRadioOption($this->lng->txt('global_cache_service_type' . '_' . $type->getServiceType()), $type->getServiceType());
+		$activate_cache = new ilCheckboxInputGUI($this->lng->txt($activate_global_cache), $activate_global_cache);
+		$activate_cache->setChecked($ini->readVariable('cache', $activate_global_cache));
+
+		$service_type = new ilRadioGroupInputGUI($this->lng->txt($global_cache_service_type), $global_cache_service_type);
+		$some_inactive = false;
+		foreach (ilGlobalCache::getAllTypes() as $type) {
+			$option = new ilRadioOption($this->lng->txt($global_cache_service_type . '_' . $type->getServiceType()), $type->getServiceType());
+			$option->setInfo($this->lng->txt('global_cache_install_info_'.$type->getServiceType()));
+			if(!$type->isCacheServiceInstallable()) {
+				$option->setDisabled(true);
+				$some_inactive = true;
+			}
 			$service_type->addOption($option);
 		}
-		$service_type->setValue($ini->readVariable('cache', 'global_cache_service_type'));
+		if($some_inactive) {
+			ilUtil::sendInfo($this->lng->txt('global_cache_supported_services'));
+		}
+		$service_type->setValue($ini->readVariable('cache', $global_cache_service_type));
 		$activate_cache->addSubItem($service_type);
 
 		$cache_form->addItem($activate_cache);
@@ -2149,8 +2161,11 @@ else
 			$ini->addGroup('cache');
 		}
 
-		$ini->setVariable('cache', 'activate_global_cache', $_POST['activate_global_cache']);
-		$ini->setVariable('cache', 'global_cache_service_type', $_POST['global_cache_service_type']);
+		$activate_global_cache = 'activate_global_cache';
+		$global_cache_service_type = 'global_cache_service_type';
+
+		$ini->setVariable('cache', $activate_global_cache, $_POST[$activate_global_cache]);
+		$ini->setVariable('cache', $global_cache_service_type, $_POST[$global_cache_service_type]);
 		$ini->write();
 
 		ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);

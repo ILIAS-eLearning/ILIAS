@@ -100,7 +100,7 @@ class ilXcache extends ilGlobalCacheService {
 	 * @return bool
 	 */
 	protected function getInstallable() {
-		return false;
+		//return false;
 		return function_exists('xcache_set');
 	}
 

@@ -590,3 +590,16 @@ passwd_encoder_client_bcrypt_salt_info_php537#:#<span style="color:red;font-weig
 passwd_encoder_bcrypt_client_salt_invalid#:#ILIAS could not determine the client salt or the client salt does not match the required criteria. Please check the content and the permissions of the related file.
 passwd_encoding_configured#:#configured
 passwd_encoding_not_configured#:#not configured
+global_cache#:#Global Cache
+global_cache_configuration#:#Global-Cache Configuration
+activate_global_cache#:#Activate
+global_cache_service_type#:#Caching-Service
+global_cache_service_type_0#:#PHP-Static-Cache
+global_cache_service_type_1#:#xCache
+global_cache_service_type_2#:#Memcached
+global_cache_service_type_3#:#APC
+global_cache_supported_services#:#Some Services are not installed and can not be activated
+global_cache_install_info_0#:#Built in
+global_cache_install_info_1#:#http://xcache.lighttpd.net
+global_cache_install_info_2#:#http://php.net/manual/de/memcached.installation.php
+global_cache_install_info_3#:#http://php.net/manual/de/apc.installation.php
