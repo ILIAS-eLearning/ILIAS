@@ -159,7 +159,11 @@ class ilGlobalCache {
 	 */
 	protected function __construct($service_type_id, $component = NULL) {
 		$this->setComponent($component);
-		$service_id = substr($shm_key = ftok(__FILE__, 't'), 0, 6);
+		if (function_exists('ftok')) {
+			$service_id = substr($shm_key = ftok(__FILE__, 't'), 0, 6);
+		} else {
+			$service_id = ILIAS_CLIENT_ID;
+		}
 		$this->setServiceid($service_id);
 		$this->setActive(in_array($component, self::$active_types));
 		switch ($service_type_id) {
@@ -188,13 +192,14 @@ class ilGlobalCache {
 	 */
 	public function isActive() {
 		if (! self::ACTIVE) {
+
 			return false;
 		}
 		/**
-		 * @var $ilIliasIniFile ilIniFile
+		 * @var $ilClientIniFile ilIniFile
 		 */
-		global $ilIliasIniFile;
-		if ($ilIliasIniFile->readVariable('cache', 'activate_global_cache') != '1') {
+		global $ilClientIniFile;
+		if ($ilClientIniFile->readVariable('cache', 'activate_global_cache') != '1') {
 			return false;
 		}
 		if (! $this->getActive()) {

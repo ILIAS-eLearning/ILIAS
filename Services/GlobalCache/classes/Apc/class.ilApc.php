@@ -96,11 +96,12 @@ class ilApc extends ilGlobalCacheService {
 		$iter = new APCIterator(self::CACHE_ID);
 		$return = array();
 		$match = "/" . $this->getServiceId() . "_" . $this->getComponent() . "_([_.a-zA-Z0-9]*)/uism";
+
 		foreach ($iter as $item) {
 			$key = $item['key'];
-//						echo '<pre>' . print_r($key, 1) . '</pre>';
+			//						echo '<pre>' . print_r($key, 1) . '</pre>';
 			if (preg_match($match, $key, $matches)) {
-//				echo '<pre>' . print_r($matches, 1) . '</pre>';
+				//				echo '<pre>' . print_r($matches, 1) . '</pre>';
 				if ($matches[1]) {
 					if ($this->isValid($matches[1])) {
 						$return[$matches[1]] = $this->unserialize($item['value']);
