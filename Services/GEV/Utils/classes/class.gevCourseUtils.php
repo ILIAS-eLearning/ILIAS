@@ -823,9 +823,9 @@ class gevCourseUtils {
 	public static function getCategorieOptions() {
 		global $lng;
 		$all = $lng->txt("gev_crs_srch_all");
-		/*require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
 		$arr = gevAMDUtils::getInstance()->getOptions(gevSettings::CRS_AMD_TOPIC);
-		return array_merge(array($all => $all), $arr);*/
+		return array_merge(array($all => $all), $arr);
 	}
 	
 	public static function getTargetGroupOptions() {
