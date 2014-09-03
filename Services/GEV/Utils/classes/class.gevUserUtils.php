@@ -1264,6 +1264,8 @@ class gevUserUtils {
 									   , "BA"
 									   , "NA"
 									   , "VP"
+									   , "TP-Basis Registrierung"
+									   , "TP-Service Registrierung"
 									   );
 	
 	static $wbd_tp_service_roles= array( //"OD/LD/BD/VD/VTWL"
@@ -1273,6 +1275,7 @@ class gevUserUtils {
 									   , "HA"
 									   , "BA"
 									   , "NA"
+									   , "TP-Service Registrierung"
 									   );
 
 	public function getWBDTPType() {
