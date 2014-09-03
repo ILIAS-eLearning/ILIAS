@@ -2,7 +2,8 @@
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once "./Services/Object/classes/class.ilObject2GUI.php";
+require_once("./Services/Object/classes/class.ilObject2GUI.php");
+require_once("./Services/Export/classes/class.ilExportGUI.php");
 
 /**
  * Class ilObjDataCollectionGUI
@@ -258,7 +259,15 @@ class ilObjDataCollectionGUI extends ilObject2GUI
                 $ilTabs->clearTargets();
                 $ilTabs->setBackTarget($this->lng->txt("back"), $ilCtrl->getLinkTargetByClass("ilObjDataCollectionGUI", ""));
                 break;
-			default:
+            case "ilexportgui":
+                $this->prepareOutput();
+                $ilTabs->setTabActive("export");
+                $this->setLocator();
+                $exp_gui = new ilExportGUI($this);
+                $exp_gui->addFormat("xml");
+                $this->ctrl->forwardCommand($exp_gui);
+                break;
+            default:
 				return parent::executeCommand();
 		}
 
@@ -409,9 +418,9 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 		// export
 		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
 		{
-			//$ilTabs->addTab("export",
-				//$lng->txt("export"),
-				//$this->ctrl->getLinkTargetByClass("ilexportgui", ""));
+			$ilTabs->addTab("export",
+				$lng->txt("export"),
+				$this->ctrl->getLinkTargetByClass("ilexportgui", ""));
 		}
 
 		// edit permissions
