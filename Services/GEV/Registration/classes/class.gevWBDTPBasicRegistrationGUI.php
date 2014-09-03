@@ -277,9 +277,9 @@ class gevWBDTPBasicRegistrationGUI {
 		$form->addCommandButton("startRegistration", $this->lng->txt("gev_wbd_registration_basic_back"));
 		$form->setFormAction($this->ctrl->getFormAction($this));
 
-		$wbd_link = "<a href='/data/Generali/documents/02_AGB_WBD.pdf' target='_blank'>".$this->lng->txt("gev_agb_wbd")."</a>";
-		$auftrag_link = "<a href='/data/Generali/documents/GEV_TPBUVG_Finaler_Auftrag_TP_Basis_Makler.pdf' target='_blank'>".$this->lng->txt("gev_mandate")."</a>";
-		$agb_link = "<a href='/data/Generali/documents/01_AGB_TGIC.pdf' target='_blank'>".$this->lng->txt("gev_agb_tgic")."</a>";
+		$wbd_link = "<a href='/data/Generali/documents/02_AGB_WBD.pdf' target='_blank' class='blue'>".$this->lng->txt("gev_agb_wbd")."</a>";
+		$auftrag_link = "<a href='/data/Generali/documents/GEV_TPBUVG_Finaler_Auftrag_TP_Basis_Makler.pdf' target='_blank' class='blue'>".$this->lng->txt("gev_mandate")."</a>";
+		$agb_link = "<a href='/data/Generali/documents/01_AGB_TGIC.pdf' target='_blank' class='blue'>".$this->lng->txt("gev_agb_tgic")."</a>";
 
 		$chb1 = new ilCheckboxInputGUI("", "chb1");
 		$chb1->setOptionTitle(sprintf($this->lng->txt("gev_give_mandate_tp_basis"), $auftrag_link));
