@@ -899,3 +899,11 @@ $ilDB->unlockTables();
 	
 	
 ?>
+<#34>
+<?php
+	$ilDB->addPrimaryKey('cmi_gobjective', array('user_id', 'scope_id', 'objective_id'));
+?>
+<#35>
+<?php
+	$ilDB->addPrimaryKey('cp_suspend', array('user_id', 'obj_id'));
+?>
