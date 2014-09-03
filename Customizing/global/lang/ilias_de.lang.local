@@ -391,6 +391,7 @@ gev#:#gev_booking_for#:#Buchung für:
 gev#:#gev_booking_header_note#:#Bitte bestätigen Sie die verbindliche Buchung über die Schaltfläche.
 gev#:#gev_booking_header_note_bill_data#:#Bitte betätigen Sie die Schaltfläche "Rechnungsdaten eingeben".
 gev#:#gev_booking_header_note_check_bill_data#:#Bitte betätigen Sie die Schaltfläche "Rechnungsdaten überprüfen".
+gev#:#gev_booking_link#:#Link zur Buchung
 gev#:#gev_booking_note#:#Mit der verbindlichen Buchung bestätigen Sie, Buchung und Übernachtung mit ihrer Führungskraft abgestimmt zu haben.
 gev#:#gev_booking_other_courses_in_period_others#:#Ihr Mitarbeiter hat im Zeitraum des Trainings bereits andere Trainings gebucht:
 gev#:#gev_booking_other_courses_in_period_self#:#Sie haben im Zeitraum des Trainings bereits andere Trainings gebucht:
@@ -511,6 +512,7 @@ gev#:#gev_no_other_wbd_mandate#:#Ich versichere, dass ich nicht bereits an ander
 gev#:#gev_no_show_bill_item#:#No-Show-Gebühr Training "%s"
 gev#:#gev_no_show_bill_title#:#Nicht stornierte Buchung des Trainings "%s" für "%s"
 gev#:#gev_not_allowed_to_book_crs_for_other#:#Sie dürfen dieses Training nicht für einen anderen Benutzer buchen.
+gev#:#gev_not_allowed_to_book_crs_for_self#:#Sie dürfen dieses Training nicht buchen.
 gev#:#gev_not_bookable#:#ausgebucht
 gev#:#gev_obligatory_booking#:#Verbindliche Buchung
 gev#:#gev_org_mgmt#:#Organisationseinheiten

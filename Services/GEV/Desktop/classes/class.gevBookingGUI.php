@@ -112,7 +112,12 @@ class gevBookingGUI {
 	
 	protected function checkIfUserIsAllowedToBookCourseForOtherUser() {
 		if ( !$this->crs_utils->canBookCourseForOther($this->current_user->getId(), $this->user_id)) {
-			ilUtil::sendFailure($this->lng->txt("gev_not_allowed_to_book_crs_for_other"), true);
+			if ($this->current_user->getId() == $this->user_id) {
+				ilUtil::sendFailure($this->lng->txt("gev_not_allowed_to_book_crs_for_self"), true);
+			}
+			else {
+				ilUtil::sendFailure($this->lng->txt("gev_not_allowed_to_book_crs_for_other"), true);
+			}
 			$this->toCourseSearch();
 		}
 	}
