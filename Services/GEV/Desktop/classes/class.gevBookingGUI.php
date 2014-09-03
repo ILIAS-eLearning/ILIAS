@@ -34,7 +34,8 @@ class gevBookingGUI {
 	public function executeCommand() {
 		$this->initUser();
 		$this->initCourse();
-		
+
+		$this->checkIfCourseIsOnline();
 		$this->checkIfUserAlreadyPassedASimilarCourse();
 		$this->checkIfCourseIsFull();
 		$this->checkIfUserIsAllowedToBookCourseForOtherUser();
@@ -90,6 +91,14 @@ class gevBookingGUI {
 	protected function toCourseSearch() {
 		ilUtil::redirect("ilias.php?baseClass=gevDesktopGUI&cmd=toCourseSearch");
 		exit();
+	}
+	
+	protected function checkIfCourseIsOnline() {
+		if ($this->crs_utils->getCourse()->getOfflineStatus()) {
+			ilUtil::sendFailure( $this->lng->txt("gev_course_expired")
+							   , true);
+			$this->toCourseSearch();
+		}
 	}
 	
 	protected function checkIfUserAlreadyPassedASimilarCourse() {

@@ -424,6 +424,7 @@ gev#:#gev_costs#:#Kosten
 gev#:#gev_coupon_bill_item#:#Gutschein %s
 gev#:#gev_coupon_codes#:#Gutscheincode(s)
 gev#:#gev_course_bill_title#:#Buchung des Trainings "%s" für "%s"
+gev#:#gev_course_expired#:#Der gewählte Kurs ist nicht mehr verfügbar.
 gev#:#gev_course_id#:#Nr. der Maßnahme
 gev#:#gev_course_is_full#:#Leider ist das Training bereits ausgebucht.
 gev#:#gev_course_mgmt#:#Trainings
