@@ -350,11 +350,11 @@ class gevBookingGUI {
 			ilSetAccomodationsGUI::addAccomodationsToForm($form, $this->crs_id, $this->user_id, "acco", true);
 		}
 		
-		if ($this->isSelfBooking()) {
+		/*if ($this->isSelfBooking()) {
 			$note = new ilNonEditableValueGUI($this->lng->txt("notice"), "", true);
 			$note->setValue($this->lng->txt("gev_booking_note"));
 			$form->addItem($note);
-		}
+		}*/
 		
 		
 		if (!(($this->isSelfLearningCourse() || $this->isWebinar()) && !$this->isWithPayment())) {
