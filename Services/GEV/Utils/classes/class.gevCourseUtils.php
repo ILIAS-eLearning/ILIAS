@@ -806,36 +806,52 @@ class gevCourseUtils {
 	
 	public static function getTypeOptions() {
 		global $lng;
-		require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
-		$arr = gevAMDUtils::getInstance()->getOptions(gevSettings::CRS_AMD_TYPE);
-		unset($arr["Spezialistenschulung Präsenztraining"]);
-		unset($arr["Spezialistenschulung Webinar"]);
-		unset($arr["POT-Termin"]);
 		$all = $lng->txt("gev_crs_srch_all");
-		return array_merge(array($all => $all), $arr);
+		$pt = "Präsenztraining";
+		$wb = "Webinar";
+		$sk = "Selbstlernkurs";
+/*		require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
+		$arr = gevAMDUtils::getInstance()->getOptions(gevSettings::CRS_AMD_TYPE);
+		return array_merge(array($all => $all), $arr);*/
+		return array( $all => $all
+					, $pt => $pt
+					, $wb => $wb
+					, $sk => $sk
+					);
 	}
 	
 	public static function getCategorieOptions() {
 		global $lng;
-		require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
-		$arr = gevAMDUtils::getInstance()->getOptions(gevSettings::CRS_AMD_TOPIC);
 		$all = $lng->txt("gev_crs_srch_all");
-		return array_merge(array($all => $all), $arr);
+		/*require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
+		$arr = gevAMDUtils::getInstance()->getOptions(gevSettings::CRS_AMD_TOPIC);
+		return array_merge(array($all => $all), $arr);*/
 	}
 	
 	public static function getTargetGroupOptions() {
 		global $lng;
+		$all = $lng->txt("gev_crs_srch_all");
 		require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
 		$arr = gevAMDUtils::getInstance()->getOptions(gevSettings::CRS_AMD_TARGET_GROUP);
-		$all = $lng->txt("gev_crs_srch_all");
 		return array_merge(array($all => $all), $arr);
 	}
 	
 	public static function getLocationOptions() {
 		global $lng;
+		$all = $lng->txt("gev_crs_srch_all");
 		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
 		$arr = gevOrgUnitUtils::getVenueNames();
-		$all = $lng->txt("gev_crs_srch_all");
+		
+		foreach($arr as $id => $name) {
+			if (!in_array($name, array( "Generali Akademie GmbH, Bernried"
+									  , "Generali Versicherung AG, München"
+									  , "Online – An einem PC Ihrer Wahl, "
+									  ))
+				) {
+				unset($arr[$id]);
+			}
+		}
+		
 		return array($all => $all) + $arr;
 	}
 	
