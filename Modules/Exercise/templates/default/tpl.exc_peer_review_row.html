@@ -21,17 +21,15 @@
 	  <!-- BEGIN pcomment_edit_bl -->
 	  <textarea id="excpr_{VAL_ID}" name="pc[{VAL_ID}]" cols="55" rows="5" wrap="virtual">{VAL_PCOMMENT_EDIT}</textarea>
 	  <!-- END pcomment_edit_bl -->
-	  <!-- BEGIN file_upload_bl -->
-	  <div class="small">{FILE_CAPTION}: <input type="file" name="fu[{FILE_ID}]" /></div>
-	  <!-- END file_upload_bl -->
+	  <!-- BEGIN file_edit_bl -->
+	  <div class="small"><a href="{FILE_EDIT_URL}" class="il_ContainerItemCommand2">{FILE_EDIT_CAPTION}</a></div>
+	  <!-- END file_edit_bl -->
 	  <!-- BEGIN pcomment_static_bl -->
 	  {VAL_PCOMMENT_STATIC}
 	  <!-- END pcomment_static_bl -->
 	  <!-- BEGIN file_static_bl -->
-	  <div><a href="{FILE_URL}">{FILE_NAME}</a>
-	  <!-- BEGIN file_static_del_bl -->
-	  &nbsp;&nbsp;&nbsp;<span class="small"><input type="checkbox" name="fud[{FILE_DEL_ID}]" value="1" />{FILE_DEL_CAPTION}</span>
-	  <!-- END file_static_del_bl -->
+	  <div>
+		  <a href="{FILE_URL}">{FILE_NAME}</a>  
 	  </div>
 	  <!-- END file_static_bl -->
   </td> 

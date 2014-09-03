@@ -131,14 +131,25 @@ class ilExAssignmentListTextTableGUI extends ilTable2GUI
 				
 				if($peer_review[2])
 				{					
-					$file = $this->ass->getPeerUploadFilePath($a_set["uid"], $peer_id);
-					if(file_exists($file))
-					{
-						$ilCtrl->setParameter($this->parent_obj, "fu", $peer_id."__".$a_set["uid"]);
-						$dl = $ilCtrl->getLinkTarget($this->parent_obj, "downloadPeerReview");
-						$ilCtrl->setParameter($this->parent_obj, "fu", "");
+					$uploads = $this->ass->getPeerUploadFiles($a_set["uid"], $peer_id);
+					if($uploads)
+					{					
+						$acc_item .= '<div class="small">';
 						
-						$acc_item .= '<div class="small"><a href="'.$dl.'">'.$peer_review[2]."</a></div>";
+						$ilCtrl->setParameter($this->parent_obj, "fu", $peer_id."__".$a_set["uid"]);
+						
+						foreach($uploads as $file)
+						{							
+							$ilCtrl->setParameter($this->parent_obj, "fuf", md5($file));
+							$dl = $ilCtrl->getLinkTarget($this->parent_obj, "downloadPeerReview");
+							$ilCtrl->setParameter($this->parent_obj, "fuf", "");
+							
+							$acc_item .= '<a href="'.$dl.'">'.basename($file).'</a><br />';
+						}						
+												
+						$ilCtrl->setParameter($this->parent_obj, "fu", "");
+									
+						$acc_item .= '</div>';
 					}
 				}
 					

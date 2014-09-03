@@ -68,7 +68,60 @@ class ilObjExerciseGUI extends ilObjectGUI
 			case "ilfilesystemgui":
 				$this->checkPermission("write");
 				
-				if ($_GET["fsmode"] == "feedback" ||
+				if($_GET["fsmode"] == "peer")
+				{					
+					$ilCtrl->saveParameter($this, array("fu"));										
+					
+					// see self::downloadPeerReview()
+					$parts = explode("__", $_GET["fu"]);
+					$giver_id = $parts[0];
+					$peer_id = $parts[1];
+
+					if($giver_id == $ilUser->getId() || 
+						$peer_id == $ilUser->getId())
+					{		
+						$this->checkPermission("read");			
+					}
+					else
+					{
+						$this->checkPermission("write");												
+					}
+		
+					$valid = false;
+					$peer_items = $this->ass->getPeerReviewsByPeerId($peer_id, true);				
+					if(sizeof($peer_items))
+					{
+						foreach($peer_items as $item)
+						{
+							if($item["giver_id"] == $giver_id)
+							{	
+								$valid = true;
+							}
+						}
+					}
+					if(!$valid)
+					{
+						$ilCtrl->redirect($this, "editPeerReview");
+					}
+				
+					$ilTabs->clearTargets();
+					$ilTabs->setBackTarget($lng->txt("back"),
+						$ilCtrl->getLinkTarget($this, "editPeerReview"));
+															
+					include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
+					$fstorage = new ilFSStorageExercise($this->object->getId(), $this->ass->getId());
+					$fstorage->create();
+					
+					include_once("./Services/FileSystem/classes/class.ilFileSystemGUI.php");
+					$fs_gui = new ilFileSystemGUI($fstorage->getPeerReviewUploadPath($peer_id, $giver_id));
+					$fs_gui->setTableId("excfbpeer");
+					$fs_gui->setAllowDirectories(false);					
+					$fs_gui->setTitle($this->ass->getTitle().": ".
+						$lng->txt("exc_peer_review")." - ".
+						$lng->txt("exc_peer_review_give"));						 
+					$ret = $this->ctrl->forwardCommand($fs_gui);
+				}				
+				else if ($_GET["fsmode"] == "feedback" ||
 					$_GET["fsmode"] == "feedbackpart")	// feedback files
 				{
 					$ilCtrl->saveParameter($this, array("member_id"));
@@ -4134,32 +4187,13 @@ class ilObjExerciseGUI extends ilObjectGUI
 			ilUtil::sendFailure($this->lng->txt("exc_peer_review_no_peers"), true);
 			$ilCtrl->redirect($this, "showOverview");
 		}
-		
-		$has_upload = $this->ass->hasPeerReviewFileUpload();
-		
+	
 		foreach($_POST["pc"] as $idx => $value)
-		{			
-			$file = array(null, null, null);
-			if($has_upload)
-			{								
-				if($_FILES["fu"]["tmp_name"][$idx])
-				{
-					$file = array(
-						$_FILES["fu"]["tmp_name"][$idx]
-						,$_FILES["fu"]["name"][$idx]
-					);
-				}
-				else if($_POST["fud"][$idx])
-				{
-					$file = array(null, null, true);
-				}
-			}
-			
+		{						
 			$parts = explode("__", $idx);					
-			if($parts[0] == $ilUser->getId() && 
-				(trim($value) || $file))
+			if($parts[0] == $ilUser->getId() && trim($value))
 			{
-				$this->ass->updatePeerReviewComment($parts[1], $value, $file[0], $file[1], $file[2]);				
+				$this->ass->updatePeerReviewComment($parts[1], $value);				
 			}			
 		}
 		
@@ -4249,7 +4283,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 		if(!$this->ass || 
 			!$this->ass->getPeerReview() ||
 			!$this->ass->hasPeerReviewFileUpload() ||
-			!$_GET["fu"])				
+			!$_GET["fu"] ||
+			!$_GET["fuf"])				
 		{
 			$ilCtrl->redirect($this, "showOverview");
 		}
@@ -4275,13 +4310,15 @@ class ilObjExerciseGUI extends ilObjectGUI
 			{
 				if($item["giver_id"] == $giver_id)
 				{													
-					$file = $this->ass->getPeerUploadFilePath($peer_id, $giver_id);			
-					if(file_exists($file))
+					$files = $this->ass->getPeerUploadFiles($peer_id, $giver_id);			
+					foreach($files as $file)
 					{
-						ilUtil::deliverFile($file, $item["upload"]);
-					}			
-					
-					break;
+						if(md5($file) == trim($_GET["fuf"]))
+						{
+							ilUtil::deliverFile($file, basename($file));
+							break(2);
+						}
+					}										
 				}
 			}
 		}		

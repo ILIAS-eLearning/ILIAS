@@ -17,6 +17,7 @@ class ilExAssignmentPeerReviewTableGUI extends ilTable2GUI
 	protected $user_id; // [int]
 	protected $peer_data; // [array]
 	protected $read_only; // [array]
+	protected $fstorage; // [ilFSStorageExercise]
 	
 	/**
 	 * Constructor
@@ -96,7 +97,14 @@ class ilExAssignmentPeerReviewTableGUI extends ilTable2GUI
 		
 		$this->disable("numinfo");
 		
-		$this->getItems();				
+		$this->getItems();	
+		
+		if($this->ass->hasPeerReviewFileUpload())
+		{
+			include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
+			$this->fstorage = new ilFSStorageExercise($this->ass->getExerciseId(), $this->ass->getId());
+			$this->fstorage->create();
+		}
 	}
 	
 	protected function getItems()
@@ -191,6 +199,13 @@ class ilExAssignmentPeerReviewTableGUI extends ilTable2GUI
 		
 		// submission
 		
+		$uploads = null;
+		if($this->ass->hasPeerReviewFileUpload())
+		{				
+			$path = $this->fstorage->getPeerReviewUploadPath($a_set["peer_id"], $a_set["giver_id"]);
+			$uploads = glob($path."/*.*");		
+		}
+		
 		if(!$this->read_only)
 		{
 			$ilCtrl->setParameter($this->parent_obj, "seq", $a_set["seq"]);
@@ -223,11 +238,20 @@ class ilExAssignmentPeerReviewTableGUI extends ilTable2GUI
 			
 			$idx = $a_set["giver_id"]."__".$a_set["peer_id"];
 			
+			// file edit link
 			if($this->ass->hasPeerReviewFileUpload())
-			{
-				$this->tpl->setCurrentBlock("file_upload_bl");		
-				$this->tpl->setVariable("FILE_ID", $idx);		
-				$this->tpl->setVariable("FILE_CAPTION", $this->lng->txt("file_add"));		
+			{								
+				$ilCtrl->setParameter($this->parent_obj, "fu", $idx);	
+				$ilCtrl->setParameter($this->parent_obj, "fsmode", "peer");
+				$url = $ilCtrl->getLinkTargetByClass("ilfilesystemgui", "listFiles");
+				$ilCtrl->setParameter($this->parent_obj, "fsmode", "");
+				$ilCtrl->setParameter($this->parent_obj, "fu", "");	
+				
+				$this->tpl->setCurrentBlock("file_edit_bl");		
+				$this->tpl->setVariable("FILE_EDIT_URL", $url);		
+				$this->tpl->setVariable("FILE_EDIT_CAPTION", $uploads 
+					? $this->lng->txt("exc_peer_edit_file")
+					: $this->lng->txt("exc_peer_upload_file"));		
 				$this->tpl->parseCurrentBlock();	
 			}
 			
@@ -243,29 +267,27 @@ class ilExAssignmentPeerReviewTableGUI extends ilTable2GUI
 			$this->tpl->parseCurrentBlock();				
 		}				
 				
-		if($this->ass->hasPeerReviewFileUpload() && $a_set["upload"])
-		{				
+		// list existing files									
+		if($uploads)
+		{
 			$idx = $a_set["giver_id"]."__".$a_set["peer_id"];
+
+			$ilCtrl->setParameter($this->parent_obj, "fu", $idx);	
 			
-			if(!$this->read_only)
-			{				
-				$this->tpl->setCurrentBlock("file_static_del_bl");					
-				$this->tpl->setVariable("FILE_DEL_CAPTION", $this->lng->txt("delete_existing_file"));
-				$this->tpl->setVariable("FILE_DEL_ID", $idx);
+			foreach($uploads as $upload)
+			{						
+				$ilCtrl->setParameter($this->parent_obj, "fuf", md5($upload));					
+				$url = $ilCtrl->getLinkTarget($this->parent_obj, "downloadPeerReview");
+				$ilCtrl->setParameter($this->parent_obj, "fuf", "");		
+				
+				$this->tpl->setCurrentBlock("file_static_bl");					
+				$this->tpl->setVariable("FILE_NAME", basename($upload));
+				$this->tpl->setVariable("FILE_URL", $url);
 				$this->tpl->parseCurrentBlock();	
 			}
 			
-			$ilCtrl->setParameter($this->parent_obj, "fu", $idx);					
-			$url = $ilCtrl->getLinkTarget($this->parent_obj, "downloadPeerReview");
 			$ilCtrl->setParameter($this->parent_obj, "fu", "");	
-			
-			$this->tpl->setCurrentBlock("file_static_bl");					
-			$this->tpl->setVariable("FILE_NAME", $a_set["upload"]);
-			$this->tpl->setVariable("FILE_URL", $url);
-			$this->tpl->parseCurrentBlock();	
-			
-		
-		}
+		}						
 	}	
 }
 

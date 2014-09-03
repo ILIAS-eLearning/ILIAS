@@ -2692,48 +2692,22 @@ class ilExAssignment
 			" AND ass_id = ".$ilDB->quote($this->getId(), "integer"));
 	}
 	
-	public function getPeerUploadFilePath($a_peer_id, $a_giver_id)
+	public function getPeerUploadFiles($a_peer_id, $a_giver_id)
 	{
 		include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
 		$storage = new ilFSStorageExercise($this->getExerciseId(), $this->getId());
-		$path = $storage->getPeerReviewUploadPath($a_peer_id);			
-		return $path."/".$a_giver_id;			
+		$path = $storage->getPeerReviewUploadPath($a_peer_id, $a_giver_id);			
+		return glob($path."/*.*");			
 	}
 	
-	public function updatePeerReviewComment($a_peer_id, $a_comment, $a_file_tmp_name = null, $a_file_name = null, $a_file_del = false)
+	public function updatePeerReviewComment($a_peer_id, $a_comment)
 	{
 		global $ilDB, $ilUser;
-				
-		// file upload			
-		$upload_file = null;
-		if($a_file_tmp_name)
-		{			
-			$new_file = $this->getPeerUploadFilePath($a_peer_id, $ilUser->getId());			
-			@unlink($new_file);			
-			if(@move_uploaded_file($a_file_tmp_name, $new_file))
-			{
-				$upload_file = $a_file_name;			
-			}
-		}
-		// remove existing file
-		else if((bool)$a_file_del)
-		{
-			$old_file = $this->getPeerUploadFilePath($a_peer_id, $ilUser->getId());		
-			@unlink($old_file);
-			
-			$upload_file = "";			
-		}		
 		
 		$sql = "UPDATE exc_assignment_peer".
 			" SET tstamp = ".$ilDB->quote(ilUtil::now(), "timestamp").
-			", pcomment  = ".$ilDB->quote(trim($a_comment), "text");
-		
-		if($upload_file !== null)
-		{
-			$sql .= ", upload  = ".$ilDB->quote($upload_file, "text");
-		}
-		
-		$sql .= " WHERE giver_id = ".$ilDB->quote($ilUser->getId(), "integer").
+			",pcomment  = ".$ilDB->quote(trim($a_comment), "text");
+			" WHERE giver_id = ".$ilDB->quote($ilUser->getId(), "integer").
 			" AND peer_id = ".$ilDB->quote($a_peer_id, "integer").
 			" AND ass_id = ".$ilDB->quote($this->getId(), "integer");
 		

@@ -14617,3 +14617,5 @@ user#:#send_mail_reminder_window_too_small#:#Ihr Intervall ist zu groß um einen
 exc#:#exc_msg_new_feedback_text_uploaded#:#Es wurde ein neuer Kommentar zur Übung "%s" hinzugefügt.
 exc#:#exc_msg_new_feedback_text_uploaded2#:#Ein Tutor hat einen neuen Kommentar für Sie eingestellt.
 content#:#cont_start_file_set_to#:#%s wurde als Startdatei festgelegt.
+exc#:#exc_peer_upload_file#:#Datei(en) hinzufügen
+exc#:#exc_peer_edit_file#:#Datei(en) bearbeiten
