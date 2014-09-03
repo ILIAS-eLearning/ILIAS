@@ -3131,22 +3131,57 @@ class ilExAssignment
 			'appointments' => $apps));		
 	}
 	
-	public static function getAdoptableTeamAssignments($a_exercise_id)
+	public static function getAdoptableTeamAssignments($a_exercise_id, $a_exclude_ass_id = null, $a_user_id = null)
 	{
 		$res = array();
 		
 		$data = ilExAssignment::getAssignmentDataOfExercise($a_exercise_id);
 		foreach($data as $row)
 		{
+			if($a_exclude_ass_id && $row["id"] == $a_exclude_ass_id)
+			{
+				continue;
+			}
+			
 			if($row["type"] == ilExAssignment::TYPE_UPLOAD_TEAM)
 			{
 				$map = ilExAssignment::getAssignmentTeamMap($row["id"]);
+				
+				if($a_user_id && !array_key_exists($a_user_id, $map))
+				{
+					continue;
+				}
+				
 				if(sizeof($map))
-				{					
-					$res[$row["id"]] = array(
-						"title" => $row["title"],
-						"teams" => sizeof(array_flip($map))
-					);
+				{		
+					$user_team = null;
+					if($a_user_id)
+					{
+						$user_team_id = $map[$a_user_id];
+						$user_team = array();
+						foreach($map as $user_id => $team_id)
+						{
+							if($user_id != $a_user_id && 
+								$user_team_id == $team_id)
+							{
+								$user_team[] = $user_id;
+							}
+						}							
+					}
+					
+					if(!$a_user_id ||
+						sizeof($user_team))
+					{
+						$res[$row["id"]] = array(
+							"title" => $row["title"],
+							"teams" => sizeof(array_flip($map)),
+						);
+						
+						if($a_user_id)
+						{
+							$res[$row["id"]]["user_team"] = $user_team;
+						}
+					}					
 				}
 			}			
 		}
@@ -3154,23 +3189,32 @@ class ilExAssignment
 		return ilUtil::sortArray($res, "title", "asc", false, true);
 	}
 	
-	public function adoptTeams($a_source_ass_id)
+	public function adoptTeams($a_source_ass_id, $a_user_id = null)
 	{
 		$teams = array();
 		
+		$old_team = null;
 		foreach(self::getAssignmentTeamMap($a_source_ass_id) as $user_id => $team_id)
-		{
+		{			
 			$teams[$team_id][] = $user_id;
+						
+			if($a_user_id && $user_id == $a_user_id)
+			{
+				$old_team = $team_id;
+			}		
 		}
 		
-		foreach($teams as $user_ids)
+		foreach($teams as $team_id => $user_ids)
 		{
-			$first = array_shift($user_ids);			
-			$team_id = $this->getTeamId($first, true);
-			foreach($user_ids as $user_id)
+			if(!$old_team || $team_id == $old_team)
 			{
-				$this->addTeamMember($team_id, $user_id);
-			}			
+				$first = array_shift($user_ids);			
+				$team_id = $this->getTeamId($first, true);				
+				foreach($user_ids as $user_id)
+				{
+					$this->addTeamMember($team_id, $user_id);
+				}		
+			}
 		}
 	}
 }

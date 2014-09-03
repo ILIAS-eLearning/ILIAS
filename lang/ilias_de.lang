@@ -14623,3 +14623,6 @@ exc#:#exc_no_team_yet_info#:#Sie können selbst ein Team erstellen oder in ein a
 exc#:#exc_team_assignment_adopt#:#Teams von bestehender Übungseinheit übernehmen
 exc#:#exc_team_assignment_adopt_none#:#Keine Teams übernehmen
 exc#:#exc_team_assignment_adopt_teams#:#Teams
+exc#:#exc_team_assignment_adopt_user#:#Team aus Übungseinheit übernehmen
+exc#:#exc_team_assignment_adopt_none_user#:#Ein neues Team erstellen
+exc#:#exc_team_assignment_adopt_already_assigned#:#bereits zugewiesen

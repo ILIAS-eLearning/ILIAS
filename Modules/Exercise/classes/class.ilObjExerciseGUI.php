@@ -2436,8 +2436,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 						
 			if($ass->getType() == ilExAssignment::TYPE_UPLOAD_TEAM)
 			{				
-				// the newly created has no teams, so it won't be returned
-				if(sizeof(ilExAssignment::getAdoptableTeamAssignments($this->object->getId())))
+				if(sizeof(ilExAssignment::getAdoptableTeamAssignments($this->object->getId(), $ass->getId())))
 				{
 					$ilCtrl->setParameter($this, "ass_id", $ass->getId());
 					$ilCtrl->redirect($this, "adoptTeamAssignmentsForm");
@@ -4611,15 +4610,98 @@ class ilObjExerciseGUI extends ilObjectGUI
 	
 	public function createTeamObject()
 	{		
-		global $ilCtrl, $ilUser;
+		global $ilCtrl, $ilUser, $ilTabs, $lng, $tpl;
 		
 		$this->checkPermission("read");
 		
 		if($this->ass->getDeadline() == 0 ||
 			mktime() < $this->ass->getDeadline())
 		{			
+			$options = ilExAssignment::getAdoptableTeamAssignments($this->ass->getExerciseId(), $this->ass->getId(), $ilUser->getId());
+			if(sizeof($options))
+			{								
+				$ilTabs->activateTab("content");
+				$this->addContentSubTabs("content");
+	
+				include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+				$form = new ilPropertyFormGUI();		         
+				$form->setTitle($lng->txt("exc_team_assignment_adopt_user"));
+				$form->setFormAction($ilCtrl->getFormAction($this, "createAdoptedTeam"));
+
+
+				$teams = new ilRadioGroupInputGUI($lng->txt("exc_assignment"), "ass_adpt");
+				$teams->setValue(-1);
+
+				$teams->addOption(new ilRadioOption($lng->txt("exc_team_assignment_adopt_none_user"), -1));
+				
+				$current_map = ilExAssignment::getAssignmentTeamMap($this->ass->getId());
+
+				include_once "Services/User/classes/class.ilUserUtil.php";
+				foreach($options as $id => $item)
+				{
+					$members = array();
+					$free = false;
+					foreach($item["user_team"] as $user_id)
+					{
+						$members[$user_id] = ilUserUtil::getNamePresentation($user_id);
+						
+						if(array_key_exists($user_id, $current_map))
+						{
+							$members[$user_id] .= " (".$lng->txt("exc_team_assignment_adopt_already_assigned").")";
+						}
+						else
+						{
+							$free = true;
+						}
+					}
+					asort($members);
+					$members = implode("<br />", $members);
+					$option = new ilRadioOption($item["title"], $id);
+					$option->setInfo($members);
+					if(!$free)
+					{
+						$option->setDisabled(true);
+					}
+					$teams->addOption($option);
+				}
+
+				$form->addItem($teams);
+
+				$form->addCommandButton("createAdoptedTeam", $lng->txt("save"));
+				$form->addCommandButton("showOverview", $lng->txt("cancel"));
+
+				$tpl->setContent($form->getHTML());
+				return;
+			}			
+			
 			$this->ass->getTeamId($ilUser->getId(), true);		
 			ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);	
+		}
+		
+		$ilCtrl->redirect($this, "showOverview");
+	}
+	
+	public function createAdoptedTeamObject()
+	{
+		global $ilCtrl, $ilUser, $lng;
+		
+		$this->checkPermission("read");
+		
+		if($this->ass->getDeadline() == 0 ||
+			mktime() < $this->ass->getDeadline())
+		{	
+			$src_ass_id = (int)$_POST["ass_adpt"];
+			if($src_ass_id > 0)
+			{
+				// :TODO: notification?
+				$this->ass->adoptTeams($src_ass_id, $ilUser->getId());						
+			}
+			else
+			{
+				$this->ass->getTeamId($ilUser->getId(), true);		
+			}
+			
+			ilUtil::sendSuccess($lng->txt("settings_saved"), true);
 		}
 		
 		$ilCtrl->redirect($this, "showOverview");

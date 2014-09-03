@@ -14664,3 +14664,6 @@ exc#:#exc_no_team_yet_info#:#You can create a team yourself or be added to an ex
 exc#:#exc_team_assignment_adopt#:#Adopt teams from existing assignment
 exc#:#exc_team_assignment_adopt_none#:#Do not adopt any teams
 exc#:#exc_team_assignment_adopt_teams#:#Teams
+exc#:#exc_team_assignment_adopt_user#:#Adopt team from assignment
+exc#:#exc_team_assignment_adopt_none_user#:#Create new team
+exc#:#exc_team_assignment_adopt_already_assigned#:#already assigned
