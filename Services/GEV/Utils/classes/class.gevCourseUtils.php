@@ -798,6 +798,9 @@ class gevCourseUtils {
 		global $lng;
 		require_once("Services/GEV/Utils/classes/class.gevAMDUtils.php");
 		$arr = gevAMDUtils::getInstance()->getOptions(gevSettings::CRS_AMD_TYPE);
+		unset($arr["Spezialistenschulung Präsenztraining"]);
+		unset($arr["Spezialistenschulung Webinar"]);
+		unset($arr["POT-Termin"]);
 		$all = $lng->txt("gev_crs_srch_all");
 		return array_merge(array($all => $all), $arr);
 	}
