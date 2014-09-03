@@ -1,4 +1,4 @@
-// Build: 2014902192022 
+// Build: 2014903210011 
 /*
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
@@ -12145,8 +12145,10 @@ function sendJSONRequest (url, data, callback, user, password, headers)
 	var r = sendAndLoad(url, toJSONString(data), callback, user, password, headers);
 	
 	if (r.content) {
-		if (r.content.indexOf("login.php")>-1) {
-			window.location.href = "./Modules/Scorm2004/templates/default/session_timeout.html";
+		if (r.content.indexOf("login.php")>-1 || r.content.indexOf("formlogin")>-1) {
+			var thref=window.location.href;
+			thref=thref.substring(0,thref.indexOf('ilias.php'))+"Modules/Scorm2004/templates/default/session_timeout.html";
+			window.location.href = thref;
 		}
 	}
 	
