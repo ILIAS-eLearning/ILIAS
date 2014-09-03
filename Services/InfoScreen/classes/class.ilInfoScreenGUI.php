@@ -480,7 +480,7 @@ class ilInfoScreenGUI
 				
 				// gev-patch start
 				if ($type == "crs") {
-					require_once("Services/GEV/classes/class.gevCourseUtils.php");
+					require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 					$utils = gevCourseUtils::getInstance($a_obj->getId());
 					if (!$utils->isTemplate()) {
 						$bl = new ilPermanentLinkGUI("gevcrsbooking", $a_obj->getId());
