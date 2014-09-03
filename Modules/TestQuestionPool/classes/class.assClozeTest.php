@@ -1270,32 +1270,29 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 		
 		foreach($this->getSolutionSubmit() as $val1 => $val2)
 		{
-			if (preg_match("/^gap_(\d+)/", $val1, $matches)) 
-			{ 
-				$value = ilUtil::stripSlashes($val2, FALSE);
-				if (strlen($value))
+			$value = ilUtil::stripSlashes($val2, FALSE);
+			if (strlen($value))
+			{
+				$gap = $this->getGap($val1);
+				if (is_object($gap))
 				{
-					$gap = $this->getGap($matches[1]);
-					if (is_object($gap))
+					if (!(($gap->getType() == CLOZE_SELECT) && ($value == -1)))
 					{
-						if (!(($gap->getType() == CLOZE_SELECT) && ($value == -1)))
+						if ($gap->getType() == CLOZE_NUMERIC)
 						{
-							if ($gap->getType() == CLOZE_NUMERIC)
-							{
-								$value = str_replace(",", ".", $value);
-							}
-							$next_id = $ilDB->nextId("tst_solutions");
-							$affectedRows = $ilDB->insert("tst_solutions", array(
-								"solution_id" => array("integer", $next_id),
-								"active_fi" => array("integer", $active_id),
-								"question_fi" => array("integer", $this->getId()),
-								"value1" => array("clob", trim($matches[1])),
-								"value2" => array("clob", trim($value)),
-								"pass" => array("integer", $pass),
-								"tstamp" => array("integer", time())
-							));
-							$entered_values++;
+							$value = str_replace(",", ".", $value);
 						}
+						$next_id = $ilDB->nextId("tst_solutions");
+						$affectedRows = $ilDB->insert("tst_solutions", array(
+							"solution_id" => array("integer", $next_id),
+							"active_fi" => array("integer", $active_id),
+							"question_fi" => array("integer", $this->getId()),
+							"value1" => array("clob", trim($val1)),
+							"value2" => array("clob", trim($value)),
+							"pass" => array("integer", $pass),
+							"tstamp" => array("integer", time())
+						));
+						$entered_values++;
 					}
 				}
 			}
