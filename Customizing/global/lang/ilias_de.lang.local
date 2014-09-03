@@ -414,7 +414,7 @@ gev#:#gev_cert_points#:#Weiterbildungspunkte bei erfolgreicher Teilnahme
 gev#:#gev_company_title#:#Gesellschaftsschlüssel
 gev#:#gev_competence_mgmt#:#Kompetenzen
 gev#:#gev_confirm_agb#:#Mit den %s bin ich einverstanden.
-gev#:#gev_confirm_qualification#:#Ich habe die <a href='/data/Generali/documents/03_Checkliste Qualifikationsvoraussetzungen.pdf' target='_blank' style="color: #0000ff">Qualifikationsvoraussetzungen</a> gemäß Abschnitt 1 der VersVermV erbracht (Sachkundeprüfung zur Versicherungsvermittlung oder gleichgestellte andere Berufsqualifikation) oder eine Ausbildung zur Versicherungsvermittlung auf dem Niveau der Anforderungen zur Sachkundeprüfung durchlaufen.
+gev#:#gev_confirm_qualification#:#Ich habe die <a href='/data/Generali/documents/03_Checkliste Qualifikationsvoraussetzungen.pdf' target='_blank'>Qualifikationsvoraussetzungen</a> gemäß Abschnitt 1 der VersVermV erbracht (Sachkundeprüfung zur Versicherungsvermittlung oder gleichgestellte andere Berufsqualifikation) oder eine Ausbildung zur Versicherungsvermittlung auf dem Niveau der Anforderungen zur Sachkundeprüfung durchlaufen.
 gev#:#gev_confirm_refresh_attachments#:#Möchten Sie die Anhänge wirklich aktualisieren?
 gev#:#gev_confirm_wbd#:#Mit den %s bin ich einverstanden.
 gev#:#gev_contents#:#Inhalte
@@ -470,7 +470,7 @@ gev#:#gev_from#:#ab
 gev#:#gev_get_bill#:#Rechung anfordern
 gev#:#gev_get_certificate#:#Teilnahmebescheinigung abrufen
 gev#:#gev_give_mandate_tp_basis#:#Hiermit erteile ich den %s ein WB-Konto bei der WBD einzurichten.
-gev#:#gev_give_mandate_tp_service#:#Hiermit erteile ich den %s (<a href='/data/Generali/documents/GEV_TPS_AAD_Finaler_Auftrag_TPS_AAD.pdf' target='_blank' style="color: #0000ff">als AAD</a> / <a href='/data/Generali/documents/GEV_TPSEVG_Finaler_Auftrag_TPS_§84HGB.pdf' target='_blank' style="color: #0000ff">als §84HGB</a>) ein WB-Konto bei der WBD einzurichten.
+gev#:#gev_give_mandate_tp_service#:#Hiermit erteile ich den %s (<a href='/data/Generali/documents/GEV_TPS_AAD_Finaler_Auftrag_TPS_AAD.pdf' target='_blank'>als AAD</a> / <a href='/data/Generali/documents/GEV_TPSEVG_Finaler_Auftrag_TPS_§84HGB.pdf' target='_blank'>als §84HGB</a>) ein WB-Konto bei der WBD einzurichten.
 gev#:#gev_highlights#:#Highlights
 gev#:#gev_hotel#:#Hotel
 gev#:#gev_ihk_number#:#IHK Registrierungsnummer
