@@ -361,6 +361,9 @@ class gevBookingGUI {
 			if ($_POST["acco"]) {
 				$form->getItemByPostVar("acco")->setValue($_POST["acco"]);
 			}
+			else if ($_POST["accomodations"]) {
+				$form->getItemByPostVar("acco")->setValue(unserialize($_POST["accomodations"]));
+			}
 		}
 		
 		/*if ($this->isSelfBooking()) {
@@ -498,7 +501,8 @@ class gevBookingGUI {
 			$unser = null;
 		}
 		$form = $this->buildPaymentForm($accomodations, $unser);
-		$form->addCommandButton("backToSearch", $this->lng->txt("gev_to_course_search"));
+		//$form->addCommandButton("backToSearch", $this->lng->txt("gev_to_course_search"));
+		$form->addCommandButton("book", $this->lng->txt("back"));
 		$form->addCommandButton("showBookingInfo", $this->lng->txt("gev_booking_check_bill_data"));
 		if ($unser === null) {
 			$last_bill_data = $this->user_utils->getLastBillingDataMaybe();
