@@ -7,6 +7,7 @@
 *
 * @author	Nils Haagen <nhaagen@concepts-and-training.de>
 * @version	$Id$
+*
 */
 
 require_once("Services/CaTUIComponents/classes/class.catTitleGUI.php");
@@ -61,6 +62,8 @@ class gevMyTrainingsApGUI {
 	
 	public function memberList() {
 		
+		// print excel-list!
+
 		$title = new catTitleGUI("gev_mytrainingsap_title", "gev_mytrainingsap_title_desc", "GEV_img/ico-head-edubio.png");
 		$spacer = new catHSpacerGUI();
 		//$trainings_table = new gevMyTrainingsApTableGUI($this->user->getId(), $this);
@@ -76,17 +79,34 @@ class gevMyTrainingsApGUI {
 
 	
 	public function setParticipationStatus() {
-		
+		global $lng;
+			
+		$crs_ref_id = $_GET['crsrefid'];
+		if(! $crs_ref_id){
+			throw new ilException("gevMyTrainingsApGUI - needs course-refid");
+		}
+
 		$title = new catTitleGUI("gev_mytrainingsap_title", "gev_mytrainingsap_title_desc", "GEV_img/ico-head-edubio.png");
 		$spacer = new catHSpacerGUI();
-		//$trainings_table = new gevMyTrainingsApTableGUI($this->user->getId(), $this);
 		
+		//ilParticipationStatusTableGUI
+		require_once("Services/ParticipationStatus/classes/class.ilParticipationStatusTableGUI.php");
+		require_once "Modules/Course/classes/class.ilObjCourse.php";
+		$crs_obj = new ilObjCourse($crs_ref_id);
+		
+		$lng->loadLanguageModule("ptst");
+
+		$a_may_write = true;
+		$a_may_finalize = true;
+		$ptstatusgui = new ilParticipationStatusTableGUI($this, 'setParticipationStatus', $crs_obj, $a_may_write, $a_may_finalize);
+
+
 		return (
 				$title->render()
 			   .$spacer->render()
 			   .'setParticipationStatus for '
-			   .$_GET['crsid']
-		//	   .$trainings_table->getHTML()
+			   .$_GET['crsrefid']
+			   .$ptstatusgui->getHTML()
 			   );
 	}
 

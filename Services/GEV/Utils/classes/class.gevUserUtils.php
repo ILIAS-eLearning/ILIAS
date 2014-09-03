@@ -261,23 +261,23 @@ class gevUserUtils {
 			."   AND od2.type = 'crs'"
 			);
 
-		//$this->direct_superior_ous = array();
+		$crs_ids = array();
 		while($rec = $this->db->fetchAssoc($res)) {
-			print_r($rec);
-			print '<hr>';
-		/*	$this->direct_superior_ous[] = array( "obj_id" => $rec["obj_id"]
-												, "ref_id" => $rec["ref_id"]
-												);
-		*/										
+			//we need only one ref-id here
+			$crs_ids[$rec['obj_id']] = $rec['ref_id'];
 		}
 
-		return array(270, 280);
+		return $crs_ids;
 	}
 
 	public function getMyAppointmentsCourseInformation() {
 			// used by gevMyTrainingsApTable, i.e.
+			
+			require_once("Services/CourseBooking/classes/class.ilCourseBooking.php");
+			
 			$crss = $this->getCourseIdsWhereUserIsTutor();
-
+			$crss_ids = array_keys($crss);
+			
 			//do the amd-dance
 			$crs_amd = 
 			array( gevSettings::CRS_AMD_START_DATE			=> "start_date"
@@ -286,20 +286,32 @@ class gevUserUtils {
 				 , gevSettings::CRS_AMD_CUSTOM_ID			=> "custom_id"
 				 , gevSettings::CRS_AMD_TYPE 				=> "type"
 				 , gevSettings::CRS_AMD_VENUE 				=> "location"
-				 //, gevSettings::CRS_AMD_MAX_PARTICIPANTS	=> "mbr_max"
-				 
+				 , gevSettings::CRS_AMD_MAX_PARTICIPANTS	=> "mbr_max"
+				 , gevSettings::CRS_AMD_MIN_PARTICIPANTS	=> "mbr_min"
 				 
 				 , gevSettings::CRS_AMD_TARGET_GROUP_DESC	=> "target_group"
 				 , gevSettings::CRS_AMD_GOALS 				=> "goals"
 				 , gevSettings::CRS_AMD_CONTENTS 			=> "content"
 			);
-			$crss_amd = gevAMDUtils::getInstance()->getTable($crss, $crs_amd);
+			$crss_amd = gevAMDUtils::getInstance()->getTable($crss_ids, $crs_amd);
+
 
 			foreach ($crss_amd as $id => $entry) {
-				$entry['mbr_max'] = 10;
-				$entry['mbr_booked'] = 0;
-				$entry['apdays'] = 2;
+				//$entry['mbr_max'] = 10;
+				//$entry['mbr_booked_data'] = $this->getUserWhoBookedAtCourse($id);
+				//get userIds of members in this course (no tutors, admins..):
+				$crs_utils = gevCourseUtils::getInstance($id);
+				$ms = $crs_utils->getMembership();
+				$entry['mbr_booked_userids'] = $ms->getMembers();
+				$entry['mbr_booked'] = count($entry['mbr_booked_userids']);
+
+				$entry['mbr_waiting_userids'] = $crs_utils->getWaitingMembers($id);
+				$entry['mbr_waiting'] = count($entry['mbr_waiting_userids']);
+
+				$entry['apdays'] = $crs_utils->getAmountHours();
 				$entry['category'] = '-';
+				$entry['crs_ref_id'] = $crss[$id];
+				
 				$crss_amd[$id] = $entry;
 			}
 

@@ -2,6 +2,11 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once './Services/Table/classes/class.ilTable2GUI.php';
+// gev-patch start
+require_once("Services/ParticipationStatus/classes/class.ilParticipationStatus.php");
+require_once("Services/ParticipationStatus/classes/class.ilParticipationStatusHelper.php");
+// gev-patch end
+
 
 /**
  * List all users from course

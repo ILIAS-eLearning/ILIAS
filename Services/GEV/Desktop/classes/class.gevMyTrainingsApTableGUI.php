@@ -67,6 +67,7 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 
 		$data = $user_util->getMyAppointmentsCourseInformation();
 		/*
+		print '<hr><h1><b>DATA</b></h1>';
 		print '<pre>';
 		print_r($data);
 		print '</pre>';
@@ -125,10 +126,10 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 		}
 */
 		
-		$mbrs = $a_set['mbr_booked'] .'/' .$a_set['mbr_max'];
+		$mbrs = $a_set['mbr_booked'] .' (' .$a_set['mbr_waiting'] .')'
+				.' / ' .$a_set['mbr_min'] .'-' .$a_set['mbr_max'];
 
 		$actions = 'x/x';
-
 		
 		$show_set_stat_link = 1;
 
@@ -136,28 +137,23 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 							.'&crsid=' .$a_set['obj_id'];
 
 		$setstatus_link = $this->ctrl->getLinkTarget($this->parent_obj, 'setParticipationStatus')
-							.'&crsid=' .$a_set['obj_id'];
+							.'&crsrefid=' .$a_set['crs_ref_id'];
 		
 
 		$this->tpl->setVariable("TITLE", $a_set["title"]);
-		$this->tpl->setVariable("CUSTOM_ID", $status);
+		$this->tpl->setVariable("CUSTOM_ID", $a_set["custom_id"]);
 		$this->tpl->setVariable("TYPE", $a_set["type"]);
 		$this->tpl->setVariable("CATEGORY", $a_set["category"]);
 		$this->tpl->setVariable("LOCATION", $a_set["location"]);
 		$this->tpl->setVariable("DATE", $date);
 		$this->tpl->setVariable("APDAYS", $a_set["apdays"]);
 		$this->tpl->setVariable("MBRS", $mbrs);
-
 		$this->tpl->setVariable("ACTIONS", $actions);
-
 		//inner content
 		$this->tpl->setVariable("TARGET_GROUP", $a_set["target_group"]);
 		$this->tpl->setVariable("GOALS", $a_set["goals"]);
 		$this->tpl->setVariable("CONTENTS", $a_set["content"]);
-
-		
 		$this->tpl->setVariable("MBMRLST_LINK", $memberlist_link);
-		//$this->tpl->setVariable("CRS_LINK", gevCourseUtils::getLinkTo($a_set["obj_id"]));
 		if ($show_set_stat_link) {
 			$this->tpl->setCurrentBlock("set_stat");
 			$this->tpl->setVariable("SETSTAT_LINK", $setstatus_link);
