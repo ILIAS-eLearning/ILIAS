@@ -90,7 +90,7 @@ class gevUserProfileGUI {
 				$this->user->setZipcode($form->getInput("b_zipcode"));
 				$this->user->setCountry($form->getInput("b_country"));
 				$this->user->setPhoneOffice($form->getInput("b_phone"));
-				$this->user->setFax($form->getInput("b_fax"));
+				//$this->user->setFax($form->getInput("b_fax"));
 				$this->user->update();
 
 				$this->user_utils->setBirthplace($form->getInput("birthplace"));
@@ -102,7 +102,7 @@ class gevUserProfileGUI {
 				$this->user_utils->setPrivateZipcode($form->getInput("p_zipcode"));
 				$this->user_utils->setPrivateState($form->getInput("p_country"));
 				$this->user_utils->setPrivatePhone($form->getInput("p_phone"));
-				$this->user_utils->setPrivateFax($form->getInput("p_fax"));
+				//$this->user_utils->setPrivateFax($form->getInput("p_fax"));
 				
 				$bwv_id = $form->getInput("bwv_id");
 				if ($bwv_id) {
@@ -234,6 +234,10 @@ class gevUserProfileGUI {
 		$b_email->setValue($_b_email);
 		$form->addItem($b_email);
 		
+		$b_phone = new ilTextInputGUI($this->lng->txt("gev_profile_phone"), "b_phone");
+		$b_phone->setValue($this->user->getPhoneOffice());
+		$form->addItem($b_phone);
+		
 		$b_street = new ilTextInputGUI($this->lng->txt("street"), "b_street");
 		$b_street->setValue($this->user->getStreet());
 		$form->addItem($b_street);
@@ -250,20 +254,6 @@ class gevUserProfileGUI {
 		$b_country->setValue($this->user->getCountry());
 		$form->addItem($b_country);
 		
-		$b_phone = new ilTextInputGUI($this->lng->txt("gev_profile_phone"), "b_phone");
-		$b_phone->setValue($this->user->getPhoneOffice());
-		$form->addItem($b_phone);
-		
-		$b_fax = new ilTextInputGUI($this->lng->txt("fax"), "b_fax");
-		$b_fax->setValue($this->user->getFax());
-		$form->addItem($b_fax);
-		
-		
-		
-		$section3 = new ilFormSectionHeaderGUI();
-		$section3->setTitle($this->lng->txt("gev_private_contact"));
-		$form->addItem($section3);
-		
 		$info = new ilNonEditableValueGUI("");
 		$info->setValue($this->lng->txt("gev_private_contact_info"));
 		$form->addItem($info);
@@ -273,6 +263,24 @@ class gevUserProfileGUI {
 		$p_email->setValue($_p_email?$_p_email:$_b_email);
 		$p_email->setRequired(true);
 		$form->addItem($p_email);
+		
+		$p_phone = new ilTextInputGUI($this->lng->txt("gev_mobile"), "p_phone");
+		$telno = $this->user_utils->getPrivatePhone();
+		$p_phone->setValue($telno);
+		if (!preg_match(self::$telno_regexp, $telno)) {
+				$p_phone->setAlert($this->lng->txt("gev_telno_wbd_alert"));
+		}
+		$p_phone->setRequired(true);
+		$form->addItem($p_phone);
+		
+		/*$b_fax = new ilTextInputGUI($this->lng->txt("fax"), "b_fax");
+		$b_fax->setValue($this->user->getFax());
+		$form->addItem($b_fax);*/
+		
+		
+		$section3 = new ilFormSectionHeaderGUI();
+		$section3->setTitle($this->lng->txt("gev_private_contact"));
+		$form->addItem($section3);
 		
 		$p_street = new ilTextInputGUI($this->lng->txt("street"), "p_street");
 		$p_street->setValue($this->user_utils->getPrivateStreet());
@@ -290,18 +298,10 @@ class gevUserProfileGUI {
 		$p_country->setValue($this->user_utils->getPrivateState());
 		$form->addItem($p_country);
 		
-		$p_phone = new ilTextInputGUI($this->lng->txt("gev_mobile"), "p_phone");
-		$telno = $this->user_utils->getPrivatePhone();
-		$p_phone->setValue($telno);
-		if (!preg_match(self::$telno_regexp, $telno)) {
-				$p_phone->setAlert($this->lng->txt("gev_telno_wbd_alert"));
-		}
-		$p_phone->setRequired(true);
-		$form->addItem($p_phone);
 		
-		$p_fax = new ilTextInputGUI($this->lng->txt("fax"), "p_fax");
+		/*$p_fax = new ilTextInputGUI($this->lng->txt("fax"), "p_fax");
 		$p_fax->setValue($this->user_utils->getPrivateFax());
-		$form->addItem($p_fax);
+		$form->addItem($p_fax);*/
 		
 		
 		

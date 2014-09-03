@@ -396,7 +396,7 @@ gev#:#gev_booking_other_courses_in_period_others#:#Ihr Mitarbeiter hat im Zeitra
 gev#:#gev_booking_other_courses_in_period_self#:#Sie haben im Zeitraum des Trainings bereits andere Trainings gebucht:
 gev#:#gev_booking_status#:#Buchungsstatus
 gev#:#gev_bookings#:#Buchungen
-gev#:#gev_business_contact#:#Geschäftliche Kontaktdaten
+gev#:#gev_business_contact#:#Kontaktdaten geschäftlich / WBD
 gev#:#gev_bwv_id#:#GDV Vermittler-ID
 gev#:#gev_cancel_training#:#Training stornieren
 gev#:#gev_cancellation_bill_item#:#Stornogebühr Training "%s"
@@ -538,7 +538,7 @@ gev#:#gev_points_in_wbd_cert_year#:#Punkte im aktuellen Zertifizierungsjahr
 gev#:#gev_position#:#Vermittlernummer
 gev#:#gev_pot_applicants#:#POT Bewerber
 gev#:#gev_pot_participants#:#POT Teilnehmer
-gev#:#gev_private_contact#:#Private Kontaktdaten
+gev#:#gev_private_contact#:#Kontaktdaten privat
 gev#:#gev_private_contact_info#:#Die Angabe Ihrer privaten E-Mail und Mobiltelefonnummer ist zwingend notwendig, damit Ihr Konto in der zentralen Weiterbildungsdatenbank eröffnet und gepflegt werden kann.
 gev#:#gev_private_email#:#private Emailadresse
 gev#:#gev_process_menu#:#Workflows
