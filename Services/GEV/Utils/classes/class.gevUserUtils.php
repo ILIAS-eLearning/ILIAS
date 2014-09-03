@@ -1128,7 +1128,7 @@ class gevUserUtils {
 		}
 		
 		$_ds_ous = $this->getOrgUnitsWhereUserIsDirectSuperior();
-		$where = array();
+		$where = array(" 0 = 1 ");
 		$ds_ous = array();
 		
 		foreach ($_ds_ous as $ou) {
