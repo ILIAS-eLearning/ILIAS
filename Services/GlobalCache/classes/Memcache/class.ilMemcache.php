@@ -29,7 +29,7 @@ class ilMemcache extends ilGlobalCacheService {
 	 * @param $component
 	 */
 	public function __construct($service_id, $component) {
-		if (! (self::$memcache_object instanceof Memcached)) {
+		if (! (self::$memcache_object instanceof Memcached) AND self::isInstallable()) {
 			$memcached = new Memcached();
 			foreach (self::$servers as $host => $port) {
 				$memcached->addServer($host, $port);
@@ -113,6 +113,7 @@ class ilMemcache extends ilGlobalCacheService {
 	 */
 	protected function getInstallable() {
 		return false;
+
 		return class_exists('Memcached');
 	}
 
