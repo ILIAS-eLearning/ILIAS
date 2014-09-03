@@ -3,7 +3,7 @@
 require_once("Services/GEV/Mailing/classes/class.gevCrsAutoMail.php");
 
 class gevReminderTrainer extends gevCrsAutoMail {
-	const DAYS_BEFORE_COURSE_START = 14;
+	const DAYS_BEFORE_COURSE_START = 2;
 	
 	public function getTitle() {
 		return "Erinnerung Trainer";

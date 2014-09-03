@@ -3,13 +3,13 @@
 require_once("Services/GEV/Mailing/classes/CrsMails/class.gevInvitation.php");
 
 class gevReminderParticipants extends gevInvitation {
-	const DAYS_BEFORE_COURSE_START = 3;
+	const DAYS_BEFORE_COURSE_START = 2;
 
 	public function getTitle() {
 		return "Erinnerung Teilnehmer (Einladungsmail)";
 	}
 
-	public function _getDescription() {
+	public function getDescription() {
 		return self::DAYS_BEFORE_COURSE_START." Tage vor Trainingsbeginn";
 	}
 
