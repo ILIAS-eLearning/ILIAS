@@ -13692,7 +13692,7 @@ prtf#:#prtf_create_template_from_portfolio_info#:#Select a portfolio to use its 
 prtf#:#prtf_template_import_quota_failure#:#This portfolio template cannot be copied because it would exceed your disk quota.
 cntr#:#prtf_create_portfolio_from_template#:#Create Portfolio From Template
 content#:#content_plugin_not_activated#:#The page content element plugin is currently not activated.
-administration#:#vc_information#:#Show Version Control Information
+administration#:#vc_information#:#Show SVN Revision
 administration#:#svn_revision_current#:#Current Revision: %s
 administration#:#svn_revision_last_change#:#Last Changed Revision: %s
 administration#:#svn_root#:#Root: %s

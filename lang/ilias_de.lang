@@ -13686,7 +13686,7 @@ prtf#:#prtf_create_template_from_portfolio#:#Portfolio
 prtf#:#prtf_create_template_from_portfolio_info#:#Wählen Sie ein Portfolio um dessen Inhalte und Einstellungen für die Vorlage zu übernehmen.
 prtf#:#prtf_template_import_quota_failure#:#Diese Portfoliovorlage kann nicht kopiert werden, da Ihre Disk-Quota überschritten würde.
 cntr#:#prtf_create_portfolio_from_template#:#Portfolio aus Vorlage erstellen
-administration#:#vc_information#:#VCS-Informationen anzeigen
+administration#:#vc_information#:#Zeige SVN-Revision
 administration#:#svn_revision_current#:#Aktuelle Revision: %s
 administration#:#svn_revision_last_change#:#Zuletzt geänderte Revision: %s
 administration#:#svn_root#:#Root: %s
