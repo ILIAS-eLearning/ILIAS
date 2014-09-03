@@ -127,29 +127,33 @@ if($target_type == "impr")
 	ilUtil::redirect('ilias.php?baseClass=ilImprintGUI');
 }
 
-// goto is not granted?
-include_once("Services/Init/classes/class.ilStartUpGUI.php");
-if(!ilStartUpGUI::_checkGoto($_GET["target"]))
-{
-	// if anonymous: go to login page
-	if($ilUser->getId() == ANONYMOUS_USER_ID)
+
+// gev-patch start
+if (substr($_GET["target"], 0, 3) !== "gev") {
+	// goto is not granted?
+	include_once("Services/Init/classes/class.ilStartUpGUI.php");
+	if(!ilStartUpGUI::_checkGoto($_GET["target"]))
 	{
-		ilUtil::redirect("login.php?target=".$orig_target."&cmd=force_login&lang=".$ilUser->getCurrentLanguage());
-	}
-	else
-	{
-		// message if target given but not accessible
-		$tarr = explode("_", $_GET["target"]);
-		if ($tarr[0] != "pg" && $tarr[0] != "st" && $tarr[1] > 0)
+		// if anonymous: go to login page
+		if($ilUser->getId() == ANONYMOUS_USER_ID)
 		{
-			ilUtil::sendFailure(sprintf($lng->txt("msg_no_perm_read_item"),
-				ilObject::_lookupTitle(ilObject::_lookupObjId($tarr[1]))), true);
+			ilUtil::redirect("login.php?target=".$orig_target."&cmd=force_login&lang=".$ilUser->getCurrentLanguage());
 		}
-	
-		ilUtil::redirect('ilias.php?baseClass=ilPersonalDesktopGUI');
+		else
+		{
+			// message if target given but not accessible
+			$tarr = explode("_", $_GET["target"]);
+			if ($tarr[0] != "pg" && $tarr[0] != "st" && $tarr[1] > 0)
+			{
+				ilUtil::sendFailure(sprintf($lng->txt("msg_no_perm_read_item"),
+					ilObject::_lookupTitle(ilObject::_lookupObjId($tarr[1]))), true);
+			}
+		
+			ilUtil::redirect('ilias.php?baseClass=ilPersonalDesktopGUI');
+		}
 	}
 }
-
+// gev-patch end
 
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //
@@ -308,6 +312,12 @@ switch($target_type)
 		require_once('./Services/Certificate/classes/class.ilCertificate.php');
 		ilCertificate::_goto($target_id);
 		break;
+		
+	// gev-patch start
+	case 'gevcrsbooking':
+		require_once("./Services/GEV/Utils/classes/class.gevCourseUtils.php");
+		gevCourseUtils::gotoBooking($target_id);
+	// gev-patch end
 
 	//
 	// default implementation (should be used by all new object types)

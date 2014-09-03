@@ -93,6 +93,11 @@ class gevCourseUtils {
 		$ilCtrl->clearParametersByClass("gevBookingGUI");
 		return $lnk;
 	}
+	
+	static public function gotoBooking($a_crs_id) {
+		global $ilCtrl;
+		ilUtil::redirect("ilias.php?baseClass=gevDesktopGUI&cmd=toBooking&crs_id=".$a_crs_id);
+	}
 
 	static public function mkDeadlineDate($a_start_date, $a_deadline) {
 		if (!$a_start_date || !$a_deadline) {

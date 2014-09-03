@@ -140,6 +140,7 @@ class gevDesktopGUI {
 			case "toStaticPages":
 			case "toMyTrainingsAp":
 			case "toReportAttendanceByEmployee":
+			case "toBooking":
 				$this->$a_cmd();
 			default:
 				throw new Exception("Unknown command: ".$a_cmd);
@@ -170,7 +171,20 @@ class gevDesktopGUI {
 		$this->ctrl->redirectByClass("gevAttendanceByEmployeeGUI");
 	}
 
-
+	protected function toBooking() {
+		if (!$_GET["crs_id"]) {
+			ilUtil::redirect("");
+		}
+		
+		global $ilUser;
+		
+		$crs_id = intval($_GET["crs_id"]);
+		$usr_id = $ilUser->getId();
+		
+		$this->ctrl->setParameterByClass("gevBookingGUI", "user_id", $usr_id);
+		$this->ctrl->setParameterByClass("gevBookingGUI", "crs_id", $crs_id);
+		$this->ctrl->redirectByClass("gevBookingGUI", "book");
+	}
 
 	
 	protected function checkProfileComplete($cmd, $next_class) {
