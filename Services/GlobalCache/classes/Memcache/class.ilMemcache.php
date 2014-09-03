@@ -102,9 +102,11 @@ class ilMemcache extends ilGlobalCacheService {
 	 * @return bool
 	 */
 	protected function getActive() {
-		$stats = $this->getMemcacheObject()->getStats();
+		if (self::isInstallable()) {
+			$stats = $this->getMemcacheObject()->getStats();
 
-		return $stats[self::STD_SERVER . ':' . self::STD_PORT]['pid'] > 0;
+			return $stats[self::STD_SERVER . ':' . self::STD_PORT]['pid'] > 0;
+		}
 	}
 
 
@@ -139,8 +141,9 @@ class ilMemcache extends ilGlobalCacheService {
 
 
 	public function getInfo() {
-		echo '<pre>' . print_r($this->getMemcacheObject()->getStats(), 1) . '</pre>';
-		//return $this->getMemcacheObject()->getAllKeys();
+		if(self::isInstallable()) {
+			echo '<pre>' . print_r($this->getMemcacheObject()->getStats(), 1) . '</pre>';
+		}
 	}
 }
 
