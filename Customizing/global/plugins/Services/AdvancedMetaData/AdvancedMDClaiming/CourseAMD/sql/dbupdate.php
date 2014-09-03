@@ -361,7 +361,7 @@ require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 
 gevAMDUtils::addAMDField( "Orte und Anbieter"
 						, "Weblink"
-						, gevSettings::CRS_AMD_WEB_LOCATION
+						, gevSettings::CRS_AMD_WEBEX_LINK
 						, "Link zum virtuellen Klassenraum"
 						, false
 						, null
