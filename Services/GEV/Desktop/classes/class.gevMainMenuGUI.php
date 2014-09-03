@@ -70,19 +70,18 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 		
 		$has_others_menu = $employee_booking || $my_org_unit || $tep || $pot_participants || $apprentices;
 		
-
-		require_once("Services/GEV/Reports/classes/class.gevReportingPermissions.php");
-		$report_permissions = gevReportingPermissions::getInstance($this->user->getId());
+		//require_once("Services/GEV/Reports/classes/class.gevReportingPermissions.php");
+		//$report_permissions = gevReportingPermissions::getInstance($this->user->getId());
 
 		//$report_permissions->getOrgUnitIdsWhereUserHasRole(array());
 		//die();
 
-		$report_permission_attendancebyuser = $this->userUtils->isAdmin() || false;
-		//$report_permission_attendancebyuser = $report_permissions -> isSuperior('anywhere');
-		// or role in DBV, AVL/VL, 
-		
-		
+		$report_permission_attendancebyuser = $this->userUtils->isAdmin() || $this->userUtils->getEmployees();
 		$has_reporting_menu = $report_permission_attendancebyuser; // || ....
+
+
+		$is_trainer = $tep; // $tep_permissions->isTutor();
+
 				
 		
 		$menu = array( 
@@ -99,7 +98,7 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 				, "gev_my_settings" => array(true, "ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToSettings")
 				, "gev_my_groups" => array(false, "NYI!")
 				, "gev_my_roadmap" => array(false, "NYI!")
-				, "gev_my_trainer_ap" => array(true, "ilias.php?baseClass=gevDesktopGUI&cmd=toMyTrainingsAp")
+				, "gev_my_trainer_ap" => array($is_trainer, "ilias.php?baseClass=gevDesktopGUI&cmd=toMyTrainingsAp")
 
 				))
 			, "gev_others_menu" => array(false, $has_others_menu, array(
