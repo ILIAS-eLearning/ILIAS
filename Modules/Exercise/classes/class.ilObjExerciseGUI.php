@@ -4693,8 +4693,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 			$src_ass_id = (int)$_POST["ass_adpt"];
 			if($src_ass_id > 0)
 			{
-				// :TODO: notification?
-				$this->ass->adoptTeams($src_ass_id, $ilUser->getId());						
+				$this->ass->adoptTeams($src_ass_id, $ilUser->getId(), $this->ref_id);						
 			}
 			else
 			{
@@ -4764,7 +4763,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		
 		if($this->ass && $src_ass_id > 0)
 		{
-			// :TODO: notification?
+			// no notifications, assignment is not ready
 			$this->ass->adoptTeams($src_ass_id);			
 			
 			ilUtil::sendSuccess($lng->txt("settings_saved"), true);

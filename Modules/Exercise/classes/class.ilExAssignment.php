@@ -3189,7 +3189,7 @@ class ilExAssignment
 		return ilUtil::sortArray($res, "title", "asc", false, true);
 	}
 	
-	public function adoptTeams($a_source_ass_id, $a_user_id = null)
+	public function adoptTeams($a_source_ass_id, $a_user_id = null, $a_exc_ref_id = null)
 	{
 		$teams = array();
 		
@@ -3204,16 +3204,48 @@ class ilExAssignment
 			}		
 		}
 		
+		if($a_user_id)
+		{
+			// no existing team (in source) or user already in team (in current)
+			if(!$old_team || $this->getTeamId($a_user_id))
+			{
+				return;
+			}
+		}
+		
+		$current_map = self::getAssignmentTeamMap($this->getId());
+		
 		foreach($teams as $team_id => $user_ids)
 		{
 			if(!$old_team || $team_id == $old_team)
 			{
-				$first = array_shift($user_ids);			
-				$team_id = $this->getTeamId($first, true);				
+				// only not assigned users
+				$missing = array();
 				foreach($user_ids as $user_id)
 				{
-					$this->addTeamMember($team_id, $user_id);
-				}		
+					if(!array_key_exists($user_id, $current_map))
+					{
+						$missing[] = $user_id;
+					}
+				}
+				
+				if(sizeof($missing))
+				{
+					// create new team
+					$first = array_shift($missing);			
+					$team_id = $this->getTeamId($first, true);		
+
+					if($a_exc_ref_id)
+					{	
+						// getTeamId() does NOT send notification
+						$this->sendNotification($a_exc_ref_id, $first, "add");
+					}					
+
+					foreach($missing as $user_id)
+					{
+						$this->addTeamMember($team_id, $user_id, $a_exc_ref_id);
+					}		
+				}
 			}
 		}
 	}
