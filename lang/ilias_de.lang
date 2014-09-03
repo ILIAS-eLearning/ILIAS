@@ -14620,3 +14620,6 @@ content#:#cont_start_file_set_to#:#%s wurde als Startdatei festgelegt.
 exc#:#exc_peer_upload_file#:#Datei(en) hinzufügen
 exc#:#exc_peer_edit_file#:#Datei(en) bearbeiten
 exc#:#exc_no_team_yet_info#:#Sie können selbst ein Team erstellen oder in ein anderes Team von dessen Teammitgliedern hinzugefügt werden.
+exc#:#exc_team_assignment_adopt#:#Teams von bestehender Übungseinheit übernehmen
+exc#:#exc_team_assignment_adopt_none#:#Keine Teams übernehmen
+exc#:#exc_team_assignment_adopt_teams#:#Teams

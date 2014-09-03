@@ -2433,6 +2433,17 @@ class ilObjExerciseGUI extends ilObjectGUI
 			}
 			
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+						
+			if($ass->getType() == ilExAssignment::TYPE_UPLOAD_TEAM)
+			{				
+				// the newly created has no teams, so it won't be returned
+				if(sizeof(ilExAssignment::getAdoptableTeamAssignments($this->object->getId())))
+				{
+					$ilCtrl->setParameter($this, "ass_id", $ass->getId());
+					$ilCtrl->redirect($this, "adoptTeamAssignmentsForm");
+				}
+			}			
+			
 			$ilCtrl->redirect($this, "listAssignments");
 		}
 		else
@@ -4612,6 +4623,72 @@ class ilObjExerciseGUI extends ilObjectGUI
 		}
 		
 		$ilCtrl->redirect($this, "showOverview");
+	}
+	
+	public function adoptTeamAssignmentsFormObject()
+	{
+		global $ilCtrl, $ilTabs, $lng, $tpl;
+		
+		$this->checkPermission("write");
+		
+		if(!$this->ass)
+		{
+			$ilCtrl->redirect($this, "listAssignments");
+		}
+		
+		$ilTabs->activateTab("content");
+		$this->addContentSubTabs("list_assignments");
+		
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();		         
+		$form->setTitle($lng->txt("exc_team_assignment_adopt"));
+		$form->setFormAction($ilCtrl->getFormAction($this, "adoptTeamAssignments"));
+		
+		$options = ilExAssignment::getAdoptableTeamAssignments($this->ass->getExerciseId());
+		
+		// we must not have existing teams in assignment
+		if(array_key_exists($this->ass->getId(), $options))
+		{
+			$ilCtrl->redirect($this, "listAssignments");
+		}
+		
+		$teams = new ilRadioGroupInputGUI($lng->txt("exc_assignment"), "ass_adpt");
+		$teams->setValue(-1);
+		
+		$teams->addOption(new ilRadioOption($lng->txt("exc_team_assignment_adopt_none"), -1));
+		
+		foreach($options as $id => $item)
+		{
+			$option = new ilRadioOption($item["title"], $id);
+			$option->setInfo($lng->txt("exc_team_assignment_adopt_teams").": ".$item["teams"]);
+			$teams->addOption($option);
+		}
+		
+		$form->addItem($teams);
+	
+		$form->addCommandButton("adoptTeamAssignments", $lng->txt("save"));
+		$form->addCommandButton("listAssignments", $lng->txt("cancel"));
+
+		$tpl->setContent($form->getHTML());
+	}
+	
+	public function adoptTeamAssignmentsObject()
+	{
+		global $ilCtrl, $lng;
+		
+		$this->checkPermission("write");
+		
+		$src_ass_id = (int)$_POST["ass_adpt"];
+		
+		if($this->ass && $src_ass_id > 0)
+		{
+			// :TODO: notification?
+			$this->ass->adoptTeams($src_ass_id);			
+			
+			ilUtil::sendSuccess($lng->txt("settings_saved"), true);
+		}
+							
+		$ilCtrl->redirect($this, "listAssignments");		
 	}
 }
 

@@ -2156,7 +2156,7 @@ class ilExAssignment
 	 * @param int $a_user_id 
 	 * @param int $a_exc_ref_id 
 	 */
-	function addTeamMember($a_team_id, $a_user_id, $a_exc_ref_id)
+	function addTeamMember($a_team_id, $a_user_id, $a_exc_ref_id = null)
 	{
 		global $ilDB;
 		
@@ -2168,7 +2168,10 @@ class ilExAssignment
 				"user_id" => array("integer", $a_user_id));			
 			$ilDB->insert("il_exc_team", $fields);		
 			
-			$this->sendNotification($a_exc_ref_id, $a_user_id, "add");
+			if($a_exc_ref_id)
+			{
+				$this->sendNotification($a_exc_ref_id, $a_user_id, "add");
+			}
 			
 			self::writeTeamLog($a_team_id, self::TEAM_LOG_ADD_MEMBER, 
 				ilObjUser::_lookupFullname($a_user_id));
@@ -3126,6 +3129,49 @@ class ilExAssignment
 			'obj_id' => $exc->getId(),			
 			'context_ids' => $context_ids,
 			'appointments' => $apps));		
+	}
+	
+	public static function getAdoptableTeamAssignments($a_exercise_id)
+	{
+		$res = array();
+		
+		$data = ilExAssignment::getAssignmentDataOfExercise($a_exercise_id);
+		foreach($data as $row)
+		{
+			if($row["type"] == ilExAssignment::TYPE_UPLOAD_TEAM)
+			{
+				$map = ilExAssignment::getAssignmentTeamMap($row["id"]);
+				if(sizeof($map))
+				{					
+					$res[$row["id"]] = array(
+						"title" => $row["title"],
+						"teams" => sizeof(array_flip($map))
+					);
+				}
+			}			
+		}
+		
+		return ilUtil::sortArray($res, "title", "asc", false, true);
+	}
+	
+	public function adoptTeams($a_source_ass_id)
+	{
+		$teams = array();
+		
+		foreach(self::getAssignmentTeamMap($a_source_ass_id) as $user_id => $team_id)
+		{
+			$teams[$team_id][] = $user_id;
+		}
+		
+		foreach($teams as $user_ids)
+		{
+			$first = array_shift($user_ids);			
+			$team_id = $this->getTeamId($first, true);
+			foreach($user_ids as $user_id)
+			{
+				$this->addTeamMember($team_id, $user_id);
+			}			
+		}
 	}
 }
 

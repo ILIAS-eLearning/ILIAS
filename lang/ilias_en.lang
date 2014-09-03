@@ -14661,3 +14661,6 @@ content#:#cont_start_file_set_to#:#%s has been set as start file.
 exc#:#exc_peer_upload_file#:#Add file(s)
 exc#:#exc_peer_edit_file#:#Edit file(s)
 exc#:#exc_no_team_yet_info#:#You can create a team yourself or be added to an existing team by its team members.
+exc#:#exc_team_assignment_adopt#:#Adopt teams from existing assignment
+exc#:#exc_team_assignment_adopt_none#:#Do not adopt any teams
+exc#:#exc_team_assignment_adopt_teams#:#Teams
