@@ -35,7 +35,7 @@ class gevBookingGUI {
 		$this->initUser();
 		$this->initCourse();
 
-		$this->checkIfCourseIsOnline();
+		$this->checkIfCourseIsOnlineAndBookable();
 		$this->checkIfUserAlreadyPassedASimilarCourse();
 		$this->checkIfCourseIsFull();
 		$this->checkIfUserIsAllowedToBookCourseForOtherUser();
@@ -93,8 +93,9 @@ class gevBookingGUI {
 		exit();
 	}
 	
-	protected function checkIfCourseIsOnline() {
-		if ($this->crs_utils->getCourse()->getOfflineStatus()) {
+	protected function checkIfCourseIsOnlineAndBookable() {
+		if (   $this->crs_utils->getCourse()->getOfflineStatus()
+			|| $this->crs_utils->isBookingDeadlineExpired()) {
 			ilUtil::sendFailure( $this->lng->txt("gev_course_expired")
 							   , true);
 			$this->toCourseSearch();

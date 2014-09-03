@@ -565,6 +565,16 @@ class gevCourseUtils {
 		return self::mkDeadlineDate($this->getStartDate(), $this->getBookingDeadline());
 	}
 	
+	public function isBookingDeadlineExpired() {
+		$bdl = $this->getBookingDeadlineDate();
+		if (!$bdl) {
+			return false;
+		}
+		
+		$now = new ilDate(date("Y-m-d"), IL_CAL_DATE);
+		return !ilDateTime::_after($bdl, $now);
+	}
+	
 	public function getCancelWaitingList() {
 		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_CANCEL_WAITING);
 	}
