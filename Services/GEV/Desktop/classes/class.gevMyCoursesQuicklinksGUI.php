@@ -32,7 +32,7 @@ class gevMyCoursesQuicklinksGUI {
 		$to_course_search_link = "ilias.php?baseClass=gevDesktopGUI&cmd=toCourseSearch";
 		//$last_crs_link = $this->maybeGetCourseLink($user_utils->getLastCourseId(), "noLastCourse");
 
-		$qls = array( "gev_to_course_search2t" => array($to_course_search_link, "ql_last_course.png")
+		$qls = array( "gev_to_course_search2" => array($to_course_search_link, "ql_last_course.png")
 					, "gev_next_course" => array($next_crs_link, "ql_next_course.png")
 					//, "gev_last_course" => array($last_crs_link, "ql_last_course.png")
 					, "gev_my_edu_bio" => array($user_utils->getEduBioLink(), "ql_edu_bio.png")
