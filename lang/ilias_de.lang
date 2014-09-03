@@ -14619,3 +14619,4 @@ exc#:#exc_msg_new_feedback_text_uploaded2#:#Ein Tutor hat einen neuen Kommentar 
 content#:#cont_start_file_set_to#:#%s wurde als Startdatei festgelegt.
 exc#:#exc_peer_upload_file#:#Datei(en) hinzufügen
 exc#:#exc_peer_edit_file#:#Datei(en) bearbeiten
+exc#:#exc_no_team_yet_info#:#Sie können selbst ein Team erstellen oder in ein anderes Team von dessen Teammitgliedern hinzugefügt werden.

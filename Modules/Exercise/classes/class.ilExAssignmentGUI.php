@@ -244,15 +244,32 @@ class ilExAssignmentGUI
 						else
 						{
 							$no_team_yet = true;
-							if(!sizeof($delivered_files))
+							
+							if(!$times_up)
 							{
-								$info->addProperty($lng->txt("exc_team_members"), $lng->txt("exc_no_team_yet"));								
+								if(!sizeof($delivered_files))
+								{
+									 $team_info = $lng->txt("exc_no_team_yet");								
+								}
+								else
+								{
+									$team_info = '<span class="warning">'.$lng->txt("exc_no_team_yet").'</span>';		
+								}	
+																	
+								$button = ilLinkButton::getInstance();
+								$button->setPrimary(true);
+								$button->setCaption("exc_create_team");
+								$button->setUrl($ilCtrl->getLinkTargetByClass("ilobjexercisegui", "createTeam"));							
+								$team_info .= " ".$button->render();		
+														
+								$team_info .= '<div class="ilFormInfo">'.$lng->txt("exc_no_team_yet_info").'</div>';
 							}
 							else
 							{
-								$info->addProperty($lng->txt("exc_team_members"), 
-									'<span class="warning">'.$lng->txt("exc_no_team_yet").'</span>');		
-							}									
+								$team_info = '<span class="warning">'.$lng->txt("exc_create_team_times_up_warning").'</span>';
+							}
+							
+							$info->addProperty($lng->txt("exc_team_members"), $team_info);
 						}
 						// fallthrough
 						
@@ -268,41 +285,32 @@ class ilExAssignmentGUI
 							$files_str = $lng->txt("message_no_delivered_files");
 						}
 	
-						$ilCtrl->setParameterByClass("ilobjexercisegui", "ass_id", $a_data["id"]);
-						
-						if (!$times_up)
+						// no team == no submission
+						if(!$no_team_yet)
 						{
-							// #11957
-							if($no_team_yet && count($titles))
-							{
-								$title = $lng->txt("exc_create_team");
-							}
-							else
+							$ilCtrl->setParameterByClass("ilobjexercisegui", "ass_id", $a_data["id"]);
+
+							if (!$times_up)
 							{
 								$title = (count($titles) == 0
 									? $lng->txt("exc_hand_in")
-									: $lng->txt("exc_edit_submission"));
-							}					
-														
-							$button = ilLinkButton::getInstance();
-							$button->setPrimary(true);
-							$button->setCaption($title, false);
-							$button->setUrl($ilCtrl->getLinkTargetByClass("ilobjexercisegui", "submissionScreen"));							
-							$files_str.= " ".$button->render();
-						}
-						else
-						{
-							if($no_team_yet)
-							{
-								$files_str .= '<div class="warning">'.
-									$lng->txt("exc_create_team_times_up_warning").'</div>';
+									: $lng->txt("exc_edit_submission"));												
+
+								$button = ilLinkButton::getInstance();
+								$button->setPrimary(true);
+								$button->setCaption($title, false);
+								$button->setUrl($ilCtrl->getLinkTargetByClass("ilobjexercisegui", "submissionScreen"));							
+								$files_str.= " ".$button->render();								
 							}
-							else if (count($titles) > 0)
-							{								
-								$button = ilLinkButton::getInstance();								
-								$button->setCaption("already_delivered_files");
-								$button->setUrl($ilCtrl->getLinkTargetByClass("ilobjexercisegui", "submissionScreen"));											
-								$files_str.= " ".$button->render();
+							else
+							{
+								if (count($titles) > 0)
+								{								
+									$button = ilLinkButton::getInstance();								
+									$button->setCaption("already_delivered_files");
+									$button->setUrl($ilCtrl->getLinkTargetByClass("ilobjexercisegui", "submissionScreen"));											
+									$files_str.= " ".$button->render();
+								}
 							}
 						}
 	

@@ -14660,3 +14660,4 @@ exc#:#exc_msg_new_feedback_text_uploaded2#:#a tutor has added a new comment for 
 content#:#cont_start_file_set_to#:#%s has been set as start file.
 exc#:#exc_peer_upload_file#:#Add file(s)
 exc#:#exc_peer_edit_file#:#Edit file(s)
+exc#:#exc_no_team_yet_info#:#You can create a team yourself or be added to an existing team by its team members.

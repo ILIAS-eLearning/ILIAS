@@ -77,8 +77,7 @@ class ilExAssignmentPeerReviewTableGUI extends ilTable2GUI
 		$this->setDefaultOrderField("tstamp");
 						
 		$this->setRowTemplate("tpl.exc_peer_review_row.html", "Modules/Exercise");
-		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd), 
-			$this->ass->hasPeerReviewFileUpload());
+		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));
 
 		$this->setTitle($a_ass->getTitle().": ".$this->lng->txt("exc_peer_review")." - ".$this->lng->txt($a_title));
 						

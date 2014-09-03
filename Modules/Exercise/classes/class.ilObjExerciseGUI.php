@@ -4597,6 +4597,22 @@ class ilObjExerciseGUI extends ilObjectGUI
 		echo(json_encode($res));		
 		exit();
 	}
+	
+	public function createTeamObject()
+	{		
+		global $ilCtrl, $ilUser;
+		
+		$this->checkPermission("read");
+		
+		if($this->ass->getDeadline() == 0 ||
+			mktime() < $this->ass->getDeadline())
+		{			
+			$this->ass->getTeamId($ilUser->getId(), true);		
+			ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);	
+		}
+		
+		$ilCtrl->redirect($this, "showOverview");
+	}
 }
 
 ?>
