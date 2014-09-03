@@ -169,7 +169,7 @@ class gevUserProfileGUI {
 		$adp->setValue($this->user_utils->getADPNumber());
 		$form->addItem($adp);
 		
-		$position_key = new ilNonEditableValueGUI($this->lng->txt("gev_job_number"));
+		$position_key = new ilNonEditableValueGUI($this->lng->txt("gev_position"));
 		$position_key->setValue($this->user_utils->getJobNumber());
 		$form->addItem($position_key);
 		
@@ -215,9 +215,9 @@ class gevUserProfileGUI {
 		$agent_key->setValue($this->user_utils->getAgentKey());
 		$form->addItem($agent_key);
 		
-		$company_title = new ilNonEditableValueGUI($this->lng->txt("gev_company_title"));
+		/*$company_title = new ilNonEditableValueGUI($this->lng->txt("gev_company_title"));
 		$company_title->setValue($this->user_utils->getCompanyTitle());
-		$form->addItem($company_title);
+		$form->addItem($company_title);*/
 		
 		$org_unit = new ilNonEditableValueGUI($this->lng->txt("gev_org_unit"));
 		$org_unit->setValue($this->user_utils->getOrgUnitTitle());
@@ -319,9 +319,9 @@ class gevUserProfileGUI {
 		$exit_date->setValue($_exit_date?ilDatePresentation::formatDate($_exit_date):"");
 		$form->addItem($exit_date);
 		
-		$status = new ilNonEditableValueGUI($this->lng->txt("gev_status"));
+		/*$status = new ilNonEditableValueGUI($this->lng->txt("gev_status"));
 		$status->setValue($this->user_utils->getStatus());
-		$form->addItem($status);
+		$form->addItem($status);*/
 		
 		return $form;
 	}
