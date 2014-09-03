@@ -2694,6 +2694,10 @@ class ilExAssignment
 	
 	public function getPeerUploadFiles($a_peer_id, $a_giver_id)
 	{
+		if(!$this->hasPeerReviewFileUpload())
+		{
+			return array();
+		}
 		include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
 		$storage = new ilFSStorageExercise($this->getExerciseId(), $this->getId());
 		$path = $storage->getPeerReviewUploadPath($a_peer_id, $a_giver_id);			
