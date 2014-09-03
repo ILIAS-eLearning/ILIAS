@@ -130,7 +130,7 @@ class gevCourseSearchTableGUI extends catAccordionTableGUI {
 		}
 		else {
 			$status = $this->not_bookable_img;
-			$action = "";
+			$action = '<a href="mailto:'.$this->lng->txt("gev_book_contact_onside").'">'.$this->email_img.'</a>';
 		}
 
 		$this->tpl->setVariable("TITLE", $a_set["title"]);
