@@ -28,7 +28,7 @@ class gevUserImport {
 
 	public function getInstance($mysql, $ilDB) {
 		if (self::$instance !== null) {
-			return self::$instance;
+			return self::$instance; 
 		}
 
 		self::$instance = new self($mysql, $ilDB);
@@ -66,6 +66,7 @@ class gevUserImport {
 	}
 
 	public function activate($token) {
+		require_once("Services/Calendar/classes/class.ilDateTime.php");
 		$token_data = $this->get_token_data($token);
 
 		if ($token_data === false) {
@@ -92,6 +93,11 @@ class gevUserImport {
 		}
 		// make root be the owner of the new user.
 		$ilias_user->setOwner(6);
+		
+		// user already agreed at registration
+		$now = new ilDateTime(time(),IL_CAL_UNIX);
+		$ilias_user->setAgreeDate($now->get(IL_CAL_DATETIME));
+		
 		$ilias_user->update();
 		$this->set_gev_attributes($ilias_user, $shadow_user);
 		$this->update_global_role($ilias_user, $shadow_user);
