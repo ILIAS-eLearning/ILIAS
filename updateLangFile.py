@@ -68,14 +68,14 @@ class Lang:
 		""" """
 		lines = []
 		for entry in HEADERLINES:
-			lines.append(entry+ '\n')
+			lines.append('%s\n' % entry)
 
 		keylist = self.ldict.keys()
 		keylist.sort()
 
 		for id in keylist:
 			entry = self.ldict[id]
-			lines.append(entry.getLine())
+			lines.append('%s\n' % entry.getLine())
 
 		BUFFER.append('-----\n')
 		BUFFER.append('writing %i lines\n' % len(lines))
