@@ -136,7 +136,7 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 		$memberlist_link = $this->ctrl->getLinkTarget($this->parent_obj, 'memberList')
 							.'&crsid=' .$a_set['obj_id'];
 
-		$setstatus_link = $this->ctrl->getLinkTarget($this->parent_obj, 'setParticipationStatus')
+		$setstatus_link = $this->ctrl->getLinkTarget($this->parent_obj, 'listStatus')
 							.'&crsrefid=' .$a_set['crs_ref_id'];
 		
 

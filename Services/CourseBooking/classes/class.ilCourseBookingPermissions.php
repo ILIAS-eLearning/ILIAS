@@ -235,7 +235,7 @@ class ilCourseBookingPermissions
 		{
 			$helper = ilCourseBookingHelper::getInstance($crs);
 		}
-		
+
 		// see ilObjCourseAccess::_checkAccess()
 		
 		return ($helper->isBookable() &&

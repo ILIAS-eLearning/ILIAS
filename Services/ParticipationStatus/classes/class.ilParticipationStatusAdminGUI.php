@@ -18,6 +18,11 @@ class ilParticipationStatusAdminGUI
 	protected $permissions; // [ilParticipationStatusPermissions]
 	protected $pstatus; // [ilParticipationStatus]
 	
+	// gev-patch start
+	public $from_foreign_class = false;
+	public $crs_ref_id = false;
+	// gev-patch end
+
 	/**
 	 * Constructor
 	 * 
@@ -128,7 +133,11 @@ class ilParticipationStatusAdminGUI
 	 * 
 	 * @return ilParticipationStatus 
 	 */	
-	protected function getParticipationStatus()
+	// gev-patch start
+	//protected function getParticipationStatus()
+	public function getParticipationStatus()
+	// gev-patch end
+	
 	{
 		return $this->pstatus;
 	}
@@ -162,6 +171,8 @@ class ilParticipationStatusAdminGUI
 		}
 		else
 		{
+			// gev-patch start
+			/*
 			$next_class = $ilCtrl->getNextClass($this);
 			$cmd = $ilCtrl->getCmd("listStatus");
 
@@ -171,6 +182,10 @@ class ilParticipationStatusAdminGUI
 					$this->$cmd();
 					break;
 			}
+			*/
+			$cmd = $ilCtrl->getCmd("listStatus");
+			$this->$cmd();
+			// gev-patch end
 		}
 		
 		return true;
@@ -212,7 +227,27 @@ class ilParticipationStatusAdminGUI
 		// $ilCtrl->returnToParent($this);
 	}
 	
-	
+	// gev-patch start
+	/**
+	 * Return to parent list-view, maybe from another class...
+	 */
+	protected function returnToList()
+	{
+		global $ilCtrl;
+		
+		if(! $this->from_foreign_class) {
+			//nothing changed here..,
+			$ilCtrl->redirect($this, "listStatus");
+		} else {
+			$ilCtrl->redirect(	$this, 
+								"listStatus&crsrefid=" .$this->crs_ref_id
+								);
+		}
+	}
+	// gev-patch end
+
+
+
 	//
 	// STATUS
 	// 
@@ -222,7 +257,10 @@ class ilParticipationStatusAdminGUI
 	 * 
 	 * @return bool	 
 	 */
-	protected function mayWrite()
+	// gev-patch start
+	//protected function mayWrite()
+	public function mayWrite()
+	// gev-patch end
 	{
 		$state = $this->getParticipationStatus()->getProcessState();
 		return (($state == ilParticipationStatus::STATE_SET &&
@@ -313,7 +351,11 @@ class ilParticipationStatusAdminGUI
 			!is_array($status) ||
 			!is_array($points))
 		{
-			$ilCtrl->redirect($this, "listStatus");
+			
+			// gev-patch start
+			//$ilCtrl->redirect($this, "listStatus");
+			$this->returnToList();
+			// gev-patch end
 		}
 		
 		$helper = ilParticipationStatusHelper::getInstance($this->getCourse());
@@ -369,7 +411,10 @@ class ilParticipationStatusAdminGUI
 		if(!$a_return)
 		{
 			ilUtil::sendSuccess($lng->txt("settings_saved"), true);
-			$ilCtrl->redirect($this, "listStatus");
+			// gev-patch start
+			//$ilCtrl->redirect($this, "listStatus");
+			$this->returnToList();
+			// gev-patch end
 		}		
 	}	
 	
@@ -389,7 +434,10 @@ class ilParticipationStatusAdminGUI
 		if(!$this->getParticipationStatus()->allStatusSet())
 		{
 			ilUtil::sendFailure($lng->txt("ptst_admin_finalize_need_not_status_set"), true);
-			$ilCtrl->redirect($this, "listStatus");
+			// gev-patch start
+			//$ilCtrl->redirect($this, "listStatus");
+			$this->returnToList();
+			// gev-patch end
 		}
 				
 		$helper = ilParticipationStatusHelper::getInstance($this->getCourse());
@@ -397,12 +445,16 @@ class ilParticipationStatusAdminGUI
 			!$this->getParticipationStatus()->getAttendanceList())
 		{
 			ilUtil::sendFailure($lng->txt("ptst_admin_finalize_need_attendance_list"), true);
-			$ilCtrl->redirect($this, "listStatus");
+			// gev-patch start
+			//$ilCtrl->redirect($this, "listStatus");
+			$this->returnToList();
+			// gev-patch end
 		}
 		
 		
 		// confirmation 
-		
+		// gev-patch start
+		/*
 		$this->setTabs("listStatus");
 		
 		include_once "./Services/Utilities/classes/class.ilConfirmationGUI.php";
@@ -412,6 +464,28 @@ class ilParticipationStatusAdminGUI
 		$confirm->setConfirm($lng->txt("confirm"), "finalize");
 		$confirm->setCancel($lng->txt("cancel"), "listStatus");				
 		$tpl->setContent($confirm->getHTML());	
+		*/
+		include_once "./Services/Utilities/classes/class.ilConfirmationGUI.php";
+		$confirm = new ilConfirmationGUI();
+		$confirm->setHeaderText($lng->txt("ptst_admin_confirm_finalize"));
+		$confirm->setConfirm($lng->txt("confirm"), "finalize");
+		$confirm->setCancel($lng->txt("cancel"), "listStatus");				
+
+		if(!$this->from_foreign_class){
+			$this->setTabs("listStatus");
+			$confirm->setFormAction($ilCtrl->getFormAction($this, "finalize"));
+			$tpl->setContent($confirm->getHTML());	
+		} else {
+			$frm_action = $ilCtrl->getFormAction($this, "finalize");
+			$frm_action .= '&crsrefid=' .$this->crs_ref_id;
+			$confirm->setFormAction($frm_action);
+			return $tpl->setContent($confirm->getHTML());	
+		}
+		// gev-patch end
+
+
+		
+		
 	}
 	
 	/**
@@ -425,7 +499,14 @@ class ilParticipationStatusAdminGUI
 		{
 			ilUtil::sendSuccess($lng->txt("settings_saved"), true);			
 		}		
-		$ilCtrl->redirect($this, "listStatus");
+		// gev-patch start
+		else 
+		{
+			ilUtil::sendFailure($lng->txt("settings_not_saved"), true);			
+		}
+		//$ilCtrl->redirect($this, "listStatus");
+		$this->returnToList();
+		// gev-patch end
 	}
 	
 	
