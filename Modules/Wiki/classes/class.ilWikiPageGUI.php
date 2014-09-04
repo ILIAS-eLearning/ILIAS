@@ -607,6 +607,10 @@ class ilWikiPageGUI extends ilPageObjectGUI
 
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
+		
+		// because of PDF export
+		$this->form->setPreventDoubleSubmission(false);
+		
 //var_dump($pages);
 		// selection type
 		$radg = new ilRadioGroupInputGUI($lng->txt("cont_selection"), "sel_type");

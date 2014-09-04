@@ -1371,8 +1371,14 @@ class ilObjWikiGUI extends ilObjectGUI
 		
 		$job = new ilPDFGenerationJob();
 		$job->setAutoPageBreak(true)
-			->setOutputMode('D') // download
+			->setMarginLeft("10")
+			->setMarginRight("10")
+			->setMarginTop("10")
+			->setMarginBottom("10")
+			->setOutputMode("D") // download
 			->setFilename("wiki.pdf") // :TODO:
+			->setCreator("ILIAS Wiki") // :TODO:
+			->setImageScale(1.25) // complete content scaling ?!
 			->addPage($html);
 		
 		ilPDFGeneration::doJob($job);
