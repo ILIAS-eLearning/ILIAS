@@ -310,7 +310,7 @@ class gevUserUtils {
 					$tep_opdays_inst = $tep_crsentries->getOperationsDaysInstance();
 					$tep_opdays = $tep_opdays_inst->getDaysForUser($this->user_id);
 				} else {
-					$tep_opdays =array()
+					$tep_opdays =array();
 				}
 				
 				$ms = $crs_utils->getMembership();
