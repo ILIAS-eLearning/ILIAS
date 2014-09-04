@@ -425,7 +425,7 @@ class gevBookingGUI {
 		$costcenter->setRequired(true);
 		$form->addItem($costcenter);
 		
-		$coupons = new ilTextInputGUI($this->lng->txt("gev_coupon_codes"), "coupons");
+		$coupons = new ilTextInputGUI($this->lng->txt("gev_use_coupon_codes"), "coupons");
 		$coupons->setMulti(true);
 		$form->addItem($coupons);
 		
