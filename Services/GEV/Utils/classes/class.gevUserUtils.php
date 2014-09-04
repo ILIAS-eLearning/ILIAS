@@ -274,6 +274,8 @@ class gevUserUtils {
 			// used by gevMyTrainingsApTable, i.e.
 			
 			require_once("Services/CourseBooking/classes/class.ilCourseBooking.php");
+			require_once("Services/TEP/classes/class.ilTEPCourseEntries.php");
+				require_once "Modules/Course/classes/class.ilObjCourse.php";
 			
 			$crss = $this->getCourseIdsWhereUserIsTutor();
 			$crss_ids = array_keys($crss);
@@ -301,15 +303,20 @@ class gevUserUtils {
 				//$entry['mbr_booked_data'] = $this->getUserWhoBookedAtCourse($id);
 				//get userIds of members in this course (no tutors, admins..):
 				$crs_utils = gevCourseUtils::getInstance($id);
+				$crs_obj = new ilObjCourse($crss[$id]);
+				$tep_crsentries = ilTEPCourseEntries::getInstance($crs_obj);
+
+				$tep_opdays_inst = $tep_crsentries->getOperationsDaysInstance();
+				$tep_opdays = $tep_opdays_inst->getDaysForUser($this->user_id);
+
 				$ms = $crs_utils->getMembership();
 				$entry['mbr_booked_userids'] = $ms->getMembers();
 				$entry['mbr_booked'] = count($entry['mbr_booked_userids']);
-
 				$entry['mbr_waiting_userids'] = $crs_utils->getWaitingMembers($id);
 				$entry['mbr_waiting'] = count($entry['mbr_waiting_userids']);
+				$entry['apdays'] = count($tep_opdays);
+				//$entry['category'] = '-';
 
-				$entry['apdays'] = $crs_utils->getAmountHours();
-				$entry['category'] = '-';
 				$entry['crs_ref_id'] = $crss[$id];
 				
 				$crss_amd[$id] = $entry;

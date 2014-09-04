@@ -60,7 +60,7 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 		$this->addColumn($this->lng->txt("title"), "title");
 		$this->addColumn($this->lng->txt("gev_training_id"), "custom_id");
 		$this->addColumn($this->lng->txt("gev_learning_type"), "type");
-		$this->addColumn($this->lng->txt("gev_learning_cat"), "category");
+		//$this->addColumn($this->lng->txt("gev_learning_cat"), "category");
 		$this->addColumn($this->lng->txt("gev_location"), "location");
 		$this->addColumn($this->lng->txt("date"), "date", "112px");
 		$this->addColumn($this->lng->txt("apdays"), "apdays");
@@ -68,18 +68,6 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 		$this->addColumn('<img src="'.ilUtil::getImagePath("gev_action.png").'" />', "actions", "30px", false);
 
 		$data = $user_util->getMyAppointmentsCourseInformation();
-		/*
-		print '<hr><h1><b>DATA</b></h1>';
-		print '<pre>';
-		print_r($data);
-		print '</pre>';
-		*/
-		
-		/*
-		$cnt = count($data);
-		$this->setMaxCount($cnt);
-		$this->setLimit($cnt);
-		*/
 
 		$this->setData($data);
 	}
@@ -166,7 +154,7 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 		$this->tpl->setVariable("TITLE", $a_set["title"]);
 		$this->tpl->setVariable("CUSTOM_ID", $a_set["custom_id"]);
 		$this->tpl->setVariable("TYPE", $a_set["type"]);
-		$this->tpl->setVariable("CATEGORY", $a_set["category"]);
+		//$this->tpl->setVariable("CATEGORY", $a_set["category"]);
 		$this->tpl->setVariable("LOCATION", $a_set["location"]);
 		$this->tpl->setVariable("DATE", $date);
 		$this->tpl->setVariable("APDAYS", $a_set["apdays"]);
