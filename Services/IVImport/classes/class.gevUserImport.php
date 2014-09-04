@@ -176,14 +176,14 @@ class gevUserImport {
 			INNER JOIN
 				`ivimport_stelle`
 			ON
-				( `ivimport_stelle`.`stellennummer` = `ivimport_adp`.`stelle` )
+				( `ivimport_stelle`.`sql_adp_id` = `ivimport_adp`.`id` )
 			WHERE
-				`ivimport_adp`.`stelle`=" . $this->ilDB->quote($stellennummer, "text") . "
+				`ivimport_stelle`.`stellennummer`=" . $this->ilDB->quote($stellennummer, "text") . "
 			AND
 				`ivimport_adp`.`email`=" . $this->ilDB->quote($email, "text") . "
 			";
+			
 		$result = mysql_query($sql, $this->mysql);
-
 		if ((!$result) || (mysql_num_rows($result) !== 1)) {
 			return false;
 		}
@@ -202,9 +202,9 @@ class gevUserImport {
 			INNER JOIN
 				`ivimport_stelle`
 			ON 
-				( `ivimport_stelle`.`stellennummer` = `ivimport_adp`.`stelle` )
+				( `ivimport_stelle`.`sql_adp_id` = `ivimport_adp`.`id` )
 			WHERE
-				`ivimport_adp`.`stelle`=" . $this->ilDB->quote($stellennummer, "text") . "
+				`ivimport_stelle`.`stellennummer`=" . $this->ilDB->quote($stellennummer, "text") . "
 			AND
 				`ivimport_adp`.`email`=" . $this->ilDB->quote($email, "text") . "
 		";
@@ -216,7 +216,7 @@ class gevUserImport {
 		return mysql_fetch_assoc($result);
 	}
 
-	private function get_stelle($stellennummer) {
+	public function get_stelle($stellennummer) {
 		$sql = "
 			SELECT
 				*

@@ -748,7 +748,7 @@ class ilAccountRegistrationGUI
 			$mail->setAdditionalInformation(
 				array(
 					 'usr'           => $this->userObj,
-					 'hash_lifetime' => $this->registration_settings->getRegistrationHashLifetime()
+					 'hash_lifetime' => 5 * 60 // in minutes
 				)
 			);
 			$mail->send();

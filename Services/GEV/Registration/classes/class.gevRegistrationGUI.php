@@ -19,6 +19,8 @@ class gevRegistrationGUI {
 		$this->ctrl = &$ilCtrl;
 		$this->tpl = &$tpl;
 		$this->log = &$ilLog;
+		$this->import = null;
+		$this->stellennummer_data = null;
 
 		$this->tpl->getStandardTemplate();
 	}
@@ -40,16 +42,42 @@ class gevRegistrationGUI {
 		$this->tpl->show();
 	}
 	
+	protected function getImport() {
+		if ($this->import === null) {
+			require_once("gev_utils.php");
+			$this->import = get_gev_import();
+		}
+		
+		return $this->import;
+	}
+	
+	protected function getStellennummerData($a_stellennummer) {
+		if ($this->stellennummer_data === null) {
+			$import = $this->getImport();
+			$this->stellennummer_data = $import->get_stelle($a_stellennummer);
+		}
+		
+		if ($this->stellennummer_data["stellennummer"] != $a_stellennummer) {
+			die("'".$this->stellennummer_data["stellennummer"]."' '".$a_stellennummer."'");
+			throw new Exception("gevRegistrationGUI::getStellennummerData: stellnummer does not match.");
+		}
+		
+		return $this->stellennummer_data;
+	}
+	
 	protected function isAgent($a_stellennummer) {
-		die("isAgent: NYI!");
+		$data = $this->getStellennummerData($a_stellennummer);
+		return $data["agent"] == 1;
 	}
 
 	protected function getVermittlerStatus($a_stellennummer) {
-		die("getVermittlerStatus: NYI!");
+		$data = $this->getStellennummerData($a_stellennummer);
+		return $data["vermittlerstatus"];
 	}
 	
 	protected function getOrgUnitImportId($a_stellennummer) {
-		die("getOrgUnitImportId: NYI!");
+		$data = $this->getStellennummerData($a_stellennummer);
+		return $data["org_unit"];
 	}
 
 	protected function startRegistration($a_form = null) {
@@ -82,7 +110,7 @@ class gevRegistrationGUI {
 			return $this->startRegistration($res[0]);
 		}
 				
-		if($this->isAgent($form->getInput("position"))) {
+		if($this->isAgent($res[0]->getInput("position"))) {
 			return $this->inputUserProfile(null, $res[0]);
 		}
 		else {
@@ -121,26 +149,26 @@ class gevRegistrationGUI {
 		}
 		$form = $res[0];
 		
-		$user = new ilUserObj();
+		$user = new ilObjUser();
 		$user->setLogin($form->getInput("username"));
 		$user->setEmail($form->getInput("b_email"));
-		$user->setPassword($form->getInput("password1"));
+		$user->setPasswd($form->getInput("password"));
 		$user->setLastname($form->getInput("lastname"));
 		$user->setFirstname($form->getInput("firstname"));
 		$user->setGender($form->getInput("gender"));
 		$birthday = $form->getInput("birthday");
 		$user->setBirthday($birthday["date"]);
-		$this->user->setStreet($form->getInput("b_street"));
-		$this->user->setCity($form->getInput("b_city"));
-		$this->user->setZipcode($form->getInput("b_zipcode"));
-		$this->user->setCountry($form->getInput("b_country"));
-		$this->user->setPhoneOffice($form->getInput("b_phone"));
+		$user->setStreet($form->getInput("b_street"));
+		$user->setCity($form->getInput("b_city"));
+		$user->setZipcode($form->getInput("b_zipcode"));
+		$user->setCountry($form->getInput("b_country"));
+		$user->setPhoneOffice($form->getInput("b_phone"));
 		// is not active, owner is root
 		$user->setActive(0, 6);
 		$user->setTimeLimitUnlimited(true);
 		// user already agreed at registration
 		$now = new ilDateTime(time(),IL_CAL_UNIX);
-		$ilias_user->setAgreeDate($now->get(IL_CAL_DATETIME));
+		$user->setAgreeDate($now->get(IL_CAL_DATETIME));
 		
 		$user->create();
 		$user->saveAsNew();
@@ -173,7 +201,7 @@ class gevRegistrationGUI {
 		$role_utils->assignUserToGlobalRole($user_id, $role_title);
 		
 		$org_role_title = gevSettings::$VMS_ROLE_MAPPING[$vermittlerstatus][0];
-		$org_unit_import_id = $this->getOrgUnitImportId($stellenummer);
+		$org_unit_import_id = $this->getOrgUnitImportId($stellennummer);
 		$org_unit_id = ilObjOrgUnit::_lookupObjIdByImportId($org_unit_import_id);
 		if (!$org_unit_id) {
 			throw new Exception("Could not determine obj_id for org unit with import id '".$org_unit_import_id."'");
@@ -182,14 +210,13 @@ class gevRegistrationGUI {
 		$org_unit_utils->getOrgUnitInstance();
 		$org_unit_utils->assignUser($user_id, $org_role_title);
 		
-		
 		include_once './Services/Registration/classes/class.ilRegistrationMimeMailNotification.php';
 
 		$mail = new ilRegistrationMimeMailNotification();
 		$mail->setType(ilRegistrationMimeMailNotification::TYPE_NOTIFICATION_ACTIVATION);
 		$mail->setRecipients(array($user));
 		$mail->setAdditionalInformation(
-			array( 'usr'           => $this
+			array( 'usr'           => $user
 				 , 'hash_lifetime' => 5 * 60 // in minutes
 				 )
 			);
@@ -198,7 +225,7 @@ class gevRegistrationGUI {
 		require_once("Services/CaTUIComponents/classes/class.catTitleGUI.php");
 		$title = new catTitleGUI("gev_agent_registration", null, "GEV_img/ico-head-evg_registration.png");
 		
-		ilUtil::sendSuccess($this->lng->txt("gev_evg_registration_success"));
+		ilUtil::sendSuccess($this->lng->txt("gev_agent_registration_success"));
 		$tpl = new ilTemplate("tpl.gev_agent_successfull_registration.html", false, false, "Services/GEV/Registration");
 		
 		return	  $title->render()
@@ -209,8 +236,10 @@ class gevRegistrationGUI {
 		require_once("Services/CaTUIComponents/classes/class.catTitleGUI.php");
 		$title = new catTitleGUI("gev_evg_registration", null, "GEV_img/ico-head-evg_registration.png");
 	
-		$error = $import->registerEVG( $form->getInput("position")
-								  , $form->getInput("email"));
+		$import = $this->getImport();
+		$error = $import->registerEVG( $a_form->getInput("position")
+								  	 , $a_form->getInput("email")
+								  	 );
 
 		if ($error) {
 			ilUtil::sendFailure($this->lng->txt("gev_evg_registration_not_found"));
@@ -245,8 +274,8 @@ class gevRegistrationGUI {
 				$chb->setAlert($this->lng->txt("evg_mandatory"));
 			}
 		}
-		
-		return array($form, $err);
+
+		return array($form, !$err);
 	}
 
 	protected function buildRegistrationStartForm() {
@@ -286,15 +315,13 @@ class gevRegistrationGUI {
 	protected function checkAgentForm() {
 		$form = $this->buildAgentForm();
 		$err = false;
-
 		if (!$form->checkInput()) {
 			$err = true;
 		}
 		
-		// check for exisiting username?
-		// check password
+		// validate phone number
 
-		return array($form, $err);
+		return array($form, !$err);
 	}
 
 	protected function buildAgentForm($a_email = null, $a_position = null) {
@@ -330,19 +357,15 @@ class gevRegistrationGUI {
 		$username->setRequired(true);
 		$form->addItem($username);
 		
-		$password1 = new ilPasswordInputGUI($this->lng->txt("password"), "password1");
+		$password1 = new ilPasswordInputGUI($this->lng->txt("password"), "password");
 		$password1->setRequired(true);
 		$form->addItem($password1);
 		
-		$password2 = new ilPasswordInputGUI($this->lng->txt("password"), "password2");
-		$password2->setRequired(true);
-		$form->addItem($password2);
-		
-		$lastname = new ilTextInputGUI($this->lng->txt("lastname"));
+		$lastname = new ilTextInputGUI($this->lng->txt("lastname"), "lastname");
 		$lastname->setRequired(true);
 		$form->addItem($lastname);
 		
-		$firstname = new ilTextInputGUI($this->lng->txt("firstname"));
+		$firstname = new ilTextInputGUI($this->lng->txt("firstname"), "firstname");
 		$firstname->setRequired(true);
 		$form->addItem($firstname);
 		
@@ -399,6 +422,9 @@ class gevRegistrationGUI {
 		$form->addItem($info);
 		
 		$p_email = new ilEMailInputGUI($this->lng->txt("email"), "p_email");
+		if ($a_email !== null) {
+			$p_email->setValue($a_email);
+		}
 		$p_email->setRequired(true);
 		$form->addItem($p_email);
 		

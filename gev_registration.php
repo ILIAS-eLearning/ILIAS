@@ -17,7 +17,7 @@ $ilCtrl->initBaseClass("gevRegistrationGUI");
 $ilCtrl->setTargetScript("ilias.php");
 
 if (!isset($_POST["cmd"])) {
-	$ilCtrl->setCmd("startEVGRegistration");
+	$ilCtrl->setCmd("startRegistration");
 }
 else {
 	$cmds = array_keys($_POST["cmd"]);
