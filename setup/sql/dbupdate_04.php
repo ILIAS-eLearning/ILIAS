@@ -2763,3 +2763,10 @@ if($ilDB->tableColumnExists('usr_data', 'i2passwd'))
 	
 	
 ?>
+<#4313>
+<?php
+if($ilDB->tableColumnExists('exc_assignment_peer', 'upload'))
+{
+	$ilDB->dropTableColumn('exc_assignment_peer', 'upload');
+}
+?>
