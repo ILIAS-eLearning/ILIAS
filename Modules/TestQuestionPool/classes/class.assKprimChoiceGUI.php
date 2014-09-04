@@ -23,14 +23,14 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
 	/**
 	 * @param $qId
 	 */
-	public function __construct($qId)
+	public function __construct($qId = -1)
 	{
 		parent::__construct();
 		
 		require_once 'Modules/TestQuestionPool/classes/class.assKprimChoice.php';
 		$this->object = new assKprimChoice();
 		
-		if ($qId >= 0)
+		if ($qId > 0)
 		{
 			$this->object->loadFromDb($qId);
 		}
