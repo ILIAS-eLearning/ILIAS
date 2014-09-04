@@ -14,13 +14,13 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+acco#:#acco_accomodations#:#Übernachtung(en)
+acco#:#acco_edit_user_accomodations#:#Teilnehmer bearbeiten
 acco#:#acco_period_input_from#:#von
 acco#:#acco_period_input_from_first#:#Vorabend
 acco#:#acco_period_input_to#:#bis
 acco#:#acco_period_input_to_last#:#Nächster Morgen
 acco#:#acco_tab_list_accomodations#:#Übernachtungen
-acco#:#acco_accomodations#:#Übernachtungen
-acco#:#acco_edit_user_accomodations#:#Teilnehmer bearbeiten
 acco#:#accomodations#:#Übernachtungen
 administration#:#adm_rep_tree_limit_grp_crs#:#Alle Objekte auf Anzeige in Trainings und Gruppen beschränken
 administration#:#adm_rep_tree_only_cntr_info#:#Es werden nur Kategorien, Trainings und Gruppen aufgeführt.
@@ -36,10 +36,11 @@ common#:#advanced_editing_rep_page_editing_desc#:#Diese Funktion ermöglicht das
 common#:#back_to_crs_content#:#Zurück zum Inhalt des Trainings
 common#:#clone_existing_course#:#Vorhandenes Training kopieren
 common#:#clone_option_in_crs#:#In existierendes Training kopieren
+common#:#content#:#Trainingsmaterialien
 common#:#course#:#Trainings
 common#:#courses#:#Training
 common#:#crs#:#Training
-common#:#crs_a#:#ein Training 
+common#:#crs_a#:#ein Training
 common#:#crs_add#:#Training anlegen
 common#:#crs_added#:#Training angelegt
 common#:#crs_at_least_one_admin#:#Diesem Training muss mindestens ein Trainingsbetreuer zugeordnet sein.
@@ -47,6 +48,7 @@ common#:#crs_available#:#Verfügbare Trainings
 common#:#crs_cancel_waiting_list#:#Sind Sie sicher, dass Sie sich aus der Warteliste des Trainings "%s" austragen möchten?
 common#:#crs_copy_threads_info#:#Bitte wählen Sie aus, welche Trainingsmaterialien kopiert, verknüpft oder aber bei dem Kopiervorgang ausgelassen werden sollen.
 common#:#crs_edit#:#Einstellungen des Trainings
+common#:#crs_info#:#Trainingsdaten
 common#:#crs_management_system#:#Trainingsmanagementsystem
 common#:#crs_new#:#Neues Training anlegen
 common#:#crs_removed_from_waiting_list#:#Sie wurden aus der Warteliste des Trainings "%s" ausgetragen.
@@ -72,7 +74,7 @@ common#:#my_courses#:#Meine Trainings
 common#:#my_courses_groups#:#Meine Trainings und Gruppen
 common#:#obj_crs#:#Training
 common#:#obj_crs_duplicate#:#Trainings kopieren
-common#:#obj_crs_select#:# -- Bitte wählen Sie ein Training aus --
+common#:#obj_crs_select#:#-- Bitte wählen Sie ein Training aus --
 common#:#obj_crsr#:#Trainings-Referenz
 common#:#obj_crss#:#Training
 common#:#obj_crss_desc#:#Allgemeine Einstellungen für Trainings
@@ -118,7 +120,7 @@ crs#:#crs_administrators#:#Trainingsbetreuer
 crs#:#crs_agreement_required#:#Sie können diesem Training nur beitreten, wenn Sie der Nutzungsvereinbarung zustimmen.
 crs#:#crs_allow_abo#:#Erlaube Abonnierung von Trainingobjekten
 crs#:#crs_archive_info#:#Wenn eingeschaltet, werden alle Trainingsinhalte ausgeblendet. Lediglich HMTL-Archive des Trainings werden angezeigt bzw. zum Herunterladen angeboten.
-crs#:#crs_auto_notification_info#:#Mail-Benachrichtigungen werden automatisch an jene Teilnehmer versendet, die von einem Trainer oder Trainingsbetreuer  in das Training aufgenommen wurden.
+crs#:#crs_auto_notification_info#:#Mail-Benachrichtigungen werden automatisch an jene Teilnehmer versendet, die von einem Trainer oder Trainingsbetreuer in das Training aufgenommen wurden.
 crs#:#crs_availability_limitless_info#:#Bei dieser Einstellung steht ein online geschaltetes Training den Trainingsteilnehmern zeitlich unbegrenzt zur Verfügung.
 crs#:#crs_availability_until_info#:#Bei dieser Einstellung steht ein online geschaltetes Training nur während eines definierten Zeitraums zur Verfügung.
 crs#:#crs_blocked_member#:#Status im Training "%s"
@@ -175,16 +177,16 @@ crs#:#crs_member_of#:#Mitglied des Trainings:
 crs#:#crs_members_deleted#:#Der/die Trainingsteilnehmer wurde(n) aus dem Training ausgetragen
 crs#:#crs_members_footer#:#Trainingsteilnehmer(in)
 crs#:#crs_members_map#:#Karte Trainingsteilnehmer
-crs#:#crs_members_print_title#:#Trainingsteilnehmer 
+crs#:#crs_members_print_title#:#Trainingsteilnehmer
 crs#:#crs_members_table#:#Teilnehmer des Trainings
-crs#:#crs_members_title#:#Trainingsteilnehmer 
+crs#:#crs_members_title#:#Trainingsteilnehmer
 crs#:#crs_min_one_admin#:#Diesem Training muß mindestens ein Trainingsbetreuer zugeordnet bleiben.
 crs#:#crs_moved_item#:#Das Trainingsobjekt wurde verschoben.
 crs#:#crs_new_subscription#:#Beitritt zum Training "%s"
 crs#:#crs_new_subscription_body#:#%s ist dem Training %s beigetreten.
 crs#:#crs_new_subscription_request#:#Aufnahmeantrag für das Training "%s"
 crs#:#crs_new_subscription_request_body#:#%s hat einen Aufnahmeantrag für das Training "%s" gestellt.
-crs#:#crs_new_subscription_request_body2#:#Um den Benutzer zum Training zuzulassen oder den Antrag abzuweisen, müssen Sie die Teilnehmerverwaltung des Training aufrufen.\nWählen Sie dazu bitte folgenden Link:
+crs#:#crs_new_subscription_request_body2#:#Um den Benutzer zum Training zuzulassen oder den Antrag abzuweisen, müssen Sie die Teilnehmerverwaltung des Trainings aufrufen.\nWählen Sie dazu bitte folgenden Link:
 crs#:#crs_news#:#Mail zum Training
 crs#:#crs_no_archives_available#:#Es sind keine Trainingsarchive verfügbar
 crs#:#crs_no_exercises#:#Keine Übung innerhalb des Trainings gefunden
@@ -211,7 +213,7 @@ crs#:#crs_objectives_reset_sure#:#Sind Sie sicher, dass Sie alle Ergebnisse dies
 crs#:#crs_other_groupings#:#Gruppierungen anderer Trainings
 crs#:#crs_other_resources#:#Weitere Trainingsmaterialien
 crs#:#crs_reg_lim_info#:#Diese Einstellung erlaubt den Trainingsbeitritt nur während eines definierten Zeitraumes. Wählen Sie außerdem noch ein Beitrittsverfahren aus.
-crs#:#crs_reg_notify_info#:#Wenn eingeschaltet werden alle Trainingsbetreuer und Trainer die Status 'Benachrichtigung' haben, über neue Beitritte informiert.
+crs#:#crs_reg_notify_info#:#Wenn eingeschaltet werden alle Trainingsbetreuer und Trainer die den Status 'Benachrichtigung' haben, über neue Beitritte informiert.
 crs#:#crs_reg_password_info#:#Benutzer müssen dieses Passwort eingeben, um dem Training beitreten zu können.
 crs#:#crs_reg_unlim_info#:#Diese Einstellung erlaubt den zeitlich unbegrenzten Trainingsbeitritt. Wählen Sie außerdem noch ein Beitrittsverfahren aus.
 crs#:#crs_reg_user_already_assigned#:#Sie sind bereits Teilnehmer dieses Trainings
@@ -261,6 +263,8 @@ crsbook#:#crsbook_admin_action_book#:#Als Teilnehmer hinzufügen
 crsbook#:#crsbook_admin_action_cancel_with_costs#:#Mit Kosten stornieren
 crsbook#:#crsbook_admin_action_cancel_without_costs#:#Ohne Kosten stornieren
 crsbook#:#crsbook_admin_action_to_waiting_list#:#Auf die Warteliste
+crsbook#:#crsbook_admin_add_group#:#Gruppe hinzufügen
+crsbook#:#crsbook_admin_add_org_unit#:#Org.-Einheit hizufügen
 crsbook#:#crsbook_admin_add_participants#:#Teilnehmer hinzufügen
 crsbook#:#crsbook_admin_assign_already_assigned#:#Ist bereits gebucht (oder auf der Warteliste)
 crsbook#:#crsbook_admin_assign_cancelled_user#:#Wurde bereits storniert
@@ -270,30 +274,24 @@ crsbook#:#crsbook_admin_assign_not_bookable_user#:#Ist nicht buchbar
 crsbook#:#crsbook_admin_assign_overlapping#:#Folgende Buchungen überschneiden sich
 crsbook#:#crsbook_admin_assign_overlapping_user#:#Folgende Buchungen überschneiden sich
 crsbook#:#crsbook_admin_do_not_add#:#Nicht hinzufügen
-crsbook#:#crsbook_admin_group_has_no_members#:#Die gewählte Gruppe 
+crsbook#:#crsbook_admin_group_has_no_members#:#Die gewählte Gruppe
 crsbook#:#crsbook_admin_no_group_available#:#Sie besitzen auf keine Gruppen eine ausreichende Zugriffsberechtigung.
-crsbook#:#crsbook_admin_org_add_recursive#:#Mitglieder von Untereinheiten auswählen
+crsbook#:#crsbook_admin_org_add_recursive#:#untergeordnete Organisationseinheiten einbeziehen
 crsbook#:#crsbook_admin_org_unit_has_no_members#:#Die gewählte Org-Einheit hat keine Mitglieder
 crsbook#:#crsbook_admin_status#:#Buchungsstatus
+crsbook#:#crsbook_admin_status_booked#:#gebucht
 crsbook#:#crsbook_admin_status_cancelled_with_costs#:#Mit Kosten storniert
 crsbook#:#crsbook_admin_status_cancelled_without_costs#:#Ohne Kosten storniert
-crsbook#:#crsbook_admin_status_waiting#:#Auf Warteliste
+crsbook#:#crsbook_admin_status_change#:#Änderung des Buchungsstatus
+crsbook#:#crsbook_admin_status_waiting#:#auf Warteliste
+crsbook#:#crsbook_admin_tab_list_bookings#:#Buchungen
+crsbook#:#crsbook_admin_tab_list_cancellations#:#Stornierungen
 crsbook#:#crsbook_admin_user_action_confirm_Book#:#Wollen Sie die Teilnahme wirklich buchen?
 crsbook#:#crsbook_admin_user_action_confirm_CancelWithCosts#:#Wollen Sie den Teilnahme wirklich mit Kosten stornieren
 crsbook#:#crsbook_admin_user_action_confirm_CancelWithoutCosts#:#Wollen Sie den Teilnahme wirklich ohne Kosten stornieren?
 crsbook#:#crsbook_admin_user_action_confirm_ToWaitingList#:#Wollen Sie den Teilnehmer wirklich auf die Warteliste verschieben?
 crsbook#:#crsbook_admin_user_action_done#:#Der Status des Benutzer wurde erfolgreich geändert.
 crsbook#:#crsbook_crs_user_added#:#Benutzer zum Training hinzugefügt.
-crsbook#:#crsbook_admin_add_group#:#Gruppe hinzufügen
-crsbook#:#crsbook_admin_add_org_unit#:#Org.-Einheit hizufügen
-crsbook#:#crsbook_admin_add_participants#:#Teilnehmer hinzufügen
-crsbook#:#crsbook_admin_org_add_recursive#:#untergeordnete Organisationseinheiten einbeziehen
-crsbook#:#crsbook_admin_status#:#Buchungsstatus
-crsbook#:#crsbook_admin_status_booked#:#gebucht
-crsbook#:#crsbook_admin_status_change#:#Änderung des Buchungsstatus
-crsbook#:#crsbook_admin_status_waiting#:#auf Warteliste
-crsbook#:#crsbook_admin_tab_list_bookings#:#Buchungen
-crsbook#:#crsbook_admin_tab_list_cancellations#:#Stornierungen
 crsv#:#crsv_create#:#Trainingszertifikat erstellen
 crsv#:#crsv_create_info#:#Wählen Sie ein Training, für das Sie ein Zertifikat benötigen
 crs #:#crs_member_administration#:#Mitgliederverwaltung
@@ -350,15 +348,14 @@ exc#:#exc_submission_notification_info#:#Sie werden per Mail benachrichtigt, sob
 exc#:#exc_team_member_container_add#:#Team-Mitglied aus Training/Gruppe hinzufügen
 exercise#:#exc_crs_add_members#:#Mitglieder dieses Trainings hinzufügen
 exercise#:#exc_feedback_from_tutor#:#Feedback des Trainers
-fm#:#fm_settings_active_info#:#Benutzer können Kategorien, Trainings, Gruppen und Ordner öffnen, indem Sie im Magazin die Aktion "Mit Dateimanager öffnen" ausführen.
-gev#:#gev_search_menu#:#Trainingssuche
+fm#:#fm_settings_active_info#:#Benutzer können Kategorien, Trainings, Gruppen und Ordner öffnen, indem sie im Magazin die Aktion "Mit Dateimanager öffnen" ausführen.
 gev#:#dont_send_mail#:#keine Mail versenden
-gev#:#evg_email#:#Generali E-Mail-Adresse
+gev#:#evg_email#:#E-Mail-Adresse
+gev#:#evg_mandatory#:#Sie müssen dieses Feld bestätigen, um sich registrieren zu können.
 gev#:#evg_toc#:#Ja, ich stimme der <a href='/data/Generali/documents/GEV_NB_Finale_Nutzungsbedingungen.pdf' target='_blank' class='blue'>Nutzungsvereinbarung</a> zu, um auf die Generali Online Akademie zugreifen zu können.
 gev#:#evg_wbd#:#Hiermit erteile ich die <a href='/data/Generali/documents/GEV_BDL_Auftrag_BDL.pdf' target='_blank' class='blue'>Einwilligung zur Eintragung von Weiterbildungspunkten und -maßnahmen</a> in die WBD.
-gev#:#evg_mandatory#:#Sie müssen dieses Feld bestätigen, um sich registrieren zu können.
+gev#:#gev_accept_book_cond#:#Hiermit akzeptiere ich die <a href='/data/Generali/documents/GEV_Allg_Trainingsinfos Praesenz.pdf' target='_blank'  class='blue'>Buchungs- und Stornierungsbedingungen</a> der Generali Online Akademie.
 gev#:#gev_activity#:#Aktivität
-gev#:#gev_accept_book_cond#:#Hiermit akzeptiere ich die <a href='/data/Generali/documents/GEV_Allg_Trainingsinfos Praesenz.pdf' target='_blank'  class='blue'>Buchungs- und Stornierungsbedingungen</a> der Generali Online Akademie. 
 gev#:#gev_ad_title#:#AD-Titel
 gev#:#gev_additional_settings_update_failure#:#Die weiteren Einstellungen konnten nicht aktualisiert werden.
 gev#:#gev_additional_settings_updated#:#Die weiteren Einstellungen wurden aktualisiert.
@@ -377,8 +374,8 @@ gev#:#gev_bill_email#:#E-Mail-Adresse für Rechnungszustellung
 gev#:#gev_bill_recipient#:#Rechnungsempfänger
 gev#:#gev_birthname#:#Geburtsname
 gev#:#gev_birthplace#:#Geburtsort
-gev#:#gev_book_contact_pe#:#Kontakt PE
 gev#:#gev_book_contact_onside#:#Ad-Schulung.de@generali.com
+gev#:#gev_book_contact_pe#:#Kontakt PE
 gev#:#gev_book_contact_webinar#:#Generali-Webinare.de@generali.com
 gev#:#gev_book_course#:#Training buchen
 gev#:#gev_book_employee#:#Mitarbeiter buchen
@@ -424,9 +421,9 @@ gev#:#gev_costly_cancellation_action#:#Kostenpflichtig Stornieren
 gev#:#gev_costly_cancellation_msg#:#Die Stornierung ihrer Buchung des Trainings "%s" ist leider nicht mehr kostenlos möglich. Möchten Sie die Buchung trotzdem stornieren?
 gev#:#gev_costs#:#Kosten
 gev#:#gev_coupon_bill_item#:#Gutschein %s
-gev#:#gev_coupon_codes#:#Gutscheincode(s)
-gev#:#gev_use_coupon_codes#:#Gutscheincode(s) einlösen
+gev#:#gev_coupon_codes#:#Gutscheincode(s) einlösen
 gev#:#gev_course_bill_title#:#Buchung des Trainings "%s" für "%s"
+gev#:#gev_course_categorie#:#Trainingskategorie
 gev#:#gev_course_expired#:#Der gewählte Kurs ist nicht mehr verfügbar.
 gev#:#gev_course_id#:#Nr. der Maßnahme
 gev#:#gev_course_is_full#:#Leider ist das Training bereits ausgebucht.
@@ -434,18 +431,17 @@ gev#:#gev_course_mgmt#:#Trainings
 gev#:#gev_course_search#:#Filter
 gev#:#gev_course_search_desc#:#Hier können Sie gezielt suchen.
 gev#:#gev_course_type#:#Lernart
-gev#:#gev_course_categorie#:#Trainingskategorie
 gev#:#gev_credit_points#:#Bildungspunkte
 gev#:#gev_crs_book_overnight_details#:#Übernachtungen
 gev#:#gev_crs_function#:#Rolle
 gev#:#gev_crs_mail_template#:#Vorlage
 gev#:#gev_crs_settings_invitation#:#Einladungsmails
-gev#:#gev_crs_srch_my_table_desc#:#Hier sehen Sie auf einen Blick alle für Sie verfügbaren Angebote.
-gev#:#gev_crs_srch_theirs_table_desc#:#Hier sehen Sie auf einen Blick alle für ihren Mitarbeiter verfügbaren Angebote.
-gev#:#gev_crs_srch_title#:#Übersicht
 gev#:#gev_crs_srch_all#:#alle
 gev#:#gev_crs_srch_limit#:#Suche eingrenzen
+gev#:#gev_crs_srch_my_table_desc#:#Hier sehen Sie auf einen Blick alle für Sie verfügbaren Angebote.
 gev#:#gev_crs_srch_results#:#Suchergebnisse
+gev#:#gev_crs_srch_theirs_table_desc#:#Hier sehen Sie auf einen Blick alle für ihren Mitarbeiter verfügbaren Angebote.
+gev#:#gev_crs_srch_title#:#Übersicht
 gev#:#gev_crs_srch_usr_slctr_caption#:#Suche für:
 gev#:#gev_csn_list#:#CSN-Liste
 gev#:#gev_desk_displays#:#Tischaufsteller
@@ -461,17 +457,16 @@ gev#:#gev_excel_course_title#:#Generelle Angaben zum Seminar
 gev#:#gev_excel_member_row_title#:#Mitgliederliste
 gev#:#gev_excel_member_title#:#Mitgliederliste
 gev#:#gev_exit_date#:#Austrittsdatum
-gev#:#gev_failed#:#nicht bestanden
+gev#:#gev_failed#:#nicht teilgenommen
 gev#:#gev_fee_bill_item#:#Teilnahmegebühr Training "%s"
 gev#:#gev_filter#:#Filter
-gev#:#gev_finalize_booking_error#:#Beim finalisieren der Buchung ist ein Fehler aufgetreten.
-gev#:#gev_finalize_booking_error #:#Beim Finalisieren der Buchung ist ein Fehler aufgetreten.
+gev#:#gev_finalize_booking_error#:#Beim Finalisieren der Buchung ist ein Fehler aufgetreten.
 gev#:#gev_free_cancellation_action#:#Kostenfrei Stornieren
 gev#:#gev_free_cancellation_msg#:#Möchten Sie die Buchung des Trainings "%s" wirklich stornieren?
 gev#:#gev_free_cancellation_until#:#kostenfreie Stornierung bis
 gev#:#gev_free_places#:#verfügbare Plätze
 gev#:#gev_from#:#ab
-gev#:#gev_get_bill#:#Rechung anfordern
+gev#:#gev_get_bill#:#Rechnung anfordern
 gev#:#gev_get_certificate#:#Teilnahmebescheinigung abrufen
 gev#:#gev_give_mandate_tp_basis#:#Hiermit erteile ich den %s ein WB-Konto bei der WBD einzurichten.
 gev#:#gev_give_mandate_tp_service#:#Hiermit erteile ich den %s (<a href='/data/Generali/documents/GEV_TPS_AAD_Finaler_Auftrag_TPS_AAD.pdf' target='_blank' class='blue'>als AAD</a> / <a href='/data/Generali/documents/GEV_TPSEVG_Finaler_Auftrag_TPS_§84HGB.pdf' target='_blank'  class='blue'>als §84HGB</a>) ein WB-Konto bei der WBD einzurichten.
@@ -527,9 +522,9 @@ gev#:#gev_others_edu_bio_desc#:#Hier sehen Sie die Bildungspunkte und die von %s
 gev#:#gev_others_menu#:#Organisation
 gev#:#gev_overall_prize#:#Gesamtpreis
 gev#:#gev_participation_status#:#Teilnahmestatus
-gev#:#gev_passed#:#bestanden
+gev#:#gev_passed#:#teilgenommen
 gev#:#gev_passed_similar_course_employee#:#Ihr Mitarbeit hat bereits ein ähnliches Training erfolgreich abgeschlossen. Die dürfen dieses Angebot daher für ihren Mitarbeiter nicht buchen.
-gev#:#gev_passed_similar_course_self#:#Sie sind auf dieses Training bereits an einem anderen Termin gebucht. Sie können keinen zweiten Termin buchen. Sollten Sie den Termin wechslen wollen, stornieren Sie zunächst das bereits gebuchte Training und buchen Sie dann den gewünschten neuen Termin.
+gev#:#gev_passed_similar_course_self#:#Sie sind auf dieses Training bereits an einem anderen Termin gebucht. Sie können keinen zweiten Termin buchen. Sollten Sie den Termin wechseln wollen, stornieren Sie zunächst das bereits gebuchte Training und buchen Sie dann den gewünschten neuen Termin.
 gev#:#gev_payment_type#:#Zahlungsart
 gev#:#gev_payment_type_bill#:#Rechnung
 gev#:#gev_period#:#Zeitraum:
@@ -556,10 +551,10 @@ gev#:#gev_quicklinks#:#Quicklinks
 gev#:#gev_quicklinks_desc#:#Greifen Sie hier schnell und unkompliziert auf weitere Informationen zu Ihren Trainings und auf Ihre persönliche Bildungsbiografie zu.
 gev#:#gev_refresh_attachments#:#Anhänge aktualisieren
 gev#:#gev_registration_success#:#Eine Email mit einem Aktivierungslink wurde an Sie versendet.
-gev#:#gev_reporting_menu#:#Reports
-gev#:#gev_report_attendance_by_employee#:#Teilnahmen nach Mitarbeiter
-gev#:#gev_rep_attendance_by_employee_title#:#Teilnahme nach Mitarbeiter
 gev#:#gev_rep_attendance_by_employee_desc#:#Hier sehen sie die Buchungen und Trainingsteilnahmen ihrer Mitarbeiter.
+gev#:#gev_rep_attendance_by_employee_title#:#Teilnahme nach Mitarbeiter
+gev#:#gev_report_attendance_by_employee#:#Teilnahmen nach Mitarbeiter
+gev#:#gev_reporting_menu#:#Reports
 gev#:#gev_search_menu#:#Trainingssuche
 gev#:#gev_set_billing_data#:#Rechnungsdaten eingeben
 gev#:#gev_set_password_on_first_login#:#Bitte setzen Sie ein Passwort für Ihren Zugang zur Generali Online Akademie.
@@ -573,8 +568,8 @@ gev#:#gev_subscription_end#:#Anmeldungsende
 gev#:#gev_table_no_entry#:#-
 gev#:#gev_target_group#:#Zielgruppe
 gev#:#gev_targets_and_benefit#:#Ziele und Nutzen
-gev#:#gev_telno_wbd_alert#:#Die Telefonnummer hat kein gültiges Format.
 gev#:#gev_telno_alert#:#Die Telefonnummer muss das Format +49 1xxx xxxxxxxx haben.
+gev#:#gev_telno_wbd_alert#:#Die Telefonnummer hat kein gültiges Format.
 gev#:#gev_tep#:#TEP
 gev#:#gev_theirs_highlights_desc#:#Hier finden Sie neue und interessante Angebote zugeschnitten auf die individuellen Anforderungen ihres Mitarbeiters.
 gev#:#gev_to_course_search#:#Zum Bildungsangebot
@@ -585,6 +580,7 @@ gev#:#gev_training_fee#:#Teilnahmegebühr
 gev#:#gev_training_id#:#ID
 gev#:#gev_unlimited#:#unbegrenzt
 gev#:#gev_until#:#bis
+gev#:#gev_use_coupon_codes#:#Gutscheincode(s) einlösen
 gev#:#gev_user_mgmt#:#Benutzer
 gev#:#gev_user_not_allowed_to_book_crs#:#Der Benutzer darf dieses Training nicht buchen.
 gev#:#gev_user_profile#:#Profil
@@ -593,24 +589,26 @@ gev#:#gev_venue#:#Veranstaltungsort
 gev#:#gev_waiting#:#gebucht auf Warteliste
 gev#:#gev_was_booked_employee#:#Ihr Mitarbeiter %s wurde erfolgreich auf das Training "%s" gebucht.
 gev#:#gev_was_booked_self#:#Das Training "%s" wurde erfolgreich für Sie gebucht.
-gev#:#gev_was_booked_self #:#Das Training "%s" wurde erfolgreich für Sie gebucht.
 gev#:#gev_was_booked_waiting_employee#:#Ihr Mitarbeiter %s wurde erfolgreich beim Training "%s" auf die Warteliste hinzugefügt.
 gev#:#gev_was_booked_waiting_self#:#Sie wurden beim Training "%s" erfolgreich auf die Warteliste hinzugefügt.
 gev#:#gev_wbd_notifications#:#Benachrichtigungen der WBD
 gev#:#gev_wbd_notifications_to_auth#:#Kontoauszüge und Jahreszertifikate der WBD sollen an meine Authentifizierungs-E-Mail-Adresse verschickt werden.
 gev#:#gev_wbd_notifications_to_diff#:#Kontoauszüge und Jahreszertifikate der WBD sollen an eine abweichende E-Mail-Adresse verschickt werden. (Bitte füllen Sie das Feld "alternative E-Mail-Adresse" aus)
 gev#:#gev_wbd_registration#:#WBD-Registrierung
+gev#:#gev_wbd_registration_basic#:#WBD-Registrierung
+gev#:#gev_wbd_registration_basic_back#:#Zurück zur Eingabe der GDV Vermittler-ID
+gev#:#gev_wbd_registration_basic_header_note#:#Registrieren Sie sich bei der Weiterbildungsdatenbank.
 gev#:#gev_wbd_registration_cb_mandatory#:#Sie müssen dieses Feld bestätigen, um die WBD-Registrierung abschließen zu können.
 gev#:#gev_wbd_registration_create_bwv_id#:#Die Generali soll für mich ein Weiterbildungskonto eröffnen.
 gev#:#gev_wbd_registration_create_bwv_id_cmd#:#Kontoeröffnung
 gev#:#gev_wbd_registration_finished_create_bwv_id#:#Vielen Dank, wir werden für Sie ein Konto in der Weiterbildungsdatenbank (WBD) des BWV e.V. sowie ein Nutzerkonto bei der Trusted German Insurance Cloud (TGIC) eröffnen.<br /><br />Nach Eröffnung Ihres Kontos erhalten Sie von dort insgesamt 3 Systemmails mit Ihrer Benutzerkennung, Ihrem Passwort und Ihrer Vermittler-ID.
+gev#:#gev_wbd_registration_finished_has_bwv_id#:#Vielen Dank, wir werden Ihre bei uns erworbenen Weiterbildungspunkte unter dieser Vermittler-ID an die zentrale Weiterbildungsdatenbank melden.
+gev#:#gev_wbd_registration_finished_no_bwv_id#:#Vielen Dank für die Anmeldung an der Generali Online Akademie. Wir werden Ihre bei uns erworbenen Weiterbildungspunkte in der Generali Onlineakademie sammeln und nach Eingabe Ihrer GDV Vermittler-ID an die zentrale Weiterbildungsdatenbank (WBD) melden.<br /><br />Bitte beachten Sie, daß die Weiterbildungspunkte verfallen, sofern Sie Ihre GDV Vermittler-ID nicht innerhalb von 12 Monaten in Ihren Profildaten ergänzen.
 gev#:#gev_wbd_registration_has_bwv_id#:#Ich habe bereits eine GDV Vermittler-ID
 gev#:#gev_wbd_registration_has_bwv_id_cmd#:#Anmeldung mit Übermittlung der Punkte
-gev#:#gev_wbd_registration_finished_has_bwv_id#:#Vielen Dank, wir werden Ihre bei uns erworbenen Weiterbildungspunkte unter dieser Vermittler-ID an die zentrale Weiterbildungsdatenbank melden.
 gev#:#gev_wbd_registration_header_note#:#Registrieren Sie sich bei der Weiterbildungsdatenbank.
 gev#:#gev_wbd_registration_no_bwv_id#:#Nein, ich habe noch keine GDV Vermittler-ID und werde diese in meinem Benutzeraccount nachtragen.
 gev#:#gev_wbd_registration_no_bwv_id_cmd#:#Anmeldung vorerst ohne Übermittlung der Punkte
-gev#:#gev_wbd_registration_finished_no_bwv_id#:#Vielen Dank für die Anmeldung an der Generali Online Akademie. Wir werden Ihre bei uns erworbenen Weiterbildungspunkte in der Generali Onlineakademie sammeln und nach Eingabe Ihrer GDV Vermittler-ID an die zentrale Weiterbildungsdatenbank (WBD) melden.<br /><br />Bitte beachten Sie, daß die Weiterbildungspunkte verfallen, sofern Sie Ihre GDV Vermittler-ID nicht innerhalb von 12 Monaten in Ihren Profildaten ergänzen.
 gev#:#gev_wbd_registration_question_basis#:#Haben Sie bereits ein Weiterbildungskonto im Rahmen der Brancheninitiative „gut beraten“?
 gev#:#gev_wbd_registration_question_service#:#Sofern die Generali nicht Ihr Trusted Partner Service sein soll, oder Sie bereits an anderer Stelle eine Kontoeröffnung beantragt haben, nutzen Sie unten stehende Eingabefelder.
 gev#:#gev_wbd_relevant#:#WBD relevant
@@ -639,7 +637,7 @@ mail#:#cancel_template_type_settings#:#Abbrechen
 mail#:#cancel_template_variant#:#Abbrechen
 mail#:#confirm_delete_template_type_p#:#Vorlagentypen wirklich löschen?
 mail#:#confirm_delete_template_type_s#:#Vorlagentyp wirklich löschen?
-mail#:#login_none#:#(kein Login) 
+mail#:#login_none#:#(kein Login)
 mail#:#mail_crs_list_members_not_available#:#Die Teilnehmer der markierten Trainings können nicht aufgelistet werden.
 mail#:#mail_crs_list_members_not_available_for_at_least_one_crs#:#Die Teilnehmer von mindestens einem gewählten Training können nicht aufgelistet werden.
 mail#:#mail_enable_crs_member_notification#:#Trainingsbenachrichtigung
@@ -683,7 +681,7 @@ mail#:#mail_templates_use_placeholder#:#Folgende Platzhalter können verwendet w
 mail#:#mail_types_fi#:#Vorlagentyp-ID
 mail#:#mail_types_language#:#Sprache
 mail#:#new_template_type#:#Neuen Vorlagentyp anlegen
-mail#:#salutation_n#:#Sehr geehrte/r 
+mail#:#salutation_n#:#Sehr geehrte/r
 mail#:#save_and_sample_variant#:#Speichern und Beispielmail senden
 mail#:#save_template_type_settings#:#Speichern
 mail#:#save_template_variant#:#Speichern
@@ -764,9 +762,12 @@ pwassist#:#pwassist_mail_body#:#Sehr geehrte Generali Online Akademie Nutzerin,\
 pwassist#:#pwassist_mail_sent#:#Wir haben soeben eine E-Mail an die Adresse %1$s versendet.\nWeitere Anweisungen entnehmen Sie bitte dieser Nachricht.
 pwassist#:#pwassist_mail_subject#:#Generali Online Akademie: Passwort-/Benutzernamen-Unterstützung
 pwassist#:#pwassist_username_mail_body#:#Sehr geehrte Generali Online Akademie Nutzerin,\nsehr geehrte Generali Online Akademie Nutzer,\n\nSie haben soeben Ihren Benutzernamen für die Generali Online Akademie angefragt. \n\nDies sind die aktiven Nutzernamen, die wir unter Ihrer E-Mail-Adresse registriert haben: \n%1$s\n\nDiese E-Mail ist automatisch generiert worden von: %2$s \nDie eingetragene E-Mail-Adresse lautet: %4$s \n\nMit freundlichen Grüßen \nIhre Generali Online Akademie
+rbac#:#book_employees#:#Mitarbeiter buchen
 rbac#:#book_employees_rcrsv#:#Mitarbeiter auf Training buchen (rekursiv)
 rbac#:#book_users#:#Buchungen vornehmen
 rbac#:#cancel_bookings#:#Stornierungen vornehmen
+rbac#:#cancel_employee_bookings#:#Buchungen von Mitarbeitern stornieren
+rbac#:#cancel_employee_bookings_rcrsv#:#Buchungen von Mitarbeitern stornieren (rekursiv)
 rbac#:#crs_copy#:#Training kopieren
 rbac#:#crs_delete#:#Training löschen oder verschieben
 rbac#:#crs_join#:#Training beitreten
@@ -804,10 +805,6 @@ rbac#:#tep_view_other_rcrsv#:#TEP Termine von anderen Trainer sehen (rekursiv)
 rbac#:#view_bookings#:#Buchungen einsehen
 rbac#:#view_employee_bookings#:#Buchungen von Mitarbeitern einsehen
 rbac#:#view_employee_bookings_rcrsv#:#Buchungen von Mitarbeitern einsehen (rekursiv)
-rbac#:#book_employees#:#Mitarbeiter buchen
-rbac#:#book_employees_rcrsv#:#Mitarbeiter buchen (rekursiv)
-rbac#:#cancel_employee_bookings#:#Buchungen von Mitarbeitern stornieren
-rbac#:#cancel_employee_bookings_rcrsv#:#Buchungen von Mitarbeitern stornieren (rekursiv)
 search#:#search_add_members_from_container_crs#:#Benutzer aus aktuellem Training hinzufügen
 search#:#search_crs_title#:#Trainingsname
 search#:#search_for_crs_members#:#Nach Trainingsteilnehmern suchen
@@ -841,6 +838,3 @@ wsp#:#wsp_list_crsv#:#Trainingszertifikat
 wsp#:#wsp_set_permission_course#:#Trainingsteilnehmer
 wsp#:#wsp_shared_member_filter#:#Trainings-/Gruppenmitglieder
 wsp#:#wsp_type_crsv#:#Zertifikat: Training
-gev#:#gev_wbd_registration_basic_back#:#Zurück zur Eingabe der GDV Vermittler-ID
-gev#:#gev_wbd_registration_basic#:#WBD-Registrierung 
-gev#:#gev_wbd_registration_basic_header_note#:#Registrieren Sie sich bei der Weiterbildungsdatenbank. 
