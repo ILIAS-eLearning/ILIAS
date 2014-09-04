@@ -1277,12 +1277,14 @@ class ilObjWikiGUI extends ilObjectGUI
 	}
 	
 	protected function getPrintPageIds()
-	{				
+	{						
+		// multiple ordered page ids
 		if(is_array($_POST["wordr"]))
 		{
 			asort($_POST["wordr"]);			
 			$page_ids = array_keys($_POST["wordr"]);	
 		}
+		// single page
 		else if((int)$_GET["wpg_id"])
 		{
 			$page_ids = array((int)$_GET["wpg_id"]);
@@ -1291,7 +1293,7 @@ class ilObjWikiGUI extends ilObjectGUI
 		return $page_ids;
 	}
 	
-	public function printViewObject()
+	public function printViewObject($a_pdf_export = false)
 	{
 		global $tpl;
 		
@@ -1323,27 +1325,57 @@ class ilObjWikiGUI extends ilObjectGUI
 			$page_gui = new ilWikiPageGUI($p_id);
 			$page_gui->setOutputMode("print");
 			$page_content.= $page_gui->showPage();
+			
+			if($a_pdf_export)
+			{
+				$page_content .= '<p style="page-break-after:always;"></p>';
+			}
 		}
-		$tpl->setVariable("CONTENT", '<div class="ilInvisibleBorder">'.$page_content.'</div>'.
-		'<script type="text/javascript" language="javascript1.2">
-		<!--
-			il.Util.addOnLoad(function () {
-				il.Util.print();
-			});
-		//-->
-		</script>');
-		$tpl->show(false);
-		exit;		
+		
+		$page_content = '<div class="ilInvisibleBorder">'.$page_content.'</div>';
+		
+		if(!$a_pdf_export)
+		{
+			$page_content .= '<script type="text/javascript" language="javascript1.2">
+				<!--
+					il.Util.addOnLoad(function () {
+						il.Util.print();
+					});
+				//-->
+				</script>';
+		}
+		
+		$tpl->setVariable("CONTENT", $page_content);
+		
+		if(!$a_pdf_export)
+		{
+			$tpl->show(false);
+			exit;		
+		}
+		else
+		{			
+			return $tpl->get("DEFAULT", false, false, false, true, false, false);
+		}
 	}
 	
-	public function pdfExport()
+	public function pdfExportObject()
 	{
-		$page_ids = $this->getPrintPageIds();
-		if(!$page_ids)
-		{
-			$this->ctrl->redirect($this, "");
-		}		
+		$html = $this->printViewObject(true);	
 		
+		// :TODO: fixing css dummy parameters
+		$html = preg_replace("/\?dummy\=[0-9]+/", "", $html);
+		$html = preg_replace("/\?vers\=[0-9A-Za-z\-]+/", "", $html);
+		
+		include_once "Services/PDFGeneration/classes/class.ilPDFGeneration.php";
+		include_once "Services/PDFGeneration/classes/class.ilPDFGenerationJob.php";
+		
+		$job = new ilPDFGenerationJob();
+		$job->setAutoPageBreak(true)
+			->setOutputMode('D') // download
+			->setFilename("wiki.pdf") // :TODO:
+			->addPage($html);
+		
+		ilPDFGeneration::doJob($job);
 	}	
 
 	/**

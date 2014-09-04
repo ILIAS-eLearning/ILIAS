@@ -685,13 +685,14 @@ class ilWikiPageGUI extends ilPageObjectGUI
 					}
 					else
 					{
-						$_GET["wpg_id"] = array_pop($pg_ids);
+						 $_GET["wpg_id"] = array_pop($pg_ids);
 					}
 					// fallthrough
 
 				// no order needed for single page
 				default:
-				//case "page":											
+				//case "page":				
+					$this->ctrl->setParameterByClass("ilObjWikiGUI", "wpg_id", $_GET["wpg_id"]); 
 					if($a_pdf_export)
 					{
 						$this->ctrl->redirectByClass("ilObjWikiGUI", "pdfExport");						
@@ -702,10 +703,17 @@ class ilWikiPageGUI extends ilPageObjectGUI
 					}
 					break;
 			}
+			
+			if($a_pdf_export)
+			{
+				$this->ctrl->setParameter($this, "pexp", 1);
+			}
 		}
 		// refresh sorting
 		else
 		{
+			$a_pdf_export = (bool)$_GET["pexp"];
+		
 			asort($_POST["wordr"]);			
 			$pg_ids = array_keys($_POST["wordr"]);						
 		}

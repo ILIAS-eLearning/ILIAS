@@ -48,8 +48,14 @@ class ilWikiExportOrderTableGUI extends ilTable2GUI
 		$this->addColumn($lng->txt("wiki_page"));
 				
 		$this->setFormAction($ilCtrl->getFormAction($this->getParentObject(), $this->getParentCmd()));
-		$this->addMultiCommand($this->getParentCmd(), $lng->txt("refresh"));
-		$this->addMultiCommand($cmd, $lng->txt("continue"));		
+		$this->addCommandButton($this->getParentCmd(), $lng->txt("refresh"));
+		
+		include_once "Services/UIComponent/Button/classes/class.ilSubmitButton.php";
+		$button = ilSubmitButton::getInstance();
+		$button->setOmitPreventDoubleSubmission((bool)$a_pdf_export);
+		$button->setCaption("continue");
+		$button->setCommand($cmd);		
+		$this->addCommandButtonInstance($button);		
 		
 		$this->setRowTemplate("tpl.table_row_export_order.html", "Modules/Wiki");							
 		$this->setLimit(9999);			
