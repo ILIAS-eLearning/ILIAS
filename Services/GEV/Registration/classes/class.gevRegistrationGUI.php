@@ -217,7 +217,7 @@ class gevRegistrationGUI {
 		$mail->setRecipients(array($user));
 		$mail->setAdditionalInformation(
 			array( 'usr'           => $user
-				 , 'hash_lifetime' => 5 * 60 // in minutes
+				 , 'hash_lifetime' => 5 * 60 * 60 // in seconds
 				 )
 			);
 		$mail->send();

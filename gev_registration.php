@@ -14,7 +14,7 @@ require_once("Services/Init/classes/class.ilInitialisation.php");
 ilInitialisation::initILIAS();
 
 $ilCtrl->initBaseClass("gevRegistrationGUI");
-$ilCtrl->setTargetScript("ilias.php");
+$ilCtrl->setTargetScript("gev_registration.php");
 
 if (!isset($_POST["cmd"])) {
 	$ilCtrl->setCmd("startRegistration");
