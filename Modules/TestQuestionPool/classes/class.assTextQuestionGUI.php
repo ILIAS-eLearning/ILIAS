@@ -52,8 +52,8 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 		if (!$hasErrors)
 		{
 			$this->writeQuestionGenericPostData();
-			$this->writeQuestionSpecificPostData();
-			$this->writeAnswerSpecificPostData();
+			$this->writeQuestionSpecificPostData(new ilPropertyFormGUI);
+			$this->writeAnswerSpecificPostData(new ilPropertyFormGUI);
 			$this->saveTaxonomyAssignments();
 			return 0;
 		}
@@ -129,6 +129,9 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 		$test_output = $this->getTestOutput($active_id, $pass, $is_postponed, $use_post_solutions); 
 		$this->tpl->setVariable("QUESTION_OUTPUT", $test_output);
 		$this->tpl->setVariable("FORMACTION", $formaction);
+
+		// TODO - BEGIN: what exactly is done here? cant we use the parent method? 
+
 		include_once "./Services/RTE/classes/class.ilRTE.php";
 		$rtestring = ilRTE::_getRTEClassname();
 		include_once "./Services/RTE/classes/class.$rtestring.php";
@@ -138,6 +141,8 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 		$obj_type = ilObject::_lookupType($_GET["ref_id"], TRUE);
 		$rte->addUserTextEditor("textinput");
 		$this->outAdditionalOutput();
+
+		// TODO - END: what exactly is done here? cant we use the parent method? 
 	}
 
 	/**
@@ -516,14 +521,14 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 			return $this->object->prepareTextareaOutput($feedback, TRUE);
 	}
 
-	public function writeQuestionSpecificPostData( $always = true)
+	public function writeQuestionSpecificPostData(ilPropertyFormGUI $form)
 	{
 		$this->object->setMaxNumOfChars( $_POST["maxchars"] );
 		$this->object->setTextRating( $_POST["text_rating"] );
 		$this->object->setKeywordRelation( $_POST['scoring_mode'] );
 	}
 
-	public function writeAnswerSpecificPostData( $always = true )
+	public function writeAnswerSpecificPostData(ilPropertyFormGUI $form)
 	{
 		switch ($this->object->getKeywordRelation())
 		{

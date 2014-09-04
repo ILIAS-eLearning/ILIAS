@@ -25,6 +25,11 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 
 	public $old_ordering_depth = array();
 	public $leveled_ordering = array();
+
+	/**
+	 * @var bool
+	 */
+	private $clearAnswersOnWritingPostDataEnabled;
 	
 	/**
 	 * assOrderingQuestionGUI constructor
@@ -45,21 +50,35 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			$this->object->loadFromDb($id);
 		}
 		$this->object->setOutputType(OUTPUT_JAVASCRIPT); 
+		
+		$this->clearAnswersOnWritingPostDataEnabled = false;
+	}
+
+	/**
+	 * @param boolean $clearAnswersOnWritingPostDataEnabled
+	 */
+	public function setClearAnswersOnWritingPostDataEnabled($clearAnswersOnWritingPostDataEnabled)
+	{
+		$this->clearAnswersOnWritingPostDataEnabled = $clearAnswersOnWritingPostDataEnabled;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function isClearAnswersOnWritingPostDataEnabled()
+	{
+		return $this->clearAnswersOnWritingPostDataEnabled;
 	}
 
 	public function changeToPictures()
 	{
 		if($this->object->getOrderingType() != OQ_NESTED_PICTURES && $this->object->getOrderingType() != OQ_PICTURES)
 		{
-			$clearAnswers = true;
-		}
-		else
-		{
-			$clearAnswers = false;
+			$this->setClearAnswersOnWritingPostDataEnabled(true);
 		}
 
 		$this->object->setOrderingType(OQ_PICTURES);
-		$this->writePostData(true, $clearAnswers);
+		$this->writePostData(true);
 		$this->object->saveToDb();
 
 		$this->editQuestion();
@@ -69,15 +88,11 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 	{
 		if($this->object->getOrderingType() != OQ_NESTED_TERMS && $this->object->getOrderingType() != OQ_TERMS)
 		{
-			$clearAnswers = true;
-		}
-		else
-		{
-			$clearAnswers = false;
+			$this->setClearAnswersOnWritingPostDataEnabled(true);
 		}
 
 		$this->object->setOrderingType(OQ_TERMS);
-		$this->writePostData(true, $clearAnswers);
+		$this->writePostData(true);
 		$this->object->saveToDb();
 
 		$this->editQuestion();
@@ -87,15 +102,11 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 	{
 		if($this->object->getOrderingType() != OQ_NESTED_TERMS && $this->object->getOrderingType() != OQ_TERMS)
 		{
-			$clearAnswers = true;
-		}
-		else
-		{
-			$clearAnswers = false;
+			$this->setClearAnswersOnWritingPostDataEnabled(true);
 		}
 
 		$this->object->setOrderingType(OQ_NESTED_TERMS);
-		$this->writePostData(true, $clearAnswers);
+		$this->writePostData(true);
 		$this->object->saveToDb();
 
 		$this->editQuestion();
@@ -186,7 +197,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		$this->editQuestion();
 	}
 
-	public function writeQuestionSpecificPostData($always = true)
+	public function writeQuestionSpecificPostData(ilPropertyFormGUI $form)
 	{
 		$this->object->setThumbGeometry( $_POST["thumb_geometry"] );
 		$this->object->setElementHeight( $_POST["element_height"] );
@@ -194,7 +205,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		$this->object->setPoints($_POST["points"]);
 	}
 
-	public function writeAnswerSpecificPostData($clear_answers = false)
+	public function writeAnswerSpecificPostData(ilPropertyFormGUI $form)
 	{
 		$ordering_type = $this->object->getOrderingType();
 		// Delete all existing answers and create new answers from the form data
@@ -228,10 +239,11 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 				$counter = 0;
 				foreach ($answers as $index => $answer)
 				{
-					if ($clear_answers)
+					if( $this->isClearAnswersOnWritingPostDataEnabled() )
 					{
-						$answer = "";
+						$answer = '';
 					}
+					
 					$this->object->addAnswer( $answer, -1, $this->leveled_ordering[$counter] );
 					$counter++;
 				}
@@ -243,7 +255,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 			{
 				foreach (array_keys( $_POST['answers']['count'] ) as $index)
 				{
-					if ($clear_answers)
+					if( $this->isClearAnswersOnWritingPostDataEnabled() )
 					{
 						$this->object->addAnswer( "" );
 						continue;
@@ -394,14 +406,14 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 	 *
 	 * @return integer A positive value, if one of the required fields wasn't set, else 0
 	 */
-	public function writePostData($always = false, $clear_answers = false)
+	public function writePostData($always = false)
 	{
 		$hasErrors = (!$always) ? $this->editQuestion(true) : false;
 		if (!$hasErrors)
 		{
 			$this->writeQuestionGenericPostData();
-			$this->writeQuestionSpecificPostData();
-			$this->writeAnswerSpecificPostData( $clear_answers );
+			$this->writeQuestionSpecificPostData(new ilPropertyFormGUI);
+			$this->writeAnswerSpecificPostData(new ilPropertyFormGUI);
 			$this->saveTaxonomyAssignments();
 			return 0;
 		}
@@ -479,13 +491,6 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 				$form->addCommandButton("changeToPictures", $this->lng->txt("oq_btn_define_pictures"));
 				break;
 		}
-	}
-
-	function outQuestionForTest($formaction, $active_id, $pass = NULL, $is_postponed = FALSE, $user_post_solution = FALSE)
-	{
-		$test_output = $this->getTestOutput($active_id, $pass, $is_postponed, $user_post_solution);
-		$this->tpl->setVariable("QUESTION_OUTPUT", $test_output);
-		$this->tpl->setVariable("FORMACTION", $formaction);
 	}
 
 	/**

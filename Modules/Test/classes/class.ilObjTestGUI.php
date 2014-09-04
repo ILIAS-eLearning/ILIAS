@@ -39,6 +39,7 @@ require_once './Modules/Test/classes/class.ilTestExpressPage.php';
  * @ilCtrl_Calls ilObjTestGUI: ilTestSettingsChangeConfirmationGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestSkillAdministrationGUI, ilTestSkillEvaluationGUI
  * @ilCtrl_Calls ilObjTestGUI: ilAssQuestionPreviewGUI
+ * @ilCtrl_Calls ilObjTestGUI: assKprimChoiceGUI
  *
  * @ingroup ModulesTest
  */
@@ -1065,11 +1066,16 @@ class ilObjTestGUI extends ilObjectGUI
 			{
 				case "MULTIPLE CHOICE QUESTION":
 				case QT_MULTIPLE_CHOICE_MR:
-					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("qt_multiple_choice"));
+					//$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("qt_multiple_choice"));
+					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assMultipleChoice"));
 					break;
 				case "SINGLE CHOICE QUESTION":
 				case QT_MULTIPLE_CHOICE_SR:
 					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assSingleChoice"));
+					break;
+				case KPRIM_CHOICE_QUESTION_IDENTIFIER:
+				case QT_KPRIM_CHOICE:
+					$this->tpl->setVariable("QUESTION_TYPE", $this->lng->txt("assKprimChoice"));
 					break;
 				case "NUMERIC QUESTION":
 				case QT_NUMERIC:

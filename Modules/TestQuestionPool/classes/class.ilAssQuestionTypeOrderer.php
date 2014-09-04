@@ -31,6 +31,8 @@ class ilAssQuestionTypeOrderer
 	static $fixQuestionTypeOrder = array(
 		'assSingleChoice',
 		'assMultipleChoice',
+		'assKprimChoice',
+		
 		'assErrorText',
 		'assImagemapQuestion',
 

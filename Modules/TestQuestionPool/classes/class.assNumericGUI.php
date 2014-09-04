@@ -65,8 +65,8 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
 		if (!$hasErrors)
 		{
 			$this->writeQuestionGenericPostData();
-			$this->writeQuestionSpecificPostData();
-			$this->writeAnswerSpecificPostData();
+			$this->writeQuestionSpecificPostData(new ilPropertyFormGUI);
+			$this->writeAnswerSpecificPostData(new ilPropertyFormGUI);
 			$this->saveTaxonomyAssignments();
 			return 0;
 		}
@@ -137,20 +137,6 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
 			}
 		}
 		return FALSE;
-	}
-
-	/**
-	 * @param string		$formaction
-	 * @param integer		$active_id
-	 * @param null|integer	$pass
-	 * @param bool 			$is_postponed
-	 * @param bool 			$use_post_solutions
-	 */
-	public function outQuestionForTest($formaction, $active_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
-	{
-		$test_output = $this->getTestOutput($active_id, $pass, $is_postponed, $use_post_solutions); 
-		$this->tpl->setVariable("QUESTION_OUTPUT", $test_output);
-		$this->tpl->setVariable("FORMACTION", $formaction);
 	}
 
 	/**
@@ -406,12 +392,12 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
 		return $this->object->prepareTextareaOutput($output, TRUE);
 	}
 
-	public function writeQuestionSpecificPostData($always = false)
+	public function writeQuestionSpecificPostData(ilPropertyFormGUI $form)
 	{
 		$this->object->setMaxChars( $_POST["maxchars"] );
 	}
 
-	public function writeAnswerSpecificPostData($always = false)
+	public function writeAnswerSpecificPostData(ilPropertyFormGUI $form)
 	{
 		$this->object->setLowerLimit( $_POST['lowerlimit'] );
 		$this->object->setUpperLimit( $_POST['upperlimit'] );

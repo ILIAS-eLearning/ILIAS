@@ -56,15 +56,15 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		if (!$hasErrors)
 		{
 			$this->writeQuestionGenericPostData();
-			$this->writeQuestionSpecificPostData();
-			$this->writeAnswerSpecificPostData();
+			$this->writeQuestionSpecificPostData(new ilPropertyFormGUI);
+			$this->writeAnswerSpecificPostData(new ilPropertyFormGUI);
 			$this->saveTaxonomyAssignments();
 			return 0;
 		}
 		return 1;
 	}
 
-	public function writeAnswerSpecificPostData($always = true)
+	public function writeAnswerSpecificPostData(ilPropertyFormGUI $form)
 	{
 		// Delete all existing answers and create new answers from the form data
 		$this->object->flushMatchingPairs();
@@ -137,7 +137,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		}
 	}
 
-	public function writeQuestionSpecificPostData($always = true)
+	public function writeQuestionSpecificPostData(ilPropertyFormGUI $form)
 	{
 		if (!$this->object->getSelfAssessmentEditingMode())
 		{
@@ -400,13 +400,6 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		$mode->setValue($this->object->getMatchingMode());
 
 		$form->addItem($mode);
-	}
-
-	function outQuestionForTest($formaction, $active_id, $pass = NULL, $is_postponed = FALSE, $user_post_solution = FALSE)
-	{
-		$test_output = $this->getTestOutput($active_id, $pass, $is_postponed, $user_post_solution); 
-		$this->tpl->setVariable("QUESTION_OUTPUT", $test_output);
-		$this->tpl->setVariable("FORMACTION", $formaction);
 	}
 
 	/**

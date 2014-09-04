@@ -57,15 +57,15 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 		if (!$hasErrors)
 		{
 			$this->writeQuestionGenericPostData();
-			$this->writeQuestionSpecificPostData();
-			$this->writeAnswerSpecificPostData();
+			$this->writeQuestionSpecificPostData(new ilPropertyFormGUI);
+			$this->writeAnswerSpecificPostData(new ilPropertyFormGUI);
 			$this->saveTaxonomyAssignments();
 			return 0;
 		}
 		return 1;
 	}
 
-	public function writeAnswerSpecificPostData($always = false)
+	public function writeAnswerSpecificPostData(ilPropertyFormGUI $form)
 	{
 		if (is_array( $_POST['errordata']['key'] ))
 		{
@@ -80,7 +80,7 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 		}
 	}
 
-	public function writeQuestionSpecificPostData($always = false)
+	public function writeQuestionSpecificPostData(ilPropertyFormGUI $form)
 	{
 		$questiontext = $_POST["question"];
 		$this->object->setQuestion( $questiontext );
@@ -209,20 +209,6 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 		$this->writePostData(true);
 		$this->object->setErrorData($this->object->getErrorsFromText($_POST['errortext']));
 		$this->editQuestion();
-	}
-
-	function outQuestionForTest(
-				$formaction, 
-				$active_id, 
-				$pass = NULL, 
-				$is_postponed = FALSE, 
-				$use_post_solutions = FALSE, 
-				$show_feedback = FALSE
-	)
-	{
-		$test_output = $this->getTestOutput($active_id, $pass, $is_postponed, $use_post_solutions, $show_feedback);
-		$this->tpl->setVariable("QUESTION_OUTPUT", $test_output);
-		$this->tpl->setVariable("FORMACTION", $formaction);
 	}
 
 	/**

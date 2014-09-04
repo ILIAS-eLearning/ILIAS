@@ -53,8 +53,8 @@ class assTextSubsetGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 		if (!$hasErrors)
 		{
 			$this->writeQuestionGenericPostData();
-			$this->writeQuestionSpecificPostData();
-			$this->writeAnswerSpecificPostData();
+			$this->writeQuestionSpecificPostData(new ilPropertyFormGUI);
+			$this->writeAnswerSpecificPostData(new ilPropertyFormGUI);
 			$this->saveTaxonomyAssignments();
 			return 0;
 		}
@@ -118,13 +118,6 @@ class assTextSubsetGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 		$position = key($_POST['cmd']['removeanswers']);
 		$this->object->deleteAnswer($position);
 		$this->editQuestion();
-	}
-
-	function outQuestionForTest($formaction, $active_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
-	{
-		$test_output = $this->getTestOutput($active_id, $pass, $is_postponed, $use_post_solutions); 
-		$this->tpl->setVariable("QUESTION_OUTPUT", $test_output);
-		$this->tpl->setVariable("FORMACTION", $formaction);
 	}
 
 	/**
@@ -408,13 +401,13 @@ class assTextSubsetGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 		return $this->object->prepareTextareaOutput($output, TRUE);
 	}
 
-	public function writeQuestionSpecificPostData($always = true)
+	public function writeQuestionSpecificPostData(ilPropertyFormGUI $form)
 	{
 		$this->object->setCorrectAnswers( $_POST["correctanswers"] );
 		$this->object->setTextRating( $_POST["text_rating"] );
 	}
 
-	public function writeAnswerSpecificPostData($always = true)
+	public function writeAnswerSpecificPostData(ilPropertyFormGUI $form)
 	{
 		// Delete all existing answers and create new answers from the form data
 		$this->object->flushAnswers();

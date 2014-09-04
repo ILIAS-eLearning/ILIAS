@@ -345,7 +345,7 @@ class ilScoringAdjustmentGUI
 
 		if ($question instanceof ilGuiQuestionScoringAdjustable)
 		{
-			$question->writeQuestionSpecificPostData(true);
+			$question->writeQuestionSpecificPostData($form);
 
 		}
 		
@@ -356,7 +356,7 @@ class ilScoringAdjustmentGUI
 		
 		if ($question instanceof ilGuiAnswerScoringAdjustable)
 		{
-			$question->writeAnswerSpecificPostData(true);
+			$question->writeAnswerSpecificPostData($form);
 		}
 		
 		if($question->object instanceof ilObjAnswerScoringAdjustable)

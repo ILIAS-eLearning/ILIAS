@@ -72,15 +72,15 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		if (!$hasErrors)
 		{
 			$this->writeQuestionGenericPostData();
-			$this->writeQuestionSpecificPostData();
-			$this->writeAnswerSpecificPostData();
+			$this->writeQuestionSpecificPostData(new ilPropertyFormGUI);
+			$this->writeAnswerSpecificPostData(new ilPropertyFormGUI);
 			$this->saveTaxonomyAssignments();
 			return 0;
 		}
 		return 1;
 	}
 
-	public function writeAnswerSpecificPostData($always = true)
+	public function writeAnswerSpecificPostData(ilPropertyFormGUI $form)
 	{
 		if (!$_POST['image_delete'])
 		{
@@ -117,7 +117,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 		}
 	}
 
-	public function writeQuestionSpecificPostData($always = true)
+	public function writeQuestionSpecificPostData(ilPropertyFormGUI $form)
 	{
 		if ($_POST['image_delete'])
 		{
@@ -426,7 +426,10 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 	{
 		$test_output = $this->getTestOutput($active_id, $pass, $is_postponed, $use_post_solutions, $show_feedback); 
 		$this->tpl->setVariable("QUESTION_OUTPUT", $test_output);
+		$this->tpl->setVariable("FORMACTION", $formaction);
 
+		// TODO - BEGIN: what exactly is done here? cant we use the parent method? 
+		
 		#$this->ctrl->setParameterByClass($this->getTargetGuiClass(), "formtimestamp", time());
 		#$formaction = $this->ctrl->getLinkTargetByClass($this->getTargetGuiClass(), "selectImagemapRegion");
 		include_once "./Modules/Test/classes/class.ilObjTest.php";
@@ -446,7 +449,8 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 				$formaction .= "&selImage=" . $info[0]["value1"];
 			}
 		}
-		$this->tpl->setVariable("FORMACTION", $formaction);
+
+		// TODO - END: what exactly is done here? cant we use the parent method? 
 	}
 
 	/**

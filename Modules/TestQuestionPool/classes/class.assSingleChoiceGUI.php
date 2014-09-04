@@ -54,8 +54,8 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 		if (!$hasErrors)
 		{
 			$this->writeQuestionGenericPostData();
-			$this->writeQuestionSpecificPostData();
-			$this->writeAnswerSpecificPostData();
+			$this->writeQuestionSpecificPostData(new ilPropertyFormGUI);
+			$this->writeAnswerSpecificPostData(new ilPropertyFormGUI);
 			$this->saveTaxonomyAssignments();
 			return 0;
 		}
@@ -153,21 +153,6 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 		$position = key($_POST['cmd']['removechoice']);
 		$this->object->deleteAnswer($position);
 		$this->editQuestion();
-	}
-
-	function outQuestionForTest($formaction, $active_id, $pass = NULL, $is_question_postponed = FALSE, 
-								$user_post_solutions = FALSE, $show_inline_specific_feedback = FALSE)
-	{
-		$test_output = $this->getTestOutput(
-			$active_id, 
-			$pass, 
-			$is_question_postponed, 
-			$user_post_solutions, 
-			$show_inline_specific_feedback
-		);
-		
-		$this->tpl->setVariable("QUESTION_OUTPUT", $test_output);
-		$this->tpl->setVariable("FORMACTION", $formaction);
 	}
 
 	/**
@@ -644,7 +629,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 		return $this->object->prepareTextareaOutput($output, TRUE);
 	}
 
-	public function writeQuestionSpecificPostData($always = true)
+	public function writeQuestionSpecificPostData(ilPropertyFormGUI $form)
 	{
 		$this->object->setShuffle( $_POST["shuffle"] );
 		$this->object->setMultilineAnswerSetting( $_POST["types"] );
@@ -720,7 +705,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 		return array();
 	}
 
-	public function writeAnswerSpecificPostData($always = true)
+	public function writeAnswerSpecificPostData(ilPropertyFormGUI $form)
 	{
 		// Delete all existing answers and create new answers from the form data
 		$this->object->flushAnswers();

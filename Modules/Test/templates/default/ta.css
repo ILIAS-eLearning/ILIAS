@@ -322,12 +322,47 @@ table.matchingwizard th,
 table.matchingpairwizard th,
 table.errortextwizard th,
 table.singlechoicewizard th,
-table.multiplechoicewizard th {
-	font-size: 90%;
-	font-weight: bold;
-	text-align: center;
+table.multiplechoicewizard th,
+table.kprimchoicewizard th
+{
+    vertical-align: top;
 }
-
+table.kprimchoicewizard th.true,
+table.kprimchoicewizard th.false
+{
+    padding: 5px 15px;
+}
+table.kprimchoicewizard td.correctness
+{
+    vertical-align: top;
+    text-align: center;
+}
+table.kprimchoicewizard th
+{
+    font-size: 90%;
+    font-weight: bold;
+    text-align: center;
+}
+table.ilAssKprimChoiceTable
+{
+    border-collapse: separate;
+    border-spacing: 3px !important;
+}
+table.ilAssKprimChoiceTable th,
+table.ilAssKprimChoiceTable td
+{
+    padding: 5px 15px;
+}
+table.ilAssKprimChoiceTable th
+{
+    background-color: lightgrey;
+    white-space: nowrap;
+}
+table.ilAssKprimChoiceTable td.kprimInput
+{
+    text-align: center;
+    vertical-align: middle;
+}
 #tst_output {
 	clear: both;
 	overflow: hidden;

@@ -276,6 +276,7 @@ function singlechoiceWizardEvents(e)
 		upbuttons = YAHOO.util.Dom.getElementsByClassName('singlechoicewizard_up');
 		for (i = 0; i < upbuttons.length; i++)
 		{
+			console.log(upbuttons);
 			button = upbuttons[i];
 			YAHOO.util.Event.addListener(button, 'click', moveRowUp);
 		}

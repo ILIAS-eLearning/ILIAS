@@ -17,8 +17,8 @@ class ilAssQuestionFeedbackEditingGUI
 	/**
 	 * command constants
 	 */
-	const CMD_SHOW = 'show';
-	const CMD_SAVE = 'save';
+	const CMD_SHOW = 'showFeedbackForm';
+	const CMD_SAVE = 'saveFeedbackForm';
 	
 	/**
 	 * gui instance of current question
@@ -142,7 +142,7 @@ class ilAssQuestionFeedbackEditingGUI
 	 * 
 	 * @access private
 	 */
-	private function showCmd()
+	private function showFeedbackFormCmd()
 	{
 		$form = $this->buildForm();
 
@@ -161,7 +161,7 @@ class ilAssQuestionFeedbackEditingGUI
 	 * 
 	 * @access private
 	 */
-	private function saveCmd()
+	private function saveFeedbackFormCmd()
 	{
 		$form = $this->buildForm();
 		

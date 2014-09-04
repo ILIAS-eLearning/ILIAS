@@ -34,7 +34,7 @@ interface ilGuiAnswerScoringAdjustable
 	 *
 	 * @return void
 	 */
-	public function writeAnswerSpecificPostData($always);
+	public function writeAnswerSpecificPostData(ilPropertyFormGUI $form);
 
 	/**
 	 * Returns a list of postvars which will be suppressed in the form output when used in scoring adjustment.

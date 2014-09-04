@@ -1,0 +1,44 @@
+{QUESTIONTEXT}
+<table class="nobackground ilAssKprimChoiceTable">
+	<tr>
+		<th class="optionLabel">{OPTION_LABEL_TRUE}</th>
+		<th class="optionLabel">{OPTION_LABEL_FALSE}</th>
+		<th></th>
+	</tr>
+	<!-- BEGIN answer_row -->
+	<tr>
+		<td class="kprimInput">
+			<input type="radio" name="kprim_choice_result_{ANSWER_ID}" value="{VALUE_TRUE}" id="{ANSWER_ID}"{CHECKED_ANSWER_TRUE} />
+		</td>
+		<td class="kprimInput" width="15">
+			<input type="radio" name="kprim_choice_result_{ANSWER_ID}" value="{VALUE_FALSE}" id="{ANSWER_ID}"{CHECKED_ANSWER_FALSE} />
+		</td>
+		<td>
+			<!-- BEGIN preview -->
+			<table class="ilc_media_cont_MediaContainer">
+				<tr>
+					<td class="ilc_Mob"><img border="0" src="{ANSWER_IMAGE_URL}" alt="{ANSWER_IMAGE_ALT}" title="{ANSWER_IMAGE_TITLE}" /></td>
+				</tr>
+				<tr>
+					<td>
+						<div class="ilc_media_caption_MediaCaption"><a target="_blank" href="{URL_PREVIEW}" title="{TEXT_PREVIEW}"><img border="0" align="right" src="{IMG_PREVIEW}"/></a></div>
+					</td>
+				</tr>
+			</table>
+			<!-- END preview -->
+			<!-- BEGIN answer_image -->
+			<img src="{ANSWER_IMAGE_URL}" alt="{ANSWER_IMAGE_ALT}" title="{ANSWER_IMAGE_TITLE}" />
+			<!-- END answer_image -->
+			{ANSWER_TEXT}
+		</td>
+	</tr>
+	<!-- BEGIN feedback -->
+	<tr>
+		<td colspan="2"></td>
+		<td>
+			<span class="feedback">{FEEDBACK}</span>
+		</td>
+	</tr>
+	<!-- END feedback -->
+	<!-- END answer_row -->
+</table>

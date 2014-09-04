@@ -17,6 +17,10 @@ require_once 'Modules/TestQuestionPool/classes/feedback/class.ilAssMultiOptionQu
  */
 abstract class ilAssConfigurableMultiOptionQuestionFeedback extends ilAssMultiOptionQuestionFeedback
 {
+	const FEEDBACK_SETTING_ALL = 1;
+	const FEEDBACK_SETTING_CHECKED = 2;
+	const FEEDBACK_SETTING_CORRECT = 3;
+
 	/**
 	 * completes a given form object with the specific form properties
 	 * required by this question type
@@ -38,9 +42,15 @@ abstract class ilAssConfigurableMultiOptionQuestionFeedback extends ilAssMultiOp
 			require_once './Services/Form/classes/class.ilRadioOption.php';
 
 			$feedback = new ilRadioGroupInputGUI($this->lng->txt('feedback_setting'), 'feedback_setting');
-			$feedback->addOption(new ilRadioOption($this->lng->txt('feedback_all'), 1), true);
-			$feedback->addOption(new ilRadioOption($this->lng->txt('feedback_checked'), 2));
-			$feedback->addOption(new ilRadioOption($this->lng->txt('feedback_correct'), 3));
+			$feedback->addOption(
+				new ilRadioOption($this->lng->txt('feedback_all'), self::FEEDBACK_SETTING_ALL), true
+			);
+			$feedback->addOption(
+				new ilRadioOption($this->lng->txt('feedback_checked'), self::FEEDBACK_SETTING_CHECKED)
+			);
+			$feedback->addOption(
+				new ilRadioOption($this->lng->txt('feedback_correct'), self::FEEDBACK_SETTING_CORRECT)
+			);
 			$form->addItem($feedback);
 
 			foreach( $this->getAnswerOptionsByAnswerIndex() as $index => $answer )

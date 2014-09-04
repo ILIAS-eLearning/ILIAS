@@ -66,7 +66,7 @@ class assJavaAppletGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 			$this->writeQuestionGenericPostData();
 			
 			$this->object->setPoints($_POST["points"]);
-			$this->writeQuestionSpecificPostData();
+			$this->writeQuestionSpecificPostData(new ilPropertyFormGUI);
 
 			$this->saveTaxonomyAssignments();
 			
@@ -75,7 +75,7 @@ class assJavaAppletGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 		return 1;
 	}
 
-	public function writeQuestionSpecificPostData($always = true)
+	public function writeQuestionSpecificPostData(ilPropertyFormGUI $form)
 	{
 		if ($_POST['delete_applet'])
 		{
@@ -267,13 +267,6 @@ class assJavaAppletGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 		$position = key($_POST['cmd']['removekvp']);
 		$this->object->removeParameter($position);
 		$this->editQuestion();
-	}
-
-	function outQuestionForTest($formaction, $active_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE)
-	{
-		$test_output = $this->getTestOutput($active_id, $pass, $is_postponed, $use_post_solutions); 
-		$this->tpl->setVariable("QUESTION_OUTPUT", $test_output);
-		$this->tpl->setVariable("FORMACTION", $formaction);
 	}
 
 	/**

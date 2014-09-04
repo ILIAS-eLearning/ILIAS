@@ -56,8 +56,8 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 		if (!$hasErrors)
 		{
 			$this->writeQuestionGenericPostData();
-			$this->writeQuestionSpecificPostData();
-			$this->writeAnswerSpecificPostData();
+			$this->writeQuestionSpecificPostData(new ilPropertyFormGUI);
+			$this->writeAnswerSpecificPostData(new ilPropertyFormGUI);
 			$this->saveTaxonomyAssignments();
 			return 0;
 		}
@@ -156,35 +156,6 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 		$position = key($_POST['cmd']['removechoice']);
 		$this->object->deleteAnswer($position);
 		$this->editQuestion();
-	}
-
-	/**
-	 * @param string		$formaction
-	 * @param integer		$active_id
-	 * @param integer|null 	$pass
-	 * @param bool 			$is_question_postponed
-	 * @param bool 			$user_post_solutions
-	 * @param bool 			$show_specific_inline_feedback
-	 */
-	function outQuestionForTest(
-		$formaction, 
-		$active_id, 
-		$pass = NULL, 
-		$is_question_postponed = FALSE, 
-		$user_post_solutions = FALSE, 
-		$show_specific_inline_feedback = FALSE
-	)
-	{
-		$test_output = $this->getTestOutput(
-			$active_id, 
-			$pass, 
-			$is_question_postponed, 
-			$user_post_solutions, 
-			$show_specific_inline_feedback
-		);
-		
-		$this->tpl->setVariable("QUESTION_OUTPUT", $test_output);
-		$this->tpl->setVariable("FORMACTION", $formaction);
 	}
 
 	/**
@@ -714,7 +685,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 		return $this->object->prepareTextareaOutput($output, TRUE);
 	}
 
-	public function writeQuestionSpecificPostData($always = false)
+	public function writeQuestionSpecificPostData(ilPropertyFormGUI $form)
 	{
 		$this->object->setShuffle( $_POST["shuffle"] );
 
@@ -733,7 +704,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 		$this->object->setThumbSize( (strlen( $_POST["thumb_size"] )) ? $_POST["thumb_size"] : "" );
 	}
 
-	public function writeAnswerSpecificPostData($always = false)
+	public function writeAnswerSpecificPostData(ilPropertyFormGUI $form)
 	{
 		// Delete all existing answers and create new answers from the form data
 		$this->object->flushAnswers();

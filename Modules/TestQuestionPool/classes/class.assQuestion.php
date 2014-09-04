@@ -104,18 +104,19 @@ abstract class assQuestion
 	protected $ilias;
 
 	/**
-	* The reference to the Template class
-	*
-	* @var object
-	*/
+	 * @var ilTemplate
+	 */
 	protected $tpl;
 
 	/**
-	* The reference to the Language class
-	*
-	* @var object
-	*/
+	 * @var ilLanguage
+	 */
 	protected $lng;
+
+	/**
+	 * @var ilDB
+	 */
+	protected $db;
 
 	/**
 	* Contains the output type of a question
@@ -231,6 +232,8 @@ abstract class assQuestion
 
 	public $questionActionCmd = 'handleQuestionAction';
 	
+	protected $lastChange;
+	
 	/**
 	* assQuestion constructor
 	*
@@ -249,13 +252,12 @@ abstract class assQuestion
 		$question = ""
 	)
 	{
-		global $ilias;
-		global $lng;
-		global $tpl;
+		global $ilias, $lng, $tpl, $ilDB;
 
-		$this->ilias =& $ilias;
-		$this->lng =& $lng;
-		$this->tpl =& $tpl;
+		$this->ilias = $ilias;
+		$this->lng = $lng;
+		$this->tpl = $tpl;
+		$this->db = $ilDB;
 
 		$this->original_id = null;
 		$this->title = $title;
@@ -283,6 +285,8 @@ abstract class assQuestion
 		$this->setExternalId('');
 
 		$this->questionActionCmd = 'handleQuestionAction';
+		
+		$this->lastChange = null;
 	}
 
 	/**
@@ -444,17 +448,33 @@ abstract class assQuestion
 	}
 
 	/**
-	* Sets the estimated working time of a question
-	*
-	* @param integer $hour Hour
-	* @param integer $min Minutes
-	* @param integer $sec Seconds
-	* @access public
-	* @see $comment
-	*/
+	 * Sets the estimated working time of a question
+	 * from given hour, minute and second 
+	 *
+	 * @param integer $hour Hour
+	 * @param integer $min Minutes
+	 * @param integer $sec Seconds
+	 * @access public
+	 * @see $comment
+	 */
 	function setEstimatedWorkingTime($hour=0, $min=0, $sec=0)
 	{
 		$this->est_working_time = array("h" => (int)$hour, "m" => (int)$min, "s" => (int)$sec);
+	}
+
+	/**
+	 * Sets the estimated working time of a question
+	 * from a given datetime string
+	 *
+	 * @param string $datetime
+	 */
+	function setEstimatedWorkingTimeFromDurationString($durationString)
+	{
+		$this->est_working_time = array(
+			'h' => (int)substr($durationString, 0, 2),
+			'm' => (int)substr($durationString, 3, 2),
+			's' => (int)substr($durationString, 6, 2)
+		);
 	}
 
 	/**
@@ -1422,7 +1442,12 @@ abstract class assQuestion
 			$object_id = $this->obj_id;
 		}
 		
-		return CLIENT_WEB_DIR . "/assessment/$object_id/$question_id/images/";
+		return $this->buildImagePath($question_id, $object_id);
+	}
+	
+	public function buildImagePath($questionId, $parentObjectId)
+	{
+		return CLIENT_WEB_DIR . "/assessment/{$parentObjectId}/{$questionId}/images/";
 	}
 
 	/**
@@ -1637,24 +1662,17 @@ abstract class assQuestion
 	{
 		global $ilDB;
 		$answer_table_name = $this->getAnswerTableName();
-		if (is_array($answer_table_name))
+		
+		if( !is_array($answer_table_name) )
 		{
-			foreach ($answer_table_name as $table)
-			{
-				if (strlen($table))
-				{
-					$affectedRows = $ilDB->manipulateF("DELETE FROM $table WHERE question_fi = %s",
-						array('integer'),
-						array($question_id)
-					);
-				}
-			}
+			$answer_table_name = array($answer_table_name);
 		}
-		else
+		
+		foreach ($answer_table_name as $table)
 		{
-			if (strlen($answer_table_name))
+			if (strlen($table))
 			{
-				$affectedRows = $ilDB->manipulateF("DELETE FROM $answer_table_name WHERE question_fi = %s",
+				$affectedRows = $ilDB->manipulateF("DELETE FROM $table WHERE question_fi = %s",
 					array('integer'),
 					array($question_id)
 				);
@@ -1671,25 +1689,19 @@ abstract class assQuestion
 	function deleteAdditionalTableData($question_id)
 	{
 		global $ilDB;
+		
 		$additional_table_name = $this->getAdditionalTableName();
-		if (is_array($additional_table_name))
+		
+		if( !is_array($additional_table_name) )
 		{
-			foreach ($additional_table_name as $table)
-			{
-				if (strlen($table))
-				{
-					$affectedRows = $ilDB->manipulateF("DELETE FROM $table WHERE question_fi = %s",
-						array('integer'),
-						array($question_id)
-					);
-				}
-			}
+			$additional_table_name = array($additional_table_name);
 		}
-		else
+		
+		foreach ($additional_table_name as $table)
 		{
-			if (strlen($additional_table_name))
+			if (strlen($table))
 			{
-				$affectedRows = $ilDB->manipulateF("DELETE FROM $additional_table_name WHERE question_fi = %s",
+				$affectedRows = $ilDB->manipulateF("DELETE FROM $table WHERE question_fi = %s",
 					array('integer'),
 					array($question_id)
 				);
@@ -2323,11 +2335,16 @@ abstract class assQuestion
 		// duplicate question hints
 		$this->duplicateQuestionHints($originalQuestionId, $duplicateQuestionId);
 	}
-	
-	protected function onSyncWithOriginal($originalQuestionId, $duplicateQuestionId)
+
+	protected function beforeSyncWithOriginal($origQuestionId, $dupQuestionId, $origParentObjId, $dupParentObjId)
+	{
+		
+	}
+
+	protected function afterSyncWithOriginal($origQuestionId, $dupQuestionId, $origParentObjId, $dupParentObjId)
 	{
 		// sync question feeback
-		$this->feedbackOBJ->syncFeedback($originalQuestionId, $duplicateQuestionId);
+		$this->feedbackOBJ->syncFeedback($origQuestionId, $dupQuestionId);
 	}
 	
 	/**
@@ -2798,7 +2815,10 @@ abstract class assQuestion
 		}
 		
 		$id = $this->getId();
+		$objId = $this->getObjId();
 		$original = $this->getOriginalId();
+
+		$this->beforeSyncWithOriginal($original, $id, $originalObjId, $objId);
 
 		$this->setId($this->getOriginalId());
 		$this->setOriginalId(NULL);
@@ -2813,7 +2833,7 @@ abstract class assQuestion
 		$this->updateSuggestedSolutions($original);
 		$this->syncXHTMLMediaObjectsOfQuestion();
 
-		$this->onSyncWithOriginal($original, $this->getId());
+		$this->afterSyncWithOriginal($original, $id, $originalObjId, $objId);
 	}
 
 	function createRandomSolution($test_id, $user_id)
@@ -3255,14 +3275,22 @@ abstract class assQuestion
 		if ($close_material_tag) $a_xml_writer->xmlEndTag("material");
 	}
 	
-	function createNewImageFileName($image_filename)
+	function createNewImageFileName($image_filename, $unique = false)
 	{
 		$extension = "";
+		
 		if (preg_match("/.*\.(png|jpg|gif|jpeg)$/i", $image_filename, $matches))
 		{
 			$extension = "." . $matches[1];
 		}
+		
+		if($unique)
+		{
+			$image_filename = uniqid($image_filename.microtime(true));
+		}
+		
 		$image_filename = md5($image_filename) . $extension;
+		
 		return $image_filename;
 	}
 
@@ -3369,14 +3397,9 @@ abstract class assQuestion
 	/**
 	* Returns the question type of the question
 	*
-	* @return integer The question type of the question
-	* @access public
+	* @return string The question type of the question 
 	*/
-	function getQuestionType()
-	{
-		// must be overwritten in every parent class
-		return "";
-	}
+	abstract public function getQuestionType();
 	
 	/**
 	* Returns the question type of the question
@@ -4234,5 +4257,27 @@ abstract class assQuestion
 	{
 		require_once 'Services/Html/classes/class.ilHtmlPurifierFactory.php';
 		return ilHtmlPurifierFactory::_getInstanceByType('qpl_usersolution');
+	}
+	
+	protected function buildQuestionDataQuery()
+	{
+		return "
+			SELECT 		qpl_questions.*,
+						{$this->getAdditionalTableName()}.*
+			FROM		qpl_questions
+			LEFT JOIN	{$this->getAdditionalTableName()}
+			ON			{$this->getAdditionalTableName()}.question_fi = qpl_questions.question_id
+			WHERE			qpl_questions.question_id = %s
+		";
+	}
+
+	public function setLastChange($lastChange)
+	{
+		$this->lastChange = $lastChange;
+	}
+
+	public function getLastChange()
+	{
+		return $this->lastChange;
 	}
 }

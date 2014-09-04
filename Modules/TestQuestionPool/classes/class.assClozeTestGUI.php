@@ -74,9 +74,9 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 
 			$this->writeQuestionGenericPostData();
 			$this->object->setClozeText($_POST["cloze_text"]);
-			$this->writeQuestionSpecificPostData();
+			$this->writeQuestionSpecificPostData(new ilPropertyFormGUI);
 			//$this->object->flushGaps();
-			$this->writeAnswerSpecificPostData();
+			$this->writeAnswerSpecificPostData(new ilPropertyFormGUI);
 			$this->saveTaxonomyAssignments();
 			return 0;
 		}
@@ -87,7 +87,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 		return 1;
 	}
 
-	public function writeAnswerSpecificPostData($always = false)
+	public function writeAnswerSpecificPostData(ilPropertyFormGUI $form)
 	{
 		if (is_array( $_POST['gap'] ))
 		{
@@ -222,7 +222,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 		}
 	}
 
-	public function writeQuestionSpecificPostData($always = false)
+	public function writeQuestionSpecificPostData(ilPropertyFormGUI $form)
 	{
 		$this->object->setClozeText( $_POST['cloze_text'] );
 		$this->object->setTextgapRating( $_POST["textgap_rating"] );
@@ -774,30 +774,6 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 		$this->writePostData(true);
 		$this->object->addGapAnswer($this->gapIndex, key($_POST['cmd']['addgap_' . $this->gapIndex])+1, "");
 		$this->editQuestion();
-	}
-
-	/**
-	* Creates an output of the question for a test
-	*
-	* @param string $formaction The form action for the test output
-	* @param integer $active_id The active id of the current user from the tst_active database table
-	* @param integer $pass The test pass of the current user
-	* @param boolean $is_postponed The information if the question is a postponed question or not
-	* @param boolean $use_post_solutions Fills the question output with answers from the previous post if TRUE, otherwise with the user results from the database
-	* 
-	* @access public
-	*/
-	function outQuestionForTest(
-				$formaction, 
-				$active_id, 
-				$pass = NULL, 
-				$is_postponed = FALSE, 
-				$use_post_solutions = FALSE
-	)
-	{
-		$test_output = $this->getTestOutput($active_id, $pass, $is_postponed, $use_post_solutions); 
-		$this->tpl->setVariable("QUESTION_OUTPUT", $test_output);
-		$this->tpl->setVariable("FORMACTION", $formaction);
 	}
 
 	/**

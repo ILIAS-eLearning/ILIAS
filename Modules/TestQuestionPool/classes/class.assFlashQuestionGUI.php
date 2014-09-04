@@ -79,7 +79,7 @@ class assFlashQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoring
 		if (!$hasErrors)
 		{
 			$this->writeQuestionGenericPostData();
-			$this->writeQuestionSpecificPostData();
+			$this->writeQuestionSpecificPostData(new ilPropertyFormGUI);
 
 			$this->saveTaxonomyAssignments();
 			return 0;
@@ -87,7 +87,7 @@ class assFlashQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoring
 		return 1;
 	}
 
-	public function writeQuestionSpecificPostData($always = true)
+	public function writeQuestionSpecificPostData(ilPropertyFormGUI $form)
 	{
 		$this->setErrorMessage( "" );
 		if ($_POST['flash']['delete'] == 1)
@@ -201,13 +201,6 @@ class assFlashQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoring
 		$this->writePostData();
 		$this->object->addParameter("", "");
 		$this->editQuestion();
-	}
-
-	function outQuestionForTest($formaction, $active_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE, $show_feedback = FALSE)
-	{
-		$test_output = $this->getTestOutput($active_id, $pass, $is_postponed, $use_post_solutions, $show_feedback); 
-		$this->tpl->setVariable("QUESTION_OUTPUT", $test_output);
-		$this->tpl->setVariable("FORMACTION", $formaction);
 	}
 
 	/**

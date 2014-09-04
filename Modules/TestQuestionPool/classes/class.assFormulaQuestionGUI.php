@@ -971,15 +971,6 @@ class assFormulaQuestionGUI extends assQuestionGUI
 		return TRUE;
 	}
 
-	function outQuestionForTest($formaction, $active_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE, $show_feedback = FALSE)
-	{
-
-		$test_output = $this->getTestOutput($active_id, $pass, $is_postponed, $use_post_solutions, $show_feedback);
-
-		$this->tpl->setVariable("QUESTION_OUTPUT", $test_output);
-		$this->tpl->setVariable("FORMACTION", $formaction);
-	}
-
 	/**
 	 * Get the question solution output
 	 * @param integer $active_id             The active user id

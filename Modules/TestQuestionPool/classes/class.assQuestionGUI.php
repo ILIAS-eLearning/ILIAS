@@ -21,6 +21,9 @@ abstract class assQuestionGUI
 	const FORM_MODE_EDIT 	= 'edit';
 	const FORM_MODE_ADJUST	= 'adjust';
 	
+	const FORM_ENCODING_URLENCODE = 'application/x-www-form-urlencoded';
+	const FORM_ENCODING_MULTIPART = 'multipart/form-data';
+	
 	const SESSION_PREVIEW_DATA_BASE_INDEX = 'ilAssQuestionPreviewAnswers';
 	
 	/**
@@ -153,16 +156,6 @@ abstract class assQuestionGUI
 	public function getQuestionActionCmd()
 	{
 		return $this->questionActionCmd;
-	}
-
-	/**
-	* Evaluates a posted edit form and writes the form data in the question object
-	*
-	* @return integer A positive value, if one of the required fields wasn't set, else 0
-	* @access private
-	*/
-	function writePostData()
-	{
 	}
 
 	/**
@@ -1712,6 +1705,88 @@ abstract class assQuestionGUI
 	
 	public function setQuestionTabs()
 	{
+		global $rbacsystem, $ilTabs;
+
+		$this->ctrl->setParameterByClass("ilAssQuestionPageGUI", "q_id", $_GET["q_id"]);
+		include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
+		$q_type = $this->object->getQuestionType();
+
+		if (strlen($q_type))
+		{
+			$classname = $q_type . "GUI";
+			$this->ctrl->setParameterByClass(strtolower($classname), "sel_question_types", $q_type);
+			$this->ctrl->setParameterByClass(strtolower($classname), "q_id", $_GET["q_id"]);
+		}
+
+		if ($_GET["q_id"])
+		{
+			if ($rbacsystem->checkAccess('write', $_GET["ref_id"]))
+			{
+				// edit page
+				$ilTabs->addTarget("edit_page",
+					$this->ctrl->getLinkTargetByClass("ilAssQuestionPageGUI", "edit"),
+					array("edit", "insert", "exec_pg"),
+					"", "", $force_active);
+			}
+
+			$this->addTab_QuestionPreview($ilTabs);
+		}
+		$force_active = false;
+		if ($rbacsystem->checkAccess('write', $_GET["ref_id"]))
+		{
+			$url = "";
+			if ($classname) $url = $this->ctrl->getLinkTargetByClass($classname, "editQuestion");
+			$force_active = false;
+			// edit question properties
+			$ilTabs->addTarget("edit_question",
+				$url,
+				$this->getEditQuestionTabCommands(),
+				$classname, "", $force_active);
+		}
+
+		// add tab for question feedback within common class assQuestionGUI
+		$this->addTab_QuestionFeedback($ilTabs);
+
+		// add tab for question hint within common class assQuestionGUI
+		$this->addTab_QuestionHints($ilTabs);
+
+		if ($_GET["q_id"])
+		{
+			$ilTabs->addTarget("solution_hint",
+				$this->ctrl->getLinkTargetByClass($classname, "suggestedsolution"),
+				array("suggestedsolution", "saveSuggestedSolution", "outSolutionExplorer", "cancel",
+					"addSuggestedSolution","cancelExplorer", "linkChilds", "removeSuggestedSolution"
+				),
+				$classname,
+				""
+			);
+		}
+
+		// Assessment of questions sub menu entry
+		if ($_GET["q_id"])
+		{
+			$ilTabs->addTarget("statistics",
+				$this->ctrl->getLinkTargetByClass($classname, "assessment"),
+				array("assessment"),
+				$classname, "");
+		}
+
+		$this->addBackTab($ilTabs);
+	}
+	
+	final public function getEditQuestionTabCommands()
+	{
+		return array_merge($this->getBasicEditQuestionTabCommands(), $this->getAdditionalEditQuestionCommands());
+	}
+	
+	protected function getBasicEditQuestionTabCommands()
+	{
+		return array('editQuestion', 'save', 'saveEdit', 'originalSyncForm');
+	}
+	
+	protected function getAdditionalEditQuestionCommands()
+	{
+		return array();
 	}
 	
 	/**
@@ -1829,6 +1904,41 @@ abstract class assQuestionGUI
 	abstract public function getPreview($show_question_only = FALSE, $showInlineFeedback = false);
 
 	/**
+	 * @param string		$formaction
+	 * @param integer		$active_id
+	 * @param integer|null 	$pass
+	 * @param bool 			$is_question_postponed
+	 * @param bool 			$user_post_solutions
+	 * @param bool 			$show_specific_inline_feedback
+	 */
+	public function outQuestionForTest(
+		$formaction,
+		$active_id,
+		$pass = NULL,
+		$is_question_postponed = FALSE,
+		$user_post_solutions = FALSE,
+		$show_specific_inline_feedback = FALSE
+	)
+	{
+		$test_output = $this->getTestOutput(
+			$active_id,
+			$pass,
+			$is_question_postponed,
+			$user_post_solutions,
+			$show_specific_inline_feedback
+		);
+
+		$this->tpl->setVariable("QUESTION_OUTPUT", $test_output);
+		$this->tpl->setVariable("FORMACTION", $formaction);
+		$this->tpl->setVariable("ENCTYPE", 'enctype="'.$this->getFormEncodingType().'"');
+	}
+
+	protected function getFormEncodingType()
+	{
+		return self::FORM_ENCODING_URLENCODE;
+	}
+
+	/**
 	 * @param ilTabsGUI $ilTabs
 	 */
 	protected function addBackTab(ilTabsGUI $ilTabs)
@@ -1887,5 +1997,25 @@ abstract class assQuestionGUI
 	public function getPreviewSession()
 	{
 		return $this->previewSession;
+	}
+
+	/**
+	 * @return ilPropertyFormGUI
+	 */
+	protected function buildBasicEditFormObject()
+	{
+		require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
+		$form = new ilPropertyFormGUI();
+
+		$form->setFormAction($this->ctrl->getFormAction($this));
+
+		$form->setId($this->getType());
+		$form->setTitle($this->outQuestionType());
+
+		$form->setTableWidth('100%');
+
+		$form->setMultipart(true);
+		
+		return $form;
 	}
 }

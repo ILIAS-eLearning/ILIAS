@@ -54,14 +54,14 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 		if (!$hasErrors)
 		{
 			$this->writeQuestionGenericPostData();
-			$this->writeQuestionSpecificPostData();
+			$this->writeQuestionSpecificPostData(new ilPropertyFormGUI);
 			$this->saveTaxonomyAssignments();
 			return 0;
 		}
 		return 1;
 	}
 
-	public function writeQuestionSpecificPostData($always = false)
+	public function writeQuestionSpecificPostData(ilPropertyFormGUI $form)
 	{
 		$this->object->setPoints( $_POST["points"] );
 		$this->object->setMaxSize( $_POST["maxsize"] );
@@ -189,14 +189,6 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 			return $max_filesize;
 		}
 		return $max_filesize;
-	}
-
-	function outQuestionForTest($formaction, $active_id, $pass = NULL, $is_postponed = FALSE, $use_post_solutions = FALSE, $show_feedback = FALSE)
-	{
-		$test_output = $this->getTestOutput($active_id, $pass, $is_postponed, $use_post_solutions, $show_feedback); 
-		$this->tpl->setVariable("QUESTION_OUTPUT", $test_output);
-		$this->tpl->setVariable("FORMACTION", $formaction);
-		$this->tpl->setVariable("ENCTYPE", 'enctype="multipart/form-data"');
 	}
 
 	/**
@@ -533,5 +525,10 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 	{
 		// Empty implementation here since a feasible way to aggregate answer is not known.
 		return ''; //print_r($relevant_answers,true);
+	}
+
+	protected function getFormEncodingType()
+	{
+		return self::FORM_ENCODING_MULTIPART;
 	}
 }

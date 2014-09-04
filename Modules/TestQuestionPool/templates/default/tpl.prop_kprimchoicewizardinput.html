@@ -1,0 +1,66 @@
+<div id="{ELEMENT_ID}">
+	<table class="kprimchoicewizard">
+		<thead>
+		<tr>
+			<th rowspan="2">{ANSWER_TEXT}</th>
+			<!-- BEGIN image_heading -->
+			<th rowspan="2" class="imagecolumn">{ANSWER_IMAGE}</th>
+			<!-- END image_heading -->
+			<th colspan="2">{OPTIONS_TEXT}</th>
+		</tr>
+		<tr>
+			<th class="optionLabel true">{TRUE_TEXT}</th>
+			<th class="optionLabel false">{FALSE_TEXT}</th>
+		</tr>
+		</thead>
+		<tbody class="wizardTableBody">
+		<!-- BEGIN row -->
+		<tr class="{ROW_CLASS}">
+			<td>
+				<!-- BEGIN singleline -->
+				<input type="text" size="{SIZE}" id="{SINGLELINE_ID}" maxlength="{MAXLENGTH}" name="{SINGLELINE_POST_VAR}[answer][{SINGLELINE_ROW_NUMBER}]" <!-- BEGIN prop_text_propval -->value="{PROPERTY_VALUE}" <!-- END prop_text_propval -->{DISABLED_SINGLELINE}/>
+				<!-- END singleline -->
+				<!-- BEGIN multiline -->
+				<textarea cols="60" rows="4" name="{MULTILINE_POST_VAR}[answer][{MULTILINE_ROW_NUMBER}]" id="{MULTILINE_ID}"{DISABLED_MULTILINE}>{PROPERTY_VALUE}</textarea>
+				<!-- END multiline -->
+			</td>
+			<!-- BEGIN addimage -->
+			<td class="imagecolumn">
+				<div class="imageselection">
+					<div><input type="file" id="{IMAGE_ID}" name="{IMAGE_POST_VAR}[image][{IMAGE_ROW_NUMBER}]" size="20" /> <input type="submit" class="submit" name="cmd[uploadImage][{IMAGE_ROW_NUMBER}]" value="{IMAGE_SUBMIT}" /></div>
+					<!-- BEGIN image -->
+					<div class="imagepresentation">
+						<input type="hidden" name="{IMAGE_POST_VAR}[imagename][{IMAGE_ROW_NUMBER}]" value="{IMAGE_NAME}" />
+						<img style="margin: 5px 0px 5px 0px;" src="{SRC_IMAGE}" alt="{ALT_IMAGE}" {WIDTH} {HEIGHT} border="0" /><br />
+						<input type="submit" class="submit" name="cmd[removeImage][{IMAGE_ROW_NUMBER}]" value="{TXT_DELETE_EXISTING}" /><br />
+					</div>
+					<!-- END image -->
+				</div>
+			</td>
+			<!-- END addimage -->
+			<td class="correctness">
+				<input type="radio" style="text-align: right;" id="{CORRECTNESS_TRUE_ID}" name="{POST_VAR}[correctness][{ROW_NUMBER}]" value="{CORRECTNESS_TRUE_VALUE}"{CORRECTNESS_TRUE_SELECTED}{DISABLED_CORRECTNESS}/>
+			</td>
+			<td class="correctness">
+				<input type="radio" style="text-align: right;" id="{CORRECTNESS_FALSE_ID}" name="{POST_VAR}[correctness][{ROW_NUMBER}]" value="{CORRECTNESS_FALSE_VALUE}"{CORRECTNESS_FALSE_SELECTED}{DISABLED_CORRECTNESS}/>
+			</td>
+			<!-- BEGIN move -->
+			<td style="vertical-align: top;">
+				<input type="image" name="{CMD_UP}" class="singlechoicewizard_up" id="{UP_ID}" src="{UP_BUTTON}" onclick="javascript: void(0); return false;" />
+				<input type="image" name="{CMD_DOWN}" class="singlechoicewizard_down" id="{DOWN_ID}" src="{DOWN_BUTTON}" onclick="javascript: void(0); return false;" />
+			</td>
+			<!-- END move -->
+		</tr>
+		<!-- END row -->
+		</tbody>
+	</table>
+	<div class="ilFormInfo">{TXT_MAX_SIZE}<!-- BEGIN allowed_image_suffixes --> {TXT_ALLOWED_SUFFIXES}<!-- END allowed_image_suffixes --></div>
+	<div style="display:none;">
+		<!-- BEGIN option_label_translations -->
+		<div data-id="{OPTION_LABEL}">
+			<div data-var="true" data-val="{TRANSLATION_TRUE}"></div>
+			<div data-var="false" data-val="{TRANSLATION_FALSE}"></div>
+		</div>
+		<!-- END option_label_translations -->
+	</div>
+</div>

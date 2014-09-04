@@ -362,6 +362,7 @@ assessment#:#assImagemapQuestion#:#Hotspot/Imagemap
 assessment#:#assJavaApplet#:#Eingebettete Frage : Java Applet
 assessment#:#assMatchingQuestion#:#Zuordnungsfrage
 assessment#:#assMultipleChoice#:#Multiple Choice
+assessment#:#assKprimChoice#:#Kprim Choice
 assessment#:#assNumeric#:#Numerische Antwort
 assessment#:#assOrderingHorizontal#:#Anordnungsfrage : horizontal
 assessment#:#assOrderingQuestion#:#Anordnungsfrage : vertikal
@@ -506,6 +507,26 @@ assessment#:#errors#:#Fehler
 assessment#:#errors_section#:#Fehlerdaten
 assessment#:#errortext#:#Fehler/Worte markieren
 assessment#:#errortext_info#:#Bitte geben Sie einen Text ein. Um ein Wort als fehlerhaft zu markieren, setzen Sie bitte eine Raute (#) direkt vor das gewünschte Wort. Um eine Gruppe von Fehlerwörtern zu definieren, umklammern Sie die Wörter mit doppelten Klammern (z.B.: Dies ist ((ein Beispiel)) für mehrere Wörter). Wenn Sie auf die Schaltfläche &quot;Text analysieren&quot; klicken, werden die markierten Wörter für die weitere Bearbeitung extrahiert.
+assessment#:#score_partsol_enabled#:#Bewerte Teillösungen
+assessment#:#score_partsol_enabled_info#:#Es hat sich als sinnvoll erwiesen, drei korrekte Antworten bereits mit der Hälfte der maximal erreichbaren Punktezahl zu honorieren. Bei weniger als drei korrekten Antworten werden keine Punkte vergeben.
+assessment#:#option_label#:#Options Bezeichnungen
+assessment#:#option_label_info#:#Die hier konfigurierten Bezeichnungen werden als Beschriftung für die Entscheidungsoptionen verwendet.
+assessment#:#option_label_right_wrong#:#richtig / falsch
+assessment#:#option_label_right#:#richtig
+assessment#:#option_label_wrong#:#falsch
+assessment#:#option_label_plus_minus#:#+ / -
+assessment#:#option_label_plus#:#+
+assessment#:#option_label_minus#:#-
+assessment#:#option_label_applicable_or_not#:#zutreffend / nicht zutreffend
+assessment#:#option_label_applicable#:#zutreffend
+assessment#:#option_label_not_applicable#:#nicht zutreffend
+assessment#:#option_label_adequate_or_not#:#adäquat / nicht adäquat
+assessment#:#option_label_adequate#:#adäquat
+assessment#:#option_label_not_adequate#:#nicht adäquat
+assessment#:#option_label_custom#:#Benutzerdefinierte Bezeichnungen
+assessment#:#option_label_custom_true#:#Bezeichnung für "WAHR"
+assessment#:#option_label_custom_false#:#Bezeichnung für "FALSCH"
+assessment#:#kprim_answers_info#:#Der Multiple Choice Fragetyp "Vierfache Entscheidung richtig/falsch" (Typ K', genannt Kprim) zeichnet sich dadurch aus, dass auf eine Frage oder unvollständige Aussage vier Antworten oder Ergänzungen folgen. Für jede dieser vier Möglichkeiten muss jeweils entschieden werden, ob sie zutrifft (richtig/+) oder nicht zutrifft (falsch/-). Um die maximal erreichbare Punktezahl zu erhalten, müssen alle vier Antworten korrekt sein.
 assessment#:#ass_quest_process_lock#:#Verwende Lock Mechanismus während der Einreichung von Teilnehmer-Lösungen
 assessment#:#ass_quest_process_lock_desc#:#Ohne die Verwendung eines Locking Mechanismus sind Race Conditions während der Einreichung von Lösungsdaten möglich. Diese können zu inkosistenten Test Ergebnissen führen.
 assessment#:#ass_quest_process_lock_mode#:#Lock Modus während der Einreichung von Teilnehmer-Lösungen
