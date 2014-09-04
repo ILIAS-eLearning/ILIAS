@@ -46,6 +46,13 @@ class ilObjWikiGUI extends ilObjectGUI
 		$cmd = $this->ctrl->getCmd();
 
 		$this->prepareOutput();
+		
+		// see ilWikiPageGUI::printViewOrderList()
+		// printView() and pdfExport() cannot be in ilWikiPageGUI because of stylesheet confusion
+		if($cmd == "printView" || $cmd == "pdfExport")
+		{
+			$next_class = null;
+		}
 	
   		switch($next_class)
 		{
@@ -63,7 +70,7 @@ class ilObjWikiGUI extends ilObjectGUI
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
 			
-			case 'ilwikipagegui':
+			case 'ilwikipagegui':				
 				$this->checkPermission("read");
 				include_once("./Modules/Wiki/classes/class.ilWikiPageGUI.php");
 				$wpage_gui = ilWikiPageGUI::getGUIForTitle($this->object->getId(),
@@ -1268,6 +1275,76 @@ class ilObjWikiGUI extends ilObjectGUI
 		$this->setSideBlock();
 		$tpl->setContent($table_gui->getHTML());
 	}
+	
+	protected function getPrintPageIds()
+	{				
+		if(is_array($_POST["wordr"]))
+		{
+			asort($_POST["wordr"]);			
+			$page_ids = array_keys($_POST["wordr"]);	
+		}
+		else if((int)$_GET["wpg_id"])
+		{
+			$page_ids = array((int)$_GET["wpg_id"]);
+		}
+		
+		return $page_ids;
+	}
+	
+	public function printViewObject()
+	{
+		global $tpl;
+		
+		$page_ids = $this->getPrintPageIds();
+		if(!$page_ids)
+		{
+			$this->ctrl->redirect($this, "");
+		}		
+								
+		$tpl = new ilTemplate("tpl.main.html", true, true);
+		$tpl->setVariable("LOCATION_STYLESHEET", ilObjStyleSheet::getContentPrintStyle());				
+		$this->setContentStyleSheet($tpl);
+
+		// syntax style
+		$tpl->setCurrentBlock("SyntaxStyle");
+		$tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
+			ilObjStyleSheet::getSyntaxStylePath());
+		$tpl->parseCurrentBlock();
+
+
+		// determine target frames for internal links
+		
+		include_once("./Modules/Wiki/classes/class.ilWikiPageGUI.php");
+		
+		$page_content = "";
+
+		foreach ($page_ids as $p_id)
+		{
+			$page_gui = new ilWikiPageGUI($p_id);
+			$page_gui->setOutputMode("print");
+			$page_content.= $page_gui->showPage();
+		}
+		$tpl->setVariable("CONTENT", '<div class="ilInvisibleBorder">'.$page_content.'</div>'.
+		'<script type="text/javascript" language="javascript1.2">
+		<!--
+			il.Util.addOnLoad(function () {
+				il.Util.print();
+			});
+		//-->
+		</script>');
+		$tpl->show(false);
+		exit;		
+	}
+	
+	public function pdfExport()
+	{
+		$page_ids = $this->getPrintPageIds();
+		if(!$page_ids)
+		{
+			$this->ctrl->redirect($this, "");
+		}		
+		
+	}	
 
 	/**
 	* Search

@@ -691,14 +691,14 @@ class ilWikiPageGUI extends ilPageObjectGUI
 
 				// no order needed for single page
 				default:
-				//case "page":		
+				//case "page":											
 					if($a_pdf_export)
 					{
-						return $this->pdfExport(array($_GET["wpg_id"]));
+						$this->ctrl->redirectByClass("ilObjWikiGUI", "pdfExport");						
 					}
 					else
 					{
-						return $this->printView(array($_GET["wpg_id"]));
+						$this->ctrl->redirectByClass("ilObjWikiGUI", "printView");						
 					}
 					break;
 			}
@@ -724,61 +724,6 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		$tbl = new ilWikiExportOrderTableGUI($this, "printViewOrderList", $a_pdf_export, $all_pages, $pg_ids);		
 		$this->tpl->setContent($tbl->getHTML());		
 	}	
-	
-	public function printView(array $a_page_ids = null)
-	{
-		global $tpl;
-		
-		if(is_array($_POST["wordr"]))
-		{
-			asort($_POST["wordr"]);			
-			$a_page_ids = array_keys($_POST["wordr"]);	
-		}
-								
-		$tpl = new ilTemplate("tpl.main.html", true, true);
-		$tpl->setVariable("LOCATION_STYLESHEET", ilObjStyleSheet::getContentPrintStyle());
-		
-		// not nice this
-		$wiki_gui = new ilObjWikiGUI("", $this->getPageObject()->getWikiRefId(), true);
-		$wiki_gui->setContentStyleSheet($tpl);
-
-		// syntax style
-		$tpl->setCurrentBlock("SyntaxStyle");
-		$tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
-			ilObjStyleSheet::getSyntaxStylePath());
-		$tpl->parseCurrentBlock();
-
-
-		// determine target frames for internal links
-
-		foreach ($a_page_ids as $p_id)
-		{
-			$page_gui = new ilWikiPageGUI($p_id);
-			$page_gui->setOutputMode("print");
-			$page_content.= $page_gui->showPage();
-		}
-		$tpl->setVariable("CONTENT", '<div class="ilInvisibleBorder">'.$page_content.'</div>'.
-		'<script type="text/javascript" language="javascript1.2">
-		<!--
-			il.Util.addOnLoad(function () {
-				il.Util.print();
-			});
-		//-->
-		</script>');
-		$tpl->show(false);
-		exit;		
-	}
-	
-	public function pdfExport(array $a_page_ids = null)
-	{
-		if(is_array($_POST["wordr"]))
-		{
-			asort($_POST["wordr"]);			
-			$a_page_ids = array_keys($_POST["wordr"]);	
-		}
-		
-		var_dump($a_page_ids);
-	}
 	
 
 	////
@@ -820,6 +765,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 
 		$ilCtrl->redirect($this, "preview");
 	}
+	
 
 	////
 	//// Rename
