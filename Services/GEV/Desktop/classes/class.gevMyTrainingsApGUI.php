@@ -103,18 +103,9 @@ class gevMyTrainingsApGUI {
 
 
 	public function memberList() {
-		// print excel-list!
-		$title = new catTitleGUI("gev_mytrainingsap_title", "gev_mytrainingsap_title_desc", "GEV_img/ico-head-edubio.png");
-		$spacer = new catHSpacerGUI();
-		//$trainings_table = new gevMyTrainingsApTableGUI($this->user->getId(), $this);
 		
-		return (
-				$title->render()
-			   .$spacer->render()
-			   .'memberList for '
-			   .$_GET['crsid']
-		//	   .$trainings_table->getHTML()
-			   );
+		$crs_ref_id = $this->getCrsRefId();
+		$this->ctrl->redirect($this, "view");
 	}
 
 

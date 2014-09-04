@@ -19,6 +19,8 @@ require_once("Services/Utilities/classes/class.ilUtil.php");
 require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 require_once("Services/CourseBooking/classes/class.ilCourseBooking.php");
 
+require_once("Services/ParticipationStatus/classes/class.ilParticipationStatusAdminGUI.php");
+
 class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 	public function __construct($a_user_id, $a_parent_obj, $a_parent_cmd="", $a_template_context="") {
 		parent::__construct($a_parent_obj, $a_parent_cmd, $a_template_context);
@@ -36,12 +38,12 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 		$this->setSubtitle("gev_mytrainingsap_title_desc");
 		$this->setImage("GEV_img/ico-head-my-training-deployments.png");
 	
-		$this->memberlist_img = '<img src="'.ilUtil::getImagePath("gev_cancel_action.png").'" />';
-		$this->setstatus_img = '<img src="'.ilUtil::getImagePath("gev_booked_icon.png").'" />';
+		$this->memberlist_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-table-eye.png").'" />';
+		$this->setstatus_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-table-state-neutral.png").'" />';
 		
 		$legend = new catLegendGUI();
-		$legend->addItem($this->memberlist_img, "gev_mytrainingsap_memberlist")
-			   ->addItem($this->setstatus_img, "gev_mytrainingsap_setstatus");
+		$legend->addItem($this->memberlist_img, "gev_mytrainingsap_legend_memberlist")
+			   ->addItem($this->setstatus_img, "gev_mytrainingsap_legend_setstatus");
 		$this->setLegend($legend);
 
 		
@@ -63,7 +65,7 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 		$this->addColumn($this->lng->txt("date"), "date", "112px");
 		$this->addColumn($this->lng->txt("apdays"), "apdays");
 		$this->addColumn($this->lng->txt("mbrcount"), "mbrcount");
-		$this->addColumn('<img src="'.ilUtil::getImagePath("gev_action.png").'" />', "actions", "20px", false);
+		$this->addColumn('<img src="'.ilUtil::getImagePath("gev_action.png").'" />', "actions", "30px", false);
 
 		$data = $user_util->getMyAppointmentsCourseInformation();
 		/*
@@ -129,16 +131,37 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 		$mbrs = $a_set['mbr_booked'] .' (' .$a_set['mbr_waiting'] .')'
 				.' / ' .$a_set['mbr_min'] .'-' .$a_set['mbr_max'];
 
-		$actions = 'x/x';
-		
-		$show_set_stat_link = 1;
 
 		$memberlist_link = $this->ctrl->getLinkTarget($this->parent_obj, 'memberList')
 							.'&crsid=' .$a_set['obj_id'];
 
+		$memberlist_link = "ilias.php?ref_id="
+			.$a_set['crs_ref_id']
+			."&cmd=trainer&baseClass=gevMemberListDeliveryGUI";
+		
+
+
 		$setstatus_link = $this->ctrl->getLinkTarget($this->parent_obj, 'listStatus')
 							.'&crsrefid=' .$a_set['crs_ref_id'];
 		
+		
+
+		$show_set_stat_link = false;
+		global $tree;
+		if(ilObject::_lookupType($a_set['crs_ref_id'], true) != "crs" ||
+			$tree->isDeleted($a_set['crs_ref_id'])){
+			//print 'invalid id: ' . $a_set['crs_ref_id'];
+		} else {
+			$ptstatus_admingui =  ilParticipationStatusAdminGUI::getInstanceByRefId($a_set['crs_ref_id']);
+			$show_set_stat_link = $ptstatus_admingui->mayWrite();
+		}
+
+
+		$actions = $this->memberlist_img;
+		if($show_set_stat_link) {
+			$actions .='&nbsp;' .$this->setstatus_img;
+		}
+
 
 		$this->tpl->setVariable("TITLE", $a_set["title"]);
 		$this->tpl->setVariable("CUSTOM_ID", $a_set["custom_id"]);
@@ -154,9 +177,11 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 		$this->tpl->setVariable("GOALS", $a_set["goals"]);
 		$this->tpl->setVariable("CONTENTS", $a_set["content"]);
 		$this->tpl->setVariable("MBMRLST_LINK", $memberlist_link);
+		$this->tpl->setVariable("MBMRLST_LINK_TXT", $this->lng->txt('gev_mytrainingsap_btn_memberlist'));
 		if ($show_set_stat_link) {
 			$this->tpl->setCurrentBlock("set_stat");
 			$this->tpl->setVariable("SETSTAT_LINK", $setstatus_link);
+			$this->tpl->setVariable("SETSTAT_LINK_TXT", $this->lng->txt('gev_mytrainingsap_btn_setstatus'));
 			$this->tpl->parseCurrentBlock();
 		}
 
