@@ -36,7 +36,7 @@ class gevUserImport {
 	}
 
 
-	public function register($stelle, $email) {
+	public function registerEVG($stelle, $email) {
 		$username = $email;
 
 		if ($this->token_exists_for_email($email)) {
@@ -55,6 +55,15 @@ class gevUserImport {
 		}
 		else {
 			$iv_data = $this->get_additional_user_data($stelle, $email);
+		}
+
+		$stellen_data = $this->get_stelle($stelle);
+		if ($stellen_data === false) {
+			return 'Stelle not found in shadow database';
+		}
+
+		if ($stellen_data['agent'] == 1) {
+			return 'Stelle is agent.';
 		}
 
 		$token = $this->generate_confirmation_token();
@@ -203,6 +212,23 @@ class gevUserImport {
 		
 		if ((!$result) || (mysql_num_rows($result) !== 1)) {
 			return array();
+		}
+		return mysql_fetch_assoc($result);
+	}
+
+	private function get_stelle($stellennummer) {
+		$sql = "
+			SELECT
+				*
+			FROM
+				`ivimport_stelle`
+			WHERE
+				`stellennummer` = " . $this->ilDB->quote($stellennummer, "text") . "
+		";
+		$result = mysql_query($sql, $this->mysql);
+		
+		if ((!$result) || (mysql_num_rows($result) !== 1)) {
+			return false;
 		}
 		return mysql_fetch_assoc($result);
 	}

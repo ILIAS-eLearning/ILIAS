@@ -243,7 +243,6 @@ class gevSettings {
 		690 => array("HA",               "Vorgesetzter"),
 		693 => array("NA",               "Mitarbeiter"),
 		694 => array("BA",               "Mitarbeiter")
-
 	);
 
 	// Names of roles where users do not need to pay fees
