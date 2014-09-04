@@ -303,12 +303,16 @@ class gevUserUtils {
 				//$entry['mbr_booked_data'] = $this->getUserWhoBookedAtCourse($id);
 				//get userIds of members in this course (no tutors, admins..):
 				$crs_utils = gevCourseUtils::getInstance($id);
-				$crs_obj = new ilObjCourse($crss[$id]);
-				$tep_crsentries = ilTEPCourseEntries::getInstance($crs_obj);
-
-				$tep_opdays_inst = $tep_crsentries->getOperationsDaysInstance();
-				$tep_opdays = $tep_opdays_inst->getDaysForUser($this->user_id);
-
+				
+				if($entry['start_date'] && $entry['end_date']) {
+					$crs_obj = new ilObjCourse($crss[$id]);
+					$tep_crsentries = ilTEPCourseEntries::getInstance($crs_obj);
+					$tep_opdays_inst = $tep_crsentries->getOperationsDaysInstance();
+					$tep_opdays = $tep_opdays_inst->getDaysForUser($this->user_id);
+				} else {
+					$tep_opdays =array()
+				}
+				
 				$ms = $crs_utils->getMembership();
 				$entry['mbr_booked_userids'] = $ms->getMembers();
 				$entry['mbr_booked'] = count($entry['mbr_booked_userids']);
