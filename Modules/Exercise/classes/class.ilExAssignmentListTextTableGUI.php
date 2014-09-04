@@ -128,30 +128,27 @@ class ilExAssignmentListTextTableGUI extends ilTable2GUI
 				{					
 					$acc_item .= '<div class="small">'.nl2br($peer_review[0])."</div>";
 				}
-				
-				if($peer_review[2])
+								
+				$uploads = $this->ass->getPeerUploadFiles($a_set["uid"], $peer_id);
+				if($uploads)
 				{					
-					$uploads = $this->ass->getPeerUploadFiles($a_set["uid"], $peer_id);
-					if($uploads)
-					{					
-						$acc_item .= '<div class="small">';
-						
-						$ilCtrl->setParameter($this->parent_obj, "fu", $peer_id."__".$a_set["uid"]);
-						
-						foreach($uploads as $file)
-						{							
-							$ilCtrl->setParameter($this->parent_obj, "fuf", md5($file));
-							$dl = $ilCtrl->getLinkTarget($this->parent_obj, "downloadPeerReview");
-							$ilCtrl->setParameter($this->parent_obj, "fuf", "");
-							
-							$acc_item .= '<a href="'.$dl.'">'.basename($file).'</a><br />';
-						}						
-												
-						$ilCtrl->setParameter($this->parent_obj, "fu", "");
-									
-						$acc_item .= '</div>';
-					}
-				}
+					$acc_item .= '<div class="small">';
+
+					$ilCtrl->setParameter($this->parent_obj, "fu", $peer_id."__".$a_set["uid"]);
+
+					foreach($uploads as $file)
+					{							
+						$ilCtrl->setParameter($this->parent_obj, "fuf", md5($file));
+						$dl = $ilCtrl->getLinkTarget($this->parent_obj, "downloadPeerReview");
+						$ilCtrl->setParameter($this->parent_obj, "fuf", "");
+
+						$acc_item .= '<a href="'.$dl.'">'.basename($file).'</a><br />';
+					}						
+
+					$ilCtrl->setParameter($this->parent_obj, "fu", "");
+
+					$acc_item .= '</div>';
+				}				
 					
 				$acc_data[$peer_id] = array("name" => $peer_name, "review" => $acc_item);
 			}

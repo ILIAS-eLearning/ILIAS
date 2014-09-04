@@ -128,7 +128,6 @@ class ilExAssignmentPeerReviewTableGUI extends ilTable2GUI
 				"ass", $item["peer_id"], "peer", $item["giver_id"]));
 			$row["comment"] = $item["pcomment"];
 			$row["tstamp"] = $item["tstamp"];					
-			$row["upload"] = $item["upload"];	
 			
 			if(!$personal)
 			{

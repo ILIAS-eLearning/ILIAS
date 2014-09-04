@@ -4201,7 +4201,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		foreach($_POST["pc"] as $idx => $value)
 		{						
 			$parts = explode("__", $idx);					
-			if($parts[0] == $ilUser->getId() && trim($value))
+			if($parts[0] == $ilUser->getId())
 			{
 				$this->ass->updatePeerReviewComment($parts[1], $value);				
 			}			

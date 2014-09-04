@@ -2605,14 +2605,47 @@ class ilExAssignment
 		return $res;
 	}
 	
+	protected static function validatePeerReview(array $a_data, $a_rating = null)
+	{							
+		$valid = false;		
+		
+		// comment
+		if(trim($a_data["pcomment"]))
+		{
+			$valid = true;
+		}
+		
+		// rating
+		if(!$valid)
+		{
+			if($a_rating === null)
+			{			
+				include_once './Services/Rating/classes/class.ilRating.php';		
+				$valid = (bool)round(ilRating::getRatingForUserAndObject($a_data["ass_id"], 
+					"ass", $a_data["peer_id"], "peer", $a_data["giver_id"]));				
+			}
+			else if($a_rating)
+			{
+				$valid = true;
+			}
+		}
+
+		// file(s) 
+		if(!$valid) 
+		{
+			$ass = new self($a_data["ass_id"]);			
+			$valid = (bool)sizeof($ass->getPeerUploadFiles($a_data["peer_id"], $a_data["giver_id"]));
+		}
+		
+		return $valid;
+	}
+	
 	public function getPeerReviewsByPeerId($a_user_id, $a_only_valid = false)
 	{
 		global $ilDB;
 		
 		$res = array();
 		
-		include_once './Services/Rating/classes/class.ilRating.php';
-					
 		$set = $ilDB->query("SELECT *".
 			" FROM exc_assignment_peer".
 			" WHERE peer_id = ".$ilDB->quote($a_user_id, "integer").
@@ -2620,22 +2653,9 @@ class ilExAssignment
 			" ORDER BY peer_id");
 		while($row = $ilDB->fetchAssoc($set))
 		{
-			$valid = true;
-			if($a_only_valid)
-			{
-				$valid = false;			
-				if(trim($row["pcomment"]) || $row["upload"])
-				{
-					$valid = true;
-				}
-				else
-				{
-					$valid = (bool)round(ilRating::getRatingForUserAndObject($this->getId(), 
-						"ass", $row["peer_id"], "peer", $row["giver_id"]));				
-				}
-			}			
-			if($valid)
-			{
+			if(!$a_only_valid || 
+				self::validatePeerReview($row))
+			{				
 				$res[] = $row;
 			}
 		}						
@@ -2660,11 +2680,9 @@ class ilExAssignment
 			$rating = round(ilRating::getRatingForUserAndObject($this->getId(), 
 					"ass", $row["peer_id"], "peer", $row["giver_id"]));		
 			
-			$comment = $row["pcomment"];
-			
-			if($comment || $rating || $row["upload"])
+			if(self::validatePeerReview($row, $rating))
 			{
-				$res[$row["peer_id"]][$row["giver_id"]] = array($comment, $rating, $row["upload"]);
+				$res[$row["peer_id"]][$row["giver_id"]] = array($row["pcomment"], $rating);
 			}
 		}						
 		
@@ -2735,19 +2753,10 @@ class ilExAssignment
 			" AND giver_id = ".$ilDB->quote($ilUser->getId(), "integer"));			
 		while($row = $ilDB->fetchAssoc($set))
 		{
-			if(trim($row["pcomment"]))
+			if(self::validatePeerReview($row))
 			{
 				$cnt++;
-			}
-			else
-			{
-				$mark = (int)round(ilRating::getRatingForUserAndObject($a_ass_id, 
-					"ass", $row["peer_id"], "peer", $row["giver_id"]));
-				if($mark)
-				{
-					$cnt++;
-				}
-			}
+			}			
 		}
 		
 		return $cnt;
