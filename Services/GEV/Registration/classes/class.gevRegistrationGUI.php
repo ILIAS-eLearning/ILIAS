@@ -39,6 +39,18 @@ class gevRegistrationGUI {
 		$this->tpl->setContent($cont);
 		$this->tpl->show();
 	}
+	
+	protected function isAgent($a_stellennummer) {
+		die("isAgent: NYI!");
+	}
+
+	protected function getVermittlerStatus($a_stellennummer) {
+		die("getVermittlerStatus: NYI!");
+	}
+	
+	protected function getOrgUnitImportId($a_stellennummer) {
+		die("getOrgUnitImportId: NYI!");
+	}
 
 	protected function startRegistration($a_form = null) {
 		// get stellennummer and email
@@ -69,25 +81,26 @@ class gevRegistrationGUI {
 		if (!$res[1]) {
 			return $this->startRegistration($res[0]);
 		}
-		
-		require_once("gev_utils.php");
-		$import = get_gev_import();
-		
-		if($import->isAgent($form->getInput("position"))) {
-			return $this->inputUserProfile($res[0]);
+				
+		if($this->isAgent($form->getInput("position"))) {
+			return $this->inputUserProfile(null, $res[0]);
 		}
 		else {
 			return $this->checkEVGRegistration($res[0], $import);
 		}
 	}
 
-	protected function inputUserProfile($a_form = null) {
+	protected function inputUserProfile($a_form = null, $a_prev_form = null) {
+		if ($a_form === null && $a_prev_form === null) {
+			throw new Exception("gevRegistrationGUI::inputUserProfile: either a_form or a_prev_form need to be set.");
+		} 
+		
 		if ($a_form !== null) {
 			$form = $a_form;
 			$form->setValuesByPost();
 		}
 		else {
-			$form = $this->buildAgentForm();
+			$form = $this->buildAgentForm($a_prev_form->getInput("email"), $a_prev_form->getInput("position"));
 		}
 		
 		require_once("Services/CaTUIComponents/classes/class.catTitleGUI.php");
@@ -144,6 +157,31 @@ class gevRegistrationGUI {
 		$user_utils->setPrivateZipcode($form->getInput("p_zipcode"));
 		$user_utils->setPrivateState($form->getInput("p_country"));
 		$user_utils->setPrivatePhone($form->getInput("p_phone"));
+		
+		
+		require_once("Services/GEV/Utils/classes/class.gevSettings.php");
+		require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevOrgUnitUtils.php");
+		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnit.php");
+		
+		$user_id = $user->getId();
+		$stellennummer = $form->getInput("position");
+		$vermittlerstatus = $this->getVermittlerStatus($stellennummer);
+		
+		$role_title = gevSettings::$VMS_ROLE_MAPPING[$vermittlerstatus][0];
+		$role_utils = gevRoleUtils::getInstance();
+		$role_utils->assignUserToGlobalRole($user_id, $role_title);
+		
+		$org_role_title = gevSettings::$VMS_ROLE_MAPPING[$vermittlerstatus][0];
+		$org_unit_import_id = $this->getOrgUnitImportId($stellenummer);
+		$org_unit_id = ilObjOrgUnit::_lookupObjIdByImportId($org_unit_import_id);
+		if (!$org_unit_id) {
+			throw new Exception("Could not determine obj_id for org unit with import id '".$org_unit_import_id."'");
+		}
+		$org_unit_utils = gevOrgUnitUtils::getInstance($org_unit_id);
+		$org_unit_utils->getOrgUnitInstance();
+		$org_unit_utils->assignUser($user_id, $org_role_title);
+		
 		
 		include_once './Services/Registration/classes/class.ilRegistrationMimeMailNotification.php';
 
@@ -259,7 +297,7 @@ class gevRegistrationGUI {
 		return array($form, $err);
 	}
 
-	protected function buildAgentForm() {
+	protected function buildAgentForm($a_email = null, $a_position = null) {
 		
 		require_once("Services/Calendar/classes/class.ilDate.php");
 		require_once("Services/Form/classes/class.ilPropertyFormGUI.php");
@@ -272,10 +310,17 @@ class gevRegistrationGUI {
 		require_once("Services/Form/classes/class.ilNonEditableValueGUI.php");
 		require_once("Services/Form/classes/class.ilPasswordInputGUI.php");
 		require_once("Services/Form/classes/class.ilUserLoginInputGUI.php");
+		require_once("Services/Form/classes/class.ilHiddenInputGUI.php");
 		
 		$form = new ilPropertyFormGUI();
 		$form->addCommandButton("registerAgent", $this->lng->txt("register"));
 		$form->setFormAction($this->ctrl->getFormAction($this));
+		
+		$position = new ilHiddenInputGUI("position");
+		if ($a_position !== null) {
+			$position->setValue($a_position);
+		}
+		$form->addItem($position);
 		
 		$section1 = new ilFormSectionHeaderGUI();
 		$section1->setTitle($this->lng->txt("gev_personal_data"));
@@ -328,6 +373,9 @@ class gevRegistrationGUI {
 		$form->addItem($section2);
 		
 		$b_email = new ilTextInputGUI($this->lng->txt("gev_email"), "b_email");
+		if ($a_email !== null) {
+			$b_email->setValue($a_email);
+		}
 		$b_email->setRequired(true);
 		$form->addItem($b_email);
 		
