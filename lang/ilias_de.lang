@@ -14647,3 +14647,5 @@ exc#:#exc_team_assignment_adopt_teams#:#Teams
 exc#:#exc_team_assignment_adopt_user#:#Team aus Übungseinheit übernehmen
 exc#:#exc_team_assignment_adopt_none_user#:#Ein neues Team erstellen
 exc#:#exc_team_assignment_adopt_already_assigned#:#bereits zugewiesen
+wiki#:#wiki_show_print_view#:#Druckansicht
+wiki#:#wiki_show_pdf_export#:#PDF-Export

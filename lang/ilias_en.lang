@@ -14688,3 +14688,5 @@ exc#:#exc_team_assignment_adopt_teams#:#Teams
 exc#:#exc_team_assignment_adopt_user#:#Adopt team from assignment
 exc#:#exc_team_assignment_adopt_none_user#:#Create new team
 exc#:#exc_team_assignment_adopt_already_assigned#:#already assigned
+wiki#:#wiki_show_print_view#:#Print View
+wiki#:#wiki_show_pdf_export#:#PDF Export

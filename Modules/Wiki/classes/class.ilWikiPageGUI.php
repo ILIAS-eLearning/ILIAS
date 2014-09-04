@@ -631,14 +631,155 @@ class ilWikiPageGUI extends ilPageObjectGUI
 
 		$this->form->addItem($radg);
 
-		$this->form->addCommandButton("printView", $lng->txt("cont_show_print_view"));
+		$this->form->addCommandButton("printViewOrder", $lng->txt("wiki_show_print_view"));
+		$this->form->addCommandButton("pdfExportOrder", $lng->txt("wiki_show_pdf_export"));
 		//$this->form->setOpenTag(false);
 		//$this->form->setCloseTag(false);
 
 		$this->form->setTitle($lng->txt("cont_print_selection"));
-		$this->form->setFormAction($ilCtrl->getFormActionByClass("ilobjwikigui", "printView"),
-			false, "print_view");
+		$this->form->setFormAction($ilCtrl->getFormAction($this, "printViewOrder"));
 	}
+
+	public function printViewOrder()
+	{
+		$this->printViewOrderList();	
+	}
+	
+	public function pdfExportOrder()
+	{
+		$this->printViewOrderList(true);		
+	}
+	
+	protected function printViewOrderList($a_pdf_export = false)
+	{
+		global $ilTabs;
+		
+		$pg_ids = $all_pages = array();
+		
+		// coming from type selection
+		if(!is_array($_POST["wordr"]))
+		{
+			switch(trim($_POST["sel_type"]))
+			{
+				case "wiki":
+					include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
+					$all_pages = ilWikiPage::getAllPages($this->getPageObject()->getWikiId());
+					foreach ($all_pages as $p)
+					{
+						$pg_ids[] = $p["id"];
+					}
+					break;
+
+				case "selection":
+					if (is_array($_POST["obj_id"]))
+					{
+						$pg_ids = $_POST["obj_id"];
+					}
+					else
+					{
+						$pg_ids[] = $_GET["wpg_id"];
+					}
+					if(sizeof($pg_ids) > 1)
+					{						
+						break;
+					}
+					else
+					{
+						$_GET["wpg_id"] = array_pop($pg_ids);
+					}
+					// fallthrough
+
+				// no order needed for single page
+				default:
+				//case "page":		
+					if($a_pdf_export)
+					{
+						return $this->pdfExport(array($_GET["wpg_id"]));
+					}
+					else
+					{
+						return $this->printView(array($_GET["wpg_id"]));
+					}
+					break;
+			}
+		}
+		// refresh sorting
+		else
+		{
+			asort($_POST["wordr"]);			
+			$pg_ids = array_keys($_POST["wordr"]);						
+		}
+		
+		$ilTabs->clearTargets();
+		$ilTabs->setBackTarget($this->lng->txt("back"),
+			$this->ctrl->getLinkTarget($this, "preview"));
+		
+		if(!sizeof($all_pages))
+		{
+			include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
+			$all_pages = ilWikiPage::getAllPages($this->getPageObject()->getWikiId());
+		}
+		
+		include_once "Modules/Wiki/classes/class.ilWikiExportOrderTableGUI.php";
+		$tbl = new ilWikiExportOrderTableGUI($this, "printViewOrderList", $a_pdf_export, $all_pages, $pg_ids);		
+		$this->tpl->setContent($tbl->getHTML());		
+	}	
+	
+	public function printView(array $a_page_ids = null)
+	{
+		global $tpl;
+		
+		if(is_array($_POST["wordr"]))
+		{
+			asort($_POST["wordr"]);			
+			$a_page_ids = array_keys($_POST["wordr"]);	
+		}
+								
+		$tpl = new ilTemplate("tpl.main.html", true, true);
+		$tpl->setVariable("LOCATION_STYLESHEET", ilObjStyleSheet::getContentPrintStyle());
+		
+		// not nice this
+		$wiki_gui = new ilObjWikiGUI("", $this->getPageObject()->getWikiRefId(), true);
+		$wiki_gui->setContentStyleSheet($tpl);
+
+		// syntax style
+		$tpl->setCurrentBlock("SyntaxStyle");
+		$tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
+			ilObjStyleSheet::getSyntaxStylePath());
+		$tpl->parseCurrentBlock();
+
+
+		// determine target frames for internal links
+
+		foreach ($a_page_ids as $p_id)
+		{
+			$page_gui = new ilWikiPageGUI($p_id);
+			$page_gui->setOutputMode("print");
+			$page_content.= $page_gui->showPage();
+		}
+		$tpl->setVariable("CONTENT", '<div class="ilInvisibleBorder">'.$page_content.'</div>'.
+		'<script type="text/javascript" language="javascript1.2">
+		<!--
+			il.Util.addOnLoad(function () {
+				il.Util.print();
+			});
+		//-->
+		</script>');
+		$tpl->show(false);
+		exit;		
+	}
+	
+	public function pdfExport(array $a_page_ids = null)
+	{
+		if(is_array($_POST["wordr"]))
+		{
+			asort($_POST["wordr"]);			
+			$a_page_ids = array_keys($_POST["wordr"]);	
+		}
+		
+		var_dump($a_page_ids);
+	}
+	
 
 	////
 	//// Block/Unblock

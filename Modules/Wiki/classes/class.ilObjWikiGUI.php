@@ -417,9 +417,6 @@ class ilObjWikiGUI extends ilObjectGUI
 		$ilTabs->addTarget("wiki_what_links_here",
 			$this->ctrl->getLinkTargetByClass("ilwikipagegui",
 			"whatLinksHere"), "whatLinksHere");
-		//$ilTabs->addTarget("wiki_print_view",
-		//	$this->ctrl->getLinkTarget($this,
-		//	"printViewSelection"), "printViewSelection");
 		$ilTabs->addTarget("wiki_print_view",
 			$this->ctrl->getLinkTargetByClass("ilwikipagegui",
 			"printViewSelection"), "printViewSelection");
@@ -1270,75 +1267,6 @@ class ilObjWikiGUI extends ilObjectGUI
 			
 		$this->setSideBlock();
 		$tpl->setContent($table_gui->getHTML());
-	}
-
-	/**
-	 * Show printable view of a wiki page
-	 */
-	function printViewObject()
-	{
-		$this->checkPermission("read");
-
-		switch ($_POST["sel_type"])
-		{
-			case "wiki":
-				include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
-				$pages = ilWikiPage::getAllPages($this->object->getId());
-				foreach ($pages as $p)
-				{
-					$pg_ids[] = $p["id"];
-				}
-				break;
-
-			case "selection":
-				if (is_array($_POST["obj_id"]))
-				{
-					$pg_ids = $_POST["obj_id"];
-				}
-				else
-				{
-					$pg_ids[] = $_GET["wpg_id"];
-				}
-				break;
-
-			default:
-				$pg_ids[] = $_GET["wpg_id"];
-				break;
-		}
-
-		include_once("./Modules/Wiki/classes/class.ilWikiPageGUI.php");
-		
-		global $tpl;
-
-		$tpl = new ilTemplate("tpl.main.html", true, true);
-		$tpl->setVariable("LOCATION_STYLESHEET", ilObjStyleSheet::getContentPrintStyle());
-		$this->setContentStyleSheet($tpl);
-
-		// syntax style
-		$tpl->setCurrentBlock("SyntaxStyle");
-		$tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
-			ilObjStyleSheet::getSyntaxStylePath());
-		$tpl->parseCurrentBlock();
-
-
-		// determine target frames for internal links
-
-		foreach ($pg_ids as $p_id)
-		{
-			$page_gui = new ilWikiPageGUI($p_id);
-			$page_gui->setOutputMode("print");
-			$page_content.= $page_gui->showPage();
-		}
-		$tpl->setVariable("CONTENT", '<div class="ilInvisibleBorder">'.$page_content.'</div>'.
-		'<script type="text/javascript" language="javascript1.2">
-		<!--
-			il.Util.addOnLoad(function () {
-				il.Util.print();
-			});
-		//-->
-		</script>');
-		$tpl->show(false);
-		exit;
 	}
 
 	/**
