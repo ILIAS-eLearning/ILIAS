@@ -169,6 +169,7 @@ class gevRegistrationGUI {
 		// user already agreed at registration
 		$now = new ilDateTime(time(),IL_CAL_UNIX);
 		$user->setAgreeDate($now->get(IL_CAL_DATETIME));
+		$user->setIsSelfRegistered(true);
 		
 		$user->create();
 		$user->saveAsNew();
