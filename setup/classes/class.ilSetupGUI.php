@@ -2120,7 +2120,7 @@ else
 		$cache_form = new ilPropertyFormGUI();
 		$cache_form->setTitle($this->lng->txt('global_cache_configuration'));
 		$cache_form->addCommandButton('saveCache', $this->lng->txt('save'));
-				$cache_form->setFormAction('setup.php?cmd=gateway');
+		$cache_form->setFormAction('setup.php?cmd=gateway');
 
 		$activate_global_cache = 'activate_global_cache';
 		$global_cache_service_type = 'global_cache_service_type';
@@ -2130,16 +2130,21 @@ else
 
 		$service_type = new ilRadioGroupInputGUI($this->lng->txt($global_cache_service_type), $global_cache_service_type);
 		$some_inactive = false;
+		$message = '';
 		foreach (ilGlobalCache::getAllTypes() as $type) {
 			$option = new ilRadioOption($this->lng->txt($global_cache_service_type . '_' . $type->getServiceType()), $type->getServiceType());
-			$option->setInfo($this->lng->txt('global_cache_install_info_'.$type->getServiceType()));
-			if(!$type->isCacheServiceInstallable()) {
+			$option->setInfo($this->lng->txt('global_cache_install_info_' . $type->getServiceType()));
+			if (! $type->isCacheServiceInstallable()) {
 				$option->setDisabled(true);
+				$message .= $this->lng->txt($global_cache_service_type . '_' . $type->getServiceType()) . ': '
+					. $type->getInstallationFailureReason() . '; ';
 				$some_inactive = true;
 			}
 			$service_type->addOption($option);
 		}
-		if($some_inactive) {
+
+		if ($some_inactive) {
+			$service_type->setAlert($message);
 			ilUtil::sendInfo($this->lng->txt('global_cache_supported_services'));
 		}
 		$service_type->setValue($ini->readVariable('cache', $global_cache_service_type));

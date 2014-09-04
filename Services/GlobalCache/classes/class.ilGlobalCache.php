@@ -20,6 +20,7 @@ class ilGlobalCache {
 	const TYPE_APC = 3;
 	const TYPE_FALLBACK = self::TYPE_STATIC;
 	const COMP_LNG = 'lng';
+	const COMP_CLNG = 'clng';
 	const COMP_OBJ_DEF = 'obj_def';
 	const COMP_SETTINGS = 'set';
 	const COMP_TEMPLATE = 'tpl';
@@ -32,8 +33,8 @@ class ilGlobalCache {
 	 * @var array
 	 */
 	protected static $types = array(
-		// self::TYPE_MEMCACHED,
-		// self::TYPE_XCACHE,
+		self::TYPE_MEMCACHED,
+		self::TYPE_XCACHE,
 		self::TYPE_APC,
 		self::TYPE_STATIC
 	);
@@ -42,6 +43,7 @@ class ilGlobalCache {
 	 */
 	protected static $registred_components = array(
 		self::COMP_LNG,
+		self::COMP_CLNG,
 		self::COMP_OBJ_DEF,
 		self::COMP_SETTINGS,
 		self::COMP_TEMPLATE,
@@ -54,22 +56,10 @@ class ilGlobalCache {
 	/**
 	 * @var array
 	 */
-	protected static $registred_types = array(
-		self::COMP_LNG => self::TYPE_APC,
-		self::COMP_OBJ_DEF => self::TYPE_APC,
-		self::COMP_SETTINGS => self::TYPE_APC,
-		self::COMP_TEMPLATE => self::TYPE_APC,
-		self::COMP_ILCTRL => self::TYPE_APC,
-		self::COMP_PLUGINS => self::TYPE_APC,
-		self::COMP_PLUGINSLOTS => self::TYPE_APC,
-		self::COMP_COMPONENT => self::TYPE_APC,
-		self::COMP_RBAC_UA => self::TYPE_APC,
-	);
-	/**
-	 * @var array
-	 */
 	protected static $active_types = array(
 		self::COMP_LNG,
+		self::COMP_CLNG,
+		//		self::COMP_OBJ_DEF,
 		//		self::COMP_OBJ_DEF,
 		//		self::COMP_SETTINGS,
 		//		self::COMP_TEMPLATE,
@@ -98,7 +88,7 @@ class ilGlobalCache {
 	/**
 	 * @var bool
 	 */
-	protected $active = false;
+	protected $active = true;
 	/**
 	 * @var int
 	 */
@@ -110,7 +100,7 @@ class ilGlobalCache {
 	 *
 	 * @return int
 	 */
-	protected static function getComponentType($component) {
+	protected static function getComponentType($component = NULL) {
 		/**
 		 * @var $ilClientIniFile ilIniFile
 		 */
@@ -120,9 +110,7 @@ class ilGlobalCache {
 			return $service_type;
 		}
 
-		$comp_setting = self::$registred_types[$component];
-
-		return $comp_setting ? $comp_setting : self::TYPE_FALLBACK;
+		return self::TYPE_FALLBACK;
 	}
 
 
@@ -239,6 +227,14 @@ class ilGlobalCache {
 	 */
 	public function isCacheServiceInstallable() {
 		return $this->global_cache->isInstallable();
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getInstallationFailureReason() {
+		return $this->global_cache->getInstallationFailureReason();
 	}
 
 
