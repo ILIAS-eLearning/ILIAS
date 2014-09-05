@@ -456,7 +456,7 @@ gev#:#gev_employee_booking#:#Mitarbeiterbuchungen
 gev#:#gev_entry_date#:#Eintrittsdatum
 gev#:#gev_evg_registration#:#Registrierung: Generali Online Akademie
 gev#:#gev_evg_registration_header_note#:#Hier können Sie einen neuen Benutzer mit ihren Daten aus der IV-Datenbank anlegen.
-gev#:#gev_evg_registration_not_found#:#Zu Ihrer Eingabe konnte kein passender Datensatz gefunden werden. Versuchen Sie es erneut oder wenden Sie sich an <a href="mailto:bildungspunkte.de@generali.com">bildungspunkte.de@generali.com</a>.
+gev#:#gev_evg_registration_not_found#:#Zu Ihrer Eingabe konnte kein passender Datensatz gefunden werden. Versuchen Sie es erneut oder wenden Sie sich an <a href="mailto:bildungspunkte.de@generali.com" class="blue">bildungspunkte.de@generali.com</a>.
 gev#:#gev_evg_registration_success#:#Ihre Eingabe konnte eindeutig zugeordnet werden.
 gev#:#gev_excel_course_title#:#Generelle Angaben zum Seminar
 gev#:#gev_excel_member_row_title#:#Mitgliederliste
@@ -560,6 +560,7 @@ gev#:#gev_registration_success#:#Eine Email mit einem Aktivierungslink wurde an 
 gev#:#gev_rep_attendance_by_employee_desc#:#Hier sehen sie die Buchungen und Trainingsteilnahmen ihrer Mitarbeiter.
 gev#:#gev_rep_attendance_by_employee_title#:#Teilnahme nach Mitarbeiter
 gev#:#gev_report_attendance_by_employee#:#Teilnahmen nach Mitarbeiter
+gev#:#gev_registration_install_note#:#Generali Vermittler melden sich bitte mit der Generali E-Mail-Adresse an.
 gev#:#gev_reporting_menu#:#Reports
 gev#:#gev_search_menu#:#Trainingssuche
 gev#:#gev_set_billing_data#:#Rechnungsdaten eingeben
@@ -608,7 +609,7 @@ gev#:#gev_wbd_registration_basic_header_note#:#Registrieren Sie sich bei der Wei
 gev#:#gev_wbd_registration_cb_mandatory#:#Sie müssen dieses Feld bestätigen, um die WBD-Registrierung abschließen zu können.
 gev#:#gev_wbd_registration_create_bwv_id#:#Die Generali soll für mich ein Weiterbildungskonto eröffnen.
 gev#:#gev_wbd_registration_create_bwv_id_cmd#:#Kontoeröffnung
-gev#:#gev_wbd_registration_finished_create_bwv_id#:#Vielen Dank, wir werden für Sie ein Konto in der Weiterbildungsdatenbank (WBD) des BWV e.V. sowie ein Nutzerkonto bei der Trusted German Insurance Cloud (TGIC) eröffnen.<br /><br />Nach Eröffnung Ihres Kontos erhalten Sie von dort insgesamt 3 Systemmails mit Ihrer Benutzerkennung, Ihrem Passwort und Ihrer Vermittler-ID.
+gev#:#gev_wbd_registration_finished_create_bwv_id#:#Vielen Dank, wir werden für Sie ein Konto in der Weiterbildungsdatenbank (WBD) des BWV e.V. sowie ein Nutzerkonto bei der Trusted German Insurance Cloud (TGIC) eröffnen.<br />Dieser Prozess wird in den nächsten Wochen abgeschlossen werden.<br />Nach Eröffnung Ihres Kontos erhalten Sie von dort insgesamt 3 Systemmails mit Ihrer Benutzerkennung, Ihrem Passwort und Ihrer Vermittler-ID.
 gev#:#gev_wbd_registration_finished_has_bwv_id#:#Vielen Dank, wir werden Ihre bei uns erworbenen Weiterbildungspunkte unter dieser Vermittler-ID an die zentrale Weiterbildungsdatenbank melden.
 gev#:#gev_wbd_registration_finished_no_bwv_id#:#Vielen Dank für die Anmeldung an der Generali Online Akademie. Wir werden Ihre bei uns erworbenen Weiterbildungspunkte in der Generali Onlineakademie sammeln und nach Eingabe Ihrer GDV Vermittler-ID an die zentrale Weiterbildungsdatenbank (WBD) melden.<br /><br />Bitte beachten Sie, daß die Weiterbildungspunkte verfallen, sofern Sie Ihre GDV Vermittler-ID nicht innerhalb von 12 Monaten in Ihren Profildaten ergänzen.
 gev#:#gev_wbd_registration_has_bwv_id#:#Ich habe bereits eine GDV Vermittler-ID

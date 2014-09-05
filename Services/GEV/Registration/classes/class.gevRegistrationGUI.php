@@ -312,6 +312,7 @@ class gevRegistrationGUI {
 		$form->addItem($position);
 		
 		$email = new ilEMailInputGUI($this->lng->txt("evg_email"), "email");
+		$email->setInfo($this->lng->txt("gev_registration_install_note"));
 		$email->setSize(40);
 		$email->setRequired(true);
 		$form->addItem($email);

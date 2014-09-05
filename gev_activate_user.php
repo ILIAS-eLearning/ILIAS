@@ -55,7 +55,7 @@ switch ($action) {
 			$tpl->setCurrentBlock("content");
 			$tpl->setVariable("ERROR_MESSAGE","Der von ihnen verwendete Aktivierungslink wurde bereits benutzt ".
 											  "oder ist abgelaufen. Bitte wenden sie sich bei Fragen an ".
-											  "<b>bildungspunkte.de@generali.com</b>.");
+											  "<a href='mailto:bildungspunkte.de@generali.com' class='blue'>bildungspunkte.de@generali.com</a></b>.");
 			$tpl->setVariable("SRC_IMAGE", ilUtil::getImagePath("mess_failure.png"));
 			$tpl->parseCurrentBlock();
 

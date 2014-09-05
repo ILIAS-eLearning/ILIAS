@@ -273,8 +273,8 @@ class gevWBDTPBasicRegistrationGUI {
 		require_once("Services/Form/classes/class.ilRadioOption.php");
 
 		$form = new ilPropertyFormGUI();
-		$form->addCommandButton("registerTPBasis", $this->lng->txt("register_tp_basis"));
 		$form->addCommandButton("startRegistration", $this->lng->txt("gev_wbd_registration_basic_back"));
+		$form->addCommandButton("registerTPBasis", $this->lng->txt("register_tp_basis"));
 		$form->setFormAction($this->ctrl->getFormAction($this));
 
 		$wbd_link = "<a href='/data/Generali/documents/02_AGB_WBD.pdf' target='_blank' class='blue'>".$this->lng->txt("gev_agb_wbd")."</a>";
