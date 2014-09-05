@@ -258,7 +258,7 @@ class gevUserProfileGUI {
 		$info->setValue($this->lng->txt("gev_private_contact_info"));
 		$form->addItem($info);
 		
-		$p_email = new ilEMailInputGUI($this->lng->txt("email"), "p_email");
+		$p_email = new ilEMailInputGUI($this->lng->txt("gev_com_email"), "p_email");
 		$_p_email = $this->user_utils->getPrivateEmail();
 		$p_email->setValue($_p_email?$_p_email:$_b_email);
 		$p_email->setRequired(true);
