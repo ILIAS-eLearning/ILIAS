@@ -127,7 +127,14 @@ class gevEduBiographyGUI {
 				$tpl->setCurrentBlock("wbd_transfer");
 				$tpl->setVariable("TRANSFER_TITLE", $this->lng->txt("gev_wbd_transfer_on"));
 				$tpl->parseCurrentBlock();
-			} 
+			}
+			else if ($user_utils->wbdRegistrationIsPending()){
+				$tpl->setVariable("WBDPOINTSVISIBIBLE", "invisible");
+				$tpl->setCurrentBlock("wbd_reg_pending");
+				$tpl->setVariable("WBDREGPENDINGVISIBIBLE", "visible");
+				$tpl->setVariable("WBD_REG_PENDING", $this->lng->txt("gev_wbd_reg_pending"));
+				$tpl->parseCurrentBlock();
+			}
 			else {
 				$tpl->setVariable("WBDTRANSVISIBIBLE", "visible");
 			}

@@ -598,6 +598,7 @@ gev#:#gev_was_booked_waiting_self#:#Sie wurden beim Training "%s" erfolgreich au
 gev#:#gev_wbd_notifications#:#Benachrichtigungen der WBD
 gev#:#gev_wbd_notifications_to_auth#:#Kontoauszüge und Jahreszertifikate der WBD sollen an meine Authentifizierungs-E-Mail-Adresse verschickt werden.
 gev#:#gev_wbd_notifications_to_diff#:#Kontoauszüge und Jahreszertifikate der WBD sollen an eine abweichende E-Mail-Adresse verschickt werden. (Bitte füllen Sie das Feld "alternative E-Mail-Adresse" aus)
+gev#:#gev_wbd_reg_pending#:#Ihre Anmeldung bei der WBD wird in Kürze erfolgen.
 gev#:#gev_wbd_registration#:#WBD-Registrierung
 gev#:#gev_wbd_registration_basic#:#WBD-Registrierung
 gev#:#gev_wbd_registration_basic_back#:#Zurück zur Eingabe der GDV Vermittler-ID

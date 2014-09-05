@@ -1375,6 +1375,15 @@ class gevUserUtils {
 				);
 	}
 	
+	public function wbdRegistrationIsPending() {
+		return (   in_array($this->getWBDOKZ(), 
+							array("OKZ1", "OKZ2", "OKZ3"))
+				&& in_array($this->getWBDTPType(),
+							array(self::WBD_TP_SERVICE, self::WBD_TP_BASIS)
+							)
+				);	
+	}
+	
 	public function getWBDFirstCertificationPeriodBegin() {
 		$date = $this->udf_utils->getField($this->user_id, gevSettings::USR_WBD_CERT_PERIOD_BEGIN);
 		return new ilDate($date, IL_CAL_DATE);
