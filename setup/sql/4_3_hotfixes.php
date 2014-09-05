@@ -803,3 +803,11 @@ if( $ilDB->tableColumnExists('qpl_qst_essay', 'keyword_relation') )
 	
 	
 ?>
+<#41>
+<?php
+
+// #13858 
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+ilDBUpdateNewObjectType::varchar2text('rbac_log', 'data');
+
+?>
