@@ -1005,6 +1005,33 @@ class gevCourseUtils {
 		return $this->getCourse()->getContactPhone();
 	}
 	
+	public function getTrainingOfficerContactInfo() {
+		$name = $this->getTrainingOfficerName();
+		$phone = $this->getTrainingOfficerPhone();
+		$email = $this->getTrainingOfficerEmail();
+		
+		if ($phone && $email) {
+			$contact = $phone.", ".$email;
+		}
+		else if ($phone) {
+			$contact = $phone;
+		}
+		else if($email) {
+			$contact = $email;
+		}
+		else {
+			$contact = "";
+		}
+		
+		if ($name && $contact) {
+			return $name. " (".$contact.")";
+		}
+		if ($name) {
+			return $name;
+		}
+		return $contact;
+	}
+	
 	// Main Trainer Info
 	
 	public function getMainTrainerFirstname() {

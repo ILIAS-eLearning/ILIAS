@@ -267,7 +267,7 @@ class gevBookingGUI {
 		$prv = $this->crs_utils->getProvider();
 		$ven = $this->crs_utils->getVenue();
 		$booking_dl = $this->crs_utils->getFormattedBookingDeadlineDate();
-		$admin_contact = $this->crs_utils->getMainAdminContactInfo();
+		$officer_contact = $this->crs_utils->getTrainingOfficerContactInfo();
 		$desc = $this->crs_utils->getSubtitle();
 		$appointment = $this->crs_utils->getFormattedAppointment();
 		
@@ -328,8 +328,8 @@ class gevBookingGUI {
 				   , $this->crs_utils->getFreePlaces()
 				   )
 			, array( $this->lng->txt("gev_training_contact")
-				   , !$this->isSelfLearningCourse()
-				   , $this->crs_utils->getMainAdminName().($admin_contact?(" (".$admin_contact.")"):"")
+				   , !$this->isSelfLearningCourse() && $officer_contact
+				   , $officer_contact
 				   )
 			, array( $this->lng->txt("gev_training_fee")
 				   , $this->isWithPayment()
