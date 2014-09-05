@@ -60,6 +60,7 @@ class gevCourseSearchTableGUI extends catAccordionTableGUI {
 		$this->email_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-invitation.png").'" />';
 		$this->bookable_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-green.png").'" />';
 		$this->bookable_waiting_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-orange.png").'" />';
+		$this->almost_not_bookable_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-orange.png").'" />';
 		$this->not_bookable_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-red.png").'" />';
 
 		$legend = new catLegendGUI();
@@ -103,7 +104,42 @@ class gevCourseSearchTableGUI extends catAccordionTableGUI {
 		$unlimited = $a_set["max_participants"] == 0;
 		$now = new ilDate(date("Y-m-d"), IL_CAL_DATE);
 		$booking_deadline_expired = $a_set["booking_date"]? (!ilDateTime::_after($a_set["booking_date"], $now)):false;
-		if ($a_set["bookable"]) {
+		$bookable = !$booking_deadline_expired && ($a_set["free_places"] > 0 || $a_set["waiting_list_active"]);
+		
+		$booking_action = '<a href="'.gevCourseUtils::getBookingLinkTo($a_set["obj_id"], $this->user_id).'">'.
+						  $this->book_img."</a>";
+		$contact_onside_action = '<a href="mailto:'.$this->lng->txt("gev_book_contact_onside").'">'.$this->email_img.'</a>';
+		$contact_webinar_action = '<a href="mailto:'.$this->lng->txt("gev_book_contact_webinar").'">'.$this->email_img.'</a>';
+		
+		if (!$booking_deadline_expired && $a_set["free_places"] > 0) {
+			$status = $this->bookable_img;
+			$action = $booking_action;
+		}
+		else if(!$booking_deadline_expired && $a_set["free_places"] == 0 && $a_set["waiting_list_active"]) {
+			$status = $this->bookable_waiting_img;
+			$action = $booking_action;
+		}
+		else if ($a_set["free_places"] == 0 && !$a_set["waiting_list_active"]) {
+			$status = $this->not_bookable_img;
+			if ($a_set["type"] == "Webinar") {
+				$action = $contact_webinar_action;
+			}
+			else if(preg_match("/^Pr..senztraining$/", $type)) {
+				$action = $contact_webinar_action;
+			}
+		}
+		else {
+			$status = $this->almost_not_bookable_img;
+			if ($a_set["type"] == "Webinar") {
+				$action = $contact_webinar_action;
+			}
+			else if(preg_match("/^Pr..senztraining$/", $type)) {
+				$action = $contact_webinar_action;
+			}
+		}
+
+		
+		/*if ($a_set["bookable"]) {
 			if (($a_set["free_places"] > 0 || $unlimited) && !$booking_deadline_expired) {
 				$status = $this->bookable_img;
 			}
@@ -131,7 +167,9 @@ class gevCourseSearchTableGUI extends catAccordionTableGUI {
 		else {
 			$status = $this->not_bookable_img;
 			$action = '<a href="mailto:'.$this->lng->txt("gev_book_contact_onside").'">'.$this->email_img.'</a>';
-		}
+		}*/
+		
+		
 
 		$this->tpl->setVariable("TITLE", $a_set["title"]);
 		$this->tpl->setVariable("STATUS", $status);
@@ -144,7 +182,7 @@ class gevCourseSearchTableGUI extends catAccordionTableGUI {
 		$this->tpl->setVariable("TARGET_GROUP", $a_set["target_group"]);
 		$this->tpl->setVariable("GOALS", $a_set["goals"]);
 		$this->tpl->setVariable("CONTENTS", $a_set["content"]);
-		if ($a_set["bookable"] && !$booking_deadline_expired) {
+		if ($bookable && !$booking_deadline_expired) {
 			$this->tpl->setCurrentBlock("booking_deadline");
 			$this->tpl->setVariable("BOOKING_LINK", gevCourseUtils::getBookingLinkTo($a_set["obj_id"], $this->user_id));
 			$this->tpl->parseCurrentBlock();

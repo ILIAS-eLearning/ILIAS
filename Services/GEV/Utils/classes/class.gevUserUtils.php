@@ -559,9 +559,10 @@ class gevUserUtils {
 																		, $value["booking_date"]
 																		);
 			$info[$key]["free_places"] = $crs_utils->getFreePlaces();
-			$info[$key]["bookable"] = $info[$key]["free_places"] === null 
+			$info[$key]["waiting_list_active"] = $crs_utils->isWaitingListActivated();
+			/*$info[$key]["bookable"] = $info[$key]["free_places"] === null 
 									|| $info[$key]["free_places"] > 0
-									|| $crs_utils->isWaitingListActivated();
+									|| $crs_utils->isWaitingListActivated();*/
 		}
 
 		return $info;
