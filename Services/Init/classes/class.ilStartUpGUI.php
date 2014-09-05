@@ -1804,6 +1804,8 @@ class ilStartUpGUI
 				$lng = new ilLanguage($usr_lang);
 			}
 			
+			// gev-patch start
+			/*
 			// send email
 			// try individual account mail in user administration
 			include_once("Services/Mail/classes/class.ilAccountMail.php");
@@ -1852,7 +1854,8 @@ class ilStartUpGUI
 					$subject,
 					$body,
 					array(), array('normal'));
-			}	
+			}*/
+			// gev-patch end
 			
 			ilUtil::redirect('./login.php?cmd=force_login&reg_confirmation_msg=reg_account_confirmation_successful&lang='.$usr_lang);
 		}
