@@ -168,9 +168,9 @@ class gevCourseSearchGUI {
 		$location->setOptions(gevCourseUtils::getLocationOptions());
 		$form->addItem($location);
 		
-		$provider = new ilSelectInputGUI($this->lng->txt("udf_type_providerselect"), "provider");
+		/*$provider = new ilSelectInputGUI($this->lng->txt("udf_type_providerselect"), "provider");
 		$provider->setOptions(gevCourseUtils::getProviderOptions());
-		$form->addItem($provider);
+		$form->addItem($provider);*/
 		
 		$period = new ilDateDurationInputGUI($this->lng->txt("time_segment"), "period");
 		$now = new ilDate(date("Y-m-d"), IL_CAL_DATE);
