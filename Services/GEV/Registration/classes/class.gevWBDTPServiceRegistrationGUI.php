@@ -101,7 +101,9 @@ class gevWBDTPServiceRegistrationGUI {
 				return $this->startRegistration();
 			}
 			*/
-			return $this->createTPServiceBWVId();
+			ilUtil::sendFailure($this->lng->txt("form_input_not_valid"));
+			
+			return $this->noServiceReg();
 		}
 
 		$this->user_utils->setWBDBWVId($_POST["bwv_id"]);
