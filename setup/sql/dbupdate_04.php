@@ -2570,29 +2570,11 @@ if(!$ilDB->tableExists('usr_cron_mail_reminder'))
 <#4305>
 <?php
 
-// #13822 - oracle does not support ALTER TABLE varchar2 to CLOB
-	
-$ilDB->lockTables(array(
-	array('name'=>'exc_assignment_peer', 'type'=>ilDB::LOCK_WRITE)
-));
-
-$def = array(
-	'type'    => 'clob',
-	'notnull' => false
-);
-$ilDB->addTableColumn('exc_assignment_peer', 'pcomment_long', $def);	
-
-$ilDB->manipulate('UPDATE exc_assignment_peer SET pcomment_long = pcomment');
-
-$ilDB->dropTableColumn('exc_assignment_peer', 'pcomment');
-
-$ilDB->renameTableColumn('exc_assignment_peer', 'pcomment_long', 'pcomment');
-
-$ilDB->unlockTables();
+// #13822 
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+ilDBUpdateNewObjectType::varchar2text('exc_assignment_peer', 'pcomment');
 
 ?>
-
-
 <#4306>
 <?php
 /**
@@ -2909,4 +2891,11 @@ if( !$ilDB->tableExists('qpl_a_kprim') )
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#4318>
+<?php
 
+// #13858 
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+ilDBUpdateNewObjectType::varchar2text('rbac_log', 'data');
+
+?>

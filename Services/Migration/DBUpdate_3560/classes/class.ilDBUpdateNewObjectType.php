@@ -408,6 +408,48 @@ class ilDBUpdateNewObjectType
 			}
 		}
 	}
+	
+	/**
+	 * Migrate varchar column to text/clob
+	 * 
+	 * @param string $a_table_name
+	 * @param string $a_column_name
+	 * @return bool
+	 */
+	public static function varchar2text($a_table_name, $a_column_name)
+	{
+		global $ilDB;
+		
+		$tmp_column_name = $a_column_name."_tmp_clob";
+		
+		if(!$ilDB->tableColumnExists($a_table_name, $a_column_name) ||
+			$ilDB->tableColumnExists($a_table_name, $tmp_column_name))
+		{
+			return false;
+		}
+		
+		// oracle does not support ALTER TABLE varchar2 to CLOB
+	
+		$ilDB->lockTables(array(
+			array('name'=> $a_table_name, 'type'=>ilDB::LOCK_WRITE)
+		));
+
+		$def = array(
+			'type'    => 'clob',
+			'notnull' => false
+		);
+		$ilDB->addTableColumn($a_table_name, $tmp_column_name, $def);	
+
+		$ilDB->manipulate('UPDATE '.$a_table_name.' SET '.$tmp_column_name.' = '.$a_column_name);
+
+		$ilDB->dropTableColumn($a_table_name, $a_column_name);
+
+		$ilDB->renameTableColumn($a_table_name, $tmp_column_name, $a_column_name);
+
+		$ilDB->unlockTables();
+		
+		return true;
+	}
 }
 
 ?>
