@@ -109,14 +109,14 @@ class gevWBDTPServiceRegistrationGUI {
 		$this->user_utils->setWBDBWVId($_POST["bwv_id"]);
 		$this->user_utils->setWBDTPType(gevUserUtils::WBD_EDU_PROVIDER);
 		$this->user_utils->setWBDRegistrationDone();
-		ilUtil::sendSuccess($this->lng->txt("gev_wbd_registration_finished_has_bwv_id"), true);
+		ilUtil::sendSuccess($this->lng->txt("gev_wbd_registration_finished_has_bwv_id_service"), true);
 		ilUtil::redirect("");
 	}
 
 	protected function noBWVId() {
 		$this->user_utils->setRawWBDOKZ(gevUserUtils::WBD_NO_OKZ);
 		$this->user_utils->setWBDRegistrationDone();
-		ilUtil::sendSuccess($this->lng->txt("gev_wbd_registration_finished_no_bwv_id"), true);
+		ilUtil::sendSuccess($this->lng->txt("gev_wbd_registration_finished_no_bwv_id_service"), true);
 		ilUtil::redirect("");
 	}
 
