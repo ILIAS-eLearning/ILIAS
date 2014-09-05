@@ -251,8 +251,14 @@ class gevCrsMailData extends ilMailData {
 			case "ORGANISATORISCHES":
 				$val = $this->crs_utils->getOrgaInfo();
 				break;
-			//case "LISTE":
-			//	break;
+			case "LISTE":
+				$l = $this->crs_utils->getParticipants();
+				$names = array();
+				foreach ($l as $user_id) {
+					$names[] = ilObjUser::_lookupFullname($user_id);
+				}
+				$val = implode("<br />", $names);
+				break;
 		}
 		
 		if ($val === null) {
