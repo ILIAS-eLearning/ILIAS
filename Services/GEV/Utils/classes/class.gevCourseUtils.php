@@ -344,7 +344,11 @@ class gevCourseUtils {
 	}
 	
 	public function getEndDate() {
-		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_END_DATE);
+		$val = $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_END_DATE);
+		if ($val) {
+			return $val;
+		}
+		return $this->getStartDate(); //#537
 	}
 	
 	public function getFormattedEndDate() {
