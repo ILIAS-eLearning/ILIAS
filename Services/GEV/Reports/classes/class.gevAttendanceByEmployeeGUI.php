@@ -243,7 +243,7 @@ class gevAttendanceByEmployeeGUI {
 					//."   AND ".$this->db->in("usrcrs.booking_status", array("gebucht", "kostenpflichtig storniert", "kostenfrei storniert"), false, "text")
 					"   AND usrcrs.hist_historic = 0 "
 					."   AND ( usrcrs.end_date >= ".$this->db->quote($start->get(IL_CAL_DATE), "date")
-					."        OR usrcrs.end_date = '-empty-')"
+					."        OR usrcrs.end_date = '-empty-' OR usrcrs.end_date = '0000-00-00')"
 					."   AND usrcrs.begin_date <= ".$this->db->quote($end->get(IL_CAL_DATE), "date")
 					;
 		}
