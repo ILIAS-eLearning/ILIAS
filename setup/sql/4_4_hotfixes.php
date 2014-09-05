@@ -907,3 +907,11 @@ $ilDB->unlockTables();
 <?php
 	$ilDB->addPrimaryKey('cp_suspend', array('user_id', 'obj_id'));
 ?>
+<#36>
+<?php
+
+// #13858 
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+ilDBUpdateNewObjectType::varchar2text('rbac_log', 'data');
+
+?>
