@@ -118,7 +118,12 @@ class gevDeadlineMailingJob extends ilCronJob {
 				
 				if ($mail->shouldBeSend()) {
 					$ilLog->write("ilDeadlineMailingJob::run: Send mail ".$key.".");
-					$mail->send();
+					try {
+						$mail->send();
+					}
+					catch (Exception $e) {
+						$ilLog->write("ilDeadlineMailingJob::run: error when sending mail ".$key.".");
+					}
 				}
 				else {
 					$ilLog->write("ilDeadlineMailingJob:run: No need to send Mail.");
