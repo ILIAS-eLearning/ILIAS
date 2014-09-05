@@ -1406,11 +1406,13 @@ class gevUserUtils {
 		
 		$now = new ilDate(date("Y-m-d"), IL_CAL_DATE);
 		$start = $this->getWBDFirstCertificationPeriodBegin();
-		
-		while(ilDateTime::_before($start, $now)) {
+		while(   ilDateTime::_before($start, $now)
+			  && !ilDateTime::_equals($start, $now)) {
 			$start->increment(ilDateTime::YEAR, $a_year_step);
 		}
-		$start->increment(ilDateTime::YEAR, -1 * $a_year_step);
+		if (!ilDateTime::_equals($start, $now)) {
+			$start->increment(ilDateTime::YEAR, -1 * $a_year_step);
+		}
 		
 		return $start;
 	}
