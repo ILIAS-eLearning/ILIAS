@@ -311,6 +311,18 @@ class ilObjTestSettingsScoringResultsGUI
 			}
 		}
 
+		if( !$this->isHiddenFormItem('anonymity') )
+		{
+			// anonymity setting
+			$this->testOBJ->setAnonymity($form->getItemByPostVar('anonymity')->getValue());
+		}
+
+		if( !$this->isHiddenFormItem('enable_archiving') )
+		{
+			// Archiving
+			$this->testOBJ->setEnableArchiving($form->getItemByPostVar('enable_archiving')->getChecked());
+		}
+
 		// store settings to db
 		$this->testOBJ->saveToDb(true);
 	}
@@ -680,6 +692,22 @@ class ilObjTestSettingsScoringResultsGUI
 				$form->addItem($results_presentation);
 			}
 		}
+
+		// anonymity
+		$anonymity = new ilRadioGroupInputGUI($this->lng->txt('tst_anonymity'), 'anonymity');
+		if ($this->testOBJ->participantDataExist()) $anonymity->setDisabled(true);
+		$rb = new ilRadioOption($this->lng->txt('tst_anonymity_no_anonymization'), 0);
+		$anonymity->addOption($rb);
+		$rb = new ilRadioOption($this->lng->txt('tst_anonymity_anonymous_test'), 1);
+		$anonymity->addOption($rb);
+		$anonymity->setValue((int)$this->testOBJ->getAnonymity());
+		$form->addItem($anonymity);
+
+		// enable_archiving
+		$enable_archiving = new ilCheckboxInputGUI($this->lng->txt('test_enable_archiving'), 'enable_archiving');
+		$enable_archiving->setValue(1);
+		$enable_archiving->setChecked($this->testOBJ->getEnableArchiving());
+		$form->addItem($enable_archiving);
 	}
 
 	private function areScoringSettingsWritable()

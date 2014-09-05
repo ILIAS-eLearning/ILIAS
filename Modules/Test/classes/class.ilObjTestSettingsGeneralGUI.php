@@ -333,10 +333,7 @@ class ilObjTestSettingsGeneralGUI
 		{
 			$this->testOBJ->setPoolUsage($form->getItemByPostVar('use_pool')->getChecked());
 		}
-		
-		// Archiving
-		$this->testOBJ->setEnableArchiving($form->getItemByPostVar('enable_archiving')->getChecked());
-		
+
 		// Examview
 		$this->testOBJ->setEnableExamview($form->getItemByPostVar('enable_examview')->getChecked());
 		$this->testOBJ->setShowExamviewHtml($form->getItemByPostVar('show_examview_html')->getChecked());
@@ -361,7 +358,17 @@ class ilObjTestSettingsGeneralGUI
 		}
 
 		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-		$this->testOBJ->setIntroduction($form->getItemByPostVar('introduction')->getValue(), false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
+		if( $form->getItemByPostVar('intro_enabled') instanceof ilFormPropertyGUI )
+		{
+			if( $form->getItemByPostVar('intro_enabled')->getChecked() )
+			{
+				$this->testOBJ->setIntroduction($form->getItemByPostVar('introduction')->getValue(), false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
+			}
+			else
+			{
+				$this->testOBJ->setIntroduction('');
+			}
+		}
 		$this->testOBJ->setShowInfo($form->getItemByPostVar('showinfo')->getChecked());
 		$this->testOBJ->setFinalStatement($form->getItemByPostVar('finalstatement')->getValue(), false, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment"));
 		$this->testOBJ->setShowFinalStatement($form->getItemByPostVar('showfinalstatement')->getChecked());
@@ -446,15 +453,25 @@ class ilObjTestSettingsGeneralGUI
 		if ($this->testOBJ->getEnableProcessingTime())
 		{
 			$processingTime = $form->getItemByPostVar('processing_time');
-			$this->testOBJ->setProcessingTime(sprintf("%02d:%02d:%02d",
-				$processingTime->getHours(), $processingTime->getMinutes(), $processingTime->getSeconds()
-			));
+			$this->testOBJ->setProcessingTimeByMinutes($processingTime->getValue());
 		}
 		else
 		{
 			$this->testOBJ->setProcessingTime('');
 		}
-		$this->testOBJ->setResetProcessingTime($form->getItemByPostVar('chb_reset_processing_time')->getChecked());			
+		$this->testOBJ->setResetProcessingTime($form->getItemByPostVar('chb_reset_processing_time')->getChecked());
+
+		if( $form->getItemByPostVar('password_enabled') instanceof ilFormPropertyGUI )
+		{
+			if( $form->getItemByPostVar('password_enabled')->getChecked() )
+			{
+				$this->testOBJ->setPassword($form->getItemByPostVar('password')->getValue());
+			}
+			else
+			{
+				$this->testOBJ->setPassword('');
+			}
+		}
 
 		if(!$this->testOBJ->participantDataExist() && $form->getItemByPostVar('chb_starting_time')->getChecked() )
 		{
@@ -489,13 +506,16 @@ class ilObjTestSettingsGeneralGUI
 		{
 			$this->testOBJ->setTitleOutput($form->getItemByPostVar('title_output')->getValue());
 		}
-		if( $form->getItemByPostVar('password') instanceof ilFormPropertyGUI )
+		if( $form->getItemByPostVar('limitUsers') instanceof ilFormPropertyGUI )
 		{
-			$this->testOBJ->setPassword($form->getItemByPostVar('password')->getValue());
-		}
-		if( $form->getItemByPostVar('allowedUsers') instanceof ilFormPropertyGUI )
-		{
-			$this->testOBJ->setAllowedUsers($form->getItemByPostVar('allowedUsers')->getValue());
+			if( $form->getItemByPostVar('limitUsers')->getChecked() )
+			{
+				$this->testOBJ->setAllowedUsers($form->getItemByPostVar('allowedUsers')->getValue());
+			}
+			else
+			{
+				$this->testOBJ->setAllowedUsers('');
+			}
 		}
 		if( $form->getItemByPostVar('allowedUsersTimeGap') instanceof ilFormPropertyGUI )
 		{
@@ -538,13 +558,20 @@ class ilObjTestSettingsGeneralGUI
 			{
 				$this->testOBJ->setQuestionSetType($form->getItemByPostVar('question_set_type')->getValue());
 			}
-			
-			// anonymity setting
-			$this->testOBJ->setAnonymity($form->getItemByPostVar('anonymity')->getValue());
-			
+
 			// nr of tries (max passes)
-			$this->testOBJ->setNrOfTries($form->getItemByPostVar('nr_of_tries')->getValue());
-			
+			if( $form->getItemByPostVar('limitPasses') instanceof ilFormPropertyGUI )
+			{
+				if( $form->getItemByPostVar('limitPasses')->getChecked() )
+				{
+					$this->testOBJ->setNrOfTries($form->getItemByPostVar('nr_of_tries')->getValue());
+				}
+				else
+				{
+					$this->testOBJ->setNrOfTries(0);
+				}
+			}
+
 			// fixed participants setting
 			if( $form->getItemByPostVar('fixedparticipants') instanceof ilFormPropertyGUI )
 			{
@@ -625,16 +652,6 @@ class ilObjTestSettingsGeneralGUI
 			$desc->setValue($desc_obj->getDescription());
 			$form->addItem($desc);
 		}
-
-		// anonymity		
-		$anonymity = new ilRadioGroupInputGUI($this->lng->txt('tst_anonymity'), 'anonymity');
-		if ($this->testOBJ->participantDataExist()) $anonymity->setDisabled(true);
-		$rb = new ilRadioOption($this->lng->txt('tst_anonymity_no_anonymization'), 0);
-		$anonymity->addOption($rb);
-		$rb = new ilRadioOption($this->lng->txt('tst_anonymity_anonymous_test'), 1);
-		$anonymity->addOption($rb);
-		$anonymity->setValue((int)$this->testOBJ->getAnonymity());
-		$form->addItem($anonymity);
 		
 		// test mode (question set type)
 		$questSetType = new ilRadioGroupInputGUI($this->lng->txt("tst_question_set_type"), 'question_set_type');
@@ -659,28 +676,15 @@ class ilObjTestSettingsGeneralGUI
 			$questSetType->setDisabled(true);
 		}
 		$form->addItem($questSetType);
-		
-		// pool usage
-		$pool_usage = new ilCheckboxInputGUI($this->lng->txt("test_question_pool_usage"), "use_pool");
-		$pool_usage->setValue(1);
-		$pool_usage->setChecked($this->testOBJ->getPoolUsage());
-		$form->addItem($pool_usage);
 
-		// enable_archiving
-		$enable_archiving = new ilCheckboxInputGUI($this->lng->txt('test_enable_archiving'), 'enable_archiving');
-		$enable_archiving->setValue(1);
-		$enable_archiving->setChecked($this->testOBJ->getEnableArchiving());
-		$form->addItem($enable_archiving);
-		
 		// activation/availability  (no template support yet)
-		
+
 		include_once "Services/Object/classes/class.ilObjectActivation.php";
 		$this->lng->loadLanguageModule('rep');
-		
+
 		$section = new ilFormSectionHeaderGUI();
 		$section->setTitle($this->lng->txt('rep_activation_availability'));
 		$form->addItem($section);
-		
 		// additional info only with multiple references
 		$act_obj_info = $act_ref_info = "";
 		if(sizeof(ilObject::_getAllReferences($this->testOBJ->getId())) > 1)
@@ -688,45 +692,53 @@ class ilObjTestSettingsGeneralGUI
 			$act_obj_info = ' '.$this->lng->txt('rep_activation_online_object_info');
 			$act_ref_info = $this->lng->txt('rep_activation_access_ref_info');
 		}
-		
+
 		$online = new ilCheckboxInputGUI($this->lng->txt('rep_activation_online'),'online');
 		$online->setChecked($this->testOBJ->isOnline());
 		$online->setInfo($this->lng->txt('tst_activation_online_info').$act_obj_info);
-		$form->addItem($online);				
-							
+		$form->addItem($online);
+
 		$act_type = new ilCheckboxInputGUI($this->lng->txt('rep_visibility_until'), 'activation_type');
 		$act_type->setChecked($this->testOBJ->isActivationLimited());
 		// $act_type->setInfo($this->lng->txt('tst_availability_until_info'));
-		
-			$this->tpl->addJavaScript('./Services/Form/js/date_duration.js');
-			include_once "Services/Form/classes/class.ilDateDurationInputGUI.php";
-			$dur = new ilDateDurationInputGUI($this->lng->txt("rep_time_period"), "access_period");
-			$dur->setShowTime(true);						
-			$date = $this->testOBJ->getActivationStartingTime();				
-			$dur->setStart(new ilDateTime($date ? $date : time(), IL_CAL_UNIX));
-			$dur->setStartText($this->lng->txt('rep_activation_limited_start'));				
-			$date = $this->testOBJ->getActivationEndingTime();
-			$dur->setEnd(new ilDateTime($date ? $date : time(), IL_CAL_UNIX));
-			$dur->setEndText($this->lng->txt('rep_activation_limited_end'));				
-			$act_type->addSubItem($dur);
 
-			$visible = new ilCheckboxInputGUI($this->lng->txt('rep_activation_limited_visibility'), 'activation_visibility');
-			$visible->setInfo($this->lng->txt('tst_activation_limited_visibility_info'));
-			$visible->setChecked($this->testOBJ->getActivationVisibility());
-			$act_type->addSubItem($visible);
-			
+		$this->tpl->addJavaScript('./Services/Form/js/date_duration.js');
+		include_once "Services/Form/classes/class.ilDateDurationInputGUI.php";
+		$dur = new ilDateDurationInputGUI($this->lng->txt("rep_time_period"), "access_period");
+		$dur->setShowTime(true);
+		$date = $this->testOBJ->getActivationStartingTime();
+		$dur->setStart(new ilDateTime($date ? $date : time(), IL_CAL_UNIX));
+		$dur->setStartText($this->lng->txt('rep_activation_limited_start'));
+		$date = $this->testOBJ->getActivationEndingTime();
+		$dur->setEnd(new ilDateTime($date ? $date : time(), IL_CAL_UNIX));
+		$dur->setEndText($this->lng->txt('rep_activation_limited_end'));
+		$act_type->addSubItem($dur);
+
+		$visible = new ilCheckboxInputGUI($this->lng->txt('rep_activation_limited_visibility'), 'activation_visibility');
+		$visible->setInfo($this->lng->txt('tst_activation_limited_visibility_info'));
+		$visible->setChecked($this->testOBJ->getActivationVisibility());
+		$act_type->addSubItem($visible);
+
 		$form->addItem($act_type);
-		
-		if( !$this->settingsTemplate || $this->formShowBeginningEndingInformation($this->settingsTemplate->getSettings()) )
-		{
-			// general properties
-			$header = new ilFormSectionHeaderGUI();
-			$header->setTitle($this->lng->txt("tst_beginning_ending_information"));
-			$form->addItem($header);
-		}
+
+		// pool usage
+		$pool_usage = new ilCheckboxInputGUI($this->lng->txt("test_question_pool_usage"), "use_pool");
+		$pool_usage->setInfo($this->lng->txt("test_question_pool_usage_desc"));
+		$pool_usage->setValue(1);
+		$pool_usage->setChecked($this->testOBJ->getPoolUsage());
+		$form->addItem($pool_usage);
+
+		// section introduction
+		$section = new ilFormSectionHeaderGUI();
+		$section->setTitle($this->lng->txt('tst_settings_header_intro'));
+		$form->addItem($section);
 
 		// introduction
-		$intro = new ilTextAreaInputGUI($this->lng->txt("tst_introduction"), "introduction");
+		$introEnabled = new ilCheckboxInputGUI($this->lng->txt("tst_introduction"), 'intro_enabled');
+		$introEnabled->setChecked(strlen($this->testOBJ->getIntroduction()));
+		$form->addItem($introEnabled);
+		$intro = new ilTextAreaInputGUI($this->lng->txt("tst_introduction_text"), "introduction");
+		$intro->setRequired(true);
 		$intro->setValue($this->testOBJ->prepareTextareaOutput($this->testOBJ->getIntroduction()));
 		$intro->setRows(10);
 		$intro->setCols(80);
@@ -735,18 +747,200 @@ class ilObjTestSettingsGeneralGUI
 		$intro->addButton("latex");
 		$intro->setRTESupport($this->testOBJ->getId(), "tst", "assessment");
 		$intro->setRteTagSet('full');
-		$intro->setInfo($this->lng->txt('intro_desc'));
+		$introEnabled->addSubItem($intro);
 		// showinfo
-		$showinfo = new ilCheckboxInputGUI('', "showinfo");
+		$showinfo = new ilCheckboxInputGUI($this->lng->txt("showinfo"), "showinfo");
 		$showinfo->setValue(1);
 		$showinfo->setChecked($this->testOBJ->getShowInfo());
-		$showinfo->setOptionTitle($this->lng->txt("showinfo"));
 		$showinfo->setInfo($this->lng->txt("showinfo_desc"));
-		$intro->addSubItem($showinfo);
-		$form->addItem($intro);
+		$form->addItem($showinfo);
+		
+		if( !$this->settingsTemplate || $this->formShowBeginningEndingInformation($this->settingsTemplate->getSettings()) )
+		{
+			$header = new ilFormSectionHeaderGUI();
+			$header->setTitle($this->lng->txt("tst_settings_header_execution"));
+			$form->addItem($header);
+		}
 
+		// enable starting time
+		$enablestartingtime = new ilCheckboxInputGUI($this->lng->txt("tst_starting_time"), "chb_starting_time");
+		$enablestartingtime->setInfo($this->lng->txt("tst_starting_time_desc"));
+		$enablestartingtime->setValue(1);
+		//$enablestartingtime->setOptionTitle($this->lng->txt("enabled"));
+		if( $this->settingsTemplate && $this->getTemplateSettingValue('chb_starting_time') )
+		{
+			$enablestartingtime->setChecked(true);
+		}
+		else
+		{
+			$enablestartingtime->setChecked(strlen($this->testOBJ->getStartingTime()));
+		}
+		// starting time
+		$startingtime = new ilDateTimeInputGUI('', 'starting_time');
+		$startingtime->setShowDate(true);
+		$startingtime->setShowTime(true);
+		if( strlen($this->testOBJ->getStartingTime()) )
+		{
+			$startingtime->setDate(new ilDateTime($this->testOBJ->getStartingTime(), IL_CAL_TIMESTAMP));
+		}
+		else
+		{
+			$startingtime->setDate(new ilDateTime(time(), IL_CAL_UNIX));
+		}
+		$enablestartingtime->addSubItem($startingtime);
+		$form->addItem($enablestartingtime);
+		if( $this->testOBJ->participantDataExist() )
+		{
+			$enablestartingtime->setDisabled(true);
+			$startingtime->setDisabled(true);
+		}
+
+		// enable ending time
+		$enableendingtime = new ilCheckboxInputGUI($this->lng->txt("tst_ending_time"), "chb_ending_time");
+		$enableendingtime->setInfo($this->lng->txt("tst_ending_time_desc"));
+		$enableendingtime->setValue(1);
+		//$enableendingtime->setOptionTitle($this->lng->txt("enabled"));
+		if ($this->settingsTemplate && $this->getTemplateSettingValue('chb_ending_time') )
+			$enableendingtime->setChecked(true);
+		else
+			$enableendingtime->setChecked(strlen($this->testOBJ->getEndingTime()));
+		// ending time
+		$endingtime = new ilDateTimeInputGUI('', 'ending_time');
+		$endingtime->setShowDate(true);
+		$endingtime->setShowTime(true);
+		if (strlen($this->testOBJ->getEndingTime()))
+		{
+			$endingtime->setDate(new ilDateTime($this->testOBJ->getEndingTime(), IL_CAL_TIMESTAMP));
+		}
+		else
+		{
+			$endingtime->setDate(new ilDateTime(time(), IL_CAL_UNIX));
+		}
+		$enableendingtime->addSubItem($endingtime);
+		$form->addItem($enableendingtime);
+
+		// test password
+		$pwEnabled = new ilCheckboxInputGUI($this->lng->txt('tst_password'), 'password_enabled');
+		$pwEnabled->setChecked(strlen($this->testOBJ->getPassword()));
+		$pwEnabled->setInfo($this->lng->txt("tst_password_details"));
+		$form->addItem($pwEnabled);
+		$password = new ilTextInputGUI($this->lng->txt("tst_password_enter"), "password");
+		$password->setRequired(true);
+		$password->setSize(20);
+		$password->setValue($this->testOBJ->getPassword());
+		$pwEnabled->addSubItem($password);
+
+		// simultaneous users
+		$simulLimited = new ilCheckboxInputGUI($this->lng->txt("tst_allowed_users"), 'limitUsers');
+		$simulLimited->setInfo($this->lng->txt("tst_allowed_users_desc"));
+		$simulLimited->setChecked($this->testOBJ->getAllowedUsers());
+		$form->addItem($simulLimited);
+		$simul = new ilNumberInputGUI($this->lng->txt("tst_allowed_users_max"), "allowedUsers");
+		$simul->setRequired(true);
+		$simul->allowDecimals(false);
+		$simul->setMinValue(1);
+		$simul->setMinvalueShouldBeGreater(false);
+		$simul->setSize(3);
+		$simul->setValue(($this->testOBJ->getAllowedUsers()) ? $this->testOBJ->getAllowedUsers() : '');
+		$simulLimited->addSubItem($simul);
+
+		// idle time
+		$idle = new ilTextInputGUI($this->lng->txt("tst_allowed_users_time_gap"), "allowedUsersTimeGap");
+		$idle->setInfo($this->lng->txt("tst_allowed_users_time_gap_desc"));
+		$idle->setSize(4);
+		$idle->setSuffix($this->lng->txt("seconds"));
+		$idle->setValue(($this->testOBJ->getAllowedUsersTimeGap()) ? $this->testOBJ->getAllowedUsersTimeGap() : 300);
+		$form->addItem($idle);
+
+		// section header test run
+		$header = new ilFormSectionHeaderGUI();
+		$header->setTitle($this->lng->txt("tst_settings_header_test_run"));
+		$form->addItem($header);
+
+		// max. number of passes
+		$limitPasses = new ilCheckboxInputGUI($this->lng->txt("tst_limit_nr_of_tries"), 'limitPasses');
+		$limitPasses->setInfo($this->lng->txt("tst_nr_of_tries_desc"));
+		$limitPasses->setChecked($this->testOBJ->getNrOfTries() > 0);
+		if ($this->testOBJ->participantDataExist()) $limitPasses->setDisabled(true);
+		$form->addItem($limitPasses);
+		$nr_of_tries = new ilNumberInputGUI($this->lng->txt("tst_nr_of_tries"), "nr_of_tries");
+		$nr_of_tries->setSize(3);
+		$nr_of_tries->allowDecimals(false);
+		$nr_of_tries->setMinValue(1);
+		$nr_of_tries->setMinvalueShouldBeGreater(false);
+		$nr_of_tries->setValue($this->testOBJ->getNrOfTries() ? $this->testOBJ->getNrOfTries() : 1);
+		$nr_of_tries->setRequired(true);
+		if ($this->testOBJ->participantDataExist()) $nr_of_tries->setDisabled(true);
+		$limitPasses->addSubItem($nr_of_tries);
+
+		// enable max. processing time
+		$processing = new ilCheckboxInputGUI($this->lng->txt("tst_processing_time"), "chb_processing_time");
+		$processing->setInfo($this->lng->txt("tst_processing_time_desc"));
+		$processing->setValue(1);
+		
+		if( $this->settingsTemplate && $this->getTemplateSettingValue('chb_processing_time') )
+		{
+			$processing->setChecked(true);
+		}
+		else
+		{
+			$processing->setChecked($this->testOBJ->getEnableProcessingTime());
+		}
+
+		// max. processing time
+		$processingtime = new ilNumberInputGUI($this->lng->txt("tst_processing_time_duration"), 'processing_time');
+		$processingtime->allowDecimals(false);
+		$processingtime->setMinValue(1);
+		$processingtime->setMinvalueShouldBeGreater(false);
+		$processingtime->setValue($this->testOBJ->getProcessingTimeAsMinutes());
+		$processingtime->setSize(5);
+		$processingtime->setSuffix($this->lng->txt('minutes'));
+		$processingtime->setInfo($this->lng->txt("tst_processing_time_duration_desc"));
+		$processing->addSubItem($processingtime);
+
+		// reset max. processing time
+		$resetprocessing = new ilCheckboxInputGUI('', "chb_reset_processing_time");
+		$resetprocessing->setValue(1);
+		$resetprocessing->setOptionTitle($this->lng->txt("tst_reset_processing_time"));
+		$resetprocessing->setChecked($this->testOBJ->getResetProcessingTime());
+		$resetprocessing->setInfo($this->lng->txt("tst_reset_processing_time_desc"));
+		$processing->addSubItem($resetprocessing);
+		$form->addItem($processing);
+
+		// kiosk mode
+		$kiosk = new ilCheckboxInputGUI($this->lng->txt("kiosk"), "kiosk");
+		$kiosk->setValue(1);
+		$kiosk->setChecked($this->testOBJ->getKioskMode());
+		$kiosk->setInfo($this->lng->txt("kiosk_description"));
+
+		// kiosk mode options
+		$kiosktitle = new ilCheckboxGroupInputGUI($this->lng->txt("kiosk_options"), "kiosk_options");
+		$kiosktitle->addOption(new ilCheckboxOption($this->lng->txt("kiosk_show_title"), 'kiosk_title', ''));
+		$kiosktitle->addOption(new ilCheckboxOption($this->lng->txt("kiosk_show_participant"), 'kiosk_participant', ''));
+		$kiosktitle->addOption(new ilCheckboxOption($this->lng->txt('examid_in_kiosk'), 'examid_in_kiosk'));
+		$values = array();
+		if ($this->testOBJ->getShowKioskModeTitle()) array_push($values, 'kiosk_title');
+		if ($this->testOBJ->getShowKioskModeParticipant()) array_push($values, 'kiosk_participant');
+		if ($this->testOBJ->getExamidInKiosk()) array_push($values, 'examid_in_kiosk');
+		$kiosktitle->setValue($values);
+		$kiosktitle->setInfo($this->lng->txt("kiosk_options_desc"));
+		$kiosk->addSubItem($kiosktitle);
+
+		$form->addItem($kiosk);
+
+		// section header TEMP
+		$header = new ilFormSectionHeaderGUI();
+		$header->setTitle($this->lng->txt("temp"));
+		$form->addItem($header);
+
+		// show final statement
+		$showfinal = new ilCheckboxInputGUI($this->lng->txt("final_statement_show"), "showfinalstatement");
+		$showfinal->setChecked($this->testOBJ->getShowFinalStatement());
+		$showfinal->setInfo($this->lng->txt("final_statement_show_desc"));
+		$form->addItem($showfinal);
 		// final statement
 		$finalstatement = new ilTextAreaInputGUI($this->lng->txt("final_statement"), "finalstatement");
+		$finalstatement->setRequired(true);
 		$finalstatement->setValue($this->testOBJ->prepareTextareaOutput($this->testOBJ->getFinalStatement()));
 		$finalstatement->setRows(10);
 		$finalstatement->setCols(80);
@@ -755,14 +949,7 @@ class ilObjTestSettingsGeneralGUI
 		$finalstatement->addButton("latex");
 		$finalstatement->setRTESupport($this->testOBJ->getId(), "tst", "assessment");
 		$finalstatement->setRteTagSet('full');
-		// show final statement
-		$showfinal = new ilCheckboxInputGUI('', "showfinalstatement");
-		$showfinal->setValue(1);
-		$showfinal->setChecked($this->testOBJ->getShowFinalStatement());
-		$showfinal->setOptionTitle($this->lng->txt("final_statement_show"));
-		$showfinal->setInfo($this->lng->txt("final_statement_show_desc"));
-		$finalstatement->addSubItem($showfinal);
-		$form->addItem($finalstatement);
+		$showfinal->addSubItem($finalstatement);
 
 		// examview
 		$enable_examview = new ilCheckboxInputGUI($this->lng->txt("enable_examview"), 'enable_examview');
@@ -790,115 +977,6 @@ class ilObjTestSettingsGeneralGUI
 			$sessionheader->setTitle($this->lng->txt("tst_session_settings"));
 			$form->addItem($sessionheader);
 		}
-
-		// max. number of passes
-		$nr_of_tries = new ilTextInputGUI($this->lng->txt("tst_nr_of_tries"), "nr_of_tries");
-		$nr_of_tries->setSize(3);
-		$nr_of_tries->setValue($this->testOBJ->getNrOfTries());
-		$nr_of_tries->setRequired(true);
-		$nr_of_tries->setSuffix($this->lng->txt("0_unlimited"));
-		$total = $this->testOBJ->evalTotalPersons();
-		if ($total) $nr_of_tries->setDisabled(true);
-		$form->addItem($nr_of_tries);
-
-		// enable max. processing time
-		$processing = new ilCheckboxInputGUI($this->lng->txt("tst_processing_time"), "chb_processing_time");
-		$processing->setValue(1);
-		//$processing->setOptionTitle($this->lng->txt("enabled"));
-
-		if( $this->settingsTemplate && $this->getTemplateSettingValue('chb_processing_time') )
-		{
-			$processing->setChecked(true);
-		}
-		else
-		{
-			$processing->setChecked($this->testOBJ->getEnableProcessingTime());
-		}
-		
-		// max. processing time
-		$processingtime = new ilDurationInputGUI('', 'processing_time');
-		$ptime = $this->testOBJ->getProcessingTimeAsArray();
-		$processingtime->setHours($ptime['hh']);
-		$processingtime->setMinutes($ptime['mm']);
-		$processingtime->setSeconds($ptime['ss']);
-		$processingtime->setShowMonths(false);
-		$processingtime->setShowDays(false);
-		$processingtime->setShowHours(true);
-		$processingtime->setShowMinutes(true);
-		$processingtime->setShowSeconds(true);
-		$processingtime->setInfo($this->lng->txt("tst_processing_time_desc"));
-		$processing->addSubItem($processingtime);
-
-		// reset max. processing time
-		$resetprocessing = new ilCheckboxInputGUI('', "chb_reset_processing_time");
-		$resetprocessing->setValue(1);
-		$resetprocessing->setOptionTitle($this->lng->txt("tst_reset_processing_time"));
-		$resetprocessing->setChecked($this->testOBJ->getResetProcessingTime());
-		$resetprocessing->setInfo($this->lng->txt("tst_reset_processing_time_desc"));
-		$processing->addSubItem($resetprocessing);
-		$form->addItem($processing);
-
-		// enable starting time
-		$enablestartingtime = new ilCheckboxInputGUI($this->lng->txt("tst_starting_time"), "chb_starting_time");
-		$enablestartingtime->setValue(1);
-		//$enablestartingtime->setOptionTitle($this->lng->txt("enabled"));
-		if( $this->settingsTemplate && $this->getTemplateSettingValue('chb_starting_time') )
-		{
-			$enablestartingtime->setChecked(true);
-		}
-		else
-		{
-			$enablestartingtime->setChecked(strlen($this->testOBJ->getStartingTime()));
-		}
-		// starting time
-		$startingtime = new ilDateTimeInputGUI('', 'starting_time');
-		$startingtime->setShowDate(true);
-		$startingtime->setShowTime(true);
-		if( strlen($this->testOBJ->getStartingTime()) )
-		{
-			$startingtime->setDate(new ilDateTime($this->testOBJ->getStartingTime(), IL_CAL_TIMESTAMP));		
-		}
-		else
-		{
-			$startingtime->setDate(new ilDateTime(time(), IL_CAL_UNIX));
-		}
-		$enablestartingtime->addSubItem($startingtime);
-		$form->addItem($enablestartingtime);
-		if( $this->testOBJ->participantDataExist() )
-		{
-			$enablestartingtime->setDisabled(true);
-			$startingtime->setDisabled(true);
-		}
-		
-		// enable ending time
-		$enableendingtime = new ilCheckboxInputGUI($this->lng->txt("tst_ending_time"), "chb_ending_time");
-		$enableendingtime->setValue(1);
-		//$enableendingtime->setOptionTitle($this->lng->txt("enabled"));
-		if ($this->settingsTemplate && $this->getTemplateSettingValue('chb_ending_time') )
-		$enableendingtime->setChecked(true);
-		else
-		$enableendingtime->setChecked(strlen($this->testOBJ->getEndingTime()));
-		// ending time
-		$endingtime = new ilDateTimeInputGUI('', 'ending_time');
-		$endingtime->setShowDate(true);
-		$endingtime->setShowTime(true);
-		if (strlen($this->testOBJ->getEndingTime()))
-		{
-			$endingtime->setDate(new ilDateTime($this->testOBJ->getEndingTime(), IL_CAL_TIMESTAMP));
-		}
-		else
-		{
-			$endingtime->setDate(new ilDateTime(time(), IL_CAL_UNIX));
-		}
-		$enableendingtime->addSubItem($endingtime);
-		$form->addItem($enableendingtime);
-		
-		// test password
-		$password = new ilTextInputGUI($this->lng->txt("tst_password"), "password");
-		$password->setSize(20);
-		$password->setValue($this->testOBJ->getPassword());
-		$password->setInfo($this->lng->txt("tst_password_details"));
-		$form->addItem($password);
 
 		if( !$this->settingsTemplate || $this->formShowPresentationSection($this->settingsTemplate->getSettings()) )
 		{
@@ -1109,27 +1187,6 @@ class ilObjTestSettingsGeneralGUI
 			$form->addItem($testExecution);
 		}
 
-		// kiosk mode
-		$kiosk = new ilCheckboxInputGUI($this->lng->txt("kiosk"), "kiosk");
-		$kiosk->setValue(1);
-		$kiosk->setChecked($this->testOBJ->getKioskMode());
-		$kiosk->setInfo($this->lng->txt("kiosk_description"));
-
-		// kiosk mode options
-		$kiosktitle = new ilCheckboxGroupInputGUI($this->lng->txt("kiosk_options"), "kiosk_options");
-		$kiosktitle->addOption(new ilCheckboxOption($this->lng->txt("kiosk_show_title"), 'kiosk_title', ''));
-		$kiosktitle->addOption(new ilCheckboxOption($this->lng->txt("kiosk_show_participant"), 'kiosk_participant', ''));
-		$kiosktitle->addOption(new ilCheckboxOption($this->lng->txt('examid_in_kiosk'), 'examid_in_kiosk'));
-		$values = array();
-		if ($this->testOBJ->getShowKioskModeTitle()) array_push($values, 'kiosk_title');
-		if ($this->testOBJ->getShowKioskModeParticipant()) array_push($values, 'kiosk_participant');
-		if ($this->testOBJ->getExamidInKiosk()) array_push($values, 'examid_in_kiosk');
-		$kiosktitle->setValue($values);
-		$kiosktitle->setInfo($this->lng->txt("kiosk_options_desc"));
-		$kiosk->addSubItem($kiosktitle);
-
-		$form->addItem($kiosk);
-
 		$redirection_mode = $this->testOBJ->getRedirectionMode();
 		$rm_enabled = new ilCheckboxInputGUI($this->lng->txt('redirect_after_finishing_tst'), 'redirection_enabled' );
 		$rm_enabled->setChecked($redirection_mode == '0' ? false : true);
@@ -1173,19 +1230,6 @@ class ilObjTestSettingsGeneralGUI
 			$fixedparticipants->setDisabled(true);
 		}
 		$form->addItem($fixedparticipants);
-
-		// simultaneous users
-		$simul = new ilTextInputGUI($this->lng->txt("tst_allowed_users"), "allowedUsers");
-		$simul->setSize(3);
-		$simul->setValue(($this->testOBJ->getAllowedUsers()) ? $this->testOBJ->getAllowedUsers() : '');
-		$form->addItem($simul);
-
-		// idle time
-		$idle = new ilTextInputGUI($this->lng->txt("tst_allowed_users_time_gap"), "allowedUsersTimeGap");
-		$idle->setSize(4);
-		$idle->setSuffix($this->lng->txt("seconds"));
-		$idle->setValue(($this->testOBJ->getAllowedUsersTimeGap()) ? $this->testOBJ->getAllowedUsersTimeGap() : '');
-		$form->addItem($idle);
 				
 		// Edit ecs export settings
 		include_once 'Modules/Test/classes/class.ilECSTestSettings.php';

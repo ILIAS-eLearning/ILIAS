@@ -618,15 +618,14 @@ assessment#:#insert_after#:#Einfügen hinter
 assessment#:#insert_before#:#Einfügen vor
 assessment#:#internal_links#:#Interne Verweise
 assessment#:#internal_links_update#:#Aktualisierung
-assessment#:#intro_desc#:#Dieser Text erscheint zu Beginn des Test.
 assessment#:#javaapplet#:#Java-Applet
 assessment#:#keywords_hint#:#Um eine automatische Punktevergabe bei einer Frage vom Typ Freitext eingeben zu erreichen, geben Sie hier bitte eine Liste von Schlagwörtern an. Die Schlagwörter müssen durch Leerzeichen oder Zeilenumbrüche voneinander getrennt sein. Ist eines der Schlagwörter im Antworttext vorhanden, vergibt ILIAS die für die Frage eingetragene maximale Punktezahl anstelle der üblichen Bewertung von 0 Punkten.
-assessment#:#kiosk#:#Kiosk-Modus
-assessment#:#kiosk_description#:#Führt den Test im sogenannten Kiosk-Modus aus. Alle Bildschirmelemente, die nicht zum Test gehören, werden ausgeblendet. Die Teilnehmer haben damit keine Möglichkeit, den Test zu verlassen.
-assessment#:#kiosk_options#:#Kiosk-Modus-Einstellungen
-assessment#:#kiosk_options_desc#:#Wählen Sie aus, ob während des Kiosk-Modus der Titel des Tests und/oder der Name des aktuellen Teilnehmers im Kopf der Seite angezeigt wird.
-assessment#:#kiosk_show_participant#:#Name des Teilnehmers anzeigen
-assessment#:#kiosk_show_title#:#Titel des Tests anzeigen
+assessment#:#kiosk#:#Prüfungsansicht
+assessment#:#kiosk_description#:#Die Prüfungsansicht zeigt den Test im Kiosk-Modus. Dabei werden alle Bildschirmelemente, die nicht zum Test gehören, ausgeblendet.
+assessment#:#kiosk_options#:#Angezeigte Informationen
+assessment#:#kiosk_options_desc#:#Die ausgewählten Informationen werden im Kopfbereich der Seite angezeigt.
+assessment#:#kiosk_show_participant#:#Name des Teilnehmers
+assessment#:#kiosk_show_title#:#Titel des Tests
 assessment#:#last_update#:#Letzte Aktualisierung
 assessment#:#legend#:#Legende
 assessment#:#locked#:#gesperrt
@@ -924,8 +923,8 @@ assessment#:#shape#:#Form
 assessment#:#show_detailed_results#:#Detaillierte Testergebnisse (bewerteter Testdurchlauf)
 assessment#:#show_pass_overview#:#Ergebnisübersicht (bewerteter Testdurchlauf)
 assessment#:#show_user_answers#:#Antworten (bewerteter Testdurchlauf)
-assessment#:#showinfo#:#Komplette Info-Seite anzeigen
-assessment#:#showinfo_desc#:#Wenn diese Option ausgewählt ist, wird die komplette Info-Seite (inklusive aller Test-Eigenschaften) für die Test-Teilnehmer angezeigt. Wenn diese Option nicht ausgewählt ist, werden lediglich der einleitende Text (falls vorhanden) und die wirklich benötigten Test-Eigenschaften auf der Info-Seite angezeigt.
+assessment#:#showinfo#:#Testeigenschaften anzeigen
+assessment#:#showinfo_desc#:#Den Benutzern werden alle Testeigenschaften angezeigt, z.B. Reihenfolge, Bewertung oder Ergebnisausgabe.
 assessment#:#showSuggestedSolution#:#Art
 assessment#:#shuffle_answers#:#Antworten mischen
 assessment#:#solution_hint#:#Musterlösung zuordnen
@@ -959,7 +958,8 @@ assessment#:#test_jump_to#:#Zu Frage springen
 assessment#:#test_move_page#:#Frage verschieben
 assessment#:#test_next_question#:#Nächste Frage
 assessment#:#test_prev_question#:#Vorherige Frage
-assessment#:#test_question_pool_usage#:#Auswahl des Fragenpools beim Anlegen von Fragen
+assessment#:#test_question_pool_usage#:#Fragenpools verwenden
+assessment#:#test_question_pool_usage_desc#:#Im Test erstellte Fragen können automatisch in einen Fragenpool übernommen werden.
 assessment#:#test_reference#:#Test-Verknüpfung
 assessment#:#test_template_reset#:#Die Vorlage wurde entfernt.
 assessment#:#test_using_template#:#Dieser Test verwendet die Vorlage %s. Wenn Sie keine Vorlage und alle Einstellungen verwenden wollen, klicken Sie bitte hier: %s.
@@ -985,17 +985,21 @@ assessment#:#tst_access_code_created#:#Um Ihnen einen dauerhaften Zugang zu Ihre
 assessment#:#tst_all_user_data_deleted#:#Die Daten aller Testteilnehmer wurden gelöscht!
 assessment#:#tst_allow_fixed_participants#:#Diesen Test nur für feste Teilnehmer verfügbar machen
 assessment#:#tst_allow_instant_verification#:#Direkte Überprüfung der Antworten anbieten
-assessment#:#tst_allowed_users#:#Maximale Anzahl gleichzeitiger Teilnehmer
+assessment#:#tst_allowed_users_max#:#Maximale Anzahl
+assessment#:#tst_allowed_users#:#Begrenzte Anzahl gleichzeitiger Teilnehmer
+assessment#:#tst_allowed_users_desc#:#Um die Performanz nicht zu gefährden, kann eine maximale Anzahl von Teilnehmern festgelegt werden, die den Test gleichzeitig durchführen können. Weitere Benutzer müssen warten, bis die maximale Anzahl wieder unterschritten ist.
 assessment#:#tst_allowed_users_time_gap#:#Inaktivitätszeit der Teilnehmer
+assessment#:#tst_allowed_users_time_gap_desc#:#Wenn ein Teilnehmer im angegebenen Zeitraum nichts anklickt, wird er als inaktiv eingestuft und von der weiteren Testdurchführung ausgeschlossen.
 assessment#:#tst_already_submitted#:#Der Test wurde bereits beendet und die Antworten abgeschickt.
 assessment#:#tst_already_taken#:#Bereits durchgeführte Tests
+assessment#:#tst_settings_header_test_run#:#Durchführung: Steuerung Testdurchlauf
 assessment#:#tst_anonymity#:#Anonymität
 assessment#:#tst_anonymity_anonymous_test#:#Anonymer Test
 assessment#:#tst_anonymity_no_anonymization#:#Keine Anonymisierung
 assessment#:#tst_answer_sheet#:#Test und Assessment - Antwortenübersicht
 assessment#:#tst_answered_questions#:#Beantwortete Fragen
 assessment#:#tst_answered_questions_test#:#In diesem Test beantwortete Fragen
-assessment#:#tst_beginning_ending_information#:#Informationen zu Beginn und Ende des Tests
+assessment#:#tst_settings_header_execution#:#Durchführung: Zugang
 assessment#:#tst_best_solution_is#:#Die bestmögliche Lösung lautet
 assessment#:#tst_browse_for_questions#:#Aus Pool hinzufügen
 assessment#:#tst_change_points_for_question#:#Punkte für die Antwort
@@ -1020,7 +1024,6 @@ assessment#:#tst_delete_missing_mark#:#Bitte wählen Sie mindestens eine Notenst
 assessment#:#tst_delete_results#:#Test zurücksetzen
 assessment#:#tst_dont_use_previous_answers#:#Ihre vorherigen Antworten werden in zukünftigen Testdurchläufen nicht als vorgegebene Werte verwendet
 assessment#:#tst_edit_scoring#:#Ändere Bewertung
-assessment#:#tst_ending_time#:#Endzeit
 assessment#:#tst_enter_questionpool#:#Bitte geben Sie den Namen eines Fragenpools an, in dem die neue Frage abgelegt werden soll
 assessment#:#tst_eval_no_anonymous_aggregation#:#Der Test wurde bislang noch von niemandem durchgeführt. Es existieren keine anonym aggregierten Ergebnisse.
 assessment#:#tst_eval_question_points#:#Fragenergebnisse für Testdurchlauf %s
@@ -1051,7 +1054,7 @@ assessment#:#tst_fixed_participants_data_exists#:#Es gibt bereits Teilnehmer, di
 assessment#:#tst_fixed_participants_disable#:#Statuswechsel bestätigen
 assessment#:#tst_fixed_participants_disable_description#:#Sie sind dabei, die Unterstützung für feste Teilnehmer zu deaktivieren. Allerdings befinden sich bereits feste Teilnehmer in diesem Test. Wenn Sie diese Teilnehmer entfernen, werden die Testergebnisse der Teilnehmer nicht gelöscht. Sind Sie sicher, dass Sie weitermachen wollen?
 assessment#:#tst_fixed_participating_users#:#Feste Teilnehmer in diesem Test
-assessment#:#tst_general_properties#:#Allgemeine Einstellungen
+assessment#:#tst_general_properties#:#Einstellungen des Tests
 assessment#:#tst_generate_xls#:#Excel-Datei erzeugen
 assessment#:#tst_heading_scoring#:#Bewertung
 assessment#:#tst_hide_previous_results#:#Vorherige Ergebnisse nicht anzeigen
@@ -1078,7 +1081,8 @@ assessment#:#tst_instant_feedback_results_desc#:#Wenn das Ergebnis ausgewählt i
 assessment#:#tst_instant_feedback_solution#:#Lösungen anzeigen
 assessment#:#tst_instant_feedback_solution_desc#:#Wenn Lösungen ausgewählt ist, wird die korrekte Lösung einer Frage angezeigt.
 assessment#:#tst_instant_verification#:#Direkte Überprüfung
-assessment#:#tst_introduction#:#Einleitender Text
+assessment#:#tst_introduction#:#Einleitung
+assessment#:#tst_introduction_text#:#Einleitungstext
 assessment#:#tst_invited_nobody#:#Es wurden keine Benutzer, Gruppen oder Rollen als feste Teilnehmer hinzugefügt
 assessment#:#tst_invited_selected_groups#:#Die ausgewählten Gruppen wurden als feste Teilnehmer hinzugefügt
 assessment#:#tst_invited_selected_roles#:#Die ausgewählten Rollen wurden als feste Teilnehmer hinzugefügt
@@ -1124,7 +1128,9 @@ assessment#:#tst_notify_manscoring_done_body_msg_reason#:#Sie erhalten diese Nac
 assessment#:#tst_notify_manscoring_done_body_msg_subject#:#Manuelle Bewertung für Test "%s" erfolgt
 assessment#:#tst_notify_manscoring_done_body_msg_topic#:#die manuelle Bewertung für folgenden Test wurde eingereicht:
 assessment#:#tst_nr_of_passes#:#Anzahl der Testdurchläufe
+assessment#:#tst_limit_nr_of_tries#:#Anzahl Testdurchläufe begrenzen
 assessment#:#tst_nr_of_tries#:#Maximale Anzahl von Testdurchläufen
+assessment#:#tst_nr_of_tries_desc#:#Teilnehmer können nur eine begrenzte Anzahl von Testdurchläufen absolvieren.
 assessment#:#tst_nr_of_tries_of_user#:#Bereits durchgeführte Testdurchläufe
 assessment#:#tst_participant#:#Teilnehmer
 assessment#:#tst_participant_solution#:#Teilnehmerlösung
@@ -1141,6 +1147,7 @@ assessment#:#tst_pass_scoring_description#:#Normalerweise wird immer der letzte 
 assessment#:#tst_passes#:#Testdurchläufe
 assessment#:#tst_password_form#:#Testpasswort Eingabe
 assessment#:#tst_password#:#Testpasswort
+assessment#:#tst_password_enter#:#Passwort eingeben
 assessment#:#tst_password_details#:#Wenn Sie ein Testpasswort definieren, müssen alle berechtigten Teilnehmer dieses Kennwort eingeben, um den Test zu starten.
 assessment#:#tst_password_entered_wrong_password#:#Sie können den Test nicht starten, da Sie ein falsches Testpasswort eingegeben haben!
 assessment#:#tst_password_introduction#:#Dieser Test kann nur mit einem Testpasswort gestartet werden. Bitte tragen Sie das Passwort hier ein.
@@ -1152,7 +1159,9 @@ assessment#:#tst_presentation_properties#:#Darstellungseigenschaften
 assessment#:#tst_print#:#Test und Assessment – Druckansicht
 assessment#:#tst_print_date#:#Datum des Ausdrucks
 assessment#:#tst_processing_time#:#Maximale Bearbeitungsdauer
-assessment#:#tst_processing_time_desc#:#Die maximale Bearbeitungsdauer beginnt mit dem Zeitpunkt, an dem der jeweilige Teilnehmer zum ersten Mal diesen Test startet, und endet nach Ablauf der hier ausgewählten Zeitspanne. Wird diese Option genutzt, sollte die Möglichkeit, den Test zu unterbrechen (siehe Einstellungen Reihenfolge), nicht aktiviert sein. Durch das Unterbrechen des Tests wird das Herunterzählen der Bearbeitungsdauer nicht angehalten.
+assessment#:#tst_processing_time_desc#:#Die Bearbeitungsdauer für den Test wird zeitlich eingegrenzt.
+assessment#:#tst_processing_time_duration#:#Zeitspanne
+assessment#:#tst_processing_time_duration_desc#:#Die Bearbeitungsdauer beginnt mit dem Zeitpunkt, an dem ein Teilnehmer zum ersten Mal den Test startet. Nach Ablauf der Zeitspanne können keine Fragen mehr beantwortet werden. Kombinieren Sie diese Option nicht mit der Option "Test unterbrechen", da hierdurch das Herunterzählen der Bearbeitungsdauer nicht angehalten wird!
 assessment#:#tst_properties#:#Test-Eigenschaften
 assessment#:#tst_qst_order#:#Reihenfolge
 assessment#:#tst_qst_resetsolved#:#markiere als ungelöst
@@ -1199,7 +1208,7 @@ assessment#:#tst_report_after_question#:#Ergebnis nach jeder beantworteten Frage
 assessment#:#tst_report_after_test#:#Testergebnisse erst nach Abschluss eines Testdurchlaufs anbieten
 assessment#:#tst_report_never#:#Die Testergebnisse sind nicht einsehbar
 assessment#:#tst_reset_processing_time#:#Maximale Bearbeitungsdauer für jeden Testlauf zurücksetzen
-assessment#:#tst_reset_processing_time_desc#:#Ist diese Option ausgewählt, wird die maximale Bearbeitungsdauer nach jedem abgeschlossenen Testdurchlauf wieder zurückgesetzt. Damit steht die maximale Bearbeitungsdauer für jeden Testdurchlauf zur Verfügung. Die Einstellung funktioniert nur, wenn eine maximale Bearbeitungsdauer festgelegt ist und mehrere Testdurchläufe erlaubt sind.
+assessment#:#tst_reset_processing_time_desc#:#Die maximale Bearbeitungsdauer steht für jeden Testdurchlauf zur Verfügung.
 assessment#:#tst_result#:#Testergebnis
 assessment#:#tst_result_user_name#:#Testergebnisse für %s
 assessment#:#tst_result_user_name_pass#:#Ergebnisse von Testdurchlauf %s für %s
@@ -1255,7 +1264,7 @@ assessment#:#tst_sequence#:#Reihenfolge
 assessment#:#tst_sequence_fixed#:#Die Reihenfolge der Fragen muss eingehalten werden
 assessment#:#tst_sequence_postpone#:#Fragen können an das Ende eines Testdurchlaufs zurückgestellt werden
 assessment#:#tst_sequence_properties#:#Einstellungen Reihenfolge
-assessment#:#tst_session_settings#:#Einstellungen Arbeitssitzung
+assessment#:#tst_session_settings#:#Durchführung
 assessment#:#tst_set_offline_due_to_switched_question_set_type_setting#:#Der Test wurde auf Offline gesetzt, da der Testmodus gewechselt wurde. Sie müssen eine neue Testmodus-bezogene Fragenkonfiguration erstellen, bevor Sie den Test wieder online setzen können.
 assessment#:#tst_cannot_online_due_to_switched_quest_set_type_setting#:#Der Test konnte nicht auf online gesetzt werden, da der Testmodus gewechselt wurde. Sie müssen eine neue Testmodus-bezogene Fragenkonfiguration erstellen, bevor Sie den Test wieder online setzen können.
 assessment#:#tst_settings_template#:#Vorlage
@@ -1280,7 +1289,10 @@ assessment#:#tst_single_results#:#Ergebnisse zu Einzelfragen
 assessment#:#tst_start_new_test_pass#:#Neuen Testdurchlauf starten
 assessment#:#tst_start_test#:#Test starten
 assessment#:#tst_started#:#Test gestartet
-assessment#:#tst_starting_time#:#Startzeit
+assessment#:#tst_starting_time#:#Frühester Start
+assessment#:#tst_starting_time_desc#:#Benutzer können den Test erst ab einem festgelegten Zeitpunkt starten. Darüber hinaus kann noch eine Bearbeitungsdauer eingestellt werden.
+assessment#:#tst_ending_time#:#Spätester Abschluß
+assessment#:#tst_ending_time_desc#:#Benutzer können Fragen nur bis zu einem festgelegten Zeitpunkt beantworten.
 assessment#:#tst_stat_all_users#:#Alle  Benutzer
 assessment#:#tst_stat_choose_users#:#(wählen Sie eine oder mehr Benutzer aus der Liste aus)
 assessment#:#tst_stat_result_atimeofwork#:#Durchschnittliche Bearbeitungsdauer
@@ -1328,7 +1340,7 @@ assessment#:#tst_total_questions_description#:#Wenn Sie diesen Wert setzen, werd
 assessment#:#tst_tst_date#:#Datum des Tests
 assessment#:#tst_type#:#Test-Typ
 assessment#:#exam_id#:#Klausurnummer: 
-assessment#:#examid_in_kiosk#:#Klausurnummer im Kiosk-Modus anzeigen 
+assessment#:#examid_in_kiosk#:#ILIAS-Prüfungsnummer
 assessment#:#show_exam_id#:#Klausurnummer anzeigen 
 assessment#:#tst_type_changed#:#Sie haben den Testtyp geändert. Alle bereits durchgeführten Tests wurden gelöscht!
 assessment#:#tst_type_comment#:#Warnung: Das Ändern des Testtyps bei einem laufenden Test löscht alle bereits durchgeführten Tests!
@@ -1404,11 +1416,11 @@ assessment#:#tst_rnd_quest_cfg_tab_general#:#Konfiguration Fragenauswahl
 assessment#:#tst_rnd_quest_cfg_tab_pool#:#Ausgewählte Fragenpools
 assessment#:#tst_question_set_type#:#Testmodus
 assessment#:#tst_question_set_type_fixed#:#Test mit fest definierter Fragenauswahl
-assessment#:#tst_question_set_type_fixed_desc#:#In diesem Modus kann eine feste Auswahl von Fragen definiert werden, welche für alle Teilnehmer gilt. Abhängig von der weiteren Konfiguration des Tests haben die Teilnehmer einen oder mehrere Versuche für den Test.
+assessment#:#tst_question_set_type_fixed_desc#:#Allen Teilnehmern werden die gleichen Fragen gestellt.
 assessment#:#tst_question_set_type_random#:#Test mit zufälliger Fragenauswahl
-assessment#:#tst_question_set_type_random_desc#:#In diesem Modus werden ein oder mehrere Fragenpool(s) ausgewählt, aus welchem für jeden Teilnehmer eine eigene zufällige Fragenauswahl verwendet wird. Abhängig von der weiteren Konfiguration des Tests haben die Teilnehmer einen oder mehrere Versuche für den Test.
+assessment#:#tst_question_set_type_random_desc#:#Jedem Teilnehmer werden unterschiedliche Fragen gestellt. Die Auswahl der Fragen erfolgt zufällig aus einem oder mehreren Fragenpools.
 assessment#:#tst_question_set_type_dynamic#:#Fortlaufender Test über Fragenpool
-assessment#:#tst_question_set_type_dynamic_desc#:#In diesem Modus wird genau ein Fragenpool ausgewählt. Die Testdurchführung erfolgt in einem niemals endenden Durchlauf, in welchem die Fragenauswahl für jeden Teilnehmer individuell und zur Laufzeit erfolgt.
+assessment#:#tst_question_set_type_dynamic_desc#:#Allen Teilnehmern werden Fragen aus einem Fragenpool gestellt. Falsch beantwortete Fragen werden erneut vorgelegt.
 assessment#:#tst_change_quest_set_type_from_old_to_new_with_conflict#:#Sie sind im Begriff den Test-Modus von <b>%s</b> auf <b>%s</b> zu ändern, obwohl eine Test-Modus-abhängige Fragen/Fragenpool Konfiguration bereits existiert.<br />Diese bereits existierende Konfiguration wird verloren gehen, wenn Sie den Test-Modus ändern.
 assessment#:#tst_msg_dynamic_question_set_config_modified#:#Konfiguration für fortlaufende Fragenauswahl wurde geändert.
 assessment#:#tst_msg_cannot_modify_dynamic_question_set_conf_due_to_part#:#Konfiguration für fortlaufende Fragenauswahl kann nicht geändert werden, da bereits Teilnehmerergebisse vorliegen.
@@ -1493,6 +1505,7 @@ assessment#:#test_scoring#:#Bewertungsoptionen
 assessment#:#test_presentation#:#Ausgabeoptionen
 assessment#:#test_results#:#Ergebnisausgabeoptionen
 assessment#:#misc#:#Verschiedene Optionen
+assessment#:#tst_settings_header_intro#:#Informationen zum Test
 assessment#:#tst_back_to_top#:#Zurück nach oben
 assessment#:#tst_back_to_question_list#:#Zurück zur Fragenliste
 assessment#:#tst_results_tax_filters#:#Ergebnis Filter
@@ -12428,8 +12441,8 @@ rep#:#rep_visibility_limitless#:#Unbegrenzt
 rep#:#rep_visibility_until#:#Zeitlich begrenzte Verfügbarkeit
 assessment#:#tst_availability_limitless_info#:#Wählen Sie diese Einstellung, um den Kurs für Benutzer verfügbar zumachen. Die Verfügbarkeit ist abhängig von der unten ausgewählten Einstellung für Teilnehmer.
 assessment#:#tst_availability_until_info#:#Wählen Sie diese Einstellung, um den Kurs, abhängig von der unten ausgewählten Einstellung für Teilnehmer, nur während eines definierten Zeitraums freizuschalten.
-assessment#:#tst_activation_online_info#:#Falls nicht online, haben nur Administratoren Zugriff auf den Test
-assessment#:#tst_activation_limited_visibility_info#:#Falls aktiv, ist der Test auch außerhalb der Zugriffszeiten sichtbar.
+assessment#:#tst_activation_online_info#:#Nur wenn der Test online geschaltet ist, können Benutzer am Test teilnehmen.
+assessment#:#tst_activation_limited_visibility_info#:#Außerhalb des angegebenen Zeitraums wird der Testtitel angezeigt. Der Test kann aber nicht gestartet werden.
 book#:#booking_nr_of_items#:#Anzahl
 book#:#book_schedule_type_fixed#:#Fester Zeitplan
 book#:#book_schedule_type_fixed_info#:#Dieser Typ ist geeignet für Räume, Beamer, etc.

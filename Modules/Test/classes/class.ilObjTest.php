@@ -16,6 +16,8 @@ include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
  */
 class ilObjTest extends ilObject
 {
+	const DEFAULT_PROCESSING_TIME_MINUTES = 90;
+
 	#region Properties
 	
 	/**
@@ -2936,6 +2938,19 @@ function getAnswerFeedbackPoints()
 		return $this->getEstimatedWorkingTime();
 	}
 
+	public function getProcessingTimeAsMinutes()
+	{
+		if (strlen($this->processing_time))
+		{
+			if (preg_match("/(\d{2}):(\d{2}):(\d{2})/is", $this->processing_time, $matches))
+			{
+				return ($matches[1] * 60) + $matches[2];
+			}
+		}
+
+		return self::DEFAULT_PROCESSING_TIME_MINUTES;
+	}
+
 /**
 * Returns the processing time for the test in seconds
 *
@@ -3108,7 +3123,12 @@ function getAnswerFeedbackPoints()
 		$this->processing_time = $processing_time;
 	}
 
-/**
+	public function setProcessingTimeByMinutes($minutes)
+	{
+		$this->processing_time = sprintf("%02d:%02d:00", floor($minutes/60), $minutes%60);
+	}
+
+	/**
 * Sets the processing time enabled or disabled
 *
 * @param integer $enable 0 to disable the processing time, 1 to enable the processing time
