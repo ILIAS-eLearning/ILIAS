@@ -51,18 +51,26 @@ class gevRegistrationGUI {
 		return $this->import;
 	}
 	
-	protected function getStellennummerData($a_stellennummer) {
+	protected function loadStellennummerData($a_stellenummer) {
 		if ($this->stellennummer_data === null) {
 			$import = $this->getImport();
 			$this->stellennummer_data = $import->get_stelle($a_stellennummer);
 		}
-		
+	}
+	
+	protected function getStellennummerData($a_stellennummer) {
+		$this->loadStellennummerData($a_stellennummer);
+
 		if ($this->stellennummer_data["stellennummer"] != $a_stellennummer) {
-			die("'".$this->stellennummer_data["stellennummer"]."' '".$a_stellennummer."'");
 			throw new Exception("gevRegistrationGUI::getStellennummerData: stellnummer does not match.");
 		}
 		
 		return $this->stellennummer_data;
+	}
+	
+	protected function isValidStellennummer($a_stellennummer) {
+		$this->loadStellennummerData($a_stellennummer);
+		return $this->stellennummer_data !== false && $this->stellennummer_data["stellennummer"] == $a_stellennummer;
 	}
 	
 	protected function isAgent($a_stellennummer) {
@@ -109,8 +117,9 @@ class gevRegistrationGUI {
 		if (!$res[1]) {
 			return $this->startRegistration($res[0]);
 		}
-				
-		if($this->isAgent($res[0]->getInput("position"))) {
+		
+		$stellennummer = $res[0]->getInput("position");
+		if($this->isValidStellennummer($stellennummer) && $this->isAgent($stellennummer)) {
 			return $this->inputUserProfile(null, $res[0]);
 		}
 		else {
@@ -282,7 +291,7 @@ class gevRegistrationGUI {
 				$chb->setAlert($this->lng->txt("evg_mandatory"));
 			}
 		}
-
+		
 		return array($form, !$err);
 	}
 
