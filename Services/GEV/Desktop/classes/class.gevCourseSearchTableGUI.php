@@ -60,7 +60,7 @@ class gevCourseSearchTableGUI extends catAccordionTableGUI {
 		$this->email_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-invitation.png").'" />';
 		$this->bookable_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-green.png").'" />';
 		$this->bookable_waiting_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-orange.png").'" />';
-		$this->almost_not_bookable_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-orange.png").'" />';
+		$this->almost_not_bookable_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-violet.png").'" />';
 		$this->not_bookable_img = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-red.png").'" />';
 
 		$legend = new catLegendGUI();
