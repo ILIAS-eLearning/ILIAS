@@ -35,8 +35,9 @@ class gevReminderParticipants extends gevInvitation {
 		}
 
 		$mail = $this->getMailFor($function, $a_recipient);
-		
-		$mail["subject"] = "Reminder: ".$mail["subject"];
+		if ($mail !== null) {
+			$mail["subject"] = "Reminder: ".$mail["subject"];
+		}
 		return $mail;
 	}
 }
