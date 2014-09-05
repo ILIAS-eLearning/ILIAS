@@ -75,7 +75,7 @@ class gevRegistrationMailData extends ilMailData {
 				break;
 			case "AKTIVIERUNGSLINK":
 				$link = $this->link;
-				$val = "<a href='".$link."'>".$link."</a>";
+				$val = $link;//"<a href='".$link."'>".$link."</a>";
 				break;
 		}
 		
