@@ -8,6 +8,7 @@
 * @author	Nils Haagen <nhaagen@concepts-and-training.de>
 * @version	$Id$
 *
+* @ilCtrl_Calls gevMyTrainingsApGUI: ilParticipationStatusAdminGUI
 */
 
 require_once("Services/CaTUIComponents/classes/class.catTitleGUI.php");
@@ -15,7 +16,6 @@ require_once("Services/CaTUIComponents/classes/class.catHSpacerGUI.php");
 require_once("Services/GEV/Desktop/classes/class.gevMyTrainingsApTableGUI.php");
 //require_once("Services/CaTUIComponents/classes/class.catLegendGUI.php");
 //require_once("Services/GEV/Desktop/classes/class.gevPeriodSelectorGUI.php");
-
 
 class gevMyTrainingsApGUI {
 
