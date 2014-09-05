@@ -394,6 +394,7 @@ gev#:#gev_booking_header_note#:#Bitte bestätigen Sie die verbindliche Buchung �
 gev#:#gev_booking_header_note_bill_data#:#Bitte betätigen Sie die Schaltfläche "Rechnungsdaten eingeben".
 gev#:#gev_booking_header_note_check_bill_data#:#Bitte betätigen Sie die Schaltfläche "Rechnungsdaten überprüfen".
 gev#:#gev_booking_link#:#Link zur Buchung
+gev#:#gev_booking_request_pe#:#Buchungsanfrage PE
 gev#:#gev_booking_note#:#Mit der verbindlichen Buchung bestätigen Sie, Buchung und Übernachtung mit ihrer Führungskraft abgestimmt zu haben.
 gev#:#gev_booking_other_courses_in_period_others#:#Ihr Mitarbeiter hat im Zeitraum des Trainings bereits andere Trainings gebucht:
 gev#:#gev_booking_other_courses_in_period_self#:#Sie haben im Zeitraum des Trainings bereits andere Trainings gebucht:

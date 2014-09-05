@@ -68,7 +68,8 @@ class gevCourseSearchTableGUI extends catAccordionTableGUI {
 			   ->addItem($this->email_img, "gev_book_contact_pe")
 			   ->addItem($this->bookable_img, "gev_bookable")
 			   ->addItem($this->bookable_waiting_img, "gev_bookable_waiting")
-			   ->addItem($this->not_bookable_img, "gev_not_bookable");
+			   ->addItem($this->not_bookable_img, "gev_not_bookable")
+			   ->addItem($this->almost_not_bookable_img, "gev_booking_request_pe");
 		$this->setLegend($legend);
 
 		$order = $this->getOrderField();
