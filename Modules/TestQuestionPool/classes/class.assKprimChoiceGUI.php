@@ -225,8 +225,12 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
 
 		if( $this->object->isCustomOptionLabel($this->object->getOptionLabel()) )
 		{
-			$this->object->setCustomTrueOptionLabel($form->getItemByPostVar('option_label_custom_true')->getValue());
-			$this->object->setCustomFalseOptionLabel($form->getItemByPostVar('option_label_custom_false')->getValue());
+			$this->object->setCustomTrueOptionLabel( strip_tags(
+				$form->getItemByPostVar('option_label_custom_true')->getValue()
+			));
+			$this->object->setCustomFalseOptionLabel( strip_tags(
+				$form->getItemByPostVar('option_label_custom_false')->getValue()
+			));
 		}
 		
 		$this->object->setPoints($form->getItemByPostVar('points')->getValue());
