@@ -211,6 +211,13 @@ class gevRegistrationGUI {
 		$org_unit_utils->getOrgUnitInstance();
 		$org_unit_utils->assignUser($user_id, $org_role_title);
 		
+		require_once("Services/GEV/Mailing/classes/class.gevRegistrationMails.php");
+		require_once("Services/Utilities/classes/class.ilUtil.php");
+		$token = ilObjUser::_generateRegistrationHash($user->getId());
+		$link = ILIAS_HTTP_PATH . '/confirmReg.php?client_id=' . CLIENT_ID . '&rh='.$token;
+		$reg_mails = new gevRegistrationMails($link, $token);
+		$reg_mails->getAutoMail("agent_activation")->send();
+/*
 		include_once './Services/Registration/classes/class.ilRegistrationMimeMailNotification.php';
 
 		$mail = new ilRegistrationMimeMailNotification();
@@ -222,7 +229,7 @@ class gevRegistrationGUI {
 				 )
 			);
 		$mail->send();
-		
+*/		
 		require_once("Services/CaTUIComponents/classes/class.catTitleGUI.php");
 		$title = new catTitleGUI("gev_agent_registration", null, "GEV_img/ico-head-evg_registration.png");
 		

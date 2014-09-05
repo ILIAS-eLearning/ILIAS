@@ -459,9 +459,11 @@ class gevUserImport {
 
 	private function send_confirmation_email($token) {
 		require_once("Services/GEV/Mailing/classes/class.gevRegistrationMails.php");
-		$reg_mails = new gevRegistrationMails($token);
+		require_once("Services/Utilities/classes/class.ilUtil.php");
+		$link = ilUtil::_getHttpPath()."/gev_activate_user.php?token=".$token;
+		$reg_mails = new gevRegistrationMails($link, $token);
 		$reg_mails->getAutoMail("evg_activation")->send();
-		$this->set_email_sent_field($token);
+		$this->set_email_sent_field($link);
 	}
 
 	private function set_email_sent_field($token) {

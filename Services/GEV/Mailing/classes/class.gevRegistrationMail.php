@@ -23,13 +23,14 @@ abstract class gevRegistrationMail extends ilAutoMail {
 	
 	private static $template_type = "Registration";
 
-	public function __construct($a_token, $a_id) {
+	public function __construct($a_token, $a_link, $a_id) {
 		global $ilDB, $lng, $ilCtrl, $ilias, $ilSetting, $ilUser;
 
 		$this->db = &$ilDB;
 		$this->lng = &$lng;
 		$this->settings = &$ilSetting;
 		$this->ilias = &$ilias;
+		$this->link = $a_link;
 		$this->token = $a_token;
 
 		$this->template_api = null;
@@ -164,7 +165,7 @@ abstract class gevRegistrationMail extends ilAutoMail {
 		require_once "./Services/GEV/Mailing/classes/class.gevRegistrationMailData.php";
 
 		$data = $this->getRegistrationData();
-		$mail_data = new gevRegistrationMailData($this->token, $a_email, $data["firstname"]
+		$mail_data = new gevRegistrationMailData($this->link, $a_email, $data["firstname"]
 												, $data["lastname"], $data["gender"], $data["username"]
 												);
 
@@ -187,25 +188,6 @@ abstract class gevRegistrationMail extends ilAutoMail {
 
 	public function getTemplateType() {
 		return $this->gev_registration_mail_template_type;
-	}
-
-	// TODO: this might be moved to EVGActivationMail when registration process is upgraded
-	protected function getRegistrationData() {
-		if ($this->reg_data === null) {
-			$sql = "SELECT username, firstname, lastname, gender, username, email ".
-				   "  FROM gev_user_reg_tokens ".
-				   " WHERE token = ".$this->db->quote($this->token, "text")
-				   ;
-
-			$res = $this->db->query($sql);
-			if ($rec = $this->db->fetchAssoc($res)) {
-				$this->reg_data = $rec;
-			}
-			else {
-				throw new Exception("gevRegistrationMail::getRegistrationData: could not read users registration data.");
-			}
-		}
-		return $this->reg_data;
 	}
 
 	abstract public function getTemplateCategory();

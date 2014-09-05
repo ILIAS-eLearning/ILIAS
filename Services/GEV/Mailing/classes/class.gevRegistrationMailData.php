@@ -16,8 +16,8 @@ require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 class gevRegistrationMailData extends ilMailData {
 	protected $cache;
 	
-	public function __construct($token, $email, $firstname, $lastname, $gender, $login) {
-		$this->token = $token;
+	public function __construct($link, $email, $firstname, $lastname, $gender, $login) {
+		$this->link = $link;
 		$this->email = $email;
 		$this->firstname = $firstname;
 		$this->lastname = $lastname;
@@ -74,7 +74,7 @@ class gevRegistrationMailData extends ilMailData {
 				$val = $this->lastname;
 				break;
 			case "AKTIVIERUNGSLINK":
-				$link = ilUtil::_getHttpPath()."/gev_activate_user.php?token=".$this->token;
+				$link = $this->link;
 				$val = "<a href='".$link."'>".$link."</a>";
 				break;
 		}

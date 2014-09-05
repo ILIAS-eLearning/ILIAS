@@ -11,11 +11,13 @@ require_once("Services/Mailing/classes/class.ilMailLog.php");
 */
 
 class gevRegistrationMails extends ilAutoMails {
-	public function __construct($a_token) {
+	public function __construct($a_link, $a_token) {
 		$this->mail_data = array(
 		  "evg_activation" 		=> "gevEVGActivationMail"
+		, "agent_activation"	=> "gevAgentActivationMail"
 		);
 		$this->token = $a_token;
+		$this->link = $a_link;
 
 		parent::__construct(null);
 
@@ -43,7 +45,7 @@ class gevRegistrationMails extends ilAutoMails {
 		}
 		
 		require_once("./Services/GEV/Mailing/classes/RegistrationMails/class.".$this->mail_data[$a_id].".php");
-		return new $this->mail_data[$a_id]($this->token, $a_id);
+		return new $this->mail_data[$a_id]($this->token, $this->link, $a_id);
 	}
 	
 	protected function initMailLog() {
