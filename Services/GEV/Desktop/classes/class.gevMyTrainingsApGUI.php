@@ -136,6 +136,7 @@ class gevMyTrainingsApGUI {
 		$lng->loadLanguageModule("ptst");
 
 		$ptstatus_admingui =  ilParticipationStatusAdminGUI::getInstanceByRefId($crs_ref_id);
+		//$ptstatus_admingui =  new ilParticipationStatusAdminGUI($crs_obj);
 		$may_write = $ptstatus_admingui->mayWrite();
 		if($ptstatus_admingui->getParticipationStatus()->getMode() == ilParticipationStatus::MODE_CONTINUOUS)
 		{

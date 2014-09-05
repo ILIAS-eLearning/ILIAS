@@ -138,6 +138,13 @@ class gevCourseSearchTableGUI extends catAccordionTableGUI {
 				$action = $contact_onside_action;	
 			}
 		}
+/*
+		$show_cancel_date = ( 
+				$a_set["start_date"] === null 
+				|| ilDateTime::_before($now, $a_set["start_date"] !== null ? $a_set["start_date"] : $now)
+			) && $a_set["type"] != "Selbstlernkurs";
+*/		
+
 		
 		/*if ($a_set["bookable"]) {
 			if (($a_set["free_places"] > 0 || $unlimited) && !$booking_deadline_expired) {
