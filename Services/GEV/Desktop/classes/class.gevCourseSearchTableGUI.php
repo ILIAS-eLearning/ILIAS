@@ -187,6 +187,11 @@ class gevCourseSearchTableGUI extends catAccordionTableGUI {
 			$this->tpl->setVariable("BOOKING_LINK", gevCourseUtils::getBookingLinkTo($a_set["obj_id"], $this->user_id));
 			$this->tpl->parseCurrentBlock();
 		}
+		else if ($status == $this->almost_not_bookable_img) {
+			$this->tpl->setCurrentBlock("pe_note");
+			$this->tpl->setVariable("PE_NOTE", $this->lng->txt("gev_booking_request_pe_note"));
+			$this->tpl->parseCurrentBlock();
+		}
 		$this->tpl->setVariable("FREE_PLACES", $unlimited
 											 ? $this->lng->txt("gev_unlimited")
 											 : $a_set["free_places"]
