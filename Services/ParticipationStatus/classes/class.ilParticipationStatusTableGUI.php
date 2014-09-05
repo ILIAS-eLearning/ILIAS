@@ -53,7 +53,7 @@ class ilParticipationStatusTableGUI extends ilTable2GUI
 						
 		$this->setRowTemplate("tpl.members_row.html", "Services/ParticipationStatus");
 		$this->setFormAction($ilCtrl->getFormAction($this->getParentObject(), $this->getParentCmd()));	
-		
+
 		if($this->may_write || (bool)$a_may_finalize)
 		{
 			$this->setFormAction($ilCtrl->getFormAction($this->getParentObject(), $this->getParentCmd()));	

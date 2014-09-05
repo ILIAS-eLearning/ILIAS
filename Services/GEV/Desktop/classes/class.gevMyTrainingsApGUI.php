@@ -9,6 +9,7 @@
 * @version	$Id$
 *
 * @ilCtrl_Calls gevMyTrainingsApGUI: ilParticipationStatusAdminGUI
+*
 */
 
 require_once("Services/CaTUIComponents/classes/class.catTitleGUI.php");
@@ -47,9 +48,10 @@ class gevMyTrainingsApGUI {
 				break;
 
 			//participation-status commands	
-			case "setParticipationStatus":
+			//case "setParticipationStatus":
 			case "listStatus":
-				$cont = $this->setParticipationStatus();
+			case  "listParticipationStatus":
+				$cont = $this->listParticipationStatus();
 				break;
 
 			case "finalize":
@@ -64,6 +66,8 @@ class gevMyTrainingsApGUI {
 				$gui->from_foreign_class = 'gevMyTrainingsApGUI';
 				$gui->crs_ref_id = $crs_ref_id;
 
+				//$gui->returnToList();
+				//die('forwarding cmd');
 				$ret = $this->ctrl->forwardCommand($gui);
 				break;
 
@@ -109,7 +113,7 @@ class gevMyTrainingsApGUI {
 	}
 
 
-	public function setParticipationStatus() {
+	public function listParticipationStatus() {
 		global $lng;
 			
 		$crs_ref_id = $this->getCrsRefId();
@@ -141,8 +145,8 @@ class gevMyTrainingsApGUI {
 		{
 			$may_finalize = $may_write;
 		}
-		$ptstatusgui = new ilParticipationStatusTableGUI($this, 'setParticipationStatus', $crs_obj, $may_write, $may_finalize);
-
+		$ptstatusgui = new ilParticipationStatusTableGUI($this, 'listParticipationStatus', $crs_obj, $may_write, $may_finalize);
+		
 		$form_action = $ptstatusgui->getFormAction();
 		$form_action .= '&crsrefid=' .$crs_ref_id;
 		$ptstatusgui->setFormAction($form_action);

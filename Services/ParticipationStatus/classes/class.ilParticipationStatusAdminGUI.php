@@ -21,7 +21,6 @@ class ilParticipationStatusAdminGUI
 	// gev-patch start
 	public $from_foreign_class = false;
 	public $crs_ref_id = false;
-	public $permissions_failed = false;
 	// gev-patch end
 
 	/**
@@ -50,7 +49,6 @@ class ilParticipationStatusAdminGUI
 			//ilUtil::sendFailure($lng->txt("msg_no_perm_read"), true);
 			//$this->returnToParent();
 			if($from_foreign_class){
-				$this->permissions_failed = true; 
 				return false;
 			}else{
 				ilUtil::sendFailure($lng->txt("msg_no_perm_read"), true);
@@ -96,12 +94,7 @@ class ilParticipationStatusAdminGUI
 		
 		// gev-patch start
 		//return new self($course);
-		$inst = new self($course, $from_foreign_class);
-		if ($inst->permissions_failed){
-			return false;
-		} else {
-			return $inst;
-		}
+		return new self($course, $from_foreign_class);
 		// gev-patch end
 	}
 	
