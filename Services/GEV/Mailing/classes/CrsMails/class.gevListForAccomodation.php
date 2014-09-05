@@ -29,7 +29,7 @@ class gevListForAccomodation extends gevCrsAutoMail {
 		return false;
 	}
 	
-	public function getRecipientUserIDs() {
+	public function getRecipientAddresses() {
 		return $this->getCourseHotelAddresses();
 	}
 	
