@@ -141,7 +141,7 @@ class gevRegistrationGUI {
 		}
 		
 		require_once("Services/CaTUIComponents/classes/class.catTitleGUI.php");
-		$title = new catTitleGUI("gev_agent_registration", "gev_agent_registration_note", "GEV_img/ico-head-agent_registration.png");
+		$title = new catTitleGUI("gev_agent_registration", "gev_agent_registration_note", "GEV_img/ico-head-registration.png");
 		
 		$tpl = new ilTemplate("tpl.gev_agent_profile.html", false, false, "Services/GEV/Registration");
 		$tpl->setVariable("FORM", $form->getHTML());
