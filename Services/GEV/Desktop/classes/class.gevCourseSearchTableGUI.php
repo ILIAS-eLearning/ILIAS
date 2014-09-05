@@ -123,9 +123,9 @@ class gevCourseSearchTableGUI extends catAccordionTableGUI {
 		else if ($a_set["free_places"] == 0 && !$a_set["waiting_list_active"]) {
 			$status = $this->not_bookable_img;
 			if ($a_set["type"] == "Webinar") {
-				$action = $contact_webinar_action;
+				$action = $contact_onside_action;
 			}
-			else if(preg_match("/^Pr..senztraining$/", $type)) {
+			else if(preg_match("/^Pr..senztraining$/", $a_set["type"])) {
 				$action = $contact_webinar_action;
 			}
 		}
@@ -134,11 +134,10 @@ class gevCourseSearchTableGUI extends catAccordionTableGUI {
 			if ($a_set["type"] == "Webinar") {
 				$action = $contact_webinar_action;
 			}
-			else if(preg_match("/^Pr..senztraining$/", $type)) {
+			else if(preg_match("/^Pr.*senztraining$/", $a_set["type"])) {
 				$action = $contact_onside_action;	
 			}
 		}
-
 		
 		/*if ($a_set["bookable"]) {
 			if (($a_set["free_places"] > 0 || $unlimited) && !$booking_deadline_expired) {
