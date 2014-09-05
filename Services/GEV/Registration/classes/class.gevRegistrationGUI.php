@@ -51,7 +51,7 @@ class gevRegistrationGUI {
 		return $this->import;
 	}
 	
-	protected function loadStellennummerData($a_stellenummer) {
+	protected function loadStellennummerData($a_stellennummer) {
 		if ($this->stellennummer_data === null) {
 			$import = $this->getImport();
 			$this->stellennummer_data = $import->get_stelle($a_stellennummer);
@@ -62,7 +62,7 @@ class gevRegistrationGUI {
 		$this->loadStellennummerData($a_stellennummer);
 
 		if ($this->stellennummer_data["stellennummer"] != $a_stellennummer) {
-			throw new Exception("gevRegistrationGUI::getStellennummerData: stellnummer does not match.");
+			throw new Exception("gevRegistrationGUI::getStellennummerData: stellennummer does not match.");
 		}
 		
 		return $this->stellennummer_data;
