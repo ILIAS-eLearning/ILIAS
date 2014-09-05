@@ -45,7 +45,25 @@ switch ($action) {
 		$error = $import->activate($token);
 
 		if ($error) {
-			die($error);
+			$php_self = $_SERVER['PHP_SELF'];
+			$_SERVER['PHP_SELF'] = str_replace(basename(__file__), 'index.php', $php_self);
+			require_once("Services/Init/classes/class.ilInitialisation.php");
+			ilInitialisation::initILIAS();
+
+			$tpl->addBlockFile("CONTENT", "content", "tpl.error.html");
+
+			$tpl->setCurrentBlock("content");
+			$tpl->setVariable("ERROR_MESSAGE","Der von ihnen verwendete Aktivierungslink wurde bereits benutzt ".
+											  "oder ist abgelaufen. Bitte wenden sie sich bei Fragen an ".
+											  "<b>bildungspunkte.de@generali.com</b>.");
+			$tpl->setVariable("SRC_IMAGE", ilUtil::getImagePath("mess_failure.png"));
+			$tpl->parseCurrentBlock();
+
+			ilSession::clear("referer");
+			ilSession::clear("message");
+			$tpl->show();
+			require_once("error.php");
+			//throw new ilException("foo");
 		}
 /*
 		break;
