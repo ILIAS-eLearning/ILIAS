@@ -617,7 +617,7 @@ gev#:#gev_wbd_registration_finished_no_bwv_id_service#:#Vielen Dank für die Anm
 gev#:#gev_wbd_registration_finished_has_bwv_id#:#Vielen Dank, wir werden Ihre bei uns erworbenen Weiterbildungspunkte unter dieser Vermittler-ID an die zentrale Weiterbildungsdatenbank melden.
 gev#:#gev_wbd_registration_finished_no_bwv_id#:#Vielen Dank für die Anmeldung an der Generali Online Akademie. Wir werden Ihre bei uns erworbenen Weiterbildungspunkte in der Generali Online Akademie sammeln und nach Eingabe Ihrer GDV Vermittler-ID an die zentrale Weiterbildungsdatenbank (WBD) melden. <br><br>Bitte beachten Sie, daß die Weiterbildungspunkte verfallen, sofern Sie Ihre GDV Vermittler-ID nicht innerhalb von 12 Monaten in Ihren Profildaten ergänzen.
 gev#:#gev_wbd_registration_has_bwv_id#:#Ich habe bereits eine GDV Vermittler-ID
-gev#:#gev_wbd_registration_has_bwv_id_cmd#:#Anmeldung mit Übermittlung der Punkte
+gev#:#gev_wbd_registration_has_bwv_id_cmd#:#Weiter
 gev#:#gev_wbd_registration_has_bwv_id_cmd_service#:#Weiter
 gev#:#gev_wbd_registration_header_note#:#Registrieren Sie sich bei der Weiterbildungsdatenbank.
 gev#:#gev_wbd_registration_no_bwv_id#:#Nein, ich habe noch keine GDV Vermittler-ID und werde diese in meinem Benutzeraccount nachtragen.
