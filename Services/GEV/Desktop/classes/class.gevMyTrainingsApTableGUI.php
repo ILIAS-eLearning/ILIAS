@@ -135,6 +135,7 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 		
 
 		$show_set_stat_link = false;
+		/*
 		global $tree;
 		if(ilObject::_lookupType($a_set['crs_ref_id'], true) != "crs" ||
 			$tree->isDeleted($a_set['crs_ref_id'])){
@@ -143,6 +144,7 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 			$ptstatus_admingui =  ilParticipationStatusAdminGUI::getInstanceByRefId($a_set['crs_ref_id'], true);
 			$show_set_stat_link = $ptstatus_admingui->mayWrite();
 		}
+		*/
 		//second parameter: from_foreign class
 		$ptstatus_admingui =  ilParticipationStatusAdminGUI::getInstanceByRefId($a_set['crs_ref_id'], true);
 		if($ptstatus_admingui){
