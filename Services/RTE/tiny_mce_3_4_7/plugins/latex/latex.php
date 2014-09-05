@@ -1,42 +1,56 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
 
-while( !file_exists('./ilias.ini.php') ) chdir('..');
+$steps = 0;
+while(!file_exists('ilias.ini.php'))
+{
+	chdir('..');
+	++$steps;
+}
 
-require_once 'include/inc.get_pear.php';
+require_once 'Services/Init/classes/class.ilInitialisation.php';
+ilInitialisation::initILIAS();
 
-include "Services/Init/classes/class.ilIniFile.php";
-$ini = new ilIniFile("ilias.ini.php");
-$ini->read();
-$latex_converter = $ini->readVariable("tools", "latex");
+/**
+ * @var $ilIliasIniFile ilIniFile
+ * @var $ilUser         ilObjUser
+ */
+global $ilIliasIniFile, $ilUser;
 
-require_once "HTML/Template/ITX.php";
-$tpl = new HTML_Template_ITX();
-$tpl->loadTemplatefile(dirname(__FILE__)."/tpl.latex.html", TRUE, TRUE);
-$tpl->setVariable("LATEX_CODE", "");
-$tpl->setVariable("URL_PREVIEW", $latex_converter);
-$tpl->setVariable("HREF_LATEX_CONVERTER", $latex_converter);
-$tpl->show();
+$tpl = new ilTemplate(dirname(__FILE__) . '/tpl.latex.html', true, true);
 
+$tpl->resetJavascript();
 
-?>
+require_once 'Services/jQuery/classes/class.iljQueryUtil.php';
+$jquery_path = iljQueryUtil::getLocaljQueryPath();
+if(strpos($jquery_path, './') === 0)
+{
+	$jquery_path = substr($jquery_path, 2);
+}
+else if(strpos($jquery_path, '.') === 0)
+{
+	$jquery_path = substr($jquery_path, 1);
+}
+
+$mathJaxSetting = new ilSetting('MathJax');
+if($mathJaxSetting->get('enable'))
+{
+	$tpl->addJavaScript($mathJaxSetting->get('path_to_mathjax'));
+
+	$tpl->setCurrentBlock('js_on_change_math_jax');
+	$tpl->touchBlock('js_on_change_math_jax');
+	$tpl->parseCurrentBlock();
+
+	$tpl->setCurrentBlock('delimiter_latex');
+	$tpl->setVariable('DELIMITER', (int) $mathJaxSetting->get('limiter'));
+	$tpl->parseCurrentBlock();
+}
+else if(strlen($ilIliasIniFile->readVariable('tools', 'latex')))
+{
+	$tpl->setCurrentBlock('js_on_change_latex');
+	$tpl->setVariable('LATEX_URL', $ilIliasIniFile->readVariable('tools', 'latex'));
+	$tpl->parseCurrentBlock();
+}
+
+$tpl->addJavaScript(str_repeat('../', $steps) . $jquery_path, true, 1);
+$tpl->fillJavaScriptFiles(true);
+$tpl->show('DEFAULT', false, true);
