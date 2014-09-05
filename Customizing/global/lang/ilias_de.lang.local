@@ -415,6 +415,7 @@ gev#:#gev_cert_course_start_date#:#Startdatum des Trainings
 gev#:#gev_cert_course_topics#:#Trainingskategorien des Kurses
 gev#:#gev_cert_course_type#:#Lernart des Trainings
 gev#:#gev_cert_points#:#Weiterbildungspunkte bei erfolgreicher Teilnahme
+gev#:#gev_username_free#:#frei wählbarer Benutzername
 gev#:#gev_company_title#:#Gesellschaftsschlüssel
 gev#:#gev_competence_mgmt#:#Kompetenzen
 gev#:#gev_confirm_agb#:#Mit den %s bin ich einverstanden.

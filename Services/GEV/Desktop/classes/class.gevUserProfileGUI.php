@@ -143,7 +143,7 @@ class gevUserProfileGUI {
 		$section1->setTitle($this->lng->txt("gev_personal_data"));
 		$form->addItem($section1);
 		
-		$username = new ilTextInputGUI($this->lng->txt("username"), "username");
+		$username = new ilTextInputGUI($this->lng->txt("gev_username_free"), "username");
 		$username->setRequired(true);
 		$username->setValue($this->user->getLogin());
 		$form->addItem($username);
