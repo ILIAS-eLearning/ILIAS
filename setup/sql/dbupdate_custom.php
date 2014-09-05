@@ -754,3 +754,11 @@ $ilDB->renameTableColumn("hist_certfile", "function", "certfile");
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+
+<#31>
+<?php
+
+$ilDB->manipulate("UPDATE settings SET value = 1800 WHERE keyword = 'reg_hash_life_time'");
+
+?>
+
