@@ -135,7 +135,7 @@ class gevCourseSearchTableGUI extends catAccordionTableGUI {
 				$action = $contact_webinar_action;
 			}
 			else if(preg_match("/^Pr..senztraining$/", $type)) {
-				$action = $contact_webinar_action;
+				$action = $contact_onside_action;	
 			}
 		}
 
