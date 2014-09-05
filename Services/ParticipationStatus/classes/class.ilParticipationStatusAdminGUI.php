@@ -29,7 +29,10 @@ class ilParticipationStatusAdminGUI
 	 * @param ilObjCourse $a_course
 	 * @return self
 	 */
-	public function __construct(ilObjCourse $a_course)
+	// gev-patch start
+	//public function __construct(ilObjCourse $a_course)
+	public function __construct(ilObjCourse $a_course, $from_foreign_class=false)
+	// gev-patch end
 	{
 		global $lng;
 		
@@ -42,8 +45,16 @@ class ilParticipationStatusAdminGUI
 			!$this->getPermissions()->setParticipationStatus() &&
 			!$this->getPermissions()->reviewParticipationStatus())
 		{
-			ilUtil::sendFailure($lng->txt("msg_no_perm_read"), true);
-			$this->returnToParent();
+			// gev-patch start
+			//ilUtil::sendFailure($lng->txt("msg_no_perm_read"), true);
+			//$this->returnToParent();
+			if($from_foreign_class){
+				return false;
+			}else{
+				ilUtil::sendFailure($lng->txt("msg_no_perm_read"), true);
+				$this->returnToParent();
+			}
+			// gev-patch end
 		}
 		
 		$lng->loadLanguageModule("ptst");
@@ -58,19 +69,33 @@ class ilParticipationStatusAdminGUI
 	 * @param int $a_ref_id
 	 * @return self
 	 */
-	public static function getInstanceByRefId($a_ref_id)
+	// gev-patch start
+	//public static function getInstanceByRefId($a_ref_id)
+	public static function getInstanceByRefId($a_ref_id, $from_foreign_class=false)
+	// gev-patch end
 	{
 		global $tree;
 		
 		if(ilObject::_lookupType($a_ref_id, true) != "crs" ||
 			$tree->isDeleted($a_ref_id))
 		{
-			throw new ilException("ilParticipationStatusAdminGUI - needs course ref id");
+			// gev-patch start
+			//throw new ilException("ilParticipationStatusAdminGUI - needs course ref id");
+			if($from_foreign_class){
+				return false;
+			}else{
+				throw new ilException("ilParticipationStatusAdminGUI - needs course ref id");
+			}
+			// gev-patch end
 		}
 		
 		require_once "Modules/Course/classes/class.ilObjCourse.php";
 		$course = new ilObjCourse($a_ref_id);
-		return new self($course);
+		
+		// gev-patch start
+		//return new self($course);
+		return new self($course, $from_foreign_class);
+		// gev-patch end
 	}
 	
 	

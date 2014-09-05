@@ -140,7 +140,12 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 			$tree->isDeleted($a_set['crs_ref_id'])){
 			//print 'invalid id: ' . $a_set['crs_ref_id'];
 		} else {
-			$ptstatus_admingui =  ilParticipationStatusAdminGUI::getInstanceByRefId($a_set['crs_ref_id']);
+			$ptstatus_admingui =  ilParticipationStatusAdminGUI::getInstanceByRefId($a_set['crs_ref_id'], true);
+			$show_set_stat_link = $ptstatus_admingui->mayWrite();
+		}
+		//second parameter: from_foreign class
+		$ptstatus_admingui =  ilParticipationStatusAdminGUI::getInstanceByRefId($a_set['crs_ref_id'], true);
+		if($ptstatus_admingui){
 			$show_set_stat_link = $ptstatus_admingui->mayWrite();
 		}
 
