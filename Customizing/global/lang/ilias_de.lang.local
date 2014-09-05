@@ -743,6 +743,7 @@ orgu#:#orgu_type_msg_deleted#:#Typ gelöscht.
 orgu#:#orgu_type_msg_deletion_prevented#:#Das Löschen des Typs wurde durch ein Plugin verhindert.
 orgu#:#orgu_type_msg_unable_delete#:#Konnte Typ nicht löschen, da er von folgenden Organisationseinheiten verwendet wird: %s
 orgu#:#orgu_types#:#Typen
+orgu#:#il_orgu_employee#:#Mitarbeiter
 payment#:#pay_crs_max_members_exceeded#:#Die maximale Teilnehmerzahl für dieses Training ist bereits erreicht. Deswegen können Sie dieses Training momentan leider nicht kaufen.
 payment#:#pays_erp_tst_product#:#Dies ist nur eine Proberechnung. Bei einem wirklichen Kaufvorgang  erscheint hier der Name des Trainings oder der Datei.
 pd#:#pd_enable_my_memberships#:#Meine Trainings und Gruppen' aktivieren
@@ -789,6 +790,7 @@ rbac#:#crss_edit_permission#:#Rechteeinstellungen für die Trainings-Betreuung �
 rbac#:#crss_read#:#Lesezugriff auf Trainings-Betreuung
 rbac#:#crss_visible#:#Trainingsbetreuer ist sichtbar
 rbac#:#crss_write#:#Einstellungen in Trainings-Betreuung bearbeiten
+rbac#:#il_orgu_employee#:#Mitarbeiter
 rbac#:#orgu_book_employees#:#Mitarbeiter auf Seminare buchen
 rbac#:#orgu_book_employees_rcrsv#:#Mitarbeiter auf Trainings buchen (rekursiv)
 rbac#:#orgu_cancel_employee_bookings#:#Buchungen von Mitarbeitern stornieren
