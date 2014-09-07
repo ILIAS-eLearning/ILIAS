@@ -327,7 +327,8 @@ class ilLMTracker
 		$this->answer_status = ilPageQuestionProcessor::getAnswerStatus($this->all_questions, $ilUser->getId());
 
 		$has_pred_incorrect_answers = false;
-		$this->determineProgressStatus($this->lm_tree->readRootId(), $has_pred_incorrect_answers);
+		$has_pred_incorrect_not_unlocked_answers = false;
+		$this->determineProgressStatus($this->lm_tree->readRootId(), $has_pred_incorrect_answers, $has_pred_incorrect_not_unlocked_answers);
 	}
 
 	/**
@@ -336,13 +337,15 @@ class ilLMTracker
 	 * @param int $a_obj_id lm object id
 	 * @return int status
 	 */
-	protected function determineProgressStatus($a_obj_id, &$a_has_pred_incorrect_answers)
+	protected function determineProgressStatus($a_obj_id, &$a_has_pred_incorrect_answers, $a_has_pred_incorrect_not_unlocked_answers)
 	{
 		$status = ilLMTracker::NOT_ATTEMPTED;
 
 		if (isset($this->tree_arr["nodes"][$a_obj_id]))
 		{
 			$this->tree_arr["nodes"][$a_obj_id]["has_pred_incorrect_answers"] = $a_has_pred_incorrect_answers;
+			$this->tree_arr["nodes"][$a_obj_id]["has_pred_incorrect_not_unlocked_answers"] = $a_has_pred_incorrect_not_unlocked_answers;
+
 			if (is_array($this->tree_arr["childs"][$a_obj_id]))
 			{
 				// sort childs in correct order
@@ -351,7 +354,8 @@ class ilLMTracker
 				$cnt_completed = 0;
 				foreach ($this->tree_arr["childs"][$a_obj_id] as $c)
 				{
-					$c_stat = $this->determineProgressStatus($c["child"], $a_has_pred_incorrect_answers);
+					$c_stat = $this->determineProgressStatus($c["child"], $a_has_pred_incorrect_answers,
+						$a_has_pred_incorrect_not_unlocked_answers);
 					if ($status != ilLMTracker::FAILED)
 					{
 						if ($c_stat == ilLMTracker::FAILED)
@@ -371,6 +375,10 @@ class ilLMTracker
 					if ($c_stat == ilLMTracker::FAILED || $c_stat == ilLMTracker::IN_PROGRESS)
 					{
 						$a_has_pred_incorrect_answers = true;
+						if (!$this->tree_arr["nodes"][$c["child"]]["unlocked"])
+						{
+							$a_has_pred_incorrect_not_unlocked_answers = true;
+						}
 					}
 				}
 				if ($cnt_completed == count($this->tree_arr["childs"][$a_obj_id]))
@@ -390,9 +398,11 @@ class ilLMTracker
 					$status = ilLMTracker::CURRENT;
 				}
 
+				$unlocked = false;
 				if (is_array($this->page_questions[$a_obj_id]))
 				{
 					// check questions, if one is failed -> failed
+					$unlocked = true;
 					foreach ($this->page_questions[$a_obj_id] as $q_id)
 					{
 						if (is_array($this->answer_status[$q_id])
@@ -400,6 +410,10 @@ class ilLMTracker
 							&& !$this->answer_status[$q_id]["passed"])
 						{
 							$status = ilLMTracker::FAILED;
+							if (!$this->answer_status[$q_id]["unlocked"])
+							{
+								$unlocked = false;
+							}
 						}
 					}
 
@@ -414,9 +428,12 @@ class ilLMTracker
 								$status = ilLMTracker::IN_PROGRESS;
 							}
 						}
+						$unlocked = false;
 					}
 				}
+				$this->tree_arr["nodes"][$a_obj_id]["unlocked"] = $unlocked;
 				$this->tree_arr["nodes"][$a_obj_id]["has_pred_incorrect_answers"] = $a_has_pred_incorrect_answers;
+				$this->tree_arr["nodes"][$a_obj_id]["has_pred_incorrect_not_unlocked_answers"] = $a_has_pred_incorrect_not_unlocked_answers;
 			}
 		}
 		else	// free pages (currently not called, since only walking through tree structure)
@@ -466,13 +483,20 @@ class ilLMTracker
 	 * @param int $a_obj_id
 	 * @return bool true if incorrect/unsanswered questions exist in predecessing pages
 	 */
-	function hasPredIncorrectAnswers($a_obj_id)
+	function hasPredIncorrectAnswers($a_obj_id, $a_ignore_unlock = false)
 	{
 		$this->loadLMTrackingData();
 		$ret = false;
 		if (is_array($this->tree_arr["nodes"][$a_obj_id]))
 		{
-			$ret = $this->tree_arr["nodes"][$a_obj_id]["has_pred_incorrect_answers"];
+			if ($a_ignore_unlock)
+			{
+				$ret = $this->tree_arr["nodes"][$a_obj_id]["has_pred_incorrect_answers"];
+			}
+			else
+			{
+				$ret = $this->tree_arr["nodes"][$a_obj_id]["has_pred_incorrect_not_unlocked_answers"];
+			}
 		}
 
 		return $ret;

@@ -325,5 +325,43 @@ class ilPageQuestionProcessor
 		}
 	}
 
+	/**
+	 * Reset tries
+	 *
+	 * @param int $a_q_id question id
+	 * @param int $a_user_id user id
+	 */
+	static function resetTries($a_q_id, $a_user_id)
+	{
+		global $ilDB;
+
+		$ilDB->manipulate($q = "UPDATE page_qst_answer SET ".
+				" try = ".$ilDB->quote(0, "integer").",".
+				" passed = ".$ilDB->quote(0, "integer").",".
+				" points = ".$ilDB->quote(0, "integer").",".
+				" unlocked = ".$ilDB->quote(0, "integer").
+				" WHERE qst_id = ".$ilDB->quote($a_q_id, "integer").
+				" AND user_id = ".$ilDB->quote($a_user_id, "integer")
+		);
+	}
+
+	/**
+	 * Reset tries
+	 *
+	 * @param int $a_q_id question id
+	 * @param int $a_user_id user id
+	 */
+	static function unlock($a_q_id, $a_user_id)
+	{
+		global $ilDB;
+
+		$ilDB->manipulate($q = "UPDATE page_qst_answer SET ".
+				" unlocked = ".$ilDB->quote(1, "integer").
+				" WHERE qst_id = ".$ilDB->quote($a_q_id, "integer").
+				" AND user_id = ".$ilDB->quote($a_user_id, "integer")
+		);
+	}
+
+
 }
 ?>

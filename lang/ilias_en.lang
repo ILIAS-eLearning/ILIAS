@@ -14663,9 +14663,9 @@ form#:#form_location_radius_km#:#km
 content#:#cont_question_stats#:#Statistic
 content#:#cont_blocked_users#:#Blocked Users
 content#:#cont_last_try#:#Last Try
-content#:#cont_ignore_fail#:#Ignore Fail
+content#:#cont_unlocked#:#Unlocked
 content#:#cont_reset_nr_of_tries#:#Reset Number of Tries
-content#:#cont_ignore_fail_allow_continue#:#Ignore Fail / Allow to Continue
+content#:#cont_unlock_allow_continue#:#Unlock / Allow to Continue
 crs#:#crs_subscription_failed_limit#:#The maximum number of participants has been exceeded.
 user#:#send_mail_to_inactive_users#:#Earlist Point, where a reminder mail will be sent in days
 user#:#send_mail_to_inactive_users_desc#:#A reminder mail will be send, to the mail address in this period of time, before the User will be deleted.
@@ -14688,5 +14688,6 @@ exc#:#exc_team_assignment_adopt_teams#:#Teams
 exc#:#exc_team_assignment_adopt_user#:#Adopt team from assignment
 exc#:#exc_team_assignment_adopt_none_user#:#Create new team
 exc#:#exc_team_assignment_adopt_already_assigned#:#already assigned
+content#:#cont_blocked_users_mail_link#:#Click on the following link to open the learning module:
 wiki#:#wiki_show_print_view#:#Print View
 wiki#:#wiki_show_pdf_export#:#PDF Export

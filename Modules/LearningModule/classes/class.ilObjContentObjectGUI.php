@@ -2567,14 +2567,99 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		$this->setTabs("questions");
 		$this->setQuestionsSubTabs("blocked_users");
 
-
-
 		include_once("./Modules/LearningModule/classes/class.ilLMBlockedUsersTableGUI.php");
 		$table = new ilLMBlockedUsersTableGUI($this, "listBlockedUsers", $this->object);
 		$tpl->setContent($table->getHTML());
 
 	}
 
+	/**
+	 * Reset number of tries
+	 */
+	function resetNumberOfTries()
+	{
+		global $lng, $ilCtrl;
+
+		include_once("./Services/COPage/classes/class.ilPageQuestionProcessor.php");
+		if (is_array($_POST["userquest_id"]))
+		{
+			foreach ($_POST["userquest_id"] as $uqid)
+			{
+				$uqid = explode(":", $uqid);
+				ilPageQuestionProcessor::resetTries((int) $uqid[0], (int) $uqid[1]);
+			}
+			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+		}
+		$ilCtrl->redirect($this, "listBlockedUsers");
+	}
+
+	/**
+	 * Unlock blocked question
+	 */
+	function unlockQuestion()
+	{
+		global $lng, $ilCtrl;
+
+		include_once("./Services/COPage/classes/class.ilPageQuestionProcessor.php");
+		if (is_array($_POST["userquest_id"]))
+		{
+			foreach ($_POST["userquest_id"] as $uqid)
+			{
+				$uqid = explode(":", $uqid);
+				ilPageQuestionProcessor::unlock((int) $uqid[0], (int) $uqid[1]);
+			}
+			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+		}
+		$ilCtrl->redirect($this, "listBlockedUsers");
+	}
+
+	/**
+	 * Send Mail to blocked users
+	 */
+	function sendMailToBlockedUsers()
+	{
+		global $ilCtrl;
+
+		if (!is_array($_POST["userquest_id"]))
+		{
+			ilUtil::sendFailure($this->lng->txt("no_checkbox"), 1);
+			$ilCtrl->redirect($this, "listBlockedUsers");
+		}
+
+		$rcps = array();
+		foreach($_POST["userquest_id"] as $uqid)
+		{
+			$uqid = explode(":", $uqid);
+			$login = ilObjUser::_lookupLogin($uqid[1]);
+			if (!in_array($login, $rcps))
+			{
+				$rcps[] = $login;
+			}
+		}
+		require_once 'Services/Mail/classes/class.ilMailFormCall.php';
+		ilUtil::redirect(ilMailFormCall::getRedirectTarget($this, 'listBlockedUsers',
+			array(),
+			array(
+				'type' => 'new',
+				'rcp_to' => implode(',',$rcps),
+				'sig'	=> $this->getBlockedUsersMailSignature()
+			)));
+	}
+
+	/**
+	 * Get mail signature for blocked users
+	 */
+	protected function getBlockedUsersMailSignature()
+	{
+		$link = chr(13).chr(10).chr(13).chr(10);
+		$link .= $this->lng->txt('cont_blocked_users_mail_link');
+		$link .= chr(13).chr(10).chr(13).chr(10);
+		include_once './Services/Link/classes/class.ilLink.php';
+		$link .= ilLink::_getLink($this->object->getRefId());
+		return rawurlencode(base64_encode($link));
+	}
+
+	
 	////
 	//// Tabs
 	////

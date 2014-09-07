@@ -32,14 +32,14 @@ class ilLMBlockedUsersTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt("question"), "");
 		$this->addColumn($this->lng->txt("page"), "page_title");
 		$this->addColumn($this->lng->txt("cont_last_try"), "last_try");
-		$this->addColumn($this->lng->txt("cont_ignore_fail"));
+		$this->addColumn($this->lng->txt("cont_unlocked"));
 		
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
 		$this->setRowTemplate("tpl.blocked_users.html", "Modules/LearningModule");
 
 		$this->addMultiCommand("sendMailToBlockedUsers", $lng->txt("send_mail"));
 		$this->addMultiCommand("resetNumberOfTries", $lng->txt("cont_reset_nr_of_tries"));
-		$this->addMultiCommand("ignoreFailStatus", $lng->txt("cont_ignore_fail_allow_continue"));
+		$this->addMultiCommand("unlockQuestion", $lng->txt("cont_unlock_allow_continue"));
 		//$this->addCommandButton("", $lng->txt(""));
 	}
 
@@ -63,12 +63,12 @@ class ilLMBlockedUsersTableGUI extends ilTable2GUI
 	{
 		global $lng;
 
-		$this->tpl->setVariable("USER_ID", $a_set["qst_id"].":".$a_set["user_id"]);
+		$this->tpl->setVariable("USER_QUEST_ID", $a_set["qst_id"].":".$a_set["user_id"]);
 		$this->tpl->setVariable("USER_NAME", $a_set["user_name"]);
 		$this->tpl->setVariable("QUESTION", $a_set["question_text"]);
 		$this->tpl->setVariable("PAGE", $a_set["page_title"]);
 		$this->tpl->setVariable("LAST_TRY", $a_set["last_try"]);
-		$this->tpl->setVariable("IGNORE_FAIL", ($a_set["ignore_fail"] ? $lng->txt("yes") : $lng->txt("no")));
+		$this->tpl->setVariable("IGNORE_FAIL", ($a_set["unlocked"] ? $lng->txt("yes") : $lng->txt("no")));
 	}
 
 }

@@ -2899,3 +2899,15 @@ include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObje
 ilDBUpdateNewObjectType::varchar2text('rbac_log', 'data');
 
 ?>
+<#4319>
+<?php
+
+$ilDB->addTableColumn('page_qst_answer', 'unlocked', array(
+	"type" => "integer",
+	"notnull" => true,
+	"length" => 1,
+	"default" => 0
+));
+
+?>
+
