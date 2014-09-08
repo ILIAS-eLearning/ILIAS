@@ -69,7 +69,7 @@ class gevUserProfileGUI {
 			}
 			
 			if(   $form->getInput("username") !== $this->user->getLogin()
-			   && $ilObjUser::_loginExists($form->getInput("username"))) {
+			   && ilObjUser::_loginExists($form->getInput("username"))) {
 				$username_field = $form->getItemByPostVar("username");
 				$username_field->setAlert($this->lng->txt("login_invalid"));
 				
