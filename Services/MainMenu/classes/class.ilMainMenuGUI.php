@@ -115,7 +115,7 @@ class ilMainMenuGUI
 		{
 			$selection->setHeaderIcon(ilAdvancedSelectionListGUI::DOWN_ARROW_TOPBAR);
 		}
-		
+
 		$languages = $lng->getInstalledLanguages();
 		if(sizeof($languages) > 1) // #11237
 		{
@@ -126,7 +126,7 @@ class ilMainMenuGUI
 				$link = ilUtil::appendUrlParameterString($base,
 					"lang=".$lang_key);
 				$link = str_replace("?&", "?", $link);
-				$selection->addItem($lng->_lookupEntry($lang_key, "meta", "meta_l_".$lang_key),
+				$selection->addItem(ilLanguage::_lookupEntry($lang_key, "meta", "meta_l_".$lang_key),
 					$lang_key, $link, "", "", "");
 			}
 			return $selection->getHTML();

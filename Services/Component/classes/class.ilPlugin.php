@@ -503,7 +503,7 @@ abstract class ilPlugin
 		return $lng->txt($prefix."_".$a_lang_var, $prefix);		
 		
 		/*
-		return $lng->_lookupEntry($lng->lang_key, $a_mod_prefix."_".$a_pl_id,
+		return ilLanguage::_lookupEntry($lng->lang_key, $a_mod_prefix."_".$a_pl_id,
 			$a_mod_prefix."_".$a_pl_id."_".$a_lang_var);		 
 		*/
 	}

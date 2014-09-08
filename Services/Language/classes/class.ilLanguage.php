@@ -111,6 +111,18 @@ class ilLanguage
 	var $loaded_modules;
 
 	/**
+	 * array of used topics
+	 * @var array
+	 */
+	protected static $used_topics = array();
+
+	/**
+	 * array of used modules
+	 * @var array
+	 */
+	protected static $used_modules = array();
+
+	/**
 	 * Constructor
 	 * read the single-language file and put this in an array text.
 	 * the text array is two-dimensional. First dimension is the language.
@@ -124,14 +136,7 @@ class ilLanguage
 	{
 		global $ilias,$log,$ilIliasIniFile,$ilUser,$ilSetting;
 
-		// store used modules and topics in a global variable
-		// ($lng seems to be initialized more than once)
-		global $ilias_lang_used_topics;
-		global $ilias_lang_used_modules;
-		$this->used_topics =& $ilias_lang_used_topics;
-		$this->used_modules =& $ilias_lang_used_modules;
-
-		$this->ilias =& $ilias;
+		$this->ilias = $ilias;
 
 		if (!isset($log))
 		{
@@ -225,7 +230,7 @@ class ilLanguage
 		}
 
 		// remember the used topics
-		$this->used_topics[$a_topic] = $a_topic;
+		self::$used_topics[$a_topic] = $a_topic;
 
 		$translation = "";
 		if (isset($this->text[$a_topic]))
@@ -338,7 +343,7 @@ class ilLanguage
 		return $languages ? $languages : array();
 	}
 	
-	function _lookupEntry($a_lang_key, $a_mod, $a_id)
+	public static function _lookupEntry($a_lang_key, $a_mod, $a_id)
 	{
 		global $ilDB;
 		
@@ -351,8 +356,8 @@ class ilLanguage
 		if ($rec["value"] != "")
 		{
 			// remember the used topics
-			$this->used_topics[$a_id] = $a_id;
-			$this->used_modules[$a_mod] = $a_mod;
+			self::$used_topics[$a_id]   = $a_id;
+			self::$used_modules[$a_mod] = $a_mod;
 			
 			return $rec["value"];
 		}
@@ -385,28 +390,14 @@ class ilLanguage
 
 	function getUsedTopics()
 	{
-		if (is_array($this->used_topics))
-		{
-			asort($this->used_topics);
-			return $this->used_topics;
-		}
-		else
-		{
-			return array();
-		}
+		asort(self::$used_topics);
+		return self::$used_topics;
 	}
 	
 	function getUsedModules()
 	{
-		if (is_array($this->used_modules))
-		{
-			asort($this->used_modules);
-			return $this->used_modules;
-		}
-		else
-		{
-			return array();
-		}
+		asort(self::$used_modules);
+		return self::$used_modules;
 	}
 
 	function getUserLanguage()
