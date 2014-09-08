@@ -42,7 +42,9 @@ function xslt_process(&$proc, $xml_var, $xslt_var, $dummy, $args, $params,
 {
 	$xslt = $proc->myProc;
 //echo htmlentities($args[substr($xslt_var, 4)]);
-	$xslt->importStyleSheet(DomDocument::loadXML($args[substr($xslt_var, 4)]));
+	$xslt_domdoc = new DomDocument();
+	$xslt_domdoc->loadXML($args[substr($xslt_var, 4)]);
+	$xslt->importStyleSheet($xslt_domdoc);
 	if (is_array($params))
 	{
 		foreach ($params as $key => $value)
@@ -54,7 +56,9 @@ function xslt_process(&$proc, $xml_var, $xslt_var, $dummy, $args, $params,
 	// supress warnings all the time. (some lib xslt bring warnings due to & in links)
 	//if ($a_no_warnings)
 	//{
-		$result = @$xslt->transformToXML(DomDocument::loadXML($args[substr($xml_var, 4)]));
+		$xml_domdoc = new DomDocument();
+		$xml_domdoc->loadXML($args[substr($xml_var, 4)]);
+		$result = @$xslt->transformToXML($xml_domdoc);
 	//}
 	//else
 	//{
