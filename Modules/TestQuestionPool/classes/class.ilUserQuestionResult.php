@@ -141,5 +141,13 @@ class ilUserQuestionResult
 	{
 		return $this->reached_percentage;
 	}
+
+	/**
+	 * @return boolean
+	 */
+	public function hasSolutions()
+	{
+		return count($this->solutions) > 0;
+	}
 }
  

@@ -923,7 +923,8 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
 		return array(
 			iQuestionCondition::PercentageResultExpression,
 			iQuestionCondition::NumericResultExpression,
-			iQuestionCondition::StringResultExpression
+			iQuestionCondition::StringResultExpression,
+			iQuestionCondition::EmptyAnswerExpression,
 		);
 	}
 

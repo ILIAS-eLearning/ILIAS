@@ -1313,7 +1313,8 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 		return array(
 			iQuestionCondition::PercentageResultExpression,
 			iQuestionCondition::NumberOfResultExpression,
-			iQuestionCondition::ExclusiveResultExpression
+			iQuestionCondition::ExclusiveResultExpression,
+			iQuestionCondition::EmptyAnswerExpression,
 		);
 	}
 

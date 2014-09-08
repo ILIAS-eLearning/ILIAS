@@ -15,6 +15,7 @@ interface iQuestionCondition {
 	const OrderingResultExpression = '$n,m,o,p$';
 	const NumberOfResultExpression = '+n+';
 	const ExclusiveResultExpression = '*n,m,o,p*';
+	const EmptyAnswerExpression = "?";
 
 	/**
 	 * Get all available operations for a specific question

@@ -686,7 +686,8 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
 	{
 		return array(
 			iQuestionCondition::PercentageResultExpression,
-			iQuestionCondition::NumericResultExpression
+			iQuestionCondition::NumericResultExpression,
+			iQuestionCondition::EmptyAnswerExpression,
 		);
 	}
 

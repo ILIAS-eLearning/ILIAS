@@ -1020,7 +1020,8 @@ class assJavaApplet extends assQuestion implements ilObjQuestionScoringAdjustabl
 	{
 		return array(
 			iQuestionCondition::PercentageResultExpression,
-			iQuestionCondition::NumericResultExpression
+			iQuestionCondition::NumericResultExpression,
+			iQuestionCondition::EmptyAnswerExpression,
 		);
 	}
 

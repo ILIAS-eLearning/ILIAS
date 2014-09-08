@@ -1548,6 +1548,94 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 	}
 
 	/**
+	 * Get all available operations for a specific question
+	 *
+	 * @param string $expression
+	 *
+	 * @internal param string $expression_type
+	 * @return array
+	 */
+	public function getOperators($expression)
+	{
+		require_once "./Modules/TestQuestionPool/classes/class.ilOperatorsExpressionMapping.php";
+		return ilOperatorsExpressionMapping::getOperatorsByExpression($expression);
+	}
+
+	/**
+	 * Get all available expression types for a specific question
+	 * @return array
+	 */
+	public function getExpressionTypes()
+	{
+		return array(
+			iQuestionCondition::PercentageResultExpression,
+			iQuestionCondition::NumericResultExpression,
+			iQuestionCondition::NumberOfResultExpression,
+			iQuestionCondition::StringResultExpression,
+			iQuestionCondition::EmptyAnswerExpression,
+		);
+	}
+
+	/**
+	* Get the user solution for a question by active_id and the test pass
+	*
+	* @param int $active_id
+	* @param int $pass
+	 *
+	* @return ilUserQuestionResult
+	*/
+	public function getUserQuestionResult($active_id, $pass)
+	{
+		/** @var ilDB $ilDB */
+		global $ilDB;
+		$result = new ilUserQuestionResult($this, $active_id, $pass);
+
+		$data = $ilDB->queryF(
+			"SELECT sol.value1+1 as val, sol.value2, cloze.cloze_type FROM tst_solutions sol INNER JOIN qpl_a_cloze cloze ON cloze.gap_id = value1 AND cloze.question_fi = sol.question_fi WHERE sol.active_fi = %s AND sol.pass = %s AND sol.question_fi = %s AND sol.step = (
+				SELECT MAX(step) FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s
+			) GROUP BY sol.solution_id",
+			array("integer", "integer", "integer","integer", "integer", "integer"),
+			array($active_id, $pass, $this->getId(), $active_id, $pass, $this->getId())
+		);
+
+		while($row = $ilDB->fetchAssoc($data))
+		{
+			if($row["cloze_type"] == 1)
+			{
+				$row["value2"]++;
+			}
+			$result->addKeyValue($row["val"], $row["value2"]);
+		}
+
+		$points = $this->calculateReachedPoints($active_id, $pass);
+		$max_points = $this->getMaximumPoints();
+
+		$result->setReachedPercentage(($points/$max_points) * 100);
+
+		return $result;
+	}
+
+	/**
+	 * If index is null, the function returns an array with all anwser options
+	 * Else it returns the specific answer option
+	 *
+	 * @param null|int $index
+	 *
+	 * @return array|ASS_AnswerSimple
+	 */
+	public function getAvailableAnswerOptions($index = null)
+	{
+		if($index !== null)
+		{
+			return $this->getGap($index);
+		}
+		else
+		{
+			return $this->getGaps();
+		}
+	}
+
+	/**
 	 * @param $user_result
 	 * @param $detailed
 	 * @return array
@@ -1654,92 +1742,5 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 			}
 		}
 		return $points;
-	}
-
-	/**
-	 * Get all available operations for a specific question
-	 *
-	 * @param string $expression
-	 *
-	 * @internal param string $expression_type
-	 * @return array
-	 */
-	public function getOperators($expression)
-	{
-		require_once "./Modules/TestQuestionPool/classes/class.ilOperatorsExpressionMapping.php";
-		return ilOperatorsExpressionMapping::getOperatorsByExpression($expression);
-	}
-
-	/**
-	 * Get all available expression types for a specific question
-	 * @return array
-	 */
-	public function getExpressionTypes()
-	{
-		return array(
-			iQuestionCondition::PercentageResultExpression,
-			iQuestionCondition::NumericResultExpression,
-			iQuestionCondition::NumberOfResultExpression,
-			iQuestionCondition::StringResultExpression
-		);
-	}
-
-	/**
-	* Get the user solution for a question by active_id and the test pass
-	*
-	* @param int $active_id
-	* @param int $pass
-	 *
-	* @return ilUserQuestionResult
-	*/
-	public function getUserQuestionResult($active_id, $pass)
-	{
-		/** @var ilDB $ilDB */
-		global $ilDB;
-		$result = new ilUserQuestionResult($this, $active_id, $pass);
-
-		$data = $ilDB->queryF(
-			"SELECT sol.value1+1 as val, sol.value2, cloze.cloze_type FROM tst_solutions sol INNER JOIN qpl_a_cloze cloze ON cloze.gap_id = value1 AND cloze.question_fi = sol.question_fi WHERE sol.active_fi = %s AND sol.pass = %s AND sol.question_fi = %s AND sol.step = (
-				SELECT MAX(step) FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s
-			) GROUP BY sol.solution_id",
-			array("integer", "integer", "integer","integer", "integer", "integer"),
-			array($active_id, $pass, $this->getId(), $active_id, $pass, $this->getId())
-		);
-
-		while($row = $ilDB->fetchAssoc($data))
-		{
-			if($row["cloze_type"] == 1)
-			{
-				$row["value2"]++;
-			}
-			$result->addKeyValue($row["val"], $row["value2"]);
-		}
-
-		$points = $this->calculateReachedPoints($active_id, $pass);
-		$max_points = $this->getMaximumPoints();
-
-		$result->setReachedPercentage(($points/$max_points) * 100);
-
-		return $result;
-	}
-
-	/**
-	 * If index is null, the function returns an array with all anwser options
-	 * Else it returns the specific answer option
-	 *
-	 * @param null|int $index
-	 *
-	 * @return array|ASS_AnswerSimple
-	 */
-	public function getAvailableAnswerOptions($index = null)
-	{
-		if($index !== null)
-		{
-			return $this->getGap($index);
-		}
-		else
-		{
-			return $this->getGaps();
-		}
 	}
 }

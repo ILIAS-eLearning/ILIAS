@@ -1236,6 +1236,7 @@ class assSingleChoice extends assQuestion implements  ilObjQuestionScoringAdjust
 		return array(
 			iQuestionCondition::PercentageResultExpression,
 			iQuestionCondition::NumberOfResultExpression,
+			iQuestionCondition::EmptyAnswerExpression,
 		);
 	}
 
@@ -1262,9 +1263,12 @@ class assSingleChoice extends assQuestion implements  ilObjQuestionScoringAdjust
 		);
 
 		$row = $ilDB->fetchAssoc($data);
-		++$row["value1"];
 
-		$result->addKeyValue($row["value1"], $row["value1"]);
+		if($row != null)
+		{
+			++$row["value1"];
+			$result->addKeyValue($row["value1"], $row["value1"]);
+		}
 
 		$points = $this->calculateReachedPoints($active_id, $pass);
 		$max_points = $this->getMaximumPoints();

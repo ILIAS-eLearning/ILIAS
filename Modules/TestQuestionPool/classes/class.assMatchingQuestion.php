@@ -1576,7 +1576,8 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		return array(
 			iQuestionCondition::PercentageResultExpression,
 			iQuestionCondition::NumericResultExpression,
-			iQuestionCondition::MatchingResultExpression
+			iQuestionCondition::MatchingResultExpression,
+			iQuestionCondition::EmptyAnswerExpression,
 		);
 	}
 	/**
@@ -1629,7 +1630,10 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
 		while($row = $ilDB->fetchAssoc($data))
 		{
-			$result->addKeyValue($definitions[$row["value2"]],$terms[$row["value1"]]);
+			if($row["value1"] > 0)
+			{
+				$result->addKeyValue($definitions[$row["value2"]],$terms[$row["value1"]]);
+			}
 		}
 
 		$points = $this->calculateReachedPoints($active_id, $pass);

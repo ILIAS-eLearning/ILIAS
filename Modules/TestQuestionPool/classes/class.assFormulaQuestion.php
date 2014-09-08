@@ -1367,6 +1367,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 		return array(
 			iQuestionCondition::PercentageResultExpression,
 			iQuestionCondition::NumericResultExpression,
+			iQuestionCondition::EmptyAnswerExpression,
 		);
 	}
 
@@ -1394,7 +1395,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 
 		while($row = $ilDB->fetchAssoc($data))
 		{
-			if(strstr($row["value1"], '$r'))
+			if(strstr($row["value1"], '$r') && $row["value2"] != null)
 			{
 				$result->addKeyValue(str_replace('$r', "", $row["value1"]), $row["value2"]);
 			}

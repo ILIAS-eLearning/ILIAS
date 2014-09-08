@@ -1488,7 +1488,8 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		return array(
 			iQuestionCondition::PercentageResultExpression,
 			iQuestionCondition::NumericResultExpression,
-			iQuestionCondition::OrderingResultExpression
+			iQuestionCondition::OrderingResultExpression,
+			iQuestionCondition::EmptyAnswerExpression,
 		);
 	}
 

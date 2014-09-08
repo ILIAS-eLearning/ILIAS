@@ -985,7 +985,8 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	{
 		return array(
 			iQuestionCondition::PercentageResultExpression,
-			iQuestionCondition::NumberOfResultExpression
+			iQuestionCondition::NumberOfResultExpression,
+			iQuestionCondition::EmptyAnswerExpression,
 		);
 	}
 
