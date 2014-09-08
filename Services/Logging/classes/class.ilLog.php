@@ -137,6 +137,13 @@ class ilLog
 	function setPath($a_str)
 	{
 		$this->path = $a_str;
+
+		// on filename change reload close current file
+		if($this->fp)
+		{
+			fclose($this->fp);
+			$this->fp = null;
+		}
 	}
 
 	function setFilename($a_str)
