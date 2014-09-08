@@ -726,7 +726,13 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 			$types = array('integer', 'integer', 'integer', 'integer');
 			$values = array($active_id, $this->getId(), $pass,  (int)$_GET['selImage']);
 			$query = 'DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s AND value1 = %s';
-			
+			if($this->getStep() != null)
+			{
+				$types[] = 'integer';
+				$values[] = $this->getStep();
+				$query .= ' AND step = %s';
+			}
+
 			$ilDB->manipulateF($query, $types, $values);
 
 			$affectedRows = $this->saveCurrentSolution($active_id, $pass, $_GET['selImage'], null);
@@ -987,6 +993,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 			iQuestionCondition::PercentageResultExpression,
 			iQuestionCondition::NumberOfResultExpression,
 			iQuestionCondition::EmptyAnswerExpression,
+			iQuestionCondition::ExclusiveResultExpression
 		);
 	}
 
