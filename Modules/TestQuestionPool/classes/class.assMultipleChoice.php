@@ -583,10 +583,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 		{
 			$pass = $this->getSolutionMaxPass($active_id);
 		}
-		$result = $ilDB->queryF("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-			array('integer','integer','integer'),
-			array($active_id, $this->getId(), $pass)
-		);
+		$result = $this->getCurrentSolutionResultSet($active_id, $pass);
 		while ($data = $ilDB->fetchAssoc($result))
 		{
 			if (strcmp($data["value1"], "") != 0)
@@ -622,27 +619,16 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 		$entered_values = 0;
 		
 		$this->getProcessLocker()->requestUserSolutionUpdateLock();
-		
-		$ilDB->manipulateF("DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-			array('integer','integer','integer'),
-			array($active_id, $this->getId(), $pass)
-		);
+
+		$this->removeCurrentSolution($active_id, $pass);
+
 		$solutionSubmit = $this->getSolutionSubmit();
 		
 		foreach($solutionSubmit as $value)
 		{
 			if (strlen($value))
 			{
-				$next_id = $ilDB->nextId('tst_solutions');
-				$ilDB->insert("tst_solutions", array(
-					"solution_id" => array("integer", $next_id),
-					"active_fi" => array("integer", $active_id),
-					"question_fi" => array("integer", $this->getId()),
-					"value1" => array("clob", $value),
-					"value2" => array("clob", null),
-					"pass" => array("integer", $pass),
-					"tstamp" => array("integer", time())
-				));
+				$this->saveCurrentSolution($active_id, $pass, $value, null);
 				$entered_values++;
 			}
 		}

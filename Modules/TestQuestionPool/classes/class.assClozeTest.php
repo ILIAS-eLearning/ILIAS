@@ -1171,18 +1171,8 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 		{
 			$pass = $this->getSolutionMaxPass($active_id);
 		}
-		$result = $ilDB->queryF("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-			array(
-				"integer", 
-				"integer",
-				"integer"
-			),
-			array(
-				$active_id,
-				$this->getId(),
-				$pass
-			)
-		);
+
+		$result = $this->getCurrentSolutionResultSet($active_id, $pass);
 		$user_result = array();
 		while ($data = $ilDB->fetchAssoc($result)) 
 		{
@@ -1255,18 +1245,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 		
 		$this->getProcessLocker()->requestUserSolutionUpdateLock();
 
-		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-			array(
-				"integer", 
-				"integer",
-				"integer"
-			),
-			array(
-				$active_id,
-				$this->getId(),
-				$pass
-			)
-		);
+		$affectedRows = $this->removeCurrentSolution($active_id, $pass);
 
 		$entered_values = 0;
 		
@@ -1280,20 +1259,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 				{
 					if (!(($gap->getType() == CLOZE_SELECT) && ($value == -1)))
 					{
-						if ($gap->getType() == CLOZE_NUMERIC)
-						{
-							$value = str_replace(",", ".", $value);
-						}
-						$next_id = $ilDB->nextId("tst_solutions");
-						$affectedRows = $ilDB->insert("tst_solutions", array(
-							"solution_id" => array("integer", $next_id),
-							"active_fi" => array("integer", $active_id),
-							"question_fi" => array("integer", $this->getId()),
-							"value1" => array("clob", trim($val1)),
-							"value2" => array("clob", trim($value)),
-							"pass" => array("integer", $pass),
-							"tstamp" => array("integer", time())
-						));
+						$affectedRows = $this->saveCurrentSolution($active_id,$pass, $val1, $value);
 						$entered_values++;
 					}
 				}

@@ -236,6 +236,11 @@ abstract class assQuestion
 	 * @var ilObjTestGateway
 	 */
 	private $resultGateway = null;
+
+	/**
+	 * @var null|int
+	 */
+	private $step = null;
 	
 	protected $lastChange;
 	
@@ -979,21 +984,22 @@ abstract class assQuestion
 		if( is_null($reached_points) ) $reached_points = 0;
 
 		$this->getProcessLocker()->requestUserQuestionResultUpdateLock();
-		
+
 		$query = "
 			DELETE FROM		tst_test_result
 			
 			WHERE			active_fi = %s
 			AND				question_fi = %s
 			AND				pass = %s
+			AND				step = %s
 		";
 		
 		$affectedRows = $ilDB->manipulateF(
-			$query, array("integer", "integer", "integer"), array($active_id, $this->getId(), $pass)
+			$query, array("integer", "integer", "integer", "integer"), array($active_id, $this->getId(), $pass, $this->getStep())
 		);
 
 		$next_id = $ilDB->nextId("tst_test_result");
-		
+
 		$ilDB->insert('tst_test_result', array(
 			'test_result_id'	=> array('integer', $next_id),
 			'active_fi'			=> array('integer', $active_id),
@@ -1003,7 +1009,8 @@ abstract class assQuestion
 			'tstamp'			=> array('integer', time()),
 			'hint_count'		=> array('integer', $requestsStatisticData->getRequestsCount()),
 			'hint_points'		=> array('float', $requestsStatisticData->getRequestsPoints()),
-			'answered'			=> array('integer', $isAnswered)
+			'answered'			=> array('integer', $isAnswered),
+			'step'				=> array('integer', $this->getStep())
 		));
 
 		$this->getProcessLocker()->releaseUserQuestionResultUpdateLock();
@@ -1549,11 +1556,11 @@ abstract class assQuestion
 		if (is_null($pass))
 		{
 			$pass = $this->getSolutionMaxPass($active_id);
-		}		
+		}
 
-		$result = $ilDB->queryF("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s ORDER BY solution_id",
-			array('integer','integer','integer'),
-			array($active_id, $this->getId(), $pass)
+		$result = $ilDB->queryF("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s AND step = %s ORDER BY solution_id",
+			array('integer','integer','integer', 'integer'),
+			array($active_id, $this->getId(), $pass, $this->getStep())
 		);
 		while	($row = $ilDB->fetchAssoc($result))
 		{
@@ -4296,6 +4303,71 @@ abstract class assQuestion
 	}
 
 	/**
+	 * Get a restulset for the current user solution for a this question by active_id and pass
+	 *
+	 * @param int $active_id
+	 * @param int $pass
+	 *
+	 * @return object
+	 */
+	protected function getCurrentSolutionResultSet($active_id, $pass)
+	{
+		/** @var ilDB $ilDB */
+		global $ilDB;
+
+		return $ilDB->queryF("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s AND step = %s",
+			array('integer','integer','integer', 'integer'),
+			array($active_id, $this->getId(), $pass, $this->getStep())
+		);
+	}
+
+	/**
+	 * @param int $active_id
+	 * @param int $pass
+	 *
+	 * @return int
+	 */
+	protected function removeCurrentSolution($active_id, $pass)
+	{
+		/**
+		 * @var ilDB $ilDB
+		 */
+		global $ilDB;
+
+		return $ilDB->manipulateF("DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s AND step = %s",
+			array('integer','integer','integer', 'integer'),
+			array($active_id, $this->getId(), $pass, $this->getStep())
+		);
+	}
+
+	/**
+	 * @param int $active_id
+	 * @param int $pass
+	 * @param mixed $value1
+	 * @param mixed $value2
+	 *
+	 * @return int
+	 */
+	public function saveCurrentSolution($active_id, $pass, $value1, $value2)
+	{
+		/** @var ilDB $ilDB */
+		global $ilDB;
+
+		$next_id = $ilDB->nextId("tst_solutions");
+		return $ilDB->insert("tst_solutions", array(
+			"solution_id" => array("integer", $next_id),
+			"active_fi" => array("integer", $active_id),
+			"question_fi" => array("integer", $this->getId()),
+			"value1" => array("clob", $value1),
+			"value2" => array("clob", $value2),
+			"pass" => array("integer", $pass),
+			"tstamp" => array("integer", time()),
+			"step" => array("integer", $this->getStep())
+		));
+	}
+
+
+	/**
 	 * @param \ilObjTestGateway $resultGateway
 	 */
 	public function setResultGateway($resultGateway)
@@ -4309,5 +4381,21 @@ abstract class assQuestion
 	public function getResultGateway()
 	{
 		return $this->resultGateway;
+	}
+
+	/**
+	 * @param int|null $step
+	 */
+	public function setStep($step)
+	{
+		$this->step = $step;
+	}
+
+	/**
+	 * @return int|null
+	 */
+	public function getStep()
+	{
+		return $this->step;
 	}
 }

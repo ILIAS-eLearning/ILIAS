@@ -669,10 +669,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		{
 			$pass = $this->getSolutionMaxPass($active_id);
 		}
-		$result = $ilDB->queryF("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-			array("integer","integer","integer"),
-			array($active_id, $this->getId(), $pass)
-		);
+		$result = $this->getCurrentSolutionResultSet($active_id, $pass);
 		while ($data = $ilDB->fetchAssoc($result))
 		{
 			if (strcmp($data["value1"], "") != 0)
@@ -714,17 +711,14 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
 		if($this->is_multiple_choice && strlen($_GET['remImage']))
 		{
-			$affectedRows = $ilDB->manipulateF("DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s AND value1 = %s",
-				array("integer", "integer", "integer", "integer"),
-				array($active_id, $this->getId(), $pass, $_GET['remImage'])
+			$affectedRows = $ilDB->manipulateF("DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s AND value1 = %s AND step = %s",
+				array("integer", "integer", "integer", "integer", "integer"),
+				array($active_id, $this->getId(), $pass, $_GET['remImage'], $this->getStep())
 			);
 		}
 		elseif(!$this->is_multiple_choice)
 		{
-			$affectedRows = $ilDB->manipulateF("DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-				array("integer", "integer", "integer"),
-				array($active_id, $this->getId(), $pass)
-			);
+			$affectedRows = $this->removeCurrentSolution($active_id, $pass);
 		}
 
 		if (strlen($_GET["selImage"]))
@@ -734,17 +728,8 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 			$query = 'DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s AND value1 = %s';
 			
 			$ilDB->manipulateF($query, $types, $values);
-			
-			$next_id = $ilDB->nextId('tst_solutions');
-			$affectedRows = $ilDB->insert("tst_solutions", array(
-				"solution_id" => array("integer", $next_id),
-				"active_fi" => array("integer", $active_id),
-				"question_fi" => array("integer", $this->getId()),
-				"value1" => array("clob", $_GET['selImage']),
-				"value2" => array("clob", null),
-				"pass" => array("integer", $pass),
-				"tstamp" => array("integer", time())
-			));
+
+			$affectedRows = $this->saveCurrentSolution($active_id, $pass, $_GET['selImage'], null);
 
 			include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
 			if (ilObjAssessmentFolder::_enabledAssessmentLogging())

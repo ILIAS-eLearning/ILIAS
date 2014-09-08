@@ -362,9 +362,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
 		if (is_null($pass)) {
 			$pass = $this->getSolutionMaxPass($active_id);
 		}
-		$result = $ilDB->queryF( "SELECT value1 FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-			array('integer','integer','integer'),
-			array($active_id, $this->getId(), $pass) );
+		$result = $this->getCurrentSolutionResultSet($active_id, $pass);
 
 		while ($row = $ilDB->fetchAssoc($result)) {
 			array_push($positions, $row['value1']);
@@ -438,10 +436,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
 		
 		$this->getProcessLocker()->requestUserSolutionUpdateLock();
 
-		$affectedRows = $ilDB->manipulateF("DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-			array('integer','integer','integer'),
-			array($active_id, $this->getId(), $pass)
-		);
+		$affectedRows = $this->removeCurrentSolution($active_id, $pass);
 
 		$entered_values = false;
 		if (strlen($_POST["qst_" . $this->getId()]))
@@ -449,16 +444,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
 			$selected = split(",", $_POST["qst_" . $this->getId()]);
 			foreach ($selected as $position)
 			{
-				$next_id = $ilDB->nextId('tst_solutions');
-				$affectedRows = $ilDB->insert("tst_solutions", array(
-					"solution_id" => array("integer", $next_id),
-					"active_fi" => array("integer", $active_id),
-					"question_fi" => array("integer", $this->getId()),
-					"value1" => array("clob", $position),
-					"value2" => array("clob", null),
-					"pass" => array("integer", $pass),
-					"tstamp" => array("integer", time())
-				));
+				$affectedRows = $this->saveCurrentSolution($active_id, $pass, $position, null);
 			}
 			$entered_values = true;
 		}

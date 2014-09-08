@@ -596,10 +596,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		{
 			$pass = $this->getSolutionMaxPass($active_id);
 		}
-		$result = $ilDB->queryF("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-			array('integer','integer','integer'),
-			array($active_id, $this->getId(), $pass)
-		);
+		$result = $this->getCurrentSolutionResultSet($active_id, $pass);
 		$user_order = array();
 		$nested_solution = false;
 		while ($data = $ilDB->fetchAssoc($result))
@@ -846,24 +843,13 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
 			$this->getProcessLocker()->requestUserSolutionUpdateLock();
 
-			$affectedRows = $ilDB->manipulateF("DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-				array('integer','integer','integer'),
-				array($active_id, $this->getId(), $pass)
-			);
+			$affectedRows = $this->removeCurrentSolution($active_id, $pass);
 
 			$entered_values = 0;
 			foreach($this->getSolutionSubmit() as $val1 => $val2)
 			{
-				$next_id = $ilDB->nextId('tst_solutions');
-				$affectedRows = $ilDB->insert("tst_solutions", array(
-					"solution_id" => array("integer", $next_id),
-					"active_fi" => array("integer", $active_id),
-					"question_fi" => array("integer", $this->getId()),
-					"value1" => array("clob", $val1),
-					"value2" => array("clob", trim($val2)),
-					"pass" => array("integer", $pass),
-					"tstamp" => array("integer", time())
-				));
+
+				$this->saveCurrentSolution($active_id, $pass, $val1, trim($val2));
 				$ordervalue++;
 				$entered_values++;
 			}

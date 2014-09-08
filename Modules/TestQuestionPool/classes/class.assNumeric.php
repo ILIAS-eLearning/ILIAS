@@ -347,10 +347,7 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
 		{
 			$pass = $this->getSolutionMaxPass($active_id);
 		}
-		$result = $ilDB->queryF("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-			array('integer','integer','integer'),
-			array($active_id, $this->getId(), $pass)
-		);
+		$result = $this->getCurrentSolutionResultSet($active_id, $pass);
 		$data = $ilDB->fetchAssoc($result);
 
 		$enteredvalue = $data["value1"];
@@ -452,10 +449,10 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
 		}
 
 		$this->getProcessLocker()->requestUserSolutionUpdateLock();
-		
-		$result = $ilDB->queryF("SELECT solution_id FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-			array('integer','integer','integer'),
-			array($active_id, $this->getId(), $pass)
+
+		$result = $ilDB->queryF("SELECT solution_id FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s AND step = %s",
+			array('integer','integer','integer', 'integer'),
+			array($active_id, $this->getId(), $pass, $this->getStep())
 		);
 
 		$row = $ilDB->fetchAssoc($result);
@@ -487,18 +484,7 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
 		{
 			if (strlen($numeric_result))
 			{
-				$next_id = $ilDB->nextId('tst_solutions');
-				$ilDB->insert("tst_solutions", array(
-													"solution_id" => array("integer", $next_id),
-													"active_fi" => array("integer", $active_id),
-													"question_fi" => array("integer", $this->getId()),
-													"value1" => array("clob", trim($numeric_result)),
-													"value2" => array("clob", null),
-													"pass" => array("integer", $pass),
-													"tstamp" => array("integer", time())
-													)
-				);
-
+				$this->saveCurrentSolution($active_id, $pass, trim($numeric_result), null);
 				$entered_values++;
 			}
 		}

@@ -902,10 +902,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		{
 			$pass = $this->getSolutionMaxPass($active_id);
 		}
-		$result = $ilDB->queryF("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-			array('integer','integer','integer'),
-			array($active_id, $this->getId(), $pass)
-		);
+		$result = $this->getCurrentSolutionResultSet($active_id, $pass);
 		while ($data = $ilDB->fetchAssoc($result))
 		{
 			if (strcmp($data["value1"], "") != 0)
@@ -1169,26 +1166,13 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 			
 			$this->getProcessLocker()->requestUserSolutionUpdateLock();
 
-			$ilDB->manipulateF(
-				"DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-				array('integer','integer','integer'), array($active_id, $this->getId(), $pass)
-			);
+			$affectedRows = $this->removeCurrentSolution($active_id, $pass);
 
 			foreach( $submittedMatchings as $definition => $terms )
 			{
 				foreach( $terms as $i => $term )
 				{
-					$next_id = $ilDB->nextId('tst_solutions');
-
-					$ilDB->insert("tst_solutions", array(
-						"solution_id" => array("integer", $next_id),
-						"active_fi" => array("integer", $active_id),
-						"question_fi" => array("integer", $this->getId()),
-						"value1" => array("clob", $term),
-						"value2" => array("clob", $definition),
-						"pass" => array("integer", $pass),
-						"tstamp" => array("integer", time())
-					));
+					$affectedRows = $this->saveCurrentSolution($active_id, $pass, $term, $definition);
 
 					$matchingsExist = true;
 				}

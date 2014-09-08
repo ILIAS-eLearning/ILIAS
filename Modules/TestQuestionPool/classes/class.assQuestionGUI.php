@@ -54,6 +54,11 @@ abstract class assQuestionGUI
 	private $targetGuiClass = null;
 
 	private $questionActionCmd = 'handleQuestionAction';
+
+	/**
+	 * @var ilQuestionHeaderBlockBuilder
+	 */
+	private $questionHeaderBlockBuilder;
 	
 	/**
 	* assQuestionGUI constructor
@@ -143,6 +148,14 @@ abstract class assQuestionGUI
 		return $this->targetGuiClass;
 	}
 
+	/**
+	 * @param \ilQuestionHeaderBlockBuilder $questionHeaderBlockBuilder
+	 */
+	public function setQuestionHeaderBlockBuilder($questionHeaderBlockBuilder)
+	{
+		$this->questionHeaderBlockBuilder = $questionHeaderBlockBuilder;
+	}
+
 	public function setQuestionActionCmd($questionActionCmd)
 	{
 		$this->questionActionCmd = $questionActionCmd;
@@ -156,6 +169,16 @@ abstract class assQuestionGUI
 	public function getQuestionActionCmd()
 	{
 		return $this->questionActionCmd;
+	}
+
+	/**
+	 * Evaluates a posted edit form and writes the form data in the question object
+	 *
+	 * @return integer A positive value, if one of the required fields wasn't set, else 0
+	 * @access private
+	 */
+	function writePostData()
+	{
 	}
 
 	/**
@@ -375,16 +398,25 @@ abstract class assQuestionGUI
 				break;
 			case 0:
 			default:
-				$maxpoints = $this->object->getMaximumPoints();
-				if ($maxpoints == 1)
+				if( !is_null($this->questionHeaderBlockBuilder) )
 				{
-					$maxpoints = " (".$maxpoints." ".$this->lng->txt("point").")";
+					$questionBlockHeader = $this->questionHeaderBlockBuilder->getHTML();
 				}
 				else
 				{
-					$maxpoints = " (".$maxpoints." ".$this->lng->txt("points").")";
+					$maxpoints = $this->object->getMaximumPoints();
+					if ($maxpoints == 1)
+					{
+						$maxpoints = " (".$maxpoints." ".$this->lng->txt("point").")";
+					}
+					else
+					{
+						$maxpoints = " (".$maxpoints." ".$this->lng->txt("points").")";
+					}
+					$questionBlockHeader = sprintf($this->lng->txt("tst_position"), $this->getSequenceNumber(), $this->getQuestionCount())." - ".$this->object->getTitle().$postponed.$maxpoints  . $obligatoryString;
 				}
-				$page_gui->setPresentationTitle(sprintf($this->lng->txt("tst_position"), $this->getSequenceNumber(), $this->getQuestionCount())." - ".$this->object->getTitle().$postponed.$maxpoints  . $obligatoryString);
+
+				$page_gui->setPresentationTitle($questionBlockHeader);
 				break;
 		}
 		$presentation = $page_gui->presentation();

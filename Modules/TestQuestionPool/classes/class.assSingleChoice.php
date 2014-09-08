@@ -583,10 +583,7 @@ class assSingleChoice extends assQuestion implements  ilObjQuestionScoringAdjust
 		{
 			$pass = $this->getSolutionMaxPass($active_id);
 		}
-		$result = $ilDB->queryF("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-			array('integer','integer','integer'),
-			array($active_id, $this->getId(), $pass)
-		);
+		$result = $this->getCurrentSolutionResultSet($active_id, $pass);
 		while ($data = $ilDB->fetchAssoc($result))
 		{
 			if (strcmp($data["value1"], "") != 0)
@@ -643,11 +640,8 @@ class assSingleChoice extends assQuestion implements  ilObjQuestionScoringAdjust
 		$entered_values = 0;
 
 		$this->getProcessLocker()->requestUserSolutionUpdateLock();
-		
-		$result = $ilDB->queryF("SELECT solution_id FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-			array('integer','integer','integer'),
-			array($active_id, $this->getId(), $pass)
-		);
+
+		$result = $this->getCurrentSolutionResultSet($active_id, $pass);
 		$row = $ilDB->fetchAssoc($result);
 		$update = $row["solution_id"];
 		
@@ -675,16 +669,7 @@ class assSingleChoice extends assQuestion implements  ilObjQuestionScoringAdjust
 		{
 			if (strlen($_POST["multiple_choice_result"]))
 			{
-				$next_id = $ilDB->nextId('tst_solutions');
-				$affectedRows = $ilDB->insert("tst_solutions", array(
-					"solution_id" => array("integer", $next_id),
-					"active_fi" => array("integer", $active_id),
-					"question_fi" => array("integer", $this->getId()),
-					"value1" => array("clob", $_POST['multiple_choice_result']),
-					"value2" => array("clob", null),
-					"pass" => array("integer", $pass),
-					"tstamp" => array("integer", time())
-				));
+				$affectedRows = $this->saveCurrentSolution($active_id, $pass, $_POST['multiple_choice_result'], null);
 				$entered_values++;
 			}
 		}
