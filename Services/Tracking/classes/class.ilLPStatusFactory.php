@@ -99,6 +99,10 @@ class ilLPStatusFactory
 			case ilLPObjSettings::LP_MODE_COLLECTION_MANUAL:
 				include_once self::PATH.'class.ilLPStatusCollectionManual.php';
 				return self::$class_by_obj_id[$a_obj_id] = 'ilLPStatusCollectionManual';
+				
+			case ilLPObjSettings::LP_MODE_QUESTIONS:
+				include_once self::PATH.'class.ilLPStatusQuestions.php';
+				return self::$class_by_obj_id[$a_obj_id] = 'ilLPStatusQuestions';
 
 			case ilLPObjSettings::LP_MODE_DEACTIVATED:
 				include_once 'Services/Tracking/classes/class.ilLPStatus.php';
@@ -205,6 +209,10 @@ class ilLPStatusFactory
 			case ilLPObjSettings::LP_MODE_COLLECTION_MANUAL:
 				include_once self::PATH.'class.ilLPStatusCollectionManual.php';
 				return new ilLPStatusCollectionManual($a_obj_id);
+									
+			case ilLPObjSettings::LP_MODE_QUESTIONS:
+				include_once self::PATH.'class.ilLPStatusQuestions.php';
+				return new ilLPStatusQuestions($a_obj_id);
 				
 			case ilLPObjSettings::LP_MODE_DEACTIVATED:
 				include_once 'Services/Tracking/classes/class.ilLPStatus.php';

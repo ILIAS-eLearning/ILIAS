@@ -26,7 +26,8 @@ class ilLearningModuleLP extends ilObjectLP
 			ilLPObjSettings::LP_MODE_COLLECTION_MANUAL,
 			ilLPObjSettings::LP_MODE_VISITS,
 			ilLPObjSettings::LP_MODE_TLT,
-			ilLPObjSettings::LP_MODE_COLLECTION_TLT
+			ilLPObjSettings::LP_MODE_COLLECTION_TLT,
+			ilLPObjSettings::LP_MODE_QUESTIONS
 		);
 	}		
 }

@@ -39,6 +39,7 @@ class ilLPObjSettings
 	const LP_MODE_PLUGIN = 14;
 	const LP_MODE_COLLECTION_TLT = 15;
 	const LP_MODE_COLLECTION_MANUAL = 16;
+	const LP_MODE_QUESTIONS = 17;
 
 	const LP_DEFAULT_VISITS = 30;
 
@@ -294,6 +295,9 @@ class ilLPObjSettings
 				
 			case self::LP_MODE_COLLECTION_TLT:
 				return $lng->txt('trac_mode_collection_tlt');
+				
+			case self::LP_MODE_QUESTIONS:
+				return $lng->txt('trac_mode_questions');
 		}
 	}
 	
@@ -348,6 +352,9 @@ class ilLPObjSettings
 				
 			case self::LP_MODE_COLLECTION_TLT:
 				return $lng->txt('trac_mode_collection_tlt_info');
+				
+			case self::LP_MODE_QUESTIONS:
+				return $lng->txt('trac_mode_questions_info');
 		}
 	}
 }
