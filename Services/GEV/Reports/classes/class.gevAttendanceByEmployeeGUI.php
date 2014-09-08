@@ -261,8 +261,9 @@ class gevAttendanceByEmployeeGUI {
 		//get all users the current user is superior of:
 		$allowed_user_ids = $this->user_utils->getEmployees();
 
-		$allowed_user_ids_str = join(',', $allowed_user_ids);
-		$query = "AND usr.user_id IN ($allowed_user_ids_str)";
+//		$allowed_user_ids_str = join(',', $allowed_user_ids);
+//		$query = "AND usr.user_id IN ($allowed_user_ids_str)";
+		$query = " AND ".$this->db->in("usr.user_id", $allowed_user_ids, false, "integer");
 		
 		return $query;
 
