@@ -236,7 +236,9 @@ class ilTEPPermissions
 	 */
 	public function isTutor()
 	{
-		return $this->hasPermissionInAnyOrgUnit("tep_is_tutor");
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		return $this->hasPermissionInAnyOrgUnit("tep_is_tutor")
+			|| gevUserUtils::getInstance($this->getUserId())->isAdmin();
 	}
 	
 	/**

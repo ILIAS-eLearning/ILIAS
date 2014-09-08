@@ -1070,6 +1070,10 @@ class gevUserUtils {
 	
 	// superiors/employees
 	
+	public function isSuperior($a_user_id) {
+		return count($this->getOrgUnitsWhereUserIsDirectSuperior()) > 0;
+	}
+	
 	public function isSuperiorOf($a_user_id) {
 		require_once("Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php");
 		$tree = ilObjOrgUnitTree::_getInstance();

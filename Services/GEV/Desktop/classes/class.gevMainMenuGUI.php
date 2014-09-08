@@ -64,7 +64,7 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 
 		$employee_booking = false;
 		$my_org_unit = false;
-		$tep = $tep_permissions->isTutor();
+		$tep = $this->userUtils->isAdmin() || $tep_permissions->isTutor();
 		$pot_participants = false;
 		$apprentices = false;
 		
@@ -76,7 +76,7 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 		//$report_permissions->getOrgUnitIdsWhereUserHasRole(array());
 		//die();
 
-		$report_permission_attendancebyuser = $this->userUtils->isAdmin() || count($this->userUtils->getOrgUnitsWhereUserIsDirectSuperior()) > 0 ;
+		$report_permission_attendancebyuser = $this->userUtils->isSuperior();// || $this->userUtils->isAdmin();
 		$has_reporting_menu = $report_permission_attendancebyuser; // || ....
 
 		$is_trainer = false;//$tep; // $tep_permissions->isTutor();

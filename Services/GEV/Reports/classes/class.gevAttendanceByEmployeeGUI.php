@@ -61,15 +61,10 @@ class gevAttendanceByEmployeeGUI {
 	
 	protected function checkPermission() {
 
-		if( $this->user_utils->isAdmin() ) { 
+		if( $this->user_utils->isAdmin() || $this->user_utils->isSuperior()) { 
 			return;
-		} else {
-			//is superior anywhere?
-			if ($this->user_utils->getEmployees()){
-				return;
-			}
-
 		}
+		
 		ilUtil::sendFailure($this->lng->txt("no_report_permission"), true);
 		ilUtil::redirect("ilias.php?baseClass=gevDesktopGUI&cmdClass=toMyCourses");
 	}

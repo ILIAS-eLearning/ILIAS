@@ -263,7 +263,8 @@ class gevSettings {
 	// Names of roles that count as admins
 	static $ADMIN_ROLES = array(
 		  "Administrator"
-		, "eingeschränkter Admin"
+		, "Administrator-eingeschränkt"
+		, "Administrator-Voll"
 		);
 	
 	// Names of roles that count as superiors
