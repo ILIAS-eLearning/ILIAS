@@ -57,6 +57,9 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
 		$this->lng->loadLanguageModule('trac');
 	 	$this->ctrl = $ilCtrl;
 		
+		
+        $this->setId('sess_'.$a_type.'_'.$a_parent_obj->object->getId());
+		
 		parent::__construct($a_parent_obj,'members');
 		
 		$this->setFormName('participants');
@@ -74,7 +77,7 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
 				break;
 		}
 		
-		
+		$this->setShowRowsSelector(TRUE);
 		
 		if($a_show_content)
 		{
