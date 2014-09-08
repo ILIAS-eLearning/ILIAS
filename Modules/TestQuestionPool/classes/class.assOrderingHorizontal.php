@@ -833,9 +833,15 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
 		$elements = $this->getOrderingElements();
 		$solutions = array();
 
-		foreach($answer_elements as $key => $answer)
+		foreach($answer_elements as $answer)
 		{
-			$result->addKeyValue($key+1, $answer);
+			foreach($elements as $key => $element)
+			{
+				if($element == $answer)
+				{
+					$result->addKeyValue($key+1, $answer);
+				}
+			}
 		}
 
 		$glue = " ";
