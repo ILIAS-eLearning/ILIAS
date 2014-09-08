@@ -297,7 +297,7 @@ class ilPageQuestionProcessor
 	 * @param	int		question id
 	 * @return	array
 	 */
-	static function getAnswerStatus($a_q_id, $a_user_id)
+	static function getAnswerStatus($a_q_id, $a_user_id = 0)
 	{
 		global $ilDB;
 
@@ -305,9 +305,13 @@ class ilPageQuestionProcessor
 			? $ilDB->in("qst_id", $a_q_id, false, "integer")
 			: " qst_id = ".$ilDB->quote($a_q_id, "integer");
 
+		$and = ($a_user_id > 0)
+			? " AND user_id = ".$ilDB->quote($a_user_id, "integer")
+			: "";
+
 		$set = $ilDB->query("SELECT * FROM page_qst_answer WHERE ".
 			$qst.
-			" AND user_id = ".$ilDB->quote($a_user_id, "integer")
+			$and
 		);
 
 		if (is_array($a_q_id))

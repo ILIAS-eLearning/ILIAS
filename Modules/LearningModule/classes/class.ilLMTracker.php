@@ -28,8 +28,11 @@ class ilLMTracker
 	protected $page_questions = array();
 	protected $all_questions = array();
 	protected $answer_status = array();
+	protected $has_incorrect_answers = false;
+	protected $current_page_id = 0;
 
 	static $instances = array();
+	static $instancesbyobj = array();
 
 	////
 	//// Constructing
@@ -40,10 +43,20 @@ class ilLMTracker
 	 *
 	 * @param ilObjLearningModule $a_lm learning module
 	 */
-	private function __construct($a_ref_id)
+	private function __construct($a_id, $a_by_obj_id = false, $a_user_id)
 	{
-		$this->lm_ref_id = $a_ref_id;
-		$this->lm_obj_id = ilObject::_lookupObjId($a_ref_id);
+		$this->user_id = $a_user_id;
+
+		if ($a_by_obj_id)
+		{
+			$this->lm_ref_id = 0;
+			$this->lm_obj_id = $a_id;
+		}
+		else
+		{
+			$this->lm_ref_id = $a_id;
+			$this->lm_obj_id = ilObject::_lookupObjId($a_id);
+		}
 
 		include_once("./Modules/LearningModule/classes/class.ilLMTree.php");
 		$this->lm_tree = ilLMTree::getInstance($this->lm_obj_id);
@@ -55,13 +68,42 @@ class ilLMTracker
 	 * @param
 	 * @return
 	 */
-	static function getInstance($a_ref_id)
+	static function getInstance($a_ref_id, $a_user_id = 0)
 	{
-		if (!isset(self::$instances[$a_ref_id]))
+		global $ilUser;
+
+		if ($a_user_id == 0)
 		{
-			self::$instances[$a_ref_id] = new ilLMTracker($a_ref_id);
+			$a_user_id = $ilUser->getId();
 		}
-		return self::$instances[$a_ref_id];
+
+		if (!isset(self::$instances[$a_ref_id][$a_user_id]))
+		{
+			self::$instances[$a_ref_id][$a_user_id] = new ilLMTracker($a_ref_id, false, $a_user_id);
+		}
+		return self::$instances[$a_ref_id][$a_user_id];
+	}
+
+	/**
+	 * Get instance
+	 *
+	 * @param
+	 * @return
+	 */
+	static function getInstanceByObjId($a_obj_id, $a_user_id = 0)
+	{
+		global $ilUser;
+
+		if ($a_user_id == 0)
+		{
+			$a_user_id = $ilUser->getId();
+		}
+
+		if (!isset(self::$instancesbyobj[$a_obj_id][$a_user_id]))
+		{
+			self::$instancesbyobj[$a_obj_id][$a_user_id] = new ilLMTracker($a_obj_id, true, $a_user_id);
+		}
+		return self::$instancesbyobj[$a_obj_id][$a_user_id];
 	}
 
 	////
@@ -75,23 +117,26 @@ class ilLMTracker
 	 */
 	function trackAccess($a_page_id)
 	{
-		global $ilUser;
+		if ($this->lm_ref_id == 0)
+		{
+			die("ilLMTracker: No Ref Id given.");
+		}
 
 		// track page and chapter access
 		$this->trackPageAndChapterAccess($a_page_id);
 
 		// track last page access (must be done after calling trackPageAndChapterAccess())
-		$this->trackLastPageAccess($ilUser->getId(), $this->lm_ref_id, $a_page_id);
+		$this->trackLastPageAccess($this->user_id, $this->lm_ref_id, $a_page_id);
 
 		// #9483
 		// general learning module lp tracking
 		include_once("./Services/Tracking/classes/class.ilLearningProgress.php");
-		ilLearningProgress::_tracProgress($ilUser->getId(), $this->lm_obj_id,
+		ilLearningProgress::_tracProgress($this->user_id, $this->lm_obj_id,
 			$this->lm_ref_id, "lm");
 
 		// obsolete?
 		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
-		ilLPStatusWrapper::_updateStatus($this->lm_obj_id, $ilUser->getId());
+		ilLPStatusWrapper::_updateStatus($this->lm_obj_id, $this->user_id);
 
 		// mark currently loaded data as dirty to force reload if necessary
 		$this->dirty = true;
@@ -133,7 +178,7 @@ class ilLMTracker
 	 */
 	protected function trackPageAndChapterAccess($a_page_id)
 	{
-		global $ilDB, $ilUser;
+		global $ilDB;
 
 
 		//
@@ -141,12 +186,12 @@ class ilLMTracker
 		//
 		$set = $ilDB->query("SELECT obj_id FROM lm_read_event".
 			" WHERE obj_id = ".$ilDB->quote($a_page_id, "integer").
-			" AND usr_id = ".$ilDB->quote($ilUser->getId(), "integer"));
+			" AND usr_id = ".$ilDB->quote($this->user_id, "integer"));
 		if (!$ilDB->fetchAssoc($set))
 		{
 			$fields = array(
 				"obj_id" => array("integer", $a_page_id),
-				"usr_id" => array("integer", $ilUser->getId())
+				"usr_id" => array("integer", $this->user_id)
 			);
 			$ilDB->insert("lm_read_event", $fields);
 		}
@@ -156,7 +201,7 @@ class ilLMTracker
 			" read_count = read_count + 1 ".
 			" , last_access = ".$ilDB->quote($now, "integer").
 			" WHERE obj_id = ".$ilDB->quote($a_page_id, "integer").
-			" AND usr_id = ".$ilDB->quote($ilUser->getId(), "integer"));
+			" AND usr_id = ".$ilDB->quote($this->user_id, "integer"));
 
 
 		//
@@ -165,7 +210,7 @@ class ilLMTracker
 
 		// get last accessed page
 		$set = $ilDB->query("SELECT * FROM lo_access WHERE ".
-			"usr_id = ".$ilDB->quote($ilUser->getId(), "integer")." AND ".
+			"usr_id = ".$ilDB->quote($this->user_id, "integer")." AND ".
 			"lm_id = ".$ilDB->quote($this->lm_ref_id, "integer"));
 		$res = $ilDB->fetchAssoc($set);
 		if($res["obj_id"])
@@ -210,7 +255,7 @@ class ilLMTracker
 				$ex_st = array();
 				$set = $ilDB->query("SELECT obj_id FROM lm_read_event".
 					" WHERE ".$ilDB->in("obj_id", $parent_st_ids, "", "integer").
-					" AND usr_id = ".$ilDB->quote($ilUser->getId(), "integer"));
+					" AND usr_id = ".$ilDB->quote($this->user_id, "integer"));
 				while($row = $ilDB->fetchAssoc($set))
 				{
 					$ex_st[] = $row["obj_id"];
@@ -224,7 +269,7 @@ class ilLMTracker
 					{
 						$fields = array(
 							"obj_id" => array("integer", $st_id),
-							"usr_id" => array("integer", $ilUser->getId())
+							"usr_id" => array("integer", $this->user_id)
 						);
 						$ilDB->insert("lm_read_event", $fields);
 					}
@@ -236,7 +281,7 @@ class ilLMTracker
 					" , spent_seconds = spent_seconds + ".$ilDB->quote($time_diff, "integer").
 					" , last_access = ".$ilDB->quote($now, "integer").
 					" WHERE ".$ilDB->in("obj_id", $parent_st_ids, "", "integer").
-					" AND usr_id = ".$ilDB->quote($ilUser->getId(), "integer"));
+					" AND usr_id = ".$ilDB->quote($this->user_id, "integer"));
 			}
 		}
 	}
@@ -274,7 +319,7 @@ class ilLMTracker
 	 */
 	protected function loadLMTrackingData()
 	{
-		global $ilDB, $ilUser;
+		global $ilDB;
 
 		// we must prevent loading tracking data multiple times during a request where possible
 		// please note that the dirty flag works only to a certain limit
@@ -324,12 +369,32 @@ class ilLMTracker
 
 		// load question answer information
 		include_once("./Services/COPage/classes/class.ilPageQuestionProcessor.php");
-		$this->answer_status = ilPageQuestionProcessor::getAnswerStatus($this->all_questions, $ilUser->getId());
+		$this->answer_status = ilPageQuestionProcessor::getAnswerStatus($this->all_questions, $this->user_id);
+
+		$this->has_incorrect_answers = false;
 
 		$has_pred_incorrect_answers = false;
 		$has_pred_incorrect_not_unlocked_answers = false;
 		$this->determineProgressStatus($this->lm_tree->readRootId(), $has_pred_incorrect_answers, $has_pred_incorrect_not_unlocked_answers);
+
+		$this->has_incorrect_answers = $has_pred_incorrect_answers;
 	}
+
+	/**
+	 * Have all questoins been answered correctly (and questions exist)?
+	 *
+	 * @return bool true, if learning module contains any question and all questions (in the chapter structure) have been answered correctly
+	 */
+	function getAllQuestionsCorrect()
+	{
+		$this->loadLMTrackingData();
+		if (count($this->all_questions) > 0 && !$this->has_incorrect_answers)
+		{
+			return true;
+		}
+		return false;
+	}
+
 
 	/**
 	 * Determine progress status of nodes
@@ -540,7 +605,7 @@ class ilLMTracker
 
 		// load question answer information
 		include_once("./Services/COPage/classes/class.ilPageQuestionProcessor.php");
-		$this->answer_status = ilPageQuestionProcessor::getAnswerStatus($this->all_questions, $ilUser->getId());
+		$this->answer_status = ilPageQuestionProcessor::getAnswerStatus($this->all_questions);
 
 		include_once("./Modules/LearningModule/classes/class.ilLMPageObject.php");
 		foreach ($this->answer_status as $as)
