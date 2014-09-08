@@ -58,7 +58,7 @@ class ilParticipationStatusAdminGUI
 		}
 		
 		$lng->loadLanguageModule("ptst");
-		
+	
 		$this->setParticipationStatus(ilParticipationStatus::getInstance($this->getCourse()));
 	}
 	

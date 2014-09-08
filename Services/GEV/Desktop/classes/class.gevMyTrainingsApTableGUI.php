@@ -89,32 +89,7 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 		else {
 			$date = ilDatePresentation::formatPeriod($a_set["start_date"], $a_set["end_date"]);
 		}
-/*
-		
-		if ($a_set["status"] == ilCourseBooking::STATUS_BOOKED) {
-			$status = $this->booked_img;
-		}
-		else if($a_set["status"] == ilCourseBooking::STATUS_WAITING) {
-			$status = $this->waiting_img;
-		}
-		else {
-			$status = "";
-		}
 
-		$now = new ilDate(date("Y-m-d"), IL_CAL_DATE);
-		$show_cancel_link = 
-			( $a_set["start_date"] === null 
-			|| ilDateTime::_before($now, $a_set["start_date"] !== null?$a_set["start_date"]:$now)
-			)
-			&& $a_set["type"] != "Selbstlernkurs";
-		if ($show_cancel_link) {
-			$action = '<a href="'.gevCourseUtils::getCancelLinkTo($a_set["obj_id"], $this->user_id).'">'.
-					  $this->cancel_img."</a>";
-		}
-		else {
-			$action = "";
-		}
-*/
 		
 		$mbrs = $a_set['mbr_booked'] .' (' .$a_set['mbr_waiting'] .')'
 				.' / ' .$a_set['mbr_min'] .'-' .$a_set['mbr_max'];
@@ -132,22 +107,14 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 		$setstatus_link = $this->ctrl->getLinkTarget($this->parent_obj, 'listStatus')
 							.'&crsrefid=' .$a_set['crs_ref_id'];
 		
-		
-
 		$show_set_stat_link = false;
-		/*
-		global $tree;
-		if(ilObject::_lookupType($a_set['crs_ref_id'], true) != "crs" ||
-			$tree->isDeleted($a_set['crs_ref_id'])){
-			//print 'invalid id: ' . $a_set['crs_ref_id'];
-		} else {
-			$ptstatus_admingui =  ilParticipationStatusAdminGUI::getInstanceByRefId($a_set['crs_ref_id'], true);
-			$show_set_stat_link = $ptstatus_admingui->mayWrite();
-		}
-		*/
 		//second parameter: from_foreign class
+		
 		$ptstatus_admingui =  ilParticipationStatusAdminGUI::getInstanceByRefId($a_set['crs_ref_id'], true);
-		if($ptstatus_admingui){
+		
+		//Q: how can Participationstatus be empty?!
+		//A: user has no permissions for ParticipationStatus at Course
+		if($ptstatus_admingui && $ptstatus_admingui->getParticipationstatus()){
 			$show_set_stat_link = $ptstatus_admingui->mayWrite();
 		}
 
