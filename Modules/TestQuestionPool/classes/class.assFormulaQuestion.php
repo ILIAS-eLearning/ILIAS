@@ -6,7 +6,6 @@ include_once "./Modules/TestQuestionPool/classes/class.assFormulaQuestionResult.
 include_once "./Modules/TestQuestionPool/classes/class.assFormulaQuestionVariable.php";
 include_once "./Modules/TestQuestionPool/classes/class.ilUnitConfigurationRepository.php";
 include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
-require_once './Modules/TestQuestionPool/interfaces/interface.iQuestionCondition.php';
 
 /**
  * Class for single choice questions
@@ -15,7 +14,7 @@ require_once './Modules/TestQuestionPool/interfaces/interface.iQuestionCondition
  * @version       $Id: class.assFormulaQuestion.php 1236 2010-02-15 15:44:16Z hschottm $
  * @ingroup       ModulesTestQuestionPool
  */
-class assFormulaQuestion extends assQuestion implements iQuestionCondition
+class assFormulaQuestion extends assQuestion
 {
 	private $variables;
 	private $results;

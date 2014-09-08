@@ -1266,4 +1266,24 @@ class assSingleChoice extends assQuestion implements  ilObjQuestionScoringAdjust
 
 		return $result;
 	}
+
+	/**
+	 * If index is null, the function returns an array with all anwser options
+	 * Else it returns the specific answer option
+	 *
+	 * @param null|int $index
+	 *
+	 * @return array|ASS_AnswerSimple
+	 */
+	public function getAvailableAnswerOptions($index = null)
+	{
+		if($index != null)
+		{
+			$this->getAnswer($index);
+		}
+		else
+		{
+			$this->getAnswers();
+		}
+	}
 }

@@ -1036,4 +1036,17 @@ class assJavaApplet extends assQuestion implements ilObjQuestionScoringAdjustabl
 	{
 		// TODO: Implement getUserQuestionResult() method.
 	}
+
+	/**
+	 * If index is null, the function returns an array with all anwser options
+	 * Else it returns the specific answer option
+	 *
+	 * @param null|int $index
+	 *
+	 * @return array|ASS_AnswerSimple
+	 */
+	public function getAvailableAnswerOptions($index = null)
+	{
+		// TODO: Implement getAvailableAnswerOptions() method.
+	}
 }
