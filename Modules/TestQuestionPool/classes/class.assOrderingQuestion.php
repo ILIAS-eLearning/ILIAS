@@ -1519,13 +1519,26 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		$elements = array();
 		while($row = $ilDB->fetchAssoc($data))
 		{
+
 			$newKey = explode(":", $row["value2"]);
+
 			foreach($this->getAnswers() as $key => $answer)
 			{
-				if($answer->getRandomId() == $newKey[1])
+				if($this->getOrderingType() == OQ_TERMS)
 				{
-					$elements[$key] = $row["value1"];
-					break;
+					if($answer->getAnswerText() == $row["value2"])
+					{
+						$elements[$key] = $row["value1"];
+						break;
+					}
+				}
+				else
+				{
+					if($answer->getRandomId() == $newKey[0])
+					{
+						$elements[$key] = $row["value1"];
+						break;
+					}
 				}
 			}
 		}

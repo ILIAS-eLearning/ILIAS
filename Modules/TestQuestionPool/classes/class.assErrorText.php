@@ -248,7 +248,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
 		// copy XHTML media objects
 		$clone->copyXHTMLMediaObjectsOfQuestion($this_id);
 
-		$clone->onDuplicate($this_id, $clone->getId());
+		$clone->onDuplicate($thisObjId, $this_id, $clone->getObjId(), $clone->getId());
 		return $clone->id;
 	}
 
@@ -1339,6 +1339,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
 			iQuestionCondition::PercentageResultExpression,
 			iQuestionCondition::NumberOfResultExpression,
 			iQuestionCondition::EmptyAnswerExpression,
+			iQuestionCondition::ExclusiveResultExpression
 		);
 	}
 
