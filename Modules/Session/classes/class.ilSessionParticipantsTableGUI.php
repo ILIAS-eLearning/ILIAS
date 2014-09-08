@@ -32,9 +32,11 @@ include_once('./Services/Table/classes/class.ilTable2GUI.php');
 */
 class ilSessionParticipantsTableGUI extends ilTable2GUI
 {
-	const TYPE_ADMIN = 'admin';
-	const TYPE_TUTOR = 'tutor';
-	const TYPE_MEMBER = 'member';
+	const TYPE_ADMIN = 'admins';
+	const TYPE_TUTOR = 'tutors';
+	const TYPE_MEMBER = 'members';
+	
+	private $role_type = '';
 	
 	private $session_participants = null;
 	private $participants = array();
@@ -57,6 +59,8 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
 		$this->lng->loadLanguageModule('trac');
 	 	$this->ctrl = $ilCtrl;
 		
+		$this->role_type = $a_type;
+		
 		
         $this->setId('sess_'.$a_type.'_'.$a_parent_obj->object->getId());
 		
@@ -76,7 +80,7 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
 				$this->setPrefix('member');
 				break;
 		}
-		
+		$this->setSelectAllCheckbox($this->getRoleType());
 		$this->setShowRowsSelector(TRUE);
 		
 		if($a_show_content)
@@ -96,6 +100,11 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
 		}		
 
 		$this->session_participants = new ilEventParticipants($this->getParentObject()->object->getId());
+	}
+	
+	public function getRoleType()
+	{
+		return $this->role_type;
 	}
 	
 	/**
@@ -183,6 +192,8 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
 	 */
 	public function fillRow($a_set)
 	{		
+		$this->tpl->setVariable('VAL_POSTNAME',$this->getRoleType());
+
 		if($this->isRegistrationEnabled())
 		{
 			$this->tpl->setCurrentBlock('registered_col');
@@ -211,8 +222,9 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
 	protected function init()
 	{
 		$this->setFormName('participants');
-		$this->setFormAction($this->ctrl->getFormAction($this->getParentObject(),'members'));
+		#$this->setFormAction($this->ctrl->getFormAction($this->getParentObject(),'members'));
 
+        $this->addColumn('','f',"1");
 	 	$this->addColumn($this->lng->txt('lastname'),'name','30%');
 	 	$this->addColumn($this->lng->txt('trac_mark'),'mark');
 	 	$this->addColumn($this->lng->txt('trac_comment'),'comment');

@@ -14697,3 +14697,6 @@ wiki#:#wiki_purpose#:#Purpose###08 09 2014 new variable
 wiki#:#wiki_select_one_item#:#Please select one item.###08 09 2014 new variable
 trac#:#trac_mode_questions#:#Fragen
 trac#:#trac_mode_questions_info#:#Nutzer, die alle Fragen richtig beantwortet haben, erhalten den Status 'Bearbeitet'.
+mmbr#:#mmbr_selected_users#:#Ausgewählte Teilnehmer
+mmbr#:#mmbr_btn_mail_selected_users#:#Mail verschicken
+sess#:#sess_mail_permanent_link#:#Wählen Sie den folgenden Link, um auf den Sitzungsinhalt zuzugreifen:

@@ -12,7 +12,7 @@ include_once './Services/PersonalDesktop/interfaces/interface.ilDesktopItemHandl
 * @version $Id$
 * 
 * @ilCtrl_Calls ilObjSessionGUI: ilPermissionGUI, ilInfoScreenGUI, ilObjectCopyGUI
-* @ilCtrl_Calls ilObjSessionGUI: ilExportGUI, ilCommonActionDispatcherGUI
+* @ilCtrl_Calls ilObjSessionGUI: ilExportGUI, ilCommonActionDispatcherGUI, ilMembershipGUI
 *
 * @ingroup ModulesSession 
 */
@@ -103,6 +103,14 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 				include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
 				$gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
 				$this->ctrl->forwardCommand($gui);
+				break;
+			
+			case 'ilmembershipgui':
+				
+				$this->ctrl->setReturn($this,'members');
+				include_once './Services/Membership/classes/class.ilMembershipGUI.php';
+				$mem = new ilMembershipGUI($this);
+				$this->ctrl->forwardCommand($mem);
 				break;
 		
 			default:
@@ -1041,11 +1049,13 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 			$table->parse();
 			$this->tpl->setVariable('MEMBERS',$table->getHTML());
 		}
-
 		
 		
-		
-		
+		$GLOBALS['lng']->loadLanguageModule('mmbr');
+		$this->tpl->setVariable('FORMACTION',$this->ctrl->getFormAction($this));
+		$this->tpl->setVariable('TXT_SELECTED_USER',$this->lng->txt('mmbr_selected_users'));
+		$this->tpl->setVariable('BTN_FOOTER_MAIL',$this->lng->txt('mmbr_btn_mail_selected_users'));
+		$this->tpl->setVariable('ARROW_DOWN',ilUtil::getImagePath('arrow_downright.png'));
 	}
 	
 	/**
@@ -1814,5 +1824,17 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->ctrl->redirect($this, "materials");
 		*/
 	}	
+	
+	/**
+	 * Send mail to selected users
+	 */
+	protected function sendMailToSelectedUsersObject()
+	{
+		$GLOBALS['ilCtrl']->setReturn($this,'members');
+		$GLOBALS['ilCtrl']->setCmdClass('ilmembershipgui');
+		include_once './Services/Membership/classes/class.ilMembershipGUI.php';
+		$mem = new ilMembershipGUI($this);
+		$GLOBALS['ilCtrl']->forwardCommand($mem);
+	}
 }
 ?>

@@ -2,13 +2,27 @@
 
 <!-- BEGIN admin_block -->
 <br/>
-{ADMINS}
-<!-- END admin_block -->
-<!-- BEGIN tutor_block -->
-<br/>
-{TUTORS}
-<!-- END tutor_block -->
-<!-- BEGIN member_block -->
-<br/>
-{MEMBERS}
-<!-- END member_block -->
+<form method="post" name="participants" action="{FORMACTION}">
+	{ADMINS}
+	<!-- END admin_block -->
+	<!-- BEGIN tutor_block -->
+	<br/>
+	{TUTORS}
+	<!-- END tutor_block -->
+	<!-- BEGIN member_block -->
+	<br/>
+	{MEMBERS}
+	<!-- END member_block -->
+	<table class="fullwidth ilClearFloat">
+		<tr class="tblheader">
+			<td>{TXT_SELECTED_USER}</td>
+		</tr>
+		<tr>
+			<td class="submit">
+				<img src="{ARROW_DOWN}" alt="{ARROW_ALT}" />
+				<input class="submit" name="cmd[sendMailToSelectedUsers]" value="{BTN_FOOTER_MAIL}" type="submit" />
+			</td>
+		</tr>
+	</table>
+</form>
+
