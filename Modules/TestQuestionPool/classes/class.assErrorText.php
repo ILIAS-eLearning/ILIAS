@@ -1337,7 +1337,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
 	{
 		return array(
 			iQuestionCondition::PercentageResultExpression,
-			iQuestionCondition::NumericResultExpression
+			iQuestionCondition::NumberOfResultExpression
 		);
 	}
 
