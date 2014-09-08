@@ -14300,3 +14300,4 @@ content#:#cont_ie_compatibility#:#Internet Explorer 7 Kompatibilitätsmodus
 content#:#cont_ie_compatibility_info#:#Insbesondere für ältere Lernmodule kann das Aktivieren des Kompatibilitätsmodus hilfreich sein. Bitte beachten Sie, dass bei neueren Versionen des Internet Explorer der Kompatibilitätsmodus deaktiviert werden kann.
 content#:#cont_ie_force_render#:#Internet Explorer neu rendern lassen
 content#:#cont_ie_force_render_info#:#Aktivieren Sie diese Option nur wenn Inhalte des Lernmoduls im Internet Explorer auf Grund vieler Frames oder iFrames nicht korrekt angezeigt werden. Die Anzeige des Lernmoduls muss in einem neuen Fenster erfolgen.
+exc#:#exc_peer_deadline_mismatch#:#Da das Feedback nach der Deadline gegeben wird, darf die Feedback-Deadline nicht vor der Übungs-Deadline liegen.
