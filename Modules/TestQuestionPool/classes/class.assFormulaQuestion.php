@@ -1420,7 +1420,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 	{
 		if($index !== null)
 		{
-			return $this->getResult('$r'.$index);
+			return $this->getResult('$r'.($index+1));
 		}
 		else
 		{
