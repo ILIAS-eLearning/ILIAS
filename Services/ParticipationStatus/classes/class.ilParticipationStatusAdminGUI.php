@@ -187,7 +187,10 @@ class ilParticipationStatusAdminGUI
 		{
 
 			// gev-patch start
-			/*$this->setTabs("listStatus");
+			/*
+			$this->setTabs("listStatus");
+			*/
+			// gev-patch end
 			
 			ilDatePresentation::setUseRelativeDates(false);
 			$start = $helper->getStartForParticipationStatusSetting();
@@ -195,28 +198,18 @@ class ilParticipationStatusAdminGUI
 				ilUtil::sendInfo(sprintf($lng->txt("ptst_admin_start_date_not_reached"), 
 					ilDatePresentation::formatDate($start)));
 			}
-			*/
-			ilDatePresentation::setUseRelativeDates(false);
-			$start = $helper->getStartForParticipationStatusSetting();
-			if ($start !== null) {
-				ilUtil::sendInfo(sprintf($lng->txt("ptst_admin_start_date_not_reached"), 
-					ilDatePresentation::formatDate($start)));
-			}
-
+			
+			// gev-patch start
 			if($this->from_foreign_class) {
 				$trgt = "listStatus&crsrefid=" .$this->crs_ref_id;
 				$ilTabs->clearTargets();
 				$ilTabs->setBackTarget($lng->txt("back"),
 					$ilCtrl->getLinkTarget($this, $trgt));
-		
 			}else{
-
 				$this->setTabs("listStatus");
-			
 			}
 			// gev-patch end
-
-			
+		
 		}
 		else
 		{
