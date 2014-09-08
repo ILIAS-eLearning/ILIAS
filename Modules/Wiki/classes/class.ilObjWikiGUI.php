@@ -647,14 +647,28 @@ class ilObjWikiGUI extends ilObjectGUI
 		$this->form_gui->addItem($intro);
 
 		// Start Page
-		$sp = new ilTextInputGUI($lng->txt("wiki_start_page"), "startpage");
 		if ($a_mode == "edit")
 		{
-			$sp->setInfo($lng->txt("wiki_start_page_info"));
+			$pages = ilWikiPage::getAllPages($this->object->getId());
+			foreach ($pages as $p)
+			{
+				$options[$p["id"]] = ilUtil::shortenText($p["title"], 60, true);
+			}
+			$si = new ilSelectInputGUI($lng->txt("wiki_start_page"), "startpage_id");
+			$si->setOptions($options);
+			$this->form_gui->addItem($si);
 		}
-		$sp->setMaxLength(200);
-		$sp->setRequired(true);
-		$this->form_gui->addItem($sp);
+		else
+		{
+			$sp = new ilTextInputGUI($lng->txt("wiki_start_page"), "startpage");
+			if ($a_mode == "edit")
+			{
+				$sp->setInfo($lng->txt("wiki_start_page_info"));
+			}
+			$sp->setMaxLength(200);
+			$sp->setRequired(true);
+			$this->form_gui->addItem($sp);
+		}
 
 		// Online
 		$online = new ilCheckboxInputGUI($lng->txt("online"), "online");
@@ -740,7 +754,7 @@ class ilObjWikiGUI extends ilObjectGUI
 		// set values
 		if ($a_mode == "create")
 		{
-			$values["startpage"] = $lng->txt("wiki_main_page");
+			//$values["startpage"] = $lng->txt("wiki_main_page");
 			$values["rating_new"] = true;
 			
 			$values["rating_overall"] = ilObject::hasAutoRating("wiki", $_GET["ref_id"]);
@@ -751,7 +765,8 @@ class ilObjWikiGUI extends ilObjectGUI
 		{
 			$values["online"] = $this->object->getOnline();
 			$values["title"] = $this->object->getTitle();
-			$values["startpage"] = $this->object->getStartPage();
+			//$values["startpage"] = $this->object->getStartPage();
+			$values["startpage_id"] = ilWikiPage::_getPageIdForWikiTitle($this->object->getId(), $this->object->getStartPage());
 			$values["shorttitle"] = $this->object->getShortTitle();
 			$values["description"] = $this->object->getLongDescription();
 			$values["rating_overall"] = $this->object->getRatingOverall();
@@ -794,7 +809,7 @@ class ilObjWikiGUI extends ilObjectGUI
 				$this->object->setTitle($this->form_gui->getInput("title"));
 				$this->object->setDescription($this->form_gui->getInput("description"));
 				$this->object->setOnline($this->form_gui->getInput("online"));
-				$this->object->setStartPage($this->form_gui->getInput("startpage"));
+				$this->object->setStartPage(ilWikiPage::lookupTitle($this->form_gui->getInput("startpage_id")));
 				$this->object->setShortTitle($this->form_gui->getInput("shorttitle"));
 				$this->object->setRatingOverall($this->form_gui->getInput("rating_overall"));
 				$this->object->setRating($this->form_gui->getInput("rating"));
@@ -1702,9 +1717,6 @@ class ilObjWikiGUI extends ilObjectGUI
 
 	/**
 	 * Save important pages ordering and indentation
-	 *
-	 * @param
-	 * @return
 	 */
 	function saveOrderingAndIndentObject()
 	{
@@ -1716,6 +1728,30 @@ class ilObjWikiGUI extends ilObjectGUI
 		ilUtil::sendSuccess($lng->txt("wiki_ordering_and_indent_saved"), true);
 		$ilCtrl->redirect($this, "editImportantPages");
 	}
+
+	/**
+	 * Confirm important pages deletion
+	 */
+	function setAsStartPageObject()
+	{
+		global $ilCtrl, $lng;
+
+		$this->checkPermission("write");
+
+		if (!is_array($_POST["imp_page_id"]) || count($_POST["imp_page_id"]) != 1)
+		{
+			ilUtil::sendInfo($lng->txt("wiki_select_one_item"), true);
+		}
+		else
+		{
+			$this->object->removeImportantPage((int) $_POST["imp_page_id"][0]);
+			$this->object->setStartPage(ilWikiPage::lookupTitle((int) $_POST["imp_page_id"][0]));
+			$this->object->update();
+			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
+		}
+		$ilCtrl->redirect($this, "editImportantPages");
+	}
+
 
 	/**
 	 * Create html package
