@@ -983,11 +983,11 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
 	{
 		if($index != null)
 		{
-			$this->getAnswer($index);
+			return $this->getAnswer($index);
 		}
 		else
 		{
-			$this->getAnswers();
+			return $this->getAnswers();
 		}
 	}
 }
