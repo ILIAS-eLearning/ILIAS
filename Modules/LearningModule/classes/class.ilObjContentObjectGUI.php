@@ -552,6 +552,8 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 	*/
 	function saveProperties()
 	{
+		global $lng;
+
 		$valid = false;
 		$this->initPropertiesForm();
 		if ($this->form->checkInput())
@@ -611,8 +613,12 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		}
 		else
 		{
+			$lng->loadLanguageModule("style");
+			$this->setTabs("settings");
+			$this->setSubTabs("cont_general_properties");
+
 			$this->form->setValuesByPost();
-			$tpl->setContent($this->form->getHTML());
+			$this->tpl->setContent($this->form->getHTML());
 		}
 	}
 
