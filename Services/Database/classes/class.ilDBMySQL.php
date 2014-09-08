@@ -455,7 +455,7 @@ class ilDBMySQL extends ilDB
 		}
 		// STORE NEW max_size in member variable
 		$query = "SHOW VARIABLES LIKE 'max_allowed_packet'";
-		$res = $this->db->query($query);
+		$res = $this->query($query);
 
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
