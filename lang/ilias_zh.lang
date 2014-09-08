@@ -14285,3 +14285,17 @@ survey#:#svy_eval_skipped_value_lng_info#:#Current value: "%s"###20 07 2014 new 
 survey#:#svy_eval_skipped_value_custom#:#Use custom value###20 07 2014 new variable
 survey#:#svy_eval_skipped_value_custom_info#:#Define any (or empty) value to use for skipped answers###20 07 2014 new variable
 survey#:#svy_eval_skipped_value_custom_value#:#Value###20 07 2014 new variable
+dateplaner#:#cal_export_timezone#:#Timezone for Calendar Export###08 09 2014 new variable
+dateplaner#:#cal_export_timezone_tz#:#Use ILIAS-Timezone###08 09 2014 new variable
+dateplaner#:#cal_export_timezone_utc#:#Use Timezone UTC (compatible with MS Outlook)###08 09 2014 new variable
+mail#:#back_to_folder#:#Back to Folder###08 09 2014 new variable
+mail#:#current_folder#:#Current Folder: %s###08 09 2014 new variable
+cron#:#cron_no_executable_job_selected#:#Please select at least one executable cron-job.###08 09 2014 new variable
+mail#:#mail_max_size_attachments_total#:#Please enter the maximum file size allowed as attachment per mail. This setting is not related to other resource limits, e.g. upload_max_filesize etc. (since you can attach multiple files). ###08 09 2014 new variable
+mail#:#mail_max_size_attachments_total_error#:#The allowed attachment size is:###08 09 2014 new variable
+user#:#passwd_generation_pre#:#Pre-defined Passwords###08 09 2014 new variable
+content#:#cont_ie_compatibility#:#Internet Explorer 7 compatibility mode###08 09 2014 new variable
+content#:#cont_ie_compatibility_info#:#Especially for older learning modules it can be helpful to activate the compatibility mode. Please note that the compatibility mode can be disabled in newer versions of Internet Explorer.###08 09 2014 new variable
+content#:#cont_ie_force_render#:#Force Internet Explorer to render again###08 09 2014 new variable
+content#:#cont_ie_force_render_info#:#Enable this option only if content of the learning module is not displayed correctly with Internet Explorer due to many frames or iframes. Additionally you have to set the option 'Display' to 'in new window'.###08 09 2014 new variable
+exc#:#exc_peer_deadline_mismatch#:#As feedback is given after the deadline has passed the feedback deadline must not be earlier than the assignment deadline.###08 09 2014 new variable

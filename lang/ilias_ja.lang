@@ -40,7 +40,6 @@ administration#:#adm_add_settings_template#:#テンプレート追加
 administration#:#adm_adm_role_protect#:#管理者役割を保護
 administration#:#adm_adm_role_protect_info#:#有効にすると管理者だけしか管理者役割とユーザ間の割り当て・解除ができなくなります。
 administration#:#adm_basic#:#基本
-administration#:#adm_captcha_anonymous#:# (掲示板/Wiki/Login/登録)匿名用Captcha(画像認証)を有効化。有効にするとシステムアクセス性に影響の可能性があることに注意願います。
 administration#:#adm_captcha_anonymous_auth#:#匿名ログインフォーム用のCaptcha(画像認証)を有効化。有効にするとシステムアクセス性に影響の可能性があることに注意願います。
 administration#:#adm_captcha_anonymous_frm#:#掲示板の匿名用Captcha(画像認証)を有効化。有効にするとシステムアクセス性に影響の可能性があることに注意願います。
 administration#:#adm_captcha_anonymous_reg#:#登録フォームの匿名用Captcha(画像認証)を有効化。有効にするとシステムアクセス性に影響の可能性があることに注意願います。
@@ -837,10 +836,6 @@ assessment#:#oq_btn_use_order_pictures#:#解答図を使用する
 assessment#:#oq_btn_use_order_terms#:#解答用語を使用する
 assessment#:#oq_header_ordering_elements#:#要素順
 assessment#:#or#:#または
-assessment#:#order_nested_pictures#:#図形式のネスト表示に切り替える
-assessment#:#order_nested_terms#:#用語形式のネスト表示に切り替える
-assessment#:#order_pictures#:#図の解答を使用
-assessment#:#order_terms#:#用語の解答を使用
 assessment#:#ordering_answer_sequence_info#:#ここで定義する解答順序は正解として使用されます。
 assessment#:#ordering_question_javascript_hint#:#定義/画像をドラッグして、置いてドロップしたい場所へ定義/画像を合わせてください。基になる定義/画像とすべての次の定義/画像は下方向に移動します。
 assessment#:#ordertext#:#整列するテキスト
@@ -1217,7 +1212,6 @@ assessment#:#tst_extratime_nodata#:#選択した参加者にはエントリー�
 assessment#:#tst_extratime_notavailable#:#延長時間は1回のテストと最長所要時間のみに追加することができます。
 assessment#:#tst_filter_tax_node#:#分類基準モード
 assessment#:#tst_filter_taxonomy#:#分類基準フィルタ
-assessment#:#tst_filtered_question_list#:#テスト問題選択
 assessment#:#tst_finish_confirm_button#:#はい、テストを終了します
 assessment#:#tst_finish_confirm_cancel_button#:#いいえ、前の問題へ戻ります
 assessment#:#tst_finish_confirm_list_of_answers_button#:#いいえ、答案一覧に戻りますs
@@ -1811,7 +1805,6 @@ barometer#:#votes#:#投票
 barometer#:#weeks#:#週間
 barometer#:#worst#:#最低
 barometer#:#year#:#年
-bata2-key#:#beta2-sub#:#batas-des
 bibitem#:#bibitem_add#:#追加
 bibitem#:#bibitem_author#:#作成者
 bibitem#:#bibitem_av#:#AV
@@ -3284,7 +3277,6 @@ common#:#enable_trash_info#:#有効にすると削除されたオブジェクト
 common#:#enable_webdav#:#WebDAVアクセスを有効にする
 common#:#enable_webdav_info#:#WebDAVクライアントへwebフォルダとしてリポジトリへアクセスを許可。ユーザはリポジトリの"webフォルダとしてオープン”を使うかまたはWevDAVクライアントの次のアドレスを入力によりwebフォルダをオープンできます。<a href="%1$s" folder="%1$s">%1$s</a>
 common#:#enabled#:#有効
-common#:#enter_filename_deliver#:#配布すべきファイルを入力
 common#:#enter_in_mb_desc#:#MBの値を入力します。
 common#:#enumerate#:#列挙する
 common#:#err_1_param#:#パラメーターの1つだけ!
@@ -5680,7 +5672,6 @@ content#:#cont_added_comment#:#コメントが履歴に追加されました。
 content#:#cont_added_tab#:#タブを作成しました。
 content#:#cont_added_term#:#条件追加
 content#:#cont_Additional#:#追加情報
-content#:#cont_additional_langs#:#追加言語
 content#:#cont_adjust_size#:#サイズを調整
 content#:#cont_AdvancedKnowledge#:#詳細知識
 content#:#cont_align#:#整列
@@ -5831,8 +5822,6 @@ content#:#cont_de_activate#:#アクティブ(解除)
 content#:#cont_deactivate_html#:#HTMLレンディングをオフにする
 content#:#cont_deactivate_js#:#フォームモードを起動
 content#:#cont_deactivate_media#:#メディアをオフにする
-content#:#cont_deactivate_multi_lang#:#多言語を無効
-content#:#cont_deactivate_multi_lang_conf#:#本当に多言語対応を無効にしますか?マスタ言語のコンテンツのみとなってしまいます。
 content#:#cont_deactivate_page#:#ページのアクティブ解除
 content#:#cont_deactivated#:#アクティブ解除
 content#:#cont_debug#:#デバグメニューを表示
@@ -6188,7 +6177,6 @@ content#:#cont_manifest#:#マニフェスト
 content#:#cont_map_areas#:#リンクエリヤ
 content#:#cont_map_file_not_generated#:#申し訳ありませんが編集用のマップファイルを生成できません。
 content#:#cont_marker#:#マーカー
-content#:#cont_master_lang#:#マスター言語
 content#:#cont_mastery_score#:#adlcp：masteryscore
 content#:#cont_max_time_allowed#:#adlcp：maxtimeallowed
 content#:#cont_Media#:#メディア (標準)
@@ -6211,8 +6199,6 @@ content#:#cont_more_functions#:#詳細
 content#:#cont_move_object#:#オブジェクトを移動
 content#:#cont_msg_multiple_editions#:#複数の版の詳細を表示する事はできません
 content#:#cont_multilang_currently_deactivated#:#多言語サポートは現在利用できない状態です。
-content#:#cont_multilang_deactivated#:#多言語対応は無効になりました。
-content#:#cont_multilinguality#:#多言語
 content#:#cont_name#:#名前
 content#:#cont_never#:#未トライ
 content#:#cont_new_area#:#新規リンクエリア
@@ -6402,7 +6388,6 @@ content#:#cont_resource_size#:#オリジナルのリソースサイズ
 content#:#cont_resource_type#:#タイプ
 content#:#cont_resources#:#リソース
 content#:#cont_resources_of_type#:#タイプのリソース
-content#:#cont_Ressources#:#リソース
 content#:#cont_revision#:#改版
 content#:#cont_right#:#右
 content#:#cont_right_float#:#右側フローティング
@@ -6468,7 +6453,6 @@ content#:#cont_select#:#選択
 content#:#cont_select_file#:#ファイルをセレクト
 content#:#cont_select_from_upload_dir#:#--アップロードディレクイトリーから選択 --
 content#:#cont_select_item#:#アイテムを一つは選択してください.
-content#:#cont_select_master_lang#:#マスター言語を選択してください。現在のコンテンツはマスター言語に割り当てられます。
 content#:#cont_select_max_one_item#:#アイテムを一つのみ選択してください。
 content#:#cont_select_max_one_term#:#用語を一つだけ選択してください。
 content#:#cont_select_media_pool#:#メディア集を選択
@@ -8765,11 +8749,8 @@ forum#:#frm_statistics_ranking#:#投稿数
 forum#:#frm_subject_setting#:#Subject設定
 forum#:#frm_sure_delete_threads#:#本当に次のスレッドを削除しますか?
 forum#:#frm_sure_merge_threads#:#本当にこれらのスレッドをマージしますか?　警告: これは後戻りできません。ソーススレッドの最初の投稿がターゲットスレッドの最初の投稿以前に行われると最終的にILIASはソースとターゲットのスレッドをスワップします。
-forum#:#frm_title_required#:#タイトルを挿入してください。
 forum#:#frm_wizard_page#:#フォーラムをコピー (Step 2/2)
 forum#:#is_read#:#既読としてマーク
-forum#:#make_topic_non_sticky#:#トピックを付箋しない
-forum#:#make_topic_sticky#:#トピックを付箋
 forum#:#make_topics_non_sticky#:#トピックを付箋しない
 forum#:#make_topics_sticky#:#トピックを付箋
 forum#:#mark_moderator_posts#:#モデレータのポストをマーク
@@ -9341,8 +9322,6 @@ mail#:#mail_salutation_m#:#こんにちは
 mail#:#mail_salutation_male#:#男性向けの挨拶文
 mail#:#mail_salutation_n#:#こんにちは
 mail#:#mail_saved#:#メッセージは保存されました
-mail#:#mail_search_addressbook#:#連絡先を検索
-mail#:#mail_search_system#:#システムを検索
 mail#:#mail_select_attachment#:#ダウンロード用の添付ファイルを選択してください。
 mail#:#mail_select_course#:#コースを一つは選択してください。
 mail#:#mail_select_group#:#グループを一つは選んでください。
@@ -14307,3 +14286,18 @@ wsp#:#wsp_type_scov#:#証明書: SCORM
 wsp#:#wsp_type_tstv#:#検証: テスト
 wsp#:#wsp_type_webr#:#Webリンク
 wsp#:#wsp_type_wfld#:#フォルダ
+content#:#cont_localfile#:#Local File###08 09 2014 new variable
+dateplaner#:#cal_export_timezone#:#Timezone for Calendar Export###08 09 2014 new variable
+dateplaner#:#cal_export_timezone_tz#:#Use ILIAS-Timezone###08 09 2014 new variable
+dateplaner#:#cal_export_timezone_utc#:#Use Timezone UTC (compatible with MS Outlook)###08 09 2014 new variable
+mail#:#back_to_folder#:#Back to Folder###08 09 2014 new variable
+mail#:#current_folder#:#Current Folder: %s###08 09 2014 new variable
+cron#:#cron_no_executable_job_selected#:#Please select at least one executable cron-job.###08 09 2014 new variable
+mail#:#mail_max_size_attachments_total#:#Please enter the maximum file size allowed as attachment per mail. This setting is not related to other resource limits, e.g. upload_max_filesize etc. (since you can attach multiple files). ###08 09 2014 new variable
+mail#:#mail_max_size_attachments_total_error#:#The allowed attachment size is:###08 09 2014 new variable
+user#:#passwd_generation_pre#:#Pre-defined Passwords###08 09 2014 new variable
+content#:#cont_ie_compatibility#:#Internet Explorer 7 compatibility mode###08 09 2014 new variable
+content#:#cont_ie_compatibility_info#:#Especially for older learning modules it can be helpful to activate the compatibility mode. Please note that the compatibility mode can be disabled in newer versions of Internet Explorer.###08 09 2014 new variable
+content#:#cont_ie_force_render#:#Force Internet Explorer to render again###08 09 2014 new variable
+content#:#cont_ie_force_render_info#:#Enable this option only if content of the learning module is not displayed correctly with Internet Explorer due to many frames or iframes. Additionally you have to set the option 'Display' to 'in new window'.###08 09 2014 new variable
+exc#:#exc_peer_deadline_mismatch#:#As feedback is given after the deadline has passed the feedback deadline must not be earlier than the assignment deadline.###08 09 2014 new variable
