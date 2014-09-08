@@ -88,12 +88,16 @@ class gevWBDTPBasicRegistrationGUI {
 	}
 
 	protected function setBWVId() {
-		if ($_POST["bwv_id"] == "") {
-			/*if ($this->user_utils->canBeRegisteredAsTPService()) {
+		if ($_POST["bwv_id"] == "" || gevUserUtils::isValidBWVId($_POST["bwv_id"])) {
+			/*
+			if ($this->user_utils->canBeRegisteredAsTPService()) {
 				return $this->createTPServiceBWVId();
 			} else {
 				return $this->startRegistration();
-			}*/
+			}
+			*/
+			ilUtil::sendFailure($this->lng->txt("gev_bwv_id_input_not_valid"));
+			
 			return $this->startRegistration();
 		}
 

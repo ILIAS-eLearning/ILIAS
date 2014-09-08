@@ -403,6 +403,8 @@ gev#:#gev_booking_status#:#Buchungsstatus
 gev#:#gev_bookings#:#Buchungen
 gev#:#gev_business_contact#:#Kontaktdaten geschäftlich / WBD
 gev#:#gev_bwv_id#:#GDV Vermittler-ID
+gev#:#gev_bwv_id_invalid#:#Format: JJJJMMDD-XXXXXX-XX
+gev#:#gev_bwv_id_input_not_valid#:#Bitte geben sie ihre GDV Vermittler-ID im Format JJJJMMDD-XXXXXX-XX ein.
 gev#:#gev_cancel_training#:#Training stornieren
 gev#:#gev_cancellation_bill_item#:#Stornogebühr Training "%s"
 gev#:#gev_cancellation_bill_title#:#Stornierung der Buchung des Trainings "%s" für "%s"

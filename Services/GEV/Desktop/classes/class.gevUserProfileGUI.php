@@ -76,6 +76,12 @@ class gevUserProfileGUI {
 				$err = true;
 			}
 			
+			if ($this->user_utils->hasWBDRelevantRole() && $this->user_utils->hasDoneWBDRegistration()
+				&& !gevUserUtils::isValidBWVId($form->getInput("bwv_id"))) {
+				$form->getItemByPostVar("bwv_id")->setAlert("gev_bwv_id_invalid");
+				$err = true;
+			}
+			
 			if (!$err) {
 				$birthday = $form->getInput("birthday");
 				$bday = new ilDateTime($birthday["date"], IL_CAL_DATE);

@@ -1363,6 +1363,10 @@ class gevUserUtils {
 		return;
 	}
 	
+	static public function isValidBWVId($a_id) {
+		return 1 == preg_match("/\d{8}-.{6}-../", $a_id);
+	}
+	
 	public function transferPointsToWBD() {
 		return (   in_array($this->getWBDOKZ(), 
 							array("OKZ1", "OKZ2", "OKZ3"))
