@@ -235,7 +235,7 @@ abstract class assQuestion
 	/**
 	 * @var ilObjTestGateway
 	 */
-	private $resultGateway = null;
+	private static $resultGateway = null;
 
 	/**
 	 * @var null|int
@@ -1182,10 +1182,10 @@ abstract class assQuestion
 
 		include_once "./Modules/Test/classes/class.ilObjTest.php";
 
-		if( $this->resultGateway !== null )
+		if( self::getResultGateway() !== null )
 		{
-			$data = $this->getResultGateway()->getQuestionCountAndPointsForPassOfParticipant($active_id, $pass);
-			$time = $this->getResultGateway()->getWorkingTimeOfParticipantForPass($active_id, $pass);
+			$data = self::getResultGateway()->getQuestionCountAndPointsForPassOfParticipant($active_id, $pass);
+			$time = self::getResultGateway()->getWorkingTimeOfParticipantForPass($active_id, $pass);
 		}
 		else
 		{
@@ -4404,17 +4404,17 @@ abstract class assQuestion
 	/**
 	 * @param \ilObjTestGateway $resultGateway
 	 */
-	public function setResultGateway($resultGateway)
+	public static function setResultGateway($resultGateway)
 	{
-		$this->resultGateway = $resultGateway;
+		self::$resultGateway = $resultGateway;
 	}
 
 	/**
 	 * @return \ilObjTestGateway
 	 */
-	public function getResultGateway()
+	public static function getResultGateway()
 	{
-		return $this->resultGateway;
+		return self::$resultGateway;
 	}
 
 	/**
