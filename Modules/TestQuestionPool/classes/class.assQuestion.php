@@ -1558,10 +1558,22 @@ abstract class assQuestion
 			$pass = $this->getSolutionMaxPass($active_id);
 		}
 
-		$result = $ilDB->queryF("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s AND step = %s ORDER BY solution_id",
-			array('integer','integer','integer', 'integer'),
-			array($active_id, $this->getId(), $pass, $this->getStep())
-		);
+		$result = null;
+		if($this->getStep() == null)
+		{
+			$result = $ilDB->queryF("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s ORDER BY solution_id",
+				array('integer','integer','integer'),
+				array($active_id, $this->getId(), $pass)
+			);
+		}
+		else
+		{
+			$result = $ilDB->queryF("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s AND step = %s ORDER BY solution_id",
+				array('integer','integer','integer', 'integer'),
+				array($active_id, $this->getId(), $pass, $this->getStep())
+			);
+		}
+
 		while	($row = $ilDB->fetchAssoc($result))
 		{
 			array_push($values, $row);
