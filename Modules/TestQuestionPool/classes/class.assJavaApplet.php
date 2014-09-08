@@ -5,6 +5,7 @@ require_once './Modules/TestQuestionPool/classes/class.assQuestion.php';
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 require_once './Modules/TestQuestionPool/interfaces/interface.ilObjQuestionScoringAdjustable.php';
 require_once './Modules/TestQuestionPool/interfaces/interface.iQuestionCondition.php';
+require_once './Modules/TestQuestionPool/classes/class.ilUserQuestionResult.php';
 
 /**
  * Class for Java Applet Questions
@@ -1020,7 +1021,6 @@ class assJavaApplet extends assQuestion implements ilObjQuestionScoringAdjustabl
 	{
 		return array(
 			iQuestionCondition::PercentageResultExpression,
-			iQuestionCondition::NumericResultExpression,
 			iQuestionCondition::EmptyAnswerExpression,
 		);
 	}
@@ -1035,7 +1035,14 @@ class assJavaApplet extends assQuestion implements ilObjQuestionScoringAdjustabl
 	 */
 	public function getUserQuestionResult($active_id, $pass)
 	{
-		// TODO: Implement getUserQuestionResult() method.
+		$result = new ilUserQuestionResult($this, $active_id, $pass);
+
+		$points = $this->calculateReachedPoints($active_id, $pass);
+		$max_points = $this->getMaximumPoints();
+
+		$result->setReachedPercentage(($points/$max_points) * 100);
+
+		return $result;
 	}
 
 	/**
@@ -1048,6 +1055,6 @@ class assJavaApplet extends assQuestion implements ilObjQuestionScoringAdjustabl
 	 */
 	public function getAvailableAnswerOptions($index = null)
 	{
-		// TODO: Implement getAvailableAnswerOptions() method.
+		return array();
 	}
 }

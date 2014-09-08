@@ -838,10 +838,10 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
 			$result->addKeyValue($key+1, $answer);
 		}
 
-		$glue = "";
-		if($this->answer_separator == " ")
+		$glue = " ";
+		if($this->answer_separator = '{::}')
 		{
-			$glue = " ";
+			$glue = "";
 		}
 		$result->addKeyValue(null, join($glue, $answer_elements));
 
