@@ -325,14 +325,26 @@ class ilStyleDefinition extends ilSaxParser
 	 * use always this function instead of getting the account's skin
 	 * the current skin may be changed on the fly by setCurrentSkin()
 	 * 
-	 * @return	string	skin id
+	 * @return	string|null	skin id
 	 */
 	public static function getCurrentSkin()
 	{
+		/**
+		 * @var $ilias ILIAS
+		 */
 		global $ilias;
 		
-		return isset(self::$current_skin) ? self::$current_skin	:
-											$ilias->account->skin;
+		if(isset(self::$current_skin))
+		{
+			return isset(self::$current_skin);
+		}
+
+		if(is_object($ilias))
+		{
+			return $ilias->account->skin;
+		}
+
+		return null;
 	}
 	
 	/**
@@ -341,7 +353,7 @@ class ilStyleDefinition extends ilSaxParser
 	 * use always this function instead of getting the account's style
 	 * the current style may be changed on the fly by setCurrentStyle()
 
-	 * @return	string	style id
+	 * @return	string|null	style id
 	 */
 	public static function getCurrentStyle()
 	{
@@ -350,6 +362,11 @@ class ilStyleDefinition extends ilSaxParser
 		if (isset(self::$current_style))
 		{
 			return self::$current_style;
+		}
+
+		if(!is_object($ilias))
+		{
+			return null;
 		}
 
 		$cs = $ilias->account->prefs['style'];
