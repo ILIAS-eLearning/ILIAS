@@ -113,7 +113,7 @@ class gevUserImport {
 		$this->update_orgunit_role($ilias_user, $shadow_user);
 
 		$ilias_user_id = $ilias_user->getId();
-		$this->set_ilias_user_id($shadow_user['adp_id'], $ilias_user_id);
+		$this->set_ilias_user_id($shadow_user['sql_adp_id'], $ilias_user_id);
 
 		$this->set_token_used_field($token);
 		$this->log_user_in($username, $token);
@@ -535,10 +535,13 @@ class gevUserImport {
 			UPDATE 
 				`ivimport_adp`
 			SET
-				`ilias_id`=" . $this->ilDB->quote($ilias_user_id, "text") . "
+				`ilias_id`=" . $this->ilDB->quote($ilias_user_id, "integer") . "
 			WHERE
-				`id`=" . $this->ilDB->quote($shadow_user_id, "text") . "
+				`id`=" . $this->ilDB->quote($shadow_user_id, "integer") . "
 		";
+
+		global $ilLog;
+		$ilLog->write($sql);
 
 		return mysql_query($sql, $this->mysql) === 1;
 	}
