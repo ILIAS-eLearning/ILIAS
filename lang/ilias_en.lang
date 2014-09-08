@@ -14691,3 +14691,4 @@ exc#:#exc_team_assignment_adopt_already_assigned#:#already assigned
 content#:#cont_blocked_users_mail_link#:#Click on the following link to open the learning module:
 wiki#:#wiki_show_print_view#:#Print View
 wiki#:#wiki_show_pdf_export#:#PDF Export
+exc#:#exc_peer_deadline_mismatch#:#As feedback is given after the deadline has passed the feedback deadline must not be earlier than the assignment deadline.
