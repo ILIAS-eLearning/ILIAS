@@ -421,7 +421,17 @@ class MDB2_Driver_mysqli extends MDB2_Driver_Common
                 $connection = $init;
             }
         } else {
-            $connection = @mysqli_connect(
+			// hhvm-patch: begin
+			// HHVM-Fix: "Socket" must be a string!
+			if(!is_string($this->dsn['socket'])) {
+				$this->dsn['socket'] = "";
+			}
+			if(!is_string($this->dsn['port'])) {
+				$this->dsn['port'] = 0;
+			}
+			// HHVM-Fix: use "new mysqli" instead of "@mysqli_connect"
+			$connection = new mysqli(
+			// hhvm-patch: end
                 $this->dsn['hostspec'],
                 $this->dsn['username'],
                 $this->dsn['password'],
