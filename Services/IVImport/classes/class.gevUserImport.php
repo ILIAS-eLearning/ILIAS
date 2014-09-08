@@ -463,7 +463,7 @@ class gevUserImport {
 		$link = ilUtil::_getHttpPath()."/gev_activate_user.php?token=".$token;
 		$reg_mails = new gevRegistrationMails($link, $token);
 		$reg_mails->getAutoMail("evg_activation")->send();
-		$this->set_email_sent_field($link);
+		$this->set_email_sent_field($token);
 	}
 
 	private function set_email_sent_field($token) {
