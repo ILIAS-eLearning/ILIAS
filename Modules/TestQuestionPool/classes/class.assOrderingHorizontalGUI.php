@@ -165,7 +165,14 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
 
 		if (($active_id > 0) && (!$show_correct_solution))
 		{
-			$reached_points = $this->object->getReachedPoints($active_id, $pass);
+			if($this->object->getStep() === NULL)
+			{
+				$reached_points = $this->object->getReachedPoints($active_id, $pass);
+			}
+			else
+			{
+				$reached_points = $this->object->calculateReachedPoints($active_id, $pass);
+			}
 			if ($graphicalOutput)
 			{
 				// output of ok/not ok icons for user entered solutions

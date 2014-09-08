@@ -817,7 +817,8 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
 		return array(
 			iQuestionCondition::PercentageResultExpression,
 			iQuestionCondition::NumericResultExpression,
-			iQuestionCondition::OrderingResultExpression
+			iQuestionCondition::OrderingResultExpression,
+			iQuestionCondition::StringResultExpression,
 		);
 	}
 
@@ -846,6 +847,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
 
 		$answer_elements = $this->splitAndTrimOrderElementText($row["value1"], $this->answer_separator);
 		$elements = $this->getOrderingElements();
+		$solutions = array();
 
 		foreach($answer_elements as $answer)
 		{
@@ -853,24 +855,19 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
 			{
 				if($element == $answer)
 				{
-					$result->addKeyValue(++$key, $elements[$key]);
+					$result->addKeyValue($key+1, $elements[$key]);
+					$solutions[] = $elements[$key];
 					break;
 				}
 			}
 		}
 
-		$data = $ilDB->queryF(
-			"SELECT points FROM tst_test_result WHERE active_fi = %s AND pass = %s AND question_fi = %s AND step = (
-				SELECT MAX(step) FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s
-			)",
-			array('integer','integer','integer', 'integer','integer','integer'),
-			array($active_id, $pass, $this->getId(), $active_id, $pass, $this->getId())
-		);
+		$result->addKeyValue(null, join(" ", $solutions));
 
-		$row = $ilDB->fetchAssoc($data);
+		$points = $this->calculateReachedPoints($active_id, $pass);
 		$max_points = $this->getMaximumPoints();
 
-		$result->setReachedPercentage(($row["points"]/$max_points) * 100);
+		$result->setReachedPercentage(($points/$max_points) * 100);
 
 		return $result;
 	}

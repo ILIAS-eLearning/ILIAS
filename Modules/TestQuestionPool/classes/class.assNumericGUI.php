@@ -187,8 +187,16 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
 			{
 				if ($graphicalOutput)
 				{
+					if($this->object->getStep() === NULL)
+					{
+						$reached_points = $this->object->getReachedPoints($active_id, $pass);
+					}
+					else
+					{
+						$reached_points = $this->object->calculateReachedPoints($active_id, $pass);
+					}
 					// output of ok/not ok icons for user entered solutions
-					if ($this->object->getReachedPoints($active_id, $pass) == $this->object->getMaximumPoints())
+					if ($reached_points == $this->object->getMaximumPoints())
 					{
 						$template->setCurrentBlock("icon_ok");
 						$template->setVariable("ICON_OK", ilUtil::getImagePath("icon_ok.png"));

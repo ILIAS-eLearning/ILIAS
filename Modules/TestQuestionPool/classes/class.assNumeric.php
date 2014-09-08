@@ -717,18 +717,10 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
 			$result->addKeyValue(1, $row["value1"]);
 		}
 
-		$data = $ilDB->queryF(
-			"SELECT points FROM tst_test_result WHERE active_fi = %s AND pass = %s AND question_fi = %s AND step = (
-				SELECT MAX(step) FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s
-			)",
-			array('integer','integer','integer', 'integer','integer','integer'),
-			array($active_id, $pass, $this->getId(), $active_id, $pass, $this->getId())
-		);
-
-		$row = $ilDB->fetchAssoc($data);
+		$points = $this->calculateReachedPoints($active_id, $pass);
 		$max_points = $this->getMaximumPoints();
 
-		$result->setReachedPercentage(($row["points"]/$max_points) * 100);
+		$result->setReachedPercentage(($points/$max_points) * 100);
 
 		return $result;
 	}
