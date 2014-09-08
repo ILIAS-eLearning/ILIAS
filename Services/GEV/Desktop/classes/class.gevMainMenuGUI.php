@@ -79,7 +79,7 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 		$report_permission_attendancebyuser = $this->userUtils->isSuperior();// || $this->userUtils->isAdmin();
 		$has_reporting_menu = false;//$report_permission_attendancebyuser; // || ....
 
-		$is_trainer = false;//$tep; // $tep_permissions->isTutor();
+		$is_trainer = $tep; // $tep_permissions->isTutor();
 
 				
 		
