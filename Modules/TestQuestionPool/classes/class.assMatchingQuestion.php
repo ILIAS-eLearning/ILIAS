@@ -1620,15 +1620,30 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 		}
 
 		$data = $ilDB->queryF(
-			"SELECT value1, value2 FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s",
-			array("integer", "integer", "integer"),
-			array($active_id, $pass, $this->getId())
+			"SELECT value1, value2 FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s AND step = (
+				SELECT MAX(step) FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s
+			)",
+			array("integer", "integer", "integer","integer", "integer", "integer"),
+			array($active_id, $pass, $this->getId(), $active_id, $pass, $this->getId())
 		);
 
 		while($row = $ilDB->fetchAssoc($data))
 		{
 			$result->addKeyValue($definitions[$row["value2"]],$terms[$row["value1"]]);
 		}
+
+		$data = $ilDB->queryF(
+			"SELECT points FROM tst_test_result WHERE active_fi = %s AND pass = %s AND question_fi = %s AND step = (
+				SELECT MAX(step) FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s
+			)",
+			array('integer','integer','integer', 'integer','integer','integer'),
+			array($active_id, $pass, $this->getId(), $active_id, $pass, $this->getId())
+		);
+
+		$row = $ilDB->fetchAssoc($data);
+		$max_points = $this->getMaximumPoints();
+
+		$result->setReachedPercentage(($row["points"]/$max_points) * 100);
 
 		return $result;
 	}

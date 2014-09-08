@@ -248,7 +248,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
 		// copy XHTML media objects
 		$clone->copyXHTMLMediaObjectsOfQuestion($this_id);
 
-		$clone->onDuplicate($thisObjId, $this_id, $clone->getObjId(), $clone->getId());
+		$clone->onDuplicate($this_id, $clone->getId());
 		return $clone->id;
 	}
 
@@ -1356,15 +1356,30 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
 		$result = new ilUserQuestionResult($this, $active_id, $pass);
 
 		$data = $ilDB->queryF(
-			"SELECT value1+1 as value1 FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s",
-			array("integer", "integer", "integer"),
-			array($active_id, $pass, $this->getId())
+			"SELECT value1+1 as value1 FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s AND step = (
+				SELECT MAX(step) FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s
+			)",
+			array("integer", "integer", "integer","integer", "integer", "integer"),
+			array($active_id, $pass, $this->getId(), $active_id, $pass, $this->getId())
 		);
 
 		while($row = $ilDB->fetchAssoc($data))
 		{
 			$result->addKeyValue($row["value1"], $row["value1"]);
 		}
+
+		$data = $ilDB->queryF(
+					 "SELECT points FROM tst_test_result WHERE active_fi = %s AND pass = %s AND question_fi = %s AND step = (
+						SELECT MAX(step) FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s
+					)",
+						 array('integer','integer','integer', 'integer','integer','integer'),
+						 array($active_id, $pass, $this->getId(), $active_id, $pass, $this->getId())
+		);
+
+		$row = $ilDB->fetchAssoc($data);
+		$max_points = $this->getMaximumPoints();
+
+		$result->setReachedPercentage(($row["points"]/$max_points) * 100);
 
 		return $result;
 	}

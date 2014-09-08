@@ -942,9 +942,11 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
 		$result = new ilUserQuestionResult($this, $active_id, $pass);
 
 		$data = $ilDB->queryF(
-			"SELECT value1 FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s ORDER BY solution_id",
-			array("integer", "integer", "integer"),
-			array($active_id, $pass, $this->getId())
+			"SELECT value1 FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s AND step = (
+				SELECT MAX(step) FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s
+			) ORDER BY solution_id",
+			array("integer", "integer", "integer","integer", "integer", "integer"),
+			array($active_id, $pass, $this->getId(), $active_id, $pass, $this->getId())
 		);
 
 		for($index = 1; $index <= $ilDB->numRows($data); ++$index)
@@ -952,6 +954,19 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
 			$row = $ilDB->fetchAssoc($data);
 			$result->addKeyValue($index, $row["value1"]);
 		}
+
+		$data = $ilDB->queryF(
+			"SELECT points FROM tst_test_result WHERE active_fi = %s AND pass = %s AND question_fi = %s AND step = (
+				SELECT MAX(step) FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s
+			)",
+			array('integer','integer','integer', 'integer','integer','integer'),
+			array($active_id, $pass, $this->getId(), $active_id, $pass, $this->getId())
+		);
+
+		$row = $ilDB->fetchAssoc($data);
+		$max_points = $this->getMaximumPoints();
+
+		$result->setReachedPercentage(($row["points"]/$max_points) * 100);
 
 		return $result;
 	}

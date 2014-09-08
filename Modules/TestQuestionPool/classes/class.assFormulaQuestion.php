@@ -6,6 +6,8 @@ include_once "./Modules/TestQuestionPool/classes/class.assFormulaQuestionResult.
 include_once "./Modules/TestQuestionPool/classes/class.assFormulaQuestionVariable.php";
 include_once "./Modules/TestQuestionPool/classes/class.ilUnitConfigurationRepository.php";
 include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
+include_once "./Modules/TestQuestionPool/interfaces/interface.iQuestionCondition.php";
+require_once './Modules/TestQuestionPool/classes/class.ilUserQuestionResult.php';
 
 /**
  * Class for single choice questions
@@ -14,7 +16,7 @@ include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
  * @version       $Id: class.assFormulaQuestion.php 1236 2010-02-15 15:44:16Z hschottm $
  * @ingroup       ModulesTestQuestionPool
  */
-class assFormulaQuestion extends assQuestion
+class assFormulaQuestion extends assQuestion implements iQuestionCondition
 {
 	private $variables;
 	private $results;
@@ -1373,7 +1375,7 @@ class assFormulaQuestion extends assQuestion
 	/**
 	 * Get all available operations for a specific question
 	 *
-	 * @param string $expression
+	 * @param $expression
 	 *
 	 * @internal param string $expression_type
 	 * @return array
@@ -1392,7 +1394,7 @@ class assFormulaQuestion extends assQuestion
 	{
 		return array(
 			iQuestionCondition::PercentageResultExpression,
-			iQuestionCondition::NumericResultExpression
+			iQuestionCondition::NumericResultExpression,
 		);
 	}
 
@@ -1406,6 +1408,59 @@ class assFormulaQuestion extends assQuestion
 	 */
 	public function getUserQuestionResult($active_id, $pass)
 	{
-		// TODO: Implement getUserQuestionResult() method.
+		/** @var ilDB $ilDB */
+		global $ilDB;
+		$result = new ilUserQuestionResult($this, $active_id, $pass);
+
+		$data = $ilDB->queryF(
+			"SELECT value1, value2 FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s AND step = (
+				SELECT MAX(step) FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s
+			)",
+			array("integer", "integer", "integer","integer", "integer", "integer"),
+			array($active_id, $pass, $this->getId(), $active_id, $pass, $this->getId())
+		);
+
+		while($row = $ilDB->fetchAssoc($data))
+		{
+			if(strstr($row["value1"], '$r'))
+			{
+				$result->addKeyValue(str_replace('$r', "", $row["value1"]), $row["value2"]);
+			}
+		}
+
+		$data = $ilDB->queryF(
+			 "SELECT points FROM tst_test_result WHERE active_fi = %s AND pass = %s AND question_fi = %s AND step = (
+				SELECT MAX(step) FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s
+			)",
+			array('integer','integer','integer', 'integer','integer','integer'),
+			array($active_id, $pass, $this->getId(), $active_id, $pass, $this->getId())
+		);
+
+		$row = $ilDB->fetchAssoc($data);
+		$max_points = $this->getMaximumPoints();
+
+		$result->setReachedPercentage(($row["points"]/$max_points) * 100);
+
+		return $result;
+	}
+
+	/**
+	 * If index is null, the function returns an array with all anwser options
+	 * Else it returns the specific answer option
+	 *
+	 * @param null|int $index
+	 *
+	 * @return array|ASS_AnswerSimple
+	 */
+	public function getAvailableAnswerOptions($index = null)
+	{
+		if($index != null)
+		{
+			return $this->getResult('$r'.$index);
+		}
+		else
+		{
+			return $this->getResults();
+		}
 	}
 }
