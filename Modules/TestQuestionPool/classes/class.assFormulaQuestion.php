@@ -228,17 +228,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 					else
 					{
 						// save value to db
-						$next_id      = $ilDB->nextId('tst_solutions');
-						$affectedRows = $ilDB->insert("tst_solutions", array(
-							"solution_id" => array("integer", $next_id),
-							"active_fi"   => array("integer", $userdata["active_id"]),
-							"question_fi" => array("integer", $this->getId()),
-							"value1"      => array("clob", $variable),
-							"value2"      => array("clob", $varObj->getValue()),
-							"points"      => array("float", 0),
-							"pass"        => array("integer", $userdata["pass"]),
-							"tstamp"      => array("integer", time())
-						));
+						$this->saveCurrentSolution($userdata["active_id"], $userdata["pass"], $variable,$varObj->getValue());
 					}
 				}
 				$unit = (is_object($varObj->getUnit())) ? $varObj->getUnit()->getUnit() : "";
@@ -1028,16 +1018,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 					}
 				}
 
-				$next_id      = $ilDB->nextId('tst_solutions');
-				$affectedRows = $ilDB->insert("tst_solutions", array(
-					"solution_id" => array("integer", $next_id),
-					"active_fi"   => array("integer", $active_id),
-					"question_fi" => array("integer", $this->getId()),
-					"value1"      => array("clob", $matches[1]),
-					"value2"      => array("clob", str_replace(",", ".", $value)),
-					"pass"        => array("integer", $pass),
-					"tstamp"      => array("integer", time())
-				));
+				$affectedRows = $this->saveCurrentSolution($active_id,$pass,$matches[1],str_replace(",", ".", $value));
 			}
 			else if(preg_match("/^result_(\\\$r\\d+)_unit$/", $key, $matches))
 			{
@@ -1056,16 +1037,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 					}
 				}
 
-				$next_id      = $ilDB->nextId('tst_solutions');
-				$affectedRows = $ilDB->insert("tst_solutions", array(
-					"solution_id" => array("integer", $next_id),
-					"active_fi"   => array("integer", $active_id),
-					"question_fi" => array("integer", $this->getId()),
-					"value1"      => array("clob", $matches[1] . "_unit"),
-					"value2"      => array("clob", $value),
-					"pass"        => array("integer", $pass),
-					"tstamp"      => array("integer", time())
-				));
+				$affectedRows = $this->saveCurrentSolution($active_id,$pass,$matches[1] . "_unit",$value);
 			}
 		}
 
