@@ -459,17 +459,10 @@ class SurveyImportParser extends ilSaxParser
 		{
 			case "surveyobject":
 				if (is_object($this->survey))
-				{
-					// write constraints
-					if (count($this->constraints))
-					{
-						$relations = $this->survey->getAllRelations(TRUE);
-						foreach ($this->constraints as $constraint)
-						{							
-							$constraint_id= $this->survey->addConstraint($this->questions[$constraint["destref"]], $relations[$constraint["relation"]]["id"], $constraint["value"], $constraint["conjunction"]);
-							$this->survey->addConstraintToQuestion($this->questions[$constraint["sourceref"]], $constraint_id);									
-						}
-					}
+				{			
+					$this->survey->setStatus($this->survey_status);
+					$this->survey->saveToDb();
+					
 					// write question blocks
 					if (count($this->questionblocks))
 					{
@@ -485,8 +478,17 @@ class SurveyImportParser extends ilSaxParser
 							$this->survey->createQuestionblock($title, $this->showQuestiontext, false, $qblock);
 						}
 					}
-					$this->survey->setStatus($this->survey_status);
-					$this->survey->saveToDb();
+				
+					// #13878 - write constraints
+					if (count($this->constraints))
+					{
+						$relations = $this->survey->getAllRelations(TRUE);
+						foreach ($this->constraints as $constraint)
+						{							
+							$constraint_id= $this->survey->addConstraint($this->questions[$constraint["destref"]], $relations[$constraint["relation"]]["id"], $constraint["value"], $constraint["conjunction"]);
+							$this->survey->addConstraintToQuestion($this->questions[$constraint["sourceref"]], $constraint_id);									
+						}
+					}
 
 					// write textblocks
 					if (count($this->textblocks))
