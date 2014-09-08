@@ -219,7 +219,7 @@ class ilObjItemGroupGUI extends ilObject2GUI
 	/**
 	 * Goto item group
 	 */
-	function _goto($a_target)
+	public static function _goto($a_target)
 	{
 		global $ilAccess, $ilErr, $lng, $tree;
 		

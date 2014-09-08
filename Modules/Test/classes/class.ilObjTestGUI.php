@@ -4519,7 +4519,7 @@ class ilObjTestGUI extends ilObjectGUI
 	* @param integer $a_target The reference id of the test
 	* @access	public
 	*/
-	function _goto($a_target)
+	public static function _goto($a_target)
 	{
 		global $ilAccess, $ilErr, $lng;
 

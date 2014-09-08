@@ -159,7 +159,7 @@ class ilObjCourseVerificationGUI extends ilObject2GUI
 		$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->MESSAGE);
 	}
 	
-	function _goto($a_target)
+	public static function _goto($a_target)
 	{
 		$id = explode("_", $a_target);
 		

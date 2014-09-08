@@ -337,7 +337,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 	 *
 	 * @param string $a_target
 	 */
-	public function _goto($a_target)
+	public static function _goto($a_target)
 	{
 		$id = explode("_", $a_target);
 

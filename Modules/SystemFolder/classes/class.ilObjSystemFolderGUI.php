@@ -2200,7 +2200,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 	/**
 	 * goto target group
 	 */
-	function _goto()
+	public static function _goto()
 	{
 		global $ilAccess, $ilErr, $lng;
 

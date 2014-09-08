@@ -1081,9 +1081,9 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		ilUtil::sendSuccess($this->lng->txt("prtf_portfolio_created"), true);
 		$this->ctrl->setParameter($this, "prt_id", $target_id);
 		$this->ctrl->redirect($this, "view");
-	}	
-			
-	function _goto($a_target)
+	}
+
+	public static function _goto($a_target)
 	{
 		$id = explode("_", $a_target);
 		

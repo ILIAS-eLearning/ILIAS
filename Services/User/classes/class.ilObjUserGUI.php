@@ -2919,7 +2919,7 @@ class ilObjUserGUI extends ilObjectGUI
 	/**
 	 * Goto user profile screen
 	 */
-	function _goto($a_target)
+	public static function _goto($a_target)
 	{
 		global $ilUser, $ilCtrl;
 		

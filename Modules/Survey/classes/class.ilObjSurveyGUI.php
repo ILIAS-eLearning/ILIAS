@@ -1881,7 +1881,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 	*
 	* @param	string		$a_target
 	*/
-	function _goto($a_target, $a_access_code = "")
+	public static function _goto($a_target, $a_access_code = "")
 	{
 		global $ilAccess, $ilErr, $lng;
 		

@@ -639,7 +639,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 	*
 	* @param	string		$a_target
 	*/
-	function _goto($a_target, $a_target_ref_id = "")
+	public static function _goto($a_target, $a_target_ref_id = "")
 	{
 		global $rbacsystem, $ilErr, $lng, $ilAccess;
 

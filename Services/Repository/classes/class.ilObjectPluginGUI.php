@@ -403,7 +403,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 	/**
 	* Goto redirection
 	*/
-	function _goto($a_target)
+	public static function _goto($a_target)
 	{
 		global $ilCtrl, $ilAccess, $lng;
 		

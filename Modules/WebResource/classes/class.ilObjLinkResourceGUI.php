@@ -1600,7 +1600,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 		}		
 	}
 
-	function _goto($a_target, $a_additional = null)
+	public static function _goto($a_target, $a_additional = null)
 	{
 		global $ilAccess, $ilErr, $lng;
 				

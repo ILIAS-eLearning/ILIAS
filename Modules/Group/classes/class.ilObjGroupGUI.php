@@ -2467,7 +2467,7 @@ class ilObjGroupGUI extends ilContainerGUI
 	/**
 	 * goto target group
 	 */
-	function _goto($a_target, $a_add = "")
+	public static function _goto($a_target, $a_add = "")
 	{
 		global $ilAccess, $ilErr, $lng,$ilUser;
 

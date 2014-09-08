@@ -4850,7 +4850,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	/**
 	* goto target course
 	*/
-	function _goto($a_target, $a_add = "")
+	public static function _goto($a_target, $a_add = "")
 	{
 		global $ilAccess, $ilErr, $lng,$ilUser;
 		

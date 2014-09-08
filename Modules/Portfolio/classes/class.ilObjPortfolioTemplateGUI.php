@@ -506,7 +506,7 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
 		$this->ctrl->redirectByClass(array("ilpersonaldesktopgui", "ilportfoliorepositorygui", "ilobjportfoliogui"), "create");		
 	}	
 		
-	public function _goto($a_target)
+	public static function _goto($a_target)
 	{		
 		$id = explode("_", $a_target);
 		

@@ -625,7 +625,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 		}
 	}
 
-	public function _goto($ref_id) {
+	public static function _goto($ref_id) {
         global $ilCtrl;
         $ilCtrl->initBaseClass("ilAdministrationGUI");
         $ilCtrl->setTargetScript("ilias.php");

@@ -3559,7 +3559,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 	*
 	* @param	string		$a_target
 	*/
-	function _goto($a_target)
+	public static function _goto($a_target)
 	{
 		global $ilAccess, $ilErr, $lng;
 

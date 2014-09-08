@@ -396,7 +396,7 @@ class ilObjFolderGUI extends ilContainerGUI
 	/**
 	* goto target group
 	*/
-	function _goto($a_target)
+	public static function _goto($a_target)
 	{
 		global $ilAccess, $ilErr, $lng;
 

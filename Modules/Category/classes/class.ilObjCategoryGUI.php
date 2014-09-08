@@ -1576,7 +1576,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 		return ilUtil::formSelect($_SESSION['filtered_users'][$this->object->getRefId()],"filter",$action,false,true);
 	}
 	
-	function _goto($a_target)
+	public static function _goto($a_target)
 	{
 		global $ilAccess, $ilErr, $lng;
 

@@ -1324,7 +1324,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 	/**
 	* goto target media pool
 	*/
-	function _goto($a_target)
+	public static function _goto($a_target)
 	{
 		global $ilAccess, $ilErr, $lng;
 		

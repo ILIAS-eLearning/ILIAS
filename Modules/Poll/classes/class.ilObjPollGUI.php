@@ -632,7 +632,7 @@ class ilObjPollGUI extends ilObject2GUI
 	 * 
 	 * @param string $a_target 
 	 */
-	function _goto($a_target)
+	public static function _goto($a_target)
 	{						
 		global $tree, $ilAccess;
 		

@@ -2031,7 +2031,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 	*
 	* @param	string		$a_target
 	*/
-	function _goto($a_target, $a_raw)
+	public static function _goto($a_target, $a_raw)
 	{
 		global $ilErr, $lng, $ilAccess;
 

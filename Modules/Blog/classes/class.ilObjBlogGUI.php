@@ -2984,7 +2984,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 	 * 
 	 * @param string $a_target 
 	 */
-	function _goto($a_target)
+	public static function _goto($a_target)
 	{							
 		if(substr($a_target, -3) == "wsp")
 		{		

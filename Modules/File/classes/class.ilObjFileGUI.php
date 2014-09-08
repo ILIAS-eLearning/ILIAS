@@ -906,8 +906,8 @@ class ilObjFileGUI extends ilObject2GUI
 		// will add permission tab if needed
 		parent::setTabs();
 	}
-	
-	function _goto($a_target, $a_additional = null)
+
+	public static function _goto($a_target, $a_additional = null)
 	{
 		global $ilErr, $lng, $ilAccess;
 		

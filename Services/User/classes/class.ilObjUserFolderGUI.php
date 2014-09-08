@@ -2931,7 +2931,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	/**
 	 * goto target group
 	 */
-	function _goto($a_user)
+	public static function _goto($a_user)
 	{
 		global $ilAccess, $ilErr, $lng;
 
