@@ -3303,6 +3303,12 @@ class ilUtil
 	{
 		global $array_sortby,$array_sortorder;
 
+		if(!isset($array_sortby))
+		{
+			// occured in: setup -> new client -> install languages -> sorting of languages
+			$array_sortby = 0;
+		}
+		
 		// this comparison should give optimal results if
 		// locale is provided and mb string functions are supported
 		if ($array_sortorder == "asc")
