@@ -883,7 +883,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
 	public function getAvailableAnswerOptions($index = null)
 	{
 		$elements = $this->getOrderingElements();
-		if($index != null)
+		if($index !== null)
 		{
 			if(array_key_exists($index, $elements))
 			{

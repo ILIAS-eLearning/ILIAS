@@ -1034,7 +1034,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	 */
 	public function getAvailableAnswerOptions($index = null)
 	{
-		if($index != null)
+		if($index !== null)
 		{
 			return $this->getAnswer($index);
 		}

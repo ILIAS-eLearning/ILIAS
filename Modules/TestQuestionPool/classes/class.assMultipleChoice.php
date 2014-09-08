@@ -1362,13 +1362,13 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 	 */
 	public function getAvailableAnswerOptions($index = null)
 	{
-		if($index != null)
+		if($index !== null)
 		{
-			$this->getAnswer($index);
+			return $this->getAnswer($index);
 		}
 		else
 		{
-			$this->getAnswers();
+			return $this->getAnswers();
 		}
 	}
 }

@@ -1284,13 +1284,13 @@ class assSingleChoice extends assQuestion implements  ilObjQuestionScoringAdjust
 	 */
 	public function getAvailableAnswerOptions($index = null)
 	{
-		if($index != null)
+		if($index !== null)
 		{
-			$this->getAnswer($index);
+			return $this->getAnswer($index);
 		}
 		else
 		{
-			$this->getAnswers();
+			return $this->getAnswers();
 		}
 	}
 }

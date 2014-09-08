@@ -1537,13 +1537,13 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	 */
 	public function getAvailableAnswerOptions($index = null)
 	{
-		if($index != null)
+		if($index !== null)
 		{
-			$this->getAnswer($index);
+			return $this->getAnswer($index);
 		}
 		else
 		{
-			$this->getAnswers();
+			return $this->getAnswers();
 		}
 	}
 }

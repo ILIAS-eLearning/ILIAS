@@ -1650,9 +1650,9 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	 */
 	public function getAvailableAnswerOptions($index = null)
 	{
-		if($index != null)
+		if($index !== null)
 		{
-			$this->getMatchingPair($index);
+			return $this->getMatchingPair($index);
 		}
 		else
 		{

@@ -63,6 +63,21 @@ class ilUserQuestionResult
 	}
 
 	/**
+	 * @param string $key
+	 */
+	public function removeByKey($key)
+	{
+		foreach($this->solutions as $array_key => $solution)
+		{
+			if($solution[self::$USER_SOLUTION_IDENTIFIER_KEY] == $key)
+			{
+				unset($this->solutions[$array_key]);
+				break;
+			}
+		}
+	}
+
+	/**
 	 * @param string $identifier
 	 *
 	 * @return array
@@ -70,7 +85,10 @@ class ilUserQuestionResult
 	 */
 	public function getUserSolutionsByIdentifier($identifier)
 	{
-		if($identifier != self::$USER_SOLUTION_IDENTIFIER_KEY && $identifier != self::$USER_SOLUTION_IDENTIFIER_VALUE)
+		if(
+			$identifier != self::$USER_SOLUTION_IDENTIFIER_KEY &&
+			$identifier != self::$USER_SOLUTION_IDENTIFIER_VALUE
+		)
 		{
 			throw new Exception(sprintf("Unkown Identifier %s", $identifier));
 		}
@@ -100,7 +118,7 @@ class ilUserQuestionResult
 	{
 		foreach($this->solutions as $solution)
 		{
-			if($solution["key"] == $key)
+			if($solution[self::$USER_SOLUTION_IDENTIFIER_KEY] == $key)
 			{
 				return $solution;
 			}
