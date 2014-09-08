@@ -5,6 +5,7 @@ require_once './Modules/TestQuestionPool/classes/class.assQuestion.php';
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 require_once './Modules/TestQuestionPool/interfaces/interface.ilObjQuestionScoringAdjustable.php';
 require_once './Modules/TestQuestionPool/interfaces/interface.iQuestionCondition.php';
+require_once './Modules/TestQuestionPool/classes/class.ilUserQuestionResult.php';
 
 /**
  * Class for horizontal ordering questions
@@ -833,5 +834,44 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
 			iQuestionCondition::NumericResultExpression,
 			iQuestionCondition::OrderingResultExpression
 		);
+	}
+
+	/**
+	* Get the user solution for a question by active_id and the test pass
+	*
+	* @param int $active_id
+	* @param int $pass
+	*
+	* @return ilUserQuestionResult
+	*/
+	public function getUserQuestionResult($active_id, $pass)
+	{
+		/** @var ilDB $ilDB */
+		global $ilDB;
+		$result = new ilUserQuestionResult($this, $active_id, $pass);
+
+		$data = $ilDB->queryF(
+			"SELECT value1 FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s",
+			array("integer", "integer", "integer"),
+			array($active_id, $pass, $this->getId())
+		);
+		$row = $ilDB->fetchAssoc($data);
+
+		$answer_elements = $this->splitAndTrimOrderElementText($row["value1"], $this->answer_separator);
+		$elements = $this->getOrderingElements();
+
+		foreach($answer_elements as $answer)
+		{
+			foreach($elements as $key => $element)
+			{
+				if($element == $answer)
+				{
+					$result->addKeyValue(++$key, $elements[$key]);
+					break;
+				}
+			}
+		}
+
+		return $result;
 	}
 }

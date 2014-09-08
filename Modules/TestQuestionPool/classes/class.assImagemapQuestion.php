@@ -6,6 +6,7 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 require_once './Modules/TestQuestionPool/interfaces/interface.ilObjQuestionScoringAdjustable.php';
 require_once './Modules/TestQuestionPool/interfaces/interface.ilObjAnswerScoringAdjustable.php';
 require_once './Modules/TestQuestionPool/interfaces/interface.iQuestionCondition.php';
+require_once './Modules/TestQuestionPool/classes/class.ilUserQuestionResult.php';
 
 /**
  * Class for image map questions
@@ -1001,5 +1002,33 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 			iQuestionCondition::PercentageResultExpression,
 			iQuestionCondition::NumericResultExpression
 		);
+	}
+
+	/**
+	* Get the user solution for a question by active_id and the test pass
+	*
+	* @param int $active_id
+	* @param int $pass
+	*
+	* @return ilUserQuestionResult
+	*/
+	public function getUserQuestionResult($active_id, $pass)
+	{
+		/** @var ilDB $ilDB */
+		global $ilDB;
+		$result = new ilUserQuestionResult($this, $active_id, $pass);
+
+		$data = $ilDB->queryF(
+			"SELECT value1+1 as value1 FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s",
+			array("integer", "integer", "integer"),
+			array($active_id, $pass, $this->getId())
+		);
+
+		while($row = $ilDB->fetchAssoc($data))
+		{
+			$result->addKeyValue($row["value1"], $row["value1"]);
+		}
+
+		return $result;
 	}
 }

@@ -2910,4 +2910,16 @@ $ilDB->addTableColumn('page_qst_answer', 'unlocked', array(
 ));
 
 ?>
-
+<#4320>
+<?php
+/** @var ilDB $ilDB */
+if(!$ilDB->tableColumnExists('tst_solutions', 'step'))
+{
+    $ilDB->addTableColumn('tst_solutions', 'step', array(
+            'type' => 'integer',
+            'length' => 4,
+            'notnull' => false,
+            'default' => null
+        ));
+}
+?>

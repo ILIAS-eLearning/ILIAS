@@ -30,4 +30,14 @@ interface iQuestionCondition {
 	 * @return array
 	 */
 	public function getExpressionTypes();
+
+	/**
+	 * Get the user solution for a question by active_id and the test pass
+	 *
+	 * @param int $active_id
+	 * @param int $pass
+	 *
+	 * @return ilUserQuestionResult
+	 */
+	public function getUserQuestionResult($active_id, $pass);
 } 

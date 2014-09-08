@@ -231,6 +231,11 @@ abstract class assQuestion
 	protected $processLocker;
 
 	public $questionActionCmd = 'handleQuestionAction';
+
+	/**
+	 * @var ilObjTestGateway
+	 */
+	private $resultGateway = null;
 	
 	protected $lastChange;
 	
@@ -1167,11 +1172,20 @@ abstract class assQuestion
 	function _updateTestPassResults($active_id, $pass, $obligationsEnabled = false, ilAssQuestionProcessLocker $processLocker = null)
 	{
 		global $ilDB;
-		
+
 		include_once "./Modules/Test/classes/class.ilObjTest.php";
-		
-		$data = ilObjTest::_getQuestionCountAndPointsForPassOfParticipant($active_id, $pass);
-		$time = ilObjTest::_getWorkingTimeOfParticipantForPass($active_id, $pass);
+
+		if( $this->resultGateway !== null )
+		{
+			$data = $this->getResultGateway()->getQuestionCountAndPointsForPassOfParticipant($active_id, $pass);
+			$time = $this->getResultGateway()->getWorkingTimeOfParticipantForPass($active_id, $pass);
+		}
+		else
+		{
+			$data = ilObjTest::_getQuestionCountAndPointsForPassOfParticipant($active_id, $pass);
+			$time = ilObjTest::_getWorkingTimeOfParticipantForPass($active_id, $pass);
+		}
+
 		
 		// update test pass results
 		
@@ -4279,5 +4293,21 @@ abstract class assQuestion
 	public function getLastChange()
 	{
 		return $this->lastChange;
+	}
+
+	/**
+	 * @param \ilObjTestGateway $resultGateway
+	 */
+	public function setResultGateway($resultGateway)
+	{
+		$this->resultGateway = $resultGateway;
+	}
+
+	/**
+	 * @return \ilObjTestGateway
+	 */
+	public function getResultGateway()
+	{
+		return $this->resultGateway;
 	}
 }
