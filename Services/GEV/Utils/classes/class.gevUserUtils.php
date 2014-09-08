@@ -1071,7 +1071,7 @@ class gevUserUtils {
 	
 	// superiors/employees
 	
-	public function isSuperior($a_user_id) {
+	public function isSuperior() {
 		return count($this->getOrgUnitsWhereUserIsDirectSuperior()) > 0;
 	}
 	
