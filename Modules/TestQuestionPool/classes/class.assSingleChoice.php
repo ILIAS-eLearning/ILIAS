@@ -1235,7 +1235,7 @@ class assSingleChoice extends assQuestion implements  ilObjQuestionScoringAdjust
 	{
 		return array(
 			iQuestionCondition::PercentageResultExpression,
-			iQuestionCondition::NumericResultExpression
+			iQuestionCondition::NumberOfResultExpression,
 		);
 	}
 

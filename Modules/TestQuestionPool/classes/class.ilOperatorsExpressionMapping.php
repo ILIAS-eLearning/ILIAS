@@ -20,6 +20,7 @@ abstract class ilOperatorsExpressionMapping {
 		iQuestionCondition::StringResultExpression => array("=", "<>"),
 		iQuestionCondition::MatchingResultExpression => array("=", "<>"),
 		iQuestionCondition::OrderingResultExpression => array("=", "<>"),
+		iQuestionCondition::NumberOfResultExpression => array("=", "<>"),
 	);
 
 	/**

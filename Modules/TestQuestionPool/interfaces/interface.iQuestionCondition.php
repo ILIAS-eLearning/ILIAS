@@ -13,6 +13,7 @@ interface iQuestionCondition {
 	const NumericResultExpression = '#n#';
 	const MatchingResultExpression = ';n:m;';
 	const OrderingResultExpression = '$n,m,o,p$';
+	const NumberOfResultExpression = '+n+';
 
 	/**
 	 * Get all available operations for a specific question
