@@ -23,6 +23,16 @@ class ilClient
 	var $nic_status;			// contains received data of ILIAS-NIC server when registering
 
 	/**
+	 * @var ilDB
+	 */
+	public $db;
+
+	/**
+	 * @var ilIniFile
+	 */
+	public $ini;
+	
+	/**
 	* Constructor
 	* @param	string	client id
 	*/
