@@ -450,10 +450,7 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
 
 		$this->getProcessLocker()->requestUserSolutionUpdateLock();
 
-		$result = $ilDB->queryF("SELECT solution_id FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s AND step = %s",
-			array('integer','integer','integer', 'integer'),
-			array($active_id, $this->getId(), $pass, $this->getStep())
-		);
+		$result = $this->getCurrentSolutionResultSet($active_id, $pass);
 
 		$row = $ilDB->fetchAssoc($result);
 		$update = $row["solution_id"];
@@ -464,7 +461,7 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
 				$ilDB->update("tst_solutions", 	array(
 													"value1" => array("clob", trim($numeric_result)),
 													"tstamp" => array("integer", time())
-													), 
+													),
 							  					array(
 													"solution_id" => array("integer", $update)
 													)

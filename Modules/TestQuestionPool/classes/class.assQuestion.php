@@ -4315,10 +4315,21 @@ abstract class assQuestion
 		/** @var ilDB $ilDB */
 		global $ilDB;
 
-		return $ilDB->queryF("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s AND step = %s",
-			array('integer','integer','integer', 'integer'),
-			array($active_id, $this->getId(), $pass, $this->getStep())
-		);
+		if($this->getStep() == NULL)
+		{
+			return $ilDB->queryF("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+				array('integer','integer','integer'),
+				array($active_id, $this->getId(), $pass)
+			);
+		}
+		else
+		{
+			return $ilDB->queryF("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s AND step = %s",
+				array('integer','integer','integer', 'integer'),
+				array($active_id, $this->getId(), $pass, $this->getStep())
+			);
+		}
+
 	}
 
 	/**
@@ -4334,10 +4345,21 @@ abstract class assQuestion
 		 */
 		global $ilDB;
 
-		return $ilDB->manipulateF("DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s AND step = %s",
-			array('integer','integer','integer', 'integer'),
-			array($active_id, $this->getId(), $pass, $this->getStep())
-		);
+		if($this->getStep() == NULL)
+		{
+			return $ilDB->manipulateF("DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+				array('integer','integer','integer'),
+				array($active_id, $this->getId(), $pass)
+			);
+		}
+		else
+		{
+			return $ilDB->manipulateF("DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s AND step = %s",
+				array('integer','integer','integer', 'integer'),
+				array($active_id, $this->getId(), $pass, $this->getStep())
+			);
+		}
+
 	}
 
 	/**
