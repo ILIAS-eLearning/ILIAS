@@ -69,6 +69,9 @@ do not try open clob fields with fopen even if allow_url_fopen is enabled
  
 MDB2/Driver/mysqli.php, line 1525
 patch for PEAR bug #17024
+ 
+MDB2/Driver/mysqli.php, line 425
+patch for hhvm usage
 
 */
 ?>
