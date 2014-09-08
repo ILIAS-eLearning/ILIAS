@@ -6,6 +6,7 @@ include_once "./Modules/TestQuestionPool/classes/class.assFormulaQuestionResult.
 include_once "./Modules/TestQuestionPool/classes/class.assFormulaQuestionVariable.php";
 include_once "./Modules/TestQuestionPool/classes/class.ilUnitConfigurationRepository.php";
 include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
+require_once './Modules/TestQuestionPool/interfaces/interface.iQuestionCondition.php';
 
 /**
  * Class for single choice questions
@@ -14,7 +15,7 @@ include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
  * @version       $Id: class.assFormulaQuestion.php 1236 2010-02-15 15:44:16Z hschottm $
  * @ingroup       ModulesTestQuestionPool
  */
-class assFormulaQuestion extends assQuestion
+class assFormulaQuestion extends assQuestion implements iQuestionCondition
 {
 	private $variables;
 	private $results;
@@ -1368,5 +1369,31 @@ class assFormulaQuestion extends assQuestion
 			}
 		}
 		return $solutionSubmit;
+	}
+
+	/**
+	 * Get all available operations for a specific question
+	 *
+	 * @param string $expression
+	 *
+	 * @internal param string $expression_type
+	 * @return array
+	 */
+	public function getOperators($expression)
+	{
+		require_once "./Modules/TestQuestionPool/classes/class.ilOperatorsExpressionMapping.php";
+		return ilOperatorsExpressionMapping::getOperatorsByExpression($expression);
+	}
+
+	/**
+	 * Get all available expression types for a specific question
+	 * @return array
+	 */
+	public function getExpressionTypes()
+	{
+		return array(
+			iQuestionCondition::PercentageResultExpression,
+			iQuestionCondition::NumericResultExpression
+		);
 	}
 }

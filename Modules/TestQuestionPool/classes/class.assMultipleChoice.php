@@ -5,6 +5,7 @@ require_once './Modules/TestQuestionPool/classes/class.assQuestion.php';
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 require_once './Modules/TestQuestionPool/interfaces/interface.ilObjQuestionScoringAdjustable.php';
 require_once './Modules/TestQuestionPool/interfaces/interface.ilObjAnswerScoringAdjustable.php';
+require_once './Modules/TestQuestionPool/interfaces/interface.iQuestionCondition.php';
 
 /**
  * Class for multiple choice tests.
@@ -21,7 +22,7 @@ require_once './Modules/TestQuestionPool/interfaces/interface.ilObjAnswerScoring
  * 
  * @ingroup		ModulesTestQuestionPool
  */
-class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable
+class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition
 {
 	/**
 	 * The given answers of the multiple choice question
@@ -1300,5 +1301,31 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
 			}
 		}
 		return $points;
+	}
+
+	/**
+	 * Get all available operations for a specific question
+	 *
+	 * @param string $expression
+	 *
+	 * @internal param string $expression_type
+	 * @return array
+	 */
+	public function getOperators($expression)
+	{
+		require_once "./Modules/TestQuestionPool/classes/class.ilOperatorsExpressionMapping.php";
+		return ilOperatorsExpressionMapping::getOperatorsByExpression($expression);
+	}
+
+	/**
+	 * Get all available expression types for a specific question
+	 * @return array
+	 */
+	public function getExpressionTypes()
+	{
+		return array(
+			iQuestionCondition::PercentageResultExpression,
+			iQuestionCondition::NumericResultExpression
+		);
 	}
 }

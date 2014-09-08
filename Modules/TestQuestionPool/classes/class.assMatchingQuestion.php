@@ -5,6 +5,7 @@ require_once './Modules/TestQuestionPool/classes/class.assQuestion.php';
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 require_once './Modules/TestQuestionPool/interfaces/interface.ilObjQuestionScoringAdjustable.php';
 require_once './Modules/TestQuestionPool/interfaces/interface.ilObjAnswerScoringAdjustable.php';
+require_once './Modules/TestQuestionPool/interfaces/interface.iQuestionCondition.php';
 
 /**
  * Class for matching questions
@@ -19,7 +20,7 @@ require_once './Modules/TestQuestionPool/interfaces/interface.ilObjAnswerScoring
  * 
  * @ingroup		ModulesTestQuestionPool
  */
-class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable
+class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition
 {
 	/**
 	* The possible matching pairs of the matching question
@@ -1565,5 +1566,32 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 			}
 		}
 		return $points;
+	}
+
+	/**
+	 * Get all available operations for a specific question
+	 *
+	 * @param $expression
+	 *
+	 * @internal param string $expression_type
+	 * @return array
+	 */
+	public function getOperators($expression)
+	{
+		require_once "./Modules/TestQuestionPool/classes/class.ilOperatorsExpressionMapping.php";
+		return ilOperatorsExpressionMapping::getOperatorsByExpression($expression);
+	}
+
+	/**
+	 * Get all available expression types for a specific question
+	 * @return array
+	 */
+	public function getExpressionTypes()
+	{
+		return array(
+			iQuestionCondition::PercentageResultExpression,
+			iQuestionCondition::NumericResultExpression,
+			iQuestionCondition::MatchingResultExpression
+		);
 	}
 }
