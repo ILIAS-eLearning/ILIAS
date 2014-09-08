@@ -959,7 +959,6 @@ assessment#:#test_move_page#:#Frage verschieben
 assessment#:#test_next_question#:#Nächste Frage
 assessment#:#test_prev_question#:#Vorherige Frage
 assessment#:#test_question_pool_usage#:#Fragenpools verwenden
-assessment#:#test_question_pool_usage_desc#:#Im Test erstellte Fragen können automatisch in einen Fragenpool übernommen werden.
 assessment#:#test_reference#:#Test-Verknüpfung
 assessment#:#test_template_reset#:#Die Vorlage wurde entfernt.
 assessment#:#test_using_template#:#Dieser Test verwendet die Vorlage %s. Wenn Sie keine Vorlage und alle Einstellungen verwenden wollen, klicken Sie bitte hier: %s.
@@ -985,21 +984,16 @@ assessment#:#tst_access_code_created#:#Um Ihnen einen dauerhaften Zugang zu Ihre
 assessment#:#tst_all_user_data_deleted#:#Die Daten aller Testteilnehmer wurden gelöscht!
 assessment#:#tst_allow_fixed_participants#:#Diesen Test nur für feste Teilnehmer verfügbar machen
 assessment#:#tst_allow_instant_verification#:#Direkte Überprüfung der Antworten anbieten
-assessment#:#tst_allowed_users_max#:#Maximale Anzahl
 assessment#:#tst_allowed_users#:#Begrenzte Anzahl gleichzeitiger Teilnehmer
-assessment#:#tst_allowed_users_desc#:#Um die Performanz nicht zu gefährden, kann eine maximale Anzahl von Teilnehmern festgelegt werden, die den Test gleichzeitig durchführen können. Weitere Benutzer müssen warten, bis die maximale Anzahl wieder unterschritten ist.
 assessment#:#tst_allowed_users_time_gap#:#Inaktivitätszeit der Teilnehmer
-assessment#:#tst_allowed_users_time_gap_desc#:#Wenn ein Teilnehmer im angegebenen Zeitraum nichts anklickt, wird er als inaktiv eingestuft und von der weiteren Testdurchführung ausgeschlossen.
 assessment#:#tst_already_submitted#:#Der Test wurde bereits beendet und die Antworten abgeschickt.
 assessment#:#tst_already_taken#:#Bereits durchgeführte Tests
-assessment#:#tst_settings_header_test_run#:#Durchführung: Steuerung Testdurchlauf
 assessment#:#tst_anonymity#:#Anonymität
 assessment#:#tst_anonymity_anonymous_test#:#Anonymer Test
 assessment#:#tst_anonymity_no_anonymization#:#Keine Anonymisierung
 assessment#:#tst_answer_sheet#:#Test und Assessment - Antwortenübersicht
 assessment#:#tst_answered_questions#:#Beantwortete Fragen
 assessment#:#tst_answered_questions_test#:#In diesem Test beantwortete Fragen
-assessment#:#tst_settings_header_execution#:#Durchführung: Zugang
 assessment#:#tst_best_solution_is#:#Die bestmögliche Lösung lautet
 assessment#:#tst_browse_for_questions#:#Aus Pool hinzufügen
 assessment#:#tst_change_points_for_question#:#Punkte für die Antwort
@@ -1082,7 +1076,6 @@ assessment#:#tst_instant_feedback_solution#:#Lösungen anzeigen
 assessment#:#tst_instant_feedback_solution_desc#:#Wenn Lösungen ausgewählt ist, wird die korrekte Lösung einer Frage angezeigt.
 assessment#:#tst_instant_verification#:#Direkte Überprüfung
 assessment#:#tst_introduction#:#Einleitung
-assessment#:#tst_introduction_text#:#Einleitungstext
 assessment#:#tst_invited_nobody#:#Es wurden keine Benutzer, Gruppen oder Rollen als feste Teilnehmer hinzugefügt
 assessment#:#tst_invited_selected_groups#:#Die ausgewählten Gruppen wurden als feste Teilnehmer hinzugefügt
 assessment#:#tst_invited_selected_roles#:#Die ausgewählten Rollen wurden als feste Teilnehmer hinzugefügt
@@ -1128,9 +1121,7 @@ assessment#:#tst_notify_manscoring_done_body_msg_reason#:#Sie erhalten diese Nac
 assessment#:#tst_notify_manscoring_done_body_msg_subject#:#Manuelle Bewertung für Test "%s" erfolgt
 assessment#:#tst_notify_manscoring_done_body_msg_topic#:#die manuelle Bewertung für folgenden Test wurde eingereicht:
 assessment#:#tst_nr_of_passes#:#Anzahl der Testdurchläufe
-assessment#:#tst_limit_nr_of_tries#:#Anzahl Testdurchläufe begrenzen
 assessment#:#tst_nr_of_tries#:#Maximale Anzahl von Testdurchläufen
-assessment#:#tst_nr_of_tries_desc#:#Teilnehmer können nur eine begrenzte Anzahl von Testdurchläufen absolvieren.
 assessment#:#tst_nr_of_tries_of_user#:#Bereits durchgeführte Testdurchläufe
 assessment#:#tst_participant#:#Teilnehmer
 assessment#:#tst_participant_solution#:#Teilnehmerlösung
@@ -1147,7 +1138,6 @@ assessment#:#tst_pass_scoring_description#:#Normalerweise wird immer der letzte 
 assessment#:#tst_passes#:#Testdurchläufe
 assessment#:#tst_password_form#:#Testpasswort Eingabe
 assessment#:#tst_password#:#Testpasswort
-assessment#:#tst_password_enter#:#Passwort eingeben
 assessment#:#tst_password_details#:#Wenn Sie ein Testpasswort definieren, müssen alle berechtigten Teilnehmer dieses Kennwort eingeben, um den Test zu starten.
 assessment#:#tst_password_entered_wrong_password#:#Sie können den Test nicht starten, da Sie ein falsches Testpasswort eingegeben haben!
 assessment#:#tst_password_introduction#:#Dieser Test kann nur mit einem Testpasswort gestartet werden. Bitte tragen Sie das Passwort hier ein.
@@ -1160,8 +1150,6 @@ assessment#:#tst_print#:#Test und Assessment – Druckansicht
 assessment#:#tst_print_date#:#Datum des Ausdrucks
 assessment#:#tst_processing_time#:#Maximale Bearbeitungsdauer
 assessment#:#tst_processing_time_desc#:#Die Bearbeitungsdauer für den Test wird zeitlich eingegrenzt.
-assessment#:#tst_processing_time_duration#:#Zeitspanne
-assessment#:#tst_processing_time_duration_desc#:#Die Bearbeitungsdauer beginnt mit dem Zeitpunkt, an dem ein Teilnehmer zum ersten Mal den Test startet. Nach Ablauf der Zeitspanne können keine Fragen mehr beantwortet werden. Kombinieren Sie diese Option nicht mit der Option "Test unterbrechen", da hierdurch das Herunterzählen der Bearbeitungsdauer nicht angehalten wird!
 assessment#:#tst_properties#:#Test-Eigenschaften
 assessment#:#tst_qst_order#:#Reihenfolge
 assessment#:#tst_qst_resetsolved#:#markiere als ungelöst
@@ -1290,9 +1278,7 @@ assessment#:#tst_start_new_test_pass#:#Neuen Testdurchlauf starten
 assessment#:#tst_start_test#:#Test starten
 assessment#:#tst_started#:#Test gestartet
 assessment#:#tst_starting_time#:#Frühester Start
-assessment#:#tst_starting_time_desc#:#Benutzer können den Test erst ab einem festgelegten Zeitpunkt starten. Darüber hinaus kann noch eine Bearbeitungsdauer eingestellt werden.
 assessment#:#tst_ending_time#:#Spätester Abschluß
-assessment#:#tst_ending_time_desc#:#Benutzer können Fragen nur bis zu einem festgelegten Zeitpunkt beantworten.
 assessment#:#tst_stat_all_users#:#Alle  Benutzer
 assessment#:#tst_stat_choose_users#:#(wählen Sie eine oder mehr Benutzer aus der Liste aus)
 assessment#:#tst_stat_result_atimeofwork#:#Durchschnittliche Bearbeitungsdauer
@@ -1505,7 +1491,6 @@ assessment#:#test_scoring#:#Bewertungsoptionen
 assessment#:#test_presentation#:#Ausgabeoptionen
 assessment#:#test_results#:#Ergebnisausgabeoptionen
 assessment#:#misc#:#Verschiedene Optionen
-assessment#:#tst_settings_header_intro#:#Informationen zum Test
 assessment#:#tst_back_to_top#:#Zurück nach oben
 assessment#:#tst_back_to_question_list#:#Zurück zur Fragenliste
 assessment#:#tst_results_tax_filters#:#Ergebnis Filter
@@ -2925,7 +2910,6 @@ common#:#enable_trash_info#:#Wenn aktiviert, werden gelöschte Objekte in den Pa
 common#:#enable_webdav#:#WebDAV Zugriff aktivieren
 common#:#enable_webdav_info#:#Erlaubt WebDAV Clients den Zugriff auf das Magazin über einen Webordner. Benutzer können Webordner öffnen, indem Sie im Magazin die Aktion "Als Webordner öffnen" ausführen, oder in einem WebDAV Client folgende Adresse eingeben: <a href="%1$s" folder="%1$s">%1$s</a>
 common#:#enabled#:#Eingeschaltet
-common#:#enter_filename_deliver#:#Bitte geben Sie hier Ihre Lösungsergebnisse ab
 common#:#enter_in_mb_desc#:#Geben Sie eine Größe in MB ein.
 common#:#enumerate#:#Nummerieren
 common#:#err_1_param#:#Nur 1 Parameter!
@@ -5998,7 +5982,6 @@ content#:#cont_resource#:#Ressource
 content#:#cont_resource_size#:#Originalgröße der Ressource
 content#:#cont_resource_type#:#Typ
 content#:#cont_resources#:#Ressourcen
-content#:#cont_Ressources#:#Ressourcen
 content#:#cont_revision#:#Änderung
 content#:#cont_right#:#Rechts
 content#:#cont_right_float#:#Rechts, Text umfließt
@@ -14635,9 +14618,7 @@ form#:#form_location_radius_km#:#km
 content#:#cont_question_stats#:#Statistic
 content#:#cont_blocked_users#:#Blocked Users
 content#:#cont_last_try#:#Last Try
-content#:#cont_ignore_fail#:#Ignore Fail
 content#:#cont_reset_nr_of_tries#:#Reset Number of Tries
-content#:#cont_ignore_fail_allow_continue#:#Ignore Fail / Allow to Continue
 crs#:#crs_subscription_failed_limit#:#Die maximale Teilnehmeranzahl wurde überschritten.
 user#:#delete_inactive_user_accounts_frequency#:#Intervall
 user#:#delete_inactive_user_accounts_frequency_desc#:#Intervall, mit welchem auf Löschung sowie auf Email Versand getestet wird.
@@ -14663,3 +14644,54 @@ exc#:#exc_team_assignment_adopt_already_assigned#:#bereits zugewiesen
 wiki#:#wiki_show_print_view#:#Druckansicht
 wiki#:#wiki_show_pdf_export#:#PDF-Export
 exc#:#exc_peer_deadline_mismatch#:#Da das Feedback nach der Deadline gegeben wird, darf die Feedback-Deadline nicht vor der Übungs-Deadline liegen.
+assessment#:#intro_desc#:#This message appears at the beginning of the test.###08 09 2014 new variable
+assessment#:#tst_beginning_ending_information#:#Information at Beginning and End of Test###08 09 2014 new variable
+dcl#:#dcl_confirm_delete_fields#:#Do you really want to delete these fields?###08 09 2014 new variable
+dcl#:#dcl_msg_fields_deleted#:#Deleted fields###08 09 2014 new variable
+dcl#:#dcl_msg_no_perm_view#:#No permission given to view this record###08 09 2014 new variable
+dcl#:#dcl_msg_no_perm_edit#:#No permission given to edit this record###08 09 2014 new variable
+orgu#:#orgu_type_deleted#:#Organisational Unit Type deleted###08 09 2014 new variable
+orgu#:#orgu_type_add#:#Add Organisational Unit Type###08 09 2014 new variable
+orgu#:#orgu_type_edit#:#Edit Organisational Unit Type###08 09 2014 new variable
+orgu#:#orgu_types#:#Types###08 09 2014 new variable
+orgu#:#orgu_type_msg_deleted#:#Deleted Organisational Unit Type###08 09 2014 new variable
+orgu#:#orgu_type_msg_missing_title#:#There must be set a title for the default language###08 09 2014 new variable
+orgu#:#orgu_type_msg_unable_delete#:#Unable to delete type because it is still assigned to the following Organisational Units: %s###08 09 2014 new variable
+orgu#:#orgu_type_msg_deletion_prevented#:#Deletion of object prevented by plugins: %s###08 09 2014 new variable
+orgu#:#orgu_type_msg_setting_member_prevented#:#Setting '%s' prevented by plugins: %s###08 09 2014 new variable
+orgu#:#orgu_type_msg_updating_prevented#:#Updating of object prevented by plugins: %s###08 09 2014 new variable
+orgu#:#orgu_type_msg_assign_amd_prevented#:#Assigning AMDRecord prevented by plugins: %s###08 09 2014 new variable
+orgu#:#orgu_type_msg_deassign_amd_prevented#:#Deassigning AMDRecord prevented by plugins: %s###08 09 2014 new variable
+orgu#:#orgu_type_msg_setting_default_lang_prevented#:#Setting '%s' as default language prevented by plugins: %s###08 09 2014 new variable
+orgu#:#orgu_type_msg_missing_title_default_language#:#There must be set a default language and a title for the default language###08 09 2014 new variable
+orgu#:#orgu_type_custom_icon_info#:#All Organisational Units having this type assigned will use the icon in the tree and header.###08 09 2014 new variable
+orgu#:#orgu_settings#:#Organisational Unit Settings###08 09 2014 new variable
+orgu#:#orgu_type#:#Organisational Unit Type###08 09 2014 new variable
+orgu#:#orgu_orgu_type#:#Organisational Unit Type###08 09 2014 new variable
+orgu#:#orgu_type_custom_icon#:#Custom Icon for this Organisational Unit Type###08 09 2014 new variable
+orgu#:#orgu_adv_settings#:#Advanced Settings###08 09 2014 new variable
+orgu#:#orgu_type_msg_error_custom_icon#:#Could not save the custom icon###08 09 2014 new variable
+orgu#:#orgu_type_available_amd_sets#:#Available Advanced Metadata sets###08 09 2014 new variable
+orgu#:#orgu_type_assign_amd_sets#:#Assign Advanced Metadata sets###08 09 2014 new variable
+content#:#cont_help_no_valid_tooltip_id#:#The tooltip ID you have entered was not valid.###08 09 2014 new variable
+wiki#:#wiki_page_templates#:#Page Templates###08 09 2014 new variable
+wiki#:#wiki_template_status_removed#:#Template status removed.###08 09 2014 new variable
+wiki#:#wiki_remove_template_status#:#Remove Template Status###08 09 2014 new variable
+wiki#:#wiki_template_added#:#Template page added.###08 09 2014 new variable
+wiki#:#wiki_templ_new_pages#:#Available on Page Creation###08 09 2014 new variable
+wiki#:#wiki_templ_add_to_page#:#Available for Being Added to Existing Pages###08 09 2014 new variable
+wiki#:#wiki_add_template#:#Set Template Status###08 09 2014 new variable
+wiki#:#wiki_empty_page_template#:#Empty Page Template on Page Creation###08 09 2014 new variable
+wiki#:#wiki_page_not_exist_select_templ#:#This page does not exist yet. Please select a template for the new page.###08 09 2014 new variable
+wiki#:#wiki_new_page#:#New Page###08 09 2014 new variable
+wiki#:#wiki_page_template#:#Page Template###08 09 2014 new variable
+wiki#:#wiki_empty_page#:#Empty Page###08 09 2014 new variable
+wiki#:#wiki_create_page#:#Create Page###08 09 2014 new variable
+content#:#cont_ed_insert_templ#:#Insert Content Template###08 09 2014 new variable
+content#:#cont_template#:#Template###08 09 2014 new variable
+content#:#cont_unlocked#:#Unlocked###08 09 2014 new variable
+content#:#cont_unlock_allow_continue#:#Unlock / Allow to Continue###08 09 2014 new variable
+content#:#cont_blocked_users_mail_link#:#Click on the following link to open the learning module:###08 09 2014 new variable
+wiki#:#wiki_set_as_start_page#:#Set as Start Page###08 09 2014 new variable
+wiki#:#wiki_purpose#:#Purpose###08 09 2014 new variable
+wiki#:#wiki_select_one_item#:#Please select one item.###08 09 2014 new variable
