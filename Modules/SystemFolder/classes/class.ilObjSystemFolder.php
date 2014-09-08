@@ -79,15 +79,18 @@ class ilObjSystemFolder extends ilObject
 	*/
 	function getHeaderTitleTranslations()
 	{
+		/**
+		 * @var $ilDB ilDB
+		 */
 		global $ilDB;
-		
+
 		$q = "SELECT * FROM object_translation WHERE obj_id = ".
 			$ilDB->quote($this->getId(),'integer')." ORDER BY lang_default DESC";
-		$r = $this->ilias->db->query($q);
+		$r = $ilDB->query($q);
 
 		$num = 0;
 
-		while ($row = $r->fetchRow(DB_FETCHMODE_OBJECT))
+		while ($row = $ilDB->fetchObject($r))
 		{
 			$data["Fobject"][$num]= array("title"	=> $row->title,
 										  "desc"	=> ilUtil::shortenText($row->description,ilObject::DESC_LENGTH,true),
@@ -142,15 +145,19 @@ class ilObjSystemFolder extends ilObject
 
 	function _getHeaderTitle()
 	{
+		/**
+		 * @var $ilDB ilDB
+		 * @var $ilUser ilObjUser
+		 */
 		global $ilDB, $ilUser;
-		
+
 		$id = ilObjSystemFolder::_getId();
 
 		$q = "SELECT title,description FROM object_translation ".
 			"WHERE obj_id = ".$ilDB->quote($id,'integer')." ".
 			"AND lang_default = 1";
-		$r = $this->ilias->db->query($q);
-		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
+		$r = $ilDB->query($q);
+		$row = $ilDB->fetchObject($r);
 		$title = $row->title;
 
 		$q = "SELECT title,description FROM object_translation ".
@@ -158,8 +165,8 @@ class ilObjSystemFolder extends ilObject
 			"AND lang_code = ".
 			$ilDB->quote($ilUser->getCurrentLanguage(),'text')." ".
 			"AND NOT lang_default = 1";
-		$r = $this->ilias->db->query($q);
-		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
+		$r = $ilDB->query($q);
+		$row = $ilDB->fetchObject($r);
 
 		if ($row)
 		{
@@ -171,6 +178,9 @@ class ilObjSystemFolder extends ilObject
 
 	function _getHeaderTitleDescription()
 	{
+		/**
+		 * @var $ilDB ilDB
+		 */
 		global $ilDB;
 		
 		$id = ilObjSystemFolder::_getId();
@@ -178,8 +188,8 @@ class ilObjSystemFolder extends ilObject
 		$q = "SELECT title,description FROM object_translation ".
 			"WHERE obj_id = ".$ilDB->quote($id,'integer')." ".
 			"AND lang_default = 1";
-		$r = $this->ilias->db->query($q);
-		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
+		$r = $ilDB->query($q);
+		$row = $ilDB->fetchObject($r);
 		$description = $row->description;
 
 		$q = "SELECT title,description FROM object_translation ".
@@ -187,8 +197,8 @@ class ilObjSystemFolder extends ilObject
 			"AND lang_code = ".
 			$ilDB->quote($this->ilias->account->getPref("language"),'text')." ".
 			"AND NOT lang_default = 1";
-		$r = $this->ilias->db->query($q);
-		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
+		$r = $ilDB->query($q);
+		$row = $ilDB->fetchObject($r);
 
 		if ($row)
 		{
