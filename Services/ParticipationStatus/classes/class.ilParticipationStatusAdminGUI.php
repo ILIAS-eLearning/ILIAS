@@ -48,9 +48,7 @@ class ilParticipationStatusAdminGUI
 			// gev-patch start
 			//ilUtil::sendFailure($lng->txt("msg_no_perm_read"), true);
 			//$this->returnToParent();
-			if($from_foreign_class){
-				return false;
-			}else{
+			if(!$from_foreign_class){
 				ilUtil::sendFailure($lng->txt("msg_no_perm_read"), true);
 				$this->returnToParent();
 			}
@@ -58,7 +56,7 @@ class ilParticipationStatusAdminGUI
 		}
 		
 		$lng->loadLanguageModule("ptst");
-	
+
 		$this->setParticipationStatus(ilParticipationStatus::getInstance($this->getCourse()));
 	}
 	
