@@ -779,22 +779,6 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
 	}
 
 	/**
-	 * @param $value
-	 * @return int
-	 */
-	protected function calculateReachedPointsForSolution($value)
-	{
-		$value = $this->splitAndTrimOrderElementText($value, $this->answer_separator);
-		$value = join($value, $this->answer_separator);
-		if(strcmp($value, join($this->getOrderingElements(), $this->answer_separator)) == 0)
-		{
-			$points = $this->getPoints();
-			return $points;
-		}
-		return $points;
-	}
-
-	/**
 	 * Get all available operations for a specific question
 	 *
 	 * @param $expression
@@ -849,20 +833,17 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
 		$elements = $this->getOrderingElements();
 		$solutions = array();
 
-		foreach($answer_elements as $answer)
+		foreach($answer_elements as $key => $answer)
 		{
-			foreach($elements as $key => $element)
-			{
-				if($element == $answer)
-				{
-					$result->addKeyValue($key+1, $elements[$key]);
-					$solutions[] = $elements[$key];
-					break;
-				}
-			}
+			$result->addKeyValue($key+1, $answer);
 		}
 
-		$result->addKeyValue(null, join(" ", $solutions));
+		$glue = "";
+		if($this->answer_separator == " ")
+		{
+			$glue = " ";
+		}
+		$result->addKeyValue(null, join($glue, $answer_elements));
 
 		$points = $this->calculateReachedPoints($active_id, $pass);
 		$max_points = $this->getMaximumPoints();
@@ -895,5 +876,21 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
 		{
 			return $elements;
 		}
+	}
+
+	/**
+	 * @param $value
+	 * @return int
+	 */
+	protected function calculateReachedPointsForSolution($value)
+	{
+		$value = $this->splitAndTrimOrderElementText($value, $this->answer_separator);
+		$value = join($value, $this->answer_separator);
+		if(strcmp($value, join($this->getOrderingElements(), $this->answer_separator)) == 0)
+		{
+			$points = $this->getPoints();
+			return $points;
+		}
+		return 0;
 	}
 }
