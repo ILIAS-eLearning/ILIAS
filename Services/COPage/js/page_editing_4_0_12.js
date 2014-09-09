@@ -366,7 +366,13 @@ tinymce.activeEditor.formatter.register('mycode', {
 		this.addBBCode(b, e);
 	},
 
-	addBBCode: function(stag, etag)
+	getSelection: function() {
+		var ed = tinyMCE.get('tinytarget'), r, rcopy;
+		ed.focus();
+		return ed.selection.getContent();
+	},
+
+	addBBCode: function(stag, etag, clearselection)
 	{
 		var ed = tinyMCE.get('tinytarget'), r, rcopy;
 		ed.focus();
@@ -402,7 +408,12 @@ tinymce.activeEditor.formatter.register('mycode', {
 		}
 		else
 		{
-			ed.selection.setContent(stag + ed.selection.getContent() + etag);
+			if (clearselection) {
+				ed.selection.setContent(stag + etag);
+			}
+			else {
+				ed.selection.setContent(stag + ed.selection.getContent() + etag);
+			}
 		}
 		this.autoResize(ed);
 	},

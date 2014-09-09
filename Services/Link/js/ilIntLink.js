@@ -60,6 +60,11 @@ il.IntLink =
 		YAHOO.util.Event.stopPropagation(ev);
 	},
 
+	/**
+	 * Init panel
+	 * @param internal_link (in case of page editor undefined)
+	 * @param id			(in case of page editor undefined)
+	 */
 	initPanel: function(internal_link, id)
 	{
 		// new: get link from onclick event
@@ -68,11 +73,21 @@ il.IntLink =
 			this.setInternalLinkUrl(internal_link);
 			this.id = id.substring(0, id.length-5);
 		}
-		
+
+		il.IntLink.showPanel();
+		var j = this.getInternalLinkUrl();
+		this.initAjax({mode: 'int_link'});
+	},
+
+	/**
+	 * Show panel. This function should be extracted from IntLink component, since the
+	 * panel is used by other features, too (e.g. wiki link handling)
+	 */
+	showPanel: function() {
 		var obj = document.getElementById('ilEditorPanel_c');
 		if (!obj)
 		{
-			var obj = document.getElementById('ilEditorPanel');
+			obj = document.getElementById('ilEditorPanel');
 			obj.style.display = "";
 			// Create a panel Instance, from the 'resizablepanel' DIV standard module markup
 			var panel = new YAHOO.widget.Panel("ilEditorPanel", {
@@ -95,8 +110,6 @@ il.IntLink =
 		obj.style.top = '0px';
 		obj = document.getElementById('ilEditorPanel');
 		obj.style.top = '0px';
-		var j = this.getInternalLinkUrl();
-		this.initAjax({mode: 'int_link'});
 	},
 
 	// cfg pars: url (if not provided and post, take form.action?), post/get, parameters (added to get/post)
@@ -288,8 +301,12 @@ il.IntLink =
 			addInternalLink(b);
 		}
 
-		il.IntLink.panel.hide();
+		il.IntLink.hidePanel();
 		return false;
+	},
+
+	hidePanel: function () {
+		il.IntLink.panel.hide();
 	},
 	
 	setMepPoolFolder: function(mep_fold_id)

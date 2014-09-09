@@ -2155,7 +2155,7 @@ return;
 		$a_style_id = 0, $a_paragraph_styles = true, $a_save_return = true,
 		$a_anchors = false, $a_save_new = true)
 	{
-		global $lng;
+		global $lng, $ilCtrl;
 
 		$mathJaxSetting = new ilSetting("MathJax");
 		
@@ -2267,6 +2267,11 @@ return;
 
 		if ($a_wiki_links)
 		{
+			$btpl->setCurrentBlock("bb_wikilink_button2");
+			$btpl->setVariable("TXT_WIKI_BUTTON2", $lng->txt("obj_wiki"));
+			$btpl->setVariable("WIKI_BUTTON2_URL", $ilCtrl->getLinkTargetByClass("ilwikipagegui", ""));
+			$btpl->parseCurrentBlock();
+
 			$btpl->setCurrentBlock("bb_wikilink_button");
 			$btpl->setVariable("TXT_WLN2", $lng->txt("obj_wiki"));
 			$btpl->parseCurrentBlock();

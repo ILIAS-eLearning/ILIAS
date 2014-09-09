@@ -83,9 +83,12 @@ var upload = false;
 <!-- BEGIN bb_ilink_button -->
 <a id="iosEditInternalLinkTrigger" class="ilEditSubmit" xhref="{BB_LINK_ILINK}" accesskey="i" xtarget="tree" onMouseOver="myhelpline('i')">&nbsp;iln&nbsp;</a>
 <!-- END bb_ilink_button -->
-<!-- BEGIN bb_wikilink_button -->
-<a class="ilEditSubmit" href="#" accesskey="w" name="addbbcode14" onClick="bbstyle(20)" onMouseOver="myhelpline('w')" >&nbsp;[[{TXT_WLN2}]]&nbsp;</a>&nbsp;
-<!-- END bb_wikilink_button -->
+	<!-- BEGIN bb_wikilink_button2 -->
+	<a class="ilEditSubmit" href="#" onClick="il.Wiki.Edit.openLinkDialog('{WIKI_BUTTON2_URL}');" >&nbsp;{TXT_WIKI_BUTTON2}&nbsp;</a>&nbsp;
+	<!-- END bb_wikilink_button2 -->
+	<!-- BEGIN bb_wikilink_button -->
+	<a class="ilEditSubmit" href="#" accesskey="w" name="addbbcode14" onClick="bbstyle(20)" onMouseOver="myhelpline('w')" >&nbsp;[[{TXT_WLN2}]]&nbsp;</a>&nbsp;
+	<!-- END bb_wikilink_button -->
 </div>
 <!-- BEGIN int_link_prep -->
 {INT_LINK_PREP}

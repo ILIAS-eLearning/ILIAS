@@ -971,6 +971,50 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		}		
 		$ilCtrl->redirect($this, "preview");
 	}
+
+	/**
+	 * Edit
+	 *
+	 * @param
+	 * @return
+	 */
+	function edit()
+	{
+		global $tpl;
+
+		$tpl->addJavascript("./Modules/Wiki/js/WikiEdit.js");
+		return parent::edit();
+	}
+
+	/**
+	 * Returns form to insert a wiki link per ajax
+	 */
+	function insertWikiLink()
+	{
+		global $lng;
+
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();
+		$form->addCommandButton("addWikiLink", $lng->txt("wiki_add_link"));
+		$form->addCommandButton("cancelInsertWikiLink", $lng->txt("cancel"));
+
+		// Target page
+		$tp = new ilTextInputGUI($this->lng->txt("wiki_target_page"), "target_page");
+		$tp->setSize(18);
+		$form->addItem($tp);
+
+		// Link text
+		$lt = new ilTextInputGUI($this->lng->txt("wiki_link_text"), "link_text");
+		$lt->setSize(18);
+		$form->addItem($lt);
+
+		$form->setTitle($lng->txt("wiki_link"));
+
+		echo $form->getHTML();
+		exit;
+	}
+
+
 } 
 
 ?>

@@ -14697,6 +14697,10 @@ wiki#:#wiki_select_one_item#:#Please select one item.
 exc#:#exc_peer_deadline_mismatch#:#As feedback is given after the deadline has passed the feedback deadline must not be earlier than the assignment deadline.
 trac#:#trac_mode_questions#:#Questions
 trac#:#trac_mode_questions_info#:#Users who answered all questions correctly will gain the status 'Completed'.
+wiki#:#wiki_link#:#Wiki Link
+wiki#:#wiki_add_link#:#Add Link
+wiki#:#wiki_link_text#:#Link Text
+wiki#:#wiki_target_page#:#Target Page
 mmbr#:#mmbr_selected_users#:#Selected Participants
 mmbr#:#mmbr_btn_mail_selected_users#:#Send Mail
 sess#:#sess_mail_permanent_link#:#Click on the following link to find all of the information you need regarding the session:

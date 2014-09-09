@@ -274,6 +274,11 @@ class ilPageContentGUI
 		}
 		if ($this->pg_obj->getParentType() == "wpg")
 		{
+			$btpl->setCurrentBlock("bb_wikilink_button2");
+			$btpl->setVariable("TXT_WIKI_BUTTON2", $lng->txt("obj_wiki"));
+			$btpl->setVariable("WIKI_BUTTON2_URL", $ilCtrl->getLinkTargetByClass("ilwikipagegui", ""));
+			$btpl->parseCurrentBlock();
+
 			$btpl->setCurrentBlock("bb_wikilink_button");
 			$btpl->setVariable("TXT_WLN2", $lng->txt("wiki_wiki_page"));
 			$btpl->parseCurrentBlock();
