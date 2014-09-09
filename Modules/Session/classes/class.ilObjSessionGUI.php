@@ -1500,6 +1500,19 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$reg->setChecked($this->object->enabledRegistration() ? true : false);
 		$reg->setOptionTitle($this->lng->txt('event_registration_info'));
 		$this->form->addItem($reg);
+		
+		include_once './Modules/Session/classes/class.ilSessionMembershipRegistrationSettingsGUI.php';
+		$reg_settings = new ilSessionMembershipRegistrationSettingsGUI(
+				$this,
+				$this->object,
+				array(
+					ilSessionMembershipRegistrationSettingsGUI::TYPE_DIRECT,
+					ilSessionMembershipRegistrationSettingsGUI::TYPE_REQUEST,
+					ilSessionMembershipRegistrationSettingsGUI::TYPE_NONE,
+					ilSessionMembershipRegistrationSettingsGUI::REGISTRATION_LIMITED_USERS
+				)
+		);
+		#$reg_settings->addMembershipFormElements($this->form, '');
 
 
 		$section = new ilFormSectionHeaderGUI();

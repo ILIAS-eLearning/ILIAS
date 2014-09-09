@@ -14700,3 +14700,14 @@ trac#:#trac_mode_questions_info#:#Nutzer, die alle Fragen richtig beantwortet ha
 mmbr#:#mmbr_selected_users#:#Ausgewählte Teilnehmer
 mmbr#:#mmbr_btn_mail_selected_users#:#Mail verschicken
 sess#:#sess_mail_permanent_link#:#Wählen Sie den folgenden Link, um auf den Sitzungsinhalt zuzugreifen:
+sess#:#sess_reg_type#:#Anmeldungsverfahren
+sess#:#sess_reg_direct#:#Direkte Anmeldung
+sess#:#sess_reg_request#:#Anmeldung mit Bestätigung
+sess#:#sess_reg_disabled#:#Keine selbständige Anmeldung
+sess#:#sess_reg_request_info#:#Eine Aufnahme erfolgt nur, wenn sie durch einen Administrator bestätigt wurde.
+sess#:#sess_reg_disabled_info#:#Für diesen Sitzungstermin ist keine explizite Anmeldung notwendig.
+sess#:#sess_reg_max_members_short#:#Begrenzte Teilnehmeranzahl
+sess#:#sess_reg_max_members#:#Maximale Anzahl
+sess#:#sess_reg_max_members_info#:#Ist die maximale Teilnehmeranzahl erreicht, ist eine Anmeldung nicht mehr möglich.
+sess#:#sess_reg_waiting_list#:#Warteliste
+sess#:#sess_reg_waiting_list_info#:#Ist die maximale Teilnehmeranzahl erreicht, können sich weitere Benutzer auf eine Warteliste setzen lassen.

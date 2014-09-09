@@ -14700,3 +14700,14 @@ trac#:#trac_mode_questions_info#:#Users who answered all questions correctly wil
 mmbr#:#mmbr_selected_users#:#Selected Participants
 mmbr#:#mmbr_btn_mail_selected_users#:#Send Mail
 sess#:#sess_mail_permanent_link#:#Click on the following link to find all of the information you need regarding the session:
+sess#:#sess_reg_type#:# Registration Procedure
+sess#:#sess_reg_direct#:#Direct Registration
+sess#:#sess_reg_request#:#Request Membership
+sess#:#sess_reg_disabled#:#No Self-enrolment
+sess#:#sess_reg_request_info#:#Interested users can send a request/message to administrators.
+sess#:#sess_reg_disabled_info#:#A registration is not required for this session appointment
+sess#:#sess_reg_max_members_short#:#Number of Members
+sess#:#sess_reg_max_members#:#Limited Number of Members
+sess#:#sess_reg_max_members_info#:#Define the maximum number of users that can participate to this session.
+sess#:#sess_reg_waiting_list#:#Waiting List
+sess#:#sess_reg_waiting_list_info#:#If enabled and the maximum number of users is exceeded, new registrations will be placed on a waiting list.
