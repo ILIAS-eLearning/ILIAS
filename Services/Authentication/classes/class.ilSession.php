@@ -60,6 +60,9 @@ class ilSession
 	*/
 	static function _getData($a_session_id)
 	{
+		if(!$a_session_id) {
+			return NULL;
+		}
 		global $ilDB;
 		
 		$q = "SELECT data FROM usr_session WHERE session_id = ".
@@ -135,6 +138,8 @@ class ilSession
 		return true;
 	}
 
+
+
 	/**
 	* Check whether session exists
 	*
@@ -143,16 +148,15 @@ class ilSession
 	*/
 	static function _exists($a_session_id)
 	{
+		if (! $a_session_id) {
+			return false;
+		}
 		global $ilDB;
 
-		$q = "SELECT session_id FROM usr_session WHERE session_id = ".
-			$ilDB->quote($a_session_id, "text");
+		$q = "SELECT 1 FROM usr_session WHERE session_id = " . $ilDB->quote($a_session_id, "text");
 		$set = $ilDB->query($q);
-		if ($ilDB->fetchAssoc($set))
-		{
-			return true;
-		}
-		return false;
+
+		return $ilDB->numRows($set) > 0;
 	}
 
 	/**
