@@ -135,10 +135,14 @@ class ilObjSystemFolder extends ilObject
 
 	function _getId()
 	{
-		$q = "SELECT obj_id FROM object_data ".
-			"WHERE type = 'adm'";
-		$r = $this->ilias->db->query($q);
-		$row = $r->fetchRow(DB_FETCHMODE_OBJECT);
+		/**
+		 * @var $ilDB ilDB
+		 */
+		global $ilDB;
+
+		$q   = "SELECT obj_id FROM object_data WHERE type = " . $ilDB->quote('adm', 'text');
+		$r   = $ilDB->query($q);
+		$row = $ilDB->fetchObject($r);
 
 		return $row->obj_id;
 	}
