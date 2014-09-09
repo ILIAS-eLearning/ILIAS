@@ -1,5 +1,7 @@
 <?php
 
+require_once("Services/Calendar/classes/class.ilDatePresentation.php");
+
 class gevAttendanceByEmployeeGUI {
 	public function __construct() {
 		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
@@ -106,38 +108,10 @@ class gevAttendanceByEmployeeGUI {
 		return    $title->render()
 				. $period_input->render()
 				. $spacer->render()
-				//. $this->renderOverview()
-				//. $spacer->render()
 				. $this->renderTable()
 				;
 	}
-	/*
-	public function renderOverview() {
-		$user_utils = gevUserUtils::getInstance($this->target_user_id);
-		$tpl = new ilTemplate("tpl.gev_edu_bio_overview.html", true, true, "Services/GEV/Reports");
-
-		$this->renderAcademyPoints($tpl);
-		
-		if ($user_utils->transferPointsFromWBD()) {
-			$this->renderWBDPoints($tpl);
-			$tpl->setVariable("WBDPOINTSVISIBIBLE", "visible");
-		}
-		else {
-			$tpl->setVariable("WBDPOINTSVISIBIBLE", "invisible");
-			if($user_utils->transferPointsToWBD()) {
-				$tpl->setVariable("WBDTRANSVISIBIBLE", "visible");
-				$tpl->setCurrentBlock("wbd_transfer");
-				$tpl->setVariable("TRANSFER_TITLE", $this->lng->txt("gev_wbd_transfer_on"));
-				$tpl->parseCurrentBlock();
-			} 
-			else {
-				$tpl->setVariable("WBDTRANSVISIBIBLE", "visible");
-			}
-		}
-		
-		return $tpl->get();
-	}
-	*/
+	
 
 
 	public function renderTable() {
@@ -161,9 +135,12 @@ class gevAttendanceByEmployeeGUI {
 			array("gev_org_unit_short", "org_unit"),
 			array("title", "title"),
 			array("gev_training_id", "custom_id"),
-			array("gev_location", "venue"),
-			array("gev_provider", "provider"),
+			//array("gev_location", "venue"),
+			//array("gev_provider", "provider"),
 			array("gev_learning_type", "type"),
+
+			array("date", "date"),
+
 			array("gev_booking_status", "booking_status"),
 			array("gev_participation_status", "participation_status")
 		);
@@ -180,13 +157,16 @@ class gevAttendanceByEmployeeGUI {
 		$query =	 "SELECT usrcrs.usr_id, usrcrs.crs_id, "
 					."		 usrcrs.booking_status, usrcrs.participation_status, usrcrs.okz, usrcrs.org_unit,"
 					."		 usr.firstname, usr.lastname, usr.gender, usr.bwv_id, usr.position_key,"
-					."		 crs.custom_id, crs.title, crs.type, crs.venue, crs.provider "
+					."		 crs.custom_id, crs.title, crs.type, crs.venue, crs.provider, crs.begin_date, crs.end_date "
 
  					."  FROM hist_usercoursestatus usrcrs "
 					."  JOIN hist_user usr ON usr.user_id = usrcrs.usr_id AND usr.hist_historic = 0"
 					."  JOIN hist_course crs ON crs.crs_id = usrcrs.crs_id AND crs.hist_historic = 0"
 
-					."  WHERE (usrcrs.booking_status != '-empty-' OR usrcrs.participation_status != '-empty-')"
+					."  WHERE ("
+					."		(usrcrs.booking_status != '-empty-' OR usrcrs.participation_status != '-empty-')"
+					."  	AND usrcrs.function NOT IN ('Trainingsbetreuer', 'Trainer')"
+					."  )"
 					
 					. $this->queryWhen($this->start_date, $this->end_date)
 					. $this->queryAllowedUsers()
@@ -212,16 +192,23 @@ class gevAttendanceByEmployeeGUI {
 					$rec[$key] = $no_entry;
 					continue;
 				}
+
+				//date
+				if( $rec["begin_date"] && $rec["end_date"] 
+					&& ($rec["begin_date"] != '0000-00-00' && $rec["end_date"] != '0000-00-00' )
+					){
+					$start = new ilDate($rec["begin_date"], IL_CAL_DATE);
+					$end = new ilDate($rec["end_date"], IL_CAL_DATE);
+					$date = '<nobr>' .ilDatePresentation::formatPeriod($start,$end) .'</nobr>';
+				} else {
+					$date = '-';
+				}
+				$rec['date'] = $date;
 			}
 			
 			$data[] = $rec;
 		}
 
-		/*
-		print '<hr><pre>';
-		print_r($data);
-		print '</pre><hr>';
-		*/
 		$cnt = count($data);
 		$table->setLimit($cnt);
 		$table->setMaxCount($cnt);
@@ -247,10 +234,6 @@ class gevAttendanceByEmployeeGUI {
 	}
 	
 	protected function queryAllowedUsers() {
-		
-
-		//get org units recursively
-		//$allowed_orgunits = $this->report_permissions->getOrgUnitIdsWhereUserHasRole($valid_roles, true);
 		
 
 		//get all users the current user is superior of:
