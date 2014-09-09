@@ -976,11 +976,9 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 	*/
 	function addAdminLocatorItems()
 	{
-		global $ilLocator, $tpl;
+		global $ilLocator;
 
-		$ilLocator->addItem($this->lng->txt("administration"),
-			$this->ctrl->getLinkTargetByClass("iladministrationgui", "frameset"),
-			ilFrameTargetInfo::_getFrame("MainContent"));
+		parent::addAdminLocatorItems(true); // #13881
 
 		$ilLocator->addItem($this->lng->txt("languages"),
 			$this->ctrl->getLinkTargetByClass("ilobjlanguagefoldergui", ""));
