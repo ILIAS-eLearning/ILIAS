@@ -1314,7 +1314,6 @@ h1.ilHeader {
 	border-bottom: 1px solid #EAEAEA;
 }
 
-
 h1.ilHeaderHasIcon {
 	margin-left: 50px;
 }
@@ -1323,7 +1322,6 @@ span.ilHeader {}
 
 div.ilHeadAction {
 	float: right;
-	position: relative;
 	margin: 21px 21px 5px 0; /* bottom 5px blog fullscreen */
 }
 
