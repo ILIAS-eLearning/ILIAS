@@ -48,10 +48,10 @@ class ilGlobalCache {
 		self::COMP_SETTINGS,
 		self::COMP_TEMPLATE,
 		self::COMP_ILCTRL,
-		self::COMP_PLUGINS,
-		self::COMP_PLUGINSLOTS,
-		self::COMP_COMPONENT,
-		self::COMP_RBAC_UA,
+				self::COMP_COMPONENT,
+		//		self::COMP_PLUGINS,
+		//		self::COMP_PLUGINSLOTS,
+//		self::COMP_RBAC_UA,
 	);
 	/**
 	 * @var array
@@ -63,10 +63,11 @@ class ilGlobalCache {
 		self::COMP_ILCTRL,
 		self::COMP_COMPONENT,
 		self::COMP_TEMPLATE,
-		//		self::COMP_SETTINGS,
-		//		self::COMP_PLUGINS,
-		//		self::COMP_RBAC_UA,
-		//		self::COMP_PLUGINSLOTS,
+		self::COMP_SETTINGS,
+		self::COMP_PLUGINS,
+		self::COMP_PLUGINSLOTS,
+//		self::COMP_RBAC_UA,
+		'ctrl_mm'
 	);
 	/**
 	 * @var ilGlobalCache

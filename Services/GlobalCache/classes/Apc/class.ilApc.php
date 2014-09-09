@@ -44,7 +44,7 @@ class ilApc extends ilGlobalCacheService {
 	 * @return mixed
 	 */
 	public function get($key) {
-		return (apc_fetch($this->returnKey($key)));
+		return apc_fetch($this->returnKey($key));
 	}
 
 
@@ -92,24 +92,26 @@ class ilApc extends ilGlobalCacheService {
 	public function getInfo() {
 		$return = array();
 
+		$cache_info = apc_cache_info();
+
+		unset($cache_info['cache_list']);
+		unset($cache_info['slot_distribution']);
+
 		$return['__cache_info'] = array(
 			'apc.enabled' => ini_get('apc.enabled'),
 			'apc.shm_size' => ini_get('apc.shm_size'),
 			'apc.shm_segments' => ini_get('apc.shm_segments'),
 			'apc.gc_ttl' => ini_get('apc.gc_ttl'),
-			'apc.ttl' => ini_get('apc.ttl'),
+			'apc.user_ttl' => ini_get('apc.ttl'),
+			'info' => $cache_info
 		);
 
-		$iter = new APCIterator(self::CACHE_ID);
-		$match = "/" . $this->getServiceId() . "_" . $this->getComponent() . "_([_.a-zA-Z0-9]*)/uism";
-		foreach ($iter as $item) {
-			$key = $item['key'];
-			if (preg_match($match, $key, $matches)) {
-				if ($matches[1]) {
-					if ($this->isValid($matches[1])) {
-						$return[$matches[1]] = $this->unserialize($item['value']);
-					}
-				}
+		$cache_info = apc_cache_info();
+		foreach ($cache_info['cache_list'] as $dat) {
+			$key = $dat['key'];
+
+			if (preg_match('/' . $this->getServiceId() . '_' . $this->getComponent() . '/', $key)) {
+				$return[$key] = apc_fetch($key);
 			}
 		}
 
