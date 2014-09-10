@@ -19,6 +19,12 @@ require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 require_once("Services/GEV/Utils/classes/class.gevSettings.php");
 require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
 
+
+function  __sortByCourseDate($a, $b) {
+	return $a['start_date']->getUnixTime() > $b['start_date']->getUnixTime();
+}
+
+
 class gevUserUtils {
 	static protected $instances = array();
 
@@ -240,6 +246,11 @@ class gevUserUtils {
 	
 
 
+
+
+	
+
+
 	public function getCourseIdsWhereUserIsTutor() {
 			
 		$like_role = array();
@@ -304,6 +315,7 @@ class gevUserUtils {
 
 
 			foreach ($crss_amd as $id => $entry) {
+
 				$do_process_entry = true;
 				
 				$entry['crs_ref_id'] = $crss[$id];
@@ -360,6 +372,9 @@ class gevUserUtils {
 				}
 			}
 
+			//sort?
+
+			usort($ret, '__sortByCourseDate');
 			return $ret;
 	}
 
