@@ -2577,6 +2577,8 @@ include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObje
 ilDBUpdateNewObjectType::varchar2text('exc_assignment_peer', 'pcomment');
 
 ?>
+
+
 <#4306>
 <?php
 /**
@@ -2749,192 +2751,42 @@ if($ilDB->tableColumnExists('usr_data', 'i2passwd'))
 ?>
 <#4313>
 <?php
-if($ilDB->tableColumnExists('exc_assignment_peer', 'upload'))
-{
-	$ilDB->dropTableColumn('exc_assignment_peer', 'upload');
-}
-?>
 
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+ilDBUpdateNewObjectType::addAdminNode('bibs', 'BibliographicAdmin');
+
+$ilCtrlStructureReader->getStructure();
+?>
 <#4314>
 <?php
 
-$res = $ilDB->queryF(
-	"SELECT COUNT(*) cnt FROM qpl_qst_type WHERE type_tag = %s", array('text'), array('assKprimChoice')
-);
-
-$row = $ilDB->fetchAssoc($res);
-
-if( !$row['cnt'] )
+if( !$ilDB->tableExists('il_bibl_settings') )
 {
-	$res = $ilDB->query("SELECT MAX(question_type_id) maxid FROM qpl_qst_type");
-	$data = $ilDB->fetchAssoc($res);
-	$nextId = $data['maxid'] + 1;
-
-	$ilDB->insert('qpl_qst_type', array(
-		'question_type_id' => array('integer', $nextId),
-		'type_tag' => array('text', 'assKprimChoice'),
-		'plugin' => array('integer', 0)
-	));
-}
-
-?>
-
-<#4315>
-<?php
-
-if( !$ilDB->tableExists('qpl_qst_kprim') )
-{
-	$ilDB->createTable('qpl_qst_kprim', array(
-		'question_fi' => array(
-			'type' => 'integer',
-			'length' => 4,
-			'notnull' => true,
-			'default' => 0
-		),
-		'shuffle_answers' => array(
-			'type' => 'integer',
-			'length' => 1,
-			'notnull' => true,
-			'default' => 0
-		),
-		'answer_type' => array(
-			'type' => 'text',
-			'length' => 16,
-			'notnull' => true,
-			'default' => 'singleLine'
-		),
-		'thumb_size' => array(
-			'type' => 'integer',
-			'length' => 4,
-			'notnull' => false,
-			'default' => null
-		),
-		'opt_label' => array(
-			'type' => 'text',
-			'length' => 32,
-			'notnull' => true,
-			'default' => 'right/wrong'
-		),
-		'custom_true' => array(
-			'type' => 'text',
-			'length' => 255,
-			'notnull' => false,
-			'default' => null
-		),
-		'custom_false' => array(
-			'type' => 'text',
-			'length' => 255,
-			'notnull' => false,
-			'default' => null
-		),
-		'score_partsol' => array(
-			'type' => 'integer',
-			'length' => 1,
-			'notnull' => true,
-			'default' => 0
-		),
-		'feedback_setting' => array(
-			'type' => 'integer',
-			'length' => 4,
-			'notnull' => true,
-			'default' => 1
-		)
-	));
-
-	$ilDB->addPrimaryKey('qpl_qst_kprim', array('question_fi'));
-}
-
-?>
-
-<#4316>
-<?php
-
-if( !$ilDB->tableExists('qpl_a_kprim') )
-{
-	$ilDB->createTable('qpl_a_kprim', array(
-		'question_fi' => array(
-			'type' => 'integer',
-			'length' => 4,
-			'notnull' => true,
-			'default' => 0
-		),
-		'position' => array(
-			'type' => 'integer',
-			'length' => 4,
-			'notnull' => true,
-			'default' => 0
-		),
-		'answertext' => array(
-			'type' => 'text',
-			'length' => 1000,
-			'notnull' => false,
-			'default' => null
-		),
-		'imagefile' => array(
-			'type' => 'text',
-			'length' => 255,
-			'notnull' => false,
-			'default' => null
-		),
-		'correctness' => array(
-			'type' => 'integer',
-			'length' => 1,
-			'notnull' => true,
-			'default' => 0
-		)
-	));
-
-	$ilDB->addPrimaryKey('qpl_a_kprim', array('question_fi', 'position'));
-	$ilDB->addIndex('qpl_a_kprim', array('question_fi'), 'i1');
-}
-?>
-
-<#4317>
-<?php
-	$ilCtrlStructureReader->getStructure();
-?>
-<#4318>
-<?php
-
-// #13858 
-include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
-ilDBUpdateNewObjectType::varchar2text('rbac_log', 'data');
-
-?>
-<#4319>
-<?php
-
-$ilDB->addTableColumn('page_qst_answer', 'unlocked', array(
-	"type" => "integer",
-	"notnull" => true,
-	"length" => 1,
-	"default" => 0
-));
-
-?>
-<#4320>
-<?php
-/** @var ilDB $ilDB */
-if(!$ilDB->tableColumnExists('tst_solutions', 'step'))
-{
-    $ilDB->addTableColumn('tst_solutions', 'step', array(
-            'type' => 'integer',
+    $ilDB->createTable('il_bibl_settings', array(
+        'id' => array(
+            'type' => "integer",
             'length' => 4,
-            'notnull' => false,
-            'default' => null
-        ));
-}
-?>
-<#4321>
-<?php
-/** @var ilDB $ilDB */
-if(!$ilDB->tableColumnExists('tst_test_result', 'step'))
-{
-	$ilDB->addTableColumn('	tst_test_result', 'step', array(
-		'type' => 'integer',
-		'length' => 4,
-		'notnull' => false,
-		'default' => null
-	));
+            'notnull' => true,
+            'default' => 0
+        ),
+        'name' => array(
+            'type' => 'text',
+            'length' => 50,
+            'notnull' => true,
+            'default' => "-"
+        ),
+        'url' => array(
+            'type' => 'text',
+            'length' => 128,
+            'notnull' => true,
+            'default' => "-"
+        ),
+        'img' => array(
+            'type' => 'text',
+            'length' => 128,
+            'notnull' => false
+        )
+    ));
+    $ilDB->addPrimaryKey('il_bibl_settings', array('id'));
 }
 ?>
