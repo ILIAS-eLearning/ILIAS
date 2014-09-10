@@ -155,14 +155,16 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		}
 		else
 		{
-			$print_view = (bool)$_GET['prt'];
+			// gev-patch start
+			/*$print_view = (bool)$_GET['prt'];
 			if(!$print_view)
 			{
 				$ilToolbar->setFormAction($this->ctrl->getFormAction($this));
 				$this->ctrl->setParameter($this, 'prt', 1);
 				$ilToolbar->addButton($this->lng->txt('print_view'),$this->ctrl->getLinkTarget($this,'details'), '_blank');
 				$this->ctrl->setParameter($this, 'prt', '');
-			}
+			}*/
+			// gev-patch end
 		}
 
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
@@ -223,12 +225,16 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 		$user_id = (int)$_GET["user_id"];
 		$this->ctrl->setParameter($this, "user_id", $user_id);
 
+		// gev-patch start
+		/*
 		if(!$print_view)
 		{
 			$this->ctrl->setParameter($this, 'prt', 1);
 			$ilToolbar->addButton($this->lng->txt('print_view'),$this->ctrl->getLinkTarget($this,'userDetails'), '_blank');
 			$this->ctrl->setParameter($this, 'prt', '');
 		};
+		*/
+		// gev-patch end
 
 		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.lp_loo.html','Services/Tracking');
 
@@ -310,7 +316,9 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 	function showObjectSummary()
 	{
 		global $tpl, $ilToolbar;
-
+		
+		// gev-patch start
+		/*
 		$print_view = (bool)$_GET['prt'];
 		if(!$print_view)
 		{
@@ -319,6 +327,8 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
 			$ilToolbar->addButton($this->lng->txt('print_view'),$this->ctrl->getLinkTarget($this,'showObjectSummary'), '_blank');
 			$this->ctrl->setParameter($this, 'prt', '');
 		}
+		*/
+		// gev-patch end
 
 		include_once("./Services/Tracking/classes/repository_statistics/class.ilTrSummaryTableGUI.php");
 		$table = new ilTrSummaryTableGUI($this, "showObjectSummary", $this->getRefId(), $print_view);
