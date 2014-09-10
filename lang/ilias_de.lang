@@ -13199,6 +13199,8 @@ dcl#:#dcl_link_detail_page#:#Einträge als Link zur Detail-Seite anzeigen
 crs#:#crs_notification_list_title#:#Benachrichtigung über neue Mitglieder
 common#:#objs_bibl#:#Literaturlisten
 common#:#obj_bibl#:#Literaturliste
+common#:#obj_bibs#:#Literaturliste
+common#:#obj_bibs_desc#:#Literaturlisten-Administration
 bibl#:#bibl_new#:#Neue Literaturliste
 bibl#:#bibl_add#:#Literaturliste hinzufügen
 bibl#:#Download Original File#:#Original-Datei herunterladen
@@ -13207,12 +13209,28 @@ bibl#:#bibl_edit#:#Edit Literaturliste bearbeiten
 bibl#:#bibliography file#:#Literaturlisten-Datei
 bibl#:#obj_bibl_duplicate#:#Literaturliste duplizieren
 bibl#:#detail_view#:#Detailansicht
+bibl#:#bibl_admin_settings#:#Einstellungen
+bibl#:#bibl_settings_libraries#:#Bibliotheken
+bibl#:#bibl_library_name#:#Name
+bibl#:#bibl_library_url#:#Basis-URL
+bibl#:#bibl_library_img#:#Bild-URL
+bibl#:#bibl_settings_new#:#Bibliothek hinzufügen
+bibl#:#bibl_settings_edit#:#Bibliothek bearbeiten
+bibl#:#attr_order_bibtex#:#Attribut-Reihenfolge (Bibtex)
+bibl#:#attr_order_bibtex_info#:#default: isbn,issn,title
+bibl#:#attr_order_ris#:#Attribut-Reihenfolge (ris)
+bibl#:#attr_order_ris_info#:#default: sn,ti, t1
 rbac#:#bibl_visible#:#Literaturliste ist sichtbar
 rbac#:#bibl_read#:#Literaturliste lesen
 rbac#:#bibl_copy#:#Literaturliste kopieren
 rbac#:#bibl_write#:#Literaturliste bearbeiten
 rbac#:#bibl_delete#:#Literaturliste löschen
 rbac#:#bibl_edit_permission#:#Rechteeinstellungen ändern
+rbac#:#bibs_visible#:#Literaturlisten-Administration ist sichtbar
+rbac#:#bibs_read#:#Literaturlisten-Administration lesen
+rbac#:#bibs_write#:#Einstellungen und Bibliotheken bearbeiten
+rbac#:#bibs_delete#:#Bibliothek-Eintrag löschen
+rbac#:#bibs_edit_permission#:#Rechteeinstellungen ändern
 ldap#:#ldap_edit_role_assignment#:#Zuordnung bearbeiten
 trac#:#trac_mode_collection_tlt#:#Typische Lerndauer (je Kapitel)
 trac#:#trac_mode_collection_tlt_info#:#Die Bearbeitungszeit der NutzerInnen aller relevanten Kapitel muss die 'Typische Lernzeit' überschreiten, um den Status 'Bearbeitet' zu erreichen.

@@ -13195,6 +13195,8 @@ dcl#:#dcl_delete_fields#:#Delete fields
 dcl#:#dcl_link_detail_page#:#Link entries to detail page
 common#:#obj_bibl#:#Bibliography
 common#:#objs_bibl#:#Bibliographies
+common#:#obj_bibs#:#Bibliography
+common#:#obj_bibs_desc#:#Bibliography Administration
 bibl#:#bibl_new#:#New Bibliography
 bibl#:#bibl_add#:#Add Bibliography
 bibl#:#Download Original File#:#Download Original File
@@ -13204,12 +13206,28 @@ bibl#:#bibl_edit#:#Edit Bibliography
 bibl#:#bibliography file#:#Bibliography File
 bibl#:#obj_bibl_duplicate#:#Duplicate Bibliography
 bibl#:#detail_view#:#Detail View
+bibl#:#bibl_admin_settings#:#Settings
+bibl#:#bibl_settings_libraries#:#Libraries
+bibl#:#bibl_library_name#:#Name
+bibl#:#bibl_library_url#:#Base-URL
+bibl#:#bibl_library_img#:#Image-URL
+bibl#:#bibl_settings_new#:#Add Library
+bibl#:#bibl_settings_edit#:#Edit Library
+bibl#:#attr_order_bibtex#:#Attribute Order (Bibtex)
+bibl#:#attr_order_bibtex_info#:#default: isbn,issn,title
+bibl#:#attr_order_ris#:#Attribute Order (ris)
+bibl#:#attr_order_ris_info#:#default: sn,ti, t1
 rbac#:#bibl_visible#:#Bibliography is visible
 rbac#:#bibl_read#:#User can read bibliography content
 rbac#:#bibl_copy#:#User can copy bibliography
 rbac#:#bibl_write#:#User can edit bibliography settings
 rbac#:#bibl_delete#:#User can move or delete bibliography
 rbac#:#bibl_edit_permission#:#User can change permission settings
+rbac#:#bibs_visible#:#Bibliography-Administration is visible
+rbac#:#bibs_read#:#User can read bibliography content
+rbac#:#bibs_write#:#User can edit bibliography settings
+rbac#:#bibs_delete#:#User can delete library entries
+rbac#:#bibs_edit_permission#:#User can change permission settings
 ldap#:#ldap_edit_role_assignment#:#Edit Role -> Group Assignment
 trac#:#trac_mode_collection_tlt#:#Typical Learning Time (per Chapter)
 trac#:#trac_mode_collection_tlt_info#:#Users who reached the Typical Learning Time of all relevant chapters will gain the status 'Completed'.
