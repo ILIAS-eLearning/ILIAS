@@ -17,7 +17,6 @@ class gevAttendanceByEmployeeGUI {
 
 		$this->data = false;
 		
-
 		$this->table_cols = array(
 			array("lastname", "lastname"),
 			array("firstname", "firstname"),
@@ -30,9 +29,7 @@ class gevAttendanceByEmployeeGUI {
 			//array("gev_location", "venue"),
 			//array("gev_provider", "provider"),
 			array("gev_learning_type", "type"),
-
 			array("date", "date"),
-
 			array("gev_booking_status", "booking_status"),
 			array("gev_participation_status", "participation_status")
 		);
@@ -78,8 +75,6 @@ class gevAttendanceByEmployeeGUI {
 			default:
 				return $this->render();
 		}
-		
-		//return $this->render();
 	}
 	
 	
@@ -103,8 +98,6 @@ class gevAttendanceByEmployeeGUI {
 		require_once("Services/GEV/Desktop/classes/class.gevPeriodSelectorGUI.php");
 		
 		$title = new catTitleGUI("gev_rep_attendance_by_employee_title", "gev_rep_attendance_by_employee_desc", "GEV_img/ico-head-edubio.png");
-		
-		
 		/*
 		//table legend
 
@@ -130,7 +123,6 @@ class gevAttendanceByEmployeeGUI {
 		
 		$spacer = new catHSpacerGUI();
 		
-
 		//export-button
 		$export_btn = '<a class="submit" style="float:right;"'
 					. 'href="'
