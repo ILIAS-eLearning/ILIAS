@@ -14,7 +14,30 @@ class gevAttendanceByEmployeeGUI {
 		$this->tpl = &$tpl;
 		$this->db = &$ilDB;
 		$this->user = $ilUser;
+
+		$this->data = false;
 		
+
+		$this->table_cols = array(
+			array("lastname", "lastname"),
+			array("firstname", "firstname"),
+			array("gev_bwv_id", "bwv_id"),
+			array("gev_agent_key", "position_key"),
+			array("gender", "gender"),
+			array("gev_org_unit_short", "org_unit"),
+			array("title", "title"),
+			array("gev_training_id", "custom_id"),
+			//array("gev_location", "venue"),
+			//array("gev_provider", "provider"),
+			array("gev_learning_type", "type"),
+
+			array("date", "date"),
+
+			array("gev_booking_status", "booking_status"),
+			array("gev_participation_status", "participation_status")
+		);
+
+
 		//$this->report_permissions = gevReportingPermissions::getInstance($this->user->getId());
 
 		//$this->user_id = $ilUser->getId();
@@ -42,22 +65,21 @@ class gevAttendanceByEmployeeGUI {
 		$this->query_from = null;
 	}
 	
+
 	public function executeCommand() {
 		$this->checkPermission();
 
-		/*
 		$cmd = $this->ctrl->getCmd();
 		
 		switch ($cmd) {
-			case "getCertificate":
-				return $this->deliverCertificate();
-			case "getBill":
-				return $this->getBill();
+			case "exportxls":
+				$this->exportXLS();
+				//no "break;" !
 			default:
 				return $this->render();
 		}
-		*/
-		return $this->render();
+		
+		//return $this->render();
 	}
 	
 	
@@ -70,6 +92,9 @@ class gevAttendanceByEmployeeGUI {
 		ilUtil::sendFailure($this->lng->txt("no_report_permission"), true);
 		ilUtil::redirect("ilias.php?baseClass=gevDesktopGUI&cmdClass=toMyCourses");
 	}
+
+
+
 	
 	public function render() {
 		require_once("Services/CaTUIComponents/classes/class.catTitleGUI.php");
@@ -105,20 +130,28 @@ class gevAttendanceByEmployeeGUI {
 		
 		$spacer = new catHSpacerGUI();
 		
+
+		//export-button
+		$export_btn = '<a class="submit" style="float:right;"'
+					. 'href="'
+					.$this->ctrl->getLinkTarget($this, "exportxls")
+					.'">'
+					.$this->lng->txt("gev_reports_export")
+					.'</a>';
+
+
 		return    $title->render()
 				. $period_input->render()
 				. $spacer->render()
+				. $export_btn
 				. $this->renderTable()
+				. $export_btn
 				;
 	}
-	
 
 
 	public function renderTable() {
 		require_once("Services/CaTUIComponents/classes/class.catTableGUI.php");
-		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
-		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
-		require_once("Services/Calendar/classes/class.ilDatePresentation.php");
 		
 		$table = new catTableGUI($this, "view");
 		$table->setEnableTitle(false);
@@ -126,32 +159,98 @@ class gevAttendanceByEmployeeGUI {
 		$table->setEnableHeader(true);
 		$table->setRowTemplate("tpl.gev_attendance_by_employee_row.html", "Services/GEV/Reports");
 
-		$table_cols = array(
-			array("lastname", "lastname"),
-			array("firstname", "firstname"),
-			array("gev_bwv_id", "bwv_id"),
-			array("gev_agent_key", "position_key"),
-			array("gender", "gender"),
-			array("gev_org_unit_short", "org_unit"),
-			array("title", "title"),
-			array("gev_training_id", "custom_id"),
-			//array("gev_location", "venue"),
-			//array("gev_provider", "provider"),
-			array("gev_learning_type", "type"),
-
-			array("date", "date"),
-
-			array("gev_booking_status", "booking_status"),
-			array("gev_participation_status", "participation_status")
-		);
-
 		$table->addColumn("", "blank", "0px", false);
-		foreach ($table_cols as $col) {
+		foreach ($this->table_cols as $col) {
 			$table->addColumn($this->lng->txt($col[0]), $col[1]);
 		}
 		
 		$table->setFormAction($this->ctrl->getFormAction($this, "view"));
+
+		$data = $this->getData();
+
+		$cnt = count($data);
+		$table->setLimit($cnt);
+		$table->setMaxCount($cnt);
+
+		$table->setData($data);
+		return $table->getHTML();
+	}
+	
+
+
+
+	protected function exportXLS() {
+		require_once "Services/User/classes/class.ilUserUtil.php";
+		require_once "Services/Excel/classes/class.ilExcelUtils.php";
+		require_once "Services/Excel/classes/class.ilExcelWriterAdapter.php";
 		
+		$data = $this->getData();
+
+		$adapter = new ilExcelWriterAdapter("Report.xls", true); 
+		$workbook = $adapter->getWorkbook();
+		$worksheet = $workbook->addWorksheet();
+		$worksheet->setLandscape();
+
+		//available formats within the sheet
+		$format_bold = $workbook->addFormat(array("bold" => 1));
+		$format_wrap = $workbook->addFormat();
+		$format_wrap->setTextWrap();
+		
+		//init cols and write titles
+		$colcount = 0;
+		foreach ($this->table_cols as $col) {
+			$worksheet->setColumn($colcount, $colcount, 30); //width
+			$worksheet->writeString(0, $colcount, $this->lng->txt($col[0]), $format_bold);
+			$colcount++;
+		}
+
+		//write data-rows
+		$rowcount = 1;
+		foreach ($data as $entry) {
+			$colcount = 0;
+			foreach ($this->table_cols as $col) {
+				$k = $col[1];
+				$v = $entry[$k];
+				if ($k == 'date'){
+					$v = str_replace('<nobr>', '', $v);
+					$v = str_replace('</nobr>', '', $v);
+				}
+				$worksheet->write($rowcount, $colcount, $v, $format_wrap);
+				$colcount++;
+			}
+
+			$rowcount++;
+		}
+
+		$workbook->close();		
+	}
+
+
+
+
+	protected function getData(){ 
+		if ($this->data == false){
+			$this->loadData();
+		}
+		return $this->data;
+	}
+
+	protected function loadData(){ 
+		//set data to $this->data
+		$this->data = $this->fetchData();
+	}
+
+
+	protected function fetchData(){ 
+		//fetch retrieves the data 
+		
+		require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		require_once("Services/Calendar/classes/class.ilDatePresentation.php");
+
+		$no_entry = $this->lng->txt("gev_table_no_entry");
+		$user_utils = gevUserUtils::getInstance($this->target_user_id);
+		$data = array();
 
 		//get data
 		$query =	 "SELECT usrcrs.usr_id, usrcrs.crs_id, "
@@ -174,20 +273,14 @@ class gevAttendanceByEmployeeGUI {
 					."  ORDER BY usr.lastname ASC";
 
 
-		//print $query;
-
 		$res = $this->db->query($query);
-		
-		$no_entry = $this->lng->txt("gev_table_no_entry");
-		$user_utils = gevUserUtils::getInstance($this->target_user_id);
-		
-		$data = array();
+
 		while($rec = $this->db->fetchAssoc($res)) {
 			/*	
 				modify record-entries here.
 			*/			
-
 			foreach ($rec as $key => $value) {
+				
 				if ($value == '-empty-' || $value == -1) {
 					$rec[$key] = $no_entry;
 					continue;
@@ -200,6 +293,7 @@ class gevAttendanceByEmployeeGUI {
 					$start = new ilDate($rec["begin_date"], IL_CAL_DATE);
 					$end = new ilDate($rec["end_date"], IL_CAL_DATE);
 					$date = '<nobr>' .ilDatePresentation::formatPeriod($start,$end) .'</nobr>';
+					//$date = ilDatePresentation::formatPeriod($start,$end);
 				} else {
 					$date = '-';
 				}
@@ -209,14 +303,11 @@ class gevAttendanceByEmployeeGUI {
 			$data[] = $rec;
 		}
 
-		$cnt = count($data);
-		$table->setLimit($cnt);
-		$table->setMaxCount($cnt);
-
-		$table->setData($data);
-		return $table->getHTML();
+		return $data;
 	}
-	
+
+
+
 	protected function queryWhen(ilDate $start, ilDate $end) {
 		if ($this->query_when === null) {
 			$this->query_when =
@@ -258,6 +349,9 @@ class gevAttendanceByEmployeeGUI {
 		return $this->query_from;
 	}
 */	
+
+
+
 }
 
 ?>
