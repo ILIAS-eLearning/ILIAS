@@ -377,7 +377,11 @@ class ilDataCollectionRecord
 		}
 		else
 		{
-			$html = $this->recordfields[$field_id]->getHTML($options);
+			if (is_object($this->recordfields[$field_id])) {
+                $html = $this->recordfields[$field_id]->getHTML($options);
+            } else {
+                $html = '';
+            }
 		}
 
 		// This is a workaround as templating in ILIAS currently has some issues with curly brackets.see: http://www.ilias.de/mantis/view.php?id=12681#bugnotes

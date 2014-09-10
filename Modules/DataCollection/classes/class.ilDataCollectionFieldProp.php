@@ -127,7 +127,7 @@ class ilDataCollectionFieldProp
 		$set = $ilDB->query($query);
 		$rec = $ilDB->fetchAssoc($set);
 
-		$this->setDatatypePropertyId($rec["property_id"]);
+		$this->setDatatypePropertyId($rec["datatype_prop_id"]);
 		$this->setValue($rec["value"]);
 		$this->setFieldId($rec["field_id"]);
 		

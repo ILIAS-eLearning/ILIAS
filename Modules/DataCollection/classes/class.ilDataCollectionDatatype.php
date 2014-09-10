@@ -483,7 +483,7 @@ class ilDataCollectionDatatype
 		{
 			$file = $value;
 
-			if($file['tmp_name'])
+			if(is_array($file) && $file['tmp_name'])
 			{
 				$file_obj = new ilObjFile();
 
@@ -506,7 +506,7 @@ class ilDataCollectionDatatype
 	            return 0;
 
             $media = $value;
-            if($media['tmp_name']) {
+            if(is_array($media) && $media['tmp_name']) {
                 $mob = new ilObjMediaObject();
                 $mob->setTitle($media['name']);
                 $mob->create();

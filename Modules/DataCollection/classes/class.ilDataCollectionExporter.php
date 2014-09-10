@@ -2,6 +2,7 @@
 require_once("./Services/Export/classes/class.ilExport.php");
 require_once('./Services/Export/classes/class.ilXmlExporter.php');
 require_once('class.ilDataCollectionDataSet.php');
+require_once('class.ilDataCollectionCache.php');
 
 /**
  * Class ilDataCollectionExporter
@@ -15,10 +16,17 @@ class ilDataCollectionExporter extends ilXmlExporter {
      */
     protected $ds;
 
+    /**
+     * @var ilDB
+     */
+    protected $db;
+
     public function init()
     {
+        global $ilDB;
         $this->ds = new ilDataCollectionDataSet();
         $this->ds->setDSPrefix('ds');
+        $this->db = $ilDB;
     }
 
     /**
@@ -46,9 +54,18 @@ class ilDataCollectionExporter extends ilXmlExporter {
         return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, $a_id, '', true, true);
     }
 
+    /**
+     * MOB and File fieldtypes are head dependencies
+     * They must be exported and imported first, so the new DC has the new IDs of those objects available
+     *
+     * @param $a_entity
+     * @param $a_target_release
+     * @param $a_ids
+     * @return array
+     */
     public function getXmlExportHeadDependencies($a_entity, $a_target_release, $a_ids)
     {
-        return array();
+        return $this->ds->getHeadDependencies($a_ids);
     }
 
     public function getXmlExportTailDependencies($a_entity, $a_target_release, $a_ids)

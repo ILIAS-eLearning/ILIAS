@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<schema xmlns = 'http://www.w3.org/2001/XMLSchema'
+	targetNamespace = "http://www.ilias.de/Modules/DataCollection/dcl/4_5"
+	xmlns:t = 'http://www.ilias.de/Modules/DataCollection/dcl/4_5'>
+
+	<!-- t:Data type -->
+	<complexType name='Data' mixed='true'>
+	</complexType>
+
+
+	<!-- ilObjDataCollection -->
+	<element name='Dcl'>
+		<complexType>
+		<sequence>
+			<element ref='t:id' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:title' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:description' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:main_table_id' minOccurs='1' maxOccurs='1'/>
+            <element ref='t:is_online' minOccurs='1' maxOccurs='1'/>
+            <element ref='t:rating' minOccurs='1' maxOccurs='1'/>
+            <element ref='t:public_notes' minOccurs='1' maxOccurs='1'/>
+            <element ref='t:approval' minOccurs='1' maxOccurs='1'/>
+            <element ref='t:notification' minOccurs='1' maxOccurs='1'/>
+		</sequence>
+		</complexType>
+	</element>
+
+	<element name='id' type='t:Data' />
+	<element name='title' type='t:Data' />
+	<element name='description' type='t:Data' />
+	<element name='main_table_id' type='t:Data' />
+    <element name='is_online' type='t:Data' />
+    <element name='rating' type='t:Data' />
+    <element name='public_notes' type='t:Data' />
+    <element name='approval' type='t:Data' />
+    <element name='notification' type='t:Data' />
+
+	<!-- ilDataCollectionTable -->
+	<element name='IlDclTable'>
+		<complexType>
+		<sequence>
+            <element ref='t:id' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:obj_id' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:title' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:add_perm' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:edit_perm' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:delete_perm' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:edit_by_owner' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:limited' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:limit_start' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:limit_end' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:is_visible' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:export_enabled' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:default_sort_field_id' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:default_sort_field_order' minOccurs='1' maxOccurs='1'/>
+            <element ref='t:description' minOccurs='1' maxOccurs='1'/>
+            <element ref='t:public_comments' minOccurs='1' maxOccurs='1'/>
+            <element ref='t:view_own_records_perm' minOccurs='1' maxOccurs='1'/>
+		</sequence>
+		</complexType>
+	</element>
+	
+	<element name='obj_id' type='t:Data' />
+	<element name='add_perm' type='t:Data' />
+	<element name='edit_perm' type='t:Data' />
+	<element name='delete_perm' type='t:Data' />
+	<element name='edit_by_owner' type='t:Data' />
+	<element name='limited' type='t:Data' />
+	<element name='limit_start' type='t:Data' />
+	<element name='limit_end' type='t:Data' />
+	<element name='is_visible' type='t:Data' />
+	<element name='export_enabled' type='t:Data' />
+	<element name='default_sort_field_id' type='t:Data' />
+    <element name='default_sort_field_order' type='t:Data' />
+    <element name='public_comments' type='t:Data' />
+    <element name='view_own_records_perm' type='t:Data' />
+
+	<!-- ilDclField -->
+	<element name='IlDclField'>
+        <complexType>
+		<sequence>
+			<element ref='t:id' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:table_id' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:title' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:description' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:datatype_id' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:required' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:is_unique' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:is_locked' minOccurs='1' maxOccurs='1'/>
+		</sequence>
+		</complexType>
+	</element>
+
+	<element name='table_id' type='t:Data' />
+	<element name='datatype_id' type='t:Data' />
+	<element name='required' type='t:Data' />
+	<element name='is_unique' type='t:Data' />
+	<element name='is_locked' type='t:Data' />
+
+	<!-- ilDclFieldProp -->
+	<element name='IlDclFieldProp'>
+        <complexType>
+		<sequence>
+			<element ref='t:id' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:field_id' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:datatype_prop_id' minOccurs='1' maxOccurs='1'/>
+            <element ref='t:value' minOccurs='1' maxOccurs='1'/>
+		</sequence>
+		</complexType>
+	</element>
+
+	<element name='field_id' type='t:Data' />
+	<element name='datatype_prop_id' type='t:Data' />
+    <element name='value' type='t:Data' />
+
+    <!-- ilDclRecord -->
+    <element name='IlDclRecord'>
+        <complexType>
+            <sequence>
+                <element ref='t:id' minOccurs='1' maxOccurs='1'/>
+                <element ref='t:table_id' minOccurs='1' maxOccurs='1'/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <!-- ilDclRecordField -->
+    <element name='IlDclRecordField'>
+        <complexType>
+            <sequence>
+                <element ref='t:id' minOccurs='1' maxOccurs='1'/>
+                <element ref='t:record_id' minOccurs='1' maxOccurs='1'/>
+                <element ref='t:table_id' minOccurs='1' maxOccurs='1'/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name='record_id' type='t:Data' />
+
+    <!-- ilDclStlocValues -->
+    <element name='IlDclStloc1Value'>
+        <complexType>
+            <sequence>
+                <element ref='t:id' minOccurs='1' maxOccurs='1'/>
+                <element ref='t:record_field_id' minOccurs='1' maxOccurs='1'/>
+                <element ref='t:value' minOccurs='1' maxOccurs='1'/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name='record_field_id' type='t:Data' />
+
+    <element name='IlDclStloc2Value'>
+        <complexType>
+            <sequence>
+                <element ref='t:id' minOccurs='1' maxOccurs='1'/>
+                <element ref='t:record_field_id' minOccurs='1' maxOccurs='1'/>
+                <element ref='t:value' minOccurs='1' maxOccurs='1'/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name='IlDclStloc3Value'>
+        <complexType>
+            <sequence>
+                <element ref='t:id' minOccurs='1' maxOccurs='1'/>
+                <element ref='t:record_field_id' minOccurs='1' maxOccurs='1'/>
+                <element ref='t:value' minOccurs='1' maxOccurs='1'/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <!-- ilDclView -->
+    <element name='IlDclView'>
+        <complexType>
+            <sequence>
+                <element ref='t:id' minOccurs='1' maxOccurs='1'/>
+                <element ref='t:table_id' minOccurs='1' maxOccurs='1'/>
+                <element ref='t:type' minOccurs='1' maxOccurs='1'/>
+                <element ref='t:formtype' minOccurs='1' maxOccurs='1'/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name='type' type='t:Data' />
+    <element name='formtype' type='t:Data' />
+
+    <!-- ilDclViewdefinition -->
+    <element name='IlDclViewdefinition'>
+        <complexType>
+            <sequence>
+                <element ref='t:view_id' minOccurs='1' maxOccurs='1'/>
+                <element ref='t:field' minOccurs='1' maxOccurs='1'/>
+                <element ref='t:field_order' minOccurs='1' maxOccurs='1'/>
+                <element ref='t:is_set' minOccurs='1' maxOccurs='1'/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name='view_id' type='t:Data' />
+    <element name='field' type='t:Data' />
+    <element name='field_order' type='t:Data' />
+    <element name='is_set' type='t:Data' />
+
+</schema>

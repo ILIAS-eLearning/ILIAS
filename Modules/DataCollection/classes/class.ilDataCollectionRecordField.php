@@ -141,21 +141,28 @@ class ilDataCollectionRecordField
 
 
     /**
-     * @param $value
+     * Set value for record field
+     *
+     * @param mixed $value
+     * @param bool $omit_parsing If true, does not parse the value and stores it in the given format
      */
-    public function setValue($value)
+    public function setValue($value, $omit_parsing=false)
     {
         $this->loadValue();
-        $tmp = $this->field->getDatatype()->parseValue($value, $this);
-        $old = $this->value;
-        //if parse value fails keep the old value
-        if ($tmp !== false) {
-            $this->value = $tmp;
-            //delete old file from filesystem
-            // TODO Does not belong here, create separate class ilDataCollectionFileField and overwrite setValue method
-            if ($old && $this->field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_FILE) {
-                $this->record->deleteFile($old);
+        if (!$omit_parsing) {
+            $tmp = $this->field->getDatatype()->parseValue($value, $this);
+            $old = $this->value;
+            //if parse value fails keep the old value
+            if ($tmp !== false) {
+                $this->value = $tmp;
+                //delete old file from filesystem
+                // TODO Does not belong here, create separate class ilDataCollectionFileField and overwrite setValue method
+                if ($old && $this->field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_FILE) {
+                    $this->record->deleteFile($old);
+                }
             }
+        } else {
+            $this->value = $value;
         }
     }
 

@@ -73,6 +73,7 @@ class ilObjDataCollection extends ilObject2
 				"approval" => array("integer", (int) $this->getApproval()),
 				"notification" => array("integer", (int) $this->getNotification()),
 			));
+        $this->setMainTableId($main_table->getId());
 	}
 	
 	/**

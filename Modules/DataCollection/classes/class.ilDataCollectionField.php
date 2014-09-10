@@ -96,7 +96,6 @@ class ilDataCollectionField
 	const PROPERTYID_LENGTH = 1;
 	const PROPERTYID_REGEX = 2;
 	const PROPERTYID_REFERENCE = 3;
-    const PROPERTYID_REFERENCELIST = 11;
     /**
      * LINK OR EMAIL!
      */
@@ -249,7 +248,7 @@ class ilDataCollectionField
 	 */
 	public function getDescription()
 	{
-		return $this->desc;
+		return $this->description;
 	}
 
 	/**
@@ -865,7 +864,7 @@ class ilDataCollectionField
     public function getFieldReflist()
     {
         $props = $this->getPropertyvalues();
-        $id = self::PROPERTYID_REFERENCELIST;
+        $id = self::PROPERTYID_N_REFERENCE;
 
         return $props[$id];
     }

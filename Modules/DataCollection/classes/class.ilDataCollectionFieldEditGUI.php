@@ -251,7 +251,7 @@ class ilDataCollectionFieldEditGUI
 
 				}
                 //ReferenceList
-                elseif($datatype['id'] == ilDataCollectionDatatype::INPUTFORMAT_REFERENCELIST  AND $property['id'] == ilDataCollectionField::PROPERTYID_REFERENCELIST)
+                elseif($datatype['id'] == ilDataCollectionDatatype::INPUTFORMAT_REFERENCELIST  AND $property['id'] == ilDataCollectionField::PROPERTYID_N_REFERENCE)
                 {
                     // Get Tables
                     require_once("./Modules/DataCollection/classes/class.ilDataCollectionTable.php");
