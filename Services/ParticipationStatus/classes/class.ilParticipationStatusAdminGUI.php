@@ -116,7 +116,10 @@ class ilParticipationStatusAdminGUI
 	 * 
 	 * @return ilObjCourse 
 	 */	
-	protected function getCourse()
+	// gev-patch start
+	//protected function getCourse()
+	// gev-patch end
+	public function getCourse()
 	{
 		return $this->course;
 	}

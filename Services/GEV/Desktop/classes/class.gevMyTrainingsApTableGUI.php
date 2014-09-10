@@ -12,14 +12,15 @@
 require_once("Services/CaTUIComponents/classes/class.catAccordionTableGUI.php");
 require_once("Services/CaTUIComponents/classes/class.catLegendGUI.php");
 
-require_once("Services/Calendar/classes/class.ilDatePresentation.php");
-require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
-
 require_once("Services/Utilities/classes/class.ilUtil.php");
+require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 require_once("Services/GEV/Utils/classes/class.gevCourseUtils.php");
 require_once("Services/CourseBooking/classes/class.ilCourseBooking.php");
-
 require_once("Services/ParticipationStatus/classes/class.ilParticipationStatusAdminGUI.php");
+require_once "./Services/ParticipationStatus/classes/class.ilParticipationStatusHelper.php";
+
+require_once("Services/Calendar/classes/class.ilDatePresentation.php");
+//require_once("Services/Calendar/classes/class.ilDate.php");
 
 class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 	public function __construct($a_user_id, $a_parent_obj, $a_parent_cmd="", $a_template_context="") {
@@ -90,6 +91,15 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 			$date = ilDatePresentation::formatPeriod($a_set["start_date"], $a_set["end_date"]);
 		}
 
+		//$now = new ilDate(date("Y-m-d"), IL_CAL_DATE);
+		//trainer days:
+		
+		$apdays = array();
+		foreach ($a_set['apdays'] as $tday) {
+			$apdays[] =  ilDatePresentation::formatDate($tday);
+		}
+		$apdays_str = join('<br>', $apdays);
+
 		
 		$mbrs = $a_set['mbr_booked'] .' (' .$a_set['mbr_waiting'] .')'
 				.' / ' .$a_set['mbr_min'] .'-' .$a_set['mbr_max'];
@@ -107,16 +117,7 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 		$setstatus_link = $this->ctrl->getLinkTarget($this->parent_obj, 'listStatus')
 							.'&crsrefid=' .$a_set['crs_ref_id'];
 		
-		$show_set_stat_link = false;
-		//second parameter: from_foreign class
-		
-		$ptstatus_admingui =  ilParticipationStatusAdminGUI::getInstanceByRefId($a_set['crs_ref_id'], true);
-		
-		//Q: how can Participationstatus be empty?!
-		//A: user has no permissions for ParticipationStatus at Course
-		if($ptstatus_admingui && $ptstatus_admingui->getParticipationstatus()){
-			$show_set_stat_link = $ptstatus_admingui->mayWrite();
-		}
+		$show_set_stat_link = $a_set['may_finalize'];
 
 
 		$actions = $this->memberlist_img;
@@ -124,14 +125,15 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 			$actions .='&nbsp;' .$this->setstatus_img;
 		}
 
-
 		$this->tpl->setVariable("TITLE", $a_set["title"]);
 		$this->tpl->setVariable("CUSTOM_ID", $a_set["custom_id"]);
 		$this->tpl->setVariable("TYPE", $a_set["type"]);
 		//$this->tpl->setVariable("CATEGORY", $a_set["category"]);
 		$this->tpl->setVariable("LOCATION", $a_set["location"]);
 		$this->tpl->setVariable("DATE", $date);
-		$this->tpl->setVariable("APDAYS", $a_set["apdays"]);
+		
+		$this->tpl->setVariable("APDAYS", $apdays_str);
+
 		$this->tpl->setVariable("MBRS", $mbrs);
 		$this->tpl->setVariable("ACTIONS", $actions);
 		//inner content
