@@ -1,0 +1,18 @@
+<!-- ilias_cat.dtd for ILIAS Category Hierarchies -->
+<!-- For comments refer to our mailing list: xml-ilias@uni-koeln.de -->
+<!-- $Id: ilias_cat_0_1.dtd 4343 2004-06-24 10:01:55Z wrandels $ -->
+<!-- Language codes referring to ISO 639-1 Alpha-2 code, see http://www.oasis-open.org/cover/iso639a.html for details -->
+
+<!ELEMENT Title (#PCDATA)>
+<!ELEMENT Description (#PCDATA)>
+
+<!-- Sort order of course items -->
+<!ELEMENT Sort EMPTY>
+
+<!-- Definition of sort order of course items -->
+<!ATTLIST Sort
+        type (Manual | Title | Inherit | Creation) #REQUIRED
+        direction (ASC | DESC) #IMPLIED
+        position (TOP | Bottom) #IMPLIED
+        order (Title | Creation) #IMPLIED
+>

@@ -92,22 +92,9 @@ class ilFolderXmlParser extends ilSaxParser
 
 
 			case 'Sorting':
-				
+			case 'Sort':
 				include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
-				$sort = new ilContainerSortingSettings($this->getFolder()->getId());
-				$sort->delete();
-				
-				switch($a_attribs['type'])
-				{
-					case 'Manual':
-						$sort->setSortMode(ilContainer::SORT_MANUAL);
-						break;
-												
-					case 'Title':
-					default:
-						$sort->setSortMode(ilContainer::SORT_TITLE);		
-				}
-				$sort->save();
+				ilContainerSortingSettings::_importContainerSortingSettings($a_attribs, $this->getFolder()->getId());
 				break;
 				
 			case 'Title':

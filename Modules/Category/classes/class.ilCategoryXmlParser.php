@@ -134,22 +134,11 @@ class ilCategoryXmlParser extends ilSaxParser
 				$this->current_translation['default'] = $a_attribs['default'] ? 1 : 0;
 				$this->current_translation['lang'] = $a_attribs['language'];
 				break;
-			
+
 			case 'Sorting':
+			case 'Sort':
 				include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
-				$sort = new ilContainerSortingSettings($this->getCategory()->getId());
-				
-				switch($a_attribs['type'])
-				{
-					case 'Manual':
-						$sort->setSortMode(ilContainer::SORT_MANUAL);
-						break;
-					
-					default:
-						$sort->setSortMode(ilContainer::SORT_TITLE);
-						break;
-				}
-				$sort->update();
+				ilContainerSortingSettings::_importContainerSortingSettings($a_attribs, $this->getCategory()->getId());
 				break;
 			
 			case 'ContainerSetting':

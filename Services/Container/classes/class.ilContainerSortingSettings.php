@@ -376,5 +376,129 @@ class ilContainerSortingSettings
 		}
 		return '';
 	}
+
+	/**
+	 * sorting XML-export for all container objects
+	 *
+	 * @param ilXmlWriter $xml
+	 * @param $obj_id
+	 */
+	public static function _exportContainerSortingSettings(ilXmlWriter $xml, $obj_id)
+	{
+	 	$settings = self::getInstanceByObjId($obj_id);
+
+		$attr = array();
+		switch($settings->getSortMode())
+		{
+			case ilContainer::SORT_MANUAL:
+				switch($settings->getSortNewItemsOrder())
+				{
+					case ilContainer::SORT_NEW_ITEMS_ORDER_ACTIVATION:
+						$order = 'Activation';
+						break;
+					case ilContainer::SORT_NEW_ITEMS_ORDER_CREATION:
+						$order = 'Creation';
+						break;
+					case ilContainer::SORT_NEW_ITEMS_ORDER_TITLE:
+						$order = 'Title';
+						break;
+				}
+
+				$attr = array(
+					'direction' => $settings->getSortDirection() == ilContainer::SORT_DIRECTION_ASC ? "ASC" : "DESC",
+					'position' => $settings->getSortNewItemsPosition() == ilContainer::SORT_NEW_ITEMS_POSITION_BOTTOM ? "Bottom" : "Top",
+					'order' => $order,
+					'type' => 'Manual'
+				);
+
+				break;
+
+			case ilContainer::SORT_CREATION:
+				$attr = array(
+					'direction' => $settings->getSortDirection() == ilContainer::SORT_DIRECTION_ASC ? "ASC" : "DESC",
+					'type' => 'Creation'
+				);
+				break;
+
+			case ilContainer::SORT_TITLE:
+				$attr = array(
+					'direction' => $settings->getSortDirection() == ilContainer::SORT_DIRECTION_ASC ? "ASC" : "DESC",
+					'type' => 'Title'
+				);
+				break;
+			case ilContainer::SORT_ACTIVATION:
+				$attr = array(
+					'direction' => $settings->getSortDirection() == ilContainer::SORT_DIRECTION_ASC ? "ASC" : "DESC",
+					'type' => 'Activation'
+				);
+				break;
+			case ilContainer::SORT_INHERIT:
+				$attr = array(
+					'type' => 'Inherit'
+				);
+		}
+		$xml->xmlElement('Sort', $attr);
+	}
+
+	/**
+	 * sorting import for all container objects
+	 *
+	 * @param $attibs array (type, direction, position, order)
+	 * @param $obj_id
+	 */
+	public static function _importContainerSortingSettings($attibs, $obj_id)
+	{
+		$settings = self::getInstanceByObjId($obj_id);
+
+		switch($attibs['type'])
+		{
+			case 'Manual':
+				$settings->setSortMode(ilContainer::SORT_MANUAL);
+				break;
+			case 'Creation':
+				$settings->setSortMode(ilContainer::SORT_CREATION);
+				break;
+			case 'Title':
+				$settings->setSortMode(ilContainer::SORT_TITLE);
+				break;
+			case 'Activation':
+				$settings->setSortMode(ilContainer::SORT_ACTIVATION);
+				break;
+		}
+
+		switch($attibs['direction'])
+		{
+			case 'ASC':
+				$settings->setSortDirection(ilContainer::SORT_DIRECTION_ASC);
+				break;
+			case 'DESC':
+				$settings->setSortDirection(ilContainer::SORT_DIRECTION_DESC);
+				break;
+		}
+
+		switch($attibs['position'])
+		{
+			case "Top":
+				$settings->setSortNewItemsPosition(ilContainer::SORT_NEW_ITEMS_POSITION_TOP);
+				break;
+			case "Bottom":
+				$settings->setSortNewItemsPosition(ilContainer::SORT_NEW_ITEMS_POSITION_BOTTOM);
+				break;
+		}
+
+		switch($attibs['order'])
+		{
+			case 'Creation':
+				$settings->setSortNewItemsOrder(ilContainer::SORT_NEW_ITEMS_ORDER_CREATION);
+				break;
+			case 'Title':
+				$settings->setSortNewItemsOrder(ilContainer::SORT_NEW_ITEMS_ORDER_TITLE);
+				break;
+			case 'Activation':
+				$settings->setSortNewItemsOrder(ilContainer::SORT_NEW_ITEMS_ORDER_ACTIVATION);
+		}
+
+		$settings->update();
+	}
 }
 ?>

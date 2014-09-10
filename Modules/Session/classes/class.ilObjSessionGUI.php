@@ -842,7 +842,12 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->event_items = new ilEventItems($this->object->getId());
 		$items = $this->event_items->getItems();
 
-		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.sess_materials.html','Modules/Session');
+
+		include_once("Modules/Session/classes/class.ilSessionMaterialsTableGUI.php");
+		$tbl = new ilSessionMaterialsTableGUI($this, "materials");
+
+		$this->tpl->setVariable("ADM_CONTENT", $tbl->getHTML());
+		/*$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.sess_materials.html','Modules/Session');
 		#$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
 
 		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this,'materials'));
@@ -904,7 +909,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->tpl->setVariable("SELECT_ROW",ilUtil::switchColor(++$counter,'tblrow1','tblrow2'));
 		$this->tpl->setVariable("SELECT_ALL",$this->lng->txt('select_all'));
 		$this->tpl->setVariable("IMG_ARROW",ilUtil::getImagePath('arrow_downright.png'));
-		$this->tpl->setVariable("BTN_SAVE",$this->lng->txt('save'));
+		$this->tpl->setVariable("BTN_SAVE",$this->lng->txt('save'));*/
 	}
 	
 	/**

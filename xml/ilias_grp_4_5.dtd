@@ -1,0 +1,106 @@
+<!-- ilias_user.dtd for ILIAS mail import -->
+<!-- For comments refer to our mailing list: xml-ilias@uni-koeln.de -->
+<!-- $Id: ilias_group_0_1.dtd 8910 2005-10-24 15:50:53 +0200 (Mo, 24 Okt 2005) smeyer $ -->
+
+<!-- GROUP -->
+<!-- Added registration as optional due to BC to ILIAS 2 export -->
+<!ELEMENT group (title,description,owner?,information?,registration?,admin*,member*,file*,folder*)>
+<!-- type is 'open' or 'closed' -->
+<!ATTLIST group
+    exportVersion CDATA #REQUIRED
+    id CDATA #REQUIRED
+    type CDATA #REQUIRED
+>
+
+<!-- TITLE -->
+<!ELEMENT title (#PCDATA)>
+
+<!-- DESCRIPTION -->
+<!ELEMENT description (#PCDATA)>
+
+<!-- INFORMATION -->
+<!ELEMENT information (#PCDATA)>
+
+<!-- OWNER -->
+<!ELEMENT owner EMPTY>
+<!ATTLIST owner
+    id CDATA #REQUIRED
+>
+
+<!-- ADMIN -->
+<!ELEMENT admin EMPTY>
+<!ATTLIST admin
+    id CDATA #REQUIRED
+    action (Attach|Detach) #IMPLIED
+    notification (Yes|No) #IMPLIED
+>
+
+<!-- ADMIN -->
+<!ELEMENT member EMPTY>
+<!ATTLIST member
+    id CDATA #REQUIRED
+    action (Attach|Detach) #IMPLIED
+>
+	
+
+<!-- Registration settings -->
+<!ELEMENT registration (password?,(temporarilyAvailable | expiration)?,maxMembers?)>
+
+<!-- 
+
+	'type':
+		Use type = confirmation | direct | password | disabled
+		'enabled' is deprecated
+	'waitingList':
+		'Yes' | 'No'
+
+-->
+<!ATTLIST registration
+    type CDATA #REQUIRED
+    waitingList CDATA #IMPLIED
+>
+
+<!ELEMENT temporarilyAvailable (start,end)>
+
+<!-- Start time (unix time stamp) -->
+<!ELEMENT start (#PCDATA)>
+
+<!-- End time (unix time stamp) -->
+<!ELEMENT end (#PCDATA)>
+
+<!-- Password -->
+<!ELEMENT password (#PCDATA)>
+
+<!-- Deprecated: use temporarilyAvailable -->
+<!ELEMENT expiration (#PCDATA)>
+
+<!--maxMembers -->
+<!ATTLIST maxMembers
+	enabled CDATA #REQUIRED
+>
+<!-- Number of user -->
+<!ELEMENT maxMembers (#PCDATA)>
+
+
+<!-- FILE stored in objects directory with filename "id" -->
+<!ELEMENT file EMPTY>
+<!ATTLIST file
+    id CDATA #REQUIRED
+    fileName CDATA #REQUIRED>
+
+<!-- FOLDER -->
+<!ELEMENT folder (folderTitle,file*,folder*)>
+
+<!-- TITLE -->
+<!ELEMENT folderTitle (#PCDATA)>
+
+<!-- Sort order of course items -->
+<!ELEMENT Sort EMPTY>
+
+<!-- Definition of sort order of course items -->
+<!ATTLIST Sort
+        type (Manual | Title| Inherit | Creation) #REQUIRED
+        direction (ASC | DESC) #IMPLIED
+        position (TOP | Bottom) #IMPLIED
+        order (Title | Creation) #IMPLIED
+>

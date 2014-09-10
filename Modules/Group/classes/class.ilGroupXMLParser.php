@@ -213,6 +213,13 @@ class ilGroupXMLParser extends ilSaxParser
 			case 'ContainerSetting':
 				$this->current_container_setting = $a_attribs['id'];				
 				break;
+
+			case 'Sort':
+				// NOW SAVE THE NEW OBJECT (if it hasn't been imported)
+				$this->__save();
+				include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
+				ilContainerSortingSettings::_importContainerSortingSettings($a_attribs, $this->group_obj->getId());
+				break;
 		}
 	}
 

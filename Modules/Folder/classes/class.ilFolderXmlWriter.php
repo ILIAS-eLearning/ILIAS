@@ -52,6 +52,8 @@ class ilFolderXmlWriter extends ilXmlWriter
 		$this->xmlStartTag('Folder',array('Id' => $this->folder->getId()));
 		$this->xmlElement('Title',array(),$this->folder->getTitle());
 		$this->xmlElement('Description',array(),$this->folder->getDescription());
+		include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
+		ilContainerSortingSettings::_exportContainerSortingSettings($this,$this->obj_id);
 		$this->xmlEndTag('Folder');
 	}
 	
@@ -61,8 +63,8 @@ class ilFolderXmlWriter extends ilXmlWriter
 	 */
 	protected function buildHeader()
 	{
-		$this->xmlSetDtdDef("<!DOCTYPE WebLinks PUBLIC \"-//ILIAS//DTD WebLinkAdministration//EN\" \"".ILIAS_HTTP_PATH."/xml/ilias_weblinks_4_0.dtd\">");
-		$this->xmlSetGenCmt("WebLink Object");
+		$this->xmlSetDtdDef("<!DOCTYPE WebLinks PUBLIC \"-//ILIAS//DTD WebLinkAdministration//EN\" \"".ILIAS_HTTP_PATH."/xml/ilias_fold_4_5.dtd\">");
+		$this->xmlSetGenCmt("Export of a ILIAS Folder");
 		$this->xmlHeader();
 
 		return true;

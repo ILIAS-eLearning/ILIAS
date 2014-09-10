@@ -75,7 +75,9 @@ class ilCategoryXmlWriter extends ilXmlWriter
 			}
 			$this->buildCategory();
 			$this->buildTranslations();
-			$this->buildSorting();
+			include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
+			ilContainerSortingSettings::_exportContainerSortingSettings($this,$this->getCategory()->getId());
+			include_once './Services/Container/classes/class.ilContainer.php';
 			ilContainer::_exportContainerSettings($this, $this->category->getId());
 			$this->buildFooter();
 		}
@@ -99,7 +101,7 @@ class ilCategoryXmlWriter extends ilXmlWriter
 	{
 		global $ilSetting;
 
-		$this->xmlSetDtdDef("<!DOCTYPE category PUBLIC \"-//ILIAS//DTD Group//EN\" \"".ILIAS_HTTP_PATH."/xml/ilias_category_4_3.dtd\">");
+		$this->xmlSetDtdDef("<!DOCTYPE category PUBLIC \"-//ILIAS//DTD Group//EN\" \"".ILIAS_HTTP_PATH."/xml/ilias_cat_4_5.dtd\">");
 		$this->xmlSetGenCmt("Export of ILIAS category ". $this->getCategory()->getId()." of installation ".$ilSetting->get('inst_id').".");
 		$this->xmlHeader();
 
@@ -145,30 +147,5 @@ class ilCategoryXmlWriter extends ilXmlWriter
 		}
 		$this->xmlEndTag('Translations');
 	}
-	
-	/**
-	 * Add sorting
-	 */
-	protected function buildSorting()
-	{
-		include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
-		include_once './Services/Container/classes/class.ilContainer.php';
-		
-		$sorting = new ilContainerSortingSettings($this->getCategory()->getId());
-		switch($sorting->getSortMode())
-		{
-			case ilContainer::SORT_MANUAL:
-				$type = 'Manual';
-				break;
-			
-			default:
-				$type = 'Title';
-				break;
-				
-		}
-		$this->xmlElement('Sorting', array('type' => $type));
-	}
-
-
 }
 ?>

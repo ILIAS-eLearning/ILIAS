@@ -91,6 +91,8 @@ class ilGroupXMLWriter extends ilXmlWriter
 				$this->__buildAdmin();
 				$this->__buildMember();
 			}
+			include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
+			ilContainerSortingSettings::_exportContainerSortingSettings($this,$this->group_obj->getId());
 			ilContainer::_exportContainerSettings($this, $this->group_obj->getId());
 			$this->__buildFooter();
 		}
@@ -99,6 +101,8 @@ class ilGroupXMLWriter extends ilXmlWriter
 			$this->__buildGroup();
 			$this->__buildTitleDescription();
 			$this->__buildRegistration();
+			include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
+			ilContainerSortingSettings::_exportContainerSortingSettings($this,$this->group_obj->getId());
 			ilContainer::_exportContainerSettings($this, $this->group_obj->getId());
 			$this->__buildFooter();
 		}

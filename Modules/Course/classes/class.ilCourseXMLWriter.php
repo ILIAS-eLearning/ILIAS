@@ -99,6 +99,8 @@ class ilCourseXMLWriter extends ilXmlWriter
 			$this->__buildWaitingList();
 			
 			$this->__buildSetting();
+			include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
+			ilContainerSortingSettings::_exportContainerSortingSettings($this,$this->course_obj->getId());
 			ilContainer::_exportContainerSettings($this, $this->course_obj->getId());
 			$this->__buildFooter();
 		}
@@ -108,6 +110,8 @@ class ilCourseXMLWriter extends ilXmlWriter
 			$this->__buildMetaData();
 			$this->__buildAdvancedMetaData();
 			$this->__buildSetting();
+			include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
+			ilContainerSortingSettings::_exportContainerSortingSettings($this,$this->course_obj->getId());
 			ilContainer::_exportContainerSettings($this, $this->course_obj->getId());
 			$this->__buildFooter();
 		}
@@ -133,7 +137,7 @@ class ilCourseXMLWriter extends ilXmlWriter
 	// PRIVATE
 	function __buildHeader()
 	{
-		$this->xmlSetDtdDef("<!DOCTYPE Course PUBLIC \"-//ILIAS//DTD Course//EN\" \"".ILIAS_HTTP_PATH."/xml/ilias_course_3_10.dtd\">");
+		$this->xmlSetDtdDef("<!DOCTYPE Course PUBLIC \"-//ILIAS//DTD Course//EN\" \"".ILIAS_HTTP_PATH."/xml/ilias_crs_4_5.dtd\">");
 		$this->xmlSetGenCmt("Export of ILIAS course ". $this->course_obj->getId()." of installation ".$this->ilias->getSetting('inst_id').".");
 		$this->xmlHeader();
 
@@ -327,22 +331,6 @@ class ilCourseXMLWriter extends ilXmlWriter
 			$this->xmlElement('Password',null,$pwd);
 		}
 		$this->xmlEndTag('Registration');
-
-		// Sort
-		$attr = array();
-		if($this->course_obj->getOrderType() == ilContainer::SORT_MANUAL)
-		{
-			$attr['type'] = 'Manual';
-		}
-		elseif($this->course_obj->getOrderType() == ilContainer::SORT_TITLE)
-		{
-			$attr['type'] = 'Title';
-		}
-		else
-		{
-			$attr['type'] = 'Activation';
-		}
-		$this->xmlElement('Sort',$attr);
 
 		// Archives
 		$attr = array();
