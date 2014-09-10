@@ -2411,7 +2411,8 @@ $ilDB->addTableColumn("content_object", "store_tries", $def);
 	$query = 'UPDATE rbac_fa f '.
 			'SET parent  = '.
 				'(SELECT t.parent FROM tree t where t.child = f.parent) '.
-			'WHERE f.parent != '.$ilDB->quote(8,'integer');
+			'WHERE f.parent != '.$ilDB->quote(8,'integer').' '.
+			'AND EXISTS (SELECT t.parent FROM tree t where t.child = f.parent) ';
 	$ilDB->manipulate($query);
 ?>
 
@@ -2423,7 +2424,8 @@ $ilDB->addTableColumn("content_object", "store_tries", $def);
 	$query = 'UPDATE rbac_templates rt '.
 			'SET parent = '.
 			'(SELECT t.parent FROM tree t WHERE t.child = rt.parent) '.
-			'WHERE rt.parent != '.$ilDB->quote(8,'integer');
+			'WHERE rt.parent != '.$ilDB->quote(8,'integer').' '.
+			'AND EXISTS (SELECT t.parent FROM tree t WHERE t.child = rt.parent) ';
 	$ilDB->manipulate($query);
 ?>
 <#4293>
