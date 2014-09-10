@@ -224,9 +224,9 @@ class ilObjBibliographicGUI extends ilObject2GUI
 
         $forms = parent::initCreationForms($a_new_type);
 
-        // disabling import	
+        // disabling import
         unset($forms[self::CFORM_IMPORT]);
-        
+
 
         // Add File-Upload
         $in_file = new ilFileInputGUI($lng->txt("bibliography file"), "bibliographic_file");
