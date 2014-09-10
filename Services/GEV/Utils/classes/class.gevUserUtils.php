@@ -1291,7 +1291,7 @@ class gevUserUtils {
 									   , "AVL"
 									   , "HA"
 									   , "BA"
-									   , "NA"
+									   //, "NA"
 									   , "VP"
 									   , "TP-Basis Registrierung"
 									   , "TP-Service Registrierung"
@@ -1303,7 +1303,7 @@ class gevUserUtils {
 									   , "AVL"
 									   , "HA"
 									   , "BA"
-									   , "NA"
+									   //, "NA"
 									   , "TP-Service Registrierung"
 									   );
 
