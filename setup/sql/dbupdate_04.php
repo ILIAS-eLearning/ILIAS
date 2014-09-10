@@ -2988,3 +2988,44 @@ if(!$ilDB->tableColumnExists('tst_test_result', 'step'))
 	));
 
 ?>
+<#4327>
+<?php
+
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+ilDBUpdateNewObjectType::addAdminNode('bibs', 'BibliographicAdmin');
+
+$ilCtrlStructureReader->getStructure();
+?>
+<#4328>
+<?php
+
+if( !$ilDB->tableExists('il_bibl_settings') )
+{
+	$ilDB->createTable('il_bibl_settings', array(
+		'id' => array(
+			'type' => "integer",
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'name' => array(
+			'type' => 'text',
+			'length' => 50,
+			'notnull' => true,
+			'default' => "-"
+		),
+		'url' => array(
+			'type' => 'text',
+			'length' => 128,
+			'notnull' => true,
+			'default' => "-"
+		),
+		'img' => array(
+			'type' => 'text',
+			'length' => 128,
+			'notnull' => false
+		)
+	));
+	$ilDB->addPrimaryKey('il_bibl_settings', array('id'));
+}
+?>
