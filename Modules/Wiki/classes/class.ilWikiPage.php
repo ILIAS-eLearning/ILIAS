@@ -1031,5 +1031,28 @@ class ilWikiPage extends ilPageObject
 		return $templates;
 	}
 
+	/**
+	 * Get pages for search
+	 *
+	 * @param
+	 * @return
+	 */
+	static function getPagesForSearch($a_wiki_id, $a_term)
+	{
+		global $ilDB;
+
+		$set = $ilDB->query("SELECT DISTINCT title FROM il_wiki_page".
+			" WHERE wiki_id = ".$ilDB->quote($a_wiki_id, "integer").
+			" AND ".$ilDB->like("title", "text", "%".$a_term."%").
+			" ORDER by title");
+		$res = array();
+		while ($rec = $ilDB->fetchAssoc($set))
+		{
+			$res[] = $rec["title"];
+		}
+
+		return $res;
+	}
+
 }
 ?>

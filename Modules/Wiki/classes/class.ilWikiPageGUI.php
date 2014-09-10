@@ -991,7 +991,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 	 */
 	function insertWikiLink()
 	{
-		global $lng;
+		global $lng, $ilCtrl;
 
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
@@ -1001,6 +1001,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		// Target page
 		$tp = new ilTextInputGUI($this->lng->txt("wiki_target_page"), "target_page");
 		$tp->setSize(18);
+		$tp->setDataSource($ilCtrl->getLinkTarget($this, "insertWikiLinkAC", "", true));
 		$form->addItem($tp);
 
 		// Link text
@@ -1014,6 +1015,31 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		exit;
 	}
 
+	/**
+	 * Auto complete for insert wiki link
+	 */
+	function insertWikiLinkAC()
+	{
+		$res = ilWikiPage::getPagesForSearch($this->getPageObject()->getParentId(), ilUtil::stripSlashes($_GET["term"]));
+
+		$result = array();
+		$cnt = 0;
+		foreach ($res as $r)
+		{
+			if ($cnt++ > 19)
+			{
+				continue;
+			}
+			$entry = new stdClass();
+			$entry->value = $r;
+			$entry->label = $r;
+			$result[] = $entry;
+		}
+
+		include_once './Services/JSON/classes/class.ilJsonUtil.php';
+		echo ilJsonUtil::encode($result);
+		exit;
+	}
 
 } 
 
