@@ -980,9 +980,12 @@ class ilWikiPageGUI extends ilPageObjectGUI
 	 */
 	function edit()
 	{
-		global $tpl;
+		global $tpl, $lng;
 
 		$tpl->addJavascript("./Modules/Wiki/js/WikiEdit.js");
+		$tpl->addOnLoadCode("il.Wiki.Edit.txt.page_exists = '".$lng->txt("wiki_page_exists")."';");
+		$tpl->addOnLoadCode("il.Wiki.Edit.txt.new_page = '".$lng->txt("wiki_new_page")."';");
+
 		return parent::edit();
 	}
 
@@ -1001,6 +1004,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		// Target page
 		$tp = new ilTextInputGUI($this->lng->txt("wiki_target_page"), "target_page");
 		$tp->setSize(18);
+		$tp->setInfo("...");
 		$tp->setDataSource($ilCtrl->getLinkTarget($this, "insertWikiLinkAC", "", true));
 		$form->addItem($tp);
 
@@ -1020,12 +1024,28 @@ class ilWikiPageGUI extends ilPageObjectGUI
 	 */
 	function insertWikiLinkAC()
 	{
-		$res = ilWikiPage::getPagesForSearch($this->getPageObject()->getParentId(), ilUtil::stripSlashes($_GET["term"]));
-
 		$result = array();
+
+		$term = $_GET["term"];
+
+		// if page exists, make it first entry
+		if (ilWikiPage::_wikiPageExists($this->getPageObject()->getParentId(), $term))
+		{
+			$entry = new stdClass();
+			$entry->value = $term;
+			$entry->label = $term;
+			$result[] = $entry;
+		}
+
+		$res = ilWikiPage::getPagesForSearch($this->getPageObject()->getParentId(), $term);
+
 		$cnt = 0;
 		foreach ($res as $r)
 		{
+			if ($result[0]->value == $r)
+			{
+				continue;
+			}
 			if ($cnt++ > 19)
 			{
 				continue;

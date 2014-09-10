@@ -4,20 +4,36 @@ if (!il.Wiki) {
 
 il.Wiki.Edit = {
 	url: '',
+	txt: {},
 
 	openLinkDialog: function(url) {
 		il.Wiki.Edit.url = url;
 
 		il.IntLink.showPanel();
 		il.Util.sendAjaxGetRequestToUrl(url + "&cmd=insertWikiLink", {}, {el_id: "ilIntLinkPanel"}, function(o) {
+			var val_sel;
+
 			// output html
 			if(o.responseText !== undefined) {
 				$('#' + o.argument.el_id).html(o.responseText);
 			}
 
-			$("input#target_page").val(ilCOPage.getSelection());
+			$("#il_prop_cont_target_page").next().children(".ilFormInfo").html("&nbsp;");
 
 			il.Wiki.Edit.initTextInputAutoComplete();
+
+			$('input#target_page').on('input', function() {
+				$("#il_prop_cont_target_page").next().children(".ilFormInfo").html("&nbsp;");
+			});
+
+			val_sel = ilCOPage.getSelection();
+			if (val_sel != "") {
+				$("input#target_page").val(val_sel);
+				$("input#target_page").focus();
+				$("input#target_page").iladvancedautocomplete('search', val_sel);
+			} else {
+				$("input#target_page").focus();
+			}
 
 			// add wiki link
 			$("input[name*='addWikiLink']").on("click", function(e) {
@@ -63,12 +79,21 @@ il.Wiki.Edit = {
 
 				// set position to be absolute, note relative (standar behaviour)
 				$("#ilIntLinkPanel ul.ui-autocomplete").css("position", "absolute");
+				if (items[0] && ($("input#target_page").val().toLowerCase() == items[0].value.toLowerCase())) {
+					$("#il_prop_cont_target_page").next().children(".ilFormInfo").html(il.Wiki.Edit.txt.page_exists);
+				}
 			}
 		});
 
 		$('input#target_page').iladvancedautocomplete({
 			requestUrl: il.Wiki.Edit.url + "&cmd=insertWikiLinkAC",
 			appendTo: "#ilIntLinkPanel",
+			response: function(e, u) {
+				$("#il_prop_cont_target_page").next().children(".ilFormInfo").html(il.Wiki.Edit.txt.new_page);
+			},
+			select: function(e, u) {
+				$("#il_prop_cont_target_page").next().children(".ilFormInfo").html(il.Wiki.Edit.txt.page_exists);
+			},
 			source: function( request, response ) {
 				var that = this;
 				$.getJSON( that.options.requestUrl, {
