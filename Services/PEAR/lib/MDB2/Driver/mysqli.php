@@ -430,7 +430,7 @@ class MDB2_Driver_mysqli extends MDB2_Driver_Common
 				$this->dsn['port'] = 0;
 			}
 			// HHVM-Fix: use "new mysqli" instead of "@mysqli_connect"
-			$connection = new mysqli(
+			$connection = @new mysqli(
 			// hhvm-patch: end
                 $this->dsn['hostspec'],
                 $this->dsn['username'],
@@ -439,6 +439,13 @@ class MDB2_Driver_mysqli extends MDB2_Driver_Common
                 $this->dsn['port'],
                 $this->dsn['socket']
             );
+			// hhvm-patch: begin
+			if($connection->connect_error)
+			{
+				// Changed data type to boolean on connection errors to adapt mysqli_connect()
+				$connection = false;
+			}
+			// hhvm-patch: end
         }
 
         if (!$connection) {
