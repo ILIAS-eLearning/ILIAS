@@ -204,7 +204,6 @@ class ilSessionDataSet extends ilDataSet
 				$newObj->setPhone($a_rec["TutorPhone"]);
 				$newObj->setEmail($a_rec["TutorEmail"]);
 				$newObj->setDetails($a_rec["Details"]);
-				$newObj->enableRegistration($a_rec["Registration"]);
 				$newObj->update();
 
 				$start = new ilDateTime($a_rec["EventStart"], IL_CAL_DATETIME, "UTC");

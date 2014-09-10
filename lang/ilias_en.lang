@@ -14733,3 +14733,4 @@ sess#:#sess_reg_max_members#:#Limited Number of Members
 sess#:#sess_reg_max_members_info#:#Define the maximum number of users that can participate to this session.
 sess#:#sess_reg_waiting_list#:#Waiting List
 sess#:#sess_reg_waiting_list_info#:#If enabled and the maximum number of users is exceeded, new registrations will be placed on a waiting list.
+sess#:#sess_section_reg#:#Registration Settings

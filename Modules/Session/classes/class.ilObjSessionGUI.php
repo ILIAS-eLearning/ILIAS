@@ -47,6 +47,8 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->lng->loadLanguageModule("event");
 		$this->lng->loadLanguageModule('crs');
 		$this->lng->loadLanguageModule('trac');
+		$this->lng->loadLanguageModule('sess');
+		
 
 		$this->tpl = $tpl;
 		$this->ctrl = $ilCtrl;
@@ -1492,27 +1494,22 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->form->addItem($tutor_phone);
 		
 		$section = new ilFormSectionHeaderGUI();
-		$section->setTitle($this->lng->txt('crs_further_settings'));
+		$section->setTitle($this->lng->txt('sess_section_reg'));
 		$this->form->addItem($section);
 
-		// registration
-		$reg = new ilCheckboxInputGUI($this->lng->txt('event_registration'),'registration');
-		$reg->setChecked($this->object->enabledRegistration() ? true : false);
-		$reg->setOptionTitle($this->lng->txt('event_registration_info'));
-		$this->form->addItem($reg);
-		
 		include_once './Modules/Session/classes/class.ilSessionMembershipRegistrationSettingsGUI.php';
+		include_once './Services/Membership/classes/class.ilMembershipRegistrationSettings.php';
 		$reg_settings = new ilSessionMembershipRegistrationSettingsGUI(
 				$this,
 				$this->object,
 				array(
-					ilSessionMembershipRegistrationSettingsGUI::TYPE_DIRECT,
-					ilSessionMembershipRegistrationSettingsGUI::TYPE_REQUEST,
-					ilSessionMembershipRegistrationSettingsGUI::TYPE_NONE,
-					ilSessionMembershipRegistrationSettingsGUI::REGISTRATION_LIMITED_USERS
+					ilMembershipRegistrationSettings::TYPE_DIRECT,
+					ilMembershipRegistrationSettings::TYPE_REQUEST,
+					ilMembershipRegistrationSettings::TYPE_NONE,
+					ilMembershipRegistrationSettings::REGISTRATION_LIMITED_USERS
 				)
 		);
-		#$reg_settings->addMembershipFormElements($this->form, '');
+		$reg_settings->addMembershipFormElements($this->form, '');
 
 
 		$section = new ilFormSectionHeaderGUI();
@@ -1600,7 +1597,11 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->object->setPhone(ilUtil::stripSlashes($_POST['tutor_phone']));
 		$this->object->setEmail(ilUtil::stripSlashes($_POST['tutor_email']));
 		$this->object->setDetails(ilUtil::stripSlashes($_POST['details']));
-		$this->object->enableRegistration((int) $_POST['registration']);
+		
+		$this->object->setRegistrationType((int) $_POST['registration_type']);
+		$this->object->setRegistrationMaxUsers((int) $_POST['registration_max_members']);
+		$this->object->enableRegistrationUserLimit((int) $_POST['registration_membership_limited']);
+		$this->object->enableRegistrationWaitingList((int) $_POST['waiting_list']);
 	}
 
 	/**

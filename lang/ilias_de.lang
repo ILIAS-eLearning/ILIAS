@@ -14729,3 +14729,4 @@ sess#:#sess_reg_max_members#:#Maximale Anzahl
 sess#:#sess_reg_max_members_info#:#Ist die maximale Teilnehmeranzahl erreicht, ist eine Anmeldung nicht mehr möglich.
 sess#:#sess_reg_waiting_list#:#Warteliste
 sess#:#sess_reg_waiting_list_info#:#Ist die maximale Teilnehmeranzahl erreicht, können sich weitere Benutzer auf eine Warteliste setzen lassen.
+sess#:#sess_section_reg#:#Anmeldung durch Benutzer

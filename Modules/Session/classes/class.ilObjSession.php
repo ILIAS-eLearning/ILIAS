@@ -3,6 +3,7 @@
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once('./Modules/Session/classes/class.ilSessionAppointment.php');
+include_once './Services/Membership/classes/class.ilMembershipRegistrationSettings.php';
 
 /**
 * @defgroup ModulesSession Modules/Session
@@ -26,10 +27,17 @@ class ilObjSession extends ilObject
 	protected $registration;
 	protected $event_id;
 	
+	protected $reg_type = ilMembershipRegistrationSettings::TYPE_NONE;
+	protected $reg_limited = 0;
+	protected $reg_limited_users = 0;
+	protected $reg_waiting_list = 0;
+
+
 	protected $appointments;
 	protected $files = array();
 	
 
+	
 	/**
 	* Constructor
 	* @access	public
@@ -57,12 +65,12 @@ class ilObjSession extends ilObject
 	{
 		global $ilDB;
 		
-		$query = "SELECT registration FROM event ".
+		$query = "SELECT reg_type FROM event ".
 			"WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ";
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			return (bool) $row->registration;
+			return (bool) $row->reg_type != ilMembershipRegistrationSettings::TYPE_NONE;
 		}
 		return false;
 	}
@@ -248,17 +256,47 @@ class ilObjSession extends ilObject
 		return $this->details;
 	}
 	
-	/**
-	 * enable registration
-	 *
-	 * @access public
-	 * @param
-	 * @return
-	 */
-	public function enableRegistration($a_registration)
+	public function setRegistrationType($a_type)
 	{
-		$this->registration = (bool) $a_registration;
+		$this->reg_type = $a_type;
 	}
+	
+	public function getRegistrationType()
+	{
+		return $this->reg_type;
+	}
+	
+	public function isRegistrationUserLimitEnabled()
+	{
+		return $this->reg_limited;
+	}
+	
+	public function enableRegistrationUserLimit($a_limit)
+	{
+		$this->reg_limited = $a_limit;
+	}
+	
+	public function getRegistrationMaxUsers()
+	{
+		return $this->reg_limited_users;
+	}
+	
+	public function setRegistrationMaxUsers($a_users)
+	{
+		$this->reg_limited_users = $a_users;
+	}
+	
+	public function isRegistrationWaitingListEnabled()
+	{
+		return $this->reg_waiting_list;
+	}
+	
+	public function enableRegistrationWaitingList($a_stat)
+	{
+		$this->reg_waiting_list = $a_stat;
+	}
+	
+	
 	
 	/**
 	 * is registration enabled
@@ -268,7 +306,7 @@ class ilObjSession extends ilObject
 	 */
 	public function enabledRegistration()
 	{
-		return (bool) $this->registration;
+		return $this->reg_type != ilMembershipRegistrationSettings::TYPE_NONE;
 	}
 	
 	/**
@@ -388,17 +426,23 @@ class ilObjSession extends ilObject
 	 * clone settings
 	 *
 	 * @access public
-	 * @param
+	 * @param ilObjSession
 	 * @return
 	 */
-	public function cloneSettings($new_obj)
+	public function cloneSettings(ilObjSession $new_obj)
 	{
+		// @var 
 		$new_obj->setLocation($this->getLocation());
 		$new_obj->setName($this->getName());
 		$new_obj->setPhone($this->getPhone());
 		$new_obj->setEmail($this->getEmail());
 		$new_obj->setDetails($this->getDetails());
-		$new_obj->enableRegistration($this->enabledRegistration());
+		
+		$new_obj->setRegistrationType($this->getRegistrationType());
+		$new_obj->enableRegistrationUserLimit($this->isRegistrationUserLimitEnabled());
+		$new_obj->enableRegistrationWaitingList($this->isRegistrationWaitingListEnabled());
+		$new_obj->setRegistrationMaxUsers($this->getRegistrationMaxUsers());
+		
 		$new_obj->update();
 		
 		return true;
@@ -441,7 +485,8 @@ class ilObjSession extends ilObject
 		parent::create();
 		
 		$next_id = $ilDB->nextId('event');
-		$query = "INSERT INTO event (event_id,obj_id,location,tutor_name,tutor_phone,tutor_email,details,registration) ".
+		$query = "INSERT INTO event (event_id,obj_id,location,tutor_name,tutor_phone,tutor_email,details,registration, ".
+			'reg_type, reg_limit_users, reg_limited,reg_waiting_list) '.
 			"VALUES( ".
 			$ilDB->quote($next_id,'integer').", ".
 			$this->db->quote($this->getId() ,'integer').", ".
@@ -450,7 +495,11 @@ class ilObjSession extends ilObject
 			$this->db->quote($this->getPhone() ,'text').", ".
 			$this->db->quote($this->getEmail() ,'text').", ".
 			$this->db->quote($this->getDetails() ,'text').",".
-			$this->db->quote($this->enabledRegistration() ,'integer')." ".
+			$this->db->quote($this->enabledRegistration() ,'integer').", ".
+			$this->db->quote($this->getRegistrationType(),'integer').', '.
+			$this->db->quote($this->getRegistrationMaxUsers(),'integer').', '.
+			$this->db->quote($this->isRegistrationUserLimitEnabled(),'integer').', '.
+			$this->db->quote($this->isRegistrationWaitingListEnabled(),'integer').' '.
 			")";
 		$res = $ilDB->manipulate($query);
 		$this->event_id = $next_id;
@@ -486,7 +535,11 @@ class ilObjSession extends ilObject
 			"tutor_phone = ".$this->db->quote($this->getPhone() ,'text').", ".
 			"tutor_email = ".$this->db->quote($this->getEmail() ,'text').", ".
 			"details = ".$this->db->quote($this->getDetails() ,'text').", ".
-			"registration = ".$this->db->quote($this->enabledRegistration() ,'integer')." ".
+			"registration = ".$this->db->quote($this->enabledRegistration() ,'integer').", ".
+			"reg_type = ".$this->db->quote($this->getRegistrationType() ,'integer').", ".
+			"reg_limited = ".$this->db->quote($this->isRegistrationUserLimitEnabled() ,'integer').", ".
+			"reg_limit_users = ".$this->db->quote($this->getRegistrationMaxUsers() ,'integer').", ".
+			"reg_waiting_list = ".$this->db->quote($this->isRegistrationWaitingListEnabled(),'integer')." ".
 			"WHERE obj_id = ".$this->db->quote($this->getId() ,'integer')." ";
 		$res = $ilDB->manipulate($query);
 		
@@ -495,7 +548,6 @@ class ilObjSession extends ilObject
 			array('object' => $this,
 				'obj_id' => $this->getId(),
 				'appointments' => $this->prepareCalendarAppointments('update')));
-	
 		return true;
 	}
 	
@@ -564,7 +616,10 @@ class ilObjSession extends ilObject
 			$this->setPhone($row->tutor_phone);
 			$this->setEmail($row->tutor_email);
 			$this->setDetails($row->details);
-			$this->enableRegistration((bool) $row->registration);
+			$this->setRegistrationType($row->reg_type);
+			$this->enableRegistrationUserLimit($row->reg_limited);
+			$this->enableRegistrationWaitingList($row->reg_waiting_list);
+			$this->setRegistrationMaxUsers($row->reg_limit_users);
 			$this->event_id = $row->event_id;
 		}
 

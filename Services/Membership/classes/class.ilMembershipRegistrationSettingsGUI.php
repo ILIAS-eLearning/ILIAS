@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+include_once './Services/Membership/classes/class.ilMembershipRegistrationSettings.php';
+
 /**
 * Registration settings 
 *
@@ -12,16 +14,6 @@
 */
 abstract class ilMembershipRegistrationSettingsGUI
 {
-	const TYPE_DIRECT = 1;
-	const TYPE_PASSWORD = 2;
-	const TYPE_REQUEST = 3;
-	const TYPE_NONE = 4;
-	
-	const REGISTRATION_LINK = 5;
-	
-	const REGISTRATION_LIMITED_DURATION = 6;
-	const REGISTRATION_LIMITED_USERS = 7;
-	
 	private $object = null;
 	private $gui_object = null;
 	private $options = array();
@@ -37,6 +29,11 @@ abstract class ilMembershipRegistrationSettingsGUI
 		$this->object = $object;
 		$this->options = $a_options;
 	}
+	
+	/**
+	 * Set form values
+	 */
+	abstract public function setFormValues(ilPropertyFormGUI $form);
 	
 	/**
 	 * Get current object
@@ -75,14 +72,14 @@ abstract class ilMembershipRegistrationSettingsGUI
 		$reg_type = new ilRadioGroupInputGUI($this->txt('reg_type'),'registration_type');
 		//$reg_type->setValue($this->object->getRegistrationType());
 
-		if(in_array(self::TYPE_DIRECT,$this->getOptions()))
+		if(in_array(ilMembershipRegistrationSettings::TYPE_DIRECT,$this->getOptions()))
 		{
-			$opt_dir = new ilRadioOption($this->txt('reg_direct'),self::TYPE_DIRECT);#$this->lng->txt('grp_reg_direct_info'));
+			$opt_dir = new ilRadioOption($this->txt('reg_direct'),  ilMembershipRegistrationSettings::TYPE_DIRECT);#$this->lng->txt('grp_reg_direct_info'));
 			$reg_type->addOption($opt_dir);
 		}
-		if(in_array(self::TYPE_PASSWORD,$this->getOptions()))
+		if(in_array(ilMembershipRegistrationSettings::TYPE_PASSWORD,$this->getOptions()))
 		{
-			$opt_pass = new ilRadioOption($this->txt('reg_pass'),self::TYPE_PASSWORD);
+			$opt_pass = new ilRadioOption($this->txt('reg_pass'),  ilMembershipRegistrationSettings::TYPE_PASSWORD);
 			$pass = new ilTextInputGUI($GLOBALS['lng']->txt("password"),'password');
 			$pass->setInfo($this->txt('reg_password_info'));
 			#$pass->setValue($this->object->getPassword());
@@ -92,21 +89,21 @@ abstract class ilMembershipRegistrationSettingsGUI
 			$reg_type->addOption($opt_pass);
 		}
 
-		if(in_array(self::TYPE_REQUEST,$this->getOptions()))
+		if(in_array(ilMembershipRegistrationSettings::TYPE_REQUEST,$this->getOptions()))
 		{
-			$opt_req = new ilRadioOption($this->txt('reg_request'),self::TYPE_REQUEST,$this->txt('reg_request_info'));
+			$opt_req = new ilRadioOption($this->txt('reg_request'),  ilMembershipRegistrationSettings::TYPE_REQUEST,$this->txt('reg_request_info'));
 			$reg_type->addOption($opt_req);
 		}
-		if(in_array(self::TYPE_NONE,$this->getOptions()))
+		if(in_array(ilMembershipRegistrationSettings::TYPE_NONE,$this->getOptions()))
 		{
-			$opt_deact = new ilRadioOption($this->txt('reg_disabled'),self::TYPE_NONE,$this->txt('reg_disabled_info'));
+			$opt_deact = new ilRadioOption($this->txt('reg_disabled'),ilMembershipRegistrationSettings::TYPE_NONE,$this->txt('reg_disabled_info'));
 			$reg_type->addOption($opt_deact);
 		}
 		
 		// Add to form
 		$form->addItem($reg_type);
 		
-		if(in_array(self::REGISTRATION_LIMITED_USERS,$this->getOptions()))
+		if(in_array(ilMembershipRegistrationSettings::REGISTRATION_LIMITED_USERS,$this->getOptions()))
 		{
 			// max member
 			$lim = new ilCheckboxInputGUI($this->txt('reg_max_members_short'),'registration_membership_limited');
@@ -131,6 +128,8 @@ abstract class ilMembershipRegistrationSettingsGUI
 			
 			$form->addItem($lim);
 		}
+		
+		$this->setFormValues($form);
 	}
 	
 	/**

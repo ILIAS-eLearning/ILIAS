@@ -2938,3 +2938,53 @@ if(!$ilDB->tableColumnExists('tst_test_result', 'step'))
 	));
 }
 ?>
+
+<#4322>
+<?php
+
+	$ilDB->addTableColumn('event', 'reg_type', array(
+		'type' => 'integer',
+		'length' => 2,
+		'notnull' => false,
+		'default' => 0
+	));
+	
+?>
+
+<#4323>
+<?php
+
+	$query = 'UPDATE event set reg_type = registration';
+	$ilDB->manipulate($query);
+?>
+
+<#4324>
+<?php
+	$ilDB->addTableColumn('event', 'reg_limit_users', array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => false,
+		'default' => 0
+	));
+
+?>
+<#4325>
+<?php
+	$ilDB->addTableColumn('event', 'reg_waiting_list', array(
+		'type' => 'integer',
+		'length' => 1,
+		'notnull' => false,
+		'default' => 0
+	));
+
+?>
+<#4326>
+<?php
+	$ilDB->addTableColumn('event', 'reg_limited', array(
+		'type' => 'integer',
+		'length' => 1,
+		'notnull' => false,
+		'default' => 0
+	));
+
+?>
