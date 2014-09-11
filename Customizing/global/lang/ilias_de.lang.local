@@ -866,3 +866,5 @@ gev#:#gev_set_course_status_title_desc#:#Setzen Sie hier die Teilnehmerstatus.
 gev#:#mbrcount#:#Teilnehmer
 gev#:#gev_learning_cat#:#Kategorie
 gev#:#apdays#:#Trainertage
+gev#:#gev_report_exportxls#:#Excel-Export
+
