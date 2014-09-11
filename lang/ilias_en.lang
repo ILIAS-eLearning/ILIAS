@@ -14738,3 +14738,6 @@ sess#:#sess_reg_waiting_list_info#:#If enabled and the maximum number of users i
 wiki#:#wiki_page_exists#:#Existing Page
 sess#:#sess_section_reg#:#Registration Settings
 assessment#:#save_and_next#:#Save and Continue
+sess#:#sess_users_added#:#Registered selected users for the session.
+sess#:#sess_users_already_assigned#:#The user is already registered for this session.
+sess#:#sess_users_removed_from_list#:#The selected users have been removed from the waiting list.

@@ -14733,3 +14733,6 @@ sess#:#sess_reg_waiting_list#:#Warteliste
 sess#:#sess_reg_waiting_list_info#:#Ist die maximale Teilnehmeranzahl erreicht, können sich weitere Benutzer auf eine Warteliste setzen lassen.
 sess#:#sess_section_reg#:#Anmeldung durch Benutzer
 assessment#:#save_and_next#:#Speichern und weiter
+sess#:#sess_users_added#:#Die Benutzer wurden für die Sitzung angemeldet.
+sess#:#sess_users_already_assigned#:#Die Benutzer sind bereits für die Sitzung angemeldet.
+sess#:#sess_users_removed_from_list#:#Die ausgewählten Benutzer wurden aus der Warteliste ausgetragen.

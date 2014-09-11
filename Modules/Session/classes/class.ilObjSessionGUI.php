@@ -955,6 +955,38 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		// Save hide/show table settings		
 		$this->setShowHidePrefs();
 		
+		// Waiting list table
+		include_once('./Modules/Session/classes/class.ilSessionWaitingList.php');
+		$waiting_list = new ilSessionWaitingList($this->object->getId());
+		if(count($wait = $waiting_list->getAllUsers()))
+		{
+			include_once('./Services/Membership/classes/class.ilWaitingListTableGUI.php');
+			if($ilUser->getPref('sess_wait_hide'))
+			{
+				$table_gui = new ilWaitingListTableGUI($this,$waiting_list,false);
+				$this->ctrl->setParameter($this,'wait_hide',0);
+				$table_gui->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
+					$this->lng->txt('show'),
+					'',
+					ilUtil::getImagePath('edit_add.png'));
+				$this->ctrl->clearParameters($this);
+			}
+			else
+			{
+				$table_gui = new ilWaitingListTableGUI($this,$waiting_list,true);
+				$this->ctrl->setParameter($this,'wait_hide',1);
+				$table_gui->addHeaderCommand($this->ctrl->getLinkTarget($this,'members'),
+					$this->lng->txt('hide'),
+					'',
+					ilUtil::getImagePath('edit_remove.png'));
+				$this->ctrl->clearParameters($this);
+			}
+			$table_gui->setUsers($wait);
+			$table_gui->setTitle($this->lng->txt('grp_header_waiting_list'),'icon_usr.png',$this->lng->txt('group_new_registrations'));
+			$this->tpl->setVariable('TABLE_WAIT',$table_gui->getHTML());
+		}		
+		
+		
 		// Admins
 		if(count($admins = $members_obj->getAdmins()))
 		{
@@ -1849,6 +1881,96 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		include_once './Services/Membership/classes/class.ilMembershipGUI.php';
 		$mem = new ilMembershipGUI($this);
 		$GLOBALS['ilCtrl']->forwardCommand($mem);
+	}
+	
+	/**
+	 * Used for waiting list
+	 */
+	public function readMemberData($a_usr_ids)
+	{
+		$tmp_data = array();
+		foreach ($a_usr_ids as $usr_id)
+		{
+			$tmp_data[$usr_id] = array();
+		}
+		return $tmp_data;
+	}
+	
+	/**
+	 * add from waiting list 
+	 *
+	 * @access public
+	 * @param
+	 * @return
+	 */
+	public function assignFromWaitingListObject()
+	{
+		$this->checkPermission('write');
+		
+		if(!count($_POST["waiting"]))
+		{
+			ilUtil::sendFailure($this->lng->txt("no_checkbox"));
+			$this->membersObject();
+			return false;
+		}
+		
+		include_once('./Modules/Session/classes/class.ilSessionWaitingList.php');
+		$waiting_list = new ilSessionWaitingList($this->object->getId());
+		
+		include_once './Modules/Session/classes/class.ilEventParticipants.php';
+		$part = new ilEventParticipants($this->object->getId());
+
+		$added_users = 0;
+		foreach($_POST["waiting"] as $user_id)
+		{
+			$part->register($user_id);
+			$waiting_list->removeFromList($user_id);
+
+			++$added_users;
+		}
+		if($added_users)
+		{
+			ilUtil::sendSuccess($this->lng->txt("sess_users_added"));
+			$this->membersObject();
+
+			return true;
+		}
+		else
+		{
+			ilUtil::sendFailure($this->lng->txt("sess_users_already_assigned"));
+			$this->searchObject();
+			return false;
+		}
+	}
+	
+	/**
+	 * refuse from waiting list
+	 *
+	 * @access public
+	 * @return
+	 */
+	public function refuseFromListObject()
+	{
+		$this->checkPermission('write');
+		
+		if(!count($_POST['waiting']))
+		{
+			ilUtil::sendFailure($this->lng->txt('no_checkbox'));
+			$this->membersObject();
+			return false;
+		}
+		
+		include_once('./Modules/Session/classes/class.ilSessionWaitingList.php');
+		$waiting_list = new ilSessionWaitingList($this->object->getId());
+
+		foreach($_POST["waiting"] as $user_id)
+		{
+			$waiting_list->removeFromList($user_id);
+		}
+		
+		ilUtil::sendSuccess($this->lng->txt('sess_users_removed_from_list'));
+		$this->membersObject();
+		return true;
 	}
 }
 ?>
