@@ -6,17 +6,15 @@
 include_once('./Services/Membership/classes/class.ilWaitingList.php');
 
 /**
-* Course waiting list
-*
-* @author Stefan Meyer <smeyer.ilias@gmx.de> 
-* @version $Id$
-* 
-* @extends ilWaitingList
-*/
-
+ * Course waiting list
+ *
+ * @author Stefan Meyer <smeyer.ilias@gmx.de> 
+ * @version $Id$
+ * 
+ * @extends ilWaitingList
+ */
 class ilCourseWaitingList extends ilWaitingList
 {
-	
 	/**
 	 * Add to waiting list and raise event
 	 * @param int $a_usr_id
@@ -25,7 +23,12 @@ class ilCourseWaitingList extends ilWaitingList
 	{
 		global $ilAppEventHandler, $ilLog;
 		
-		$ilLog->write(__METHOD__.': Raise new event: Modules/Course addParticipant');
+		if(!parent::addToList($a_usr_id))
+		{
+			return FALSE;
+		}
+		
+		$ilLog->write(__METHOD__.': Raise new event: Modules/Course addToList');
 		$ilAppEventHandler->raise(
 				"Modules/Course", 
 				'addToWaitingList', 
@@ -34,6 +37,7 @@ class ilCourseWaitingList extends ilWaitingList
 					'usr_id' => $a_usr_id
 				)
 			);
+		return TRUE;
 	}
 }
 ?>
