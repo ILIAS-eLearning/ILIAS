@@ -207,6 +207,12 @@ class gevCourseSearchTableGUI extends catAccordionTableGUI {
 			$this->tpl->setCurrentBlock("booking_deadline");
 			$this->tpl->setVariable("BOOKING_DEADLINE", ilDatePresentation::formatDate($a_set["booking_date"]));
 			$this->tpl->parseCurrentBlock();
+		}		
+		if ($a_set["cancel_date"] !== null) {
+			$this->tpl->setCurrentBlock("cancel_deadline");
+			//$this->tpl->setVariable("CANCEL_DEADLINE", ilDatePresentation::formatDate($a_set["cancel_date"]));
+			$this->tpl->setVariable("CANCEL_DEADLINE", $a_set["cancel_date"]);
+			$this->tpl->parseCurrentBlock();
 		}
 	}
 }

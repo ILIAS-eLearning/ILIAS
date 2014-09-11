@@ -593,6 +593,7 @@ class gevUserUtils {
 				 , gevSettings::CRS_AMD_GOALS 				=> "goals"
 				 , gevSettings::CRS_AMD_CONTENTS 			=> "content"
 				 , gevSettings::CRS_AMD_MAX_PARTICIPANTS	=> "max_participants"
+				 , gevSettings::CRS_AMD_CANCEL_DEADLINE		=> "cancel_date"
 			);
 			
 		$info = gevAMDUtils::getInstance()->getTable($crss, $crs_amd, array(), array(),
