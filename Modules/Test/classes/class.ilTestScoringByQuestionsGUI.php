@@ -276,7 +276,8 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 
 		if($changed_one)
 		{
-			ilUtil::sendSuccess(sprintf($this->lng->txt('tst_saved_manscoring_successfully'), $pass + 1), true);
+			$user_name = ilObjUser::_lookupName( ilObjTestAccess::_getParticipantId($active_id));
+			ilUtil::sendSuccess(sprintf($this->lng->txt('tst_saved_manscoring_successfully'), $pass + 1, $user_name['firstname'].' '. $user_name['lastname']), true);
 
 			require_once './Modules/Test/classes/class.ilTestScoring.php';
 			$scorer = new ilTestScoring($this->object);

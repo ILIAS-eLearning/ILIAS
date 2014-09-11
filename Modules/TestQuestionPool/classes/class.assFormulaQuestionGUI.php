@@ -539,6 +539,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
 				$result_type->setValue(strlen($result->getResultType()) ? $result->getResultType() : 0);
 
 				$points = new ilNumberInputGUI($this->lng->txt('points'), 'points_' . $result->getResult());
+				$points->allowDecimals(true);
 				$points->setRequired(true);
 				$points->setSize(3);
 				$points->setMinValue(0);
@@ -1034,7 +1035,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
 			{
 				if(is_null($pass)) $pass = ilObjTest::_getPass($active_id);
 			}
-			$user_solution = $this->object->getBestSolution($this->getSolutionValues($active_id, $pass));
+			$user_solution = $this->object->getBestSolution($this->object->getSolutionValues($active_id, $pass));
 		}
 		elseif( is_object($this->getPreviewSession()) )
 		{

@@ -12209,7 +12209,7 @@ assessment#:#tst_manscoring_question_section_header#:#Question: %s
 content#:#cont_online_help_ids#:#Screen-IDs
 content#:#cont_screen_ids#:#Screen-IDs
 assessment#:#tst_manscoring_user_notification#:#Send Notification
-assessment#:#tst_saved_manscoring_successfully#:#The manual scoring for test pass %s was saved successfully.
+assessment#:#tst_saved_manscoring_successfully#:#The manual scoring for test pass %s for %s was saved successfully.
 assessment#:#tst_save_manscoring_failed#:#Saving the manual scoring for test pass %s has failed.
 assessment#:#tst_manscoring_maxpoints_exceeded_input_alert#:#The maximum of %s point(s) is exceeded!
 assessment#:#tst_manscoring_input_max_points_for_question#:#Maximum Points for Question
@@ -14736,3 +14736,4 @@ sess#:#sess_reg_waiting_list#:#Waiting List
 sess#:#sess_reg_waiting_list_info#:#If enabled and the maximum number of users is exceeded, new registrations will be placed on a waiting list.
 wiki#:#wiki_page_exists#:#Existing Page
 sess#:#sess_section_reg#:#Registration Settings
+assessment#:#save_and_next#:#Save and Continue

@@ -27,14 +27,15 @@ class ilTestManScoringParticipantsTableGUI extends ilTable2GUI
 	 */
 	public function __construct($parentObj)
 	{
+		$this->setPrefix('manScorePartTable');
+		$this->setId('manScorePartTable');
+
 		parent::__construct($parentObj, self::PARENT_DEFAULT_CMD);
 		
 		$this->setFilterCommand(self::PARENT_APPLY_FILTER_CMD);
 		$this->setResetCommand(self::PARENT_RESET_FILTER_CMD);
 
 		global $ilCtrl;
-
-		$this->setPrefix('manScorePartTable');
 
 		$this->setFormName('manScorePartTable');
 		$this->setStyle('table', 'fullwidth');
@@ -132,5 +133,14 @@ class ilTestManScoringParticipantsTableGUI extends ilTable2GUI
 
 		$this->tpl->setVariable("HREF_SCORE_PARTICIPANT", $ilCtrl->getLinkTarget($this->parent_obj, self::PARENT_EDIT_SCORING_CMD));
 		$this->tpl->setVariable("TXT_SCORE_PARTICIPANT", $lng->txt('tst_edit_scoring'));
+	}
+	
+	public function getInternalyOrderedDataValues()
+	{
+		$this->determineOffsetAndOrder();
+		
+		return ilUtil::sortArray(
+			$this->getData(), $this->getOrderField(), $this->getOrderDirection(), $this->numericOrdering($this->getOrderField())
+		);
 	}
 }

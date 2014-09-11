@@ -1018,7 +1018,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
 				$affectedRows = $ilDB->manipulateF(
 					"INSERT INTO qpl_a_essay (answer_id, question_fi, answertext, points) 
 					 VALUES (%s, %s, %s, %s)",
-					 array('integer','integer','text','integer'),
+					 array('integer','integer','text','float'),
 					 array($next_id, $this->getId(), $row["answertext"], $row["points"])
 				);
 			}

@@ -1223,7 +1223,7 @@ assessment#:#tst_results_presentation_description#:#Wird die Ergebnisübersicht 
 assessment#:#tst_results_print_best_solution#:#Bestmögliche Lösung in Testergebnissen
 assessment#:#tst_results_print_best_solution_info#:#Falls aktiviert, und die Teilnehmer Zugang zu ihren Testergebnissen haben, wird den Lernenden die bestmögliche Lösung präsentiert.
 assessment#:#tst_resume_test#:#Test fortsetzen
-assessment#:#tst_saved_manscoring_successfully#:#Die manuelle Bewertung für Testdurchlauf %s wurde erfolgreich gespeichert.
+assessment#:#tst_saved_manscoring_successfully#:#Die manuelle Bewertung für Testdurchlauf %s von %s wurde erfolgreich gespeichert.
 assessment#:#tst_save_manscoring_failed#:#Die manuelle Bewertung für Testdurchlauf %s konnte nicht gespeichert werden.
 assessment#:#tst_manscoring_maxpoints_exceeded_input_alert#:#Die maximale Anzahl von %s Punkt(en) ist überschritten!
 assessment#:#tst_manscoring_input_max_points_for_question#:#Maximale Punktezahl für die Frage
@@ -14731,3 +14731,4 @@ sess#:#sess_reg_max_members_info#:#Ist die maximale Teilnehmeranzahl erreicht, i
 sess#:#sess_reg_waiting_list#:#Warteliste
 sess#:#sess_reg_waiting_list_info#:#Ist die maximale Teilnehmeranzahl erreicht, können sich weitere Benutzer auf eine Warteliste setzen lassen.
 sess#:#sess_section_reg#:#Anmeldung durch Benutzer
+assessment#:#save_and_next#:#Speichern und weiter

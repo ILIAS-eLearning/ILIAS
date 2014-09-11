@@ -129,6 +129,7 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 
 		// points
 		$points = new ilNumberInputGUI($this->lng->txt( "points" ), "points");
+		$points->allowDecimals(true);
 		$points->setValue( is_numeric( $this->object->getPoints() ) && $this->object->getPoints(
 						   ) >= 0 ? $this->object->getPoints() : ''
 		);

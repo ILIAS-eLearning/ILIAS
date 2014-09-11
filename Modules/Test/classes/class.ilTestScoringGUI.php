@@ -136,21 +136,15 @@ class ilTestScoringGUI extends ilTestServiceGUI
 	private function showManScoringParticipantsTable()
 	{
 		global $tpl;
-		
-		require_once 'Modules/Test/classes/tables/class.ilTestManScoringParticipantsTableGUI.php';
-		$table = new ilTestManScoringParticipantsTableGUI($this);
 
-		$participantStatusFilterValue = $table->getFilterItemByPostVar('participant_status')->getValue();
-		
-		$table->setData( $this->object->getTestParticipantsForManualScoring($participantStatusFilterValue) );
+		$table = $this->buildManScoringParticipantsTable(true);
 		
 		$tpl->setContent( $table->getHTML() );
 	}
 	
 	private function applyManScoringParticipantsFilter()
 	{
-		require_once 'Modules/Test/classes/tables/class.ilTestManScoringParticipantsTableGUI.php';
-		$table = new ilTestManScoringParticipantsTableGUI($this);
+		$table = $this->buildManScoringParticipantsTable(false);
 		
 		$table->resetOffset();
 		$table->writeFilterToSession();
@@ -160,8 +154,7 @@ class ilTestScoringGUI extends ilTestServiceGUI
 	
 	private function resetManScoringParticipantsFilter()
 	{
-		require_once 'Modules/Test/classes/tables/class.ilTestManScoringParticipantsTableGUI.php';
-		$table = new ilTestManScoringParticipantsTableGUI($this);
+		$table = $this->buildManScoringParticipantsTable(false);
 		
 		$table->resetOffset();
 		$table->resetFilter();
@@ -211,7 +204,7 @@ class ilTestScoringGUI extends ilTestServiceGUI
 		$tpl->setContent($contentHTML);
 	}
 	
-	private function saveManScoringParticipantScreen()
+	private function saveManScoringParticipantScreen($redirect = true)
 	{
 		global $tpl, $ilCtrl, $lng;
 			
@@ -311,9 +304,46 @@ class ilTestScoringGUI extends ilTestServiceGUI
 		$scorer = new ilTestScoring($this->object);
 		$scorer->setPreserveManualScores(true);
 		$scorer->recalculateSolutions();
+		
+		$user_name = ilObjUser::_lookupName( ilObjTestAccess::_getParticipantId($activeId));
+		ilUtil::sendSuccess(sprintf($lng->txt('tst_saved_manscoring_successfully'), $pass + 1, $user_name['firstname'].' '. $user_name['lastname']), true);
+		if($redirect == true)
+		{
+			$ilCtrl->redirect($this, 'showManScoringParticipantScreen');
+		}
+		else
+		{
+			return;
+		}
+	}
 
-		ilUtil::sendSuccess(sprintf($lng->txt('tst_saved_manscoring_successfully'), $pass + 1), true);
-		$ilCtrl->redirect($this, 'showManScoringParticipantScreen');
+	private function saveNextManScoringParticipantScreen()
+	{
+		global $ilCtrl;
+		
+		$table = $this->buildManScoringParticipantsTable(true);
+		
+		$redirect = false; 
+		$this->saveManScoringParticipantScreen($redirect);
+		
+		$participantData = $table->getInternalyOrderedDataValues();
+
+		foreach($participantData as $index => $participant)
+		{
+			if($participant['active_id'] == $_GET['active_id'])
+			{
+				$nextIndex = $index + 1;
+				break;
+			}
+		}
+		
+		if( isset($participantData[$nextIndex]) )
+		{
+			$ilCtrl->setParameter($this, 'active_id', $participantData[$nextIndex]['active_id']);
+			$ilCtrl->redirect($this, 'showManScoringParticipantScreen');
+		}
+
+		$ilCtrl->redirectByClass("iltestscoringgui", "showManScoringParticipantsTable");
 	}
 	
 	private function buildManScoringParticipantForm($questionGuiList, $activeId, $pass, $initValues = false)
@@ -380,11 +410,29 @@ class ilTestScoringGUI extends ilTestServiceGUI
 		$form->addItem($check);
 		
 		$form->addCommandButton('saveManScoringParticipantScreen', $lng->txt('save'));
+		$form->addCommandButton('saveNextManScoringParticipantScreen', $lng->txt('save_and_next'));
 		
 		return $form;
 	}
 
 	private function sendManScoringParticipantNotification()
 	{
+	}
+
+	/**
+	 * @return ilTestManScoringParticipantsTableGUI
+	 */
+	private function buildManScoringParticipantsTable($withData = false)
+	{
+		require_once 'Modules/Test/classes/tables/class.ilTestManScoringParticipantsTableGUI.php';
+		$table = new ilTestManScoringParticipantsTableGUI($this);
+		
+		if($withData)
+		{
+			$participantStatusFilterValue = $table->getFilterItemByPostVar('participant_status')->getValue();
+			$table->setData($this->object->getTestParticipantsForManualScoring($participantStatusFilterValue));
+		}
+
+		return $table;
 	}
 }
