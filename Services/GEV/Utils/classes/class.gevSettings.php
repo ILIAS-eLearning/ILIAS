@@ -248,7 +248,8 @@ class gevSettings {
 	// Names of roles where users do not need to pay fees
 	static $NO_PAYMENT_ROLES = array(
 		  "Administrator"
-		, "eingeschränkter Admin"
+		, "Administrator-eingeschränkt"
+		, "Administrator-Voll"
 		, "OD/LD/BD/VD/VTWL"
 		, "LD/BD-Innen"
 		, "DBV/VL-EVG"

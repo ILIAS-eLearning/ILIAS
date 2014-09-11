@@ -16,3 +16,4 @@ svn.ilias.de/svn/ilias/branches/CaT/extensions/4_4_TEP							merged: 51659
 svn.ilias.de/svn/ilias/branches/CaT/extensions/4_4_CourseHistorizing			merged: 51475
 svn.ilias.de/svn/ilias/branches/CaT/extensions/4_4_UserHistorizing				merged: 51312
 svn.ilias.de/svn/ilias/branches/CaT/extensions/4_4_UserCourseStatusHistorizing	merged: 52300
+svn.ilias.de/svn/ilias/branches/CaT/releases/4_4_generali_dev					merged: 53225

@@ -55,6 +55,7 @@ class gevAttendanceByEmployeeGUI extends gevBasicReportGUI{
 			"path" => "Services/GEV/Reports"
 		);
 			
+		$data = $this->getData();
 
 	}
 	
@@ -160,6 +161,9 @@ class gevAttendanceByEmployeeGUI extends gevBasicReportGUI{
 	}
 
 	
+
+
+
 
 }
 
