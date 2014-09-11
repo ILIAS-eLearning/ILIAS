@@ -12319,6 +12319,7 @@ dcl#:#dcl_new#:#Neue Datensammlung anlegen
 dcl#:#dcl_add#:#Datensammlung anlegen
 dcl#:#dcl_copy#:#Datensammlung kopieren
 dcl#:#dcl_edit#:#Datensammlung bearbeiten
+dcl#:#dcl_import#:#Datensammlung importieren
 dcl#:#dcl_in_export#:#Im Export
 rbac#:#dcl_visible#:#Datensammlung ist sichtbar
 rbac#:#dcl_read#:#Datensammlung lesen
