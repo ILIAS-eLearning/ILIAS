@@ -205,11 +205,22 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 
 		require_once 'Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
 		$toolbarGUI = new ilToolbarGUI();
+		
 		$toolbarGUI->addButton(
 			$this->getEnterTestButtonLangVar(), $this->ctrl->getLinkTarget($this, self::CMD_SHOW_QUESTION),
 			'', '', '', '', 'submit emphsubmit'
 		);
-
+		
+		if( $this->object->isPassDeletionAllowed() )
+		{
+			require_once 'Modules/Test/classes/confirmations/class.ilTestPassDeletionConfirmationGUI.php';
+			
+			$toolbarGUI->addButton(
+				$this->lng->txt('tst_dyn_test_pass_deletion_button'),
+				$this->getPassDeletionTarget(ilTestPassDeletionConfirmationGUI::CONTEXT_DYN_TEST_PLAYER_QUEST_SELECT)
+			);
+		}
+		
 		$data = array($this->buildQuestionSetAnswerStatisticRowArray(
 			$this->testSequence->getFilteredQuestionsData(), $this->getMarkedQuestions()
 		));
@@ -798,7 +809,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 		else
 		{
 			$message = $this->lng->txt('tst_dyn_test_msg_currently_finished_completely');
-			$message .= "<br /><br />{$this->buildPassDeletionLink()}";
+			$message .= "<br /><br />{$this->buildFinishPagePassDeletionLink()}";
 		}
 		
 		$msgHtml = $this->tpl->getMessageHTML($message);
@@ -1078,17 +1089,26 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 	/**
 	 * @return string
 	 */
-	private function buildPassDeletionLink()
+	private function buildFinishPagePassDeletionLink()
+	{
+		$href = $this->getPassDeletionTarget();
+
+		$label = $this->lng->txt('tst_dyn_test_msg_pass_deletion_link');
+
+		return "<a href=\"{$href}\">{$label}</a>";
+	}
+
+	/**
+	 * @return string
+	 */
+	private function getPassDeletionTarget()
 	{
 		require_once 'Modules/Test/classes/confirmations/class.ilTestPassDeletionConfirmationGUI.php';
 		
 		$this->ctrl->setParameterByClass('ilTestEvaluationGUI', 'context', ilTestPassDeletionConfirmationGUI::CONTEXT_DYN_TEST_PLAYER);
 		$this->ctrl->setParameterByClass('ilTestEvaluationGUI', 'active_id', $this->testSession->getActiveId());
 		$this->ctrl->setParameterByClass('ilTestEvaluationGUI', 'pass', $this->testSession->getPass());
-		
-		$href = $this->ctrl->getLinkTargetByClass('ilTestEvaluationGUI', 'confirmDeletePass');
-		$label = $this->lng->txt('tst_dyn_test_msg_pass_deletion_link');
 
-		return "<a href=\"{$href}\">{$label}</a>";
+		return $this->ctrl->getLinkTargetByClass('ilTestEvaluationGUI', 'confirmDeletePass');
 	}
 }

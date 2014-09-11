@@ -1532,8 +1532,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
 			case ilTestPassDeletionConfirmationGUI::CONTEXT_DYN_TEST_PLAYER:
 
-				require_once 'Modules/Test/classes/class.ilTestPlayerDynamicQuestionSetGUI.php';
-				$this->ctrl->redirectByClass('ilTestPlayerDynamicQuestionSetGUI', ilTestPlayerDynamicQuestionSetGUI::CMD_FROM_PASS_DELETION);
+				$this->ctrl->redirectByClass('ilTestPlayerDynamicQuestionSetGUI', 'startTest');
 		}
 	}
 	
@@ -1616,7 +1615,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 					WHERE active_id = ' . $ilDB->quote($active_fi, 'integer')
 				);
 			}
-			
 			// tst_manual_fb
 			$ilDB->manipulate(
 				'DELETE
