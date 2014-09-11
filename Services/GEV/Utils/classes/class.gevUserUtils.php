@@ -207,6 +207,7 @@ class gevUserUtils {
 				 , gevSettings::CRS_AMD_CREDIT_POINTS 		=> "credit_points"
 				 , gevSettings::CRS_AMD_FEE					=> "fee"
 				 , gevSettings::CRS_AMD_TARGET_GROUP_DESC	=> "target_group"
+				 , gevSettings::CRS_AMD_TARGET_GROUP		=> "target_group_list"
 				 , gevSettings::CRS_AMD_GOALS 				=> "goals"
 				 , gevSettings::CRS_AMD_CONTENTS 			=> "content"
 			);
@@ -222,6 +223,11 @@ class gevUserUtils {
 			// TODO: Push this to SQL-Statement.
 			$orgu_utils = gevOrgUnitUtils::getInstance($value["location"]);
 			$booked_amd[$key]["location"] = $orgu_utils->getLongTitle();
+			$list = "";
+			foreach ($booked_amd[$key]["target_group_list"] as $val) {
+				$list .= "<li>".$val."</li>";
+			}
+			$booked_amd[$key]["target_group"] = "<ul>".$list."</ul>".$booked_amd[$key]["target_group"];
 		}
 		$waiting = $this->getWaitingCourses();
 		$waiting_amd = gevAMDUtils::getInstance()->getTable($waiting, $crs_amd);
@@ -233,6 +239,11 @@ class gevUserUtils {
 			
 			$orgu_utils = gevOrgUnitUtils::getInstance($value["location"]);
 			$waiting_amd[$key]["location"] = $orgu_utils->getLongTitle();
+			$list = "";
+			foreach ($waiting_amd[$key]["target_group_list"] as $val) {
+				$list .= "<li>".$val."</li>";
+			}
+			$waiting_amd[$key]["target_group"] = "<ul>".$list."</ul>".$waiting_amd[$key]["target_group"];
 		}
 		
 		return array_merge($booked_amd, $waiting_amd);
@@ -568,6 +579,7 @@ class gevUserUtils {
 
 		return $info;
 	}
+	
 	
 	public function hasUserSelectorOnSearchGUI() {
 		return false; // TODO: Implement that properly.
