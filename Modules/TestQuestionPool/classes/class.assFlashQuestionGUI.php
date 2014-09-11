@@ -78,8 +78,9 @@ class assFlashQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoring
 		$hasErrors = (!$always) ? $this->editQuestion(true) : false;
 		if (!$hasErrors)
 		{
+			require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 			$this->writeQuestionGenericPostData();
-			$this->writeQuestionSpecificPostData(new ilPropertyFormGUI);
+			$this->writeQuestionSpecificPostData(new ilPropertyFormGUI());
 
 			$this->saveTaxonomyAssignments();
 			return 0;

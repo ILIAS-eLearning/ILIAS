@@ -51,9 +51,10 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 		$hasErrors = (!$always) ? $this->editQuestion(true) : false;
 		if (!$hasErrors)
 		{
+			require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 			$this->writeQuestionGenericPostData();
-			$this->writeQuestionSpecificPostData(new ilPropertyFormGUI);
-			$this->writeAnswerSpecificPostData(new ilPropertyFormGUI);
+			$this->writeQuestionSpecificPostData(new ilPropertyFormGUI());
+			$this->writeAnswerSpecificPostData(new ilPropertyFormGUI());
 			$this->saveTaxonomyAssignments();
 			return 0;
 		}

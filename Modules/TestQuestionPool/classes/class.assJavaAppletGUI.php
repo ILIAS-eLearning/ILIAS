@@ -63,10 +63,12 @@ class assJavaAppletGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 		$hasErrors = (!$always) ? $this->editQuestion(true) : false;
 		if (!$hasErrors)
 		{
+			require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
+
 			$this->writeQuestionGenericPostData();
 			
 			$this->object->setPoints($_POST["points"]);
-			$this->writeQuestionSpecificPostData(new ilPropertyFormGUI);
+			$this->writeQuestionSpecificPostData(new ilPropertyFormGUI());
 
 			$this->saveTaxonomyAssignments();
 			

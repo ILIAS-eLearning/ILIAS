@@ -67,6 +67,8 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 		$hasErrors = (!$always) ? $this->editQuestion(true) : false;
 		if (!$hasErrors)
 		{
+			require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
+
 			$cloze_text = $_POST['cloze_text'];
 			$cloze_text = $this->removeIndizesFromGapText( $cloze_text );
 			$_POST['cloze_text'] = $cloze_text;
@@ -74,9 +76,9 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 
 			$this->writeQuestionGenericPostData();
 			$this->object->setClozeText($_POST["cloze_text"]);
-			$this->writeQuestionSpecificPostData(new ilPropertyFormGUI);
+			$this->writeQuestionSpecificPostData(new ilPropertyFormGUI());
 			//$this->object->flushGaps();
-			$this->writeAnswerSpecificPostData(new ilPropertyFormGUI);
+			$this->writeAnswerSpecificPostData(new ilPropertyFormGUI());
 			$this->saveTaxonomyAssignments();
 			return 0;
 		}
