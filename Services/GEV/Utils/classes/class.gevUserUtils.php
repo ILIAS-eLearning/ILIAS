@@ -626,6 +626,10 @@ class gevUserUtils {
 			$info[$key]["booking_date"] = gevCourseUtils::mkDeadlineDate( $value["start_date"]
 																		, $value["booking_date"]
 																		);
+			$info[$key]["cancel_date"] = gevCourseUtils::mkDeadlineDate( $value["start_date"]
+																		, $value["cancel_date"]
+																		);
+
 			$info[$key]["free_places"] = $crs_utils->getFreePlaces();
 			$info[$key]["waiting_list_active"] = $crs_utils->isWaitingListActivated();
 			/*$info[$key]["bookable"] = $info[$key]["free_places"] === null 
