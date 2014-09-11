@@ -114,6 +114,7 @@ class gevMyCoursesGUI {
 		$form->addCommandButton("view", $this->lng->txt("cancel"));
 		$form->addCommandButton("finalizeCancellation", $action);
 		
+		$officer_contact = $crs_utils->getTrainingOfficerContactInfo();
 
 		$vals = array(
 			  array( $this->lng->txt("gev_course_id")
@@ -149,8 +150,8 @@ class gevMyCoursesGUI {
 				   , $crs_utils->getFreePlaces()
 				   )
 			, array( $this->lng->txt("gev_training_contact")
-				   , true
-				   , $crs_utils->getMainAdminName() . " (".$crs_utils->getMainAdminEMail().")"
+				   , $officer_contact
+				   , $officer_contact
 				   )
 			, array( $this->lng->txt("gev_overall_prize")
 				   , ($bill !== null)
