@@ -21,7 +21,13 @@ require_once("Services/GEV/Utils/classes/class.gevRoleUtils.php");
 
 
 function  __sortByCourseDate($a, $b) {
-	return $a['start_date']->getUnixTime() > $b['start_date']->getUnixTime();
+	if(	method_exists($a, 'getUnixTime') &&
+		method_exists($b, 'getUnixTime')
+		) {
+		return $a['start_date']->getUnixTime() > $b['start_date']->getUnixTime();
+	}else{
+		return false;
+	}
 }
 
 
