@@ -478,7 +478,8 @@ class gevUserUtils {
 				" AND ( ( NOT start_date.value >= ".$this->db->quote(date("Y-m-d", $a_search_options["period"]["end"]))." ) ".
 				"       OR ".$this->db->in("ltype.value", array("Selbstlernkurs"), false, "text").") ".
 				" AND ( ( NOT end_date.value <= ".$this->db->quote(date("Y-m-d", $a_search_options["period"]["start"]))." ) ".
-				"       OR ".$this->db->in("ltype.value", array("Selbstlernkurs"), false, "text").") "
+				"       OR ".$this->db->in("ltype.value", array("Selbstlernkurs"), false, "text").") ".
+				"       OR (end_date.value IS NULL AND NOT startdate.value <= ".$this->db->quote(date("Y-m-d", $a_search_options["period"]["start"])).")"
 				;
 		}
 		
@@ -1119,7 +1120,7 @@ class gevUserUtils {
 	
 	// superiors/employees
 	
-	public function isSuperior($a_user_id) {
+	public function isSuperior() {
 		return count($this->getOrgUnitsWhereUserIsDirectSuperior()) > 0;
 	}
 	
@@ -1339,7 +1340,7 @@ class gevUserUtils {
 									   , "AVL"
 									   , "HA"
 									   , "BA"
-									   , "NA"
+									   //, "NA"
 									   , "VP"
 									   , "TP-Basis Registrierung"
 									   , "TP-Service Registrierung"
@@ -1351,7 +1352,7 @@ class gevUserUtils {
 									   , "AVL"
 									   , "HA"
 									   , "BA"
-									   , "NA"
+									   //, "NA"
 									   , "TP-Service Registrierung"
 									   );
 

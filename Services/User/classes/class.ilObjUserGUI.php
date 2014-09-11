@@ -3152,7 +3152,9 @@ class ilObjUserGUI extends ilObjectGUI
 	*/
 	function roleassignmentObject ()
 	{
-		global $rbacreview,$rbacsystem,$ilUser, $ilTabs;
+		global $rbacreview,$rbacsystem,$ilUser, $ilTabs, $lng;
+		
+		$lng->loadLanguageModule("rbac");
 		
 		$ilTabs->activateTab("role_assignment");
 
