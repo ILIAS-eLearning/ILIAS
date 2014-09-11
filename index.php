@@ -12,7 +12,7 @@
 
 
 
-include('./_launchDate.php');
+/*include('./_launchDate.php');
 
 if( $delta > 0 
 	&& $_SERVER['SERVER_NAME'] != 'generali.test.cat06.de'
@@ -20,7 +20,7 @@ if( $delta > 0
 	&& $_SERVER['SERVER_NAME'] != 'localhost'){
     header('Location: ./countdown.php');
     die();
-}
+}*/
 
 
 // jump to setup if ILIAS3 is not installed
