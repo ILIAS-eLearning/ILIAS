@@ -327,7 +327,7 @@ class gevCourseUtils {
 	}
 	
 	public function isPraesenztraining() {
-		return preg_match("/.*senztraining/", $this->getCourseUtils()->getType());
+		return preg_match("/.*senztraining/", $this->getType());
 	}
 	
 	public function getStartDate() {
