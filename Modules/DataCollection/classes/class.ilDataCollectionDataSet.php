@@ -142,71 +142,6 @@ class ilDataCollectionDataSet extends ilDataSet
 
 
     /**
-     * MOB and File fieldtypes are head dependencies
-     * They must be exported and imported first, so the new DC has the new IDs of those objects available
-     *
-     * @param array $a_ids Array of DCL object ids
-     * @return array
-     */
-    public function getHeadDependencies(array $a_ids)
-    {
-        $dependencies = array(
-            ilDataCollectionDatatype::INPUTFORMAT_FILE => array(
-                'component' => 'Modules/File',
-                'entity' => 'file',
-                'ids' => array(),
-            ),
-            ilDataCollectionDatatype::INPUTFORMAT_MOB => array(
-                'component' => 'Services/MediaObjects',
-                'entity' => 'mob',
-                'ids' => array(),
-            ),
-        );
-
-        // Direct SQL query is faster than looping over objects
-        $page_object_ids = array();
-        foreach ($a_ids as $dcl_obj_id) {
-            $sql = "SELECT stloc2.value AS ext_id, f.`datatype_id` FROM il_dcl_stloc2_value AS stloc2 " .
-                   "INNER JOIN il_dcl_record_field AS rf ON (rf.`id` = stloc2.`record_field_id`) " .
-                   "INNER JOIN il_dcl_field AS f ON (rf.`field_id` = f.`id`) " .
-                   "INNER JOIN il_dcl_table AS t ON (t.`id` = f.`table_id`) " .
-                   "WHERE t.`obj_id` = " . $this->db->quote($dcl_obj_id, 'integer') . " ".
-                   "AND f.datatype_id IN (" . implode(',', array_keys($dependencies)) .") AND stloc2.`value` IS NOT NULL";
-            $set = $this->db->query($sql);
-            while ($rec = $this->db->fetchObject($set)) {
-                $dependencies[$rec->datatype_id]['ids'][] = (int) $rec->ext_id;
-            }
-
-            // If a DCL table has a detail view, we need to export the associated page objects!
-            $sql = "SELECT il_dcl_view.id AS page_obj_id FROM il_dcl_view " .
-                   "INNER JOIN il_dcl_table ON (il_dcl_table.id = il_dcl_view.table_id) " .
-                   "WHERE il_dcl_table.obj_id = " . $this->db->quote($dcl_obj_id, 'integer') ." " .
-                   "AND il_dcl_view.type=0 AND il_dcl_view.formtype=0";
-            $set = $this->db->query($sql);
-            while ($rec = $this->db->fetchObject($set)) {
-                $page_object_ids[] = "dclf:" . $rec->page_obj_id;
-            }
-        }
-
-        // Return external dependencies/IDs if there are any
-        $return = array();
-        if (count($dependencies[ilDataCollectionDatatype::INPUTFORMAT_FILE]['ids'])) {
-            $return[] = $dependencies[ilDataCollectionDatatype::INPUTFORMAT_FILE];
-        }
-        if (count($dependencies[ilDataCollectionDatatype::INPUTFORMAT_MOB]['ids'])) {
-            $return[] = $dependencies[ilDataCollectionDatatype::INPUTFORMAT_MOB];
-        }
-        if (count($page_object_ids)) {
-            $return[] = array(
-                'component' => 'Services/COPage',
-                'entity' => 'pg',
-                'ids' => $page_object_ids,
-            );
-        }
-        return $return;
-    }
-
-    /**
      * @param string $a_entity
      * @param $a_types
      * @param array $a_rec
@@ -300,29 +235,18 @@ class ilDataCollectionDataSet extends ilDataSet
             case 'il_dcl_view':
                 $new_table_id = $a_mapping->getMapping('Modules/DataCollection', 'il_dcl_table', $a_rec['table_id']);
                 if ($new_table_id) {
-                    // View view definition needs to be cloned because we need a new ID that fits into the sequence of the il_dcl_view table
                     if ($a_rec['type'] == 0 && $a_rec['formtype'] == 0) {
-                        // This is the viewview definition. A corresponding page object exists, but it has a "wrong ID"
-                        $new_page_obj_id = $a_mapping->getMapping('Services/COPage', 'pg', 'dclf:' . $a_rec['id']);
-//                        var_dump($new_page_obj_id);die();
-                        $view_id = false;
-                        if ($new_page_obj_id) {
-                            /** @var ilDataCollectionRecordViewViewdefinition $page_object */
-                            $page_object = ilPageObjectFactory::getInstance('dclf', $new_page_obj_id);
-                            $viewdef = new ilDataCollectionRecordViewViewdefinition();
-                            $viewdef->setTableId($new_table_id);
-                            $viewdef->create();
-                            $definition_id = $viewdef->getId();
-                            // Copy content of old page to new one
-                            $page_object->copy($definition_id, 'dclf');
-                            $page_object->delete();
-                            $view_id = $definition_id;
-                        }
+                        // RecordViewViewDefinition: Create a new RecordViewViewdefinition. Note that the associated Page object is NOT created.
+                        // Creation of the Page object is handled by the import of Services/COPage
+                        $definition = new ilDataCollectionRecordViewViewdefinition();
+                        $definition->setTableId($new_table_id);
+                        $definition->create(true); // DO not create DB entries for page object
+                        // This mapping is needed for the import handled by Services/COPage
+                        $a_mapping->addMapping('Services/COPage', 'pg', 'dclf:' . $a_rec['id'], 'dclf:' . $definition->getId());
+                        $a_mapping->addMapping('Modules/DataCollection', 'il_dcl_view', $a_rec['id'], $definition->getId());
                     } else {
                         // Other definitions - grab next ID from il_dcl_view
                         $view_id = $this->db->nextId("il_dcl_view");
-                    }
-                    if ($view_id !== false) {
                         $sql = "INSERT INTO il_dcl_view (id, table_id, type, formtype) VALUES (".
                             $this->db->quote($view_id, "integer").", ".
                             $this->db->quote($new_table_id, "integer").", ".

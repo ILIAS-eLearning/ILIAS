@@ -97,7 +97,7 @@ class ilDataCollectionRecordViewViewdefinition extends ilPageObject
 	/**
 	 * Create new Viewdefinition
 	 */
-	public function create()
+	public function create($prevent_page_creation = false)
 	{
 		global $ilDB;
 
@@ -116,8 +116,10 @@ class ilDataCollectionRecordViewViewdefinition extends ilPageObject
 			.",".$ilDB->quote($this->getFormtype(), "integer")
 			.")";
 		$ilDB->manipulate($query);
-		
-		parent::create();
+
+        if (!$prevent_page_creation) {
+            parent::create();
+        }
 	}
 
 	/**
