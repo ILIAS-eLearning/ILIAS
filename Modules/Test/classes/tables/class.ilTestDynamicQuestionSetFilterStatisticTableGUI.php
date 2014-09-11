@@ -60,6 +60,8 @@ class ilTestDynamicQuestionSetFilterStatisticTableGUI extends ilTable2GUI
 		$this->disable('sort');
 		$this->disable('select_all');
 		$this->disable('numinfo');
+		
+		$this->setDisableFilterHiding(true);
 	}
 	
 	public function initColumns()
