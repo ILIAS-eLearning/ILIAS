@@ -1372,6 +1372,7 @@ assessment#:#tst_msg_dynamic_question_set_config_modified#:#Konfiguration für f
 assessment#:#tst_msg_cannot_modify_dynamic_question_set_conf_due_to_part#:#Konfiguration für fortlaufende Fragenauswahl kann nicht geändert werden, da bereits Teilnehmerergebisse vorliegen.
 assessment#:#tst_delete_dyn_test_results_btn#:#Testergebnisse löschen
 assessment#:#tst_dyn_test_msg_pass_deletion_link#:#Bisherige Antworten löschen
+assessment#:#tst_dyn_test_pass_deletion_button#:#Zurücksetzen sämtlicher Testantworten
 assessment#:#tst_form_dynamic_question_set_config#:#Fortlaufende Fragenauswahl
 assessment#:#tst_input_dynamic_question_set_source_questionpool#:#Fragenpool
 assessment#:#tst_dynamic_question_set_source_questionpool_summary_string#:#%s (Pfad: %s) [%s Fragen]
