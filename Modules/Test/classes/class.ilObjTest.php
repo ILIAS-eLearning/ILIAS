@@ -3336,7 +3336,10 @@ function getAnswerFeedbackPoints()
 		global $ilDB;
 
 		$IN_userIds = $ilDB->in('user_fi', $userIds, false, 'integer');
-		$res = $ilDB->query("SELECT active_id FROM tst_active WHERE $IN_userIds");
+		$res = $ilDB->queryF(
+			"SELECT active_id FROM tst_active WHERE test_fi = %s AND $IN_userIds",
+			array('integer'), array($this->getTestId())
+		);
 
 		$activeIds = array();
 		while( $row = $ilDB->fetchAssoc($res) )
