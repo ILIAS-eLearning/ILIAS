@@ -326,6 +326,10 @@ class gevCourseUtils {
 		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_TYPE);
 	}
 	
+	public function isPraesenztraining() {
+		return preg_match("/.*senztraining/", $this->getCourseUtils()->getType());
+	}
+	
 	public function getStartDate() {
 		return $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_START_DATE);
 	}
@@ -1374,12 +1378,14 @@ class gevCourseUtils {
 								 ? ilDatePresentation::formatPeriod($this->getStartDate(), $this->getEndDate())
 								 : ""
 					, "Veranstaltungsort" => $this->getVenueTitle()
+					, "Bildungspunkte" => $this->getCreditPoints()
 					, "Trainer" => ($this->getMainTrainer() !== null)
 								   ?$this->getMainTrainerLastname().", ".$this->getMainTrainerFirstname()
 								   :""
-					, "Trainingsbetreuer" => $this->getMainAdminName()
-					, "Bildungspunkte" => $this->getCreditPoints()
 					);
+		if ($this->isPraesenztraining()) {
+			$arr["Bei Rückfragen"] = "Ad-Schulung.de@generali.com";
+		}
 		return $arr;
 	}
 	
