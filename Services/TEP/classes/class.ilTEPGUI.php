@@ -257,8 +257,8 @@ class ilTEPGUI
 			$ilToolbar->addButton($lng->txt("tep_export"),
 				$ilCtrl->getLinkTarget($this, "export"));
 			
-			$ilToolbar->addButton($lng->txt("tep_print"), "#", "", "", 
-				' onClick="self.print(); return false;"');
+			//$ilToolbar->addButton($lng->txt("tep_print"), "#", "", "", 
+			//	' onClick="self.print(); return false;"');
 		}
 	}
 	

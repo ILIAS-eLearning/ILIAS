@@ -48,9 +48,7 @@ class ilParticipationStatusAdminGUI
 			// gev-patch start
 			//ilUtil::sendFailure($lng->txt("msg_no_perm_read"), true);
 			//$this->returnToParent();
-			if($from_foreign_class){
-				return false;
-			}else{
+			if(!$from_foreign_class){
 				ilUtil::sendFailure($lng->txt("msg_no_perm_read"), true);
 				$this->returnToParent();
 			}
@@ -58,7 +56,7 @@ class ilParticipationStatusAdminGUI
 		}
 		
 		$lng->loadLanguageModule("ptst");
-		
+
 		$this->setParticipationStatus(ilParticipationStatus::getInstance($this->getCourse()));
 	}
 	
@@ -118,7 +116,10 @@ class ilParticipationStatusAdminGUI
 	 * 
 	 * @return ilObjCourse 
 	 */	
-	protected function getCourse()
+	// gev-patch start
+	//protected function getCourse()
+	// gev-patch end
+	public function getCourse()
 	{
 		return $this->course;
 	}
@@ -179,13 +180,18 @@ class ilParticipationStatusAdminGUI
 	 */
 	public function executeCommand()
 	{
-		global $ilCtrl, $lng;
+		global $ilCtrl, $lng, $ilTabs;
 				
 		// nothing can be done before certain date is reached
 		$helper = ilParticipationStatusHelper::getInstance($this->getCourse());
 		if(!$helper->isStartForParticipationStatusSettingReached())
 		{
+
+			// gev-patch start
+			/*
 			$this->setTabs("listStatus");
+			*/
+			// gev-patch end
 			
 			ilDatePresentation::setUseRelativeDates(false);
 			$start = $helper->getStartForParticipationStatusSetting();
@@ -193,6 +199,18 @@ class ilParticipationStatusAdminGUI
 				ilUtil::sendInfo(sprintf($lng->txt("ptst_admin_start_date_not_reached"), 
 					ilDatePresentation::formatDate($start)));
 			}
+			
+			// gev-patch start
+			if($this->from_foreign_class) {
+				$trgt = "listStatus&crsrefid=" .$this->crs_ref_id;
+				$ilTabs->clearTargets();
+				$ilTabs->setBackTarget($lng->txt("back"),
+					$ilCtrl->getLinkTarget($this, $trgt));
+			}else{
+				$this->setTabs("listStatus");
+			}
+			// gev-patch end
+		
 		}
 		else
 		{
