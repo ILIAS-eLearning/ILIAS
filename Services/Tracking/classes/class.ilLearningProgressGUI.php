@@ -421,7 +421,7 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 				$field->setInfo(sprintf($lng->txt("trac_collection_tlt_learner_subitem"), 
 					ilFormat::_secondsToString($spent),
 					ilFormat::_secondsToString($needed), 
-					min(100, round($spent/$needed*100))));
+					min(100, round(abs($spent)/$needed*100))));
 			}
 			
 			$form->addItem($field);
