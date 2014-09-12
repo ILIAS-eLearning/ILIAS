@@ -547,19 +547,32 @@ class ilFormat
 	function _secondsToString($seconds, $force_with_seconds = false)
 	{
 		global $lng;
-
+		
 		$seconds = $seconds ? $seconds : 0;
+		
+		// #13625
+		if($seconds > 0)
+		{
+			$days = floor($seconds / 86400);
+			$rest = $seconds % 86400;
 
-		global $lng;
+			$hours = floor($rest / 3600);
+			$rest = $rest % 3600;
 
-		$days = floor($seconds / 86400);
-		$rest = $seconds % 86400;
+			$minutes = floor($rest / 60);
+			$seconds = $rest % 60;
+		}
+		else
+		{
+			$days = ceil($seconds / 86400);
+			$rest = $seconds % 86400;
 
-		$hours = floor($rest / 3600);
-		$rest = $rest % 3600;
+			$hours = ceil($rest / 3600);
+			$rest = $rest % 3600;
 
-		$minutes = floor($rest / 60);
-		$seconds = $rest % 60;
+			$minutes = ceil($rest / 60);
+			$seconds = $rest % 60;
+		}
 
 		if($days)
 		{
