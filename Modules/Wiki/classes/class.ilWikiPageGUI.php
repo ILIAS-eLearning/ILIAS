@@ -197,9 +197,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		$lg->enableComments(ilObjWiki::_lookupPublicNotes($wiki_id), false);
 		
 		// rating
-		if (ilObjWiki::_lookupRatingOverall($wiki_id)
-			&& $this->getPageObject()->getRating()
-			&& $this->getPageObject()->old_nr == 0)
+		if (ilObjWiki::_lookupRatingOverall($wiki_id))
 		{
 			$lg->enableRating(true, $this->lng->txt("wiki_rate_overall"), 
 				false,
