@@ -420,7 +420,17 @@ class gevCourseUtils {
 		$val = ilDatePresentation::formatDate($dl);
 		return $val;
 	}
-	
+
+	public function getFormattedCancelDeadlineDate() {
+		$dl = $this->getCancelDeadlineDate();
+		if (!$dl) {
+			return "";
+		}
+		$val = ilDatePresentation::formatDate($dl);
+		return $val;
+	}
+
+
 	public function getAmountHours() {
 		$type = $this->getType();
 		if ( $type === null

@@ -146,6 +146,9 @@ class gevCourseSearchTableGUI extends catAccordionTableGUI {
 		//$a_set["start_date"]
 		//-$a_set["cancel_date"]
 		$show_cancel_date = false;
+		if($a_set["cancel_date"]) {
+			$show_cancel_date = ilDateTime::_before($now, $a_set["cancel_date"]);;
+		}
 /*
 		$show_cancel_date = ( 
 				$a_set["start_date"] === null 

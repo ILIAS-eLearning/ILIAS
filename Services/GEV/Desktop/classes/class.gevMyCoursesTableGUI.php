@@ -73,6 +73,8 @@ class gevCoursesTableGUI extends catAccordionTableGUI {
 		$this->tpl->setVariable("ACCORDION_ROW", $this->getAccordionRowClass());
 		$this->tpl->setVariable("COLSPAN", $this->getColspan());
 
+		$now = new ilDate(date("Y-m-d"), IL_CAL_DATE);
+
 		if ($a_set["start_date"] == null || $a_set["end_date"] == null) {
 			if ($a_set["scheduled_for"] == null) {
 				$date = $this->lng->txt("gev_table_no_entry");
@@ -85,12 +87,6 @@ class gevCoursesTableGUI extends catAccordionTableGUI {
 			$date = ilDatePresentation::formatPeriod($a_set["start_date"], $a_set["end_date"]);
 		}
 
-		if ($a_set["cancel_date"] == null) {
-			$cancel_date = $this->lng->txt("gev_unlimited");
-		}
-		else {
-			$cancel_date = ilDatePresentation::formatDate($a_set["cancel_date"]);
-		}
 
 		if ($a_set["status"] == ilCourseBooking::STATUS_BOOKED) {
 			$status = $this->booked_img;
@@ -101,7 +97,7 @@ class gevCoursesTableGUI extends catAccordionTableGUI {
 		else {
 			$status = "";
 		}
-		$now = new ilDate(date("Y-m-d"), IL_CAL_DATE);
+
 		$show_cancel_link = 
 			( $a_set["start_date"] === null 
 			|| ilDateTime::_before($now, $a_set["start_date"] !== null?$a_set["start_date"]:$now)
@@ -113,6 +109,16 @@ class gevCoursesTableGUI extends catAccordionTableGUI {
 		}
 		else {
 			$action = "";
+		}
+
+		$show_cancel_date = true;
+		if ($a_set["cancel_date"] == null) {
+			$cancel_date = $this->lng->txt("gev_unlimited");
+		}
+		else {
+			$cancel_date = ilDatePresentation::formatDate($a_set["cancel_date"]);
+			$show_cancel_date = ilDateTime::_before($now, $a_set["cancel_date"]);;
+			
 		}
 
 		$this->tpl->setVariable("TITLE", $a_set["title"]);
@@ -127,7 +133,7 @@ class gevCoursesTableGUI extends catAccordionTableGUI {
 		$this->tpl->setVariable("GOALS", $a_set["goals"]);
 		$this->tpl->setVariable("CONTENTS", $a_set["content"]);
 		$this->tpl->setVariable("CRS_LINK", gevCourseUtils::getLinkTo($a_set["obj_id"]));
-		if ($show_cancel_link) {
+		if ($show_cancel_link && $show_cancel_date) {
 			$this->tpl->setCurrentBlock("cancel_date");
 			$this->tpl->setVariable("CANCEL_DATE", $cancel_date);
 			$this->tpl->parseCurrentBlock();
