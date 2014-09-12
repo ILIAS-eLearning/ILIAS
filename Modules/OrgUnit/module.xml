@@ -9,7 +9,7 @@
 	<objects>
 		<object id="orgu" class_name="OrgUnit" dir="classes" checkbox="1"
 			inherit="1" translate="db" allow_copy="0" export="1" rbac="1" default_pres_pos="10"
-			default_pos="10" force_active="1" group="orgu" repository="0" administration="1">
+			default_pos="10" force_active="1" group="orgu" repository="1" administration="1">
 			<subobj id="rolf" max="1">rolf</subobj>
 			<parent id="orgu">orgu</parent>
 		</object>
