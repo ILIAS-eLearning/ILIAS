@@ -6,6 +6,7 @@
 * Desktop for the Generali
 *
 * @author	Richard Klees <richard.klees@concepts-and-training.de>
+* @author   Martin Studer <ms@studer-raimann.ch>
 * @version	$Id$
 */
 
@@ -76,7 +77,7 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 		$tep = $this->userUtils->isAdmin() || $tep_permissions->isTutor();
 		$pot_participants = false;
 		$apprentices = false;
-		$local_user_admin = $this->userUtils->isSuperior();
+		$local_user_admin = $this->userUtils->isSuperior(); //Local User Administration Permission
 
 		$has_others_menu = $employee_booking || $my_org_unit || $tep || $pot_participants || $apprentices || $local_user_admin;
 
@@ -89,16 +90,13 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 		$report_permission_attendancebyuser = $this->userUtils->isSuperior();// || $this->userUtils->isAdmin();
 		$has_reporting_menu = $this->userUtils->isAdmin(); //false;//$report_permission_attendancebyuser; // || ....
 
-
 		$is_trainer = $tep; // $tep_permissions->isTutor();
-
 
 		//get all OrgUnits of superior
 		$arr_org_units_of_superior = $this->userUtils->getOrgUnitsWhereUserIsSuperior();
 		$arr_local_user_admin_links = array();
 		if($arr_org_units_of_superior) {
 			foreach($arr_org_units_of_superior as $arr_org_unit_of_superior) {
-
 				if (ilObjOrgUnitAccess::_checkAccessAdministrateUsers($arr_org_unit_of_superior['ref_id'])) {
 					$this->ctrl->setParameterByClass("ilLocalUserGUI", "ref_id", $arr_org_unit_of_superior['ref_id']);
 					$arr_local_user_admin_links[$arr_org_unit_of_superior['ref_id']]['title'] = ilObject::_lookupTitle($arr_org_unit_of_superior['obj_id']);
@@ -106,18 +104,17 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 				}
 			}
 		}
-		//print_r($arr_local_user_admin_links);
-
-				
 		
 		$menu = array( 
-			//							single entry?
-			//						  		   render entry?
-			//										  content
+			//single entry?
+			//render entry?
+			//content
+			//link title
 			  "gev_search_menu" => array(true, true, "ilias.php?baseClass=gevDesktopGUI&cmd=toCourseSearch",$this->lng->txt("gev_search_menu"), $this->lng->txt("gev_search_menu"))
 			, "gev_me_menu" => array(false, true, array(
 											  //render entry?
-  													// url
+  											  //url
+				                              //link title
 				  "gev_my_courses" => array(true, "ilias.php?baseClass=gevDesktopGUI&cmdClass=toMyCourses",$this->lng->txt("gev_my_courses"))
 				, "gev_edu_bio" => array(false, "NYI!",$this->lng->txt("gev_edu_bio"))
 				, "gev_my_profile" => array(true, "ilias.php?baseClass=gevDesktopGUI&cmd=toMyProfile",$this->lng->txt("gev_my_profile"))
@@ -155,7 +152,7 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 			);
 
 		//Enhance Menu with Local Useradmin Roles
-		if($arr_local_user_admin_links)  {
+		if(count($arr_local_user_admin_links) > 0)  {
 			foreach($arr_local_user_admin_links as $key => $arr_local_user_admin_link) {
 				$menu["gev_others_menu"][2]["gev_my_local_user_admin_".$key] = array($local_user_admin,$arr_local_user_admin_link['url'],sprintf($this->lng->txt("gev_my_local_user_admin"), $arr_local_user_admin_link['title']));
 			}
