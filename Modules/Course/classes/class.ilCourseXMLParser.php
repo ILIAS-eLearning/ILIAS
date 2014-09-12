@@ -307,7 +307,7 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 				break;
 
 			case 'Disabled':
-				$this->course_obj->setSubscriptionType(IL_CRS_SUBSCRIPTION_DEACTIVATED);
+				$this->course_obj->getSubscriptionLimitationType(IL_CRS_SUBSCRIPTION_DEACTIVATED);
 				break;
 
 			case "MetaData":
