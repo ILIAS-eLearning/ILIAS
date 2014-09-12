@@ -79,6 +79,13 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 		$this->tpl->setVariable("COLSPAN", $this->getColspan());
 
 
+		$target_groups_str = '<ul>';
+		foreach ($a_set['target_group'] as $tg){
+			$target_groups_str .= '<li>' .$tg .'</li>';
+		}
+		$target_groups_str .= '</ul>';
+
+
 		if ($a_set["start_date"] == null || $a_set["end_date"] == null) {
 			if ($a_set["scheduled_for"] == null) {
 				$date = $this->lng->txt("gev_table_no_entry");
@@ -137,7 +144,9 @@ class gevMyTrainingsApTableGUI extends catAccordionTableGUI {
 		$this->tpl->setVariable("MBRS", $mbrs);
 		$this->tpl->setVariable("ACTIONS", $actions);
 		//inner content
-		$this->tpl->setVariable("TARGET_GROUP", $a_set["target_group"]);
+		//$this->tpl->setVariable("TARGET_GROUP", $a_set["target_group"]);
+		$this->tpl->setVariable("TARGET_GROUP", $target_groups_str);
+		$this->tpl->setVariable("TARGET_GROUP_DESC", $a_set["target_group_desc"]);
 		$this->tpl->setVariable("GOALS", $a_set["goals"]);
 		$this->tpl->setVariable("CONTENTS", $a_set["content"]);
 		$this->tpl->setVariable("MBMRLST_LINK", $memberlist_link);
