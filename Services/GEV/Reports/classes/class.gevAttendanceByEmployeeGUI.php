@@ -55,7 +55,7 @@ class gevAttendanceByEmployeeGUI extends gevBasicReportGUI{
 			"path" => "Services/GEV/Reports"
 		);
 			
-		$data = $this->getData();
+		
 
 	}
 	
@@ -68,6 +68,33 @@ class gevAttendanceByEmployeeGUI extends gevBasicReportGUI{
 		$no_entry = $this->lng->txt("gev_table_no_entry");
 		$user_utils = gevUserUtils::getInstance($this->target_user_id);
 		$data = array();
+
+
+		//when ordering the table, watch out for date!
+		//_table_nav=date:asc:0
+		//btw, what is the third parameter?
+		if(isset($_GET['_table_nav'])){
+			$this->external_sorting = true; //set to false again, 
+											//if the field is not relevant
+
+			$table_nav_cmd = split(':', $_GET['_table_nav']);
+			switch ($table_nav_cmd[0]) { //field
+				case 'date':
+					$direction = strtoupper($table_nav_cmd[1]);
+					$sql_order_str = " ORDER BY crs.begin_date ";
+					$sql_order_str .= $direction;
+					break;
+				
+				//append more fields, simply for performance...
+
+				default:
+					$this->external_sorting = false;
+					$sql_order_str = " ORDER BY usr.lastname ASC";
+					break;
+			}
+			
+		}
+
 
 		//get data
 		$query =	 "SELECT usrcrs.usr_id, usrcrs.crs_id, "
@@ -87,7 +114,8 @@ class gevAttendanceByEmployeeGUI extends gevBasicReportGUI{
 					. $this->queryWhen($this->start_date, $this->end_date)
 					. $this->queryAllowedUsers()
 					
-					."  ORDER BY usr.lastname ASC";
+					//."  ORDER BY usr.lastname ASC";
+					.$sql_order_str;
 
 
 		$res = $this->db->query($query);
