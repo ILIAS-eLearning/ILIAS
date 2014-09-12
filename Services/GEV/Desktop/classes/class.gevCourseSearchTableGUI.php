@@ -102,8 +102,10 @@ class gevCourseSearchTableGUI extends catAccordionTableGUI {
 			$date = ilDatePresentation::formatPeriod($a_set["start_date"], $a_set["end_date"]);
 		}
 
-		$unlimited = $a_set["max_participants"] == 0;
 		$now = new ilDate(date("Y-m-d"), IL_CAL_DATE);
+		
+		$unlimited = $a_set["max_participants"] == 0;
+
 		$booking_deadline_expired = $a_set["booking_date"] ? (date("Y-m-d") > $a_set["booking_date"]->get(IL_CAL_DATE)):false;
 		$bookable = !$booking_deadline_expired && ($a_set["free_places"] > 0 || $a_set["waiting_list_active"]);
 		
@@ -138,6 +140,12 @@ class gevCourseSearchTableGUI extends catAccordionTableGUI {
 				$action = $contact_onside_action;	
 			}
 		}
+
+
+		//storno?
+		//$a_set["start_date"]
+		//-$a_set["cancel_date"]
+
 /*
 		$show_cancel_date = ( 
 				$a_set["start_date"] === null 
@@ -206,6 +214,12 @@ class gevCourseSearchTableGUI extends catAccordionTableGUI {
 		if ($a_set["booking_date"] !== null) {
 			$this->tpl->setCurrentBlock("booking_deadline");
 			$this->tpl->setVariable("BOOKING_DEADLINE", ilDatePresentation::formatDate($a_set["booking_date"]));
+			$this->tpl->parseCurrentBlock();
+		}		
+		if ($a_set["cancel_date"] !== null) {
+			$this->tpl->setCurrentBlock("cancel_deadline");
+			$this->tpl->setVariable("CANCEL_DEADLINE", ilDatePresentation::formatDate($a_set["cancel_date"]));
+			//$this->tpl->setVariable("CANCEL_DEADLINE", $a_set["cancel_date"]);
 			$this->tpl->parseCurrentBlock();
 		}
 

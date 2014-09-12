@@ -594,7 +594,7 @@ class gevUserUtils {
 				 , gevSettings::CRS_AMD_GOALS 				=> "goals"
 				 , gevSettings::CRS_AMD_CONTENTS 			=> "content"
 				 , gevSettings::CRS_AMD_MAX_PARTICIPANTS	=> "max_participants"
-				 //, gevSettings::CRS_AMD_CANCEL_DEADLINE		=> "cancel_deadline"
+				 , gevSettings::CRS_AMD_CANCEL_DEADLINE		=> "cancel_date"
 			);
 			
 		$info = gevAMDUtils::getInstance()->getTable($crss, $crs_amd, array(), array(),
@@ -627,6 +627,10 @@ class gevUserUtils {
 			$info[$key]["booking_date"] = gevCourseUtils::mkDeadlineDate( $value["start_date"]
 																		, $value["booking_date"]
 																		);
+			$info[$key]["cancel_date"] = gevCourseUtils::mkDeadlineDate( $value["start_date"]
+																		, $value["cancel_date"]
+																		);
+
 			$info[$key]["free_places"] = $crs_utils->getFreePlaces();
 			$info[$key]["waiting_list_active"] = $crs_utils->isWaitingListActivated();
 			/*$info[$key]["bookable"] = $info[$key]["free_places"] === null 
