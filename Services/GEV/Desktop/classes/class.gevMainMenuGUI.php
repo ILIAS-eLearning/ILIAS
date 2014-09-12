@@ -65,7 +65,9 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 		$manage_org_units = $this->access->checkAccess("visible", "", $org_mgmt);
 		$manage_mails = $this->access->checkAccess("visible", "", $mail_mgmt);
 		$manage_competences = $this->access->checkAccess("visible", "", $competence_mgmt);
-		$has_managment_menu = $manage_courses || $manage_users || $manage_org_units || $manage_mails || $manage_competences;
+		$has_managment_menu = ($manage_courses || $manage_users || $manage_org_units || $manage_mails || $manage_competences)
+							&& !$this->userUtils->hasRoleIn(array("HA", "OD/LD/BD/VD/VTWL"))
+							;
 		
 		$has_super_admin_menu = $this->access->checkAccess("write", "", $general_settings);
 		
