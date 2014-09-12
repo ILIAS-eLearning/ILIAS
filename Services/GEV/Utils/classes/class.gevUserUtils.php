@@ -322,7 +322,8 @@ class gevUserUtils {
 				 , gevSettings::CRS_AMD_MAX_PARTICIPANTS	=> "mbr_max"
 				 , gevSettings::CRS_AMD_MIN_PARTICIPANTS	=> "mbr_min"
 				 
-				 , gevSettings::CRS_AMD_TARGET_GROUP_DESC	=> "target_group"
+				 , gevSettings::CRS_AMD_TARGET_GROUP		=> "target_group"
+				 , gevSettings::CRS_AMD_TARGET_GROUP_DESC	=> "target_group_desc"
 				 , gevSettings::CRS_AMD_GOALS 				=> "goals"
 				 , gevSettings::CRS_AMD_CONTENTS 			=> "content"
 			);
