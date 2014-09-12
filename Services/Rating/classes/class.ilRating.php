@@ -155,6 +155,10 @@ class ilRating
 			$q .= " AND sub_obj_id = ".$ilDB->quote((int) $a_sub_obj_id, "integer").
 				" AND ".$ilDB->equals("sub_obj_type", $a_sub_obj_type, "text", true);
 		}
+		else
+		{
+			$q .= " AND sub_obj_type = ".$ilDB->quote("-", "text"); // #13913
+		}
 		
 		if ($a_category_id !== null)
 		{
