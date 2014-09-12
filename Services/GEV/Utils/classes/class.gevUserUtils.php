@@ -409,7 +409,6 @@ class gevUserUtils {
 		$type_field_id = $this->gev_set->getAMDFieldId(gevSettings::CRS_AMD_TYPE);
 		$bk_deadl_field_id = $this->gev_set->getAMDFieldId(gevSettings::CRS_AMD_BOOKING_DEADLINE);
 		
-		
 		// include search options 
 		$additional_join = "";
 		$additional_where = "";
@@ -496,7 +495,7 @@ class gevUserUtils {
 				"       OR ".$this->db->in("ltype.value", array("Selbstlernkurs"), false, "text").") ".
 				" AND ( ( NOT end_date.value <= ".$this->db->quote(date("Y-m-d", $a_search_options["period"]["start"]))." ) ".
 				"       OR ".$this->db->in("ltype.value", array("Selbstlernkurs"), false, "text").") ".
-				"       OR (end_date.value IS NULL AND NOT startdate.value <= ".$this->db->quote(date("Y-m-d", $a_search_options["period"]["start"])).")"
+				"       OR (end_date.value IS NULL AND NOT start_date.value <= ".$this->db->quote(date("Y-m-d", $a_search_options["period"]["start"])).")"
 				;
 		}
 		
@@ -536,6 +535,8 @@ class gevUserUtils {
 				 $additional_where.
 				 "";	
 		
+
+
 		$res = $this->db->query($query);
 		
 		$crss = array();

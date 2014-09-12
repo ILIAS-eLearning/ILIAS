@@ -1412,7 +1412,7 @@ class gevCourseUtils {
 		$users = array_merge($this->getTrainers(), $this->getParticipants());
 		foreach ($users as $uid) {
 			$user = new ilObjUser($uid);
-			echo $this->encodeForWindows('"'.$user->getFullname().'";"'.$user->getPhoneOffice().'"');
+			echo $this->encodeForWindows('"'.$user->getFullname().'";"'.$user->getPhoneOffice().'"'."\n");
 		}
 		
 		exit();
