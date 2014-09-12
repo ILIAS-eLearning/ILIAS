@@ -1739,12 +1739,14 @@ class ilObjUserGUI extends ilObjectGUI
 			$this->form_gui->addItem($os);
 		}
 
-		if((int)$ilSetting->get('session_reminder_enabled'))
+		// gev-patch start
+		/*if((int)$ilSetting->get('session_reminder_enabled'))
 		{
 			$cb = new ilCheckboxInputGUI($this->lng->txt('session_reminder'), 'session_reminder_enabled');
 			$cb->setValue(1);
 			$this->form_gui->addItem($cb);
-		}
+		}*/
+		// gev-patch end
 		
 		// Options
 		if($this->isSettingChangeable('send_mail'))
@@ -1755,11 +1757,14 @@ class ilObjUserGUI extends ilObjectGUI
 		}
 
 		// send email
-		$se = new ilCheckboxInputGUI($lng->txt('inform_user_mail'), 'send_mail');
+		// gev-patch start
+		/*$se = new ilCheckboxInputGUI($lng->txt('inform_user_mail'), 'send_mail');
 		$se->setInfo($lng->txt('inform_user_mail_info'));
 		$se->setValue('y');
 		$se->setChecked(($ilUser->getPref('send_info_mails') == 'y'));
 		$this->form_gui->addItem($se);
+		*/
+		// gev-patch end
 		
 		// ignore required fields
 		$irf = new ilCheckboxInputGUI($lng->txt('ignore_required_fields'), 'ignore_rf');
