@@ -93,7 +93,7 @@ class gevWBDTPServiceRegistrationGUI {
 	}
 */
 	protected function setBWVId() {
-		if ($_POST["bwv_id"] == "" || !gevUserUtils::isValidBWVId($_POST["bwv_id"])) {
+		if (!gevUserUtils::isValidBWVId($_POST["bwv_id"])) {
 			/*
 			if ($this->user_utils->canBeRegisteredAsTPService()) {
 				return $this->createTPServiceBWVId();
