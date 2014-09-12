@@ -120,7 +120,11 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
 				{
 					$cnt_answers++;
 				}
-			}					
+			}	
+			if (strlen($_POST['answers']['neutral']))
+			{
+				$cnt_answers++;
+			}
 			/* this would be the DB-values
 			$cnt_answers = $a_form->getItemByPostVar("answers");
 			$cnt_answers = $cnt_answers->getCategoryCount();		 						 
