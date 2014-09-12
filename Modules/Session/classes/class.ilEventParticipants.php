@@ -18,7 +18,7 @@ class ilEventParticipants
 	var $lng;
 
 	var $event_id = null;
-
+	
 	function ilEventParticipants($a_event_id)
 	{
 		global $ilErr,$ilDB,$lng,$tree;

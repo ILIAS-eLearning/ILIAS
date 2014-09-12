@@ -85,6 +85,10 @@ abstract class ilParticipants
 				include_once './Modules/Group/classes/class.ilGroupParticipants.php';
 				return ilGroupParticipants::_getInstanceByObjId($a_obj_id);
 				
+			case 'sess':
+				include_once './Modules/Session/classes/class.ilSessionParticipants.php';
+				return ilSessionParticipants::_getInstanceByObjId($a_obj_id);
+				
 			default:
 				$GLOBALS['ilLog']->logStack();
 				$GLOBALS['ilLog']->write(__METHOD__.': Invalid obj_id given: '.$a_obj_id);
@@ -938,7 +942,7 @@ abstract class ilParticipants
 	 * @param
 	 * 
 	 */
-	private function readParticipants()
+	protected function readParticipants()
 	{
 		global $rbacreview,$ilObjDataCache,$ilLog;
 
@@ -992,13 +996,13 @@ abstract class ilParticipants
 	}
 	
 	/**
-	 * Read stati of participants (blocked, notification, passed)
+	 * Read status of participants (blocked, notification, passed)
 	 *
 	 * @access private
 	 * @param
 	 * 
 	 */
-	private function readParticipantsStatus()
+	protected function readParticipantsStatus()
 	{
 	 	global $ilDB;
 	 	
