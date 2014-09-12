@@ -18,7 +18,7 @@ class ilXcache extends ilGlobalCacheService {
 	 * @return bool
 	 */
 	public function exists($key) {
-		return xcache_isset($key);
+		return xcache_isset($this->returnKey($key));
 	}
 
 
@@ -30,7 +30,7 @@ class ilXcache extends ilGlobalCacheService {
 	 * @return bool
 	 */
 	public function set($key, $serialized_value, $ttl = NULL) {
-		return xcache_set($key, $serialized_value, $ttl);
+		return xcache_set($this->returnKey($key), $serialized_value, $ttl);
 	}
 
 
@@ -40,7 +40,7 @@ class ilXcache extends ilGlobalCacheService {
 	 * @return mixed
 	 */
 	public function get($key) {
-		return xcache_get($key);
+		return xcache_get($this->returnKey($key));
 	}
 
 
@@ -50,7 +50,7 @@ class ilXcache extends ilGlobalCacheService {
 	 * @return bool
 	 */
 	public function delete($key) {
-		return xcache_unset($key);
+		return xcache_unset($this->returnKey($key));
 	}
 
 
@@ -58,6 +58,9 @@ class ilXcache extends ilGlobalCacheService {
 	 * @return bool
 	 */
 	public function flush() {
+		$_SERVER["PHP_AUTH_USER"] = "xcache";
+		$_SERVER["PHP_AUTH_PW"] = "xcache";
+
 		xcache_clear_cache(XC_TYPE_VAR, 0);
 
 		return true;

@@ -127,12 +127,12 @@ class ilGlobalCacheDBLayer {
 	 */
 	public function filter(array $data, $field, $value, $case_sensitive = true, $strip = true) {
 		if (is_array($value)) {
-			$index = md5(serialize($value));
+			$index = md5(serialize($value)) . $case_sensitive;
 		} else {
-			$index = $value;
+			$index = $value . $case_sensitive;
 		}
-		if (isset($this->cached_results[$field][$index])) {
-			//return $this->cached_results[$field][$index];
+		if (isset($this->cached_results[$this->getTableName()][$field][$index])) {
+			return $this->cached_results[$this->getTableName()][$field][$index];
 		}
 		$result = array();
 		foreach ($data as $dat) {
@@ -159,7 +159,7 @@ class ilGlobalCacheDBLayer {
 			$result = $result[0];
 		}
 
-		$this->cached_results[$field][$index] = $result;
+		$this->cached_results[$this->getTableName()][$field][$index] = $result;
 		$this->updateCachedResults();
 
 		return $result;
@@ -201,7 +201,7 @@ class ilGlobalCacheDBLayer {
 		}
 
 		if (count($result) == 1 AND $strip) {
-//			echo '<pre>' . print_r($result, 1) . '</pre>';
+			//			echo '<pre>' . print_r($result, 1) . '</pre>';
 			$result = $result[0];
 		}
 

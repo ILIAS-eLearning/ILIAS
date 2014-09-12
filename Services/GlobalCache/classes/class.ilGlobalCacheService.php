@@ -9,9 +9,13 @@
 abstract class ilGlobalCacheService {
 
 	/**
+	 * @var int
+	 */
+	protected $current_time = 0;
+	/**
 	 * @var array
 	 */
-	protected static $valid_keys = array();
+	protected $valid_keys = array();
 	/**
 	 * @var bool
 	 */
@@ -43,7 +47,37 @@ abstract class ilGlobalCacheService {
 		$this->setServiceId($service_id);
 		self::$active[get_called_class()] = $this->getActive();
 		self::$installable[get_called_class()] = ($this->getInstallable() AND $this->checkMemory());
+		//		$this->current_time = time();
 		$this->readValid();
+	}
+
+
+	public function __destruct() {
+		$this->saveValid();
+	}
+
+
+	/**
+	 * @return bool
+	 *
+	 * @description save self::$valid_keys to GlobalCache
+	 */
+	protected function saveValid() {
+		if ($this->isActive()) {
+			$this->set('valid_keys', $this->serialize($this->valid_keys));
+		}
+	}
+
+
+	/**
+	 * @return bool
+	 *
+	 * @description set self::$valid_keys from GlobalCache
+	 */
+	protected function readValid() {
+		if ($this->isActive()) {
+			$this->valid_keys = $this->unserialize($this->get('valid_keys'));
+		}
 	}
 
 
@@ -60,18 +94,6 @@ abstract class ilGlobalCacheService {
 
 
 	/**
-	 * @return bool
-	 *
-	 * @description set self::$valid_keys from GlobalCache
-	 */
-	protected function readValid() {
-		if ($this->isActive()) {
-			self::$valid_keys = $this->unserialize($this->get('valid_keys'));
-		}
-	}
-
-
-	/**
 	 * @param $serialized_value
 	 *
 	 * @return mixed
@@ -85,39 +107,6 @@ abstract class ilGlobalCacheService {
 	 * @return mixed
 	 */
 	abstract public function get($key);
-
-
-	/**
-	 * @return string
-	 */
-	public function getServiceId() {
-		return $this->service_id;
-	}
-
-
-	/**
-	 * @param string $service_id
-	 */
-	public function setServiceId($service_id) {
-		$this->service_id = $service_id;
-	}
-
-
-	public function __destruct() {
-		$this->saveValid();
-	}
-
-
-	/**
-	 * @return bool
-	 *
-	 * @description save self::$valid_keys to GlobalCache
-	 */
-	protected function saveValid() {
-		if ($this->isActive()) {
-			$this->set('valid_keys', $this->serialize(self::$valid_keys));
-		}
-	}
 
 
 	/**
@@ -139,12 +128,29 @@ abstract class ilGlobalCacheService {
 
 
 	/**
+	 * @return string
+	 */
+	public function getServiceId() {
+		return $this->service_id;
+	}
+
+
+	/**
+	 * @param string $service_id
+	 */
+	public function setServiceId($service_id) {
+		$this->service_id = $service_id;
+	}
+
+
+	/**
 	 * @param $key
 	 *
 	 * @return bool|void
 	 */
 	public function setValid($key) {
-		self::$valid_keys[$this->getComponent()][$key] = true;
+		$this->valid_keys[$key] = true;
+		//		$this->valid_keys[$key] = time();
 	}
 
 
@@ -169,9 +175,9 @@ abstract class ilGlobalCacheService {
 	 */
 	public function setInvalid($key = NULL) {
 		if ($key) {
-			unset(self::$valid_keys[$this->getComponent()][$key]);
+			unset($this->valid_keys[$key]);
 		} else {
-			unset(self::$valid_keys[$this->getComponent()]);
+			unset($this->valid_keys);
 		}
 	}
 
@@ -182,7 +188,7 @@ abstract class ilGlobalCacheService {
 	 * @return bool
 	 */
 	public function isValid($key) {
-		return isset(self::$valid_keys[$this->getComponent()][$key]);
+		return isset($this->valid_keys[$key]);
 	}
 
 
@@ -208,7 +214,9 @@ abstract class ilGlobalCacheService {
 	 * @return string
 	 */
 	public function returnKey($key) {
-		return str_replace('/', '_', $this->getServiceId() . '_' . $this->getComponent() . '_' . $key);
+		return $str = $this->getServiceId() . '_' . $this->getComponent() . '_' . $key;
+
+		return str_replace('/', '_', $str);
 	}
 
 
