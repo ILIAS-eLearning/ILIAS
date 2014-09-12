@@ -42,12 +42,14 @@ class ilUserTableGUI extends ilTable2GUI
 		{
 			$this->addColumn($this->lng->txt($c), $c);
 		}
-				
-		if($this->getMode() == self::MODE_LOCAL_USER)
+		
+		// gev-patch start
+		/*if($this->getMode() == self::MODE_LOCAL_USER)
 		{
 			$this->addColumn($this->lng->txt('context'),'time_limit_owner');
 			$this->addColumn($this->lng->txt('role_assignment'));
-		}
+		}*/
+		// gev-patch end
 
 		$this->setShowRowsSelector(true);
 		$this->setExternalSorting(true);
@@ -550,6 +552,8 @@ class ilUserTableGUI extends ilTable2GUI
 			$this->tpl->setVariable('VAL_LOGIN_PLAIN',$user['login']);
 		}
 
+		// gev-patch start
+		/*
 		if($this->getMode() == self::MODE_LOCAL_USER)
 		{
 			$this->tpl->setCurrentBlock('context');
@@ -562,8 +566,9 @@ class ilUserTableGUI extends ilTable2GUI
 			$this->tpl->setVariable('TXT_ROLES',$this->lng->txt('edit'));
 			$ilCtrl->clearParameters($this->getParentObject());
 			$this->tpl->parseCurrentBlock();
-			
 		}
+		*/
+		// gev-patch end
 	}
 }
 ?>
