@@ -965,7 +965,7 @@ class gevUserUtils {
 		return $this->hasRoleIn(gevSettings::$ADMIN_ROLES);
 	}
 	
-	protected function hasRoleIn($a_roles) {
+	public function hasRoleIn($a_roles) {
 		$roles = gevRoleUtils::getInstance()->getGlobalRolesOf($this->user_id);
 
 		foreach($roles as $key => $value) {
