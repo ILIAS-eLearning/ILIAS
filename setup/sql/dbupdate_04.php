@@ -3029,3 +3029,98 @@ if( !$ilDB->tableExists('il_bibl_settings') )
 	$ilDB->addPrimaryKey('il_bibl_settings', array('id'));
 }
 ?>
+<#4329>
+<?php
+	if(!$ilDB->tableColumnExists('frm_threads', 'thr_author_id'))
+	{
+		$ilDB->addTableColumn('frm_threads', 'thr_author_id',
+			array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true,
+				'default' => 0
+			));
+	}
+?>
+<#4330>
+<?php
+	if($ilDB->tableColumnExists('frm_threads', 'thr_author_id'))
+	{
+		$ilDB->manipulate('UPDATE frm_threads SET thr_author_id = thr_usr_id');
+	}
+?>
+<#4331>
+<?php
+	if(!$ilDB->tableColumnExists('frm_posts', 'pos_author_id'))
+	{
+		$ilDB->addTableColumn('frm_posts', 'pos_author_id',
+			array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true,
+				'default' => 0
+			));
+	}
+?>
+<#4332>
+<?php
+	if($ilDB->tableColumnExists('frm_posts', 'pos_author_id'))
+	{
+		$ilDB->manipulate('UPDATE frm_posts SET pos_author_id = pos_usr_id');
+	}
+?>
+<#4333>
+<?php
+	if(!$ilDB->tableColumnExists('frm_threads', 'thr_display_user_id'))
+	{
+		$ilDB->addTableColumn('frm_threads', 'thr_display_user_id',
+			array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true,
+				'default' => 0
+			));
+	}
+?>
+<#4334>
+<?php
+	if($ilDB->tableColumnExists('frm_threads', 'thr_display_user_id'))
+	{
+		$ilDB->manipulate('UPDATE frm_threads SET thr_display_user_id = thr_usr_id');
+	}
+?>
+<#4335>
+<?php
+	if($ilDB->tableColumnExists('frm_threads', 'thr_usr_id'))
+	{
+		$ilDB->dropTableColumn('frm_threads', 'thr_usr_id');
+	}
+	
+?>
+<#4336>
+<?php
+	if(!$ilDB->tableColumnExists('frm_posts', 'pos_display_user_id'))
+	{
+		$ilDB->addTableColumn('frm_posts', 'pos_display_user_id',
+			array(
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true,
+				'default' => 0
+			));
+	}
+?>
+<#4337>
+<?php
+	if($ilDB->tableColumnExists('frm_posts', 'pos_display_user_id'))
+	{
+		$ilDB->manipulate('UPDATE frm_posts SET pos_display_user_id = pos_usr_id');
+	}
+?>
+<#4338>
+<?php
+	if($ilDB->tableColumnExists('frm_posts', 'pos_usr_id'))
+	{
+		$ilDB->dropTableColumn('frm_posts', 'pos_usr_id');
+	}
+?>

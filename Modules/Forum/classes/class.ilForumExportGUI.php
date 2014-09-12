@@ -217,7 +217,7 @@ class ilForumExportGUI
 				$tpl->setVariable('T_NUM_VISITS', $topic->getVisits());
 				$tpl->setVariable('T_FORUM', $thread_data['top_name']);
 				$authorinfo = new ilForumAuthorInformation(
-					$topic->getUserId(),
+					$topic->getDisplayUserId(),
 					$topic->getUserAlias(),
 					$topic->getImportName()
 				);
@@ -257,7 +257,7 @@ class ilForumExportGUI
 
 		if(ilForumProperties::getInstance($ilObjDataCache->lookupObjId($_GET['ref_id']))->getMarkModeratorPosts() == 1)
 		{
-			$is_moderator = ilForum::_isModerator($_GET['ref_id'], $post->getUserId());
+			$is_moderator = ilForum::_isModerator($_GET['ref_id'], $post->getDisplayUserId());
 			if($is_moderator)
 			{
 				$rowCol = 'ilModeratorPosting';
@@ -292,7 +292,7 @@ class ilForumExportGUI
 		}
 
 		$authorinfo = new ilForumAuthorInformation(
-			$post->getUserId(),
+			$post->getDisplayUserId(),
 			$post->getUserAlias(),
 			$post->getImportName()
 		);
@@ -311,15 +311,15 @@ class ilForumExportGUI
 				$tpl->setVariable('REGISTERED_SINCE', $this->frm->convertDate($authorinfo->getAuthor()->getCreateDate()));
 			}
 			
-			if($post->getUserId())
+			if($post->getDisplayUserId())
 			{
 				if($this->is_moderator)
 				{
-					$num_posts = $this->frm->countUserArticles($post->getUserId());
+					$num_posts = $this->frm->countUserArticles($post->getDisplayUserId());
 				}
 				else
 				{
-					$num_posts = $this->frm->countActiveUserArticles($post->getUserId());
+					$num_posts = $this->frm->countActiveUserArticles($post->getDisplayUserId());
 				}
 				$tpl->setVariable('TXT_NUM_POSTS', $lng->txt('forums_posts'));
 				$tpl->setVariable('NUM_POSTS', $num_posts);
@@ -391,7 +391,7 @@ class ilForumExportGUI
 			if(is_array($modAuthor) && $modAuthor['top_mods'] > 0)
 			{
 				$MODS = $rbacreview->assignedUsers($modAuthor['top_mods']);
-				if(is_array($MODS) && in_array($post->getUserId(), $MODS))
+				if(is_array($MODS) && in_array($post->getDisplayUserId(), $MODS))
 				{
 					$spanClass = 'moderator';
 				}

@@ -147,12 +147,12 @@ class ilObjForumListGUI extends ilObjectListGUI
 
 			require_once 'Modules/Forum/classes/class.ilForumAuthorInformation.php';
 			$authorinfo = new ilForumAuthorInformation(
-				$last_post['pos_usr_id'],
+				$last_post['pos_display_user_id'],
 				$last_post['pos_usr_alias'],
 				$last_post['import_name'],
 				array(
 					 'class' => 'il_ItemProperty',
-					 'href'  => 'ilias.php?baseClass=ilRepositoryGUI&amp;cmd=showUser&amp;cmdClass=ilobjforumgui&amp;ref_id=' . $this->ref_id . '&amp;user='.$last_post['pos_usr_id'].'&amp;offset=0&amp;backurl=' . urlencode('ilias.php?baseClass=ilRepositoryGUI&amp;ref_id=' . $_GET['ref_id'])
+					 'href'  => 'ilias.php?baseClass=ilRepositoryGUI&amp;cmd=showUser&amp;cmdClass=ilobjforumgui&amp;ref_id=' . $this->ref_id . '&amp;user='.$last_post['pos_display_user_id'].'&amp;offset=0&amp;backurl=' . urlencode('ilias.php?baseClass=ilRepositoryGUI&amp;ref_id=' . $_GET['ref_id'])
 				)
 			);
 

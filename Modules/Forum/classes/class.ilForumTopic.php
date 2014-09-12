@@ -17,7 +17,7 @@ class ilForumTopic
 	
 	private $frm_obj_id = 0;
 	
-	private $user_id = 0;
+	private $display_user_id = 0;
 	
 	private $user_alias = '';
 	
@@ -47,6 +47,8 @@ class ilForumTopic
 	
 	private $is_moderator = false;
 
+	private $thr_author_id = 0;
+	
 	/**
 	 * @var double
 	 */
@@ -90,7 +92,7 @@ class ilForumTopic
 		$this->setId((int) $data['thr_pk']);
 		$this->setForumId((int) $data['thr_top_fk']);
 		$this->setSubject($data['thr_subject']);
-		$this->setUserId((int) $data['thr_usr_id']);
+		$this->setDisplayUserId((int) $data['thr_display_user_id']);
 		$this->setUserAlias($data['thr_usr_alias']);
 		$this->setLastPostString($data['last_post_string']);
 		$this->setCreateDate($data['thr_date']);
@@ -100,6 +102,7 @@ class ilForumTopic
 		$this->setSticky((int) $data['is_sticky']);
 		$this->setClosed((int) $data['is_closed']);
 		$this->setAverageRating($data['avg_rating']);
+		$this->setThrAuthorId($data['thr_author_id']);
 
 		// Aggregated values
 		$this->setNumPosts((int) $data['num_posts']);
@@ -115,55 +118,29 @@ class ilForumTopic
 	* @access 	public
 	*/
 	public function insert()
-	{			
+	{		
 		if ($this->forum_id)
 		{	
 			$nextId = $this->db->nextId('frm_threads');
-			$statement = $this->db->manipulateF('
-				INSERT INTO frm_threads
-				(	thr_pk,
-					thr_top_fk,
-					thr_subject,
-					thr_usr_id,
-					thr_usr_alias,
-					thr_num_posts,
-					thr_last_post,
-					thr_date, 			
-					thr_update,
-					import_name,
-					is_sticky,
-					is_closed,
-					avg_rating
-				)
-				VALUES(%s,%s,%s,%s,%s,%s,%s,%s, %s, %s,%s,%s,%s)',
-
-				array(	'integer',
-						'integer',
-						'text',
-						'integer',
-						'text',
-						'integer',
-						'text',
-						'timestamp',
-						'timestamp',
-						'text',
-						'integer',
-						'integer',
-						'float'),
-				array(	$nextId,	
-						$this->forum_id,
-						$this->subject,
-						$this->user_id,
-						$this->user_alias,
-						$this->num_posts,
-						$this->last_post_string,
-						$this->createdate,
-						NULL,
-						$this->import_name,
-						$this->is_sticky,
-						$this->is_closed,
-						$this->average_rating
+						
+			$this->db->insert('frm_threads',
+			array(
+				'thr_pk'        => array('integer', $nextId),
+				'thr_top_fk'    => array('integer', $this->forum_id),
+				'thr_subject'   => array('text', $this->subject),
+				'thr_display_user_id'    => array('integer', $this->display_user_id),
+				'thr_usr_alias' => array('text', $this->user_alias),
+				'thr_num_posts' => array('integer', $this->num_posts),
+				'thr_last_post' => array('text', $this->last_post_string),
+				'thr_date'      => array('timestamp', $this->createdate),
+				'thr_update'    => array('timestamp', NULL),
+				'import_name'   => array('text', $this->import_name),
+				'is_sticky'     => array('integer', $this->is_sticky),
+				'is_closed'     => array('integer', $this->is_closed),
+				'avg_rating'    => array('float', $this->average_rating),
+				'thr_author_id' => array('integer', $this->thr_author_id)
 			));
+
 			$this->id = $nextId;
 							
 			return true;
@@ -234,7 +211,7 @@ class ilForumTopic
 				
 				$this->thr_pk = $row->pos_pk;   // thr_pk = pos_pk ??!??!
 				$this->forum_id = $row->thr_top_fk;
-				$this->user_id = $row->thr_usr_id;
+				$this->display_user_id = $row->thr_display_user_id;
 				$this->user_alias = $row->thr_usr_alias;	
 				$this->subject = html_entity_decode($row->thr_subject);
 				$this->createdate = $row->thr_date;	
@@ -247,6 +224,7 @@ class ilForumTopic
 				$this->is_closed = $row->is_closed;
 				$this->frm_obj_id = $row->frm_obj_id;
 				$this->average_rating = $row->avg_rating;
+				$this->thr_author_id = $row->thr_author_id;
 				
 				return true;
 			}
@@ -345,7 +323,7 @@ class ilForumTopic
 			SELECT COUNT(*) cnt
 			FROM frm_posts
 			WHERE (pos_status = %s
-				 OR (pos_status = %s AND pos_usr_id = %s))
+				 OR (pos_status = %s AND pos_display_user_id = %s))
 			AND pos_thr_fk = %s',
 			array('integer', 'integer', 'integer', 'integer'), array('1', '0', $ilUser->getId(), $this->id));
 			
@@ -420,7 +398,7 @@ class ilForumTopic
 				FROM frm_posts 
 				WHERE pos_thr_fk = %s		
 				AND (pos_status = %s OR 
-					(pos_status = %s AND pos_usr_id = %s))							 
+					(pos_status = %s AND pos_display_user_id = %s))							 
 				ORDER BY pos_date DESC',
 				array('integer', 'integer', 'integer', 'integer'),
 				array($this->id, '1', '0', $ilUser->getId()));
@@ -473,8 +451,8 @@ class ilForumTopic
 		$data_types = array();
 
 		$query = '
-			SELECT 			pos_pk, fpt_date, rgt, pos_top_fk, pos_thr_fk, 
-							pos_usr_id, pos_usr_alias, pos_subject,
+			SELECT 			pos_author_id, pos_pk, fpt_date, rgt, pos_top_fk, pos_thr_fk, 
+							pos_display_user_id, pos_usr_alias, pos_subject,
 							pos_status, pos_message, pos_date, pos_update,
 							update_user, pos_cens, pos_cens_com, notify,
 							import_name, fpt_pk, parent_pos, lft, depth,
@@ -492,7 +470,7 @@ class ilForumTopic
 				ON 			pos_fk = pos_pk
 				
 			LEFT JOIN		usr_data
-				ON			pos_usr_id  = usr_id
+				ON			pos_display_user_id  = usr_id
 				
 			LEFT JOIN		frm_user_read fur
 				ON			fur.thread_id = pos_thr_fk
@@ -522,7 +500,7 @@ class ilForumTopic
 
 		 	if (!$this->is_moderator)
 		 	{
-				if (!$tmp_object->isActivated() && $tmp_object->getUserId() != $ilUser->getId())
+				if (!$tmp_object->isActivated() && $tmp_object->getDisplayUserId() != $ilUser->getId())
 			 	{
 			 		$deactivated[] = $tmp_object;
 			 		unset($tmp_object);
@@ -540,9 +518,9 @@ class ilForumTopic
 				}
 		 	}
 
-			if((int)$row['pos_usr_id'])
+			if((int)$row['pos_display_user_id'])
 			{
-				$usr_ids[] = (int)$row['pos_usr_id'];
+				$usr_ids[] = (int)$row['pos_display_user_id'];
 			}
 			if((int)$row['update_user'])
 			{
@@ -676,9 +654,10 @@ class ilForumTopic
 							fp.pos_date,
 							fp.pos_update,
 							fp.pos_status,
-							fp.pos_usr_id,
+							fp.pos_display_user_id,
 							fp.pos_usr_alias,
 							fp.import_name,
+							fp.pos_author_id,
 							fur.post_id,
 							(CASE
 							WHEN fur.post_id IS NULL '.
@@ -706,7 +685,7 @@ class ilForumTopic
 				AND			fur.usr_id = '.$this->db->quote($ilUser->getId(), 'integer').'
 
 			LEFT JOIN		usr_data ud
-				ON			ud.usr_id = fp.pos_usr_id
+				ON			ud.usr_id = fp.pos_display_user_id
 		
 			WHERE			fpt.thr_fk = '.$this->db->quote($this->id, 'integer');
 
@@ -718,7 +697,7 @@ class ilForumTopic
 
 		if( !$this->is_moderator )
 		{
-			$query .= ' AND (fp.pos_status = 1 OR fp.pos_status = 0 AND fp.pos_usr_id = '.
+			$query .= ' AND (fp.pos_status = 1 OR fp.pos_status = 0 AND fp.pos_display_user_id = '.
 						$this->db->quote($ilUser->getId(), 'integer').') ';
 		}
 		
@@ -736,9 +715,10 @@ class ilForumTopic
 							fp.pos_date,
 							fp.pos_update,
 							fp.pos_status,
-							fp.pos_usr_id,
+							fp.pos_display_user_id,
 							fp.pos_usr_alias,
 							fp.import_name,
+							fp.pos_author_id,
 							fur.post_id
 					ORDER BY fpt.rgt DESC
 		';		
@@ -751,7 +731,7 @@ class ilForumTopic
 			WHERE			fpt.thr_fk = '.$this->db->quote($this->id, 'integer');
 		if( !$this->is_moderator )
 		{
-			$queryCounter .= ' AND (fp.pos_status = 1 OR fp.pos_status = 0 AND fp.pos_usr_id = '.
+			$queryCounter .= ' AND (fp.pos_status = 1 OR fp.pos_status = 0 AND fp.pos_display_user_id = '.
 						$this->db->quote($ilUser->getId(), 'integer').') ';
 		}
 		$queryCounter .= ' ORDER BY fpt.rgt DESC';
@@ -769,9 +749,9 @@ class ilForumTopic
 		$usr_ids = array();
 		while( $row = $this->db->fetchAssoc($res) )
 		{
-			if((int)$row['pos_usr_id'])
+			if((int)$row['pos_display_user_id'])
 			{
-				$usr_ids[] = (int)$row['pos_usr_id'];
+				$usr_ids[] = (int)$row['pos_display_user_id'];
 			}
 			
 			$row['counter'] = $counter[$row['pos_pk']];
@@ -997,13 +977,13 @@ class ilForumTopic
 	{
 		return $this->forum_id;
 	}	
-	public function setUserId($a_user_id)
+	public function setDisplayUserId($a_user_id)
 	{
-		$this->user_id = $a_user_id;		
+		$this->display_user_id = $a_user_id;		
 	}
-	public function getUserId()
+	public function getDisplayUserId()
 	{
-		return $this->user_id;
+		return $this->display_user_id;
 	}
 	public function setUserAlias($a_user_alias)
 	{  
@@ -1101,6 +1081,22 @@ class ilForumTopic
 	function getFrmObjId()
 	{
 		return $this->frm_obj_id;
+	}
+
+	/**
+	 * @param int $thr_author_id
+	 */
+	public function setThrAuthorId($thr_author_id)
+	{
+		$this->thr_author_id = $thr_author_id;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getThrAuthorId()
+	{
+		return $this->thr_author_id;
 	}
 	
 	/**

@@ -231,6 +231,10 @@ class ilForumXMLParser extends ilSaxParser
 			case 'UpdateUserId':
 				$x['UpdateUserId'] = $this->cdata;
 				break;
+
+			case 'AuthorId':
+				$x['AuthorId'] = $this->cdata;
+				break;
 			
 			case 'UserId':
 				$x['UserId'] = $this->cdata;
@@ -346,8 +350,14 @@ class ilForumXMLParser extends ilSaxParser
 						$this->threadArray['UserId'], $this->threadArray['Alias']
 					);
 
-					$this->forumThread->setUserId($usr_data['usr_id']);
+					$this->forumThread->setDisplayUserId($usr_data['usr_id']);
 					$this->forumThread->setUserAlias($usr_data['usr_alias']);
+
+					// @todo: Handle author id
+					$author_id_data = $this->getUserIdAndAlias(
+						$this->threadArray['AuthorId']
+					);
+					$this->forumThread->setThrAuthorId($author_id_data['usr_id']);
 				
 					$this->forumThread->insert();
 
@@ -430,10 +440,14 @@ class ilForumXMLParser extends ilSaxParser
 					$update_usr_data = $this->getUserIdAndAlias(
 						$this->postArray['UpdateUserId']
 					);
-
-					$this->forumPost->setUserId($usr_data['usr_id']);
+					$this->forumPost->setDisplayUserId($usr_data['usr_id']);
 					$this->forumPost->setUserAlias($usr_data['usr_alias']);
 					$this->forumPost->setUpdateUserId($update_usr_data['usr_id']);
+
+					$author_id_data = $this->getUserIdAndAlias(
+						$this->postArray['AuthorId']
+					);
+					$this->forumPost->setPosAuthorId($author_id_data['usr_id']);
 
 					$this->forumPost->insert();
 

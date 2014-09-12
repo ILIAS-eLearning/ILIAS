@@ -1566,6 +1566,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$newPost = $frm->generatePost(
 					$topicData['top_pk'], 
 					$this->objCurrentTopic->getId(),
+					$ilUser->getId(),
 					($this->objProperties->isAnonymized() ? 0 : $ilUser->getId()), 
 					ilRTE::_replaceMediaObjectImageSrc($oReplyEditForm->getInput('message'), 0),
 					$this->objCurrentPost->getId(),
@@ -1574,7 +1575,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 				    $user_alias,
 					'',
 					$status,
-					$send_activation_mail
+					$send_activation_mail					
 				);
 
 				// mantis #8115: Mark parent as read
@@ -1803,7 +1804,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 		require_once 'Modules/Forum/classes/class.ilForumAuthorInformation.php';
 		$authorinfo = new ilForumAuthorInformation(
-			$this->objCurrentPost->getUserId(),
+			$this->objCurrentPost->getDisplayUserId(),
 			$this->objCurrentPost->getUserAlias(),
 			$this->objCurrentPost->getImportName()
 		);
@@ -2328,7 +2329,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 										{
 											require_once 'Modules/Forum/classes/class.ilForumAuthorInformation.php';
 											$authorinfo = new ilForumAuthorInformation(
-												$node->getUserId(),
+												$node->getDisplayUserId(),
 												$node->getUserAlias(),
 												$node->getImportName()
 											);
@@ -2596,7 +2597,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 					if($this->objProperties->getMarkModeratorPosts() == 1)
 					{
-						$is_moderator = ilForum::_isModerator($_GET['ref_id'], $node->getUserId());
+						$is_moderator = ilForum::_isModerator($_GET['ref_id'], $node->getDisplayUserId());
 						if($is_moderator)
 						{
 							$rowCol = 'ilModeratorPosting';
@@ -2647,11 +2648,11 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 					$this->ctrl->setParameter($this, 'backurl', $backurl);
 					$this->ctrl->setParameter($this, 'thr_pk', $node->getThreadId());
-					$this->ctrl->setParameter($this, 'user', $node->getUserId());
+					$this->ctrl->setParameter($this, 'user', $node->getDisplayUserId());
 
 					require_once 'Modules/Forum/classes/class.ilForumAuthorInformation.php';
 					$authorinfo = new ilForumAuthorInformation(
-						$node->getUserId(),
+						$node->getDisplayUserId(),
 						$node->getUserAlias(),
 						$node->getImportName(),
 						array(
@@ -2665,6 +2666,12 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 					if($authorinfo->getAuthorName(true))
 					{
 						$tpl->setVariable('USR_NAME', $authorinfo->getAuthorName(true));
+					}
+					
+					if($authorinfo->isPseudonymUsed())
+					{
+						$tpl->setVariable('AUTHOR', $lng->txt('frm_pseudonym'));
+						$tpl->setVariable('USR_NAME', $node->getUserAlias());
 					}
 
 					$tpl->setVariable('USR_IMAGE', $authorinfo->getProfilePicture());
@@ -2768,7 +2775,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		
 							if (is_array($MODS))
 							{
-								if (in_array($node->getUserId(), $MODS))
+								if (in_array($node->getDisplayUserId(), $MODS))
 									$spanClass = 'moderator';
 							}
 						}
@@ -2824,7 +2831,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		|| $_SESSION['viewmode'] == ilForumProperties::VIEW_TREE)
 		{
 			$tpl->setLeftNavContent($this->getForumExplorer());
-		}
+			}
 
 		return true;
 	}
@@ -3455,6 +3462,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 			// build new thread
 			$newPost = $frm->generateThread(
 				$topicData['top_pk'],
+				$ilUser->getId(),
 				($this->objProperties->isAnonymized() ? 0 : $ilUser->getId()),
 				$this->handleFormInput($this->create_topic_form_gui->getInput('subject'), false),
 				ilRTE::_replaceMediaObjectImageSrc($this->create_topic_form_gui->getInput('message'), 0),

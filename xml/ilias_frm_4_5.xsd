@@ -45,6 +45,7 @@
 				<element name="ImportName" type="string" minOccurs="1" maxOccurs="1" />
 				<element name="Sticky" type="integer" minOccurs="1" maxOccurs="1" />
 				<element name="Closed" type="integer" minOccurs="1" maxOccurs="1" />
+				<element name="AuthorId" type="integer" minOccurs="1" maxOccurs="1" />
 				<element ref="t:Post" minOccurs="1" maxOccurs="unbounded" />
 			</sequence>
 		</complexType>
@@ -55,6 +56,7 @@
 			<sequence>
 				<element name="Id" type="integer" minOccurs="1" maxOccurs="1" />
 				<element name="UserId" type="integer" minOccurs="1" maxOccurs="1" />
+				<element name="AuthorId" type="integer" minOccurs="1" maxOccurs="1" />
 				<element name="Alias" type="string" minOccurs="1" maxOccurs="1" />
 				<element name="Subject" type="string" minOccurs="1" maxOccurs="1" />
 				<element name="CreateDate" type="string" minOccurs="1" maxOccurs="1" />

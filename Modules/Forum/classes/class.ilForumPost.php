@@ -17,7 +17,7 @@ class ilForumPost
 	
 	private $thread_id = 0;
 	
-	private $user_id = 0;
+	private $display_user_id = 0;
 	
 	private $user_alias = '';
 	
@@ -63,6 +63,8 @@ class ilForumPost
 	
 	private $post_read = false;
 	
+	private $pos_author_id = 0;
+	
 	public function __construct($a_id = 0, $a_is_moderator = false, $preventImplicitRead = false)
 	{
 		global $ilDB;
@@ -95,7 +97,7 @@ class ilForumPost
 				'pos_pk'		=> array('integer', $this->id),
 				'pos_top_fk'	=> array('integer', $this->forum_id),
 				'pos_thr_fk'	=> array('integer', $this->thread_id),
-				'pos_usr_id'	=> array('integer', $this->user_id),
+				'pos_display_user_id'	=> array('integer', $this->display_user_id),
 				'pos_usr_alias'	=> array('text', $this->user_alias),
 				'pos_subject'	=> array('text', $this->subject),
 				'pos_message'	=> array('clob', $this->message),
@@ -105,7 +107,8 @@ class ilForumPost
 				'pos_cens'		=> array('integer', $this->censored),
 				'notify'		=> array('integer', (int)$this->notification),
 				'import_name'	=> array('text', (string)$this->import_name),
-				'pos_status'	=> array('integer', (int)$this->status)
+				'pos_status'	=> array('integer', (int)$this->status),
+				'pos_author_id' => array('integer', (int)$this->pos_author_id)
 			));
 			
 			return true;
@@ -157,7 +160,7 @@ class ilForumPost
 			'pos_pk' => $this->id,
 			'pos_top_fk' => $this->forum_id,
 			'pos_thr_fk' => $this->thread_id,
-			'pos_usr_id' => $this->user_id,
+			'pos_display_user_id' => $this->display_user_id,
 			'pos_usr_alias'	=> $this->user_alias,
 			'title' => $this->fullname,
 			'loginname' => $this->loginname,
@@ -170,7 +173,8 @@ class ilForumPost
 			'update_user' => $this->user_id_update,					
 			'notify' => $this->notification,
 			'import_name' => $this->import_name,
-			'pos_status' => $this->status
+			'pos_status' => $this->status,
+			'pos_author_id' => $this->pos_author_id
 		);
 		
 		return $data;
@@ -181,7 +185,7 @@ class ilForumPost
 		$data = array(
 			'pos_pk' => $this->id,
 			'child' => $this->id,
-			'author' => $this->user_id,
+			'author' => $this->display_user_id,
 			'alias'	=> $this->user_alias,
 			'title' => $this->fullname,
 			'loginname' => $this->loginname,
@@ -202,7 +206,8 @@ class ilForumPost
 			'id' => $this->tree_id,
 			'notify' => $this->notification,
 			'import_name' => $this->import_name,
-			'pos_status' => $this->status
+			'pos_status' => $this->status,
+			'pos_author_id' => $this->pos_author_id
 		);
 		
 		return $data;
@@ -224,7 +229,7 @@ class ilForumPost
 				$this->id = $row->pos_pk;
 				$this->forum_id = $row->pos_top_fk;
 				$this->thread_id = $row->pos_thr_fk;	
-				$this->user_id = $row->pos_usr_id;
+				$this->display_user_id = $row->pos_display_user_id;
 				$this->user_alias = $row->pos_usr_alias;	
 				$this->subject = $row->pos_subject;
 				$this->message = $row->pos_message;
@@ -241,6 +246,7 @@ class ilForumPost
 				$this->lft = $row->lft;
 				$this->rgt = $row->rgt;
 				$this->depth = $row->depth;
+				$this->pos_author_id = $row->pos_author_id;
 				
 				$this->getUserData();
 				
@@ -278,7 +284,7 @@ class ilForumPost
 	{
 		global $lng;
 		
-		if ($row['pos_usr_id'] && $row['pos_pk'])
+		if ($row['pos_display_user_id'] && $row['pos_pk'])
 		{
 			require_once 'Services/User/classes/class.ilObjUser.php';
 			$tmp_user = new ilObjUser();
@@ -300,10 +306,10 @@ class ilForumPost
 	{
 		global $lng;
 		
-		if ($this->id && $this->user_id)
+		if ($this->id && $this->display_user_id)
 		{
 			require_once("Modules/Forum/classes/class.ilObjForumAccess.php");
-			if(($tmp_user = ilObjForumAccess::getCachedUserInstance($this->user_id)))
+			if(($tmp_user = ilObjForumAccess::getCachedUserInstance($this->display_user_id)))
 			{
 				$this->fullname = $tmp_user->getFullname();
 				$this->loginname = $tmp_user->getLogin();
@@ -482,9 +488,9 @@ class ilForumPost
 	
 	public function isOwner($a_user_id = 0)
 	{
-		if ($this->user_id && $a_user_id)
+		if ($this->pos_author_id && $a_user_id)
 		{
-			if ((int) $this->user_id == (int) $a_user_id)
+			if ((int) $this->pos_author_id == (int) $a_user_id)
 			{
 				return true;
 			}
@@ -517,13 +523,13 @@ class ilForumPost
 	{
 		return $this->thread_id;
 	}
-	public function setUserId($a_user_id)
+	public function setDisplayUserId($a_user_id)
 	{
-		$this->user_id = $a_user_id;		
+		$this->display_user_id = $a_user_id;		
 	}
-	public function getUserId()
+	public function getDisplayUserId()
 	{
-		return $this->user_id;
+		return $this->display_user_id;
 	}
 	public function setUserAlias($a_user_alias)
 	{
@@ -672,6 +678,22 @@ class ilForumPost
 	{
 		return $this->objThread;
 	}
+
+	/**
+	 * @param int $pos_author_id
+	 */
+	public function setPosAuthorId($pos_author_id)
+	{
+		$this->pos_author_id = $pos_author_id;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getPosAuthorId()
+	{
+		return $this->pos_author_id;
+	}
 	
 	public function assignData($row)
 	{
@@ -694,7 +716,8 @@ class ilForumPost
 		$this->setRgt($row['rgt']);
 		$this->setDepth($row['depth']);
 		$this->setIsRead($row['post_read']);
-		$this->setUserId($row['pos_usr_id']);
+		$this->setDisplayUserId($row['pos_display_user_id']);
+		$this->setPosAuthorId($row['pos_author_id']);
 		$this->buildUserRelatedData($row);
 	}
 	

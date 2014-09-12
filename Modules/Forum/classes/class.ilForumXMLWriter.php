@@ -96,6 +96,7 @@ class ilForumXMLWriter extends ilXmlWriter
 		$this->xmlElement("UpdateDate",  null, $row->top_update);
 		$this->xmlElement("UpdateUserId",  null, $row->update_user);
 		$this->xmlElement("UserId",  null, (int)$row->top_usr_id);
+		$this->xmlElement("AuthorId",  null, (int)$row->thr_author_id);
 
 		$query_thr = "SELECT frm_threads.* ".
 					" FROM frm_threads ".
@@ -110,7 +111,8 @@ class ilForumXMLWriter extends ilXmlWriter
 
 			$this->xmlElement("Id", null, (int)$row->thr_pk);
 			$this->xmlElement("Subject", null, $row->thr_subject);
-			$this->xmlElement("UserId", null, (int)$row->thr_usr_id);
+			$this->xmlElement("UserId", null, (int)$row->thr_display_user_id);
+			$this->xmlElement("AuthorId", null, (int)$row->thr_author_id);
 			$this->xmlElement("Alias", null, $row->thr_usr_alias);
 			$this->xmlElement("LastPost", null, $row->thr_last_post);
 			$this->xmlElement("CreateDate", null, $row->thr_date);
@@ -144,7 +146,8 @@ class ilForumXMLWriter extends ilXmlWriter
 
 				$this->xmlStartTag("Post");
 				$this->xmlElement("Id", null, (int)$rowPost->pos_pk);
-				$this->xmlElement("UserId", null, (int)$rowPost->pos_usr_id);
+				$this->xmlElement("UserId", null, (int)$rowPost->pos_display_user_id);
+				$this->xmlElement("AuthorId", null, (int)$rowPost->pos_author_id);
 				$this->xmlElement("Alias", null, $rowPost->pos_usr_alias);
 				$this->xmlElement("Subject", null, $rowPost->pos_subject);
 				$this->xmlElement("CreateDate", null, $rowPost->pos_date);

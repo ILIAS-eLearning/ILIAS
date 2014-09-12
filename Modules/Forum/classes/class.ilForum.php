@@ -401,7 +401,7 @@ class ilForum
 		$res = $ilDB->queryf('
 			SELECT frm_posts.*, usr_data.lastname FROM frm_posts, usr_data 
 			WHERE pos_pk = %s
-			AND pos_usr_id = usr_id',
+			AND pos_display_user_id = usr_id',
 			array('integer'), array($post));
 
 		$row = $ilDB->fetchAssoc($res);
@@ -432,7 +432,8 @@ class ilForum
 	* generate new dataset in frm_posts
 	* @param	integer	$topic
 	* @param	integer	$thread
-	* @param	integer	$user
+	* @param	integer	$author_id
+	* @param	integer	$display_user_id
 	* @param	string	$message	
 	* @param	integer	$parent_pos	
 	* @param	integer	$notify	
@@ -442,17 +443,19 @@ class ilForum
 	* @return	integer	$last: new post ID
 	* @access	public
 	*/
-	public function generatePost($forum_id, $thread_id, $user, $message, $parent_pos, $notify, $subject = '', $alias = '', $date = '', $status = 1, $send_activation_mail = 0)
+	public function generatePost($forum_id, $thread_id, $author_id, $display_user_id, $message, $parent_pos, $notify, $subject = '', $alias = '', $date = '', $status = 1, $send_activation_mail = 0)
 	{
-		global $ilUser, $ilDB;
+		global $ilDB;
 	
 		$objNewPost = new ilForumPost();
 		$objNewPost->setForumId($forum_id);
 		$objNewPost->setThreadId($thread_id);
 		$objNewPost->setSubject($subject);
 		$objNewPost->setMessage($message);
-		$objNewPost->setUserId($user);
+		$objNewPost->setDisplayUserId($display_user_id);
 		$objNewPost->setUserAlias($alias);
+		$objNewPost->setPosAuthorId($author_id);
+		
 		if ($date == "")
 		{
 			$objNewPost->setCreateDate(date("Y-m-d H:i:s"));
@@ -508,7 +511,7 @@ class ilForum
 		
 		// MARK READ
 		$forum_obj = ilObjectFactory::getInstanceByRefId($this->getForumRefId());
-		$forum_obj->markPostRead($objNewPost->getUserId(), $objNewPost->getThreadId(), $objNewPost->getId());
+		$forum_obj->markPostRead($objNewPost->getDisplayUserId(), $objNewPost->getThreadId(), $objNewPost->getId());
 		
 		$pos_data = $objNewPost->getDataAsArray();
 		$pos_data["ref_id"] = $this->getForumRefId();
@@ -531,7 +534,7 @@ class ilForum
 			$news_item->setPriority(NEWS_NOTICE);
 			$news_item->setTitle($objNewPost->getSubject());
 			$news_item->setContent(ilRTE::_replaceMediaObjectImageSrc($this->prepareText($objNewPost->getMessage(), 0), 1));
-			$news_item->setUserId($user);
+			$news_item->setUserId($display_user_id);
 			$news_item->setVisibility(NEWS_USERS);
 			$news_item->create();
 		}
@@ -542,7 +545,8 @@ class ilForum
 	/**
 	* generate new dataset in frm_threads
 	* @param	integer	$topic
-	* @param	integer	$user
+	* @param	integer	$author_id
+	* @param	integer	$display_user_id
 	* @param	string	$subject
 	* @param	string	$message
 	* @param	integer	$notify
@@ -552,14 +556,16 @@ class ilForum
 	* @return	integer	new post ID
 	* @access public
 	*/
-	public function generateThread($forum_id, $user, $subject, $message, $notify, $notify_posts, $alias = '', $date = '', $status = 1)
+	public function generateThread($forum_id, $author_id, $display_user_id, $subject, $message, $notify, $notify_posts, $alias = '', $date = '', $status = 1)
 	{	
 		global $ilDB;
 
 		$objNewThread = new ilForumTopic();
 		$objNewThread->setForumId($forum_id);
-		$objNewThread->setUserId($user);
+		$objNewThread->setDisplayUserId($display_user_id);
 		$objNewThread->setSubject($subject);
+		$objNewThread->setThrAuthorId($author_id);
+		
 		if ($date == "")
 		{
 			$objNewThread->setCreateDate(date("Y-m-d H:i:s"));
@@ -581,7 +587,7 @@ class ilForum
 		
 		if ($notify_posts == 1)
 		{
-			$objNewThread->enableNotification($user);
+			$objNewThread->enableNotification($display_user_id);
 		}
 			
 		// update forum
@@ -591,7 +597,7 @@ class ilForum
 			WHERE top_pk = %s',
 			array('integer'), array($forum_id));
 		
-		return $this->generatePost($forum_id, $objNewThread->getId(), $user, $message, 0, $notify, $subject, $alias, $objNewThread->getCreateDate(), $status);
+		return $this->generatePost($forum_id, $objNewThread->getId(), $author_id, $display_user_id, $message, 0, $notify, $subject, $alias, $objNewThread->getCreateDate(), $status, 0);
 	}
 	
 	/**
@@ -1043,8 +1049,8 @@ class ilForum
 		$active_inner_query = '';
 		if(!$params['is_moderator'])
 		{
-			$active_query = ' AND (pos_status = %s OR pos_usr_id = %s) ';
-			$active_inner_query = ' AND (ipos.pos_status = %s OR ipos.pos_usr_id = %s) ';
+			$active_query = ' AND (pos_status = %s OR pos_display_user_id = %s) ';
+			$active_inner_query = ' AND (ipos.pos_status = %s OR ipos.pos_display_user_id = %s) ';
 		}
 
 		$frm_props = ilForumProperties::getInstance($this->getForumId());
@@ -1100,11 +1106,11 @@ class ilForum
 							(iacc.access_old IS NULL AND (ipos.pos_date > ".$ilDB->quote(date('Y-m-d H:i:s', NEW_DEADLINE), 'timestamp')." OR ipos.pos_update > ".$ilDB->quote(date('Y-m-d H:i:s', NEW_DEADLINE), 'timestamp')."))
 							)
 						 
-						AND ipos.pos_usr_id != %s
+						AND ipos.pos_display_user_id != %s
 						AND iread.usr_id IS NULL $active_inner_query
 					  ) num_new_posts,
 					  
-					  thr_pk, thr_top_fk, thr_subject, thr_usr_id, thr_usr_alias, thr_num_posts, thr_last_post, thr_date, thr_update, visits, frm_threads.import_name, is_sticky, is_closed
+					  thr_pk, thr_top_fk, thr_subject, thr_display_user_id, thr_usr_alias, thr_num_posts, thr_last_post, thr_date, thr_update, visits, frm_threads.import_name, is_sticky, is_closed
 					  {$optional_fields}
 					  FROM frm_threads
 					  
@@ -1121,7 +1127,7 @@ class ilForum
 
 			$query .= " WHERE thr_top_fk = %s
 						{$excluded_ids_condition}
-						GROUP BY thr_pk, thr_top_fk, thr_subject, thr_usr_id, thr_usr_alias, thr_num_posts, thr_last_post, thr_date, thr_update, visits, frm_threads.import_name, is_sticky, is_closed
+						GROUP BY thr_pk, thr_top_fk, thr_subject, thr_display_user_id, thr_usr_alias, thr_num_posts, thr_last_post, thr_date, thr_update, visits, frm_threads.import_name, is_sticky, is_closed
 						{$optional_fields}
 						ORDER BY is_sticky DESC {$additional_sort}, thr_date DESC";
 			
@@ -1163,7 +1169,7 @@ class ilForum
 					  COUNT(DISTINCT(pos_pk)) num_posts,
 					  COUNT(DISTINCT(pos_pk)) num_unread_posts,
 					  COUNT(DISTINCT(pos_pk)) num_new_posts,
-					  thr_pk, thr_top_fk, thr_subject, thr_usr_id, thr_usr_alias, thr_num_posts, thr_last_post, thr_date, thr_update, visits, frm_threads.import_name, is_sticky, is_closed
+					  thr_pk, thr_top_fk, thr_subject, thr_display_user_id, thr_usr_alias, thr_num_posts, thr_last_post, thr_date, thr_update, visits, frm_threads.import_name, is_sticky, is_closed
 					  {$optional_fields}
 					  FROM frm_threads
 					  
@@ -1172,7 +1178,7 @@ class ilForum
 
 			$query .= " WHERE thr_top_fk = %s
 						{$excluded_ids_condition}
-						GROUP BY thr_pk, thr_top_fk, thr_subject, thr_usr_id, thr_usr_alias, thr_num_posts, thr_last_post, thr_date, thr_update, visits, frm_threads.import_name, is_sticky, is_closed
+						GROUP BY thr_pk, thr_top_fk, thr_subject, thr_display_user_id, thr_usr_alias, thr_num_posts, thr_last_post, thr_date, thr_update, visits, frm_threads.import_name, is_sticky, is_closed
 						{$optional_fields}
 						ORDER BY is_sticky DESC {$additional_sort}, thr_date DESC";
 
@@ -1216,14 +1222,14 @@ class ilForum
 		$data_types = array();
 		$data = array();
 		
-		$query = "SELECT COUNT(f.pos_usr_id) ranking, u.login, p.value, u.lastname, u.firstname
+		$query = "SELECT COUNT(f.pos_display_user_id) ranking, u.login, p.value, u.lastname, u.firstname
 	 				FROM frm_posts f
 						INNER JOIN frm_posts_tree t
 							ON f.pos_pk = t.pos_fk
 						INNER JOIN frm_threads th
 							ON t.thr_fk = th.thr_pk
 						INNER JOIN usr_data u
-							ON u.usr_id = f.pos_usr_id
+							ON u.usr_id = f.pos_display_user_id
 						INNER JOIN frm_data d
 							ON d.top_pk = f.pos_top_fk
 						LEFT JOIN usr_pref p
@@ -1237,14 +1243,14 @@ class ilForum
 		{
 			$query .= ' AND (pos_status = %s
 						OR (pos_status = %s
-						AND pos_usr_id = %s ))';
+						AND pos_display_user_id = %s ))';
 			
 			array_push($data_types,'integer', 'integer', 'integer');
 			array_push($data, '1', '0', $ilUser->getId());
 		}
 		
 		$query .= ' AND d.top_frm_fk = %s
-					GROUP BY pos_usr_id, u.login, p.value,u.lastname, u.firstname';
+					GROUP BY pos_display_user_id, u.login, p.value,u.lastname, u.firstname';
 
 		array_push($data_types,'integer');
 		array_push($data, $this->getForumId());
@@ -1366,7 +1372,7 @@ class ilForum
 			SELECT * FROM frm_data
 			INNER JOIN frm_posts ON pos_top_fk = top_pk 
 			WHERE top_frm_fk = %s
-			AND pos_usr_id = %s',
+			AND pos_display_user_id = %s',
 			array('integer', 'integer'),
 			array($this->getForumId(), $a_user_id));
 		
@@ -1383,10 +1389,10 @@ class ilForum
 			WHERE top_frm_fk = %s
 			AND (pos_status = %s
 				OR (pos_status = %s 
-					AND pos_usr_id = %s
+					AND pos_display_user_id = %s
 					)
 				)	   
-			AND pos_usr_id = %s',
+			AND pos_display_user_id = %s',
 			array('integer', 'integer', 'integer', 'integer', 'integer'),
 			array($this->getForumId(),'1', '0', $ilUser->getId(), $a_user_id));
 		
@@ -1603,9 +1609,9 @@ class ilForum
 
 		require_once('./Services/User/classes/class.ilObjUser.php');
 		
-		if (ilObject::_exists($a_row->pos_usr_id))
+		if (ilObject::_exists($a_row->pos_display_user_id))
 		{
-			$tmp_user = new ilObjUser($a_row->pos_usr_id);
+			$tmp_user = new ilObjUser($a_row->pos_display_user_id);
 			$fullname = $tmp_user->getFullname();
 			$loginname = $tmp_user->getLogin();
 		}
@@ -1615,7 +1621,7 @@ class ilForum
 		$data = array(
 					"pos_pk"		=> $a_row->pos_pk,
 					"child"         => $a_row->pos_pk,
-					"author"		=> $a_row->pos_usr_id,
+					"author"		=> $a_row->pos_display_user_id,
 					"alias"			=> $a_row->pos_usr_alias,
 					"title"         => $fullname,
 					"loginname"		=> $loginname,
@@ -1892,13 +1898,13 @@ class ilForum
 		$parent_data = $this->getOnePost($a_parent_pos);
 				
 		// only if the current user is not the owner of the parent post and the parent's notification flag is set...
-		if($parent_data["notify"] && $parent_data["pos_usr_id"] != $ilUser->getId())
+		if($parent_data["notify"] && $parent_data["pos_display_user_id"] != $ilUser->getId())
 		{
 			// SEND MESSAGE
 			include_once "Services/Mail/classes/class.ilMail.php";
 			include_once './Services/User/classes/class.ilObjUser.php';
 
-			$tmp_user =& new ilObjUser($parent_data["pos_usr_id"]);
+			$tmp_user =& new ilObjUser($parent_data["pos_display_user_id"]);
 
 			// NONSENSE
 			$this->setMDB2WhereCondition('thr_pk = %s ', array('integer'), array($parent_data["pos_thr_fk"]));
@@ -2156,9 +2162,9 @@ class ilForum
 		$obj_id = self::_lookupObjIdForForumId($post_data['pos_top_fk']);
 
 		// GET AUTHOR OF NEW POST
-		if($post_data['pos_usr_id'])
+		if($post_data['pos_display_user_id'])
 		{
-			$post_data['pos_usr_name'] = ilObjUser::_lookupLogin($post_data['pos_usr_id']);
+			$post_data['pos_usr_name'] = ilObjUser::_lookupLogin($post_data['pos_display_user_id']);
 		}
 		else if(strlen($post_data['pos_usr_alias']))
 		{
@@ -2249,9 +2255,9 @@ class ilForum
 		$obj_id = self::_lookupObjIdForForumId($post_data['pos_top_fk']);
 
 		// GET AUTHOR OF NEW POST
-		if($post_data['pos_usr_id'])
+		if($post_data['pos_display_user_id'])
 		{
-			$post_data['pos_usr_name'] = ilObjUser::_lookupLogin($post_data['pos_usr_id']);
+			$post_data['pos_usr_name'] = ilObjUser::_lookupLogin($post_data['pos_display_user_id']);
 		}
 		else if(strlen($post_data['pos_usr_alias']))
 		{
@@ -2385,9 +2391,9 @@ class ilForum
 			}
 	
 			// GET AUTHOR OF NEW POST
-			if($post_data['pos_usr_id'])
+			if($post_data['pos_display_user_id'])
 			{
-				$post_data['pos_usr_name'] = ilObjUser::_lookupLogin($post_data['pos_usr_id']);
+				$post_data['pos_usr_name'] = ilObjUser::_lookupLogin($post_data['pos_display_user_id']);
 			}
 			else if(strlen($post_data['pos_usr_alias']))
 			{

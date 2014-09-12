@@ -286,10 +286,10 @@ class ilForumTopicTableGUI extends ilTable2GUI
 
 		// Author
 		$this->ctrl->setParameter($this->getParentObject(), 'backurl', urlencode($this->ctrl->getLinkTargetByClass("ilrepositorygui", "")));
-		$this->ctrl->setParameter($this->getParentObject(), 'user', $thread->getUserId());
+		$this->ctrl->setParameter($this->getParentObject(), 'user', $thread->getDisplayUserId());
 
 		$authorinfo = new ilForumAuthorInformation(
-			$thread->getUserId(),
+			$thread->getDisplayUserId(),
 			$thread->getUserAlias(),
 			$thread->getImportName(),
 			array(
@@ -330,7 +330,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
 			if(is_object($objLastPost))
 			{
 				$authorinfo = new ilForumAuthorInformation(
-					$objLastPost->getUserId(),
+					$objLastPost->getDisplayUserId(),
 					$objLastPost->getUserAlias(),
 					$objLastPost->getImportName(),
 					array(
@@ -418,9 +418,9 @@ class ilForumTopicTableGUI extends ilTable2GUI
 			 * @var $thread ilForumTopic
 			 */
 			$thread_ids[] = (int)$thread->getId();
-			if($thread->getUserId() > 0)
+			if($thread->getDisplayUserId() > 0)
 			{
-				$user_ids[$thread->getUserId()] = (int)$thread->getUserId();
+				$user_ids[$thread->getDisplayUserId()] = (int)$thread->getDisplayUserId();
 			}
 		}
 

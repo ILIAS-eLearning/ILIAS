@@ -153,12 +153,12 @@ class ilForumCronNotification extends ilCronJob
 		while($row = $ilDB->fetchAssoc($res))
 		{
 			// don not send a notification to the post author
-			if($row['pos_usr_id'] != $row['user_id'])
+			if($row['pos_display_user_id'] != $row['user_id'])
 			{
 				// GET AUTHOR OF NEW POST	
-				if($row['pos_usr_id'])
+				if($row['pos_display_user_id'])
 				{
-					$row['pos_usr_name'] = ilObjUser::_lookupLogin($row['pos_usr_id']);
+					$row['pos_usr_name'] = ilObjUser::_lookupLogin($row['pos_display_user_id']);
 				}
 				else if(strlen($row['pos_usr_alias']))
 				{

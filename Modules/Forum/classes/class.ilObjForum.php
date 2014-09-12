@@ -533,8 +533,11 @@ class ilObjForum extends ilObject
 			$old_post    = $this->Forum->getOnePost($old_post_id);
 
 			// Now create new thread and first post
-			$new_post = $new_frm->generateThread($new_topic['top_pk'],
-				$old_thread['thr_usr_id'],
+			
+			$new_post = $new_frm->generateThread(
+				$new_topic['top_pk'],
+				$old_thread['author_id'],
+				$old_thread['thr_display_user_id'],
 				$old_thread['thr_subject'],
 				ilForum::_lookupPostMessage($old_post_id),
 				$old_post['notify'],
@@ -933,7 +936,7 @@ class ilObjForum extends ilObject
 		$act_clause = '';
 		if(!$ilAccess->checkAccess('moderate_frm', '', $ref_id))
 		{
-			$act_clause .= " AND (frm_posts.pos_status = " . $ilDB->quote(1, "integer") . " OR frm_posts.pos_usr_id = " . $ilDB->quote($ilUser->getId(), "integer") . ") ";
+			$act_clause .= " AND (frm_posts.pos_status = " . $ilDB->quote(1, "integer") . " OR frm_posts.pos_display_user_id = " . $ilDB->quote($ilUser->getId(), "integer") . ") ";
 		}
 
 		$new_deadline = date('Y-m-d H:i:s', time() - 60 * 60 * 24 * 7 * ($ilSetting->get('frm_store_new') ? $ilSetting->get('frm_store_new') : 8));
@@ -963,7 +966,7 @@ class ilObjForum extends ilObject
 				WHERE frm_posts.pos_top_fk = %s
 				AND ((frm_posts.pos_date > frm_thread_access.access_old_ts OR frm_posts.pos_update > frm_thread_access.access_old_ts)
 					OR (frm_thread_access.access_old IS NULL AND (frm_posts.pos_date > %s OR frm_posts.pos_update > %s)))
-				AND frm_posts.pos_usr_id != %s 
+				AND frm_posts.pos_display_user_id != %s 
 				AND frm_user_read.usr_id IS NULL $act_clause)
 			";
 			$types  = array('integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'timestamp', 'timestamp', 'integer');
@@ -1045,7 +1048,7 @@ class ilObjForum extends ilObject
 		$act_clause = '';
 		if(!$ilAccess->checkAccess('moderate_frm', '', $ref_id))
 		{
-			$act_clause .= " AND (frm_posts.pos_status = " . $ilDB->quote(1, "integer") . " OR frm_posts.pos_usr_id = " . $ilDB->quote($ilUser->getId(), "integer") . ") ";
+			$act_clause .= " AND (frm_posts.pos_status = " . $ilDB->quote(1, "integer") . " OR frm_posts.pos_display_user_id = " . $ilDB->quote($ilUser->getId(), "integer") . ") ";
 		}
 
 		$ilDB->setLimit(1, 0);
@@ -1087,15 +1090,15 @@ class ilObjForum extends ilObject
 		$act_inner_clause = '';
 		if(!$ilAccess->checkAccess('moderate_frm', '', $ref_id))
 		{
-			$act_clause .= " AND (t1.pos_status = " . $ilDB->quote(1, "integer") . " OR t1.pos_usr_id = " . $ilDB->quote($ilUser->getId(), "integer") . ") ";
-			$act_inner_clause .= " AND (t3.pos_status = " . $ilDB->quote(1, "integer") . " OR t3.pos_usr_id = " . $ilDB->quote($ilUser->getId(), "integer") . ") ";
+			$act_clause .= " AND (t1.pos_status = " . $ilDB->quote(1, "integer") . " OR t1.pos_display_user_id = " . $ilDB->quote($ilUser->getId(), "integer") . ") ";
+			$act_inner_clause .= " AND (t3.pos_status = " . $ilDB->quote(1, "integer") . " OR t3.pos_display_user_id = " . $ilDB->quote($ilUser->getId(), "integer") . ") ";
 		}
 
 		$in       = $ilDB->in("t1.pos_thr_fk", $thread_ids, false, 'integer');
 		$inner_in = $ilDB->in("t3.pos_thr_fk", $thread_ids, false, 'integer');
 
 		$query = "
-			SELECT t1.pos_usr_id, t1.update_user
+			SELECT t1.pos_display_user_id, t1.update_user
 			FROM frm_posts t1
 			INNER JOIN (
 				SELECT t3.pos_thr_fk, MAX(t3.pos_date) pos_date
@@ -1111,9 +1114,9 @@ class ilObjForum extends ilObject
 		$res = $ilDB->query($query);
 		while($row = $ilDB->fetchAssoc($res))
 		{
-			if((int)$row['pos_usr_id'])
+			if((int)$row['pos_display_user_id'])
 			{
-				$usr_ids[] = (int)$row['pos_usr_id'];
+				$usr_ids[] = (int)$row['pos_display_user_id'];
 			}
 			if((int)$row['update_user'])
 			{
