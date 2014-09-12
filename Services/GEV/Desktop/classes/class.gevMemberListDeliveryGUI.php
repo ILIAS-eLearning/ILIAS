@@ -3,10 +3,11 @@
 
 class gevMemberListDeliveryGUI {
 	public function __construct() {
-		global $ilCtrl, $ilAccess;
+		global $ilCtrl, $ilAccess, $ilUser;
 		
 		$this->ctrl = &$ilCtrl;
 		$this->access = &$ilAccess;
+		$this->user_id = $ilUser->getId();
 	}
 	
 	public function executeCommand() {
@@ -16,13 +17,14 @@ class gevMemberListDeliveryGUI {
 		$cmd = $this->ctrl->getCmd();
 		$ref_id = intval($_GET["ref_id"]);
 		$obj_id = gevObjectUtils::getObjId($ref_id);
+		$utils = gevCourseUtils::getInstance($obj_id);
 		
-		if (!$this->access->checkAccess("write", "", $ref_id, "crs", $obj_id)) {
+		
+		if (!$this->access->checkAccess("write", "", $ref_id, "crs", $obj_id)
+			&& !$utils->hasTrainer($this->user_id)) {
 			$this->ctrl->redirectByClass("gevDesktopGUI");
 			return;
 		}
-		
-		$utils = gevCourseUtils::getInstance($obj_id);
 		
 		switch($cmd) {
 			case "hotel":
