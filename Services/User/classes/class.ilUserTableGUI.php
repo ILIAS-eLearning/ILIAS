@@ -202,10 +202,12 @@ class ilUserTableGUI extends ilTable2GUI
 				$user_filter = ilLocalUser::_getFolderIds();
 			}
 		}
-		
-		if($this->getMode() == self::MODE_LOCAL_USER) {
-			$user_filter = array($this->getParentObject()->getRefId());
+
+		// gev-patch start
+		if ($this->getMode() == self::MODE_LOCAL_USER) {
+			$user_filter = array(intval($_GET["ref_id"]));
 		}
+		// gev-patch end
 
 		include_once("./Services/User/classes/class.ilUserQuery.php");
 		
@@ -233,7 +235,9 @@ class ilUserTableGUI extends ilTable2GUI
 		$query->setUserFolder($user_filter);
 		$query->setFirstLetterLastname(ilUtil::stripSlashes($_GET['letter']));
 		
+		$usr_data = $query->query();
 		
+			
 		if (count($usr_data["set"]) == 0 && $this->getOffset() > 0)
 		{
 			$this->resetOffset();
