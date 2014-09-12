@@ -93,7 +93,7 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 		$is_trainer = $tep; // $tep_permissions->isTutor();
 
 		//get all OrgUnits of superior
-		$arr_org_units_of_superior = $this->userUtils->getOrgUnitsWhereUserIsSuperior();
+		$arr_org_units_of_superior = $this->userUtils->getOrgUnitsWhereUserIsDirectSuperior();
 		$arr_local_user_admin_links = array();
 		if($arr_org_units_of_superior) {
 			foreach($arr_org_units_of_superior as $arr_org_unit_of_superior) {
