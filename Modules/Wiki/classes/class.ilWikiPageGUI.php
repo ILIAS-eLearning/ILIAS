@@ -997,7 +997,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 		$form->addCommandButton("addWikiLink", $lng->txt("wiki_add_link"));
-		$form->addCommandButton("cancelInsertWikiLink", $lng->txt("cancel"));
+		$form->addCommandButton("searchWikiLink", $lng->txt("search"));
 
 		// Target page
 		$tp = new ilTextInputGUI($this->lng->txt("wiki_target_page"), "target_page");
@@ -1059,6 +1059,27 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		exit;
 	}
 
+	/**
+	 * Search wiki link list
+	 */
+	function searchWikiLinkAC()
+	{
+		global $lng;
+
+		$tpl = new ilTemplate("tpl.wiki_ac_search_result.html", true, true, "Modules/Wiki");
+		$term = $_GET["term"];
+
+		$pages = ilObjWiki::_performSearch($this->getPageObject()->getParentId(), $term);
+		foreach ($pages as $page)
+		{
+			$tpl->setCurrentBlock("item");
+			$tpl->setVariable("WIKI_TITLE", ilWikiPage::lookupTitle($page));
+			$tpl->parseCurrentBlock();
+		}
+		$tpl->setVariable("TXT_BACK", $lng->txt("back"));
+		echo $tpl->get();
+		exit;
+	}
 } 
 
 ?>

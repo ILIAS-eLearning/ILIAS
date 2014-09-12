@@ -6,7 +6,7 @@ il.Wiki.Edit = {
 	url: '',
 	txt: {},
 
-	openLinkDialog: function(url) {
+	openLinkDialog: function(url, target_page) {
 		il.Wiki.Edit.url = url;
 
 		il.IntLink.showPanel();
@@ -20,13 +20,19 @@ il.Wiki.Edit = {
 
 			$("#il_prop_cont_target_page").next().children(".ilFormInfo").html("&nbsp;");
 
+			$("#ilIntLinkPanel .ilFormHeader input.submit").css("display", "none");
+
 			il.Wiki.Edit.initTextInputAutoComplete();
 
 			$('input#target_page').on('input', function() {
 				$("#il_prop_cont_target_page").next().children(".ilFormInfo").html("&nbsp;");
 			});
 
-			val_sel = ilCOPage.getSelection();
+			if (target_page) {
+				val_sel = target_page;
+			} else {
+				val_sel = ilCOPage.getSelection();
+			}
 			if (val_sel != "") {
 				$("input#target_page").val(val_sel);
 				$("input#target_page").focus();
@@ -53,10 +59,23 @@ il.Wiki.Edit = {
 			});
 
 			// cancel inserting wiki link
-			$("input[name*='cancelInsertWikiLink']").on("click", function(e) {
+			$("input[name*='searchWikiLink']").on("click", function(e) {
 				e.stopPropagation();
 				e.preventDefault();
-				il.IntLink.hidePanel();
+				il.Util.sendAjaxGetRequestToUrl(url + "&cmd=searchWikiLinkAC&term=" + encodeURIComponent($("input#target_page").val()), {}, {el_id: "ilIntLinkPanel"}, function(o) {
+					// output html
+					if(o.responseText !== undefined) {
+						$('#' + o.argument.el_id).html(o.responseText);
+					}
+					$("#ilWikiACSearchResult a").click(function () {
+						il.Wiki.Edit.openLinkDialog(il.Wiki.Edit.url, $(this).html());
+					});
+					$("#ilWikiACSearchCancel").click(function () {
+						console.log("search cancel!");
+						il.Wiki.Edit.openLinkDialog(il.Wiki.Edit.url);
+					});
+
+				});
 			});
 
 
