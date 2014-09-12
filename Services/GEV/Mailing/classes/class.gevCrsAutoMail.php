@@ -439,6 +439,10 @@ abstract class gevCrsAutoMail extends ilAutoMail {
 	}
 
 	public function sendDeferred($a_recipients = null, $a_occasion = null) {
+		if ($this->getCourse()->getOfflineStatus() && $this->getId() != "bill_mail") {
+			return;
+		}
+		
 		require_once("Services/GEV/Mailing/classes/class.gevDeferredMails.php");
 		
 		if ($a_recipients === null) {
