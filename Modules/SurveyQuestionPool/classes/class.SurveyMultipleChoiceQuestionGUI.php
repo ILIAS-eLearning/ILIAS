@@ -112,8 +112,19 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
 	{
 		if($a_form->getInput("use_min_answers"))
 		{		
+			// #13927 - see importEditFormValues()
+			$cnt_answers = 0;
+			foreach ($_POST['answers']['answer'] as $key => $value) 
+			{
+				if (strlen($value))
+				{
+					$cnt_answers++;
+				}
+			}					
+			/* this would be the DB-values
 			$cnt_answers = $a_form->getItemByPostVar("answers");
-			$cnt_answers = $cnt_answers->getCategoryCount();
+			$cnt_answers = $cnt_answers->getCategoryCount();		 						 
+			*/
 			$min_anwers = $a_form->getInput("nr_min_answers");
 			$max_anwers = $a_form->getInput("nr_max_answers");
 			
