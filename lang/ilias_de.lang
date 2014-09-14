@@ -14736,3 +14736,5 @@ assessment#:#save_and_next#:#Speichern und weiter
 sess#:#sess_users_added#:#Die Benutzer wurden für die Sitzung angemeldet.
 sess#:#sess_users_already_assigned#:#Die Benutzer sind bereits für die Sitzung angemeldet.
 sess#:#sess_users_removed_from_list#:#Die ausgewählten Benutzer wurden aus der Warteliste ausgetragen.
+sess#:#sess_msg_applicants_assigned#:#Der Benutzer wurde für den Sitzungstermin angemeldet.
+sess#:#sess_msg_applicants_removed#:#Antrag abgelehnt und aus der Liste entfernt.
