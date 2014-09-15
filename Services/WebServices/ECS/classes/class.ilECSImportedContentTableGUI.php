@@ -117,9 +117,8 @@ class ilECSImportedContentTableGUI extends ilTable2GUI
 		include_once('./Services/WebServices/ECS/classes/class.ilECSDataMappingSettings.php');
 		$settings = ilECSDataMappingSettings::getInstanceByServerId($a_set['sid']);
 		
-		include_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');
-		
-		$values = ilAdvancedMDValues::_getValuesByObjId($a_set['obj_id']);
+		include_once "Services/WebServices/ECS/classes/class.ilECSUtils.php";
+		$values = ilECSUtils::getAdvancedMDValuesForObjId($a_set['obj_id']);
 		
 		if($field = $settings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_IMPORT_RCRS,'lecturer'))
 		{

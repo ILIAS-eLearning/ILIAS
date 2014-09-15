@@ -263,7 +263,45 @@ class ilECSUtils
 		}
 		
 		return $res;
-	}
+	}	
+	
+	/**
+	 * Get advanced metadata values for object id
+	 * 
+	 * @param int $a_obj_id
+	 * @return array
+	 */
+	public static function getAdvancedMDValuesForObjId($a_obj_id)
+	{
+		$res = array();
+		
+		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');
+								
+		// getting all records
+		foreach(ilAdvancedMDValues::getInstancesForObjectId($a_obj_id) as $a_values)
+		{					
+			// this correctly binds group and definitions
+			$a_values->read();
+			
+			// getting elements for record
+			$defs = $a_values->getDefinitions();									
+			foreach($a_values->getADTGroup()->getElements() as $element_id => $element)				
+			{								
+				if(!$element->isNull())
+				{				
+					// :TODO: using this for a "flat" presentation
+					$res[$element_id] = $defs[$element_id]->getValueForXML($element);									
+				}
+				else
+				{
+					// :TODO: is this needed?
+					$res[$element_id] = null;
+				}
+			}
+		}		
+		
+		return $res;
+	}	
 }
 
 ?>

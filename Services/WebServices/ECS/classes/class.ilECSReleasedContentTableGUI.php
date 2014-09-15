@@ -100,11 +100,10 @@ class ilECSReleasedContentTableGUI extends ilTable2GUI
 		$sid = array_pop($a_set['sids']);
 		include_once('./Services/WebServices/ECS/classes/class.ilECSDataMappingSettings.php');
 		$settings = ilECSDataMappingSettings::getInstanceByServerId($sid);
-		
-		include_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');
-		
-		$values = ilAdvancedMDValues::_getValuesByObjId($a_set['obj_id']);
-		
+				
+		include_once "Services/WebServices/ECS/classes/class.ilECSUtils.php";
+		$values = ilECSUtils::getAdvancedMDValuesForObjId($a_set['obj_id']);
+				
 		if($field = $settings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_EXPORT,'lecturer'))
 		{
 			$this->tpl->setVariable('VAL_LECTURER',isset($values[$field]) ? $values[$field] : '--');

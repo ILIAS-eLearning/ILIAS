@@ -862,7 +862,7 @@ class ilECSSettingsGUI
 
 		$this->setMappingTabs(self::MAPPING_IMPORT);
 
-		$fields = ilAdvancedMDFieldDefinition::_getActiveDefinitionsByObjType('crs');
+		$fields = ilAdvancedMDFieldDefinition::getInstancesByObjType('crs');
 		if(!count($fields))
 		{
 			ilUtil::sendInfo($this->lng->txt('ecs_no_adv_md'));
@@ -926,7 +926,7 @@ class ilECSSettingsGUI
 
 		$this->setMappingTabs(self::MAPPING_EXPORT);
 
-		$fields = ilAdvancedMDFieldDefinition::_getActiveDefinitionsByObjType('crs');
+		$fields = ilAdvancedMDFieldDefinition::getInstancesByObjType('crs');
 		if(!count($fields))
 		{
 			ilUtil::sendInfo($this->lng->txt('ecs_no_adv_md'));
@@ -1074,7 +1074,7 @@ class ilECSSettingsGUI
 		}
 
 	 	include_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
-		$fields = ilAdvancedMDFieldDefinition::_getActiveDefinitionsByObjType('crs');
+		$fields = ilAdvancedMDFieldDefinition::getInstancesByObjType('crs');
 		$options = $this->prepareFieldSelection($fields);
 
 		// get all optional ecourse fields
@@ -1128,7 +1128,7 @@ class ilECSSettingsGUI
 		$form->addItem($rcrs);
 
 	 	include_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
-		$fields = ilAdvancedMDFieldDefinition::_getActiveDefinitionsByObjType('rcrs');
+		$fields = ilAdvancedMDFieldDefinition::getInstancesByObjType('rcrs');
 		$options = $this->prepareFieldSelection($fields);
 
 		// get all optional econtent fields
@@ -1581,8 +1581,8 @@ class ilECSSettingsGUI
 		
 		foreach($obj_ids as $obj_id)
 		{
-			include_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');
-			$values = ilAdvancedMDValues::_getValuesByObjId($obj_id);
+			include_once "Services/WebServices/ECS/classes/class.ilECSUtils.php";
+			$values = ilECSUtils::getAdvancedMDValuesForObjId($obj_id);
 			
 			$writer->addRow();
 			$writer->addColumn(ilObject::_lookupTitle($obj_id));
@@ -1656,7 +1656,7 @@ class ilECSSettingsGUI
 			$sel_type = "rcrs";
 		}
 		
-		include "Services/WebServices/ECS/classes/class.ilECSUtils.php";
+		include_once "Services/WebServices/ECS/classes/class.ilECSUtils.php";
 		$options = ilECSUtils::getPossibleReleaseTypes(true);
 		
 		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";		
@@ -1725,8 +1725,8 @@ class ilECSSettingsGUI
 
 		foreach($exported as $obj_id)
 		{
-			include_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');
-			$values = ilAdvancedMDValues::_getValuesByObjId($obj_id);
+			include_once "Services/WebServices/ECS/classes/class.ilECSUtils.php";
+			$values = ilECSUtils::getAdvancedMDValuesForObjId($obj_id);
 			
 			$writer->addRow();
 			$writer->addColumn(ilObject::_lookupTitle($obj_id));
@@ -1780,8 +1780,7 @@ class ilECSSettingsGUI
 		
 		$options[0] = $this->lng->txt('ecs_ignore_field');
 		foreach($fields as $field)
-		{
-			$field = ilAdvancedMDFieldDefinition::_getInstanceByFieldId($field);
+		{			
 			$title = ilAdvancedMDRecord::_lookupTitle($field->getRecordId());
 			$options[$field->getFieldId()] = $title.': '.$field->getTitle();		
 		}
