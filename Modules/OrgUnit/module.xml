@@ -12,7 +12,6 @@
 			default_pos="10" force_active="1" group="orgu" repository="1" administration="1">
 			<subobj id="rolf" max="1">rolf</subobj>
 			<parent id="orgu">orgu</parent>
-            <parent id="root">root</parent>
 		</object>
 	</objects>
 	<events>
