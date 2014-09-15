@@ -14743,3 +14743,13 @@ sess#:#sess_users_already_assigned#:#The user is already registered for this ses
 sess#:#sess_users_removed_from_list#:#The selected users have been removed from the waiting list.
 sess#:#sess_msg_applicants_assigned#:#Applicant(s) registered for session.
 sess#:#sess_msg_applicants_removed#:#Applicant(s) removed from list.
+style#:#sty_switch#:#Switch
+style#:#sty_default#:#Default
+style#:#sty_media_queries#:#Media Queries
+style#:#sty_add_media_query#:#Add Media Query
+style#:#sty_edit_media_query#:#Edit Media Query
+style#:#sty_media_query_info#:#A separete CSS block is added for each media query after the default (no special media query) block.
+style#:#sty_order#:#Order
+style#:#sty_query#:#Query
+style#:#sty_save_order#:#Save Order
+style#:#sty_sure_del_mqueries#:#Do you really want to delete this media query and all related CSS rules?
