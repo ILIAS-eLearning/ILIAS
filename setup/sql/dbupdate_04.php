@@ -3166,3 +3166,12 @@ $ilDB->createTable('sty_media_query', array(
 		"default" => 0
 	));
 ?>
+<#4342>
+<?php
+	$ilDB->addTableColumn('style_parameter', 'custom', array(
+		"type" => "integer",
+		"notnull" => true,
+		"length" => 1,
+		"default" => 0
+	));
+?>

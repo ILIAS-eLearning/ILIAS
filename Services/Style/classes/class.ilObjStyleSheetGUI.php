@@ -732,7 +732,21 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 				}
 			}
 		}
-		
+
+		// custom parameters
+		$sh = new ilFormSectionHeaderGUI();
+		$sh->setTitle($lng->txt("sty_custom"));
+		$this->form_gui->addItem($sh);
+
+		// custom parameters
+		$ti = new ilTextInputGUI($this->lng->txt("sty_custom_par"), "custom_par");
+		$ti->setMaxLength(300);
+		$ti->setSize(80);
+		$ti->setMulti(true);
+		$ti->setInfo($this->lng->txt("sty_custom_par_info"));
+		$this->form_gui->addItem($ti);
+
+
 		// save and cancel commands
 		$this->form_gui->addCommandButton("updateTagStyle", $lng->txt("save_return"));
 		$this->form_gui->addCommandButton("refreshTagStyle", $lng->txt("save_refresh"));

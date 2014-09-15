@@ -849,7 +849,7 @@ class ilObjStyleSheet extends ilObject
 			{
 				$def[] = array("tag" => $par_rec["tag"], "class" => $par_rec["class"],
 					"parameter" => $par_rec["parameter"], "value" => $par_rec["value"],
-					"type" => $par_rec["type"], "mq_id" => $par_rec["mq_id"]);
+					"type" => $par_rec["type"], "mq_id" => $par_rec["mq_id"], "custom" => $par_rec["custom"]);
 			}
 			
 			// get style characteristics records
@@ -877,7 +877,7 @@ class ilObjStyleSheet extends ilObject
 			foreach ($def as $sty)
 			{
 				$id = $ilDB->nextId("style_parameter");
-				$q = "INSERT INTO style_parameter (id, style_id, tag, class, parameter, value, type, mq_id) VALUES ".
+				$q = "INSERT INTO style_parameter (id, style_id, tag, class, parameter, value, type, mq_id, custom) VALUES ".
 					"(".
 					$ilDB->quote($id, "integer").",".
 					$ilDB->quote($this->getId(), "integer").",".
@@ -886,7 +886,8 @@ class ilObjStyleSheet extends ilObject
 					$ilDB->quote($sty["parameter"], "text").",".
 					$ilDB->quote($sty["value"], "text").",".
 					$ilDB->quote($sty["type"], "text").",".
-					$ilDB->quote($mq_mapping[$sty["mq_id"]], "integer").
+					$ilDB->quote($mq_mapping[$sty["mq_id"]], "integer").",".
+					$ilDB->quote($sty["custom"], "integer").
 					")";
 				$ilDB->manipulate($q);
 			}
@@ -1160,7 +1161,7 @@ class ilObjStyleSheet extends ilObject
 	 * @param	string		$a_par		tag parameter	(e.g. "margin-left")
 	 * @param	string		$a_type		style type		(e.g. "section")
 	 */
-	function addParameter($a_tag, $a_par, $a_type, $a_mq_id = 0)
+	function addParameter($a_tag, $a_par, $a_type, $a_mq_id = 0, $a_custom = false)
 	{
 		global $ilDB;
 		
@@ -1168,7 +1169,7 @@ class ilObjStyleSheet extends ilObject
 		$tag = explode(".", $a_tag);
 		$value = $avail_params[$a_par][0];
 		$id = $ilDB->nextId("style_parameter");
-		$q = "INSERT INTO style_parameter (id,style_id, type, tag, class, parameter, value, mq_id) VALUES ".
+		$q = "INSERT INTO style_parameter (id,style_id, type, tag, class, parameter, value, mq_id, custom) VALUES ".
 			"(".
 			$ilDB->quote($id, "integer").",".
 			$ilDB->quote($this->getId(), "integer").",".
@@ -1177,7 +1178,8 @@ class ilObjStyleSheet extends ilObject
 			$ilDB->quote($tag[1], "text").",".
 			$ilDB->quote($a_par, "text").",".
 			$ilDB->quote($value, "text").",".
-			$ilDB->quote($a_mq_id, "integer").
+			$ilDB->quote($a_mq_id, "integer").",".
+			$ilDB->quote($a_custom, "integer").
 			")";
 		$ilDB->manipulate($q);
 		$this->read();
@@ -1338,7 +1340,7 @@ class ilObjStyleSheet extends ilObject
 	 * @param string $a_type type
 	 * @param string $a_mq_id media query id
 	 */
-	function deleteStylePar($a_tag, $a_class, $a_par, $a_type, $a_mq_id = 0)
+	function deleteStylePar($a_tag, $a_class, $a_par, $a_type, $a_mq_id = 0, $a_custom = false)
 	{
 		global $ilDB;
 		
@@ -1347,6 +1349,7 @@ class ilObjStyleSheet extends ilObject
 			" tag = ".$ilDB->quote($a_tag, "text")." AND ".
 			" class = ".$ilDB->quote($a_class, "text")." AND ".
 			" mq_id = ".$ilDB->quote($a_mq_id, "integer")." AND ".
+			" custom = ".$ilDB->quote($a_custom, "integer")." AND ".
 			" ".$ilDB->equals("type", $a_type, "text", true)." AND ".
 			" parameter = ".$ilDB->quote($a_par, "text");
 
@@ -1809,12 +1812,12 @@ class ilObjStyleSheet extends ilObject
 	*
 	*/
 	// todo: search for usages, add mq_id
-	function replaceStylePar($a_tag, $a_class, $a_par, $a_val, $a_type, $a_mq_id = 0)
+	function replaceStylePar($a_tag, $a_class, $a_par, $a_val, $a_type, $a_mq_id = 0, $a_custom = false)
 	{
-		ilObjStyleSheet::_replaceStylePar($this->getId(), $a_tag, $a_class, $a_par, $a_val, $a_type, $a_mq_id);
+		ilObjStyleSheet::_replaceStylePar($this->getId(), $a_tag, $a_class, $a_par, $a_val, $a_type, $a_mq_id, $a_custom);
 	}
 	
-	function _replaceStylePar($style_id, $a_tag, $a_class, $a_par, $a_val, $a_type, $a_mq_id = 0)
+	function _replaceStylePar($style_id, $a_tag, $a_class, $a_par, $a_val, $a_type, $a_mq_id = 0, $a_custom = false)
 	{
 		global $ilDB;
 		
@@ -1823,6 +1826,7 @@ class ilObjStyleSheet extends ilObject
 			" tag = ".$ilDB->quote($a_tag, "text")." AND ".
 			" class = ".$ilDB->quote($a_class, "text")." AND ".
 			" mq_id = ".$ilDB->quote($a_mq_id, "integer")." AND ".
+			" custom = ".$ilDB->quote($a_custom, "integer")." AND ".
 			" ".$ilDB->equals("type", $a_type, "text", true)." AND ".
 			" parameter = ".$ilDB->quote($a_par, "text");
 		
@@ -1836,6 +1840,7 @@ class ilObjStyleSheet extends ilObject
 				" tag = ".$ilDB->quote($a_tag, "text")." AND ".
 				" class = ".$ilDB->quote($a_class, "text")." AND ".
 				" mq_id = ".$ilDB->quote($a_mq_id, "integer")." AND ".
+				" custom = ".$ilDB->quote($a_custom, "integer")." AND ".
 				" ".$ilDB->equals("type", $a_type, "text", true)." AND ".
 				" parameter = ".$ilDB->quote($a_par, "text");
 
@@ -1844,7 +1849,7 @@ class ilObjStyleSheet extends ilObject
 		else
 		{
 			$id = $ilDB->nextId("style_parameter");
-			$q = "INSERT INTO style_parameter (id, value, style_id, tag,  class, type, parameter, mq_id) VALUES ".
+			$q = "INSERT INTO style_parameter (id, value, style_id, tag,  class, type, parameter, mq_id, custom) VALUES ".
 				" (".
 				$ilDB->quote($id, "integer").",".
 				$ilDB->quote($a_val, "text").",".
@@ -1853,7 +1858,8 @@ class ilObjStyleSheet extends ilObject
 				" ".$ilDB->quote($a_class, "text").",".
 				" ".$ilDB->quote($a_type, "text").",".
 				" ".$ilDB->quote($a_par, "text").",".
-				" ".$ilDB->quote($a_mq_id, "integer").
+				" ".$ilDB->quote($a_mq_id, "integer").",".
+				" ".$ilDB->quote($a_custom, "integer").
 				")";
 
 			$ilDB->manipulate($q);
@@ -2188,7 +2194,7 @@ class ilObjStyleSheet extends ilObject
 	
 	/**
 	 * create style from xml file
-	 * todo: add mq_id
+	 * todo: add mq_id and custom
 	 */
 	function createFromXMLFile($a_file, $a_skip_parent_create = false)
 	{
@@ -2443,7 +2449,7 @@ class ilObjStyleSheet extends ilObject
 	
 	/**
 	 * Add missing style classes to all styles
-	 * todo: add mq_id handling
+	 * todo: add mq_id and custom handling
 	 */
 	static function _addMissingStyleClassesToAllStyles($a_styles = "")
 	{
@@ -2864,7 +2870,7 @@ class ilObjStyleSheet extends ilObject
 				{
 					// parameter is based on color -> rename it
 					$this->replaceStylePar($rec["tag"], $rec["class"],
-						$rec["parameter"], str_replace($a_name, $a_new_name, $rec["value"]), $rec["type"]);
+						$rec["parameter"], str_replace($a_name, $a_new_name, $rec["value"]), $rec["type"], $rec["mq_id"], $rec["custom"]);
 				}
 			}
 		}
