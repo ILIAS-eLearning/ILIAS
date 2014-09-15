@@ -2160,6 +2160,8 @@ else
 		/**
 		 * @var $ini ilIniFile
 		 */
+		require_once('Services/GlobalCache/classes/class.ilGlobalCache.php');
+		ilGlobalCache::flushAll();
 		$ini = $this->setup->getClient()->ini;
 
 		if(!$ini->readGroup('cache')) {
