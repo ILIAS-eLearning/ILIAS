@@ -1836,28 +1836,27 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 					}
 
 					$wtpl->setCurrentBlock("navigation_month_details");
-					$wtpl->setVariable("NAV_MONTH", $month_name);
-					$wtpl->setVariable("URL_MONTH", $month_url);
+					/* #13937
+					$wtpl->setVariable("NAV_MONTH", $month_name); 
+					$wtpl->setVariable("URL_MONTH", $month_url);					 
+					*/
 					$wtpl->parseCurrentBlock();					
 				}	
-			}
+			}						
 			
-			if(sizeof($month_options) > 1)
+			$wtpl->setCurrentBlock("option_bl");
+			foreach($month_options as $value => $caption)
 			{
-				$wtpl->setCurrentBlock("option_bl");
-				foreach($month_options as $value => $caption)
+				$wtpl->setVariable("OPTION_VALUE", $value);
+				$wtpl->setVariable("OPTION_CAPTION", $caption);
+				if($value == $this->month)
 				{
-					$wtpl->setVariable("OPTION_VALUE", $value);
-					$wtpl->setVariable("OPTION_CAPTION", $caption);
-					if($value == $this->month)
-					{
-						$wtpl->setVariable("OPTION_SEL", ' selected="selected"');
-					}
-					$wtpl->parseCurrentBlock();			
+					$wtpl->setVariable("OPTION_SEL", ' selected="selected"');
 				}
-				
-				$wtpl->setVariable("FORM_ACTION", $ilCtrl->getFormAction($this, $a_list_cmd));
+				$wtpl->parseCurrentBlock();			
 			}
+
+			$wtpl->setVariable("FORM_ACTION", $ilCtrl->getFormAction($this, $a_list_cmd));			
 			
 			$ilCtrl->setParameter($this, "bmn", $this->month);
 			$ilCtrl->setParameterByClass("ilblogpostinggui", "bmn", "");
