@@ -163,6 +163,7 @@ class gevUserImport {
 		while ($row = mysql_fetch_assoc($result)) {
 			$ret[$row['ilias_id']] = $row;
 		}
+
 		return $ret;
 	}
 
@@ -368,6 +369,7 @@ class gevUserImport {
 			$row = mysql_fetch_assoc($result);
 			$saved_role_title = $row['global_role_title'];
 			if ($saved_role_title != $role_title) {
+				//echo "deassign ".$user_id." ".$saved_role_title;
 				$utils->deassignUserFromGlobalRole($user_id, $saved_role_title);
 			}
 		}
@@ -401,11 +403,9 @@ class gevUserImport {
 		if (!$orgunit_id) {
 			throw new Exception("Could not determine obj_id for org unit with import id '".$orgunit_import_id."'");
 		}
-		$utils = gevOrgUnitUtils::getInstance($orgunit_id);
-		$utils->getOrgUnitInstance();
-		$utils->assignUser($user_id, $role_title);
-
-
+		$new_utils = gevOrgUnitUtils::getInstance($orgunit_id);
+		$new_utils->getOrgUnitInstance();
+		$new_utils->assignUser($user_id, $role_title);
 
 		$sql = "
 			SELECT
@@ -428,8 +428,10 @@ class gevUserImport {
 			$saved_role_title = $row['orgunit_role_title'];
 
 			if (($saved_orgunit_id != $orgunit_id) || ($saved_role_title != $role_title)) {
-				echo "deassign ". $user_id . " " . $role_title . "\n";
-				$utils->deassignUser($user_id, $role_title);
+				//echo "deassign          ". $user_id . " " . $saved_role_title . "\n";
+				$old_utils = gevOrgUnitUtils::getInstance($saved_orgunit_id);
+				$old_utils->getOrgUnitInstance();
+				$old_utils->deassignUser($user_id, $saved_role_title);
 			}
 		}
 
