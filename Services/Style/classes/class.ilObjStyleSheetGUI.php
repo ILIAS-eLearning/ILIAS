@@ -475,10 +475,25 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 			}
 		}
 
+		// write custom parameter
+		if (is_array($_POST["custom_par"]))
+		{
+			foreach ($_POST["custom_par"] as $cpar)
+			{
+				$par_arr = explode(":", $cpar);
+				if (count($par_arr) == 2)
+				{
+					$par = trim($par_arr[0]);
+					$val = trim(str_replace(";", "", $par_arr[1]));
+					$this->writeStylePar($cur_tag, $cur_class, $par, $val, $_GET["style_type"], (int) $_GET["mq_id"], true);
+				}
+			}
+		}
+
 		$this->object->update();
 	}
 	
-	function writeStylePar($cur_tag, $cur_class, $par, $value, $a_type, $a_mq_id)
+	function writeStylePar($cur_tag, $cur_class, $par, $value, $a_type, $a_mq_id, $a_custom = false)
 	{
 //		echo $_GET["mq_id"]."-";
 //		echo $a_mq_id."-"; exit;
@@ -489,11 +504,11 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		
 		if ($value != "")
 		{
-			$this->object->replaceStylePar($cur_tag, $cur_class, $par, $value, $a_type, $a_mq_id);
+			$this->object->replaceStylePar($cur_tag, $cur_class, $par, $value, $a_type, $a_mq_id, $a_custom);
 		}
 		else
 		{
-			$this->object->deleteStylePar($cur_tag, $cur_class, $par, $a_type, $a_mq_id);
+			$this->object->deleteStylePar($cur_tag, $cur_class, $par, $a_type, $a_mq_id, $a_custom);
 		}
 	}
 	
@@ -766,7 +781,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		$cur_tag = $cur[0];
 		$cur_class = $cur[1];
 		$cur_parameters = $this->extractParametersOfTag($cur_tag, $cur_class, $style, $_GET["style_type"],
-			(int) $_GET["mq_id"]);
+			(int) $_GET["mq_id"], false);
 		$parameters = ilObjStyleSheet::_getStyleParameters();
 		foreach($parameters as $p => $v)
 		{
@@ -799,6 +814,16 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 					break;
 			}
 		}
+
+		$cust_parameters = $this->extractParametersOfTag($cur_tag, $cur_class, $style, $_GET["style_type"],
+			(int) $_GET["mq_id"], true);
+		$vals = array();
+		foreach ($cust_parameters as $k => $c)
+		{
+			$vals[] = $k.": ".$c;
+		}
+		$input = $this->form_gui->getItemByPostVar("custom_par");
+		$input->setValue($vals);
 	}
 	
 	/**
@@ -811,7 +836,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		ilUtil::deliverFile($file, "sty_".$this->object->getId().".zip");
 	}
 
-	function extractParametersOfTag($a_tag, $a_class, $a_style, $a_type, $a_mq_id = 0)
+	function extractParametersOfTag($a_tag, $a_class, $a_style, $a_type, $a_mq_id = 0, $a_custom = false)
 	{
 		$parameters = array();
 		foreach($a_style as $tag)
@@ -819,7 +844,8 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 			foreach($tag as $par)
 			{
 				if ($par["tag"] == $a_tag && $par["class"] == $a_class
-					&& $par["type"] == $a_type && (int) $a_mq_id == (int) $par["mq_id"])
+					&& $par["type"] == $a_type && (int) $a_mq_id == (int) $par["mq_id"]
+					&& (int) $a_custom == (int) $par["custom"])
 				{
 					$parameters[$par["parameter"]] = $par["value"]; 
 				}

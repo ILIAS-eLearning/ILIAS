@@ -14753,3 +14753,6 @@ style#:#sty_order#:#Order
 style#:#sty_query#:#Query
 style#:#sty_save_order#:#Save Order
 style#:#sty_sure_del_mqueries#:#Do you really want to delete this media query and all related CSS rules?
+style#:#sty_custom#:#Custom
+style#:#sty_custom_par#:#Custom Parameters
+style#:#sty_custom_par_info#:#Add custom CSS parameters using format "parameter: value".
