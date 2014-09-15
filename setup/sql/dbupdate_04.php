@@ -3124,3 +3124,45 @@ if( !$ilDB->tableExists('il_bibl_settings') )
 		$ilDB->dropTableColumn('frm_posts', 'pos_usr_id');
 	}
 ?>
+<#4339>
+<?php
+
+$ilDB->createTable('sty_media_query', array(
+	'id' => array(
+		'type' => "integer",
+		'length' => 4,
+		'notnull' => true,
+		'default' => 0
+	),
+	'style_id' => array(
+		'type' => "integer",
+		'length' => 4,
+		'notnull' => true,
+		'default' => 0
+	),
+	'order_nr' => array(
+		'type' => "integer",
+		'length' => 4,
+		'notnull' => true,
+		'default' => 0
+	),
+	'mquery' => array(
+		'type' => 'text',
+		'length' => 2000,
+		'notnull' => false,
+	)));
+?>
+<#4340>
+<?php
+	$ilDB->addPrimaryKey('sty_media_query', array('id'));
+	$ilDB->createSequence('sty_media_query');
+?>
+<#4341>
+<?php
+	$ilDB->addTableColumn('style_parameter', 'mq_id', array(
+		"type" => "integer",
+		"notnull" => true,
+		"length" => 4,
+		"default" => 0
+	));
+?>

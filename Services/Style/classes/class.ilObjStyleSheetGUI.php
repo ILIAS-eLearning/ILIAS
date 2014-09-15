@@ -426,7 +426,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 				case "background_image":
 					$in = $this->form_gui->getItemByPostVar($basepar);
 //echo "<br>-".$cur_tag."-".$cur_class."-".$basepar."-".$_GET["style_type"]."-";
-					$this->writeStylePar($cur_tag, $cur_class, $basepar, $in->getValue(), $_GET["style_type"]);
+					$this->writeStylePar($cur_tag, $cur_class, $basepar, $in->getValue(), $_GET["style_type"], (int) $_GET["mq_id"]);
 					break;
 
 				case "color":
@@ -435,18 +435,18 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 					{
 						$color = "#".$color;
 					}
-					$this->writeStylePar($cur_tag, $cur_class, $basepar, $color, $_GET["style_type"]);
+					$this->writeStylePar($cur_tag, $cur_class, $basepar, $color, $_GET["style_type"], (int) $_GET["mq_id"]);
 					break;
 					
 				case "trbl_numeric":
 				case "border_width":
 				case "border_style":
 					$in = $this->form_gui->getItemByPostVar($basepar);
-					$this->writeStylePar($cur_tag, $cur_class, $v["subpar"][0], $in->getAllValue(), $_GET["style_type"]);
-					$this->writeStylePar($cur_tag, $cur_class, $v["subpar"][1], $in->getTopValue(), $_GET["style_type"]);
-					$this->writeStylePar($cur_tag, $cur_class, $v["subpar"][2], $in->getRightValue(), $_GET["style_type"]);
-					$this->writeStylePar($cur_tag, $cur_class, $v["subpar"][3], $in->getBottomValue(), $_GET["style_type"]);
-					$this->writeStylePar($cur_tag, $cur_class, $v["subpar"][4], $in->getLeftValue(), $_GET["style_type"]);
+					$this->writeStylePar($cur_tag, $cur_class, $v["subpar"][0], $in->getAllValue(), $_GET["style_type"], (int) $_GET["mq_id"]);
+					$this->writeStylePar($cur_tag, $cur_class, $v["subpar"][1], $in->getTopValue(), $_GET["style_type"], (int) $_GET["mq_id"]);
+					$this->writeStylePar($cur_tag, $cur_class, $v["subpar"][2], $in->getRightValue(), $_GET["style_type"], (int) $_GET["mq_id"]);
+					$this->writeStylePar($cur_tag, $cur_class, $v["subpar"][3], $in->getBottomValue(), $_GET["style_type"], (int) $_GET["mq_id"]);
+					$this->writeStylePar($cur_tag, $cur_class, $v["subpar"][4], $in->getLeftValue(), $_GET["style_type"], (int) $_GET["mq_id"]);
 					break;
 
 				case "trbl_color":
@@ -460,28 +460,17 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 							|| $val == "")
 							? $val
 							: "#".$val;
-						$this->writeStylePar($cur_tag, $cur_class, $v["subpar"][$k], $val, $_GET["style_type"]);
+						$this->writeStylePar($cur_tag, $cur_class, $v["subpar"][$k], $val, $_GET["style_type"], (int) $_GET["mq_id"]);
 					}
-					/*$this->writeStylePar($cur_tag, $cur_class, $v["subpar"][0],
-						trim($in->getAllValue() != "") ? "#".$in->getAllValue() : "", $_GET["style_type"]);
-					$this->writeStylePar($cur_tag, $cur_class, $v["subpar"][1],
-						trim($in->getTopValue() != "") ? "#".$in->getTopValue() : "", $_GET["style_type"]);
-					$this->writeStylePar($cur_tag, $cur_class, $v["subpar"][2],
-						trim($in->getRightValue() != "") ? "#".$in->getRightValue() : "", $_GET["style_type"]);
-					$this->writeStylePar($cur_tag, $cur_class, $v["subpar"][3],
-						trim($in->getBottomValue() != "") ? "#".$in->getBottomValue() : "", $_GET["style_type"]);
-					$this->writeStylePar($cur_tag, $cur_class, $v["subpar"][4],
-						trim($in->getLeftValue() != "") ? "#".$in->getLeftValue() : "", $_GET["style_type"]);
-					*/
 					break;
 
 				case "background_position":
 					$in = $this->form_gui->getItemByPostVar($basepar);
-					$this->writeStylePar($cur_tag, $cur_class, $basepar, $in->getValue(), $_GET["style_type"]);
+					$this->writeStylePar($cur_tag, $cur_class, $basepar, $in->getValue(), $_GET["style_type"], (int) $_GET["mq_id"]);
 					break;
 					
 				default:
-					$this->writeStylePar($cur_tag, $cur_class, $basepar, $_POST[$basepar], $_GET["style_type"]);
+					$this->writeStylePar($cur_tag, $cur_class, $basepar, $_POST[$basepar], $_GET["style_type"], (int) $_GET["mq_id"]);
 					break;
 			}
 		}
@@ -489,8 +478,10 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		$this->object->update();
 	}
 	
-	function writeStylePar($cur_tag, $cur_class, $par, $value, $a_type)
+	function writeStylePar($cur_tag, $cur_class, $par, $value, $a_type, $a_mq_id)
 	{
+//		echo $_GET["mq_id"]."-";
+//		echo $a_mq_id."-"; exit;
 		if ($a_type == "")
 		{
 			return;
@@ -498,11 +489,11 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		
 		if ($value != "")
 		{
-			$this->object->replaceStylePar($cur_tag, $cur_class, $par, $value, $a_type);
+			$this->object->replaceStylePar($cur_tag, $cur_class, $par, $value, $a_type, $a_mq_id);
 		}
 		else
 		{
-			$this->object->deleteStylePar($cur_tag, $cur_class, $par, $a_type);
+			$this->object->deleteStylePar($cur_tag, $cur_class, $par, $a_type, $a_mq_id);
 		}
 	}
 	
@@ -512,7 +503,28 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	function editTagStyleObject()
 	{
-		global $tpl;
+		global $tpl, $ilToolbar, $lng, $ilCtrl;
+
+		// media query selector
+		$mqs = $this->object->getMediaQueries();
+		if (count($mqs) > 0)
+		{
+			//
+			$options = array(
+				"" => $lng->txt("sty_default"),
+				);
+			foreach ($mqs as $mq)
+			{
+				$options[$mq["id"]] = $mq["mquery"];
+			}
+			include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
+			$si = new ilSelectInputGUI("@media", "mq_id");
+			$si->setOptions($options);
+			$si->setValue((int) $_GET["mq_id"]);
+			$ilToolbar->addInputItem($si, true);
+			$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
+			$ilToolbar->addFormButton($lng->txt("sty_switch"), "switchMQuery");
+		}
 
 		// workaround to include default rte styles
 		//if (in_array($_GET["style_type"], array("rte_menu")))
@@ -526,11 +538,26 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		$cur = explode(".",$_GET["tag"]);
 		$cur_tag = $cur[0];
 		$cur_class = $cur[1];
-		
+
 		$this->initTagStyleForm("edit", $cur_tag);
 		$this->getValues();
 		$this->outputTagStyleEditScreen();
 	}
+
+	/**
+	 * Switch media query
+	 *
+	 * @param
+	 * @return
+	 */
+	function switchMQueryObject()
+	{
+		global $ilCtrl;
+
+		$ilCtrl->setParameter($this, "mq_id", (int) $_POST["mq_id"]);
+		$ilCtrl->redirect($this, "editTagStyle");
+	}
+
 	
 	/**
 	* Output tag style edit screen.
@@ -569,8 +596,10 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	*/
 	public function initTagStyleForm($a_mode, $a_cur_tag)
 	{
-		global $lng;
-		
+		global $lng, $ilCtrl;
+
+		$ilCtrl->saveParameter($this, array("mq_id"));
+
 		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form_gui = new ilPropertyFormGUI();
 		
@@ -722,8 +751,8 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		$cur = explode(".",$_GET["tag"]);
 		$cur_tag = $cur[0];
 		$cur_class = $cur[1];
-		$cur_parameters = $this->extractParametersOfTag($cur_tag, $cur_class, $style, $_GET["style_type"]);
-
+		$cur_parameters = $this->extractParametersOfTag($cur_tag, $cur_class, $style, $_GET["style_type"],
+			(int) $_GET["mq_id"]);
 		$parameters = ilObjStyleSheet::_getStyleParameters();
 		foreach($parameters as $p => $v)
 		{
@@ -768,7 +797,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		ilUtil::deliverFile($file, "sty_".$this->object->getId().".zip");
 	}
 
-	function extractParametersOfTag($a_tag, $a_class, $a_style, $a_type)
+	function extractParametersOfTag($a_tag, $a_class, $a_style, $a_type, $a_mq_id = 0)
 	{
 		$parameters = array();
 		foreach($a_style as $tag)
@@ -776,7 +805,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 			foreach($tag as $par)
 			{
 				if ($par["tag"] == $a_tag && $par["class"] == $a_class
-					&& $par["type"] == $a_type)
+					&& $par["type"] == $a_type && (int) $a_mq_id == (int) $par["mq_id"])
 				{
 					$parameters[$par["parameter"]] = $par["value"]; 
 				}
@@ -1080,10 +1109,15 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 			$tabs_gui->addTarget("sty_style_chars",
 				$this->ctrl->getLinkTarget($this, "edit"), array("edit", ""),
 				get_class($this));
-	
+
 			// colors
 			$tabs_gui->addTarget("sty_colors",
 				$this->ctrl->getLinkTarget($this, "listColors"), "listColors",
+				get_class($this));
+
+			// media queries
+			$tabs_gui->addTarget("sty_media_queries",
+				$this->ctrl->getLinkTarget($this, "listMediaQueries"), "listMediaQueries",
 				get_class($this));
 
 			// images
@@ -1871,6 +1905,209 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 			
 		$ilCtrl->redirect($this, "listColors");
 	}
+
+	//
+	// Media query management
+	//
+
+	/**
+	 * List media queries of style
+	 */
+	function listMediaQueriesObject()
+	{
+		global $tpl, $rbacsystem, $ilToolbar, $ilCtrl;
+
+		if ($rbacsystem->checkAccess("write", (int) $_GET["ref_id"]))
+		{
+			$ilToolbar->addButton($this->lng->txt("sty_add_media_query"),
+				$ilCtrl->getLinkTarget($this, "addMediaQuery"));
+		}
+
+		include_once("./Services/Style/classes/class.ilStyleMediaQueryTableGUI.php");
+		$table_gui = new ilStyleMediaQueryTableGUI($this, "listMediaQueries",
+			$this->object);
+		$tpl->setContent($table_gui->getHTML());
+	}
+
+	/**
+	 * Add a media query
+	 */
+	function addMediaQueryObject()
+	{
+		global $tpl;
+
+		$this->initMediaQueryForm();
+		$tpl->setContent($this->form_gui->getHTML());
+	}
+
+	/**
+	 * Edit media query
+	 */
+	function editMediaQueryObject()
+	{
+		global $tpl, $ilCtrl;
+
+		$ilCtrl->setParameter($this, "mq_id", $_GET["mq_id"]);
+		$this->initMediaQueryForm("edit");
+		$this->getMediaQueryFormValues();
+		$tpl->setContent($this->form_gui->getHTML());
+	}
+
+
+	/**
+	 * Init media query form
+	 */
+	function initMediaQueryForm($a_mode = "create")
+	{
+		global $lng, $ilCtrl;
+
+		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+		$this->form_gui = new ilPropertyFormGUI();
+
+		$this->form_gui->setTitle($lng->txt("sty_add_media_query"));
+
+		// media query
+		$ti = new ilTextInputGUI("@media", "mquery");
+		$ti->setMaxLength(2000);
+		$this->form_gui->addItem($ti);
+
+
+		if ($a_mode == "create")
+		{
+			$this->form_gui->addCommandButton("saveMediaQuery", $lng->txt("save"));
+			$this->form_gui->addCommandButton("listMediaQueries", $lng->txt("cancel"));
+		}
+		else
+		{
+			$this->form_gui->addCommandButton("updateMediaQuery", $lng->txt("save"));
+			$this->form_gui->addCommandButton("listMediaQueries", $lng->txt("cancel"));
+		}
+		$this->form_gui->setFormAction($ilCtrl->getFormAction($this));
+	}
+
+	/**
+	 * Set values for media query editing
+	 */
+	function getMediaQueryFormValues()
+	{
+		if ($_GET["mq_id"] != "")
+		{
+			foreach ($this->object->getMediaQueries() as $mq)
+			{
+				if ($mq["id"] == (int) $_GET["mq_id"])
+				{
+					$values["mquery"] = $mq["mquery"];
+				}
+			}
+			$this->form_gui->setValuesByArray($values);
+		}
+	}
+
+	/**
+	 * Save media query
+	 */
+	function saveMediaQueryObject()
+	{
+		global $tpl, $ilCtrl, $lng;
+
+		$this->initMediaQueryForm();
+
+		if ($this->form_gui->checkInput())
+		{
+			$this->object->addMediaQuery($_POST["mquery"]);
+			$ilCtrl->redirect($this, "listMediaQueries");
+		}
+		$this->form_gui->setValuesByPost();
+		$tpl->setContent($this->form_gui->getHTML());
+	}
+
+	/**
+	 * Update media query
+	 */
+	function updateMediaQueryObject()
+	{
+		global $tpl, $ilCtrl, $lng;
+
+		$this->initMediaQueryForm("edit");
+
+		if ($this->form_gui->checkInput())
+		{
+			$this->object->updateMediaQuery((int) $_GET["mq_id"], $_POST["mquery"]);
+			$ilCtrl->redirect($this, "listMediaQueries");
+		}
+		$ilCtrl->setParameter($this, "mq_id", $_GET["mq_id"]);
+		$this->form_gui->setValuesByPost();
+		$tpl->setContent($this->form_gui->getHTML());
+	}
+
+	/**
+	 * Confirm media query deletion
+	 */
+	function deleteMediaQueryConfirmationObject()
+	{
+		global $ilCtrl, $tpl, $lng;
+			
+		if (!is_array($_POST["mq_id"]) || count($_POST["mq_id"]) == 0)
+		{
+			ilUtil::sendInfo($lng->txt("no_checkbox"), true);
+			$ilCtrl->redirect($this, "listMediaQueries");
+		}
+		else
+		{
+			include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+			$cgui = new ilConfirmationGUI();
+			$cgui->setFormAction($ilCtrl->getFormAction($this));
+			$cgui->setHeaderText($lng->txt("sty_sure_del_mqueries"));
+			$cgui->setCancel($lng->txt("cancel"), "listMediaQueries");
+			$cgui->setConfirm($lng->txt("delete"), "deleteMediaQueries");
+			
+			foreach ($_POST["mq_id"] as $i)
+			{
+				$mq = $this->object->getMediaQueryForId($i);
+				$cgui->addItem("mq_id[]", $i, $mq["mquery"]);
+			}
+			
+			$tpl->setContent($cgui->getHTML());
+		}
+	}
+
+	/**
+	 * Delete Media Queries
+	 *
+	 * @param
+	 * @return
+	 */
+	function deleteMediaQueriesObject()
+	{
+		global $ilCtrl, $rbacsystem;
+
+		if ($rbacsystem->checkAccess("write", (int) $_GET["ref_id"]) && is_array($_POST["mq_id"]))
+		{
+			foreach ($_POST["mq_id"] as $id)
+			{
+				$this->object->deleteMediaQuery($id);
+			}
+		}
+		$ilCtrl->redirect($this, "listMediaQueries");
+	}
+
+	/**
+	 * Save media query order
+	 *
+	 * @param
+	 * @return
+	 */
+	function saveMediaQueryOrderObject()
+	{
+		global $ilCtrl;
+
+		if (is_array($_POST["order"]))
+		{
+			$this->object->saveMediaQueryOrder($_POST["order"]);
+		}
+		$ilCtrl->redirect($this, "listMediaQueries");
+	}
+
 
 	//
 	// Templates management

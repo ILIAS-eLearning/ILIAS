@@ -849,7 +849,7 @@ class ilObjStyleSheet extends ilObject
 			{
 				$def[] = array("tag" => $par_rec["tag"], "class" => $par_rec["class"],
 					"parameter" => $par_rec["parameter"], "value" => $par_rec["value"],
-					"type" => $par_rec["type"]);
+					"type" => $par_rec["type"], "mq_id" => $par_rec["mq_id"]);
 			}
 			
 			// get style characteristics records
@@ -862,11 +862,22 @@ class ilObjStyleSheet extends ilObject
 				$chars[] = array("type" => $par_rec["type"], "characteristic" => $par_rec["characteristic"]);
 			}
 
+
+			// copy media queries
+			$from_style = new ilObjStyleSheet($a_from_style);
+			$mqs = $from_style->getMediaQueries();
+			$mq_mapping = array();
+			foreach ($mqs as $mq)
+			{
+				$nid = $this->addMediaQuery($mq["mquery"]);
+				$mq_mapping[$mq["id"]] = $nid;
+			}
+
 			// default style settings
 			foreach ($def as $sty)
 			{
 				$id = $ilDB->nextId("style_parameter");
-				$q = "INSERT INTO style_parameter (id, style_id, tag, class, parameter, value, type) VALUES ".
+				$q = "INSERT INTO style_parameter (id, style_id, tag, class, parameter, value, type, mq_id) VALUES ".
 					"(".
 					$ilDB->quote($id, "integer").",".
 					$ilDB->quote($this->getId(), "integer").",".
@@ -874,7 +885,9 @@ class ilObjStyleSheet extends ilObject
 					$ilDB->quote($sty["class"], "text").",".
 					$ilDB->quote($sty["parameter"], "text").",".
 					$ilDB->quote($sty["value"], "text").",".
-					$ilDB->quote($sty["type"], "text").")";
+					$ilDB->quote($sty["type"], "text").",".
+					$ilDB->quote($mq_mapping[$sty["mq_id"]], "integer").
+					")";
 				$ilDB->manipulate($q);
 			}
 			
@@ -895,7 +908,6 @@ class ilObjStyleSheet extends ilObject
 			$ilDB->manipulate($q);
 			
 			// copy images
-			$from_style = new ilObjStyleSheet($a_from_style);
 			$this->createImagesDirectory();
 			ilUtil::rCopy($from_style->getImagesDirectory(),
 				$this->getImagesDirectory());
@@ -1008,6 +1020,7 @@ class ilObjStyleSheet extends ilObject
 
 		$from_style = new ilObjStyleSheet($a_from_style_id);
 
+		// todo fix using mq_id
 		$pars = $from_style->getParametersOfClass($a_from_type, $a_from_char);
 
 		$colors = array();
@@ -1139,13 +1152,15 @@ class ilObjStyleSheet extends ilObject
 	}
 	
 	/**
-	* write style parameter to db
-	*
-	* @param	string		$a_tag		tag name		(tag.class, e.g. "div.Mnemonic")
-	* @param	string		$a_par		tag parameter	(e.g. "margin-left")
-	* @param	string		$a_type		style type		(e.g. "section")	
-	*/
-	function addParameter($a_tag, $a_par, $a_type)
+	 * write style parameter to db
+	 *
+	 * todo check usages add mq_id
+	 *
+	 * @param	string		$a_tag		tag name		(tag.class, e.g. "div.Mnemonic")
+	 * @param	string		$a_par		tag parameter	(e.g. "margin-left")
+	 * @param	string		$a_type		style type		(e.g. "section")
+	 */
+	function addParameter($a_tag, $a_par, $a_type, $a_mq_id = 0)
 	{
 		global $ilDB;
 		
@@ -1153,7 +1168,7 @@ class ilObjStyleSheet extends ilObject
 		$tag = explode(".", $a_tag);
 		$value = $avail_params[$a_par][0];
 		$id = $ilDB->nextId("style_parameter");
-		$q = "INSERT INTO style_parameter (id,style_id, type, tag, class, parameter, value) VALUES ".
+		$q = "INSERT INTO style_parameter (id,style_id, type, tag, class, parameter, value, mq_id) VALUES ".
 			"(".
 			$ilDB->quote($id, "integer").",".
 			$ilDB->quote($this->getId(), "integer").",".
@@ -1161,7 +1176,9 @@ class ilObjStyleSheet extends ilObject
 			$ilDB->quote($tag[0], "text").",".
 			$ilDB->quote($tag[1], "text").",".
 			$ilDB->quote($a_par, "text").",".
-			$ilDB->quote($value, "text").")";
+			$ilDB->quote($value, "text").",".
+			$ilDB->quote($a_mq_id, "integer").
+			")";
 		$ilDB->manipulate($q);
 		$this->read();
 		$this->writeCSSFile();
@@ -1315,12 +1332,13 @@ class ilObjStyleSheet extends ilObject
 	/**
 	 * Delete style parameter by tag/class/parameter
 	 *
-	 * @param	string		tag
-	 * @param	string		class
-	 * @param	string		parameter
-	 * @param	string		type
+	 * @param string $a_tag tag
+	 * @param string $a_class class
+	 * @param string $a_par parameter
+	 * @param string $a_type type
+	 * @param string $a_mq_id media query id
 	 */
-	function deleteStylePar($a_tag, $a_class, $a_par, $a_type)
+	function deleteStylePar($a_tag, $a_class, $a_par, $a_type, $a_mq_id = 0)
 	{
 		global $ilDB;
 		
@@ -1328,6 +1346,7 @@ class ilObjStyleSheet extends ilObject
 			" style_id = ".$ilDB->quote($this->getId(), "integer")." AND ".
 			" tag = ".$ilDB->quote($a_tag, "text")." AND ".
 			" class = ".$ilDB->quote($a_class, "text")." AND ".
+			" mq_id = ".$ilDB->quote($a_mq_id, "integer")." AND ".
 			" ".$ilDB->equals("type", $a_type, "text", true)." AND ".
 			" parameter = ".$ilDB->quote($a_par, "text");
 
@@ -1390,6 +1409,11 @@ class ilObjStyleSheet extends ilObject
 		{
 			unlink($css_file_name);
 		}
+
+		// delete media queries
+		$ilDB->manipulate("DELETE FROM sty_media_query WHERE ".
+			" style_id = ".$ilDB->quote($this->getId(), "integer")
+			);
 		
 		// delete entries in learning modules
 		include_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
@@ -1413,16 +1437,17 @@ class ilObjStyleSheet extends ilObject
 		parent::read();
 
 		$q = "SELECT * FROM style_parameter WHERE style_id = ".
-			$ilDB->quote($this->getId(), "integer")." ORDER BY tag, class, type ";
+			$ilDB->quote($this->getId(), "integer")." ORDER BY tag, class, type, mq_id ";
 		$style_set = $ilDB->query($q);
 		$ctag = "";
 		$cclass = "";
 		$ctype = "";
+		$cmq_id = 0;
 		$this->style = array();
 		while($style_rec = $ilDB->fetchAssoc($style_set))
 		{
 			if ($style_rec["tag"] != $ctag || $style_rec["class"] != $cclass
-				|| $style_rec["type"] != $ctype)
+				|| $style_rec["type"] != $ctype || $style_rec["mq_id"] != $cmq_id)
 			{
 				// add current tag array to style array
 				if(is_array($tag))
@@ -1434,8 +1459,10 @@ class ilObjStyleSheet extends ilObject
 			$ctag = $style_rec["tag"];
 			$cclass = $style_rec["class"];
 			$ctype = $style_rec["type"];
+			$cmq_id = $style_rec["mq_id"];
 			$tag[] = $style_rec;
-			$this->style_class[$ctype][$cclass][$style_rec["parameter"]] = $style_rec["value"];
+			// added $cmq_id
+			$this->style_class[$ctype][$cclass][$cmq_id][$style_rec["parameter"]] = $style_rec["value"];
 		}
 		if(is_array($tag))
 		{
@@ -1486,118 +1513,141 @@ class ilObjStyleSheet extends ilObject
 		
 		$page_background = "";
 
-		foreach ($style as $tag)
+		$mqs = array(array("mquery" => "", "id" => 0));
+		foreach ($this->getMediaQueries() as $mq)
 		{
-			fwrite ($css_file, $tag[0]["tag"].".ilc_".$tag[0]["type"]."_".$tag[0]["class"]."\n");
-			if ($tag[0]["tag"] == "td")
-			{
-				fwrite ($css_file, ",th".".ilc_".$tag[0]["type"]."_".$tag[0]["class"]."\n");
-			}
-			if (in_array($tag[0]["tag"], array("h1", "h2", "h3")))
-			{
-				fwrite ($css_file, ",div.ilc_text_block_".$tag[0]["class"]."\n");
-				fwrite ($css_file, ",body.ilc_text_block_".$tag[0]["class"]."\n");
-			}
-			if ($tag[0]["type"] == "text_block")
-			{
-				fwrite ($css_file, ",body.ilc_text_block_".$tag[0]["class"]."\n");
-			}
-			fwrite ($css_file, "{\n");
-
-			// collect table border attributes
-			$t_border = array();
-
-			foreach($tag as $par)
-			{
-				$cur_par = $par["parameter"];
-				$cur_val = $par["value"];
-				
-				// replace named colors
-				if (is_int(strpos($cur_par, "color")) && substr(trim($cur_val), 0, 1) == "!")
-				{
-					$cur_val = $this->getColorCodeForName(substr($cur_val, 1));
-				}
-				
-				if ($tag[0]["type"] == "table" && is_int(strpos($par["parameter"], "border")))
-				{
-					$t_border[$cur_par] = $cur_val;
-				}
-				
-				if (in_array($cur_par, array("background-image", "list-style-image")))
-				{
-					if (is_int(strpos($cur_val, "/")))	// external
-					{
-						$cur_val = "url(".$cur_val.")";
-					}
-					else		// internal
-					{
-						if ($a_image_dir == "")
-						{
-							$cur_val = "url(../sty/sty_".$this->getId()."/images/".$cur_val.")";
-						}
-						else
-						{
-							$cur_val = "url(".$a_image_dir."/".$cur_val.")";
-						}
-					}
-				}
-				
-				if ($cur_par == "opacity")
-				{
-					$cur_val = ((int) $cur_val) / 100;
-				}
-				
-				fwrite ($css_file, "\t".$cur_par.": ".$cur_val.";\n");
-				
-				// IE6 fix for minimum height
-				if ($cur_par == "min-height")
-				{
-					fwrite ($css_file, "\t"."height".": "."auto !important".";\n");
-					fwrite ($css_file, "\t"."height".": ".$cur_val.";\n");
-				}
-				
-				// opacity fix
-				if ($cur_par == "opacity")
-				{
-					fwrite ($css_file, "\t".'-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity='.($cur_val * 100).')"'.";\n");
-					fwrite ($css_file, "\t".'filter: alpha(opacity='.($cur_val * 100).')'.";\n");
-					fwrite ($css_file, "\t".'-moz-opacity: '.$cur_val.";\n");
-				}
-				
-				// save page background
-				if ($tag[0]["tag"] == "div" && $tag[0]["class"] == "Page"
-					&& $cur_par == "background-color")
-				{
-					$page_background = $cur_val;
-				}
-			}
-			fwrite ($css_file, "}\n");
-			fwrite ($css_file, "\n");
-			
-			// use table border attributes for th td as well
-/*			if ($tag[0]["type"] == "table")
-			{
-				if (count($t_border) > 0)
-				{
-					fwrite ($css_file, $tag[0]["tag"].".ilc_".$tag[0]["type"]."_".$tag[0]["class"]." th,".
-						$tag[0]["tag"].".ilc_".$tag[0]["type"]."_".$tag[0]["class"]." td\n");
-					fwrite ($css_file, "{\n");
-					foreach ($t_border as $p => $v)
-					{
-//						fwrite ($css_file, "\t".$p.": ".$v.";\n");
-					}
-					fwrite ($css_file, "}\n");
-					fwrite ($css_file, "\n");
-				}
-			}*/
+			$mqs[] = $mq;
 		}
-		
-		if ($page_background != "")
+
+		// iterate all media queries
+		foreach ($mqs as $mq)
 		{
-			fwrite ($css_file, "td.ilc_Page\n");
-			fwrite ($css_file, "{\n");
-			fwrite ($css_file, "\t"."background-color: ".$page_background.";\n");
-			fwrite ($css_file, "}\n");
+			if ($mq["id"] > 0)
+			{
+				fwrite ($css_file, "@media ".$mq["mquery"]." {\n");
+			}
+			reset($style);
+			foreach ($style as $tag)
+			{
+				if ($tag[0]["mq_id"] != $mq["id"])
+				{
+					continue;
+				}
+				fwrite ($css_file, $tag[0]["tag"].".ilc_".$tag[0]["type"]."_".$tag[0]["class"]."\n");
+				if ($tag[0]["tag"] == "td")
+				{
+					fwrite ($css_file, ",th".".ilc_".$tag[0]["type"]."_".$tag[0]["class"]."\n");
+				}
+				if (in_array($tag[0]["tag"], array("h1", "h2", "h3")))
+				{
+					fwrite ($css_file, ",div.ilc_text_block_".$tag[0]["class"]."\n");
+					fwrite ($css_file, ",body.ilc_text_block_".$tag[0]["class"]."\n");
+				}
+				if ($tag[0]["type"] == "text_block")
+				{
+					fwrite ($css_file, ",body.ilc_text_block_".$tag[0]["class"]."\n");
+				}
+				fwrite ($css_file, "{\n");
+
+				// collect table border attributes
+				$t_border = array();
+
+				foreach($tag as $par)
+				{
+					$cur_par = $par["parameter"];
+					$cur_val = $par["value"];
+
+					// replace named colors
+					if (is_int(strpos($cur_par, "color")) && substr(trim($cur_val), 0, 1) == "!")
+					{
+						$cur_val = $this->getColorCodeForName(substr($cur_val, 1));
+					}
+
+					if ($tag[0]["type"] == "table" && is_int(strpos($par["parameter"], "border")))
+					{
+						$t_border[$cur_par] = $cur_val;
+					}
+
+					if (in_array($cur_par, array("background-image", "list-style-image")))
+					{
+						if (is_int(strpos($cur_val, "/")))	// external
+						{
+							$cur_val = "url(".$cur_val.")";
+						}
+						else		// internal
+						{
+							if ($a_image_dir == "")
+							{
+								$cur_val = "url(../sty/sty_".$this->getId()."/images/".$cur_val.")";
+							}
+							else
+							{
+								$cur_val = "url(".$a_image_dir."/".$cur_val.")";
+							}
+						}
+					}
+
+					if ($cur_par == "opacity")
+					{
+						$cur_val = ((int) $cur_val) / 100;
+					}
+
+					fwrite ($css_file, "\t".$cur_par.": ".$cur_val.";\n");
+
+					// IE6 fix for minimum height
+					if ($cur_par == "min-height")
+					{
+						fwrite ($css_file, "\t"."height".": "."auto !important".";\n");
+						fwrite ($css_file, "\t"."height".": ".$cur_val.";\n");
+					}
+
+					// opacity fix
+					if ($cur_par == "opacity")
+					{
+						fwrite ($css_file, "\t".'-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity='.($cur_val * 100).')"'.";\n");
+						fwrite ($css_file, "\t".'filter: alpha(opacity='.($cur_val * 100).')'.";\n");
+						fwrite ($css_file, "\t".'-moz-opacity: '.$cur_val.";\n");
+					}
+
+					// save page background
+					if ($tag[0]["tag"] == "div" && $tag[0]["class"] == "Page"
+						&& $cur_par == "background-color")
+					{
+						$page_background = $cur_val;
+					}
+				}
+				fwrite ($css_file, "}\n");
+				fwrite ($css_file, "\n");
+
+				// use table border attributes for th td as well
+	/*			if ($tag[0]["type"] == "table")
+				{
+					if (count($t_border) > 0)
+					{
+						fwrite ($css_file, $tag[0]["tag"].".ilc_".$tag[0]["type"]."_".$tag[0]["class"]." th,".
+							$tag[0]["tag"].".ilc_".$tag[0]["type"]."_".$tag[0]["class"]." td\n");
+						fwrite ($css_file, "{\n");
+						foreach ($t_border as $p => $v)
+						{
+	//						fwrite ($css_file, "\t".$p.": ".$v.";\n");
+						}
+						fwrite ($css_file, "}\n");
+						fwrite ($css_file, "\n");
+					}
+				}*/
+			}
+
+			if ($page_background != "")
+			{
+				fwrite ($css_file, "td.ilc_Page\n");
+				fwrite ($css_file, "{\n");
+				fwrite ($css_file, "\t"."background-color: ".$page_background.";\n");
+				fwrite ($css_file, "}\n");
+			}
+			if ($mq["id"] > 0)
+			{
+				fwrite ($css_file, "}\n");
+			}
 		}
 		fclose($css_file);
 		
@@ -1642,11 +1692,11 @@ class ilObjStyleSheet extends ilObject
 	 * @param
 	 * @return
 	 */
-	function getParametersOfClass($a_type, $a_class)
+	function getParametersOfClass($a_type, $a_class, $a_mq_id = 0)
 	{
-		if (is_array($this->style_class[$a_type][$a_class]))
+		if (is_array($this->style_class[$a_type][$a_class][$a_mq_id]))
 		{
-			return $this->style_class[$a_type][$a_class];
+			return $this->style_class[$a_type][$a_class][$a_mq_id];
 		}
 		return array();
 	}
@@ -1758,12 +1808,13 @@ class ilObjStyleSheet extends ilObject
 	* Set style parameter per tag/class/parameter
 	*
 	*/
-	function replaceStylePar($a_tag, $a_class, $a_par, $a_val, $a_type)
+	// todo: search for usages, add mq_id
+	function replaceStylePar($a_tag, $a_class, $a_par, $a_val, $a_type, $a_mq_id = 0)
 	{
-		ilObjStyleSheet::_replaceStylePar($this->getId(), $a_tag, $a_class, $a_par, $a_val, $a_type);
+		ilObjStyleSheet::_replaceStylePar($this->getId(), $a_tag, $a_class, $a_par, $a_val, $a_type, $a_mq_id);
 	}
 	
-	function _replaceStylePar($style_id, $a_tag, $a_class, $a_par, $a_val, $a_type)
+	function _replaceStylePar($style_id, $a_tag, $a_class, $a_par, $a_val, $a_type, $a_mq_id = 0)
 	{
 		global $ilDB;
 		
@@ -1771,6 +1822,7 @@ class ilObjStyleSheet extends ilObject
 			" style_id = ".$ilDB->quote($style_id, "integer")." AND ".
 			" tag = ".$ilDB->quote($a_tag, "text")." AND ".
 			" class = ".$ilDB->quote($a_class, "text")." AND ".
+			" mq_id = ".$ilDB->quote($a_mq_id, "integer")." AND ".
 			" ".$ilDB->equals("type", $a_type, "text", true)." AND ".
 			" parameter = ".$ilDB->quote($a_par, "text");
 		
@@ -1783,6 +1835,7 @@ class ilObjStyleSheet extends ilObject
 				" style_id = ".$ilDB->quote($style_id, "integer")." AND ".
 				" tag = ".$ilDB->quote($a_tag, "text")." AND ".
 				" class = ".$ilDB->quote($a_class, "text")." AND ".
+				" mq_id = ".$ilDB->quote($a_mq_id, "integer")." AND ".
 				" ".$ilDB->equals("type", $a_type, "text", true)." AND ".
 				" parameter = ".$ilDB->quote($a_par, "text");
 
@@ -1791,7 +1844,7 @@ class ilObjStyleSheet extends ilObject
 		else
 		{
 			$id = $ilDB->nextId("style_parameter");
-			$q = "INSERT INTO style_parameter (id, value, style_id, tag,  class, type, parameter) VALUES ".
+			$q = "INSERT INTO style_parameter (id, value, style_id, tag,  class, type, parameter, mq_id) VALUES ".
 				" (".
 				$ilDB->quote($id, "integer").",".
 				$ilDB->quote($a_val, "text").",".
@@ -1799,7 +1852,9 @@ class ilObjStyleSheet extends ilObject
 				" ".$ilDB->quote($a_tag, "text").",".
 				" ".$ilDB->quote($a_class, "text").",".
 				" ".$ilDB->quote($a_type, "text").",".
-				" ".$ilDB->quote($a_par, "text").")";
+				" ".$ilDB->quote($a_par, "text").",".
+				" ".$ilDB->quote($a_mq_id, "integer").
+				")";
 
 			$ilDB->manipulate($q);
 		}
@@ -1835,8 +1890,9 @@ class ilObjStyleSheet extends ilObject
 	}
 	
 	/**
-	* get xml representation of style object
-	*/
+	 * get xml representation of style object
+	 * todo: add mq_id
+	 */
 	function getXML()
 	{
 		$xml.= "<StyleSheet>\n";
@@ -2131,8 +2187,9 @@ class ilObjStyleSheet extends ilObject
 	}
 	
 	/**
-	* create style from xml file
-	*/
+	 * create style from xml file
+	 * todo: add mq_id
+	 */
 	function createFromXMLFile($a_file, $a_skip_parent_create = false)
 	{
 		global $ilDB;
@@ -2385,8 +2442,9 @@ class ilObjStyleSheet extends ilObject
 	}
 	
 	/**
-	* Add missing style classes to all styles
-	*/
+	 * Add missing style classes to all styles
+	 * todo: add mq_id handling
+	 */
 	static function _addMissingStyleClassesToAllStyles($a_styles = "")
 	{
 		global $ilDB;
@@ -2726,7 +2784,10 @@ class ilObjStyleSheet extends ilObject
 			array("div", "p", $a_id));
 
 	}
-	
+
+	////
+	//// Colors
+	////
 	
 	/**
 	* Get colors of style
@@ -3051,6 +3112,150 @@ class ilObjStyleSheet extends ilObject
 		
 		return $rgb;
 	}
+
+	//
+	// Media queries
+	//
+
+	////
+	//// Colors
+	////
+
+	/**
+	 * Get colors of style
+	 */
+	function getMediaQueries()
+	{
+		global $ilDB;
+
+		$set = $ilDB->query("SELECT * FROM sty_media_query WHERE ".
+			"style_id = ".$ilDB->quote($this->getId(), "integer")." ".
+			"ORDER BY order_nr");
+
+		$mq = array();
+		while ($rec = $ilDB->fetchAssoc($set))
+		{
+			$mq[] = $rec;
+		}
+
+		return $mq;
+	}
+
+	/**
+	 * Add media query
+	 * @param string $a_mquery media query
+	 */
+	function addMediaQuery($a_mquery)
+	{
+		global $ilDB;
+
+		$id = $ilDB->nextId("sty_media_query");
+		$order_nr = $this->getMaxMQueryOrderNr() + 10;
+
+		$ilDB->manipulate("INSERT INTO sty_media_query (id, style_id, mquery, order_nr)".
+			" VALUES (".
+			$ilDB->quote($id, "integer").",".
+			$ilDB->quote($this->getId(), "integer").",".
+			$ilDB->quote($a_mquery, "text").",".
+			$ilDB->quote($order_nr, "integer").
+			")");
+
+		return $id;
+	}
+
+	/**
+	 * Get maximum media query order nr
+	 *
+	 */
+	function getMaxMQueryOrderNr()
+	{
+		global $ilDB;
+
+		$set = $ilDB->query("SELECT max(order_nr) mnr FROM sty_media_query ".
+			" WHERE style_id = ".$ilDB->quote($this->getId(), "integer")
+			);
+		$rec = $ilDB->fetchAssoc($set);
+
+		return (int) $rec["mnr"];
+	}
+
+	/**
+	 * Update media query
+	 *
+	 * @param int $a_id id
+	 * @param string $a_mquery media query
+	 */
+	function updateMediaQuery($a_id, $a_mquery)
+	{
+		global $ilDB;
+
+		$ilDB->manipulate("UPDATE sty_media_query SET ".
+			" mquery = ".$ilDB->quote($a_mquery, "text").
+			" WHERE id = ".$ilDB->quote($a_id, "integer")
+			);
+	}
+
+	/**
+	 * Get media query for id
+	 *
+	 * @param
+	 * @return
+	 */
+	function getMediaQueryForId($a_id)
+	{
+		global $ilDB;
+
+		$set = $ilDB->query("SELECT * FROM sty_media_query ".
+			" WHERE id = ".$ilDB->quote($a_id, "integer")
+			);
+		return $ilDB->fetchAssoc($set);
+	}
+
+	/**
+	 * Delete media query
+	 *
+	 * @param int $a_id media query id
+	 */
+	function deleteMediaQuery($a_id)
+	{
+		global $ilDB;
+
+		$ilDB->manipulate("DELETE FROM sty_media_query WHERE ".
+			" style_id = ".$ilDB->quote($this->getId(), "integer").
+			" AND id = ".$ilDB->quote($a_id, "integer")
+		);
+		$this->saveMediaQueryOrder();
+	}
+
+	/**
+	 * Save media query order
+	 *
+	 * @param int $a_order_nr order nr
+	 */
+	function saveMediaQueryOrder($a_order_nr = null)
+	{
+		global $ilDB;
+
+		$mqueries = $this->getMediaQueries();
+		if (is_array ($a_order_nr))
+		{
+			foreach ($mqueries as $k => $mq)
+			{
+				$mqueries[$k]["order_nr"] = $a_order_nr[$mq["id"]];
+			}
+			$mqueries = ilUtil::sortArray($mqueries, "order_nr", "", true);
+		}
+		$cnt = 10;
+		foreach ($mqueries as $mq)
+		{
+			$ilDB->manipulate("UPDATE sty_media_query SET ".
+				" order_nr = ".$ilDB->quote($cnt, "integer").
+				" WHERE id = ".$ilDB->quote($mq["id"], "integer")
+				);
+			$cnt+= 10;
+		}
+	}
+
 
 	//
 	// Table template management
