@@ -3444,7 +3444,7 @@
 				ilAccordionData[ilAccordionData.length] =
 					new Array('ilc_accordion_<xsl:value-of select = "$pg_id"/>_<xsl:number count="Tabs" level="any" />',
 					'il_VAccordionToggleDef', 'il_VAccordionToggleActiveDef',
-					'il_VAccordionContentDef', null, null, 'vertical', '<xsl:value-of select = "$beh"/>');
+					'il_VAccordionContentDef', null, null, 'vertical', '<xsl:value-of select = "$beh"/>', '', 'ilc_va_iheada_VAccordIHeadActive', '');
 			</script>
 			</xsl:if>
 			<xsl:if test="@Type = 'HorizontalAccordion'">
@@ -3452,7 +3452,7 @@
 				ilAccordionData[ilAccordionData.length] =
 					new Array('ilc_accordion_<xsl:value-of select = "$pg_id"/>_<xsl:number count="Tabs" level="any" />',
 					'il_HAccordionToggleDef', 'il_HAccordionToggleActiveDef',
-					'il_HAccordionContentDef', <xsl:value-of select="$cwidth" />, null, 'horizontal', '<xsl:value-of select="@Behavior"/>');
+					'il_HAccordionContentDef', <xsl:value-of select="$cwidth" />, null, 'horizontal', '<xsl:value-of select="@Behavior"/>', '', 'ilc_ha_iheada_HAccordIHeadActive', '');
 			</script>
 			</xsl:if>
 		</xsl:if>
@@ -3553,7 +3553,26 @@
 			</div>
 		-->
 		</xsl:if>
-		<xsl:value-of select="./TabCaption" />
+		<div>
+			<xsl:choose>
+			<xsl:when test="$mode = 'edit'">
+				<xsl:attribute name="class">ilEditVAccordIHeadCap</xsl:attribute>
+			</xsl:when>
+			<xsl:when test="../@Type = 'VerticalAccordion'">
+				<xsl:attribute name="class">ilc_va_ihcap_VAccordIHeadCap</xsl:attribute>
+				<xsl:if test="../@Template and //StyleTemplates/StyleTemplate[@Name=$ttemp]/StyleClass[@Type='va_ihcap']/@Value">
+					<xsl:attribute name = "class">ilc_va_ihead_<xsl:value-of select = "//StyleTemplates/StyleTemplate[@Name=$ttemp]/StyleClass[@Type='va_ihcap']/@Value"/></xsl:attribute>
+				</xsl:if>
+			</xsl:when>
+			<xsl:when test="../@Type = 'HorizontalAccordion'">
+				<xsl:attribute name="class">ilc_ha_ihcap_HAccordIHeadCap</xsl:attribute>
+				<xsl:if test="../@Template and //StyleTemplates/StyleTemplate[@Name=$ttemp]/StyleClass[@Type='ha_ihcap']/@Value">
+					<xsl:attribute name = "class">ilc_ha_ihcap_<xsl:value-of select = "//StyleTemplates/StyleTemplate[@Name=$ttemp]/StyleClass[@Type='ha_ihcap']/@Value"/></xsl:attribute>
+				</xsl:if>
+			</xsl:when>
+			</xsl:choose>
+			<xsl:value-of select="./TabCaption" />
+		</div>
 		<xsl:comment>Break</xsl:comment>
 		</div>
 	</div>

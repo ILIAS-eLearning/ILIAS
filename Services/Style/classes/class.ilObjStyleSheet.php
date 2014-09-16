@@ -176,10 +176,18 @@ class ilObjStyleSheet extends ilObject
 						"values" => array("visible", "hidden", "scroll", "auto"),
 						"input" => "select",
 						"group" => "positioning"),
-
 		"opacity" => array(
 						"values" => array(),
 						"input" => "percentage",
+						"group" => "special"),
+		"transform" => array(
+						"values" => array("rotate(90deg)", "rotate(180deg)", "rotate(270deg)"),
+						"input" => "select",
+						"group" => "special"),
+		"transform-origin" => array(
+						"values" => array(	"horizontal" => array("left", "center", "right"),
+											"vertical" => array("top", "center", "bottom")),
+						"input" => "background_position",
 						"group" => "special"),
 		"cursor" => array(
 						"values" => array("auto", "default", "crosshair", "pointer", "move",
@@ -245,8 +253,8 @@ class ilObjStyleSheet extends ilObject
 		"list" => array("list_o", "list_u", "list_item"),
 		"flist" => array("flist_cont", "flist_head", "flist", "flist_li", "flist_a"),
 		"media" => array("media_cont", "media_caption", "iim", "marker"),
-		"tabs" => array("va_cntr", "va_icntr", "va_ihead", "va_icont",
-			"ha_cntr", "ha_icntr", "ha_ihead", "ha_icont"),
+		"tabs" => array("va_cntr", "va_icntr", "va_ihead", "va_iheada", "va_ihcap", "va_icont",
+			"ha_cntr", "ha_icntr", "ha_ihead", "ha_iheada", "ha_ihcap", "ha_icont"),
 		"question" => array("question", "qtitle", "qanswer", "qinput", "qlinput", "qsubmit", "qfeedr", "qfeedw",
 			"qimg", "qordul", "qordli", "qimgd", "qetitem", "qetcorr", "qover"),
 		"page" => array("page_frame", "page_cont", "page_title", "page_fn",
@@ -262,8 +270,8 @@ class ilObjStyleSheet extends ilObject
 	public static $expandable_types = array (
 			"text_block", "section", "media_cont", "table", "table_cell", "flist_li", "table_caption",
 				"list_o", "list_u",
-				"va_cntr", "va_icntr", "va_ihead", "va_icont",
-				"ha_cntr", "ha_icntr", "ha_ihead", "ha_icont"
+				"va_cntr", "va_icntr", "va_ihead", "va_iheada", "va_ihcap", "va_icont",
+				"ha_cntr", "ha_icntr", "ha_ihead", "ha_iheada", "ha_ihcap", "ha_icont"
 		);
 		
 	// these types can be hidden in the content editor
@@ -350,9 +358,13 @@ class ilObjStyleSheet extends ilObject
 		"va_icntr" => "div",
 		"va_icont" => "div",
 		"va_ihead" => "div",
+		"va_iheada" => "div",
+		"va_ihcap" => "div",
 		"ha_cntr" => "div",
 		"ha_icntr" => "div",
 		"ha_icont" => "div",
+		"ha_iheada" => "div",
+		"ha_ihcap" => "div",
 		"ha_ihead" => "div"
 		);
 		
@@ -497,12 +509,16 @@ class ilObjStyleSheet extends ilObject
 			"va_cntr" => "va_cntr",
 			"va_icntr" => "va_icntr",
 			"va_ihead" => "va_ihead",
+			"va_iheada" => "va_iheada",
+			"va_ihcap" => "va_ihcap",
 			"va_icont" => "va_icont"
 			),
 		"haccordion" => array(
 			"ha_cntr" => "ha_cntr",
 			"ha_icntr" => "ha_icntr",
 			"ha_ihead" => "ha_ihead",
+			"ha_iheada" => "ha_iheada",
+			"ha_ihcap" => "ha_ihcap",
 			"ha_icont" => "ha_icont"
 			)
 		);

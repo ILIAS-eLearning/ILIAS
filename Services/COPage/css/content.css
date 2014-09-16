@@ -698,9 +698,18 @@ div.ilc_va_ihead_VAccordIHead
 	background-color: #E2EAF4;
 	text-align:left;
 	cursor: pointer;
-	background-image: url(../../../templates/default/images/accordion_arrow.png);
+	background-image: url(../../../templates/default/images/tree_col.png);
 	background-repeat: no-repeat;
 	background-position: 3px 4px;
+}
+
+div.ilc_va_iheada_VAccordIHeadActive
+{
+	background-image: url(../../../templates/default/images/tree_exp.png);
+}
+
+div.ilc_va_ihcap_VAccordIHeadCap
+{
 }
 
 div.ilc_va_ihead_VAccordIHead:hover
@@ -713,6 +722,7 @@ div.ilc_va_icont_VAccordICont
 	padding: 3px;
 	background-color: #FFFFFF;
 }
+
 
 div.ilc_ha_cntr_HAccordCntr
 {
@@ -733,9 +743,28 @@ div.ilc_ha_ihead_HAccordIHead
 	background-color: #E2EAF4;
 	text-align:left;
 	cursor: pointer;
-	background-image: url(../../../templates/default/images/haccordion_arrow.png);
+	background-image: url(../../../templates/default/images/tree_col.png);
 	background-repeat: no-repeat;
-	background-position: 3px 4px;
+	background-position: 6px 4px;
+}
+
+div.ilc_ha_iheada_HAccordIHeadActive
+{
+	background-image: url(../../../templates/default/images/tree_exp.png);
+}
+
+div.ilc_ha_ihcap_HAccordIHeadCap
+{
+	-webkit-transform:rotate(90deg);
+	-moz-transform:rotate(90deg);
+	-ms-transform: rotate(90deg);
+	transform: rotate(90deg);
+	transform-origin: 0px 0px;
+	width:1px;
+	white-space: nowrap;
+	position:relative;
+	left:5px;
+	top:20px;
 }
 
 div.ilc_ha_ihead_HAccordIHead:hover
