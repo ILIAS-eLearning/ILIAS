@@ -551,6 +551,16 @@ il.Util.addOnLoad(function () {
 	$('.preventDoubleSubmission a.submit, a.preventDoubleSubmission').preventDoubleSubmission();
 	// Used for image maps in "hot spot" questions:Modules/TestQuestionPool/templates/default/tpl.il_as_qpl_imagemap_question_output.html
 	$('area.preventDoubleSubmission').preventDoubleSubmission();
+
+	// fix positions of drop-downs to viewport
+	$('.dropdown-menu').parent().on('shown.bs.dropdown', function (e) {
+		$(this).children(".dropdown-menu").each(function() {
+			var r = il.Util.getRegion(this);
+			if (r.left < 0) {
+				$(this).removeClass("pull-right");
+			}
+		});
+	})
 });
 
 /* Rating */
