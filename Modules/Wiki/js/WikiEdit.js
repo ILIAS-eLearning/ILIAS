@@ -6,6 +6,10 @@ il.Wiki.Edit = {
 	url: '',
 	txt: {},
 
+	setTargetInfoText: function (t) {
+		$("#il_prop_cont_target_page div.help-block").html(t);
+	},
+
 	openLinkDialog: function(url, target_page) {
 		il.Wiki.Edit.url = url;
 
@@ -18,14 +22,14 @@ il.Wiki.Edit = {
 				$('#' + o.argument.el_id).html(o.responseText);
 			}
 
-			$("#il_prop_cont_target_page").next().children(".ilFormInfo").html("&nbsp;");
+			il.Wiki.Edit.setTargetInfoText("&nbsp;");
 
 			$("#ilIntLinkPanel .ilFormHeader input.submit").css("display", "none");
 
 			il.Wiki.Edit.initTextInputAutoComplete();
 
 			$('input#target_page').on('input', function() {
-				$("#il_prop_cont_target_page").next().children(".ilFormInfo").html("&nbsp;");
+				il.Wiki.Edit.setTargetInfoText("&nbsp;");
 			});
 
 			if (target_page) {
@@ -99,7 +103,7 @@ il.Wiki.Edit = {
 				// set position to be absolute, note relative (standar behaviour)
 				$("#ilIntLinkPanel ul.ui-autocomplete").css("position", "absolute");
 				if (items[0] && ($("input#target_page").val().toLowerCase() == items[0].value.toLowerCase())) {
-					$("#il_prop_cont_target_page").next().children(".ilFormInfo").html(il.Wiki.Edit.txt.page_exists);
+					il.Wiki.Edit.setTargetInfoText(il.Wiki.Edit.txt.page_exists);
 				}
 			}
 		});
@@ -108,10 +112,10 @@ il.Wiki.Edit = {
 			requestUrl: il.Wiki.Edit.url + "&cmd=insertWikiLinkAC",
 			appendTo: "#ilIntLinkPanel",
 			response: function(e, u) {
-				$("#il_prop_cont_target_page").next().children(".ilFormInfo").html(il.Wiki.Edit.txt.new_page);
+				il.Wiki.Edit.setTargetInfoText(il.Wiki.Edit.txt.new_page);
 			},
 			select: function(e, u) {
-				$("#il_prop_cont_target_page").next().children(".ilFormInfo").html(il.Wiki.Edit.txt.page_exists);
+				il.Wiki.Edit.setTargetInfoText(il.Wiki.Edit.txt.page_exists);
 			},
 			source: function( request, response ) {
 				var that = this;

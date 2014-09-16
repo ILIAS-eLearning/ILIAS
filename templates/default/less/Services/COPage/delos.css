@@ -305,3 +305,6 @@ a.nostyle:visited {
 a.nostyle:hover {
   color: #000;
 }
+#ilEditorPanel_c {
+  z-index: 3000 !important;
+}

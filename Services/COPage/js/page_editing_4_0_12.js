@@ -1125,11 +1125,11 @@ if (add_final_spacer)
 			if ($(fc).css("position") == "static") {
 				tiny_reg = YAHOO.util.Region.getRegion(tinyifr);
 				menu_reg = YAHOO.util.Region.getRegion(menu);
-				console.log(tiny_reg);
-				console.log(menu_reg);
+				//console.log(tiny_reg);
+				//console.log(menu_reg);
 				cl_reg = YAHOO.util.Dom.getClientRegion();
-				console.log(cl_reg);
-				console.log(-20 + tiny_reg.y - (menu_reg.height + menu_reg.y - cl_reg.top));
+				//console.log(cl_reg);
+				//console.log(-20 + tiny_reg.y - (menu_reg.height + menu_reg.y - cl_reg.top));
 				window.scrollTo(0, -20 + tiny_reg.y - (menu_reg.height + menu_reg.y - cl_reg.top));
 			} else {
 				diff = Math.floor($(menu).offset().top + $(menu).height()  + 20 - $(tinyifr).offset().top);
