@@ -3175,3 +3175,35 @@ $ilDB->createTable('sty_media_query', array(
 		"default" => 0
 	));
 ?>
+<#4343>
+<?php
+$ini = new ilIniFile(ILIAS_ABSOLUTE_PATH."/ilias.ini.php");
+
+if($ini->read())
+{
+	$ilSetting = new ilSetting();
+	
+	$https_header_enable = (bool) $ilSetting->get('ps_auto_https_enabled',false);
+	$https_header_name = (string) $ilSetting->get('ps_auto_https_headername',"ILIAS_HTTPS_ENABLED");
+	$https_header_value = (string) $ilSetting->get('ps_auto_https_headervalue',"1");
+
+	if(!$ini->groupExists('https'))
+	{
+		$ini->addGroup('https');
+	}
+	
+	$ini->setVariable("https","auto_https_detect_enabled", (!$https_header_enable) ? 0 : 1);
+	$ini->setVariable("https","auto_https_detect_header_name", $https_header_name);
+	$ini->setVariable("https","auto_https_detect_header_value", $https_header_value);
+
+	$ini->write();
+}
+?>
+<#4344>
+<?php
+	$ilSetting = new ilSetting();
+
+	$ilSetting->delete('ps_auto_https_enabled');
+	$ilSetting->delete('ps_auto_https_headername');
+	$ilSetting->delete('ps_auto_https_headervalue');
+?>
