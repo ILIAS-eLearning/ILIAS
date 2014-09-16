@@ -14,7 +14,7 @@ require_once("./Modules/LearningModule/classes/class.ilLMObject.php");
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @ilCtrl_Calls ilStructureObjectGUI: ilConditionHandlerInterface, ilMDEditorGUI
+* @ilCtrl_Calls ilStructureObjectGUI: ilConditionHandlerGUI, ilMDEditorGUI
 *
 * @ingroup ModulesIliasLearningModule
 */
@@ -77,9 +77,9 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 				$this->ctrl->forwardCommand($md_gui);
 				break;
 
-			case "ilconditionhandlerinterface":
+			case "ilconditionhandlergui":
 				global $ilTabs;
-				include_once './Services/AccessControl/classes/class.ilConditionHandlerInterface.php';
+				include_once './Services/AccessControl/classes/class.ilConditionHandlerGUI.php';
 
 				$this->setTabs();
 				$this->initConditionHandlerInterface();
@@ -572,9 +572,9 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 
 	function initConditionHandlerInterface()
 	{
-		include_once("./Services/AccessControl/classes/class.ilConditionHandlerInterface.php");
+		include_once("./Services/AccessControl/classes/class.ilConditionHandlerGUI.php");
 
-		$this->condHI =& new ilConditionHandlerInterface($this);
+		$this->condHI =& new ilConditionHandlerGUI($this);
 		$this->condHI->setBackButtons(array());
 		$this->condHI->setAutomaticValidation(false);
 		$this->condHI->setTargetType("st");

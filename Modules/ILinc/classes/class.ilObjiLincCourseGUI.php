@@ -822,18 +822,18 @@ class ilObjiLincCourseGUI extends ilContainerGUI
 
 		switch($next_class)
 		{
-			case "ilconditionhandlerinterface":
-				include_once './Services/AccessControl/classes/class.ilConditionHandlerInterface.php';
+			case "ilconditionhandlergui":
+				include_once './Services/AccessControl/classes/class.ilConditionHandlerGUI.php';
 
 				if($_GET['item_id'])
 				{
-					$new_gui =& new ilConditionHandlerInterface($this,(int) $_GET['item_id']);
+					$new_gui =& new ilConditionHandlerGUI($this,(int) $_GET['item_id']);
 					$this->ctrl->saveParameter($this,'item_id',$_GET['item_id']);
 					$this->ctrl->forwardCommand($new_gui);
 				}
 				else
 				{
-					$new_gui =& new ilConditionHandlerInterface($this);
+					$new_gui =& new ilConditionHandlerGUI($this);
 					$this->ctrl->forwardCommand($new_gui);
 				}
 				break;

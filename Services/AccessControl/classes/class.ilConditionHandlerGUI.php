@@ -3,16 +3,16 @@
 
 
 /**
-* class ilConditionHandlerInterface
+* class ilConditionHandlerGUI
 *
 * @author Stefan Meyer <meyer@leifos.com> 
 * @version $Id$
 * This class is aggregated in folders, groups which have a parent course object
 * Since it is something like an interface, all varirables, methods have there own name space (names start with cci) to avoid collisions
 * 
-* @ilCtrl_Calls ilConditionHandlerInterface:
+* @ilCtrl_Calls ilConditionHandlerGUI:
 */
-class ilConditionHandlerInterface
+class ilConditionHandlerGUI
 {
 	var $ctrl = null;
 
@@ -39,7 +39,7 @@ class ilConditionHandlerInterface
 	 * @param <type> $gui_obj
 	 * @param <type> $a_ref_id
 	 */
-	public function ilConditionHandlerInterface($gui_obj,$a_ref_id = null)
+	public function __construct($gui_obj,$a_ref_id = null)
 	{
 		global $lng,$tpl,$tree,$ilCtrl;
 
@@ -615,7 +615,7 @@ class ilConditionHandlerInterface
 	{
 		if(!isset($_GET['source_id']))
 		{
-			echo "class.ilConditionHandlerInterface: no source_id given";
+			echo "class.ilConditionHandlerGUI: no source_id given";
 
 			return false;
 		}

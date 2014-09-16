@@ -12,7 +12,7 @@ require_once "./Services/Container/classes/class.ilContainerGUI.php";
 *
 * @ilCtrl_Calls ilObjCourseGUI: ilCourseRegistrationGUI, ilShopPurchaseGUI, ilCourseObjectivesGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilObjCourseGroupingGUI, ilMDEditorGUI, ilInfoScreenGUI, ilLearningProgressGUI, ilPermissionGUI
-* @ilCtrl_Calls ilObjCourseGUI: ilRepositorySearchGUI, ilConditionHandlerInterface
+* @ilCtrl_Calls ilObjCourseGUI: ilRepositorySearchGUI, ilConditionHandlerGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilCourseContentGUI, ilPublicUserProfileGUI, ilMemberExportGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilObjectCustomUserFieldsGUI, ilMemberAgreementGUI, ilSessionOverviewGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilColumnGUI, ilContainerPageGUI
@@ -1598,8 +1598,8 @@ class ilObjCourseGUI extends ilContainerGUI
 												 "editInfo", get_class($this));
 				
 				$this->tabs_gui->addSubTabTarget("preconditions",
-												 $this->ctrl->getLinkTargetByClass('ilConditionHandlerInterface','listConditions'),
-												 "", "ilConditionHandlerInterface");
+												 $this->ctrl->getLinkTargetByClass('ilConditionHandlerGUI','listConditions'),
+												 "", "ilConditionHandlerGUI");
 				$this->tabs_gui->addSubTabTarget("crs_start_objects",
 												 $this->ctrl->getLinkTarget($this,'listStructure'),
 												 "listStructure", get_class($this));
@@ -3348,7 +3348,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 		if ($ilAccess->checkAccess('write','',$this->ref_id))
 		{
-			$force_active = (strtolower($_GET["cmdClass"]) == "ilconditionhandlerinterface"
+			$force_active = (strtolower($_GET["cmdClass"]) == "ilconditionhandlergui"
 				&& $_GET["item_id"] == "")
 				? true
 				: false;
@@ -4404,12 +4404,12 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->viewObject();
 				break;
 
-			case "ilconditionhandlerinterface":
-				include_once './Services/AccessControl/classes/class.ilConditionHandlerInterface.php';				
+			case "ilconditionhandlergui":
+				include_once './Services/AccessControl/classes/class.ilConditionHandlerGUI.php';				
 				// preconditions for whole course				
 				$this->setSubTabs("properties");
 				$this->tabs_gui->setTabActive('settings');
-				$new_gui =& new ilConditionHandlerInterface($this);
+				$new_gui =& new ilConditionHandlerGUI($this);
 				$this->ctrl->forwardCommand($new_gui);				
 				break;
 
@@ -4790,7 +4790,7 @@ class ilObjCourseGUI extends ilContainerGUI
 	// STATIC
 	function _forwards()
 	{
-		return array("ilCourseRegisterGUI",'ilConditionHandlerInterface');
+		return array("ilCourseRegisterGUI",'ilConditionHandlerGUI');
 	}
 
 

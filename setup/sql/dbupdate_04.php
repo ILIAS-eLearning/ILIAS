@@ -3207,3 +3207,7 @@ if($ini->read())
 	$ilSetting->delete('ps_auto_https_headername');
 	$ilSetting->delete('ps_auto_https_headervalue');
 ?>
+<#4345>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

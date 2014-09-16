@@ -7,7 +7,7 @@
 * @author Stefan Meyer <meyer@leifos.com> 
 * @version $Id: class.ilCourseItemAdministrationGUI.php 33406 2012-02-28 16:26:59Z akill $
 * 
-* @ilCtrl_Calls ilObjectActivationGUI: ilConditionHandlerInterface 
+* @ilCtrl_Calls ilObjectActivationGUI: ilConditionHandlerGUI
 */
 class ilObjectActivationGUI
 {
@@ -57,11 +57,11 @@ class ilObjectActivationGUI
 		
 		switch($this->ctrl->getNextClass($this))
 		{
-			case 'ilconditionhandlerinterface':				
+			case 'ilconditionhandlergui':				
 				// preconditions for single course items
-				include_once './Services/AccessControl/classes/class.ilConditionHandlerInterface.php';
+				include_once './Services/AccessControl/classes/class.ilConditionHandlerGUI.php';
 				$this->ctrl->saveParameter($this,'item_id',$_GET['item_id']);
-				$new_gui =& new ilConditionHandlerInterface($this,(int) $_GET['item_id']);
+				$new_gui =& new ilConditionHandlerGUI($this,(int) $_GET['item_id']);
 				$this->ctrl->forwardCommand($new_gui);
 				$this->tabs_gui->setTabActive('preconditions');
 				break;
@@ -329,10 +329,10 @@ class ilObjectActivationGUI
 								   $this->ctrl->getLinkTarget($this,'edit'),
 								   "edit", get_class($this));
 		
-		$this->ctrl->setParameterByClass('ilconditionhandlerinterface','item_id',$this->item_id);
+		$this->ctrl->setParameterByClass('ilconditionhandlergui','item_id',$this->item_id);
 		$this->tabs_gui->addTarget("preconditions",
-								   $this->ctrl->getLinkTargetByClass('ilConditionHandlerInterface','listConditions'),
-								   "", "ilConditionHandlerInterface");
+								   $this->ctrl->getLinkTargetByClass('ilConditionHandlerGUI','listConditions'),
+								   "", "ilConditionHandlerGUI");
 		return true;
 	}
 } 
