@@ -9,6 +9,11 @@
 class ilRuntime
 {
 	/**
+	 * @var self
+	 */
+	private static $instance = null;
+
+	/**
 	 * The runtime is a constant state during one request, so please use the public static getInstance() to instantiate the runtime
 	 */
 	private function __construct(){}
@@ -18,7 +23,12 @@ class ilRuntime
 	 */
 	public static function getInstance()
 	{
-		return new self();
+		if(self::$instance === null)
+		{
+			self::$instance = new self();
+		}
+		
+		return self::$instance;
 	}
 
 	/**
