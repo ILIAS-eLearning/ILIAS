@@ -1,6 +1,7 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+require_once 'Services/Environment/classes/class.ilRuntime.php';
 
 /**
 * Error Handling & global info handling
@@ -59,7 +60,12 @@ class ilErrorHandling extends PEAR
 		$this->MESSAGE	 = 3;
 
 		$this->error_obj = false;
-		
+
+		// Runtime errors currently only handled for HHVM
+		if(ilRuntime::getInstance()->isHHVM())
+		{
+			set_error_handler(array($this, 'handleRuntimeErrors'));
+		}
 		set_exception_handler(array($this, 'handleUncaughtException'));
 	}
 
@@ -259,5 +265,79 @@ class ilErrorHandling extends PEAR
 		$this->raiseError($error,$this->WARNING);
 	}
 
+	/**
+	 * We should enhance the error reporting in future releases (funding required).
+	 * Idea: We should convert php errors to exceptions and tweak the exception handling (already enhanced by smeyer in former releases)
+	 * We should implement handlers depending on the context (web/html, soap/xml, rest/json, cli/plain text, ...)
+	 * 
+	 * @param int $a_error_code
+	 * @param string $a_error_message
+	 * @param string $a_error_file
+	 * @param int $a_error_line
+	 * @return mixed The error handler must return FALSE to populate
+	 */
+	public function handleRuntimeErrors($a_error_code, $a_error_message, $a_error_file, $a_error_line)
+	{
+		if(ilRuntime::getInstance()->getReportedErrorLevels() & $a_error_code)
+		{
+			$backtrace_array = $this->formatBacktraceArray(debug_backtrace());
+			$error_code      = $this->translateErrorCode($a_error_code);
+
+			if(ilRuntime::getInstance()->shouldLogErrors())
+			{
+				error_log($error_code. ': ' . $a_error_message . ' in '.$a_error_file . ' on line ' . $a_error_line . PHP_EOL . implode(PHP_EOL, $backtrace_array));
+			}
+
+			if(ilRuntime::getInstance()->shouldDisplayErrors())
+			{
+				print '<br /><b>' . $error_code . '</b>: ' . $a_error_message . ' in <b>'.$a_error_file . '</b> on line <b>' . $a_error_line . '</b><br/>' . implode('<br />', $backtrace_array);
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * @param array $a_backtrace
+	 * @return array
+	 */
+	protected function formatBacktraceArray(array $a_backtrace)
+	{
+		$stack = array();
+		$i     = 1;
+
+		unset($a_backtrace[0]); // remove first call from stack trace
+		foreach($a_backtrace as $item)
+		{
+			$stack_line = "#$i " . $item['file'] . "(" . $item['line'] . "): ";
+			if(isset($item['class']))
+			{
+				$stack_line .= $item['class'] . "->";
+			}
+			$stack_line .= $item['function'] . "()";
+			array_push($stack, $stack_line);
+			$i++;
+		}
+
+		return $stack;
+	}
+
+	/**
+	 * Translates an integer error code to the corresponding error string
+	 * @param int $error_code
+	 * @return string
+	 */
+	protected function translateErrorCode($error_code)
+	{
+		$constants = get_defined_constants(true);
+		foreach($constants['Core'] as $constant => $value)
+		{
+			if(substr($constant, 0, 2) == 'E_' && $value == $error_code)
+			{
+				return $constant;
+			}
+		}
+
+		return 'E_UNKNOWN';
+	}
 } // END class.ilErrorHandling
 ?>
