@@ -6275,6 +6275,10 @@ span.ilAlert {
   color: #262626;
   background-color: #f5f5f5;
 }
+/* BS tables */
+.table {
+  margin-bottom: 0;
+}
 /* ILIAS part candidates */
 html,
 body {
