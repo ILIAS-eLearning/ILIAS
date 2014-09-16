@@ -626,4 +626,3 @@ abstract class ilRegistrationGUI
 	}
 }
 ?>
-
