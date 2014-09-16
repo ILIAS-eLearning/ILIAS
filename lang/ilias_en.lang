@@ -14756,3 +14756,5 @@ style#:#sty_sure_del_mqueries#:#Do you really want to delete this media query an
 style#:#sty_custom#:#Custom
 style#:#sty_custom_par#:#Custom Parameters
 style#:#sty_custom_par_info#:#Add custom CSS parameters using format "parameter: value".
+style#:#sty_transform#:#Transform
+style#:#sty_transform_origin#:#Transform-Origin
