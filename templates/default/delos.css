@@ -6436,6 +6436,9 @@ body#tinymce,
 body.mceContentBody {
   height: auto;
 }
+body#tinymce {
+  background-color: #ffffff;
+}
 .ilHidden {
   visibility: hidden;
 }
