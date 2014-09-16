@@ -6,7 +6,7 @@
  * @author  Michael Jansen <mjansen@databay.de>
  * @package Services/Environment
  */
-class ilRuntime
+final class ilRuntime
 {
 	/**
 	 * @var self
@@ -27,7 +27,7 @@ class ilRuntime
 		{
 			self::$instance = new self();
 		}
-		
+
 		return self::$instance;
 	}
 
