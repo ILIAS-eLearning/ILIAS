@@ -36,6 +36,25 @@ abstract class ilAuthBase
 	// TODO: Find another solution
 	protected $sub_status = null;
 	
+	
+	/**
+	 * Get sub status
+	 * @return type
+	 */
+	public function getSubStatus()
+	{
+		return $this->sub_status;
+	}
+	
+	/**
+	 * Set sub status
+	 * @param type $a_sub_status
+	 */
+	public function setSubStatus($a_sub_status)
+	{
+		$this->sub_status = $a_sub_status;
+	}
+	
 	/**
 	 * Returns true, if the current auth mode allows redirects to e.g 
 	 * the login screen, public section ... 
