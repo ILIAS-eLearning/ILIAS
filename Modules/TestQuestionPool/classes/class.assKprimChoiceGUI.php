@@ -188,12 +188,12 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
 		
 		// points
 		$points = new ilNumberInputGUI($this->lng->txt('points'), 'points');
-		$points->setValue($this->object->getPoints());
 		$points->setRequired(true);
 		$points->setSize(3);
-		$points->setDecimals(true);
+		$points->allowDecimals(true);
 		$points->setMinValue(0);
 		$points->setMinvalueShouldBeGreater(true);
+		$points->setValue($this->object->getPoints());
 		$form->addItem($points);
 		
 		// score partial solution
