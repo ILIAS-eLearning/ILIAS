@@ -64,7 +64,10 @@ class ilErrorHandling extends PEAR
 		// Runtime errors currently only handled for HHVM
 		if(ilRuntime::getInstance()->isHHVM())
 		{
-			set_error_handler(array($this, 'handleRuntimeErrors'));
+			set_error_handler(
+				array($this, 'handleRuntimeErrors'),
+				ilRuntime::getInstance()->getReportedErrorLevels()
+			);
 		}
 		set_exception_handler(array($this, 'handleUncaughtException'));
 	}
@@ -278,21 +281,19 @@ class ilErrorHandling extends PEAR
 	 */
 	public function handleRuntimeErrors($a_error_code, $a_error_message, $a_error_file, $a_error_line)
 	{
-		if(ilRuntime::getInstance()->getReportedErrorLevels() & $a_error_code)
+		$backtrace_array = $this->formatBacktraceArray(debug_backtrace());
+		$error_code      = $this->translateErrorCode($a_error_code);
+
+		if(ilRuntime::getInstance()->shouldLogErrors())
 		{
-			$backtrace_array = $this->formatBacktraceArray(debug_backtrace());
-			$error_code      = $this->translateErrorCode($a_error_code);
-
-			if(ilRuntime::getInstance()->shouldLogErrors())
-			{
-				error_log($error_code. ': ' . $a_error_message . ' in '.$a_error_file . ' on line ' . $a_error_line . PHP_EOL . implode(PHP_EOL, $backtrace_array));
-			}
-
-			if(ilRuntime::getInstance()->shouldDisplayErrors())
-			{
-				print '<br /><b>' . $error_code . '</b>: ' . $a_error_message . ' in <b>'.$a_error_file . '</b> on line <b>' . $a_error_line . '</b><br/>' . implode('<br />', $backtrace_array);
-			}
+			error_log($error_code . ': ' . $a_error_message . ' in '.$a_error_file . ' on line ' . $a_error_line . PHP_EOL . implode(PHP_EOL, $backtrace_array));
 		}
+
+		if(ilRuntime::getInstance()->shouldDisplayErrors())
+		{
+			print '<br /><b>' . $error_code . '</b>: ' . $a_error_message . ' in <b>'.$a_error_file . '</b> on line <b>' . $a_error_line . '</b><br/>' . implode('<br />', $backtrace_array);
+		}
+
 		return true;
 	}
 
