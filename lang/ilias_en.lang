@@ -14743,6 +14743,7 @@ sess#:#sess_users_already_assigned#:#The user is already registered for this ses
 sess#:#sess_users_removed_from_list#:#The selected users have been removed from the waiting list.
 sess#:#sess_msg_applicants_assigned#:#Applicant(s) registered for session.
 sess#:#sess_msg_applicants_removed#:#Applicant(s) removed from list.
+sess#:#sess_registered_confirm#:#The registration requires a confirmation of an administrator. You will be notified after the registration process is completed.
 style#:#sty_switch#:#Switch
 style#:#sty_default#:#Default
 style#:#sty_media_queries#:#Media Queries
@@ -14756,5 +14757,8 @@ style#:#sty_sure_del_mqueries#:#Do you really want to delete this media query an
 style#:#sty_custom#:#Custom
 style#:#sty_custom_par#:#Custom Parameters
 style#:#sty_custom_par_info#:#Add custom CSS parameters using format "parameter: value".
+sess#:#sess_reg_max_users_exceeded#:#A registration is not possible, since the maximum number of users id exceeded.
+sess#:#sess_reg_max_users_exceeded_wl#:#The maximum number of users for this session appointment is exceeded.
+sess#:#sess_reg_added_to_wl#:#You have been added to the waiting list.
 style#:#sty_transform#:#Transform
 style#:#sty_transform_origin#:#Transform-Origin

@@ -222,7 +222,7 @@ class ilAuthContainerSOAP extends Auth_Container
 //echo "6"; exit;
 						
 						$a_auth->status = AUTH_SOAP_NO_ILIAS_USER_BUT_EMAIL;
-						$a_auth->sub_status = AUTH_WRONG_LOGIN;
+						$a_auth->setSubStatus(AUTH_WRONG_LOGIN);
 						$a_auth->logout();
 						return false;
 					}

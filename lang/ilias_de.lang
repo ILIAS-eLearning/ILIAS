@@ -14738,3 +14738,7 @@ sess#:#sess_users_already_assigned#:#Die Benutzer sind bereits für die Sitzung 
 sess#:#sess_users_removed_from_list#:#Die ausgewählten Benutzer wurden aus der Warteliste ausgetragen.
 sess#:#sess_msg_applicants_assigned#:#Der Benutzer wurde für den Sitzungstermin angemeldet.
 sess#:#sess_msg_applicants_removed#:#Antrag abgelehnt und aus der Liste entfernt.
+sess#:#sess_registered_confirm#:#Sie wurden für den Sitzungstermin angemeldet. Allerdings muss ihr Antrag noch von einem Administrator bestätigt werden. Sie werden benachrichtigt sobald dies erfolgt ist.
+sess#:#sess_reg_max_users_exceeded#:#Eine Anmeldung ist nicht möglich, da die maximale Teilnehmeranzahl für diesen Termin überschritten wurde.
+sess#:#sess_reg_max_users_exceeded_wl#:#Die maximale Teilnehmeranzahl für diesen Sitzungstermin ist überschritten. Sie können sich jedoch in die Warteliste eintragen.
+sess#:#sess_reg_added_to_wl#:#Sie sind in die Warteliste aufgenommen worden.
