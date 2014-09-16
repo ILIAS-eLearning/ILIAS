@@ -810,6 +810,43 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
 		return $clone->id;
 	}
 
+	public function createNewOriginalFromThisDuplicate($targetParentId, $targetQuestionTitle = "")
+	{
+		if ($this->id <= 0)
+		{
+			// The question has not been saved. It cannot be duplicated
+			return;
+		}
+
+		include_once ("./Modules/TestQuestionPool/classes/class.assQuestion.php");
+
+		$sourceQuestionId = $this->id;
+		$sourceParentId = $this->getObjId();
+
+		// duplicate the question in database
+		$clone = $this;
+		$clone->id = -1;
+
+		$clone->setObjId($targetParentId);
+
+		if ($targetQuestionTitle)
+		{
+			$clone->setTitle($targetQuestionTitle);
+		}
+
+		$clone->saveToDb();
+		// copy question page content
+		$clone->copyPageOfQuestion($sourceQuestionId);
+		// copy XHTML media objects
+		$clone->copyXHTMLMediaObjectsOfQuestion($sourceQuestionId);
+		// duplicate the image
+		$clone->cloneAnswerImages($sourceQuestionId, $sourceParentId, $clone->getId(), $clone->getObjId());
+
+		$clone->onCopy($sourceParentId, $sourceQuestionId, $targetParentId, $clone->getId());
+
+		return $clone->id;
+	}
+
 	/**
 	 * Copies an assMultipleChoice object
 	 */
