@@ -1188,7 +1188,7 @@ class ilStartUpGUI
 		$email_user = ilObjUser::_getLocalAccountsForEmail($valid["email"]);
 
 
-		if ($ilAuth->sub_status == AUTH_WRONG_LOGIN)
+		if ($ilAuth->getSubStatus() == AUTH_WRONG_LOGIN)
 		{
 			ilUtil::sendFailure($lng->txt("err_wrong_login"));
 		}
