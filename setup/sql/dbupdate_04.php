@@ -3211,3 +3211,15 @@ if($ini->read())
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#4346>
+<?php
+if( !$ilDB->tableColumnExists('tst_active', 'objective_container') )
+{
+	$ilDB->addTableColumn('tst_active', 'objective_container', array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => false,
+		'default' => null
+	));
+}
+?>
