@@ -96,7 +96,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		$this->ABO_DISABLED = 0;
 		$this->SHOW_MEMBERS_ENABLED = 1;
 		$this->SHOW_MEMBERS_DISABLED = 0;
-		$this->status_dt = self::STATUS_DETERMINATION_LP;
+		$this->setStatusDetermination(self::STATUS_DETERMINATION_LP);
 
 		$this->type = "crs";
 
@@ -2039,7 +2039,19 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	 */
 	public function setStatusDetermination($a_value)
 	{
-		$this->status_dt = (int)$a_value;
+		$a_value = (int)$a_value;
+		
+		// #13905
+		if($a_value == self::STATUS_DETERMINATION_LP)				
+		{
+			include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
+			if(!ilObjUserTracking::_enabledLearningProgress())
+			{			
+				$a_value = self::STATUS_DETERMINATION_MANUAL;
+			}
+		}
+		
+		$this->status_dt = $a_value;
 	}
 	
 	/**
