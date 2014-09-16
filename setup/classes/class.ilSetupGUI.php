@@ -1054,6 +1054,29 @@ echo "<br>+".$client_id;
 		$si->setRequired(true);
 		$this->form->addItem($si);
 
+		// https settings
+		$sh = new ilFormSectionHeaderGUI();
+		$sh->setTitle($lng->txt("https_settings"));
+		$this->form->addItem($sh);
+
+		$check = new ilCheckboxInputGUI($lng->txt('ps_auto_https'),'auto_https_detect_enabled');
+		$check->setOptionTitle($lng->txt('ps_auto_https_description'));
+		$check->setValue(1);
+
+		$text = new ilTextInputGUI($lng->txt('ps_auto_https_header_name'),'auto_https_detect_header_name');
+		$text->setSize(24);
+		$text->setMaxLength(64);
+		$text->setRequired(true);
+		$check->addSubItem($text);
+
+		$text = new ilTextInputGUI($lng->txt('ps_auto_https_header_value'),'auto_https_detect_header_value');
+		$text->setSize(24);
+		$text->setMaxLength(64);
+		$text->setRequired(true);
+		$check->addSubItem($text);
+
+		$this->form->addItem($check);
+
 		// required 3rd party tools
 		$sh = new ilFormSectionHeaderGUI();
 		$sh->setTitle($lng->txt("3rd_party_software_req"));
@@ -1187,6 +1210,11 @@ echo "<br>+".$client_id;
 			$this->setup->ini->readVariable("log","file");
 		$values["chk_log_status"] = !$this->setup->ini->readVariable("log","enabled");
 		$values["time_zone"] = $this->setup->ini->readVariable("server", "timezone");
+		
+		// https settings
+		$values["auto_https_detect_enabled"] = $this->setup->ini->readVariable("https", "auto_https_detect_enabled");
+		$values["auto_https_detect_header_name"] = $this->setup->ini->readVariable("https", "auto_https_detect_header_name");
+		$values["auto_https_detect_header_value"] = $this->setup->ini->readVariable("https", "auto_https_detect_header_value");
 
 		$this->form->setValuesByArray($values);
 	}

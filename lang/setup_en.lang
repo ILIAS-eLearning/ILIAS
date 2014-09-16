@@ -603,3 +603,8 @@ global_cache_install_info_0#:#Built in
 global_cache_install_info_1#:#http://xcache.lighttpd.net
 global_cache_install_info_2#:#http://php.net/manual/de/memcached.installation.php
 global_cache_install_info_3#:#http://php.net/manual/de/apc.installation.php
+ps_auto_https_description#:#If enabled, ILIAS tries to detect the HTTPs Status by analysing the header value specified below.
+ps_auto_https_header_name#:#Header Name
+ps_auto_https_header_value#:#Header Value
+ps_auto_https#:#Autodetect HTTPS
+https_settings#:#HTTPS Settings

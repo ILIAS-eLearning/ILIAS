@@ -466,11 +466,9 @@ class ilInitialisation
 		$cookie_path .= (!preg_match("/[\/|\\\\]$/", $cookie_path)) ? "/" : "";
 		
 		if($cookie_path == "\\") $cookie_path = '/';
-
-		//include_once './Services/Http/classes/class.ilHTTPS.php';
-		//$cookie_secure = ilHTTPS::getInstance()->isDetected();
-		// use of ilHTTPS not possible at this point (ilSetting not available but used in constructor)
-		$cookie_secure = isset($_SERVER["HTTPS"]) && strtolower($_SERVER["HTTPS"]) == 'on';
+		
+		include_once './Services/Http/classes/class.ilHTTPS.php';
+		$cookie_secure = ilHTTPS::getInstance()->isDetected();
 		
 		define('IL_COOKIE_EXPIRE',0);
 		define('IL_COOKIE_PATH',$cookie_path);
@@ -991,12 +989,9 @@ class ilInitialisation
 		}
 					
 		self::removeUnsafeCharacters();
-				
-		self::setCookieParams();
-		
-		
-		self::initIliasIniFile();		
-		
+
+		self::initIliasIniFile();
+
 		
 		// deprecated
 		self::initGlobal("ilias", "ILIAS", "./Services/Init/classes/class.ilias.php");				
@@ -1083,6 +1078,8 @@ class ilInitialisation
 
 		self::initGlobal("ilCtrl", "ilCtrl",
 				"./Services/UICore/classes/class.ilCtrl.php");
+
+		self::setCookieParams();
 	}
 	
 	/**

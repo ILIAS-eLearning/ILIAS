@@ -50,11 +50,8 @@ class ilSecuritySettings
 	private $db;
 	private $settings;
 
-	private $https_header_enable;
-	private $https_header_name;
-	private $https_header_value;
 	private $https_enable;
-
+	
 	const DEFAULT_PASSWORD_CHARS_AND_NUMBERS_ENABLED	= true;
 	const DEFAULT_PASSWORD_SPECIAL_CHARS_ENABLED		= false;
 	const DEFAULT_PASSWORD_MIN_LENGTH					= 8;
@@ -248,86 +245,25 @@ class ilSecuritySettings
 	}
 
 	/**
-	 * write access to enable automatic https detection
-	 *
-	 * @param boolean $varname
-	 *
-	 */
-	public function setAutomaticHTTPSEnabled($varname)
-	{
-	    $this->https_header_enable = $varname;
-	}
-
-	/**
-	 * set header name for automatic https detection
-	 *
-	 * @param string $varname
-	 */
-	public function setAutomaticHTTPSHeaderName($varname)
-	{
-	    $this->https_header_name = $varname;
-	}
-
-	/**
-	 * set header value for automatic https detection
-	 *
-	 * @param string $varname
-	 */
-	public function setAutomaticHTTPSHeaderValue($varname)
-	{
-	    $this->https_header_value = $varname;
-	}
-
-	/**
-	 * read access to header name for automatic https detection
-	 *
-	 * @return string  header name
-	 */
-	public function getAutomaticHTTPSHeaderName()
-	{
-	    return $this->https_header_name;
-	}
-
-	/**
-	 * read access to header value for automatic https detection
-	 *
-	 * @return string header value
-	 */
-	public function getAutomaticHTTPSHeaderValue()
-	{
-	    return $this->https_header_value;
-	}
-
-    /**
-     * read access to switch if automatic https detection is enabled
-     *
-     * @return boolean  true, if detection is enabled, false otherwise
-     */
-	public function isAutomaticHTTPSEnabled()
-	{
-	    return $this->https_header_enable;
-	}
-
-	/**
 	 * Enable https for certain scripts
 	 *
 	 * @param boolean $value
 	 */
-    public function setHTTPSEnabled ($value)
-    {
-        $this->https_enable = $value;
-    }
+	public function setHTTPSEnabled ($value)
+	{
+		$this->https_enable = $value;
+	}
 
-    /**
-     * read access to https enabled property
-     *
-     * @return boolean  true, if enabled, false otherwise
-     */
-    public function isHTTPSEnabled ()
-    {
-        return $this->https_enable;
-    }
-
+	/**
+	 * read access to https enabled property
+	 *
+	 * @return boolean  true, if enabled, false otherwise
+	 */
+	public function isHTTPSEnabled ()
+	{
+		return $this->https_enable;
+	}
+	
 	/**
 	 * set if the passwords have to be changed by users
 	 * on first login
@@ -396,11 +332,8 @@ class ilSecuritySettings
 	 */
 	public function save()
 	{
-	 	$this->settings->set('ps_auto_https_enabled',(bool) $this->isAutomaticHTTPSEnabled());
-	 	$this->settings->set('ps_auto_https_headername',(string) $this->getAutomaticHTTPSHeaderName());
-	 	$this->settings->set('ps_auto_https_headervalue',(string) $this->getAutomaticHTTPSHeaderValue());
-	 	$this->settings->set('https',(string) $this->isHTTPSEnabled());
-
+		$this->settings->set('https',(int) $this->isHTTPSEnabled());
+		
 		$this->settings->set('ps_password_chars_and_numbers_enabled',(bool) $this->isPasswordCharsAndNumbersEnabled());
 		$this->settings->set('ps_password_special_chars_enabled',(bool) $this->isPasswordSpecialCharsEnabled());
 		$this->settings->set('ps_password_min_length',(int) $this->getPasswordMinLength());
@@ -435,9 +368,6 @@ class ilSecuritySettings
 		$row = $res->fetchRow(DB_FETCHMODE_ASSOC);
 		$this->ref_id = $row["ref_id"];
 
-    	$this->https_header_enable = (bool) $this->settings->get('ps_auto_https_enabled',false);
-		$this->https_header_name = (string) $this->settings->get('ps_auto_https_headername',"ILIAS_HTTPS_ENABLED");
-		$this->https_header_value = (string) $this->settings->get('ps_auto_https_headervalue',"1");
 		$this->https_enable = (boolean) $this->settings->get('https', false);
 
 		$this->password_chars_and_numbers_enabled = (bool) $this->settings->get('ps_password_chars_and_numbers_enabled', self::DEFAULT_PASSWORD_CHARS_AND_NUMBERS_ENABLED);
@@ -468,21 +398,12 @@ class ilSecuritySettings
 		if ($a_form)
 		{
 			include_once "Services/PrivacySecurity/classes/class.ilObjPrivacySecurityGUI.php";		
-		}		
-		
-		// handled in form itself
-	    if ($this->isAutomaticHTTPSEnabled() &&
-	        (strlen($this->getAutomaticHTTPSHeaderName()) == 0 ||
-	         strlen($this->getAutomaticHTTPSHeaderValue()) == 0)
-	        )
-        {
-	        return ilSecuritySettings::SECURITY_SETTINGS_ERR_CODE_AUTO_HTTPS;
-	    }
-		
-        include_once './Services/Http/classes/class.ilHTTPS.php';
+		}
 
-	    if ($this->isHTTPSEnabled())
-	    {
+		include_once './Services/Http/classes/class.ilHTTPS.php';
+
+		if ($this->isHTTPSEnabled())
+		{
 			if(!ilHTTPS::_checkHTTPS())
 			{
 				$code = ilSecuritySettings::$SECURITY_SETTINGS_ERR_CODE_HTTPS_NOT_AVAILABLE;
@@ -491,27 +412,13 @@ class ilSecuritySettings
 					return $code;
 				}
 				else
-				{					
+				{
 					$a_form->getItemByPostVar('https_enabled')
-						->setAlert(ilObjPrivacySecurityGUI::getErrorMessage($code));
+						   ->setAlert(ilObjPrivacySecurityGUI::getErrorMessage($code));
 				}
 			}
-	    } 
-		/*
-		elseif(!ilHTTPS::_checkHTTP())
-		{
-			$code = ilSecuritySettings::$SECURITY_SETTINGS_ERR_CODE_HTTP_NOT_AVAILABLE;
-			if(!$a_form)
-			{
-				return $code;
-			}
-			else
-			{		
-				$a_form->getItemByPostVar('https_enabled')
-						->setAlert(ilObjPrivacySecurityGUI::getErrorMessage($code));
-			}
 		}
-		*/
+		
 		if( $this->getPasswordMinLength() < 0 )
 		{
 			$code = self::SECURITY_SETTINGS_ERR_CODE_INVALID_PASSWORD_MIN_LENGTH;

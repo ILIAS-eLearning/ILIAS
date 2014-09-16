@@ -2107,11 +2107,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		{
 			$security = ilSecuritySettings::_getInstance();
 			
-			// auto https detection settings
-			$security->setAutomaticHTTPSEnabled((int) $_POST["auto_https_detect_enabled"]);
-			$security->setAutomaticHTTPSHeaderName(ilUtil::stripSlashes($_POST["auto_https_detect_header_name"]));
-			$security->setAutomaticHTTPSHeaderValue(ilUtil::stripSlashes($_POST["auto_https_detect_header_value"]));
-
 			// ilias https handling settings
 			$security->setHTTPSEnabled($_POST["https_enabled"]);
 			
@@ -2144,27 +2139,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$form->setTitle($lng->txt("adm_https"));
 		$form->setFormAction($ilCtrl->getFormAction($this, 'saveHTTPS'));
 		
-		$check = new ilCheckboxInputGUI($lng->txt('ps_auto_https'),'auto_https_detect_enabled');
-		$check->setOptionTitle($lng->txt('ps_auto_https_description'));
-		$check->setChecked($security->isAutomaticHTTPSEnabled() ? 1 : 0);
-		$check->setValue(1);
-
-			$text = new ilTextInputGUI($lng->txt('ps_auto_https_header_name'),'auto_https_detect_header_name');
-			$text->setValue($security->getAutomaticHTTPSHeaderName());
-			$text->setSize(24);
-			$text->setMaxLength(64);
-			$text->setRequired(true);
-			$check->addSubItem($text);
-
-			$text = new ilTextInputGUI($lng->txt('ps_auto_https_header_value'),'auto_https_detect_header_value');
-			$text->setValue($security->getAutomaticHTTPSHeaderValue());
-			$text->setSize(24);
-			$text->setMaxLength(64);
-			$text->setRequired(true);
-			$check->addSubItem($text);
-
-		$form->addItem($check);
-
 		$check2 = new ilCheckboxInputGUI($lng->txt('activate_https'),'https_enabled');
 		$check2->setChecked($security->isHTTPSEnabled() ? 1 : 0);
 		$check2->setValue(1);
@@ -2186,16 +2160,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 				$security = ilSecuritySettings::_getInstance();
 								
 				$subitems = null;
-				if($security->isAutomaticHTTPSEnabled())
-				{
-					$subitems = array(
-						'ps_auto_https_header_name' => $security->getAutomaticHTTPSHeaderName(),
-						'ps_auto_https_header_value' =>	$security->getAutomaticHTTPSHeaderValue()
-					);
-				}				
-				$fields = array('ps_auto_https' => 
-					array($security->isAutomaticHTTPSEnabled(), ilAdministrationSettingsFormHandler::VALUE_BOOL, $subitems)
-				);
 				
 				$fields['activate_https'] = 
 					array($security->isHTTPSEnabled(), ilAdministrationSettingsFormHandler::VALUE_BOOL);

@@ -1250,6 +1250,10 @@ class ilSetup extends PEAR
 		$this->ini->setVariable("log", "file", $log_file);
 		$this->ini->setVariable("log", "enabled", ($a_formdata["chk_log_status"]) ? "0" : 1);
 
+		$this->ini->setVariable("https","auto_https_detect_enabled", ($a_formdata["auto_https_detect_enabled"]) ? 1 : 0);
+		$this->ini->setVariable("https","auto_https_detect_header_name", $a_formdata["auto_https_detect_header_name"]);
+		$this->ini->setVariable("https","auto_https_detect_header_value", $a_formdata["auto_https_detect_header_value"]);
+
 		if (!$this->ini->write())
 		{
 			$this->error = get_class($this).": ".$this->ini->getError();
@@ -1307,6 +1311,10 @@ class ilSetup extends PEAR
 		$this->ini->setVariable("log", "file", $log_file);
 		$this->ini->setVariable("log", "enabled", ($a_formdata["chk_log_status"]) ? "0" : 1);
 		$this->ini->setVariable("server","timezone",preg_replace("/\\\\/","/",ilUtil::stripSlashes($a_formdata["time_zone"])));
+		
+		$this->ini->setVariable("https","auto_https_detect_enabled",($a_formdata["auto_https_detect_enabled"]) ? 1 : 0);
+		$this->ini->setVariable("https","auto_https_detect_header_name", $a_formdata["auto_https_detect_header_name"]);
+		$this->ini->setVariable("https","auto_https_detect_header_value", $a_formdata["auto_https_detect_header_value"]);
 
 		if (!$this->ini->write())
 		{

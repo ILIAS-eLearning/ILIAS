@@ -56,3 +56,8 @@ zip =
 unzip = 
 java = 
 htmldoc = 
+
+[https]
+auto_https_detect_enabled = 0
+auto_https_detect_header_name = 
+auto_https_detect_header_value =

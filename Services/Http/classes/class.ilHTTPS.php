@@ -25,19 +25,20 @@ class ilHTTPS
 	 * @deprected use <code>ilHTTPS::getInstance()</code>
 	 * @return 
 	 */
-	function ilHTTPS()
+	function __construct()
 	{
-		global $ilSetting;
+		global $ilSetting, $ilIliasIniFile;
 
-		if($this->enabled = (bool) $ilSetting->get('https'))
+		if($this->enabled = (bool)$ilSetting->get('https'))
 		{
 			$this->__readProtectedScripts();
 			$this->__readProtectedClasses();
 		}
-		if ($this->automaticHTTPSDetectionEnabled = (bool) $ilSetting->get("ps_auto_https_enabled"))
+
+		if ($this->automaticHTTPSDetectionEnabled = (bool)$ilIliasIniFile->readVariable('https', "auto_https_detect_enabled"))
 		{
-		    $this->headerName = $ilSetting->get("ps_auto_https_headername");
-		    $this->headerValue = $ilSetting->get("ps_auto_https_headervalue");
+		    $this->headerName = $ilIliasIniFile->readVariable('https', "auto_https_detect_header_name");
+		    $this->headerValue = $ilIliasIniFile->readVariable('https', "auto_https_detect_header_value");
 		}
 	}
 	
