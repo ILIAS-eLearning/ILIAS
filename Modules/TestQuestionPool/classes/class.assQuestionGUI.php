@@ -175,9 +175,9 @@ abstract class assQuestionGUI
 	 * Evaluates a posted edit form and writes the form data in the question object
 	 *
 	 * @return integer A positive value, if one of the required fields wasn't set, else 0
-	 * @access private
+	 * @access protected
 	 */
-	function writePostData()
+	protected function writePostData()
 	{
 	}
 
