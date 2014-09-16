@@ -15,7 +15,7 @@
 <div class="btn-group">
 <!-- Important: The next a-tag had a this.blur(); in the onclick event before. Please do not add it again, see bug #8723 -->
 <button type="button" {ACCKEY} class="btn btn-default dropdown-toggle btn-sm" data-toggle="dropdown" data-container="body">
-{TXT_SEL_TOP} <!-- BEGIN top_img --><span class="caret" alt="{ALT_SEL_TOP}"></span><!-- END top_img -->
+<span id="ilAdvSelListAnchorText_{ID}">{TXT_SEL_TOP}</span> <!-- BEGIN top_img --><span class="caret" alt="{ALT_SEL_TOP}"></span><!-- END top_img -->
 </button>
 <!-- BEGIN asynch_request -->
 <img src="{IMG_LOADER}" alt="loading" />
@@ -35,6 +35,17 @@
 	<!-- END hidden_input -->
 </ul>
 </div>
-<!-- BEGIN js_item --><!-- END js_item -->
-<!-- BEGIN init_hidden_input --><!-- END init_hidden_input -->
+<script type="text/javascript">
+	il.AdvancedSelectionList.init['{ID}'] = function ()
+	{
+		il.AdvancedSelectionList.add('{ID}', {CFG});
+		<!-- BEGIN js_item -->
+		il.AdvancedSelectionList.addItem('{IT_ID}', '{IT_HID_NAME}', '{IT_HID_VAL}', '{IT_TITLE}');
+		<!-- END js_item -->
+		<!-- BEGIN init_hidden_input -->
+		il.AdvancedSelectionList.setHiddenInput('{H2ID}', '{HID_NAME}', '{HID_VALUE}');
+		<!-- END init_hidden_input -->
+	}
+	il.AdvancedSelectionList.init['{ID}']();
+</script>
 <!-- END js_section -->
