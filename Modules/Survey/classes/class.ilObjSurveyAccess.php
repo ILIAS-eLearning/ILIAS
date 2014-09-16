@@ -22,6 +22,7 @@
 */
 
 include_once "./Services/Object/classes/class.ilObjectAccess.php";
+include_once './Services/AccessControl/interfaces/interface.ilConditionHandling.php';
 
 /**
 * Class ilObjSurveyAccess
@@ -33,8 +34,52 @@ include_once "./Services/Object/classes/class.ilObjectAccess.php";
 *
 * @ingroup ModulesSurvey
 */
-class ilObjSurveyAccess extends ilObjectAccess
+class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
 {
+	
+	/**
+	 * Get possible conditions operators
+	 */
+	public static function getConditionOperators()
+	{
+		include_once './Services/AccessControl/classes/class.ilConditionHandler.php';
+		return array(
+			ilConditionHandler::OPERATOR_FINISHED
+		);
+	}
+	
+	
+	/**
+	 * check condition
+	 * @param type $a_svy_id
+	 * @param type $a_operator
+	 * @param type $a_value
+	 * @param type $a_usr_id
+	 * @return boolean
+	 */
+	public static function checkCondition($a_svy_id,$a_operator,$a_value,$a_usr_id)
+	{
+		switch($a_operator)
+		{
+			case ilConditionHandler::OPERATOR_FINISHED:
+				//if (ilExerciseMembers::_lookupStatus($a_exc_id, $ilias->account->getId()) == "passed")
+				include_once("./Modules/Survey/classes/class.ilObjSurveyAccess.php");
+				if (ilObjSurveyAccess::_lookupFinished($a_svy_id, $a_usr_id))
+				{
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+				break;
+
+			default:
+				return true;
+		}
+		return true;
+	}
+	
 	/**
 	* Checks wether a user may invoke a command or not
 	* (this method is called by ilAccessHandler::checkAccess)

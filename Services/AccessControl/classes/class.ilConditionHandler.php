@@ -65,6 +65,11 @@
 */
 class ilConditionHandler
 {
+	const OPERATOR_PASSED = 'passed';
+	const OPERATOR_FINISHED = 'finished';
+	const OPERATOR_NOT_FINISHED = 'not_finished';
+	const OPERATOR_NOT_MEMBER = 'not_member';
+	
 	const UNIQUE_CONDITIONS = 1;
 	const SHARED_CONDITIONS = 0;
 	
@@ -95,7 +100,7 @@ class ilConditionHandler
 	* constructor
 	* @access	public
 	*/
-	function ilConditionHandler()
+	public function __construct()
 	{
 		global $ilDB,$lng;
 
@@ -398,7 +403,12 @@ class ilConditionHandler
 	}
 
 
-	function getOperatorsByTargetType($a_type)
+	/**
+	 * Get operators by target type
+	 * @param string $a_type
+	 * @return type
+	 */
+	public function getOperatorsByTargetType($a_type)
 	{
 		switch($a_type)
 		{
@@ -729,7 +739,7 @@ class ilConditionHandler
 	*/
 	function _checkCondition($a_id,$a_usr_id = 0)
 	{
-		global $ilUser;
+		global $ilUser, $objDefinition;
 		
 		$a_usr_id = $a_usr_id ? $a_usr_id : $ilUser->getId();
 		
@@ -737,35 +747,24 @@ class ilConditionHandler
 		
 		switch($condition['trigger_type'])
 		{
-			case "tst":
-				include_once './Modules/Test/classes/class.ilObjTestAccess.php';
-				return ilObjTestAccess::_checkCondition($condition['trigger_obj_id'],$condition['operator'],$condition['value'],$a_usr_id);
-
-			case "crs":
-				include_once './Modules/Course/classes/class.ilObjCourse.php';
-				return ilObjCourse::_checkCondition($condition['trigger_obj_id'],$condition['operator'],$condition['value'],$a_usr_id);
-
-			case 'exc':
-				include_once './Modules/Exercise/classes/class.ilObjExercise.php';
-				return ilObjExercise::_checkCondition($condition['trigger_obj_id'],$condition['operator'],$condition['value'],$a_usr_id);
-
 			case 'crsg':
 				include_once './Modules/Course/classes/class.ilObjCourseGrouping.php';
 				return ilObjCourseGrouping::_checkCondition($condition['trigger_obj_id'],$condition['operator'],$condition['value'],$a_usr_id);
-
-			case 'sahs':
-				include_once './Services/Tracking/classes/class.ilLPStatus.php';
-				return ilLPStatus::_hasUserCompleted($condition['trigger_obj_id'], $a_usr_id);
-
-			case 'svy':
-				include_once './Modules/Survey/classes/class.ilObjSurvey.php';
-				return ilObjSurvey::_checkCondition($condition['trigger_obj_id'],$condition['operator'],$condition['value'],$a_usr_id);
-
-			default:
-				return false;
-
 		}
+		
+		$class = $objDefinition->getClassName($condition['trigger_type']);
+		$location = $objDefinition->getLocation($condition['trigger_type']);
+		$full_class = "ilObj".$class."Access";
+		include_once($location."/class.".$full_class.".php");
 
+		$fullfilled = call_user_func(
+				array($full_class, 'checkCondition'),
+				$condition['trigger_obj_id'],
+				$condition['operator'],
+				$condition['value'],
+				$a_usr_id
+		);
+		return $fullfilled;
 	}
 
 	/**

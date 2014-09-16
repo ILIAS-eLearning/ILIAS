@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once("./Services/Object/classes/class.ilObjectAccess.php");
+include_once './Services/AccessControl/interfaces/interface.ilConditionHandling.php';
 
 /**
 * Class ilObjExerciseAccess
@@ -12,8 +13,51 @@ include_once("./Services/Object/classes/class.ilObjectAccess.php");
 *
 * @ingroup ModulesExercise
 */
-class ilObjExerciseAccess extends ilObjectAccess
+class ilObjExerciseAccess extends ilObjectAccess implements ilConditionHandling
 {
+	
+	/**
+	 * Get possible conditions operators
+	 */
+	public static function getConditionOperators()
+	{
+		include_once './Services/AccessControl/classes/class.ilConditionHandler.php';
+		return array(
+			ilConditionHandler::OPERATOR_PASSED
+		);
+	}
+	
+	
+	/**
+	 * check condition 
+	 * @param type $a_exc_id
+	 * @param type $a_operator
+	 * @param type $a_value
+	 * @param type $a_usr_id
+	 * @return boolean
+	 */
+	public static function checkCondition($a_exc_id,$a_operator,$a_value,$a_usr_id)
+	{
+		include_once './Services/AccessControl/classes/class.ilConditionHandler.php';
+		switch($a_operator)
+		{
+			case ilConditionHandler::OPERATOR_PASSED:
+				if (ilExerciseMembers::_lookupStatus($a_exc_id, $a_usr_id) == "passed")
+				{
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+				break;
+
+			default:
+				return true;
+		}
+		return true;
+	}
+	
 
 	/**
 	 * get commands

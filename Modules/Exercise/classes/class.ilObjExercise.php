@@ -592,31 +592,6 @@ class ilObjExercise extends ilObject
 		return implode(',',$tmp_members ? $tmp_members : array());
 	}
 
-	function _checkCondition($a_exc_id,$a_operator,$a_value,$a_usr_id = 0)
-	{
-		global $ilUser;
-		
-		$a_usr_id = $a_usr_id ? $a_usr_id : $ilUser->getId();
-
-		switch($a_operator)
-		{
-			case 'passed':
-				if (ilExerciseMembers::_lookupStatus($a_exc_id, $a_usr_id) == "passed")
-				{
-					return true;
-				}
-				else
-				{
-					return false;
-				}
-				break;
-
-			default:
-				return true;
-		}
-		return true;
-	}
-
 	/**
 	* processes errorhandling etc for uploaded archive
 	* @param string $tmpFile path and filename to uploaded file

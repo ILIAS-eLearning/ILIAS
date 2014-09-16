@@ -3,6 +3,7 @@
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once("./Services/Object/classes/class.ilObjectAccess.php");
+include_once 'Services/AccessControl/interfaces/interface.ilConditionHandling.php';
 
 /**
 * Class ilObjContentObjectAccess
@@ -13,8 +14,45 @@ include_once("./Services/Object/classes/class.ilObjectAccess.php");
 *
 * @ingroup ModulesScormAicc
 */
-class ilObjSAHSLearningModuleAccess extends ilObjectAccess
+class ilObjSAHSLearningModuleAccess extends ilObjectAccess implements ilConditionHandling
 {
+	
+	/**
+	 * Get possible conditions operators
+	 */
+	public static function getConditionOperators()
+	{
+		include_once './Services/AccessControl/classes/class.ilConditionHandler.php';
+		return array(
+			ilConditionHandler::OPERATOR_FINISHED
+		);
+	}
+	
+	
+	/**
+	 * check condition
+	 * @param type $a_svy_id
+	 * @param type $a_operator
+	 * @param type $a_value
+	 * @param type $a_usr_id
+	 * @return boolean
+	 */
+	public static function checkCondition($a_trigger_obj_id,$a_operator,$a_value,$a_usr_id)
+	{
+		switch($a_operator)
+		{
+			case ilConditionHandler::OPERATOR_FINISHED:
+				include_once './Services/Tracking/classes/class.ilLPStatus.php';
+				return ilLPStatus::_hasUserCompleted($a_trigger_obj_id, $a_usr_id);
+
+			default:
+				return true;
+		}
+		return true;
+	}
+	
+	
+	
     /**
     * checks wether a user may invoke a command or not
     * (this method is called by ilAccessHandler::checkAccess)

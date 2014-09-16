@@ -53,7 +53,7 @@ class ilObjectAccess
 	*
 	* this method is called by ilConditionHandler
 	*/
-	function _checkCondition($a_obj_id, $a_operator, $a_value, $a_usr_id = 0)
+	public function _checkCondition($a_obj_id, $a_operator, $a_value, $a_usr_id)
 	{
 		switch($a_operator)
 		{

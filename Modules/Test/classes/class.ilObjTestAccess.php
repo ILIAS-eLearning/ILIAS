@@ -3,6 +3,7 @@
 
 include_once "./Services/Object/classes/class.ilObjectAccess.php";
 include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
+include_once './Services/AccessControl/interfaces/interface.ilConditionHandling.php';
 
 /**
 * Class ilObjTestAccess
@@ -16,7 +17,7 @@ include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 *
 * @ingroup ModulesTest
 */
-class ilObjTestAccess extends ilObjectAccess
+class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
 {
 	/**
 	* Checks wether a user may invoke a command or not
@@ -219,28 +220,40 @@ class ilObjTestAccess extends ilObjectAccess
 			return ($row['passed']) ? true : false;
 		}
 	}
+	
+	/**
+	 * Get possible conditions operators
+	 */
+	public static function getConditionOperators()
+	{
+		include_once './Services/AccessControl/classes/class.ilConditionHandler.php';
+		return array(
+			ilConditionHandler::OPERATOR_PASSED,
+			ilConditionHandler::OPERATOR_FINISHED,
+			ilConditionHandler::OPERATOR_NOT_FINISHED
+		);
+	}
+	
 
 	/**
 	* check condition
 	*
 	* this method is called by ilConditionHandler
 	*/
-	function _checkCondition($a_obj_id, $a_operator, $a_value, $a_usr_id = 0)
+	public static function checkCondition($a_obj_id, $a_operator, $a_value, $a_usr_id)
 	{
-		global $ilUser;
-		
-		$a_usr_id = $a_usr_id ? $a_usr_id : $ilUser->getId();
+		include_once './Services/AccessControl/classes/class.ilConditionHandler.php';
 		
 		switch($a_operator)
 		{
-			case 'passed':
+			case ilConditionHandler::OPERATOR_PASSED:
 				return ilObjTestAccess::_isPassed($a_usr_id, $a_obj_id);
 				break;
 
-			case 'finished':
+			case ilConditionHandler::OPERATOR_FINISHED:
 				return ilObjTestAccess::_hasFinished($a_usr_id,$a_obj_id);
 
-			case 'not_finished':
+			case ilConditionHandler::OPERATOR_NOT_FINISHED:
 				return !ilObjTestAccess::_hasFinished($a_usr_id,$a_obj_id);
 
 			default:

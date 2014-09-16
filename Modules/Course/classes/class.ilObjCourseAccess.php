@@ -6,6 +6,7 @@ include_once("./Services/Object/classes/class.ilObjectAccess.php");
 include_once './Modules/Course/classes/class.ilCourseConstants.php';
 include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
 include_once 'Modules/Course/classes/class.ilCourseParticipant.php';
+include_once './Services/AccessControl/interfaces/interface.ilConditionHandling.php';
 
 /**
 * Class ilObjCourseAccess
@@ -15,8 +16,41 @@ include_once 'Modules/Course/classes/class.ilCourseParticipant.php';
 * @version $Id$
 *
 */
-class ilObjCourseAccess extends ilObjectAccess
+class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 {
+	/**
+	 * Get operators
+	 */
+	public static function getConditionOperators()
+	{
+		include_once './Services/AccessControl/classes/class.ilConditionHandler.php';
+		return array(
+			ilConditionHandler::OPERATOR_PASSED
+		);
+	}
+
+	/**
+	 * 
+	 * @global ilObjUser $ilUser
+	 * @param type $a_obj_id
+	 * @param type $a_operator
+	 * @param type $a_value
+	 * @param type $a_usr_id
+	 * @return boolean
+	 */
+	public static function checkCondition($a_obj_id,$a_operator,$a_value,$a_usr_id)
+	{
+		include_once "./Modules/Course/classes/class.ilCourseParticipants.php";
+		include_once './Services/AccessControl/classes/class.ilConditionHandler.php';
+		
+		switch($a_operator)
+		{
+			case ilConditionHandler::OPERATOR_PASSED:
+				return ilCourseParticipants::_hasPassed($a_obj_id,$a_usr_id);
+		}
+		return FALSE;
+	}
+	
 	/**
 	* checks wether a user may invoke a command or not
 	* (this method is called by ilAccessHandler::checkAccess)
