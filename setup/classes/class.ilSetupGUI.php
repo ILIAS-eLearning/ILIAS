@@ -3146,6 +3146,7 @@ else
 
 		// error recipient
 		$ti = new ilEmailInputGUI($lng->txt("error_recipient"), "error_recipient");
+		$ti->allowRFC822(true);
 		$this->form->addItem($ti);
 
 		$this->form->addCommandButton("saveContact", $lng->txt("save"));

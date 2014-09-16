@@ -1548,6 +1548,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$ti = new ilEmailInputGUI($this->lng->txt("error_recipient"), "error_recipient");
 		$ti->setMaxLength(64);
 		$ti->setSize(40);
+		$ti->allowRFC822(true);
 		$ti->setValue($ilSetting->get("error_recipient"));
 		$this->form->addItem($ti);
 		
