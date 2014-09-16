@@ -240,7 +240,7 @@ abstract class assQuestion
 	/**
 	 * @var null|int
 	 */
-	private $step = null;
+	protected $step = null;
 	
 	protected $lastChange;
 	
@@ -991,16 +991,26 @@ abstract class assQuestion
 			WHERE			active_fi = %s
 			AND				question_fi = %s
 			AND				pass = %s
-			AND				step = %s
 		";
-		
-		$affectedRows = $ilDB->manipulateF(
-			$query, array("integer", "integer", "integer", "integer"), array($active_id, $this->getId(), $pass, $this->getStep())
-		);
+
+		$types = array('integer', 'integer', 'integer');
+		$values = array($active_id, $this->getId(), $pass);
+
+		if( $this->getStep() !== NULL )
+		{
+			$query .= "
+				AND				step = %s
+			";
+
+			$types[] = 'integer';
+			$values[] = $this->getStep();
+		}
+
+		$affectedRows = $ilDB->manipulateF($query, $types, $values);
 
 		$next_id = $ilDB->nextId("tst_test_result");
 
-		$ilDB->insert('tst_test_result', array(
+		$fieldData = array(
 			'test_result_id'	=> array('integer', $next_id),
 			'active_fi'			=> array('integer', $active_id),
 			'question_fi'		=> array('integer', $this->getId()),
@@ -1009,9 +1019,15 @@ abstract class assQuestion
 			'tstamp'			=> array('integer', time()),
 			'hint_count'		=> array('integer', $requestsStatisticData->getRequestsCount()),
 			'hint_points'		=> array('float', $requestsStatisticData->getRequestsPoints()),
-			'answered'			=> array('integer', $isAnswered),
-			'step'				=> array('integer', $this->getStep())
-		));
+			'answered'			=> array('integer', $isAnswered)
+		);
+
+		if( $this->getStep() !== NULL )
+		{
+			$fieldData['step'] = array('integer', $this->getStep());
+		}
+
+		$ilDB->insert('tst_test_result', $fieldData);
 
 		$this->getProcessLocker()->releaseUserQuestionResultUpdateLock();
 		
@@ -1559,18 +1575,18 @@ abstract class assQuestion
 		}
 
 		$result = null;
-		if($this->getStep() == null)
-		{
-			$result = $ilDB->queryF("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s ORDER BY solution_id",
-				array('integer','integer','integer'),
-				array($active_id, $this->getId(), $pass)
-			);
-		}
-		else
+		if( $this->getStep() !== NULL )
 		{
 			$result = $ilDB->queryF("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s AND step = %s ORDER BY solution_id",
 				array('integer','integer','integer', 'integer'),
 				array($active_id, $this->getId(), $pass, $this->getStep())
+			);	
+		}
+		else
+		{
+			$result = $ilDB->queryF("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s ORDER BY solution_id",
+				array('integer','integer','integer'),
+				array($active_id, $this->getId(), $pass)
 			);
 		}
 
@@ -4327,18 +4343,18 @@ abstract class assQuestion
 		/** @var ilDB $ilDB */
 		global $ilDB;
 
-		if($this->getStep() == NULL)
-		{
-			return $ilDB->queryF("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-				array('integer','integer','integer'),
-				array($active_id, $this->getId(), $pass)
-			);
-		}
-		else
+		if($this->getStep() !== NULL)
 		{
 			return $ilDB->queryF("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s AND step = %s",
 				array('integer','integer','integer', 'integer'),
 				array($active_id, $this->getId(), $pass, $this->getStep())
+			);	
+		}
+		else
+		{
+			return $ilDB->queryF("SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+				array('integer','integer','integer'),
+				array($active_id, $this->getId(), $pass)
 			);
 		}
 
@@ -4357,18 +4373,18 @@ abstract class assQuestion
 		 */
 		global $ilDB;
 
-		if($this->getStep() == NULL)
-		{
-			return $ilDB->manipulateF("DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
-				array('integer','integer','integer'),
-				array($active_id, $this->getId(), $pass)
-			);
-		}
-		else
+		if($this->getStep() !== NULL)
 		{
 			return $ilDB->manipulateF("DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s AND step = %s",
 				array('integer','integer','integer', 'integer'),
 				array($active_id, $this->getId(), $pass, $this->getStep())
+			);	
+		}
+		else
+		{
+			return $ilDB->manipulateF("DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
+				array('integer','integer','integer'),
+				array($active_id, $this->getId(), $pass)
 			);
 		}
 
@@ -4388,16 +4404,25 @@ abstract class assQuestion
 		global $ilDB;
 
 		$next_id = $ilDB->nextId("tst_solutions");
-		return $ilDB->insert("tst_solutions", array(
+		
+		$fieldData = array(
 			"solution_id" => array("integer", $next_id),
 			"active_fi" => array("integer", $active_id),
 			"question_fi" => array("integer", $this->getId()),
 			"value1" => array("clob", $value1),
 			"value2" => array("clob", $value2),
 			"pass" => array("integer", $pass),
-			"tstamp" => array("integer", time()),
-			"step" => array("integer", $this->getStep())
-		));
+			"tstamp" => array("integer", time())
+		);
+
+		if( $this->getStep() !== null )
+		{
+			$fieldData['step'] = array("integer", $this->getStep());
+		}
+
+		$aff = $ilDB->insert("tst_solutions", $fieldData);
+		
+		return $aff;
 	}
 
 

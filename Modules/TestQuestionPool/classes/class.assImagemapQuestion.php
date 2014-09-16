@@ -711,10 +711,17 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
 		if($this->is_multiple_choice && strlen($_GET['remImage']))
 		{
-			$affectedRows = $ilDB->manipulateF("DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s AND value1 = %s AND step = %s",
-				array("integer", "integer", "integer", "integer", "integer"),
-				array($active_id, $this->getId(), $pass, $_GET['remImage'], $this->getStep())
-			);
+			$query  = "DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s AND value1 = %s";
+			$types  = array("integer", "integer", "integer", "integer");
+			$values = array($active_id, $this->getId(), $pass, $_GET['remImage']);
+			
+			if( $this->getStep() !== NULL )
+			{
+				$query .= " AND step = %s ";
+				$types[]  = 'integer';
+				$values[] = $this->getStep();
+			}
+			$affectedRows = $ilDB->manipulateF($query, $types, $values);
 		}
 		elseif(!$this->is_multiple_choice)
 		{
