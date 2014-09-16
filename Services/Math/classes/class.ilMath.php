@@ -157,6 +157,24 @@ class ilMath
 			$right_operand_dec = ilMath::exp2dec($right_operand);
 
 			$is_exponent_decimal_number = strpos($right_operand_dec, '.') !== false;
+
+			/*if($is_exponent_decimal_number && $scale <= 14)
+			{
+				// uses pow
+			}
+			else if(!$is_exponent_decimal_number && $scale > 14)
+			{
+				// use bcpow
+			}
+			else if(!$is_exponent_decimal_number && $scale <= 14)
+			{
+				// use bcpow
+			}
+			else if($is_exponent_decimal_number && $scale > 14)
+			{
+				// partly undefined
+			}*/
+
 			if(!$is_exponent_decimal_number || $scale > 14)
 			{
 				return bcpow($left_operand_dec, $right_operand_dec, $scale);
