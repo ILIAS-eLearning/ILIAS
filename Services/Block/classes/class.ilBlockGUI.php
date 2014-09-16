@@ -990,6 +990,7 @@ abstract class ilBlockGUI
 		$this->tpl->setCurrentBlock("data_section");
 		$this->tpl->setVariable("DATA", $a_content);
 		$this->tpl->parseCurrentBlock();
+		$this->tpl->setVariable("BLOCK_ROW", "");
 	}
 	
 	/**
