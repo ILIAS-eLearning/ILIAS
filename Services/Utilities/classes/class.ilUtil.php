@@ -1154,33 +1154,28 @@ class ilUtil
 	public static function is_email($a_email)
 	{
 		// BEGIN Mail: If possible, use PearMail to validate e-mail address
-		global $ilErr, $ilias;
+		global $ilErr;
 
 		// additional check for ilias object is needed,
 		// otherwise setup will fail with this if branch
-		if(is_object($ilias))
+		if(is_object($ilErr)) // seems to work in Setup now
 		{
 			require_once './Services/PEAR/lib/Mail/RFC822.php';
 			$parser = new Mail_RFC822();
-			PEAR::setErrorHandling(PEAR_ERROR_EXCEPTION);
-			try
+			PEAR::setErrorHandling(PEAR_ERROR_RETURN);		
+			$addresses = $parser->parseAddressList($a_email, 'ilias', false, true);
+			if(!is_a($addresses, 'PEAR_Error') &&
+				count($addresses) == 1 && $addresses[0]->host != 'ilias'
+			)
 			{
-				$addresses = $parser->parseAddressList($a_email, 'ilias', false, true);
-				if(!is_a($addresses, 'PEAR_Error') &&
-					count($addresses) == 1 && $addresses[0]->host != 'ilias'
-				)
-				{
-					PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, array($ilErr, "errorHandler"));
-					return true;
-				}
+				PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, array($ilErr, "errorHandler"));
+				return true;
 			}
-			catch(Exception $e)
+			else			
 			{
 				PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, array($ilErr, "errorHandler"));
 				return false;
 			}
-			PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, array($ilErr, "errorHandler"));
-			return false;
 		}
 		else
 		{

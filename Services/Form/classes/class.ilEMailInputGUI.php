@@ -32,6 +32,7 @@ class ilEMailInputGUI extends ilFormPropertyGUI
 	protected $value;
 	protected $size = 30;
 	protected $max_length = 80;
+	protected $allowRFC822 = false; // [bool]
 
 	/**
 	 * @var bool
@@ -81,6 +82,18 @@ class ilEMailInputGUI extends ilFormPropertyGUI
 		$this->setValue($a_values[$this->getPostVar()]);
 		$this->setRetypeValue($a_values[$this->getPostVar() . '_retype']);
 	}
+	
+	/**
+	 * Allow extended email address format 
+	 * 
+	 * "example@example.com" vs "example <example@example.com>"
+	 * 
+	 * @param bool $a_value
+	 */
+	function allowRFC822($a_value)
+	{
+		$this->allowRFC822 = (bool)$a_value;
+	}
 
 	/**
 	 * Check input, strip slashes etc. set alert, if input is not ok.
@@ -89,9 +102,9 @@ class ilEMailInputGUI extends ilFormPropertyGUI
 	function checkInput()
 	{
 		global $lng;
-
-		$_POST[$this->getPostVar()]             = ilUtil::stripSlashes($_POST[$this->getPostVar()]);
-		$_POST[$this->getPostVar() . '_retype'] = ilUtil::stripSlashes($_POST[$this->getPostVar() . '_retype']);
+		
+		$_POST[$this->getPostVar()]             = ilUtil::stripSlashes($_POST[$this->getPostVar()], !(bool)$this->allowRFC822);
+		$_POST[$this->getPostVar() . '_retype'] = ilUtil::stripSlashes($_POST[$this->getPostVar() . '_retype'], !(bool)$this->allowRFC822);
 		if($this->getRequired() && trim($_POST[$this->getPostVar()]) == "")
 		{
 			$this->setAlert($lng->txt("msg_input_is_required"));

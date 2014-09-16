@@ -512,11 +512,12 @@ echo "<br>+".$client_id;
 
 		foreach ($languages as $lang_key)
 		{
+			/*
 			if ($num === $count)
 			{
 				$this->tpl->touchBlock("lng_new_row");
 			}
-
+			*/
 			$this->tpl->setCurrentBlock("languages");
 			$this->tpl->setVariable("LINK_LANG", "./setup.php?cmd=".$this->cmd."&amp;lang=".$lang_key);
 			$this->tpl->setVariable("LANG_NAME", $this->lng->txt("meta_l_".$lang_key));
@@ -3133,12 +3134,14 @@ else
 		// email
 		$ti = new ilEmailInputGUI($lng->txt("email"), "admin_email");
 		$ti->setRequired(true);
+		$ti->allowRFC822(true);
 		$this->form->addItem($ti);
 
 		// feedback recipient
 		$ti = new ilEmailInputGUI($lng->txt("feedback_recipient"), "feedback_recipient");
 		$ti->setInfo($lng->txt("feedback_recipient_info"));
 		$ti->setRequired(true);
+		$ti->allowRFC822(true);
 		$this->form->addItem($ti);
 
 		// error recipient

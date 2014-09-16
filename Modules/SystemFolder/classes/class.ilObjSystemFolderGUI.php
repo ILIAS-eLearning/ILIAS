@@ -1526,22 +1526,28 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$this->form->addItem($ti);
 		
 		// email
-		$ti = new ilTextInputGUI($this->lng->txt("email"), "admin_email");
+		$ti = new ilEmailInputGUI($this->lng->txt("email"), "admin_email");
 		$ti->setMaxLength(64);
 		$ti->setSize(40);
 		$ti->setRequired(true);
+		$ti->allowRFC822(true);
 		$ti->setValue($ilSetting->get("admin_email"));
 		$this->form->addItem($ti);
 		
 		// feedback recipient
 		$ti = new ilEmailInputGUI($this->lng->txt("feedback_recipient"), "feedback_recipient");
 		$ti->setInfo(sprintf($this->lng->txt("feedback_recipient_info"), $this->lng->txt("contact_sysadmin")));
+		$ti->setMaxLength(64);
+		$ti->setSize(40);
 		$ti->setRequired(true);
+		$ti->allowRFC822(true);
 		$ti->setValue($ilSetting->get("feedback_recipient"));		
 		$this->form->addItem($ti);
 		
 		// error recipient
 		$ti = new ilEmailInputGUI($this->lng->txt("error_recipient"), "error_recipient");
+		$ti->setMaxLength(64);
+		$ti->setSize(40);
 		$ti->setValue($ilSetting->get("error_recipient"));
 		$this->form->addItem($ti);
 		

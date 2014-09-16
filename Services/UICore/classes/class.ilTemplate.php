@@ -845,7 +845,7 @@ class ilTemplate extends ilTemplateX
 			$link_items[ilLink::_getStaticLink(0, "impr")] = array($lng->txt("imprint"), true);
 		}
 		
-		$link_items["mailto:".$ilSetting->get("feedback_recipient")] = array($lng->txt("contact_sysadmin"), false);
+		$link_items["mailto:".ilUtil::prepareFormOutput($ilSetting->get("feedback_recipient"))] = array($lng->txt("contact_sysadmin"), false);
 				
 		if (DEVMODE && version_compare(PHP_VERSION,'5','>='))
 		{
