@@ -654,6 +654,11 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
 
 	protected function getParticipantsAnswerKeySequence()
 	{
+		if( !$this->object->isShuffleAnswersEnabled() )
+		{
+			return array_keys($this->object->getAnswers());
+		}
+		
 		if (strcmp($_GET["activecommand"], "directfeedback") == 0)
 		{
 			if (is_array($_SESSION["choicekeys"])) $this->choiceKeys = $_SESSION["choicekeys"];
