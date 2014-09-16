@@ -75,22 +75,42 @@ div.il_ExplorerItemDescription {
 }
 
 a.ilTreeView {
-	position: fixed;
-	left: -2px;
-	top: 130px;
+	position: absolute;
+	top: 133px;
+	@media only screen and (max-width: 768px) {top: 140px;}
+	z-index: 1020;
+	bottom: 160px;
+	background-color: #fff;
+	border: 1px solid #e0e0e0;
+	border-left: none;
+	box-shadow: 1px 1px 2px #b9b9b9;
+	width: 6px;
+	> img {
+		display: inline-block;
+		margin-left: -5px;
+		max-width: inherit;
+	}
+	&:hover > img,
+	&:active > img,
+	&:focus > img {
+		margin-left: 0;
+	}
+	&:hover,
+	&:active,
+	&:focus {
+		outline: 0;
+	}
 }
 
-a.ilTreeView:hover {
-	left: -1px;
+a.ilTreeView:hover img {
 }
 
 a.ilTreeViewRight:hover {
-	right: -1px;
 }
 
 /* Explorer2, jsTree */
 .jstree a {
-	color: #3444AA !important;
+	color: @link-color !important;
 }
 
 .jstree a.disabled {
@@ -100,6 +120,7 @@ a.ilTreeViewRight:hover {
 
 .jstree a {
 	font-size: 90%;
+	min-height: 22px;
 }
 
 .jstree li, .jstree ins {
@@ -277,3 +298,10 @@ a.ilTreeViewRight:hover {
 #vakata-contextmenu.jstree-context li ul {
 	margin-left: -4px;
 }
+
+.jstree img {
+	border: 0;
+	width: 24px;
+	height: 24px;
+}
+

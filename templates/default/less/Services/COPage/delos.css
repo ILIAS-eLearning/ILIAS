@@ -142,6 +142,9 @@ div.ilTinyMenuSection {
   border-right: 0;
   margin: 0;
 }
+#iltinymenu_c {
+  z-index: 1040 !important;
+}
 #iltinymenu .bd div .small {
   color: #909090;
   font-style: italic;

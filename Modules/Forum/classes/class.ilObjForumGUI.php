@@ -1034,7 +1034,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		ilUtil::sendInfo();
 		ilUtil::infoPanel();
 		
-		$tpl->setTitleIcon(ilUtil::getImagePath('icon_frm_b.png'));
+		$tpl->setTitleIcon(ilObject::_getIcon("", "big", "frm"));
 
         $ilTabs->setBackTarget($lng->txt('all_topics'),
         	'ilias.php?baseClass=ilRepositoryGUI&amp;ref_id='.$_GET['ref_id']);

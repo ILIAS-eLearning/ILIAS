@@ -487,7 +487,7 @@ class ilTabsGUI
 				{
 					$tabtype = $pre."tabactive";
 				}
-				
+
 				if ($tabtype == "tabactive" || $tabtype == "subtabactive")
 				{
 					$tpl->setCurrentBlock("sel_text");
@@ -522,7 +522,13 @@ class ilTabsGUI
 							"bottom center", "top center", false);
 					}
 				}
-				
+
+				// bs-patch: start
+				$tabtype = in_array($tabtype, array("tabactive", "subtabactive"))
+					? "active"
+					: "";
+				// bs-patch: end
+
 				$tpl->setVariable($pre2."TAB_TYPE", $tabtype);
 				if (!$this->getSetupMode())
 				{

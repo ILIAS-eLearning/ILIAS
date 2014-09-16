@@ -304,11 +304,11 @@ class ilForumTopicTableGUI extends ilTable2GUI
 		{
 			if($num_unread > 0)
 			{
-				$topicStats .= '<br /><span class="alert ilWhiteSpaceNowrap">' . $this->lng->txt('unread') . ': ' . $num_unread . '</span>';
+				$topicStats .= '<br /><span class="ilAlert ilWhiteSpaceNowrap">' . $this->lng->txt('unread') . ': ' . $num_unread . '</span>';
 			}
 			if($num_new > 0 && $this->getOverviewSetting() == 0)
 			{
-				$topicStats .= '<br /><span class="alert ilWhiteSpaceNowrap">' . $this->lng->txt('new') . ': ' . $num_new . '</span>';
+				$topicStats .= '<br /><span class="ilAlert ilWhiteSpaceNowrap">' . $this->lng->txt('new') . ': ' . $num_new . '</span>';
 			}
 		}
 

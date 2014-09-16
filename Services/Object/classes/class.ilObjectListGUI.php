@@ -2256,7 +2256,7 @@ class ilObjectListGUI
 			$this->ctrl->setParameter($this->container_obj, "item_ref_id", $this->getCommandId());
 			$cmd_link = $this->ctrl->getLinkTarget($this->container_obj, "delete");
 			$this->insertCommand($cmd_link, $this->lng->txt("delete"), "",
-				ilUtil::getImagePath("cmd_delete_s.png"));
+				"");
 			$this->adm_commands_included = true;
 		}
 	}
@@ -2305,7 +2305,7 @@ class ilObjectListGUI
 			$this->ctrl->setParameter($this->container_obj, "item_ref_id", $this->getCommandId());
 			$cmd_link = $this->ctrl->getLinkTarget($this->container_obj, "link");
 			$this->insertCommand($cmd_link, $this->lng->txt("link"), "",
-				ilUtil::getImagePath("cmd_link_s.png"));
+				"");
 			$this->adm_commands_included = true;
 		}
 	}
@@ -2353,13 +2353,13 @@ class ilObjectListGUI
 			{
 				$cmd_link = $this->ctrl->getLinkTarget($this->container_obj, "cut");
 				$this->insertCommand($cmd_link, $this->lng->txt("move"), "",
-					ilUtil::getImagePath("cmd_move_s.png"));
+					"");
 			}
 			else
 			{
 				$cmd_link = $this->ctrl->getLinkTarget($this->container_obj, "cut_for_repository");
 				$this->insertCommand($cmd_link, $this->lng->txt("wsp_move_to_repository"), "",
-					ilUtil::getImagePath("cmd_move_s.png"));
+					"");
 			}
 			
 			$this->adm_commands_included = true;
@@ -2504,7 +2504,7 @@ class ilObjectListGUI
 						$this->ctrl->setParameter($this->container_obj, "item_ref_id", $this->getCommandId());
 						$cmd_link = $this->ctrl->getLinkTarget($this->container_obj, "addToDesk");
 						$this->insertCommand($cmd_link, $this->lng->txt("to_desktop"), "",
-							ilUtil::getImagePath("cmd_pd_put_s.png"));
+							"");
 					}					
 				}
 			}
@@ -2516,7 +2516,7 @@ class ilObjectListGUI
 					$this->ctrl->setParameter($this->container_obj, "item_ref_id", $this->getCommandId());
 					$cmd_link = $this->ctrl->getLinkTarget($this->container_obj, "removeFromDesk");
 					$this->insertCommand($cmd_link, $this->lng->txt("unsubscribe"), "",
-						ilUtil::getImagePath("cmd_pd_rem_s.png"));
+						"");
 				}
 			}
 		}
@@ -2685,12 +2685,6 @@ class ilObjectListGUI
 						// workaround for repository frameset
 						$command["link"] = 
 							$this->appendRepositoryFrameParameter($command["link"]);
-
-						// standard edit icon
-						if ($command["lang_var"] == "edit" && $command["img"] == "")
-						{
-							$command["img"] = ilUtil::getImagePath("cmd_edit_s.png");
-						}
 
 						$cmd_link = $command["link"];
 						$txt = ($command["lang_var"] == "")
@@ -3331,8 +3325,7 @@ class ilObjectListGUI
 			{
 				$this->ctrl->setParameter($this->container_obj,'expand',-1 * $this->obj_id);
 				$this->tpl->setVariable('EXP_HREF',$this->ctrl->getLinkTarget($this->container_obj,'',$this->getUniqueItemId(true)));
-				$this->ctrl->clearParameters($this->container_obj);			
-				#$this->tpl->setVariable('EXP_IMG',ilUtil::getImagePath('browser/minus.png'));
+				$this->ctrl->clearParameters($this->container_obj);
 				$this->tpl->setVariable('EXP_IMG',ilUtil::getImagePath('tree_exp.png'));
 			$this->tpl->setVariable('EXP_ALT',$this->lng->txt('collapse'));
 			}
@@ -3341,7 +3334,6 @@ class ilObjectListGUI
 				$this->ctrl->setParameter($this->container_obj,'expand',$this->obj_id);
 				$this->tpl->setVariable('EXP_HREF',$this->ctrl->getLinkTarget($this->container_obj,'',$this->getUniqueItemId(true)));
 				$this->ctrl->clearParameters($this->container_obj);
-				#$this->tpl->setVariable('EXP_IMG',ilUtil::getImagePath('browser/plus.png'));
 				$this->tpl->setVariable('EXP_IMG',ilUtil::getImagePath('tree_col.png'));
 				$this->tpl->setVariable('EXP_ALT',$this->lng->txt('expand'));
 			}

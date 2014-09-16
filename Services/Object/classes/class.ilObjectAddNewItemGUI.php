@@ -363,6 +363,12 @@ class ilObjectAddNewItemGUI
 		// trigger
 		$ov->addTrigger($ov_trigger_id, "click", $ov_trigger_id, false, "tl", "tr");
 
+		// bs-patch start
+		global $ilUser;
+		$ilToolbar->addDropDown($lng->txt("cntr_add_new_item"), $this->getHTML());
+		return;
+		// bs-patch end
+
 		// toolbar
 		include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
 		$button = ilLinkButton::getInstance();

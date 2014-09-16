@@ -16,17 +16,22 @@ div.il_Block, table.il_Block {
 	clear: both;
 	table-layout: fixed;
 	word-wrap: break-word;
+	background-color: lighten(@mid-gray, 71%);
+	border: none;
+	text-align: left;
+	box-shadow: 0px 1px 3px 0px lighten(@mid-gray, 45%);
 }
 
 div.ilBlockHeader, div.ilBlockHeaderBig,
 td.ilBlockHeader, td.ilBlockHeaderBig {
-	font-weight: bold;
-	padding: 3px;
+	font-family: 'Open Sans Semibold';
+	font-weight: normal;
+	padding: 3px 0;
+	margin: 0 5px;
 	text-align:left;
-	font-size: 90%;
-	color: #404040;
-	background: url(images/block_top.png) repeat-x #F8F8F8 ;
-	border-bottom: 1px solid #E9E9E9;
+	color: lighten(@mid-gray, 15%);
+	border-bottom: 1px solid #FFF;
+	box-shadow: inset 0px -1px 1px -1px lighten(@mid-gray, 30%);
 }
 
 div.ilBlockHeaderBig, td.ilBlockHeaderBig {
@@ -34,7 +39,8 @@ div.ilBlockHeaderBig, td.ilBlockHeaderBig {
 }
 
 h3.ilBlockHeader {
-	font-weight: bold;
+	font-family: 'Open Sans Semibold';
+	font-weight: normal;
 	margin: 0;
 	padding: 0;
 	font-size: 100%;

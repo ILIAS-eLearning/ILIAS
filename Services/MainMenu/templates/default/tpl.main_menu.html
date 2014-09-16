@@ -1,60 +1,78 @@
+<div id="ilTopBar" class="ilTopBar">
+	<div class="container">
+		<div class="row">
+			<!-- BEGIN header_top_title -->
+			<div class="ilTopTitle">{TXT_HEADER_TITLE}</div>
+			<!-- END header_top_title -->
+		<ul id="ilTopBarNav" class="">
+					<!-- BEGIN status_box -->
+						<!-- BEGIN status_item -->
+						<li><a target="_top" href="{STATUS_HREF}"><span class="glyphicon glyphicon-envelope"></span> <!-- BEGIN status_text --><span class="badge">{STATUS_TXT}</span><!-- END status_text --></a></li>
+						<!-- END status_item -->
+					<!-- END status_box -->
+					<!-- BEGIN help_icon -->
+						<li><a id="help_tr" href="#" onclick="return il.Help.listHelp(event, false);"><img src="{IMG_HELP}" alt="" /></a></li>
+					<!-- END help_icon -->
+					<!-- BEGIN help_tt_icon -->
+						<li><a id="help_tt" href="#" onclick="return il.Help.switchTooltips(event);"><img src="{IMG_TT_ON}" id="help_tt_switch_on" alt="" /><img class="ilNoDisplay" src="{IMG_TT_OFF}" id="help_tt_switch_off" alt="" /></a></li>
+					<!-- END help_tt_icon -->
+					<!-- BEGIN search_box -->{SEARCHBOX}<!-- END search_box -->
+					<!-- BEGIN userisloggedin -->
+					<li><!-- {USERNAME} » --><a href="{LINK_LOGOUT2}">{TXT_LOGOUT2}</a></li>
+					<!-- END userisloggedin -->
+					<!-- BEGIN lang_select -->
+					<li class="dropdown"><a id="mm_lang_sel" href="#" class="dropdown-toggle" data-toggle="dropdown">{TXT_LANGSELECT} <span class="caret"></span></a>
+						{LANG_SELECT}
+					</li>
+					<!-- END lang_select -->
+					<!-- BEGIN userisanonymous -->
+					<li>
+						<a href="{LINK_LOGIN}" target="_top">{TXT_LOGIN}</a>
+						<!-- BEGIN registration_link --><!-- {LINK_REGISTER} --><!-- {TXT_REGISTER} --><!-- END registration_link -->
+					</li>
+					<!-- END userisanonymous -->
+
+				</ul>
+
+		</div>
+	</div>
+</div>
 <div class="ilMainHeader">
-<div class="ilMainMenuHeadSection">
-	<!-- BEGIN osd_enabled --><script type="text/javascript">var OSDNotifier; $(function() { OSDNotifier = OSDNotifications({initialNotifications: {INITIAL_NOTIFICATIONS}, pollingIntervall: {OSD_POLLING_INTERVALL}, playSound: {OSD_PLAY_SOUND}})});</script><!-- END osd_enabled -->
-	<!-- BEGIN osd_container -->
-        <div class="osdNotificationContainer">
-
-        </div>
-	<!-- END osd_container -->
-	<div id="il_main_logo">
-		<a href="{HEADER_URL}" target="_top"><img src="{HEADER_ICON}" alt="Logo" /></a>
-	</div><!-- BEGIN header_top_title -->
-	<div class="ilTopTitle">
-		{TXT_HEADER_TITLE}
-	</div><!-- END header_top_title -->
-
-	<!-- BEGIN userisanonymous -->
-	<div class="ilLogin">
-		<span class="il_menu">
-		{TXT_NOT_LOGGED_IN}.&nbsp;&nbsp;
-		<a href="{LINK_LOGIN}" class="ilLogin" target="_top">{TXT_LOGIN}</a>
-		<!-- BEGIN registration_link -->&nbsp;&nbsp;<a href="{LINK_REGISTER}" class="ilLogin" target="_top">{TXT_REGISTER}</a><!-- END registration_link -->
-		&nbsp;&nbsp;{LANG_SELECT}</span>
-	</div>
-	<!-- END userisanonymous -->
-	<!-- BEGIN userisloggedin -->
-	<div class="ilLogin">
-		{USERNAME} » <a class="ilLogin" href="{LINK_LOGOUT2}" target="_top">{TXT_LOGOUT2}</a>
-	</div>
-	<!-- END userisloggedin -->
-	<!-- BEGIN status_box -->
-	<div id="il_status_box">
-		<!-- BEGIN status_item --><a class="il_ItemProperty" target="_top" href="{STATUS_HREF}"><img src="{STATUS_IMG}" alt="{STATUS_IMG_ALT}" /><!-- BEGIN status_text --><span class="ilMMStatus">{STATUS_TXT}</span><span class="small ilMMHidStatus">{STATUS_TXT}</span><!-- END status_text --></a><!-- END status_item -->
-	</div>
-	<!-- END status_box -->
-
+	<header class="container">
+		<div class="row">
+			<!-- BEGIN osd_enabled --><script type="text/javascript">var OSDNotifier; $(function() { OSDNotifier = OSDNotifications({initialNotifications: {INITIAL_NOTIFICATIONS}, pollingIntervall: {OSD_POLLING_INTERVALL}, playSound: {OSD_PLAY_SOUND}})});</script><!-- END osd_enabled -->
+			<!-- BEGIN osd_container --><div class="osdNotificationContainer"></div><!-- END osd_container -->
+			<a class="navbar-brand" href="{HEADER_URL}" target="_top">
+				<img src="{HEADER_ICON}" alt="Logo" /></a>
+		</div>
+	</header>
 </div>
-<div class="ilMainMenuSection">
-	<div class="ilMainMenu">
-		<h1 class="ilAccHeadingHidden">{TXT_MAIN_MENU}</h1>
-		{MAIN_MENU_LIST_ENTRIES}
+<div class="container ilMainHeader">
+	<div class="row">
+		<nav id="ilTopNav" class="navbar navbar-default" role="navigation">
+			<div class="container-fluid">
+				<!-- Brand and toggle get grouped for better mobile display -->
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<!-- <a class="navbar-brand" href="#">Brand</a> -->
+				</div>
+
+				<!-- Collect the nav links, forms, and other content for toggling -->
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+					{MAIN_MENU_LIST_ENTRIES}
+					
+				</div><!-- /.navbar-collapse -->
+			</div><!-- /.container-fluid -->
+		</nav>
+
+		<!-- BEGIN screen_id -->
+		<div id="il_screen_id" class="ilHighlighted small">Screen-ID: {SCREEN_ID}</div>
+		<!-- END screen_id -->
+		<!-- BEGIN top_section --><!-- END top_section -->
 	</div>
-	<ul class="ilMainMenu ilMainMenuSide">
-	<!-- BEGIN help_icon -->
-	<li class="ilMainMenu"><a class="MMInactive" id="help_tr" href="#" onclick="return il.Help.listHelp(event, false);"><img src="{IMG_HELP}" alt="" /></a></li>
-	<!-- END help_icon -->
-	<!-- BEGIN help_tt_icon -->
-	<li class="ilMainMenu"><a class="MMInactive" id="help_tt" href="#" onclick="return il.Help.switchTooltips(event);"><img src="{IMG_TT_ON}" id="help_tt_switch_on" alt="" /><img class="ilNoDisplay" src="{IMG_TT_OFF}" id="help_tt_switch_off" alt="" /></a></li>
-	<!-- END help_tt_icon -->
-	<!-- BEGIN search_box -->
-	<li class="ilMainMenu">{SEARCHBOX}</li>
-	<!-- END search_box -->
-	</ul>
-	<!-- BEGIN screen_id -->
-	<div id="il_screen_id" class="ilHighlighted small">Screen-ID: {SCREEN_ID}</div>
-	<!-- END screen_id -->
-	<!-- BEGIN top_section -->
-	<!-- END top_section -->
-<div class="ilClearFloat"></div>
-</div>
 </div>

@@ -108,7 +108,7 @@ class ilTemplate extends ilTemplateX
 			$this->setOption('use_preg', false);
 		}
 		$this->setBodyClass("std");
-		
+
 		return true;
 	}
 	
@@ -1566,6 +1566,10 @@ class ilTemplate extends ilTemplateX
 		include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
 		iljQueryUtil::initjQuery();
 
+		// always load ui framework
+		include_once("./Services/UICore/classes/class.ilUIFramework.php");
+		ilUIFramework::init();
+
 		// always load Basic js
 //		$this->addJavaScript("./Services/JavaScript/js/Basic.js",
 //			true, 1);
@@ -1664,7 +1668,7 @@ class ilTemplate extends ilTemplateX
 			
 			if ($icon)
 			{
-				$this->setVariable("HICONCL", "ilHeaderHasIcon");
+				//$this->setVariable("HICONCL", "ilHeaderHasIcon");
 			}
 			$header = true;
 		}
@@ -1855,6 +1859,21 @@ class ilTemplate extends ilTemplateX
 		else if (trim($this->right_content) != "" || trim($this->left_content) != "") {
 			$center_column_class = "one_side_col";
 		}
+
+		// bs-patch start
+		global $ilUser;
+		switch ($center_column_class)
+		{
+			case "one_side_col": $center_column_class = "col-sm-9"; break;
+			case "two_side_col": $center_column_class = "col-sm-6"; break;
+			default: $center_column_class = "col-sm-12"; break;
+		}
+		if (trim($this->left_content) != "")
+		{
+			$center_column_class.= " col-sm-push-3";
+		}
+		// bs-patch end
+
 		$this->setCurrentBlock("center_col_width");
 		$this->setVariable("CENTER_COL", $center_column_class);
 		$this->parseCurrentBlock();

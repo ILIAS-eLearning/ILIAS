@@ -1,11 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<title>{WINDOW_TITLE} {PAGETITLE}</title>
-	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-	<meta http-equiv="content-language" content="{META_CONTENT_LANGUAGE}" />
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 	<!-- BEGIN mh_meta_item -->
 	<meta name="{MH_META_NAME}" lang="{MH_META_LANG}" content="{MH_META_CONTENT}" />
 	<!-- END mh_meta_item -->
@@ -13,7 +12,7 @@
     <!-- set to ilias root for pages delivered by scripts in sub folders (e.g. WebAcessChecker -->
     <base href="{BASE}" />
     <!-- END HeadBaseTag -->
-
+	<link href="Customizing/global/skin/bs/yamm3/yamm/yamm.css" rel="stylesheet" />
 	<!-- BEGIN AdditionalStyle -->
 	<link rel="stylesheet" type="text/css" href="{LOCATION_ADDITIONAL_STYLESHEET}" />
 	<!-- END AdditionalStyle -->
@@ -33,14 +32,12 @@
 	<link rel="apple-touch-icon-precomposed" href="./templates/default/images/logo/ilias_logo_57x57-precomposed.png" /><!-- iphone -->
 	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="./templates/default/images/logo/ilias_logo_72x72-precomposed.png" /><!-- ipad -->
 	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="./templates/default/images/logo/ilias_logo_114x114-precomposed.png" /><!-- iphone retina -->
-	<!--link rel="apple-touch-icon-precomposed" sizes="144x144" href="./templates/default/images/logo/ilias_logo_144x144-precomposed.png" /--><!-- ipad retina -->
-	<!--meta name="apple-mobile-web-app-capable" content="yes" /-->
 	
 	<!-- BEGIN css_file -->
 	<link rel="stylesheet" type="text/css" href="{CSS_FILE}" media="{CSS_MEDIA}" />
 	<!-- END css_file -->
 	<!-- BEGIN css_inline -->
-	<style>
+	<style type="text/css">
 		{CSS_INLINE}
 	</style>
 	<!-- END css_inline -->
@@ -50,9 +47,6 @@
 	<!-- END ContentStyle -->
 	<!-- <link rel="P3Pv1" href="{LOCATION_P3PFILE}" /> -->
 	{LOCATION_NEWCONTENT_STYLESHEET_TAG}
-	<!-- BEGIN js_file -->
-	<script type="text/javascript" src="{JS_FILE}"></script>
-	<!-- END js_file -->
 	{SESSION_REMINDER}
 <!-- BEGIN HeadContent -->
 {CONTENT_BLOCK}
@@ -63,8 +57,11 @@
 {CALENDAR_LANG_JAVASCRIPT}
 <script type="text/javascript" src="{LOCATION_JAVASCRIPT_CALENDAR_SETUP}"></script>
 <!-- END CalendarJS -->
+	<!-- BEGIN js_file -->
+	<script type="text/javascript" src="{JS_FILE}"></script><!-- END js_file -->
 </head>
 <body <!-- BEGIN body_class -->class="{BODY_CLASS}" <!-- END body_class --> {BODY_ATTRIBUTES}>
+<!-- drag_zmove used, e.g. in learnin modules to drag layout borders -->
 <div id="drag_zmove"></div>
 <div id="ilAll">{CONTENT}</div>
 <!-- BEGIN on_load_code -->

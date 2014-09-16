@@ -1,51 +1,307 @@
-@import "less/reset.less";
+@font-face {
+	font-family: 'Open Sans';
+	src:	url('fonts/OpenSansWeb/opensans-regular-webfont.eot');
+	src: 	local('OpenSans Regular'),
+			local('OpenSans');
+	src:	url('fonts/OpenSansWeb/opensans-regular-webfont.eot?#iefix') format('embedded-opentype'),
+			url('fonts/OpenSansWeb/opensans-regular-webfont.woff') format('woff'),
+			url('fonts/OpenSansWeb/opensans-regular-webfont.ttf') format('truetype'),
+			url('fonts/OpenSansWeb/opensans-regular-webfont.svg') format('svg');
+}
+
+@font-face {
+	font-family: 'Open Sans';
+	src:	url('fonts/OpenSansWeb/opensans-bold-webfont.eot');
+	src: 	local('OpenSans Bold'),
+			local('OpenSans');
+	src:	url('fonts/OpenSansWeb/opensans-bold-webfont?#iefix') format('embedded-opentype'),
+			url('fonts/OpenSansWeb/opensans-bold-webfont.woff') format('woff'),
+			url('fonts/OpenSansWeb/opensans-bold-webfont.ttf') format('truetype'),
+			url('fonts/OpenSansWeb/opensans-bold-webfont.svg') format('svg');
+	font-weight: bold;
+}
+
+@font-face {
+	font-family: 'Open Sans';
+	src:	url('fonts/OpenSansWeb/opensans-italic-webfont.eot');
+	src: 	local('OpenSans Italic'),
+			local('OpenSans');
+	src:	url('fonts/OpenSansWeb/opensans-italic-webfont.eot?#iefix') format('embedded-opentype'),
+			url('fonts/OpenSansWeb/opensans-italic-webfont.woff') format('woff'),
+			url('fonts/OpenSansWeb/opensans-italic-webfont.ttf') format('truetype'),
+			url('fonts/OpenSansWeb/opensans-italic-webfont.svg') format('svg');
+	font-style: italic;
+}
+
+
+@font-face {
+	font-family: 'Open Sans';
+	src:	url('fonts/OpenSansWeb/opensans-bolditalic-webfont.eot');
+	src:	url('fonts/OpenSansWeb/opensans-bolditalic-webfont?#iefix') format('embedded-opentype'),
+			url('fonts/OpenSansWeb/opensans-bolditalic-webfont.woff') format('woff'),
+			url('fonts/OpenSansWeb/opensans-bolditalic-webfont.ttf') format('truetype'),
+			url('fonts/OpenSansWeb/opensans-bolditalic-webfont.svg') format('svg');
+	font-weight: bold;
+	font-style: italic;
+}
+
+@font-face {
+	font-family: 'Open Sans Light';
+	src:	url('fonts/OpenSansWeb/opensans-light-webfont.eot');
+	src: 	local('OpenSans-Light Regular'),
+			local('OpenSans-Light');
+	src:	url('fonts/OpenSansWeb/opensans-light-webfont.eot?#iefix') format('embedded-opentype'),
+			url('fonts/OpenSansWeb/opensans-light-webfont.woff') format('woff'),
+			url('fonts/OpenSansWeb/opensans-light-webfont.ttf') format('truetype'),
+			url('fonts/OpenSansWeb/opensans-light-webfont.svg') format('svg');
+}
+
+@font-face {
+	font-family: 'Open Sans Light';
+	src:	url('fonts/OpenSansWeb/opensans-lightitalic-webfont.eot');
+	src: 	local('OpenSans-Light Italic'),
+			local('OpenSans-Light');
+	src:	url('fonts/OpenSansWeb/opensans-lightitalic-webfont.eot?#iefix') format('embedded-opentype'),
+			url('fonts/OpenSansWeb/opensans-lightitalic-webfont.woff') format('woff'),
+			url('fonts/OpenSansWeb/opensans-lightitalic-webfont.ttf') format('truetype'),
+			url('fonts/OpenSansWeb/opensans-lightitalic-webfont.svg') format('svg');
+	font-style: italic;
+}
+
+@font-face {
+	font-family: 'Open Sans Semibold';
+	src:	url('fonts/OpenSansWeb/opensans-semibold-webfont.eot');
+	src: 	local('OpenSans-Semibold Regular'),
+			local('OpenSans-Semibold');
+	src:	url('fonts/OpenSansWeb/opensans-semibold-webfont.eot?#iefix') format('embedded-opentype'),
+			url('fonts/OpenSansWeb/opensans-semibold-webfont.woff') format('woff'),
+			url('fonts/OpenSansWeb/opensans-semibold-webfont.ttf') format('truetype'),
+			url('fonts/OpenSansWeb/opensans-semibold-webfont.svg') format('svg');
+}
+
+@font-face {
+	font-family: 'Open Sans Semibold';
+	src:	url('fonts/OpenSansWeb/opensans-semibolditalic-webfont.eot');
+	src: 	local('OpenSans-Semibold Italic'),
+			local('OpenSans-Semibold');
+	src:	url('fonts/OpenSansWeb/opensans-semibolditalic-webfont.eot?#iefix') format('embedded-opentype'),
+			url('fonts/OpenSansWeb/opensans-semibolditalic-webfont.woff') format('woff'),
+			url('fonts/OpenSansWeb/opensans-semibolditalic-webfont.ttf') format('truetype'),
+			url('fonts/OpenSansWeb/opensans-semibolditalic-webfont.svg') format('svg');
+	font-style: italic;
+}
+
+@font-face {
+	font-family: 'Open Sans Extrabold';
+	src:	url('fonts/OpenSansWeb/opensans-extrabold-webfont.eot');
+	src: 	local('OpenSans-Extrabold Regular'),
+			local('OpenSans-Extrabold');
+	src:	url('fonts/OpenSansWeb/opensans-extrabold-webfont.eot?#iefix') format('embedded-opentype'),
+			url('fonts/OpenSansWeb/opensans-extrabold-webfont.woff') format('woff'),
+			url('fonts/OpenSansWeb/opensans-extrabold-webfont.ttf') format('truetype'),
+			url('fonts/OpenSansWeb/opensans-extrabold-webfont.svg') format('svg');
+}
+
+@font-face {
+	font-family: 'Open Sans Extrabold';
+	src:	url('fonts/OpenSansWeb/opensans-extrabolditalic-webfont.eot');
+	src: 	local('OpenSans-Extrabold Italic'),
+			local('OpenSans-Extrabold');
+	src:	url('fonts/OpenSansWeb/opensans-extrabolditalic-webfont.eot?#iefix') format('embedded-opentype'),
+			url('fonts/OpenSansWeb/opensans-extrabolditalic-webfont.woff') format('woff'),
+			url('fonts/OpenSansWeb/opensans-extrabolditalic-webfont.ttf') format('truetype'),
+			url('fonts/OpenSansWeb/opensans-extrabolditalic-webfont.svg') format('svg');
+	font-style: italic;
+}
+
+@bsbase: "../../Services/UICore/lib/bootstrap-3.2.0/less/";
+
+// This part should be a copy of the less/bootstrap.less file
+// containing all imports needed.
+// The variables.less should point to a customized version.
+
+// Core variables and mixins
+@import "@{bsbase}variables.less";    // original
+@import "less/variables.less";             // customized
+@import "@{bsbase}mixins.less";
+
+// Reset and dependencies
+@import "@{bsbase}normalize.less";
+@import "@{bsbase}print.less";
+@import "@{bsbase}glyphicons.less";
+
+// Core CSS
+@import "@{bsbase}scaffolding.less";
+@import "@{bsbase}type.less";
+@import "@{bsbase}code.less";
+@import "@{bsbase}grid.less";
+@import "@{bsbase}tables.less";
+@import "@{bsbase}forms.less";
+@import "@{bsbase}buttons.less";
+
+// Components
+@import "@{bsbase}component-animations.less";
+@import "@{bsbase}dropdowns.less";
+@import "@{bsbase}button-groups.less";
+@import "@{bsbase}input-groups.less";
+@import "@{bsbase}navs.less";
+@import "@{bsbase}navbar.less";
+@import "@{bsbase}breadcrumbs.less";
+@import "@{bsbase}pagination.less";
+@import "@{bsbase}pager.less";
+@import "@{bsbase}labels.less";
+@import "@{bsbase}badges.less";
+@import "@{bsbase}jumbotron.less";
+@import "@{bsbase}thumbnails.less";
+@import "@{bsbase}alerts.less";
+@import "@{bsbase}progress-bars.less";
+@import "@{bsbase}media.less";
+@import "@{bsbase}list-group.less";
+@import "@{bsbase}panels.less";
+@import "@{bsbase}responsive-embed.less";
+@import "@{bsbase}wells.less";
+@import "@{bsbase}close.less";
+
+// Components w/ JavaScript
+@import "@{bsbase}modals.less";
+@import "@{bsbase}tooltip.less";
+@import "@{bsbase}popovers.less";
+@import "@{bsbase}carousel.less";
+
+// Utility classes
+@import "@{bsbase}utilities.less";
+@import "@{bsbase}responsive-utilities.less";
+
+
+// warning inline text
+span.ilAlert {
+	color: @brand-warning;
+}
+
+
+//== Navs
+
+/* Drop Downs */
+
+// The dropdown menu (ul)
+.dropdown-menu {
+	// Links within the dropdown menu
+	li > a {
+		display: block;
+		padding: 3px 20px;
+		clear: both;
+		font-weight: normal;
+		line-height: @line-height-base;
+		color: @dropdown-link-color;
+		white-space: nowrap // prevent links from randomly breaking onto new lines
+	}
+}
+.yamm .dropdown-menu {
+	li > a {
+		white-space: normal;
+	}
+}
+
+.btn-group.open .dropdown-toggle {
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05) inset;
+}
+
+.dropdown-menu img {
+	border: 0;
+	width: 22px;
+	height: 22px;
+}
+
+// must be like dropdown-menu img
+.ilAdvNoImg {
+	display: inline-block;
+	width: 22px;
+}
+
+// Hover/Focus state
+.dropdown-menu li > a {
+	&:hover,
+	&:focus {
+		text-decoration: none;
+		color: @dropdown-link-hover-color;
+		background-color: @dropdown-link-hover-bg;
+	}
+}
+
+
+
+/* ILIAS part candidates */
+
+html, body {
+	height:100%;
+}
+
+#ilAll {
+	position:relative;
+	height:auto !important;
+	height:100%;
+	min-height:100%;
+	margin:0px auto -180px;
+}
+
+div#minheight {
+	height:180px;
+	clear:both;
+	}
+
+div.ilFrame {
+	margin-top:-40px;
+	margin-left:auto;
+	margin-right:auto;
+	max-width:1200px;
+	box-shadow: 0 0 40px #808080;
+	padding-top: 129px;
+	background-color: #f9f9f9;
+	min-height: 100%;
+}
+
+
+/* left navigation area (used, e.g. for explorer trees) */
+.ilLeftNav {
+	top: 0;
+	bottom:	0;
+	left: 0;
+	width: 250px;
+	float: left;
+	position: absolute;
+	padding: 5px;
+	overflow: auto;
+	background-color: #f9f9f9;
+	border-right: 3px solid #f3f3f3;
+	z-index: 100;
+}
+
+
+/* search */
+#ilMMSearch ul li {
+	padding: 5px;
+}
+
+#ilMMSearch ul li label {
+	font-weight: normal;
+}
+
+#ilMMSearchMenu p {
+	white-space: nowrap;
+}
+
+#main_menu_search {
+	width: 200px;
+}
+
+/* --------------------------------------------------------------
+	"Classic" delos part
+-------------------------------------------------------------- */
+
 
 /* --------------------------------------------------------------
    GLOBAL STYLES
 -------------------------------------------------------------- */
-html {
-	height: 100%;
-}
-
-body {
-	height: 100%;
-}
-
-body {
-	color: #222;
-	background: none #FFF;
-	line-height: 1.3;
-	font-size: .89em;
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-}
-
-h1 {
-	font-size: 1.5em;
-}
-
-h2 {
-	font-size: 1.4em;
-}
-
-h3 {
-	font-size: 1.3em;
-}
-
-h4 {
-	font-size: 1.2em;
-}
-
-h5 {
-	font-size: 1.1em;
-}
-
-h6 {
-	font-size: 1em;
-}
-
-h1, h2, h3, h4, h5 {
-	font-weight: normal;
-}
 
 ul, ol, p {
 	margin: .8em 0;
@@ -85,42 +341,7 @@ strong, b {
 	font-weight: bold;
 }
 
-select {
-	margin: 0;
-	font: inherit;
-	padding: 1px;
-	text-decoration: none;
-	font-size: 80%;
-	border: 1px solid #E0E0E0;
-}
-
-input, textarea {
-	font: inherit;
-}
-
-label, input[type=checkbox], input[type=radio], select {
-	cursor: pointer;
-}
-
-input[type=checkbox], input[type=radio] {
-	border-style: none;
-	background-color: transparent;
-}
-
-input[type=text], input[type=file], input[type=password], textarea {
-	border: 1px solid #E0E0E0;
-	padding: 3px;
-	text-decoration: none;
-	font-size: 90%;
-}
-
-input[type=text]:focus, input[type=file]:focus, input[type=password]:focus,
-textarea:focus, select:focus {
-	border-color: #A0B0FF;
-}
-
 a {
-	color: #03A;
 	text-decoration: none;
 	cursor: pointer;
 /* BEGIN WebDAV: Enable links with AnchorClick behavior for Internet Explorer. 
@@ -162,6 +383,15 @@ code {
 	color: #858585;
 }
 
+::selection {
+	background: lighten(@brand-primary, 48%);
+}
+
+::-moz-selection {
+	background: lighten(@brand-primary, 48%);
+}
+
+
 @media print {
   h1, h2, h3, h4, h5, h6 { 
 	page-break-after: avoid;
@@ -178,10 +408,6 @@ code {
 
 body#tinymce, body.mceContentBody {
 	height: auto;
-}
-
-body.std {
-	background: url(images/frame_back.png) repeat-x #F9F9F9 ;
 }
 
 .ilHidden {
@@ -222,7 +448,6 @@ body.std {
 }
 
 div.ilFrame {
-	padding: 0;
 }
 
 
@@ -245,14 +470,9 @@ div.ilFrame {
 }
 
 div#mainspacekeeper {
-	background-color: #F9F9F9;
-	box-shadow: inset 0 2px 2px #D0D0D0;
 }
 
 div#mainscrolldiv {
-	padding: 5px 10px 0;
-	background-color: #F9F9F9;
-	box-shadow: inset 0px 2px 2px #D0D0D0;
 }
 
 .fullwidth {
@@ -261,43 +481,28 @@ div#mainscrolldiv {
 
 /* --- 3 column layout -- */
 
+#ilContentContainer {
+	/*min-height: 400px;*/
+}
+
 .il_ColumnLayout {
-	width: 100%;
-	min-height: 100%;
 }
 
 #il_left_col {
-	vertical-align: top;
-	width: 20%;
-	padding: 0 0 0 1%;
-	float: left;
 }
 
 #il_center_col {
-	vertical-align: top;
-	width: 98%;
-	padding: 0 1%;
-	min-height: 1px;
-	float: left;
-	padding-bottom: 15px;
 }
 
 #il_center_col.one_side_col {
-	width: 77%;
 }
 #il_center_col.two_side_col {
-	width: 56%;
 }
 
 #il_right_col {
-	vertical-align: top;
-	width: 20%;
-	padding: 0 1% 0 0;
-	float: left;
 }
 
 input.fullwidth, textarea.fullwidth {
-	width: 98%;
 }
 
 div.input {
@@ -517,7 +722,7 @@ a.il_ItemProperty:hover {
 }
 
 span.il_ItemAlertProperty {
-	color: #C04000;
+	color: @brand-warning;
 }
 
 span.il_ItemProperty {
@@ -554,32 +759,30 @@ div.il_info {
 }
 
 /* ---------------- headlines ------------------ */
-div.il_HeaderOuter {
-	clear: both;
-}
 
-div.il_Header, a#il_mhead_t_focus {
-	color: #505050;
+
+a#il_mhead_t_focus {
+	color: @brand-secondary;
+	vertical-align: middle;
 }
 
 h1.ilHeader {
-	margin: 0;
-	padding: 15px 0 5px;
-	font-size: 140%;
-	font-weight: normal;
-	border-bottom: 1px solid #EAEAEA;
+	padding: 5px 0 0;
 }
 
-
-h1.ilHeaderHasIcon {
-	margin-left: 50px;
+#headerimage {
+	width: 40px;
+	height: 40px;
+	margin-right: 10px;
+	float: left;
+	background-color: white;
 }
 
 span.ilHeader {}
 
 div.ilHeadAction {
 	float: right;
-	margin: 21px 21px 5px 0; /* bottom 5px blog fullscreen */
+	margin: 8px 0 5px; /* bottom 5px blog fullscreen */
 }
 
 div.ilHeadAction .prop {
@@ -592,20 +795,22 @@ div.ilHeadAction a:hover {
 
 div.ilHeaderDesc {
 	font-size: 80%;
-	padding: 5px 0 0 51px;
-	color: #808080;
+	padding: 0;
+	color: lighten(@text-color, 25%);
+	font-family: 'Open Sans Light'
 }
 
 div.ilHeaderAlert {
-	font-size: 80%;
-	padding: 5px 0 0 51px;
-	color: #C04000;
+	font-size: 90%;
+	padding: 0;
+	font-family: 'Open Sans Light';
+	color: @brand-warning;
 }
 
 div.il_HeaderInner {
 	margin-bottom: 10px;
-	padding: 13px 10px 15px;
-	color: #222;
+	padding: 10px 15px;
+	overflow: visible;
 }
 
 div.il_TreeIcons {
@@ -619,6 +824,26 @@ div.il_Footer {
 	padding: 10px 0;
 	font-size: 90%;
 	text-align: center;
+}
+
+footer.ilFooter {
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0 !important;
+	height: 160px;
+	margin: 0 auto;
+	padding: 20px 0 0;
+	text-align: center;
+	color: white;
+	background-color: @brand-primary;
+	a.permalink_label,
+	> .container > .row > a {
+		color: white;
+		&:hover {
+			color: white;
+		}
+	}
 }
 
 
@@ -642,6 +867,10 @@ div.ilPermaLink input {
 
 div.ilPermaLink a {
 	font-size: 1em;
+}
+
+#current_perma_link {
+	color: @text-color;
 }
 
 
@@ -747,148 +976,27 @@ a.light:hover {
 	color: #000;
 }
 
-
-/* ------------------ buttons -------------- */
-div.il_ButtonGroup {
-	margin: 3px 0 10px;
-	line-height: 150%;
-	white-space: nowrap;
-	display: block;
-}
-
-
-input.submit, a.submit, a.submit:hover {
-	font-size: 80%;
-	font-weight: normal;
-	line-height: 16px;
-	vertical-align: baseline;
-	color: #359;
-	background: url(images/ButtonsBack.png) repeat-x top;
-	background-size: auto 100%;
-	/*box-shadow: 0 1px 0 rgba(255, 255, 255, 0.6) inset;
-	background-image: -moz-linear-gradient(center top , #EDEDED, #FAFAFA);*/
-	border: 1px solid #D0D0D0;
-	/* border: 1px solid #C0C0C0; */
-	padding: 2px 5px;
-	margin: 0;
-	text-decoration: none;
-	cursor: pointer;
-	display: inline-block;
-	border-radius: 2px;	
-}
-
-input.submit:hover, a.submit:hover {
-	border-color: #B0B0B0;
-	color: #101010;
-	box-shadow: 0px 0px 1px #A0A0A0;
-}
-
-input.emphsubmit, a.emphsubmit, a.emphsubmit:hover {
-	background-color: #5dbf61;
-	background-image: none;	/* IE10 will not work otherwise */
-	background-image: -moz-linear-gradient(top , #5dbf61, #4fa152);
-	background-image: -webkit-linear-gradient(top , #5dbf61, #4fa152);
-	background-image: -o-linear-gradient(top , #5dbf61, #4fa152);
-	background-image: linear-gradient(to bottom , #5dbf61, #4fa152);
-	background-repeat: repeat-x;
-	border-color: #0044CC #0044CC #003AAD;
-	color: #FFFFFF;
-	font-weight: 600;
-	border-color: #4ea051 #4ea051 #7fcc81;
-	min-width: 100px;
-	display: inline-block;
-	text-align: center;
-}
-
-input.emphsubmit:hover, a.emphsubmit:hover {
-	border-color: #707070;
-	color: #FFFFFF;
-	box-shadow: 0px 0px 1px #909090;
-}
-
-input.ilSubmitInactive, input.ilSubmitInactive:hover,
-a.ilSubmitInactive, a.ilSubmitInactive:hover {
-	color: #909090;
-	cursor: default;
-	border-color: #D0D0D0;
-	box-shadow: none;
-	background: url(images/ButtonsBack.png) repeat-x top;
-	background-size: auto 100%;
-}
-
-div.il_ButtonGroup.bigButton > input.submit {
-	 padding: 10px;
-}
-
-div.il_ButtonGroup.bigButton > input.submit:hover {}
-
-input.submit_disabled, a.submit_disabled, a.submit_disabled:hover {
-	background-color: #E6ECF8;
-	color: gray;
-	border: 1px solid #B6B6B6;
-	padding: 2px;
-	text-decoration:none;
-	font-size: 90%;
-	cursor: pointer;
-}
-
-
-input.tblrow1, input.tblrow2 {
-	background-color: #FFF;
-	color: #000;
-	background-image: none;
-	padding: 0;
-}
-
 input.ilEditSubmit:hover {
 	color: #000;
 }
 
 /* Messages */
-div.ilInfoMessage, 
-div.ilFailureMessage, 
-div.ilSuccessMessage, 
+div.ilInfoMessage,
+div.ilFailureMessage,
+div.ilSuccessMessage,
 div.ilQuestionMessage {
-	background-color: #ECF0F9;
-	margin: 0 0 8px 10px;
-	padding: 5px 30px;
-	min-height: 20px;
-	font-size: 90%;
-	clear: both;
 }
 
 div.ilFailureMessage {
-	background-color: #FCEAEA;
 }
 
 div.ilSuccessMessage {
-	background-color: #F0FDF0;
 }
 
 div.ilQuestionMessage {
-	background-color: #FFFCEE;
 }
 
 div.ilMessageBox {
-	position: relative;
-}
-
-
-img.ilInfoMessage,
-img.ilFailureMessage,
-img.ilSuccessMessage,
-img.ilQuestionMessage {
-	position: absolute;
-}
-
-.alert {
-	color: #C04000;
-}
-
-
-/* ------------------ content window body tag (not used yet) -------------- */
-.content {
-	margin: 0;
 }
 
 
@@ -905,54 +1013,6 @@ div#agreement {
 	overflow-x: hidden;
 }
 
-
-
-
-div.ilTabContentOuter {
-	background-color: #FFF;
-	border: 1px solid #E0E0E0;
-	clear: both;
-	width: 100%;
-	min-height: 100%;
-	float: left;
-	box-shadow: 3px 3px 4px #D0D0D0;
-	margin-bottom: 10px;
-}
-
-div.ilTabContentInner {
-	padding: 0;
-	margin: 15px 0;
-	clear: both;
-	min-height: 300px;
-	width: 100%;
-}
-
-div.ilTabsTable {
-	display: table; 
-	width: 100%;
-}
-
-div.ilTabsTableRow {
-	display: table-row;
-}
-
-div.ilTabsTableCell {
-	display: table-cell;
-}
-
-/* left navigation area (used, e.g. for explorer trees) */
-div.ilLeftNav {
-	top: 85px;
-	bottom:	0;
-	width: 300px;
-	float:left;
-	position: fixed;
-	padding: 5px;
-	overflow: auto;
-	background-color: #F5F5F5;
-	border-right: 3px solid #E9E9E9;
-	box-shadow: inset 0px 2px 2px #D0D0D0;
-}
 
 /* bottom center area (optional bottom area, used e.g. in learning modules) */
 div#bot_center_area {
@@ -1002,20 +1062,11 @@ div#bot_center_area_drag:hover {
 
 .ilLeftNavSpace {
 	/* padding: 0 20px 0 310px; */
-	left: 310px !important;
+	margin-left: 250px !important;
 }
 
 
 div.ilContentFixed {
-	/*background-color: #F9F9F9;
-	box-shadow: inset 0px 2px 2px #D0D0D0;*/
-	right: 0;
-	bottom: 0;
-	left: 0;
-	position: fixed;
-	top: 85px;
-	overflow: auto;
-
 }
 
 
@@ -1032,18 +1083,13 @@ div.ilRightPanel {
 
 
 /* Overlays, Blocks */
-div.il_Block, table.il_Block, .ilOverlay {
+.ilOverlay {
 	background-color: #FFF;
 	border: 1px solid #D6D6D6;
 	text-align: left;
-}
-
-.ilOverlay {
 	position: absolute;
 	box-shadow: 2px 2px 4px #C0C0C0;
 }
-
-
 
 table.fullwidth {
 	background-color: #FFF;
@@ -1103,15 +1149,11 @@ div.ilHeaderImg {
 }
 
 .ilFrameFixedWidth h1.ilHeader {
-	padding: 0;
-	margin-top: 20px;
-	border-bottom: 0;
 }
 
 .ilFrameFixedWidth div.ilHeaderDesc {
 	padding-left: 0;
 }
-
 
 div.ilBox {
 	background: url(images/FramedBack.png) repeat-x;
@@ -1119,8 +1161,6 @@ div.ilBox {
 	padding: 10px;
 	margin-bottom: 20px;
 }
-
-
 
 /* Top-Bar */
 div.ilTopBar {
@@ -1149,7 +1189,6 @@ div.ilTopBarRight span#ilAdvSelListAnchorElement_asl {
 div.ilTopBarRight td.il_adv_sel {
 	background-color: #444;
 }
-
 
 div.ilSideBarHead{
 	background-color: #F0F0F0;
@@ -1285,8 +1324,8 @@ div.ilSideBarContent{
 @import "less/Services/UIComponent/Toolbar/delos.less";
 @import "less/Services/UIComponent/Tooltip/delos.less";
 @import "less/Services/Locator/delos.less";
-
-
+@import "less/Services/UIComponent/Button/delos.less";
+@import "less/Services/Rating/delos.less";
 
 .noMargin {
 	margin: 0;
@@ -1294,11 +1333,6 @@ div.ilSideBarContent{
 
 div.editLink {
 	padding-right: 1em;
-}
-
-
-div[id^="ilFormField"] {
-	margin-bottom: 10px;
 }
 
 /* basic responsiveness (beta)
@@ -1320,24 +1354,8 @@ div[id^="ilFormField"] {
 	html {
 		-webkit-text-size-adjust: none;
 	}
-	
-	body {
-		font-family: Arial, sans-serif !important;
-	}
-	
-	#il_left_col, #imgtree, #help_tt, #help_tr, .ilTopTitle, #il_status_box {
-		display: none;
-	}
-	
-	#il_right_col {
-		float: none;
-		padding: 0;
-		vertical-align: top;
-		width: 100%;
-	}
 
     div#mainscrolldiv {
-    	padding: 5px 0px 0;
     }
     
     div.il_HeaderInner {
@@ -1346,19 +1364,6 @@ div[id^="ilFormField"] {
 		padding: 5px;
 	}
 	
-	#il_center_col.one_side_col ,
-	#il_center_col.two_side_col,
-    #il_right_col {
-		width: auto;
-        float: none;
-		padding: 0 10px;
-	}
-	
-	div.il_Block {
-		/* due to mantis #10052 ? */
-		/* alex, 1.Jan.2014: I do not see a reason to remove the border here, this looks odd */
-		/* border: 0 none; */
-	}
 
 	textarea {
 		max-width: 100%; 
@@ -1373,30 +1378,20 @@ div[id^="ilFormField"] {
 		max-width: 100%;
 	}
 	
-	div.ilStartupFrame {
+	div.ilFrame {
 		margin: 0;
 		width: 100%;
 	}
-	
-	#il_startup_content form table {
-		width: auto;
-	}
-
-
 
 	div.ilLeftNav {
-		width: 0;
-		display: none;
+		
 	}
 
 	div.ilLeftNavSpace {
-		padding: 0;
-		left: 0px !important;
+		
 	}
 
 	div.ilContentFixed {
-		left: 0;
-		position: static;
 	}
 	
 	.ilFrameFixedWidthHeader div.ilHeaderBanner {
@@ -1419,10 +1414,11 @@ div[id^="ilFormField"] {
 		overflow: auto;
 	}
 
-	@import "less/Services/MainMenu/delos_sm.less";
-	@import "less/Services/UIComponent/Tabs/delos_sm.less";
-	@import "less/Services/Form/delos_sm.less";
+	/* @import "less/Services/MainMenu/delos_sm.less"; */
+	/* @import "less/Services/UIComponent/Tabs/delos_sm.less"; */
+	/* @import "less/Services/Form/delos_sm.less"; */
 	@import "less/Modules/Forum/delos_sm.less";
+	@import "less/Services/Init/delos_sm.less";
 
 
 	div.ilGoogleMap {
@@ -1454,6 +1450,19 @@ div[id^="ilFormField"] {
 	div.ilContentFixed {
 		left: 0;
 		position: static;
+	}
+
+	div.ilFileDropTargetOverlay {
+		display: none;
+	}
+
+	.ilTreeView {
+		//display: none;
+	}
+
+	// overwrite bootstrap href printing
+	a[href]:after {
+		content: "";
 	}
 }
 

@@ -1378,7 +1378,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		{
 			case self::VIEW_MY_MEMBERSHIPS:
 				$tpl = new ilTemplate('tpl.pd_my_memberships_intro.html', true, true, 'Services/PersonalDesktop');
-				$tpl->setVariable('IMG_PD_LARGE', ilUtil::getImagePath('icon_pd_xxl.png'));
+				$tpl->setVariable('IMG_PD_LARGE', ilObject::_getIcon("", "big", "pd"));
 				$tpl->setVariable('TXT_WELCOME', $lng->txt('pd_my_memberships_intro'));
 				$tpl->setVariable('TXT_INTRO_1', $lng->txt('pd_my_memberships_intro2'));
 				break;
@@ -1394,7 +1394,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 				}
 				
 				$tpl = new ilTemplate("tpl.pd_intro.html", true, true, "Services/PersonalDesktop");
-				$tpl->setVariable("IMG_PD_LARGE", ilUtil::getImagePath("icon_pd_xxl.png"));
+				$tpl->setVariable('IMG_PD_LARGE', ilObject::_getIcon("", "big", "pd"));
 				$tpl->setVariable("TXT_WELCOME", $lng->txt("pdesk_intro"));
 				$tpl->setVariable("TXT_INTRO_1", sprintf($lng->txt("pdesk_intro2"), $lng->txt("to_desktop")));
 				include_once("./Services/Link/classes/class.ilLink.php");

@@ -49,7 +49,7 @@ class ilMailExplorer extends ilTreeExplorerGUI
 		}
 		else
 		{
-			return ilUtil::getImagePath("icon_".$a_node["m_type"]."_s.png");		
+			return ilUtil::getImagePath("icon_".$a_node["m_type"].".png");
 		}
 	}		
 	

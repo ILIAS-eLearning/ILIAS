@@ -17,31 +17,25 @@
 </div>
 <!-- END fullscreen_topbar -->
 
-<div class="ilFrame{FRAME_FIXED_WIDTH}">
-
-	{MAINMENU}
+{MAINMENU}
 
 <!-- BEGIN sr_focus -->
 <script type="text/javascript">il.Util.addOnLoad(il.Util.setStdScreenReaderFocus); var il_sr_opt = true;</script>
 <!-- END sr_focus -->
 
-	<!-- BEGIN left_nav -->
-	<div id="left_nav" class="ilLeftNav">{LEFT_NAV_CONTENT}</div>
-	<!-- END left_nav -->
-
-	<div id="mainspacekeeper" class="">
-	  <div id="fixed_content" class="<!-- BEGIN left_nav_space -->ilLeftNavSpace<!-- END left_nav_space --> ilContentFixed" >
+<!-- BEGIN tree_mode -->
+<a {TREE_ACC_KEY} class="ilTreeView{RIGHT}<!-- BEGIN tree_lns --> kilLeftNavSpace<!-- END tree_lns -->" href="{LINK_MODE}" target="{TARGET_TREE}" id="imgtree">
+	<img src="{IMG_TREE}" alt="{ALT_TREE}" title="{ALT_TREE}" /></a>
+<!-- END tree_mode -->
+<div id="mainspacekeeper" class="container">
+	<div class="row" style="position: relative;">
+	<div id="fixed_content" class="<!-- BEGIN left_nav_space -->ilLeftNavSpace<!-- END left_nav_space --> ilContentFixed" >
+		<!-- BEGIN left_nav -->
+		<div id="left_nav" class="ilLeftNav">{LEFT_NAV_CONTENT}</div>
+		<!-- END left_nav -->
 		<div id="mainscrolldiv" {FRAME_BG_COLOR}>
-			<!-- BEGIN tree_mode -->
-			<a {TREE_ACC_KEY} class="ilTreeView{RIGHT} <!-- BEGIN tree_lns -->ilLeftNavSpace<!-- END tree_lns -->" href="{LINK_MODE}" target="{TARGET_TREE}" id="imgtree">
-				<img src="{IMG_TREE}" alt="{ALT_TREE}" title="{ALT_TREE}" /></a>
-			<!-- END tree_mode -->
-			
 			{STATUSLINE}
-
-<div class="il_HeaderOuter">
-<div class="il_Header">
-
+			
 	<!-- BEGIN fullscreen_headerbl -->
 	<div class="ilFrameFixedWidthHeader">
 		
@@ -59,24 +53,31 @@
 	<!-- END fullscreen_iconbl -->
 	<!-- END fullscreen_headerbl -->
 	
-	<div class="il_HeaderInner"{FILEUPLOAD_DROPZONE_ID}>
-	<!-- BEGIN head_action -->
-	<div class="ilHeadAction" id="il_head_action">
-		<!-- BEGIN head_action_inner -->{HEAD_ACTION}<!-- END head_action_inner --></div><!-- END head_action -->
-	<!-- BEGIN headerbl -->
-	<h1 class="ilHeader {HICONCL}">
-		<!-- BEGIN header_image --><span class="ilFloatLeft ilDisplayBlock" style="margin: 1px 0px 0px -45px;">
-			<img id="headerimage" src="{IMG_HEADER}" alt="{IMAGE_ALT}" title="{IMAGE_DESC}" /></span><!-- END header_image -->
-			<a class="ilAccAnchor" id="il_mhead_t_focus" name="il_mhead_t_focus" {HEADER_COLOR}{HEADER_URL}>{HEADER}</a></h1><!-- END headerbl -->
+	<div class="media il_HeaderInner"{FILEUPLOAD_DROPZONE_ID}>
+		<!-- BEGIN head_action -->
+		<div class="ilHeadAction" id="il_head_action">
+			<!-- BEGIN head_action_inner -->{HEAD_ACTION}<!-- END head_action_inner -->
+		</div>
+		<!-- END head_action -->
+		
+		<!-- BEGIN headerbl -->
+			<!-- BEGIN header_image -->
+			<img id="headerimage" class="media-object" src="{IMG_HEADER}" alt="{IMAGE_ALT}" title="{IMAGE_DESC}" />
+			<!-- END header_image -->
+				<h1 class="media-heading ilHeader"><a class="ilAccAnchor" id="il_mhead_t_focus" name="il_mhead_t_focus" {HEADER_COLOR}>{HEADER}</a></h1>
+		<!-- END headerbl -->
 	<!-- BEGIN header_desc -->
 	<div class="ilHeaderDesc">{H_DESCRIPTION}</div><!-- END header_desc -->
 	<!-- BEGIN header_alert -->
 	<div class="ilHeaderAlert">
 		<!-- BEGIN header_alert_prop_name -->
-		{H_PROP} <!-- END header_alert_prop_name -->{H_VALUE}</div><!-- END header_alert --></div>
+		{H_PROP} <!-- END header_alert_prop_name -->{H_VALUE}</div><!-- END header_alert -->
+	</div>
+	
     <!-- BEGIN header_fileupload -->
     {HEADER_FILEUPLOAD_SCRIPT}
     <!-- END header_fileupload -->
+	
 	<!-- BEGIN tree_icons -->
 	<div class="il_TreeIcons ilNoDisplay">
 		<!-- BEGIN top -->
@@ -89,65 +90,64 @@
 		<!-- END mount_webfolder -->
 	</div>
 	<!-- END tree_icons -->
+	
 	<div class="ilClearFloat"><!-- BEGIN stop_floating -->&nbsp;<!-- END stop_floating --></div>
-{TABS}
-</div>
-</div>
-			
-<!-- BEGIN tabs_outer_start -->
-<div class="ilTabsTable"><div class="ilTabsTableRow"><div class="ilTabContentOuter ilTabsTableCell">
-<!-- END tabs_outer_start -->
 
-<div class="ilClearFloat">{SUB_TABS}</div>
+{TABS}
+<!-- BEGIN tabs_outer_start --><div class="ilTabsContentOuter"><div class="clearfix"></div><!-- END tabs_outer_start -->
+{SUB_TABS}
 <span class="ilAccHidden"><a id="after_sub_tabs" name="after_sub_tabs"></a></span>
-<!-- BEGIN tabs_inner_start --><div class="ilTabContentInner"><!-- END tabs_inner_start -->
+<!-- BEGIN tabs_inner_start --><!-- END tabs_inner_start -->
 <!-- BEGIN page_form_start -->
 <form id="main_page_form" action="{PAGE_FORM_ACTION}" method="post">
 	<!-- END page_form_start -->
-	
-<div class="il_ColumnLayout ilClearFloat">
 
-	<div class="fullwidth">
-		<div class="ilAdminRow">{MESSAGE}</div>
-		<!-- BEGIN add_commands -->
-		<div class="ilCommandRow {CENTER_COL_CLASS}">
-			{SELECT_OBJTYPE_REPOS}
+<div>
+	<div class="ilAdminRow">{MESSAGE}</div>
+	<!-- BEGIN add_commands -->
+	<div class="ilCommandRow {CENTER_COL_CLASS}">
+		{SELECT_OBJTYPE_REPOS}
+	</div>
+	<!-- END add_commands -->
+	<!-- BEGIN adm_view_components -->
+	<div class="ilAdminRow">{ADM_PANEL1}</div>
+	<!-- END adm_view_components -->
+</div>
+
+<div class="container-fluid" id="ilContentContainer">
+	<div class="row">
+
+		<div id="il_center_col" class="<!-- BEGIN center_col_width -->{CENTER_COL}<!-- END center_col_width -->">
+			<!-- BEGIN toolbar_buttons -->{BUTTONS}<!-- END toolbar_buttons -->
+			{RTE_SWITCH}
+			{ADM_CONTENT}
+			{OBJECTS}
+			{SYSTEMSETTINGS}
+			<!-- BEGIN adm_view_components2 -->
+			<div style="margin-bottom:10px;">{ADM_PANEL2}</div>
+			<!-- END adm_view_components2 -->
 		</div>
-		<!-- END add_commands -->
-		<!-- BEGIN adm_view_components -->
-		<div class="ilAdminRow">{ADM_PANEL1}</div>
-		<!-- END adm_view_components -->
+
+		<!-- BEGIN left_column -->
+		<div id="il_left_col" class="col-sm-3 col-sm-pull-6">{LEFT_CONTENT}</div>
+		<!-- END left_column -->
+
+		<!-- BEGIN right_column -->
+		<div id="il_right_col" class="col-sm-3">{RIGHT_CONTENT}</div>
+		<!-- END right_column -->
 	</div>
-
-	<!-- BEGIN left_column -->
-	<div id="il_left_col">{LEFT_CONTENT}</div>
-	<!-- END left_column -->
-	
-	<div id="il_center_col" class="<!-- BEGIN center_col_width -->{CENTER_COL}<!-- END center_col_width -->">
-		<!-- BEGIN toolbar_buttons -->{BUTTONS}<!-- END toolbar_buttons -->
-		{RTE_SWITCH}
-		{ADM_CONTENT}
-		{OBJECTS}
-		{SYSTEMSETTINGS}
-		<!-- BEGIN adm_view_components2 -->
-		<div style="margin-bottom:10px;">{ADM_PANEL2}</div>
-		<!-- END adm_view_components2 -->
-	</div>
-
-	<!-- BEGIN right_column -->
-	<div id="il_right_col">{RIGHT_CONTENT}</div>
-	<!-- END right_column -->
-
 </div>
 
 <!-- BEGIN print_content --><div class="ilPrintContent">{PRINT_CONTENT}</div><!-- END print_content -->
 <!-- BEGIN page_form_end --></form><!-- END page_form_end -->
-<!-- BEGIN tabs_inner_end --></div><!-- END tabs_inner_end -->
-<!-- BEGIN tabs_outer_end --></div></div></div><!-- END tabs_outer_end -->
+<!-- BEGIN tabs_inner_end --><!-- END tabs_inner_end -->
+<!-- BEGIN tabs_outer_end --></div><!-- END tabs_outer_end -->
 
-<div class="ilPermaLink">{PRMLINK}</div>
-{FOOTER}
 </div>
 </div>
 </div>
-</div>{LIGHTBOX}
+</div>
+<div id="minheight"></div>
+<footer class="ilFooter"><div class="container">
+		<div class="row">{PRMLINK} {FOOTER}</div></div></footer>
+{LIGHTBOX}

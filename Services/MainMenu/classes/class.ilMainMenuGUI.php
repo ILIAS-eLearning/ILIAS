@@ -101,8 +101,14 @@ class ilMainMenuGUI
 	static function getLanguageSelection($a_in_topbar = false)
 	{
 		global $lng;
-		
-		include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
+
+		// bs-patch start
+		global $ilUser;
+		include_once("./Services/UIComponent/GroupedList/classes/class.ilGroupedListGUI.php");
+		$gr_list = new ilGroupedListGUI();
+		// bs_patch end
+
+			include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 		$selection = new ilAdvancedSelectionListGUI();
 		$selection->setFormSelectMode("change_lang_to", "ilLanguageSelection", true,
 			"#", "ilNavHistory", "ilNavHistoryForm",
@@ -128,7 +134,18 @@ class ilMainMenuGUI
 				$link = str_replace("?&", "?", $link);
 				$selection->addItem(ilLanguage::_lookupEntry($lang_key, "meta", "meta_l_".$lang_key),
 					$lang_key, $link, "", "", "");
+
+				// bs-patch start
+				global $ilUser;
+				$gr_list->addEntry($lng->_lookupEntry($lang_key, "meta", "meta_l_".$lang_key), $link);
+				// bs_patch end
+
 			}
+			// bs-patch start
+			global $ilUser;
+			return $gr_list->getHTML();
+			// bs-patch end
+
 			return $selection->getHTML();
 		}
 	}
@@ -217,6 +234,10 @@ class ilMainMenuGUI
 				$selection = self::getLanguageSelection();
 				if($selection)
 				{
+					// bs-patch start
+					global $ilUser, $lng;
+					$this->tpl->setVariable("TXT_LANGSELECT", $lng->txt("language"));
+					// bs-patch end
 					$this->tpl->setVariable("LANG_SELECT", $selection);
 				}
 	
@@ -378,14 +399,6 @@ class ilMainMenuGUI
 //			$this->renderDropDown($a_tpl, "desktop");
 			$this->renderEntry($a_tpl, "desktop",
 				$lng->txt("personal_desktop"), "#");
-			
-			include_once("./Services/UIComponent/Overlay/classes/class.ilOverlayGUI.php");
-			$ov = new ilOverlayGUI("mm_desk_ov");
-			$ov->setTrigger("mm_desk_tr");
-			$ov->setAnchor("mm_desk_tr");
-			$ov->setAutoHide(false);
-			$ov->add();
-
 		}
 
 		// repository
@@ -406,12 +419,6 @@ class ilMainMenuGUI
 			{
 				$this->renderEntry($a_tpl, "repository",
 					$title, "#");
-				include_once("./Services/UIComponent/Overlay/classes/class.ilOverlayGUI.php");
-				$ov = new ilOverlayGUI("mm_rep_ov");
-				$ov->setTrigger("mm_rep_tr");
-				$ov->setAnchor("mm_rep_tr");
-				$ov->setAutoHide(false);
-				$ov->add();
 			}
 		}
 
@@ -430,12 +437,6 @@ class ilMainMenuGUI
 		{
 			$title = $lng->txt("shop");
 			$this->renderEntry($a_tpl, "shop", $title, "#" );
-			include_once("./Services/UIComponent/Overlay/classes/class.ilOverlayGUI.php");
-			$ov = new ilOverlayGUI("mm_shop_ov");
-			$ov->setTrigger("mm_shop_tr");
-			$ov->setAnchor("mm_shop_tr");
-			$ov->setAutoHide(false);
-			$ov->add();
 		}
 
 		// administration
@@ -689,7 +690,7 @@ class ilMainMenuGUI
 			$gl->addEntry($lng->txt("personal_settings"), "ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToSettings",
 				"_top", "", "", "mm_pd_sett", ilHelp::getMainMenuTooltip("mm_pd_sett"),
 					"left center", "right center", false);
-			
+
 			$a_tpl->setVariable("DESK_CONT_OV", $gl->getHTML());
 		}
 
@@ -983,6 +984,13 @@ class ilMainMenuGUI
 
 //		$selection->setTriggerEvent("mouseover");
 //		$selection->setAutoHide(true);
+
+		// bs-patch start
+		global $ilUser;
+		$a_tpl->setVariable("TXT_ADMINISTRATION", $lng->txt("administration"));
+		$a_tpl->parseCurrentBlock();
+		return;
+		// bs-patch end
 
 		$html = $selection->getHTML();
 		$a_tpl->setVariable($id_up."_DROP_DOWN", $html);

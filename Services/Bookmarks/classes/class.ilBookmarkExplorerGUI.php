@@ -61,7 +61,7 @@ class ilBookmarkExplorerGUI extends ilTreeExplorerGUI
 	 */
 	function getNodeIcon($a_node)
 	{
-		$icon = ilUtil::getImagePath("icon_".$a_node["type"]."_s.png");
+		$icon = ilUtil::getImagePath("icon_".$a_node["type"].".png");
 		
 		return $icon;
 	}

@@ -57,14 +57,8 @@ div.il_ExplorerItemDescription {
 }
 a.ilTreeView {
   position: fixed;
-  left: -2px;
   top: 130px;
-}
-a.ilTreeView:hover {
-  left: -1px;
-}
-a.ilTreeViewRight:hover {
-  right: -1px;
+  z-index: 1030;
 }
 /* Explorer2, jsTree */
 .jstree a {
@@ -213,4 +207,9 @@ a.ilTreeViewRight:hover {
 }
 #vakata-contextmenu.jstree-context li ul {
   margin-left: -4px;
+}
+.jstree img {
+  border: 0;
+  width: 22px;
+  height: 22px;
 }

@@ -522,7 +522,7 @@ function ajaxFormSend(cmd, node_id)
 
 		var lg = new YAHOO.util.Element(document.createElement('img'));
 		lg = YAHOO.util.Dom.insertAfter(lg, tt);
-		lg.src = "./templates/default/images/loader.gif";
+		lg.src = "./templates/default/images/v1/loader_v1.svg";
 		lg.border = 0;
 	}
 

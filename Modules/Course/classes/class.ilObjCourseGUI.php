@@ -2482,8 +2482,8 @@ class ilObjCourseGUI extends ilContainerGUI
 						if($course_data['id'] != $this->object->getId() and
 							$tmp_members->isGroupingMember($tmp_obj->getId(),$course_data['unique']))
 						{
-							$message .= ('<br /><font class="alert">'.$this->lng->txt('crs_member_of').' ');
-							$message .= (ilObject::_lookupTitle($course_data['id'])."</font>");
+							$message .= ('<br /><span class="ilAlert">'.$this->lng->txt('crs_member_of').' ');
+							$message .= (ilObject::_lookupTitle($course_data['id'])."</span>");
 						}
 					}
 					

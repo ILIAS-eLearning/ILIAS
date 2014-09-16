@@ -846,29 +846,6 @@ abstract class ilBlockGUI
 			$this->fillHeaderCommands();
 			$this->fillHeaderTitleBlock();
 		}
-		
-		
-		// adv selection gui
-		include_once "Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php";
-		$dropdown = new ilAdvancedSelectionListGUI();
-		$dropdown->setUseImages(true);
-		$dropdown->setHeaderIcon(ilUtil::getImagePath("icon_sett_s.png"));
-		$dropdown->setId("block_dd_".$this->getBlockType()."_".$this->block_id);
-		foreach($this->dropdown as $item)
-		{						
-			if($item["href"] || $item["onclick"])
-			{
-				if ($item["checked"])
-				{
-					$item["image"] = ilUtil::getImagePath("icon_checked_s.png");
-				}
-				$dropdown->addItem($item["text"], "", $item["href"], $item["image"],
-					$item["text"], "", "", false, $item["onclick"]);
-			}
-		}
-		$dropdown = $dropdown->getHTML();
-		$this->tpl->setVariable("ADV_DROPDOWN", $dropdown);
-		
 			
 		$this->tpl->setVariable("COLSPAN", $this->getColSpan());
 		if ($this->getBigMode())
@@ -942,7 +919,30 @@ abstract class ilBlockGUI
 			$this->tpl->setCurrentBlock("header_commands");
 			$this->tpl->parseCurrentBlock();
 		}
-		
+
+		// adv selection gui
+		include_once "Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php";
+		$dropdown = new ilAdvancedSelectionListGUI();
+		$dropdown->setUseImages(true);
+		$dropdown->setHeaderIcon(ilUtil::getImagePath("icon_sett_s.png"));
+		$dropdown->setId("block_dd_".$this->getBlockType()."_".$this->block_id);
+		foreach($this->dropdown as $item)
+		{
+			if($item["href"] || $item["onclick"])
+			{
+				if ($item["checked"])
+				{
+					$item["image"] = ilUtil::getImagePath("icon_checked.png");
+				}
+				$dropdown->addItem($item["text"], "", $item["href"], $item["image"],
+					$item["text"], "", "", false, $item["onclick"]);
+			}
+		}
+		$dropdown = $dropdown->getHTML();
+		$this->tpl->setCurrentBlock("header_dropdown");
+		$this->tpl->setVariable("ADV_DROPDOWN", $dropdown);
+		$this->tpl->parseCurrentBlock();
+
 		$this->tpl->setCurrentBlock("hitem");
 		$this->tpl->parseCurrentBlock();
 	}
@@ -1341,7 +1341,7 @@ abstract class ilBlockGUI
 				$this->tpl->setVariable("INFO_TEXT", $this->getFooterInfo(true));
 				$this->tpl->setVariable("ALT_DET_INFO", $lng->txt("info_short"));
 				$this->tpl->setVariable("DI_BLOCK_ID", $this->getBlockType()."_".$this->getBlockId());
-				$this->tpl->setVariable("IMG_DET_INFO", ilUtil::getImagePath("icon_info_s.png"));
+				$this->tpl->setVariable("IMG_DET_INFO", ilUtil::getImagePath("icon_info.png"));
 				$this->tpl->parseCurrentBlock();
 			}
 			

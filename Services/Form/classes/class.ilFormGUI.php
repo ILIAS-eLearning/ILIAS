@@ -237,9 +237,7 @@ class ilFormGUI
 			}
 			if ($this->getPreventDoubleSubmission())
 			{
-				$opentpl->setCurrentBlock("form_class");
 				$opentpl->setVariable("FORM_CLASS", "preventDoubleSubmission");
-				$opentpl->parseCurrentBlock();
 			}
 
 			if ($this->getMultipart())

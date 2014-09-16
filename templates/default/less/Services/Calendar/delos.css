@@ -10,18 +10,12 @@ td.uneven {
   padding: 3px;
 }
 td.today {
-  text-align: center;
-  font-size: 90%;
   background-color: #E0E0FF;
 }
 td.date {
-  text-align: center;
-  font-size: 90%;
   background-color: #F7F7F7;
 }
 td.prevMonth {
-  text-align: center;
-  font-size: 90%;
   background-color: #DFDFDF;
 }
 div#block_cal_sel_0 div.ilBlockContent {
@@ -69,4 +63,26 @@ ul.ilCalSel li img {
 div.ilCalSelTitle {
   padding: 5px 3px 3px;
   font-size: 90%;
+}
+table.calmini {
+  width: 100%;
+  font-size: 90%;
+  border-collapse: collapse;
+  background-color: white;
+}
+table.calmini,
+table.calmini tr,
+table.calmini td,
+table.calmini th {
+  border: none;
+  padding: 3px;
+  text-align: center;
+  vertical-align: middle;
+  background-color: transparent;
+}
+table.calmini tr:nth-child(even) {
+  background-color: #ededed;
+}
+table.calmini th.calmini {
+  font-family: 'Open Sans Semibold';
 }

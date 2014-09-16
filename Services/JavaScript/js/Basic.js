@@ -371,13 +371,25 @@ il.UICore = {
 			bc = document.getElementById("bot_center_area"),
 			fc = document.getElementById("fixed_content"),
 			nb_reg, vp_reg;
-			
+
+		vp_reg = il.Util.getViewportRegion();
+
+		$(".ilFrame").each(function() {
+			var t = $(this);
+//			console.log(t);
+			var freg = il.Util.getRegion(this);
+			if (freg.bottom < vp_reg.bottom) {
+				t.height(t.height() + vp_reg.bottom - freg.bottom - 1);
+			}
+//console.log(freg);
+//console.log(vp_reg);
+		});
+
 		// fix fixed content
 		if ($(fc).css("position") != "static") {
 			if (fc && sm) {
 				sm_reg = il.Util.getRegion(sm);
 				fc_reg = il.Util.getRegion(fc);
-				vp_reg = il.Util.getViewportRegion();
 				if (sm_reg.top < vp_reg.top) {
 					$(fc).offset({top: vp_reg.top});
 				} else {

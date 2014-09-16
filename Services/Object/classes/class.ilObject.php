@@ -1887,7 +1887,7 @@ class ilObject
 		$a_offline = false)
 	{
 		global $ilSetting, $objDefinition;
-		
+
 		if ($a_obj_id == "" && $a_type == "")
 		{
 			return "";
@@ -1941,7 +1941,14 @@ class ilObject
 				$location = $objDefinition->getLocation($a_type);
 				include_once($location."/class.".$class_name.".php");
 				return call_user_func(array($class_name, "_getIcon"), $a_type, $a_size, $a_obj_id);                                
-			}			
+			}
+			
+			// svg path
+			if (is_file("./templates/default/images/v1/icon_".$a_type."_v1.svg"))
+			{
+				return "./templates/default/images/v1/icon_".$a_type."_v1.svg";
+			}
+			
 			return ilUtil::getImagePath("icon_".$a_type.$suff.".png");
 		}
 		else

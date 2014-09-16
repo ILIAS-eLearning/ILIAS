@@ -155,6 +155,10 @@ class ilMailGUI
 		include_once "Services/jQuery/classes/class.iljQueryUtil.php";
 		iljQueryUtil::initjQuery();
 
+		// always load ui framework
+		include_once("./Services/UICore/classes/class.ilUIFramework.php");
+		ilUIFramework::init();
+
 		switch($this->forwardClass)
 		{			
 			case 'ilmailformgui':

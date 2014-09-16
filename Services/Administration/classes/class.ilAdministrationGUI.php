@@ -509,7 +509,8 @@ class ilAdministrationGUI
 						}
 						else
 						{
-							$path = ilUtil::getImagePath("icon_".$titems[$e]["type"]."_s.png");
+							//$path = ilUtil::getImagePath("icon_".$titems[$e]["type"]."_s.png");
+							$path = ilObject::_getIcon("", "tiny", $titems[$e]["type"]);
 							$icon = ($path != "")
 								? ilUtil::img($path)." "
 								: "";

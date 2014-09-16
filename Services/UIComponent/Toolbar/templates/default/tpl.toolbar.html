@@ -1,34 +1,53 @@
-<!-- BEGIN form_open --><form method="post" id="ilToolbar" action="{FORMACTION}" {TARGET} {ENC_TYPE} {FORMNAME} class="ilForm preventDoubleSubmission"><!-- END form_open -->
-<div class="ilToolbar preventDoubleSubmission" {STYLE} {ID}><h3 class="ilAccHeadingHidden">{TXT_FUNCTIONS}</h3>
-<!-- BEGIN lead_image --><img border="0" src="{IMG_SRC}" alt="{IMG_ALT}" /><!-- END lead_image -->
+<!-- todo: proper id support, spacer?, separator?, emph classes -->
+
+<!-- BEGIN form_open --><form method="post" id="ilToolbar" action="{FORMACTION}" {TARGET} {ENC_TYPE} {FORMNAME} class="ilForm"><!-- END form_open -->
+<h3 class="ilAccHeadingHidden">{TXT_FUNCTIONS}</h3>
+<nav class="ilToolbar navbar navbar-default yamm" role="navigation" {ID}>
+	<div class="container-fluid">
+		<!-- Brand and toggle get grouped for better mobile display -->
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#tb-collapse-1">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<!-- BEGIN lead_image --><span class="navbar-brand"><img border="0" src="{IMG_SRC}" alt="{IMG_ALT}" /></span><!-- END lead_image -->
+		</div>
+		<div class="collapse navbar-collapse" id="tb-collapse-1">
+			<ul class="nav navbar-nav">
 <!-- BEGIN item -->
 <!-- BEGIN button -->
-<a {BTN_ACC_KEY} {BID} class="{BTN_CLASS}" href="{BTN_LINK}" {BTN_TARGET} {BTN_ADD_ARG}>&nbsp;{BTN_TXT}&nbsp;</a>
+<li><div class="navbar-form"><button {BID} class="btn btn-default" type="button" onclick="location.href='{BTN_LINK}'" {BTN_ADD_ARG}>{BTN_TXT}</button></div></li>
 <!-- END button -->
+<!-- BEGIN dropdown -->
+<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">{TXT_DROPDOWN} <span class="caret"></span></a>{DROP_DOWN}</li>
+<!-- END dropdown -->
 <!-- BEGIN form_button -->
-<input class="submit{SUB_CLASS}" type="submit" name="cmd[{SUB_CMD}]" value="{SUB_TXT}" />
+				<li><div class="navbar-form"><input class="btn btn-default" type="submit" name="cmd[{SUB_CMD}]" value="{SUB_TXT}" /></div></li>
 <!-- END form_button -->
 <!-- BEGIN button_instance -->
-{BUTTON_OBJ}
+				<li><div class="navbar-form">{BUTTON_OBJ}</div></li>
 <!-- END button_instance -->
 <!-- BEGIN input -->
-<!-- BEGIN input_label -->{TXT_INPUT}&nbsp;<!-- END input_label -->{INPUT_HTML}
+<li><div class="navbar-form"><!-- BEGIN input_label -->{TXT_INPUT}&nbsp;<!-- END input_label -->{INPUT_HTML}</div></li>
 <!-- END input -->
 <!-- BEGIN separator -->
-<span class="ilToolbarSeparator">&nbsp;</span>&nbsp;
+<li class="ilToolbarSeparator"></li>
 <!-- END separator -->
 <!-- BEGIN spacer -->
-<span style="padding:0px {SPACER_WIDTH}px;">&nbsp;</span>
 <!-- END spacer -->
 <!-- BEGIN link -->
-<a href="{LINK_URL}">&nbsp;{LINK_TXT}&nbsp;</a>
+				<li><a href="{LINK_URL}">{LINK_TXT}</a></li>
 <!-- END link -->
 <!-- BEGIN text -->
-&nbsp;{VAL_TEXT}&nbsp;
+				<li>{VAL_TEXT}</li>
 <!-- END text -->
 <!-- BEGIN link_disabled -->
-<span class="ilTableFootLight">&nbsp;{LINK_DISABLED_TXT}&nbsp;</span>
+				<li><span class="ilTableFootLight">{LINK_DISABLED_TXT}</span></li>
 <!-- END link_disabled -->
 <!-- END item -->
-</div>
+		</div>
+	</div>
+</nav>
 <!-- BEGIN form_close --></form><!-- END form_close -->

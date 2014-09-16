@@ -144,6 +144,15 @@ class ilUtil
 				$current_skin.$module_path."/images/".$img;
 		}
 
+		// temp svg patch
+		$pi = pathinfo($img);
+		$svg_img = ".".$module_path."/templates/default/images/v1/".$pi["filename"]."_v1.svg";
+		if (file_exists($svg_img))
+		{
+			return $svg_img;
+		}
+
+
 		if ($offline)
 		{
 			return "./images/".$img;
@@ -377,15 +386,11 @@ class ilUtil
 			$size = 0;
 		}
 
-		if ($style_class != "")
-		{
-			$class = " class=\"".$style_class."\"";
-		}
-		else
-		{
-			$class = "";
-		}
-		$attributes = "";
+		$class = " class=\" form-control ".$style_class."\"";
+
+		// this is workaround the whole function should be set deprecated
+		$attributes = " style='display:inline-block;' ";
+
 		if (is_array($attribs))
 		{
 			foreach ($attribs as $key => $val)

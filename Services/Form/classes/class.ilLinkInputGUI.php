@@ -366,7 +366,7 @@ class ilLinkInputGUI extends ilFormPropertyGUI
 			else
 			{				
 				$html.= $ne->render().
-					'<div class="ilFormInfo">'.$ne->getInfo().'</div>';
+					'<div class="help-block">'.$ne->getInfo().'</div>';
 			}
 		}
 

@@ -336,12 +336,12 @@ class ilObjectGUI
 		if (strtolower($_GET["baseClass"]) == "iladministrationgui")
 		{
 			// alt text would be same as heading -> empty alt text
-			$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_".$this->object->getType()."_b.png"),
-				"");
+			//$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_".$this->object->getType()."_b.png"),"");
+			$this->tpl->setTitleIcon(ilObject::_getIcon("", "big", $this->object->getType()));
 		}
 		else
 		{
-			$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_".$this->object->getType()."_b.png"),
+			$this->tpl->setTitleIcon(ilObject::_getIcon("", "big", $this->object->getType()),
 				$this->lng->txt("obj_" . $this->object->getType()));
 		}
 

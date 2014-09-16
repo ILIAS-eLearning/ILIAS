@@ -98,7 +98,7 @@ class ilDragDropFileInputGUI extends ilFileInputGUI
 		$this->tpl->setVariable("UPLOAD_ID", $this->uniqueId);
 		
 		// input
-		$this->tpl->setVariable("FILE_SELECT_ICON", ilUtil::getImagePath('icon_fold.png'));
+		$this->tpl->setVariable("FILE_SELECT_ICON", ilObject::_getIcon("", "", "fold"));
 		$this->tpl->setVariable("TXT_SHOW_ALL_DETAILS", $lng->txt('show_all_details')); 
 		$this->tpl->setVariable("TXT_HIDE_ALL_DETAILS", $lng->txt('hide_all_details'));
 		$this->tpl->setVariable("TXT_SELECTED_FILES", $lng->txt('selected_files'));

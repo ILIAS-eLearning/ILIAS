@@ -308,7 +308,8 @@ abstract class ilButton
 	 */
 	protected function prepareRender()
 	{		
-		$this->addCSSClass("submit");		
+		$this->addCSSClass("btn");
+		$this->addCSSClass("btn-default");
 	}
 	 
 	/**

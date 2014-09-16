@@ -1645,7 +1645,7 @@ var current_mouse_over_id;
 var cmd_called = false;
 
 il.Util.addOnLoad(function(){var preloader = new Image();
-preloader.src = "./templates/default/images/loader.gif";});
+preloader.src = "./templates/default/images/v1/loader_v1.svg";});
 YAHOO.util.Event.addListener(document, 'mousemove', followmouse1);
 
 
@@ -2489,7 +2489,7 @@ function doActionForm(cmd, command, value, target, type, char)
 	if (ccell)
 	{
 		var loadergif = document.createElement('img');
-		loadergif.src = "./templates/default/images/loader.gif";
+		loadergif.src = "./templates/default/images/v1/loader_v1.svg";
 		loadergif.border = 0;
 		//loadergif.style.position = 'absolute';
 		ccell.bgColor='';

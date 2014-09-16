@@ -1,46 +1,39 @@
+<!-- todo: HIDE_LABELS_STYLE -->
+
 <!-- BEGIN std_table -->
 <!-- Please note the usage of datatable attribute which is non-standard
 	but ensures that JAWS treats this table as a layout table -->
 <!-- removed a width="{STD_TABLE_WIDTH}" -->
-<div class="ilForm">
 <!-- END std_table -->
 <!-- BEGIN sub_table -->
-<div class="ilForm">
 <!-- END sub_table -->
 <!-- BEGIN item -->
 <!-- BEGIN header -->
-	<div class="ilFormRow">
-		<div class="ilFormHeader">
 <!-- BEGIN title_icon --><!-- <img src="{IMG_ICON}" alt="{IMG_ALT}" border="0"/> --><!-- END title_icon -->
-		<h3 class="ilFormHeader"><a name="{LABEL}"></a>{TXT_TITLE}</h3><div class="ilFormInfo">{TXT_DESCRIPTION}</div>
+		<div class="ilFormHeader"><h3><a name="{LABEL}"></a>{TXT_TITLE}</h3>
+		<div class="ilFormCmds">
+				<!-- BEGIN char_selector -->
+				<input id ="ilCharSelectorToggleForm" class="submit ilCharSelectorToggle" type="SUBMIT" value="&nbsp;&Omega;&nbsp;" />
+				<!-- END char_selector -->
+				<!-- BEGIN commands2 -->
+				<!-- BEGIN cmd2 -->
+				<input class="btn btn-default btn-sm" type="SUBMIT" name="cmd[{CMD}]" value="{CMD_TXT}" />
+				<!-- END cmd2 -->
+				<!-- END commands2 -->
 		</div>
-
-		<div class="ilFormHeader ilFormCommands">
-		<!-- BEGIN char_selector -->
-		<input id ="ilCharSelectorToggleForm" class="submit ilCharSelectorToggle" type="SUBMIT" value="&nbsp;&Omega;&nbsp;" />
-		<!-- END char_selector -->
-		<!-- BEGIN commands2 -->
-		<!-- BEGIN cmd2 -->
-		<input class="submit" type="SUBMIT" name="cmd[{CMD}]" value="{CMD_TXT}" />
-		<!-- END cmd2 -->
-		<!-- END commands2 -->
+		<div class="help-block">{TXT_DESCRIPTION}</div>
 		</div>
-	</div>
 <!-- END header -->
 <!-- BEGIN prop -->
 <!-- BEGIN std_prop_start -->
-	<div class="ilFormRow">
-		<div class="ilFormOption{HIDE_LABELS_STYLE}" id="il_prop_cont_{LAB_ID}">
-			<label for="{LAB_ID}">{PROPERTY_TITLE}<!-- BEGIN std_hid_title --> <span class="ilAccHeadingHidden">{PHID_TITLE}</span><!-- END std_hid_title --><!-- BEGIN required --> <span class="asterisk">*</span><!-- END required --></label>
-		</div>
-		<div class="ilFormValue">
+<div class="form-group" id="il_prop_cont_{LAB_ID}">
+	<label for="{LAB_ID}" class="col-sm-3 control-label">{PROPERTY_TITLE}<!-- BEGIN std_hid_title --> <span class="ilAccHeadingHidden">{PHID_TITLE}</span><!-- END std_hid_title --><!-- BEGIN required --> <span class="asterisk">*</span><!-- END required --></label>
+	<div class="col-sm-9">
 <!-- END std_prop_start -->
 <!-- BEGIN sub_prop_start -->
-	<div class="ilFormRow">
-		<div class="ilFormSubOption">
-		<label for="{LAB_ID}">{PROPERTY_TITLE}<!-- BEGIN sub_hid_title --> <span class="ilAccHeadingHidden">{SPHID_TITLE}</span><!-- END sub_hid_title --><!-- BEGIN sub_required --> <span class="asterisk">*</span><!-- END sub_required --></label>
-		</div>
-		<div class="ilFormSubValue">
+<div class="form-group" id="il_prop_cont_{LAB_ID}">
+	<label for="{LAB_ID}" class="col-sm-3 control-label">{PROPERTY_TITLE}<!-- BEGIN sub_hid_title --> <span class="ilAccHeadingHidden">{SPHID_TITLE}</span><!-- END sub_hid_title --><!-- BEGIN sub_required --> <span class="asterisk">*</span><!-- END sub_required --></label>
+	<div class="col-sm-9">
 <!-- END sub_prop_start -->
 <!-- BEGIN cssrect -->
 		<label for="{ID}[top]">{TEXT_TOP}</label>
@@ -85,10 +78,10 @@
 		</div>
 <!-- END prop_color -->
 <!-- BEGIN description -->
-		<div class="ilFormInfo">{PROPERTY_DESCRIPTION}</div>
+		<div class="help-block">{PROPERTY_DESCRIPTION}</div>
 <!-- END description -->
 <!-- BEGIN alert -->
-		<div class="ilFormInfo"><img border="0" src="{IMG_ALERT}" alt="{ALT_ALERT}" /> {TXT_ALERT}</div>
+		<div class="help-block"><img border="0" src="{IMG_ALERT}" alt="{ALT_ALERT}" /> {TXT_ALERT}</div>
 <!-- END alert -->
 <!-- BEGIN sub_form -->
 		<div class="ilSubForm" id="subform_{SFID}">{PROP_SUB_FORM}</div>
@@ -106,8 +99,8 @@
 <!-- END prop -->
 <!-- END item -->
 <!-- BEGIN commands -->
-	<div class="ilFormRow">
-		<div class="ilFormFooter">
+	<div class="ilFormFooter clearfix">
+		<div class="col-sm-3 ilFormRequired">
 <!-- BEGIN hidden -->
 		<input type="{PROP_INPUT_TYPE}" id="{ID}" name="{POST_VAR}" value="{PROPERTY_VALUE}"/>
 <!-- END hidden -->
@@ -115,11 +108,10 @@
 			<span class="asterisk">*</span><span class="small"> {TXT_REQUIRED}</span>
 <!-- END required_text -->
 		&nbsp;</div>
-		<div class="ilFormFooter ilFormCommands">
+		<div class="col-sm-9 ilFormCmds">
 <!-- BEGIN cmd -->
-		<input class="submit" type="submit" name="cmd[{CMD}]" value="{CMD_TXT}" />
+		<input class="btn btn-default btn-sm" type="submit" name="cmd[{CMD}]" value="{CMD_TXT}" />
 <!-- END cmd -->
 		</div>
-	</div> <!-- end of ilFormRow -->
+	</div><!-- end of ilFormRow -->
 <!-- END commands -->
-</div>

@@ -20,7 +20,6 @@ div.ilContainerListItemOuterHighlight {
 .ilCLIRow1,
 .ilCLIRow2 {
   padding: 0;
-  border-top: 1px solid #F0F0F0;
 }
 td.ilCLI {
   padding: 0;
@@ -30,7 +29,8 @@ div.il_ContainerListItem {
   padding-left: 8px;
 }
 th.ilContainerBlockHeader {
-  font-weight: bold;
+  font-family: 'Open Sans Semibold';
+  font-weight: normal;
   font-size: 90%;
   padding: 2px;
   text-align: left;
@@ -39,7 +39,8 @@ th.ilContainerBlockHeader {
   border-bottom: 1px solid #E9E9E9;
 }
 h3.ilContainerBlockHeader {
-  font-weight: bold;
+  font-family: 'Open Sans Semibold';
+  font-weight: normal;
   padding: 0;
   margin: 0;
   display: inline;
@@ -55,4 +56,13 @@ table.ilContainerBlock {
 }
 div#cont_paste_explorer_tree ul.il_Explorer {
   margin: 0 0 0 24px;
+}
+#ilContRepIntro {
+  margin: 20px 0 50px 0;
+  clear: both;
+}
+div#ilContRepIntro img {
+  float: right;
+  width: 150px;
+  height: 150px;
 }

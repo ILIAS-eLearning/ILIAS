@@ -3,7 +3,7 @@
 <p>
 <!-- BEGIN rating_link_simple -->
 <a href="{HREF_RATING}"{ONCLICK_RATING}>
-<img src="{SRC_ICON}" alt="{ALT_ICON}" border="0" />
+<img class="ilRatingIcon" src="{SRC_ICON}" alt="{ALT_ICON}" border="0" />
 </a>
 <!-- END rating_link_simple -->
 </p>
@@ -33,7 +33,7 @@
 <!-- BEGIN user_rating_icon -->
 <a href="#" onclick="{HREF_RATING}" style="text-decoration:none;"{ICON_MOUSEACTION}>
 <!-- BEGIN rating_mark --><img src="{SRC_MARK}" alt="{ALT_MARK}" style="position:absolute;" border="0" /><!-- END rating_mark -->
-<img src="{SRC_ICON}" alt="{ALT_ICON}" border="0" id="{JS_ID}rating_icon_{CATEGORY_ID}_{ICON_VALUE}" />
+<img class="ilRatingIcon" src="{SRC_ICON}" alt="{ALT_ICON}" border="0" id="{JS_ID}rating_icon_{CATEGORY_ID}_{ICON_VALUE}" />
 </a>
 <!-- END user_rating_icon -->
 <input type="hidden" id="{JS_ID}rating_value_{CATEGORY_ID}" name="rating[{CATEGORY_ID}]" value="{CATEGORY_VALUE}" />

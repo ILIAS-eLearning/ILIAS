@@ -249,7 +249,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 				true, "Services/Container");
 			$wtpl->setVariable("ALT_WARNING", $lng->txt("warning"));
 			$wtpl->setVariable("IMG_WARNING",
-				ilUtil::getImagePath("icon_alert_s.png"));
+				ilUtil::getImagePath("icon_alert.png"));
 			$wtpl->setVariable("TXT_MIGRATION_INFO", $lng->txt("cntr_switch_to_new_editor_message"));
 			$wtpl->setVariable("TXT_MIGRATION_INFO", $lng->txt("cntr_switch_to_new_editor_message"));
 			$wtpl->setVariable("HREF_SWITCH_TO_NEW_EDITOR",
@@ -844,7 +844,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
 		$tpl->setVariable("TXT_MIGRATION_INFO", $lng->txt("cntr_old_editor_warning"));
 		$tpl->setVariable("TXT_MIGRATION_OPEN_STD_EDITOR", $lng->txt("cntr_old_editor_open_standard_editor"));
-		$tpl->setVariable("IMG_WARNING", ilUtil::getImagePath("icon_alert_s.png"));
+		$tpl->setVariable("IMG_WARNING", ilUtil::getImagePath("icon_alert.png"));
 		$tpl->setVariable("HREF_OPEN_STD_EDITOR", $ilCtrl->getLinkTarget($this, "switchToStdEditor"));
 		$tpl->setVariable("ALT_WARNING", $lng->txt("warning"));
 		

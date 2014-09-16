@@ -135,7 +135,7 @@ class ilToolbarGUI
 	{
 		$this->items[] = array("type" => "input", "input" => $a_item, "label" => $a_output_label);
 	}
-	
+
 	/**
 	 * Add button instance
 	 * 
@@ -145,7 +145,17 @@ class ilToolbarGUI
 	{
 		$this->items[] = array("type" => "button_obj", "instance" => $a_button); 
 	}
-	
+
+	// bs-patch start
+	/**
+	 * Add input item
+	 */
+	public function addDropDown($a_txt, $a_dd_html)
+	{
+		$this->items[] = array("type" => "dropdown", "txt" => $a_txt, "dd_html" => $a_dd_html);
+	}
+	// bs-patch end
+
 	/**
 	* Add separator
 	*/
@@ -319,7 +329,18 @@ class ilToolbarGUI
 						$tpl->parseCurrentBlock();
 						$tpl->touchBlock("item");
 						break;
-						
+
+					// bs-patch start
+					case "dropdown":
+						$tpl->setCurrentBlock("dropdown");
+						$tpl->setVariable("TXT_DROPDOWN", $item["txt"]);
+						$tpl->setVariable("DROP_DOWN", $item["dd_html"]);
+						$tpl->parseCurrentBlock();
+						$tpl->touchBlock("item");
+						break;
+					// bs-patch end
+
+
 					case "separator":
 						$tpl->touchBlock("separator");
 						$tpl->touchBlock("item");

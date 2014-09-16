@@ -227,7 +227,7 @@ td.ilFileUploadEntryFileName {
 	background-image: url(../../../../templates/default/images/tree_exp.png);
 }
 .ilFileUploadError td.ilFileUploadEntryFileName {
-	background-image: url(../../../../templates/default/images/icon_alert_s.png);
+	background-image: url(../../../../templates/default/images/icon_alert.png);
 	background-position: 4px 6px;
 	font-weight: normal;
 	padding-left: 24px;

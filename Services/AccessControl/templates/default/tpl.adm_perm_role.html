@@ -53,19 +53,19 @@ function setCheckboxes(a_form, a_varname, a_elements, a_check)
 		<a class="submit" href="#" onclick="setCheckboxes('ObjectItems','{JS_VARNAME}_',{JS_ONCLICK},false); return false;">{TXT_UNCHECKALL}</a>
 	</div>
 <!-- END obj_action_toggle_checkboxes -->
-	<strong>{TXT_OBJ_TYPE}</strong> {TXT_ADMINIS}<span class="alert">{TXT_NOT_IMPL}</span>
+	<strong>{TXT_OBJ_TYPE}</strong> {TXT_ADMINIS}<span class="ilAlert">{TXT_NOT_IMPL}</span>
 	</td>
   </tr>
 <!-- BEGIN object_operations -->
   <tr class="{CSS_ROW}">
 	<td class="std" width="1%">{CHECK_PERMISSION}</td>
- 	<td class="std small" colspan="3" width="99%"><label for="{LABEL_ID}">{PERMISSION}</label><span class="alert">{TXT_NOT_IMPL}</span></td>
+ 	<td class="std small" colspan="3" width="99%"><label for="{LABEL_ID}">{PERMISSION}</label><span class="ilAlert">{TXT_NOT_IMPL}</span></td>
   </tr>
 <!-- END object_operations -->
 <!-- BEGIN obj_action_change_existing_object_type -->
   <tr class="tblfooter">
 	<td class="std" style="border-bottom: 1px solid #D6D6D6;" align="left"><input type="checkbox" name="recursive_list[]" value="{OBJ_TYPE}" id="change_{OBJ_TYPE}" /></td>
-	<td class="std small" style="border-bottom: 1px solid #D6D6D6;" colspan="3" nowrap="nowrap"><span class="alert"><label for="change_{OBJ_TYPE}" title="{CHANGE_PERM_OBJ_TYPE_DESC}">{CHANGE_PERM_OBJ_TYPE}</label></span></td>
+	<td class="std small" style="border-bottom: 1px solid #D6D6D6;" colspan="3" nowrap="nowrap"><span class="ilAlert"><label for="change_{OBJ_TYPE}" title="{CHANGE_PERM_OBJ_TYPE_DESC}">{CHANGE_PERM_OBJ_TYPE}</label></span></td>
   </tr>
   <!-- <tr class="std">
 	<td class="std" style="border-bottom: 1px solid #D6D6D6;" colspan="4">&nbsp;</td>
@@ -93,14 +93,14 @@ function setCheckboxes(a_form, a_varname, a_elements, a_check)
 <!-- BEGIN tblfooter_recursive -->
   <tr class="tblfooter">
 	<td class="std" align="left" colspan="2">{CHECK_RECURSIVE}</td>
-	<td class="std" nowrap="nowrap"><span class="alert"><label for="recursive">{TXT_RECURSIVE}</label></span></td>
+	<td class="std" nowrap="nowrap"><span class="ilAlert"><label for="recursive">{TXT_RECURSIVE}</label></span></td>
 	<td><span class="small">{TXT_RECURSIVE_DESC}</span></td>
   </tr>
 <!-- END tblfooter_recursive -->
 <!-- BEGIN tblfooter_protected -->
   <tr class="tblfooter">
 	<td class="std" align="left" colspan="2">{CHECK_PROTECTED}</td>
-	<td class="std" nowrap="nowrap"><span class="alert"><label for="protected">{TXT_PROTECTED}</label></span></td>
+	<td class="std" nowrap="nowrap"><span class="ilAlert"><label for="protected">{TXT_PROTECTED}</label></span></td>
 	<td><span class="small">{TXT_PROTECTED_DESC}</span></td>
   </tr>
 <!-- END tblfooter_protected -->
