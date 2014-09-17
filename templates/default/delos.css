@@ -8241,7 +8241,7 @@ input.ilOpenIDBox {
   border: none;
 }
 .ilTabsContentOuter {
-  background-color: #FFFFFF;
+  /* background-color: #FFFFFF; */
   padding: 0;
 }
 /* Sub Tabs */
@@ -9057,6 +9057,8 @@ div.il_Preconditions {
 div.ilContainerListItemOuter {
   padding: 15px;
   zoom: 1;
+  background-color: #ffffff;
+  margin-bottom: 20px;
 }
 td.ilContainerListFooter {
   padding-left: 15px;
@@ -9354,10 +9356,14 @@ table.il_Block {
   clear: both;
   table-layout: fixed;
   word-wrap: break-word;
-  background-color: #f8f8f8;
+  background-color: #fbfbfb;
   border: none;
   text-align: left;
-  box-shadow: 0px 1px 3px 0px #b6b6b6;
+  padding: 5px;
+  /* box-shadow: 0px 1px 3px 0px lighten(@mid-gray, 45%); */
+}
+#block_pditems_0 div.il_Block {
+  background-color: inherit;
 }
 div.ilBlockHeader,
 div.ilBlockHeaderBig,
@@ -9369,8 +9375,8 @@ td.ilBlockHeaderBig {
   margin: 0 5px;
   text-align: left;
   color: #696969;
-  border-bottom: 1px solid #FFF;
-  box-shadow: inset 0px -1px 1px -1px #909090;
+  border-bottom: 1px solid #dcdcdc;
+  /* box-shadow: inset 0px -1px 1px -1px lighten(@mid-gray, 30%); */
 }
 div.ilBlockHeaderBig,
 td.ilBlockHeaderBig {
