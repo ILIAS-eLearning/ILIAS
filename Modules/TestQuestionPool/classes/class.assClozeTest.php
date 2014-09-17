@@ -1886,14 +1886,16 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 						}
 					}
 				}
+				
 				if($combination_fulfilled)
 				{
-					$max_points = $this->getMaximumPoints();
 					$points += $combination['points'];
-					if($points > $max_points)
-					{
-						$points = $max_points;
-					}
+				}
+				
+				$max_points = $this->getMaximumPoints();
+				if($points > $max_points)
+				{
+					$points = $max_points;
 				}
 			}
 		}
