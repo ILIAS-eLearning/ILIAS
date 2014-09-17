@@ -61,8 +61,11 @@ class ilConfirmationTableGUI extends ilTable2GUI
 			}
 		}
 		$this->tpl->setVariable("TXT_ITEM", $item["text"]);
-		$this->tpl->setVariable("VAR_ITEM", $item["var"]);
-		$this->tpl->setVariable("ID", $item["id"]);
+		if(isset($item['var'])  && $item['var'])
+		{
+			$this->tpl->setVariable('VAR_ITEM', $item['var']);
+			$this->tpl->setVariable('ID', $item['id']);
+		}
 	}
 
 }
