@@ -2597,7 +2597,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 					if($this->objProperties->getMarkModeratorPosts() == 1)
 					{
-						$is_moderator = ilForum::_isModerator($_GET['ref_id'], $node->getDisplayUserId());
+						$is_moderator = ilForum::_isModerator($_GET['ref_id'], $node->getPosAuthorId());
 						if($is_moderator)
 						{
 							$rowCol = 'ilModeratorPosting';
@@ -2662,20 +2662,22 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 					$this->ctrl->clearParameters($this);
 
-					$tpl->setVariable('AUTHOR', $authorinfo->getLinkedAuthorShortName());
-					if($authorinfo->getAuthorName(true))
-					{
-						$tpl->setVariable('USR_NAME', $authorinfo->getAuthorName(true));
-					}
-					
 					if($authorinfo->isPseudonymUsed())
 					{
 						$tpl->setVariable('AUTHOR', $lng->txt('frm_pseudonym'));
 						$tpl->setVariable('USR_NAME', $node->getUserAlias());
 					}
+					else
+					{
+						$tpl->setVariable('AUTHOR', $authorinfo->getLinkedAuthorShortName());
+						if($authorinfo->getAuthorName(true))
+						{
+							$tpl->setVariable('USR_NAME', $authorinfo->getAuthorName(true));
+						}
+					}
 
 					$tpl->setVariable('USR_IMAGE', $authorinfo->getProfilePicture());
-					if($authorinfo->getAuthor()->getId() && ilForum::_isModerator((int)$_GET['ref_id'], $authorinfo->getAuthor()->getId()))
+					if($authorinfo->getAuthor()->getId() && ilForum::_isModerator((int)$_GET['ref_id'], $node->getPosAuthorId()))
 					{
 						if($authorinfo->getAuthor()->getGender() == 'f')
 						{
