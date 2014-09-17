@@ -1455,7 +1455,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 	*/
 	function getAnswerTableName()
 	{
-		return array("qpl_a_cloze",'qpl_a_cloze_combinations');
+		return array("qpl_a_cloze",'qpl_a_cloze_combi_res');
 	}
 	
 	/**

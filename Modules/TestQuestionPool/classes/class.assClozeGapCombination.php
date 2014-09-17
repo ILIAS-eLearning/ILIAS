@@ -6,32 +6,44 @@ class assClozeGapCombination
 	{
 		global $ilDB;
 		
-			$result = $ilDB->queryF('SELECT combination_id,gap_fi, answer, cloze_type, combinations.points, best_solution
-									 	FROM qpl_a_cloze_combi_res AS combinations
-										INNER JOIN qpl_a_cloze AS cloze
-										WHERE combinations.question_fi = cloze.question_fi
-										AND combinations.gap_fi = cloze.gap_id
-										AND combinations.question_fi = %s GROUP BY combination_id, gap_fi',
-//										AND combinations.answer = cloze.answertext
-				array('integer'),
-				array($question_id)
-			);
-			$return_array = array();
-			if ($result->numRows() > 0)
+		$result = $ilDB->queryF('
+				SELECT combination_id,
+				gap_fi,
+				answer,
+				cloze_type,
+				combinations.points,
+				best_solution
+				FROM qpl_a_cloze_combi_res combinations
+				INNER JOIN qpl_a_cloze AS cloze
+				WHERE combinations.question_fi = cloze.question_fi
+				AND combinations.gap_fi = cloze.gap_id
+				AND combinations.question_fi = %s
+				/* AND combinations.answer = cloze.answertext */
+			',
+			array('integer'),
+			array($question_id)
+		);
+		
+		$return_array = array();
+		
+		while ($data = $ilDB->fetchAssoc($result))
+		{
+			if( isset($return_array[$data['combination_id'].'::'.$data['gap_fi']]) )
 			{
-				while ($data = $ilDB->fetchAssoc($result))
-				{
-					$return_array[]=array(
-											'cid' 			=> $data['combination_id'],
-										 	'gap_fi' 		=> $data['gap_fi'], 
-										  	'answer' 		=> $data['answer'], 
-										  	'points' 		=> $data['points'],
-										  	'type' 			=> $data['cloze_type'], 
-										  	'best_solution'	=> $data['best_solution']
-										 );
-				}
+				continue;
 			}
-		return $return_array;
+			
+			$return_array[$data['combination_id'].'::'.$data['gap_fi']]=array(
+									'cid' 			=> $data['combination_id'],
+									'gap_fi' 		=> $data['gap_fi'], 
+									'answer' 		=> $data['answer'], 
+									'points' 		=> $data['points'],
+									'type' 			=> $data['cloze_type'], 
+									'best_solution'	=> $data['best_solution']
+								 );
+		}
+		
+		return array_values($return_array);
 	}
 
 	public function getCleanCombinationArray($question_id)
