@@ -3225,9 +3225,9 @@ if( !$ilDB->tableColumnExists('tst_active', 'objective_container') )
 ?>
 <#4347>
 <?php
-if( !$ilDB->tableExists('qpl_a_cloze_combinations') )
+if( !$ilDB->tableExists('qpl_a_cloze_combi_res') )
 {
-	$ilDB->createTable('qpl_a_cloze_combinations', array(
+	$ilDB->createTable('qpl_a_cloze_combi_res', array(
 		'combination_id' => array(
 			'type' => "integer",
 			'length' => 4,
