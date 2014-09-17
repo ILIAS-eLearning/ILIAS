@@ -299,6 +299,10 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
 	{
 		global $lng;
 		
+		$columns = $this->getUseOtherAnswer()
+			? 3
+			: 4;
+		
 		$neutral_category = null;
 		$tpl = new ilTemplate("tpl.prop_categorywizardinput.html", true, true, "Modules/SurveyQuestionPool");
 		$i = 0;
@@ -340,10 +344,13 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
 						$tpl->parseCurrentBlock();
 					}
 					$tpl->setCurrentBlock("row");
+					/*
 					$class = ($i % 2 == 0) ? "even" : "odd";
 					if ($i == 0) $class .= " first";
-					if ($i == $this->values->getCategoryCount()-1) $class .= " last";
-					$tpl->setVariable("ROW_CLASS", $class);
+					if ($i == $this->values->getCategoryCount()-1) $class .= " last";					 					 
+					$tpl->setVariable("ROW_CLASS", $class);					
+					*/
+					$tpl->setVariable("ROW_COLS", $columns);
 					$tpl->setVariable("POST_VAR", $this->getPostVar());
 					$tpl->setVariable("ROW_NUMBER", $i);
 					$tpl->setVariable("ID", $this->getPostVar() . "[answer][$i]");
@@ -415,6 +422,7 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
 			}
 
 			$tpl->setCurrentBlock('neutral_row');
+			$tpl->setVariable("NEUTRAL_COLS", $columns);
 			$tpl->setVariable("POST_VAR", $this->getPostVar());
 			$tpl->setVariable("ID", $this->getPostVar() . "_neutral");
 			$tpl->setVariable("SIZE", $this->getSize());
@@ -442,6 +450,7 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
 		$tpl->setVariable("ANSWER_TEXT", $this->getCategoryText());
 		$tpl->setVariable("SCALE_TEXT", $lng->txt('scale'));
 		$tpl->setVariable("ACTIONS_TEXT", $lng->txt('actions'));
+		$tpl->setVariable("TITLE_COLS", $columns);
 
 		$a_tpl->setCurrentBlock("prop_generic");
 		$a_tpl->setVariable("PROP_GENERIC", $tpl->get());

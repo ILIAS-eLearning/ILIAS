@@ -6,9 +6,11 @@ function rowWizardCleanElements(rootel)
 
 function rowWizardReindexRows(rootel, postvar)
 {
-	var rows = YAHOO.util.Dom.getElementsBy(function (el) { return true; }, 'tr', rootel);
+	var rows = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'row mtxwzd') ? true : false; }, 'div', rootel);
+	console.log(rows, rootel);
 	for (i = 0; i < rows.length; i++)
 	{
+		/*
 		// set row class
 		YAHOO.util.Dom.removeClass(rows[i], "odd");
 		YAHOO.util.Dom.removeClass(rows[i], "even");
@@ -18,7 +20,8 @@ function rowWizardReindexRows(rootel, postvar)
 		YAHOO.util.Dom.addClass(rows[i], alter);
 		var add = (i == 0) ? "first" : ((i == rows.length-1) ? "last" : "");
 		if (add.length > 0) YAHOO.util.Dom.addClass(rows[i], add);
-
+		*/
+	   
 		// change id and name of text fields
 		var textinputs = YAHOO.util.Dom.getElementsBy(function (el) { return (el.type == 'text') ? true : false; }, 'input', rows[i]);
 		for (j = 0; j < textinputs.length; j++)
@@ -115,7 +118,7 @@ function rowWizardAddRow(e, obj)
 	var rowclone = row.cloneNode(true);
 	rowWizardCleanElements(rowclone);
 	
-	var trs = YAHOO.util.Dom.getElementsBy(function (el) { return true; }, 'tr', tbody);
+	var trs = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'row mtxwzd') ? true : false; }, 'div', tbody);
 	var parentindex = 0;
 	for (i = 0; i < trs.length; i++)
 	{
@@ -139,7 +142,7 @@ function rowWizardRemoveRow(e, obj)
 {
 	var row = this.parentNode.parentNode;
 	var tbody = row.parentNode;
-	var trs = YAHOO.util.Dom.getElementsBy(function (el) { return true; }, 'tr', tbody);
+	var trs = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'row mtxwzd') ? true : false; }, 'div', tbody);
 	if (trs.length == 1)
 	{
 		rowWizardCleanElements(trs[0]);
@@ -156,7 +159,7 @@ function rowWizardMoveRowUp(e, obj)
 {
 	var row = this.parentNode.parentNode;
 	var tbody = row.parentNode;
-	var rows = YAHOO.util.Dom.getElementsBy(function (el) { return true; }, 'tr', tbody);
+	var rows = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'row mtxwzd') ? true : false; }, 'div', tbody);
 	var foundindex = 0;
 	for (i = 0; i < rows.length; i++)
 	{
@@ -186,7 +189,7 @@ function rowWizardMoveRowDown(e, obj)
 {
 	var row = this.parentNode.parentNode;
 	var tbody = row.parentNode;
-	var rows = YAHOO.util.Dom.getElementsBy(function (el) { return true; }, 'tr', tbody);
+	var rows = YAHOO.util.Dom.getElementsBy(function (el) { return (el.className == 'row mtxwzd') ? true : false; }, 'div', tbody);
 	var foundindex = 0;
 	for (i = 0; i < rows.length; i++)
 	{
