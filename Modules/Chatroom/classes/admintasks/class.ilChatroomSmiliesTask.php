@@ -1,7 +1,6 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
 /**
  * Class ilChatroomSmiliesTask
  *
@@ -12,7 +11,9 @@
  */
 class ilChatroomSmiliesTask extends ilChatroomTaskHandler
 {
-
+	/**
+	 * @var ilChatroomObjectGUI
+	 */
 	private $gui;
 
 	/**
@@ -40,7 +41,4 @@ class ilChatroomSmiliesTask extends ilChatroomTaskHandler
 		$this->gui->switchToVisibleMode();
 		$tpl->setVariable( 'ADM_CONTENT', 'hallo welt' );
 	}
-
 }
-
-?>
