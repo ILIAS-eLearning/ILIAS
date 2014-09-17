@@ -935,6 +935,16 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
 			}
 		}
 	}
-	
-	
+
+	protected function getRTETextWithMediaObjects()
+	{
+		$combinedText = parent::getRTETextWithMediaObjects();
+		
+		foreach($this->getAnswers() as $answer)
+		{
+			$combinedText .= $answer->getAnswertext();
+		}
+		
+		return $combinedText;
+	}
 }

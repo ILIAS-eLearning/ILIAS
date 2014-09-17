@@ -3478,7 +3478,7 @@ abstract class assQuestion
 	* Collects all text in the question which could contain media objects
 	* which were created with the Rich Text Editor
 	*/
-	function getRTETextWithMediaObjects()
+	protected function getRTETextWithMediaObjects()
 	{
 		// must be called in parent classes. add additional RTE text in the parent
 		// classes and call this method to add the standard RTE text
