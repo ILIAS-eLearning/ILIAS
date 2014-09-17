@@ -18,13 +18,14 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess implements ilConditio
 {
 	
 	/**
-	 * Get possible conditions operators
+	 * Get possible conditions operaditors
 	 */
 	public static function getConditionOperators()
 	{
 		include_once './Services/AccessControl/classes/class.ilConditionHandler.php';
 		return array(
-			ilConditionHandler::OPERATOR_FINISHED
+			ilConditionHandler::OPERATOR_FINISHED,
+			ilConditionHandler::OPERATOR_FAILED
 		);
 	}
 	
@@ -41,8 +42,14 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess implements ilConditio
 	{
 		switch($a_operator)
 		{
-			default:
+
+			case ilConditionHandler::OPERATOR_FAILED:
+				include_once './Services/Tracking/classes/class.ilLPStatus.php';
+				ilLPStatus::_lookupStatus($a_trigger_obj_id, $a_usr_id) == ilLPStatus::LP_STATUS_FAILED_NUM;
+				break;
+			
 			case ilConditionHandler::OPERATOR_FINISHED:
+			default:
 				include_once './Services/Tracking/classes/class.ilLPStatus.php';
 				return ilLPStatus::_hasUserCompleted($a_trigger_obj_id, $a_usr_id);
 
