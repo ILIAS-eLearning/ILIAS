@@ -7494,8 +7494,8 @@ a.ilTreeView:focus {
 }
 .jstree img {
   border: 0;
-  width: 24px;
-  height: 24px;
+  width: 20px;
+  height: 20px;
 }
 /* Modules/Forum */
 a.postread,
