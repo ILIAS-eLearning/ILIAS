@@ -1316,7 +1316,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 			$value = ilUtil::stripSlashes($val2, FALSE);
 			if (strlen($value))
 			{
-				$gap = trim($this->getGap(ilUtil::stripSlashes($val1)));
+				$gap = $this->getGap(trim(ilUtil::stripSlashes($val1)));
 				if (is_object($gap))
 				{
 					if (!(($gap->getType() == CLOZE_SELECT) && ($value == -1)))
