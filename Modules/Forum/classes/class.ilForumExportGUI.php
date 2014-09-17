@@ -257,7 +257,7 @@ class ilForumExportGUI
 
 		if(ilForumProperties::getInstance($ilObjDataCache->lookupObjId($_GET['ref_id']))->getMarkModeratorPosts() == 1)
 		{
-			$is_moderator = ilForum::_isModerator($_GET['ref_id'], $post->getDisplayUserId());
+			$is_moderator = ilForum::_isModerator($_GET['ref_id'], $post->getPosAuthorId());
 			if($is_moderator)
 			{
 				$rowCol = 'ilModeratorPosting';
@@ -297,10 +297,18 @@ class ilForumExportGUI
 			$post->getImportName()
 		);
 
-		$tpl->setVariable('AUTHOR', $authorinfo->getAuthorShortName());
-		if($authorinfo->getAuthorName(true))
+		if($authorinfo->isPseudonymUsed())
 		{
-			$tpl->setVariable('USR_NAME', $authorinfo->getAuthorName(true));
+			$tpl->setVariable('AUTHOR', $lng->txt('frm_pseudonym'));
+			$tpl->setVariable('USR_NAME', $post->getUserAlias());
+		}
+		else
+		{
+			$tpl->setVariable('AUTHOR', $authorinfo->getAuthorShortName());
+			if($authorinfo->getAuthorName(true))
+			{
+				$tpl->setVariable('USR_NAME', $authorinfo->getAuthorName(true));
+			}
 		}
 
 		if(self::MODE_EXPORT_CLIENT == $mode )
@@ -327,7 +335,7 @@ class ilForumExportGUI
 		}
 
 		$tpl->setVariable('USR_IMAGE', $authorinfo->getProfilePicture());
-		if($authorinfo->getAuthor()->getId() && ilForum::_isModerator((int)$_GET['ref_id'], $authorinfo->getAuthor()->getId()))
+		if($authorinfo->getAuthor()->getId() && ilForum::_isModerator((int)$_GET['ref_id'], $post->getPosAuthorId()))
 		{
 			if($authorinfo->getAuthor()->getGender() == 'f')
 			{
