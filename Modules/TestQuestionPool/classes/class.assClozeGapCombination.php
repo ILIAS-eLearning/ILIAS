@@ -7,7 +7,7 @@ class assClozeGapCombination
 		global $ilDB;
 		
 			$result = $ilDB->queryF('SELECT combination_id,gap_fi, answer, cloze_type, combinations.points, best_solution
-									 	FROM qpl_a_cloze_combinations AS combinations
+									 	FROM qpl_a_cloze_combi_res AS combinations
 										INNER JOIN qpl_a_cloze AS cloze
 										WHERE combinations.question_fi = cloze.question_fi
 										AND combinations.gap_fi = cloze.gap_id
@@ -65,7 +65,7 @@ class assClozeGapCombination
 					}
 					if(is_array($gap))
 					{
-						$ilDB->manipulateF( 'INSERT INTO qpl_a_cloze_combinations
+						$ilDB->manipulateF( 'INSERT INTO qpl_a_cloze_combi_res
 			 				(combination_id, question_fi, gap_fi, answer, points, best_solution) VALUES (%s, %s, %s, %s, %s, %s)',
 							array(
 								'integer',
@@ -101,7 +101,7 @@ class assClozeGapCombination
 			}
 			if($question_id != -1)
 			{
-				$ilDB->manipulateF( 'INSERT INTO qpl_a_cloze_combinations
+				$ilDB->manipulateF( 'INSERT INTO qpl_a_cloze_combi_res
 				(combination_id, question_fi, gap_fi, answer, points, best_solution) VALUES (%s, %s, %s, %s, %s, %s)',
 					array(
 						'integer',
@@ -127,7 +127,7 @@ class assClozeGapCombination
 	{
 		global $ilDB;
 
-		$ilDB->manipulateF( 'DELETE FROM qpl_a_cloze_combinations WHERE question_fi = %s',
+		$ilDB->manipulateF( 'DELETE FROM qpl_a_cloze_combi_res WHERE question_fi = %s',
 			array( 'integer' ),
 			array( $question_id )
 		);
@@ -137,7 +137,7 @@ class assClozeGapCombination
 	{
 		global $ilDB;
 
-		$result = $ilDB->queryF('SELECT * FROM qpl_a_cloze_combinations WHERE question_fi = %s ORDER BY gap_fi ASC',
+		$result = $ilDB->queryF('SELECT * FROM qpl_a_cloze_combi_res WHERE question_fi = %s ORDER BY gap_fi ASC',
 			array('integer'),
 			array($question_id)
 		);
@@ -155,7 +155,7 @@ class assClozeGapCombination
 	{
 		global $ilDB;
 
-		$result = $ilDB->queryF('SELECT points FROM qpl_a_cloze_combinations WHERE question_fi = %s AND best_solution=1 GROUP BY points',
+		$result = $ilDB->queryF('SELECT points FROM qpl_a_cloze_combi_res WHERE question_fi = %s AND best_solution=1 GROUP BY points',
 			array('integer'),
 			array($question_id)
 		);
@@ -176,7 +176,7 @@ class assClozeGapCombination
 	{
 		global $ilDB, $lng;
 
-		$result = $ilDB->queryF('SELECT * FROM qpl_a_cloze_combinations WHERE question_fi = %s AND best_solution=1 ORDER BY gap_fi',
+		$result = $ilDB->queryF('SELECT * FROM qpl_a_cloze_combi_res WHERE question_fi = %s AND best_solution=1 ORDER BY gap_fi',
 			array('integer'),
 			array($question_id)
 		);
