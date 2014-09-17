@@ -3077,7 +3077,7 @@ class ilObjectListGUI
 				include_once("./Services/Tagging/classes/class.ilTaggingGUI.php");
 				$lng->loadLanguageModule("tagging");
 				$this->addHeaderIcon("tags", 					
-					ilUtil::getImagePath("icon_tags_s.png"),
+					ilUtil::getImagePath("icon_tag.png"),
 					$lng->txt("tagging_tags").": ".count($tags),
 					ilTaggingGUI::getListTagsJSCall($this->ajax_hash, $redraw_js),
 					count($tags));				

@@ -8,3 +8,14 @@ div.ilCreationFormSection div.ilForm {
 div.ilCreationFormSection div.ilForm div.ilForm {
   width: auto;
 }
+.ilHeadAction img {
+  width: 16px;
+  height: 16px;
+}
+.ilHeadAction .badge {
+  font-size: 8px;
+  padding: 2px 4px;
+  margin-top: -1px;
+  margin-left: -5px;
+  position: absolute;
+}
