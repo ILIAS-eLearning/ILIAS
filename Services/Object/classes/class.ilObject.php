@@ -1854,6 +1854,7 @@ class ilObject
 				$newCondition->setValue($con['value']);
 				$newCondition->setReferenceHandlingType($con['ref_handling']);
 				$newCondition->setObligatory($con['obligatory']);
+				$newCondition->setHiddenStatus(ilConditionHandler::lookupHiddenStatusByTarget($this->getRefId()));
 				$newCondition->storeCondition();
 			}
 		}

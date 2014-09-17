@@ -14745,3 +14745,5 @@ sess#:#sess_reg_max_users_exceeded_wl#:#Die maximale Teilnehmeranzahl für diese
 sess#:#sess_reg_added_to_wl#:#Sie sind in die Warteliste aufgenommen worden.
 rbac#:#condition_failed#:#Nicht bestanden
 rbac#:#condition_learning_progress#:#Status aus Lernfortschritt ableiten
+rbac#:#rbac_precondition_hide#:#Objekt verbergen
+rbac#:#rbac_precondition_hide_info#:#Das Objekt ist für Benutzer, die die Vorbedingungen nicht erfüllt haben, nicht sichtbar.

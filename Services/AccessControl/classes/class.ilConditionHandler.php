@@ -90,8 +90,10 @@ class ilConditionHandler
 	var $operator;
 	var $value;
 	var $validation;
+	
 
 	private $obligatory = true;
+	private $hidden_status = FALSE;
 
 	var $conditions;
 	static $cond_for_target_cache = array();
@@ -129,6 +131,25 @@ class ilConditionHandler
 			default:
 				return false;
 		}
+	}
+	
+	/**
+	 * Lookup hidden status
+	 * @global type $ilDB
+	 * @param type $a_target_ref_id
+	 */
+	public static function lookupHiddenStatusByTarget($a_target_ref_id)
+	{
+		global $ilDB;
+		
+		$query = 'SELECT hidden_status FROM conditions '.
+				'WHERE target_ref_id = '.$ilDB->quote($a_target_ref_id,'integer');
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return $row->hidden_status;
+		}
+		return FALSE;
 	}
 	
 	/**
@@ -384,6 +405,16 @@ class ilConditionHandler
 	{
 		return (bool) $this->obligatory;
 	}
+	
+	public function setHiddenStatus($a_status)
+	{
+		$this->hidden_status = $a_status;
+	}
+	
+	public function getHiddenStatus()
+	{
+		return $this->hidden_status;
+	}
 
 
 	/**
@@ -451,7 +482,7 @@ class ilConditionHandler
 		// first insert, then validate: it's easier to check for circles if the new condition is in the db table
 		$next_id = $ilDB->nextId('conditions');
 		$query = 'INSERT INTO conditions (condition_id,target_ref_id,target_obj_id,target_type,'.
-			'trigger_ref_id,trigger_obj_id,trigger_type,operator,value,ref_handling,obligatory) '.
+			'trigger_ref_id,trigger_obj_id,trigger_type,operator,value,ref_handling,obligatory,hidden_status) '.
 			'VALUES ('.
 			$ilDB->quote($next_id,'integer').','.
 			$ilDB->quote($this->getTargetRefId(),'integer').",".
@@ -463,7 +494,8 @@ class ilConditionHandler
 			$ilDB->quote($this->getOperator(),'text').",".
 			$ilDB->quote($this->getValue(),'text').", ".
 			$ilDB->quote($this->getReferenceHandlingType(),'integer').', '.
-			$ilDB->quote($this->getObligatory(),'integer').
+			$ilDB->quote($this->getObligatory(),'integer').', '.
+			$ilDB->quote($this->getHiddenStatus(),'integer').' '.
 			')';
 
 		$res = $ilDB->manipulate($query);
@@ -507,6 +539,24 @@ class ilConditionHandler
 		$res = $ilDB->manipulate($query);
 
 		return true;
+	}
+	
+	/**
+	 * Update hidden status
+	 * @global type $ilDB
+	 * @param type $a_target_ref_id
+	 * @param type $a_status
+	 * @return boolean
+	 */
+	public function updateHiddenStatus($a_status)
+	{
+		global $ilDB;
+		
+		$query = 'UPDATE conditions SET '.
+				'hidden_status = '.$ilDB->quote($a_status,'integer').' '.
+				'WHERE target_ref_id = '.$ilDB->quote($this->getTargetRefId(),'integer');
+		$ilDB->manipulate($query);
+		return TRUE;
 	}
 	
 	/**
@@ -598,6 +648,7 @@ class ilConditionHandler
 			$tmp_array['value']			= $row->value;
 			$tmp_array['ref_handling']  = $row->ref_handling;
 			$tmp_array['obligatory']	= $row->obligatory;
+			$tmp_array['hidden_status'] = $row->hidden_status;
 
 			$conditions[] = $tmp_array;
 			unset($tmp_array);
@@ -730,6 +781,7 @@ class ilConditionHandler
 			$tmp_array['value']			= $row->value;
 			$tmp_array['ref_handling']  = $row->ref_handling;
 			$tmp_array['obligatory']	= $row->obligatory;
+			$tmp_array['hidden_status'] = $row->hidden_status;
 
 			return $tmp_array;
 		}

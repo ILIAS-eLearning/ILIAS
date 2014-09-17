@@ -267,8 +267,17 @@ class ilConditionHandlerGUI
 		{
 			$_REQUEST["list_mode"] = "all";
 		}
-		$form = $this->showObligatoryForm($optional_conditions);
-		$this->tpl->setVariable('TABLE_SETTINGS',$form->getHTML());
+		
+		// Show form only if conditions are availabe
+		if(count(ilConditionHandler::_getConditionsOfTarget(
+				$this->getTargetRefId(),
+				$this->getTargetId(),
+				$this->getTargetType()))
+		)
+		{
+			$form = $this->showObligatoryForm($optional_conditions);
+			$this->tpl->setVariable('TABLE_SETTINGS',$form->getHTML());
+		}
 
 		include_once './Services/AccessControl/classes/class.ilConditionHandlerTableGUI.php';
 		$table = new ilConditionHandlerTableGUI($this,'listConditions', ($_REQUEST["list_mode"] != "all"));
@@ -334,6 +343,10 @@ class ilConditionHandlerGUI
 								);
 					break;
 			}
+			
+			$cond = new ilConditionHandler();
+			$cond->setTargetRefId($this->getTargetRefId());
+			$cond->updateHiddenStatus((int) $form->getInput('hidden'));
 			
 			ilUtil::sendSuccess($this->lng->txt('settings_saved'),true);
 			$this->ctrl->redirect($this,'listConditions');
@@ -405,6 +418,12 @@ class ilConditionHandlerGUI
 		$form->setFormAction($this->ctrl->getFormAction($this),'listConditions');
 		$form->setTitle($this->lng->txt('precondition_obligatory_settings'));
 		$form->addCommandButton('saveObligatorySettings', $this->lng->txt('save'));
+		
+		$hide = new ilCheckboxInputGUI($this->lng->txt('rbac_precondition_hide'),'hidden');
+		$hide->setChecked(ilConditionHandler::lookupHiddenStatusByTarget($this->getTargetRefId()));
+		$hide->setValue(1);
+		$hide->setInfo($this->lng->txt('rbac_precondition_hide_info'));
+		$form->addItem($hide);
 		
 		$mode = new ilRadioGroupInputGUI($this->lng->txt("rbac_precondition_mode"), "list_mode");
 		$form->addItem($mode);
@@ -678,6 +697,7 @@ class ilConditionHandlerGUI
 		$this->ch_obj->setTriggerType($trigger_obj->getType());
 		$this->ch_obj->setOperator($_POST['operator']);
 		$this->ch_obj->setObligatory((int) $_POST['obligatory']);
+		$this->ch_obj->setHiddenStatus(ilConditionHandler::lookupHiddenStatusByTarget($this->getTargetRefId()));
 		$this->ch_obj->setValue('');
 
 		// Save assigned sco's

@@ -3259,3 +3259,15 @@ if( !$ilDB->tableExists('qpl_a_cloze_combi_res') )
 	));
 }
 ?>
+<#4348>
+<?php
+if( !$ilDB->tableColumnExists('conditions', 'hidden_status') )
+{
+	$ilDB->addTableColumn('conditions', 'hidden_status', array(
+		'type' => 'integer',
+		'length' => 1,
+		'notnull' => false,
+		'default' => 0
+	));
+}
+?>
