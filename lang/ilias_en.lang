@@ -14762,3 +14762,5 @@ sess#:#sess_reg_max_users_exceeded_wl#:#The maximum number of users for this ses
 sess#:#sess_reg_added_to_wl#:#You have been added to the waiting list.
 style#:#sty_transform#:#Transform
 style#:#sty_transform_origin#:#Transform-Origin
+rbac#:#condition_failed#:#Failed
+rbac#:#condition_learning_progress#:#Derive from Learning Progress

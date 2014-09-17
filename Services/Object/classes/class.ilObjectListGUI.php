@@ -2085,9 +2085,9 @@ class ilObjectListGUI
 				continue;
 			}
 
-			$cond_txt = $lng->txt("condition_".$condition["operator"])." ".
-				$condition["value"];
-
+			include_once './Services/AccessControl/classes/class.ilConditionHandlerGUI.php';
+			$cond_txt = ilConditionHandlerGUI::translateOperator($condition['trigger_obj_id'],$condition['operator']).' '.$condition['value'];
+			
 			// display trigger item
 			$class = $objDefinition->getClassName($condition["trigger_type"]);
 			$location = $objDefinition->getLocation($condition["trigger_type"]);

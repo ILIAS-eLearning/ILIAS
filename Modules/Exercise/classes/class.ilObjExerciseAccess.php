@@ -23,7 +23,8 @@ class ilObjExerciseAccess extends ilObjectAccess implements ilConditionHandling
 	{
 		include_once './Services/AccessControl/classes/class.ilConditionHandler.php';
 		return array(
-			ilConditionHandler::OPERATOR_PASSED
+			ilConditionHandler::OPERATOR_PASSED,
+			ilConditionHandler::OPERATOR_FAILED
 		);
 	}
 	
@@ -39,6 +40,8 @@ class ilObjExerciseAccess extends ilObjectAccess implements ilConditionHandling
 	public static function checkCondition($a_exc_id,$a_operator,$a_value,$a_usr_id)
 	{
 		include_once './Services/AccessControl/classes/class.ilConditionHandler.php';
+		include_once './Modules/Exercise/classes/class.ilExerciseMembers.php';
+		
 		switch($a_operator)
 		{
 			case ilConditionHandler::OPERATOR_PASSED:
@@ -51,6 +54,9 @@ class ilObjExerciseAccess extends ilObjectAccess implements ilConditionHandling
 					return false;
 				}
 				break;
+				
+			case ilConditionHandler::OPERATOR_FAILED:
+				return ilExerciseMembers::_lookupStatus($a_exc_id,$a_usr_id) == 'failed';
 
 			default:
 				return true;

@@ -41,12 +41,11 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess implements ilConditio
 	{
 		switch($a_operator)
 		{
+			default:
 			case ilConditionHandler::OPERATOR_FINISHED:
 				include_once './Services/Tracking/classes/class.ilLPStatus.php';
 				return ilLPStatus::_hasUserCompleted($a_trigger_obj_id, $a_usr_id);
 
-			default:
-				return true;
 		}
 		return true;
 	}

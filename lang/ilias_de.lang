@@ -14742,3 +14742,5 @@ sess#:#sess_registered_confirm#:#Sie wurden für den Sitzungstermin angemeldet. 
 sess#:#sess_reg_max_users_exceeded#:#Eine Anmeldung ist nicht möglich, da die maximale Teilnehmeranzahl für diesen Termin überschritten wurde.
 sess#:#sess_reg_max_users_exceeded_wl#:#Die maximale Teilnehmeranzahl für diesen Sitzungstermin ist überschritten. Sie können sich jedoch in die Warteliste eintragen.
 sess#:#sess_reg_added_to_wl#:#Sie sind in die Warteliste aufgenommen worden.
+rbac#:#condition_failed#:#Nicht bestanden
+rbac#:#condition_learning_progress#:#Status aus Lernfortschritt ableiten

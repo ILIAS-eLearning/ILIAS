@@ -69,6 +69,8 @@ class ilConditionHandler
 	const OPERATOR_FINISHED = 'finished';
 	const OPERATOR_NOT_FINISHED = 'not_finished';
 	const OPERATOR_NOT_MEMBER = 'not_member';
+	const OPERATOR_FAILED = 'failed';
+	const OPERATOR_LP = 'learning_progress';
 	
 	const UNIQUE_CONDITIONS = 1;
 	const SHARED_CONDITIONS = 0;
@@ -399,7 +401,7 @@ class ilConditionHandler
 	*/
 	function getTriggerTypes()
 	{
-		return array('crs','exc','tst','sahs', 'svy');
+		return array('crs','exc','tst','sahs', 'svy', 'lm');
 	}
 
 
@@ -410,27 +412,31 @@ class ilConditionHandler
 	 */
 	public function getOperatorsByTargetType($a_type)
 	{
+		global $objDefinition;
+		
 		switch($a_type)
 		{
-			case 'crs':
-			case 'exc':
-				return array('passed');
-
-			case 'tst':
-				return array('passed','finished','not_finished');
-
 			case 'crsg':
 				return array('not_member');
-
-			case 'sahs':
-				return array('finished');
-
-			case 'svy':
-				return array('finished');
-
-			default:
-				return array();
 		}
+		
+		$class = $objDefinition->getClassName($a_type);
+		$location = $objDefinition->getLocation($a_type);
+		$full_class = "ilObj".$class."Access";
+		include_once($location."/class.".$full_class.".php");
+		
+		$operators = call_user_func(
+				array($full_class, 'getConditionOperators'),
+				$a_type
+		);
+		
+		// Add operator lp
+		include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
+		if(ilObjUserTracking::_enabledLearningProgress())
+		{
+			array_unshift($operators,self::OPERATOR_LP);
+		}
+		return $operators;
 	}
 
 	/**
@@ -744,6 +750,13 @@ class ilConditionHandler
 		$a_usr_id = $a_usr_id ? $a_usr_id : $ilUser->getId();
 		
 		$condition = ilConditionHandler::_getCondition($a_id);
+		
+		// check lp 
+		if($condition['operator'] == self::OPERATOR_LP)
+		{
+			include_once './Services/Tracking/classes/class.ilLPStatus.php';
+			return ilLPStatus::_hasUserCompleted($condition['trigger_obj_id'], $a_usr_id);
+		}
 		
 		switch($condition['trigger_type'])
 		{

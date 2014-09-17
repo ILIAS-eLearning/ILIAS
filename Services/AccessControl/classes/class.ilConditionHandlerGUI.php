@@ -73,6 +73,35 @@ class ilConditionHandlerGUI
 			$this->setTargetTitle($this->target_obj->getTitle());
 		}
 	}
+	
+	/**
+	 * Translate operator
+	 * @param type $a_operator
+	 */
+	public static function translateOperator($a_obj_id, $a_operator)
+	{
+		switch($a_operator)
+		{
+			case ilConditionHandler::OPERATOR_LP:
+				$GLOBALS['lng']->loadLanguageModule('trac');
+				include_once './Services/Tracking/classes/class.ilLPObjSettings.php';
+				$obj_settings = new ilLPObjSettings($a_obj_id);
+				return ilLPObjSettings::_mode2Text($obj_settings->getMode());
+			
+			default:
+				$GLOBALS['lng']->loadLanguageModule('rbac');
+				return $GLOBALS['lng']->txt('condition_'.$a_operator);
+		}
+	}
+	
+	/**
+	 * Get condition handler
+	 * @return ilConditionHandler
+	 */
+	protected function getConditionHandler()
+	{
+		return $this->ch_obj;
+	}
 
 	function setBackButtons($a_btn_arr)
 	{
@@ -574,12 +603,11 @@ class ilConditionHandlerGUI
 			array_pop($path);
 			$exp->setForceOpenPath($path);
 		}
-
-		$exp->addFilter('crs');
-		$exp->addFilter('tst');
-		$exp->addFilter('sahs');
-		$exp->addFilter('svy');
-
+		
+		foreach($this->getConditionHandler()->getTriggerTypes() as $type)
+		{
+			$exp->addFilter($type);
+		}
 		$exp->setSelectableTypes($this->ch_obj->getTriggerTypes());
 		$exp->setControlClass($this);
 		// build html-output
