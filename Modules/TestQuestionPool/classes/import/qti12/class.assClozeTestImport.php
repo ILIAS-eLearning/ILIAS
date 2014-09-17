@@ -36,10 +36,18 @@ class assClozeTestImport extends assQuestionImport
 		$presentation = $item->getPresentation(); 
 		$duration = $item->getDuration();
 		$questiontext = array();
-		
-		$questiontext[] = method_exists($item, 'getQuestion')  ? $item->getQuestion() : '&nbsp';
+
+		//$questiontext[] = method_exists($item, 'getQuestion')  ? $item->getQuestion() : '&nbsp';
+		$seperate_question_field = $item->getMetadataEntry("question");
+		if($seperate_question_field)
+		{
+			$questiontext[] = $seperate_question_field;
+		}
+		else
+		{
+			$questiontext[] = '&nbsp';
+		}
 		$clozetext = array();
-		
 		$shuffle = 0;
 		$now = getdate();
 		$created = sprintf("%04d%02d%02d%02d%02d%02d", $now['year'], $now['mon'], $now['mday'], $now['hours'], $now['minutes'], $now['seconds']);
@@ -277,6 +285,7 @@ class assClozeTestImport extends assQuestionImport
 		$textgap_rating = $item->getMetadataEntry("textgaprating");
 		$this->object->setFixedTextLength($item->getMetadataEntry("fixedTextLength"));
 		$this->object->setIdenticalScoring($item->getMetadataEntry("identicalScoring"));
+		$combination = json_decode(base64_decode($item->getMetadataEntry("combinations")));
 		if (strlen($textgap_rating) == 0) $textgap_rating = "ci";
 		$this->object->setTextgapRating($textgap_rating);
 		$gaptext = array();
@@ -400,6 +409,14 @@ class assClozeTestImport extends assQuestionImport
 		{
 			$import_mapping[$item->getIdent()] = array("pool" => $this->object->getId(), "test" => 0);
 		}
+		$this->object->saveToDb();
+		if(count($combination) > 0)
+		{
+			require_once './Modules/TestQuestionPool/classes/class.assClozeGapCombination.php';
+			assClozeGapCombination::clearGapCombinationsFromDb($this->object->getId());
+			assClozeGapCombination::importGapCombinationToDb($this->object->getId(),$combination);
+		}
+		$this->object->saveToDb();
 	}
 }
 

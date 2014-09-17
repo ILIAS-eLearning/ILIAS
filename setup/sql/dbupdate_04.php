@@ -3223,3 +3223,39 @@ if( !$ilDB->tableColumnExists('tst_active', 'objective_container') )
 	));
 }
 ?>
+<#4347>
+<?php
+if( !$ilDB->tableExists('qpl_a_cloze_combinations') )
+{
+	$ilDB->createTable('qpl_a_cloze_combinations', array(
+		'combination_id' => array(
+			'type' => "integer",
+			'length' => 4,
+			'notnull' => true
+		),
+		'question_fi' => array(
+			'type' => "integer",
+			'length' => 4,
+			'notnull' => true
+		),
+		'gap_fi' => array(
+			'type' => "integer",
+			'length' => 4,
+			'notnull' => true
+		),
+		'answer' => array(
+			'type' => 'text',
+			'length' => 1000,
+			'notnull' => false
+		),
+		'points' => array(
+			'type' => 'float'
+		),
+		'best_solution' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false
+		),
+	));
+}
+?>

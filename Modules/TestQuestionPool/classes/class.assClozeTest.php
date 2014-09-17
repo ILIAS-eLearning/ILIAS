@@ -3,6 +3,7 @@
 
 require_once './Modules/TestQuestionPool/classes/class.assQuestion.php';
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
+require_once './Modules/TestQuestionPool/classes/class.assClozeGapCombination.php';
 require_once './Modules/TestQuestionPool/interfaces/interface.ilObjQuestionScoringAdjustable.php';
 require_once './Modules/TestQuestionPool/interfaces/interface.ilObjAnswerScoringAdjustable.php';
 require_once './Modules/TestQuestionPool/interfaces/interface.iQuestionCondition.php';
@@ -30,6 +31,18 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 	*/
 	var $gaps;
 
+	/**
+	 * The optional gap combinations of the cloze question
+	 *
+	 * $gap_combinations is an array of the combination of predefined gaps of the cloze question
+	 *
+	 * @var array
+	 */
+	var $gap_combinations;
+
+
+	var $gap_combinations_exists;
+	
 	/**
 	* The start tag beginning a cloze gap
 	*
@@ -108,6 +121,8 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 		$this->setQuestion($question); // @TODO: Should this be $question?? See setter for why this is not trivial.
 		$this->fixedTextLength = "";
 		$this->identical_scoring = 1;
+		$this->gap_combinations_exists = false;
+		$this->gap_combinations = array();
 	}
 
 	/**
@@ -245,6 +260,13 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 					}
 				}
 			}
+		}
+		$assClozeGapCombinationObj = new assClozeGapCombination();
+		$check_for_gap_combinations = $assClozeGapCombinationObj->loadFromDb($question_id);
+		if(count($check_for_gap_combinations) != 0)
+		{
+			$this->setGapCombinationsExists(true);
+			$this->setGapCombinations($check_for_gap_combinations);
 		}
 		parent::loadFromDb($question_id);
 	}
@@ -813,6 +835,11 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 	*/
 	function getMaximumPoints() 
 	{
+		$assClozeGapCombinationObj = new assClozeGapCombination();
+		if($assClozeGapCombinationObj->combinationExistsForQid($this->getId()))
+		{
+			return $assClozeGapCombinationObj->getMaxPointsForCombination($this->getId());
+		}
 		$points = 0;
 		foreach ($this->gaps as $gap_index => $gap) 
 		{
@@ -906,7 +933,18 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 		{
 			$clone->saveToDb();
 		}
-
+		if($this->gap_combinations_exists)
+		{
+			$this->copyGapCombination($this_id, $clone->getId());
+		}
+		if ($for_test)
+		{
+			$clone->saveToDb($original_id);
+		}
+		else
+		{
+			$clone->saveToDb();
+		}
 		// copy question page content
 		$clone->copyPageOfQuestion($this_id);
 		// copy XHTML media objects
@@ -941,6 +979,10 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 		if ($title)
 		{
 			$clone->setTitle($title);
+		}
+		if($this->gap_combinations_exists)
+		{
+			$this->copyGapCombination($original_id, $clone->getId());
 		}
 		$clone->saveToDb();
 
@@ -979,6 +1021,11 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 		}
 
 		$clone->saveToDb();
+		
+		if($this->gap_combinations_exists)
+		{
+			$this->copyGapCombination($sourceQuestionId, $clone->getId());
+		}
 		// copy question page content
 		$clone->copyPageOfQuestion($sourceQuestionId);
 		// copy XHTML media objects
@@ -987,6 +1034,13 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 		$clone->onCopy($sourceParentId, $sourceQuestionId, $clone->getObjId(), $clone->getId());
 
 		return $clone->id;
+	}
+	
+	function copyGapCombination($orgID, $newID)
+	{
+		$assClozeGapCombinationObj = new assClozeGapCombination();
+		$array = $assClozeGapCombinationObj->loadFromDb($orgID);
+		$assClozeGapCombinationObj->importGapCombinationToDb($newID , $array);
 	}
 
 	/**
@@ -1125,7 +1179,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 	*/
 	function getNumericgapPoints($a_original, $a_entered, $max_points, $lowerBound, $upperBound)
 	{
-		if( !is_numeric($a_entered) )
+		if( ! $this->checkForValidFormula($a_entered) )
 		{
 			return 0;
 		}
@@ -1152,7 +1206,15 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 		}
 		return $result;
 	}
-	
+
+	/**
+	 * @param $value
+	 * @return int
+	 */
+	public function checkForValidFormula($value)
+	{
+		return preg_match("/^-?(\\d*)(,|\\.|\\/){0,1}(\\d*)$/", $value, $matches);
+	}
 	/**
 	 * Returns the points, a learner has reached answering the question.
 	 * The points are calculated from the given answers.
@@ -1254,7 +1316,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 			$value = ilUtil::stripSlashes($val2, FALSE);
 			if (strlen($value))
 			{
-				$gap = $this->getGap($val1);
+				$gap = trim($this->getGap(ilUtil::stripSlashes($val1)));
 				if (is_object($gap))
 				{
 					if (!(($gap->getType() == CLOZE_SELECT) && ($value == -1)))
@@ -1393,7 +1455,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 	*/
 	function getAnswerTableName()
 	{
-		return "qpl_a_cloze";
+		return array("qpl_a_cloze",'qpl_a_cloze_combinations');
 	}
 	
 	/**
@@ -1452,7 +1514,25 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 	{
 		return parent::getRTETextWithMediaObjects();
 	}
+	function getGapCombinationsExists()
+	{
+		return $this->gap_combinations_exists;
+	}
 
+	function getGapCombinations()
+	{
+		return $this->gap_combinations;
+	}
+
+	function setGapCombinationsExists($value)
+	{
+		$this->gap_combinations_exists = $value;
+	}
+
+	function setGapCombinations($value)
+	{
+		$this->gap_combinations = $value;
+	}
 	/**
 	* Creates an Excel worksheet for the detailed cumulated results of this question
 	*
@@ -1738,6 +1818,82 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 							}
 						}
 						break;
+				}
+			}
+		}
+		$assClozeGapCombinationObj = new assClozeGapCombination();
+		if($assClozeGapCombinationObj->combinationExistsForQid($this->getId()))
+		{
+			$combinations_for_question = $assClozeGapCombinationObj->getCleanCombinationArray($this->getId());
+			$gap_answers               = array();
+			foreach($user_result as $user_result_build_list)
+			{
+				if(is_array($user_result_build_list))
+				{
+					$gap_answers[$user_result_build_list['gap_id']] = $user_result_build_list['value'];
+				}
+			}
+			foreach($combinations_for_question as $combination)
+			{
+				$combination_fulfilled = true;
+				foreach($combination as $gap_key => $combination_gap_answer)
+				{
+					if($combination_fulfilled && array_key_exists($gap_key, $gap_answers))
+					{
+						switch($combination_gap_answer['type'])
+						{
+							case CLOZE_TEXT:
+								$is_text_gap_correct = $this->getTextgapPoints($gap_answers[$gap_key], $combination_gap_answer['answer'], 1);
+								if($is_text_gap_correct != 1)
+								{
+									$combination_fulfilled = false;
+								}
+								break;
+							case CLOZE_SELECT:
+								$answer     = $this->gaps[$gap_key]->getItem($gap_answers[$gap_key]);
+								$answertext = $answer->getAnswertext();
+								if($answertext != $combination_gap_answer['answer'])
+								{
+									$combination_fulfilled = false;
+								}
+								break;
+							case CLOZE_NUMERIC:
+								$answer = $this->gaps[$gap_key]->getItem(0);
+								if($combination_gap_answer['answer'] != 'OutOfBound')
+								{
+									$is_numeric_gap_correct = $this->getNumericgapPoints($answer->getAnswertext(), $gap_answers[$gap_key], 1, $answer->getLowerBound(), $answer->getUpperBound());
+									if($is_numeric_gap_correct != 1)
+									{
+										$combination_fulfilled = false;
+									}
+								}
+								else
+								{
+									$wrong_is_the_new_right = $this->getNumericgapPoints($answer->getAnswertext(), $gap_answers[$gap_key], 1, $answer->getLowerBound(), $answer->getUpperBound());
+									if($wrong_is_the_new_right == 1)
+									{
+										$combination_fulfilled = false;
+									}
+								}
+								break;
+						}
+					}
+					else
+					{
+						if($gap_key !== 'points')
+						{
+							$combination_fulfilled = false;
+						}
+					}
+				}
+				if($combination_fulfilled)
+				{
+					$max_points = $this->getMaximumPoints();
+					$points += $combination['points'];
+					if($points > $max_points)
+					{
+						$points = $max_points;
+					}
 				}
 			}
 		}

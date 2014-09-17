@@ -8,6 +8,32 @@
         width: 100%;
         margin-left:2em;
     }
+    .gap_combination
+    {
+        font-size:90%;
+        margin-left:0.3em;
+        width: 20em;
+        float:left;
+    }
+    .disabled
+    {
+        width:16px;
+        height:16px:
+    background-color:blue;
+    }
+    .gap_combination_spacer_applied
+    {
+        margin-left:1em;
+        margin-top:0.4em;
+        margin-bottom:0.4em;
+        font-weight: bold;
+        float:left;
+        width:100%;
+    }
+    .add_remove_buttons_gap
+    {
+        float:left;
+    }
     /* begin lightbox */
     #blank_link{
         width: 100%;
@@ -24,7 +50,7 @@
         left:0;
         background: rgba(255,255,255,.4);
     }
-    
+
     .lightbox-target:target {
         opacity:1;
         top: 85px;
@@ -40,8 +66,8 @@
     #lightbox_inner
     {
         position:absolute;
-        max-width: 50%;
-        min-width: 25em;
+        max-width: 100%;
+        min-width: 40em;
         left:35%;
         background: rgba(255,255,255,1);
         border:1px solid grey;
@@ -87,164 +113,217 @@
     /* end lightbox */
 </style>
 <script type="text/javascript">
-var gaps_php = {GAP_JSON};
-
+    var gaps_php            = {GAP_JSON};
+    var gaps_combination    = {GAP_COMBINATION_JSON};
+    var outofbound_text     = "{OUT_OF_BOUND}";
+    var combination_error   = "{PLEASE_SELECT}";
+    var combination_text    = "{GAP_COMBINATION}";
+    var copy_of_combination = "{COPY} {GAP_COMBINATION}";
 </script>
 <script type='text/javascript' src='./Modules/TestQuestionPool/templates/default/cloze_gap_builder.js'></script>
-<div id="moveAway"> 
-    <div class="prototype" id="gap_title">
-        <div class="ilFormHeader">
-            <h3 class="ilFormHeader"></h3><div class="ilFormInfo"></div>
-        </div>
-        <div class="ilFormHeader ilFormCommands">
-        </div>
+<div id="moveAway">
+<div class="prototype" id="gap_title">
+    <div>
+        <h3></h3>
     </div>
-            
-    <div class="prototype" id="select_field">
-        <div class="ilFormOption">
-            <label for="clozetype_0">Type</label>
-        </div>
-        <div class="ilFormValue">
-            <select id="clozetype_0" class="select_type" name="clozetype_0">
-                <option value="0">{TEXT_GAP}</option>
-                <option value="1">{SELECT_GAP}</option>
-                <option value="2">{NUMERIC_GAP}</option>
-            </select>
-        </div>
+    <div>
     </div>
-       
-    <div class="prototype" id="answer_text">
-        <div class="ilFormOption" id="il_prop_cont_gap_0">
-            <label for="gap_0">Values <span class="asterisk">*</span></label>
-        </div>
-        <div class="ilFormValue">
-            <div id="gap_0">
-                <table class="answerwizard">
-                    <thead>
-                    <tr>
-                        <th>{ANSWER_TEXT}</th>
-                        <th>{POINTS}</th>
-                        <th>{ACTIONS}</th>
-                    </tr>
-                    </thead>
-                    <tbody id="table_body">
-                    <tr class="even first last" id="inner_text">
-                        <td>
-                            <input type="text" size="25" class="text_field" maxlength="200"  value="">
-                        </td>
-                        <td style="vertical-align: top;">
-                            <input type="text" style="text-align: right;" class="points_field" id="gap_points" size="5"  value="0">
-                        </td>
-                        <td style="vertical-align: top;">
-                            <input type="image" name="add_gap" class="clone_fields_add" src="./templates/default/images/edit_add.png">
-                            <input type="image" name="remove_gap" class="clone_fields_remove" src="./templates/default/images/edit_remove.png">
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-                <input type="hidden" class="gap_counter">
-                <div class="remove_gap"><input class="submit remove_gap_button" type="button" value="{REMOVE_GAP}"></div>
-            </div>
-        </div>
+</div>
+
+<div class="prototype" id="select_field">
+    <div>
+        <label for="clozetype_0">{TYPE}</label>
     </div>
-            <div  class="prototype" id="numeric_prototype_numeric">
-                <div class="ilFormOption" id="il_prop_cont_gap_0_numeric">
-                    <label for="gap_a_numeric">{VALUE} <span class="asterisk">*</span></label>
-                </div>
-                <div class="ilFormValue">
-                    <div style="">
-                        <input type="text" style="text-align: right;" class="numeric_gap" size="10" id="gap_a_numeric" maxlength="200" name="gap_a_numeric" value="0">
-                    </div>
-                </div>
-            </div>
-        <div  class="prototype" id="numeric_prototype_numeric_lower">
-            <div class="ilFormOption" id="il_prop_cont_gap_0_numeric_lower">
-                <label for="gap_a_numeric_lower">{LOWER_BOUND} <span class="asterisk">*</span></label>
-            </div>
-            <div class="ilFormValue">
-                <div style="">
-                    <input type="text" style="text-align: right;" size="10" id="gap_a_numeric_lower" maxlength="200" name="gap_a_numeric_lower" value="0">
-                </div>
-            </div>
-        </div>
-        <div  class="prototype" id="numeric_prototype_numeric_upper">
-            <div class="ilFormOption" id="il_prop_cont_gap_0_numeric_upper">
-                <label for="gap_a_numeric_upper">{UPPER_BOUND} <span class="asterisk">*</span></label>
-            </div>
-            <div class="ilFormValue">
-                <div style="">
-                    <input type="text" style="text-align: right;" size="10" id="gap_a_numeric_upper" maxlength="200" name="gap_a_numeric_upper" value="0">
-                </div>
-            </div>
-        </div>
-        <div  class="prototype" id="numeric_prototype_numeric_points">
-            <div class="ilFormOption" id="il_prop_cont_gap_0_numeric_points">
-                <label for="gap_a_numeric_points">{POINTS} <span class="asterisk">*</span></label>
-            </div>
-            <div class="ilFormValue">
-                <input style="text-align:right;" type="text" size="3" id="gap_a_numeric_points" maxlength="200" name="gap_a_numeric_points" value="0">
-                <div class="ilFormInfo"></div>
-            </div>
+    <div>
+        <select id="clozetype_0" class="select_type" name="clozetype_0">
+            <option value="0">{TEXT_GAP}</option>
+            <option value="1">{SELECT_GAP}</option>
+            <option value="2">{NUMERIC_GAP}</option>
+        </select>
+    </div>
+</div>
+
+<div class="prototype" id="answer_text">
+    <div>
+        <label>{VALUES} <span class="asterisk">*</span></label>
+    </div>
+    <div>
+        <div>
+            <table class="answerwizard">
+                <thead>
+                <tr class="form-group">
+                    <th>{ANSWER_TEXT}</th>
+                    <th>{POINTS}</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody id="table_body">
+                <tr class="form-group" id="inner_text">
+                    <td>
+                        <input type="text" size="25" class="text_field" maxlength="200"  value="">
+                    </td>
+                    <td style="vertical-align: top;">
+                        <input type="text" style="text-align: right;" class="points_field" id="gap_points" size="5"  value="0">
+                    </td>
+                    <td style="vertical-align: top;">
+                        <input type="image" name="add_gap" class="clone_fields_add" src="./templates/default/images/edit_add.png">
+                        <input type="image" name="remove_gap" class="clone_fields_remove" src="./templates/default/images/edit_remove.png">
+                    </td>
+                </tr>
+                </tbody>
+            </table>
             <input type="hidden" class="gap_counter">
-        </div>
-    <div  class="prototype" id="numeric_prototype_remove_button">
-        <div class="ilFormOption">
-        </div>
-        <div class="ilFormValue">
             <div class="remove_gap"><input class="submit remove_gap_button" type="button" value="{REMOVE_GAP}"></div>
         </div>
     </div>
- 
-    <div class="prototype" id="shuffle_answers">
-        <div class="ilFormOption" id="il_prop_cont_shuffle_0">
-            <label>{SHUFFLE_ANSWERS}</label>
-        </div>
-        <div class="ilFormValue">
-            <div style="">
-                <input class="ilFormCheckbox"  type="checkbox" id="shuffle_dummy" name="shuffle_dummy" value="1">
-            </div>
+</div>
+<div  class="prototype" id="numeric_prototype_numeric">
+    <div id="il_prop_cont_gap_0_numeric">
+        <label for="gap_a_numeric">{VALUE} <span class="asterisk">*</span></label>
+    </div>
+    <div class="ilFormValue">
+        <div style="">
+            <input type="text" style="text-align: right;" class="numeric_gap" size="10" id="gap_a_numeric" maxlength="200" name="gap_a_numeric" value="0">
         </div>
     </div>
+</div>
+<div  class="prototype" id="numeric_prototype_numeric_lower">
+    <div id="il_prop_cont_gap_0_numeric_lower">
+        <label for="gap_a_numeric_lower">{LOWER_BOUND} <span class="asterisk">*</span></label>
+    </div>
+    <div>
+        <div style="">
+            <input type="text" style="text-align: right;" size="10" id="gap_a_numeric_lower" maxlength="200" name="gap_a_numeric_lower" value="0">
+        </div>
+    </div>
+</div>
+<div  class="prototype" id="numeric_prototype_numeric_upper">
+    <div id="il_prop_cont_gap_0_numeric_upper">
+        <label for="gap_a_numeric_upper">{UPPER_BOUND} <span class="asterisk">*</span></label>
+    </div>
+    <div>
+        <div style="">
+            <input type="text" style="text-align: right;" size="10" id="gap_a_numeric_upper" maxlength="200" name="gap_a_numeric_upper" value="0">
+        </div>
+    </div>
+</div>
+<div  class="prototype" id="numeric_prototype_numeric_points">
+    <div id="il_prop_cont_gap_0_numeric_points">
+        <label for="gap_a_numeric_points">{POINTS} <span class="asterisk">*</span></label>
+    </div>
+    <div>
+        <input style="text-align:right;" type="text" size="3" id="gap_a_numeric_points" maxlength="200" name="gap_a_numeric_points" value="0">
+        <div class="help-block"></div>
+    </div>
+    <input type="hidden" class="gap_counter">
+</div>
+<div  class="prototype" id="numeric_prototype_remove_button">
+    <div>
+    </div>
+    <div>
+        <div class="remove_gap"><input class="submit remove_gap_button" type="button" value="{REMOVE_GAP}"></div>
+    </div>
+</div>
 
-    <div class="prototype" id="prototype_gapsize">
-        <div class="ilFormOption" id="prototype_gapsize_a">
-            <label>{GAP_SIZE}</label>
-        </div>
-        <div class="ilFormValue">
-            <div style="">
-                <input style="text-align:right;" type="text" size="3" id="gap_a_gapsize" maxlength="6" name="gap_a_gapsize" value="0">
-                <div class="ilFormInfo">{GAP_SIZE_INFO}</div>
-            </div>
+<div class="prototype" id="shuffle_answers">
+    <div id="il_prop_cont_shuffle_0">
+        <label>{SHUFFLE_ANSWERS}</label>
+    </div>
+    <div>
+        <div style="">
+            <input class="ilFormCheckbox"  type="checkbox" id="shuffle_dummy" name="shuffle_dummy" value="1">
         </div>
     </div>
-   
-    <div class="prototype" id="error_answer">
-        <div class="ilFormOption">
-            <label></label>
-        </div>
-        <div class="ilFormValue">
-            <div id="error_answer_val">
-                <span class="prototype points">{POINTS_ERROR}</span>
-                <span class="prototype value">{MISSING_VALUE}</span>
-                <span class="prototype formula">{NOT_A_FORMULA}</span>
-                <span class="prototype number">{NOT_A_NUMBER}</span>
-            </div>
+</div>
+
+<div class="prototype" id="prototype_gapsize">
+    <div id="prototype_gapsize_a">
+        <label>{GAP_SIZE}</label>
+    </div>
+    <div>
+        <div style="">
+            <input style="text-align:right;" type="text" size="3" id="gap_a_gapsize" maxlength="6" name="gap_a_gapsize" value="0">
+            <div class="help-block">{GAP_SIZE_INFO}</div>
         </div>
     </div>
-    <div class="prototype" id="delete_gap_question">{DELETE_GAP}</div>
-    <input id="gap_json_post" name="gap_json_post" class="prototype" value="0" />
-    <div id="lightbox" class="lightbox-target">
-        <a  href="#"><div id="blank_link"></div></a>
-        <div id="lightbox_inner">
-            <div class="lightbox_menu">
-               <div id="lightbox_title_top"><h3></h3></div>
-               <div  id="apply_button_top"><a href="#"><input class="submit" type="button" value="{CLOSE}"></a></div>
-            </div>
-            <div id="lightbox_content"></div>
-            <div class="lightbox_menu">
-                <div id="lightbox_title_bottom"><h3></h3></div>
-                <div id="apply_button_bottom"><a href="#"><input class="submit" type="button" value="{CLOSE}"></a></div>
-            </div>
+</div>
+
+<div class="prototype" id="error_answer">
+    <div>
+        <label></label>
+    </div>
+    <div>
+        <div id="error_answer_val">
+            <span class="prototype points">{POINTS_ERROR}</span>
+            <span class="prototype value">{MISSING_VALUE}</span>
+            <span class="prototype formula">{NOT_A_FORMULA}</span>
+            <span class="prototype number">{NOT_A_NUMBER}</span>
         </div>
     </div>
+</div>
+<div class="prototype" id="delete_gap_question">{DELETE_GAP}</div>
+<input id="gap_json_post" name="gap_json_post" class="prototype" value="0" />
+<input id="gap_json_combination_post" name="gap_json_combination_post" class="prototype" value="0" />
+<div id="lightbox" class="lightbox-target">
+    <a  href="#"><div id="blank_link"></div></a>
+    <div id="lightbox_inner">
+        <div class="lightbox_menu">
+            <div id="lightbox_title_top"><h3></h3></div>
+            <div  id="apply_button_top"><a href="#"><input class="submit" type="button" value="{CLOSE}"></a></div>
+        </div>
+        <div id="lightbox_content"></div>
+        <div class="lightbox_menu">
+            <div id="lightbox_title_bottom"><h3></h3></div>
+            <div id="apply_button_bottom"><a href="#"><input class="submit" type="button" value="{CLOSE}"></a></div>
+        </div>
+    </div>
+</div>
+<input id="create_gap_combination" class="prototype" type="button" value="{GAP_COMBINATION}"/>
+<div class="prototype" id="gap_combination_header">
+    <div>
+        <h3 class="text">GAP_COMBINATION</h3><div class="help-block"></div>
+    </div>
+    <div>
+    </div>
+</div>
+<div class="prototype" id="gap_combination_points_prototype">
+    <div>
+        <label for="">{POINTS}</label>
+    </div>
+    <div>
+        <input type="text" style="text-align: right;" class="points_field" id="gap_combination_points" size="5"  value="0">
+    </div>
+</div>
+<div class="prototype" id="gap_combination">
+    <div class="">
+        <label for="">{VALUES}</label>
+    </div>
+    <div class="form-group">
+        <select id="gap_id_select" class="select_type gap_combination" label="select">
+        </select><select id="gap_id_value" class="select_type gap_combination" label="value"></select>
+    </div>
+</div>
+<div class="prototype add_remove_buttons">
+    <input type="image" name="add_gap" class="clone_fields_add combination" src="./templates/default/images/edit_add.png">
+    <input type="image" name="remove_gap" class="clone_fields_remove combination" src="./templates/default/images/edit_remove.png">
+</div>
+<span id="select_option_placeholder" class="prototype"><option value="none_selected_minus_one">{PLEASE_SELECT}</option></span>
+<div class="prototype gap_combination_spacer"></div>
+<div class="prototype" id="best_resultion_header">
+    <div class="">
+        <h3 class="">{BEST_POSSIBLE_SOLUTION_HEADER}</h3>
+    </div>
+    <div class="">
+    </div>
+</div>
+<div class="prototype" id="highlander">
+    <div>
+        <label for="">{BEST_POSSIBLE_SOLUTION}</label>
+    </div>
+    <div>
+        <select id="best_possible_solution" class="best_possible_solution" name="best_possible_solution">
+            <option value="0">{PLEASE_SELECT}</option>
+        </select>
+    </div>
+</div>
 </div> 

@@ -234,6 +234,7 @@ assessment#:#answer_characters#:# characters allowed, entered number of characte
 assessment#:#answer_picture#:#Answer Picture
 assessment#:#answer_text#:#Answer Text
 assessment#:#answer_types#:#Answer Types
+assessment#:#gap_combination#:#Gap Combination
 assessment#:#answer#:#Answer
 assessment#:#answers_multiline#:#Multi Line Answers
 assessment#:#answers_singleline#:#Single Line Answers

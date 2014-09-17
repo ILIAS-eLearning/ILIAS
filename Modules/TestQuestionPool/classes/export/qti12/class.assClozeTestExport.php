@@ -86,6 +86,11 @@ class assClozeTestExport extends assQuestionExport
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "question");
 		$a_xml_writer->xmlElement("fieldentry", NULL, $this->object->getQuestion());
 		$a_xml_writer->xmlEndTag("qtimetadatafield");
+
+		$a_xml_writer->xmlStartTag("qtimetadatafield");
+		$a_xml_writer->xmlElement("fieldlabel", NULL, "combinations");
+		$a_xml_writer->xmlElement("fieldentry", NULL, base64_encode(json_encode($this->object->getGapCombinations())));
+		$a_xml_writer->xmlEndTag("qtimetadatafield");
 		
 		$a_xml_writer->xmlEndTag("qtimetadata");
 		$a_xml_writer->xmlEndTag("itemmetadata");
