@@ -180,6 +180,7 @@ class ilLMTracker
 	{
 		global $ilDB;
 
+		$now = time();
 
 		//
 		// 1. Page access: current page
@@ -225,8 +226,7 @@ class ilLMTracker
 			{
 				return;
 			}
-
-			$now = time();
+			
 			$time_diff = $read_diff = 0;
 
 			// spent_seconds or read_count ?
