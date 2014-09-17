@@ -317,8 +317,10 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
 		$tpl->setVariable("ANSWER_TEXT", $this->lng->txt('answer_text'));
 		
 		$tpl->setVariable("OPTIONS_TEXT", $this->lng->txt('options'));
-		$tpl->setVariable("TRUE_TEXT", $this->qstObject->getTrueOptionLabelTranslation($this->lng, $this->qstObject->getOptionLabel()));
-		$tpl->setVariable("FALSE_TEXT", $this->qstObject->getFalseOptionLabelTranslation($this->lng, $this->qstObject->getOptionLabel()));
+		
+		// winzards input column label values will be updated on document ready js
+		//$tpl->setVariable("TRUE_TEXT", $this->qstObject->getTrueOptionLabelTranslation($this->lng, $this->qstObject->getOptionLabel()));
+		//$tpl->setVariable("FALSE_TEXT", $this->qstObject->getFalseOptionLabelTranslation($this->lng, $this->qstObject->getOptionLabel()));
 
 		$a_tpl->setCurrentBlock("prop_generic");
 		$a_tpl->setVariable("PROP_GENERIC", $tpl->get());

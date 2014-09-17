@@ -343,7 +343,8 @@ table.kprimchoicewizard th
     font-weight: bold;
     text-align: center;
 }
-table.ilAssKprimChoiceTable
+table.ilAssKprimChoiceTable,
+table.kprimchoicewizard
 {
     border-collapse: separate;
     border-spacing: 3px !important;
@@ -353,7 +354,8 @@ table.ilAssKprimChoiceTable td
 {
     padding: 5px 15px;
 }
-table.ilAssKprimChoiceTable th
+table.ilAssKprimChoiceTable th,
+table.kprimchoicewizard th.optionLabel
 {
     background-color: lightgrey;
     white-space: nowrap;
