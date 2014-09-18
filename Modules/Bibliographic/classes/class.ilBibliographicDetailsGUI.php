@@ -1,7 +1,7 @@
 <?php
 
 require_once "./Modules/Bibliographic/classes/class.ilBibliographicEntry.php";
-require_once "./Modules/Bibliographic/classes/class.ilBibliographicSetting.php";
+require_once "./Modules/Bibliographic/classes/Admin/class.ilBibliographicSetting.php";
 
 /**
  * Class ilBibliographicDetailsGUI

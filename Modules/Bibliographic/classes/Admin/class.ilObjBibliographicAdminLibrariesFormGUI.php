@@ -8,20 +8,39 @@ include_once('./Modules/Bibliographic/classes/class.ilObjBibliographicAdminGUI.p
  *
  * @author Theodor Truffer
  *
- * @ilCtrl_Calls ilObjBibliographicSettingFormGUI: ilObjBibliographicAdminGUI
+ * @ilCtrl_Calls ilObjBibliographicAdminLibrariesFormGUI: ilObjBibliographicAdminGUI
  *
  * @ingroup ModulesBibliographic
  */
-class ilObjBibliographicSettingFormGUI extends ilPropertyFormGUI{
+class ilObjBibliographicAdminLibrariesFormGUI extends ilPropertyFormGUI{
 
+    /**
+     * @var ilBibliographicSetting
+     */
     protected $bibl_setting;
-    protected $parent_gui;
-    protected $ctrl;
-    protected $lng;
-    protected $lib_id;
-    protected $cmd;
 
-    /**Constructor
+    /**
+     * @var ilObjBibliographicAdminLibrariesGUI
+     */
+    protected $parent_gui;
+
+    /**
+     * @var ilCtrl
+     */
+    protected $ctrl;
+
+    /**
+     * @var ilLanguage
+     */
+    protected $lng;
+
+    /**
+     * @var string
+     */
+    protected $action;
+
+    /**
+     * Constructor
      *
      */
     public function __construct($parent_gui, $bibl_setting)
@@ -32,12 +51,12 @@ class ilObjBibliographicSettingFormGUI extends ilPropertyFormGUI{
         $this->parent_gui = $parent_gui;
         $this->bibl_setting = $bibl_setting;
         if($bibl_setting->getId() > 0){
-            $this->cmd = 'update';
+            $this->action = 'update';
         }else{
-            $this->cmd = 'create';
+            $this->action = 'create';
         }
-        $this->initForm();
         $this->ctrl->saveParameter($parent_gui, 'lib_id');
+        $this->initForm();
     }
 
 
@@ -64,7 +83,11 @@ class ilObjBibliographicSettingFormGUI extends ilPropertyFormGUI{
         $img->setValue('');
         $this->addItem($img);
 
-        switch($this->cmd){
+        $show_in_list = new ilCheckboxInputGUI($this->lng->txt("bibl_library_show_in_list"), 'show_in_list');
+        $show_in_list->setValue(1);
+        $this->addItem($show_in_list);
+
+        switch($this->action){
             case 'create':
                 $this->setTitle($this->lng->txt("bibl_settings_new"));
                 $this->addCommandButton('create', $this->lng->txt('save'));
@@ -84,7 +107,8 @@ class ilObjBibliographicSettingFormGUI extends ilPropertyFormGUI{
     private function fillForm(){
         $this->setValuesByArray(array('name' => $this->bibl_setting->getName(),
             'url' => $this->bibl_setting->getBaseUrl(),
-            'img' => $this->bibl_setting->getImageUrl()));
+            'img' => $this->bibl_setting->getImageUrl(),
+            'show_in_list' => $this->bibl_setting->getShowInList()));
     }
 
     public function saveObject()
@@ -92,11 +116,13 @@ class ilObjBibliographicSettingFormGUI extends ilPropertyFormGUI{
         if(!$this->checkInput()){
             return false;
         }
+
         $this->bibl_setting->setName($this->getInput("name"));
         $this->bibl_setting->setBaseUrl($this->getInput("url"));
         $this->bibl_setting->setImageUrl($this->getInput("img"));
+        $this->bibl_setting->setShowInList($this->getInput("show_in_list"));
 
-        switch($this->cmd){
+        switch($this->action){
             case 'create':
                 $this->bibl_setting->create();
                 break;

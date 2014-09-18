@@ -4,6 +4,7 @@
 
 require_once "./Services/Object/classes/class.ilObject2GUI.php";
 require_once "./Modules/Bibliographic/classes/class.ilBibliographicDetailsGUI.php";
+require_once("./Services/Export/classes/class.ilExportGUI.php");
 
 
 /**
@@ -126,6 +127,14 @@ class ilObjBibliographicGUI extends ilObject2GUI
                 $file_gui = new ilObjFile($this);
                 $this->ctrl->forwardCommand($file_gui);
                 break;
+            case "ilexportgui":
+                $this->prepareOutput();
+                $ilTabs->setTabActive("export");
+                $this->setLocator();
+                $exp_gui = new ilExportGUI($this);
+                $exp_gui->addFormat("xml");
+                $this->ctrl->forwardCommand($exp_gui);
+                break;
 
             default:
                 return parent::executeCommand();
@@ -224,10 +233,6 @@ class ilObjBibliographicGUI extends ilObject2GUI
 
         $forms = parent::initCreationForms($a_new_type);
 
-        // disabling import
-        unset($forms[self::CFORM_IMPORT]);
-
-
         // Add File-Upload
         $in_file = new ilFileInputGUI($lng->txt("bibliography file"), "bibliographic_file");
 
@@ -316,6 +321,13 @@ class ilObjBibliographicGUI extends ilObject2GUI
                 $this->ctrl->getLinkTargetByClass("ilpermissiongui", "perm"));
         }
 
+        // export
+        if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
+        {
+            $ilTabs->addTab("export",
+                $lng->txt("export"),
+                $this->ctrl->getLinkTargetByClass("ilexportgui", ""));
+        }
 
     }
 

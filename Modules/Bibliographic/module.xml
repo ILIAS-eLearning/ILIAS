@@ -5,7 +5,7 @@
 	</baseclasses>
 	<objects>
 		<object id="bibl" class_name="Bibliographic" dir="classes" default_pos="360" default_pres_pos="360"
-			checkbox="1" inherit="1" translate="0" allow_link="1" allow_copy="1" rbac="1" export="1" 
+			checkbox="1" inherit="1" translate="0" allow_link="1" allow_copy="1" rbac="1" export="1"
 			workspace="0" repository="1">
 			<subobj id="rolf" max="1">rolf</subobj>
 			<parent id="cat">cat</parent>
@@ -15,7 +15,7 @@
 			<parent id="recf">recf</parent>
 			<parent id="root">root</parent>		
 		</object>
-        <object id="bibs" class_name="BibliographicAdmin" dir="classes"
+        <object id="bibs" class_name="BibliographicAdmin" dir="classes/Admin"
                 checkbox="0" inherit="0" translate="sys" rbac="1" system="1" administration="1">
             <subobj id="rolf" max="1">rolf</subobj>
             <parent id="adm" max="1">adm</parent>

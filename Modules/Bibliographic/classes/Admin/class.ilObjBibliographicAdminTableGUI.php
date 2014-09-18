@@ -24,6 +24,7 @@ class ilObjBibliographicAdminTableGUI extends ilTable2GUI{
     public function __construct($a_ref, $cmd)
     {
         global $lng, $ilCtrl;
+
         parent::__construct( $a_ref, $cmd );
 
         $this->gui = $a_ref;
@@ -40,6 +41,7 @@ class ilObjBibliographicAdminTableGUI extends ilTable2GUI{
         $this->setEnableNumInfo(false);
 
         $this->setFormAction( $ilCtrl->getFormAction( $a_ref ) );
+
         $this->setRowTemplate( 'tpl.bibl_settings_lib_list_row.html', 'Modules/Bibliographic' );
     }
 

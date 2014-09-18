@@ -13205,6 +13205,7 @@ common#:#obj_bibs#:#Bibliography
 common#:#obj_bibs_desc#:#Bibliography Administration
 bibl#:#bibl_new#:#New Bibliography
 bibl#:#bibl_add#:#Add Bibliography
+bibl#:#bibl_import#:#Import Bibliography
 bibl#:#Download Original File#:#Download Original File
 bibl#:#Type#:#Type
 bibl#:#Override Entries#:#Override Entries
@@ -13219,13 +13220,15 @@ bibl#:#bibl_library_url#:#Base-URL
 bibl#:#bibl_library_img#:#Image-URL
 bibl#:#bibl_settings_new#:#Add Library
 bibl#:#bibl_settings_edit#:#Edit Library
+bibl#:#libraries#:#Libraries
+bibl#:#attr_order#:#Attribute-Order
 bibl#:#attr_order_bibtex#:#Attribute Order (Bibtex)
 bibl#:#attr_order_bibtex_info#:#default: isbn,issn,title
 bibl#:#attr_order_ris#:#Attribute Order (ris)
 bibl#:#attr_order_ris_info#:#default: sn,ti, t1
 rbac#:#bibl_visible#:#Bibliography is visible
 rbac#:#bibl_read#:#User can read bibliography content
-rbac#:#bibl_copy#:#User can copy bibliography
+rbac#:#bibl_copy#:#Copy Bibliography
 rbac#:#bibl_write#:#User can edit bibliography settings
 rbac#:#bibl_delete#:#User can move or delete bibliography
 rbac#:#bibl_edit_permission#:#User can change permission settings
@@ -13233,6 +13236,7 @@ rbac#:#bibs_visible#:#Bibliography-Administration is visible
 rbac#:#bibs_read#:#User can read bibliography content
 rbac#:#bibs_write#:#User can edit bibliography settings
 rbac#:#bibs_delete#:#User can delete library entries
+rbac#:#bibs_copy#:#User can copy bibliography
 rbac#:#bibs_edit_permission#:#User can change permission settings
 ldap#:#ldap_edit_role_assignment#:#Edit Role -> Group Assignment
 trac#:#trac_mode_collection_tlt#:#Typical Learning Time (per Chapter)

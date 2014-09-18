@@ -25,9 +25,13 @@ class ilBibliographicSetting {
 	 * @var string
 	 */
 	protected $image_url = '';
+    /**
+     * @var boolean
+     */
+    protected $show_in_list = false;
 
 
-	/**
+    /**
 	 * @param $id
 	 */
 	public function __construct($id = 0) {
@@ -50,6 +54,7 @@ class ilBibliographicSetting {
 		$this->setBaseUrl($rec->url);
 		$this->setImageUrl($rec->img);
 		$this->setName($rec->name);
+        $this->setShowInList($rec->show_in_list);
 	}
 
 
@@ -71,11 +76,12 @@ class ilBibliographicSetting {
     public function update(){
         global $ilDB;
 
+        //FIXME replace Query -> ilDB->UPDATE
         $ilDB->manipulateF("UPDATE ".self::TABLE_NAME."
-                    SET name = %s, url = %s, img = %s
+                    SET name = %s, url = %s, img = %s, show_in_list = %s
                     WHERE id = %s",
-            array('text', 'text', 'text', 'integer'),
-            array($this->getName(), $this->getBaseUrl(), $this->getImageUrl(), $this->getId())
+            array('text', 'text', 'text', 'integer', 'integer'),
+            array($this->getName(), $this->getBaseUrl(), $this->getImageUrl(), $this->getShowInList(), $this->getId())
         );
     }
 
@@ -98,7 +104,8 @@ class ilBibliographicSetting {
             "id" => array("integer", $id),
             "name" => array("text", $this->getName()),
             "url" => array("text",  $this->getBaseUrl()),
-            "img" => array("text", $this->getImageUrl())
+            "img" => array("text", $this->getImageUrl()),
+            "show_in_list" => array("integer", $this->getShowInList())
         ));
     }
 
@@ -114,7 +121,6 @@ class ilBibliographicSetting {
         // get entry's and settings' attributes
         $attr_order = explode(",", $bibl_settings->get($type."_ord"));
         $attributes = $entry->getAttributes();
-
 
 
         switch($type){
@@ -238,6 +244,22 @@ class ilBibliographicSetting {
 	public function getId() {
 		return $this->id;
 	}
+
+    /**
+     * @param boolean $show_in_list
+     */
+    public function setShowInList($show_in_list)
+    {
+        $this->show_in_list = $show_in_list;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getShowInList()
+    {
+        return $this->show_in_list;
+    }
 }
 
 ?>

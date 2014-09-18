@@ -77,7 +77,29 @@ class ilDataBibliographicRecordListTableGUI  extends ilTable2GUI
         //Detail-Link
         $ilCtrl->setParameterByClass("ilObjBibliographicGUI", "entryId", $a_set['entry_id']);
         $this->tpl->setVariable("DETAIL_LINK", $ilCtrl->getLinkTargetByClass("ilObjBibliographicGUI", "showDetails"));
-	}
+
+
+        // generate/render links to libraries
+        $settings = ilBibliographicSetting::getAll();
+
+        $arr_library_link = array();
+        foreach($settings as $set){
+
+            if($set->getShowInList()) {
+                if($set->getImageUrl() == ''){
+                    // default image
+                    $set->setImageUrl(ilUtil::getImagePath('lib_link_def.gif'));
+                }
+
+                $arr_library_link[] = '<a target="_blank" href="'.$set->generateLibraryLink($ilObjEntry, $this->parent_obj->object->getFiletype()).'"><img src="'.$set->getImageUrl().'"></a>';
+            }
+        }
+
+        if(count($arr_library_link)) {
+            $this->tpl->setVariable("LIBRARY_LINK",implode("<br/>",$arr_library_link));
+        }
+
+    }
 }
 
 ?>

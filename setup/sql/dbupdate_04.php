@@ -3756,4 +3756,15 @@ if(!$ilDB->tableColumnExists('loc_settings','reset_results'))
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
-
+<#4370>
+<?php
+if(!$ilDB->tableColumnExists('il_bibl_settings', 'show_in_list'))
+{
+	$ilDB->addTableColumn('il_bibl_settings', 'show_in_list', array(
+		'type' => 'integer',
+		'length' => 1,
+		'notnull' => false,
+		'default' => 0
+	));
+}
+?>
