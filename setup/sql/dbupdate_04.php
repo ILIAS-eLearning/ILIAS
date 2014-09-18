@@ -3768,3 +3768,100 @@ if(!$ilDB->tableColumnExists('il_bibl_settings', 'show_in_list'))
 	));
 }
 ?>
+<#4371>
+<?php
+
+	$a_obj_id = array();
+	$a_scope_id = array();
+	$a_scope_id_one = array();
+	//select targetobjectiveid = cmi_gobjective.objective_id
+	$res = $ilDB->query('SELECT cp_mapinfo.targetobjectiveid 
+		FROM cp_package, cp_mapinfo, cp_node 
+		WHERE cp_package.global_to_system = 0 AND cp_package.obj_id = cp_node.slm_id AND cp_node.cp_node_id = cp_mapinfo.cp_node_id 
+		GROUP BY cp_mapinfo.targetobjectiveid');
+	while($data = $ilDB->fetchAssoc($res)) 
+	{
+		$a_obj_id[] = $data['targetobjectiveid'];
+	}
+	//make arrays
+	for ($i=0;$i<count($a_obj_id);$i++) {
+		$a_scope_id[$a_obj_id[$i]] = array();
+		$a_scope_id_one[$a_obj_id[$i]] = array();
+	}
+	//only global_to_system=0 -> should be updated
+	$res = $ilDB->query('SELECT cp_mapinfo.targetobjectiveid, cp_package.obj_id 
+		FROM cp_package, cp_mapinfo, cp_node 
+		WHERE cp_package.global_to_system = 0 AND cp_package.obj_id = cp_node.slm_id AND cp_node.cp_node_id = cp_mapinfo.cp_node_id');
+	while($data = $ilDB->fetchAssoc($res)) 
+	{
+		$a_scope_id[$data['targetobjectiveid']][] = $data['obj_id'];
+	}
+	//only global_to_system=1 -> should maintain
+	$res = $ilDB->query('SELECT cp_mapinfo.targetobjectiveid, cp_package.obj_id 
+		FROM cp_package, cp_mapinfo, cp_node 
+		WHERE cp_package.global_to_system = 1 AND cp_package.obj_id = cp_node.slm_id AND cp_node.cp_node_id = cp_mapinfo.cp_node_id');
+	while($data = $ilDB->fetchAssoc($res)) 
+	{
+		$a_scope_id_one[$data['targetobjectiveid']][] = $data['obj_id'];
+	}
+
+	//for all targetobjectiveid
+	for ($i=0;$i<count($a_obj_id);$i++) {
+		$a_toupdate = array();
+		//get old data without correct scope_id
+		$res = $ilDB->queryF(
+			"SELECT * FROM cmi_gobjective WHERE scope_id = %s AND objective_id = %s",
+			array('integer', 'text'),
+			array(0, $a_obj_id[$i])
+		);
+		while($data = $ilDB->fetchAssoc($res)) 
+		{
+			$a_toupdate[] = $data;
+		}
+		//check specific possible scope_ids with global_to_system=0 -> a_o
+		$a_o = $a_scope_id[$a_obj_id[$i]];
+		for ($z=0; $z<count($a_o); $z++) {
+			//for all existing entries
+			for ($y=0; $y<count($a_toupdate); $y++) {
+				$a_t=$a_toupdate[$y];
+				//only users attempted
+				$res = $ilDB->queryF('SELECT user_id FROM sahs_user WHERE obj_id=%s AND user_id=%s',
+					array('integer', 'integer'),
+					array($a_o[$z], $a_t['user_id'])
+				);
+				if($ilDB->numRows($res)) {
+				//check existing entry
+					$res = $ilDB->queryF('SELECT user_id FROM cmi_gobjective WHERE scope_id=%s AND user_id=%s AND objective_id=%s',
+						array('integer', 'integer','text'),
+						array($a_o[$z], $a_t['user_id'],$a_t['objective_id'])
+					);
+					if(!$ilDB->numRows($res)) {
+						$ilDB->manipulate("INSERT INTO cmi_gobjective (user_id, satisfied, measure, scope_id, status, objective_id, score_raw, score_min, score_max, progress_measure, completion_status) VALUES"
+						." (".$ilDB->quote($a_t['user_id'], "integer")
+						.", ".$ilDB->quote($a_t['satisfied'], "text")
+						.", ".$ilDB->quote($a_t['measure'], "text")
+						.", ".$ilDB->quote($a_o[$z], "integer")
+						.", ".$ilDB->quote($a_t['status'], "text")
+						.", ".$ilDB->quote($a_t['objective_id'], "text")
+						.", ".$ilDB->quote($a_t['score_raw'], "text")
+						.", ".$ilDB->quote($a_t['score_min'], "text")
+						.", ".$ilDB->quote($a_t['score_max'], "text")
+						.", ".$ilDB->quote($a_t['progress_measure'], "text")
+						.", ".$ilDB->quote($a_t['completion_status'], "text")
+						.")");
+					}
+				}
+			}
+		}
+		//delete entries if global_to_system=1 is not used by any learning module
+		if (count($a_scope_id_one[$a_obj_id[$i]]) == 0) {
+			$ilDB->queryF(
+				'DELETE FROM cmi_gobjective WHERE scope_id = %s AND objective_id = %s',
+				array('integer', 'text'),
+				array(0, $a_obj_id[$i])
+			);
+		}
+	}
+	
+	
+?>
