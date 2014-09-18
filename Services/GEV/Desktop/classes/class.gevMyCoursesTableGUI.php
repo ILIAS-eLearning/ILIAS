@@ -133,6 +133,11 @@ class gevCoursesTableGUI extends catAccordionTableGUI {
 		$this->tpl->setVariable("GOALS", $a_set["goals"]);
 		$this->tpl->setVariable("CONTENTS", $a_set["content"]);
 		$this->tpl->setVariable("CRS_LINK", gevCourseUtils::getLinkTo($a_set["obj_id"]));
+		if ($a_set["overnights"]) {
+			$this->tpl->setCurrentBlock("overnights");
+			$this->tpl->setVariable("OVERNIGHTS", $a_set["overnights"]);
+			$this->tpl->parseCurrentBlock();
+		}
 		if ($show_cancel_link && $show_cancel_date) {
 			$this->tpl->setCurrentBlock("cancel_date");
 			$this->tpl->setVariable("CANCEL_DATE", $cancel_date);
