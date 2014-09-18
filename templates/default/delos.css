@@ -64,18 +64,6 @@
   src: url('fonts/OpenSansWeb/opensans-extrabolditalic-webfont.eot?#iefix') format('embedded-opentype'), url('fonts/OpenSansWeb/opensans-extrabolditalic-webfont.woff') format('woff'), url('fonts/OpenSansWeb/opensans-extrabolditalic-webfont.ttf') format('truetype'), url('fonts/OpenSansWeb/opensans-extrabolditalic-webfont.svg') format('svg');
   font-style: italic;
 }
-/*		Color scheme
-		Dark BLue: #0f2152;
-		Mid Blue: #4c6586;
-		Green: #6ea03c;
-		Light Brown: #dcb496;
-		Dark Brown: #523228;
-		Orange: #fa8228;
-		External Blue: #21c5d8;
-		ILIAS 4 MainMenu Color: #c8e6ff;
-*/
-/* @nav-tabs-link-hover-border-color: @brand-primary; */
-/* ILIAS variables candidates */
 /*! normalize.css v3.0.1 | MIT License | git.io/normalize */
 html {
   font-family: sans-serif;
@@ -6241,6 +6229,18 @@ button.close {
     display: none !important;
   }
 }
+/*		Color scheme
+		Dark BLue: #0f2152;
+		Mid Blue: #4c6586;
+		Green: #6ea03c;
+		Light Brown: #dcb496;
+		Dark Brown: #523228;
+		Orange: #fa8228;
+		External Blue: #21c5d8;
+		ILIAS 4 MainMenu Color: #c8e6ff;
+*/
+/* @nav-tabs-link-hover-border-color: @brand-primary; */
+/* ILIAS variables candidates */
 span.ilAlert {
   color: #fa8228;
 }
@@ -6713,8 +6713,8 @@ h1.ilHeader {
   padding: 5px 0 0;
 }
 #headerimage {
-  width: 40px;
-  height: 40px;
+  width: 45px;
+  height: 45px;
   margin-right: 10px;
   float: left;
   background-color: white;
@@ -6796,6 +6796,8 @@ div.ilPermaLink a {
 }
 #current_perma_link {
   color: #333333;
+  width: 25%;
+  font-size: 90%;
 }
 /* ----------------- invisible border ------------- */
 div.invisible_border {
@@ -8087,14 +8089,6 @@ li.ilWikiBlockItem {
   padding: 5px 10px 6px;
   border-top: 4px solid #f0f0f0;
   color: #5d5d5d;
-}
-#ilTopNav .navbar-nav > li > a:hover,
-#ilTopNav .navbar-nav > li > a:active,
-#ilTopNav .navbar-nav > li > a:focus {
-  outline: 0;
-  border-top: 4px solid #4c6586;
-  background-color: white;
-  box-shadow: 3px 9px 9px 0px rgba(0, 0, 0, 0.176);
 }
 #ilTopNav .navbar-nav > .active > a,
 #ilTopNav .navbar-nav > .open > a,
@@ -9497,35 +9491,35 @@ div.il_Tutor img {
   margin-bottom: 10px;
 }
 /* Services/InfoScreen */
-table.il_InfoScreen {
-  color: #222;
-  background-color: #FFF;
-  width: 100%;
-  /* border-spacing: 0; */
-  border-collapse: collapse;
-  border: 1px solid #D6D6D6;
-}
 div.ilInfoScreenSec {
-  padding: 10px;
+  padding: 10px 0;
 }
-div.ilInfoScreenSec > h3 {
-  margin: 8px 0 14px;
-  border-bottom: 1px solid #D6D6D6;
-  color: #505050;
-  font-weight: normal;
-  font-size: 120%;
-}
-td.il_InfoScreenProperty {
-  border-right: 1px solid #D6D6D6;
+div.ilInfoScreenSec h3 {
+  margin: 10px 0;
+  color: #6ea03c;
+  font-size: 130%;
   text-align: right;
-  padding: 6px 10px 6px 4px;
-  vertical-align: top;
-  color: #505050;
-  width: 200px;
 }
-td.il_InfoScreenPropertyValue {
-  padding: 6px 4px 6px 10px;
+.il_InfoScreenProperty {
+  padding: 15px;
   vertical-align: top;
+  color: #696969;
+  font-style: italic;
+}
+.il_InfoScreenPropertyValue {
+  padding: 15px;
+  vertical-align: top;
+  background-color: #f6f6f6;
+}
+.ilInfoScreenSec.form-horizontal .form-group {
+  margin: 0;
+}
+.ilInfoScreenSec.form-horizontal .form-group:nth-child(2) .il_InfoScreenPropertyValue {
+  border-top: 1px solid #dcdcdc;
+  box-shadow: inset 0px 2px 1px -1px #ffffff;
+}
+.ilInfoScreenSec.form-horizontal .control-label {
+  padding: 15px;
 }
 /* Services/Init */
 div.ilStartupFrame {

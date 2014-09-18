@@ -122,7 +122,6 @@
 
 // Core variables and mixins
 @import "@{bsbase}variables.less";    // original
-@import "less/variables.less";             // customized
 @import "@{bsbase}mixins.less";
 
 // Reset and dependencies
@@ -172,6 +171,7 @@
 @import "@{bsbase}utilities.less";
 @import "@{bsbase}responsive-utilities.less";
 
+@import "less/variables.less";             // customized
 
 // warning inline text
 span.ilAlert {
@@ -779,8 +779,8 @@ h1.ilHeader {
 }
 
 #headerimage {
-	width: 40px;
-	height: 40px;
+	width: 45px;
+	height: 45px;
 	margin-right: 10px;
 	float: left;
 	background-color: white;
@@ -879,6 +879,8 @@ div.ilPermaLink a {
 
 #current_perma_link {
 	color: @text-color;
+	width: 25%;
+	font-size: 90%;
 }
 
 
