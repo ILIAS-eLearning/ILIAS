@@ -244,6 +244,14 @@ class gevSettings {
 		693 => array("NA",               "Mitarbeiter"),
 		694 => array("BA",               "Mitarbeiter")
 	);
+	
+	// Names of roles where we should be tolerant in the email at the
+	// registration (#608)
+	static $EMAIL_TOLERANCE_ROLES = array(
+		  "DBV/VL-EVG"
+		, "DBV/VL-EVG"
+		, "OD/LD/BD/VD/VTWL"
+		);
 
 	// Names of roles where users do not need to pay fees
 	static $NO_PAYMENT_ROLES = array(

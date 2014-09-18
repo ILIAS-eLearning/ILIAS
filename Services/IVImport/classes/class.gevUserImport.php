@@ -54,8 +54,10 @@ class gevUserImport {
 			return 'User not found in shadow database.';
 		}
 		else {
-			$iv_data = $this->get_additional_user_data($stelle, $email);
+			$iv_data = $this->get_additional_user_data($stelle);
 		}
+		// WATCH OUT! the email might have been modified in get_shadow_user
+		// since #608 was implemented.
 
 		$stellen_data = $this->get_stelle($stelle);
 		if ($stellen_data === false) {
@@ -67,9 +69,9 @@ class gevUserImport {
 		}
 
 		$token = $this->generate_confirmation_token();
-		$this->save_token($token, $username, $stelle, $email
+		$this->save_token($token, $username, $stelle, $shadow_user["email"]
 						 , $iv_data["firstname"], $iv_data["lastname"], $iv_data["gender"]);
-		$this->send_confirmation_email($token, $username, $email);
+		$this->send_confirmation_email($token, $username, $shadow_user["email"]);
 
 		return false;
 	}
@@ -169,6 +171,13 @@ class gevUserImport {
 
 
 	private function get_shadow_user($stellennummer, $email) {
+		// For some user there should be a tolerance against 
+		// the domain used for their email address (see ticket #608).
+		// We therefore need to check the username used in the email
+		// and check the domain afterwards.
+		$email_spl = split("@", $email);
+		$email_pre = $email_spl[0]."@";
+		
 		$sql = "
 			SELECT
 				* 
@@ -181,7 +190,7 @@ class gevUserImport {
 			WHERE
 				`ivimport_stelle`.`stellennummer`=" . $this->ilDB->quote($stellennummer, "text") . "
 			AND
-				`ivimport_adp`.`email`=" . $this->ilDB->quote($email, "text") . "
+				`ivimport_adp`.`email` LIKE " . $this->ilDB->quote($email_pre, "text") . "
 			";
 			
 		$result = mysql_query($sql, $this->mysql);
@@ -190,10 +199,34 @@ class gevUserImport {
 		}
 
 		$row = mysql_fetch_assoc($result);
+		
+		// checking of the email tolerance (#608)
+		$vermittlerstatus = $row['vermittlerstatus'];
+		$email_db = $row['email'];
+		$role = gevSettings::$VMS_ROLE_MAPPING[$vermittlerstatus][0];
+		$be_tolerant = in_array(gevSettings::$EMAIL_TOLERANCE_ROLES, $role);
+		if (!$be_tolerant && $email != $email_db) {
+			return false;
+		}
+		if ($be_tolerant) {
+			$email_db_spl = split("@", $email_db);
+			$valid_domains = array( "service.generali.com"
+								  , "service.generali.de"
+								  , "generali.com"
+								  , "generali.de"
+								  );
+			
+			if (!in_array($email_spl[1], $valid_domains) ||
+				!in_array($email_db_spl[1], $valid_domains)) {
+				return false;
+			}
+			$row["email"] = $email_db_spl[0]."@generali.com";
+		}
+		
 		return $row;
 	}
 
-	private function get_additional_user_data($stellennummer, $email) {
+	private function get_additional_user_data($stellennummer) {
 		$sql = "
 			SELECT 
 				`nachname` lastname,
@@ -206,8 +239,6 @@ class gevUserImport {
 				( `ivimport_stelle`.`sql_adp_id` = `ivimport_adp`.`id` )
 			WHERE
 				`ivimport_stelle`.`stellennummer`=" . $this->ilDB->quote($stellennummer, "text") . "
-			AND
-				`ivimport_adp`.`email`=" . $this->ilDB->quote($email, "text") . "
 		";
 		$result = mysql_query($sql, $this->mysql);
 		
