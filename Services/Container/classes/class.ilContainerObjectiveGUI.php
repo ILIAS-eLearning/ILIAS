@@ -126,10 +126,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 		include_once './Modules/Course/classes/Objectives/class.ilLOSettings.php';
 		$this->loc_settings = ilLOSettings::getInstanceByObjId($this->getContainerObject()->getId());	
 					
-		if($is_manage || $is_order)
-		{
-			$this->initRenderer();		
-		}
+		$this->initRenderer();			
 	
 		if(!$is_manage && !$is_order)
 		{						
@@ -146,8 +143,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 				$this->loc_settings->isGeneralQualifiedTestVisible()
 			)
 			{
-				$this->output_html .= 
-					$this->renderTest($this->loc_settings->getQualifiedTest(), null, false, true);
+				$this->output_html .= $this->renderTest($this->loc_settings->getQualifiedTest(), null, false, true);
 			}
 			
 			$this->showMaterials($tpl,self::MATERIALS_OTHER, false, !$is_order);
@@ -382,59 +378,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 		
 		$node_data['title'] = $title;
 		
-		$list_output = $this->renderItem($node_data);
-		$tpl = new ilTemplate("tpl.objective_accordion_test.html", true, true, "Services/Container");
-		$tpl->setVariable('LIST_GUI_TEST',$list_output);
-		return $tpl->get();
-		
-		$obj_id = ilObject::_lookupObjId($a_test_ref_id);
-		
-		$params = null;
-		if($a_objective_id)
-		{
-			$params = array("objective_id"=>$a_objective_id);
-		}		
-		
-		#$url = ilLink::_getLink($a_test_ref_id, "tst", $params);
-		
-		$GLOBALS['ilCtrl']->setParameter($this->container_gui,'tid',$a_test_ref_id);
-		$GLOBALS['ilCtrl']->setParameter($this->container_gui,'objective_id',$a_objective_id);
-		$url = $GLOBALS['ilCtrl']->getLinkTarget($this->container_gui,'redirectLocToTest');
-		
-		$tpl = new ilTemplate("tpl.objective_accordion_test.html", true, true, "Services/Container");			
-				
-		if($a_add_border)
-		{
-			$tpl->touchBlock("border_in_bl");
-			$tpl->touchBlock("border_out_bl");
-		}		
-		
-		
-		if($a_objective_id)
-		{
-			if($a_is_initial)
-			{
-				$title = sprintf($this->lng->txt('crs_loc_qtst_for_objective'),  ilCourseObjective::lookupObjectiveTitle($a_objective_id));
-			}
-			else
-			{
-				$title = sprintf($this->lng->txt('crs_loc_qtst_for_objective'),  ilCourseObjective::lookupObjectiveTitle($a_objective_id));				
-			}
-		}
-		else
-		{
-			$tpl->setVariable("CAPTION", $this->lng->txt($a_is_initial 
-				? 'crs_loc_itest_info'			
-				: 'crs_loc_qtest_info'));
-			$title = ilObject::_lookupTitle($obj_id);
-		}
-		
-		$tpl->setVariable("URL", $url);
-		$tpl->setVariable("TITLE", $title);
-		$tpl->setVariable("TXT_ICON", $this->lng->txt("obj_tst"));
-		$tpl->setVariable("URL_ICON", ilUtil::getImagePath("icon_tst_s.png"));
-		
-		return $tpl->get();
+		return $this->renderItem($node_data);
 	}
 	
 	/**
@@ -481,7 +425,8 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 					}	
 				}
 				
-				if($this->rendered_items[$item_data["child"]] !== true)
+				if($this->rendered_items[$item_data["child"]] !== true &&
+					!$this->renderer->hasItem($item_data["child"]))
 				{
 					$this->rendered_items[$item_data['child']] = true;
 					
