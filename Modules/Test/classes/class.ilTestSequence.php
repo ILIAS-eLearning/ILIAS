@@ -108,32 +108,14 @@ class ilTestSequence
 		global $ilDB;
 
 		$this->questions = array();
-		if ($this->isRandomTest)
-		{
-			$result = $ilDB->queryF("SELECT tst_test_rnd_qst.* FROM tst_test_rnd_qst, qpl_questions WHERE tst_test_rnd_qst.active_fi = %s AND qpl_questions.question_id = tst_test_rnd_qst.question_fi AND tst_test_rnd_qst.pass = %s ORDER BY sequence",
-				array('integer','integer'),
-				array($this->active_id, $this->pass)
-			);
-			// The following is a fix for random tests prior to ILIAS 3.8. If someone started a random test in ILIAS < 3.8, there
-			// is only one test pass (pass = 0) in tst_test_rnd_qst while with ILIAS 3.8 there are questions for every test pass.
-			// To prevent problems with tests started in an older version and continued in ILIAS 3.8, the first pass should be taken if
-			// no questions are present for a newer pass.
-			if ($result->numRows() == 0)
-			{
-				$result = $ilDB->queryF("SELECT tst_test_rnd_qst.* FROM tst_test_rnd_qst, qpl_questions WHERE tst_test_rnd_qst.active_fi = %s AND qpl_questions.question_id = tst_test_rnd_qst.question_fi AND tst_test_rnd_qst.pass = 0 ORDER BY sequence",
-					array('integer'),
-					array($this->active_id)
-				);
-			}
-		}
-		else
-		{
-			$result = $ilDB->queryF("SELECT tst_test_question.* FROM tst_test_question, qpl_questions, tst_active WHERE tst_active.active_id = %s AND tst_test_question.test_fi = tst_active.test_fi AND qpl_questions.question_id = tst_test_question.question_fi ORDER BY tst_test_question.sequence",
-				array('integer'),
-				array($this->active_id)
-			);
-		}
+
+		$result = $ilDB->queryF("SELECT tst_test_question.* FROM tst_test_question, qpl_questions, tst_active WHERE tst_active.active_id = %s AND tst_test_question.test_fi = tst_active.test_fi AND qpl_questions.question_id = tst_test_question.question_fi ORDER BY tst_test_question.sequence",
+			array('integer'),
+			array($this->active_id)
+		);
+
 		$index = 1;
+
 		while ($data = $ilDB->fetchAssoc($result))
 		{
 			$this->questions[$index++] = $data["question_fi"];
@@ -651,6 +633,11 @@ class ilTestSequence
 	public function openQuestionExists()
 	{
 		return $this->getFirstSequence() !== false;
+	}
+
+	public function getQuestionIds()
+	{
+		return array_values($this->questions);
 	}
 }
 

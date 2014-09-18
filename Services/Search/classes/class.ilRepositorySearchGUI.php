@@ -417,6 +417,7 @@ class ilRepositorySearchGUI
 					$users->addSubItem($sel);
 					break;
 	
+				case FIELD_TYPE_MULTI:
 				case FIELD_TYPE_UDF_TEXT:
 				case FIELD_TYPE_TEXT:
 
@@ -616,6 +617,13 @@ class ilRepositorySearchGUI
 					$result_obj = $user_search->performSearch();
 
 					// store entries
+					$this->__storeEntries($result_obj);
+					break;
+				
+				case FIELD_TYPE_MULTI:
+					$multi_search = ilObjectSearchFactory::getUserMultiFieldSearchInstance($query_parser);
+					$multi_search->setFields(array($name));
+					$result_obj = $multi_search->performSearch();
 					$this->__storeEntries($result_obj);
 					break;
 			}

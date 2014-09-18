@@ -187,6 +187,7 @@ assessment#:#autosave_info#:#If checked, answers are saved in intervals without 
 assessment#:#autosave_ival#:#Interval
 assessment#:#autosave_ival_info#:#Interval in which answers are saved automatically. (seconds)
 assessment#:#for#:#for
+assessment#:#tst_objective_oriented_test_pass_without_questions#:#The started pass for test "%s" does not contain any questions.
 assessment#:#solution_contain_keywords#:#Score is granted based on the occurrence of the following keywords:
 assessment#:#essay_scoring_mode#:#Scoring Mode
 assessment#:#essay_scoring_mode_without_keywords#:#No Automatic Scoring
@@ -771,6 +772,7 @@ assessment#:#save_before_upload_javaapplet#:#You must apply your changes before 
 assessment#:#save_edit#:#Save and Edit Content
 assessment#:#save_finish#:#Finish the Test
 assessment#:#save_introduction#:#Go to Introductory Message
+assessment#:#save_back_to_objective_container#:#Go to Course
 assessment#:#save_next#:#Next
 assessment#:#save_previous#:#Previous
 assessment#:#save_text_answer_points#:#Save Essay Points
@@ -14368,6 +14370,7 @@ content#:#cont_offline_mode_disable_not_allowed_info#:#Since the learning module
 content#:#stop_user_offline_mode#:#Stop offline mode
 content#:#stop_user_offline_mode_for_user#:#Stop offline mode for
 content#:#info_stop_offline_mode_sure#:#Note: The learning progress achieved in offline mode are lost. Are you sure?
+crs#:#crs_loc_subtab_creation#:#Create
 init#:#init_error_redirect_click#:#Please click to continue.
 init#:#init_error_redirect_info#:#Redirect not supported by context.
 init#:#init_error_maintenance#:#The server is not available due to maintenance. We apologise for any inconvenience.
@@ -14769,3 +14772,92 @@ rbac#:#condition_learning_progress#:#Derive from Learning Progress
 rbac#:#rbac_precondition_hide#:#Hide Object
 rbac#:#rbac_precondition_hide_info#:# This option allows to hide the object for users who currently have not fulfilled the preconditions. Therefore, all not accessible content is invisible.
 wsp#:#wsp_shared_table_title#:#Shares
+content#:#cont_out_of_focus_message#:#This page is not related to your current learning objective anymore.
+content#:#cont_show_content_after_focus#:#Continue with the Learning Module
+content#:#cont_to_focus_beginning#:#Back to Content related to the Learning Objective
+content#:#cont_to_focus_return_crs#:#Back to Course
+crs#:#crs_loc_learning_objective#:#Learning Objective
+crs#:#crs_loc_suggested#:#Please work through the following learning materials.
+crs#:#crs_loc_itest_info#:#Initial Test
+crs#:#crs_loc_qtest_info#:#Qualified Test
+crs#:#crs_loc_tt_info#:#You have reached %1$d%%. The test is passed with %2$d%%.
+crs#:#crs_objective_status_configure#:#Configure Learning Objective Oriented Course
+crs#:#crs_objective_status_settings#:#Course Settings
+crs#:#crs_objective_status_materials#:#Create New Course Materials
+crs#:#crs_objective_status_itest#:#Configure Initial Test
+crs#:#crs_objective_status_qtest#:#Configure Qualifying Test
+crs#:#crs_objective_status_objectives#:#Configure Learning Objectives
+crs#:#crs_objective_status_start#:#Define Start Objects
+crs#:#crs_objective_status_fullfilled#:#OK
+crs#:#crs_objective_action_materials#:#Material Assignment
+crs#:#crs_objective_action_qtest#:#Question Assignment Qualifying
+crs#:#crs_objective_action_itest#:#Question Assignemnt Initial Test
+crs#:#crs_loc_qt_visibility#:#Visibility of Qualifying Test
+crs#:#crs_loc_qt_visibility_all#:#Show Qualifying Test about all Objectives
+crs#:#crs_loc_qt_visibility_lo#:#Show Qualifying Test for each Objective
+crs#:#crs_loc_limited_passes#:#Limited Test Passes
+crs#:#crs_loc_passes#:#Number of Passes
+crs#:#crs_loc_passes_info#:#Maximum Number of test passes
+crs#:#crs_loc_err_stat_no_materials#:#No Course Materials available
+crs#:#crs_loc_err_stat_no_qt#:#No Qualifying Test available
+crs#:#crs_loc_err_stat_no_it#:#No Initial Test available
+crs#:#crs_objective_status_objective_creation#:#Create Learning Objective
+crs#:#crs_loc_form_create_objectives#:#Create Learning Objectives
+crs#:#crs_loc_err_no_active_mat#:#Learning Objectives without Materials
+crs#:#crs_loc_err_no_active_it#:#Learning Objectives without Initial Test
+crs#:#crs_loc_err_no_active_qt#:#Learning Objectives without Qualifying Test
+crs#:#crs_loc_err_no_active_lo#:#No active Learning Objective
+crs#:#crs_loc_settings_tbl#:#Settings for the Learning Objective Oriented Course
+crs#:#crs_loc_settings_type#:#Course Type
+crs#:#crs_loc_type_initial_all#:#Kurs startet mit Einstiegstest zu allen Lernzielen
+crs#:#crs_loc_type_initial_sel#:#Kurs startet mit Einstiegstest zu ausgewähltem Lernziel
+crs#:#crs_loc_type_qualified#:#Kurs startet mit qualifizierendem Test
+crs#:#crs_loc_type_practise#:#Kurs startet mit Lern- und Übungsteil
+crs#:#crs_loc_tab_materials#:#Materials
+crs#:#crs_loc_tab_itest#:#Initial Test
+crs#:#crs_loc_tab_qtest#:#Qualifying Test
+crs#:#crs_loc_settings_itest_tbl#:#Settings for the Initial Test
+crs#:#crs_loc_tab_objectives#:#Learning objectives
+crs#:#crs_loc_settings_qtest_tbl#:#Settings for the Qualifying Test
+crs#:#crs_loc_tab_start#:#Start Objects
+common#:#il_astpl_loc_initial#:#Initial Test
+common#:#il_astpl_loc_qualified#:#Qualifying Test
+common#:#il_astpl_loc_initial_desc#:#Settings template for initial tests of learning objective oriented courses
+common#:#il_astpl_loc_qualified_desc#:#Settings template for qualifying tests of learning objective oriented courses
+crs#:#crs_loc_confirm_delete_tst#:#Do you really want to deassign the test of this learning objective oriented course?
+crs#:#crs_loc_tbl_tst_type#:#Test Mode
+crs#:#crs_loc_form_assign_it#:#Test Assignment
+crs#:#crs_loc_form_tst_new#:#Create new Test
+crs#:#crs_loc_form_assign#:#Use Existing Test
+crs#:#crs_loc_form_available_tsts#:#Available Tests
+crs#:#crs_loc_tbl_tst_qst_qpl#:#Questions/Questionpools
+crs#:#crs_loc_tst_num_qst#:#Number of Questions:
+crs#:#crs_loc_tst_qpls#:#Available Question Pools:
+crs#:#crs_loc_form_random_limits_it#:#Define Questions of Initial Test
+crs#:#crs_loc_form_random_limits_qt#:#Define Questions of Qualifying Test
+crs#:#crs_loc_rand_assign_qpl#:#Assignment form Question Pool
+crs#:#crs_loc_rand_qpl#:#Available Question Pools
+crs#:#crs_loc_num_qst#:#Number of Questions
+crs#:#crs_loc_perc#:#Required Percentage of Points
+crs#:#crs_loc_delete_assignment#:#Delete Assignment
+crs#:#crs_loc_err_no_active_qst#:#Objectives without Questions
+crs#:#crs_loc_qtst_for_objective#:#Qualifying Test "%1$s"
+crs#:#crs_loc_itst_for_objective#:#Initial Test "%1$s"
+crs#:#crs_loc_progress_result_itest#:#Result of Initial Test
+crs#:#crs_loc_progress_result_qtest#:#Result
+crs#:#crs_loc_progress_no_result_do_initial#:#Please take the initial test.
+crs#:#crs_loc_progress_objective_complete#:#You completed the learning objective.
+crs#:#crs_loc_progress_do_qualifying#:#Please take the qualifying test.
+crs#:#crs_loc_progress_do_qualifying_again#:#Please work through the learning objective materials again.
+content#:#cont_out_of_focus_message_last_page#:#This is the last page of the content related to your current learning objective.
+crs#:#crs_loc_err_nr_tries_exceeded#:#The number of passes per objective exceeds the possible number of passes of the Qualifying Test.
+crs#:#crs_loc_passes_left#:#Remaining number of test passes
+crs#:#crs_loc_passes_reached#:#No further test pases possible
+crs#:#crs_loc_tst_new_run#:#Neuen Testdurchlauf starten
+crs#:#crs_loc_tst_resume#:#Testdurchlauf fortsetzen
+crs#:#crs_loc_settings_reset#:#Testergebnisse
+crs#:#crs_loc_settings_reset_enable#:#"Testergebnis zurücksetzen" erlauben
+crs#:#crs_loc_settings_reset_enable_info#:#Wenn aktiviert, haben alle Benutzer die Möglichkeit, ihre individuellen Testergebnisse zurückzusetzen.
+crs#:#crs_loc_progress_no_result_no_initial#:#Please work through the following learning materials and then take the qualifying test.
+crs#:#crs_loc_qst_resume_tst_itest#:#Einstiegstests zu verschiedenen Lernzielen dürfen nicht parallel gestartet werden. Sie haben schon einen Einstiegstest zu einem Lernziel gestartet. Entweder setzen Sie diesen alten Test fort oder Sie starten einen neuen Test.
+crs#:#crs_loc_qst_resume_tst_qtest#:#Qualifizierende Tests zu verschiedenen Lernzielen dürfen nicht parallel gestartet werden. Sie haben schon einen qualifizierenden Test zu einem Lernziel gestartet. Entweder setzen Sie diesen alten Test fort oder Sie starten einen neuen Test.

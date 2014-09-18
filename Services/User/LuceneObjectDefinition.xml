@@ -146,6 +146,45 @@
 			<Field store="YES" index="ANALYZED" column="matriculation" type="text" name="uDepartment" />
 			<Field store="YES" index="ANALYZED" column="matriculation" type="text" name="uPropertyHigh" />
 		</DataSource>
+		<DataSource type="JDBC" action="append">
+			<Query>
+				SELECT um.value FROM usr_data_multi um
+				JOIN usr_pref p ON um.usr_id = p.usr_id
+				WHERE um.usr_id IN (?) AND
+				field_id = 'interests_general' AND
+				keyword = 'public_interests_general' AND
+				p.value = 'y' 
+			</Query>
+			<Param format="list" type="int" value="objId" />
+			<Field store="YES" index="ANALYZED" column="value" type="text" name="uInterestsGeneral" />
+			<Field store="YES" index="ANALYZED" column="value" type="text" name="uPropertyHigh" />
+		</DataSource>
+		<DataSource type="JDBC" action="append">
+			<Query>
+				SELECT um.value FROM usr_data_multi um
+				JOIN usr_pref p ON um.usr_id = p.usr_id
+				WHERE um.usr_id IN (?) AND
+				field_id = 'interests_help_looking' AND
+				keyword = 'public_interests_general' AND
+				p.value = 'y' 
+			</Query>
+			<Param format="list" type="int" value="objId" />
+			<Field store="YES" index="ANALYZED" column="value" type="text" name="uInterestsHelpLooking" />
+			<Field store="YES" index="ANALYZED" column="value" type="text" name="uPropertyHigh" />
+		</DataSource>
+		<DataSource type="JDBC" action="append">
+			<Query>
+				SELECT um.value FROM usr_data_multi um
+				JOIN usr_pref p ON um.usr_id = p.usr_id
+				WHERE um.usr_id IN (?) AND
+				field_id = 'interests_help_offered' AND
+				keyword = 'public_interests_general' AND
+				p.value = 'y' 
+			</Query>
+			<Param format="list" type="int" value="objId" />
+			<Field store="YES" index="ANALYZED" column="value" type="text" name="uInterestsHelpOffered" />
+			<Field store="YES" index="ANALYZED" column="value" type="text" name="uPropertyHigh" />
+		</DataSource>
 	</Document>
 	<Document type="subItem">
 		<xi:include href="../../Services/Mail/LuceneDataSource.xml" />

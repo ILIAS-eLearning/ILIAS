@@ -318,6 +318,10 @@ abstract class ilContainerContentGUI
 					
 		// unique js-ids
 		$item_list_gui->setParentRefId($item_data["parent"]);
+		
+		$item_list_gui->setDefaultCommandParameters(array());
+		$item_list_gui->disableTitleLink(false);
+		$item_list_gui->resetConditionTarget();
 
 		// show administration command buttons (or not)
 		if (!$this->getContainerGUI()->isActiveAdministrationPanel())
@@ -511,6 +515,11 @@ abstract class ilContainerContentGUI
 					break;
 			}
 		}
+		
+		if(method_exists($this, "addItemDetails"))
+		{
+			$this->addItemDetails($item_list_gui, $a_item_data);
+		}		
 
 		// show subitems
 		if($a_item_data['type'] == 'sess' and (

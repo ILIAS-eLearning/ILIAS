@@ -197,6 +197,29 @@ class ilObjTestListGUI extends ilObjectListGUI
 				return "";
 		}
 	}
+	
+	// begin-patch lok
+	protected function modifyTitleLink($a_default_link)
+	{
+		include_once './Modules/Course/classes/Objectives/class.ilLOSettings.php';
+		$id = ilLOSettings::isObjectiveTest($this->ref_id);
+		
+		$cmd_link = $a_default_link;
+		
+		if($id)
+		{
+			$ref_ids = ilObject::_getAllReferences($id);
+			$ref_id = end($ref_ids);
+			
+			$this->ctrl->setParameterByClass("ilrepositorygui", 'ref_id', $ref_id);
+			$this->ctrl->setParameterByClass("ilrepositorygui", 'tid', $this->ref_id);
+			$cmd_link = $this->ctrl->getLinkTargetByClass("ilrepositorygui", 'redirectLocToTest');
+			$this->ctrl->setParameterByClass("ilrepositorygui", "ref_id", $this->ref_id);
+			$this->ctrl->clearParametersByClass('ilrepositorygui');
+		}
+		return parent::modifyTitleLink($cmd_link);
+	}
+	// end-patch lok
 
 } // END class.ilObjTestListGUI
 ?>

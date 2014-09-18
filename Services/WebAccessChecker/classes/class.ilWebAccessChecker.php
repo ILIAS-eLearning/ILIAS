@@ -577,10 +577,19 @@ class ilWebAccessChecker
 				}		
 				break;
 				
+			case 'lobj:pg':
+				// special check for learning objective pages
+				if ($this->checkAccessLearningObjectivePage($oid, $usage['id']))
+				{
+					return true;
+				}		
+				break;
+			
 			case 'impr:pg':
 				include_once 'Services/Imprint/classes/class.ilImprint.php';
 				return (ilImprint::isActive() || $this->checkAccessObject(SYSTEM_FOLDER_ID, 'adm'));
 
+			case 'cstr:pg':
 			default:				
 				// standard object check
 				if ($this->checkAccessObject($oid))
@@ -818,7 +827,15 @@ class ilWebAccessChecker
 		}
 		return false;					
 	}	
-
+	
+	private function checkAccessLearningObjectivePage($obj_id, $page_id)
+	{				
+		include_once "Modules/Course/classes/class.ilCourseObjective.php";
+		$crs_obj_id = ilCourseObjective::_lookupContainerIdByObjectiveId($page_id);
+		
+		return $this->checkAccessObject($crs_obj_id, 'crs');	
+	}
+		
 	/**
 	* Check access rights for user images
 	* 

@@ -23,6 +23,9 @@
 
 include_once('./Modules/Course/classes/class.ilCourseObjectiveQuestion.php');
 include_once('./Services/Table/classes/class.ilTable2GUI.php');
+// begin-patch lok
+include_once './Modules/Course/classes/Objectives/class.ilLOSettings.php';
+// end-patch lok
 
 /**
 * TableGUI for question assignments of course objectives
@@ -34,6 +37,9 @@ include_once('./Services/Table/classes/class.ilTable2GUI.php');
 */
 class ilCourseObjectiveQuestionAssignmentTableGUI extends ilTable2GUI
 {
+	// begin-patch lok
+	private $settings = NULL;
+	// end-patch lok
 	
 	private $mode = 0;
 	private $objective = null;
@@ -55,6 +61,10 @@ class ilCourseObjectiveQuestionAssignmentTableGUI extends ilTable2GUI
 	 	
 	 	$this->objective_id = $a_objective_id;
 	 	$this->course_obj = $a_course_obj;
+		
+		 // begin-patch lok
+		$this->settings = ilLOSettings::getInstanceByObjId($this->course_obj->getId());
+		// end-patch lok
 	 	
 	 	$this->lng = $lng;
 		$this->lng->loadLanguageModule('crs');
@@ -62,8 +72,8 @@ class ilCourseObjectiveQuestionAssignmentTableGUI extends ilTable2GUI
 	 	
 		parent::__construct($a_parent_obj,'materialAssignment');
 		$this->setFormName('assignments');
-	 	$this->addColumn($this->lng->txt('type'),'type',"1px");
-	 	$this->addColumn($this->lng->txt('title'),'title','99%');
+	 	$this->addColumn($this->lng->txt('type'),'type',"20px");
+	 	$this->addColumn($this->lng->txt('title'),'title','');
 	 	
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
 		$this->setRowTemplate("tpl.crs_objective_list_questions_row.html","Modules/Course");
@@ -92,6 +102,17 @@ class ilCourseObjectiveQuestionAssignmentTableGUI extends ilTable2GUI
 		$this->initQuestionAssignments();
 	}
 	
+	// begin-patch lok
+	/**
+	 * Get settings
+	 * @return ilLOSettings
+	 */
+	public function getSettings()
+	{
+		return $this->settings;
+	}
+	// end-patch lok
+	
 	/**
 	 * fill row
 	 *
@@ -112,6 +133,17 @@ class ilCourseObjectiveQuestionAssignmentTableGUI extends ilTable2GUI
 			if($sub_data['description'])
 			{
 				$this->tpl->setVariable('QST_DESCRIPTION',$sub_data['description']);
+			}
+			if($sub_data['qst_txt'])
+			{
+				$txt = $sub_data['qst_txt'];
+				if($sub_data['qst_points'])
+				{
+					$this->lng->loadLanguageModule('assessment');
+					$txt .= (' ('.$sub_data['qst_points'].' '.$this->lng->txt('points').')');
+				}
+				
+				$this->tpl->setVariable('QST_DESCRIPTION',$txt);
 			}
 			$this->tpl->setCurrentBlock('qst');
 			$this->tpl->setVariable('QST_TITLE',$sub_data['title']);
@@ -166,8 +198,12 @@ class ilCourseObjectiveQuestionAssignmentTableGUI extends ilTable2GUI
 	public function parse($a_assignable)
 	{
 		global $objDefinition;
-
+		
+		// begin-patch lok
+		$a_assignable = $this->getTestNode();
+		// end-patch lok
 		$tests = array();
+
 		foreach($a_assignable as $node)
 		{
 			$tmp_data = array();
@@ -180,10 +216,14 @@ class ilCourseObjectiveQuestionAssignmentTableGUI extends ilTable2GUI
 			
 			include_once './Modules/Test/classes/class.ilObjTest.php';			
 			$tmp_data['random'] = ilObjTest::_lookupRandomTest($node['obj_id']);
-
+			$tmp_data['random'] = false;
+			
 			foreach($qst = $this->sortQuestions($tmp_tst->getAllQuestions()) as $question_data)
 			{
 				$tmp_question = ilObjTest::_instanciateQuestion($question_data['question_id']);
+				#$sub['qst_txt'] = $tmp_question->_getQuestionText($question_data['question_id']);
+				$sub['qst_txt'] = '';
+				$sub['qst_points'] = $tmp_question->_getMaximumPoints($question_data['question_id']);
 				
 				$sub['title'] = $tmp_question->getTitle();
 				$sub['description'] = $tmp_question->getComment();
@@ -204,8 +244,30 @@ class ilCourseObjectiveQuestionAssignmentTableGUI extends ilTable2GUI
 		
 		$this->setData($tests);
 	}
-	
-	/**
+	// begin-patch lok
+	protected function getTestNode()
+	{
+		if($this->mode == ilCourseObjectiveQuestion::TYPE_SELF_ASSESSMENT)
+		{
+			$tst_ref_id = $this->getSettings()->getInitialTest();
+			if($tst_ref_id)
+			{
+				return array($GLOBALS['tree']->getNodeData($tst_ref_id));
+			}
+		}
+		if($this->mode == ilCourseObjectiveQuestion::TYPE_FINAL_TEST)
+		{
+			$tst_ref_id = $this->getSettings()->getQualifiedTest();
+			if($tst_ref_id)
+			{
+				return array($GLOBALS['tree']->getNodeData($tst_ref_id));
+			}
+		}
+		return array();
+	}
+	// end-patch lok
+
+		/**
 	 * init objective assignments
 	 *
 	 * @access protected

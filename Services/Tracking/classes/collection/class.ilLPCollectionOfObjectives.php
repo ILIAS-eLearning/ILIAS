@@ -18,7 +18,8 @@ class ilLPCollectionOfObjectives extends ilLPCollection
 	protected function read($a_obj_id)
 	{
 		include_once 'Modules/Course/classes/class.ilCourseObjective.php';
-		$this->items = ilCourseObjective::_getObjectiveIds($a_obj_id);
+	
+		$this->items = ilCourseObjective::_getObjectiveIds($a_obj_id,true);	
 	}	
 	
 	public function hasSelectableItems()

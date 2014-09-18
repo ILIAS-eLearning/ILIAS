@@ -602,10 +602,11 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 			include_once("./Services/Tracking/classes/class.ilLearningProgressBaseGUI.php");
 			$this->lng->loadLanguageModule("trac");
 			$this->lng->loadLanguageModule("crs");
+			$lng->loadLanguageModule("crs");
 			
 			include_once("./Services/Container/classes/class.ilContainerObjectiveGUI.php");
 			include_once("./Services/Link/classes/class.ilLink.php");
-					
+	
 			foreach($data as $course)
 			{								
 				if(isset($course["lp_status"]))
@@ -621,25 +622,22 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 				
 				if(isset($course["objectives"]))
 				{
+					include_once './Modules/Course/classes/Objectives/class.ilLOSettings.php';
+					$loc_settings = ilLOSettings::getInstanceByObjId($course["obj_id"]);			
+					$has_initial_test = (bool)$loc_settings->getInitialTest();
+					
 					foreach($course["objectives"] as $objtv)
-					{
-						$lp_icon = ilLearningProgressBaseGUI::_getImagePathForStatus($objtv["lp_status"]);
-						$lp_alt = ilLearningProgressBaseGUI::_getStatusText($objtv["lp_status"]);
-						
+					{					
 						$tpl->setCurrentBlock("objective_bl");
-						$tpl->setVariable("OBJECTIVE_TITLE", $objtv["title"]);
-						$tpl->setVariable("LP_OBJTV_ICON_URL", $lp_icon);
-						$tpl->setVariable("LP_OBJTV_ICON_ALT", $lp_alt);					
+						$tpl->setVariable("OBJECTIVE_TITLE", $objtv["title"]);				
 						$tpl->setVariable("OBJTV_ICON_URL", ilUtil::getTypeIconPath("lobj", $objtv["id"]));				
 						$tpl->setVariable("OBJTV_ICON_ALT", $this->lng->txt("crs_objectives"));
 						
-						/* :TODO: merge course objectives from optes branch
 						if($objtv["type"])
 						{
 							$tpl->setVariable("LP_OBJTV_PROGRESS", 
-								ilContainerObjectiveGUI::buildObjectiveProgressBar($objtv["obj_id"], $objtv));
+								ilContainerObjectiveGUI::buildObjectiveProgressBar($has_initial_test, $objtv["id"], $objtv, true));
 						}
-						*/
 						
 						$tpl->parseCurrentBlock();	
 					}
@@ -728,25 +726,31 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 						$coll_objtv = $coll_objtv->getItems();
 						if($coll_objtv)
 						{
-							$objtv_data = ilTrQuery::getUserObjectiveMatrix($item["obj_id"], array($a_user_id));								
+							// #13373
+							$lo_results = $this->parseLOUserResults($item["obj_id"], $a_user_id);
+																			
 							$tmp = array();
-							foreach($objtv_data["set"] as $objective)
-							{
-								$tmp[$objective["obj_id"]] = array(
-									"id" => $objective["obj_id"],
-									"title" => $objective["title"],
-									"lp_status" => (int)$objective["status"],
-									// loc_user_results
-									"result_perc" => $objective["result_perc"],
-									"limit_perc" => $objective["limit_perc"],
-									"status" => $objective["loc_status"],
-									"type" => $objective["type"],
-								);							
-							}	
 							
+							include_once "Modules/Course/classes/class.ilCourseObjective.php";
+							foreach($coll_objtv as $objective_id)
+							{			
+								$tmp[$objective_id] = array(
+									"id" => $objective_id,
+									"title" => ilCourseObjective::lookupObjectiveTitle($objective_id));
+								
+								if(array_key_exists($objective_id, $lo_results))
+								{
+									$lo_result = $lo_results[$objective_id];									
+									$tmp[$objective_id]["result_perc"] = $lo_result["result_perc"];
+									$tmp[$objective_id]["limit_perc"] = $lo_result["limit_perc"];
+									$tmp[$objective_id]["status"] = $lo_result["status"];
+									$tmp[$objective_id]["type"] = $lo_result["type"];
+								}												
+							}	
+														
 							// order
 							foreach($coll_objtv as $objtv_id)
-							{
+							{								
 								$references[$ref_id]["objectives"][] = $tmp[$objtv_id];
 							}
 						}
@@ -758,6 +762,41 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		$references = ilUtil::sortArray($references, "title", "ASC");
 		
 		return $references;
+	}
+	
+	// see ilContainerObjectiveGUI::parseLOUserResults()
+	protected function parseLOUserResults($a_course_obj_id, $a_user_id)
+	{		
+		$res = array();
+		
+		include_once "Modules/Course/classes/Objectives/class.ilLOUserResults.php";
+		$lur = new ilLOUserResults($a_course_obj_id, $a_user_id);		
+		foreach($lur->getCourseResultsForUserPresentation() as $objective_id => $types)
+		{
+			// show either initial or qualified for objective
+			if(isset($types[ilLOUserResults::TYPE_INITIAL]))
+			{
+				$initial_status = $types[ilLOUserResults::TYPE_INITIAL]["status"];
+			}
+			
+			// qualified test has priority
+			if(isset($types[ilLOUserResults::TYPE_QUALIFIED]))
+			{
+				$result = $types[ilLOUserResults::TYPE_QUALIFIED];	
+				$result["type"] = ilLOUserResults::TYPE_QUALIFIED;				
+			}
+			else
+			{
+				$result = $types[ilLOUserResults::TYPE_INITIAL];
+				$result["type"] = ilLOUserResults::TYPE_INITIAL;
+			}		
+						
+			$result["initial_status"] = $initial_status;
+									
+			$res[$objective_id] = $result;
+		}
+		
+		return $res;
 	}
 }
 

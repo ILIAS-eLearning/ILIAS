@@ -17,6 +17,11 @@ class ilCourseObjective
 	var $course_obj = null;
 	var $objective_id = null;
 	
+	// begin-patch lok
+	protected $active = true;
+	protected $passes = 0;
+	// end-patch lok
+	
 	function ilCourseObjective(&$course_obj,$a_objective_id = 0)
 	{
 		global $ilDB;
@@ -61,15 +66,41 @@ class ilCourseObjective
 	 * @return
 	 * @static
 	 */
-	public static function _getCountObjectives($a_obj_id)
+	// begin-patch lok
+	public static function _getCountObjectives($a_obj_id,$a_activated_only = false)
+	{
+		return count(ilCourseObjective::_getObjectiveIds($a_obj_id,$a_activated_only));
+	}
+	
+	public static function lookupMaxPasses($a_objective_id)
 	{
 		global $ilDB;
 		
-		$query = "SELECT * FROM crs_objectives ".
-			"WHERE crs_id = ".$ilDB->quote($a_obj_id ,'integer')." ";
+		$query = 'SELECT passes from crs_objectives '.
+				'WHERE objective_id = '.$ilDB->quote($a_objective_id,'integer');
 		$res = $ilDB->query($query);
-		return $res->numRows() ? true : false;
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return (int) $row->passes;
+		}
+		return 0;
 	}
+	
+	public static function lookupObjectiveTitle($a_objective_id)
+	{
+		global $ilDB;
+		
+		$query = 'SELECT title from crs_objectives '.
+				'WHERE objective_id = '.$ilDB->quote($a_objective_id,'integer');
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return $row->title;
+		}
+		return "";
+		
+	}
+	// end-patch lok
 	
 	/**
 	 * clone objectives
@@ -122,6 +153,33 @@ class ilCourseObjective
 	 	}
 		$ilLog->write(__METHOD__.': Finished cloning objectives.');
 	}
+	
+	// begin-patch lok
+	public function setActive($a_stat)
+	{
+		$this->active = $a_stat;
+	}
+	
+	public function isActive()
+	{
+		return $this->active;
+	}
+	
+	public function setPasses($a_passes)
+	{
+		$this->passes = $a_passes;
+	}
+	
+	public function getPasses()
+	{
+		return $this->passes;
+	}
+	
+	public function arePassesLimited()
+	{
+		return $this->passes > 0;
+	}
+	// end-patch lok
 
 	function setTitle($a_title)
 	{
@@ -152,17 +210,21 @@ class ilCourseObjective
 	{
 		global $ilDB;
 		
+		// begin-patch lok
 		$next_id = $ilDB->nextId('crs_objectives');
-		$query = "INSERT INTO crs_objectives (crs_id,objective_id,title,description,position,created) ".
+		$query = "INSERT INTO crs_objectives (crs_id,objective_id,active,title,description,position,created,passes) ".
 			"VALUES( ".
 			$ilDB->quote($this->course_obj->getId() ,'integer').", ".
 			$ilDB->quote($next_id,'integer').", ".
+			$ilDB->quote($this->isActive(),'integer').', '.
 			$ilDB->quote($this->getTitle() ,'text').", ".
 			$ilDB->quote($this->getDescription() ,'text').", ".
 			$ilDB->quote($this->__getLastPosition() + 1 ,'integer').", ".
-			$ilDB->quote(time() ,'integer')." ".
+			$ilDB->quote(time() ,'integer').", ".
+			$ilDB->quote($this->getPasses(),'integer').' '.
 			")";
 		$res = $ilDB->manipulate($query);
+		// end-patch lok
 		
 		// refresh learning progress status after adding new objective
 		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
@@ -175,12 +237,16 @@ class ilCourseObjective
 	{
 		global $ilDB;
 		
+		// begin-patch lok
 		$query = "UPDATE crs_objectives ".
 			"SET title = ".$ilDB->quote($this->getTitle() ,'text').", ".
-			"description = ".$ilDB->quote($this->getDescription() ,'text')." ".
+			'active = '.$ilDB->quote($this->isActive(),'integer').', '.
+			"description = ".$ilDB->quote($this->getDescription() ,'text').", ".
+			'passes = '.$ilDB->quote($this->getPasses(),'integer').' '.
 			"WHERE objective_id = ".$ilDB->quote($this->getObjectiveId() ,'integer')." ".
-			"AND crs_id = ".$ilDB->quote($this->course_obj->getId() ,'integer')."";
+			"AND crs_id = ".$ilDB->quote($this->course_obj->getId() ,'integer')." ";
 		$res = $ilDB->manipulate($query);
+		// end-patch lok
 		
 		return true;
 	}
@@ -336,6 +402,10 @@ class ilCourseObjective
 			$res = $this->db->query($query);
 			while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 			{
+				// begin-patch lok
+				$this->setActive($row->active);
+				$this->setPasses($row->passes);
+				// end-patch lok
 				$this->setObjectiveId($row->objective_id);
 				$this->setTitle($row->title);
 				$this->setDescription($row->description);
@@ -392,13 +462,24 @@ class ilCourseObjective
 	}
 
 	// STATIC
-	function _getObjectiveIds($course_id)
+	// begin-patch lok
+	static function _getObjectiveIds($course_id, $a_activated_only = false)
 	{
 		global $ilDB;
 
-		$query = "SELECT objective_id FROM crs_objectives ".
-			"WHERE crs_id = ".$ilDB->quote($course_id ,'integer')." ".
-			"ORDER BY position";
+		if($a_activated_only)
+		{
+			$query = "SELECT objective_id FROM crs_objectives ".
+				"WHERE crs_id = ".$ilDB->quote($course_id ,'integer')." ".
+				'AND active = '.$ilDB->quote(1,'integer').' '.
+				"ORDER BY position";
+		}
+		else
+		{
+			$query = "SELECT objective_id FROM crs_objectives ".
+				"WHERE crs_id = ".$ilDB->quote($course_id ,'integer')." ".
+				"ORDER BY position";
+		}
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -408,13 +489,15 @@ class ilCourseObjective
 
 		return $ids ? $ids : array();
 	}
+	// end-patch lok
 
 	function _deleteAll($course_id)
 	{
 		global $ilDB;
 
-		$ids = ilCourseObjective::_getObjectiveIds($course_id);
-		
+		// begin-patch lok
+		$ids = ilCourseObjective::_getObjectiveIds($course_id,false);
+		// end-patch lok
 		if(!count($ids))
 		{
 			return true;

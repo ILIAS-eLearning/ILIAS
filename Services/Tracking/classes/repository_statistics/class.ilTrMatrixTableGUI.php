@@ -252,24 +252,25 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 			if($collection["objectives_parent_id"] && $data["users"])
 			{
 				$objectives = ilTrQuery::getUserObjectiveMatrix($collection["objectives_parent_id"], $data["users"]);
-				if($objectives["cnt"])
-				{
-					$this->objective_ids = array();
-					$objective_columns = array();
-					foreach($objectives["set"] as $row)
+				
+				$this->objective_ids = array();
+				
+				foreach($objectives as $user_id => $objectives)
+				{					
+					if(isset($data["set"][$user_id]))
 					{
-						if(isset($data["set"][$row["usr_id"]]))
+						foreach($objectives as $objective_id => $status)
 						{
-							$obj_id = "objtv_".$row["obj_id"];
-							$data["set"][$row["usr_id"]]["objects"][$obj_id] = array("status"=>$row["status"]);
-
+							$obj_id = "objtv_".$objective_id;
+							$data["set"][$user_id]["objects"][$obj_id] = array("status"=>$status);
+														
 							if(!in_array($obj_id, $this->objective_ids))
 							{
-								$this->objective_ids[$obj_id] = $row["title"];
+								$this->objective_ids[$objective_id] = ilCourseObjective::lookupObjectiveTitle($objective_id);
 							}
 						}
 					}
-				}
+				}							
 			}
 
 			if($collection["scorm"] && $data["set"])
@@ -432,7 +433,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 					else
 					{
 						$data = $a_set["objects"][$obj_id];
-					}
+					}					
 					$this->tpl->setCurrentBlock("objects");
 					if(!$a_set["privacy_conflict"])
 					{

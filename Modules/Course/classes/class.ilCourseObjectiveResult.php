@@ -44,7 +44,9 @@ class ilCourseObjectiveResult
 		global $ilDB;
 
 		include_once 'Modules/Course/classes/class.ilCourseObjective.php';
-		$objectives = ilCourseObjective::_getObjectiveIds($a_crs_id);
+		// begin-patch lok
+		$objectives = ilCourseObjective::_getObjectiveIds($a_crs_id,true);
+		// end-patch lok
 
 		if(!is_array($objectives))
 		{
@@ -71,7 +73,9 @@ class ilCourseObjectiveResult
 		global $ilDB;
 
 		include_once './Modules/Course/classes/class.ilCourseObjective.php';
-		$objectives = ilCourseObjective::_getObjectiveIds($a_crs_id);
+		// begin-patch lok
+		$objectives = ilCourseObjective::_getObjectiveIds($a_crs_id,true);
+		// end-patch lok
 
 		$finished = array();
 		if($a_status == IL_OBJECTIVE_STATUS_FINAL or
@@ -137,7 +141,9 @@ class ilCourseObjectiveResult
 		include_once './Modules/Course/classes/class.ilCourseObjectiveQuestion.php';
 
 
-		foreach($objectives = ilCourseObjective::_getObjectiveIds($a_course_id) as $objective_id)
+		// begin-patch lok
+		foreach($objectives = ilCourseObjective::_getObjectiveIds($a_course_id,false) as $objective_id)
+		// end-patch lok
 		{
 			$tmp_obj_question =& new ilCourseObjectiveQuestion($objective_id);
 		
@@ -164,6 +170,12 @@ class ilCourseObjectiveResult
 				"WHERE ".$ilDB->in('objective_id',$objectives,false,'integer').' '.
 				"AND user_id = ".$ilDB->quote($this->getUserId())."";
 			$res = $ilDB->manipulate($query);
+			
+			// start-patch lok
+			$query = "DELETE FROM ilLOUserResults ".
+				"WHERE ".$ilDB->in('objective_id',$objectives,false,'integer').' '.
+				"AND user_id = ".$ilDB->quote($this->getUserId())."";
+			// end-patch lok
 		}
 
 		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
@@ -176,7 +188,9 @@ class ilCourseObjectiveResult
 	{
 		include_once './Modules/TestQuestionPool/classes/class.assQuestion.php';
 		include_once 'Modules/Course/classes/class.ilCourseObjective.php';
-		$objective_ids = ilCourseObjective::_getObjectiveIds($a_course_id);
+		// begin-patch lok
+		$objective_ids = ilCourseObjective::_getObjectiveIds($a_course_id,true);
+		// end-patch lok
 		$objectives = ilCourseObjectiveResult::_readAssignedObjectives($objective_ids);
 		$accomplished = $this->getAccomplished($a_course_id);
 		$suggested = $this->getSuggested($a_course_id);
@@ -243,7 +257,9 @@ class ilCourseObjectiveResult
 	{
 		include_once './Modules/Course/classes/class.ilCourseObjective.php';
 
-		$objective_ids = ilCourseObjective::_getObjectiveIds($a_crs_id);
+		// begin-patch lok
+		$objective_ids = ilCourseObjective::_getObjectiveIds($a_crs_id,true);
+		// end-patch lok
 		$objectives = ilCourseObjectiveResult::_readAssignedObjectives($objective_ids);
 		ilCourseObjectiveResult::_updateObjectiveStatus($this->getUserId(),$objectives);
 		return true;

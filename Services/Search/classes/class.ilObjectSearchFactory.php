@@ -319,6 +319,12 @@ class ilObjectSearchFactory
 		return new ilLikeUserDefinedFieldSearch($query_parser);
 	}
 	
+	public static function getUserMultiFieldSearchInstance($query_parser)
+	{
+		include_once './Services/Search/classes/Like/class.ilLikeUserMultiFieldSearch.php';
+		return new ilLikeUserMultiFieldSearch($query_parser);
+	}
+	
 	/**
 	 * get reference of ilFulltextWikiContentSearch
 	 * 

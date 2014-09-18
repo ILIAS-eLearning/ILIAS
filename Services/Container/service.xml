@@ -3,5 +3,6 @@
 	id="cont">
 	<copage>
 		<pageobject parent_type="cont" class_name="ilContainerPage" directory="classes"/>
+		<pageobject parent_type="cstr" class_name="ilContainerStartObjectsPage" directory="classes"/>
 	</copage>
 </service>

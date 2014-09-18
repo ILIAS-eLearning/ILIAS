@@ -19,8 +19,9 @@ require_once "./Services/Container/classes/class.ilContainerGUI.php";
 * @ilCtrl_Calls ilObjCourseGUI: ilLicenseOverviewGUI, ilObjectCopyGUI, ilObjStyleSheetGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilCourseParticipantsGroupsGUI, ilExportGUI, ilCommonActionDispatcherGUI
 * @ilCtrl_Calls ilObjCourseGUI: ilDidacticTemplateGUI, ilCertificateGUI, ilObjectServiceSettingsGUI
+* @ilCtrl_Calls ilObjCourseGUI: ilContainerStartObjectsGUI, ilContainerStartObjectsPageGUI
+* @ilCtrl_Calls ilObjCourseGUI: ilLOPageGUI
 *
-* 
 * @extends ilContainerGUI
 */
 class ilObjCourseGUI extends ilContainerGUI
@@ -242,7 +243,10 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		if(!$this->__checkStartObjects())
 		{
-			$this->showStartObjects();
+			include_once "Services/Container/classes/class.ilContainerStartObjectsContentGUI.php";
+			$stgui = new ilContainerStartObjectsContentGUI($this->object);
+			$stgui->enableDesktop($this->object->getAboStatus(), $this);
+			return $stgui->getHTML();
 		}
 
 		// views handled by general container logic
@@ -528,146 +532,6 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
 		$this->ctrl->redirect($this, "");
-	}
-
-	/**
-	 * List start objects
-	 * @global ilRbacSystem $rbacsystem
-	 * @return void
-	 */
-	protected function listStructureObject()
-	{		
-		global $tpl, $ilToolbar;
-		
-		$this->checkPermission('write');
-				
-		$this->setSubTabs("properties");
-		$this->tabs_gui->setTabActive('settings');
-		$this->tabs_gui->setSubTabActive('crs_start_objects');
-
-		$ilToolbar->addButton($this->lng->txt('crs_add_starter'),
-				$this->ctrl->getLinkTarget($this, 'selectStarter'));
-		
-		include_once './Modules/Course/classes/class.ilCourseStartObjectsTableGUI.php';
-		$table = new ilCourseStartObjectsTableGUI($this, 'listStructure', $this->object);		
-		$tpl->setContent($table->getHTML());				
-	}
-	
-	function askDeleteStarterObject()
-	{
-		global $tpl;
-		
-		if(!count($_POST['starter']))
-		{
-			ilUtil::sendFailure($this->lng->txt('select_one'));
-			$this->listStructureObject();
-			return true;
-		}
-
-		// display confirmation message
-		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
-		$cgui = new ilConfirmationGUI();
-		$cgui->setFormAction($this->ctrl->getFormAction($this, "listStructure"));
-		$cgui->setHeaderText($this->lng->txt("crs_starter_delete_sure"));
-		$cgui->setCancel($this->lng->txt("cancel"), "listStructure");
-		$cgui->setConfirm($this->lng->txt("delete"), "deleteStarter");
-
-		// list objects that should be deleted
-		include_once './Modules/Course/classes/class.ilCourseStart.php';
-		$crs_start = new ilCourseStart($this->object->getRefId(),$this->object->getId());	
-		$all = $crs_start->getStartObjects();		
-		foreach($_POST['starter'] as $starter_id)
-		{			
-			$obj_id = ilObject::_lookupObjId($all[$starter_id]["item_ref_id"]);
-			$title = ilObject::_lookupTitle($obj_id);
-			$icon = ilObject::_getIcon($obj_id, "tiny");
-			$alt = $this->lng->txt('obj_'.ilObject::_lookupType($obj_id));
-			$cgui->addItem("starter[]", $starter_id, $title, $icon, $alt);
-		}
-
-		$tpl->setContent($cgui->getHTML());
-	}
-
-	function deleteStarterObject()
-	{		
-		$this->checkPermission('write');
-		
-		if(!count($_POST['starter']))
-		{
-			ilUtil::sendFailure($this->lng->txt('select_one'));			
-		}
-		else
-		{
-			include_once './Modules/Course/classes/class.ilCourseStart.php';
-			$crs_start = new ilCourseStart($this->object->getRefId(),$this->object->getId());		
-			foreach($_POST['starter'] as $starter_id)
-			{		
-				$crs_start->delete((int)$starter_id);
-			}
-
-			ilUtil::sendSuccess($this->lng->txt('crs_starter_deleted'));
-		}
-		
-		$this->listStructureObject();		
-		return true;
-	}
-		
-
-	function selectStarterObject()
-	{		
-		global $tpl;
-
-		$this->checkPermission('write');
-
-		$this->tabs_gui->clearTargets();
-		$this->tabs_gui->setBackTarget($this->lng->txt('back'),
-			$this->ctrl->getLinkTarget($this, 'listStructure'));
-		
-		include_once './Modules/Course/classes/class.ilCourseStartObjectsTableGUI.php';
-		$table = new ilCourseStartObjectsTableGUI($this, 'selectStarter', $this->object);
-		
-		$tpl->setContent($table->getHTML());				
-	}
-
-	function addStarterObject()
-	{		
-		global $rbacsystem;
-
-		$this->checkPermission('write');
-
-		if(!count($_POST['starter']))
-		{
-			ilUtil::sendFailure($this->lng->txt('crs_select_one_object'));
-			$this->selectStarterObject();
-
-			return false;			
-		}
-		
-		include_once './Modules/Course/classes/class.ilCourseStart.php';
-		$crs_start =& new ilCourseStart($this->object->getRefId(),$this->object->getId());
-		$added = 0;
-		foreach($_POST['starter'] as $item_ref_id)
-		{
-			if(!$crs_start->exists($item_ref_id))
-			{
-				++$added;
-				$crs_start->add($item_ref_id);
-			}
-		}
-		if($added)
-		{
-			ilUtil::sendSuccess($this->lng->txt('crs_added_starters'));
-			$this->listStructureObject();
-
-			return true;
-		}
-		else
-		{
-			ilUtil::sendFailure($this->lng->txt('crs_starters_already_assigned'));
-			$this->selectStarterObject();
-
-			return false;
-		}
 	}
 	
 	/**
@@ -1600,9 +1464,11 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->tabs_gui->addSubTabTarget("preconditions",
 												 $this->ctrl->getLinkTargetByClass('ilConditionHandlerGUI','listConditions'),
 												 "", "ilConditionHandlerGUI");
+
 				$this->tabs_gui->addSubTabTarget("crs_start_objects",
-												 $this->ctrl->getLinkTarget($this,'listStructure'),
+												 $this->ctrl->getLinkTargetByClass('ilContainerStartObjectsGUI','listStructure'),
 												 "listStructure", get_class($this));
+
 				$this->tabs_gui->addSubTabTarget('groupings',
 												 $this->ctrl->getLinkTargetByClass('ilobjcoursegroupinggui','listGroupings'),
 												 'listGroupings',
@@ -3329,6 +3195,21 @@ class ilObjCourseGUI extends ilContainerGUI
 								 $this->ctrl->getLinkTarget($this,''));
 		}
 		
+		// learning objectives
+		if($ilAccess->checkAccess('write','',$this->ref_id))
+		{
+			include_once('./Modules/Course/classes/class.ilCourseObjective.php');
+			if($this->object->getViewMode() == IL_CRS_VIEW_OBJECTIVE or ilCourseObjective::_getCountObjectives($this->object->getId()))
+			{
+				$tabs_gui->addTarget(
+						'crs_objectives',
+						$this->ctrl->getLinkTargetByClass('illoeditorgui',''),
+						'illoeditorgui'
+				);
+						
+			}
+		}
+		
 		if ($ilAccess->checkAccess('visible','',$this->ref_id))
 		{
 			//$next_class = $this->ctrl->getNextClass($this);
@@ -3405,21 +3286,6 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 		
 		
-		// learning objectives
-		if($ilAccess->checkAccess('write','',$this->ref_id))
-		{
-			include_once('./Modules/Course/classes/class.ilCourseObjective.php');
-			if($this->object->getViewMode() == IL_CRS_VIEW_OBJECTIVE or ilCourseObjective::_getCountObjectives($this->object->getId()))
-			{
-				$force_active = (strtolower($_GET["cmdClass"]) == "ilcourseobjectivesgui")
-					? true
-					: false;
-				$tabs_gui->addTarget("crs_objectives",
-									 $this->ctrl->getLinkTarget($this,"listObjectives"), 
-									 "listObjectives",
-									 get_class($this), "", $force_active);
-			}
-		}
 
 		// license overview
 		include_once("Services/License/classes/class.ilLicenseAccess.php");
@@ -4545,6 +4411,17 @@ class ilObjCourseGUI extends ilContainerGUI
 				}
 				break;
 				
+			case "ilcontainerstartobjectspagegui":
+				// file downloads, etc. (currently not active)
+				include_once "Services/Container/classes/class.ilContainerStartObjectsPageGUI.php";
+				$pgui = new ilContainerStartObjectsPageGUI($this->object->getId());							
+				$ret = $this->ctrl->forwardCommand($pgui);
+				if($ret)
+				{
+					$this->tpl->setContent($ret);
+				}
+				break;
+				
 			case 'ilobjectcopygui':
 				include_once './Services/Object/classes/class.ilObjectCopyGUI.php';
 				$cp = new ilObjectCopyGUI($this);
@@ -4600,7 +4477,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				$this->ctrl->setReturn($this,'edit');
 				$this->setSubTabs("properties");
 				$this->tabs_gui->activateTab('settings');
-				$this->tabs_gui->activateSubTab('tool_settings');
+				$this->tabs_gui->acltivateSubTab('tool_settings');
 				
 				include_once './Services/Object/classes/class.ilObjectServiceSettingsGUI.php';
 				$service = new ilObjectServiceSettingsGUI(
@@ -4611,6 +4488,30 @@ class ilObjCourseGUI extends ilContainerGUI
 						));
 				$this->ctrl->forwardCommand($service);
 				break;
+
+			case 'illoeditorgui':
+				#$this->tabs_gui->clearTargets();
+				#$this->tabs_gui->setBackTarget($this->lng->txt('back'),$this->ctrl->getLinkTarget($this,''));
+				$this->tabs_gui->activateTab('crs_objectives');
+				
+				include_once './Modules/Course/classes/Objectives/class.ilLOEditorGUI.php';
+				$editor = new ilLOEditorGUI($this->object);
+				$this->ctrl->forwardCommand($editor);
+				break;
+			
+			case 'ilcontainerstartobjectsgui':
+				$this->ctrl->setReturn($this,'edit');
+				$this->tabs_gui->clearTargets();
+				$this->tabs_gui->setBackTarget($this->lng->txt("back_to_crs_content"),
+					$this->ctrl->getLinkTarget($this, "edit"));
+				$this->tabs_gui->addTab("start",
+					$this->lng->txt("crs_start_objects"),
+					$this->ctrl->getLinkTargetByClass("ilcontainerstartobjectsgui", "listStructure"));
+				
+				include_once './Services/Container/classes/class.ilContainerStartObjectsGUI.php';
+				$stgui = new ilContainerStartObjectsGUI($this->object);
+				$this->ctrl->forwardCommand($stgui);
+				break;			
 
             default:
 /*                if(!$this->creation_mode)
@@ -5131,6 +5032,7 @@ class ilObjCourseGUI extends ilContainerGUI
 		}
 		
 		$this->addStandardContainerSubTabs(false);
+		
 
 		return true;
 	}
@@ -5182,20 +5084,35 @@ class ilObjCourseGUI extends ilContainerGUI
 	 */
 	public function askResetObject()
 	{
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_objectives_ask_reset.html",'Modules/Course');
+		ilUtil::sendQuestion($this->lng->txt('crs_objectives_reset_sure'));
 		
-		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this));
-		$this->tpl->setVariable("INFO_STRING",$this->lng->txt('crs_objectives_reset_sure'));
-		$this->tpl->setVariable("TXT_CANCEL",$this->lng->txt('cancel'));
-		$this->tpl->setVariable("TXT_RESET",$this->lng->txt('reset'));
+		include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
+		$confirm = new ilConfirmationGUI();
+		$confirm->setFormAction($this->ctrl->getFormAction($this));
+		$confirm->setConfirm($this->lng->txt('reset'), 'view');
+		$confirm->setCancel($this->lng->txt('cancel'), 'cancel');
 		
-		return true;
+		$GLOBALS['tpl']->setContent($confirm->getHTML());
+		return true;		
 	}
 	
 	function resetObject()
 	{
 		global $ilUser;
+		
+		include_once './Modules/Course/classes/Objectives/class.ilLOUserResults.php';
+		$usr_results = new ilLOUserResults($this->object->getId(), $GLOBALS['ilUser']->getId());
+		$usr_results->delete();
 
+		
+		include_once './Modules/Course/classes/Objectives/class.ilLOTestRun.php';
+		include_once './Modules/Course/classes/Objectives/class.ilLOSettings.php';
+		ilLOTestRun::deleteRun(
+			$this->object->getId(), 
+				$GLOBALS['ilUser']->getId(),
+				ilObject::_lookupObjId(ilLOSettings::getInstanceByObjId($this->object->getId())->getQualifiedTest())
+		);
+		
 		include_once './Modules/Course/classes/class.ilCourseObjectiveResult.php';
 		
 		$tmp_obj_res = new ilCourseObjectiveResult($ilUser->getId());
@@ -5208,142 +5125,23 @@ class ilObjCourseGUI extends ilContainerGUI
 	}
 	
 	function __checkStartObjects()
-	{
-		include_once './Modules/Course/classes/class.ilCourseStart.php';
-
+	{		
 		global $ilAccess,$ilUser;
 
 		if($ilAccess->checkAccess('write','',$this->object->getRefId()))
 		{
 			return true;
 		}
-		$this->start_obj = new ilCourseStart($this->object->getRefId(),$this->object->getId());
-		if(count($this->start_obj->getStartObjects()) and !$this->start_obj->allFullfilled($ilUser->getId()))
+		
+		include_once './Services/Container/classes/class.ilContainerStartObjects.php';
+		$this->start_obj = new ilContainerStartObjects($this->object->getRefId(),
+			$this->object->getId());
+		if(count($this->start_obj->getStartObjects()) && 
+			!$this->start_obj->allFullfilled($ilUser->getId()))
 		{
 			return false;
 		}
-		return true;
-	}
-
-	function showStartObjects()
-	{
-		include_once './Modules/Course/classes/class.ilCourseLMHistory.php';
-		include_once './Services/Repository/classes/class.ilRepositoryExplorer.php';
-		include_once './Services/Link/classes/class.ilLink.php';
-
-		global $rbacsystem,$ilias,$ilUser,$ilAccess,$ilObjDataCache;
-
-		$this->tabs_gui->setSubTabActive('view');
-
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.crs_start_view.html",'Modules/Course');
-		$this->tpl->setVariable("INFO_STRING",$this->lng->txt('crs_info_start'));
-		$this->tpl->setVariable("TBL_TITLE_START",$this->lng->txt('crs_table_start_objects'));
-		$this->tpl->setVariable("HEADER_NR",$this->lng->txt('crs_nr'));
-		$this->tpl->setVariable("HEADER_DESC",$this->lng->txt('description'));
-		$this->tpl->setVariable("HEADER_EDITED",$this->lng->txt('crs_objective_accomplished'));
-
-
-		$lm_continue =& new ilCourseLMHistory($this->object->getRefId(),$ilUser->getId());
-		$continue_data = $lm_continue->getLMHistory();
-
-		$counter = 0;
-		foreach($this->start_obj->getStartObjects() as $start)
-		{
-			$obj_id = $ilObjDataCache->lookupObjId($start['item_ref_id']);
-			$ref_id = $start['item_ref_id'];
-			$type = $ilObjDataCache->lookupType($obj_id);
-
-			$conditions_ok = ilConditionHandler::_checkAllConditionsOfTarget($ref_id,$obj_id);
-
-			$obj_link = ilLink::_getLink($ref_id,$type);
-			$obj_frame = ilRepositoryExplorer::buildFrameTarget($type,$ref_id,$obj_id);
-			$obj_frame = $obj_frame ? $obj_frame : '';
-
-			// Tmp fix for tests
-			$obj_frame = $type == 'tst' ? '' : $obj_frame;
-
-			$contentObj = false;
-
-			if($ilAccess->checkAccess('read','',$ref_id))
-			{
-				$this->tpl->setCurrentBlock("start_read");
-				$this->tpl->setVariable("READ_TITLE_START",$ilObjDataCache->lookupTitle($obj_id));
-				$this->tpl->setVariable("READ_TARGET_START",$obj_frame);
-				$this->tpl->setVariable("READ_LINK_START", $obj_link.'&crs_show_result='.$this->object->getRefId());
-				$this->tpl->parseCurrentBlock();
-			}
-			else
-			{
-				$this->tpl->setCurrentBlock("start_visible");
-				$this->tpl->setVariable("VISIBLE_LINK_START",$ilObjDataCache->lookupTitle($obj_id));
-				$this->tpl->parseCurrentBlock();
-			}
-
-			// CONTINUE LINK
-			if(isset($continue_data[$ref_id]))
-			{
-				$this->tpl->setCurrentBlock("link");
-				$this->tpl->setVariable("LINK_HREF",ilLink::_getLink($ref_id,'',array('obj_id',
-																					  $continue_data[$ref_id]['lm_page_id'])));
-				#$this->tpl->setVariable("CONTINUE_LINK_TARGET",$target);
-				$this->tpl->setVariable("LINK_NAME",$this->lng->txt('continue_work'));
-				$this->tpl->parseCurrentBlock();
-			}
-
-			// add to desktop link
-			if(!$ilUser->isDesktopItem($ref_id,$type) and
-			   $this->object->getAboStatus())
-			{
-				if ($ilAccess->checkAccess('read','',$ref_id))
-				{
-					$this->tpl->setCurrentBlock("link");
-					$this->ctrl->setParameterByClass(get_class($this),'item_ref_id',$ref_id);
-					$this->ctrl->setParameterByClass(get_class($this),'item_id',$ref_id);
-					$this->ctrl->setParameterByClass(get_class($this),'type',$type);
-
-					$this->tpl->setVariable("LINK_HREF",$this->ctrl->getLinkTarget($this,'addToDesk'));
-					$this->tpl->setVariable("LINK_NAME", $this->lng->txt("to_desktop"));
-					$this->tpl->parseCurrentBlock();
-				}
-			}
-			elseif($this->object->getAboStatus())
-			{
-					$this->tpl->setCurrentBlock("link");
-					$this->ctrl->setParameterByClass(get_class($this),'item_ref_id',$ref_id);
-					$this->ctrl->setParameterByClass(get_class($this),'item_id',$ref_id);
-					$this->ctrl->setParameterByClass(get_class($this),'type',$type);
-
-					$this->tpl->setVariable("LINK_HREF",$this->ctrl->getLinkTarget($this,'removeFromDesk'));
-					$this->tpl->setVariable("LINK_NAME", $this->lng->txt("unsubscribe"));
-					$this->tpl->parseCurrentBlock();
-			}
-
-
-			// Description
-			if(strlen($ilObjDataCache->lookupDescription($obj_id)))
-			{
-				$this->tpl->setCurrentBlock("start_description");
-				$this->tpl->setVariable("DESCRIPTION_START",$ilObjDataCache->lookupDescription($obj_id));
-				$this->tpl->parseCurrentBlock();
-			}
-
-
-			if($this->start_obj->isFullfilled($ilUser->getId(),$ref_id))
-			{
-				$accomplished = 'accomplished';
-			}
-			else
-			{
-				$accomplished = 'not_accomplished';
-			}
-			$this->tpl->setCurrentBlock("start_row");
-			$this->tpl->setVariable("EDITED_IMG",ilUtil::getImagePath('crs_'.$accomplished.'.png'));
-			$this->tpl->setVariable("EDITED_ALT",$this->lng->txt('crs_objective_'.$accomplished));
-			$this->tpl->setVariable("ROW_CLASS",'option_value');
-			$this->tpl->setVariable("ROW_CLASS_CENTER",'option_value_center');
-			$this->tpl->setVariable("OBJ_NR_START",++$counter.'.');
-			$this->tpl->parseCurrentBlock();
-		}
+		
 		return true;
 	}
 	
@@ -5468,6 +5266,293 @@ class ilObjCourseGUI extends ilContainerGUI
 		$certificate = new ilCertificate(new ilCourseCertificateAdapter($this->object));
 		$certificate->outCertificate(array("user_id" => $user_id), true);				
 	}
+	
+	
+	protected function afterSaveCallback()
+	{
+		$this->ctrl->redirectByClass(array('ilrepositorygui','ilobjcoursegui','illoeditorgui'),'materials');
+	}
+		
+	public function saveSortingObject()
+	{			
+		if(isset($_POST['position']["lobj"]))
+		{
+			$lobj = $_POST['position']["lobj"];
+			unset($_POST['position']["lobj"]);
+			
+			$objective_order = array();
+			foreach($lobj as $objective_id => $materials)
+			{
+				$objective_order[$objective_id] = $materials[0];
+				unset($lobj[$objective_id][0]);
+			}
+			
+			// objective order
+			include_once "Modules/Course/classes/class.ilCourseObjective.php";
+			asort($objective_order);
+			$pos = 0;
+			foreach(array_keys($objective_order) as $objective_id)
+			{
+				$obj = new ilCourseObjective($this->object, $objective_id);
+				$obj->writePosition(++$pos);
+			}
+			
+			// material order
+			include_once "Modules/Course/classes/class.ilCourseObjectiveMaterials.php";
+			foreach($lobj as $objective_id => $materials)
+			{
+				$objmat = new ilCourseObjectiveMaterials($objective_id);
+				
+				asort($materials);
+				$pos = 0;
+				foreach(array_keys($materials) as $ass_id)
+				{
+					$objmat->writePosition($ass_id, ++$pos);
+				}
+			}
+		}
+		
+		return parent::saveSortingObject();
+	}
+	
+	/**
+	 * 
+	 */
+	protected function redirectLocToTestObject($a_force_new_run = NULL)
+	{
+		$objective_id = (int) $_REQUEST['objective_id'];
+		$test_id = (int) $_REQUEST['tid'];
+		
+		include_once './Modules/Course/classes/Objectives/class.ilLOUserResults.php';
+		include_once './Modules/Course/classes/Objectives/class.ilLOSettings.php';
+		$res = new ilLOUserResults(
+				$this->object->getId(),
+				$GLOBALS['ilUser']->getId());
+		$passed = $res->getCompletedObjectiveIdsByType(
+			(ilLOSettings::getInstanceByObjId(
+					$this->object->getId())->getQualifiedTest() == $test_id) ?
+						ilLOUserResults::TYPE_QUALIFIED :
+						ilLOUserResults::TYPE_INITIAL
+		);
+
+		if($objective_id)
+		{
+			$objective_ids = array($objective_id);
+			if(in_array($objective_id, $passed))
+			{
+				$passed = array();
+			}
+		}
+		else
+		{
+			include_once './Modules/Course/classes/class.ilCourseObjective.php';
+			$objective_ids = ilCourseObjective::_getObjectiveIds($this->object->getId(),true);
+			
+			// do not disable objective question if all are passed
+			if(count($objective_ids) == count($passed))
+			{
+				$passed = array();
+			}
+		}
+		
+		if(is_null($a_force_new_run))
+		{
+			$resume_type = $this->handleActivePass($test_id, $objective_id);
+			switch($resume_type)
+			{
+				case 1:
+					return TRUE;
+				case 2:
+					$a_force_new_run = TRUE;
+					break;
+				case 3:
+					$a_force_new_run = FALSE;
+					break;
+			}
+		}
+		else
+		{
+			include_once './Modules/Test/classes/class.ilObjTest.php';
+			ilObjTest::ensureParticipantsLastActivePassFinished(
+					$test_id,
+					$GLOBALS['ilUser']->getId(),
+					$a_force_new_run
+			);
+		}
+		
+		if($a_force_new_run === TRUE)
+		{
+			include_once './Modules/Course/classes/Objectives/class.ilLOTestRun.php';
+			ilLOTestRun::deleteRun(
+					$this->object->getId(),
+					$GLOBALS['ilUser']->getId(),
+					ilObject::_lookupObjId($test_id)
+			);
+
+			foreach((array) $objective_ids as $oid)
+			{
+				if(!in_array($oid, $passed))
+				{
+					$run = new ilLOTestRun(
+						$this->object->getId(),
+						$GLOBALS['ilUser']->getId(),
+						ilObject::_lookupObjId($test_id),
+						$oid);
+					$run->create();
+				}
+			}
+		}
+		
+		// Redirect to test player
+		include_once './Services/Object/classes/class.ilObjectFactory.php';
+		$test_obj = ilObjectFactory::getInstanceByObjId(ilObject::_lookupObjId($test_id));
+
+		include_once 'Modules/Test/classes/class.ilTestPlayerFactory.php';
+		$testPlayerFactory = new ilTestPlayerFactory($test_obj);
+		$playerGuiClass = get_class($testPlayerFactory->getPlayerGUI());
+		
+		$sessionLock = md5($_COOKIE[session_name()] . time()); // do NOT set this into $_SESSION
+
+		// resume or start new run
+		if(
+				ilObjTest::isParticipantsLastPassActive(
+				$test_id,
+				$GLOBALS['ilUser']->getId())
+		)
+		{
+			$test_cmd = 'resumePlayer';
+		}
+		else
+		{
+			$test_cmd = 'startPlayer';
+		}
+		
+		$GLOBALS['ilCtrl']->setParameterByClass($playerGuiClass,'ref_id',$test_id);
+		$GLOBALS['ilCtrl']->setParameterByClass($playerGuiClass,'crs_show_result',$this->object->getRefId());
+		$GLOBALS['ilCtrl']->setParameterByClass($playerGuiClass,'lock',$sessionLock);
+		$GLOBALS['ilCtrl']->redirectByClass(
+						array(
+							'ilObjTestGUI',
+							$playerGuiClass
+						),
+						$test_cmd
+		);
+	}
+	
+	/**
+	 * 
+	 * @param type $a_test_ref_id
+	 * @param type $a_objective_id
+	 * @return int 1 confirmation is shown, 2 new pass must be forced, 3 if no new pass must be forced 
+	 */
+	protected function handleActivePass($a_test_ref_id, $a_objective_id)
+	{
+		// check if pass exists
+		include_once './Modules/Test/classes/class.ilObjTest.php';
+		if(
+			!ilObjTest::isParticipantsLastPassActive(
+				$a_test_ref_id,
+				$GLOBALS['ilUser']->getId())
+		)
+		{
+			$GLOBALS['ilLog']->write(__METHOD__.' No previous pass exists.');
+			return 2;
+		}
+
+		$GLOBALS['ilLog']->write(__METHOD__.' Active test pass exists... ');
+
+		// check if multiple pass exists
+		include_once './Modules/Course/classes/Objectives/class.ilLOTestRun.php';
+		$last_objectives = ilLOTestRun::lookupObjectives(
+				$this->object->getId(), 
+				$GLOBALS['ilUser']->getId(),
+				ilObject::_lookupObjId($a_test_ref_id)
+		);
+		if(count((array) $last_objectives) > 1)
+		{
+			// if multi objective call and last run is multi call
+			// => force no new run
+			if(!$a_objective_id)
+			{
+				$GLOBALS['ilLog']->write(__METHOD__.': Continuing multi objective test pass.');
+				return 3;
+			}
+			// no multi objective call => confirm
+			else
+			{
+				$this->redirectLocToTestConfirmation($a_objective_id,$a_test_ref_id);
+				return 1;
+			}
+		}
+		if(count((array) $last_objectives) == 1)
+		{
+			// continue old run => 
+			if(
+				$a_objective_id && in_array($a_objective_id,(array) $last_objectives)
+			)
+			{
+				return 3;
+			}
+			elseif(
+				$a_objective_id && !in_array($a_objective_id,(array) $last_objectives)
+			)
+			{
+				$this->redirectLocToTestConfirmation($a_objective_id,$a_test_ref_id);
+				return 1;
+				
+			}
+			
+		}
+		$this->redirectLocToTestConfirmation($a_objective_id,$a_test_ref_id);
+		return 1;
+	}
+	
+	/**
+	 * Start new run
+	 */
+	protected function redirectLocToTestNewRunObject()
+	{
+		$this->redirectLocToTestObject(TRUE);
+	}
+	
+	protected function redirectLocToTestContinueObject()
+	{
+		$this->redirectLocToTestObject(FALSE);
+	}
+	
+	/**
+	 * Show confirmation whether user wants to start a new run or resume a previous run
+	 * @param type $a_objective_id
+	 * @param type $a_test_id
+	 */
+	protected function redirectLocToTestConfirmation($a_objective_id, $a_test_id)
+	{
+		include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
+		$confirm = new ilConfirmationGUI();
+		$confirm->setFormAction($GLOBALS['ilCtrl']->getFormAction($this));
+		
+		include_once './Modules/Course/classes/Objectives/class.ilLOSettings.php';
+		if(ilLOSettings::getInstanceByObjId($this->object->getId())->getQualifiedTest() == $a_test_id)
+		{
+			$question = $this->lng->txt('crs_loc_qst_resume_tst_qtest');
+		}
+		else
+		{
+			$question = $this->lng->txt('crs_loc_qst_resume_tst_itest');
+		}
+		
+		ilUtil::sendQuestion($question);
+
+		$confirm->addHiddenItem('objective_id', $a_objective_id);
+		$confirm->addHiddenItem('tid', $a_test_id);
+		$confirm->setConfirm($this->lng->txt('crs_loc_tst_resume'), 'redirectLocToTestContinue');
+		$confirm->setCancel($this->lng->txt('crs_loc_tst_new_run'), 'redirectLocToTestNewRun');
+		
+		$GLOBALS['tpl']->setContent($confirm->getHTML());
+		return true;
+		
+	}
+	// end-patch lok
 	
 } // END class.ilObjCourseGUI
 ?>

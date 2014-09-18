@@ -91,19 +91,25 @@ class ilTrQuery
 	function getObjectivesStatusForUser($a_user_id, array $a_objective_ids)
 	{
 		global $ilDB;
+						
+		include_once "Modules/Course/classes/Objectives/class.ilLOUserResults.php";								
+		$lo_lp_status = ilLOUserResults::getObjectiveStatusForLP($a_user_id, $a_objective_ids);
 		
-		$query =  "SELECT crs_id, crs_objectives.objective_id AS obj_id, title, status, ".$ilDB->quote("lobj", "text")." AS type".
-			" FROM crs_objectives".
-			" LEFT JOIN crs_objective_status ON (crs_objectives.objective_id = crs_objective_status.objective_id AND user_id = ".$a_user_id.")".
+		$query =  "SELECT crs_id, crs_objectives.objective_id AS obj_id, title,".$ilDB->quote("lobj", "text")." AS type".
+			" FROM crs_objectives".			
 			" WHERE ".$ilDB->in("crs_objectives.objective_id", $a_objective_ids, false, "integer").
 			" ORDER BY position";
 		$set = $ilDB->query($query);
 		$result = array();
 		while($rec = $ilDB->fetchAssoc($set))
-		{
-			if($rec["status"])
+		{			
+			if(array_key_exists($rec["obj_id"], $lo_lp_status))
 			{
-				$rec["status"] = ilLPStatus::LP_STATUS_COMPLETED_NUM;
+				$rec["status"] = $lo_lp_status[$rec["obj_id"]];
+			}		
+			else
+			{
+				$rec["status"] = ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
 			}
 			$result[] = $rec;
 		}
@@ -458,6 +464,8 @@ class ilTrQuery
 			$objective_fields = array("crs_objectives.objective_id AS obj_id", "title",
 				$ilDB->quote("lobj", "text")." as type");
 			
+			include_once "Modules/Course/classes/Objectives/class.ilLOUserResults.php";	
+				
 			if (is_array($a_additional_fields))
 			{
               foreach($a_additional_fields as $field)
@@ -469,19 +477,24 @@ class ilTrQuery
 				else
 				{
 		            include_once("Services/Tracking/classes/class.ilLPStatus.php");
-					$objective_fields[] = "CASE WHEN status IS NOT NULL THEN ".ilLPStatus::LP_STATUS_COMPLETED_NUM." ELSE NULL END AS status";
+					$objective_fields[] = "CASE WHEN status = ".$ilDB->quote(ilLOUserResults::STATUS_COMPLETED, "integer").
+						" THEN ".ilLPStatus::LP_STATUS_COMPLETED_NUM.
+						" WHEN status = ".$ilDB->quote(ilLOUserResults::STATUS_FAILED, "integer").
+						" THEN ".ilLPStatus::LP_STATUS_FAILED_NUM.
+						" ELSE NULL END AS status";
 				}
 			  }
 			}
 
 			$where = array();
 			$where[] = "crs_objectives.crs_id = ".$ilDB->quote($objects["objectives_parent_id"], "integer");
-
+		
 			$objectives_query = " FROM crs_objectives".
-				" LEFT JOIN crs_objective_status ON (crs_objectives.objective_id = crs_objective_status.objective_id".
-				" AND crs_objective_status.user_id = ".$ilDB->quote($a_user_id, "integer").")".
+				" LEFT JOIN loc_user_results ON (crs_objectives.objective_id = loc_user_results.objective_id".
+				" AND loc_user_results.user_id = ".$ilDB->quote($a_user_id, "integer").
+				" AND loc_user_results.type = ".$ilDB->quote(ilLOUserResults::TYPE_QUALIFIED, "integer").")".			
 				self::buildFilters($where, $a_filters);
-
+			
 			$queries[] = array("fields"=>$objective_fields, "query"=>$objectives_query, "count"=>"crs_objectives.objective_id");
 		}
 		
@@ -1532,21 +1545,45 @@ class ilTrQuery
 		global $ilDB;
 		
 		if($a_parent_obj_id && $a_users)
-		{
-		    include_once("Services/Tracking/classes/class.ilLPStatus.php");
-
-			$fields = array("crs_objectives.objective_id AS obj_id", "crs_objective_status.user_id AS usr_id", "title");
-			$fields[] = "CASE WHEN status IS NOT NULL THEN ".ilLPStatus::LP_STATUS_COMPLETED_NUM." ELSE NULL END AS status";
-
-			$where = array();
-			$where[] = "crs_objectives.crs_id = ".$ilDB->quote($a_parent_obj_id, "integer");
-
-			$query = " FROM crs_objectives".
-				" LEFT JOIN crs_objective_status ON (crs_objectives.objective_id = crs_objective_status.objective_id".
-				" AND ".$ilDB->in("crs_objective_status.user_id", $a_users, "",  "integer").")".
-				self::buildFilters($where);
-
-			return self::executeQueries(array(array("fields"=>$fields, "query"=>$query, "count"=>"crs_objectives.objective_id")));
+		{						
+			$res = array();
+								
+		    include_once "Services/Tracking/classes/class.ilLPStatus.php";									
+			include_once "Modules/Course/classes/Objectives/class.ilLOUserResults.php";	
+			include_once "Modules/Course/classes/class.ilCourseObjective.php";
+			$objective_ids = ilCourseObjective::_getObjectiveIds($a_parent_obj_id,true);
+			
+			// there may be missing entries for any user / objective combination
+			foreach($objective_ids as $objective_id)
+			{
+				foreach($a_users as $user_id)
+				{
+					$res[$user_id][$objective_id] = ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
+				}
+			}
+			
+			$query = "SELECT * FROM loc_user_results".
+				" WHERE ".$ilDB->in("objective_id", $objective_ids, "", "integer").
+				" AND ".$ilDB->in("user_id", $a_users, "", "integer").
+				" AND type = ".$ilDB->quote(ilLOUserResults::TYPE_QUALIFIED, "integer");
+			$set = $ilDB->query($query);
+			while($row = $ilDB->fetchAssoc($set))
+			{
+				$objective_id = $row["objective_id"];
+				$user_id = $row["user_id"];
+				
+				// see ilLOUserResults::getObjectiveStatusForLP()
+				if($row["status"] == ilLOUserResults::STATUS_COMPLETED)
+				{
+					$res[$user_id][$objective_id] = ilLPStatus::LP_STATUS_COMPLETED_NUM;
+				}
+				else
+				{
+					$res[$user_id][$objective_id] = ilLPStatus::LP_STATUS_FAILED_NUM;
+				}
+			}
+			
+			return $res;						
 		}
 	}
 

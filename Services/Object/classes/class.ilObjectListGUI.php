@@ -115,6 +115,11 @@ class ilObjectListGUI
 	static protected $comments_activation = array();
 	static protected $preload_done = false;
 	
+	protected $title_link = '';
+	protected $title_link_disabled = false;
+	
+	static protected $js_unique_id = 0;
+	
 	/**
 	* constructor
 	*
@@ -990,6 +995,31 @@ class ilObjectListGUI
 		$this->prevent_access_caching = false;
 
 	}
+
+	public function setConditionTarget($a_ref_id, $a_obj_id, $a_target_type)
+	{
+		$this->condition_target = array(
+			'ref_id' => $a_ref_id,
+			'obj_id' => $a_obj_id,
+			'target_type' => $a_target_type
+		);
+	}
+	
+	public function resetConditionTarget()
+	{
+		$this->condition_target = array();
+	}
+	
+	public function disableTitleLink($a_status)
+	{
+		$this->title_link_disabled = $a_status;
+	}
+	// end-patch lok
+	
+	public function setDefaultCommandParameters(array $a_params)
+	{
+		$this->default_command_params = $a_params;
+	}
 	
 	/**
 	 * Get default command link
@@ -1002,7 +1032,8 @@ class ilObjectListGUI
 	 */
 	public function createDefaultCommand($command)
 	{
-		if($this->static_link_enabled)
+		// begin-patch lok
+		if($this->static_link_enabled and !$this->default_command_params)
 		{
 		 	include_once('./Services/Link/classes/class.ilLink.php');
 		 	if($link = ilLink::_getStaticLink($this->ref_id,$this->type,false))
@@ -1011,9 +1042,27 @@ class ilObjectListGUI
 		 		$command['frame'] = '_top';
 		 	}
 		}
+		if($this->default_command_params)
+		{
+			$params = array();
+			foreach($this->default_command_params as $name => $value)
+			{
+				$params[] = $name.'='.$value;				
+			}
+			$params = implode('&', $params);
+			
+			// #12370
+			if(!stristr($command['link'], '?'))
+			{
+				$command['link'] .= '?'.$params;
+			}
+			else
+			{
+				$command['link'] .= '&'.$params;
+			}
+		}
 	 	return $command;
 	}
-
 
 	/**
 	* Get command link url.
@@ -1471,8 +1520,13 @@ class ilObjectListGUI
 			$this->default_command = array("frame" => "",
 				"link" => $this->buildGotoLink());
 		}
-		
-		if (!$this->default_command || (!$this->getCommandsStatus() && !$this->restrict_to_goto))
+		// begin-patch lok
+		if (
+				!$this->default_command || 
+				(!$this->getCommandsStatus() && !$this->restrict_to_goto) ||
+				$this->title_link_disabled
+		)
+		// end-patch lok
 		{		
 			$this->tpl->setCurrentBlock("item_title");
 			$this->tpl->setVariable("TXT_TITLE", $this->getTitle());
@@ -1480,6 +1534,8 @@ class ilObjectListGUI
 		}
 		else
 		{
+			$this->default_command['link'] = $this->modifyTitleLink($this->default_command['link']);
+			
 			$this->default_command["link"] = 
 				$this->modifySAHSlaunch($this->default_command["link"],$this->default_command["frame"]);
 
@@ -2106,6 +2162,10 @@ class ilObjectListGUI
 			$item_list_gui->setConditionDepth($this->condition_depth + 1);
 			$item_list_gui->setParentRefId($this->getUniqueItemId()); // yes we can
 			$item_list_gui->addCustomProperty($this->lng->txt("precondition_required_itemlist"), $cond_txt, false, true);
+					
+			$item_list_gui->enableCommands($this->commands_enabled, $this->std_cmd_only);
+			$item_list_gui->enableProperties($this->properties_enabled);					
+			
 			$trigger_html = $item_list_gui->getListItemHTML($condition['trigger_ref_id'],
 				$condition['trigger_obj_id'], ilObject::_lookupTitle($condition["trigger_obj_id"]),
 				 "");
@@ -2162,8 +2222,20 @@ class ilObjectListGUI
 			$condition['title'] = ilObject::_lookupTitle($condition['trigger_obj_id']);
 		}
 		*/
-
-		$conditions = ilConditionHandler::_getConditionsOfTarget($this->ref_id, $this->obj_id);
+			
+		if($this->condition_target)
+		{
+			$conditions = ilConditionHandler::_getConditionsOfTarget(
+					$this->condition_target['ref_id'],
+					$this->condition_target['obj_id'],
+					$this->condition_target['target_type']
+			);
+		}
+		else
+		{
+			$conditions = ilConditionHandler::_getConditionsOfTarget($this->ref_id, $this->obj_id);
+		}
+		
 		if(sizeof($conditions))
 		{
 			for($i = 0; $i < count($conditions); $i++)
@@ -2171,19 +2243,19 @@ class ilObjectListGUI
 				$conditions[$i]['title'] = ilObject::_lookupTitle($conditions[$i]['trigger_obj_id']);
 			}
 			$conditions = ilUtil::sortArray($conditions,'title','DESC');
-			
-			$div_id = $this->getUniqueItemId();
+		
+			++self::$js_unique_id;			
 
 			// Show obligatory and optional preconditions seperated
-			$all_done_obl = $this->parseConditions($div_id,$conditions,true);
-			$all_done_opt = $this->parseConditions($div_id,$conditions,false);
+			$all_done_obl = $this->parseConditions(self::$js_unique_id,$conditions,true);
+			$all_done_opt = $this->parseConditions(self::$js_unique_id,$conditions,false);
 			
 			if(!$all_done_obl || !$all_done_opt)
 			{
 				$this->tpl->setCurrentBlock("preconditions_toggle");
 				$this->tpl->setVariable("PRECONDITION_TOGGLE_INTRO", $this->lng->txt("precondition_toggle"));
 				$this->tpl->setVariable("PRECONDITION_TOGGLE_TRIGGER", $this->lng->txt("show"));
-				$this->tpl->setVariable("PRECONDITION_TOGGLE_ID", $div_id);
+				$this->tpl->setVariable("PRECONDITION_TOGGLE_ID", self::$js_unique_id);
 				$this->tpl->setVariable("TXT_PRECONDITION_SHOW", $this->lng->txt("show"));
 				$this->tpl->setVariable("TXT_PRECONDITION_HIDE", $this->lng->txt("hide"));
 				$this->tpl->parseCurrentBlock();
@@ -3229,6 +3301,31 @@ class ilObjectListGUI
 		
 		return $a_link;
 	}
+	
+	protected function modifyTitleLink($a_default_link)
+	{
+		if($this->default_command_params)
+		{
+			$params = array();
+			foreach($this->default_command_params as $name => $value)
+			{
+				$params[] = $name.'='.$value;				
+			}
+			$params = implode('&', $params);
+			
+			
+			// #12370
+			if(!stristr($a_default_link, '?'))
+			{
+				$a_default_link = ($a_default_link.'?'.$params);
+			}
+			else
+			{
+				$a_default_link = ($a_default_link.'&'.$params);
+			}
+		}
+		return $a_default_link;
+	}
 
 	/**
 	* workaround: SAHS in new javavasript-created window or iframe
@@ -3350,7 +3447,7 @@ class ilObjectListGUI
 			}
 			
 			// icon link
-			if (!$this->default_command || (!$this->getCommandsStatus() && !$this->restrict_to_goto))
+			if ($this->title_link_disabled || !$this->default_command || (!$this->getCommandsStatus() && !$this->restrict_to_goto))
 			{
 			}
 			else

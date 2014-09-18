@@ -232,6 +232,9 @@ class ilUserQuery
 		$count_query = "SELECT count(usr_id) cnt".
 			" FROM usr_data";
 		
+		$all_multi_fields = array("interests_general", "interests_help_offered", "interests_help_looking");
+		$multi_fields = array();
+		
 		$sql_fields = array();
 		foreach($this->default_fields as $idx => $field)
 		{
@@ -240,7 +243,11 @@ class ilUserQuery
 				continue;
 			}
 			
-			if(!stristr($field, "."))
+			if(in_array($field, $all_multi_fields))
+			{
+				$multi_fields[] = $field;
+			}			
+			else if(!stristr($field, "."))
 			{
 				$sql_fields[] = "usr_data.".$field;
 			}
@@ -429,15 +436,44 @@ class ilUserQuery
 		
 		$ilDB->setLimit($limit, $offset);
 		
+		if(sizeof($multi_fields))
+		{
+			$usr_ids = array();
+		}
+		
 		// set query
 		$set = $ilDB->query($query);
 		$result = array();
 		while($rec = $ilDB->fetchAssoc($set))
 		{
 			$result[] = $rec;
+			
+			if(sizeof($multi_fields))
+			{
+				$usr_ids[] = $rec["usr_id"];
+			}
 		}
-		return array("cnt" => $cnt, "set" => $result);
 		
+		// add multi-field-values to user-data
+		if(sizeof($multi_fields) && sizeof($usr_ids))
+		{
+			$usr_multi = array();
+			$set = $ilDB->query("SELECT * FROM usr_data_multi".
+				" WHERE ".$ilDB->in("usr_id", $usr_ids, "", "integer"));
+			while($row = $ilDB->fetchAssoc($set))
+			{
+				$usr_multi[$row["usr_id"]][$row["field_id"]][] = $row["value"];
+			}			
+			foreach($result as $idx => $item)
+			{
+				if(isset($usr_multi[$item["usr_id"]]))
+				{
+					$result[$idx] = array_merge($item, $usr_multi[$item["usr_id"]]);				
+				}
+			}
+		}
+		
+		return array("cnt" => $cnt, "set" => $result);		
 	}
 	
 	

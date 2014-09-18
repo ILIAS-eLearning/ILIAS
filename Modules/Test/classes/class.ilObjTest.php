@@ -11675,6 +11675,7 @@ function getAnswerFeedbackPoints()
 		$this->showGradingMarkEnabled = $showGradingMarkEnabled;
 	}
 
+
 	public function isShowGradingMarkEnabled()
 	{
 		return $this->showGradingMarkEnabled;
@@ -11689,6 +11690,64 @@ function getAnswerFeedbackPoints()
 	{
 		return $this->instantFeedbackAnswerFixationEnabled;
 	}
+
+	public static function ensureParticipantsLastActivePassFinished($testObjId, $userId, $a_force_new_run = FALSE)
+	{
+		global $ilDB, $lng, $ilPluginAdmin;
+
+		/* @var ilObjTest $testOBJ */
+
+		$testOBJ = ilObjectFactory::getInstanceByRefId($testObjId,false);
+
+		$activeId = $testOBJ->getActiveIdOfUser($userId);
+
+		require_once 'Modules/Test/classes/class.ilTestSessionFactory.php';
+		$testSessionFactory = new ilTestSessionFactory($testOBJ);
+
+		require_once 'Modules/Test/classes/class.ilTestSequenceFactory.php';
+		$testSequenceFactory = new ilTestSequenceFactory($ilDB, $lng, $ilPluginAdmin, $testOBJ);
+
+		$testSession = $testSessionFactory->getSession($activeId);
+		$testSequence = $testSequenceFactory->getSequenceByPass($testSession, $testSession->getPass());
+		$testSequence->loadFromDb();
+
+		// begin-patch lok changed smeyer
+		if($a_force_new_run)
+		{
+			if( $testSequence->hasSequence() )
+			{
+				$testSession->increasePass();
+			}
+			$testSession->setLastSequence(0);
+			$testSession->saveToDb();
+		}
+		// end-patch lok
+	}
 	
+	public static function isParticipantsLastPassActive($testObjId, $userId)
+	{
+		global $ilDB, $lng, $ilPluginAdmin;
+
+		/* @var ilObjTest $testOBJ */
+
+		$testOBJ = ilObjectFactory::getInstanceByRefId($testObjId,false);
+		
+		
+		$activeId = $testOBJ->getActiveIdOfUser($userId);
+		
+		require_once 'Modules/Test/classes/class.ilTestSessionFactory.php';
+		$testSessionFactory = new ilTestSessionFactory($testOBJ);
+		// Added temporarily bugfix smeyer
+		$testSessionFactory->reset();
+
+		require_once 'Modules/Test/classes/class.ilTestSequenceFactory.php';
+		$testSequenceFactory = new ilTestSequenceFactory($ilDB, $lng, $ilPluginAdmin, $testOBJ);
+		
+		$testSession = $testSessionFactory->getSession($activeId);
+		$testSequence = $testSequenceFactory->getSequenceByPass($testSession, $testSession->getPass());
+		$testSequence->loadFromDb();
+		
+		return $testSequence->hasSequence();
+	}
 	
 }

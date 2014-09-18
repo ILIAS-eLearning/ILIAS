@@ -905,8 +905,8 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		parent::cloneDependencies($a_target_id,$a_copy_id);
 		
 	 	// Clone course start objects
-	 	include_once('Modules/Course/classes/class.ilCourseStart.php');
-	 	$start = new ilCourseStart($this->getRefId(),$this->getId());
+	 	include_once('Services/Container/classes/class.ilContainerStartObjects.php');
+	 	$start = new ilContainerStartObjects($this->getRefId(),$this->getId());
 	 	$start->cloneDependencies($a_target_id,$a_copy_id);
 	 	
 	 	// Clone course item settings
@@ -1770,8 +1770,8 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		ilCourseParticipants::_deleteUser($a_usr_id);
 
 		// Course objectives
-		include_once './Modules/Course/classes/class.ilCourseObjectiveResult.php';
-		ilCourseObjectiveResult::_deleteUser($a_usr_id);
+		include_once "Modules/Course/classes/Objectives/class.ilLOUserResults.php";
+		ilLOUserResults::deleteResultsForUser($a_usr_id);		
 	}
 	
 	/**
@@ -2029,6 +2029,15 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 			$this->getMembersObject()->updatePassed($a_member_id, $has_completed, false, true);					
 		}		
 	}		
+	
+	function getOrderType()
+	{
+		if($this->enabledObjectiveView())
+		{
+			return ilContainer::SORT_MANUAL;
+		}
+		return parent::getOrderType();
+	}
 	
 } //END class.ilObjCourse
 ?>

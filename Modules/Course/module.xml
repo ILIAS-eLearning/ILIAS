@@ -36,4 +36,7 @@
 		<event type="raise" id="addToWaitingList" />
 		<event type="raise" id="addSubscriber" />
 	</events>
+	<copage>
+		<pageobject parent_type="lobj" class_name="ilLOPage" directory="classes/Objectives"/>	
+	</copage>
 </module>

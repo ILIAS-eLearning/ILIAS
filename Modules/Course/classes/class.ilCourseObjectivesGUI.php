@@ -21,6 +21,9 @@
 	+-----------------------------------------------------------------------------+
 */
 
+// begin-patch lok
+include_once './Modules/Course/classes/Objectives/class.ilLOSettings.php';
+// end-patch lok
 
 /**
 * class ilobjcourseobjectivesgui
@@ -30,7 +33,6 @@
 * 
 * @extends Object
 */
-
 class ilCourseObjectivesGUI
 {
 	const MODE_UNDEFINED = 0;
@@ -47,6 +49,11 @@ class ilCourseObjectivesGUI
 	var $course_obj;
 	var $course_id;
 	
+	// begin-patch lok
+	protected $settings;
+	protected $test_type = 0;
+	// end-patch lok
+	
 	function ilCourseObjectivesGUI($a_course_id)
 	{
 		include_once './Modules/Course/classes/class.ilCourseObjective.php';
@@ -62,9 +69,14 @@ class ilCourseObjectivesGUI
 		$this->tpl =& $tpl;
 		$this->tree =& $tree;
 		$this->tabs_gui =& $ilTabs;
-
+		
 		$this->course_id = $a_course_id;
 		$this->__initCourseObject();
+		
+		// begin-patch lok
+		$this->settings = ilLOSettings::getInstanceByObjId($this->course_obj->getId());
+		// end-patch lok
+
 	}
 
 	/**
@@ -87,6 +99,18 @@ class ilCourseObjectivesGUI
 		$this->setSubTabs();
 		$this->$cmd();
 	}
+	
+	// begin-patch lok
+	/**
+	 * Get settings
+	 * @return ilLOSettings
+	 */
+	public function getSettings()
+	{
+		return $this->settings;
+	}
+	// end-patch lok
+	
 	
 	/**
 	 * list objectives
@@ -113,7 +137,7 @@ class ilCourseObjectivesGUI
 		include_once('./Modules/Course/classes/class.ilCourseObjectivesTableGUI.php');
 		$table = new ilCourseObjectivesTableGUI($this,$this->course_obj);
 		$table->setTitle($this->lng->txt('crs_objectives'),'icon_lobj.png',$this->lng->txt('crs_objectives'));
-		$table->parse(ilCourseObjective::_getObjectiveIds($this->course_obj->getId()));
+		$table->parse(ilCourseObjective::_getObjectiveIds($this->course_obj->getId(),false));
 		
 		$this->tpl->setVariable('OBJECTIVES_TABLE',$table->getHTML());
 	}
@@ -284,7 +308,9 @@ class ilCourseObjectivesGUI
 		include_once('./Modules/Course/classes/class.ilCourseObjectiveQuestionsTableGUI.php');
 		$table = new ilCourseObjectiveQuestionsTableGUI($this,$this->course_obj);
 		$table->setTitle($this->lng->txt('crs_objectives_edit_question_assignments'),'icon_lobj.png',$this->lng->txt('crs_objectives'));
-		$table->parse(ilCourseObjective::_getObjectiveIds($this->course_obj->getId()));
+		// begin-patch lok
+		$table->parse(ilCourseObjective::_getObjectiveIds($this->course_obj->getId(),false));
+		// end-patch lok
 		
 		$this->tpl->setContent($table->getHTML());
 	}
@@ -374,13 +400,20 @@ class ilCourseObjectivesGUI
 		return true;
 	}
 
+	// begin-patch lok
+	/**
+	 * 
+	 * @param type $a_objective_id
+	 * @return ilCourseObjectiveQuestion
+	 */
 	function __initQuestionObject($a_objective_id = 0)
 	{
 		include_once './Modules/Course/classes/class.ilCourseObjectiveQuestion.php';
 		$this->objectives_qst_obj =& new ilCourseObjectiveQuestion($a_objective_id);
 
-		return true;
+		return $this->objectives_qst_obj;
 	}
+	// end-patch lok
 
 	/**
 	* set sub tabs
@@ -389,6 +422,12 @@ class ilCourseObjectivesGUI
 	{
 		global $ilTabs;
 
+		// begin-patch lok
+		// no subtabs here
+		return true;
+		// end-patch lok
+		
+		
 		$ilTabs->addSubTabTarget("crs_objective_overview_objectives",
 								 $this->ctrl->getLinkTarget($this, "listObjectives"),
 								 array("listObjectives", "moveObjectiveUp", "moveObjectiveDown", "listAssignedLM"),
@@ -448,9 +487,9 @@ class ilCourseObjectivesGUI
 		
 		$_SESSION['objective_mode'] = self::MODE_UPDATE;
 		
-		$this->ctrl->saveParameter($this,'objective_id');
+		$this->ctrl->setParameter($this,'objective_id',(int) $_REQUEST['objective_id']);
 		
-		if(!$_GET['objective_id'])
+		if(!$_REQUEST['objective_id'])
 		{
 			ilUtil::sendFailure($this->lng->txt('crs_no_objective_selected'),true);
 			$this->ctrl->redirect($this,'listObjectives');
@@ -458,10 +497,10 @@ class ilCourseObjectivesGUI
 		
 		if(!is_object($this->objective))
 		{
-			$this->objective = new ilCourseObjective($this->course_obj,(int) $_GET['objective_id']);
+			$this->objective = new ilCourseObjective($this->course_obj,(int) $_REQUEST['objective_id']);
 		}
 		
-		$this->__initQuestionObject((int) $_GET['objective_id']);		
+		$this->__initQuestionObject((int) $_REQUEST['objective_id']);		
 		$w_tpl = $this->initWizard(1);
 		$this->initFormTitle('create',1);
 		$w_tpl->setVariable('WIZ_CONTENT',$this->form->getHtml());
@@ -482,31 +521,56 @@ class ilCourseObjectivesGUI
 		{
 			$ilErr->raiseError($this->lng->txt('permission_denied'),$ilErr->WARNING);
 		}
+
+		$this->ctrl->saveParameter($this,'objective_id');
 		
-		$this->objective = new ilCourseObjective($this->course_obj,(int) $_GET['objective_id']);
-		$this->objective->setTitle(ilUtil::stripSlashes($_POST['title']));
-		$this->objective->setDescription(ilUtil::stripSlashes($_POST['description']));
-		
-		if(!$this->objective->validate())
+		$this->objective = new ilCourseObjective($this->course_obj,(int) $_REQUEST['objective_id']);
+		$this->initFormTitle('create', 1);
+		if($this->form->checkInput())
 		{
-			ilUtil::sendFailure($this->lng->txt('crs_no_title_given'));
-			$this->create();
-			return false;
-		}
-		
-		if(!$_GET['objective_id'])
-		{
-			$objective_id = $this->objective->add();
-			ilUtil::sendSuccess($this->lng->txt('crs_added_objective'),true);
+			$this->objective->setTitle($this->form->getInput('title'));
+			$this->objective->setDescription($this->form->getInput('description'));
+			
+			// begin-patch lok
+			if($_REQUEST['passes_limited'])
+			{
+				$old_passes = $this->objective->getPasses();
+				if($old_passes < $this->form->getInput('passes'))
+				{
+					include_once './Modules/Course/classes/Objectives/class.ilLOUserResults.php';
+					ilLOUserResults::resetFinalByObjective($this->objective->getObjectiveId());
+				}
+				
+				$this->objective->setPasses($this->form->getInput('passes'));
+			}
+			else
+			{
+				$this->objective->setPasses(0);
+			}
+			// end-patch lok
+			if(!$_GET['objective_id'])
+			{
+				$objective_id = $this->objective->add();
+				ilUtil::sendSuccess($this->lng->txt('crs_added_objective'),true);
+			}
+			else
+			{
+				$this->objective->update();
+				ilUtil::sendSuccess($this->lng->txt('crs_objective_modified'),true);
+				$objective_id = $_GET['objective_id'];
+			}
 		}
 		else
 		{
-			$this->objective->update();
-			ilUtil::sendSuccess($this->lng->txt('crs_objective_modified'),true);
-			$objective_id = $_GET['objective_id'];
+			$this->form->setValuesByPost();
+			return $this->edit();
 		}
 		
-		$this->ctrl->saveParameter($this,'objective_id');
+		if($_SESSION['objective_mode'] != self::MODE_CREATE)
+		{
+			$this->ctrl->returnToParent($this);
+		}
+		
 		$this->ctrl->setParameter($this,'objective_id',$objective_id);
 		$this->ctrl->redirect($this,'materialAssignment');
 		return true;
@@ -602,8 +666,24 @@ class ilCourseObjectivesGUI
 			}
 		}
 		ilUtil::sendSuccess($this->lng->txt('crs_objectives_assigned_lm'));
-		$this->selfAssessmentAssignment();
 		
+		
+		if($_SESSION['objective_mode'] != self::MODE_CREATE)
+		{
+			ilUtil::sendSuccess($this->lng->txt('crs_objectives_assigned_lm'),true);
+			$this->ctrl->returnToParent($this);
+		}
+		
+		// begin-patch lok
+		if($this->getSettings()->worksWithInitialTest())
+		{
+			$this->selfAssessmentAssignment();
+		}
+		else
+		{
+			$this->finalTestAssignment();
+		}
+		// end-patch lok
 	}
 
 	/**
@@ -629,6 +709,15 @@ class ilCourseObjectivesGUI
 		$this->ctrl->saveParameter($this,'objective_id');
 
 		$this->objective = new ilCourseObjective($this->course_obj,(int) $_GET['objective_id']);
+
+		// begin-patch lok
+		$this->ctrl->setParameter($this,'tt',ilLOSettings::TYPE_TEST_INITIAL);
+		$this->test_type = $_REQUEST['tt'] = ilLOSettings::TYPE_TEST_INITIAL;
+		if($this->isRandomTestType(ilLOSettings::TYPE_TEST_INITIAL))
+		{
+			return $this->showRandomTestAssignment();
+		}
+		// end-patch lok
 		
 		include_once('./Modules/Course/classes/class.ilCourseObjectiveQuestionAssignmentTableGUI.php');
 		$table = new ilCourseObjectiveQuestionAssignmentTableGUI($this,
@@ -819,10 +908,19 @@ class ilCourseObjectivesGUI
 			ilUtil::sendFailure($this->lng->txt('crs_no_objective_selected'),true);
 			$this->ctrl->redirect($this,'listObjectives');
 		}
+		
 
 		$this->ctrl->saveParameter($this,'objective_id');
-
 		$this->objective = new ilCourseObjective($this->course_obj,(int) $_GET['objective_id']);
+		
+		// begin-patch lok
+		$this->ctrl->setParameter($this,'tt',ilLOSettings::TYPE_TEST_QUALIFIED);
+		$this->test_type = $_REQUEST['tt'] = ilLOSettings::TYPE_TEST_QUALIFIED;
+		if($this->isRandomTestType(ilLOSettings::TYPE_TEST_QUALIFIED))
+		{
+			return $this->showRandomTestAssignment();
+		}
+		// end-patch lok
 		
 		include_once('./Modules/Course/classes/class.ilCourseObjectiveQuestionAssignmentTableGUI.php');
 		$table = new ilCourseObjectiveQuestionAssignmentTableGUI($this,
@@ -838,7 +936,204 @@ class ilCourseObjectivesGUI
 		$w_tpl = $this->initWizard(5);
 		$w_tpl->setVariable('WIZ_CONTENT',$table->getHTML());
 		$tpl->setContent($w_tpl->get());
+	}
+	
+	// begin-patch lok
+	protected function isRandomTestType($a_tst_type = 0)
+	{
+		if(!$a_tst_type)
+		{
+			$a_tst_type = $this->test_type;
+		}
 		
+		$tst_ref_id = $this->getSettings()->getTestByType($a_tst_type);
+		if(!$tst_ref_id)
+		{
+			return false;
+		}
+		include_once './Modules/Test/classes/class.ilObjTest.php';
+		return ilObjTest::_lookupRandomTest(ilObject::_lookupObjId($tst_ref_id));
+	}
+	
+	/**
+	 * 
+	 * @param ilPropertyFormGUI $form
+	 */
+	protected function showRandomTestAssignment(ilPropertyFormGUI $form = null)
+	{
+		$this->ctrl->saveParameter($this,'objective_id');
+		$this->ctrl->setParameter($this,'tt',  (int) $_REQUEST['tt']);
+		$this->objective = new ilCourseObjective($this->course_obj,(int) $_GET['objective_id']);
+		$this->test_type = (int) $_REQUEST['tt'];
+		
+		if(!$form instanceof ilPropertyFormGUI)
+		{
+			$form = $this->initFormRandom();
+		}
+		
+		$this->__initQuestionObject((int) $_GET['objective_id']);
+		$w_tpl = $this->initWizard(5);
+		$w_tpl->setVariable('WIZ_CONTENT',$form->getHTML());
+		
+		$GLOBALS['tpl']->setContent($w_tpl->get());
+	}
+	
+	/**
+	 * show random test
+	 */
+	protected function initFormRandom()
+	{
+		include_once './Modules/Course/classes/Objectives/class.ilLORandomTestQuestionPools.php';
+		$rnd = new ilLORandomTestQuestionPools(
+				$this->course_obj->getId(),
+				(int) $_REQUEST['objective_id'],
+				$this->test_type
+		);
+		
+		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this));
+		
+		if($this->test_type == ilLOSettings::TYPE_TEST_INITIAL)
+		{
+			$form->setTitle($this->lng->txt('crs_loc_form_random_limits_it'));
+		}
+		else
+		{
+			$form->setTitle($this->lng->txt('crs_loc_form_random_limits_qt'));
+		}
+		
+		$form->addCommandButton('saveRandom', $this->lng->txt('save'));
+		
+		$options = new ilRadioGroupInputGUI($this->lng->txt('crs_loc_rand_assign_qpl'),'type');
+		$options->setValue(1);
+		$options->setRequired(true);
+		
+		$ass_qpl = new ilRadioOption($this->lng->txt('crs_loc_rand_assign_qpl'),1);
+		$options->addOption($ass_qpl);
+		
+		$qpl = new ilSelectInputGUI($this->lng->txt('crs_loc_rand_qpl'),'qpl');
+		$qpl->setOptions($this->getRandomTestQplOptions());
+		$qpl->setValue($rnd->getQplSequence());
+		$ass_qpl->addSubItem($qpl);
+		
+		#$num = new ilNumberInputGUI($this->lng->txt('crs_loc_num_qst'),'num_qst');
+		#$num->setSize(3);
+		#$num->setMinValue(1);
+		#$num->setRequired(true);
+		#$ass_qpl->addSubItem($num);
+		
+		// points
+		$per = new ilNumberInputGUI($this->lng->txt('crs_loc_perc'),'per');
+		$per->setValue($rnd->getLimit());
+		$per->setSize(3);
+		$per->setMinValue(1);
+		$per->setMaxValue(100);
+		$per->setRequired(true);
+		$ass_qpl->addSubItem($per);
+		
+		$form->addItem($options);
+		return $form;
+	}
+	
+	
+	protected function getRandomTestQplOptions()
+	{
+		include_once './Modules/Test/classes/class.ilTestRandomQuestionSetSourcePoolDefinitionFactory.php';
+		include_once './Modules/Test/classes/class.ilTestRandomQuestionSetSourcePoolDefinitionList.php';
+		
+		$tst_ref_id = $this->getSettings()->getTestByType($this->test_type);
+		if($tst_ref_id)
+		{
+			$tst = ilObjectFactory::getInstanceByRefId($tst_ref_id,false);
+		}
+		if(!$tst instanceof ilObjTest)
+		{
+			return array();
+		}
+		$list = new ilTestRandomQuestionSetSourcePoolDefinitionList(
+				$GLOBALS['ilDB'],
+				$tst,
+				new ilTestRandomQuestionSetSourcePoolDefinitionFactory(
+						$GLOBALS['ilDB'],
+						$tst
+				)
+		);
+				
+		$list->loadDefinitions();
+
+		include_once './Modules/Test/classes/class.ilTestTaxonomyFilterLabelTranslater.php';
+		$translater = new ilTestTaxonomyFilterLabelTranslater($GLOBALS['ilDB']);
+		$translater->loadLabels($list);
+		
+		$options[0] = $this->lng->txt('select_one');
+		foreach ($list as $definition)
+		{
+			$title = $definition->getPoolTitle();
+			$tax_id = $definition->getMappedFilterTaxId();
+			if($tax_id)
+			{
+				$title .= (' -> '. $translater->getTaxonomyTreeLabel($tax_id));
+			}
+			$tax_node = $definition->getMappedFilterTaxNodeId();
+			if($tax_node)
+			{
+				$title .= (' -> ' .$translater->getTaxonomyNodeLabel($tax_node));
+			}
+			$options[$definition->getId()] = $title;
+		}
+		return $options;
+	}
+	
+	/**
+	 * Save random test settings
+	 */
+	protected function saveRandom()
+	{
+		$this->ctrl->saveParameter($this,'objective_id');
+		$this->ctrl->setParameter($this,'tt',(int) $_REQUEST['tt']);
+		$this->objective = new ilCourseObjective($this->course_obj,(int) $_GET['objective_id']);
+		$this->test_type = (int) $_REQUEST['tt'];
+		
+		$form = $this->initFormRandom();
+		if($form->checkInput())
+		{
+			$qst = $this->__initQuestionObject((int) $_GET['objective_id']);
+			$qst->deleteByTestType(
+					($this->test_type == ilLOSettings::TYPE_TEST_INITIAL) ?
+					ilCourseObjectiveQuestion::TYPE_SELF_ASSESSMENT :
+					ilCourseObjectiveQuestion::TYPE_FINAL_TEST
+			);
+			$ref_id = $this->getSettings()->getTestByType($this->test_type);
+			
+			include_once './Modules/Course/classes/Objectives/class.ilLORandomTestQuestionPools.php';
+			$rnd = new ilLORandomTestQuestionPools(
+					$this->course_obj->getId(),
+					(int) $_REQUEST['objective_id'],
+					$this->test_type
+			);
+			$rnd->delete();
+			$rnd->setLimit($form->getInput('per'));
+			$rnd->setQplSequence($form->getInput('qpl'));
+			$rnd->setTestId(ilObject::_lookupObjId($ref_id));
+			$rnd->create();
+		}
+		else
+		{
+			$form->setValuesByPost();
+			ilUtil::sendFailure($this->lng->txt('err_check_input'));
+			return $this->showRandomTestAssignment();
+		}
+
+		ilUtil::sendSuccess($this->lng->txt('settings_saved'),true);
+		if($this->test_type == ilLOSettings::TYPE_TEST_QUALIFIED)
+		{
+			$this->ctrl->returnToParent($this);
+		}
+		else
+		{
+			$this->ctrl->redirect($this,'finalTestAssignment');
+		}
 	}
 
 	/**
@@ -1088,11 +1383,13 @@ class ilCourseObjectivesGUI
 	 */
 	protected function initFormTitle($a_mode,$a_step_number)
 	{
-		if(!is_object($this->form))
+		include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
+		if($this->form instanceof ilPropertyFormGUI)
 		{
-			include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
-			$this->form = new ilPropertyFormGUI();
+			return;
 		}
+		
+		$this->form = new ilPropertyFormGUI();
 		$this->form->setFormAction($this->ctrl->getFormAction($this));
 		$this->form->setTitleIcon(ilUtil::getImagePath('icon_lobj.png'),$this->lng->txt('crs_objective'));
 		
@@ -1101,7 +1398,9 @@ class ilCourseObjectivesGUI
 			case 'create':
 				$this->form->setTitle($this->lng->txt('crs_objective_wiz_title'));
 				$this->form->addCommandButton('save',$this->lng->txt('crs_wiz_next'));
-				$this->form->addCommandButton('listObjectives',$this->lng->txt('cancel'));
+				// begin-patch lok
+				#$this->form->addCommandButton('listObjectives',$this->lng->txt('cancel'));
+				// end-patch lok
 				break;
 			
 			case 'update':
@@ -1121,7 +1420,24 @@ class ilCourseObjectivesGUI
 		$desc->setRows(5);
 		$this->form->addItem($desc);
 		
-		
+		// begin-patch lok
+		// Passes
+		$passes_lim = new ilCheckboxInputGUI($this->lng->txt('crs_loc_limited_passes'),'passes_limited');
+		$passes_lim->setValue(1);
+		$passes_lim->setChecked($this->objective->arePassesLimited());
+		if(!$this->getSettings()->isQualifiedTestPerObjectiveVisible())
+		{
+			$passes_lim->setDisabled(true);
+		}
+		$passes = new ilNumberInputGUI($this->lng->txt('crs_loc_passes'),'passes');
+		$passes->setValue($this->objective->getPasses());
+		$passes->setMinValue(1);
+		$passes->setSize(2);
+		$passes->setMaxLength(2);
+		$passes->setRequired(true);
+		$passes_lim->addSubItem($passes);
+		$this->form->addItem($passes_lim);
+		// end-patch lok
 	}
 	
 	
@@ -1190,8 +1506,30 @@ class ilCourseObjectivesGUI
 			$tpl->setVariable('WIZ_NAV_TITLE',$this->lng->txt('crs_update_objective'));
 		}
 		
+		// end-patch lok
+		$num = 0;
 		foreach($options as $step => $title)
 		{
+			// begin-patch lok
+			if($step == 3 and !$this->getSettings()->worksWithInitialTest())
+			{
+				continue;
+			}
+			if($step == 4 and !$this->getSettings()->worksWithInitialTest())
+			{
+				continue;
+			}
+			if($step == 4 and $this->isRandomTestType(ilLOSettings::TYPE_TEST_INITIAL))
+			{
+				continue;
+			}
+			if($step == 6 and $this->isRandomTestType(ilLOSettings::TYPE_TEST_QUALIFIED))
+			{
+				continue;
+			}
+			$num++;
+			// end-patch lok
+			
 			if($_SESSION['objective_mode'] == self::MODE_UPDATE)
 			{
 				$hide_link = false;
@@ -1200,6 +1538,15 @@ class ilCourseObjectivesGUI
 					$hide_link = true;					
 				}
 				if($step == 6 and !count($this->objectives_qst_obj->getFinalTestQuestions()))
+				{
+					$hide_link = true;
+				}
+				// begin-patch lok
+				if($step == 3 and !$this->getSettings()->worksWithInitialTest())
+				{
+					$hide_link = true;
+				}
+				if($step == 4 and !$this->getSettings()->worksWithInitialTest())
 				{
 					$hide_link = true;
 				}
@@ -1213,10 +1560,11 @@ class ilCourseObjectivesGUI
 				}
 			}
 			
-
 			$tpl->setCurrentBlock('nav_option');
 			$tpl->setVariable('OPTION_CLASS',$step == $a_step_number ? 'option_value_details' : 'std');
-			$tpl->setVariable('WIZ_NUM',$step.'.');
+			// begin-patch lok
+			$tpl->setVariable('WIZ_NUM',$num.'.');
+			// end-patch lok
 			$tpl->setVariable('WIZ_OPTION',$title);
 			$tpl->parseCurrentBlock();
 		}

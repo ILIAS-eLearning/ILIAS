@@ -69,6 +69,8 @@ class ilTestSession
 	var $submittedTimestamp;
 
 	private $lastFinishedPass;
+	
+	private $objectiveOrientedContainerId;
 
 	/**
 	* ilTestSession constructor
@@ -92,6 +94,7 @@ class ilTestSession
 		$this->tstamp = 0;
 
 		$this->lastFinishedPass = null;
+		$this->objectiveOrientedContainerId = 0;
 	}
 
 	/**
@@ -138,6 +141,7 @@ class ilTestSession
 				$this->tstamp = $row["tstamp"];
 
 				$this->setLastFinishedPass($row['last_finished_pass']);
+				$this->setObjectiveOrientedContainerId((int)$row['objective_container']);
 
 				return true;
 			}
@@ -166,7 +170,8 @@ class ilTestSession
 						'submitted' => array('integer', $submitted),
 						'submittimestamp' => array('timestamp', strlen($this->getSubmittedTimestamp()) ? $this->getSubmittedTimestamp() : NULL),
 						'tstamp' => array('integer', time()),
-						'last_finished_pass' => array('integer', $this->getLastFinishedPass())
+						'last_finished_pass' => array('integer', $this->getLastFinishedPass()),
+						'objective_container' => array('integer', (int)$this->getObjectiveOrientedContainerId())
 					),
 					array(
 						'active_id' => array('integer', $this->getActiveId())
@@ -185,8 +190,8 @@ class ilTestSession
 				{
 					$anonymous_id = ($this->getAnonymousId()) ? $this->getAnonymousId() : NULL;
 					$next_id = $ilDB->nextId('tst_active');
-					$affectedRows = $ilDB->manipulateF("INSERT INTO tst_active (active_id, user_fi, anonymous_id, test_fi, lastindex, tries, submitted, submittimestamp, tstamp) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)",
-						array('integer', 'integer', 'text', 'integer', 'integer', 'integer', 'integer', 'timestamp', 'integer'),
+					$affectedRows = $ilDB->manipulateF("INSERT INTO tst_active (active_id, user_fi, anonymous_id, test_fi, lastindex, tries, submitted, submittimestamp, tstamp, objective_container) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+						array('integer', 'integer', 'text', 'integer', 'integer', 'integer', 'integer', 'timestamp', 'integer', 'integer'),
 						array(
 							$next_id,
 							$this->getUserId(),
@@ -196,7 +201,8 @@ class ilTestSession
 							$this->getPass(),
 							$submitted,
 							(strlen($this->getSubmittedTimestamp())) ? $this->getSubmittedTimestamp() : NULL,
-							time()
+							time(),
+							(int)$this->getObjectiveOrientedContainerId()
 						)
 					);
 					$this->active_id = $next_id;
@@ -225,7 +231,8 @@ class ilTestSession
 					'submitted' => array('integer', $submitted),
 					'submittimestamp' => array('timestamp', (strlen($this->getSubmittedTimestamp())) ? $this->getSubmittedTimestamp() : NULL),
 					'tstamp' => array('integer', time()-10),
-					'last_finished_pass' => array('integer', $this->getLastFinishedPass())
+					'last_finished_pass' => array('integer', $this->getLastFinishedPass()),
+					'objective_container' => array('integer', (int)$this->getObjectiveOrientedContainerId())
 				),
 				array(
 					'active_id' => array('integer', $this->getActiveId())
@@ -256,7 +263,8 @@ class ilTestSession
 						'submitted' => array('integer', $submitted),
 						'submittimestamp' => array('timestamp', (strlen($this->getSubmittedTimestamp())) ? $this->getSubmittedTimestamp() : NULL),
 						'tstamp' => array('integer', time()-10),
-						'last_finished_pass' => array('integer', $this->getLastFinishedPass())
+						'last_finished_pass' => array('integer', $this->getLastFinishedPass()),
+						'objective_container' => array('integer', (int)$this->getObjectiveOrientedContainerId())
 					)
 				);
 				$this->active_id = $next_id;
@@ -268,7 +276,7 @@ class ilTestSession
 					$this->getUserId());
 			}
 		}
-		
+		include_once './Modules/Test/classes/class.ilObjTestAccess.php';
 		include_once("./Services/Tracking/classes/class.ilLearningProgress.php");
 		ilLearningProgress::_tracProgress($this->getUserId(),
 										  ilObjTestAccess::_lookupObjIdForTestId($this->getTestId()),
@@ -324,6 +332,7 @@ class ilTestSession
 			$this->tstamp = $row["tstamp"];
 
 			$this->setLastFinishedPass($row['last_finished_pass']);
+			$this->setObjectiveOrientedContainerId((int)$row['objective_container']);
 		}
 	}
 	
@@ -353,6 +362,7 @@ class ilTestSession
 			$this->tstamp = $row["tstamp"];
 
 			$this->setLastFinishedPass($row['last_finished_pass']);
+			$this->setObjectiveOrientedContainerId((int)$row['objective_container']);
 		}
 	}
 	
@@ -444,6 +454,21 @@ class ilTestSession
 	public function getLastFinishedPass()
 	{
 		return $this->lastFinishedPass;
+	}
+
+	public function setObjectiveOrientedContainerId($objectiveOriented)
+	{
+		$this->objectiveOrientedContainerId = $objectiveOriented;
+	}
+
+	public function getObjectiveOrientedContainerId()
+	{
+		return $this->objectiveOrientedContainerId;
+	}
+
+	public function isObjectiveOriented()
+	{
+		return (bool)$this->getObjectiveOrientedContainerId();
 	}
 }
 

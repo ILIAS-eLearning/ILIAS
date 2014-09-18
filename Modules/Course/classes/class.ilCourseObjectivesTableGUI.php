@@ -25,6 +25,11 @@ include_once('./Services/Table/classes/class.ilTable2GUI.php');
 include_once './Modules/Course/classes/class.ilCourseObjective.php';
 include_once('./Modules/Course/classes/class.ilCourseObjectiveMaterials.php');
 include_once('./Modules/Course/classes/class.ilCourseObjectiveQuestion.php');
+include_once './Modules/Course/classes/Objectives/class.ilLOUtils.php';
+
+// begin-patch lok
+include_once './Modules/Course/classes/Objectives/class.ilLOSettings.php';
+// end-patch lok
 
 /**
 *
@@ -36,6 +41,10 @@ include_once('./Modules/Course/classes/class.ilCourseObjectiveQuestion.php');
 class ilCourseObjectivesTableGUI extends ilTable2GUI
 {
 	protected $course_obj = null;
+	
+	// begin-patch lok
+	protected $settings = NULL;
+	// end-patch lok
 	
 	/**
 	 * Constructor
@@ -49,6 +58,10 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
 	 	global $lng,$ilCtrl;
 	 	
 	 	$this->course_obj = $a_course_obj;
+		
+		 // begin-patch lok
+		$this->settings = ilLOSettings::getInstanceByObjId($this->course_obj->getId());
+		// end-patch lok
 	 	
 	 	$this->lng = $lng;
 		$this->lng->loadLanguageModule('crs');
@@ -57,11 +70,16 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
 		parent::__construct($a_parent_obj,'listObjectives');
 		$this->setFormName('objectives');
 	 	$this->addColumn('','f',"1px");
-	 	$this->addColumn($this->lng->txt('position'),'1px');
-	 	$this->addColumn($this->lng->txt('title'),'title','25%');
-	 	$this->addColumn($this->lng->txt('crs_objective_assigned_materials'),'materials','25%');
-	 	$this->addColumn($this->lng->txt('crs_objective_self_assessment'),'self','25%');
-	 	$this->addColumn($this->lng->txt('crs_objective_final_test'),'final','25%');
+	 	$this->addColumn($this->lng->txt('position'),'position','10em');
+	 	$this->addColumn($this->lng->txt('title'),'title','20%');
+	 	$this->addColumn($this->lng->txt('crs_objective_assigned_materials'),'materials');
+		 // begin-patch lok
+		if($this->getSettings()->worksWithInitialTest())
+		{
+			$this->addColumn($this->lng->txt('crs_objective_self_assessment'),'self');
+		}
+		// end-patch lok
+	 	$this->addColumn($this->lng->txt('crs_objective_final_test'),'final');
 	 	$this->addColumn($this->lng->txt(''),'5em');
 	 	
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
@@ -70,12 +88,31 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
 		$this->enable('header');
 		$this->disable('numinfo');
 		$this->enable('select_all');
+		// begin-patch lok
+		$this->setSelectAllCheckbox('objective');
+		// end-patch lok
 		$this->setLimit(200);
 		
-		$this->addMultiCommand('askDeleteObjective',$this->lng->txt('delete'));
+		// begin-patch lo
+		$this->addMultiCommand('activateObjectives', $this->lng->txt('set_online'));
+		$this->addMultiCommand('deactivateObjectives', $this->lng->txt('set_offline'));
+		$this->addMultiCommand('askDeleteObjectives',$this->lng->txt('delete'));
+		// end-patch lok
 		$this->addCommandButton('saveSorting',$this->lng->txt('sorting_save'));
 		// $this->addCommandButton('create',$this->lng->txt('crs_add_objective'));
 	}
+	
+	// begin-patch lok
+	/**
+	 * Get settings
+	 * @return ilLOSettings
+	 */
+	public function getSettings()
+	{
+		return $this->settings;
+	}
+	// end-patch lok
+	
 	
 	/**
 	 * fill row
@@ -88,6 +125,31 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
 	{
 		$this->tpl->setVariable('VAL_ID',$a_set['id']);
 		$this->tpl->setVariable('VAL_POSITION',$a_set['position']);
+		
+		// begin-patch lok
+		if($a_set['online'])
+		{
+			$this->tpl->setVariable('VAL_ONOFFLINE',$this->lng->txt('online'));
+			$this->tpl->setVariable('ONOFFLINE_CLASS','smallgreen');
+		}
+		else
+		{
+			$this->tpl->setVariable('VAL_ONOFFLINE',$this->lng->txt('offline'));
+			$this->tpl->setVariable('ONOFFLINE_CLASS','smallred');
+		}
+		
+		if($a_set['passes'])
+		{
+			$this->tpl->setVariable('PASSES_TXT',$this->lng->txt('crs_loc_passes_info'));
+			$this->tpl->setVariable('PASSES_VAL',$a_set['passes']);
+		}
+		
+		
+		// begin-patch lok
+		$this->ctrl->setParameterByClass('ilcourseobjectivesgui','objective_id',$a_set['id']);
+		$this->tpl->setVariable('VAL_TITLE_LINKED',$this->ctrl->getLinkTargetByClass('ilcourseobjectivesgui','edit'));
+		// end-patch lok
+
 		$this->tpl->setVariable('VAL_TITLE',$a_set['title']);
 		if(strlen($a_set['description']))
 		{
@@ -117,48 +179,134 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
 				$this->tpl->touchBlock('new_line');
 			}
 			$this->tpl->setCurrentBlock('mat_row');
-			$this->tpl->setVariable('LM_IMG',ilUtil::getImagePath('icon_'.$data['type'].'_s.png'));
+			#$this->tpl->setVariable('LM_IMG',ilUtil::getImagePath('icon_'.$data['type'].'_s.png'));
+			$this->tpl->setVariable('LM_IMG',ilUtil::getTypeIconPath($data['type'], $data['obj_id'],'tiny'));
 			$this->tpl->setVariable('LM_ALT',$this->lng->txt('obj_'.$data['type']));
-			$this->tpl->setVariable('LM_TITLE',ilObject::_lookupTitle($data['obj_id']));
+			
+			if($data['type'] == 'catr' or $data['type'] == 'crsr')
+			{
+				include_once './Services/ContainerReference/classes/class.ilContainerReference.php';
+				$this->tpl->setVariable(
+						'LM_TITLE',
+						ilContainerReference::_lookupTargetTitle($data['obj_id'])
+				);
+			}
+			else
+			{
+				$this->tpl->setVariable('LM_TITLE',ilObject::_lookupTitle($data['obj_id']));
+			}
 			$this->tpl->parseCurrentBlock();
 		}
 		
 		// self assessment
-		foreach($a_set['self'] as $test)
+		// begin-patch lok
+		if($this->getSettings()->worksWithInitialTest())
 		{
-			foreach($test['questions'] as $question)
+			foreach($a_set['self'] as $test)
 			{
-				$this->tpl->setCurrentBlock('self_qst_row');
-				$this->tpl->setVariable('SELF_QST_TITLE',$question['title']);
-				$this->tpl->parseCurrentBlock();
+				// begin-patch lok
+				foreach((array) $test['questions'] as $question)
+				{
+					$this->tpl->setCurrentBlock('self_qst_row');
+					$this->tpl->setVariable('SELF_QST_TITLE',$question['title']);
+					$this->tpl->parseCurrentBlock();
+				}
+				#$this->tpl->setCurrentBlock('self_test_row');
+				#$this->tpl->setVariable('SELF_TST_IMG',ilUtil::getImagePath('icon_tst_s.png'));
+				#$this->tpl->setVariable('SELF_TST_ALT',$this->lng->txt('obj_tst'));
+				#$this->tpl->setVariable('SELF_TST_TITLE',ilObject::_lookupTitle($test['obj_id']));
+				#$this->tpl->parseCurrentBlock();	
+				// end-patch lok
 			}
-			$this->tpl->setCurrentBlock('self_test_row');
-			$this->tpl->setVariable('SELF_TST_IMG',ilUtil::getImagePath('icon_tst_s.png'));
-			$this->tpl->setVariable('SELF_TST_ALT',$this->lng->txt('obj_tst'));
-			$this->tpl->setVariable('SELF_TST_TITLE',ilObject::_lookupTitle($test['obj_id']));
-			$this->tpl->parseCurrentBlock();	
-		}				
+			// begin-patch lok
+			if(!count($a_set['self']))
+			{
+				$this->tpl->touchBlock('self_qst_row');
+			}
+			// end-patch lok
+		}
+		// end-patch lok
 
 		// final test questions
-		foreach($a_set['final'] as $test)
+		foreach((array) $a_set['final'] as $test)
 		{
-			foreach($test['questions'] as $question)
+			foreach((array) $test['questions'] as $question)
 			{
 				$this->tpl->setCurrentBlock('final_qst_row');
 				$this->tpl->setVariable('FINAL_QST_TITLE',$question['title']);
 				$this->tpl->parseCurrentBlock();
 			}
-			$this->tpl->setCurrentBlock('final_test_row');
-			$this->tpl->setVariable('FINAL_TST_IMG',ilUtil::getImagePath('icon_tst_s.png'));
-			$this->tpl->setVariable('FINAL_TST_ALT',$this->lng->txt('obj_tst'));
-			$this->tpl->setVariable('FINAL_TST_TITLE',ilObject::_lookupTitle($test['obj_id']));
-			$this->tpl->parseCurrentBlock();	
-		}	
+			// begin-patch lok
+			#$this->tpl->setCurrentBlock('final_test_row');
+			#$this->tpl->setVariable('FINAL_TST_IMG',ilUtil::getImagePath('icon_tst_s.png'));
+			#$this->tpl->setVariable('FINAL_TST_ALT',$this->lng->txt('obj_tst'));
+			#$this->tpl->setVariable('FINAL_TST_TITLE',ilObject::_lookupTitle($test['obj_id']));
+			#$this->tpl->parseCurrentBlock();	
+			// end-patch lok
+		}
 		
+		// begin-patch lok
 		// Edit Link
-		$this->ctrl->setParameterByClass(get_class($this->getParentObject()),'objective_id',$a_set['id']);
-		$this->tpl->setVariable('EDIT_LINK',$this->ctrl->getLinkTargetByClass(get_class($this->getParentObject()),'edit'));
-		$this->tpl->setVariable('TXT_EDIT',$this->lng->txt('edit'));			
+		#$this->ctrl->setParameterByClass(get_class($this->getParentObject()),'objective_id',$a_set['id']);
+		$this->ctrl->setParameterByClass('ilcourseobjectivesgui','objective_id',$a_set['id']);
+		#$this->tpl->setVariable('EDIT_LINK',$this->ctrl->getLinkTargetByClass(get_class($this->getParentObject()),'edit'));
+		$this->tpl->setVariable('EDIT_LINK',$this->ctrl->getLinkTargetByClass('ilcourseobjectivesgui','edit'));
+		// end-patch lok
+		$this->tpl->setVariable('TXT_EDIT',$this->lng->txt('edit'));
+		
+		include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
+		$alist = new ilAdvancedSelectionListGUI();
+		$alist->setId($a_set['id']);
+		$alist->setListTitle($this->lng->txt("actions"));
+		
+		$alist->addItem(
+				$this->lng->txt('edit'), 
+				'', 
+				$this->ctrl->getLinkTargetByClass('ilcourseobjectivesgui', 'edit')
+		);
+		// materials
+		$alist->addItem(
+				$this->lng->txt('crs_objective_action_materials'),
+				'', 
+				$this->ctrl->getLinkTargetByClass('ilcourseobjectivesgui', 'materialAssignment')
+		);
+		// itest
+		if($this->getSettings()->worksWithInitialTest())
+		{
+			$alist->addItem(
+					$this->lng->txt('crs_objective_action_itest'),
+					'', 
+					$this->ctrl->getLinkTargetByClass('ilcourseobjectivesgui', 'selfAssessmentAssignment')
+			);
+		}
+		// qtest
+		$alist->addItem(
+				$this->lng->txt('crs_objective_action_qtest'),
+				'', 
+				$this->ctrl->getLinkTargetByClass('ilcourseobjectivesgui', 'finalTestAssignment')
+		);
+		
+		if($this->getSettings()->isQualifiedTestPerObjectiveVisible())
+		{
+			$this->ctrl->setParameterByClass('ilconditionhandlerinterface','objective_id',$a_set['id']);
+			$alist->addItem(
+					$this->lng->txt('preconditions'),
+					'',
+					$this->ctrl->getLinkTargetByClass('ilconditionhandlerinterface','listConditions')
+			);
+		}
+		
+		$this->ctrl->setParameterByClass('illopagegui','objective_id',$a_set['id']);
+		$alist->addItem(
+				$this->lng->txt('edit_page'),
+				'', 
+				$this->ctrl->getLinkTargetByClass('illopagegui', 'edit')
+		);
+		
+		
+		$this->tpl->setVariable('VAL_ACTIONS',$alist->getHTML());
+		
+		// end-patch lok
 	}
 		
 	
@@ -176,9 +324,14 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
 			$objective = new ilCourseObjective($this->course_obj,$objective_id);
 			
 			$objective_data['id'] = $objective_id;
-			$objective_data['position'] = sprintf("%.1f",$position++);
+			$objective_data['position'] = sprintf("%.1f",$position++) * 10;
 			$objective_data['title'] = $objective->getTitle();
 			$objective_data['description'] = $objective->getDescription();
+			
+			// begin-patch lok
+			$objective_data['online'] = $objective->isActive();
+			$objective_data['passes'] = $objective->getPasses();
+			// end-patch lok
 			
 			// assigned materials
 			$materials = array();
@@ -204,40 +357,89 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
 			$question_obj = new ilCourseObjectiveQuestion($objective_id);
 			
 			// self assessment questions
-			$tests = array();
-			foreach($question_obj->getSelfAssessmentTests() as $test)
+			// begin-patch lok
+			if($this->getSettings()->worksWithInitialTest())
 			{
-				$questions = array();
-				foreach($question_obj->getQuestionsOfTest($test['obj_id']) as $qst)
+				if(ilLOUtils::lookupRandomTest(ilObject::_lookupObjId($this->getSettings()->getInitialTest())))
 				{
-					$questions[] = $qst;
+					$test = array();
+					include_once './Modules/Course/classes/Objectives/class.ilLORandomTestQuestionPools.php';
+					$rnd = new ilLORandomTestQuestionPools(
+							$this->course_obj->getId(),
+							$objective_id,
+							ilLOSettings::TYPE_TEST_INITIAL
+					);
+					$test['obj_id'] = ilObject::_lookupObjId($this->getSettings()->getInitialTest());
+					$qst = ilLOUtils::lookupQplBySequence($this->getSettings()->getInitialTest(), $rnd->getQplSequence());
+					if($qst)
+					{
+						$test['questions'][] = array('title' => $qst);
+					}
+					$objective_data['self'] = array($test);
 				}
-				$tmp_test = $test;
-				$tmp_test['questions'] = $questions;
-				
-				$tests[] = $tmp_test;
+				else
+				{
+					$tests = array();
+					foreach($question_obj->getSelfAssessmentTests() as $test)
+					{
+						$questions = array();
+						foreach($question_obj->getQuestionsOfTest($test['obj_id']) as $qst)
+						{
+							$questions[] = $qst;
+						}
+						$tmp_test = $test;
+						$tmp_test['questions'] = $questions;
+
+						$tests[] = $tmp_test;
+					}
+					$objective_data['self'] = $tests;
+				}
 			}
-			$objective_data['self'] = $tests;
+			// end-patch lok
 			
 			// final test questions
-			$tests = array();
-			foreach($question_obj->getFinalTests() as $test)
+			// begin-patch lok
+			if($this->getSettings()->getQualifiedTest())
 			{
-				$questions = array();
-				foreach($question_obj->getQuestionsOfTest($test['obj_id']) as $qst)
+				if(ilLOUtils::lookupRandomTest(ilObject::_lookupObjId($this->getSettings()->getQualifiedTest())))
 				{
-					$questions[] = $qst;
+					$test = array();
+					include_once './Modules/Course/classes/Objectives/class.ilLORandomTestQuestionPools.php';
+					$rnd = new ilLORandomTestQuestionPools(
+							$this->course_obj->getId(),
+							$objective_id,
+							ilLOSettings::TYPE_TEST_QUALIFIED
+					);
+					$test['obj_id'] = ilObject::_lookupObjId($this->getSettings()->getQualifiedTest());
+					$qst = ilLOUtils::lookupQplBySequence($this->getSettings()->getQualifiedTest(), $rnd->getQplSequence());
+					if($qst)
+					{
+						$test['questions'][] = array('title' => $qst);
+					}
+					$objective_data['final'] = array($test);
 				}
-				$tmp_test = $test;
-				$tmp_test['questions'] = $questions;
-				
-				$tests[] = $tmp_test;
-			}
-			$objective_data['final'] = $tests;
+				else
+				{
+					$tests = array();
+					foreach($question_obj->getFinalTests() as $test)
+					{
+						$questions = array();
+						foreach($question_obj->getQuestionsOfTest($test['obj_id']) as $qst)
+						{
+							$questions[] = $qst;
+						}
+						$tmp_test = $test;
+						$tmp_test['questions'] = $questions;
 
-			$objectives[] = $objective_data;
+						$tests[] = $tmp_test;
+					}
+					$objective_data['final'] = $tests;
+				}
+				
+			}
+			// end-patch lok
+			$objectives[] = (array) $objective_data;
 		}
-		
 		$this->setData($objectives ? $objectives : array());
 	}
 	

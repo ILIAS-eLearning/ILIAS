@@ -4961,7 +4961,9 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->parseCurrentBlock();
 	}
 
-	private function applyTemplate($templateData, $object)
+	// begin-patch lok
+	public  function applyTemplate($templateData, $object)
+	// end-patch lok
 	{
 		// map formFieldName => setterName
 		$simpleSetters = array(

@@ -98,6 +98,11 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	*/
 	public function outIntroductionPageCmd()
 	{
+		if( $this->customRedirectRequired() )
+		{
+			$this->performCustomRedirect();
+		}
+		
 		$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen"); 
 	}
 
@@ -327,10 +332,10 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	protected function populatePreviousButtonsLeadingToIntroduction()
 	{
 		$this->populateUpperPreviousButtonBlock(
-				'previousQuestion', "&lt;&lt; " . $this->lng->txt( "save_introduction" )
+				'previousQuestion', "&lt;&lt; " . $this->getIntroductionPageButtonLabel()
 		);
 		$this->populateLowerPreviousButtonBlock(
-				'previousQuestion', "&lt;&lt; " . $this->lng->txt( "save_introduction" )
+				'previousQuestion', "&lt;&lt; " . $this->getIntroductionPageButtonLabel()
 		);
 	}
 
@@ -906,6 +911,15 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 				ilUtil::redirect($redirection_url);
 			}
 		}
+		
+		// custom after test redirect (ilTestOutput - objective oriented sessions)
+
+		if( $this->customRedirectRequired() )
+		{
+			$this->performCustomRedirect();
+		}
+		
+		// default redirect (pass results)
 
 		$this->redirectBackCmd();
 	}
@@ -1924,5 +1938,28 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		}
 
 		return true;
+	}
+	
+	protected function customRedirectRequired()
+	{
+		return false;
+	}
+	
+	protected function performCustomRedirect()
+	{
+		return;
+	}
+
+	/**
+	 * @return string
+	 */
+	protected function getIntroductionPageButtonLabel()
+	{
+		if( $this->testSession->isObjectiveOriented() )
+		{
+			return $this->lng->txt("save_back_to_objective_container");
+		}
+		
+		return $this->lng->txt("save_introduction");
 	}
 }

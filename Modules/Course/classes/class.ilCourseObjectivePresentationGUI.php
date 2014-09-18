@@ -199,7 +199,9 @@ class ilCourseObjectivePresentationGUI
 	{
 		include_once './Modules/Course/classes/class.ilCourseObjective.php';
 
-		if(!count($objective_ids = ilCourseObjective::_getObjectiveIds($this->course_obj->getId())))
+		// begin-patch lok
+		if(!count($objective_ids = ilCourseObjective::_getObjectiveIds($this->course_obj->getId(),true)))
+		// end-patch lok
 		{
 			return true;
 		}
@@ -214,7 +216,9 @@ class ilCourseObjectivePresentationGUI
 	{
 		include_once './Modules/Course/classes/class.ilCourseObjective.php';
 
-		if(!count($objective_ids = ilCourseObjective::_getObjectiveIds($this->course_obj->getId())))
+		// begin-patch lok
+		if(!count($objective_ids = ilCourseObjective::_getObjectiveIds($this->course_obj->getId(),true)))
+		// end-patch lok
 		{
 			return false;
 		}

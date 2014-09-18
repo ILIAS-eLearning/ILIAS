@@ -224,7 +224,15 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
 					$this->tpl->setCurrentBlock('custom_fields');
 					$this->tpl->setVariable('VAL_CUST', $a_set[$field]);
 					$this->tpl->parseCurrentBlock();
-					break;				
+					break;
+				
+				case 'interests_general':
+				case 'interests_help_offered':
+				case 'interests_help_looking':
+					$this->tpl->setCurrentBlock('custom_fields');
+					$this->tpl->setVariable('VAL_CUST', implode(', ', (array) $a_set[$field]));
+					$this->tpl->parseCurrentBlock();
+					break;
 
 				case 'login':
 					if($this->admin_mode)
@@ -379,6 +387,8 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
 				}
 			}
 		}
+		
+		
 		
 		$this->setData($users);
 	}

@@ -1,0 +1,26 @@
+<table class="std" style="border-color:#E0E0E0;">
+	<tr class="tblheader">
+		<td class="std small" colspan="2">
+			<b>{TXT_STATUS_HEADER}</b>
+		</td>
+	</tr>
+<!-- BEGIN status_row -->
+	<tr class="{CSS_ROW}">
+		<td class="std small" nowrap="nowrap">
+			<a href="{STEP_LINK}">
+			   {TXT_STEP}
+			</a>
+			<!-- BEGIN step_failure -->
+			<div style="text-indent: 1em">
+				{STEP_FAILURE_MSG}
+			</div>
+			<!-- END step_failure -->
+		</td>
+		<td class="std small" style="text-align: center">
+			<!-- BEGIN is_fullfilled -->
+			<font class="{STATUS_CLASS}">{STATUS_INFO}</font>
+			<!-- END is_fullfilled -->
+		</td>
+	</tr>
+<!-- END status_row -->
+</table>

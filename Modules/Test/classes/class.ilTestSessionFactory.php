@@ -36,6 +36,18 @@ class ilTestSessionFactory
 	}
 	
 	/**
+	 * temporarily bugfix for resetting the state of this singleton
+	 * smeyer
+	 */
+	public function reset()
+	{
+		self::$testSession = NULL;
+	}
+	
+	
+	
+	
+	/**
 	 * creates and returns an instance of a test sequence
 	 * that corresponds to the current test mode
 	 * 

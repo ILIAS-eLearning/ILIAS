@@ -283,6 +283,7 @@ assessment#:#autosave_info#:#Wenn ausgewählt, werden Antworten im Hintergrund g
 assessment#:#autosave_ival#:#Intervall
 assessment#:#autosave_ival_info#:#Intervall, in dem Antworten im Hintergrund gespeichert werden (in Sekunden)
 assessment#:#for#:#für
+assessment#:#tst_objective_oriented_test_pass_without_questions#:#Der gestartete Durchlauf im Test "%s" enthält keine Fragen.
 assessment#:#solution_contain_keywords#:#Punkte werden auf Basis des Vorkommens der folgenden Begriffe vergeben:
 assessment#:#essay_scoring_mode#:#Bewertungs Modus
 assessment#:#essay_scoring_mode_without_keywords#:#Keine automatische Bewertung
@@ -886,6 +887,7 @@ assessment#:#save_before_upload_javaapplet#:#Sie müssen Ihre Änderungen speich
 assessment#:#save_edit#:#Speichern und Inhalt bearbeiten
 assessment#:#save_finish#:#Test beenden
 assessment#:#save_introduction#:#Zur Startseite
+assessment#:#save_back_to_objective_container#:#Zum Kurs
 assessment#:#save_next#:#Weiter
 assessment#:#save_previous#:#Zurück
 assessment#:#save_text_answer_points#:#Punkte der Textfragen speichern
@@ -14748,3 +14750,93 @@ rbac#:#condition_learning_progress#:#Status aus Lernfortschritt ableiten
 rbac#:#rbac_precondition_hide#:#Objekt verbergen
 rbac#:#rbac_precondition_hide_info#:#Das Objekt ist für Benutzer, die die Vorbedingungen nicht erfüllt haben, nicht sichtbar.
 wsp#:#wsp_shared_table_title#:#Freigaben
+crs#:#crs_objective_status_configure#:#Lernziel-orientierten Kurs konfigurieren
+crs#:#crs_objective_status_settings#:#Kurseinstellungen vornehmen
+crs#:#crs_objective_status_materials#:#Materialien einstellen
+crs#:#crs_objective_status_itest#:#Einstiegstest konfigurieren
+crs#:#crs_objective_status_qtest#:#Qualifizierenden Test konfigurieren
+crs#:#crs_objective_status_objectives#:#Lernziele konfigurieren
+crs#:#crs_objective_status_start#:#Startobjekte definieren
+crs#:#crs_objective_status_fullfilled#:#OK
+crs#:#crs_objective_action_materials#:#Materialien bearbeiten
+crs#:#crs_objective_action_qtest#:#Fragenzuordnung qualifizierender Test
+crs#:#crs_objective_action_itest#:#Fragenzuordnung Einstiegstest
+crs#:#crs_loc_qt_visibility#:#Anzeige des qualifizierenden Tests
+crs#:#crs_loc_qt_visibility_all#:#Qualifizierenden Test über alle Lernziele anzeigen
+crs#:#crs_loc_qt_visibility_lo#:#Qualifizierenden Tests pro Lernziel anzeigen
+crs#:#crs_loc_limited_passes#:#Begrenzte Anzahl von Testdurchläufen
+crs#:#crs_loc_passes#:#Maximale Anzahl von Testdurchläufen
+crs#:#crs_loc_passes_info#:#Maximalanzahl Testdurchläufe:
+crs#:#crs_loc_err_stat_no_materials#:#Keine Materialien verfügbar
+crs#:#crs_loc_err_stat_no_qt#:#Kein qualifizierender Test angelegt
+crs#:#crs_loc_err_stat_no_it#:#Kein Einstiegstest angelegt
+crs#:#crs_objective_status_objective_creation#:#Lernziele anlegen
+content#:#cont_out_of_focus_message#:#Diese Seite ist nicht mehr Teil der Inhalte des aktuellen Lernziels.
+content#:#cont_show_content_after_focus#:#Mit anderen Inhalten des Lernmoduls fortfahren
+content#:#cont_to_focus_beginning#:#Zurück zu den Inhalten des Lernziels
+crs#:#crs_loc_form_create_objectives#:#Lernziele anlegen
+crs#:#crs_loc_err_no_active_mat#:#Lernziele ohne Materialien vorhanden
+crs#:#crs_loc_err_no_active_it#:#Lernziele ohne Einstiegstest vorhanden
+crs#:#crs_loc_err_no_active_qt#:#Lernziele ohne qualifizierenden Test vorhanden
+crs#:#crs_loc_err_no_active_lo#:#Kein aktives Lernziel
+content#:#cont_to_focus_return_crs#:#Zurück zum Kurs
+crs#:#crs_loc_learning_objective#:#Lernziel
+crs#:#crs_loc_suggested#:#Bearbeiten Sie die folgenden Materialien.
+crs#:#crs_loc_itest_info#:#Einstiegstest
+crs#:#crs_loc_qtest_info#:#Qualifizierender Test
+crs#:#crs_loc_tt_info#:#Sie haben %1$d%% erreicht. Der Test gilt mit %2$d%% als bestanden.
+crs#:#crs_loc_subtab_creation#:#Erstellen
+crs#:#crs_loc_settings_tbl#:#Einstellungen zum Lernziel-orientierten Kurs
+crs#:#crs_loc_settings_type#:#Kurstyp
+crs#:#crs_loc_type_initial_all#:#Kurs startet mit Einstiegstest zu allen Lernzielen
+crs#:#crs_loc_type_initial_sel#:#Kurs startet mit Einstiegstest zu ausgewähltem Lernziel
+crs#:#crs_loc_type_qualified#:#Kurs startet mit qualifizierendem Test
+crs#:#crs_loc_type_practise#:#Kurs startet mit Lern- und Übungsteil
+crs#:#crs_loc_tab_materials#:#Materialien
+crs#:#crs_loc_tab_itest#:#Einstiegstest
+crs#:#crs_loc_tab_qtest#:#Qualifizierender Test
+crs#:#crs_loc_settings_itest_tbl#:#Einstellungen für den Einstiegstest
+crs#:#crs_loc_tab_objectives#:#Lernziele
+crs#:#crs_loc_settings_qtest_tbl#:#Einstellungen für den qualifizierenden Test
+crs#:#crs_loc_tab_start#:#Startobjekte
+common#:#il_astpl_loc_initial#:#Einstiegstest
+common#:#il_astpl_loc_qualified#:#Qualifizierender Test
+common#:#il_astpl_loc_initial_desc#:#Einstellungsvorlage für Einstiegstests lernzielorientierter Kurse
+common#:#il_astpl_loc_qualified_desc#:#Einstellungsvorlage für qualifizierende Tests lernzielorientierter Kurse
+crs#:#crs_loc_confirm_delete_tst#:#Sind sie sicher, dass die Zuordnung der Tests zum Lernzielorientierten Kurs gelöscht werden soll?
+crs#:#crs_loc_tbl_tst_type#:#Testmodus
+crs#:#crs_loc_form_assign_it#:#Testzuordnung
+crs#:#crs_loc_form_tst_new#:#Neuen Test erstellen
+crs#:#crs_loc_form_assign#:#Vorhandenen Test verwenden
+crs#:#crs_loc_form_available_tsts#:#Verfügbare Tests:
+crs#:#crs_loc_tbl_tst_qst_qpl#:#Fragen/Fragenpools
+crs#:#crs_loc_tst_num_qst#:#Anzahl Fragen:
+crs#:#crs_loc_tst_qpls#:#Verfügbare Fragenpools:
+crs#:#crs_loc_form_random_limits_it#:#Fragen des Einstiegstests festlegen
+crs#:#crs_loc_form_random_limits_qt#:#Fragen des qualifizierenden Tests festlegen
+crs#:#crs_loc_rand_assign_qpl#:#Zuordnung aus Fragenpool
+crs#:#crs_loc_rand_qpl#:#Verfügbare Fragenpools
+crs#:#crs_loc_num_qst#:#Anzahl der Fragen
+crs#:#crs_loc_perc#:#Benötigte Prozentzahl der Punkte
+crs#:#crs_loc_delete_assignment#:#Zuordnung löschen
+crs#:#crs_loc_err_no_active_qst#:#Lernziele ohne Fragen vorhanden
+crs#:#crs_loc_qtst_for_objective#:#Qualifizierender Test "%1$s"
+crs#:#crs_loc_itst_for_objective#:#Einstiegstest "%1$s"
+crs#:#crs_loc_progress_result_itest#:#Ergebnis Einstiegstest
+crs#:#crs_loc_progress_result_qtest#:#Ergebnis
+crs#:#crs_loc_progress_no_result_do_initial#:#Bearbeiten Sie den Einstiegstest
+crs#:#crs_loc_progress_objective_complete#:#Sie haben das Lernziel erreicht.
+crs#:#crs_loc_progress_do_qualifying#:#Bearbeiten Sie nur noch den qualifizierenden Test
+crs#:#crs_loc_progress_do_qualifying_again#:#Bitte bearbeiten Sie das Lernziel erneut.
+content#:#cont_out_of_focus_message_last_page#:#Sie befinden sich auf der letzten Seite der Inhalte zum aktuellen Lernziel.
+crs#:#crs_loc_err_nr_tries_exceeded#:#Die Anzahl der Testdurchläufe pro Lernziel übersteigt die Anzahl möglicher Testdurchläufe des qualifizierenden Tests.
+crs#:#crs_loc_passes_left#:#Verbleibende Anzahl von Testdurchläufen
+crs#:#crs_loc_qst_resume_tst_itest#:#Einstiegstests zu verschiedenen Lernzielen dürfen nicht parallel gestartet werden. Sie haben schon einen Einstiegstest zu einem Lernziel gestartet. Entweder setzen Sie diesen alten Test fort oder Sie starten einen neuen Test.
+crs#:#crs_loc_passes_reached#:#Keine weiteren Testdurchläufe möglich
+crs#:#crs_loc_qst_resume_tst_qtest#:#Qualifizierende Tests zu verschiedenen Lernzielen dürfen nicht parallel gestartet werden. Sie haben schon einen qualifizierenden Test zu einem Lernziel gestartet. Entweder setzen Sie diesen alten Test fort oder Sie starten einen neuen Test.
+crs#:#crs_loc_tst_new_run#:#Neuen Test starten
+crs#:#crs_loc_tst_resume#:#Alten Test fortsetzen
+crs#:#crs_loc_settings_reset#:#Testergebnisse
+crs#:#crs_loc_settings_reset_enable#:#"Testergebnis-Zurücksetzen" erlauben
+crs#:#crs_loc_settings_reset_enable_info#:#Wenn aktiviert, haben alle Benutzer die Möglichkeit, ihre individuellen Testergebnisse zurückzusetzen.
+crs#:#crs_loc_progress_no_result_no_initial#:#Bearbeiten Sie die folgenden Materialien und danach den qualifizierenden Test.

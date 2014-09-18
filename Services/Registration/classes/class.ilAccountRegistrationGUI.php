@@ -202,6 +202,10 @@ class ilAccountRegistrationGUI
 		$up->setMode(ilUserProfile::MODE_REGISTRATION);
 		$up->skipGroup("preferences");
 		
+		$up->setAjaxCallback(
+			$this->ctrl->getLinkTarget($this, 'doProfileAutoComplete', '', true)
+		);
+
 		$lng->loadLanguageModule("user");
 
 		// add fields to form
@@ -905,5 +909,21 @@ class ilAccountRegistrationGUI
 		{
 			$this->tpl->setVariable('TXT_REGISTERED', $lng->txt('txt_registered_passw_gen'));
 		}
+	}
+
+	protected function doProfileAutoComplete()
+	{	
+		$field_id = (string)$_REQUEST["f"];
+		$term = (string)$_REQUEST["term"];
+				
+		include_once "Services/User/classes/class.ilPublicUserProfileGUI.php";
+		$result = ilPublicUserProfileGUI::getAutocompleteResult($field_id, $term);		
+		if(sizeof($result))
+		{
+			include_once 'Services/JSON/classes/class.ilJsonUtil.php';
+			echo ilJsonUtil::encode($result);
+		}
+		
+		exit();		
 	}
 }

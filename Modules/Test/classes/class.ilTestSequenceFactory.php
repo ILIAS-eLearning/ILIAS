@@ -87,8 +87,8 @@ class ilTestSequenceFactory
 			{
 				case ilObjTest::QUESTION_SET_TYPE_FIXED:
 
-					require_once 'Modules/Test/classes/class.ilTestSequence.php';
-					$this->testSequence = new ilTestSequence(
+					require_once 'Modules/Test/classes/class.ilTestSequenceFixedQuestionSet.php';
+					$this->testSequence = new ilTestSequenceFixedQuestionSet(
 							$testSession->getActiveId(), $pass, $this->testOBJ->isRandomTest()
 					);
 					break;

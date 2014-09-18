@@ -277,10 +277,11 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 				break;
 			case "start":
 				$_SESSION['tst_pass_finish'] = 0;
-				
+
 				// ensure existing test session
 				$this->testSession->setUserId($ilUser->getId());
 				$this->testSession->setAnonymousId($_SESSION["tst_access_code"][$this->object->getTestId()]);
+				$this->testSession->setObjectiveOrientedContainerId($this->getObjectiveOrientedContainerId());
 				$this->testSession->saveToDb();
 				
 				$active_id = $this->testSession->getActiveId();
@@ -302,6 +303,16 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 				{
 					$this->testSequence->createNewSequence($this->object->getQuestionCount(), $shuffle);
 					$this->testSequence->saveToDb();
+				}
+
+				if( $this->testSession->isObjectiveOriented() )
+				{
+					$this->testSequence->loadFromDb();
+					$this->testSequence->loadQuestions();
+					
+					$this->filterTestSequenceByObjectives(
+						$this->testSession, $this->testSequence
+					);
 				}
 				
 				$active_time_id = $this->object->startWorkingTime($this->testSession->getActiveId(), $this->testSession->getPass());
@@ -428,6 +439,15 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		}
 
 		$questionId = $this->testSequence->getQuestionForSequence($sequence);
+		
+		if( !(int)$questionId && $this->testSession->isObjectiveOriented() )
+		{
+			ilUtil::sendFailure(
+				sprintf($this->lng->txt('tst_objective_oriented_test_pass_without_questions'), $this->object->getTitle()), true
+			);
+			$this->performCustomRedirect();
+		}
+		
 		$question_gui = $this->object->createQuestionGUI("", $questionId);
 		$question_gui->setTargetGui($this);
 
@@ -715,6 +735,13 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 				// update learning progress (is done in ilTestSession)
 				//include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
 				//ilLPStatusWrapper::_updateStatus($this->object->getId(), $ilUser->getId());
+
+				if( $this->testSession->isObjectiveOriented() )
+				{
+					$this->updateContainerObjectivesWithAnsweredQuestion(
+						$this->testSession, $this->testSequence, $question_gui->object
+					);
+				}
 			}
 		}
 		if ($this->saveResult == FALSE)
@@ -854,5 +881,43 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		$questionSetBuilder = ilTestRandomQuestionSetBuilder::getInstance($ilDB, $this->object, $questionSetConfig, $sourcePoolDefinitionList, $stagingPoolQuestionList);
 
 		$questionSetBuilder->performBuild($this->testSession);
+	}
+
+	protected function getObjectiveOrientedContainerId()
+	{
+		require_once 'Modules/Course/classes/Objectives/class.ilLOSettings.php';
+		
+		return (int)ilLOSettings::isObjectiveTest($this->testSession->getRefId());
+	}
+	
+	protected function filterTestSequenceByObjectives(ilTestSession $testSession, ilTestSequence $testSequence)
+	{
+		require_once 'Modules/Course/classes/Objectives/class.ilLOTestQuestionAdapter.php';
+		
+		ilLOTestQuestionAdapter::filterQuestions($testSession, $testSequence);
+	}
+	
+	protected function updateContainerObjectivesWithAnsweredQuestion(ilTestSession $testSession, ilTestSequence $testSequence, assQuestion $question)
+	{
+		require_once 'Modules/Course/classes/Objectives/class.ilLOTestQuestionAdapter.php';
+
+		ilLOTestQuestionAdapter::updateObjectiveStatus($testSession, $testSequence, $question);
+
+		$testSequence->saveToDb();
+	}
+	
+	protected function customRedirectRequired()
+	{
+		return $this->testSession->isObjectiveOriented();
+	}
+	
+	protected function performCustomRedirect()
+	{
+		$containerRefId = current(ilObject::_getAllReferences($this->testSession->getObjectiveOrientedContainerId()));
+		
+		require_once 'Services/Link/classes/class.ilLink.php';
+		$redirectTarget = ilLink::_getLink($containerRefId);
+
+		ilUtil::redirect($redirectTarget);
 	}
 }

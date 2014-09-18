@@ -26,7 +26,7 @@ class ilSettingsTemplateTableGUI extends ilTable2GUI
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
 		include_once("./Services/Administration/classes/class.ilSettingsTemplate.php");
-		$this->setData(ilSettingsTemplate::getAllSettingsTemplates($a_type));
+		$this->setData(ilSettingsTemplate::getAllSettingsTemplates($a_type,true));
 		$this->setTitle($lng->txt("adm_settings_templates")." - ".
 			$lng->txt("obj_".$a_type));
 
@@ -52,8 +52,10 @@ class ilSettingsTemplateTableGUI extends ilTable2GUI
 
 		$ilCtrl->setParameter($this->parent_obj, "templ_id", $a_set["id"]);
 		$this->tpl->setVariable("VAL_ID", $a_set["id"]);
-		$this->tpl->setVariable("VAL_TITLE", $a_set["title"]);
-		$this->tpl->setVariable("VAL_DESCRIPTION", $a_set["description"]);
+		// begin-patch lok
+		$this->tpl->setVariable("VAL_TITLE", ilSettingsTemplate::translate($a_set["title"]));
+		$this->tpl->setVariable("VAL_DESCRIPTION", ilSettingsTemplate::translate($a_set["description"]));
+		// end-patch lok
 		$this->tpl->setVariable("TXT_EDIT", $lng->txt("edit"));
 		$this->tpl->setVariable("HREF_EDIT",
 			$ilCtrl->getLinkTarget($this->parent_obj, "editSettingsTemplate"));

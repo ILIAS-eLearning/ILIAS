@@ -91,7 +91,7 @@ class ilCourseObjectiveListGUI extends ilObjectListGUI
 	 * @param string description
 	 * @return
 	 */
-	public function getListItemHTML($a_ref_id,$a_obj_id,$a_title,$a_description)
+	public function getListItemHTML($a_ref_id,$a_obj_id,$a_title,$a_description,$a_manage = false)
 	{
 		$this->tpl =& new ilTemplate("tpl.container_list_item.html", true, true,
 			"Services/Container");
@@ -100,7 +100,14 @@ class ilCourseObjectiveListGUI extends ilObjectListGUI
 		$this->insertIconsAndCheckboxes();
 		$this->insertTitle();
 		$this->insertDescription();
-		$this->insertProgressInfo();
+		
+		// begin-patch lok		
+		if(!$a_manage)
+		{
+			$this->insertProgressInfo();
+		}				
+		$this->insertPositionField();
+		// end-patch lok
 		
 		// subitems
 		$this->insertSubItems();

@@ -798,7 +798,12 @@ class ilUserProfile
 						if(!$ti->getRequired() || $ti->getValue())
 						{
 							$ti->setDisabled($ilSetting->get("usr_settings_disable_".$f));
-						}					 					
+						}					 		
+						if($this->ajax_href)
+						{
+							// add field to ajax call
+							$ti->setDataSource($this->ajax_href."&f=".$f);
+						}
 						$a_form->addItem($ti);
 					}
 					break;
@@ -821,7 +826,11 @@ class ilUserProfile
 			}
 		}
 	}
-
+	
+	public function setAjaxCallback($a_href)
+	{
+		$this->ajax_href = $a_href;
+	}
 	
 	/**
 	* Checks whether user setting is visible

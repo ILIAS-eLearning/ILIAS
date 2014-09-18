@@ -720,6 +720,52 @@ class ilCourseObjectiveQuestion
 
 		return true;
 	}
+	
+	// begin-patch lok
+	public static function deleteTest($a_tst_ref_id) 
+	{
+		global $ilDB;
+		
+		$query = 'DELETE FROM crs_objective_tst '.
+				'WHERE ref_id = '.$ilDB->quote($a_tst_ref_id,'integer');
+		$ilDB->manipulate($query);
+
+		$query = 'DELETE FROM crs_objective_qst '.
+				'WHERE ref_id = '.$ilDB->quote($a_tst_ref_id,'integer');
+		$ilDB->manipulate($query);
+	}
+	
+	
+	public function deleteByTestType($a_type)
+	{
+		global $ilDB;
+		
+		
+		// Read tests by type
+		$deletable_refs = array();
+		foreach((array) $this->tests as $tst_data)
+		{
+			if($tst_data['status'] == $a_type)
+			{
+				$deletable_refs[] = $tst_data['ref_id'];
+			}
+		}
+		
+		$query = 'DELETE from crs_objective_tst '.
+				'WHERE objective_id = '.$ilDB->quote($this->getObjectiveId(),'integer').' '.
+				'AND tst_status = '.$ilDB->quote($a_type,'integer');
+		$ilDB->manipulate($query);
+		
+		
+		$query = 'DELETE from crs_objective_tst '.
+				'WHERE objective_id = '.$ilDB->quote($this->getObjectiveId(),'integer').' '.
+				'AND '.$ilDB->in('ref_id',$deletable_refs,false,'integer');
+		$ilDB->manipulate($query);
+		
+		return true;
+	}
+	// end-patch lok
+	
 
 	function deleteAll()
 	{
@@ -834,6 +880,43 @@ class ilCourseObjectiveQuestion
 		
 		return $objective_id ? $objective_id : 0;
 	}
+	
+	// begin-patch lok
+	public static function lookupQuestionsByObjective($a_test_id, $a_objective)
+	{
+		global $ilDB;
+		
+		$query = 'SELECT question_id FROM crs_objective_qst '.
+				'WHERE objective_id = '.$ilDB->quote($a_objective,'integer').' '.
+				'AND obj_id = '.$ilDB->quote($a_test_id,'integer');
+		$res = $ilDB->query($query);
+		
+		$GLOBALS['ilLog']->write($query);
+		
+		$questions = array();
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$questions[] = $row->question_id;
+		}
+		return (array) $questions;
+	}
+	
+	public static function loookupTestLimit($a_test_id, $a_objective_id)
+	{
+		global $ilDB;
+		
+		$query = 'SELECT tst_limit FROM crs_objective_tst '.
+				'WHERE objective_id = '.$ilDB->quote($a_objective_id,'integer').' '.
+				'AND obj_id = '.$ilDB->quote($a_test_id,'integer');
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			return (int) $row->tst_limit;
+		}
+		return 0;
+	}
+	
+	// end-patch lok
 
 }
 ?>

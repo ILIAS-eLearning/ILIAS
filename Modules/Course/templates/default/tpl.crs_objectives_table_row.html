@@ -1,4 +1,4 @@
-<tr class="{CSS_ROW}">
+<tr class="{CSS_ROW} small">
 	<td class="std">
 		<input type="checkbox" name="objective[]" value="{VAL_ID}" id="{VAL_ID}" {VAL_CHECKED} />
 	</td>
@@ -7,10 +7,18 @@
 	</td>
 	<td class="std">
   		<label for="{VAL_ID}">
-			{VAL_TITLE}
+			<a href="{VAL_TITLE_LINKED}">{VAL_TITLE}</a>
 			<!-- BEGIN desc -->
 			<div class="il_Description">{VAL_DESC}</div>
 			<!-- END desc -->
+			<!-- BEGIN limited_passes -->
+			<div>
+				<font class="small">{PASSES_TXT} {PASSES_VAL}</font>
+			</div>
+			<!-- END limited_passes -->
+			<div>
+				<font class="{ONOFFLINE_CLASS}">{VAL_ONOFFLINE}</font>
+			</div>
 		</label>
 	</td>
 	<td class="std">
@@ -28,21 +36,20 @@
 		<!-- BEGIN new_line --><br/><!-- END new_line -->
 		<!-- END mat_row -->
 	</td>
+	<!-- BEGIN with_self_test -->
 	<td class="std">
-		<!-- BEGIN self_test_row -->
-		<img src="{SELF_TST_IMG}" alt="{SELF_TST_ALT}" title="{SELF_TST_ALT}" /> {SELF_TST_TITLE}
-			<ul class="noMargin"><!-- BEGIN self_qst_row --><li class="smallPad">{SELF_QST_TITLE}</li><!-- END self_qst_row --></ul>
-		<!-- END self_test_row -->
+		<!-- BEGIN self_qst_row --><p>{SELF_QST_TITLE}</p><!-- END self_qst_row -->
 	</td>
+	<!-- END with_self_test -->
 	<td class="std">
-		<!-- BEGIN final_test_row -->
-		<img src="{FINAL_TST_IMG}" alt="{FINAL_TST_ALT}" title="{FINAL_TST_ALT}" /> {FINAL_TST_TITLE}
-			<ul class="noMargin"><!-- BEGIN final_qst_row --><li class="smallPad">{FINAL_QST_TITLE}</li><!-- END final_qst_row --></ul>
-		<!-- END final_test_row -->
+		<!-- BEGIN final_qst_row --><p>{FINAL_QST_TITLE}</p><!-- END final_qst_row -->
+		<!-- BEGIN final_test_rnd -->
+		{SELF_QST_RND_TITLE}
+		<!-- BEGIN final_test_rnd -->
 	</td>
 	<td class="std">
 		<div class="editLink">
-			<a href="{EDIT_LINK}" class="il_ContainerItemCommand2">{TXT_EDIT}</a>
+			{VAL_ACTIONS}
 		</div>
 	</td>
 </tr>

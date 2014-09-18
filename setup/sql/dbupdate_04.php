@@ -3287,6 +3287,7 @@ if( !$ilDB->tableColumnExists('conditions', 'hidden_status') )
 	}
 ?>
 
+
 <#4351>
 <?php
 	$res = $ilDB->query("SELECT value FROM settings WHERE module = 'google_maps' AND keyword = 'enable'");
@@ -3311,5 +3312,448 @@ if( !$ilDB->tableColumnExists('conditions', 'hidden_status') )
 	$ilDB->manipulate("UPDATE lng_data SET identifier = 'maps_std_location' WHERE identifier = 'gmaps_std_location'");
 	$ilDB->manipulate("UPDATE lng_data SET identifier = 'maps_zoom_level' WHERE identifier = 'gmaps_zoom_level'");
 
+?>
+<#4352>
+<?php
+
+if(!$ilDB->tableColumnExists('il_blog','abs_shorten')) 
+{
+    $ilDB->addTableColumn(
+        'il_blog',
+        'abs_shorten',
+        array(
+            'type' => 'integer',
+			'length' => 1,
+            'notnull' => false,
+            'default' => 0
+        ));
+}
+
+if(!$ilDB->tableColumnExists('il_blog','abs_shorten_len')) 
+{
+    $ilDB->addTableColumn(
+        'il_blog',
+        'abs_shorten_len',
+        array(
+            'type' => 'integer',
+			'length' => 2,
+            'notnull' => false,
+            'default' => 0
+        ));
+}
+
+if(!$ilDB->tableColumnExists('il_blog','abs_image')) 
+{
+    $ilDB->addTableColumn(
+        'il_blog',
+        'abs_image',
+        array(
+            'type' => 'integer',
+			'length' => 1,
+            'notnull' => false,
+            'default' => 0
+        ));
+}
+
+if(!$ilDB->tableColumnExists('il_blog','abs_img_width')) 
+{
+    $ilDB->addTableColumn(
+        'il_blog',
+        'abs_img_width',
+        array(
+            'type' => 'integer',
+			'length' => 2,
+            'notnull' => false,
+            'default' => 0
+        ));
+}
+
+if(!$ilDB->tableColumnExists('il_blog','abs_img_height')) 
+{
+    $ilDB->addTableColumn(
+        'il_blog',
+        'abs_img_height',
+        array(
+            'type' => 'integer',
+			'length' => 2,
+            'notnull' => false,
+            'default' => 0
+        ));
+}
+
+?>
+
+<#4353>
+<?php
+
+if( !$ilDB->tableExists('usr_data_multi') )
+{
+	$ilDB->createTable('usr_data_multi', array(
+		'usr_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'field_id' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => true
+		),
+		'value' => array(
+			'type' => 'text',
+			'length' => 1000,
+			'notnull' => false,
+		)
+	));
+}
+
+?>
+
+<#4354>
+<?php
+if(!$ilDB->tableColumnExists('crs_start', 'pos'))
+{
+	$ilDB->addTableColumn('crs_start', 'pos', array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => false,
+		'default' => null
+	));
+}
+?>
+
+<#4355>
+<?php
+if(!$ilDB->tableExists('loc_settings'))
+{
+	$ilDB->createTable('loc_settings', array(
+		'obj_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'type' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+		)
+		)
+	);
+
+	$ilDB->addPrimaryKey('loc_settings', array('obj_id'));
+}
+?>
+<#4356>
+<?php
+if(!$ilDB->tableColumnExists('loc_settings', 'itest'))
+{
+	$ilDB->addTableColumn('loc_settings', 'itest', array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => false,
+		'default' => null
+	));
+}
+
+if(!$ilDB->tableColumnExists('loc_settings', 'qtest'))
+{
+	$ilDB->addTableColumn('loc_settings', 'qtest', array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => false,
+		'default' => null
+	));
+}
+?>
+
+<#4357>
+<?php
+if(!$ilDB->tableColumnExists('adm_settings_template', 'auto_generated'))
+{
+	$ilDB->addTableColumn('adm_settings_template', 'auto_generated', array(
+		'type' => 'integer',
+		'length' => 1,
+		'notnull' => false,
+		'default' => 0
+	));
+}
+?>
+
+<#4358>
+<?php
+if( !$ilDB->tableColumnExists('crs_objective_lm', 'position') )
+{
+	$ilDB->addTableColumn('crs_objective_lm', 'position', array(
+		'type' => 'integer',
+		'length' => 4,
+		'notnull' => false,
+		'default' => 0
+	));
+}
+?>
+<#4359>
+<?php
+
+if(!$ilDB->tableExists('loc_rnd_qpl') )
+{
+	$ilDB->createTable('loc_rnd_qpl', array(
+		'container_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'objective_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'tst_type' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+		),
+		'tst_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'qp_seq' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'percentage' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+	));
+	$ilDB->addPrimaryKey('loc_rnd_qpl', array('container_id', 'objective_id', 'tst_type'));
+}
+?>
+<#4360>
+<?php
+
+$query = 'INSERT INTO adm_settings_template '.
+		'(id, type, title, description, auto_generated) '.
+		'VALUES( '.
+		$ilDB->quote($ilDB->nextId('adm_settings_template'),'integer').', '.
+		$ilDB->quote('tst','text').', '.
+		$ilDB->quote('il_astpl_loc_initial','text').', '.
+		$ilDB->quote('il_astpl_loc_initial_desc','text').', '.
+		$ilDB->quote(1,'integer').' '.
+		')';
+$ilDB->manipulate($query);
+?>
+<#4361>
+<?php
+
+$query = 'INSERT INTO adm_settings_template '.
+		'(id, type, title, description, auto_generated) '.
+		'VALUES( '.
+		$ilDB->quote($ilDB->nextId('adm_settings_template'),'integer').', '.
+		$ilDB->quote('tst','text').', '.
+		$ilDB->quote('il_astpl_loc_qualified','text').', '.
+		$ilDB->quote('il_astpl_loc_qualified_desc','text').', '.
+		$ilDB->quote(1,'integer').' '.
+		')';
+$ilDB->manipulate($query);
+?>
+
+<#4362>
+<?php
+
+if( !$ilDB->tableExists('loc_user_results') )
+{
+	$ilDB->createTable('loc_user_results', array(
+		'user_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'course_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'objective_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'type' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+		),
+		'status' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false,
+			'default' => 0
+		),
+		'result_perc' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false,
+			'default' => 0
+		),
+		'limit_perc' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false,
+			'default' => 0
+		),
+		'tries' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false,
+			'default' => 0
+		),
+		'is_final' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false,
+			'default' => 0
+		),
+		'tstamp' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => false,
+			'default' => 0
+		)
+	));
+
+	$ilDB->addPrimaryKey('loc_user_results', array('user_id', 'course_id', 'objective_id', 'type'));
+}
+?>
+<#4363>
+<?php
+if(!$ilDB->tableColumnExists('loc_settings', 'qt_vis_all'))
+{
+	$ilDB->addTableColumn('loc_settings', 'qt_vis_all', array(
+		'type' => 'integer',
+		'length' => 1,
+		'notnull' => false,
+		'default' => 1
+	));
+}
+?>
+
+<#4364>
+<?php
+if(!$ilDB->tableColumnExists('loc_settings', 'qt_vis_obj'))
+{
+	$ilDB->addTableColumn('loc_settings', 'qt_vis_obj', array(
+		'type' => 'integer',
+		'length' => 1,
+		'notnull' => false,
+		'default' => 0
+	));
+}
+?>
+
+<#4365>
+<?php
+if(!$ilDB->tableColumnExists('crs_objectives', 'active'))
+{
+	$ilDB->addTableColumn('crs_objectives', 'active', array(
+		'type' => 'integer',
+		'length' => 1,
+		'notnull' => false,
+		'default' => 1
+	));
+}
+?>
+
+<#4366>
+<?php
+if(!$ilDB->tableColumnExists('crs_objectives', 'passes'))
+{
+	$ilDB->addTableColumn('crs_objectives', 'passes', array(
+		'type' => 'integer',
+		'length' => 2,
+		'notnull' => false,
+		'default' => 0
+	));
+}
+?>
+
+<#4367>
+<?php
+if(!$ilDB->tableExists('loc_tst_run'))
+{
+	$ilDB->createTable('loc_tst_run', array(
+		'container_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'user_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'test_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'objective_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'max_points' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => false,
+			'default' => 0
+		),
+		'questions' => array(
+			'type' => 'text',
+			'length' => 1000,
+			'notnull' => false,
+			'default' => 0
+		)
+	));
+	$ilDB->addPrimaryKey('loc_tst_run', array('container_id', 'user_id', 'test_id', 'objective_id'));
+}
+?>
+<#4368>
+<?php
+if(!$ilDB->tableColumnExists('loc_settings','reset_results'))
+{
+    $ilDB->addTableColumn(
+        'loc_settings',
+        'reset_results',
+        array(
+            'type' => 'integer',
+			'length' => 1,
+            'notnull' => false,
+            'default' => 0
+        ));
+}
+?>
+<#4369>
+<?php
+$ilCtrlStructureReader->getStructure();
 ?>
 

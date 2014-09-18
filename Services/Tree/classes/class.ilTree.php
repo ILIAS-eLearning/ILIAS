@@ -486,6 +486,29 @@ class ilTree
 	{
 		return $this->getTreeImplementation()->getRelation($a_node_a_arr, $a_node_b_arr);
 	}
+	
+	/**
+	 * Get node child ids
+	 * @global type $ilDB
+	 * @param type $a_node
+	 * @return type
+	 */
+	public function getChildIds($a_node)
+	{
+		global $ilDB;
+		
+		$query = 'SELECT * FROM tree '.
+				'WHERE parent = '.$ilDB->quote($a_node,'integer').' '.
+				'AND tree > '.$ilDB->quote(0,'integer');
+		$res = $ilDB->query($query);
+		
+		$childs = array();
+		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+		{
+			$childs[] = $row->child;
+		}
+		return $childs;
+	}
 
 	/**
 	* get child nodes of given node

@@ -109,6 +109,8 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 	const QUESTION_INSTANCE_TYPE_ORIGINALS = 'QST_INSTANCE_TYPE_ORIGINALS';
 	const QUESTION_INSTANCE_TYPE_DUPLICATES = 'QST_INSTANCE_TYPE_DUPLICATES';
 	private $questionInstanceTypeFilter = self::QUESTION_INSTANCE_TYPE_ORIGINALS;
+	
+	private $questionIdsFilter = null;
 
 	/**
 	 * Constructor
@@ -142,6 +144,16 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 	public function getQuestionInstanceTypeFilter()
 	{
 		return $this->questionInstanceTypeFilter;
+	}
+
+	public function setQuestionIdsFilter($questionIdsFilter)
+	{
+		$this->questionIdsFilter = $questionIdsFilter;
+	}
+
+	public function getQuestionIdsFilter()
+	{
+		return $this->questionIdsFilter;
 	}
 
 	public function addFieldFilter($fieldName, $fieldValue)
@@ -289,6 +301,16 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 
 		return null;
 	}
+
+	private function getQuestionIdsFilterExpression()
+	{
+		if( is_array($this->getQuestionIdsFilter()) )
+		{
+			return $this->db->in('qpl_questions.question_id', $this->getQuestionIdsFilter(), false, 'integer');
+		}
+
+		return null;
+	}
 	
 	private function getAnswerStatusFilterExpressions()
 	{
@@ -344,6 +366,11 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
 		if( $this->getQuestionInstanceTypeFilterExpression() !== null )
 		{
 			$CONDITIONS[] = $this->getQuestionInstanceTypeFilterExpression();
+		}
+		
+		if( $this->getQuestionIdsFilterExpression() !== null )
+		{
+			$CONDITIONS[] = $this->getQuestionIdsFilterExpression();
 		}
 
 		$CONDITIONS = array_merge($CONDITIONS,

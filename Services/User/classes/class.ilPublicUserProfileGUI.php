@@ -724,6 +724,53 @@ class ilPublicUserProfileGUI
 			}
 		}			
 	}
+	
+	public static function getAutocompleteResult($a_field_id, $a_term)
+	{
+		global $ilUser;
+		
+		$multi_fields = array("interests_general", "interests_help_offered", "interests_help_looking");
+		if(in_array($a_field_id, $multi_fields) && $a_term)
+		{
+			// registration has no current user
+			$user_id = null;
+			if($ilUser && $ilUser->getId() &&  $ilUser->getId() != ANONYMOUS_USER_ID)
+			{
+				$user_id = $ilUser->getId();
+			}
+						
+			$result = array();
+			$cnt = 0;
+			
+			// term is searched in ALL interest fields, no distinction 			
+			foreach(ilObjUser::findInterests($a_term, $ilUser->getId()) as $item)			
+			{				
+				$result[$cnt]        = new stdClass();
+				$result[$cnt]->value = $item;
+				$result[$cnt]->label = $item;
+				$cnt++;
+			}
+			
+			// :TODO: search in skill data
+		}		
+		
+		return $result;
+	}
+	
+	protected function doProfileAutoComplete()
+	{		
+		$field_id = (string)$_REQUEST["f"];
+		$term = (string)$_REQUEST["term"];
+				
+		$result = self::getAutocompleteResult($field_id, $term);		
+		if(sizeof($result))
+		{
+			include_once 'Services/JSON/classes/class.ilJsonUtil.php';
+			echo ilJsonUtil::encode($result);
+		}
+		
+		exit();
+	}
 }
 
 ?>

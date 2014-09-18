@@ -34,6 +34,12 @@ define('FIELD_TYPE_UDF_SELECT',1);
 define('FIELD_TYPE_UDF_TEXT',2);
 define('FIELD_TYPE_SELECT',3);
 define('FIELD_TYPE_TEXT',4);
+// begin-patch lok
+define('FIELD_TYPE_MULTI',5);
+// end-patch lok
+
+
+
 
 class ilUserSearchOptions
 {
@@ -74,6 +80,9 @@ class ilUserSearchOptions
 	{
 		global $lng;
 
+		// begin-patch lok
+		$lng->loadLanguageModule('user');
+		// end-patch lok
 
 		$counter = 1;
 		foreach(ilUserSearchOptions::_getPossibleFields($a_admin) as $field)
@@ -128,6 +137,17 @@ class ilUserSearchOptions
 					}
 					asort($fields[$counter]['values']);					
 					break;
+					
+				// begin-patch lok
+				case 'interests_general':
+				case 'interests_help_offered':
+				case 'interests_help_looking':
+					$fields[$counter]['type'] = FIELD_TYPE_MULTI;
+					break;
+				// end-patch lok
+					
+					
+					
 										
 				/*
 				case 'active':
@@ -163,7 +183,14 @@ class ilUserSearchOptions
 					 'sel_country',
 					 'email',
 					 'hobby',
-					 'matriculation');
+					 // begin-patch lok
+					 'matriculation',
+					 'interests_general',
+					 'interests_help_offered',
+					 'interests_help_looking'
+		);
+		// end-patch lok
+			
 	}
 
 	public static function _isSearchable($a_key)

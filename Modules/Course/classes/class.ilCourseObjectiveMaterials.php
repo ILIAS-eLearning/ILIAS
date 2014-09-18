@@ -139,7 +139,7 @@ class ilCourseObjectiveMaterials
 		global $ilDB;
 		
 		$query = "SELECT DISTINCT(ref_id) ref_id FROM crs_objective_lm ".
-			"WHERE objective_id = ".$ilDB->quote($a_objective_id ,'integer')." ";
+			"WHERE objective_id = ".$ilDB->quote($a_objective_id ,'integer');
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
@@ -173,11 +173,18 @@ class ilCourseObjectiveMaterials
 			switch($material['type'])
 			{
 				case 'tst':
-				case 'fold':
-				case 'grp':
-				case 'rolf':
+					if(ilLOSettings::getInstanceByObjId($a_container_id)->isObjectiveTest($material['child']))
+					{
+						continue;
+					}
+					else
+					{
+						$assignable[] = $material;
+					}
+					break;
+					
 				case 'crs':
-				case 'sess':
+				case 'rolf':
 				case 'itgr':
 					continue;
 				
@@ -280,7 +287,7 @@ class ilCourseObjectiveMaterials
 	 * @param int ref id
 	 * @return bool
 	 */
-	public function isAssigned($a_ref_id)
+	public function isAssigned($a_ref_id, $a_get_id = false)
 	{
 		global $ilDB;
 		
@@ -289,7 +296,18 @@ class ilCourseObjectiveMaterials
 			"AND objective_id = ".$this->db->quote($this->getObjectiveId() ,'integer')." ".
 			"AND type != 'st' AND type != 'pg' ";
 		$res = $this->db->query($query);
-		return $res->numRows() ? true : false;
+		
+		// begin-patch lok
+		if(!$a_get_id)
+		{
+			return $res->numRows() ? true : false;
+		}
+		else
+		{
+			$row = $this->db->fetchAssoc($res);
+			return $row["lm_ass_id"];
+		}
+		// end-patch lok
 	}
 
 	/**
@@ -377,6 +395,28 @@ class ilCourseObjectiveMaterials
 		$res = $ilDB->manipulate($query);
 		return true;
 	}
+	
+	// begin-patch lok
+	
+	/**
+	 * write position
+	 *
+	 * @access public
+	 * @param int new position
+	 * @return
+	 */
+	public function writePosition($a_ass_id, $a_position)
+	{
+		global $ilDB;
+		
+		$query = "UPDATE crs_objective_lm ".
+			"SET position = ".$this->db->quote((string) $a_position ,'integer')." ".
+			"WHERE objective_id = ".$this->db->quote($this->getObjectiveId() ,'integer')." ".
+			"AND lm_ass_id = ".$ilDB->quote($a_ass_id, "integer");
+		$res = $ilDB->manipulate($query);
+	}
+	
+	// end-patch lok
 
 	// PRIVATE
 	function __read()
@@ -386,14 +426,16 @@ class ilCourseObjectiveMaterials
 		include_once('Modules/Course/classes/class.ilCourseObjective.php');
 		$container_ref_ids = ilObject::_getAllReferences(ilCourseObjective::_lookupContainerIdByObjectiveId($this->objective_id));
 		$container_ref_id  = current($container_ref_ids);
-
+		
+		// begin-patch lok	
+		
 		$this->lms = array();
-		$query = "SELECT lm_ass_id,lm.ref_id,lm.obj_id,lm.type FROM crs_objective_lm lm ".
+		$query = "SELECT position,lm_ass_id,lm.ref_id,lm.obj_id,lm.type FROM crs_objective_lm lm ".
 			"JOIN object_reference obr ON lm.ref_id = obr.ref_id ".
 			"JOIN object_data obd ON obr.obj_id = obd.obj_id ".
 			"LEFT JOIN lm_data lmd ON lmd.obj_id = lm.obj_id ".
-			"WHERE objective_id = ".$ilDB->quote($this->getObjectiveId(),'integer')." ".
-			"ORDER BY obd.title,lmd.title";
+			"WHERE objective_id = ".$ilDB->quote($this->getObjectiveId(),'integer')." ".			
+			"ORDER BY position,obd.title,lmd.title";			
 			
 		$res = $this->db->query($query);
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
@@ -407,9 +449,13 @@ class ilCourseObjectiveMaterials
 			$lm['obj_id'] = $row->obj_id;
 			$lm['type'] = $row->type;
 			$lm['lm_ass_id'] = $row->lm_ass_id;
+			$lm['position'] = $row->position;
 
 			$this->lms[$row->lm_ass_id] = $lm;
 		}
+		
+		// end-patch lok
+		
 		return true;
 	}
 	

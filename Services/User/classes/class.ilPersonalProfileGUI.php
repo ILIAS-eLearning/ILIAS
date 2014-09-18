@@ -809,6 +809,10 @@ class ilPersonalProfileGUI
 		$up->skipGroup("settings");
 		$up->skipGroup("preferences");
 		
+		$up->setAjaxCallback(
+			$this->ctrl->getLinkTargetByClass('ilPublicUserProfileGUI', 'doProfileAutoComplete', '', true)
+		);
+		
 		// standard fields
 		$up->addStandardFieldsToForm($this->form, $ilUser, $this->input);
 		

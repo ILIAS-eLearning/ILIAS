@@ -5689,5 +5689,31 @@ class ilObjUser extends ilObject
 			" WHERE usr_id = ".$ilDB->quote($this->getId(), "integer"));
 	}
 	
+	public static function findInterests($a_term, $a_user_id = null, $a_field_id = null)
+	{
+		global $ilDB;
+		
+		$res = array();
+		
+		$sql = "SELECT DISTINCT(value)".
+			" FROM usr_data_multi".
+			" WHERE ".$ilDB->like("value", "text", "%".$a_term."%");		
+		if($a_field_id)
+		{
+			$sql .= " AND field_id = ".$ilDB->quote($a_field_id, "text");
+		}					
+		if($a_user_id)
+		{
+			$sql .=  " AND usr_id <> ".$ilDB->quote($a_user_id, "integer");
+		}
+		$sql .= " ORDER BY value";
+		$set = $ilDB->query($sql);
+		while($row = $ilDB->fetchAssoc($set))
+		{
+			$res[] = $row["value"];
+		}
+		
+		return $res;
+	}
 } // END class ilObjUser
 ?>
