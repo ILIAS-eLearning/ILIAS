@@ -114,6 +114,7 @@ class ilLOUserResults
 		return true;
 	}
 	
+	
 	/**
 	 * Delete all result entries for course
 	 * 
@@ -133,6 +134,21 @@ class ilLOUserResults
 			" WHERE course_id = ".$ilDB->quote($a_course_id, "integer"));
 		return true;
 	}
+	
+	/**
+	 * Delete for user and course
+	 * @global type $ilDB
+	 */
+	public function delete()
+	{
+		global $ilDB;
+		
+		$query = 'DELETE FROM loc_user_results '.
+				'WHERE course_id = '.$ilDB->quote($this->course_obj_id).' '.
+				'AND user_id = '.$ilDB->quote($this->user_id);
+		$ilDB->manipulate($query);
+	}
+	
 	/**
 	 * Delete all (qualified) result entries for course members
 	 * 
@@ -193,7 +209,6 @@ class ilLOUserResults
 		{
 			return false;
 		}
-		
 		$ilDB->replace("loc_user_results",
 			array(
 				"course_id" => array("integer", $this->course_obj_id),
@@ -252,6 +267,16 @@ class ilLOUserResults
 		}
 		
 		return $res;		
+	}
+	
+	/**
+	 * All completed objectives by type
+	 * @param type $a_type
+	 * @return type
+	 */
+	public function getCompletedObjectiveIdsByType($a_type)
+	{
+		return $this->findObjectiveIds($a_type, self::STATUS_COMPLETED);
 	}
 	
 	/**
@@ -414,6 +439,7 @@ class ilLOUserResults
 			return $res;		
 		}
 	}
+	
 	
 	public static function hasResults($a_container_id, $a_user_id)
 	{

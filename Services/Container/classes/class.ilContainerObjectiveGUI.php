@@ -119,17 +119,12 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 //		$this->__showFeedBack();
 
 		$this->items = $this->getContainerObject()->getSubItems($this->getContainerGUI()->isActiveAdministrationPanel());
-	
+
 		$is_manage = $this->getContainerGUI()->isActiveAdministrationPanel();			
 		$is_order = $this->getContainerGUI()->isActiveOrdering();		
 		
 		include_once './Modules/Course/classes/Objectives/class.ilLOSettings.php';
-		$this->loc_settings = ilLOSettings::getInstanceByObjId($this->getContainerObject()->getId());	
-					
-		if($is_manage || $is_order)
-		{
-			$this->initRenderer();		
-		}
+		$this->loc_settings = ilLOSettings::getInstanceByObjId($this->getContainerObject()->getId());		
 	
 		if(!$is_manage && !$is_order)
 		{						
@@ -229,7 +224,9 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 		
 		// All objectives
 		include_once './Modules/Course/classes/class.ilCourseObjective.php';
+		// begin-patch lok
 		if(!count($objective_ids = ilCourseObjective::_getObjectiveIds($this->getContainerObject()->getId(),true)))
+		// end-patch lok
 		{
 			return false;
 		}
@@ -250,15 +247,12 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 			$acc->setBehaviour(ilAccordionGUI::ONE_OPEN_SESSION);
 			$acc->setId("crsobjtv_".$this->container_obj->getId());
 		}
-		else
-		{
-			$this->renderer->addCustomBlock('lobj',$lng->txt('crs_objectives'));
-		}
 		
 		$lur_data = $this->parseLOUserResults();
 		
-		$has_initial = ilLOSettings::getInstanceByObjId($this->container_obj->getId())->worksWithInitialTest();				
+		$has_initial = ilLOSettings::getInstanceByObjId($this->container_obj->getId())->worksWithInitialTest();
 		
+		$item_html = array();
 		$has_lo_page = false;
 		foreach($objective_ids as $objective_id)
 		{	
@@ -276,10 +270,11 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 			{
 				$lur_data[$objective_id] = array("type"=>ilLOSettings::TYPE_TEST_INITIAL);
 			}
-						
+			
+			
 			if($html = $this->renderObjective($objective_id, $has_lo_page, $acc, $lur_data[$objective_id]))
 			{
-				$this->renderer->addItemToBlock('lobj', 'lobj', $objective_id, $html);
+				$item_html[] = $html;
 			}
 		}
 		
@@ -298,11 +293,20 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 		// order/block
 		if($a_is_order)
 		{					
-			$this->addFooterRow();
-		
-			$this->output_html .= $output_html.$this->renderer->getHTML();
+			// if we have at least one item, output the block		
+			if (count($item_html) > 0)
+			{
+				$tpl = $this->newBlockTemplate();
 
-			$this->renderer->resetDetails();					
+				$this->addHeaderRow($tpl,'lobj',$lng->txt('crs_objectives'));
+				foreach($item_html as $h)
+				{
+					$this->addStandardRow($tpl, $h);
+				}
+
+				$this->addFooterRow($tpl);
+				$this->output_html .= $tpl->get();
+			}
 		}
 		// view/accordion
 		else
@@ -318,24 +322,39 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 	 * @param
 	 * @return
 	 */
-	public function addFooterRow()
-	{		
+	public function addFooterRow($tpl)
+	{
+		global $ilCtrl;
+		
 		// no details
 		return;
 		
 		/*
-		global $ilCtrl;
-				
+		$tpl->setCurrentBlock('details_img');
+		
+		$append = $this->details_level == self::DETAILS_TITLE ? 'off' : '';
+		$tpl->setCurrentBlock('details_img');
+		$tpl->setVariable('DETAILS_SRC',ilUtil::getImagePath('details2'.$append.'.png'));
+		$tpl->setVariable('DETAILS_ALT',$this->lng->txt('details').' 2');
 		$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->getContainerObject()->getRefId());
 		$ilCtrl->setParameterByClass("ilrepositorygui", "details_level", "1");
-		$url = $ilCtrl->getLinkTargetByClass("ilrepositorygui", "");		
-		$this->renderer->addDetailsLevel(2, $url, ($this->details_level == self::DETAILS_TITLE));
-		
+		$tpl->setVariable('DETAILS_LINK',
+			$ilCtrl->getLinkTargetByClass("ilrepositorygui", ""));
+		$tpl->parseCurrentBlock();
+
+		$append = $this->details_level == self::DETAILS_ALL ? 'off' : '';
+		$tpl->setCurrentBlock('details_img');
+		$tpl->setVariable('DETAILS_SRC',ilUtil::getImagePath('details3'.$append.'.png'));
+		$tpl->setVariable('DETAILS_ALT',$this->lng->txt('details').' 3');
 		$ilCtrl->setParameterByClass("ilrepositorygui", "details_level", "2");
-		$url = $ilCtrl->getLinkTargetByClass("ilrepositorygui", "");		
-		$this->renderer->addDetailsLevel(3, $url, ($this->details_level == self::DETAILS_ALL));
+		$tpl->setVariable('DETAILS_LINK',
+			$ilCtrl->getLinkTargetByClass("ilrepositorygui", ""));
+		$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
+		$tpl->parseCurrentBlock();
 		
-		$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);	
+		$tpl->setCurrentBlock('container_details_row');
+		$tpl->setVariable('TXT_DETAILS',$this->lng->txt('details'));
+		$tpl->parseCurrentBlock();		 
 		*/
 	}		
 	
@@ -489,60 +508,45 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 					$html = $this->renderItem($item_data,$position++,$a_mode == self::MATERIALS_TESTS ? false : true);
 					if ($html != "")
 					{
-						$item_r[] = array("html" => $html, "id" => $item_data["child"], "type" => $item_data["type"]);
+						$item_r[] = array("html" => $html, "id" => $item_data["child"]);
 					}
 				}
 			}
 			
 			// if we have at least one item, output the block
 			if (count($item_r) > 0)
-			{				
+			{
+				switch($a_mode)
+				{
+					case self::MATERIALS_TESTS:
+						$txt = $lng->txt('objs_tst');
+						break;
+						
+					case self::MATERIALS_OTHER:
+						$txt = $lng->txt('crs_other_resources');
+						break;
+				}
+				
 				if(!$a_as_accordion)
 				{		
-					$pos = 0;
-					
-					switch($a_mode)
-					{
-						case self::MATERIALS_TESTS:
-							$block_id = "tst";
-							$this->renderer->addTypeBlock($block_id);						
-							break;
-
-						case self::MATERIALS_OTHER:
-							$block_id = "oth";
-							$this->renderer->addCustomBlock($block_id, $lng->txt('crs_other_resources'));					
-							break;
-					}				
+					$tpl = $this->newBlockTemplate();
 
 					// :TODO:
 					if ($a_mode != self::MATERIALS_TESTS)
 					{
-						$pos = $this->getItemGroupsHTML();
+						$this->getItemGroupsHTML($tpl);
 					}
-				
+
+					$this->addHeaderRow($tpl,$a_mode == self::MATERIALS_TESTS ? 'tst' : '',$txt);
 					foreach($item_r as $h)
 					{
-						if(!$this->renderer->hasItem($h["id"]))
-						{					
-							$this->renderer->addItemToBlock($block_id, $h["type"], $h["id"], $h["html"]);		
-						}
+						$this->addStandardRow($tpl, $h["html"], $h["id"]);
 					}
 					
-					$this->output_html .= $this->renderer->getHTML();
+					$this->output_html .= $tpl->get();
 				}
 				else
 				{
-					switch($a_mode)
-					{
-						case self::MATERIALS_TESTS:
-							$txt = $lng->txt('objs_tst');
-							break;
-
-						case self::MATERIALS_OTHER:
-							$txt = $lng->txt('crs_other_resources');
-							break;
-					}
-					
 					include_once "Services/Accordion/classes/class.ilAccordionGUI.php";
 					$acc = new ilAccordionGUI();
 					$acc->setId("crsobjtvmat".$a_mode."_".$this->container_obj->getId());

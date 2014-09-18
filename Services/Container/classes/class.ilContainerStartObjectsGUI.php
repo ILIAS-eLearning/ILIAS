@@ -55,7 +55,7 @@ class ilContainerStartObjectsGUI
 					unset($new_page_object);
 				}
 				
-				$this->ctrl->setReturnByClass("ilcontainerpagegui", "edit");				
+				$this->ctrl->setReturnByClass("ilcontainerstartobjectspagegui", "edit");				
 				include_once "Services/Container/classes/class.ilContainerStartObjectsPageGUI.php";
 				$pgui = new ilContainerStartObjectsPageGUI($this->object->getId());			
 				

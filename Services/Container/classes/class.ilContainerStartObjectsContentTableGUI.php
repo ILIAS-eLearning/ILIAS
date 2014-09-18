@@ -178,6 +178,9 @@ class ilContainerStartObjectsContentTableGUI extends ilTable2GUI
 		{
 			$item_list_gui = $this->item_list_guis[$a_type];
 		}
+		
+		$item_list_gui->setDefaultCommandParameters(array());
+		
 		return $item_list_gui;
 	}
 	
@@ -227,7 +230,6 @@ class ilContainerStartObjectsContentTableGUI extends ilTable2GUI
 		{
 			$item_list_gui->setDefaultCommandParameters($a_item["append_default"]);
 		}
-		
 		if (is_object($item_list_gui))
 		{
 			return $item_list_gui->getListItemHTML($a_item["ref_id"],
@@ -239,7 +241,26 @@ class ilContainerStartObjectsContentTableGUI extends ilTable2GUI
 	{										
 		$this->tpl->setVariable("VAL_NR", $a_set["nr"]);
 		
+		// begin-patch lok
 		$this->tpl->setVariable("TXT_TITLE", $this->getListItem($a_set));
+		/*
+		include_once './Modules/Course/classes/Objectives/class.ilLOSettings.php';
+		if(ilLOSettings::getInstanceByObjId($this->getParentObject()->object->getId())->isObjectiveTest($a_set['ref_id']))
+		{
+			$this->ctrl->setParameter($this->getParentObject(),'tid',$a_set['ref_id']);
+			$this->tpl->setVariable('TYPE_IMG',ilUtil::getTypeIconPath($a_set['type'], $a_set['obj_id'], 'small'));
+			$this->tpl->setVariable('TITLE_MANUAL_LINK',$this->ctrl->getLinkTargetByClass(get_class($this->getParentObject()),'redirectLocToTest'));
+			$this->tpl->setVariable('VAL_TITLE_MANUAL',$a_set['title']);
+		}
+		else
+		{
+			$this->tpl->setVariable('TYPE_IMG',ilUtil::getTypeIconPath($a_set['type'], $a_set['obj_id'], 'small'));
+			include_once './Services/Link/classes/class.ilLink.php';
+			$this->tpl->setVariable('TITLE_MANUAL_LINK',ilLink::_getLink($a_set['ref_id']));
+			$this->tpl->setVariable('VAL_TITLE_MANUAL',$a_set['title']);
+		}
+		// end-patch lok
+		*/
 		
 		$this->tpl->setVariable("TXT_STATUS", $a_set["status"]);
 		$this->tpl->setVariable("IMG_STATUS", $a_set["status_img"]);
