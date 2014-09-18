@@ -1542,11 +1542,12 @@ class ilObjQuestionPool extends ilObject
 		$allowed_types = array(
 			"assSingleChoice" => 1,
 			"assMultipleChoice" => 2,
-			"assClozeTest" => 3,
-			"assMatchingQuestion" => 4,
-			"assOrderingQuestion" => 5,
-			"assOrderingHorizontal" => 6,
-			"assImagemapQuestion" => 7,
+			"assKprimChoice" => 3,
+			"assClozeTest" => 4,
+			"assMatchingQuestion" => 5,
+			"assOrderingQuestion" => 6,
+			"assOrderingHorizontal" => 7,
+			"assImagemapQuestion" => 8,
 			"assTextSubset" => 9,
 			"assErrorText" => 10
 			);

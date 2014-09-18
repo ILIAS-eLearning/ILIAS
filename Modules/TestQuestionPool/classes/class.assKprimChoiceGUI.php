@@ -49,6 +49,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
 		}
 
 		$this->getQuestionTemplate();
+		$this->tpl->addCss('Modules/Test/templates/default/ta.css');
 
 		$this->tpl->setVariable("QUESTION_DATA", $this->ctrl->getHTML($form));
 	}
@@ -147,7 +148,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
 			$form->addItem($answerType);
 		}
 
-		if( $this->object->isSingleLineAnswerType($this->object->getAnswerType()) )
+		if( !$this->object->getSelfAssessmentEditingMode() && $this->object->isSingleLineAnswerType($this->object->getAnswerType()) )
 		{
 			// thumb size
 			$thumbSize = new ilNumberInputGUI($this->lng->txt('thumb_size'), 'thumb_size');
@@ -197,10 +198,13 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
 		$form->addItem($points);
 		
 		// score partial solution
-		$scorePartialSolution = new ilCheckboxInputGUI($this->lng->txt('score_partsol_enabled'), 'score_partsol_enabled');
-		$scorePartialSolution->setInfo($this->lng->txt('score_partsol_enabled_info'));
-		$scorePartialSolution->setChecked( $this->object->isScorePartialSolutionEnabled() );
-		$form->addItem($scorePartialSolution);
+		if( !$this->object->getSelfAssessmentEditingMode() )
+		{
+			$scorePartialSolution = new ilCheckboxInputGUI($this->lng->txt('score_partsol_enabled'), 'score_partsol_enabled');
+			$scorePartialSolution->setInfo($this->lng->txt('score_partsol_enabled_info'));
+			$scorePartialSolution->setChecked( $this->object->isScorePartialSolutionEnabled() );
+			$form->addItem($scorePartialSolution);
+		}
 		
 		return $form;
 	}
@@ -214,9 +218,16 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
 		
 		$this->object->setShuffleAnswersEnabled($form->getItemByPostVar('shuffle_answers_enabled')->getChecked());
 		
-		$this->object->setAnswerType($form->getItemByPostVar('answer_type')->getValue());
+		if( !$this->object->getSelfAssessmentEditingMode() )
+		{
+			$this->object->setAnswerType($form->getItemByPostVar('answer_type')->getValue());
+		}
+		else
+		{
+			$this->object->setAnswerType(assKprimChoice::ANSWER_TYPE_MULTI_LINE);
+		}
 
-		if( $this->object->isSingleLineAnswerType($oldAnswerType) )
+		if( !$this->object->getSelfAssessmentEditingMode() && $this->object->isSingleLineAnswerType($oldAnswerType) )
 		{
 			$this->object->setThumbSize($form->getItemByPostVar('thumb_size')->getValue());
 		}
@@ -234,8 +245,15 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
 		}
 		
 		$this->object->setPoints($form->getItemByPostVar('points')->getValue());
-		
-		$this->object->setScorePartialSolutionEnabled($form->getItemByPostVar('score_partsol_enabled')->getChecked());
+
+		if( !$this->object->getSelfAssessmentEditingMode() )
+		{
+			$this->object->setScorePartialSolutionEnabled($form->getItemByPostVar('score_partsol_enabled')->getChecked());
+		}
+		else
+		{
+			$this->object->setScorePartialSolutionEnabled(false);
+		}
 	}
 
 	/**
@@ -249,7 +267,14 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
 		$kprimAnswers->setInfo($this->lng->txt('kprim_answers_info'));
 		$kprimAnswers->setRequired(true);
 		$kprimAnswers->setQuestionObject($this->object);
-		$kprimAnswers->setSingleline($this->object->isSingleLineAnswerType($this->object->getAnswerType()));
+		if( !$this->object->getSelfAssessmentEditingMode() )
+		{
+			$kprimAnswers->setSingleline($this->object->isSingleLineAnswerType($this->object->getAnswerType()));
+		}
+		else
+		{
+			$kprimAnswers->setSingleline(false);
+		}
 		$kprimAnswers->setValues($this->object->getAnswers());
 		$form->addItem($kprimAnswers);
 		

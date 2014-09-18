@@ -37,6 +37,54 @@
 	renderILQuestion{VAL_ID}();
 </script>
 <!-- END multiplechoice -->
+<!-- BEGIN kprimchoice -->
+<div id="container{VAL_ID}" class="ilc_question_MultipleChoice">
+	<div class="ilc_qtitle_Title question id@id">qtitle</div>
+	<table class="nobackground ilAssKprimChoiceTable">
+		<tr>
+			<th class="optionLabel">{OPTION_LABEL_TRUE}</th>
+			<th class="optionLabel">{OPTION_LABEL_FALSE}</th>
+			<th></th>
+		</tr>
+		<!-- pure js tpl for answers begin -->
+		<tr class="answers">
+			<td class="kprimInput">
+				<input class="" type="radio" name="qtrueinputname" value="{VALUE_TRUE}" />
+			</td>
+			<td class="kprimInput" width="15">
+				<input type="radio" name="qfalseinputname" value="{VALUE_FALSE}" />
+			</td>
+			<td class="answertext">qanswertext</td>
+		</tr>
+		<!-- pure js tpl for answers end -->
+	</table>
+<div id="feedback{VAL_ID}" style="display:none"></div>
+<input type="button" class="ilc_qsubmit_Submit" id="button{VAL_ID}" {VAL_NO_DISPLAY} onclick="ilias.questions.checkAnswers({VAL_ID})" value="{TXT_SUBMIT_ANSWERS}" />
+</div>
+<script>
+(function(questionData){
+
+	ilias.questions.shuffle(questionData);
+
+	$('div#container'+questionData.id+' div.question').autoRender(questionData);
+
+	$('div#container'+questionData.id).render(questionData, {
+		'tr.answers':
+		{
+			'answer <- answers':
+			{
+				'td.answertext': 'answer.answertext',
+				'td.kprimInput input@name': function(arg)
+				{
+					return 'kprim_choice_'+questionData.id+'_result_'+arg.context.answers[arg.pos].order;
+				}
+			}
+		}
+	});
+
+})(questions[{VAL_ID}]);
+</script>
+<!-- END kprimchoice -->
 <!-- BEGIN orderingquestion -->
 <div id="container{VAL_ID}" class="ilc_question_OrderingQuestion">
 <div class="ilc_qtitle_Title question id@id">qtitle</div>	

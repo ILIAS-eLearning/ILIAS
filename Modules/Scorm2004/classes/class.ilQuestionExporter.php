@@ -171,7 +171,50 @@ class ilQuestionExporter
 //		$this->setHeaderFooter();
 		return $this->tpl->get();
 	}
-	
+
+
+	private function assKprimChoice()
+	{
+		global $tpl;
+		$tpl->addCss('Modules/Test/templates/default/ta.css');
+		
+		$this->tpl->setCurrentBlock("kprimchoice");
+		
+		$this->tpl->setVariable("TXT_SUBMIT_ANSWERS", $this->lng->txt("cont_submit_answers"));
+		$this->tpl->setVariable("VAL_ID", $this->json_decoded->id);
+		
+		if( $this->preview_mode )
+		{
+			$this->tpl->setVariable("VAL_NO_DISPLAY", "style=\"display:none\"");
+		}
+		
+		if( $this->json_decoded->path )
+		{
+			$this->tpl->setVariable("HANDLE_IMAGES",
+				"ilias.questions.handleMCImages(".$this->json_decoded->id.");");
+		}
+		
+		$this->tpl->setVariable('OPTION_LABEL_TRUE', $this->json_decoded->trueOptionLabel);
+		$this->tpl->setVariable('OPTION_LABEL_FALSE', $this->json_decoded->falseOptionLabel);
+		
+		$this->tpl->setVariable('VALUE_TRUE', 1);
+		$this->tpl->setVariable('VALUE_FALSE', 0);
+		
+		$this->tpl->parseCurrentBlock();
+		
+		foreach( $this->json_decoded->answers as $answer )
+		{
+			if( $answer->image != "" )
+			{
+				self::$media_files[] = $answer->getImageFsPath();
+				self::$media_files[] = $answer->getThumbFsPath();
+			}
+		}
+		
+		//		$this->setHeaderFooter();
+		
+		return $this->tpl->get();
+	}
 	
 	private function assTextQuestion() {
 		$maxlength = $this->json_decoded->maxlength == 0 ? 4096 : $this->json_decoded->maxlength;

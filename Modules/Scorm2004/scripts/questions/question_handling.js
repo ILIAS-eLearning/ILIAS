@@ -194,6 +194,35 @@ ilias.questions.assMultipleChoice = function(a_id) {
 	ilias.questions.showFeedback(a_id);			
 };
 
+ilias.questions.assKprimChoice = function(a_id) {
+
+	answers[a_id].wrong = 0;
+	answers[a_id].passed = true;
+	answers[a_id].choice = [];
+
+	for (var i = 0; i < questions[a_id].answers.length; i++)
+	{
+		var answer = questions[a_id].answers[i];
+		var input = jQuery('input[name="kprim_choice_'+a_id+'_result_'+answer.order+'"]:checked');
+
+		answers[a_id].answer[i] = true;
+		
+		if( !input || jQuery(input).val() != questions[a_id].answers[i]['correctness'] )
+		{
+			answers[a_id].wrong++;
+			answers[a_id].passed = false;
+			answers[a_id].answer[i] = false;
+		}
+		
+		if( input )
+		{
+			answers[a_id].choice.push(answer.order);
+		}
+	}
+	
+	ilias.questions.showFeedback(a_id);
+};
+
 ilias.questions.assTextQuestion = function(a_id) {
 	jQuery('#button'+a_id).prop("disabled",true);
 	jQuery('#textarea'+a_id).prop("disabled",true);
@@ -828,6 +857,32 @@ ilias.questions.showCorrectAnswers =function(a_id) {
 			}
 			break;
 			//end assMultipleChoice
+
+		case 'assKprimChoice':
+			for( var i = 0; i < questions[a_id].answers.length; i++ )
+			{
+				var correctness = questions[a_id].answers[i].correctness ? 1 : 0;
+				
+				var inputs = jQuery('input[name="kprim_choice_'+a_id+'_result_'+questions[a_id].answers[i].order+'"]');
+				
+				inputs.each(
+					function(pos, input)
+					{
+						if( jQuery(input).val() == questions[a_id].answers[i].correctness )
+						{
+							jQuery(input).prop('checked', true);
+						}
+						else
+						{
+							jQuery(input).prop('checked', false);
+						}
+
+						jQuery(input).prop('disabled', true);
+					}
+				);
+			}
+			break;
+		//end assKprimChoice
 			
 		case 'assImagemapQuestion': 
 			//reinit map

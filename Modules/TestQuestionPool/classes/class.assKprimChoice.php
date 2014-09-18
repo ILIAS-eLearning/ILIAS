@@ -947,4 +947,60 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
 		
 		return $combinedText;
 	}
+
+	/**
+	 * Returns a JSON representation of the question
+	 */
+	public function toJSON()
+	{
+		require_once './Services/RTE/classes/class.ilRTE.php';
+		$result = array();
+		$result['id'] = (int) $this->getId();
+		$result['type'] = (string) $this->getQuestionType();
+		$result['title'] = (string) $this->getTitle();
+		$result['question'] =  $this->formatSAQuestion($this->getQuestion());
+		$result['nr_of_tries'] = (int) $this->getNrOfTries();
+		$result['shuffle'] = (bool) $this->getShuffle();
+		$result['feedback'] = array(
+			'onenotcorrect' => $this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false),
+			'allcorrect' => $this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true)
+		);
+
+		$result['trueOptionLabel'] = $this->getTrueOptionLabelTranslation($this->lng, $this->getOptionLabel());
+		$result['falseOptionLabel'] = $this->getFalseOptionLabelTranslation($this->lng, $this->getOptionLabel());
+		
+		$answers = array();
+		$has_image = false;
+		
+		foreach( $this->getAnswers() as $key => $answer )
+		{
+			if( strlen((string)$answer->getImageFile()) )
+			{
+				$has_image = true;
+			}
+
+			$answers[] = array(
+				'answertext' => (string) $answer->getAnswertext(),
+				'correctness' => (bool) $answer->getCorrectness(),
+				'order' => (int)$answer->getPosition(),
+				'image' => (string)$answer->getImageFile(),
+				'feedback' => ilRTE::_replaceMediaObjectImageSrc(
+					$this->feedbackOBJ->getSpecificAnswerFeedbackExportPresentation($this->getId(), $key), 0
+				)
+			);
+		}
+		
+		$result['answers'] = $answers;
+
+		if($has_image)
+		{
+			$result['path'] = $this->getImagePathWeb();
+			$result['thumb'] = $this->getThumbSize();
+		}
+
+		$mobs = ilObjMediaObject::_getMobsOfObject("qpl:html", $this->getId());
+		$result['mobs'] = $mobs;
+
+		return json_encode($result);
+	}
 }
