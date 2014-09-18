@@ -12,7 +12,7 @@ include_once './Modules/Course/classes/Objectives/class.ilLOEditorStatus.php';
 * $Id$
 *
 * @ilCtrl_isCalledBy ilLOEditorGUI: ilObjCourseGUI
-* @ilCtrl_Calls ilLOEditorGUI: ilCourseObjectivesGUI, ilContainerStartObjectsGUI, ilConditionHandlerInterface
+* @ilCtrl_Calls ilLOEditorGUI: ilCourseObjectivesGUI, ilContainerStartObjectsGUI, ilConditionHandlerGUI
 * @ilCtrl_Calls ilLOEditorGUI: ilLOPageGUI
 *
 */
@@ -87,9 +87,9 @@ class ilLOEditorGUI
 				#$GLOBALS['tpl']->setContent($this->ctrl->getHTML($stgui));
 				break;
 			
-			case 'ilconditionhandlerinterface':
+			case 'ilconditionhandlergui':
 				
-				$this->ctrl->saveParameterByClass('ilconditionhandlerinterface','objective_id');
+				$this->ctrl->saveParameterByClass('ilconditionhandlergui','objective_id');
 				
 				$GLOBALS['ilTabs']->clearTargets();
 				$GLOBALS['ilTabs']->setBackTarget(
@@ -97,7 +97,7 @@ class ilLOEditorGUI
 						$this->ctrl->getLinkTarget($this,'listObjectives'));
 
 				include_once './Services/AccessControl/classes/class.ilConditionHandlerInterface.php';
-				$cond = new ilConditionHandlerInterface($this);
+				$cond = new ilConditionHandlerGUI($this);
 				$cond->setBackButtons(array());
 				$cond->setAutomaticValidation(false);
 				$cond->setTargetType("lobj");
