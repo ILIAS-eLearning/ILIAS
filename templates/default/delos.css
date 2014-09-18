@@ -9052,7 +9052,6 @@ div.ilContainerListItemOuter {
   padding: 15px;
   zoom: 1;
   background-color: #ffffff;
-  margin-bottom: 20px;
 }
 td.ilContainerListFooter {
   padding-left: 15px;
@@ -9074,25 +9073,24 @@ div.il_ContainerListItem {
   padding-left: 8px;
 }
 th.ilContainerBlockHeader {
-  font-family: 'Open Sans Semibold';
+  /* font-family: 'Open Sans Semibold'; */
   font-weight: normal;
-  font-size: 90%;
+  font-size: 130%;
   padding: 2px;
   text-align: left;
   vertical-align: middle;
-  background: url(images/block_top.png) repeat-x #f8f8f8;
-  border-bottom: 1px solid #E9E9E9;
 }
 h3.ilContainerBlockHeader {
-  font-family: 'Open Sans Semibold';
+  /* font-family: 'Open Sans Semibold'; */
   font-weight: normal;
   padding: 0;
   margin: 0;
   display: inline;
   font-size: 100%;
+  color: #909090;
+  text-transform: uppercase;
 }
 table.ilContainerBlock {
-  border: 1px solid #D6D6D6;
   width: 100%;
   /* border-spacing: 0; */
   border-collapse: collapse;
@@ -9356,8 +9354,8 @@ table.il_Block {
   padding: 5px;
   /* box-shadow: 0px 1px 3px 0px lighten(@mid-gray, 45%); */
 }
-#block_pditems_0 div.il_Block {
-  background-color: inherit;
+#il_center_col div.il_Block {
+  background-color: #ffffff;
 }
 div.ilBlockHeader,
 div.ilBlockHeaderBig,
