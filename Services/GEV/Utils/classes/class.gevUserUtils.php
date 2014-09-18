@@ -1004,7 +1004,8 @@ class gevUserUtils {
 		foreach ($ovs as $ov) {
 			// base case after start
 			if ($ovs_cur === null) {
-				$ovs_cur = array($ov, $ov);
+				$cp = new ilDate($ov->get(IL_CAL_DATE), IL_CAL_DATE);
+				$ovs_cur = array($ov, $cp);
 				continue;
 			}
 
@@ -1021,7 +1022,8 @@ class gevUserUtils {
 				// the current night does not directly follow the other night
 				// and therefore starts a new sequence
 				$ovs_cons[] = $ovs_cur;
-				$ovs_cur = array($ov, $ov);
+				$cp = new ilDate($ov->get(IL_CAL_DATE), IL_CAL_DATE);
+				$ovs_cur = array($ov, $cp);
 			}
 		}
 		
