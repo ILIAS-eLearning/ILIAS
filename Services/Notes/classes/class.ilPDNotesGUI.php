@@ -116,7 +116,7 @@ class ilPDNotesGUI
 	*/
 	function view()
 	{
-		global $ilUser, $lng, $ilSetting, $ilAccess;
+		global $ilUser, $lng, $ilSetting, $ilAccess, $ilToolbar;
 
 		//$this->tpl->addBlockFile("ADM_CONTENT", "objects", "tpl.table.html")
 		include_once("Services/Notes/classes/class.ilNoteGUI.php");
@@ -213,52 +213,40 @@ class ilPDNotesGUI
 				$html = $notes_gui->getOnlyCommentsHTML();
 			}			
 		}
-
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.pd_notes.html", "Services/Notes");
 		
 		if (count($rel_objs) > 1 ||
 			($rel_objs[0]["rep_obj_id"] > 0))
 		{			
+			$ilToolbar->setFormAction($this->ctrl->getFormAction($this));
+			
 			foreach($rel_objs as $obj)
-			{
-				$this->tpl->setCurrentBlock("related_option");
-				$this->tpl->setVariable("VAL_RELATED",
-					$obj["rep_obj_id"]);
-//echo "-".$obj["rep_obj_id"]."-".$obj["obj_type"]."-";
+			{				
 				if ($obj["rep_obj_id"] > 0)
 				{
 					$type = ilObject::_lookupType($obj["rep_obj_id"]);
 					$type_str = (in_array($type, array("lm", "htlm", "sahs", "dbk")))
 						? $lng->txt("learning_resource")
 						: $lng->txt("obj_".$type);
-					$this->tpl->setVariable("TXT_RELATED", $type_str.": ".
-						ilObject::_lookupTitle($obj["rep_obj_id"]));
+					$caption = $type_str.": ".ilObject::_lookupTitle($obj["rep_obj_id"]);
 				}
 				else
 				{
-					$this->tpl->setVariable("TXT_RELATED",
-						$lng->txt("personal_desktop"));
+					$caption = $lng->txt("personal_desktop");
 				}
-				if ($obj["rep_obj_id"] == $this->current_rel_obj)
-				{
-					$this->tpl->setVariable("SEL", 'selected="selected"');
-				}
-				$this->tpl->parseCurrentBlock();
+				
+				$options[$obj["rep_obj_id"]] = $caption;				
 			}
 			
-			$this->tpl->setCurrentBlock("related_selection");
-			$this->tpl->setVariable("TXT_CHANGE", $lng->txt("change"));
-			$this->tpl->setVariable("TXT_RELATED_TO", $lng->txt("related_to"));
-			$this->tpl->setVariable("TXT_FILTER", $lng->txt("filter"));
-			$this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-			$this->tpl->parseCurrentBlock();
+			include_once "Services/Form/classes/class.ilSelectInputGUI.php";
+			$rel = new ilSelectInputGUI($lng->txt("related_to"), "rel_obj");
+			$rel->setOptions($options);
+			$rel->setValue($this->current_rel_obj);			
+			$ilToolbar->addInputItem($rel);
+			
+			$ilToolbar->addFormButton($lng->txt("change"), "changeRelatedObject");			
 		}
 		
-		$this->tpl->setCurrentBlock("adm_content");
-		// output notes
-		$this->tpl->setVariable("NOTES", $html);
-		$this->tpl->parseCurrentBlock();
-
+		$this->tpl->setContent($html);	
 	}
 	
 	/**

@@ -43,7 +43,7 @@ a.il_PrintBack
 <!-- END notes_img -->
 <h3 class="ilNotesHeader">{TXT_NOTES}<!-- BEGIN title --><br /><span class="small">{TITLE}</span><!-- END title --></h3>
 </div>
-<div class="ilNotes">
+<div class="ilNotes" id="ilNotes">
 <form {ON_SUBMIT_FORM} id="ilNoteForm{FORM_ID}" action="{FORMACTION}" name="cmd" method="post">
 	<div class="il_ContainerItemCommands2" style="text-align:right;">
 	<!-- BEGIN show_notes -->
@@ -140,17 +140,17 @@ a.il_PrintBack
 <tr>
 	<td colspan="2">
 		<img border="0" src="{IMG_ARROW}" alt="{ALT_ARROW}" />
-		<!-- BEGIN delete_cmd --><input type="submit" class="submit" name="cmd[deleteNotes]" value="{TXT_DELETE_NOTES}" /><!-- END delete_cmd -->
-		<input type="submit" class="submit" name="cmd[exportNotesHTML]" value="{TXT_EXPORT_NOTES}" />
-		<input type="submit" class="submit" name="cmd[printNotes]" value="{TXT_PRINT_NOTES}" />
+		<!-- BEGIN delete_cmd --><input type="submit" class="btn btn-default" name="cmd[deleteNotes]" value="{TXT_DELETE_NOTES}" /><!-- END delete_cmd -->
+		<input type="submit" class="btn btn-default" name="cmd[exportNotesHTML]" value="{TXT_EXPORT_NOTES}" />
+		<input type="submit" class="btn btn-default" name="cmd[printNotes]" value="{TXT_PRINT_NOTES}" />
 	</td>
 </tr>
 <!-- END multiple_commands -->
 <!-- BEGIN delete_cancel -->
 <tr>
 	<td colspan="2">
-		<input type="submit" class="submit" name="cmd[confirmDelete]" value="{TXT_DEL_NOTES}" />
-		<input type="submit" class="submit" name="cmd[cancelDelete]" value="{TXT_CANCEL_DEL_NOTES}" />
+		<input type="submit" class="btn btn-default" name="cmd[confirmDelete]" value="{TXT_DEL_NOTES}" />
+		<input type="submit" class="btn btn-default" name="cmd[cancelDelete]" value="{TXT_CANCEL_DEL_NOTES}" />
 	</td>
 </tr>
 <!-- END delete_cancel -->
