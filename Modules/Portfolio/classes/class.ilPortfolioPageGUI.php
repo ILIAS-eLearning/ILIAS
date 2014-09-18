@@ -602,7 +602,6 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 			include_once("./Services/Tracking/classes/class.ilLearningProgressBaseGUI.php");
 			$this->lng->loadLanguageModule("trac");
 			$this->lng->loadLanguageModule("crs");
-			$lng->loadLanguageModule("crs");
 			
 			include_once("./Services/Container/classes/class.ilContainerObjectiveGUI.php");
 			include_once("./Services/Link/classes/class.ilLink.php");

@@ -2290,7 +2290,6 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 						$ilCtrl->setParameter($this->parent_obj, $this->prefix."_trows", "");
 					}
 					$alist->setListTitle($this->getRowSelectorLabel() ? $this->getRowSelectorLabel() : $lng->txt("rows"));
-					$alist->setItemLinkClass("xsmall");
 					$this->tpl->setVariable("ROW_SELECTOR", $alist->getHTML());
 				}
 
