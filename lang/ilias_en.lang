@@ -14866,3 +14866,7 @@ crs#:#crs_loc_progress_no_result_no_initial#:#Please work through the following 
 crs#:#crs_loc_qst_resume_tst_itest#:#Einstiegstests zu verschiedenen Lernzielen dürfen nicht parallel gestartet werden. Sie haben schon einen Einstiegstest zu einem Lernziel gestartet. Entweder setzen Sie diesen alten Test fort oder Sie starten einen neuen Test.
 crs#:#crs_loc_qst_resume_tst_qtest#:#Qualifizierende Tests zu verschiedenen Lernzielen dürfen nicht parallel gestartet werden. Sie haben schon einen qualifizierenden Test zu einem Lernziel gestartet. Entweder setzen Sie diesen alten Test fort oder Sie starten einen neuen Test.
 bibl#:#bibl_library_show_in_list#:#Show link als in the list
+content#:#cont_ie_compatibility#:#Internet Explorer 7 compatibility mode
+content#:#cont_ie_compatibility_info#:#Especially for older learning modules it can be helpful to activate the compatibility mode. Please note that the compatibility mode can be disabled in newer versions of Internet Explorer.
+content#:#cont_ie_force_render#:#Force Internet Explorer to render again
+content#:#cont_ie_force_render_info#:#Enable this option only if content of the learning module is not displayed correctly with Internet Explorer due to many frames or iframes. Additionally you have to set the option 'Display' to 'in new window'.
