@@ -1860,8 +1860,6 @@ class ilTemplate extends ilTemplateX
 			$center_column_class = "one_side_col";
 		}
 
-		// bs-patch start
-		global $ilUser;
 		switch ($center_column_class)
 		{
 			case "one_side_col": $center_column_class = "col-sm-9"; break;
@@ -1872,7 +1870,6 @@ class ilTemplate extends ilTemplateX
 		{
 			$center_column_class.= " col-sm-push-3";
 		}
-		// bs-patch end
 
 		$this->setCurrentBlock("center_col_width");
 		$this->setVariable("CENTER_COL", $center_column_class);
@@ -1896,6 +1893,10 @@ class ilTemplate extends ilTemplateX
 		{
 			$this->setCurrentBlock("left_column");
 			$this->setVariable("LEFT_CONTENT", $this->left_content);
+			$left_col_class = (trim($this->right_content) == "")
+				? "col-sm-3 col-sm-pull-9"
+				: "col-sm-3 col-sm-pull-6";
+			$this->setVariable("LEFT_COL_CLASS", $left_col_class);
 			$this->parseCurrentBlock();
 		}
 	}
