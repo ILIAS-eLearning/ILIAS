@@ -3271,3 +3271,17 @@ if( !$ilDB->tableColumnExists('conditions', 'hidden_status') )
 	));
 }
 ?>
+<#4349>
+<?php
+	if($ilDB->tableColumnExists('frm_posts', 'pos_usr_id'))
+	{
+		$ilDB->dropTableColumn('frm_posts', 'pos_usr_id');
+	}
+?>
+<#4350>
+<?php
+	if($ilDB->tableColumnExists('frm_threads', 'thr_usr_id'))
+	{
+		$ilDB->dropTableColumn('frm_threads', 'thr_usr_id');
+	}
+?>
