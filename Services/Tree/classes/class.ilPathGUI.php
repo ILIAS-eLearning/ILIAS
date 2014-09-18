@@ -38,6 +38,7 @@ class ilPathGUI
 	private $textOnly = true;
 	private $useImages = false;
 	private $hide_leaf = true;
+	private $display_cut = false;
 	
 	protected $lng = null;
 	protected $tree = null;
@@ -118,6 +119,24 @@ class ilPathGUI
 	{
 		return $this->useImages;
 	}
+
+	/**
+	 * Display a cut with "..."
+	 * @param $a_status bool
+	 */
+	public function enableDisplayCut($a_status)
+	{
+		$this->display_cut = $a_status;
+	}
+
+	/**
+	 * Display a cut with "..."
+	 * @return bool
+	 */
+	public function  displayCut()
+	{
+		return $this->display_cut;
+	}
 	
 	/**
 	 * get html 
@@ -130,6 +149,17 @@ class ilPathGUI
 			$tpl = new ilTemplate('tpl.locator_text_only.html',true,true, "Services/Locator");
 			
 			$first = true;
+
+			// Display cut
+			if($this->displayCut() && $this->startnode != ROOT_FOLDER_ID)
+			{
+				$tpl->setCurrentBlock('locator_item');
+				$tpl->setVariable('ITEM',"...");
+				$tpl->parseCurrentBlock();
+
+				$first = false;
+			}
+
 			foreach($this->getPathIds() as $ref_id)
 			{
 				$obj_id = ilObject::_lookupObjId($ref_id);
@@ -162,6 +192,17 @@ class ilPathGUI
 			$tpl = new ilTemplate('tpl.locator.html',true,true,'Services/Locator');
 			
 			$first = true;
+
+			// Display cut 
+			if($this->displayCut() && $this->startnode != ROOT_FOLDER_ID)
+			{
+				$tpl->setCurrentBlock('locator_item');
+				$tpl->setVariable('ITEM',"...");
+				$tpl->parseCurrentBlock();
+
+				$first = false;
+			}
+
 			foreach($this->getPathIds() as $ref_id)
 			{
 				$obj_id = ilObject::_lookupObjId($ref_id);

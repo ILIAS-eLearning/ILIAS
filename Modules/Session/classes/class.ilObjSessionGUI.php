@@ -944,71 +944,12 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 		include_once 'Modules/Session/classes/class.ilEventItems.php';
 		$this->event_items = new ilEventItems($this->object->getId());
-		$items = $this->event_items->getItems();
 
-		$this->tpl->addBlockFile('ADM_CONTENT','adm_content','tpl.sess_materials.html','Modules/Session');
-		#$this->tpl->addBlockfile("BUTTONS", "buttons", "tpl.buttons.html");
+		include_once 'Modules/Session/classes/class.ilSessionMaterialsTableGUI.php';
+		$tbl = new ilSessionMaterialsTableGUI($this, "materials");
 
-		$this->tpl->setVariable("FORMACTION",$this->ctrl->getFormAction($this,'materials'));
-		$this->tpl->setVariable("COLL_TITLE_IMG",ilUtil::getImagePath('icon_sess.png'));
-		$this->tpl->setVariable("COLL_TITLE_IMG_ALT",$this->lng->txt('events'));
-		$this->tpl->setVariable("TABLE_TITLE",$this->lng->txt('event_assign_materials_table'));
-		$this->tpl->setVariable("TABLE_INFO",$this->lng->txt('event_assign_materials_info'));
+		$this->tpl->setVariable('ADM_CONTENT', $tbl->getHTML());
 
-		$materials = array();
-		$nodes = $tree->getSubTree($tree->getNodeData($parent_ref_id));
-		foreach($nodes as $node)
-		{
-			// No side blocks here
-			if ($node['child'] == $parent_ref_id ||
-				$objDefinition->isSideBlock($node['type']) ||
-				in_array($node['type'], array('sess', 'itgr', 'rolf')))
-			{
-				continue;
-			}
-			
-			if($node['type'] == 'rolf')
-			{
-				continue;
-			}
-			
-			$node["sorthash"] = (int)(!in_array($node['ref_id'],$items)).$node["title"];
-			$materials[] = $node;
-		}
-		
-		
-		$materials = ilUtil::sortArray($materials, "sorthash", "ASC");
-		
-		$counter = 1;
-		foreach($materials as $node)
-		{
-			$counter++;
-			
-			$this->tpl->setCurrentBlock("material_row");
-			
-			$this->tpl->setVariable('TYPE_IMG', ilObject::_getIcon('', 'tiny', $node['type']));
-			$this->tpl->setVariable('IMG_ALT',$this->lng->txt('obj_'.$node['type']));
-			$this->tpl->setVariable("ROW_CLASS",ilUtil::switchColor($counter,'tblrow1','tblrow2'));
-			$this->tpl->setVariable("CHECK_COLL",ilUtil::formCheckbox(in_array($node['ref_id'],$items) ? 1 : 0,
-																	  'items[]',$node['ref_id']));
-			$this->tpl->setVariable("COLL_TITLE",$node['title']);
-
-			if(strlen($node['description']))
-			{
-				$this->tpl->setVariable("COLL_DESC",$node['description']);
-			}
-			$this->tpl->setVariable("ASSIGNED_IMG_OK",in_array($node['ref_id'],$items) ? 
-									ilUtil::getImagePath('icon_ok.png') :
-									ilUtil::getImagePath('icon_not_ok.png'));
-			$this->tpl->setVariable("ASSIGNED_STATUS",$this->lng->txt('event_material_assigned'));
-			$this->tpl->setVariable("COLL_PATH",$this->formatPath($node['ref_id']));
-			$this->tpl->parseCurrentBlock();
-		}
-
-		$this->tpl->setVariable("SELECT_ROW",ilUtil::switchColor(++$counter,'tblrow1','tblrow2'));
-		$this->tpl->setVariable("SELECT_ALL",$this->lng->txt('select_all'));
-		$this->tpl->setVariable("IMG_ARROW",ilUtil::getImagePath('arrow_downright.png'));
-		$this->tpl->setVariable("BTN_SAVE",$this->lng->txt('save'));
 	}
 	
 	/**
@@ -1890,34 +1831,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 	{
 		return mktime($time['h'],$time['m'],0,$date['m'],$date['d'],$date['y']);
 	}
-	
-	/**
-	 * format path
-	 *
-	 * @access protected
-	 * @param int ref_id
-	 */
-	protected function formatPath($a_ref_id)
-	{
-		global $tree;
 
-		$path = $this->lng->txt('path') . ': ';
-		$first = true;
-		foreach($tree->getPathFull($a_ref_id,$this->container_ref_id) as $node)
-		{
-			if($node['ref_id'] != $a_ref_id)
-			{
-				if(!$first)
-				{
-					$path .= ' -> ';
-				}
-				$first = false;
-				$path .= $node['title'];
-			}
-		}
-		return $path;
-	}
-	
 	/**
 	 * Add session locator
 	 *
@@ -2169,6 +2083,16 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		return true;
 		
 	}
-	
-}
+	/**
+	 * container ref id
+	 * @return int ref id
+	 */
+	public function getContainerRefId()
+	{
+		if(!$this->container_ref_id)
+		{
+			$this->initContainer();
+		}
+		return $this->container_ref_id;
+	}}
 ?>
