@@ -457,15 +457,13 @@ class ilSurveyExecutionGUI
 				if(!$this->preview)
 				{
 					$this->tpl->setVariable("TEXT_SUSPEND", $this->lng->txt("cancel_survey"));
-					$this->tpl->setVariable("HREF_SUSPEND", $this->ctrl->getLinkTargetByClass("ilObjSurveyGUI", "infoScreen"));
-					$this->tpl->setVariable("HREF_IMG_SUSPEND", $this->ctrl->getLinkTargetByClass("ilObjSurveyGUI", "infoScreen"));
+					$this->tpl->setVariable("HREF_SUSPEND", $this->ctrl->getLinkTargetByClass("ilObjSurveyGUI", "infoScreen"));					
 				}
 				else
 				{
 					$this->ctrl->setParameterByClass("ilObjSurveyGUI", "pgov", $_REQUEST["pgov"]);
 					$this->tpl->setVariable("TEXT_SUSPEND", $this->lng->txt("survey_cancel_preview"));
-					$this->tpl->setVariable("HREF_SUSPEND", $this->ctrl->getLinkTargetByClass(array("ilObjSurveyGUI", "ilSurveyEditorGUI"), "questions"));
-					$this->tpl->setVariable("HREF_IMG_SUSPEND", $this->ctrl->getLinkTargetByClass(array("ilObjSurveyGUI", "ilSurveyEditorGUI"), "questions"));
+					$this->tpl->setVariable("HREF_SUSPEND", $this->ctrl->getLinkTargetByClass(array("ilObjSurveyGUI", "ilSurveyEditorGUI"), "questions"));					
 				}
 				
 				$this->tpl->setVariable("ALT_IMG_SUSPEND", $this->lng->txt("cancel_survey"));
