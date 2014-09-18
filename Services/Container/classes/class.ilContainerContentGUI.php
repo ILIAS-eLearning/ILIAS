@@ -209,12 +209,12 @@ abstract class ilContainerContentGUI
 	{							
 		include_once('./Services/Container/classes/class.ilContainerSorting.php');					
 		$sorting = ilContainerSorting::_getInstance($this->getContainerObject()->getId());
-	
+		
 		include_once "Services/Container/classes/class.ilContainerRenderer.php";
 		$this->renderer = new ilContainerRenderer(
 			($this->getContainerGUI()->isActiveAdministrationPanel() && !$_SESSION["clipboard"])
 			,$this->getContainerGUI()->isMultiDownloadEnabled()
-			,$this->getContainerGUI()->isActiveOrdering()
+			,$this->getContainerGUI()->isActiveOrdering() && (get_class($this) != "ilContainerObjectiveGUI") // no block sorting in objective view
 			,$sorting->getBlockPositions()
 		);				
 	}
