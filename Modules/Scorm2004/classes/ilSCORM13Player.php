@@ -307,6 +307,7 @@ class ilSCORM13Player
 			'auto_review' => $this->slm->getAutoReviewChar(),
 			'hide_navig' => $this->slm->getHideNavig(),
 			'hide_menu' => $this->slm->getNoMenu(),
+			'ie_force_render' => $this->slm->getIe_force_render(),
 			'fourth_edition' => $this->slm->getFourth_edition(),
 			'sequencing_enabled' => $this->slm->getSequencing(),
 			'interactions_storable' => $this->slm->getInteractions(),
@@ -352,7 +353,8 @@ class ilSCORM13Player
 
 		//session
 		if ($this->slm->getSession()) {
-			$session_timeout = (int)($ilias->ini->readVariable("session","expire"))/2;
+//			$session_timeout = (int)($ilias->ini->readVariable("session","expire"))/2;
+			$session_timeout = (int)ilSession::getIdleValue()/2;
 		} else {
 			$session_timeout = 0;
 		}
@@ -425,6 +427,7 @@ class ilSCORM13Player
 		$this->tpl->setVariable('TREE_JS', "./Services/UIComponent/NestedList/js/ilNestedList.js");
 		$this->tpl->setVariable($langstrings);
 		$this->tpl->setVariable('DOC_TITLE', 'ILIAS SCORM 2004 Player');
+		if ($this->slm->getIe_compatibility()) $this->tpl->setVariable('IE_COMPATIBILITY', '<meta http-equiv="X-UA-Compatible" content="IE=7" />');
 		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 		$this->tpl->setVariable('INIT_CP_DATA', json_encode(json_decode($this->getCPDataInit())));
 		$this->tpl->setVariable('INIT_CMI_DATA', json_encode($this->getCMIData($this->userId, $this->packageId)));
