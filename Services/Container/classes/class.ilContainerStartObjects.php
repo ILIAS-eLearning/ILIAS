@@ -72,6 +72,12 @@ class ilContainerStartObjects
 		return true;
 	}
 	
+	/**
+	 * Delete item by sequence id
+	 * @global type $ilDB
+	 * @param type $a_crs_start_id
+	 * @return boolean
+	 */
 	public function delete($a_crs_start_id)
 	{
 		global $ilDB;
@@ -79,6 +85,21 @@ class ilContainerStartObjects
 		$query = "DELETE FROM crs_start".
 			" WHERE crs_start_id = ".$ilDB->quote($a_crs_start_id, 'integer').
 			" AND crs_id = ".$ilDB->quote($this->getObjId(), 'integer');
+		$ilDB->manipulate($query);
+		return true;
+	}
+	
+	/**
+	 * Delete item by ref_id
+	 * @param type $a_item_ref_id
+	 */
+	public function deleteItem($a_item_ref_id)
+	{
+		global $ilDB;
+		
+		$query = "DELETE FROM crs_start".
+			" WHERE crs_id = ".$ilDB->quote($this->getObjId(), 'integer').
+			" AND item_ref_id = ".$ilDB->quote($a_item_ref_id, 'integer');
 		$ilDB->manipulate($query);
 		return true;
 	}
@@ -252,6 +273,29 @@ class ilContainerStartObjects
 		$ilLog->write(__METHOD__.': ... end course start objects');
 	 	return true;
 	}
+	
+	/**
+	 * Check if object is start object
+	 * @global type $ilDB
+	 * @param type $a_container_id
+	 * @param type $a_item_ref_id
+	 * @return boolean
+	 */
+	public static function isStartObject($a_container_id, $a_item_ref_id)
+	{
+		global $ilDB;
+		
+		$query = 'SELECT crs_start_id FROM crs_start '.
+			'WHERE crs_id = '.$ilDB->quote($a_container_id,'integer').' '.
+			'AND item_ref_id = '.$ilDB->quote($a_item_ref_id,'integer');
+		$res = $ilDB->query($query);
+		if($res->numRows() >= 1)
+		{
+			return true;
+		}
+		return false;
+	}
+	
 } 
 
 ?>
