@@ -491,9 +491,9 @@ class gevUserUtils {
 			$additional_where .=
 				" AND ( ( NOT start_date.value >= ".$this->db->quote(date("Y-m-d", $a_search_options["period"]["end"]))." ) ".
 				"       OR ".$this->db->in("ltype.value", array("Selbstlernkurs"), false, "text").") ".
-				" AND ( ( NOT end_date.value <= ".$this->db->quote(date("Y-m-d", $a_search_options["period"]["start"]))." ) ".
+				" AND ( ( NOT end_date.value < ".$this->db->quote(date("Y-m-d", $a_search_options["period"]["start"]))." ) ".
 				"       OR ".$this->db->in("ltype.value", array("Selbstlernkurs"), false, "text").") ".
-				"       OR (end_date.value IS NULL AND NOT start_date.value <= ".$this->db->quote(date("Y-m-d", $a_search_options["period"]["start"])).")"
+				"       OR (end_date.value IS NULL AND NOT start_date.value < ".$this->db->quote(date("Y-m-d", $a_search_options["period"]["start"])).")"
 				;
 		}
 		
