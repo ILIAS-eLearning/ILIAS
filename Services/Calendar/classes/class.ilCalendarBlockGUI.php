@@ -494,7 +494,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
 				$this->ctrl->getLinkTarget($this,'showCalendarSubscription'),
 				$lng->txt('ical_export'),
 				'',
-				ilUtil::getImagePath('ical.png','Services/Calendar'),
+				ilUtil::getImagePath('ical.png'),
 				true
 			);
 		}
