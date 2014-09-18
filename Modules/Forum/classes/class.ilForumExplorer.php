@@ -226,6 +226,7 @@ class ilForumExplorer
 
 		require_once 'Modules/Forum/classes/class.ilForumAuthorInformation.php';
 		$authorinfo = new ilForumAuthorInformation(
+			$object['pos_author_id'],
 			$object['pos_display_user_id'],
 			$object['pos_usr_alias'],
 			$object['import_name']

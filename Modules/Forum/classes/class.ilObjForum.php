@@ -936,7 +936,7 @@ class ilObjForum extends ilObject
 		$act_clause = '';
 		if(!$ilAccess->checkAccess('moderate_frm', '', $ref_id))
 		{
-			$act_clause .= " AND (frm_posts.pos_status = " . $ilDB->quote(1, "integer") . " OR frm_posts.pos_display_user_id = " . $ilDB->quote($ilUser->getId(), "integer") . ") ";
+			$act_clause .= " AND (frm_posts.pos_status = " . $ilDB->quote(1, "integer") . " OR frm_posts.pos_author_id = " . $ilDB->quote($ilUser->getId(), "integer") . ") ";
 		}
 
 		$new_deadline = date('Y-m-d H:i:s', time() - 60 * 60 * 24 * 7 * ($ilSetting->get('frm_store_new') ? $ilSetting->get('frm_store_new') : 8));

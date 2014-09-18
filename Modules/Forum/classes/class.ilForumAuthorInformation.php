@@ -13,34 +13,34 @@ require_once 'Modules/Forum/classes/class.ilForumAuthorInformationCache.php';
 class ilForumAuthorInformation
 {
 	/**
-	 * @var int|ilObjUser
+	 * @var int
 	 */
-	protected $authorEntity;
+	protected $display_id;
 
 	/**
 	 * @var string
 	 */
-	protected $pseudonym;
+	protected $alias;
 
 	/**
 	 * @var string
 	 */
-	protected $importName;
+	protected $import_name;
 
 	/**
 	 * @var array
 	 */
-	protected $publicProfileLinkAttributes = array();
+	protected $public_profile_link_attributes = array();
 
 	/**
 	 * @var string
 	 */
-	protected $authorName;
+	protected $author_name;
 
 	/**
 	 * @var string
 	 */
-	protected $authorShortName;
+	protected $author_short_name;
 
 	/**
 	 * @var string
@@ -53,9 +53,9 @@ class ilForumAuthorInformation
 	protected $linked_short_name;
 
 	/**
-	 * @var bool
+	 * @var string
 	 */
-	protected $is_pseudonym = false;
+	protected $suffix = '';
 
 	/**
 	 * @var string
@@ -73,17 +73,24 @@ class ilForumAuthorInformation
 	protected $files = array();
 
 	/**
-	 * @param ilObjUser|int $authorEntity
-	 * @param			   $pseudonym
-	 * @param			   $importName
-	 * @param array		 $publicProfileLinkAttributes
+	 * @var int
 	 */
-	public function __construct($authorEntity, $pseudonym, $importName, array $publicProfileLinkAttributes = array())
+	protected $author_id;
+
+	/**
+	 * @param int    $author_id
+	 * @param int    $display_id
+	 * @param string $alias
+	 * @param string $import_name
+	 * @param array  $public_profile_link_attributes
+	 */
+	public function __construct($author_id, $display_id, $alias, $import_name, array $public_profile_link_attributes = array())
 	{
-		$this->authorEntity                = $authorEntity;
-		$this->pseudonym                   = $pseudonym;
-		$this->importName                  = $importName;
-		$this->publicProfileLinkAttributes = $publicProfileLinkAttributes;
+		$this->author_id                      = $author_id;
+		$this->display_id                     = $display_id;
+		$this->alias                          = $alias;
+		$this->import_name                    = $import_name;
+		$this->public_profile_link_attributes = $public_profile_link_attributes;
 
 		$this->init();
 	}
@@ -93,19 +100,14 @@ class ilForumAuthorInformation
 	 */
 	protected function initUserInstance()
 	{
-		if($this->authorEntity instanceof ilObjUser && $this->authorEntity->getId())
-		{
-			$this->author = $this->authorEntity;
-		}
-		else if(is_numeric($this->authorEntity) && $this->authorEntity)
+		if(is_numeric($this->display_id) && $this->display_id > 0)
 		{
 			// Try to read user instance from preloaded cache array
-			$this->author = ilForumAuthorInformationCache::getUserObjectById($this->authorEntity);
-
+			$this->author = ilForumAuthorInformationCache::getUserObjectById($this->display_id);
 			if(!$this->author)
 			{
 				// Get a user instance from forum module's cache method
-				$this->author = ilObjForumAccess::getCachedUserInstance($this->authorEntity);
+				$this->author = ilObjForumAccess::getCachedUserInstance($this->display_id);
 			}
 		}
 
@@ -144,7 +146,7 @@ class ilForumAuthorInformation
 		 */
 		global $ilUser;
 
-		return $ilUser->getId() != ANONYMOUS_USER_ID;
+		return !$ilUser->isAnonymous();
 	}
 
 	/**
@@ -154,11 +156,11 @@ class ilForumAuthorInformation
 	{
 		$link = '';
 
-		if($with_profile_link && $this->publicProfileLinkAttributes)
+		if($with_profile_link && $this->public_profile_link_attributes)
 		{
 			$link = '<a';
 
-			foreach($this->publicProfileLinkAttributes as $attr => $value)
+			foreach($this->public_profile_link_attributes as $attr => $value)
 			{
 				$link .= ' ' . $attr . '="' . $value . '"';
 			}
@@ -166,10 +168,10 @@ class ilForumAuthorInformation
 			$link .= '>';
 		}
 
-		$linked_login = $link . $this->authorShortName;
-		$link .= $this->authorName;
+		$linked_login = $link . $this->author_short_name;
+		$link .= $this->author_name;
 
-		if($with_profile_link && $this->publicProfileLinkAttributes)
+		if($with_profile_link && $this->public_profile_link_attributes)
 		{
 			$link .= '</a>';
 			$linked_login .= '</a>';
@@ -179,8 +181,8 @@ class ilForumAuthorInformation
 		$this->linked_short_name  = $linked_login;
 	}
 
-	/** 
-	 * 
+	/**
+	 *
 	 */
 	protected function init()
 	{
@@ -196,12 +198,16 @@ class ilForumAuthorInformation
 		if($this->doesAuthorAccountExists())
 		{
 			if(!$this->isAuthorAnonymous() &&
-				($this->isCurrentUserSessionLoggedIn() && $this->getAuthor()->getPref('public_profile') == 'y' || $this->getAuthor()->getPref('public_profile') == 'g')
+				(
+					(
+						$this->isCurrentUserSessionLoggedIn() && $this->getAuthor()->getPref('public_profile') == 'y'
+					) ||
+					$this->getAuthor()->getPref('public_profile') == 'g')
 			)
 			{
 				// Author is NOT anonymous and (the current user session is logged in and the profile is public (y) or the profile is globally public (g))
-				$this->authorName      = $this->getAuthor()->getPublicName();
-				$this->authorShortName = $this->getAuthor()->getLogin();
+				$this->author_name       = $this->getAuthor()->getPublicName();
+				$this->author_short_name = $this->getAuthor()->getLogin();
 
 				if($this->getAuthor()->getPref('public_upload') == 'y')
 				{
@@ -222,32 +228,40 @@ class ilForumAuthorInformation
 			else
 			{
 				$this->getAuthor()->setGender('');
-				$this->authorShortName = $this->authorName = $this->getAuthor()->getLogin();
+				$this->author_short_name = $this->author_name = $this->getAuthor()->getLogin();
 				$this->buildAuthorProfileLink(false);
 				$this->profilePicture = ilUtil::getImagePath('no_photo_xsmall.jpg');
 			}
 		}
-		else if(strlen($this->importName))
+		else if($this->display_id > 0 && !$this->doesAuthorAccountExists() && strlen($this->alias))
 		{
-			// We have no user instance,so we check the import name
-			$this->authorShortName = $this->authorName = $this->importName ?
-				$this->importName . ' (' . $lng->txt('imported') . ')' :
-				$lng->txt('unknown');
+			// The author does not use a pseudonym, but the id does not exist anymore (deleted, lost on import etc.)
+			// We have no import name,so we check the pseudonym  
+			$this->author_short_name = $this->author_name = $this->alias . ' (' . $lng->txt('deleted') . ')';
+			$this->suffix            = $lng->txt('deleted');
 			$this->buildAuthorProfileLink(false);
 			$this->profilePicture = ilUtil::getImagePath('no_photo_xsmall.jpg');
 		}
-		else if(strlen($this->pseudonym))
+		else if(strlen($this->import_name))
+		{
+			// We have no user instance,so we check the import name
+			$this->author_short_name = $this->author_name = $this->import_name . ' (' . $lng->txt('imported') . ')';
+			$this->suffix            = $lng->txt('imported');
+			$this->buildAuthorProfileLink(false);
+			$this->profilePicture = ilUtil::getImagePath('no_photo_xsmall.jpg');
+		}
+		else if(strlen($this->alias))
 		{
 			// We have no import name,so we check the pseudonym
-			$this->authorShortName = $this->authorName   = $this->pseudonym . ' (' . $lng->txt('frm_pseudonym') . ')';
-			$this->is_pseudonym = true;
+			$this->author_short_name = $this->author_name = $this->alias . ' (' . $lng->txt('frm_pseudonym') . ')';
+			$this->suffix            = $lng->txt('frm_pseudonym');
 			$this->buildAuthorProfileLink(false);
 			$this->profilePicture = ilUtil::getImagePath('no_photo_xsmall.jpg');
 		}
 		else
 		{
 			// If we did not find a pseudonym, the author could not be determined
-			$this->authorShortName = $this->authorName = $lng->txt('forums_anonymous');
+			$this->author_short_name = $this->author_name = $lng->txt('forums_anonymous');
 			$this->buildAuthorProfileLink(false);
 			$this->profilePicture = ilUtil::getImagePath('no_photo_xsmall.jpg');
 		}
@@ -277,11 +291,11 @@ class ilForumAuthorInformation
 	{
 		if(!$without_short_name)
 		{
-			return $this->authorName;
+			return $this->author_name;
 		}
 		else
 		{
-			return trim(preg_replace('/\(?'.$this->getAuthorShortName().'\)?/', '', $this->authorName));
+			return trim(preg_replace('/\(?' . $this->getAuthorShortName() . '\)?/', '', $this->author_name));
 		}
 	}
 
@@ -290,7 +304,7 @@ class ilForumAuthorInformation
 	 */
 	public function getAuthorShortName()
 	{
-		return $this->authorShortName;
+		return $this->author_short_name;
 	}
 
 	/**
@@ -309,12 +323,19 @@ class ilForumAuthorInformation
 		return $this->linked_short_name;
 	}
 
-
 	/**
 	 * @return bool
 	 */
-	public function isPseudonymUsed()
+	public function hasSuffix()
 	{
-		return $this->is_pseudonym;
+		return strlen($this->suffix);
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getSuffix()
+	{
+		return $this->suffix;
 	}
 }

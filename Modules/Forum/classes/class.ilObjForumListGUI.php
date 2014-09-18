@@ -147,6 +147,7 @@ class ilObjForumListGUI extends ilObjectListGUI
 
 			require_once 'Modules/Forum/classes/class.ilForumAuthorInformation.php';
 			$authorinfo = new ilForumAuthorInformation(
+				$last_post['pos_author_id'],
 				$last_post['pos_display_user_id'],
 				$last_post['pos_usr_alias'],
 				$last_post['import_name'],

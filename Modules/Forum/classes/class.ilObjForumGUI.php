@@ -1804,6 +1804,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 		require_once 'Modules/Forum/classes/class.ilForumAuthorInformation.php';
 		$authorinfo = new ilForumAuthorInformation(
+			$this->objCurrentPost->getPosAuthorId(),
 			$this->objCurrentPost->getDisplayUserId(),
 			$this->objCurrentPost->getUserAlias(),
 			$this->objCurrentPost->getImportName()
@@ -2329,6 +2330,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 										{
 											require_once 'Modules/Forum/classes/class.ilForumAuthorInformation.php';
 											$authorinfo = new ilForumAuthorInformation(
+												$node->getPosAuthorId(),
 												$node->getDisplayUserId(),
 												$node->getUserAlias(),
 												$node->getImportName()
@@ -2652,6 +2654,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 					require_once 'Modules/Forum/classes/class.ilForumAuthorInformation.php';
 					$authorinfo = new ilForumAuthorInformation(
+						$node->getPosAuthorId(),
 						$node->getDisplayUserId(),
 						$node->getUserAlias(),
 						$node->getImportName(),
@@ -2662,9 +2665,9 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 					$this->ctrl->clearParameters($this);
 
-					if($authorinfo->isPseudonymUsed())
+					if($authorinfo->hasSuffix())
 					{
-						$tpl->setVariable('AUTHOR', $lng->txt('frm_pseudonym'));
+						$tpl->setVariable('AUTHOR', $authorinfo->getSuffix());
 						$tpl->setVariable('USR_NAME', $node->getUserAlias());
 					}
 					else
@@ -2718,6 +2721,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 						require_once 'Modules/Forum/classes/class.ilForumAuthorInformation.php';
 						$authorinfo = new ilForumAuthorInformation(
+							$node->getPosAuthorId(),
 							$node->getUpdateUserId(),
 							'',
 							'',

@@ -217,6 +217,7 @@ class ilForumExportGUI
 				$tpl->setVariable('T_NUM_VISITS', $topic->getVisits());
 				$tpl->setVariable('T_FORUM', $thread_data['top_name']);
 				$authorinfo = new ilForumAuthorInformation(
+					$topic->getThrAuthorId(),
 					$topic->getDisplayUserId(),
 					$topic->getUserAlias(),
 					$topic->getImportName()
@@ -292,14 +293,15 @@ class ilForumExportGUI
 		}
 
 		$authorinfo = new ilForumAuthorInformation(
+			$post->getPosAuthorId(),
 			$post->getDisplayUserId(),
 			$post->getUserAlias(),
 			$post->getImportName()
 		);
 
-		if($authorinfo->isPseudonymUsed())
+		if($authorinfo->hasSuffix())
 		{
-			$tpl->setVariable('AUTHOR', $lng->txt('frm_pseudonym'));
+			$tpl->setVariable('AUTHOR', $authorinfo->getSuffix());
 			$tpl->setVariable('USR_NAME', $post->getUserAlias());
 		}
 		else
@@ -371,6 +373,7 @@ class ilForumExportGUI
 
 			require_once 'Modules/Forum/classes/class.ilForumAuthorInformation.php';
 			$authorinfo = new ilForumAuthorInformation(
+				$post->getPosAuthorId(),
 				$post->getUpdateUserId(),
 				'',
 				''
