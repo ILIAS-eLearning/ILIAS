@@ -14843,3 +14843,4 @@ crs#:#crs_loc_settings_reset#:#Testergebnisse
 crs#:#crs_loc_settings_reset_enable#:#"Testergebnis-Zurücksetzen" erlauben
 crs#:#crs_loc_settings_reset_enable_info#:#Wenn aktiviert, haben alle Benutzer die Möglichkeit, ihre individuellen Testergebnisse zurückzusetzen.
 crs#:#crs_loc_progress_no_result_no_initial#:#Bearbeiten Sie die folgenden Materialien und danach den qualifizierenden Test.
+bibl#:#bibl_library_show_in_list#:#Link auch in der Liste anzeigen

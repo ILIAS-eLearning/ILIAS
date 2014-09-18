@@ -1,31 +1,26 @@
 <?php
 error_reporting(E_ALL);
-
 require_once 'PEAR.php';
 require_once 'Structures/BibTex.php';
-
 $bibtex = new Structures_BibTex();
-
 //Loading and parsing the file example.bib
-$ret=$bibtex->loadFile('example.bib');
-if(PEAR::isError($ret)) {
-    print $ret->getMessage();
-    die();
+$ret = $bibtex->loadFile('example.bib');
+if (PEAR::isError($ret)) {
+	print $ret->getMessage();
+	die();
 }
 $bibtex->parse();
-
 //Creating an entry
 $addarray = array();
-$addarray['entryType']          = 'Article';
-$addarray['cite']               = 'art2';
-$addarray['title']              = 'Titel2';
+$addarray['entryType'] = 'Article';
+$addarray['cite'] = 'art2';
+$addarray['title'] = 'Titel2';
 $addarray['author'][0]['first'] = 'John';
-$addarray['author'][0]['last']  = 'Doe';
+$addarray['author'][0]['last'] = 'Doe';
 $addarray['author'][1]['first'] = 'Jane';
-$addarray['author'][1]['last']  = 'Doe';
+$addarray['author'][1]['last'] = 'Doe';
 //Adding the entry
 $bibtex->addEntry($addarray);
-
 //Printing the result
 echo "Converting This Array:\n\n";
 echo "<pre>";

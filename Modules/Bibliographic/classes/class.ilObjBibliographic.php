@@ -1,10 +1,8 @@
 <?php
 
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-
 require_once "Services/Object/classes/class.ilObject2.php";
 require_once "Modules/Bibliographic/classes/class.ilBibliographicEntry.php";
-
 /* Declaring namespace for library RISReader */
 use \LibRIS\RISReader;
 
@@ -18,13 +16,12 @@ use \LibRIS\RISReader;
  */
 class ilObjBibliographic extends ilObject2 {
 
-    /**
-     * Number of maximum allowed characters for attributes in order to fit in the database
-     *
-     * @var int
-     */
-    const ATTRIBUTE_VALUE_MAXIMAL_TEXT_LENGTH = 4000;
-
+	/**
+	 * Number of maximum allowed characters for attributes in order to fit in the database
+	 *
+	 * @var int
+	 */
+	const ATTRIBUTE_VALUE_MAXIMAL_TEXT_LENGTH = 4000;
 	/**
 	 * Id of literary articles
 	 *
@@ -73,7 +70,6 @@ class ilObjBibliographic extends ilObject2 {
 			$this->setId($existant_bibl_id);
 			$this->doRead();
 		}
-
 		parent::__construct($existant_bibl_id, false);
 	}
 
@@ -85,7 +81,6 @@ class ilObjBibliographic extends ilObject2 {
 	 */
 	function doCreate() {
 		global $ilDB;
-
 		$ilDB->manipulate("INSERT INTO il_bibl_data " . "(id, filename, is_online) VALUES ("
 			. $ilDB->quote($this->getId(), "integer") . "," . // id
 			$ilDB->quote($this->getFilename(), "text") . "," . // filename
@@ -95,7 +90,6 @@ class ilObjBibliographic extends ilObject2 {
 
 
 	function doRead() {
-
 		global $ilDB;
 		$set = $ilDB->query("SELECT * FROM il_bibl_data " . " WHERE id = " . $ilDB->quote($this->getId(), "integer"));
 		while ($rec = $ilDB->fetchAssoc($set)) {
@@ -112,19 +106,16 @@ class ilObjBibliographic extends ilObject2 {
 	 */
 	function doUpdate() {
 		global $ilDB;
-
 		if (! empty($_FILES['bibliographic_file']['name'])) {
 			$this->deleteFile();
 			$this->moveFile();
 		}
 		// Delete the object, but leave the db table 'il_bibl_data' for being able to update it using WHERE, and also leave the file
 		$this->doDelete(true, true);
-
 		$ilDB->manipulate("UPDATE il_bibl_data SET " . "filename = " . $ilDB->quote($this->getFilename(), "text") . ", "
 			. // filename
 			"is_online = " . $ilDB->quote($this->getOnline(), "integer") . // is_online
 			" WHERE id = " . $ilDB->quote($this->getId(), "integer"));
-
 		$this->writeSourcefileEntriesToDb($this);
 	}
 
@@ -134,24 +125,19 @@ class ilObjBibliographic extends ilObject2 {
 	*/
 	function doDelete($leave_out_il_bibl_data = false, $leave_out_delete_file = false) {
 		global $ilDB;
-
 		if (! $leave_out_delete_file) {
 			$this->deleteFile();
 		}
-
 		//il_bibl_attribute
 		$ilDB->manipulate("DELETE FROM il_bibl_attribute WHERE il_bibl_attribute.entry_id IN "
 			. "(SELECT il_bibl_entry.id FROM il_bibl_entry WHERE il_bibl_entry.data_id = "
 			. $ilDB->quote($this->getId(), "integer") . ");");
-
 		//il_bibl_entry
 		$ilDB->manipulate("DELETE FROM il_bibl_entry WHERE data_id = " . $ilDB->quote($this->getId(), "integer"));
-
 		if (! $leave_out_il_bibl_data) {
 			//il_bibl_data
 			$ilDB->manipulate("DELETE FROM il_bibl_data WHERE id = " . $ilDB->quote($this->getId(), "integer"));
 		}
-
 		// delete history entries
 		require_once("./Services/History/classes/class.ilHistory.php");
 		ilHistory::_removeEntriesForObject($this->getId());
@@ -167,13 +153,10 @@ class ilObjBibliographic extends ilObject2 {
 
 
 	public function moveFile($file_to_copy = false) {
-
 		$target_dir = $this->getFileDirectory();
-
 		if (! is_dir($target_dir)) {
 			ilUtil::makeDirParents($target_dir);
 		}
-
 		if ($_FILES['bibliographic_file']['name']) {
 			$filename = $_FILES['bibliographic_file']['name'];
 		} elseif ($file_to_copy) {
@@ -183,19 +166,16 @@ class ilObjBibliographic extends ilObject2 {
 		} else {
 			throw new Exception("Either a file must be delivered via \$_POST/\$_FILE or the file must be delivered via the method argument file_to_copy");
 		}
-
 		$target_full_filename = $target_dir . DIRECTORY_SEPARATOR . $filename;
-
 		//If there is no file_to_copy (which is used for clones), copy the file from the temporary upload directory (new creation of object).
 		//Therefore, a warning predicates nothing and can be suppressed.
 		if (@! copy($file_to_copy, $target_full_filename)) {
-            if(!empty($_FILES['bibliographic_file']['tmp_name'])){
-			    ilUtil::moveUploadedFile($_FILES['bibliographic_file']['tmp_name'], $_FILES['bibliographic_file']['name'], $target_full_filename);
-            }else{
-                throw new Exception("The file delivered via the method argument file_to_copy could not be copied. The file '{$file_to_copy}' does probably not exist.");
-            }
+			if (! empty($_FILES['bibliographic_file']['tmp_name'])) {
+				ilUtil::moveUploadedFile($_FILES['bibliographic_file']['tmp_name'], $_FILES['bibliographic_file']['name'], $target_full_filename);
+			} else {
+				throw new Exception("The file delivered via the method argument file_to_copy could not be copied. The file '{$file_to_copy}' does probably not exist.");
+			}
 		}
-
 		$this->setFilename($filename);
 		ilUtil::sendSuccess($this->lng->txt("object_added"), true);
 	}
@@ -214,10 +194,8 @@ class ilObjBibliographic extends ilObject2 {
 	 */
 	public function getFilePath($without_filename = false) {
 		global $ilDB;
-
 		$set = $ilDB->query("SELECT filename FROM il_bibl_data " . " WHERE id = "
 			. $ilDB->quote($this->getId(), "integer"));
-
 		$rec = $ilDB->fetchAssoc($set);
 		{
 			if ($without_filename) {
@@ -260,7 +238,6 @@ class ilObjBibliographic extends ilObject2 {
 
 	static function __getAllOverviewModels() {
 		global $ilDB;
-
 		$set = $ilDB->query('SELECT * FROM il_bibl_overview_model');
 		while ($rec = $ilDB->fetchAssoc($set)) {
 			if ($rec['literature_type']) {
@@ -285,24 +262,18 @@ class ilObjBibliographic extends ilObject2 {
 		if (! file_exists($path)) {
 			return false;
 		}
-
 		if (is_file($path) || is_link($path)) {
 			return unlink($path);
 		}
-
 		if (is_dir($path)) {
 			$path = rtrim($path, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
-
 			$result = true;
-
 			$dir = new DirectoryIterator($path);
-
 			foreach ($dir as $file) {
 				if (! $file->isDot()) {
 					$result &= self::__force_rmdir($path . $file->getFilename(), false);
 				}
 			}
-
 			$result &= rmdir($path);
 
 			return $result;
@@ -311,11 +282,8 @@ class ilObjBibliographic extends ilObject2 {
 
 
 	static function __readRisFile($full_filename) {
-
 		self::__setCharsetToUtf8($full_filename);
-
 		require_once "./Modules/Bibliographic/lib/LibRIS/src/LibRIS/RISReader.php";
-
 		$ris_reader = new RISReader();
 		$ris_reader->parseFile($full_filename);
 
@@ -324,33 +292,24 @@ class ilObjBibliographic extends ilObject2 {
 
 
 	static function __readBibFile($full_filename) {
-
 		self::__setCharsetToUtf8($full_filename);
-
 		require_once 'Modules/Bibliographic/lib/PEAR_BibTex_1.0.0RC5/Structures/BibTex.php';
-
 		$bibtex_reader = new Structures_BibTex();
-
 		//Loading and parsing the file example.bib
 		$bibtex_reader->loadFile($full_filename);
-
 		//replace bibtex special chars with the real characters
 		$bibtex_reader->content = self::__convertBibSpecialChars($bibtex_reader->content);
-
 		$bibtex_reader->setOption('extractAuthor', false);
 		$bibtex_reader->parse();
-
 		// Remove library-bug: if there is no cite, the library mixes up the key for the type and the first attribute.
 		// It also shows an empty and therefore unwanted cite in the array.
 		//
 		// The cite is the text coming right after the type. Example:
 		// ﻿@book {cite,
 		// author = { "...."},
-
 		foreach ($bibtex_reader->data as $key => $entry) {
 			if (empty($entry['cite'])) {
 				unset($bibtex_reader->data[$key]['cite']);
-
 				foreach ($entry as $attr_key => $attribute) {
 					if (strpos($attr_key, '{') !== false) {
 						unset($bibtex_reader->data[$key][$attr_key]);
@@ -360,18 +319,17 @@ class ilObjBibliographic extends ilObject2 {
 					}
 				}
 			}
-
 			// formating the author to the following type of string
 			// Smith, John / Comte, Gabriel / von Gunten Jr, Thomas
 			foreach ($entry as $attr_key => $attribute) {
 				if ($attr_key == 'author' && is_array($attribute)) {
 					$attribute_string = array();
 					foreach ($attribute as $author_key => $author) {
-						$lastname = array($author['von'], $author['last'], $author['jr']);
+						$lastname = array( $author['von'], $author['last'], $author['jr'] );
 						$attribute_string[$author_key] = implode(' ', array_filter($lastname));
-                        if(!empty($author['first'])){
-                            $attribute_string[$author_key] .= ', ' . $author['first'];
-                        }
+						if (! empty($author['first'])) {
+							$attribute_string[$author_key] .= ', ' . $author['first'];
+						}
 					}
 					$bibtex_reader->data[$key][$attr_key] = implode(' / ', $attribute_string);
 				}
@@ -402,67 +360,56 @@ class ilObjBibliographic extends ilObject2 {
 	 * @return String (UTF-8) without encodings
 	 */
 	static function __convertBibSpecialChars($file_content) {
-
 		$bibtex_special_chars['ä'] = '{\"a}';
 		$bibtex_special_chars['ë'] = '{\"e}';
 		$bibtex_special_chars['ï'] = '{\"i}';
 		$bibtex_special_chars['ö'] = '{\"o}';
 		$bibtex_special_chars['ü'] = '{\"u}';
-
 		$bibtex_special_chars['Ä'] = '{\"A}';
 		$bibtex_special_chars['Ë'] = '{\"E}';
 		$bibtex_special_chars['Ï'] = '{\"I}';
 		$bibtex_special_chars['Ö'] = '{\"O}';
 		$bibtex_special_chars['Ü'] = '{\"U}';
-
 		$bibtex_special_chars['â'] = '{\^a}';
 		$bibtex_special_chars['ê'] = '{\^e}';
 		$bibtex_special_chars['î'] = '{\^i}';
 		$bibtex_special_chars['ô'] = '{\^o}';
 		$bibtex_special_chars['û'] = '{\^u}';
-
 		$bibtex_special_chars['Â'] = '{\^A}';
 		$bibtex_special_chars['Ê'] = '{\^E}';
 		$bibtex_special_chars['Î'] = '{\^I}';
 		$bibtex_special_chars['Ô'] = '{\^O}';
 		$bibtex_special_chars['Û'] = '{\^U}';
-
 		$bibtex_special_chars['à'] = '{\`a}';
 		$bibtex_special_chars['è'] = '{\`e}';
 		$bibtex_special_chars['ì'] = '{\`i}';
 		$bibtex_special_chars['ò'] = '{\`o}';
 		$bibtex_special_chars['ù'] = '{\`u}';
-
 		$bibtex_special_chars['À'] = '{\`A}';
 		$bibtex_special_chars['È'] = '{\`E}';
 		$bibtex_special_chars['Ì'] = '{\`I}';
 		$bibtex_special_chars['Ò'] = '{\`O}';
 		$bibtex_special_chars['Ù'] = '{\`U}';
-
 		$bibtex_special_chars['á'] = '{\\\'a}';
 		$bibtex_special_chars['é'] = '{\\\'e}';
 		$bibtex_special_chars['í'] = '{\\\'i}';
 		$bibtex_special_chars['ó'] = '{\\\'o}';
 		$bibtex_special_chars['ú'] = '{\\\'u}';
-
 		$bibtex_special_chars['Á'] = '{\\\'A}';
 		$bibtex_special_chars['É'] = '{\\\'E}';
 		$bibtex_special_chars['Í'] = '{\\\'I}';
 		$bibtex_special_chars['Ó'] = '{\\\'O}';
 		$bibtex_special_chars['Ú'] = '{\\\'U}';
-
 		$bibtex_special_chars['à'] = '{\`a}';
 		$bibtex_special_chars['è'] = '{\`e}';
 		$bibtex_special_chars['ì'] = '{\`i}';
 		$bibtex_special_chars['ò'] = '{\`o}';
 		$bibtex_special_chars['ù'] = '{\`u}';
-
 		$bibtex_special_chars['À'] = '{\`A}';
 		$bibtex_special_chars['È'] = '{\`E}';
 		$bibtex_special_chars['Ì'] = '{\`I}';
 		$bibtex_special_chars['Ò'] = '{\`O}';
 		$bibtex_special_chars['Ù'] = '{\`U}';
-
 		$bibtex_special_chars['ç'] = '{\c c}';
 		$bibtex_special_chars['ß'] = '{\ss}';
 		$bibtex_special_chars['ñ'] = '{\~n}';
@@ -498,14 +445,11 @@ class ilObjBibliographic extends ilObject2 {
 	 */
 	public function cloneStructure($original_id) {
 		$original = new ilObjBibliographic($original_id);
-
 		$this->moveFile($original->getFileAbsolutePath());
-
 		$this->setOnline($original->getOnline());
 		$this->setDescription($original->getDescription());
 		$this->setTitle($original->getTitle());
 		$this->setType($original->getType());
-
 		$this->doUpdate();
 	}
 
@@ -525,7 +469,6 @@ class ilObjBibliographic extends ilObject2 {
 	 * @return void
 	 */
 	public function writeSourcefileEntriesToDb() {
-
 		//Read File
 		switch ($this->getFiletype()) {
 			case("ris"):
@@ -535,30 +478,26 @@ class ilObjBibliographic extends ilObject2 {
 				$entries_from_file = self::__readBibFile($this->getFileAbsolutePath());
 				break;
 		}
-
 		//fill each entry into a ilBibliographicEntry object and then write it to DB by executing doCreate()
 		foreach ($entries_from_file as $file_entry) {
 			$type = NULL;
 			$x = 0;
 			$parsed_entry = array();
-
 			foreach ($file_entry as $key => $attribute) {
 				// if the attribute is an array, make a comma separated string out of it
 				if (is_array($attribute)) {
 					$attribute = implode(", ", $attribute);
 				}
-
-                // reduce the attribute strings to a maximum of 4000 (ATTRIBUTE_VALUE_MAXIMAL_TEXT_LENGTH) characters, in order to fit in the database
-                if(mb_strlen($attribute, 'UTF-8') > self::ATTRIBUTE_VALUE_MAXIMAL_TEXT_LENGTH){
-                    $attribute = mb_substr($attribute, 0, self::ATTRIBUTE_VALUE_MAXIMAL_TEXT_LENGTH - 3, 'UTF-8') . '...';
-                }
-
+				// reduce the attribute strings to a maximum of 4000 (ATTRIBUTE_VALUE_MAXIMAL_TEXT_LENGTH) characters, in order to fit in the database
+				if (mb_strlen($attribute, 'UTF-8') > self::ATTRIBUTE_VALUE_MAXIMAL_TEXT_LENGTH) {
+					$attribute = mb_substr($attribute, 0,
+							self::ATTRIBUTE_VALUE_MAXIMAL_TEXT_LENGTH - 3, 'UTF-8') . '...';
+				}
 				// ty (RIS) or entryType (BIB) is the type and is treated seperately
 				if (strtolower($key) == 'ty' || strtolower($key) == 'entrytype') {
 					$type = $attribute;
 					continue;
 				}
-
 				//TODO - Refactoring for ILIAS 4.5 - get rid off array restructuring
 				//change array structure (name not as the key, but under the key "name")
 				$parsed_entry[$x]['name'] = $key;
@@ -574,7 +513,7 @@ class ilObjBibliographic extends ilObject2 {
 	}
 
 
-    /**
+	/**
 	 * Set Online.
 	 *
 	 * @param    boolean $a_online Online
