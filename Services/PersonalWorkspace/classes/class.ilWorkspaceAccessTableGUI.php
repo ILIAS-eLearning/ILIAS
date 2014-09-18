@@ -35,10 +35,10 @@ class ilWorkspaceAccessTableGUI extends ilTable2GUI
 
 		$this->setId("il_tbl_wsacl");
 
-		$this->setTitle($lng->txt("wsp_shared_with"));
+		$this->setTitle($lng->txt("wsp_shared_table_title"));
 		
 		$this->addColumn($this->lng->txt("type"), "type");
-		$this->addColumn($this->lng->txt("title"), "title");
+		$this->addColumn($this->lng->txt("wsp_shared_with"), "title");
 		$this->addColumn($this->lng->txt("actions"));
 		
 		$this->setDefaultOrderField("type");
@@ -63,27 +63,20 @@ class ilWorkspaceAccessTableGUI extends ilTable2GUI
 			switch($obj_id)
 			{
 				case ilWorkspaceAccessGUI::PERMISSION_REGISTERED:
-					$title = $icon_alt = $this->lng->txt("wsp_set_permission_registered");
-					$type = "registered";
-					$icon = "";
+					$type_txt = $this->lng->txt("wsp_set_permission_registered");
 					break;
 				
 				case ilWorkspaceAccessGUI::PERMISSION_ALL_PASSWORD:
-					$title = $icon_alt = $this->lng->txt("wsp_set_permission_all_password");
-					$type = "all_password";
-					$icon = "";
+					$type_txt = $this->lng->txt("wsp_set_permission_all_password");
 					break;
 				
 				case ilWorkspaceAccessGUI::PERMISSION_ALL:
-					$title = $icon_alt = $this->lng->txt("wsp_set_permission_all");
-					$type = "all_password";
-					$icon = "";
+					$type_txt = $this->lng->txt("wsp_set_permission_all");
 					break;	
 												
 				default:
-					$type = ilObject::_lookupType($obj_id);
-					$icon = ilUtil::getTypeIconPath($type, null, "tiny");
-					$icon_alt = $this->lng->txt("obj_".$type);	
+					$type = ilObject::_lookupType($obj_id);					
+					$type_txt = $this->lng->txt("obj_".$type);	
 					
 					if($type != "usr")
 					{					
@@ -91,16 +84,14 @@ class ilWorkspaceAccessTableGUI extends ilTable2GUI
 					}
 					else
 					{						
-						$title = ilUserUtil::getNamePresentation($obj_id, true, true); 
+						$title = ilUserUtil::getNamePresentation($obj_id, false, true); 
 					}
 					break;
 			}
 			
 			$data[] = array("id" => $obj_id,
 				"title" => $title,
-				"type" => $type,
-				"icon" => $icon,
-				"icon_alt" => $icon_alt);
+				"type" => $type_txt);
 		}
 	
 		$this->setData($data);
@@ -117,8 +108,7 @@ class ilWorkspaceAccessTableGUI extends ilTable2GUI
 		
 		// properties
 		$this->tpl->setVariable("TITLE", $a_set["title"]);
-		$this->tpl->setVariable("ICON", $a_set["icon"]);
-		$this->tpl->setVariable("ICON_ALT", $a_set["icon_alt"]);
+		$this->tpl->setVariable("TYPE", $a_set["type"]);		
 
 		$ilCtrl->setParameter($this->parent_obj, "obj_id", $a_set["id"]);
 		$this->tpl->setVariable("HREF_CMD",

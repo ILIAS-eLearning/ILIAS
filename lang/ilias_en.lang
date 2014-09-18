@@ -14767,3 +14767,4 @@ rbac#:#condition_failed#:#Failed
 rbac#:#condition_learning_progress#:#Derive from Learning Progress
 rbac#:#rbac_precondition_hide#:#Hide Object
 rbac#:#rbac_precondition_hide_info#:# This option allows to hide the object for users who currently have not fulfilled the preconditions. Therefore, all not accessible content is invisible.
+wsp#:#wsp_shared_table_title#:#Shares

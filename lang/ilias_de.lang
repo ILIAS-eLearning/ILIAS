@@ -14747,3 +14747,4 @@ rbac#:#condition_failed#:#Nicht bestanden
 rbac#:#condition_learning_progress#:#Status aus Lernfortschritt ableiten
 rbac#:#rbac_precondition_hide#:#Objekt verbergen
 rbac#:#rbac_precondition_hide_info#:#Das Objekt ist für Benutzer, die die Vorbedingungen nicht erfüllt haben, nicht sichtbar.
+wsp#:#wsp_shared_table_title#:#Freigaben
