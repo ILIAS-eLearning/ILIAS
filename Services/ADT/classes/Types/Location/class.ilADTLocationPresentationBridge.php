@@ -22,16 +22,16 @@ class ilADTLocationPresentationBridge extends ilADTPresentationBridge
 	{
 		if(!$this->getADT()->isNull())
 		{
-			include_once("./Services/GoogleMaps/classes/class.ilGoogleMapGUI.php");
-			$map_gui = new ilGoogleMapGUI();
-			$map_gui->setMapId("map_".uniqid()); // :TODO: sufficient entropy?
-			$map_gui->setLatitude($this->getADT()->getLatitude());
-			$map_gui->setLongitude($this->getADT()->getLongitude());
-			$map_gui->setZoom($this->getADT()->getZoom());
-			$map_gui->setEnableTypeControl(true);
-			$map_gui->setEnableLargeMapControl(true);
-			$map_gui->setEnableUpdateListener(false);
-			$map_gui->setEnableCentralMarker(true);
+			include_once("./Services/Maps/classes/class.ilMapUtil.php");
+			$map_gui = ilMapUtil::getMapGUI();
+			$map_gui->setMapId("map_".uniqid()) // :TODO: sufficient entropy?
+					->setLatitude($this->getADT()->getLatitude())
+					->setLongitude($this->getADT()->getLongitude())
+					->setZoom($this->getADT()->getZoom())
+					->setEnableTypeControl(true)
+					->setEnableLargeMapControl(true)
+					->setEnableUpdateListener(false)
+					->setEnableCentralMarker(true);
 			
 			if($this->width)
 			{

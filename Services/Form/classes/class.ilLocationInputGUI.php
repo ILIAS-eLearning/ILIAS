@@ -200,16 +200,16 @@ class ilLocationInputGUI extends ilFormPropertyGUI
 		$tpl->setVariable("TXT_LOOKUP", $lng->txt("gmaps_lookup_address"));
 		$tpl->setVariable("TXT_ADDRESS", $this->getAddress());
 		
-		include_once("./Services/GoogleMaps/classes/class.ilGoogleMapGUI.php");
-		$map_gui = new ilGoogleMapGUI();
-		$map_gui->setMapId("map_".$this->getPostVar());
-		$map_gui->setLatitude($lat);
-		$map_gui->setLongitude($long);
-		$map_gui->setZoom($this->getZoom());
-		$map_gui->setEnableTypeControl(true);
-		$map_gui->setEnableLargeMapControl(true);
-		$map_gui->setEnableUpdateListener(true);
-		$map_gui->setEnableCentralMarker(true);
+		include_once("./Services/Maps/classes/class.ilMapUtil.php");
+		$map_gui = ilMapUtil::getMapGUI();
+		$map_gui->setMapId("map_".$this->getPostVar())
+				->setLatitude($lat)
+				->setLongitude($long)
+				->setZoom($this->getZoom())
+				->setEnableTypeControl(true)
+				->setEnableLargeMapControl(true)
+				->setEnableUpdateListener(true)
+				->setEnableCentralMarker(true);
 		
 		$tpl->setVariable("MAP", $map_gui->getHtml());
 		

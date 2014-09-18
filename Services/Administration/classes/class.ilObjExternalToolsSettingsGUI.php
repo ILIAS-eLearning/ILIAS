@@ -29,7 +29,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 		$this->ilObjectGUI($a_data,$a_id,$a_call_by_reference,false);
 		
 		$lng->loadLanguageModule("delic");
-		$lng->loadLanguageModule("gmaps");
+		$lng->loadLanguageModule("maps");
 		$lng->loadLanguageModule("mathjax");
 	}
 
@@ -56,7 +56,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 //				array("view","editDelicious", "editGoogleMaps","editMathJax", ""), "", "");
 			
 				$this->ctrl->getLinkTarget($this, "editSocialBookmarks"),
-				array("editDelicious", "editGoogleMaps","editMathJax", ""), "", "");
+				array("editDelicious", "editMaps","editMathJax", ""), "", "");
 			$this->lng->loadLanguageModule('ecs');
 		}
 
@@ -444,48 +444,54 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 	}
 
 	/**
-	* Configure google maps settings
+	* Configure maps settings
 	* 
 	* @access	public
 	*/
-	function editGoogleMapsObject()
+	function editMapsObject()
 	{
-		global $ilAccess, $lng, $ilCtrl, $tpl;
+		require_once("Services/Maps/classes/class.ilMapUtil.php");
 		
-		$gm_set = new ilSetting("google_maps");
+		global $ilAccess, $lng, $ilCtrl, $tpl;
 		
 		if (!$ilAccess->checkAccess("write", "", $this->object->getRefId()))
 		{
 			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 		}
 		
-		$this->__initSubTabs("editGoogleMaps");
+		$this->__initSubTabs("editMaps");
 		
-		$std_latitude = $gm_set->get("std_latitude");
-		$std_longitude = $gm_set->get("std_longitude");
-		$std_zoom = $gm_set->get("std_zoom");
-		$api_url = "http://www.google.com/apis/maps/signup.html";
+		$std_latitude = ilMapUtil::getStdLatitude();
+		$std_longitude = ilMapUtil::getStdLongitude();
+		$std_zoom = ilMapUtil::getStdZoom();
+		$type = ilMapUtil::getType();
 		
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($ilCtrl->getFormAction($this));
-		$form->setTitle($lng->txt("gmaps_settings"));
+		$form->setTitle($lng->txt("maps_settings"));
 		
-		// Enable Google Maps
-		$enable = new ilCheckboxInputGUI($lng->txt("gmaps_enable_gmaps"), "enable");
-		$enable->setChecked($gm_set->get("enable"));
-		$enable->setInfo($lng->txt("gmaps_enable_gmaps_info"));
+		// Enable Maps
+		$enable = new ilCheckboxInputGUI($lng->txt("maps_enable_maps"), "enable");
+		$enable->setChecked(ilMapUtil::isActivated());
+		$enable->setInfo($lng->txt("maps_enable_maps_info"));
 		$form->addItem($enable);
-
+		
+		// Select type
+		$types = new ilSelectInputGUI($lng->txt("maps_map_type"), "type");
+		$types->setOptions(ilMapUtil::getAvailableMapTypes());
+		$types->setValue($type);
+		$form->addItem($types);
+		
 		// location property
-		$loc_prop = new ilLocationInputGUI($lng->txt("gmaps_std_location"),
+		$loc_prop = new ilLocationInputGUI($lng->txt("maps_std_location"),
 			"std_location");
 		$loc_prop->setLatitude($std_latitude);
 		$loc_prop->setLongitude($std_longitude);
 		$loc_prop->setZoom($std_zoom);
 		$form->addItem($loc_prop);
 		
-		$form->addCommandButton("saveGoogleMaps", $lng->txt("save"));
+		$form->addCommandButton("saveMaps", $lng->txt("save"));
 		$form->addCommandButton("view", $lng->txt("cancel"));
 		
 		$tpl->setVariable("ADM_CONTENT", $form->getHTML());
@@ -493,20 +499,21 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 
 
 	/**
-	* Save Google Maps Setttings
+	* Save Maps Setttings
 	*/
-	function saveGoogleMapsObject()
+	function saveMapsObject()
 	{
+		require_once("Services/Maps/classes/class.ilMapUtil.php");
+		
 		global $ilCtrl;
-
-		$gm_set = new ilSetting("google_maps");
 		
-		$gm_set->set("enable", ilUtil::stripSlashes($_POST["enable"]));
-		$gm_set->set("std_latitude", ilUtil::stripSlashes($_POST["std_location"]["latitude"]));
-		$gm_set->set("std_longitude", ilUtil::stripSlashes($_POST["std_location"]["longitude"]));
-		$gm_set->set("std_zoom", ilUtil::stripSlashes($_POST["std_location"]["zoom"]));
+		ilMapUtil::setActivated(ilUtil::stripSlashes($_POST["enable"]) == "1");
+		ilMapUtil::setType(ilUtil::stripSlashes($_POST["type"]));
+		ilMapUtil::setStdLatitude(ilUtil::stripSlashes($_POST["std_location"]["latitude"]));
+		ilMapUtil::setStdLongitude(ilUtil::stripSlashes($_POST["std_location"]["longitude"]));
+		ilMapUtil::setStdZoom(ilUtil::stripSlashes($_POST["std_location"]["zoom"]));
 		
-		$ilCtrl->redirect($this, "editGoogleMaps");
+		$ilCtrl->redirect($this, "editMaps");
 	}
 	
 	// init sub tabs
@@ -520,7 +527,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 			$a_cmd = 'editSocialBookmarks';
 		}
 		$socialbookmarks = ($a_cmd == 'editSocialBookmarks') ? true : false;
-		$gmaps = ($a_cmd == 'editGoogleMaps') ? true : false;
+		$maps = ($a_cmd == 'editMaps') ? true : false;
 		$mathjax = ($a_cmd == 'editMathJax') ? true : false;
 
 //		$this->tabs_gui->addSubTabTarget("overview", $this->ctrl->getLinkTarget($this, "view"),
@@ -531,8 +538,8 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 											"", "", "", $socialbookmarks);
 		$this->tabs_gui->addSubTabTarget("mathjax_mathjax", $this->ctrl->getLinkTarget($this, "editMathJax"),
 											"", "", "", $mathjax);
-		$this->tabs_gui->addSubTabTarget("gmaps_extt_gmaps", $this->ctrl->getLinkTarget($this, "editGoogleMaps"),
-										 "", "", "", $gmaps);
+		$this->tabs_gui->addSubTabTarget("maps_extt_maps", $this->ctrl->getLinkTarget($this, "editMaps"),
+										 "", "", "", $maps);
 	}
 	
 	function &executeCommand()

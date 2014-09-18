@@ -302,17 +302,17 @@ class ilPCMap extends ilPageContent
 			$param = explode(";", $param);
 			if (is_numeric($param[0]) && is_numeric($param[1]) && is_numeric($param[2]))
 			{
-				include_once("./Services/GoogleMaps/classes/class.ilGoogleMapGUI.php");
-				$map_gui = new ilGoogleMapGUI();
-				$map_gui->setMapId("map_".$i);
-				$map_gui->setLatitude($param[0]);
-				$map_gui->setLongitude($param[1]);
-				$map_gui->setZoom($param[2]);
-				$map_gui->setWidth($param[3]."px");
-				$map_gui->setHeight($param[4]."px");
-				$map_gui->setEnableTypeControl(true);
-				$map_gui->setEnableNavigationControl(true);
-				$map_gui->setEnableCentralMarker(true);
+				include_once("./Services/Maps/classes/class.ilMapUtil.php");
+				$map_gui = ilMapUtil::getMapGUI();
+				$map_gui->setMapId("map_".$i)
+						->setLatitude($param[0])
+						->setLongitude($param[1])
+						->setZoom($param[2])
+						->setWidth($param[3]."px")
+						->setHeight($param[4]."px")
+						->setEnableTypeControl(true)
+						->setEnableNavigationControl(true)
+						->setEnableCentralMarker(true);
 				$h2 = substr($a_html, 0, $start).
 					$map_gui->getHtml().
 					substr($a_html, $end + 5);

@@ -3175,6 +3175,7 @@ $ilDB->createTable('sty_media_query', array(
 		"default" => 0
 	));
 ?>
+
 <#4343>
 <?php
 $ini = new ilIniFile(ILIAS_ABSOLUTE_PATH."/ilias.ini.php");
@@ -3285,3 +3286,30 @@ if( !$ilDB->tableColumnExists('conditions', 'hidden_status') )
 		$ilDB->dropTableColumn('frm_threads', 'thr_usr_id');
 	}
 ?>
+
+<#4351>
+<?php
+	$res = $ilDB->query("SELECT value FROM settings WHERE module = 'google_maps' AND keyword = 'enable'");
+	if ($rec = $ilDB->fetchAssoc($res)) {
+		$ilDB->manipulate("INSERT INTO settings (module, keyword, value) VALUES ('maps', 'type', 'googlemaps')");
+	}
+	
+	// adjust naming in settings
+	$ilDB->manipulate("UPDATE settings SET module = 'maps' WHERE module = 'google_maps'");
+	
+	// adjust naming in language data
+	$ilDB->manipulate("UPDATE lng_data SET module = 'maps' WHERE module = 'gmaps'");
+	$ilDB->manipulate("UPDATE lng_data SET identifier = 'maps_enable_maps_info' WHERE identifier = 'gmaps_enable_gmaps_info'");
+	$ilDB->manipulate("UPDATE lng_data SET identifier = 'maps_enable_maps' WHERE identifier = 'gmaps_enable_gmaps'");
+	$ilDB->manipulate("UPDATE lng_data SET identifier = 'maps_extt_maps' WHERE identifier = 'gmaps_extt_gmaps'");
+	$ilDB->manipulate("UPDATE lng_data SET identifier = 'maps_latitude' WHERE identifier = 'gmaps_latitude'");
+	$ilDB->manipulate("UPDATE lng_data SET identifier = 'maps_longitude' WHERE identifier = 'gmaps_longitude'");
+	$ilDB->manipulate("UPDATE lng_data SET identifier = 'maps_lookup_address' WHERE identifier = 'gmaps_lookup_address'");
+	$ilDB->manipulate("UPDATE lng_data SET identifier = 'maps_public_profile_info' WHERE identifier = 'gmaps_public_profile_info'");
+	$ilDB->manipulate("UPDATE lng_data SET identifier = 'maps_settings' WHERE identifier = 'gmaps_settings'");
+	$ilDB->manipulate("UPDATE lng_data SET identifier = 'maps_std_location_desc' WHERE identifier = 'gmaps_std_location_desc'");
+	$ilDB->manipulate("UPDATE lng_data SET identifier = 'maps_std_location' WHERE identifier = 'gmaps_std_location'");
+	$ilDB->manipulate("UPDATE lng_data SET identifier = 'maps_zoom_level' WHERE identifier = 'gmaps_zoom_level'");
+
+?>
+

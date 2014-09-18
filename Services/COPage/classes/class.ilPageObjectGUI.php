@@ -1662,7 +1662,7 @@ return;
 		$cfg = $this->getPageConfig();
 		
 		// added UTF-8 encoding otherwise umlaute are converted too
-		include_once("./Services/GoogleMaps/classes/class.ilGoogleMapUtil.php");
+		include_once("./Services/Maps/classes/class.ilMapUtil.php");
 		$params = array ('mode' => $this->getOutputMode(), 'pg_title' => htmlentities($pg_title,ENT_QUOTES,"UTF-8"),
 						 'enable_placeholder' => $cfg->getEnablePCType("PlaceHolder") ? "y" : "n",
 						 'pg_id' => $this->obj->getId(), 'pg_title_class' => $pg_title_class,
@@ -1691,7 +1691,7 @@ return;
 						 'citate' => $this->lng->txt('citate'),
 						 'enable_rep_objects' => $cfg->getEnablePCType("Resources") ? "y" : "n",
 						 'enable_login_page' => $cfg->getEnablePCType("LoginPageElement") ? "y" : "n",
-						 'enable_map' => ($cfg->getEnablePCType("Map") && ilGoogleMapUtil::isActivated()) ? "y" : "n",
+						 'enable_map' => ($cfg->getEnablePCType("Map") && ilMapUtil::isActivated()) ? "y" : "n",
 						 'enable_tabs' => $cfg->getEnablePCType("Tabs") ? "y" : "n",
 						 'enable_sa_qst' => $cfg->getEnableSelfAssessment() ? "y" : "n",
 						 'enable_file_list' => $cfg->getEnablePCType("FileList") ? "y" : "n",

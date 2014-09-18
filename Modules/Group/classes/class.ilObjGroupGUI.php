@@ -659,8 +659,8 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->tabs_gui->setTabActive('settings');
 		$this->tabs_gui->setSubTabActive('grp_map_settings');
 		
-		include_once('./Services/GoogleMaps/classes/class.ilGoogleMapUtil.php');
-		if (!ilGoogleMapUtil::isActivated() ||
+		include_once('./Services/Maps/classes/class.ilMapUtil.php');
+		if (!ilMapUtil::isActivated() ||
 			!$ilAccess->checkAccess("write", "", $this->object->getRefId()))
 		{
 			return;
@@ -673,7 +673,7 @@ class ilObjGroupGUI extends ilContainerGUI
 		// Get Default settings, when nothing is set
 		if ($latitude == 0 && $longitude == 0 && $zoom == 0)
 		{
-			$def = ilGoogleMapUtil::getDefaultSettings();
+			$def = ilMapUtil::getDefaultSettings();
 			$latitude = $def["latitude"];
 			$longitude = $def["longitude"];
 			$zoom =  $def["zoom"];
@@ -732,23 +732,22 @@ class ilObjGroupGUI extends ilContainerGUI
 		$this->setSubTabs('members');
 		$this->tabs_gui->setTabActive('members');
 		
-		include_once("./Services/GoogleMaps/classes/class.ilGoogleMapUtil.php");
-		if (!ilGoogleMapUtil::isActivated() || !$this->object->getEnableGroupMap())
+		include_once("./Services/Maps/classes/class.ilMapUtil.php");
+		if (!ilMapUtil::isActivated() || !$this->object->getEnableGroupMap())
 		{
 			return;
 		}
 		
-		include_once("./Services/GoogleMaps/classes/class.ilGoogleMapGUI.php");
-		$map = new ilGoogleMapGUI();
-		$map->setMapId("group_map");
-		$map->setWidth("700px");
-		$map->setHeight("500px");
-		$map->setLatitude($this->object->getLatitude());
-		$map->setLongitude($this->object->getLongitude());
-		$map->setZoom($this->object->getLocationZoom());
-		$map->setEnableTypeControl(true);
-		$map->setEnableNavigationControl(true);
-		$map->setEnableCentralMarker(true);
+		$map = ilMapUtil::getMapGUI();
+		$map->setMapId("group_map")
+			->setWidth("700px")
+			->setHeight("500px")
+			->setLatitude($this->object->getLatitude())
+			->setLongitude($this->object->getLongitude())
+			->setZoom($this->object->getLocationZoom())
+			->setEnableTypeControl(true)
+			->setEnableNavigationControl(true)
+			->setEnableCentralMarker(true);
 		
 		
 		$member_ids = $this->object->getGroupMemberIds();
@@ -2900,8 +2899,8 @@ class ilObjGroupGUI extends ilContainerGUI
 					"membersGallery", get_class($this));
 				
 				// members map
-				include_once("./Services/GoogleMaps/classes/class.ilGoogleMapUtil.php");
-				if (ilGoogleMapUtil::isActivated() &&
+				include_once("./Services/Maps/classes/class.ilMapUtil.php");
+				if (ilMapUtil::isActivated() &&
 					$this->object->getEnableGroupMap())
 				{
 					$this->tabs_gui->addSubTabTarget("grp_members_map",
@@ -2953,8 +2952,8 @@ class ilObjGroupGUI extends ilContainerGUI
 													 "editGroupIcons", get_class($this));
 				}
 				
-				include_once("./Services/GoogleMaps/classes/class.ilGoogleMapUtil.php");
-				if (ilGoogleMapUtil::isActivated())
+				include_once("./Services/Maps/classes/class.ilMapUtil.php");
+				if (ilMapUtil::isActivated())
 				{
 					$this->tabs_gui->addSubTabTarget("grp_map_settings",
 												 $this->ctrl->getLinkTarget($this,'editMapSettings'),

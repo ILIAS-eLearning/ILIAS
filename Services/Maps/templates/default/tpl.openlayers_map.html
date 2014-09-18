@@ -1,0 +1,15 @@
+	<script type="text/javascript">
+	//<![CDATA[
+	ilOLMapData["{MAP_ID}"] = new Array({LAT},{LONG},{ZOOM},{CENTRAL_MARKER},{NAV_CONTROL}, {REPLACE_MARKER});
+	ilOLUserMarkers["{MAP_ID}"] = new Array();
+
+	ilOLInvalidAddress = "{INVALID_ADDRESS_STRING}";
+
+	<!-- BEGIN user_marker -->
+	ilOLUserMarkers["{UMAP_ID}"][{CNT}] = new Array({ULAT},{ULONG},
+		"<div style='width:220px;'><img style='float:right; margin-right:10px;' src='{IMG_USER}'\/><span class='small'>{USER_INFO}<\/span><\/div>");
+	<!-- END user_marker -->
+	//]]>
+	</script>
+	<div id="{MAP_ID}_wrapper"><div id="{MAP_ID}" class="ilOpenLayersMap" style="width: {WIDTH}; height: {HEIGHT};">
+		</div><span class="xsmall" style="color:grey;">Data CC-By-SA by <a href="http://www.openstreetmap.org">OpenStreetMap</a></span></div>

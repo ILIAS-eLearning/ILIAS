@@ -538,9 +538,9 @@ class ilPersonalProfileGUI
 	{
 		global $ilCtrl;
 
-		// check google map activation
-		include_once("./Services/GoogleMaps/classes/class.ilGoogleMapUtil.php");
-		if (!ilGoogleMapUtil::isActivated())
+		// check map activation
+		include_once("./Services/Maps/classes/class.ilMapUtil.php");
+		if (!ilMapUtil::isActivated())
 		{
 			return;
 		}
@@ -555,7 +555,7 @@ class ilPersonalProfileGUI
 		// Get Default settings, when nothing is set
 		if ($latitude == 0 && $longitude == 0 && $zoom == 0)
 		{
-			$def = ilGoogleMapUtil::getDefaultSettings();
+			$def = ilMapUtil::getDefaultSettings();
 			$latitude = $def["latitude"];
 			$longitude = $def["longitude"];
 			$zoom =  $def["zoom"];
@@ -902,9 +902,9 @@ class ilPersonalProfileGUI
 				$ilUser->setInstantMessengerId('voip', $this->form->getInput("usr_im_voip"));
 			}
 
-			// check google map activation
-			include_once("./Services/GoogleMaps/classes/class.ilGoogleMapUtil.php");
-			if (ilGoogleMapUtil::isActivated())
+			// check map activation
+			include_once("./Services/Maps/classes/class.ilMapUtil.php");
+			if (ilMapUtil::isActivated())
 			{
 				$location = $this->form->getInput("location");
 				$ilUser->setLatitude(ilUtil::stripSlashes($location["latitude"]));
@@ -1180,8 +1180,8 @@ class ilPersonalProfileGUI
 			);
 		
 		// location
-		include_once("./Services/GoogleMaps/classes/class.ilGoogleMapUtil.php");
-		if (ilGoogleMapUtil::isActivated())
+		include_once("./Services/Maps/classes/class.ilMapUtil.php");
+		if (ilMapUtil::isActivated())
 		{
 			$val_array["location"] = "";
 		}		

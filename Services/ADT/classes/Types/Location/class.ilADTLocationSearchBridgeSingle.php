@@ -39,8 +39,8 @@ class ilADTLocationSearchBridgeSingle extends ilADTSearchBridgeSingle
 			// see ilPersonalProfileGUI::addLocationToForm()
 			
 			// use installation default
-			include_once("./Services/GoogleMaps/classes/class.ilGoogleMapUtil.php");
-			$def = ilGoogleMapUtil::getDefaultSettings();
+			include_once("./Services/Maps/classes/class.ilMapUtil.php");
+			$def = ilMapUtil::getDefaultSettings();
 			$adt->setLatitude($def["latitude"]);
 			$adt->setLongitude($def["longitude"]);
 			$adt->setZoom($def["zoom"]);

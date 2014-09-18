@@ -481,24 +481,22 @@ class ilPublicUserProfileGUI
 		}
 		
 		// map
-		include_once("./Services/GoogleMaps/classes/class.ilGoogleMapUtil.php");
-		if (ilGoogleMapUtil::isActivated() && 
+		include_once("./Services/Maps/classes/class.ilMapUtil.php");
+		if (ilMapUtil::isActivated() && 
 			$this->getPublicPref($user, "public_location") == "y" && 
 			$user->getLatitude() != "")
 		{
 			$tpl->setVariable("TXT_LOCATION", $lng->txt("location"));
 
-			include_once("./Services/GoogleMaps/classes/class.ilGoogleMapGUI.php");
-			$map_gui = new ilGoogleMapGUI();
-			
-			$map_gui->setMapId("user_map");
-			$map_gui->setWidth("350px");
-			$map_gui->setHeight("230px");
-			$map_gui->setLatitude($user->getLatitude());
-			$map_gui->setLongitude($user->getLongitude());
-			$map_gui->setZoom($user->getLocationZoom());
-			$map_gui->setEnableNavigationControl(true);
-			$map_gui->addUserMarker($user->getId());
+			$map_gui = ilMapUtil::getMapGUI();
+			$map_gui->setMapId("user_map")
+					->setWidth("350px")
+					->setHeight("230px")
+					->setLatitude($user->getLatitude())
+					->setLongitude($user->getLongitude())
+					->setZoom($user->getLocationZoom())
+					->setEnableNavigationControl(true)
+					->addUserMarker($user->getId());
 			
 			$tpl->setVariable("MAP_CONTENT", $map_gui->getHTML());
 		}

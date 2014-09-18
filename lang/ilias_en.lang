@@ -6686,19 +6686,6 @@ forum#:#thread#:#Thread
 forum#:#threads_moved_successfully#:#The chosen threads were moved to another forum successfully.
 forum#:#topic_close#:#Closed
 forum#:#topics_please_select_one_action#:#Please select an action.
-gmaps#:#gmaps_api_key_desc#:#In order to use the Google Maps extension, you need to sign up for a Google Maps API key at:
-gmaps#:#gmaps_api_key#:#API Key
-gmaps#:#gmaps_enable_gmaps_info#:#Activates Google Maps in user profiles, groups and courses.
-gmaps#:#gmaps_enable_gmaps#:#Enable Google Maps
-gmaps#:#gmaps_extt_gmaps#:#Google Maps
-gmaps#:#gmaps_latitude#:#Latitude
-gmaps#:#gmaps_longitude#:#Longitude
-gmaps#:#gmaps_lookup_address#:#Lookup Address
-gmaps#:#gmaps_public_profile_info#:#Show location in your profile.
-gmaps#:#gmaps_settings#:#Google Maps Settings
-gmaps#:#gmaps_std_location_desc#:#Click map to set location.
-gmaps#:#gmaps_std_location#:#Default Location
-gmaps#:#gmaps_zoom_level#:#Zoom Level
 grp#:#crs_add_grouping#:#Add Membership Limitation
 grp#:#crs_grouping_delete_sure#:#Are you sure you want to delete this membership limitation ?
 grp#:#crs_grouping_deleted#:#Deleted membership limitation.
@@ -7163,6 +7150,20 @@ mail#:#search_bc_recipient#:#Search BCC Recipient
 mail#:#search_cc_recipient#:#Search CC Recipient
 mail#:#search_recipients#:#Search Recipients
 mail#:#send_mail_to#:#Mail to
+maps#:#maps_enable_maps_info#:#Activates Maps in user profiles, groups and courses.
+maps#:#maps_enable_maps#:#Enable Maps
+maps#:#maps_extt_maps#:#Maps
+maps#:#maps_latitude#:#Latitude
+maps#:#maps_longitude#:#Longitude
+maps#:#maps_lookup_address#:#Lookup Address
+maps#:#maps_public_profile_info#:#Show location in your profile.
+maps#:#maps_settings#:#Maps Settings
+maps#:#maps_std_location_desc#:#Click map to set location.
+maps#:#maps_std_location#:#Default Location
+maps#:#maps_zoom_level#:#Zoom Level
+maps#:#maps_google_maps#:#Google Maps
+maps#:#maps_open_layers_maps#:#Open Layers Maps
+maps#:#maps_map_type#:#Typ
 mcst#:#mcst_add_new_item#:#Add New Mediacast Item
 mcst#:#mcst_audioportable_settings_info#:#Comma separated list of file suffixes
 mcst#:#mcst_audioportable_settings_title#:#File Extensions for Audio Format
