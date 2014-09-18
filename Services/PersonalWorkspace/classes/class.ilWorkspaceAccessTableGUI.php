@@ -36,12 +36,12 @@ class ilWorkspaceAccessTableGUI extends ilTable2GUI
 		$this->setId("il_tbl_wsacl");
 
 		$this->setTitle($lng->txt("wsp_shared_table_title"));
-		
-		$this->addColumn($this->lng->txt("type"), "type");
+				
 		$this->addColumn($this->lng->txt("wsp_shared_with"), "title");
+		$this->addColumn($this->lng->txt("details"), "type");
 		$this->addColumn($this->lng->txt("actions"));
 		
-		$this->setDefaultOrderField("type");
+		$this->setDefaultOrderField("title");
 		$this->setDefaultOrderDirection("asc");
 
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
@@ -60,18 +60,24 @@ class ilWorkspaceAccessTableGUI extends ilTable2GUI
 		$data = array();
 		foreach($this->handler->getPermissions($this->node_id) as $obj_id)
 		{				
+			// title is needed for proper sorting
+			// special modes should always be on top!
+			
 			switch($obj_id)
 			{
 				case ilWorkspaceAccessGUI::PERMISSION_REGISTERED:
-					$type_txt = $this->lng->txt("wsp_set_permission_registered");
+					$caption = $this->lng->txt("wsp_set_permission_registered");
+					$title = "0".$caption;
 					break;
 				
 				case ilWorkspaceAccessGUI::PERMISSION_ALL_PASSWORD:
-					$type_txt = $this->lng->txt("wsp_set_permission_all_password");
+					$caption = $this->lng->txt("wsp_set_permission_all_password");
+					$title = "0".$caption;
 					break;
 				
 				case ilWorkspaceAccessGUI::PERMISSION_ALL:
-					$type_txt = $this->lng->txt("wsp_set_permission_all");
+					$caption = $this->lng->txt("wsp_set_permission_all");
+					$title = "0".$caption;
 					break;	
 												
 				default:
@@ -80,17 +86,19 @@ class ilWorkspaceAccessTableGUI extends ilTable2GUI
 					
 					if($type != "usr")
 					{					
-						$title = ilObject::_lookupTitle($obj_id);											
+						$title = $caption = ilObject::_lookupTitle($obj_id);											
 					}
 					else
 					{						
-						$title = ilUserUtil::getNamePresentation($obj_id, false, true); 
+						$caption = ilUserUtil::getNamePresentation($obj_id, false, true); 
+						$title = strip_tags($caption);
 					}
 					break;
 			}
 			
 			$data[] = array("id" => $obj_id,
 				"title" => $title,
+				"caption" => $caption,
 				"type" => $type_txt);
 		}
 	
@@ -107,7 +115,7 @@ class ilWorkspaceAccessTableGUI extends ilTable2GUI
 		global $ilCtrl;
 		
 		// properties
-		$this->tpl->setVariable("TITLE", $a_set["title"]);
+		$this->tpl->setVariable("TITLE", $a_set["caption"]);
 		$this->tpl->setVariable("TYPE", $a_set["type"]);		
 
 		$ilCtrl->setParameter($this->parent_obj, "obj_id", $a_set["id"]);
