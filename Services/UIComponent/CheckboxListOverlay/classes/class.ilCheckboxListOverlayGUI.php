@@ -194,45 +194,26 @@ class ilCheckboxListOverlayGUI
 		
 		$items = $this->getItems();
 
-		include_once("./Services/UIComponent/Overlay/classes/class.ilOverlayGUI.php");
-		$overlay = new ilOverlayGUI("ilChkboxListOverlay_".$this->getId());
-		$overlay->setAnchor("ilChkboxListAnchorEl_".$this->getId());
-		$overlay->setTrigger("ilChkboxListTrigger_".$this->getId());
-		$overlay->setAutoHide(false);
-		//$overlay->setSize("300px", "300px");
-		$overlay->add();
-
 		$tpl = new ilTemplate("tpl.checkbox_list_overlay.html", true, true,
 			"Services/UIComponent/CheckboxListOverlay", "DEFAULT", false, true);
-		
+				
 		$tpl->setCurrentBlock("top_img");
-		switch ($this->getHeaderIcon())
-		{
-			case ilCheckboxListOverlayGUI::DOWN_ARROW_LIGHT:
-				$tpl->setVariable("IMG_DOWN",
-					ilUtil::getImagePath(ilCheckboxListOverlayGUI::DOWN_ARROW_LIGHT));
-				break;
-			case ilCheckboxListOverlayGUI::DOWN_ARROW_DARK:
-				$tpl->setVariable("IMG_DOWN",
-					ilUtil::getImagePath(ilCheckboxListOverlayGUI::DOWN_ARROW_DARK));
-				break;
-			default:
-				$tpl->setVariable("IMG_DOWN", $this->getHeaderIcon());
-				break;
-		}
+		
 		// do not repeat title (accessibility) -> empty alt
 		$tpl->setVariable("TXT_SEL_TOP", $this->getLinkTitle());
 		$tpl->setVariable("ALT_SEL_TOP", "");
-		$tpl->setVariable("CLASS_SEL_TOP", $this->getSelectionHeaderClass());
+		
 		$tpl->parseCurrentBlock();
 		
 		reset($items);
+		$cnt = 0;
 		foreach ($items as $k => $v)
-		{
+		{			
 			$tpl->setCurrentBlock("list_entry");
 			$tpl->setVariable("VAR", $this->getFieldVar());
 			$tpl->setVariable("VAL_ENTRY", $k);
 			$tpl->setVariable("TXT_ENTRY", $v["txt"]);
+			$tpl->setVariable("IDX_ENTRY", ++$cnt); 
 			if ($v["selected"])
 			{
 				$tpl->setVariable("CHECKED", "checked='checked'");
@@ -243,7 +224,7 @@ class ilCheckboxListOverlayGUI
 		$tpl->setVariable("ID", $this->getId());
 		$tpl->setVariable("HIDDEN_VAR", $this->getHiddenVar());
 		$tpl->setVariable("CMD_SUBMIT", $this->getFormCmd());
-		$tpl->setVariable("VAL_SUBMIT", $lng->txt("refresh"));
+		$tpl->setVariable("VAL_SUBMIT", $lng->txt("refresh"));				
 		return $tpl->get();
 	}
 }
