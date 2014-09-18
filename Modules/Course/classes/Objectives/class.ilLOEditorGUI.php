@@ -257,7 +257,7 @@ class ilLOEditorGUI
 		$type->addOption($type_1);
 		
 		$type_2 = new ilRadioOption($this->lng->txt('crs_loc_type_initial_sel'), ilLOSettings::LOC_INITIAL_SEL);
-		$type->addOption($type_2);
+		#$type->addOption($type_2);
 
 		$type_3 = new ilRadioOption($this->lng->txt('crs_loc_type_qualified'), ilLOSettings::LOC_QUALIFIED);
 		$type->addOption($type_3);
@@ -292,7 +292,7 @@ class ilLOEditorGUI
 				$this->lng->txt('crs_loc_qt_visibility_lo'),
 				ilLOSettings::QT_VISIBLE_OBJECTIVE)
 		);
-		$form->addItem($qtv);
+		#$form->addItem($qtv);
 		
 		// reset results
 		$reset = new ilCheckboxInputGUI($this->lng->txt('crs_loc_settings_reset'),'reset');

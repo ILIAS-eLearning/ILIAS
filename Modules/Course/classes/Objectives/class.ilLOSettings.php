@@ -331,7 +331,7 @@ class ilLOSettings
 			$this->setType($row->type);
 			$this->setInitialTest($row->itest);
 			$this->setQualifiedTest($row->qtest);
-			$this->setGeneralQualifiedTestVisibility($row->qt_vis_all);
+			#$this->setGeneralQualifiedTestVisibility($row->qt_vis_all);
 			$this->setQualifiedTestPerObjectiveVisibility($row->qt_vis_obj);
 			$this->resetResults($row->reset_results);
 		}
