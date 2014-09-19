@@ -3879,3 +3879,15 @@ if(!$ilDB->tableColumnExists('il_bibl_settings', 'show_in_list'))
 		$ilDB->addPrimaryKey('cp_suspend', array('user_id', 'obj_id'));
 	}
 ?>
+<#4374>
+<?php
+	if(!$ilDB->tableColumnExists('frm_posts', 'is_author_moderator'))
+	{
+		$ilDB->addTableColumn('frm_posts', 'is_author_moderator', array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false,
+			'default' => null)
+		);
+	}
+?>
