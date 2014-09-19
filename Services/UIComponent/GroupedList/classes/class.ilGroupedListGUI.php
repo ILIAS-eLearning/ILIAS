@@ -13,6 +13,7 @@ class ilGroupedListGUI
 {
 	private $multi_column = false;
 	private $items = array();
+	private $as_dropdown = false;
 	
 	/**
 	 * Constructor
@@ -21,6 +22,25 @@ class ilGroupedListGUI
 	{
 	}
 	
+	/**
+	 * Set as drop down
+	 *
+	 * @param bool $a_val as drop down menu	
+	 */
+	function setAsDropDown($a_val)
+	{
+		$this->as_dropdown = $a_val;
+	}
+	
+	/**
+	 * Get as drop down
+	 *
+	 * @return bool as drop down menu
+	 */
+	function getAsDropDown()
+	{
+		return $this->as_dropdown;
+	}
 	
 	/**
 	 * Add group header
@@ -165,6 +185,17 @@ class ilGroupedListGUI
 			$tpl->setCurrentBlock("script");
 			$tpl->setVariable("TT_CALLS", $tt_calls);
 			$tpl->parseCurrentBlock();
+		}
+
+		if ($this->getAsDropDown())
+		{
+			$tpl->setVariable("LIST_CLASS", "dropdown-menu");
+			$tpl->setVariable("LIST_ROLE", "menu");
+		}
+		else
+		{
+			$tpl->setVariable("LIST_CLASS", "");
+			$tpl->setVariable("LIST_ROLE", "");
 		}
 		
 		return $tpl->get();

@@ -1,27 +1,14 @@
-<!-- BEGIN no_js_section -->
-	<!-- BEGIN no_js_links --><!-- BEGIN no_js_link --><!-- BEGIN no_js_link_frame --><!-- END no_js_link_frame --> >
-	<!-- END no_js_link --><!-- END no_js_links -->
-	<!-- BEGIN no_js_form_select -->
-	<!-- BEGIN no_js_form_begin -->
-	<!-- END no_js_form_begin -->
-	<!-- BEGIN no_js_form_option -->
-	<!-- END no_js_form_option -->
-	<!-- BEGIN no_js_form_button -->
-	<!-- END no_js_form_end -->
-	<!-- END no_js_form_select -->
-<!-- END no_js_section -->
-
 <!-- BEGIN js_section -->
 <div class="btn-group">
 <!-- Important: The next a-tag had a this.blur(); in the onclick event before. Please do not add it again, see bug #8723 -->
-<button type="button" {ACCKEY} class="btn btn-default dropdown-toggle btn-sm" data-toggle="dropdown" data-container="body">
+<button type="button" {ACCKEY} class="btn {BTN_CLASS} dropdown-toggle btn-sm" data-toggle="dropdown" data-container="body">
 <span id="ilAdvSelListAnchorText_{ID}">{TXT_SEL_TOP}</span> <!-- BEGIN top_img --><span class="caret" alt="{ALT_SEL_TOP}"></span><!-- END top_img -->
 </button>
 <!-- BEGIN asynch_request -->
 <img src="{IMG_LOADER}" alt="loading" />
-<!-- END asynch_request -->
+<!-- END asynch_request -->{GROUPED_LIST_HTML}
+<!-- BEGIN dd_content -->
 <ul class="dropdown-menu pull-right" role="menu">
-<!-- onmouseover="il.AdvancedSelectionList.listOn('{ID}', false);" onmouseout="il.AdvancedSelectionList.listOff('{ID}');" -->
 	<!-- BEGIN cmd_table -->
 	<!-- BEGIN item -->
 	<li {ONCLICK_ITEM}>
@@ -34,6 +21,7 @@
 	<input type="hidden" id="ilAdvSelListHiddenCmd_{HID}" />
 	<!-- END hidden_input -->
 </ul>
+<!-- END dd_content -->
 </div>
 <script type="text/javascript">
 	il.AdvancedSelectionList.init['{ID}'] = function ()
