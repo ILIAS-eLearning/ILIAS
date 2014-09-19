@@ -223,6 +223,10 @@ class ilContObjParser extends ilMDSaxParser
 				case "gdf":
 					$page_obj =& new ilPageObject("gdf", $page_arr[1]);
 					break;
+
+				case "qpl":
+					$page_obj = new ilPageObject("qpl", $page_arr[1]);
+					break;
 			}
 			$page_obj->buildDom();
 			$page_obj->resolveIntLinks();
@@ -1076,6 +1080,10 @@ case "InteractiveImage":
 							$page->setXMLContent($xmlcontent);
 							$page->saveMobUsage($xmlcontent);
 							$page->updateFromXML();
+							if( $this->page_object->needsImportParsing() )
+							{
+								$this->pages_to_parse["qpl:".$page->getId()] = "qpl:".$page->getId();
+							}
 							unset($page);
 						}
 						if ($ids["test"] > 0)
@@ -1087,6 +1095,10 @@ case "InteractiveImage":
 							$page->setXMLContent($xmlcontent);
 							$page->saveMobUsage($xmlcontent);
 							$page->updateFromXML();
+							if( $this->page_object->needsImportParsing() )
+							{
+								$this->pages_to_parse["qpl:".$page->getId()] = "qpl:".$page->getId();
+							}
 							unset($page);
 						}
 					}
