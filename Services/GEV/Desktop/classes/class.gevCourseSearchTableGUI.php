@@ -95,7 +95,11 @@ class gevCourseSearchTableGUI extends catAccordionTableGUI {
 		$this->tpl->setVariable("ACCORDION_ROW", $this->getAccordionRowClass());
 		$this->tpl->setVariable("COLSPAN", $this->getColspan());
 
-		if ($a_set["start_date"] == null || $a_set["end_date"] == null) {
+		if ($a_set["end_date"] === null) {
+			$a_set["end_date"] = $a_set["start_date"];
+		}
+
+		if ($a_set["start_date"] == null) {
 			$date = $this->lng->txt("gev_table_no_entry");
 		}
 		else {
