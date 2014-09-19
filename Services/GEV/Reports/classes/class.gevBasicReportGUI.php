@@ -77,6 +77,12 @@ abstract class gevBasicReportGUI {
 
 		$cmd = $this->ctrl->getCmd();
 		
+		$res = $this->executeCustomCommand($cmd);
+		
+		if ($res !== null) {
+			return $res;
+		}
+		
 		switch ($cmd) {
 			case "exportxls":
 				$this->exportXLS();
@@ -86,10 +92,12 @@ abstract class gevBasicReportGUI {
 		}
 	}
 	
+	protected function executeCustomCommand($a_cmd) {
+		return null;
+	}
 	
 	protected function checkPermission() {
-
-		if( $this->user_utils->isAdmin() || $this->user_utils->isSuperior()) { 
+		if( $this->userIsPermitted() ) { 
 			return;
 		}
 		
@@ -97,7 +105,9 @@ abstract class gevBasicReportGUI {
 		ilUtil::redirect("ilias.php?baseClass=gevDesktopGUI&cmdClass=toMyCourses");
 	}
 
-
+	protected function userIsPermitted () {
+		return $this->user_utils->isAdmin() || $this->user_utils->isSuperior();
+	}
 
 	
 	protected function render() {

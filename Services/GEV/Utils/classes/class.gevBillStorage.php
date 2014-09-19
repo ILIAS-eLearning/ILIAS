@@ -45,7 +45,11 @@ class gevBillStorage extends ilFileSystemStorage {
 	}
 
 	public function getPath(ilBill $a_bill) {
-		return $this->getAbsolutePath()."/".$a_bill->getBillNumber().".pdf";
+		return $this->getPathByBillNumber($a_bill->getBillNumber());
+	}
+	
+	public function getPathByBillNumber($a_bill_number) {
+		return $this->getAbsolutePath()."/".$a_bill_number.".pdf";
 	}
 
 	// Implemented for ilFileSystemStorage

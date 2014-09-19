@@ -53,12 +53,26 @@ class gevBillingReportGUI extends gevBasicReportGUI{
 			, array("gev_number_of_measure", "custom_id")
 			, array("date", "date")
 			, array("gev_venue", "venue")
+			, array("", "bill_link")
 			);
 
 		$this->table_row_template= array(
 			"filename" => "tpl.gev_billing_row.html", 
 			"path" => "Services/GEV/Reports"
 		);
+	}
+	
+	protected function userIsPermitted () {
+		return $this->user_utils->isAdmin();
+	}
+
+	protected function executeCustomCommand($a_cmd) {
+		switch ($a_cmd) {
+			case "deliverBillPDF":
+				return $this->deliverBillPDF();
+			default:
+				return null;
+		}
 	}
 	
 	protected function fetchData(){ 
@@ -135,6 +149,8 @@ class gevBillingReportGUI extends gevBasicReportGUI{
 					. $sql_order_str;
 					;
 
+		$bill_link_icon = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-get_bill.png").'" />';
+
 		$res = $this->db->query($query);
 
 		while($rec = $this->db->fetchAssoc($res)) {
@@ -162,6 +178,12 @@ class gevBillingReportGUI extends gevBasicReportGUI{
 				$rec['date'] = $date;
 			}
 			
+			$this->ctrl->setParameterByClass($this, "bill_number", $rec["bill_number"]);
+			$rec["bill_link"] = $this->ctrl->getLinkTargetByClass($this, "deliverBillPDF");
+			$this->ctrl->clearParametersByClass($this);
+			
+			$rec["bill_link_icon"] = $bill_link_icon;
+			
 			$data[] = $rec;
 		}
 
@@ -182,6 +204,18 @@ class gevBillingReportGUI extends gevBasicReportGUI{
 		}
 		
 		return $this->query_when;
+	}
+	
+	protected function deliverBillPDF() {
+		$bill_number = $_GET["bill_number"];
+		if (!preg_match("/\d{6}-\d{5}/", $bill_number)) {
+			throw Exception("gevBillingReportGUI::deliverBillPDF: This is no bill_number: '".$bill_number."'");
+		}
+		
+		require_once("Services/Utilities/classes/class.ilUtil.php");
+		require_once("Services/GEV/Utils/classes/class.gevBillStorage.php");
+		$filename = gevBillStorage::getPathByBillNumber($bill_number);
+		ilUtil::deliverFile($filename, $filename, "application/pdf");
 	}
 
 	//_process_ will modify record entries
