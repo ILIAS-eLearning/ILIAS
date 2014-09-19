@@ -58,8 +58,18 @@ class ilForumPost
 	private $objThread = null;
 	
 	private $db = null;
-	
+
+	/**
+	 *  current user in a forum
+	 * @var bool
+	 */
 	private $is_moderator = false;
+	
+	/**
+	 * author_id of a post is a moderator
+	 * @var int|null
+	 */
+	private $is_author_moderator = null;
 	
 	private $post_read = false;
 	
@@ -69,7 +79,6 @@ class ilForumPost
 	{
 		global $ilDB;
 
-		$this->is_moderator = $a_is_moderator;
 		$this->db = $ilDB;
 		$this->id = $a_id;
 
@@ -108,7 +117,8 @@ class ilForumPost
 				'notify'		=> array('integer', (int)$this->notification),
 				'import_name'	=> array('text', (string)$this->import_name),
 				'pos_status'	=> array('integer', (int)$this->status),
-				'pos_author_id' => array('integer', (int)$this->pos_author_id)
+				'pos_author_id' => array('integer', (int)$this->pos_author_id),
+				'is_author_moderator' 	=> array('integer', (int)$this->is_author_moderator)
 			));
 			
 			return true;
@@ -157,24 +167,25 @@ class ilForumPost
 	public function getDataAsArray()
 	{			
 		$data = array(
-			'pos_pk' => $this->id,
-			'pos_top_fk' => $this->forum_id,
-			'pos_thr_fk' => $this->thread_id,
+			'pos_pk'              => $this->id,
+			'pos_top_fk'          => $this->forum_id,
+			'pos_thr_fk'          => $this->thread_id,
 			'pos_display_user_id' => $this->display_user_id,
-			'pos_usr_alias'	=> $this->user_alias,
-			'title' => $this->fullname,
-			'loginname' => $this->loginname,
-			'pos_message' => $this->message,
-			'pos_subject' => $this->subject,
-			'pos_cens_com' => $this->censorship_comment,
-			'pos_cens' => $this->censored,
-			'pos_date' => $this->createdate,
-			'pos_update' => $this->changedate,					
-			'update_user' => $this->user_id_update,					
-			'notify' => $this->notification,
-			'import_name' => $this->import_name,
-			'pos_status' => $this->status,
-			'pos_author_id' => $this->pos_author_id
+			'pos_usr_alias'       => $this->user_alias,
+			'title'               => $this->fullname,
+			'loginname'           => $this->loginname,
+			'pos_message'         => $this->message,
+			'pos_subject'         => $this->subject,
+			'pos_cens_com'        => $this->censorship_comment,
+			'pos_cens'            => $this->censored,
+			'pos_date'            => $this->createdate,
+			'pos_update'          => $this->changedate,
+			'update_user'         => $this->user_id_update,
+			'notify'              => $this->notification,
+			'import_name'         => $this->import_name,
+			'pos_status'          => $this->status,
+			'pos_author_id'       => $this->pos_author_id,
+			'is_author_moderator' => $this->is_author_moderator	
 		);
 		
 		return $data;
@@ -183,31 +194,32 @@ class ilForumPost
 	public function getDataAsArrayForExplorer()
 	{			
 		$data = array(
-			'pos_pk' => $this->id,
-			'child' => $this->id,
-			'author' => $this->display_user_id,
-			'alias'	=> $this->user_alias,
-			'title' => $this->fullname,
-			'loginname' => $this->loginname,
-			'type' => 'post',
-			'message' => $this->message,
-			'subject' => $this->subject,
-			'pos_cens_com' => $this->censorship_comment,
-			'pos_cens' => $this->censored,
-			'date' => $this->createdate,
-			'create_date' => $this->createdate,
-			'update' => $this->changedate,					
-			'update_user' => $this->user_id_update,
-			'tree' => $this->thread_id,				
-			'parent' => $this->parent_id,
-			'lft' => $this->lft,
-			'rgt' => $this->rgt,
-			'depth' => $this->depth,
-			'id' => $this->tree_id,
-			'notify' => $this->notification,
-			'import_name' => $this->import_name,
-			'pos_status' => $this->status,
-			'pos_author_id' => $this->pos_author_id
+			'pos_pk'        => $this->id,
+			'child'         => $this->id,
+			'author'        => $this->display_user_id,
+			'alias'         => $this->user_alias,
+			'title'         => $this->fullname,
+			'loginname'     => $this->loginname,
+			'type'          => 'post',
+			'message'       => $this->message,
+			'subject'       => $this->subject,
+			'pos_cens_com'  => $this->censorship_comment,
+			'pos_cens'      => $this->censored,
+			'date'          => $this->createdate,
+			'create_date'   => $this->createdate,
+			'update'        => $this->changedate,
+			'update_user'   => $this->user_id_update,
+			'tree'          => $this->thread_id,
+			'parent'        => $this->parent_id,
+			'lft'           => $this->lft,
+			'rgt'           => $this->rgt,
+			'depth'         => $this->depth,
+			'id'            => $this->tree_id,
+			'notify'        => $this->notification,
+			'import_name'   => $this->import_name,
+			'pos_status'    => $this->status,
+			'pos_author_id' => $this->pos_author_id,
+			'is_author_moderator' => $this->is_author_moderator
 		);
 		
 		return $data;
@@ -222,32 +234,32 @@ class ilForumPost
 				INNER JOIN frm_posts_tree ON pos_fk = pos_pk
 				WHERE pos_pk = %s',
 				array('integer'), array($this->id));
-			$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
+			$row = $this->db->fetchObject($res);
 			
 			if (is_object($row))
 			{
-				$this->id = $row->pos_pk;
-				$this->forum_id = $row->pos_top_fk;
-				$this->thread_id = $row->pos_thr_fk;	
-				$this->display_user_id = $row->pos_display_user_id;
-				$this->user_alias = $row->pos_usr_alias;	
-				$this->subject = $row->pos_subject;
-				$this->message = $row->pos_message;
-				$this->createdate = $row->pos_date;	
-				$this->changedate = $row->pos_update;
-				$this->user_id_update = $row->update_user;
-				$this->censored = $row->pos_cens;
+				$this->id                 = $row->pos_pk;
+				$this->forum_id           = $row->pos_top_fk;
+				$this->thread_id          = $row->pos_thr_fk;
+				$this->display_user_id    = $row->pos_display_user_id;
+				$this->user_alias         = $row->pos_usr_alias;
+				$this->subject            = $row->pos_subject;
+				$this->message            = $row->pos_message;
+				$this->createdate         = $row->pos_date;
+				$this->changedate         = $row->pos_update;
+				$this->user_id_update     = $row->update_user;
+				$this->censored           = $row->pos_cens;
 				$this->censorship_comment = $row->pos_cens_com;
-				$this->notification = $row->notify;
-				$this->import_name = $row->import_name ;
-				$this->status = $row->pos_status;				
-				$this->tree_id = $row->fpt_pk;
-				$this->parent_id = $row->parent_pos;
-				$this->lft = $row->lft;
-				$this->rgt = $row->rgt;
-				$this->depth = $row->depth;
-				$this->pos_author_id = $row->pos_author_id;
-				
+				$this->notification       = $row->notify;
+				$this->import_name        = $row->import_name;
+				$this->status             = $row->pos_status;
+				$this->tree_id            = $row->fpt_pk;
+				$this->parent_id          = $row->parent_pos;
+				$this->lft                = $row->lft;
+				$this->rgt                = $row->rgt;
+				$this->depth              = $row->depth;
+				$this->pos_author_id      = $row->pos_author_id;
+				$this->is_author_moderator = $row->is_author_moderator;
 				$this->getUserData();
 				
 				$this->objThread = new ilForumTopic($this->thread_id, $this->is_moderator);
@@ -694,7 +706,22 @@ class ilForumPost
 	{
 		return $this->pos_author_id;
 	}
-	
+	/**
+	 * @return int|null
+	 */
+	public function getIsAuthorModerator()
+	{
+		return $this->is_author_moderator;
+	}
+
+	/**
+	 * @param int|null
+	 */
+	public function setIsAuthorModerator($is_author_moderator)
+	{
+		$this->is_author_moderator = $is_author_moderator;
+	}
+
 	public function assignData($row)
 	{
 		$this->setUserAlias($row['pos_usr_alias']);
@@ -718,6 +745,7 @@ class ilForumPost
 		$this->setIsRead($row['post_read']);
 		$this->setDisplayUserId($row['pos_display_user_id']);
 		$this->setPosAuthorId($row['pos_author_id']);
+		$this->setIsAuthorModerator($row['is_author_moderator']);
 		$this->buildUserRelatedData($row);
 	}
 	

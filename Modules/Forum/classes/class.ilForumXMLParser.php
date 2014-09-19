@@ -235,6 +235,9 @@ class ilForumXMLParser extends ilSaxParser
 			case 'AuthorId':
 				$x['AuthorId'] = $this->cdata;
 				break;
+			case 'isAuthorModerator':
+				$x['isAuthorModerator'] = $this->cdata;
+				break;
 			
 			case 'UserId':
 				$x['UserId'] = $this->cdata;
@@ -448,6 +451,8 @@ class ilForumXMLParser extends ilSaxParser
 						$this->postArray['AuthorId']
 					);
 					$this->forumPost->setPosAuthorId($author_id_data['usr_id']);
+					
+					$this->forumPost->setIsAuthorModerator($this->postArray['isAuthorModerator']);
 
 					$this->forumPost->insert();
 

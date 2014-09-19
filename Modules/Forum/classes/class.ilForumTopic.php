@@ -208,23 +208,22 @@ class ilForumTopic
 
 			if (is_object($row))
 			{
-				
-				$this->thr_pk = $row->pos_pk;   // thr_pk = pos_pk ??!??!
-				$this->forum_id = $row->thr_top_fk;
-				$this->display_user_id = $row->thr_display_user_id;
-				$this->user_alias = $row->thr_usr_alias;	
-				$this->subject = html_entity_decode($row->thr_subject);
-				$this->createdate = $row->thr_date;	
-				$this->changedate = $row->thr_update;
-				$this->import_name = $row->import_name;
-				$this->num_posts = $row->thr_num_posts;
+				$this->thr_pk           = $row->pos_pk;   // thr_pk = pos_pk ??!??!
+				$this->forum_id         = $row->thr_top_fk;
+				$this->display_user_id  = $row->thr_display_user_id;
+				$this->user_alias       = $row->thr_usr_alias;
+				$this->subject          = html_entity_decode($row->thr_subject);
+				$this->createdate       = $row->thr_date;
+				$this->changedate       = $row->thr_update;
+				$this->import_name      = $row->import_name;
+				$this->num_posts        = $row->thr_num_posts;
 				$this->last_post_string = $row->thr_last_post;
-				$this->visits = $row->visits;
-				$this->is_sticky = $row->is_sticky;
-				$this->is_closed = $row->is_closed;
-				$this->frm_obj_id = $row->frm_obj_id;
-				$this->average_rating = $row->avg_rating;
-				$this->thr_author_id = $row->thr_author_id;
+				$this->visits           = $row->visits;
+				$this->is_sticky        = $row->is_sticky;
+				$this->is_closed        = $row->is_closed;
+				$this->frm_obj_id       = $row->frm_obj_id;
+				$this->average_rating   = $row->avg_rating;
+				$this->thr_author_id    = $row->thr_author_id;
 				
 				return true;
 			}
@@ -451,7 +450,7 @@ class ilForumTopic
 		$data_types = array();
 
 		$query = '
-			SELECT 			pos_author_id, pos_pk, fpt_date, rgt, pos_top_fk, pos_thr_fk, 
+			SELECT 			is_author_moderator, pos_author_id, pos_pk, fpt_date, rgt, pos_top_fk, pos_thr_fk, 
 							pos_display_user_id, pos_usr_alias, pos_subject,
 							pos_status, pos_message, pos_date, pos_update,
 							update_user, pos_cens, pos_cens_com, notify,
@@ -667,6 +666,7 @@ class ilForumTopic
 							fp.pos_usr_alias,
 							fp.import_name,
 							fp.pos_author_id,
+							fp.is_author_moderator,
 							fur.post_id,
 							(CASE
 							WHEN fur.post_id IS NULL '.
@@ -728,6 +728,7 @@ class ilForumTopic
 							fp.pos_usr_alias,
 							fp.import_name,
 							fp.pos_author_id,
+							fp.is_author_moderator,
 							fur.post_id
 					ORDER BY fpt.rgt DESC
 		';		
@@ -1286,6 +1287,5 @@ class ilForumTopic
 		$row = $ilDB->fetchAssoc($res);
 		
 		return $row['thr_date'] ? $row['thr_date'] : '0000-00-00 00:00:00';
-			
 	}
 }

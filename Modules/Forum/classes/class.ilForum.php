@@ -456,6 +456,9 @@ class ilForum
 		$objNewPost->setUserAlias($alias);
 		$objNewPost->setPosAuthorId($author_id);
 		
+		$this->_isModerator($this->getForumRefId(), $author_id) ? $is_moderator = true : $is_moderator = false; 
+		$objNewPost->setIsAuthorModerator($is_moderator);
+		
 		if ($date == "")
 		{
 			$objNewPost->setCreateDate(date("Y-m-d H:i:s"));

@@ -1096,7 +1096,7 @@ class ilObjForum extends ilObject
 
 		$in       = $ilDB->in("t1.pos_thr_fk", $thread_ids, false, 'integer');
 		$inner_in = $ilDB->in("t3.pos_thr_fk", $thread_ids, false, 'integer');
-
+//@todo fix this query 'group by ... ' 
 		$query = "
 			SELECT t1.pos_display_user_id, t1.update_user
 			FROM frm_posts t1
@@ -1107,9 +1107,9 @@ class ilObjForum extends ilObject
 				GROUP BY t3.pos_thr_fk
 			) t2 ON t2.pos_thr_fk = t1.pos_thr_fk AND t2.pos_date = t1.pos_date
 			WHERE $in $act_clause
-			GROUP BY t1.pos_thr_fk
+			GROUP BY t1.pos_thr_fk, t1.pos_display_user_id, t1.update_user
 		";
-
+///
 		$usr_ids = array();
 
 		$res = $ilDB->query($query);

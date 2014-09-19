@@ -258,8 +258,11 @@ class ilForumExportGUI
 
 		if(ilForumProperties::getInstance($ilObjDataCache->lookupObjId($_GET['ref_id']))->getMarkModeratorPosts() == 1)
 		{
-			$is_moderator = ilForum::_isModerator($_GET['ref_id'], $post->getPosAuthorId());
-			if($is_moderator)
+			if($post->getIsAuthorModerator() === null && $is_moderator = ilForum::_isModerator($_GET['ref_id'], $post->getPosAuthorId())  )
+			{
+				$rowCol = 'ilModeratorPosting';
+			}
+			else if($post->getIsAuthorModerator())
 			{
 				$rowCol = 'ilModeratorPosting';
 			}

@@ -2599,14 +2599,17 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 					if($this->objProperties->getMarkModeratorPosts() == 1)
 					{
-						$is_moderator = ilForum::_isModerator($_GET['ref_id'], $node->getPosAuthorId());
-						if($is_moderator)
+				 		if($node->getIsAuthorModerator() === null && $is_moderator = ilForum::_isModerator($_GET['ref_id'], $node->getPosAuthorId()))
+						{
+							$rowCol = 'ilModeratorPosting';
+						}
+						elseif($node->getIsAuthorModerator())
 						{
 							$rowCol = 'ilModeratorPosting';
 						}
 						else $rowCol = ilUtil::switchColor($z, 'tblrow1', 'tblrow2');
 					}
-						else $rowCol = ilUtil::switchColor($z, 'tblrow1', 'tblrow2');
+					else $rowCol = ilUtil::switchColor($z, 'tblrow1', 'tblrow2');
 					if ((  $_GET['action'] != 'delete' && $_GET['action'] != 'censor' && 
 						   #!$this->displayConfirmPostDeactivation() &&						    
 						   !$this->displayConfirmPostActivation()
@@ -2831,7 +2834,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 		include_once 'Services/PermanentLink/classes/class.ilPermanentLinkGUI.php';
 		$permalink = new ilPermanentLinkGUI('frm', $this->object->getRefId(), '_'.$this->objCurrentTopic->getId());		
 		$this->tpl->setVariable('PRMLINK', $permalink->getHTML());
-		
+
 		// Render tree
 		if($_SESSION['viewmode'] == 'answers'
 		|| $_SESSION['viewmode'] == ilForumProperties::VIEW_TREE)
