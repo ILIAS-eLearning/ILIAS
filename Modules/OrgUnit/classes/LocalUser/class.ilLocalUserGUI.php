@@ -181,7 +181,7 @@ class ilLocalUserGUI {
 	}
 
 
-	function deleteUsersObject() {
+	function deleteUsers() {
 		$this->checkPermission("cat_administrate_users");
 		if (! count($_POST['id'])) {
 			ilUtil::sendFailure($this->lng->txt('no_users_selected'));

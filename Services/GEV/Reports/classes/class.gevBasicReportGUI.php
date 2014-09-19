@@ -40,6 +40,12 @@ abstract class gevBasicReportGUI {
 		$this->query_from = null;
 		$this->data = false;
 	
+		
+		//watch out for sorting of special fields, i.e. dates shown as a period of time.
+		//to avoid the ilTable-sorting, the this too true.
+		//i.e. applies to: _table_nav=date:asc:
+		$this->external_sorting = false;
+
 
 		//$this->report_permissions = gevReportingPermissions::getInstance($this->user->getId());
 
@@ -61,6 +67,7 @@ abstract class gevBasicReportGUI {
 			$this->end_date = new ilDate($this->start_date->get(IL_CAL_DATE), IL_CAL_DATE);
 			$this->end_date->increment(ilDateTime::YEAR);
 		}
+
 		
 	}
 	
@@ -196,8 +203,10 @@ abstract class gevBasicReportGUI {
 		$cnt = count($data);
 		$table->setLimit($cnt);
 		$table->setMaxCount($cnt);
+		$table->setExternalSorting($this->external_sorting);
 
 		$table->setData($data);
+
 		return $table->getHTML();
 	}
 	
@@ -263,7 +272,7 @@ abstract class gevBasicReportGUI {
 
 	protected function fetchData(){ 
 		//fetch retrieves the data 
-		die('WRONG SCOPE !');
+		die('gevBasicReportGUI::fetchData: WRONG SCOPE !');
 	}
 
 }

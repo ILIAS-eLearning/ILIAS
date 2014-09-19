@@ -205,6 +205,13 @@ class gevRegistrationGUI {
 		$user_id = $user->getId();
 		$stellennummer = $form->getInput("position");
 		$vermittlerstatus = $this->getVermittlerStatus($stellennummer);
+		$data = $this->getStellennummerData($stellennummer);
+		
+		$user_utils->setADPNumber($data["adp"]);
+		$user_utils->setJobNumber($stellennummer);
+		$user_utils->setAgentKey($data["vms"]);
+		$user_utils->setCompanyTitle($data["gesellschaftstitel"]);
+		$user_utils->setHPE($data["hpe"]);
 		
 		$role_title = gevSettings::$VMS_ROLE_MAPPING[$vermittlerstatus][0];
 		$role_utils = gevRoleUtils::getInstance();
@@ -226,19 +233,7 @@ class gevRegistrationGUI {
 		$link = ILIAS_HTTP_PATH . '/confirmReg.php?client_id=' . CLIENT_ID . '&rh='.$token;
 		$reg_mails = new gevRegistrationMails($link, $token);
 		$reg_mails->getAutoMail("agent_activation")->send();
-/*
-		include_once './Services/Registration/classes/class.ilRegistrationMimeMailNotification.php';
 
-		$mail = new ilRegistrationMimeMailNotification();
-		$mail->setType(ilRegistrationMimeMailNotification::TYPE_NOTIFICATION_ACTIVATION);
-		$mail->setRecipients(array($user));
-		$mail->setAdditionalInformation(
-			array( 'usr'           => $user
-				 , 'hash_lifetime' => 5 * 60 * 60 // in seconds
-				 )
-			);
-		$mail->send();
-*/		
 		require_once("Services/CaTUIComponents/classes/class.catTitleGUI.php");
 		$title = new catTitleGUI("gev_agent_registration", null, "GEV_img/ico-head-evg_registration.png");
 		

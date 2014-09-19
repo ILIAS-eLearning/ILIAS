@@ -67,22 +67,67 @@ class gevCourseSearchGUI {
 		
 		$form = $this->getSearchForm();
 		if ($a_in_search) {
-			$form->setValuesByPost();
-			if ($form->checkInput()) {
-				$search_opts = $form->getInputs();
-				// clean empty or "all"-options
-				foreach($search_opts as $key => $value) {
-					if (!$value || $value == $this->lng->txt("gev_crs_srch_all")) {
-						unset($search_opts[$key]);
+			// search params are passed via form post
+			if (isset($_POST["cmd"])) {
+				$form->setValuesByPost();
+				if ($form->checkInput()) {
+					$search_opts = $form->getInputs();
+					// clean empty or "all"-options
+					foreach($search_opts as $key => $value) {
+						if (!$value || $value == $this->lng->txt("gev_crs_srch_all")) {
+							unset($search_opts[$key]);
+						}
+					}
+				}
+				else {
+					$search_opts = array();
+				}
+			}
+			// search params are passed via get in table nav links 
+			else {
+				$search_opts = array();
+				foreach ($form->getItems() as $item) {
+					$postvar = $item->getPostVar();
+					// special detreatment for period, see below
+					if ($postvar == "period") {
+						$start = $_GET["start"];
+						$end = $_GET["end"];
+						if ($start && $end) {
+							$search_opts["period"] = array(
+								"start" => $start,
+								"end" => $end
+								);
+						}
+					}
+					else {
+						$val = $_GET[$postvar];
+						if ($val) {
+							$search_opts[$postvar] = $val;
+						}
 					}
 				}
 			}
-			else {
-				$search_opts = array();
-			}
+			
+			// click on table nav should lead to search again.
+			$this->ctrl->setParameter($this, "cmd", "search");
 		}
 		else {
 			$search_opts = array();
+		}
+
+		// this is needed to pass the search parameter via the sorting
+		// links of the table.
+		foreach( $search_opts as $key => $value) {
+			// special treatment for period is needed since it is an array.
+			// when i try to serialize that array, ilias seems to remove '"'
+			// which makes deserialisation fail
+			if ($key == "period") {
+				$this->ctrl->setParameter($this, "start", urlencode($value["start"]));
+				$this->ctrl->setParameter($this, "end", urlencode($value["end"]));
+			}
+			else {
+				$this->ctrl->setParameter($this, $key, urlencode($value));
+			}
 		}
 
 		$crs_tbl = new gevCourseSearchTableGUI($search_opts, $this->target_user_id, $this);

@@ -46,7 +46,6 @@ class gevDesktopGUI {
 			$cmd = "toMyCourses";
 		}
 
-
 		global $ilMainMenu;
 
 		switch($next_class) {
@@ -62,63 +61,50 @@ class gevDesktopGUI {
 				$gui = new gevCourseSearchGUI();
 				$ret = $this->ctrl->forwardCommand($gui);
 				break;
-			/*case "gevmemberlistdeliverygui":
-				require_once("Services/GEV/Desktop/classes/class.gevMemberListDeliveryGUI.php");
-				$gui = new gevMemberListDeliveryGUI();
-				$this->ctrl->forward($gui);
-				return;*/
 			case "gevbookinggui":
 				require_once("Services/GEV/Desktop/classes/class.gevBookingGUI.php");
 				$gui = new gevBookingGUI();
 				$ret = $this->ctrl->forwardCommand($gui);
 				break;
-
 			case "gevstaticpagesgui":			
 				require_once("Services/GEV/Desktop/classes/class.gevStaticPagesGUI.php");
 				$gui = new gevStaticpagesGUI();
 				$ret = $this->ctrl->forwardCommand($gui);
 				break;
-
 			case "gevedubiographygui":
 				$ilMainMenu->setActive("gev_me_menu");
 				require_once("Services/GEV/Reports/classes/class.gevEduBiographyGUI.php");
 				$gui = new gevEduBiographyGUI();
 				$ret = $this->ctrl->forwardCommand($gui);
 				break;
-
 			case "gevuserprofilegui":
 				$ilMainMenu->setActive("gev_me_menu");
 				require_once("Services/GEV/Desktop/classes/class.gevUserProfileGUI.php");
 				$gui = new gevUserProfileGUI();
 				$ret = $this->ctrl->forwardCommand($gui);
 				break;
-
 			case "gevmytrainingsapgui":
 				$ilMainMenu->setActive("gev_me_menu");
 				require_once("Services/GEV/Desktop/classes/class.gevMyTrainingsApGUI.php");
 				$gui = new gevMyTrainingsApGUI();
 				$ret = $this->ctrl->forwardCommand($gui);
 				break;
-
 			case "gevwbdtpserviceregistrationgui":
 				require_once("Services/GEV/Registration/classes/class.gevWBDTPServiceRegistrationGUI.php");
 				$gui = new gevWBDTPServiceRegistrationGUI();
 				$ret = $this->ctrl->forwardCommand($gui);
 				break;
-			
 			case "gevwbdtpbasicregistrationgui":
 				require_once("Services/GEV/Registration/classes/class.gevWBDTPBasicRegistrationGUI.php");
 				$gui = new gevWBDTPBasicRegistrationGUI();
 				$ret = $this->ctrl->forwardCommand($gui);
 				break;
-
 			case "gevattendancebyemployeegui":
 				$ilMainMenu->setActive("gev_reporting_menu");
 				require_once("Services/GEV/Reports/classes/class.gevAttendanceByEmployeeGUI.php");
 				$gui = new gevAttendanceByEmployeeGUI();
 				$ret = $this->ctrl->forwardCommand($gui);
 				break;
-
 
 			default:	
 				$this->dispatchCmd($cmd);
@@ -205,13 +191,11 @@ class gevDesktopGUI {
 
 			//two ways: GEV is TP or  TPBasic
 			if ($utils->canBeRegisteredAsTPService()) {
-
 				if ($next_class != "gevwbdtpserviceregistrationgui") {
 					$this->ctrl->redirectByClass("gevWBDTPServiceRegistrationGUI");
 				}
 			} else {
 				if ($next_class != "gevwbdtpbasicregistrationgui") {
-					//die('g');
 					$this->ctrl->redirectByClass("gevWBDTPBasicRegistrationGUI");
 				}
 			}

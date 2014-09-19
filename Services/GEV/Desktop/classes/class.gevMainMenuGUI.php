@@ -65,7 +65,9 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 		$manage_org_units = $this->access->checkAccess("visible", "", $org_mgmt);
 		$manage_mails = $this->access->checkAccess("visible", "", $mail_mgmt);
 		$manage_competences = $this->access->checkAccess("visible", "", $competence_mgmt);
-		$has_managment_menu = $manage_courses || $manage_users || $manage_org_units || $manage_mails || $manage_competences;
+		$has_managment_menu = ($manage_courses || $manage_users || $manage_org_units || $manage_mails || $manage_competences)
+							&& !$this->userUtils->hasRoleIn(array("HA", "OD/LD/BD/VD/VTWL"))
+							;
 		
 		$has_super_admin_menu = $this->access->checkAccess("write", "", $general_settings);
 		
@@ -87,8 +89,8 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 		//$report_permissions->getOrgUnitIdsWhereUserHasRole(array());
 		//die();
 
-		$report_permission_attendancebyuser = $this->userUtils->isSuperior();// || $this->userUtils->isAdmin();
-		$has_reporting_menu = $this->userUtils->isAdmin(); //false;//$report_permission_attendancebyuser; // || ....
+		$report_permission_attendancebyuser =  $this->userUtils->isAdmin();//$this->userUtils->isSuperior();// || $this->userUtils->isAdmin();
+		$has_reporting_menu = $this->userUtils->isAdmin(); //$report_permission_attendancebyuser; // || ....
 
 		$is_trainer = $tep; // $tep_permissions->isTutor();
 
@@ -154,7 +156,11 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 		//Enhance Menu with Local Useradmin Roles
 		if(count($arr_local_user_admin_links) > 0)  {
 			foreach($arr_local_user_admin_links as $key => $arr_local_user_admin_link) {
-				$menu["gev_others_menu"][2]["gev_my_local_user_admin_".$key] = array($local_user_admin,$arr_local_user_admin_link['url'],sprintf($this->lng->txt("gev_my_local_user_admin"), $arr_local_user_admin_link['title']));
+				$menu["gev_others_menu"][2]["gev_my_local_user_admin_".$key] = array(
+					$local_user_admin,
+					$arr_local_user_admin_link['url'],
+					sprintf($this->lng->txt("gev_my_local_user_admin"), $arr_local_user_admin_link['title'])
+					);
 			}
 		}
 

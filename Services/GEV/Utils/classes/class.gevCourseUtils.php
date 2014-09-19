@@ -100,7 +100,7 @@ class gevCourseUtils {
 	}
 
 	static public function mkDeadlineDate($a_start_date, $a_deadline) {
-		if (!$a_start_date || !$a_deadline) {
+		if (!$a_start_date || $a_deadline === null) {
 			return null;
 		}
 		
@@ -420,7 +420,17 @@ class gevCourseUtils {
 		$val = ilDatePresentation::formatDate($dl);
 		return $val;
 	}
-	
+
+	public function getFormattedCancelDeadlineDate() {
+		$dl = $this->getCancelDeadlineDate();
+		if (!$dl) {
+			return "";
+		}
+		$val = ilDatePresentation::formatDate($dl);
+		return $val;
+	}
+
+
 	public function getAmountHours() {
 		$type = $this->getType();
 		if ( $type === null
@@ -560,7 +570,7 @@ class gevCourseUtils {
 	public function getBookingDeadline() {
 		$val = $this->amd->getField($this->crs_id, gevSettings::CRS_AMD_BOOKING_DEADLINE);
 		if (!$val) {
-			$val = 1;
+			$val = 0;
 		}
 		return $val;
 	}
@@ -580,7 +590,7 @@ class gevCourseUtils {
 		}
 		
 		$now = new ilDate(date("Y-m-d"), IL_CAL_DATE);
-		return !ilDateTime::_after($bdl, $now);
+		return ($bdl->get(IL_CAL_DATE) < $now->get(IL_CAL_DATE));
 	}
 	
 	public function getCancelWaitingList() {

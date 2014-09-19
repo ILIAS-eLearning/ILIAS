@@ -234,6 +234,8 @@ class gevUserUtils {
 																			 );
 			// TODO: Push this to SQL-Statement.
 			$orgu_utils = gevOrgUnitUtils::getInstance($value["location"]);
+			$crs_utils = gevCourseUtils::getInstance($value["obj_id"]);
+			$booked_amd[$key]["overnights"] = $this->getFormattedOvernightDetailsForCourse($crs_utils->getCourse());
 			$booked_amd[$key]["location"] = $orgu_utils->getLongTitle();
 			$list = "";
 			foreach ($booked_amd[$key]["target_group_list"] as $val) {
@@ -250,6 +252,8 @@ class gevUserUtils {
 																			  );
 			
 			$orgu_utils = gevOrgUnitUtils::getInstance($value["location"]);
+			$crs_utils = gevCourseUtils::getInstance($value["obj_id"]);
+			$booked_amd[$key]["overnights"] = $this->getFormattedOvernightDetailsForCourse($crs_utils->getCourse());
 			$waiting_amd[$key]["location"] = $orgu_utils->getLongTitle();
 			$list = "";
 			foreach ($waiting_amd[$key]["target_group_list"] as $val) {
@@ -261,13 +265,6 @@ class gevUserUtils {
 		return array_merge($booked_amd, $waiting_amd);
 	}
 	
-
-
-
-
-	
-
-
 	public function getCourseIdsWhereUserIsTutor() {
 			
 		$like_role = array();
@@ -492,11 +489,11 @@ class gevUserUtils {
 				"   AND end_date.field_id = ".$this->db->quote($end_date_field_id, "integer")
 				;
 			$additional_where .=
-				" AND ( ( NOT start_date.value >= ".$this->db->quote(date("Y-m-d", $a_search_options["period"]["end"]))." ) ".
+				" AND ( ( NOT start_date.value > ".$this->db->quote(date("Y-m-d", $a_search_options["period"]["end"]))." ) ".
 				"       OR ".$this->db->in("ltype.value", array("Selbstlernkurs"), false, "text").") ".
-				" AND ( ( NOT end_date.value <= ".$this->db->quote(date("Y-m-d", $a_search_options["period"]["start"]))." ) ".
+				" AND ( ( NOT end_date.value < ".$this->db->quote(date("Y-m-d", $a_search_options["period"]["start"]))." ) ".
 				"       OR ".$this->db->in("ltype.value", array("Selbstlernkurs"), false, "text").") ".
-				"       OR (end_date.value IS NULL AND NOT start_date.value <= ".$this->db->quote(date("Y-m-d", $a_search_options["period"]["start"])).")"
+				"       OR (end_date.value IS NULL AND NOT start_date.value < ".$this->db->quote(date("Y-m-d", $a_search_options["period"]["start"])).")"
 				;
 		}
 		
@@ -965,7 +962,7 @@ class gevUserUtils {
 		return $this->hasRoleIn(gevSettings::$ADMIN_ROLES);
 	}
 	
-	protected function hasRoleIn($a_roles) {
+	public function hasRoleIn($a_roles) {
 		$roles = gevRoleUtils::getInstance()->getGlobalRolesOf($this->user_id);
 
 		foreach($roles as $key => $value) {
@@ -997,52 +994,49 @@ class gevUserUtils {
 		require_once("Services/Calendar/classes/class.ilDateTime.php");
 		require_once("Services/Calendar/classes/class.ilDatePresentation.php");
 		$ovs = $this->getOvernightDetailsForCourse($a_crs);
-		
+
 		// will contain arrays with start and end of consecutive sequences
 		// of overnights, where 0 => start and 1 => null|end
 		$ovs_cons = array();
 		// the consecutive sequence we are currently working on
-		$ovs_cur = array();
-		// the last checked overnight
-		$ov_cur = null;
+		$ovs_cur = null;
 		
-		// search for consecutive sequences of overnights
 		foreach ($ovs as $ov) {
-			if ($ov_cur === null) {
-				$ovs_cur[0] = $ov;
-				$ov_cur = $ov;
+			// base case after start
+			if ($ovs_cur === null) {
+				$cp = new ilDate($ov->get(IL_CAL_DATE), IL_CAL_DATE);
+				$ovs_cur = array($ov, $cp);
 				continue;
 			}
-			
-			$cur_p1 = new ilDate($ov_cur->get(IL_CAL_DATE), IL_CAL_DATE);
+
+			// check last overnight
+			$cur_p1 = new ilDate($ovs_cur[1]->get(IL_CAL_DATE), IL_CAL_DATE);
 			$cur_p1->increment(ilDateTime::DAY, 1);
+			
 			if ($ov->get(IL_CAL_DATE) == $cur_p1->get(IL_CAL_DATE)) {
+				// the current night directly follows the last night
+				// and therefore belongs to the the current sequence
 				$ovs_cur[1] = $ov;
 			}
 			else {
+				// the current night does not directly follow the other night
+				// and therefore starts a new sequence
 				$ovs_cons[] = $ovs_cur;
-				$ovs_cur = array($ov);
-				$ov_cur = $ov;
+				$cp = new ilDate($ov->get(IL_CAL_DATE), IL_CAL_DATE);
+				$ovs_cur = array($ov, $cp);
 			}
 		}
 		
-		$ovs_cons[] = $ovs_cur;
+		// the last sequence needs to be inserted as well.
+		if ($ovs_cur !== null) {
+			$ovs_cons[] = $ovs_cur;
+		}
 		
 		// adjust the sequences. since convention in Accomodations package is
 		// to give the starting day for an overnight, the enddates of the
 		// consecutive sequences must be adopted accordingly.
 		foreach ($ovs_cons as $key => $ovs) {
-			if (count($ovs) == 0) {
-				continue;
-			}
-			if (count($ovs) == 1) {
-				$end = new ilDate($ovs[0]->get(IL_CAL_DATE), IL_CAL_DATE);
-				$end->increment(ilDateTime::DAY, 1);
-				$ovs[1] = $end;
-			}
-			else {
-				$ovs[1]->increment(ilDateTime::DAY, 1);
-			}
+			$ovs[1]->increment(ilDateTime::DAY, 1);
 			$ov_cons[$key] = ilDatePresentation::formatPeriod($ovs[0], $ovs[1]);
 		}
 		

@@ -323,6 +323,12 @@ class gevBookingGUI {
 				   , $booking_dl != "" && !$this->isSelfLearningCourse()
 				   , $this->lng->txt("until") . " ". $this->crs_utils->getFormattedBookingDeadlineDate()
 				   )
+
+			, array( $this->lng->txt("gev_free_cancellation_until")
+				   , $booking_dl != "" && !$this->isSelfLearningCourse()
+				   , $this->lng->txt("until") . " ". $this->crs_utils->getFormattedCancelDeadlineDate()
+				   )
+
 			, array( $this->lng->txt("gev_free_places")
 				   , !$this->isSelfLearningCourse()
 				   , $this->crs_utils->getFreePlaces()

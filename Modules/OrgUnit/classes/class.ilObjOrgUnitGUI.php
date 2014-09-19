@@ -647,7 +647,16 @@ class ilObjOrgUnitGUI extends ilContainerGUI {
 	}
 
 	public function getAdminTabs(&$tabs_gui) {
-		$this->getTabs($tabs_gui);
+		//gev-patch start
+		//TEMPORARY PATCH
+
+		global $ilUser;
+		$userUtils = gevUserUtils::getInstance($ilUser->getId());
+		if($userUtils->isAdmin()){
+			$this->getTabs($tabs_gui);
+		}
+
+		//gev-patch end
 	}
 
 	/**
