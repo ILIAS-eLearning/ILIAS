@@ -31,8 +31,8 @@ class ilGlobalCache {
 	 * @var array
 	 */
 	protected static $types = array(
-		self::TYPE_MEMCACHED,
-		self::TYPE_XCACHE,
+		//		self::TYPE_MEMCACHED,
+		//		self::TYPE_XCACHE,
 		self::TYPE_APC,
 		self::TYPE_STATIC
 	);
