@@ -536,7 +536,7 @@ class ilObjForum extends ilObject
 			
 			$new_post = $new_frm->generateThread(
 				$new_topic['top_pk'],
-				$old_thread['author_id'],
+				$old_thread['thr_author_id'],
 				$old_thread['thr_display_user_id'],
 				$old_thread['thr_subject'],
 				ilForum::_lookupPostMessage($old_post_id),

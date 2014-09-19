@@ -511,7 +511,7 @@ class ilForum
 		
 		// MARK READ
 		$forum_obj = ilObjectFactory::getInstanceByRefId($this->getForumRefId());
-		$forum_obj->markPostRead($objNewPost->getDisplayUserId(), $objNewPost->getThreadId(), $objNewPost->getId());
+		$forum_obj->markPostRead($objNewPost->getPosAuthorId(), $objNewPost->getThreadId(), $objNewPost->getId());
 		
 		$pos_data = $objNewPost->getDataAsArray();
 		$pos_data["ref_id"] = $this->getForumRefId();
@@ -587,7 +587,7 @@ class ilForum
 		
 		if ($notify_posts == 1)
 		{
-			$objNewThread->enableNotification($display_user_id);
+			$objNewThread->enableNotification($author_id);
 		}
 			
 		// update forum
@@ -1106,7 +1106,7 @@ class ilForum
 							(iacc.access_old IS NULL AND (ipos.pos_date > ".$ilDB->quote(date('Y-m-d H:i:s', NEW_DEADLINE), 'timestamp')." OR ipos.pos_update > ".$ilDB->quote(date('Y-m-d H:i:s', NEW_DEADLINE), 'timestamp')."))
 							)
 						 
-						AND ipos.pos_display_user_id != %s
+						AND ipos.pos_author_id != %s
 						AND iread.usr_id IS NULL $active_inner_query
 					  ) num_new_posts,
 					  
@@ -1243,7 +1243,7 @@ class ilForum
 		{
 			$query .= ' AND (pos_status = %s
 						OR (pos_status = %s
-						AND pos_display_user_id = %s ))';
+						AND pos_author_id = %s ))';
 			
 			array_push($data_types,'integer', 'integer', 'integer');
 			array_push($data, '1', '0', $ilUser->getId());
@@ -1372,7 +1372,7 @@ class ilForum
 			SELECT * FROM frm_data
 			INNER JOIN frm_posts ON pos_top_fk = top_pk 
 			WHERE top_frm_fk = %s
-			AND pos_display_user_id = %s',
+			AND pos_author_id = %s',
 			array('integer', 'integer'),
 			array($this->getForumId(), $a_user_id));
 		
@@ -1389,10 +1389,10 @@ class ilForum
 			WHERE top_frm_fk = %s
 			AND (pos_status = %s
 				OR (pos_status = %s 
-					AND pos_display_user_id = %s
+					AND pos_author_id = %s
 					)
 				)	   
-			AND pos_display_user_id = %s',
+			AND pos_author_id = %s',
 			array('integer', 'integer', 'integer', 'integer', 'integer'),
 			array($this->getForumId(),'1', '0', $ilUser->getId(), $a_user_id));
 		
@@ -1898,13 +1898,13 @@ class ilForum
 		$parent_data = $this->getOnePost($a_parent_pos);
 				
 		// only if the current user is not the owner of the parent post and the parent's notification flag is set...
-		if($parent_data["notify"] && $parent_data["pos_display_user_id"] != $ilUser->getId())
+		if($parent_data["notify"] && $parent_data["pos_author_id"] != $ilUser->getId())
 		{
 			// SEND MESSAGE
 			include_once "Services/Mail/classes/class.ilMail.php";
 			include_once './Services/User/classes/class.ilObjUser.php';
 
-			$tmp_user =& new ilObjUser($parent_data["pos_display_user_id"]);
+			$tmp_user =& new ilObjUser($parent_data["pos_author_id"]);
 
 			// NONSENSE
 			$this->setMDB2WhereCondition('thr_pk = %s ', array('integer'), array($parent_data["pos_thr_fk"]));
