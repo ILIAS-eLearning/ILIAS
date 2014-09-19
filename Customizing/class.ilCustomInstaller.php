@@ -185,6 +185,8 @@ class ilCustomInstaller
 			return;
 		}
 		
+		require_once("Services/Calendar/classes/class.ilDate.php");
+		
 		require_once("Services/User/classes/class.ilObjUser.php");
 		$GLOBALS["ilUser"] = new ilObjUser(6);
 	}
