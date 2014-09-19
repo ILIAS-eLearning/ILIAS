@@ -143,7 +143,11 @@ class ilCachedCtrl {
 	 * @return mixed
 	 */
 	public function lookupCall($parent) {
-		return $this->ctrl_calls[$parent];
+		if (is_array($this->ctrl_calls[$parent])) {
+			return $this->ctrl_calls[$parent];
+		} else {
+			return array();
+		}
 	}
 
 
