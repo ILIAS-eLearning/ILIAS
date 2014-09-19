@@ -77,20 +77,40 @@ class ilAppEventHandler
 						
 		$this->initListeners();
 	}
+
+
+	/**
+	 * @var array
+	 */
+	protected static $listener_cache;
 	
 	protected function initListeners()
 	{
 		global $ilDB;
 		
 		$this->listener = array();
-		
-		$sql = "SELECT * FROM il_event_handling".
-			" WHERE type = ".$ilDB->quote("listen", "text");
-		$res = $ilDB->query($sql);
-		while($row = $ilDB->fetchAssoc($res))
-		{
-			$this->listener[$row["id"]][] = $row["component"];
+
+		if (! isset(self::$listener_cache)) {
+			require_once('./Services/GlobalCache/classes/class.ilGlobalCache.php');
+			$global_cache = ilGlobalCache::getInstance(ilGlobalCache::COMP_EVENTS);
+			if ($global_cache->exists('listener')) {
+				self::$listener_cache = $global_cache->get('listener');;
+			} else {
+				$sql = "SELECT * FROM il_event_handling" . " WHERE type = " . $ilDB->quote("listen", "text");
+				$res = $ilDB->query($sql);
+				while ($row = $ilDB->fetchAssoc($res)) {
+					self::$listener_cache[$row["id"]][] = $row["component"];
+				}
+				$global_cache->set('listener', $this->listener);
+			}
+
+			$this->listener = self::$listener_cache;
+
 		}
+
+
+
+
 	}	
 	
 	/**
