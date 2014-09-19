@@ -246,16 +246,24 @@ abstract class ilRemoteObjectBase extends ilObject2
 	{
 	 	global $ilUser;
 	 	
-	 	include_once('./Services/WebServices/ECS/classes/class.ilECSUser.php');
-	 	$user = new ilECSUser($ilUser);
-	 	$ecs_user_data = $user->toGET();
-		$GLOBALS['ilLog']->write(__METHOD__.': Using ecs user data '.$ecs_user_data);
 		
 		include_once './Services/WebServices/ECS/classes/class.ilECSImport.php';
 		$server_id = ilECSImport::lookupServerId($this->getId());
 		$server = ilECSSetting::getInstanceByServerId($server_id);
 		
+	 	include_once('./Services/WebServices/ECS/classes/class.ilECSUser.php');
+	 	$user = new ilECSUser($ilUser);
+	 	$ecs_user_data = $user->toGET();
+		$GLOBALS['ilLog']->write(__METHOD__.': Using ecs user data '.$ecs_user_data);
 		
+		// check token mechanism enabled
+		include_once './Services/WebServices/ECS/classes/class.ilECSParticipantSetting.php';
+		$part = new ilECSParticipantSetting($server_id,$this->getMID());
+		if(!$part->isTokenEnabled())
+		{
+			return $this->getRemoteLink();
+		}
+
 		$auth_hash = $this->createAuthResource($this->getRemoteLink().$user->toREALM());
 		$ecs_url_hash = 'ecs_hash_url='.urlencode($server->getServerURI().'/sys/auths/'.$auth_hash);
 		

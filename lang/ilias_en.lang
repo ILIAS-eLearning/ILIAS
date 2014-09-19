@@ -14870,3 +14870,6 @@ content#:#cont_ie_compatibility#:#Internet Explorer 7 compatibility mode
 content#:#cont_ie_compatibility_info#:#Especially for older learning modules it can be helpful to activate the compatibility mode. Please note that the compatibility mode can be disabled in newer versions of Internet Explorer.
 content#:#cont_ie_force_render#:#Force Internet Explorer to render again
 content#:#cont_ie_force_render_info#:#Enable this option only if content of the learning module is not displayed correctly with Internet Explorer due to many frames or iframes. Additionally you have to set the option 'Display' to 'in new window'.
+ecs#:#ecs_token_mechanism#:#Authentication Token
+ecs#:#ecs_token_mechanism_info#:#If enabled, the authentication on the hosting platform for remote objects, is done by the ECS-Token-Mechanism.
+ecs#:#ecs_part_settings#:#Settings for Participant:

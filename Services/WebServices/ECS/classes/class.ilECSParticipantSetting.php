@@ -47,6 +47,7 @@ class ilECSParticipantSetting
 	private $import_type = 1;
 	private $title = '';
 	private $cname = '';
+	private $token = TRUE;
 
 
 	private $exists = false;
@@ -152,6 +153,16 @@ class ilECSParticipantSetting
 	{
 		$this->cname = $a_name;
 	}
+	
+	public function isTokenEnabled()
+	{
+		return $this->token;
+	}
+	
+	public function enableToken($a_stat)
+	{
+		$this->token = $a_stat;
+	}
 
 	private function exists()
 	{
@@ -178,7 +189,8 @@ class ilECSParticipantSetting
 			'import = '.$ilDB->quote((int) $this->isImportEnabled(),'integer').', '.
 			'import_type = '.$ilDB->quote((int) $this->getImportType(),'integer').', '.
 			'title = '.$ilDB->quote($this->getTitle(),'text').', '.
-			'cname = '.$ilDB->quote($this->getCommunityName(),'text').' '.
+			'cname = '.$ilDB->quote($this->getCommunityName(),'text').', '.
+			'token = '.$ilDB->quote($this->isTokenEnabled(),'integer').' '.
 			'WHERE sid = '.$ilDB->quote((int) $this->getServerId(),'integer').' '.
 			'AND mid  = '.$ilDB->quote((int) $this->getMid(),'integer');
 		$aff = $ilDB->manipulate($query);
@@ -190,7 +202,7 @@ class ilECSParticipantSetting
 		global $ilDB;
 
 		$query = 'INSERT INTO ecs_part_settings '.
-			'(sid,mid,export,import,import_type,title,cname) '.
+			'(sid,mid,export,import,import_type,title,cname,token) '.
 			'VALUES( '.
 			$ilDB->quote($this->getServerId(),'integer').', '.
 			$ilDB->quote($this->getMid(),'integer').', '.
@@ -198,7 +210,8 @@ class ilECSParticipantSetting
 			$ilDB->quote((int) $this->isImportEnabled(),'integer').', '.
 			$ilDB->quote((int) $this->getImportType(),'integer').', '.
 			$ilDB->quote($this->getTitle(),'text').', '.
-			$ilDB->quote($this->getCommunityName(),'text').' '.
+			$ilDB->quote($this->getCommunityName(),'text').', '.
+			$ilDB->quote($this->isTokenEnabled(),'integer').' '.
 			')';
 		$aff = $ilDB->manipulate($query);
 		return true;
@@ -244,6 +257,7 @@ class ilECSParticipantSetting
 			$this->setImportType($row->import_type);
 			$this->setTitle($row->title);
 			$this->setCommunityName($row->cname);
+			$this->enableToken($row->token);
 		}
 		return true;
 	}

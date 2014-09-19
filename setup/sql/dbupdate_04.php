@@ -3891,3 +3891,18 @@ if(!$ilDB->tableColumnExists('il_bibl_settings', 'show_in_list'))
 		);
 	}
 ?>
+<#4375>
+<?php
+if(!$ilDB->tableColumnExists('ecs_part_settings','token'))
+{
+    $ilDB->addTableColumn(
+        'ecs_part_settings',
+        'token',
+        array(
+            'type' => 'integer',
+			'length' => 1,
+            'notnull' => false,
+            'default' => 1
+        ));
+}
+?>

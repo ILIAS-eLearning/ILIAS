@@ -29,7 +29,7 @@ include_once './Services/WebServices/ECS/classes/class.ilECSServerSettings.php';
 * @version $Id$
 * 
 * 
-* @ilCtrl_Calls ilECSSettingsGUI: ilECSMappingSettingsGUI
+* @ilCtrl_Calls ilECSSettingsGUI: ilECSMappingSettingsGUI, ilECSParticipantSettingsGUI
 * @ingroup ServicesWebServicesECS
 */
 class ilECSSettingsGUI
@@ -82,6 +82,16 @@ class ilECSSettingsGUI
 				$mapset = new ilECSMappingSettingsGUI($this, (int) $_REQUEST['server_id'], (int) $_REQUEST['mid']);
 				$this->ctrl->setReturn($this,'communities');
 				$this->ctrl->forwardCommand($mapset);
+				break;
+			
+			case 'ilecsparticipantsettingsgui':
+				include_once './Services/WebServices/ECS/classes/class.ilECSParticipantSettingsGUI.php';
+				$part = new ilECSParticipantSettingsGUI(
+						(int) $_REQUEST['server_id'],
+						(int) $_REQUEST['mid']
+				);
+				$this->ctrl->setReturn($this,'communities');
+				$this->ctrl->forwardCommand($part);
 				break;
 			
 			default:

@@ -141,6 +141,14 @@ class ilECSCommunityTableGUI extends ilTable2GUI
 		$list->setSelectionHeaderClass('small');
 		$list->setId('actl_'.$a_set['server_id'].'_'.$a_set['mid']);
 		$list->setListTitle($this->lng->txt('actions'));
+		
+		$ilCtrl->setParameter($this->getParentObject(),'server_id',$this->getServer()->getServerId());
+		$ilCtrl->setParameter($this->getParentObject(),'mid',$a_set['mid']);
+		$list->addItem(
+			$this->lng->txt('edit'),
+			'',
+			$ilCtrl->getLinkTargetByClass('ilecsparticipantsettingsgui','settings')
+		);
 
 		switch($part->getImportType())
 		{
@@ -157,7 +165,6 @@ class ilECSCommunityTableGUI extends ilTable2GUI
 					'',
 					$ilCtrl->getLinkTargetByClass('ilecsmappingsettingsgui','cStart')
 				);
-				$this->tpl->setVariable('ACTIONS',$list->getHTML());
 				break;
 
 			case ilECSParticipantSetting::IMPORT_CMS:
@@ -175,13 +182,9 @@ class ilECSCommunityTableGUI extends ilTable2GUI
 					'',
 					$ilCtrl->getLinkTargetByClass('ilecsmappingsettingsgui','cStart')
 				);
-				$this->tpl->setVariable('ACTIONS',$list->getHTML());
 				break;
 		}
-
-
-
-
+		$this->tpl->setVariable('ACTIONS',$list->getHTML());
 	}
 	
 	/**
