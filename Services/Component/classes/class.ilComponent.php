@@ -1,6 +1,6 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+require_once('class.ilCachedComponentData.php');
 
 define ("IL_COMP_MODULE", "Modules");
 define ("IL_COMP_SERVICE", "Services");
@@ -50,18 +50,34 @@ abstract class ilComponent
 	*/
 	abstract function getName();
 
+
+	/**
+	 * @var ilCachedComponentData
+	 */
+	protected $global_cache;
+
 	function __construct()
 	{
-		global $ilDB;
-		
-		$set = $ilDB->queryF("SELECT * FROM il_component WHERE type = %s ".
-			" AND name = %s", array("text", "text"),
-			array($this->getComponentType(), $this->getName()));			
-		$rec = $ilDB->fetchAssoc($set);
+//		global $ilDB;
+		$this->global_cache = ilCachedComponentData::getInstance();
 
+		$rec = $this->global_cache->lookCompId($this->getName(), $this->getComponentType());
 		$this->setId($rec["id"]);
 		$this->setPluginSlots(ilComponent::lookupPluginSlots(
 			$this->getComponentType(), $this->getName()));
+
+//
+//		echo '<pre>' . print_r($data, 1) . '</pre>';
+//
+//
+//		$set = $ilDB->queryF("SELECT * FROM il_component WHERE type = %s ".
+//			" AND name = %s", array("text", "text"),
+//			array($this->getComponentType(), $this->getName()));
+//		$rec = $ilDB->fetchAssoc($set);
+//
+//		$this->setId($rec["id"]);
+//		$this->setPluginSlots(ilComponent::lookupPluginSlots(
+//			$this->getComponentType(), $this->getName()));
 	}
 	
 	/**
@@ -113,7 +129,7 @@ abstract class ilComponent
 	final static function getComponentObject($a_ctype, $a_cname)
 	{
 		global $ilDB;
-		
+
 		$set = $ilDB->queryF("SELECT * FROM il_component WHERE type = %s ".
 			" AND name = %s", array("text", "text"),
 			array($a_ctype, $a_cname));
@@ -173,13 +189,17 @@ abstract class ilComponent
 	*/
 	static function lookupPluginSlots($a_type, $a_name)
 	{
-		global $ilDB;
-		
-		$set = $ilDB->query("SELECT * FROM il_pluginslot WHERE component = ".
-			$ilDB->quote($a_type."/".$a_name, "text"));
-		$ps = array();
+//		global $ilDB;
+
+		$cached_component = ilCachedComponentData::getInstance();
+		$recs = $cached_component->lookupPluginSlotByComponent($a_type."/".$a_name);
+
+		//$set = $ilDB->query("SELECT * FROM il_pluginslot WHERE component = ".
+		//	$ilDB->quote($a_type."/".$a_name, "text"));
+		//$ps = array();
 //echo "<br>".$a_type."/".$a_name;
-		while($rec = $ilDB->fetchAssoc($set))
+		//while($rec = $ilDB->fetchAssoc($set))
+		foreach($recs as $rec)
 		{
 			$rec["dir"] = "Customizing/global/plugins/".$a_type."/".$a_name."/".$rec["name"];
 			$rec["dir_pres"] = "Customizing/global/plugins/<br />".$a_type."/".$a_name."/".$rec["name"];
@@ -230,14 +250,31 @@ abstract class ilComponent
 	*/
 	static function lookupId($a_type, $a_name)
 	{
-		global $ilDB;
+		$global_cache = ilCachedComponentData::getInstance();
+
+		return $global_cache->lookCompId($a_type, $a_name);
+
+		//global $ilDB;
+
+		//$set = $ilDB->queryF("SELECT * FROM il_component WHERE type = %s ".
+		//	" AND name = %s", array("text", "text"),
+		//	array($a_type, $a_name));
+		//$rec = $ilDB->fetchAssoc($set);
 		
-		$set = $ilDB->queryF("SELECT * FROM il_component WHERE type = %s ".
-			" AND name = %s", array("text", "text"),
-			array($a_type, $a_name));
-		$rec = $ilDB->fetchAssoc($set);
-		
-		return $rec["id"];
+		//return $rec["id"];
+	}
+
+
+	/**
+	 * @param $a_type
+	 * @param $a_name
+	 *
+	 * @return mixed
+	 */
+	public static function getComponentInfo($a_type, $a_name){
+		$global_cache = ilCachedComponentData::getInstance();
+
+		return $global_cache->lookupCompInfo($a_type, $a_name);
 	}
 	
 	/**

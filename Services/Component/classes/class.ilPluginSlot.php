@@ -39,13 +39,16 @@ class ilPluginSlot
 	*/
 	function read()
 	{
-		global $ilDB;
-		
-		$q = "SELECT * FROM il_pluginslot WHERE component = ".
-			$ilDB->quote($this->getComponentType()."/".$this->getComponentName(), "text").
-			" AND id = ".$ilDB->quote($this->getSlotId(), "text");
-		$set = $ilDB->query($q);
-		$rec = $ilDB->fetchAssoc($set);
+		$cached_component = ilCachedComponentData::getInstance();
+
+		$rec = $cached_component->lookupPluginSlotById($this->getSlotId());
+		//global $ilDB;
+
+		//$q = "SELECT * FROM il_pluginslot WHERE component = ".
+		//	$ilDB->quote($this->getComponentType()."/".$this->getComponentName(), "text").
+		//	" AND id = ".$ilDB->quote($this->getSlotId(), "text");
+		//$set = $ilDB->query($q);
+		//$rec = $ilDB->fetchAssoc($set);
 		$this->setSlotName($rec["name"]);
 	}
 	
@@ -278,14 +281,19 @@ class ilPluginSlot
 	*/
 	static function lookupSlotId($a_ctype, $a_cname, $a_slot_name)
 	{
-		global $ilDB;
-		
-		$q = "SELECT * FROM il_pluginslot WHERE component = ".
-			$ilDB->quote($a_ctype."/".$a_cname, "text").
-			" AND name = ".$ilDB->quote($a_slot_name, "text");
-		$set = $ilDB->query($q);
-		$rec = $ilDB->fetchAssoc($set);
-		return $rec["id"];
+		$cached_component = ilCachedComponentData::getInstance();
+		$rec = $cached_component->lookupPluginSlotByName($a_slot_name);
+
+		return $rec['id'];
+
+		//global $ilDB;
+
+		//$q = "SELECT * FROM il_pluginslot WHERE component = ".
+		//	$ilDB->quote($a_ctype."/".$a_cname, "text").
+		//	" AND name = ".$ilDB->quote($a_slot_name, "text");
+		//$set = $ilDB->query($q);
+		//$rec = $ilDB->fetchAssoc($set);
+		//return $rec["id"];
 	}
 
 	/**
@@ -293,14 +301,19 @@ class ilPluginSlot
 	*/
 	static function lookupSlotName($a_ctype, $a_cname, $a_slot_id)
 	{
-		global $ilDB;
-		
-		$q = "SELECT * FROM il_pluginslot WHERE component = ".
-			$ilDB->quote($a_ctype."/".$a_cname, "text").
-			" AND id = ".$ilDB->quote($a_slot_id, "text");
-		$set = $ilDB->query($q);
-		$rec = $ilDB->fetchAssoc($set);
-		return $rec["name"];
+		$cached_component = ilCachedComponentData::getInstance();
+		$rec = $cached_component->lookupPluginSlotById($a_slot_id);
+
+		return $rec['name'];
+
+		//global $ilDB;
+
+		//	$q = "SELECT * FROM il_pluginslot WHERE component = ".
+		//		$ilDB->quote($a_ctype."/".$a_cname, "text").
+		//	" AND id = ".$ilDB->quote($a_slot_id, "text");
+		//$set = $ilDB->query($q);
+		//$rec = $ilDB->fetchAssoc($set);
+		//return $rec["name"];
 	}
 
 	/**
@@ -320,11 +333,15 @@ class ilPluginSlot
 	*/
 	static function getAllSlots()
 	{
-		global $ilDB;
+		$cached_component = ilCachedComponentData::getInstance();
+		$recs = $cached_component->getIlPluginslotById();
+
+		//global $ilDB;
 		
-		$set = $ilDB->query("SELECT * FROM il_pluginslot ");
-		$slots = array();
-		while ($rec  = $ilDB->fetchAssoc($set))
+		//$set = $ilDB->query("SELECT * FROM il_pluginslot ");
+		//$slots = array();
+		//while ($rec  = $ilDB->fetchAssoc($set))
+		foreach($recs as $rec)
 		{
 			$pos = strpos($rec["component"], "/");
 			$slots[] = array(

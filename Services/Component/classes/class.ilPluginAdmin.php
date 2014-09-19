@@ -48,7 +48,7 @@ class ilPluginAdmin
 	private final function getPluginData($a_ctype, $a_cname, $a_slot_id, $a_pname)
 	{
 		global $ilDB, $lng;
-		
+
 		if (!isset($this->got_data[$a_ctype][$a_cname][$a_slot_id][$a_pname]))
 		{
 			include_once "./Services/Component/classes/class.ilPluginSlot.php";
