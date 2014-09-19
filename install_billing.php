@@ -25,7 +25,7 @@ echo "Started installing billing service...<br />";
 
 // Move these steps to separate database update steps in a dbupdate_custom.php file
 /* * ************************************************************************* */
-/*if(!$ilDB->tableExists('bill'))
+if(!$ilDB->tableExists('bill'))
 {
 	$fields = array(
 		'bill_pk'               => array(
@@ -138,7 +138,7 @@ echo "Started installing billing service...<br />";
 	$ilDB->createTable('bill', $fields);
 	$ilDB->addPrimaryKey('bill', array('bill_pk'));
 	$ilDB->createSequence('bill');
-}*/
+}
 /* * ************************************************************************* */
 /*if(!$ilDB->tableExists('billitem'))
 {

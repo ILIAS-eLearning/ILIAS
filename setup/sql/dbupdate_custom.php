@@ -284,7 +284,106 @@ $ilDB->dropPrimaryKey('adv_md_values_location');
 $ilDB->addPrimaryKey('adv_md_values_location', array('obj_id', 'sub_type', 'sub_id', 'field_id'));
 
 ?>
+
 <#9>
+<?php
+
+// Copied from CourseBooking install skript
+
+require_once "Customizing/class.ilCustomInstaller.php";
+
+if(!$ilDB->tableExists('crs_book'))
+{
+	$ilDB->createTable('crs_book', array(
+		'crs_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		)
+		,'user_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		)
+		,'status' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+		)
+		,'status_changed_by' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		)
+		,'status_changed_on' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		)
+	));
+
+	$ilDB->addPrimaryKey('crs_book', array('crs_id', 'user_id'));
+}
+
+$new_crs_ops = array(
+	'view_bookings' => array('View Bookings', 2900)
+	,'book_users' => array('Book Users', 3500)
+	,'cancel_bookings' => array('Cancel Bookings', 3800)
+);
+ilCustomInstaller::addRBACOps('crs', $new_crs_ops);
+
+$new_org_ops = array(
+	'view_employee_bookings' => array('View Employee Bookings', 2901)
+	,'view_employee_bookings_rcrsv' => array('View Employee Bookings (recursive)', 2902)
+	,'book_employees' => array('Book Employees', 3501)
+	,'book_employees_rcrsv' => array('Book Employees (recursive)', 3502)
+	,'cancel_employee_bookings' => array('Cancel Employee Bookings', 3801)
+	,'cancel_employee_bookings_rcrsv' => array('Cancel Employee Bookings (recursive)', 3802)
+);
+ilCustomInstaller::addRBACOps('orgu', $new_org_ops);
+
+$lang_data = array(
+	"admin_tab_list_bookings" => array("Buchungen", "Bookings")
+	,"admin_tab_list_cancellations" => array("Stornierungen", "Cancellations")
+	,"admin_add_group" => array("Gruppe hinzufügen", "Add Group")
+	,"admin_add_org_unit" => array("Org-Einheit hinzufügen", "Add Org-Unit")
+	,"admin_status_booked" => array("Gebucht", "Booked")
+	,"admin_status_waiting" => array("Auf Warteliste", "Waiting")
+	,"admin_status_cancelled_with_costs" => array("Mit Kosten storniert", "Cancelled with Costs")
+	,"admin_status_cancelled_without_costs" => array("Ohne Kosten storniert", "Cancelled without Costs")
+	,"admin_assign_confirm" => array("Bestätigen Sie bitte die Buchung der folgenden Teilnehmer.", "Please confirm the booking of the following members.")
+	,"admin_assign_cancelled_user" => array("Wurde bereits storniert", "Was already cancelled")
+	,"admin_assign_not_bookable_user" => array("Ist nicht buchbar", "Is not bookable")
+	,"admin_assign_already_assigned" => array("Ist bereits gebucht (oder auf der Warteliste)", "Is already booked (or waiting)")
+	,"admin_add_participants" => array("Teilnehmer hinzufügen", "Add Participants")
+	,"admin_status" => array("Buchungsstatus", "Booking Status")
+	,"admin_do_not_add" => array("Nicht hinzufügen", "Do not Add")
+	,"admin_group_has_no_members" => array("Die gewählte Gruppe hat keine Mitglieder", "The selected group has no members")
+	,"admin_status_change" => array("Änderung des Buchungsstatus", "Booking Status Change")
+	,"admin_action_to_waiting_list" => array("Auf die Warteliste", "To Waiting List")
+	,"admin_action_book" => array("Als Teilnehmer hinzufügen", "Add to Participants")
+	,"admin_action_cancel_without_costs" => array("Ohne Kosten stornieren", "Cancel without Costs")
+	,"admin_action_cancel_with_costs" => array("Mit Kosten stornieren", "Cancel with Costs")
+	,"admin_user_action_confirm_ToWaitingList" => array("Wollen Sie den Teilnehmer wirklich auf die Warteliste verschieben?", "Do you really want to put the participant on the waiting list?")
+	,"admin_user_action_confirm_Book" => array("Wollen Sie die Teilnahme wirklich buchen?", "Do you really want to book the user?")
+	,"admin_user_action_confirm_CancelWithoutCosts" => array("Wollen Sie den Teilnahme wirklich ohne Kosten stornieren?", "Do you really want to cancel without costs?")
+	,"admin_user_action_confirm_CancelWithCosts" => array("Wollen Sie den Teilnahme wirklich mit Kosten stornieren", "Do you really want to cancel with costs?")
+	,"admin_user_action_done" => array("Der Status des Benutzer wurde erfolgreich geändert.", "User status changed succesfully.")
+	,"admin_org_add_recursive" => array("Mitglieder von Untereinheiten auswählen", "Include Members of Sub-Org-Units")
+	,"admin_org_unit_has_no_members" => array("Die gewählte Org-Einheit hat keine Mitglieder", "The selected org-unit has no members")
+	,"admin_assign_overlapping_user" => array("Folgende Buchungen überschneiden sich", "The following bookings are overlapping")
+);
+
+ilCustomInstaller::addLangData("crsbook", array("de", "en"), $lang_data, "patch generali - course booking");
+
+?>
+
+<#10>
 <?php
 if(!$ilDB->tableExists('orgu_types')) {
     $fields = array (
@@ -300,7 +399,8 @@ if(!$ilDB->tableExists('orgu_types')) {
     $ilDB->createSequence('orgu_types');
 }
 ?>
-<#10>
+
+<#11>
 <?php
 if(!$ilDB->tableExists('orgu_data')) {
     $fields = array (
@@ -311,7 +411,8 @@ if(!$ilDB->tableExists('orgu_data')) {
     $ilDB->addPrimaryKey('orgu_data', array('orgu_id'));
 }
 ?>
-<#11>
+
+<#12>
 <?php
 if(!$ilDB->tableExists('orgu_types_trans')) {
     $fields = array (
@@ -324,10 +425,7 @@ if(!$ilDB->tableExists('orgu_types_trans')) {
     $ilDB->addPrimaryKey('orgu_types_trans', array('orgu_type_id', 'lang', 'member'));
 }
 ?>
-<#12>
-<?php
-$ilCtrlStructureReader->getStructure();
-?>
+
 <#13>
 <?php
 if(!$ilDB->tableExists('orgu_types_adv_md_rec')) {
@@ -339,11 +437,202 @@ if(!$ilDB->tableExists('orgu_types_adv_md_rec')) {
     $ilDB->addPrimaryKey('orgu_types_adv_md_rec', array('type_id', 'rec_id'));
 }
 ?>
+
 <#14>
 <?php
-$ilCtrlStructureReader->getStructure();
+
+// copied from MailTemplates install
+
+if(!$ilDB->tableExists('cat_mail_templates'))
+{
+	$fields = array (
+		'id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0),
+		'category_name' => array(
+			'type' => 'text',
+			'length' => 255),
+		'template_type' => array(
+			'type' => 'text',
+			'length' => 255),
+		'consumer_location' => array(
+			'type' => 'text',
+			'length' => 255)
+	);
+	$ilDB->createTable('cat_mail_templates', $fields);
+	$ilDB->addPrimaryKey('cat_mail_templates', array('id'));
+	$ilDB->createSequence('cat_mail_templates');
+}
 ?>
+
 <#15>
+<?php
+
+// copied from MailTemplates install
+
+if(!$ilDB->tableExists('cat_mail_variants'))
+{
+	$fields = array (
+		'id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0),
+		'mail_types_fi' => array(
+			'type' => 'integer',
+			'length' => 4),
+		'language' => array(
+			'type' => 'text',
+			'length' => 255),
+		'message_subject' => array(
+			'type' => 'text',
+			'length' => 255),
+		'message_plain' => array(
+			'type' => 'clob'),
+		'message_html' => array(
+			'type' => 'clob'),
+		'created_date' => array(
+			'type' => 'integer',
+			'length' => 4),
+		'updated_date' => array(
+			'type' => 'integer',
+			'length' => 4),
+		'updated_usr_fi' => array(
+			'type' => 'integer',
+			'length' => 4),
+		'template_active' => array(
+			'type' => 'integer',
+			'length' => 4)
+	);
+	$ilDB->createTable('cat_mail_variants', $fields);
+	$ilDB->addPrimaryKey('cat_mail_variants', array('id'));
+	$ilDB->createSequence('cat_mail_variants');
+}
+
+?>
+
+<#16>
+<?php
+
+// copied from installer of ParticipationStatus
+
+// init helper class
+require_once "Customizing/class.ilCustomInstaller.php";
+
+//
+// create database tables
+// 
+
+if(!$ilDB->tableExists('crs_pstatus_crs'))
+{
+	$ilDB->createTable('crs_pstatus_crs', array(
+		'crs_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		)
+		,'state' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+		)
+		,'alist' => array(
+			'type' => 'text',
+			'length' => 1000,
+			'notnull' => false,
+			'fixed' => false
+		)			
+	));
+
+	$ilDB->addPrimaryKey('crs_pstatus_crs', array('crs_id'));
+	
+	
+	$ilDB->createTable('crs_pstatus_usr', array(
+		'crs_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		)
+		,'user_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		)
+		,'status' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false,
+		)
+		,'cpoints' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => false,
+		)			
+		,'changed_by' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		)
+		,'changed_on' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		)
+	));
+
+	$ilDB->addPrimaryKey('crs_pstatus_usr', array('crs_id', 'user_id'));
+}
+
+
+//
+// create RBAC permissions (incl. org unit?)
+//
+
+$new_crs_ops = array(
+	'view_participation_status' => array('View Participation Status', 2902)
+	,'set_participation_status' => array('Set Participation Status', 3502)
+	,'review_participation_status' => array('Review Participation Status', 3503)
+);
+ilCustomInstaller::addRBACOps('crs', $new_crs_ops);
+
+
+//
+// lng variables
+//
+
+$lang_data = array(
+	"status_not_set" => array("Nicht gesetzt", "Not set")
+	,"status_successful" => array("Erfolgreich", "Successful")
+	,"status_absent_excused" => array("Abwesend (entschuldigt)", "Absent (excused)")
+	,"status_absent_not_excused" => array("Abwesend (unentschuldigt)", "Absent (not excused)")	
+	,"admin_tab_list_status" => array("Teilnahmestatus", "Participation Status")	
+	,"admin_start_date_not_reached" => array("Der Teilnahmestatus kann erst ab %s gesetzt werden.", "The participation status can be set after %s.")	
+	,"admin_status" => array("Teilnahmestatus", "Participation Status")	
+	,"admin_credit_points" => array("Bildungspunkte", "Credit Points")	
+	,"admin_finalize" => array("Finalisieren", "Finalize")	
+	,"admin_changed_by" => array("Letzte Änderung", "Last Change")	
+	,"admin_finalize_need_attendance_list" => array("Eine Anwesenheitsliste wird noch benötigt.", "An attendance list is required.")	
+	,"admin_finalize_need_not_status_set" => array("Der Teilnahmestatus muss für jeden Teilnehmer gesetzt sein.", "The participation status has to be set for all members.")	
+	,"admin_confirm_finalize" => array("Wollen Sie wirklich den Teilnahmestatus finalisieren?", "Are you sure you really want to finalize the participation status?")
+	,"admin_attendance_list" => array("Anwesenheitsliste", "Attendance List")
+	,"admin_view_attendance_list" => array("Anwesenheitsliste anzeigen", "View Attendance List")
+	,"admin_no_attendance_list" => array("Es wurde keine Anwesenheitsliste hochgeladen.", "No attendance list uploaded.")
+	
+);
+
+ilCustomInstaller::addLangData("ptst", array("de", "en"), $lang_data, "patch generali - participation status");
+
+?>
+
+<#17>
 <?php
 
 // Automail-Info for the Generali
@@ -371,7 +660,7 @@ $ilDB->addPrimaryKey('gev_automail_info', array('crs_id', 'mail_id'));
 
 ?>
 
-<#16>
+<#18>
 <?php
 
 $fields = array (
@@ -430,7 +719,7 @@ $ilDB->createSequence("mail_log");
 
 ?>
 
-<#17>
+<#19>
 <?php
 
 $fields = array (
@@ -462,7 +751,7 @@ $ilDB->addPrimaryKey('mail_attachment_locks', array('obj_id', 'filename'));
 
 ?>
 
-<#18>
+<#20>
 <?php
 
 $fields = array (
@@ -488,7 +777,7 @@ $ilDB->addPrimaryKey('gev_crs_addset', array('crs_id'));
 
 ?>
 
-<#19>
+<#21>
 <?php
 
 // INVITATION_MAIL_SETTINGS for the VoFue
@@ -519,7 +808,7 @@ $ilDB->addPrimaryKey('gev_crs_invset', array('crs_id', 'function_name'));
 
 ?>
 
-<#20>
+<#22>
 <?php
 
 $ilDB->addTableColumn( "gev_crs_addset"
@@ -532,7 +821,7 @@ $ilDB->addTableColumn( "gev_crs_addset"
 
 ?>
 
-<#21>
+<#23>
 <?php
 
 // GEV_USER_REGISTRATION_TOKENS for GEV
@@ -570,6 +859,21 @@ $fields = array (
          'type' => 'timestamp',
          'notnull' => false
          ),
+     "firstname" => array(
+     	"type" 	=> "text",
+		"length"	=> 32,
+		"notnull"	=> true
+		),
+     "lastname" => array(
+     	"type" 	=> "text",
+		"length"	=> 32,
+		"notnull"	=> true
+		),
+	"gender" => array(
+		"type" 	=> "text",
+		"length"	=> 1,
+		"notnull"	=> true
+		)
 );
 
 $ilDB->createTable('gev_user_reg_tokens', $fields);
@@ -577,7 +881,265 @@ $ilDB->addPrimaryKey('gev_user_reg_tokens', array('token'));
 
 ?>
 
-<#22>
+
+<#24>
+<?php
+
+// copied from install of Accomodations
+
+require_once "Customizing/class.ilCustomInstaller.php";
+
+//
+// create database tables
+// 
+
+if(!$ilDB->tableExists('crs_acco'))
+{
+	$ilDB->createTable('crs_acco', array(
+		'crs_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		)
+		,'user_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		)
+		,'night' => array(
+			'type' => 'date',			
+			'notnull' => true
+		)			
+	));
+
+	$ilDB->addPrimaryKey('crs_acco', array('crs_id', 'user_id', 'night'));
+}
+
+
+//
+// create RBAC permissions 
+//
+
+$new_crs_ops = array(
+	'view_own_accomodations' => array('View Own Accomodations', 2906)
+	,'set_own_accomodations' => array('Set Own Accomodations', 2907)
+	,'view_others_accomodations' => array('View Others Accomodations', 3507)
+	,'set_others_accomodations' => array('Set Others Accomodations', 3508)		
+);
+ilCustomInstaller::addRBACOps('crs', $new_crs_ops);
+
+//
+// lng variables
+//
+
+$lang_data = array(
+	"tab_list_accomodations" => array("Übernachtungen", "Accomodations")	
+	,"accomodations" => array("Übernachtungen", "Accomodations")	
+	,"edit_user_accomodations" => array("Teilnehmer bearbeiten", "Edit participant")	
+	,"period_input_from" => array("von", "from")	
+	,"period_input_to" => array("bis", "to")	
+	,"period_input_from_first" => array("Vorabend", "Previous Evening")	
+	,"period_input_to_last" => array("nächster Morgen", "Next Morning")	
+);
+
+ilCustomInstaller::addLangData("acco", array("de", "en"), $lang_data, "patch generali - accomodations");
+
+?>
+
+<#25>
+<?php
+
+// copied from install script of TEP
+
+// init helper class
+require_once "Customizing/class.ilCustomInstaller.php";
+
+//
+// create database tables
+// 
+
+if(!$ilDB->tableExists('cal_derived_entry'))
+{
+	// global TEP calendar
+	$crs_set = new ilSetting("TEP");
+	$crs_cal_id = $crs_set->get("crs_calendar");
+	if(!$crs_cal_id)
+	{
+		$calcat_id = $ilDB->nextId('cal_categories');
+
+		$query = "INSERT INTO cal_categories (cat_id,obj_id,color,type,title) ".
+			"VALUES ( ".
+			$ilDB->quote($calcat_id, 'integer').", ".
+			$ilDB->quote(0, 'integer').", ".
+			$ilDB->quote('#000000', 'text').", ".
+			$ilDB->quote(3, 'integer').", ".  // global
+			$ilDB->quote('TEP', 'text')." ".
+			")";
+		$ilDB->manipulate($query);
+
+		$crs_set->set("crs_calendar", $calcat_id);
+	}
+}
+	
+// derived calender entries
+if (!$ilDB->tableExists('cal_derived_entry'))
+{
+	$fields = array (
+		'id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0),		    
+		'master_cal_entry' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0),		
+		'cat_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0)
+	);
+	$ilDB->createTable('cal_derived_entry', $fields);
+	$ilDB->addPrimaryKey('cal_derived_entry', array('id'));
+	$ilDB->createSequence('cal_derived_entry');		
+}
+	
+// calendar entry type
+if(!$ilDB->tableColumnExists('cal_entries', 'entry_type'))
+{
+	$ilDB->addTableColumn('cal_entries', 'entry_type', 
+		array(
+			'type' => 'text', 
+			'length' => 100, 
+			'notnull' => false, 
+			'default' => ''
+	));			
+}
+
+// calendar entry types
+if (!$ilDB->tableExists('tep_type'))
+{
+	$fields = array (
+		'id' => array(
+			'type' => 'text',
+			'length' => 100,
+			'notnull' => true,
+			'default' => ''),		    
+		'title' => array(
+			'type' => 'text',
+			'length' => 1000,
+			'notnull' => true),		
+		'bg_color' => array(
+			'type' => 'text',
+			'length' => 6,
+			'fixed' => true,
+			'notnull' => false),
+		'font_color' => array(
+			'type' => 'text',
+			'length' => 6,
+			'fixed' => true,
+			'notnull' => false),
+		'tep_active' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false,
+			'default' => 1)
+	);
+	$ilDB->createTable('tep_type', $fields);
+	$ilDB->addPrimaryKey('tep_type', array('id'));	
+}
+
+if(!$ilDB->tableExists('tep_op_days'))
+{
+	$fields = array (
+		'obj_type' => array(
+			'type' => 'text',
+			'length' => 200,
+			'notnull' => true,
+			'default' => ''),		    				
+		'obj_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0),
+		'user_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0),
+		'miss_day' => array(
+			'type' => 'date',
+			'notnull' => true)					
+	);
+	$ilDB->createTable('tep_op_days', $fields);
+}	
+
+
+//
+// create RBAC permissions (incl. org unit?)
+//
+
+$new_org_ops = array(
+	'tep_is_tutor' => array('TEP Tutor', 2904)
+	,'tep_view_other' => array('TEP View Other', 2905)
+	,'tep_view_other_rcrsv' => array('TEP View Other (recursive)', 2906)
+	,'tep_edit_other' => array('TEP Edit Other', 3505)
+	,'tep_edit_other_rcrsv' => array('TEP Edit Other (recursive)', 3506)
+);
+
+ilCustomInstaller::addRBACOps('orgu', $new_org_ops);
+
+//
+// lng variables
+//
+
+$lang_data = array(
+	"personal_calendar_title" => array("TEP", "TEP")
+	,"page_title" => array("TEP", "TEP")
+	,"tab_list" => array("Terminliste", "List Of Dates")
+	,"tab_month" => array("Monatsansicht", "Monthly")
+	,"tab_halfyear" => array("Halbjahresansicht", "Half-Year")
+	,"add_new_entry" => array("Neuen Termin anlegen", "Add new entry")
+	,"export" => array("XLS-Export", "XLS-Export")
+	,"print" => array("Drucken", "Print")
+	,"create_entry" => array("Eintrag anlegen", "Create Entry")
+	,"entry_owner" => array("Termin für", "Entry of")
+	,"entry_derived" => array("Weitere Teilnehmer", "Other Participants")
+	,"entry_title" => array("Termintitel", "Title of Entry")
+	,"entry_type" => array("Typ", "Type")
+	,"entry_period" => array("Zeitraum", "Period")
+	,"entry_location" => array("Ort", "Location")
+	,"entry_created" => array("Der Eintrag wurde erstellt.", "The entry has been created.")
+	,"entry_updated" => array("Der Eintrag wurde aktualisiert.", "The entry has been updated.")
+	,"legend" => array("Legende", "Legend")
+	,"search_all" => array("--Alle--", "--All--")
+	,"filter_submit" => array("Filtern", "Filter")
+	,"filter_no_tutor" => array("Seminare ohne Trainer anzeigen?", "Show Seminars without Trainers?")
+	,"column_no_tutor" => array("Seminare ohne Trainer", "Seminars without Trainers")
+	,"update_entry" => array("Termin bearbeiten", "Edit Entry")
+	,"list_view_title" => array("Terminliste", "List Of Dates")
+	,"list_view_info" => array("Es werden Termine der nächsten 4 Wochen angezeigt.", "Only entries in the next 4 weeks are shown.")
+	,"entry_delete_sure" => array("Wollen Sie wirklich den Termin löschen?", "Are you sure you want to delete the entry?")
+	,"delete_entry" => array("Termin löschen", "Delete Entry")
+	,"entry_deleted" => array("Termin wurde gelöscht.", "Entry has been deleted.")
+	,"op_tab_list_operation_days" => array("Einsatztage", "Operation Days")
+	,"edit_user_operation_days" => array("Einsatztage bearbeiten", "Edit Operation Days")
+	,"edit_operation_days" => array("Einsatztage", "Operation Days")
+	,"filter_orgu_all" => array("--Alle Tutoren--", "--All Trainers--")
+	,"filter_orgu_rcrsv" => array("rekursiv?", "recursive?")
+	,"filter_tutor" => array("Tutor", "Trainer")
+	,"filter_tutor_empty" => array("Die Auswahl der Organisationseinheiten enthält keine Tutoren.", "The selected organisational units did not yield any trainers.")
+);
+
+ilCustomInstaller::addLangData("tep", array("de", "en"), $lang_data, "patch generali - TEP");
+
+?>
+
+<#26>
 <?php
 
 $stmt = $ilDB->prepareManip("INSERT INTO tep_type (id, title, bg_color, font_color, tep_active) VALUES (?, ?, ?, ?, ?) "
@@ -598,34 +1160,136 @@ $ilDB->executeMultiple($stmt, $data);
 $ilDB->free($stmt);
 ?>
 
-<#23>
+<#27>
 <?php
 
-$ilDB->addTableColumn( "bill"
-					 , "bill_recipient_email"
-					 , array( "type" 	=> "text"
-					 		, "length"	=> 255
-					 		, "notnull"	=> false
-					 		, "default" => null
-					 		)
-					 );
+if(!$ilDB->tableExists('bill'))
+{
+	$fields = array(
+		'bill_pk'               => array(
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'bill_number'           => array(
+			'type'    => 'text',
+			'length'  => 255,
+			'notnull' => false,
+			'default' => null
+		),
+		'bill_recipient_name'   => array(
+			'type'    => 'text',
+			'length'  => 255,
+			'notnull' => false,
+			'default' => null
+		),
+		'bill_recipient_street' => array(
+			'type'    => 'text',
+			'length'  => 255,
+			'notnull' => false,
+			'default' => null
+		),
+		'bill_recipient_hnr'    => array(
+			'type'    => 'text',
+			'length'  => 255,
+			'notnull' => false,
+			'default' => null
+		),
+		'bill_recipient_zip'    => array(
+			'type'    => 'text',
+			'length'  => 255,
+			'notnull' => false,
+			'default' => null
+		),
+		'bill_recipient_city'   => array(
+			'type'    => 'text',
+			'length'  => 255,
+			'notnull' => false,
+			'default' => null
+		),
+		'bill_recipient_cntry'  => array(
+			'type'    => 'text',
+			'length'  => 255,
+			'notnull' => false,
+			'default' => null
+		),
+		'bill_date'             => array(
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'bill_title'            => array(
+			'type'    => 'text',
+			'length'  => 255,
+			'notnull' => true
+		),
+		'bill_description'      => array(
+			'type'    => 'text',
+			'length'  => 4000,
+			'notnull' => false,
+			'default' => null
+		),
+		'bill_vat'              => array(
+			'type'    => 'float',
+			'notnull' => true,
+			'default' => 0
+		),
+		'bill_cost_center'      => array(
+			'type'    => 'text',
+			'length'  => 255,
+			'notnull' => false,
+			'default' => null
+		),
+		'bill_currency'         => array(
+			'type'    => 'text',
+			'length'  => 255,
+			'notnull' => true
+		),
+		'bill_usr_id'           => array(
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'bill_year'             => array(
+			'type'    => 'integer',
+			'length'  => 2,
+			'notnull' => true,
+			'default' => 0
+		),
+		'bill_final'            => array(
+			'type'    => 'integer',
+			'length'  => 1,
+			'notnull' => true,
+			'default' => 0
+		),
+		'bill_context_id'       => array(
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => false,
+			'default' => null
+		),
+		"bill_recipient_email" => array(
+			"type" 	=> "text",
+			"length"	=> 255,
+			"notnull"	=> false,
+			"default" => null
+		)
+	);
+
+	$ilDB->createTable('bill', $fields);
+	$ilDB->addPrimaryKey('bill', array('bill_pk'));
+	$ilDB->createSequence('bill');
+	
+	$ilDB->query('ALTER TABLE bill ENGINE=INNODB');
+	$ilDB->query('ALTER TABLE bill_seq ENGINE=INNODB');
+}
 
 ?>
 
-<#24>
-<?php
-
-$ilDB->addTableColumn( "hist_course"
-					 , "is_template"
-					 , array( "type" 	=> "text"
-					 		, "length" 	=> 8
-					 		, "notnull" => false
-					 		)
-					 );
-
-?>
-
-<#25>
+<#28>
 <?php
 
 // Tracking Infos about cron jobs for mail
@@ -653,7 +1317,7 @@ $ilDB->addPrimaryKey('gev_crs_dl_mail_cron', array('crs_id', 'title'));
 ?>
 
 
-<#26>
+<#29>
 <?php
 
 // Tracking Infos about cron jobs for mail
@@ -686,7 +1350,7 @@ $ilDB->addPrimaryKey('gev_crs_deferred_mails', array('crs_id', 'mail_id', 'recip
 
 ?>
 
-<#27>
+<#30>
 <?php
 
 // Tracking relation between coupons and bills they were created for.
@@ -710,55 +1374,483 @@ $ilDB->addPrimaryKey('gev_bill_coupon', array('bill_pk'));
 
 ?>
 
-
-<#28>
-<?php
-
-// more fields in GEV_USER_REGISTRATION_TOKENS for GEV
-// for sending registration mail
-
-$ilDB->addTableColumn( "gev_user_reg_tokens"
-					 , "firstname"
-					 , array( "type" 	=> "text"
-					 		, "length"	=> 32
-					 		, "notnull"	=> true
-					 		)
-					 );
-
-$ilDB->addTableColumn( "gev_user_reg_tokens"
-					 , "lastname"
-					 , array( "type" 	=> "text"
-					 		, "length"	=> 32
-					 		, "notnull"	=> true
-					 		)
-					 );
-
-$ilDB->addTableColumn( "gev_user_reg_tokens"
-					 , "gender"
-					 , array( "type" 	=> "text"
-					 		, "length"	=> 1
-					 		, "notnull"	=> true
-					 		)
-					 );
-
-?>
-
-<#29>
-<?php
-
-$ilDB->renameTableColumn("hist_certfile", "function", "certfile");
-
-?>
-
-<#30>
-<?php
-$ilCtrlStructureReader->getStructure();
-?>
-
 <#31>
 <?php
 
 $ilDB->manipulate("UPDATE settings SET value = 1800 WHERE keyword = 'reg_hash_life_time'");
 
 ?>
+
+<#32>
+<?php
+if(!$ilDB->tableExists('billitem'))
+{
+	$fields = array(
+		'billitem_pk'          => array(
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'bill_fk'          => array(
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'billitem_title'       => array(
+			'type'    => 'text',
+			'length'  => 255,
+			'notnull' => true
+		),
+		'billitem_description' => array(
+			'type'    => 'text',
+			'length'  => 4000,
+			'notnull' => false,
+			'default' => null
+		),
+		'billitem_pta'         => array(
+			'type'    => 'float',
+			'notnull' => true,
+			'default' => 0
+		),
+		'billitem_vat'         => array(
+			'type'    => 'float',
+			'notnull' => true,
+			'default' => 0
+		),
+		'billitem_currency'    => array(
+			'type'    => 'text',
+			'length'  => 255,
+			'notnull' => true
+		),
+		'billitem_context_id'  => array(
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => false,
+			'default' => null
+		),
+		'billitem_final'       => array(
+			'type'    => 'integer',
+			'length'  => 1,
+			'notnull' => true,
+			'default' => 0
+		)
+	);
+
+	$ilDB->createTable('billitem', $fields);
+	$ilDB->addPrimaryKey('billitem', array('billitem_pk'));
+	$ilDB->createSequence('billitem');
+	
+	$ilDB->query('ALTER TABLE bill_seq ENGINE=INNODB');
+	$ilDB->query('ALTER TABLE billitem ENGINE=INNODB');
+	$ilDB->query('ALTER TABLE billitem_seq ENGINE=INNODB');
+}
+?>
+
+<#33>
+<?php
+if(!$ilDB->tableExists('coupon'))
+{
+	$fields = array(
+		'coupon_pk'          => array(
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'coupon_code'        => array(
+			'type'    => 'text',
+			'length'  => 255,
+			'notnull' => true
+		),
+		'coupon_value'       => array(
+			'type'    => 'float',
+			'notnull' => true,
+			'default' => 0
+		),
+		'coupon_last_change' => array(
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'coupon_expires'     => array(
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'coupon_usr_id'      => array(
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'coupon_active'      => array(
+			'type'    => 'integer',
+			'length'  => 1,
+			'notnull' => true,
+			'default' => 0
+		),
+		'coupon_created'     => array(
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => true,
+			'default' => 0
+		)
+	);
+
+	$ilDB->createTable('coupon', $fields);
+	$ilDB->addPrimaryKey('coupon', array('coupon_pk'));
+	$ilDB->createSequence('coupon');
+	
+	$ilDB->query('ALTER TABLE coupon ENGINE=INNODB');
+	$ilDB->query('ALTER TABLE coupon_seq ENGINE=INNODB');
+}
+?>
+
+<#34>
+<?php
+
+// init helper class
+require_once "Customizing/class.ilCustomInstaller.php";
+
+$lang_data = array(
+	"numberlabel" => array("Rechnungsnummer", "Bill Number"),
+	"vat"         => array("Umsatzsteuer", "Sales Tax"),
+	"net"         => array("(netto)", "(after tax)"),
+	"bru"         => array("(brutto)", "(pre-tax)"),
+	"val"         => array("Rechnungsbetrag", "Amount")
+);
+
+ilCustomInstaller::addLangData("billing", array("de", "en"), $lang_data, "patch generali - Billing");
+?>
+
+<#35>
+<?php
+if(!$ilDB->tableExists('hist_usercoursestatus'))
+{
+	$fields = array (
+		'row_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true),
+		'hist_version' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 1),
+		'hist_historic' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0),
+		'creator_user_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true),
+		'created_ts' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0),
+		'usr_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true),
+		'crs_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true),
+		'credit_points' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true),
+		'bill_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true),
+		'booking_status' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => true),
+		'participation_status' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => true),
+		'okz' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => false),
+		'org_unit' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => false),
+		'certificate' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => false),
+		'begin_date' => array(
+			'type' => 'date'),
+		'end_date' => array(
+			'type' => 'date'),
+		'overnights' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => false),
+		'certfile' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => false)
+	);
+	$ilDB->createTable('hist_usercoursestatus', $fields);
+	$ilDB->addPrimaryKey('hist_usercoursestatus', array('row_id'));
+	$ilDB->createSequence('hist_usercoursestatus');
+}
+?>
+
+<#36>
+<?php
+
+if(!$ilDB->tableExists('hist_certfile'))
+{
+	$fields = array (
+		'row_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true),
+		'certfile' => array(
+			'type' => 'clob',
+			'notnull' => true)
+	);
+	$ilDB->createTable('hist_certfile', $fields);
+	$ilDB->addPrimaryKey('hist_certfile', array('row_id'));
+	$ilDB->createSequence('hist_certfile');
+}
+?>
+
+<#37>
+<?php
+if(!$ilDB->tableExists('hist_course'))
+{
+	$fields = array (
+		'row_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true),
+		'hist_version' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 1),
+		'hist_historic' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0),
+		'creator_user_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true),
+		'created_ts' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0),
+		'crs_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true),
+		'custom_id' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => true),
+		'title' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => true),
+		'template_title' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => true),
+		'type' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => true),
+		'topic_set' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true),
+		'begin_date' => array(
+			'type' => 'date'),
+		'end_date' => array(
+			'type' => 'date'),
+		'hours' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => false,
+			'default' => 0),
+		'is_expert_course' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0),
+		'venue' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => false),
+		'provider' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => false),
+		'tutor' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => false),
+		'max_credit_points' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => false),
+		'fee' => array(
+			'type' => 'float',
+			'notnull' => false),
+		"is_template" =>  array(
+			"type" 	=> "text", 
+			"length" 	=> 8,
+			"notnull" => false)
+	);
+	$ilDB->createTable('hist_course', $fields);
+	$ilDB->addPrimaryKey('hist_course', array('row_id'));
+	$ilDB->createSequence('hist_course');
+}
+?>
+
+<#38>
+<?php
+if(!$ilDB->tableExists('hist_topicset2topic'))
+{
+	$fields = array (
+		'row_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true),
+		'topic_set_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,),
+		'topic_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,),
+	);
+	$ilDB->createTable('hist_topicset2topic', $fields);
+	$ilDB->addPrimaryKey('hist_topicset2topic', array('row_id'));
+	$ilDB->createSequence('hist_topicset2topic');
+}
+?>
+
+<#39>
+<?php
+if(!$ilDB->tableExists('hist_topics'))
+{
+	$fields = array (
+		'row_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true),
+		'topic_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,),
+		'topic_title' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => true),
+	);
+	$ilDB->createTable('hist_topics', $fields);
+	$ilDB->addPrimaryKey('hist_topics', array('row_id'));
+	$ilDB->createSequence('hist_topics');
+}
+?>
+
+<#40>
+<?php
+if(!$ilDB->tableExists('hist_user'))
+{
+	$fields = array (
+		'row_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true),
+		'hist_version' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 1),
+		'hist_historic' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0),
+		'creator_user_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true),
+		'created_ts' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0),
+		'user_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true),
+		'firstname' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => true),
+		'lastname' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => true),
+		'gender' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => true),
+		'birthday' => array(
+			'type' => 'date'),
+		'org_unit' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => true),
+		'position_key' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => true),
+		'entry_date' => array(
+			'type' => 'date'),
+		'exit_date' => array(
+			'type' => 'date'),
+		'bwv_id' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => true),
+		'okz' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => true),
+		'begin_of_certification' => array(
+			'type' => 'date'),
+		'deleted' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true)
+	);
+	$ilDB->createTable('hist_user', $fields);
+	$ilDB->addPrimaryKey('hist_user', array('row_id'));
+	$ilDB->createSequence('hist_user');
+}
+?>
+
 
