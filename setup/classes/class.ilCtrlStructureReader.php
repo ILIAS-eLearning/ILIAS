@@ -62,6 +62,9 @@ class ilCtrlStructureReader
 		{
 			return;
 		}
+
+		require_once('./Services/GlobalCache/classes/class.ilGlobalCache.php');
+		ilGlobalCache::flushAll();
 	
 		// prefix for component
 		$this->comp_prefix = $a_comp_prefix;
