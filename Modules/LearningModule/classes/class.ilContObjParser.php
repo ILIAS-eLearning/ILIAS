@@ -238,6 +238,10 @@ class ilContObjParser extends ilMDSaxParser
 					include_once("./Modules/Glossary/classes/class.ilGlossaryDefPage.php");
 					$page_obj = new ilGlossaryDefPage($page_arr[1]);
 					break;
+
+				case "qpl":
+					$page_obj = new ilAssQuestionPage($page_arr[1]);
+					break;
 			}
 			$page_obj->buildDom();
 			$page_obj->resolveIntLinks();
@@ -1108,6 +1112,10 @@ case "InteractiveImage":
 								"il__qst_".$ids["pool"], $xml);
 							$page->setXMLContent($xmlcontent);
 							$page->updateFromXML();
+							if( $this->page_object->needsImportParsing() )
+							{
+								$this->pages_to_parse["qpl:".$page->getId()] = "qpl:".$page->getId();
+							}
 							unset($page);
 						}
 						if ($ids["test"] > 0)
@@ -1119,6 +1127,10 @@ case "InteractiveImage":
 								"il__qst_".$ids["test"], $xml);
 							$page->setXMLContent($xmlcontent);
 							$page->updateFromXML();
+							if( $this->page_object->needsImportParsing() )
+							{
+								$this->pages_to_parse["qpl:".$page->getId()] = "qpl:".$page->getId();
+							}
 							unset($page);
 						}
 					}
