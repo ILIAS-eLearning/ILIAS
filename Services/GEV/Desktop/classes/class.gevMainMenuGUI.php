@@ -89,6 +89,7 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 		//$report_permissions->getOrgUnitIdsWhereUserHasRole(array());
 		//die();
 
+		$report_permission_billing = $this->userUtils->isAdmin();
 		$report_permission_attendancebyuser =  $this->userUtils->isAdmin();//$this->userUtils->isSuperior();// || $this->userUtils->isAdmin();
 		$has_reporting_menu = $this->userUtils->isAdmin(); //$report_permission_attendancebyuser; // || ....
 
@@ -141,7 +142,8 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 				, "gev_spec_course_check" => array(true, "NYI!",$this->lng->txt("gev_spec_course_check"))
 				), $this->lng->txt("gev_others_menu"))
 			, "gev_reporting_menu" => array(false, $has_reporting_menu, array(
-				  "gev_report_attendance_by_employee" => array($report_permission_attendancebyuser, "ilias.php?baseClass=gevDesktopGUI&cmd=toReportAttendanceByEmployee",$this->lng->txt("gev_report_attendance_by_employee"))
+				  "gev_report_attendance_by_employee" => array($report_permission_attendancebyuser, "ilias.php?baseClass=gevDesktopGUI&cmd=toReportAttendanceByEmployee",$this->lng->txt("gev_report_attendance_by_employee")),
+				  "gev_report_billing" => array($report_permission_billing, "ilias.php?baseClass=gevDesktopGUI&cmd=toBillingReport",$this->lng->txt("gev_report_billing"))
 				), $this->lng->txt("gev_reporting_menu"))
 			, "gev_admin_menu" => array(false, $has_managment_menu, array(
 				  "gev_course_mgmt" => array($manage_courses, "goto.php?target=root_1",$this->lng->txt("gev_course_mgmt"))

@@ -74,11 +74,19 @@ class gevBillingReportGUI extends gevBasicReportGUI{
 		//when ordering the table, watch out for date!
 		//_table_nav=date:asc:0
 		//btw, what is the third parameter?
-		/*if(isset($_GET['_table_nav'])){
+		if(isset($_GET['_table_nav'])){
 			$this->external_sorting = true; //set to false again, 
 											//if the field is not relevant
 
 			$table_nav_cmd = split(':', $_GET['_table_nav']);
+			
+			if ($table_nav_cmd[1] == "asc") {
+				$direction = " ASC";
+			}
+			else {
+				$direction = " DESC";
+			}
+			
 			switch ($table_nav_cmd[0]) { //field
 				case 'date':
 					$direction = strtoupper($table_nav_cmd[1]);
@@ -89,12 +97,11 @@ class gevBillingReportGUI extends gevBasicReportGUI{
 				//append more fields, simply for performance...
 
 				default:
-					$this->external_sorting = false;
-					$sql_order_str = " ORDER BY usr.lastname ASC";
+					$this->external_sorting = true;
+					$sql_order_str = " ORDER BY ".$this->db->quoteIdentifier($table_nav_cmd[0])." ".$direction;
 					break;
 			}
-			
-		}*/
+		}
 
 		$query = 	 "SELECT  bill.bill_number as billnumber"
 					."		, usrcrs.participation_status as participation_status"
@@ -124,31 +131,9 @@ class gevBillingReportGUI extends gevBasicReportGUI{
 					." RIGHT JOIN billitem item ON bill.bill_pk = item.bill_fk"
 					." WHERE bill.bill_final = 1"
 					." GROUP BY bill.bill_number"
-					;
-					
-		die($query);
-
-		//get data
-		$query =	 "SELECT usrcrs.usr_id, usrcrs.crs_id, "
-					."		 usrcrs.booking_status, usrcrs.participation_status, usrcrs.okz, usrcrs.org_unit,"
-					."		 usr.firstname, usr.lastname, usr.gender, usr.bwv_id, usr.position_key,"
-					."		 crs.custom_id, crs.title, crs.type, crs.venue, crs.provider, crs.begin_date, crs.end_date "
-
- 					."  FROM hist_usercoursestatus usrcrs "
-					."  JOIN hist_user usr ON usr.user_id = usrcrs.usr_id AND usr.hist_historic = 0"
-					."  JOIN hist_course crs ON crs.crs_id = usrcrs.crs_id AND crs.hist_historic = 0"
-
-					."  WHERE ("
-					."		(usrcrs.booking_status != '-empty-' OR usrcrs.participation_status != '-empty-')"
-					."  	AND usrcrs.function NOT IN ('Trainingsbetreuer', 'Trainer')"
-					."  )"
-					
 					. $this->queryWhen($this->start_date, $this->end_date)
-					. $this->queryAllowedUsers()
-					
-					//."  ORDER BY usr.lastname ASC";
-					.$sql_order_str;
-
+					. $sql_order_str;
+					;
 
 		$res = $this->db->query($query);
 
@@ -197,15 +182,6 @@ class gevBillingReportGUI extends gevBasicReportGUI{
 		}
 		
 		return $this->query_when;
-	}
-	
-	protected function queryAllowedUsers() {
-		
-		//get all users the current user is superior of:
-		$allowed_user_ids = $this->user_utils->getEmployees();
-		$query = " AND ".$this->db->in("usr.user_id", $allowed_user_ids, false, "integer");
-	
-		return $query;
 	}
 
 	//_process_ will modify record entries
