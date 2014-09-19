@@ -1290,7 +1290,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$this->ctrl->redirectByClass("ilobjtestgui", "infoScreen");
 		}
 
-		$activeId = $this->testSessionFactory->getSession()->getActiveId();
+		$activeId = $this->object->getTestSession()->getActiveId();
 		
 		if( !($activeId > 0) )
 		{
