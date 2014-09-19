@@ -44,7 +44,7 @@ class ilGlobalCache {
 		self::COMP_OBJ_DEF,
 		self::COMP_ILCTRL,
 		self::COMP_COMPONENT,
-		self::COMP_TEMPLATE,
+//		self::COMP_TEMPLATE,
 		self::COMP_EVENTS,
 		//'ctrl_mm'
 	);
