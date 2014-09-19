@@ -74,9 +74,13 @@ class gevCoursesTableGUI extends catAccordionTableGUI {
 		$this->tpl->setVariable("COLSPAN", $this->getColspan());
 
 		$now = new ilDate(date("Y-m-d"), IL_CAL_DATE);
+		
+		if ($a_set["end_date"] === null) {
+			$a_set["end_date"] = $a_set["start_date"];
+		}
 
-		if ($a_set["start_date"] == null || $a_set["end_date"] == null) {
-			if ($a_set["scheduled_for"] == null) {
+		if ($a_set["start_date"] === null) {
+			if ($a_set["scheduled_for"] === null) {
 				$date = $this->lng->txt("gev_table_no_entry");
 			}
 			else {
@@ -86,7 +90,6 @@ class gevCoursesTableGUI extends catAccordionTableGUI {
 		else {
 			$date = ilDatePresentation::formatPeriod($a_set["start_date"], $a_set["end_date"]);
 		}
-
 
 		if ($a_set["status"] == ilCourseBooking::STATUS_BOOKED) {
 			$status = $this->booked_img;
