@@ -140,8 +140,6 @@ class gevBillingReportGUI extends gevBasicReportGUI{
 					. $sql_order_str
 					." GROUP BY bill.bill_number"
 					;
-					
-		die($query);
 
 		$bill_link_icon = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-get_bill.png").'" />';
 
