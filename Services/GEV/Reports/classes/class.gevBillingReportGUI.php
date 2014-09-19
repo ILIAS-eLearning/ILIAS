@@ -170,9 +170,9 @@ class gevBillingReportGUI extends gevBasicReportGUI{
 				$rec['date'] = $date;
 			}
 			
-			$this->ctrl->setParameterByClass($this, "bill_number", $rec["bill_number"]);
-			$target = $this->ctrl->getLinkTargetByClass($this, "deliverBillPDF");
-			$this->ctrl->clearParametersByClass($this);
+			$this->ctrl->setParameter($this, "billnumber", $rec["billnumber"]);
+			$target = $this->ctrl->getLinkTarget($this, "deliverBillPDF");
+			$this->ctrl->clearParameters($this);
 			$rec["bill_link"] = "<a href=\"".$target."\">".$bill_link_icon."</a>";
 			
 			$data[] = $rec;
@@ -198,14 +198,14 @@ class gevBillingReportGUI extends gevBasicReportGUI{
 	}
 	
 	protected function deliverBillPDF() {
-		$bill_number = $_GET["bill_number"];
-		if (!preg_match("/\d{6}-\d{5}/", $bill_number)) {
-			throw Exception("gevBillingReportGUI::deliverBillPDF: This is no bill_number: '".$bill_number."'");
+		$billnumber = $_GET["billnumber"];
+		if (!preg_match("/\d{6}-\d{5}/", $billnumber)) {
+			throw Exception("gevBillingReportGUI::deliverBillPDF: This is no billnumber: '".$billnumber."'");
 		}
 		
 		require_once("Services/Utilities/classes/class.ilUtil.php");
 		require_once("Services/GEV/Utils/classes/class.gevBillStorage.php");
-		$filename = gevBillStorage::getPathByBillNumber($bill_number);
+		$filename = gevBillStorage::getInstance()->getPathByBillNumber($billnumber);
 		ilUtil::deliverFile($filename, $filename, "application/pdf");
 	}
 
