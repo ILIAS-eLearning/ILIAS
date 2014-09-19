@@ -11,27 +11,6 @@
 *
 */
 
-//obsolete, if done in implementing class, but neverless:
-$basedir = __DIR__; 
-$basedir = str_replace('/Services/WBDData/classes', '', $basedir);
-chdir($basedir);
-
-if( !isset($ilAuth) ) {
-	// switch context to something without authentication
-    require_once "./Services/Context/classes/class.ilContext.php";
-    ilContext::init(ilContext::CONTEXT_WEB_NOAUTH);
-    require_once("./Services/Init/classes/class.ilInitialisation.php");
-    ilInitialisation::initILIAS();
-
-	//better ask for some shared secret or redirect...
-	$url = str_replace('Services/GEV/WBD/classes/class.gevWBDDataConnector.php', '', $_SERVER['REQUEST_URI']);
-	$url .= 'login.php';
-	//ilUtil::redirect($url);
-}
-
-require_once("./include/inc.header.php");
-
-
 abstract class wbdDataConnector {
 
 	public $ilDB;
@@ -39,6 +18,7 @@ abstract class wbdDataConnector {
 	public $WBD_USER_RECORD;
 	public $WBD_EDU_RECORD;
 	public $CSV_LABELS;
+	public $VALUE_MAPPINGS;
 
 	public $csv_text_delimiter = '"';
 	public $csv_field_delimiter = ';';
@@ -51,6 +31,7 @@ abstract class wbdDataConnector {
 		$this->WBD_USER_RECORD = $WBD_USER_RECORD;
 		$this->WBD_EDU_RECORD = $WBD_EDU_RECORD;
 		$this->CSV_LABELS = $CSV_LABELS;
+		$this->VALUE_MAPPINGS = $VALUE_MAPPINGS;
 	}
 
 	/**
@@ -123,6 +104,26 @@ abstract class wbdDataConnector {
 	}
 
 
+	private function html_dump($data){
+		$headerrow = $this->csv_labels(array_keys($data[0]));
+		array_unshift($data, $headerrow);
+		
+		header("Content-Type: text/html, charset=utf-8");
+
+		print '<table border=1>';
+		foreach ($data as $row){
+			print '<tr>';
+			foreach ($row as $key => $value) {
+				print '<td>';
+				print $value;
+				print '</td>';
+			}
+			print '</tr>';
+		}
+		print '</table>';
+
+	}
+
 
 	private function csv_labels($keys){
 		$ret = array();
@@ -133,21 +134,37 @@ abstract class wbdDataConnector {
 	}
 
 
-	public function export_get_new_users($as_file=False){
+	public function export_get_new_users($out='csv', $as_file=False){
 		$data = $this->get_new_users();
-		$this->csv_dump($data, True, $as_file);
+		if($out == 'csv'){
+			$this->csv_dump($data, True, $as_file);
+		}else{
+			$this->html_dump($data);
+		}
 	}
-	public function export_get_updated_users($as_file=False){
-		$data = $this->get_new_users();
-		$this->csv_dump($data, True, $as_file);
+	public function export_get_updated_users($out='csv', $as_file=False){
+		$data = $this->get_updated_users();
+		if($out == 'csv'){
+			$this->csv_dump($data, True, $as_file);
+		}else{
+			$this->html_dump($data);
+		}
 	}
-	public function export_get_new_edu_records($as_file=False){
-		$data = $this->get_new_users();
-		$this->csv_dump($data, True, $as_file);
+	public function export_get_new_edu_records($out='csv', $as_file=False){
+		$data = $this->get_new_edu_records();
+		if($out == 'csv'){
+			$this->csv_dump($data, True, $as_file);
+		}else{
+			$this->html_dump($data);
+		}
 	}
-	public function export_get_changed_edu_records($as_file=False){
-		$data = $this->get_new_users();
-		$this->csv_dump($data, True, $as_file);
+	public function export_get_changed_edu_records($out='csv', $as_file=False){
+		$data = $this->get_changed_edu_records();
+		if($out == 'csv'){
+			$this->csv_dump($data, True, $as_file);
+		}else{
+			$this->html_dump($data);
+		}
 	}
 
 

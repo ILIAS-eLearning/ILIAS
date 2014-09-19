@@ -9,54 +9,66 @@ $WBD_USER_RECORD = array(
 	'birthday' => '',
 	'auth_email' => '',
 	'auth_phone_nr' => '',
-	'country_code' => '',
 	'zipcode' => '',
 	'city' => '',
 	'street' => '',
 	'house_number' => '',
 	'pob' => '',
-	'address_code' => '',
 	'free_text' => '',
 	'email' => '',
 	'phone_nr' => '',
 	'mobile_phone_nr' => '',
 	'url' => '',
-	'data_transfer_code'  => '',
-	'data_protection_code'  => '',
-	'training_pass' => '',
 	'agent_registration_nr' => '',
 	'agency_work' => '',
 	'agent_state' => '',
 	'email_confirmation' => '',
-	'tp_service'  => '',
 	'internal_agent_id' => '',
+
+	'tp_service'  => 'Ja',
+	'country_code' => 'D',
+	'address_code' => 'privat',
+	'data_transfer_code'  => 'Ja',
+	'data_protection_code'  => 'Ja',
+	'training_pass' => 'Nein',
+
 );
 
 
 $WBD_EDU_RECORD = array(
-	"user_bwv_id" => '',
-	"wbd_case_id" => '',
-	"crs_template_title" => '',
-	"crs_credit_points" => '',
-	"crs_type_title" => '',
-	"crs_start_date" => '',
-	"crs_end_date" => '',
-	"part_okz" => '',
+	"name" => "", //lastname
+	"first_name" => "",
+	"birthday_or_internal_agent_id" => '', //$record['user_id'],
+	"agent_id" => "", //$record['user_bwv_id'],
+	"training" => "", // $record['crs_template_title'],
+	"from" => "", //date('d.m.Y', $record['crs_start_date']),
+	"till" => "", //date('d.m.Y', $record['crs_end_date']),
+	"score" => "", //$record['crs_credit_points'],
+	"internal_booking_id" => "", //$record['crs_ref_id'],
+	"contact_degree" => "",
+	"contact_first_name" => "",
+	"contact_last_name" => "",
+	"contact_phone" => "",
+	"contact_email" => "",
+	"study_type_selection" => "", // "Präsenzveranstaltung" | "Selbstgesteuertes E-Learning" | "Gesteuertes E-Learning";
+	"study_content" => "", //Spartenübergreifend",
+	"score_code" => ""
+			
+);
 
-	"user_firstname" => '',
-	"user_lastname" => '',
-	"user_gender" => '',
-	"user_adp_no" => '',
 
-	"crs_obj_id" => "",
-	"crs_cost_per_part" => 0,
-	"wbd_transfer_ts" => -1,
-	"crs_description" => "-empty-",
-	"crs_mandatory" => 0,
-	"part_function_title" => "Teilnehmer",
-	"part_booking_state_title" => "Gebucht",
-	"part_participation_state_title" => "Teilgenommen",
-	"user_productivity" => "produktiv"
+$VALUE_MAPPINGS = array(
+	"course_type" => array(
+		"Präsenztraining" => "Präsenzveranstaltung",
+		"XX" => "Selbstgesteuertes E-Learning",
+		"XX" => "Gesteuertes E-Learning",
+	),
+	"salutation" => array(
+		"m" => "Herr",
+		"f" => "Frau",
+		"w" => "Frau"
+	)
+
 );
 
 
