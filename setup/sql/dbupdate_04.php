@@ -3906,3 +3906,7 @@ if(!$ilDB->tableColumnExists('ecs_part_settings','token'))
         ));
 }
 ?>
+<#4376>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
