@@ -32,6 +32,16 @@ class ilRbacReview
     private static $_opsCache = null;
 
 	/**
+	 * @var array
+	 */
+	protected static $assigned_users_cache = array();
+
+	/**
+	 * @var array
+	 */
+	protected static $is_assigned_cache = array();
+
+	/**
 	 * Constructor
 	 * @access	public
 	 */
@@ -882,7 +892,8 @@ class ilRbacReview
 		$row = $res->fetchRow(DB_FETCHMODE_OBJECT);
 		return $row->num ? $row->num : 0;
 	}
-	
+
+
 	/**
 	 * get all assigned users to a given role
 	 * @access	public
@@ -901,6 +912,9 @@ class ilRbacReview
 		{
 			$message = get_class($this)."::assignedUsers(): No role_id given!";
 			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
+		}
+		if (! $a_fields AND isset(self::$assigned_users_cache[$a_rol_id])) {
+			return self::$assigned_users_cache[$a_rol_id];
 		}
 		
         $result_arr = array();
@@ -946,8 +960,13 @@ class ilRbacReview
 		
 		$ilBench->stop("RBAC", "review_assignedUsers");
 
+		if (! $a_fields) {
+			self::$assigned_users_cache[$a_rol_id] = $result_arr;
+		}
+
 		return $result_arr;
 	}
+
 
 	/**
 	 * check if a specific user is assigned to specific role
@@ -959,6 +978,9 @@ class ilRbacReview
 	 */
 	public function isAssigned($a_usr_id,$a_role_id)
 	{
+        if(isset(self::$is_assigned_cache[$a_role_id][$a_usr_id])) {
+	        return self::$is_assigned_cache[$a_role_id][$a_usr_id];
+        }
         // Quickly determine if user is assigned to a role
 		global $ilDB;
 
@@ -968,7 +990,10 @@ class ilRbacReview
                     "AND usr_id= ".$ilDB->quote($a_usr_id);
 		$res = $ilDB->query($query);
 
-        return $res->numRows() == 1;
+		$is_assigned = $res->numRows() == 1;
+		self::$is_assigned_cache[$a_role_id][$a_usr_id] = $is_assigned;
+
+		return $is_assigned;
 	}
     
 	/**
