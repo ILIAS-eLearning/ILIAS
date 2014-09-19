@@ -544,7 +544,9 @@ class ilObjLanguage extends ilObject
 	static final function replaceLangModule($a_key, $a_module, $a_array)
 	{
 		global $ilDB;
-		
+
+		ilGlobalCache::flushAll();
+
 		$ilDB->manipulate(sprintf("DELETE FROM lng_modules WHERE lang_key = %s AND module = %s",
 			$ilDB->quote($a_key, "text"), $ilDB->quote($a_module, "text")));
 
@@ -566,7 +568,8 @@ class ilObjLanguage extends ilObject
 		$a_lang_key, $a_value, $a_local_change = null, $a_remarks = null)
 	{
 		global $ilDB;
-		
+
+		ilGlobalCache::flushAll();
 
 		if (isset($a_remarks))
 		{

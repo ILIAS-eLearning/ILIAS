@@ -121,6 +121,10 @@ class ilLanguage
 	 * @var array
 	 */
 	protected static $used_modules = array();
+	/**
+	 * @var array
+	 */
+	protected $cached_modules = array();
 
 	/**
 	 * Constructor
@@ -176,6 +180,12 @@ class ilLanguage
 		if (!in_array($this->lang_key,$langs))
 		{
 			$this->lang_key = $this->lang_default;
+		}
+
+		require_once('./Services/Language/classes/class.ilCachedLanguage.php');
+		$this->global_cache = ilCachedLanguage::getInstance($this->lang_key);
+		if ($this->global_cache->isActive()) {
+			$this->cached_modules = $this->global_cache->getTranslations();
 		}
 
 		$this->loadLanguageModule("common");
@@ -298,6 +308,12 @@ class ilLanguage
 		if (empty($this->lang_key))
 		{
 			$lang_key = $this->lang_user;
+		}
+
+		if(is_array($this->cached_modules[$a_module])) {
+			$this->text = array_merge($this->text, $this->cached_modules[$a_module]);
+
+			return;
 		}
 
 /*

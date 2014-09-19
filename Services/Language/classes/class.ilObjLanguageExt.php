@@ -455,6 +455,10 @@ class ilObjLanguageExt extends ilObjLanguage
 			}
 			ilObjLanguage::replaceLangModule($a_lang_key, $module, $entries);
 		}
+
+
+		require_once('class.ilCachedLanguage.php');
+		ilCachedLanguage::getInstance($a_lang_key)->flush();
 	}
 
 
