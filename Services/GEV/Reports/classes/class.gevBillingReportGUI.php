@@ -2,19 +2,11 @@
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */#
 
 /**
-* Report "AttendanceByEmployees"
+* Report "Billing"
 * for Generali
 *
-* @author	Nils Haagen <nhaagen@concepts-and-training.de>
+* @author	Richard Klees <richard.klees@concepts-and-training.de>
 * @version	$Id$
-*
-*
-*	Define title, table_cols and row_template.
-*	Implement fetchData to retrieve the data you want
-*
-*	Add special _process_xls_XXX and _process_table_XXX methods
-*	to modify certain entries after retrieving data.
-*	Those methods must return a proper string.
 *
 */
 
@@ -179,10 +171,9 @@ class gevBillingReportGUI extends gevBasicReportGUI{
 			}
 			
 			$this->ctrl->setParameterByClass($this, "bill_number", $rec["bill_number"]);
-			$rec["bill_link"] = $this->ctrl->getLinkTargetByClass($this, "deliverBillPDF");
+			$target = $this->ctrl->getLinkTargetByClass($this, "deliverBillPDF");
 			$this->ctrl->clearParametersByClass($this);
-			
-			$rec["bill_link_icon"] = $bill_link_icon;
+			$rec["bill_link"] = "<a href=\"".$target."\">".$bill_link_icon."</a>";
 			
 			$data[] = $rec;
 		}
