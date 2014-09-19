@@ -136,10 +136,12 @@ class gevBillingReportGUI extends gevBasicReportGUI{
 					." INNER JOIN hist_usercoursestatus usrcrs ON usrcrs.usr_id = bill.bill_usr_id AND usrcrs.crs_id = bill.bill_context_id AND usrcrs.hist_historic = 0"
 					." RIGHT JOIN billitem item ON bill.bill_pk = item.bill_fk"
 					." WHERE bill.bill_final = 1"
-					." GROUP BY bill.bill_number"
 					. $this->queryWhen($this->start_date, $this->end_date)
-					. $sql_order_str;
+					. $sql_order_str
+					." GROUP BY bill.bill_number"
 					;
+					
+		die($query);
 
 		$bill_link_icon = '<img src="'.ilUtil::getImagePath("GEV_img/ico-key-get_bill.png").'" />';
 
