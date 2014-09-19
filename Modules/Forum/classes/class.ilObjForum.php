@@ -966,7 +966,7 @@ class ilObjForum extends ilObject
 				WHERE frm_posts.pos_top_fk = %s
 				AND ((frm_posts.pos_date > frm_thread_access.access_old_ts OR frm_posts.pos_update > frm_thread_access.access_old_ts)
 					OR (frm_thread_access.access_old IS NULL AND (frm_posts.pos_date > %s OR frm_posts.pos_update > %s)))
-				AND frm_posts.pos_display_user_id != %s 
+				AND frm_posts.pos_author_id != %s 
 				AND frm_user_read.usr_id IS NULL $act_clause)
 			";
 			$types  = array('integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'timestamp', 'timestamp', 'integer');
@@ -1048,7 +1048,7 @@ class ilObjForum extends ilObject
 		$act_clause = '';
 		if(!$ilAccess->checkAccess('moderate_frm', '', $ref_id))
 		{
-			$act_clause .= " AND (frm_posts.pos_status = " . $ilDB->quote(1, "integer") . " OR frm_posts.pos_display_user_id = " . $ilDB->quote($ilUser->getId(), "integer") . ") ";
+			$act_clause .= " AND (frm_posts.pos_status = " . $ilDB->quote(1, "integer") . " OR frm_posts.pos_author_id = " . $ilDB->quote($ilUser->getId(), "integer") . ") ";
 		}
 
 		$ilDB->setLimit(1, 0);
@@ -1090,8 +1090,8 @@ class ilObjForum extends ilObject
 		$act_inner_clause = '';
 		if(!$ilAccess->checkAccess('moderate_frm', '', $ref_id))
 		{
-			$act_clause .= " AND (t1.pos_status = " . $ilDB->quote(1, "integer") . " OR t1.pos_display_user_id = " . $ilDB->quote($ilUser->getId(), "integer") . ") ";
-			$act_inner_clause .= " AND (t3.pos_status = " . $ilDB->quote(1, "integer") . " OR t3.pos_display_user_id = " . $ilDB->quote($ilUser->getId(), "integer") . ") ";
+			$act_clause .= " AND (t1.pos_status = " . $ilDB->quote(1, "integer") . " OR t1.pos_author_id = " . $ilDB->quote($ilUser->getId(), "integer") . ") ";
+			$act_inner_clause .= " AND (t3.pos_status = " . $ilDB->quote(1, "integer") . " OR t3.pos_author_id = " . $ilDB->quote($ilUser->getId(), "integer") . ") ";
 		}
 
 		$in       = $ilDB->in("t1.pos_thr_fk", $thread_ids, false, 'integer');
@@ -1107,6 +1107,7 @@ class ilObjForum extends ilObject
 				GROUP BY t3.pos_thr_fk
 			) t2 ON t2.pos_thr_fk = t1.pos_thr_fk AND t2.pos_date = t1.pos_date
 			WHERE $in $act_clause
+			GROUP BY t1.pos_thr_fk
 		";
 
 		$usr_ids = array();
