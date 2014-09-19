@@ -428,7 +428,11 @@ class ilCachedComponentData {
 	 * @return mixed
 	 */
 	public function lookupActivePluginsBySlotId($slot_id) {
-		return $this->il_plugin_active[$slot_id];
+		if (is_array($this->il_plugin_active[$slot_id])) {
+			return $this->il_plugin_active[$slot_id];
+		} else {
+			return array();
+		}
 	}
 
 

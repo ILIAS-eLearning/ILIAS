@@ -968,7 +968,8 @@ abstract class ilPlugin
 		//		$set = $ilDB->query($q);
 		$cached_component = ilCachedComponentData::getInstance();
 		//		while($rec = $ilDB->fetchAssoc($set))
-		foreach($cached_component->lookupActivePluginsBySlotId($a_slot_id) as $rec)
+		$lookupActivePluginsBySlotId = $cached_component->lookupActivePluginsBySlotId($a_slot_id);
+		foreach($lookupActivePluginsBySlotId as $rec)
 		{
 			if ($ilPluginAdmin->isActive($a_ctype, $a_cname, $a_slot_id, $rec["name"]))
 			{
