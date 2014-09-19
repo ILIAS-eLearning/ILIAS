@@ -206,7 +206,7 @@ class gevBillingReportGUI extends gevBasicReportGUI{
 		require_once("Services/Utilities/classes/class.ilUtil.php");
 		require_once("Services/GEV/Utils/classes/class.gevBillStorage.php");
 		$filename = gevBillStorage::getInstance()->getPathByBillNumber($billnumber);
-		ilUtil::deliverFile($filename, $filename, "application/pdf");
+		ilUtil::deliverFile($filename, $billnumber.".pdf", "application/pdf");
 	}
 
 	//_process_ will modify record entries
