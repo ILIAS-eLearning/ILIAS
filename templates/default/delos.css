@@ -8195,6 +8195,7 @@ input.ilOpenIDBox {
   width: 60px;
 }
 .dropdown-menu {
+  font-weight: normal;
   border: none;
   box-shadow: 3px 9px 9px 0px rgba(0, 0, 0, 0.176);
 }
@@ -9361,7 +9362,7 @@ div.ilBlockHeader,
 div.ilBlockHeaderBig,
 td.ilBlockHeader,
 td.ilBlockHeaderBig {
-  font-family: 'Open Sans Semibold';
+  /* font-family: 'Open Sans Semibold';  deactivated, since it affects drop downs in the header */
   font-weight: normal;
   padding: 3px 0;
   margin: 0 5px;
