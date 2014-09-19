@@ -101,8 +101,8 @@ class ilExerciseXMLWriter extends ilXmlWriter {
 		$this->xmlStartTag ( "Exercise", $attribs );
 		
 		//todo: create new dtd for new assignment structure
-		//$this->xmlElement("Title", null,$this->exercise->getTitle());
-		//$this->xmlElement("Description",  null,$this->exercise->getDescription());
+		$this->xmlElement("Title", null,$this->exercise->getTitle());
+		$this->xmlElement("Description",  null,$this->exercise->getDescription());
 		//$this->xmlElement("Instruction",  null,$this->exercise->getInstruction());
 		//$this->xmlElement("DueDate",  null,$this->exercise->getTimestamp());
 		
@@ -112,24 +112,20 @@ class ilExerciseXMLWriter extends ilXmlWriter {
 		
 		if (count ( $assignments ) > 0) {
 			foreach ( $assignments as $assignment ) {
-				$this->xmlElement ( "Title", null, $this->exercise->getTitle ());
-				$this->xmlElement ( "Description", null, $this->exercise->getDescription () );
+				$this->xmlStartTag ("Assignment");
 				$this->xmlElement ( "Instruction", null, $assignment ["instruction"] );
 				$this->xmlElement ( "DueDate", null, $assignment ["deadline"] );
 				
 				$this->handleAssignmentFiles ( $this->exercise->getId (), $assignment ["id"] );
-				//todo: we handle only the first one for workaround, remove later for new dtd
-				break;
+				if ($this->attachMembers)
+				{
+					$this->handleAssignmentMembers ($this->exercise->getId (), $assignment ["id"]);
+				}
+				$this->xmlEndTag ( "Assignment" );
 			}
-		} else {
-			$this->xmlElement ( "Title", null, $this->exercise->getTitle () );
-			$this->xmlElement ( "Description", null, $this->exercise->getDescription () );
 		}
 		
-		if ($this->attachMembers) {					
-			$this->handleAssignmentMembers ($this->exercise->getId (), $assignments);
-		}
-		
+
 		$this->xmlEndTag ( "Exercise" );
 		$this->__buildFooter ();
 		
@@ -141,7 +137,7 @@ class ilExerciseXMLWriter extends ilXmlWriter {
 	}
 	
 	function __buildHeader() {
-		$this->xmlSetDtdDef ( "<!DOCTYPE Exercise PUBLIC \"-//ILIAS//DTD ExerciseAdministration//EN\" \"" . ILIAS_HTTP_PATH . "/xml/ilias_exercise_3_10.dtd\">" );
+		$this->xmlSetDtdDef ( "<!DOCTYPE Exercise PUBLIC \"-//ILIAS//DTD ExerciseAdministration//EN\" \"" . ILIAS_HTTP_PATH . "/xml/ilias_exercise_4_4.dtd\">" );
 		$this->xmlSetGenCmt ( "Exercise Object" );
 		$this->xmlHeader ();
 		
@@ -228,20 +224,14 @@ class ilExerciseXMLWriter extends ilXmlWriter {
 	 * @param integer $ex_id exercise id
 	 * @param array $assignments assignment id
 	 */
-	private function handleAssignmentMembers($ex_id, $assignments) {
+	private function handleAssignmentMembers($ex_id, $assignment_id) {
 		$this->xmlStartTag ( "Members" );
 		include_once ("./Modules/Exercise/classes/class.ilExerciseMembers.php");
 		$members = ilExerciseMembers::_getMembers($ex_id);
 		if (count ( $members )) {
 			foreach ( $members as $member_id ) {
 				$this->xmlStartTag ( "Member", array ("usr_id" => "il_" . IL_INST_ID . "_usr_" . $member_id  ) );
-				if (count ($assignments) > 0) {
-					foreach($assignments as $assignment) {
-						$this->attachMarking ( $member_id, $assignment["id"] );		
-						//todo: handle only first assignment, must be fixed when for dtd
-						break;
-					}
-				}				
+				$this->attachMarking ( $member_id, $assignment_id);
 				$this->xmlEndTag ( "Member" );
 			}
 		}
