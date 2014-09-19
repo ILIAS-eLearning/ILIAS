@@ -14,3 +14,8 @@
   -moz-box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.15);
   box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.15);
 }
+.qtip-default {
+  background-color: #ffffa3;
+  border-color: #f1d031;
+  color: #f0f0f0;
+}

@@ -924,7 +924,8 @@ abstract class ilBlockGUI
 		include_once "Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php";
 		$dropdown = new ilAdvancedSelectionListGUI();
 		$dropdown->setUseImages(true);
-		$dropdown->setHeaderIcon(ilUtil::getImagePath("icon_sett_s.png"));
+		$dropdown->setStyle(ilAdvancedSelectionListGUI::STYLE_LINK);
+		$dropdown->setHeaderIcon(ilAdvancedSelectionListGUI::ICON_CONFIG);
 		$dropdown->setId("block_dd_".$this->getBlockType()."_".$this->block_id);
 		foreach($this->dropdown as $item)
 		{

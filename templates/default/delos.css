@@ -9592,6 +9592,26 @@ li.ilToolbarSeparator {
   -moz-box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.15);
   box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.15);
 }
+.qtip-default {
+  font-size: 12px;
+  line-height: 1.5;
+}
+/*.qtip-default {
+	background-color: lighten(@brand-warning, 25%);
+	border-color: lighten(@brand-warning, 25%);
+	color: #303030;
+}
+
+.qtip-default {
+	background-color: darken(@brand-secondary, 10%);
+	border-color: darken(@brand-secondary, 10%);
+	color: #ffffff;
+}*/
+.qtip-default {
+  background-color: #607ea5;
+  border-color: #607ea5;
+  color: #ffffff;
+}
 /* Services/Locator */
 ol.breadcrumb {
   margin: 0;

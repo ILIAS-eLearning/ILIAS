@@ -13,10 +13,12 @@ class ilAdvancedSelectionListGUI
 	private $items = array();
 	private $id = "asl";
 	private $asynch = false;
-	
+
 	const DOWN_ARROW_LIGHT = "mm_down_arrow.png";
 	const DOWN_ARROW_DARK = "mm_down_arrow_dark.png";
 	const DOWN_ARROW_TOPBAR = "mm_down_arrow_topbar.png";
+	const ICON_ARROW = "caret";
+	const ICON_CONFIG = "glyphicon glyphicon-cog";
 	const NO_ICON = "";
 	
 	const MODE_LINKS = "links";
@@ -735,25 +737,17 @@ class ilAdvancedSelectionListGUI
 			$tpl->setCurrentBlock("top_img");
 			switch ($this->getHeaderIcon())
 			{
+				case ilAdvancedSelectionListGUI::ICON_CONFIG:
+					$tpl->setVariable("IMG_SPAN_STYLE", ilAdvancedSelectionListGUI::ICON_CONFIG);
+					break;
+
 				case ilAdvancedSelectionListGUI::DOWN_ARROW_LIGHT:
-					$tpl->setVariable("IMG_DOWN",
-						ilUtil::getImagePath(ilAdvancedSelectionListGUI::DOWN_ARROW_LIGHT));
-					break;
 				case ilAdvancedSelectionListGUI::DOWN_ARROW_DARK:
-					$tpl->setVariable("IMG_DOWN",
-						ilUtil::getImagePath(ilAdvancedSelectionListGUI::DOWN_ARROW_DARK));
-					break;
 				case ilAdvancedSelectionListGUI::DOWN_ARROW_TOPBAR:
-					$tpl->setVariable("IMG_DOWN",
-						ilUtil::getImagePath(ilAdvancedSelectionListGUI::DOWN_ARROW_TOPBAR));
-					break;
 				default:
-					$tpl->setVariable("IMG_DOWN", $this->getHeaderIcon());
+					$tpl->setVariable("IMG_SPAN_STYLE", ilAdvancedSelectionListGUI::ICON_ARROW);
 					break;
 			}
-			// do not repeat title (accessibility) -> empty alt
-			//$tpl->setVariable("ALT_SEL_TOP", $this->getListTitle());
-			$tpl->setVariable("ALT_SEL_TOP", "");
 			$tpl->parseCurrentBlock();
 		}
 		
