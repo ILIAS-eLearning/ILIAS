@@ -57,7 +57,7 @@ abstract class wbdDataConnector {
 
 
 	/**
-	* EXPORT FUNCTIONS, CSV
+	* EXPORT FUNCTIONS, CSV and HTML
 	**/
 		
 	private function csv_dump($data, $header=False, $as_file=False){

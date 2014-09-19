@@ -1,6 +1,11 @@
 <?php
 
 $WBD_USER_RECORD = array(
+	//debug:
+	'row_id'=>'',
+	//"last_wbd_report" => '',
+	
+
 	'title' => '', //Herr:Frau
 	'degree' => '',
 	'first_name' => '',
@@ -25,17 +30,21 @@ $WBD_USER_RECORD = array(
 	'email_confirmation' => '',
 	'internal_agent_id' => '',
 
+	//constant, don't bother:
 	'tp_service'  => 'Ja',
 	'country_code' => 'D',
 	'address_code' => 'privat',
 	'data_transfer_code'  => 'Ja',
 	'data_protection_code'  => 'Ja',
-	'training_pass' => 'Nein',
-
+	'training_pass' => 'Nein'
 );
 
 
 $WBD_EDU_RECORD = array(
+	//debug:
+	'row_id'=>'',
+	//"last_wbd_report" => '',
+
 	"name" => "", //lastname
 	"first_name" => "",
 	"birthday_or_internal_agent_id" => '', //$record['user_id'],
@@ -74,6 +83,11 @@ $VALUE_MAPPINGS = array(
 
 
 $CSV_LABELS = array(
+	//debug:
+	'row_id'=>'ROW-ID',
+	"last_wbd_report" => 'LAST_WBD_REPORT',
+	
+
 	"address_code" => "Adresskennzeichen",
 	"administration_id" => "VerwaltungsID",
 	"agency_work" => "Vermittlungstätigkeit",
