@@ -1,6 +1,6 @@
 <?php
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+require_once('class.ilCachedCtrl.php');
 /**
  * This class provides processing control methods.
  * A global instance is available via variable $ilCtrl
@@ -93,11 +93,14 @@ class ilCtrl
 		global $ilDB;
 		
 		$baseClass = strtolower($_GET["baseClass"]);
-		
+
+		$module_class = ilCachedCtrl::getInstance();
+		$mc_rec = $module_class->lookupModuleClass($baseClass);
 		// get class information
-		$mc_set = $ilDB->query("SELECT * FROM module_class WHERE LOWER(class) = ".
-			$ilDB->quote($baseClass, "text"));
-		$mc_rec = $ilDB->fetchAssoc($mc_set);
+//		$mc_set = $ilDB->query("SELECT * FROM module_class WHERE LOWER(class) = ".
+//			$ilDB->quote($baseClass, "text"));
+//		$mc_rec = $ilDB->fetchAssoc($mc_set);
+
 		$module = $mc_rec["module"];
 		$class = $mc_rec["class"];
 		$class_dir = $mc_rec["dir"];
@@ -112,9 +115,11 @@ class ilCtrl
 		}
 		else		// check whether class belongs to a service
 		{
-			$mc_set = $ilDB->query("SELECT * FROM service_class WHERE LOWER(class) = ".
-				$ilDB->quote($baseClass, "text"));
-			$mc_rec = $ilDB->fetchAssoc($mc_set);
+//			$mc_set = $ilDB->query("SELECT * FROM service_class WHERE LOWER(class) = ".
+//				$ilDB->quote($baseClass, "text"));
+//			$mc_rec = $ilDB->fetchAssoc($mc_set);
+
+			$mc_rec = $module_class->lookupServiceClass($baseClass);
 
 			$service = $mc_rec["service"];
 			$class = $mc_rec["class"];
@@ -128,9 +133,12 @@ class ilCtrl
 			}
 
 			// get service information
-			$m_set = $ilDB->query("SELECT * FROM il_component WHERE name = ".
-				$ilDB->quote($service, "text"));
-			$m_rec = $ilDB->fetchAssoc($m_set);
+//			$m_set = $ilDB->query("SELECT * FROM il_component WHERE name = ".
+//				$ilDB->quote($service, "text"));
+//			$m_rec = $ilDB->fetchAssoc($m_set);
+
+			$m_rec = ilComponent::getComponentInfo('Services', $service);
+
 			$this->service_dir = $m_rec["type"]."/".$m_rec["name"];
 			
 			include_once $this->service_dir."/".$class_dir."/class.".$class.".php";;
@@ -366,20 +374,27 @@ class ilCtrl
 		$n_class = "";
 		if ($a_class != "")
 		{
-			global $ilDB;
-			
-			// get class information
-			$mc_set = $ilDB->query("SELECT * FROM module_class WHERE LOWER(class) = ".
-				$ilDB->quote($class, "text"));
-			$mc_rec = $ilDB->fetchAssoc($mc_set);
-			$n_class = strtolower($mc_rec["class"]);
+			$module_class = ilCachedCtrl::getInstance();
+			$mc_rec = $module_class->lookupModuleClass($class);
+			$n_class = $mc_rec['lower_class'];
+//			global $ilDB;
+//
+//			 get class information
+//			$mc_set = $ilDB->query("SELECT * FROM module_class WHERE LOWER(class) = ".
+//				$ilDB->quote($class, "text"));
+//			$mc_rec = $ilDB->fetchAssoc($mc_set);
+//			$n_class = strtolower($mc_rec["class"]);
 
 			if ($n_class == "")
 			{
-				$mc_set = $ilDB->query("SELECT * FROM service_class WHERE LOWER(class) = ".
-					$ilDB->quote($class, "text"));
-				$mc_rec = $ilDB->fetchAssoc($mc_set);
-				$n_class = strtolower($mc_rec["class"]);
+				$mc_rec =  $module_class->lookupServiceClass($class);
+				$n_class = $mc_rec['lower_class'];
+
+//				$mc_set = $ilDB->query("SELECT * FROM service_class WHERE LOWER(class) = ".
+//					$ilDB->quote($class, "text"));
+//				$mc_rec = $ilDB->fetchAssoc($mc_set);
+//				$n_class = strtolower($mc_rec["class"]);
+
 			}
 			
 			if ($n_class != "")
@@ -576,7 +591,7 @@ class ilCtrl
 		
 		// determine call node structure
 		$this->call_node[$a_nr] = array("class" => $a_class, "parent" => $a_parent);
-		
+
 //echo "<br>nr:$a_nr:class:$a_class:parent:$a_parent:";
 		$call_set = $ilDB->query("SELECT * FROM ctrl_calls WHERE parent = ".
 			$ilDB->quote(strtolower($a_class), "text").
@@ -802,9 +817,12 @@ class ilCtrl
 		global $ilDB;
 		$a_class_name = strtolower($a_class_name);
 
-		$class_set = $ilDB->query("SELECT * FROM ctrl_classfile WHERE class = ".
-			$ilDB->quote($a_class_name, "text"));
-		$class_rec = $ilDB->fetchAssoc($class_set);
+		$cached_ctrl = ilCachedCtrl::getInstance();
+		$class_rec = $cached_ctrl->lookupClassFile($a_class_name);
+
+		//$class_set = $ilDB->query("SELECT * FROM ctrl_classfile WHERE class = ".
+		//	$ilDB->quote($a_class_name, "text"));
+		//$class_rec = $ilDB->fetchAssoc($class_set);
 
 		if ($class_rec["plugin_path"] != "")
 		{
@@ -1679,23 +1697,31 @@ class ilCtrl
 	private function readCidInfo($a_cid)
 	{
 		global $ilDB;
-		
+
 		if (isset($this->info_read_cid[$a_cid]))
 		{
 			return;
 		}
-		$set = $ilDB->query("SELECT * FROM ctrl_classfile ".
-			" WHERE cid = ".$ilDB->quote($a_cid, "text")
-			);
-		if ($rec  = $ilDB->fetchAssoc($set))
+
+		$cached_ctrl = ilCachedCtrl::getInstance();
+		$rec = $cached_ctrl->lookupCid($a_cid);
+
+//		$set = $ilDB->query("SELECT * FROM ctrl_classfile ".
+//			" WHERE cid = ".$ilDB->quote($a_cid, "text")
+//			);
+//		if ($rec  = $ilDB->fetchAssoc($set))
+		if($rec)
 		{
 			$this->cid_class[$a_cid] = $rec["class"];
 			$this->class_cid[$rec["class"]] = $a_cid;
-		
-			$set = $ilDB->query("SELECT * FROM ctrl_calls ".
-				" WHERE parent = ".$ilDB->quote($rec["class"], "text")
-				);
-			while ($rec2  = $ilDB->fetchAssoc($set))
+
+			$calls = $cached_ctrl->lookupCall($rec["class"]);
+
+			//			$set = $ilDB->query("SELECT * FROM ctrl_calls ".
+			//				" WHERE parent = ".$ilDB->quote($rec["class"], "text")
+			//				);
+			//			while ($rec2  = $ilDB->fetchAssoc($set))
+			foreach($calls as $rec2)
 			{
 				if (!isset($this->calls[$rec["class"]]) || !is_array($this->calls[$rec["class"]]) || !in_array($rec2["child"], $this->calls[$rec["class"]]))
 				{
@@ -1733,25 +1759,33 @@ class ilCtrl
 	private function readClassInfo($a_class)
 	{
 		global $ilDB;
-		
+
 		$a_class = strtolower($a_class);
 		if (isset($this->info_read_class[$a_class]))
 		{
 			return;
 		}
-		$set = $ilDB->query("SELECT * FROM ctrl_classfile ".
-			" WHERE class = ".$ilDB->quote($a_class, "text")
-			);
-		if ($rec  = $ilDB->fetchAssoc($set))
+
+		$cached_ctrl = ilCachedCtrl::getInstance();
+		$rec = $cached_ctrl->lookupClassFile($a_class);
+
+
+//		$set = $ilDB->query("SELECT * FROM ctrl_classfile ".
+//			" WHERE class = ".$ilDB->quote($a_class, "text")
+//			);
+//		if ($rec  = $ilDB->fetchAssoc($set))
+		if($rec)
 		{
 			$this->cid_class[$rec["cid"]] = $a_class;
 			$this->class_cid[$a_class] = $rec["cid"];
 		}
 		
-		$set = $ilDB->query("SELECT * FROM ctrl_calls ".
-			" WHERE parent = ".$ilDB->quote($a_class, "text")
-			);
-		while ($rec  = $ilDB->fetchAssoc($set))
+//		$set = $ilDB->query("SELECT * FROM ctrl_calls ".
+//			" WHERE parent = ".$ilDB->quote($a_class, "text")
+//			);
+		$recs = $cached_ctrl->lookupCall($a_class);
+//		while ($rec  = $ilDB->fetchAssoc($set))
+		foreach($recs as $rec)
 		{
 			if (!isset($this->calls[$a_class]) || !is_array($this->calls[$a_class]) || !in_array($rec["child"], $this->calls[$a_class]))
 			{
