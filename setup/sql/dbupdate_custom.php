@@ -1853,4 +1853,8 @@ if(!$ilDB->tableExists('hist_user'))
 }
 ?>
 
+<#41>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
 
