@@ -80,11 +80,11 @@ class ilECSParticipantSettings
 	/**
 	 * Get participants which are enabled and export is allowed
 	 */
-	public static function getExportableParticipants()
+	public static function getExportableParticipants($a_type)
 	{
 		global $ilDB;
 
-		$query = 'SELECT sid,mid FROM ecs_part_settings ep '.
+		$query = 'SELECT sid,mid,export_types FROM ecs_part_settings ep '.
 			'JOIN ecs_server es ON ep.sid = es.server_id '.
 			'WHERE export = '.$ilDB->quote(1,'integer').' '.
 			'AND active = '.$ilDB->quote(1,'integer').' '.
@@ -95,9 +95,12 @@ class ilECSParticipantSettings
 		$counter = 0;
 		while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 		{
-			$mids[$counter]['sid'] = $row->sid;
-			$mids[$counter]['mid'] = $row->mid;
-			$counter++;
+			if(in_array($a_type, (array) unserialize($row->export_types)))
+			{
+				$mids[$counter]['sid'] = $row->sid;
+				$mids[$counter]['mid'] = $row->mid;
+				$counter++;
+			}
 		}
 		return $mids;
 	}
@@ -186,6 +189,8 @@ class ilECSParticipantSettings
 			$this->export[$row->mid] = $row->export;
 			$this->import[$row->mid] = $row->import;
 			$this->import_type[$row->mid] = $row->import_type;
+			$this->export_types[$row->mid] = (array) unserialize($row->export_types);
+			$this->import_types[$row->mid] = (array) unserialize($row->import_types);
 		}
 		return true;
 	}

@@ -91,7 +91,7 @@ abstract class ilECSObjectSettings
 	{				
 		include_once('./Services/WebServices/ECS/classes/class.ilECSServerSettings.php');
 		if(ilECSServerSettings::getInstance()->activeServerExists())
-		{		
+		{
 			// imported objects cannot be exported
 			include_once('./Services/WebServices/ECS/classes/class.ilECSImport.php');
 			if(!ilECSImport::lookupServerId($this->content_obj->getId()))
@@ -114,7 +114,7 @@ abstract class ilECSObjectSettings
 	{
 		global $lng;
 		
-		if(!$this->isActive())
+		if(!$this->isActive($a_type))
 		{
 			return;
 		}
@@ -125,7 +125,7 @@ abstract class ilECSObjectSettings
 		include_once './Services/WebServices/ECS/classes/class.ilECSExport.php';
 		include_once './Services/WebServices/ECS/classes/class.ilECSParticipantSettings.php';
 
-		$exportablePart = ilECSParticipantSettings::getExportableParticipants();
+		$exportablePart = ilECSParticipantSettings::getExportableParticipants($a_type);
 		if(!$exportablePart and !ilECSExport::_isExported($obj_id))
 		{
 			return true;

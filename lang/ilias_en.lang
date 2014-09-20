@@ -14873,3 +14873,5 @@ content#:#cont_ie_force_render_info#:#Enable this option only if content of the 
 ecs#:#ecs_token_mechanism#:#Authentication Token
 ecs#:#ecs_token_mechanism_info#:#If enabled, the authentication on the hosting platform for remote objects, is done by the ECS-Token-Mechanism.
 ecs#:#ecs_part_settings#:#Settings for Participant:
+ecs#:#ecs_export_types#:#Exportable Object Types
+ecs#:#ecs_import_types#:#Importable Object Types

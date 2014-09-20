@@ -3910,3 +3910,47 @@ if(!$ilDB->tableColumnExists('ecs_part_settings','token'))
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#4377>
+<?php
+if(!$ilDB->tableColumnExists('ecs_part_settings','export_types'))
+{
+    $ilDB->addTableColumn(
+        'ecs_part_settings',
+        'export_types',
+        array(
+            'type' => 'text',
+			'length' => 4000,
+            'notnull' => FALSE,
+        ));
+}
+?>
+<#4378>
+<?php
+if(!$ilDB->tableColumnExists('ecs_part_settings','import_types'))
+{
+    $ilDB->addTableColumn(
+        'ecs_part_settings',
+        'import_types',
+        array(
+            'type' => 'text',
+			'length' => 4000,
+            'notnull' => FALSE,
+        ));
+}
+?>
+<#4379>
+<?php
+
+	$query = 'UPDATE ecs_part_settings SET export_types = '.$ilDB->quote(serialize(array('cat','crs','file','glo','grp','wiki','lm')),'text');
+	$ilDB->manipulate($query);
+
+?>
+
+<#4380>
+<?php
+
+	$query = 'UPDATE ecs_part_settings SET import_types = '.$ilDB->quote(serialize(array('cat','crs','file','glo','grp','wiki','lm')),'text');
+	$ilDB->manipulate($query);
+
+?>
+

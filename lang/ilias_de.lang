@@ -14851,3 +14851,5 @@ content#:#cont_ie_force_render#:#Internet Explorer neu rendern lassen
 content#:#cont_ie_force_render_info#:#Aktivieren Sie diese Option nur wenn Inhalte des Lernmoduls im Internet Explorer auf Grund vieler Frames oder iFrames nicht korrekt angezeigt werden. Die Anzeige des Lernmoduls muss in einem neuen Fenster erfolgen.
 ecs#:#ecs_token_mechanism#:#Authentifizierungstoken
 ecs#:#ecs_token_mechanism_info#:#Wenn aktiviert, erfolgt die Anmeldung für die Installation freigegebener Objekte per ECS-Token-Mechnismus
+ecs#:#ecs_export_types#:#Exportierbare Objekttypen
+ecs#:#ecs_import_types#:#Importierbare Objekttypen

@@ -49,6 +49,8 @@ class ilECSParticipantSetting
 	private $cname = '';
 	private $token = TRUE;
 
+	private $export_types = array();
+	private $import_types = array();
 
 	private $exists = false;
 
@@ -163,6 +165,26 @@ class ilECSParticipantSetting
 	{
 		$this->token = $a_stat;
 	}
+	
+	public function setExportTypes($a_types)
+	{
+		$this->export_types = $a_types;
+	}
+	
+	public function getExportTypes()
+	{
+		return $this->export_types;
+	}
+	
+	public function setImportTypes($a_types)
+	{
+		$this->import_types = $a_types;
+	}
+	
+	public function getImportTypes()
+	{
+		return $this->import_types;
+	}
 
 	private function exists()
 	{
@@ -190,7 +212,9 @@ class ilECSParticipantSetting
 			'import_type = '.$ilDB->quote((int) $this->getImportType(),'integer').', '.
 			'title = '.$ilDB->quote($this->getTitle(),'text').', '.
 			'cname = '.$ilDB->quote($this->getCommunityName(),'text').', '.
-			'token = '.$ilDB->quote($this->isTokenEnabled(),'integer').' '.
+			'token = '.$ilDB->quote($this->isTokenEnabled(),'integer').', '.
+			'export_types = '.$ilDB->quote(serialize($this->getExportTypes()),'text').', '.
+			'import_types = '.$ilDB->quote(serialize($this->getImportTypes()),'text').' '.
 			'WHERE sid = '.$ilDB->quote((int) $this->getServerId(),'integer').' '.
 			'AND mid  = '.$ilDB->quote((int) $this->getMid(),'integer');
 		$aff = $ilDB->manipulate($query);
@@ -211,7 +235,9 @@ class ilECSParticipantSetting
 			$ilDB->quote((int) $this->getImportType(),'integer').', '.
 			$ilDB->quote($this->getTitle(),'text').', '.
 			$ilDB->quote($this->getCommunityName(),'text').', '.
-			$ilDB->quote($this->isTokenEnabled(),'integer').' '.
+			$ilDB->quote($this->isTokenEnabled(),'integer').', '.
+			$ilDB->quote(serialize($this->getExportTypes()),'text').', '.
+			$ilDB->quote(serialize($this->getImportTypes()),'text').' '.
 			')';
 		$aff = $ilDB->manipulate($query);
 		return true;
@@ -258,6 +284,9 @@ class ilECSParticipantSetting
 			$this->setTitle($row->title);
 			$this->setCommunityName($row->cname);
 			$this->enableToken($row->token);
+			
+			$this->setExportTypes((array) unserialize($row->export_types));
+			$this->setImportTypes((array) unserialize($row->import_types));
 		}
 		return true;
 	}

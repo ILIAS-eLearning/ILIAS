@@ -74,7 +74,7 @@ class ilECSSetting
 	private $user_recipients = array();
 	private $econtent_recipients = array();
 	private $approval_recipients = array();
-
+	
 	/**
 	 * Singleton contructor
 	 *
