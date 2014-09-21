@@ -249,6 +249,7 @@ class ilECSTaskScheduler
 			
 			if($event_ignored)
 			{
+				$this->event_reader->delete($event['event_id']);
 				continue;
 			}
 			
