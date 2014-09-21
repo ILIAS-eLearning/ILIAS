@@ -40,3 +40,7 @@ div#il_screen_id {
   right: 0;
   top: 0;
 }
+#mm_help li a span:first-child {
+  width: 20px;
+  display: inline-block;
+}

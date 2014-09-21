@@ -151,22 +151,29 @@ il.Help = {
 	switchTooltips: function (e) {
 		var t = il.Help;
 		if (t.tt_activated) {
-			$('.tabinactive, .tabactive, .subtabactive, .subtabinactive, .nontabbed, .il_adv_sel, .ilGroupedListLE').qtip('disable', true);
-			$('#help_tt_switch_on').css('display', 'none');
-			$('#help_tt_switch_off').css('display', 'inline');
 			t.tt_activated = false;
 			il.Util.sendAjaxGetRequestToUrl(this.getAjaxUrl(),
 				{cmd: "deactivateTooltips"}, {mode: "tooltipHandling"}, this.handleAjaxSuccess);
 		} else {
-			$('.tabinactive, .tabactive, .subtabactive, .subtabinactive, .nontabbed, .il_adv_sel, .ilGroupedListLE').qtip('enable');
-			$('#help_tt_switch_on').css('display', 'inline');
-			$('#help_tt_switch_off').css('display', 'none');
 			t.tt_activated = true;
 			il.Util.sendAjaxGetRequestToUrl(this.getAjaxUrl(),
 				{cmd: "activateTooltips"}, {mode: "tooltipHandling"}, this.handleAjaxSuccess);
 		}
+		il.Help.updateTooltips();
 		return false;
 	},
+
+	updateTooltips: function () {
+		var tips = $('#ilSubTab li, #ilTab li, .il_adv_sel, .dropdown-menu li a');
+		if (!il.Help.tt_activated) {
+			tips.qtip('disable', true);
+			$('#help_tt_switch_on').css('visibility', 'hidden');
+		} else {
+			tips.qtip('enable');
+			$('#help_tt_switch_on').css('visibility', 'visible');
+		}
+	},
+
 	
 	// show single help page
 	openLink: function (e) {

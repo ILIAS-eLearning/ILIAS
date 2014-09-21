@@ -14840,7 +14840,7 @@ crs#:#crs_loc_qst_resume_tst_qtest#:#Qualifizierende Tests zu verschiedenen Lern
 crs#:#crs_loc_tst_new_run#:#Neuen Test starten
 crs#:#crs_loc_tst_resume#:#Alten Test fortsetzen
 crs#:#crs_loc_settings_reset#:#Testergebnisse
-crs#:#crs_loc_settings_reset_enable#:#"Testergebnis-Zurücksetzen" erlauben
+crs#:#crs^_loc_settings_reset_enable#:#"Testergebnis-Zurücksetzen" erlauben
 crs#:#crs_loc_settings_reset_enable_info#:#Wenn aktiviert, haben alle Benutzer die Möglichkeit, ihre individuellen Testergebnisse zurückzusetzen.
 crs#:#crs_loc_progress_no_result_no_initial#:#Bearbeiten Sie die folgenden Materialien und danach den qualifizierenden Test.
 ecs#:#ecs_part_settings#:#Einstellungen für Teilnehmer:
@@ -14851,5 +14851,6 @@ content#:#cont_ie_force_render#:#Internet Explorer neu rendern lassen
 content#:#cont_ie_force_render_info#:#Aktivieren Sie diese Option nur wenn Inhalte des Lernmoduls im Internet Explorer auf Grund vieler Frames oder iFrames nicht korrekt angezeigt werden. Die Anzeige des Lernmoduls muss in einem neuen Fenster erfolgen.
 ecs#:#ecs_token_mechanism#:#Authentifizierungstoken
 ecs#:#ecs_token_mechanism_info#:#Wenn aktiviert, erfolgt die Anmeldung für die Installation freigegebener Objekte per ECS-Token-Mechnismus
+help#:#help_topics#:#Hilfethemen
 ecs#:#ecs_export_types#:#Exportierbare Objekttypen
 ecs#:#ecs_import_types#:#Importierbare Objekttypen

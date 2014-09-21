@@ -8104,13 +8104,17 @@ li.ilWikiBlockItem {
   box-shadow: 3px 9px 9px 0px rgba(0, 0, 0, 0.176);
 }
 /* badges */
-#ilTopNav .badge {
-  display: inline-block;
-  margin-top: 2px;
-  line-height: 14px;
-  vertical-align: top;
-  font-size: 70%;
-  padding: 1px 5px;
+#ilTopBarNav .badge {
+  font-size: 9px;
+  padding: 2px 4px;
+  margin-top: -3px;
+  margin-left: -5px;
+  position: absolute;
+}
+#ilTopBarNav .ilBadgeSpacer {
+  font-size: 8px;
+  padding: 0;
+  visibility: hidden;
 }
 div#il_startup_logo img {
   max-width: 100%;
@@ -8143,6 +8147,7 @@ input.ilOpenIDBox {
 }
 #ilTopBarNav .dropdown-menu {
   background-color: #aeaeae;
+  border-radius: 0;
   margin: 0;
 }
 #ilTopBarNav .dropdown-menu,
@@ -8159,6 +8164,8 @@ input.ilOpenIDBox {
   display: block;
   padding: 10px;
   position: relative;
+  min-width: 40px;
+  text-align: center;
   background-color: #767676;
   color: #f5f5f5;
 }
@@ -8805,6 +8812,10 @@ div#il_screen_id {
   position: absolute;
   right: 0;
   top: 0;
+}
+#mm_help li a span:first-child {
+  width: 20px;
+  display: inline-block;
 }
 /* Modules/DataCollection */
 td.dcl_actions {

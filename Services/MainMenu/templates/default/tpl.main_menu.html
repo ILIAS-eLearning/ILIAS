@@ -7,7 +7,7 @@
 		<ul id="ilTopBarNav" class="">
 					<!-- BEGIN status_box -->
 						<!-- BEGIN status_item -->
-						<li><a target="_top" href="{STATUS_HREF}"><span class="glyphicon glyphicon-envelope"></span> <!-- BEGIN status_text --><span class="badge">{STATUS_TXT}</span><!-- END status_text --></a></li>
+						<li><a target="_top" href="{STATUS_HREF}"><span class="glyphicon glyphicon-envelope"></span> <!-- BEGIN status_text --><span class="badge">{STATUS_TXT}</span><span class="ilBadgeSpacer">{STATUS_TXT}</span><!-- END status_text --></a></li>
 						<!-- END status_item -->
 					<!-- END status_box -->
 					<!-- BEGIN help_icon -->
@@ -17,8 +17,15 @@
 						<li><a id="help_tt" href="#" onclick="return il.Help.switchTooltips(event);"><img src="{IMG_TT_ON}" id="help_tt_switch_on" alt="" /><img class="ilNoDisplay" src="{IMG_TT_OFF}" id="help_tt_switch_off" alt="" /></a></li>
 					<!-- END help_tt_icon -->
 					<!-- BEGIN search_box -->{SEARCHBOX}<!-- END search_box -->
+					<!-- BEGIN help -->
+					<li id="mm_help" class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">
+						<span class="visible-xs-inline glyphicon glyphicon-question-sign"></span>
+						<span class="hidden-xs">{TXT_HELP} <span class="caret"></span></span></a>
+						{HELP_SELECT}
+					</li>
+					<!-- END help -->
 					<!-- BEGIN userisloggedin -->
-					<li><!-- {USERNAME} » --><a href="{LINK_LOGOUT2}">{TXT_LOGOUT2}</a></li>
+					<li><!-- {USERNAME} » --><a href="{LINK_LOGOUT2}"><span class="hidden-xs">{TXT_LOGOUT2}</span><span class="visible-xs-inline glyphicon glyphicon-off"></span></a></li>
 					<!-- END userisloggedin -->
 					<!-- BEGIN lang_select -->
 					<li class="dropdown"><a id="mm_lang_sel" href="#" class="dropdown-toggle" data-toggle="dropdown">{TXT_LANGSELECT} <span class="caret"></span></a>

@@ -83,13 +83,18 @@
 }
 
 /* badges */
-#ilTopNav .badge {
-	display: inline-block;
-	margin-top: 2px;
-	line-height: 14px;
-	vertical-align: top;
-	font-size: 70%;
-	padding: 1px 5px;
+#ilTopBarNav .badge {
+	font-size: 9px;
+	padding: 2px 4px;
+	margin-top: -3px;
+	margin-left: -5px;
+	position: absolute;
+}
+
+#ilTopBarNav .ilBadgeSpacer {
+	font-size: 8px;
+	padding: 0;
+	visibility: hidden;
 }
 
 div#il_startup_logo img {
@@ -126,6 +131,7 @@ input.ilOpenIDBox {
 	list-style: none outside none;
 	.dropdown-menu {
 		background-color: lighten(@mid-gray, 42%);
+		border-radius: 0;
 		margin: 0;
 		&, a {
 			color: lighten(@mid-gray, 70%);
@@ -141,6 +147,8 @@ input.ilOpenIDBox {
 		display: block;
 		padding: 10px;
 		position: relative;
+		min-width: 40px;
+		text-align: center;
 		background-color: lighten(@mid-gray, 20%);
 		color: lighten(@mid-gray, 70%);
 		&:hover,

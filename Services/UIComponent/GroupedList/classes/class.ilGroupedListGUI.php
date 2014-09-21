@@ -14,6 +14,7 @@ class ilGroupedListGUI
 	private $multi_column = false;
 	private $items = array();
 	private $as_dropdown = false;
+	private $dd_pullright = false;
 	
 	/**
 	 * Constructor
@@ -27,9 +28,10 @@ class ilGroupedListGUI
 	 *
 	 * @param bool $a_val as drop down menu	
 	 */
-	function setAsDropDown($a_val)
+	function setAsDropDown($a_val, $a_pullright = false)
 	{
 		$this->as_dropdown = $a_val;
+		$this->dd_pullright = $a_pullright;
 	}
 	
 	/**
@@ -189,7 +191,14 @@ class ilGroupedListGUI
 
 		if ($this->getAsDropDown())
 		{
-			$tpl->setVariable("LIST_CLASS", "dropdown-menu");
+			if ($this->dd_pullright)
+			{
+				$tpl->setVariable("LIST_CLASS", "dropdown-menu pull-right");
+			}
+			else
+			{
+				$tpl->setVariable("LIST_CLASS", "dropdown-menu");
+			}
 			$tpl->setVariable("LIST_ROLE", "menu");
 		}
 		else

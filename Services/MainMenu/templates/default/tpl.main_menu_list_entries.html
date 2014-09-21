@@ -26,7 +26,16 @@
 				$("#mm_adm_tr").on("click", function () {
 					if ($("#mm_adm_tr").attr("data-loaded") == 0) {
 						$("#mm_adm_tr").attr("data-loaded", "1");
-						il.Util.ajaxReplace("ilias.php?baseClass=ilAdministrationGUI&cmd=getDropDown&cmdMode=asynch", "adm_ajax_target");
+						il.Util.sendAjaxGetRequestToUrl ("ilias.php?baseClass=ilAdministrationGUI&cmd=getDropDown&cmdMode=asynch", {}, {el_id: "adm_ajax_target", inner: false}, function(o) {
+							// perform page modification
+							if(o.responseText !== undefined) {
+								$('#' + o.argument.el_id).replaceWith(o.responseText);
+								if (il.Help) {
+									il.Help.updateTooltips();
+								}
+							}
+
+						});
 					}
 				});
 			});

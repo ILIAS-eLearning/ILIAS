@@ -105,21 +105,7 @@ class ilMainMenuGUI
 		global $ilUser;
 		include_once("./Services/UIComponent/GroupedList/classes/class.ilGroupedListGUI.php");
 		$gr_list = new ilGroupedListGUI();
-		$gr_list->setAsDropDown(true);
-
-			include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
-		$selection = new ilAdvancedSelectionListGUI();
-		$selection->setFormSelectMode("change_lang_to", "ilLanguageSelection", true,
-			"#", "ilNavHistory", "ilNavHistoryForm",
-			"", $lng->txt("ok"), "ilLogin");
-		//$selection->setListTitle($lng->txt("choose_language"));
-		$selection->setListTitle($lng->txt("language"));
-		$selection->setItemLinkClass("small");
-		
-		if($a_in_topbar)
-		{
-			$selection->setHeaderIcon(ilAdvancedSelectionListGUI::DOWN_ARROW_TOPBAR);
-		}
+		$gr_list->setAsDropDown(true, true);
 
 		$languages = $lng->getInstalledLanguages();
 		if(sizeof($languages) > 1) // #11237
@@ -131,21 +117,10 @@ class ilMainMenuGUI
 				$link = ilUtil::appendUrlParameterString($base,
 					"lang=".$lang_key);
 				$link = str_replace("?&", "?", $link);
-				$selection->addItem(ilLanguage::_lookupEntry($lang_key, "meta", "meta_l_".$lang_key),
-					$lang_key, $link, "", "", "");
 
-				// bs-patch start
-				global $ilUser;
 				$gr_list->addEntry($lng->_lookupEntry($lang_key, "meta", "meta_l_".$lang_key), $link);
-				// bs_patch end
-
 			}
-			// bs-patch start
-			global $ilUser;
 			return $gr_list->getHTML();
-			// bs-patch end
-
-			return $selection->getHTML();
 		}
 	}
 
@@ -1023,13 +998,17 @@ class ilMainMenuGUI
 		}
 		
 		$help_active = false;
-				
+
+		include_once("./Services/UIComponent/GroupedList/classes/class.ilGroupedListGUI.php");
+		$helpl = new ilGroupedListGUI();
+		$helpl->setAsDropDown(true, true);
+
 		if ($ilHelp->hasSections())
 		{
 			$help_active = true;
 			
 			$lng->loadLanguageModule("help");
-			$this->tpl->setCurrentBlock("help_icon");
+			//$this->tpl->setCurrentBlock("help_icon");
 
 			// add javascript needed by help (to do: move to help class)
 			$tpl->addJavascript("./Services/Help/js/ilHelp.js");
@@ -1038,12 +1017,13 @@ class ilMainMenuGUI
 			$acc->addJavascript();
 			$acc->addCss();
 
-			$this->tpl->setVariable("IMG_HELP", ilUtil::getImagePath("icon_help.png"));
-			$this->tpl->parseCurrentBlock();
+			//$this->tpl->setVariable("IMG_HELP", ilUtil::getImagePath("icon_help.png"));
+			//$this->tpl->parseCurrentBlock();
 			
 			include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");
 			ilTooltipGUI::addTooltip("help_tr", $lng->txt("help_open_online_help"), "",
 				"bottom center", "top center", false);
+			$helpl->addEntry("<span>&nbsp;</span> ".$lng->txt("help_topics"), "#", "", "il.Help.listHelp(event, false);");
 		}
 				
 		$module_id = (int) $ilSetting->get("help_module");
@@ -1054,18 +1034,24 @@ class ilMainMenuGUI
 			
 			$lng->loadLanguageModule("help");
 			$tpl->addJavascript("./Services/Help/js/ilHelp.js");
-			$this->tpl->setCurrentBlock("help_tt_icon");
+			/*$this->tpl->setCurrentBlock("help_tt_icon");
 			$this->tpl->setVariable("IMG_TT_ON", ilUtil::getImagePath("icon_tt.png"));
 			$this->tpl->setVariable("IMG_TT_OFF", ilUtil::getImagePath("icon_tt_off.png"));
-			$this->tpl->parseCurrentBlock();
+			$this->tpl->parseCurrentBlock();*/
 			
 			include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");
 			ilTooltipGUI::addTooltip("help_tt", $lng->txt("help_toggle_tooltips"), "",
 				"bottom center", "top center", false);
+			$helpl->addEntry('<span id="help_tt_switch_on" class="glyphicon glyphicon-ok"></span> '.$lng->txt("help_tooltips"), "#", "", "return il.Help.switchTooltips(event);");
 		}
 		
 		if($help_active)
-		{		
+		{
+			$this->tpl->setCurrentBlock("help");
+			$this->tpl->setVariable("TXT_HELP", $lng->txt("help"));
+			$this->tpl->setVariable("HELP_SELECT", $helpl->getHTML());
+			$this->tpl->parseCurrentBlock();
+
 			// always set ajax url
 			$ts = $ilCtrl->getTargetScript();
 			$ilCtrl->setTargetScript("ilias.php");
