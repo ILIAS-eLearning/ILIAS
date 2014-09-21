@@ -9080,6 +9080,22 @@ div.ilContainerListItemOuterHighlight {
 td.ilCLI {
   padding: 0;
 }
+div.ilContainerListItemCB {
+  float: left;
+  width: 25px;
+}
+div.ilContainerListItemIcon {
+  margin-top: -3px;
+  float: left;
+}
+img.ilListItemIcon {
+  width: 35px;
+  height: 35px;
+}
+div.ilContainerListItemContent {
+  overflow: auto;
+}
+/* If checkbox is activated, add spacing */
 div.il_ContainerListItem {
   margin: 2px 0;
   padding-left: 8px;
