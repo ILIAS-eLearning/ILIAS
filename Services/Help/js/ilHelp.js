@@ -42,7 +42,7 @@ il.Help = {
 //			this.panel.show();
 		}
 		il.Help.insertPanelHTML("");
-		il.Help.reduceMainContentArea();
+		//il.Help.reduceMainContentArea();
 
 		obj = document.getElementById('ilHelpPanel');
 		obj.style.position = 'fixed';
@@ -139,7 +139,7 @@ il.Help = {
 		if (this.panel) {
 			il.Overlay.hide(e, "ilHelpPanel");
 			il.Help.panel = false;
-			il.Help.resetMainContentArea();
+			//il.Help.resetMainContentArea();
 
 			il.Util.sendAjaxGetRequestToUrl(this.getAjaxUrl(),
 				{cmd: "resetCurrentPage"}, {mode: "resetCurrentPage"}, this.handleAjaxSuccess);
