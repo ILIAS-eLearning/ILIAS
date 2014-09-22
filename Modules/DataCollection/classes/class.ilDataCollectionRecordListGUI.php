@@ -252,8 +252,8 @@ class ilDataCollectionRecordListGUI
                         if(!$value) $warnings[] = "(".$i.", ".$this->getExcelCharForInteger($col).") ".$lng->txt("dcl_no_such_reference")." ".$old;
                     } else if ($field->getDatatypeId() == ilDataCollectionDatatype::INPUTFORMAT_DATETIME) {
                         $value = array(
-                            'date' => $value,
-                            'time' => '',
+                            'date' => date('Y-m-d', strtotime($value)),
+                            'time' => '00:00:00',
                         );
                     }
                     $field->checkValidity($value, $record->getId());

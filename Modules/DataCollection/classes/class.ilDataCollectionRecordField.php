@@ -110,6 +110,11 @@ class ilDataCollectionRecordField
         $this->db->manipulate($query);
         $next_id = $this->db->nextId("il_dcl_stloc" . $datatype->getStorageLocation() . "_value");
 
+        // This is a workaround to ensure that date values in stloc3 are never stored as NULL, which is not allowed
+        if ($datatype->getStorageLocation() == 3 && (is_null($this->value) || empty($this->value))) {
+            $this->value = '0000-00-00 00:00:00';
+        }
+
         $this->db->insert("il_dcl_stloc" . $datatype->getStorageLocation() . "_value",
             array("value" => array($datatype->getDbType(), $this->value),
                 "record_field_id " => array("integer", $this->id),
