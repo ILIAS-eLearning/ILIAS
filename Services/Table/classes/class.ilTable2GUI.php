@@ -1396,7 +1396,14 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 			if (($column["sort_field"] == $this->order_field) && ($this->order_direction != ""))
 			{
 				$this->tpl->setCurrentBlock("tbl_order_image");
-				$this->tpl->setVariable("IMG_ORDER_DIR",ilUtil::getImagePath($this->order_direction."_order.png"));
+				if ($this->order_direction == "asc")
+				{
+					$this->tpl->setVariable("ORDER_CLASS", "glyphicon glyphicon-arrow-up");
+				}
+				else
+				{
+					$this->tpl->setVariable("ORDER_CLASS", "glyphicon glyphicon-arrow-down");
+				}
 				$this->tpl->setVariable("IMG_ORDER_ALT", $this->lng->txt("change_sort_direction"));
 				$this->tpl->parseCurrentBlock();
 			}
