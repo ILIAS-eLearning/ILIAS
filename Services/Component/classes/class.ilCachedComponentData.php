@@ -164,7 +164,7 @@ class ilCachedComponentData {
 		}
 		$set = $ilDB->query('SELECT * FROM il_object_sub_type');
 		while ($rec = $ilDB->fetchAssoc($set)) {
-			$this->il_object_sub_type[$rec['obj_type']] = $rec;
+			$this->il_object_sub_type[$rec['obj_type']][] = $rec;
 		}
 	}
 
