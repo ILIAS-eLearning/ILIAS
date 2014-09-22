@@ -14676,29 +14676,29 @@ dcl#:#dcl_confirm_delete_fields#:#Do you really want to delete these fields?###0
 dcl#:#dcl_msg_fields_deleted#:#Deleted fields###08 09 2014 new variable
 dcl#:#dcl_msg_no_perm_view#:#No permission given to view this record###08 09 2014 new variable
 dcl#:#dcl_msg_no_perm_edit#:#No permission given to edit this record###08 09 2014 new variable
-orgu#:#orgu_type_deleted#:#Organisational Unit Type deleted###08 09 2014 new variable
-orgu#:#orgu_type_add#:#Add Organisational Unit Type###08 09 2014 new variable
-orgu#:#orgu_type_edit#:#Edit Organisational Unit Type###08 09 2014 new variable
-orgu#:#orgu_types#:#Types###08 09 2014 new variable
-orgu#:#orgu_type_msg_deleted#:#Deleted Organisational Unit Type###08 09 2014 new variable
-orgu#:#orgu_type_msg_missing_title#:#There must be set a title for the default language###08 09 2014 new variable
-orgu#:#orgu_type_msg_unable_delete#:#Unable to delete type because it is still assigned to the following Organisational Units: %s###08 09 2014 new variable
-orgu#:#orgu_type_msg_deletion_prevented#:#Deletion of object prevented by plugins: %s###08 09 2014 new variable
-orgu#:#orgu_type_msg_setting_member_prevented#:#Setting '%s' prevented by plugins: %s###08 09 2014 new variable
-orgu#:#orgu_type_msg_updating_prevented#:#Updating of object prevented by plugins: %s###08 09 2014 new variable
-orgu#:#orgu_type_msg_assign_amd_prevented#:#Assigning AMDRecord prevented by plugins: %s###08 09 2014 new variable
-orgu#:#orgu_type_msg_deassign_amd_prevented#:#Deassigning AMDRecord prevented by plugins: %s###08 09 2014 new variable
-orgu#:#orgu_type_msg_setting_default_lang_prevented#:#Setting '%s' as default language prevented by plugins: %s###08 09 2014 new variable
-orgu#:#orgu_type_msg_missing_title_default_language#:#There must be set a default language and a title for the default language###08 09 2014 new variable
-orgu#:#orgu_type_custom_icon_info#:#All Organisational Units having this type assigned will use the icon in the tree and header.###08 09 2014 new variable
-orgu#:#orgu_settings#:#Organisational Unit Settings###08 09 2014 new variable
-orgu#:#orgu_type#:#Organisational Unit Type###08 09 2014 new variable
-orgu#:#orgu_orgu_type#:#Organisational Unit Type###08 09 2014 new variable
-orgu#:#orgu_type_custom_icon#:#Custom Icon for this Organisational Unit Type###08 09 2014 new variable
-orgu#:#orgu_adv_settings#:#Advanced Settings###08 09 2014 new variable
-orgu#:#orgu_type_msg_error_custom_icon#:#Could not save the custom icon###08 09 2014 new variable
-orgu#:#orgu_type_available_amd_sets#:#Available Advanced Metadata sets###08 09 2014 new variable
-orgu#:#orgu_type_assign_amd_sets#:#Assign Advanced Metadata sets###08 09 2014 new variable
+orgu#:#orgu_type_deleted#:#Organisationseinheiten Typ wurde gelöscht
+orgu#:#orgu_type_add#:#Organisationseinheiten Typ hinzufügen
+orgu#:#orgu_type_edit#:#Organisationseinheiten Typ bearbeiten
+orgu#:#orgu_types#:#Typen
+orgu#:#orgu_type_msg_deleted#:#Organisationseinheiten Typ wurde gelöscht
+orgu#:#orgu_type_msg_missing_title#:#Es muss ein Titel für die Standard Sprache angegeben werden
+orgu#:#orgu_type_msg_unable_delete#:#Der Typ kann nicht gelöscht werden, da er noch folgenden Organisationseinheiten zugewiesen ist: %s
+orgu#:#orgu_type_msg_deletion_prevented#:#Löschen verhindert durch Plugins: %s
+orgu#:#orgu_type_msg_setting_member_prevented#:#Zuweisen von '%s' verhindert durch Plugins: %s
+orgu#:#orgu_type_msg_updating_prevented#:#Aktualisieren des Objekts verhindert durch Plugins: %s
+orgu#:#orgu_type_msg_assign_amd_prevented#:#Hinzufügen Erweiterte Metadaten verhindert durch Plugins: %s
+orgu#:#orgu_type_msg_deassign_amd_prevented#:#Entfernen erweiterter Metadaten verhindert durch Plugins: %s
+orgu#:#orgu_type_msg_setting_default_lang_prevented#:#'%' als Standard Sprache nicht möglich, verhindert durch Plugins: %s
+orgu#:#orgu_type_msg_missing_title_default_language#:#Standard Sprache und der Titel für die Standard Sprache müssen ausgefüllt werden
+orgu#:#orgu_type_custom_icon_info#:#Alle Organisationseinheiten mit diesem Typ werden mit dem Icon dargestellt
+orgu#:#orgu_settings#:#Organisationseinheiten Einstellungen
+orgu#:#orgu_type#:#Organisationseinheiten Typ
+orgu#:#orgu_orgu_type#:#Organisationseinheiten Typ
+orgu#:#orgu_type_custom_icon#:#Benutzerdefiniertes Icon für diesen Organisationseinheiten Typ
+orgu#:#orgu_adv_settings#:#Erweiterte Einstellungen
+orgu#:#orgu_type_msg_error_custom_icon#:#Icon konnte nicht gespeichert werden
+orgu#:#orgu_type_available_amd_sets#:#Verfügbare Erweiterte Metadaten
+orgu#:#orgu_type_assign_amd_sets#:#Erweiterte Metadaten zuweisen
 content#:#cont_help_no_valid_tooltip_id#:#The tooltip ID you have entered was not valid.###08 09 2014 new variable
 wiki#:#wiki_page_templates#:#Page Templates###08 09 2014 new variable
 wiki#:#wiki_template_status_removed#:#Template status removed.###08 09 2014 new variable
