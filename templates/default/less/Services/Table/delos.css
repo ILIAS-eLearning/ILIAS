@@ -18,16 +18,6 @@ tr.tblfooter {
   background-color: #F9F9F9;
   border-top: 1px solid #F0F0F0;
 }
-.tblrow1 {
-  padding: 3px;
-  background-color: #FFF;
-  border-top: 1px solid #F0F0F0;
-}
-.tblrow2 {
-  padding: 3px;
-  background-color: #FAFAFA;
-  border-top: 1px solid #F0F0F0;
-}
 td.submit {
   padding: 3px;
   vertical-align: top;
@@ -63,7 +53,6 @@ h3.ilTableHeaderTitle {
   margin: 0;
 }
 div.ilTableOuter {
-  border: 1px solid #D6D6D6;
   padding: 0;
 }
 div.ilTableSelectAll {

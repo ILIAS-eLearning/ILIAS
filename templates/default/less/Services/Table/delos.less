@@ -26,15 +26,9 @@ tr.tblfooter {
 }
 
 .tblrow1 {
-	padding: 3px;
-	background-color: #FFF;
-	border-top: 1px solid #F0F0F0;
 }
 
 .tblrow2 {
-	padding: 3px;
-	background-color: #FAFAFA;
-	border-top: 1px solid #F0F0F0;
 }
 
 
@@ -78,8 +72,8 @@ h3.ilTableHeaderTitle {
 }
 
 div.ilTableOuter {
-	border: 1px solid #D6D6D6;
 	padding: 0;
+	background-color: @il-primary-container-bg;
 }
 
 div.ilTableSelectAll {
@@ -88,13 +82,12 @@ div.ilTableSelectAll {
 }
 
 div.ilTableCommandRow, div.ilTableCommandRowTop {
-	background-color: #F0F0F0;
+	background-color: @il-secondary-container-bg;
 	padding: 3px 6px;
 	font-size: 90%;
 }
 
 div.ilTableCommandRowTop {
-	border-bottom: 1px solid #D6D6D6;
 }
 
 span.ilTableFootLight {
@@ -217,4 +210,8 @@ tr.tblheader {
 	color: #222;
 	padding: 3px;
 	vertical-align: top;
+}
+
+.table > thead > tr > th {
+	border-bottom: 1px;
 }
