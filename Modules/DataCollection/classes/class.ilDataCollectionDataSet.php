@@ -342,6 +342,9 @@ class ilDataCollectionDataSet extends ilDataSet
                                 break;
                             default:
                                 $value = $a_rec['value'];
+                                if ($a_entity == 'il_dcl_stloc3_value' && (is_null($value) || empty($value))) {
+                                    $value = '0000-00-00 00:00:00';
+                                }
                         }
                         $record_field->setValue($value, true);
                         $record_field->doUpdate();
