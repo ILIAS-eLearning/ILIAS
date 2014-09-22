@@ -117,17 +117,19 @@ legend.ilTableFilter {
 }
 
 fieldset.ilTableFilter {
-	border: 1px solid #E0E0E0;
-	background-color: #FBFBFB;
-	padding: 5px;
+	background-color: @il-secondary-container-bg;
+	padding: 10px;
 	margin: 5px 0;
 }
 
 div.ilTableFilterLabel {
 	font-style: italic;
-	border-bottom: 1px solid #C0C0C0;
-	background-color: #F0F0F0;
+	background-color: @body-bg;
 	padding: 3px 5px;
+}
+
+div.ilTableFilterLabel label {
+	margin: 0;
 }
 
 div.ilTableFilterInput {
@@ -135,12 +137,16 @@ div.ilTableFilterInput {
 	padding: 5px 0;
 }
 
+div.ilTableFilterInput .radio, div.ilTableFilterInput .checkbox {
+	margin: 0;
+}
+
 td.ilFilterOption {
 	text-align: left;
 	vertical-align: top;
 	font-size: 80%;
 	white-space: nowrap;
-	padding: 0 5px 5px 0;
+	padding: 0 10px 10px 0;
 	min-width: 150px;
 }
 
