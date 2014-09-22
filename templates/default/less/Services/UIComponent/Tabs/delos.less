@@ -7,7 +7,7 @@
 		> a {
 			border-radius: 0 0 0 0;
 			border: none;
-			padding: 8px 15px 5px;
+			padding: 6px 12px 3px;
 			font-size: ceil((@font-size-base * 0.9));
 			margin:0;
 			&:hover {
@@ -23,8 +23,9 @@
 			&,
 			&:hover,
 			&:focus {
-				background-color: lighten(@mid-gray, 61%);
-				border: 1px solid lighten(@mid-gray, 54%);
+				background-color: lighten(@brand-primary, 15%);
+				color: white;
+				border: 0;
 			}
 		}
 
@@ -32,11 +33,11 @@
 }
 
 #ilTab {
-	padding: 0;
-	margin: 0;
+	padding: 0 0px;
+	margin: 0 15px;
 	border: none;
-	border-bottom: 1px solid lighten(@mid-gray, 55%);
-	box-shadow: 0 2px 1px -1px white;
+	border-bottom: 2px solid lighten(@brand-primary, 15%);
+	/* box-shadow: 0 2px 1px -1px white; */
 }
 
 .ilTabsContentOuter {
@@ -46,16 +47,16 @@
 
 /* Sub Tabs */
 #ilSubTab {
-	padding: 5px 10px;
+	padding: 5px 20px;
 	margin: 0;
-	border-bottom: 1px solid lighten(@mid-gray, 55%);
-	box-shadow: 0 2px 1px -1px white;
+	/* border-bottom: 1px solid lighten(@mid-gray, 55%);
+	box-shadow: 0 2px 1px -1px white; */
 	> li {
 		> a {
 			border-radius: 0;
 			padding: 3px 7px;
-			font-size: @font-size-small;
-			font-family: 'Open Sans Semibold';
+			font-size: (@font-size-small * 0.97);
+			/* font-family: 'Open Sans Semibold'; */
 			&:hover {
 				color: @link-hover-color;
 			}
