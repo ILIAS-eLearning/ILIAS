@@ -37,13 +37,13 @@
 	}
 }
 
-#ilTopNav.navbar .container-fluid > .navbar-collapse {
-	margin-left: -15px;		/* no idea why this needs fixing */
-	padding-left: 5px;
+#ilTopNav.navbar > .navbar-collapse {
+	margin: 0;
+	padding: 0 0 0 5px;
 }
 
 #ilTopNav.navbar-default {
-	background-color: @body-bg;//lighten(@ilMainMenuColor, 30%);
+	background-color: transparent;//@body-bg;//lighten(@ilMainMenuColor, 30%);
 	//#gradient > .vertical(lighten(@ilMainMenuColor, 30%), lighten(@ilMainMenuColor, 27%), 0%, 100%);
 	.reset-filter();
 	border: 0;

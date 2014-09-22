@@ -8076,13 +8076,12 @@ li.ilWikiBlockItem {
   border-bottom: 1px solid #cfcfcf;
   box-shadow: 0 2px 1px -1px #ffffff;
 }
-#ilTopNav.navbar .container-fluid > .navbar-collapse {
-  margin-left: -15px;
-  /* no idea why this needs fixing */
-  padding-left: 5px;
+#ilTopNav.navbar > .navbar-collapse {
+  margin: 0;
+  padding: 0 0 0 5px;
 }
 #ilTopNav.navbar-default {
-  background-color: #f0f0f0;
+  background-color: transparent;
   filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
   border: 0;
 }
