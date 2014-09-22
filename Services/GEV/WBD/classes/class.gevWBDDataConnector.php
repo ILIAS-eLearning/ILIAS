@@ -234,6 +234,8 @@ ONE STEP IS NOT ENOUGH !
 				deleted = 0
 			AND 
 				bwv_id = '-empty-'
+			AND 
+				last_wbd_report IS NULL
 			"
 			//exclude pending users;
 			//pending users were reported, changed, 
@@ -262,6 +264,7 @@ ONE STEP IS NOT ENOUGH !
 			$ret[] = wbdDataConnector::new_user_record($udata);
 
 			//set last_wbd_report!
+			$this->_set_last_wbd_report('hist_user', $record['row_id']);
 
 		}
 		return $ret;
@@ -289,7 +292,6 @@ ONE STEP IS NOT ENOUGH !
 				hist_historic = 0
 			AND NOT
 				bwv_id = '-empty-'
-
 			AND 
 				last_wbd_report IS NULL
 			";
@@ -307,6 +309,7 @@ ONE STEP IS NOT ENOUGH !
 			$ret[] = wbdDataConnector::new_user_record($udata);
 
 			//set last_wbd_report!
+			$this->_set_last_wbd_report('hist_user', $record['row_id']);
 
 		}
 		return $ret;
@@ -364,7 +367,7 @@ ONE STEP IS NOT ENOUGH !
 		$result = $this->ilDB->query($sql);
 		while($record = $this->ilDB->fetchAssoc($result)) {
 
-			//there must not be a last_wbd_report fot the pair of usr_id, crs_id!
+			//there must not be a last_wbd_report for the pair of usr_id, crs_id!
 			$sql ="
 				SELECT row_id FROM hist_usercoursestatus
 				WHERE usr_id = " .$record['usr_id'] 
@@ -380,10 +383,11 @@ ONE STEP IS NOT ENOUGH !
 				//these are _new_ edu-records:
 				$edudata['score_code'] = 'Meldung';
 				$ret[] = wbdDataConnector::new_edu_record($edudata);
+
+				//set last_wbd_report!
+				$this->_set_last_wbd_report('hist_usercoursestatus', $record['row_id']);
 			}
 			
-
-			//set last_wbd_report!
 
 		}
 		return $ret;
@@ -402,7 +406,7 @@ ONE STEP IS NOT ENOUGH !
 	public function get_changed_edu_records() {
 		$sql = "
 			SELECT
-				row_id
+				row_id, last_wbd_report
 			FROM 
 				hist_usercoursestatus
 			WHERE
@@ -417,9 +421,12 @@ ONE STEP IS NOT ENOUGH !
 		$ret = array();
 		$result = $this->ilDB->query($sql);
 		while($record = $this->ilDB->fetchAssoc($result)) {
+			$row_id = $record['row_id'];
 			$current_record = $this->_get_current_record('hist_usercoursestatus', $record['row_id']);
 			//if there is a newer record, use this.
-			if ($current_record['row_id'] != $record['row_id']){
+			if (($current_record['row_id'] != $record['row_id']) 
+				&& !$current_record['last_wbd_report']
+				){
 				//get all info on that row:
 				$sql = "
 					SELECT
@@ -445,9 +452,12 @@ ONE STEP IS NOT ENOUGH !
 				$edudata = $this->_map_edudata($temp_record);
 				$ret[] = wbdDataConnector::new_edu_record($edudata);
 
-				//set last_wbd_report!
-
-			}
+				//set last_wbd_report on the current record
+				$row_id = $current_record['row_id'];
+			} 
+			
+			//set last_wbd_report!
+			$this->_set_last_wbd_report('hist_usercoursestatus', $row_id);
 		}
 
 		return $ret;
@@ -456,6 +466,47 @@ ONE STEP IS NOT ENOUGH !
 
 
 
+	/**
+	 * set BWV-ID for user
+	 *  
+	 * @param string $user_id
+	 * @param string $bwv_id
+	 * @param date $certification_begin
+	 * @return boolean
+	 */
+
+	public function set_bwv_id($user_id, $bwv_id, $certification_begin) {
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		$uutils = gevUserUtils::getInstanceByObjOrId($user_id);
+		$uutils->setWBDBWVId($bwv_id);
+		//$uutils->setWBDFirstCertificationPeriodBegin($certification_begin);
+
+
+		//write last_wbd_report....
+		$sql = "
+			SELECT $row_id FROM hist_user 
+			WHERE user_id = $user_id
+			AND hist_historic = 0
+		";
+		$result = $this->ilDB->query($sql);
+		$record = $this->ilDB->fetchAssoc($result);
+		$this->_set_last_wbd_report('hist_user', $record['row_id']);
+		return true;
+	}
+
+	
+	/**
+	 * set edu-record for user
+	 *  
+	 * @param array $edu_record
+	 * @return boolean
+	 */
+
+	public function set_edu_record($edu_record) {
+		print '<pre>';
+		print_r($edu_record);
+		die();
+	}
 
 
 
@@ -471,7 +522,6 @@ ONE STEP IS NOT ENOUGH !
 $cls = new gevWBDDataConnector();
 
 
-//$cls->_set_last_wbd_report('hist_user', 1);
 
 print '<h3>new users:</h3>';
 $cls->export_get_new_users('html');
@@ -488,4 +538,6 @@ print '<hr>';
 print '<h3>changed edu-records:</h3>';
 $cls->export_get_changed_edu_records('html');
 
+
+//$cls->set_bwv_id(255, 'XXXXXXXX');
 ?>
