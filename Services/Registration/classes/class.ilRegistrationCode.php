@@ -15,7 +15,7 @@ class ilRegistrationCode
 	const DB_TABLE = 'reg_registration_codes';
 	const CODE_LENGTH = 10;
 	
-	public static function create($role, $stamp, $local_roles, $limit, $limit_date)
+	public static function create($role, $stamp, $local_roles, $limit, $limit_date, $reg_type, $ext_type)
 	{
 		global $ilDB;
 		
@@ -46,7 +46,9 @@ class ilRegistrationCode
 			'role' => array('integer', $role),
 			'role_local' => array('text', $local_roles),
 			'alimit' => array('text', $limit),
-			'alimitdt' => array('text', $limit_date)
+			'alimitdt' => array('text', $limit_date),
+			'reg_enabled' => array('integer',$reg_type),
+			'ext_enabled' => array('integer',$ext_type)
 			);
 
 		$ilDB->insert(self::DB_TABLE, $data);
@@ -220,7 +222,7 @@ class ilRegistrationCode
     {
 		global $ilDB;
 
-		$set = $ilDB->query("SELECT role, role_local, alimit, alimitdt".
+		$set = $ilDB->query("SELECT role, role_local, alimit, alimitdt, reg_enabled, ext_enabled".
 			" FROM ".self::DB_TABLE.
 			" WHERE code = ".$ilDB->quote($code, "text"));
 		$row = $ilDB->fetchAssoc($set);

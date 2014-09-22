@@ -14854,3 +14854,19 @@ ecs#:#ecs_token_mechanism_info#:#Wenn aktiviert, erfolgt die Anmeldung für die 
 help#:#help_topics#:#Hilfethemen
 ecs#:#ecs_export_types#:#Exportierbare Objekttypen
 ecs#:#ecs_import_types#:#Importierbare Objekttypen
+sysc#:#sysc_tab_trash#:#Gelöschte Objekte
+sysc#:#sysc_administrate_deleted#:#Gelöschte Objekte verwalten
+sysc#:#sysc_trash_restore#:#Gelöschte Objekte wiederherstellen
+sysc#:#sysc_trash_restore_info#:#Stelle alle Objekte im Papierkorb wieder her und verschiebe sie in den Rettungsordner.
+sysc#:#sysc_trash_action#:#Aktion
+sysc#:#sysc_trash_remove#:#Entferne gelöschte Objekte
+sysc#:#sysc_trash_remove_info#:#Entferne Objekte im Papierkorb aus dem System
+sysc#:#sysc_trash_limit_num#:#Begrenze Anzahl
+sysc#:#sysc_trash_limit_age#:#Begrenze Alter
+sysc#:#sysc_trash_limit_type#:#Begrenze Typ
+registration#:#registration_codes_section_valid#:#Gültigkeit der Codes
+registration#:#registration_codes_type#:#Codetyp
+registration#:#registration_codes_type_reg#:#Registrierungscode
+registration#:#registration_codes_type_reg_info#:#Der Code kann für die Registrierung neuer Benutzerkonten verwendet werden.
+registration#:#registration_codes_type_ext#:#Verlängerung zeitlich begrenzter Benutzerkonten 
+registration#:#registration_codes_type_ext_info#:#Der Code kann für die Verlängerung zeitlich befristeter Benutzerkonten verwendet werden.

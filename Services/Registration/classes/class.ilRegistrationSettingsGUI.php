@@ -35,6 +35,9 @@ require_once './Services/Registration/classes/class.ilRegistrationSettings.php';
 */
 class ilRegistrationSettingsGUI
 {
+	const CODE_TYPE_REGISTRATION = 1;
+	const CODE_TYPE_EXTENSION = 2;
+	
 	var $ctrl;
 	var $tpl;
 	var $ref_id;
@@ -49,6 +52,7 @@ class ilRegistrationSettingsGUI
 		$this->lng =& $lng;
 		$this->lng->loadLanguageModule('administration');
 		$this->lng->loadLanguageModule('registration');
+		$this->lng->loadLanguageModule('user');
 
 		$this->ref_id = (int) $_GET['ref_id'];
 
@@ -862,6 +866,24 @@ class ilRegistrationSettingsGUI
 		$count->setRequired(true);
 		$this->form_gui->addItem($count);
 		
+		// type 
+		$code_type = new ilCheckboxGroupInputGUI($this->lng->txt('registration_codes_type'),'code_type');
+		$code_type->setRequired(TRUE);
+		
+		$code_type->addOption(
+				new ilCheckboxOption(
+						$this->lng->txt('registration_codes_type_reg'),
+						self::CODE_TYPE_REGISTRATION,
+						$this->lng->txt('registration_codes_type_reg_info'))
+		);
+		$code_type->addOption(
+				new ilCheckboxOption(
+						$this->lng->txt('registration_codes_type_ext'),
+						self::CODE_TYPE_EXTENSION,
+						$this->lng->txt('registration_codes_type_ext_info'))
+		);
+		$this->form_gui->addItem($code_type);
+
 		
 		$sec = new ilFormSectionHeaderGUI();
 		$sec->setTitle($this->lng->txt('registration_codes_roles_title'));
@@ -941,6 +963,7 @@ class ilRegistrationSettingsGUI
 		$opt->addSubItem($dur);
 		
 		$this->form_gui->addCommandButton('createCodes', $this->lng->txt('create'));
+		$this->form_gui->addCommandButton('listCodes',$this->lng->txt('cancel'));
 	}
 	
 	// see ilRoleAutoCompleteInputGUI
@@ -1046,7 +1069,17 @@ class ilRegistrationSettingsGUI
 			$stamp = time();
 			for($loop = 1; $loop <= $number; $loop++)
 			{
-				ilRegistrationCode::create($role, $stamp, $local, $limit, $date);
+				$code_types = (array) $this->form_gui->getInput('code_type');
+				
+				ilRegistrationCode::create(
+						$role, 
+						$stamp, 
+						$local, 
+						$limit, 
+						$date,
+						in_array(self::CODE_TYPE_REGISTRATION, $code_types) ? TRUE : FALSE,
+						in_array(self::CODE_TYPE_EXTENSION, $code_types) ? TRUE : FALSE
+				);
 			}
 			
 			ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);

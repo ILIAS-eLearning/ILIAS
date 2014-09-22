@@ -3953,4 +3953,35 @@ if(!$ilDB->tableColumnExists('ecs_part_settings','import_types'))
 	$ilDB->manipulate($query);
 
 ?>
+<#4381>
+<?php
+if(!$ilDB->tableColumnExists('reg_registration_codes','reg_enabled'))
+{
+    $ilDB->addTableColumn(
+        'reg_registration_codes',
+        'reg_enabled',
+        array(
+            'type' => 'integer',
+			'length' => 1,
+            'notnull' => TRUE,
+			'default' => 1
+        ));
+}
+?>
+
+<#4382>
+<?php
+if(!$ilDB->tableColumnExists('reg_registration_codes','ext_enabled'))
+{
+    $ilDB->addTableColumn(
+        'reg_registration_codes',
+        'ext_enabled',
+        array(
+            'type' => 'integer',
+			'length' => 1,
+            'notnull' => TRUE,
+			'default' => 0
+        ));
+}
+?>
 

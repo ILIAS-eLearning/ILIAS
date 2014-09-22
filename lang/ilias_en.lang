@@ -14876,3 +14876,18 @@ ecs#:#ecs_part_settings#:#Settings for Participant:
 help#:#help_topcis#:#Topics
 ecs#:#ecs_export_types#:#Exportable Object Types
 ecs#:#ecs_import_types#:#Importable Object Types
+sysc#:#sysc_tab_trash#:#Deleted Objects
+sysc#:#sysc_administrate_deleted#:#Administrate Deleted Objects
+sysc#:#sysc_trash_restore#:#Restore Deleted Objects
+sysc#:#sysc_trash_restore_info#:#Restore deleted objects from trash bin and move the to the "Recovery Folder"
+sysc#:#sysc_trash_action#:#Action
+sysc#:#sysc_trash_remove#:#Remove deleted objects from system
+sysc#:#sysc_trash_remove_info#:#Remove deleted objects (trash bin) from the system
+sysc#:#sysc_trash_limit_num#:#Limit Number
+sysc#:#sysc_trash_limit_age#:#Limit Age
+sysc#:#sysc_trash_limit_type#:#Limit by Type
+registration#:#registration_codes_type#:#Code Type
+registration#:#registration_codes_type_reg#:#Registration Code
+registration#:#registration_codes_type_reg_info#:#Code can be used for the registration if a new user account
+registration#:#registration_codes_type_ext#:#Extension of limited user accounts
+registration#:#registration_codes_type_ext_info#:#Code can be used for the extension of limited accounts.
