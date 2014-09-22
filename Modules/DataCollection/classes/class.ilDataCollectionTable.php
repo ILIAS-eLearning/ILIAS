@@ -753,7 +753,12 @@ class ilDataCollectionTable
      * @return bool
      */
     public function hasPermissionToViewRecord($ref_id, $record) {
-        global $ilUser;
+        global $ilUser, $rbacreview;
+        /** @var ilRbacReview $rbacreview */
+        // ILIAS Administrators can view each record by default
+        if ($rbacreview->isAssigned($ilUser->getId(), 2)) {
+            return true;
+        }
         if (ilObjDataCollection::_hasReadAccess($ref_id)) {
             // Check for view only own entries setting
             if ($this->getViewOwnRecordsPerm() && $ilUser->getId() != $record->getOwner()) {
@@ -1234,7 +1239,7 @@ class ilDataCollectionTable
      * @return array Array with two keys: 'record' => Contains the record objects, 'total' => Number of total records (without slicing)
      */
     public function getPartialRecords($sort, $direction, $limit, $offset, array $filter = array()) {
-        global $ilDB, $ilUser;
+        global $ilDB, $ilUser, $rbacreview;
 
         $sort_field = ($sort) ? $this->getFieldByTitle($sort) : $this->getField('id');
         $direction = strtolower($direction);
@@ -1393,7 +1398,7 @@ class ilDataCollectionTable
         }
 
         // Build the query string
-        $sql = "SELECT DISTINCT record.id, ";
+        $sql = "SELECT DISTINCT record.id, record.owner, ";
         $sql  .= rtrim($select_str, ',') . " FROM il_dcl_record AS record ";
         $sql .= $join_str;
         $sql .= " WHERE record.table_id = " . $ilDB->quote($this->getId(), 'integer') . $where_additions;
@@ -1403,7 +1408,12 @@ class ilDataCollectionTable
         $total_record_ids = array();
         // Save record-ids in session to enable prev/next links in detail view
         $_SESSION['dcl_record_ids'] = array();
+        $is_admin = ($rbacreview->isAssigned($ilUser->getId(), 2));
         while ($rec = $ilDB->fetchAssoc($set)) {
+            // Quick check if the current user is allowed to view the record
+            if (!$is_admin && ($this->getViewOwnRecordsPerm() && $ilUser->getId() != $rec['owner'])) {
+                continue;
+            }
             $total_record_ids[] = $rec['id'];
             $_SESSION['dcl_record_ids'][] = $rec['id'];
         }
@@ -1411,19 +1421,8 @@ class ilDataCollectionTable
         $record_ids = array_slice($total_record_ids, $offset, $limit);
         $records = array();
         foreach ($record_ids as $id) {
-            $record = ilDataCollectionCache::getRecordCache($id);
-            // Check if user can only see his own entries. If so, don't return the record and correct total count!
-            if ($this->getViewOwnRecordsPerm() && $record->getOwner() != $ilUser->getId()) {
-                unset($total_record_ids[array_search($id, $total_record_ids)]);
-                unset($_SESSION['dcl_record_ids'][array_search($id, $_SESSION['dcl_record_ids'])]);
-                continue;
-            }
-            // Re-index arrays
-            $total_record_ids = array_values($total_record_ids);
-            $_SESSION['dcl_record_ids'] = array_values($_SESSION['dcl_record_ids']);
-            $records[] = $record;
+            $records[] = ilDataCollectionCache::getRecordCache($id);
         }
-
         return array('records' => $records, 'total' => count($total_record_ids));
     }
 
