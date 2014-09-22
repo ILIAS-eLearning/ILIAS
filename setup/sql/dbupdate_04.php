@@ -3984,4 +3984,51 @@ if(!$ilDB->tableColumnExists('reg_registration_codes','ext_enabled'))
         ));
 }
 ?>
+<#4383>
+<?php
+
+$query = 'SELECT * FROM usr_account_codes ';
+$res = $ilDB->query($query);
+while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
+{
+	$until = $row->valid_until;
+	if($until === '0')
+	{
+		$alimit = 'unlimited';
+		$a_limitdt = null;
+	}
+	elseif(is_numeric($until))
+	{
+		$alimit = 'relative';
+		$a_limitdt = array(
+			'd' => (string) $until,
+			'm' => '',
+			'y' => ''
+		);
+		$a_limitdt = serialize($a_limitdt);
+	}
+	else
+	{
+		$alimit = 'absolute';
+		$a_limitdt = $until;
+	}
+	
+	$next_id = $ilDB->nextId('reg_registration_codes');
+	$query = 'INSERT INTO reg_registration_codes '.
+			'(code_id, code, role, generated, used, role_local, alimit, alimitdt, reg_enabled, ext_enabled ) '.
+			'VALUES ( '.
+			$ilDB->quote($next_id,'integer').', '.
+			$ilDB->quote($row->code,'text').', '.
+			$ilDB->quote(0,'integer').', '.
+			$ilDB->quote($row->generated,'integer').', '.
+			$ilDB->quote($row->used,'integer').', '.
+			$ilDB->quote('','text').', '.
+			$ilDB->quote($alimit,'text').', '.
+			$ilDB->quote($a_limitdt,'text').', '.
+			$ilDB->quote(0,'integer').', '.
+			$ilDB->quote(1,'integer').' '.
+			')';
+	$ilDB->manipulate($query);
+}
+?>
 
