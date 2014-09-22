@@ -291,7 +291,7 @@ class ilDclExpressionParser
                 if (strpos($token, '"') === 0) {
                     $parsed .= strip_tags(trim($token, '"'));
                 } elseif (strpos($token, '[[') === 0) {
-                    $parsed .= strip_tags($this->substituteFieldValue($token));
+                    $parsed .= trim(strip_tags($this->substituteFieldValue($token)));
                 } else {
                     throw new ilException("Unrecognized string token: '$token'");
                 }
@@ -448,7 +448,7 @@ class ilDclExpressionParser
             }
             self::$cache_fields[$placeholder] = $field;
         }
-        return $this->record->getRecordFieldHTML($field->getId());
+        return $this->record->getRecordFieldExportValue($field->getId());
     }
 
 
