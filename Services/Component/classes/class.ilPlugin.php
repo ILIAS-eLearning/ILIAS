@@ -526,6 +526,15 @@ abstract class ilPlugin
 	public static final function _getImagePath($a_ctype, $a_cname, $a_slot_id,
 		$a_pname, $a_img)
 	{
+		$d2 = ilComponent::lookupId($a_ctype, $a_cname)."_".$a_slot_id."_".
+			ilPlugin::lookupIdForName($a_ctype, $a_cname, $a_slot_id, $a_pname);
+
+		$img = ilUtil::getImagePath($d2."/".$a_img);
+		if (is_int(strpos($img, "Customizing")))
+		{
+			return $img;
+		}
+
 		$d = ilPlugin::_getDirectory($a_ctype, $a_cname, $a_slot_id, $a_pname);
 		return $d."/templates/images/".$a_img;
 	}
@@ -535,7 +544,8 @@ abstract class ilPlugin
 	 */
 	public final function getImagePath($a_img)
 	{
-		return $this->getDirectory()."/templates/images/".$a_img;
+		return self::_getImagePath($this->getComponentType(), $this->getComponentName(), $this->getSlotId(),
+			$this->getPluginName(), $a_img);
 	}
 
 	/**
@@ -543,6 +553,15 @@ abstract class ilPlugin
 	 */
 	public final function getStyleSheetLocation($a_css_file)
 	{
+		$d2 = ilComponent::lookupId($this->getComponentType(), $this->getComponentName())."_".$this->getSlotId()."_".
+			ilPlugin::lookupIdForName($this->getComponentType(), $this->getComponentName(), $this->getSlotId(), $this->getPluginName());
+
+		$css = ilUtil::getStyleSheetLocation("output", $a_css_file, $d2);
+		if (is_int(strpos($css, "Customizing")))
+		{
+			return $css;
+		}
+
 		return $this->getDirectory()."/templates/".$a_css_file;
 	}
 
