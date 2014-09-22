@@ -14897,53 +14897,53 @@ scormtrac#:#c_entry#:#cmi.entry
 scormtrac#:#c_exit#:#cmi.exit
 scormtrac#:#c_language#:#cmi.learner_preference.language
 scormtrac#:#c_location#:#cmi.location
-scormtrac#:#c_max#:#cmi.score.max: maximale Punktzahl
-scormtrac#:#c_min#:#cmi.score.min: minimale Punktzahl
+scormtrac#:#c_max#:#cmi.score.max
+scormtrac#:#c_min#:#cmi.score.min
 scormtrac#:#c_mode#:#cmi.mode
-scormtrac#:#c_raw#:#cmi.score.raw: erreichte Punktzahl
-scormtrac#:#c_timestamp#:#Letzter Zugriff
-scormtrac#:#c_type#:#cmi.interactions.n.type: Typ der Aufgabe
-scormtrac#:#completion_status#:#cmi.completion_status: Umfang der Bearbeitung
+scormtrac#:#c_raw#:#cmi.score.raw: achieved score
+scormtrac#:#c_timestamp#:#Last access
+scormtrac#:#c_type#:#cmi.interactions.n.type
+scormtrac#:#completion_status#:#cmi.completion_status
 scormtrac#:#completion_threshold#:#cmi.completion_threshold
-scormtrac#:#counter_all#:#alle Benutzer
-scormtrac#:#counter_correct#:#Aufgabe richtig beantwortet (Anzahl TN)
-scormtrac#:#counter_correct_percent#:#Prozentsatz richtig Antwortender
-scormtrac#:#counter_incorrect#:#Aufgabe falsch beantwortet (Anzahl TN)
-scormtrac#:#counter_incorrect_percent#:#Prozentsatz falsch Antwortender
-scormtrac#:#counter_other#:#weder richtig noch falsch Antwortende
-scormtrac#:#counter_other_percent#:#Prozentsatz weder richtig noch falsch Antwortender
-scormtrac#:#cp_node_id#:#Id des Kapitels
+scormtrac#:#counter_all#:#all users
+scormtrac#:#counter_correct#:#users with correct result
+scormtrac#:#counter_correct_percent#:#Percentage of users with correct result
+scormtrac#:#counter_incorrect#:#users with incorrect result
+scormtrac#:#counter_incorrect_percent#:#Percentage of users with incorrect result
+scormtrac#:#counter_other#:#users with other result
+scormtrac#:#counter_other_percent#:#Percentage of users with other result
+scormtrac#:#cp_node_id#:#Id of the chapter (SCO)
 scormtrac#:#credit#:#cmi.credit
 scormtrac#:#delivery_speed#:#cmi.learner_preference.delivery_speed
-scormtrac#:#exportselectedcore#:#Basis-Report zum Kapitel (SCO)
-scormtrac#:#exportselectedinteractions#:#Basis-Report zu Kapitel-Aufgaben (interactions)
+scormtrac#:#exportselectedcore#:#Basic report for chapters (SCO)
+scormtrac#:#exportselectedinteractions#:#Basic report forinteractions
 scormtrac#:#id#:#Id
-scormtrac#:#interaction_description#:#Beschreibung der Aufgabe
-scormtrac#:#interaction_id#:#Id der Aufgabe
-scormtrac#:#interaction_value#:#Ergebnis der Aufgabe
-scormtrac#:#latency#:#cmi.interactions.n.latency: Zeitdauer
-scormtrac#:#latency_seconds#:#cmi.interactions.n.latency: Zeitdauer in Sekunden
-scormtrac#:#launch_data#:#cmi.launch_data: Daten beim Start des SCO
-scormtrac#:#learner_response#:#cmi.interactions.n.learner_response: Antwort
-scormtrac#:#lm_id#:#Id des Lernmoduls
-scormtrac#:#lm_title#:#Titel des Lernmoduls
-scormtrac#:#progress_measure#:#cmi.progress_measure: Fortschritt des Bearbeitungsumfangs
-scormtrac#:#result#:#cmi.interactions.n.result: Ergebnis
-scormtrac#:#scaled#:#cmi.score.scaled: erreichte Punktzahl als Dezimalbruch
-scormtrac#:#scaled_passing_score#:#cmi.scaled_passing_score: zum Bestehen erforderliche Punktzahl als Dezimalbruch
-scormtrac#:#sco_marked_for_learning_progress#:#relevant f�r den Lernstand
-scormtrac#:#sco_title#:#Titel des Kapitels
-scormtrac#:#session_time#:#cmi.session_time: Zeit in der letzten Sitzung
-scormtrac#:#session_time_seconds#:#cmi.session_time: Zeit in der letzten Sitzung in Sekunden
-scormtrac#:#success_status#:#cmi.success_status: Erfolg der Bearbeitung
-scormtrac#:#suspend_data#:#cmi.suspend_data: variabler Zwischenspeicher des SCO
-scormtrac#:#total_time#:#cmi.total_time: Gesamtzeit
-scormtrac#:#total_time_seconds#:#cmi.total_time: Gesamtzeit in Sekunden
-scormtrac#:#tracinteractionitem#:#Auswertung pro Aufgabe
-scormtrac#:#tracinteractionuser#:#Auswertung pro Teilnehmer
-scormtrac#:#tracinteractionuseranswers#:#Teilnehmerantworten
-scormtrac#:#user_id#:#Benutzer-Id
-scormtrac#:#weighting#:#cmi.interactions.n.weighting: Gewichtung
+scormtrac#:#interaction_description#:#Decription of the interaction
+scormtrac#:#interaction_id#:#Id of the interaction
+scormtrac#:#interaction_value#:#result of the interaction
+scormtrac#:#latency#:#cmi.interactions.n.latency: time
+scormtrac#:#latency_seconds#:#cmi.interactions.n.latency: time in seconds
+scormtrac#:#launch_data#:#cmi.launch_data: data at start of the SCO
+scormtrac#:#learner_response#:#cmi.interactions.n.learner_response: Response
+scormtrac#:#lm_id#:#Id of the learning module
+scormtrac#:#lm_title#:#Title of the learning module
+scormtrac#:#progress_measure#:#cmi.progress_measure
+scormtrac#:#result#:#cmi.interactions.n.result
+scormtrac#:#scaled#:#cmi.score.scaled: score achieved as a decimal fraction
+scormtrac#:#scaled_passing_score#:#cmi.scaled_passing_score: score required to pass as a decimal fraction
+scormtrac#:#sco_marked_for_learning_progress#:#relevant for learning progress
+scormtrac#:#sco_title#:#title of the chapter (SCO)
+scormtrac#:#session_time#:#cmi.session_time: time in the last session
+scormtrac#:#session_time_seconds#:#cmi.session_time: time in the last session in seconds
+scormtrac#:#success_status#:#cmi.success_status: success
+scormtrac#:#suspend_data#:#cmi.suspend_data: variable buffer of the SCO
+scormtrac#:#total_time#:#cmi.total_time: total time
+scormtrac#:#total_time_seconds#:#cmi.total_time: total time in seconds
+scormtrac#:#tracinteractionitem#:#Evaluation per interaction
+scormtrac#:#tracinteractionuser#:#Evaluation per user
+scormtrac#:#tracinteractionuseranswers#:#Responses of users
+scormtrac#:#user_id#:#User-Id
+scormtrac#:#weighting#:#cmi.interactions.n.weighting
 scormtrac#:#report#:#Report
 scormtrac#:#display_not_allowed#:#display not allowed
 common#:#ps_export_scorm#:#SCORM Tracking Data
