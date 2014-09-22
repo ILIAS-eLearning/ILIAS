@@ -1598,8 +1598,35 @@ class ilUtil
 	* @static
 	* 
 	*/
-	public static function rCopy ($a_sdir, $a_tdir, $preserveTimeAttributes = false)
+
+
+	public static function rCopy ($a_sdir, $a_tdir, $preserveTimeAttributes = false){
+		
+		$source = $a_sdir;
+		$dest = $a_tdir;
+
+		$iterator = new RecursiveIteratorIterator(
+			new RecursiveDirectoryIterator($source, RecursiveDirectoryIterator::SKIP_DOTS),
+		  	RecursiveIteratorIterator::SELF_FIRST);
+
+		foreach ($iterator as $item) {
+		  if ($item->isDir()) {
+		    mkdir($dest . DIRECTORY_SEPARATOR . $iterator->getSubPathName());
+		  } else {
+		    copy($item, $dest . DIRECTORY_SEPARATOR . $iterator->getSubPathName());
+		  }
+		}
+		return TRUE;
+	}
+
+	public static function OLD_rCopy ($a_sdir, $a_tdir, $preserveTimeAttributes = false)
 	{
+
+		print '<hr>';
+		print 'a_dir: ' .$a_sdir;
+		print '<br>a_tdir: ' .$a_tdir .'<br>';
+		
+
 		// check if arguments are directories
 		if (!@is_dir($a_sdir) or
 		!@is_dir($a_tdir))
@@ -1610,14 +1637,21 @@ class ilUtil
 		// read a_sdir, copy files and copy directories recursively
 		$dir = opendir($a_sdir);
 
+
 		while($file = readdir($dir))
 		{
+
+			print '<br><b>' .$file .'</b>';
+
 			if ($file != "." and
 			$file != "..")
 			{
+
 				// directories
 				if (@is_dir($a_sdir."/".$file))
 				{
+					print ' :dir: ';
+
 					if (!@is_dir($a_tdir."/".$file))
 					{
 						if (!ilUtil::makeDir($a_tdir."/".$file))
@@ -1635,6 +1669,10 @@ class ilUtil
 				// files
 				if (@is_file($a_sdir."/".$file))
 				{
+
+				print ' :file: ';
+
+
 					if (!copy($a_sdir."/".$file,$a_tdir."/".$file))
 					{
 						return FALSE;
