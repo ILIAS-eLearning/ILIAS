@@ -149,7 +149,7 @@ class ilRepositorySearchGUI
 		}
 		
 		$ajax_url = $ilCtrl->getLinkTargetByClass(array(get_class($parent_object),'ilRepositorySearchGUI'), 
-			'doUserAutoComplete', '', true);
+			'doUserAutoComplete', '', true,false);
 
 		include_once("./Services/Form/classes/class.ilTextInputGUI.php");
 		$ul = new ilTextInputGUI($a_options['auto_complete_name'], 'user_login');
@@ -246,6 +246,12 @@ class ilRepositorySearchGUI
 		$GLOBALS['ilLog']->write(print_r($a_fields,true));
 		include_once './Services/User/classes/class.ilUserAutoComplete.php';
 		$auto = new ilUserAutoComplete();
+		
+		if(($_REQUEST['fetchall']))
+		{
+			$auto->setLimit(ilUserAutoComplete::MAX_ENTRIES);
+		}
+		
 		$auto->setSearchFields($a_fields);
 		$auto->setResultField($result_field);
 		$auto->enableFieldSearchableCheck(true);

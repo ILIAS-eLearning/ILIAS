@@ -6,6 +6,9 @@
  */
 class ilUserAutoComplete
 {
+	const MAX_ENTRIES = 1000;
+	
+	
 	/**
 	 * @var int
 	 */
@@ -60,6 +63,9 @@ class ilUserAutoComplete
 	 * @var ilObjUser
 	 */
 	private $user;
+	
+	
+	private $limit = 0;
 
 	/**
 	 * Default constructor
@@ -70,6 +76,16 @@ class ilUserAutoComplete
 
 		$this->setSearchType(self::SEARCH_TYPE_LIKE);
 		$this->setPrivacyMode(self::PRIVACY_MODE_IGNORE_USER_SETTING);
+	}
+	
+	public function setLimit($a_limit)
+	{
+		$this->limit = $a_limit;
+	}
+	
+	public function getLimit()
+	{
+		return $this->limit;
 	}
 
 	/**
@@ -242,11 +258,18 @@ class ilUserAutoComplete
 		}
 
 		include_once './Services/Search/classes/class.ilSearchSettings.php';
-		$max = ilSearchSettings::getInstance()->getAutoCompleteLength();
+		$max = $this->getLimit() ? $this->getLimit() : ilSearchSettings::getInstance()->getAutoCompleteLength();
 		$cnt    = 0;
+		$more_results = FALSE;
 		$result = array();
-		while(($rec = $ilDB->fetchAssoc($res)) && $cnt < $max)
+		while(($rec = $ilDB->fetchAssoc($res)) && $cnt < ($max + 1))
 		{
+			if($cnt >= $max)
+			{
+				$more_results = TRUE;
+				break;
+			}
+			
 			// @todo: Open discussion: We should remove all non public fields from result
 			$label = $rec['lastname'] . ', ' . $rec['firstname'] . ' [' . $rec['login'] . ']';
 
@@ -255,14 +278,17 @@ class ilUserAutoComplete
 				$label .= ', ' . $rec['email'];
 			}
 
-			$result[$cnt]        = new stdClass();
-			$result[$cnt]->value = (string)$rec[$this->result_field];
-			$result[$cnt]->label = $label;
+			$result[$cnt]['value'] = (string)$rec[$this->result_field];
+			$result[$cnt]['label'] = $label;
 			$cnt++;
 		}
 
 		include_once 'Services/JSON/classes/class.ilJsonUtil.php';
-		return ilJsonUtil::encode($result);
+		
+		$result_json['items'] = $result;
+		$result_json['hasMoreResults'] = $more_results;
+		
+		return ilJsonUtil::encode($result_json);
 	}
 
 	/**
