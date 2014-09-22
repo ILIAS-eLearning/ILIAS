@@ -243,7 +243,7 @@ abstract class ilButton
 	
 		if($this->isPrimary())
 		{
-			$css[] = "emphsubmit";
+			$css[] = "btn-primary";
 		}
 		if($this->getOmitPreventDoubleSubmission())
 		{
