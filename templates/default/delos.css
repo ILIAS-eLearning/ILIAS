@@ -6675,13 +6675,6 @@ span.il_ItemAlertProperty {
   color: #fa8228;
 }
 /* Table Links */
-a.tblheader,
-a.tblheader:visited {
-  color: #3444AA;
-}
-a.tblheader:hover {
-  color: #000;
-}
 /* --- description text ---*/
 div.il_Description,
 td.il_Description {
