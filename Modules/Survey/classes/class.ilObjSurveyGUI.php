@@ -1134,10 +1134,19 @@ class ilObjSurveyGUI extends ilObjectGUI
 	
 		$this->tpl->setContent($a_form->getHTML().$message);
 	}
-	
-	
-	
-	
+			
+	function doAutoCompleteObject()
+	{
+		$fields = array('login','firstname','lastname','email');
+				
+		include_once './Services/User/classes/class.ilUserAutoComplete.php';
+		$auto = new ilUserAutoComplete();
+		$auto->setSearchFields($fields);
+		$auto->setResultField('login');
+		$auto->enableFieldSearchableCheck(true);
+		echo $auto->getList(ilUtil::stripSlashes($_REQUEST['term']));
+		exit();
+	}			
 	
 	/**
 	 * Enable all settings - Confirmation

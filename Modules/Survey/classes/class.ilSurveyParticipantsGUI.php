@@ -446,22 +446,6 @@ class ilSurveyParticipantsGUI
 		$this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());	
 	}
 	
-	
-	function doAutoCompleteObject()
-	{
-		$fields = array('login','firstname','lastname','email');
-				
-		include_once './Services/User/classes/class.ilUserAutoComplete.php';
-		$auto = new ilUserAutoComplete();
-		$auto->setSearchFields($fields);
-		$auto->setResultField('login');
-		$auto->enableFieldSearchableCheck(true);
-		echo $auto->getList($_REQUEST['term']);
-		exit();
-	}
-
-	
-	
 	/**
 	* Change survey language for direct access URL's
 	*/
