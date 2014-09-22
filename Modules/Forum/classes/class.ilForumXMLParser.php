@@ -452,8 +452,15 @@ class ilForumXMLParser extends ilSaxParser
 					);
 					$this->forumPost->setPosAuthorId($author_id_data['usr_id']);
 					
-					$this->forumPost->setIsAuthorModerator($this->postArray['isAuthorModerator']);
-
+					if($this->postArray['isAuthorModerator'] === 'NULL')
+					{
+						$this->forumPost->setIsAuthorModerator(NULL);
+					}
+					else
+					{
+						$this->forumPost->setIsAuthorModerator((int)$this->postArray['isAuthorModerator']);	
+					}
+					
 					$this->forumPost->insert();
 
 					if($this->mapping['pos'][$this->postArray['ParentId']])

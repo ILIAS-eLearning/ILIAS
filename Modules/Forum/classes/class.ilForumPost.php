@@ -118,7 +118,7 @@ class ilForumPost
 				'import_name'	=> array('text', (string)$this->import_name),
 				'pos_status'	=> array('integer', (int)$this->status),
 				'pos_author_id' => array('integer', (int)$this->pos_author_id),
-				'is_author_moderator' 	=> array('integer', (int)$this->is_author_moderator)
+				'is_author_moderator' 	=> array('integer', $this->is_author_moderator)
 			));
 			
 			return true;

@@ -159,8 +159,17 @@ class ilForumXMLWriter extends ilXmlWriter
 				$this->xmlElement("ImportName", null, $rowPost->import_name);
 				$this->xmlElement("Status", null, (int)$rowPost->pos_status);
 				$this->xmlElement("Message", null, ilRTE::_replaceMediaObjectImageSrc($rowPost->pos_message, 0));
+
+				if($rowPost->is_author_moderator === NULL)
+				{
+					$is_moderator_string = 'NULL';
+				}	
+				else
+				{
+					$is_moderator_string = (string)$rowPost->is_author_moderator;
+				}
 				
-				$this->xmlElement("isAuthorModerator", null, (int)$rowPost->is_author_moderator);
+				$this->xmlElement("isAuthorModerator", null, $is_moderator_string);
 
 				$media_exists = false;
 				$mobs = ilObjMediaObject::_getMobsOfObject('frm:html', $rowPost->pos_pk);
