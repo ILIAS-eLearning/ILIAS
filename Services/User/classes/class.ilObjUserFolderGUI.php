@@ -2832,8 +2832,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				$this->tabs_gui->addSubTabTarget("user_new_account_mail",
 												 $this->ctrl->getLinkTarget($this,'newAccountMail'),
 												 "newAccountMail",get_class($this));				
-				$this->tabs_gui->addSubTab("account_codes", $this->lng->txt("user_account_codes"),
-											 $this->ctrl->getLinkTargetByClass("ilaccountcodesgui"));												 
+				#$this->tabs_gui->addSubTab("account_codes", $this->lng->txt("user_account_codes"),
+				#							 $this->ctrl->getLinkTargetByClass("ilaccountcodesgui"));												 
 				break;
 		}
 	}
