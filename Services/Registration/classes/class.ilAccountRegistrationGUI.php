@@ -718,6 +718,18 @@ class ilAccountRegistrationGUI
 				if(ilObject::_lookupType($local_role_obj_id) == "role")
 				{
 					$rbacadmin->assignUser($local_role_obj_id, $this->userObj->getId());
+
+					// patch to remove for 45 due to mantis 21953
+					$role_obj = $GLOBALS['rbacreview']->getObjectOfRole($local_role_obj_id);
+					switch(ilObject::_lookupType($role_obj))
+					{
+						case 'crs':
+						case 'grp':
+							$role_refs = ilObject::_getAllReferences($role_obj);
+							$role_ref = end($role_refs);
+							ilObjUser::_addDesktopItem($this->userObj->getId(),$role_ref,ilObject::_lookupType($role_obj));
+							break;
+					}
 				}
 			}
 		}

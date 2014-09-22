@@ -422,7 +422,7 @@ class ilStartUpGUI
 			include_once "Services/User/classes/class.ilAccountCode.php";
 			if(ilAccountCode::isUnusedCode($code))
 			{
-				$valid_until = ilAccountCode::getCodeValidUntil($code);			
+				$valid_until = ilAccountCode::getCodeValidUntil($code);
 				
 				if(!$user_id = ilObjUser::_lookupId($uname))
 				{
@@ -464,9 +464,16 @@ class ilStartUpGUI
 				if(!$invalid_code)
 				{
 					$user->setActive(true);	
-					$user->update();
 					
 					ilAccountCode::useCode($code);
+					
+					// apply registration code role assignments
+					ilAccountCode::applyRoleAssignments($user, $code);
+					
+					// apply registration code time limits
+					ilAccountCode::applyAccessLimits($user, $code);
+
+					$user->update();
 
 					$ilCtrl->setParameter($this, "cu", 1);
 					$ilCtrl->redirect($this, "showLogin");		

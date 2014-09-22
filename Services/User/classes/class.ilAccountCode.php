@@ -172,6 +172,10 @@ class ilAccountCode
 	{
 		global $ilDB;
 		
+		include_once './Services/Registration/classes/class.ilRegistrationCode.php';
+		return ilRegistrationCode::isUnusedCode($code);
+		
+		
 		$set = $ilDB->query("SELECT used FROM ".self::DB_TABLE." WHERE code = ".$ilDB->quote($code, "text"));
 		$set = $ilDB->fetchAssoc($set);
 		if($set && !$set["used"])
@@ -184,6 +188,9 @@ class ilAccountCode
 	public static function useCode($code)
 	{
 		global $ilDB;
+		
+		include_once './Services/Registration/classes/class.ilRegistrationCode.php';
+		return (bool) ilRegistrationCode::useCode($code);
 
 		return (bool)$ilDB->update(self::DB_TABLE, array("used"=>array("timestamp", time())), array("code"=>array("text", $code)));
 	}
@@ -191,6 +198,19 @@ class ilAccountCode
 	public static function getCodeValidUntil($code)
     {
 		global $ilDB;
+		
+		include_once './Services/Registration/classes/class.ilRegistrationCode.php';
+		$code_data = ilRegistrationCode::getCodeData($code);
+		
+		if($code_data["alimit"])
+		{
+			switch($code_data["alimit"])
+			{
+				case "absolute":
+					return $code_data['alimitdt'];
+			}
+		}
+		return "0";
 
 		$set = $ilDB->query("SELECT valid_until FROM ".self::DB_TABLE." WHERE code = ".$ilDB->quote($code, "text"));
 		$row = $ilDB->fetchAssoc($set);
@@ -198,6 +218,83 @@ class ilAccountCode
 		{
 			return $row["valid_until"];
 		}
+	}
+	
+	public static function applyRoleAssignments(ilObjUser $user, $code)
+	{
+		include_once './Services/Registration/classes/class.ilRegistrationCode.php';
+		
+		$grole = ilRegistrationCode::getCodeRole($code);
+		if($grole)
+		{
+			$GLOBALS['rbacadmin']->assignUser($grole,$user->getId());
+		}
+		$code_data = ilRegistrationCode::getCodeData($code);
+		if($code_data["role_local"])
+		{
+			$code_local_roles = explode(";", $code_data["role_local"]);
+			foreach((array) $code_local_roles as $role_id)
+			{
+				$GLOBALS['rbacadmin']->assignUser($role_id,$user->getId());
+				
+				// patch to remove for 45 due to mantis 21953
+				$role_obj = $GLOBALS['rbacreview']->getObjectOfRole($role_id);
+				switch(ilObject::_lookupType($role_obj))
+				{
+					case 'crs':
+					case 'grp':
+						$role_refs = ilObject::_getAllReferences($role_obj);
+						$role_ref = end($role_refs);
+						ilObjUser::_addDesktopItem($user->getId(),$role_ref,ilObject::_lookupType($role_obj));
+						break;
+				}
+			}
+		}
+		return true;
+	}
+	
+	public static function applyAccessLimits(ilObjUser $user, $code)
+	{
+		include_once './Services/Registration/classes/class.ilRegistrationCode.php';
+		$code_data = ilRegistrationCode::getCodeData($code);
+		
+		if($code_data["alimit"])
+		{
+			switch($code_data["alimit"])
+			{
+				case "absolute":
+					$end = new ilDateTime($code_data['alimitdt'],IL_CAL_DATE);
+					$user->setTimeLimitFrom(time());
+					$user->setTimeLimitUntil($end->get(IL_CAL_UNIX));
+					$user->setTimeLimitUnlimited(0);
+					break;
+						
+				case "relative":					
+
+					$rel = unserialize($code_data["alimitdt"]);
+					
+					include_once './Services/Calendar/classes/class.ilDateTime.php';
+					$end = new ilDateTime(time(),IL_CAL_UNIX);
+					$end->increment(IL_CAL_YEAR, $rel['y']);
+					$end->increment(IL_CAL_MONTH, $rel['m']);
+					$end->increment(IL_CAL_DAY, $rel['d']);
+					
+					$user->setTimeLimitFrom(time());
+					$user->setTimeLimitUntil($end->get(IL_CAL_UNIX));
+					$user->setTimeLimitUnlimited(0);
+					break;
+				
+				case 'unlimited':
+					$user->setTimeLimitUnlimited(1);
+					break;
+					
+			}
+		}
+		else
+		{
+			$user->setTimeLimitUnlimited(1);
+		}
+		
 	}
 }
 
