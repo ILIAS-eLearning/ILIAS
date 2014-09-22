@@ -694,23 +694,32 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 	
 	function keywordAutocomplete()
 	{				
+		$force_all = (bool)$_GET["fetchall"];
+		
 		include_once("./Services/MetaData/classes/class.ilMDKeyword.php");
 		$res = ilMDKeyword::_getMatchingKeywords(ilUtil::stripSlashes($_GET["term"]),
 			"blp", $this->getParentObjId());
 		
-		$result = array();
-		$cnt = 0;
+		include_once("./Services/Search/classes/class.ilSearchSettings.php");
+		$cut = (int)ilSearchSettings::getInstance()->getAutoCompleteLength();		
+		
+		$has_more = false;		
+		$result = array();		
 		foreach ($res as $r)
 		{
-			if ($cnt++ > 19)
+			if(!$force_all &&
+				sizeof($result["items"]) >= $cut)
 			{
-				continue;
-			}
+				$has_more = true;
+				break;
+			}			
 			$entry = new stdClass();
 			$entry->value = $r;
 			$entry->label = $r;
-			$result[] = $entry;
+			$result["items"][] = $entry;
 		}
+		
+		$result["hasMoreResults"] = $has_more;
 
 		include_once './Services/JSON/classes/class.ilJsonUtil.php';
 		echo ilJsonUtil::encode($result);
