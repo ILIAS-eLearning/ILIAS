@@ -251,14 +251,15 @@ div.ilFrame {
 	top: 0;
 	bottom:	0;
 	left: 0;
-	width: 250px;
+	width: 247px;
 	float: left;
 	position: absolute;
 	padding: 5px;
 	overflow: auto;
-	background-color: #f9f9f9;
-	border-right: 3px solid #f3f3f3;
+	background-color: @body-bg;
+	border-right: 3px solid lighten(@mid-gray, 33%);
 	z-index: 100;
+	@media only screen and (max-width: 640px) {width: 100%;}
 }
 
 
@@ -824,7 +825,7 @@ footer.ilFooter {
 	height: 160px;
 	margin: 0 auto;
 	padding: 20px 0 0;
-	text-align: center;
+	text-align: left;
 	color: white;
 	background-color: @brand-primary;
 	a.permalink_label,
@@ -1055,6 +1056,7 @@ div#bot_center_area_drag:hover {
 .ilLeftNavSpace {
 	/* padding: 0 20px 0 310px; */
 	margin-left: 250px !important;
+	@media (max-width: @grid-float-breakpoint-max) {margin-left: 0 !important;}
 }
 
 
