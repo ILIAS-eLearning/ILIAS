@@ -2714,7 +2714,8 @@ class ilObjectListGUI
 		$this->current_selection_list = new ilAdvancedSelectionListGUI();
 		$this->current_selection_list->setAsynch($a_use_asynch && !$a_get_asynch_commands);
 		$this->current_selection_list->setAsynchUrl($a_asynch_url);
-		$this->current_selection_list->setListTitle($lng->txt("actions"));
+		//$this->current_selection_list->setListTitle($lng->txt("actions"));
+		$this->current_selection_list->setListTitle("");
 		$this->current_selection_list->setId("act_".$this->getUniqueItemId(false));
 		$this->current_selection_list->setSelectionHeaderClass("small");
 		$this->current_selection_list->setItemLinkClass("xsmall");
