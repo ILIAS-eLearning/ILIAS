@@ -57,7 +57,17 @@ class ilMailAutoCompleteRecipientResult
 	 */
 	public function isResultAddable()
 	{
-		if($this->mode == self::MODE_STOP_ON_MAX_ENTRIES && $this->max_entries >= 0 && count($this->result['items']) >= $this->max_entries)
+		if(
+			$this->mode == self::MODE_STOP_ON_MAX_ENTRIES &&
+			$this->max_entries >= 0 && count($this->result['items']) >= $this->max_entries
+		)
+		{
+			return false;
+		}
+		else if(
+			$this->mode == self::MODE_FETCH_ALL &&
+			count($this->result['items']) >= 1000
+		)
 		{
 			return false;
 		}
