@@ -73,6 +73,7 @@ class gevWBDDataConnector extends wbdDataConnector {
 				,'city'				=> $record['city']
 				,'phone_nr'			=> $record['phone_nr']
 				,'mobile_phone_nr'	=> $record['mobile_phone_nr']
+				,'email'			=> $record['email']
 
 				//....
 

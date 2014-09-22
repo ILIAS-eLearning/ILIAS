@@ -1977,6 +1977,7 @@ $txt_fields_hist_user = array(
 	'city',
 	'phone_nr',
 	'mobile_phone_nr',
+	'email',
 );
 foreach ($txt_fields_hist_user as $field) {
 	if(!$ilDB->tableColumnExists('hist_user', $field)){

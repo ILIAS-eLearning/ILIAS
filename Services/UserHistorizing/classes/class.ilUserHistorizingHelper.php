@@ -159,6 +159,23 @@ class ilUserHistorizingHelper
 
 
 
+	/**
+	 * Returns the email of the given user.
+	 *
+	 * @param integer|ilObjUser $user
+	 *
+	 * @return string
+	 */
+	public static function getEMailOf($user)
+	{
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		return gevUserUtils::getInstanceByObjOrId($user)->getEMail();
+	}
+
+
+
+
+
 
 
 

@@ -126,18 +126,19 @@ class ilUserHistorizingAppEventListener
 
 		/** @var ilObjUser $parameter */
 		$data_payload = array(
-			'firstname'							=> $parameter['user_obj']->getFirstname(),
-			'lastname'							=> $parameter['user_obj']->getLastname(),
-			'gender'							=> $parameter['user_obj']->getGender(),
-			'birthday'							=> $parameter['user_obj']->getBirthday(),
-			'org_unit'							=> self::$ilUserHistorizingHelper->getOrgUnitOf($parameter['user_obj']),
-			'position_key'						=> self::$ilUserHistorizingHelper->getPositionKeyOf($parameter['user_obj']),
-			'entry_date'						=> $entry_date,
-			'exit_date'							=> $exit_date,
-			'bwv_id'							=> self::$ilUserHistorizingHelper->getBWVIdOf($parameter['user_obj']),
-			'okz'								=> self::$ilUserHistorizingHelper->getOKZOf($parameter['user_obj']),
-			'begin_of_certification'			=> $certification_begins,
-			'deleted'							=> 0
+			'firstname'						=> $parameter['user_obj']->getFirstname(),
+			'lastname'						=> $parameter['user_obj']->getLastname(),
+			'gender'						=> $parameter['user_obj']->getGender(),
+			'birthday'						=> $parameter['user_obj']->getBirthday(),
+			'org_unit'						=> self::$ilUserHistorizingHelper->getOrgUnitOf($parameter['user_obj']),
+			'position_key'					=> self::$ilUserHistorizingHelper->getPositionKeyOf($parameter['user_obj']),
+			'entry_date'					=> $entry_date,
+			'exit_date'						=> $exit_date,
+			'bwv_id'						=> self::$ilUserHistorizingHelper->getBWVIdOf($parameter['user_obj']),
+			'okz'							=> self::$ilUserHistorizingHelper->getOKZOf($parameter['user_obj']),
+			'begin_of_certification'		=> $certification_begins,
+			'deleted'						=> 0,
+			'email'							=> self::$ilUserHistorizingHelper->getEMailOf($parameter['user_obj']),
 		);
 		/*
 		'street'	 	
