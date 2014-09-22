@@ -2860,15 +2860,18 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 			if($on_reply == true)
 			{
 				// i.e. $subject = "Re(12):"
-				$str_pos_start = strpos($subject,'(');
-				$str_pos_end   = strpos($subject,')');
-				$length = ((int)$str_pos_end - (int)$str_pos_start);
-				$str_pos_start++;
-				$txt_number = substr($subject,$str_pos_start, $length-1);
-	
-				$re_count = (int)$txt_number + 1;
+				$str_pos_start = strpos($subject, '(');
+				$str_pos_end   = strpos($subject, ')');
 
-				$modified_subject = str_replace($txt_number, $re_count, $subject);
+				$length        = ((int)$str_pos_end - (int)$str_pos_start);
+				$str_pos_start++;
+				$txt_number = substr($subject, $str_pos_start, $length - 1);
+
+				if(is_numeric($txt_number))
+				{
+					$re_count         = (int)$txt_number + 1;
+					$modified_subject = substr($subject, 0, $str_pos_start) . $re_count . substr($subject, $str_pos_end);
+				}
 			}
 		}
 		else
