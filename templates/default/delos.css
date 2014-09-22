@@ -9073,6 +9073,9 @@ div.ilContainerListItemOuter {
 td.ilContainerListFooter {
   padding-left: 15px;
 }
+div.ilListItemSection {
+  clear: both;
+}
 div.ilContainerListItemOuterHighlight {
   padding: 15px;
   background-color: #FFFFD9;
@@ -9092,15 +9095,22 @@ div.ilContainerListItemCB {
 div.ilContainerListItemIcon {
   margin-top: -3px;
   float: left;
+  position: absolute;
+}
+div.ilContainerListItemIconCB {
+  margin-left: 25px;
 }
 img.ilListItemIcon {
   width: 35px;
   height: 35px;
 }
 div.ilContainerListItemContent {
-  overflow: auto;
+  margin-left: 35px;
 }
 /* If checkbox is activated, add spacing */
+div.ilContainerListItemContentCB {
+  margin-left: 60px;
+}
 div.il_ContainerListItem {
   margin: 2px 0;
   padding-left: 8px;
