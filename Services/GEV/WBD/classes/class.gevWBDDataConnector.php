@@ -518,7 +518,7 @@ ONE STEP IS NOT ENOUGH !
 * ------------- DEBUG ------------
 */
 
-
+/*
 $cls = new gevWBDDataConnector();
 
 
@@ -540,4 +540,6 @@ $cls->export_get_changed_edu_records('html');
 
 
 //$cls->set_bwv_id(255, 'XXXXXXXX');
+
+*/
 ?>
