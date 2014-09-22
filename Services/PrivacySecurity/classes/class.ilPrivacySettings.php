@@ -49,6 +49,7 @@ class ilPrivacySettings
 		private $show_crs_access_times;
 		private $ref_id;
 		private $sahs_protocol_data;
+		private $export_scorm;
 
     /**
 	 * Private constructor: use _getInstance()
@@ -316,7 +317,7 @@ class ilPrivacySettings
 	 	$this->settings->set('rbac_log',(bool) $this->enabledRbacLog());
 	 	$this->settings->set('rbac_log_age',(int) $this->getRbacLogAge());
 		$this->settings->set('enable_sahs_pd',(int) $this->enabledSahsProtocolData());
-
+		$this->settings->set('ps_export_scorm',(bool) $this->enabledExportSCORM());
 	}
 	/**
 	 * read settings
@@ -349,6 +350,7 @@ class ilPrivacySettings
 		$this->rbac_log = (bool) $this->settings->get('rbac_log',false);
 		$this->rbac_log_age = (int) $this->settings->get('rbac_log_age',6);
 		$this->sahs_protocol_data = (int) $this->settings->get('enable_sahs_pd', 0);
+		$this->export_scorm = (bool) $this->settings->get('ps_export_scorm',false);
 	}
 
 	/**
@@ -369,6 +371,17 @@ class ilPrivacySettings
 	{
 		$this->sahs_protocol_data = (int) $status;
 	}
+
+	// show and export protocol data with name
+	public function enabledExportSCORM()
+	{
+		return $this->export_scorm;
+	}
+	public function enableExportSCORM($a_status)
+	{
+		$this->export_scorm = (bool) $a_status;
+	}
+
 
 }
 ?>

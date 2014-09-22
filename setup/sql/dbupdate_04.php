@@ -4031,4 +4031,8 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 	$ilDB->manipulate($query);
 }
 ?>
+<#4384>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
 
