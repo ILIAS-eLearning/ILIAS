@@ -11,6 +11,8 @@ class ilMailAutoCompleteRecipientResult
 	const MODE_STOP_ON_MAX_ENTRIES = 1;
 	const MODE_FETCH_ALL           = 2;
 
+	const MAX_RESULT_ENTRIES       = 1000;
+
 	protected $allow_smtp 	= null;
 	protected $user_id 		= null;
 	protected $handled_recipients = array();
@@ -66,7 +68,7 @@ class ilMailAutoCompleteRecipientResult
 		}
 		else if(
 			$this->mode == self::MODE_FETCH_ALL &&
-			count($this->result['items']) >= 1000
+			count($this->result['items']) >= self::MAX_RESULT_ENTRIES
 		)
 		{
 			return false;
