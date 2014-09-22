@@ -123,6 +123,7 @@ class ilUserHistorizingAppEventListener
 			$certification_begins = $certification_begins->get(IL_CAL_DATE);
 		}
 
+
 		/** @var ilObjUser $parameter */
 		$data_payload = array(
 			'firstname'							=> $parameter['user_obj']->getFirstname(),
@@ -138,6 +139,15 @@ class ilUserHistorizingAppEventListener
 			'begin_of_certification'			=> $certification_begins,
 			'deleted'							=> 0
 		);
+		/*
+		'street'	 	
+		'zipcode'		
+		'city'			
+		'phone_nr'		
+		'mobile_phone_nr'
+		*/
+		$address_data = self::$ilUserHistorizingHelper->getAddressDataOf($parameter['user_obj']);
+		$data_payload = array_merge($data_payload, $address_data);
 
 		//$ilLog->write(print_r($data_payload, true));
 

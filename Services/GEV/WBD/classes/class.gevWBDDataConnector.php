@@ -39,15 +39,41 @@ class gevWBDDataConnector extends wbdDataConnector {
 	/**
 	 * basically mapping DB-fields to WBD-keys
 	 */
+
+	private function _extract_house_nr($streetnr){
+		//find first number in string
+	    $len = strlen($streetnr);
+	    $pos = False;
+	    for($i = 0; $i < $len; $i++) {
+	        if(is_numeric($streetnr[$i])) {
+	        	$pos = $i-1;
+	        }
+	    }		
+	    $street = trim(substr($streetnr, 0, $pos));
+	    $nr = trim(substr($streetnr, $pos));
+		return array(
+			'street' => $street, 
+			'nr' =>$nr
+		);
+	}
+
 	private function _map_userdata($record) {
 		//print '<pre>';
 		//print_r($record);
+		$street_and_nr = $this->_extract_house_nr( $record['street']);
 		$udata = array(
 				'internal_agent_id' => $record['user_id']
-				,'title' => $this->VALUE_MAPPINGS['salutation'][$record['gender']]
-				,'first_name' => $record['firstname']
-				,'last_name' => $record['lastname']
-				,'birthday' => $record['birthday']
+				,'title' 			=> $this->VALUE_MAPPINGS['salutation'][$record['gender']]
+				,'first_name' 		=> $record['firstname']
+				,'last_name' 		=> $record['lastname']
+				,'birthday' 		=> $record['birthday']
+				,'street'			=> $street_and_nr['street']
+				,'house_number'		=> $street_and_nr['nr']
+				,'zipcode'			=> $record['zipcode']
+				,'city'				=> $record['city']
+				,'phone_nr'			=> $record['phone_nr']
+				,'mobile_phone_nr'	=> $record['mobile_phone_nr']
+
 				//....
 
 				,"row_id" => $record["row_id"]
@@ -60,16 +86,15 @@ class gevWBDDataConnector extends wbdDataConnector {
 		//print '<pre>';
 		//print_r($record);
 		$edudata = array(
-			"name" => $record["lastname"]
-			,"first_name" => $record["firstname"]
+			"name" 			=> $record["lastname"]
+			,"first_name" 	=> $record["firstname"]
 			,"birthday_or_internal_agent_id" => $record['user_id']
-			,"agent_id" => $record['bwv_id']
-			,"from" => date('d.m.Y', $record['begin_date'])
-			,"till" => date('d.m.Y', $record['end_date'])
-			,"score" => $record['credit_points']
-			
-			,"training" => $record['title'] //or template?
+			,"agent_id" 	=> $record['bwv_id']
+			,"from" 		=> date('d.m.Y', $record['begin_date'])
+			,"till" 		=> date('d.m.Y', $record['end_date'])
+			,"score"		=> $record['credit_points']
 
+			,"training"	 			=> $record['title'] //or template?
 			,"study_type_selection" => $this->VALUE_MAPPINGS['course_type'][$record['type']] // "Präsenzveranstaltung" | "Selbstgesteuertes E-Learning" | "Gesteuertes E-Learning";
 	
 			//....
@@ -92,7 +117,6 @@ class gevWBDDataConnector extends wbdDataConnector {
 
 	/*
 ONE STEP IS NOT ENOUGH !
-	*/
 	private function _get_previous_historic_record($table, $row_id) {
 		switch ($table) {
 			case 'hist_user':
@@ -128,6 +152,7 @@ ONE STEP IS NOT ENOUGH !
 		$record = $this->ilDB->fetchAssoc($result);
 		return $record;
 	}
+*/
 
 	/**
 	 * get current (is_historic=0) record from any historic version
@@ -443,6 +468,7 @@ ONE STEP IS NOT ENOUGH !
 
 
 $cls = new gevWBDDataConnector();
+
 
 //$cls->_set_last_wbd_report('hist_user', 1);
 

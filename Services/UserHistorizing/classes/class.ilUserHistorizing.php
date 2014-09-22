@@ -120,7 +120,13 @@ class ilUserHistorizing extends ilHistorizingStorage
 			'bwv_id'							=> 'text',
 			'okz'								=> 'text',
 			'begin_of_certification'			=> 'date',
-			'deleted'							=> 'integer'
+			'deleted'							=> 'integer',
+
+			'street'	 						=> 'text',
+			'zipcode'							=> 'text',
+			'city'								=> 'text',
+			'phone_nr'							=> 'text',
+			'mobile_phone_nr'					=> 'text'
 		);
 
 		return $definition;

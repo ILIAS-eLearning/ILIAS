@@ -1965,6 +1965,41 @@ require_once "Customizing/class.ilCustomInstaller.php";
 
 ilCustomInstaller::initPluginEnv();
 ilCustomInstaller::activatePlugin(IL_COMP_SERVICE, "User", "udfc", "GEVUserData");
-
 ?>
 
+
+<#54>
+<?php
+// update on #40, missing fields for wbd
+$txt_fields_hist_user = array(
+	'street',
+	'zipcode',
+	'city',
+	'phone_nr',
+	'mobile_phone_nr',
+);
+foreach ($txt_fields_hist_user as $field) {
+	if(!$ilDB->tableColumnExists('hist_user', $field)){
+		$ilDB->addTableColumn('hist_user', $field, array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => false
+			)
+		);	
+	}
+}
+?>
+
+<#54>
+<?php
+// marker for wbd-reports
+if(!$ilDB->tableColumnExists('hist_user', 'last_wbd_report')){
+	$ilDB->manipulate("ALTER TABLE `hist_user` ADD `last_wbd_report` DATE NULL DEFAULT NULL AFTER `created_ts`");
+}
+if(!$ilDB->tableColumnExists('hist_usercoursestatus', 'last_wbd_report')){
+	$ilDB->manipulate("ALTER TABLE `hist_usercoursestatus` ADD `last_wbd_report` DATE NULL DEFAULT NULL AFTER `created_ts`");
+}
+
+	
+
+?>
