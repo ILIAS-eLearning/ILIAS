@@ -208,7 +208,36 @@ il.Util = {
 			
 		return {top: t, right: l + w,bottom: t + h, left: l, height: h, width: w, y: t, x: l};
 	},
-	
+
+	/**
+	 * Fix position
+	 */
+	fixPosition: function (el) {
+		var r = il.Util.getRegion(el),
+			vp = il.Util.getViewportRegion();
+
+		// we only fix absolute positioned items
+		if ($(el).css("position") != "absolute") {
+			return;
+		}
+
+		if (vp.right - 20 < r.right) {
+			il.Util.setX(el, r.x - (r.right - vp.right + 20));
+		}
+		r = il.Util.getRegion(el);
+		if (r.left < 0) {
+			$(el).removeClass("pull-right");
+			il.Util.setX(el, 0);
+		}
+	},
+
+	/**
+	 * Set x
+	 */
+	setX: function (el, x) {
+		$(el).offset({top: $(el).offset().top, left: x});
+	},
+
 	/**
 	 * Checks whether coordinations are within an elements region
 	 */
@@ -555,10 +584,7 @@ il.Util.addOnLoad(function () {
 	// fix positions of drop-downs to viewport
 	$('.dropdown-menu').parent().on('shown.bs.dropdown', function (e) {
 		$(this).children(".dropdown-menu").each(function() {
-			var r = il.Util.getRegion(this);
-			if (r.left < 0) {
-				$(this).removeClass("pull-right");
-			}
+			il.Util.fixPosition(this);
 		});
 	})
 });

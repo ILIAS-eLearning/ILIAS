@@ -9861,7 +9861,7 @@ div.editLink {
    Google recommending 640px: https://developers.google.com/webmasters/smartphone-sites/details
    
    */
-@media only screen and (max-width: 640px) {
+@media only screen and (max-width: 768px) {
   html {
     -webkit-text-size-adjust: none;
   }
@@ -9962,9 +9962,14 @@ div.editLink {
   nav#ilTopNav {
     min-height: 0px;
     display: block;
+    padding: 0;
   }
   #ilTopNav.navbar {
     min-height: 0px;
+    padding-top: 0px;
+  }
+  #ilTopNav.navbar-default {
+    background-color: #f9f9f9;
   }
   #ilTopNav button.navbar-toggle {
     position: absolute;
@@ -9984,8 +9989,33 @@ div.editLink {
   #ilTopNav .navbar-toggle .icon-bar {
     background-color: white;
   }
+  #ilTopNav .navbar-text {
+    color: #607ea5;
+  }
+  #ilTopNav .navbar-nav > li > a {
+    margin: 0 10px 0 0;
+    padding: 5px 10px 6px;
+    border-top: 0;
+    color: #5d5d5d;
+  }
+  #ilTopNav .navbar-nav > .active > a,
+  #ilTopNav .navbar-nav > .open > a,
+  #ilTopNav .navbar-nav > .active > a:hover,
+  #ilTopNav .navbar-nav > .open > a:hover,
+  #ilTopNav .navbar-nav > .active > a:active,
+  #ilTopNav .navbar-nav > .open > a:active,
+  #ilTopNav .navbar-nav > .active > a:focus,
+  #ilTopNav .navbar-nav > .open > a:focus {
+    border-top: 0;
+    background-color: inherit;
+    box-shadow: none;
+  }
   div.ilGoogleMap {
     max-width: 100%;
+  }
+  /* no idea why needed, but this one fixes the drop downs in the small media view (e.g. main menu) */
+  .navbar-nav {
+    margin: 7.5px 0px;
   }
 }
 /* print css */

@@ -20,10 +20,16 @@
 nav#ilTopNav {
 	min-height: 0px;
 	display: block;
+	padding: 0;
 }
 
 #ilTopNav.navbar{
 	min-height: 0px;
+	padding-top: 0px;
+}
+
+#ilTopNav.navbar-default {
+	background-color: @il-secondary-container-bg;
 }
 
 #ilTopNav button.navbar-toggle {
@@ -45,4 +51,39 @@ nav#ilTopNav {
 
 #ilTopNav .navbar-toggle .icon-bar {
 	background-color: white;
+}
+
+#ilTopNav {
+	.navbar-text {
+		color: @ilMainMenuColor;
+	}
+	.navbar-nav {
+		> li > a {
+			margin: 0 10px 0 0;
+			padding: 5px 10px 6px;
+			border-top: 0;
+			//background-color: lighten(@ilMainMenuColor, 39%);
+			color: lighten(@mid-gray, 10%);//darken(@ilMainMenuColor, 30%);
+			&:hover,
+			&:active,
+			&:focus {
+				//outline: 0;
+				//border-top: 4px solid @brand-primary;
+				//background-color: white;
+				//box-shadow: 3px 9px 9px 0px rgba(0,0,0,0.176);
+			}
+		}
+		> .active > a,
+		> .open > a {
+			&,
+			&:hover,
+			&:active,
+			&:focus {
+				//background-color: lighten(@ilMainMenuColor, 42%);
+				border-top: 0;
+				background-color: inherit;
+				box-shadow: none;
+			}
+		}
+	}
 }

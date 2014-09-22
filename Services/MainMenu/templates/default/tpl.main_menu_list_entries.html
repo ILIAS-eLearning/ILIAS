@@ -30,6 +30,7 @@
 							// perform page modification
 							if(o.responseText !== undefined) {
 								$('#' + o.argument.el_id).replaceWith(o.responseText);
+								il.Util.fixPosition($("#mm_adm_tr").next());
 								if (il.Help) {
 									il.Help.updateTooltips();
 								}

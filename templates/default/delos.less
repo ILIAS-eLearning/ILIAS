@@ -1341,7 +1341,7 @@ div.editLink {
    
    */
 @media
-	only screen and (max-width: 640px)
+	only screen and (max-width: @screen-sm-min)
 {
 	html {
 		-webkit-text-size-adjust: none;
@@ -1413,9 +1413,13 @@ div.editLink {
 	@import "less/Services/Init/delos_sm.less";
 	@import "less/Services/MainMenu/delos_sm.less";
 
-
 	div.ilGoogleMap {
 		max-width: 100%;
+	}
+
+	/* no idea why needed, but this one fixes the drop downs in the small media view (e.g. main menu) */
+	.navbar-nav {
+		margin: 7.5px 0px;
 	}
 }
 
