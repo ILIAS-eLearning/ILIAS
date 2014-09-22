@@ -3,28 +3,28 @@
 .nav-tabs {
 	> li {
 		margin: 0 4px 0 0;
-		border-top: 4px solid transparent;
+		//border-top: 4px solid transparent;
 		> a {
 			border-radius: 0 0 0 0;
 			border: none;
 			padding: 8px 15px 5px;
-			font-size: @font-size-small;
+			font-size: ceil((@font-size-base * 0.9));
 			margin:0;
 			&:hover {
 				//background-color: transparent;
-				border-color: transparent;
+				//border-color: transparent;
 			}
 		}
 		&.active {
-			border-top: 4px solid lighten(@brand-primary, 25%);
+			//border-top: 4px solid lighten(@brand-primary, 25%);
 		}
 		// Active state, and its :hover to override normal :hover
 		&.active > a {
 			&,
 			&:hover,
 			&:focus {
-				background-color: white;
-				border: none;
+				background-color: lighten(@mid-gray, 61%);
+				border: 1px solid lighten(@mid-gray, 54%);
 			}
 		}
 
@@ -35,6 +35,8 @@
 	padding: 0;
 	margin: 0;
 	border: none;
+	border-bottom: 1px solid lighten(@mid-gray, 55%);
+	box-shadow: 0 2px 1px -1px white;
 }
 
 .ilTabsContentOuter {
@@ -44,21 +46,28 @@
 
 /* Sub Tabs */
 #ilSubTab {
-	padding: 15px 20px 5px 10px;
+	padding: 5px 10px;
 	margin: 0;
-}
-
-#ilSubTab li a {
-	padding: 3px 7px;
-	font-size: 80%;
-	/* background-color: transparent; */
-}
-
-#ilSubTab li.active a {
-	/* background-color: #eee;
-	  color: #303030; */
-}
-
-#ilSubTab li a:hover {
-	/* background-color: #eee; */
+	border-bottom: 1px solid lighten(@mid-gray, 55%);
+	box-shadow: 0 2px 1px -1px white;
+	> li {
+		> a {
+			border-radius: 0;
+			padding: 3px 7px;
+			font-size: @font-size-small;
+			font-family: 'Open Sans Semibold';
+			&:hover {
+				color: @link-hover-color;
+			}
+		}
+		&.active > a {
+			&,
+			&:hover,
+			&:focus {
+				color: @link-color;
+				background-color: transparent;
+				text-decoration: underline;
+			}
+		}
+	}
 }

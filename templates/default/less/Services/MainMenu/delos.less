@@ -31,6 +31,10 @@
 	padding-top: 1px;
 	padding-bottom: 1px;
 	min-height: 33px;
+	&.navbar-default {
+		border-bottom: 1px solid lighten(@mid-gray, 55%);
+		box-shadow: 0 2px 1px -1px #ffffff;
+	}
 }
 
 #ilTopNav.navbar .container-fluid > .navbar-collapse {
@@ -186,8 +190,8 @@ input.ilOpenIDBox {
 	}
 }
 
-.dropdown-menu, div.ilTopBar .dropdown-menu a {
-	//color: lighten(@mid-gray, 10%);
+.ilMainMenu {
+	background-color: @body-bg;
 }
 					
 .dropdown-menu {

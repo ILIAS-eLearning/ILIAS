@@ -10,7 +10,7 @@ table.il_InfoScreen {
 div.ilInfoScreenSec {
   padding: 10px;
 }
-div.ilInfoScreenSec > h3 {
+div.ilInfoScreenSec h3 {
   margin: 8px 0 14px;
   border-bottom: 1px solid #D6D6D6;
   color: #505050;

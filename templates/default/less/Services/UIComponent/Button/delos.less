@@ -29,9 +29,34 @@
 		box-shadow: 0 2px 2px rgba(0, 0, 0, 0.05) inset;
 	}
 }
-
+/*
 .btn-default, .open > .dropdown-toggle.btn-default {
 	.gradient-button(@btn-default-color, @btn-default-border, @btn-default-bg, darken(@btn-default-bg, 5%), 0%, 100%);
+}
+*/
+
+//overwrite buttons styles + add new one
+//@color @background @border
+.btn-default {
+  .button-variant(white; @brand-primary; @brand-primary);
+}
+.btn-primary {
+  .button-variant(white; @brand-secondary; @brand-secondary);
+}
+.btn-info {
+  .button-variant(@link-color; white; lighten(@link-color, 35%));
+}
+.btn-link {
+  color: @link-color;
+  border: none;
+  background-color: transparent;
+  &:hover,
+  &:focus,
+  &:active {
+	  color: @link-hover-color;
+	  text-decoration: none;
+	  background-color: transparent;
+  }
 }
 
 

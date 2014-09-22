@@ -1,8 +1,6 @@
 @font-face {
 	font-family: 'Open Sans';
 	src:	url('fonts/OpenSansWeb/opensans-regular-webfont.eot');
-	src: 	local('OpenSans Regular'),
-			local('OpenSans');
 	src:	url('fonts/OpenSansWeb/opensans-regular-webfont.eot?#iefix') format('embedded-opentype'),
 			url('fonts/OpenSansWeb/opensans-regular-webfont.woff') format('woff'),
 			url('fonts/OpenSansWeb/opensans-regular-webfont.ttf') format('truetype'),
@@ -12,8 +10,6 @@
 @font-face {
 	font-family: 'Open Sans';
 	src:	url('fonts/OpenSansWeb/opensans-bold-webfont.eot');
-	src: 	local('OpenSans Bold'),
-			local('OpenSans');
 	src:	url('fonts/OpenSansWeb/opensans-bold-webfont?#iefix') format('embedded-opentype'),
 			url('fonts/OpenSansWeb/opensans-bold-webfont.woff') format('woff'),
 			url('fonts/OpenSansWeb/opensans-bold-webfont.ttf') format('truetype'),
@@ -24,8 +20,6 @@
 @font-face {
 	font-family: 'Open Sans';
 	src:	url('fonts/OpenSansWeb/opensans-italic-webfont.eot');
-	src: 	local('OpenSans Italic'),
-			local('OpenSans');
 	src:	url('fonts/OpenSansWeb/opensans-italic-webfont.eot?#iefix') format('embedded-opentype'),
 			url('fonts/OpenSansWeb/opensans-italic-webfont.woff') format('woff'),
 			url('fonts/OpenSansWeb/opensans-italic-webfont.ttf') format('truetype'),
@@ -48,8 +42,6 @@
 @font-face {
 	font-family: 'Open Sans Light';
 	src:	url('fonts/OpenSansWeb/opensans-light-webfont.eot');
-	src: 	local('OpenSans-Light Regular'),
-			local('OpenSans-Light');
 	src:	url('fonts/OpenSansWeb/opensans-light-webfont.eot?#iefix') format('embedded-opentype'),
 			url('fonts/OpenSansWeb/opensans-light-webfont.woff') format('woff'),
 			url('fonts/OpenSansWeb/opensans-light-webfont.ttf') format('truetype'),
@@ -59,8 +51,6 @@
 @font-face {
 	font-family: 'Open Sans Light';
 	src:	url('fonts/OpenSansWeb/opensans-lightitalic-webfont.eot');
-	src: 	local('OpenSans-Light Italic'),
-			local('OpenSans-Light');
 	src:	url('fonts/OpenSansWeb/opensans-lightitalic-webfont.eot?#iefix') format('embedded-opentype'),
 			url('fonts/OpenSansWeb/opensans-lightitalic-webfont.woff') format('woff'),
 			url('fonts/OpenSansWeb/opensans-lightitalic-webfont.ttf') format('truetype'),
@@ -71,8 +61,6 @@
 @font-face {
 	font-family: 'Open Sans Semibold';
 	src:	url('fonts/OpenSansWeb/opensans-semibold-webfont.eot');
-	src: 	local('OpenSans-Semibold Regular'),
-			local('OpenSans-Semibold');
 	src:	url('fonts/OpenSansWeb/opensans-semibold-webfont.eot?#iefix') format('embedded-opentype'),
 			url('fonts/OpenSansWeb/opensans-semibold-webfont.woff') format('woff'),
 			url('fonts/OpenSansWeb/opensans-semibold-webfont.ttf') format('truetype'),
@@ -82,8 +70,6 @@
 @font-face {
 	font-family: 'Open Sans Semibold';
 	src:	url('fonts/OpenSansWeb/opensans-semibolditalic-webfont.eot');
-	src: 	local('OpenSans-Semibold Italic'),
-			local('OpenSans-Semibold');
 	src:	url('fonts/OpenSansWeb/opensans-semibolditalic-webfont.eot?#iefix') format('embedded-opentype'),
 			url('fonts/OpenSansWeb/opensans-semibolditalic-webfont.woff') format('woff'),
 			url('fonts/OpenSansWeb/opensans-semibolditalic-webfont.ttf') format('truetype'),
@@ -94,8 +80,6 @@
 @font-face {
 	font-family: 'Open Sans Extrabold';
 	src:	url('fonts/OpenSansWeb/opensans-extrabold-webfont.eot');
-	src: 	local('OpenSans-Extrabold Regular'),
-			local('OpenSans-Extrabold');
 	src:	url('fonts/OpenSansWeb/opensans-extrabold-webfont.eot?#iefix') format('embedded-opentype'),
 			url('fonts/OpenSansWeb/opensans-extrabold-webfont.woff') format('woff'),
 			url('fonts/OpenSansWeb/opensans-extrabold-webfont.ttf') format('truetype'),
@@ -105,8 +89,6 @@
 @font-face {
 	font-family: 'Open Sans Extrabold';
 	src:	url('fonts/OpenSansWeb/opensans-extrabolditalic-webfont.eot');
-	src: 	local('OpenSans-Extrabold Italic'),
-			local('OpenSans-Extrabold');
 	src:	url('fonts/OpenSansWeb/opensans-extrabolditalic-webfont.eot?#iefix') format('embedded-opentype'),
 			url('fonts/OpenSansWeb/opensans-extrabolditalic-webfont.woff') format('woff'),
 			url('fonts/OpenSansWeb/opensans-extrabolditalic-webfont.ttf') format('truetype'),
@@ -177,7 +159,6 @@
 span.ilAlert {
 	color: @brand-warning;
 }
-
 
 //== Navs
 
@@ -772,18 +753,19 @@ div.il_info {
 a#il_mhead_t_focus {
 	color: @brand-secondary;
 	vertical-align: middle;
+	font-size: 30px;
 }
 
 h1.ilHeader {
-	padding: 5px 0 0;
+	padding: 10px 0 0;
 }
 
 #headerimage {
-	width: 45px;
-	height: 45px;
+	width: 50px;
+	height: 50px;
 	margin-right: 10px;
 	float: left;
-	background-color: white;
+	//background-color: white;
 }
 
 span.ilHeader {}
@@ -802,7 +784,7 @@ div.ilHeadAction a:hover {
 }
 
 div.ilHeaderDesc {
-	font-size: 80%;
+	font-size: 90%;
 	padding: 0;
 	color: lighten(@text-color, 25%);
 	font-family: 'Open Sans Light'

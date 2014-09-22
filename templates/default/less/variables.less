@@ -19,6 +19,8 @@
 @brand-danger:          #fa8228;
 
 @mid-gray: #434343;
+@il-primary-container-bg: white;
+@il-secondary-container-bg: lighten(@mid-gray, 74%);
 
 //== Scaffolding
 @body-bg:               #f0f0f0;
@@ -80,13 +82,13 @@
 //##
 
 @breadcrumb-padding-vertical:   6px;
-@breadcrumb-padding-horizontal: 15px;
+@breadcrumb-padding-horizontal: 6px;
 //** Breadcrumb background color
 @breadcrumb-bg:                 transparent;
 //** Breadcrumb text color
-@breadcrumb-color:              #ccc;
+@breadcrumb-color:               @link-color;
 //** Text color of current page in the breadcrumb
-@breadcrumb-active-color:       @gray-light;
+@breadcrumb-active-color:        @link-hover-color;
 //** Textual separator for between breadcrumb elements
 @breadcrumb-separator:          "»";
 

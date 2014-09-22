@@ -1,6 +1,8 @@
 /* Services/Locator */
 ol.breadcrumb {
   margin: 0;
+  font-family: 'Open Sans Semibold';
+  padding-left: 15px;
 }
 .breadcrumb {
   font-size: 0.8em;
