@@ -196,7 +196,7 @@ abstract class ilComponent
 
 		//$set = $ilDB->query("SELECT * FROM il_pluginslot WHERE component = ".
 		//	$ilDB->quote($a_type."/".$a_name, "text"));
-		//$ps = array();
+		$ps = array();
 //echo "<br>".$a_type."/".$a_name;
 		//while($rec = $ilDB->fetchAssoc($set))
 		foreach($recs as $rec)

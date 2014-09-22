@@ -543,7 +543,11 @@ class ilCachedComponentData {
 	 * @return mixed
 	 */
 	public function lookupPluginSlotByComponent($component) {
-		return $this->il_pluginslot_by_comp[$component];
+		if (is_array($this->il_pluginslot_by_comp[$component])) {
+			return $this->il_pluginslot_by_comp[$component];
+		}
+
+		return array();
 	}
 
 
