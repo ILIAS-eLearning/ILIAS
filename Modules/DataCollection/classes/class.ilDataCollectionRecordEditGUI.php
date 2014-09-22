@@ -268,7 +268,7 @@ class ilDataCollectionRecordEditGUI
                 asort($options);
                 $item->setOptions($options);
                 if (!$field->isNRef()) { // addCustomAttribute only defined for single selects
-                    $item->addCustomAttribute('class="ilDclInputFormatReference"');
+                    $item->addCustomAttribute('data-ref="1"');
                     $item->addCustomAttribute('data-ref-table-id="' . $reftable->getId() .'"');
                     $item->addCustomAttribute('data-ref-field-id="'. $reffield->getId() .'"');
                 }

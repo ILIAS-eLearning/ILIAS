@@ -80,7 +80,7 @@ $(document).ready(function(){
         return false;
     });
 
-    $('form[id^="form_dcl"] select.ilDclInputFormatReference').parent('div.ilFormValue').append(
+    $('form[id^="form_dcl"] select[data-ref=1]').parent('div').append(
         $('<a></a>')
             .attr('href', '#')
             .addClass('ilDclReferenceAddValue xsmall')
