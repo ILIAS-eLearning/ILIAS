@@ -8242,6 +8242,11 @@ input.ilOpenIDBox {
 #ilTopNav a.dropdown-toggle {
   text-transform: uppercase;
 }
+#ilTopNav .dropdown-menu {
+  float: right;
+  left: auto;
+  right: 0;
+}
 /* Services/UIComponent/Tabs */
 .nav-tabs > li {
   margin: 0 4px 0 0;
@@ -9899,8 +9904,8 @@ div.editLink {
   }
   div.il_HeaderInner {
     color: #222;
-    margin-bottom: 15px;
-    padding: 5px;
+    margin-bottom: 5px;
+    padding: 15px;
   }
   textarea {
     max-width: 100%;
@@ -10041,6 +10046,17 @@ div.editLink {
     border-top: 0;
     background-color: inherit;
     box-shadow: none;
+  }
+  #ilTopNav {
+    margin-top: 0px;
+  }
+  #ilTopNav .navbar-nav {
+    float: none;
+  }
+  #ilTopNav .dropdown-menu {
+    float: none;
+    left: auto;
+    right: auto;
   }
   div.ilGoogleMap {
     max-width: 100%;
