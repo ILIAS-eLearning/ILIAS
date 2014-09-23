@@ -554,22 +554,19 @@ ilias.questions.initClozeTest = function(a_id) {
 	_initClozeTestCallBack = function (found) {
 		var type = questions[a_id].gaps[closecounter].type;
 		var input;
-		if (type==0 || type==2) {
-			var size = (type==0) ? 20 : 4;
-			if( type == 0 ) {
-				size = questions[a_id].gaps[closecounter].size;
-				input = jQuery.create('input', {
-					'id': a_id + "_" + closecounter,
-					'type': 'text',
-					'size': size,
-					'maxlength' : size,
-					'class': 'ilc_qinput_TextInput'
-				});
+		if (type == 0 || type == 2) {
+			var size = questions[a_id].gaps[closecounter].size;
+			if (typeof size == "undefined") {
+				size = (type == 0) ? 20 : 4;
 			}
-			else
-			{
-				input = jQuery.create('input', {'id': a_id+"_"+closecounter, 'type':'text', 'size':size, 'class': 'ilc_qinput_TextInput'});
-			}
+			console.log(size);
+			input = jQuery.create('input', {
+				'id': a_id + "_" + closecounter,
+				'type':      'text',
+				'size':      size,
+				'maxlength': questions[a_id].gaps[closecounter].size,
+				'class':     'ilc_qinput_TextInput'
+			});
 		}
 		if (type==1) {
 			input = jQuery.create('select', {'id': a_id+"_"+closecounter, 'class': 'ilc_qinput_ClozeGapSelect'});			
