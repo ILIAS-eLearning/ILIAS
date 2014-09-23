@@ -112,7 +112,7 @@ administration#:#language_translation_enabled#:#Page translation enabled
 administration#:#language_translation_mode#:#Translation mode
 administration#:#log_scan_desc#:#Write scan results to 'scanlog.log' in client data directory.
 administration#:#log_scan#:#Log scan results
-administration#:#loginname_change_blocking_time_info#:#Insert a period in days that an user has to wait before changing again its login name. If you enter 0, user can change login names anytime.
+administration#:#loginname_change_blocking_time_info#:#Insert a period in days that a user has to wait before changing again its login name. If you enter 0, user can change login names anytime.
 administration#:#loginname_change_blocking_time_invalidity_info#:#Please insert a numeric value.
 administration#:#loginname_change_blocking_time#:#Blocking Time for Changing Login Names
 administration#:#loginname_history_info#:#If activated, login name changes will be logged in database. This history is accessible in the database table 'loginname_history'.
@@ -393,7 +393,7 @@ assessment#:#error_importing_question#:#There was an error importing the questio
 assessment#:#error_no_lower_limit#:#Please enter a lower bound.
 assessment#:#error_no_upper_limit#:#Please enter an upper bound.
 assessment#:#error_open_image_file#:#Error opening an image file!
-assessment#:#error_open_java_file#:#Error opening an java applet!
+assessment#:#error_open_java_file#:#Error opening a java applet!
 assessment#:#error_random_question_generation#:#A fatal error occurred during the generation of your random questions for the test. Please contact your administrator with the following information: The system could not create an active ID for user ID %s and test ID %s.
 assessment#:#error_save_image_file#:#Error saving an image file!
 assessment#:#errors_section#:#Error Data
@@ -1338,11 +1338,11 @@ auth#:#auth_account_migration_name#:#Migration
 auth#:#auth_account_migration_new#:#Create New User Account
 auth#:#auth_account_migration#:#New ILIAS Account
 auth#:#auth_info_add#:#Choose this option if you have never registered to ILIAS. A new account will be created.
-auth#:#auth_info_migrate#:#If you have already an ILIAS account enter username and password to migrate your personal data (Mail, Test results...).
+auth#:#auth_info_migrate#:#If you have already an ILIAS account enter user name and password to migrate your personal data (Mail, Test results...).
 auth#:#auth_openid_configure#:#Configure OpenId-Authentication
 auth#:#auth_openid_deleted_provider#:#Deleted selected OpenID provider
 auth#:#auth_openid_enable#:#Enable OpenId Support
-auth#:#auth_openid_login_info_a#:#Please enter your OpenID username and choose a provider
+auth#:#auth_openid_login_info_a#:#Please enter your OpenID user name and choose a provider
 auth#:#auth_openid_login#:#Your OpenID
 auth#:#auth_openid_migration_info#:#Activate this option to give new users the possibility to migrate their existing ILIAS accounts to OpenId authentication.
 auth#:#auth_openid_migration#:#Account Migration:
@@ -1356,7 +1356,7 @@ auth#:#auth_openid_sync_info#:#If enabled new user accounts will be created auto
 auth#:#auth_openid_sync#:#User Synchronization
 auth#:#auth_openid_uncontrolled_selection_info#:#If enabled, any OpenID Provider can be used for authentication. Otherwise the provider has to be chosen from a list of valid providers.
 auth#:#auth_openid_uncontrolled_selection#:#Uncontrolled Provider Selection
-auth#:#auth_openid_url_info#:#Enter an OpenID url and replace the username with "%s". For example: http://%s.myopenid.com
+auth#:#auth_openid_url_info#:#Enter an OpenID url and replace the user name with "%s". For example: http://%s.myopenid.com
 auth#:#auth_openid#:#OpenId
 auth#:#auth_rad_migration_info#:#Activate this option to give new users the possibility to migrate their existing ILIAS accounts to Radius authentication.
 auth#:#auth_rad_migration#:#Account Migration:
@@ -1837,7 +1837,7 @@ common#:#attempts#:#Attempts
 common#:#attend#:#Attend
 common#:#auth_active_roles#:#Global roles available on registration form
 common#:#auth_allow_local#:#Allow Local Authentication
-common#:#auth_cas_allow_local_desc#:#This allows CAS users to authenticate with their local ILIAS username and a local password.
+common#:#auth_cas_allow_local_desc#:#This allows CAS users to authenticate with their local ILIAS user name and a local password.
 common#:#auth_cas_auth_desc#:#CAS requires PHP 4.3.1 or higher with CURL support (7.5 or higher)
 common#:#auth_cas_auth#:#Configure CAS Authentication
 common#:#auth_cas_create_users_desc#:#Creates automatically an ILIAS user account, for users that successfully authenticated against CAS, without having an ILIAS account yet.
@@ -1892,7 +1892,7 @@ common#:#auth_shib_instructions#:#Be sure to read the README for instructions on
 common#:#auth_shib_not_configured#:#Shibboleth is not configured yet
 common#:#auth_shib#:#Shibboleth
 common#:#auth_shibboleth#:#Shibboleth
-common#:#auth_soap_allow_local_desc#:#This allows SOAP users to authenticate with their local ILIAS username and a local password.
+common#:#auth_soap_allow_local_desc#:#This allows SOAP users to authenticate with their local ILIAS user name and a local password.
 common#:#auth_soap_auth_desc#:#This settings deal only with SOAP based user authentication, not with the ILIAS SOAP interface.
 common#:#auth_soap_auth#:#Configure SOAP Authentication
 common#:#auth_soap_create_users_desc#:#Creates automatically an ILIAS user account, for users that successfully authenticated against SOAP, without having an ILIAS account yet.
@@ -2547,7 +2547,7 @@ common#:#folders#:#Folders
 common#:#force_accept_usr_agreement#:#You must accept the user agreement!
 common#:#forename#:#Forename
 common#:#forgot_password#:#Forgot your password?
-common#:#forgot_username#:#Forgot your username?
+common#:#forgot_username#:#Forgot your user name?
 common#:#form_empty_fields#:#Please complete these fields:
 common#:#form_input_not_valid#:#Some data is incomplete or not valid. Please correct the form input.
 common#:#forum_attachments#:#Forum attachments
@@ -3022,7 +3022,7 @@ common#:#linked_object#:#The object has been linked
 common#:#linked_pages#:#Linked Pages
 common#:#links_add_param#:#Add Parameter:
 common#:#links_dyn_parameter#:#Dynamic Parameters
-common#:#links_dynamic_info#:#If enabled, it is possible to append dynamic parameters to Weblinks.<br /> E.g. the ILIAS user id or the username.
+common#:#links_dynamic_info#:#If enabled, it is possible to append dynamic parameters to Weblinks.<br /> E.g. the ILIAS user id or the user name.
 common#:#links_dynamic#:#Dynamic Weblink Parameters
 common#:#links_existing_params#:#Existing Parameters:
 common#:#links_name#:#Parameter Name
@@ -3033,7 +3033,7 @@ common#:#links_parameter_deleted#:#Parameter deleted.
 common#:#links_select_one#:#- Select one -
 common#:#links_session_id#:#ILIAS session id
 common#:#links_user_id#:#ILIAS user id
-common#:#links_user_name#:#ILIAS username
+common#:#links_user_name#:#ILIAS user name
 common#:#links_value#:#Parameter Value
 common#:#list_of_pages#:#Pages List
 common#:#list_of_questions#:#Question List
@@ -4453,7 +4453,7 @@ common#:#user_language#:#User Language
 common#:#user_new_account_mail_desc#:#This mail is sent automatically to users that have self-registered or to those who have been registered by an administrator with enabled setting 'Send mail to inform user about changes'.
 common#:#user_new_account_mail#:#New Account Mail
 common#:#user_not_chosen#:#You did not choose a group-member.
-common#:#user_not_known#:#Please insert a valid username.
+common#:#user_not_known#:#Please insert a valid user name.
 common#:#user_profile_instant_messengers#:#Instant Messengers
 common#:#user_profile_other#:#Other Information
 common#:#user_send_new_account_mail#:#Send new account e-mail
@@ -6364,7 +6364,7 @@ delic#:#delic_settings#:#Delicious Settings
 delic#:#delic_user_profile#:#Enable Delicious Account Setting in User Profile
 ecs#:#cert_serial#:#Certificate Serial Number
 ecs#:#ecs_abr#:#Abbreviation
-ecs#:#ecs_account_duration_info#:#New ECS-User accounts are limited to the session duration. After assigning an user to a course the activation period will be extended by the given number months.
+ecs#:#ecs_account_duration_info#:#New ECS-User accounts are limited to the session duration. After assigning a user to a course the activation period will be extended by the given number months.
 ecs#:#ecs_account_duration#:#Activation Period Extension
 ecs#:#ecs_active_header#:#Import/Export Allowed
 ecs#:#ecs_active#:#Enable ECS Functionalities
@@ -6921,7 +6921,7 @@ ldap#:#ldap_mapping_table#:#Assignment of LDAP Attributes to ILIAS User Profile
 ldap#:#ldap_mapping_template#:#Template for objectClass:
 ldap#:#ldap_member_info#:#The attribute of the group object where the user dn may be found.
 ldap#:#ldap_memberisdn#:#Attribute Value is DN
-ldap#:#ldap_missing_bind_user#:#You have chosen "Bind as User": Please enter a valid LDAP username and password.
+ldap#:#ldap_missing_bind_user#:#You have chosen "Bind as User": Please enter a valid LDAP user name and password.
 ldap#:#ldap_missing_role_assignment#:#Please choose a global role new users will be assigned to.
 ldap#:#ldap_moment_sync#:#Type of Sychronization
 ldap#:#ldap_new_role_assignment#:#Add New Role -> Group Assignment
@@ -8169,7 +8169,7 @@ payment#:#paya_edit_pay_method#:#Edit Pay Method
 payment#:#paya_edit_prices_first#:#Please edit the prices first.
 payment#:#paya_edit_prices#:#Edit Prices
 payment#:#paya_enabled#:#Enabled
-payment#:#paya_enter_login#:#Please enter an user name.
+payment#:#paya_enter_login#:#Please enter a user name.
 payment#:#paya_err_adding_object#:#Error adding object
 payment#:#paya_error_adding_customer#:#An error occurred while adding the selling process to the statistics.
 payment#:#paya_error_mandatory_fields#:#Please fill in all mandatory fields (*).
@@ -8339,8 +8339,8 @@ payment#:#pays_general_settings#:#General settings
 payment#:#pays_general#:#General
 payment#:#pays_header_select_vendor#:#Vendor selection
 payment#:#pays_invoice#:#Invoice
-payment#:#pays_no_username_given#:#No username given
-payment#:#pays_no_valid_username_given#:#No valid username given
+payment#:#pays_no_username_given#:#No user name given
+payment#:#pays_no_valid_username_given#:#No valid user name given
 payment#:#pays_no_vendor_selected#:#No vendor selected
 payment#:#pays_number_bookings#:#Active bookings
 payment#:#pays_objects_bill_exist#:#Pay method 'bill' is activated for some objects. Therefore it can not be deactivated.
@@ -8497,7 +8497,7 @@ ps#:#ps_password_max_age_info#:#Sets the maximum age of passwords in days. Set t
 ps#:#ps_password_max_age#:#Maximum Password Age
 ps#:#ps_password_max_length_info#:#Sets the maximum size of account passwords. Set this to 0 for disabling this option.
 ps#:#ps_password_max_length#:#Maximum Password Size
-ps#:#ps_password_min_length_info#:#Sets the minimum size of account passwords. If set to 0 the passwords anyway have to have a minimum size of 1.
+ps#:#ps_password_min_length_info#:#Sets the minimum size of account passwords. If set to 0, the passwords anyway have to have a minimum size of 1. If the required length is altered, the new requirement will be applied only to those accounts that were created or changed after the new length was set. Existing accounts are not affected.
 ps#:#ps_password_min_length#:#Minimum Password Size
 ps#:#ps_password_special_chars_enabled_info#:#If enabled, passwords have to contain special characters.
 ps#:#ps_password_special_chars_enabled#:#Force Special Characters
@@ -8522,7 +8522,7 @@ ps#:#ps_warning_modify#:#Attention: Minimum one user has accepted the user agree
 ps#:#show_privacy#:#Privacy
 ps#:#show_security#:#Security
 pwassist#:#password_assistance#:#Password Assistance
-pwassist#:#pwassist_enter_email#:#Please enter an e-mail address and submit the form.\nILIAS will send an e-mail to that address. The e-mail contains all usernames which have registered this e-mail address.\nChoose a suitable username and use the password service to retrieve a new password. If you do not retrieve any e-mail by this service please contact your course admin or %1$s.
+pwassist#:#pwassist_enter_email#:#Please enter an e-mail address and submit the form.\nILIAS will send an e-mail to that address. The e-mail contains all user names which have registered this e-mail address.\nChoose a suitable user name and use the password service to retrieve a new password. If you do not retrieve any e-mail by this service please contact your course admin or %1$s.
 pwassist#:#pwassist_enter_username_and_email#:#Enter a user name and the associated e-mail address in the fields shown below.\nILIAS will send a message to that e-mail address. The message contains an address for a web page, where you can enter a new password for the user account.\nIn case you are unable to assign a password to your user account using this form, contact your course administration or send an e-mail to %1$s.
 pwassist#:#pwassist_enter_username_and_new_password#:#Enter the user name and the new password in the fields below.
 pwassist#:#pwassist_invalid_auth_mode#:#The user won't be authenticated directly at ILIAS. Thus, sending a password is impossible.
@@ -8537,7 +8537,7 @@ pwassist#:#pwassist_not_permitted#:#Please enter another user name.\nPassword as
 pwassist#:#pwassist_password_assigned#:#The password has been successfully assigned to user "%1$s".
 pwassist#:#pwassist_session_expired#:#Please fill in this form again.\nYour password assistance session has expired. This may have happened, because you tried to use the link that has been sent by e-mail to you more than once, or because too much time has passed since the link has been sent to you.
 pwassist#:#pwassist_update_error#:#Please contact your system administrator.\nThe password could not be assigned to the user account due to an error whe updating the data base.
-pwassist#:#pwassist_username_mail_body#:#These are the active username found for the given e-mail address:\n%s\n\nThis message has been created automatically by the following ILIAS Server:\n\t%s\n\nYou (or somebody with IP  %s) have requested support for forgotten usernames for the e-mail address '%s'.\n\nPlease check the following and act as suggested::\n\n-You have requested this e-mail by accident:\nDelete this e-mail.\n\n-You are sure, that you never requested this e-mail:\nPlease contact %s.\n\n- If you requested this e-mail, please proceed as follows::\n\n1. Start your internet browser.\n\n2. Enter the following url:\n\t%s\n\nImportant: The address is a single line. If you see this address split into multiple lines, then your e-mail program has inserted these line breaks.\n\n3. Your Browser now shows the Password-Service. Use this page together with one of the usernames and the according e-mail address to retrieve a new password.
+pwassist#:#pwassist_username_mail_body#:#These are the active user name found for the given e-mail address:\n%s\n\nThis message has been created automatically by the following ILIAS Server:\n\t%s\n\nYou (or somebody with IP  %s) have requested support for forgotten user names for the e-mail address '%s'.\n\nPlease check the following and act as suggested::\n\n-You have requested this e-mail by accident:\nDelete this e-mail.\n\n-You are sure, that you never requested this e-mail:\nPlease contact %s.\n\n- If you requested this e-mail, please proceed as follows::\n\n1. Start your internet browser.\n\n2. Enter the following url:\n\t%s\n\nImportant: The address is a single line. If you see this address split into multiple lines, then your e-mail program has inserted these line breaks.\n\n3. Your Browser now shows the Password-Service. Use this page together with one of the user names and the according e-mail address to retrieve a new password.
 rating#:#rating_average_rating#:#Average Rating
 rating#:#rating_nr_users#:#%s User(s)
 rating#:#rating_your_rating#:#Your Rating
@@ -9690,7 +9690,7 @@ trac#:#found_too_much_objects#:#Thereby more than %s objects totally were found.
 trac#:#info_all_objects#:#The following user tracking refers to all objects of the type '%s'.
 trac#:#info_dwell_time#:#Attention: The total dwell time of an object isn't addicted to the given period of time!
 trac#:#info_found_objects#:#The user tracking refers to the following objects of the type '%s' that were found according to your search terms.
-trac#:#info_valid_request#:#The maximum valid time between two requests of an user.
+trac#:#info_valid_request#:#The maximum valid time between two requests of a user.
 trac#:#last_login#:#Last Login
 trac#:#meta_typical_learning_time#:#Typical learning time
 trac#:#newUT_settings#:#Learning Module Statistics
@@ -9862,7 +9862,7 @@ trac#:#trac_mode_scorm_package#:#Automatic by SCORM Course Status
 trac#:#trac_mode_scorm#:#Automatic by Collection of SCORM Items
 trac#:#trac_mode_test_finished_info#:#Users have to finish a test completely.
 trac#:#trac_mode_test_finished#:#Test Finished
-trac#:#trac_mode_test_passed_info#:#The test has to be passed by an user to receive the status 'Completed'.
+trac#:#trac_mode_test_passed_info#:#The test has to be passed by a user to receive the status 'Completed'.
 trac#:#trac_mode_test_passed#:#Test Passed
 trac#:#trac_mode_tlt_info#:#Users who reached the Typical Learning Time will gain the status 'Completed'. Two requests of a user within %s seconds will be counted as one coherent visit.
 trac#:#trac_mode_tlt#:#Typical Learning Time
@@ -10042,8 +10042,8 @@ trac#:#trac_first_access#:#First Access
 trac#:#trac_read_count#:#Access Number
 trac#:#trac_spent_seconds#:#Time Spent
 trac#:#trac_percentage#:#Percentage
-payment#:#have_existing_account#:#Do you already have an existing account? Please enter your username and password.
-payment#:#have_no_existing_account#:#if you don't have an account, you are able to login in with this account:(Username: %s  Password: %s ).
+payment#:#have_existing_account#:#Do you already have an existing account? Please enter your user name and password.
+payment#:#have_no_existing_account#:#if you don't have an account, you are able to login in with this account:(User Name: %s  Password: %s ).
 payment#:#please_use_account#:#For further purchases please login with use your account.
 content#:#cont_lk_file#:#File/Document
 content#:#cont_select_file#:#Select File
@@ -10067,7 +10067,7 @@ content#:#cont_sco_glossary#:#Unit Glossary
 common#:#delete_inactive_user_accounts#:#Delete inactive user accounts
 common#:#delete_inactive_user_accounts_desc#:#If enabled, user accounts will be deleted depending on the date of the last login.
 common#:#delete_inactive_user_accounts_period#:#Days passed since last login
-common#:#delete_inactive_user_accounts_period_desc#:#Accounts will be deleted if this period of time has passed since the last login.
+common#:#delete_inactive_user_accounts_period_desc#:#All user accounts without login within the defined period of time will be deleted.
 common#:#delete_inactive_user_accounts_include_roles#:#Included roles
 common#:#delete_inactive_user_accounts_include_roles_desc#:#Defines the roles that will participate in the deletion.
 common#:#delete_inactive_user_accounts_interval#:#Frequency
@@ -10643,11 +10643,11 @@ administration#:#apache_auth_indicator_name#:#Indicator-field for successful aut
 administration#:#apache_auth_indicator_value#:#Indicator-value for successful authentication
 administration#:#apache_auth_enable_override_login#:#Override default login page
 administration#:#apache_auth_target_override_login#:#Target url for custom login page
-administration#:#apache_auth_username_config#:#Username configuration
+administration#:#apache_auth_username_config#:#User name configuration
 administration#:#apache_auth_username_config_type#:#Type
 administration#:#apache_auth_username_direct_mapping#:#Straight assignment
 administration#:#apache_auth_username_extended_mapping#:#Extended assignment
-administration#:#apache_auth_username_by_function#:#Assign usernames by custom function
+administration#:#apache_auth_username_by_function#:#Assign user names by custom function
 administration#:#apache_ldap_hint_ldap_must_be_configured#:#LDAP must be configured in administration
 administration#:#apache_auth_username_direct_mapping_fieldname#:#Field for assignment
 administration#:#auth_apache#:#Apache
@@ -11003,7 +11003,7 @@ payment#:#special_info#:#If enabled, this object will be shown on the entire sho
 common#:#object_purchased_date#:#Purchase-Date
 common#:#object_duration#:#Access-Duration
 common#:#new_customer#:#Are you a new customer?
-common#:#new_customer_info#:#Please click here if you do not have an user account.
+common#:#new_customer_info#:#Please click here if you do not have a user account.
 payment#:#shop_url#:#Link to shop
 payment#:#shop_bought_objects_url#:#Link to bought objects
 tstv#:#tstv_create#:#Create Test Certificate
@@ -11275,8 +11275,8 @@ mep#:#mep_choose_from_folder#:#Choose from Folder
 trac#:#trac_object_statistics#:#Object Statistics
 ecs#:#ecs_auth_type#:#Authentication Type
 ecs#:#ecs_auth_type_cert#:#Certificate-Base
-ecs#:#ecs_auth_type_apache#:#Username/Password
-ecs#:#ecs_apache_user#:#Username
+ecs#:#ecs_auth_type_apache#:#User Name/Password
+ecs#:#ecs_apache_user#:#User Name
 ecs#:#ecs_apache_pass#:#Password
 common#:#obj_skmg#:#Competence Management
 skmg#:#skmg_settings#:#Competence Management Settings
@@ -11414,7 +11414,7 @@ didactic#:#didactic_confirm_delete_msg#:#Do you really want to delete the follow
 didactic#:#didactic_delete_msg#:#Deleted didactical templates.
 common#:#fold_type#:#Folder Type
 content#:#cont_pword#:#Paste from Word
-blog#:#blog_edit#:#Edit Blog
+blog#:#blog_edit#:#Blog Settings
 blog#:#blog_banner#:#Banner
 blog#:#blog_background_color#:#Background Color
 blog#:#blog_font_color#:#Font Color
@@ -11472,21 +11472,21 @@ rbac#:#chtr_edit_permission#:#User can change Permission Settings for Chatroom
 common#:#objs_chtr#:#Chatrooms
 common#:#obj_chta#:#Chat
 chatroom#:#history_by_day#:#Daily History
-chatroom#:#no_username_given#:#Please choose a username
+chatroom#:#no_username_given#:#Please choose a user name
 chatroom#:#history_by_session#:#Session History
 chatroom#:#connected#:#Connection Established
 chatroom#:#period#:#Period
 chatroom#:#disconnected#:#Connection Closed
 chatroom#:#allow_anonymous#:#Allow Anonymous Login
-chatroom#:#autogen_usernames#:#Auto Generated Usernames
-chatroom#:#allow_custom_usernames#:#Allow Custom Usernames
+chatroom#:#autogen_usernames#:#Auto Generated User Names
+chatroom#:#allow_custom_usernames#:#Allow Custom User Names
 chatroom#:#enable_history#:#Enable History
 chatroom#:#restrict_history#:#Restrict History
 chatroom#:#restrict_history_info#:#No entries generated during absence from chatroom.
 chatroom#:#allow_private_rooms#:#Allow Private Rooms
 chatroom#:#settings_general#:#General
 chatroom#:#settings_privacy#:#Privacy
-chatroom#:#autogen_usernames_info#:#Pattern for auto generated usernames that is assigned to anonymous user accounts. '#' will be automatically replaced by a number.
+chatroom#:#autogen_usernames_info#:#Pattern for auto generated user names that is assigned to anonymous user accounts. '#' will be automatically replaced by a number.
 chatroom#:#bans#:#Bans
 chatroom#:#permissions#:#Permissions
 chatroom#:#remark#:#Remark
@@ -11496,8 +11496,8 @@ chatroom#:#fontstyle#:#Font Style
 chatroom#:#fontsize#:#Font Size
 chatroom#:#italic#:#Italic
 chatroom#:#underlined#:#Underlined
-chatroom#:#select_custom_username#:#Select Custom Username
-chatroom#:#custom_username#:#Custom Username
+chatroom#:#select_custom_username#:#Select Custom User Name
+chatroom#:#custom_username#:#Custom User Name
 chatroom#:#enter#:#Enter Chatroom
 chatroom#:#fontfamily#:#Font Family
 chatroom#:#small#:#Small
@@ -11945,7 +11945,7 @@ chatroom_adm#:#public_chat_settings#:#Public Chatroom Settings
 chatroom_adm#:#public_chat_permissions#:#Public Chatroom Permissions
 chatroom_adm#:#play_invitation_sound#:#Play a sound when receiving a new invitation
 chatroom#:#create_private_room_text#:#Private room name
-chatroom#:#invite_username#:#Username
+chatroom#:#invite_username#:#User Name
 notes#:#comments_feature_currently_not_activated_for_object#:#The public comments feature is currently not activated for this resource.
 chatroom#:#layout#:#Layout
 chatroom#:#show_settings#:#Show Settings
@@ -12855,8 +12855,8 @@ fm#:#fm_settings_filesize#:#Maximum Upload File Size
 fm#:#fm_settings_filesize_info#:#Enter the maximum allowed filesize for uploaded files in mebibyte.
 blog#:#blog_authors#:#Authors
 blog#:#blog_author#:#Author
-blog#:#blog_enable_approval#:#Approval
-blog#:#blog_enable_approval_info#:#Before being published all postings need to be approved by an user with permission "Edit Settings" for this blog.
+blog#:#blog_enable_approval#:#Activate Postings
+blog#:#blog_enable_approval_info#:#Postings are published only after being approved by a user with permission "Edit Settings" for this blog.
 blog#:#blog_approve#:#Approve
 blog#:#blog_needs_approval#:#Needs Approval
 sess#:#sess_copy#:#Copy Session
@@ -13990,9 +13990,9 @@ common#:#ps_password_lowercase_chars_num#:#Lower Case Letters
 common#:#ps_password_lowercase_chars_num_info#:#Please insert the number of lower case letters a password must contain. Enter 0 to disable this requirement.
 common#:#ps_password_uppercase_chars_num#:#Capital Letters
 common#:#ps_password_uppercase_chars_num_info#:#Please insert the number of capital letters a password must contain. Enter 0 to disable this requirement.
-common#:#ps_password_must_not_contain_loginame#:#Prevent Username in Password
-common#:#ps_password_must_not_contain_loginame_info#:#If activated, a password must not contain the username.
-common#:#password_contains_parts_of_login_err#:#The chosen password contains your username. Please insert a new password.
+common#:#ps_password_must_not_contain_loginame#:#Prevent User Name in Password
+common#:#ps_password_must_not_contain_loginame_info#:#If activated, a password must not contain the user name.
+common#:#password_contains_parts_of_login_err#:#The chosen password contains your user name. Please insert a new password.
 common#:#password_must_contain_lcase_chars#:#The password must contain at least %s lower case letters.
 common#:#password_must_contain_ucase_chars#:#The password must contain at least %s capital letters.
 content#:#cont_current_lang#:#Current Language
@@ -14508,25 +14508,25 @@ meta#:#md_adv_text_max_length#:#Maximum Length
 meta#:#md_adv_text_multi#:#Multiline
 meta#:#md_adv_number_suffix#:#Suffix
 survey#:#survey_results_finished#:#Survey finished
-blog#:#blog_settings_navigation#:#Navigation
-blog#:#blog_presentation_frame#:#Presentation
-blog#:#blog_presentation_overview#:#Overview
-blog#:#blog_nav_mode#:#Mode
-blog#:#blog_nav_mode_month_list#:#List of months
-blog#:#blog_nav_mode_month_list_info#:#List of all months, postings will be included optionally
-blog#:#blog_nav_mode_month_list_num_detail#:#Number of postings (sorted by date in reverse chronological order)
-blog#:#blog_nav_mode_month_list_num_detail_info#:#Older postings are available via their month.
-blog#:#blog_nav_mode_month_list_num_month#:#Number of months
-blog#:#blog_nav_mode_month_list_num_month_info#:#Months above the limit will not be listed and are not available.
-blog#:#blog_nav_mode_month_single#:#Single Month
-blog#:#blog_nav_mode_month_single_info#:#All postings of a month are listed. The desired month can be choosen with a dropdown. 
-blog#:#blog_list_num_postings#:#Number of postings in initial overview
+blog#:#blog_settings_navigation#:#Navigation Column
+blog#:#blog_presentation_frame#:#Blog Presentation
+blog#:#blog_presentation_overview#:#Initial Overview
+blog#:#blog_nav_mode#:#Postings
+blog#:#blog_nav_mode_month_list#:#Show List of Months
+blog#:#blog_nav_mode_month_list_info#:#All months with postings are listed in the 'Postings' block.
+blog#:#blog_nav_mode_month_list_num_detail#:#Total number of postings
+blog#:#blog_nav_mode_month_list_num_detail_info#:#Latest postings are listed by date in reverse chronological order. Older postings are available via their month.
+blog#:#blog_nav_mode_month_list_num_month#:#Number of listed months
+blog#:#blog_nav_mode_month_list_num_month_info#:#Months above the limit will not be listed and related postings are not accessible.
+blog#:#blog_nav_mode_month_single#:#Show Selected Month
+blog#:#blog_nav_mode_month_single_info#:#Only postings of the selected month are listed in the 'Postings' block. Month can be changed by dropdown. 
+blog#:#blog_list_num_postings#:#Number of postings
 blog#:#blog_list_num_postings_info#:#This setting is only used if no specific month is selected.
 blog#:#blog_enable_keywords#:#Keywords
-blog#:#blog_enable_keywords_info#:#Keywords can be set for postings and be used for navigation.
+blog#:#blog_enable_keywords_info#:#Keywords can be set for postings. Clicking a keyword shows all postings tagged with this keyword.
 blog#:#blog_enable_nav_authors#:#Authors
-blog#:#blog_enable_nav_authors_info#:#Authors can be used for navigation.
-blog#:#blog_nav_sortorder#:#Order
+blog#:#blog_enable_nav_authors_info#:#List of blog authors is displayed. Clicking a user name shows all postings of this author.
+blog#:#blog_nav_sortorder#:#Order of Blocks
 survey#:#svy_view_own_results#:#View given answers
 survey#:#svy_mail_own_results#:#Mail given answers
 survey#:#svy_mail_own_results_subject#:#Survey "%s" - Your Answers
@@ -14696,8 +14696,8 @@ content#:#cont_unlocked#:#Unlocked
 content#:#cont_reset_nr_of_tries#:#Reset Number of Tries
 content#:#cont_unlock_allow_continue#:#Unlock / Allow to Continue
 crs#:#crs_subscription_failed_limit#:#The maximum number of participants has been exceeded.
-user#:#send_mail_to_inactive_users#:#Earlist Point, where a reminder mail will be sent in days
-user#:#send_mail_to_inactive_users_desc#:#A reminder mail will be send, to the mail address in this period of time, before the User will be deleted.
+user#:#send_mail_to_inactive_users#:#Earliest date in days for sending a reminder mail
+user#:#send_mail_to_inactive_users_desc#:#A reminder mail will be send to user's e-mail address to warn about an upcoming account deletion.
 user#:#send_mail_to_inactive_users_numbers_only#:#Only positive non decimal numbers are accepted.
 user#:#send_mail_to_inactive_users_must_be_smaller_than#:#This value must be smaller than the value 'Days passed since last login'.
 user#:#del_mail_subject#:#(ILIAS) – Your account will be deleted
