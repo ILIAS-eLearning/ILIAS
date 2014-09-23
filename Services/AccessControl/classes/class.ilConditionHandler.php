@@ -432,7 +432,16 @@ class ilConditionHandler
 	*/
 	function getTriggerTypes()
 	{
-		return array('crs','exc','tst','sahs', 'svy', 'lm');
+		$trigger_types =  array('crs','exc','tst','sahs', 'svy', 'lm');
+		$active_triggers = array();
+		foreach($trigger_types as $type)
+		{
+			if(count($this->getOperatorsByTargetType($type)))
+			{
+				$active_triggers[] = $type;
+			}
+		}
+		return $active_triggers;
 	}
 
 
