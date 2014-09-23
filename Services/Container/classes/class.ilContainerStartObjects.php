@@ -208,7 +208,7 @@ class ilContainerStartObjects
 		{
 			case 'tst':
 				include_once './Modules/Test/classes/class.ilObjTestAccess.php';				
-				if(!ilObjTestAccess::_checkCondition($obj_id,'finished',''))
+				if(!ilObjTestAccess::checkCondition($obj_id,'finished','',$a_user_id)) // #14000
 				{
 					return false;
 				}
