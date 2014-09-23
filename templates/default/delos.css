@@ -8267,10 +8267,9 @@ input.ilOpenIDBox {
 }
 #ilTab {
   padding: 0 0px;
-  margin: 10px 15px 0 15px;
+  margin: 10px 15px 20px 15px;
   border: none;
   border-bottom: 2px solid #708bae;
-  /* box-shadow: 0 2px 1px -1px white; */
 }
 .ilTabsContentOuter {
   /* background-color: #FFFFFF; */
@@ -8279,7 +8278,7 @@ input.ilOpenIDBox {
 /* Sub Tabs */
 #ilSubTab {
   padding: 5px 20px;
-  margin: 0;
+  margin: -20px 0 10px 0;
   /* border-bottom: 1px solid lighten(@mid-gray, 55%);
 	box-shadow: 0 2px 1px -1px white; */
 }
