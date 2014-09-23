@@ -54,7 +54,8 @@ class ilMembershipCronNotifications extends ilCronJob
 	{				
 		global $lng, $ilDB;
 		
-		$status = ilCronJobResult::STATUS_NO_ACTION;						
+		$status = ilCronJobResult::STATUS_NO_ACTION;		
+		$status_details = null;
 	
 		$setting = new ilSetting("cron");		
 		$last_run = $setting->get(get_class($this));
@@ -62,67 +63,77 @@ class ilMembershipCronNotifications extends ilCronJob
 		// #10284 - we already did send today, do nothing
 		if($last_run == date("Y-m-d"))
 		{			
-			return;
+			// #14005
+			$status_details = "Did already run today.";
 		}
-		
-		// gather objects and participants with notification setting
-		$objects = array();
-		$set = $ilDB->query("SELECT usr_id,keyword FROM usr_pref".
-			" WHERE ".$ilDB->like("keyword", "text", "grpcrs_ntf_%").
-			" AND value = ".$ilDB->quote("1", "text"));
-		while($row = $ilDB->fetchAssoc($set))
+		else
 		{
-			$ref_id = substr($row["keyword"], 11);
-			$type = ilObject::_lookupType($ref_id, true);
-			if($type)
+			// gather objects and participants with notification setting
+			$objects = array();
+			$set = $ilDB->query("SELECT usr_id,keyword FROM usr_pref".
+				" WHERE ".$ilDB->like("keyword", "text", "grpcrs_ntf_%").
+				" AND value = ".$ilDB->quote("1", "text"));
+			while($row = $ilDB->fetchAssoc($set))
 			{
-				$objects[$type][$ref_id][] = $row["usr_id"];
-			}
-		}
-
-		$counter = 0;
-		if(sizeof($objects))
-		{
-			$old_lng = $lng;
-			
-			include_once "Services/News/classes/class.ilNewsItem.php";
-			foreach($objects as $type => $ref_ids)
-			{
-				// type is not needed for now
-				foreach($ref_ids as $ref_id => $user_ids)
+				$ref_id = substr($row["keyword"], 11);
+				$type = ilObject::_lookupType($ref_id, true);
+				if($type)
 				{
-					// gather news per object
-					$news_item = new ilNewsItem();
-					if($news_item->checkNewsExistsForGroupCourse($ref_id))
+					$objects[$type][$ref_id][] = $row["usr_id"];
+				}
+			}
+
+			$counter = 0;
+			if(sizeof($objects))
+			{
+				$old_lng = $lng;
+
+				include_once "Services/News/classes/class.ilNewsItem.php";
+				foreach($objects as $type => $ref_ids)
+				{
+					// type is not needed for now
+					foreach($ref_ids as $ref_id => $user_ids)
 					{
-						foreach($user_ids as $user_id)
+						// gather news per object
+						$news_item = new ilNewsItem();
+						if($news_item->checkNewsExistsForGroupCourse($ref_id))
 						{
-							// gather news for user
-							$user_news = $news_item->getNewsForRefId($ref_id,
-								false, false, 1, false, false, false, false,
-								$user_id);
-							if($user_news)
+							foreach($user_ids as $user_id)
 							{
-								$this->sendMail($user_id, $ref_id, $user_news);
-								$counter++;
+								// gather news for user
+								$user_news = $news_item->getNewsForRefId($ref_id,
+									false, false, 1, false, false, false, false,
+									$user_id);
+								if($user_news)
+								{
+									$this->sendMail($user_id, $ref_id, $user_news);
+									$counter++;
+								}
 							}
 						}
 					}
 				}
+
+				$lng = $old_lng;
 			}
-			
-			$lng = $old_lng;
+
+			// save last run
+			$setting->set(get_class($this), date("Y-m-d")); 
+
+			if($counter)
+			{
+				$status = ilCronJobResult::STATUS_OK;
+			}			
 		}
 		
-		// save last run
-		$setting->set(get_class($this), date("Y-m-d")); 
-	
-		if($counter)
-		{
-			$status = ilCronJobResult::STATUS_OK;
-		}			
 		$result = new ilCronJobResult();
 		$result->setStatus($status);		
+		
+		if($status_details)
+		{
+			$result->setMessage($status_details);
+		}
+		
 		return $result;
 	}
 
