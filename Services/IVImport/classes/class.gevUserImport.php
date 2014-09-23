@@ -190,7 +190,7 @@ class gevUserImport {
 			WHERE
 				`ivimport_stelle`.`stellennummer`=" . $this->ilDB->quote($stellennummer, "text") . "
 			AND
-				`ivimport_adp`.`email` LIKE " . $this->ilDB->quote($email_pre, "text") . "
+				`ivimport_adp`.`email` LIKE " . $this->ilDB->quote($email_pre."%", "text") . "
 			";
 			
 		$result = mysql_query($sql, $this->mysql);
