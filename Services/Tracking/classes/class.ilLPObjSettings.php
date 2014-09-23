@@ -40,6 +40,7 @@ class ilLPObjSettings
 	const LP_MODE_COLLECTION_TLT = 15;
 	const LP_MODE_COLLECTION_MANUAL = 16;
 	const LP_MODE_QUESTIONS = 17;
+	// const LP_MODE_SURVEY_FINISHED = 18; (placeholder for 4.6.x)
 
 	const LP_DEFAULT_VISITS = 30;
 

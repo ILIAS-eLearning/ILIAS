@@ -154,10 +154,12 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
 	/**
 	* Set Cols.
 	*
+	* @deprecated
 	* @param	int	$a_cols	Cols
 	*/
 	function setCols($a_cols)
 	{
+		// obsolete because of bootstrap
 		$this->cols = $a_cols;
 	}
 

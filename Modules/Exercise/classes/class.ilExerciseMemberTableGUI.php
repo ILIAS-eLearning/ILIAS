@@ -341,7 +341,7 @@ class ilExerciseMemberTableGUI extends ilTable2GUI
 			$lcomment->setInfo($lng->txt("exc_comment_for_learner_info"));
 			$lcomment->setValue($lcomment_value);
 			$lcomment->setCols(45);
-			$lcomment->setRows(5);			
+			$lcomment->setRows(10);			
 			$lcomment_form->addItem($lcomment);
 			
 			$lcomment_form->addCommandButton("save", $lng->txt("save"));
