@@ -896,7 +896,7 @@ assessment#:#tst_finish_confirm_list_of_answers_button#:#No, go back to the List
 assessment#:#tst_finish_confirmation_question#:#You are going to finish this test and reach the maximum number of allowed test passes. You won't be able to enter this test again to change your answers. Do you really want to finish the test?
 assessment#:#tst_finish_notification_advanced#:#Send complete test result to test owner
 assessment#:#tst_finish_notification_no#:#Don't send mail notification when a user finishes a test
-assessment#:#tst_finish_notification_simple#:#Send user name and finish date to test owner
+assessment#:#tst_finish_notification_simple#:#Send username and finish date to test owner
 assessment#:#tst_finish_notification#:#Mail on completion
 assessment#:#tst_finished#:#Finished
 assessment#:#tst_fixed_participants_data_exists#:#There are already participants who ran the test. You are not allowed to change the fixed participants status!
@@ -1338,11 +1338,11 @@ auth#:#auth_account_migration_name#:#Migration
 auth#:#auth_account_migration_new#:#Create New User Account
 auth#:#auth_account_migration#:#New ILIAS Account
 auth#:#auth_info_add#:#Choose this option if you have never registered to ILIAS. A new account will be created.
-auth#:#auth_info_migrate#:#If you have already an ILIAS account enter user name and password to migrate your personal data (Mail, Test results...).
+auth#:#auth_info_migrate#:#If you have already an ILIAS account, enter username and password to migrate your personal data (mail, test results...).
 auth#:#auth_openid_configure#:#Configure OpenId-Authentication
 auth#:#auth_openid_deleted_provider#:#Deleted selected OpenID provider
 auth#:#auth_openid_enable#:#Enable OpenId Support
-auth#:#auth_openid_login_info_a#:#Please enter your OpenID user name and choose a provider
+auth#:#auth_openid_login_info_a#:#Please enter your OpenID username and choose a provider
 auth#:#auth_openid_login#:#Your OpenID
 auth#:#auth_openid_migration_info#:#Activate this option to give new users the possibility to migrate their existing ILIAS accounts to OpenId authentication.
 auth#:#auth_openid_migration#:#Account Migration:
@@ -1356,7 +1356,7 @@ auth#:#auth_openid_sync_info#:#If enabled new user accounts will be created auto
 auth#:#auth_openid_sync#:#User Synchronization
 auth#:#auth_openid_uncontrolled_selection_info#:#If enabled, any OpenID Provider can be used for authentication. Otherwise the provider has to be chosen from a list of valid providers.
 auth#:#auth_openid_uncontrolled_selection#:#Uncontrolled Provider Selection
-auth#:#auth_openid_url_info#:#Enter an OpenID url and replace the user name with "%s". For example: http://%s.myopenid.com
+auth#:#auth_openid_url_info#:#Enter an OpenID url and replace the username with "%s". For example: http://%s.myopenid.com
 auth#:#auth_openid#:#OpenId
 auth#:#auth_rad_migration_info#:#Activate this option to give new users the possibility to migrate their existing ILIAS accounts to Radius authentication.
 auth#:#auth_rad_migration#:#Account Migration:
@@ -1837,7 +1837,7 @@ common#:#attempts#:#Attempts
 common#:#attend#:#Attend
 common#:#auth_active_roles#:#Global roles available on registration form
 common#:#auth_allow_local#:#Allow Local Authentication
-common#:#auth_cas_allow_local_desc#:#This allows CAS users to authenticate with their local ILIAS user name and a local password.
+common#:#auth_cas_allow_local_desc#:#This allows CAS users to authenticate with their local ILIAS username and a local password.
 common#:#auth_cas_auth_desc#:#CAS requires PHP 4.3.1 or higher with CURL support (7.5 or higher)
 common#:#auth_cas_auth#:#Configure CAS Authentication
 common#:#auth_cas_create_users_desc#:#Creates automatically an ILIAS user account, for users that successfully authenticated against CAS, without having an ILIAS account yet.
@@ -1892,7 +1892,7 @@ common#:#auth_shib_instructions#:#Be sure to read the README for instructions on
 common#:#auth_shib_not_configured#:#Shibboleth is not configured yet
 common#:#auth_shib#:#Shibboleth
 common#:#auth_shibboleth#:#Shibboleth
-common#:#auth_soap_allow_local_desc#:#This allows SOAP users to authenticate with their local ILIAS user name and a local password.
+common#:#auth_soap_allow_local_desc#:#This allows SOAP users to authenticate with their local ILIAS username and a local password.
 common#:#auth_soap_auth_desc#:#This settings deal only with SOAP based user authentication, not with the ILIAS SOAP interface.
 common#:#auth_soap_auth#:#Configure SOAP Authentication
 common#:#auth_soap_create_users_desc#:#Creates automatically an ILIAS user account, for users that successfully authenticated against SOAP, without having an ILIAS account yet.
@@ -2547,7 +2547,7 @@ common#:#folders#:#Folders
 common#:#force_accept_usr_agreement#:#You must accept the user agreement!
 common#:#forename#:#Forename
 common#:#forgot_password#:#Forgot your password?
-common#:#forgot_username#:#Forgot your user name?
+common#:#forgot_username#:#Forgot your username?
 common#:#form_empty_fields#:#Please complete these fields:
 common#:#form_input_not_valid#:#Some data is incomplete or not valid. Please correct the form input.
 common#:#forum_attachments#:#Forum attachments
@@ -2833,8 +2833,8 @@ common#:#il_grp_admin#:#Group Administrator
 common#:#il_grp_member#:#Group Member
 common#:#il_grp_status_closed#:#Group closed
 common#:#il_grp_status_open#:#Group open
-common#:#ilias_and_webfolder_username#:#ILIAS and Webfolder User Name
-common#:#ilias_username#:#ILIAS User Name
+common#:#ilias_and_webfolder_username#:#ILIAS and Webfolder Username
+common#:#ilias_username#:#ILIAS Username
 common#:#ilias_version#:#ILIAS version
 common#:#im_aim_icon#:#AIM Logo
 common#:#im_aim#:#AIM
@@ -3022,7 +3022,7 @@ common#:#linked_object#:#The object has been linked
 common#:#linked_pages#:#Linked Pages
 common#:#links_add_param#:#Add Parameter:
 common#:#links_dyn_parameter#:#Dynamic Parameters
-common#:#links_dynamic_info#:#If enabled, it is possible to append dynamic parameters to Weblinks.<br /> E.g. the ILIAS user id or the user name.
+common#:#links_dynamic_info#:#If enabled, it is possible to append dynamic parameters to Weblinks.<br /> E.g. the ILIAS user ID or the username.
 common#:#links_dynamic#:#Dynamic Weblink Parameters
 common#:#links_existing_params#:#Existing Parameters:
 common#:#links_name#:#Parameter Name
@@ -3033,7 +3033,7 @@ common#:#links_parameter_deleted#:#Parameter deleted.
 common#:#links_select_one#:#- Select one -
 common#:#links_session_id#:#ILIAS session id
 common#:#links_user_id#:#ILIAS user id
-common#:#links_user_name#:#ILIAS user name
+common#:#links_user_name#:#ILIAS username
 common#:#links_value#:#Parameter Value
 common#:#list_of_pages#:#Pages List
 common#:#list_of_questions#:#Question List
@@ -4453,7 +4453,7 @@ common#:#user_language#:#User Language
 common#:#user_new_account_mail_desc#:#This mail is sent automatically to users that have self-registered or to those who have been registered by an administrator with enabled setting 'Send mail to inform user about changes'.
 common#:#user_new_account_mail#:#New Account Mail
 common#:#user_not_chosen#:#You did not choose a group-member.
-common#:#user_not_known#:#Please insert a valid user name.
+common#:#user_not_known#:#Please insert a valid username.
 common#:#user_profile_instant_messengers#:#Instant Messengers
 common#:#user_profile_other#:#Other Information
 common#:#user_send_new_account_mail#:#Send new account e-mail
@@ -4468,7 +4468,7 @@ common#:#userfolder_export_file_size#:#File size
 common#:#userfolder_export_file#:#File
 common#:#userfolder_export_files#:#Files
 common#:#userfolder_export_xml#:#XML
-common#:#username#:#User Name
+common#:#username#:#Username
 common#:#users_not_imported#:#The following users do not exist, their messages cannot become imported
 common#:#users_online_show_associated#:#Show members of my courses and groups only
 common#:#users_online_show_n#:#Don't show active users
@@ -6921,7 +6921,7 @@ ldap#:#ldap_mapping_table#:#Assignment of LDAP Attributes to ILIAS User Profile
 ldap#:#ldap_mapping_template#:#Template for objectClass:
 ldap#:#ldap_member_info#:#The attribute of the group object where the user dn may be found.
 ldap#:#ldap_memberisdn#:#Attribute Value is DN
-ldap#:#ldap_missing_bind_user#:#You have chosen "Bind as User": Please enter a valid LDAP user name and password.
+ldap#:#ldap_missing_bind_user#:#You have chosen "Bind as User": Please enter a valid LDAP username and password.
 ldap#:#ldap_missing_role_assignment#:#Please choose a global role new users will be assigned to.
 ldap#:#ldap_moment_sync#:#Type of Sychronization
 ldap#:#ldap_new_role_assignment#:#Add New Role -> Group Assignment
@@ -8169,7 +8169,7 @@ payment#:#paya_edit_pay_method#:#Edit Pay Method
 payment#:#paya_edit_prices_first#:#Please edit the prices first.
 payment#:#paya_edit_prices#:#Edit Prices
 payment#:#paya_enabled#:#Enabled
-payment#:#paya_enter_login#:#Please enter a user name.
+payment#:#paya_enter_login#:#Please enter a username.
 payment#:#paya_err_adding_object#:#Error adding object
 payment#:#paya_error_adding_customer#:#An error occurred while adding the selling process to the statistics.
 payment#:#paya_error_mandatory_fields#:#Please fill in all mandatory fields (*).
@@ -8190,7 +8190,7 @@ payment#:#paya_no_price_available#:#No prices available
 payment#:#paya_no_prices_selected#:#Please select one price
 payment#:#paya_no_settings_necessary#:#There are no settings necessary for this pay method
 payment#:#paya_no_trustees#:#No trustees created.
-payment#:#paya_no_valid_login#:#This user name is not valid.
+payment#:#paya_no_valid_login#:#This username is not valid.
 payment#:#paya_no_vat_id_given#:#There is no vat-id given
 payment#:#paya_no_vats_assigned#:#No vats assigned
 payment#:#paya_no_vendor_selected#:#You haven't selected a vendor.
@@ -8339,8 +8339,8 @@ payment#:#pays_general_settings#:#General settings
 payment#:#pays_general#:#General
 payment#:#pays_header_select_vendor#:#Vendor selection
 payment#:#pays_invoice#:#Invoice
-payment#:#pays_no_username_given#:#No user name given
-payment#:#pays_no_valid_username_given#:#No valid user name given
+payment#:#pays_no_username_given#:#No username given
+payment#:#pays_no_valid_username_given#:#No valid username given
 payment#:#pays_no_vendor_selected#:#No vendor selected
 payment#:#pays_number_bookings#:#Active bookings
 payment#:#pays_objects_bill_exist#:#Pay method 'bill' is activated for some objects. Therefore it can not be deactivated.
@@ -8522,22 +8522,22 @@ ps#:#ps_warning_modify#:#Attention: Minimum one user has accepted the user agree
 ps#:#show_privacy#:#Privacy
 ps#:#show_security#:#Security
 pwassist#:#password_assistance#:#Password Assistance
-pwassist#:#pwassist_enter_email#:#Please enter an e-mail address and submit the form.\nILIAS will send an e-mail to that address. The e-mail contains all user names which have registered this e-mail address.\nChoose a suitable user name and use the password service to retrieve a new password. If you do not retrieve any e-mail by this service please contact your course admin or %1$s.
-pwassist#:#pwassist_enter_username_and_email#:#Enter a user name and the associated e-mail address in the fields shown below.\nILIAS will send a message to that e-mail address. The message contains an address for a web page, where you can enter a new password for the user account.\nIn case you are unable to assign a password to your user account using this form, contact your course administration or send an e-mail to %1$s.
-pwassist#:#pwassist_enter_username_and_new_password#:#Enter the user name and the new password in the fields below.
+pwassist#:#pwassist_enter_email#:#Please enter an e-mail address and submit the form.\nILIAS will send an e-mail to that address. The e-mail contains all usernames which have registered this e-mail address.\nChoose a suitable username and use the password service to retrieve a new password. If you do not retrieve any e-mail by this service please contact your course admin or %1$s.
+pwassist#:#pwassist_enter_username_and_email#:#Enter a username and the associated e-mail address in the fields shown below.\nILIAS will send a message to that e-mail address. The message contains an address for a web page, where you can enter a new password for the user account.\nIn case you are unable to assign a password to your user account using this form, contact your course administration or send an e-mail to %1$s.
+pwassist#:#pwassist_enter_username_and_new_password#:#Enter the username and the new password in the fields below.
 pwassist#:#pwassist_invalid_auth_mode#:#The user won't be authenticated directly at ILIAS. Thus, sending a password is impossible.
 pwassist#:#pwassist_invalid_email#:#Please correct your e-mail address.\nThe given e-mail address could not be found in the database.
-pwassist#:#pwassist_invalid_username_or_email#:#Please correct the text in the entry fields.\nThe user name and e-mail address you have entered do not match an entry in the database.
-pwassist#:#pwassist_login_not_match#:#Please enter another user name.\nThe user name you have entered does not match the user name for which you had asked for password assistance.
+pwassist#:#pwassist_invalid_username_or_email#:#Please correct the text in the entry fields.\nThe username and e-mail address you have entered do not match an entry in the database.
+pwassist#:#pwassist_login_not_match#:#Please enter another username.\nThe username you have entered does not match the username for which you had asked for password assistance.
 pwassist#:#pwassist_mail_body#:#Register a new password for your user account:\n\t%1$s\n\nThis message has been generated automatically by the ILIAS server\n\t%2$s\n\nYou (or someone at %3$s) has asked for password assistance for the user account "%4$s".\n\nPlease check carefully the conditions listed below, and proceed accordingly:\n\n- If you have used the password assistance form on the ILIAS server by accident:\nDelete this mail.\n\n- If you are certain, that you never asked for password assistance at this ILIAS server:\nPlease contact %5$s.\n\n- If you asked for password assistance, please proceed as follows:\n\n1. Open your browser.\n\n2. Enter the following address in your browser:\n\t%6$s\n\nImportant: The address is a single line. If you see this address split into multiple lines, then your e-mail program has inserted these line breaks.\n\n3. On the web page shown by your browser, enter a new password for your user account.\n\nPlease note, that for security reasons, you can perform the three steps above only exactly once and for a limited time only. Afterwards the address becomes invalid, and you have to use the password assistance page on the ILIAS server again.
 pwassist#:#pwassist_mail_sent#:#A message has been sent to %1$s.\nPlease check your mail box.
 pwassist#:#pwassist_mail_subject#:#ILIAS Password Assistance
 pwassist#:#pwassist_no_email_found#:#You can not use the password assistance, since there is no e-Mail address for the user account you have entered.
-pwassist#:#pwassist_not_permitted#:#Please enter another user name.\nPassword assistance is not permitted for the user name you have entered.
+pwassist#:#pwassist_not_permitted#:#Please enter another username.\nPassword assistance is not permitted for the username you have entered.
 pwassist#:#pwassist_password_assigned#:#The password has been successfully assigned to user "%1$s".
 pwassist#:#pwassist_session_expired#:#Please fill in this form again.\nYour password assistance session has expired. This may have happened, because you tried to use the link that has been sent by e-mail to you more than once, or because too much time has passed since the link has been sent to you.
 pwassist#:#pwassist_update_error#:#Please contact your system administrator.\nThe password could not be assigned to the user account due to an error whe updating the data base.
-pwassist#:#pwassist_username_mail_body#:#These are the active user name found for the given e-mail address:\n%s\n\nThis message has been created automatically by the following ILIAS Server:\n\t%s\n\nYou (or somebody with IP  %s) have requested support for forgotten user names for the e-mail address '%s'.\n\nPlease check the following and act as suggested::\n\n-You have requested this e-mail by accident:\nDelete this e-mail.\n\n-You are sure, that you never requested this e-mail:\nPlease contact %s.\n\n- If you requested this e-mail, please proceed as follows::\n\n1. Start your internet browser.\n\n2. Enter the following url:\n\t%s\n\nImportant: The address is a single line. If you see this address split into multiple lines, then your e-mail program has inserted these line breaks.\n\n3. Your Browser now shows the Password-Service. Use this page together with one of the user names and the according e-mail address to retrieve a new password.
+pwassist#:#pwassist_username_mail_body#:#These are the active username found for the given e-mail address:\n%s\n\nThis message has been created automatically by the following ILIAS Server:\n\t%s\n\nYou (or somebody with IP  %s) have requested support for forgotten usernames for the e-mail address '%s'.\n\nPlease check the following and act as suggested::\n\n-You have requested this e-mail by accident:\nDelete this e-mail.\n\n-You are sure, that you never requested this e-mail:\nPlease contact %s.\n\n- If you requested this e-mail, please proceed as follows::\n\n1. Start your internet browser.\n\n2. Enter the following url:\n\t%s\n\nImportant: The address is a single line. If you see this address split into multiple lines, then your e-mail program has inserted these line breaks.\n\n3. Your Browser now shows the Password-Service. Use this page together with one of the usernames and the according e-mail address to retrieve a new password.
 rating#:#rating_average_rating#:#Average Rating
 rating#:#rating_nr_users#:#%s User(s)
 rating#:#rating_your_rating#:#Your Rating
@@ -9654,7 +9654,7 @@ survey#:#unlimited_users#:#Invite all users
 survey#:#uploaded_material#:#Uploaded Material
 survey#:#upper_limit_must_be_greater#:#The upper limit must be greater than the lower limit!
 survey#:#upper_limit#:#Upper Limit
-survey#:#use_anonymous_id_desc#:#If checked, the user name in anonymized surveys will be shown as the survey code, otherwise the text "Anonymous" will be shown.
+survey#:#use_anonymous_id_desc#:#If checked, the username in anonymized surveys will be shown as the survey code, otherwise the text "Anonymous" will be shown.
 survey#:#use_anonymous_id#:#Show Survey Code
 survey#:#use_browser_print_function#:#Please use the print function of your web browser.
 survey#:#use_google_chart_api_desc#:#If checked, the charts in the cumulated results details of the survey statistics are drawn using the <a href="http://code.google.com/apis/chart/" target="_blank">Google Chart API</a>. Please note that a permanent internet connection is required for the Google Chart API to work.
@@ -10042,8 +10042,8 @@ trac#:#trac_first_access#:#First Access
 trac#:#trac_read_count#:#Access Number
 trac#:#trac_spent_seconds#:#Time Spent
 trac#:#trac_percentage#:#Percentage
-payment#:#have_existing_account#:#Do you already have an existing account? Please enter your user name and password.
-payment#:#have_no_existing_account#:#if you don't have an account, you are able to login in with this account:(User Name: %s  Password: %s ).
+payment#:#have_existing_account#:#Do you already have an existing account? Please enter your username and password.
+payment#:#have_no_existing_account#:#if you don't have an account, you are able to login in with this account:(Username: %s  Password: %s ).
 payment#:#please_use_account#:#For further purchases please login with use your account.
 content#:#cont_lk_file#:#File/Document
 content#:#cont_select_file#:#Select File
@@ -10586,7 +10586,7 @@ common#:#cronjob_last_start#:#Last Start of the Cron Job
 common#:#enable_disk_quota_summary_mail#:#Send Disk Quota Summary
 common#:#enable_disk_quota_summary_mail_desc#:#The disk quota summary is a daily notification containing all users, who exceeded their disk quota.
 common#:#disk_quota_summary_rctp#:#Recipients
-common#:#disk_quota_summary_rctp_desc#:#Enter the user names (comma-separated) of those users who shall receive a daily report with users currently exceeding the disk quota.
+common#:#disk_quota_summary_rctp_desc#:#Enter the usernames (comma-separated) of those users who shall receive a daily report with users currently exceeding the disk quota.
 common#:#disk_quota_exceeded_headline#:#The following users have exceeded their disk quota:
 common#:#usrf_profile_link#:#Link to user profile
 common#:#currently_used_disk_space#:#Currently used disk space
@@ -10643,11 +10643,11 @@ administration#:#apache_auth_indicator_name#:#Indicator-field for successful aut
 administration#:#apache_auth_indicator_value#:#Indicator-value for successful authentication
 administration#:#apache_auth_enable_override_login#:#Override default login page
 administration#:#apache_auth_target_override_login#:#Target url for custom login page
-administration#:#apache_auth_username_config#:#User name configuration
+administration#:#apache_auth_username_config#:#Username configuration
 administration#:#apache_auth_username_config_type#:#Type
 administration#:#apache_auth_username_direct_mapping#:#Straight assignment
 administration#:#apache_auth_username_extended_mapping#:#Extended assignment
-administration#:#apache_auth_username_by_function#:#Assign user names by custom function
+administration#:#apache_auth_username_by_function#:#Assign usernames by custom function
 administration#:#apache_ldap_hint_ldap_must_be_configured#:#LDAP must be configured in administration
 administration#:#apache_auth_username_direct_mapping_fieldname#:#Field for assignment
 administration#:#auth_apache#:#Apache
@@ -11275,8 +11275,8 @@ mep#:#mep_choose_from_folder#:#Choose from Folder
 trac#:#trac_object_statistics#:#Object Statistics
 ecs#:#ecs_auth_type#:#Authentication Type
 ecs#:#ecs_auth_type_cert#:#Certificate-Base
-ecs#:#ecs_auth_type_apache#:#User Name/Password
-ecs#:#ecs_apache_user#:#User Name
+ecs#:#ecs_auth_type_apache#:#Username/Password
+ecs#:#ecs_apache_user#:#Username
 ecs#:#ecs_apache_pass#:#Password
 common#:#obj_skmg#:#Competence Management
 skmg#:#skmg_settings#:#Competence Management Settings
@@ -11472,21 +11472,21 @@ rbac#:#chtr_edit_permission#:#User can change Permission Settings for Chatroom
 common#:#objs_chtr#:#Chatrooms
 common#:#obj_chta#:#Chat
 chatroom#:#history_by_day#:#Daily History
-chatroom#:#no_username_given#:#Please choose a user name
+chatroom#:#no_username_given#:#Please choose a username
 chatroom#:#history_by_session#:#Session History
 chatroom#:#connected#:#Connection Established
 chatroom#:#period#:#Period
 chatroom#:#disconnected#:#Connection Closed
 chatroom#:#allow_anonymous#:#Allow Anonymous Login
-chatroom#:#autogen_usernames#:#Auto Generated User Names
-chatroom#:#allow_custom_usernames#:#Allow Custom User Names
+chatroom#:#autogen_usernames#:#Auto Generated Usernames
+chatroom#:#allow_custom_usernames#:#Allow Custom Usernames
 chatroom#:#enable_history#:#Enable History
 chatroom#:#restrict_history#:#Restrict History
 chatroom#:#restrict_history_info#:#No entries generated during absence from chatroom.
 chatroom#:#allow_private_rooms#:#Allow Private Rooms
 chatroom#:#settings_general#:#General
 chatroom#:#settings_privacy#:#Privacy
-chatroom#:#autogen_usernames_info#:#Pattern for auto generated user names that is assigned to anonymous user accounts. '#' will be automatically replaced by a number.
+chatroom#:#autogen_usernames_info#:#Pattern for auto generated usernames that is assigned to anonymous user accounts. '#' will be automatically replaced by a number.
 chatroom#:#bans#:#Bans
 chatroom#:#permissions#:#Permissions
 chatroom#:#remark#:#Remark
@@ -11496,8 +11496,8 @@ chatroom#:#fontstyle#:#Font Style
 chatroom#:#fontsize#:#Font Size
 chatroom#:#italic#:#Italic
 chatroom#:#underlined#:#Underlined
-chatroom#:#select_custom_username#:#Select Custom User Name
-chatroom#:#custom_username#:#Custom User Name
+chatroom#:#select_custom_username#:#Select Custom Username
+chatroom#:#custom_username#:#Custom Username
 chatroom#:#enter#:#Enter Chatroom
 chatroom#:#fontfamily#:#Font Family
 chatroom#:#small#:#Small
@@ -11945,7 +11945,7 @@ chatroom_adm#:#public_chat_settings#:#Public Chatroom Settings
 chatroom_adm#:#public_chat_permissions#:#Public Chatroom Permissions
 chatroom_adm#:#play_invitation_sound#:#Play a sound when receiving a new invitation
 chatroom#:#create_private_room_text#:#Private room name
-chatroom#:#invite_username#:#User Name
+chatroom#:#invite_username#:#Username
 notes#:#comments_feature_currently_not_activated_for_object#:#The public comments feature is currently not activated for this resource.
 chatroom#:#layout#:#Layout
 chatroom#:#show_settings#:#Show Settings
@@ -12952,7 +12952,7 @@ dateplaner#:#cal_notification_users#:#Notification for Selected Users
 dateplaner#:#cal_adm_notification_user_info#:#Choose this option, to send optional mail notifications to selected users.
 dateplaner#:#cal_err_invalid_notification_rcps#:#The list of notification recipients is not valid. Please choose only ILIAS user account names or valid email addresses.
 dateplaner#:#cal_user_notification#:#User Notification
-dateplaner#:#cal_user_notification_info#:#Selected users will be notified about this appointment by email. Please enter ILIAS user names or email addresses.
+dateplaner#:#cal_user_notification_info#:#Selected users will be notified about this appointment by email. Please enter ILIAS usernames or email addresses.
 dateplaner#:#cal_cg_notification#:#Course/Group Notification
 dateplaner#:#cal_mail_notification_subject#:#Appointment Invitation: "%s"
 dateplaner#:#cal_mail_notification_body#:#you have been invited to an appointment.
@@ -13990,9 +13990,9 @@ common#:#ps_password_lowercase_chars_num#:#Lower Case Letters
 common#:#ps_password_lowercase_chars_num_info#:#Please insert the number of lower case letters a password must contain. Enter 0 to disable this requirement.
 common#:#ps_password_uppercase_chars_num#:#Capital Letters
 common#:#ps_password_uppercase_chars_num_info#:#Please insert the number of capital letters a password must contain. Enter 0 to disable this requirement.
-common#:#ps_password_must_not_contain_loginame#:#Prevent User Name in Password
-common#:#ps_password_must_not_contain_loginame_info#:#If activated, a password must not contain the user name.
-common#:#password_contains_parts_of_login_err#:#The chosen password contains your user name. Please insert a new password.
+common#:#ps_password_must_not_contain_loginame#:#Prevent Username in Password
+common#:#ps_password_must_not_contain_loginame_info#:#If activated, a password must not contain the username.
+common#:#password_contains_parts_of_login_err#:#The chosen password contains your username. Please insert a new password.
 common#:#password_must_contain_lcase_chars#:#The password must contain at least %s lower case letters.
 common#:#password_must_contain_ucase_chars#:#The password must contain at least %s capital letters.
 content#:#cont_current_lang#:#Current Language
@@ -14161,8 +14161,8 @@ adve#:#char_selector_custom_items_info6a#:#U+00C0-U+00CF
 adve#:#char_selector_custom_items_info6b#:#Ranges are also possible in Unicode notation
 adve#:#char_selector_unicode_all#:#All Unicode Blocks
 adve#:#adve_char_selector_settings#:#Character Selector
-common#:#scorm_login_as_learner_id#:#SCORM 2004: set ILIAS User Name as cmi.learner_id
-common#:#scorm_login_as_learner_id_info#:#If enabled, the User Name instead of the User ID is set for cmi.learner_id.
+common#:#scorm_login_as_learner_id#:#SCORM 2004: set ILIAS Username as cmi.learner_id
+common#:#scorm_login_as_learner_id_info#:#If enabled, the Username instead of the User ID is set for cmi.learner_id.
 content#:#cont_sc_auto_review_2004#:#Automatic Review Mode
 content#:#cont_sc_auto_review_info_2004#:#If the automatic review mode is enabled, then the tracking data for a chapter (SCO) of the learning module are not stored when one of these options apply. In the rare case however, that the learning module makes use of Sequencing & Navigation according to SCORM 2004, this option should not be enabled.
 content#:#cont_sc_auto_review_no#:#disabled
@@ -14525,7 +14525,7 @@ blog#:#blog_list_num_postings_info#:#This setting is only used if no specific mo
 blog#:#blog_enable_keywords#:#Keywords
 blog#:#blog_enable_keywords_info#:#Keywords can be set for postings. Clicking a keyword shows all postings tagged with this keyword.
 blog#:#blog_enable_nav_authors#:#Authors
-blog#:#blog_enable_nav_authors_info#:#List of blog authors is displayed. Clicking a user name shows all postings of this author.
+blog#:#blog_enable_nav_authors_info#:#List of blog authors is displayed. Clicking a username shows all postings of this author.
 blog#:#blog_nav_sortorder#:#Order of Blocks
 survey#:#svy_view_own_results#:#View given answers
 survey#:#svy_mail_own_results#:#Mail given answers
