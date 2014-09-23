@@ -61,6 +61,12 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 			$ilTabs->activateTab('leave');
 		}
 		
+		if(!$GLOBALS['ilAccess']->checkAccess('join','',$this->getRefId()))
+		{
+			$this->ctrl->returnToParent($this);
+			return FALSE;
+		}
+		
 		$next_class = $this->ctrl->getNextClass($this);
 		switch($next_class)
 		{

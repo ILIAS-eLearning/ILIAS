@@ -4219,7 +4219,7 @@ class ilObjCourseGUI extends ilContainerGUI
 				break;
 
 			case 'ilcourseregistrationgui':
-				$this->ctrl->setReturn($this,'');
+				$this->ctrl->setReturn($this,'infoScreen');
 				$this->tabs_gui->setTabActive('join');
 				include_once('./Modules/Course/classes/class.ilCourseRegistrationGUI.php');
 				$registration = new ilCourseRegistrationGUI($this->object);
