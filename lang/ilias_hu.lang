@@ -1,7 +1,7 @@
 /* Copyright (c) 1998-2014 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file ...
-* @author 53614 2014-09-20  09:30 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
+* @author 53690 2014-09-23 09:30 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
 * @author 4.2.2	Berecz Antónia <berecz@gdf.hu>
 * @module		language file Hungary
 * @modulegroup	language
@@ -1519,7 +1519,7 @@ certificate#:#certificate_ph_lastname#:#A felhasználó utóneve
 certificate#:#certificate_ph_marklong#:#A felhasználó érdemjegye (hivatalos változat)
 certificate#:#certificate_ph_markshort#:#A felhasználó érdemjegye (rövid változat)
 certificate#:#certificate_ph_maxpoints#:#Maximálisan elérhető pontszám
-certificate#:#certificate_ph_passed#:#Sikeresen teljesítette' vagy 'Nem teljesítette', a teszteredményektől függően
+certificate#:#certificate_ph_passed#:#'Sikeresen teljesítette' vagy 'Nem teljesítette', a teszteredményektől függően
 certificate#:#certificate_ph_resultpercent#:#A felhasználó által elért százalékos eredmény
 certificate#:#certificate_ph_resultpoints#:#A felhasználó által elért pontszám
 certificate#:#certificate_ph_salutation#:#Megszólítás
@@ -1542,7 +1542,7 @@ certificate#:#certificate_status#:#Státusz
 certificate#:#certificate_text#:#Igazolásszöveg
 certificate#:#certificate_top#:#Fenn
 certificate#:#certificate_unit_description#:#Adja meg értékként a mérték egységeit [cm|mm|in|pt|pc|px|em], pl. 10 mm vagy 3 in!
-certificate#:#certificate_usage#:#Az igazoláskezelés csak akkor elérhető, ha fut az ILIAS Java-szerver. A Java-szerver konfigurálása a Rendszerbeállítások » Általános beállítások » Szerver menüben érhető el.
+certificate#:#certificate_usage#:#Az igazoláskezelés csak akkor érhető el, ha fut az ILIAS Java-szerver. A Java-szerver konfigurálása a Rendszerbeállítások » Általános beállítások » Szerver menüben érhető el.
 certificate#:#certificate_var_max_points#:#0
 certificate#:#certificate_var_result_mark_long#:#Jó
 certificate#:#certificate_var_result_mark_short#:#B
@@ -10067,7 +10067,7 @@ content#:#cont_sco_glossary#:#Fogalomtáregység
 common#:#delete_inactive_user_accounts#:#Inaktív ILIAS-fiókok törlése
 common#:#delete_inactive_user_accounts_desc#:#Ha aktivált, a legutóbbi bejelentkezési dátumától függően törlünk ILIAS-fiókokat.
 common#:#delete_inactive_user_accounts_period#:#A legutóbbi bejelentkezés óta eltelt idő
-common#:#delete_inactive_user_accounts_period_desc#:#Az ILIAS-fiókot töröljük, ha ennyi idő telt el a legutóbbi bejelentkezés óta.
+common#:#delete_inactive_user_accounts_period_desc#:#A megadott időszak óta be nem jelentkezett összes ILIAS-fiókot töröljük.
 common#:#delete_inactive_user_accounts_include_roles#:#Figyelembe vett szerepek
 common#:#delete_inactive_user_accounts_include_roles_desc#:#Azon szerepek megadása, amelyek részt vesznek a törlésben.
 common#:#delete_inactive_user_accounts_interval#:#Gyakoriság
@@ -10579,7 +10579,7 @@ rbac#:#rbac_repository_permissions#:#Taneszköztárolóbeli jogosultságok
 rbac#:#rbac_admin_permissions#:#Rendszerbeállítási jogosultságok
 ps#:#ps_export_excel#:#Excel-export indítása
 common#:#sess_fixed_duration#:#Rögzített munkamenet időtartam
-common#:#sess_load_dependent_session_handling#:#Terhelésfüggő munkamenet-kezelés betöltése
+common#:#sess_load_dependent_session_handling#:#Terhelésfüggő munkamenet-kezelés
 common#:#sess_mode#:#Munkamenetmód
 trac#:#trac_mode_deactivated_info_new#:#A tanulási haladás státusza nem jelenik meg.
 common#:#cronjob_last_start#:#Ütemezett feladat legutóbbi indulása
@@ -11414,7 +11414,7 @@ didactic#:#didactic_confirm_delete_msg#:#Biztos, hogy törli az alábbi oktatói
 didactic#:#didactic_delete_msg#:#Törölt oktatói sablon.
 common#:#fold_type#:#Mappatípus
 content#:#cont_pword#:#Másolás Wordből
-blog#:#blog_edit#:#Blog szerkesztése
+blog#:#blog_edit#:#Blogbeállítások
 blog#:#blog_banner#:#Banner
 blog#:#blog_background_color#:#Háttérszín
 blog#:#blog_font_color#:#Betűszín
@@ -12855,8 +12855,8 @@ fm#:#fm_settings_filesize#:#Maximális fájlfeltöltési méret
 fm#:#fm_settings_filesize_info#:#Adja meg MB-ban a fájlfeltöltés maximális méretét.
 blog#:#blog_authors#:#Szerzők
 blog#:#blog_author#:#Szerző
-blog#:#blog_enable_approval#:#Jóváhagyás
-blog#:#blog_enable_approval_info#:#A hozzászólásokat publikálásuk előtt jóvá kell hagynia a blog egy 'Beállítások szerkesztése' jogosultsággal rendelkező felhasználójának.
+blog#:#blog_enable_approval#:#Bejegyzések jóváhagyása
+blog#:#blog_enable_approval_info#:#A bejegyzések csak a blog egy 'Beállítások szerkesztése' jogosultsággal rendelkező felhasználójának jóváhagyása után kerülnek publikálásra.
 blog#:#blog_approve#:#Jóváhagyás
 blog#:#blog_needs_approval#:#Jóváhagyás szükséges
 sess#:#sess_copy#:#Esemény másolása
@@ -14508,25 +14508,25 @@ meta#:#md_adv_text_max_length#:#Maximális hossz
 meta#:#md_adv_text_multi#:#Többsoros
 meta#:#md_adv_number_suffix#:#Utótag (Suffix)
 survey#:#survey_results_finished#:#Kérdőív befejezve
-blog#:#blog_settings_navigation#:#Navigáció
-blog#:#blog_presentation_frame#:#Előadás
-blog#:#blog_presentation_overview#:#Áttekintés
-blog#:#blog_nav_mode#:#Mód
-blog#:#blog_nav_mode_month_list#:#Hónapok listája
-blog#:#blog_nav_mode_month_list_info#:#Összes hónap listája, a bejegyzések felsorolása opcionális
-blog#:#blog_nav_mode_month_list_num_detail#:#Bejegyzések száma (fordított időbeli sorrendbe rendezve)
-blog#:#blog_nav_mode_month_list_num_detail_info#:#A régebbi bejegyzések hónapjukon keresztül érhetőek el.
-blog#:#blog_nav_mode_month_list_num_month#:#Hónapok száma
-blog#:#blog_nav_mode_month_list_num_month_info#:#A korlát feletti hónapokat nem soroljuk fel, így azokat nem lehet elérni.
-blog#:#blog_nav_mode_month_single#:#Egy hónap
-blog#:#blog_nav_mode_month_single_info#:#Egy hónap összes bejegyzése felsorolásra kerül. A kívánt hónap legördülőből választható.
-blog#:#blog_list_num_postings#:#Bejegyzések száma a kezdeti áttekintésben
+blog#:#blog_settings_navigation#:#Navigáció oszlop
+blog#:#blog_presentation_frame#:#Blogmegjelenítés
+blog#:#blog_presentation_overview#:#Kezdeti áttekintés
+blog#:#blog_nav_mode#:#Bejegyzések
+blog#:#blog_nav_mode_month_list#:#Hónapok listájának megjelenítése
+blog#:#blog_nav_mode_month_list_info#:#Összes hónap felsorolása bejegyzéseikkel együtt a 'Bejegyzések' blokkban.
+blog#:#blog_nav_mode_month_list_num_detail#:#Összes bejegyzés száma
+blog#:#blog_nav_mode_month_list_num_detail_info#:#A bejegyzések fordított időbeli sorrendbe vannak rendezve. A régebbi bejegyzések hónapjukon keresztül érhetőek el.
+blog#:#blog_nav_mode_month_list_num_month#:#Felsorolt hónapok száma
+blog#:#blog_nav_mode_month_list_num_month_info#:#A korlát feletti hónapokat nem soroljuk fel és az azokhoz kapcsolódó bejegyzéseket nem lehet elérni.
+blog#:#blog_nav_mode_month_single#:#Kiválasztott hónap megjelenítése
+blog#:#blog_nav_mode_month_single_info#:#Csak a kiválasztott hónap összes bejegyzése kerül felsorolásra a 'Bejegyzések' blokkban. A kívánt hónap legördülőből választható.
+blog#:#blog_list_num_postings#:#Bejegyzések száma
 blog#:#blog_list_num_postings_info#:#Ez a beállítás csak akkor használható, ha nincs konkrét hónap kiválasztva.
 blog#:#blog_enable_keywords#:#Kulcsszavak
-blog#:#blog_enable_keywords_info#:#A bejegyzésekhez kulcsszavak állíthatóak be, melyek a navigációhoz használhatóak.
+blog#:#blog_enable_keywords_info#:#A bejegyzésekhez kulcsszavak állíthatóak be, melyre kattintva az összes avval a kulcsszóval megjelölt bejegyzése megjelenik.
 blog#:#blog_enable_nav_authors#:#Szerzők
-blog#:#blog_enable_nav_authors_info#:#A szerzők a navigációhoz használhatóak.
-blog#:#blog_nav_sortorder#:#Rendezés
+blog#:#blog_enable_nav_authors_info#:#A szerzők felsorolása, ahol a névre kattintva megjelenik az adott szerző összes bejegyzése.
+blog#:#blog_nav_sortorder#:#Blokkok rendezése
 survey#:#svy_view_own_results#:#Beérkezett válaszok megtekintése
 survey#:#svy_mail_own_results#:#Beérkezett válaszok küldése e-mailben
 survey#:#svy_mail_own_results_subject#:#'%s' kérdőív - Az Ön Válaszai
@@ -14696,8 +14696,8 @@ content#:#cont_unlocked#:#Feloldva###XXX
 content#:#cont_reset_nr_of_tries#:#Próbálkozások számának alapértelmezettre állítása 
 content#:#cont_unlock_allow_continue#:#Feloldás / Folytatás engedélyezése###XXX
 crs#:#crs_subscription_failed_limit#:#A maximális felhasználószámot elérte.
-user#:#send_mail_to_inactive_users#:#Legkorábbi pont, amikor emlékeztető e-mailt küldünk (napokban)
-user#:#send_mail_to_inactive_users_desc#:#Az ILIAS-fiók törlése előtt emlékeztető e-mail küldünk ebben az időszakban.
+user#:#send_mail_to_inactive_users#:#Legkorábbi dátum (napokban), amikor emlékeztető e-mailt küldünk
+user#:#send_mail_to_inactive_users_desc#:#Az ILIAS-fiók törlése előtt figyelmeztető e-mailt küldünk a közelgő törlésről.
 user#:#send_mail_to_inactive_users_numbers_only#:#Csak pozitív egész szám lehet.
 user#:#send_mail_to_inactive_users_must_be_smaller_than#:#Kisebb kell hogy legyen, mint az 'Utolsó bejelentkezés óta eltelt napok száma'.
 user#:#del_mail_subject#:#[ILIAS] – ILIAS-fiókját hamarosan töröljük
@@ -14876,3 +14876,75 @@ ecs#:#ecs_part_settings#:#Résztvevők beállításai:
 help#:#help_topics#:#Témasúgó
 ecs#:#ecs_export_types#:#Exportálható objektumtípusok
 ecs#:#ecs_import_types#:#Importálható objektumtípusok
+sysc#:#sysc_tab_trash#:#Törölt objektumok
+sysc#:#sysc_administrate_deleted#:#Törölt objektumok kezelése
+sysc#:#sysc_trash_restore#:#Törölt objektumok visszaállítása
+sysc#:#sysc_trash_restore_info#:#Restore deleted objects from trash bin and move the to the "Recovery Folder"
+sysc#:#sysc_trash_action#:#Művelet
+sysc#:#sysc_trash_remove#:#Törölt objektumok végleges eltávolítása
+sysc#:#sysc_trash_remove_info#:#Törölt (lomtárban lévő) objektumok végleges eltávolítása a rendszerből
+sysc#:#sysc_trash_limit_num#:#Számkorlát
+sysc#:#sysc_trash_limit_age#:#Évkorkorlát
+sysc#:#sysc_trash_limit_type#:#Típuskorlát
+registration#:#registration_codes_type#:#Kód típusa
+registration#:#registration_codes_type_reg#:#Regisztrációs kód
+registration#:#registration_codes_type_reg_info#:#A kódot új felhasználó regisztrációjakor lehet felhasználni
+registration#:#registration_codes_type_ext#:#Korlátozott felhasználói fiókok kiterjesztése
+registration#:#registration_codes_type_ext_info#:#A kódot korlátozott felhasználói fiókok kiterjesztésére lehet felhasználni
+scormtrac#:#audio_captioning#:#cmi.learner_preference.audio_captioning
+scormtrac#:#audio_level#:#cmi.learner_preference.audio_level
+scormtrac#:#c_entry#:#cmi.entry
+scormtrac#:#c_exit#:#cmi.exit
+scormtrac#:#c_language#:#cmi.learner_preference.language
+scormtrac#:#c_location#:#cmi.location
+scormtrac#:#c_max#:#cmi.score.max
+scormtrac#:#c_min#:#cmi.score.min
+scormtrac#:#c_mode#:#cmi.mode
+scormtrac#:#c_raw#:#cmi.score.raw: archivált pontszám
+scormtrac#:#c_timestamp#:#Utolsó hozzáférés
+scormtrac#:#c_type#:#cmi.interactions.n.type
+scormtrac#:#completion_status#:#cmi.completion_status
+scormtrac#:#completion_threshold#:#cmi.completion_threshold
+scormtrac#:#counter_all#:#összes felhasználó
+scormtrac#:#counter_correct#:#felhasználó és pillanatnyi eredményeik
+scormtrac#:#counter_correct_percent#:#Felhasználó százaléka és pillanatnyi eredményeik
+scormtrac#:#counter_incorrect#:#felhasználó és helytelen eredményeik
+scormtrac#:#counter_incorrect_percent#:#Felhasználó százaléka és helytelen eredményeik
+scormtrac#:#counter_other#:#felhasználók és egyéb eredményeik
+scormtrac#:#counter_other_percent#:#Felhasználó százaléka és egyéb eredményeik
+scormtrac#:#cp_node_id#:#A fejezet (SCO) Id-je
+scormtrac#:#credit#:#cmi.credit
+scormtrac#:#delivery_speed#:#cmi.learner_preference.delivery_speed
+scormtrac#:#exportselectedcore#:#A fejezetek (SCO) alapriportjai
+scormtrac#:#exportselectedinteractions#:#Forinteraciók alapriportjai
+scormtrac#:#id#:#Id
+scormtrac#:#interaction_description#:#Az interakció leírása
+scormtrac#:#interaction_id#:#Az interakció Id-je
+scormtrac#:#interaction_value#:#Az interakció eredménye
+scormtrac#:#latency#:#cmi.interactions.n.latency: time
+scormtrac#:#latency_seconds#:#cmi.interactions.n.latency: időtartam másodpercben
+scormtrac#:#launch_data#:#cmi.launch_data: az SCO elején az adat
+scormtrac#:#learner_response#:#cmi.interactions.n.learner_response: Válasz
+scormtrac#:#lm_id#:#A tananyag Id-je
+scormtrac#:#lm_title#:#A tananyag címe
+scormtrac#:#progress_measure#:#cmi.progress_measure
+scormtrac#:#result#:#cmi.interactions.n.result
+scormtrac#:#scaled#:#cmi.score.scaled: pontszám archiválása tizedestörtként
+scormtrac#:#scaled_passing_score#:#cmi.scaled_passing_score: sikeres teljesítéshez szükséges pontszám archiválása tizedestörtként
+scormtrac#:#sco_marked_for_learning_progress#:#tanulási célkitűzéshez számít
+scormtrac#:#sco_title#:#a fejezet (SCO) címe 
+scormtrac#:#session_time#:#cmi.session_time: az utolsó munkamenet időtartama
+scormtrac#:#session_time_seconds#:#cmi.session_time: z utolsó munkamenet időtartama másodpercben
+scormtrac#:#success_status#:#cmi.success_status: sikeres
+scormtrac#:#suspend_data#:#cmi.suspend_data: Az SCO változtatható puffere
+scormtrac#:#total_time#:#cmi.total_time: összes idő
+scormtrac#:#total_time_seconds#:#cmi.total_time: összes idő másodpercben
+scormtrac#:#tracinteractionitem#:#Interakciónkénti értékelés
+scormtrac#:#tracinteractionuser#:#Felhasználónkénti értékelés
+scormtrac#:#tracinteractionuseranswers#:#Felhasználók válaszai
+scormtrac#:#user_id#:#User-Id
+scormtrac#:#weighting#:#cmi.interactions.n.weighting
+scormtrac#:#report#:#Riport
+scormtrac#:#display_not_allowed#:#A megjelenítés nincs engedélyezve
+common#:#ps_export_scorm#:#SCORM nyomkövetési adatai
+common#:#enable_export_scorm_desc#:#SCORM-tananyag felhasználói adatainak exportálásának engedélyezése
