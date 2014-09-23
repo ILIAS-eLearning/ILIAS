@@ -737,6 +737,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 		{
 			// thumb size
 			$thumb_size = new ilNumberInputGUI($this->lng->txt( "thumb_size" ), "thumb_size");
+			$thumb_size->setSuffix($this->lng->txt("thumb_size_unit_pixel"));
 			$thumb_size->setMinValue( 20 );
 			$thumb_size->setDecimals( 0 );
 			$thumb_size->setSize( 6 );
