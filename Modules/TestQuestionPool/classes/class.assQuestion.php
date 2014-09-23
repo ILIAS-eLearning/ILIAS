@@ -3645,6 +3645,8 @@ abstract class assQuestion
 			$processLockerFactory = new ilAssQuestionProcessLockerFactory($assSettings, $ilDB);
 			$processLockerFactory->setQuestionId($question_gui->object->getId());
 			$processLockerFactory->setUserId($ilUser->getId());
+			include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
+			$processLockerFactory->setAssessmentLogEnabled(ilObjAssessmentFolder::_enabledAssessmentLogging());
 			$question_gui->object->setProcessLocker($processLockerFactory->getLocker());
 		}
 		else 

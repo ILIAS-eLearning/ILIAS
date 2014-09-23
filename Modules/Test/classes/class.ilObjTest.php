@@ -5365,6 +5365,8 @@ function getAnswerFeedbackPoints()
 			$processLockerFactory = new ilAssQuestionProcessLockerFactory($assSettings, $ilDB);
 			$processLockerFactory->setQuestionId($question->object->getId());
 			$processLockerFactory->setUserId($ilUser->getId());
+			include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
+			$processLockerFactory->setAssessmentLogEnabled(ilObjAssessmentFolder::_enabledAssessmentLogging());
 			$question->object->setProcessLocker($processLockerFactory->getLocker());
 		}
 		
