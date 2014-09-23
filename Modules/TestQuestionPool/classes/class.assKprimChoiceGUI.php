@@ -152,6 +152,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
 		{
 			// thumb size
 			$thumbSize = new ilNumberInputGUI($this->lng->txt('thumb_size'), 'thumb_size');
+			$thumbSize->setSuffix($this->lng->txt("thumb_size_unit_pixel"));
 			$thumbSize->setInfo( $this->lng->txt('thumb_size_info') );
 			$thumbSize->setDecimals(false);
 			$thumbSize->setMinValue(20);
