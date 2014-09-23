@@ -757,6 +757,7 @@ assessment#:#textsize#:#Text Size
 assessment#:#thumb_geometry_info#:#The image thumbnails will be created with a maximum values of height and width given, aspect ratio preserved.
 assessment#:#thumb_geometry#:#Thumbnail Geometry
 assessment#:#thumb_size_info#:#If you enter a thumbnail size, a thumbnail of this size will be generated for uploaded images. Without a thumbnail size, the original image size will be used.
+assessment#:#thumb_size_unit_pixel#:#Pixel
 assessment#:#thumb_size#:#Thumbnail Size
 assessment#:#time_format#:#HH MM SS
 assessment#:#too_many_empty_parameters#:#Please fill out your empty applet parameters before you add a new parameter!
