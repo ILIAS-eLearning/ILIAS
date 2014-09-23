@@ -6046,7 +6046,7 @@ dateplaner#:#cal_type_usr#:#Personal Calendar
 dateplaner#:#cal_unshare_cal#:#Stop Sharing
 dateplaner#:#cal_unshared_selected_usr#:#Stopped sharing the calendar with the selected users.
 dateplaner#:#cal_user_settings#:#Calendar Settings
-dateplaner#:#cal_user_timezone#:#ILIAS-Zeitzone
+dateplaner#:#cal_user_timezone#:#ILIAS-Timezone
 dateplaner#:#cal_export_timezone#:#Timezone for Calendar Export
 dateplaner#:#cal_export_timezone_tz#:#Use ILIAS-Timezone
 dateplaner#:#cal_export_timezone_utc#:#Use Timezone UTC (compatible with MS Outlook)
