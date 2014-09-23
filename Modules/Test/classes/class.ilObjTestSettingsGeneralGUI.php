@@ -930,7 +930,7 @@ class ilObjTestSettingsGeneralGUI
 
 		// section header TEMP
 		$header = new ilFormSectionHeaderGUI();
-		$header->setTitle($this->lng->txt("temp"));
+		$header->setTitle($this->lng->txt("tst_final_information"));
 		$form->addItem($header);
 
 		// show final statement
@@ -970,13 +970,13 @@ class ilObjTestSettingsGeneralGUI
 			$enable_examview->addSubItem($show_examview_pdf);
 		$form->addItem($enable_examview);
 		
-		if( !$this->settingsTemplate || $this->formShowSessionSection($this->settingsTemplate->getSettings()) )
+		/*if( !$this->settingsTemplate || $this->formShowSessionSection($this->settingsTemplate->getSettings()) )
 		{
 			// session properties
 			$sessionheader = new ilFormSectionHeaderGUI();
 			$sessionheader->setTitle($this->lng->txt("tst_session_settings"));
 			$form->addItem($sessionheader);
-		}
+		}*/
 
 		if( !$this->settingsTemplate || $this->formShowPresentationSection($this->settingsTemplate->getSettings()) )
 		{
