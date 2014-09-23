@@ -34,10 +34,15 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
 
     protected $filter = array();
 
-    /*
-     * __construct
+    protected $mode;
+
+    /**
+     * @param ilDataCollectionRecordListGUI $a_parent_obj
+     * @param string $a_parent_cmd
+     * @param ilDataCollectionTable $table
+     * @param int $mode
      */
-    public function  __construct(ilDataCollectionRecordListGUI $a_parent_obj, $a_parent_cmd, ilDataCollectionTable $table)
+    public function  __construct(ilDataCollectionRecordListGUI $a_parent_obj, $a_parent_cmd, ilDataCollectionTable $table, $mode=ilDataCollectionRecordListGUI::MODE_VIEW)
     {
         global $lng, $ilCtrl;
 
@@ -48,8 +53,15 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
         $this->table = $table;
         $this->parent_obj = $a_parent_obj;
         $this->setRowTemplate("tpl.record_list_row.html", "Modules/DataCollection");
+        $this->mode = $mode;
 
         // Setup columns and sorting columns
+        if ($this->mode == ilDataCollectionRecordListGUI::MODE_MANAGE) {
+            // Add checkbox columns
+            $this->addColumn("", "", "1", true);
+            $this->setSelectAllCheckbox("record_ids[]");
+            $this->addMultiCommand("confirmDeleteRecords", $lng->txt('dcl_delete_records'));
+        }
         $this->addColumn("", "_front", '15px');
         $this->numeric_fields = array();
         foreach($this->table->getVisibleFields() as $field)
@@ -244,6 +256,12 @@ class ilDataCollectionRecordListTableGUI  extends ilTable2GUI
             $this->tpl->setVariable("VIEW_IMAGE_SRC", ilUtil::img(ilUtil::getImagePath("cmd_view_s.png")));
         }
         $this->tpl->setVariable("ACTIONS", $record_data["_actions"]);
+
+        if ($this->mode == ilDataCollectionRecordListGUI::MODE_MANAGE) {
+            $this->tpl->setCurrentBlock('mode_manage');
+            $this->tpl->setVariable('RECORD_ID', $record_data['_record']->getId());
+            $this->tpl->parseCurrentBlock();
+        }
 
         return true;
     }

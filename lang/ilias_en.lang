@@ -13200,6 +13200,11 @@ dcl#:#dcl_msg_no_perm_view#:#No permission given to view this record
 dcl#:#dcl_msg_no_perm_edit#:#No permission given to edit this record
 dcl#:#dcl_delete_fields#:#Delete fields
 dcl#:#dcl_link_detail_page#:#Link entries to detail page
+dcl#:#dcl_manage#:#Manage
+dcl#:#dcl_delete_records#:#Delete records
+dcl#:#dcl_confirm_delete_records#:#Are you sure you want to delete the following records?
+dcl#:#dcl_deleted_records#:#Successfully deleted %s records
+dcl#:#dcl_skipped_delete_records#:#%s records were not deleted due to permission settings
 common#:#obj_bibl#:#Bibliography
 common#:#objs_bibl#:#Bibliographies
 common#:#obj_bibs#:#Bibliography

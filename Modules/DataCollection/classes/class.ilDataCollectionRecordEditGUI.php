@@ -95,7 +95,7 @@ class ilDataCollectionRecordEditGUI
 
         if ($this->record_id) {
             $this->record = ilDataCollectionCache::getRecordCache($this->record_id);
-            if (!$this->record->hasPermissionToEdit((int) $_GET['ref_id']) || !$this->record->hasPermissionToView((int)$_GET['ref_id'])) {
+            if (!$this->record->hasPermissionToEdit($this->parent_obj->ref_id) || !$this->record->hasPermissionToView($this->parent_obj->ref_id)) {
                 $this->accessDenied();
             }
             $this->table = $this->record->getTable();
@@ -168,7 +168,7 @@ class ilDataCollectionRecordEditGUI
 		$conf->setCancel($this->lng->txt('cancel'), 'cancelDelete');
 		$this->tpl->setContent($conf->getHTML());
 	}
-	
+
 	/**
 	 * cancelDelete
 	 */

@@ -20,6 +20,16 @@ require_once('./Modules/DataCollection/classes/class.ilDataCollectionRecordListT
 class ilDataCollectionRecordListGUI
 {
 
+    const MODE_VIEW = 1;
+    const MODE_MANAGE = 2;
+
+    /**
+     * Stores current mode active
+     *
+     * @var int
+     */
+    protected $mode = self::MODE_VIEW;
+
     protected $max_imports = 100;
 
     protected $supported_import_datatypes = array(
@@ -30,7 +40,13 @@ class ilDataCollectionRecordListGUI
         ilDataCollectionDatatype::INPUTFORMAT_DATETIME
     );
 
+
+    /**
+     * @var ilDataCollectionTable
+     */
     private $table_obj;
+
+
     /**
      * Constructor
      *
@@ -48,7 +64,7 @@ class ilDataCollectionRecordListGUI
         $this->parent_obj = $a_parent_obj;
         $this->table_obj = ilDataCollectionCache::getTableCache($table_id);
         $ilCtrl->setParameterByClass("ildatacollectionrecordeditgui", "table_id", $table_id);
-
+        $this->mode = (isset($_GET['mode']) && in_array($_GET['mode'], array(self::MODE_VIEW, self::MODE_MANAGE))) ? (int) $_GET['mode'] : self::MODE_VIEW;
         return;
     }
 
@@ -63,20 +79,34 @@ class ilDataCollectionRecordListGUI
 
         switch($cmd)
         {
+            case 'listRecords':
+                $this->setSubTabs();
+                $this->listRecords();
+                break;
+            case 'confirmDeleteRecords':
+                $this->confirmDeleteRecords();
+                break;
+            case 'cancelDelete':
+                $this->setSubTabs();
+                $this->listRecords();
+                break;
+            case 'deleteRecords':
+                $this->deleteRecords();
+                break;
             default:
                 $this->$cmd();
                 break;
         }
     }
 
+
     /**
      * List Records
-     *
      *
      */
     public function listRecords()
     {
-        global $ilTabs, $tpl, $lng, $ilCtrl, $ilToolbar;
+        global $tpl, $lng, $ilCtrl, $ilToolbar;
 
         // Show tables
         require_once("./Modules/DataCollection/classes/class.ilDataCollectionTable.php");
@@ -122,7 +152,7 @@ class ilDataCollectionRecordListGUI
             ilUtil::sendInfo($lng->txt("dcl_no_fields_yet")." ".($this->table_obj->hasPermissionToFields($this->parent_obj->ref_id)?$lng->txt("dcl_create_fields"):""));
         }
 
-        $list = new ilDataCollectionRecordListTableGUI($this, "listRecords", $this->table_obj);
+        $list = new ilDataCollectionRecordListTableGUI($this, "listRecords", $this->table_obj, $this->mode);
         $list->setExternalSegmentation(true);
         $list->setExternalSorting(true);
         $list->determineLimit();
@@ -141,8 +171,9 @@ class ilDataCollectionRecordListGUI
         $tpl->setContent($desc . $list->getHTML());
     }
 
-    /*
-     * exportExcel
+    /**
+     * Export DC as Excel sheet
+     *
      */
     public function exportExcel()
     {
@@ -167,6 +198,8 @@ class ilDataCollectionRecordListGUI
     }
 
     /**
+     * Init form
+     *
      * @return ilPropertyFormGUI
      */
     public function initForm(){
@@ -195,6 +228,10 @@ class ilDataCollectionRecordListGUI
 
     }
 
+
+    /**
+     * Import Data from Excel sheet
+     */
     public function importExcel(){
         global $lng;
 
@@ -213,6 +250,12 @@ class ilDataCollectionRecordListGUI
         }
     }
 
+    /**
+     * Import records from Excel file
+     *
+     * @param $file
+     * @param bool $simulate
+     */
     private function importRecords($file, $simulate = false){
         global $ilUser, $lng;
         include_once("./Modules/DataCollection/libs/ExcelReader/excel_reader2.php");
@@ -272,6 +315,12 @@ class ilDataCollectionRecordListGUI
         $this->endImport($i - 2, $warnings);
     }
 
+    /**
+     * End import
+     *
+     * @param $i
+     * @param $warnings
+     */
     public function endImport($i, $warnings){
         global $tpl, $lng, $ilCtrl;
         $output = new ilTemplate("tpl.dcl_import_terminated.html",true, true, "Modules/DataCollection");
@@ -318,9 +367,11 @@ class ilDataCollectionRecordListGUI
         return $char;
     }
 
+
     /**
-     * @param $field ilDataCollectionField
-     * @param $warnings array
+     * @param ilDataCollectionField $field
+     * @param array $warnings
+     * @return bool
      */
     private function checkImportType($field, &$warnings){
         global $lng;
@@ -334,6 +385,7 @@ class ilDataCollectionRecordListGUI
 
     /**
      * @param $titles string[]
+     * @param $warnings
      * @return ilDataCollectionField[]
      */
     private function getImportFieldsFromTitles($titles, &$warnings){
@@ -368,8 +420,8 @@ class ilDataCollectionRecordListGUI
         $ilCtrl->redirect($this, "listRecords");
     }
 
-    /*
-     * applyFilter
+    /**
+     * Apply Filter
      */
     public function applyFilter()
     {
@@ -381,21 +433,20 @@ class ilDataCollectionRecordListGUI
         $this->listRecords();
     }
 
-    /*
-     * resetFilter
+    /**
+     * Reset filter
      */
     public function resetFilter()
     {
-        global $ilCtrl;
-
         $table =  new ilDataCollectionRecordListTableGUI($this, "listRecords", $this->table_obj);
         $table->resetOffset();
         $table->resetFilter();
         $this->listRecords();
     }
 
-    /*
-     * sendFile
+
+    /**
+     * send File to User
      */
     public function sendFile()
     {
@@ -415,8 +466,74 @@ class ilDataCollectionRecordListGUI
         }
     }
 
-    /*
-     * recordBelongsToCollection
+
+    /**
+     * Confirm deletion of multiple records
+     *
+     */
+    public function confirmDeleteRecords()
+    {
+        global $ilCtrl, $lng, $tpl, $ilTabs;
+        /** @var ilTabsGUI $ilTabs */
+        $ilTabs->clearSubTabs();
+        $conf = new ilConfirmationGUI();
+        $conf->setFormAction($ilCtrl->getFormAction($this));
+        $conf->setHeaderText($lng->txt('dcl_confirm_delete_records'));
+        $record_ids = isset($_POST['record_ids']) ? $_POST['record_ids'] : array();
+        foreach ($record_ids as $record_id) {
+            /** @var ilDataCollectionRecord $record */
+            $record = ilDataCollectionCache::getRecordCache($record_id);
+            if ($record) {
+                $conf->addItem('record_ids[]', $record->getId(), rtrim(implode(", ", $record->getRecordFieldValues()), ', '));
+            }
+        }
+        $conf->addHiddenItem('table_id', $this->table_id);
+        $conf->setConfirm($lng->txt('dcl_delete_records'), 'deleteRecords');
+        $conf->setCancel($lng->txt('cancel'), 'cancelDelete');
+        $tpl->setContent($conf->getHTML());
+    }
+
+    /**
+     * Delete multiple records
+     *
+     * @param array $record_ids
+     */
+    public function deleteRecords(array $record_ids=array())
+    {
+        /** @var ilCtrl $ilCtrl */
+        global $ilCtrl, $lng;
+
+        $record_ids = count($record_ids) ? $record_ids : $_POST['record_ids'];
+        $record_ids = (is_null($record_ids)) ? array() : $record_ids;
+
+        // Invoke deletion
+        $n_skipped = 0;
+        foreach ($record_ids as $record_id) {
+            /** @var ilDataCollectionRecord $record */
+            $record = ilDataCollectionCache::getRecordCache($record_id);
+            if ($record) {
+                if ($record->hasPermissionToDelete((int) $_GET['ref_id'])) {
+                    $record->doDelete();
+                } else {
+                    $n_skipped++;
+                }
+            }
+        }
+
+        $n_deleted = (count($record_ids) - $n_skipped);
+        if ($n_deleted) {
+            ilUtil::sendSuccess(sprintf($lng->txt('dcl_deleted_records'), $n_deleted), true);
+        }
+        if ($n_skipped) {
+            ilUtil::sendInfo(sprintf($lng->txt('dcl_skipped_delete_records'), $n_skipped), true);
+        }
+        $ilCtrl->redirect($this, 'listRecords');
+    }
+
+
+    /**
+     * @param ilDataCollectionRecord $record
+     * @return bool
      */
     private function recordBelongsToCollection(ilDataCollectionRecord $record)
     {
@@ -425,6 +542,25 @@ class ilDataCollectionRecordListGUI
         $obj_id_rec = $table->getCollectionObject()->getId();
 
         return $obj_id == $obj_id_rec;
+    }
+
+    /**
+     * Add subtabs
+     *
+     */
+    protected function setSubTabs()
+    {
+        global $ilTabs, $lng, $ilCtrl;
+
+        /** @var ilCtrl $ilCtrl */
+        /** @var ilTabsGUI $ilTabs */
+        $ilTabs->addSubTab('mode_1', $lng->txt('view'), $ilCtrl->getLinkTarget($this, 'listRecords'));
+        if ($this->table_obj->hasPermissionToDeleteRecords((int) $_GET['ref_id'])) {
+            $ilCtrl->setParameter($this, 'mode', self::MODE_MANAGE);
+            $ilTabs->addSubTab('mode_2', $lng->txt('dcl_manage'), $ilCtrl->getLinkTarget($this, 'listRecords'));
+            $ilCtrl->clearParameters($this);
+        }
+        $ilTabs->setSubTabActive('mode_' . $this->mode);
     }
 }
 

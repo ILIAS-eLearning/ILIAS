@@ -748,6 +748,15 @@ class ilDataCollectionTable
 	}
 
     /**
+     * @param $ref_id
+     * @return bool
+     */
+    public function hasPermissionToDeleteRecords($ref_id)
+    {
+        return ($this->getDeletePerm() && ilObjDataCollection::_hasReadAccess($ref_id)) || (ilObjDataCollection::_hasWriteAccess($ref_id));
+    }
+
+    /**
      * @param int $ref_id
      * @param $record ilDataCollectionRecord
      * @return bool
