@@ -29,10 +29,12 @@ ilias.questions.init = function() {
 
 ilias.questions.refresh_lang = function() {
 
-	jQuery(".ilc_qinput_ClozeGapSelect").each(function(){							
+	jQuery(".ilc_qinput_ClozeGapSelect").each(function(){
 		$(this).prepend("<option id='-1' value='-1' selected='selected'>-- "+
-			ilias.questions.txt.please_select+" --</option>");		
-	});		
+			ilias.questions.txt.please_select+" --</option>");
+
+		$(this).val("");
+	});
 	
 };
 
