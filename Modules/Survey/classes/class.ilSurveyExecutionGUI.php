@@ -729,6 +729,7 @@ class ilSurveyExecutionGUI
 								
 				$ilToolbar->setFormAction($this->ctrl->getFormAction($this, "mailUserResults"));
 								
+				include_once "Services/UIComponent/Button/classes/class.ilSubmitButton.php";
 				$button = ilSubmitButton::getInstance();
 				$button->setCaption("svy_mail_own_results");
 				$button->setCommand("mailUserResults");
