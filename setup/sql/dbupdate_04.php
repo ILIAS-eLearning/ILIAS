@@ -4035,4 +4035,7 @@ while($row = $res->fetchRow(DB_FETCHMODE_OBJECT))
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
-
+<#4385>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

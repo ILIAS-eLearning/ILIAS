@@ -60,6 +60,8 @@ class ilSCORM2004TrackingItems
 				$e_user = new ilObjUser($user);
 				$userArray[$user]["login"] = $e_user->getLogin();
 				$userArray[$user]["user_name"] = $e_user->getLastname().", ".$e_user->getFirstname();
+				$userArray[$user]["first_name"] = $e_user->getFirstname();
+				$userArray[$user]["last_name"] = $e_user->getLastname();
 				$userArray[$user]["email"] = "".$e_user->getEmail();
 				$userArray[$user]["department"] = "".$e_user->getDepartment();
 			}
@@ -669,5 +671,269 @@ class ilSCORM2004TrackingItems
 //		var_dump($returnData);
 		return $returnData;
 	}
+	
+	function exportSelectedSuccessColumns($b_allowExportPrivacy) {
+		global $lng;
+		$lng->loadLanguageModule("scormtrac");
+		// default fields
+		$cols = array();
+
+		//use this: $this->userDataHeaderForExport();
+		$a_cols=explode(',','LearningModuleId,LearningModuleTitle,LearningModuleVersion,'.self::userDataHeaderForExport()
+			.',Status,Percentage,Attempts,existingSCOs,startedSCOs,completedSCOs,passedSCOs,roundedTotal_timeSeconds,offlineMode,Last Access');
+		$s_user='UserId';
+		if ($b_allowExportPrivacy == true) $s_user='First Name,Last Name';
+		$a_true=explode(',',$s_user.",LearningModuleTitle,Status,Percentage,Attempts");
+
+		// $a_cols=explode(',',
+			// 'lm_id,lm_title,lm_version,user_id,login,name,email,department'
+			// .',status,percentage,last_access,attempts,existingSCOs,startedSCOs,completedSCOs,passedSCOs,total_time_seconds');
+		// $a_true=explode(',',"user_id,name,lm_title,status,percentage,last_access,attempts");
+		for ($i=0;$i<count($a_cols);$i++) {
+			$cols[$a_cols[$i]] = array("txt" => $lng->txt($a_cols[$i]),"default" => false);
+		}
+		for ($i=0;$i<count($a_true);$i++) {
+			$cols[$a_true[$i]]["default"] = true;
+		}
+		return $cols;
+	}
+
+	function exportSelectedSuccess($a_user = array(), $allowExportPrivacy=false) {
+		global $ilDB, $lng;
+		$returnData=array();
+
+		if ($allowExportPrivacy == true) $userArray = self::userArrayForExportSelected($a_user);
+
+		$scoCounter = 0;
+		$query = 'SELECT count(distinct(cp_node.cp_node_id)) counter '
+			. 'FROM cp_node, cp_resource, cp_item '
+			. 'WHERE cp_item.cp_node_id = cp_node.cp_node_id ' 
+			. 'AND cp_item.resourceid = cp_resource.id AND scormtype = %s ' 
+			. 'AND nodename = %s AND cp_node.slm_id = %s';
+	 	$res = $ilDB->queryF(
+			$query,
+		 	array('text', 'text', 'integer'),
+		 	array('sco', 'item', $this->getObjId())
+		);		
+		while($row = $ilDB->fetchAssoc($res))
+		{
+			$scoCounter = $row['counter'];
+		}
+
+		$u_startedSCO = array();
+		$u_completedSCO = array();
+		$u_passedSCO = array();
+		for($i=0; $i<count($a_user); $i++) {
+			$u_startedSCO[$a_user[$i]] = 0;
+			$u_completedSCO[$a_user[$i]] = 0;
+			$u_passedSCO[$a_user[$i]] = 0;
+		}
+
+		$query = 'SELECT user_id, count(*) counter '
+			. 'FROM cmi_node, cp_node ' 
+			. 'WHERE cmi_node.cp_node_id = cp_node.cp_node_id ' 
+			. 'AND cp_node.slm_id = %s '
+			. 'AND '.$ilDB->in('user_id', $a_user, false, 'integer') .' '
+			. 'GROUP BY user_id';
+		$res = $ilDB->queryF(
+			$query,
+			array('integer'),
+			array($this->getObjId())
+		);
+		while ($data = $ilDB->fetchAssoc($res)) {
+			$u_startedSCO[$data['user_id']] = $data['counter'];
+		}
+
+		$query = 'SELECT user_id, count(*) counter '
+			. 'FROM cmi_node, cp_node ' 
+			. 'WHERE cmi_node.cp_node_id = cp_node.cp_node_id ' 
+			. 'AND cp_node.slm_id = %s '
+			. "AND cmi_node.completion_status = 'completed' "
+			. 'AND '.$ilDB->in('user_id', $a_user, false, 'integer') .' '
+			. 'GROUP BY user_id';
+		$res = $ilDB->queryF(
+			$query,
+			array('integer'),
+			array($this->getObjId())
+		);
+		while ($data = $ilDB->fetchAssoc($res)) {
+			$u_completedSCO[$data['user_id']] = $data['counter'];
+		}
+
+		$query = 'SELECT user_id, count(*) counter '
+			. 'FROM cmi_node, cp_node ' 
+			. 'WHERE cmi_node.cp_node_id = cp_node.cp_node_id ' 
+			. 'AND cp_node.slm_id = %s '
+			. "AND cmi_node.success_status = 'passed' "
+			. 'AND '.$ilDB->in('user_id', $a_user, false, 'integer') .' '
+			. 'GROUP BY user_id';
+		$res = $ilDB->queryF(
+			$query,
+			array('integer'),
+			array($this->getObjId())
+		);
+		while ($data = $ilDB->fetchAssoc($res)) {
+			$u_passedSCO[$data['user_id']] = $data['counter'];
+		}
+
+		$dbdata = array();
+
+		$query = 'SELECT * FROM sahs_user WHERE obj_id = '.$ilDB->quote($this->getObjId(), 'integer')
+			.' AND '.$ilDB->in('user_id', $a_user, false, 'integer')
+			.' ORDER BY user_id';
+		$res = $ilDB->query($query);
+		while($row = $ilDB->fetchAssoc($res))
+		{
+			$dbdata[] = $row;
+		}
+		foreach($dbdata as $data) {
+			$dat=array();
+			$dat["LearningModuleId"] = $this->getObjId();
+			$dat["LearningModuleTitle"] = $this->lmTitle;
+			$dat["LearningModuleVersion"]=$data["module_version"];
+			if ($allowExportPrivacy == true) {
+				$dat["Login"] = $userArray[$data["user_id"]]["login"];
+				$dat["First Name"] = $userArray[$data["user_id"]]["first_name"];
+				$dat["Last Name"] = $userArray[$data["user_id"]]["last_name"];
+				$dat["Email"] = $userArray[$data["user_id"]]["email"];
+				$dat["Department"] = $userArray[$data["user_id"]]["department"];
+			} else {
+				$dat["UserId"]=$data["user_id"];
+			}
+			$dat["Status"]=$data["status"];
+			$dat["Percentage"]=$data["percentage_completed"];
+			$dat["Attempts"]=$data["package_attempts"];
+			$dat["existingSCOs"]=$scoCounter;
+			$dat["startedSCOs"]=$u_startedSCO[$data["user_id"]];
+			$dat["completedSCOs"]=$u_completedSCO[$data["user_id"]];
+			$dat["passedSCOs"]=$u_passedSCO[$data["user_id"]];
+			$dat["roundedTotal_timeSeconds"]=$data["sco_total_time_sec"];
+			if (is_null($data["offline_mode"])) $dat["offlineMode"]="";
+			else $dat["offlineMode"]=$data["offline_mode"];
+			$dat["Last Access"]=$data["last_access"];
+			$returnData[]=$dat;
+		}
+		
+		return $returnData;
+		//CertificateDate?
+	}
+	
+		// function exportSelectedObjectives($a_user = array()) {
+		// global $ilDB;
+
+		// $csv = null;
+
+		// include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
+		// $privacy = ilPrivacySettings::_getInstance();
+		// $allowExportPrivacy = $privacy->enabledExportSCORM();
+
+		// $scoTitles = $this->scoTitlesForExportSelected();
+
+		// $scoProgress = $this->markedLearningStatusForExportSelected($scoTitles);
+
+		// if ($allowExportPrivacy == true) $userString = $this->userStringForExportSelected($a_user);
+
+		// $dbdata = array();
+		// $query = 'SELECT cmi_node.user_id, cmi_node.cp_node_id,
+				// cmi_objective.id, 
+				// cmi_objective.description, 
+				// cmi_objective.completion_status, 
+				// cmi_objective.progress_measure, 
+				// cmi_objective.success_status, 
+				// cmi_objective.c_max, 
+				// cmi_objective.c_min, 
+				// cmi_objective.c_raw, 
+				// cmi_objective.scaled, 
+				// cmi_objective.scope, 
+				// cmi_objective.cmi_objective_id 
+				// FROM cmi_objective, cmi_node 
+				// INNER JOIN cp_node ON cp_node.cp_node_id = cmi_node.cp_node_id
+				// WHERE '.$ilDB->in('cmi_node.user_id', $a_user, false, 'integer') .' 
+				// AND cmi_objective.cmi_interaction_id is null
+				// AND cp_node.slm_id = %s 
+				// AND cmi_node.cmi_node_id = cmi_objective.cmi_node_id
+				// ORDER BY cmi_node.user_id, cmi_node.cp_node_id, cmi_objective.id, cmi_objective.cmi_objective_id';
+		// $res = $ilDB->queryF(
+			// $query,
+			// array('integer'),
+			// array($this->getId())
+		// );
+		// while($row = $ilDB->fetchAssoc($res))
+		// {
+			// $dbdata[] = $row;
+		// }
+		
+		// foreach($dbdata as $data) {
+			// $csv = $csv. $this->getId()
+				// . ";\"" . $this->title ."\""
+				// . ";" . $data["user_id"];
+			// if ($allowExportPrivacy == true) $csv .= $userString[$data["user_id"]];
+			// $csv .= ';' . $data["cp_node_id"]
+				// . ';"' .$scoProgress[$data["cp_node_id"]] .'"'
+				// . ';"' . $scoTitles[$data["cp_node_id"]] .'"'
+				// . ';"' . $data["cp_node_id"].'-'.$data["id"] .'"'
+				// . ';"' . $data["id"] .'"'
+				// . ';"' . str_replace('"','',$data["description"]) .'"'
+				// . ';"' . $data["completion_status"] .'"'
+				// . ';' . $data["progress_measure"]
+				// . ';"' . $data["success_status"] .'"'
+				// . ';' . $data["c_max"]
+				// . ';' . $data["c_min"]
+				// . ';' . $data["c_raw"]
+				// . ';' . $data["scaled"]
+				// . ';"' . $data["scope"] .'"'
+// //				. ';' . $data["cmi_objective_id"]
+// //				. ';' . $data["cmi_node_id"]
+// //				. ';' . $data["cmi_interaction_id"]
+				// . "\n";
+		// }
+
+		// $header = "LearningModuleId;LearningModuleTitle;UserId;";
+		// if ($allowExportPrivacy == true) $header .= "Login;Name;Email;Department;";
+		// $header .= "SCOId;SCOmarkedForLearningProgress;SCOTitle;combinedID;"
+				// . "id;description;completion_status;progress_measure;success_status;"
+				// . "score.max;score.min;score.raw;score.scaled;scope\n";//cmi_objective_id;cmi_node_id;
+
+		// $this->sendExportFile($header, $csv, "SCOobjectives");
+	// }
+
+	
+	// public function userDataForExport($a_user = array()) {
+		// global $ilUser;
+		// include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
+		// $privacy = ilPrivacySettings::_getInstance();
+		// $allowExportPrivacy = $privacy->enabledExportSCORM();
+
+		// $userData = array();
+		// foreach($a_user as $user) {
+			// if ($allowExportPrivacy == true) {
+				// $userData[$user] = ";;;;";
+				// //write export entry
+				// if(ilObject::_exists($user)  && ilObject::_lookUpType($user) == 'usr') {
+					// $e_user = new ilObjUser($user);
+					// $userData[$user] = "\"". $e_user->getLogin() ."\""
+						// . ";\"" . $e_user->getFirstname() ."\""
+						// . ";\"" . $e_user->getLastname()."\""
+						// . ";\"" . $e_user->getEmail() ."\""
+						// . ";\"" . $e_user->getDepartment() ."\"";
+				// }
+			// } else {
+				// $userData[$user] = ";";
+				// if(ilObject::_exists($user)  && ilObject::_lookUpType($user) == 'usr') {
+					// $userData[$user] = $user;
+				// }
+			// }
+		// }
+		// return $userData;
+	// }
+
+	public function userDataHeaderForExport() {
+		include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
+		$privacy = ilPrivacySettings::_getInstance();
+		$allowExportPrivacy = $privacy->enabledExportSCORM();
+		if ($allowExportPrivacy == true) return 'Login,First Name,Last Name,Email,Department';
+		return 'UserId';
+	}
+
 
 }

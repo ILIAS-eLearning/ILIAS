@@ -2,15 +2,15 @@
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once './Services/Table/classes/class.ilTable2GUI.php';
-include_once './Modules/Scorm2004/classes/class.ilSCORM2004TrackingItems.php';
+include_once './Modules/ScormAicc/classes/class.ilSCORMTrackingItems.php';
 
 /**
- * Class ilSCORM2004TrackingItemsScoTableGUI
+ * Class ilSCORMTrackingItemsTableGUI
  *
  * @author Uwe Kohnle <kohnle@internetlehrer-gmbh.de>
- * @ingroup ModulesScorm2004
+ * @ingroup ModulesScormAicc
  */
-class ilSCORM2004TrackingItemsScoTableGUI extends ilTable2GUI
+class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
 {
     private $obj_id = 0;
 	private $user_id = 0;
@@ -36,7 +36,7 @@ class ilSCORM2004TrackingItemsScoTableGUI extends ilTable2GUI
 		if ($a_parent_cmd == "showTrackingItemsBySco") $this->bySCO = true;
 		$this->lmTitle = $a_parent_obj->object->getTitle();
 
-		$this->setId('2004'.$this->report);
+		$this->setId('AICC'.$this->report);
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		$this->setLimit(9999);
 
@@ -66,7 +66,7 @@ class ilSCORM2004TrackingItemsScoTableGUI extends ilTable2GUI
 			$this->addColumn($s, $c);
 		}
 
-		$this->setRowTemplate('tpl.scorm2004_tracking_items.html', 'Modules/Scorm2004');
+		$this->setRowTemplate('tpl.scorm_tracking_items.html', 'Modules/ScormAicc');
 		$this->setFormAction($ilCtrl->getFormAction($this->getParentObject()));
 
 		$this->setExternalSorting(true);
@@ -93,45 +93,24 @@ class ilSCORM2004TrackingItemsScoTableGUI extends ilTable2GUI
 		// default fields
 		$cols = array();
 		
-/*		include_once 'Services/Tracking/classes/class.ilObjUserTracking.php';
-		$tracking = new ilObjUserTracking();
-		if($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_LAST_ACCESS))
-		{
-			$cols["first_access"] = array(
-				"txt" => $lng->txt("trac_first_access"),
-				"default" => true);
-			$cols["last_access"] = array(
-				"txt" => $lng->txt("trac_last_access"),
-				"default" => true);
-		}
-		if($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_READ_COUNT))
-		{
-			$cols["read_count"] = array(
-				"txt" => $lng->txt("trac_read_count"),
-				"default" => true);
-		}
-		if($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_SPENT_SECONDS))
-		{
-			$cols["spent_seconds"] = array(
-				"txt" => $lng->txt("trac_spent_seconds"),
-				"default" => true);
-		}
-	*/
 		switch($this->report) {
 			case "exportSelectedCore":
-				$cols=ilSCORM2004TrackingItems::exportSelectedCoreColumns($this->bySCO, $this->allowExportPrivacy);
+				$cols=ilSCORMTrackingItems::exportSelectedCoreColumns($this->bySCO, $this->allowExportPrivacy);
 			break;
 			case "exportSelectedInteractions":
-				$cols=ilSCORM2004TrackingItems::exportSelectedInteractionsColumns($this->bySCO, $this->allowExportPrivacy);
+				$cols=ilSCORMTrackingItems::exportSelectedInteractionsColumns($this->bySCO, $this->allowExportPrivacy);
 			break;
 			case "tracInteractionItem":
-				$cols=ilSCORM2004TrackingItems::tracInteractionItemColumns($this->bySCO, $this->allowExportPrivacy);
+				$cols=ilSCORMTrackingItems::tracInteractionItemColumns($this->bySCO, $this->allowExportPrivacy);
 			break;
 			case "tracInteractionUser":
-				$cols=ilSCORM2004TrackingItems::tracInteractionUserColumns($this->bySCO, $this->allowExportPrivacy);
+				$cols=ilSCORMTrackingItems::tracInteractionUserColumns($this->bySCO, $this->allowExportPrivacy);
 			break;
 			case "tracInteractionUserAnswers":
-				$cols=ilSCORM2004TrackingItems::tracInteractionUserAnswersColumns($this->userSelected, $this->scosSelected, $this->bySCO, $this->allowExportPrivacy);
+				$cols=ilSCORMTrackingItems::tracInteractionUserAnswersColumns($this->userSelected, $this->scosSelected, $this->bySCO, $this->allowExportPrivacy);
+			break;
+			case "exportSelectedSuccess":
+				$cols=ilSCORMTrackingItems::exportSelectedSuccessColumns($this->allowExportPrivacy);
 			break;
 		}
 		
@@ -154,19 +133,22 @@ class ilSCORM2004TrackingItemsScoTableGUI extends ilTable2GUI
 		$this->determineOffsetAndOrder();
 		switch($this->report) {
 			case "exportSelectedCore":
-				$tr_data = ilSCORM2004TrackingItems::exportSelectedCore($this->userSelected, $this->scosSelected, $this->bySCO, $this->allowExportPrivacy);
+				$tr_data = ilSCORMTrackingItems::exportSelectedCore($this->userSelected, $this->scosSelected, $this->bySCO, $this->allowExportPrivacy);
 			break;
 			case "exportSelectedInteractions":
-				$tr_data = ilSCORM2004TrackingItems::exportSelectedInteractions($this->userSelected, $this->scosSelected, $this->bySCO, $this->allowExportPrivacy);
+				$tr_data = ilSCORMTrackingItems::exportSelectedInteractions($this->userSelected, $this->scosSelected, $this->bySCO, $this->allowExportPrivacy);
 			break;
 			case "tracInteractionItem":
-				$tr_data = ilSCORM2004TrackingItems::tracInteractionItem($this->userSelected, $this->scosSelected, $this->bySCO, $this->allowExportPrivacy);
+				$tr_data = ilSCORMTrackingItems::tracInteractionItem($this->userSelected, $this->scosSelected, $this->bySCO, $this->allowExportPrivacy);
 			break;
 			case "tracInteractionUser":
-				$tr_data = ilSCORM2004TrackingItems::tracInteractionUser($this->userSelected, $this->scosSelected, $this->bySCO, $this->allowExportPrivacy);
+				$tr_data = ilSCORMTrackingItems::tracInteractionUser($this->userSelected, $this->scosSelected, $this->bySCO, $this->allowExportPrivacy);
 			break;
 			case "tracInteractionUserAnswers":
-				$tr_data = ilSCORM2004TrackingItems::tracInteractionUserAnswers($this->userSelected, $this->scosSelected, $this->bySCO, $this->allowExportPrivacy);
+				$tr_data = ilSCORMTrackingItems::tracInteractionUserAnswers($this->userSelected, $this->scosSelected, $this->bySCO, $this->allowExportPrivacy);
+			break;
+			case "exportSelectedSuccess":
+				$tr_data = ilSCORMTrackingItems::exportSelectedSuccess($this->userSelected, $this->allowExportPrivacy);
 			break;
 		}
 		$this->setMaxCount($tr_data["cnt"]);

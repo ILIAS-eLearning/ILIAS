@@ -20,6 +20,7 @@ require_once("./Modules/ScormAicc/classes/class.ilObjSCORMLearningModule.php");
 * @ilCtrl_Calls ilObjSCORMLearningModuleGUI: ilCertificateGUI
 * @ilCtrl_Calls ilObjSCORMLearningModuleGUI: ilLicenseGUI
 * @ilCtrl_Calls ilObjSCORMLearningModuleGUI: ilSCORMOfflineModeUsersTableGUI
+* @ilCtrl_Calls ilObjSCORMLearningModuleGUI: ilSCORMTrackingItemsPerScoFilterGUI, ilSCORMTrackingItemsPerUserFilterGUI, ilSCORMTrackingItemsTableGUI
 *
 * @ingroup ModulesScormAicc
 */
@@ -536,17 +537,58 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 	{
 		global $ilTabs;
 
-		include_once "./Services/Table/classes/class.ilTableGUI.php";
-
-		$this->setSubTabs();
+		ilObjSCORMLearningModuleGUI::setSubTabs();
 		$ilTabs->setTabActive("cont_tracking_data");
 		$ilTabs->setSubTabActive("cont_tracking_bysco");
 
-		include_once './Modules/ScormAicc/classes/class.ilSCORMTrackingItemsPerScoTableGUI.php';
-		$tbl = new ilSCORMTrackingItemsPerScoTableGUI($this->object->getId(), $this, 'showTrackingItemsBySco');
-		$tbl->parse();
-		$this->tpl->setContent($tbl->getHTML());
+		$reports = array('exportSelectedCore');//,'exportSelectedInteractions','tracInteractionItem','tracInteractionUser','tracInteractionUserAnswers');
+
+		$scoSelected = "all";
+		if (isset($_GET["scoSelected"])) $scoSelected = ilUtil::stripSlashes($_GET["scoSelected"]);
+		if (isset($_POST["scoSelected"])) $scoSelected = ilUtil::stripSlashes($_POST["scoSelected"]);
+		$this->ctrl->setParameter($this,'scoSelected',$scoSelected);
+
+		$report = "choose";
+		if (isset($_GET["report"])) $report = ilUtil::stripSlashes($_GET["report"]);
+		if (isset($_POST["report"])) $report = ilUtil::stripSlashes($_POST["report"]);
+		$this->ctrl->setParameter($this,'report',$report);
+
+		include_once './Modules/ScormAicc/classes/class.ilSCORMTrackingItemsPerScoFilterGUI.php';
+		$filter = new ilSCORMTrackingItemsPerScoFilterGUI($this, 'showTrackingItemsBySco');
+		$filter->parse($scoSelected,$report,$reports);
+		if($report == "choose") {
+			$this->tpl->setContent($filter->form->getHTML());
+		} else {
+			$scosSelected = array();
+			if ($scoSelected != "all") $scosSelected[] = $scoSelected;
+			else {
+				$scos=$this->object->getTrackedItems();
+				foreach($scos as $row)
+				{
+					$scosSelected[]=(int)$row->getId();
+				}
+			}
+			//with check for course ...
+			include_once "Services/Tracking/classes/class.ilTrQuery.php";
+			$a_users=ilTrQuery::getParticipantsForObject($this->ref_id);
+	//			var_dump($this->object->getTrackedUsers(""));
+			include_once './Modules/ScormAicc/classes/class.ilSCORMTrackingItemsTableGUI.php';
+			$tbl = new ilSCORMTrackingItemsTableGUI($this->object->getId(), $this, 'showTrackingItemsBySco', $a_users, $scosSelected, $report);
+			$this->tpl->setContent($filter->form->getHTML().$tbl->getHTML());
+		}
 		return true;
+
+		// include_once "./Services/Table/classes/class.ilTableGUI.php";
+
+		// $this->setSubTabs();
+		// $ilTabs->setTabActive("cont_tracking_data");
+		// $ilTabs->setSubTabActive("cont_tracking_bysco");
+
+		// include_once './Modules/ScormAicc/classes/class.ilSCORMTrackingItemsPerScoTableGUI.php';
+		// $tbl = new ilSCORMTrackingItemsPerScoTableGUI($this->object->getId(), $this, 'showTrackingItemsBySco');
+		// $tbl->parse();
+		// $this->tpl->setContent($tbl->getHTML());
+		// return true;
 	}
 
 
@@ -556,6 +598,60 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 	 * $global ilToolbar $ilToolbar
 	 */
 	protected function showTrackingItems()
+	{
+		global $ilTabs;
+
+		ilObjSCORMLearningModuleGUI::setSubTabs();
+		$ilTabs->setTabActive('cont_tracking_data');
+		$ilTabs->setSubTabActive('cont_tracking_byuser');
+
+		$reports = array('exportSelectedSuccess','exportSelectedCore');
+
+		$userSelected = "all";
+		if (isset($_GET["userSelected"])) $userSelected = ilUtil::stripSlashes($_GET["userSelected"]);
+		if (isset($_POST["userSelected"])) $userSelected = ilUtil::stripSlashes($_POST["userSelected"]);
+		$this->ctrl->setParameter($this,'userSelected',$userSelected);
+
+		$report = "choose";
+		if (isset($_GET["report"])) $report = ilUtil::stripSlashes($_GET["report"]);
+		if (isset($_POST["report"])) $report = ilUtil::stripSlashes($_POST["report"]);
+		$this->ctrl->setParameter($this,'report',$report);
+
+		include_once './Modules/ScormAicc/classes/class.ilSCORMTrackingItemsPerUserFilterGUI.php';
+		$filter = new ilSCORMTrackingItemsPerUserFilterGUI($this, 'showTrackingItems');
+		$filter->parse($userSelected,$report,$reports);
+		if($report == "choose") {
+			$this->tpl->setContent($filter->form->getHTML());
+		} else {
+			$usersSelected = array();
+			if ($userSelected != "all") $usersSelected[] = $userSelected;
+			else {
+				include_once "Services/Tracking/classes/class.ilTrQuery.php";
+				$users=ilTrQuery::getParticipantsForObject($this->ref_id);
+				foreach($users as $user) {
+					if(ilObject::_exists($user)  && ilObject::_lookUpType($user) == 'usr') {
+						$usersSelected[] = $user;
+					}
+				}
+			}
+			$scosSelected = array();
+			$scos=$this->object->getTrackedItems();
+			foreach($scos as $row)
+			{
+				$scosSelected[]=(int)$row->getId();
+			}
+
+			//with check for course ...
+			// include_once "Services/Tracking/classes/class.ilTrQuery.php";
+			// $a_users=ilTrQuery::getParticipantsForObject($this->ref_id);
+	//			var_dump($this->object->getTrackedUsers(""));
+			include_once './Modules/ScormAicc/classes/class.ilSCORMTrackingItemsTableGUI.php';
+			$tbl = new ilSCORMTrackingItemsTableGUI($this->object->getId(), $this, 'showTrackingItems', $usersSelected, $scosSelected, $report);
+			$this->tpl->setContent($filter->form->getHTML().$tbl->getHTML());
+		}
+		return true;
+	}
+	protected function modifyTrackingItems()
 	{
 		include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
 		$privacy = ilPrivacySettings::_getInstance();
@@ -578,7 +674,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 
 		$this->setSubTabs();
 		$ilTabs->setTabActive('cont_tracking_data');
-		$ilTabs->setSubTabActive('cont_tracking_byuser');
+		$ilTabs->setSubTabActive('cont_tracking_modify');
 
 		include_once './Modules/ScormAicc/classes/class.ilSCORMTrackingUsersTableGUI.php';
 		$tbl = new ilSCORMTrackingUsersTableGUI($this->object->getId(), $this, 'showtrackingItems');
@@ -987,6 +1083,10 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 
 		$ilTabs->addSubTabTarget("cont_tracking_bysco",
 			$this->ctrl->getLinkTarget($this, "showTrackingItemsBySco"), array("edit", ""),
+			get_class($this));
+
+		$ilTabs->addSubTabTarget("cont_tracking_modify",
+			$this->ctrl->getLinkTarget($this, "modifyTrackingItems"), array("edit", ""),
 			get_class($this));
 	}
 
