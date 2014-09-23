@@ -140,6 +140,14 @@ class ilUserTableGUI extends ilTable2GUI
 			$cols["last_login"] = array(
 				"txt" => $lng->txt("last_login"),
 				"default" => true);
+			
+			// #13967
+			$cols["create_date"] = array(
+				"txt" => $lng->txt("create_date"));
+			$cols["approve_date"] = array(
+				"txt" => $lng->txt("approve_date"));
+			$cols["agree_date"] = array(
+				"txt" => $lng->txt("agree_date"));
 		}
 		else
 		{
@@ -519,6 +527,13 @@ class ilUserTableGUI extends ilTable2GUI
 						case "gender":
 							$val = $lng->txt("gender_".$user[$c]);
 							break;
+						
+						case "create_date":
+						case "agree_date":
+						case "approve_date":
+							// $val = ilDatePresentation::formatDate(new ilDateTime($val,IL_CAL_DATETIME));
+							$val = ilDatePresentation::formatDate(new ilDate($val,IL_CAL_DATE));
+							break;	
 					}
 				}
 				$this->tpl->setVariable("VAL_UF", $val);
