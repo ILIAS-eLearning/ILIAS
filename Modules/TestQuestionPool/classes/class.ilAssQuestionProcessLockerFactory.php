@@ -35,6 +35,11 @@ class ilAssQuestionProcessLockerFactory
 	protected $userId;
 
 	/**
+	 * @var bool
+	 */
+	protected $assessmentLogEnabled;
+
+	/**
 	 * @param ilSetting $settings
 	 * @param ilDB $db
 	 */
@@ -42,6 +47,10 @@ class ilAssQuestionProcessLockerFactory
 	{
 		$this->settings = $settings;
 		$this->db = $db;
+		
+		$this->questionId = null;
+		$this->userId = null;
+		$this->assessmentLogEnabled = false;
 	}
 
 	/**
@@ -75,12 +84,31 @@ class ilAssQuestionProcessLockerFactory
 	{
 		return $this->userId;
 	}
-	
+
+	/**
+	 * @param bool $assessmentLogEnabled
+	 */
+	public function setAssessmentLogEnabled($assessmentLogEnabled)
+	{
+		$this->assessmentLogEnabled = $assessmentLogEnabled;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isAssessmentLogEnabled()
+	{
+		return $this->assessmentLogEnabled;
+	}
+
 	private function getLockModeSettingValue()
 	{
 		return $this->settings->get('quest_process_lock_mode', ilAssQuestionProcessLocker::LOCK_MODE_NONE);
 	}
-	
+
+	/**
+	 * @return ilAssQuestionProcessLockerDb|ilAssQuestionProcessLockerFile|ilAssQuestionProcessLockerNone
+	 */
 	public function getLocker()
 	{
 		switch( $this->getLockModeSettingValue() )
@@ -102,6 +130,7 @@ class ilAssQuestionProcessLockerFactory
 			case ilAssQuestionProcessLocker::LOCK_MODE_DB:
 
 				$locker = new ilAssQuestionProcessLockerDb($this->db);
+				$locker->setAssessmentLogEnabled($this->isAssessmentLogEnabled());
 				break;
 		}
 		
