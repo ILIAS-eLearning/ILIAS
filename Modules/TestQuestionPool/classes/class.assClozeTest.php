@@ -1594,6 +1594,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 			"onenotcorrect" => $this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), false),
 			"allcorrect" => $this->feedbackOBJ->getGenericFeedbackTestPresentation($this->getId(), true)
 		);
+		
 		$gaps = array();
 		foreach ($this->getGaps() as $key => $gap)
 		{
@@ -1615,11 +1616,17 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 				}
 				array_push($items, $jitem);
 			}
+
+			if( $gap->getType() == CLOZE_TEXT )
+			{
+				$jgap['size'] = $gap->getGapSize();
+			}
+
 			$jgap['shuffle'] = $gap->getShuffle();
 			$jgap['type'] = $gap->getType();
 			$jgap['item'] = $items;
-			array_push($gaps, $jgap);
 			
+			array_push($gaps, $jgap);
 		}
 		$result['gaps'] = $gaps;
 		$mobs = ilObjMediaObject::_getMobsOfObject("qpl:html", $this->getId());
