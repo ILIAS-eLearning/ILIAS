@@ -6305,6 +6305,7 @@ div.ilFrame {
   float: left;
   position: absolute;
   padding: 5px;
+  padding-left: 15px;
   overflow: auto;
   background-color: #f0f0f0;
   border-right: 3px solid #979797;
@@ -6697,14 +6698,15 @@ div.il_info {
 a#il_mhead_t_focus {
   color: #6ea03c;
   vertical-align: middle;
-  font-size: 30px;
+  font-size: 26px;
 }
 h1.ilHeader {
   padding: 10px 0 0;
 }
 #headerimage {
-  width: 50px;
-  height: 50px;
+  width: 45px;
+  height: 45px;
+  margin-top: 3px;
   margin-right: 10px;
   float: left;
 }
@@ -6732,9 +6734,12 @@ div.ilHeaderAlert {
   color: #fa8228;
 }
 div.il_HeaderInner {
-  margin-bottom: 10px;
-  padding: 10px 15px;
+  padding: 15px 15px;
+  margin-bottom: 5px;
   overflow: visible;
+}
+div.il_HeaderInner.media {
+  margin-top: 0px;
 }
 div.il_TreeIcons {
   padding: 15px 15px 0 0;
@@ -8082,7 +8087,7 @@ li.ilWikiBlockItem {
   color: #607ea5;
 }
 #ilTopNav .navbar-nav > li > a {
-  margin: 0 10px 0 0;
+  margin: 0 0px 0 10px;
   padding: 5px 10px 6px;
   border-top: 4px solid #f0f0f0;
   color: #5d5d5d;
@@ -8213,6 +8218,30 @@ input.ilOpenIDBox {
 .dropdown-header {
   padding: 3px 10px;
 }
+.ilMainHeader > header > .row > a.navbar-brand {
+  height: 70px;
+  padding: 10px 0 px 15px;
+}
+.ilMainHeader > header > .row > a.navbar-brand > img {
+  width: 50px;
+  height: 50px;
+}
+.ilMainMenu {
+  background-color: white;
+}
+#ilTopNav .navbar-nav > li > a {
+  border-color: white;
+  color: #808080;
+}
+#ilTopNav .navbar-nav {
+  float: right;
+}
+#ilTopNav {
+  margin-top: -30px;
+}
+#ilTopNav a.dropdown-toggle {
+  text-transform: uppercase;
+}
 /* Services/UIComponent/Tabs */
 .nav-tabs > li {
   margin: 0 4px 0 0;
@@ -8233,7 +8262,7 @@ input.ilOpenIDBox {
 }
 #ilTab {
   padding: 0 0px;
-  margin: 0 15px;
+  margin: 10px 15px 0 15px;
   border: none;
   border-bottom: 2px solid #708bae;
   /* box-shadow: 0 2px 1px -1px white; */
@@ -9142,6 +9171,9 @@ div#ilContRepIntro img {
   height: 150px;
 }
 /* Modules/LearningModule */
+.ilLMMenu {
+  clear: both;
+}
 img.ilAreaClose {
   width: 20px;
   height: 20px;

@@ -136,7 +136,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 				$page_gui->setExplorerUpdater("tree", "tree_div",
 				$ilCtrl->getLinkTargetByClass($up_gui, "explorer", "", true));
 				
-				$tpl->setTitleIcon(ilUtil::getImagePath("icon_pg_b.png"));
+				$tpl->setTitleIcon(ilUtil::getImagePath("icon_pg.png"));
 				$tpl->setTitle($this->lng->txt("page").": ".$this->obj->getTitle());
 				if ($this->content_object->getLayoutPerPage())
 				{
@@ -426,7 +426,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 		$page_gui->setActivationListener($this, "activatePage");
 		$page_gui->setTabHook($this, "addPageTabs");
 		$lm_set = new ilSetting("lm");
-		$tpl->setTitleIcon(ilUtil::getImagePath("icon_pg_b.png"));
+		$tpl->setTitleIcon(ilUtil::getImagePath("icon_pg.png"));
 		$tpl->setTitle($this->lng->txt("page").": ".$this->obj->getTitle());
 		$ilCtrl->getHTML($page_gui);
 		$ilTabs->setTabActive("cont_layout");

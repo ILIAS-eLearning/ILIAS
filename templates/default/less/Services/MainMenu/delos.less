@@ -56,7 +56,7 @@
 	}
 	.navbar-nav {
 		> li > a {
-			margin: 0 10px 0 0;
+			margin: 0 0px 0 10px;
 			padding: 5px 10px 6px;
 			border-top: 4px solid @body-bg;
 			//background-color: lighten(@ilMainMenuColor, 39%);
@@ -206,4 +206,35 @@ input.ilOpenIDBox {
 
 .dropdown-header {
 	padding: 3px 10px;
+}
+
+.ilMainHeader > header > .row > a.navbar-brand {
+	height: 70px;
+	padding: 10px 0 px 15px;
+}
+
+.ilMainHeader > header > .row > a.navbar-brand > img {
+	width: 50px;
+	height: 50px;
+}
+
+.ilMainMenu {
+	background-color: white;
+}
+
+#ilTopNav .navbar-nav > li > a {
+	border-color: white;
+	color: #808080;
+}
+
+#ilTopNav .navbar-nav {
+	float: right;
+}
+
+#ilTopNav {
+	margin-top: -30px;
+}
+
+#ilTopNav a.dropdown-toggle {
+	text-transform: uppercase;
 }

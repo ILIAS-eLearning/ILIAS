@@ -1326,7 +1326,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		{	
 			$form_gui->addMultiCommand($lng->txt("cont_set_layout"), "setPageLayoutInHierarchy");
 		}
-		$form_gui->setDragIcon(ilUtil::getImagePath("icon_st_s.png"));
+		$form_gui->setDragIcon(ilUtil::getImagePath("icon_st.png"));
 		$form_gui->addCommand($lng->txt("cont_save_all_titles"), "saveAllTitles");
 		$up_gui = ($this->object->getType() == "dbk")
 			? "ilobjdlbookgui"
@@ -2682,7 +2682,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		
 		$this->addTabs($a_act);
 		$this->tpl->setTitle($this->object->getTitle());
-		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm_b.png"),
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm.png"),
 			$lng->txt("obj_lm"));
 	}
 

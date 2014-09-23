@@ -466,7 +466,7 @@ class ilMainMenuGUI
 		if ($a_id == "repository")
 		{
 			$gl = new ilGroupedListGUI();
-			$gl->setAsDropDown(true);
+			$gl->setAsDropDown(true, true);
 			
 			include_once("./Services/Link/classes/class.ilLink.php");
 			$a_tpl->setVariable("ARROW_IMG", ilUtil::getImagePath("mm_down_arrow.png"));
@@ -516,7 +516,7 @@ class ilMainMenuGUI
 		if ($a_id == "desktop")
 		{
 			$gl = new ilGroupedListGUI();
-			$gl->setAsDropDown(true);
+			$gl->setAsDropDown(true, true);
 			
 			$a_tpl->setVariable("ARROW_IMG", ilUtil::getImagePath("mm_down_arrow.png"));
 			
@@ -676,7 +676,7 @@ class ilMainMenuGUI
 			if ($a_id == "shop")
 			{
 				$gl = new ilGroupedListGUI();
-				$gl->setAsDropDown(true);
+				$gl->setAsDropDown(true, true);
 
 				$a_tpl->setVariable("ARROW_IMG", ilUtil::getImagePath("mm_down_arrow.png"));
 

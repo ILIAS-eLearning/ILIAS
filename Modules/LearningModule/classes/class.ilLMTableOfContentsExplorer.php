@@ -317,11 +317,11 @@ class ilTableOfContentsExplorer extends ilLMExplorer
 				? "_sc"
 				: "";
 				
-			$a_name = "icon_pg".$img_sc."_s.png";
+			$a_name = "icon_pg".$img_sc.".png";
 
 			if (!$active)
 			{
-				$a_name = "icon_pg_d".$img_sc."_s.png";
+				$a_name = "icon_pg_d".$img_sc.".png";
 			}
 			else
 			{
@@ -330,7 +330,7 @@ class ilTableOfContentsExplorer extends ilLMExplorer
 					$this->lm_obj->getType());
 				if ($contains_dis)
 				{
-					$a_name = "icon_pg_del".$img_sc."_s.png";
+					$a_name = "icon_pg_del".$img_sc.".png";
 				}
 			}
 		}

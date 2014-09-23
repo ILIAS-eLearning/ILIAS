@@ -2175,13 +2175,13 @@ class ilObjContentObject extends ilObject
 			$image_dir."/icon_st.png");
 		copy(ilUtil::getImagePath("icon_pg.png", false, "filesystem"),
 			$image_dir."/icon_pg.png");
-		copy(ilUtil::getImagePath("icon_st_s.png", false, "filesystem"),
+		copy(ilUtil::getImagePath("icon_st.png", false, "filesystem"),
 			$image_dir."/icon_st_s.png");
-		copy(ilUtil::getImagePath("icon_pg_s.png", false, "filesystem"),
+		copy(ilUtil::getImagePath("icon_pg.png", false, "filesystem"),
 			$image_dir."/icon_pg_s.png");
 		copy(ilUtil::getImagePath("icon_lm.png", false, "filesystem"),
 			$image_dir."/icon_lm.png");
-		copy(ilUtil::getImagePath("icon_lm_s.png", false, "filesystem"),
+		copy(ilUtil::getImagePath("icon_lm.png", false, "filesystem"),
 			$image_dir."/icon_lm_s.png");
 		copy(ilUtil::getImagePath("nav_arr_L.png", false, "filesystem"),
 			$image_dir."/nav_arr_L.png");

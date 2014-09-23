@@ -163,7 +163,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		{	
 			$form_gui->addMultiCommand($lng->txt("cont_set_layout"), "setPageLayout");
 		}
-		$form_gui->setDragIcon(ilUtil::getImagePath("icon_pg_s.png"));
+		$form_gui->setDragIcon(ilUtil::getImagePath("icon_pg.png"));
 		$form_gui->addCommand($lng->txt("cont_save_all_titles"), "saveAllTitles");
 		$form_gui->addHelpItem($lng->txt("cont_chapters_after_pages"));
 		$up_gui = ($this->content_object->getType() == "dbk")
@@ -625,7 +625,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 			 $this->ctrl->getLinkTargetByClass("ilmdeditorgui",''),
 			 "", "ilmdeditorgui");
 			 
-		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_st_b.png"));
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_st.png"));
 		$this->tpl->setTitle(
 			$this->lng->txt($this->obj->getType()).": ".$this->obj->getTitle());
 

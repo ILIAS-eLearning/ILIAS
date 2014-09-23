@@ -153,7 +153,7 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
 		{
 			$a_node["type"] = "lm";
 		}
-		$a_name = "icon_".$a_node["type"]."_s.png";
+		$a_name = "icon_".$a_node["type"].".png";
 		if ($a_node["type"] == "pg")
 		{
 			include_once("./Modules/LearningModule/classes/class.ilLMPage.php");
@@ -168,11 +168,11 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
 				? "_sc"
 				: "";
 
-			$a_name = "icon_pg".$img_sc."_s.png";
+			$a_name = "icon_pg".$img_sc.".png";
 
 			if (!$active && !$this->getOfflineMode())
 			{
-				$a_name = "icon_pg_d".$img_sc."_s.png";
+				$a_name = "icon_pg_d".$img_sc.".png";
 			}
 		}
 

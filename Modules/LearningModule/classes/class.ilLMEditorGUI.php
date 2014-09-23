@@ -254,7 +254,7 @@ class ilLMEditorGUI
 				$t = ilObject::_lookupType($oid);
 				$this->tpl->setCurrentBlock("locator_img");
 				$this->tpl->setVariable("IMG_SRC",
-					ilUtil::getImagePath("icon_".$t."_s.png"));
+					ilUtil::getImagePath("icon_".$t.".png"));
 				$this->tpl->setVariable("IMG_ALT",
 					$lng->txt("obj_".$type));
 				$this->tpl->parseCurrentBlock();

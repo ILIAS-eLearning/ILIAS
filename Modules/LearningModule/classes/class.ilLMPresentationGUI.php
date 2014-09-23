@@ -468,6 +468,9 @@ class ilLMPresentationGUI
 			iljQueryUtil::initjQuery($this->tpl);
 			iljQueryUtil::initjQueryUI($this->tpl);
 
+			include_once("./Services/UICore/classes/class.ilUIFramework.php");
+			ilUIFramework::init($this->tpl);
+
 			// to make e.g. advanced seletions lists work:
 			$GLOBALS["tpl"] = $this->tpl;
 
@@ -2622,7 +2625,7 @@ class ilLMPresentationGUI
 
 		$this->tpl->getStandardTemplate();
 		$this->tpl->setTitle($this->lm->getTitle());
-		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm_b.png"));
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm.png"));
 
 		$this->tpl->setVariable("TABS", $this->lm_gui->setilLMMenu($this->offlineMode()
 			,$this->getExportFormat(), $a_active_tab, true));
@@ -2745,7 +2748,7 @@ class ilLMPresentationGUI
 
 		// set title header
 		$this->tpl->setTitle($this->lm->getTitle());
-		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm_b.png"));
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm.png"));
 		
 		/*$this->tpl->setVariable("TXT_BACK", $this->lng->txt("back"));
 		$this->ctrl->setParameterByClass("illmpresentationgui", "obj_id", $_GET["obj_id"]);
@@ -2806,14 +2809,14 @@ class ilLMPresentationGUI
 							$text.= " (".$this->lng->txt("cont_no_access").")";
 						}
 					}
-					$img_src = ilUtil::getImagePath("icon_pg_s.png");
+					$img_src = ilUtil::getImagePath("icon_pg.png");
 					$img_alt = $lng->txt("icon")." ".$lng->txt("pg");
 					break;
 
 				// learning module
 				case "du":
 					$text = $this->lm->getTitle();
-					$img_src = ilUtil::getImagePath("icon_lm_s.png");
+					$img_src = ilUtil::getImagePath("icon_lm.png");
 					$img_alt = $lng->txt("icon")." ".$lng->txt("obj_lm");
 					break;
 
@@ -2832,7 +2835,7 @@ class ilLMPresentationGUI
 							$text.= " (".$this->lng->txt("cont_no_access").")";
 						}
 					}
-					$img_src = ilUtil::getImagePath("icon_st_s.png");
+					$img_src = ilUtil::getImagePath("icon_st.png");
 					$img_alt = $lng->txt("icon")." ".$lng->txt("st");
 					break;
 			}
@@ -2864,7 +2867,7 @@ class ilLMPresentationGUI
 					$text.= " (".$this->lng->txt("cont_no_access").")";
 				}
 			}
-			$img_src = ilUtil::getImagePath("icon_pg_s.png");
+			$img_src = ilUtil::getImagePath("icon_pg.png");
 			$id = $_GET["obj_id"];
 
 			$checked = true;
@@ -3568,7 +3571,7 @@ class ilLMPresentationGUI
 
 		// set title header
 		$this->tpl->setTitle($this->lm->getTitle());
-		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm_b.png"));
+		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm.png"));
 		
 		/*
 		$this->tpl->setVariable("TXT_BACK", $this->lng->txt("back"));

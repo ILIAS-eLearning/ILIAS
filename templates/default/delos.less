@@ -255,13 +255,13 @@ div.ilFrame {
 	float: left;
 	position: absolute;
 	padding: 5px;
+	padding-left: 15px;
 	overflow: auto;
 	background-color: @body-bg;
 	border-right: 3px solid lighten(@mid-gray, 33%);
 	z-index: 100;
 	@media only screen and (max-width: 640px) {width: 100%;}
 }
-
 
 /* search */
 #ilMMSearch ul li {
@@ -752,7 +752,7 @@ div.il_info {
 a#il_mhead_t_focus {
 	color: @brand-secondary;
 	vertical-align: middle;
-	font-size: 30px;
+	font-size: 26px
 }
 
 h1.ilHeader {
@@ -760,12 +760,14 @@ h1.ilHeader {
 }
 
 #headerimage {
-	width: 50px;
-	height: 50px;
+	width: 45px;
+	height: 45px;
+	margin-top: 3px;
 	margin-right: 10px;
 	float: left;
 	//background-color: white;
 }
+
 
 span.ilHeader {}
 
@@ -797,9 +799,13 @@ div.ilHeaderAlert {
 }
 
 div.il_HeaderInner {
-	margin-bottom: 10px;
-	padding: 10px 15px;
+	padding: 15px 15px;
+	margin-bottom: 5px;
 	overflow: visible;
+}
+
+div.il_HeaderInner.media {
+	margin-top: 0px;
 }
 
 div.il_TreeIcons {
