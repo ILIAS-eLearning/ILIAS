@@ -559,7 +559,7 @@ ilias.questions.initClozeTest = function(a_id) {
 			if (typeof size == "undefined") {
 				size = (type == 0) ? 20 : 4;
 			}
-			console.log(size);
+
 			input = jQuery.create('input', {
 				'id': a_id + "_" + closecounter,
 				'type':      'text',
