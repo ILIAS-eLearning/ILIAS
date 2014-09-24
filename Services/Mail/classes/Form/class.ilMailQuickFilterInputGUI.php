@@ -118,34 +118,6 @@ class ilMailQuickFilterInputGUI extends ilTextInputGUI
 			$tpl->setVariable("POST_VAR", $postvar);
 		}
 
-		// use autocomplete feature?		
-		if ($this->getDataSource())
-		{
-			include_once "Services/jQuery/classes/class.iljQueryUtil.php";
-			iljQueryUtil::initjQuery();
-			iljQueryUtil::initjQueryUI();
-
-			if ($this->getMulti())
-			{
-				$tpl->setCurrentBlock("ac_multi");
-				$tpl->setVariable('MURL_AUTOCOMPLETE', $this->getDataSource());
-				$tpl->setVariable('ID_AUTOCOMPLETE', $this->getFieldId());
-				$tpl->parseCurrentBlock();
-
-				// set to fields that start with autocomplete selector
-				$sel_auto = '[id^="'.$this->getFieldId().'"]';
-			}
-			else
-			{
-				// use id for autocomplete selector
-				$sel_auto = "#".$this->getFieldId();
-			}
-			$tpl->setCurrentBlock("prop_text_autocomplete");
-			$tpl->setVariable('SEL_AUTOCOMPLETE', $sel_auto);
-			$tpl->setVariable('URL_AUTOCOMPLETE', $this->getDataSource());
-			$tpl->parseCurrentBlock();
-		}
-
 		if ($a_mode == "toolbar")
 		{
 			// block-inline hack, see: http://blog.mozilla.com/webdev/2009/02/20/cross-browser-inline-block/
@@ -156,12 +128,6 @@ class ilMailQuickFilterInputGUI extends ilTextInputGUI
 		else
 		{
 			$tpl->setVariable("STYLE_PAR", '');
-		}
-
-		// multi icons
-		if($this->getMulti() && !$a_mode && !$this->getDisabled())
-		{
-			$tpl->setVariable("MULTI_ICONS", $this->getMultiIconsHTML($this->multi_sortable));
 		}
 
 		if(is_array($this->sub_items) && $this->sub_items)

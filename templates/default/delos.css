@@ -7602,6 +7602,12 @@ a.mailunread,
 a.mailunread:visited {
   font-weight: bold;
 }
+.iosMailFilter .checkbox {
+  display: inline-block !important;
+}
+.iosMailFilter .checkbox input[type="checkbox"] {
+  margin-left: -15px !important;
+}
 /* --- Services/COPage ---*/
 a.ilEditSubmit {
   background: url(images/ButtonsBack.png) repeat-x bottom #ffffff;
