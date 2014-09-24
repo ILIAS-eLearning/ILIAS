@@ -1249,7 +1249,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	/**
 	* Sets the shuffle flag
 	*
-	* @param boolean $shuffle A flag indicating whether the answers are shuffled or not
+	* @param integer $shuffle A flag indicating whether the answers are shuffled or not
 	* @see $shuffle
 	*/
 	public function setShuffle($shuffle)
