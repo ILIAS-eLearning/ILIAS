@@ -158,29 +158,18 @@ class ilMath
 
 			$is_exponent_decimal_number = strpos($right_operand_dec, '.') !== false;
 
-			/*if($is_exponent_decimal_number && $scale <= 14)
-			{
-				// uses pow
-			}
-			else if(!$is_exponent_decimal_number && $scale > 14)
-			{
-				// use bcpow
-			}
-			else if(!$is_exponent_decimal_number && $scale <= 14)
-			{
-				// use bcpow
-			}
-			else if($is_exponent_decimal_number && $scale > 14)
-			{
-				// partly undefined
-			}*/
-
-			if(!$is_exponent_decimal_number || $scale > 14)
+			// bcpow does NOT support decimal exponents
+			if(!$is_exponent_decimal_number)
 			{
 				return bcpow($left_operand_dec, $right_operand_dec, $scale);
 			}
-
-			// fall through
+		}
+		
+		// pow does calculate with a scale of 14,
+		// so rounding should not consider larger scale
+		if( $scale > 14 )
+		{
+			$scale = 14;
 		}
 
 		$res = pow($left_operand, $right_operand);
