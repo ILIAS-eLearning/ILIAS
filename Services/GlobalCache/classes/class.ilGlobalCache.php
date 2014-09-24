@@ -44,10 +44,18 @@ class ilGlobalCache {
 		self::COMP_OBJ_DEF,
 		self::COMP_ILCTRL,
 		self::COMP_COMPONENT,
-//		self::COMP_TEMPLATE,
+		self::COMP_TEMPLATE,
 		self::COMP_EVENTS,
 		//'ctrl_mm'
 	);
+	/**
+	 * @var array
+	 */
+	protected static $type_per_component = array();
+	/**
+	 * @var string
+	 */
+	protected static $unique_service_id = NULL;
 	/**
 	 * @var ilGlobalCache
 	 */
@@ -80,13 +88,17 @@ class ilGlobalCache {
 	 * @return int
 	 */
 	protected static function getComponentType($component = NULL) {
-		/**
-		 * @var $ilClientIniFile ilIniFile
-		 */
-		global $ilClientIniFile;
-		$service_type = $ilClientIniFile->readVariable('cache', 'global_cache_service_type');
-		if ($service_type) {
-			return $service_type;
+		$component = 0; // In this Version All Components have the same Caching-Type
+		if (! isset(self::$type_per_component[$component])) {
+			/**
+			 * @var $ilClientIniFile ilIniFile
+			 */
+			global $ilClientIniFile;
+			self::$type_per_component[$component] = $ilClientIniFile->readVariable('cache', 'global_cache_service_type');
+		}
+
+		if (self::$type_per_component[$component]) {
+			return self::$type_per_component[$component];
 		}
 
 		return self::TYPE_FALLBACK;
@@ -114,9 +126,11 @@ class ilGlobalCache {
 	 * @return string
 	 */
 	protected static function generateServiceId() {
-		$service_id = 'ilias';
+		if (! isset(self::$unique_service_id)) {
+			self::$unique_service_id = substr(md5('il_' . CLIENT_ID), 0, 6);
+		}
 
-		return $service_id;
+		return self::$unique_service_id;
 	}
 
 

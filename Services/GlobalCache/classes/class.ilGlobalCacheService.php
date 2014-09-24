@@ -36,6 +36,10 @@ abstract class ilGlobalCacheService {
 	 * @var int
 	 */
 	protected $service_type = ilGlobalCache::TYPE_STATIC;
+	/**
+	 * @var string
+	 */
+	protected $valid_key_hash = '';
 
 
 	/**
@@ -64,7 +68,9 @@ abstract class ilGlobalCacheService {
 	 */
 	protected function saveValid() {
 		if ($this->isActive()) {
-			$this->set('valid_keys', $this->serialize($this->valid_keys));
+			if ($this->valid_key_hash != md5(serialize($this->valid_keys))) {
+				$this->set('valid_keys', $this->serialize($this->valid_keys));
+			}
 		}
 	}
 
@@ -77,6 +83,7 @@ abstract class ilGlobalCacheService {
 	protected function readValid() {
 		if ($this->isActive()) {
 			$this->valid_keys = $this->unserialize($this->get('valid_keys'));
+			$this->valid_key_hash = md5(serialize($this->valid_keys));
 		}
 	}
 
