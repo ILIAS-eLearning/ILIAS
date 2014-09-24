@@ -19,7 +19,7 @@ class gevBillingReportGUI extends gevBasicReportGUI{
 
 		$this->title = array(
 			'title' => 'gev_rep_billing_title',
-			'desc' => 'gev_rep_biling_desc',
+			'desc' => 'gev_rep_billing_desc',
 			'img' => 'GEV_img/ico-head-rep-billing.png'
 		);
 
