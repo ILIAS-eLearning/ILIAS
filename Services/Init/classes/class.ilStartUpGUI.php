@@ -1346,15 +1346,10 @@ class ilStartUpGUI
 		// content
 		$tbl->setData($data);
 
-		// footer
-		$tbl->setFooter("tblfooter");
-
-		// styles
-		$tbl->setStyle("table","table table-striped");
-
 		$tbl->disable("icon");
 		$tbl->disable("numinfo");
 		$tbl->disable("sort");
+		$tbl->disable("footer");
 		
 		// render table
 		$tbl->render();

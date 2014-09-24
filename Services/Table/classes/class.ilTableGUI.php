@@ -467,7 +467,7 @@ class ilTableGUI
 	{
 		if($this->enabled['table'])
 		{
-			$this->tpl->setVariable("CSS_TABLE",$this->getStyle("table"));
+			$this->tpl->setVariable("CSS_TABLE", "table table-striped" /* $this->getStyle("table") */);
 		}
 
 		// table title icon
@@ -652,12 +652,12 @@ class ilTableGUI
 		if ($this->enabled["footer"] && $this->max_count > 0)
 		{
 			$this->tpl->setCurrentBlock("tbl_footer");
-			$this->tpl->setVariable("COLUMN_COUNT",$this->column_count);
+			$this->tpl->setVariable("FOOTER_COLUMN_COUNT",$this->column_count);
 			$this->tpl->parseCurrentBlock();
 		}
 
 		// action buttons
-		if ($this->enabled["action"])
+		if ($this->enabled["action"] && is_array($this->action_buttons))
 		{
 			foreach ($this->action_buttons as $button)
 			{

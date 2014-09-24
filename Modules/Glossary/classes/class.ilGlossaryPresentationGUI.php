@@ -762,7 +762,7 @@ class ilGlossaryPresentationGUI
 		$tbl->setOffset($_GET["offset"]);
 		$tbl->setMaxCount($this->maxcount);		// ???
 
-		$this->tpl->setVariable("COLUMN_COUNTS", 5);
+		// $this->tpl->setVariable("COLUMN_COUNTS", 5);
 
 		// footer
 		//$tbl->setFooter("tblfooter",$this->lng->txt("previous"),$this->lng->txt("next"));

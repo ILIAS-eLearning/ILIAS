@@ -86,6 +86,14 @@ class ilPresentationListTableGUI extends ilTable2GUI
 			
 			$this->setShowRowsSelector(true);
 		}
+				
+		// advanced metadata
+		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
+		$this->record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_FILTER,'glo',$this->glossary->getId(),'term');
+		$this->record_gui->setSelectedOnly(true);
+		$this->record_gui->setTableGUI($this);
+		$this->record_gui->parse();
+		
 		//$this->setDefaultOrderField("login");
 		//$this->setDefaultOrderDirection("asc");
 		$this->setData($this->glossary->getTermList($this->filter["term"], $_GET["letter"],
@@ -121,14 +129,7 @@ class ilPresentationListTableGUI extends ilTable2GUI
 			$this->addFilterItem($ti);
 			$ti->readFromSession();
 			$this->filter["definition"] = $ti->getValue();
-		}
-		
-		// advanced metadata
-		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
-		$this->record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_FILTER,'glo',$this->glossary->getId(),'term');
-		$this->record_gui->setSelectedOnly(true);
-		$this->record_gui->setTableGUI($this);
-		$this->record_gui->parse();
+		}		
 	}
 	
 	public function writeFilterToSession()

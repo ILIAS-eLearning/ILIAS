@@ -186,12 +186,12 @@ class ilADTDateSearchBridgeRange extends ilADTSearchBridgeRange
 				}
 			}
 			else if(array_key_exists($this->getElementId(), $this->table_filter_fields))
-			{								
+			{									
 				$this->table_filter_fields[$this->getElementId()]->getCombinationItem("lower")->setDate($start);				
 				$this->table_filter_fields[$this->getElementId()]->getCombinationItem("upper")->setDate($end);				
 				$this->writeFilter(array(
-					"lower" => $start->isNull() ? null: $start->get(IL_CAL_DATE),
-					"upper" => $end->isNull() ? null : $end->get(IL_CAL_DATE)
+					"lower" => (!$start || $start->isNull()) ? null: $start->get(IL_CAL_DATE),
+					"upper" => (!$end || $end->isNull()) ? null : $end->get(IL_CAL_DATE)
 				));
 			}		
 			

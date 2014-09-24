@@ -190,8 +190,8 @@ class ilADTDateTimeSearchBridgeRange extends ilADTSearchBridgeRange
 				$this->table_filter_fields[$this->getElementId()]->getCombinationItem("lower")->setDate($start);				
 				$this->table_filter_fields[$this->getElementId()]->getCombinationItem("upper")->setDate($end);				
 				$this->writeFilter(array(
-					"lower" => $start->isNull() ? null: $start->get(IL_CAL_DATETIME),
-					"upper" => $end->isNull() ? null : $end->get(IL_CAL_DATETIME)
+					"lower" => (!$start || $start->isNull()) ? null: $start->get(IL_CAL_DATETIME),
+					"upper" => (!$end || $end->isNull()) ? null : $end->get(IL_CAL_DATETIME)
 				));
 			}		
 			
