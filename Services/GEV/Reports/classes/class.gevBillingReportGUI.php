@@ -55,7 +55,7 @@ class gevBillingReportGUI extends gevBasicReportGUI{
 	}
 	
 	protected function userIsPermitted () {
-		return $this->user_utils->isAdmin();
+		return $this->user_utils->isAdmin() || $this->permissions->viewBillingReport();
 	}
 
 	protected function executeCustomCommand($a_cmd) {

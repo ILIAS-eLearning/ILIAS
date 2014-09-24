@@ -83,15 +83,12 @@ class gevMainMenuGUI extends ilMainMenuGUI {
 
 		$has_others_menu = $employee_booking || $my_org_unit || $tep || $pot_participants || $apprentices || $local_user_admin;
 
-		//require_once("Services/GEV/Reports/classes/class.gevReportingPermissions.php");
-		//$report_permissions = gevReportingPermissions::getInstance($this->user->getId());
-
-		//$report_permissions->getOrgUnitIdsWhereUserHasRole(array());
-		//die();
-
-		$report_permission_billing = $this->userUtils->isAdmin();
+		require_once("Services/GEV/Reports/classes/class.gevReportingPermissions.php");
+		$report_permissions = gevReportingPermissions::getInstance($this->user->getId());
+		
+		$report_permission_billing = $this->userUtils->isAdmin() || $report_permissions->viewAnyReport();
 		$report_permission_attendancebyuser =  $this->userUtils->isAdmin();//$this->userUtils->isSuperior();// || $this->userUtils->isAdmin();
-		$has_reporting_menu = $this->userUtils->isAdmin(); //$report_permission_attendancebyuser; // || ....
+		$has_reporting_menu = $this->userUtils->isAdmin() || $report_permissions->viewAnyReport(); //$report_permission_attendancebyuser; // || ....
 
 		$is_trainer = $tep; // $tep_permissions->isTutor();
 

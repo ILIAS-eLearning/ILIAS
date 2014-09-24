@@ -1,14 +1,14 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once "Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php";
+require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 
 /**
  * TEP permissions handling
  *
- * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ingroup ServicesTEP
+ * @author Richard Klees <richard.klees@concepts-and-training.de>
  */
+
 class gevReportingPermissions
 {	
 	protected $user_id; // [int]
@@ -24,7 +24,8 @@ class gevReportingPermissions
 	 */
 	protected function __construct($a_user_id)
 	{	
-		$this->setUserId($a_user_id);
+		$this->user_id = (int)$a_user_id;
+		$this->user_utils = gevUserUtils::getInstance($this->user_id);
 	}
 	
 	/**
@@ -65,19 +66,7 @@ class gevReportingPermissions
 	//
 	// properties
 	//
-	
-	/**
-	 * Set user id
-	 * 
-	 * @throws ilException
-	 * @param int $a_user_id
-	 */
-	protected function setUserId($a_user_id)
-	{		
-		$this->user_id = (int)$a_user_id;
-		$this->perms = $this->loadOrgUnitPermissions($this->user_id);
-	}
-	
+
 	/**
 	 * Get user id
 	 * 
@@ -90,6 +79,18 @@ class gevReportingPermissions
 	
 	
 	//
+	// Permissions
+	//
+	
+	public function viewAnyReport() {
+		return $this->viewBillingReport();
+	}
+	
+	public function viewBillingReport() {
+		return $this->user_utils->hasRoleIn(array("Buchhaltung"));
+	}
+	
+	//
 	// org unit
 	// 
 	
@@ -99,7 +100,7 @@ class gevReportingPermissions
 	 * @param int $a_user_id
 	 * @return array
 	 */
-	protected function loadOrgUnitPermissions($a_user_id)
+	/*protected function loadOrgUnitPermissions($a_user_id)
 	{
 		global $rbacsystem;
 		
@@ -116,7 +117,7 @@ class gevReportingPermissions
 		}
 		
 		return $res;
-	}
+	}*/
 	
 	/**
 	 * Get all org units BELOW given units
@@ -124,7 +125,7 @@ class gevReportingPermissions
 	 * @param array $ou_ref_ids
 	 * @return array
 	 */
-	protected function getRecursiveOrgUnits(array $ou_ref_ids)
+	/*protected function getRecursiveOrgUnits(array $ou_ref_ids)
 	{		
 		$ou_tree = ilObjOrgUnitTree::_getInstance();	
 		foreach($ou_tree->getAllChildren(ilObjOrgUnit::getRootOrgRefId()) as $ou_ref_id)
@@ -149,7 +150,7 @@ class gevReportingPermissions
 		}	
 		
 		return $ou_ref_ids;
-	}
+	}*/
 	
 	/**
 	 * Get users with tutor-permission in given org units
@@ -157,7 +158,7 @@ class gevReportingPermissions
 	 * @param array $ou_ref_ids
 	 * @return array
 	 */
-	protected function getOrgUnitTutors(array $ou_ref_ids)
+	/*protected function getOrgUnitTutors(array $ou_ref_ids)
 	{
 		global $ilDB;
 		
@@ -204,8 +205,8 @@ class gevReportingPermissions
 		}
 		
 		return $res;
-	}
-					
+	}*/
+	
 	
 	//
 	// permissions
@@ -217,7 +218,7 @@ class gevReportingPermissions
 	 * @param string $a_permission
 	 * @return boolean
 	 */
-	protected function hasPermissionInAnyOrgUnit($a_permission)
+	/*protected function hasPermissionInAnyOrgUnit($a_permission)
 	{
 		foreach($this->perms as $ou_perms)
 		{
@@ -227,24 +228,24 @@ class gevReportingPermissions
 			}
 		}
 		return false;
-	}
+	}*/
 	
 	/**
 	 * Is user tutor in any org-unit?
 	 * 
 	 * @return bool
 	 */
-	public function isTutor()
+	/*public function isTutor()
 	{
 		return $this->hasPermissionInAnyOrgUnit("tep_is_tutor");
-	}
+	}*/
 	
 	/**
 	 * Get org units where user can view others
 	 * 
 	 * @return array
 	 */
-	public function getViewOtherOrgUnits()
+	/*public function getViewOtherOrgUnits()
 	{
 		$res = array();
 		
@@ -257,7 +258,7 @@ class gevReportingPermissions
 		}
 		
 		return $res;
-	}
+	}*/
 	
 	/**
 	 * Get tutors from org units where user can view others
@@ -265,7 +266,7 @@ class gevReportingPermissions
 	 * @param array $a_org_ref_ids
 	 * @return array
 	 */
-	public function getViewOtherUserIds(array $a_org_ref_ids = null)
+	/*public function getViewOtherUserIds(array $a_org_ref_ids = null)
 	{
 		$valid = $this->getViewOtherOrgUnits();
 		if(!$a_org_ref_ids)
@@ -277,7 +278,7 @@ class gevReportingPermissions
 			$a_org_ref_ids = array_intersect($a_org_ref_ids, $valid);
 		}		
 		return $this->getOrgUnitTutors($a_org_ref_ids);
-	}
+	}*/
 	
 	/**
 	 * Get org units where user can view other tutors recursively
@@ -285,7 +286,7 @@ class gevReportingPermissions
 	 * @param array $a_org_ref_ids
 	 * @return array
 	 */
-	public function getViewOtherRecursiveOrgUnits(array $a_org_ref_ids = null)
+	/*public function getViewOtherRecursiveOrgUnits(array $a_org_ref_ids = null)
 	{
 		$ou_ref_ids = array();
 		
@@ -302,7 +303,7 @@ class gevReportingPermissions
 		}
 		
 		return $this->getRecursiveOrgUnits($ou_ref_ids);
-	}
+	}*/
 	
 	/**
 	 * Get tutors from org units where user can view others recursively
@@ -310,10 +311,10 @@ class gevReportingPermissions
 	 * @param array $a_org_ref_ids
 	 * @return array
 	 */
-	public function getViewOtherRecursiveUserIds(array $a_org_ref_ids = null)
+	/*public function getViewOtherRecursiveUserIds(array $a_org_ref_ids = null)
 	{
 		return $this->getOrgUnitTutors($this->getViewOtherRecursiveOrgUnits($a_org_ref_ids));
-	}
+	}*/
 	
 	
 	/**
@@ -321,7 +322,7 @@ class gevReportingPermissions
 	 * 
 	 * @return array
 	 */
-	public function getEditOtherOrgUnits()
+	/*public function getEditOtherOrgUnits()
 	{
 		$ou_ref_ids = array();
 		
@@ -334,24 +335,24 @@ class gevReportingPermissions
 		}
 		
 		return $this->getRecursiveOrgUnits($ou_ref_ids);
-	}
+	}*/
 	
 	/**
 	 * Get tutors from org units where user can edit others
 	 * 
 	 * @return array
 	 */
-	public function getEditOtherUserIds()
+	/*public function getEditOtherUserIds()
 	{
 		return $this->getOrgUnitTutors($this->getEditOtherOrgUnits());
-	}
+	}*/
 	
 	/**
 	 * Get org units where user can edit other tutors recursively
 	 * 
 	 * @return array
 	 */
-	public function getEditOtherRecursiveOrgUnits()
+	/*public function getEditOtherRecursiveOrgUnits()
 	{
 		$ou_ref_ids = array();
 		
@@ -364,17 +365,17 @@ class gevReportingPermissions
 		}
 		
 		return $this->getRecursiveOrgUnits($ou_ref_ids);
-	}
+	}*/
 	
 	/**
 	 * Get tutors from org units where user can edit others recursively
 	 * 
 	 * @return array
 	 */
-	public function getEditOtherRecursiveUserIds()
+	/*public function getEditOtherRecursiveUserIds()
 	{		
 		return $this->getOrgUnitTutors($this->getEditOtherRecursiveOrgUnits());
-	}
+	}*/
 	
 	//
 	// meta
@@ -385,45 +386,45 @@ class gevReportingPermissions
 	 * 
 	 * @return bool
 	 */
-	public function mayView()
+	/*public function mayView()
 	{		
 		return ($this->isTutor() || 
 			$this->hasPermissionInAnyOrgUnit("tep_view_other") ||
 			$this->hasPermissionInAnyOrgUnit("tep_view_other_rcrsv"));
-	}
+	}*/
 	
 	/**
 	 * May user edit "anything"?
 	 * 
 	 * @return bool
 	 */
-	public function mayEdit()
+	/*public function mayEdit()
 	{
 		return ($this->isTutor() || 
 			$this->mayEditOthers());
-	}
+	}*/
 	
 	/**
 	 * May user edit anyone else?
 	 * 
 	 * @return bool
 	 */
-	public function mayEditOthers()
+	/*public function mayEditOthers()
 	{
 		return ($this->hasPermissionInAnyOrgUnit("tep_edit_other") ||
 			$this->hasPermissionInAnyOrgUnit("tep_edit_other_rcrsv"));
-	}
+	}*/
 	
 	/**
 	 * May user view anyone else?
 	 * 
 	 * @return bool
 	 */
-	public function mayViewOthers()
+	/*public function mayViewOthers()
 	{
 		return ($this->hasPermissionInAnyOrgUnit("tep_view_other") ||
 			$this->hasPermissionInAnyOrgUnit("tep_view_other_rcrsv"));
-	}
+	}*/
 
 
 /*

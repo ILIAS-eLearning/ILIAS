@@ -47,7 +47,7 @@ abstract class gevBasicReportGUI {
 		$this->external_sorting = false;
 
 
-		//$this->report_permissions = gevReportingPermissions::getInstance($this->user->getId());
+		$this->permissions = gevReportingPermissions::getInstance($this->user->getId());
 
 		//date is a mandatory filter.
 		$this->start_date = $_POST["period"]["start"]["date"]
