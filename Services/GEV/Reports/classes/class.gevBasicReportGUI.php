@@ -279,10 +279,6 @@ abstract class gevBasicReportGUI {
 		return $this->data;
 	}
 
-	protected function fetchData(){ 
-		//fetch retrieves the data 
-		die('gevBasicReportGUI::fetchData: WRONG SCOPE !');
-	}
-
+	abstract protected function fetchData();
 }
 ?>
