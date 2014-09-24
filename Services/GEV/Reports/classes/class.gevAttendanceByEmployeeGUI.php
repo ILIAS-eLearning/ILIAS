@@ -64,7 +64,6 @@ class gevAttendanceByEmployeeGUI extends gevBasicReportGUI{
 		$user_utils = gevUserUtils::getInstance($this->target_user_id);
 		$data = array();
 
-
 		//when ordering the table, watch out for date!
 		//_table_nav=date:asc:0
 		//btw, what is the third parameter?

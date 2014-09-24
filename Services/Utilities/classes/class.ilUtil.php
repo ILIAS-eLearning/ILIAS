@@ -1598,8 +1598,7 @@ class ilUtil
 	* @static
 	* 
 	*/
-
-
+	// gev-patch start
 	public static function rCopy ($a_sdir, $a_tdir, $preserveTimeAttributes = false){
 		
 		$source = $a_sdir;
@@ -1684,6 +1683,7 @@ class ilUtil
 		}
 		return TRUE;
 	}
+	// gev-patch end
 
 	/**
 	* get webspace directory

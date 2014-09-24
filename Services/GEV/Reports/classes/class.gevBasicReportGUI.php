@@ -46,7 +46,6 @@ abstract class gevBasicReportGUI {
 		//i.e. applies to: _table_nav=date:asc:
 		$this->external_sorting = false;
 
-
 		$this->permissions = gevReportingPermissions::getInstance($this->user->getId());
 
 		//date is a mandatory filter.
