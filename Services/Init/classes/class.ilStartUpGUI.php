@@ -1350,7 +1350,7 @@ class ilStartUpGUI
 		$tbl->setFooter("tblfooter");
 
 		// styles
-		$tbl->setStyle("table","std");
+		$tbl->setStyle("table","table table-striped");
 
 		$tbl->disable("icon");
 		$tbl->disable("numinfo");

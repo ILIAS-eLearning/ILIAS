@@ -12,6 +12,7 @@ function setCheckboxes(a_form, a_varname, a_elements, a_check)
 }
 //-->
 </script>
+<div class="table-responsive">
 <!-- BEGIN tbl_form_header -->
 <form action="{FORMACTION}" name="cmd" method="post" target="{ACTIONTARGET}">
 <!-- END tbl_form_header -->
@@ -50,7 +51,7 @@ function setCheckboxes(a_form, a_varname, a_elements, a_check)
   </tr>
 <!-- END tbl_header -->
 <!-- BEGIN tbl_content_row -->
-  <tr class="{ROWCOLOR}">
+  <tr>
 <!-- BEGIN tbl_content_cell -->
     <td class="std" colspan="{TBL_COL_SPAN}">{TBL_CONTENT_CELL}
 <!-- BEGIN tbl_cell_subtitle -->
@@ -137,3 +138,4 @@ function setCheckboxes(a_form, a_varname, a_elements, a_check)
 <!-- BEGIN tbl_form_footer -->
 </form>
 <!-- END tbl_form_footer -->
+</div>
