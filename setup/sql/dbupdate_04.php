@@ -4039,3 +4039,15 @@ $ilCtrlStructureReader->getStructure();
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#4386>
+<?php
+	$ilSetting = new ilSetting("assessment");
+	$ilSetting->set("use_javascript", "1");
+?>
+<#4387>
+<?php
+	$ilDB->update('tst_tests', 
+		array('forcejs' => array('integer', 1)),
+		array('forcejs' => array('integer', 0))
+	);
+?>
