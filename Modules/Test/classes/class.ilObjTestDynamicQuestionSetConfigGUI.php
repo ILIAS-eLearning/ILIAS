@@ -20,6 +20,7 @@ class ilObjTestDynamicQuestionSetConfigGUI
 	 */
 	const CMD_SHOW_FORM	= 'showForm';
 	const CMD_SAVE_FORM	= 'saveForm';
+	const CMD_GET_TAXONOMY_OPTIONS_ASYNC = 'getTaxonomyOptionsAsync';
 	
 	/**
 	 * global $ilCtrl object
@@ -135,6 +136,14 @@ class ilObjTestDynamicQuestionSetConfigGUI
 		}
 	}
 	
+	public function getTaxonomyOptionsAsyncCmd()
+	{
+		$questionPoolId = (int)$_POST['question_pool_id'];
+
+		echo $this->buildTaxonomySelectInputOptionJson($questionPoolId);
+		exit;
+	}
+	
 	/**
 	 * command method that prints the question set config form
 	 * 
@@ -159,6 +168,8 @@ class ilObjTestDynamicQuestionSetConfigGUI
 		}
 		
 		$this->tpl->setContent( $this->ctrl->getHTML($form) );
+		
+		$this->tpl->addJavaScript('Modules/Test/js/ilTestDynamicQuestionSetConfig.js');
 	}
 	
 	/**
@@ -252,6 +263,12 @@ class ilObjTestDynamicQuestionSetConfigGUI
 		$form->setId("tst_form_dynamic_question_set_config");
 		$form->setTitle($this->lng->txt('tst_form_dynamic_question_set_config'));
 		$form->setTableWidth("100%");
+		
+		$hiddenInputTaxSelectOptAsyncUrl = new ilHiddenInputGUI('taxSelectOptAsyncUrl');
+		$hiddenInputTaxSelectOptAsyncUrl->setValue(
+			$this->ctrl->getLinkTarget($this, self::CMD_GET_TAXONOMY_OPTIONS_ASYNC, '', true)
+		);
+		$form->addItem($hiddenInputTaxSelectOptAsyncUrl);
 
 		if( $this->testOBJ->participantDataExist() )
 		{
@@ -292,7 +309,7 @@ class ilObjTestDynamicQuestionSetConfigGUI
 			$orderTaxInput->setInfo($this->lng->txt('tst_input_dynamic_question_set_ordering_tax_description'));
 			$orderTaxInput->setValue($this->questionSetConfig->getOrderingTaxonomyId());
 			$orderTaxInput->setRequired(true);
-			$orderTaxInput->setOptions($this->buildTaxonomySelectInputOptionnArray(
+			$orderTaxInput->setOptions($this->buildTaxonomySelectInputOptionArray(
 					$this->questionSetConfig->getSourceQuestionPoolId()
 			));
 		$optionOrderByTax->addSubItem($orderTaxInput);
@@ -341,21 +358,36 @@ class ilObjTestDynamicQuestionSetConfigGUI
 		return $questionPoolSelectInputOptions;
 	}
 	
-	private function buildTaxonomySelectInputOptionnArray($questionPoolId)
+	private function buildTaxonomySelectInputOptionArray($questionPoolId)
 	{
 		$taxSelectOptions = array(
-			'' => $this->lng->txt('please_select')
+			0 => $this->lng->txt('please_select')
 		);
 		
-		require_once 'Services/Taxonomy/classes/class.ilObjTaxonomy.php';
-		
-		$taxIds = ilObjTaxonomy::getUsageOfObject($questionPoolId);
-		
-		foreach($taxIds as $taxId)
+		if( $questionPoolId )
 		{
-			$taxSelectOptions[$taxId] = ilObject::_lookupTitle($taxId);
+			require_once 'Services/Taxonomy/classes/class.ilObjTaxonomy.php';
+
+			$taxIds = ilObjTaxonomy::getUsageOfObject($questionPoolId);
+
+			foreach($taxIds as $taxId)
+			{
+				$taxSelectOptions[$taxId] = ilObject::_lookupTitle($taxId);
+			}
 		}
 		
 		return $taxSelectOptions;
+	}
+	
+	private function buildTaxonomySelectInputOptionJson($questionPoolId)
+	{
+		$options = array();
+
+		foreach($this->buildTaxonomySelectInputOptionArray($questionPoolId) as $optValue => $optLabel)
+		{
+			$options[] = array('value' => $optValue, 'label' => $optLabel);
+		}
+
+		return json_encode($options);
 	}
 }
