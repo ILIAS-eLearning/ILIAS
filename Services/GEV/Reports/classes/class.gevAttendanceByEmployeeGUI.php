@@ -76,7 +76,7 @@ class gevAttendanceByEmployeeGUI extends gevBasicReportGUI{
 				case 'date':
 					$direction = strtoupper($table_nav_cmd[1]);
 					$sql_order_str = " ORDER BY crs.begin_date ";
-					$sql_order_str .= $direction;
+					$sql_order_str .= ($direction == "asc" ? "ASC" : "DESC");
 					break;
 				
 				//append more fields, simply for performance...
