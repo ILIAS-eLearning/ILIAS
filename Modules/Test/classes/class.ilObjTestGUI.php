@@ -3785,14 +3785,6 @@ class ilObjTestGUI extends ilObjectGUI
 					{
 						$checked_javascript = true;
 					}
-					if ($this->object->getForceJS())
-					{
-						$info->addProperty($this->lng->txt("tst_test_output"), $this->lng->txt("tst_use_javascript"));
-					}
-					else
-					{
-						$info->addPropertyCheckbox($this->lng->txt("tst_test_output"), "chb_javascript", 1, $this->lng->txt("tst_use_javascript"), $checked_javascript);
-					}
 				}
 				// hide previous results
 				if( !$this->object->isRandomTest() )

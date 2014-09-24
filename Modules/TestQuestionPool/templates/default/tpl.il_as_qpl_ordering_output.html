@@ -1,23 +1,55 @@
+<script>
+	var initialorder = new Array();
+
+	function saveInitialOrder()
+	{
+		var ul = document.getElementById("orderlist");
+		var listelements = ul.getElementsByTagName("li");
+		for (var i = 0; i < listelements.length; i++)
+		{
+			initialorder.push(listelements[i].id);
+		}
+	}
+
+	function restoreInitialOrder()
+	{
+		for (var i = initialorder.length - 1; i > 0; i--)
+		{
+			var $a = $("#" + initialorder[i]);
+			var $b = $("#" + initialorder[i- 1]);
+			$a.before($b);
+		}
+	}
+
+	function saveOrder(listID)
+	{
+		var list = document.getElementById(listID);
+		var items = list.getElementsByTagName("li");
+		var itemsString = "";
+		for(var i = 0; i < items.length; i++)
+		{
+			if (itemsString.length > 0) itemsString += ":";
+			itemsString += items[i].id;
+		}
+		document.getElementById('orderresult').value = itemsString;
+	}
+
+	function createSortable() {
+		$("#orderlist").sortable({
+			opacity: 0.6,
+			revert: true,
+			cursor: "move",
+			axis: "y"
+		}).disableSelection();
+	}
+
+	$(function() {
+		createSortable();
+		saveInitialOrder();
+	});
+</script>
+
 {QUESTIONTEXT}
-<!-- BEGIN ordering_without_javascript -->
-<table class="nobackground">
-<!-- BEGIN ordering_row_standard -->
-	<tr>
-		<td class="nobackground" width="30">
-			<input type="text" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off" size="2" name="order_{ANSWER_ID}" id="id_{ANSWER_ID}"{ANSWER_ORDER} />
-		</td>
-		<td class="nobackground">
-<!-- BEGIN ordering_row_standard_text -->
-			<label for="id_{ANSWER_ID}">{ANSWER_TEXT}</label>
-<!-- END ordering_row_standard_text -->
-<!-- BEGIN ordering_row_standard_pictures -->
-			<label for="id_{ANSWER_ID}"><a target="_new" href="{PICTURE_HREF}"><img border="0" src="{THUMB_HREF}" alt="{THUMB_ALT}" title="{THUMB_TITLE}" /></a></label>
-<!-- END ordering_row_standard_pictures -->
-		</td>
-	</tr>
-<!-- END ordering_row_standard -->
-</table>
-<!-- END ordering_without_javascript -->
 <!-- BEGIN ordering_with_javascript -->
 <table border="0" width="100%">
 	<tr>

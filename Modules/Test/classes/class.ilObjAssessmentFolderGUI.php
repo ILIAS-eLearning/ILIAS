@@ -508,7 +508,6 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
                 $ilTabs->activateTab('defaults');
 
 		$assessmentSetting = new ilSetting("assessment");
-		$use_javascript = array_key_exists("use_javascript", $_GET) ? $_GET["use_javascript"] : $assessmentSetting->get("use_javascript");
 		$imap_line_color = array_key_exists("imap_line_color", $_GET) ? $_GET["imap_line_color"] : $assessmentSetting->get("imap_line_color");
 		if (strlen($imap_line_color) == 0) $imap_line_color = "FF0000";
 		
@@ -516,12 +515,6 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($ilCtrl->getFormAction($this));
 		$form->setTitle($lng->txt("assessment_defaults"));
-		
-		// Enable javascript
-		$enable = new ilCheckboxInputGUI($lng->txt("assessment_use_javascript"), "use_javascript");
-		$enable->setChecked($use_javascript);
-		$enable->setInfo($lng->txt("assessment_use_javascript_desc"));
-		$form->addItem($enable);
 		
 		$linepicker = new ilColorPickerInputGUI($lng->txt("assessment_imap_line_color"), "imap_line_color");
 		$linepicker->setValue($imap_line_color);
@@ -568,14 +561,8 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 		global $ilCtrl;
 
 		$assessmentSetting = new ilSetting("assessment");
-		if ($_POST["use_javascript"])
-		{
-			$assessmentSetting->set("use_javascript", "1");
-		}
-		else
-		{
-			$assessmentSetting->set("use_javascript", "0");
-		}
+		$assessmentSetting->set("use_javascript", "1");
+	
 		if (strlen($_POST["imap_line_color"]) == 6)
 		{
 			$assessmentSetting->set("imap_line_color", $_POST["imap_line_color"]);

@@ -290,7 +290,7 @@ abstract class assQuestion
 		$this->shuffle = 1;
 		$this->nr_of_tries = "";
 		$this->setEstimatedWorkingTime(0,1,0);
-		$this->outputType = OUTPUT_HTML;
+		$this->outputType = OUTPUT_JAVASCRIPT;
 		$this->arrData = array();
 		$this->setExternalId('');
 

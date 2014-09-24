@@ -497,11 +497,6 @@ class ilObjTestSettingsGeneralGUI
 			$this->testOBJ->setEndingTime('');
 		}
 		
-		if($form->getItemByPostVar('forcejs') instanceof ilFormPropertyGUI)
-		{
-			$this->testOBJ->setForceJS($form->getItemByPostVar('forcejs')->getChecked());
-		}
-		
 		if( $form->getItemByPostVar('title_output') instanceof ilFormPropertyGUI )
 		{
 			$this->testOBJ->setTitleOutput($form->getItemByPostVar('title_output')->getValue());
@@ -992,14 +987,6 @@ class ilObjTestSettingsGeneralGUI
 		$prevanswers->setChecked($this->testOBJ->getUsePreviousAnswers());
 		$prevanswers->setInfo($this->lng->txt("tst_use_previous_answers_description"));
 		$form->addItem($prevanswers);
-
-		// force js
-		$forcejs = new ilCheckboxInputGUI($this->lng->txt("forcejs_short"), "forcejs");
-		$forcejs->setValue(1);
-		$forcejs->setChecked($this->testOBJ->getForceJS());
-		$forcejs->setOptionTitle($this->lng->txt("forcejs"));
-		$forcejs->setInfo($this->lng->txt("forcejs_desc"));
-		$form->addItem($forcejs);
 
 		// question title output
 		$title_output = new ilRadioGroupInputGUI($this->lng->txt("tst_title_output"), "title_output");

@@ -402,7 +402,7 @@ class ilObjTest extends ilObject
 	*
 	* @var boolean
 	*/
-	private $_forcejs;
+	private $_forcejs = TRUE;
 	
 	/**
 	* Name of a custom style sheet for the test
@@ -589,7 +589,7 @@ class ilObjTest extends ilObject
 		$this->_showfinalstatement = FALSE;
 		$this->_finalstatement = "";
 		$this->_showinfo = TRUE;
-		$this->_forcejs = FALSE;
+		$this->_forcejs = TRUE;
 		$this->_customStyle = "";
 		$this->allowedUsersTimeGap = "";
 		$this->anonymity = 0;
@@ -9835,11 +9835,13 @@ function getAnswerFeedbackPoints()
 	*/
 	function getJavaScriptOutput()
 	{
-		global $ilUser;
-		if (strcmp($_GET["tst_javascript"], "0") == 0) return FALSE;
-		if ($this->getForceJS()) return TRUE;
-		$assessmentSetting = new ilSetting("assessment");
-		return ($ilUser->getPref("tst_javascript") === FALSE) ? $assessmentSetting->get("use_javascript") : $ilUser->getPref("tst_javascript");
+		return TRUE;
+		
+//		global $ilUser;
+//		if (strcmp($_GET["tst_javascript"], "0") == 0) return FALSE;
+//		if ($this->getForceJS()) return TRUE;
+//		$assessmentSetting = new ilSetting("assessment");
+//		return ($ilUser->getPref("tst_javascript") === FALSE) ? $assessmentSetting->get("use_javascript") : $ilUser->getPref("tst_javascript");
 	}
 	
 	function &createTestSequence($active_id, $pass, $shuffle)

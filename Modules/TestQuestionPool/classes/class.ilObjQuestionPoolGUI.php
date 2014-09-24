@@ -1372,7 +1372,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 				}
 				else
 				{
-					$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_".$this->object->getType()."_b.png"), $this->lng->txt("obj_qpl"));
+					$this->tpl->setTitleIcon(ilObject::_getIcon('', '', $this->object->getType()) , $this->lng->txt("obj_qpl"));
 				}
 			}
 			else

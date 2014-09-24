@@ -829,9 +829,6 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	 */
 	public function saveWorkingData($active_id, $pass = NULL)
 	{
-		global $ilDB;
-		global $ilUser;
-
 		$saveWorkingDataResult = $this->checkSaveData();
 		if ($saveWorkingDataResult)
 		{
@@ -848,9 +845,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 			$entered_values = 0;
 			foreach($this->getSolutionSubmit() as $val1 => $val2)
 			{
-
 				$this->saveCurrentSolution($active_id, $pass, $val1, trim($val2));
-				$ordervalue++;
 				$entered_values++;
 			}
 
@@ -1008,17 +1003,6 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	function &getAnswers()
 	{
 		return $this->answers;
-	}
-
-	/**
-	* Returns true if the question type supports JavaScript output
-	*
-	* @return boolean TRUE if the question type supports JavaScript output, FALSE otherwise
-	* @access public
-	*/
-	function supportsJavascriptOutput()
-	{
-		return TRUE;
 	}
 
 	/**
