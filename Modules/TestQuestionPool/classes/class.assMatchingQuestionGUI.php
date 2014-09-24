@@ -358,7 +358,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
 				3 => $this->lng->txt( "matching_shuffle_definitions" )
 			);
 			$shuffle->setOptions( $shuffle_options );
-			$shuffle->setValue( $this->object->getShuffle() );
+			$shuffle->setValue($this->object->getShuffle() != null ? $this->object->getShuffle() : 1);
 			$shuffle->setRequired( FALSE );
 			$form->addItem( $shuffle );
 
