@@ -86,6 +86,24 @@ abstract class ilRegistrationGUI
 	}
 	
 	/**
+	 * Parent object
+	 * @return ilObject
+	 */
+	public function getContainer()
+	{
+		return $this->container;
+	}
+	
+	/**
+	 * Get ref
+	 * @return type
+	 */
+	public function getRefId()
+	{
+		return $this->ref_id;
+	}
+	
+	/**
 	 * check if registration is possible
 	 *
 	 * @access protected
