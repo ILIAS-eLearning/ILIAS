@@ -132,4 +132,38 @@ class ilUserHistorizingHelper
 		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
 		return gevUserUtils::getInstanceByObjOrId($user)->getWBDOKZ();
 	}
+
+	/**
+	 * Returns the Adress-data of the given user.
+	 *
+	 * @param integer|ilObjUser $user
+	 *
+	 * @return array
+	 */
+	public static function getAddressDataOf($user)
+	{
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		$uutils = gevUserUtils::getInstanceByObjOrId($user);
+		$ret = array(
+			'street'			=> $uutils->getPrivateStreet(),
+			'zipcode'			=> $uutils->getPrivateZipcode(),
+			'city'				=> $uutils->getPrivateCity(),
+			'phone_nr'			=> $uutils->getUser()->getPhoneOffice(),
+			'mobile_phone_nr'	=> $uutils->getPrivatePhone()
+		);
+		return $ret;
+	}
+
+	/**
+	 * Returns the email of the given user.
+	 *
+	 * @param integer|ilObjUser $user
+	 *
+	 * @return string
+	 */
+	public static function getEMailOf($user)
+	{
+		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
+		return gevUserUtils::getInstanceByObjOrId($user)->getEMail();
+	}
 }

@@ -91,7 +91,7 @@ abstract class gevCrsAutoMail extends ilAutoMail {
 	}
 
 	public function getDescription() {
-		return $this->_getDescription().", Vorlage ".$this->getTemplateCategory();
+		return "Vorlage ".$this->getTemplateCategory() . ", " . $this->_getDescription();
 	}
 
 	abstract function _getDescription();

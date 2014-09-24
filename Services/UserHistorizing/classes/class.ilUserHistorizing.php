@@ -109,18 +109,26 @@ class ilUserHistorizing extends ilHistorizingStorage
 	protected function getContentColumnsDefinition()
 	{
 		$definition =  array(
-			'firstname'							=> 'text',
-			'lastname'							=> 'text',
-			'gender'							=> 'text',
-			'birthday'							=> 'date',
-			'org_unit'							=> 'text',
-			'position_key'						=> 'text',
-			'entry_date'						=> 'date',
-			'exit_date'							=> 'date',
-			'bwv_id'							=> 'text',
-			'okz'								=> 'text',
-			'begin_of_certification'			=> 'date',
-			'deleted'							=> 'integer'
+			'firstname'						=> 'text',
+			'lastname'						=> 'text',
+			'gender'						=> 'text',
+			'birthday'						=> 'date',
+			'org_unit'						=> 'text',
+			'position_key'					=> 'text',
+			'entry_date'					=> 'date',
+			'exit_date'						=> 'date',
+			'bwv_id'						=> 'text',
+			'okz'							=> 'text',
+			'begin_of_certification'		=> 'date',
+			'deleted'						=> 'integer',
+
+			'street'	 					=> 'text',
+			'zipcode'						=> 'text',
+			'city'							=> 'text',
+			'phone_nr'						=> 'text',
+			'mobile_phone_nr'				=> 'text',
+			
+			'email'							=> 'text'
 		);
 
 		return $definition;

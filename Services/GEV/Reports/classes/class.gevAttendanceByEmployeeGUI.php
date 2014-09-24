@@ -49,17 +49,12 @@ class gevAttendanceByEmployeeGUI extends gevBasicReportGUI{
 			array("gev_participation_status", "participation_status")
 		);
 
-	
 		$this->table_row_template= array(
 			"filename" => "tpl.gev_attendance_by_employee_row.html", 
 			"path" => "Services/GEV/Reports"
 		);
-			
-		
-
 	}
 	
-
 	protected function fetchData(){ 
 		//fetch retrieves the data 
 		require_once("Services/GEV/Utils/classes/class.gevUserUtils.php");
@@ -68,7 +63,6 @@ class gevAttendanceByEmployeeGUI extends gevBasicReportGUI{
 		$no_entry = $this->lng->txt("gev_table_no_entry");
 		$user_utils = gevUserUtils::getInstance($this->target_user_id);
 		$data = array();
-
 
 		//when ordering the table, watch out for date!
 		//_table_nav=date:asc:0
@@ -94,7 +88,6 @@ class gevAttendanceByEmployeeGUI extends gevBasicReportGUI{
 			}
 			
 		}
-
 
 		//get data
 		$query =	 "SELECT usrcrs.usr_id, usrcrs.crs_id, "
@@ -176,9 +169,6 @@ class gevAttendanceByEmployeeGUI extends gevBasicReportGUI{
 		return $query;
 	}
 
-
-
-
 	//_process_ will modify record entries
 	// xls means: only for Excel-Export
 	// date is the key in data-array 
@@ -187,12 +177,6 @@ class gevAttendanceByEmployeeGUI extends gevBasicReportGUI{
 		$val = str_replace('</nobr>', '', $val);
 		return $val;
 	}
-
-	
-
-
-
-
 }
 
 ?>

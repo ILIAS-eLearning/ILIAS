@@ -46,8 +46,7 @@ abstract class gevBasicReportGUI {
 		//i.e. applies to: _table_nav=date:asc:
 		$this->external_sorting = false;
 
-
-		//$this->report_permissions = gevReportingPermissions::getInstance($this->user->getId());
+		$this->permissions = gevReportingPermissions::getInstance($this->user->getId());
 
 		//date is a mandatory filter.
 		$this->start_date = $_POST["period"]["start"]["date"]
@@ -77,6 +76,12 @@ abstract class gevBasicReportGUI {
 
 		$cmd = $this->ctrl->getCmd();
 		
+		$res = $this->executeCustomCommand($cmd);
+		
+		if ($res !== null) {
+			return $res;
+		}
+		
 		switch ($cmd) {
 			case "exportxls":
 				$this->exportXLS();
@@ -86,10 +91,12 @@ abstract class gevBasicReportGUI {
 		}
 	}
 	
+	protected function executeCustomCommand($a_cmd) {
+		return null;
+	}
 	
 	protected function checkPermission() {
-
-		if( $this->user_utils->isAdmin() || $this->user_utils->isSuperior()) { 
+		if( $this->userIsPermitted() ) { 
 			return;
 		}
 		
@@ -97,7 +104,9 @@ abstract class gevBasicReportGUI {
 		ilUtil::redirect("ilias.php?baseClass=gevDesktopGUI&cmdClass=toMyCourses");
 	}
 
-
+	protected function userIsPermitted () {
+		return $this->user_utils->isAdmin() || $this->user_utils->isSuperior();
+	}
 
 	
 	protected function render() {
@@ -272,7 +281,7 @@ abstract class gevBasicReportGUI {
 
 	protected function fetchData(){ 
 		//fetch retrieves the data 
-		die('WRONG SCOPE !');
+		die('gevBasicReportGUI::fetchData: WRONG SCOPE !');
 	}
 
 }

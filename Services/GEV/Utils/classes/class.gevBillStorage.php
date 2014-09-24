@@ -45,27 +45,11 @@ class gevBillStorage extends ilFileSystemStorage {
 	}
 
 	public function getPath(ilBill $a_bill) {
-		return $this->getAbsolutePath()."/".$a_bill->getBillNumber();
+		return $this->getPathByBillNumber($a_bill->getBillNumber());
 	}
-
-	/**
-	 * Add a file to the storage.
-	 * Will calculate hash of the file to store similar files only once.
-	 *
-	 * @param string $a_filepath The path to the file to be stored.
-	 * @return string The hash for the file.
-	 */
-	public function addFile($a_filepath) {
-		if(!@file_exists($a_filepath)) {
-			throw new Exception("Can't store file ".$a_filepath.". It does not exist.");
-		}
-
-		$hash = hash_file("md5", $a_filepath);
-
-		$this->create();
-		$this->copyFile($a_filepath, $this->getAbsolutePath()."/".$hash);
-
-		return $hash;
+	
+	public function getPathByBillNumber($a_bill_number) {
+		return $this->getAbsolutePath()."/".$a_bill_number.".pdf";
 	}
 
 	// Implemented for ilFileSystemStorage

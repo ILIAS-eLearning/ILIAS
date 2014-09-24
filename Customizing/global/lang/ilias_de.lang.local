@@ -372,9 +372,12 @@ gev#:#gev_apprentice_grant#:#Azubizuschuss
 gev#:#gev_attachment_used_in#:#Die Datei wird in folgenden Mails verwendet
 gev#:#gev_attachments_refreshed#:#Anhänge aktualisiert.
 gev#:#gev_bill_agency_name#:#Agenturname
+gev#:#gev_bill_amount_pretax#:#Rechnungsbetrag netto
+gev#:#gev_bill_amount_posttax#:#Rechnungsbetrag brutto
 gev#:#gev_bill_costcenter#:#folgendes Agenturkonto soll mit der Buchung belastet werden
 gev#:#gev_bill_email#:#E-Mail-Adresse für Rechnungszustellung
 gev#:#gev_bill_recipient#:#Rechnungsempfänger
+gev#:#gev_bill_number#:#Rechnungsnummer
 gev#:#gev_birthname#:#Geburtsname
 gev#:#gev_birthplace#:#Geburtsort
 gev#:#gev_book_contact_onside#:#Ad-Schulung.de@generali.com
@@ -417,6 +420,7 @@ gev#:#gev_cert_course_start_date#:#Startdatum des Trainings
 gev#:#gev_cert_course_topics#:#Trainingskategorien des Kurses
 gev#:#gev_cert_course_type#:#Lernart des Trainings
 gev#:#gev_cert_points#:#Weiterbildungspunkte bei erfolgreicher Teilnahme
+gev#:#gev_charged_agency#:#belastetes Agenturkonto
 gev#:#gev_username_free#:#frei wählbarer Benutzername
 gev#:#gev_company_title#:#Gesellschaftsschlüssel
 gev#:#gev_competence_mgmt#:#Kompetenzen
@@ -430,6 +434,8 @@ gev#:#gev_costly_cancellation_msg#:#Die Stornierung ihrer Buchung des Trainings 
 gev#:#gev_costs#:#Kosten
 gev#:#gev_coupon_bill_item#:#Gutschein %s
 gev#:#gev_coupon_codes#:#Gutscheincode(s) einlösen
+gev#:#gev_coupon_pretax#:#Gutscheinbetrag netto
+gev#:#gev_coupon_posttax#:#Gutscheinbetrag brutto
 gev#:#gev_course_bill_title#:#Buchung des Trainings "%s" für "%s"
 gev#:#gev_course_categorie#:#Trainingskategorie
 gev#:#gev_course_expired#:#Der gewählte Kurs ist nicht mehr verfügbar.
@@ -458,6 +464,7 @@ gev#:#gev_email#:#E-Mail-Adresse
 gev#:#gev_com_email#:#Kommunikations E-Mail-Adresse
 gev#:#gev_employee_booking#:#Mitarbeiterbuchungen
 gev#:#gev_entry_date#:#Eintrittsdatum
+gev#:#gev_event_title#:#Veranstaltungstitel
 gev#:#gev_evg_registration#:#Registrierung: Generali Online Akademie
 gev#:#gev_evg_registration_header_note#:#Hier können Sie einen neuen Benutzer mit ihren Daten aus der IV-Datenbank anlegen.
 gev#:#gev_evg_registration_not_found#:#Zu Ihrer Eingabe konnte kein passender Datensatz gefunden werden. Versuchen Sie es erneut oder wenden Sie sich an <a href="mailto:bildungspunkte.de@generali.com" class="blue">bildungspunkte.de@generali.com</a>.
@@ -522,6 +529,7 @@ gev#:#gev_no_show_bill_title#:#Nicht stornierte Buchung des Trainings "%s" für 
 gev#:#gev_not_allowed_to_book_crs_for_other#:#Sie dürfen dieses Training nicht für einen anderen Benutzer buchen.
 gev#:#gev_not_allowed_to_book_crs_for_self#:#Sie dürfen dieses Training nicht buchen.
 gev#:#gev_not_bookable#:#ausgebucht
+gev#:#gev_number_of_measure#:#Nummer der Maßnahme
 gev#:#gev_obligatory_booking#:#Verbindliche Buchung
 gev#:#gev_org_mgmt#:#Organisationseinheiten
 gev#:#gev_org_unit#:#zugehörige Organisationseinheit
@@ -563,6 +571,9 @@ gev#:#gev_registration#:#Registrierung: Generali Online Akademie
 gev#:#gev_registration_success#:#Eine Email mit einem Aktivierungslink wurde an Sie versendet.
 gev#:#gev_rep_attendance_by_employee_desc#:#Hier sehen sie die Buchungen und Trainingsteilnahmen ihrer Mitarbeiter.
 gev#:#gev_rep_attendance_by_employee_title#:#Teilnahme nach Mitarbeiter
+gev#:#gev_rep_billing_title#:#Rechnungen
+gev#:#gev_rep_billing_desc#:#Hier sehen sie alle vom System versandten Rechnungen
+gev#:#gev_report_billing#:#Rechnungen
 gev#:#gev_report_attendance_by_employee#:#Teilnahmen nach Mitarbeiter
 gev#:#gev_registration_install_note#:#Generali Vermittler melden sich bitte mit der Generali E-Mail-Adresse an.
 gev#:#gev_reporting_menu#:#Reports
@@ -579,6 +590,7 @@ gev#:#gev_subscription_end#:#Anmeldungsende
 gev#:#gev_table_no_entry#:#-
 gev#:#gev_target_group#:#Zielgruppe
 gev#:#gev_targets_and_benefit#:#Ziele und Nutzen
+gev#:#gev_tax#:#Umsatzsteuer (19 %)
 gev#:#gev_telno_alert#:#Die Telefonnummer muss das Format +49 1xxx xxxxxxxx haben.
 gev#:#gev_telno_wbd_alert#:#Die Telefonnummer hat kein gültiges Format.
 gev#:#gev_tep#:#TEP
@@ -588,6 +600,8 @@ gev#:#gev_to_course_search2#:#Zur Trainingssuche
 gev#:#gev_trainer_operation_days#:#Trainereinsatztage
 gev#:#gev_training_contact#:#Ansprechpartner
 gev#:#gev_training_fee#:#Teilnahmegebühr
+gev#:#gev_training_fee_pretax#:#Teilnahmegebühr netto
+gev#:#gev_training_fee_posttax#:#Teilnahmegebühr brutto
 gev#:#gev_training_id#:#ID
 gev#:#gev_unlimited#:#unbegrenzt
 gev#:#gev_until#:#bis

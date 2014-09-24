@@ -116,5 +116,114 @@ class ilCustomInstaller
 		
 		$ilCtrlStructureReader->readStructure(true);
 	}
+	
+	/**
+	 * Initialize environment for plugin actication.
+	 */
+	static public function initPluginEnv() {
+		self::maybeInitPluginAdmin();
+		self::maybeInitObjDefinition();
+		self::maybeInitUserToRoot();
+		self::maybeInitCtrl();
+		self::loadPluginInfo();
+	}
+
+	/**
+	 * Load plugin information to database.
+	 */
+	static public function loadPluginInfo() {
+		require_once("Services/Component/classes/class.ilComponent.php");
+		require_once("./Services/Component/classes/class.ilPluginSlot.php");
 		
+		require_once("./Services/Component/classes/class.ilModule.php");
+		$modules = ilModule::getAvailableCoreModules();
+		foreach ($modules as $m)
+		{
+			$plugin_slots = ilComponent::lookupPluginSlots(IL_COMP_MODULE,
+				$m["subdir"]);
+			foreach ($plugin_slots as $ps)
+			{				
+				$slot = new ilPluginSlot(IL_COMP_MODULE, $m["subdir"], $ps["id"]);
+				$slot->getPluginsInformation();
+			}
+		}
+	
+		require_once("./Services/Component/classes/class.ilService.php");
+		$services = ilService::getAvailableCoreServices();
+		foreach ($services as $s)
+		{
+			$plugin_slots = ilComponent::lookupPluginSlots(IL_COMP_SERVICE,
+				$s["subdir"]);
+			foreach ($plugin_slots as $ps)
+			{				
+				$slot = new ilPluginSlot(IL_COMP_SERVICE, $s["subdir"], $ps["id"]);
+				$slot->getPluginsInformation();
+			}
+		}
+	}
+	
+	/**
+	* Acticate a plugin.
+	*
+	* @param	string	$a_ctype	IL_COMP_MODULE | IL_COMP_SERVICE
+	* @param	string	$a_cname	component name
+	* @param	string	$a_sname	plugin slot name
+	* @param	string	$a_pname	plugin name
+	*/
+	static public function activatePlugin($a_ctype, $a_cname, $a_slot_id, $a_pname) {
+		require_once("./Services/Component/classes/class.ilPlugin.php");
+		$plugin = ilPlugin::getPluginObject($a_ctype, $a_cname, $a_slot_id, $a_pname);
+		$plugin->update();
+		$plugin->activate();
+	}
+	
+	/**
+	 * Initialize root as global ilUser if theres no ilUser.
+	 */
+	static public function maybeInitUserToRoot() {
+		if (isset($GLOBALS["ilUser"])) {
+			return;
+		}
+		
+		require_once("Services/Calendar/classes/class.ilDate.php");
+		
+		require_once("Services/User/classes/class.ilObjUser.php");
+		$GLOBALS["ilUser"] = new ilObjUser(6);
+	}
+	
+	/**
+	 * Initialize global objDefinition if theres no such object.
+	 */
+	static public function maybeInitObjDefinition() {
+		if (isset($GLOBALS["objDefinition"])) {
+			return;
+		}
+		
+		require_once("Services/Object/classes/class.ilObjectDefinition.php");
+		$GLOBALS["objDefinition"] = new ilObjectDefinition();
+	}
+
+	/**
+	 * Initialize global ilPluginAdmin if there is none.
+	 */
+	static public function maybeInitPluginAdmin() {
+		if (isset($GLOBALS["ilPluginAdmin"])) {
+			return;
+		}
+		
+		require_once("Services/Component/classes/class.ilPluginAdmin.php");
+		$GLOBALS["ilPluginAdmin"] = new ilPluginAdmin();
+	}
+	
+	/*
+	 * Initialize global ilCtrl object if there is none.
+	 */
+	static public function maybeInitCtrl() {
+		if (isset($GLOBALS["ilCtrl"])) {
+			return;
+		}
+		
+		require_once("Services/UICore/classes/class.ilCtrl.php");
+		$GLOBALS["ilCtrl"] = new ilCtrl();
+	}
 }
