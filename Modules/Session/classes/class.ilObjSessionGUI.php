@@ -947,9 +947,15 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 		include_once 'Modules/Session/classes/class.ilSessionMaterialsTableGUI.php';
 		$tbl = new ilSessionMaterialsTableGUI($this, "materials");
+		$tbl->setTitle($this->lng->txt("event_assign_materials_table"));
+		$tbl->setDescription($this->lng->txt('event_assign_materials_info'));
+		$tbl->setId("sess_materials_". $this->object->getId());
 
-		$this->tpl->setVariable('ADM_CONTENT', $tbl->getHTML());
+		$tbl->setMaterialItems($this->event_items->getItems());
+		$tbl->setContainerRefId($this->getContainerRefId());
+		$tbl->getDataFromDb();
 
+		$this->tpl->setContent($tbl->getHTML());
 	}
 	
 	/**

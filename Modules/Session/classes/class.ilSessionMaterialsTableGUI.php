@@ -3,10 +3,17 @@
 
 include_once('./Services/Table/classes/class.ilTable2GUI.php');
 /**
- * Extended data table
+ * Session data set class
+ *
+ * @author Fabian Wolf <wolf@leifos.com>
+ * @version $Id$
+ * @ingroup ingroup ModulesSession
  */
 class ilSessionMaterialsTableGUI extends ilTable2GUI
 {
+
+	protected $container_ref_id;
+	protected $material_items;
 
 	function __construct($a_parent_obj, $a_parent_cmd)
 	{
@@ -15,14 +22,11 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
 		$this->parent_ref_id = $tree->getParentId($a_parent_obj->object->getRefId());
-		$this->material_items = $a_parent_obj->event_items->getItems();
 
-		$this->setTitle($lng->txt("event_assign_materials_table"));
-		$this->setDescription($this->lng->txt('event_assign_materials_info'));
-		$this->setEnableNumInfo(false);
+		//$this->setEnableNumInfo(false);
+		//$this->setLimit(100);
 		$this->setRowTemplate("tpl.session_materials_row.html","Modules/Session");
 
-		$this->setId("sess_materials_". $a_parent_obj->object->getId());
 		$this->setFormName('materials');
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj,$a_parent_cmd));
 		$this->addCommandButton("saveMaterials", $lng->txt("save"));
@@ -31,8 +35,6 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
 		$this->addColumn($lng->txt("crs_materials"), "object", "90%" );
 		$this->addColumn($lng->txt("status"), "active", 5);
 		$this->setSelectAllCheckbox('items');
-
-		$this->getDataFromDb();
 	}
 
 	/**
@@ -61,7 +63,7 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
 				continue;
 			}
 
-			$node["sorthash"] = (int)(!in_array($node['ref_id'],$this->material_items)).$node["title"];
+			$node["sorthash"] = (int)(!in_array($node['ref_id'],$this->getMaterialItems())).$node["title"];
 			$materials[] = $node;
 		}
 
@@ -74,15 +76,13 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($a_set)
 	{
-		global $lng, $ilCtrl;
-
 		$this->tpl->setVariable('TYPE_IMG', ilObject::_getIcon('', 'tiny', $a_set['type']));
 		$this->tpl->setVariable('IMG_ALT',$this->lng->txt('obj_'.$a_set['type']));
 
 		$this->tpl->setVariable("VAL_POSTNAME","items");
 		$this->tpl->setVariable("VAL_ID",$a_set['ref_id']);
 
-		if(in_array($a_set['ref_id'],$this->material_items))
+		if(in_array($a_set['ref_id'],$this->getMaterialItems()))
 		{
 			$this->tpl->setVariable("VAL_CHECKED","checked");
 		}
@@ -93,7 +93,7 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
 		{
 			$this->tpl->setVariable("COLL_DESC",$a_set['description']);
 		}
-		$this->tpl->setVariable("ASSIGNED_IMG_OK",in_array($a_set['ref_id'],$this->material_items) ?
+		$this->tpl->setVariable("ASSIGNED_IMG_OK",in_array($a_set['ref_id'],$this->getMaterialItems()) ?
 			ilUtil::getImagePath('icon_ok.png') :
 			ilUtil::getImagePath('icon_not_ok.png'));
 		$this->tpl->setVariable("ASSIGNED_STATUS",$this->lng->txt('event_material_assigned'));
@@ -103,7 +103,43 @@ class ilSessionMaterialsTableGUI extends ilTable2GUI
 		$path->enableDisplayCut(true);
 		$path->enableTextOnly(false);
 		$this->tpl->setVariable("PATH",$this->lng->txt('path'));
-		$this->tpl->setVariable("COLL_PATH",$path->getPath($this->getParentObject()->getContainerRefId(), $a_set['ref_id']));
+		$this->tpl->setVariable("COLL_PATH",$path->getPath($this->getContainerRefId(), $a_set['ref_id']));
+	}
+
+	/**
+	 * Set Material Items
+	 * @param $a_set
+	 */
+	public function setMaterialItems($a_set)
+	{
+		$this->material_items = $a_set;
+	}
+
+	/**
+	 * Get Material Items
+	 * @return mixed
+	 */
+	public function getMaterialItems()
+	{
+		return $this->material_items;
+	}
+
+	/**
+	 * Set Mcontainer ref id
+	 * @param $a_set
+	 */
+	public function setContainerRefId($a_set)
+	{
+		$this->container_ref_id = $a_set;
+	}
+
+	/**
+	 * Get container ref id
+	 * @return mixed
+	 */
+	public function getContainerRefId()
+	{
+		return $this->container_ref_id;
 	}
 
 }
