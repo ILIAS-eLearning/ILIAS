@@ -423,7 +423,7 @@ class assTextQuestionGUI extends assQuestionGUI
 			}
 			$user_solution .= '</ul>';
 			
-			$user_solution .= $this->lng->txt('essay_keyword_relation') . ': ';
+			$user_solution .= $this->lng->txt('essay_scoring_mode') . ': ';
 			
 			switch( $this->object->getKeywordRelation() )
 			{
