@@ -23,7 +23,11 @@ class ilApc extends ilGlobalCacheService {
 	 * @return bool|string[]
 	 */
 	public function exists($key) {
-		return apc_exists($this->returnKey($key));
+		if (function_exists('apc_exists')) {
+			return apc_exists($this->returnKey($key));
+		} else {
+			return apc_fetch($this->returnKey($key)) !== NULL;
+		}
 	}
 
 
