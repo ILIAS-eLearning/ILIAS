@@ -51,10 +51,11 @@ body {
 }
 
 #chat_messages {
-    height: 300px;
-    border: 1px solid #BCCAE5;
-    overflow-y: scroll;
-    overflow-x: auto;
+	height: 300px;
+	padding: 2px;
+	border: 1px solid #BCCAE5;
+	overflow-y: scroll;
+	overflow-x: auto;
 }
 
 #chat_wrapper {
