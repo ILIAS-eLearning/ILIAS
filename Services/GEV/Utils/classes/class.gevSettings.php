@@ -249,7 +249,7 @@ class gevSettings {
 	// registration (#608)
 	static $EMAIL_TOLERANCE_ROLES = array(
 		  "DBV/VL-EVG"
-		, "DBV/VL-EVG"
+		, "DBV-UVG"
 		, "OD/LD/BD/VD/VTWL"
 		);
 

@@ -190,7 +190,7 @@ class gevUserImport {
 			WHERE
 				`ivimport_stelle`.`stellennummer`=" . $this->ilDB->quote($stellennummer, "text") . "
 			AND
-				`ivimport_adp`.`email` LIKE " . $this->ilDB->quote($email_pre, "text") . "
+				`ivimport_adp`.`email` LIKE " . $this->ilDB->quote($email_pre."%", "text") . "
 			";
 			
 		$result = mysql_query($sql, $this->mysql);
@@ -204,7 +204,7 @@ class gevUserImport {
 		$vermittlerstatus = $row['vermittlerstatus'];
 		$email_db = $row['email'];
 		$role = gevSettings::$VMS_ROLE_MAPPING[$vermittlerstatus][0];
-		$be_tolerant = in_array(gevSettings::$EMAIL_TOLERANCE_ROLES, $role);
+		$be_tolerant = in_array($role, gevSettings::$EMAIL_TOLERANCE_ROLES);
 		if (!$be_tolerant && $email != $email_db) {
 			return false;
 		}
