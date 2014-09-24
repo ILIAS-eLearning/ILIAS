@@ -956,7 +956,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 	 * @param $found_values
 	 * @return int
 	 */
-	private function calculateReachedPointsForSolution($found_values)
+	protected function calculateReachedPointsForSolution($found_values)
 	{
 		$points = 0;
 		if(count($found_values) > 0)

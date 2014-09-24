@@ -863,7 +863,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
 	/**
 	 * @return array
 	 */
-	private function getSolutionSubmit()
+	protected function getSolutionSubmit()
 	{
 		$solutionSubmit = array();
 		foreach($_POST as $key => $val)
@@ -884,7 +884,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
 	 * @param $enteredTexts
 	 * @return int
 	 */
-	private function calculateReachedPointsForSolution($enteredTexts)
+	protected function calculateReachedPointsForSolution($enteredTexts)
 	{
 		$available_answers = $this->getAvailableAnswers();
 		$points = 0;

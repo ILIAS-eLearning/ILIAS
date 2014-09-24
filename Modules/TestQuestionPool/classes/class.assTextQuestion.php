@@ -470,7 +470,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
 		return $result;
 	}
 	
-	private function calculateReachedPointsForSolution($solution)
+	protected function calculateReachedPointsForSolution($solution)
 	{
 		// Return min points when keyword relation is NON KEYWORDS
 		if( $this->getKeywordRelation() == 'non' )
