@@ -943,7 +943,7 @@ assessment#:#tst_list_of_questions_start#:#Show the List of Questions prior to t
 assessment#:#tst_list_of_questions_with_description#:#Show the question descriptions in the List of Questions
 assessment#:#tst_list_of_questions_yes#:#Yes, and additional
 assessment#:#tst_mark_create_new_mark_step#:#Create New Mark Step
-assessment#:#tst_mark_create_simple_mark_schema#:#Create Simple Mark Schema
+assessment#:#tst_mark_create_simple_mark_schema#:#Reset to Simple Mark Schema
 assessment#:#tst_mark_minimum_level#:#Minimum Level (in %)
 assessment#:#tst_mark_official_form#:#Official Form
 assessment#:#tst_mark_passed#:#Passed
