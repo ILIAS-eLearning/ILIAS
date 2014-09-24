@@ -19,9 +19,10 @@ function setCheckboxes(a_form, a_varname, a_elements, a_check)
 <!-- BEGIN tbl_table_start -->
 <table class="{CSS_TABLE}" {WIDTH}>
 <!-- END tbl_table_start -->
+<thead>
 <!-- BEGIN tbl_header_title -->
   <tr class="tbltitle">
-    <th class="std" colspan="{COLUMN_COUNT}">
+    <th colspan="{COLUMN_COUNT}">
 <!-- BEGIN tbl_header_title_icon --><img src="{TBL_TITLE_IMG}" alt="{TBL_TITLE_IMG_ALT}" title="{TBL_TITLE_IMG_ALT}" />
 <!-- END tbl_header_title_icon -->{TBL_TITLE}
     </th>
@@ -37,10 +38,10 @@ function setCheckboxes(a_form, a_varname, a_elements, a_check)
 <!-- BEGIN tbl_header -->
   <tr class="tblheader">
 <!-- BEGIN tbl_header_no_link -->
-		<th class="std"{TBL_COLUMN_WIDTH_NO_LINK}>{TBL_HEADER_CELL_NO_LINK}</th>
+		<th{TBL_COLUMN_WIDTH_NO_LINK}>{TBL_HEADER_CELL_NO_LINK}</th>
 <!-- END tbl_header_no_link -->
 <!-- BEGIN tbl_header_cell -->
-    <th class="std" nowrap="nowrap"{TBL_COLUMN_WIDTH}>
+    <thnowrap="nowrap"{TBL_COLUMN_WIDTH}>
 	  <a class="tblheader" href="{TBL_ORDER_LINK}" alt="{TBL_ORDER_ALT}" title="{TBL_ORDER_ALT}">{TBL_HEADER_CELL}
 <!-- BEGIN tbl_order_image -->
 	  <img src="{IMG_ORDER_DIR}" />
@@ -50,10 +51,12 @@ function setCheckboxes(a_form, a_varname, a_elements, a_check)
 <!-- END tbl_header_cell -->
   </tr>
 <!-- END tbl_header -->
+</thead>
+<tbody>
 <!-- BEGIN tbl_content_row -->
   <tr>
 <!-- BEGIN tbl_content_cell -->
-    <td class="std" colspan="{TBL_COL_SPAN}">{TBL_CONTENT_CELL}
+    <td colspan="{TBL_COL_SPAN}">{TBL_CONTENT_CELL}
 <!-- BEGIN tbl_cell_subtitle -->
 	<br/><div class="il_Description">{TBL_CELL_SUBTITLE}&nbsp;</div>
 <!-- END tbl_cell_subtitle -->
@@ -62,6 +65,8 @@ function setCheckboxes(a_form, a_varname, a_elements, a_check)
   </tr>
 <!-- END tbl_content_row -->
 {TBL_CONTENT}
+</tbody>
+<tfoot>
 <!-- BEGIN tbl_footer -->
   <tr class="tblfooter">
     <td colspan="{COLUMN_COUNT}" class="tblfooter">
@@ -129,6 +134,7 @@ function setCheckboxes(a_form, a_varname, a_elements, a_check)
   </tr>
 <!-- END tbl_action_row -->
 <!-- BEGIN tbl_table_end -->
+</tfoot>
 </table>
 <!-- END tbl_table_end -->
 <!-- BEGIN save_object -->

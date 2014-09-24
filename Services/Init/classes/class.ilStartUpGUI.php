@@ -1355,7 +1355,7 @@ class ilStartUpGUI
 		$tbl->disable("icon");
 		$tbl->disable("numinfo");
 		$tbl->disable("sort");
-
+		
 		// render table
 		$tbl->render();
 		$tpl->show("DEFAULT", true, true);
