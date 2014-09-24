@@ -1531,7 +1531,7 @@ ilCustomInstaller::addLangData("billing", array("de", "en"), $lang_data, "patch 
 <?php
 if(!$ilDB->tableExists('hist_usercoursestatus'))
 {
-	$fields = array (
+	$fields = array(
 		'row_id' => array(
 			'type' => 'integer',
 			'length' => 4,
@@ -1599,7 +1599,7 @@ if(!$ilDB->tableExists('hist_usercoursestatus'))
 			'type' => 'integer',
 			'length' => 4,
 			'notnull' => false),
-		'certfile' => array(
+		'function' => array(
 			'type' => 'text',
 			'length' => 255,
 			'notnull' => false)
