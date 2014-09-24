@@ -12,31 +12,26 @@ function setCheckboxes(a_form, a_varname, a_elements, a_check)
 }
 //-->
 </script>
-<div class="table-responsive">
+<!-- BEGIN tbl_header_title -->
+<div class="ilTableHeaderTitle">
+	<!-- BEGIN tbl_header_numinfo -->
+	<div style="text-align:right;">
+	{NUMINFO_HEADER}
+	</div>
+	<!-- END tbl_header_numinfo -->
+	<h3 class="ilTableHeaderTitle">{TBL_TITLE}</h3>
+</div>
+<!-- END tbl_header_title -->
+<div class="ilTableOuter table-responsive">
 <!-- BEGIN tbl_form_header -->
 <form action="{FORMACTION}" name="cmd" method="post" target="{ACTIONTARGET}">
 <!-- END tbl_form_header -->
 <!-- BEGIN tbl_table_start -->
 <table class="{CSS_TABLE}" {WIDTH}>
 <!-- END tbl_table_start -->
-<thead>
-<!-- BEGIN tbl_header_title -->
-  <tr class="tbltitle">
-    <th colspan="{COLUMN_COUNT}">
-<!-- BEGIN tbl_header_title_icon --><img src="{TBL_TITLE_IMG}" alt="{TBL_TITLE_IMG_ALT}" title="{TBL_TITLE_IMG_ALT}" />
-<!-- END tbl_header_title_icon -->{TBL_TITLE}
-    </th>
-  </tr>
-<!-- END tbl_header_title -->
-<!-- BEGIN tbl_header_numinfo -->
-  <tr class="std">
-    <td class="std" colspan="{COLUMN_COUNT_HEADER}">
-			{NUMINFO_HEADER}
-    </td>
-  </tr>
-<!-- END tbl_header_numinfo -->
 <!-- BEGIN tbl_header -->
-  <tr class="tblheader">
+  <thead>
+  <tr>
 <!-- BEGIN tbl_header_no_link -->
 		<th{TBL_COLUMN_WIDTH_NO_LINK}>{TBL_HEADER_CELL_NO_LINK}</th>
 <!-- END tbl_header_no_link -->
@@ -50,8 +45,8 @@ function setCheckboxes(a_form, a_varname, a_elements, a_check)
 	</th>
 <!-- END tbl_header_cell -->
   </tr>
+  </thead>
 <!-- END tbl_header -->
-</thead>
 <tbody>
 <!-- BEGIN tbl_content_row -->
   <tr>
